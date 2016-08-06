@@ -116,8 +116,8 @@ CPPFLAGS="${CPPFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing"
-  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-address -Wno-misleading-indentation"
+  CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-misleading-indentation"
+  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-address"
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`
 fi
