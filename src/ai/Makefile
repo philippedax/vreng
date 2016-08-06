@@ -108,8 +108,8 @@ am__v_AR_1 =
 libai_a_AR = $(AR) $(ARFLAGS)
 libai_a_LIBADD =
 am__libai_a_SOURCES_DIST = aiinit.cpp dummy_.ml aiinit.hpp
-am__objects_1 = aiinit.$(OBJEXT) dummy_.$(OBJEXT)
-am_libai_a_OBJECTS = $(am__objects_1)
+#am__objects_1 = aiinit.$(OBJEXT) dummy_.$(OBJEXT)
+#am_libai_a_OBJECTS = $(am__objects_1)
 libai_a_OBJECTS = $(am_libai_a_OBJECTS)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
@@ -196,7 +196,7 @@ CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Waddress -Wmisleading-indentation -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -230,9 +230,9 @@ MAKEINFO = ${SHELL} /infres/s3/dax/vreng/support/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 MYSQL_CFLAGS = -I/usr/include/mysql
 OBJEXT = o
-OCAMLOPT = /bin/ocamlopt
-OCAML_CFLAGS = -I/usr/lib64/ocaml
-OCAML_LIBS = -L/usr/lib64/ocaml
+OCAMLOPT = 
+OCAML_CFLAGS = 
+OCAML_LIBS = 
 PACKAGE = vreng
 PACKAGE_BUGREPORT = dax@telecom-paristech.fr
 PACKAGE_NAME = vreng
@@ -253,7 +253,7 @@ STRIP =
 UBITCONFIG = 
 UBIT_CFLAGS = -I../../src
 VERSION = 8.3.0
-VRELIBS = -L/usr/lib64 -lsndfile -L/usr/lib64 -lalut -L/usr/lib64 -lopenal -L/usr/lib64 -lxml2 -L/usr/lib64/mysql -lmysqlclient -lpthread -L/usr/lib -ldl -lfreetype -lm -lnsl  -L/usr/lib -lGLU -lGL  -L/usr/lib64 -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/usr/lib64 -lcurl -lz -L/usr/lib64 -ltiff -L/usr/lib64 -ljpeg -L/usr/lib64 -lgif -lXpm 
+VRELIBS = -L/usr/lib64 -lxml2 -L/usr/lib64/mysql -lmysqlclient -lpthread -L/usr/lib -ldl -lfreetype -lm -lnsl  -L/usr/lib -lGLU -lGL  -L/usr/lib64 -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/usr/lib64 -lcurl -lz -L/usr/lib64 -ltiff -L/usr/lib64 -ljpeg -L/usr/lib64 -lgif -lXpm 
 WGETPATH = /bin/wget
 XLIBS = -L/usr/lib64  -lSM -lICE 
 XMKMF = 
@@ -316,69 +316,69 @@ top_builddir = ../..
 top_srcdir = ../..
 uudecode = 
 AUTOMAKE_OPTIONS = foreign
-OCAML_SRCS = $(OCAML_INIT) \
-	stringParser.mly \
-	stringLexer.mll \
-	requeteParser.mly \
-	requeteLexer.mll \
-	requeteAffichage.ml \
-	requeteSemantique.ml \
-	analyseur.ml
+#OCAML_SRCS = $(OCAML_INIT) \
+#	stringParser.mly \
+#	stringLexer.mll \
+#	requeteParser.mly \
+#	requeteLexer.mll \
+#	requeteAffichage.ml \
+#	requeteSemantique.ml \
+#	analyseur.ml
 
-OCAML_HDRS = aiinit.hpp \
-	analyseur.mli \
-	requeteAffichage.mli \
-	stringParser.mli \
-	stringLexer.mli \
-	requeteParser.mli \
-	requeteLexer.mli \
-	requeteSemantique.mli \
-	requeteSyntax.mli
+#OCAML_HDRS = aiinit.hpp \
+#	analyseur.mli \
+#	requeteAffichage.mli \
+#	stringParser.mli \
+#	stringLexer.mli \
+#	requeteParser.mli \
+#	requeteLexer.mli \
+#	requeteSemantique.mli \
+#	requeteSyntax.mli
 
-OCAML_INIT = aiinit.cpp dummy_.ml
-EXTRA_DIST = $(OCAML_SRCS) $(OCAML_HDRS)
-AM_CPPFLAGS = -I/usr/lib64/ocaml -I/usr/include/libxml2 -I../../src \
-	-I$(top_srcdir)/src/sys \
-	-I$(top_srcdir)/src/vreng \
-	-I$(top_srcdir)/src/com \
-	-I$(top_srcdir)/src/net \
-	-I$(top_srcdir)/src/wo \
-	-I$(top_srcdir)/src/vgl \
-	-I$(top_srcdir)/src/gui
+#OCAML_INIT = aiinit.cpp dummy_.ml
+#EXTRA_DIST = $(OCAML_SRCS) $(OCAML_HDRS)
+#AM_CPPFLAGS =  -I/usr/include/libxml2 -I../../src \
+#	-I$(top_srcdir)/src/sys \
+#	-I$(top_srcdir)/src/vreng \
+#	-I$(top_srcdir)/src/com \
+#	-I$(top_srcdir)/src/net \
+#	-I$(top_srcdir)/src/wo \
+#	-I$(top_srcdir)/src/vgl \
+#	-I$(top_srcdir)/src/gui
 
-libai_a_SOURCES = $(OCAML_INIT) aiinit.hpp
-noinst_LIBRARIES = libai.a
-GEN = stringLexer.ml \
-	stringParser.mli \
-	stringParser.ml \
-	requeteLexer.ml \
-	requeteParser.mli \
-	requeteParser.ml
+#libai_a_SOURCES = $(OCAML_INIT) aiinit.hpp
+#noinst_LIBRARIES = libai.a
+#GEN = stringLexer.ml \
+#	stringParser.mli \
+#	stringParser.ml \
+#	requeteLexer.ml \
+#	requeteParser.mli \
+#	requeteParser.ml
 
 
 ######################## en-tete des fichiers ocaml ########################
-CMLI = requeteSyntax.mli \
-	stringParser.mli \
-	stringLexer.mli \
-	requeteParser.mli \
-	requeteLexer.mli \
-	requeteAffichage.mli \
-	requeteSemantique.mli \
-	analyseur.mli
+#CMLI = requeteSyntax.mli \
+#	stringParser.mli \
+#	stringLexer.mli \
+#	requeteParser.mli \
+#	requeteLexer.mli \
+#	requeteAffichage.mli \
+#	requeteSemantique.mli \
+#	analyseur.mli
 
-CMI = $(CMLI:.mli=.cmi)
+#CMI = $(CMLI:.mli=.cmi)
 
 ####################### code source des fichiers ocaml ####################
-CML = stringParser.ml \
-	stringLexer.ml \
-	requeteLexer.ml \
-	requeteParser.ml \
-	requeteAffichage.ml \
-	requeteSemantique.ml \
-	analyseur.ml
+#CML = stringParser.ml \
+#	stringLexer.ml \
+#	requeteLexer.ml \
+#	requeteParser.ml \
+#	requeteAffichage.ml \
+#	requeteSemantique.ml \
+#	analyseur.ml
 
-CMO = $(CML:.ml=.cmo)
-CMX = $(CML:.ml=.cmx)
+#CMO = $(CML:.ml=.cmo)
+#CMX = $(CML:.ml=.cmx)
 all: all-am
 
 .SUFFIXES:
@@ -552,7 +552,7 @@ install-strip:
 	fi
 mostlyclean-generic:
 
-#clean-generic:
+clean-generic:
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -650,29 +650,29 @@ uninstall-am:
 
 ####################### Les etapes de compilation #########################
 
-SUFFIXES: .o .c .cmo .cmi .cmx .ml .mli .mll .mly
+#SUFFIXES: .o .c .cmo .cmi .cmx .ml .mli .mll .mly
 
-.ml.o:
-	ocamlopt -c $<
-.mli.cmi:
-	ocamlc -c $<
-.cmo:
-	ocamlc -c $<
-.mll.ml:
-	ocamllex $<
-.mly.ml:
-	ocamlyacc $<
-.mly.mli:
-	ocamlyacc $<
+#.ml.o:
+#	ocamlopt -c $<
+#.mli.cmi:
+#	ocamlc -c $<
+#.cmo:
+#	ocamlc -c $<
+#.mll.ml:
+#	ocamllex $<
+#.mly.ml:
+#	ocamlyacc $<
+#.mly.mli:
+#	ocamlyacc $<
 
-all: dummy_.o
+#all: dummy_.o
 
-dummy_.o: $(GEN) $(CMI) $(CML) dummy_.ml
-	ocamlopt -output-obj $(CML) -o dummy.o
-	mv dummy.o dummy_.o
+#dummy_.o: $(GEN) $(CMI) $(CML) dummy_.ml
+#	ocamlopt -output-obj $(CML) -o dummy.o
+#	mv dummy.o dummy_.o
 
-clean-generic:
-	-@rm -f $(GEN) $(CMO) $(CMI) $(CMX) dummy_.cmx dummy_.cmi
+#clean-generic:
+#	-@rm -f $(GEN) $(CMO) $(CMI) $(CMX) dummy_.cmx dummy_.cmi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

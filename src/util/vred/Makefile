@@ -214,7 +214,7 @@ CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Waddress -Wmisleading-indentation -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -248,9 +248,9 @@ MAKEINFO = ${SHELL} /infres/s3/dax/vreng/support/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 MYSQL_CFLAGS = -I/usr/include/mysql
 OBJEXT = o
-OCAMLOPT = /bin/ocamlopt
-OCAML_CFLAGS = -I/usr/lib64/ocaml
-OCAML_LIBS = -L/usr/lib64/ocaml
+OCAMLOPT = 
+OCAML_CFLAGS = 
+OCAML_LIBS = 
 PACKAGE = vreng
 PACKAGE_BUGREPORT = dax@telecom-paristech.fr
 PACKAGE_NAME = vreng
@@ -271,7 +271,7 @@ STRIP =
 UBITCONFIG = 
 UBIT_CFLAGS = -I../../src
 VERSION = 8.3.0
-VRELIBS = -L/usr/lib64 -lsndfile -L/usr/lib64 -lalut -L/usr/lib64 -lopenal -L/usr/lib64 -lxml2 -L/usr/lib64/mysql -lmysqlclient -lpthread -L/usr/lib -ldl -lfreetype -lm -lnsl  -L/usr/lib -lGLU -lGL  -L/usr/lib64 -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/usr/lib64 -lcurl -lz -L/usr/lib64 -ltiff -L/usr/lib64 -ljpeg -L/usr/lib64 -lgif -lXpm 
+VRELIBS = -L/usr/lib64 -lxml2 -L/usr/lib64/mysql -lmysqlclient -lpthread -L/usr/lib -ldl -lfreetype -lm -lnsl  -L/usr/lib -lGLU -lGL  -L/usr/lib64 -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/usr/lib64 -lcurl -lz -L/usr/lib64 -ltiff -L/usr/lib64 -ljpeg -L/usr/lib64 -lgif -lXpm 
 WGETPATH = /bin/wget
 XLIBS = -L/usr/lib64  -lSM -lICE 
 XMKMF = 
@@ -355,9 +355,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/util/vred/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/util/vred/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/util/vred/Makefile
+	  $(AUTOMAKE) --foreign src/util/vred/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

@@ -24,25 +24,25 @@ const char CONFIG_H[] = "\
 /* #undef FREEBSD */\n\
 \n\
 /* gcc major version */\n\
-#define GCC_MAJOR_VERSION 5\n\
+#define GCC_MAJOR_VERSION 6\n\
 \n\
 /* gcc version */\n\
-#define GCC_VERSION \"5.3.1\"\n\
+#define GCC_VERSION \"6.1.1\"\n\
 \n\
 /* */\n\
-#define HAVE_ALUT 1\n\
+/* #undef HAVE_ALUT */\n\
 \n\
 /* */\n\
-#define HAVE_ALUT_H 1\n\
+/* #undef HAVE_ALUT_H */\n\
 \n\
 /* */\n\
-#define HAVE_AL_H 1\n\
+/* #undef HAVE_AL_H */\n\
 \n\
 /* Define to 1 if you have the <arpa/inet.h> header file. */\n\
 #define HAVE_ARPA_INET_H 1\n\
 \n\
 /* */\n\
-#define HAVE_CAML_CALLBACK_H 1\n\
+/* #undef HAVE_CAML_CALLBACK_H */\n\
 \n\
 /* Define to 1 if you have the <ctype.h> header file. */\n\
 #define HAVE_CTYPE_H 1\n\
@@ -338,10 +338,10 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_NO_SOCKLEN_T */\n\
 \n\
 /* */\n\
-#define HAVE_OCAML 1\n\
+/* #undef HAVE_OCAML */\n\
 \n\
 /* */\n\
-#define HAVE_OPENAL 1\n\
+/* #undef HAVE_OPENAL */\n\
 \n\
 /* */\n\
 #define HAVE_PNG_H 1\n\
@@ -390,10 +390,10 @@ const char CONFIG_H[] = "\
 #define HAVE_SIGNAL_H 1\n\
 \n\
 /* */\n\
-#define HAVE_SNDFILE 1\n\
+/* #undef HAVE_SNDFILE */\n\
 \n\
 /* */\n\
-#define HAVE_SNDFILE_H 1\n\
+/* #undef HAVE_SNDFILE_H */\n\
 \n\
 /* Define to 1 if you have the `socket' function. */\n\
 #define HAVE_SOCKET 1\n\
@@ -553,7 +553,7 @@ const char CONFIG_H[] = "\
 /* #undef NEXTSTEP */\n\
 \n\
 /* */\n\
-#define OCAML_PATH \"/usr/lib64/ocaml\"\n\
+/* #undef OCAML_PATH */\n\
 \n\
 /* */\n\
 /* #undef OPENBSD */\n\
@@ -628,7 +628,7 @@ const char CONFIG_H[] = "\
 /* #undef WANT_IPV6 */\n\
 \n\
 /* */\n\
-#define WANT_OCAML 1\n\
+/* #undef WANT_OCAML */\n\
 \n\
 /* */\n\
 #define WANT_UBIT 1\n\

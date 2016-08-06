@@ -36,7 +36,9 @@
 #include "prof.hpp"	// statMemory
 #include "timer.hpp"	// ptime_*
 #include "openal.hpp"	// Openal::init
+#if HAVE_OCAML
 #include "aiinit.hpp"	// initOcaml
+#endif
 #include "setjmp.h"
 using namespace ubit;
 
