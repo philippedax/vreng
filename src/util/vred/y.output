@@ -1,0 +1,1316 @@
+Terminals unused in grammar
+
+   TK_TOR_SIZE
+   TK_TOR_SIZE2
+   TK_EMISSION
+
+
+Grammar
+
+    0 $accept: start $end
+
+    1 start: solid TK_END
+
+    2 solid: solid_single
+    3      | solid solid_single
+
+    4 solid_single: wall_section
+    5             | gate_section
+    6             | earth_section
+    7             | web_section
+    8             | board_section
+    9             | step_section
+   10             | host_section
+   11             | doc_section
+
+   12 wall_section: TK_WALL wall
+
+   13 wall: wall_single
+   14     | wall wall_single
+
+   15 wall_single: pos_ang box_props
+
+   16 gate_section: TK_GATE gate
+
+   17 gate: gate_single
+   18     | gate gate_single
+
+   19 gate_single: pos_ang STRING STRING box_props
+
+   20 earth_section: TK_EARTH earth
+
+   21 earth: earth_single
+   22      | earth earth_single
+
+   23 earth_single: pos_ang spher_props
+
+   24 web_section: TK_WEB web
+
+   25 web: web_single
+   26    | web web_single
+
+   27 web_single: pos_ang STRING box_props
+
+   28 board_section: TK_BOARD board
+
+   29 board: board_single
+   30      | board board_single
+
+   31 board_single: pos_ang box_props
+
+   32 step_section: TK_STEP step
+
+   33 step: step_single
+   34     | step step_single
+
+   35 step_single: pos_ang box_props
+
+   36 host_section: TK_HOST host
+
+   37 host: host_single
+   38     | host host_single
+
+   39 host_single: pos_ang TLNT box_props
+
+   40 doc_section: TK_DOC doc
+
+   41 doc: doc_single
+   42    | doc doc_single
+
+   43 doc_single: pos_ang STRING box_props
+
+   44 box_props: box_size COMMA box_tex COMMA app
+   45          | box_size COMMA box_tex
+   46          | box_size COMMA app
+   47          | box_size
+
+   48 spher_props: spher_size
+   49            | spher_size COMMA SPHER_TEX
+   50            | spher_size COMMA app
+   51            | spher_size COMMA SPHER_TEX COMMA app
+
+   52 pos_ang: NUMBER NUMBER NUMBER NUMBER NUMBER
+
+   53 box_size: TK_BOX_SIZE NUMBER COMMA NUMBER COMMA NUMBER
+
+   54 spher_size: TK_SPHER_SIZE NUMBER
+
+   55 box_tex: box_tex_single
+   56        | box_tex COMMA box_tex_single
+
+   57 box_tex_single: TEX_XP
+   58               | TEX_XN
+   59               | TEX_YP
+   60               | TEX_YN
+   61               | TEX_ZP
+   62               | TEX_ZN
+
+   63 app: app_single
+   64    | app COMMA app_single
+
+   65 app_single: TK_AMBIENT COMMA NUMBER COMMA NUMBER
+   66           | TK_DIFFUSE COMMA NUMBER COMMA NUMBER
+   67           | TK_SHININESS COMMA NUMBER COMMA NUMBER
+   68           | TK_SPECULAR COMMA NUMBER COMMA NUMBER
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+COMMA (258) 44 45 46 49 50 51 53 56 64 65 66 67 68
+NUMBER (259) 52 53 54 65 66 67 68
+STRING (260) 19 27 43
+TK_WALL (261) 12
+TK_GATE (262) 16
+TK_EARTH (263) 20
+TK_WEB (264) 24
+TK_BOARD (265) 28
+TK_STEP (266) 32
+TK_HOST (267) 36
+TK_DOC (268) 40
+TK_END (269) 1
+TK_BOX_SIZE (270) 53
+TK_SPHER_SIZE (271) 54
+TK_TOR_SIZE (272)
+TK_TOR_SIZE2 (273)
+TK_DIFFUSE (274) 66
+TK_AMBIENT (275) 65
+TK_SPECULAR (276) 68
+TK_EMISSION (277)
+TK_SHININESS (278) 67
+TEX_XP (279) 57
+TEX_YP (280) 59
+TEX_ZP (281) 61
+TEX_XN (282) 58
+TEX_YN (283) 60
+TEX_ZN (284) 62
+SPHER_TEX (285) 49 51
+TLNT (286) 39
+
+
+Nonterminals, with rules where they appear
+
+$accept (32)
+    on left: 0
+start (33)
+    on left: 1, on right: 0
+solid (34)
+    on left: 2 3, on right: 1 3
+solid_single (35)
+    on left: 4 5 6 7 8 9 10 11, on right: 2 3
+wall_section (36)
+    on left: 12, on right: 4
+wall (37)
+    on left: 13 14, on right: 12 14
+wall_single (38)
+    on left: 15, on right: 13 14
+gate_section (39)
+    on left: 16, on right: 5
+gate (40)
+    on left: 17 18, on right: 16 18
+gate_single (41)
+    on left: 19, on right: 17 18
+earth_section (42)
+    on left: 20, on right: 6
+earth (43)
+    on left: 21 22, on right: 20 22
+earth_single (44)
+    on left: 23, on right: 21 22
+web_section (45)
+    on left: 24, on right: 7
+web (46)
+    on left: 25 26, on right: 24 26
+web_single (47)
+    on left: 27, on right: 25 26
+board_section (48)
+    on left: 28, on right: 8
+board (49)
+    on left: 29 30, on right: 28 30
+board_single (50)
+    on left: 31, on right: 29 30
+step_section (51)
+    on left: 32, on right: 9
+step (52)
+    on left: 33 34, on right: 32 34
+step_single (53)
+    on left: 35, on right: 33 34
+host_section (54)
+    on left: 36, on right: 10
+host (55)
+    on left: 37 38, on right: 36 38
+host_single (56)
+    on left: 39, on right: 37 38
+doc_section (57)
+    on left: 40, on right: 11
+doc (58)
+    on left: 41 42, on right: 40 42
+doc_single (59)
+    on left: 43, on right: 41 42
+box_props (60)
+    on left: 44 45 46 47, on right: 15 19 27 31 35 39 43
+spher_props (61)
+    on left: 48 49 50 51, on right: 23
+pos_ang (62)
+    on left: 52, on right: 15 19 23 27 31 35 39 43
+box_size (63)
+    on left: 53, on right: 44 45 46 47
+spher_size (64)
+    on left: 54, on right: 48 49 50 51
+box_tex (65)
+    on left: 55 56, on right: 44 45 56
+box_tex_single (66)
+    on left: 57 58 59 60 61 62, on right: 55 56
+app (67)
+    on left: 63 64, on right: 44 46 50 51 64
+app_single (68)
+    on left: 65 66 67 68, on right: 63 64
+
+
+State 0
+
+    0 $accept: . start $end
+
+    TK_WALL   shift, and go to state 1
+    TK_GATE   shift, and go to state 2
+    TK_EARTH  shift, and go to state 3
+    TK_WEB    shift, and go to state 4
+    TK_BOARD  shift, and go to state 5
+    TK_STEP   shift, and go to state 6
+    TK_HOST   shift, and go to state 7
+    TK_DOC    shift, and go to state 8
+
+    start          go to state 9
+    solid          go to state 10
+    solid_single   go to state 11
+    wall_section   go to state 12
+    gate_section   go to state 13
+    earth_section  go to state 14
+    web_section    go to state 15
+    board_section  go to state 16
+    step_section   go to state 17
+    host_section   go to state 18
+    doc_section    go to state 19
+
+
+State 1
+
+   12 wall_section: TK_WALL . wall
+
+    NUMBER  shift, and go to state 20
+
+    wall         go to state 21
+    wall_single  go to state 22
+    pos_ang      go to state 23
+
+
+State 2
+
+   16 gate_section: TK_GATE . gate
+
+    NUMBER  shift, and go to state 20
+
+    gate         go to state 24
+    gate_single  go to state 25
+    pos_ang      go to state 26
+
+
+State 3
+
+   20 earth_section: TK_EARTH . earth
+
+    NUMBER  shift, and go to state 20
+
+    earth         go to state 27
+    earth_single  go to state 28
+    pos_ang       go to state 29
+
+
+State 4
+
+   24 web_section: TK_WEB . web
+
+    NUMBER  shift, and go to state 20
+
+    web         go to state 30
+    web_single  go to state 31
+    pos_ang     go to state 32
+
+
+State 5
+
+   28 board_section: TK_BOARD . board
+
+    NUMBER  shift, and go to state 20
+
+    board         go to state 33
+    board_single  go to state 34
+    pos_ang       go to state 35
+
+
+State 6
+
+   32 step_section: TK_STEP . step
+
+    NUMBER  shift, and go to state 20
+
+    step         go to state 36
+    step_single  go to state 37
+    pos_ang      go to state 38
+
+
+State 7
+
+   36 host_section: TK_HOST . host
+
+    NUMBER  shift, and go to state 20
+
+    host         go to state 39
+    host_single  go to state 40
+    pos_ang      go to state 41
+
+
+State 8
+
+   40 doc_section: TK_DOC . doc
+
+    NUMBER  shift, and go to state 20
+
+    doc         go to state 42
+    doc_single  go to state 43
+    pos_ang     go to state 44
+
+
+State 9
+
+    0 $accept: start . $end
+
+    $end  shift, and go to state 45
+
+
+State 10
+
+    1 start: solid . TK_END
+    3 solid: solid . solid_single
+
+    TK_WALL   shift, and go to state 1
+    TK_GATE   shift, and go to state 2
+    TK_EARTH  shift, and go to state 3
+    TK_WEB    shift, and go to state 4
+    TK_BOARD  shift, and go to state 5
+    TK_STEP   shift, and go to state 6
+    TK_HOST   shift, and go to state 7
+    TK_DOC    shift, and go to state 8
+    TK_END    shift, and go to state 46
+
+    solid_single   go to state 47
+    wall_section   go to state 12
+    gate_section   go to state 13
+    earth_section  go to state 14
+    web_section    go to state 15
+    board_section  go to state 16
+    step_section   go to state 17
+    host_section   go to state 18
+    doc_section    go to state 19
+
+
+State 11
+
+    2 solid: solid_single .
+
+    $default  reduce using rule 2 (solid)
+
+
+State 12
+
+    4 solid_single: wall_section .
+
+    $default  reduce using rule 4 (solid_single)
+
+
+State 13
+
+    5 solid_single: gate_section .
+
+    $default  reduce using rule 5 (solid_single)
+
+
+State 14
+
+    6 solid_single: earth_section .
+
+    $default  reduce using rule 6 (solid_single)
+
+
+State 15
+
+    7 solid_single: web_section .
+
+    $default  reduce using rule 7 (solid_single)
+
+
+State 16
+
+    8 solid_single: board_section .
+
+    $default  reduce using rule 8 (solid_single)
+
+
+State 17
+
+    9 solid_single: step_section .
+
+    $default  reduce using rule 9 (solid_single)
+
+
+State 18
+
+   10 solid_single: host_section .
+
+    $default  reduce using rule 10 (solid_single)
+
+
+State 19
+
+   11 solid_single: doc_section .
+
+    $default  reduce using rule 11 (solid_single)
+
+
+State 20
+
+   52 pos_ang: NUMBER . NUMBER NUMBER NUMBER NUMBER
+
+    NUMBER  shift, and go to state 48
+
+
+State 21
+
+   12 wall_section: TK_WALL wall .
+   14 wall: wall . wall_single
+
+    NUMBER  shift, and go to state 20
+
+    $default  reduce using rule 12 (wall_section)
+
+    wall_single  go to state 49
+    pos_ang      go to state 23
+
+
+State 22
+
+   13 wall: wall_single .
+
+    $default  reduce using rule 13 (wall)
+
+
+State 23
+
+   15 wall_single: pos_ang . box_props
+
+    TK_BOX_SIZE  shift, and go to state 50
+
+    box_props  go to state 51
+    box_size   go to state 52
+
+
+State 24
+
+   16 gate_section: TK_GATE gate .
+   18 gate: gate . gate_single
+
+    NUMBER  shift, and go to state 20
+
+    $default  reduce using rule 16 (gate_section)
+
+    gate_single  go to state 53
+    pos_ang      go to state 26
+
+
+State 25
+
+   17 gate: gate_single .
+
+    $default  reduce using rule 17 (gate)
+
+
+State 26
+
+   19 gate_single: pos_ang . STRING STRING box_props
+
+    STRING  shift, and go to state 54
+
+
+State 27
+
+   20 earth_section: TK_EARTH earth .
+   22 earth: earth . earth_single
+
+    NUMBER  shift, and go to state 20
+
+    $default  reduce using rule 20 (earth_section)
+
+    earth_single  go to state 55
+    pos_ang       go to state 29
+
+
+State 28
+
+   21 earth: earth_single .
+
+    $default  reduce using rule 21 (earth)
+
+
+State 29
+
+   23 earth_single: pos_ang . spher_props
+
+    TK_SPHER_SIZE  shift, and go to state 56
+
+    spher_props  go to state 57
+    spher_size   go to state 58
+
+
+State 30
+
+   24 web_section: TK_WEB web .
+   26 web: web . web_single
+
+    NUMBER  shift, and go to state 20
+
+    $default  reduce using rule 24 (web_section)
+
+    web_single  go to state 59
+    pos_ang     go to state 32
+
+
+State 31
+
+   25 web: web_single .
+
+    $default  reduce using rule 25 (web)
+
+
+State 32
+
+   27 web_single: pos_ang . STRING box_props
+
+    STRING  shift, and go to state 60
+
+
+State 33
+
+   28 board_section: TK_BOARD board .
+   30 board: board . board_single
+
+    NUMBER  shift, and go to state 20
+
+    $default  reduce using rule 28 (board_section)
+
+    board_single  go to state 61
+    pos_ang       go to state 35
+
+
+State 34
+
+   29 board: board_single .
+
+    $default  reduce using rule 29 (board)
+
+
+State 35
+
+   31 board_single: pos_ang . box_props
+
+    TK_BOX_SIZE  shift, and go to state 50
+
+    box_props  go to state 62
+    box_size   go to state 52
+
+
+State 36
+
+   32 step_section: TK_STEP step .
+   34 step: step . step_single
+
+    NUMBER  shift, and go to state 20
+
+    $default  reduce using rule 32 (step_section)
+
+    step_single  go to state 63
+    pos_ang      go to state 38
+
+
+State 37
+
+   33 step: step_single .
+
+    $default  reduce using rule 33 (step)
+
+
+State 38
+
+   35 step_single: pos_ang . box_props
+
+    TK_BOX_SIZE  shift, and go to state 50
+
+    box_props  go to state 64
+    box_size   go to state 52
+
+
+State 39
+
+   36 host_section: TK_HOST host .
+   38 host: host . host_single
+
+    NUMBER  shift, and go to state 20
+
+    $default  reduce using rule 36 (host_section)
+
+    host_single  go to state 65
+    pos_ang      go to state 41
+
+
+State 40
+
+   37 host: host_single .
+
+    $default  reduce using rule 37 (host)
+
+
+State 41
+
+   39 host_single: pos_ang . TLNT box_props
+
+    TLNT  shift, and go to state 66
+
+
+State 42
+
+   40 doc_section: TK_DOC doc .
+   42 doc: doc . doc_single
+
+    NUMBER  shift, and go to state 20
+
+    $default  reduce using rule 40 (doc_section)
+
+    doc_single  go to state 67
+    pos_ang     go to state 44
+
+
+State 43
+
+   41 doc: doc_single .
+
+    $default  reduce using rule 41 (doc)
+
+
+State 44
+
+   43 doc_single: pos_ang . STRING box_props
+
+    STRING  shift, and go to state 68
+
+
+State 45
+
+    0 $accept: start $end .
+
+    $default  accept
+
+
+State 46
+
+    1 start: solid TK_END .
+
+    $default  reduce using rule 1 (start)
+
+
+State 47
+
+    3 solid: solid solid_single .
+
+    $default  reduce using rule 3 (solid)
+
+
+State 48
+
+   52 pos_ang: NUMBER NUMBER . NUMBER NUMBER NUMBER
+
+    NUMBER  shift, and go to state 69
+
+
+State 49
+
+   14 wall: wall wall_single .
+
+    $default  reduce using rule 14 (wall)
+
+
+State 50
+
+   53 box_size: TK_BOX_SIZE . NUMBER COMMA NUMBER COMMA NUMBER
+
+    NUMBER  shift, and go to state 70
+
+
+State 51
+
+   15 wall_single: pos_ang box_props .
+
+    $default  reduce using rule 15 (wall_single)
+
+
+State 52
+
+   44 box_props: box_size . COMMA box_tex COMMA app
+   45          | box_size . COMMA box_tex
+   46          | box_size . COMMA app
+   47          | box_size .
+
+    COMMA  shift, and go to state 71
+
+    $default  reduce using rule 47 (box_props)
+
+
+State 53
+
+   18 gate: gate gate_single .
+
+    $default  reduce using rule 18 (gate)
+
+
+State 54
+
+   19 gate_single: pos_ang STRING . STRING box_props
+
+    STRING  shift, and go to state 72
+
+
+State 55
+
+   22 earth: earth earth_single .
+
+    $default  reduce using rule 22 (earth)
+
+
+State 56
+
+   54 spher_size: TK_SPHER_SIZE . NUMBER
+
+    NUMBER  shift, and go to state 73
+
+
+State 57
+
+   23 earth_single: pos_ang spher_props .
+
+    $default  reduce using rule 23 (earth_single)
+
+
+State 58
+
+   48 spher_props: spher_size .
+   49            | spher_size . COMMA SPHER_TEX
+   50            | spher_size . COMMA app
+   51            | spher_size . COMMA SPHER_TEX COMMA app
+
+    COMMA  shift, and go to state 74
+
+    $default  reduce using rule 48 (spher_props)
+
+
+State 59
+
+   26 web: web web_single .
+
+    $default  reduce using rule 26 (web)
+
+
+State 60
+
+   27 web_single: pos_ang STRING . box_props
+
+    TK_BOX_SIZE  shift, and go to state 50
+
+    box_props  go to state 75
+    box_size   go to state 52
+
+
+State 61
+
+   30 board: board board_single .
+
+    $default  reduce using rule 30 (board)
+
+
+State 62
+
+   31 board_single: pos_ang box_props .
+
+    $default  reduce using rule 31 (board_single)
+
+
+State 63
+
+   34 step: step step_single .
+
+    $default  reduce using rule 34 (step)
+
+
+State 64
+
+   35 step_single: pos_ang box_props .
+
+    $default  reduce using rule 35 (step_single)
+
+
+State 65
+
+   38 host: host host_single .
+
+    $default  reduce using rule 38 (host)
+
+
+State 66
+
+   39 host_single: pos_ang TLNT . box_props
+
+    TK_BOX_SIZE  shift, and go to state 50
+
+    box_props  go to state 76
+    box_size   go to state 52
+
+
+State 67
+
+   42 doc: doc doc_single .
+
+    $default  reduce using rule 42 (doc)
+
+
+State 68
+
+   43 doc_single: pos_ang STRING . box_props
+
+    TK_BOX_SIZE  shift, and go to state 50
+
+    box_props  go to state 77
+    box_size   go to state 52
+
+
+State 69
+
+   52 pos_ang: NUMBER NUMBER NUMBER . NUMBER NUMBER
+
+    NUMBER  shift, and go to state 78
+
+
+State 70
+
+   53 box_size: TK_BOX_SIZE NUMBER . COMMA NUMBER COMMA NUMBER
+
+    COMMA  shift, and go to state 79
+
+
+State 71
+
+   44 box_props: box_size COMMA . box_tex COMMA app
+   45          | box_size COMMA . box_tex
+   46          | box_size COMMA . app
+
+    TK_DIFFUSE    shift, and go to state 80
+    TK_AMBIENT    shift, and go to state 81
+    TK_SPECULAR   shift, and go to state 82
+    TK_SHININESS  shift, and go to state 83
+    TEX_XP        shift, and go to state 84
+    TEX_YP        shift, and go to state 85
+    TEX_ZP        shift, and go to state 86
+    TEX_XN        shift, and go to state 87
+    TEX_YN        shift, and go to state 88
+    TEX_ZN        shift, and go to state 89
+
+    box_tex         go to state 90
+    box_tex_single  go to state 91
+    app             go to state 92
+    app_single      go to state 93
+
+
+State 72
+
+   19 gate_single: pos_ang STRING STRING . box_props
+
+    TK_BOX_SIZE  shift, and go to state 50
+
+    box_props  go to state 94
+    box_size   go to state 52
+
+
+State 73
+
+   54 spher_size: TK_SPHER_SIZE NUMBER .
+
+    $default  reduce using rule 54 (spher_size)
+
+
+State 74
+
+   49 spher_props: spher_size COMMA . SPHER_TEX
+   50            | spher_size COMMA . app
+   51            | spher_size COMMA . SPHER_TEX COMMA app
+
+    TK_DIFFUSE    shift, and go to state 80
+    TK_AMBIENT    shift, and go to state 81
+    TK_SPECULAR   shift, and go to state 82
+    TK_SHININESS  shift, and go to state 83
+    SPHER_TEX     shift, and go to state 95
+
+    app         go to state 96
+    app_single  go to state 93
+
+
+State 75
+
+   27 web_single: pos_ang STRING box_props .
+
+    $default  reduce using rule 27 (web_single)
+
+
+State 76
+
+   39 host_single: pos_ang TLNT box_props .
+
+    $default  reduce using rule 39 (host_single)
+
+
+State 77
+
+   43 doc_single: pos_ang STRING box_props .
+
+    $default  reduce using rule 43 (doc_single)
+
+
+State 78
+
+   52 pos_ang: NUMBER NUMBER NUMBER NUMBER . NUMBER
+
+    NUMBER  shift, and go to state 97
+
+
+State 79
+
+   53 box_size: TK_BOX_SIZE NUMBER COMMA . NUMBER COMMA NUMBER
+
+    NUMBER  shift, and go to state 98
+
+
+State 80
+
+   66 app_single: TK_DIFFUSE . COMMA NUMBER COMMA NUMBER
+
+    COMMA  shift, and go to state 99
+
+
+State 81
+
+   65 app_single: TK_AMBIENT . COMMA NUMBER COMMA NUMBER
+
+    COMMA  shift, and go to state 100
+
+
+State 82
+
+   68 app_single: TK_SPECULAR . COMMA NUMBER COMMA NUMBER
+
+    COMMA  shift, and go to state 101
+
+
+State 83
+
+   67 app_single: TK_SHININESS . COMMA NUMBER COMMA NUMBER
+
+    COMMA  shift, and go to state 102
+
+
+State 84
+
+   57 box_tex_single: TEX_XP .
+
+    $default  reduce using rule 57 (box_tex_single)
+
+
+State 85
+
+   59 box_tex_single: TEX_YP .
+
+    $default  reduce using rule 59 (box_tex_single)
+
+
+State 86
+
+   61 box_tex_single: TEX_ZP .
+
+    $default  reduce using rule 61 (box_tex_single)
+
+
+State 87
+
+   58 box_tex_single: TEX_XN .
+
+    $default  reduce using rule 58 (box_tex_single)
+
+
+State 88
+
+   60 box_tex_single: TEX_YN .
+
+    $default  reduce using rule 60 (box_tex_single)
+
+
+State 89
+
+   62 box_tex_single: TEX_ZN .
+
+    $default  reduce using rule 62 (box_tex_single)
+
+
+State 90
+
+   44 box_props: box_size COMMA box_tex . COMMA app
+   45          | box_size COMMA box_tex .
+   56 box_tex: box_tex . COMMA box_tex_single
+
+    COMMA  shift, and go to state 103
+
+    $default  reduce using rule 45 (box_props)
+
+
+State 91
+
+   55 box_tex: box_tex_single .
+
+    $default  reduce using rule 55 (box_tex)
+
+
+State 92
+
+   46 box_props: box_size COMMA app .
+   64 app: app . COMMA app_single
+
+    COMMA  shift, and go to state 104
+
+    $default  reduce using rule 46 (box_props)
+
+
+State 93
+
+   63 app: app_single .
+
+    $default  reduce using rule 63 (app)
+
+
+State 94
+
+   19 gate_single: pos_ang STRING STRING box_props .
+
+    $default  reduce using rule 19 (gate_single)
+
+
+State 95
+
+   49 spher_props: spher_size COMMA SPHER_TEX .
+   51            | spher_size COMMA SPHER_TEX . COMMA app
+
+    COMMA  shift, and go to state 105
+
+    $default  reduce using rule 49 (spher_props)
+
+
+State 96
+
+   50 spher_props: spher_size COMMA app .
+   64 app: app . COMMA app_single
+
+    COMMA  shift, and go to state 104
+
+    $default  reduce using rule 50 (spher_props)
+
+
+State 97
+
+   52 pos_ang: NUMBER NUMBER NUMBER NUMBER NUMBER .
+
+    $default  reduce using rule 52 (pos_ang)
+
+
+State 98
+
+   53 box_size: TK_BOX_SIZE NUMBER COMMA NUMBER . COMMA NUMBER
+
+    COMMA  shift, and go to state 106
+
+
+State 99
+
+   66 app_single: TK_DIFFUSE COMMA . NUMBER COMMA NUMBER
+
+    NUMBER  shift, and go to state 107
+
+
+State 100
+
+   65 app_single: TK_AMBIENT COMMA . NUMBER COMMA NUMBER
+
+    NUMBER  shift, and go to state 108
+
+
+State 101
+
+   68 app_single: TK_SPECULAR COMMA . NUMBER COMMA NUMBER
+
+    NUMBER  shift, and go to state 109
+
+
+State 102
+
+   67 app_single: TK_SHININESS COMMA . NUMBER COMMA NUMBER
+
+    NUMBER  shift, and go to state 110
+
+
+State 103
+
+   44 box_props: box_size COMMA box_tex COMMA . app
+   56 box_tex: box_tex COMMA . box_tex_single
+
+    TK_DIFFUSE    shift, and go to state 80
+    TK_AMBIENT    shift, and go to state 81
+    TK_SPECULAR   shift, and go to state 82
+    TK_SHININESS  shift, and go to state 83
+    TEX_XP        shift, and go to state 84
+    TEX_YP        shift, and go to state 85
+    TEX_ZP        shift, and go to state 86
+    TEX_XN        shift, and go to state 87
+    TEX_YN        shift, and go to state 88
+    TEX_ZN        shift, and go to state 89
+
+    box_tex_single  go to state 111
+    app             go to state 112
+    app_single      go to state 93
+
+
+State 104
+
+   64 app: app COMMA . app_single
+
+    TK_DIFFUSE    shift, and go to state 80
+    TK_AMBIENT    shift, and go to state 81
+    TK_SPECULAR   shift, and go to state 82
+    TK_SHININESS  shift, and go to state 83
+
+    app_single  go to state 113
+
+
+State 105
+
+   51 spher_props: spher_size COMMA SPHER_TEX COMMA . app
+
+    TK_DIFFUSE    shift, and go to state 80
+    TK_AMBIENT    shift, and go to state 81
+    TK_SPECULAR   shift, and go to state 82
+    TK_SHININESS  shift, and go to state 83
+
+    app         go to state 114
+    app_single  go to state 93
+
+
+State 106
+
+   53 box_size: TK_BOX_SIZE NUMBER COMMA NUMBER COMMA . NUMBER
+
+    NUMBER  shift, and go to state 115
+
+
+State 107
+
+   66 app_single: TK_DIFFUSE COMMA NUMBER . COMMA NUMBER
+
+    COMMA  shift, and go to state 116
+
+
+State 108
+
+   65 app_single: TK_AMBIENT COMMA NUMBER . COMMA NUMBER
+
+    COMMA  shift, and go to state 117
+
+
+State 109
+
+   68 app_single: TK_SPECULAR COMMA NUMBER . COMMA NUMBER
+
+    COMMA  shift, and go to state 118
+
+
+State 110
+
+   67 app_single: TK_SHININESS COMMA NUMBER . COMMA NUMBER
+
+    COMMA  shift, and go to state 119
+
+
+State 111
+
+   56 box_tex: box_tex COMMA box_tex_single .
+
+    $default  reduce using rule 56 (box_tex)
+
+
+State 112
+
+   44 box_props: box_size COMMA box_tex COMMA app .
+   64 app: app . COMMA app_single
+
+    COMMA  shift, and go to state 104
+
+    $default  reduce using rule 44 (box_props)
+
+
+State 113
+
+   64 app: app COMMA app_single .
+
+    $default  reduce using rule 64 (app)
+
+
+State 114
+
+   51 spher_props: spher_size COMMA SPHER_TEX COMMA app .
+   64 app: app . COMMA app_single
+
+    COMMA  shift, and go to state 104
+
+    $default  reduce using rule 51 (spher_props)
+
+
+State 115
+
+   53 box_size: TK_BOX_SIZE NUMBER COMMA NUMBER COMMA NUMBER .
+
+    $default  reduce using rule 53 (box_size)
+
+
+State 116
+
+   66 app_single: TK_DIFFUSE COMMA NUMBER COMMA . NUMBER
+
+    NUMBER  shift, and go to state 120
+
+
+State 117
+
+   65 app_single: TK_AMBIENT COMMA NUMBER COMMA . NUMBER
+
+    NUMBER  shift, and go to state 121
+
+
+State 118
+
+   68 app_single: TK_SPECULAR COMMA NUMBER COMMA . NUMBER
+
+    NUMBER  shift, and go to state 122
+
+
+State 119
+
+   67 app_single: TK_SHININESS COMMA NUMBER COMMA . NUMBER
+
+    NUMBER  shift, and go to state 123
+
+
+State 120
+
+   66 app_single: TK_DIFFUSE COMMA NUMBER COMMA NUMBER .
+
+    $default  reduce using rule 66 (app_single)
+
+
+State 121
+
+   65 app_single: TK_AMBIENT COMMA NUMBER COMMA NUMBER .
+
+    $default  reduce using rule 65 (app_single)
+
+
+State 122
+
+   68 app_single: TK_SPECULAR COMMA NUMBER COMMA NUMBER .
+
+    $default  reduce using rule 68 (app_single)
+
+
+State 123
+
+   67 app_single: TK_SHININESS COMMA NUMBER COMMA NUMBER .
+
+    $default  reduce using rule 67 (app_single)

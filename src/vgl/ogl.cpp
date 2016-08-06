@@ -1,0 +1,131 @@
+//---------------------------------------------------------------------------
+// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+//
+// Copyright (C) 1997-2008 Philippe Dax
+// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+//
+// VREng is a free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public Licence as published by
+// the Free Software Foundation; either version 2, or (at your option)
+// any later version.
+//
+// VREng is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//---------------------------------------------------------------------------
+#include "vreng.hpp"
+#include "ogl.hpp"
+
+
+/** Copies 3D buffer into a RGB pixmap and returns this pixmap */
+uint8_t * Ogl::copyPixels(GLint width, GLint height, GLenum mode)
+{
+#if !defined(WITH_TINYGL)
+  // Alloc pixel bytes
+  int nbbytes = 3 * width * height;
+  uint8_t *pixogl = new uint8_t[nbbytes];
+  uint8_t *pixmap = new uint8_t[nbbytes];
+
+  // Copy from OpenGL
+  glReadBuffer(mode);
+  glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixogl);
+
+  /* Swapping lines in the buffer
+   * OpenGL writes from lower line going up
+   * but ijl works reverse from up to down
+   */
+  for (int j=0; j < height; j++) { // lines
+    for (int i=0; i < width; i++) { // columns
+      pixmap[((j*width)+i)*3+0] = pixogl[((height-1-j)*width+i)*3+0];
+      pixmap[((j*width)+i)*3+1] = pixogl[((height-1-j)*width+i)*3+1];
+      pixmap[((j*width)+i)*3+2] = pixogl[((height-1-j)*width+i)*3+2];
+    }
+  }
+
+  delete[] pixogl;
+  return pixmap;
+#else
+  return NULL;
+#endif
+}
+
+/** Check if an OpenGL extension is supported */
+bool Ogl::isGLextension(const char *ext)
+{
+  const GLubyte *extentions = NULL;
+  const GLubyte *start;
+  GLubyte *where, *terminator;
+
+  if (*ext == '\0')
+    return false;
+  if ((where = (GLubyte *) strchr(ext, ' ')))
+    return false;
+
+#if !defined(WITH_TINYGL)
+  extentions = glGetString(GL_EXTENSIONS);
+  start = extentions;
+  for (;;) {
+    where = (GLubyte *) strstr((const char *) start, ext);
+    if (! where)
+      break;
+    terminator = where + strlen(ext);
+    if (where == start || *(where - 1) == ' ')
+      if (*terminator == ' ' || *terminator == '\0')
+      return true;
+    start = terminator;
+  }
+#endif
+  return false;
+}
+
+/** Prints OpenGL infos */
+void Ogl::infosGL()
+{
+  printf("GL_VERSION: %s\n", (char *) glGetString(GL_VERSION));
+#if HAVE_LIBGLU
+  printf("GLU_VERSION: %s\n", (char *) gluGetString(GLU_VERSION));
+#endif
+  printf("GL_RENDERER: %s\n", (char *) glGetString(GL_RENDERER));
+  printf("GL_VENDOR: %s\n", (char *) glGetString(GL_VENDOR));
+
+  GLint bits, lights, texsize;
+  glGetIntegerv(GL_DEPTH_BITS, &bits);
+  printf("GL_DEPTH_BITS: %d\n", bits);
+  glGetIntegerv(GL_STENCIL_BITS, &bits);
+  printf("GL_STENCIL_BITS: %d\n", bits);
+  glGetIntegerv(GL_MAX_LIGHTS, &lights);
+  printf("GL_MAX_LIGHTS: %d\n", lights);
+  glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texsize);
+  printf("GL_MAX_TEXTURE_SIZE: %d\n", texsize);
+
+  printf("GL_EXTENSIONS: %s\n", (char *) glGetString(GL_EXTENSIONS));
+#if HAVE_LIBGLU
+  printf("GLU_EXTENSIONS: %s\n", (char *) gluGetString(GLU_EXTENSIONS));
+#endif
+}
+
+void Ogl::printGLMatrix()
+{
+  GLfloat matrix[16];
+
+  glGetFloatv(GL_MODELVIEW_MATRIX, matrix);
+  printf("Matrix:\n");
+  for (int a=0; a<16; a++) {
+    if (a % 4 == 0) printf("\n");
+    printf("%.2f\t", *(matrix+ (a*4)%16 + a/4));
+  }
+  printf("\n");
+}
+
+void Ogl::printGLError()
+{
+  GLenum glerror = glGetError();
+  if (glerror != GL_NO_ERROR) {
+    error("glerror: %s", gluErrorString(glerror));
+  }
+}

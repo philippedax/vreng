@@ -1,0 +1,512 @@
+//---------------------------------------------------------------------------
+// VREng (Virtual Reality Engine)
+//
+// Copyright (C) 1997-2008 Ecole Nationale Superieure des Telecommunications
+//
+// VREng is a free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public Licence as published by
+// the Free Software Foundation; either version 2, or (at your option)
+// any later version.
+//
+// VREng is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//---------------------------------------------------------------------------
+/*
+ * Copyright (C) 1998 Janne Löf <jlof@mail.student.oulu.fi>
+ */
+#include "global.hh"
+#include "lwo.hh"
+#include "http.hh"	// httpOpen
+#include "fileio.hh"	// read_*
+#include "url.hh"	// url2cache
+
+
+LWO::LWO(const char *_url)
+{
+  defaults();
+  url = new char[strlen(_url) + 1];
+  strcpy(url, _url);
+
+  Http::httpOpen(url, httpReader, this, 0);
+}
+
+LWO::~LWO()
+{
+  tFace *lface;
+  tMaterial *lmaterial;
+
+  while (face) {
+    delete[] face->index;
+    lface = face;
+    face = face->next;
+    delete lface;
+  }
+  if (face_map)
+    delete[] face_map;
+  if (mat_map)
+    delete[] mat_map;
+  if (material) {
+    lmaterial = material;
+    material = material->next;
+    delete lmaterial;
+  }
+  if (vertex)
+    delete[] vertex;
+  if (url)
+    delete[] url;
+}
+
+void LWO::defaults()
+{
+  vertex = NULL;
+  face = NULL;
+  material = NULL;
+  face_map = NULL;
+  mat_map = NULL;
+  v_cnt = 0;
+  f_cnt = 0;
+  m_cnt = 0;
+  dlist = 0;
+  loaded = false;
+  url = NULL;
+}
+
+const char * LWO::getUrl() const
+{
+  return (const char *) url;
+}
+
+void LWO::httpReader(void *alwo, Http *http)
+{
+  LWO *lwo = (LWO *) alwo;
+
+  if (! http) {
+    return;
+  }
+
+  char filename[PATH_LEN];
+  url2cache(lwo->getUrl(), filename);
+
+  FILE *f;
+  if ((f = fopen(filename, "r")) == NULL) {
+    if ((f = fopen(filename, "w")) == NULL) {
+      warning("httpReader: can't create %s", filename);
+      //lwo->loadFromHttp(h);
+      return;
+    }
+
+    // save in cache
+    for (int c; (c = http->getChar()) >= 0 ; putc(c, f))
+      ;
+    fclose(f);
+    f = fopen(filename, "r");
+  }
+  lwo->loadFromFile(f); // from cache
+}
+
+/** LWO model file-reader */
+bool LWO::loadFromFile(FILE *f)
+{
+  if (! f)
+    return false;
+
+  /* check for headers */
+  int v;
+  if ((v = Fileio::read_long(f)) != ID_FORM) {
+    error("lwoReader: error ID_FORM =%8x", v);
+    return false;
+  }
+
+  int32_t form_bytes = Fileio::read_long(f);
+  int32_t read_bytes = 4;
+
+  if (Fileio::read_long(f) != ID_LWOB) {
+    error("lwoReader: not a LWO file");
+    return false;
+  }
+
+  /* read chunks */
+  while (read_bytes < form_bytes) {
+    int32_t  id     = Fileio::read_long(f);
+    int32_t  nbytes = Fileio::read_long(f);
+    read_bytes += 8 + nbytes + (nbytes%2);
+
+    switch (id) {
+    case ID_PNTS:
+      read_pnts(f, nbytes); break;
+    case ID_POLS:
+      read_pols(f, nbytes); break;
+    case ID_SRFS:
+      read_srfs(f, nbytes); break;
+    case ID_SURF:
+      read_surf(f, nbytes); break;
+    default:
+      fseek(f, nbytes + (nbytes%2), SEEK_CUR);
+    }
+  }
+
+  tMaterial *lmaterial;
+  tFace *lface;
+  int i;
+
+  if (m_cnt) {
+    mat_map = new tMaterial*[m_cnt];
+    i = 0;
+    lmaterial = material;
+
+    while (lmaterial) {
+      mat_map[i++] = lmaterial;
+      lmaterial = lmaterial->next;
+    }
+  }
+
+  if (f_cnt) {
+    face_map = new tFace*[f_cnt];
+
+    i = 0;
+    lface = face;
+
+    while (lface) {
+      face_map[i++] = lface;
+      lface = lface->next;
+    }
+  }
+
+  return loaded = true;
+}
+
+void LWO::read_srfs(FILE *f, int nbytes)
+{
+  tMaterial *lmaterial = NULL;
+  tMaterial *head = NULL;
+
+  while (nbytes > 0) {
+    if (! lmaterial) {
+      lmaterial = new tMaterial;
+      head = lmaterial;
+    }
+    else {
+      lmaterial->next = new tMaterial;
+      lmaterial = lmaterial->next;
+    }
+    lmaterial->next = NULL;
+    m_cnt++;
+
+    /* read name */
+    nbytes -= Fileio::read_string(f, lmaterial->name, LW_MAX_NAME_LEN);
+
+    /* defaults */
+    lmaterial->r = 0.7;
+    lmaterial->g = 0.7;
+    lmaterial->b = 0.7;
+  }
+  if (! material) {
+    material = head;
+  }
+  else {
+    lmaterial = material;
+    while (lmaterial->next) {
+      lmaterial = lmaterial->next;
+    }
+    lmaterial->next = head;
+  }
+}
+
+void LWO::read_surf(FILE *f, int nbytes)
+{
+  char name[LW_MAX_NAME_LEN];
+  tMaterial *lmaterial = NULL;
+
+  /* read surface name */
+  nbytes -= Fileio::read_string(f, name, LW_MAX_NAME_LEN);
+
+  /* find material */
+  lmaterial = material;
+  while (lmaterial) {
+    if (!strcmp(lmaterial->name, name)) {
+      break;
+    }
+    lmaterial = lmaterial->next;
+  }
+  if (! lmaterial) {
+    error("read_surf: failed to load a material");
+    return;
+  }
+
+  /* read values */
+  while (nbytes > 0) {
+    int id = Fileio::read_long(f);
+    int len = Fileio::read_long(f);
+    nbytes -= 6 + len + (len%2);
+
+    switch (id) {
+    case ID_COLR:
+      lmaterial->r = Fileio::read_char(f) / 255.0;
+      lmaterial->g = Fileio::read_char(f) / 255.0;
+      lmaterial->b = Fileio::read_char(f) / 255.0;
+      lmaterial->a = 1;
+      Fileio::read_char(f); // dummy
+      break;
+    default:
+      fseek(f, len+(len%2), SEEK_CUR);
+    }
+  }
+}
+
+void LWO::read_pols(FILE *f, int nbytes)
+{
+  tFace *lface = NULL;
+  tFace *head = NULL;
+
+  while (nbytes > 0) {
+
+    if (! lface) {
+      lface = new tFace;
+      head = lface;
+    }
+    else {
+      lface->next = new tFace;
+      lface = lface->next;
+    }
+    lface->next = NULL;
+    f_cnt++;
+
+    /* number of points in this face */
+    lface->index_cnt = Fileio::read_short(f);
+    nbytes -= 2;
+
+    /* allocate space for points */
+    lface->index = new short[lface->index_cnt];
+    memset(lface->index, 0, lface->index_cnt * sizeof(short));
+
+    /* read points in */
+    for (int i=0; i < lface->index_cnt; i++) {
+      lface->index[i] = Fileio::read_short(f);
+      nbytes -= 2;
+    }
+
+    /* read surface material */
+    lface->material = Fileio::read_short(f);
+    nbytes -= 2;
+
+    /* skip over detail polygons */
+    if (lface->material < 0) {
+      int det_cnt;
+      lface->material = -lface->material;
+      det_cnt = Fileio::read_short(f);
+      nbytes -= 2;
+      while (det_cnt-- > 0) {
+	int cnt = Fileio::read_short(f);
+	fseek(f, cnt*2+2, SEEK_CUR);
+	nbytes -= cnt*2+2;
+      }
+    }
+    lface->material -= 1;
+  }
+
+  if (! face) {
+    face = head;
+  }
+  else {
+    lface = face;
+    while (lface->next) {
+      lface = lface->next;
+    }
+    lface->next = head;
+  }
+}
+
+void LWO::read_pnts(FILE *f, int nbytes)
+{
+  v_cnt = nbytes / 12;
+  vertex = new float[v_cnt * 3];
+
+  for (int i=0; i < v_cnt; i++) {
+    vertex[i*3+0] = Fileio::read_float(f);
+    vertex[i*3+1] = Fileio::read_float(f);
+    vertex[i*3+2] = Fileio::read_float(f);
+  }
+}
+
+int LWO::VertexCount()
+{
+  return v_cnt;
+}
+
+int LWO::MaterialCount()
+{
+  return m_cnt;
+}
+
+int LWO::FaceCount()
+{
+  return f_cnt;
+}
+
+void LWO::Vertex(int i, float *pvertex)
+{
+  pvertex[0] = 0.0;
+  pvertex[1] = 0.0;
+  pvertex[2] = 0.0;
+
+  if (i < 0 || i > v_cnt)
+    return;
+
+  pvertex[0] = vertex[i*3];
+  pvertex[1] = vertex[i*3 + 1];
+  pvertex[2] = vertex[i*3 + 2];
+}
+
+tFace *LWO::Face(int i)
+{
+  if (i < 0 || i > f_cnt)
+    return NULL;
+  return face_map[i];
+}
+
+tMaterial *LWO::Material(int i)
+{
+  if (i < 0 || i > m_cnt)
+    return NULL;
+  return mat_map[i];
+}
+
+#define PX(i) (vertex[lface->index[i]*3+0])
+#define PY(i) (vertex[lface->index[i]*3+1])
+#define PZ(i) (vertex[lface->index[i]*3+2])
+
+void LWO::displaylist()
+{
+  int prev_index_cnt = -1;
+  int prev_material  = -1;
+  GLfloat prev_nx = 0;
+  GLfloat prev_ny = 0;
+  GLfloat prev_nz = 0;
+
+  dlist = glGenLists(1);
+  glNewList(dlist, GL_COMPILE);
+
+  for (int i=0; i < f_cnt; i++) {
+    GLfloat ax,ay,az,bx,by,bz,nx,ny,nz,r;
+    const tFace *lface = face_map[i];
+
+    /* ignore faces with less than 3 points */
+    if (lface->index_cnt < 3)
+      continue;
+
+    /* calculate normal */
+    ax = PX(1) - PX(0);
+    ay = PY(1) - PY(0);
+    az = PZ(1) - PZ(0);
+    bx = PX(lface->index_cnt-1) - PX(0);
+    by = PY(lface->index_cnt-1) - PY(0);
+    bz = PZ(lface->index_cnt-1) - PZ(0);
+    nx = ay*bz - az*by;
+    ny = az*bx - ax*bz;
+    nz = ax*by - ay*bx;
+    r = sqrt(nx*nx + ny*ny + nz*nz);
+    if (r < 0.000001) /* avoid division by zero */
+      continue;
+    nx /= r;
+    ny /= r;
+    nz /= r;
+
+    glEnable(GL_NORMALIZE);
+    /* glBegin/glEnd */
+    if (prev_index_cnt != lface->index_cnt || prev_index_cnt > 4) {
+      if (prev_index_cnt > 0) {
+        glEnd();
+      }
+      prev_index_cnt = lface->index_cnt;
+      switch (lface->index_cnt) {
+      case 3:
+	glBegin(GL_TRIANGLES); break;
+      case 4:
+	glBegin(GL_QUADS); break;
+      default:
+	glBegin(GL_POLYGON);
+      }
+    }
+
+    /* update material if necessary */
+    if (prev_material != lface->material) {
+      prev_material = lface->material;
+#if 1
+      GLfloat rgb[4];
+      rgb[0] = material[lface->material].r;
+      rgb[1] = material[lface->material].g;
+      rgb[2] = material[lface->material].b;
+      rgb[3] = material[lface->material].a;
+      glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, rgb);
+      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, rgb);
+#else
+      glColor4f(material[lface->material].r,
+                material[lface->material].g,
+                material[lface->material].b,
+                material[lface->material].a);
+#endif
+    }
+
+    /* update normal if necessary */
+    if (nx != prev_nx || ny != prev_ny || nz != prev_nz) {
+      prev_nx = nx;
+      prev_ny = ny;
+      prev_nz = nz;
+      glNormal3f(nx, ny, nz);
+    }
+
+    /* draw polygon/triangle/quad */
+    for (int j=0; j < lface->index_cnt; j++)
+      glVertex3f(PX(j), PY(j), PZ(j));
+  }
+
+  /* if glBegin was called call glEnd */
+  if (prev_index_cnt > 0)
+    glEnd();
+
+  glDisable(GL_NORMALIZE);
+  glEndList();
+}
+
+void LWO::render()
+{
+  if (dlist) {
+    glPushMatrix();
+    glCallList(dlist);
+    glPopMatrix();
+  }
+}
+
+float LWO::getRadius()
+{
+  double max_radius = 0;
+
+  if (! v_cnt)
+    return 0.0;
+
+  for (int i=0; i < v_cnt; i++) {
+    float *v = &vertex[i*3];
+    double r = v[0]*v[0] + v[1]*v[1] + v[2]*v[2];
+    if (r > max_radius)
+      max_radius = r;
+  }
+  return sqrt(max_radius);
+}
+
+void LWO::setScale(float scale)
+{
+  if (! v_cnt || scale == 0)
+    return;
+
+  for (int i=0; i < v_cnt; i++) {
+    vertex[i*3+0] *= scale;
+    vertex[i*3+1] *= scale;
+    vertex[i*3+2] *= scale;
+  }
+}

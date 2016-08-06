@@ -1,0 +1,31 @@
+/* XPM */
+static const char *movie_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"20 20 6 1",
+"  c None",
+"* c gray100",
+". c gray75",
+"X c #BBBBBB",
+"o c #565655",
+"O c #373737",
+/* pixels */
+" OOOOOOOOOOOOOOOOO  ",
+" OXXOOOOOOOOOOOXXOo ",
+" OXXOoooooooo*OXXOo ",
+" OOOOoXXXXXXX*OOOOo ",
+" OXXOoXXXXXXX*OXXOo ",
+" OOOOoXXXXXXX*OOOOo ",
+" OXXOoXXXXXXX*OXXOo ",
+" OXXOoXXXXXXX*OXXOo ",
+" OOOO*********OOOOo ",
+" OXXOOOOOOOOOOOXXOo ",
+" OXXOoooooooo*OXXOo ",
+" OXXOoXXXXXXX*OXXOo ",
+" OXXOoXXXXXXX*OXXOo ",
+" OOOOoXXXXXXX*OOOOo ",
+" OXXOoXXXXXXX*OXXOo ",
+" OXXOoXXXXXXX*OXXOo ",
+" OOOO*********OOOOo ",
+" OXXOOOOOOOOOOOXXOo ",
+" OXXOOOOOOOOOOOXXOoX",
+"  ooooooooooooooooo "};

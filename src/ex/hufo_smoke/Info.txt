@@ -1,0 +1,20 @@
+Effet de fumée
+Hufo / N.A.A.
+Email: hufo@xernet.com
+
+Ce petit effet de fumée est fait a partir d'un systeme de particule que j'avais
+fait pour "The OpenGL Challenge".
+Il m'a demander 30 min pour régler le tout et transformer un feu en fumée.
+
+Credits:
+ Application Skeleton is by Otri (The OpenGL Challenge).
+ Please participate to this really fun challenge: http://oglchallenge.dhs.org
+ The 2D Warping system was done by Hugo Elias. I've transposed it to 3D.
+ Please visit his great page: http://freespace.virgin.net/hugo.elias
+
+Usage:
+ \"  \" : rotate/stop camera
+ ENTER : stop particle animation
+ ESC : stop it
+
+Copyright (C) 2000 Jérémie Allard

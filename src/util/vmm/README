@@ -1,0 +1,169 @@
+		VMM (Vreng Machine Monitoring)
+
+
+General stuffs
+--------------
+
+For compiling classes, type:
+
+	# ./configure
+	# make
+
+For installing, type:
+
+	# make install
+
+Thek edit the file vmm.conf to adapt it to your system.
+
+For using collector, type:
+
+	# vmm
+
+For some help, type:
+
+	# vmm --help
+
+Warning: don't use option '--preferences' because it's already used
+         in script 'vmm'.
+         If you want to specify an other path for preferences file,
+         edit 'vmm' script.
+
+
+The preferences file : vmm.conf
+-------------------------------
+
+Index of color:
+  0  : black
+  1  : blue
+  2  : cyan
+  3  : darkGray
+  4  : gray
+  5  : green
+  6  : lightGray
+  7  : magenta
+  8  : orange
+  9  : pink
+  10 : red
+  11 : white
+  12 : yellow
+
+Description of fields in file 'collector.ini'
+
+Networking properties.
+  domain_name			: Domaine name.
+  subnet_mask			: Netmask.
+  generic_multicast_adress	: Generic IP address for multicast.
+  multicast_port		: Port for multicast addresses.
+  multicast_TTL			: TTL for multicast addresses.
+  vreng_root_URL		: Root URL for accessing to vreng homepage.
+
+IO properties.
+  stats_path			: Root path for 'vmm'.
+  vmm_directory			: 'vmm' directory.
+  vre_directory			: Directory where there is 'vre' source file.
+  vre_extension			: 'vre' file extension.
+  world_filename		: File name of serialized object 'World'.
+  collecting_filename		: File name of infos in text.
+
+
+Servers which collector must represent.
+  servers			: Present servers on machine.
+
+Default entry position in a place.
+  entry_x			: Default entry position in a place : x coord.
+  entry_y			: Default entry position in a place : y coord.
+  entry_z			: Default entry position in a place : z coord.
+  entry_radius			: Default entry position in a place : angle coord.
+
+Main aspect of a subnetwork place.
+  subnet_sky_color              : Color of background in a subnetwork.
+  subnet_default_width		: Default dimension of a subnet (in meters) : width.
+  subnet_default_length		: Default dimension of a subnet (in meters) : lenght.
+  subnet_floor_texture_URL	: Used texture for subnetwork floor.
+  subnet_wall_texture_URL	: Used texture for subnetwork wall.
+  room_door_spacing		: Space between two doors in a subnetwork representation.
+
+Main aspect of a room place.
+  room_sky_color                : Color of background in a room.
+  room_default_width		: Default dimension of a room (in meters) : width.
+  room_default_length		: Default dimension of a room (in meters) : height.
+  room_floor_texture_URL	: Used texture for room floor.
+  room_wall_texture_URL		: Used texture for room wall.
+
+Main aspect of a machine place.
+  machine_sky_color             : Color of background in a machine.
+  machine_default_width		: Default dimension of a machine (in meters) : width.
+  machine_default_length	: Default dimension of a machine (in meters) : height.
+  machine_floor_texture_URL	: Used texture for machine floor.
+  machine_wall_texture_URL	: Used texture for machine wall.
+
+Parameters for a machine in a room or a subnetwork.
+  machine_spacing		: Space between two machines (in meter) in a subnetwork or a room reprentation.
+  machine_width			: 3D dimension of machine : width.
+  machine_height		: 3D dimension of machine : height.
+  machine_depth			: 3D dimension of machine : depth.
+  machine_texture_URL		: Used texture to map one face of a machine
+
+Dimension of walls.
+  wall_height			: Height for a wall.
+  wall_depth			: Depth for a wall.
+
+Representation of a panel.
+  panel_width			: Panel dimension : width.
+  panel_height			: Panel dimension : height.
+  panel_depth			: Panel dimension : depth.
+  panel_tee_width		: Width of tee for a panel.
+  panel_text_height		: Height for text on a panel.
+  panel_texture_URL		: Texture for a panel.
+  panel_font_URL		: Font used to write on a panel.
+
+Representation of a door.
+  door_width			: Door dimension : width.
+  door_height			: Door dimension : height.
+  door_depth			: Door dimension : depth.
+  door_texture_URL		: Texture for a door.
+
+Spacing between two elements in a machine representation.
+  features_spacing		: Spacing between different feature in a machine.
+
+Representation of users.
+  user_spacing			: Spacing between two users.
+  user_head_radius		: Radius of head for user representation.
+  user_head_color		: Color of head.
+  user_tee_radius		: Radius of tee cylinder of user representation.
+  user_tee_height		: Its height.
+  user_tee_color		: Color of tee.
+
+Representation of a day for uptime.
+  day_spacing			: Spacing between two day representations.
+  day_radius			: Radius of sphere for day representation.
+  day_color			: Color for a day representation.
+
+Representation of load.
+  mean_load_radius		: Dimension of cylinder for mean representation : radius.
+  mean_load_height		: Dimension of cylinder for mean representation : height.
+  mean_load_color		: Color for mean load representation.
+
+Representation of swap.
+  swap_radius			: Dimension of cylinder for swap representation : radius.
+  swap_height			: Dimension of cylinder for swap representation : height.
+  swap_color			: Color for free space of swap.
+
+Representation of a process.
+  process_spacing		: Spacing between two process representations.
+  process_width			: Dimension of each process representation : width.
+  process_height		: Dimension of each process representation : height.
+  process_depth			: Dimension of each process representation : depth.
+  process_color			: Color for each process representation.
+
+Representation of servers.
+  server_spacing		: Spacing between two server representations.
+  server_radius			: Server dimension : radius of base.
+  server_height			: Server dimension : height.
+  server_color			: Color for a server representation.
+
+Representation of space disk.
+  space_spacing			: Spacing between two spacse representation.
+  space_radius			: Dimension of space cylinder : radius.
+  space_height			: Dimension of space cylinder : height.
+  space_color			: Color of free space.

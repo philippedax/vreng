@@ -1,0 +1,27 @@
+/* XPM */
+static const char *axis_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 5 1",
+"   c None",
+"r  c red",
+"g  c green",
+"b  c blue",
+".  c white",
+/* pixels */
+"                ",
+"  bbbb          ",
+"    b           ",
+"   b            ",
+"  bbbb          ",
+"    b           ",
+"    b           ",
+"    b      r   r",
+"    b       r r ",
+"    .rrrrrrrrr  ",
+"   g        r r ",
+"g g g      r   r",
+" g g            ",
+"  g             ",
+"  g             ",
+"                "
+};

@@ -1,0 +1,63 @@
+#
+# my VREng config
+#
+
+# my body model
+# 3 models available : guy, man, box, default=guy
+# model=box
+# model=man
+# model=guy
+# model=android
+model=guy
+
+# my head model
+# 4 models available : lwo, off, obj, 3ds
+# syntax: head=url
+# head=/lwo/head.lwo
+# head=/off/head.off
+# head=/obj/head.obj
+# head=/3ds/head.3ds
+head=/lwo/head.lwo
+
+# my sex
+# syntax: sex=male|female, default=male
+sex=male
+
+# my skin color
+# syntax: skin=color
+skin=wheat
+
+# my bust color
+# syntax: bust=color
+bust=grey
+
+# my body dimensions in meters
+# height=value
+# width=value
+# depth=value
+height=1.75
+width=0.30
+depth=0.15
+
+# my front side
+# syntax: mapface=urlimage
+# example: mapface=http://www.some.where/~login/front.gif
+
+# my back side
+# syntax: mapback=urlimage
+# example: mapback=http://www.some.where/~login/back.jpg
+
+# my world description
+# syntax: world=url
+# example: world=http://www.some.where/~login/myworld.vre
+
+# my web site
+# syntax: web=url
+# example: web=http://www.some.where/~login/
+
+# HTTP Proxy
+# syntax: http_proxy=http://<proxy_hostname>:<port>/
+# syntax: no_proxy=<domaine>
+# example: http_proxy=http://proxy.some.where:3128/
+# example: no_proxy=some.where
+

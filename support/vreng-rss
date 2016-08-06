@@ -1,0 +1,59 @@
+#! /bin/sh
+#
+# vreng-rss
+#
+# Updates ~vreng/html/rss.xml
+#
+# Philippe Dax - Aout 2006
+#
+VRENG_WEB=/infres/projets/vreng/html
+VRENG_DEV=/infres/dax/vreng/dev
+VRENG_LOG=/infres/log/vreng.log
+
+p=`basename $0`
+tmp=/tmp/$p.$$
+dat=`date +'%Y-%m-%dT%H:%M:%S+02:00'`
+trap 'rm $tmp >/dev/null 2>&1; exit 0' 0 1 2 3 15
+
+if [ $# = 1 ]; then
+  rss=$1
+else
+  if [ ! -f $VRENG_WEB/rss.xml ]; then
+    echo "$VRENG_WEB/rss.xml not found" 1>&2
+    exit 1
+  fi
+  rss=$VRENG_WEB/rss.xml
+fi
+
+old=`cat $VRENG_LOG | cut -f2 -d- | cut -f1-3 -d.`
+new=`cat $VRENG_DEV/VERSION`
+if [ "$new" = "$old" ]; then
+  echo "$p: same version $new, nothing done"
+  exit 1;
+fi
+
+item()
+{
+  echo " <item>" >>$tmp
+  echo "  <title>Updated, $old to $new</title>">>$tmp
+  echo "  <link>http://vreng.enst.fr</link>" >>$tmp
+  echo "  <description>Updated, $old to $new</description>" >>$tmp
+  echo "  <creator>dax@enst.fr</creator>" >>$tmp
+  echo "  <pubDate>$dat</pubDate>" >>$tmp
+  echo " </item>" >>$tmp
+}
+
+head -8 $rss >$tmp
+item
+tail +9l $rss >>$tmp
+cat $tmp
+mv $tmp $rss
+chmod 644 $rss
+chmod 644 $VRENG_DEV/ChangeLog
+chmod 644 $VRENG_DEV/VERSION
+chmod 644 $VRENG_DEV/COPYING
+chmod 644 $VRENG_DEV/COPYRIGHT
+chmod 644 $VRENG_DEV/INSTALL
+chmod 644 $VRENG_DEV/AUTHORS
+chmod 644 $VRENG_DEV/TODO
+chmod 644 $VRENG_DEV/ANNOUNCE

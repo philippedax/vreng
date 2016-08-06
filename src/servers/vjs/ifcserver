@@ -1,0 +1,32 @@
+#! /bin/sh
+#
+# ifcserver
+#
+# launches the java server for handle VREng ifc interactions
+#
+# Philippe Dax - jul 2001
+#
+PATH=@JAVA_HOME@/bin:$PATH export PATH
+
+VRENG_HOME=/infres/vreng
+IFCSERVER_PORT=4151
+
+# Directory where are located classes
+if [ -d ${VRENG_HOME} ]; then
+	CLASSDIR=${VRENG_HOME}/jar
+else
+	CLASSDIR=./jar
+fi
+
+if [ -f ${CLASSDIR}/vrengcore.jar ]; then
+	CLASSPATH=${CLASSDIR}/vrengcore.jar:${CLASSDIR}/vrengapp.jar
+	export CLASSPATH
+else
+	echo "${CLASSDIR}/vrengcore.jar not found"
+	exit 1
+fi
+
+cd ${CLASSDIR}
+
+java fr.enst.vreng.server.Server ${IFCSERVER_PORT}
+

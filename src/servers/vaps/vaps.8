@@ -1,0 +1,57 @@
+.\"                              hey, Emacs:   -*- nroff -*-
+.\" quakeforge is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program; see the file COPYING.  If not, write to
+.\" the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+.\"
+.TH VAPS 8 "2003-02-28"
+.\" Please update the above date whenever this man page is modified.
+.SH NAME
+vaps \- VREng Animation Parameters Server
+.SH SYNOPSIS
+.B vaps
+.RI [ options ]
+.SH DESCRIPTION
+\fBVaps\fP (VREng Animation Parameters Server) is a server of predefined
+gestures (VAP - Body Animation Parameters)
+or facial expressions (FAP - Facial Expression Parameters) encoded in
+a pseudo Ascii Mpeg4 format to be delivered to some requester client.
+Streams are sent in UDP Unicast or Multicast mode.
+For each gesture a file suffixed by either ".bap" or ".fap" is associated
+in a directory where vaps is executed.
+.PP
+See http://vreng.enst.fr/vaps/.
+.SH OPTIONS
+The \fBvaps\fP command line accepts the following options:
+.TP
+.BR  " -d vaps_directory"
+Specify where is located the directory which contains bap and fap files.
+.TP
+.BR  " -D"
+Debugging mode.
+.TP
+.BR  " -v"
+Prints current version and exits.
+.TP
+.BR  " -h"
+Help message.
+.TP
+.BR  " -l logfile"
+Indicate which log file to use, if not specified default is /var/log/vaps.log.
+.SH "SEE ALSO"
+.BR vreng (1)
+.SH LICENSE
+.PP
+\fBvaps\fP is an Open Source Software under the GPL (Gnu Public License).
+.SH AUTHORS
+.PP
+Philippe Dax, <dax@enst.fr>.

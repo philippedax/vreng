@@ -1,0 +1,84 @@
+//---------------------------------------------------------------------------
+// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+//
+// Copyright (C) 1997-2009 Philippe Dax
+// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+//
+// VREng is a free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public Licence as published by
+// the Free Software Foundation; either version 2, or (at your option)
+// any later version.
+//
+// VREng is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//---------------------------------------------------------------------------
+#include "vreng.hpp"
+#include "bgcolor.hpp"
+#include "world.hpp"	// World
+
+
+const OClass Bgcolor::oclass(BGCOLOR_TYPE, "Bgcolor", Bgcolor::creator);
+
+// static class member initialization
+Bgcolor * Bgcolor::bgcolor = NULL;
+
+void Bgcolor::funcs() {}
+
+
+WObject * Bgcolor::creator(char *l)
+{
+  return new Bgcolor(l);
+}
+
+void Bgcolor::parser(char *l)
+{
+  l = tokenize(l);
+  begin_while_parse(l) {
+    if (!stringcmp(l, "color="))
+      l = parse()->parseVector3f(l, color, "color");
+  }
+  end_while_parse(l);
+}
+
+Bgcolor::Bgcolor(char *l)
+{
+  parser(l);
+
+  /* we use (x,y,z,az) to match (r,g,b,a) */
+  Bgcolor *wcolor = World::current()->backgroundColor();
+  wcolor->color[0] = color[0];
+  wcolor->color[1] = color[1];
+  wcolor->color[2] = color[2];
+  wcolor->color[3] = 1;
+  wcolor->color_dec[0] = (int) (color[0] * 255);
+  wcolor->color_dec[1] = (int) (color[1] * 255);
+  wcolor->color_dec[2] = (int) (color[2] * 255);
+  wcolor->color_dec[3] = 255;
+
+  initializeObject(INVISIBLE);
+  bgcolor = this;
+}
+
+/** Bgcolor by default, build by the world it self */
+Bgcolor::Bgcolor()
+{
+  black();
+}
+
+void Bgcolor::black()
+{
+  color[0] = color[1] = color[2] = 0; color[3] = 1;
+  color_dec[0] = color_dec[1] = color_dec[2] = 0; color_dec[3] = 255;
+}
+
+void Bgcolor::quit()
+{
+  black();
+  bgcolor = NULL;
+}

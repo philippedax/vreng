@@ -1,0 +1,25 @@
+/* XPM */
+static const char *count_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1",
+"  c None",
+"X c gray40",
+"+ c gray30",
+/* pixels */
+"                ",
+"                ",
+"  ++   X+++X    ",
+"  ++   ++ ++    ",
+"  ++   ++ ++    ",
+"  ++   ++ ++    ",
+"  ++   X+++X    ",
+"                ",
+"  X+++X   ++    ",
+"  ++ ++   ++    ",
+"  ++ ++   ++    ",
+"  ++ ++   ++    ",
+"  X+++X   ++    ",
+"                ",
+"                ",
+"                "
+};

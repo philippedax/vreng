@@ -1,0 +1,52 @@
+
+
+p {font-family: arial, helvetica, sans-serif;}
+h1{font-family: arial, helvetica, sans-serif; text-align: center;}
+h2{font-family: arial, helvetica, sans-serif;}
+h3{font-family: arial, helvetica, sans-serif;}
+ul{font-family: arial, helvetica, sans-serif;}
+ol{font-family: arial, helvetica, sans-serif;}
+dl{font-family: arial, helvetica, sans-serif;}
+td{font-family: arial, helvetica, sans-serif;}
+dl{font-family: arial, helvetica, sans-serif; color:black;}
+tt{font-family: courier;}
+
+em {font-style: normal; color: teal;font-family: arial, helvetica, sans-serif;
+font-size:medium;}
+
+a {font-family: arial, helvetica, sans-serif; font-weight:bold}
+a:link   {color:orange;}
+a:visited{color:gray;}
+a:hover  {background-color: #f2f2ff }
+
+A.qindex {}
+A.qindexRef {}
+
+A.el {font-weight: bold}
+A.el:link {color:black;}
+A.el:visited{color:gray;}
+
+A.elRef { font-weight: bold }
+
+A.code { text-decoration: none; font-weight: normal; color: #4444ee }
+A.codeRef { font-weight: normal; color: #4444ee }
+
+DL.el { margin-left: -1cm }
+DIV.fragment { width: 100%; border: none; background-color: #eeeeee }
+DIV.ah { background-color: black; font-weight: bold; color: #ffffff; margin-bottom: 3px; margin-top: 3px }
+
+
+TD.md { background-color: #f2f2ff; font-weight: bold; color:navy}
+TD.mdname1 { background-color: #f2f2ff; font-weight: bold; color: #602020; }
+TD.mdname { background-color: #f2f2ff; font-weight: bold; color: #602020; width: 600px; }
+
+DIV.groupHeader { margin-left: 16px; margin-top: 12px; margin-bottom: 6px; font-weight: bold }
+DIV.groupText { margin-left: 16px; font-style: italic; font-size: smaller }
+
+FONT.keyword       { color: #008000 }
+FONT.keywordtype   { color: #604020 }
+FONT.keywordflow   { color: #e08000 }
+FONT.comment       { color: #800000 }
+FONT.preprocessor  { color: #806020 }
+FONT.stringliteral { color: #002080 }
+FONT.charliteral   { color: #008080 }

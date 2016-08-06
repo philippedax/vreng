@@ -1,0 +1,67 @@
+.\"                              hey, Emacs:   -*- nroff -*-
+.\" quakeforge is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program; see the file COPYING.  If not, write to
+.\" the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+.\"
+.TH VACS 8 "2003-07-14"
+.\" Please update the above date whenever this man page is modified.
+.SH NAME
+vacs \- VREng Address Cache Server
+.SH SYNOPSIS
+.B vacs
+.RI [ options ]
+.SH DESCRIPTION
+\fBVacs\fP (VREng Address Cache Server) keeps dynamicaly the bindings between
+world names and there channel strings under the form "multicast_addr/port/ttl".
+The main function of vacs is to answer by a \fBchannel\fP string to the
+requestor when it receives a request of type "\fBresolve\fP my_world_url".
+.PP
+The cache contains Ascii entries easily editable by hand.
+An entry is composed by an \fBurl\fP (world destription url),
+a \fBworldname\fP (extracted from the url),
+an \fBuniverse\fP which is the http host (extracted from the url),
+and the \fBchannel\fP string computed to be unique "multicast_addr/port/ttl".
+.PP
+After initialization by a list of well-known couples of world-channel,
+vacs maintains in its cache, unique IP multicast addresses and
+unique associated ports for a given world.
+.PP
+The other operations which can do the requestor are "\fBlist\fP" to get all
+the couples (world_url - channel) kept in the cache, and "\fBrelease\fP myworld"
+to remove an entry from the cache, only granted if the associated universe
+matches the requestor's universe.
+.SH OPTIONS
+The \fBvacs\fP command line accepts the following options:
+.TP
+.BR  " -d vacs_directory"
+Specify where is located the directory which contains vacs cache.
+.TP
+.BR  " -D"
+Debugging mode.
+.TP
+.BR  " -v"
+Prints current version and exits.
+.TP
+.BR  " -h"
+Help message.
+.TP
+.BR  " -l logfile"
+Indicates which log file to use, if not specified default is /var/log/vacs.log.
+.SH "SEE ALSO"
+.BR vreng (1)
+.SH LICENSE
+.PP
+\fBvacs\fP is an Open Source Software under the GPL (Gnu Public License).
+.SH AUTHORS
+.PP
+Philippe Dax, <dax@enst.fr>.

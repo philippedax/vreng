@@ -1,0 +1,1 @@
+gcc  mont.c -lglut -L/usr/openwin/lib -lGLU -lGL -lX11 -lm -o mont

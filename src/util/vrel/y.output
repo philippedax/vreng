@@ -1,0 +1,2055 @@
+Terminaux inutilisés dans la grammaire
+
+   THIS
+
+
+Grammaire
+
+    0 $accept: PROGRAMME $end
+
+    1 PROGRAMME: VIDE
+    2          | PROGRAMME IMPORT CHAINE
+    3          | PROGRAMME DECLARATION_VAR
+    4          | PROGRAMME DECLARATION_CLASSE
+    5          | PROGRAMME BEGINKEY ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM END
+
+    6 DECLARATION_VAR: VAR VARIABLE PTVIRG
+    7                | VAR VARIABLE EGAL DATA PTVIRG
+
+    8 DECLARATION_VAR_LISTE: VIDE
+    9                      | DECLARATION_VAR_LISTE DECLARATION_VAR
+
+   10 DECLARATION_CLASSE: CLASSE NOM EXTENDS NOM ACCOUVR AFFECTATION_CLASSE_LISTE ACCFERM
+   11                   | CLASSE NOM COMPOUND ACCOUVR DECLARATION_VAR_LISTE DEFINITION_CLASSE ACCFERM
+
+   12 DEFINITION_CLASSE: VIDE
+   13                  | DEFINITION_CLASSE CONSTRUCTEUR
+
+   14 CONSTRUCTEUR: CONSTRUCTOR PARENTOUVR NOMS PARENTFERM ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM
+
+   15 AFFECTATION_CLASSE_LISTE: VIDE
+   16                         | AFFECTATION_CLASSE_LISTE AFFECTATION
+
+   17 INSTRUCTION_LISTE: VIDE
+   18                  | INSTRUCTION_LISTE INSTRUCTION
+
+   19 INSTRUCTION: AFFECTATION
+   20            | WHILE PARENTOUVR TEST PARENTFERM CONSEQUENCE
+   21            | INSTRUCTION_IF
+   22            | NEW NOM PARENTOUVR DATALISTE PARENTFERM PTVIRG
+   23            | VARIABLE EGAL NEW NOM PARENTOUVR DATALISTE PARENTFERM PTVIRG
+
+   24 INSTRUCTION_IF: IF PARENTOUVR TEST PARENTFERM CONSEQUENCE ELSE CONSEQUENCE
+   25               | IF PARENTOUVR TEST PARENTFERM CONSEQUENCE
+
+   26 CONSEQUENCE: ACCOUVR INSTRUCTION_LISTE ACCFERM
+
+   27 AFFECTATION: VARIABLE EGAL DATA PTVIRG
+   28            | NOM POINT NOM EGAL DATA PTVIRG
+
+   29 DATA: VARIABLE
+   30     | NOMBRE
+   31     | CHAINE
+   32     | PARENTOUVR DATA PARENTFERM
+   33     | OPERATION
+   34     | TRUE
+   35     | FALSE
+
+   36 OPERATION: DATA PLUS DATA
+   37          | DATA MOINS DATA
+   38          | DATA MULT DATA
+   39          | DATA DIV DATA
+   40          | DATA MOD DATA
+   41          | ABS PARENTOUVR DATA PARENTFERM
+   42          | MOINS DATA
+
+   43 TEST: COMPARAISON
+   44     | PARENTOUVR COMPARAISON PARENTFERM
+   45     | TEST AND TEST
+   46     | TEST OR TEST
+   47     | NOT TEST
+   48     | FALSE
+   49     | TRUE
+   50     | VARIABLE
+
+   51 COMPARAISON: DATA EGALEGAL DATA
+   52            | DATA SUP DATA
+   53            | DATA INF DATA
+   54            | DATA SUPEGAL DATA
+   55            | DATA INFEGAL DATA
+   56            | DATA DIFFERENT DATA
+
+   57 VARIABLE: NOM
+   58         | NOM CROCHOUVR DATA CROCHFERM
+
+   59 NOMS: VIDE
+   60     | NOM
+   61     | NOMS VIRGULE NOM
+
+   62 DATALISTE: VIDE
+   63          | DATA
+   64          | DATALISTE VIRGULE DATA
+
+   65 NOMBRE: ENTIER
+   66       | REEL
+
+   67 VIDE: %empty
+
+
+Terminaux, suivis des règles où ils apparaissent
+
+$end (0) 0
+error (256)
+ENTIER (258) 65
+REEL (259) 66
+NOM (260) 10 11 22 23 28 57 58 60 61
+CHAINE (261) 2 31
+TRUE (262) 34 49
+FALSE (263) 35 48
+VAR (264) 6 7
+BEGINKEY (265) 5
+END (266) 5
+IMPORT (267) 2
+IF (268) 24 25
+ELSE (269) 24
+WHILE (270) 20
+NEW (271) 22 23
+COMPOUND (272) 11
+CLASSE (273) 10 11
+EXTENDS (274) 10
+CONSTRUCTOR (275) 14
+THIS (276)
+NOT (277) 47
+AND (278) 45
+OR (279) 46
+EGAL (280) 7 23 27 28
+PLUS (281) 36
+MOINS (282) 37 42
+MULT (283) 38
+DIV (284) 39
+MOD (285) 40
+ABS (286) 41
+SUP (287) 52
+INF (288) 53
+SUPEGAL (289) 54
+INFEGAL (290) 55
+EGALEGAL (291) 51
+DIFFERENT (292) 56
+PARENTOUVR (293) 14 20 22 23 24 25 32 41 44
+PARENTFERM (294) 14 20 22 23 24 25 32 41 44
+CROCHOUVR (295) 58
+CROCHFERM (296) 58
+ACCOUVR (297) 5 10 11 14 26
+ACCFERM (298) 5 10 11 14 26
+PTVIRG (299) 6 7 22 23 27 28
+VIRGULE (300) 61 64
+POINT (301) 28
+
+
+Non-terminaux, suivis des règles où ils apparaissent
+
+$accept (47)
+    à gauche: 0
+PROGRAMME (48)
+    à gauche: 1 2 3 4 5, à droite: 0 2 3 4 5
+DECLARATION_VAR (49)
+    à gauche: 6 7, à droite: 3 9
+DECLARATION_VAR_LISTE (50)
+    à gauche: 8 9, à droite: 5 9 11 14
+DECLARATION_CLASSE (51)
+    à gauche: 10 11, à droite: 4
+DEFINITION_CLASSE (52)
+    à gauche: 12 13, à droite: 11 13
+CONSTRUCTEUR (53)
+    à gauche: 14, à droite: 13
+AFFECTATION_CLASSE_LISTE (54)
+    à gauche: 15 16, à droite: 10 16
+INSTRUCTION_LISTE (55)
+    à gauche: 17 18, à droite: 5 14 18 26
+INSTRUCTION (56)
+    à gauche: 19 20 21 22 23, à droite: 18
+INSTRUCTION_IF (57)
+    à gauche: 24 25, à droite: 21
+CONSEQUENCE (58)
+    à gauche: 26, à droite: 20 24 25
+AFFECTATION (59)
+    à gauche: 27 28, à droite: 16 19
+DATA (60)
+    à gauche: 29 30 31 32 33 34 35, à droite: 7 27 28 32 36 37 38
+    39 40 41 42 51 52 53 54 55 56 58 63 64
+OPERATION (61)
+    à gauche: 36 37 38 39 40 41 42, à droite: 33
+TEST (62)
+    à gauche: 43 44 45 46 47 48 49 50, à droite: 20 24 25 45 46 47
+COMPARAISON (63)
+    à gauche: 51 52 53 54 55 56, à droite: 43 44
+VARIABLE (64)
+    à gauche: 57 58, à droite: 6 7 23 27 29 50
+NOMS (65)
+    à gauche: 59 60 61, à droite: 14 61
+DATALISTE (66)
+    à gauche: 62 63 64, à droite: 22 23 64
+NOMBRE (67)
+    à gauche: 65 66, à droite: 30
+VIDE (68)
+    à gauche: 67, à droite: 1 8 12 15 17 59 62
+
+
+État 0
+
+    0 $accept: . PROGRAMME $end
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    PROGRAMME  aller à l'état 1
+    VIDE       aller à l'état 2
+
+
+État 1
+
+    0 $accept: PROGRAMME . $end
+    2 PROGRAMME: PROGRAMME . IMPORT CHAINE
+    3          | PROGRAMME . DECLARATION_VAR
+    4          | PROGRAMME . DECLARATION_CLASSE
+    5          | PROGRAMME . BEGINKEY ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM END
+
+    $end      décalage et aller à l'état 3
+    VAR       décalage et aller à l'état 4
+    BEGINKEY  décalage et aller à l'état 5
+    IMPORT    décalage et aller à l'état 6
+    CLASSE    décalage et aller à l'état 7
+
+    DECLARATION_VAR     aller à l'état 8
+    DECLARATION_CLASSE  aller à l'état 9
+
+
+État 2
+
+    1 PROGRAMME: VIDE .
+
+    $défaut  réduction par utilisation de la règle 1 (PROGRAMME)
+
+
+État 3
+
+    0 $accept: PROGRAMME $end .
+
+    $défaut  accepter
+
+
+État 4
+
+    6 DECLARATION_VAR: VAR . VARIABLE PTVIRG
+    7                | VAR . VARIABLE EGAL DATA PTVIRG
+
+    NOM  décalage et aller à l'état 10
+
+    VARIABLE  aller à l'état 11
+
+
+État 5
+
+    5 PROGRAMME: PROGRAMME BEGINKEY . ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM END
+
+    ACCOUVR  décalage et aller à l'état 12
+
+
+État 6
+
+    2 PROGRAMME: PROGRAMME IMPORT . CHAINE
+
+    CHAINE  décalage et aller à l'état 13
+
+
+État 7
+
+   10 DECLARATION_CLASSE: CLASSE . NOM EXTENDS NOM ACCOUVR AFFECTATION_CLASSE_LISTE ACCFERM
+   11                   | CLASSE . NOM COMPOUND ACCOUVR DECLARATION_VAR_LISTE DEFINITION_CLASSE ACCFERM
+
+    NOM  décalage et aller à l'état 14
+
+
+État 8
+
+    3 PROGRAMME: PROGRAMME DECLARATION_VAR .
+
+    $défaut  réduction par utilisation de la règle 3 (PROGRAMME)
+
+
+État 9
+
+    4 PROGRAMME: PROGRAMME DECLARATION_CLASSE .
+
+    $défaut  réduction par utilisation de la règle 4 (PROGRAMME)
+
+
+État 10
+
+   57 VARIABLE: NOM .
+   58         | NOM . CROCHOUVR DATA CROCHFERM
+
+    CROCHOUVR  décalage et aller à l'état 15
+
+    $défaut  réduction par utilisation de la règle 57 (VARIABLE)
+
+
+État 11
+
+    6 DECLARATION_VAR: VAR VARIABLE . PTVIRG
+    7                | VAR VARIABLE . EGAL DATA PTVIRG
+
+    EGAL    décalage et aller à l'état 16
+    PTVIRG  décalage et aller à l'état 17
+
+
+État 12
+
+    5 PROGRAMME: PROGRAMME BEGINKEY ACCOUVR . DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM END
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    DECLARATION_VAR_LISTE  aller à l'état 18
+    VIDE                   aller à l'état 19
+
+
+État 13
+
+    2 PROGRAMME: PROGRAMME IMPORT CHAINE .
+
+    $défaut  réduction par utilisation de la règle 2 (PROGRAMME)
+
+
+État 14
+
+   10 DECLARATION_CLASSE: CLASSE NOM . EXTENDS NOM ACCOUVR AFFECTATION_CLASSE_LISTE ACCFERM
+   11                   | CLASSE NOM . COMPOUND ACCOUVR DECLARATION_VAR_LISTE DEFINITION_CLASSE ACCFERM
+
+    COMPOUND  décalage et aller à l'état 20
+    EXTENDS   décalage et aller à l'état 21
+
+
+État 15
+
+   58 VARIABLE: NOM CROCHOUVR . DATA CROCHFERM
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 30
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 16
+
+    7 DECLARATION_VAR: VAR VARIABLE EGAL . DATA PTVIRG
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 34
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 17
+
+    6 DECLARATION_VAR: VAR VARIABLE PTVIRG .
+
+    $défaut  réduction par utilisation de la règle 6 (DECLARATION_VAR)
+
+
+État 18
+
+    5 PROGRAMME: PROGRAMME BEGINKEY ACCOUVR DECLARATION_VAR_LISTE . INSTRUCTION_LISTE ACCFERM END
+    9 DECLARATION_VAR_LISTE: DECLARATION_VAR_LISTE . DECLARATION_VAR
+
+    VAR  décalage et aller à l'état 4
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    DECLARATION_VAR    aller à l'état 35
+    INSTRUCTION_LISTE  aller à l'état 36
+    VIDE               aller à l'état 37
+
+
+État 19
+
+    8 DECLARATION_VAR_LISTE: VIDE .
+
+    $défaut  réduction par utilisation de la règle 8 (DECLARATION_VAR_LISTE)
+
+
+État 20
+
+   11 DECLARATION_CLASSE: CLASSE NOM COMPOUND . ACCOUVR DECLARATION_VAR_LISTE DEFINITION_CLASSE ACCFERM
+
+    ACCOUVR  décalage et aller à l'état 38
+
+
+État 21
+
+   10 DECLARATION_CLASSE: CLASSE NOM EXTENDS . NOM ACCOUVR AFFECTATION_CLASSE_LISTE ACCFERM
+
+    NOM  décalage et aller à l'état 39
+
+
+État 22
+
+   65 NOMBRE: ENTIER .
+
+    $défaut  réduction par utilisation de la règle 65 (NOMBRE)
+
+
+État 23
+
+   66 NOMBRE: REEL .
+
+    $défaut  réduction par utilisation de la règle 66 (NOMBRE)
+
+
+État 24
+
+   31 DATA: CHAINE .
+
+    $défaut  réduction par utilisation de la règle 31 (DATA)
+
+
+État 25
+
+   34 DATA: TRUE .
+
+    $défaut  réduction par utilisation de la règle 34 (DATA)
+
+
+État 26
+
+   35 DATA: FALSE .
+
+    $défaut  réduction par utilisation de la règle 35 (DATA)
+
+
+État 27
+
+   42 OPERATION: MOINS . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 40
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 28
+
+   41 OPERATION: ABS . PARENTOUVR DATA PARENTFERM
+
+    PARENTOUVR  décalage et aller à l'état 41
+
+
+État 29
+
+   32 DATA: PARENTOUVR . DATA PARENTFERM
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 42
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 30
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   58 VARIABLE: NOM CROCHOUVR DATA . CROCHFERM
+
+    PLUS       décalage et aller à l'état 43
+    MOINS      décalage et aller à l'état 44
+    MULT       décalage et aller à l'état 45
+    DIV        décalage et aller à l'état 46
+    MOD        décalage et aller à l'état 47
+    CROCHFERM  décalage et aller à l'état 48
+
+
+État 31
+
+   33 DATA: OPERATION .
+
+    $défaut  réduction par utilisation de la règle 33 (DATA)
+
+
+État 32
+
+   29 DATA: VARIABLE .
+
+    $défaut  réduction par utilisation de la règle 29 (DATA)
+
+
+État 33
+
+   30 DATA: NOMBRE .
+
+    $défaut  réduction par utilisation de la règle 30 (DATA)
+
+
+État 34
+
+    7 DECLARATION_VAR: VAR VARIABLE EGAL DATA . PTVIRG
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+
+    PLUS    décalage et aller à l'état 43
+    MOINS   décalage et aller à l'état 44
+    MULT    décalage et aller à l'état 45
+    DIV     décalage et aller à l'état 46
+    MOD     décalage et aller à l'état 47
+    PTVIRG  décalage et aller à l'état 49
+
+
+État 35
+
+    9 DECLARATION_VAR_LISTE: DECLARATION_VAR_LISTE DECLARATION_VAR .
+
+    $défaut  réduction par utilisation de la règle 9 (DECLARATION_VAR_LISTE)
+
+
+État 36
+
+    5 PROGRAMME: PROGRAMME BEGINKEY ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE . ACCFERM END
+   18 INSTRUCTION_LISTE: INSTRUCTION_LISTE . INSTRUCTION
+
+    NOM      décalage et aller à l'état 50
+    IF       décalage et aller à l'état 51
+    WHILE    décalage et aller à l'état 52
+    NEW      décalage et aller à l'état 53
+    ACCFERM  décalage et aller à l'état 54
+
+    INSTRUCTION     aller à l'état 55
+    INSTRUCTION_IF  aller à l'état 56
+    AFFECTATION     aller à l'état 57
+    VARIABLE        aller à l'état 58
+
+
+État 37
+
+   17 INSTRUCTION_LISTE: VIDE .
+
+    $défaut  réduction par utilisation de la règle 17 (INSTRUCTION_LISTE)
+
+
+État 38
+
+   11 DECLARATION_CLASSE: CLASSE NOM COMPOUND ACCOUVR . DECLARATION_VAR_LISTE DEFINITION_CLASSE ACCFERM
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    DECLARATION_VAR_LISTE  aller à l'état 59
+    VIDE                   aller à l'état 19
+
+
+État 39
+
+   10 DECLARATION_CLASSE: CLASSE NOM EXTENDS NOM . ACCOUVR AFFECTATION_CLASSE_LISTE ACCFERM
+
+    ACCOUVR  décalage et aller à l'état 60
+
+
+État 40
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   42          | MOINS DATA .
+
+    $défaut  réduction par utilisation de la règle 42 (OPERATION)
+
+
+État 41
+
+   41 OPERATION: ABS PARENTOUVR . DATA PARENTFERM
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 61
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 42
+
+   32 DATA: PARENTOUVR DATA . PARENTFERM
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+
+    PLUS        décalage et aller à l'état 43
+    MOINS       décalage et aller à l'état 44
+    MULT        décalage et aller à l'état 45
+    DIV         décalage et aller à l'état 46
+    MOD         décalage et aller à l'état 47
+    PARENTFERM  décalage et aller à l'état 62
+
+
+État 43
+
+   36 OPERATION: DATA PLUS . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 63
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 44
+
+   37 OPERATION: DATA MOINS . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 64
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 45
+
+   38 OPERATION: DATA MULT . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 65
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 46
+
+   39 OPERATION: DATA DIV . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 66
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 47
+
+   40 OPERATION: DATA MOD . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 67
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 48
+
+   58 VARIABLE: NOM CROCHOUVR DATA CROCHFERM .
+
+    $défaut  réduction par utilisation de la règle 58 (VARIABLE)
+
+
+État 49
+
+    7 DECLARATION_VAR: VAR VARIABLE EGAL DATA PTVIRG .
+
+    $défaut  réduction par utilisation de la règle 7 (DECLARATION_VAR)
+
+
+État 50
+
+   28 AFFECTATION: NOM . POINT NOM EGAL DATA PTVIRG
+   57 VARIABLE: NOM .
+   58         | NOM . CROCHOUVR DATA CROCHFERM
+
+    CROCHOUVR  décalage et aller à l'état 15
+    POINT      décalage et aller à l'état 68
+
+    $défaut  réduction par utilisation de la règle 57 (VARIABLE)
+
+
+État 51
+
+   24 INSTRUCTION_IF: IF . PARENTOUVR TEST PARENTFERM CONSEQUENCE ELSE CONSEQUENCE
+   25               | IF . PARENTOUVR TEST PARENTFERM CONSEQUENCE
+
+    PARENTOUVR  décalage et aller à l'état 69
+
+
+État 52
+
+   20 INSTRUCTION: WHILE . PARENTOUVR TEST PARENTFERM CONSEQUENCE
+
+    PARENTOUVR  décalage et aller à l'état 70
+
+
+État 53
+
+   22 INSTRUCTION: NEW . NOM PARENTOUVR DATALISTE PARENTFERM PTVIRG
+
+    NOM  décalage et aller à l'état 71
+
+
+État 54
+
+    5 PROGRAMME: PROGRAMME BEGINKEY ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM . END
+
+    END  décalage et aller à l'état 72
+
+
+État 55
+
+   18 INSTRUCTION_LISTE: INSTRUCTION_LISTE INSTRUCTION .
+
+    $défaut  réduction par utilisation de la règle 18 (INSTRUCTION_LISTE)
+
+
+État 56
+
+   21 INSTRUCTION: INSTRUCTION_IF .
+
+    $défaut  réduction par utilisation de la règle 21 (INSTRUCTION)
+
+
+État 57
+
+   19 INSTRUCTION: AFFECTATION .
+
+    $défaut  réduction par utilisation de la règle 19 (INSTRUCTION)
+
+
+État 58
+
+   23 INSTRUCTION: VARIABLE . EGAL NEW NOM PARENTOUVR DATALISTE PARENTFERM PTVIRG
+   27 AFFECTATION: VARIABLE . EGAL DATA PTVIRG
+
+    EGAL  décalage et aller à l'état 73
+
+
+État 59
+
+    9 DECLARATION_VAR_LISTE: DECLARATION_VAR_LISTE . DECLARATION_VAR
+   11 DECLARATION_CLASSE: CLASSE NOM COMPOUND ACCOUVR DECLARATION_VAR_LISTE . DEFINITION_CLASSE ACCFERM
+
+    VAR  décalage et aller à l'état 4
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    DECLARATION_VAR    aller à l'état 35
+    DEFINITION_CLASSE  aller à l'état 74
+    VIDE               aller à l'état 75
+
+
+État 60
+
+   10 DECLARATION_CLASSE: CLASSE NOM EXTENDS NOM ACCOUVR . AFFECTATION_CLASSE_LISTE ACCFERM
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    AFFECTATION_CLASSE_LISTE  aller à l'état 76
+    VIDE                      aller à l'état 77
+
+
+État 61
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   41          | ABS PARENTOUVR DATA . PARENTFERM
+
+    PLUS        décalage et aller à l'état 43
+    MOINS       décalage et aller à l'état 44
+    MULT        décalage et aller à l'état 45
+    DIV         décalage et aller à l'état 46
+    MOD         décalage et aller à l'état 47
+    PARENTFERM  décalage et aller à l'état 78
+
+
+État 62
+
+   32 DATA: PARENTOUVR DATA PARENTFERM .
+
+    $défaut  réduction par utilisation de la règle 32 (DATA)
+
+
+État 63
+
+   36 OPERATION: DATA . PLUS DATA
+   36          | DATA PLUS DATA .
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+
+    MULT  décalage et aller à l'état 45
+    DIV   décalage et aller à l'état 46
+    MOD   décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 36 (OPERATION)
+
+
+État 64
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   37          | DATA MOINS DATA .
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+
+    MULT  décalage et aller à l'état 45
+    DIV   décalage et aller à l'état 46
+    MOD   décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 37 (OPERATION)
+
+
+État 65
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   38          | DATA MULT DATA .
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+
+    $défaut  réduction par utilisation de la règle 38 (OPERATION)
+
+
+État 66
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   39          | DATA DIV DATA .
+   40          | DATA . MOD DATA
+
+    $défaut  réduction par utilisation de la règle 39 (OPERATION)
+
+
+État 67
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   40          | DATA MOD DATA .
+
+    $défaut  réduction par utilisation de la règle 40 (OPERATION)
+
+
+État 68
+
+   28 AFFECTATION: NOM POINT . NOM EGAL DATA PTVIRG
+
+    NOM  décalage et aller à l'état 79
+
+
+État 69
+
+   24 INSTRUCTION_IF: IF PARENTOUVR . TEST PARENTFERM CONSEQUENCE ELSE CONSEQUENCE
+   25               | IF PARENTOUVR . TEST PARENTFERM CONSEQUENCE
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 80
+    FALSE       décalage et aller à l'état 81
+    NOT         décalage et aller à l'état 82
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 83
+
+    DATA         aller à l'état 84
+    OPERATION    aller à l'état 31
+    TEST         aller à l'état 85
+    COMPARAISON  aller à l'état 86
+    VARIABLE     aller à l'état 87
+    NOMBRE       aller à l'état 33
+
+
+État 70
+
+   20 INSTRUCTION: WHILE PARENTOUVR . TEST PARENTFERM CONSEQUENCE
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 80
+    FALSE       décalage et aller à l'état 81
+    NOT         décalage et aller à l'état 82
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 83
+
+    DATA         aller à l'état 84
+    OPERATION    aller à l'état 31
+    TEST         aller à l'état 88
+    COMPARAISON  aller à l'état 86
+    VARIABLE     aller à l'état 87
+    NOMBRE       aller à l'état 33
+
+
+État 71
+
+   22 INSTRUCTION: NEW NOM . PARENTOUVR DATALISTE PARENTFERM PTVIRG
+
+    PARENTOUVR  décalage et aller à l'état 89
+
+
+État 72
+
+    5 PROGRAMME: PROGRAMME BEGINKEY ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM END .
+
+    $défaut  réduction par utilisation de la règle 5 (PROGRAMME)
+
+
+État 73
+
+   23 INSTRUCTION: VARIABLE EGAL . NEW NOM PARENTOUVR DATALISTE PARENTFERM PTVIRG
+   27 AFFECTATION: VARIABLE EGAL . DATA PTVIRG
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    NEW         décalage et aller à l'état 90
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 91
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 74
+
+   11 DECLARATION_CLASSE: CLASSE NOM COMPOUND ACCOUVR DECLARATION_VAR_LISTE DEFINITION_CLASSE . ACCFERM
+   13 DEFINITION_CLASSE: DEFINITION_CLASSE . CONSTRUCTEUR
+
+    CONSTRUCTOR  décalage et aller à l'état 92
+    ACCFERM      décalage et aller à l'état 93
+
+    CONSTRUCTEUR  aller à l'état 94
+
+
+État 75
+
+   12 DEFINITION_CLASSE: VIDE .
+
+    $défaut  réduction par utilisation de la règle 12 (DEFINITION_CLASSE)
+
+
+État 76
+
+   10 DECLARATION_CLASSE: CLASSE NOM EXTENDS NOM ACCOUVR AFFECTATION_CLASSE_LISTE . ACCFERM
+   16 AFFECTATION_CLASSE_LISTE: AFFECTATION_CLASSE_LISTE . AFFECTATION
+
+    NOM      décalage et aller à l'état 50
+    ACCFERM  décalage et aller à l'état 95
+
+    AFFECTATION  aller à l'état 96
+    VARIABLE     aller à l'état 97
+
+
+État 77
+
+   15 AFFECTATION_CLASSE_LISTE: VIDE .
+
+    $défaut  réduction par utilisation de la règle 15 (AFFECTATION_CLASSE_LISTE)
+
+
+État 78
+
+   41 OPERATION: ABS PARENTOUVR DATA PARENTFERM .
+
+    $défaut  réduction par utilisation de la règle 41 (OPERATION)
+
+
+État 79
+
+   28 AFFECTATION: NOM POINT NOM . EGAL DATA PTVIRG
+
+    EGAL  décalage et aller à l'état 98
+
+
+État 80
+
+   34 DATA: TRUE .
+   49 TEST: TRUE .
+
+    AND         réduction par utilisation de la règle 49 (TEST)
+    OR          réduction par utilisation de la règle 49 (TEST)
+    PARENTFERM  réduction par utilisation de la règle 49 (TEST)
+    $défaut    réduction par utilisation de la règle 34 (DATA)
+
+
+État 81
+
+   35 DATA: FALSE .
+   48 TEST: FALSE .
+
+    AND         réduction par utilisation de la règle 48 (TEST)
+    OR          réduction par utilisation de la règle 48 (TEST)
+    PARENTFERM  réduction par utilisation de la règle 48 (TEST)
+    $défaut    réduction par utilisation de la règle 35 (DATA)
+
+
+État 82
+
+   47 TEST: NOT . TEST
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 80
+    FALSE       décalage et aller à l'état 81
+    NOT         décalage et aller à l'état 82
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 83
+
+    DATA         aller à l'état 84
+    OPERATION    aller à l'état 31
+    TEST         aller à l'état 99
+    COMPARAISON  aller à l'état 86
+    VARIABLE     aller à l'état 87
+    NOMBRE       aller à l'état 33
+
+
+État 83
+
+   32 DATA: PARENTOUVR . DATA PARENTFERM
+   44 TEST: PARENTOUVR . COMPARAISON PARENTFERM
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA         aller à l'état 100
+    OPERATION    aller à l'état 31
+    COMPARAISON  aller à l'état 101
+    VARIABLE     aller à l'état 32
+    NOMBRE       aller à l'état 33
+
+
+État 84
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   51 COMPARAISON: DATA . EGALEGAL DATA
+   52            | DATA . SUP DATA
+   53            | DATA . INF DATA
+   54            | DATA . SUPEGAL DATA
+   55            | DATA . INFEGAL DATA
+   56            | DATA . DIFFERENT DATA
+
+    PLUS       décalage et aller à l'état 43
+    MOINS      décalage et aller à l'état 44
+    MULT       décalage et aller à l'état 45
+    DIV        décalage et aller à l'état 46
+    MOD        décalage et aller à l'état 47
+    SUP        décalage et aller à l'état 102
+    INF        décalage et aller à l'état 103
+    SUPEGAL    décalage et aller à l'état 104
+    INFEGAL    décalage et aller à l'état 105
+    EGALEGAL   décalage et aller à l'état 106
+    DIFFERENT  décalage et aller à l'état 107
+
+
+État 85
+
+   24 INSTRUCTION_IF: IF PARENTOUVR TEST . PARENTFERM CONSEQUENCE ELSE CONSEQUENCE
+   25               | IF PARENTOUVR TEST . PARENTFERM CONSEQUENCE
+   45 TEST: TEST . AND TEST
+   46     | TEST . OR TEST
+
+    AND         décalage et aller à l'état 108
+    OR          décalage et aller à l'état 109
+    PARENTFERM  décalage et aller à l'état 110
+
+
+État 86
+
+   43 TEST: COMPARAISON .
+
+    $défaut  réduction par utilisation de la règle 43 (TEST)
+
+
+État 87
+
+   29 DATA: VARIABLE .
+   50 TEST: VARIABLE .
+
+    AND         réduction par utilisation de la règle 50 (TEST)
+    OR          réduction par utilisation de la règle 50 (TEST)
+    PARENTFERM  réduction par utilisation de la règle 50 (TEST)
+    $défaut    réduction par utilisation de la règle 29 (DATA)
+
+
+État 88
+
+   20 INSTRUCTION: WHILE PARENTOUVR TEST . PARENTFERM CONSEQUENCE
+   45 TEST: TEST . AND TEST
+   46     | TEST . OR TEST
+
+    AND         décalage et aller à l'état 108
+    OR          décalage et aller à l'état 109
+    PARENTFERM  décalage et aller à l'état 111
+
+
+État 89
+
+   22 INSTRUCTION: NEW NOM PARENTOUVR . DATALISTE PARENTFERM PTVIRG
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    DATA       aller à l'état 112
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    DATALISTE  aller à l'état 113
+    NOMBRE     aller à l'état 33
+    VIDE       aller à l'état 114
+
+
+État 90
+
+   23 INSTRUCTION: VARIABLE EGAL NEW . NOM PARENTOUVR DATALISTE PARENTFERM PTVIRG
+
+    NOM  décalage et aller à l'état 115
+
+
+État 91
+
+   27 AFFECTATION: VARIABLE EGAL DATA . PTVIRG
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+
+    PLUS    décalage et aller à l'état 43
+    MOINS   décalage et aller à l'état 44
+    MULT    décalage et aller à l'état 45
+    DIV     décalage et aller à l'état 46
+    MOD     décalage et aller à l'état 47
+    PTVIRG  décalage et aller à l'état 116
+
+
+État 92
+
+   14 CONSTRUCTEUR: CONSTRUCTOR . PARENTOUVR NOMS PARENTFERM ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM
+
+    PARENTOUVR  décalage et aller à l'état 117
+
+
+État 93
+
+   11 DECLARATION_CLASSE: CLASSE NOM COMPOUND ACCOUVR DECLARATION_VAR_LISTE DEFINITION_CLASSE ACCFERM .
+
+    $défaut  réduction par utilisation de la règle 11 (DECLARATION_CLASSE)
+
+
+État 94
+
+   13 DEFINITION_CLASSE: DEFINITION_CLASSE CONSTRUCTEUR .
+
+    $défaut  réduction par utilisation de la règle 13 (DEFINITION_CLASSE)
+
+
+État 95
+
+   10 DECLARATION_CLASSE: CLASSE NOM EXTENDS NOM ACCOUVR AFFECTATION_CLASSE_LISTE ACCFERM .
+
+    $défaut  réduction par utilisation de la règle 10 (DECLARATION_CLASSE)
+
+
+État 96
+
+   16 AFFECTATION_CLASSE_LISTE: AFFECTATION_CLASSE_LISTE AFFECTATION .
+
+    $défaut  réduction par utilisation de la règle 16 (AFFECTATION_CLASSE_LISTE)
+
+
+État 97
+
+   27 AFFECTATION: VARIABLE . EGAL DATA PTVIRG
+
+    EGAL  décalage et aller à l'état 118
+
+
+État 98
+
+   28 AFFECTATION: NOM POINT NOM EGAL . DATA PTVIRG
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 119
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 99
+
+   45 TEST: TEST . AND TEST
+   46     | TEST . OR TEST
+   47     | NOT TEST .
+
+    $défaut  réduction par utilisation de la règle 47 (TEST)
+
+
+État 100
+
+   32 DATA: PARENTOUVR DATA . PARENTFERM
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   51 COMPARAISON: DATA . EGALEGAL DATA
+   52            | DATA . SUP DATA
+   53            | DATA . INF DATA
+   54            | DATA . SUPEGAL DATA
+   55            | DATA . INFEGAL DATA
+   56            | DATA . DIFFERENT DATA
+
+    PLUS        décalage et aller à l'état 43
+    MOINS       décalage et aller à l'état 44
+    MULT        décalage et aller à l'état 45
+    DIV         décalage et aller à l'état 46
+    MOD         décalage et aller à l'état 47
+    SUP         décalage et aller à l'état 102
+    INF         décalage et aller à l'état 103
+    SUPEGAL     décalage et aller à l'état 104
+    INFEGAL     décalage et aller à l'état 105
+    EGALEGAL    décalage et aller à l'état 106
+    DIFFERENT   décalage et aller à l'état 107
+    PARENTFERM  décalage et aller à l'état 62
+
+
+État 101
+
+   44 TEST: PARENTOUVR COMPARAISON . PARENTFERM
+
+    PARENTFERM  décalage et aller à l'état 120
+
+
+État 102
+
+   52 COMPARAISON: DATA SUP . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 121
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 103
+
+   53 COMPARAISON: DATA INF . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 122
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 104
+
+   54 COMPARAISON: DATA SUPEGAL . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 123
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 105
+
+   55 COMPARAISON: DATA INFEGAL . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 124
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 106
+
+   51 COMPARAISON: DATA EGALEGAL . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 125
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 107
+
+   56 COMPARAISON: DATA DIFFERENT . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 126
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 108
+
+   45 TEST: TEST AND . TEST
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 80
+    FALSE       décalage et aller à l'état 81
+    NOT         décalage et aller à l'état 82
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 83
+
+    DATA         aller à l'état 84
+    OPERATION    aller à l'état 31
+    TEST         aller à l'état 127
+    COMPARAISON  aller à l'état 86
+    VARIABLE     aller à l'état 87
+    NOMBRE       aller à l'état 33
+
+
+État 109
+
+   46 TEST: TEST OR . TEST
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 80
+    FALSE       décalage et aller à l'état 81
+    NOT         décalage et aller à l'état 82
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 83
+
+    DATA         aller à l'état 84
+    OPERATION    aller à l'état 31
+    TEST         aller à l'état 128
+    COMPARAISON  aller à l'état 86
+    VARIABLE     aller à l'état 87
+    NOMBRE       aller à l'état 33
+
+
+État 110
+
+   24 INSTRUCTION_IF: IF PARENTOUVR TEST PARENTFERM . CONSEQUENCE ELSE CONSEQUENCE
+   25               | IF PARENTOUVR TEST PARENTFERM . CONSEQUENCE
+
+    ACCOUVR  décalage et aller à l'état 129
+
+    CONSEQUENCE  aller à l'état 130
+
+
+État 111
+
+   20 INSTRUCTION: WHILE PARENTOUVR TEST PARENTFERM . CONSEQUENCE
+
+    ACCOUVR  décalage et aller à l'état 129
+
+    CONSEQUENCE  aller à l'état 131
+
+
+État 112
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   63 DATALISTE: DATA .
+
+    PLUS   décalage et aller à l'état 43
+    MOINS  décalage et aller à l'état 44
+    MULT   décalage et aller à l'état 45
+    DIV    décalage et aller à l'état 46
+    MOD    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 63 (DATALISTE)
+
+
+État 113
+
+   22 INSTRUCTION: NEW NOM PARENTOUVR DATALISTE . PARENTFERM PTVIRG
+   64 DATALISTE: DATALISTE . VIRGULE DATA
+
+    PARENTFERM  décalage et aller à l'état 132
+    VIRGULE     décalage et aller à l'état 133
+
+
+État 114
+
+   62 DATALISTE: VIDE .
+
+    $défaut  réduction par utilisation de la règle 62 (DATALISTE)
+
+
+État 115
+
+   23 INSTRUCTION: VARIABLE EGAL NEW NOM . PARENTOUVR DATALISTE PARENTFERM PTVIRG
+
+    PARENTOUVR  décalage et aller à l'état 134
+
+
+État 116
+
+   27 AFFECTATION: VARIABLE EGAL DATA PTVIRG .
+
+    $défaut  réduction par utilisation de la règle 27 (AFFECTATION)
+
+
+État 117
+
+   14 CONSTRUCTEUR: CONSTRUCTOR PARENTOUVR . NOMS PARENTFERM ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM
+
+    NOM  décalage et aller à l'état 135
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    NOMS  aller à l'état 136
+    VIDE  aller à l'état 137
+
+
+État 118
+
+   27 AFFECTATION: VARIABLE EGAL . DATA PTVIRG
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 91
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 119
+
+   28 AFFECTATION: NOM POINT NOM EGAL DATA . PTVIRG
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+
+    PLUS    décalage et aller à l'état 43
+    MOINS   décalage et aller à l'état 44
+    MULT    décalage et aller à l'état 45
+    DIV     décalage et aller à l'état 46
+    MOD     décalage et aller à l'état 47
+    PTVIRG  décalage et aller à l'état 138
+
+
+État 120
+
+   44 TEST: PARENTOUVR COMPARAISON PARENTFERM .
+
+    $défaut  réduction par utilisation de la règle 44 (TEST)
+
+
+État 121
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   52 COMPARAISON: DATA SUP DATA .
+
+    PLUS   décalage et aller à l'état 43
+    MOINS  décalage et aller à l'état 44
+    MULT   décalage et aller à l'état 45
+    DIV    décalage et aller à l'état 46
+    MOD    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 52 (COMPARAISON)
+
+
+État 122
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   53 COMPARAISON: DATA INF DATA .
+
+    PLUS   décalage et aller à l'état 43
+    MOINS  décalage et aller à l'état 44
+    MULT   décalage et aller à l'état 45
+    DIV    décalage et aller à l'état 46
+    MOD    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 53 (COMPARAISON)
+
+
+État 123
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   54 COMPARAISON: DATA SUPEGAL DATA .
+
+    PLUS   décalage et aller à l'état 43
+    MOINS  décalage et aller à l'état 44
+    MULT   décalage et aller à l'état 45
+    DIV    décalage et aller à l'état 46
+    MOD    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 54 (COMPARAISON)
+
+
+État 124
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   55 COMPARAISON: DATA INFEGAL DATA .
+
+    PLUS   décalage et aller à l'état 43
+    MOINS  décalage et aller à l'état 44
+    MULT   décalage et aller à l'état 45
+    DIV    décalage et aller à l'état 46
+    MOD    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 55 (COMPARAISON)
+
+
+État 125
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   51 COMPARAISON: DATA EGALEGAL DATA .
+
+    PLUS   décalage et aller à l'état 43
+    MOINS  décalage et aller à l'état 44
+    MULT   décalage et aller à l'état 45
+    DIV    décalage et aller à l'état 46
+    MOD    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 51 (COMPARAISON)
+
+
+État 126
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   56 COMPARAISON: DATA DIFFERENT DATA .
+
+    PLUS   décalage et aller à l'état 43
+    MOINS  décalage et aller à l'état 44
+    MULT   décalage et aller à l'état 45
+    DIV    décalage et aller à l'état 46
+    MOD    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 56 (COMPARAISON)
+
+
+État 127
+
+   45 TEST: TEST . AND TEST
+   45     | TEST AND TEST .
+   46     | TEST . OR TEST
+
+    $défaut  réduction par utilisation de la règle 45 (TEST)
+
+
+État 128
+
+   45 TEST: TEST . AND TEST
+   46     | TEST . OR TEST
+   46     | TEST OR TEST .
+
+    $défaut  réduction par utilisation de la règle 46 (TEST)
+
+
+État 129
+
+   26 CONSEQUENCE: ACCOUVR . INSTRUCTION_LISTE ACCFERM
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    INSTRUCTION_LISTE  aller à l'état 139
+    VIDE               aller à l'état 37
+
+
+État 130
+
+   24 INSTRUCTION_IF: IF PARENTOUVR TEST PARENTFERM CONSEQUENCE . ELSE CONSEQUENCE
+   25               | IF PARENTOUVR TEST PARENTFERM CONSEQUENCE .
+
+    ELSE  décalage et aller à l'état 140
+
+    $défaut  réduction par utilisation de la règle 25 (INSTRUCTION_IF)
+
+
+État 131
+
+   20 INSTRUCTION: WHILE PARENTOUVR TEST PARENTFERM CONSEQUENCE .
+
+    $défaut  réduction par utilisation de la règle 20 (INSTRUCTION)
+
+
+État 132
+
+   22 INSTRUCTION: NEW NOM PARENTOUVR DATALISTE PARENTFERM . PTVIRG
+
+    PTVIRG  décalage et aller à l'état 141
+
+
+État 133
+
+   64 DATALISTE: DATALISTE VIRGULE . DATA
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    DATA       aller à l'état 142
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    NOMBRE     aller à l'état 33
+
+
+État 134
+
+   23 INSTRUCTION: VARIABLE EGAL NEW NOM PARENTOUVR . DATALISTE PARENTFERM PTVIRG
+
+    ENTIER      décalage et aller à l'état 22
+    REEL        décalage et aller à l'état 23
+    NOM         décalage et aller à l'état 10
+    CHAINE      décalage et aller à l'état 24
+    TRUE        décalage et aller à l'état 25
+    FALSE       décalage et aller à l'état 26
+    MOINS       décalage et aller à l'état 27
+    ABS         décalage et aller à l'état 28
+    PARENTOUVR  décalage et aller à l'état 29
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    DATA       aller à l'état 112
+    OPERATION  aller à l'état 31
+    VARIABLE   aller à l'état 32
+    DATALISTE  aller à l'état 143
+    NOMBRE     aller à l'état 33
+    VIDE       aller à l'état 114
+
+
+État 135
+
+   60 NOMS: NOM .
+
+    $défaut  réduction par utilisation de la règle 60 (NOMS)
+
+
+État 136
+
+   14 CONSTRUCTEUR: CONSTRUCTOR PARENTOUVR NOMS . PARENTFERM ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM
+   61 NOMS: NOMS . VIRGULE NOM
+
+    PARENTFERM  décalage et aller à l'état 144
+    VIRGULE     décalage et aller à l'état 145
+
+
+État 137
+
+   59 NOMS: VIDE .
+
+    $défaut  réduction par utilisation de la règle 59 (NOMS)
+
+
+État 138
+
+   28 AFFECTATION: NOM POINT NOM EGAL DATA PTVIRG .
+
+    $défaut  réduction par utilisation de la règle 28 (AFFECTATION)
+
+
+État 139
+
+   18 INSTRUCTION_LISTE: INSTRUCTION_LISTE . INSTRUCTION
+   26 CONSEQUENCE: ACCOUVR INSTRUCTION_LISTE . ACCFERM
+
+    NOM      décalage et aller à l'état 50
+    IF       décalage et aller à l'état 51
+    WHILE    décalage et aller à l'état 52
+    NEW      décalage et aller à l'état 53
+    ACCFERM  décalage et aller à l'état 146
+
+    INSTRUCTION     aller à l'état 55
+    INSTRUCTION_IF  aller à l'état 56
+    AFFECTATION     aller à l'état 57
+    VARIABLE        aller à l'état 58
+
+
+État 140
+
+   24 INSTRUCTION_IF: IF PARENTOUVR TEST PARENTFERM CONSEQUENCE ELSE . CONSEQUENCE
+
+    ACCOUVR  décalage et aller à l'état 129
+
+    CONSEQUENCE  aller à l'état 147
+
+
+État 141
+
+   22 INSTRUCTION: NEW NOM PARENTOUVR DATALISTE PARENTFERM PTVIRG .
+
+    $défaut  réduction par utilisation de la règle 22 (INSTRUCTION)
+
+
+État 142
+
+   36 OPERATION: DATA . PLUS DATA
+   37          | DATA . MOINS DATA
+   38          | DATA . MULT DATA
+   39          | DATA . DIV DATA
+   40          | DATA . MOD DATA
+   64 DATALISTE: DATALISTE VIRGULE DATA .
+
+    PLUS   décalage et aller à l'état 43
+    MOINS  décalage et aller à l'état 44
+    MULT   décalage et aller à l'état 45
+    DIV    décalage et aller à l'état 46
+    MOD    décalage et aller à l'état 47
+
+    $défaut  réduction par utilisation de la règle 64 (DATALISTE)
+
+
+État 143
+
+   23 INSTRUCTION: VARIABLE EGAL NEW NOM PARENTOUVR DATALISTE . PARENTFERM PTVIRG
+   64 DATALISTE: DATALISTE . VIRGULE DATA
+
+    PARENTFERM  décalage et aller à l'état 148
+    VIRGULE     décalage et aller à l'état 133
+
+
+État 144
+
+   14 CONSTRUCTEUR: CONSTRUCTOR PARENTOUVR NOMS PARENTFERM . ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM
+
+    ACCOUVR  décalage et aller à l'état 149
+
+
+État 145
+
+   61 NOMS: NOMS VIRGULE . NOM
+
+    NOM  décalage et aller à l'état 150
+
+
+État 146
+
+   26 CONSEQUENCE: ACCOUVR INSTRUCTION_LISTE ACCFERM .
+
+    $défaut  réduction par utilisation de la règle 26 (CONSEQUENCE)
+
+
+État 147
+
+   24 INSTRUCTION_IF: IF PARENTOUVR TEST PARENTFERM CONSEQUENCE ELSE CONSEQUENCE .
+
+    $défaut  réduction par utilisation de la règle 24 (INSTRUCTION_IF)
+
+
+État 148
+
+   23 INSTRUCTION: VARIABLE EGAL NEW NOM PARENTOUVR DATALISTE PARENTFERM . PTVIRG
+
+    PTVIRG  décalage et aller à l'état 151
+
+
+État 149
+
+   14 CONSTRUCTEUR: CONSTRUCTOR PARENTOUVR NOMS PARENTFERM ACCOUVR . DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    DECLARATION_VAR_LISTE  aller à l'état 152
+    VIDE                   aller à l'état 19
+
+
+État 150
+
+   61 NOMS: NOMS VIRGULE NOM .
+
+    $défaut  réduction par utilisation de la règle 61 (NOMS)
+
+
+État 151
+
+   23 INSTRUCTION: VARIABLE EGAL NEW NOM PARENTOUVR DATALISTE PARENTFERM PTVIRG .
+
+    $défaut  réduction par utilisation de la règle 23 (INSTRUCTION)
+
+
+État 152
+
+    9 DECLARATION_VAR_LISTE: DECLARATION_VAR_LISTE . DECLARATION_VAR
+   14 CONSTRUCTEUR: CONSTRUCTOR PARENTOUVR NOMS PARENTFERM ACCOUVR DECLARATION_VAR_LISTE . INSTRUCTION_LISTE ACCFERM
+
+    VAR  décalage et aller à l'état 4
+
+    $défaut  réduction par utilisation de la règle 67 (VIDE)
+
+    DECLARATION_VAR    aller à l'état 35
+    INSTRUCTION_LISTE  aller à l'état 153
+    VIDE               aller à l'état 37
+
+
+État 153
+
+   14 CONSTRUCTEUR: CONSTRUCTOR PARENTOUVR NOMS PARENTFERM ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE . ACCFERM
+   18 INSTRUCTION_LISTE: INSTRUCTION_LISTE . INSTRUCTION
+
+    NOM      décalage et aller à l'état 50
+    IF       décalage et aller à l'état 51
+    WHILE    décalage et aller à l'état 52
+    NEW      décalage et aller à l'état 53
+    ACCFERM  décalage et aller à l'état 154
+
+    INSTRUCTION     aller à l'état 55
+    INSTRUCTION_IF  aller à l'état 56
+    AFFECTATION     aller à l'état 57
+    VARIABLE        aller à l'état 58
+
+
+État 154
+
+   14 CONSTRUCTEUR: CONSTRUCTOR PARENTOUVR NOMS PARENTFERM ACCOUVR DECLARATION_VAR_LISTE INSTRUCTION_LISTE ACCFERM .
+
+    $défaut  réduction par utilisation de la règle 14 (CONSTRUCTEUR)

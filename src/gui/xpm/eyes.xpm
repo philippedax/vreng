@@ -1,0 +1,23 @@
+/* XPM */
+static const char * eyes_xpm[] = {
+"16 14 5 1",
+"       c None s None",
+".      c black",
+"O      c gray50",
+"X      c gray85",
+"o      c white",
+"                ",
+"                ",
+"  ....   ....   ",
+" .XooX. .XooX.  ",
+".XooooX.XooooX. ",
+".oooooo.oooooo.O",
+".oooooo.oooooo.O",
+".o..ooo.o..ooo.O",
+".X..ooX.X..ooX.O",
+" .XooX.O.XooX.OO",
+"  ....OO ....OO ",
+"   OOOO   OOOO  ",
+"                ",
+"                "};
+

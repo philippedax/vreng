@@ -1,0 +1,493 @@
+------------------------------------------------
+------------------------------------------------ uappli.cpp
+684c684
+< void UErrorHandler::warning(const char* fun, const char* format, ...) const throw (UError) {
+---
+> void UErrorHandler::warning(const char* fun, const char* format, ...) throw (UError) {
+691c691
+< void UErrorHandler::error(const char* fun, const char* format, ...) const throw (UError) {
+---
+> void UErrorHandler::error(const char* fun, const char* format, ...) throw (UError) {
+699c699
+<                           const char* format, ...) const throw (UError) {
+---
+>                           const char* format, ...) throw (UError) {
+708c708
+<                                 const char* msg2, const UChar* line) const throw (UError) {
+---
+>                                 const char* msg2, const UChar* line) throw (UError) {
+740c740
+<                                const char* format, va_list ap) const throw (UError) {
+---
+>                                const char* format, va_list ap) throw (UError) {
+748c748
+< void UErrorHandler::raiseError(int errnum, UStr* msg) const throw (UError) {
+---
+> void UErrorHandler::raiseError(int errnum, UStr* msg) throw (UError) {
+761c761
+< void UErrorHandler::formatMessage(UError& e, const char* format, va_list ap) const {
+---
+> void UErrorHandler::formatMessage(UError& e, const char* format, va_list ap) {
+829c829
+< void UErrorHandler::printOnStream(const UError& e) const {
+---
+> void UErrorHandler::printOnStream(const UError& e) {
+838c838
+< void UErrorHandler::printOnBuffer(const UError& e) const {
+---
+> void UErrorHandler::printOnBuffer(const UError& e) {
+
+------------------------------------------------ uappli.hpp
+433c433
+<     virtual void warning(const char* funcname, const char* format, ...) const throw (UError);
+---
+>     virtual void warning(const char* funcname, const char* format, ...) throw (UError);
+436c436
+<     virtual void error(const char* funcname, const char* format, ...) const throw (UError);
+---
+>     virtual void error(const char* funcname, const char* format, ...) throw (UError);
+440c440
+<                        const char* format, ...) const throw (UError);
+---
+>                        const char* format, ...) throw (UError);
+445c445
+<                                   const char* msg_end, const UChar* line) const throw (UError);
+---
+>                                   const char* msg_end, const UChar* line) throw (UError);
+449c449
+<                             const char* format, va_list) const throw (UError);
+---
+>                             const char* format, va_list) throw (UError);
+461c461
+<     virtual void raiseError(int errnum, UStr* msg) const throw (UError);
+---
+>     virtual void raiseError(int errnum, UStr* msg) throw (UError);
+464,466c464,466
+<     virtual void formatMessage(UError&, const char* format, va_list) const;
+<     virtual void printOnStream(const UError&) const;
+<     virtual void printOnBuffer(const UError&) const;
+---
+>     virtual void formatMessage(UError&, const char* format, va_list);
+>     virtual void printOnStream(const UError&) ;
+>     virtual void printOnBuffer(const UError&) ;
+
+------------------------------------------------ uappliImpl.hpp
+31,32c31
+<   class UpdateRequest {
+<   public:
+---
+>   struct UpdateRequest {
+
+------------------------------------------------ uattr.hpp
+272c272
+<     //bool changed;
+---
+>     bool changed;
+
+------------------------------------------------ uboxgeom.hpp
+162,163c162
+<   class UPosControl : public UAttr {
+<   public:
+---
+>   struct UPosControl : public UAttr {
+199,200c198
+<   class UMagicLensControl : public UPosControl {
+<   public:
+---
+>   struct UMagicLensControl : public UPosControl {
+287,288c285
+<   class USizeControl : public UAttr {
+<   public:
+---
+>   struct USizeControl : public UAttr {
+
+------------------------------------------------ ucall.hpp
+20d19
+< #include <ubit/uevent.hpp>
+165,166c164,165
+<         return null;
+<         //return (E*)&e; !!!
+---
+>         //return null;
+>         return (E*)&e;
+
+------------------------------------------------ uchild.hpp
+51,54c51,52
+< class _UChildIter : public _Iter {
+< public:
+<   //_UChildIter() : _Iter(null) {}       // !ATT: peut poser probleme si pas g++ !
+<   _UChildIter() : _Iter() {}
+---
+> struct _UChildIter : public _Iter {
+>   _UChildIter() : _Iter(null) {}       // !ATT: peut poser probleme si pas g++ !
+
+------------------------------------------------ ucolor.hpp
+24,25c24
+<   class URgba {
+<   public:
+---
+>   struct URgba {
+
+------------------------------------------------ uconf.cpp
+17a18
+> #include "config.h"	// LINUX
+107a109,118
+> #if LINUX
+>   //regular
+>   (XFT_DIR"UTRG____.pfa,"LFT_DIR"UTRG____.pfa",   //-adobe-utopia-medium-r-normal--0-0-0-0-p-0-iso8859-1
+>    //bold
+>    XFT_DIR"UTB_____.pfa,"LFT_DIR"UTB_____.pfa",   //-adobe-utopia-bold-r-normal--0-0-0-0-p-0-iso8859-1
+>    //italic
+>    XFT_DIR"UTI_____.pfa,"LFT_DIR"UTI_____.pfa",   //-adobe-utopia-medium-i-normal--0-0-0-0-p-0-iso8859-1
+>    //bolditalic
+>    XFT_DIR"UTBI____.pfa,"LFT_DIR"UTBI____.pfa");  //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
+> #else
+115a127
+> #endif
+119a132,141
+> #if LINUX
+>     //regular
+>     (XFT_DIR"UTRG____.pfa,"LFT_DIR"UTRG____.pfa,"OFT_DIR"Arial.ttf",  //-adobe-utopia-medium-r-normal--0-0-0-0-p-0-iso8859-1
+>      //bold
+>      XFT_DIR"UTB_____.pfa,"LFT_DIR"UTB_____.pfa,"OFT_DIR"Arial-Bold.ttf", //-adobe-utopia-bold-r-normal--0-0-0-0-p-0-iso8859-1
+>      //italic
+>      XFT_DIR"UTI_____.pfa,"LFT_DIR"UTI_____.pfa,"OFT_DIR"Arial-Italic.ttf", //-adobe-utopia-medium-i-normal--0-0-0-0-p-0-iso8859-1
+>      //bolditalic
+>      XFT_DIR"UTBI____.pfa,"LFT_DIR"UTBI____.pfa,"OFT_DIR"Arial-BoldItalic.ttf"); //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
+> #else
+127a150
+> #endif
+451,452c474
+< class UOptionArg {
+< public:
+---
+> struct UOptionArg {
+458,459c480
+< class UOptionBoolArg : public UOptionArg {
+< public:
+---
+> struct UOptionBoolArg : public UOptionArg {
+466,467c487
+< class UOptionIntArg : public UOptionArg {
+< public:
+---
+> struct UOptionIntArg : public UOptionArg {
+474,475c494
+< class UOptionFloatArg : public UOptionArg {
+< public:
+---
+> struct UOptionFloatArg : public UOptionArg {
+482,483c501
+< class UOptionStrArg : public UOptionArg {
+< public:
+---
+> struct UOptionStrArg : public UOptionArg {
+490,491c508
+< class UOptionC_StrArg : public UOptionArg {
+< public:
+---
+> struct UOptionC_StrArg : public UOptionArg {
+498,499c515
+< class UOptionCC_StrArg : public UOptionArg {
+< public:
+---
+> struct UOptionCC_StrArg : public UOptionArg {
+
+------------------------------------------------ uconf.hpp
+51,52c51
+< class UOption {
+< public:
+---
+> struct UOption {
+
+------------------------------------------------ udefs.hpp
+30c30
+< #define null NULL
+---
+> #define null 0
+167,176c167,176
+<   class UUnit;
+<   class ULength;
+<   class UPoint;
+<   class UDimension;
+<   class UShape;
+<   class ULine;
+<   class URect;
+<   class UEllipse;
+<   class UArc;
+<   class UPolygon;
+---
+>   struct UUnit;
+>   struct ULength;  
+>   struct UPoint;
+>   struct UDimension;
+>   struct UShape;
+>   struct ULine;
+>   struct URect;
+>   struct UEllipse;
+>   struct UArc;
+>   struct UPolygon;
+238c238
+<   class UBehavior;
+---
+>   struct UBehavior;
+
+------------------------------------------------ udispGLUT.cpp
+29,30c29,30
+< #include <ubit/nat/udispGLUT.hpp>
+< #include <ubit/nat/urendercontext.hpp>
+---
+> #include <ubit/udispGLUT.hpp>
+> #include <ubit/urendercontext.hpp>
+
+------------------------------------------------ udispX11.cpp
+24a25
+> #if HAVE_LIBXMU
+25a27
+> #endif
+289c291
+<   //cerr << "OpenGL version: "<< glxmajor <<"."<<glxminor << endl;
+---
+>   cerr << "OpenGL version: "<< glxmajor <<"."<<glxminor << endl;
+291a294
+>   cerr << "find visual: "<<r <<" "<<g <<" "<<b <<" "<<a <<" "<<depth << endl;
+517a521
+> #if HAVE_LIBXMU
+524a529
+> #endif
+739c744
+<       UAppli::warning("UDispX11::startLoop","error in select()");
+---
+>       //dax UAppli::warning("UDispX11::startLoop","error in select()");
+
+------------------------------------------------ udispX11.hpp
+36,37c36
+< class UCursorImpl {
+< public:
+---
+> struct UCursorImpl {
+
+------------------------------------------------ uevent.cpp
+36d35
+< using namespace std;
+
+------------------------------------------------ uevent.hpp
+524,526c524,525
+<   class UDataContext {
+<   public:
+<     UDataContext();
+---
+>   struct UDataContext {
+>     UDataContext(); 
+
+------------------------------------------------ ufinderImpl.hpp
+54,55c54
+<   class UFinderHost : public UBox {   // UVbox
+<   public:
+---
+>   struct UFinderHost : public UBox {   // UVbox
+84,85c83
+<   class UFinderCom {
+<   public:
+---
+>   struct UFinderCom {
+
+------------------------------------------------ uflag.hpp
+48,49d47
+<     
+<     UFlag() {}
+
+------------------------------------------------ ufontImpl.hpp
+24,25c24
+<   class UFontDesc {
+<   public:
+---
+>   struct UFontDesc {
+
+------------------------------------------------ ufontmetrics.hpp
+21,22c21
+< class UFontMetrics {
+< public:
+---
+> struct UFontMetrics {
+
+------------------------------------------------ ugeom.hpp
+25,26c25
+<   class UPoint {
+<   public:
+---
+>   struct UPoint {
+55,56c54
+<   class UDimension {
+<   public:
+---
+>   struct UDimension {
+118,119c116
+<   class ULine : public UShape {
+<   public:
+---
+>   struct ULine : public UShape {
+165,166c162
+<   class URect : public UShape {
+<   public:
+---
+>   struct URect : public UShape {
+216,217c212
+<   class UEllipse : public UShape {
+<   public:
+---
+>   struct UEllipse : public UShape {
+
+------------------------------------------------ ugraph.hpp
+44c44
+< class UGraph : public UGraphAttributes {
+---
+> struct UGraph : public UGraphAttributes {
+
+------------------------------------------------ uhardfont.hpp
+35,36c35
+< class UHardFont {
+< public:
+---
+> struct UHardFont {
+
+------------------------------------------------ ulength.hpp
+22,23c22
+<   class UUnit {
+<   public:
+---
+>   struct UUnit {
+59,60c58,59
+<   class ULength {
+<   public:
+---
+>   struct ULength {
+>     
+
+------------------------------------------------ uobject.hpp
+27,28c27
+<   class UError : public std::exception {
+<   public:
+---
+>   struct UError : public std::exception {
+
+------------------------------------------------ uparent.hpp
+57,58c57
+< class UParents : public std::list<UParent> {
+< public:
+---
+> struct UParents : public std::list<UParent> {
+
+------------------------------------------------ usocket.hpp
+218,219c218
+< class UIObuf {
+< public:
+---
+> struct UIObuf {
+248,249c247
+< class UOutbuf : public UIObuf {
+< public:
+---
+> struct UOutbuf : public UIObuf {  
+264,265c262
+< class UInbuf : public UIObuf {
+< public:
+---
+> struct UInbuf : public UIObuf {
+
+------------------------------------------------ utimer.cpp
+272,273c272,273
+<   mintime.tv_sec  = LONG_MAX;
+<   mintime.tv_usec = LONG_MAX;
+---
+>   mintime.tv_sec  = (time_t) LONG_MAX;
+>   mintime.tv_usec = (time_t) LONG_MAX;
+
+------------------------------------------------ utimer.hpp
+127,128c127
+<   class UTimerImpl {
+<   public:
+---
+>   struct UTimerImpl {
+
+------------------------------------------------ uviewflow.cpp
+38,39c38
+< class UFlowCell {
+< public:
+---
+> struct UFlowCell {
+46,47c45
+< class UFlowLine {
+< public:
+---
+> struct UFlowLine {
+139,140c137
+< class UFlowLayoutImpl : public UViewLayoutImpl {
+< public:
+---
+> struct UFlowLayoutImpl : public UViewLayoutImpl {
+491,492c488
+< class UFlowUpdateImpl : public UViewUpdateImpl {
+< public:
+---
+> struct UFlowUpdateImpl : public UViewUpdateImpl {
+
+------------------------------------------------ uviewImpl.hpp
+30,31c30
+<   class UBehavior {
+<   public:
+---
+>   struct UBehavior {
+47,48c46
+<   class UViewProp {
+<   public:
+---
+>   struct UViewProp {
+78,79c76
+<   class UViewContext {
+<   public:
+---
+>   struct UViewContext {
+92,93c89
+<   class UViewFind {
+<   public:
+---
+>   struct UViewFind {
+114,115c110
+<   class UViewLayout {
+<   public:
+---
+>   struct UViewLayout {
+123,124c118
+<   class UViewLayoutImpl {
+<   public:
+---
+>   struct UViewLayoutImpl {
+141,142c135
+<   class UViewUpdate {
+<   public:
+---
+>   struct UViewUpdate {
+178,179c171
+<   class UViewUpdateImpl : public URect {
+<   public:
+---
+>   struct UViewUpdateImpl : public URect {
+203,204c195
+<   class UMultiList {
+<   public:
+---
+>   struct UMultiList {
+
+------------------------------------------------ uviewupdate.cpp
+113c113
+<       bool blend_paint = (ctx.local.alpha == 1.) ? false : true;
+---
+>       //DAX bool blend_paint = (ctx.local.alpha == 1.) ? false : true;
+
+------------------------------------------------ uwin.hpp
+309,310c309
+<   class UWinPlacement {
+<   public:
+---
+>   struct UWinPlacement {

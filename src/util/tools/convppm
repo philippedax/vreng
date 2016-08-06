@@ -1,0 +1,2 @@
+#!/bin/zsh
+cat $1 | ppmquant 256 | ppmtogif -interlace > ${1%.ppm}.gif

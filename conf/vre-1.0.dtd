@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY Pub-Status "This is a pre-release of the specification.">
+
+<!-- global declaration, there must be one head and one scene -->
+<!-- VRE -->
+<!ELEMENT vre		(head, scene)>
+<!ATTLIST vre		profile	NMTOKEN #IMPLIED>
+<!ATTLIST vre		version	NMTOKEN #IMPLIED>
+
+<!-- we want at least one meta information about the file -->
+<!-- HEAD -->
+<!ELEMENT head		(meta+)>
+
+<!-- META -->
+<!-- meta could contain lot of fields as "author" "filename" etc. -->
+<!ELEMENT meta		EMPTY>
+<!ATTLIST meta		name	(url | filename | description | keyword | author | date | created | revised) #IMPLIED>
+<!ATTLIST meta		content	CDATA #IMPLIED>
+<!ATTLIST meta		http-equiv (refresh | static) #IMPLIED>
+
+<!-- all possible objects we want at least one element -->
+<!-- SCENE -->
+<!ELEMENT scene (
+		accessory | android | animator | animx3d | aoi | area |
+		bgcolor | board | book | bumper | button | 
+		cauldron | clip | clock | cloud | cloth |
+		doc | door | dress |
+		entry | escalator |
+		fire | firework | flag | fountain | ftp |
+		gate | ground | guide | guy | 
+		haid | hairs | halo | hat | host |
+		lift | light | local |
+		mech | mirage | mirror | model | movie | music |
+		particle | plane |
+		rain | river |
+		slider | smoke | snow | spiral | stair | stars | step | sun |
+		terrain | text | thing | thunder | travelator |
+		vjc | vnc | vrelet | 
+		wall | walls | water | waterfall | web | widget | wind | wings
+		)+
+>
+
+<!-- alphabetic sort of main token -->
+
+<!ELEMENT accessory	(solid)>
+<!ATTLIST accessory	pos	NMTOKENS #REQUIRED>
+<!ATTLIST accessory	name	NMTOKEN #IMPLIED>
+<!ATTLIST accessory	descr	NMTOKENS #IMPLIED>
+<!ATTLIST accessory	speed	NMTOKEN "0.1">
+<!ATTLIST accessory	slowx	NMTOKEN "50">
+<!ATTLIST accessory	slowy	NMTOKEN "50">
+<!ATTLIST accessory	slowz	NMTOKEN "50">
+<!ATTLIST accessory	shiftx	NMTOKEN "0">
+<!ATTLIST accessory	shifty	NMTOKEN "0">
+<!ATTLIST accessory	shiftz	NMTOKEN "0">
+
+<!ELEMENT android	EMPTY>
+<!ATTLIST android	pos	NMTOKENS #REQUIRED>
+<!ATTLIST android	name	NMTOKEN #IMPLIED>
+<!ATTLIST android	descr	NMTOKENS #IMPLIED>
+<!ATTLIST android	body	CDATA #REQUIRED>
+<!ATTLIST android	face	CDATA #IMPLIED>
+<!ATTLIST android	color	NMTOKENS #IMPLIED>
+<!ATTLIST android	server	NMTOKEN #IMPLIED>
+
+<!ELEMENT animator	(solid+)>
+<!ATTLIST animator	pos	NMTOKENS #REQUIRED>
+<!ATTLIST animator	name	NMTOKEN #IMPLIED>
+<!ATTLIST animator	descr	NMTOKENS #IMPLIED>
+<!ATTLIST animator	state	(0 | 1) "0">
+<!ATTLIST animator	begin	NMTOKEN "0">
+<!ATTLIST animator	ttl	NMTOKEN "0">
+
+<!ELEMENT animx3d	EMPTY>
+<!ATTLIST animx3d	pos	CDATA #REQUIRED>
+<!ATTLIST animx3d	name	NMTOKEN #IMPLIED>
+<!ATTLIST animx3d	descr	NMTOKENS #IMPLIED>
+<!ATTLIST animx3d	url	CDATA #REQUIRED>
+<!ATTLIST animx3d	dim	CDATA #IMPLIED>
+
+<!ELEMENT aoi		(solid?)>
+<!ATTLIST aoi		pos	NMTOKENS #REQUIRED>
+<!ATTLIST aoi		name	NMTOKEN #IMPLIED>
+<!ATTLIST aoi		descr	NMTOKENS #IMPLIED>
+<!ATTLIST aoi		channel	CDATA #REQUIRED>
+
+<!ELEMENT area		EMPTY>
+<!ATTLIST area		pos	NMTOKENS #REQUIRED>
+<!ATTLIST area		name	NMTOKEN #REQUIRED>
+<!ATTLIST area		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT bgcolor	EMPTY>
+<!ATTLIST bgcolor	color	NMTOKENS #REQUIRED>
+
+<!ELEMENT board		(solid)>
+<!ATTLIST board		pos	NMTOKENS #REQUIRED>
+<!ATTLIST board		name	NMTOKEN #IMPLIED>
+<!ATTLIST board		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT book		(solid)>
+<!ATTLIST book		pos	NMTOKENS #REQUIRED>
+<!ATTLIST book		name	NMTOKEN #IMPLIED>
+<!ATTLIST book		descr	NMTOKENS #IMPLIED>
+<!ATTLIST book		url	CDATA #REQUIRED>
+
+<!ELEMENT bumper	(solid)>
+<!ATTLIST bumper	pos	NMTOKENS #REQUIRED>
+<!ATTLIST bumper	name	NMTOKEN #IMPLIED>
+<!ATTLIST bumper	descr	NMTOKENS #IMPLIED>
+<!ATTLIST bumper	forcex	NMTOKEN "1">
+<!ATTLIST bumper	forcey	NMTOKEN "1">
+<!ATTLIST bumper	forcez	NMTOKEN "1">
+
+<!ELEMENT button	(solid)>
+<!ATTLIST button	pos	NMTOKENS #REQUIRED>
+<!ATTLIST button	name	NMTOKEN #IMPLIED>
+<!ATTLIST button	descr	NMTOKENS #IMPLIED>
+<!ATTLIST button	use	NMTOKEN #REQUIRED>
+<!ATTLIST button	method0	NMTOKEN #REQUIRED>
+<!ATTLIST button	method1	NMTOKEN #IMPLIED>
+<!ATTLIST button	state	(0 | 1) "0">
+
+<!ELEMENT cauldron	(solid)>
+<!ATTLIST cauldron	pos	NMTOKENS #REQUIRED>
+<!ATTLIST cauldron	name	NMTOKEN #IMPLIED>
+<!ATTLIST cauldron	descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT clip		(solid+)>
+<!ATTLIST clip		pos	NMTOKENS #REQUIRED>
+<!ATTLIST clip		name	NMTOKEN #IMPLIED>
+<!ATTLIST clip		descr	NMTOKENS #IMPLIED>
+<!ATTLIST clip		url	CDATA #REQUIRED>
+
+<!ELEMENT clock		(solid)>
+<!ATTLIST clock		pos	NMTOKENS #REQUIRED>
+<!ATTLIST clock		name	NMTOKEN #IMPLIED>
+<!ATTLIST clock		descr	NMTOKENS #IMPLIED>
+<!ATTLIST clock		needle	(s | m | h | sec | min | hour) #REQUIRED>
+
+<!ELEMENT cloud		EMPTY>
+<!ATTLIST cloud		pos	NMTOKENS #REQUIRED>
+<!ATTLIST cloud		name	NMTOKEN #IMPLIED>
+<!ATTLIST cloud		descr	NMTOKENS #IMPLIED>
+<!ATTLIST cloud		number	NMTOKEN "200">
+<!ATTLIST cloud		speed	NMTOKEN "0.025">
+
+<!ELEMENT cloth		EMPTY>
+<!ATTLIST cloth		pos	NMTOKENS #REQUIRED>
+<!ATTLIST cloth		name	NMTOKEN #IMPLIED>
+<!ATTLIST cloth		descr	NMTOKENS #IMPLIED>
+<!ATTLIST cloth		article	(halo | hat | dress | wings) #REQUIRED>
+<!ATTLIST cloth		color	NMTOKENS #IMPLIED>
+
+<!ELEMENT doc		(solid)>
+<!ATTLIST doc		pos	NMTOKENS #REQUIRED>
+<!ATTLIST doc		name	NMTOKEN #IMPLIED>
+<!ATTLIST doc		descr	NMTOKENS #IMPLIED>
+<!ATTLIST doc		url	CDATA #REQUIRED>
+
+<!ELEMENT door		(solid)>
+<!ATTLIST door		pos	NMTOKENS #REQUIRED>
+<!ATTLIST door		name	NMTOKEN #REQUIRED>
+<!ATTLIST door		descr	NMTOKENS #IMPLIED>
+<!ATTLIST door		open	NMTOKEN #REQUIRED>
+<!ATTLIST door		close	NMTOKEN #REQUIRED>
+<!ATTLIST door		speed	NMTOKEN "1">
+
+<!ELEMENT dress		(solid+)>
+<!ATTLIST dress		pos	NMTOKENS #REQUIRED>
+<!ATTLIST dress		name	NMTOKEN #IMPLIED>
+<!ATTLIST dress		descr	NMTOKENS #IMPLIED>
+<!ATTLIST dress		model	(spires | bands | roses) #IMPLIED>
+
+<!ELEMENT entry		EMPTY>
+<!ATTLIST entry		pos	NMTOKENS #REQUIRED>
+<!ATTLIST entry		name	NMTOKEN #IMPLIED>
+<!ATTLIST entry		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT escalator	(solid+)>
+<!ATTLIST escalator	pos	NMTOKENS #REQUIRED>
+<!ATTLIST escalator	name	NMTOKEN #IMPLIED>
+<!ATTLIST escalator	descr	NMTOKENS #IMPLIED>
+<!ATTLIST escalator	dir	(up | down | horizontal) "up">
+<!ATTLIST escalator	height	NMTOKEN "0">
+<!ATTLIST escalator	length	NMTOKEN "0">
+<!ATTLIST escalator	speed	NMTOKEN "0.5">
+
+<!ELEMENT fire		EMPTY>
+<!ATTLIST fire		pos	NMTOKENS #REQUIRED>
+<!ATTLIST fire		name	NMTOKEN #IMPLIED>
+<!ATTLIST fire		descr	NMTOKENS #IMPLIED>
+<!ATTLIST fire		number	NMTOKEN "1000">
+<!ATTLIST fire		speed	NMTOKEN "1">
+<!ATTLIST fire		sound	NMTOKEN "0">
+
+<!ELEMENT firework	(solid)>
+<!ATTLIST firework	pos	NMTOKENS #REQUIRED>
+<!ATTLIST firework	name	NMTOKEN #IMPLIED>
+<!ATTLIST firework	descr	NMTOKENS #IMPLIED>
+<!ATTLIST firework	size	NMTOKEN "1">
+<!ATTLIST firework	speed	NMTOKEN "0">
+<!ATTLIST firework	ttl	NMTOKEN "20">
+<!ATTLIST firework	number	NMTOKEN "400">
+
+<!ELEMENT flag		EMPTY>
+<!ATTLIST flag		pos	NMTOKENS #REQUIRED>
+<!ATTLIST flag		name	NMTOKEN #IMPLIED>
+<!ATTLIST flag		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT fountain	EMPTY>
+<!ATTLIST fountain	pos	NMTOKENS #REQUIRED>
+<!ATTLIST fountain	name	NMTOKEN #IMPLIED>
+<!ATTLIST fountain	descr	NMTOKENS #IMPLIED>
+<!ATTLIST fountain	ground	NMTOKEN "0">
+<!ATTLIST fountain	size	NMTOKEN "1">
+<!ATTLIST fountain	speed	NMTOKEN "5">
+<!ATTLIST fountain	flow	NMTOKEN "500">
+<!ATTLIST fountain	number	NMTOKEN "5000">
+
+<!ELEMENT ftp		(solid)>
+<!ATTLIST ftp		pos	NMTOKENS #REQUIRED>
+<!ATTLIST ftp		name	NMTOKEN #IMPLIED>
+<!ATTLIST ftp		descr	NMTOKENS #IMPLIED>
+<!ATTLIST ftp		url	CDATA #REQUIRED>
+
+<!ELEMENT gate		(solid+)>
+<!ATTLIST gate		pos	NMTOKENS #REQUIRED>
+<!ATTLIST gate		name	NMTOKEN #IMPLIED>
+<!ATTLIST gate		descr	NMTOKENS #IMPLIED>
+<!ATTLIST gate		url	CDATA #REQUIRED>
+<!ATTLIST gate		channel	CDATA #IMPLIED>
+<!ATTLIST gate		entry	NMTOKENS #IMPLIED>
+<!ATTLIST gate		mode	(auto | link) #IMPLIED>
+
+<!ELEMENT ground	(solid+)>
+<!ATTLIST ground	pos	NMTOKENS #REQUIRED>
+<!ATTLIST ground	name	NMTOKEN #IMPLIED>
+<!ATTLIST ground	descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT guide		EMPTY>
+<!ATTLIST guide		pos	NMTOKENS #REQUIRED>
+<!ATTLIST guide		name	NMTOKEN #IMPLIED>
+<!ATTLIST guide		descr	NMTOKENS #IMPLIED>
+<!ATTLIST guide		path	NMTOKENS #REQUIRED>
+<!ATTLIST guide		color	NMTOKENS #IMPLIED>
+<!ATTLIST guide		mode	(one-way | round-trip | perpetual) "round-trip">
+
+<!ELEMENT guy		EMPTY>
+<!ATTLIST guy		pos	NMTOKENS #REQUIRED>
+<!ATTLIST guy		name	NMTOKEN #IMPLIED>
+<!ATTLIST guy		descr	NMTOKENS #IMPLIED>
+<!ATTLIST guy		url	CDATA #REQUIRED>
+<!ATTLIST guy		anim	(0 | 1) "0">
+<!ATTLIST guy		walk	(0 | 1) "0">
+<!ATTLIST guy		sex	(0 | 1) "0">
+<!ATTLIST guy		skin	NMTOKEN #IMPLIED>
+<!ATTLIST guy		bust	NMTOKEN #IMPLIED>
+<!ATTLIST guy		legs	NMTOKEN #IMPLIED>
+<!ATTLIST guy		feet	NMTOKEN #IMPLIED>
+
+<!ELEMENT hairs		EMPTY>
+<!ATTLIST hairs		pos	NMTOKENS #REQUIRED>
+<!ATTLIST hairs		name	NMTOKEN #IMPLIED>
+<!ATTLIST hairs		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT halo		(solid+)>
+<!ATTLIST halo		pos	NMTOKENS #REQUIRED>
+<!ATTLIST halo		name	NMTOKEN #IMPLIED>
+<!ATTLIST halo		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT hat		(solid+)>
+<!ATTLIST hat		pos	NMTOKENS #REQUIRED>
+<!ATTLIST hat		name	NMTOKEN #IMPLIED>
+<!ATTLIST hat		descr	NMTOKENS #IMPLIED>
+<!ATTLIST hat		model	(highform | boiler | cardinal | chinese | country) #IMPLIED>
+
+<!ELEMENT head		EMPTY>
+<!ATTLIST head		pos	NMTOKENS #REQUIRED>
+<!ATTLIST head		name	NMTOKEN #IMPLIED>
+<!ATTLIST head		descr	NMTOKENS #IMPLIED>
+<!ATTLIST head		url	CDATA #REQUIRED>
+<!ATTLIST head		scale	NMTOKEN "1">
+<!ATTLIST head		color	NMTOKENS "1 .75 .7">
+
+<!ELEMENT host		(solid+)>
+<!ATTLIST host		pos	NMTOKENS #REQUIRED>
+<!ATTLIST host		name	NMTOKEN #IMPLIED>
+<!ATTLIST host		descr	NMTOKENS #IMPLIED>
+<!ATTLIST host		host	NMTOKEN #REQUIRED>
+
+<!ELEMENT lift		(solid+)>
+<!ATTLIST lift		pos	NMTOKENS #REQUIRED>
+<!ATTLIST lift		name	NMTOKEN #IMPLIED>
+<!ATTLIST lift		descr	NMTOKENS #IMPLIED>
+<!ATTLIST lift		top	NMTOKEN #REQUIRED>
+<!ATTLIST lift		bot	NMTOKEN #REQUIRED>
+<!ATTLIST lift		height	NMTOKEN #REQUIRED>
+<!ATTLIST lift		speed	NMTOKEN "1">
+
+<!ELEMENT light		EMPTY>
+<!ATTLIST light		pos	NMTOKENS #IMPLIED>
+<!ATTLIST light		name	NMTOKEN #IMPLIED>
+<!ATTLIST light		descr	NMTOKENS #IMPLIED>
+<!ATTLIST light		fog	NMTOKEN "0">
+<!ATTLIST light		color	NMTOKENS #IMPLIED>
+
+<!ELEMENT local		(local | model | transform)*>
+<!ATTLIST local		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT mech		EMPTY>
+<!ATTLIST mech		pos	NMTOKENS #REQUIRED>
+<!ATTLIST mech		name	NMTOKEN #IMPLIED>
+<!ATTLIST mech		descr	NMTOKENS #IMPLIED>
+<!ATTLIST mech		anim	(0 | 1) "0">
+<!ATTLIST mech		walk	(0 | 1) "0">
+
+<!ELEMENT mirage	(solid+)>
+<!ATTLIST mirage	pos	NMTOKENS #REQUIRED>
+<!ATTLIST mirage	name	NMTOKEN #IMPLIED>
+<!ATTLIST mirage	descr	NMTOKENS #IMPLIED>
+<!ATTLIST mirage	mode	(turn | roll | tilt | orbit | circular | refresh | volatile) #IMPLIED>
+<!ATTLIST mirage	aspeed	NMTOKEN "-0.2">
+<!ATTLIST mirage	azspeed	NMTOKEN "-0.2">
+<!ATTLIST mirage	ayspeed	NMTOKEN "-0.2">
+<!ATTLIST mirage	axspeed	NMTOKEN "-0.2">
+<!ATTLIST mirage	radius	NMTOKEN #IMPLIED>
+<!ATTLIST mirage	flare	NMTOKEN #IMPLIED>
+
+<!ELEMENT mirror	(solid)>
+<!ATTLIST mirror	pos	NMTOKENS #REQUIRED>
+<!ATTLIST mirror	name	NMTOKEN #IMPLIED>
+<!ATTLIST mirror	descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT model		EMPTY>
+<!ATTLIST model		pos	NMTOKENS #IMPLIED>
+<!ATTLIST model		name	NMTOKEN #IMPLIED>
+<!ATTLIST model		descr	NMTOKENS #IMPLIED>
+<!ATTLIST model		url	CDATA #REQUIRED>
+<!ATTLIST model		scale	NMTOKEN "1">
+<!ATTLIST model		tex	CDATA #IMPLIED>
+<!ATTLIST model		sound	CDATA #IMPLIED>
+<!ATTLIST model		color	NMTOKENS #IMPLIED>
+
+<!ELEMENT movie		(solid+)>
+<!ATTLIST movie		pos	NMTOKENS #REQUIRED>
+<!ATTLIST movie		name	NMTOKEN #IMPLIED>
+<!ATTLIST movie		descr	NMTOKENS #IMPLIED>
+<!ATTLIST movie		url	CDATA #REQUIRED>
+<!ATTLIST movie		rate	NMTOKEN "10">
+
+<!ELEMENT music		(solid+)>
+<!ATTLIST music		pos	NMTOKENS #REQUIRED>
+<!ATTLIST music		name	NMTOKEN #IMPLIED>
+<!ATTLIST music		descr	NMTOKENS #IMPLIED>
+<!ATTLIST music		url	CDATA #REQUIRED>
+<!ATTLIST music		state	(play | loop) #IMPLIED>
+
+<!ELEMENT particle	EMPTY>
+<!ATTLIST particle	pos	NMTOKENS #REQUIRED>
+<!ATTLIST particle	name	NMTOKEN #IMPLIED>
+<!ATTLIST particle	descr	NMTOKENS #IMPLIED>
+<!ATTLIST particle	system	(firework | waterfall | fountain | rain | snow) "waterfall">
+<!ATTLIST particle	ground	NMTOKEN "0">
+<!ATTLIST particle	size	NMTOKEN "1">
+<!ATTLIST particle	speed	NMTOKEN "5">
+<!ATTLIST particle	flow	NMTOKEN "500">
+<!ATTLIST particle	number	NMTOKEN "5000">
+
+<!ELEMENT plane		(solid+)>
+<!ATTLIST plane		pos	NMTOKENS #REQUIRED>
+<!ATTLIST plane		name	NMTOKEN #IMPLIED>
+<!ATTLIST plane		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT rain		EMPTY>
+<!ATTLIST rain		pos	NMTOKENS #REQUIRED>
+<!ATTLIST rain		name	NMTOKEN #IMPLIED>
+<!ATTLIST rain		descr	NMTOKENS #IMPLIED>
+<!ATTLIST rain		ground	NMTOKEN "0">
+<!ATTLIST rain		size	NMTOKEN "1">
+<!ATTLIST rain		speed	NMTOKEN "10">
+<!ATTLIST rain		flow	NMTOKEN "500">
+<!ATTLIST rain		number	NMTOKEN "5000">
+
+<!ELEMENT river		EMPTY>
+<!ATTLIST river		pos	NMTOKENS #REQUIRED>
+<!ATTLIST river		name	NMTOKEN #IMPLIED>
+<!ATTLIST river		descr	NMTOKENS #IMPLIED>
+<!ATTLIST river		waves	NMTOKEN "10">
+<!ATTLIST river		width	NMTOKEN "20">
+<!ATTLIST river		depth	NMTOKEN "5">
+<!ATTLIST river		scale	NMTOKEN "1">
+<!ATTLIST river		color	NMTOKENS "0.1 0.2 0.3 1">
+
+<!ELEMENT slider	(solid)>
+<!ATTLIST slider	pos	NMTOKENS #REQUIRED>
+<!ATTLIST slider	name	NMTOKEN #IMPLIED>
+<!ATTLIST slider	descr	NMTOKENS #IMPLIED>
+<!ATTLIST slider	incrx	NMTOKEN "0">
+<!ATTLIST slider	incry	NMTOKEN "0">
+<!ATTLIST slider	incrz	NMTOKEN "0">
+
+<!ELEMENT smoke		EMPTY>
+<!ATTLIST smoke		pos	NMTOKENS #REQUIRED>
+<!ATTLIST smoke		name	NMTOKEN #IMPLIED>
+<!ATTLIST smoke		descr	NMTOKENS #IMPLIED>
+<!ATTLIST smoke		number	NMTOKEN "1000">
+<!ATTLIST smoke		speed	NMTOKEN "1">
+
+<!ELEMENT snow		EMPTY>
+<!ATTLIST snow		pos	NMTOKENS #REQUIRED>
+<!ATTLIST snow		name	NMTOKEN #IMPLIED>
+<!ATTLIST snow		descr	NMTOKENS #IMPLIED>
+<!ATTLIST snow		ground	NMTOKEN "0">
+<!ATTLIST snow		size	NMTOKEN "2">
+<!ATTLIST snow		speed	NMTOKEN "5">
+<!ATTLIST snow		flow	NMTOKEN "500">
+<!ATTLIST snow		number	NMTOKEN "5000">
+
+<!ELEMENT spiral	(solid+)>
+<!ATTLIST spiral	pos	NMTOKENS #REQUIRED>
+<!ATTLIST spiral	name	NMTOKEN #IMPLIED>
+<!ATTLIST spiral	descr	NMTOKENS #IMPLIED>
+<!ATTLIST spiral	height	NMTOKEN "0">
+
+<!ELEMENT stair		(solid+)>
+<!ATTLIST stair		pos	NMTOKENS #REQUIRED>
+<!ATTLIST stair		name	NMTOKEN #IMPLIED>
+<!ATTLIST stair		descr	NMTOKENS #IMPLIED>
+<!ATTLIST stair		height	NMTOKEN "0">
+
+<!ELEMENT stars		EMPTY>
+<!ATTLIST stars		pos	NMTOKENS #REQUIRED>
+<!ATTLIST stars		name	NMTOKEN #IMPLIED>
+<!ATTLIST stars		descr	NMTOKENS #IMPLIED>
+<!ATTLIST stars		number	NMTOKEN "200">
+<!ATTLIST stars		speed	NMTOKEN "10">
+<!ATTLIST stars		warp	NMTOKEN "20">
+<!ATTLIST stars		maxpos	NMTOKEN "4000">
+
+<!ELEMENT step		(solid+)>
+<!ATTLIST step		pos	NMTOKENS #REQUIRED>
+<!ATTLIST step		name	NMTOKEN #IMPLIED>
+<!ATTLIST step		descr	NMTOKENS #IMPLIED>
+<!ATTLIST step		mode	(stair | spiral | escalator | travelator) #IMPLIED>
+<!ATTLIST step		dir	(up | down | horizontal) "up">
+<!ATTLIST step		height	NMTOKEN "0">
+<!ATTLIST step		length	NMTOKEN "0">
+<!ATTLIST step		speed	NMTOKEN "0.1">
+
+<!ELEMENT sun		EMPTY>
+<!ATTLIST sun		pos	NMTOKENS #REQUIRED>
+<!ATTLIST sun		name	NMTOKEN #IMPLIED>
+<!ATTLIST sun		descr	NMTOKENS #IMPLIED>
+<!ATTLIST sun		scale	NMTOKEN "1">
+
+<!ELEMENT terrain	EMPTY>
+<!ATTLIST terrain	pos	NMTOKENS #REQUIRED>
+<!ATTLIST terrain	name	NMTOKEN #IMPLIED>
+<!ATTLIST terrain	descr	NMTOKENS #IMPLIED>
+<!ATTLIST terrain	level	NMTOKEN "6">
+<!ATTLIST terrain	height	NMTOKEN "0.1">
+<!ATTLIST terrain	div	NMTOKEN "1.85">
+<!ATTLIST terrain	scale	NMTOKEN "100">
+<!ATTLIST terrain	color	NMTOKEN "0 1 0 1">
+
+<!ELEMENT text		(#PCDATA)>
+<!ATTLIST text		pos	NMTOKENS #REQUIRED>
+<!ATTLIST text		name	NMTOKEN #IMPLIED>
+<!ATTLIST text		descr	NMTOKENS #IMPLIED>
+<!ATTLIST text		font	CDATA #IMPLIED>
+<!ATTLIST text		color	NMTOKENS #IMPLIED>
+<!ATTLIST text		scale	NMTOKEN "1">
+<!ATTLIST text		verso	(0 | 1) "0">
+
+<!ELEMENT thing		(solid+)>
+<!ATTLIST thing		pos	NMTOKENS #REQUIRED>
+<!ATTLIST thing		name	NMTOKEN #IMPLIED>
+<!ATTLIST thing		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT thunder	EMPTY>
+<!ATTLIST thunder	pos	NMTOKENS #REQUIRED>
+<!ATTLIST thunder	name	NMTOKEN #IMPLIED>
+<!ATTLIST thunder	descr	NMTOKENS #IMPLIED>
+<!ATTLIST thunder	number	NMTOKEN "1">
+<!ATTLIST thunder	period	NMTOKEN "2">
+
+<!ELEMENT transform	EMPTY>
+<!ATTLIST transform	rotation	NMTOKENS #IMPLIED>
+<!ATTLIST transform	translation	NMTOKENS #IMPLIED>
+
+<!ELEMENT travelator	(solid+)>
+<!ATTLIST travelator	pos	NMTOKENS #REQUIRED>
+<!ATTLIST travelator	name	NMTOKEN #IMPLIED>
+<!ATTLIST travelator	descr	NMTOKENS #IMPLIED>
+<!ATTLIST travelator	length	NMTOKEN "0">
+<!ATTLIST travelator	speed	NMTOKEN "0.5">
+
+<!ELEMENT vjc		EMPTY>
+<!ATTLIST vjc		descr	NMTOKENS #IMPLIED>
+<!ATTLIST vjc		server	NMTOKEN #REQUIRED>
+
+<!ELEMENT vnc		(solid+)>
+<!ATTLIST vnc		pos	NMTOKENS #REQUIRED>
+<!ATTLIST vnc		name	NMTOKEN #IMPLIED>
+<!ATTLIST vnc		descr	NMTOKENS #IMPLIED>
+<!ATTLIST vnc		server	NMTOKEN #REQUIRED>
+<!ATTLIST vnc		port	NMTOKEN "5901">
+<!ATTLIST vnc		passwd	NMTOKEN #IMPLIED>
+
+<!ELEMENT vrelet	(solid)>
+<!ATTLIST vrelet	pos	NMTOKENS #REQUIRED>
+<!ATTLIST vrelet	name	NMTOKEN #IMPLIED>
+<!ATTLIST vrelet	descr	NMTOKENS #IMPLIED>
+<!ATTLIST vrelet	class	NMTOKEN #REQUIRED>
+<!ATTLIST vrelet	base	CDATA #IMPLIED>
+<!ATTLIST vrelet	fx	NMTOKEN "1">
+<!ATTLIST vrelet	fy	NMTOKEN "1">
+<!ATTLIST vrelet	incrx	NMTOKEN "0">
+<!ATTLIST vrelet	incry	NMTOKEN "0">
+
+<!ELEMENT wall		(solid+)>
+<!ATTLIST wall		pos	NMTOKENS #REQUIRED>
+<!ATTLIST wall		name	NMTOKEN #IMPLIED>
+<!ATTLIST wall		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT walls		EMPTY>
+<!ATTLIST walls		name	NMTOKEN #IMPLIED>
+<!ATTLIST walls		descr	NMTOKENS #IMPLIED>
+<!ATTLIST walls		url	CDATA #REQUIRED>
+
+<!ELEMENT water		(solid)>
+<!ATTLIST water		pos	NMTOKENS #REQUIRED>
+<!ATTLIST water		name	NMTOKEN #IMPLIED>
+<!ATTLIST water		descr	NMTOKENS #IMPLIED>
+<!ATTLIST water		amplitude	NMTOKEN "1">
+<!ATTLIST water		freq	NMTOKEN "1">
+<!ATTLIST water		phase	NMTOKEN "1">
+<!ATTLIST water		height	NMTOKEN #IMPLIED>
+
+<!ELEMENT waterfall	EMPTY>
+<!ATTLIST waterfall	pos	NMTOKENS #REQUIRED>
+<!ATTLIST waterfall	name	NMTOKEN #IMPLIED>
+<!ATTLIST waterfall	descr	NMTOKENS #IMPLIED>
+<!ATTLIST waterfall	ground	NMTOKEN "0">
+<!ATTLIST waterfall	size	NMTOKEN "1">
+<!ATTLIST waterfall	speed	NMTOKEN "5">
+<!ATTLIST waterfall	flow	NMTOKEN "500">
+<!ATTLIST waterfall	number	NMTOKEN "5000">
+
+<!ELEMENT web		(solid+)>
+<!ATTLIST web		pos	NMTOKENS #REQUIRED>
+<!ATTLIST web		name	NMTOKEN #IMPLIED>
+<!ATTLIST web		descr	NMTOKENS #IMPLIED>
+<!ATTLIST web		legend	NMTOKENS #IMPLIED>
+<!ATTLIST web		url	CDATA #REQUIRED>
+
+<!ELEMENT widget	(solid+)>
+<!ATTLIST widget	pos	NMTOKENS #REQUIRED>
+<!ATTLIST widget	name	NMTOKEN #IMPLIED>
+<!ATTLIST widget	descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT wind		EMPTY>
+<!ATTLIST wind		orient	NMTOKENS #REQUIRED>
+<!ATTLIST wind		speed	NMTOKENS #REQUIRED>
+
+<!ELEMENT wings		(solid+)>
+<!ATTLIST wings		pos	NMTOKENS #REQUIRED>
+<!ATTLIST wings		name	NMTOKEN #IMPLIED>
+<!ATTLIST wings		descr	NMTOKENS #IMPLIED>
+<!ATTLIST wings		model	(butterfly | libellule | angel | eagle) #IMPLIED>
+
+
+<!-- sub-structure of main tokens -->
+
+<!-- SOLID -->
+<!ELEMENT solid		(frame*)>
+<!ATTLIST solid		a	NMTOKEN "1">
+<!ATTLIST solid		alpha	NMTOKEN "1">
+<!ATTLIST solid		amb	NMTOKENS #IMPLIED>
+<!ATTLIST solid		ambient	NMTOKENS #IMPLIED>
+<!ATTLIST solid		blink	(1) "1">
+<!ATTLIST solid		dif	NMTOKENS #IMPLIED>
+<!ATTLIST solid		diffuse	NMTOKENS #IMPLIED>
+<!ATTLIST solid		dim	NMTOKENS #IMPLIED>
+<!ATTLIST solid		emi	NMTOKENS #IMPLIED>
+<!ATTLIST solid		emission NMTOKENS #IMPLIED>
+<!ATTLIST solid		fa	(1) "1">
+<!ATTLIST solid		face	(1) "1">
+<!ATTLIST solid		fog	NMTOKEN "0">
+<!ATTLIST solid		frames	NMTOKEN "1">
+<!ATTLIST solid		h	NMTOKEN #IMPLIED>
+<!ATTLIST solid		height	NMTOKEN #IMPLIED>
+<!ATTLIST solid		l	NMTOKEN #IMPLIED>
+<!ATTLIST solid		length	NMTOKEN #IMPLIED>
+<!ATTLIST solid		model	CDATA #IMPLIED>
+<!ATTLIST solid		name	NMTOKEN #IMPLIED>
+<!ATTLIST solid		ptsize	NMTOKEN "1">
+<!ATTLIST solid		r	NMTOKEN #IMPLIED>
+<!ATTLIST solid		radius	NMTOKEN #IMPLIED>
+<!ATTLIST solid		radius2	NMTOKEN #IMPLIED>
+<!ATTLIST solid		radius3	NMTOKEN #IMPLIED>
+<!ATTLIST solid		rb	NMTOKEN #IMPLIED>
+<!ATTLIST solid		rc	NMTOKEN #IMPLIED>
+<!ATTLIST solid		re	NMTOKEN #IMPLIED>
+<!ATTLIST solid		rel	NMTOKENS #IMPLIED>
+<!ATTLIST solid		ri	NMTOKEN #IMPLIED>
+<!ATTLIST solid		rt	NMTOKEN #IMPLIED>
+<!ATTLIST solid		s	NMTOKEN #IMPLIED>
+<!ATTLIST solid		sc	NMTOKEN "1">
+<!ATTLIST solid		scale	NMTOKEN "1">
+<!ATTLIST solid		scalex	NMTOKEN "1">
+<!ATTLIST solid		scaley	NMTOKEN "1">
+<!ATTLIST solid		scalez	NMTOKEN "1">
+<!ATTLIST solid		shape	(bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | man | guy | car | teapot) "box">
+<!ATTLIST solid		shi	NMTOKEN "20">
+<!ATTLIST solid		shininess NMTOKEN "20">
+<!ATTLIST solid		side	NMTOKEN #IMPLIED>
+<!ATTLIST solid		size	NMTOKENS #IMPLIED>
+<!ATTLIST solid		sk	NMTOKEN "16">
+<!ATTLIST solid		sl	NMTOKEN "16">
+<!ATTLIST solid		slices	NMTOKEN "16">
+<!ATTLIST solid		stacks	NMTOKEN "16">
+<!ATTLIST solid		spokes	NMTOKEN "12">
+<!ATTLIST solid		sp	NMTOKEN "12">
+<!ATTLIST solid		spe	NMTOKENS #IMPLIED>
+<!ATTLIST solid		specular NMTOKENS #IMPLIED>
+<!ATTLIST solid		st	(0 | 1 | 2) "0">
+<!ATTLIST solid		style	(0 | 1 | 2) "0">
+<!ATTLIST solid		t	NMTOKEN #IMPLIED>
+<!ATTLIST solid		texture CDATA #IMPLIED>
+<!ATTLIST solid		texture_r CDATA #IMPLIED>
+<!ATTLIST solid		thick	NMTOKEN #IMPLIED>
+<!ATTLIST solid	 	tx	CDATA #IMPLIED>
+<!ATTLIST solid		tx_back	CDATA #IMPLIED>
+<!ATTLIST solid		tx_front CDATA #IMPLIED>
+<!ATTLIST solid		tx_left	CDATA #IMPLIED>
+<!ATTLIST solid		tx_right CDATA #IMPLIED>
+<!ATTLIST solid		tx_top	CDATA #IMPLIED>
+<!ATTLIST solid		tx_bottom CDATA #IMPLIED>
+<!ATTLIST solid		txr	NMTOKEN #IMPLIED>
+<!ATTLIST solid		url	CDATA #IMPLIED>
+<!ATTLIST solid		xn	CDATA #IMPLIED>
+<!ATTLIST solid		xnr	NMTOKEN #IMPLIED>
+<!ATTLIST solid		xnrs	NMTOKEN #IMPLIED>
+<!ATTLIST solid		xnrt	NMTOKEN #IMPLIED>
+<!ATTLIST solid		xp	CDATA #IMPLIED>
+<!ATTLIST solid		xpr	NMTOKEN #IMPLIED>
+<!ATTLIST solid		xprs	NMTOKEN #IMPLIED>
+<!ATTLIST solid		xprt	NMTOKEN #IMPLIED>
+<!ATTLIST solid		yn	CDATA #IMPLIED>
+<!ATTLIST solid		ynr	NMTOKEN #IMPLIED>
+<!ATTLIST solid		ynrs	NMTOKEN #IMPLIED>
+<!ATTLIST solid		ynrt	NMTOKEN #IMPLIED>
+<!ATTLIST solid		yp	CDATA #IMPLIED>
+<!ATTLIST solid		ypr	NMTOKEN #IMPLIED>
+<!ATTLIST solid		yprs	NMTOKEN #IMPLIED>
+<!ATTLIST solid		yprt	NMTOKEN #IMPLIED>
+<!ATTLIST solid		zn	CDATA #IMPLIED>
+<!ATTLIST solid		znr	NMTOKEN #IMPLIED>
+<!ATTLIST solid		znrs	NMTOKEN #IMPLIED>
+<!ATTLIST solid		znrt	NMTOKEN #IMPLIED>
+<!ATTLIST solid		zp	CDATA #IMPLIED>
+<!ATTLIST solid		zpr	NMTOKEN #IMPLIED>
+<!ATTLIST solid		zprs	NMTOKEN #IMPLIED>
+<!ATTLIST solid		zprt	NMTOKEN #IMPLIED>
+
+<!-- FRAME -->
+<!ELEMENT frame		EMPTY>
+<!ATTLIST frame		a	NMTOKEN "1">
+<!ATTLIST frame		alpha	NMTOKEN "1">
+<!ATTLIST frame		amb	NMTOKENS #IMPLIED>
+<!ATTLIST frame		bf	NMTOKEN "0">
+<!ATTLIST frame		beginframe NMTOKEN "0">
+<!ATTLIST frame		dif	NMTOKENS #IMPLIED>
+<!ATTLIST frame		diffuse NMTOKENS #IMPLIED>
+<!ATTLIST frame		endframe NMTOKEN #IMPLIED>
+<!ATTLIST frame		h	NMTOKEN #IMPLIED>
+<!ATTLIST frame		height	NMTOKEN #IMPLIED>
+<!ATTLIST frame		model	CDATA #IMPLIED>
+<!ATTLIST frame		rb	NMTOKEN #IMPLIED>
+<!ATTLIST frame		rt	NMTOKEN #IMPLIED>
+<!ATTLIST frame		scale	NMTOKEN "1">
+<!ATTLIST frame		shape	NMTOKEN #REQUIRED>
+<!ATTLIST frame		spe	NMTOKENS #IMPLIED>
+<!ATTLIST frame		texture	CDATA #IMPLIED>
+<!ATTLIST frame		tex	CDATA #IMPLIED>
+<!ATTLIST frame		tx	CDATA #IMPLIED>
+<!ATTLIST frame		url	CDATA #IMPLIED>
+
+<!-- -->

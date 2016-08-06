@@ -1,0 +1,360 @@
+//---------------------------------------------------------------------------
+// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+//
+// Copyright (C) 1997-2008 Ecole Nationale Superieure des Telecommunications
+//
+// VREng is a free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public Licence as published by
+// the Free Software Foundation; either version 2, or (at your option)
+// any later version.
+//
+// VREng is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//---------------------------------------------------------------------------
+#include "global.hh"
+#include "model.hh"
+#include "move.hh"      // gotoFront
+#include "http.hh"	// httpOpen
+#include "format.hh"	// getModelByMime
+#include "music.hh"	// MUSIC_TYPE
+#include "texture.hh"	// getFromCache
+
+
+const WClass Model::wclass(MODEL_TYPE, "Model", Model::creator);
+const float Model::LSPEED = 0.25;       ///< 0.25 m/s
+
+// local
+static uint16_t oid = 0;
+
+
+WObject * Model::creator(char *l)
+{
+  return new Model(l);
+}
+
+void Model::defaults()
+{
+  scale = 1;
+  lspeed = LSPEED;
+  state = INACTIVE;
+  texid = 0;
+  texurl = NULL;
+  sndurl = NULL;
+  taken = false;
+  transform = false;
+  lwo = NULL;
+  _3ds = NULL;
+  ase = NULL;
+  obj = NULL;
+  md2 = NULL;
+  dxf = NULL;
+  color[0] = 1; color[1] = .75; color[2] = .7;
+}
+
+/** solid geometry */
+void Model::makeSolid()
+{
+  char solid[128];
+  sprintf(solid, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />",
+          0.15, 0.08, 0.85);
+  parse()->parseSolid(solid, SEP, this);
+}
+
+void Model::setName()
+{
+  oid++;
+  sprintf(name.named, "%s%d", MODEL_NAME, oid);
+}
+
+void Model::parser(char *l)
+{
+  l = tokenize(l);
+  begin_while_parse (l) {
+    l = parse()->parseAttributes(l, this);
+    if (!l) break;
+    if (!strncmp(l, "url=", 4))
+      l = parse()->parseUrl(l, name.url);
+    else if (!strncmp(l, "scale=", 6)) {
+      l = parse()->parseFloat(l, &scale, "scale");
+    }
+    else if (!strncmp(l, "sound=", 6)) {
+      sndurl = new char[URL_LEN];
+      l = parse()->parseString(l, sndurl, "sound");
+    }
+    else if (!strncmp(l, "color=", 6)) {
+      l = parse()->parseVector3f(l, color, "color");
+    }
+    else if (! strncmp(l, "tex=", 4)) {
+      texurl = new char[URL_LEN];
+      l = parse()->parseString(l, texurl, "tex");
+      texid = Texture::getFromCache(texurl);
+    }
+  }
+  end_while_parse(l);
+}
+
+void Model::behavior()
+{
+  enableBehavior(PERSISTENT);
+  enableBehavior(COLLIDE_NEVER);
+  enableBehavior(SPECIFIC_RENDER);
+}
+
+/** Constructor */
+Model::Model(char *l)
+{
+  defaults();
+  parser(l);
+  makeSolid();
+  loader();
+  scaler();
+  drawer();
+  behavior();
+  initializeMobileObject(0);
+
+  // TODO: get the current position pos from last transform
+  //error("initial position: %.2f,%.2f,%.2f", pos.x, pos.y, pos.z);
+  if (pos.x == 0 && pos.y == 0 && pos.z == 0)
+    transform = true;
+  else
+    transform = false;
+}
+
+Model::Model(WObject *user, char *url, float _scale)
+{
+  defaults();
+  setName();
+  setOwner();
+  makeSolid();
+
+  strcpy(name.url, url);
+  loader();
+  scale = _scale;
+  scaler();
+  drawer();
+
+  enableBehavior(DYNAMIC);
+  behavior();
+  initializeMobileObject(0);
+
+  /* position = carried by user */
+  pos.x = user->pos.x + 1;
+  pos.y = user->pos.y;
+  pos.z = user->pos.z;
+  updatePosition();
+}
+
+void Model::loader()
+{
+  model_t = Format::getModelByExt(name.url);
+
+  switch (model_t) {
+  case MODEL_LWO: lwo = new LWO(name.url); break;
+  case MODEL_3DS: _3ds = new _3DS(name.url); break;
+  case MODEL_ASE: ase = new ASE(name.url); break;
+  case MODEL_OBJ: obj = new OBJ(name.url, 0); break;
+  case MODEL_MD2: md2 = new MD2(name.url); break;
+  case MODEL_DXF: dxf = new DXF(name.url); break;
+  default:
+    warning("Model: unknown type=%d url=%s", model_t, name.url);
+    return;
+  }
+}
+
+void Model::scaler()
+{
+  if (scale == 1) {
+    switch (model_t) {
+    case MODEL_LWO: if (lwo) scale = lwo->getRadius(); break;
+    case MODEL_3DS: if (_3ds) scale = _3ds->getRadius(); break;
+    case MODEL_ASE: if (ase) scale = ase->getRadius(); break;
+    case MODEL_OBJ: if (obj) scale = obj->getRadius(); break;
+    case MODEL_MD2: if (md2) scale = md2->getRadius(); break;
+    case MODEL_DXF: if (dxf) scale = dxf->getRadius(); break;
+    }
+  }
+  else {
+    switch (model_t) {
+    case MODEL_LWO: if (lwo) lwo->setScale(scale); break;
+    case MODEL_3DS: if (_3ds) _3ds->setScale(scale); break;
+    case MODEL_ASE: if (ase) ase->setScale(scale); break;
+    case MODEL_OBJ: if (obj) obj->setScale(scale); break;
+    case MODEL_MD2: if (md2) md2->setScale(scale); break;
+    case MODEL_DXF: if (dxf) dxf->setScale(scale); break;
+    }
+  }
+}
+
+void Model::drawer()
+{
+  switch (model_t) {
+  case MODEL_LWO:
+    if (lwo) lwo->displaylist(); break;
+  case MODEL_3DS:
+#if 0 //pddraw
+    if (_3ds) _3ds->displaylist();
+#endif //pddraw
+    break;
+  case MODEL_ASE:
+#if 0 //pddraw
+    if (ase) ase->displaylist();
+#endif //pddraw
+    break;
+  case MODEL_OBJ:
+#if 0 //pddraw
+    if (obj) obj->displaylist();
+#endif //pddraw
+    break;
+  case MODEL_MD2:
+    if (md2) md2->displaylist(1, texid); break;
+  case MODEL_DXF:
+    if (dxf) dxf->displaylist(); break;
+  }
+}
+
+void Model::updateTime(time_t sec, time_t usec, float *lasting)
+{
+  updateLasting(sec, usec, lasting);
+}
+
+bool Model::isMoving()
+{
+  if (taken)
+    return true;
+  return testMoving();
+}
+
+void Model::changePosition(float lasting)
+{
+  if (! taken) {
+    pos.x += lasting * move.lspeed.v[0];
+    pos.y += lasting * move.lspeed.v[1];
+    pos.z += lasting * move.lspeed.v[2];
+    pos.az += lasting * move.aspeed.v[0];
+    pos.ax += lasting * move.aspeed.v[1];
+    pos.ay += lasting * move.aspeed.v[2];
+    updatePosition();
+  }
+  else {
+    error("carried by user");
+  }
+}
+
+void Model::preRender()
+{
+  if (! transform) {
+    glPushMatrix();
+    glTranslatef(pos.x, pos.y, pos.z);
+    glRotatef(RAD2DEG(pos.az), 0,0,1);
+    glRotatef(RAD2DEG(pos.ax) + 90, 1,0,0);
+  }
+}
+
+void Model::postRender()
+{
+  if (! transform) {
+    glPopMatrix();
+  }
+}
+
+void Model::render()
+{
+  switch (model_t) {
+  case MODEL_LWO:
+    if (lwo) {
+      preRender();
+      lwo->render();
+      postRender();
+    }
+    break;
+  case MODEL_3DS:
+    if (_3ds) {
+      preRender();
+      _3ds->render();
+      postRender();
+    }
+    break;
+  case MODEL_ASE:
+    if (ase) {
+      preRender();
+      ase->render();
+      postRender();
+    }
+    break;
+  case MODEL_OBJ:
+    if (obj) {
+      glEnable(GL_LIGHTING);
+      if (texid) {
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texid);
+      }
+      else {
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
+      }
+      preRender();
+      obj->render();
+      postRender();
+      glDisable(GL_LIGHTING);
+    }
+    break;
+  case MODEL_MD2:
+    if (md2) {
+      md2->render(pos);
+    }
+    break;
+  case MODEL_DXF:
+    if (dxf) {
+      glEnable(GL_LIGHTING);
+      if (texid) {
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texid);
+      }
+      else {
+        glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
+      }
+      preRender();
+      dxf->render();
+      postRender();
+    }
+    break;
+  } //switch
+}
+
+void Model::quit()
+{
+  switch (model_t) {
+  case MODEL_LWO: if (lwo) delete lwo; lwo = NULL; break;
+  case MODEL_3DS: if (_3ds) delete _3ds; _3ds = NULL; break;
+  case MODEL_ASE: if (ase) delete ase; ase = NULL; break;
+  case MODEL_OBJ: if (obj) delete obj; obj = NULL; break;
+  case MODEL_MD2: if (md2) delete md2; md2 = NULL; break;
+  case MODEL_DXF: if (dxf) delete dxf; dxf = NULL; break;
+  default: break;
+  }
+  oid = 0;
+  flushMySqlPosition();
+  if (texurl)
+    delete[] texurl;
+  if (sndurl)
+    delete[] sndurl;
+}
+
+void Model::sound(Model *model, void *d, time_t s, time_t u)
+{
+  if (model->sndurl) {
+    d = (void *) model->sndurl;
+    doAction(MUSIC_TYPE, Music::PLAY, model, d, s, u);
+  }
+}
+
+void Model::init()
+{
+  setActionFunc(MODEL_TYPE, 0, WO_ACTION moveObject, "Move");
+  setActionFunc(MODEL_TYPE, 1, WO_ACTION sound, "Sound");
+}

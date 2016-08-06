@@ -1,0 +1,66 @@
+World & Objects:
+	- Dynamic gates coming in the interconnection world
+	- Object World (direction, speed)
+	- Object Fractal (plant, mountain)
+	- Object Path (corridors, rooms, halls,...)
+	- Object Modeler to build world dynamicaly
+	- Object Code to execute interpretated code
+	- Object Video Projector
+	- Lightings: laser, spot
+	- Sun and sky daylight in real time
+	- Temperature, density, viscosity
+	- Android persistency
+	- auto-calculate the best position of the camera
+	- Call compound solids by url http
+	- OBB (oriented BB) intersections
+	- Sounds when a collision occurs
+	- Audio inside, volume adapted to distance
+	- Sound mixer
+
+Gui:
+	- Double-clicking on objects to call default action
+	- Display stats
+	- Image viewer
+	- Visit cards
+	- Preferences graphic user interface
+	- Plugin Firefox/Mozilla
+	- Control-menu to manipulate objects
+	- RSS feed
+
+Graphics:
+	- Shadowing
+	- Triangles, Polygons
+	- Nurbs
+	- SVG reader
+	- VRML model reader
+	- MPEG-2 video reader, incrustated video
+	- MPEG-4 scene reader
+	- Animated avatar by bvh
+	- X11 windows mapping textures
+	- Mobile text and characters
+Network:
+	- Timeout on http requests if a server is down
+	- Local cache for textures
+	- Local cache for fonts
+	- Persistency handled by IP Multicast daemons
+	- SIP client interface to invite somebody
+	- Packet compression on the fly (libz)
+	- RTSP client
+	- IPv6 port
+
+Environment:
+	- Template for add a new object
+
+Ports:
+	- SGI/IRIX
+	- Linux/Ipaq
+	- Windows NT/2K/Xp/Vista/7
+
+Doc:
+	- man4 (description format VREF)
+	- Describe network protocol VREP
+	- Describe languages VREL, VREML
+
+Distribution:
+	- rpm
+	- deb

@@ -1,0 +1,479 @@
+//---------------------------------------------------------------------------
+// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+//
+// Copyright (C) 1997-2009 Philippe Dax
+// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+//
+// VREng is a free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public Licence as published by
+// the Free Software Foundation; either version 2, or (at your option)
+// any later version.
+//
+// VREng is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+//---------------------------------------------------------------------------
+#ifndef VJC_HPP
+#define VJC_HPP
+
+#define VJC_TYPE	37
+#define VJC_NAME	"Vjc"
+
+#include "wobject.hpp"
+
+//****************************************** begin of unviolable code
+// DON'T MODIFY THE FOLLOWING CONSTANTS !!!
+// They are needed by servers/vjs/gen.pl
+// to build servers/vjs/gen/fr/enst/vreng/MessageTypes.java
+// They are used in:
+//	vjs/base/fr/enst/vreng/net/Receiver.java
+//	vjs/base/fr/enst/vreng/server/Server.java
+//	vjs/base/fr/enst/vreng/server/VrengApp.java
+//	vjs/base/fr/enst/vreng/data/messages/ClickMessage.java
+//	vjs/base/fr/enst/vreng/data/messages/ControlMessage.java
+//	vjs/base/fr/enst/vreng/data/messages/DrawMessage.java
+//	vjs/base/fr/enst/vreng/data/messages/PosMessage.java
+//	vjs/base/fr/enst/vreng/data/messages/QueryMessage.java
+//
+// Message types
+#define VJC_MSGT_CTRL	0
+#define VJC_MSGT_CLICK	1
+#define VJC_MSGT_ADD	2
+#define VJC_MSGT_DEL	3
+#define VJC_MSGT_POS	4
+#define VJC_MSGT_ISEC	5
+#define VJC_MSGT_QUERY	6
+#define VJC_MSG_TYPES_STRINGS Control Click Add Delete Position Intersect Query
+
+// Message val
+
+// control
+#define VJC_MSGV_REGISTER	0
+#define VJC_MSGV_UNREGISTER	1
+#define VJC_MSGV_INITIATE	2
+#define VJC_MSGV_TERMINATE	3
+#define VJC_MSGV_UPDATE		4
+#define VJC_MSGV_PING		5
+#define VJC_MSG_CTRL_STRINGS Register Unregister Inititate Terminate Update Ping
+
+// position
+#define VJC_MSGV_ASK	0
+#define VJC_MSGV_SET	1
+#define VJC_MSGV_UPD	2
+#define VJC_MSGV_ERROR	3
+#define VJC_MSG_POS_STRINGS Ask Set Update Error
+
+// query
+#define VJC_MSGV_QTYPE		0
+#define VJC_MSGV_QANS		1
+#define VJC_MSG_QUERY_STRINGS TypeQuery QueryAnswer
+//****************************************** end of unviolable code
+
+// draw  add / del
+#define VJC_MSGV_CIRCLE 0
+#define VJC_MSGV_LINE   1
+#define VJC_MSGV_LOOP   2
+#define VJC_MSGV_FILL   3
+#define VJC_MSGV_DELALL 4
+#define VJC_MSG_DRAW_STRINGS Circle Line Loop Fill DeleteAll
+
+// click
+#define VJC_MSGV_CLICK  0
+#define VJC_MSG_CLICK_STRINGS Click
+
+// intersection
+#define VJC_MSGV_ISECIN		0
+#define VJC_MSGV_ISECOUT	1
+#define VJC_MSG_ISEC_STRINGS GoingIn GoingOut
+
+
+#include "vrelet.hpp"
+
+/**
+ * VjcSocket class
+ * in-out socket holder
+ */
+class VjcSocket {
+
+ public:
+  uint16_t listenPort;	///< Local port
+  uint16_t destPort;	///< Server port
+  int statecon;		///< Connection state
+  int sdr;		///< read fd
+  int sdw;		///< write fd
+  struct sockaddr_in *sadest;	///< socket for Vjs
+
+  // socket constants
+  enum {
+    SOCK_CLOSED,
+    SOCK_RCVOPEN,
+    SOCK_CONNECT,
+    SOCK_OPEN
+  };
+
+  VjcSocket(uint16_t listenPort, const char *destHost, uint16_t destPort);
+  /**<
+   * Initialize a pair of sockets for communicating with the child app.
+   * The sockets aren't actually opened. The addresses are initialized.
+   */
+
+  virtual ~VjcSocket();
+  /**<
+   * Closes and frees an VjcSocket.
+   * The handle is invalidated by this call.
+   */
+
+  virtual int openSocket();
+  /**<
+   * Opens an VjcSocket. This call is 'non-blocking' : if the connect
+   * does not work because the client is not ready yet, this function
+   * returns 0.
+   * In this case, it should be called again to finish the connection.
+   * If the socket is completly open, it returns 1.
+   * If an error occured, it returns -1.
+   */
+
+  virtual int openRecv();
+  /**<
+   * Open the receiver socket for this socket pair.
+   * The socket is bound to the local port passed in when it was initialized.
+   */
+
+  virtual int openSend();
+  /**<
+   * Opens the sender socket. IO is set to non-blocking on this one
+   * so that the connect (done in the next step) does not lock up
+   * the whole VRENG app.
+   */
+
+  virtual int connectSend();
+  /**<
+   * Tries a connect to the client app. Since the IO mode is NONBLOCK,
+   * two types of errors can happen:
+   * - EINPROGRESS : the connect didn't complet - the child app is not ready,
+   * but is not dead either. The connect will have to be tried again.
+   * - Other : the child app is not in a good state. Not worth retrying.
+   */
+
+  virtual bool isConnected();
+  /**<
+   * Check if the non-blocking connect call on the send socket
+   * finished or not.
+   */
+
+  virtual bool isOpen();
+  ///< Is socket opened ?.
+
+  virtual bool isClosed();
+  ///< Is socket closed ?.
+
+};
+
+/**
+ * Packet header.
+ * WARNING !!! If you update this structure, do not forget to update the
+ * VJC_HDR_LEN, VJC_HDR_SSRC_IDX and VJC_HDR_DATALEN_IDX.
+ * VJC_HDR_LEN is the total length (in 8bit ints, no padding)
+ * of this structure, and VJC_HDR_DATALEN_IDX is the position
+ * of the 16bit data length field within the structure.
+ * VJC_HDR_SSRC_IDX is the same, but to the 32bit app_ssrc field.
+ */
+#define VJC_HDR_SSRC_IDX	3
+#define VJC_HDR_DATALEN_IDX	9
+#define VJC_HDR_LEN		20
+
+typedef struct {
+  int16_t proto;	///< protocol id X'abcd'
+  uint8_t  version;	///< protocol version
+  uint32_t app_ssrc;	///< application's SSRC
+  uint8_t  msg_type;	///< Message type
+  uint8_t  msg_id;	///< Message id
+  int16_t data_len;	///< Data length
+  uint8_t obj_type;	///< Sender type
+  uint32_t src_id;	///< Sender ssrc
+  uint16_t port_id;	///< Sender port id
+  uint16_t obj_id;	///< Sender obj id
+} tVjcHeader;
+
+/**
+ * VjcMessage class.
+ * This class is used to receive/transmit data between
+ * Vreng and the external server.
+ */
+class VjcMessage {
+
+ public:
+  static const uint8_t VERS;
+  static const uint32_t MAGIC;
+  static const uint16_t MAX_PACKET;
+
+  VjcMessage(WObject *sender, int type, int val);
+  /**<
+   * Outgoing constructor
+   * WObject *sender should be set to the object sending the data
+   * int type is the message type (VJC_MSGT_*)
+   * int val  is the message value (subtype) (VJC_MSGV_*)
+   */
+
+  VjcMessage(WObject *sender, uint32_t ssrc, int type, int val);
+  /**<
+   * This constructor is used by Vjc for special update
+   * messages. The additional ssrc int is used to force
+   * the message header's ssrc to something else than the current value.
+   */
+
+  VjcMessage(uint8_t *data, int datalen);
+  /**<
+   * Incoming constructor
+   * Rebuilds a message from the data.
+   * uint8_t *data should point to a valid memory area, of lenght
+   * int datalen. The data is copied into an internal buffer
+   * so the orginal data can be freed once the message is constructed.
+   */
+
+  virtual ~VjcMessage();
+  /**<
+   * Destructor: frees the internal buffer
+   */
+
+  virtual tVjcHeader getHeader();
+  /**<
+   * Returns this message's header.
+   * For outgoing messages, the header's data_len field is not set.
+   */
+
+  virtual bool isForObject(WObject *po);
+  /**< Checks wether this message is for the object *po */
+
+  virtual void put8(int val);
+  /**< Add a 8bit int to the message */
+
+  virtual void put16(int val);
+  /**< Add a 16bit int to the message */
+
+  virtual void put32(int val);
+  /**< Add a 32bit int to the message */
+
+  virtual void putOID(WObject *po);
+  /**<
+   * Puts an object's net id.
+   * 8bit type, 32bit src id, 16bit port id, 16bit obj id.
+   * Special case: the id passed in is the same as the sender's.
+   *               We set the type identifier to 0.
+   * Special case: NULL is passed as a parameter.
+   *               We set all the fields to 0.
+   */
+
+  virtual void putPos(WObject *po);
+  /**<
+   * Puts an object position.
+   * 6*32bit ((x,y,z),(az,ax,0)).
+   * This includes (x,y,z) coordinates, as well as angle data (az, ax, 0)
+   * (Y angle never used).
+   * All values are rounded to the 3rd decimal, and multiplied by 1000
+   * so as not to have to worry about marshalling floating point values.
+   */
+
+  virtual void putStr(const char *str);
+  /**<
+   * Adds a string to the message.
+   * A 16b length field is set, followed by the caracters.
+   * This method is pretty bad. No encoding is taken into account.
+   * Results across heterogenous platforms are undefined.
+   * Behavior on platforms where a char is more than 8 bits
+   * is completly out of control.
+   */
+
+  virtual uint8_t *toBytes(int *len);
+  /**<
+   * Packs this message into an uint8_t array.
+   * The total length of the array is stored in the len parameter.
+   * DO NOT free the returned data. Free the message object when
+   * you're done with it.
+   * Used to transmit the message on a socket.
+   * The return value is the binary representation of this message,
+   * and the total length of that array is stored in *len
+   */
+
+  virtual int sendData();
+  /**<
+   * Sends data over to the server.
+   * The message is not deleted.
+   */
+
+  virtual int8_t  read8();
+  /**< Reads an 8 bit signed int */
+
+  virtual int16_t read16();
+  /**< Reads an 16 bit signed int */
+
+  virtual int32_t read32();
+  /**< Reads an 32 bit signed int */
+
+  virtual V3 readPoint2D();
+  /**< 2D point (2*32bit) */
+
+  virtual V3 readPoint3D();
+  /**< 3D point (3*32bit) */
+
+  virtual V3 readDelta();
+  /**<
+   * Reads three 32bit ints, converted to floats by division by 1000,
+   * and returns them in a V3.
+   */
+
+  virtual tVjcHeader readHeader();
+  /**< Reads a message header */
+
+  virtual bool hasData(int size);	
+  /**<
+   * Data availability.
+   * Returns true if there are at least size bytes left
+   */
+
+ private:
+  uint8_t *data;		// buffer
+  tVjcHeader header;		// header
+  class WObject *sender;	// sender
+  int cursor;			// current position within the buffer
+  int maxlen;			// length of the buffer
+
+  virtual void putHeader();
+  /**< Writes the header */
+
+  virtual void setup(WObject *po, uint32_t ssrc, int type, int id);
+  /**< Creates the buffer and the header */
+
+  void dumpHeader(tVjcHeader hdr);
+};
+
+/**
+ * Vjc class
+ *
+ * This Vreng object class is used to manage
+ * communications between Vreng Vrelet objects
+ * and an external server.
+ * There should be only one Vjc per scene.
+ *
+ * All the Vrelet objects will want to send and
+ * receive data from the external server. To avoid
+ * having each Vrelet object deal with its own sockets,
+ * the Vjc centralizes all the work.
+ *
+ * The class keeps a single instance of Vjc
+ * running, and all the methods the Vrelet objects
+ * use are static and delegate to that singelton.
+ */
+class Vjc: public WObject {
+
+ private:
+  static const uint16_t PING_WAIT;
+  static const uint16_t PORT;
+  static const uint16_t LOCAL_PORT;
+
+ public:
+
+  char host[MAXHOSTNAMELEN];	///< Controler's hostname
+  uint32_t ssrc;		///< This app's ssrc
+  uint16_t serverPort;		///< Controler's listen port
+  uint16_t localPort;		///< Local listen port
+
+  static const OClass oclass;   ///< class variable
+  virtual const OClass* getOClass() {return &oclass;}
+
+  Vjc(char *l);
+  /**<
+   * Constructor: checks whether an instance of Vjc has already
+   * been created or not. If there already was a server,
+   * it actually doesn't do anything else than warn the user
+   * of an error. Otherwise, it starts up (opens the sockets),
+   * and stores itself in the class static variable.
+   *
+   * Configuration line syntax:
+   * servername[[:server_port[:local_port]]
+   * - servername where the server lives
+   * - optional port number for that server
+   * - optional port number the server should call back to
+   */
+
+  static void funcs();	///< init funclist
+
+  static WObject * (creator)(char *l);
+  /**< Creates from fileline */
+
+  virtual void changePermanent(float lasting);
+  /**< Used to scan the sockets for incoming messages */
+
+  virtual void quit();
+  static void stop();
+  /**<
+   * Sends a terminate notification to the external server
+   * and closes the comm sockets. The class's singleton instance
+   * is also removed.
+   */
+
+  static VjcMessage *getData(WObject *po);
+  /**<
+   * Reads in data from the child process, if any is availabe.
+   * It is the caller's responsability to delete the message
+   * received if it was non null.
+   */
+
+  static int sendCommand(WObject *po, int val);
+  /**< Sends a command */
+
+  static void startApp(class Vrelet *pifc);
+  /**<
+   * Register an Vrelet object with the external server
+   * The message contains:
+   * - localhost name (string)
+   * - local listen port (16bit)
+   * - Vrelet's given name (string)
+   * - Vrelet's class name (string)
+   * - Vrelet's codebase URL (string)
+   * - Width and heigh (32bit ints)
+   */
+
+  static void stopApp(class Vrelet *pifc);
+  /**< Application control stuff */
+
+  static Vjc *getServer();
+  /**< Returns the current running instance, NULL if there is none */
+
+  class VjcSocket *sock;
+  ///< The two-way socket
+
+ private:
+
+  static void setServer(Vjc *server);
+  /**< Sets the current running instance */
+
+  static Vjc *server;
+  ///< The singelton instance of this class
+
+  VjcMessage *lastMessage;
+  ///< The last message received
+
+  int lastping;
+  ///< 'Time' since last ping
+
+  virtual void start();
+  /**< Opens the sockets */
+
+  virtual void ping();
+  /**< Sends a ping to the server */
+
+  virtual void parser(char *l);
+  /**< Parses */
+
+  virtual void defaults();
+  ///< Sets defaults
+
+};
+
+#endif

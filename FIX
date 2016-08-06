@@ -1,0 +1,14 @@
+read bap frames in android.cpp sous Macos
+mpeg frames textures in movie.cpp
+lights in lights.cpp and render.cpp
+mirroring in mirror.cpp no stencils on Macos
+resetFlashy resetRay segfault in navig.cpp
+delete sheet segfault
+sun effect delete segfault
+wheel doesn't work
+md2 delete segfault
+sap thread hangs
+hairs no surface lwo
+multi clic getBufferselection
+bvh how to render
+smake doesn't work
