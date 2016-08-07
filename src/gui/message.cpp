@@ -309,7 +309,8 @@ void Messages::postRequest(const std::string& mess, std::string& result)
   if (nbObj > 0) convertTextToLink(result, listeObjets, nbObj);
   //TODO ev : traiter le message non augmente
 
-  if (listeObjets) delete[] listeObjets; listeObjets = NULL;
+  if (listeObjets) delete[] listeObjets;
+  listeObjets = NULL;
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
