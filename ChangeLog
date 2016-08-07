@@ -14,10 +14,16 @@ The rules for this file:
 
 ++ 8
 == 8.3
+-- 8.3.1
+	- vreng on github
+	- changed CXXFLAGS too avoid warnings under gcc-6.1.1
+	- added view.xpm into gui/xpm/Makefile.am
+	(2016/08/07, Philippe Dax)
+
 -- 8.3.0
 	- added checklib libsndfile into configure.ac
 	- added openal support --with-openal into configure.ac
-	(2016/03/26, Philippe)
+	(2016/03/26, Philippe Dax)
 
 == 8.2
 -- 8.2.2

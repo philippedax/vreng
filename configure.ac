@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[8.3.0],[dax@telecom-paristech.fr])
+AC_INIT([vreng],[8.3.1],[dax@telecom-paristech.fr])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ(2.63)
