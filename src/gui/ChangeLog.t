@@ -15,10 +15,16 @@ The rules for this file:\n\
 \n\
 ++ 8\n\
 == 8.3\n\
+-- 8.3.1\n\
+	- vreng on github\n\
+	- changed CXXFLAGS too avoid warnings under gcc-6.1.1\n\
+	- added view.xpm into gui/xpm/Makefile.am\n\
+	(2016/08/07, Philippe Dax)\n\
+\n\
 -- 8.3.0\n\
 	- added checklib libsndfile into configure.ac\n\
 	- added openal support --with-openal into configure.ac\n\
-	(2016/03/26, Philippe)\n\
+	(2016/03/26, Philippe Dax)\n\
 \n\
 == 8.2\n\
 -- 8.2.2\n\
