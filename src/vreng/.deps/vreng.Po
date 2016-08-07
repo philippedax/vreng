@@ -202,7 +202,7 @@ vreng.o: vreng.cpp /usr/include/stdc-predef.h ../../src/ubit/ubit.hpp \
  ../../src/wo/olist.hpp ../../src/wo/parse.hpp ../../src/sys/str.hpp \
  ../../src/wo/initobj.hpp ../../src/wo/objects.hpp \
  ../../src/vgl/render.hpp stat.hpp prof.hpp timer.hpp \
- ../../src/wo/openal.hpp
+ ../../src/wo/openal.hpp ../../src/ai/aiinit.hpp
 
 /usr/include/stdc-predef.h:
 
@@ -913,3 +913,5 @@ prof.hpp:
 timer.hpp:
 
 ../../src/wo/openal.hpp:
+
+../../src/ai/aiinit.hpp:
