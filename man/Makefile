@@ -110,6 +110,8 @@ AM_V_at = $(am__v_at_$(V))
 am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
 am__v_at_0 = @
 am__v_at_1 = 
+depcomp =
+am__depfiles_maybe =
 SOURCES =
 DIST_SOURCES =
 am__can_run_installinfo = \
@@ -287,7 +289,7 @@ top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
 uudecode = 
-AUTOMAKE_OPTIONS = foreign
+AUTOMAKE_OPTIONS = foreign no-dependencies
 man_MANS = vreng.1 vacs.8 vaps.8 vrel.1
 EXTRA_DIST = vreng.1 vacs.8 vaps.8 vrel.1
 all: all-am

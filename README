@@ -10,8 +10,6 @@ REQUIREMENTS AND RECOMMENDATIONS
 You need the X-Window System (Xorg, X11R6 or Openwin).
 Your visual must have a color depth of 8, 15, 16 or 24.
 
-The Ubit (Ubiquitous Toolkit) library is required, see below for downloading.
-
 The following libraries are required: libjpeg, libungif, libXpm.
 Other recommended libraries: libmysqlclient, libz, libpng.
 
@@ -22,66 +20,48 @@ is launched. VREng detects automatically if your host is on the MBone,
 if true, VREng switches in Multicast mode, else continues in Unicast mode
 with the Reflector.
 
-Eventually you need the classical MBone tools like vat, rat, vic and wb
-which are used by VREng as external applications and a browser like Firefox.
-
 
 SUPPORTED PLATFORMS
 -------------------
+	- Linux-*
+	- MacOSX-10.*
 	- Solaris*
 	- Sunos4.1.*
 	- HP-UX-B.10.20
-	- Linux-*
-	- MacOSX-10.*
 	- FreeBsd[345].*
 	- NetBsd*
 	- CygWin32
 
-VREng has not been ported on other platforms yet, but any
-port will be welcome.
+VREng has not been ported on other platforms yet, but any port will be welcome.
 
 
 DOWNLOADING
 -----------
-The VREng sources are available under tarballs:
-	wget http://www.infres.enst.fr/ftp/pub/vreng/vreng.tar.{gz,bz2,zip}
-and under a subversion repository:
-        svn co http://www.infres.enst.fr/svn/vreng/trunk vreng
+The VREng sources are available by:
+  - Tarball:    wget http://www.infres.enst.fr/ftp/pub/vreng/vreng.tar.{gz,xz,bz2,zip}
+  - Git:        git clone git+ssh://git@github.com/philippedax/vreng.git
+  - Subversion: svn co http://www.infres.enst.fr/svn/vreng/trunk vreng
 
 
 COMPILING
 ---------
 
+If the script "configure" is not present, you need to build it first by:
+	./autogen.sh
+
 VREng uses an OpenGL library. The configure script will usually figure out
 which one is installed on your system. There are basically two possibilities:
-
-1 - Your system already has a vendor OpenGL library installed.
-    Don't forget to apply patches for X11 server and graphic cards.
-
-2 - You want to use the Mesa free OpenGL emulation library.
-    You can retrieve the lastest stable release of Mesa at:
-	http://www.mesa3d.org/
+  1 - Your system already has a vendor OpenGL library installed.
+  2 - If you want to use the Mesa free OpenGL emulation library (http://www.mesa3d.org/).
 
 If your OpenGL library is not visible through the standard paths, you
-can use the configure option: --with-GL-prefix=DIR. DIR must be an
-absolute path. Type 'configure --help' to have more options.
+can use the configure option: --with-GL-prefix=DIR.
 
-VREng works with the Ubit toolkit (now inside VReng).
-Motif, X11-Athena, Glut and Tcl/Tk toolkits are no longer supported.
-Ubit is a Toolkit we have developed at ENST, you can get it at:
-	http://www.infres.enst.fr/ftp/pub/unix/gui/ubit/ubit.tar.gz
-	http://www.infres.enst.fr/~elc/
-
+VREng works with the Ubit toolkit.
 Since vreng-7.0.0 the Ubit Toolkit is built in VReng by default.
 
 Before compiling VREng check available features with:
 	./configure --help
-
-To improve performances VREng uses threads library POSIX compatible,
-if your system supports this capability use configure with the
---enable-pthread option.
-To optimize the code use the --enable-optimize option.
-If you have X11 headers buggy, you can use the --enable-permissive option.
 
 To compile VREng with defaults, type:
 	./configure
@@ -99,31 +79,6 @@ To do this, type:
 or
 	make install-strip
 
-You must also install the sdr plugin in your ~/.sdr/plugins directory
-
-
-CUSTOMIZING
------------
-Yourself:
-
-To add your pictural representation, build a gif of your face
-of size 256x256 pixel (using xv), put it into the directory
-
-	~/public.html/vreng/yourfrontface.gif
-
-and update your ~/.vreng/prefs to adjust your preferences:
-
-	mapface=http://yoursite/~yourlogin/vreng/yourfrontbody.gif
-	mabback=http://yoursite/~yourlogin/vreng/yourbackbody.gif
-
-See the file conf/prefs in this distribution.
-
-MBone:
-
-After installing the sdr plugin, you can use sdr to launch vreng
-clicking on the media 'games'.
-Vreng will retreive automatically world description by http from the URL:
-http://vreng.enst.fr/vre/v7/
 
 HOW TO NAVIGATE ?
 -----------------
