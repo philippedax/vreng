@@ -651,8 +651,8 @@ uninstall-am:
 
 pref.cpp: prefs.t
 
-prefs.t: txt2str $(top_srcdir)/conf/prefs
-	./txt2str def_prefs < $(top_srcdir)/conf/prefs > $@
+prefs.t: txt2str $(top_srcdir)/md/prefs
+	./txt2str def_prefs < $(top_srcdir)/md/prefs > $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

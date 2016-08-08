@@ -741,8 +741,8 @@ ChangeLog.t: $(top_srcdir)/ChangeLog
 	../vreng/txt2str ChangeLog < $(top_srcdir)/ChangeLog > $@
 TODO.t: $(top_srcdir)/TODO
 	../vreng/txt2str TODO < $(top_srcdir)/TODO > $@
-DTD.t: $(top_srcdir)/conf/vre-1.0.dtd
-	../vreng/txt2str DTD < $(top_srcdir)/conf/vre-1.0.dtd > $@
+DTD.t: $(top_srcdir)/md/vre-1.0.dtd
+	../vreng/txt2str DTD < $(top_srcdir)/md/vre-1.0.dtd > $@
 CONFIG_H.t: $(top_srcdir)/config.h
 	../vreng/txt2str CONFIG_H < $(top_srcdir)/config.h > $@
 

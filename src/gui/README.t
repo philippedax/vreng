@@ -11,8 +11,6 @@ REQUIREMENTS AND RECOMMENDATIONS\n\
 You need the X-Window System (Xorg, X11R6 or Openwin).\n\
 Your visual must have a color depth of 8, 15, 16 or 24.\n\
 \n\
-The Ubit (Ubiquitous Toolkit) library is required, see below for downloading.\n\
-\n\
 The following libraries are required: libjpeg, libungif, libXpm.\n\
 Other recommended libraries: libmysqlclient, libz, libpng.\n\
 \n\
@@ -23,66 +21,48 @@ is launched. VREng detects automatically if your host is on the MBone,\n\
 if true, VREng switches in Multicast mode, else continues in Unicast mode\n\
 with the Reflector.\n\
 \n\
-Eventually you need the classical MBone tools like vat, rat, vic and wb\n\
-which are used by VREng as external applications and a browser like Firefox.\n\
-\n\
 \n\
 SUPPORTED PLATFORMS\n\
 -------------------\n\
+	- Linux-*\n\
+	- MacOSX-10.*\n\
 	- Solaris*\n\
 	- Sunos4.1.*\n\
 	- HP-UX-B.10.20\n\
-	- Linux-*\n\
-	- MacOSX-10.*\n\
 	- FreeBsd[345].*\n\
 	- NetBsd*\n\
 	- CygWin32\n\
 \n\
-VREng has not been ported on other platforms yet, but any\n\
-port will be welcome.\n\
+VREng has not been ported on other platforms yet, but any port will be welcome.\n\
 \n\
 \n\
 DOWNLOADING\n\
 -----------\n\
-The VREng sources are available under tarballs:\n\
-	wget http://www.infres.enst.fr/ftp/pub/vreng/vreng.tar.{gz,bz2,zip}\n\
-and under a subversion repository:\n\
-        svn co http://www.infres.enst.fr/svn/vreng/trunk vreng\n\
+The VREng sources are available by:\n\
+  - Tarball:    wget http://www.infres.enst.fr/ftp/pub/vreng/vreng.tar.{gz,xz,bz2,zip}\n\
+  - Git:        git clone git+ssh://git@github.com/philippedax/vreng.git\n\
+  - Subversion: svn co http://www.infres.enst.fr/svn/vreng/trunk vreng\n\
 \n\
 \n\
 COMPILING\n\
 ---------\n\
 \n\
+If the script \"configure\" is not present, you need to build it first by:\n\
+	./autogen.sh\n\
+\n\
 VREng uses an OpenGL library. The configure script will usually figure out\n\
 which one is installed on your system. There are basically two possibilities:\n\
-\n\
-1 - Your system already has a vendor OpenGL library installed.\n\
-    Don't forget to apply patches for X11 server and graphic cards.\n\
-\n\
-2 - You want to use the Mesa free OpenGL emulation library.\n\
-    You can retrieve the lastest stable release of Mesa at:\n\
-	http://www.mesa3d.org/\n\
+  1 - Your system already has a vendor OpenGL library installed.\n\
+  2 - If you want to use the Mesa free OpenGL emulation library (http://www.mesa3d.org/).\n\
 \n\
 If your OpenGL library is not visible through the standard paths, you\n\
-can use the configure option: --with-GL-prefix=DIR. DIR must be an\n\
-absolute path. Type 'configure --help' to have more options.\n\
+can use the configure option: --with-GL-prefix=DIR.\n\
 \n\
-VREng works with the Ubit toolkit (now inside VReng).\n\
-Motif, X11-Athena, Glut and Tcl/Tk toolkits are no longer supported.\n\
-Ubit is a Toolkit we have developed at ENST, you can get it at:\n\
-	http://www.infres.enst.fr/ftp/pub/unix/gui/ubit/ubit.tar.gz\n\
-	http://www.infres.enst.fr/~elc/\n\
-\n\
+VREng works with the Ubit toolkit.\n\
 Since vreng-7.0.0 the Ubit Toolkit is built in VReng by default.\n\
 \n\
 Before compiling VREng check available features with:\n\
 	./configure --help\n\
-\n\
-To improve performances VREng uses threads library POSIX compatible,\n\
-if your system supports this capability use configure with the\n\
---enable-pthread option.\n\
-To optimize the code use the --enable-optimize option.\n\
-If you have X11 headers buggy, you can use the --enable-permissive option.\n\
 \n\
 To compile VREng with defaults, type:\n\
 	./configure\n\
@@ -100,31 +80,6 @@ To do this, type:\n\
 or\n\
 	make install-strip\n\
 \n\
-You must also install the sdr plugin in your ~/.sdr/plugins directory\n\
-\n\
-\n\
-CUSTOMIZING\n\
------------\n\
-Yourself:\n\
-\n\
-To add your pictural representation, build a gif of your face\n\
-of size 256x256 pixel (using xv), put it into the directory\n\
-\n\
-	~/public.html/vreng/yourfrontface.gif\n\
-\n\
-and update your ~/.vreng/prefs to adjust your preferences:\n\
-\n\
-	mapface=http://yoursite/~yourlogin/vreng/yourfrontbody.gif\n\
-	mabback=http://yoursite/~yourlogin/vreng/yourbackbody.gif\n\
-\n\
-See the file conf/prefs in this distribution.\n\
-\n\
-MBone:\n\
-\n\
-After installing the sdr plugin, you can use sdr to launch vreng\n\
-clicking on the media 'games'.\n\
-Vreng will retreive automatically world description by http from the URL:\n\
-http://vreng.enst.fr/vre/v7/\n\
 \n\
 HOW TO NAVIGATE ?\n\
 -----------------\n\

@@ -40,8 +40,8 @@ txt2str_SOURCES = txt2str.c
 
 pref.cpp: prefs.t
 
-prefs.t: txt2str $(top_srcdir)/conf/prefs
-	./txt2str def_prefs < $(top_srcdir)/conf/prefs > $@
+prefs.t: txt2str $(top_srcdir)/md/prefs
+	./txt2str def_prefs < $(top_srcdir)/md/prefs > $@
 
 libvreng_a_SOURCES = $(VRENG_SRCS) $(VRENG_HDRS)
 noinst_LIBRARIES = libvreng.a
