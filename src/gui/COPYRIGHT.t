@@ -1,7 +1,7 @@
 const char COPYRIGHT[] = "\
 VREng (Virtual Reality Engine)\n\
 \n\
-Copyright (C) 1997-2011 Philippe Dax\n\
+Copyright (C) 1997-2016 Philippe Dax\n\
 Telecom-ParisTech alias Ecole Nationale Superieure des Telecommunications (ENST)\n\
 \n\
 VREng is a free software; you can redistribute it and/or modify it\n\
