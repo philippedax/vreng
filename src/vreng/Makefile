@@ -92,7 +92,7 @@ host_triplet = x86_64-unknown-linux-gnu
 noinst_PROGRAMS = txt2str$(EXEEXT)
 subdir = src/vreng
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/support/acinclude.m4 \
 	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)

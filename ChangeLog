@@ -18,6 +18,7 @@ The rules for this file:
 	- vreng on github
 	- changed CXXFLAGS too avoid warnings under gcc-6.1.1
 	- added view.xpm into gui/xpm/Makefile.am
+	- moved acinclude.m4 into support/
 	(2016/08/07, Philippe Dax)
 
 -- 8.3.0
