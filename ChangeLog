@@ -15,8 +15,8 @@ The rules for this file:
 ++ 8
 == 8.3
 -- 8.3.1
-	- vreng on github
-	- changed CXXFLAGS too avoid warnings under gcc-6.1.1
+	- vreng homed at github
+	- changed CXXFLAGS to avoid warnings under gcc-6.1.1
 	- added view.xpm into gui/xpm/Makefile.am
 	- moved acinclude.m4 into support/
 	(2016/08/07, Philippe Dax)
