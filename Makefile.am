@@ -27,6 +27,7 @@ SUBDIRS = src man bin
 
 
 EXTRA_DIST = COPYRIGHT VERSION ANNOUNCE support/* md/*
+ACLOCAL_AMFLAGS = -I support
 
 ## maintainer's targets
 

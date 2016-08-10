@@ -35,6 +35,7 @@ AC_CONFIG_SRCDIR([src/vreng/vreng.cpp])
 
 # where to find install.sh, config.sub, and config.guess
 AC_CONFIG_AUX_DIR(support)
+AC_CONFIG_MACRO_DIR(support)
 
 # canonicalizing cpu:vendor:os
 AC_CANONICAL_HOST([])
