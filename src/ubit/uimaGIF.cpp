@@ -144,7 +144,13 @@ UGif::UGif(UHardIma& nima, const UStr& fpath, int max_w, int max_h)
   stat = UFilestat::Opened;
 
   //if (from_stdin == 0) {
+#if defined(GIFLIB_MAJOR) && (GIFLIB_MAJOR >= 5)
+  // There was an API change in version 5.0.0.
+  int gif_error = GIF_ERROR;
+  if (!(gfile = DGifOpenFileName(fpath.c_str(), &gif_error))) {
+#else
   if (!(gfile = DGifOpenFileName(fpath.c_str()))) {
+#endif
     stat = UFilestat::CannotOpen;
     return;
   }
@@ -176,7 +182,13 @@ UGif::~UGif() {
 #if WITH_2D_GRAPHICS
   delete convtable;
 #endif
+#if defined(GIFLIB_MAJOR) && (GIFLIB_MAJOR >= 5)
+  // There was an API change in version 5.0.0.
+  int gif_error = GIF_ERROR;
+  if (gfile) DGifCloseFile(gfile, &gif_error);
+#else
   if (gfile) DGifCloseFile(gfile);
+#endif
 }
 
 /*
