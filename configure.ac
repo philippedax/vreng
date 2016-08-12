@@ -949,7 +949,7 @@ AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
 AH_TEMPLATE(HAVE_LIBCURL)
 AC_CHECK_LIB([curl], [curl_easy_init],
      [VRELIBS="$OSDEP_LIBS -lcurl $VRELIBS"],
-     [AC_MSG_WARN([curl library not found, check config.log, or try yum|dnf|apt-get install libcurl-devel])],
+     [AC_MSG_WARN([curl library not found, check config.log, or try yum|dnf install libcurl-devel or apt-get install libcurl-openssl-dev])],
      [$OSDEP_LIBS])
 if test "$ac_cv_lib_curl_curl_easy_init" = "yes"; then
   AC_DEFINE([HAVE_LIBCURL])
@@ -966,7 +966,7 @@ fi
 have_freetype="no"
 have_freetype_and_gl="no"
 AH_TEMPLATE(WITH_FREETYPE)
-AC_CHECK_FREETYPE([9.0.3],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try yum|dnf|apt-get install freetype-devel])])
+AC_CHECK_FREETYPE([9.0.3],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try yum|dnf install freetype-devel or apt-get install freetype-dev])])
 if test "$have_freetype" = "yes"; then
   ubit_features="$ubit_features UBIT_WITH_FREETYPE"
   if test "$have_gl" = "yes"; then
@@ -1029,7 +1029,7 @@ if test "$ac_cv_use_ubit_builtin" = "no"; then
 
   UBIT_CFLAGS=$UBIT_I
   ubit="no"
-  ftgl="no"
+  bundle_ftgl="no"
   toolkit="ubit-$UBIT_VERSION"
 else
   # Use builtin ubit
@@ -1038,7 +1038,7 @@ else
   UBIT_CFLAGS=$UBIT_I
   VRELIBS="$X_LIBS -lXpm -lICE -lSM -lXext -lXmu -lX11 $VRELIBS"
   ubit="yes"
-  ftgl="yes"
+  #bundle_ftgl="yes"
   min_ubit_version=7.0.0
   toolkit=7.0.0
 fi
@@ -1174,6 +1174,37 @@ if test "${enable_pthread:=yes}" = "yes"; then
     AC_DEFINE(WITH_PTHREAD)
     AC_DEFINE(HAVE_LIBPTHREAD)
   fi
+fi
+
+
+# --------------------------------------------------------------------------
+#
+# ftgl
+#
+AH_TEMPLATE(WITH_FTGL)
+AH_TEMPLATE(HAVE_FTGL)
+AH_TEMPLATE(HAVE_FTGL_H)
+AC_ARG_WITH([ftgl],
+      AS_HELP_STRING([--with-ftgl],[allow use libftgl if available [[default=no]]]))
+
+if test "${with_ftgl:=no}" = "yes"; then
+  #
+  # check ftgl
+  #
+  AC_CHECK_LIB([ftgl], [main], 
+       [VRELIBS="-lftgl ${VRELIBS}"],
+       [AC_MSG_WARN([ftgl library not found, use bundle ftgl])])
+  if test "$ac_cv_lib_ftgl_main" = "yes" ; then
+    AC_DEFINE(WITH_FTGL)
+    AC_DEFINE(HAVE_FTGL)
+    bundle_ftgl="no"
+    AC_CHECK_HEADER([FTGL/ftgl.h], [AC_DEFINE([HAVE_FTGL_H])],
+	    AC_MSG_WARN([unable to find ftgl header]))
+  else
+    bundle_ftgl="yes"
+  fi
+else
+  bundle_ftgl="yes"
 fi
 
 
@@ -1433,13 +1464,13 @@ fi
 #
 # Check glui support
 #
-glui="no"
+bundle_glui="no"
 AC_ARG_ENABLE([glui],
       AS_HELP_STRING([--enable-glui],[allow use of glui if available (experimental) [[default=no]]]))
 
 AH_TEMPLATE(WANT_GLUI)
 if test "${enable_glui:=no}" = "yes"; then
-  glui="yes"
+  bundle_glui="yes"
   AC_DEFINE(WANT_GLUI)
 fi
 
@@ -1639,22 +1670,22 @@ fi
 AM_CONDITIONAL(UBIT, test "$ubit" = "yes")
 AM_CONDITIONAL(IPV6, test "$ipv6" = "yes")
 AM_CONDITIONAL(JAVA, test "$java" = "yes")
-AM_CONDITIONAL(GL2PS, test "$gl2ps" = "yes")
-AM_CONDITIONAL(BUNDLE_LIBZ, test "$bundle_libz" = "yes")
-AM_CONDITIONAL(BUNDLE_LIBPNG, test "$bundle_libpng" = "yes")
-AM_CONDITIONAL(BUNDLE_LIBMPEG, test "$bundle_libmpeg" = "yes")
-AM_CONDITIONAL(ENABLE_VAPS, test "$vaps" = "yes")
-AM_CONDITIONAL(ENABLE_VJS, test "$vjs" = "yes")
-AM_CONDITIONAL(ENABLE_VACS, test "$vacs" = "yes")
 AM_CONDITIONAL(OCAML, test "$ocaml" = "yes")
 AM_CONDITIONAL(VREL, test "$vrel" = "yes")
 AM_CONDITIONAL(VRED, test "$vred" = "yes")
 AM_CONDITIONAL(VMM, test "$vmm" = "yes")
 AM_CONDITIONAL(GLUT, test "$have_glut" = "yes")
-AM_CONDITIONAL(GLUI, test "$glui" = "yes")
-AM_CONDITIONAL(FTGL, test "$ftgl" = "yes")
 AM_CONDITIONAL(OPENAL, test "$openal" = "yes")
 AM_CONDITIONAL(SDL, test "$sdl" = "yes")
+AM_CONDITIONAL(ENABLE_VAPS, test "$vaps" = "yes")
+AM_CONDITIONAL(ENABLE_VJS, test "$vjs" = "yes")
+AM_CONDITIONAL(ENABLE_VACS, test "$vacs" = "yes")
+AM_CONDITIONAL(BUNDLE_GL2PS, test "$gl2ps" = "yes")
+AM_CONDITIONAL(BUNDLE_LIBZ, test "$bundle_libz" = "yes")
+AM_CONDITIONAL(BUNDLE_LIBPNG, test "$bundle_libpng" = "yes")
+AM_CONDITIONAL(BUNDLE_LIBMPEG, test "$bundle_libmpeg" = "yes")
+AM_CONDITIONAL(BUNDLE_FTGL, test "$bundle_ftgl" = "yes")
+AM_CONDITIONAL(BUNDLE_GLUI, test "$bundle_glui" = "yes")
 
 
 # --------------------------------------------------------------------------

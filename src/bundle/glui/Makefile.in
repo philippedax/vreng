@@ -153,7 +153,8 @@ am__objects_1 = glui_add_controls.$(OBJEXT) glui.$(OBJEXT) \
 	glui_img_spinup_0.$(OBJEXT) glui_img_spinup_1.$(OBJEXT) \
 	glui_img_spinup_dis.$(OBJEXT) glui_img_uparrow.$(OBJEXT)
 am__objects_2 =
-@GLUI_TRUE@am_libglui_a_OBJECTS = $(am__objects_1) $(am__objects_2)
+@BUNDLE_GLUI_TRUE@am_libglui_a_OBJECTS = $(am__objects_1) \
+@BUNDLE_GLUI_TRUE@	$(am__objects_2)
 libglui_a_OBJECTS = $(am_libglui_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -364,8 +365,8 @@ glui_img_checkbox_0.c glui_img_checkbox_0_dis.c glui_img_checkbox_1.c glui_img_c
 
 GLUI_HDRS = algebra3.h arcball.h glui.h quaternion.h stdinc.h # viewmodel.h
 EXTRA_DIST = $(GLUI_HDRS) readme
-@GLUI_TRUE@noinst_LIBRARIES = libglui.a
-@GLUI_TRUE@libglui_a_SOURCES = $(GLUI_SRCS) $(GLUI_HDRS)
+@BUNDLE_GLUI_TRUE@noinst_LIBRARIES = libglui.a
+@BUNDLE_GLUI_TRUE@libglui_a_SOURCES = $(GLUI_SRCS) $(GLUI_HDRS)
 all: all-am
 
 .SUFFIXES:

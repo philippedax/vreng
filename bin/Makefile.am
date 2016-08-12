@@ -89,7 +89,7 @@ MPEGLIB=
 endif
 GLPNGLIB=-L$(SRCDIR)/bundle/glpng $(SRCDIR)/bundle/glpng/libglpng.a
 XMLLIB=-L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
-if GL2PS
+if BUNDLE_GL2PS
 GL2PSLIB=-L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
 else
 GL2PSLIB=
@@ -99,20 +99,20 @@ AILIB=-L$(SRCDIR)/ai $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/lib
 else
 AILIB=
 endif
-if GLUI
+if BUNDLE_GLUI
 GLUILIB=-L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a
 else
-GLUILIB=
+GLUILIB= 
 endif
 if UBIT
 UBITLIB=-L$(SRCDIR)/ubit $(SRCDIR)/ubit/libubit.a
 else
 UBITLIB= -lubit
 endif
-if FTGL
+if BUNDLE_FTGL
 FTGLLIB=-L$(SRCDIR)/bundle/ftgl $(SRCDIR)/bundle/ftgl/libftgl.a
 else
-FTGLLIB=
+FTGLLIB= 
 endif
 
 # core libs

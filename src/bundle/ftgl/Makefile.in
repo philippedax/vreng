@@ -132,7 +132,7 @@ am__objects_2 = FTBitmapGlyph.$(OBJEXT) FTGLBitmapFont.$(OBJEXT) \
 	FTFace.$(OBJEXT) FTGLPolygonFont.$(OBJEXT) \
 	FTPixmapGlyph.$(OBJEXT) FTFont.$(OBJEXT) \
 	FTGLTextureFont.$(OBJEXT) FTPoint.$(OBJEXT) $(am__objects_1)
-@FTGL_TRUE@am_libftgl_a_OBJECTS = $(am__objects_2)
+@BUNDLE_FTGL_TRUE@am_libftgl_a_OBJECTS = $(am__objects_2)
 libftgl_a_OBJECTS = $(am_libftgl_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -343,8 +343,8 @@ FTGL_HDRS = FTGL.h FTBBox.h FTGLBitmapFont.h FTList.h FTBitmapGlyph.h FTGLExtrdF
 FTGL_SRCS = FTBitmapGlyph.cpp FTGLBitmapFont.cpp FTGlyph.cpp FTPolyGlyph.cpp FTCharmap.cpp FTGLExtrdFont.cpp FTGlyphContainer.cpp FTSize.cpp FTContour.cpp FTGLOutlineFont.cpp FTLibrary.cpp FTTextureGlyph.cpp FTExtrdGlyph.cpp FTGLPixmapFont.cpp FTOutlineGlyph.cpp FTVectoriser.cpp FTFace.cpp FTGLPolygonFont.cpp FTPixmapGlyph.cpp FTFont.cpp FTGLTextureFont.cpp FTPoint.cpp $(FTGL_HDRS)
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = @GL_CFLAGS@ -I$(SRCDIR)/bundle/ftgl
-@FTGL_TRUE@noinst_LIBRARIES = libftgl.a
-@FTGL_TRUE@libftgl_a_SOURCES = $(FTGL_SRCS)
+@BUNDLE_FTGL_TRUE@noinst_LIBRARIES = libftgl.a
+@BUNDLE_FTGL_TRUE@libftgl_a_SOURCES = $(FTGL_SRCS)
 all: all-am
 
 .SUFFIXES:

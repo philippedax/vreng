@@ -153,7 +153,8 @@ am__objects_1 = glui_add_controls.$(OBJEXT) glui.$(OBJEXT) \
 	glui_img_spinup_0.$(OBJEXT) glui_img_spinup_1.$(OBJEXT) \
 	glui_img_spinup_dis.$(OBJEXT) glui_img_uparrow.$(OBJEXT)
 am__objects_2 =
-#am_libglui_a_OBJECTS = $(am__objects_1) $(am__objects_2)
+#am_libglui_a_OBJECTS = $(am__objects_1) \
+#	$(am__objects_2)
 libglui_a_OBJECTS = $(am_libglui_a_OBJECTS)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))

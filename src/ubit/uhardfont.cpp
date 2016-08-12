@@ -25,11 +25,15 @@
 //#include <ubit/udispGDK.hpp>
 #include <ubit/uhardfont.hpp>
 
+#if HAVE_FTGL_H
+#include <FTGL/ftgl.h>
+#else
 #if UBIT_WITH_GL && UBIT_WITH_FREETYPE
 #    include <ftgl/FTFont.h>  // FTGL
 #    include <ftgl/FTGLTextureFont.h>
 #    include <ftgl/FTGLPolygonFont.h>
 #    include <ftgl/FTGLPixmapFont.h>
+#endif
 #endif
 
 #define NAMESPACE_UBIT namespace ubit {

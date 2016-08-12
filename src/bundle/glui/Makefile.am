@@ -8,7 +8,7 @@ GLUI_HDRS = algebra3.h arcball.h glui.h quaternion.h stdinc.h # viewmodel.h
 
 EXTRA_DIST = $(GLUI_HDRS) readme
 
-if GLUI
+if BUNDLE_GLUI
 noinst_LIBRARIES = libglui.a
 libglui_a_SOURCES = $(GLUI_SRCS) $(GLUI_HDRS)
 endif

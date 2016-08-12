@@ -6,7 +6,7 @@ AM_CPPFLAGS = @GL_CFLAGS@ $(X_CFLAGS)
 
 EXTRA_DIST = COPYING.GL2PS
 
-if GL2PS
+if BUNDLE_GL2PS
 noinst_LIBRARIES = libgl2ps.a
 libgl2ps_a_SOURCES = $(GL2PS_SRCS)
 endif

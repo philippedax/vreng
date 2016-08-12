@@ -109,7 +109,7 @@ libgl2ps_a_AR = $(AR) $(ARFLAGS)
 libgl2ps_a_LIBADD =
 am__libgl2ps_a_SOURCES_DIST = gl2ps.c gl2ps.h
 am__objects_1 = gl2ps.$(OBJEXT)
-@GL2PS_TRUE@am_libgl2ps_a_OBJECTS = $(am__objects_1)
+@BUNDLE_GL2PS_TRUE@am_libgl2ps_a_OBJECTS = $(am__objects_1)
 libgl2ps_a_OBJECTS = $(am_libgl2ps_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -305,8 +305,8 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 GL2PS_SRCS = gl2ps.c gl2ps.h
 AM_CPPFLAGS = @GL_CFLAGS@ $(X_CFLAGS)
 EXTRA_DIST = COPYING.GL2PS
-@GL2PS_TRUE@noinst_LIBRARIES = libgl2ps.a
-@GL2PS_TRUE@libgl2ps_a_SOURCES = $(GL2PS_SRCS)
+@BUNDLE_GL2PS_TRUE@noinst_LIBRARIES = libgl2ps.a
+@BUNDLE_GL2PS_TRUE@libgl2ps_a_SOURCES = $(GL2PS_SRCS)
 all: all-am
 
 .SUFFIXES:
