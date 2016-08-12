@@ -5,7 +5,7 @@ VRED_HDRS = main.hpp vred.hpp vre.hpp app.hpp bbox.hpp board.hpp box.hpp bsphere
 EXTRA_DIST = vred.l vred.y
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/extras/glui $(GL_CFLAGS) $(X_CFLAGS)
+AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/bundle/glui $(GL_CFLAGS) $(X_CFLAGS)
 
 if VRED
 lex.yy.o: lex.yy.cpp y.tab.h
@@ -26,7 +26,7 @@ clean:
 
 vred_SOURCES = $(VRED_SRCS) $(VRED_HDRS) y.tab.cpp lex.yy.cpp
 bin_PROGRAMS = vred
-vred_LDADD = -L$(SRCDIR)/extras/glui $(SRCDIR)/extras/glui/libglui.a\
+vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a\
  $(X_LIBS) $(XLIBS) $(GL_LDOPTS) -lglut -lGLU -lGL -lm
 
 endif

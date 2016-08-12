@@ -127,7 +127,7 @@ am__objects_2 =
 @VRED_TRUE@	y.tab.$(OBJEXT) lex.yy.$(OBJEXT)
 vred_OBJECTS = $(am_vred_OBJECTS)
 am__DEPENDENCIES_1 =
-@VRED_TRUE@vred_DEPENDENCIES = $(SRCDIR)/extras/glui/libglui.a \
+@VRED_TRUE@vred_DEPENDENCIES = $(SRCDIR)/bundle/glui/libglui.a \
 @VRED_TRUE@	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -337,9 +337,9 @@ VRED_SRCS = main.cpp app.cpp bbox.cpp board.cpp box.cpp bsphere.cpp camera.cpp c
 VRED_HDRS = main.hpp vred.hpp vre.hpp app.hpp bbox.hpp board.hpp box.hpp bsphere.hpp camera.hpp color.hpp doc.hpp earth.hpp gate.hpp gif.hpp group.hpp host.hpp input.hpp item.hpp map.hpp matrix.hpp output.hpp ray.hpp raycaster.hpp solid.hpp sphere.hpp step.hpp tex.hpp ui.hpp vect.hpp safe.hpp wall.hpp web.hpp
 EXTRA_DIST = vred.l vred.y
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/extras/glui $(GL_CFLAGS) $(X_CFLAGS)
+AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/bundle/glui $(GL_CFLAGS) $(X_CFLAGS)
 @VRED_TRUE@vred_SOURCES = $(VRED_SRCS) $(VRED_HDRS) y.tab.cpp lex.yy.cpp
-@VRED_TRUE@vred_LDADD = -L$(SRCDIR)/extras/glui $(SRCDIR)/extras/glui/libglui.a\
+@VRED_TRUE@vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a\
 @VRED_TRUE@ $(X_LIBS) $(XLIBS) $(GL_LDOPTS) -lglut -lGLU -lGL -lm
 
 all: all-am
@@ -355,9 +355,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/util/vred/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/util/vred/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/util/vred/Makefile
+	  $(AUTOMAKE) --foreign src/util/vred/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

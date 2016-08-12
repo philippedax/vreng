@@ -26,7 +26,7 @@ WO_SRCS = oclass.cpp wobject.cpp universe.cpp world.cpp initobj.cpp parse.cpp ol
 WO_HDRS = oclass.hpp wobject.hpp objects.hpp initobj.hpp universe.hpp world.hpp parse.hpp olist.hpp vre.hpp move.hpp useraction.hpp xml.hpp user.hpp wall.hpp ball.hpp board.hpp cauldron.hpp door.hpp mirage.hpp gate.hpp host.hpp step.hpp web.hpp button.hpp walls.hpp animator.hpp bullet.hpp lift.hpp aoi.hpp doc.hpp entry.hpp stars.hpp bgcolor.hpp music.hpp mirror.hpp clock.hpp clip.hpp ftp.hpp water.hpp dart.hpp mech.hpp light.hpp text.hpp movie.hpp guy.hpp thing.hpp android.hpp vnc.hpp vrelet.hpp vjc.hpp transform.hpp model.hpp mysql.hpp carrier.hpp cart.hpp particle.hpp book.hpp sheet.hpp icon.hpp flag.hpp guide.hpp area.hpp projectile.hpp ground.hpp plane.hpp animx3d.hpp wind.hpp widget.hpp thunder.hpp cloud.hpp stair.hpp escalator.hpp travelator.hpp spiral.hpp waterfall.hpp fountain.hpp firework.hpp rain.hpp snow.hpp bubble.hpp terrain.hpp river.hpp sun.hpp cloth.hpp halo.hpp hat.hpp dress.hpp wings.hpp fire.hpp smoke.hpp hairs.hpp slider.hpp bumper.hpp accessory.hpp head.hpp openal.cpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ @MYSQL_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/net -I$(SRCDIR)/texture -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/app -I$(SRCDIR)/vnc -I$(SRCDIR)/extras/xmlParser -I$(SRCDIR)/extras/mpeg_lib
+AM_CPPFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ @MYSQL_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/net -I$(SRCDIR)/texture -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/app -I$(SRCDIR)/vnc -I$(SRCDIR)/bundle/xmlParser -I$(SRCDIR)/bundle/mpeg_lib
 
 libwo_a_SOURCES = $(WO_SRCS) $(WO_HDRS)
 noinst_LIBRARIES = libwo.a

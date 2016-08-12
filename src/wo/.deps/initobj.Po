@@ -123,7 +123,7 @@ initobj.o: initobj.cpp /usr/include/stdc-predef.h \
  wall.hpp ground.hpp web.hpp button.hpp cauldron.hpp projectile.hpp \
  bullet.hpp dart.hpp host.hpp board.hpp doc.hpp walls.hpp entry.hpp \
  bgcolor.hpp light.hpp music.hpp movie.hpp \
- ../../src/extras/mpeg_lib/mpeg.h clip.hpp clock.hpp ftp.hpp mirror.hpp \
+ ../../src/bundle/mpeg_lib/mpeg.h clip.hpp clock.hpp ftp.hpp mirror.hpp \
  stars.hpp particle.hpp water.hpp mech.hpp guy.hpp vnc.hpp \
  ../../src/vnc/client.hpp ../../src/vnc/rfbproto.hpp \
  ../../src/vnc/sockets.hpp ../../src/vnc/auth.h ../../src/vnc/d3des.h \
@@ -207,7 +207,7 @@ initobj.o: initobj.cpp /usr/include/stdc-predef.h \
  ../../src/ubit/ufile.hpp vrelet.hpp vjc.hpp animator.hpp text.hpp \
  android.hpp carrier.hpp cart.hpp book.hpp sheet.hpp icon.hpp model.hpp \
  flag.hpp guide.hpp area.hpp lift.hpp transform.hpp aoi.hpp animx3d.hpp \
- ../../src/model/x3d.hpp ../../src/extras/xmlParser/xmlParser.h wind.hpp \
+ ../../src/model/x3d.hpp ../../src/bundle/xmlParser/xmlParser.h wind.hpp \
  widget.hpp thunder.hpp cloud.hpp stair.hpp escalator.hpp travelator.hpp \
  spiral.hpp waterfall.hpp fountain.hpp rain.hpp snow.hpp bubble.hpp \
  terrain.hpp river.hpp sun.hpp cloth.hpp halo.hpp hat.hpp dress.hpp \
@@ -687,7 +687,7 @@ music.hpp:
 
 movie.hpp:
 
-../../src/extras/mpeg_lib/mpeg.h:
+../../src/bundle/mpeg_lib/mpeg.h:
 
 clip.hpp:
 
@@ -1019,7 +1019,7 @@ animx3d.hpp:
 
 ../../src/model/x3d.hpp:
 
-../../src/extras/xmlParser/xmlParser.h:
+../../src/bundle/xmlParser/xmlParser.h:
 
 wind.hpp:
 

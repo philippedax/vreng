@@ -117,7 +117,7 @@ movie.o: movie.cpp /usr/include/stdc-predef.h ../../src/vreng/vreng.hpp \
  /usr/include/c++/6.1.1/bits/allocated_ptr.h \
  /usr/include/c++/6.1.1/ext/aligned_buffer.h \
  /usr/include/c++/6.1.1/bits/list.tcc parse.hpp ../../src/sys/str.hpp \
- initobj.hpp objects.hpp ../../src/extras/mpeg_lib/mpeg.h \
+ initobj.hpp objects.hpp ../../src/bundle/mpeg_lib/mpeg.h \
  ../../src/texture/texture.hpp wobject.hpp ../../src/vreng/cache.hpp \
  /usr/include/c++/6.1.1/string /usr/include/c++/6.1.1/bits/stringfwd.h \
  /usr/include/c++/6.1.1/bits/char_traits.h \
@@ -618,7 +618,7 @@ initobj.hpp:
 
 objects.hpp:
 
-../../src/extras/mpeg_lib/mpeg.h:
+../../src/bundle/mpeg_lib/mpeg.h:
 
 ../../src/texture/texture.hpp:
 

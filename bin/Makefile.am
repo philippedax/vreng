@@ -71,26 +71,26 @@ else
 AM_CPPFLAGS = @UBIT_CFLAGS@ $(CORE_INCL)
 endif
 
-# extras includes
-if MYLIBZ
-ZLIB=-L$(SRCDIR)/extras/zlib $(SRCDIR)/extras/zlib/libz.a
+# bundle includes
+if BUNDLE_LIBZ
+ZLIB=-L$(SRCDIR)/bundle/zlib $(SRCDIR)/bundle/zlib/libz.a
 else
 ZLIB= -lz
 endif
-if MYLIBPNG
-PNGLIB=-L$(SRCDIR)/extras/png $(SRCDIR)/extras/png/libpng.a
+if BUNDLE_LIBPNG
+PNGLIB=-L$(SRCDIR)/bundle/png $(SRCDIR)/bundle/png/libpng.a
 else
 PNGLIB= -lpng
 endif
-if MYLIBMPEG
-MPEGLIB=-L$(SRCDIR)/extras/mpeg_lib $(SRCDIR)/extras/mpeg_lib/libmpeg.a
+if BUNDLE_LIBMPEG
+MPEGLIB=-L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
 else
 MPEGLIB=
 endif
-GLPNGLIB=-L$(SRCDIR)/extras/glpng $(SRCDIR)/extras/glpng/libglpng.a
-XMLLIB=-L$(SRCDIR)/extras/xmlParser $(SRCDIR)/extras/xmlParser/libxmlparser.a
+GLPNGLIB=-L$(SRCDIR)/bundle/glpng $(SRCDIR)/bundle/glpng/libglpng.a
+XMLLIB=-L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
 if GL2PS
-GL2PSLIB=-L$(SRCDIR)/extras/gl2ps $(SRCDIR)/extras/gl2ps/libgl2ps.a
+GL2PSLIB=-L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
 else
 GL2PSLIB=
 endif
@@ -100,7 +100,7 @@ else
 AILIB=
 endif
 if GLUI
-GLUILIB=-L$(SRCDIR)/extras/glui $(SRCDIR)/extras/glui/libglui.a
+GLUILIB=-L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a
 else
 GLUILIB=
 endif
@@ -110,7 +110,7 @@ else
 UBITLIB= -lubit
 endif
 if FTGL
-FTGLLIB=-L$(SRCDIR)/extras/ftgl $(SRCDIR)/extras/ftgl/libftgl.a
+FTGLLIB=-L$(SRCDIR)/bundle/ftgl $(SRCDIR)/bundle/ftgl/libftgl.a
 else
 FTGLLIB=
 endif
@@ -128,12 +128,12 @@ APPLIB    = -L$(SRCDIR)/app $(SRCDIR)/app/libapp.a
 VNCLIB    = -L$(SRCDIR)/vnc $(SRCDIR)/vnc/libvnc.a
 CORE_LIBS = $(GUILIB) $(WOLIB) $(NETLIB) $(TEXLIB) $(MODELLIB) $(VGLLIB) $(APPLIB) $(VNCLIB) $(VRENGLIB) $(SYSLIB)
 
-# extra libs
-if MYLIBPNG
-EXTRA_LIBS = $(ZLIB) $(PNGLIB) $(GLPNGLIB) $(MPEGLIB) $(AILIB) $(GL2PSLIB) $(GLUILIB) $(UBITLIB) $(FTGLLIB) $(XMLLIB) $(VRELIBS) $(PNGLIB) $(XLIBS)
+# bundle libs
+if BUNDLE_LIBPNG
+BUNDLE_LIBS = $(ZLIB) $(PNGLIB) $(GLPNGLIB) $(MPEGLIB) $(AILIB) $(GL2PSLIB) $(GLUILIB) $(UBITLIB) $(FTGLLIB) $(XMLLIB) $(VRELIBS) $(PNGLIB) $(XLIBS)
 else
-EXTRA_LIBS = $(ZLIB) $(PNGLIB) $(GLPNGLIB) $(MPEGLIB) $(AILIB) $(GL2PSLIB) $(GLUILIB) $(UBITLIB) $(FTGLLIB) $(XMLLIB) $(VRELIBS) $(XLIBS)
+BUNDLE_LIBS = $(ZLIB) $(PNGLIB) $(GLPNGLIB) $(MPEGLIB) $(AILIB) $(GL2PSLIB) $(GLUILIB) $(UBITLIB) $(FTGLLIB) $(XMLLIB) $(VRELIBS) $(XLIBS)
 endif
 
 # executable
-vreng_LDADD = $(CORE_LIBS) $(EXTRA_LIBS)
+vreng_LDADD = $(CORE_LIBS) $(BUNDLE_LIBS)

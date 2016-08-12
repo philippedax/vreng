@@ -157,7 +157,7 @@ animx3d.o: animx3d.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/6.1.1/bits/basic_ios.tcc \
  /usr/include/c++/6.1.1/bits/ostream.tcc /usr/include/c++/6.1.1/istream \
  /usr/include/c++/6.1.1/bits/istream.tcc \
- ../../src/extras/xmlParser/xmlParser.h
+ ../../src/bundle/xmlParser/xmlParser.h
 
 /usr/include/stdc-predef.h:
 
@@ -673,4 +673,4 @@ objects.hpp:
 
 /usr/include/c++/6.1.1/bits/istream.tcc:
 
-../../src/extras/xmlParser/xmlParser.h:
+../../src/bundle/xmlParser/xmlParser.h:

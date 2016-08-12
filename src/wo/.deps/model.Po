@@ -161,7 +161,7 @@ model.o: model.cpp /usr/include/stdc-predef.h ../../src/vreng/vreng.hpp \
  /usr/include/c++/6.1.1/bits/istream.tcc ../../src/model/vec3.hpp \
  ../../src/model/obj.hpp ../../src/model/md2.hpp ../../src/model/dxf.hpp \
  ../../src/model/off.hpp ../../src/model/x3d.hpp \
- ../../src/extras/xmlParser/xmlParser.h ../../src/model/bvh.hpp
+ ../../src/bundle/xmlParser/xmlParser.h ../../src/model/bvh.hpp
 
 /usr/include/stdc-predef.h:
 
@@ -711,6 +711,6 @@ useraction.hpp:
 
 ../../src/model/x3d.hpp:
 
-../../src/extras/xmlParser/xmlParser.h:
+../../src/bundle/xmlParser/xmlParser.h:
 
 ../../src/model/bvh.hpp:

@@ -140,9 +140,9 @@ png.o: png.cpp /usr/include/stdc-predef.h ../../src/vreng/vreng.hpp \
  /usr/include/c++/6.1.1/ext/aligned_buffer.h \
  /usr/include/c++/6.1.1/bits/list.tcc ../../src/wo/parse.hpp \
  ../../src/sys/str.hpp ../../src/wo/initobj.hpp ../../src/wo/objects.hpp \
- ../../src/wo/wobject.hpp ../../src/extras/glpng/glpng.h \
- ../extras/png/png.h /usr/include/zlib.h /usr/include/zconf.h \
- ../extras/png/pngconf.h
+ ../../src/wo/wobject.hpp ../../src/bundle/glpng/glpng.h \
+ ../../src/bundle/png/png.h /usr/include/zlib.h /usr/include/zconf.h \
+ ../../src/bundle/png/pngconf.h
 
 /usr/include/stdc-predef.h:
 
@@ -620,12 +620,12 @@ texture.hpp:
 
 ../../src/wo/wobject.hpp:
 
-../../src/extras/glpng/glpng.h:
+../../src/bundle/glpng/glpng.h:
 
-../extras/png/png.h:
+../../src/bundle/png/png.h:
 
 /usr/include/zlib.h:
 
 /usr/include/zconf.h:
 
-../extras/png/pngconf.h:
+../../src/bundle/png/pngconf.h:

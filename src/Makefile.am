@@ -21,4 +21,4 @@
 
 AUTOMAKE_OPTIONS = gnu no-dependencies
 
-SUBDIRS = vreng sys gui wo net texture model vgl app vnc ubit extras ai servers util
+SUBDIRS = vreng sys gui wo net texture model vgl app vnc ubit bundle ai servers util

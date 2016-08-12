@@ -149,7 +149,7 @@ x3d.o: x3d.cpp /usr/include/stdc-predef.h ../../src/vreng/vreng.hpp \
  /usr/include/c++/6.1.1/bits/stl_vector.h \
  /usr/include/c++/6.1.1/bits/stl_bvector.h \
  /usr/include/c++/6.1.1/bits/vector.tcc \
- ../../src/extras/xmlParser/xmlParser.h ../../src/vreng/http.hpp \
+ ../../src/bundle/xmlParser/xmlParser.h ../../src/vreng/http.hpp \
  ../../src/sys/thread.hpp ../../src/vgl/draw.hpp \
  ../../src/texture/texture.hpp ../../src/wo/wobject.hpp \
  ../../src/wo/oclass.hpp ../../src/wo/olist.hpp \
@@ -649,7 +649,7 @@ x3d.hpp:
 
 /usr/include/c++/6.1.1/bits/vector.tcc:
 
-../../src/extras/xmlParser/xmlParser.h:
+../../src/bundle/xmlParser/xmlParser.h:
 
 ../../src/vreng/http.hpp:
 

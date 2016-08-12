@@ -28,7 +28,7 @@
 #if HAVE_LIBPNG
 #include <png.h>
 #else
-#include "../extras/png/png.h"
+#include "png.h"
 #endif
 
 
