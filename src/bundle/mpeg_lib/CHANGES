@@ -1,0 +1,50 @@
+Version 1.3.1 - 1999/08/08
+--------------------------
+* Incorporated George Yohng's changes to build under Windows with
+  Borland C++ or Visual C++
+
+
+Version 1.3.0 - 1998/11/26
+--------------------------
+* Some small, but glaring, bug fixes
+
+
+Version 1.2.1 - 1996/02/26
+--------------------------
+* ???
+
+
+Version 1.2 - 1995/10/17
+------------------------
+* Added configure script for easy setup (including automatically
+  putting the HP-UX compiler in ANSI mode!)
+* Added documentation.
+* Cleaned up and fixed a few things so that (hopefully) all available
+  dithering modes are supported.  Note that a number of ditherings 
+  result in obviously wrong images, but they look the same as what
+  the original mpeg_play gave, so it's not my fault.  However, the 
+  ones that do work (ordered, gray, 2x2 have been verified) generally 
+  result in significant memory savings and faster decoding when compared
+  to full 24-bit colour.
+* Added PictureRate and BitRate fields to ImageDesc.
+
+
+Version 1.1 - 1994/11/14
+------------------------
+* Added preprocessor directory FULL_COLOR_ONLY to make inclusion of
+  all dithering code (except 24-bit full colour) optional.
+* Cleaned up the ANSI/non-ANSI confusion, and made it explicit in the
+  README that you need an ANSI compiler to build the library itself
+  but not to merely use it.
+
+
+Version 1.0.1 - 1994/09/13
+--------------------------
+* Some changes to the headers and Makefile for portability and
+  compatiblity (particularly with ImageMagick).
+
+
+Version 1.0 - 1994/07/29
+------------------------
+Initial release
+

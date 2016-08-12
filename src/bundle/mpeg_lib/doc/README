@@ -1,0 +1,14 @@
+This directory contains the documentation for the MPEG Library.
+Please note that this is the first version of the document; if
+anything is unclear (or incorrect!), please tell me about it and I'll
+see if I can clarify or correct.
+
+The document is supplied as LaTeX2e source, along with the
+corresponding dvi and PostScript output.  The PostScript file should
+work with most PostScript printers or Ghostscript; however, the
+document uses PostScript fonts rather than LaTeX fonts, so if
+you have problems you might want to remove the "\usepackage{palatino}"
+line from the LaTeX file and rerun LaTeX.  Note that you will need
+LaTeX2e and the psfig package.
+
+	Greg Ward (greg@pet.mni.mcgill.ca)
