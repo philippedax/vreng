@@ -115,7 +115,7 @@ fi
 CFLAGS="${CFLAGS}"
 CXXFLAGS="${CXXFLAGS}"
 CPPFLAGS="${CPPFLAGS}"
-LDFLAGS="${LDFLAGS}"
+LDFLAGS="${LDFLAGS} -Wl,--start-group"
 
 if test "${GCC}" = "yes"; then
   CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-misleading-indentation"

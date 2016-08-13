@@ -239,7 +239,7 @@ JAVAC =
 JAVACFLAGS = 
 JAVAFLAGS = 
 JAVAPREFIX = 
-LDFLAGS = 
+LDFLAGS = -Wl,--start-group
 LIBOBJS = 
 LIBS = -lfreetype -lm -lnsl 
 LN_S = ln -s
@@ -355,9 +355,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/util/vred/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/util/vred/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/util/vred/Makefile
+	  $(AUTOMAKE) --foreign src/util/vred/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
