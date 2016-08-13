@@ -919,7 +919,7 @@ fi
 # check png library
 #
 AC_ARG_WITH([png-builtin],
-    AS_HELP_STRING([--with-png-builtin],[use builtin libpng [[default=yes]]]),
+    AS_HELP_STRING([--with-png-builtin],[use builtin libpng [[default=no]]]),
     [ac_cv_use_png_builtin=$withval], [ac_cv_use_png_builtin=yes])
 
 if test "$ac_cv_use_png_builtin" = "no"; then
@@ -928,7 +928,7 @@ if test "$ac_cv_use_png_builtin" = "no"; then
   LDFLAGS="$LDFLAGS $OSDEP_LIBS"
   AC_CHECK_LIB([png], [png_error],
      [VRELIBS="$OSDEP_LIBS -lpng $VRELIBS"],
-     [AC_MSG_WARN([png library not found, check config.log, or try yum|dnf|apt-get install libpng-devel])],
+     [AC_MSG_WARN([png library not found, check config.log, or try yum|dnf install libpng-devel or apt-get install libpng-dev])],
      [$OSDEP_LIBS -lz])
   if test "$ac_cv_lib_png_png_error" = "yes" ; then
     AC_DEFINE(HAVE_LIBPNG)
@@ -1093,7 +1093,7 @@ if test "$have_lib_OpenGL" = "yes"; then
   have_gl="yes"
   glerror="no"
 else
-  AC_MSG_WARN([Can't find GL library!])
+  AC_MSG_WARN([Can't find GL library!, try yum|dnf install libGL-devel or apt-get install libgl1-meas-dev])
   glerror="yes"
 fi
 AH_TEMPLATE(HAVE_GL_GL_H)
@@ -1110,6 +1110,9 @@ AC_CHECK_LIB([GLU], [gluPerspective],
      [$GL_L -l$GL_lib])
 if test "$ac_cv_lib_GLU_gluPerspective" = "yes"; then
   AC_DEFINE(HAVE_LIBGLU)
+else
+  AC_MSG_WARN([Can't find GLU library!, try yum|dnf install libGLU-devel or apt-get install libglu1-meas-dev])
+  glerror="yes"
 fi
 AH_TEMPLATE(HAVE_GL_GLU_H)
 AC_CHECK_HEADER([GL/glu.h], [AC_DEFINE([HAVE_GL_GLU_H])],
