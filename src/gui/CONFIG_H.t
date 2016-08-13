@@ -232,7 +232,7 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBNSL 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBPNG */\n\
+#define HAVE_LIBPNG 1\n\
 \n\
 /* Define to 1 if you have the `posix4' library (-lposix4). */\n\
 /* #undef HAVE_LIBPOSIX4 */\n\

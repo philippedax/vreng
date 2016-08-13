@@ -920,7 +920,7 @@ fi
 #
 AC_ARG_WITH([png-builtin],
     AS_HELP_STRING([--with-png-builtin],[use builtin libpng [[default=no]]]),
-    [ac_cv_use_png_builtin=$withval], [ac_cv_use_png_builtin=yes])
+    [ac_cv_use_png_builtin=$withval], [ac_cv_use_png_builtin=no])
 
 if test "$ac_cv_use_png_builtin" = "no"; then
   bundle_libpng="yes"
