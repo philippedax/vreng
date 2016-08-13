@@ -1,5 +1,0 @@
-d3des.o: d3des.cpp /usr/include/stdc-predef.h d3des.h
-
-/usr/include/stdc-predef.h:
-
-d3des.h:
