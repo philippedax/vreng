@@ -403,7 +403,12 @@ const int
     for (int c = 0; c < modmap->max_keypermod; c++) {
       KeyCode keycode = modmap->modifiermap[m * modmap->max_keypermod + c];
       if (keycode != 0) {
+#if 0 //deprecated
         KeySym keysym = XKeycodeToKeysym(sysdisp, keycode, 0);
+#else
+        int keysyms_per_keycode_return;
+        KeySym *keysym = XGetKeyboardMapping(sysdisp, keycode, 0, &keysyms_per_keycode_return);
+#endif
         
         if (keysym == XK_Meta_L || keysym == XK_Meta_R)
           _MetaDown = (1 << m);
@@ -411,6 +416,9 @@ const int
           _AltDown = (1 << m);
         else if (keysym == XK_Mode_switch)
           _ModeSwitch = (1 << m);
+#if 1 //deprcated
+        XFree(keysym);
+#endif
       }
     }
   }
