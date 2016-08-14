@@ -97,10 +97,10 @@ const char CONFIG_H[] = "\
 #define HAVE_FREETYPE 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_FTGL */\n\
+#define HAVE_FTGL 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_FTGL_H */\n\
+#define HAVE_FTGL_H 1\n\
 \n\
 /* Define to 1 if you have the `getaddrinfo' function. */\n\
 #define HAVE_GETADDRINFO 1\n\
@@ -649,7 +649,7 @@ const char CONFIG_H[] = "\
 /* #undef WITH_FREETYPE */\n\
 \n\
 /* */\n\
-/* #undef WITH_FTGL */\n\
+#define WITH_FTGL 1\n\
 \n\
 /* */\n\
 #define WITH_MYSQL 1\n\

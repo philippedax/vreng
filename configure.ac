@@ -1188,7 +1188,8 @@ AH_TEMPLATE(WITH_FTGL)
 AH_TEMPLATE(HAVE_FTGL)
 AH_TEMPLATE(HAVE_FTGL_H)
 AC_ARG_WITH([ftgl],
-      AS_HELP_STRING([--with-ftgl],[allow use of libftgl if available [[default=no]]]))
+      AS_HELP_STRING([--with-ftgl],[allow use of libftgl if available [[default=no]]]),
+     [ac_cv_use_ftgl=$withval], [ac_cv_use_ftgl=no])
 
 if test "${with_ftgl:=no}" = "yes"; then
   #

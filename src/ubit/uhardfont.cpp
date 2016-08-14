@@ -25,10 +25,14 @@
 //#include <ubit/udispGDK.hpp>
 #include <ubit/uhardfont.hpp>
 
-#if HAVE_FTGL_H
-#include <FTGL/ftgl.h>
-#else
 #if UBIT_WITH_GL && UBIT_WITH_FREETYPE
+#if HAVE_FTGL_H
+#    include <FTGL/ftgl.h>
+#    include <FTGL/FTFont.h>  // FTGL
+#    include <FTGL/FTGLTextureFont.h>
+#    include <FTGL/FTGLPolygonFont.h>
+#    include <FTGL/FTGLPixmapFont.h>
+#else
 #    include <ftgl/FTFont.h>  // FTGL
 #    include <ftgl/FTGLTextureFont.h>
 #    include <ftgl/FTGLPolygonFont.h>
