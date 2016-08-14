@@ -1038,7 +1038,7 @@ else
   UBIT_CFLAGS=$UBIT_I
   VRELIBS="$X_LIBS -lXpm -lICE -lSM -lXext -lXmu -lX11 $VRELIBS"
   ubit="yes"
-  #bundle_ftgl="yes"
+  bundle_ftgl="yes"
   min_ubit_version=7.0.0
   toolkit=7.0.0
 fi
@@ -1184,32 +1184,32 @@ fi
 #
 # ftgl
 #
-AH_TEMPLATE(WITH_FTGL)
-AH_TEMPLATE(HAVE_FTGL)
-AH_TEMPLATE(HAVE_FTGL_H)
-AC_ARG_WITH([ftgl],
-      AS_HELP_STRING([--with-ftgl],[allow use of libftgl if available [[default=no]]]),
-     [ac_cv_use_ftgl=$withval], [ac_cv_use_ftgl=no])
-
-if test "${with_ftgl:=no}" = "yes"; then
-  #
-  # check ftgl
-  #
-  AC_CHECK_LIB([ftgl], [main], 
-       [VRELIBS="-lftgl ${VRELIBS}"],
-       [AC_MSG_WARN([ftgl library not found, use bundle ftgl])])
-  if test "$ac_cv_lib_ftgl_main" = "yes" ; then
-    AC_DEFINE(WITH_FTGL)
-    AC_DEFINE(HAVE_FTGL)
-    bundle_ftgl="no"
-    AC_CHECK_HEADER([FTGL/ftgl.h], [AC_DEFINE([HAVE_FTGL_H])],
-	    AC_MSG_WARN([unable to find ftgl header]))
-  else
-    bundle_ftgl="yes"
-  fi
-else
-  bundle_ftgl="yes"
-fi
+#AH_TEMPLATE(WITH_FTGL)
+#AH_TEMPLATE(HAVE_FTGL)
+#AH_TEMPLATE(HAVE_FTGL_H)
+#AC_ARG_WITH([ftgl],
+#      AS_HELP_STRING([--with-ftgl],[allow use of libftgl if available [[default=no]]]),
+#     [ac_cv_use_ftgl=$withval], [ac_cv_use_ftgl=no])
+#
+#if test "${with_ftgl:=no}" = "yes"; then
+#  #
+#  # check ftgl
+#  #
+#  AC_CHECK_LIB([ftgl], [main], 
+#       [VRELIBS="-lftgl ${VRELIBS}"],
+#       [AC_MSG_WARN([ftgl library not found, use bundle ftgl])])
+#  if test "$ac_cv_lib_ftgl_main" = "yes" ; then
+#    AC_DEFINE(WITH_FTGL)
+#    AC_DEFINE(HAVE_FTGL)
+#    bundle_ftgl="no"
+#    AC_CHECK_HEADER([FTGL/ftgl.h], [AC_DEFINE([HAVE_FTGL_H])],
+#	    AC_MSG_WARN([unable to find ftgl header]))
+#  else
+#    bundle_ftgl="yes"
+#  fi
+#else
+#  bundle_ftgl="yes"
+#fi
 
 
 # --------------------------------------------------------------------------
@@ -1803,12 +1803,11 @@ fi
 AC_OUTPUT
 
 AC_MSG_RESULT([
-----------------------------------------------------------
+----------------------------------------------------
 VREng-$VERSION has been configured successfully!
 
-Executable will be: bin/vreng
-After install, executables will be: ${prefix}/bin/vreng and ${prefix}/bin/vre
+Now type 'make' to build ./bin/vreng!
 
-Type \"make\" to build VREng, if it doesn't work, try \"gmake\"
-----------------------------------------------------------
+'make install' to install it in ${prefix}/bin/vreng.
+----------------------------------------------------
 ])
