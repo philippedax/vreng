@@ -115,11 +115,11 @@ fi
 CFLAGS="${CFLAGS}"
 CXXFLAGS="${CXXFLAGS}"
 CPPFLAGS="${CPPFLAGS}"
-LDFLAGS="${LDFLAGS} -Wl,--start-group"
+LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-misleading-indentation"
-  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address"
+  CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-misleading-indentation -Wno-unknown-warning-option"
+  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -Wno-unknown-warning-option"
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`
 fi

@@ -77,7 +77,7 @@ void Sound::playSound(const char *snd)
   pthread_create(&tid, NULL, sound_thread, (void *) snd);
 #else
   if (fork() == 0) {
-    playsound_thread((void *) snd);
+    sound_thread((void *) snd);
     exit(0);
   }
 #endif
