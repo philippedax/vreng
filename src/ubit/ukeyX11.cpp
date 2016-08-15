@@ -410,11 +410,11 @@ const int
         KeySym *keysym = XGetKeyboardMapping(sysdisp, keycode, 0, &keysyms_per_keycode_return);
 #endif
         
-        if (keysym == XK_Meta_L || keysym == XK_Meta_R)
+        if ((unsigned long)keysym == XK_Meta_L || (unsigned long)keysym == XK_Meta_R)
           _MetaDown = (1 << m);
-        else if (keysym == XK_Alt_L || keysym == XK_Alt_R)
+        else if ((unsigned long)keysym == XK_Alt_L || (unsigned long)keysym == XK_Alt_R)
           _AltDown = (1 << m);
-        else if (keysym == XK_Mode_switch)
+        else if ((unsigned long)keysym == XK_Mode_switch)
           _ModeSwitch = (1 << m);
 #if 1 //deprcated
         XFree(keysym);

@@ -343,9 +343,6 @@ const char CONFIG_H[] = "\
 /* */\n\
 /* #undef HAVE_OPENAL */\n\
 \n\
-/* */\n\
-#define HAVE_PNG_H 1\n\
-\n\
 /* Define to 1 if you have the `pow' function. */\n\
 #define HAVE_POW 1\n\
 \n\
