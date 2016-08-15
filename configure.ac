@@ -250,12 +250,12 @@ OSDEP_CFLAGS=""
 # X11 paths
 case "`$ac_config_sub $build`" in
 *-*-darwin*)
-  if test -d /opt/X11/include ; then
-    X_CFLAGS="-I/opt/X11/include"
-  fi
-  if test -d /opt/X11/lib ; then
-    X_LIBS="-L/opt/X11/lib"
-  fi
+  #if test -d /opt/X11/include ; then
+  #  X_CFLAGS="-I/opt/X11/include"
+  #fi
+  #if test -d /opt/X11/lib ; then
+  #  X_LIBS="-L/opt/X11/lib"
+  #fi
   ;;
 *)
   X_CFLAGS="-I/usr/X11R6/include"
@@ -938,9 +938,9 @@ else
   bundle_libpng="yes"
 fi
 
-AH_TEMPLATE(HAVE_PNG_H)
-AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
-	AC_MSG_WARN([unable to find png header]))
+#AH_TEMPLATE(HAVE_PNG_H)
+#AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
+#	AC_MSG_WARN([unable to find png header]))
 
 # --------------------------------------------------------------------------
 #
