@@ -924,16 +924,21 @@ AC_ARG_WITH([png-builtin],
 
 if test "$ac_cv_use_png_builtin" = "no"; then
   bundle_libpng="yes"
-  AH_TEMPLATE(HAVE_LIBPNG)
-  LDFLAGS="$LDFLAGS $OSDEP_LIBS"
-  AC_CHECK_LIB([png], [png_error],
-     [VRELIBS="$OSDEP_LIBS -lpng $VRELIBS"],
-     [AC_MSG_WARN([png library not found, check config.log, or try yum|dnf install libpng-devel or apt-get install libpng-dev])],
-     [$OSDEP_LIBS -lz])
-  if test "$ac_cv_lib_png_png_error" = "yes" ; then
-    AC_DEFINE(HAVE_LIBPNG)
-    bundle_libpng="no"
-  fi
+  case "`$ac_config_sub $build`" in
+  *-*-darwin*) ;;
+  *)
+    AH_TEMPLATE(HAVE_LIBPNG)
+    LDFLAGS="$LDFLAGS $OSDEP_LIBS"
+    AC_CHECK_LIB([png], [png_error],
+       [VRELIBS="$OSDEP_LIBS -lpng $VRELIBS"],
+       [AC_MSG_WARN([png library not found, check config.log, or try yum|dnf install libpng-devel or apt-get install libpng-dev])],
+       [$OSDEP_LIBS -lz])
+    if test "$ac_cv_lib_png_png_error" = "yes" ; then
+      AC_DEFINE(HAVE_LIBPNG)
+      bundle_libpng="no"
+    fi
+  ;;
+  esac
 else
   bundle_libpng="yes"
 fi
