@@ -30,10 +30,13 @@ vr
 tmp
 stamp-*
 vreng-*
+src/ex
+src/bundle/ftgl-*rc5
 src/*/Makefile
 src/*/Makefile.in
 src/*/*.o
 src/*/*.a
+src/*/.deps
 src/*/*/Makefile
 src/*/*/Makefile.in
 src/*/*/*.o

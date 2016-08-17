@@ -95,6 +95,6 @@ dummy_.o: $(GEN) $(CMI) $(CML) dummy_.ml
 	mv dummy.o dummy_.o
 
 clean-generic:
-	-@rm -f $(GEN) $(CMO) $(CMI) $(CMX) dummy_.cmx dummy_.cmi
+	-@rm -f $(GEN) $(CMO) $(CMI) $(CMX) dummy_.cmx dummy_.cmi Libai.a
 
 endif
