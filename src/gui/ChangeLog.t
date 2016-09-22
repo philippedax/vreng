@@ -15,6 +15,10 @@ The rules for this file:\n\
 \n\
 ++ 8\n\
 == 8.3\n\
+-- 8.3.2\n\
+	- fixed unknown-warnnig option\n\
+	(2016/09/22, Philippe Dax)\n\
+\n\
 -- 8.3.1\n\
 	- vreng homed at github\n\
 	- changed CXXFLAGS to avoid warnings under gcc-6.1.1\n\

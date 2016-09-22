@@ -609,7 +609,7 @@ void UWin::doUpdate(const UUpdate& upd, UDisp* disp) {
     }
     
     UView* parview = null;
-    UChild* ch = null;
+    //UChild* ch = null;
 
     for (UParentIter p = pbegin(); p != pend(); ++p) {
       // do not take into account WINLIST parents (either modalwins or softwin_list)
@@ -620,7 +620,8 @@ void UWin::doUpdate(const UUpdate& upd, UDisp* disp) {
         for (unsigned int k = 0; k < parviews.size(); ++k) {
           if (disp == null || parviews[k]->getDisp() == disp) {
             parview = parviews[k];
-            ch = &p.parent().getChild();
+            //:x
+            //ch = &p.parent().getChild();
             break;
           }
         }

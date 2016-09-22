@@ -492,18 +492,19 @@ void UPosControl::dragCB(UMouseEvent& e) {
   double dy = pt_in_pane.y - pt_in_pane0.y;
   //float dx = e.getScreenPos().x - xev0; float dy = e.getScreenPos().y - yev0;
   
-  float xnew, ynew, margin = 0;
+  float xnew, ynew;
+  // float margin = 0;
     
   if (freeze_x) xnew = posAttr->getX().val;   // ATT: Unit pas pries en compte!!!
   else {
     bool xpercent = posAttr->x.unit == UPERCENT || posAttr->x.unit == UPERCENT_CTR;
     if (xpercent) {
       xnew = box_pos0.x * moved_view->getWidth() / 100 + dx;
-      margin = 0;
+      //margin = 0;
     }
     else {
       xnew = box_pos0.x + dx;    // juste que si handle(0,0) correspond avec moved(0,0) !!!
-      margin = MARGIN;
+      //margin = MARGIN;
     }
     
     /* UView* handle = e.getView();
@@ -521,11 +522,11 @@ void UPosControl::dragCB(UMouseEvent& e) {
     bool ypercent = posAttr->y.unit == UPERCENT || posAttr->y.unit == UPERCENT_CTR;
     if (ypercent) {
       ynew = box_pos0.y * moved_view->getHeight() / 100 + dy;
-      margin = 0;
+      //margin = 0;
     }
     else {
       ynew = box_pos0.y + dy;
-      margin = MARGIN;
+      //margin = MARGIN;
     }
     
     /* UView* handle = e.getView();

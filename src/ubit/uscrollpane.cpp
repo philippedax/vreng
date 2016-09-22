@@ -251,7 +251,7 @@ void UScrollpane::setScrollImpl(float _xscroll, float _yscroll) {
         UPaintEvent e(UOn::paint, winview);
         e.setSourceAndProps(viewport_view);
         float xoffset = 0, yoffset = 0;
-        float deltax = 0, deltay = 0;
+        // float deltax = 0, deltay = 0;
         
         // horizontal scroll
         float viewport_w = pane_view->getWidth()
@@ -259,7 +259,7 @@ void UScrollpane::setScrollImpl(float _xscroll, float _yscroll) {
         
         xoffset = _xscroll * (viewport_view->getWidth() - viewport_w) / 100.0; // + 0.5;
         if (xoffset >= 0) {
-          deltax = xoffset - pane_view->getXScroll();
+          // deltax = xoffset - pane_view->getXScroll();
           pane_view->setXScroll(xoffset);
         }
         
@@ -269,7 +269,7 @@ void UScrollpane::setScrollImpl(float _xscroll, float _yscroll) {
         
         yoffset = _yscroll * (viewport_view->getHeight() - viewport_h) / 100.0; // + 0.5;
         if (yoffset >= 0) {
-          deltay = yoffset - pane_view->getYScroll();
+          // deltay = yoffset - pane_view->getYScroll();
           pane_view->setYScroll(yoffset);
         }
         

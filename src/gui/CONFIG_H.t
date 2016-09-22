@@ -27,7 +27,7 @@ const char CONFIG_H[] = "\
 #define GCC_MAJOR_VERSION 6\n\
 \n\
 /* gcc version */\n\
-#define GCC_VERSION \"6.1.1\"\n\
+#define GCC_VERSION \"6.2.1\"\n\
 \n\
 /* */\n\
 /* #undef HAVE_ALUT */\n\
@@ -562,13 +562,13 @@ const char CONFIG_H[] = "\
 #define PACKAGE \"vreng\"\n\
 \n\
 /* Define to the address where bug reports for this package should be sent. */\n\
-#define PACKAGE_BUGREPORT \"dax@telecom-paristech.fr\"\n\
+#define PACKAGE_BUGREPORT \"philippe.dax@gmail.com\"\n\
 \n\
 /* Define to the full name of this package. */\n\
 #define PACKAGE_NAME \"vreng\"\n\
 \n\
 /* Define to the full name and version of this package. */\n\
-#define PACKAGE_STRING \"vreng 8.3.1\"\n\
+#define PACKAGE_STRING \"vreng 8.3.2\"\n\
 \n\
 /* Define to the one symbol short name of this package. */\n\
 #define PACKAGE_TARNAME \"vreng\"\n\
@@ -577,7 +577,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_URL \"\"\n\
 \n\
 /* Define to the version of this package. */\n\
-#define PACKAGE_VERSION \"8.3.1\"\n\
+#define PACKAGE_VERSION \"8.3.2\"\n\
 \n\
 /* */\n\
 #define PERLPATH \"/bin/perl\"\n\
@@ -604,13 +604,13 @@ const char CONFIG_H[] = "\
 #define TIME_WITH_SYS_TIME 1\n\
 \n\
 /* Version number of package */\n\
-#define VERSION \"8.3.1\"\n\
+#define VERSION \"8.3.2\"\n\
 \n\
 /* VReng major version */\n\
 #define VRENG_MAJOR_VERSION 8\n\
 \n\
 /* VReng micro version */\n\
-#define VRENG_MICRO_VERSION 1\n\
+#define VRENG_MICRO_VERSION 2\n\
 \n\
 /* VReng minor version */\n\
 #define VRENG_MINOR_VERSION 3\n\
