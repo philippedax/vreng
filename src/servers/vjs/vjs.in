@@ -28,5 +28,5 @@ fi
 
 cd ${CLASSDIR}
 
-java fr.enst.vreng.server.Server ${VJS_PORT}
+nohup java fr.enst.vreng.server.Server ${VJS_PORT} &
 
