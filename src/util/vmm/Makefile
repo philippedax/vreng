@@ -132,13 +132,13 @@ AUTOMAKE = ${SHELL} /infres/s3/dax/vreng/support/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -Wno-unknown-warning
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -Wno-unknown-warning -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/usr/include/mysql -I/usr/include/freetype2 
 CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -Wno-unknown-warning -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -Wno-unknown-warning -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -157,9 +157,9 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-JAR = 
-JAVA = 
-JAVAC = 
+JAR = jar
+JAVA = java
+JAVAC = javac
 JAVACFLAGS = 
 JAVAFLAGS = 
 JAVAPREFIX = 
@@ -472,27 +472,27 @@ uninstall-am:
 #	@-mkdir -p $@
 
 # Compile the world classes
-##$(WORLD_JAR): $(WORLD_FILES)
-##	@echo -- Compiling world files...
-##	$(JAVAC) $(JAVAC_FLAGS) -d $(CLASS_DIR) $(WORLD_FILES)
-##	@echo -- Creating world jar...
-##	$(JAR) c0f $(WORLD_JAR) $(CLASS_DIR)/world/*
+#$(WORLD_JAR): $(WORLD_FILES)
+#	@echo -- Compiling world files...
+#	$(JAVAC) $(JAVAC_FLAGS) -d $(CLASS_DIR) $(WORLD_FILES)
+#	@echo -- Creating world jar...
+#	$(JAR) c0f $(WORLD_JAR) $(CLASS_DIR)/world/*
 
 # Compile the collector classes
-##$(COLLECTOR_JAR): $(COLLECTOR_FILES)
-##	@echo -- Compiling collector files...
-##	$(JAVAC) $(JAVAC_FLAGS) -d $(CLASS_DIR) $(COLLECTOR_FILES)
-##	@echo -- Creating collector jar...
-##	$(JAR) c0f $(COLLECTOR_JAR) $(CLASS_DIR)/collector/*
+#$(COLLECTOR_JAR): $(COLLECTOR_FILES)
+#	@echo -- Compiling collector files...
+#	$(JAVAC) $(JAVAC_FLAGS) -d $(CLASS_DIR) $(COLLECTOR_FILES)
+#	@echo -- Creating collector jar...
+#	$(JAR) c0f $(COLLECTOR_JAR) $(CLASS_DIR)/collector/*
 
 # Build the javadoc for the project
-##javadoc: $(DIRS)
-##	javadoc -classpath $(CLASSPATH) -d $(DOC_DIR) \
-##	-doctitle "Vreng Machine Monitoring" \
-##	-windowtitle "Vreng Machine Monitoring" \
-##	-footer "Jerome Clerico - ENST - July 2001" \
-##	-group  "world classes" "world" \
-##	-group  "collector classes" "collector"
+#javadoc: $(DIRS)
+#	javadoc -classpath $(CLASSPATH) -d $(DOC_DIR) \
+#	-doctitle "Vreng Machine Monitoring" \
+#	-windowtitle "Vreng Machine Monitoring" \
+#	-footer "Jerome Clerico - ENST - July 2001" \
+#	-group  "world classes" "world" \
+#	-group  "collector classes" "collector"
 
 #install: $(JARS)
 #	if test ! -f $(prefix)/etc/vmm.conf; then $(INSTALL) -m 644 vmm.conf $(prefix)/etc; fi

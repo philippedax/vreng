@@ -1,7 +1,7 @@
 package fr.enst.vreng;
 
 /**
- * Generated from ../../../src/wo/initobj.cpp at Wed Oct 16 16:24:17 2013
+ * Generated from ../../../src/wo/initobj.cpp at Fri Sep 23 17:37:13 2016
  */
 public class ObjectTypes {
 
@@ -19,7 +19,7 @@ public class ObjectTypes {
 	public static final int OBJ_Web        = 11;
 	public static final int OBJ_Button     = 12;
 	public static final int OBJ_Cauldron   = 13;
-	public static final int OBJ_Missile    = 14;
+	public static final int OBJ_Projectile = 14;
 	public static final int OBJ_Bullet     = 15;
 	public static final int OBJ_Dart       = 16;
 	public static final int OBJ_Host       = 17;

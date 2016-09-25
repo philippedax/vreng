@@ -88,7 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
-#bin_PROGRAMS = vaps$(EXEEXT)
+bin_PROGRAMS = vaps$(EXEEXT)
 subdir = src/servers/vaps
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/support/acinclude.m4 \
@@ -104,7 +104,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man8dir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__vaps_SOURCES_DIST = vaps.cpp
 am__objects_1 = vaps.$(OBJEXT)
-#am_vaps_OBJECTS = $(am__objects_1)
+am_vaps_OBJECTS = $(am__objects_1)
 vaps_OBJECTS = $(am_vaps_OBJECTS)
 vaps_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -204,13 +204,13 @@ AUTOMAKE = ${SHELL} /infres/s3/dax/vreng/support/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -Wno-unknown-warning
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -Wno-unknown-warning -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/usr/include/mysql -I/usr/include/freetype2 
 CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -Wno-unknown-warning -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -Wno-unknown-warning -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -229,9 +229,9 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-JAR = 
-JAVA = 
-JAVAC = 
+JAR = jar
+JAVA = java
+JAVAC = javac
 JAVACFLAGS = 
 JAVAFLAGS = 
 JAVAPREFIX = 
@@ -335,7 +335,7 @@ man_MANS = vaps.8
 EXTRA_DIST = $(VAPS_SRCS) vaps.8
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng
-#vaps_SOURCES = $(VAPS_SRCS)
+vaps_SOURCES = $(VAPS_SRCS)
 all: all-am
 
 .SUFFIXES:

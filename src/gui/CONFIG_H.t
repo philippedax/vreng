@@ -181,7 +181,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ISASCII 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_JAVA */\n\
+#define HAVE_JAVA 1\n\
 \n\
 /* */\n\
 #define HAVE_JPEGLIB_H 1\n\
