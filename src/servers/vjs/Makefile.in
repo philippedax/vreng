@@ -909,6 +909,7 @@ uninstall-am: uninstall-binSCRIPTS
 @ENABLE_VJS_TRUE@@JAVA_TRUE@	fr.enst.vreng.tester
 
 @ENABLE_VJS_TRUE@@JAVA_TRUE@install:
+@ENABLE_VJS_TRUE@@JAVA_TRUE@	cp vjs $(DESTDIR)$(bindir)
 @ENABLE_VJS_TRUE@@JAVA_TRUE@	cp -p $(JARS) $(INSTALL_DIR)
 
 @ENABLE_VJS_TRUE@@JAVA_TRUE@.PHONY: notice

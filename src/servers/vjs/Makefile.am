@@ -233,6 +233,7 @@ javadoc: $(TMPDIRS)
 	fr.enst.vreng.tester
 
 install:
+	cp vjs $(DESTDIR)$(bindir)
 	cp -p $(JARS) $(INSTALL_DIR)
 
 .PHONY: notice

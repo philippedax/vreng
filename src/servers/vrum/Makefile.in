@@ -110,6 +110,8 @@ AM_V_at = $(am__v_at_@AM_V@)
 am__v_at_ = $(am__v_at_@AM_DEFAULT_V@)
 am__v_at_0 = @
 am__v_at_1 = 
+depcomp =
+am__depfiles_maybe =
 SOURCES =
 DIST_SOURCES =
 am__can_run_installinfo = \
@@ -255,7 +257,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 uudecode = @uudecode@
-AUTOMAKE_OPTIONS = foreign
+AUTOMAKE_OPTIONS = foreign no-dependencies
 EXTRA_DIST = vrum.py multicast.py rc.vrum
 all: all-am
 
@@ -330,7 +332,6 @@ check-am: all-am
 check: check-am
 all-am: Makefile
 installdirs:
-install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
@@ -441,6 +442,9 @@ uninstall-am:
 
 .PRECIOUS: Makefile
 
+
+install:
+	cp rc.vrum $(DESTDIR)$(bindir)/vrum
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
