@@ -14,6 +14,11 @@ The rules for this file:
 
 ++ 8
 == 8.3
+-- 8.3.3
+	- fixed install vjs
+	- fixed install vrum
+	(2016/09/25, Philippe Dax)
+
 -- 8.3.2
 	- fixed unknown-warnnig option
 	(2016/09/22, Philippe Dax)

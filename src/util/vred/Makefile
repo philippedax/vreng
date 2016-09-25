@@ -254,10 +254,10 @@ OCAML_LIBS =
 PACKAGE = vreng
 PACKAGE_BUGREPORT = philippe.dax@gmail.com
 PACKAGE_NAME = vreng
-PACKAGE_STRING = vreng 8.3.2
+PACKAGE_STRING = vreng 8.3.3
 PACKAGE_TARNAME = vreng
 PACKAGE_URL = 
-PACKAGE_VERSION = 8.3.2
+PACKAGE_VERSION = 8.3.3
 PATH_SEPARATOR = :
 PERLPATH = /bin/perl
 PYTHON_CFLAGS = 
@@ -270,7 +270,7 @@ SHELL = /bin/sh
 STRIP = 
 UBITCONFIG = 
 UBIT_CFLAGS = -I../../src
-VERSION = 8.3.2
+VERSION = 8.3.3
 VRELIBS = -L/usr/lib64 -lxml2 -L/usr/lib64/mysql -lmysqlclient -lpthread -L/usr/lib -ldl -lfreetype -lm -lnsl  -L/usr/lib -lGLU -lGL  -L/usr/lib64 -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/usr/lib64 -lcurl -L/usr/lib64 -lpng -lz -L/usr/lib64 -ltiff -L/usr/lib64 -ljpeg -L/usr/lib64 -lgif -lXpm 
 WGETPATH = /bin/wget
 XLIBS = -L/usr/lib64  -lSM -lICE 
@@ -355,9 +355,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/util/vred/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/util/vred/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/util/vred/Makefile
+	  $(AUTOMAKE) --foreign src/util/vred/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \
