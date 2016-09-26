@@ -908,12 +908,12 @@ char eqTokenDXF(DXF_token *tok1, DXF_token *tok2)
   if (!tok1 && !tok2) return TOK_EQ;
   if ((!tok1 && tok2) || (tok1 && !tok2)) return FALSE;
 
-  if (tok1->gr_id == tok1->gr_id) {
+  //if (tok1->gr_id == tok1->gr_id) {
     if (! strcmp(tok1->data, tok2->data)) return TOK_EQ;
     return TOK_GR_EQ;
-  }
-  else
-    if (! strcmp(tok1->data, tok2->data)) return TOK_DATA_EQ;
+  //}
+  //else
+    //if (! strcmp(tok1->data, tok2->data)) return TOK_DATA_EQ;
   return FALSE;
 }
 
