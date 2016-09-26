@@ -29,7 +29,7 @@ VRENG_SRCS = $(SRCDIR)/vreng/vreng.cpp
 vreng_SOURCES = $(VRENG_SRCS)
 
 # targets
-all: all-am vrel vred
+all: all-am vrel vred vacs vaps vjs # vrum
 
 # to install
 bin_PROGRAMS = vreng
@@ -60,6 +60,34 @@ else
 vmm:
 	@echo "" >/dev/null
 endif
+if ENABLE_VACS
+vacs: ../src/servers/vacs/vacs
+	-cp -p ../src/servers/vacs/vacs .
+else
+vacs:
+	@echo "" >/dev/null
+endif
+if ENABLE_VAPS
+vaps: ../src/servers/vaps/vaps
+	-cp -p ../src/servers/vaps/vaps .
+else
+vaps:
+	@echo "" >/dev/null
+endif
+if ENABLE_VJS
+vjs: ../src/servers/vjs/vjs
+	-cp -p ../src/servers/vjs/vjs .
+else
+vjs:
+	@echo "" >/dev/null
+endif
+#if ENABLE_VRUM
+#vrum: ../src/servers/vrum/rc.vrum
+#	-cp -p ../src/servers/vrum/rc.vrum vrum
+#else
+#vrum:
+#	@echo "" >/dev/null
+#endif
 
 # core includes
 CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/texture -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/app -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
