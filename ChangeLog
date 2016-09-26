@@ -15,8 +15,8 @@ The rules for this file:
 ++ 8
 == 8.3
 -- 8.3.3
-	- fixed install vjs
-	- fixed install vrum
+	- added install vjs
+	- added install vrum
 	(2016/09/25, Philippe Dax)
 
 -- 8.3.2
