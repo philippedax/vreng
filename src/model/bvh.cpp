@@ -360,9 +360,9 @@ void Bvh::init(string bvhFile)
 
 rigid::rigid(const char *url)
 {
-  error("rigid::rigid url=%s",url);
+  error("rigid::rigid url=%s", url);
 #if 0 //dax
-  string objfile;
+  ring objfile;
   download(url);
   Cache::getFileName(url, objfile);
 
@@ -372,9 +372,7 @@ rigid::rigid(const char *url)
   download(url);
   Cache::getFileName(url);
 
-  Obj* theObj = new Obj(url, 0);	// call Obj reader
 #endif
-
   //vertices = theObj->vertices;
   //normals = theObj->normals;
   //mtls = theObj->mtls;
