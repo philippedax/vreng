@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[8.3.3],[philippe.dax@gmail.com])
+AC_INIT([vreng],[8.4.0],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ(2.63)
@@ -118,8 +118,8 @@ CPPFLAGS="${CPPFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-misleading-indentation -Wno-unknown-warning"
-  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -Wno-unknown-warning"
+  CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-misleading-indentation"
+  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address"
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`
 fi
