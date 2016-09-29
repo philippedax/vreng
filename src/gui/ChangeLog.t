@@ -14,6 +14,11 @@ The rules for this file:\n\
 ------------------------------------------\n\
 \n\
 ++ 8\n\
+== 8.4\n\
+-- 8.4.0\n\
+	- removed -Wno-unknown-warning\n\
+	(2016/09/28, Philippe Dax)\n\
+\n\
 == 8.3\n\
 -- 8.3.3\n\
 	- added install vjs\n\
@@ -21,11 +26,11 @@ The rules for this file:\n\
 	(2016/09/25, Philippe Dax)\n\
 \n\
 -- 8.3.2\n\
-	- fixed unknown-warnnig option\n\
+	- added -Wno-unknown-warnnig option\n\
 	(2016/09/22, Philippe Dax)\n\
 \n\
 -- 8.3.1\n\
-	- vreng homed at github\n\
+	- vreng project hosted at github.com\n\
 	- changed CXXFLAGS to avoid warnings under gcc-6.1.1\n\
 	- added view.xpm into gui/xpm/Makefile.am\n\
 	- moved acinclude.m4 into support/\n\

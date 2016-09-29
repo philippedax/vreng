@@ -145,7 +145,7 @@ void Firework::render()
     if (sqr(particles[i].pos[0] - pos.x) +
         sqr(particles[i].pos[1] - pos.y) +
         sqr(particles[i].pos[2] - pos.z) < w*w + d*d + h*h) {
-      glPushAttrib(GL_ALL_ATTRIB_BITS);
+      //glPushAttrib(GL_ALL_ATTRIB_BITS);
       glPushMatrix();
       glEnable(GL_COLOR_MATERIAL);
       glDisable(GL_LIGHTING);
@@ -156,7 +156,7 @@ void Firework::render()
       glEnd();
       glEnable(GL_LIGHTING);
       glPopMatrix();
-      glPopAttrib();
+      //glPopAttrib();
     }
     else {
       generate();
