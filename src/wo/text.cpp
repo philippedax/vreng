@@ -144,7 +144,7 @@ void Text::render()
   if (! loaded) return;
   if (state == INACTIVE) return;
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glEnable(GL_LIGHTING);
   glEnable(GL_TEXTURE_2D);
@@ -168,7 +168,7 @@ void Text::render()
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_LIGHTING);
   glPopMatrix();
-  glPopAttrib();
+  //DAX glPopAttrib();
 }
 
 void Text::quit()

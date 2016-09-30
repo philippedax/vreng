@@ -152,7 +152,7 @@ void Water::changePermanent(float lasting)
 
 void Water::render()
 {
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
    glEnable(GL_LIGHTING);
    glEnable(GL_BLEND);
@@ -170,7 +170,7 @@ void Water::render()
    glDisable(GL_BLEND);
    glDisable(GL_LIGHTING);
   glPopMatrix();
-  glPopAttrib();
+  //DAX glPopAttrib();
 }
 
 bool Water::whenIntersect(WObject *pcur, WObject *pold)

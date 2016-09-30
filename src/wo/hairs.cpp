@@ -236,7 +236,7 @@ void Hairs::render()
 {
   static uint32_t nf = 0;
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
 
   glDisable(GL_CULL_FACE);
@@ -272,7 +272,7 @@ void Hairs::render()
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glPopMatrix();
-  glPopAttrib();
+  //DAX glPopAttrib();
   nf++;
 }
 

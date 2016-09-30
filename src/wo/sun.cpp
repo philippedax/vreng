@@ -161,7 +161,7 @@ void Sun::lighting()
   static float tic = 0;
 
 #if 0 //dax
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT3);
@@ -180,7 +180,7 @@ void Sun::lighting()
    glDisable(GL_LIGHT3);
    glDisable(GL_LIGHTING);
   glPopMatrix();
-  glPopAttrib();
+  //DAX glPopAttrib();
 #endif
 
   tic += 0.2;	// 360/86400

@@ -170,7 +170,7 @@ void Fire::render()
 {
   static uint32_t nf = 0;
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
   float seed = ((float) drand48() * 2) - 1.;
@@ -183,7 +183,7 @@ void Fire::render()
 
   glDisable(GL_BLEND);
   glPopMatrix();
-  glPopAttrib();
+  //DAX glPopAttrib();
   nf++;
 }
 
