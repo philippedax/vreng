@@ -1,8 +1,8 @@
 ANNOUNCE
 .svn
-.git_hub
-.git_tab
-autom4te_cache
+.git_github
+.git_gittab
+autom4te.cache
 FIX
 aclocal.m4
 automa4te.cache
@@ -39,7 +39,10 @@ bin/vacs
 bin/vaps
 bin/vjs
 bin/vrum
+bin/vmm
+bin/vre
 src/vreng/txt2str
+src/vreng/.dirstamp
 src/util/tools/snd2str
 src/servers/vrum/multicast.pyc
 src/ai/*.cmx
