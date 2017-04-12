@@ -23,7 +23,7 @@
 ##
 AUTOMAKE_OPTIONS = foreign no-dependencies subdir-objects
 
-SUBDIRS = src man bin
+SUBDIRS = src man bin etc
 
 
 EXTRA_DIST = COPYRIGHT VERSION ANNOUNCE support/* md/*

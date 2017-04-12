@@ -27,7 +27,7 @@ const char CONFIG_H[] = "\
 #define GCC_MAJOR_VERSION 6\n\
 \n\
 /* gcc version */\n\
-#define GCC_VERSION \"6.2.1\"\n\
+#define GCC_VERSION \"6.3.1\"\n\
 \n\
 /* */\n\
 /* #undef HAVE_ALUT */\n\
@@ -51,7 +51,7 @@ const char CONFIG_H[] = "\
 #define HAVE_CURL 1\n\
 \n\
 /* */\n\
-#define HAVE_CURL_CURL_H 1\n\
+/* #undef HAVE_CURL_CURL_H */\n\
 \n\
 /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.\n\
    */\n\
@@ -184,10 +184,10 @@ const char CONFIG_H[] = "\
 #define HAVE_JAVA 1\n\
 \n\
 /* */\n\
-#define HAVE_JPEGLIB_H 1\n\
+/* #undef HAVE_JPEGLIB_H */\n\
 \n\
 /* */\n\
-#define HAVE_LIBCURL 1\n\
+/* #undef HAVE_LIBCURL */\n\
 \n\
 /* Define to 1 if you have the `dmallocthcxx' library (-ldmallocthcxx). */\n\
 /* #undef HAVE_LIBDMALLOCTHCXX */\n\
@@ -199,7 +199,7 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBFREETYPE 1\n\
 \n\
 /* */\n\
-#define HAVE_LIBGIF 1\n\
+/* #undef HAVE_LIBGIF */\n\
 \n\
 /* */\n\
 #define HAVE_LIBGLU 1\n\
@@ -211,7 +211,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_LIBIBERTY */\n\
 \n\
 /* */\n\
-#define HAVE_LIBJPEG 1\n\
+/* #undef HAVE_LIBJPEG */\n\
 \n\
 /* Define to 1 if you have the `m' library (-lm). */\n\
 #define HAVE_LIBM 1\n\
@@ -220,7 +220,7 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBMPEG 1\n\
 \n\
 /* */\n\
-#define HAVE_LIBMYSQLCLIENT 1\n\
+/* #undef HAVE_LIBMYSQLCLIENT */\n\
 \n\
 /* Define to 1 if you have the `nsl' library (-lnsl). */\n\
 #define HAVE_LIBNSL 1\n\
@@ -247,7 +247,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_LIBSOCKET */\n\
 \n\
 /* */\n\
-#define HAVE_LIBTIFF 1\n\
+/* #undef HAVE_LIBTIFF */\n\
 \n\
 /* */\n\
 #define HAVE_LIBX11 1\n\
@@ -271,10 +271,10 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBXML_XPATH_H 1\n\
 \n\
 /* */\n\
-#define HAVE_LIBXMU 1\n\
+/* #undef HAVE_LIBXMU */\n\
 \n\
 /* */\n\
-#define HAVE_LIBXPM 1\n\
+/* #undef HAVE_LIBXPM */\n\
 \n\
 /* */\n\
 #define HAVE_LIBZ 1\n\
@@ -311,10 +311,10 @@ const char CONFIG_H[] = "\
 #define HAVE_MULTICAST 1\n\
 \n\
 /* */\n\
-#define HAVE_MYSQL_ERROR 1\n\
+/* #undef HAVE_MYSQL_ERROR */\n\
 \n\
 /* */\n\
-#define HAVE_MYSQL_H 1\n\
+/* #undef HAVE_MYSQL_H */\n\
 \n\
 /* */\n\
 /* #undef HAVE_MYSQL_MYSQL_H */\n\
@@ -477,7 +477,7 @@ const char CONFIG_H[] = "\
 #define HAVE_SYS_WAIT_H 1\n\
 \n\
 /* */\n\
-#define HAVE_TIFFIO_H 1\n\
+/* #undef HAVE_TIFFIO_H */\n\
 \n\
 /* Define to 1 if you have the `uname' function. */\n\
 #define HAVE_UNAME 1\n\
@@ -568,7 +568,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_NAME \"vreng\"\n\
 \n\
 /* Define to the full name and version of this package. */\n\
-#define PACKAGE_STRING \"vreng 8.4.0\"\n\
+#define PACKAGE_STRING \"vreng 8.5.0\"\n\
 \n\
 /* Define to the one symbol short name of this package. */\n\
 #define PACKAGE_TARNAME \"vreng\"\n\
@@ -577,7 +577,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_URL \"\"\n\
 \n\
 /* Define to the version of this package. */\n\
-#define PACKAGE_VERSION \"8.4.0\"\n\
+#define PACKAGE_VERSION \"8.5.0\"\n\
 \n\
 /* */\n\
 #define PERLPATH \"/bin/perl\"\n\
@@ -604,7 +604,7 @@ const char CONFIG_H[] = "\
 #define TIME_WITH_SYS_TIME 1\n\
 \n\
 /* Version number of package */\n\
-#define VERSION \"8.4.0\"\n\
+#define VERSION \"8.5.0\"\n\
 \n\
 /* VReng major version */\n\
 #define VRENG_MAJOR_VERSION 8\n\
@@ -613,7 +613,7 @@ const char CONFIG_H[] = "\
 #define VRENG_MICRO_VERSION 0\n\
 \n\
 /* VReng minor version */\n\
-#define VRENG_MINOR_VERSION 4\n\
+#define VRENG_MINOR_VERSION 5\n\
 \n\
 /* */\n\
 /* #undef WANT_GL2PS */\n\
@@ -640,7 +640,7 @@ const char CONFIG_H[] = "\
 /* #undef WITH_FREETYPE */\n\
 \n\
 /* */\n\
-#define WITH_MYSQL 1\n\
+/* #undef WITH_MYSQL */\n\
 \n\
 /* */\n\
 #define WITH_PTHREAD 1\n\

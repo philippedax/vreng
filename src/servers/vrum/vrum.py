@@ -1,4 +1,4 @@
-#! /usr/local/bin/python
+#!/bin/python
 #
 # vrum.py
 #

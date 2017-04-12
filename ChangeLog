@@ -13,6 +13,11 @@ The rules for this file:
 ------------------------------------------
 
 ++ 8
+== 8.5
+-- 8.5.0
+	(2015/04/11, Philippe Dax)
+	- added etc directory at top
+
 == 8.4
 -- 8.4.0
 	- removed -Wno-unknown-warning

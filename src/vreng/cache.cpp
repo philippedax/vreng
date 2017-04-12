@@ -210,7 +210,7 @@ int Cache::download(const char *_url, char *filename, const char opts[])
     trace(DBG_TOOL, "download: download %s in %s", url, filename);
   }
 
-#if HAVE_LIBCURL
+#if HAVE_CURL
   return curl(url, filename, opts);
 #else
   return Wget::start(url, filename, opts);

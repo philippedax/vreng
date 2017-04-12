@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[8.4.0],[philippe.dax@gmail.com])
+AC_INIT([vreng],[8.5.0],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ(2.63)
@@ -1754,6 +1754,7 @@ AC_CONFIG_FILES([
         man/Makefile
         bin/Makefile
         bin/vre
+        etc/Makefile
         ])
 
 #7.0.0#AC_CONFIG_COMMANDS([default],
