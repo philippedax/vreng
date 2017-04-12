@@ -12,6 +12,9 @@
 #define UBIT_VERSION "7.0.0"
 
 /* Features */
+#define   UBIT_WITH_XPM 1
+#define   UBIT_WITH_GIF 1
+#define   UBIT_WITH_JPEG 1
 #define   UBIT_WITH_FREETYPE 1
 #define   UBIT_WITH_X11 1
 #define   UBIT_WITH_GL 1

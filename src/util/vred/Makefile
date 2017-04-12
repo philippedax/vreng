@@ -209,7 +209,7 @@ AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -DVAPS -DVJS -DVACS
-CPPFLAGS = -I/usr/local/include -I/usr/include/freetype2 
+CPPFLAGS = -I/usr/include/mysql -I/usr/include/freetype2 
 CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
@@ -246,7 +246,7 @@ LN_S = ln -s
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /infres/s3/dax/vreng/support/missing makeinfo
 MKDIR_P = /bin/mkdir -p
-MYSQL_CFLAGS = -I/usr/local/include
+MYSQL_CFLAGS = -I/usr/include/mysql
 OBJEXT = o
 OCAMLOPT = 
 OCAML_CFLAGS = 
@@ -271,7 +271,7 @@ STRIP =
 UBITCONFIG = 
 UBIT_CFLAGS = -I../../src
 VERSION = 8.5.0
-VRELIBS = -L/usr/lib64 -lxml2 -lpthread -L/usr/lib -ldl -lfreetype -lm -lnsl  -L/usr/lib -lGLU -lGL  -L/usr/lib64 -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/usr/lib64 -lpng -lz 
+VRELIBS = -L/usr/lib64 -lxml2 -L/usr/lib64/mysql -lmysqlclient -lpthread -L/usr/lib -ldl -lfreetype -lm -lnsl  -L/usr/lib -lGLU -lGL  -L/usr/lib64 -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/usr/lib64 -lcurl -L/usr/lib64 -lpng -lz -L/usr/lib64 -ltiff -L/usr/lib64 -ljpeg -L/usr/lib64 -lgif -lXpm 
 WGETPATH = /bin/wget
 XLIBS = -L/usr/lib64  -lSM -lICE 
 XMKMF = 
@@ -355,9 +355,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/util/vred/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/util/vred/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src/util/vred/Makefile
+	  $(AUTOMAKE) --gnu src/util/vred/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

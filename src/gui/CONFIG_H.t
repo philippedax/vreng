@@ -51,7 +51,7 @@ const char CONFIG_H[] = "\
 #define HAVE_CURL 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_CURL_CURL_H */\n\
+#define HAVE_CURL_CURL_H 1\n\
 \n\
 /* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.\n\
    */\n\
@@ -184,10 +184,10 @@ const char CONFIG_H[] = "\
 #define HAVE_JAVA 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_JPEGLIB_H */\n\
+#define HAVE_JPEGLIB_H 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBCURL */\n\
+#define HAVE_LIBCURL 1\n\
 \n\
 /* Define to 1 if you have the `dmallocthcxx' library (-ldmallocthcxx). */\n\
 /* #undef HAVE_LIBDMALLOCTHCXX */\n\
@@ -199,7 +199,7 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBFREETYPE 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBGIF */\n\
+#define HAVE_LIBGIF 1\n\
 \n\
 /* */\n\
 #define HAVE_LIBGLU 1\n\
@@ -211,7 +211,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_LIBIBERTY */\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBJPEG */\n\
+#define HAVE_LIBJPEG 1\n\
 \n\
 /* Define to 1 if you have the `m' library (-lm). */\n\
 #define HAVE_LIBM 1\n\
@@ -220,7 +220,7 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBMPEG 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBMYSQLCLIENT */\n\
+#define HAVE_LIBMYSQLCLIENT 1\n\
 \n\
 /* Define to 1 if you have the `nsl' library (-lnsl). */\n\
 #define HAVE_LIBNSL 1\n\
@@ -247,7 +247,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_LIBSOCKET */\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBTIFF */\n\
+#define HAVE_LIBTIFF 1\n\
 \n\
 /* */\n\
 #define HAVE_LIBX11 1\n\
@@ -271,10 +271,10 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBXML_XPATH_H 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBXMU */\n\
+#define HAVE_LIBXMU 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBXPM */\n\
+#define HAVE_LIBXPM 1\n\
 \n\
 /* */\n\
 #define HAVE_LIBZ 1\n\
@@ -311,10 +311,10 @@ const char CONFIG_H[] = "\
 #define HAVE_MULTICAST 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_MYSQL_ERROR */\n\
+#define HAVE_MYSQL_ERROR 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_MYSQL_H */\n\
+#define HAVE_MYSQL_H 1\n\
 \n\
 /* */\n\
 /* #undef HAVE_MYSQL_MYSQL_H */\n\
@@ -477,7 +477,7 @@ const char CONFIG_H[] = "\
 #define HAVE_SYS_WAIT_H 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_TIFFIO_H */\n\
+#define HAVE_TIFFIO_H 1\n\
 \n\
 /* Define to 1 if you have the `uname' function. */\n\
 #define HAVE_UNAME 1\n\
@@ -640,7 +640,7 @@ const char CONFIG_H[] = "\
 /* #undef WITH_FREETYPE */\n\
 \n\
 /* */\n\
-/* #undef WITH_MYSQL */\n\
+#define WITH_MYSQL 1\n\
 \n\
 /* */\n\
 #define WITH_PTHREAD 1\n\
