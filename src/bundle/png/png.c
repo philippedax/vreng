@@ -703,7 +703,7 @@ png_sig_bytes(void)
 png_charp PNGAPI
 png_get_copyright(png_structp png_ptr)
 {
-   if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
+   if (png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
    return ((png_charp) "\n libpng version 1.2.16 - January 31, 2007\n\
    Copyright (c) 1998-2007 Glenn Randers-Pehrson\n\
    Copyright (c) 1996-1997 Andreas Dilger\n\
@@ -723,7 +723,7 @@ png_charp PNGAPI
 png_get_libpng_ver(png_structp png_ptr)
 {
    /* Version of *.c files used when building libpng */
-   if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
+   if (png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
       return ((png_charp) PNG_LIBPNG_VER_STRING);
    return ((png_charp) "");
 }
@@ -732,7 +732,7 @@ png_charp PNGAPI
 png_get_header_ver(png_structp png_ptr)
 {
    /* Version of *.h files used when building libpng */
-   if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
+   if (png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
       return ((png_charp) PNG_LIBPNG_VER_STRING);
    return ((png_charp) "");
 }
@@ -741,7 +741,7 @@ png_charp PNGAPI
 png_get_header_version(png_structp png_ptr)
 {
    /* Returns longer string containing both version and date */
-   if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
+   if (png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
       return ((png_charp) PNG_HEADER_VERSION_STRING);
    return ((png_charp) "");
 }

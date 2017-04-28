@@ -14,9 +14,14 @@ The rules for this file:
 
 ++ 8
 == 8.5
+-- 8.5.1
+	- fixed &png_ptr in bundle/png.c
+	- fixed #include "png.h" in texture/png.cpp
+	(2017/04/28, Philippe Dax)
+
 -- 8.5.0
-	(2015/04/11, Philippe Dax)
 	- added etc directory at top
+	(2017/04/11, Philippe Dax)
 
 == 8.4
 -- 8.4.0

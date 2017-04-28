@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[8.5.0],[philippe.dax@gmail.com])
+AC_INIT([vreng],[8.5.1],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ(2.63)
@@ -919,8 +919,8 @@ fi
 # check png library
 #
 AC_ARG_WITH([png-builtin],
-    AS_HELP_STRING([--with-png-builtin],[use builtin libpng [[default=no]]]),
-    [ac_cv_use_png_builtin=$withval], [ac_cv_use_png_builtin=no])
+    AS_HELP_STRING([--with-png-builtin],[use builtin libpng [[default=yes]]]),
+    [ac_cv_use_png_builtin=$withval], [ac_cv_use_png_builtin=yes])
 
 if test "$ac_cv_use_png_builtin" = "no"; then
   bundle_libpng="yes"
@@ -940,6 +940,7 @@ if test "$ac_cv_use_png_builtin" = "no"; then
   ;;
   esac
 else
+  AC_DEFINE(HAVE_LIBPNG)
   bundle_libpng="yes"
 fi
 

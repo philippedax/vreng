@@ -28,7 +28,7 @@
 #if HAVE_LIBPNG
 #include <png.h>
 #else
-#include "png.h"
+//DAX #include "png.h"
 #endif
 
 
