@@ -88,7 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
-#bin_PROGRAMS = vred$(EXEEXT)
+bin_PROGRAMS = vred$(EXEEXT)
 subdir = src/util/vred
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/support/acinclude.m4 \
@@ -123,12 +123,12 @@ am__objects_1 = main.$(OBJEXT) app.$(OBJEXT) bbox.$(OBJEXT) \
 	step.$(OBJEXT) tex.$(OBJEXT) vect.$(OBJEXT) safe.$(OBJEXT) \
 	wall.$(OBJEXT) web.$(OBJEXT) ui.$(OBJEXT)
 am__objects_2 =
-#am_vred_OBJECTS = $(am__objects_1) $(am__objects_2) \
-#	y.tab.$(OBJEXT) lex.yy.$(OBJEXT)
+am_vred_OBJECTS = $(am__objects_1) $(am__objects_2) \
+	y.tab.$(OBJEXT) lex.yy.$(OBJEXT)
 vred_OBJECTS = $(am_vred_OBJECTS)
 am__DEPENDENCIES_1 =
-#vred_DEPENDENCIES = $(SRCDIR)/bundle/glui/libglui.a \
-#	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+vred_DEPENDENCIES = $(SRCDIR)/bundle/glui/libglui.a \
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -208,13 +208,13 @@ AUTOMAKE = ${SHELL} /infres/s3/dax/vreng/support/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -DVAPS -DVJS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -DVREL -DVRED -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/usr/include/mysql -I/usr/include/freetype2 
 CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -DVAPS -DVJS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -DVREL -DVRED -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -248,9 +248,9 @@ MAKEINFO = ${SHELL} /infres/s3/dax/vreng/support/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 MYSQL_CFLAGS = -I/usr/include/mysql
 OBJEXT = o
-OCAMLOPT = 
-OCAML_CFLAGS = 
-OCAML_LIBS = 
+OCAMLOPT = /bin/ocamlopt
+OCAML_CFLAGS = -I/usr/lib64/ocaml
+OCAML_LIBS = -L/usr/lib64/ocaml
 PACKAGE = vreng
 PACKAGE_BUGREPORT = philippe.dax@gmail.com
 PACKAGE_NAME = vreng
@@ -338,9 +338,9 @@ VRED_HDRS = main.hpp vred.hpp vre.hpp app.hpp bbox.hpp board.hpp box.hpp bsphere
 EXTRA_DIST = vred.l vred.y
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/bundle/glui $(GL_CFLAGS) $(X_CFLAGS)
-#vred_SOURCES = $(VRED_SRCS) $(VRED_HDRS) y.tab.cpp lex.yy.cpp
-#vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a\
-# $(X_LIBS) $(XLIBS) $(GL_LDOPTS) -lglut -lGLU -lGL -lm
+vred_SOURCES = $(VRED_SRCS) $(VRED_HDRS) y.tab.cpp lex.yy.cpp
+vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a\
+ $(X_LIBS) $(XLIBS) $(GL_LDOPTS) -lglut -lGLU -lGL -lm
 
 all: all-am
 
@@ -597,7 +597,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
+#clean: clean-am
 
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
@@ -685,20 +685,20 @@ uninstall-am: uninstall-binPROGRAMS
 .PRECIOUS: Makefile
 
 
-#lex.yy.o: lex.yy.cpp y.tab.h
-#y.tab.o: y.tab.cpp y.tab.h
+lex.yy.o: lex.yy.cpp y.tab.h
+y.tab.o: y.tab.cpp y.tab.h
 
-#lex.yy.cpp: vred.l
-#	$(LEX) vred.l
-#	mv lex.yy.c /tmp/lex.yy.cpp
-#	sed -e "s%^int yylineno%//int yylineno%" </tmp/lex.yy.cpp >lex.yy.cpp
-#	rm /tmp/lex.yy.cpp
-#y.tab.cpp y.tab.h: vred.y
-#	$(YACC) -d -y -v vred.y
-#	mv y.tab.c y.tab.cpp
+lex.yy.cpp: vred.l
+	$(LEX) vred.l
+	mv lex.yy.c /tmp/lex.yy.cpp
+	sed -e "s%^int yylineno%//int yylineno%" </tmp/lex.yy.cpp >lex.yy.cpp
+	rm /tmp/lex.yy.cpp
+y.tab.cpp y.tab.h: vred.y
+	bison -d -y -v vred.y
+	mv y.tab.c y.tab.cpp
 
-#clean:
-#	@-rm vred *.o y.output y.tab.h # y.tab.cpp lex.yy.cpp
+clean:
+	@-rm vred *.o y.output y.tab.h # y.tab.cpp lex.yy.cpp
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -694,7 +694,7 @@ uninstall-am: uninstall-binPROGRAMS
 @VRED_TRUE@	sed -e "s%^int yylineno%//int yylineno%" </tmp/lex.yy.cpp >lex.yy.cpp
 @VRED_TRUE@	rm /tmp/lex.yy.cpp
 @VRED_TRUE@y.tab.cpp y.tab.h: vred.y
-@VRED_TRUE@	$(YACC) -d -y -v vred.y
+@VRED_TRUE@	bison -d -y -v vred.y
 @VRED_TRUE@	mv y.tab.c y.tab.cpp
 
 @VRED_TRUE@clean:

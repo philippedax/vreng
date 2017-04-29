@@ -1,11 +1,11 @@
-Terminals unused in grammar
+Terminaux inutilisés dans la grammaire
 
    TK_TOR_SIZE
    TK_TOR_SIZE2
    TK_EMISSION
 
 
-Grammar
+Grammaire
 
     0 $accept: start $end
 
@@ -114,7 +114,7 @@ Grammar
    68           | TK_SPECULAR COMMA NUMBER COMMA NUMBER
 
 
-Terminals, with rules where they appear
+Terminaux, suivis des règles où ils apparaissent
 
 $end (0) 0
 error (256)
@@ -149,1168 +149,1168 @@ SPHER_TEX (285) 49 51
 TLNT (286) 39
 
 
-Nonterminals, with rules where they appear
+Non-terminaux, suivis des règles où ils apparaissent
 
 $accept (32)
-    on left: 0
+    à gauche: 0
 start (33)
-    on left: 1, on right: 0
+    à gauche: 1, à droite: 0
 solid (34)
-    on left: 2 3, on right: 1 3
+    à gauche: 2 3, à droite: 1 3
 solid_single (35)
-    on left: 4 5 6 7 8 9 10 11, on right: 2 3
+    à gauche: 4 5 6 7 8 9 10 11, à droite: 2 3
 wall_section (36)
-    on left: 12, on right: 4
+    à gauche: 12, à droite: 4
 wall (37)
-    on left: 13 14, on right: 12 14
+    à gauche: 13 14, à droite: 12 14
 wall_single (38)
-    on left: 15, on right: 13 14
+    à gauche: 15, à droite: 13 14
 gate_section (39)
-    on left: 16, on right: 5
+    à gauche: 16, à droite: 5
 gate (40)
-    on left: 17 18, on right: 16 18
+    à gauche: 17 18, à droite: 16 18
 gate_single (41)
-    on left: 19, on right: 17 18
+    à gauche: 19, à droite: 17 18
 earth_section (42)
-    on left: 20, on right: 6
+    à gauche: 20, à droite: 6
 earth (43)
-    on left: 21 22, on right: 20 22
+    à gauche: 21 22, à droite: 20 22
 earth_single (44)
-    on left: 23, on right: 21 22
+    à gauche: 23, à droite: 21 22
 web_section (45)
-    on left: 24, on right: 7
+    à gauche: 24, à droite: 7
 web (46)
-    on left: 25 26, on right: 24 26
+    à gauche: 25 26, à droite: 24 26
 web_single (47)
-    on left: 27, on right: 25 26
+    à gauche: 27, à droite: 25 26
 board_section (48)
-    on left: 28, on right: 8
+    à gauche: 28, à droite: 8
 board (49)
-    on left: 29 30, on right: 28 30
+    à gauche: 29 30, à droite: 28 30
 board_single (50)
-    on left: 31, on right: 29 30
+    à gauche: 31, à droite: 29 30
 step_section (51)
-    on left: 32, on right: 9
+    à gauche: 32, à droite: 9
 step (52)
-    on left: 33 34, on right: 32 34
+    à gauche: 33 34, à droite: 32 34
 step_single (53)
-    on left: 35, on right: 33 34
+    à gauche: 35, à droite: 33 34
 host_section (54)
-    on left: 36, on right: 10
+    à gauche: 36, à droite: 10
 host (55)
-    on left: 37 38, on right: 36 38
+    à gauche: 37 38, à droite: 36 38
 host_single (56)
-    on left: 39, on right: 37 38
+    à gauche: 39, à droite: 37 38
 doc_section (57)
-    on left: 40, on right: 11
+    à gauche: 40, à droite: 11
 doc (58)
-    on left: 41 42, on right: 40 42
+    à gauche: 41 42, à droite: 40 42
 doc_single (59)
-    on left: 43, on right: 41 42
+    à gauche: 43, à droite: 41 42
 box_props (60)
-    on left: 44 45 46 47, on right: 15 19 27 31 35 39 43
+    à gauche: 44 45 46 47, à droite: 15 19 27 31 35 39 43
 spher_props (61)
-    on left: 48 49 50 51, on right: 23
+    à gauche: 48 49 50 51, à droite: 23
 pos_ang (62)
-    on left: 52, on right: 15 19 23 27 31 35 39 43
+    à gauche: 52, à droite: 15 19 23 27 31 35 39 43
 box_size (63)
-    on left: 53, on right: 44 45 46 47
+    à gauche: 53, à droite: 44 45 46 47
 spher_size (64)
-    on left: 54, on right: 48 49 50 51
+    à gauche: 54, à droite: 48 49 50 51
 box_tex (65)
-    on left: 55 56, on right: 44 45 56
+    à gauche: 55 56, à droite: 44 45 56
 box_tex_single (66)
-    on left: 57 58 59 60 61 62, on right: 55 56
+    à gauche: 57 58 59 60 61 62, à droite: 55 56
 app (67)
-    on left: 63 64, on right: 44 46 50 51 64
+    à gauche: 63 64, à droite: 44 46 50 51 64
 app_single (68)
-    on left: 65 66 67 68, on right: 63 64
+    à gauche: 65 66 67 68, à droite: 63 64
 
 
-State 0
+État 0
 
     0 $accept: . start $end
 
-    TK_WALL   shift, and go to state 1
-    TK_GATE   shift, and go to state 2
-    TK_EARTH  shift, and go to state 3
-    TK_WEB    shift, and go to state 4
-    TK_BOARD  shift, and go to state 5
-    TK_STEP   shift, and go to state 6
-    TK_HOST   shift, and go to state 7
-    TK_DOC    shift, and go to state 8
+    TK_WALL   décalage et aller à l'état 1
+    TK_GATE   décalage et aller à l'état 2
+    TK_EARTH  décalage et aller à l'état 3
+    TK_WEB    décalage et aller à l'état 4
+    TK_BOARD  décalage et aller à l'état 5
+    TK_STEP   décalage et aller à l'état 6
+    TK_HOST   décalage et aller à l'état 7
+    TK_DOC    décalage et aller à l'état 8
 
-    start          go to state 9
-    solid          go to state 10
-    solid_single   go to state 11
-    wall_section   go to state 12
-    gate_section   go to state 13
-    earth_section  go to state 14
-    web_section    go to state 15
-    board_section  go to state 16
-    step_section   go to state 17
-    host_section   go to state 18
-    doc_section    go to state 19
+    start          aller à l'état 9
+    solid          aller à l'état 10
+    solid_single   aller à l'état 11
+    wall_section   aller à l'état 12
+    gate_section   aller à l'état 13
+    earth_section  aller à l'état 14
+    web_section    aller à l'état 15
+    board_section  aller à l'état 16
+    step_section   aller à l'état 17
+    host_section   aller à l'état 18
+    doc_section    aller à l'état 19
 
 
-State 1
+État 1
 
    12 wall_section: TK_WALL . wall
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    wall         go to state 21
-    wall_single  go to state 22
-    pos_ang      go to state 23
+    wall         aller à l'état 21
+    wall_single  aller à l'état 22
+    pos_ang      aller à l'état 23
 
 
-State 2
+État 2
 
    16 gate_section: TK_GATE . gate
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    gate         go to state 24
-    gate_single  go to state 25
-    pos_ang      go to state 26
+    gate         aller à l'état 24
+    gate_single  aller à l'état 25
+    pos_ang      aller à l'état 26
 
 
-State 3
+État 3
 
    20 earth_section: TK_EARTH . earth
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    earth         go to state 27
-    earth_single  go to state 28
-    pos_ang       go to state 29
+    earth         aller à l'état 27
+    earth_single  aller à l'état 28
+    pos_ang       aller à l'état 29
 
 
-State 4
+État 4
 
    24 web_section: TK_WEB . web
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    web         go to state 30
-    web_single  go to state 31
-    pos_ang     go to state 32
+    web         aller à l'état 30
+    web_single  aller à l'état 31
+    pos_ang     aller à l'état 32
 
 
-State 5
+État 5
 
    28 board_section: TK_BOARD . board
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    board         go to state 33
-    board_single  go to state 34
-    pos_ang       go to state 35
+    board         aller à l'état 33
+    board_single  aller à l'état 34
+    pos_ang       aller à l'état 35
 
 
-State 6
+État 6
 
    32 step_section: TK_STEP . step
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    step         go to state 36
-    step_single  go to state 37
-    pos_ang      go to state 38
+    step         aller à l'état 36
+    step_single  aller à l'état 37
+    pos_ang      aller à l'état 38
 
 
-State 7
+État 7
 
    36 host_section: TK_HOST . host
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    host         go to state 39
-    host_single  go to state 40
-    pos_ang      go to state 41
+    host         aller à l'état 39
+    host_single  aller à l'état 40
+    pos_ang      aller à l'état 41
 
 
-State 8
+État 8
 
    40 doc_section: TK_DOC . doc
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    doc         go to state 42
-    doc_single  go to state 43
-    pos_ang     go to state 44
+    doc         aller à l'état 42
+    doc_single  aller à l'état 43
+    pos_ang     aller à l'état 44
 
 
-State 9
+État 9
 
     0 $accept: start . $end
 
-    $end  shift, and go to state 45
+    $end  décalage et aller à l'état 45
 
 
-State 10
+État 10
 
     1 start: solid . TK_END
     3 solid: solid . solid_single
 
-    TK_WALL   shift, and go to state 1
-    TK_GATE   shift, and go to state 2
-    TK_EARTH  shift, and go to state 3
-    TK_WEB    shift, and go to state 4
-    TK_BOARD  shift, and go to state 5
-    TK_STEP   shift, and go to state 6
-    TK_HOST   shift, and go to state 7
-    TK_DOC    shift, and go to state 8
-    TK_END    shift, and go to state 46
+    TK_WALL   décalage et aller à l'état 1
+    TK_GATE   décalage et aller à l'état 2
+    TK_EARTH  décalage et aller à l'état 3
+    TK_WEB    décalage et aller à l'état 4
+    TK_BOARD  décalage et aller à l'état 5
+    TK_STEP   décalage et aller à l'état 6
+    TK_HOST   décalage et aller à l'état 7
+    TK_DOC    décalage et aller à l'état 8
+    TK_END    décalage et aller à l'état 46
 
-    solid_single   go to state 47
-    wall_section   go to state 12
-    gate_section   go to state 13
-    earth_section  go to state 14
-    web_section    go to state 15
-    board_section  go to state 16
-    step_section   go to state 17
-    host_section   go to state 18
-    doc_section    go to state 19
+    solid_single   aller à l'état 47
+    wall_section   aller à l'état 12
+    gate_section   aller à l'état 13
+    earth_section  aller à l'état 14
+    web_section    aller à l'état 15
+    board_section  aller à l'état 16
+    step_section   aller à l'état 17
+    host_section   aller à l'état 18
+    doc_section    aller à l'état 19
 
 
-State 11
+État 11
 
     2 solid: solid_single .
 
-    $default  reduce using rule 2 (solid)
+    $défaut  réduction par utilisation de la règle 2 (solid)
 
 
-State 12
+État 12
 
     4 solid_single: wall_section .
 
-    $default  reduce using rule 4 (solid_single)
+    $défaut  réduction par utilisation de la règle 4 (solid_single)
 
 
-State 13
+État 13
 
     5 solid_single: gate_section .
 
-    $default  reduce using rule 5 (solid_single)
+    $défaut  réduction par utilisation de la règle 5 (solid_single)
 
 
-State 14
+État 14
 
     6 solid_single: earth_section .
 
-    $default  reduce using rule 6 (solid_single)
+    $défaut  réduction par utilisation de la règle 6 (solid_single)
 
 
-State 15
+État 15
 
     7 solid_single: web_section .
 
-    $default  reduce using rule 7 (solid_single)
+    $défaut  réduction par utilisation de la règle 7 (solid_single)
 
 
-State 16
+État 16
 
     8 solid_single: board_section .
 
-    $default  reduce using rule 8 (solid_single)
+    $défaut  réduction par utilisation de la règle 8 (solid_single)
 
 
-State 17
+État 17
 
     9 solid_single: step_section .
 
-    $default  reduce using rule 9 (solid_single)
+    $défaut  réduction par utilisation de la règle 9 (solid_single)
 
 
-State 18
+État 18
 
    10 solid_single: host_section .
 
-    $default  reduce using rule 10 (solid_single)
+    $défaut  réduction par utilisation de la règle 10 (solid_single)
 
 
-State 19
+État 19
 
    11 solid_single: doc_section .
 
-    $default  reduce using rule 11 (solid_single)
+    $défaut  réduction par utilisation de la règle 11 (solid_single)
 
 
-State 20
+État 20
 
    52 pos_ang: NUMBER . NUMBER NUMBER NUMBER NUMBER
 
-    NUMBER  shift, and go to state 48
+    NUMBER  décalage et aller à l'état 48
 
 
-State 21
+État 21
 
    12 wall_section: TK_WALL wall .
    14 wall: wall . wall_single
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    $default  reduce using rule 12 (wall_section)
+    $défaut  réduction par utilisation de la règle 12 (wall_section)
 
-    wall_single  go to state 49
-    pos_ang      go to state 23
+    wall_single  aller à l'état 49
+    pos_ang      aller à l'état 23
 
 
-State 22
+État 22
 
    13 wall: wall_single .
 
-    $default  reduce using rule 13 (wall)
+    $défaut  réduction par utilisation de la règle 13 (wall)
 
 
-State 23
+État 23
 
    15 wall_single: pos_ang . box_props
 
-    TK_BOX_SIZE  shift, and go to state 50
+    TK_BOX_SIZE  décalage et aller à l'état 50
 
-    box_props  go to state 51
-    box_size   go to state 52
+    box_props  aller à l'état 51
+    box_size   aller à l'état 52
 
 
-State 24
+État 24
 
    16 gate_section: TK_GATE gate .
    18 gate: gate . gate_single
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    $default  reduce using rule 16 (gate_section)
+    $défaut  réduction par utilisation de la règle 16 (gate_section)
 
-    gate_single  go to state 53
-    pos_ang      go to state 26
+    gate_single  aller à l'état 53
+    pos_ang      aller à l'état 26
 
 
-State 25
+État 25
 
    17 gate: gate_single .
 
-    $default  reduce using rule 17 (gate)
+    $défaut  réduction par utilisation de la règle 17 (gate)
 
 
-State 26
+État 26
 
    19 gate_single: pos_ang . STRING STRING box_props
 
-    STRING  shift, and go to state 54
+    STRING  décalage et aller à l'état 54
 
 
-State 27
+État 27
 
    20 earth_section: TK_EARTH earth .
    22 earth: earth . earth_single
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    $default  reduce using rule 20 (earth_section)
+    $défaut  réduction par utilisation de la règle 20 (earth_section)
 
-    earth_single  go to state 55
-    pos_ang       go to state 29
+    earth_single  aller à l'état 55
+    pos_ang       aller à l'état 29
 
 
-State 28
+État 28
 
    21 earth: earth_single .
 
-    $default  reduce using rule 21 (earth)
+    $défaut  réduction par utilisation de la règle 21 (earth)
 
 
-State 29
+État 29
 
    23 earth_single: pos_ang . spher_props
 
-    TK_SPHER_SIZE  shift, and go to state 56
+    TK_SPHER_SIZE  décalage et aller à l'état 56
 
-    spher_props  go to state 57
-    spher_size   go to state 58
+    spher_props  aller à l'état 57
+    spher_size   aller à l'état 58
 
 
-State 30
+État 30
 
    24 web_section: TK_WEB web .
    26 web: web . web_single
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    $default  reduce using rule 24 (web_section)
+    $défaut  réduction par utilisation de la règle 24 (web_section)
 
-    web_single  go to state 59
-    pos_ang     go to state 32
+    web_single  aller à l'état 59
+    pos_ang     aller à l'état 32
 
 
-State 31
+État 31
 
    25 web: web_single .
 
-    $default  reduce using rule 25 (web)
+    $défaut  réduction par utilisation de la règle 25 (web)
 
 
-State 32
+État 32
 
    27 web_single: pos_ang . STRING box_props
 
-    STRING  shift, and go to state 60
+    STRING  décalage et aller à l'état 60
 
 
-State 33
+État 33
 
    28 board_section: TK_BOARD board .
    30 board: board . board_single
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    $default  reduce using rule 28 (board_section)
+    $défaut  réduction par utilisation de la règle 28 (board_section)
 
-    board_single  go to state 61
-    pos_ang       go to state 35
+    board_single  aller à l'état 61
+    pos_ang       aller à l'état 35
 
 
-State 34
+État 34
 
    29 board: board_single .
 
-    $default  reduce using rule 29 (board)
+    $défaut  réduction par utilisation de la règle 29 (board)
 
 
-State 35
+État 35
 
    31 board_single: pos_ang . box_props
 
-    TK_BOX_SIZE  shift, and go to state 50
+    TK_BOX_SIZE  décalage et aller à l'état 50
 
-    box_props  go to state 62
-    box_size   go to state 52
+    box_props  aller à l'état 62
+    box_size   aller à l'état 52
 
 
-State 36
+État 36
 
    32 step_section: TK_STEP step .
    34 step: step . step_single
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    $default  reduce using rule 32 (step_section)
+    $défaut  réduction par utilisation de la règle 32 (step_section)
 
-    step_single  go to state 63
-    pos_ang      go to state 38
+    step_single  aller à l'état 63
+    pos_ang      aller à l'état 38
 
 
-State 37
+État 37
 
    33 step: step_single .
 
-    $default  reduce using rule 33 (step)
+    $défaut  réduction par utilisation de la règle 33 (step)
 
 
-State 38
+État 38
 
    35 step_single: pos_ang . box_props
 
-    TK_BOX_SIZE  shift, and go to state 50
+    TK_BOX_SIZE  décalage et aller à l'état 50
 
-    box_props  go to state 64
-    box_size   go to state 52
+    box_props  aller à l'état 64
+    box_size   aller à l'état 52
 
 
-State 39
+État 39
 
    36 host_section: TK_HOST host .
    38 host: host . host_single
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    $default  reduce using rule 36 (host_section)
+    $défaut  réduction par utilisation de la règle 36 (host_section)
 
-    host_single  go to state 65
-    pos_ang      go to state 41
+    host_single  aller à l'état 65
+    pos_ang      aller à l'état 41
 
 
-State 40
+État 40
 
    37 host: host_single .
 
-    $default  reduce using rule 37 (host)
+    $défaut  réduction par utilisation de la règle 37 (host)
 
 
-State 41
+État 41
 
    39 host_single: pos_ang . TLNT box_props
 
-    TLNT  shift, and go to state 66
+    TLNT  décalage et aller à l'état 66
 
 
-State 42
+État 42
 
    40 doc_section: TK_DOC doc .
    42 doc: doc . doc_single
 
-    NUMBER  shift, and go to state 20
+    NUMBER  décalage et aller à l'état 20
 
-    $default  reduce using rule 40 (doc_section)
+    $défaut  réduction par utilisation de la règle 40 (doc_section)
 
-    doc_single  go to state 67
-    pos_ang     go to state 44
+    doc_single  aller à l'état 67
+    pos_ang     aller à l'état 44
 
 
-State 43
+État 43
 
    41 doc: doc_single .
 
-    $default  reduce using rule 41 (doc)
+    $défaut  réduction par utilisation de la règle 41 (doc)
 
 
-State 44
+État 44
 
    43 doc_single: pos_ang . STRING box_props
 
-    STRING  shift, and go to state 68
+    STRING  décalage et aller à l'état 68
 
 
-State 45
+État 45
 
     0 $accept: start $end .
 
-    $default  accept
+    $défaut  accepter
 
 
-State 46
+État 46
 
     1 start: solid TK_END .
 
-    $default  reduce using rule 1 (start)
+    $défaut  réduction par utilisation de la règle 1 (start)
 
 
-State 47
+État 47
 
     3 solid: solid solid_single .
 
-    $default  reduce using rule 3 (solid)
+    $défaut  réduction par utilisation de la règle 3 (solid)
 
 
-State 48
+État 48
 
    52 pos_ang: NUMBER NUMBER . NUMBER NUMBER NUMBER
 
-    NUMBER  shift, and go to state 69
+    NUMBER  décalage et aller à l'état 69
 
 
-State 49
+État 49
 
    14 wall: wall wall_single .
 
-    $default  reduce using rule 14 (wall)
+    $défaut  réduction par utilisation de la règle 14 (wall)
 
 
-State 50
+État 50
 
    53 box_size: TK_BOX_SIZE . NUMBER COMMA NUMBER COMMA NUMBER
 
-    NUMBER  shift, and go to state 70
+    NUMBER  décalage et aller à l'état 70
 
 
-State 51
+État 51
 
    15 wall_single: pos_ang box_props .
 
-    $default  reduce using rule 15 (wall_single)
+    $défaut  réduction par utilisation de la règle 15 (wall_single)
 
 
-State 52
+État 52
 
    44 box_props: box_size . COMMA box_tex COMMA app
    45          | box_size . COMMA box_tex
    46          | box_size . COMMA app
    47          | box_size .
 
-    COMMA  shift, and go to state 71
+    COMMA  décalage et aller à l'état 71
 
-    $default  reduce using rule 47 (box_props)
+    $défaut  réduction par utilisation de la règle 47 (box_props)
 
 
-State 53
+État 53
 
    18 gate: gate gate_single .
 
-    $default  reduce using rule 18 (gate)
+    $défaut  réduction par utilisation de la règle 18 (gate)
 
 
-State 54
+État 54
 
    19 gate_single: pos_ang STRING . STRING box_props
 
-    STRING  shift, and go to state 72
+    STRING  décalage et aller à l'état 72
 
 
-State 55
+État 55
 
    22 earth: earth earth_single .
 
-    $default  reduce using rule 22 (earth)
+    $défaut  réduction par utilisation de la règle 22 (earth)
 
 
-State 56
+État 56
 
    54 spher_size: TK_SPHER_SIZE . NUMBER
 
-    NUMBER  shift, and go to state 73
+    NUMBER  décalage et aller à l'état 73
 
 
-State 57
+État 57
 
    23 earth_single: pos_ang spher_props .
 
-    $default  reduce using rule 23 (earth_single)
+    $défaut  réduction par utilisation de la règle 23 (earth_single)
 
 
-State 58
+État 58
 
    48 spher_props: spher_size .
    49            | spher_size . COMMA SPHER_TEX
    50            | spher_size . COMMA app
    51            | spher_size . COMMA SPHER_TEX COMMA app
 
-    COMMA  shift, and go to state 74
+    COMMA  décalage et aller à l'état 74
 
-    $default  reduce using rule 48 (spher_props)
+    $défaut  réduction par utilisation de la règle 48 (spher_props)
 
 
-State 59
+État 59
 
    26 web: web web_single .
 
-    $default  reduce using rule 26 (web)
+    $défaut  réduction par utilisation de la règle 26 (web)
 
 
-State 60
+État 60
 
    27 web_single: pos_ang STRING . box_props
 
-    TK_BOX_SIZE  shift, and go to state 50
+    TK_BOX_SIZE  décalage et aller à l'état 50
 
-    box_props  go to state 75
-    box_size   go to state 52
+    box_props  aller à l'état 75
+    box_size   aller à l'état 52
 
 
-State 61
+État 61
 
    30 board: board board_single .
 
-    $default  reduce using rule 30 (board)
+    $défaut  réduction par utilisation de la règle 30 (board)
 
 
-State 62
+État 62
 
    31 board_single: pos_ang box_props .
 
-    $default  reduce using rule 31 (board_single)
+    $défaut  réduction par utilisation de la règle 31 (board_single)
 
 
-State 63
+État 63
 
    34 step: step step_single .
 
-    $default  reduce using rule 34 (step)
+    $défaut  réduction par utilisation de la règle 34 (step)
 
 
-State 64
+État 64
 
    35 step_single: pos_ang box_props .
 
-    $default  reduce using rule 35 (step_single)
+    $défaut  réduction par utilisation de la règle 35 (step_single)
 
 
-State 65
+État 65
 
    38 host: host host_single .
 
-    $default  reduce using rule 38 (host)
+    $défaut  réduction par utilisation de la règle 38 (host)
 
 
-State 66
+État 66
 
    39 host_single: pos_ang TLNT . box_props
 
-    TK_BOX_SIZE  shift, and go to state 50
+    TK_BOX_SIZE  décalage et aller à l'état 50
 
-    box_props  go to state 76
-    box_size   go to state 52
+    box_props  aller à l'état 76
+    box_size   aller à l'état 52
 
 
-State 67
+État 67
 
    42 doc: doc doc_single .
 
-    $default  reduce using rule 42 (doc)
+    $défaut  réduction par utilisation de la règle 42 (doc)
 
 
-State 68
+État 68
 
    43 doc_single: pos_ang STRING . box_props
 
-    TK_BOX_SIZE  shift, and go to state 50
+    TK_BOX_SIZE  décalage et aller à l'état 50
 
-    box_props  go to state 77
-    box_size   go to state 52
+    box_props  aller à l'état 77
+    box_size   aller à l'état 52
 
 
-State 69
+État 69
 
    52 pos_ang: NUMBER NUMBER NUMBER . NUMBER NUMBER
 
-    NUMBER  shift, and go to state 78
+    NUMBER  décalage et aller à l'état 78
 
 
-State 70
+État 70
 
    53 box_size: TK_BOX_SIZE NUMBER . COMMA NUMBER COMMA NUMBER
 
-    COMMA  shift, and go to state 79
+    COMMA  décalage et aller à l'état 79
 
 
-State 71
+État 71
 
    44 box_props: box_size COMMA . box_tex COMMA app
    45          | box_size COMMA . box_tex
    46          | box_size COMMA . app
 
-    TK_DIFFUSE    shift, and go to state 80
-    TK_AMBIENT    shift, and go to state 81
-    TK_SPECULAR   shift, and go to state 82
-    TK_SHININESS  shift, and go to state 83
-    TEX_XP        shift, and go to state 84
-    TEX_YP        shift, and go to state 85
-    TEX_ZP        shift, and go to state 86
-    TEX_XN        shift, and go to state 87
-    TEX_YN        shift, and go to state 88
-    TEX_ZN        shift, and go to state 89
+    TK_DIFFUSE    décalage et aller à l'état 80
+    TK_AMBIENT    décalage et aller à l'état 81
+    TK_SPECULAR   décalage et aller à l'état 82
+    TK_SHININESS  décalage et aller à l'état 83
+    TEX_XP        décalage et aller à l'état 84
+    TEX_YP        décalage et aller à l'état 85
+    TEX_ZP        décalage et aller à l'état 86
+    TEX_XN        décalage et aller à l'état 87
+    TEX_YN        décalage et aller à l'état 88
+    TEX_ZN        décalage et aller à l'état 89
 
-    box_tex         go to state 90
-    box_tex_single  go to state 91
-    app             go to state 92
-    app_single      go to state 93
+    box_tex         aller à l'état 90
+    box_tex_single  aller à l'état 91
+    app             aller à l'état 92
+    app_single      aller à l'état 93
 
 
-State 72
+État 72
 
    19 gate_single: pos_ang STRING STRING . box_props
 
-    TK_BOX_SIZE  shift, and go to state 50
+    TK_BOX_SIZE  décalage et aller à l'état 50
 
-    box_props  go to state 94
-    box_size   go to state 52
+    box_props  aller à l'état 94
+    box_size   aller à l'état 52
 
 
-State 73
+État 73
 
    54 spher_size: TK_SPHER_SIZE NUMBER .
 
-    $default  reduce using rule 54 (spher_size)
+    $défaut  réduction par utilisation de la règle 54 (spher_size)
 
 
-State 74
+État 74
 
    49 spher_props: spher_size COMMA . SPHER_TEX
    50            | spher_size COMMA . app
    51            | spher_size COMMA . SPHER_TEX COMMA app
 
-    TK_DIFFUSE    shift, and go to state 80
-    TK_AMBIENT    shift, and go to state 81
-    TK_SPECULAR   shift, and go to state 82
-    TK_SHININESS  shift, and go to state 83
-    SPHER_TEX     shift, and go to state 95
+    TK_DIFFUSE    décalage et aller à l'état 80
+    TK_AMBIENT    décalage et aller à l'état 81
+    TK_SPECULAR   décalage et aller à l'état 82
+    TK_SHININESS  décalage et aller à l'état 83
+    SPHER_TEX     décalage et aller à l'état 95
 
-    app         go to state 96
-    app_single  go to state 93
+    app         aller à l'état 96
+    app_single  aller à l'état 93
 
 
-State 75
+État 75
 
    27 web_single: pos_ang STRING box_props .
 
-    $default  reduce using rule 27 (web_single)
+    $défaut  réduction par utilisation de la règle 27 (web_single)
 
 
-State 76
+État 76
 
    39 host_single: pos_ang TLNT box_props .
 
-    $default  reduce using rule 39 (host_single)
+    $défaut  réduction par utilisation de la règle 39 (host_single)
 
 
-State 77
+État 77
 
    43 doc_single: pos_ang STRING box_props .
 
-    $default  reduce using rule 43 (doc_single)
+    $défaut  réduction par utilisation de la règle 43 (doc_single)
 
 
-State 78
+État 78
 
    52 pos_ang: NUMBER NUMBER NUMBER NUMBER . NUMBER
 
-    NUMBER  shift, and go to state 97
+    NUMBER  décalage et aller à l'état 97
 
 
-State 79
+État 79
 
    53 box_size: TK_BOX_SIZE NUMBER COMMA . NUMBER COMMA NUMBER
 
-    NUMBER  shift, and go to state 98
+    NUMBER  décalage et aller à l'état 98
 
 
-State 80
+État 80
 
    66 app_single: TK_DIFFUSE . COMMA NUMBER COMMA NUMBER
 
-    COMMA  shift, and go to state 99
+    COMMA  décalage et aller à l'état 99
 
 
-State 81
+État 81
 
    65 app_single: TK_AMBIENT . COMMA NUMBER COMMA NUMBER
 
-    COMMA  shift, and go to state 100
+    COMMA  décalage et aller à l'état 100
 
 
-State 82
+État 82
 
    68 app_single: TK_SPECULAR . COMMA NUMBER COMMA NUMBER
 
-    COMMA  shift, and go to state 101
+    COMMA  décalage et aller à l'état 101
 
 
-State 83
+État 83
 
    67 app_single: TK_SHININESS . COMMA NUMBER COMMA NUMBER
 
-    COMMA  shift, and go to state 102
+    COMMA  décalage et aller à l'état 102
 
 
-State 84
+État 84
 
    57 box_tex_single: TEX_XP .
 
-    $default  reduce using rule 57 (box_tex_single)
+    $défaut  réduction par utilisation de la règle 57 (box_tex_single)
 
 
-State 85
+État 85
 
    59 box_tex_single: TEX_YP .
 
-    $default  reduce using rule 59 (box_tex_single)
+    $défaut  réduction par utilisation de la règle 59 (box_tex_single)
 
 
-State 86
+État 86
 
    61 box_tex_single: TEX_ZP .
 
-    $default  reduce using rule 61 (box_tex_single)
+    $défaut  réduction par utilisation de la règle 61 (box_tex_single)
 
 
-State 87
+État 87
 
    58 box_tex_single: TEX_XN .
 
-    $default  reduce using rule 58 (box_tex_single)
+    $défaut  réduction par utilisation de la règle 58 (box_tex_single)
 
 
-State 88
+État 88
 
    60 box_tex_single: TEX_YN .
 
-    $default  reduce using rule 60 (box_tex_single)
+    $défaut  réduction par utilisation de la règle 60 (box_tex_single)
 
 
-State 89
+État 89
 
    62 box_tex_single: TEX_ZN .
 
-    $default  reduce using rule 62 (box_tex_single)
+    $défaut  réduction par utilisation de la règle 62 (box_tex_single)
 
 
-State 90
+État 90
 
    44 box_props: box_size COMMA box_tex . COMMA app
    45          | box_size COMMA box_tex .
    56 box_tex: box_tex . COMMA box_tex_single
 
-    COMMA  shift, and go to state 103
+    COMMA  décalage et aller à l'état 103
 
-    $default  reduce using rule 45 (box_props)
+    $défaut  réduction par utilisation de la règle 45 (box_props)
 
 
-State 91
+État 91
 
    55 box_tex: box_tex_single .
 
-    $default  reduce using rule 55 (box_tex)
+    $défaut  réduction par utilisation de la règle 55 (box_tex)
 
 
-State 92
+État 92
 
    46 box_props: box_size COMMA app .
    64 app: app . COMMA app_single
 
-    COMMA  shift, and go to state 104
+    COMMA  décalage et aller à l'état 104
 
-    $default  reduce using rule 46 (box_props)
+    $défaut  réduction par utilisation de la règle 46 (box_props)
 
 
-State 93
+État 93
 
    63 app: app_single .
 
-    $default  reduce using rule 63 (app)
+    $défaut  réduction par utilisation de la règle 63 (app)
 
 
-State 94
+État 94
 
    19 gate_single: pos_ang STRING STRING box_props .
 
-    $default  reduce using rule 19 (gate_single)
+    $défaut  réduction par utilisation de la règle 19 (gate_single)
 
 
-State 95
+État 95
 
    49 spher_props: spher_size COMMA SPHER_TEX .
    51            | spher_size COMMA SPHER_TEX . COMMA app
 
-    COMMA  shift, and go to state 105
+    COMMA  décalage et aller à l'état 105
 
-    $default  reduce using rule 49 (spher_props)
+    $défaut  réduction par utilisation de la règle 49 (spher_props)
 
 
-State 96
+État 96
 
    50 spher_props: spher_size COMMA app .
    64 app: app . COMMA app_single
 
-    COMMA  shift, and go to state 104
+    COMMA  décalage et aller à l'état 104
 
-    $default  reduce using rule 50 (spher_props)
+    $défaut  réduction par utilisation de la règle 50 (spher_props)
 
 
-State 97
+État 97
 
    52 pos_ang: NUMBER NUMBER NUMBER NUMBER NUMBER .
 
-    $default  reduce using rule 52 (pos_ang)
+    $défaut  réduction par utilisation de la règle 52 (pos_ang)
 
 
-State 98
+État 98
 
    53 box_size: TK_BOX_SIZE NUMBER COMMA NUMBER . COMMA NUMBER
 
-    COMMA  shift, and go to state 106
+    COMMA  décalage et aller à l'état 106
 
 
-State 99
+État 99
 
    66 app_single: TK_DIFFUSE COMMA . NUMBER COMMA NUMBER
 
-    NUMBER  shift, and go to state 107
+    NUMBER  décalage et aller à l'état 107
 
 
-State 100
+État 100
 
    65 app_single: TK_AMBIENT COMMA . NUMBER COMMA NUMBER
 
-    NUMBER  shift, and go to state 108
+    NUMBER  décalage et aller à l'état 108
 
 
-State 101
+État 101
 
    68 app_single: TK_SPECULAR COMMA . NUMBER COMMA NUMBER
 
-    NUMBER  shift, and go to state 109
+    NUMBER  décalage et aller à l'état 109
 
 
-State 102
+État 102
 
    67 app_single: TK_SHININESS COMMA . NUMBER COMMA NUMBER
 
-    NUMBER  shift, and go to state 110
+    NUMBER  décalage et aller à l'état 110
 
 
-State 103
+État 103
 
    44 box_props: box_size COMMA box_tex COMMA . app
    56 box_tex: box_tex COMMA . box_tex_single
 
-    TK_DIFFUSE    shift, and go to state 80
-    TK_AMBIENT    shift, and go to state 81
-    TK_SPECULAR   shift, and go to state 82
-    TK_SHININESS  shift, and go to state 83
-    TEX_XP        shift, and go to state 84
-    TEX_YP        shift, and go to state 85
-    TEX_ZP        shift, and go to state 86
-    TEX_XN        shift, and go to state 87
-    TEX_YN        shift, and go to state 88
-    TEX_ZN        shift, and go to state 89
+    TK_DIFFUSE    décalage et aller à l'état 80
+    TK_AMBIENT    décalage et aller à l'état 81
+    TK_SPECULAR   décalage et aller à l'état 82
+    TK_SHININESS  décalage et aller à l'état 83
+    TEX_XP        décalage et aller à l'état 84
+    TEX_YP        décalage et aller à l'état 85
+    TEX_ZP        décalage et aller à l'état 86
+    TEX_XN        décalage et aller à l'état 87
+    TEX_YN        décalage et aller à l'état 88
+    TEX_ZN        décalage et aller à l'état 89
 
-    box_tex_single  go to state 111
-    app             go to state 112
-    app_single      go to state 93
+    box_tex_single  aller à l'état 111
+    app             aller à l'état 112
+    app_single      aller à l'état 93
 
 
-State 104
+État 104
 
    64 app: app COMMA . app_single
 
-    TK_DIFFUSE    shift, and go to state 80
-    TK_AMBIENT    shift, and go to state 81
-    TK_SPECULAR   shift, and go to state 82
-    TK_SHININESS  shift, and go to state 83
+    TK_DIFFUSE    décalage et aller à l'état 80
+    TK_AMBIENT    décalage et aller à l'état 81
+    TK_SPECULAR   décalage et aller à l'état 82
+    TK_SHININESS  décalage et aller à l'état 83
 
-    app_single  go to state 113
+    app_single  aller à l'état 113
 
 
-State 105
+État 105
 
    51 spher_props: spher_size COMMA SPHER_TEX COMMA . app
 
-    TK_DIFFUSE    shift, and go to state 80
-    TK_AMBIENT    shift, and go to state 81
-    TK_SPECULAR   shift, and go to state 82
-    TK_SHININESS  shift, and go to state 83
+    TK_DIFFUSE    décalage et aller à l'état 80
+    TK_AMBIENT    décalage et aller à l'état 81
+    TK_SPECULAR   décalage et aller à l'état 82
+    TK_SHININESS  décalage et aller à l'état 83
 
-    app         go to state 114
-    app_single  go to state 93
+    app         aller à l'état 114
+    app_single  aller à l'état 93
 
 
-State 106
+État 106
 
    53 box_size: TK_BOX_SIZE NUMBER COMMA NUMBER COMMA . NUMBER
 
-    NUMBER  shift, and go to state 115
+    NUMBER  décalage et aller à l'état 115
 
 
-State 107
+État 107
 
    66 app_single: TK_DIFFUSE COMMA NUMBER . COMMA NUMBER
 
-    COMMA  shift, and go to state 116
+    COMMA  décalage et aller à l'état 116
 
 
-State 108
+État 108
 
    65 app_single: TK_AMBIENT COMMA NUMBER . COMMA NUMBER
 
-    COMMA  shift, and go to state 117
+    COMMA  décalage et aller à l'état 117
 
 
-State 109
+État 109
 
    68 app_single: TK_SPECULAR COMMA NUMBER . COMMA NUMBER
 
-    COMMA  shift, and go to state 118
+    COMMA  décalage et aller à l'état 118
 
 
-State 110
+État 110
 
    67 app_single: TK_SHININESS COMMA NUMBER . COMMA NUMBER
 
-    COMMA  shift, and go to state 119
+    COMMA  décalage et aller à l'état 119
 
 
-State 111
+État 111
 
    56 box_tex: box_tex COMMA box_tex_single .
 
-    $default  reduce using rule 56 (box_tex)
+    $défaut  réduction par utilisation de la règle 56 (box_tex)
 
 
-State 112
+État 112
 
    44 box_props: box_size COMMA box_tex COMMA app .
    64 app: app . COMMA app_single
 
-    COMMA  shift, and go to state 104
+    COMMA  décalage et aller à l'état 104
 
-    $default  reduce using rule 44 (box_props)
+    $défaut  réduction par utilisation de la règle 44 (box_props)
 
 
-State 113
+État 113
 
    64 app: app COMMA app_single .
 
-    $default  reduce using rule 64 (app)
+    $défaut  réduction par utilisation de la règle 64 (app)
 
 
-State 114
+État 114
 
    51 spher_props: spher_size COMMA SPHER_TEX COMMA app .
    64 app: app . COMMA app_single
 
-    COMMA  shift, and go to state 104
+    COMMA  décalage et aller à l'état 104
 
-    $default  reduce using rule 51 (spher_props)
+    $défaut  réduction par utilisation de la règle 51 (spher_props)
 
 
-State 115
+État 115
 
    53 box_size: TK_BOX_SIZE NUMBER COMMA NUMBER COMMA NUMBER .
 
-    $default  reduce using rule 53 (box_size)
+    $défaut  réduction par utilisation de la règle 53 (box_size)
 
 
-State 116
+État 116
 
    66 app_single: TK_DIFFUSE COMMA NUMBER COMMA . NUMBER
 
-    NUMBER  shift, and go to state 120
+    NUMBER  décalage et aller à l'état 120
 
 
-State 117
+État 117
 
    65 app_single: TK_AMBIENT COMMA NUMBER COMMA . NUMBER
 
-    NUMBER  shift, and go to state 121
+    NUMBER  décalage et aller à l'état 121
 
 
-State 118
+État 118
 
    68 app_single: TK_SPECULAR COMMA NUMBER COMMA . NUMBER
 
-    NUMBER  shift, and go to state 122
+    NUMBER  décalage et aller à l'état 122
 
 
-State 119
+État 119
 
    67 app_single: TK_SHININESS COMMA NUMBER COMMA . NUMBER
 
-    NUMBER  shift, and go to state 123
+    NUMBER  décalage et aller à l'état 123
 
 
-State 120
+État 120
 
    66 app_single: TK_DIFFUSE COMMA NUMBER COMMA NUMBER .
 
-    $default  reduce using rule 66 (app_single)
+    $défaut  réduction par utilisation de la règle 66 (app_single)
 
 
-State 121
+État 121
 
    65 app_single: TK_AMBIENT COMMA NUMBER COMMA NUMBER .
 
-    $default  reduce using rule 65 (app_single)
+    $défaut  réduction par utilisation de la règle 65 (app_single)
 
 
-State 122
+État 122
 
    68 app_single: TK_SPECULAR COMMA NUMBER COMMA NUMBER .
 
-    $default  reduce using rule 68 (app_single)
+    $défaut  réduction par utilisation de la règle 68 (app_single)
 
 
-State 123
+État 123
 
    67 app_single: TK_SHININESS COMMA NUMBER COMMA NUMBER .
 
-    $default  reduce using rule 67 (app_single)
+    $défaut  réduction par utilisation de la règle 67 (app_single)

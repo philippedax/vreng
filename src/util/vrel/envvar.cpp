@@ -139,8 +139,7 @@ Data* Env_var::eval (const char *nom_var)
 Env_var::~Env_var()
 {
   if (donnee) delete[] donnee;
-  for (int i = 0; i < 256; i++)
-    if (nom[i]) delete[] nom[i];
-  if (nom) delete[] nom;
+  //for (int i = 0; i < 256; i++)
+    //if (nom[i]) delete[] nom[i];
   count = 0;
 }

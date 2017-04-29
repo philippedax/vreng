@@ -910,6 +910,7 @@ if test "$ac_cv_use_libz_builtin" = "no"; then
     bundle_libz="no"
   fi
 else
+  AC_DEFINE(HAVE_LIBZ)
   bundle_libz="yes"
 fi
 
@@ -937,6 +938,9 @@ if test "$ac_cv_use_png_builtin" = "no"; then
       AC_DEFINE(HAVE_LIBPNG)
       bundle_libpng="no"
     fi
+    AH_TEMPLATE(HAVE_PNG_H)
+    AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
+    	AC_MSG_WARN([unable to find png header]))
   ;;
   esac
 else
@@ -944,9 +948,6 @@ else
   bundle_libpng="yes"
 fi
 
-#AH_TEMPLATE(HAVE_PNG_H)
-#AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
-#	AC_MSG_WARN([unable to find png header]))
 
 # --------------------------------------------------------------------------
 #
@@ -1233,7 +1234,7 @@ if test "${with_mpeg:=yes}" = "yes"; then
   #
   AC_CHECK_LIB([mpeg], [OpenMPEG],
        [VRELIBS="${OSDEP_LIBS} -l${libmpeg} ${VRELIBS}"],
-       [AC_MSG_RESULT([	use local mpeg_lib --> libmpeg: http://starship.python.net/~gward/mpeglib:])],
+       [AC_MSG_RESULT([	use bundle mpeg_lib ])],
        [${OSDEP_LIBS}])
   if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
     AC_DEFINE(HAVE_LIBMPEG)

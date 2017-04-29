@@ -17,6 +17,7 @@ The rules for this file:
 -- 8.5.1
 	- fixed &png_ptr in bundle/png.c
 	- fixed #include "png.h" in texture/png.cpp
+	- changed --with-png-builtin yes by default
 	(2017/04/28, Philippe Dax)
 
 -- 8.5.0

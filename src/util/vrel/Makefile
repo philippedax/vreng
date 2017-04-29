@@ -88,7 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
-#bin_PROGRAMS = vrel$(EXEEXT)
+bin_PROGRAMS = vrel$(EXEEXT)
 subdir = src/util/vrel
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/support/acinclude.m4 \
@@ -150,8 +150,8 @@ am__objects_8 = $(am__objects_1) $(am__objects_2) $(am__objects_3) \
 	$(am__objects_2) $(am__objects_4) $(am__objects_2) \
 	$(am__objects_5) $(am__objects_2) $(am__objects_6) \
 	$(am__objects_2) $(am__objects_7) $(am__objects_2)
-#am_vrel_OBJECTS = $(am__objects_8) y.tab.$(OBJEXT) \
-#	lex.yy.$(OBJEXT)
+am_vrel_OBJECTS = $(am__objects_8) y.tab.$(OBJEXT) \
+	lex.yy.$(OBJEXT)
 vrel_OBJECTS = $(am_vrel_OBJECTS)
 vrel_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -233,13 +233,13 @@ AUTOMAKE = ${SHELL} /infres/s3/dax/vreng/support/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -DVAPS -DVJS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -DVREL -DVRED -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/usr/include/mysql -I/usr/include/freetype2 
 CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -DVAPS -DVJS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -DVREL -DVRED -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -273,9 +273,9 @@ MAKEINFO = ${SHELL} /infres/s3/dax/vreng/support/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 MYSQL_CFLAGS = -I/usr/include/mysql
 OBJEXT = o
-OCAMLOPT = 
-OCAML_CFLAGS = 
-OCAML_LIBS = 
+OCAMLOPT = /bin/ocamlopt
+OCAML_CFLAGS = -I/usr/lib64/ocaml
+OCAML_LIBS = -L/usr/lib64/ocaml
 PACKAGE = vreng
 PACKAGE_BUGREPORT = philippe.dax@gmail.com
 PACKAGE_NAME = vreng
@@ -373,9 +373,9 @@ CLASS_SRCS = aoi.cpp app.cpp walls.cpp board.cpp box.cpp button.cpp cauldron.cpp
 CLASS_HDRS = aoi.hpp app.hpp walls.hpp board.hpp box.hpp button.hpp cauldron.hpp extends.hpp class.hpp compound.hpp constructor.hpp doc.hpp door.hpp ground.hpp envclass.hpp envconstr.hpp envobject.hpp error.hpp gate.hpp host.hpp primitive.hpp step.hpp wall.hpp web.hpp mirage.hpp
 VREL_SRCS = $(MAIN_SRCS) $(MAIN_HDRS) $(ENV_SRCS) $(ENV_HDRS) $(DECL_SRCS) $(DECL_HDRS) $(INST_SRCS) $(INST_HDRS) $(OPER_SRCS) $(OPER_HDRS) $(CLASS_SRCS) $(CLASS_HDRS)
 EXTRA_DIST = vrel.l vrel.y
-#SRCDIR = $(top_srcdir)/src
-#AM_CPPFLAGS = -I$(SRCDIR)/sys
-#vrel_SOURCES = $(VREL_SRCS) y.tab.cpp lex.yy.cpp
+SRCDIR = $(top_srcdir)/src
+AM_CPPFLAGS = -I$(SRCDIR)/sys
+vrel_SOURCES = $(VREL_SRCS) y.tab.cpp lex.yy.cpp
 all: all-am
 
 .SUFFIXES:
@@ -658,7 +658,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
+#clean: clean-am
 
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
@@ -746,18 +746,18 @@ uninstall-am: uninstall-binPROGRAMS
 .PRECIOUS: Makefile
 
 
-#lex.yy.o: lex.yy.cpp y.tab.h
-#y.tab.o: y.tab.cpp y.tab.h
+lex.yy.o: lex.yy.cpp y.tab.h
+y.tab.o: y.tab.cpp y.tab.h
 
-#lex.yy.cpp: vrel.l
-#	flex vrel.l
-#	mv lex.yy.c lex.yy.cpp
-#y.tab.cpp y.tab.h: vrel.y
-#	bison -d -y -v vrel.y
-#	mv y.tab.c y.tab.cpp
+lex.yy.cpp: vrel.l
+	flex vrel.l
+	mv lex.yy.c lex.yy.cpp
+y.tab.cpp y.tab.h: vrel.y
+	bison -d -y -v vrel.y
+	mv y.tab.c y.tab.cpp
 
-#clean:
-#	@-rm vrel *.o y.output y.tab.h # y.tab.cpp lex.yy.cpp
+clean:
+	@-rm vrel *.o y.output y.tab.h # y.tab.cpp lex.yy.cpp
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -24,14 +24,6 @@
 #include "file.hpp"	// openFile
 #include "texture.hpp"	// Texture
 #include "glpng.h"	// pngLoadF
-#if 0 //DAX
-//#if HAVE_PNG_H
-#if HAVE_LIBPNG
-#include <png.h>
-#else
-//DAX #include "png.h"
-#endif
-#endif
 
 
 Img * Img::loadPNG(void *tex, ImageReader read_func)

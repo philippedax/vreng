@@ -133,8 +133,8 @@ void Creation::exec()
 // Destructeur.
 Creation::~Creation ()
 {
-  if (nom) delete[] nom;
+  //if (nom) delete[] nom;
   if (arg) delete arg;
   if (var) delete var;
-  if (nameobj) delete[] nameobj;
+  //if (nameobj) delete[] nameobj;
 }

@@ -37,7 +37,7 @@ Chaine::Chaine(const char * name)
 // Destructeur
 Chaine::~Chaine()
 {
-  if (nom) delete nom;
+  //if (nom) delete nom;
 }
 
 // Cette fonction renvoie systematiquement une erreur.

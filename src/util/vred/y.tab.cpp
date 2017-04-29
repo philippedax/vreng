@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -120,11 +120,11 @@ void free_spher_props (struct structSpherProps *sp) {
 
 #line 122 "y.tab.c" /* yacc.c:339  */
 
-# ifndef YY_NULL
+# ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULL nullptr
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULL 0
+#   define YY_NULLPTR 0
 #  endif
 # endif
 
@@ -217,7 +217,7 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 57 "vred.y" /* yacc.c:355  */
@@ -233,6 +233,8 @@ union YYSTYPE
 
 #line 235 "y.tab.c" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -246,7 +248,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 250 "y.tab.c" /* yacc.c:358  */
+#line 252 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -303,11 +305,30 @@ typedef short int yytype_int16;
 # endif
 #endif
 
-#ifndef __attribute__
-/* This feature is available in gcc versions 2.5 and later.  */
-# if (! defined __GNUC__ || __GNUC__ < 2 \
-      || (__GNUC__ == 2 && __GNUC_MINOR__ < 5))
-#  define __attribute__(Spec) /* empty */
+#ifndef YY_ATTRIBUTE
+# if (defined __GNUC__                                               \
+      && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
+     || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
+#  define YY_ATTRIBUTE(Spec) __attribute__(Spec)
+# else
+#  define YY_ATTRIBUTE(Spec) /* empty */
+# endif
+#endif
+
+#ifndef YY_ATTRIBUTE_PURE
+# define YY_ATTRIBUTE_PURE   YY_ATTRIBUTE ((__pure__))
+#endif
+
+#ifndef YY_ATTRIBUTE_UNUSED
+# define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
+#endif
+
+#if !defined _Noreturn \
+     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
+# if defined _MSC_VER && 1200 <= _MSC_VER
+#  define _Noreturn __declspec (noreturn)
+# else
+#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
 # endif
 #endif
 
@@ -554,7 +575,7 @@ static const char *const yytname[] =
   "board_single", "step_section", "step", "step_single", "host_section",
   "host", "host_single", "doc_section", "doc", "doc_single", "box_props",
   "spher_props", "pos_ang", "box_size", "spher_size", "box_tex",
-  "box_tex_single", "app", "app_single", YY_NULL
+  "box_tex_single", "app", "app_single", YY_NULLPTR
 };
 #endif
 
@@ -996,11 +1017,11 @@ static int
 yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                 yytype_int16 *yyssp, int yytoken)
 {
-  YYSIZE_T yysize0 = yytnamerr (YY_NULL, yytname[yytoken]);
+  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
   YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
-  const char *yyformat = YY_NULL;
+  const char *yyformat = YY_NULLPTR;
   /* Arguments of yyformat. */
   char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
   /* Number of reported tokens (one for the "unexpected", one per
@@ -1057,7 +1078,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                   }
                 yyarg[yycount++] = yytname[yyx];
                 {
-                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULL, yytname[yyx]);
+                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
                   if (! (yysize <= yysize1
                          && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
                     return 2;
@@ -1402,7 +1423,7 @@ yyreduce:
   free_box_props((yyvsp[0].bpval)); // libere aussi les objets pointes
   delete[]((yyvsp[-1].dpval));
 }
-#line 1406 "y.tab.c" /* yacc.c:1646  */
+#line 1427 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
@@ -1421,7 +1442,7 @@ yyreduce:
   free_box_props((yyvsp[0].bpval));
   delete[]((yyvsp[-3].dpval));
 }
-#line 1425 "y.tab.c" /* yacc.c:1646  */
+#line 1446 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
@@ -1437,7 +1458,7 @@ yyreduce:
   free_spher_props((yyvsp[0].spval));
   delete[]((yyvsp[-1].dpval));
 }
-#line 1441 "y.tab.c" /* yacc.c:1646  */
+#line 1462 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
@@ -1455,7 +1476,7 @@ yyreduce:
   free_box_props((yyvsp[0].bpval));
   delete[]((yyvsp[-2].dpval));
 }
-#line 1459 "y.tab.c" /* yacc.c:1646  */
+#line 1480 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
@@ -1472,7 +1493,7 @@ yyreduce:
   free_box_props((yyvsp[0].bpval));
   delete[]((yyvsp[-1].dpval));
 }
-#line 1476 "y.tab.c" /* yacc.c:1646  */
+#line 1497 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
@@ -1489,7 +1510,7 @@ yyreduce:
   free_box_props((yyvsp[0].bpval));
   delete[]((yyvsp[-1].dpval));
 }
-#line 1493 "y.tab.c" /* yacc.c:1646  */
+#line 1514 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
@@ -1507,7 +1528,7 @@ yyreduce:
   free_box_props((yyvsp[0].bpval));
   delete[]((yyvsp[-2].dpval));
 }
-#line 1511 "y.tab.c" /* yacc.c:1646  */
+#line 1532 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
@@ -1525,7 +1546,7 @@ yyreduce:
   free_box_props((yyvsp[0].bpval));
   delete[]((yyvsp[-2].dpval));
 }
-#line 1529 "y.tab.c" /* yacc.c:1646  */
+#line 1550 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
@@ -1539,7 +1560,7 @@ yyreduce:
       
       (yyval.bpval) = res;
    }
-#line 1543 "y.tab.c" /* yacc.c:1646  */
+#line 1564 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
@@ -1553,7 +1574,7 @@ yyreduce:
       
       (yyval.bpval) = res;
    }
-#line 1557 "y.tab.c" /* yacc.c:1646  */
+#line 1578 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
@@ -1567,7 +1588,7 @@ yyreduce:
       
       (yyval.bpval) = res;
    }
-#line 1571 "y.tab.c" /* yacc.c:1646  */
+#line 1592 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
@@ -1581,7 +1602,7 @@ yyreduce:
       
       (yyval.bpval) = res;
     }
-#line 1585 "y.tab.c" /* yacc.c:1646  */
+#line 1606 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
@@ -1595,7 +1616,7 @@ yyreduce:
       
       (yyval.spval) = res;
    }
-#line 1599 "y.tab.c" /* yacc.c:1646  */
+#line 1620 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
@@ -1609,7 +1630,7 @@ yyreduce:
       
       (yyval.spval) = res;
    }
-#line 1613 "y.tab.c" /* yacc.c:1646  */
+#line 1634 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
@@ -1623,7 +1644,7 @@ yyreduce:
       
       (yyval.spval) = res;
    }
-#line 1627 "y.tab.c" /* yacc.c:1646  */
+#line 1648 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
@@ -1637,7 +1658,7 @@ yyreduce:
       
       (yyval.spval) = res;
    }
-#line 1641 "y.tab.c" /* yacc.c:1646  */
+#line 1662 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
@@ -1652,7 +1673,7 @@ yyreduce:
 
      (yyval.dpval) = res;
   }
-#line 1656 "y.tab.c" /* yacc.c:1646  */
+#line 1677 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
@@ -1660,7 +1681,7 @@ yyreduce:
     {
   (yyval.vectval) = new Vect((yyvsp[-4].dval), (yyvsp[-2].dval), (yyvsp[0].dval));
 }
-#line 1664 "y.tab.c" /* yacc.c:1646  */
+#line 1685 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
@@ -1668,13 +1689,13 @@ yyreduce:
     {
   (yyval.dval) = (yyvsp[0].dval);
 }
-#line 1672 "y.tab.c" /* yacc.c:1646  */
+#line 1693 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
 #line 331 "vred.y" /* yacc.c:1646  */
     { (yyval.texval) = (yyvsp[0].texval); }
-#line 1678 "y.tab.c" /* yacc.c:1646  */
+#line 1699 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
@@ -1684,49 +1705,49 @@ yyreduce:
     delete((yyvsp[0].texval));
     (yyval.texval) = (yyvsp[-2].texval);
    }
-#line 1688 "y.tab.c" /* yacc.c:1646  */
+#line 1709 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
 #line 339 "vred.y" /* yacc.c:1646  */
     { (yyval.texval) = new Tex((yyvsp[0].sval), NULL, NULL, NULL, NULL, NULL); }
-#line 1694 "y.tab.c" /* yacc.c:1646  */
+#line 1715 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
 #line 340 "vred.y" /* yacc.c:1646  */
     { (yyval.texval) = new Tex(NULL, (yyvsp[0].sval), NULL, NULL, NULL, NULL); }
-#line 1700 "y.tab.c" /* yacc.c:1646  */
+#line 1721 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
 #line 341 "vred.y" /* yacc.c:1646  */
     { (yyval.texval) = new Tex(NULL, NULL, (yyvsp[0].sval), NULL, NULL, NULL); }
-#line 1706 "y.tab.c" /* yacc.c:1646  */
+#line 1727 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
 #line 342 "vred.y" /* yacc.c:1646  */
     { (yyval.texval) = new Tex(NULL, NULL, NULL, (yyvsp[0].sval), NULL, NULL); }
-#line 1712 "y.tab.c" /* yacc.c:1646  */
+#line 1733 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
 #line 343 "vred.y" /* yacc.c:1646  */
     { (yyval.texval) = new Tex(NULL, NULL, NULL, NULL, (yyvsp[0].sval), NULL); }
-#line 1718 "y.tab.c" /* yacc.c:1646  */
+#line 1739 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
 #line 344 "vred.y" /* yacc.c:1646  */
     { (yyval.texval) = new Tex(NULL, NULL, NULL, NULL, NULL, (yyvsp[0].sval)); }
-#line 1724 "y.tab.c" /* yacc.c:1646  */
+#line 1745 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
 #line 347 "vred.y" /* yacc.c:1646  */
     { (yyval.appval) = (yyvsp[0].appval); }
-#line 1730 "y.tab.c" /* yacc.c:1646  */
+#line 1751 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
@@ -1736,7 +1757,7 @@ yyreduce:
     delete((yyvsp[0].appval));
     (yyval.appval) = (yyvsp[-2].appval);
   }
-#line 1740 "y.tab.c" /* yacc.c:1646  */
+#line 1761 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
@@ -1745,7 +1766,7 @@ yyreduce:
     Color v((yyvsp[-4].dval), (yyvsp[-2].dval), (yyvsp[0].dval), 1.0);
     (yyval.appval) = new App(v);
   }
-#line 1749 "y.tab.c" /* yacc.c:1646  */
+#line 1770 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
@@ -1756,7 +1777,7 @@ yyreduce:
     a->SetDiffuse(v);
     (yyval.appval) = a;
   }
-#line 1760 "y.tab.c" /* yacc.c:1646  */
+#line 1781 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
@@ -1767,7 +1788,7 @@ yyreduce:
     a->SetShininess(v);
     (yyval.appval) = a;
   }
-#line 1771 "y.tab.c" /* yacc.c:1646  */
+#line 1792 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
@@ -1778,11 +1799,11 @@ yyreduce:
     a->SetSpecular(v);
     (yyval.appval) = a;
   }
-#line 1782 "y.tab.c" /* yacc.c:1646  */
+#line 1803 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1786 "y.tab.c" /* yacc.c:1646  */
+#line 1807 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

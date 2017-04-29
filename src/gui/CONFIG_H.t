@@ -42,7 +42,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ARPA_INET_H 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_CAML_CALLBACK_H */\n\
+#define HAVE_CAML_CALLBACK_H 1\n\
 \n\
 /* Define to 1 if you have the <ctype.h> header file. */\n\
 #define HAVE_CTYPE_H 1\n\
@@ -338,10 +338,13 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_NO_SOCKLEN_T */\n\
 \n\
 /* */\n\
-/* #undef HAVE_OCAML */\n\
+#define HAVE_OCAML 1\n\
 \n\
 /* */\n\
 /* #undef HAVE_OPENAL */\n\
+\n\
+/* */\n\
+/* #undef HAVE_PNG_H */\n\
 \n\
 /* Define to 1 if you have the `pow' function. */\n\
 #define HAVE_POW 1\n\
@@ -550,7 +553,7 @@ const char CONFIG_H[] = "\
 /* #undef NEXTSTEP */\n\
 \n\
 /* */\n\
-/* #undef OCAML_PATH */\n\
+#define OCAML_PATH \"/usr/lib64/ocaml\"\n\
 \n\
 /* */\n\
 /* #undef OPENBSD */\n\
@@ -619,13 +622,13 @@ const char CONFIG_H[] = "\
 /* #undef WANT_GL2PS */\n\
 \n\
 /* */\n\
-/* #undef WANT_GLUI */\n\
+#define WANT_GLUI 1\n\
 \n\
 /* */\n\
 /* #undef WANT_IPV6 */\n\
 \n\
 /* */\n\
-/* #undef WANT_OCAML */\n\
+#define WANT_OCAML 1\n\
 \n\
 /* */\n\
 #define WANT_UBIT 1\n\

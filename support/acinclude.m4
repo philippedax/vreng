@@ -321,7 +321,7 @@ rm -f Test.uue])
 fi
 if test x$ac_cv_prog_uudecode_base64 != xyes; then
 	rm -f Test.class
-	AC_MSG_WARN([I have to compile Test.class from scratch])
+	#AC_MSG_WARN([I have to compile Test.class from scratch])
 	if test x$ac_cv_prog_javac_works = xno; then
 		AC_MSG_ERROR([Cannot compile java source. $JAVAC does not work properly])
 	fi
