@@ -51,6 +51,7 @@ stamp-*
 vreng-*
 src/ex
 src/bundle/ftgl-*rc5
+src/bundle/png/*.dist
 src/*/Makefile
 src/*/Makefile.in
 src/*/*.o
