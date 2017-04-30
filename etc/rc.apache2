@@ -1,0 +1,133 @@
+#! /bin/bash
+#
+# apache, rc.apache22
+#
+# Philippe Dax	- Nov 2008
+#
+PATH=/usr/share/bin:$PATH export PATH
+
+p=`basename $0`
+
+svnvers=`svn --version -q`
+
+case `uname -s` in
+SunOS)
+  case $svnvers in
+  1.8.*)
+    export LD_LIBRARY_PATH=/usr/local/apache22/lib:/usr/local/apache22/modules:/usr/local/apache22/libexec:/usr/local/apr/lib:/usr/local/apr/lib/apr-util-1:/usr/local/ssl/lib:/usr/local/gcc3/lib:/usr/local/lib:/usr/local/gcc4/lib:/home/mysql/current/lib/mysql:/usr/local/lib/perl:/usr/lib:/usr/local/lib/perl5/5.12.1/sun4-solaris/auto/DB_File/DB_File.so
+    ;;
+  *)
+    export LD_LIBRARY_PATH=/usr/local/apache22/lib:/usr/local/apache22/modules:/usr/local/apache22/libexec:/usr/local/apr/lib:/usr/local/apr/lib/apr-util-1:/usr/local/ssl/lib:/usr/local/gcc3/lib:/usr/local/lib:/usr/local/gcc4/lib:/home/mysql/current/lib/mysql:/usr/local/lib/perl:/usr/lib:/usr/local/lib/perl5/5.12.1/sun4-solaris/auto/DB_File/DB_File.so
+    ;;
+  esac
+  www_home=/home/www
+  httpd_conf=$www_home/conf/httpd.conf
+  httpd_log=$www_home/logs
+  httpd_pid=$www_home/logs/httpd.pid
+  httpd_bin=/usr/local/apache22/bin/httpd
+  ;;
+Linux)
+  www_home=/var/www
+  httpd_conf=/etc/httpd/conf/httpd.conf
+  httpd_log=/var/log/httpd
+  httpd_pid=/var/run/httpd/httpd.pid
+  httpd_bin=/usr/sbin/httpd
+  ;;
+esac
+
+usage()
+{
+  echo "usage: $p [ -s|--start | -k|--kill | -r|--restart | -c|--conf [virthost] | -p|--ps | -w|--wc | --pid | -a|--access | -e|--error | -v|--version  | -m|--modules | -t|--tags | -d|--debug | --vhost | -h|--help ]"
+}
+
+#ldd /usr/local/apache22/modules/mod_dav_svn.so | grep sqlite
+
+if [ $# = 0 ]; then
+  arg=-h
+else
+  arg=$1
+fi
+
+case ${arg} in
+-s|--start|start)
+  if [ -f $httpd_bin ]; then
+    ulimit -n 65535
+    # www.infres.enst.fr:80
+    $httpd_bin -f $httpd_conf &
+    echo " apache" >/dev/console
+  fi
+  ;;
+-d|--debug|debug)
+  if [ -f $httpd_bin ]; then
+    ulimit -n 65535 -c unlimited
+    # mode crash genere un core
+    #$httpd_bin -X -f $httpd_conf &
+    gdb -x $httpd_log/gdbhttpd $httpd_bin
+    echo " apache debug" >/dev/console
+  fi
+  ;;
+--truss|truss)
+  if [ -f $httpd_bin ]; then
+    ulimit -n 65535 -c unlimited
+    truss -f $httpd_bin -X -D DEBUG -f $httpd_conf 2>&1 1>$httpd_log/truss.log
+    echo " apache truss" >/dev/console
+  fi
+  ;;
+-k|--kill|stop)
+  cd $httpd_log
+  rm -f cgisock.*
+  kill `cat $httpd_pid`
+  ;;
+-r|--restart|restart)
+  cd $httpd_log
+  rm -f cgisock.*
+  kill `cat $httpd_pid`
+  sleep 3
+  $0 start
+  ;;
+-p|--ps|ps)
+  psax httpd
+  ;;
+-w|--wc)
+  psax httpd | wc -l
+  ;;
+--pid)
+  cat $httpd_pid
+  ;;
+-c|--conf|conf)
+  if [ $# = 2 ]; then
+    wd=`pwd`
+    cd $www_home/conf
+    ${VISUAL:-vi} -t $2
+    cd $wd
+  else
+    ${VISUAL:-vi} $httpd_conf
+  fi
+  ;;
+-a|--access)
+  tail -f $httpd_log/access_log
+  ;;
+-e|--error)
+  tail -f $httpd_log/error_log
+  ;;
+-v|--version|version)
+  $httpd_bin -V | sed 1q
+  ;;
+-m|--modules|mod)
+  $httpd_bin -l
+  ;;
+-t|--tags)
+  ctags --regex="/^ .*ServerName \(.+\)/\1/" -o $www_home/conf/tags $httpd_conf
+  ;;
+--vhost*)
+  cut -f1 <$www_home/conf/tags
+  ;;
+-h|--help|help)
+  usage
+  exit 0
+  ;;
+*)
+  usage
+  exit 1
+  ;;
+esac

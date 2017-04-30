@@ -1,0 +1,44 @@
+#! /bin/sh
+#
+# rc.vacs (VREng Address Cache Server)
+#
+PATH=/infres/s3/dax/vreng/bin:/usr/local/bin:$PATH
+LD_LIBRARY_PATH=/usr/lib:/usr/local/lib:/usr/local/lib/mysql:$LD_LIBRARY_PATH
+export PATH LD_LIBRARY_PATH
+
+VRENG_HOME=/infres/projets/vreng
+
+VACS_HOME=${VRENG_HOME}/vacs
+#VACS6_HOME=${VRENG_HOME}/vre/v6
+VACS8_HOME=${VACS_HOME}/v8
+VACS7_HOME=${VACS_HOME}/v7
+VACS6_HOME=${VACS_HOME}/v6
+VACS5_HOME=${VACS_HOME}/v5
+VACS4_HOME=${VACS_HOME}/v4
+
+if [ -d ${VACS_HOME} ]; then
+	cd ${VACS_HOME}
+	vacs -l vacs.log
+	echo vacs > /dev/console
+fi
+#if [ -d ${VACS6_HOME} ]; then
+#	cd ${VACS6_HOME}
+#	vacs6 -l vacs.log
+#	echo vacs6 > /dev/console
+#fi
+#if [ -d ${VACS5_HOME} ]; then
+#	cd ${VACS5_HOME}
+#	vacs5 -l vacs.log
+#	echo vacs5 > /dev/console
+#fi
+#if [ -d ${VACS4_HOME} ]; then
+#	cd ${VACS4_HOME}
+#	vacs4 -l vacs.log
+#	echo vacs4 > /dev/console
+#else
+#	cd /usr/local/bin
+#	if [ -x vacs ]; then
+#		vacs -l /var/log/vacs.log
+#		echo vacs > /dev/console
+#	fi
+#fi

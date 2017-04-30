@@ -1,0 +1,20 @@
+#! /bin/sh
+#
+# rc.vrum (vreng reflector unicast-multicast)
+#
+LD_LIBRARY_PATH=/usr/lib:/usr/local/lib
+export PATH LD_LIBRARY_PATH
+
+VRUM_HOME=/infres/s3/dax/vreng/src/servers/vrum
+
+if [ -d ${VRUM_HOME} ]; then
+	cd ${VRUM_HOME}
+	./vrum.py >/dev/null 2>&1 &
+	echo vrum > /dev/console
+else
+	cd /usr/local/bin
+	if [ -x vrum.py ]; then
+		./vrum.py &
+		echo vrum > /dev/console
+	fi
+fi

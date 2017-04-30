@@ -1,0 +1,11 @@
+#! /bin/sh
+#
+# rc.vjs (VREng Java Server)
+#
+# Java server for Vreng vrelet objects
+#
+# Philippe Dax - Jul 2001
+#
+PATH=/infres/s3/dax/vreng/bin:/usr/local/bin:$PATH export PATH
+
+vjs &
