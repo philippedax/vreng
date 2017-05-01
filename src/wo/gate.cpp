@@ -154,7 +154,6 @@ void Gate::enter()
 #if 0 //no sound
     Sound::playSound(GATESND);
 #endif
-
     World::enter(new_url, new_chan_str, World::NEW);
 
     char *chanstr = strdup(new_chan_str);
