@@ -142,7 +142,7 @@ void Gate::enter()
       if (Vac::resolveWorldUrl(names.url, chan))
         trace(DBG_IPMC, "enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
       else {
-        //warning("enter: resolveWorldUrl failed url=%s", names.url);
+        warning("enter: resolveWorldUrl failed url=%s", names.url);
         if (! *chan) strcpy(chan, DEF_VRE_CHANNEL);  // no given channel, forced to the default
       }
     }
@@ -151,7 +151,7 @@ void Gate::enter()
 
     World::current()->quit();		// quit the current world
     delete Channel::current();		// delete Channel
-#if 0 //sound
+#if 0 //no sound
     Sound::playSound(GATESND);
 #endif
 
@@ -183,7 +183,6 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
         collideCnt = 0;
         if (flagEntry) {
           flagEntry = false;
-          //unused Entry *newentry = new Entry(entry);
           pcur->updatePositionAndGrid(pcur->pos);
         }
         enter();

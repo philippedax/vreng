@@ -306,11 +306,10 @@ void Gui::gotoWorld(const UStr& url_or_name)
   if (url_or_name.empty())  return;
 
   const char* urlorname = url_or_name.c_str();
-  const char* p = null;
   char urlvre[URL_LEN], chanstr[CHAN_LEN];
 
   strcpy(chanstr, DEF_VRE_CHANNEL);
-  if ((p = strchr(urlorname, '/'))) {	// url or path
+  if (strchr(urlorname, '/')) {	// url or path
     strcpy(urlvre, urlorname);
     if (! Cache::check(urlvre))  return;	// bad url
     if (! Vac::resolveWorldUrl(urlvre, chanstr)) {
