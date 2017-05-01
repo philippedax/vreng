@@ -51,7 +51,7 @@ int Vac::connectVac()
   /* resolve vacs address */
   struct hostent *hp;
   if ((hp = my_gethostbyname(DEF_VACS_SERVER, AF_INET)) == NULL) {
-    //error("can't resolve vacs");
+    error("can't resolve vacs");
     return -1;
   }
 
@@ -64,7 +64,7 @@ int Vac::connectVac()
   my_free_hostent(hp);
 
   if (connect(sdvac, (const struct sockaddr *) &savac, sizeof(savac)) < 0) {
-    //perror("can't connect vacs");
+    perror("can't connect vacs");
     return -1;
   }
   return sdvac;

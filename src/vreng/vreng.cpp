@@ -95,7 +95,7 @@ void Global::startCB()
 {
   initTrigo();			// Trigo
   initSignals();		// Signals initialization
-  Vac::init();		    	// Vac cache initialization
+  //Vac::init();		    	// Vac cache initialization
   HttpThread::init();		// Simultaneous http connections initialization
   Channel::initNetwork();	// Network initialization
   Universe::initManager();	// Manager initialisation
