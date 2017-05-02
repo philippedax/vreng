@@ -37,18 +37,17 @@
 #include "scene.hpp"
 #include "vncdialog.hpp"
 #include "mvt.hpp"
-#include "world.hpp"
-#include "wobject.hpp"
+#include "world.hpp"    // current
+#include "wobject.hpp"  // WObject
 #include "user.hpp"	// localuser
-#include "vnc.hpp"
-#include "cart.hpp"
-#include "netobj.hpp"
+#include "vnc.hpp"      // Vnc
+#include "cart.hpp"     // Cart
 #include "pref.hpp"	// width3D
 #include "cache.hpp"	// check
 #include "audio.hpp"	// start
 #include "event.hpp"	// NetIncoming NetTimeout
 #include "channel.hpp"	// Channel
-#include "vac.hpp"	// resolveWorldUrl
+#include "vac.hpp"	// resolveWorldUrl, getUrlAndChannel
 #include "theme.hpp"
 
 
@@ -99,18 +98,17 @@ void Gui::getClicked(int *click, float clicked[])
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Handling Sources
 
 struct Gui::ChannelSources : public vector<USource*> {
-ChannelSources(int count) : vector<USource*>(count) {}
+  ChannelSources(int count) : vector<USource*>(count) {}
 };
 
-/** NOTE: channel=0 for tabFd / channel=1 for tabManagerFd */
 void Gui::addChannelSources(int channel, int table[], int table_count)
 {
   if (channel >= int(channel_sources.size())) {
     channel_sources.resize(channel+1, null);
   }
-  
   channel_sources[channel] = new ChannelSources(table_count);
   for (int k=0; k < table_count; k++) {
     USource* s =  new USource(table[k]);
@@ -226,6 +224,34 @@ void Gui::pauseUser()
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling World
 
+void Gui::gotoWorld(const UStr& url_or_name)
+{
+  if (url_or_name.empty())  return;
+
+  const char* urlorname = url_or_name.c_str();
+  char urlvre[URL_LEN], chanstr[CHAN_LEN];
+
+  strcpy(chanstr, DEF_VRE_CHANNEL);
+  if (strchr(urlorname, '/')) {	// url or path
+    strcpy(urlvre, urlorname);
+    if (! Cache::check(urlvre))  return;	// bad url
+    if (! Vac::resolveWorldUrl(urlvre, chanstr)) {
+      if (strcmp(chanstr, DEF_VRE_CHANNEL))  return;	// url not found
+    }
+  }
+  else {	// worldname
+    if (! Vac::getUrlAndChannel(urlorname, urlvre, chanstr))  return;  // world not found
+  }
+  notice("goto %s at %s", urlvre, chanstr);
+
+  World::current()->quit();
+  delete Channel::current();	// delete old Channel
+  World::enter(urlvre, chanstr, true);
+  World::current()->setChanAndJoin(chanstr);	// join new channel
+
+  if (audioactive) Audio::start(chanstr);
+}
+
 GuiItem * Gui::addWorld(World *world, bool isCurrent)
 {
   if (! world)  return NULL;
@@ -244,6 +270,7 @@ void Gui::updateWorld(World *world, bool isCurrent)
   if (world->isGui()) widgets->updateWorld(world, isCurrent);
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling event redirections
 
 void Gui::setToVnc(Vnc* _vnc)
@@ -270,8 +297,10 @@ void Gui::setToCarrier(Carrier* _carrier)
 {
   carrier = _carrier;
   Mvt* mvt = Mvt::pointer();
-  mvt->setToCarrier(_carrier);
+  mvt->setToCarrier(carrier);
 }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 WObject* Gui::getSelectedObject()
 {
@@ -290,42 +319,10 @@ void Gui::showManipulator()
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // clears the info bar.
-
-void Gui::clearInfoBar(WObject* obj)
+void Gui::clearInfoBar(WObject *obj)
 {
   if (obj == selected_object) {
     selected_object = NULL;
-    // clears the objectBar
-    widgets->navig.selectObject(NULL, 0);
+    widgets->navig.selectObject(NULL, 0); // clears the objectBar
   }
-}
-
-
-void Gui::gotoWorld(const UStr& url_or_name)
-{
-  if (url_or_name.empty())  return;
-
-  const char* urlorname = url_or_name.c_str();
-  const char *p = null;
-  char urlvre[URL_LEN], chanstr[CHAN_LEN];
-
-  strcpy(chanstr, DEF_VRE_CHANNEL);
-  if ((p = strchr(urlorname, '/'))) {	// url or path
-    strcpy(urlvre, urlorname);
-    if (! Cache::check(urlvre))  return;	// bad url
-    if (! Vac::resolveWorldUrl(urlvre, chanstr)) {
-      if (strcmp(chanstr, DEF_VRE_CHANNEL))  return;	// url not found
-    }
-  }
-  else {	// worldname
-    if (! Vac::getUrlAndChannel(urlorname, urlvre, chanstr))  return;  // world not found
-  }
-  notice("goto %s at %s", urlvre, chanstr);
-
-  World::current()->quit();
-  delete Channel::current();	// delete old Channel
-  World::enter(urlvre, chanstr, true);
-  World::current()->setChanAndJoin(chanstr);	// join new channel
-
-  if (audioactive) Audio::start(chanstr);
 }

@@ -65,13 +65,12 @@ void GuiWidgets::processKey(long keysym, int keychar, bool press)
       // le Press annule le Release correspondant dans le KRmask
       postponedKRmask &= ~keymask;	// remove keymask from KRmask
       postponedKRcount--;		// une touche en moins dans KRlist
-      // rien d'autre a faire puisque c'etait juste une anulation
     }
     else {  // traitement normal d'un Press
       //fprintf(stderr, "KPress change or activate Key( %d ) \n", vrkey);
-      if (vrkey >= MAXKEYS || vrkey < 0) {
+      if (vrkey >= MAXKEYS || vrkey < 0)
         return;
-      }
+
       struct timeval time;
       gettimeofday(&time, NULL);
       changeKey(vrkey, press, time.tv_sec, time.tv_usec);
@@ -158,6 +157,5 @@ static long convertKey(long keycode, int keychar, int& vrkey)
       default: return 0; break; // == 0 => undefined key
     }
   }
-
   return keymask;
 }

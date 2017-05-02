@@ -317,10 +317,6 @@ void Navig::initNavigMenu()
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                          );
-#if 0  // UNUSED
-  navig_menu.item(1).add(" " 
-                     );
-#endif
   // FORWARD
   navig_menu.item(2).add(g.theme.Forward
                          + UOn::arm / startYZMotion

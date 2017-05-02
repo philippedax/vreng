@@ -169,19 +169,11 @@ void GuiWidgets::destinationsDialog()
                       Universe::current()->name,
                       Universe::current()->urlpfx,
                       Universe::current()->version);
-#if 1 //dax test
   UBox& box = uvbox(g.theme.scrollpaneStyle);
   if (Http::httpOpen(universe_url, destinationsHttpReader, &box, 0) < 0) {
     delete &box;
     return;
   }
-#else
-  UBox* box = new UTextarea;
-  if (Http::httpOpen(universe_url, destinationsHttpReader, box, 0) < 0) {
-    delete box;
-    return;
-  }
-#endif
   worlds_dialog.setMessage(uscrollpane(usize(120,400) + box));
   worlds_dialog.show();
 }

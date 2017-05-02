@@ -83,12 +83,10 @@ UBox& Messages::createMessagePanel(bool transparent)
                        + USymbol::down)
                )
        );
-
   if (transparent) {
     tf.addAttr(UBackground::none + UColor::white);
     panel.addAttr(UColor::white);
   }
-
   return panel;
 }
 
@@ -118,7 +116,6 @@ void Messages::performRequest(const UStr& req) // req starts with a '!'
   if (req.empty() || !isalpha(req[1])) return;
 
   const char* req_chars = req.c_str() + 1;  // skip the initial '!'
-
   entry = "";
   int r = read_request(req_chars);
 
@@ -160,15 +157,17 @@ void Messages::performRequest(WObject* object)
 void Messages::initClicked()
 {
   nclicks = 0;
-  for (uint32_t i=0; i < sizeof(clicked)/sizeof(float) ; i++)
+  for (uint32_t i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
     clicked[i] = MAXFLOAT;
+  }
 }
 
 void Messages::getClicked(int *_nclicks, float _clicked[])
 {
   *_nclicks = nclicks;
-  for (uint32_t i=0; i < sizeof(clicked)/sizeof(float) ; i++)
+  for (uint32_t i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
     _clicked[i] = clicked[i];
+  }
 }
 
 static bool string2Coord(const char* positions, float& x, float& y, float& z, float& az)
@@ -237,7 +236,6 @@ void Messages::convertTextToLink(const std::string& text, char **listeObjets, in
         break;
       }
     }
-
     if (!found) {
       allmsgs->add(ugroup(temp));
       allmsgs->add(ustr(" "));
@@ -367,9 +365,6 @@ void Messages::writeMessage(const char* mode, const char* from, const char* msg)
 
   messages.add(uhbox(ugroup(UFont::bold + prefix_color + prefix) + text));
 
-#if 0 //dax
-  scrollpane.setYScroll(100.);   // !!!!!!!!!!! BUG ICI !!!!
-#endif
   return;
 }
 
@@ -382,6 +377,7 @@ void GuiWidgets::putMessage(UMessageEvent& e)
 
   UStr file_name = arg->basename();
   UStr val;
+
   if (file_name.empty()) val = "<url=\"" & *arg & "\">";
   else                   val = "<url=\"" & *arg & "\">&<name=\"" & file_name & "\">";
   if (! Cache::check(arg->c_str())) return;    // bad url

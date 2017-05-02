@@ -254,7 +254,7 @@ UMenu& GuiWidgets::createMarkMenu()
     while (fgets(buf, sizeof(buf), fp)) {
       char *p = strchr(buf, ' ');
       if (p) *p ='\0';
-      // Je ne comprends pas pourquoi le callback ci-dessous n'est jamais appelé
+      // Je ne comprends pas pourquoi le callback ci-dessous n'est jamais appele
       mark_box.add(uitem(buf) + ucall(&gui, (const UStr&)buf, &Gui::gotoWorld));
     }
     File::closeFile(fp);

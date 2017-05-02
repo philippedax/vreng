@@ -70,8 +70,7 @@ void Panels::showManipulator(bool state)
 }
 
 void Panels::showCartDialog(bool state) { cerr << "TO BE DONE!" << endl; }
-
-/*
+#if 0 //dax
  UDialog *cartDialog,
  cartDialog =    // relies on carts_pane created by createPanes()
  &udialog(utitle("Basket")
@@ -79,7 +78,7 @@ void Panels::showCartDialog(bool state) { cerr << "TO BE DONE!" << endl; }
  + carts_pane
  + ubottom() + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
  );
-*/
+#endif
 
 static void sandboxCB(GuiWidgets*)
 {
@@ -221,7 +220,6 @@ manipulator(_gw->navig.createManipulator())
        + upadding(8,0).setBottom(14)
        + "View:"
        + viewlist
-
        + usepar()
        + "Show:"
        + uitem( utip("Show axis")
@@ -239,7 +237,6 @@ manipulator(_gw->navig.createManipulator())
        + uitem( utip("Show overview")
                + ucall(int(UserAction::MAPVIEW), GuiWidgets::callAction)
                + g.theme.World)
-
        + usepar()
        + "Objects:"
        + uitem(utip("Show object cart")
@@ -251,7 +248,6 @@ manipulator(_gw->navig.createManipulator())
        + uitem(utip("Test: sandbox world !")
                + ucall(_gw, sandboxCB)
                + UPix::question)
-
        + usepar()
        + "Throw:"
        + uitem(utip("Throw dart")
@@ -260,7 +256,6 @@ manipulator(_gw->navig.createManipulator())
        + uitem(utip("Throw bullet")
                + ucall(int(UserAction::BULLET), GuiWidgets::callAction)
                + UFont::bold + UFont::xx_large + UColor::red + ".")
-
        + usepar()
        + "Snap:"
        + uitem(utip("Capture screenshot in JPG")
