@@ -14,6 +14,10 @@ The rules for this file:
 
 ++ 8
 == 8.5
+-- 8.5.2
+	- fixed call Vac::init in a pthread to avoid blocking
+	(2017/05/02, Philippe Dax)
+
 -- 8.5.1
 	- fixed &png_ptr in bundle/png.c
 	- fixed #include "png.h" in texture/png.cpp
