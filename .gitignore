@@ -14,8 +14,8 @@ configure
 Makefile
 Makefile.in
 data
-github
-gitlab
+support/github
+support/gitlab
 ubit_svn
 ftp
 gif
