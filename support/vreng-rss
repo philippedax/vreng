@@ -7,7 +7,7 @@
 # Philippe Dax - Aout 2006
 #
 VRENG_WEB=/infres/projets/vreng/html
-VRENG_DEV=/infres/dax/vreng/dev
+VRENG_DEV=/infres/dax/vreng
 VRENG_LOG=/infres/log/vreng.log
 
 p=`basename $0`
