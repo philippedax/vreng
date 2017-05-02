@@ -38,6 +38,9 @@ class Vac {
   virtual bool getList();
   /**< Gets the whole cache and put it into an internal list */
 
+  static int connectVacs();
+  /**< Establishes a connection with the Vacs server */
+
   static int connectVac();
   /**< Establishes a connection with the Vacs server */
 

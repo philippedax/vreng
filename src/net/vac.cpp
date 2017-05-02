@@ -39,18 +39,24 @@ void* Vac::init(void *arg)
 {
   Vac *vac = new Vac();
 
-#if 0 //dax
-#if HAVE_LIBPTHREAD
-  pthread_t tid;
-  pthread_create(&tid, NULL, vac->getList, (void *) NULL);
-#endif
-#else
   vac->getList();
-#endif
   return NULL;
 }
 
 /** Connect to the VACS server: return -1 if connect fails */
+int Vac::connectVacs()
+{
+#if 1 //dax
+#if HAVE_LIBPTHREAD
+  pthread_t tid;
+  pthread_create(&tid, NULL, Vac::connectVac, (void * ) NULL);
+#endif
+#else
+  return -1;
+#endif
+  return -1;
+}
+
 int Vac::connectVac()
 {
   int sdvac;
@@ -88,7 +94,7 @@ bool Vac::getList()
   strcpy(channel, DEF_MANAGER_CHANNEL);
 
   // first get size of cache
-  if ((sdvac = Vac::connectVac()) < 0) 
+  if ((sdvac = Vac::connectVacs()) < 0) 
     return false;
   memset(reqvacs, 0, sizeof(reqvacs));
   sprintf(reqvacs, "size");
@@ -99,7 +105,7 @@ bool Vac::getList()
   //printf("sizecache: %d\n", sizecache);
 
   // and then get the cache
-  if ((sdvac = Vac::connectVac()) < 0) return false;
+  if ((sdvac = Vac::connectVacs()) < 0) return false;
   memset(reqvacs, 0, sizeof(reqvacs));
   sprintf(reqvacs, "list%d", VRE_VERSION);
   write(sdvac, reqvacs, strlen(reqvacs));
@@ -141,7 +147,7 @@ bool Vac::resolveWorldUrl(const char *url, char *chanstr)
   int sdvac;
 
   // connect to the vacs server
-  if ((sdvac = Vac::connectVac()) < 0) return false;
+  if ((sdvac = Vac::connectVacs()) < 0) return false;
 
   // send the request "resolve"
   char reqvacs[URL_LEN + 8];
