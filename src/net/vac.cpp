@@ -35,11 +35,19 @@ Vac::Vac()
   next = NULL;
 }
 
-void Vac::init()
+void* Vac::init(void *arg)
 {
   Vac *vac = new Vac();
 
+#if 0 //dax
+#if HAVE_LIBPTHREAD
+  pthread_t tid;
+  pthread_create(&tid, NULL, vac->getList, (void *) NULL);
+#endif
+#else
   vac->getList();
+#endif
+  return NULL;
 }
 
 /** Connect to the VACS server: return -1 if connect fails */

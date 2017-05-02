@@ -50,7 +50,7 @@ class Vac {
   static bool getUrlAndChannel(const char *name, char *_url, char *chanstr);
   /**< Gets an url and its channel by its world name from the list */
 
-  static void init();
+  static void* init(void *arg);
   /**< Init vac */
 };
 

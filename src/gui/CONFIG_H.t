@@ -622,7 +622,7 @@ const char CONFIG_H[] = "\
 /* #undef WANT_GL2PS */\n\
 \n\
 /* */\n\
-#define WANT_GLUI 1\n\
+/* #undef WANT_GLUI */\n\
 \n\
 /* */\n\
 /* #undef WANT_IPV6 */\n\
