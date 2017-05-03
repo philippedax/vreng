@@ -52,7 +52,7 @@ public:
 
   static Wind * current();	///< Gets wind pointer.
 
-  static void * getHttp(void *url);	///< Gets wind pointer.
+  static void * getHttp(void *url);	///< Gets wind data.
 
   virtual uint16_t getSpeed() const;	///< Gets speed.
 

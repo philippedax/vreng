@@ -230,7 +230,7 @@ void Gui::gotoWorld(const UStr& url_or_name)
 
   const char* urlorname = url_or_name.c_str();
   char urlvre[URL_LEN], chanstr[CHAN_LEN];
-  Vac *vac = Vac::init();
+  Vac *vac = Vac::current();
 
   strcpy(chanstr, DEF_VRE_CHANNEL);
   if (strchr(urlorname, '/')) {	// url or path

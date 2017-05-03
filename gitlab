@@ -1,12 +1,1 @@
-#! /bin/bash
-#
-# toggle github/gitlab
-#
-# Philippe Dax - aou 2016
-#
-p=$(basename $0)
-case $p in
-github) rm .git; ln -s .git_github .git ;;
-gitlab) rm .git; ln -s .git_gitlab .git ;;
-esac
-git remote show origin
+github

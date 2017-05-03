@@ -52,12 +52,10 @@ class Vac {
   virtual bool isConnected();
   /**< Returns true if connected else false */
 
-#if 0 //dax
-  virtual class Vac * current();
+  static  Vac * current();
   /**< Returns vac instance */
-#endif
 
-  static class Vac * init();
+  static Vac * init();
   /**< Init vac */
 
  private:

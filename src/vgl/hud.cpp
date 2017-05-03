@@ -38,7 +38,6 @@ Hud::Hud()
 /* Accessor */
 Hud * Hud::hud()
 {
-  //return phud;
   return &_hud;
 }
 

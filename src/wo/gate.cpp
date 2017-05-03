@@ -137,7 +137,7 @@ void Gate::enter()
     //
     // call here the VACS (VREng Address Cache Server) to get the channel string
     //
-    class Vac *vac = Vac::init();
+    Vac *vac = Vac::current();
     if (! vac->getChannel(names.url, chan)) {
       // this url is not in the cache, we need to ask to the vacs to resolve it
       if (vac->resolveWorldUrl(names.url, chan))

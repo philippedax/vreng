@@ -26,6 +26,7 @@
 
 // local
 static Vac     *vacList = NULL;	        // vac head
+static Vac *vac = NULL;		// vac singleton
 
 
 /** Constructor */
@@ -39,21 +40,18 @@ Vac::Vac()
 }
 
 /** Initialization */
-class Vac* Vac::init()
+Vac* Vac::init()
 {
-  Vac *vac = new Vac();
+  vac = new Vac();
 
   vac->getList();
-  //return connected;
   return (Vac *)vac;
 }
 
-#if 0 //dax
-class Vac* Vac::current()
+Vac* Vac::current()
 {
   return (Vac *)vac;
 }
-#endif
 
 bool Vac::isConnected()
 {
