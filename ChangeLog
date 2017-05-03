@@ -15,7 +15,7 @@ The rules for this file:
 ++ 8
 == 8.5
 -- 8.5.2
-	- fixed call Vac::init in a pthread to avoid blocking
+	- fixed vac.cpp to work without a vacs server
 	(2017/05/02, Philippe Dax)
 
 -- 8.5.1
