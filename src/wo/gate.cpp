@@ -137,9 +137,10 @@ void Gate::enter()
     //
     // call here the VACS (VREng Address Cache Server) to get the channel string
     //
-    if (! Vac::getChannel(names.url, chan)) {
+    class Vac *vac = Vac::init();
+    if (! vac->getChannel(names.url, chan)) {
       // this url is not in the cache, we need to ask to the vacs to resolve it
-      if (Vac::resolveWorldUrl(names.url, chan))
+      if (vac->resolveWorldUrl(names.url, chan))
         trace(DBG_IPMC, "enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
       else {
         warning("enter: resolveWorldUrl failed url=%s", names.url);

@@ -249,7 +249,10 @@ void Pref::parse(int argc, char **argv)
         url = strdup(optarg);
         char chanstr[CHAN_LEN];
         memset(chanstr, 0, sizeof(chanstr));
-        Vac::resolveWorldUrl(url, chanstr);
+#if 0 //dax
+	class vac = Vac::init();
+        vac->resolveWorldUrl(url, chanstr);
+#endif
         channel = strdup(chanstr);
         break;
       case 'x':

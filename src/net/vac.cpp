@@ -28,45 +28,66 @@
 static Vac     *vacList = NULL;	        // vac head
 
 
+/** Constructor */
 Vac::Vac()
 {
   memset(url, 0, sizeof(url));
   memset(channel, 0, sizeof(channel));
   next = NULL;
+  connected = false;
+  sdvac = 0;
 }
 
-void* Vac::init(void *arg)
+/** Initialization */
+class Vac* Vac::init()
 {
   Vac *vac = new Vac();
 
   vac->getList();
-  return NULL;
+  //return connected;
+  return (Vac *)vac;
 }
 
-/** Connect to the VACS server: return -1 if connect fails */
-int Vac::connectVacs()
+#if 0 //dax
+class Vac* Vac::current()
+{
+  return (Vac *)vac;
+}
+#endif
+
+bool Vac::isConnected()
+{
+  return connected;
+}
+
+/** Connect to the VACS server: return false if connect fails */
+bool Vac::connectVac()
 {
 #if 1 //dax
 #if HAVE_LIBPTHREAD
   pthread_t tid;
-  pthread_create(&tid, NULL, Vac::connectVac, (void * ) NULL);
+  pthread_create(&tid, NULL, Vac::connectThread, (void * ) NULL);
 #endif
 #else
-  return -1;
+  Vac::connectThread();
+  return connected;
 #endif
-  return -1;
+  return connected;
 }
 
-int Vac::connectVac()
+/** Thread */
+void * Vac::connectThread(void *)
 {
   int sdvac;
 
-  if ((sdvac = Socket::openStream()) < 0) { error("socket vacs"); return -1; }
-  /* resolve vacs address */
+  if ((sdvac = Socket::openStream()) < 0) {
+    error("socket vacs");
+    return NULL;
+  }
+  // resolve vacs address
   struct hostent *hp;
   if ((hp = my_gethostbyname(DEF_VACS_SERVER, AF_INET)) == NULL) {
     error("can't resolve vacs");
-    return -1;
   }
 
   struct sockaddr_in savac;
@@ -79,23 +100,26 @@ int Vac::connectVac()
 
   if (connect(sdvac, (const struct sockaddr *) &savac, sizeof(savac)) < 0) {
     perror("can't connect vacs");
-    return -1;
+    return NULL;
   }
-  return sdvac;
+  //connected = true;
+  return NULL;
 }
 
 bool Vac::getList()
 {
-  int sdvac;
+  //int sdvac;
   uint32_t sizecache = 0;
   char reqvacs[8];
+
+  if (connected == false) return false;
 
   strcpy(url, MANAGER_NAME);
   strcpy(channel, DEF_MANAGER_CHANNEL);
 
   // first get size of cache
-  if ((sdvac = Vac::connectVacs()) < 0) 
-    return false;
+  Vac::connectVac();
+  if (! connected)  return false;
   memset(reqvacs, 0, sizeof(reqvacs));
   sprintf(reqvacs, "size");
   write(sdvac, reqvacs, strlen(reqvacs));
@@ -105,7 +129,8 @@ bool Vac::getList()
   //printf("sizecache: %d\n", sizecache);
 
   // and then get the cache
-  if ((sdvac = Vac::connectVacs()) < 0) return false;
+  Vac::connectVac();
+  if (! connected)  return false;
   memset(reqvacs, 0, sizeof(reqvacs));
   sprintf(reqvacs, "list%d", VRE_VERSION);
   write(sdvac, reqvacs, strlen(reqvacs));
@@ -144,10 +169,13 @@ bool Vac::getList()
 
 bool Vac::resolveWorldUrl(const char *url, char *chanstr)
 {
-  int sdvac;
+  //int sdvac;
+
+  if (connected == false) return false;
 
   // connect to the vacs server
-  if ((sdvac = Vac::connectVacs()) < 0) return false;
+  Vac::connectVac();
+  if (connected == false) return false;
 
   // send the request "resolve"
   char reqvacs[URL_LEN + 8];

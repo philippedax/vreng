@@ -93,20 +93,12 @@ int Global::start(int argc, char *argv[])
 
 void Global::startCB()
 {
-  pthread_t tid;
-
   initTrigo();			// Trigo
   initSignals();		// Signals initialization
   HttpThread::init();		// Simultaneous http connections initialization
   Channel::initNetwork();	// Network initialization
   Universe::initManager();	// Manager initialisation
-#if 1 //dax
-#if HAVE_LIBPTHREAD
-  pthread_create(&tid, NULL, Vac::init, (void *) NULL);
-#endif
-#else
   Vac::init();		    	// Vac cache initialization
-#endif
 #if HAVE_MYSQL
   VRSql::init();		// MySql initialization
 #endif

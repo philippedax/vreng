@@ -30,6 +30,8 @@ class Vac {
   char url[URL_LEN];		///< world url
   char channel[CHAN_LEN];	///< mapped channel
   Vac *next;			///< next entry
+  bool connected;		///x true if connect established
+  int sdvac;			///< file descriptor
 
   Vac();		///< Constructor
 
@@ -38,23 +40,33 @@ class Vac {
   virtual bool getList();
   /**< Gets the whole cache and put it into an internal list */
 
-  static int connectVacs();
-  /**< Establishes a connection with the Vacs server */
-
-  static int connectVac();
-  /**< Establishes a connection with the Vacs server */
-
-  static bool resolveWorldUrl(const char *_url, char *chanstr);
+  virtual bool resolveWorldUrl(const char *_url, char *chanstr);
   /**< Resolves an Url and retrieves a channel string */
 
-  static bool getChannel(const char *_url, char *chanstr);
+  virtual bool getChannel(const char *_url, char *chanstr);
   /**< Gets a channel by its url from the list */
 
-  static bool getUrlAndChannel(const char *name, char *_url, char *chanstr);
+  virtual bool getUrlAndChannel(const char *name, char *_url, char *chanstr);
   /**< Gets an url and its channel by its world name from the list */
 
-  static void* init(void *arg);
+  virtual bool isConnected();
+  /**< Returns true if connected else false */
+
+#if 0 //dax
+  virtual class Vac * current();
+  /**< Returns vac instance */
+#endif
+
+  static class Vac * init();
   /**< Init vac */
+
+ private:
+
+  virtual bool connectVac();
+  /**< Establishes a connection with the Vacs server */
+
+  static void * connectThread(void *);
+  /**< Establishes a connection with the Vacs server */
 };
 
 #endif

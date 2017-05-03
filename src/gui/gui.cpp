@@ -230,17 +230,18 @@ void Gui::gotoWorld(const UStr& url_or_name)
 
   const char* urlorname = url_or_name.c_str();
   char urlvre[URL_LEN], chanstr[CHAN_LEN];
+  Vac *vac = Vac::init();
 
   strcpy(chanstr, DEF_VRE_CHANNEL);
   if (strchr(urlorname, '/')) {	// url or path
     strcpy(urlvre, urlorname);
     if (! Cache::check(urlvre))  return;	// bad url
-    if (! Vac::resolveWorldUrl(urlvre, chanstr)) {
+    if (! vac->resolveWorldUrl(urlvre, chanstr)) {
       if (strcmp(chanstr, DEF_VRE_CHANNEL))  return;	// url not found
     }
   }
   else {	// worldname
-    if (! Vac::getUrlAndChannel(urlorname, urlvre, chanstr))  return;  // world not found
+    if (! vac->getUrlAndChannel(urlorname, urlvre, chanstr))  return;  // world not found
   }
   notice("goto %s at %s", urlvre, chanstr);
 
