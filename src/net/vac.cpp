@@ -89,6 +89,13 @@ void * Vac::connectThread(void *)
   }
 
   struct sockaddr_in savac;
+  struct timeval timeout;      
+  timeout.tv_sec = 10;
+  timeout.tv_usec = 0;
+
+  // set a timeout of 10 sec
+  if (setsockopt(sdvac, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+    error("setsockopt failed\n");
 
   memset(&savac, 0, sizeof(struct sockaddr_in));
   savac.sin_family = AF_INET;

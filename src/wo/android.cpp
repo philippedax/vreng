@@ -183,6 +183,13 @@ int Android::connectToBapServer(int _ipmode)
   tcpsa.sin_port = htons(VAPS_PORT);
   memcpy(&tcpsa.sin_addr, hp->h_addr_list[0], hp->h_length);
   my_free_hostent(hp);
+
+  struct timeval timeout;
+  timeout.tv_sec = 10;
+  timeout.tv_usec = 0;
+
+  if (setsockopt(sdtcp, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+    error("setsockopt failed\n");
   if (connect(sdtcp, (const struct sockaddr *) &tcpsa, sizeof(tcpsa)) < 0) {
     error("Connection failed with the vaps server: %s (%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
     return 0;

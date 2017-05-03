@@ -190,6 +190,12 @@ int VNCSockets::ConnectToTcpAddr()
   trace(DBG_VNC, "ConnectToTcpAddr: connecting to %s:%i %x",
                  ServerName, ntohs(sa.sin_port), ntohl(sa.sin_addr.s_addr));
 
+  struct timeval timeout;      
+  timeout.tv_sec = 10;
+  timeout.tv_usec = 0;
+
+  if (setsockopt(rfbsock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+    error("setsockopt failed\n");
   if (connect(rfbsock, (const struct sockaddr *) &sa, sizeof(sa)) < 0) {
     perror("VNC: connect");
     error("ConnectToTcpAddr: %s (%d) sock=%d", strerror(errno), errno, rfbsock);

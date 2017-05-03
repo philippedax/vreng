@@ -257,6 +257,12 @@ int VjcSocket::openSend()
 /* Tries a connect to the client app */
 int VjcSocket::connectSend()
 {
+  struct timeval timeout;      
+  timeout.tv_sec = 10;
+  timeout.tv_usec = 0;
+
+  if (setsockopt(sdw, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+    error("setsockopt failed\n");
   if (connect(sdw, (const struct sockaddr *) sadest, sizeof(struct sockaddr_in)) < 0) {
     if ((errno == EINPROGRESS) || (errno == EALREADY)) {
       // Socket set to non-blocking to prevent an app freeze
