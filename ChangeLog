@@ -14,10 +14,13 @@ The rules for this file:
 
 ++ 8
 == 8.5
+-- 8.5.3
+	- added object fractal #83
+	(2017/05/04, Philippe Dax)
+
 -- 8.5.2
 	- fixed vac.cpp to work without a vacs server
 	- added timeout to connect to different servers
-	- added object fractal #83
 	(2017/05/03, Philippe Dax)
 
 -- 8.5.1

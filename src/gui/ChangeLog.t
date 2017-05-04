@@ -18,6 +18,7 @@ The rules for this file:\n\
 -- 8.5.2\n\
 	- fixed vac.cpp to work without a vacs server\n\
 	- added timeout to connect to different servers\n\
+	- added object fractal #83\n\
 	(2017/05/03, Philippe Dax)\n\
 \n\
 -- 8.5.1\n\
