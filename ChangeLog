@@ -16,7 +16,9 @@ The rules for this file:
 == 8.5
 -- 8.5.2
 	- fixed vac.cpp to work without a vacs server
-	(2017/05/02, Philippe Dax)
+	- added timeout to connect to different servers
+	- added object fractal #83
+	(2017/05/03, Philippe Dax)
 
 -- 8.5.1
 	- fixed &png_ptr in bundle/png.c

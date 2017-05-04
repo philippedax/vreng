@@ -105,6 +105,7 @@
 #include "accessory.hpp"/* 80 */
 #include "head.hpp"	/* 81 */
 #include "firework.hpp"	/* 82 */
+#include "fractal.hpp"	/* 83 */
 
 
 const struct GeneralInitList generalInitList[] = {
@@ -191,6 +192,7 @@ const struct GeneralInitList generalInitList[] = {
 /* 80 */	{Accessory::funcs},
 /* 81 */	{Head::funcs},
 /* 82 */	{Firework::funcs},
+/* 83 */	{Fractal::funcs},
 
 /* END */	{NULL}
 };

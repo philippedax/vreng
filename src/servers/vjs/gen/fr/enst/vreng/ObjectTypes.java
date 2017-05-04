@@ -1,7 +1,7 @@
 package fr.enst.vreng;
 
 /**
- * Generated from ../../../src/wo/initobj.cpp at Fri Sep 23 17:37:13 2016
+ * Generated from ../../../src/wo/initobj.cpp at Wed May  3 23:16:37 2017
  */
 public class ObjectTypes {
 
@@ -88,5 +88,6 @@ public class ObjectTypes {
 	public static final int OBJ_Accessory  = 80;
 	public static final int OBJ_Head       = 81;
 	public static final int OBJ_Firework   = 82;
+	public static final int OBJ_Fractal    = 83;
 
 }
