@@ -51,21 +51,11 @@ Img * Img::loadXPM(void *tex, ImageReader read_func)
   uint8_t *data = new uint8_t[3 * size];
   uint8_t *pxpm = (uint8_t *) xpmimage.data;
   for (int i=0; i < size ; i++, pxpm++) {
-    //printf("%d %08x", i, xpmimage.data[i]);
-    //dax img->pixmap[i*3 + 0] = *pxpm++;
     data[i*3 + 0] = *pxpm++;
-    //printf(" %02x", img->pixmap[i*3 + 0]);
-    //dax img->pixmap[i*3 + 1] = *pxpm++;
     data[i*3 + 1] = *pxpm++;
-    //printf(" %02x", img->pixmap[i*3 + 1]);
-    //dax img->pixmap[i*3 + 2] = *pxpm++;
     data[i*3 + 2] = *pxpm++;
-    //printf(" %02x", img->pixmap[i*3 + 2]);
-    //printf("\n");
   }
 
-  //dax XpmFreeXpmImage(&xpmimage);	// get rid of the xpmimage
-  //dax img->pixmap = (uint8_t *) data;
   img->pixmap = (uint8_t *) xpmimage.data;
   return img;
 #else
