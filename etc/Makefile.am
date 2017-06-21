@@ -21,4 +21,4 @@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
-EXTRA_DIST = rc.apache2 rc.mysqld rc.vacs rc.vaps rc.vjs rc.vrum
+EXTRA_DIST = rc.apache2 rc.mysqld rc.vacs rc.vaps rc.vjs rc.vrum start-daemons

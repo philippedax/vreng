@@ -1,0 +1,11 @@
+#! /bin/sh
+#
+# start-daemons
+#
+# Philippe Dax - hun 2017
+#
+
+./rc.vacs
+./rc.vaps
+./rc.vjs
+./rc.vrum

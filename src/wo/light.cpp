@@ -69,11 +69,11 @@ Light::Light(char *l)
   else islight = true;
 
   if (islight) {
-    GLfloat light2_diffuse[] = {1, 1, 1, 1};
-    GLfloat light2_ambient[] = {0.6, 0.6, 0.6, 1};
-    GLfloat light2_specular[] = {0.8, 0.8, 0.8, 1};
-    GLfloat light2_spot_direction[3];
-    GLfloat light2_spot_cutoff[1];
+    GLfloat light_diffuse[] = {1, 1, 1, 1};
+    GLfloat light_ambient[] = {0.6, 0.6, 0.6, 1};
+    GLfloat light_specular[] = {0.8, 0.8, 0.8, 1};
+    GLfloat light_spot_direction[3];
+    GLfloat light_spot_cutoff[1];
 
     light_ambient[0] = 0.1;
     light_ambient[1] = 0.1;
@@ -85,7 +85,7 @@ Light::Light(char *l)
     light_position[3] = pos.az;		// w = 0 (dir) | 1 (pos)
     if (light_position[3] == 0) {	// directionnel
       if (pos.ax > 0 && pos.ax <= 90) {
-        light2_spot_cutoff[0] = pos.ax;	// 0 < spot < 90
+        light_spot_cutoff[0] = pos.ax;	// 0 < spot < 90
         light_mode = DIR;
       }
       else light_mode = POS;
@@ -98,16 +98,16 @@ Light::Light(char *l)
 
     glEnable(GL_LIGHT2);
 
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, light2_diffuse);
-    glLightfv(GL_LIGHT2, GL_AMBIENT, light2_ambient);
-    glLightfv(GL_LIGHT2, GL_SPECULAR, light2_specular);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT2, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT2, GL_SPECULAR, light_specular);
 
     if (light_mode == DIR) {	// spot
-      light2_spot_direction[0] = light_position[0];
-      light2_spot_direction[1] = light_position[1];
-      light2_spot_direction[2] = light_position[2];
-      glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, light2_spot_direction);
-      glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, light2_spot_cutoff);
+      light_spot_direction[0] = light_position[0];
+      light_spot_direction[1] = light_position[1];
+      light_spot_direction[2] = light_position[2];
+      glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, light_spot_direction);
+      glLightfv(GL_LIGHT2, GL_SPOT_CUTOFF, light_spot_cutoff);
       //glLightf(GL_LIGHT2, GL_CONSTANT_ATTENUATION, 1);
     }
     else
