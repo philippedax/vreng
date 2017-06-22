@@ -1,7 +1,7 @@
 ANNOUNCE
 .svn
 .git_github
-.git_gittab
+.git_gitlab
 autom4te.cache
 FIX
 aclocal.m4
