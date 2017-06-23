@@ -23,6 +23,7 @@ html
 doxygen
 gui
 model
+bundle
 net
 sys
 vgl
@@ -64,3 +65,5 @@ src/*/*/Makefile
 src/*/*/Makefile.in
 src/*/*/*.o
 src/*/*/*.a
+src/vreng/MakefileGLUT
+src/ai/*.ml*
