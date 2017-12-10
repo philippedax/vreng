@@ -5,7 +5,7 @@
 # Philippe Dax - jun 2017
 #
 
-nohup ./rc.vacs
-nohup ./rc.vaps
-nohup ./rc.vjs
-nohup ./rc.vrum
+nohup ./rc.vacs &
+nohup ./rc.vaps &
+nohup ./rc.vjs &
+nohup ./rc.vrum &
