@@ -15,9 +15,15 @@ The rules for this file:\n\
 \n\
 ++ 8\n\
 == 8.5\n\
+-- 8.5.5\n\
+	- fixed buffer overflows\n\
+	- fixed dynamic exception specification (C++11) by adding -Wno-deprecated to CXXFLAGS\n\
+	(2017/12/10, Philippe Dax)\n\
+\n\
 -- 8.5.4\n\
 	- added script start-daemons\n\
-	(2017/06/21, Philippe Dax)\n\
+	- fixed fratal.*pp\n\
+	(2017/06/23, Philippe Dax)\n\
 \n\
 -- 8.5.3\n\
 	- added object fractal #83\n\

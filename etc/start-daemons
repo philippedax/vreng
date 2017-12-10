@@ -2,10 +2,10 @@
 #
 # start-daemons
 #
-# Philippe Dax - hun 2017
+# Philippe Dax - jun 2017
 #
 
-./rc.vacs
-./rc.vaps
-./rc.vjs
-./rc.vrum
+nohup ./rc.vacs
+nohup ./rc.vaps
+nohup ./rc.vjs
+nohup ./rc.vrum

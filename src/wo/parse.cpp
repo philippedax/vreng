@@ -424,7 +424,7 @@ int Parse::parseVreLines(char *buf, int bufsiz)
           }
 
           // check end of the object </...>
-          char closetag[TAG_LEN];
+          char closetag[TAG_LEN +4];
           sprintf(closetag, "</%s>", tagobj);
 	  if ((p = strstr(line, closetag)) == NULL) continue;	// not end of object
           //trace(DBG_FORCE, "</TAG>  %s", line);
@@ -495,7 +495,7 @@ char * WObject::tokenize(char *l)
 {
   // remove close tag
   Parse *parser = parse();
-  char closetag[Parse::TAG_LEN];
+  char closetag[Parse::TAG_LEN +2];
   if (*parser->tagobj) {
     sprintf(closetag, "</%s", parser->tagobj);
     char *p = strstr(l, closetag);	// </type>

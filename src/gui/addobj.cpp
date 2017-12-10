@@ -53,7 +53,7 @@ enum {
 
 // Local
 static uint8_t obj = THING;	// thing
-static char shape[10] = "cube";	// box
+static char shape[16] = "cube";	// box
 static char texture[128] = "";	// empty
 static V3 color;		// black
 static float alpha = 1;		// opaque

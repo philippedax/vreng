@@ -24,10 +24,10 @@ const char CONFIG_H[] = "\
 /* #undef FREEBSD */\n\
 \n\
 /* gcc major version */\n\
-#define GCC_MAJOR_VERSION 6\n\
+#define GCC_MAJOR_VERSION 7\n\
 \n\
 /* gcc version */\n\
-#define GCC_VERSION \"6.3.1\"\n\
+#define GCC_VERSION \"7.2.1\"\n\
 \n\
 /* */\n\
 /* #undef HAVE_ALUT */\n\
@@ -42,7 +42,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ARPA_INET_H 1\n\
 \n\
 /* */\n\
-#define HAVE_CAML_CALLBACK_H 1\n\
+/* #undef HAVE_CAML_CALLBACK_H */\n\
 \n\
 /* Define to 1 if you have the <ctype.h> header file. */\n\
 #define HAVE_CTYPE_H 1\n\
@@ -338,7 +338,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_NO_SOCKLEN_T */\n\
 \n\
 /* */\n\
-#define HAVE_OCAML 1\n\
+/* #undef HAVE_OCAML */\n\
 \n\
 /* */\n\
 /* #undef HAVE_OPENAL */\n\
@@ -553,7 +553,7 @@ const char CONFIG_H[] = "\
 /* #undef NEXTSTEP */\n\
 \n\
 /* */\n\
-#define OCAML_PATH \"/usr/lib64/ocaml\"\n\
+/* #undef OCAML_PATH */\n\
 \n\
 /* */\n\
 /* #undef OPENBSD */\n\
@@ -571,7 +571,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_NAME \"vreng\"\n\
 \n\
 /* Define to the full name and version of this package. */\n\
-#define PACKAGE_STRING \"vreng 8.5.4\"\n\
+#define PACKAGE_STRING \"vreng 8.5.5\"\n\
 \n\
 /* Define to the one symbol short name of this package. */\n\
 #define PACKAGE_TARNAME \"vreng\"\n\
@@ -580,7 +580,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_URL \"\"\n\
 \n\
 /* Define to the version of this package. */\n\
-#define PACKAGE_VERSION \"8.5.4\"\n\
+#define PACKAGE_VERSION \"8.5.5\"\n\
 \n\
 /* */\n\
 #define PERLPATH \"/bin/perl\"\n\
@@ -607,13 +607,13 @@ const char CONFIG_H[] = "\
 #define TIME_WITH_SYS_TIME 1\n\
 \n\
 /* Version number of package */\n\
-#define VERSION \"8.5.4\"\n\
+#define VERSION \"8.5.5\"\n\
 \n\
 /* VReng major version */\n\
 #define VRENG_MAJOR_VERSION 8\n\
 \n\
 /* VReng micro version */\n\
-#define VRENG_MICRO_VERSION 4\n\
+#define VRENG_MICRO_VERSION 5\n\
 \n\
 /* VReng minor version */\n\
 #define VRENG_MINOR_VERSION 5\n\
@@ -628,7 +628,7 @@ const char CONFIG_H[] = "\
 /* #undef WANT_IPV6 */\n\
 \n\
 /* */\n\
-#define WANT_OCAML 1\n\
+/* #undef WANT_OCAML */\n\
 \n\
 /* */\n\
 #define WANT_UBIT 1\n\

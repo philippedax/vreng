@@ -110,7 +110,7 @@ void UViewUpdateImpl::updateBackground(UGraph& g, UUpdateContext& ctx,
   
   else {
     if (wallp) { // il y a un wallpaper
-      bool blend_paint = (ctx.local.alpha == 1.) ? false : true;
+      // bool blend_paint = (ctx.local.alpha == 1.) ? false : true;
       
       // nb: reafficher clip et non r qui va deborder!!!
       // if (blend_paint) g.beginBlend(clip, ctx.local.alpha);     &&&!!!!! A REVOIR !!!!&&&&
