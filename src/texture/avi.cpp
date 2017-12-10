@@ -409,7 +409,7 @@ void Avi::open_output_file(const char *filename)
   char c[DATASTART-12];
 
   file = File::openFile(filename, "wb+");//O_RDWR|O_CREAT|O_TRUNC,0600);
-  if (file < 0) { error("open"); return; }
+  if (file == NULL) { error("open"); return; }
 
   /* Set it nonblocking */
   //i = fcntl(file, F_SETFL, O_NONBLOCK);

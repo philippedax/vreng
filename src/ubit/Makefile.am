@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS = foreign
+AUTOMAKE_OPTIONS = foreign no-dependencies
 
 EXTRA_DIST = COPYING COPYRIGHT AUTHORS ubit-doxygen.css
 
