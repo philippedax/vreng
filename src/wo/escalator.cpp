@@ -41,6 +41,7 @@ void Escalator::defaults()
   height = 0;
   length = 0;
   speed = Step::LSPEED;
+  mobile = true;
 }
 
 void Escalator::parser(char *l)
@@ -101,17 +102,11 @@ void Escalator::behavior()
   createPermanentNetObject(PROPS, ++oid);
 }
 
-void Escalator::inits()
-{
-  mobile = true;
-  build();
-}
-
 Escalator::Escalator(char *l)
 {
   parser(l);
   behavior();
-  inits();
+  build();
 }
 
 void Escalator::quit()

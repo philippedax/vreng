@@ -40,6 +40,7 @@ void Stair::defaults()
   dir = 1;
   height = 0;
   length = 0;
+  mobile = false;
 }
 
 void Stair::parser(char *l)
@@ -90,17 +91,11 @@ void Stair::behavior()
   createPermanentNetObject(PROPS, ++oid);
 }
 
-void Stair::inits()
-{
-  mobile = false;
-  build();
-}
-
 Stair::Stair(char *l)
 {
   parser(l);
   behavior();
-  inits();
+  build();
 }
 
 void Stair::quit()

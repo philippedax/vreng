@@ -57,9 +57,6 @@ private:
   virtual void behavior();
   /**< Sets behavior */
 
-  virtual void inits();
-  /**< Sets specific inits */
-
   virtual void build();
   /**< Builds escalator */
 };

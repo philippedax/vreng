@@ -176,7 +176,7 @@ CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -Wno-deprecated -Wno-unknown-warnig-option --permissive -DVREL -DVAPS -DVJS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -Wno-deprecated -Wno-unknown-warning-option --permissive -DVREL -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps

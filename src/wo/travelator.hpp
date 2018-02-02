@@ -57,9 +57,6 @@ private:
   virtual void behavior();
   /**< Sets behavior */
 
-  virtual void inits();
-  /**< Do specific inits */
-
   virtual void build();
   /**< Builds travelator */
 };

@@ -40,6 +40,7 @@ void Travelator::defaults()
   length = 0;
   dir = 0;
   speed = Step::LSPEED;
+  mobile = true;
 }
 
 void Travelator::parser(char *l)
@@ -89,17 +90,11 @@ void Travelator::behavior()
   createPermanentNetObject(PROPS, ++oid);
 }
 
-void Travelator::inits()
-{
-  mobile = true;
-  build();
-}
-
 Travelator::Travelator(char *l)
 {
   parser(l);
   behavior();
-  inits();
+  build();
 }
 
 void Travelator::quit()

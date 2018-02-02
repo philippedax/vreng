@@ -144,7 +144,7 @@ void Light::lighting()
       glLightfv(GL_LIGHT2, GL_POSITION, light_position);
       glPopMatrix();
     }
-    //glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient);
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
     glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
     glPopAttrib();

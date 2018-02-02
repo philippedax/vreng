@@ -373,7 +373,7 @@ namespace ubit {
     
     sort(file_infos.begin(), file_infos.end(), UFileDir::compareEntries);
     ::closedir(dirp);
-    delete fullpath;
+    delete[] fullpath;
   }
   
   /* ==================================================== ===== ======= */
@@ -447,7 +447,7 @@ namespace ubit {
     }
     
     sort(file_infos.begin(), file_infos.end(), UFileDir::compareEntries);
-    delete fullpath;
+    delete[] fullpath;
   }
   
   /* ==================================================== ===== ======= */
