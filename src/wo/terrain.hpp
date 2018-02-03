@@ -26,7 +26,7 @@
 #define TERRAIN_TYPE	67
 #define TERRAIN_NAME	"Terrain"
 
-typedef struct {GLfloat x; GLfloat y; GLfloat z;} tVect;
+typedef struct {GLfloat x; GLfloat y; GLfloat z;} nVect;
 
 /**
  * Terrain class
@@ -41,7 +41,7 @@ protected:
   static const GLfloat DEF_COLOR[];
 
   GLfloat *mesh;	///< mesh
-  tVect *normales;	///< normales
+  nVect *normales;	///< normales
   uint8_t level;	///< number of iterations
   float height;		///< base height
   float div;		///< factor to divide height 
@@ -83,10 +83,10 @@ public:
   /**< Do specific inits */
 
   virtual void heights(int it, int x, int y, float h, float f);
-  /**< Compute heights */
+  /**< Computes heights */
 
   virtual void aux_heights(int x1, int y1, int x2, int y2, float f);
-  /**< Compute aux heights */
+  /**< Computes aux heights */
 
   virtual void draw();
   /**< Draws the terrain */
@@ -97,7 +97,7 @@ public:
   virtual void setColor(float z);
   /**< Sets color */
 
-  virtual void prodvect(float x1, float y1, float z1, float x2, float y2, float z2, float *a, float *b, float *c);
+  virtual void prodvect(float x1, float y1, float z1, float x2, float y2, float z2, float *px, float *py, float *pz);
   /**< Cross product */
 };
 

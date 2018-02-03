@@ -77,7 +77,7 @@ void Terrain::inits()
   if (div <= 1 || div > 3) div = DEF_DIV;
   size = level*level;
   mesh = new GLfloat[size*size*sizeof(GLfloat)+1];
-  normales = new tVect[size*size*sizeof(tVect)+1];
+  normales = new nVect[size*size*sizeof(nVect)+1];
   srand(time(0));
   heights(level, 0, 0, height, div);
   initNormales();
@@ -113,15 +113,22 @@ void Terrain::aux_heights(int x1, int y1, int x2, int y2, float h)
   mesh[(x1+x2)/2*size + (y1+y2)/2] = (mesh[x1*size +y1] + mesh[x2*size +y2])/2 + h*((rand()%21)-10)/10;
 }
 
+void Terrain::prodvect(float x1, float y1, float z1, float x2, float y2, float z2, float *px, float *py, float *pz)
+{
+  *px = y1*z2 - z1*y2;
+  *py = z1*x2 - x1*z2;
+  *pz = x1*y2 - y1*x2;
+}
+
 void Terrain::initNormales()
 {
   for (int i=0; i<size ; i++) {
     for (int j=0; j<size ; j++) {
-      float a,b,c;
-      prodvect(2./size, 0, mesh[(i+1)*size+j]-mesh[(i-1)*size+j], 0, 2./size, mesh[i*size+j+1]-mesh[i*size+j-1], &a, &b, &c);
-      normales[i*size+j].x = a;
-      normales[i*size+j].y = b;
-      normales[i*size+j].z = c;
+      float px,py,pz;
+      prodvect(2./size, 0, mesh[(i+1)*size+j]-mesh[(i-1)*size+j], 0, 2./size, mesh[i*size+j+1]-mesh[i*size+j-1], &px, &py, &pz);
+      normales[i*size+j].x = px;
+      normales[i*size+j].y = py;
+      normales[i*size+j].z = pz;
     }
   }
 }
@@ -195,13 +202,6 @@ void Terrain::setColor(float z)
   else {
     glColor4fv(color);
   }
-}
-
-void Terrain::prodvect(float x1, float y1, float z1, float x2, float y2, float z2, float *a, float *b, float *c)
-{
-  *a = y1*z2 - z1*y2;
-  *b = z1*x2 - x1*z2;
-  *c = x1*y2 - y1*x2;
 }
 
 void Terrain::quit()
