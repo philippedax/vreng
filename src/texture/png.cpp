@@ -35,10 +35,14 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
   pngRawInfo rawinfo;
 
   /* we read the data */
+#if HAVE_PNG_H
   if (!pngLoadF(f, PNG_NOMIPMAP, PNG_SOLID, &rawinfo)) {
     error("can't load png file");
     return NULL;
   }
+#else
+  return NULL;
+#endif
   File::closeFile(f);
   trace(DBG_IMG, "loadPNG: width=%d height=%d depth=%d alpha=%d",
                  rawinfo.Width, rawinfo.Height, rawinfo.Depth, rawinfo.Alpha);

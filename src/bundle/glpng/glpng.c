@@ -361,6 +361,7 @@ int APIENTRY pngLoad(const char *filename, int mipmap, int trans, pngInfo *pinfo
 }
 #endif //not used
 
+#if HAVE_PNG_H
 int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo) {
   GLint pack, unpack;
   unsigned char header[8];
@@ -394,7 +395,9 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo) {
 #endif //segfault
 
   png_init_io(png, fp);
+#if 0 //dax
   png_set_sig_bytes(png, 8);
+#endif
   png_read_info(png, info);
   png_get_IHDR(png, info, &width, &height, &depth, &color, NULL, NULL, NULL);
 
@@ -426,23 +429,31 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo) {
     PalettedTextures = 0;
 
   if (color == PNG_COLOR_TYPE_GRAY || color == PNG_COLOR_TYPE_GRAY_ALPHA)
+#if 0 //dax
     png_set_gray_to_rgb(png);
+#endif
 
   if (color&PNG_COLOR_MASK_ALPHA && trans != PNG_ALPHA) {
+#if 0 //dax
     png_set_strip_alpha(png);
     color &= ~PNG_COLOR_MASK_ALPHA;
+#endif
   }
 
   if (!(PalettedTextures && mipmap >= 0 && trans == PNG_SOLID))
-    if (color == PNG_COLOR_TYPE_PALETTE)
+#if 0 //dax
+    if (color == PNG_COLOR_TYPE_PALET
       png_set_expand(png);
+#endif
 
   /*--GAMMA--*/
   checkForGammaEnv();
   if (png_get_gAMA(png, info, &fileGamma))
+#if 0 //dax
     png_set_gamma(png, screenGamma, fileGamma);
   else
     png_set_gamma(png, screenGamma, 1.0/2.2);
+#endif
 
   png_read_update_info(png, info);
 
@@ -656,6 +667,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo) {
   pinfo->Data = data;
   return 1;
 }
+#endif
 
 #if 0 //not used
 static unsigned int SetParams(int wrapst, int magfilter, int minfilter) {
