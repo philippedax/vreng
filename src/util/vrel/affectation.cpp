@@ -73,8 +73,8 @@ void Affectation::exec ()
 // Destructeur.
 Affectation::~Affectation ()
 {
-  if (objet) delete objet;
-  if (variable) delete variable;
+  //if (objet) delete objet;
+  //if (variable) delete variable;
   if (valeur_affectee) delete valeur_affectee;
   if (var_affectee) delete var_affectee;
 }

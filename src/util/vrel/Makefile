@@ -233,7 +233,7 @@ AUTOMAKE = ${SHELL} /infres/s3/dax/vreng/support/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation --permissive -DVREL -DVAPS -DVJS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -DVREL -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/usr/include/mysql -I/usr/include/freetype2 -I/usr/include/libpng16 
 CURLPATH = /bin/curl
 CXX = g++
@@ -296,7 +296,7 @@ STRIP =
 UBITCONFIG = 
 UBIT_CFLAGS = -I../../src
 VERSION = 8.5.5
-VRELIBS = -L/usr/lib64 -lxml2 -L/usr/lib64/mysql -lmysqlclient -lpthread -L/usr/lib -ldl -lfreetype -lm -lnsl  -L/usr/lib -lGLU -lGL  -L/usr/lib64 -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/usr/lib64 -lcurl -lz -L/usr/lib64 -ltiff -L/usr/lib64 -ljpeg -L/usr/lib64 -lgif -lXpm 
+VRELIBS = -L/usr/lib64 -lxml2 -L/usr/lib64 -lmysqlclient -lpthread -L/usr/lib -ldl -lfreetype -lm -lnsl  -L/usr/lib -lGLU -lGL  -L/usr/lib64 -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/usr/lib64 -lcurl -lz -L/usr/lib64 -ltiff -L/usr/lib64 -ljpeg -L/usr/lib64 -lgif -lXpm 
 WGETPATH = /bin/wget
 XLIBS = -L/usr/lib64  -lSM -lICE 
 XMKMF = 

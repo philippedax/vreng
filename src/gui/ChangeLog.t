@@ -16,6 +16,9 @@ The rules for this file:\n\
 ++ 8\n\
 == 8.5\n\
 -- 8.5.5\n\
+	- fixed CXFLAG without -fpermissive\n\
+	- fixed conficts with glpng\n\
+	(2018/02/10, Philippe Dax)\n\
 	- fixed buffer overflows\n\
 	- fixed dynamic exception specification (C++11) by adding -Wno-deprecated to CXXFLAGS\n\
 	(2017/12/10, Philippe Dax)\n\

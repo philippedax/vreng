@@ -183,7 +183,7 @@ AC_ARG_ENABLE(permissive,
  
 if test "${enable_permissive:=no}" = "yes"; then
   if test "${GCC}" = "yes"; then
-    CFLAGS="${CFLAGS} --permissive"
+    CFLAGS="${CFLAGS}"
     CXXFLAGS="${CXXFLAGS} --permissive"
   fi
 fi

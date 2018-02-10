@@ -27,7 +27,7 @@ const char CONFIG_H[] = "\
 #define GCC_MAJOR_VERSION 7\n\
 \n\
 /* gcc version */\n\
-#define GCC_VERSION \"7.2.1\"\n\
+#define GCC_VERSION \"7.3.1\"\n\
 \n\
 /* */\n\
 /* #undef HAVE_ALUT */\n\
