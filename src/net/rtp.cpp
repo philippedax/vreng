@@ -168,7 +168,7 @@ const char * Rtp::getRtpName(char *name)
 
 void Rtp::getRtcpEmail(char *email)
 {
-  char mail[EMAIL_LEN], hostfqdn[255], hostname[MAXHOSTNAMELEN];
+  char mail[EMAIL_LEN+10], hostfqdn[255], hostname[MAXHOSTNAMELEN];
 
   gethostname(hostname, sizeof(hostname)-1);
 

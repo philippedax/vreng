@@ -700,7 +700,7 @@ void World::checkIcons()
                 error("can't open %s/%s/%s", ::g.env.icons(), getName(), di->d_name);
                 continue;
               }
-              char vref[BUFSIZ], infos[BUFSIZ], urlvre[URL_LEN];
+              char vref[BUFSIZ], infos[BUFSIZ *2], urlvre[URL_LEN];
               fgets(vref, sizeof(vref), fp);
               File::closeFile(fp);
               Cache::file2url(di->d_name, urlvre);

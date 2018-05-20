@@ -244,7 +244,7 @@ class Rtp {
 
  public:
   static const uint8_t RTPNAME_LEN = 128;
-  static const uint8_t EMAIL_LEN = 128;
+  static const uint8_t EMAIL_LEN = 255;
   static const uint8_t TOOL_LEN = 16;
 
   static uint16_t createSeq();

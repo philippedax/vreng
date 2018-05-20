@@ -196,7 +196,7 @@ int yywrap() {
 		return 0 ;
 	}
 	else {	
-		/* dax yyunput(0, yytext); */
+		yyunput(0, yytext);
 		return 1;
 	}
 }
