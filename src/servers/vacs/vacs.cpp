@@ -385,7 +385,7 @@ int loadCache()
 
 void sendCache(int sdvre)
 {
-  char linevacs[URL_LEN + CHAN_LEN + 1];
+  char linevacs[URL_LEN + CHAN_LEN + 1 + 64];
   fprintf(flog, "sendCache:\n"); fflush(flog);
 
   for (struct _vacs *w = vacsList->next; w ; w = w->next) {
