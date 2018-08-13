@@ -164,13 +164,13 @@ AUTOMAKE = ${SHELL} /infres/s3/dax/vreng/support/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-indentation -DVREL -DVAPS -DVJS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-misleading-declarations -DVREL -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/usr/include/mysql -I/usr/include/freetype2 -I/usr/include/libpng16 
 CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-indentation -Wno-address -Wno-deprecated -Wno-restrict -Wno-write-strings -Wno-literal-suffix -Wno-unused-but-set-variable -Wno-unused-function -Wno-unused-variable --permissive -DVREL -DVAPS -DVJS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-misleading-declarations -Wno-address -Wno-deprecated -Wno-restrict -Wno-write-strings -Wno-literal-range -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable --permissive -DVREL -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
