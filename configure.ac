@@ -119,7 +119,7 @@ LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
   CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-missing-declarations"
-  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-restrict -Wno-write-strings -Wno-literal-range -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable"
+  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated  -Wno-write-strings -Wno-literal-range -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable"
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`
 fi
