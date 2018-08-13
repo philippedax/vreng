@@ -120,7 +120,7 @@ void Env::sysinfo()
 void Env::initDirs()
 {
   char *home;
-  char pathenvdir[PATH_LEN*2], pathprefs[PATH_LEN*2], pathmenu[PATH_LEN*2], pathicons[PATH_LEN*2], pathworldmarks[PATH_LEN*2], pathcache[PATH_LEN*2], pathpasswd[PATH_LEN*2];
+  char pathenvdir[PATH_LEN+8], pathprefs[PATH_LEN+16], pathmenu[PATH_LEN+16], pathicons[PATH_LEN+16], pathworldmarks[PATH_LEN+32], pathcache[PATH_LEN+32], pathpasswd[PATH_LEN+32];
   struct stat bufstat;
 
   if ((home = getenv("HOME")) == NULL)
