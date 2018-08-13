@@ -269,8 +269,8 @@ bool UTimerImpl::resetTimers(struct timeval& delay) {
   
   struct timeval time, mintime;
   getTime(time);
-  mintime.tv_sec  = LONG_MAX;
-  mintime.tv_usec = LONG_MAX;
+  mintime.tv_sec  = -1; //DAX LONG_MAX;
+  mintime.tv_usec = -1; //DAX LONG_MAX;
   bool timeout_found = false;
   
   for (unsigned int k = 0; k < timers.size(); ++k) {
@@ -297,7 +297,7 @@ bool UTimerImpl::resetTimers(struct timeval& delay) {
     }
   }  
   // NB: delay can be (0,0)
-  return (delay.tv_sec != LONG_MAX || delay.tv_usec != LONG_MAX);
+  return (true /*delay.tv_sec != LONG_MAX || delay.tv_usec != LONG_MAX */);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
