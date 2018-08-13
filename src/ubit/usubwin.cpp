@@ -27,7 +27,7 @@
 #include <ubit/uon.hpp>
 #include <ubit/ucolor.hpp>
 
-#include <ubit/udispX11.hpp>  // !!!@@@
+#include <ubit/nat/udispX11.hpp>  // !!!@@@
 
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
@@ -96,7 +96,8 @@ void USubwin::resizeImpl(UResizeEvent& e) {
   if (hw) {
     // setSize first because pos depends on size for GLUT
     hw->setSize(v->getSize());
-    hw->getPos();
+    //UPoint p = hw->getPos();
+    //cerr << "resizeCB size: " << v->getSize() << " p= " << p<< endl; 
   }
 }
   
