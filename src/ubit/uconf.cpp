@@ -341,7 +341,7 @@ void UConf::parseUbitOptions(int& argc, char** argv) {
     soft_dbf = false;
   }
   else if (is_using_freetype) {   // without GL
-    //UAppli::warning("UConf", "FreeType option deactivated because it requires OpenGL");
+    UAppli::warning("UConf", "FreeType option deactivated because it requires OpenGL");
     is_using_freetype = false;
   }
   

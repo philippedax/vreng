@@ -410,7 +410,6 @@ UHardFont* UDisp::realizeFont(const UFontDesc& _f) {
   }
   
   // plus aucun espoir...
-  UAppli::fatalError("UDisp::realizeFont","can't load any appropriate font");
   return null;
 }
 
