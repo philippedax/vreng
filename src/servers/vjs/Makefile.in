@@ -359,7 +359,7 @@ SUBDIRS = app base
 # Vreng Java directory
 @ENABLE_VJS_TRUE@@JAVA_TRUE@VJS_DIR = @srcdir@
 # Install directory
-@ENABLE_VJS_TRUE@@JAVA_TRUE@INSTALL_DIR = /infres/projets/vreng/jar
+@ENABLE_VJS_TRUE@@JAVA_TRUE@INSTALL_DIR = /infres/ir500/adm/projets/vreng/jar
 
 # ------------------
 # Source directories

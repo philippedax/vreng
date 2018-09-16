@@ -36,7 +36,7 @@ VRENG_DIR=@top_srcdir@
 # Vreng Java directory
 VJS_DIR=@srcdir@
 # Install directory
-INSTALL_DIR=/infres/projets/vreng/jar
+INSTALL_DIR=/infres/ir500/adm/projets/vreng/jar
 
 # ------------------
 # Source directories
