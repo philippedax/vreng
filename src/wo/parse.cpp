@@ -353,7 +353,9 @@ int Parse::parseVreLines(char *buf, int bufsiz)
 
       // discard empty lines
       if (*line == '\0') {
-        if (line) delete[] line; line = NULL;
+        if (line)
+          delete[] line;
+        line = NULL;
         bol = eol + 1;	// begin of next line
         continue;
       }
@@ -374,27 +376,39 @@ int Parse::parseVreLines(char *buf, int bufsiz)
         case TAG_BEGINFILE:
         case TAG_HEAD:
         case TAG_SCENE:
-          if (line) delete[] line; line = NULL;
+          if (line)
+            delete[] line;
+          line = NULL;
           break;
 
         case TAG_DOCTYPE:
-          if (line) delete[] line; line = NULL;
+          if (line)
+            delete[] line;
+          line = NULL;
           break;		// end of parsing
 
         case TAG_ENDFILE:
-          if (line) delete[] line; line = NULL;
+          if (line)
+            delete[] line;
+          line = NULL;
           return 0;		// end of parsing
 
         case TAG_META:
 	  if ((p = strstr(line, "=\"refresh\"")))
             World::current()->setPersistent(false);
-	  if ((p = strstr(line, "/>"))) if (line) delete[] line; line = NULL;
+	  if ((p = strstr(line, "/>"))) {
+            if (line)
+              delete[] line;
+            line = NULL;
+	  }
           break;
 
         case TAG_COMMENT:
 	  if ((p = strstr(line, "-->"))) {
             commented = false;
-            if (line) delete[] line; line = NULL;
+            if (line)
+              delete[] line;
+            line = NULL;
           }
           break;
 
@@ -412,7 +426,8 @@ int Parse::parseVreLines(char *buf, int bufsiz)
             if (strstr(line, "<local>")) strcpy(line, "push ");
             else                         strcpy(line, "pop ");
             //trace(DBG_FORCE, "LOCAL: type=%d line=%s", tag_type, line);
-            if ((wobject = OClass::creatorInstance(tag_type, line)) == NULL) return -1;
+            if ((wobject = OClass::creatorInstance(tag_type, line)) == NULL)
+	      return -1;
           }
           break;
 
@@ -466,13 +481,17 @@ int Parse::parseVreLines(char *buf, int bufsiz)
           break;
       }
 
-      if (line) delete[] line; line = NULL;
+      if (line)
+        delete[] line;
+      line = NULL;
       bol = eol + 1;	// begin of next line = end of current line + \n
     }
     else break;	// next buffer
   }
 
-  if (line) delete[] line; line = NULL;
+  if (line)
+    delete[] line;
+  line = NULL;
 
   line = new char[maxlen - bol + 2];
 
