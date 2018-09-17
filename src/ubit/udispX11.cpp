@@ -279,6 +279,8 @@ XVisualInfo* UDispX11::createGlvisual(int r, int g, int b, int a, int depth) {
   XVisualInfo* vis = null;
   
   int dummy;
+  //r = g = b = 4;
+  //fprintf(stderr, "r=%d g=%d b=%d a=%d z=%d\n", r,g,b,a,depth);
   if (!glXQueryExtension(sys_disp, &dummy, &dummy)) {
     UAppli::error("UDispX11::createGLVisual","X11 server has no OpenGL extension");
     return (XVisualInfo*) null;
@@ -286,7 +288,7 @@ XVisualInfo* UDispX11::createGlvisual(int r, int g, int b, int a, int depth) {
   
   int glxmajor = 0, glxminor = 0;
   glXQueryVersion(sys_disp, &glxmajor, &glxminor);
-  //cerr << "OpenGL version: "<< glxmajor <<"."<<glxminor << endl;
+  cerr << "OpenGL version: "<< glxmajor <<"."<<glxminor << endl;
   
   // find a Visual that match the requested bpp and OpenGL options
   if (!(vis = _chooseGLVisual(sys_disp, sys_screen, r,g,b,a, depth))) {

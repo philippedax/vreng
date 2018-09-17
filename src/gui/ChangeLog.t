@@ -15,6 +15,10 @@ The rules for this file:\n\
 \n\
 ++ 8\n\
 == 8.5\n\
+-- 8.5.7\n\
+	- fixed some compilation warnings\n\
+	(2018/09/17, Philippe Dax)\n\
+\n\
 -- 8.5.6\n\
 	- fixed some warnings with g++-8.1.1\n\
 	(2018/02/10, Philippe Dax)\n\

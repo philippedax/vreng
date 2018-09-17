@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[8.5.6],[philippe.dax@gmail.com])
+AC_INIT([vreng],[8.5.7],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ(2.63)
@@ -119,7 +119,7 @@ LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
   CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-missing-declarations"
-  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated  -Wno-write-strings -Wno-literal-range -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-literal-suffix"
+  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated  -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-literal-suffix -Wno-misleading-indentation"
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`
 fi
