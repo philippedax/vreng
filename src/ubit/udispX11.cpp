@@ -279,7 +279,7 @@ XVisualInfo* UDispX11::createGlvisual(int r, int g, int b, int a, int depth) {
   XVisualInfo* vis = null;
   
   int dummy;
-  //r = g = b = 4;
+  //r = g = b = 8;
   //fprintf(stderr, "r=%d g=%d b=%d a=%d z=%d\n", r,g,b,a,depth);
   if (!glXQueryExtension(sys_disp, &dummy, &dummy)) {
     UAppli::error("UDispX11::createGLVisual","X11 server has no OpenGL extension");

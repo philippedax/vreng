@@ -255,7 +255,7 @@ bool UElem::removeImpl1(UChildIter pos, int auto_delete, UChildren& list) {
       chnode->getSubGroup()->deleteViewsInside(objviews);
   }
   
-  //UChildIter next = list.erase(pos);
+  UChildIter next = list.erase(pos);
   UNode* res = null;
   
   // si plus que des pseudo-parents, il faut les detacher 
