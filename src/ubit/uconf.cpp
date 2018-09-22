@@ -35,7 +35,7 @@ NAMESPACE_UBIT
 
 
 // TRUETYPE font dirs (in /usr/X11R6/ /usr/include/ /usr/openwin/include )
-#define XFT_DIR "/usr/X11R6/lib/X11/fonts/Type1/"
+#define XFT_DIR "/usr/X11/share/fonts/Type1/"
 #define LFT_DIR "/usr/share/X11/fonts/Type1/"
 #define OFT_DIR "/usr/openwin/lib/X11/fonts/TrueType/"
 // /System/Library/Frameworks/JavaVM.framework/Versions/1.3.1/Home/lib/fonts/LucidaSansRegular.ttf";

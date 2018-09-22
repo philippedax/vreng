@@ -128,7 +128,8 @@ UMenu::~UMenu() {
   // att: reset du MenuCtrl si on detruit le menu
   UEventFlow* fl = UAppli::getFlow(0);   // DEFAULT IFLOW : A REVOIR
   if (fl) fl->getMenuManager().closeAllMenus(true);
-  if (placement) delete(placement); placement = null;
+  if (placement) delete(placement);
+    placement = null;
   destructs();
 }
 
