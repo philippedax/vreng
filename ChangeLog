@@ -16,6 +16,7 @@ The rules for this file:
 == 8.5
 -- 8.5.7
 	- fixed some compilation warnings
+	- fixed X11 fonts path in ubit/uconf.cpp to find freetype fonts
 	(2018/09/17, Philippe Dax)
 
 -- 8.5.6
