@@ -129,7 +129,7 @@ UMenu::~UMenu() {
   UEventFlow* fl = UAppli::getFlow(0);   // DEFAULT IFLOW : A REVOIR
   if (fl) fl->getMenuManager().closeAllMenus(true);
   if (placement) delete(placement);
-    placement = null;
+  placement = null;
   destructs();
 }
 
