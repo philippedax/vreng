@@ -255,10 +255,12 @@ void Messages::postRequest(const std::string& mess, std::string& result)
   int nbObj = 0;
   char posbuf[sizerecu +1];
   char namebuf[sizerecu +1];
+  char tmpbuf[sizerecu +1];
   char **listeObjets = new char*[sizeMax];
 
   posbuf[0] = '\0';
   namebuf[0] = '\0';
+  tmpbuf[0] = '\0';
 
   for (int i=0; i<sizerecu ; i++) {
     if (mess[i] == '@') {
@@ -297,10 +299,13 @@ void Messages::postRequest(const std::string& mess, std::string& result)
       else if (afficher == 1) {
         //sprintf(msgAffiche, "%s%c", msgAffiche, mess[i]);
         result += mess[i];
-        sprintf(namebuf, "%s%c", namebuf, mess[i]);
+	strcpy(tmpbuf, namebuf);
+        sprintf(namebuf, "%s%c", tmpbuf, mess[i]);
       }
-      else if (afficher == 2)
-        sprintf(posbuf, "%s%c", posbuf, mess[i]);
+      else if (afficher == 2) {
+	strcpy(tmpbuf, posbuf);
+        sprintf(posbuf, "%s%c", tmpbuf, mess[i]);
+      }
     }
   }
 

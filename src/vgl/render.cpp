@@ -645,7 +645,8 @@ WObject** Render::getVisibleTypedObjects(char **listtype, int nbr, int* nbelems)
 #endif
 
   *nbelems = nb;
-  if (drawedlist) delete[] drawedlist; drawedlist = NULL;
+  if (drawedlist) delete[] drawedlist;
+  drawedlist = NULL;
   return objlist;
 }
 

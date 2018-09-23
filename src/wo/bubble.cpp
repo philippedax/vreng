@@ -51,11 +51,11 @@ void Bubble::setPosition()
 {
                           pos.z  = localuser->pos.z + localuser->height/2 + 0.10;
                           pos.x  = localuser->pos.x;
+                          pos.ax = M_PI_2; // vertical
   if (side == BUBBLEBACK) pos.y  = localuser->pos.y;
   else                    pos.y  = localuser->pos.y;
   if (side == BUBBLEBACK) pos.az = localuser->pos.az - M_PI_2;
   else                    pos.az = localuser->pos.az + M_PI_2;
-                          pos.ax = M_PI_2; // vertical
 }
 
 /** Make translucid bubble */

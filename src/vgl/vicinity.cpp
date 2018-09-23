@@ -446,7 +446,8 @@ void Vicinity::analyseVisual(int details)
   sortVisual();
   describeVisual();
 
-  if (visualList) delete[] visualList; visualList = NULL;
+  if (visualList) delete[] visualList;
+  visualList = NULL;
 }
 
 void Vicinity::describeVisual()

@@ -109,7 +109,8 @@ int Vjc::sendCommand(WObject *po, int id)
 {
   VjcMessage *msg = new VjcMessage(po, VJC_MSGT_CTRL, id);
   int ret = msg->sendData();
-  if (msg) delete msg; msg = NULL;
+  if (msg) delete msg;
+  msg = NULL;
   return ret;
 }
 
@@ -154,7 +155,8 @@ void Vjc::stop()
 
   trace(DBG_IFC, "Shutting down vjs server");
   sendCommand(NULL, VJC_MSGV_TERMINATE);
-  if (srv->sock) delete srv->sock; srv->sock = NULL;
+  if (srv->sock) delete srv->sock;
+  srv->sock = NULL;
   srv->serverPort = 0;
   srv->localPort = 0;
   server = NULL;
@@ -168,7 +170,8 @@ void Vjc::stopApp(Vrelet *po)
   if (! srv) return;
 
   sendCommand(po, VJC_MSGV_UNREGISTER);
-  if (srv->lastMessage) delete srv->lastMessage; srv->lastMessage = NULL;
+  if (srv->lastMessage) delete srv->lastMessage;
+  srv->lastMessage = NULL;
 }
 
 /* Register a Vrelet object with the server */
@@ -189,7 +192,8 @@ void Vjc::startApp(Vrelet *po)
   msg->put32(po->incrx);
   msg->put32(po->incry);
   msg->sendData();
-  if (msg) delete msg; msg = NULL;
+  if (msg) delete msg;
+  msg = NULL;
 }
 
 
@@ -321,7 +325,8 @@ VjcSocket::~VjcSocket()
     Socket::closeDatagram(sdw);
     sdw = -1;
   }
-  if (sadest) delete[] sadest; sadest = NULL;
+  if (sadest) delete[] sadest;
+  sadest = NULL;
 }
 
 /*
@@ -617,13 +622,15 @@ VjcMessage * Vjc::getData(WObject *po)
 	if (srv->lastMessage->getHeader().data_len > (VjcMessage::MAX_PACKET-VJC_HDR_LEN)) {
 	  /* Header and real length don't agree */
 	  error("Vjc::getData: illegal data length");
-	  if (srv->lastMessage) delete srv->lastMessage; srv->lastMessage = NULL;
+	  if (srv->lastMessage) delete srv->lastMessage;
+	  srv->lastMessage = NULL;
 	}
         else goto haspack;
       }
     }
     // (r < 0) || (packet too short) || (invalid header)
-    if (pkt) delete[] pkt; pkt = NULL;
+    if (pkt) delete[] pkt;
+    pkt = NULL;
     return NULL;
   }
   return NULL; // select <= 0

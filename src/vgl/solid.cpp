@@ -604,7 +604,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseFloat(l, &radius); break;
       case STOK_FOG:
         l = wobject->parse()->parseFloat(l, &fog[0]);
-        for (int i=0; i<3; i++) fog[i+1] = mat_diffuse[i]; break;
+        for (int i=0; i<3; i++) { fog[i+1] = mat_diffuse[i]; }  break;
       case STOK_STYLE:
         l = wobject->parse()->parseUInt8(l, &style); break;
       case STOK_FACE:
@@ -961,7 +961,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseUInt16(l, &lastframe); break;
       case STOK_DIFFUSE:
         l = wobject->parse()->parseVector3f(l, &mat_diffuse[0]);
-        for (int i=0; i<3; i++) mat_ambient[i] = mat_diffuse[i]; break;
+        for (int i=0; i<3; i++) { mat_ambient[i] = mat_diffuse[i]; } break;
       case STOK_AMBIENT:
         l = wobject->parse()->parseVector3f(l, &mat_ambient[0]); break;
       case STOK_SPECULAR:

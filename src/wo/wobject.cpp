@@ -1227,7 +1227,8 @@ void WObject::deleteReplica()
     // delete Solids
     for (solidList::iterator it = _solids.begin(); it != _solids.end(); it++) delete (*it);
     _solids.erase(_solids.begin(), _solids.end());
-    if (noh) delete noh;	noh = NULL; // delete NetObject
+    if (noh) delete noh;
+    noh = NULL; // delete NetObject
   }
   else warning("%s disapeared, but he is back!", getInstance());
 }

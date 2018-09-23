@@ -322,9 +322,12 @@ void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
     File::closeFile(movie->fp);
   }
   movie->disablePermanentMovement();
-  if (movie->imgmpeg) delete[] movie->imgmpeg; movie->imgmpeg = NULL;
-  if (movie->pixmap) delete[] movie->pixmap; movie->pixmap = NULL;
-  if (movie->pixtex) delete[] movie->pixtex; movie->pixtex = NULL;
+  if (movie->imgmpeg) delete[] movie->imgmpeg;
+  movie->imgmpeg = NULL;
+  if (movie->pixmap) delete[] movie->pixmap;
+  movie->pixmap = NULL;
+  if (movie->pixtex) delete[] movie->pixtex;
+  movie->pixtex = NULL;
   movie->fp = NULL;
 }
 

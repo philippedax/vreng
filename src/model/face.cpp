@@ -102,8 +102,10 @@ Face::Face(const char *urlindex)
 
 Face::~Face()
 {
-  if (mesh) delete mesh; mesh = NULL;
-  if (root) delete root; root = NULL;
+  if (mesh) delete mesh;
+  mesh = NULL;
+  if (root) delete root;
+  root = NULL;
 }
 
 void Face::defaults()
@@ -180,8 +182,10 @@ void Face::load(const char *url)
   animator.registerSkeleton(newRoot);
   animator.generateLinkList();
 
-  if (mesh) delete mesh; mesh = newMesh;
-  if (root) delete root; root = newRoot;
+  if (mesh) delete mesh;
+  mesh = newMesh;
+  if (root) delete root;
+  root = newRoot;
 }
 
 void Face::render()

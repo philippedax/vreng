@@ -157,7 +157,8 @@ bool Plane::whenIntersect(WObject *pcur, WObject *pold)
 void Plane::quit()
 {
   oid = 0;
-  if (tex) delete[] tex; tex = NULL;
+  if (tex) delete[] tex;
+  tex = NULL;
   flushMySqlPosition();
 }
 

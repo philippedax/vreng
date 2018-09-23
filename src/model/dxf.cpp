@@ -1270,9 +1270,12 @@ char parseDXFfile(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
       (*(rule->lrules[rule->act_rule]->parse))(dxffile,rule->lrules[rule->act_rule],tok);
   }
   else {
-    if (toksect) deleteTokenDXF(toksect); toksect = NULL;
-    if (tokendsect) deleteTokenDXF(tokendsect); tokendsect = NULL;
-    if (tokeof) deleteTokenDXF(tokeof); tokeof = NULL;
+    if (toksect) deleteTokenDXF(toksect);
+    toksect = NULL;
+    if (tokendsect) deleteTokenDXF(tokendsect);
+    tokendsect = NULL;
+    if (tokeof) deleteTokenDXF(tokeof);
+    tokeof = NULL;
   }
   return TRUE;
 }

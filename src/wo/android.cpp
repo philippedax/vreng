@@ -309,7 +309,8 @@ void Android::sendPlayToBapServer(const char *bap_name)
 void Android::quit()
 {
   disconnectFromBapServer();
-  if (bap) delete bap; bap = NULL;
+  if (bap) delete bap;
+  bap = NULL;
   if (body) delete body;
 }
 

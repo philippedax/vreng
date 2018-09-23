@@ -207,7 +207,8 @@ void Txf::httpReader(void *_txf, Http *http)
           txf->texfont->teximage[i * width + j] = 255;
       }
     }
-    if (texbitmap) delete[] texbitmap; texbitmap = NULL;
+    if (texbitmap) delete[] texbitmap;
+    texbitmap = NULL;
     break;
   }
   File::closeFile(f);

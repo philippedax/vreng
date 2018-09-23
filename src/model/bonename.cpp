@@ -57,7 +57,8 @@ Bonename::Bonename(Bonename &op)
 
 Bonename::~Bonename()
 {
-  if (name) delete[] name; name = NULL;
+  if (name) delete[] name;
+  name = NULL;
 }
 
 void Bonename::setName(char *zeName)
