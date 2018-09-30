@@ -228,9 +228,6 @@ const char CONFIG_H[] = "\
 /* */\n\
 #define HAVE_LIBPNG 1\n\
 \n\
-/* Define to 1 if you have the `posix4' library (-lposix4). */\n\
-/* #undef HAVE_LIBPOSIX4 */\n\
-\n\
 /* */\n\
 #define HAVE_LIBPTHREAD 1\n\
 \n\

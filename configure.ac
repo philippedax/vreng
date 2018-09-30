@@ -1494,8 +1494,8 @@ AC_ARG_ENABLE([efence],
       AS_HELP_STRING([--enable-efence],[enable efence debugging [[default=no]]]))
 
 if test "${enable_efence:=no}" = "yes"; then
-  AC_CHECK_LIB([posix4], [sem_init])
-  AC_CHECK_LIB([efence], [_eff_malloc])
+  #AC_CHECK_LIB([posix4], [sem_init])
+  AC_CHECK_LIB([efence], [malloc])
 fi
 
 

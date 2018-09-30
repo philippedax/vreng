@@ -166,7 +166,7 @@ static void reapchild(int sig)
 void Global::initSignals()
 {
 #ifndef WIN32
-  signal(SIGILL, quitVreng);
+  //DAX signal(SIGILL, quitVreng);
   signal(SIGTRAP,quitVreng);
   signal(SIGFPE, quitVreng);
   signal(SIGBUS, quitVreng);
