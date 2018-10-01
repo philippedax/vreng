@@ -109,6 +109,7 @@ World::World()
   grid = NULL;
 
   // interaction with general objects
+  trace(DBG_FORCE, "constructor:");
   universe = Universe::current();
   bgcolor = NULL;
   clock = NULL;
@@ -142,6 +143,7 @@ void World::addToList()
 /* Gets current world */
 World * World::current()
 {
+  trace(DBG_FORCE, "current:");
   return worldList;	// head of the worlds list
 }
 
@@ -366,6 +368,7 @@ void World::compute(time_t sec, time_t usec)
 {
   uint16_t dimx, dimy, dimz;
 
+  trace(DBG_FORCE, "compute:");
   switch (getState()) {
       
   case LOADING:
@@ -486,6 +489,7 @@ void World::compute(time_t sec, time_t usec)
 // virtual private
 bool World::call(World *wpred)
 {
+  trace(DBG_FORCE, "call: leave chan=%s", wpred->chan);
   if (wpred->islinked) {
     enter(url, NULL, OLD);
     setChan(wpred->chan);
@@ -520,6 +524,7 @@ World * World::goBack()
   World *worldback = worldList->next;
 
   if (! worldback) return NULL;
+  trace(DBG_FORCE, "goBack: ");
 
   world->quit();	// quit current world first
 
@@ -547,6 +552,7 @@ World * World::goForward()
   World *worldforw;
 
   if (! worldList->next) return NULL;
+  trace(DBG_FORCE, "goForward: ");
 
   world->quit();	// quit current world first
 
@@ -570,6 +576,7 @@ World * World::swap(World *w)
 {
   if (worldList == w) return worldList;
 
+  trace(DBG_FORCE, "swap: ");
   if (w->prev)
     w->prev->next = worldList;	// 1
   if (w->next)
@@ -607,6 +614,7 @@ void World::initGrid()
                 
 void World::initGrid(const uint8_t _dim[3], const V3 &sl)
 {             
+  trace(DBG_FORCE, "initGrid:");
   for (int i=0; i<3 ; i++) {
     dimgrid[i] = _dim[i];
     slice.v[i] = sl.v[i];
@@ -621,6 +629,7 @@ void World::initGrid(const uint8_t _dim[3], const V3 &sl)
 
 ObjectList **** World::allocGrid()
 { 
+  trace(DBG_FORCE, "allocGrid:");
 #ifdef DYNAMIC_GRID
   grid = new ObjectList***[dimgrid[0]];
   for (int x=0; x < dimgrid[0] ; x++)
@@ -650,6 +659,7 @@ void World::clearGrid()
 /** free all the grid (static) */
 void World::freeGrid()
 {    
+  trace(DBG_FORCE, "freeGrid:");
   for (int x=0; x < dimgrid[0]; x++)
     for (int y=0; y < dimgrid[1]; y++)
       for (int z=0; z < dimgrid[2]; z++) {
@@ -677,6 +687,7 @@ void World::freeGrid()
 /* Check and load my proper icons - static */
 void World::checkIcons()
 {
+  trace(DBG_FORCE, "checkIcons: ");
 #if HAVE_READDIR
   chdir(::g.env.icons());
   DIR *dirw = opendir(".");
@@ -725,6 +736,7 @@ void World::checkIcons()
 /* Check wether other objects are persistents */
 void World::checkPersistObjects()
 {
+  trace(DBG_FORCE, "checkPersistObjects: ");
 #if HAVE_MYSQL
   VRSql *psql = VRSql::getVRSql();     // first take the VRSql handle;
   if (psql) {
@@ -772,6 +784,7 @@ void World::httpReader(void *_url, Http *http)
   char *vreurl = (char *) _url;
   char vrefile[BUFSIZ];
   Cache::setCacheName(vreurl, vrefile);
+  trace(DBG_FORCE, "httpReader %s:", vreurl);
 
   if (! http) fatal("can't download %s, check access to the remote http server",vreurl);
 
@@ -847,6 +860,7 @@ void World::init(const char *urlvre)
   //
   // Create local user first
   //
+  trace(DBG_FORCE, "createLocaluser: ");
   User *user = new User();
 
   world->plocaluser = user;
@@ -855,6 +869,7 @@ void World::init(const char *urlvre)
   //
   // Download initial world (Rendezvous.vre)
   //
+  trace(DBG_FORCE, "dowload initial world: ");
   world->setState(LOADING);
   world->universe->startWheel();
   Http::httpOpen(world->getUrl(), httpReader, (void *)urlvre, 0);
@@ -957,6 +972,7 @@ void World::quit()
 /* New World initialization - static */
 World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
 {
+  trace(DBG_FORCE, "world enter: ");
   //error("open=%d+%d=%d close=%d+%d=%d diff=%d+%d=%d", cnt_open, cnt_open_socket, cnt_open+cnt_open_socket, cnt_close, cnt_close_socket, cnt_close+cnt_close_socket, cnt_open-cnt_close, cnt_open_socket-cnt_close_socket, cnt_open+cnt_open_socket-cnt_close-cnt_close_socket);
   // debug show
   //ObjectList::show(mobileList, "mobile:");
@@ -984,6 +1000,7 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
   }
   else if (_isnew) { // new world must to be initialized
 
+    trace(DBG_FORCE, "world isnew: ");
     World *newworld = new World();
 
     if (_url && isprint(*_url)) {
@@ -1031,6 +1048,7 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
   //
   world->setState(LOADING);	// to download
   if (_url) {
+    trace(DBG_FORCE, "startWheel: ");
     world->universe->startWheel();
     if (Http::httpOpen(_url, httpReader, (void *)_url, 0) < 0) {
       error("bad download: url=%s _url=%s", world->url, _url);
@@ -1040,6 +1058,7 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
     endprogression();
   }
   else {
+    trace(DBG_FORCE, "world sandbox: ");
     world->setName("sandbox");
     Parse *parser = Parse::getParse();
     parser->parseVreLines(sandbox_vre, sizeof(sandbox_vre));
@@ -1054,8 +1073,10 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
   world->checkPersistObjects();
 
   // create clock
+  trace(DBG_FORCE, "world clock: ");
   world->clock = new Clock();	// internal clock
 
+  trace(DBG_FORCE, "world loaded: ");
   world->setState(LOADED);// downloaded
   return world;
 }
@@ -1063,6 +1084,7 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
 /* Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
+  trace(DBG_FORCE, "deleteObjects: ");
   //debug if (! deleteList.empty()) ObjectList::show(deleteList);
   int s = deleteList.size();
   int i=0;
@@ -1079,6 +1101,7 @@ void World::deleteObjects()
 
 void World::clearLists()
 {
+  trace(DBG_FORCE, "clearLists: ");
   mobileList.clear();
   invisibleList.clear();
   stillList.clear();
