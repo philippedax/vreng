@@ -205,7 +205,7 @@ void Scene::paintScene()
   // check if video capture is running
   if (gw.capture.isCapturingVideo()) gw.capture.writeVideoFrame();
   cycles++;		// increments cycles
-  trace(DBG_FORCE, "world cycles=%d, cycles");
+  trace(DBG_FORCE, "world cycles=%d", cycles);
 }
 
 void Scene::updateHud()
