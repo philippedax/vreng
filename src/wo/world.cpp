@@ -427,7 +427,8 @@ void World::compute(time_t sec, time_t usec)
     dimx = MIN(64, dimx);
     dimy = MIN(64, dimy);
     dimz = MIN(16, dimz);
-    notice("dim: %d,%d,%d", dimx, dimy, dimz);
+  trace(DBG_FORCE, "compute grid: %d %d %d", dimx,dimy,dimz);
+    //notice("dim: %d,%d,%d", dimx, dimy, dimz);
     //dimgrid[Ø] = dimx;
     //dimgrid[1] = dimy;
     //dimgrid[2] = dimz;
@@ -436,7 +437,9 @@ void World::compute(time_t sec, time_t usec)
     //World::current->initGrid(dimgrid, slice);
 
     Grid::grid()->init(dimx, dimy, dimz);
+  trace(DBG_FORCE, "compute axis:");
     Axis::axis()->init();
+  trace(DBG_FORCE, "compute end:");
     setState(SIMULATION);
 
     return;
