@@ -109,7 +109,6 @@ World::World()
   grid = NULL;
 
   // interaction with general objects
-  trace(DBG_FORCE, "constructor:");
   universe = Universe::current();
   bgcolor = NULL;
   clock = NULL;
@@ -367,16 +366,15 @@ void World::compute(time_t sec, time_t usec)
 {
   uint16_t dimx, dimy, dimz;
 
-  trace(DBG_FORCE, "compute:");
+  trace(DBG_WO, "compute:");
   switch (getState()) {
       
   case LOADING:
-  trace(DBG_FORCE, "compute loading:");
     //error("compute: no end encountered");
     return;
 
   case LOADED:
-  trace(DBG_FORCE, "compute loaded:");
+  trace(DBG_WO, "compute loaded:");
     if (localuser) {
       localuser->move.perm_sec = sec;
       localuser->move.perm_usec = usec;
@@ -386,8 +384,6 @@ void World::compute(time_t sec, time_t usec)
     //
     // computes world's bb
     //
-  trace(DBG_FORCE, "compute bb:");
-  trace(DBG_FORCE, "compute bb still:");
     for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
       if (! (*it)->isValid()) continue;
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
@@ -396,7 +392,6 @@ void World::compute(time_t sec, time_t usec)
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbcenter.v[i] + (*it)->pos.bbsize.v[i]);
       }
     }
-  trace(DBG_FORCE, "compute bb mobile:");
     for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if (! (*it)->isValid()) continue;
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == 1) continue;
@@ -407,7 +402,6 @@ void World::compute(time_t sec, time_t usec)
       if (bbmax.v[0] > 1000 || bbmax.v[1] >1000 || bbmax.v[2] > 1000)
         error("mobil: %d %s bbmin=%.1f,%.1f,%.1f bbmax=%.1f,%.1f,%.1f", (*it)->type, (*it)->getInstance(), bbmin.v[0], bbmin.v[1], bbmin.v[2], bbmax.v[0], bbmax.v[1], bbmax.v[2]);
     }
-  trace(DBG_FORCE, "compute bbsize:");
     for (int i=0; i<3 ; i++) {
       bbcenter.v[i] = (bbmax.v[i] + bbmin.v[i]);
       bbsize.v[i]   = (bbmax.v[i] - bbmin.v[i]);
@@ -417,7 +411,6 @@ void World::compute(time_t sec, time_t usec)
     ObjectList::clearIspointedFlag(mobileList);
 
     // compute Grid dimensions
-  trace(DBG_FORCE, "compute grid:");
     dimx = (int) (bbsize.v[0] / DISTX);
     dimy = (int) (bbsize.v[1] / DISTY);
     dimz = (int) (bbsize.v[2] / DISTZ);
@@ -427,7 +420,6 @@ void World::compute(time_t sec, time_t usec)
     dimx = MIN(64, dimx);
     dimy = MIN(64, dimy);
     dimz = MIN(16, dimz);
-  trace(DBG_FORCE, "compute grid: %d %d %d", dimx,dimy,dimz);
     //notice("dim: %d,%d,%d", dimx, dimy, dimz);
     //dimgrid[Ø] = dimx;
     //dimgrid[1] = dimy;
@@ -437,15 +429,13 @@ void World::compute(time_t sec, time_t usec)
     //World::current->initGrid(dimgrid, slice);
 
     Grid::grid()->init(dimx, dimy, dimz);
-  trace(DBG_FORCE, "compute axis:");
     Axis::axis()->init();
     setState(SIMULATION);
-  trace(DBG_FORCE, "compute end:");
 
     return;
 
   case SIMULATION:
-  trace(DBG_FORCE, "compute simulation:");
+  trace(DBG_WO, "compute simulation:");
     //
     // user motions
     //
@@ -462,7 +452,6 @@ void World::compute(time_t sec, time_t usec)
     //
     // objects with imposed and permanent motions
     //
-  trace(DBG_FORCE, "compute delete:");
     {
     int i=0;
     for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it, i++) {
@@ -500,7 +489,7 @@ void World::compute(time_t sec, time_t usec)
 // virtual private
 bool World::call(World *wpred)
 {
-  trace(DBG_FORCE, "call: leave chan=%s", wpred->chan);
+  trace(DBG_WO, "call: leave chan=%s", wpred->chan);
   if (wpred->islinked) {
     enter(url, NULL, OLD);
     setChan(wpred->chan);
@@ -535,7 +524,7 @@ World * World::goBack()
   World *worldback = worldList->next;
 
   if (! worldback) return NULL;
-  trace(DBG_FORCE, "goBack: ");
+  trace(DBG_WO, "goBack: ");
 
   world->quit();	// quit current world first
 
@@ -563,7 +552,7 @@ World * World::goForward()
   World *worldforw;
 
   if (! worldList->next) return NULL;
-  trace(DBG_FORCE, "goForward: ");
+  trace(DBG_WO, "goForward: ");
 
   world->quit();	// quit current world first
 
@@ -587,7 +576,7 @@ World * World::swap(World *w)
 {
   if (worldList == w) return worldList;
 
-  trace(DBG_FORCE, "swap: ");
+  trace(DBG_WO, "swap: ");
   if (w->prev)
     w->prev->next = worldList;	// 1
   if (w->next)
@@ -625,7 +614,6 @@ void World::initGrid()
                 
 void World::initGrid(const uint8_t _dim[3], const V3 &sl)
 {             
-  trace(DBG_FORCE, "initGrid:");
   for (int i=0; i<3 ; i++) {
     dimgrid[i] = _dim[i];
     slice.v[i] = sl.v[i];
@@ -640,7 +628,6 @@ void World::initGrid(const uint8_t _dim[3], const V3 &sl)
 
 ObjectList **** World::allocGrid()
 { 
-  trace(DBG_FORCE, "allocGrid:");
 #ifdef DYNAMIC_GRID
   grid = new ObjectList***[dimgrid[0]];
   for (int x=0; x < dimgrid[0] ; x++)
@@ -670,7 +657,6 @@ void World::clearGrid()
 /** free all the grid (static) */
 void World::freeGrid()
 {    
-  trace(DBG_FORCE, "freeGrid:");
   for (int x=0; x < dimgrid[0]; x++)
     for (int y=0; y < dimgrid[1]; y++)
       for (int z=0; z < dimgrid[2]; z++) {
@@ -698,7 +684,6 @@ void World::freeGrid()
 /* Check and load my proper icons - static */
 void World::checkIcons()
 {
-  trace(DBG_FORCE, "checkIcons: ");
 #if HAVE_READDIR
   chdir(::g.env.icons());
   DIR *dirw = opendir(".");
@@ -747,7 +732,6 @@ void World::checkIcons()
 /* Check wether other objects are persistents */
 void World::checkPersistObjects()
 {
-  trace(DBG_FORCE, "checkPersistObjects: ");
 #if HAVE_MYSQL
   VRSql *psql = VRSql::getVRSql();     // first take the VRSql handle;
   if (psql) {
@@ -795,7 +779,7 @@ void World::httpReader(void *_url, Http *http)
   char *vreurl = (char *) _url;
   char vrefile[BUFSIZ];
   Cache::setCacheName(vreurl, vrefile);
-  trace(DBG_FORCE, "httpReader %s:", vreurl);
+  trace(DBG_WO, "httpReader %s:", vreurl);
 
   if (! http) fatal("can't download %s, check access to the remote http server",vreurl);
 
@@ -871,7 +855,7 @@ void World::init(const char *urlvre)
   //
   // Create local user first
   //
-  trace(DBG_FORCE, "createLocaluser: ");
+  trace(DBG_WO, "createLocaluser: ");
   User *user = new User();
 
   world->plocaluser = user;
@@ -880,7 +864,7 @@ void World::init(const char *urlvre)
   //
   // Download initial world (Rendezvous.vre)
   //
-  trace(DBG_FORCE, "dowload initial world: ");
+  trace(DBG_WO, "dowload initial world: ");
   world->setState(LOADING);
   world->universe->startWheel();
   Http::httpOpen(world->getUrl(), httpReader, (void *)urlvre, 0);
@@ -983,7 +967,7 @@ void World::quit()
 /* New World initialization - static */
 World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
 {
-  trace(DBG_FORCE, "world enter: ");
+  trace(DBG_WO, "world enter: ");
   //error("open=%d+%d=%d close=%d+%d=%d diff=%d+%d=%d", cnt_open, cnt_open_socket, cnt_open+cnt_open_socket, cnt_close, cnt_close_socket, cnt_close+cnt_close_socket, cnt_open-cnt_close, cnt_open_socket-cnt_close_socket, cnt_open+cnt_open_socket-cnt_close-cnt_close_socket);
   // debug show
   //ObjectList::show(mobileList, "mobile:");
@@ -1011,7 +995,7 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
   }
   else if (_isnew) { // new world must to be initialized
 
-    trace(DBG_FORCE, "world isnew: ");
+    trace(DBG_WO, "world isnew: ");
     World *newworld = new World();
 
     if (_url && isprint(*_url)) {
@@ -1059,7 +1043,7 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
   //
   world->setState(LOADING);	// to download
   if (_url) {
-    trace(DBG_FORCE, "startWheel: ");
+    trace(DBG_WO, "startWheel: ");
     world->universe->startWheel();
     if (Http::httpOpen(_url, httpReader, (void *)_url, 0) < 0) {
       error("bad download: url=%s _url=%s", world->url, _url);
@@ -1069,7 +1053,7 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
     endprogression();
   }
   else {
-    trace(DBG_FORCE, "world sandbox: ");
+    trace(DBG_WO, "world sandbox: ");
     world->setName("sandbox");
     Parse *parser = Parse::getParse();
     parser->parseVreLines(sandbox_vre, sizeof(sandbox_vre));
@@ -1084,10 +1068,9 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
   world->checkPersistObjects();
 
   // create clock
-  trace(DBG_FORCE, "world clock: ");
   world->clock = new Clock();	// internal clock
 
-  trace(DBG_FORCE, "world loaded: ");
+  trace(DBG_WO, "world loaded: ");
   world->setState(LOADED);// downloaded
   return world;
 }
@@ -1095,7 +1078,6 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
 /* Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
-  trace(DBG_FORCE, "deleteObjects: ");
   //debug if (! deleteList.empty()) ObjectList::show(deleteList);
   int s = deleteList.size();
   int i=0;
@@ -1112,7 +1094,6 @@ void World::deleteObjects()
 
 void World::clearLists()
 {
-  trace(DBG_FORCE, "clearLists: ");
   mobileList.clear();
   invisibleList.clear();
   stillList.clear();
