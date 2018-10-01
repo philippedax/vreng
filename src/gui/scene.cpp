@@ -193,6 +193,7 @@ void Scene::paintScene()
   trender.start();
   ::g.render.render();
   trender.stop();
+  trace(DBG_FORCE, "world rendered");
 
   // Displays misc infos
   if (Hud::hud()->isVisible()) {
@@ -204,6 +205,7 @@ void Scene::paintScene()
   // check if video capture is running
   if (gw.capture.isCapturingVideo()) gw.capture.writeVideoFrame();
   cycles++;		// increments cycles
+  trace(DBG_FORCE, "world cycles=%d, cycles");
 }
 
 void Scene::updateHud()
