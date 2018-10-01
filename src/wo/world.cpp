@@ -439,8 +439,8 @@ void World::compute(time_t sec, time_t usec)
     Grid::grid()->init(dimx, dimy, dimz);
   trace(DBG_FORCE, "compute axis:");
     Axis::axis()->init();
-  trace(DBG_FORCE, "compute end:");
     setState(SIMULATION);
+  trace(DBG_FORCE, "compute end:");
 
     return;
 
