@@ -143,7 +143,6 @@ void World::addToList()
 /* Gets current world */
 World * World::current()
 {
-  trace(DBG_FORCE, "current:");
   return worldList;	// head of the worlds list
 }
 
@@ -372,10 +371,12 @@ void World::compute(time_t sec, time_t usec)
   switch (getState()) {
       
   case LOADING:
+  trace(DBG_FORCE, "compute loading:");
     //error("compute: no end encountered");
     return;
 
   case LOADED:
+  trace(DBG_FORCE, "compute loaded:");
     if (localuser) {
       localuser->move.perm_sec = sec;
       localuser->move.perm_usec = usec;
@@ -436,6 +437,7 @@ void World::compute(time_t sec, time_t usec)
     return;
 
   case SIMULATION:
+  trace(DBG_FORCE, "compute simulation:");
     //
     // user motions
     //
@@ -452,6 +454,7 @@ void World::compute(time_t sec, time_t usec)
     //
     // objects with imposed and permanent motions
     //
+  trace(DBG_FORCE, "compute delete:");
     {
     int i=0;
     for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it, i++) {
