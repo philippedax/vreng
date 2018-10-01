@@ -386,6 +386,8 @@ void World::compute(time_t sec, time_t usec)
     //
     // computes world's bb
     //
+  trace(DBG_FORCE, "compute bb:");
+  trace(DBG_FORCE, "compute bb still:");
     for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
       if (! (*it)->isValid()) continue;
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
@@ -394,6 +396,7 @@ void World::compute(time_t sec, time_t usec)
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbcenter.v[i] + (*it)->pos.bbsize.v[i]);
       }
     }
+  trace(DBG_FORCE, "compute bb mobile:");
     for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if (! (*it)->isValid()) continue;
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == 1) continue;
@@ -404,6 +407,7 @@ void World::compute(time_t sec, time_t usec)
       if (bbmax.v[0] > 1000 || bbmax.v[1] >1000 || bbmax.v[2] > 1000)
         error("mobil: %d %s bbmin=%.1f,%.1f,%.1f bbmax=%.1f,%.1f,%.1f", (*it)->type, (*it)->getInstance(), bbmin.v[0], bbmin.v[1], bbmin.v[2], bbmax.v[0], bbmax.v[1], bbmax.v[2]);
     }
+  trace(DBG_FORCE, "compute bbsize:");
     for (int i=0; i<3 ; i++) {
       bbcenter.v[i] = (bbmax.v[i] + bbmin.v[i]);
       bbsize.v[i]   = (bbmax.v[i] - bbmin.v[i]);
@@ -413,6 +417,7 @@ void World::compute(time_t sec, time_t usec)
     ObjectList::clearIspointedFlag(mobileList);
 
     // compute Grid dimensions
+  trace(DBG_FORCE, "compute grid:");
     dimx = (int) (bbsize.v[0] / DISTX);
     dimy = (int) (bbsize.v[1] / DISTY);
     dimz = (int) (bbsize.v[2] / DISTZ);
@@ -422,7 +427,7 @@ void World::compute(time_t sec, time_t usec)
     dimx = MIN(64, dimx);
     dimy = MIN(64, dimy);
     dimz = MIN(16, dimz);
-    //notice("dim: %d,%d,%d", dimx, dimy, dimz);
+    notice("dim: %d,%d,%d", dimx, dimy, dimz);
     //dimgrid[Ø] = dimx;
     //dimgrid[1] = dimy;
     //dimgrid[2] = dimz;
