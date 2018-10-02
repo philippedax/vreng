@@ -995,7 +995,6 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
   }
   else if (_isnew) { // new world must to be initialized
 
-    trace(DBG_WO, "world isnew: ");
     World *newworld = new World();
 
     if (_url && isprint(*_url)) {
@@ -1043,7 +1042,6 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
   //
   world->setState(LOADING);	// to download
   if (_url) {
-    trace(DBG_WO, "startWheel: ");
     world->universe->startWheel();
     if (Http::httpOpen(_url, httpReader, (void *)_url, 0) < 0) {
       error("bad download: url=%s _url=%s", world->url, _url);
