@@ -118,6 +118,10 @@ Img * Img::resize(uint16_t width_new, uint16_t height_new)
         error("resize invalid channel: f=%d w=%d h=%d", channel, width, height);
         return NULL;
   }
+  if (pixmap == NULL) {
+    warning("resize pixmap null");
+    return NULL;
+  }
 
   Img *img_new = new Img(width_new, height_new, channel);
   GLubyte *pix_new = (GLubyte *) img_new->pixmap;
