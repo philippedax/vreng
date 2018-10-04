@@ -141,11 +141,15 @@ Img * Img::resize(uint16_t width_new, uint16_t height_new)
 
       if (xi < (width-1) && yi < (height-1)) {
         for (int k=0; k<channel; k++) {
+#if 0 //DAX segfault
           pix_new[k] = interpol(pixmap[(yi     * width+xi)   * channel+k],
                                 pixmap[(yi     * width+xi+1) * channel+k],
                                 pixmap[((yi+1) * width+xi)   * channel+k],
                                 pixmap[((yi+1) * width+xi+1) * channel+k],
                                 xf, yf);
+#else
+	  ;
+#endif
         }
       }
       else {
