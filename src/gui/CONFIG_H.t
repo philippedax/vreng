@@ -519,6 +519,9 @@ const char CONFIG_H[] = "\
 #define HAVE_WORKING_VFORK 1\n\
 \n\
 /* */\n\
+#define HAVE_XMU_WINUTIL_H 1\n\
+\n\
+/* */\n\
 /* #undef HPUX */\n\
 \n\
 /* */\n\

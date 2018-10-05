@@ -344,9 +344,8 @@ void _3ds::processNextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       currentChunk.bytesRead += fread(&version, 1, currentChunk.length - currentChunk.bytesRead,fp);
       File::localEndian(&version,sizeof(unsigned int));
 
-      if (version > 0x03)
-        error("This 3DS file is over version 3 so it may load incorrectly");
-        break;
+      if (version > 0x03) error("This 3DS file is over version 3 so it may load incorrectly");
+      break;
     case OBJECTINFO:			// This holds the version of the mesh
       // This chunk holds the version of the mesh.  It is also the head of the MATERIAL
       // and OBJECT chunks. From here on we start reading in the material and object info.
