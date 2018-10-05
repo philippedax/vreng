@@ -115,27 +115,27 @@ void Book::setPos(char *s, float x, float y, float z, float az, float ax)
 
 void Book::setDim(char *s, float x, float y, float z)
 {
-  sprintf(s, "%s solid dim=\"%.3f %.3f %.3f\"", s, x, y, z);
+  sprintf(s, "%s solid dim=\"%.3f %.3f %.3f\"", strdup(s), x, y, z);
 }
 
 void Book::setCov(char *s, char *yn, char *yp, char *xp, char *xn, char *zp)
 {
-  sprintf(s, "%s yn=\"%s\" yp=\"%s\" xp=\"%s\" xn=\"%s\" zp=\"%s\" />", s, yn, yp, xp, xn, zp);
+  sprintf(s, "%s yn=\"%s\" yp=\"%s\" xp=\"%s\" xn=\"%s\" zp=\"%s\" />", strdup(s), yn, yp, xp, xn, zp);
 }
 
 void Book::setCov(char *s, char *yn, char *yp)
 {
-  sprintf(s, "%s yn=\"%s\" yp=\"%s\" />", s, yn, yp);
+  sprintf(s, "%s yn=\"%s\" yp=\"%s\" />", strdup(s), yn, yp);
 }
 
 void Book::setTex(char *s, char *yn, char *xn, char *yp, char *xp, char *zp)
 {
-  sprintf(s, "%s yn=\"%s\" xn=\"%s\" yp=\"%s\" xp=\"%s\" zp=\"%s\" />", s, yn, xn, yp, xp, zp);
+  sprintf(s, "%s yn=\"%s\" xn=\"%s\" yp=\"%s\" xp=\"%s\" zp=\"%s\" />", strdup(s), yn, xn, yp, xp, zp);
 }
 
 void Book::setTex(char *s, char *yn, char *xn)
 {
-  sprintf(s, "%s yn=\"%s\" xn=\"%s\" />", s, yn, xn);
+  sprintf(s, "%s yn=\"%s\" xn=\"%s\" />", strdup(s), yn, xn);
 }
 
 void Book::createSheet(char *s, uint8_t t, uint8_t side)
