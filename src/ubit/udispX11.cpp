@@ -22,7 +22,7 @@
 #include <ubit/udispX11.hpp>  // includes X11 headers
 #include <X11/keysym.h> 
 #include <X11/cursorfont.h>
-#include <X11/Xmu/WinUtil.h>
+#include <X11/Xmu/WinUtil.h>  //XmuClientWindow
 #include <ubit/uconf.hpp>
 #include <ubit/uappli.hpp>
 #include <ubit/uappliImpl.hpp>

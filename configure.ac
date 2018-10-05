@@ -732,6 +732,9 @@ AC_DEFUN([AC_X11_CHECK],
                [$x_libs])
 
   x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
+  AH_TEMPLATE(HAVE_XMU_WINUTIL_H)
+  AC_CHECK_HEADER([X11/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
+	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it, install libxmu-dev*]))
   CFLAGS=$saved_cflags
   LDFLAGS=$saved_ldflags
   have_x11="yes"
