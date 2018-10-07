@@ -245,7 +245,8 @@ static int gifReadBlocks(GifInfo *s)
       break;
     case 0x3B: /* trailer */ return 0;
     case 0x21:
-      gifReadExtension(s);
+      err = gifReadExtension(s);
+      if (err != 0) return err;
       break;
     default:
       trace(DBG_IMG, "gifReadBlocks: ch=%02x off=%d(0x%x)", ch, offset, offset);
