@@ -52,51 +52,55 @@ typedef struct {
 } GifInfo;
 
 
-static int offset = 0;
-static void LZWDecodeInit(GifInfo *g, int csize);
-static void LZWDecode(GifInfo *g, uint8_t *buf, int len);
-static int LZWDecodeEnd(GifInfo *g);
-static int gifReadSignature(GifInfo *g);
-static int gifReadScreen(GifInfo *g);
-static int gifReadBlocks(GifInfo *g);
+static int offset;
+static void LZWDecodeInit(GifInfo *s, int csize);
+static void LZWDecode(GifInfo *s, uint8_t *buf, int len);
+static int LZWDecodeEnd(GifInfo *s);
+static int gifReadSignature(GifInfo *s);
+static int gifReadScreen(GifInfo *s);
+static int gifReadBlocks(GifInfo *s);
 
 
-Img * Img::loadGIF(void *_tex, ImageReader read_func)
+Img * Img::loadGIF(void *tex, ImageReader read_func)
 {
-  GifInfo s, *g = &s;
-  Texture *tex = (Texture *) _tex;
-  if ((g->fp = Cache::openCache(tex->url, tex->http)) == NULL) return NULL;
-  g->ir = 0;
-  g->img = NULL;
+  GifInfo s1, *s = &s1;
 
-  if (gifReadSignature(g)) return NULL;
-  if (gifReadScreen(g)) return NULL;
-  if (gifReadBlocks(g)) return NULL;
+  Texture *_tex = (Texture *) tex;
+  FILE *f;
+  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
 
-  File::closeFile(g->fp);
-  return g->img;
+  s->fp = f;
+  s->ir = 0;
+  s->img = NULL;
+
+  if (gifReadSignature(s)) return NULL;
+  if (gifReadScreen(s)) return NULL;
+  if (gifReadBlocks(s)) return NULL;
+
+  File::closeFile(f);
+  return s->img;
 }
 
 /* image data */
-static inline int gifread(GifInfo *g, uint8_t *buf, int len)
+static inline int gifread(GifInfo *s, uint8_t *buf, int len)
 {
-  return fread((char *) buf, 1, len, g->fp);
+  return fread((char *) buf, 1, len, s->fp);
 }
 
-static int gifGetByte(GifInfo *g)
+static int gifGetByte(GifInfo *s)
 {
-  uint8_t c;
+  uint8_t ch;
 
-  if ((gifread(g, &c, 1)) != 1) return -1;
+  if ((gifread(s, &ch, 1)) != 1) return -1;
   offset++;
-  return c;
+  return ch;
 }
 
-static int gifReadSignature(GifInfo *g)
+static int gifReadSignature(GifInfo *s)
 {
   uint8_t buf[6];
 
-  if (gifread(g, buf, 6) != 6) return -2;
+  if (gifread(s, buf, 6) != 6) return -2;
   if (strncmp((const char *) buf, "GIF", 3) ||
      (strncmp((const char *) &buf[3], "87a", 3) &&
       strncmp((const char *) &buf[3], "89a", 3)))
@@ -104,27 +108,27 @@ static int gifReadSignature(GifInfo *g)
   return 0;
 }
 
-static int gifReadScreen(GifInfo *g)
+static int gifReadScreen(GifInfo *s)
 {
   uint8_t buf[7];
-
-  if (gifread(g, buf, 7) != 7) return -4;
+			
+  if (gifread(s, buf, 7) != 7) return -4;
   if (buf[6]) return -5;
 
-  g->screenwidth  = buf[0] + (buf[1] << 8);
-  g->screenheight = buf[2] + (buf[3] << 8);
-  g->global	  = buf[4] & 0x80;
-  g->colres	  = ((buf[4] & 0x70) >> 4) +1;
-  g->backclr	  = buf[5];
-  if (g->global) {
-    g->globalbits = (buf[4] & 0x07) + 1;
-    gifread(g, (uint8_t *) g->globalmap, 3*(1<<g->globalbits));
+  s->screenwidth  = buf[0] + (buf[1] << 8);
+  s->screenheight = buf[2] + (buf[3] << 8);
+  s->global	  = buf[4] & 0x80;
+  s->colres	  = ((buf[4] & 0x70) >> 4) +1;
+  s->backclr	  = buf[5];
+  if (s->global) {
+    s->globalbits = (buf[4] & 0x07) + 1;
+    gifread(s, (uint8_t *) s->globalmap, 3*(1<<s->globalbits));
   }
-  g->img = new Img(g->screenwidth, g->screenheight, Img::RGB);
-  return (g->img == NULL);
+  s->img = new Img(s->screenwidth, s->screenheight, Img::RGB);
+  return (s->img == NULL);
 }
 
-static int gifReadImage(GifInfo *g)
+static int gifReadImage(GifInfo *s)
 {
   int nb_pass, pass_height, line_start, line_inc;
   int localbits, ncolors;
@@ -132,30 +136,30 @@ static int gifReadImage(GifInfo *g)
   uint8_t buf[10];
   uint8_t localmap[256][3];
 
-  if ((gifread(g, buf, 10)) != 10) return -6;
+  if ((gifread(s, buf, 10)) != 10) return -6;
   int left		= buf[0] + (buf[1] << 8);
   int top		= buf[2] + (buf[3] << 8);
   int width		= buf[4] + (buf[5] << 8);
   int height		= buf[6] + (buf[7] << 8);
   int interleaved	= buf[8] & 0x40;
   int local		= buf[8] & 0x80;
-  if (left+width>g->screenwidth || top+height>g->screenheight) return -7;
+  if (left+width>s->screenwidth || top+height>s->screenheight) return -7;
 
   if (local) {
     localbits = (buf[8] & 0x7) + 1;
     ncolors = 1 << localbits;
-    gifread(g, (uint8_t *) localmap, 3*ncolors);
+    gifread(s, (uint8_t *) localmap, 3*ncolors);
   }
-  else if (g->global) {
-    ncolors = (1 << g->globalbits);
-    memcpy(localmap, g->globalmap, 3*ncolors);
+  else if (s->global) {
+    ncolors = (1 << s->globalbits);
+    memcpy(localmap, s->globalmap, 3*ncolors);
   }
   else return -8;
 
   int cbyte = buf[9];
   if (cbyte<2 || cbyte>8) return -9;
 
-  LZWDecodeInit(g, cbyte);
+  LZWDecodeInit(s, cbyte);
 
   if (interleaved) nb_pass=4;
   else nb_pass=1;
@@ -190,8 +194,8 @@ static int gifReadImage(GifInfo *g)
       break;
     }
     for (int line=line_start; line < height; line += line_inc) {
-      LZWDecode(g, line_buf, width);
-      pix = (uint8_t *)g->img->pixmap + ((left + top * g->screenwidth) + (g->screenwidth * line)) * 3;
+      LZWDecode(s, line_buf, width);
+      pix = (uint8_t *)s->img->pixmap + ((left + top * s->screenwidth) + (s->screenwidth * line)) * 3;
       pix1 = pix;
       for (int i=0; i < width; i++) {
 	int c = line_buf[i];
@@ -202,48 +206,49 @@ static int gifReadImage(GifInfo *g)
       }
       if (pass_height > 1) {
 	for (int j=1; j < pass_height; j++) {
-	  memcpy(pix, pix1, g->screenwidth*3);
-	  pix += g->screenwidth*3;
+	  memcpy(pix, pix1, s->screenwidth*3);
+	  pix += s->screenwidth*3;
 	}
       }
     }
   }
-  LZWDecodeEnd(g);
+  LZWDecodeEnd(s);
   delete[] line_buf;
   return 0;
 }
 
-static void gifReadExtension(GifInfo *g)
+static int gifReadExtension(GifInfo *s)
 {
   uint8_t buf[255];
 
-  int c = gifGetByte(g);
+  int code = gifGetByte(s);
   while (1) {
-    int count = gifGetByte(g);
+    int count = gifGetByte(s);
     if (count <= 0) break;
-    gifread(g, buf, count);
-    switch(c) { case 0xF9: /* graphic control extension */ break; }
+    gifread(s, buf, count);
+    switch(code) { case 0xF9: /* graphic control extension */ break; }
   }
+  return 0;
 }
 
 /* read gif blocks until we find an image block */
-static int gifReadBlocks(GifInfo *g)
+static int gifReadBlocks(GifInfo *s)
 {
-  int c, err;
+  int ch, err;
 
   while (1) {
-    c = gifGetByte(g);
-    switch (c) {
+    ch = gifGetByte(s);
+    switch (ch) {
     case 0x2C:
-      err = gifReadImage(g);
+      err = gifReadImage(s);
       if (err != 0) return err;
       break;
     case 0x3B: /* trailer */ return 0;
     case 0x21:
-      gifReadExtension(g);
+      gifReadExtension(s);
       break;
     default:
-      trace(DBG_IMG, "gifReadBlocks: ch=%02x off=%d(0x%x)", c, offset, offset);
+      trace(DBG_IMG, "gifReadBlocks: ch=%02x off=%d(0x%x)", ch, offset, offset);
       //dax continue;
       return -10;
     }
@@ -254,36 +259,36 @@ static int gifReadBlocks(GifInfo *g)
 #define MAXBITS	12
 #define	SIZLZW	(1<<MAXBITS)
 
-static void LZWDecodeInit(GifInfo *g, int csize)
+static void LZWDecodeInit(GifInfo *s, int csize)
 {
-  g->codesize = csize;
-  g->cursize = g->codesize + 1;
-  g->clear_code = 1 << g->codesize;
-  g->end_code = g->clear_code + 1;
-  g->slot = g->newcodes = g->clear_code + 2;
-  g->oc = 0;
-  g->fc = 0;
-  g->stack = new uint8_t[SIZLZW];
-  g->suffix = new uint8_t[SIZLZW];
-  g->prefix = new int16_t[SIZLZW];
-  g->sp = g->stack;
-  g->sizbuf = 1;
-  g->bbuf = 0;
-  g->bbits = 0;
+  s->codesize = csize;
+  s->cursize = s->codesize + 1;
+  s->clear_code = 1 << s->codesize;
+  s->end_code = s->clear_code + 1;
+  s->slot = s->newcodes = s->clear_code + 2;
+  s->oc = 0;
+  s->fc = 0;
+  s->stack = new uint8_t[SIZLZW];
+  s->suffix = new uint8_t[SIZLZW];
+  s->prefix = new int16_t[SIZLZW];
+  s->sp = s->stack;
+  s->sizbuf = 1;
+  s->bbuf = 0;
+  s->bbits = 0;
 }
 
-static int LZWDecodeEnd(GifInfo *g)
+static int LZWDecodeEnd(GifInfo *s)
 {
   int err = 0, size;
 
   /* end block */
-  if (g->sizbuf > 0) {
-    size = gifGetByte(g);
+  if (s->sizbuf > 0) {
+    size = gifGetByte(s);
     if (size != 0) err = -1;
   }
-  if (g->stack) delete[] g->stack;
-  if (g->prefix) delete[] g->prefix;
-  if (g->suffix) delete[] g->suffix;
+  if (s->stack) delete[] s->stack;
+  if (s->prefix) delete[] s->prefix;
+  if (s->suffix) delete[] s->suffix;
   return err;
 }
 
@@ -301,10 +306,10 @@ static int LZWDecodeEnd(GifInfo *g)
 	if (sizbuf<0) {			\
 	  sizbuf=0;			\
 	} else {			\
-	  sizbuf=gifGetByte(g);		\
-	  gifread(g,g->buf,sizbuf);	\
+	  sizbuf=gifGetByte(s);		\
+	  gifread(s,s->buf,sizbuf);	\
 	}				\
-	pbuf=g->buf;			\
+	pbuf=s->buf;			\
       }					\
       bbuf|=(int)(*pbuf++) << bbits;	\
       bbits+=8;				\
@@ -318,7 +323,7 @@ static int LZWDecodeEnd(GifInfo *g)
 /*
  * Gif LZW Decoder
  */
-static void LZWDecode(GifInfo *g, uint8_t *out_buf, int out_len)
+static void LZWDecode(GifInfo *s, uint8_t *out_buf, int out_len)
 {
   int sizbuf, bbits;
   uint32_t bbuf;
@@ -330,25 +335,25 @@ static void LZWDecode(GifInfo *g, uint8_t *out_buf, int out_len)
   int16_t *prefix;
 
 /* cache rw */
-  cursize = g->cursize;
-  slot = g->slot;
-  oc = g->oc;
-  fc = g->fc;
-  sp = g->sp;
+  cursize = s->cursize;
+  slot = s->slot;
+  oc = s->oc;
+  fc = s->fc;
+  sp = s->sp;
 
-  sizbuf = g->sizbuf;
-  bbuf = g->bbuf;
-  bbits = g->bbits;
-  pbuf = g->pbuf;
+  sizbuf = s->sizbuf;
+  bbuf = s->bbuf;
+  bbits = s->bbits;
+  pbuf = s->pbuf;
 
 /* cache r */
-  clear_code = g->clear_code;
-  end_code = g->end_code;
-  newcodes = g->newcodes;
-  clear_code = g->clear_code;
-  stack = g->stack;
-  prefix = g->prefix;
-  suffix = g->suffix;
+  clear_code = s->clear_code;
+  end_code = s->end_code;
+  newcodes = s->newcodes;
+  clear_code = s->clear_code;
+  stack = s->stack;
+  prefix = s->prefix;
+  suffix = s->suffix;
 
   top_slot = (1 << cursize);
   curmask =  top_slot - 1;
@@ -366,7 +371,7 @@ static void LZWDecode(GifInfo *g, uint8_t *out_buf, int out_len)
     GETCODE(c);
     if (c == end_code) break;
     if (c == clear_code) {
-      cursize = g->codesize+1;
+      cursize = s->codesize+1;
       top_slot = 1<<cursize;
       curmask=top_slot - 1;
       slot = newcodes;
@@ -410,14 +415,14 @@ static void LZWDecode(GifInfo *g, uint8_t *out_buf, int out_len)
  _end:
 
 /* cache rw */
-  g->cursize = cursize;
-  g->slot = slot;
-  g->oc = oc;
-  g->fc = fc;
-  g->sp = sp;
+  s->cursize = cursize;
+  s->slot = slot;
+  s->oc = oc;
+  s->fc = fc;
+  s->sp = sp;
 
-  g->sizbuf = sizbuf;
-  g->bbuf = bbuf;
-  g->bbits = bbits;
-  g->pbuf = pbuf;
+  s->sizbuf = sizbuf;
+  s->bbuf = bbuf;
+  s->bbits = bbits;
+  s->pbuf = pbuf;
 }
