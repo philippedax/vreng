@@ -138,7 +138,8 @@ bool VNCClientTextured::VNCInit()
 bool VNCClient::VNCClose()
 {
   close(getSock());
-  if (framebuffer) delete[] framebuffer; framebuffer = NULL;
+  if (framebuffer) delete[] framebuffer;
+  framebuffer = NULL;
   return true;
 }
 
@@ -570,7 +571,8 @@ bool VNCClient::handleRFBServerMessage()
 
     msg.sct.length = swap32IfLE(msg.sct.length);
 
-    if (serverCutText) delete[] serverCutText; serverCutText = NULL;
+    if (serverCutText) delete[] serverCutText;
+    serverCutText = NULL;
     serverCutText = new char[msg.sct.length+1];
 
     if (!rfbproto.VNC_sock.ReadFromRFBServer(serverCutText, msg.sct.length))

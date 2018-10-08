@@ -299,7 +299,8 @@ bool VNCRFBproto::sendClientCutText(char *str, int len)
 {
   rfbClientCutTextMsg cct;
 
-  if (serverCutText) delete[] serverCutText; serverCutText = NULL;
+  if (serverCutText) delete[] serverCutText;
+  serverCutText = NULL;
 
   cct.type = rfbClientCutText;
   cct.length = swap32IfLE(len);

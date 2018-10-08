@@ -8,6 +8,9 @@ const char CONFIG_H[] = "\
 /* */\n\
 /* #undef AIX */\n\
 \n\
+/* */\n\
+/* #undef CENTOS */\n\
+\n\
 /* Define to 1 if the `closedir' function returns void instead of `int'. */\n\
 /* #undef CLOSEDIR_VOID */\n\
 \n\
@@ -18,7 +21,13 @@ const char CONFIG_H[] = "\
 /* #undef CYGWIN32 */\n\
 \n\
 /* */\n\
+/* #undef DEBIAN */\n\
+\n\
+/* */\n\
 /* #undef DEF_URL_PFX */\n\
+\n\
+/* */\n\
+#define FEDORA 1\n\
 \n\
 /* */\n\
 /* #undef FREEBSD */\n\
@@ -605,6 +614,9 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */\n\
 #define TIME_WITH_SYS_TIME 1\n\
+\n\
+/* */\n\
+/* #undef UBUNTU */\n\
 \n\
 /* Version number of package */\n\
 #define VERSION \"8.5.7\"\n\

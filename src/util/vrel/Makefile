@@ -248,6 +248,7 @@ ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
 EXEEXT = 
+FONTDIR = /usr/share/X11/fonts/Type1/
 FREETYPE_CFLAGS = -I/usr/include/freetype2 -I/usr/include/libpng16
 FREETYPE_CONFIG = /bin/freetype-config
 FREETYPE_LIBS = -lfreetype

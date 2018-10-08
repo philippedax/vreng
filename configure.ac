@@ -242,6 +242,10 @@ AH_TEMPLATE(MACOSX)
 AH_TEMPLATE(NEXTSTEP)
 AH_TEMPLATE(CYGWIN32)
 AH_TEMPLATE(WIN32)
+AH_TEMPLATE(FEDORA)
+AH_TEMPLATE(UBUNTU)
+AH_TEMPLATE(CENTOS)
+AH_TEMPLATE(DEBIAN)
 
 # OS dependent paths
 OSDEP_LIBS=""
@@ -317,6 +321,30 @@ armv4l-*-linux*)
     OSDEP_LIBS="-L/usr/lib"
   fi
   AC_DEFINE(LINUX)
+  distrib=`lsb_release -is`
+  case $distrib in
+  Fedora)
+    AC_DEFINE(FEDORA)
+    FONTDIR="/usr/share/X11/fonts/Type1/"
+    AC_SUBST(FONTDIR)
+    ;;
+  Ubuntu)
+    AC_DEFINE(UBUNTU)
+    FONTDIR="/usr/share/fonts/X11/Type1/"
+    AC_SUBST(FONTDIR)
+    ;;
+  Debian)
+    AC_DEFINE(DEBIAN)
+    FONTDIR="/usr/share/fonts/X11/Type1/"
+    AC_SUBST(FONTDIR)
+    ;;
+  CentOS)
+    AC_DEFINE(CENTOS)
+    FONTDIR="/usr/share/X11/fonts/Type1/"
+    AC_SUBST(FONTDIR)
+    ;;
+  esac
+  echo "FONDIR=$FONTDIR"
   ;;
 *-*-netbsd*)
   OSDEP_LIBS="-L/usr/pkg/lib"
@@ -1793,6 +1821,7 @@ do
         echo "#define   $feature 1" >> ${outfile}
 #        echo "    $feature"
 done
+echo "#define	FONTDIR $FONTDIR" >> ${outfile}
 echo '' >> ${outfile}
 echo '#endif // UBIT_FEATURES_H' >> ${outfile}
 
