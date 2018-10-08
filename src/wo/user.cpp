@@ -137,10 +137,12 @@ void User::setView(uint8_t view)
     case Render::VIEW_VERTICAL_FAR :
     case Render::VIEW_TURN_AROUND :
       disableBehavior(UNVISIBLE);	// visible by myself
+      head->visibility(true);
       break;
     case Render::VIEW_FIRST_PERSON :
     default :
       enableBehavior(UNVISIBLE);	// not visible by myself
+      head->visibility(false);
       break;
   }
 }

@@ -56,6 +56,7 @@ void Head::defaults()
   dax = day = daz = 0;
   taken = true;
   scale = 1;
+  visible = true;
   model_e = MALE;
   model_t = 0;
   color[0] = 1.; color[1] = .75; color[2] = .7;
@@ -263,9 +264,15 @@ void Head::changePermanent(float lasting)
   updatePosition();
 }
 
+void Head::visibility(bool flag)
+{
+  visible = flag;
+}
+
 void Head::render()
 {
-  model->render(pos, color);
+  if (visible)
+    model->render(pos, color);
 }
 
 void Head::quit()
