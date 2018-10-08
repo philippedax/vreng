@@ -91,6 +91,7 @@ public:
   /**< Quits */
 
   virtual void visibility(bool flag);
+  /**< Handle visibility */
 
 protected:
   virtual void behavior();
