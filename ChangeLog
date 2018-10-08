@@ -13,6 +13,11 @@ The rules for this file:
 ------------------------------------------
 
 ++ 8
+== 8.6
+== 8.6.0
+	- find dynamycaly freetype fonts
+	(2018/10/08, Philippe Dax)
+
 == 8.5
 -- 8.5.7
 	- fixed some compilation warnings

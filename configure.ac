@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[8.5.7],[philippe.dax@gmail.com])
+AC_INIT([vreng],[8.6.0],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ(2.63)
@@ -326,25 +326,20 @@ armv4l-*-linux*)
   Fedora)
     AC_DEFINE(FEDORA)
     FONTDIR="/usr/share/X11/fonts/Type1/"
-    AC_SUBST(FONTDIR)
     ;;
   Ubuntu)
     AC_DEFINE(UBUNTU)
     FONTDIR="/usr/share/fonts/X11/Type1/"
-    AC_SUBST(FONTDIR)
     ;;
   Debian)
     AC_DEFINE(DEBIAN)
     FONTDIR="/usr/share/fonts/X11/Type1/"
-    AC_SUBST(FONTDIR)
     ;;
   CentOS)
     AC_DEFINE(CENTOS)
     FONTDIR="/usr/share/X11/fonts/Type1/"
-    AC_SUBST(FONTDIR)
     ;;
   esac
-  echo "FONDIR=$FONTDIR"
   ;;
 *-*-netbsd*)
   OSDEP_LIBS="-L/usr/pkg/lib"
@@ -1821,7 +1816,9 @@ do
         echo "#define   $feature 1" >> ${outfile}
 #        echo "    $feature"
 done
-echo "#define	FONTDIR $FONTDIR" >> ${outfile}
+if test "$FONDIR" != ""; then
+  echo "#define	FONTDIR $FONTDIR" >> ${outfile}
+fi
 echo '' >> ${outfile}
 echo '#endif // UBIT_FEATURES_H' >> ${outfile}
 
