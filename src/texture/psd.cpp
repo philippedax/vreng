@@ -89,18 +89,30 @@ static uint8_t *convert_format(uint8_t *data, uint8_t srccomp, uint8_t dstcomp, 
     // convert source image with srccomp channel to one with dstcomp channel;
     // avoid switch per pixel, so use switch per scanline and massive macros
     switch (COMBO(srccomp, dstcomp)) {
-      CASE(1,2) dst[0]=src[0], dst[1]=255; break;
-      CASE(1,3) dst[0]=dst[1]=dst[2]=src[0]; break;
-      CASE(1,4) dst[0]=dst[1]=dst[2]=src[0], dst[3]=255; break;
-      CASE(2,1) dst[0]=src[0]; break;
-      CASE(2,3) dst[0]=dst[1]=dst[2]=src[0]; break;
-      CASE(2,4) dst[0]=dst[1]=dst[2]=src[0], dst[3]=src[1]; break;
-      CASE(3,4) dst[0]=src[0],dst[1]=src[1],dst[2]=src[2],dst[3]=255; break;
-      CASE(3,1) dst[0]=compute_y(src[0],src[1],src[2]); break;
-      CASE(3,2) dst[0]=compute_y(src[0],src[1],src[2]), dst[1]=255; break;
-      CASE(4,1) dst[0]=compute_y(src[0],src[1],src[2]); break;
-      CASE(4,2) dst[0]=compute_y(src[0],src[1],src[2]), dst[1]=src[3]; break;
-      CASE(4,3) dst[0]=src[0],dst[1]=src[1],dst[2]=src[2]; break;
+      CASE(1,2) dst[0]=src[0], dst[1]=255;
+      break;
+      CASE(1,3) dst[0]=dst[1]=dst[2]=src[0];
+      break;
+      CASE(1,4) dst[0]=dst[1]=dst[2]=src[0], dst[3]=255;
+      break;
+      CASE(2,1) dst[0]=src[0];
+      break;
+      CASE(2,3) dst[0]=dst[1]=dst[2]=src[0];
+      break;
+      CASE(2,4) dst[0]=dst[1]=dst[2]=src[0], dst[3]=src[1];
+      break;
+      CASE(3,4) dst[0]=src[0],dst[1]=src[1],dst[2]=src[2],dst[3]=255;
+      break;
+      CASE(3,1) dst[0]=compute_y(src[0],src[1],src[2]);
+      break;
+      CASE(3,2) dst[0]=compute_y(src[0],src[1],src[2]), dst[1]=255;
+      break;
+      CASE(4,1) dst[0]=compute_y(src[0],src[1],src[2]);
+      break;
+      CASE(4,2) dst[0]=compute_y(src[0],src[1],src[2]), dst[1]=src[3];
+      break;
+      CASE(4,3) dst[0]=src[0],dst[1]=src[1],dst[2]=src[2];
+      break;
     }
     #undef CASE
   }
@@ -172,9 +184,7 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
 
     // Read the RLE data by channel.
     for (channel=0; channel < 4; channel++) {
-      uint8_t *p;
-
-      p = data + channel;
+      uint8_t *p = data + channel;
       if (channel >= nbchannels) {
         // Fill this channel with default data.
         for (int i=0; i < nbpixels; i++) *p = (channel == 3 ? 255 : 0), p += 4;
@@ -184,7 +194,7 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
         while (count < nbpixels) {
           len = get8(s);
           if (len == 128) {
-            // No-op.
+            ; // No-op.
           } else if (len < 128) {
             // Copy next len+1 bytes literally.
             len++;
@@ -217,17 +227,17 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
 
     // Read the data by channel.
     for (channel=0; channel < 4; channel++) {
-      uint8_t *p;
-
-      p = data + channel;
+      uint8_t *p = data + channel;
       if (channel > nbchannels) {
         // Fill this channel with default data.
         for (int i=0; i < nbpixels; i++) *p = (channel == 3) ? 255 : 0, p += 4;
       } else {
         // Read the data.
         count = 0;
-        for (int i=0; i < nbpixels; i++)
-          *p = get8(s), p += 4;
+        for (int i=0; i < nbpixels; i++) {
+          *p = get8(s);
+          p += 4;
+        }
       }
     }
   }
