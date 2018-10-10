@@ -3,7 +3,7 @@ ANNOUNCE
 .git_github
 .git_gitlab
 autom4te.cache
-FIX
+TOFIX
 aclocal.m4
 automa4te.cache
 clone
@@ -22,6 +22,7 @@ gif
 html
 doxygen
 gui
+main
 model
 bundle
 net
@@ -29,9 +30,11 @@ sys
 vgl
 tex
 wo
+ubit
 v8
 vd
 vr
+vv
 tmp
 bin/vreng
 bin/vred
