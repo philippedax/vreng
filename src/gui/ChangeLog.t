@@ -14,6 +14,12 @@ The rules for this file:\n\
 ------------------------------------------\n\
 \n\
 ++ 8\n\
+== 8.6\n\
+== 8.6.0\n\
+	- find dynamycaly presence of ttf freetype fonts when ./configure is\n\
+	running\n\
+	(2018/10/08, Philippe Dax)\n\
+\n\
 == 8.5\n\
 -- 8.5.7\n\
 	- fixed some compilation warnings\n\

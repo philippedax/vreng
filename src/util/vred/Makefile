@@ -208,13 +208,13 @@ AUTOMAKE = ${SHELL} /infres/s3/dax/vreng/support/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVAPS -DVJS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations
 CPPFLAGS = -I/usr/include/mysql -I/usr/include/freetype2 -I/usr/include/libpng16 
 CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable --permissive -DVAPS -DVJS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -233,9 +233,9 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-JAR = jar
-JAVA = java
-JAVAC = javac
+JAR = 
+JAVA = 
+JAVAC = 
 JAVACFLAGS = 
 JAVAFLAGS = 
 JAVAPREFIX = 
@@ -355,9 +355,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/util/vred/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/util/vred/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/util/vred/Makefile
+	  $(AUTOMAKE) --foreign src/util/vred/Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
 	  *config.status*) \

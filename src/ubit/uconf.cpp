@@ -36,11 +36,17 @@ NAMESPACE_UBIT
 
 // TRUETYPE font dirs (in /usr/X11R6/ /usr/include/ /usr/openwin/include )
 #define XFT_DIR "/usr/X11/share/fonts/Type1/" // macosx
-#if FEDORA || CENTOS
-#define LFT_DIR "/usr/share/X11/fonts/Type1/" // fedora
+#if LINUX & HAVE_TTF_PFA
+#define LFT_DIR TTFPATH
 #else
-#define LFT_DIR "/usr/share/fonts/X11/Type1/" //ubunto
+#define LFT_DIR ""
+#error Sorry, but the TTF font aith .pfa suffix must exist
 #endif
+//#if UBUNTU | DEBIAN
+//#define LFT_DIR "/usr/share/fonts/X11/Type1/" //ubunto
+//#else
+//#define LFT_DIR "/usr/share/X11/fonts/Type1/" // fedora
+//#endif
 #define OFT_DIR "/usr/openwin/lib/X11/fonts/TrueType/" // solaris
 // /System/Library/Frameworks/JavaVM.framework/Versions/1.3.1/Home/lib/fonts/LucidaSansRegular.ttf";
   

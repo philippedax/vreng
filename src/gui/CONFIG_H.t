@@ -190,7 +190,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ISASCII 1\n\
 \n\
 /* */\n\
-#define HAVE_JAVA 1\n\
+/* #undef HAVE_JAVA */\n\
 \n\
 /* */\n\
 #define HAVE_JPEGLIB_H 1\n\
@@ -488,6 +488,9 @@ const char CONFIG_H[] = "\
 /* */\n\
 #define HAVE_TIFFIO_H 1\n\
 \n\
+/* */\n\
+#define HAVE_TTF_PFA 1\n\
+\n\
 /* Define to 1 if you have the `uname' function. */\n\
 #define HAVE_UNAME 1\n\
 \n\
@@ -580,7 +583,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_NAME \"vreng\"\n\
 \n\
 /* Define to the full name and version of this package. */\n\
-#define PACKAGE_STRING \"vreng 8.5.7\"\n\
+#define PACKAGE_STRING \"vreng 8.6.0\"\n\
 \n\
 /* Define to the one symbol short name of this package. */\n\
 #define PACKAGE_TARNAME \"vreng\"\n\
@@ -589,7 +592,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_URL \"\"\n\
 \n\
 /* Define to the version of this package. */\n\
-#define PACKAGE_VERSION \"8.5.7\"\n\
+#define PACKAGE_VERSION \"8.6.0\"\n\
 \n\
 /* */\n\
 #define PERLPATH \"/bin/perl\"\n\
@@ -616,19 +619,22 @@ const char CONFIG_H[] = "\
 #define TIME_WITH_SYS_TIME 1\n\
 \n\
 /* */\n\
+#define TTFPATH \"/usr/share/X11/fonts/Type1/\"\n\
+\n\
+/* */\n\
 /* #undef UBUNTU */\n\
 \n\
 /* Version number of package */\n\
-#define VERSION \"8.5.7\"\n\
+#define VERSION \"8.6.0\"\n\
 \n\
 /* VReng major version */\n\
 #define VRENG_MAJOR_VERSION 8\n\
 \n\
 /* VReng micro version */\n\
-#define VRENG_MICRO_VERSION 7\n\
+#define VRENG_MICRO_VERSION 0\n\
 \n\
 /* VReng minor version */\n\
-#define VRENG_MINOR_VERSION 5\n\
+#define VRENG_MINOR_VERSION 6\n\
 \n\
 /* */\n\
 /* #undef WANT_GL2PS */\n\

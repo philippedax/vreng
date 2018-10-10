@@ -88,7 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
-bin_PROGRAMS = vacs$(EXEEXT)
+#bin_PROGRAMS = vacs$(EXEEXT)
 subdir = src/servers/vacs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/support/acinclude.m4 \
@@ -104,7 +104,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man8dir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__vacs_SOURCES_DIST = vacs.cpp
 am__objects_1 = vacs.$(OBJEXT)
-am_vacs_OBJECTS = $(am__objects_1)
+#am_vacs_OBJECTS = $(am__objects_1)
 vacs_OBJECTS = $(am_vacs_OBJECTS)
 vacs_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -203,13 +203,13 @@ AUTOMAKE = ${SHELL} /infres/s3/dax/vreng/support/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVAPS -DVJS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations
 CPPFLAGS = -I/usr/include/mysql -I/usr/include/freetype2 -I/usr/include/libpng16 
 CURLPATH = /bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable --permissive -DVAPS -DVJS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -228,9 +228,9 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-JAR = jar
-JAVA = java
-JAVAC = javac
+JAR = 
+JAVA = 
+JAVAC = 
 JAVACFLAGS = 
 JAVAFLAGS = 
 JAVAPREFIX = 
@@ -334,7 +334,7 @@ man_MANS = vacs.8
 EXTRA_DIST = $(VACS_SRCS) vacs.8
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng
-vacs_SOURCES = $(VACS_SRCS)
+#vacs_SOURCES = $(VACS_SRCS)
 all: all-am
 
 .SUFFIXES:

@@ -321,25 +321,34 @@ armv4l-*-linux*)
     OSDEP_LIBS="-L/usr/lib"
   fi
   AC_DEFINE(LINUX)
+  # find ttf fonts
   distrib=`lsb_release -is`
   case $distrib in
   Fedora)
     AC_DEFINE(FEDORA)
-    FONTDIR="/usr/share/X11/fonts/Type1/"
+    TTFPATH="/usr/share/X11/fonts/Type1/"
     ;;
   Ubuntu)
     AC_DEFINE(UBUNTU)
-    FONTDIR="/usr/share/fonts/X11/Type1/"
+    TTFPATH="/usr/share/fonts/X11/Type1/"
     ;;
   Debian)
     AC_DEFINE(DEBIAN)
-    FONTDIR="/usr/share/fonts/X11/Type1/"
+    TTFPATH="/usr/share/fonts/X11/Type1/"
     ;;
   CentOS)
     AC_DEFINE(CENTOS)
-    FONTDIR="/usr/share/X11/fonts/Type1/"
+    TTFPATH="/usr/share/X11/fonts/Type1/"
     ;;
   esac
+  AH_TEMPLATE(TTFPATH)
+  if test x$TTFPATH != xno; then
+    AC_DEFINE_UNQUOTED(TTFPATH, ["$TTFPATH"])
+  fi
+  AH_TEMPLATE(HAVE_TTF_PFA)
+  if test -f $TTFPATH/UTRG____.pfa; then
+    AC_DEFINE(HAVE_TTF_PFA)
+  fi
   ;;
 *-*-netbsd*)
   OSDEP_LIBS="-L/usr/pkg/lib"
@@ -751,7 +760,7 @@ AC_DEFUN([AC_X11_CHECK],
   AH_TEMPLATE(HAVE_LIBXMU)
   AC_CHECK_LIB([Xmu], [XmuClientWindow],
                [x_libs="$X_LIBS -lXmu $x_libs" AC_DEFINE(HAVE_LIBXMU)],
-               [AC_MSG_WARN([Xmu library not found, check config.log! try yum|dnf install libXmu-devel | apt-get install libXmu-dev])],
+               [AC_MSG_WARN([Xmu library not found, check config.log! try apt|dnf|yum|brew install libXmu-devel | apt-get install libXmu-dev])],
                [$x_libs])
 
   x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
@@ -846,7 +855,7 @@ LDFLAGS="$X_LDFLAGS $X_LIBS"
 AC_CHECK_LIB([Xpm], [XpmReadFileToXpmImage],
 	     [VRELIBS="-lXpm $VRELIBS"],
              [AC_MSG_WARN([Xpm library not found, check config.log!,
-              Ubit needs Xpm, get http://koala.ilog.fr/ftp/pub/xpm or try yum|dnf install libXpm-devel | apt-get install libXpm-dev])],
+              Ubit needs Xpm, get http://koala.ilog.fr/ftp/pub/xpm or try apt|dnf|yum|brew install libXpm-devel | apt-get install libXpm-dev])],
              [$X_LIBS $x_libs])
 AH_TEMPLATE(HAVE_LIBXPM)
 if test "$ac_cv_lib_Xpm_XpmReadFileToXpmImage" = "yes"; then
@@ -873,7 +882,7 @@ else
   AC_CHECK_LIB([gif], [DGifOpenFileName],
        [VRELIBS="$OSDEP_LIBS -lgif $VRELIBS"],
        [AC_MSG_WARN([gif library not found, check config.log!,
-	get ftp://prtr-13.ucsc.edu/pub/libungif/ or try yum|dnf install giflib-devel | apt-get install giflib-dev giflib-tools])],
+	get ftp://prtr-13.ucsc.edu/pub/libungif/ or try apt|dnf|yum|brew install giflib-devel | apt-get install giflib-dev giflib-tools])],
        [$OSDEP_LIBS])
   if test "$ac_cv_lib_gif_DGifOpenFileName" = "yes"; then
     AC_DEFINE(HAVE_LIBGIF)
@@ -889,7 +898,7 @@ fi
 AH_TEMPLATE(HAVE_LIBJPEG)
 AC_CHECK_LIB([jpeg], [jpeg_read_scanlines],
      [VRELIBS="$OSDEP_LIBS -ljpeg $VRELIBS"],
-     [AC_MSG_WARN([jpeg library not found, check config.log!, or try yum|dnf install libjpeg-turbo-devel | apt-get install libjpeg8-dev])],
+     [AC_MSG_WARN([jpeg library not found, check config.log!, or try apt|dnf|yum|brew install libjpeg-turbo-devel | apt-get install libjpeg8-dev])],
      [$OSDEP_LIBS])
 if test "$ac_cv_lib_jpeg_jpeg_read_scanlines" = "yes"; then
   AC_DEFINE([HAVE_LIBJPEG])
@@ -906,7 +915,7 @@ AC_CHECK_HEADER([jpeglib.h], [AC_DEFINE([HAVE_JPEGLIB_H])],
 AH_TEMPLATE(HAVE_LIBTIFF)
 AC_CHECK_LIB([tiff], [TIFFOpen],
      [VRELIBS="$OSDEP_LIBS -ltiff $VRELIBS"],
-     [AC_MSG_WARN([tiff library not found, check config.log!, try yum|dnf install libtiff-devel | apt-get install libtiff4-dev])],
+     [AC_MSG_WARN([tiff library not found, check config.log!, try apt|dnf|yum|brew install libtiff-devel | apt-get install libtiff4-dev])],
      [$OSDEP_LIBS])
 if test "$ac_cv_lib_tiff_TIFFOpen" = "yes"; then
   AC_DEFINE([HAVE_LIBTIFF])
@@ -958,7 +967,7 @@ if test "$ac_cv_use_png_builtin" = "no"; then
     LDFLAGS="$LDFLAGS $OSDEP_LIBS"
     AC_CHECK_LIB([png], [png_error],
        [VRELIBS="$OSDEP_LIBS -lpng $VRELIBS"],
-       [AC_MSG_WARN([png library not found, check config.log, or try yum|dnf install libpng-devel or apt-get install libpng-dev])],
+       [AC_MSG_WARN([png library not found, check config.log, or try apt|dnf|yum|brew install libpng-devel or apt-get install libpng-dev])],
        [$OSDEP_LIBS -lz])
     if test "$ac_cv_lib_png_png_error" = "yes" ; then
       AC_DEFINE(HAVE_LIBPNG)
@@ -982,7 +991,7 @@ fi
 AH_TEMPLATE(HAVE_LIBCURL)
 AC_CHECK_LIB([curl], [curl_easy_init],
      [VRELIBS="$OSDEP_LIBS -lcurl $VRELIBS"],
-     [AC_MSG_WARN([curl library not found, check config.log, or try yum|dnf install libcurl-devel or apt-get install libcurl-openssl-dev])],
+     [AC_MSG_WARN([curl library not found, check config.log, or try apt|dnf|yum|brew install libcurl-devel or apt-get install libcurl-openssl-dev])],
      [$OSDEP_LIBS])
 if test "$ac_cv_lib_curl_curl_easy_init" = "yes"; then
   AC_DEFINE([HAVE_LIBCURL])
@@ -999,7 +1008,7 @@ fi
 have_freetype="no"
 have_freetype_and_gl="no"
 AH_TEMPLATE(WITH_FREETYPE)
-AC_CHECK_FREETYPE([9.0.3],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try yum|dnf install freetype-devel or apt-get install freetype-dev])])
+AC_CHECK_FREETYPE([9.0.3],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try apt|dnf|yum|brew install freetype-devel or apt-get install freetype-dev])])
 if test "$have_freetype" = "yes"; then
   ubit_features="$ubit_features UBIT_WITH_FREETYPE"
   if test "$have_gl" = "yes"; then
@@ -1126,7 +1135,7 @@ if test "$have_lib_OpenGL" = "yes"; then
   have_gl="yes"
   glerror="no"
 else
-  AC_MSG_WARN([Can't find GL library!, try yum|dnf install libGL-devel or apt-get install libgl1-meas-dev])
+  AC_MSG_WARN([Can't find GL library!, try apt|dnf|yum|brew install libGL-devel or apt-get install libgl1-meas-dev])
   glerror="yes"
 fi
 AH_TEMPLATE(HAVE_GL_GL_H)
@@ -1144,7 +1153,7 @@ AC_CHECK_LIB([GLU], [gluPerspective],
 if test "$ac_cv_lib_GLU_gluPerspective" = "yes"; then
   AC_DEFINE(HAVE_LIBGLU)
 else
-  AC_MSG_WARN([Can't find GLU library!, try yum|dnf install libGLU-devel or apt-get install libglu1-meas-dev])
+  AC_MSG_WARN([Can't find GLU library!, try apt|dnf|yum|brew install libGLU-devel or apt-get install libglu1-meas-dev])
   glerror="yes"
 fi
 AH_TEMPLATE(HAVE_GL_GLU_H)
@@ -1584,7 +1593,7 @@ ${OCAMLOPT} -output-obj conftestml.ml -o conftest_ml.o
     AC_DEFINE(HAVE_OCAML)
     ocaml="yes"
   else
-    AC_MSG_RESULT([	--> try yum|dnf|apt-get install ocaml or http://caml.inria.fr/download_en.html])
+    AC_MSG_RESULT([	--> try apt|dnf|yum|brew install ocaml or http://caml.inria.fr/download_en.html])
   fi
   CPPFLAGS=$saved_cppflags
   AC_DEFINE_UNQUOTED(OCAML_PATH, ["$OCAML_PATH"])
@@ -1603,7 +1612,7 @@ if test "$ac_cv_use_openal" = "yes"; then
   AH_TEMPLATE(HAVE_OPENAL)
   AC_CHECK_LIB([openal], [alGetError],
        [VRELIBS="$OSDEP_LIBS -lopenal $VRELIBS"],
-       [AC_MSG_WARN([openal library not found, check config.log!, try yum|dnf|apt-get install openal-soft])],
+       [AC_MSG_WARN([openal library not found, check config.log!, try apt|dnf|yum|brew install openal-soft])],
        [$OSDEP_LIBS])
   if test "$ac_cv_lib_openal_alGetError" = "yes"; then
     AC_DEFINE([HAVE_OPENAL])
@@ -1615,7 +1624,7 @@ if test "$ac_cv_use_openal" = "yes"; then
     AH_TEMPLATE(HAVE_ALUT)
     AC_CHECK_LIB([alut], [alutLoadWAVFile],
 	 [VRELIBS="$OSDEP_LIBS -lalut $VRELIBS"],
-	 [AC_MSG_WARN([alut library not found, check config.log!, try yum|dnf|apt-get install alut])],
+	 [AC_MSG_WARN([alut library not found, check config.log!, try apt|dnf|yum|brew install alut])],
 	 [$OSDEP_LIBS])
   #if test "$ac_cv_lib_alut_alutLoadWAVFile" = "yes"; then
     VRELIBS="$OSDEP_LIBS -lalut $VRELIBS"
@@ -1627,7 +1636,7 @@ if test "$ac_cv_use_openal" = "yes"; then
     AH_TEMPLATE(HAVE_SNDFILE)
     AC_CHECK_LIB([sndfile], [sf_open],
 	 [VRELIBS="$OSDEP_LIBS -lsndfile $VRELIBS"],
-	 [AC_MSG_WARN([sndfile library not found, check config.log!, try yum|dnf|apt-get install libsndfile])],
+	 [AC_MSG_WARN([sndfile library not found, check config.log!, try apt|dnf|yum|brew  install libsndfile])],
 	 [$OSDEP_LIBS])
     if test "$ac_cv_lib_sndfile_sf_open" = "yes"; then
       AC_DEFINE([HAVE_SNDFILE])
@@ -1816,8 +1825,8 @@ do
         echo "#define   $feature 1" >> ${outfile}
 #        echo "    $feature"
 done
-if test "$FONDIR" != ""; then
-  echo "#define	FONTDIR $FONTDIR" >> ${outfile}
+if test "$TTFPATH" != ""; then
+  echo "#define	TTFPATH $TTFPATH" >> ${outfile}
 fi
 echo '' >> ${outfile}
 echo '#endif // UBIT_FEATURES_H' >> ${outfile}
