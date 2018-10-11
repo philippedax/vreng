@@ -106,7 +106,7 @@ else
 ZLIB= -lz
 endif
 if BUNDLE_LIBPNG
-PNGLIB=-L$(SRCDIR)/bundle/png $(SRCDIR)/bundle/png/libpng.a
+PNGLIB=-L$(SRCDIR)/bundle/mypng $(SRCDIR)/bundle/mypng/libpng.a
 else
 PNGLIB= -lpng
 endif
@@ -115,7 +115,7 @@ MPEGLIB=-L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
 else
 MPEGLIB=
 endif
-GLPNGLIB=-L$(SRCDIR)/bundle/glpng $(SRCDIR)/bundle/glpng/libglpng.a
+#old GLPNGLIB=-L$(SRCDIR)/bundle/glpng $(SRCDIR)/bundle/glpng/libglpng.a
 XMLLIB=-L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
 if BUNDLE_GL2PS
 GL2PSLIB=-L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
