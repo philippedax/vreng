@@ -23,7 +23,7 @@
 #include "cache.hpp"	// openCache
 #include "file.hpp"	// openFile
 #include "texture.hpp"	// Texture
-#include "glpng.h"	// pngLoadF
+#include "glpng.hpp"	// pngLoadF
 
 
 Img * Img::loadPNG(void *tex, ImageReader read_func)

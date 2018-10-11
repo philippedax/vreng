@@ -967,7 +967,7 @@ AC_ARG_WITH([png-builtin],
     [ac_cv_use_png_builtin=$withval], [ac_cv_use_png_builtin=yes])
 
 if test "$ac_cv_use_png_builtin" = "no"; then
-  bundle_libpng="yes"
+  bundle_libpng="no"
   case "`$ac_config_sub $build`" in
   *-*-darwin*) ;;
   *)
@@ -1770,7 +1770,6 @@ AC_CONFIG_FILES([
         src/bundle/Makefile
         src/bundle/zlib/Makefile
         src/bundle/png/Makefile
-        src/bundle/glpng/Makefile
         src/bundle/gl2ps/Makefile
         src/bundle/xmlParser/Makefile
         src/bundle/mpeg_lib/Makefile

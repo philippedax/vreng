@@ -21,12 +21,12 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-TEX_SRCS = img.cpp texture.cpp gif.cpp jpg.cpp png.cpp ppm.cpp pcx.cpp sgi.cpp txf.cpp pgm.cpp bmp.cpp tga.cpp dds.cpp tif.cpp xpm.cpp xbm.cpp psd.cpp avi.cpp
+TEX_SRCS = img.cpp texture.cpp gif.cpp jpg.cpp png.cpp ppm.cpp pcx.cpp sgi.cpp txf.cpp pgm.cpp bmp.cpp tga.cpp dds.cpp tif.cpp xpm.cpp xbm.cpp psd.cpp avi.cpp glpng.cpp
 
-TEX_HDRS = img.hpp texture.hpp txf.hpp avi.hpp
+TEX_HDRS = img.hpp texture.hpp txf.hpp avi.hpp glpng.hpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/bundle/png -I$(SRCDIR)/bundle/glpng
+AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/bundle/png
 
 libtexture_a_SOURCES = $(TEX_SRCS) $(TEX_HDRS)
 noinst_LIBRARIES = libtexture.a
