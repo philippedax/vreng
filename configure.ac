@@ -1769,7 +1769,7 @@ AC_CONFIG_FILES([
         src/ubit/Makefile
         src/bundle/Makefile
         src/bundle/zlib/Makefile
-        src/bundle/png/Makefile
+        src/bundle/mypng/Makefile
         src/bundle/gl2ps/Makefile
         src/bundle/xmlParser/Makefile
         src/bundle/mpeg_lib/Makefile

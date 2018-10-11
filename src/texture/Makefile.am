@@ -26,7 +26,7 @@ TEX_SRCS = img.cpp texture.cpp gif.cpp jpg.cpp png.cpp ppm.cpp pcx.cpp sgi.cpp t
 TEX_HDRS = img.hpp texture.hpp txf.hpp avi.hpp glpng.hpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/bundle/png
+AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/bundle/mypng
 
 libtexture_a_SOURCES = $(TEX_SRCS) $(TEX_HDRS)
 noinst_LIBRARIES = libtexture.a
