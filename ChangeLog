@@ -15,8 +15,9 @@ The rules for this file:
 ++ 8
 == 8.6
 == 8.6.0
-	- find dynamycaly presence of ttf freetype fonts when ./configure is
-	running
+	- find dynamycaly presence of ttf freetype fonts when ./configure is running
+	- move bundle/glpng to texture/
+	- move bundle/png to bundle/mypng ans phg.h to mypng.h
 	(2018/10/08, Philippe Dax)
 
 == 8.5
