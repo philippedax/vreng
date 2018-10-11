@@ -470,8 +470,8 @@ void Draw::cylinder(GLfloat baseR, GLfloat topR, GLfloat height, uint8_t slices,
         for (int i=0; i <= slices; i++) {
           GLfloat x, y;
           if (i == slices) {
-            x = sin(0);
-            y = cos(0);
+            x = sin(0.0);
+            y = cos(0.0);
           }
           else {
             x = sin(i*da);
