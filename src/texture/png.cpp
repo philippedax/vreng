@@ -28,6 +28,7 @@
 
 Img * Img::loadPNG(void *tex, ImageReader read_func)
 {
+#if 0 //DAX
   Texture *_tex = (Texture *) tex;
   FILE *f;
   if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
@@ -51,10 +52,14 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
 
   img->pixmap = rawinfo.Data;
   return img;
+#else
+  return NULL;
+#endif
 }
 
 void Img::savePNG(const char *filename, GLint width, GLint height) 
 {
+#if 0 //DAX
 #if HAVE_PNG_H
   int         rowStride    = (width * 3 + 3) & ~0x3;
   png_bytep*  row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * height);
@@ -105,5 +110,6 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
   free( row_pointers );
   free(image);
   File::closeFile(f);
+#endif
 #endif
 }
