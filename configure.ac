@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[8.6.0],[philippe.dax@gmail.com])
+AC_INIT([vreng],[8.7.0],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ(2.63)
@@ -348,6 +348,8 @@ armv4l-*-linux*)
   AH_TEMPLATE(HAVE_TTF_PFA)
   if test -f $TTFPATH/UTRG____.pfa; then
     AC_DEFINE(HAVE_TTF_PFA)
+  else
+    AC_MSG_ERROR(Vreng requires TTF freetype fonts with the pfs format see ./fonts directory)
   fi
   ;;
 *-*-netbsd*)
@@ -765,14 +767,19 @@ AC_DEFUN([AC_X11_CHECK],
 
   x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
   AH_TEMPLATE(HAVE_XMU_WINUTIL_H)
+  AH_TEMPLATE(HAVE_XPM_H)
   case "`$ac_config_sub $build`" in
     *-*-solaris*) 
       AC_CHECK_HEADER([openwin/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
-	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+	AC_MSG_ERROR([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+      AC_CHECK_HEADER([openwin/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
+	AC_MSG_ERROR([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
       ;;
     *)
       AC_CHECK_HEADER([X11/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
-	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+	AC_MSG_ERROR([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+      AC_CHECK_HEADER([X11/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
+	AC_MSG_ERROR([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
       ;;
   esac
   CFLAGS=$saved_cflags
@@ -1795,6 +1802,7 @@ AC_CONFIG_FILES([
         src/servers/vjs/app/fr/enst/Makefile
         src/servers/vjs/app/fr/enst/vreng/Makefile
         src/servers/vjs/app/fr/enst/vreng/tester/Makefile
+        fonts/Makefile
         man/Makefile
         bin/Makefile
         bin/vre

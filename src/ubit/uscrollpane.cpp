@@ -49,8 +49,10 @@ UStyle* UScrollpane::createStyle() {
 UScrollpane::~UScrollpane() {
   //!!Att: scrollbar pas forcement enfnats du Pane !
   // (seront automatiquement detruit via le DAG inutile de s'en charger ici)
-  if (vscrollbar) vscrollbar->setPane(null); vscrollbar = null;
-  if (hscrollbar) hscrollbar->setPane(null); hscrollbar = null;
+  if (vscrollbar) vscrollbar->setPane(null);
+  vscrollbar = null;
+  if (hscrollbar) hscrollbar->setPane(null);
+  hscrollbar = null;
 }
 
 UScrollpane::UScrollpane(UArgs a) : 

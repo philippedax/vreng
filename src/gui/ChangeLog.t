@@ -14,6 +14,12 @@ The rules for this file:\n\
 ------------------------------------------\n\
 \n\
 ++ 8\n\
+== 8.7\n\
+== 8.7.0\n\
+	- find Xmu and Xpm headers needed by src/ubit\n\
+	- added missing ttf fonts in directory fonts/\n\
+	(2018/10/18, Philippe Dax)\n\
+\n\
 == 8.6\n\
 == 8.6.0\n\
 	- find dynamycaly presence of ttf freetype fonts when ./configure is running\n\

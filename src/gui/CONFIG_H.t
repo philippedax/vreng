@@ -534,6 +534,9 @@ const char CONFIG_H[] = "\
 #define HAVE_XMU_WINUTIL_H 1\n\
 \n\
 /* */\n\
+#define HAVE_XPM_H 1\n\
+\n\
+/* */\n\
 /* #undef HPUX */\n\
 \n\
 /* */\n\
@@ -583,7 +586,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_NAME \"vreng\"\n\
 \n\
 /* Define to the full name and version of this package. */\n\
-#define PACKAGE_STRING \"vreng 8.6.0\"\n\
+#define PACKAGE_STRING \"vreng 8.7.0\"\n\
 \n\
 /* Define to the one symbol short name of this package. */\n\
 #define PACKAGE_TARNAME \"vreng\"\n\
@@ -592,7 +595,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_URL \"\"\n\
 \n\
 /* Define to the version of this package. */\n\
-#define PACKAGE_VERSION \"8.6.0\"\n\
+#define PACKAGE_VERSION \"8.7.0\"\n\
 \n\
 /* */\n\
 #define PERLPATH \"/bin/perl\"\n\
@@ -625,7 +628,7 @@ const char CONFIG_H[] = "\
 /* #undef UBUNTU */\n\
 \n\
 /* Version number of package */\n\
-#define VERSION \"8.6.0\"\n\
+#define VERSION \"8.7.0\"\n\
 \n\
 /* VReng major version */\n\
 #define VRENG_MAJOR_VERSION 8\n\
@@ -634,7 +637,7 @@ const char CONFIG_H[] = "\
 #define VRENG_MICRO_VERSION 0\n\
 \n\
 /* VReng minor version */\n\
-#define VRENG_MINOR_VERSION 6\n\
+#define VRENG_MINOR_VERSION 7\n\
 \n\
 /* */\n\
 /* #undef WANT_GL2PS */\n\
