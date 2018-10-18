@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[8.7.0],[philippe.dax@gmail.com])
+AC_INIT([vreng],[8.7.1],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ(2.63)
@@ -1831,6 +1831,8 @@ AC_CONFIG_COMMANDS([src/ubit/ubit_features.h],
 #define UBIT_VERSION_MINOR 0
 #define UBIT_VERSION_MICRO 0
 #define UBIT_VERSION "$ubit_version_major.$ubit_version_minor.$ubit_version_micro"
+
+#include "config.h"	// vreng heritage
 
 /* Features */
 _EOF

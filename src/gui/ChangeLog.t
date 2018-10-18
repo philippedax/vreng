@@ -15,6 +15,11 @@ The rules for this file:\n\
 \n\
 ++ 8\n\
 == 8.7\n\
+== 8.7.1\n\
+	- alternative for missing fonts, use local fonts in uconf.cpp\n\
+	- alternative if Xmu not found in udispX11.cpp\n\
+	(2018/10/18, Philippe Dax)\n\
+\n\
 == 8.7.0\n\
 	- find Xmu and Xpm headers needed by src/ubit\n\
 	- added missing ttf fonts in directory fonts/\n\

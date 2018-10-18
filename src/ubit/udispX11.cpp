@@ -22,7 +22,9 @@
 #include <ubit/udispX11.hpp>  // includes X11 headers
 #include <X11/keysym.h> 
 #include <X11/cursorfont.h>
-#include <X11/Xmu/WinUtil.h>  //XmuClientWindow
+#if HAVE_XMU_WINUTIL_H
+#  include <X11/Xmu/WinUtil.h>  //XmuClientWindow
+#endif
 #include <ubit/uconf.hpp>
 #include <ubit/uappli.hpp>
 #include <ubit/uappliImpl.hpp>
@@ -510,6 +512,7 @@ void UDispX11::ungrabPointer() {
 // =============================================================================
 
 namespace udisp {
+#if HAVE_XMU_WINUTIL_H //DAX
   struct PickTarget {
     Display* disp;
     Window root, win;
@@ -525,10 +528,12 @@ namespace udisp {
                           xev.xbutton.x_root, xev.xbutton.y_root, 
                           &t.x, &t.y, &win_child);
   }
+#endif
 }
 
 bool UDispX11::pickWindow(int& x, int& y, UHardwinImpl* hw, 
                           UCursor* curs, UCall* call) {
+#if HAVE_XMU_WINUTIL_H //DAX
   Cursor xc = (!curs) ? None : curs->getCursorImpl(this)->cursor;
   UEventFlow* flow = obtainChannelFlow(0);
   udisp::PickTarget t;
@@ -605,6 +610,9 @@ UNGRAB:
     }
   }
   return true;
+#else
+  return false;
+#endif
 }
 
 // ==================================================== [Ubit Toolkit] =========

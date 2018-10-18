@@ -37,14 +37,14 @@ NAMESPACE_UBIT
 // TRUETYPE font dirs (in /usr/X11R6/ /usr/include/ /usr/openwin/include )
 #define XFT_DIR "/usr/X11/share/fonts/Type1/" // macosx
 #if LINUX
-#if HAVE_TTF_PFA
-#define LFT_DIR TTFPATH
+#  if HAVE_TTF_PFA
+#    define LFT_DIR TTFPATH
+#  else
+#    define LFT_DIR "./fonts"
+//DAX#    error Sorry, but the TTF font aith .pfa suffix must exist
+#  endif
 #else
-#define LFT_DIR ""
-#error Sorry, but the TTF font aith .pfa suffix must exist
-#endif
-#else
-#define LFT_DIR ""
+#  define LFT_DIR ""
 #endif
 //#if UBUNTU | DEBIAN
 //#define LFT_DIR "/usr/share/fonts/X11/Type1/" //ubunto

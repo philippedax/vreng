@@ -911,10 +911,10 @@ void UWin::setPos(const UWin& win, const UPoint& p, UDisp* disp) {
     // verifie si current_winview toujours dans la liste
     UView* v = softw ? softw->getActualView(views) : null;
     UWin* current_hardwin = null;
-    UView* current_hardwin_view = null;
+    //DAX UView* current_hardwin_view = null;
     if (v) {
       current_hardwin = v->getWin();
-      current_hardwin_view = v->getWinView();
+      /*DAX current_hardwin_view = */v->getWinView();
     }
 
     if (current_hardwin == win_hardwin) {

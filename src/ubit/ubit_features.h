@@ -11,6 +11,8 @@
 #define UBIT_VERSION_MICRO 0
 #define UBIT_VERSION "7.0.0"
 
+#include "config.h"	// vreng heritage
+
 /* Features */
 #define   UBIT_WITH_XPM 1
 #define   UBIT_WITH_GIF 1
