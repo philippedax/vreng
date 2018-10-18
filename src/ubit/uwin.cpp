@@ -336,14 +336,14 @@ UView* UWin::realizeSoftwin(UWin* hardwin, UView* hardwin_view,
   UWinList* softwins = hardi->obtainSoftwins();
   // est-ce que this est deja dans la softlist ?
   UChildIter i = softwins->children().find(*this);
-  UChild* child = null;
-  if (i != softwins->cend()) child = &i.child();
+  //DAX UChild* child = null;
+  if (i != softwins->cend()) /*DAX child = &*/i.child();
   else {
     bool auto_up = softwins->isAutoUpdate();
     softwins->setAutoUpdate(false);
     softwins->add(this);
     softwins->setAutoUpdate(auto_up);
-    child = &(softwins->children().back());
+    /*DAX child = &*/ (softwins->children().back());
   }
   
   if (!disp) disp = hardwin_view->getDisp();

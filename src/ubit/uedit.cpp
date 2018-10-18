@@ -702,11 +702,10 @@ void UEdit::deleteSelection(USelection* sel, UStr& sel_text, UElem& container) {
   int pos_in_s = 0;
   UStr* s = getCaretStr(pos_in_s);
   
-  if (!sel || !sel->in_obj || sel->oldLink == sel->in_obj->cend()
-      || s != *(sel->oldLink)) 
+  if (!sel || !sel->in_obj || sel->oldLink == sel->in_obj->cend() || s != *(sel->oldLink)) 
     return;
   
-    if (pos_in_s >= sel->toPos) {
+  if (pos_in_s >= sel->toPos) {
     long pos = getCaretPos(container);
     setCaretPos(pos - sel_text.length(), container);
   }
