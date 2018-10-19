@@ -771,15 +771,15 @@ AC_DEFUN([AC_X11_CHECK],
   case "`$ac_config_sub $build`" in
     *-*-solaris*) 
       AC_CHECK_HEADER([openwin/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
-	AC_MSG_ERROR([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
       AC_CHECK_HEADER([openwin/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
-	AC_MSG_ERROR([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
+	AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
       ;;
     *)
       AC_CHECK_HEADER([X11/Xmu/WinUtil.h], [AC_DEFINE([HAVE_XMU_WINUTIL_H])],
-	AC_MSG_ERROR([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
+	AC_MSG_WARN([unable to find Xmu/WinUtil.h vreng/ubit need it: install libxmu-dev]))
       AC_CHECK_HEADER([X11/xpm.h], [AC_DEFINE([HAVE_XPM_H])],
-	AC_MSG_ERROR([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
+	AC_MSG_WARN([unable to find Xpm/xpm.h vreng/ubit need it: install libxpm-dev]))
       ;;
   esac
   CFLAGS=$saved_cflags
