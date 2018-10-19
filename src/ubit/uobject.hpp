@@ -114,8 +114,8 @@ namespace ubit {
   public:
     struct MetaClass : public UClass {
       MetaClass() : UClass("UObject") {}
-      //DAX virtual bool isInstance(UObject& obj) const {return dynamic_cast<UObject*>(&obj);}
-      virtual bool isInstance(UObject* obj) const {return dynamic_cast<UObject*>(obj);}
+      virtual bool isInstance(UObject& obj) const {return dynamic_cast<UObject*>(&obj);}
+      //DAX virtual bool isInstance(UObject* obj) const {return dynamic_cast<UObject*>(obj);}
       virtual UObject* newInstance() const {return null;} 
       virtual UStyle* newStyle() const {return null;}
     };
