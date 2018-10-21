@@ -14,7 +14,7 @@ case $# in
 esac
 
 svn ci -m "$1"
-./github
+./support/github
 git commit -a -m "$1"
 git push origin master
 #./gitlab
