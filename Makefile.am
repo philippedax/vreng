@@ -26,7 +26,7 @@ AUTOMAKE_OPTIONS = foreign no-dependencies subdir-objects
 SUBDIRS = src man bin etc
 
 
-EXTRA_DIST = COPYRIGHT VERSION ANNOUNCE support/* md/* fonts/* autogen.sh commit github gitlab
+EXTRA_DIST = COPYRIGHT VERSION ANNOUNCE support/* md/* fonts/* autogen.sh
 ACLOCAL_AMFLAGS = -I support
 
 ## maintainer's targets
