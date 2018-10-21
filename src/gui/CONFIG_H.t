@@ -36,7 +36,7 @@ const char CONFIG_H[] = "\
 #define GCC_MAJOR_VERSION 8\n\
 \n\
 /* gcc version */\n\
-#define GCC_VERSION \"8.1.1\"\n\
+#define GCC_VERSION \"8.2.1\"\n\
 \n\
 /* */\n\
 /* #undef HAVE_ALUT */\n\

@@ -14,6 +14,12 @@ The rules for this file:
 
 ++ 8
 == 8.7
+== 8.7.2
+	- added fonts to git
+	- added texture/glpng{ch}pp to git
+	- moved githup to .github
+	(2018/10/21, Philippe Dax)
+
 == 8.7.1
 	- alternative for missing fonts, use local fonts in uconf.cpp
 	- alternative if Xmu not found in udispX11.cpp
