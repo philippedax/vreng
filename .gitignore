@@ -16,6 +16,9 @@ Makefile.in
 data
 support/github
 support/gitlab
+github
+gitlab
+commit
 ubit_svn
 ftp
 gif
