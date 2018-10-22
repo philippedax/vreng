@@ -1304,6 +1304,7 @@ AC_ARG_WITH([mysql],
 AH_TEMPLATE(WITH_MYSQL)
 AH_TEMPLATE(HAVE_LIBMYSQLCLIENT)
 AH_TEMPLATE(HAVE_MYSQL_ERROR)
+AH_TEMPLATE(HAVE_MYSQL)
 AH_TEMPLATE(HAVE_MYSQL_H)
 AH_TEMPLATE(HAVE_MYSQL_MYSQL_H)
 
@@ -1394,6 +1395,7 @@ if test "${with_mysql:=yes}" = "yes"; then
     if test "$ac_cv_lib_mysqlclient_mysql_error" = "yes" ; then
       AC_DEFINE(HAVE_MYSQL_ERROR)
     fi
+    AC_DEFINE(HAVE_MYSQL)
   else
     AC_MSG_RESULT([	--> libmysqlclient: http://www.mysql.com/])
   fi
