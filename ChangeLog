@@ -14,8 +14,13 @@ The rules for this file:
 
 ++ 8
 == 8.7
+== 8.7.3
+	- configure change openal by freealut
+	- changed fire parameters in fire.hpp
+	(2018/10/22, Philippe Dax)
+
 == 8.7.2
-	- added fonts to git
+	- added fonts directory to git
 	- added texture/glpng{ch}pp to git
 	- moved githup to .github
 	(2018/10/21, Philippe Dax)

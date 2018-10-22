@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[8.7.2],[philippe.dax@gmail.com])
+AC_INIT([vreng],[8.7.3],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ(2.63)
@@ -1627,24 +1627,24 @@ AC_ARG_WITH([openal],
     [ac_cv_use_openal=$withval], [ac_cv_use_openal=no])
 if test "$ac_cv_use_openal" = "yes"; then
   AH_TEMPLATE(HAVE_OPENAL)
-  AC_CHECK_LIB([freealut], [alGetError],
-       [VRELIBS="$OSDEP_LIBS -lfreealut $VRELIBS"],
-       [AC_MSG_WARN([freealut library not found, check config.log!, try apt|dnf|yum|brew install freealut-soft])],
+  AC_CHECK_LIB([openal], [alGetError],
+       [VRELIBS="$OSDEP_LIBS -lopenal $VRELIBS"],
+       [AC_MSG_WARN([openal library not found, check config.log!, try apt|dnf|yum|brew install openal-soft])],
        [$OSDEP_LIBS])
-  if test "$ac_cv_lib_freealut_alGetError" = "yes"; then
+  if test "$ac_cv_lib_openal_alGetError" = "yes"; then
     AC_DEFINE([HAVE_OPENAL])
     AH_TEMPLATE(HAVE_AL_H)
     AC_CHECK_HEADER([AL/al.h], [AC_DEFINE([HAVE_AL_H])],
-	    AC_MSG_WARN([unable to find openal header]))
+	    AC_MSG_WARN([unable to find openal header AL/al.h]))
     openal="yes"
     # check alut
     AH_TEMPLATE(HAVE_ALUT)
-    AC_CHECK_LIB([alut], [alutLoadWAVFile],
-	 [VRELIBS="$OSDEP_LIBS -lalut $VRELIBS"],
-	 [AC_MSG_WARN([alut library not found, check config.log!, try apt|dnf|yum|brew install alut])],
+    AC_CHECK_LIB([freealut], [alutLoadWAVFile],
+	 [VRELIBS="$OSDEP_LIBS -lfreealut $VRELIBS"],
+	 [AC_MSG_WARN([freealut library not found, check config.log!, try apt|dnf|yum|brew install freealut])],
 	 [$OSDEP_LIBS])
-  #if test "$ac_cv_lib_alut_alutLoadWAVFile" = "yes"; then
-    VRELIBS="$OSDEP_LIBS -lalut $VRELIBS"
+  #if test "$ac_cv_lib_freealut_alutLoadWAVFile" = "yes"; then
+    VRELIBS="$OSDEP_LIBS -lfreealut $VRELIBS"
     AC_DEFINE([HAVE_ALUT])
     AH_TEMPLATE(HAVE_ALUT_H)
     AC_CHECK_HEADER([AL/alut.h], [AC_DEFINE([HAVE_ALUT_H])],
