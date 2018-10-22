@@ -39,13 +39,13 @@ const char CONFIG_H[] = "\
 #define GCC_VERSION \"8.2.1\"\n\
 \n\
 /* */\n\
-/* #undef HAVE_ALUT */\n\
+#define HAVE_ALUT 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_ALUT_H */\n\
+#define HAVE_ALUT_H 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_AL_H */\n\
+#define HAVE_AL_H 1\n\
 \n\
 /* Define to 1 if you have the <arpa/inet.h> header file. */\n\
 #define HAVE_ARPA_INET_H 1\n\
@@ -317,6 +317,9 @@ const char CONFIG_H[] = "\
 #define HAVE_MULTICAST 1\n\
 \n\
 /* */\n\
+#define HAVE_MYSQL 1\n\
+\n\
+/* */\n\
 #define HAVE_MYSQL_ERROR 1\n\
 \n\
 /* */\n\
@@ -347,7 +350,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_OCAML */\n\
 \n\
 /* */\n\
-/* #undef HAVE_OPENAL */\n\
+#define HAVE_OPENAL 1\n\
 \n\
 /* */\n\
 #define HAVE_PNG_H 1\n\
@@ -396,10 +399,10 @@ const char CONFIG_H[] = "\
 #define HAVE_SIGNAL_H 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_SNDFILE */\n\
+#define HAVE_SNDFILE 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_SNDFILE_H */\n\
+#define HAVE_SNDFILE_H 1\n\
 \n\
 /* Define to 1 if you have the `socket' function. */\n\
 #define HAVE_SOCKET 1\n\
