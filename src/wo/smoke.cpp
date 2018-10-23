@@ -37,10 +37,10 @@ struct SMOKE_PARTICLE {
   Vector3 p, v;
 } offset[NTILEZ][NTILEY][NTILEZ];
 
-static struct sParticle particles[PARTMAX];
+static struct sParticle particles[FIREMAX];
 static float deplfact[1<<8];
-static Vector3 Src(0,5,-1.5);
-static Vector3 FPartA(0.,0.,4.);
+static Vector3 src(0,5,-1.5);
+static Vector3 fpart(0.,0.,4.);
 static Matrix3 M;
 static Vector3 O;
 
@@ -53,7 +53,7 @@ WObject * Smoke::creator(char *l)
 
 void Smoke::defaults()
 {
-  np = NBPARTS;
+  np = FIRENB;
   speed = 0.5;
 }
 
@@ -93,7 +93,7 @@ Smoke::Smoke(char *l)
 void Smoke::inits()
 {
   lasttime = 0;
-  np = MIN(np, PARTMAX);
+  np = MIN(np, FIREMAX);
   anim = true;
 
   for (int i=0 ; i < (1<<8) ; i++)
@@ -163,11 +163,10 @@ void Smoke::changePermanent(float dt)
   //error("np=%d", np);
   motionAnimate(dt);
   for (int n=0; n < np; n++, p++) {
-    //error("t=%.2F %.2f", p->t, dt);
     if ((p->t -= dt) <= 0)
       *p = particles[--np]; // kill it
     else { // animate it
-      p->v += FPartA * dt;
+      p->v += fpart * dt;
       p->p += p->v * dt;
       motionWarp(p->p, dt);
       p->a *= da;
@@ -175,12 +174,12 @@ void Smoke::changePermanent(float dt)
   }
   lasttime += dt;
 #if 1 //dax
-  while (np < PARTMAX && (time - lasttime >= SMOKEDELTA)) { 
-    Vector3 Dir(0,0,.25);
+  while (np < FIREMAX && (time - lasttime >= SMOKEDELTA)) { 
+    Vector3 dir(0,0,.25);
     lasttime += SMOKEDELTA;
     p = particles + (np++);
-    p->p = Src; // + DS1*rnd2(0.25) + DS2*rnd2(0.25);
-    p->v = Dir;
+    p->p = src; // + DS1*rnd2(0.25) + DS2*rnd2(0.25);
+    p->v = dir;
     motionWarp(p->p, (time - lasttime));
     p->t = SMOKELIFE + lasttime - time;
     float size = SMOKESIZE * (0.5+rnd2(0.5));
@@ -194,20 +193,20 @@ void Smoke::changePermanent(float dt)
 #endif
 
   O.reset();
-  M.apply(Src, &O);
-  O = Src - O;
+  M.apply(src, &O);
+  O = src - O;
   p = particles;
   for (int n=0; n < np; n++, p++) {
-    float Foc = 2.;
+    float foc = 2.;
     Vector3 v;
     M.apply(p->p, &v);
     v += O;
     if (v.y > 1) {
-      p->ex = ProjEX(v);
-      p->ey = ProjEY(v);
-      ProjEZ(p->ez, v);
-      p->dx = Foc*p->s.x/v.y;
-      p->dy = Foc*p->s.z/v.y;
+      p->ex = projx(v);
+      p->ey = projy(v);
+      projz(p->ez, v);
+      p->dx = foc*p->s.x/v.y;
+      p->dy = foc*p->s.z/v.y;
     }
     else p->dx = 0;
   }

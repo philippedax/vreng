@@ -31,7 +31,7 @@
 #define TILE 1.
 #define NTILEZ 8
 #define NTILEY 4
-#define NTILEX 8
+#define NTILEX 4
 #define WARPF (TILE*5.)
 #define AFFF ((TILE/16.)/WARPF)
 #define SPRINGF 0.01f
@@ -40,10 +40,11 @@
 #define ANGF 1
 #define ANGRND 0.16f
 #define ANG0 0.16f
-#define SMOKESIZE 0.5f
-#define SMOKELIFE 3.f
-#define SMOKEDELTA 0.001f
-#define SMOKEALPHA 0.35f
+#define SMOKESIZE .25	// 25 cm
+#define SMOKELIFE 3.	// 3 sec
+#define SMOKEDELTA 0.005
+#define SMOKEALPHA 0.35
+
 #define SQRT_5 2.236067977f
 #define SQRT_6 2.449489743f
 #define D0     0

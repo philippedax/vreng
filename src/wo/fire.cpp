@@ -27,11 +27,11 @@
 const OClass Fire::oclass(FIRE_TYPE, "Fire", Fire::creator);
 
 // local
-static struct sParticle particles[PARTMAX];
-static Vector3 Src(0,5,-1.5);
-static Vector3 DS1(2,0,0);
-static Vector3 DS2(0,2,0);
-static struct sCyl FCyl[3];
+static struct sParticle particles[FIREMAX];
+static Vector3 src(0,5,-1.5);
+static Vector3 ds1(2,0,0);
+static Vector3 ds2(0,2,0);
+static struct sCyl cyl[3];
 
 
 static float hrnd(float n) { return (n*rand())/RAND_MAX; }
@@ -57,7 +57,7 @@ WObject * Fire::creator(char *l)
 
 void Fire::defaults()
 {
-  np = NBPARTS;
+  np = FIRENB;
   speed = 1; // .5
   anim = true;
   sound = false;
@@ -110,7 +110,7 @@ void Fire::inits()
 {
   time = 0;
   lasttime = 0;
-  np = MIN(np, PARTMAX);
+  np = MIN(np, FIREMAX);
 
   V3 dim;
   getDim(dim);
@@ -122,18 +122,18 @@ void Fire::inits()
     signal(SIGUSR2, sound_continue);
     Sound::playSound(FIRESND);
   }
-  FCyl[0].r = FILECYL;
-  FCyl[0].d = DS1*2.;
-  FCyl[0].p = Src-FCyl[0].d*0.5;
-  FCyl[0].p.z -= FILECYL;
-  FCyl[1].r = FILECYL;
-  FCyl[1].d = (DS1*0.85+DS2*0.5)*2.;
-  FCyl[1].p = Src-FCyl[1].d*0.5;
-  FCyl[1].p.z -= FILECYL;
-  FCyl[2].r = FILECYL;
-  FCyl[2].d = (DS1*-0.5+DS2*0.85)*2.;
-  FCyl[2].p = Src-FCyl[2].d*0.5;
-  FCyl[2].p.z -= FILECYL;
+  cyl[0].r = FIRECYL;
+  cyl[0].d = ds1*2.;
+  cyl[0].p = src-cyl[0].d*0.5;
+  cyl[0].p.z -= FIRECYL;
+  cyl[1].r = FIRECYL;
+  cyl[1].d = (ds1*0.85+ds2*0.5)*2.;
+  cyl[1].p = src-cyl[1].d*0.5;
+  cyl[1].p.z -= FIRECYL;
+  cyl[2].r = FIRECYL;
+  cyl[2].d = (ds1*-0.5+ds2*0.85)*2.;
+  cyl[2].p = src-cyl[2].d*0.5;
+  cyl[2].p.z -= FIRECYL;
 }
 
 void Fire::draw()
@@ -162,7 +162,7 @@ void Fire::draw(float ex, float ey, float dx, float dy, float a)
    glVertex3f(ex+dx, ex+dx, ey);
    glVertex3f(ex+dx*.5, ex+dx*.5, ey - M_SQRT3_2*dy);
    glVertex3f(ex-dx*.5, ex-dx*.5, ey - M_SQRT3_2*dy);
-   glVertex3f(ex-dx, ex -dx, ey);
+   glVertex3f(ex-dx, ex-dx, ey);
   glEnd();
 }
 
@@ -170,20 +170,20 @@ void Fire::render()
 {
   static uint32_t nf = 0;
 
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
   float seed = ((float) drand48() * 2) - 1.;
   glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
   glDisable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-  glEnable(GL_BLEND);
+  //glEnable(GL_BLEND);
 
   draw();
 
-  glDisable(GL_BLEND);
+  //glDisable(GL_BLEND);
   glPopMatrix();
-  //DAX glPopAttrib();
+  glPopAttrib();
   nf++;
 }
 
@@ -209,14 +209,14 @@ void Fire::changePermanent(float dt)
         p->a *= da;
       }
     }
-    while (np < PARTMAX && (time - lasttime >= FIREDELTA)) {
-      Vector3 Dir(0,0,.25);
+    while (np < FIREMAX && (time - lasttime >= FIREDELTA)) {
+      Vector3 dir(0,0,.25);
       float f;
       lasttime += FIREDELTA;
       p = particles + np++;
       do { f = nrnd(.2); } while (ABSF(f) > .45);
-      p->p = Src + FCyl[rand()%5].d * f;
-      p->v = Dir;
+      p->p = src + cyl[rand()%5].d * f;
+      p->v = dir;
       p->t = lasttime + FIRELIFE - time;
       p->a = FIREALPHA;
       p->s.y = FIRESIZE;
@@ -228,31 +228,31 @@ void Fire::changePermanent(float dt)
 
   Vector3 v, o;
   Matrix3 m;
-  m.apply(Src, &o);
-  o = Src - o;
+  m.apply(src, &o);
+  o = src - o;
   p = particles;
   for (int n=0; n < np; n++, p++) {
     m.apply(p->p, &v);
     v += o;
-    p->ex = width * ProjEX(v);  //0.25
-    p->ey = height * ProjEY(v); //0.75
-    ProjEZ(p->ez, v);
+    p->ex = width * projx(v);  //0.25
+    p->ey = height * projy(v); //0.75
+    projz(p->ez, v);
     p->dx = width * p->s.x/v.y;
     p->dy = height * p->s.z/v.y;
   }
 
 #if 0 //dax
   for (int n=0; n<4; n++) {
-    Quad FGround;
-    Vector3 vg = Src;
-    vg.y -= 2*FILECYL;
-    if ((n+1)&2) vg += DS1; else vg -= DS1;
-    if ( n   &2) vg += DS2; else vg -= DS2;
+    Quad fground;
+    Vector3 vg = src;
+    vg.y -= 2*FIRECYL;
+    if ((n+1)&2) vg += ds1; else vg -= ds1;
+    if ( n   &2) vg += ds2; else vg -= ds2;
     m.apply(vg, &v);
     v += o;
-    FGround.v[n].ex = ProjEX(v);
-    FGround.v[n].ey = ProjEY(v);
-    ProjEZ(FGround.v[n].ez, v);
+    fground.v[n].ex = projx(v);
+    fground.v[n].ey = projy(v);
+    projz(fground.v[n].ez, v);
   }
 #endif
 }
