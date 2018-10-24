@@ -132,6 +132,14 @@ void Smoke::inits()
   }
 }
 
+void Smoke::draw()
+{
+  struct sParticle *p = particles;
+
+  for (int n=0; n<np ; n++, p++)
+    draw(p->ex, p->ey, p->dx, p->dx, p->a);
+}
+
 void Smoke::draw(float ex, float ey, float dx, float dy, float a)
 {
   float white[] = {.7, .7, .7, .7};
@@ -163,6 +171,27 @@ void Smoke::draw(float ex, float ey, float dx, float dy, float a)
     glVertex3f(ex-dx*.5, ex-dx*.5, ey - M_SQRT3_2*dy);
     glVertex3f(ex-dx, ex-dx, ey);
   glEnd();
+}
+
+void Smoke::render()
+{
+  static uint32_t nf = 0;
+
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  glPushMatrix();
+  glTranslatef(pos.x, pos.y, pos.z);
+  float seed = ((float) drand48() * 2) - 1.;
+  glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
+  glDisable(GL_CULL_FACE);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+  //glEnable(GL_BLEND);
+
+  draw();
+
+  //glDisable(GL_BLEND);
+  glPopMatrix();
+  glPopAttrib();
+  nf++;
 }
 
 void Smoke::changePermanent(float dt)

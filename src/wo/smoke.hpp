@@ -81,6 +81,8 @@ public:
 
   virtual void changePermanent(float dt);
 
+  virtual void render();
+
 private:
   virtual void defaults();
   /**< Sets defaults values. */
@@ -92,6 +94,8 @@ private:
 
   virtual void inits();
   /**< Initializations. */
+
+  virtual void draw();
 
   virtual void draw(float ex, float ey, float dx, float dy, float a);
   /**< Draws smoke particules. */
