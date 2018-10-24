@@ -141,9 +141,15 @@ void Smoke::draw(float ex, float ey, float dx, float dy, float a)
   //error("draw %.2f %.2f %.2f %.2f %.2f", ex,ey,dx,dy,a);
 
   glBegin(GL_TRIANGLE_FAN);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, white);
+    if (drand48() > 0.5)
+      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, white);
+    else
+      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
     glVertex3f(ex, ex, ey);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
+    if (drand48() > 0.5)
+      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, white);
+    else
+      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
     glVertex3f(ex-dx, ex-dx, ey);
     glVertex3f(ex-dx*.5, ex-dx*.5, ey + M_SQRT3_2*dy);
     glVertex3f(ex+dx*.5, ex+dx*.5, ey + M_SQRT3_2*dy);
