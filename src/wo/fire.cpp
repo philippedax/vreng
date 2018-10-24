@@ -151,13 +151,18 @@ void Fire::draw(float ex, float ey, float dx, float dy, float a)
 
   yellow[3] = a;
   red[3] = a;
+  struct timeval tv;
 
   glBegin(GL_TRIANGLE_FAN);
+  gettimeofday(&tv, NULL);
+  srand((time_t) tv.tv_usec);
    if (drand48() > 0.5)
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, yellow);
    else
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, red);
    glVertex3f(ex, ex, ey);
+  gettimeofday(&tv, NULL);
+  srand((time_t) tv.tv_usec);
    if (drand48() > 0.5)
      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, yellow);
    else

@@ -138,14 +138,19 @@ void Smoke::draw(float ex, float ey, float dx, float dy, float a)
   float grey[] = {.1, .1, .1, .1};
   white[3] = a;
   grey[3] = a;
+  struct timeval tv;
   //error("draw %.2f %.2f %.2f %.2f %.2f", ex,ey,dx,dy,a);
 
   glBegin(GL_TRIANGLE_FAN);
+    gettimeofday(&tv, NULL);
+    srand((time_t) tv.tv_usec);
     if (drand48() > 0.5)
       glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, white);
     else
       glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
     glVertex3f(ex, ex, ey);
+    gettimeofday(&tv, NULL);
+    srand((time_t) tv.tv_usec);
     if (drand48() > 0.5)
       glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, white);
     else
