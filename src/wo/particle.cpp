@@ -303,7 +303,7 @@ void Particle::render()
   if (state == INACTIVE) return;
 
   glPushMatrix();
-#if 1 //FOG
+#if 0 //FOG
   float black[] = { 0, 0, 0, 1 };
   glFogfv(GL_FOG_COLOR, black);
   glFogf(GL_FOG_START, 2.5);
