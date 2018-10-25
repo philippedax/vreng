@@ -39,7 +39,7 @@ const uint8_t Particle::DEF_PTSIZE = 1;
 const float Particle::DEF_GRAVITY = -9.8;
 
 // local
-static timeval begintime;
+static struct timeval begintime;
 
 
 /* creation from a file */
@@ -144,7 +144,7 @@ void Particle::inits()
    the previous call to the function. */
 float Particle::timedelta()
 {
-  timeval endtime;
+  struct timeval endtime;
   gettimeofday(&endtime, NULL);
   srand((time_t) endtime.tv_usec);
 
@@ -303,7 +303,7 @@ void Particle::render()
   if (state == INACTIVE) return;
 
   glPushMatrix();
-#if 0 //FOG
+#if 1 //FOG
   float black[] = { 0, 0, 0, 1 };
   glFogfv(GL_FOG_COLOR, black);
   glFogf(GL_FOG_START, 2.5);
@@ -315,7 +315,9 @@ void Particle::render()
   glEnable(GL_COLOR_MATERIAL);
   glDisable(GL_LIGHTING);
 
-  if (mycolor) glColor3fv(color);
+  if (mycolor) {
+    glColor3fv(color);
+  }
   else {
     color[0] = (rand()%2) ? (float) drand48() : 1;
     color[1] = .5 + (float) drand48()*.5;
@@ -333,7 +335,7 @@ void Particle::render()
     }
     glEnd();
   }
-  else {
+  else { // lines
     glLineWidth(pt_size);
     //glLineStipple(1, 0xF0F0);
     glBegin(GL_LINES);	// segments
