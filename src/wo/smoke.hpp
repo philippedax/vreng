@@ -24,10 +24,14 @@
 #define SMOKE_TYPE 	76
 #define SMOKE_NAME 	"Smoke"
 
-#include "fire.hpp"
 #include "vector3.hpp"
+#include <vector>
+#include "fire.hpp"
 
+#define NEW_SMOKE
 
+#ifdef NEW_SMOKE
+#else
 #define TILE 1.
 #define NTILEZ 8
 #define NTILEY 4
@@ -61,6 +65,7 @@
 
 inline int f2int(float f) { f+=FLOATTOINTCONST; return ((*((int*)&f))&0x007fffff)-0x00400000; }
 #define rnd2(f) ((float)rand()*(f/(float)RAND_MAX)) // Floating point random number generator (0->1)
+#endif
 
 
 /**
@@ -69,6 +74,36 @@ inline int f2int(float f) { f+=FLOATTOINTCONST; return ((*((int*)&f))&0x007fffff
 class Smoke: public Fire {
 
 public:
+#ifdef NEW_SMOKE
+  //class Particle {
+private:
+    Vector3 pos;
+    Vector3 vel;
+    Vector3 acc;
+    float life;
+public:
+    static const float size;
+    static const float _pi;
+    static const float angle[10];
+    static const float _cos[10];
+    static const float _sin[10];
+    //Particle();
+    //Particle(Vector3 l);
+    void run();
+    //void update();
+    bool isDead();
+    float random(float upper, float lower);
+  //};
+  //std::vector<Particle> particles;
+  Smoke(Vector3 l);
+  std::vector<Smoke> particles;
+  Vector3 emitter;
+  //ParticleSystem();
+  //ParticleSystem(Vector3 l);
+  void addParticle();   
+  Vector3 random();
+  //void run();
+#endif
   static const OClass oclass;	///< class variable.
   virtual const OClass* getOClass() {return &oclass;}
 

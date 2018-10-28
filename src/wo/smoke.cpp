@@ -26,6 +26,20 @@
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
 // local
+#ifdef NEW_SMOKE
+const float Smoke::size = 0.02;
+const float Smoke::_pi = 3.141592;
+const float Smoke::angle[10] ={2*_pi*1/10., 2*_pi*2/10., 2*_pi*3/10.,
+2*_pi*4/10., 2*_pi*5/10., 2*_pi*6/10., 2*_pi*7/10., 2*_pi*8/10., 2*_pi*9/10., 2*_pi};
+const float Smoke::_cos[10] = {size*cos(angle[0]),
+  size*cos(angle[1]), size*cos(angle[2]), size*cos(angle[3]),
+  size*cos(angle[4]), size*cos(angle[5]), size*cos(angle[6]),
+  size*cos(angle[7]), size*cos(angle[8]), size*cos(angle[9])};
+const float Smoke::_sin[10] = {size*sin(angle[0]),
+  size*sin(angle[1]), size*sin(angle[2]), size*sin(angle[3]),
+  size*sin(angle[4]), size*sin(angle[5]), size*sin(angle[6]),
+  size*sin(angle[7]), size*sin(angle[8]), size*sin(angle[9])};
+#else
 static float norms[3][3][3] = {
 { {TILE*D0,TILE*D1,TILE*D2}    ,{TILE*D1,TILE*D1_1,TILE*D2_1}      ,{TILE*D2,TILE*D2_1,TILE*D2_2} },
 { {TILE*D1,TILE*D1_1,TILE*D2_1},{TILE*D1_1,TILE*D1_1_1,TILE*D2_1_1},{TILE*D2_1,TILE*D2_1_1,TILE*D2_2_1} },
@@ -43,7 +57,7 @@ static Vector3 src(0,5,-1.5);
 static Vector3 fpart(0.,0.,4.);
 static Matrix3 M;
 static Vector3 O;
-
+#endif
 
 /* creation from a file */
 WObject * Smoke::creator(char *l)
@@ -53,7 +67,13 @@ WObject * Smoke::creator(char *l)
 
 void Smoke::defaults()
 {
+#ifdef NEW_SMOKE
+  //pos = l;
+  vel = Vector3(0.0,0.001,0);
+  life = 255;
+#else
   np = FIRENB;
+#endif
   speed = 0.5;
 }
 
@@ -92,6 +112,8 @@ Smoke::Smoke(char *l)
 
 void Smoke::inits()
 {
+#ifdef NEW_SMOKE
+#else
   lasttime = 0;
   np = MIN(np, FIREMAX);
   anim = true;
@@ -130,18 +152,33 @@ void Smoke::inits()
       }
     }
   }
+#endif
 }
+
+#ifdef NEW_SMOKE
+float Smoke::random(float upper, float lower)
+{
+  float range = (upper-lower);
+  float random_float = lower+(range*((float)rand())/(RAND_MAX));
+  return random_float;
+}
+#endif
 
 void Smoke::draw()
 {
+#ifdef NEW_SMOKE
+#else
   struct sParticle *p = particles;
 
   for (int n=0; n<np ; n++, p++)
     draw(p->ex, p->ey, p->dx, p->dx, p->a);
+#endif
 }
 
 void Smoke::draw(float ex, float ey, float dx, float dy, float a)
 {
+#ifdef NEW_SMOKE
+#else
   float white[] = {.7, .7, .7, .7};
   float grey[] = {.1, .1, .1, .1};
   white[3] = a;
@@ -171,10 +208,24 @@ void Smoke::draw(float ex, float ey, float dx, float dy, float a)
     glVertex3f(ex-dx*.5, ex-dx*.5, ey - M_SQRT3_2*dy);
     glVertex3f(ex-dx, ex-dx, ey);
   glEnd();
+#endif
 }
 
 void Smoke::render()
 {
+#ifdef NEW_SMOKE
+  float inty = 1.2 - life/255.;
+  glColor4f(0.9,0.9,0.9,inty);//, inty, inty);
+  //float delta_theta = 0.01;
+  //float _pi = 3.141592;
+  //glBindTexture(GL_TEXTURE_2D, smokeTexture);
+  glBegin( GL_POLYGON ); // OR GL_LINE_LOOP
+  for (std::size_t i = 0; i<10;++i) {
+    glVertex3f(pos.x + _cos[i], pos.y + _sin[i], 0.);
+  }
+  glEnd();
+  glFlush();
+#else
   static uint32_t nf = 0;
 
   glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -192,10 +243,20 @@ void Smoke::render()
   glPopMatrix();
   glPopAttrib();
   nf++;
+#endif
 }
 
 void Smoke::changePermanent(float dt)
 {
+#ifdef NEW_SMOKE
+  float x_acc = 0.000034*random(-1,1);
+  float y_acc = 0.00001*random(-1,1);
+  float z_acc = 0.0;//0.0001*random();
+  acc = Vector3(x_acc,y_acc,z_acc);
+  vel.add(acc);
+  pos.add(vel);
+  life -= 0.2;
+#else
   struct sParticle *p = particles;
   float da = pow(0.2, dt);
 
@@ -213,7 +274,6 @@ void Smoke::changePermanent(float dt)
     }
   }
   lasttime += dt;
-#if 1 //dax
   while (np < FIREMAX && (time - lasttime >= SMOKEDELTA)) { 
     Vector3 dir(0,0,.25);
     lasttime += SMOKEDELTA;
@@ -230,7 +290,6 @@ void Smoke::changePermanent(float dt)
     p->a = alpha*pow(da, (time - lasttime));
     p->s *= 0.5 + rnd2(0.5);
   }
-#endif
 
   O.reset();
   M.apply(src, &O);
@@ -250,12 +309,60 @@ void Smoke::changePermanent(float dt)
     }
     else p->dx = 0;
   }
+#endif
 }
 
+#ifdef NEW_SMOKE
+bool Smoke::isDead()
+{
+  if (life < 0.0) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+#endif
+
+#ifdef NEW_SMOKE
+void Smoke::addParticle()
+{   
+  Vector3 tmp = random();
+  tmp.add(emitter);
+  Smoke p(tmp);
+  particles.push_back(p);
+}     
+      
+void Smoke::run()
+{     
+  std::vector<Smoke>::iterator it;
+  for (it = particles.begin(); it < particles.end();) {
+    if (!(*it).isDead()) {
+      (*it).run();
+      ++it;
+    }
+    else {
+      it = particles.erase(it);
+    }
+  }
+} 
+    
+Vector3 Smoke::random()
+{ 
+  float lower = -0.02;
+  float upper = 0.02;
+  float range = upper-lower;
+  float rand_x = lower+(range*((float)rand())/(RAND_MAX));
+  float rand_y = lower+(range*((float)rand())/(RAND_MAX));
+  return Vector3(rand_x,rand_y,0);
+}
+#endif
+
 // Handles the wobbling gel, which is used to give the WarpMap it's shape
+#ifdef NEW_SMOKE
+#else
 void Smoke::motionAnimate(float dt)
 {
-#if 1 //dax
   SMOKE_PARTICLE *p = &offset[0][0][0];
   for (int z=0; z<NTILEZ; z++) {
     int zh = z+1; int zl = z-1;
@@ -283,8 +390,6 @@ void Smoke::motionAnimate(float dt)
       }
     }
   }
-#endif
-#if 1 //dax
   p = &offset[0][0][0];
   float ft = (float) pow(DYNF, dt);
   for (int z=0; z<NTILEZ; z++) {
@@ -298,9 +403,11 @@ void Smoke::motionAnimate(float dt)
       }
     }
   }
-#endif
 }
+#endif
 
+#ifdef NEW_SMOKE
+#else
 void Smoke::motionWarp(Vector3 &p, float dt)
 {
   static Vector3 v0,v1,v2,v3,v4,v5,v;
@@ -321,5 +428,6 @@ void Smoke::motionWarp(Vector3 &p, float dt)
   v *= dt;
   p += v;
 }
+#endif
 
 void Smoke::funcs() {}
