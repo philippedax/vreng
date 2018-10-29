@@ -27,15 +27,15 @@ const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
 // local
 #ifdef NEW_SMOKE
-const float Smoke::size = 0.02;
-const float Smoke::_pi = 3.141592;
-const float Smoke::angle[10] ={2*_pi*1/10., 2*_pi*2/10., 2*_pi*3/10.,
+const float ParticleSmoke::size = 0.02;
+const float ParticleSmoke::_pi = 3.141592;
+const float ParticleSmoke::angle[10] ={2*_pi*1/10., 2*_pi*2/10., 2*_pi*3/10.,
 2*_pi*4/10., 2*_pi*5/10., 2*_pi*6/10., 2*_pi*7/10., 2*_pi*8/10., 2*_pi*9/10., 2*_pi};
-const float Smoke::_cos[10] = {size*cos(angle[0]),
+const float ParticleSmoke::_cos[10] = {size*cos(angle[0]),
   size*cos(angle[1]), size*cos(angle[2]), size*cos(angle[3]),
   size*cos(angle[4]), size*cos(angle[5]), size*cos(angle[6]),
   size*cos(angle[7]), size*cos(angle[8]), size*cos(angle[9])};
-const float Smoke::_sin[10] = {size*sin(angle[0]),
+const float ParticleSmoke::_sin[10] = {size*sin(angle[0]),
   size*sin(angle[1]), size*sin(angle[2]), size*sin(angle[3]),
   size*sin(angle[4]), size*sin(angle[5]), size*sin(angle[6]),
   size*sin(angle[7]), size*sin(angle[8]), size*sin(angle[9])};
@@ -65,15 +65,18 @@ WObject * Smoke::creator(char *l)
   return new Smoke(l);
 }
 
-void Smoke::defaults()
-{
 #ifdef NEW_SMOKE
-  //pos = l;
+ParticleSmoke::ParticleSmoke(Vector3 l)
+{
+  pos = l;
   vel = Vector3(0.0,0.001,0);
   life = 255;
-#else
-  np = FIRENB;
+}
 #endif
+
+void Smoke::defaults()
+{
+  np = FIRENB;
   speed = 0.5;
 }
 
@@ -113,6 +116,7 @@ Smoke::Smoke(char *l)
 void Smoke::inits()
 {
 #ifdef NEW_SMOKE
+  emitter = Vector3(pos.x, pos.y, pos.z);
 #else
   lasttime = 0;
   np = MIN(np, FIREMAX);
@@ -156,7 +160,7 @@ void Smoke::inits()
 }
 
 #ifdef NEW_SMOKE
-float Smoke::random(float upper, float lower)
+float ParticleSmoke::random(float upper, float lower)
 {
   float range = (upper-lower);
   float random_float = lower+(range*((float)rand())/(RAND_MAX));
@@ -211,9 +215,9 @@ void Smoke::draw(float ex, float ey, float dx, float dy, float a)
 #endif
 }
 
-void Smoke::render()
-{
 #ifdef NEW_SMOKE
+void ParticleSmoke::display()
+{
   float inty = 1.2 - life/255.;
   glColor4f(0.9,0.9,0.9,inty);//, inty, inty);
   //float delta_theta = 0.01;
@@ -225,6 +229,12 @@ void Smoke::render()
   }
   glEnd();
   glFlush();
+}
+#endif
+
+void Smoke::render()
+{
+#ifdef NEW_SMOKE
 #else
   static uint32_t nf = 0;
 
@@ -246,9 +256,9 @@ void Smoke::render()
 #endif
 }
 
-void Smoke::changePermanent(float dt)
-{
 #ifdef NEW_SMOKE
+void ParticleSmoke::update()
+{
   float x_acc = 0.000034*random(-1,1);
   float y_acc = 0.00001*random(-1,1);
   float z_acc = 0.0;//0.0001*random();
@@ -256,6 +266,19 @@ void Smoke::changePermanent(float dt)
   vel.add(acc);
   pos.add(vel);
   life -= 0.2;
+}
+
+void ParticleSmoke::run()
+{
+  update();
+  display();
+}
+#endif
+
+void Smoke::changePermanent(float dt)
+{
+#ifdef NEW_SMOKE
+  run();
 #else
   struct sParticle *p = particles;
   float da = pow(0.2, dt);
@@ -313,7 +336,7 @@ void Smoke::changePermanent(float dt)
 }
 
 #ifdef NEW_SMOKE
-bool Smoke::isDead()
+bool ParticleSmoke::isDead()
 {
   if (life < 0.0) {
     return true;
@@ -329,13 +352,13 @@ void Smoke::addParticle()
 {   
   Vector3 tmp = random();
   tmp.add(emitter);
-  Smoke p(tmp);
+  ParticleSmoke p(tmp);
   particles.push_back(p);
 }     
       
 void Smoke::run()
 {     
-  std::vector<Smoke>::iterator it;
+  std::vector<ParticleSmoke>::iterator it;
   for (it = particles.begin(); it < particles.end();) {
     if (!(*it).isDead()) {
       (*it).run();

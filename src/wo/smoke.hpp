@@ -67,6 +67,32 @@ inline int f2int(float f) { f+=FLOATTOINTCONST; return ((*((int*)&f))&0x007fffff
 #define rnd2(f) ((float)rand()*(f/(float)RAND_MAX)) // Floating point random number generator (0->1)
 #endif
 
+#ifdef NEW_SMOKE
+/**
+ * ParticleSmoke class
+ */
+class ParticleSmoke {
+private:
+  Vector3 pos;
+  Vector3 vel;
+  Vector3 acc;
+  float life;
+public:
+  //ParticleSmoke();
+  ParticleSmoke(Vector3 l);
+
+  static const float size;
+  static const float _pi;
+  static const float angle[10];
+  static const float _cos[10];
+  static const float _sin[10];
+  void run();
+  void update();
+  void display();
+  bool isDead();
+  float random(float upper, float lower);
+};
+#endif
 
 /**
  * Smoke class
@@ -75,34 +101,8 @@ class Smoke: public Fire {
 
 public:
 #ifdef NEW_SMOKE
-  //class Particle {
-private:
-    Vector3 pos;
-    Vector3 vel;
-    Vector3 acc;
-    float life;
-public:
-    static const float size;
-    static const float _pi;
-    static const float angle[10];
-    static const float _cos[10];
-    static const float _sin[10];
-    //Particle();
-    //Particle(Vector3 l);
-    void run();
-    //void update();
-    bool isDead();
-    float random(float upper, float lower);
-  //};
-  //std::vector<Particle> particles;
-  Smoke(Vector3 l);
-  std::vector<Smoke> particles;
-  Vector3 emitter;
-  //ParticleSystem();
-  //ParticleSystem(Vector3 l);
-  void addParticle();   
-  Vector3 random();
-  //void run();
+  std::vector<ParticleSmoke> particles;
+  //ParticleSmoke(class Vector3 l);
 #endif
   static const OClass oclass;	///< class variable.
   virtual const OClass* getOClass() {return &oclass;}
@@ -135,8 +135,18 @@ private:
   virtual void draw(float ex, float ey, float dx, float dy, float a);
   /**< Draws smoke particules. */
 
+#ifdef NEW_SMOKE
+  class Vector3 emitter;
+
+  //ParticleSystem();
+  //ParticleSystem(Vector3 l);
+  void addParticle();   
+  class Vector3 random();
+  void run();
+#else
   virtual void motionAnimate(float dt);
   virtual void motionWarp(Vector3 &p, float dt);
+#endif
 
 };
 
