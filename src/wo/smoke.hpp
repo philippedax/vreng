@@ -28,7 +28,7 @@
 #include <vector>
 #include "fire.hpp"
 
-#define NEW_SMOKE
+#undef NEW_SMOKE
 
 #ifdef NEW_SMOKE
 #else
@@ -73,7 +73,7 @@ inline int f2int(float f) { f+=FLOATTOINTCONST; return ((*((int*)&f))&0x007fffff
  */
 class ParticleSmoke {
 private:
-  Vector3 pos;
+  Vector3 loc;
   Vector3 vel;
   Vector3 acc;
   float life;
@@ -86,7 +86,7 @@ public:
   static const float angle[10];
   static const float _cos[10];
   static const float _sin[10];
-  void run();
+  void anim();
   void update();
   void display();
   bool isDead();
@@ -100,10 +100,6 @@ public:
 class Smoke: public Fire {
 
 public:
-#ifdef NEW_SMOKE
-  std::vector<ParticleSmoke> particles;
-  //ParticleSmoke(class Vector3 l);
-#endif
   static const OClass oclass;	///< class variable.
   virtual const OClass* getOClass() {return &oclass;}
 
@@ -136,13 +132,16 @@ private:
   /**< Draws smoke particules. */
 
 #ifdef NEW_SMOKE
-  class Vector3 emitter;
+  Smoke(Vector3 l);
+  std::vector<ParticleSmoke> particles;
+  Vector3 emitter;
 
   //ParticleSystem();
   //ParticleSystem(Vector3 l);
   void addParticle();   
-  class Vector3 random();
+  Vector3 random();
   void run();
+  bool isEmpty();
 #else
   virtual void motionAnimate(float dt);
   virtual void motionWarp(Vector3 &p, float dt);
