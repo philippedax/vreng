@@ -349,7 +349,7 @@ armv4l-*-linux*)
   if test -f $TTFPATH/UTRG____.pfa; then
     AC_DEFINE(HAVE_TTF_PFA)
   else
-    AC_MSG_ERROR(Vreng requires TTF freetype fonts with the pfs format see ./fonts directory)
+    AC_MSG_WARN(Vreng requires TTF freetype fonts with the pfs format see ./fonts directory)
   fi
   ;;
 *-*-netbsd*)
