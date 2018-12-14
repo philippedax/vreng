@@ -1023,7 +1023,7 @@ fi
 have_freetype="no"
 have_freetype_and_gl="no"
 AH_TEMPLATE(WITH_FREETYPE)
-AC_CHECK_FREETYPE([9.0.3],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try apt|dnf|yum|brew install freetype-devel or apt-get install freetype-dev])])
+AC_CHECK_FREETYPE([9.0.3],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try apt|dnf|yum|brew install freetype-devel or apt-get install libfreetype6-dev])])
 if test "$have_freetype" = "yes"; then
   ubit_features="$ubit_features UBIT_WITH_FREETYPE"
   if test "$have_gl" = "yes"; then
