@@ -762,7 +762,7 @@ AC_DEFUN([AC_X11_CHECK],
   AH_TEMPLATE(HAVE_LIBXMU)
   AC_CHECK_LIB([Xmu], [XmuClientWindow],
                [x_libs="$X_LIBS -lXmu $x_libs" AC_DEFINE(HAVE_LIBXMU)],
-               [AC_MSG_WARN([Xmu library not found, check config.log! try apt|dnf|yum|brew install libXmu-devel | apt-get install libXmu-dev])],
+               [AC_MSG_WARN([Xmu library not found, check config.log! try apt|dnf|yum|brew install libXmu-devel | apt-get install libxmu-dev])],
                [$x_libs])
 
   x_libs="$X_LIBS $X_PRE_LIBS $x_libs"
@@ -870,7 +870,7 @@ LDFLAGS="$X_LDFLAGS $X_LIBS"
 AC_CHECK_LIB([Xpm], [XpmReadFileToXpmImage],
 	     [VRELIBS="-lXpm $VRELIBS"],
              [AC_MSG_WARN([Xpm library not found, check config.log!,
-              Ubit needs Xpm, get http://koala.ilog.fr/ftp/pub/xpm or try apt|dnf|yum|brew install libXpm-devel | apt-get install libXpm-dev])],
+              Ubit needs Xpm, get http://koala.ilog.fr/ftp/pub/xpm or try apt|dnf|yum|brew install libXpm-devel | apt-get install libxpm-dev])],
              [$X_LIBS $x_libs])
 AH_TEMPLATE(HAVE_LIBXPM)
 if test "$ac_cv_lib_Xpm_XpmReadFileToXpmImage" = "yes"; then
@@ -897,7 +897,7 @@ else
   AC_CHECK_LIB([gif], [DGifOpenFileName],
        [VRELIBS="$OSDEP_LIBS -lgif $VRELIBS"],
        [AC_MSG_WARN([gif library not found, check config.log!,
-	get ftp://prtr-13.ucsc.edu/pub/libungif/ or try apt|dnf|yum|brew install giflib-devel | apt-get install giflib-dev giflib-tools])],
+	get ftp://prtr-13.ucsc.edu/pub/libungif/ or try apt|dnf|yum|brew install giflib-devel | apt-get install libgif-dev giflib-tools])],
        [$OSDEP_LIBS])
   if test "$ac_cv_lib_gif_DGifOpenFileName" = "yes"; then
     AC_DEFINE(HAVE_LIBGIF)
@@ -1006,7 +1006,7 @@ fi
 AH_TEMPLATE(HAVE_LIBCURL)
 AC_CHECK_LIB([curl], [curl_easy_init],
      [VRELIBS="$OSDEP_LIBS -lcurl $VRELIBS"],
-     [AC_MSG_WARN([curl library not found, check config.log, or try apt|dnf|yum|brew install libcurl-devel or apt-get install libcurl-openssl-dev])],
+     [AC_MSG_WARN([curl library not found, check config.log, or try apt|dnf|yum|brew install libcurl-devel or apt-get install libcurl4-openssl-dev])],
      [$OSDEP_LIBS])
 if test "$ac_cv_lib_curl_curl_easy_init" = "yes"; then
   AC_DEFINE([HAVE_LIBCURL])
@@ -1150,7 +1150,7 @@ if test "$have_lib_OpenGL" = "yes"; then
   have_gl="yes"
   glerror="no"
 else
-  AC_MSG_WARN([Can't find GL library!, try apt|dnf|yum|brew install libGL-devel or apt-get install libgl1-meas-dev])
+  AC_MSG_WARN([Can't find GL library!, try apt|dnf|yum|brew install libGL-devel or apt-get install libgl1-mesa-dev])
   glerror="yes"
 fi
 AH_TEMPLATE(HAVE_GL_GL_H)
@@ -1168,7 +1168,7 @@ AC_CHECK_LIB([GLU], [gluPerspective],
 if test "$ac_cv_lib_GLU_gluPerspective" = "yes"; then
   AC_DEFINE(HAVE_LIBGLU)
 else
-  AC_MSG_WARN([Can't find GLU library!, try apt|dnf|yum|brew install libGLU-devel or apt-get install libglu1-meas-dev])
+  AC_MSG_WARN([Can't find GLU library!, try apt|dnf|yum|brew install libGLU-devel or apt-get install libglu1-mesa-dev])
   glerror="yes"
 fi
 AH_TEMPLATE(HAVE_GL_GLU_H)
