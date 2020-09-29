@@ -13,8 +13,8 @@ case $# in
   ;;
 esac
 
-svn ci -m "$1"
-./.github
+#svn ci -m "$1"
+#./.github
 git commit -a -m "$1"
 git push origin master
 #./.gitlab

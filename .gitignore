@@ -72,3 +72,5 @@ src/*/*/*.o
 src/*/*/*.a
 src/vreng/MakefileGLUT
 src/ai/*.ml*
+wwwlocal
+vrlocal

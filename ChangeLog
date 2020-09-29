@@ -14,29 +14,29 @@ The rules for this file:
 
 ++ 8
 == 8.7
-== 8.7.3
+-- 8.7.3
 	- configure change openal by freealut
 	- changed fire parameters in fire.hpp
 	(2018/10/22, Philippe Dax)
 
-== 8.7.2
+-- 8.7.2
 	- added fonts directory to git
 	- added texture/glpng{ch}pp to git
 	- moved githup to .github
 	(2018/10/21, Philippe Dax)
 
-== 8.7.1
+-- 8.7.1
 	- alternative for missing fonts, use local fonts in uconf.cpp
 	- alternative if Xmu not found in udispX11.cpp
 	(2018/10/18, Philippe Dax)
 
-== 8.7.0
+-- 8.7.0
 	- find Xmu and Xpm headers needed by src/ubit
 	- added missing ttf fonts in directory fonts/
 	(2018/10/18, Philippe Dax)
 
 == 8.6
-== 8.6.0
+-- 8.6.0
 	- find dynamycaly presence of ttf freetype fonts when ./configure is running
 	- move bundle/glpng to texture/
 	- move bundle/png to bundle/mypng ans phg.h to mypng.h
