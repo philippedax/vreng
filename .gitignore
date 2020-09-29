@@ -74,3 +74,4 @@ src/vreng/MakefileGLUT
 src/ai/*.ml*
 wwwlocal
 vrlocal
+etc/start-www
