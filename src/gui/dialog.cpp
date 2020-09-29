@@ -94,6 +94,7 @@ static void destinationsHttpReader(void *box, Http *http)
   for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
     UStr& url = ustr();
 
+    //printf("line= %s\n", line);
     char tmpline[URL_LEN + CHAN_LEN +2];
     char tmpname[URL_LEN + 2];
     strcpy(tmpline, line);
@@ -128,6 +129,7 @@ static void universeHttpReader(void *box, Http *http)
     UStr& url = ustr();
     UStr& chan = ustr();
 
+    //printf("line: %s\n", line);
     char tmpline[URL_LEN + CHAN_LEN +2];
     strcpy(tmpline, line);
     char *p = strchr(tmpline, ' ');
@@ -165,15 +167,18 @@ void GuiWidgets::openSourceDialog()
 void GuiWidgets::destinationsDialog()
 {
   char universe_url[URL_LEN];
-  sprintf(universe_url, "http://%s%s/vacs/v%d/worlds",
-                      Universe::current()->name,
-                      Universe::current()->urlpfx,
-                      Universe::current()->version);
+  char str[URL_LEN];
+  if (!strncmp(Universe::current()->name, "http://", 7))
+    sprintf(str, "%s", "%s%s/vacs/v%d/worlds");
+  else
+    sprintf(str, "%s%s", "http://", "%s%s/vacs/v%d/worlds");
+  sprintf(universe_url, str, Universe::current()->name, Universe::current()->urlpfx, Universe::current()->version);
   UBox& box = uvbox(g.theme.scrollpaneStyle);
   if (Http::httpOpen(universe_url, destinationsHttpReader, &box, 0) < 0) {
     delete &box;
     return;
   }
+  printf("destinations: universe=%s name=%s pfx=%s : open OK\n", universe_url, Universe::current()->name, Universe::current()->urlpfx);
   worlds_dialog.setMessage(uscrollpane(usize(120,400) + box));
   worlds_dialog.show();
 }
@@ -182,7 +187,7 @@ void GuiWidgets::destinationsDialog()
 void GuiWidgets::openWorldsDialog()
 {
   char universe_url[URL_LEN];
-  sprintf(universe_url, "http://%s%s/vacs/v%d/worlds",
+  sprintf(universe_url, "%s%s/vacs/v%d/worlds",
                       Universe::current()->name,
                       Universe::current()->urlpfx,
                       Universe::current()->version);

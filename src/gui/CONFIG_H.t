@@ -15,7 +15,7 @@ const char CONFIG_H[] = "\
 /* #undef CLOSEDIR_VOID */\n\
 \n\
 /* */\n\
-#define CURLPATH \"/bin/curl\"\n\
+#define CURLPATH \"/usr/bin/curl\"\n\
 \n\
 /* */\n\
 /* #undef CYGWIN32 */\n\
@@ -27,16 +27,16 @@ const char CONFIG_H[] = "\
 /* #undef DEF_URL_PFX */\n\
 \n\
 /* */\n\
-#define FEDORA 1\n\
+/* #undef FEDORA */\n\
 \n\
 /* */\n\
 /* #undef FREEBSD */\n\
 \n\
 /* gcc major version */\n\
-#define GCC_MAJOR_VERSION 8\n\
+#define GCC_MAJOR_VERSION version\n\
 \n\
 /* gcc version */\n\
-#define GCC_VERSION \"8.2.1\"\n\
+#define GCC_VERSION \"version\"\n\
 \n\
 /* */\n\
 /* #undef HAVE_ALUT */\n\
@@ -100,7 +100,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_FPSETMASK */\n\
 \n\
 /* Define to 1 if you have the `freehostent' function. */\n\
-/* #undef HAVE_FREEHOSTENT */\n\
+#define HAVE_FREEHOSTENT 1\n\
 \n\
 /* */\n\
 #define HAVE_FREETYPE 1\n\
@@ -118,7 +118,7 @@ const char CONFIG_H[] = "\
 #define HAVE_GETHOSTBYNAME 1\n\
 \n\
 /* Define to 1 if you have the `gethostbyname_r' function. */\n\
-#define HAVE_GETHOSTBYNAME_R 1\n\
+/* #undef HAVE_GETHOSTBYNAME_R */\n\
 \n\
 /* Define to 1 if you have the `gethostid' function. */\n\
 #define HAVE_GETHOSTID 1\n\
@@ -127,10 +127,10 @@ const char CONFIG_H[] = "\
 #define HAVE_GETHOSTNAME 1\n\
 \n\
 /* Define to 1 if you have the `getipnodebyaddr' function. */\n\
-/* #undef HAVE_GETIPNODEBYADDR */\n\
+#define HAVE_GETIPNODEBYADDR 1\n\
 \n\
 /* Define to 1 if you have the `getipnodebyname' function. */\n\
-/* #undef HAVE_GETIPNODEBYNAME */\n\
+#define HAVE_GETIPNODEBYNAME 1\n\
 \n\
 /* Define to 1 if you have the `getopt' function. */\n\
 #define HAVE_GETOPT 1\n\
@@ -148,7 +148,7 @@ const char CONFIG_H[] = "\
 #define HAVE_GETPWUID 1\n\
 \n\
 /* Define to 1 if you have the `getservbyname_r' function. */\n\
-#define HAVE_GETSERVBYNAME_R 1\n\
+/* #undef HAVE_GETSERVBYNAME_R */\n\
 \n\
 /* Define to 1 if you have the `gettimeofday' function. */\n\
 #define HAVE_GETTIMEOFDAY 1\n\
@@ -229,13 +229,13 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBMPEG 1\n\
 \n\
 /* */\n\
-#define HAVE_LIBMYSQLCLIENT 1\n\
+/* #undef HAVE_LIBMYSQLCLIENT */\n\
 \n\
 /* Define to 1 if you have the `nsl' library (-lnsl). */\n\
 /* #undef HAVE_LIBNSL */\n\
 \n\
 /* */\n\
-#define HAVE_LIBPNG 1\n\
+/* #undef HAVE_LIBPNG */\n\
 \n\
 /* */\n\
 #define HAVE_LIBPTHREAD 1\n\
@@ -253,7 +253,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_LIBSOCKET */\n\
 \n\
 /* */\n\
-#define HAVE_LIBTIFF 1\n\
+/* #undef HAVE_LIBTIFF */\n\
 \n\
 /* */\n\
 #define HAVE_LIBX11 1\n\
@@ -296,7 +296,7 @@ const char CONFIG_H[] = "\
 #define HAVE_MALLOC 1\n\
 \n\
 /* Define to 1 if you have the <malloc.h> header file. */\n\
-#define HAVE_MALLOC_H 1\n\
+/* #undef HAVE_MALLOC_H */\n\
 \n\
 /* Define to 1 if you have the <math.h> header file. */\n\
 #define HAVE_MATH_H 1\n\
@@ -317,13 +317,13 @@ const char CONFIG_H[] = "\
 #define HAVE_MULTICAST 1\n\
 \n\
 /* */\n\
-#define HAVE_MYSQL 1\n\
+/* #undef HAVE_MYSQL */\n\
 \n\
 /* */\n\
-#define HAVE_MYSQL_ERROR 1\n\
+/* #undef HAVE_MYSQL_ERROR */\n\
 \n\
 /* */\n\
-#define HAVE_MYSQL_H 1\n\
+/* #undef HAVE_MYSQL_H */\n\
 \n\
 /* */\n\
 /* #undef HAVE_MYSQL_MYSQL_H */\n\
@@ -353,7 +353,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_OPENAL */\n\
 \n\
 /* */\n\
-#define HAVE_PNG_H 1\n\
+/* #undef HAVE_PNG_H */\n\
 \n\
 /* Define to 1 if you have the `pow' function. */\n\
 #define HAVE_POW 1\n\
@@ -489,10 +489,10 @@ const char CONFIG_H[] = "\
 #define HAVE_SYS_WAIT_H 1\n\
 \n\
 /* */\n\
-#define HAVE_TIFFIO_H 1\n\
+/* #undef HAVE_TIFFIO_H */\n\
 \n\
 /* */\n\
-#define HAVE_TTF_PFA 1\n\
+/* #undef HAVE_TTF_PFA */\n\
 \n\
 /* Define to 1 if you have the `uname' function. */\n\
 #define HAVE_UNAME 1\n\
@@ -546,7 +546,7 @@ const char CONFIG_H[] = "\
 /* #undef IRIX */\n\
 \n\
 /* */\n\
-#define LINUX 1\n\
+/* #undef LINUX */\n\
 \n\
 /* */\n\
 /* #undef LINUX_ALPHA */\n\
@@ -559,10 +559,10 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing\n\
    slash. */\n\
-#define LSTAT_FOLLOWS_SLASHED_SYMLINK 1\n\
+/* #undef LSTAT_FOLLOWS_SLASHED_SYMLINK */\n\
 \n\
 /* */\n\
-/* #undef MACOSX */\n\
+#define MACOSX 1\n\
 \n\
 /* */\n\
 /* #undef NETBSD */\n\
@@ -601,7 +601,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_VERSION \"8.7.3\"\n\
 \n\
 /* */\n\
-#define PERLPATH \"/bin/perl\"\n\
+#define PERLPATH \"/opt/local/bin/perl\"\n\
 \n\
 /* Define to the type of arg 1 for `select'. */\n\
 #define SELECT_TYPE_ARG1 int\n\
@@ -625,7 +625,7 @@ const char CONFIG_H[] = "\
 #define TIME_WITH_SYS_TIME 1\n\
 \n\
 /* */\n\
-#define TTFPATH \"/usr/share/X11/fonts/Type1/\"\n\
+/* #undef TTFPATH */\n\
 \n\
 /* */\n\
 /* #undef UBUNTU */\n\
@@ -658,7 +658,7 @@ const char CONFIG_H[] = "\
 #define WANT_UBIT 1\n\
 \n\
 /* */\n\
-#define WGETPATH \"/bin/wget\"\n\
+#define WGETPATH \"/usr/local/bin/wget\"\n\
 \n\
 /* */\n\
 /* #undef WIN32 */\n\
@@ -667,7 +667,7 @@ const char CONFIG_H[] = "\
 /* #undef WITH_FREETYPE */\n\
 \n\
 /* */\n\
-#define WITH_MYSQL 1\n\
+/* #undef WITH_MYSQL */\n\
 \n\
 /* */\n\
 #define WITH_PTHREAD 1\n\
@@ -694,7 +694,7 @@ const char CONFIG_H[] = "\
 /* #undef X_DISPLAY_MISSING */\n\
 \n\
 /* */\n\
-#define _REENTRANT 1\n\
+/* #undef _REENTRANT */\n\
 \n\
 /* Define to empty if `const' does not conform to ANSI C. */\n\
 /* #undef const */\n\

@@ -249,11 +249,13 @@ void Pref::parse(int argc, char **argv)
         url = strdup(optarg);
         char chanstr[CHAN_LEN];
         memset(chanstr, 0, sizeof(chanstr));
+#if 0 //DAX LOCAL
 	{
 	  Vac *vac = Vac::current();
           vac->resolveWorldUrl(url, chanstr);
           channel = strdup(chanstr);
 	}
+#endif
         break;
       case 'x':
         helpx = true;
