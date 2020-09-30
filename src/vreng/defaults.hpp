@@ -74,9 +74,10 @@
 
 #define DEF_RATE		50	// 50 frames/sec
 #define DEF_RATIO3D		(float)(16./9.)	// screen ratio
-#define DEF_HEIGHT3D		360	// screen height
-#define DEF_WIDTH3D		640	// screen width
+#define DEF_WIDTH3D		960 //640	// screen width
+#define DEF_HEIGHT3D		540 //360	// screen height
 #define DEF_MAXSIMCON		8	// MAX simultaneous threaded connections
+#define DEF_MAXFRAMES		255	// MAX frames
 #define DEF_REFRESH_TIMEOUT	1.5	//orig: 1.5
 
 #define PATH_LEN	128

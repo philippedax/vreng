@@ -40,7 +40,7 @@ The rules for this file:\n\
 -- 8.6.0\n\
 	- find dynamycaly presence of ttf freetype fonts when ./configure is running\n\
 	- move bundle/glpng to texture/\n\
-	- move bundle/png to bundle/mypng ans phg.h to mypng.h\n\
+	- move bundle/png to bundle/mypng and phg.h to mypng.h\n\
 	(2018/10/08, Philippe Dax)\n\
 \n\
 == 8.5\n\

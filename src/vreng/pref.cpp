@@ -35,11 +35,11 @@ where options are:\n\
 -a, --avatar model		Avatar model (man | guy | android)\n\
 -b, --bbox	 		Draw bounding-boxes\n\
 -d, --debug mask 		Debug mask\n\
--f, --frames rate		Max frames per second\n\
+-f, --frames rate		Max frames per second [1..255]\n\
 -g, --no-gravity		Without gravity\n\
 -h, --help			Help message\n\
 -i, --infogl			Show OpenGL infos\n\
--n, --number number		Number of simultaneous threads\n\
+-n, --number number		Number of simultaneous threads [1..7]\n\
 -p, --pseudo name		Your pseudoname\n\
 -q, --quality			high 3D quality, if you have a 3D card\n\
 -r, --refresh			Refresh the cache\n\
@@ -68,8 +68,8 @@ Pref::Pref()
   url = NULL;
   user = NULL;
   channel = NULL;
-  width3D  = 960;   // 850 DEF_WIDTH3D;
-  height3D = 540;   // 550 DEF_HEIGHT3D;
+  width3D  = DEF_WIDTH3D;
+  height3D = DEF_HEIGHT3D;
   dbg = 0;
   infogl = false;
   quality3D = false;
@@ -191,7 +191,7 @@ void Pref::parse(int argc, char **argv)
         }
         maxfps = atoi(optarg);
         if (maxfps == 0) {
-          maxfps = 255;
+          maxfps = DEF_MAXFRAMES;
           frame_delay = 0;
           cpulimit = false;
         }
@@ -211,7 +211,7 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'n':
         maxsimcon = atoi(optarg);
-        if (maxsimcon > 64) {
+        if (maxsimcon >= DEF_MAXSIMCON) {
           error("too many simultaneous connections, set to %d", DEF_MAXSIMCON);
           maxsimcon = DEF_MAXSIMCON;
         }
