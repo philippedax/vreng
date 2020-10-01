@@ -116,12 +116,10 @@ Text::Text(char *l)
   parser(l);
   behavior();
   inits();
-  //dax makeSolid();
 }
 
 Text::Text(const char *t, Pos &pos, float _scale, float *_color)
 {
-  //error("text: %s pos=%.2f %.2f %.2f", t, pos.x,pos.y,pos.z);
   defaults();
   strcpy(text, t);
   scale = _scale;
@@ -144,7 +142,7 @@ void Text::render()
   if (! loaded) return;
   if (state == INACTIVE) return;
 
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glEnable(GL_LIGHTING);
   glEnable(GL_TEXTURE_2D);
@@ -168,7 +166,7 @@ void Text::render()
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_LIGHTING);
   glPopMatrix();
-  //DAX glPopAttrib();
+  glPopAttrib();
 }
 
 void Text::quit()

@@ -151,7 +151,7 @@ void Web::pivot()
   if (nexta == aback && legend) {
     WObject *pleg = new WObject();
     V3 dim;
-    float fgcolor[4] = {0,1,0,1}; // green
+    float green[4] = {0,1,0,1}; // green
     copyPositionAndBB(pleg);
     getDim(dim);	// get dim
     pleg->pos.z += (dim.v[2] - 0.15);	// 15cm under the top
@@ -167,7 +167,7 @@ void Web::pivot()
       pleg->pos.x -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
     }
     error("legend: %.2f [%.3f %.3f %.3f] web: %.2f [%.2f %.2f %.2f %.2f - %.2f %.2f %.2f]", strlen(legend)*GLYPHSIZ, pleg->pos.x, pleg->pos.y, pleg->pos.z, dim.v[0]*2, pos.x, pos.y, pos.z, afront, dim.v[0], dim.v[1], dim.v[2]);
-    text = new Text(legend, pleg->pos, 0.25, fgcolor);
+    text = new Text(legend, pleg->pos, 0.25, green);
     text->setShifts(pleg->pos.x, pleg->pos.y, pleg->pos.z, pleg->pos.az + M_PI, pleg->pos.ax + M_PI_2);
     delete pleg;
   }

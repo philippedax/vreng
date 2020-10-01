@@ -63,7 +63,7 @@ const float User::ASPEED = 1.;		// angular speed
 const float User::DELTAZ = 0.02;	// 2 cm
 const float User::GOTHROUGH = 0.05;	// 5 cm
 const float User::FOVY = 26.;		// 26 deg
-const float User::NEAR = 0.3;		// clip near: orig=40cm
+const float User::NEAR = 0.1;		// clip near: orig=30cm
 const float User::FAR = 300.;		// clip far: 300m
 const float User::DENSITY = 1.;
 
@@ -496,7 +496,7 @@ void User::updateTime(time_t sec, time_t usec, float *lasting)
 /* Informs a message sent by an user */
 void User::userWriting(const char *usermsg)
 {
-  float color[] = {0,1,0}; // green
+  float green[] = {0,1,0}; // green
 
   if (strlen(usermsg) < MESS_LEN)
     strcpy(localuser->message, usermsg);
@@ -508,7 +508,7 @@ void User::userWriting(const char *usermsg)
   localuser->noh->declareObjDelta(PROPMSG); // msg property
 
   if (localuser->getBubble()) localuser->getBubble()->toDelete(); // delete previous text
-  localuser->bubble = new Bubble(localuser, localuser->message, color, Bubble::BUBBLEBACK);
+  localuser->bubble = new Bubble(localuser, localuser->message, green, Bubble::BUBBLEBACK);
 
   Sound::playSound(KEYBOARDSND);
 }
@@ -614,7 +614,7 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
 
 void User::setRayDirection(GLint wx, GLint wy)
 {
-  const GLfloat *color = Color::white;
+  const GLfloat *white = Color::white;
 
   GLfloat ex = pos.x + near; // +near
   GLfloat ey = pos.y;
@@ -638,7 +638,7 @@ void User::setRayDirection(GLint wx, GLint wy)
 #endif
   //error("eye: %.2f %.2f %.2f, target: %.2f %.2f %.2f", ex,ey,ez,tx,ty,tz);
  
-  Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, color, 0x3333);
+  Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
 
   ray = newV3(tx, ty, tz);
   noh->declareObjDelta(User::PROPRAY); // publishes ray property to network
@@ -934,7 +934,7 @@ void User::get_msg(User *pu, Payload *pp)
   if (pu) {
     int mess;
     char msg[User::MESS_LEN];
-    float color[] = {0,0,1};
+    float blue[] = {0,0,1};
 
     memset(msg, 0, sizeof(msg));
     pp->getPayload("ds", &mess, msg);
@@ -942,7 +942,7 @@ void User::get_msg(User *pu, Payload *pp)
       ::g.gui.writeMessage("chat", pu->getInstance(), msg);
       pu->lastmess = mess;
       if (pu->getBubble()) pu->getBubble()->toDelete();	// delete previous text
-      pu->bubble = new Bubble(pu, msg, color, Bubble::BUBBLEFRONT);
+      pu->bubble = new Bubble(pu, msg, blue, Bubble::BUBBLEFRONT);
     }
   }
 }

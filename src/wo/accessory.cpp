@@ -102,7 +102,6 @@ void Accessory::changePermanent(float lasting)
   if (distz > 0) pos.z += deltaz; else pos.z -= deltaz;
 
   updatePosition();
-  //error("pos: %.2f %.2f %.2f dist: %.2f %.2f %.2f delta: %.2f %.2f %.2f",pos.x,pos.y,pos.z,distx,disty,distz,deltax,deltay,deltaz);
 }
 
 void Accessory::quit()

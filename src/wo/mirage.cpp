@@ -153,7 +153,6 @@ Mirage::Mirage(WObject *user, char *geom)
     psql->updateOwner(this);
   }
 #endif
-  //trace(DBG_FORCE, "Mirage from palette: name=%s geom=%s", names.named, geom);
   parse()->parseSolids(geom, SEP, this);
 
   enableBehavior(DYNAMIC);	// palette
@@ -188,7 +187,6 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
     psql->getPos(this);
   }
 #endif
-  //trace(DBG_FORCE, "Mirage: name=%s geometry=%s", names.named, geometry);
   if (geometry && isprint(*geometry)) {	//FIXME: when object comes from Cart
     parse()->parseSolids(geometry, SEP, this);
   }

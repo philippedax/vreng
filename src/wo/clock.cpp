@@ -58,7 +58,6 @@ void Clock::changePermanent(float lasting)
   switch (needle % 3) {
     case SECOND:	// secondes
       pos.ax = ((float) sec * M_PI / 30) + M_PI_2;
-      //trace(DBG_WO, "sec=%d %f obj=%d", sec, pos.ax, needle);
       break;
     case MINUTE:	// minutes
       if (min != min_last) {
@@ -70,7 +69,6 @@ void Clock::changePermanent(float lasting)
       if (hour != hour_last) {
         pos.ax = ((float) hour * M_PI / 6) +
                  ((float) min * M_PI / 360) + M_PI_2;
-        //trace(DBG_WO, "hour=%d %f", hour % 12, pos.ax);
         hour_last = hour;
       }
       break;
@@ -126,7 +124,6 @@ Clock::Clock(char *l)
 
   if (! haveneedle) needle = oid;
   initTime();
-  trace(DBG_WO, "Clock: needle=%d name=%s", needle, getInstance());
   oid++;
 }
 

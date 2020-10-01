@@ -1266,9 +1266,9 @@ void Solid::setRay(GLint wx, GLint wy)
   GLfloat oy = wobject->pos.y;
   GLfloat oz = wobject->pos.z;
   // ray color
-  const GLfloat *color = Color::red;  // red
+  const GLfloat *color = Color::white;  // white
 
-  Draw::ray(&ray_dlist, ex, ey, ez, ox, oy, oz, color, 0);  // alternative
+  Draw::ray(&ray_dlist, ex, ey, ez, ox, oy, oz, color, 0x3333);  // alternative
 
   localuser->ray = newV3(ox, oy, oz);
 

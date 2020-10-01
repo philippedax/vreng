@@ -249,7 +249,7 @@ void Solid::displayMirroredScene()
   glTranslatef(object()->pos.x, 0, 0);
   // D) displays scene (opaque solids only)
   for (list<Solid*>::iterator it=::g.render.solidList.begin(); it!=::g.render.solidList.end(); it++) {
-    if ((*it)->object() && (*it)->isVisible() /*&& (*it)->isOpaque()*/) {
+    if ((*it)->object() && (*it)->isVisible() && (*it)->isOpaque()) {
       glPushMatrix();
        // rotation inverse lorsque que le miroir tourne parallelement a notre vision.
        glRotatef(RAD2DEG(object()->pos.az), 0,0,1);
@@ -280,5 +280,5 @@ void Solid::displayMirroredScene()
    else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
    else if (localuser->man) localuser->getSolid()->displayVirtual();
    else glCallList(localuser->getSolid()->displayVirtual());
-  //glPopMatrix();
+  glPopMatrix();
 }
