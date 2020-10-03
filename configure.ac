@@ -1300,15 +1300,17 @@ fi
 # MySql configuration
 #
 AC_ARG_WITH([mysql],
-    AS_HELP_STRING([--with-mysql],[allow use of mysql if available [[default=yes]]]))
-AH_TEMPLATE(WITH_MYSQL)
-AH_TEMPLATE(HAVE_LIBMYSQLCLIENT)
-AH_TEMPLATE(HAVE_MYSQL_ERROR)
-AH_TEMPLATE(HAVE_MYSQL)
-AH_TEMPLATE(HAVE_MYSQL_H)
-AH_TEMPLATE(HAVE_MYSQL_MYSQL_H)
+    AS_HELP_STRING([--with-mysql],[allow use of mysql if available [[default=no]]]),
+    [ac_cv_use_mysql=$withval], [ac_cv_use_mysql=no])
 
-if test "${with_mysql:=yes}" = "yes"; then
+if test "${with_mysql:=no}" = "yes"; then
+  AH_TEMPLATE(WITH_MYSQL)
+  AH_TEMPLATE(HAVE_LIBMYSQLCLIENT)
+  AH_TEMPLATE(HAVE_MYSQL_ERROR)
+  AH_TEMPLATE(HAVE_MYSQL)
+  AH_TEMPLATE(HAVE_MYSQL_H)
+  AH_TEMPLATE(HAVE_MYSQL_MYSQL_H)
+
   # lib path
   MYSQL_L="-L${prefix}/lib"
   if test -f ${prefix}/lib/mysql/libmysqlclient.so ; then

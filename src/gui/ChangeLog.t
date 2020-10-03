@@ -17,6 +17,8 @@ The rules for this file:\n\
 == 9.0\n\
 -- 9.0.0\n\
         - Changelog version 9\n\
+        - --with-mysql=no by default\n\
+	- move vr2gl.cpp into wo/\n\
 	- move addobj.cpp into widgets.cpp\n\
 	- move keys.cpp into widgets.cpp\n\
 	- move filemenu.cpp into widgets.cpp\n\
