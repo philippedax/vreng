@@ -49,7 +49,7 @@ static ObjInfo objinfo[ACTIONSNUMBER + 6];
 static Mvt *mvtx = null, *mvty = null;
 
 
-Navig::Navig(GuiWidgets* _gw, Scene& scene) :
+Navig::Navig(Widgets* _gw, Scene& scene) :
 gw(*_gw), xref(0), yref(0), followMouseMode(false), depthsel(0), opened_menu(null) 
 {  
   object_infos.addAttr(UBackground::green + UColor::white);

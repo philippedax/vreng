@@ -38,7 +38,7 @@
 #include "user.hpp"	// localuser
 
 
-PitchGadget::PitchGadget(GuiWidgets* _gw, GLint _radius)  // 25
+Pitch::Pitch(Widgets* _gw, GLint _radius)  // 25
 : gw(*_gw), is_drawing(false)
 {
   circle_radius = _radius;
@@ -52,13 +52,13 @@ PitchGadget::PitchGadget(GuiWidgets* _gw, GLint _radius)  // 25
 
   add
   (canvas_size
-   + UOn::paint       / ucall(this, &PitchGadget::paintCB)
-   + UOn::mdrag       / ucall(this, &PitchGadget::dragCB)
-   + UOn::doubleClick / ucall(this, &PitchGadget::doubleClickCB)
+   + UOn::paint       / ucall(this, &Pitch::paintCB)
+   + UOn::mdrag       / ucall(this, &Pitch::dragCB)
+   + UOn::doubleClick / ucall(this, &Pitch::doubleClickCB)
    );
 }
 
-void PitchGadget::doAction()
+void Pitch::doAction()
 {
   if (! localuser) return;
   struct timeval t;
@@ -69,7 +69,7 @@ void PitchGadget::doAction()
 }
 
 
-void PitchGadget::dragCB(UMouseEvent &e)
+void Pitch::dragCB(UMouseEvent &e)
 {
   GLfloat dx = e.getX() - arrow_point.x;
   GLfloat dy = arrow_point.y - e.getY();
@@ -90,7 +90,7 @@ void PitchGadget::dragCB(UMouseEvent &e)
 }
 
 
-void PitchGadget::doubleClickCB(UMouseEvent &e)
+void Pitch::doubleClickCB(UMouseEvent &e)
 {
   delta = 0;
   angle = 0;
@@ -99,7 +99,7 @@ void PitchGadget::doubleClickCB(UMouseEvent &e)
 }
 
 
-void PitchGadget::paintCB(UPaintEvent &e)
+void Pitch::paintCB(UPaintEvent &e)
 {
   UGraph g(e);
   g.setColor(::g.theme.joystickColor);

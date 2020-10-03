@@ -13,6 +13,18 @@ The rules for this file:\n\
 * date and author format: (YYYY/MM/DD, Author).\n\
 ------------------------------------------\n\
 \n\
+++ 9\n\
+== 9.0\n\
+-- 9.0.0\n\
+        - Changelog version 9\n\
+	- move addobj.cpp into widgets.cpp\n\
+	- move keys.cpp into widgets.cpp\n\
+	- move filemenu.cpp into widgets.cpp\n\
+	- move dialog.cpp into widgets.cpp\n\
+	- move display.cpp into solid.cpp\n\
+        - changed ray color from red to white stippled\n\
+	(2020/10/03, Philippe Dax)\n\
+\n\
 ++ 8\n\
 == 8.7\n\
 -- 8.7.3\n\

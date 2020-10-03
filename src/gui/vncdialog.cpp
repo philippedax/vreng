@@ -35,7 +35,7 @@
 
 VncDialog* VncDialog::vnc_dialog = null;
 
-void VncDialog::create(GuiWidgets* gw, Vnc* vnc)
+void VncDialog::create(Widgets* gw, Vnc* vnc)
 {
   if (!gw) return;
   if (!vnc_dialog) {
@@ -46,7 +46,7 @@ void VncDialog::create(GuiWidgets* gw, Vnc* vnc)
   vnc_dialog->show(true);
 }
 
-VncDialog::VncDialog(GuiWidgets* _gw, Vnc* _vnc) : vnc(_vnc)
+VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
 {
   vnc_port = "5901";
   setTitle("VNC Server");

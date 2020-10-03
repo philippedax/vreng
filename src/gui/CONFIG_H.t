@@ -229,7 +229,7 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBMPEG 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBMYSQLCLIENT */\n\
+#define HAVE_LIBMYSQLCLIENT 1\n\
 \n\
 /* Define to 1 if you have the `nsl' library (-lnsl). */\n\
 /* #undef HAVE_LIBNSL */\n\
@@ -317,13 +317,13 @@ const char CONFIG_H[] = "\
 #define HAVE_MULTICAST 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_MYSQL */\n\
+#define HAVE_MYSQL 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_MYSQL_ERROR */\n\
+#define HAVE_MYSQL_ERROR 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_MYSQL_H */\n\
+#define HAVE_MYSQL_H 1\n\
 \n\
 /* */\n\
 /* #undef HAVE_MYSQL_MYSQL_H */\n\
@@ -589,7 +589,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_NAME \"vreng\"\n\
 \n\
 /* Define to the full name and version of this package. */\n\
-#define PACKAGE_STRING \"vreng 8.7.3\"\n\
+#define PACKAGE_STRING \"vreng 9.0.0\"\n\
 \n\
 /* Define to the one symbol short name of this package. */\n\
 #define PACKAGE_TARNAME \"vreng\"\n\
@@ -598,7 +598,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_URL \"\"\n\
 \n\
 /* Define to the version of this package. */\n\
-#define PACKAGE_VERSION \"8.7.3\"\n\
+#define PACKAGE_VERSION \"9.0.0\"\n\
 \n\
 /* */\n\
 #define PERLPATH \"/opt/local/bin/perl\"\n\
@@ -631,16 +631,16 @@ const char CONFIG_H[] = "\
 /* #undef UBUNTU */\n\
 \n\
 /* Version number of package */\n\
-#define VERSION \"8.7.3\"\n\
+#define VERSION \"9.0.0\"\n\
 \n\
 /* VReng major version */\n\
-#define VRENG_MAJOR_VERSION 8\n\
+#define VRENG_MAJOR_VERSION 9\n\
 \n\
 /* VReng micro version */\n\
-#define VRENG_MICRO_VERSION 3\n\
+#define VRENG_MICRO_VERSION 0\n\
 \n\
 /* VReng minor version */\n\
-#define VRENG_MINOR_VERSION 7\n\
+#define VRENG_MINOR_VERSION 0\n\
 \n\
 /* */\n\
 /* #undef WANT_GL2PS */\n\
@@ -667,7 +667,7 @@ const char CONFIG_H[] = "\
 /* #undef WITH_FREETYPE */\n\
 \n\
 /* */\n\
-/* #undef WITH_MYSQL */\n\
+#define WITH_MYSQL 1\n\
 \n\
 /* */\n\
 #define WITH_PTHREAD 1\n\

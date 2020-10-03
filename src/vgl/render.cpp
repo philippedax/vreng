@@ -19,9 +19,9 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "render.hpp"
 #include "scene.hpp"	// getScene
 #include "solid.hpp"	// Solid, object()
+#include "render.hpp"
 #include "texture.hpp"	// initCache
 #include "wobject.hpp"	// WObject
 #include "world.hpp"	// current

@@ -23,17 +23,17 @@
 
 #include <ubit/ubit.hpp>
 
-class GuiWidgets;
+class Widgets;
  
 
 /** GUI Joystick.
  */
 class Joystick : public UBox {
 public:
-  Joystick(GuiWidgets*, int radius);
+  Joystick(Widgets*, int radius);
 
 private:
-  GuiWidgets& gw;
+  Widgets& gw;
 
   bool  is_drawing;
   float radius;

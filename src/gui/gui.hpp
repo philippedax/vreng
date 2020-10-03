@@ -95,13 +95,13 @@ public:
   WObject* getSelectedObject();
   
 private:
-  friend class GuiWidgets;
+  friend class Widgets;
   friend class Scene;
   friend class Navig;
   friend class Panel;
   struct ChannelSources;
   std::vector<ChannelSources*> channel_sources;	///< table of network events
-  class GuiWidgets* widgets;	     ///< the widgets of the GUI
+  class Widgets* widgets;	     ///< the widgets of the GUI
   class WObject* selected_object;  ///< the solid that is currently selected
   class Vnc* vnc;		               ///< vnc pointer
   class Carrier* carrier;	         ///< carrier pointer

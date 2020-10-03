@@ -39,7 +39,7 @@ using namespace ubit;
 # endif
 
 class Gui;
-class GuiWidgets;
+class Widgets;
 class Scene;
 class Navig;
 class Mvt;
@@ -72,16 +72,16 @@ struct KRKey {
 
 
 /**
- * GuiWidgets class
+ * Widgets class
  */
-class GuiWidgets : public ubit::UFrame {
+class Widgets : public ubit::UFrame {
 public:
   static const int MESSAGES_BOX_WIDTH = 320;
   static const int MESSAGES_BOX_HEIGHT = 150;
   static const int GW_DEFAULT_SCROLL = 50;
   static const int GW_ZOOM_SCROLL = 35;
 
-  GuiWidgets(Gui*);
+  Widgets(Gui*);
   ///< constructor.
 
   Navig* getNavig() {return &navig;}
@@ -172,7 +172,7 @@ private:
   void getMessage(UMessageEvent&);
   void moveMessage(UMessageEvent&);
 
-  // GuiWidgets internal methods
+  // Widgets internal methods
   void backCB();
   void forwardCB();
   void homeCB();

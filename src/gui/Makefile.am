@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-GUI_SRCS = gui.cpp widgets.cpp navig.cpp mvt.cpp joystick.cpp pitch.cpp filemenu.cpp dialog.cpp panels.cpp palette.cpp theme.cpp vncdialog.cpp message.cpp capture.cpp addobj.cpp keys.cpp scene.cpp
+GUI_SRCS = gui.cpp widgets.cpp navig.cpp mvt.cpp joystick.cpp pitch.cpp panels.cpp palette.cpp theme.cpp vncdialog.cpp message.cpp capture.cpp scene.cpp
 
-GUI_HDRS = gui.hpp widgets.hpp navig.hpp mvt.hpp panels.hpp palette.hpp joystick.hpp pitch.hpp vncdialog.hpp message.hpp capture.hpp theme.hpp keys.hpp scene.hpp
+GUI_HDRS = gui.hpp widgets.hpp navig.hpp mvt.hpp panels.hpp palette.hpp joystick.hpp pitch.hpp vncdialog.hpp message.hpp capture.hpp theme.hpp scene.hpp
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @OCAML_CFLAGS@ @XML2_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/texture -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/app -I$(SRCDIR)/vnc -I$(SRCDIR)/gui/xpm -I$(SRCDIR)/bundle/gl2ps -I$(SRCDIR)/bundle/xmlParser -I$(SRCDIR)/ai -I$(SRCDIR) -I$(SRCDIR)/ubit

@@ -25,7 +25,7 @@
 
 class Messages {
 public:
-  Messages(class GuiWidgets*);
+  Messages(class Widgets*);
   
   UBox& createMessagePanel(bool transparent);
 
@@ -45,7 +45,7 @@ protected:
   void postRequest(const std::string& mess, std::string& result);
   void convertTextToLink(const std::string& text, char **listeObjets, int size);
 
-  class GuiWidgets& gw;
+  class Widgets& gw;
   UBox messages;
   UScrollpane scrollpane;
   UStr entry; 

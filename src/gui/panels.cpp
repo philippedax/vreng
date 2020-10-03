@@ -50,11 +50,11 @@
 #include "channel.hpp"
 #include "message.hpp"
 
-static void toggleHudCB(GuiWidgets*) { Hud::hud()->toggle(); }
+static void toggleHudCB(Widgets*) { Hud::hud()->toggle(); }
 
-static void toggleAxisCB(GuiWidgets*) { Axis::axis()->toggle(); }
+static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 
-static void toggleGridCB(GuiWidgets*, int flag) {
+static void toggleGridCB(Widgets*, int flag) {
   switch (flag) {
     case 0: Grid::grid()->toggleGrid(); break;
     case 1: Grid::grid()->toggleGrid3d(); break;
@@ -66,7 +66,7 @@ void Panels::showManipulator(bool state)
 {
   manipulator.show(state);
   joystick->show(!state);
-  pitch_gadget->show(!state);
+  pitch->show(!state);
 }
 
 void Panels::showCartDialog(bool state) { cerr << "TO BE DONE!" << endl; }
@@ -80,7 +80,7 @@ void Panels::showCartDialog(bool state) { cerr << "TO BE DONE!" << endl; }
  );
 #endif
 
-static void sandboxCB(GuiWidgets*)
+static void sandboxCB(Widgets*)
 {
  World::current()->quit();
  delete Channel::current();	// delete Channel
@@ -88,10 +88,10 @@ static void sandboxCB(GuiWidgets*)
  }
 
 
-Panels::Panels(GuiWidgets* _gw, Scene& scene) :
+Panels::Panels(Widgets* _gw, Scene& scene) :
 gw(*_gw),
 joystick(new Joystick(_gw, (int) g.theme.controlPanelHeight/2 - 20)),
-pitch_gadget(new PitchGadget(_gw, 25)),
+pitch(new Pitch(_gw, 25)),
 manipulator(_gw->navig.createManipulator())
 {
   // WORLDS
@@ -133,7 +133,7 @@ manipulator(_gw->navig.createManipulator())
 
   manipulator.show(false);  // joystick shown by default
   joystick->show(true);
-  pitch_gadget->show(true);
+  pitch->show(true);
 
   UBox& navig_box = uhbox
   (g.theme.panelStyle
@@ -141,7 +141,7 @@ manipulator(_gw->navig.createManipulator())
    + manipulator  // either manipulator or joystick is shown
    + joystick
    + "   "
-   + pitch_gadget
+   + pitch
    );
 
   // palettes - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -203,13 +203,13 @@ manipulator(_gw->navig.createManipulator())
   UListbox& viewlist = ulistbox
   (UOrient::horizontal + UBackground::none + upadding(1,1)
    + uitem(utip("Main viewpoint first person")
-           + ucall(int(UserAction::FIRSTVIEW), GuiWidgets::callAction)
+           + ucall(int(UserAction::FIRSTVIEW), Widgets::callAction)
            + g.theme.BigEye)
    + uitem(utip("Third person viewpoints")
-           + ucall(int(UserAction::THIRDVIEWFAR), GuiWidgets::callAction)
+           + ucall(int(UserAction::THIRDVIEWFAR), Widgets::callAction)
            + g.theme.Eyes)
    + uitem(utip("Alternate viewpoints")
-           + ucall(int(UserAction::SWITCHVIEW), GuiWidgets::callAction)
+           + ucall(int(UserAction::SWITCHVIEW), Widgets::callAction)
            + g.theme.Jumelles)
    );
   viewlist.select(0);
@@ -235,7 +235,7 @@ manipulator(_gw->navig.createManipulator())
                + ucall(_gw, toggleHudCB)
                + g.theme.Counter)
        + uitem( utip("Show overview")
-               + ucall(int(UserAction::MAPVIEW), GuiWidgets::callAction)
+               + ucall(int(UserAction::MAPVIEW), Widgets::callAction)
                + g.theme.World)
        + usepar()
        + "Objects:"
@@ -251,10 +251,10 @@ manipulator(_gw->navig.createManipulator())
        + usepar()
        + "Throw:"
        + uitem(utip("Throw dart")
-               + ucall(int(UserAction::DART), GuiWidgets::callAction)
+               + ucall(int(UserAction::DART), Widgets::callAction)
                + UPix::ray)
        + uitem(utip("Throw bullet")
-               + ucall(int(UserAction::BULLET), GuiWidgets::callAction)
+               + ucall(int(UserAction::BULLET), Widgets::callAction)
                + UFont::bold + UFont::xx_large + UColor::red + ".")
        + usepar()
        + "Snap:"

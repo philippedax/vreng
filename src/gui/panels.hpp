@@ -34,15 +34,15 @@ public:
   MESSAGE_PALETTE_WIDTH,
   MESSAGE_PALETTE_HEIGHT;
 
-  Panels(class GuiWidgets*, class Scene&);
+  Panels(class Widgets*, class Scene&);
   void showManipulator(bool state);
   void showCartDialog(bool state);
 
 private:
-  friend class GuiWidgets;
-  GuiWidgets& gw;
+  friend class Widgets;
+  Widgets& gw;
   class Joystick* joystick;
-  class PitchGadget* pitch_gadget;
+  class Pitch* pitch;
   UBox& manipulator;  
   UBox right_panel, control_panel, main_panel;
   UBar control_bar;

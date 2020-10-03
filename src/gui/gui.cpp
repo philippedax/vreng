@@ -61,7 +61,7 @@ vrelet(null) {
 
 void Gui::createWidgets()
 {
-  widgets = new GuiWidgets(this);  // creates the widgets of the GUI
+  widgets = new Widgets(this);  // creates the widgets of the GUI
   trace(DBG_INIT, "Gui initialized");
 }
 

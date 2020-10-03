@@ -23,16 +23,16 @@
 
 #include <ubit/ubit.hpp>
 
-class GuiWidgets;
+class Widgets;
 
 /**
- * Pitch Gadget class
+ * Pitch class
  */
-class PitchGadget : public UBox {
+class Pitch : public UBox {
 public:
-  PitchGadget(GuiWidgets*, GLint radius);
+  Pitch(Widgets*, GLint radius);
   
-  GuiWidgets& gw;
+  Widgets& gw;
   bool is_drawing;
 
 private:

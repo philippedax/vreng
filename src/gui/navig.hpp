@@ -23,14 +23,14 @@
 
 #include <ubit/ubit.hpp>
 
-class GuiWidgets;
+class Widgets;
 
 /**
  * Navig class
  */
 class Navig {
 public:
-  Navig(GuiWidgets*, class Scene&);
+  Navig(Widgets*, class Scene&);
   UBox& createManipulator();
   
   void selectObject(ObjInfo*, int button_no);
@@ -39,8 +39,8 @@ public:
   void stopMotion();
   
 private:
-  friend class GuiWidgets;
-  GuiWidgets& gw;
+  friend class Widgets;
+  Widgets& gw;
   float xref, yref;
   bool followMouseMode;		///< flag to follow mouse.
   int depthsel;

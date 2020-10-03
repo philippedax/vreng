@@ -41,7 +41,7 @@
 #include "timer.hpp"
 
 
-Scene::Scene(GuiWidgets* _gw) :
+Scene::Scene(Widgets* _gw) :
 gw(*_gw), 
 is_visible(true),    // should be set to false when the window is iconified !!!!
 is_initialized(false),

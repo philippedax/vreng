@@ -33,9 +33,9 @@
 #include <ubit/uxpm.hpp>
 #include "theme.hpp"
 
-WTheme::WTheme() {}
+Theme::Theme() {}
 
-void WTheme::setTheme(int type)
+void Theme::setTheme(int type)
 {
   controlPanelHeight = 120;
   //rightPanelWidth = 130;

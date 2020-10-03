@@ -54,7 +54,7 @@ public:
   class Env& env;
   class Pref& pref;
   class Render& render;
-  struct WTheme& theme; ///< the theme used to paramaterize the GUI.
+  struct Theme& theme; ///< the theme used to paramaterize the GUI.
   class Gui& gui;
 };
 

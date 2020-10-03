@@ -53,7 +53,7 @@ Global::Global() :
 	env(*new Env),
 	pref(*new Pref),
 	render(*new Render),
-	theme(*new WTheme),
+	theme(*new Theme),
 	gui(*new Gui) {
 }
 

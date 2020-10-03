@@ -24,7 +24,6 @@
 #include <list>
 using namespace std;
 
-
 class WObject;
 class Solid;
 
@@ -84,6 +83,12 @@ public:
 
   void render();
   /**< Renders the current scene in the current buffer. */
+
+  // Drawing
+  //virtual void render3D(rendering_mode mode, uint8_t layer);
+  ///**< Issue the OpenGL commands to draw the solid in the given mode.
+       //It is called several times with "layer" increasing from 0 to ? in
+       //order to allow drawing at different layers. */
 
   void minirender();
   /**< Renders minimal. */

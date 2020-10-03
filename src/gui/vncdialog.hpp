@@ -28,7 +28,7 @@
  */
 class VncDialog : public UOptionDialog {
 public:
-  static void create(GuiWidgets*, class Vnc*);
+  static void create(Widgets*, class Vnc*);
  
 private:
   static VncDialog* vnc_dialog;
@@ -38,7 +38,7 @@ private:
   UStr vnc_port;	///< vnc port string.
   UStr vnc_passwd;	///< vnc passwd string.
   
-  VncDialog(class GuiWidgets*, class Vnc*);
+  VncDialog(class Widgets*, class Vnc*);
 
   virtual void convert();
 };

@@ -22,7 +22,7 @@
 #include "pref.hpp"
 #include "env.hpp"	// prefs
 #include "vac.hpp"	// Vac
-#include "theme.hpp"	// WTheme
+#include "theme.hpp"	// Theme
 #include "file.hpp"	// openFile
 #include "str.hpp"	// stringcmp
 
@@ -107,8 +107,8 @@ Pref::Pref()
   skinf = NULL;
   skinb = NULL;
 #if 0 //OBSOLETE
-  gui_theme = WTheme::NEON;	// neon
-  gui_skin = WTheme::GREY;	// grey
+  gui_theme = Theme::NEON;	// neon
+  gui_skin = Theme::GREY;	// grey
 #endif
 }
 
@@ -172,11 +172,11 @@ void Pref::parse(int argc, char **argv)
 #if 0 //OBSOLETE
       case 'b':
         switch (*optarg) {
-        case 'b': gui_skin = WTheme::BLACK; break; // black
-        case 'g': gui_skin = WTheme::GREY; break; // grey
-        case 'y': gui_skin = WTheme::YELLOW; break; // yellow
-        case 'w': gui_skin = WTheme::WHITE; break; // white
-        case 'W': gui_skin = WTheme::WOOD; break; // wood
+        case 'b': gui_skin = Theme::BLACK; break; // black
+        case 'g': gui_skin = Theme::GREY; break; // grey
+        case 'y': gui_skin = Theme::YELLOW; break; // yellow
+        case 'w': gui_skin = Theme::WHITE; break; // white
+        case 'W': gui_skin = Theme::WOOD; break; // wood
         }
         break;
 #endif
@@ -236,7 +236,7 @@ void Pref::parse(int argc, char **argv)
 #if 0 //OBSOLETE
       case 't':
          if (*optarg == 't')
-         gui_theme = WTheme::TEXT; // text
+         gui_theme = Theme::TEXT; // text
         break;
 #endif
       case 'u':

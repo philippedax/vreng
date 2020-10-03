@@ -12,6 +12,18 @@ The rules for this file:
 * date and author format: (YYYY/MM/DD, Author).
 ------------------------------------------
 
+++ 9
+== 9.0
+-- 9.0.0
+        - Changelog version 9
+	- move addobj.cpp into widgets.cpp
+	- move keys.cpp into widgets.cpp
+	- move filemenu.cpp into widgets.cpp
+	- move dialog.cpp into widgets.cpp
+	- move display.cpp into solid.cpp
+        - changed ray color from red to white stippled
+	(2020/10/03, Philippe Dax)
+
 ++ 8
 == 8.7
 -- 8.7.3

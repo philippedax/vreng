@@ -37,7 +37,7 @@ struct GLSection : public ubit::UGraph::Glpaint { GLSection(class Scene*); };
 
 class Scene : public ubit::UBox {
 public:
-  Scene(class GuiWidgets*);
+  Scene(class Widgets*);
   
   bool isInitialized() {return is_initialized;} ///< checks whether the scene is initialized.
 
@@ -51,7 +51,7 @@ public:
   
 private:
   friend class Gui;
-  class GuiWidgets& gw;
+  class Widgets& gw;
   bool is_visible;		 ///< true if visible (not iconified).
   bool is_initialized;
   bool is_startCB_launched;

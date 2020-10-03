@@ -59,10 +59,10 @@ protected:
 
 public:
   enum rendering_mode {
-    PLAIN,		///< render surfaces with plain colors.
-    TEXTURED,		///< render surfaces with their textures.
-    WIRED,		///< don't render surfaces, only render edges.
-    ZBUFSELECT		///< only fill the Z-buffer (for selection).
+    PLAIN,              ///< render surfaces with plain colors.
+    TEXTURED,           ///< render surfaces with their textures.
+    WIRED,              ///< don't render surfaces, only render edges.
+    ZBUFSELECT          ///< only fill the Z-buffer (for selection).
   };
 
   /* display modes */

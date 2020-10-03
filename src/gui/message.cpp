@@ -50,7 +50,7 @@
 /* ==================================================== ======== ======= */
 // MESSAGES and REQUESTS
 
-Messages::Messages(GuiWidgets* _gw) : gw(*_gw)
+Messages::Messages(Widgets* _gw) : gw(*_gw)
 {
   messages.addAttr(UOrient::vertical + UFont::small + utop());
   messages.add(uhbox(UFont::bold + UColor::orange + "Have fun with VREng ;-)"));
@@ -375,7 +375,7 @@ void Messages::writeMessage(const char* mode, const char* from, const char* msg)
 
 /* ==================================================== ======== ======= */
 
-void GuiWidgets::putMessage(UMessageEvent& e)
+void Widgets::putMessage(UMessageEvent& e)
 {
   const UStr* arg = e.getMessage();
   if (!arg || arg->empty()) return;
@@ -389,14 +389,14 @@ void GuiWidgets::putMessage(UMessageEvent& e)
   putinfo.putIcon(val);
 }
 
-void GuiWidgets::openMessage(UMessageEvent &e)
+void Widgets::openMessage(UMessageEvent &e)
 {
   const UStr* msg = e.getMessage();
   if (!msg || msg->empty()) return;
   gui.gotoWorld(*msg);
 }
 
-void GuiWidgets::moveMessage(UMessageEvent &e)
+void Widgets::moveMessage(UMessageEvent &e)
 {
   const UStr* msg = e.getMessage();
   if (!msg || msg->empty()) return;
@@ -420,7 +420,7 @@ void GuiWidgets::moveMessage(UMessageEvent &e)
   else if (arg == "turn_right 0") setKey(KEY_DR, FALSE);
 }
 
-void GuiWidgets::getMessage(UMessageEvent &e)
+void Widgets::getMessage(UMessageEvent &e)
 {
   const UStr* msg = e.getMessage();
   if (!msg || msg->empty()) return;

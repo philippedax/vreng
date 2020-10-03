@@ -38,7 +38,7 @@
 #include "useraction.hpp"
 
 
-Joystick::Joystick(GuiWidgets* _gw, int _radius)
+Joystick::Joystick(Widgets* _gw, int _radius)
 : gw(*_gw), is_drawing(false), radius(_radius)
 {
   canvas_size.set(radius*2, radius*2);
@@ -57,7 +57,7 @@ Joystick::Joystick(GuiWidgets* _gw, int _radius)
               + uitem(UOn::deselect / g.theme.joystickColor
                       + UOn::select / g.theme.joystickArmColor
                       + "Lock" + utip("Set gravity on/off")
-                      + ucall(int(UserAction::PAUSE), GuiWidgets::callAction)
+                      + ucall(int(UserAction::PAUSE), Widgets::callAction)
                       ).setSelectable()
               + uitem(g.theme.JoystickUpDown
                       + utip("Drag on the Y axis to move verticaly")
