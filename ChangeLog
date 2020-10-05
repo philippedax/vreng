@@ -16,8 +16,10 @@ The rules for this file:
 == 9.0
 -- 9.0.0
         - Changelog version 9
+        - avoid to resolve localhost in http.cpp
         - --with-mysql=no by default
-	- move vr2gl.cpp into wo/
+        - move gui/scene.*pp to scr/vreng
+	- move vr2gl.cpp to wo/
 	- move addobj.cpp into widgets.cpp
 	- move keys.cpp into widgets.cpp
 	- move filemenu.cpp into widgets.cpp

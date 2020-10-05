@@ -308,8 +308,13 @@ again:
     else {
       int res;
       if ((res = HttpThread::resolver(host, scheme, &sa)) != 0) {
-        error("can't resolve %s err=%d", host, res);
-        hterr = true;
+        if (! strncmp(host, "localhost", 8)) {
+          hterr = false;
+        }
+        else {
+          error("can't resolve %s err=%d", host, res);
+          hterr = true;
+        }
         break;
       }
     }
@@ -376,8 +381,8 @@ again:
             int httperr, major, minor;
 
             sscanf(httpheader, "HTTP/%d.%d %d", &major, &minor, &httperr);
-            trace(DBG_HTTP, "HTTP-Code_err (%d.%d): %d - %s %s",
-                  major, minor, httperr, httpheader+12, ht->url);
+            trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
+                  httperr, major, minor, httpheader+12, ht->url);
 
             switch (httperr) {
             case HTTP_200:
@@ -399,12 +404,12 @@ again:
                 }
                 break;
               }
-            case 404:
-              error("HTTP-err: %d - %s %s on %s", httperr, httpheader, ht->url, host);
+            case 404:	// not found
+              fatal("HTTP-err: %d - %s %s on %s", httperr, httpheader, ht->url, host);
               hterr = true;
               break;
             case HTTP_503:
-              error("HTTP-err: %d - server %s unavailable", httperr, host);
+              fatal("HTTP-err: %d - server %s unavailable", httperr, host);
               hterr = true;
               break;
             default:

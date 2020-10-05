@@ -62,8 +62,7 @@ void Hud::bitmap_output(int x, int y, const char *s, void *font)
 #endif //HAVE_LIBGLUT
 }
 
-
-/** text rendering */
+/** hud rendering */
 void Hud::render(GLfloat r, GLfloat g, GLfloat b, GLfloat a, void *font, GLint x, GLint y, const char *s, ...)
 {
   if (! visible) return;

@@ -79,12 +79,12 @@ FILE * Cache::openCache(const char *url, Http *http)
     int c;
     while ((c = http->getChar()) >= 0) putc(c, f);
     File::closeFile(f);
-    progression('c');
+    progression('c');	// c as cache
     f = File::openFile(filename, "r");
   }
   if (::g.pref.refresh) {  // force reload
     int c;
-    progression('h');
+    progression('h');	// h as http
     while ((c = http->getChar()) >= 0) putc(c, f);
     File::closeFile(f);
     progression('c');

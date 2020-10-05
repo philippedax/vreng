@@ -781,7 +781,7 @@ void World::httpReader(void *_url, Http *http)
   Cache::setCacheName(vreurl, vrefile);
   trace(DBG_WO, "httpReader %s:", vreurl);
 
-  if (! http) fatal("can't download %s, check access to the remote http server",vreurl);
+  //dax if (! http) fatal("can't download %s, check access to the remote http server",vreurl);
 
   Parse *parser = new Parse();	// create the parser instance
 
@@ -872,10 +872,10 @@ void World::init(const char *urlvre)
   endprogression();
 
   // Attach bubble text to user
-  char iam[32];
-  float txtcolor[] = {1,0,0};
-  sprintf(iam, "Hi! I am %s", user->getInstance());
-  user->bubble = new Bubble(user, iam, txtcolor, Bubble::BUBBLEBACK);
+  char text[32];
+  float textcolor[] = {1,0,0};
+  sprintf(text, "Hi! I am %s", user->getInstance());
+  user->bubble = new Bubble(user, text, textcolor, Bubble::BUBBLEBACK);
 
   // check if icons are locally presents
   world->checkIcons();

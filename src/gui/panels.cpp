@@ -43,9 +43,9 @@
 #include "capture.hpp"
 #include "theme.hpp"
 #include "useraction.hpp"
-#include "hud.hpp"
-#include "axis.hpp"
-#include "grid.hpp"
+#include "hud.hpp"		// toggle
+#include "axis.hpp"		// toggle
+#include "grid.hpp"		// toggle
 #include "world.hpp"
 #include "channel.hpp"
 #include "message.hpp"
