@@ -34,7 +34,7 @@ class User;
 class Universe {
 
  public:
-  char *name;		///< http server name
+  char *universe_name;	///< http server name
   char *url;		///< url
   char *group;		///< group addr
   char *urlpfx;		///< url prefix

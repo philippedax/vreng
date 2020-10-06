@@ -37,7 +37,8 @@
 #include "timer.hpp"	// ptime_*
 #include "openal.hpp"	// Openal::init
 #include "aiinit.hpp"	// initOcaml
-#include "setjmp.h"
+
+#include "setjmp.h"	// jmp_buf
 using namespace ubit;
 
 // global variable that refers to the various modules
@@ -54,9 +55,7 @@ Global::Global() :
 	pref(*new Pref),
 	render(*new Render),
 	theme(*new Theme),
-	gui(*new Gui) {
-}
-
+	gui(*new Gui) {} 
 
 int main(int argc, char *argv[])
 {
@@ -97,7 +96,7 @@ void Global::startCB()
   initSignals();		// Signals initialization
   HttpThread::init();		// Simultaneous http connections initialization
   Channel::initNetwork();	// Network initialization
-  Universe::initManager();	// Manager initialisation
+  Universe::initManager();	// World manager initialisation
   Vac::init();		    	// Vac cache initialization
 #if HAVE_MYSQL
   VRSql::init();		// MySql initialization
@@ -154,18 +153,15 @@ void Global::printStats()
   Render::stat();
 }
 
-#ifndef WIN32
 extern int my_wait(pid_t);
 static void reapchild(int sig)
 {
   //error("child pid/ppid=%d/%d", (int)getpid(), (int)getppid());
   my_wait(-1);
 }
-#endif
 
 void Global::initSignals()
 {
-#ifndef WIN32
   //DAX signal(SIGILL, quitVreng);
   signal(SIGTRAP,quitVreng);
   signal(SIGFPE, quitVreng);
@@ -178,15 +174,5 @@ void Global::initSignals()
 #if 0
   longjmp(sigctx, 0);
 #endif
-#endif
 }
 
-#if 0
-void Global::segvbus(int sig)
-{
-  error("segvbus %d", sig);
-  signal(SIGSEGV, segvbus);
-  signal(SIGBUS, segvbus);
-  longjmp(sigctx, sig);
-}
-#endif

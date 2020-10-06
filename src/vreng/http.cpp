@@ -30,6 +30,7 @@
 #include "prof.hpp"	// new_http new_htppthread
 #include "timer.hpp"	// times
 #include "cache.hpp"	// inCache
+#include "universe.hpp"	// universe_name
 
 
 // local
@@ -273,8 +274,12 @@ void * HttpThread::connection(void *_ht)
   memset(path, 0, sizeof(path));
 
   int urltype = Url::parser(ht->url, host, scheme, path);
+    if (! host) {
+      strcpy(host, Universe::current()->universe_name);
+      trace(DBG_HTTP, "host=%s", host);
+    }
   trace(DBG_HTTP, "connection: url=%s", ht->url);
-  trace(DBG_HTTP, "urltype=%d, scheme=%s host=%s path=%s", urltype,scheme,host,path);
+  trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d", ::g.url,::g.universe,scheme,host,path,urltype);
 
   /* which kind of URL ? */
   switch (urltype) {
@@ -290,6 +295,9 @@ void * HttpThread::connection(void *_ht)
 
   case Url::URLHTTP:	// http://
     trace(DBG_HTTP, "HTTP: %s://%s%s", scheme, host, path);
+    if (! host) {
+      strcpy(host, Universe::current()->universe_name);
+    }
 again:
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
       struct hostent *hp;
@@ -308,7 +316,7 @@ again:
     else {
       int res;
       if ((res = HttpThread::resolver(host, scheme, &sa)) != 0) {
-        if (! strncmp(host, "localhost", 8)) {
+        if (! strncmp(host, "localhost", 9)) {
           hterr = false;
         }
         else {
@@ -331,12 +339,12 @@ again:
       sprintf(req,
               "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
               ht->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
-              ::g.env.relname(), ::g.pref.user, host);
+              ::g.env.relname(), ::g.user, host);
     else
       sprintf(req,
               "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
               path, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
-              ::g.env.relname(), ::g.pref.user, host);
+              ::g.env.relname(), ::g.user, host);
 
     if (HttpThread::send(http->fd, req, strlen(req)) < 0) {
       error("can't send req=%s", req);
@@ -456,7 +464,8 @@ again:
   }
 
   if (hterr && ht)
-    ht->httpReader(ht->hdl, (Http *)NULL);
+    //dax ht->httpReader(ht->hdl, (Http *)NULL);
+    ht->httpReader(ht->hdl, http);
 
   // free memory
   if (ht) delete ht;

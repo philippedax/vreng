@@ -98,7 +98,7 @@ void Messages::actionCB()
 
   if (entry[0] == '!') performRequest(entry);
   else {
-    writeMessage("chat", g.pref.user, entry.c_str());  // display in message zone
+    writeMessage("chat", g.user, entry.c_str());  // display in message zone
     User::userWriting(entry.c_str());		       // send to World Management
   }
   entry = ""; // clear textfield

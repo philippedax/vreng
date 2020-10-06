@@ -36,20 +36,30 @@ World *manager = NULL;
 
 Universe::Universe()
 {
-  url = new char[strlen(::g.pref.url) + 1];
-  strcpy(url, ::g.pref.url);
+  url = new char[strlen(::g.url) + 1];
+  strcpy(url, ::g.url);
 
-  if (::g.pref.universe) {
-    name = new char[strlen(::g.pref.universe) + 1];
-    strcpy(name, ::g.pref.universe);
-    urlpfx = new char[1];
-    strcpy(urlpfx, "");
-  }
-  else {
-    name = new char[sizeof(DEF_HTTP_SERVER) + 1];
-    strcpy(name, DEF_HTTP_SERVER);
+  if (! ::g.pref.new_universe) { // by default
+    universe_name = new char[sizeof(DEF_HTTP_SERVER) + 1];
+    strcpy(universe_name, DEF_HTTP_SERVER);
     urlpfx = new char[sizeof(DEF_URL_PFX) + 1];
     strcpy(urlpfx, DEF_URL_PFX);
+  }
+  else {  // universe given by -u
+    char tmp[64];
+    char *p, *ptmp, *pserv;
+    universe_name = new char[strlen(::g.universe) + 1];
+    strcpy(tmp, ::g.universe);
+    p = strchr(tmp, '/');
+    p++;
+    ptmp = strchr(p, '/');
+    pserv = ++p;
+    p = strchr(p, '/');
+    *p = '\0';
+    strcpy(universe_name, pserv);
+    
+    urlpfx = new char[1];
+    strcpy(urlpfx, "");
   }
 
   group = new char[GROUP_LEN + 1];
@@ -58,19 +68,19 @@ Universe::Universe()
   worldList = NULL;
   worldcnt = 0;
   localuser = NULL;
-  ttl = Channel::getTtl(::g.pref.channel);
+  ttl = Channel::getTtl(::g.channel);
   port = VRENG_MPORT_BASE;
   version = VRE_VERSION;
   prop = 0;
   wheel = NULL;
 
   wheel = new Wheel();
-  trace(DBG_INIT,"Universe: name=%s url=%s pfx=%s vers=%d ttl=%d", name, url, urlpfx, version, ttl);
+  trace(DBG_INIT,"Universe: name=%s url=%s pfx=%s vers=%d ttl=%d", universe_name, url, urlpfx, version, ttl);
 }
 
 Universe::~Universe()
 {
-  delete name;
+  delete universe_name;
   delete url;
   delete urlpfx;
   delete worldList;

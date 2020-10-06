@@ -421,7 +421,7 @@ void Widgets::saveCB()
 void Widgets::helpCB()
 {
   UStr cmd = "IFS=' '; firefox -remote 'openURL(http://"
-              & UStr(Universe::current()->name)
+              & UStr(Universe::current()->universe_name)
               & "/)' &";
   system(cmd.c_str());
 }
@@ -829,17 +829,17 @@ void Widgets::destinationsDialog()
 {
   char universe_url[URL_LEN];
   char str[URL_LEN];
-  if (!strncmp(Universe::current()->name, "http://", 7))
+  if (!strncmp(Universe::current()->universe_name, "http://", 7))
     sprintf(str, "%s", "%s%s/vacs/v%d/worlds");
   else
     sprintf(str, "%s%s", "http://", "%s%s/vacs/v%d/worlds");
-  sprintf(universe_url, str, Universe::current()->name, Universe::current()->urlpfx, Universe::current()->version);
+  sprintf(universe_url, str, Universe::current()->universe_name, Universe::current()->urlpfx, Universe::current()->version);
   UBox& box = uvbox(g.theme.scrollpaneStyle);
   if (Http::httpOpen(universe_url, destinationsHttpReader, &box, 0) < 0) {
     delete &box;
     return;
   }
-  printf("destinations: universe=%s name=%s pfx=%s : open OK\n", universe_url, Universe::current()->name, Universe::current()->urlpfx);
+  printf("destinations: universe=%s name=%s pfx=%s : open OK\n", universe_url, Universe::current()->universe_name, Universe::current()->urlpfx);
   worlds_dialog.setMessage(uscrollpane(usize(120,400) + box));
   worlds_dialog.show();
 }
@@ -849,7 +849,7 @@ void Widgets::openWorldsDialog()
 {
   char universe_url[URL_LEN];
   sprintf(universe_url, "%s%s/vacs/v%d/worlds",
-                      Universe::current()->name,
+                      Universe::current()->universe_name,
                       Universe::current()->urlpfx,
                       Universe::current()->version);
 

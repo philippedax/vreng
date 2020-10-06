@@ -781,7 +781,7 @@ void World::httpReader(void *_url, Http *http)
   Cache::setCacheName(vreurl, vrefile);
   trace(DBG_WO, "httpReader %s:", vreurl);
 
-  //dax if (! http) fatal("can't download %s, check access to the remote http server",vreurl);
+  if (! http) error("can't download %s, check access to the remote http server",vreurl);
 
   Parse *parser = new Parse();	// create the parser instance
 
@@ -831,7 +831,7 @@ void World::init(const char *urlvre)
   World *world = new World();
 
   world->setState(STOPPED);
-  world->setChanAndJoin(::g.pref.channel);      // join initial channel
+  world->setChanAndJoin(::g.channel);      // join initial channel
   world->setName(Universe::current()->url);
   Channel::getGroup(world->getChan(), Universe::current()->group);
   Universe::current()->port = Channel::getPort(world->getChan());

@@ -143,7 +143,7 @@ void Gate::enter()
       if (vac->resolveWorldUrl(names.url, chan))
         trace(DBG_IPMC, "enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
       else {
-        warning("enter: resolveWorldUrl failed url=%s", names.url);
+        warning("enter: warning resolveWorldUrl failed from Vac: url=%s", names.url);
         if (! *chan) strcpy(chan, DEF_VRE_CHANNEL);  // no given channel, forced to the default
       }
     }

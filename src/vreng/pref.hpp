@@ -37,13 +37,12 @@ public:
   
   uint16_t width3D;	///< 3D width
   uint16_t height3D;	///< 3D height
-  //uint8_t gui_theme;	///< menubar theme (text|neon)
-  //uint8_t gui_skin;	///< background skin (black|grey|yellow|white)
   uint8_t maxsimcon;	///< max simultaneous connections
   uint8_t maxfps;	///< max frames/sec
   uint32_t dbg;		///< debug mask
   uint32_t cachetime;	///< live time of the cache
   time_t frame_delay;	///< inter frame delay
+  bool new_universe;    ///< if new universe asked
   bool quality3D;	///< 3D quality or not
   bool refresh;		///< refresh cache
   bool gravity;		///< with/without gravity
@@ -54,15 +53,6 @@ public:
   bool bbox;		///< draw bounding-boxes
   bool silent;		///< audio silent
   bool dbgtrace;	///< trace
-  char *version;	///< VREng version
-
-  // !!!!!! DEVRAIT ETRE DANS "Global" ou "Current" !!!!!
-  char *channel;	///< initial Multicast channel
-  char *user;		///< user name
-  char *universe;	///< universe httpd server url
-  char *url;		///< initial world url
-  char *skinf;		///< front face url
-  char *skinb;		///< back face url
 
   /* preferences */
   char *my_avatar;	///< avatar model
@@ -90,7 +80,5 @@ public:
   
   void initEnvPrefs(const char* pref_file);
 };
-
-
 
 #endif

@@ -30,32 +30,40 @@
 #include "log.hpp"	// notice, warning, fatal, trace
 #include "matvec.hpp"	// matrices M4, vectors V3
 
-#include "setjmp.h"	// matrices M4, vectors V3
-
 
 class Global {
 public:
   Global();
   ~Global() {}
 
-#if 0 //dax
-  jmp_buf sigctx;
-#endif
+  char *version;        ///< VREng version
+  char *universe;       ///< universe httpd server url
+  char *server;         ///< server httpd
+  char *url;            ///< initial world url
+  char *channel;        ///< initial Multicast channel
+  char *user;           ///< user name
+  char *skinf;          ///< front face url
+  char *skinb;          ///< back face url
 
-  int start(int argc, char *argv[]);
-  void startCB();
-  
-  static void quitVreng(int status);
-  static void printStats();
-  void initSignals();
+  uint32_t debug;
+  uint32_t options;
 
-  unsigned long debug, options;
   class Times& times;
   class Env& env;
   class Pref& pref;
   class Render& render;
   struct Theme& theme; ///< the theme used to paramaterize the GUI.
   class Gui& gui;
+
+  int start(int argc, char *argv[]);
+
+  void startCB();
+  
+  static void quitVreng(int status);
+
+  static void printStats();
+
+  void initSignals();
 };
 
 extern Global g;

@@ -73,5 +73,6 @@ src/*/*/*.a
 src/vreng/MakefileGLUT
 src/ai/*.ml*
 wwwlocal
+wwwdax
 vrlocal
 .git_ln

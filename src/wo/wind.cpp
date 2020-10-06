@@ -57,7 +57,7 @@ void Wind::parser(char *l)
 void * Wind::getHttp(void * arg)
 {
   char url[URL_LEN];
-  sprintf(url, "http://%s/cgi/wind.cgi", Universe::current()->name);
+  sprintf(url, "http://%s/cgi/wind.cgi", Universe::current()->universe_name);
 
   char cmd[BUFSIZ];
   *cmd ='\0';

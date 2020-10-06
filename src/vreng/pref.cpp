@@ -26,7 +26,7 @@
 #include "file.hpp"	// openFile
 #include "str.hpp"	// stringcmp
 
-#include "prefs.t"	// prefs
+#include "prefs.t"	// prefs config
 
 
 static const char HELPSTRING[] = "\
@@ -63,13 +63,16 @@ where options are:\n\
 
 Pref::Pref()
 {
-  version = strdup(PACKAGE_VERSION);
-  universe = NULL;
-  url = NULL;
-  user = NULL;
-  channel = NULL;
+  ::g.version = strdup(PACKAGE_VERSION);
+  ::g.universe = NULL;
+  ::g.server = NULL;
+  ::g.url = NULL;
+  ::g.user = NULL;
+  ::g.channel = NULL;
+
   width3D  = DEF_WIDTH3D;
   height3D = DEF_HEIGHT3D;
+  new_universe = false;
   dbg = 0;
   infogl = false;
   quality3D = false;
@@ -104,8 +107,8 @@ Pref::Pref()
   httpproxystr = NULL;
   noproxystr = NULL;
   mcastproxystr = NULL;
-  skinf = NULL;
-  skinb = NULL;
+  ::g.skinf = NULL;
+  ::g.skinb = NULL;
 #if 0 //OBSOLETE
   gui_theme = Theme::NEON;	// neon
   gui_skin = Theme::GREY;	// grey
@@ -217,7 +220,7 @@ void Pref::parse(int argc, char **argv)
         }
         break;
       case 'p':
-        user = strdup(optarg);
+        ::g.user = strdup(optarg);
         break;
       case 'q':		// quality and performance
         quality3D = true;
@@ -240,20 +243,21 @@ void Pref::parse(int argc, char **argv)
         break;
 #endif
       case 'u':
-        universe = strdup(optarg);
+        ::g.universe = strdup(optarg);
+        new_universe = true;
         break;
       case 'v':
         printf("%s\n", PACKAGE_VERSION);
         exit(0);
       case 'w':
-        url = strdup(optarg);
+        ::g.url = strdup(optarg);
         char chanstr[CHAN_LEN];
         memset(chanstr, 0, sizeof(chanstr));
 #if 0 //DAX LOCAL
 	{
 	  Vac *vac = Vac::current();
-          vac->resolveWorldUrl(url, chanstr);
-          channel = strdup(chanstr);
+          vac->resolveWorldUrl(::g.url, chanstr);
+          ::g.channel = strdup(chanstr);
 	}
 #endif
         break;
@@ -265,7 +269,7 @@ void Pref::parse(int argc, char **argv)
         height3D *= 2;
         break;
       case 'A':
-        channel = strdup(optarg);
+        ::g.channel = strdup(optarg);
         reflector = false;
         break;
       case 'C':
@@ -289,44 +293,62 @@ void Pref::parse(int argc, char **argv)
     }
   }
 
-  if (url == NULL) {
-    char *tmpvre = new char[URL_LEN];
-    if (universe == NULL) {
-      sprintf(tmpvre, "http://%s%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_WORLD);
+  char *tmp1 = new char[URL_LEN];
+  char *tmp2 = new char[URL_LEN];
+
+  if (::g.url == NULL) {
+    if (new_universe == false) {
+      sprintf(tmp1, "http://%s%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_WORLD);
     }
     else {
-      sprintf(tmpvre, "%s%s%s", universe, "", DEF_URL_WORLD);
+      sprintf(tmp1, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
     }
-    url = strdup(tmpvre);
+    ::g.url = strdup(tmp1);
   }
+
+  if (new_universe == false) {
+    sprintf(tmp1, "%s", DEF_HTTP_SERVER);
+    ::g.server = strdup(tmp1);
+  }
+  else {
+    char *p1, *p2;
+    tmp1 = strdup(::g.universe);
+    p1 = strchr(tmp1, '/');
+    p1++;
+    p1 = strchr(p1, '/');
+    p2 = ++p1;
+    p1 = strchr(p1, '/');
+    *p1 = 0;
+    strcpy(tmp2, p2); 
+  }
+  ::g.server = strdup(tmp2);
+  trace(DBG_INIT, "server: %s", ::g.server);
+  trace(DBG_INIT, "universe: %s", ::g.universe);
+  trace(DBG_INIT, "url: %s", ::g.url);
 
   char *tmpskinf = new char[URL_LEN];
   char *tmpskinb = new char[URL_LEN];
-  if (universe == NULL) {
+  if (new_universe == false) {
     sprintf(tmpskinf, "http://%s%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_FRONT);
     sprintf(tmpskinb, "http://%s%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_BACK);
   }
   else {
-    sprintf(tmpskinf, "%s%s%s", universe, "", DEF_URL_FRONT);
-    sprintf(tmpskinb, "%s%s%s", universe, "", DEF_URL_BACK);
+    sprintf(tmpskinf, "%s%s%s", ::g.universe, "", DEF_URL_FRONT);
+    sprintf(tmpskinb, "%s%s%s", ::g.universe, "", DEF_URL_BACK);
   }
-  skinf = strdup(tmpskinf);
-  skinb = strdup(tmpskinb);
+  ::g.skinf = strdup(tmpskinf);
+  ::g.skinb = strdup(tmpskinb);
 
-  if (channel == NULL)
-    channel = strdup(DEF_VRE_CHANNEL);
+  if (::g.channel == NULL)
+    ::g.channel = strdup(DEF_VRE_CHANNEL);
 
   // pseudoname
-  if (user == NULL) {
-#if HAVE_GETPWUID
+  if (::g.user == NULL) {
     struct passwd *pwd = getpwuid(getuid());
     if (pwd)
-      user = strdup(pwd->pw_name);
+      ::g.user = strdup(pwd->pw_name);
     else
-      user = strdup("unknown");
-#else
-    user = strdup("unknown");
-#endif
+      ::g.user = strdup("unknown");
   }
 
   if (helpx) {

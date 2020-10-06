@@ -100,7 +100,7 @@ void User::defaults()
 void User::setName()
 {
   if (! explicitName()) {
-    sprintf(names.named, "%s", ::g.pref.user);
+    sprintf(names.named, "%s", ::g.user);
     names.instance = names.named;
   }
 }
@@ -159,13 +159,13 @@ void User::makeSolid()
   if (pref->my_widthstr)	width = atof(pref->my_widthstr);
   if (pref->my_depthstr)	depth = atof(pref->my_depthstr);
   if (pref->my_heightstr)	height = atof(pref->my_heightstr);
-  if (::g.pref.skinf) {
+  if (::g.skinf) {
     if (pref->my_mapfrontstr)	front = strdup(pref->my_mapfrontstr);
-    else			front = strdup(::g.pref.skinf);
+    else			front = strdup(::g.skinf);
   }
-  if (::g.pref.skinb) {
+  if (::g.skinb) {
     if (pref->my_mapbackstr)	back = strdup(pref->my_mapbackstr);
-    else			back = strdup(::g.pref.skinb);
+    else			back = strdup(::g.skinb);
   }
   left = strdup(" "); 		*left = 0;
   right = strdup(" "); 		*right = 0;
