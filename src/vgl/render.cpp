@@ -747,3 +747,4 @@ void Render::quit()
 {
   Texture::closeCache();
 }
+
