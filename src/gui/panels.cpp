@@ -50,7 +50,7 @@
 #include "channel.hpp"
 #include "message.hpp"
 
-static void toggleHudCB(Widgets*) { Hud::hud()->toggle(); }
+static void toggleHudCB(Widgets*) { Hud::hud()->toggleHud(); }
 
 static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 
@@ -149,14 +149,14 @@ manipulator(_gw->navig.createManipulator())
   Palette& navig_palette = *new Palette(g.theme.paletteStyle
                + navig_box);
   navig_palette.setPos(5|UPos::LEFT, 5|UPos::BOTTOM);
-  navig_palette.setTitle(UColor::yellow + UFont::bold + "Navigator");
+  navig_palette.setTitle(UColor::yellow + UFont::bold + "Joystick");
   scene.add(navig_palette);
 
   Palette& messages_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
                + gw.messages.createMessagePanel(true));
   messages_palette.setPos(50|UPERCENT_CTR, 5|UPos::BOTTOM);
-  messages_palette.setTitle(UColor::yellow + UFont::bold + "Messages");
+  messages_palette.setTitle(UColor::yellow + UFont::bold + "Infos & Messages");
   scene.add(messages_palette);
 
   Palette& avatars_palette = *new Palette(g.theme.paletteStyle

@@ -17,6 +17,7 @@ The rules for this file:\n\
 == 9.0\n\
 -- 9.0.0\n\
         - Changelog version 9\n\
+        - fix connection to localhost in pref.cpp http.cpp universe.cpp\n\
         - avoid to resolve localhost in http.cpp\n\
         - --with-mysql=no by default\n\
         - move gui/scene.*pp to scr/vreng\n\

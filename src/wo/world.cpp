@@ -366,7 +366,7 @@ void World::compute(time_t sec, time_t usec)
 {
   uint16_t dimx, dimy, dimz;
 
-  trace(DBG_WO, "compute:");
+  //trace(DBG_WO, "compute:");
   switch (getState()) {
       
   case LOADING:
@@ -435,7 +435,7 @@ void World::compute(time_t sec, time_t usec)
     return;
 
   case SIMULATION:
-  trace(DBG_WO, "compute simulation:");
+  //trace(DBG_WO, "compute simulation:");
     //
     // user motions
     //
