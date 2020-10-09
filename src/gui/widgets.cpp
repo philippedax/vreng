@@ -118,7 +118,6 @@ postponedKRcount(0)
   worlds.addAttr(UOrient::vertical + utop());
   carts.addAttr(UOrient::vertical + utop());
   avatars.addAttr(UOrient::vertical + utop());
-  //hudvisible = true;
 
   // main box
   addAttr(g.theme.mainStyle);

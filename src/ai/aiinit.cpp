@@ -142,11 +142,11 @@ value recherche_Type(value ttype)
       g.gui.initClicked();
 
       /* enlever les highlights des objets de meme type */
-      g.render.setAllTypeFlashy(typechercher, false);
+      g.render.setAllTypeFlashy((char *) typechercher, false);
     }
     else {
       /* mettre en highlight les objets de meme type */
-      g.render.setAllTypeFlashy(typechercher, true);
+      g.render.setAllTypeFlashy((char *) typechercher, true);
     }
   }
   else {
@@ -309,7 +309,7 @@ void msg_debug(value mot)
 void viewed_objects(value mot)
 {
   const char *val = String_val(mot);
-  g.render.analyseUserScene(val);
+  g.render.analyseUserScene((char *) val);
 }
 
 

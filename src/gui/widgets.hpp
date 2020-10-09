@@ -95,9 +95,6 @@ public:
 
   static void showInfoDialog(const char* title, const char* message);
 
-  //bool isHudVisible();
-  //void toggleHud();
-
   // Users - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   GuiItem* addUser(User*);
