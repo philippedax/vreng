@@ -118,6 +118,7 @@ postponedKRcount(0)
   worlds.addAttr(UOrient::vertical + utop());
   carts.addAttr(UOrient::vertical + utop());
   avatars.addAttr(UOrient::vertical + utop());
+  //hudvisible = true;
 
   // main box
   addAttr(g.theme.mainStyle);
@@ -137,7 +138,6 @@ postponedKRcount(0)
   UAppli::onMessage("forward",ucall(this, &Widgets::forwardCB));
   UAppli::onMessage("home",   ucall(this, &Widgets::homeCB));
 }
-
 
 UBox& Widgets::createInfobar()
 {
@@ -280,7 +280,6 @@ UMenu& Widgets::createMarkMenu()
   return mark_menu;
 }
 
-//UMenu* Widgets::getOpenedMenu() {return navig.opened_menu;}
 void Widgets::showInfoDialog(const char* title, const char* message)
 {
   UDialog::showMessageDialog(title, uscrollpane(usize(450, 500) + utextarea(message)));
@@ -377,6 +376,7 @@ void Widgets::removeWorld(World *world)
 void Widgets::homeCB()
 {
   char chan_home_str[CHAN_LEN];
+
   sprintf(chan_home_str, "%s/%u/%d", Universe::current()->group, Universe::current()->port, Channel::currentTtl());
   trace(DBG_IPMC, "WO: goto %s at %s", Universe::current()->url, chan_home_str);
 
@@ -401,6 +401,7 @@ void Widgets::forwardCB()
 void Widgets::saveCB()
 {
   char vrein[PATH_LEN], vreout[PATH_LEN], buf[BUFSIZ];
+
   World *world = World::current();
   if (! world) return;
 
@@ -606,7 +607,7 @@ void Widgets::processKey(long keysym, int keychar, bool press)
       postponedKRcount--;		// une touche en moins dans KRlist
     }
     else {  // traitement normal d'un Press
-      //fprintf(stderr, "KPress change or activate Key( %d ) \n", vrkey);
+      //fprintf(stderr, "KPress change or activate Key( %d )\n", vrkey);
       if (vrkey >= MAXKEYS || vrkey < 0)
         return;
 
@@ -1007,7 +1008,7 @@ UDialog& Widgets::createToolDialog()
 
 //---------------------------------------------------------------------------
 /*
- * addbj
+ * addobj
  */
 #ifdef HUGE
 #undef HUGE
@@ -1467,4 +1468,31 @@ UMenu& Widgets::createFileMenu()
              + usepar()
              + ubutton(g.theme.Exit + " Quit" + ucall(0/*status*/, Global::quitVreng))
              );
+}
+
+//---------------------------------------------------------------------------
+
+// local 
+static Hud _hud;        // hud singleton
+
+/* Constructor */
+Hud::Hud()
+{
+  hudvisible = true;
+}
+
+/* Accessor */
+Hud * Hud::hud()
+{
+  return &_hud;
+}
+
+void Hud::toggleHud()
+{ 
+  hudvisible ^= 1;
+}
+
+bool Hud::isHudVisible()
+{
+  return hudvisible;
 }

@@ -15,11 +15,16 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.0\n\
+-- 9.0.1\n\
+	- move hud.cpp into widgets.cpp\n\
+	- move hud.hpp into widgets.hpp\n\
+	(2020/10/09, Philippe Dax)\n\
+\n\
 -- 9.0.0\n\
-        - Changelog version 9\n\
         - fix connection to localhost in pref.cpp http.cpp universe.cpp\n\
         - avoid to resolve localhost in http.cpp\n\
         - --with-mysql=no by default\n\
+	- move camera.cpp into render.cpp\n\
         - move gui/scene.*pp to scr/vreng\n\
 	- move vr2gl.cpp to wo/\n\
 	- move addobj.cpp into widgets.cpp\n\

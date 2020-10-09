@@ -32,6 +32,7 @@
 #include <vector>
 #include <ubit/ubit.hpp>
 #include "gui.hpp"
+
 using namespace ubit;
 
 #if (UBIT_VERSION_MAJOR < 6 || !defined(UBIT_WITH_GL))
@@ -80,6 +81,7 @@ public:
   static const int MESSAGES_BOX_HEIGHT = 150;
   static const int GW_DEFAULT_SCROLL = 50;
   static const int GW_ZOOM_SCROLL = 35;
+  //bool hudvisible;
 
   Widgets(Gui*);
   ///< constructor.
@@ -92,6 +94,9 @@ public:
   void setInfobar(UBox* content);
 
   static void showInfoDialog(const char* title, const char* message);
+
+  //bool isHudVisible();
+  //void toggleHud();
 
   // Users - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -186,6 +191,31 @@ private:
   void addMarkCB();
   void addNewObjectCB();
   void setRayDirection(int x, int y);
+};
+
+//---------------------------------------------------------------------------
+/**
+ * Hud class
+ */
+class Hud {
+
+ public:
+  bool hudvisible;
+
+ public:
+  Hud();
+  /**< Constructor */
+
+  virtual ~Hud() {};
+  /**< Destructor */
+
+  Hud * hud();
+  /**< Returns hud instance */
+
+  bool isHudVisible();
+  /**< Checks if hud is visible */
+
+  void toggleHud();
 };
 
 #endif

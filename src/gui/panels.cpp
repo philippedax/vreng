@@ -43,14 +43,14 @@
 #include "capture.hpp"
 #include "theme.hpp"
 #include "useraction.hpp"
-#include "hud.hpp"		// toggle
+//#include "hud.hpp"		// toggle
 #include "axis.hpp"		// toggle
 #include "grid.hpp"		// toggle
 #include "world.hpp"
 #include "channel.hpp"
 #include "message.hpp"
 
-static void toggleHudCB(Widgets*) { Hud::hud()->toggleHud(); }
+static void toggleHudCB(Widgets*) { Hud * hud = new Hud(); hud->toggleHud(); }
 
 static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 

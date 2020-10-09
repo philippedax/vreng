@@ -238,16 +238,16 @@ MAKEINFO = ${SHELL} /Users/dax/vreng/support/missing makeinfo
 MKDIR_P = ../../../support/install-sh -c -d
 MYSQL_CFLAGS = 
 OBJEXT = o
-OCAMLOPT = 
-OCAML_CFLAGS = 
-OCAML_LIBS = 
+OCAMLOPT = /usr/local/bin/ocamlopt
+OCAML_CFLAGS = -I/usr/local/lib/ocaml
+OCAML_LIBS = -L/usr/local/lib/ocaml
 PACKAGE = vreng
 PACKAGE_BUGREPORT = philippe.dax@gmail.com
 PACKAGE_NAME = vreng
-PACKAGE_STRING = vreng 9.0.0
+PACKAGE_STRING = vreng 9.0.1
 PACKAGE_TARNAME = vreng
 PACKAGE_URL = 
-PACKAGE_VERSION = 9.0.0
+PACKAGE_VERSION = 9.0.1
 PATH_SEPARATOR = :
 PERLPATH = /opt/local/bin/perl
 PYTHON_CFLAGS = 
@@ -260,7 +260,7 @@ SHELL = /bin/sh
 STRIP = 
 UBITCONFIG = 
 UBIT_CFLAGS = -I../../src
-VERSION = 9.0.0
+VERSION = 9.0.1
 VRELIBS = -L/opt/X11/lib -lxml2 -lpthread -L/usr/lib -ldl -L/opt/local/lib -lfreetype -lz -lbz2 -lpng15 -lm  -L/opt/X11/lib -lGLU -lGL  -L/opt/X11/lib -L/usr/X11/lib -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/opt/X11/lib -lcurl -lz -L/opt/X11/lib -ljpeg -L/opt/X11/lib -lungif -lXpm 
 WGETPATH = /usr/local/bin/wget
 XLIBS = -L/opt/X11/lib -L/usr/X11/lib  -lSM -lICE 
@@ -345,9 +345,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --gnu src/util/vred/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/util/vred/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --gnu src/util/vred/Makefile
+	  $(AUTOMAKE) --foreign src/util/vred/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
