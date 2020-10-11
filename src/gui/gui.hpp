@@ -31,6 +31,7 @@
 #include "config.h"
 #include <vector>
 #include <ubit/ubit.hpp>
+
 using namespace ubit;
 
 struct GuiItem;

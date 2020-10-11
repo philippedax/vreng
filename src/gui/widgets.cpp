@@ -81,6 +81,7 @@
 #include "render.hpp"
 #include "move.hpp"	// changeKey
 #include "file.hpp"	// openFile
+#include "vnc.hpp"	// vnc
 
 // Text files
 #include "README.t"
@@ -1470,7 +1471,7 @@ UMenu& Widgets::createFileMenu()
 }
 
 //---------------------------------------------------------------------------
-
+#if HUD
 // local 
 static Hud _hud;        // hud singleton
 
@@ -1495,3 +1496,44 @@ bool Hud::isHudVisible()
 {
   return hudvisible;
 }
+#endif
+
+//---------------------------------------------------------------------------
+/*
+ *  vncdialog
+ */
+VncDialog* VncDialog::vnc_dialog = null;
+
+void VncDialog::createVncDialog(Widgets* gw, Vnc* vnc)
+{
+  if (!gw) return;
+  if (!vnc_dialog) {
+    vnc_dialog = new VncDialog(gw, vnc);
+    gw->add(vnc_dialog);
+    vnc_dialog->centerOnScreen();
+  }
+  vnc_dialog->show(true);
+}
+
+VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
+{
+  vnc_port = "5901";
+  setTitle("VNC Server");
+  setMessage(uvbox(uhflex() + uvflex()
+                   + uhbox(ulabel(14, UFont::bold + "Server name:")
+                           + utextfield(25, vnc_server))
+                   + uhbox(ulabel(14, UFont::bold + "Port number:")
+                           + utextfield(vnc_port))
+                   + uhbox(ulabel(14, UFont::bold + "Password:")
+                           + utextfield(vnc_passwd))
+                   ));
+  setButtons(ubutton("Connect" + ucloseWin() + ucall(vnc_dialog, &VncDialog::convertVnc))
+             + " "
+             + ubutton("Cancel" + ucloseWin()));
+  }
+
+void VncDialog::convertVnc()
+{
+  if (vnc) vnc->convert(vnc_server.c_str(), vnc_port.c_str(), vnc_passwd.c_str());
+}
+

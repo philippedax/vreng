@@ -16,9 +16,11 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.0\n\
 -- 9.0.1\n\
+	- move vncdialog.cpp into widgets.cpp\n\
+	- move vncdialog.hpp into widgets.hpp\n\
 	- move hud.cpp into widgets.cpp\n\
 	- move hud.hpp into widgets.hpp\n\
-	(2020/10/09, Philippe Dax)\n\
+	(2020/10/11, Philippe Dax)\n\
 \n\
 -- 9.0.0\n\
         - fix connection to localhost in pref.cpp http.cpp universe.cpp\n\

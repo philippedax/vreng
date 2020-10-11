@@ -81,7 +81,6 @@ public:
   static const int MESSAGES_BOX_HEIGHT = 150;
   static const int GW_DEFAULT_SCROLL = 50;
   static const int GW_ZOOM_SCROLL = 35;
-  //bool hudvisible;
 
   Widgets(Gui*);
   ///< constructor.
@@ -94,6 +93,17 @@ public:
   void setInfobar(UBox* content);
 
   static void showInfoDialog(const char* title, const char* message);
+
+#define HUD 1
+#if ! HUD
+  Widgets *widgets() { return this; };
+  bool hudvisible;
+
+  bool isHudVisible();
+  /**< Checks if hud is visible */
+  void toggleHud();
+#endif
+
 
   // Users - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -127,7 +137,7 @@ public:
   void flushPostponedKRs();
   bool pendingPostponedKRs() {return (postponedKRmask || postponedKRcount);}
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // private members - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 private:
   friend class Gui;
   friend class Scene;
@@ -190,7 +200,29 @@ private:
   void setRayDirection(int x, int y);
 };
 
-//---------------------------------------------------------------------------
+#include <ubit/ustr.hpp>
+
+/**
+ * VncDialog class
+ */
+class VncDialog : public UOptionDialog {
+public:
+  static void createVncDialog(Widgets*, class Vnc*);
+ 
+private:
+  static VncDialog* vnc_dialog;
+  class Vnc* vnc;	///< vnc pointer.
+
+  UStr vnc_server;	///< vnc server string.
+  UStr vnc_port;	///< vnc port string.
+  UStr vnc_passwd;	///< vnc passwd string.
+  
+  VncDialog(class Widgets*, class Vnc*);
+
+  virtual void convertVnc();
+};
+
+#if HUD
 /**
  * Hud class
  */
@@ -214,5 +246,6 @@ class Hud {
 
   void toggleHud();
 };
+#endif
 
 #endif

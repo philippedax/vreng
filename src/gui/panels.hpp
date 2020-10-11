@@ -37,10 +37,10 @@ public:
   Panels(class Widgets*, class Scene&);
   void showManipulator(bool state);
   void showCartDialog(bool state);
+  Widgets &gw;
 
 private:
   friend class Widgets;
-  Widgets& gw;
   class Joystick* joystick;
   class Pitch* pitch;
   UBox& manipulator;  

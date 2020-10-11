@@ -33,6 +33,7 @@
 
 #include "vreng.hpp"
 #include "widgets.hpp"
+#include "gui.hpp"
 #include "theme.hpp"
 #include "panels.hpp"
 #include "palette.hpp"
@@ -49,7 +50,8 @@
 #include "channel.hpp"
 #include "message.hpp"
 
-static void toggleHudCB(Widgets*) { Hud *hud = new Hud(); hud->toggleHud(); }
+static void toggleHudCB(Widgets*) { Hud *h = new Hud(); h->toggleHud(); }
+//static void toggleHudCB(Widgets*) { Widgets *w = new Widgets(null); w->toggleHud(); }
 
 static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 
