@@ -136,13 +136,17 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   memset(dds, 0, sizeof(dds_t));
 
   Texture *_tex = (Texture *) tex;
-  if ((dds->fp = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((dds->fp = Cache::openCache(_tex->url, _tex->http)) == NULL) {
+    delete[] dds;
+    return NULL;
+  }  
 
   /* read magic number and check if valid .dds file */
   fread(&magic, sizeof(char), 4, dds->fp);
   if (strncmp (magic, "DDS ", 4) != 0) {
     error("file \"%s\" is not a valid .dds file!", Cache::getFileName(_tex->url));
     File::closeFile(dds->fp);
+    delete[] dds;
     return NULL;
   }
 

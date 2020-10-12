@@ -274,10 +274,12 @@ void * HttpThread::connection(void *_ht)
   memset(path, 0, sizeof(path));
 
   int urltype = Url::parser(ht->url, host, scheme, path);
+#if 0
     if (! host) {
       strcpy(host, Universe::current()->universe_name);
       trace(DBG_HTTP, "host=%s", host);
     }
+#endif
   trace(DBG_HTTP, "connection: url=%s", ht->url);
   trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d", ::g.url,::g.universe,scheme,host,path,urltype);
 
@@ -295,9 +297,11 @@ void * HttpThread::connection(void *_ht)
 
   case Url::URLHTTP:	// http://
     trace(DBG_HTTP, "HTTP: %s://%s%s", scheme, host, path);
+#if 0
     if (! host) {
       strcpy(host, Universe::current()->universe_name);
     }
+#endif
 again:
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
       struct hostent *hp;

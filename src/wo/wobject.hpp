@@ -193,7 +193,7 @@ public:
   /**< Destructor. */
 
   virtual const OClass* getOClass()	{return NULL;};
-  /**< Abstrct class. */
+  /**< Abstract class. */
 
   virtual uint8_t typeId()		{return getOClass()->type_id;};
   virtual const char* typeName()	{return getOClass()->type_name;};

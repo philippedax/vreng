@@ -89,7 +89,7 @@ void Book::httpReader(void *_book, Http *http)
   // it remains 3 urls: textures for edge
   if (! fgets(line, sizeof(line), f)) strcpy(line, DEF_URL_PAPER);
   line[strlen(line) - 1] = '\0';
-  if ((p = strtok(line, " \t")) == NULL) strcpy(p, DEF_URL_PAPER);
+  if ((p = strtok(line, " \t")) == NULL) strcpy(line, DEF_URL_PAPER);
 
   book->tex[i] = strdup(p);
   char *tranche = strdup(p);

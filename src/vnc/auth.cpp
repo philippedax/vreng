@@ -88,9 +88,9 @@ int vncEncryptAndStorePasswd(char *passwd, char *fname)
 char * vncDecryptPasswdFromFile(char *fname)
 {
   FILE *fp;
-  uint8_t *passwd = new uint8_t[9];
-
   if ((fp = File::openFile(fname, "r")) == NULL) return NULL;
+
+  uint8_t *passwd = new uint8_t[9];
 
   for (int i=0; i < 8; i++) {
     int ch = getc(fp);
