@@ -82,23 +82,23 @@ VidStream *curVidStream = NULL;
 */
 
 int zigzag[64][2] = {
-  0, 0, 1, 0, 0, 1, 0, 2, 1, 1, 2, 0, 3, 0, 2, 1, 1, 2, 0, 3, 0, 4, 1, 3,
-  2, 2, 3, 1, 4, 0, 5, 0, 4, 1, 3, 2, 2, 3, 1, 4, 0, 5, 0, 6, 1, 5, 2, 4,
-  3, 3, 4, 2, 5, 1, 6, 0, 7, 0, 6, 1, 5, 2, 4, 3, 3, 4, 2, 5, 1, 6, 0, 7,
-  1, 7, 2, 6, 3, 5, 4, 4, 5, 3, 6, 2, 7, 1, 7, 2, 6, 3, 5, 4, 4, 5, 3, 6,
-  2, 7, 3, 7, 4, 6, 5, 5, 6, 4, 7, 3, 7, 4, 6, 5, 5, 6, 4, 7, 5, 7, 6, 6,
-7, 5, 7, 6, 6, 7, 7, 7};
-/* Array mapping zigzag to array pointer offset. */
+  {0, 0}, {1, 0}, {0, 1}, {0, 2}, {1, 1}, {2, 0}, {3, 0}, {2, 1}, {1, 2}, {0, 3}, {0, 4}, {1, 3},
+  {2, 2}, {3, 1}, {4, 0}, {5, 0}, {4, 1}, {3, 2}, {2, 3}, {1, 4}, {0, 5}, {0, 6}, {1, 5}, {2, 4},
+  {3, 3}, {4, 2}, {5, 1}, {6, 0}, {7, 0}, {6, 1}, {5, 2}, {4, 3}, {3, 4}, {2, 5}, {1, 6}, {0, 7},
+  {1, 7}, {2, 6}, {3, 5}, {4, 4}, {5, 3}, {6, 2}, {7, 1}, {7, 2}, {6, 3}, {5, 4}, {4, 5}, {3, 6},
+  {2, 7}, {3, 7}, {4, 6}, {5, 5}, {6, 4}, {7, 3}, {7, 4}, {6, 5}, {5, 6}, {4, 7}, {5, 7}, {6, 6},
+  {7, 5}, {7, 6}, {6, 7}, {7, 7}
+};
 
+/* Array mapping zigzag to array pointer offset. */
 int zigzag_direct[64] = {
   0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12,
   19, 26, 33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35,
   42, 49, 56, 57, 50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51,
-58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63};
-/* Set up array for fast conversion from row/column coordinates to
-   zig zag order.
-*/
+  58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
+};
 
+/* Set up array for fast conversion from row/column coordinates to zig zag order.  */
 int scan[8][8] = {
   {0, 1, 5, 6, 14, 15, 27, 28},
   {2, 4, 7, 13, 16, 26, 29, 42},
@@ -107,14 +107,14 @@ int scan[8][8] = {
   {10, 19, 23, 32, 39, 45, 52, 54},
   {20, 22, 33, 38, 46, 51, 55, 60},
   {21, 34, 37, 47, 50, 56, 59, 61},
-{35, 36, 48, 49, 57, 58, 62, 63}};
-/* Initialize P and B skip flags. */
+  {35, 36, 48, 49, 57, 58, 62, 63}
+};
 
+/* Initialize P and B skip flags. */
 static int No_P_Flag = 0;
 static int No_B_Flag = 0;
 
 /* Max lum, chrom indices for illegal block checking. */
-
 static int lmaxx;
 static int lmaxy;
 static int cmaxx;
@@ -126,7 +126,6 @@ static int cmaxy;
  * table the "crop table".
  * MAX_NEG_CROP is the maximum neg/pos value we can handle.
  */
-
 #define MAX_NEG_CROP 384
 #define NUM_CROP_ENTRIES (256+2*MAX_NEG_CROP)
 #if 0	//PD
@@ -136,7 +135,6 @@ static int cmaxy;
 #define assertCrop(x)
 #endif //PD 
 static unsigned char cropTbl[NUM_CROP_ENTRIES];
-
 
 
 /*
@@ -155,7 +153,6 @@ static unsigned char cropTbl[NUM_CROP_ENTRIES];
  *
  *--------------------------------------------------------------
  */
-
 VidStream *
 NewVidStream(bufLength)
   int bufLength;
@@ -170,30 +167,25 @@ NewVidStream(bufLength)
     22, 26, 27, 29, 32, 35, 40, 48,
     26, 27, 29, 32, 35, 40, 48, 58,
     26, 27, 29, 34, 38, 46, 56, 69,
-  27, 29, 35, 38, 46, 56, 69, 83};
+    27, 29, 35, 38, 46, 56, 69, 83};
 
   /* Check for legal buffer length. */
-
   if (bufLength < 4)
     return NULL;
 
   /* Make buffer length multiple of 4. */
-
   bufLength = (bufLength + 3) >> 2;
 
   /* Allocate memory for new structure. */
-
   new = (VidStream *) malloc(sizeof(VidStream));
 
   /* Initialize pointers to extension and user data. */
-
   new->group.ext_data = new->group.user_data =
     new->picture.extra_info = new->picture.user_data =
     new->picture.ext_data = new->slice.extra_info =
     new->ext_data = new->user_data = NULL;
 
   /* Copy default intra matrix. */
-
   for (i = 0; i < 8; i++) {
     for (j = 0; j < 8; j++) {
       new->intra_quant_matrix[j][i] = default_intra_matrix[i * 8 + j];
@@ -201,7 +193,6 @@ NewVidStream(bufLength)
   }
 
   /* Initialize crop table. */
-
   for (i = (-MAX_NEG_CROP); i < NUM_CROP_ENTRIES - MAX_NEG_CROP; i++) {
     if (i <= 0) {
       cropTbl[i + MAX_NEG_CROP] = 0;
@@ -213,7 +204,6 @@ NewVidStream(bufLength)
   }
 
   /* Initialize non intra quantization matrix. */
-
   for (i = 0; i < 8; i++) {
     for (j = 0; j < 8; j++) {
       new->non_intra_quant_matrix[j][i] = 16;
@@ -221,36 +211,28 @@ NewVidStream(bufLength)
   }
 
   /* Initialize pointers to image spaces. */
-
   new->current = new->past = new->future = NULL;
   for (i = 0; i < RING_BUF_SIZE; i++) {
     new->ring[i] = NULL;
   }
 
   /* Create buffer. */
-
   new->buf_start = (unsigned int *) malloc(bufLength * 4);
 
   /*
    * Set max_buf_length to one less than actual length to deal with messy
    * data without proper seq. end codes.
    */
-
   new->max_buf_length = bufLength - 1;
 
   /* Initialize bitstream i/o fields. */
-
   new->bit_offset = 0;
   new->buf_length = 0;
   new->buffer = new->buf_start;
 
-
   /* Return structure. */
-
   return new;
 }
-
-
 
 /*
  *--------------------------------------------------------------
@@ -275,42 +257,30 @@ DestroyVidStream(astream)
 
   if (astream->ext_data != NULL)
     free(astream->ext_data);
-
   if (astream->user_data != NULL)
     free(astream->user_data);
-
   if (astream->group.ext_data != NULL)
     free(astream->group.ext_data);
-
   if (astream->group.user_data != NULL)
     free(astream->group.user_data);
-
   if (astream->picture.extra_info != NULL)
     free(astream->picture.extra_info);
-
   if (astream->picture.ext_data != NULL)
     free(astream->picture.ext_data);
-
   if (astream->picture.user_data != NULL)
     free(astream->picture.user_data);
-
   if (astream->slice.extra_info != NULL)
     free(astream->slice.extra_info);
-
   if (astream->buf_start != NULL)
     free(astream->buf_start);
-
   for (i = 0; i < RING_BUF_SIZE; i++) {
     if (astream->ring[i] != NULL) {
       DestroyPictImage(astream->ring[i]);
       astream->ring[i] = NULL;
     }
   }
-
   free((char *) astream);
 }
-
-
 
 
 /*
@@ -330,20 +300,16 @@ DestroyVidStream(astream)
  *
  *--------------------------------------------------------------
  */
-
-PictImage *
-NewPictImage(width, height)
+PictImage * NewPictImage(width, height)
   unsigned int width, height;
 {
   PictImage *new;
 
   /* Allocate memory space for new structure. */
-
   new = (PictImage *) malloc(sizeof(PictImage));
 
 
   /* Allocate memory for image spaces. */
-
   if ((ditherType == Twox2_DITHER) || (ditherType == FULL_COLOR_DITHER)) {
     new->display = (unsigned char *) malloc(width * height * 4);
   } else {
@@ -355,15 +321,11 @@ NewPictImage(width, height)
   new->Cb = (unsigned char *) malloc(width * height / 4);
 
   /* Reset locked flag. */
-
   new->locked = 0;
 
   /* Return pointer to new structure. */
-
   return new;
 }
-
-
 
 /*
  *--------------------------------------------------------------
@@ -380,8 +342,7 @@ NewPictImage(width, height)
  *
  *--------------------------------------------------------------
  */
-void
-DestroyPictImage(apictimage)
+void DestroyPictImage(apictimage)
   PictImage *apictimage;
 {
   if (apictimage->luminance != NULL) {
@@ -393,14 +354,11 @@ DestroyPictImage(apictimage)
   if (apictimage->Cb != NULL) {
     free(apictimage->Cb);
   }
-
   if (apictimage->display != NULL) {
     free(apictimage->display);
   }
   free(apictimage);
 }
-
-
 
 /*
  *--------------------------------------------------------------
@@ -443,9 +401,7 @@ DestroyPictImage(apictimage)
  *
  *--------------------------------------------------------------
  */
-
-VidStream *
-mpegVidRsrc(time_stamp, vid_stream)
+VidStream * mpegVidRsrc(time_stamp, vid_stream)
   TimeStamp time_stamp;
   VidStream *vid_stream;
 {
@@ -455,16 +411,15 @@ mpegVidRsrc(time_stamp, vid_stream)
   long int ftell (FILE *stream);
 
   /* If vid_stream is null, create new VidStream structure. */
-
   if (vid_stream == NULL) {
     return NULL;
   }
+
   /*
    * Set global curVidStream to vid_stream. Necessary because bit i/o use
    * curVidStream and are not passed vid_stream. Also set global bitstream
    * parameters.
    */
-
   curVidStream = vid_stream;
   bitOffset = curVidStream->bit_offset;
 #ifdef UTIL2
@@ -479,7 +434,6 @@ mpegVidRsrc(time_stamp, vid_stream)
    * If called for the first time, find start code, make sure it is a
    * sequence start code.
    */
-
   if (num_calls == 0) {
     next_start_code();
     show_bits32(data);
@@ -492,20 +446,17 @@ mpegVidRsrc(time_stamp, vid_stream)
   }
 
   /* Get next 32 bits (size of start codes). */
-
   show_bits32(data);
   /*
    * Process according to start code (or parse macroblock if not a start code
    * at all.
    */
-
   mpeg_debug (("mpegVidRsrc: offset %6ld: found ", ftell (input)));
   switch (data) {
 
   case SEQ_END_CODE:
 
     /* Display last frame. */
-
     mpeg_debug (("SEQ_END_CODE\n"));
     if (vid_stream->future != NULL) {
       vid_stream->current = vid_stream->future;
@@ -513,8 +464,6 @@ mpegVidRsrc(time_stamp, vid_stream)
     }
     
     /* Sequence done.  Return NULL to caller to indicate just that. */
-
-
     DestroyVidStream(curVidStream);
     mpeg_debug (("mpegVidRsrc: movie done, returning NULL\n"));
     return (NULL);
@@ -523,7 +472,6 @@ mpegVidRsrc(time_stamp, vid_stream)
   case SEQ_START_CODE:
 
     /* Sequence start code. Parse sequence header. */
-
     mpeg_debug (("SEQ_START_CODE\n"));
     if (ParseSeqHead(vid_stream) != PARSE_OK)
       goto error;
@@ -532,22 +480,18 @@ mpegVidRsrc(time_stamp, vid_stream)
      * Return after sequence start code so that application above can use
      * info in header.
      */
-
     goto done;
 
   case GOP_START_CODE:
 
     /* Group of Pictures start code. Parse gop header. */
-
     mpeg_debug (("GOP_START_CODE\n"));
     if (ParseGOP(vid_stream) != PARSE_OK)
       goto error;
 
-
   case PICTURE_START_CODE:
 
     /* Picture start code. Parse picture header and first slice header. */
-
     mpeg_debug (("PICTURE_START_CODE\n"));
     status = ParsePicture(vid_stream, time_stamp);
 
@@ -567,7 +511,6 @@ mpegVidRsrc(time_stamp, vid_stream)
     } else if (status != PARSE_OK)
       goto error;
 
-
     if (ParseSlice(vid_stream) != PARSE_OK)
       goto error;
     break;
@@ -575,12 +518,10 @@ mpegVidRsrc(time_stamp, vid_stream)
   default:
 
     /* Check for slice start code. */
-
     mpeg_debug (("something else (%08x)\n", data));
     if ((data >= SLICE_MIN_START_CODE) && (data <= SLICE_MAX_START_CODE)) {
 
       /* Slice start code. Parse slice header. */
-
       if (ParseSlice(vid_stream) != PARSE_OK)
 	goto error;
     }
@@ -588,22 +529,17 @@ mpegVidRsrc(time_stamp, vid_stream)
   }
 
   /* Parse next MB_QUANTUM macroblocks. */
-
   for (i = 0; i < MB_QUANTUM; i++) {
 
     /* Check to see if actually a startcode and not a macroblock. */
-
     if (!next_bits(23, 0x00000000)) {
 
       /* Not start code. Parse Macroblock. */
-
       if (ParseMacroBlock(vid_stream) != PARSE_OK)
 	goto error;
-
     } else {
 
       /* Not macroblock, actually start code. Get start code. */
-
       next_start_code();
       show_bits32(data);
 
@@ -611,7 +547,6 @@ mpegVidRsrc(time_stamp, vid_stream)
        * If start code is outside range of slice start codes, frame is
        * complete, display frame.
        */
-
       if ((data < SLICE_MIN_START_CODE) || (data > SLICE_MAX_START_CODE)) {
 	DoPictureDisplay(vid_stream);
       }
@@ -620,7 +555,6 @@ mpegVidRsrc(time_stamp, vid_stream)
   }
 
   /* Return pointer to video stream structure. */
-
   goto done;
 
 error:
@@ -629,18 +563,13 @@ error:
   goto done;
 
 done:
-
   /* Copy global bit i/o variables back into vid_stream. */
-
   vid_stream->buffer = bitBuffer;
   vid_stream->buf_length = bufLength;
   vid_stream->bit_offset = bitOffset;
 
   return vid_stream;
-
 }
-
-
 
 /*
  *--------------------------------------------------------------
@@ -661,36 +590,28 @@ done:
  *
  *--------------------------------------------------------------
  */
-
-static int
-ParseSeqHead(vid_stream)
+static int ParseSeqHead(vid_stream)
   VidStream *vid_stream;
 {
-
   unsigned int data;
   int i;
 
   /* Flush off sequence start code. */
-
   flush_bits32;
 
   /* Get horizontal size of image space. */
-
   get_bits12(data);
   vid_stream->h_size = data;
 
   /* Get vertical size of image space. */
-
   get_bits12(data);
   vid_stream->v_size = data;
 
   /* Calculate macroblock width and height of image space. */
-
   vid_stream->mb_width = (vid_stream->h_size + 15) / 16;
   vid_stream->mb_height = (vid_stream->v_size + 15) / 16;
 
   /* If dither type is MBORDERED allocate ditherFlags. */
-
 #if (ENABLE_DITHER)
   if (ditherType == MBORDERED_DITHER) {
     ditherFlags = (char *) malloc(vid_stream->mb_width*vid_stream->mb_height);
@@ -698,7 +619,6 @@ ParseSeqHead(vid_stream)
 #endif
 
   /* Initialize lmaxx, lmaxy, cmaxx, cmaxy. */
-
   lmaxx = vid_stream->mb_width*16-1;
   lmaxy = vid_stream->mb_height*16-1;
   cmaxx = vid_stream->mb_width*8-1;
@@ -708,7 +628,6 @@ ParseSeqHead(vid_stream)
    * Initialize ring buffer of pict images now that dimensions of image space
    * are known.
    */
-
   if (vid_stream->ring[0] == NULL) {
     for (i = 0; i < RING_BUF_SIZE; i++) {
       vid_stream->ring[i] = NewPictImage(vid_stream->mb_width * 16,
@@ -717,31 +636,25 @@ ParseSeqHead(vid_stream)
   }
 
   /* Parse of aspect ratio code. */
-
   get_bits4(data);
   vid_stream->aspect_ratio = (unsigned char) data;
 
   /* Parse off picture rate code. */
-
   get_bits4(data);
   vid_stream->picture_rate = (unsigned char) data;
 
   /* Parse off bit rate. */
-
   get_bits18(data);
   vid_stream->bit_rate = data;
 
   /* Flush marker bit. */
-
   flush_bits(1);
 
   /* Parse off vbv buffer size. */
-
   get_bits10(data);
   vid_stream->vbv_buffer_size = data;
 
   /* Parse off contrained parameter flag. */
-
   get_bits1(data);
   if (data) {
     vid_stream->const_param_flag = TRUE;
@@ -751,7 +664,6 @@ ParseSeqHead(vid_stream)
   /*
    * If intra_quant_matrix_flag set, parse off intra quant matrix values.
    */
-
   get_bits1(data);
   if (data) {
     for (i = 0; i < 64; i++) {
@@ -765,7 +677,6 @@ ParseSeqHead(vid_stream)
    * If non intra quant matrix flag set, parse off non intra quant matrix
    * values.
    */
-
   get_bits1(data);
   if (data) {
     for (i = 0; i < 64; i++) {
@@ -776,13 +687,11 @@ ParseSeqHead(vid_stream)
     }
   }
   /* Go to next start code. */
-
   next_start_code();
 
   /*
    * If next start code is extension start code, parse off extension data.
    */
-
   if (next_bits(32, EXT_START_CODE)) {
     flush_bits32;
     if (vid_stream->ext_data != NULL) {
@@ -792,7 +701,6 @@ ParseSeqHead(vid_stream)
     vid_stream->ext_data = get_ext_data();
   }
   /* If next start code is user start code, parse off user data. */
-
   if (next_bits(32, USER_START_CODE)) {
     flush_bits32;
     if (vid_stream->user_data != NULL) {
@@ -803,8 +711,6 @@ ParseSeqHead(vid_stream)
   }
   return PARSE_OK;
 }
-
-
 
 /*
  *--------------------------------------------------------------
@@ -823,18 +729,15 @@ ParseSeqHead(vid_stream)
  *--------------------------------------------------------------
  */
 
-static int
-ParseGOP(vid_stream)
+static int ParseGOP(vid_stream)
   VidStream *vid_stream;
 {
   unsigned int data;
 
   /* Flush group of pictures start code. WWWWWWOOOOOOOSSSSSSHHHHH!!! */
-
   flush_bits32;
 
   /* Parse off drop frame flag. */
-
   get_bits1(data);
   if (data) {
     vid_stream->group.drop_flag = TRUE;
@@ -842,31 +745,25 @@ ParseGOP(vid_stream)
     vid_stream->group.drop_flag = FALSE;
 
   /* Parse off hour component of time code. */
-
   get_bits5(data);
   vid_stream->group.tc_hours = data;
 
   /* Parse off minute component of time code. */
-
   get_bits6(data);
   vid_stream->group.tc_minutes = data;
 
   /* Flush marker bit. */
-
   flush_bits(1);
 
   /* Parse off second component of time code. */
-
   get_bits6(data);
   vid_stream->group.tc_seconds = data;
 
   /* Parse off picture count component of time code. */
-
   get_bits6(data);
   vid_stream->group.tc_pictures = data;
 
   /* Parse off closed gop and broken link flags. */
-
   get_bits2(data);
   if (data > 1) {
     vid_stream->group.closed_gop = TRUE;
@@ -883,11 +780,9 @@ ParseGOP(vid_stream)
   }
 
   /* Goto next start code. */
-
   next_start_code();
 
   /* If next start code is extension data, parse off extension data. */
-
   if (next_bits(32, EXT_START_CODE)) {
     flush_bits32;
     if (vid_stream->group.ext_data != NULL) {
@@ -897,7 +792,6 @@ ParseGOP(vid_stream)
     vid_stream->group.ext_data = get_ext_data();
   }
   /* If next start code is user data, parse off user data. */
-
   if (next_bits(32, USER_START_CODE)) {
     flush_bits32;
     if (vid_stream->group.user_data != NULL) {
@@ -908,8 +802,6 @@ ParseGOP(vid_stream)
   }
   return PARSE_OK;
 }
-
-
 
 /*
  *--------------------------------------------------------------
@@ -928,8 +820,7 @@ ParseGOP(vid_stream)
  *--------------------------------------------------------------
  */
 
-static int
-ParsePicture(vid_stream, time_stamp)
+static int ParsePicture(vid_stream, time_stamp)
   VidStream *vid_stream;
   TimeStamp time_stamp;
 {
@@ -1058,8 +949,6 @@ ParsePicture(vid_stream, time_stamp)
   return PARSE_OK;
 }
 
-
-
 /*
  *--------------------------------------------------------------
  *
@@ -1076,8 +965,7 @@ ParsePicture(vid_stream, time_stamp)
  *--------------------------------------------------------------
  */
 
-static int
-ParseSlice(vid_stream)
+static int ParseSlice(vid_stream)
   VidStream *vid_stream;
 {
   unsigned int data;

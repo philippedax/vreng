@@ -16,6 +16,7 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.0\n\
 -- 9.0.1\n\
+        - fix some memory leaks\n\
 	- move vncdialog.cpp into widgets.cpp\n\
 	- move vncdialog.hpp into widgets.hpp\n\
 	- move hud.cpp into widgets.cpp\n\
