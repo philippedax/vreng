@@ -22,7 +22,6 @@
 #define USER_HPP
 
 #include "wobject.hpp"
-#include "useraction.hpp"
 #include "move.hpp"	// MAXKEYS
 
 #define USER_TYPE	1
@@ -39,7 +38,8 @@ extern class User *localuser;	// global
 /**
  * User class
  */
-class User: public WObject, public UserAction {
+//dax class User: public WObject, public UserAction {
+class User: public WObject {
 public:
   static const float LASTING;
   static const float DEFAULTWIDTH;
@@ -372,5 +372,50 @@ private:
   static void put_ray(User *pu, Payload *pp);
 };
 
+//---------------------------------------------------------------------------
+struct UserAction {
+  enum Type {
+    HALO_WEAR,
+    HALO_TAKEOFF,
+    HAT_WEAR,
+    HAT_TAKEOFF,
+    DRESS_WEAR,
+    DRESS_TAKEOFF,
+    BULLET,
+    DART,
+    FOVYDEF,
+    FOVYLESS,
+    FOVYMORE,
+    FOVYSET,
+    LSPEEDDEF,
+    LSPEEDLESS,
+    LSPEEDMORE,
+    ASPEEDDEF,
+    ASPEEDLESS,
+    ASPEEDMORE,
+    PAUSE,
+    PAUSEON,
+    PAUSEOFF,
+    SETLSPEED,
+    SETASPEED,
+    SWITCHVIEW,
+    FIRSTVIEW,
+    THIRDVIEWFAR,
+    MAPVIEW,
+    TPVIEWROTL,
+    TPVIEWROTR,
+    TPVIEWROTU,
+    TPVIEWROTD,
+    TPVIEWROTN,
+    TPVIEWROTF,
+    SETROLL,
+    SETPITCH,
+    PITCHMORE,
+    PITCHLESS,
+    ROLLMORE,
+    ROLLLESS,
+    NONE
+  };
+};
 
 #endif

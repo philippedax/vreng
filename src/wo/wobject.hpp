@@ -22,7 +22,7 @@
 #define WOBJECT_HPP
 
 #include "oclass.hpp"	// OClass
-#include "olist.hpp"	// ObjectList
+#include "olist.hpp"	// OList
 #include "parse.hpp"	// Parse
 
 
@@ -142,7 +142,7 @@ public:
   Pos pos;			///< position in the space.
   Move move;			///< movement specific.
   class WObjectId noid;		///< WObject Id.
-  bool is_in_a_list;		///< true if it is already in an ObjectList.
+  bool is_in_a_list;		///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
   int16_t state;		///< current state.
   int8_t prior;			///< render priority.
@@ -439,8 +439,8 @@ public:
   //
   // List
   //
-  virtual void           addToList(std::list<WObject*> &olist);
-  virtual ObjectList *   addToList(ObjectList * olist);
+  virtual void    addToList(std::list<WObject*> &olist);
+  virtual OList * addToList(OList * olist);
   /**< Adds an object pointer into a olist. */
 
   virtual void addToList();
@@ -467,12 +467,12 @@ public:
   virtual void clearList(std::list<WObject*> &olist);
   /**< Clears an olist. */
 
-  virtual void           addToListOnce(std::list<WObject*> &olist);
-  virtual ObjectList *   addToListOnce(ObjectList * olist);
+  virtual void    addToListOnce(std::list<WObject*> &olist);
+  virtual OList * addToListOnce(OList * olist);
   /**< Adds an object pointer into a list only once time. */
 
-  virtual void         delFromList(std::list<WObject*> &olist);
-  virtual ObjectList * delFromList(ObjectList * olist);
+  virtual void    delFromList(std::list<WObject*> &olist);
+  virtual OList * delFromList(OList * olist);
   /**< Deletes an object pointer from a olist. */
 
   virtual void delFromList();
@@ -481,13 +481,13 @@ public:
 #if 0 //STL
   virtual list<WObject*>::iterator getVicinityList(const WObject *pold);
 #endif
-  virtual ObjectList *             getVicinityList(const WObject *pold);
+  virtual OList *             getVicinityList(const WObject *pold);
   /**< Returns list of pointers on objects touching cell where is the object. */
 
 #if 0 //STL
   virtual list<WObject*>::iterator addListToList(list<WObject*> &list1, list<WObject> &list2);
 #endif
-  virtual ObjectList * addListToList(ObjectList * list1, ObjectList * list2);
+  virtual OList * addListToList(OList * list1, OList * list2);
   /**< Concatenation (test of "ispointed") of list pointers on an object. */
 
   virtual bool isStill();
@@ -648,7 +648,7 @@ public:
   //
   // Collisions
   //
-  void generalIntersect(WObject *pold, ObjectList *vicinityList);
+  void generalIntersect(WObject *pold, OList *vicinityList);
   /**< General intersection of objects. */
 
   bool ingoingNeighbor(WObject *pold, WObject *neighbor);

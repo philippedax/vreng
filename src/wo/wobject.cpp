@@ -947,11 +947,11 @@ void WObject::addToList(list<WObject*> &olist)
     olist.push_back(this);
 }
 
-ObjectList * WObject::addToList(ObjectList *olist)
+OList * WObject::addToList(OList *olist)
 {
   if (! isValid()) return olist;
 
-  ObjectList *new_list = new ObjectList();
+  OList *new_list = new OList();
   new_list->pobject = this;
   new_list->next = olist;
   return new_list;
@@ -965,9 +965,9 @@ void WObject::addToListOnce(list<WObject*> &olist)
   addToList(olist);
 }
 
-ObjectList * WObject::addToListOnce(ObjectList *olist)
+OList * WObject::addToListOnce(OList *olist)
 {
-  for (ObjectList *pl = olist; pl ; pl = pl->next)
+  for (OList *pl = olist; pl ; pl = pl->next)
     if (pl->pobject && pl->pobject == this)  return olist;
   return addToList(olist);
 }
@@ -980,9 +980,9 @@ void WObject::delFromList(list<WObject*> &olist)
   return;
 }
 
-ObjectList * WObject::delFromList(ObjectList *olist)
+OList * WObject::delFromList(OList *olist)
 {
-  ObjectList *front = olist, *elem = NULL;
+  OList *front = olist, *elem = NULL;
 
   if (! olist) {
     error("delFromList: %s:%s NULL olist", names.type, getInstance()); return NULL;
@@ -1068,7 +1068,7 @@ list<WObject*>::iterator WObject::addListToList(list<WObject*> &l1, list<WObject
 #endif
 }
 #else
-ObjectList * WObject::addListToList(ObjectList *l1, ObjectList *l2)
+OList * WObject::addListToList(OList *l1, OList *l2)
 {
   if (! l1) {
     if (! l2) return NULL;

@@ -82,8 +82,8 @@ class World {
   static std::list<WObject*> ***gridList;
   class std::list<WObject*> ***grid;	///< matrix grid pointer.
 #else
-  static class ObjectList *gridList[4][4][2];
-  class ObjectList ****grid;	///< matrix grid pointer.
+  static class OList *gridList[4][4][2];
+  class OList ****grid;	///< matrix grid pointer.
 #endif
 
   int namecnt;			///< name counter.
@@ -177,7 +177,7 @@ class World {
   void initGrid(const uint8_t dim[3], const V3 &sl);
   /**< Inits the grid. */
 
-  class ObjectList **** allocGrid();
+  class OList **** allocGrid();
   /**< Allocs memory for the grid. */
 
   void clearGrid();

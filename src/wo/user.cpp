@@ -18,6 +18,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+
 #include "vreng.hpp"
 #include "user.hpp"
 #include "world.hpp"	// getName
@@ -120,7 +121,7 @@ void User::setPosition()
   Entry *entry = Entry::current();
   if (entry) {
     entry->query(this);
-    //error("user: new entry: %.2f %.2f %.2f", pos.x, pos.y, pos.z);
+    //trace(DGB_FORCE, "user: new entry: %.2f %.2f %.2f", pos.x, pos.y, pos.z);
   } 
 }
 
@@ -636,7 +637,7 @@ void User::setRayDirection(GLint wx, GLint wy)
   if (ty < 0) ty = MAX(ty, -FAR); else ty = MIN(ty, FAR);
   if (tz < 0) tz = MAX(tz, -FAR); else tz = MIN(tz, FAR);
 #endif
-  //error("eye: %.2f %.2f %.2f, target: %.2f %.2f %.2f", ex,ey,ez,tx,ty,tz);
+  //trace(DGB_FORCE, "eye: %.2f %.2f %.2f, target: %.2f %.2f %.2f", ex,ey,ez,tx,ty,tz);
  
   Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
 
@@ -1009,7 +1010,6 @@ void User::get_ray(User *pu, Payload *pp)
     if (pu->getSolid()) {
       if (tx) {
         float blue[4] = {0,0,1,1}; //blue
-        //trace(DBG_FORCE, "get_ray: %.2f,%.2f,%.2f -> %.2f,%.2f,%.2f", ex, ey, ez, tx, ty, tz);
         Draw::ray(&pu->getSolid()->ray_dlist, ex,ey,ez, tx,ty,tz, blue, 0);
       }
       else {
@@ -1142,37 +1142,37 @@ void User::funcs()
   putPropertyFunc(USER_TYPE, PROPBUST, WO_PAYLOAD put_bust);
   putPropertyFunc(USER_TYPE, PROPRAY, WO_PAYLOAD put_ray);
 
-  setActionFunc(USER_TYPE, BULLET, WO_ACTION createBullet, "");
-  setActionFunc(USER_TYPE, DART, WO_ACTION createDart, "");
-  setActionFunc(USER_TYPE, FOVYDEF, WO_ACTION defaultZoom, "");
-  setActionFunc(USER_TYPE, FOVYLESS, WO_ACTION increaseZoom, "");
-  setActionFunc(USER_TYPE, FOVYMORE, WO_ACTION decreaseZoom, "");
-  setActionFunc(USER_TYPE, FOVYSET, WO_ACTION setZoom, "");
-  setActionFunc(USER_TYPE, LSPEEDDEF, WO_ACTION defaultLinearSpeed, "");
-  setActionFunc(USER_TYPE, LSPEEDLESS, WO_ACTION decreaseLinearSpeed, "");
-  setActionFunc(USER_TYPE, LSPEEDMORE, WO_ACTION increaseLinearSpeed, "");
-  setActionFunc(USER_TYPE, ASPEEDDEF, WO_ACTION defaultAngularSpeed, "");
-  setActionFunc(USER_TYPE, ASPEEDLESS, WO_ACTION decreaseAngularSpeed, "");
-  setActionFunc(USER_TYPE, ASPEEDMORE, WO_ACTION increaseAngularSpeed, "");
-  setActionFunc(USER_TYPE, PAUSE, WO_ACTION pause, "");
-  setActionFunc(USER_TYPE, PAUSEON, WO_ACTION pauseOn, "");
-  setActionFunc(USER_TYPE, PAUSEOFF, WO_ACTION pauseOff, "");
-  setActionFunc(USER_TYPE, SETLSPEED, WO_ACTION setLspeed, "");
-  setActionFunc(USER_TYPE, SETASPEED, WO_ACTION setAspeed, "");
-  setActionFunc(USER_TYPE, SWITCHVIEW, WO_ACTION switchView, "");
-  setActionFunc(USER_TYPE, MAPVIEW, WO_ACTION mapView, "");
-  setActionFunc(USER_TYPE, FIRSTVIEW, WO_ACTION firstPersonView, "");
-  setActionFunc(USER_TYPE, THIRDVIEWFAR, WO_ACTION thirdPersonViewFar, "");
-  setActionFunc(USER_TYPE, TPVIEWROTL, WO_ACTION thirdPersonView_RotL, "");
-  setActionFunc(USER_TYPE, TPVIEWROTR, WO_ACTION thirdPersonView_RotR, "");
-  setActionFunc(USER_TYPE, TPVIEWROTU, WO_ACTION thirdPersonView_RotU, "");
-  setActionFunc(USER_TYPE, TPVIEWROTD, WO_ACTION thirdPersonView_RotD, "");
-  setActionFunc(USER_TYPE, TPVIEWROTN, WO_ACTION thirdPersonView_Near, "");
-  setActionFunc(USER_TYPE, TPVIEWROTF, WO_ACTION thirdPersonView_Far, "");
-  setActionFunc(USER_TYPE, SETROLL, WO_ACTION setRoll, "");
-  setActionFunc(USER_TYPE, SETPITCH, WO_ACTION setPitch, "");
-  setActionFunc(USER_TYPE, PITCHMORE, WO_ACTION increasePitch, "");
-  setActionFunc(USER_TYPE, PITCHLESS, WO_ACTION decreasePitch, "");
-  setActionFunc(USER_TYPE, ROLLMORE, WO_ACTION increaseRoll, "");
-  setActionFunc(USER_TYPE, ROLLLESS, WO_ACTION decreaseRoll, "");
+  setActionFunc(USER_TYPE, UserAction::BULLET, WO_ACTION createBullet, "");
+  setActionFunc(USER_TYPE, UserAction::DART, WO_ACTION createDart, "");
+  setActionFunc(USER_TYPE, UserAction::FOVYDEF, WO_ACTION defaultZoom, "");
+  setActionFunc(USER_TYPE, UserAction::FOVYLESS, WO_ACTION increaseZoom, "");
+  setActionFunc(USER_TYPE, UserAction::FOVYMORE, WO_ACTION decreaseZoom, "");
+  setActionFunc(USER_TYPE, UserAction::FOVYSET, WO_ACTION setZoom, "");
+  setActionFunc(USER_TYPE, UserAction::LSPEEDDEF, WO_ACTION defaultLinearSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::LSPEEDLESS, WO_ACTION decreaseLinearSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::LSPEEDMORE, WO_ACTION increaseLinearSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::ASPEEDDEF, WO_ACTION defaultAngularSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::ASPEEDLESS, WO_ACTION decreaseAngularSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::ASPEEDMORE, WO_ACTION increaseAngularSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::PAUSE, WO_ACTION pause, "");
+  setActionFunc(USER_TYPE, UserAction::PAUSEON, WO_ACTION pauseOn, "");
+  setActionFunc(USER_TYPE, UserAction::PAUSEOFF, WO_ACTION pauseOff, "");
+  setActionFunc(USER_TYPE, UserAction::SETLSPEED, WO_ACTION setLspeed, "");
+  setActionFunc(USER_TYPE, UserAction::SETASPEED, WO_ACTION setAspeed, "");
+  setActionFunc(USER_TYPE, UserAction::SWITCHVIEW, WO_ACTION switchView, "");
+  setActionFunc(USER_TYPE, UserAction::MAPVIEW, WO_ACTION mapView, "");
+  setActionFunc(USER_TYPE, UserAction::FIRSTVIEW, WO_ACTION firstPersonView, "");
+  setActionFunc(USER_TYPE, UserAction::THIRDVIEWFAR, WO_ACTION thirdPersonViewFar, "");
+  setActionFunc(USER_TYPE, UserAction::TPVIEWROTL, WO_ACTION thirdPersonView_RotL, "");
+  setActionFunc(USER_TYPE, UserAction::TPVIEWROTR, WO_ACTION thirdPersonView_RotR, "");
+  setActionFunc(USER_TYPE, UserAction::TPVIEWROTU, WO_ACTION thirdPersonView_RotU, "");
+  setActionFunc(USER_TYPE, UserAction::TPVIEWROTD, WO_ACTION thirdPersonView_RotD, "");
+  setActionFunc(USER_TYPE, UserAction::TPVIEWROTN, WO_ACTION thirdPersonView_Near, "");
+  setActionFunc(USER_TYPE, UserAction::TPVIEWROTF, WO_ACTION thirdPersonView_Far, "");
+  setActionFunc(USER_TYPE, UserAction::SETROLL, WO_ACTION setRoll, "");
+  setActionFunc(USER_TYPE, UserAction::SETPITCH, WO_ACTION setPitch, "");
+  setActionFunc(USER_TYPE, UserAction::PITCHMORE, WO_ACTION increasePitch, "");
+  setActionFunc(USER_TYPE, UserAction::PITCHLESS, WO_ACTION decreasePitch, "");
+  setActionFunc(USER_TYPE, UserAction::ROLLMORE, WO_ACTION increaseRoll, "");
+  setActionFunc(USER_TYPE, UserAction::ROLLLESS, WO_ACTION decreaseRoll, "");
 }

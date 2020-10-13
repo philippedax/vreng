@@ -223,7 +223,7 @@ void Vrelet::processClient()
     uint16_t id   = msg->read16();
 
     // locate the object
-    WObject *who = ((type==0) ? this : ObjectList::findInMobile(type, src, port, id));
+    WObject *who = ((type==0) ? this : OList::findInMobile(type, src, port, id));
     if (! who) {
       // we didn't find anything that matched
       sendPosError(type, src, port, id);
@@ -256,7 +256,7 @@ void Vrelet::processClient()
 
         // propagate the changes
 #if 0 //dax
-        ObjectList *vicinityList = who->getVicinityList(pold);
+        OList *vicinityList = who->getVicinityList(pold);
         who->generalIntersect(pold, vicinityList);
         vicinityList->remove();
 #endif

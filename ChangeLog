@@ -16,6 +16,7 @@ The rules for this file:
 == 9.0
 -- 9.0.1
         - fix some memory leaks
+	- move useraction.hpp into user.hpp
 	- move vncdialog.cpp into widgets.cpp
 	- move vncdialog.hpp into widgets.hpp
 	- move hud.cpp into widgets.cpp

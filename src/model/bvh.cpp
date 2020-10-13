@@ -34,7 +34,6 @@
 #include "cache.hpp"	// openCache
 #include "file.hpp"	// closeFile
 #include "obj.hpp"	// class Obj
-//dax #include "vector3.hpp"	// Vector3
 
 using namespace std;
 
@@ -332,7 +331,7 @@ void Bvh::init(string bvhFile)
   tempMotionZ.identity();
   
   ifstream bvhStream(bvhFile.c_str());
-  if (!bvhStream) {
+  if (! bvhStream) {
     cout << "File \"" << bvhFile << "\" not found.\n";
     throw fileNotFound(); 
     return;
@@ -592,6 +591,7 @@ void rigid::getBoundingBox()
 
 /*****************************************************/
 #if 1 //notused
+
 movable::movable()
 {
   init();

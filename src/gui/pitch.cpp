@@ -30,12 +30,11 @@
  */
 #include <cmath>
 #include "vreng.hpp"
-#include "useraction.hpp"
+#include "user.hpp"	// localuser UserAction
 #include "widgets.hpp"
 #include "pitch.hpp"
 #include "theme.hpp"
 #include "wobject.hpp"
-#include "user.hpp"	// localuser
 
 
 Pitch::Pitch(Widgets* _gw, GLint _radius)  // 25

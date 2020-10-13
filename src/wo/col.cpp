@@ -24,7 +24,7 @@
 #include "walls.hpp"	// whenIntersect
 #include "user.hpp"	// USER_TYPE
 #include "world.hpp"	// current
-#include "olist.hpp"	// ObjectList
+#include "olist.hpp"	// OList
 
 
 /* intersection cases */
@@ -180,7 +180,7 @@ bool WObject::outgoingNeighbor(WObject *pold, WObject *neighbor)
  *
  * Warning: WObject *pold is an incomplete copy of *this
  */
-void WObject::generalIntersect(WObject *pold, ObjectList *vicinity)
+void WObject::generalIntersect(WObject *pold, OList *vicinity)
 {
   /* check walls first (maybe expensive) */
   ingoingWalls(pold);
@@ -194,7 +194,7 @@ void WObject::generalIntersect(WObject *pold, ObjectList *vicinity)
   WObject *wofirst = (vicinity && vicinity->pobject) ? vicinity->pobject : NULL;
 
   // Scans neighbors for collision discovery
-  for (ObjectList *vl = vicinity; vl ; scans++) {
+  for (OList *vl = vicinity; vl ; scans++) {
     if (! vl->pobject) { vl = vl->next; continue; }  // discard non existant object
 
     WObject *neighbor = vl->pobject;
@@ -540,7 +540,7 @@ void WObject::updateGrid(const Pos& oldpos)
  * retourne la liste des pointeurs sur les objets touchants
  * la case des grilles intersectees par la BB englobante des 2 objets
  */
-ObjectList * WObject::getVicinityList(const WObject *obj)
+OList * WObject::getVicinityList(const WObject *obj)
 {
   float bbmin[3], bbmax[3];
   for (int i=0; i<3; i++) {
@@ -554,7 +554,7 @@ ObjectList * WObject::getVicinityList(const WObject *obj)
   indiceGrid(bbmin, imin);
   indiceGrid(bbmax, imax);
 
-  ObjectList *vicinityList = NULL;
+  OList *vicinityList = NULL;
   for (int x=imin[0]; x <= imax[0]; x++)
     for (int y=imin[1]; y <= imax[1]; y++)
       for (int z=imin[2]; z <= imax[2]; z++)

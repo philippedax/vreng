@@ -43,7 +43,7 @@
 #include "pitch.hpp"
 #include "capture.hpp"
 #include "theme.hpp"
-#include "useraction.hpp"
+#include "user.hpp"		// UserAction
 #include "axis.hpp"		// toggle
 #include "grid.hpp"		// toggle
 #include "world.hpp"

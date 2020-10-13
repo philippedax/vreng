@@ -25,16 +25,16 @@
 
 
 /**
- * ObjectList Class
+ * OList Class
  */
-class ObjectList {
+class OList {
 
 public:
   class WObject *pobject;	///< object ptr.
-  class ObjectList *next;	///< next.
+  class OList *next;	///< next.
 
-  ObjectList();			///< constructor.
-  virtual ~ObjectList();	///< destructor.
+  OList();			///< constructor.
+  virtual ~OList();	///< destructor.
 
   static void  remove(std::list<WObject*> &olist);
   virtual void remove();

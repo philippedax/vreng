@@ -33,7 +33,7 @@
 #include "vreng.hpp"
 #include "mvt.hpp"
 #include "wobject.hpp"
-#include "useraction.hpp"
+#include "user.hpp"	// UserAction
 #include "user.hpp"	// User::LSPEED;  // !! incorrect !!
 #include "carrier.hpp"
 #include "move.hpp"	// changeKey

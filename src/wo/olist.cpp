@@ -27,29 +27,29 @@
 using namespace std;
 
 
-ObjectList::ObjectList()
+OList::OList()
 {
   new_objectlist++;
 }
 
-ObjectList::~ObjectList()
+OList::~OList()
 {
   del_objectlist++;
 }
 
 /* Removes all objects from a olist */
 // static
-void ObjectList::remove(list<WObject*> &olist)
+void OList::remove(list<WObject*> &olist)
 {
   for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it)
     if (*it) delete *it;
 }
 
 // virtual
-void ObjectList::remove()
+void OList::remove()
 {
-  for (ObjectList *pl = this; pl ; ) {
-    ObjectList *next = pl->next;
+  for (OList *pl = this; pl ; ) {
+    OList *next = pl->next;
     if (pl && pl->pobject && pl->pobject->type)  delete pl;  //FIXME: BUG! macosx iconStick
     pl = next;
   }
@@ -57,22 +57,22 @@ void ObjectList::remove()
 
 /* Clears flags "ispointed" of all objects in an olist */
 // static
-void ObjectList::clearIspointedFlag(list<WObject*> &olist)
+void OList::clearIspointedFlag(list<WObject*> &olist)
 {
   for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it)
     (*it)->is_in_a_list = false;
 }
 
 // virtual
-void ObjectList::clearIspointedFlag()
+void OList::clearIspointedFlag()
 {
-  for (ObjectList *pl = this; pl && pl->pobject; pl = pl->next)
+  for (OList *pl = this; pl && pl->pobject; pl = pl->next)
     pl->pobject->is_in_a_list = false;
 }
 
 /* Returns the object from the mobile list */
 // static
-WObject * ObjectList::findInMobile(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
+WObject * OList::findInMobile(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
 {
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
     if (((*it)->type == _type)
@@ -86,14 +86,14 @@ WObject * ObjectList::findInMobile(uint8_t _type, uint32_t src_id, uint16_t port
 
 /* Show an olist: debug only */
 // static
-void ObjectList::show(list<WObject*> &olist)
+void OList::show(list<WObject*> &olist)
 {
   show(olist, "List:");
 }
 
 /* Show an olist with its prefix: debug only */
 // static
-void ObjectList::show(list<WObject*> &olist, const char *str)
+void OList::show(list<WObject*> &olist, const char *str)
 {
   trace(DBG_FORCE, "\n%s", str);
 

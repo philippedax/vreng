@@ -46,7 +46,7 @@
 #include "bubble.hpp"	// Bubble
 #include "env.hpp"	// icons
 #include "pref.hpp"	// url
-#include "olist.hpp"	// ObjectList
+#include "olist.hpp"	// OList
 #include "grid.hpp"	// Grid
 #include "axis.hpp"	// Axis
 #include "prof.hpp"	// new_world
@@ -76,7 +76,7 @@ const float   World::DISTZ = 2.;
 #endif
 #ifdef STATIC_GRID
 #undef DYNAMIC_GRID
-class ObjectList* World::gridList[GRIDX][GRIDY][GRIDZ];
+class OList* World::gridList[GRIDX][GRIDY][GRIDZ];
 #else
 #define DYNAMIC_GRID
 #endif
@@ -408,7 +408,7 @@ void World::compute(time_t sec, time_t usec)
     }
     notice("size=%.1f,%.1f,%.1f center=%.1f,%.1f,%.1f", bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcenter.v[0], bbcenter.v[1], bbcenter.v[2]);
 
-    ObjectList::clearIspointedFlag(mobileList);
+    OList::clearIspointedFlag(mobileList);
 
     // compute Grid dimensions
     dimx = (int) (bbsize.v[0] / DISTX);
@@ -626,15 +626,15 @@ void World::initGrid(const uint8_t _dim[3], const V3 &sl)
   clearGrid();
 }
 
-ObjectList **** World::allocGrid()
+OList **** World::allocGrid()
 { 
 #ifdef DYNAMIC_GRID
-  grid = new ObjectList***[dimgrid[0]];
+  grid = new OList***[dimgrid[0]];
   for (int x=0; x < dimgrid[0] ; x++)
-    grid[x] = new ObjectList**[dimgrid[1]];
+    grid[x] = new OList**[dimgrid[1]];
   for (int x=0; x < dimgrid[0] ; x++)
     for (int y=0; y < dimgrid[1] ; y++)
-      grid[x][y] = new ObjectList*[dimgrid[2]];
+      grid[x][y] = new OList*[dimgrid[2]];
   return grid;
 #else
   return NULL;
@@ -970,9 +970,9 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
   trace(DBG_WO, "world enter: ");
   //error("open=%d+%d=%d close=%d+%d=%d diff=%d+%d=%d", cnt_open, cnt_open_socket, cnt_open+cnt_open_socket, cnt_close, cnt_close_socket, cnt_close+cnt_close_socket, cnt_open-cnt_close, cnt_open_socket-cnt_close_socket, cnt_open+cnt_open_socket-cnt_close-cnt_close_socket);
   // debug show
-  //ObjectList::show(mobileList, "mobile:");
-  //ObjectList::show(stillList, "still:");
-  //ObjectList::show(invisibleList, "invisible:");
+  //OList::show(mobileList, "mobile:");
+  //OList::show(stillList, "still:");
+  //OList::show(invisibleList, "invisible:");
 
   // cleanup
   clearLists();
@@ -1076,7 +1076,7 @@ World * World::enter(const char *_url, const char *_chanstr, bool _isnew)
 /* Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
-  //debug if (! deleteList.empty()) ObjectList::show(deleteList);
+  //debug if (! deleteList.empty()) OList::show(deleteList);
   int s = deleteList.size();
   int i=0;
   for (list<WObject*>::iterator it = deleteList.begin(); i<s; ++it, i++) {

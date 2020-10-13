@@ -39,7 +39,7 @@
 #include "message.hpp"
 #include "theme.hpp"
 #include "capture.hpp"
-#include "useraction.hpp"
+#include "user.hpp"	// UserAction
 #include "move.hpp"	// changeKey
 
 #if (UBIT_VERSION_MAJOR < 6 || UBIT_VERSION_MAJOR >= 6 && UBIT_WITH_X11) //UBIT6

@@ -35,7 +35,7 @@
 #include "navig.hpp"
 #include "mvt.hpp"
 #include "theme.hpp"
-#include "useraction.hpp"
+#include "user.hpp"	// UserAction
 
 
 Joystick::Joystick(Widgets* _gw, int _radius)

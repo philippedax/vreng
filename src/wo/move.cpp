@@ -308,7 +308,7 @@ void WObject::enablePermanentMovement(float speed)
 
 void WObject::checkVicinity(WObject *pold)
 {
-  ObjectList *vicinityList = getVicinityList(pold);
+  OList *vicinityList = getVicinityList(pold);
   if (vicinityList) {
     generalIntersect(pold, vicinityList);
     vicinityList->remove();
