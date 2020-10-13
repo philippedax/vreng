@@ -119,7 +119,7 @@ class Channel {
    * Returns sock if OK, else -1.
    */
 
-  static void initNetwork();
+  static void init();
   /**< Network Initialization */
 
   static void initReflector();

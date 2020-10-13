@@ -67,7 +67,7 @@ void Channel::initReflector()
 }
 
 /** Network Initialization */
-void Channel::initNetwork()
+void Channel::init()
 {
   static bool first = true;
 

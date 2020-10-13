@@ -20,15 +20,16 @@
 //---------------------------------------------------------------------------
 
 #include <ubit/ubit.hpp>
+
 #include "vreng.hpp"
-#include "gui.hpp"
-#include "theme.hpp"
+#include "gui.hpp"	// Gui
+#include "theme.hpp"	// Theme
 #include "world.hpp"	// World
-#include "channel.hpp"	// initNetwork
+#include "channel.hpp"	// init
 #include "pref.hpp"	// init
 #include "env.hpp"	// init
 #include "vac.hpp"	// init
-#include "universe.hpp"	// initManager
+#include "universe.hpp"	// init
 #include "http.hpp"	// HttpThread::init
 #include "mysql.hpp"	// VRSql::init
 #include "render.hpp"	// Render::quit
@@ -39,6 +40,7 @@
 #include "aiinit.hpp"	// initOcaml
 
 #include "setjmp.h"	// jmp_buf
+
 using namespace ubit;
 
 // global variable that refers to the various modules
@@ -85,24 +87,24 @@ int Global::start(int argc, char *argv[])
   // startCB() is implicitely called, but postponed so that the window
   // can appear immediately
 #if HAVE_OCAML
-  initOcaml(argv);		// Ocaml runtime initialization
+  initOcaml(argv);	// Ocaml runtime initialization
 #endif
   return appli->start();
 }
 
 void Global::startCB()
 {
-  initTrigo();			// Trigo
-  initSignals();		// Signals initialization
-  HttpThread::init();		// Simultaneous http connections initialization
-  Channel::initNetwork();	// Network initialization
-  Universe::initManager();	// World manager initialisation
-  Vac::init();		    	// Vac cache initialization
+  initTrigo();		// Trigo
+  initSignals();	// Signals initialization
+  HttpThread::init();	// Simultaneous http connections initialization
+  Channel::init();	// Network initialization
+  Universe::init();	// World manager initialisation
+  Vac::init();	    	// Vac cache initialization
 #if HAVE_MYSQL
-  VRSql::init();		// MySql initialization
+  VRSql::init();	// MySql initialization
 #endif
 #if HAVE_OPENAL
-  Openal::init();		// Openal initialization
+  Openal::init();	// Openal initialization
 #endif
   // NB: this function takes a significant amount of time to launch
   World::init(Universe::current()->url);
@@ -120,9 +122,6 @@ void Global::quitVreng(int signum)
     longjmp(sigctx, signum);
   }
   
-#ifdef DMALLOC_FUNC_CHECK
-  dmalloc_shutdown();
-#endif
   if (inquit > 0) {
     trace(DBG_FORCE, "quit: inquit=%d sig=%d", inquit, signum);
     if (inquit > 3) exit(signum);  // force exit without quitting properly
