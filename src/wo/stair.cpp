@@ -88,7 +88,7 @@ void Stair::behavior()
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 Stair::Stair(char *l)

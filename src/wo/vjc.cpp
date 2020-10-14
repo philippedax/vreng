@@ -23,7 +23,7 @@
 #include "vjc.hpp"
 #include "socket.hpp"	// setNoBlocking
 #include "nsl.hpp"	// get_mygethostbyname
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 
 
 const OClass Vjc::oclass(VJC_TYPE, "Vjc", Vjc::creator);
@@ -82,7 +82,7 @@ Vjc::Vjc(char *l)
   sock = NULL;
   lastMessage = NULL;
   lastping = 0;
-  ssrc = NetObject::getMySsrcId();
+  ssrc = NetObj::getMySsrcId();
   start();
 }
 
@@ -357,7 +357,7 @@ VjcMessage::VjcMessage(WObject *po, uint32_t ssrc, int type, int id)
 /* Constructor for outgoing messages */
 VjcMessage::VjcMessage(WObject *po, int type, int id)
 {
-  setup(po, (Vjc::getServer() == NULL ? NetObject::getMySsrcId() : Vjc::getServer()->ssrc), type, id);
+  setup(po, (Vjc::getServer() == NULL ? NetObj::getMySsrcId() : Vjc::getServer()->ssrc), type, id);
 }
 
 /* Creates a new tVjcHeader */
@@ -547,25 +547,25 @@ int VjcMessage::sendData()
   }
   if (srv && (srv->sock->statecon == VjcSocket::SOCK_OPEN)) {
     /* Check if an SSRC change occured since we sent the REGISTER commands */
-    if (NetObject::getMySsrcId() != srv->ssrc) {
+    if (NetObj::getMySsrcId() != srv->ssrc) {
       if (! ((getHeader().msg_type == VJC_MSGT_CTRL)
           && (getHeader().msg_id  == VJC_MSGV_REGISTER))) {
 
         VjcMessage *msg = new VjcMessage(srv, srv->ssrc, VJC_MSGT_CTRL, VJC_MSGV_UPDATE);
-        //error("Vjc: updating SSRC for Vjc (old:%d, new:%d)", srv->ssrc, NetObject::getMySsrcId());
-        msg->put32(NetObject::getMySsrcId());
+        //error("Vjc: updating SSRC for Vjc (old:%d, new:%d)", srv->ssrc, NetObj::getMySsrcId());
+        msg->put32(NetObj::getMySsrcId());
         pkt = msg->toBytes(&pktlen);
         send(srv->sock->sdw, pkt, pktlen, 0);
         if (msg) delete msg;
       }
-      srv->ssrc = NetObject::getMySsrcId();
+      srv->ssrc = NetObj::getMySsrcId();
     }
 
     /* send the message */
     pkt = toBytes(&pktlen);
     send(srv->sock->sdw, pkt, pktlen, 0);
     //error("Vjc: sending %d bytes with '%02x%02x' %d %08x (%d %d)",
-    //	  sent, pkt[0], pkt[1], pkt[2], NetObject::getMySsrcId(),
+    //	  sent, pkt[0], pkt[1], pkt[2], NetObj::getMySsrcId(),
     //	  getHeader().msg_type,
     //	  getHeader().msg_id);
     return 1;

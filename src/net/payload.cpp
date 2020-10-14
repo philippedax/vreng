@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "payload.hpp"
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "vrep.hpp"	// VREP_VERSION_V3
 #include "nsl.hpp"	// inet4_ntop
 #include "channel.hpp"	// Channel
@@ -538,11 +538,11 @@ int Payload::recvPayload(int fd, struct sockaddr_in *from)
    * test if the packet was sent by myself
    * this is probably broken anyway, loopback or not
    */
-  if (NetObject::getMyHostId() == ntohl(from->sin_addr.s_addr)) {
+  if (NetObj::getMyHostId() == ntohl(from->sin_addr.s_addr)) {
 #if NEEDLOOPBACK
     // If two apps are running on the same machine,
     // you need to sort out the packets on something else than just the host ID
-    if (ntohl(rtp_hdr->ssrc) == NetObject::getMySsrcId())
+    if (ntohl(rtp_hdr->ssrc) == NetObj::getMySsrcId())
 #endif
       return 0; // Loopback from same app : ignore it
   }
@@ -664,8 +664,8 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
 
   if (getPayload("nch", &noid, &prop_id, &vers_id) < 0) return;
 
-  NetObject *pn;
-  if ((pn = noid.getNetObject()) == NULL) {
+  NetObj *pn;
+  if ((pn = noid.getNetObj()) == NULL) {
     /* delta on an unknown object */
     trace(DBG_NET, "incomingDelta sendQuery on: %s, from=%s, p=%d, v=%d",
                    noid.getNetNameById(), inet4_ntop(&from->sin_addr), prop_id, vers_id);
@@ -719,7 +719,7 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   uint8_t type_id, _permanent;
 
   if (getPayload("cnc", &type_id, &noid, &_permanent) < 0) return;
-  if (noid.getNetObject()) return;  // local copy already exists -> ignore this request
+  if (noid.getNetObj()) return;  // local copy already exists -> ignore this request
 
   trace(DBG_NET, "incomingCreate: nobj=%s (type=%d), _permanent=%d",
 	           noid.getNetNameById(), type_id, _permanent);
@@ -730,7 +730,7 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   // glue with WObject
   // Very very important !!!
   //
-  NetObject *pn = NetObject::replicateObject(type_id, noid, this);
+  NetObj *pn = NetObj::replicateObject(type_id, noid, this);
   if (!pn) {
     error("incomingCreate: can't replicate object, type=%d", type_id);
     return;
@@ -765,8 +765,8 @@ void Payload::incomingQuery(const struct sockaddr_in *from)
   trace(DBG_NET, "incomingQuery: nobj=%s from=%s",
                  noid.getNetNameById(), inet4_ntop(&from->sin_addr));
 
-  NetObject *pn;
-  if ((pn = noid.getNetObject()) == NULL) {
+  NetObj *pn;
+  if ((pn = noid.getNetObj()) == NULL) {
     // unknown object: may be we have deleted it, we advertize the requester
     warning("incomingQuery: sendDelete nobj=%s from=%s",
              noid.getNetNameById(), inet4_ntop(&from->sin_addr));
@@ -789,8 +789,8 @@ void Payload::incomingDelete(const struct sockaddr_in *from)
   trace(DBG_NET, "incomingDelete: nobj=%s from=%s",
                  noid.getNetNameById(), inet4_ntop(&from->sin_addr));
 
-  NetObject *pn;
-  if ((pn = noid.getNetObject()))
+  NetObj *pn;
+  if ((pn = noid.getNetObj()))
     pn->requestDeletionFromNetwork();
 }
 

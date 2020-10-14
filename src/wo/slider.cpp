@@ -63,7 +63,7 @@ void Slider::behavior()
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 Slider::Slider(char *l)

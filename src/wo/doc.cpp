@@ -56,7 +56,7 @@ Doc::Doc(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 bool Doc::updateToNetwork(const Pos &oldpos)

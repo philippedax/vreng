@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "animator.hpp"
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "payload.hpp"	// Payload
 
 
@@ -68,7 +68,7 @@ Animator::Animator(char *l)
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(RENDER_NORMAL);
   initializeMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 
   if (state == ACTIVE) {
     setRenderPrior(RENDER_HIGH);

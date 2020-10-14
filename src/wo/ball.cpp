@@ -25,7 +25,7 @@
 #include "cauldron.hpp"	// Cauldron
 #include "step.hpp"	// STEP_TYPE
 #include "move.hpp"	// GRAVITY
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "timer.hpp"	// getRate
 
 
@@ -112,7 +112,7 @@ Ball::Ball(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(1);
-  createVolatileNetObject(PROPS);
+  createVolatileNetObj(PROPS);
 }
 
 /** Created by the cauldron or user */
@@ -136,7 +136,7 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
   enablePermanentMovement(); // gravity
 
   /* network creation */
-  createVolatileNetObject(PROPS);
+  createVolatileNetObj(PROPS);
 }
 
 /** Recreated by the world */
@@ -160,7 +160,7 @@ Ball::Ball(World *pw, void *d, time_t s, time_t u)
   enablePermanentMovement();
 
   /* network creation */
-  createVolatileNetObject(PROPS);
+  createVolatileNetObj(PROPS);
 }
 
 /** Created by the user */
@@ -181,7 +181,7 @@ Ball::Ball(WObject *user, char *form)
   initializeMobileObject(TTL);
 
   /* network creation */
-  createVolatileNetObject(PROPS);
+  createVolatileNetObj(PROPS);
 }
 
 /** Replication from the network */
@@ -194,7 +194,7 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
 {
   setType(type_id);
 
-  replicateVolatileNetObject(PROPS, _noid);
+  replicateVolatileNetObj(PROPS, _noid);
   noh->getAllProperties(pp);
   copyNoid(_noid);
 

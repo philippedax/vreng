@@ -169,7 +169,7 @@ void Step::behavior()
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 Step::Step(char *l)

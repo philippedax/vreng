@@ -26,7 +26,7 @@
 #include "format.hpp"	// icons
 #include "cache.hpp"	// file download
 #include "texture.hpp"	// Texture
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "payload.hpp"	// Payload
 #include "ps.hpp"	// start
 #include "pdf.hpp"	// start
@@ -267,7 +267,7 @@ Icon::Icon(User *user, void *d)
   disablePermanentMovement();
 
   // network creation
-  createVolatileNetObject(PROPS);
+  createVolatileNetObj(PROPS);
 
   // document's owner
   setOwner();
@@ -290,7 +290,7 @@ WObject * Icon::replicator(uint8_t type_id, Noid noid, Payload *pp)
 Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
 {
   setType(type_id);
-  replicateVolatileNetObject(PROPS, _noid);
+  replicateVolatileNetObj(PROPS, _noid);
   noh->getAllProperties(pp);
   copyNoid(_noid);
 

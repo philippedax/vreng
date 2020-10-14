@@ -22,7 +22,7 @@
 #include "lift.hpp"
 #include "move.hpp"	// gotoFront
 #include "user.hpp"	// localuser
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 
 
 const OClass Lift::oclass(LIFT_TYPE, "Lift", Lift::creator);
@@ -74,7 +74,7 @@ Lift::Lift(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 
   dest = pos.z;		// initial position
 }

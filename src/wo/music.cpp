@@ -87,7 +87,7 @@ Music::Music(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 
   if ((! stringcmp(statestr, "play")) || (! stringcmp(statestr, "loop")))
     play(this, (void *) 1, 0L, 0L);

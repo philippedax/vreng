@@ -82,7 +82,7 @@ void Bubble::behavior()
 
   initializeMobileObject(BUBBLETTL);
   initImposedMovement(BUBBLETTL);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 /** Created by user */

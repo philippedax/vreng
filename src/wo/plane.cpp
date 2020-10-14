@@ -112,7 +112,7 @@ Plane::Plane(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 /** Intersection with an object */

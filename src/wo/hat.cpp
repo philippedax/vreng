@@ -186,7 +186,7 @@ void Hat::wear()
   init();
   inits();
   setMysql();
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
   addToList();
 }
 

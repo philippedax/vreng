@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "noid.hpp"
 #include "vrep.hpp"	// VREP
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "nsl.hpp"	// inet4_ntop
 #include "payload.hpp"	// Payload
 #include "oclass.hpp"	// isValidType
@@ -49,23 +49,23 @@ bool Noid::equalNoid(Noid n2) const
   return src_id == n2.src_id && port_id == n2.port_id && obj_id == n2.obj_id;
 }
 
-/* Gets a NetObject by name */
-NetObject * Noid::getNetObject()
+/* Gets a NetObj by name */
+NetObj * Noid::getNetObj()
 {
 #if 0 //STL
-  for (list<NetObject*>::iterator it = NetObject::getList(); it != NetObject::netobjectList.end(); ++it) {
+  for (list<NetObj*>::iterator it = NetObj::getList(); it != NetObj::netobjectList.end(); ++it) {
     if (! equalNoid((*it)->noid)) {
       if (! OClass::isValidType((*it)->type)) {
-        error("getNetObject: bad type=%d", (*it)->type); return NULL;
+        error("getNetObj: bad type=%d", (*it)->type); return NULL;
       }
     }
   }
   return *it;
 #else
-  NetObject *pn = NULL;
-  for (pn = NetObject::getList(); pn && !equalNoid(pn->noid); pn = pn->next) {
+  NetObj *pn = NULL;
+  for (pn = NetObj::getList(); pn && !equalNoid(pn->noid); pn = pn->next) {
     if (! OClass::isValidType(pn->type)) {
-      error("getNetObject: bad type=%d", pn->type); return NULL;
+      error("getNetObj: bad type=%d", pn->type); return NULL;
     }
   }
   return pn;

@@ -33,7 +33,7 @@
 #include "carrier.hpp"	// Carrier
 #include "cart.hpp"	// Cart
 #include "bubble.hpp"	// Bubble
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "payload.hpp"	// Payload
 #include "solid.hpp"	// solid ray_dlist
 #include "draw.hpp"	// ray
@@ -235,7 +235,7 @@ void User::setRtcp()
   Rtp::getRtcpName(rtcpname);
   Rtp::getRtcpEmail(email);
   Rtp::getRtcpTool(tool);
-  ssrc = NetObject::getMySsrcId();
+  ssrc = NetObj::getMySsrcId();
   trace(DBG_WO, "User: name=%s ssrc=%x rtcpname=%s email=%s", getInstance(), ssrc, rtcpname, email);
 }
 
@@ -297,7 +297,7 @@ void User::inits()
   initializeMobileObject(LASTING);
   setRenderPrior(RENDER_HIGH);
   enablePermanentMovement();	// gravity
-  createVolatileNetObject(PROPS);
+  createVolatileNetObj(PROPS);
   //pd noh->declareObjCreation(); // we don't need because delta
 
   setPosition();	// from entry
@@ -342,7 +342,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   defaults();
   getMemory();		// alloc geometries
 
-  replicateVolatileNetObject(PROPS, _noid);
+  replicateVolatileNetObj(PROPS, _noid);
   copyNoid(_noid);
 
   /* hack to retrieve the name and the mapping */
@@ -451,7 +451,7 @@ User::~User()
   // we should not declare the deletion: it's not our problem.
   if (this == localuser && noh) {
     noh->declareDeletion();
-    delete noh;		// delete NetObject
+    delete noh;		// delete NetObj
     noh = NULL;
   }
 

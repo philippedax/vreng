@@ -114,7 +114,7 @@ void Head::behavior()
 
   initializeMobileObject(0);
   enablePermanentMovement();	// follows user
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 /* Sets an unique name */

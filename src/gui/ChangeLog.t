@@ -17,12 +17,16 @@ The rules for this file:\n\
 == 9.0\n\
 -- 9.0.1\n\
         - fix some memory leaks\n\
+	- move universe.*pp into src/vreng\n\
+	- move world.*pp into src/vreng\n\
+	- move xml.*pp into src/vreng\n\
+	- move openal.*pp into src/vreng\n\
 	- move useraction.hpp into user.hpp\n\
 	- move vncdialog.cpp into widgets.cpp\n\
 	- move vncdialog.hpp into widgets.hpp\n\
 	- move hud.cpp into widgets.cpp\n\
 	- move hud.hpp into widgets.hpp\n\
-	(2020/10/11, Philippe Dax)\n\
+	(2020/10/13, Philippe Dax)\n\
 \n\
 -- 9.0.0\n\
         - fix connection to localhost in pref.cpp http.cpp universe.cpp\n\

@@ -39,34 +39,34 @@ using namespace std;
 #endif
 
 #if STL
-list<NetObject*> NetObject::netobjectList;
+list<NetObj*> NetObj::netobjectList;
 #else
-static NetObject *netobjectList = NULL; // netobjects list
+static NetObj *netobjectList = NULL; // netobjects list
 #endif
 
 // network ids
-uint32_t NetObject::mySsrcId = 0;   // ssrc network format
-uint32_t NetObject::myHostId = 0;   // addr_IP network format
-uint16_t NetObject::myPortId = 0;   // port network format
-uint16_t NetObject::myObjId = 0;    // new object'id (naming), fmt host
-uint32_t NetObject::myMgrSsrcId = 0; // manager ssrc network format
+uint32_t NetObj::mySsrcId = 0;   // ssrc network format
+uint32_t NetObj::myHostId = 0;   // addr_IP network format
+uint16_t NetObj::myPortId = 0;   // port network format
+uint16_t NetObj::myObjId = 0;    // new object'id (naming), fmt host
+uint32_t NetObj::myMgrSsrcId = 0; // manager ssrc network format
 
 
 /*
  * Handling id names and properties
  */
 
-/* NetObject constructors */
+/* NetObj constructors */
 
-void NetObject::defaults()
+void NetObj::defaults()
 {
   new_netobject++;
   nbprop = 0;
   netprop = NULL;
 }
 
-/* Creates local generic NetObject */
-NetObject::NetObject()
+/* Creates local generic NetObj */
+NetObj::NetObj()
 {
   defaults();
   type = 0;
@@ -75,8 +75,8 @@ NetObject::NetObject()
   setNoid();
 }
 
-/* Creates local permanent NetObject */
-NetObject::NetObject(WObject *po, uint8_t nprop, uint16_t oid)
+/* Creates local permanent NetObj */
+NetObj::NetObj(WObject *po, uint8_t nprop, uint16_t oid)
 {
   defaults();
   type = po->typeId();
@@ -87,11 +87,11 @@ NetObject::NetObject(WObject *po, uint8_t nprop, uint16_t oid)
   char str[80];
   sprintf(str, "%d/%d", type, oid);
   buildNoidFromString(str, permanent);     // net objname
-  trace(DBG_NET, "NetObject: str=%s %s", str, pobject->getInstance());
+  trace(DBG_NET, "NetObj: str=%s %s", str, pobject->getInstance());
 }
 
-/* Creates local volatile NetObject */
-NetObject::NetObject(WObject *po, uint8_t nprop)
+/* Creates local volatile NetObj */
+NetObj::NetObj(WObject *po, uint8_t nprop)
 {
   defaults();
   type = po->type;
@@ -102,8 +102,8 @@ NetObject::NetObject(WObject *po, uint8_t nprop)
   setNoid();
 }
 
-/* Creates replicated volatile NetObject */
-NetObject::NetObject(WObject *po, uint8_t nprop, Noid _noid)
+/* Creates replicated volatile NetObj */
+NetObj::NetObj(WObject *po, uint8_t nprop, Noid _noid)
 {
   defaults();
   type = po->type;
@@ -114,18 +114,18 @@ NetObject::NetObject(WObject *po, uint8_t nprop, Noid _noid)
 }
 
 #if STL
-list<NetObject*>::iterator NetObject::getList()
+list<NetObj*>::iterator NetObj::getList()
 {
   return netobjectList.begin();
 }
 #else
-NetObject * NetObject::getList()
+NetObj * NetObj::getList()
 {
   return netobjectList;
 }
 #endif
 
-void NetObject::clearList()
+void NetObj::clearList()
 {
 #if STL
   netobjectList.clear();
@@ -134,89 +134,89 @@ void NetObject::clearList()
 #endif
 }
 
-void NetObject::setMyMgrSsrcId(uint32_t mgr_ssrc_id)
+void NetObj::setMyMgrSsrcId(uint32_t mgr_ssrc_id)
 {
   myMgrSsrcId = mgr_ssrc_id;
 }
 
-uint32_t NetObject::getMyMgrSsrcId()
+uint32_t NetObj::getMyMgrSsrcId()
 {
   return myMgrSsrcId;
 }
 
-void NetObject::setMySsrcId(uint32_t ssrc_id)
+void NetObj::setMySsrcId(uint32_t ssrc_id)
 {
   mySsrcId = ssrc_id;
 }
 
 // get current ssrc
-uint32_t NetObject::getMySsrcId()
+uint32_t NetObj::getMySsrcId()
 {
   return mySsrcId;
 }
 
-void NetObject::setMyHostId(uint32_t host_id)
+void NetObj::setMyHostId(uint32_t host_id)
 {
   myHostId = host_id;
 }
 
-uint32_t NetObject::getMyHostId()
+uint32_t NetObj::getMyHostId()
 {
   return myHostId;
 }
 
-void NetObject::setMyPortId(uint16_t _port_id)
+void NetObj::setMyPortId(uint16_t _port_id)
 {
   myPortId = _port_id;
 }
 
-uint16_t NetObject::getMyPortId()
+uint16_t NetObj::getMyPortId()
 {
   return myPortId;
 }
 
-void NetObject::setMyObjId(uint16_t _obj_id)
+void NetObj::setMyObjId(uint16_t _obj_id)
 {
   myObjId = _obj_id;
 }
 
-uint16_t NetObject::getMyObjId()
+uint16_t NetObj::getMyObjId()
 {
   return myObjId;
 }
 
-void NetObject::setSrcId(uint32_t _src_id)
+void NetObj::setSrcId(uint32_t _src_id)
 {
   noid.src_id = _src_id;
 }
 
-uint32_t NetObject::getSrcId() const
+uint32_t NetObj::getSrcId() const
 {
   return noid.src_id;
 }
 
-void NetObject::setPortId(uint16_t _port_id)
+void NetObj::setPortId(uint16_t _port_id)
 {
   noid.port_id = _port_id;
 }
 
-uint16_t NetObject::getPortId() const
+uint16_t NetObj::getPortId() const
 {
   return noid.port_id;
 }
 
-void NetObject::setObjId(uint16_t _obj_id)
+void NetObj::setObjId(uint16_t _obj_id)
 {
   noid.obj_id = _obj_id;
 }
 
-uint16_t NetObject::getObjId() const
+uint16_t NetObj::getObjId() const
 {
   return noid.obj_id;
 }
 
 /* Inserts netobject in head of netobjectList */
-void NetObject::addToList()
+void NetObj::addToList()
 {
 #if STL
   netobjectList.push_back(this);
@@ -227,7 +227,7 @@ void NetObject::addToList()
 #endif
 }
 
-void NetObject::initProperties(bool _responsible)
+void NetObj::initProperties(bool _responsible)
 {
   if (netprop) return; //pd warning("initProperties: netprop already exists (type=%d)", type);
 
@@ -246,31 +246,31 @@ void NetObject::initProperties(bool _responsible)
 }
 
 /* Returns the number of properties of this type */
-uint8_t NetObject::getPropertiesNumber() const
+uint8_t NetObj::getPropertiesNumber() const
 {
   if (nbprop == 0) return NetProperty::getPropertiesNumber(type);
   return nbprop;
 }
 
-uint8_t NetObject::getPropertiesNumber(uint8_t _type_id)
+uint8_t NetObj::getPropertiesNumber(uint8_t _type_id)
 {
   return NetProperty::getPropertiesNumber(_type_id);
 }
 
 /* Sets the number of properties of this type */
-void NetObject::setPropertiesNumber(uint8_t _nbprop)
+void NetObj::setPropertiesNumber(uint8_t _nbprop)
 {
   nbprop = _nbprop;
   NetProperty::setPropertiesNumber(type, _nbprop);
 }
 
-void NetObject::setPropertiesNumber(uint8_t _type_id, uint8_t _nbprop)
+void NetObj::setPropertiesNumber(uint8_t _type_id, uint8_t _nbprop)
 {
   NetProperty::setPropertiesNumber(_type_id, _nbprop);
 }
 
 /* Assigns an unique identifier to each Vreng netobject */
-void NetObject::setNoid()
+void NetObj::setNoid()
 {
   noid.src_id = mySsrcId;		// Application's identifier
   noid.port_id = myPortId;		// Comm port identifier
@@ -278,7 +278,7 @@ void NetObject::setNoid()
 }
 
 /* Creates a new netobject name */
-void NetObject::create(bool netbehave)
+void NetObj::create(bool netbehave)
 {
   // MS.: Objects need a unique ID from the start,
   // not just for networked objects, so that the
@@ -291,7 +291,7 @@ void NetObject::create(bool netbehave)
 }
 
 /* Builds a netobject name from the string "scene_id/obj_id" */
-void NetObject::buildNoidFromString(const char *s, bool netbehave)
+void NetObj::buildNoidFromString(const char *s, bool netbehave)
 {
   uint16_t scene_id, obj_id;
   int c = sscanf(s, "%hu/%hu", &scene_id, &obj_id);
@@ -308,7 +308,7 @@ void NetObject::buildNoidFromString(const char *s, bool netbehave)
   noid.port_id = htons(scene_id);
   noid.obj_id = htons(obj_id);
 
-  if (getNetObject()) {
+  if (getNetObj()) {
     warning("buildNoidFromString: %s already seen %d/%d", pobject->getInstance(), scene_id, obj_id);
     return;
   }
@@ -316,13 +316,13 @@ void NetObject::buildNoidFromString(const char *s, bool netbehave)
 }
 
 /* Deletes a netobject from the list */
-void NetObject::deleteFromList()
+void NetObj::deleteFromList()
 {
-  if (! getNetObject()) return; //warning("deleteFromList: already unnamed/deleted type=%d", type);
+  if (! getNetObj()) return; //warning("deleteFromList: already unnamed/deleted type=%d", type);
 #if STL
   netobjectList.remove(this);
 #else
-  if (! getNetObject()) return; //warning("deleteFromList: already unnamed/deleted type=%d", type);
+  if (! getNetObj()) return; //warning("deleteFromList: already unnamed/deleted type=%d", type);
   if (prev) prev->next = next;
   else {
     if (this != netobjectList) {
@@ -338,7 +338,7 @@ void NetObject::deleteFromList()
 #endif
 }
 
-NetObject::~NetObject()
+NetObj::~NetObj()
 {
   deleteFromList();
 
@@ -348,18 +348,18 @@ NetObject::~NetObject()
   del_netobject++;
 }
 
-bool NetObject::isPermanent() const
+bool NetObj::isPermanent() const
 {
   return permanent;
 }
 
-bool NetObject::isResponsible() const
+bool NetObj::isResponsible() const
 {
   return (netprop && netprop->responsible);
 }
 
 /* Finds a WObject pointer by its noid */
-WObject * NetObject::getWObjectByNoid() const
+WObject * NetObj::getWObjectByNoid() const
 {
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it)->noh) {
@@ -370,38 +370,38 @@ WObject * NetObject::getWObjectByNoid() const
 }
 
 /* Gets the property prop_id (its local copy) got from Network */
-void NetObject::getProperty(uint8_t prop_id, Payload *pp) const
+void NetObj::getProperty(uint8_t prop_id, Payload *pp) const
 {
   if (pobject) pobject->getProperty(prop_id, pp);
 }
 
 /* Puts the property (its local copy) to be sent to Network */
-void NetObject::putProperty(uint8_t prop_id, Payload *pp)
+void NetObj::putProperty(uint8_t prop_id, Payload *pp)
 {
   if (pobject) pobject->putProperty(prop_id, pp);
 }
 
-void NetObject::getAllProperties(Payload *pp) const
+void NetObj::getAllProperties(Payload *pp) const
 {
   uint8_t _nbprop = getPropertiesNumber(type);
   for (int p=0; p < _nbprop; p++) getProperty(p, pp);
 }
 
 /* Puts all properties of the netobject */
-void NetObject::putAllProperties(Payload *pp)
+void NetObj::putAllProperties(Payload *pp)
 {
   uint8_t _nbprop = getPropertiesNumber(type);
   for (int p=0; p < _nbprop; p++) putProperty(p, pp);
 }
 
 /* Removes netobject */
-void NetObject::requestDeletionFromNetwork()
+void NetObj::requestDeletionFromNetwork()
 {
   if (pobject) pobject->deleteReplica();
 }
 
 /* Creates a replicated object */
-NetObject * NetObject::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
+NetObj * NetObj::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
 {
   WObject *po = OClass::replicatorInstance(type_id, noid, pp);  // factory
 
@@ -415,7 +415,7 @@ NetObject * NetObject::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
 }
 
 /* Send a multicast packet of type '0x02' = Delta */
-void NetObject::sendDelta(uint8_t prop_id)
+void NetObj::sendDelta(uint8_t prop_id)
 {
   if (! netprop) { error("sendDelta: netprop NULL"); return; }
 
@@ -441,7 +441,7 @@ void NetObject::sendDelta(uint8_t prop_id)
 }
 
 /* Send a '0x01' packet to mentionned unicast address for the current object */
-void NetObject::sendCreate(const struct sockaddr_in *to)
+void NetObj::sendCreate(const struct sockaddr_in *to)
 {
   Payload pp;
   pp.putPayload("ccnc", VREP_CREATE, type, noid, permanent);
@@ -459,9 +459,9 @@ void NetObject::sendCreate(const struct sockaddr_in *to)
 }
 
 /* Exported to WO, to call for each new object */
-void NetObject::declareObjCreation()
+void NetObj::declareObjCreation()
 {
-  if (! getNetObject()) {
+  if (! getNetObj()) {
     //warning("declareObjCreation: unnamed netobject (type=%d)", type);
     return;
   }
@@ -475,7 +475,7 @@ void NetObject::declareObjCreation()
 }
 
 /* Updates netobject version */
-void NetObject::declareObjDelta(uint8_t prop_id)
+void NetObj::declareObjDelta(uint8_t prop_id)
 {
   if (noid.src_id == 0) {
     noid.src_id = 1;	//localhost;
@@ -496,9 +496,9 @@ void NetObject::declareObjDelta(uint8_t prop_id)
 }
 
 /* Destroy the netobject (its local copy) */
-void NetObject::declareDeletion()
+void NetObj::declareDeletion()
 {
-  if (! getNetObject()) return;
+  if (! getNetObj()) return;
 
   if (permanent) {
     warning("declareDeletion: on permanent object (type=%d)", type); return;
@@ -508,7 +508,7 @@ void NetObject::declareDeletion()
   if (pchan) sendDelete(pchan->sa[SA_RTP]);
 }
 
-void NetObject::sendDelete(const struct sockaddr_in *to)
+void NetObj::sendDelete(const struct sockaddr_in *to)
 {
   Payload pp;
   pp.putPayload("cn", VREP_DELETE, noid);
@@ -517,7 +517,7 @@ void NetObject::sendDelete(const struct sockaddr_in *to)
 }
 
 /* Builds a concataned string name */
-char * NetObject::getNetNameById()
+char * NetObj::getNetNameById()
 {
   static char str[80];
 
@@ -526,30 +526,30 @@ char * NetObject::getNetNameById()
 }
 
 /* Returns 0 if different, other if equal */
-bool NetObject::equalNoid(Noid n2) const
+bool NetObj::equalNoid(Noid n2) const
 {
   return noid.src_id == n2.src_id &&
          noid.port_id == n2.port_id &&
          noid.obj_id == n2.obj_id;
 }
 
-/* Gets a NetObject by name */
-NetObject * NetObject::getNetObject()
+/* Gets a NetObj by name */
+NetObj * NetObj::getNetObj()
 {
 #if STL
-  for (list<NetObject*>::iterator it = netobjectList.begin(); it != netobjectList.end(); ++it) {
+  for (list<NetObj*>::iterator it = netobjectList.begin(); it != netobjectList.end(); ++it) {
     if ((*it)->equalNoid((*it)->noid)) return *it;  // found
     if (! OClass::isValidType((*it)->type)) {
-      error("getNetObject: bad type=%d", (*it)->type); return NULL;
+      error("getNetObj: bad type=%d", (*it)->type); return NULL;
     }
   }
 #else
-  NetObject *pn;
+  NetObj *pn;
 
   for (pn = getList(); pn ; pn = pn->next) { // FIXEME : loop observed
-    if (equalNoid(pn->noid)) return pn; // NetObject found
+    if (equalNoid(pn->noid)) return pn; // NetObj found
     if (! OClass::isValidType(pn->type)) {
-      error("getNetObject: bad type=%d", pn->type);
+      error("getNetObj: bad type=%d", pn->type);
       return NULL;
     }
   }
@@ -558,7 +558,7 @@ NetObject * NetObject::getNetObject()
 }
 
 /* Heuristic to avoid to send bunch of Query */
-int NetObject::filterQuery()
+int NetObj::filterQuery()
 {
   static Noid oldnoid;
   static int countDelta = 0;
@@ -577,7 +577,7 @@ int NetObject::filterQuery()
 }
 
 /* Send a Query '0x03' packet  to the unicast sender */
-void NetObject::sendQueryNoid(const struct sockaddr_in *to)
+void NetObj::sendQueryNoid(const struct sockaddr_in *to)
 {
   if (! filterQuery()) return;
 
@@ -588,7 +588,7 @@ void NetObject::sendQueryNoid(const struct sockaddr_in *to)
 }
 
 /* Send a Delete '0x04' packet */
-void NetObject::sendDeleteNoid(const struct sockaddr_in *to)
+void NetObj::sendDeleteNoid(const struct sockaddr_in *to)
 {
   Payload pp;
   pp.putPayload("cn", VREP_DELETE, noid);
@@ -598,9 +598,9 @@ void NetObject::sendDeleteNoid(const struct sockaddr_in *to)
 
 #if 0 //notused
 // get an netobject by SSRC
-NetObject * getObjectBySSRC(uint32_t _ssrc)
+NetObj * getObjectBySSRC(uint32_t _ssrc)
 {
-  NetObject *pn = netobject_list;
+  NetObj *pn = netobject_list;
 
   for ( ; pn && pn->noid.src_id != _ssrc; pn = pn->next)
 	;

@@ -61,7 +61,7 @@ Board::Board(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 bool Board::updateToNetwork(const Pos &oldpos)

@@ -69,7 +69,7 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   setRenderPrior(RENDER_HIGH);
 
   initializeMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 void Sheet::changePosition(float lasting)

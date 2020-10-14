@@ -95,7 +95,7 @@ Web::Web(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(TTL);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 void Web::updateTime(time_t sec, time_t usec, float *lasting)

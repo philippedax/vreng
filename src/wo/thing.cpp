@@ -63,7 +63,7 @@ void Thing::behavior()
   setRenderPrior(RENDER_HIGH);
 
   initializeMobileObject(1);
-  createPermanentNetObject(PROPS, oid);
+  createPermanentNetObj(PROPS, oid);
 }
 
 /** Sets an unique name */

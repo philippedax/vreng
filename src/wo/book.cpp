@@ -200,7 +200,7 @@ Book::Book(char *l)
   setRenderPrior(RENDER_HIGH);
 
   initializeMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 
   // create the heaps of sheets
 

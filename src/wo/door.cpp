@@ -22,7 +22,7 @@
 #include "door.hpp"
 #include "move.hpp"	// gotoFront
 #include "user.hpp"	// USER-TYPE
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "sound.hpp"	// playSound
 
 
@@ -75,7 +75,7 @@ Door::Door(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
 }
 
 void Door::updateTime(time_t sec, time_t usec, float *lasting)

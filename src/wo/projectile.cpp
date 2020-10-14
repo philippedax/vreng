@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "projectile.hpp"
 #include "user.hpp"	// USER_TYPE
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 
 
 void Projectile::updateTime(time_t s, time_t us, float *plasting)

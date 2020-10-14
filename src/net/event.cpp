@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "event.hpp"
 #include "vrep.hpp"	// VREP_*
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "payload.hpp"	// Payload
 #include "netprop.hpp"	// NetProperty
 #include "oclass.hpp"	// isValidType
@@ -89,7 +89,7 @@ void NetIncoming(int fd)
         default:
           error("Incoming unknown: X'%02x' fd=%d from %lx/%x (mine is %lx/%x)",
                 cmd, fd, ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
-                NetObject::getMyHostId(), NetObject::getMyPortId());
+                NetObj::getMyHostId(), NetObj::getMyPortId());
           delete pp;
           return;
       }
@@ -126,7 +126,7 @@ int NetTimeout()
    * for each netobject in netobjectlist
    */
 #if 0 //STL
-  for (list<NetObject*>::iterator it = NetObject::netobjectList.begin(); it != NetObject::netobjectList.end(); ++it) {
+  for (list<NetObj*>::iterator it = NetObj::netobjectList.begin(); it != NetObj::netobjectList.end(); ++it) {
     if (! OClass::isValidType((*it)->type)) {
       error("NetTimout: invalid type (%d)", (*it)->type); return -1;
     }
@@ -187,13 +187,13 @@ int NetTimeout()
     } // end scan properties
   } // end list
 #else
-  for (NetObject *pn = NetObject::getList() ; pn ; ) {
+  for (NetObj *pn = NetObj::getList() ; pn ; ) {
     if (! OClass::isValidType(pn->type)) {
       error("NetTimeout: invalid type (%d)", pn->type);
       return -1;
     }
    
-    NetObject *next = pn->next; // save it now, pn may disapear if death
+    NetObj *next = pn->next; // save it now, pn may disapear if death
    
     /*
      * scan its properties

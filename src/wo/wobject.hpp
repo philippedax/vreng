@@ -132,7 +132,7 @@ protected:
   bool objectbar;		///< true if object bar is active.
 
 public:
-  class NetObject *noh;		///< reserved field for network.
+  class NetObj *noh;		///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
   uint8_t type;			///< object type.
   uint8_t mode;			///< object world mode.
@@ -375,7 +375,7 @@ public:
    */
 
   void copyNoid(class Noid _noid);
-  /**< Copies the NetObjectid in WObjectId. */
+  /**< Copies the NetObj in WObjectId. */
 
   void setSrcId(uint32_t src_id);
   /**< Sets the SrcId. */
@@ -588,14 +588,14 @@ public:
   virtual void initializeStillObject();
   /**< Initializes still object. */
 
-  void createPermanentNetObject(uint8_t props, uint16_t oid);
-  /**< Creates local permanent NetObject. */
+  void createPermanentNetObj(uint8_t props, uint16_t oid);
+  /**< Creates local permanent NetObj. */
 
-  void createVolatileNetObject(uint8_t props);
-  /**< Creates local volatile NetObject. */
+  void createVolatileNetObj(uint8_t props);
+  /**< Creates local volatile NetObj. */
 
-  void replicateVolatileNetObject(uint8_t props, class Noid _noid);
-  /**< Replicate distant volatile NetObject. */
+  void replicateVolatileNetObj(uint8_t props, class Noid _noid);
+  /**< Replicate distant volatile NetObj. */
 
   virtual void enableBehavior(uint32_t flag);
   /**< Enables behavior. */

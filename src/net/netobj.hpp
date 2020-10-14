@@ -28,9 +28,9 @@ using namespace std;
 
 
 /**
- * NetObject class
+ * NetObj class
  */
-class NetObject {
+class NetObj {
  friend class Payload;
  friend class Noid;
 
@@ -43,44 +43,44 @@ class NetObject {
   static uint32_t myMgrSsrcId;  ///< manager ssrc network format
 
  public:
-  class Noid noid;		///< NetObject id
-  uint8_t type;			///< NetObject type
+  class Noid noid;		///< NetObj id
+  uint8_t type;			///< NetObj type
   uint8_t permanent;		///< permanent or valatile (not a true bool)
   uint8_t nbprop;		///< number of properties
   class WObject *pobject;	///< pointer on the WObject
   class NetProperty *netprop;	///< netobject properties
-  NetObject *next;		///< next
-  NetObject *prev;		///< prev
+  NetObj *next;		///< next
+  NetObj *prev;		///< prev
 
   enum {
     NET_VOLATILE, // replicatable
     NET_PERMANENT
   };
 
-  NetObject();
+  NetObj();
   /**< Constructor for local */
 
-  NetObject(WObject *po, uint8_t nprop, uint16_t oid);
+  NetObj(WObject *po, uint8_t nprop, uint16_t oid);
   /**< Constructor for local ppermanent with args */
 
-  NetObject(WObject *po, uint8_t nprop);
+  NetObj(WObject *po, uint8_t nprop);
   /**< Constructor for local volatile with args */
 
-  NetObject(WObject *po, uint8_t nprop, class Noid _noid);
+  NetObj(WObject *po, uint8_t nprop, class Noid _noid);
   /**< Constructor for replica */
 
-  virtual ~NetObject();
+  virtual ~NetObj();
   /**< Destructor */
 
   virtual void defaults();
   /**< Common to constructors */
 
   virtual void addToList();
-  /**< Inserts netobject in head of NetObject list */
+  /**< Inserts netobject in head of NetObj list */
 
   virtual void deleteFromList();
   /**<
-   * Removes the NetObject from the list.
+   * Removes the NetObj from the list.
    * To do necessarly before the final delete.
    */
 
@@ -90,13 +90,13 @@ class NetObject {
   virtual void create(bool netbehave);
   /**<
    * Creates a new local netobject.
-   * Then we can do getNetObject, declareObjDelta.
+   * Then we can do getNetObj, declareObjDelta.
    * One declareObjCreation is wish latter, when props are set.
    */
 
   virtual void setNoid();
   /**<
-   * Initializes a new NetObject.
+   * Initializes a new NetObj.
    * Assigns a unique identifier to each Vreng local netobject
    * whether if be a networked object or not.
    * Now we can do getObjId and declareObjDelta.
@@ -106,15 +106,15 @@ class NetObject {
 
   virtual void buildNoidFromString(const char *str, bool netbehave);
   /**<
-   * Build a NetObject name from a string "scene_id/obj_id", both uint16_t > 0
-   * Used by getNetObject and declareObjDelta.
+   * Build a NetObj name from a string "scene_id/obj_id", both uint16_t > 0
+   * Used by getNetObj and declareObjDelta.
    * A declareObjCreation on such netobject produces a fatal.
    */
 
   virtual void declareObjCreation();
   /**<
    * We assume the header yet initialized,
-   * should (perfs) be called after the NetObject naming create()
+   * should (perfs) be called after the NetObj naming create()
    * and the initialization of properties.
    * To call for each new objects.
    */
@@ -128,7 +128,7 @@ class NetObject {
   virtual void declareDeletion();
   /**<
    * Destroy the netobject (local copy), netobject must be valid (name).
-   * To call when we want destroy the object before a deleteNetObject.
+   * To call when we want destroy the object before a deleteNetObj.
    */
 
   // Accessors
@@ -228,10 +228,10 @@ class NetObject {
   virtual void requestDeletionFromNetwork();
   /**<
    * Supprime object du monde, si object n'est pas le local user
-   * The sequence must include deleteNetObject.
+   * The sequence must include deleteNetObj.
    *  1) faire le menage et afficher tout ce qui est necessaire.
    *  2) si la decision a ete prise localement: declareDeletion
-   *  3) deleteNetObject
+   *  3) deleteNetObj
    *     le nom devient invalide, plus aucun declare n'est possible
    *  4) faire le delete object final
    */
@@ -244,23 +244,23 @@ class NetObject {
   virtual bool isPermanent() const;
 
 #if 0 //STL
-  static list<NetObject*> netobjectList;
+  static list<NetObj*> netobjectList;
 #else
-  static NetObject *netObjectList;
+  static NetObj *netObjectList;
 #endif
   /**< netobject list */
 
 #if 0 //STL
-  static std::list<NetObject*>::iterator getList();
+  static std::list<NetObj*>::iterator getList();
 #else
-  static NetObject * getList();
+  static NetObj * getList();
 #endif
-  /**< Gets th NetObject list */
+  /**< Gets th NetObj list */
 
   static void clearList();
-  /**< Clears th NetObject list */
+  /**< Clears th NetObj list */
 
-  static NetObject *replicateObject(uint8_t type, class Noid noid, class Payload *pp);
+  static NetObj *replicateObject(uint8_t type, class Noid noid, class Payload *pp);
   /**<
    * Dispatching the replicated object.
    * Creates a replication (local copy) of the object.
@@ -269,12 +269,12 @@ class NetObject {
    * Typically called after an incomingCreate().
    */
 
-  NetObject * getNetObject();
+  NetObj * getNetObj();
   /**<
-   * Gets a NetObject by name,
+   * Gets a NetObj by name,
    * returns NULL if netobject doesn't exist.
    * Header vers noid se fait en lisant directement dans la struct
-   * Naming is done by create or createNetObjectFromString.
+   * Naming is done by create or createNetObj.
    */
 
   char * getNetNameById();

@@ -105,7 +105,7 @@ Guide::Guide(char *l)
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_HIGH);
   initializeMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createPermanentNetObj(PROPS, ++oid);
   if (perpetual) enablePermanentMovement();
 
   pos.az = atan((path[pt+1][1]-path[pt][1]) / (path[pt+1][0]-path[pt][0]));
