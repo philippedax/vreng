@@ -217,8 +217,8 @@ void Web::funcs()
   putPropertyFunc(WEB_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(WEB_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(WEB_TYPE, 0, WO_ACTION open_cb, "Open");
-  setActionFunc(WEB_TYPE, 1, WO_ACTION pivot_cb, "Pivot");
-  setActionFunc(WEB_TYPE, 2, WO_ACTION gotoFront, "Approach");
-  setActionFunc(WEB_TYPE, 3, WO_ACTION moveObject, "Move");
+  setActionFunc(WEB_TYPE, 0, O_ACTION open_cb, "Open");
+  setActionFunc(WEB_TYPE, 1, O_ACTION pivot_cb, "Pivot");
+  setActionFunc(WEB_TYPE, 2, O_ACTION gotoFront, "Approach");
+  setActionFunc(WEB_TYPE, 3, O_ACTION moveObject, "Move");
 }

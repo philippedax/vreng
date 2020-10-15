@@ -138,12 +138,12 @@ void User::setView(uint8_t view)
     case Render::VIEW_VERTICAL_FAR :
     case Render::VIEW_TURN_AROUND :
       disableBehavior(UNVISIBLE);	// visible by myself
-      head->visibility(true);
+      if (head) head->visibility(true);
       break;
     case Render::VIEW_FIRST_PERSON :
     default :
       enableBehavior(UNVISIBLE);	// not visible by myself
-      head->visibility(false);
+      if (head) head->visibility(false);
       break;
   }
 }
@@ -220,7 +220,7 @@ void User::makeSolid()
   parse()->parseSolid(s, SEP, this);
 
   // avatar's head
-  if (*headurl) {
+  if (android && *headurl) {
     float color[3];
     Color::getRGB(skin, color);
     head = new Head(this, headurl, color);
@@ -722,6 +722,23 @@ void User::decreaseRoll(User *user, void *d, time_t s, time_t u)
   user->updatePosition();
 }
 
+void User::flyaway(User *user, void *d, time_t s, time_t u)
+{
+  pause_gravity = true;
+  for (int z=1; z<5; z++) {
+    user->pos.z += 1;
+    user->pos.ay -= M_PI/8;
+    user->updatePosition();
+  }
+}
+
+void User::toland(User *user, void *d, time_t s, time_t u)
+{
+  user->pos.ay = 0;
+  pause_gravity = false;
+  user->updatePosition();
+}
+
 void User::setPitch(User *user, void *d, time_t s, time_t u)
 {
   float *angle = (float*) d;
@@ -1142,37 +1159,39 @@ void User::funcs()
   putPropertyFunc(USER_TYPE, PROPBUST, WO_PAYLOAD put_bust);
   putPropertyFunc(USER_TYPE, PROPRAY, WO_PAYLOAD put_ray);
 
-  setActionFunc(USER_TYPE, UserAction::BULLET, WO_ACTION createBullet, "");
-  setActionFunc(USER_TYPE, UserAction::DART, WO_ACTION createDart, "");
-  setActionFunc(USER_TYPE, UserAction::FOVYDEF, WO_ACTION defaultZoom, "");
-  setActionFunc(USER_TYPE, UserAction::FOVYLESS, WO_ACTION increaseZoom, "");
-  setActionFunc(USER_TYPE, UserAction::FOVYMORE, WO_ACTION decreaseZoom, "");
-  setActionFunc(USER_TYPE, UserAction::FOVYSET, WO_ACTION setZoom, "");
-  setActionFunc(USER_TYPE, UserAction::LSPEEDDEF, WO_ACTION defaultLinearSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::LSPEEDLESS, WO_ACTION decreaseLinearSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::LSPEEDMORE, WO_ACTION increaseLinearSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::ASPEEDDEF, WO_ACTION defaultAngularSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::ASPEEDLESS, WO_ACTION decreaseAngularSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::ASPEEDMORE, WO_ACTION increaseAngularSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::PAUSE, WO_ACTION pause, "");
-  setActionFunc(USER_TYPE, UserAction::PAUSEON, WO_ACTION pauseOn, "");
-  setActionFunc(USER_TYPE, UserAction::PAUSEOFF, WO_ACTION pauseOff, "");
-  setActionFunc(USER_TYPE, UserAction::SETLSPEED, WO_ACTION setLspeed, "");
-  setActionFunc(USER_TYPE, UserAction::SETASPEED, WO_ACTION setAspeed, "");
-  setActionFunc(USER_TYPE, UserAction::SWITCHVIEW, WO_ACTION switchView, "");
-  setActionFunc(USER_TYPE, UserAction::MAPVIEW, WO_ACTION mapView, "");
-  setActionFunc(USER_TYPE, UserAction::FIRSTVIEW, WO_ACTION firstPersonView, "");
-  setActionFunc(USER_TYPE, UserAction::THIRDVIEWFAR, WO_ACTION thirdPersonViewFar, "");
-  setActionFunc(USER_TYPE, UserAction::TPVIEWROTL, WO_ACTION thirdPersonView_RotL, "");
-  setActionFunc(USER_TYPE, UserAction::TPVIEWROTR, WO_ACTION thirdPersonView_RotR, "");
-  setActionFunc(USER_TYPE, UserAction::TPVIEWROTU, WO_ACTION thirdPersonView_RotU, "");
-  setActionFunc(USER_TYPE, UserAction::TPVIEWROTD, WO_ACTION thirdPersonView_RotD, "");
-  setActionFunc(USER_TYPE, UserAction::TPVIEWROTN, WO_ACTION thirdPersonView_Near, "");
-  setActionFunc(USER_TYPE, UserAction::TPVIEWROTF, WO_ACTION thirdPersonView_Far, "");
-  setActionFunc(USER_TYPE, UserAction::SETROLL, WO_ACTION setRoll, "");
-  setActionFunc(USER_TYPE, UserAction::SETPITCH, WO_ACTION setPitch, "");
-  setActionFunc(USER_TYPE, UserAction::PITCHMORE, WO_ACTION increasePitch, "");
-  setActionFunc(USER_TYPE, UserAction::PITCHLESS, WO_ACTION decreasePitch, "");
-  setActionFunc(USER_TYPE, UserAction::ROLLMORE, WO_ACTION increaseRoll, "");
-  setActionFunc(USER_TYPE, UserAction::ROLLLESS, WO_ACTION decreaseRoll, "");
+  setActionFunc(USER_TYPE, UserAction::UA_BULLET, O_ACTION createBullet, "");
+  setActionFunc(USER_TYPE, UserAction::UA_DART, O_ACTION createDart, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FOVYDEF, O_ACTION defaultZoom, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FOVYLESS, O_ACTION increaseZoom, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FOVYMORE, O_ACTION decreaseZoom, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FOVYSET, O_ACTION setZoom, "");
+  setActionFunc(USER_TYPE, UserAction::UA_LSPEEDDEF, O_ACTION defaultLinearSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_LSPEEDLESS, O_ACTION decreaseLinearSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_LSPEEDMORE, O_ACTION increaseLinearSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ASPEEDDEF, O_ACTION defaultAngularSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ASPEEDLESS, O_ACTION decreaseAngularSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ASPEEDMORE, O_ACTION increaseAngularSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PAUSE, O_ACTION pause, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PAUSEON, O_ACTION pauseOn, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PAUSEOFF, O_ACTION pauseOff, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SETLSPEED, O_ACTION setLspeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SETASPEED, O_ACTION setAspeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SWITCHVIEW, O_ACTION switchView, "");
+  setActionFunc(USER_TYPE, UserAction::UA_MAPVIEW, O_ACTION mapView, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FIRSTVIEW, O_ACTION firstPersonView, "");
+  setActionFunc(USER_TYPE, UserAction::UA_THIRDVIEWFAR, O_ACTION thirdPersonViewFar, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTL, O_ACTION thirdPersonView_RotL, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTR, O_ACTION thirdPersonView_RotR, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTU, O_ACTION thirdPersonView_RotU, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTD, O_ACTION thirdPersonView_RotD, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTN, O_ACTION thirdPersonView_Near, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTF, O_ACTION thirdPersonView_Far, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SETROLL, O_ACTION setRoll, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SETPITCH, O_ACTION setPitch, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PITCHMORE, O_ACTION increasePitch, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PITCHLESS, O_ACTION decreasePitch, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ROLLMORE, O_ACTION increaseRoll, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ROLLLESS, O_ACTION decreaseRoll, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FLYAWAY, O_ACTION flyaway, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TOLAND, O_ACTION toland, "");
 }

@@ -64,7 +64,7 @@ void Pitch::doAction()
   gettimeofday(&t, NULL);
   GLfloat val[1];
   val[0] = angle;
-  localuser->specialAction(UserAction::SETPITCH, (void *)val, t.tv_sec, t.tv_usec);
+  localuser->specialAction(UserAction::UA_SETPITCH, (void *)val, t.tv_sec, t.tv_usec);
 }
 
 

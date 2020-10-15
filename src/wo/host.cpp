@@ -110,7 +110,7 @@ void Host::funcs()
   putPropertyFunc(HOST_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(HOST_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(HOST_TYPE, 0, WO_ACTION connect, "Connect");
-  setActionFunc(HOST_TYPE, 1, WO_ACTION disconnect, "Disconnect");
-  setActionFunc(HOST_TYPE, 2, WO_ACTION moveObject, "Move");
+  setActionFunc(HOST_TYPE, 0, O_ACTION connect, "Connect");
+  setActionFunc(HOST_TYPE, 1, O_ACTION disconnect, "Disconnect");
+  setActionFunc(HOST_TYPE, 2, O_ACTION moveObject, "Move");
 }

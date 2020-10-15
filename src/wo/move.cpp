@@ -194,10 +194,10 @@ void User::changePositionOneDir(int move_type, float lasting)
          pos.z -= lasting * lspeed;
          break;
        case KEY_TL:  // tilt left
-         pos.ax = pos.ax + lasting * aspeed;
+         pos.ax += lasting * aspeed;
          break;
        case KEY_TR:  // tilt right
-         pos.ax = pos.ax - lasting * aspeed;
+         pos.ax -= lasting * aspeed;
          break;
     }
   }

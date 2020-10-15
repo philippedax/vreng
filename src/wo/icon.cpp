@@ -585,17 +585,17 @@ void Icon::funcs()
   putPropertyFunc(ICON_TYPE, PROPTEX, WO_PAYLOAD put_tex);
   putPropertyFunc(ICON_TYPE, PROPGNAME, WO_PAYLOAD put_gname);
 
-  setActionFunc(ICON_TYPE, OPEN, WO_ACTION open, "Open");
-  setActionFunc(ICON_TYPE, SAVE, WO_ACTION save, "Save");
-  setActionFunc(ICON_TYPE, PIN, WO_ACTION pin, "Pin");
-  setActionFunc(ICON_TYPE, LEAVE, WO_ACTION leave, "Leave");
-  setActionFunc(ICON_TYPE, CARRY, WO_ACTION carry, "Carry");
-  setActionFunc(ICON_TYPE, KILL, WO_ACTION destroy, "Destroy");
-  setActionFunc(ICON_TYPE, PUSH, WO_ACTION push, "Push");
-  setActionFunc(ICON_TYPE, PULL, WO_ACTION pull, "Pull");
-  setActionFunc(ICON_TYPE, DROP, WO_ACTION drop, "Drop");
-  setActionFunc(ICON_TYPE, TURN, WO_ACTION turn, "Turn");
-  setActionFunc(ICON_TYPE, MOVE, WO_ACTION moveObject, "Move");
-  setActionFunc(ICON_TYPE, CREATE, WO_ACTION create, "");
-  setActionFunc(ICON_TYPE, STICK, WO_ACTION stick, "");
+  setActionFunc(ICON_TYPE, OPEN, O_ACTION open, "Open");
+  setActionFunc(ICON_TYPE, SAVE, O_ACTION save, "Save");
+  setActionFunc(ICON_TYPE, PIN, O_ACTION pin, "Pin");
+  setActionFunc(ICON_TYPE, LEAVE, O_ACTION leave, "Leave");
+  setActionFunc(ICON_TYPE, CARRY, O_ACTION carry, "Carry");
+  setActionFunc(ICON_TYPE, KILL, O_ACTION destroy, "Destroy");
+  setActionFunc(ICON_TYPE, PUSH, O_ACTION push, "Push");
+  setActionFunc(ICON_TYPE, PULL, O_ACTION pull, "Pull");
+  setActionFunc(ICON_TYPE, DROP, O_ACTION drop, "Drop");
+  setActionFunc(ICON_TYPE, TURN, O_ACTION turn, "Turn");
+  setActionFunc(ICON_TYPE, MOVE, O_ACTION moveObject, "Move");
+  setActionFunc(ICON_TYPE, CREATE, O_ACTION create, "");
+  setActionFunc(ICON_TYPE, STICK, O_ACTION stick, "");
 }

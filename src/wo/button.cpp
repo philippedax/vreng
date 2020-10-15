@@ -148,5 +148,5 @@ void Button::funcs()
   getPropertyFunc(BUTTON_TYPE, PROPSTATE, WO_PAYLOAD get_bstate);
   putPropertyFunc(BUTTON_TYPE, PROPSTATE, WO_PAYLOAD put_bstate);
 
-  setActionFunc(BUTTON_TYPE, 0, WO_ACTION commut, "Push");
+  setActionFunc(BUTTON_TYPE, 0, O_ACTION commut, "Push");
 }

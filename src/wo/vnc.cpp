@@ -453,9 +453,9 @@ void Vnc::leaveFocus(Vnc *vnc, void *d, time_t s, time_t u)
 
 void Vnc::funcs()
 {
-  setActionFunc(VNC_TYPE, 0, WO_ACTION takeFocus,  "Focus");
-  setActionFunc(VNC_TYPE, 1, WO_ACTION leaveFocus, "Navigate");
-  setActionFunc(VNC_TYPE, 2, WO_ACTION disconnectServer, "Disconnect");
-  setActionFunc(VNC_TYPE, 3, WO_ACTION reconnectServer, "Reconnect");
-  setActionFunc(VNC_TYPE, 4, WO_ACTION gotoFront, "Approach");
+  setActionFunc(VNC_TYPE, 0, O_ACTION takeFocus,  "Focus");
+  setActionFunc(VNC_TYPE, 1, O_ACTION leaveFocus, "Navigate");
+  setActionFunc(VNC_TYPE, 2, O_ACTION disconnectServer, "Disconnect");
+  setActionFunc(VNC_TYPE, 3, O_ACTION reconnectServer, "Reconnect");
+  setActionFunc(VNC_TYPE, 4, O_ACTION gotoFront, "Approach");
 }

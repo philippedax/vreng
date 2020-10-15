@@ -91,5 +91,5 @@ void Cauldron::create_cb(Cauldron *cauldron, void *data, time_t sec, time_t usec
 
 void Cauldron::funcs()
 {
-  setActionFunc(CAULDRON_TYPE, 0, WO_ACTION create_cb, "New ball");
+  setActionFunc(CAULDRON_TYPE, 0, O_ACTION create_cb, "New ball");
 }

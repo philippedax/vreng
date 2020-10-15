@@ -108,8 +108,8 @@ void Doc::funcs()
   putPropertyFunc(DOC_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(DOC_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(DOC_TYPE, 0, WO_ACTION view_cb, "View");
-  setActionFunc(DOC_TYPE, 1, WO_ACTION print_cb, "Print");
-  setActionFunc(DOC_TYPE, 2, WO_ACTION cancel_cb, "Cancel");
-  setActionFunc(DOC_TYPE, 3, WO_ACTION moveObject, "Move");
+  setActionFunc(DOC_TYPE, 0, O_ACTION view_cb, "View");
+  setActionFunc(DOC_TYPE, 1, O_ACTION print_cb, "Print");
+  setActionFunc(DOC_TYPE, 2, O_ACTION cancel_cb, "Cancel");
+  setActionFunc(DOC_TYPE, 3, O_ACTION moveObject, "Move");
 }

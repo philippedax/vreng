@@ -381,8 +381,8 @@ void Guide::quit()
 
 void Guide::funcs()
 {
-  setActionFunc(GUIDE_TYPE, 0, WO_ACTION gotoFront, "Approach");
-  setActionFunc(GUIDE_TYPE, 1, WO_ACTION showhide, "Show/Hide");
-  setActionFunc(GUIDE_TYPE, 2, WO_ACTION pausecontinue, "Pause/Continue");
-  setActionFunc(GUIDE_TYPE, 3, WO_ACTION reset, "Reset");
+  setActionFunc(GUIDE_TYPE, 0, O_ACTION gotoFront, "Approach");
+  setActionFunc(GUIDE_TYPE, 1, O_ACTION showhide, "Show/Hide");
+  setActionFunc(GUIDE_TYPE, 2, O_ACTION pausecontinue, "Pause/Continue");
+  setActionFunc(GUIDE_TYPE, 3, O_ACTION reset, "Reset");
 }

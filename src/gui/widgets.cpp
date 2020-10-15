@@ -661,10 +661,10 @@ static long convertKey(long keycode, int keychar, int& vrkey)
   else if (keycode == UKey::Home)     { keymask = 1<<8;  vrkey = KEY_HZ; }  // stand up
   else if (keycode == UKey::End)      { keymask = 1<<13; vrkey = KEY_VI; }  // accelerator
   else if (keycode == UKey::BackSpace) {
-    Widgets::callAction(UserAction::ASPEEDLESS); return 0; // decrease aspeed
+    Widgets::callAction(UserAction::UA_ASPEEDLESS); return 0; // decrease aspeed
   }
   else if (keycode == UKey::Tab) {
-    Widgets::callAction(UserAction::ASPEEDMORE); return 0; // increase aspeed
+    Widgets::callAction(UserAction::UA_ASPEEDMORE); return 0; // increase aspeed
   }
   else {
     switch (keychar) {
@@ -674,26 +674,28 @@ static long convertKey(long keycode, int keychar, int& vrkey)
       case 'r': keymask = 1<<10;         vrkey = KEY_TR; break;  // tilt right
       case 'u': keymask = 1<<11 | 1<<13; vrkey = KEY_JU; break;  // up translation
       case ' ': keymask = 1<<13;         vrkey = KEY_VI; break;  // accelerator
-      case '=': Widgets::callAction(UserAction::FOVYDEF);    return 0;  // original fovy
-      case '-': Widgets::callAction(UserAction::FOVYLESS);   return 0;  // decrease fovy
-      case '+': Widgets::callAction(UserAction::FOVYMORE);   return 0;  // increase fovy
-      case '.': Widgets::callAction(UserAction::LSPEEDDEF);  return 0;  // original lspeed
-      case 's': Widgets::callAction(UserAction::LSPEEDLESS); return 0;  // decrease lspeed
-      case 'f': Widgets::callAction(UserAction::LSPEEDMORE); return 0;  // increase lspeed
-      case ',': Widgets::callAction(UserAction::ASPEEDDEF);  return 0;  // original aspeed
-      case 'b': Widgets::callAction(UserAction::BULLET);     return 0;  // launche bullet
-      case 'd': Widgets::callAction(UserAction::DART);       return 0;  // launche dart
-      case 'v': Widgets::callAction(UserAction::SWITCHVIEW); return 0;  // switch view
-      case 'x': Widgets::callAction(UserAction::TPVIEWROTL); return 0;
-      case 'c': Widgets::callAction(UserAction::TPVIEWROTR); return 0;
-      case 'q': Widgets::callAction(UserAction::TPVIEWROTU); return 0;
-      case 'w': Widgets::callAction(UserAction::TPVIEWROTD); return 0;
-      case 'p': Widgets::callAction(UserAction::TPVIEWROTN); return 0;
-      case 'm': Widgets::callAction(UserAction::TPVIEWROTF); return 0;
-      case 'D': Widgets::callAction(UserAction::PITCHMORE);  return 0;  // increase pitch
-      case 'U': Widgets::callAction(UserAction::PITCHLESS);  return 0;  // decrease pitch
-      case 'R': Widgets::callAction(UserAction::ROLLMORE);   return 0;  // increase roll
-      case 'L': Widgets::callAction(UserAction::ROLLLESS);   return 0;  // decrease roll
+      case '=': Widgets::callAction(UserAction::UA_FOVYDEF);    return 0;  // original fovy
+      case '-': Widgets::callAction(UserAction::UA_FOVYLESS);   return 0;  // decrease fovy
+      case '+': Widgets::callAction(UserAction::UA_FOVYMORE);   return 0;  // increase fovy
+      case '.': Widgets::callAction(UserAction::UA_LSPEEDDEF);  return 0;  // original lspeed
+      case 's': Widgets::callAction(UserAction::UA_LSPEEDLESS); return 0;  // decrease lspeed
+      case 'f': Widgets::callAction(UserAction::UA_LSPEEDMORE); return 0;  // increase lspeed
+      case ',': Widgets::callAction(UserAction::UA_ASPEEDDEF);  return 0;  // original aspeed
+      case 'b': Widgets::callAction(UserAction::UA_BULLET);     return 0;  // launche bullet
+      case 'd': Widgets::callAction(UserAction::UA_DART);       return 0;  // launche dart
+      case 'v': Widgets::callAction(UserAction::UA_SWITCHVIEW); return 0;  // switch view
+      case 'x': Widgets::callAction(UserAction::UA_TPVIEWROTL); return 0;
+      case 'c': Widgets::callAction(UserAction::UA_TPVIEWROTR); return 0;
+      case 'q': Widgets::callAction(UserAction::UA_TPVIEWROTU); return 0;
+      case 'w': Widgets::callAction(UserAction::UA_TPVIEWROTD); return 0;
+      case 'p': Widgets::callAction(UserAction::UA_TPVIEWROTN); return 0;
+      case 'm': Widgets::callAction(UserAction::UA_TPVIEWROTF); return 0;
+      case 'D': Widgets::callAction(UserAction::UA_PITCHMORE);  return 0;  // increase pitch
+      case 'U': Widgets::callAction(UserAction::UA_PITCHLESS);  return 0;  // decrease pitch
+      case 'R': Widgets::callAction(UserAction::UA_ROLLMORE);   return 0;  // increase roll
+      case 'L': Widgets::callAction(UserAction::UA_ROLLLESS);   return 0;  // decrease roll
+      case '^': Widgets::callAction(UserAction::UA_FLYAWAY);    return 0;  // flyaway
+      case '$': Widgets::callAction(UserAction::UA_TOLAND);     return 0;  // toland
       default: return 0; break; // == 0 => undefined key
     }
   }

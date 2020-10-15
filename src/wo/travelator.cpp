@@ -106,6 +106,6 @@ void Travelator::quit()
 
 void Travelator::funcs()
 {
-  setActionFunc(TRAVELATOR_TYPE, 0, WO_ACTION gotoFront, "Approach");
-  setActionFunc(TRAVELATOR_TYPE, 1, WO_ACTION pause_cb, "Pause/Continue");
+  setActionFunc(TRAVELATOR_TYPE, 0, O_ACTION gotoFront, "Approach");
+  setActionFunc(TRAVELATOR_TYPE, 1, O_ACTION pause_cb, "Pause/Continue");
 }

@@ -44,7 +44,7 @@ private:
   float depth;
   float height;
 
-  static void myMaterial(GLenum mode, float *f, float alpha);
+  static void myMaterial(GLenum mode, float *color, float alpha);
 
   static void setMaterial(int i);
 

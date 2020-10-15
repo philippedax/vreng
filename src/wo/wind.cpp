@@ -86,7 +86,6 @@ void * Wind::getHttp(void * arg)
   wind->speed = speed;
   // BUG! the following line CRASHES vreng/ubit in the message scrollpane
   // when rendering text font by FTGL. Maybe because we are running a thread ?
-  //notice("wind: orientation=%d° (%.2frd) speed=%dkm/h", orientation, wind->orient, speed);
   pthread_exit(NULL);
   return NULL;
 }

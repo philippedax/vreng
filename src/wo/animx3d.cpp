@@ -124,9 +124,9 @@ void AnimX3d::resetFlashy(AnimX3d *animx3d, void *d, time_t s, time_t u)
 
 void AnimX3d::funcs()
 {
-  setActionFunc(ANIMX3D_TYPE, 0, WO_ACTION start, "Start");
-  setActionFunc(ANIMX3D_TYPE, 1, WO_ACTION pause, "Pause");
-  setActionFunc(ANIMX3D_TYPE, 2, WO_ACTION stop, "Stop");
-  setActionFunc(ANIMX3D_TYPE, 3, WO_ACTION setFlashy, "Flash");
-  setActionFunc(ANIMX3D_TYPE, 4, WO_ACTION resetFlashy, "Reset");
+  setActionFunc(ANIMX3D_TYPE, 0, O_ACTION start, "Start");
+  setActionFunc(ANIMX3D_TYPE, 1, O_ACTION pause, "Pause");
+  setActionFunc(ANIMX3D_TYPE, 2, O_ACTION stop, "Stop");
+  setActionFunc(ANIMX3D_TYPE, 3, O_ACTION setFlashy, "Flash");
+  setActionFunc(ANIMX3D_TYPE, 4, O_ACTION resetFlashy, "Reset");
 }

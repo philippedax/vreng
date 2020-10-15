@@ -158,7 +158,7 @@ void Accessory::drop_cb(Accessory *accessory, void *d, time_t s, time_t u)
 
 void Accessory::funcs()
 {
-  setActionFunc(ACCESSORY_TYPE, 0, WO_ACTION follow_cb, "Follow");
-  setActionFunc(ACCESSORY_TYPE, 1, WO_ACTION takeoff_cb, "Takeoff");
-  setActionFunc(ACCESSORY_TYPE, 2, WO_ACTION drop_cb, "Drop");
+  setActionFunc(ACCESSORY_TYPE, 0, O_ACTION follow_cb, "Follow");
+  setActionFunc(ACCESSORY_TYPE, 1, O_ACTION takeoff_cb, "Takeoff");
+  setActionFunc(ACCESSORY_TYPE, 2, O_ACTION drop_cb, "Drop");
 }

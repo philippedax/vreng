@@ -117,13 +117,13 @@ void Mvt::setToCarrier(class Carrier *_carrier)
 // User
 
 // Move forward, backward
-Mvt Mvt::ytrans(0 /*KEY_AV*/, KEY_AR, UserAction::SETLSPEED, MOUSE_LINEAR_ACCEL);
+Mvt Mvt::ytrans(0 /*KEY_AV*/, KEY_AR, UserAction::UA_SETLSPEED, MOUSE_LINEAR_ACCEL);
 // Turn left, right
-Mvt Mvt::zrot(0   /*KEY_GA*/, KEY_DR, UserAction::SETASPEED, MOUSE_ANGULAR_ACCEL);
+Mvt Mvt::zrot(0   /*KEY_GA*/, KEY_DR, UserAction::UA_SETASPEED, MOUSE_ANGULAR_ACCEL);
 // Move left, right
-Mvt Mvt::xtrans(0 /*KEY_SG*/, KEY_SD, UserAction::SETLSPEED, MOUSE_LINEAR_ACCEL);
+Mvt Mvt::xtrans(0 /*KEY_SG*/, KEY_SD, UserAction::UA_SETLSPEED, MOUSE_LINEAR_ACCEL);
 // Move down, up
-Mvt Mvt::ztrans(0 /*KEY_JU*/, KEY_JD, UserAction::SETLSPEED, MOUSE_LINEAR_ACCEL);
+Mvt Mvt::ztrans(0 /*KEY_JU*/, KEY_JD, UserAction::UA_SETLSPEED, MOUSE_LINEAR_ACCEL);
 
 // Object
 

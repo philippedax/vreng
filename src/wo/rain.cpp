@@ -141,7 +141,7 @@ void Rain::sound_cb(Cloud *cloud, void *d, time_t s, time_t u)
 void Rain::funcs()
 {
   // called by cloud
-  setActionFunc(RAIN_TYPE, START, WO_ACTION start_cb, "");
-  setActionFunc(RAIN_TYPE, STOP, WO_ACTION stop_cb, "");
-  setActionFunc(RAIN_TYPE, SOUND, WO_ACTION sound_cb, "");
+  setActionFunc(RAIN_TYPE, START, O_ACTION start_cb, "");
+  setActionFunc(RAIN_TYPE, STOP, O_ACTION stop_cb, "");
+  setActionFunc(RAIN_TYPE, SOUND, O_ACTION sound_cb, "");
 }

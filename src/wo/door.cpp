@@ -200,9 +200,9 @@ void Door::funcs()
   putPropertyFunc(DOOR_TYPE, PROPAZ, WO_PAYLOAD put_az);
   putPropertyFunc(DOOR_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(DOOR_TYPE, 0, WO_ACTION open_cb, "Open");
-  setActionFunc(DOOR_TYPE, 1, WO_ACTION close_cb, "Close");
-  setActionFunc(DOOR_TYPE, 2, WO_ACTION unlock_cb, "Unlock");
-  setActionFunc(DOOR_TYPE, 3, WO_ACTION lock_cb, "Lock");
-  setActionFunc(DOOR_TYPE, 4, WO_ACTION gotoFront, "Approach");
+  setActionFunc(DOOR_TYPE, 0, O_ACTION open_cb, "Open");
+  setActionFunc(DOOR_TYPE, 1, O_ACTION close_cb, "Close");
+  setActionFunc(DOOR_TYPE, 2, O_ACTION unlock_cb, "Unlock");
+  setActionFunc(DOOR_TYPE, 3, O_ACTION lock_cb, "Lock");
+  setActionFunc(DOOR_TYPE, 4, O_ACTION gotoFront, "Approach");
 }

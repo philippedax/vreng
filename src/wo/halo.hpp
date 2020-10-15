@@ -37,6 +37,7 @@ protected:
   char strcolor[16];
   GLfloat color[4];
 
+/* actions */
 public:
   enum {
     WEAR,

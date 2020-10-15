@@ -237,5 +237,5 @@ void Sheet::funcs()
   putPropertyFunc(SHEET_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
   // invisible method, called by Book
-  setActionFunc(SHEET_TYPE, CREATE, WO_ACTION sheetCreate, "");
+  setActionFunc(SHEET_TYPE, CREATE, O_ACTION sheetCreate, "");
 }

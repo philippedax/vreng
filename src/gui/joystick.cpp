@@ -29,6 +29,7 @@
  *  WWW: http://www.enst.fr/~elc/ubit
  */
 #include <cmath>
+
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "joystick.hpp"
@@ -57,7 +58,7 @@ Joystick::Joystick(Widgets* _gw, int _radius)
               + uitem(UOn::deselect / g.theme.joystickColor
                       + UOn::select / g.theme.joystickArmColor
                       + "Lock" + utip("Set gravity on/off")
-                      + ucall(int(UserAction::PAUSE), Widgets::callAction)
+                      + ucall(int(UserAction::UA_PAUSE), Widgets::callAction)
                       ).setSelectable()
               + uitem(g.theme.JoystickUpDown
                       + utip("Drag on the Y axis to move verticaly")

@@ -217,7 +217,7 @@ void Gui::updateUser(User *user)
 
 void Gui::pauseUser()
 {
-  widgets->callAction(UserAction::PAUSE);
+  widgets->callAction(UserAction::UA_PAUSE);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

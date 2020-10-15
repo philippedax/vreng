@@ -67,6 +67,6 @@ void Ftp::quit()
 
 void Ftp::funcs()
 {
-  setActionFunc(FTP_TYPE, 0, WO_ACTION get, "Download");
-  setActionFunc(FTP_TYPE, 1, WO_ACTION moveObject, "Move");
+  setActionFunc(FTP_TYPE, 0, O_ACTION get, "Download");
+  setActionFunc(FTP_TYPE, 1, O_ACTION moveObject, "Move");
 }

@@ -125,5 +125,5 @@ void Bullet::funcs()
   putPropertyFunc(BULLET_TYPE, PROPXY, WO_PAYLOAD put_xy);
   putPropertyFunc(BULLET_TYPE, PROPHIT, WO_PAYLOAD User::bulletPutHit); // user
 
-  setActionFunc(BULLET_TYPE, CREATE, WO_ACTION createdByUser, "");
+  setActionFunc(BULLET_TYPE, CREATE, O_ACTION createdByUser, "");
 }

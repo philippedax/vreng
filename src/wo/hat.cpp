@@ -252,9 +252,9 @@ void Hat::funcs()
   putPropertyFunc(HAT_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(HAT_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(HAT_TYPE, WEAR, WO_ACTION wear_cb, "Wear");
-  setActionFunc(HAT_TYPE, TAKEOFF, WO_ACTION takeoff_cb, "Takeoff");
+  setActionFunc(HAT_TYPE, WEAR, O_ACTION wear_cb, "Wear");
+  setActionFunc(HAT_TYPE, TAKEOFF, O_ACTION takeoff_cb, "Takeoff");
 
-  setActionFunc(HAT_TYPE, RECREATE, WO_ACTION recreate_cb, "");
-  setActionFunc(HAT_TYPE, DESTROY, WO_ACTION destroy_cb, "");
+  setActionFunc(HAT_TYPE, RECREATE, O_ACTION recreate_cb, "");
+  setActionFunc(HAT_TYPE, DESTROY, O_ACTION destroy_cb, "");
 }

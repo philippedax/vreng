@@ -376,6 +376,6 @@ void Step::destroy_cb(Step *step, void *d, time_t s, time_t u)
 
 void Step::funcs()
 {
-  setActionFunc(STEP_TYPE, 0, WO_ACTION gotoFront, "Approach");
-  setActionFunc(STEP_TYPE, 1, WO_ACTION pause_cb, "Pause/Continue");
+  setActionFunc(STEP_TYPE, 0, O_ACTION gotoFront, "Approach");
+  setActionFunc(STEP_TYPE, 1, O_ACTION pause_cb, "Pause/Continue");
 }

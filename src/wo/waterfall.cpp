@@ -76,5 +76,5 @@ void Waterfall::pause(Waterfall *waterfall, void *d, time_t s, time_t u)
 
 void Waterfall::funcs()
 {
-  setActionFunc(WATERFALL_TYPE, 0, WO_ACTION pause, "Switch");
+  setActionFunc(WATERFALL_TYPE, 0, O_ACTION pause, "Switch");
 }

@@ -16,6 +16,7 @@ The rules for this file:
 == 9.0
 -- 9.0.1
         - fix some memory leaks
+	- rename WO_ACTION to O_ACTION
 	- move universe.*pp into src/vreng
 	- move world.*pp into src/vreng
 	- move xml.*pp into src/vreng

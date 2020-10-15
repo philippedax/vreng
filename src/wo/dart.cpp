@@ -127,5 +127,5 @@ void Dart::funcs()
   putPropertyFunc(DART_TYPE, PROPXY, WO_PAYLOAD put_xy);
   putPropertyFunc(DART_TYPE, PROPHIT, WO_PAYLOAD User::dartPutHit);
 
-  setActionFunc(DART_TYPE, CREATE, WO_ACTION createdByUser, "");
+  setActionFunc(DART_TYPE, CREATE, O_ACTION createdByUser, "");
 }

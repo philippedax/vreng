@@ -525,8 +525,8 @@ void Wings::funcs()
   putPropertyFunc(WINGS_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(WINGS_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(WINGS_TYPE, WEAR, WO_ACTION wear_cb, "Wear");
-  setActionFunc(WINGS_TYPE, TAKEOFF, WO_ACTION takeoff_cb, "Takeoff");
+  setActionFunc(WINGS_TYPE, WEAR, O_ACTION wear_cb, "Wear");
+  setActionFunc(WINGS_TYPE, TAKEOFF, O_ACTION takeoff_cb, "Takeoff");
 
-  setActionFunc(WINGS_TYPE, RECREATE, WO_ACTION recreate_cb, "");
+  setActionFunc(WINGS_TYPE, RECREATE, O_ACTION recreate_cb, "");
 }

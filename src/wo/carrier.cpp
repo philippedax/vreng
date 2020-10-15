@@ -168,6 +168,6 @@ void Carrier::setAspeed(Carrier *pc, void *d, time_t s, time_t u)
 
 void Carrier::funcs()
 {
-  setActionFunc(CARRIER_TYPE, Carrier::SETLSPEED, WO_ACTION setLspeed, "");
-  setActionFunc(CARRIER_TYPE, Carrier::SETASPEED, WO_ACTION setAspeed, "");
+  setActionFunc(CARRIER_TYPE, Carrier::SETLSPEED, O_ACTION setLspeed, "");
+  setActionFunc(CARRIER_TYPE, Carrier::SETASPEED, O_ACTION setAspeed, "");
 }
