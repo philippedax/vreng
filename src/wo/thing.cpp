@@ -63,7 +63,7 @@ void Thing::behavior()
   setRenderPrior(RENDER_HIGH);
 
   initializeMobileObject(1);
-  createPermanentNetObj(PROPS, oid);
+  createPermanentNetObject(PROPS, oid);
 }
 
 /** Sets an unique name */
@@ -243,9 +243,9 @@ void Thing::funcs()
   putPropertyFunc(THING_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(THING_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(THING_TYPE, APPROACH, O_ACTION gotoFront, "Approach");
-  setActionFunc(THING_TYPE, MOVE, O_ACTION moveObject, "Move");
-  setActionFunc(THING_TYPE, BASKET, O_ACTION dropIntoBasket, "Basket");
-  setActionFunc(THING_TYPE, DESTROY, O_ACTION destroy, "Destroy");
-  setActionFunc(THING_TYPE, RECREATE, O_ACTION recreate, "");
+  setActionFunc(THING_TYPE, APPROACH, WO_ACTION gotoFront, "Approach");
+  setActionFunc(THING_TYPE, MOVE, WO_ACTION moveObject, "Move");
+  setActionFunc(THING_TYPE, BASKET, WO_ACTION dropIntoBasket, "Basket");
+  setActionFunc(THING_TYPE, DESTROY, WO_ACTION destroy, "Destroy");
+  setActionFunc(THING_TYPE, RECREATE, WO_ACTION recreate, "");
 }

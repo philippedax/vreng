@@ -24,7 +24,7 @@
 #include "user.hpp"	// localuser
 #include "gui.hpp"	// removeUser
 #include "channel.hpp"	// cnt_fd
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 
 #include <list>
 using namespace std;
@@ -113,7 +113,7 @@ void Aoi::aoiEnter()
 
   /* initializes local user's avatar */
   localuser->initializeMobileObject(0);
-  localuser->noh->create(NetObj::NET_VOLATILE);
+  localuser->noh->create(NetObject::NET_VOLATILE);
 
   /* publishes to other VREng processes we are there (no latency) */
   localuser->noh->declareObjCreation();

@@ -29,19 +29,19 @@
  * (src_id + port_id + obj_id)
  */
 class Noid {
- friend class NetObj;
+ friend class NetObject;
 
  public:
   uint32_t src_id;	///< IPaddr src
   uint16_t port_id;	///< port
   uint16_t obj_id;	///< object id -- network format
 
-  class NetObj * getNetObj();
+  class NetObject * getNetObject();
   /**<
-   * Gets a NetObj by name,
+   * Gets a NetObject by name,
    * returns NULL if netobject doesn't exist.
    * Header vers noid se fait en lisant directement dans la struct
-   * Naming is done by create or createNetObj.
+   * Naming is done by create or createNetObjectFromString.
    */
 
   char * getNetNameById();

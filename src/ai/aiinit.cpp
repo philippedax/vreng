@@ -41,8 +41,8 @@ void initOcaml(char **argv)
 /*************** fonctions de transformations de requetes *********************/
 value recherche_Typegen(value ttype, value actiondemande)
 {
-  const char *typechercher = String_val(ttype);
-  const char *action = String_val(actiondemande);
+  char *typechercher = String_val(ttype);
+  char *action = String_val(actiondemande);
 
   int oclick = 0;
   float oclicked[7];
@@ -103,7 +103,7 @@ value recherche_Typegen(value ttype, value actiondemande)
 value recherche_Type(value ttype)
 {
   value ret;
-  const char *typechercher = String_val(ttype);
+  char *typechercher = String_val(ttype);
   int oclick = 0;
   float oclicked[7];
 
@@ -142,11 +142,11 @@ value recherche_Type(value ttype)
       g.gui.initClicked();
 
       /* enlever les highlights des objets de meme type */
-      g.render.setAllTypeFlashy((char *) typechercher, false);
+      g.render.setAllTypeFlashy(typechercher, false);
     }
     else {
       /* mettre en highlight les objets de meme type */
-      g.render.setAllTypeFlashy((char *) typechercher, true);
+      g.render.setAllTypeFlashy(typechercher, true);
     }
   }
   else {
@@ -213,8 +213,8 @@ value deplacement_to_Objet(value px, value py, value pz, value ori, value depl)
 
 value recherche_Func(value mot, value act)
 {
-  const char *val = String_val(mot);
-  const char *actiontype = String_val(act);
+  char *val = String_val(mot);
+  char *actiontype = String_val(act);
   int *listNumType = Vicinity::getTypeFromAction(val);
   int nbtype = listNumType[0];
 
@@ -296,20 +296,20 @@ value deplacement_to_Proximite(value mot, value pos)
 /** fonctions d'affichage **/
 void msg_info(value mot)
 {
-  const char *val = String_val(mot);
+  char *val = String_val(mot);
   warning("msgInfo::%s", val);
 }
 
 void msg_debug(value mot)
 {
-  const char *val = String_val(mot);
+  char *val = String_val(mot);
   error("msg_debug::%s", val);
 }
 
 void viewed_objects(value mot)
 {
-  const char *val = String_val(mot);
-  g.render.analyseUserScene((char *) val);
+  char *val = String_val(mot);
+  g.render.analyseUserScene(val);
 }
 
 

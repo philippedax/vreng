@@ -58,7 +58,7 @@ void gotoFront(class WObject *po, void *d, time_t s, time_t u);
 void gotoBehind(class WObject *po, void *d, time_t s, time_t u);
 /** Moves the user behind the object */
 
-void gotoXYZ(float gox,float goy,float goz,float orientation);
+void gotoXYZ(float gox,float goy,float goz,float az);
 /** Move the user to the point */
 
 

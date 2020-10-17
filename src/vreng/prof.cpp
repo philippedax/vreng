@@ -77,7 +77,7 @@ void statMemory()
   fprintf(stderr, "NetObject  : n=%8d d=%8d\n", new_netobject, del_netobject);
   fprintf(stderr, "Payload    : n=%8d d=%8d\n", new_payload, del_payload);
   fprintf(stderr, "NetProperty: n=%8d d=%8d\n", new_netproperty, del_netproperty);
-  fprintf(stderr, "OList      : n=%8d d=%8d\n", new_objectlist, del_objectlist);
+  fprintf(stderr, "ObjectList : n=%8d d=%8d\n", new_objectlist, del_objectlist);
   fprintf(stderr, "HttpThread : n=%8d d=%8d\n", new_httpthread, del_httpthread);
   fprintf(stderr, "Http       : n=%8d d=%8d\n", new_http, del_http);
   //fprintf(stderr, "ImgReader  : n=%8d d=%8d\n", new_imgreader, del_imgreader);

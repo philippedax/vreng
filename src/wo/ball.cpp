@@ -25,7 +25,7 @@
 #include "cauldron.hpp"	// Cauldron
 #include "step.hpp"	// STEP_TYPE
 #include "move.hpp"	// GRAVITY
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 #include "timer.hpp"	// getRate
 
 
@@ -112,7 +112,7 @@ Ball::Ball(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(1);
-  createVolatileNetObj(PROPS);
+  createVolatileNetObject(PROPS);
 }
 
 /** Created by the cauldron or user */
@@ -136,7 +136,7 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
   enablePermanentMovement(); // gravity
 
   /* network creation */
-  createVolatileNetObj(PROPS);
+  createVolatileNetObject(PROPS);
 }
 
 /** Recreated by the world */
@@ -160,7 +160,7 @@ Ball::Ball(World *pw, void *d, time_t s, time_t u)
   enablePermanentMovement();
 
   /* network creation */
-  createVolatileNetObj(PROPS);
+  createVolatileNetObject(PROPS);
 }
 
 /** Created by the user */
@@ -181,7 +181,7 @@ Ball::Ball(WObject *user, char *form)
   initializeMobileObject(TTL);
 
   /* network creation */
-  createVolatileNetObj(PROPS);
+  createVolatileNetObject(PROPS);
 }
 
 /** Replication from the network */
@@ -194,7 +194,7 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
 {
   setType(type_id);
 
-  replicateVolatileNetObj(PROPS, _noid);
+  replicateVolatileNetObject(PROPS, _noid);
   noh->getAllProperties(pp);
   copyNoid(_noid);
 
@@ -404,14 +404,14 @@ void Ball::funcs()
   putPropertyFunc(BALL_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(BALL_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(BALL_TYPE, PUSH,     O_ACTION push_cb, "Push");
-  setActionFunc(BALL_TYPE, PULL,     O_ACTION pull_cb, "Pull");
-  setActionFunc(BALL_TYPE, SHOOT,    O_ACTION shoot_cb, "Shoot");
-  setActionFunc(BALL_TYPE, UP,       O_ACTION up_cb, "Up");
-  setActionFunc(BALL_TYPE, TAKE,     O_ACTION take_cb, "Take");
-  setActionFunc(BALL_TYPE, DROP,     O_ACTION drop_cb, "Drop");
-  setActionFunc(BALL_TYPE, TURN,     O_ACTION turn_cb, "Turn");
-  setActionFunc(BALL_TYPE, KILL,     O_ACTION destroy_cb, "Destroy");
-  setActionFunc(BALL_TYPE, CREATE,   O_ACTION create_cb, "");
-  setActionFunc(BALL_TYPE, RECREATE, O_ACTION recreate_cb, "");
+  setActionFunc(BALL_TYPE, PUSH,     WO_ACTION push_cb, "Push");
+  setActionFunc(BALL_TYPE, PULL,     WO_ACTION pull_cb, "Pull");
+  setActionFunc(BALL_TYPE, SHOOT,    WO_ACTION shoot_cb, "Shoot");
+  setActionFunc(BALL_TYPE, UP,       WO_ACTION up_cb, "Up");
+  setActionFunc(BALL_TYPE, TAKE,     WO_ACTION take_cb, "Take");
+  setActionFunc(BALL_TYPE, DROP,     WO_ACTION drop_cb, "Drop");
+  setActionFunc(BALL_TYPE, TURN,     WO_ACTION turn_cb, "Turn");
+  setActionFunc(BALL_TYPE, KILL,     WO_ACTION destroy_cb, "Destroy");
+  setActionFunc(BALL_TYPE, CREATE,   WO_ACTION create_cb, "");
+  setActionFunc(BALL_TYPE, RECREATE, WO_ACTION recreate_cb, "");
 }

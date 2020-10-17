@@ -329,7 +329,7 @@ int Ase::getObjectCount()
 
   // finds an OBJECT tag, it increases the object count.
   rewind(fp);
-  while (! feof(fp)) {
+  while (!feof(fp)) {
     fscanf(fp, "%s", line);
     if (!strcmp(line, OBJECT)) cnt++;
     else fgets(line, sizeof(line), fp);
@@ -345,7 +345,7 @@ int Ase::getMaterialCount()
 
   // finds the MATERIAL_COUNT tag, it reads the material count.
   rewind(fp);
-  while (! feof(fp)) {
+  while (!feof(fp)) {
     fscanf(fp, "%s", line);
     if (!strcmp(line, MATERIAL_COUNT)) {
       fscanf(fp, "%d", &materialCount);
@@ -365,7 +365,7 @@ void Ase::getTextureInfo(tASEMaterialInfo *pTexture, int desiredMaterial)
   // In this function we check for an MATERIAL tag, then see if it's the
   // material we want by the desiredMaterial number.  If so we start reading it in.
   rewind(fp);
-  while (! feof(fp)) {
+  while (!feof(fp)) {
     fscanf(fp, "%s", line);
     if (!strcmp(line, MATERIAL)) {
       materialCount++;
@@ -376,7 +376,7 @@ void Ase::getTextureInfo(tASEMaterialInfo *pTexture, int desiredMaterial)
   }
 
   // Go through the rest of the file until we hit the end
-  while (! feof(fp)) {
+  while (!feof(fp)) {
     fscanf(fp, "%s", line);
 
     // If we found a MATERIAL tag stop because we went to far
@@ -428,7 +428,7 @@ void Ase::moveToObject(int desiredObject)
   // pointer can read the object data from that specific object
 
   rewind(fp);
-  while(! feof(fp)) {
+  while(!feof(fp)) {
     fscanf(fp, "%s", line);
     if (!strcmp(line, OBJECT)) {
       cnt++;
@@ -460,7 +460,7 @@ void Ase::readObjectInfo(tASEObject *pObject, int desiredObject)
   // Go to the desired object to read from in the file
   moveToObject(desiredObject);
 
-  while (! feof(fp)) {
+  while (!feof(fp)) {
     fscanf(fp, "%s", line);
     if (!strcmp(line, NUM_VERTEX)) {
       fscanf(fp, "%d", &pObject->numOfVerts);

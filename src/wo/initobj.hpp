@@ -49,7 +49,7 @@ struct GeneralActionList {
   char name[ACTIONNAME_LEN];
   void (*method) (WObject *po, void *d, time_t s, time_t u);
 };
-#define O_ACTION (void (*)(WObject *po, void *d, time_t s, time_t u))
+#define WO_ACTION (void (*)(WObject *po, void *d, time_t s, time_t u))
 
 
 /* external functions */

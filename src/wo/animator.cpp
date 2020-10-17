@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "animator.hpp"
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 #include "payload.hpp"	// Payload
 
 
@@ -68,7 +68,7 @@ Animator::Animator(char *l)
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(RENDER_NORMAL);
   initializeMobileObject(0);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 
   if (state == ACTIVE) {
     setRenderPrior(RENDER_HIGH);
@@ -176,7 +176,7 @@ void Animator::funcs()
   putPropertyFunc(ANIMATOR_TYPE, PROPNBFRAMES, WO_PAYLOAD put_nb_frames);
   putPropertyFunc(ANIMATOR_TYPE, PROPTTL, WO_PAYLOAD put_ttl);
 
-  setActionFunc(ANIMATOR_TYPE, 0, O_ACTION start, "Start");
-  setActionFunc(ANIMATOR_TYPE, 1, O_ACTION stop, "Stop");
-  setActionFunc(ANIMATOR_TYPE, 2, O_ACTION moveObject, "Move");
+  setActionFunc(ANIMATOR_TYPE, 0, WO_ACTION start, "Start");
+  setActionFunc(ANIMATOR_TYPE, 1, WO_ACTION stop, "Stop");
+  setActionFunc(ANIMATOR_TYPE, 2, WO_ACTION moveObject, "Move");
 }

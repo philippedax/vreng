@@ -22,7 +22,7 @@
 #include "wobject.hpp"
 #include "world.hpp"	// World::current
 #include "user.hpp"	// localuser
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 #include "mysql.hpp"	// VRSql
 #include "solid.hpp"	// Solid
 #include "olist.hpp"	// clearIsPointedFlag
@@ -107,7 +107,7 @@ WObject::~WObject()
   if (! isBehavior(COLLIDE_NEVER)) deleteFromGrid();
   deleteSolids(); // delete attached 3D solids
 
-  // delete NetObj
+  // delete NetObject
   if (noh && (mode == MOBILE)) {
     if (!isPermanent()) noh->declareDeletion();
     delete noh;
@@ -545,10 +545,10 @@ uint16_t WObject::getObjId() const
 /* Assigns a unique identifier to each Vreng object */
 void WObject::setWObjectId()
 {
-  noid.src_id = NetObj::getMySsrcId();	// Application's identifier
-  noid.port_id = NetObj::getMyPortId();	// Comm port identifier
-  NetObj::setMyObjId(NetObj::getMyObjId() + 1);	// myObjId++
-  noid.obj_id = htons(NetObj::getMyObjId()); // Application wide unique number
+  noid.src_id = NetObject::getMySsrcId();	// Application's identifier
+  noid.port_id = NetObject::getMyPortId();	// Comm port identifier
+  NetObject::setMyObjId(NetObject::getMyObjId() + 1);	// myObjId++
+  noid.obj_id = htons(NetObject::getMyObjId()); // Application wide unique number
 }
 
 /* Copies Noid in WObjectId */
@@ -559,22 +559,22 @@ void WObject::copyNoid(Noid _noid)
   noid.obj_id = _noid.obj_id;
 }
 
-/* Creates local permanent NetObj */
-void WObject::createPermanentNetObj(uint8_t props, uint16_t oid)
+/* Creates local permanent NetObject */
+void WObject::createPermanentNetObject(uint8_t props, uint16_t oid)
 {
-  noh = new NetObj(this, props, oid);
+  noh = new NetObject(this, props, oid);
 }
 
-/* Creates local volatile NetObj */
-void WObject::createVolatileNetObj(uint8_t props)
+/* Creates local volatile NetObject */
+void WObject::createVolatileNetObject(uint8_t props)
 {
-  noh = new NetObj(this, props);
+  noh = new NetObject(this, props);
 }
 
-/* Replicates distant volatile NetObj */
-void WObject::replicateVolatileNetObj(uint8_t props, Noid _noid)
+/* Replicates distant volatile NetObject */
+void WObject::replicateVolatileNetObject(uint8_t props, Noid _noid)
 {
-  noh = new NetObj(this, props, _noid);
+  noh = new NetObject(this, props, _noid);
 }
 
 //
@@ -1228,7 +1228,7 @@ void WObject::deleteReplica()
     for (solidList::iterator it = _solids.begin(); it != _solids.end(); it++) delete (*it);
     _solids.erase(_solids.begin(), _solids.end());
     if (noh) delete noh;
-    noh = NULL; // delete NetObj
+    noh = NULL; // delete NetObject
   }
   else warning("%s disapeared, but he is back!", getInstance());
 }

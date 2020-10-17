@@ -33,7 +33,6 @@
 
 #include "vreng.hpp"
 #include "widgets.hpp"
-#include "gui.hpp"
 #include "theme.hpp"
 #include "panels.hpp"
 #include "palette.hpp"
@@ -44,14 +43,14 @@
 #include "capture.hpp"
 #include "theme.hpp"
 #include "user.hpp"		// UserAction
+#include "hud.hpp"		// toggle
 #include "axis.hpp"		// toggle
 #include "grid.hpp"		// toggle
 #include "world.hpp"
 #include "channel.hpp"
 #include "message.hpp"
 
-static void toggleHudCB(Widgets*) { Hud *h = new Hud(); h->toggleHud(); }
-//static void toggleHudCB(Widgets*) { Widgets *w = new Widgets(null); w->toggleHud(); }
+static void toggleHudCB(Widgets*) { Hud::hud()->toggle(); }
 
 static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 
@@ -150,14 +149,14 @@ manipulator(_gw->navig.createManipulator())
   Palette& navig_palette = *new Palette(g.theme.paletteStyle
                + navig_box);
   navig_palette.setPos(5|UPos::LEFT, 5|UPos::BOTTOM);
-  navig_palette.setTitle(UColor::yellow + UFont::bold + "Joystick");
+  navig_palette.setTitle(UColor::yellow + UFont::bold + "Navigator");
   scene.add(navig_palette);
 
   Palette& messages_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
                + gw.messages.createMessagePanel(true));
   messages_palette.setPos(50|UPERCENT_CTR, 5|UPos::BOTTOM);
-  messages_palette.setTitle(UColor::yellow + UFont::bold + "Infos & Messages");
+  messages_palette.setTitle(UColor::yellow + UFont::bold + "Messages");
   scene.add(messages_palette);
 
   Palette& avatars_palette = *new Palette(g.theme.paletteStyle

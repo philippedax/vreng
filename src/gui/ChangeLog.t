@@ -15,7 +15,12 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.0\n\
+-- 9.0.2\n\
+	- restablished gui/hud*pp\n\
+	(2020/10/17, Philippe Dax)\n\
+\n\
 -- 9.0.1\n\
+	- added user actions: flyaway and toland\n\
         - fix some memory leaks\n\
 	- rename WO_ACTION to O_ACTION\n\
 	- move universe.*pp into src/vreng\n\
@@ -27,7 +32,7 @@ The rules for this file:\n\
 	- move vncdialog.hpp into widgets.hpp\n\
 	- move hud.cpp into widgets.cpp\n\
 	- move hud.hpp into widgets.hpp\n\
-	(2020/10/13, Philippe Dax)\n\
+	(2020/10/15, Philippe Dax)\n\
 \n\
 -- 9.0.0\n\
         - fix connection to localhost in pref.cpp http.cpp universe.cpp\n\

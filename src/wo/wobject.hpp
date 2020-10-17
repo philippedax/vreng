@@ -132,7 +132,7 @@ protected:
   bool objectbar;		///< true if object bar is active.
 
 public:
-  class NetObj *noh;		///< reserved field for network.
+  class NetObject *noh;		///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
   uint8_t type;			///< object type.
   uint8_t mode;			///< object world mode.
@@ -193,7 +193,7 @@ public:
   /**< Destructor. */
 
   virtual const OClass* getOClass()	{return NULL;};
-  /**< Abstract class. */
+  /**< Abstrct class. */
 
   virtual uint8_t typeId()		{return getOClass()->type_id;};
   virtual const char* typeName()	{return getOClass()->type_name;};
@@ -375,7 +375,7 @@ public:
    */
 
   void copyNoid(class Noid _noid);
-  /**< Copies the NetObj in WObjectId. */
+  /**< Copies the NetObjectid in WObjectId. */
 
   void setSrcId(uint32_t src_id);
   /**< Sets the SrcId. */
@@ -588,14 +588,14 @@ public:
   virtual void initializeStillObject();
   /**< Initializes still object. */
 
-  void createPermanentNetObj(uint8_t props, uint16_t oid);
-  /**< Creates local permanent NetObj. */
+  void createPermanentNetObject(uint8_t props, uint16_t oid);
+  /**< Creates local permanent NetObject. */
 
-  void createVolatileNetObj(uint8_t props);
-  /**< Creates local volatile NetObj. */
+  void createVolatileNetObject(uint8_t props);
+  /**< Creates local volatile NetObject. */
 
-  void replicateVolatileNetObj(uint8_t props, class Noid _noid);
-  /**< Replicate distant volatile NetObj. */
+  void replicateVolatileNetObject(uint8_t props, class Noid _noid);
+  /**< Replicate distant volatile NetObject. */
 
   virtual void enableBehavior(uint32_t flag);
   /**< Enables behavior. */

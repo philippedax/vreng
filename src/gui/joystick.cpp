@@ -29,7 +29,6 @@
  *  WWW: http://www.enst.fr/~elc/ubit
  */
 #include <cmath>
-
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "joystick.hpp"

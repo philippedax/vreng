@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "session.hpp"
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 #include "vrep.hpp"	// RTP_VREP_TYPE
 #include "channel.hpp"	// Channel
 #include "source.hpp"	// Source
@@ -214,7 +214,7 @@ Session::~Session()
   del_session++;
   trace(DBG_RTP, "~Session");
   freeMySdes();
-  deleteSourceBySsrc(NetObj::getMySsrcId());
+  deleteSourceBySsrc(NetObject::getMySsrcId());
 }
 
 /**
@@ -323,7 +323,7 @@ int Session::buildSR(rtcp_common_t *prtcp_hdr, uint8_t *pkt)
 
   buildRTCPcommon(prtcp_hdr, RTCP_SR);
   prtcp_hdr->count = 0;	// only one SSRC
-  sr.ssrc = htonl(NetObj::getMySsrcId());
+  sr.ssrc = htonl(NetObject::getMySsrcId());
 
   struct timeval ts;
   gettimeofday(&ts, NULL);

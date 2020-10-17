@@ -128,11 +128,7 @@ public:
   /**<
    * Creates a new solid.
    * string 'solid' gives the solid's geometry
-   * Returns the solid's handle.
    */
-
-  virtual char * parseSolid(char *geom);
-  /**< Parses a builtin solid */
 
   virtual char * parseSolid(char *geom, const char *separ, class WObject *po);
   /**< Parses a builtin solid */

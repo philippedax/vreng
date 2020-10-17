@@ -194,10 +194,10 @@ void User::changePositionOneDir(int move_type, float lasting)
          pos.z -= lasting * lspeed;
          break;
        case KEY_TL:  // tilt left
-         pos.ax += lasting * aspeed;
+         pos.ax = pos.ax + lasting * aspeed;
          break;
        case KEY_TR:  // tilt right
-         pos.ax -= lasting * aspeed;
+         pos.ax = pos.ax - lasting * aspeed;
          break;
     }
   }
@@ -229,8 +229,8 @@ void User::changePosition(const float lastings[])
       man->pos.ay = -a;
     if (guy) {
       guy->pos.ax = -a;  //orig ay
-      guy->anim(true);
-      guy->fly(true);
+      guy->setAniming(true);
+      guy->setFlying(true);
     }
   }
   else if (h > 0.2) { // near the ground
@@ -238,8 +238,8 @@ void User::changePosition(const float lastings[])
       man->pos.ay = 0;
     if (guy) {
       guy->pos.ax = 0;  //orig ay
-      guy->anim(false);
-      guy->fly(false);
+      guy->setAniming(false);
+      guy->setFlying(false);
     }
   }
 }
@@ -514,14 +514,14 @@ void WObject::moveUserToObject(float val, float _lttl, float attl)
 }
 
 /* Move the user at the point x,y,z **/
-void gotoXYZ(float gox, float goy, float goz, float orient)
+void gotoXYZ(float gox, float goy, float goz, float az)
 {
   if (! localuser) return;
 
-  float dx = gox - (Sin(orient)) - localuser->pos.x;
-  float dy = goy + (Cos(orient)) - localuser->pos.y;
+  float dx = gox - (Sin(az)) - localuser->pos.x;
+  float dy = goy + (Cos(az)) - localuser->pos.y;
   float dz = MAX(goz - localuser->pos.z, 0.20);
-  float da = deltaAngle(orient, localuser->pos.az + 1.57);
+  float da = deltaAngle(az, localuser->pos.az + 1.57);
 
   float attl = 0.5;  // 1/2 sec
   float lttl = sqrt(dx*dx + dy*dy + dz*dz) / User::LSPEED;

@@ -264,8 +264,8 @@ void Cloud::pause_cb(Cloud *cloud, void *d, time_t s, time_t u)
 
 void Cloud::funcs()
 {
-  setActionFunc(CLOUD_TYPE, 0, O_ACTION rain_cb, "Rain");
-  setActionFunc(CLOUD_TYPE, 1, O_ACTION snow_cb, "Snow");
-  setActionFunc(CLOUD_TYPE, 2, O_ACTION sound_cb, "Sound");
-  setActionFunc(CLOUD_TYPE, 3, O_ACTION pause_cb, "Pause");
+  setActionFunc(CLOUD_TYPE, 0, WO_ACTION rain_cb, "Rain");
+  setActionFunc(CLOUD_TYPE, 1, WO_ACTION snow_cb, "Snow");
+  setActionFunc(CLOUD_TYPE, 2, WO_ACTION sound_cb, "Sound");
+  setActionFunc(CLOUD_TYPE, 3, WO_ACTION pause_cb, "Pause");
 }

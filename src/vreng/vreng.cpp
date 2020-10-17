@@ -20,16 +20,15 @@
 //---------------------------------------------------------------------------
 
 #include <ubit/ubit.hpp>
-
 #include "vreng.hpp"
-#include "gui.hpp"	// Gui
-#include "theme.hpp"	// Theme
+#include "gui.hpp"
+#include "theme.hpp"
 #include "world.hpp"	// World
-#include "channel.hpp"	// init
+#include "channel.hpp"	// initNetwork
 #include "pref.hpp"	// init
 #include "env.hpp"	// init
 #include "vac.hpp"	// init
-#include "universe.hpp"	// init
+#include "universe.hpp"	// initManager
 #include "http.hpp"	// HttpThread::init
 #include "mysql.hpp"	// VRSql::init
 #include "render.hpp"	// Render::quit
@@ -40,7 +39,6 @@
 #include "aiinit.hpp"	// initOcaml
 
 #include "setjmp.h"	// jmp_buf
-
 using namespace ubit;
 
 // global variable that refers to the various modules
@@ -87,7 +85,7 @@ int Global::start(int argc, char *argv[])
   // startCB() is implicitely called, but postponed so that the window
   // can appear immediately
 #if HAVE_OCAML
-  initOcaml(argv);	// Ocaml runtime initialization
+  initOcaml(argv);		// Ocaml runtime initialization
 #endif
   return appli->start();
 }
@@ -122,6 +120,9 @@ void Global::quitVreng(int signum)
     longjmp(sigctx, signum);
   }
   
+#ifdef DMALLOC_FUNC_CHECK
+  dmalloc_shutdown();
+#endif
   if (inquit > 0) {
     trace(DBG_FORCE, "quit: inquit=%d sig=%d", inquit, signum);
     if (inquit > 3) exit(signum);  // force exit without quitting properly

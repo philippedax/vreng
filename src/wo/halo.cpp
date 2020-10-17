@@ -170,8 +170,8 @@ void Halo::funcs()
   putPropertyFunc(HALO_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(HALO_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(HALO_TYPE, WEAR, O_ACTION wear_cb, "Wear");
-  setActionFunc(HALO_TYPE, TAKEOFF, O_ACTION takeoff_cb, "Takeoff");
+  setActionFunc(HALO_TYPE, WEAR, WO_ACTION wear_cb, "Wear");
+  setActionFunc(HALO_TYPE, TAKEOFF, WO_ACTION takeoff_cb, "Takeoff");
 
-  setActionFunc(HALO_TYPE, RECREATE, O_ACTION recreate_cb, "");
+  setActionFunc(HALO_TYPE, RECREATE, WO_ACTION recreate_cb, "");
 }

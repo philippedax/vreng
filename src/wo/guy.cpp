@@ -133,8 +133,8 @@ Guy::Guy()
   strcpy(names.url, DEF_URL);
   inits();
 
-  setActionFunc(GUY_TYPE, 1, O_ACTION NULL, "");  // cancel
-  setActionFunc(GUY_TYPE, 2, O_ACTION NULL, "");  // cancel
+  setActionFunc(GUY_TYPE, 1, WO_ACTION NULL, "");  // cancel
+  setActionFunc(GUY_TYPE, 2, WO_ACTION NULL, "");  // cancel
 }
 
 const char * Guy::getUrl() const
@@ -184,7 +184,7 @@ void Guy::httpReader(void *_guy, Http *http)
 
 abort:
   error("wrong while reading CSet file, numjoints=%d, points=%d", guy->numjoints, points);
-  guy->pose();
+  guy->setPose();
   File::closeFile(f);
   return;
 }
@@ -228,7 +228,7 @@ void Guy::computeCurve(int join)
   }
 }
 
-void Guy::pose()
+void Guy::setPose()
 {
   for (int j=0; j < numjoints; j++) {
     curve[j].numpoints = 4;
@@ -520,17 +520,17 @@ void Guy::render()
   //glPopAttrib();
 }
 
-void Guy::anim(bool flag)
+void Guy::setAniming(bool flag)
 {
   animing = flag;
 }
 
-void Guy::fly(bool flag)
+void Guy::setFlying(bool flag)
 {
   flying = flag;
 }
 
-void Guy::show(bool flag)
+void Guy::setShowing(bool flag)
 {
   showing = flag;
 }
@@ -549,7 +549,7 @@ void Guy::walking_cb(Guy *po, void *d, time_t s, time_t u)
 
 void Guy::funcs()
 {
-  setActionFunc(GUY_TYPE, 0, O_ACTION animate_cb, "Anim");
-  setActionFunc(GUY_TYPE, 1, O_ACTION walking_cb, "Walk");
-  setActionFunc(GUY_TYPE, 2, O_ACTION moveObject, "Move");
+  setActionFunc(GUY_TYPE, 0, WO_ACTION animate_cb, "Anim");
+  setActionFunc(GUY_TYPE, 1, WO_ACTION walking_cb, "Walk");
+  setActionFunc(GUY_TYPE, 2, WO_ACTION moveObject, "Move");
 }

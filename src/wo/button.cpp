@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "button.hpp"
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 #include "payload.hpp"	// Payload
 
 
@@ -85,7 +85,7 @@ Button::Button(char *l)
   setRenderPrior(RENDER_HIGH);
 
   initializeMobileObject(0);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 }
 
 /* Updates towards the network */
@@ -148,5 +148,5 @@ void Button::funcs()
   getPropertyFunc(BUTTON_TYPE, PROPSTATE, WO_PAYLOAD get_bstate);
   putPropertyFunc(BUTTON_TYPE, PROPSTATE, WO_PAYLOAD put_bstate);
 
-  setActionFunc(BUTTON_TYPE, 0, O_ACTION commut, "Push");
+  setActionFunc(BUTTON_TYPE, 0, WO_ACTION commut, "Push");
 }

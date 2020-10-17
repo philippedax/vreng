@@ -374,24 +374,24 @@ void Android::jag_cb(Android *android, void *d, time_t s, time_t u)
 /** functions initialization */
 void Android::funcs()
 {
-  setActionFunc(ANDROID_TYPE, 0, O_ACTION pause_cb, "Pause");
-  setActionFunc(ANDROID_TYPE, 1, O_ACTION hi_cb, "Hi");
-  setActionFunc(ANDROID_TYPE, 2, O_ACTION bye_cb, "Bye");
-  setActionFunc(ANDROID_TYPE, 3, O_ACTION ask_cb, "Ask");
-  setActionFunc(ANDROID_TYPE, 4, O_ACTION sit_cb, "Sit");
-  setActionFunc(ANDROID_TYPE, 5, O_ACTION show_cb, "Show");
-  setActionFunc(ANDROID_TYPE, 6, O_ACTION clap_cb, "Clap");
-  setActionFunc(ANDROID_TYPE, 7, O_ACTION nak_cb, "Nak");
-  setActionFunc(ANDROID_TYPE, 8, O_ACTION test_cb, "Test");
-  setActionFunc(ANDROID_TYPE, 9, O_ACTION eyes_cb, "Eyes");
-  setActionFunc(ANDROID_TYPE, 10, O_ACTION joy_cb, "Joy");
-  setActionFunc(ANDROID_TYPE, 11, O_ACTION sad_cb, "Sad");
-  setActionFunc(ANDROID_TYPE, 12, O_ACTION surp_cb, "Surp");
-  setActionFunc(ANDROID_TYPE, 13, O_ACTION jag_cb, "Jag");
-  setActionFunc(ANDROID_TYPE, 14, O_ACTION reset_cb, "Reset");
-  setActionFunc(ANDROID_TYPE, 15, O_ACTION Face::changeFace, "New");
-  setActionFunc(ANDROID_TYPE, 16, O_ACTION Face::changeMoveYes, "Yes");
-  setActionFunc(ANDROID_TYPE, 17, O_ACTION Face::changeMoveNo, "No");
-  setActionFunc(ANDROID_TYPE, 18, O_ACTION Face::changeMoveEyeL, "EyeL");
-  setActionFunc(ANDROID_TYPE, 19, O_ACTION Face::changeMoveMouth, "Mouth");
+  setActionFunc(ANDROID_TYPE, 0, WO_ACTION pause_cb, "Pause");
+  setActionFunc(ANDROID_TYPE, 1, WO_ACTION hi_cb, "Hi");
+  setActionFunc(ANDROID_TYPE, 2, WO_ACTION bye_cb, "Bye");
+  setActionFunc(ANDROID_TYPE, 3, WO_ACTION ask_cb, "Ask");
+  setActionFunc(ANDROID_TYPE, 4, WO_ACTION sit_cb, "Sit");
+  setActionFunc(ANDROID_TYPE, 5, WO_ACTION show_cb, "Show");
+  setActionFunc(ANDROID_TYPE, 6, WO_ACTION clap_cb, "Clap");
+  setActionFunc(ANDROID_TYPE, 7, WO_ACTION nak_cb, "Nak");
+  setActionFunc(ANDROID_TYPE, 8, WO_ACTION test_cb, "Test");
+  setActionFunc(ANDROID_TYPE, 9, WO_ACTION eyes_cb, "Eyes");
+  setActionFunc(ANDROID_TYPE, 10, WO_ACTION joy_cb, "Joy");
+  setActionFunc(ANDROID_TYPE, 11, WO_ACTION sad_cb, "Sad");
+  setActionFunc(ANDROID_TYPE, 12, WO_ACTION surp_cb, "Surp");
+  setActionFunc(ANDROID_TYPE, 13, WO_ACTION jag_cb, "Jag");
+  setActionFunc(ANDROID_TYPE, 14, WO_ACTION reset_cb, "Reset");
+  setActionFunc(ANDROID_TYPE, 15, WO_ACTION Face::changeFace, "New");
+  setActionFunc(ANDROID_TYPE, 16, WO_ACTION Face::changeMoveYes, "Yes");
+  setActionFunc(ANDROID_TYPE, 17, WO_ACTION Face::changeMoveNo, "No");
+  setActionFunc(ANDROID_TYPE, 18, WO_ACTION Face::changeMoveEyeL, "EyeL");
+  setActionFunc(ANDROID_TYPE, 19, WO_ACTION Face::changeMoveMouth, "Mouth");
 }

@@ -1,7 +1,0 @@
-These files are from the Linux libc and are here
-for systems which don't have the getopt_long()
-function.
-
-The files in the "getopt/" directory have there
-own copyright, see at the top of the files..
-

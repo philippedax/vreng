@@ -126,15 +126,15 @@ public:
   virtual void quit();
   /**< Quits properly. */
 
-  virtual void pose();
+  virtual void setPose();
 
-  virtual void anim(bool flag);
+  virtual void setAniming(bool flag);
   /**< Set animing flag. */
 
-  virtual void fly(bool flag);
+  virtual void setFlying(bool flag);
   /**< Set flying flag. */
 
-  virtual void show(bool flag);
+  virtual void setShowing(bool flag);
   /**< Set showing flag. */
 
 private:

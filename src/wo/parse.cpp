@@ -703,20 +703,17 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
     error("At line %d, no solid", numline-1);
     return nextToken();
   }
-
-  if (! strcmp(ptok, "solid")) ptok = nextToken();	// skip tag solid
+  if (! strcmp(ptok, "solid"))
+    ptok = nextToken();	// skip tag solid
 
   Solid *s = new Solid();
 
-#if 0 //bad
-  s->wobject = this;
-  solid = s;
-#endif
+  if (wobject)
+    wobject->addSolid(s);	// add solid to solidList
+  else
+    error("no wobject");
 
-  if (wobject) wobject->addSolid(s);	// add solid ti solidList
-  else error("no wobject");
   ptok = s->parser(ptok);	// parse solid here
-
   return ptok;
 }
 
@@ -725,11 +722,6 @@ char * Parse::parseSolid(char *ptok, const char *separ, WObject *wobject)
   if (*ptok == '<') ptok++;
   strtok(ptok, separ);
   return parseSolid(ptok, wobject);
-}
-
-char * Parse::parseSolid(char *ptok)
-{
-  return parseSolid(ptok, SEP, (WObject *) this); // WRONG! this is not a WObject
 }
 
 void Parse::parseSolids(char *ptok, const char *separ, WObject *wobject)

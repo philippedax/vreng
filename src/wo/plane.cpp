@@ -112,7 +112,7 @@ Plane::Plane(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 }
 
 /** Intersection with an object */
@@ -174,5 +174,5 @@ void Plane::funcs()
   putPropertyFunc(PLANE_TYPE, PROPAZ, WO_PAYLOAD put_az);
   putPropertyFunc(PLANE_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(PLANE_TYPE, 0, O_ACTION moveObject, "Move");
+  setActionFunc(PLANE_TYPE, 0, WO_ACTION moveObject, "Move");
 }

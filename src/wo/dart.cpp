@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "dart.hpp"
 #include "user.hpp"	// USER_TYPE
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 #include "payload.hpp"	// Payload
 #include "sound.hpp"	// playSound
 
@@ -69,7 +69,7 @@ Dart::Dart(WObject *user, void *d, time_t s, time_t u)
   initImposedMovement(TTL);
 
   /* network creation */
-  createVolatileNetObj(PROPS);
+  createVolatileNetObject(PROPS);
   noh->declareObjCreation();
 
   Sound::playSound(SHOOTSND);
@@ -90,7 +90,7 @@ WObject * Dart::replicator(uint8_t type_id, Noid noid, Payload *pp)
 Dart::Dart(uint8_t type_id, Noid _noid, Payload *pp)
 {
   setType(type_id);
-  replicateVolatileNetObj(PROPS, _noid);
+  replicateVolatileNetObject(PROPS, _noid);
   noh->getAllProperties(pp);
   copyNoid(_noid);
 
@@ -127,5 +127,5 @@ void Dart::funcs()
   putPropertyFunc(DART_TYPE, PROPXY, WO_PAYLOAD put_xy);
   putPropertyFunc(DART_TYPE, PROPHIT, WO_PAYLOAD User::dartPutHit);
 
-  setActionFunc(DART_TYPE, CREATE, O_ACTION createdByUser, "");
+  setActionFunc(DART_TYPE, CREATE, WO_ACTION createdByUser, "");
 }

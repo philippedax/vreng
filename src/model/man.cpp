@@ -2834,7 +2834,6 @@ struct tBody {
   uint8_t mat_ind;	// material index
 };
 
-/* bodyparts */
 enum {
   MAN_FOREARM_R,
   MAN_FOREARM_L,
@@ -2915,12 +2914,12 @@ Man::Man(float _width, float _depth, float _height)
 Man::~Man()
 { }
 
-void Man::myMaterial(GLenum mode, float *color, float alpha)
+void Man::myMaterial(GLenum mode, float *rgb, float alpha)
 {
   float color4[4];
-  color4[0] = color[0];
-  color4[1] = color[1];
-  color4[2] = color[2];
+  color4[0] = rgb[0];
+  color4[1] = rgb[1];
+  color4[2] = rgb[2];
   color4[3] = alpha;
   glMaterialfv(GL_FRONT_AND_BACK, mode, color4);
 }

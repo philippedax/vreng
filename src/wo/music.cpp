@@ -87,7 +87,7 @@ Music::Music(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 
   if ((! stringcmp(statestr, "play")) || (! stringcmp(statestr, "loop")))
     play(this, (void *) 1, 0L, 0L);
@@ -204,10 +204,10 @@ void Music::funcs()
   putPropertyFunc(MUSIC_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(MUSIC_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(MUSIC_TYPE, PLAY, O_ACTION play, "Play");
-  setActionFunc(MUSIC_TYPE, STOP, O_ACTION stop, "Stop");
-  setActionFunc(MUSIC_TYPE, PAUSE, O_ACTION pause, "Pause");
-  setActionFunc(MUSIC_TYPE, CONT, O_ACTION cont, "Continue");
-  setActionFunc(MUSIC_TYPE, LOOP, O_ACTION loop, "Loop");
-  setActionFunc(MUSIC_TYPE, MOVE, O_ACTION moveObject, "Move");
+  setActionFunc(MUSIC_TYPE, PLAY, WO_ACTION play, "Play");
+  setActionFunc(MUSIC_TYPE, STOP, WO_ACTION stop, "Stop");
+  setActionFunc(MUSIC_TYPE, PAUSE, WO_ACTION pause, "Pause");
+  setActionFunc(MUSIC_TYPE, CONT, WO_ACTION cont, "Continue");
+  setActionFunc(MUSIC_TYPE, LOOP, WO_ACTION loop, "Loop");
+  setActionFunc(MUSIC_TYPE, MOVE, WO_ACTION moveObject, "Move");
 }

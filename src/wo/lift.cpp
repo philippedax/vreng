@@ -22,7 +22,7 @@
 #include "lift.hpp"
 #include "move.hpp"	// gotoFront
 #include "user.hpp"	// localuser
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 
 
 const OClass Lift::oclass(LIFT_TYPE, "Lift", Lift::creator);
@@ -74,7 +74,7 @@ Lift::Lift(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 
   dest = pos.z;		// initial position
 }
@@ -196,8 +196,8 @@ void Lift::funcs()
   putPropertyFunc(LIFT_TYPE, PROPZ, WO_PAYLOAD put_z);
   putPropertyFunc(LIFT_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(LIFT_TYPE, 0, O_ACTION up_cb, "Up");
-  setActionFunc(LIFT_TYPE, 1, O_ACTION down_cb, "Down");
-  setActionFunc(LIFT_TYPE, 2, O_ACTION call_cb, "Call");
-  setActionFunc(LIFT_TYPE, 3, O_ACTION gotoFront, "Approach");
+  setActionFunc(LIFT_TYPE, 0, WO_ACTION up_cb, "Up");
+  setActionFunc(LIFT_TYPE, 1, WO_ACTION down_cb, "Down");
+  setActionFunc(LIFT_TYPE, 2, WO_ACTION call_cb, "Call");
+  setActionFunc(LIFT_TYPE, 3, WO_ACTION gotoFront, "Approach");
 }

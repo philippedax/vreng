@@ -88,7 +88,7 @@ void Stair::behavior()
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(1);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 }
 
 Stair::Stair(char *l)
@@ -107,5 +107,5 @@ void Stair::quit()
 
 void Stair::funcs()
 {
-  setActionFunc(STAIR_TYPE, 0, O_ACTION gotoFront, "Approach");
+  setActionFunc(STAIR_TYPE, 0, WO_ACTION gotoFront, "Approach");
 }

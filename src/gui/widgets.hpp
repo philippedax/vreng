@@ -32,7 +32,6 @@
 #include <vector>
 #include <ubit/ubit.hpp>
 #include "gui.hpp"
-
 using namespace ubit;
 
 #if (UBIT_VERSION_MAJOR < 6 || !defined(UBIT_WITH_GL))
@@ -94,17 +93,6 @@ public:
 
   static void showInfoDialog(const char* title, const char* message);
 
-#define HUD 1
-#if ! HUD
-  Widgets *widgets() { return this; };
-  bool hudvisible;
-
-  bool isHudVisible();
-  /**< Checks if hud is visible */
-  void toggleHud();
-#endif
-
-
   // Users - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   GuiItem* addUser(User*);
@@ -137,7 +125,7 @@ public:
   void flushPostponedKRs();
   bool pendingPostponedKRs() {return (postponedKRmask || postponedKRcount);}
 
-  // private members - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 private:
   friend class Gui;
   friend class Scene;
@@ -200,6 +188,7 @@ private:
   void setRayDirection(int x, int y);
 };
 
+//---------------------------------------------------------------------------
 #include <ubit/ustr.hpp>
 
 /**
@@ -207,7 +196,7 @@ private:
  */
 class VncDialog : public UOptionDialog {
 public:
-  static void createVncDialog(Widgets*, class Vnc*);
+  static void create(Widgets*, class Vnc*);
  
 private:
   static VncDialog* vnc_dialog;
@@ -219,33 +208,7 @@ private:
   
   VncDialog(class Widgets*, class Vnc*);
 
-  virtual void convertVnc();
+  virtual void convert();
 };
-
-#if HUD
-/**
- * Hud class
- */
-class Hud {
-
- public:
-  bool hudvisible;
-
- public:
-  Hud();
-  /**< Constructor */
-
-  virtual ~Hud() {};
-  /**< Destructor */
-
-  Hud * hud();
-  /**< Returns hud instance */
-
-  bool isHudVisible();
-  /**< Checks if hud is visible */
-
-  void toggleHud();
-};
-#endif
 
 #endif

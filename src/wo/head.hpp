@@ -76,7 +76,7 @@ public:
 
   Head(char *l);		///< Constructor.
   Head(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
-  Head(class User *user, const char *url, const float *color); ///< Constructor from User.
+  Head(class User *user, const char *url, const float *skin); ///< Constructor from User.
 
   static WObject * (creator)(char *l);
   /**< Creation from a file */

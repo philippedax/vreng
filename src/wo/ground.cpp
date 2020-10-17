@@ -111,6 +111,6 @@ void Ground::quit()
 void Ground::funcs()
 {
 #if 0
-  setActionFunc(GROUND_TYPE, 0, O_ACTION moveObject, "Move");
+  setActionFunc(GROUND_TYPE, 0, WO_ACTION moveObject, "Move");
 #endif
 }

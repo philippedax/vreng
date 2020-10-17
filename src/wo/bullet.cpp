@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "bullet.hpp"
 #include "user.hpp"	// localuser
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 #include "payload.hpp"	// Payload
 #include "sound.hpp"	// playSound
 
@@ -69,7 +69,7 @@ Bullet::Bullet(WObject *pu, void *d, time_t s, time_t u)
   initImposedMovement(TTL);
 
   /* network creation */
-  createVolatileNetObj(PROPS);
+  createVolatileNetObject(PROPS);
   noh->declareObjCreation();
 
   Sound::playSound(DRIPSND);
@@ -90,7 +90,7 @@ WObject * Bullet::replicator(uint8_t type_id, Noid noid, Payload *pp)
 Bullet::Bullet(uint8_t type_id, Noid _noid, Payload *pp)
 {
   setType(type_id);
-  replicateVolatileNetObj(PROPS, _noid);
+  replicateVolatileNetObject(PROPS, _noid);
   noh->getAllProperties(pp);
   copyNoid(_noid);
 
@@ -125,5 +125,5 @@ void Bullet::funcs()
   putPropertyFunc(BULLET_TYPE, PROPXY, WO_PAYLOAD put_xy);
   putPropertyFunc(BULLET_TYPE, PROPHIT, WO_PAYLOAD User::bulletPutHit); // user
 
-  setActionFunc(BULLET_TYPE, CREATE, O_ACTION createdByUser, "");
+  setActionFunc(BULLET_TYPE, CREATE, WO_ACTION createdByUser, "");
 }

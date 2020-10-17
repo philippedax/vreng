@@ -35,7 +35,7 @@
 #include "navig.hpp"
 #include "message.hpp"
 #include "scene.hpp"
-#include "mvt.hpp"      // pointer
+#include "mvt.hpp"
 #include "world.hpp"    // current
 #include "wobject.hpp"  // WObject
 #include "user.hpp"	// localuser
@@ -280,7 +280,7 @@ void Gui::setToVnc(Vnc* _vnc)
 
 void Gui::launchVncConnect(Vnc* _vnc)
 {
-  VncDialog::createVncDialog(widgets, _vnc);
+  VncDialog::create(widgets, _vnc);
 }
 
 void Gui::setToVrelet(Vrelet* _vrelet)

@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "channel.hpp"
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 #include "socket.hpp"	// Socket
 #include "nsl.hpp"	// my_gethostbyname
 #include "vrep.hpp"	// SD_R_RTP
@@ -78,7 +78,7 @@ void Channel::init()
   }
   Channel::clearList();
   Session::clearList();
-  NetObj::clearList();
+  NetObject::clearList();
 }
 
 /** Create a new Channel */
@@ -211,7 +211,7 @@ void Channel::naming()
     my_free_hostent(ph);
     return;
   }
-  NetObj::setMyHostId(pa->s_addr);
+  NetObject::setMyHostId(pa->s_addr);
   my_free_hostent(ph);
 
   /* first packet to learn my_port_id */
@@ -220,16 +220,16 @@ void Channel::naming()
   pp.sendPayload(sa[SA_RTP]);	// needed for naming (port number)
 
 #if NEEDLOOPBACK
-  NetObj::setMyPortId((uint16_t) (NetObj::getMySsrcId() & 0x00007FFF));
+  NetObject::setMyPortId((uint16_t) (NetObject::getMySsrcId() & 0x00007FFF));
 #else
-  NetObj::setMyPortId(Socket::getSrcPort(sd[SD_W_RTP]));
-  if (NetObj::getMyPortId() == 0)
-    NetObj::setMyPortId((uint16_t) (NetObj::getMySsrcId()) & 0x00007FFF);
+  NetObject::setMyPortId(Socket::getSrcPort(sd[SD_W_RTP]));
+  if (NetObject::getMyPortId() == 0)
+    NetObject::setMyPortId((uint16_t) (NetObject::getMySsrcId()) & 0x00007FFF);
 #endif
 
   pp.sendPayload(sa[SA_RTCP]);	// needed for proxy (source port)
-  trace(DBG_NET, "my_port_id=%d", NetObj::getMyPortId());
-  NetObj::setMyObjId(0);
+  trace(DBG_NET, "my_port_id=%d", NetObject::getMyPortId());
+  NetObject::setMyObjId(0);
 }
 
 /** Create a Channel */
@@ -343,11 +343,11 @@ int Channel::create(const char *chan_str, int **pfds)
   }
 
   if (this == managerChannel) {
-    NetObj::setMyMgrSsrcId(ssrc);
+    NetObject::setMyMgrSsrcId(ssrc);
     session->mode = MANAGER_MODE;
   }
   else {
-    NetObj::setMySsrcId(ssrc);
+    NetObject::setMySsrcId(ssrc);
     session->mode = WORLD_MODE;
 
     if (world) {

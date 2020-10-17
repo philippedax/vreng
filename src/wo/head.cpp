@@ -114,7 +114,7 @@ void Head::behavior()
 
   initializeMobileObject(0);
   enablePermanentMovement();	// follows user
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 }
 
 /* Sets an unique name */
@@ -222,14 +222,14 @@ Head::Head(User *user, void *d, time_t s, time_t u)
 }
 
 /* Launched by user via prefs */
-Head::Head(User *user, const char *url, const float *_color)
+Head::Head(User *user, const char *url, const float *skin)
 {
   if (! url) return;
 
   strcpy(names.url, url);
   sprintf(modelname, "head");
   defaults();
-  for (int i=0; i<3; i++) color[i] = _color[i];
+  for (int i=0; i<3; i++) color[i] = skin[i];
   makeSolid();
   setName(modelname);
   setOwner();
@@ -304,5 +304,5 @@ void Head::funcs()
   putPropertyFunc(HEAD_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(HEAD_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(HEAD_TYPE, RECREATE, O_ACTION recreate_cb, "");
+  setActionFunc(HEAD_TYPE, RECREATE, WO_ACTION recreate_cb, "");
 }

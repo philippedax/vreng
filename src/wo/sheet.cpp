@@ -69,7 +69,7 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   setRenderPrior(RENDER_HIGH);
 
   initializeMobileObject(1);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 }
 
 void Sheet::changePosition(float lasting)
@@ -237,5 +237,5 @@ void Sheet::funcs()
   putPropertyFunc(SHEET_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
   // invisible method, called by Book
-  setActionFunc(SHEET_TYPE, CREATE, O_ACTION sheetCreate, "");
+  setActionFunc(SHEET_TYPE, CREATE, WO_ACTION sheetCreate, "");
 }

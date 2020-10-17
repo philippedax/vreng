@@ -35,7 +35,7 @@
 #include "wobject.hpp"
 #include "user.hpp"	// UserAction
 #include "user.hpp"	// User::LSPEED;  // !! incorrect !!
-#include "carrier.hpp"
+#include "carrier.hpp"	// Carrier
 #include "move.hpp"	// changeKey
 #include "world.hpp"	// isCurrent
 

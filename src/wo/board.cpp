@@ -61,7 +61,7 @@ Board::Board(char *l)
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 }
 
 bool Board::updateToNetwork(const Pos &oldpos)
@@ -169,10 +169,10 @@ void Board::quit()
 
 void Board::funcs()
 {
-  setActionFunc(BOARD_TYPE, 0, O_ACTION draw_cb, "Enter draw");
-  setActionFunc(BOARD_TYPE, 1, O_ACTION leave_cb, "Leave draw");
-  setActionFunc(BOARD_TYPE, 2, O_ACTION wb_cb, "Call WB");
-  setActionFunc(BOARD_TYPE, 3, O_ACTION cancel_cb, "Exit WB");
-  setActionFunc(BOARD_TYPE, 4, O_ACTION import_cb, "Import");
-  setActionFunc(BOARD_TYPE, 5, O_ACTION moveObject, "Move");
+  setActionFunc(BOARD_TYPE, 0, WO_ACTION draw_cb, "Enter draw");
+  setActionFunc(BOARD_TYPE, 1, WO_ACTION leave_cb, "Leave draw");
+  setActionFunc(BOARD_TYPE, 2, WO_ACTION wb_cb, "Call WB");
+  setActionFunc(BOARD_TYPE, 3, WO_ACTION cancel_cb, "Exit WB");
+  setActionFunc(BOARD_TYPE, 4, WO_ACTION import_cb, "Import");
+  setActionFunc(BOARD_TYPE, 5, WO_ACTION moveObject, "Move");
 }

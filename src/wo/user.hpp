@@ -377,12 +377,6 @@ private:
 //---------------------------------------------------------------------------
 struct UserAction {
   enum Type {
-    UA_HALO_WEAR,
-    UA_HALO_TAKEOFF,
-    UA_HAT_WEAR,
-    UA_HAT_TAKEOFF,
-    UA_DRESS_WEAR,
-    UA_DRESS_TAKEOFF,
     UA_BULLET,
     UA_DART,
     UA_FOVYDEF,

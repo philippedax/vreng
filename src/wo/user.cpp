@@ -18,7 +18,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-
 #include "vreng.hpp"
 #include "user.hpp"
 #include "world.hpp"	// getName
@@ -33,11 +32,11 @@
 #include "carrier.hpp"	// Carrier
 #include "cart.hpp"	// Cart
 #include "bubble.hpp"	// Bubble
-#include "netobj.hpp"	// NetObj
+#include "netobj.hpp"	// NetObject
 #include "payload.hpp"	// Payload
 #include "solid.hpp"	// solid ray_dlist
 #include "draw.hpp"	// ray
-#include "render.hpp"	// sharedRender
+#include "render.hpp"	// sharedRender getViewMode
 #include "gui.hpp"	// addUser
 #include "sound.hpp"	// playSound
 #include "rtp.hpp"	// RTPNAME_LEN
@@ -121,7 +120,7 @@ void User::setPosition()
   Entry *entry = Entry::current();
   if (entry) {
     entry->query(this);
-    //trace(DGB_FORCE, "user: new entry: %.2f %.2f %.2f", pos.x, pos.y, pos.z);
+    //error("user: new entry: %.2f %.2f %.2f", pos.x, pos.y, pos.z);
   } 
 }
 
@@ -220,7 +219,7 @@ void User::makeSolid()
   parse()->parseSolid(s, SEP, this);
 
   // avatar's head
-  if (android && *headurl) {
+  if (*headurl) {
     float color[3];
     Color::getRGB(skin, color);
     head = new Head(this, headurl, color);
@@ -235,7 +234,7 @@ void User::setRtcp()
   Rtp::getRtcpName(rtcpname);
   Rtp::getRtcpEmail(email);
   Rtp::getRtcpTool(tool);
-  ssrc = NetObj::getMySsrcId();
+  ssrc = NetObject::getMySsrcId();
   trace(DBG_WO, "User: name=%s ssrc=%x rtcpname=%s email=%s", getInstance(), ssrc, rtcpname, email);
 }
 
@@ -297,7 +296,7 @@ void User::inits()
   initializeMobileObject(LASTING);
   setRenderPrior(RENDER_HIGH);
   enablePermanentMovement();	// gravity
-  createVolatileNetObj(PROPS);
+  createVolatileNetObject(PROPS);
   //pd noh->declareObjCreation(); // we don't need because delta
 
   setPosition();	// from entry
@@ -342,7 +341,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   defaults();
   getMemory();		// alloc geometries
 
-  replicateVolatileNetObj(PROPS, _noid);
+  replicateVolatileNetObject(PROPS, _noid);
   copyNoid(_noid);
 
   /* hack to retrieve the name and the mapping */
@@ -451,7 +450,7 @@ User::~User()
   // we should not declare the deletion: it's not our problem.
   if (this == localuser && noh) {
     noh->declareDeletion();
-    delete noh;		// delete NetObj
+    delete noh;		// delete NetObject
     noh = NULL;
   }
 
@@ -637,7 +636,7 @@ void User::setRayDirection(GLint wx, GLint wy)
   if (ty < 0) ty = MAX(ty, -FAR); else ty = MIN(ty, FAR);
   if (tz < 0) tz = MAX(tz, -FAR); else tz = MIN(tz, FAR);
 #endif
-  //trace(DGB_FORCE, "eye: %.2f %.2f %.2f, target: %.2f %.2f %.2f", ex,ey,ez,tx,ty,tz);
+  //error("eye: %.2f %.2f %.2f, target: %.2f %.2f %.2f", ex,ey,ez,tx,ty,tz);
  
   Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
 
@@ -725,17 +724,18 @@ void User::decreaseRoll(User *user, void *d, time_t s, time_t u)
 void User::flyaway(User *user, void *d, time_t s, time_t u)
 {
   pause_gravity = true;
-  for (int z=1; z<5; z++) {
-    user->pos.z += 1;
-    user->pos.ay -= M_PI/8;
-    user->updatePosition();
-  }
+  user->pos.ay -= M_PI/8;
+  user->pos.z += 5;
+  user->updatePosition();
 }
 
 void User::toland(User *user, void *d, time_t s, time_t u)
 {
-  user->pos.ay = 0;
   pause_gravity = false;
+  if (::g.render.getViewMode() == Render::VIEW_FIRST_PERSON)
+    user->pos.ay = 0;
+  else
+    user->pos.ay += M_PI/8;
   user->updatePosition();
 }
 
@@ -1027,6 +1027,7 @@ void User::get_ray(User *pu, Payload *pp)
     if (pu->getSolid()) {
       if (tx) {
         float blue[4] = {0,0,1,1}; //blue
+        //trace(DBG_FORCE, "get_ray: %.2f,%.2f,%.2f -> %.2f,%.2f,%.2f", ex, ey, ez, tx, ty, tz);
         Draw::ray(&pu->getSolid()->ray_dlist, ex,ey,ez, tx,ty,tz, blue, 0);
       }
       else {
@@ -1159,39 +1160,39 @@ void User::funcs()
   putPropertyFunc(USER_TYPE, PROPBUST, WO_PAYLOAD put_bust);
   putPropertyFunc(USER_TYPE, PROPRAY, WO_PAYLOAD put_ray);
 
-  setActionFunc(USER_TYPE, UserAction::UA_BULLET, O_ACTION createBullet, "");
-  setActionFunc(USER_TYPE, UserAction::UA_DART, O_ACTION createDart, "");
-  setActionFunc(USER_TYPE, UserAction::UA_FOVYDEF, O_ACTION defaultZoom, "");
-  setActionFunc(USER_TYPE, UserAction::UA_FOVYLESS, O_ACTION increaseZoom, "");
-  setActionFunc(USER_TYPE, UserAction::UA_FOVYMORE, O_ACTION decreaseZoom, "");
-  setActionFunc(USER_TYPE, UserAction::UA_FOVYSET, O_ACTION setZoom, "");
-  setActionFunc(USER_TYPE, UserAction::UA_LSPEEDDEF, O_ACTION defaultLinearSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::UA_LSPEEDLESS, O_ACTION decreaseLinearSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::UA_LSPEEDMORE, O_ACTION increaseLinearSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::UA_ASPEEDDEF, O_ACTION defaultAngularSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::UA_ASPEEDLESS, O_ACTION decreaseAngularSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::UA_ASPEEDMORE, O_ACTION increaseAngularSpeed, "");
-  setActionFunc(USER_TYPE, UserAction::UA_PAUSE, O_ACTION pause, "");
-  setActionFunc(USER_TYPE, UserAction::UA_PAUSEON, O_ACTION pauseOn, "");
-  setActionFunc(USER_TYPE, UserAction::UA_PAUSEOFF, O_ACTION pauseOff, "");
-  setActionFunc(USER_TYPE, UserAction::UA_SETLSPEED, O_ACTION setLspeed, "");
-  setActionFunc(USER_TYPE, UserAction::UA_SETASPEED, O_ACTION setAspeed, "");
-  setActionFunc(USER_TYPE, UserAction::UA_SWITCHVIEW, O_ACTION switchView, "");
-  setActionFunc(USER_TYPE, UserAction::UA_MAPVIEW, O_ACTION mapView, "");
-  setActionFunc(USER_TYPE, UserAction::UA_FIRSTVIEW, O_ACTION firstPersonView, "");
-  setActionFunc(USER_TYPE, UserAction::UA_THIRDVIEWFAR, O_ACTION thirdPersonViewFar, "");
-  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTL, O_ACTION thirdPersonView_RotL, "");
-  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTR, O_ACTION thirdPersonView_RotR, "");
-  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTU, O_ACTION thirdPersonView_RotU, "");
-  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTD, O_ACTION thirdPersonView_RotD, "");
-  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTN, O_ACTION thirdPersonView_Near, "");
-  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTF, O_ACTION thirdPersonView_Far, "");
-  setActionFunc(USER_TYPE, UserAction::UA_SETROLL, O_ACTION setRoll, "");
-  setActionFunc(USER_TYPE, UserAction::UA_SETPITCH, O_ACTION setPitch, "");
-  setActionFunc(USER_TYPE, UserAction::UA_PITCHMORE, O_ACTION increasePitch, "");
-  setActionFunc(USER_TYPE, UserAction::UA_PITCHLESS, O_ACTION decreasePitch, "");
-  setActionFunc(USER_TYPE, UserAction::UA_ROLLMORE, O_ACTION increaseRoll, "");
-  setActionFunc(USER_TYPE, UserAction::UA_ROLLLESS, O_ACTION decreaseRoll, "");
-  setActionFunc(USER_TYPE, UserAction::UA_FLYAWAY, O_ACTION flyaway, "");
-  setActionFunc(USER_TYPE, UserAction::UA_TOLAND, O_ACTION toland, "");
+  setActionFunc(USER_TYPE, UserAction::UA_BULLET, WO_ACTION createBullet, "");
+  setActionFunc(USER_TYPE, UserAction::UA_DART, WO_ACTION createDart, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FOVYDEF, WO_ACTION defaultZoom, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FOVYLESS, WO_ACTION increaseZoom, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FOVYMORE, WO_ACTION decreaseZoom, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FOVYSET, WO_ACTION setZoom, "");
+  setActionFunc(USER_TYPE, UserAction::UA_LSPEEDDEF, WO_ACTION defaultLinearSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_LSPEEDLESS, WO_ACTION decreaseLinearSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_LSPEEDMORE, WO_ACTION increaseLinearSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ASPEEDDEF, WO_ACTION defaultAngularSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ASPEEDLESS, WO_ACTION decreaseAngularSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ASPEEDMORE, WO_ACTION increaseAngularSpeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PAUSE, WO_ACTION pause, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PAUSEON, WO_ACTION pauseOn, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PAUSEOFF, WO_ACTION pauseOff, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SETLSPEED, WO_ACTION setLspeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SETASPEED, WO_ACTION setAspeed, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SWITCHVIEW, WO_ACTION switchView, "");
+  setActionFunc(USER_TYPE, UserAction::UA_MAPVIEW, WO_ACTION mapView, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FIRSTVIEW, WO_ACTION firstPersonView, "");
+  setActionFunc(USER_TYPE, UserAction::UA_THIRDVIEWFAR, WO_ACTION thirdPersonViewFar, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTL, WO_ACTION thirdPersonView_RotL, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTR, WO_ACTION thirdPersonView_RotR, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTU, WO_ACTION thirdPersonView_RotU, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTD, WO_ACTION thirdPersonView_RotD, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTN, WO_ACTION thirdPersonView_Near, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTF, WO_ACTION thirdPersonView_Far, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SETROLL, WO_ACTION setRoll, "");
+  setActionFunc(USER_TYPE, UserAction::UA_SETPITCH, WO_ACTION setPitch, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PITCHMORE, WO_ACTION increasePitch, "");
+  setActionFunc(USER_TYPE, UserAction::UA_PITCHLESS, WO_ACTION decreasePitch, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ROLLMORE, WO_ACTION increaseRoll, "");
+  setActionFunc(USER_TYPE, UserAction::UA_ROLLLESS, WO_ACTION decreaseRoll, "");
+  setActionFunc(USER_TYPE, UserAction::UA_FLYAWAY, WO_ACTION flyaway, "");
+  setActionFunc(USER_TYPE, UserAction::UA_TOLAND, WO_ACTION toland, "");
 }

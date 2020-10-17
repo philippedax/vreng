@@ -221,8 +221,8 @@ void Dress::funcs()
   putPropertyFunc(DRESS_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(DRESS_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(DRESS_TYPE, WEAR, O_ACTION wear_cb, "Wear");
-  setActionFunc(DRESS_TYPE, TAKEOFF, O_ACTION takeoff_cb, "Takeoff");
+  setActionFunc(DRESS_TYPE, WEAR, WO_ACTION wear_cb, "Wear");
+  setActionFunc(DRESS_TYPE, TAKEOFF, WO_ACTION takeoff_cb, "Takeoff");
 
-  setActionFunc(DRESS_TYPE, RECREATE, O_ACTION recreate_cb, "");
+  setActionFunc(DRESS_TYPE, RECREATE, WO_ACTION recreate_cb, "");
 }

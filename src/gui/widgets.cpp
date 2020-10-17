@@ -41,6 +41,7 @@
 #include "capture.hpp"
 #include "user.hpp"	// UserAction
 #include "move.hpp"	// changeKey
+#include "vnc.hpp"	// Vnc
 
 #if (UBIT_VERSION_MAJOR < 6 || UBIT_VERSION_MAJOR >= 6 && UBIT_WITH_X11) //UBIT6
 #include <X11/keysym.h>	// XK_*
@@ -81,7 +82,6 @@
 #include "render.hpp"
 #include "move.hpp"	// changeKey
 #include "file.hpp"	// openFile
-#include "vnc.hpp"	// vnc
 
 // Text files
 #include "README.t"
@@ -138,6 +138,7 @@ postponedKRcount(0)
   UAppli::onMessage("forward",ucall(this, &Widgets::forwardCB));
   UAppli::onMessage("home",   ucall(this, &Widgets::homeCB));
 }
+
 
 UBox& Widgets::createInfobar()
 {
@@ -280,6 +281,7 @@ UMenu& Widgets::createMarkMenu()
   return mark_menu;
 }
 
+//UMenu* Widgets::getOpenedMenu() {return navig.opened_menu;}
 void Widgets::showInfoDialog(const char* title, const char* message)
 {
   UDialog::showMessageDialog(title, uscrollpane(usize(450, 500) + utextarea(message)));
@@ -376,7 +378,6 @@ void Widgets::removeWorld(World *world)
 void Widgets::homeCB()
 {
   char chan_home_str[CHAN_LEN];
-
   sprintf(chan_home_str, "%s/%u/%d", Universe::current()->group, Universe::current()->port, Channel::currentTtl());
   trace(DBG_IPMC, "WO: goto %s at %s", Universe::current()->url, chan_home_str);
 
@@ -401,7 +402,6 @@ void Widgets::forwardCB()
 void Widgets::saveCB()
 {
   char vrein[PATH_LEN], vreout[PATH_LEN], buf[BUFSIZ];
-
   World *world = World::current();
   if (! world) return;
 
@@ -607,7 +607,7 @@ void Widgets::processKey(long keysym, int keychar, bool press)
       postponedKRcount--;		// une touche en moins dans KRlist
     }
     else {  // traitement normal d'un Press
-      //fprintf(stderr, "KPress change or activate Key( %d )\n", vrkey);
+      //fprintf(stderr, "KPress change or activate Key( %d ) \n", vrkey);
       if (vrkey >= MAXKEYS || vrkey < 0)
         return;
 
@@ -1473,40 +1473,10 @@ UMenu& Widgets::createFileMenu()
 }
 
 //---------------------------------------------------------------------------
-#if HUD
-// local 
-static Hud _hud;        // hud singleton
 
-/* Constructor */
-Hud::Hud()
-{
-  hudvisible = true;
-}
-
-/* Accessor */
-Hud * Hud::hud()
-{
-  return &_hud;
-}
-
-void Hud::toggleHud()
-{ 
-  hudvisible ^= 1;
-}
-
-bool Hud::isHudVisible()
-{
-  return hudvisible;
-}
-#endif
-
-//---------------------------------------------------------------------------
-/*
- *  vncdialog
- */
 VncDialog* VncDialog::vnc_dialog = null;
 
-void VncDialog::createVncDialog(Widgets* gw, Vnc* vnc)
+void VncDialog::create(Widgets* gw, Vnc* vnc)
 {
   if (!gw) return;
   if (!vnc_dialog) {
@@ -1529,12 +1499,12 @@ VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
                    + uhbox(ulabel(14, UFont::bold + "Password:")
                            + utextfield(vnc_passwd))
                    ));
-  setButtons(ubutton("Connect" + ucloseWin() + ucall(vnc_dialog, &VncDialog::convertVnc))
+  setButtons(ubutton("Connect" + ucloseWin() + ucall(vnc_dialog, &VncDialog::convert))
              + " "
              + ubutton("Cancel" + ucloseWin()));
   }
 
-void VncDialog::convertVnc()
+void VncDialog::convert()
 {
   if (vnc) vnc->convert(vnc_server.c_str(), vnc_port.c_str(), vnc_passwd.c_str());
 }

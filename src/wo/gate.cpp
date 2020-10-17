@@ -87,7 +87,7 @@ void Gate::behavior()
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(0);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 }
 
 Gate::Gate(char *l)
@@ -259,7 +259,7 @@ void Gate::funcs()
   putPropertyFunc(GATE_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(GATE_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(GATE_TYPE, 0, O_ACTION enter_cb, "Enter");
-  setActionFunc(GATE_TYPE, 1, O_ACTION gotoFront, "Approach");
-  setActionFunc(GATE_TYPE, 2, O_ACTION moveObject, "Move");
+  setActionFunc(GATE_TYPE, 0, WO_ACTION enter_cb, "Enter");
+  setActionFunc(GATE_TYPE, 1, WO_ACTION gotoFront, "Approach");
+  setActionFunc(GATE_TYPE, 2, WO_ACTION moveObject, "Move");
 }

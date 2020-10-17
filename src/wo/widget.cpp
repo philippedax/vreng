@@ -258,7 +258,7 @@ void Widget::leaveFocus(Widget *widget, void *d, time_t s, time_t u)
 
 void Widget::funcs()
 {
-  setActionFunc(WIDGET_TYPE, 0, O_ACTION takeFocus,  "Focus");
-  setActionFunc(WIDGET_TYPE, 1, O_ACTION leaveFocus, "Navigate");
-  setActionFunc(WIDGET_TYPE, 2, O_ACTION gotoFront, "Approach");
+  setActionFunc(WIDGET_TYPE, 0, WO_ACTION takeFocus,  "Focus");
+  setActionFunc(WIDGET_TYPE, 1, WO_ACTION leaveFocus, "Navigate");
+  setActionFunc(WIDGET_TYPE, 2, WO_ACTION gotoFront, "Approach");
 }

@@ -99,7 +99,7 @@ void Escalator::behavior()
   setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(1);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 }
 
 Escalator::Escalator(char *l)
@@ -118,6 +118,6 @@ void Escalator::quit()
 
 void Escalator::funcs()
 {
-  setActionFunc(ESCALATOR_TYPE, 0, O_ACTION gotoFront, "Approach");
-  setActionFunc(ESCALATOR_TYPE, 1, O_ACTION pause_cb, "Pause/Continue");
+  setActionFunc(ESCALATOR_TYPE, 0, WO_ACTION gotoFront, "Approach");
+  setActionFunc(ESCALATOR_TYPE, 1, WO_ACTION pause_cb, "Pause/Continue");
 }

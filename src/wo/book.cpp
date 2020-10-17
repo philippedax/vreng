@@ -200,7 +200,7 @@ Book::Book(char *l)
   setRenderPrior(RENDER_HIGH);
 
   initializeMobileObject(1);
-  createPermanentNetObj(PROPS, ++oid);
+  createPermanentNetObject(PROPS, ++oid);
 
   // create the heaps of sheets
 
@@ -326,7 +326,7 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
       float depth2 = depth + thick; // augmented
       setPos(s, pos.x - depth2*sin(aright), pos.y + depth2*cos(aright), pos.z, aright, pos.ax);
       setDim(s, width, depth, height);
-      setTex(s, tex[2], tex[2*nbs-1], tex[2*nbs], tex[2*nbs+2], tex[2*nbs+1]); //  p 2 + couverture arriere
+      setTex(s, tex[2], tex[2*nbs-1], tex[2*nbs], tex[2*nbs+2], tex[2*nbs+1]); //  p 2 + couverture arrière
       cancelSheet(right);
       createSheet(s, Sheet::RIGHT, RIGHT);
       // replace the left heap if too big (case of bookClose)
@@ -724,14 +724,14 @@ void Book::funcs()
   putPropertyFunc(BOOK_TYPE, PROPAY, WO_PAYLOAD put_ay);
   putPropertyFunc(BOOK_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
 
-  setActionFunc(BOOK_TYPE, PULL, O_ACTION approach_cb, "Approach");
-  setActionFunc(BOOK_TYPE, OPEN, O_ACTION open_cb, "Open");
-  setActionFunc(BOOK_TYPE, CLOSE, O_ACTION close_cb, "Close");
-  setActionFunc(BOOK_TYPE, NEXT, O_ACTION nextSheet_cb, ">");
-  setActionFunc(BOOK_TYPE, PREV, O_ACTION prevSheet_cb, "<");
-  setActionFunc(BOOK_TYPE, FWD, O_ACTION forwardSheet_cb, ">>");
-  setActionFunc(BOOK_TYPE, REW, O_ACTION backwardSheet_cb, "<<");
-  setActionFunc(BOOK_TYPE, LOOKL, O_ACTION lookLeft_cb, "LookLeft");
-  setActionFunc(BOOK_TYPE, LOOKR, O_ACTION lookRight_cb, "LookRight");
-  setActionFunc(BOOK_TYPE, MOVE, O_ACTION moveObject, "Move");
+  setActionFunc(BOOK_TYPE, PULL, WO_ACTION approach_cb, "Approach");
+  setActionFunc(BOOK_TYPE, OPEN, WO_ACTION open_cb, "Open");
+  setActionFunc(BOOK_TYPE, CLOSE, WO_ACTION close_cb, "Close");
+  setActionFunc(BOOK_TYPE, NEXT, WO_ACTION nextSheet_cb, ">");
+  setActionFunc(BOOK_TYPE, PREV, WO_ACTION prevSheet_cb, "<");
+  setActionFunc(BOOK_TYPE, FWD, WO_ACTION forwardSheet_cb, ">>");
+  setActionFunc(BOOK_TYPE, REW, WO_ACTION backwardSheet_cb, "<<");
+  setActionFunc(BOOK_TYPE, LOOKL, WO_ACTION lookLeft_cb, "LookLeft");
+  setActionFunc(BOOK_TYPE, LOOKR, WO_ACTION lookRight_cb, "LookRight");
+  setActionFunc(BOOK_TYPE, MOVE, WO_ACTION moveObject, "Move");
 }
