@@ -170,13 +170,13 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /Users/dax/vreng/vreng-9.0.0/support/missing aclocal-1.14
+ACLOCAL = ${SHELL} /Users/dax/vreng/support/missing aclocal-1.14
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} /Users/dax/vreng/vreng-9.0.0/support/missing autoconf
-AUTOHEADER = ${SHELL} /Users/dax/vreng/vreng-9.0.0/support/missing autoheader
-AUTOMAKE = ${SHELL} /Users/dax/vreng/vreng-9.0.0/support/missing automake-1.14
+AUTOCONF = ${SHELL} /Users/dax/vreng/support/missing autoconf
+AUTOHEADER = ${SHELL} /Users/dax/vreng/support/missing autoheader
+AUTOMAKE = ${SHELL} /Users/dax/vreng/support/missing automake-1.14
 AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
@@ -216,7 +216,7 @@ LIBOBJS =  ${LIBOBJDIR}error$U.o ${LIBOBJDIR}lstat$U.o
 LIBS = -L/opt/local/lib -lfreetype -lz -lbz2 -lpng15 -lm 
 LN_S = ln -s
 LTLIBOBJS =  ${LIBOBJDIR}error$U.lo ${LIBOBJDIR}lstat$U.lo
-MAKEINFO = ${SHELL} /Users/dax/vreng/vreng-9.0.0/support/missing makeinfo
+MAKEINFO = ${SHELL} /Users/dax/vreng/support/missing makeinfo
 MKDIR_P = ../../support/install-sh -c -d
 MYSQL_CFLAGS = 
 OBJEXT = o
@@ -226,10 +226,10 @@ OCAML_LIBS =
 PACKAGE = vreng
 PACKAGE_BUGREPORT = philippe.dax@gmail.com
 PACKAGE_NAME = vreng
-PACKAGE_STRING = vreng 9.0.2
+PACKAGE_STRING = vreng 9.0.3
 PACKAGE_TARNAME = vreng
 PACKAGE_URL = 
-PACKAGE_VERSION = 9.0.2
+PACKAGE_VERSION = 9.0.3
 PATH_SEPARATOR = :
 PERLPATH = /opt/local/bin/perl
 PYTHON_CFLAGS = 
@@ -242,7 +242,7 @@ SHELL = /bin/sh
 STRIP = 
 UBITCONFIG = 
 UBIT_CFLAGS = -I../../src
-VERSION = 9.0.2
+VERSION = 9.0.3
 VRELIBS = -L/opt/X11/lib -lxml2 -lpthread -L/usr/lib -ldl -L/opt/local/lib -lfreetype -lz -lbz2 -lpng15 -lm  -L/opt/X11/lib -lGLU -lGL  -L/opt/X11/lib -L/usr/X11/lib -lXpm -lICE -lSM -lXext -lXmu -lX11 -L/opt/X11/lib -lcurl -lz -L/opt/X11/lib -ljpeg -L/opt/X11/lib -lungif -lXpm 
 WGETPATH = /usr/local/bin/wget
 XLIBS = -L/opt/X11/lib -L/usr/X11/lib  -lSM -lICE 
@@ -253,10 +253,10 @@ X_CFLAGS = -I/opt/X11/include
 X_EXTRA_LIBS = 
 X_LIBS = -L/opt/X11/lib -L/usr/X11/lib
 X_PRE_LIBS =  -lSM -lICE
-abs_builddir = /Users/dax/vreng/vreng-9.0.0/src/ai
-abs_srcdir = /Users/dax/vreng/vreng-9.0.0/src/ai
-abs_top_builddir = /Users/dax/vreng/vreng-9.0.0
-abs_top_srcdir = /Users/dax/vreng/vreng-9.0.0
+abs_builddir = /Users/dax/vreng/src/ai
+abs_srcdir = /Users/dax/vreng/src/ai
+abs_top_builddir = /Users/dax/vreng
+abs_top_srcdir = /Users/dax/vreng
 ac_ct_CC = gcc
 ac_ct_CXX = g++
 am__include = include
@@ -284,7 +284,7 @@ host_vendor = apple
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /Users/dax/vreng/vreng-9.0.0/support/install-sh
+install_sh = ${SHELL} /Users/dax/vreng/support/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -306,67 +306,17 @@ top_builddir = ../..
 top_srcdir = ../..
 uudecode = 
 AUTOMAKE_OPTIONS = foreign
-#OCAML_SRCS = $(OCAML_INIT) \
-#	stringParser.mly \
-#	stringLexer.mll \
-#	requeteParser.mly \
-#	requeteLexer.mll \
-#	requeteAffichage.ml \
-#	requeteSemantique.ml \
-#	analyseur.ml
-
-#OCAML_HDRS = aiinit.hpp \
-#	analyseur.mli \
-#	requeteAffichage.mli \
-#	stringParser.mli \
-#	stringLexer.mli \
-#	requeteParser.mli \
-#	requeteLexer.mli \
-#	requeteSemantique.mli \
-#	requeteSyntax.mli
-
 #OCAML_INIT = aiinit.cpp dummy_.ml
+#OCAML_SRCS = $(OCAML_INIT) stringParser.mly stringLexer.mll requeteParser.mly requeteLexer.mll requeteAffichage.ml requeteSemantique.ml analyseur.ml
+#OCAML_HDRS = aiinit.hpp analyseur.mli requeteAffichage.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
 #EXTRA_DIST = $(OCAML_SRCS) $(OCAML_HDRS)
-#AM_CPPFLAGS =  -I/opt/local/include/libxml2 -I../../src \
-#	-I$(top_srcdir)/src/sys \
-#	-I$(top_srcdir)/src/vreng \
-#	-I$(top_srcdir)/src/com \
-#	-I$(top_srcdir)/src/net \
-#	-I$(top_srcdir)/src/wo \
-#	-I$(top_srcdir)/src/vgl \
-#	-I$(top_srcdir)/src/gui
-
+#AM_CPPFLAGS =  -I/opt/local/include/libxml2 -I../../src -I$(top_srcdir)/src/sys -I$(top_srcdir)/src/vreng -I$(top_srcdir)/src/com -I$(top_srcdir)/src/net -I$(top_srcdir)/src/wo -I$(top_srcdir)/src/vgl -I$(top_srcdir)/src/gui
 #libai_a_SOURCES = $(OCAML_INIT) aiinit.hpp
 #noinst_LIBRARIES = libai.a
-#GEN = stringLexer.ml \
-#	stringParser.mli \
-#	stringParser.ml \
-#	requeteLexer.ml \
-#	requeteParser.mli \
-#	requeteParser.ml
-
-
-######################## en-tete des fichiers ocaml ########################
-#CMLI = requeteSyntax.mli \
-#	stringParser.mli \
-#	stringLexer.mli \
-#	requeteParser.mli \
-#	requeteLexer.mli \
-#	requeteAffichage.mli \
-#	requeteSemantique.mli \
-#	analyseur.mli
-
+#GEN = stringLexer.ml stringParser.mli stringParser.ml requeteLexer.ml requeteParser.mli requeteParser.ml
+#CML = stringParser.ml stringLexer.ml requeteLexer.ml requeteParser.ml requeteAffichage.ml requeteSemantique.ml analyseur.ml
+#CMLI = requeteSyntax.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteAffichage.mli requeteSemantique.mli analyseur.mli
 #CMI = $(CMLI:.mli=.cmi)
-
-####################### code source des fichiers ocaml ####################
-#CML = stringParser.ml \
-#	stringLexer.ml \
-#	requeteLexer.ml \
-#	requeteParser.ml \
-#	requeteAffichage.ml \
-#	requeteSemantique.ml \
-#	analyseur.ml
-
 #CMO = $(CML:.ml=.cmo)
 #CMX = $(CML:.ml=.cmx)
 all: all-am
@@ -638,7 +588,6 @@ uninstall-am:
 
 
 ####################### Les etapes de compilation #########################
-
 #SUFFIXES: .o .c .cmo .cmi .cmx .ml .mli .mll .mly
 
 #.ml.o:

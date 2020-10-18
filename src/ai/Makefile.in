@@ -306,67 +306,17 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 uudecode = @uudecode@
 AUTOMAKE_OPTIONS = foreign
-@OCAML_TRUE@OCAML_SRCS = $(OCAML_INIT) \
-@OCAML_TRUE@	stringParser.mly \
-@OCAML_TRUE@	stringLexer.mll \
-@OCAML_TRUE@	requeteParser.mly \
-@OCAML_TRUE@	requeteLexer.mll \
-@OCAML_TRUE@	requeteAffichage.ml \
-@OCAML_TRUE@	requeteSemantique.ml \
-@OCAML_TRUE@	analyseur.ml
-
-@OCAML_TRUE@OCAML_HDRS = aiinit.hpp \
-@OCAML_TRUE@	analyseur.mli \
-@OCAML_TRUE@	requeteAffichage.mli \
-@OCAML_TRUE@	stringParser.mli \
-@OCAML_TRUE@	stringLexer.mli \
-@OCAML_TRUE@	requeteParser.mli \
-@OCAML_TRUE@	requeteLexer.mli \
-@OCAML_TRUE@	requeteSemantique.mli \
-@OCAML_TRUE@	requeteSyntax.mli
-
 @OCAML_TRUE@OCAML_INIT = aiinit.cpp dummy_.ml
+@OCAML_TRUE@OCAML_SRCS = $(OCAML_INIT) stringParser.mly stringLexer.mll requeteParser.mly requeteLexer.mll requeteAffichage.ml requeteSemantique.ml analyseur.ml
+@OCAML_TRUE@OCAML_HDRS = aiinit.hpp analyseur.mli requeteAffichage.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
 @OCAML_TRUE@EXTRA_DIST = $(OCAML_SRCS) $(OCAML_HDRS)
-@OCAML_TRUE@AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ \
-@OCAML_TRUE@	-I$(top_srcdir)/src/sys \
-@OCAML_TRUE@	-I$(top_srcdir)/src/vreng \
-@OCAML_TRUE@	-I$(top_srcdir)/src/com \
-@OCAML_TRUE@	-I$(top_srcdir)/src/net \
-@OCAML_TRUE@	-I$(top_srcdir)/src/wo \
-@OCAML_TRUE@	-I$(top_srcdir)/src/vgl \
-@OCAML_TRUE@	-I$(top_srcdir)/src/gui
-
+@OCAML_TRUE@AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ -I$(top_srcdir)/src/sys -I$(top_srcdir)/src/vreng -I$(top_srcdir)/src/com -I$(top_srcdir)/src/net -I$(top_srcdir)/src/wo -I$(top_srcdir)/src/vgl -I$(top_srcdir)/src/gui
 @OCAML_TRUE@libai_a_SOURCES = $(OCAML_INIT) aiinit.hpp
 @OCAML_TRUE@noinst_LIBRARIES = libai.a
-@OCAML_TRUE@GEN = stringLexer.ml \
-@OCAML_TRUE@	stringParser.mli \
-@OCAML_TRUE@	stringParser.ml \
-@OCAML_TRUE@	requeteLexer.ml \
-@OCAML_TRUE@	requeteParser.mli \
-@OCAML_TRUE@	requeteParser.ml
-
-
-######################## en-tete des fichiers ocaml ########################
-@OCAML_TRUE@CMLI = requeteSyntax.mli \
-@OCAML_TRUE@	stringParser.mli \
-@OCAML_TRUE@	stringLexer.mli \
-@OCAML_TRUE@	requeteParser.mli \
-@OCAML_TRUE@	requeteLexer.mli \
-@OCAML_TRUE@	requeteAffichage.mli \
-@OCAML_TRUE@	requeteSemantique.mli \
-@OCAML_TRUE@	analyseur.mli
-
+@OCAML_TRUE@GEN = stringLexer.ml stringParser.mli stringParser.ml requeteLexer.ml requeteParser.mli requeteParser.ml
+@OCAML_TRUE@CML = stringParser.ml stringLexer.ml requeteLexer.ml requeteParser.ml requeteAffichage.ml requeteSemantique.ml analyseur.ml
+@OCAML_TRUE@CMLI = requeteSyntax.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteAffichage.mli requeteSemantique.mli analyseur.mli
 @OCAML_TRUE@CMI = $(CMLI:.mli=.cmi)
-
-####################### code source des fichiers ocaml ####################
-@OCAML_TRUE@CML = stringParser.ml \
-@OCAML_TRUE@	stringLexer.ml \
-@OCAML_TRUE@	requeteLexer.ml \
-@OCAML_TRUE@	requeteParser.ml \
-@OCAML_TRUE@	requeteAffichage.ml \
-@OCAML_TRUE@	requeteSemantique.ml \
-@OCAML_TRUE@	analyseur.ml
-
 @OCAML_TRUE@CMO = $(CML:.ml=.cmo)
 @OCAML_TRUE@CMX = $(CML:.ml=.cmx)
 all: all-am
@@ -638,7 +588,6 @@ uninstall-am:
 
 
 ####################### Les etapes de compilation #########################
-
 @OCAML_TRUE@SUFFIXES: .o .c .cmo .cmi .cmx .ml .mli .mll .mly
 
 @OCAML_TRUE@.ml.o:

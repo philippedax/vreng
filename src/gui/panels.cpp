@@ -43,14 +43,13 @@
 #include "capture.hpp"
 #include "theme.hpp"
 #include "user.hpp"		// UserAction
-#include "hud.hpp"		// toggle
 #include "axis.hpp"		// toggle
 #include "grid.hpp"		// toggle
 #include "world.hpp"
 #include "channel.hpp"
 #include "message.hpp"
 
-static void toggleHudCB(Widgets*) { Hud::hud()->toggle(); }
+static void toggleHudCB(Widgets*) { g.gui.getScene()->toggleHud(); }
 
 static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 
@@ -222,32 +221,18 @@ manipulator(_gw->navig.createManipulator())
        + viewlist
        + usepar()
        + "Show:"
-       + uitem( utip("Show axis")
-               + ucall(_gw, toggleAxisCB)
-               + g.theme.Axis)
-       + uitem( utip("Show 2D grid")
-               + ucall(_gw, 0, toggleGridCB)
-               + g.theme.Grid2D)
-       + uitem( utip("Show 3D grid")
-               + ucall(_gw, 1, toggleGridCB)
-               + g.theme.Grid3D)
-       + uitem( utip("Show hud")
-               + ucall(_gw, toggleHudCB)
-               + g.theme.Counter)
-       + uitem( utip("Show overview")
-               + ucall(int(UserAction::UA_MAPVIEW), Widgets::callAction)
-               + g.theme.World)
+       + uitem( utip("Show axis") + ucall(_gw, toggleAxisCB) + g.theme.Axis)
+       + uitem( utip("Show 2D grid") + ucall(_gw, 0, toggleGridCB) + g.theme.Grid2D)
+       + uitem( utip("Show 3D grid") + ucall(_gw, 1, toggleGridCB) + g.theme.Grid3D)
+       + uitem( utip("Show hud") + ucall(_gw, toggleHudCB) + g.theme.Counter)
+       + uitem( utip("Show map") + ucall(int(UserAction::UA_MAPVIEW), Widgets::callAction) + g.theme.World)
        + usepar()
        + "Objects:"
        + uitem(utip("Show object cart")
                // + ushow(*gw.cartDialog, true)         !! A COMPLETER
                + g.theme.Cart)
-       + uitem(utip("Add object to the scene")
-               + ushow(gw.addobj_dialog, true)
-               + g.theme.AddObj)
-       + uitem(utip("Test: sandbox world !")
-               + ucall(_gw, sandboxCB)
-               + UPix::question)
+       + uitem(utip("Add object to the world") + ushow(gw.addobj_dialog, true) + g.theme.AddObj)
+       + uitem(utip("Test: sandbox world !") + ucall(_gw, sandboxCB) + UPix::question)
        + usepar()
        + "Throw:"
        + uitem(utip("Throw dart")

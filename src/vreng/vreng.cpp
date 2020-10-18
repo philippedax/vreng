@@ -64,9 +64,6 @@ int main(int argc, char *argv[])
 
 int Global::start(int argc, char *argv[])
 {
-#if 0
-  if (setjmp(sigctx)) error("Restart Vreng");
-#endif
   times.init.start();
   pref.init(argc, argv, g.env.prefs());	// Options & Preferences initialization
 

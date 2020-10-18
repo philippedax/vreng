@@ -210,20 +210,21 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
 
     selectObject(objinfo, button);
   
-    if (button == 3) {	// show object menu
+    if (button == 3) {		// show object menu
       object_menu.open(e);
       opened_menu = object_menu;
     }
-    else if (button == 1) {  // navigator
+    else if (button == 1) {	// navigator
       navig_menu.open(e);	// show(e, 0, 0);
       opened_menu = navig_menu;
       if (object->solid) {
-        object->setFlashy();			// flashes the edges of the solid
+        object->setFlashy();	// flashes the edges of the solid
         object->setRay(x, y);	// Launches ray
       }
     }
   }
-  else gw.setRayDirection(x, y);	// Launches stipple ray
+  else
+    gw.setRayDirection(x, y);	// Launches stipple ray
 }
 
 // PRESS button 2: fine grain selection
@@ -235,10 +236,10 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y, int button)
     gw.gui.selected_object = object;
     object->resetFlashy();
     object->setFlashy();		// flashes edges of the solid
-    object->setRay(x, y);	// Launches ray
+    object->setRay(x, y);		// Launches ray
     selectObject(objinfo, button);
   }  
-  else gw.setRayDirection(x, y);		// Launches stipple ray
+  else gw.setRayDirection(x, y);	// Launches stipple ray
 }
 
 // MOTION 

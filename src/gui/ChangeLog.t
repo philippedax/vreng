@@ -15,7 +15,13 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.0\n\
+-- 9.0.3\n\
+	- removes vgl/hud.*pp\n\
+	- restore missing file in src/ai\n\
+	(2020/10/18, Philippe Dax)\n\
+\n\
 -- 9.0.2\n\
+	- fixed angle hen toland action\n\
 	- restablished gui/hud*pp\n\
 	(2020/10/17, Philippe Dax)\n\
 \n\
