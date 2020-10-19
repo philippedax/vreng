@@ -42,7 +42,7 @@ class Gui;
 class Widgets;
 class Scene;
 class Navig;
-class Mvt;
+class Motion;
 class WObject;
 class User;
 class World;

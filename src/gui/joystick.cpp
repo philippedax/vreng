@@ -33,7 +33,7 @@
 #include "widgets.hpp"
 #include "joystick.hpp"
 #include "navig.hpp"
-#include "mvt.hpp"
+#include "motion.hpp"
 #include "theme.hpp"
 #include "user.hpp"	// UserAction
 
@@ -61,7 +61,7 @@ Joystick::Joystick(Widgets* _gw, int _radius)
                       ).setSelectable()
               + uitem(g.theme.JoystickUpDown
                       + utip("Drag on the Y axis to move verticaly")
-                      + UOn::arm / ucall(navig, (Mvt*)0, &Mvt::ztrans, &Navig::startMotion)
+                      + UOn::arm / ucall(navig, (Motion*)0, &Motion::ztrans, &Navig::startMotion)
                       + UOn::mdrag / ucall(navig, &Navig::doMotion)
                       + UOn::mrelease / ucall(navig, &Navig::stopMotion)
                       )
@@ -71,7 +71,7 @@ Joystick::Joystick(Widgets* _gw, int _radius)
               + uright()
               + uitem(g.theme.JoystickLeftRight
                       + utip("Drag on the X axis to move lateraly")
-                      + UOn::arm / ucall(navig, &Mvt::xtrans, (Mvt*)0, &Navig::startMotion)
+                      + UOn::arm / ucall(navig, &Motion::xtrans, (Motion*)0, &Navig::startMotion)
                       + UOn::mdrag / ucall(navig, &Navig::doMotion)
                       + UOn::mrelease / ucall(navig, &Navig::stopMotion)
                       )
@@ -81,7 +81,7 @@ Joystick::Joystick(Widgets* _gw, int _radius)
 
 void Joystick::pressCanvasCB(UMouseEvent& e)
 {
-  gw.getNavig()->startMotion(e, &Mvt::zrot, &Mvt::ytrans);
+  gw.getNavig()->startMotion(e, &Motion::zrot, &Motion::ytrans);
   current_point.set(e.getX(), e.getY());
   is_drawing = true;
   repaint();

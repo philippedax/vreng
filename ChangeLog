@@ -15,9 +15,10 @@ The rules for this file:
 ++ 9
 == 9.0
 -- 9.0.3
-	- removes vgl/hud.*pp
-	- restore missing file in src/ai
-	(2020/10/18, Philippe Dax)
+	- move gui/mvt.*pp to gui/motion.*pp
+	- removed vgl/hud.*pp
+	- restore missing file in src/ai for github
+	(2020/10/19, Philippe Dax)
 
 -- 9.0.2
 	- fixed angle hen toland action

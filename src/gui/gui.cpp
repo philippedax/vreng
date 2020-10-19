@@ -35,7 +35,7 @@
 #include "navig.hpp"
 #include "message.hpp"
 #include "scene.hpp"
-#include "mvt.hpp"
+#include "motion.hpp"
 #include "world.hpp"    // current
 #include "wobject.hpp"  // WObject
 #include "user.hpp"	// localuser
@@ -296,8 +296,8 @@ void Gui::setToBoard(Board* _board)
 void Gui::setToCarrier(Carrier* _carrier)
 {
   carrier = _carrier;
-  Mvt* mvt = Mvt::pointer();
-  mvt->setToCarrier(carrier);
+  Motion* motion = Motion::pointer();
+  motion->setToCarrier(carrier);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

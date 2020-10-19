@@ -34,7 +34,7 @@ public:
   UBox& createManipulator();
   
   void selectObject(ObjInfo*, int button_no);
-  void startMotion(UMouseEvent&, Mvt* mvt_x, Mvt* mvt_y);
+  void startMotion(UMouseEvent&, Motion* mvt_x, Motion* mvt_y);
   void doMotion(UMouseEvent&);
   void stopMotion();
   

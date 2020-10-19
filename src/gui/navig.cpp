@@ -36,7 +36,7 @@
 #include "scene.hpp"	// add
 #include "navig.hpp"
 #include "message.hpp"
-#include "mvt.hpp"
+#include "motion.hpp"
 #include "theme.hpp"
 #include "user.hpp"	// User
 #include "vnc.hpp"	// Vnc
@@ -46,7 +46,7 @@
 
 // local
 static ObjInfo objinfo[ACTIONSNUMBER + 6];
-static Mvt *mvtx = null, *mvty = null;
+static Motion *motionx = null, *motiony = null;
 
 
 Navig::Navig(Widgets* _gw, Scene& scene) :
@@ -244,30 +244,30 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y, int button)
 
 // MOTION 
 
-void Navig::startMotion(UMouseEvent& e, Mvt* _mvtx, Mvt *_mvty)
+void Navig::startMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
 {
   xref = e.getX();
   yref = e.getY();
-  if (mvtx)  mvtx->stop();
-  if (mvty)  mvty->stop();
-  mvtx = _mvtx;
-  mvty = _mvty;
+  if (motionx)  motionx->stop();
+  if (motiony)  motiony->stop();
+  motionx = _motionx;
+  motiony = _motiony;
 }
 
 void Navig::doMotion(UMouseEvent& e)
 {
   float deltax = e.getX() - xref;
   float deltay = e.getY() - yref;
-  if (mvtx)  mvtx->move((int) deltax);
-  if (mvty)  mvty->move((int) deltay);
+  if (motionx)  motionx->move((int) deltax);
+  if (motiony)  motiony->move((int) deltay);
 }
 
 void Navig::stopMotion()
 {
-  if (mvtx)  mvtx->stop();
-  if (mvty)  mvty->stop();
-  mvtx = null;
-  mvty = null;
+  if (motionx)  motionx->stop();
+  if (motiony)  motiony->stop();
+  motionx = null;
+  motiony = null;
 }
 
 // Updates object info (infoBox in the infoBar and contextual info menu)
@@ -305,11 +305,11 @@ void Navig::initNavigMenu()
   //navig_menu.setShowDelay(300);  // delay of the expert mode
   navig_menu.addAttr(UBackground::black);
   // Z rotation on x-mouse and Y translation on y-mouse
-  UCall& startYZMotion = ucall(this, &Mvt::zrot, &Mvt::ytrans, &Navig::startMotion);
+  UCall& startYZMotion = ucall(this, &Motion::zrot, &Motion::ytrans, &Navig::startMotion);
   // X translation on x-mouse
-  UCall& startXTranslation = ucall(this, &Mvt::xtrans, (Mvt*)0, &Navig::startMotion);
+  UCall& startXTranslation = ucall(this, &Motion::xtrans, (Motion*)0, &Navig::startMotion);
   // Z translation on y-mouse
-  UCall& startZTranslation = ucall(this, (Mvt*)0, &Mvt::ztrans, &Navig::startMotion);
+  UCall& startZTranslation = ucall(this, (Motion*)0, &Motion::ztrans, &Navig::startMotion);
   UCall& move = ucall(this, &Navig::doMotion);
   UCall& stop = ucall(this, &Navig::stopMotion);
   // RIGHT
@@ -373,21 +373,21 @@ UBox& Navig::createManipulator()    // !!!!!!! A REVOIR !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::setMouseRef)
            + UOn::mdrag    / ucall(this, &Navig::canvasMouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::canvasMouseReleaseCB)
-           + UOn::arm / ucall(this, (Mvt*)0, &Mvt::trans_forw, &Navig::startMotion)
+           + UOn::arm / ucall(this, (Motion*)0, &Motion::trans_forw, &Navig::startMotion)
 	  )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzleft	 //TURN LEFT
            + UOn::mpress   / ucall(this, &Navig::setMouseRef)
            + UOn::mdrag    / ucall(this, &Navig::canvasMouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::canvasMouseReleaseCB)
-           + UOn::arm / ucall(this, (Mvt*)0, &Mvt::zrot_left, &Navig::startMotion)
+           + UOn::arm / ucall(this, (Motion*)0, &Motion::zrot_left, &Navig::startMotion)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzright //TURN RIGHT
            + UOn::mpress   / ucall(this, &Navig::setMouseRef)
            + UOn::mdrag    / ucall(this, &Navig::canvasMouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::canvasMouseReleaseCB)
-           + UOn::arm / ucall(this, (Mvt*)0, &Mvt::zrot_right, &Navig::startMotion)
+           + UOn::arm / ucall(this, (Motion*)0, &Motion::zrot_right, &Navig::startMotion)
    )
   );
 
@@ -397,7 +397,7 @@ UBox& Navig::createManipulator()    // !!!!!!! A REVOIR !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::setMouseRef)
            + UOn::mdrag    / ucall(this, &Navig::canvasMouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::canvasMouseReleaseCB)
-           + UOn::arm / ucall(this, (Mvt*)0, &Mvt::trans_left, &Navig::startMotion)
+           + UOn::arm / ucall(this, (Motion*)0, &Motion::trans_left, &Navig::startMotion)
            )
    + uitem(l + " ")
 
@@ -405,14 +405,14 @@ UBox& Navig::createManipulator()    // !!!!!!! A REVOIR !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::setMouseRef)
            + UOn::mdrag    / ucall(this, &Navig::canvasMouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::canvasMouseReleaseCB)
-           + UOn::arm / ucall(this, (Mvt*)0, &Mvt::xrot_left, &Navig::startMotion)
+           + UOn::arm / ucall(this, (Motion*)0, &Motion::xrot_left, &Navig::startMotion)
            )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotxright //ROLL RIGHT
            + UOn::mpress   / ucall(this, &Navig::setMouseRef)
            + UOn::mdrag    / ucall(this, &Navig::canvasMouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::canvasMouseReleaseCB)
-           + UOn::arm / ucall(this, (Mvt*)0, &Mvt::xrot_right, &Navig::startMotion)
+           + UOn::arm / ucall(this, (Motion*)0, &Motion::xrot_right, &Navig::startMotion)
            )
   );
 
@@ -422,21 +422,21 @@ UBox& Navig::createManipulator()    // !!!!!!! A REVOIR !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::setMouseRef)
            + UOn::mdrag    / ucall(this, &Navig::canvasMouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::canvasMouseReleaseCB)
-           + UOn::arm / ucall(this, (Mvt*)0, &Mvt::trans_up, &Navig::startMotion)
+           + UOn::arm / ucall(this, (Motion*)0, &Motion::trans_up, &Navig::startMotion)
            )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotyup	 //TILT UP
            + UOn::mpress   / ucall(this, &Navig::setMouseRef)
            + UOn::mdrag    / ucall(this, &Navig::canvasMouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::canvasMouseReleaseCB)
-           + UOn::arm / ucall(this, (Mvt*)0, &Mvt::yrot_up, &Navig::startMotion)
+           + UOn::arm / ucall(this, (Motion*)0, &Motion::yrot_up, &Navig::startMotion)
            )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotydown	 //TILT DOWN
            + UOn::mpress   / ucall(this, &Navig::setMouseRef)
            + UOn::mdrag    / ucall(this, &Navig::canvasMouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::canvasMouseReleaseCB)
-           + UOn::arm / ucall(this, (Mvt*)0, &Mvt::yrot_down, &Navig::startMotion)
+           + UOn::arm / ucall(this, (Motion*)0, &Motion::yrot_down, &Navig::startMotion)
            )
    );
   
