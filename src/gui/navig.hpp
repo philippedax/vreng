@@ -22,6 +22,7 @@
 #define NAVIG_HPP
 
 #include <ubit/ubit.hpp>
+#include "widgets.hpp"
 
 class Widgets;
 
@@ -55,12 +56,12 @@ private:
   void setMouseRef(UMouseEvent& e);
   void mousePressB1orB3(UMouseEvent&, int x, int y, int button_no);
   void mousePressB2(UMouseEvent&, int x, int y, int button_no);
-  void canvasMousePressCB(UMouseEvent&);  
-  void canvasMouseReleaseCB(UMouseEvent&);
-  void canvasMouseDragCB(UMouseEvent&);
-  void canvasMouseMoveCB(UMouseEvent&);
-  void canvasKeyPressCB(UKeyEvent&);
-  void canvasKeyReleaseCB(UKeyEvent&);
+  void mousePressCB(UMouseEvent&);  
+  void mouseReleaseCB(UMouseEvent&);
+  void mouseDragCB(UMouseEvent&);
+  void mouseMoveCB(UMouseEvent&);
+  void keyPressCB(UKeyEvent&);
+  void keyReleaseCB(UKeyEvent&);
  };
 
 #endif

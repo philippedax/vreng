@@ -9,15 +9,18 @@ p=$(basename $0)
 case $# in
 0)
   echo "usage: $p message"
-  exit 0
+  message="not significative"
+  ;;
+1)
+  message=$1
   ;;
 esac
 
-#svn ci -m "$1"
+#svn ci -m "$message"
 #./.github
-git commit -a -m "$1"
+git commit -a -m "$message"
 git push origin master
 #./.gitlab
-#git commit -a -m "$1"
+#git commit -a -m "$message"
 #git push origin master
 #./.github

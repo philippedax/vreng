@@ -18,9 +18,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-//
-// Obsoletes 6.4.10
-//
+
 #include "vreng.hpp"
 #include "carrier.hpp"
 #include "user.hpp"	// localuser
@@ -110,7 +108,7 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
 }
 
 /** Mouse event
- * called by Mvt::move (navig.cpp)
+ * called by Motion::move (navig.cpp)
  */
 void Carrier::mouseEvent(int8_t vkey, float last)
 {

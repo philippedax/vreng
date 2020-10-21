@@ -301,7 +301,6 @@ void Gui::setToCarrier(Carrier* _carrier)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 WObject* Gui::getSelectedObject()
 {
   return selected_object;
@@ -317,7 +316,6 @@ void Gui::showManipulator()
   widgets->panels.showManipulator(true);
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // clears the info bar.
 void Gui::clearInfoBar(WObject *obj)
 {

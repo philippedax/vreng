@@ -61,17 +61,18 @@ public:
   void writeMessage(const char *mode, const char *from, const char *mess);
   ///< writes a message.
   
+  // Channel
   void addChannelSources(int canal, int table[], int table_size);
-  ///< NB: canal=0 for tab_fd / canal=1 for tab_manager_fd.
-  
   void removeChannelSources(int canal);
   ///< NB: canal=0 for tab_fd / canal=1 for tab_manager_fd.
 
+  // User
   GuiItem * addUser(class User*);
   void updateUser(class User*);
   void removeUser(class User*);
   void pauseUser();
-  
+ 
+  // World
   GuiItem * addWorld(class World *world, bool isCurrent);
   void updateWorld(class World *world, bool isCurrent);
   void removeWorld(class World *world);
@@ -99,14 +100,16 @@ private:
   friend class Scene;
   friend class Navig;
   friend class Panel;
+
   struct ChannelSources;
   std::vector<ChannelSources*> channel_sources;	///< table of network events
-  class Widgets* widgets;	     ///< the widgets of the GUI
-  class WObject* selected_object;  ///< the solid that is currently selected
-  class Vnc* vnc;		               ///< vnc pointer
-  class Carrier* carrier;	         ///< carrier pointer
-  class Vrelet* vrelet;		         ///< vrelet pointer
-  class Board* board;		         ///< board pointer
+
+  class Widgets* widgets;		///< the widgets of the GUI
+  class WObject* selected_object;	///< the solid that is currently selected
+  class Vnc* vnc;			///< vnc pointer
+  class Carrier* carrier;		///< carrier pointer
+  class Vrelet* vrelet;			///< vrelet pointer
+  class Board* board;			///< board pointer
 };
 
 #endif

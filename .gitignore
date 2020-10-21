@@ -71,7 +71,7 @@ src/*/*/Makefile.in
 src/*/*/*.o
 src/*/*/*.a
 src/vreng/MakefileGLUT
-src/ai/*.ml*
+src/ai/*.cm*
 wwwlocal
 wwwdax
 vrlocal

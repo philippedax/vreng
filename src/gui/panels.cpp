@@ -33,8 +33,8 @@
 
 #include "vreng.hpp"
 #include "widgets.hpp"
-#include "theme.hpp"
 #include "panels.hpp"
+#include "theme.hpp"
 #include "palette.hpp"
 #include "navig.hpp"
 #include "scene.hpp"

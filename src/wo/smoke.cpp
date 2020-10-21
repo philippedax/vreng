@@ -27,19 +27,12 @@ const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
 // local
 #ifdef NEW_SMOKE
-const float ParticleSmoke::size = 0.02;
-const float ParticleSmoke::_pi = 3.141592;
-const float ParticleSmoke::angle[10] ={2*_pi*1/10., 2*_pi*2/10., 2*_pi*3/10.,
-2*_pi*4/10., 2*_pi*5/10., 2*_pi*6/10., 2*_pi*7/10., 2*_pi*8/10., 2*_pi*9/10., 2*_pi};
-const float ParticleSmoke::_cos[10] = {size*cos(angle[0]),
-  size*cos(angle[1]), size*cos(angle[2]), size*cos(angle[3]),
-  size*cos(angle[4]), size*cos(angle[5]), size*cos(angle[6]),
-  size*cos(angle[7]), size*cos(angle[8]), size*cos(angle[9])};
-const float ParticleSmoke::_sin[10] = {size*sin(angle[0]),
-  size*sin(angle[1]), size*sin(angle[2]), size*sin(angle[3]),
-  size*sin(angle[4]), size*sin(angle[5]), size*sin(angle[6]),
-  size*sin(angle[7]), size*sin(angle[8]), size*sin(angle[9])};
-#else
+const float ParticleSmoke::sz = 0.02;
+const float ParticleSmoke::pi = 3.141592;
+const float ParticleSmoke::a[10] = { 2*pi*1/10., 2*pi*2/10., 2*pi*3/10., 2*pi*4/10., 2*pi*5/10., 2*pi*6/10., 2*pi*7/10., 2*pi*8/10., 2*pi*9/10., 2*pi};
+const float ParticleSmoke::_cos[10] = { sz*cos(a[0]), sz*cos(a[1]), sz*cos(a[2]), sz*cos(a[3]), sz*cos(a[4]), sz*cos(a[5]), sz*cos(a[6]), sz*cos(a[7]), sz*cos(a[8]), sz*cos(a[9]) };
+const float ParticleSmoke::_sin[10] = { sz*sin(a[0]), sz*sin(a[1]), sz*sin(a[2]), sz*sin(a[3]), sz*sin(a[4]), sz*sin(a[5]), sz*sin(a[6]), sz*sin(a[7]), sz*sin(a[8]), sz*sin(a[9]) };
+#else //NEW_SMOKE
 static float norms[3][3][3] = {
 { {TILE*D0,TILE*D1,TILE*D2}    ,{TILE*D1,TILE*D1_1,TILE*D2_1}      ,{TILE*D2,TILE*D2_1,TILE*D2_2} },
 { {TILE*D1,TILE*D1_1,TILE*D2_1},{TILE*D1_1,TILE*D1_1_1,TILE*D2_1_1},{TILE*D2_1,TILE*D2_1_1,TILE*D2_2_1} },
@@ -57,7 +50,7 @@ static Vector3 src(0,5,-1.5);
 static Vector3 fpart(0.,0.,4.);
 static Matrix3 M;
 static Vector3 O;
-#endif
+#endif //NEW_SMOKE
 
 /* creation from a file */
 WObject * Smoke::creator(char *l)
@@ -72,14 +65,70 @@ Smoke::Smoke(Vector3 l)
   emitter = l;
 }
 
+ParticleSmoke::ParticleSmoke()
+{
+}
+
 ParticleSmoke::ParticleSmoke(Vector3 l)
 {
+  //error("particlesmoke: new");
   loc = l;
   vel = Vector3(0.0,0.001,0);
   life = 255;
-  error("smoke: new");
 }
-#endif
+
+float ParticleSmoke::random(float upper, float lower)
+{
+  float range = (upper-lower);
+  float random_float = lower+(range*((float)rand())/(RAND_MAX));
+  return random_float;
+}
+
+void ParticleSmoke::update()
+{
+  float x_acc = 0.000034*random(-1,1);
+  float y_acc = 0.00001*random(-1,1);
+  float z_acc = 0.0;//0.0001*random();
+  acc = Vector3(x_acc,y_acc,z_acc);
+  vel.add(acc);
+  loc.add(vel);
+  life -= 0.2;
+  //error("update: %.2f,%.2f,%.2f %.2f", loc.x,loc.y,loc.z,life);
+}
+
+void ParticleSmoke::run()
+{
+  //error("particlesmoke: run");
+  update();
+  display();
+}
+
+void ParticleSmoke::display()
+{
+  float inty = 1.2 - life/255.;
+
+  glPushMatrix();
+  glColor4f(.9,.9,.9,0 /*inty*/); //, inty, inty);
+  glBegin( GL_POLYGON ); // OR GL_LINE_LOOP
+  for (int i=0; i<10; ++i) {
+    glVertex3f(loc.x + _cos[i], loc.y + _sin[i], loc.z /*0.*/);
+    //error("display: %.2f,%.2f,%.2f", loc.x,loc.y,loc.z);
+  }
+  glEnd();
+  glFlush();
+  glPopMatrix();
+}
+
+bool ParticleSmoke::isDead()
+{
+  if (life < 0.0)
+    return true;
+  else
+    return false;
+}
+#endif //NEW_SMOKE
+
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 void Smoke::defaults()
 {
@@ -123,17 +172,26 @@ Smoke::Smoke(char *l)
 void Smoke::inits()
 {
 #ifdef NEW_SMOKE
-  emitter = Vector3(pos.x, pos.y, pos.z);
-  Smoke ps(emitter);
-  //while (1) {
+  Vector3 emit(pos.x, pos.y, pos.z);
+  Smoke ps(emit);
+#if 0
+#if 1 // dax
+  for (int n = 0; i < np; n++) {
     ps.addParticle();
     ps.run();
-    //if (ps.isEmpty()) {
-      //break;
-    //}
-  //} 
-  error("smoke: inits %.2f,%.2f,%.2f", emitter.x,emitter.z,emitter.z);
+  }
 #else
+  while (1) {
+    ps.addParticle();
+    ps.run();
+    if (ps.isEmpty()) {
+      break;
+    }
+  } 
+#endif
+#endif
+  //error("smoke: inits %.2f,%.2f,%.2f", emitter.x,emitter.z,emitter.z);
+#else //NEW_SMOKE
   lasttime = 0;
   np = MIN(np, FIREMAX);
   anim = true;
@@ -165,40 +223,28 @@ void Smoke::inits()
       for (int x=0; x<NTILEX; x++, p++) {
         xf = float(x);
         t0 += f0; t1 += f1; t2 += f2; t3 += f3;
-        p->p.x = WARPF*(sin(ANGF*(t2-xf))+cos(ANGF*(t2+yf))+sin(ANGF*(t0-yf))-cos(ANGF*(t0+xf)));
-        p->p.y = WARPF*(sin(ANGF*(t1-xf))+cos(ANGF*(t3+yf))+sin(ANGF*(t3-yf))-cos(ANGF*(t1+xf)));
-        p->p.z = WARPF*(sin(ANGF*(t0-xf))+cos(ANGF*(t2+yf))+sin(ANGF*(t0-yf))-cos(ANGF*(t2+xf)));
+        p->p.x = WARPF*(sin(t2-xf)+cos(t2+yf)+sin(t0-yf)-cos(t0+xf));
+        p->p.y = WARPF*(sin(t1-xf)+cos(t3+yf)+sin(t3-yf)-cos(t1+xf));
+        p->p.z = WARPF*(sin(t0-xf)+cos(t2+yf)+sin(t0-yf)-cos(t2+xf));
         p->v.reset();
       }
     }
   }
-#endif
+#endif //NEW_SMOKE
 }
 
 #ifdef NEW_SMOKE
-float ParticleSmoke::random(float upper, float lower)
-{
-  float range = (upper-lower);
-  float random_float = lower+(range*((float)rand())/(RAND_MAX));
-  return random_float;
-}
-#endif
-
+#else //NEW_SMOKE
 void Smoke::draw()
 {
-#ifdef NEW_SMOKE
-#else
   struct sParticle *p = particles;
 
   for (int n=0; n<np ; n++, p++)
     draw(p->ex, p->ey, p->dx, p->dx, p->a);
-#endif
 }
 
 void Smoke::draw(float ex, float ey, float dx, float dy, float a)
 {
-#ifdef NEW_SMOKE
-#else
   float white[] = {.7, .7, .7, .7};
   float grey[] = {.1, .1, .1, .1};
   white[3] = a;
@@ -228,86 +274,16 @@ void Smoke::draw(float ex, float ey, float dx, float dy, float a)
     glVertex3f(ex-dx*.5, ex-dx*.5, ey - M_SQRT3_2*dy);
     glVertex3f(ex-dx, ex-dx, ey);
   glEnd();
-#endif
+#endif //NEW_SMOKE
 }
-
-#ifdef NEW_SMOKE
-void ParticleSmoke::display()
-{
-  float inty = 1.2 - life/255.;
-
-  glPushMatrix();
-  glColor4f(.9,.9,.9,0 /*inty*/); //, inty, inty);
-  //glBindTexture(GL_TEXTURE_2D, smokeTexture);
-  glBegin( GL_POLYGON ); // OR GL_LINE_LOOP
-  for (int i=0; i<10; ++i) {
-    glVertex3f(loc.x + _cos[i], loc.y + _sin[i], loc.z /*0.*/);
-    //error("display: %.2f,%.2f,%.2f", loc.x,loc.y,loc.z);
-  }
-  glEnd();
-  glFlush();
-  glPopMatrix();
-}
-#endif
-
-void Smoke::render()
-{
-  static uint32_t nf = 0;
-
-  //error("render: %.2f,%.2f,%.2f", pos.x,pos.y,pos.z);
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
-  glPushMatrix();
-  glTranslatef(pos.x, pos.y, pos.z);
-  float seed = ((float) drand48() * 2) - 1.;
-  glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
-  glDisable(GL_CULL_FACE);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-  //glEnable(GL_BLEND);
-
-  draw();
-
-  //glDisable(GL_BLEND);
-  glPopMatrix();
-  glPopAttrib();
-  nf++;
-}
-
-#ifdef NEW_SMOKE
-void ParticleSmoke::update()
-{
-  float x_acc = 0.000034*random(-1,1);
-  float y_acc = 0.00001*random(-1,1);
-  float z_acc = 0.0;//0.0001*random();
-  acc = Vector3(x_acc,y_acc,z_acc);
-  vel.add(acc);
-  loc.add(vel);
-  life -= 0.2;
-  error("update: %.2f,%.2f,%.2f %.2f", loc.x,loc.y,loc.z,life);
-}
-
-void ParticleSmoke::anim()
-{
-  //error("smoke: anim");
-  update();
-  display();
-}
-
-bool ParticleSmoke::isDead()
-{
-  if (life < 0.0)
-    return true;
-  else
-    return false;
-}
-#endif
 
 void Smoke::changePermanent(float dt)
 {
 #ifdef NEW_SMOKE
-  error("smoke: change");
+  //error("smoke: change");
   addParticle();
   run();
-#else
+#else //NEW_SMOKE
   struct sParticle *p = particles;
   float da = pow(0.2, dt);
 
@@ -359,7 +335,32 @@ void Smoke::changePermanent(float dt)
     }
     else p->dx = 0;
   }
-#endif
+#endif //NEW_SMOKE
+}
+
+void Smoke::render()
+{
+  static uint32_t nf = 0;
+
+  //error("render: %.2f,%.2f,%.2f", pos.x,pos.y,pos.z);
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  glPushMatrix();
+  glTranslatef(pos.x, pos.y, pos.z);
+  float seed = ((float) drand48() * 2) - 1.;
+  glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
+  glDisable(GL_CULL_FACE);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+  glEnable(GL_BLEND);
+
+#ifdef NEW_SMOKE
+#else //NEW_SMOKE
+  draw();
+#endif //NEW_SMOKE
+
+  glDisable(GL_BLEND);
+  glPopMatrix();
+  glPopAttrib();
+  nf++;
 }
 
 #ifdef NEW_SMOKE
@@ -376,7 +377,7 @@ void Smoke::run()
   std::vector<ParticleSmoke>::iterator it;
   for (it = particles.begin(); it < particles.end();) {
     if (!(*it).isDead()) {
-      (*it).anim();
+      (*it).run();
       ++it;
     }
     else {
@@ -384,7 +385,7 @@ void Smoke::run()
     }
   }
 } 
-    
+
 Vector3 Smoke::random()
 { 
   float lower = -0.02;
@@ -402,11 +403,11 @@ bool Smoke::isEmpty()
   else
     return false;
 }
-#endif
+#endif //NEW_SMOKE
 
 // Handles the wobbling gel, which is used to give the WarpMap it's shape
 #ifdef NEW_SMOKE
-#else
+#else //NEW_SMOKE
 void Smoke::motionAnimate(float dt)
 {
   SMOKE_PARTICLE *p = &offset[0][0][0];
@@ -450,10 +451,10 @@ void Smoke::motionAnimate(float dt)
     }
   }
 }
-#endif
+#endif //NEW_SMOKE
 
 #ifdef NEW_SMOKE
-#else
+#else //NEW_SMOKE
 void Smoke::motionWarp(Vector3 &p, float dt)
 {
   static Vector3 v0,v1,v2,v3,v4,v5,v;
@@ -474,6 +475,6 @@ void Smoke::motionWarp(Vector3 &p, float dt)
   v *= dt;
   p += v;
 }
-#endif
+#endif //NEW_SMOKE
 
 void Smoke::funcs() {}

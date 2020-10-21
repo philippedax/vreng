@@ -33,7 +33,7 @@ ACLOCAL_AMFLAGS = -I support
 
 NFS_FTP_ARCHIVE = /infres/ir500/adm/repos/ftp/pub/vreng
 HTML = /infres/ir500/adm/projets/vreng/html
-HTTP_SVN = http://www.infres.enst.fr/svn/vreng
+HTTP_SVN = http://www.vreng.enst.fr/svn/vreng
 
 TARBALL_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 TARBALL_BZ2 = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.bz2

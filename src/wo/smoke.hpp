@@ -31,7 +31,7 @@
 #undef NEW_SMOKE
 
 #ifdef NEW_SMOKE
-#else
+#else //NEW_SMOKE
 #define TILE 1.
 #define NTILEZ 8
 #define NTILEY 4
@@ -65,7 +65,7 @@
 
 inline int f2int(float f) { f+=FLOATTOINTCONST; return ((*((int*)&f))&0x007fffff)-0x00400000; }
 #define rnd2(f) ((float)rand()*(f/(float)RAND_MAX)) // Floating point random number generator (0->1)
-#endif
+#endif //NEW_SMOKE
 
 #ifdef NEW_SMOKE
 /**
@@ -77,22 +77,24 @@ private:
   Vector3 vel;
   Vector3 acc;
   float life;
+
 public:
-  //ParticleSmoke();
+  ParticleSmoke();
   ParticleSmoke(Vector3 l);
 
-  static const float size;
-  static const float _pi;
-  static const float angle[10];
+  static const float sz;
+  static const float pi;
+  static const float a[10];
   static const float _cos[10];
   static const float _sin[10];
-  void anim();
+
+  void run();
   void update();
   void display();
   bool isDead();
   float random(float upper, float lower);
 };
-#endif
+#endif //NEW_SMOKE
 
 /**
  * Smoke class
@@ -136,16 +138,14 @@ private:
   std::vector<ParticleSmoke> particles;
   Vector3 emitter;
 
-  //ParticleSystem();
-  //ParticleSystem(Vector3 l);
   void addParticle();   
   Vector3 random();
   void run();
   bool isEmpty();
-#else
+#else //NEW_SMOKE
   virtual void motionAnimate(float dt);
   virtual void motionWarp(Vector3 &p, float dt);
-#endif
+#endif //NEW_SMOKE
 
 };
 
