@@ -274,8 +274,8 @@ void Smoke::draw(float ex, float ey, float dx, float dy, float a)
     glVertex3f(ex-dx*.5, ex-dx*.5, ey - M_SQRT3_2*dy);
     glVertex3f(ex-dx, ex-dx, ey);
   glEnd();
-#endif //NEW_SMOKE
 }
+#endif //NEW_SMOKE
 
 void Smoke::changePermanent(float dt)
 {

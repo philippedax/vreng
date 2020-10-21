@@ -28,7 +28,7 @@
 #include <vector>
 #include "fire.hpp"
 
-#undef NEW_SMOKE
+#define NEW_SMOKE
 
 #ifdef NEW_SMOKE
 #else //NEW_SMOKE
@@ -128,10 +128,12 @@ private:
   virtual void inits();
   /**< Initializations. */
 
+#ifdef NEW_SMOKE
+#else //NEW_SMOKE
   virtual void draw();
-
   virtual void draw(float ex, float ey, float dx, float dy, float a);
   /**< Draws smoke particules. */
+#endif //NEW_SMOKE
 
 #ifdef NEW_SMOKE
   Smoke(Vector3 l);
