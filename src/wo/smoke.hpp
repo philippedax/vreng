@@ -28,27 +28,22 @@
 #include <vector>
 #include "fire.hpp"
 
-#define NEW_SMOKE
-
-#ifdef NEW_SMOKE
-#else //NEW_SMOKE
 #define TILE 1.
-#define NTILEZ 8
-#define NTILEY 4
-#define NTILEX 4
-#define WARPF (TILE*5.)
-#define AFFF ((TILE/16.)/WARPF)
-#define SPRINGF 0.01f
-#define DYNF 0.998f
-#define MAXLEN (WARPF*4)
+#define NX 4
+#define NY 4
+#define NZ 8
+#define WARPF (TILE*5)
+#define AFFF ((TILE/16)/WARPF)
+#define SPRINGF 0.01
+#define DYNF 0.998
+#define MAXWARPF (WARPF*4)
 #define ANGF 1
-#define ANGRND 0.16f
-#define ANG0 0.16f
+#define ANGRND 0.16
+#define ANG0 0.16
 #define SMOKESIZE .25	// 25 cm
 #define SMOKELIFE 3.	// 3 sec
 #define SMOKEDELTA 0.005
 #define SMOKEALPHA 0.35
-
 #define SQRT_5 2.236067977f
 #define SQRT_6 2.449489743f
 #define D0     0
@@ -61,40 +56,10 @@
 #define D2_1_1 SQRT_6
 #define D2_2_1 3
 #define D2_2_2 3*M_SQRT2
-#define FLOATTOINTCONST (((1.5*65536*256)))
+#define FLOATTOINT (((1.5*65536*256)))
 
-inline int f2int(float f) { f+=FLOATTOINTCONST; return ((*((int*)&f))&0x007fffff)-0x00400000; }
+inline int f2int(float f) { f+=FLOATTOINT; return ((*((int*)&f))&0x007fffff)-0x00400000; }
 #define rnd2(f) ((float)rand()*(f/(float)RAND_MAX)) // Floating point random number generator (0->1)
-#endif //NEW_SMOKE
-
-#ifdef NEW_SMOKE
-/**
- * ParticleSmoke class
- */
-class ParticleSmoke {
-private:
-  Vector3 loc;
-  Vector3 vel;
-  Vector3 acc;
-  float life;
-
-public:
-  ParticleSmoke();
-  ParticleSmoke(Vector3 l);
-
-  static const float sz;
-  static const float pi;
-  static const float a[10];
-  static const float _cos[10];
-  static const float _sin[10];
-
-  void run();
-  void update();
-  void display();
-  bool isDead();
-  float random(float upper, float lower);
-};
-#endif //NEW_SMOKE
 
 /**
  * Smoke class
@@ -128,27 +93,13 @@ private:
   virtual void inits();
   /**< Initializations. */
 
-#ifdef NEW_SMOKE
-#else //NEW_SMOKE
   virtual void draw();
+
   virtual void draw(float ex, float ey, float dx, float dy, float a);
   /**< Draws smoke particules. */
-#endif //NEW_SMOKE
 
-#ifdef NEW_SMOKE
-  Smoke(Vector3 l);
-  std::vector<ParticleSmoke> particles;
-  Vector3 emitter;
-
-  void addParticle();   
-  Vector3 random();
-  void run();
-  bool isEmpty();
-#else //NEW_SMOKE
   virtual void motionAnimate(float dt);
   virtual void motionWarp(Vector3 &p, float dt);
-#endif //NEW_SMOKE
-
 };
 
 #endif

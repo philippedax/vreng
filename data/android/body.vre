@@ -1,0 +1,19 @@
+<body scale="1">
+<head      jp="0      -0.009 1.522"  url="/off/head.off"/>
+<neck      jp="0      -0.009 1.417"  url="/off/neck.off"/>
+<chest     jp="0       0     1.117"  url="/off/chest.off"/>
+<hip       jp="0       0     0.854"  url="/off/hip.off"/>
+<lShldr    jp="0.160  -0.008 1.369"  url="/off/shoulder_l.off"/>
+<lForearm  jp="0.195  -0.020 1.089"  url="/off/forearm_l.off"/>
+<lHand     jp="0.218  -0.023 0.849"  url="/off/hand_l.off"/>
+<rShldr    jp="-0.160 -0.009 1.369"  url="/off/shoulder_r.off"/>
+<rForearm  jp="-0.195 -0.020 1.089"  url="/off/forearm_r.off"/>
+<rHand     jp="-0.218 -0.023 0.849"  url="/off/hand_r.off"/>
+<lThigh    jp="0.080  -0.008 0.842"  url="/off/thigh_l.off"/>
+<lShin     jp="0.085  -0.003 0.502"  url="/off/shin_l.off"/>
+<lFoot     jp="0.080  -0.008 0.072"  url="/off/foot_l.off"/>
+<rThigh    jp="-0.080 -0.008 0.842"  url="/off/thigh_r.off"/>
+<rShin     jp="-0.085 -0.003 0.502"  url="/off/shin_r.off"/>
+<rFoot     jp="-0.080 -0.008 0.072"  url="/off/foot_r.off"/>
+</body>
+#faces=/v3d/faces.index

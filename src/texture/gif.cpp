@@ -281,9 +281,9 @@ static int LZWDecodeEnd(GifInfo *g)
     size = gifGetByte(g);
     if (size != 0) err = -1;
   }
-  if (g->stack) delete[] g->stack;
-  if (g->prefix) delete[] g->prefix;
-  if (g->suffix) delete[] g->suffix;
+  //dax if (g->stack) delete[] g->stack;
+  //dax if (g->prefix) delete[] g->prefix;
+  //dax if (g->suffix) delete[] g->suffix;
   return err;
 }
 

@@ -1,0 +1,22 @@
+<body scale="1">
+<head jp="0 -0.009 1.522" url="/avatars/avatar/avatar_head.obj"/>
+<neck jp="0 -0.009 1.417" url="/avatars/avatar/avatar_neck.obj"/>
+<chest jp="0  0.000 1.117" url="/avatars/avatar/avatar_chest.obj" tex="/gif/pyjama-spirale.gif"/>
+<hip jp="0  0.000 0.854" url="/avatars/avatar/avatar_hip.obj"/>
+<lShldr jp="-0.26 -0.008 1.371" url="/avatars/avatar/avatar_lShldr.obj"/>
+<lForearm jp="-0.483 0.036 1.368" url="/avatars/avatar/avatar_lForearm.obj"/>
+<lHand jp="-0.693  0.027 1.363" url="/avatars/avatar/avatar_lHand.obj"/>
+<rShldr jp="0.26 -0.008 1.371" url="/avatars/avatar/avatar_rShldr.obj"/>
+<rForearm jp="0.483 0.036 1.368" url="/avatars/avatar/avatar_rForearm.obj"/>
+<rHand jp="0.693 0.027 1.363" url="/avatars/avatar/avatar_rHand.obj"/>
+<lThigh jp="-0.085 -0.008 0.842" url="/avatars/avatar/avatar_lThigh.obj"/>
+<lShin jp="-0.082 -0.003 0.502" url="/avatars/avatar/avatar_lShin.obj"/>
+<lFoot jp="-0.073 -0.003 0.072" url="/avatars/avatar/avatar_lFoot.obj"/>
+<rThigh jp="0.085 -0.008 0.842" url="/avatars/avatar/avatar_rThigh.obj"/>
+<rShin jp="0.082 -0.003 0.5O2" url="/avatars/avatar/avatar_rShin.obj"/>
+<rFoot jp="0.073 -0.003 0.072" url="/avatars/avatar/avatar_rFoot.obj"/>
+<abdomen jp="0 0 1.185" url="/avatars/avatar/avatar_abdomen.obj"/>
+<lCollar jp="-0.1 -0.003 1.324" url="/avatars/avatar/avatar_lCollar.obj"/>
+<rCollar jp="0.1 -0.003 1.324" url="/avatars/avatar/avatar_rCollar.obj"/>
+<skirt jp="0 0 1.185" url="/avatars/avatar/avatar_skirt.obj" color="yellow" tex="/gif/yellowstrips.gif" scale="0.9"/>
+</body>

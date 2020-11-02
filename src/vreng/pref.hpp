@@ -48,10 +48,12 @@ public:
   bool gravity;		///< with/without gravity
   bool cpulimit;	///< CPU limitation
   bool infogl;		///< OpenGL infos
+  bool keep;		///< keep all in cache
   bool reflector;	///< unicast/multicast reflector
   bool fast;		///< no persistency if true
   bool bbox;		///< draw bounding-boxes
   bool silent;		///< audio silent
+  bool stats;		///< audio silent
   bool dbgtrace;	///< trace
 
   /* preferences */

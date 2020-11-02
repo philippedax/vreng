@@ -1,0 +1,19 @@
+16, 1 						# num_parts, scale
+# joint points values
+00 -0.016 -0.009 1.522	/avatars/android/head.vnp	# upper_neck
+01 -0.016 -0.009 1.417	/avatars/android/neck.vnp	# lower_neck
+02  0.000  0.000 1.117	/avatars/android/chest.vnp	# spinal
+03  0.000  0.000 0.854	/avatars/android/hip.vnp	# pelvic
+04  0.148 -0.005 1.371	/avatars/android/shoulder_l.vnp	# left_shoulder
+05  0.179 -0.016 1.089	/avatars/android/forearm_l.vnp	# left_elbow
+06  0.227 -0.023 0.858	/avatars/android/hand_l.vnp	# left_wrist
+07 -0.173 -0.011 1.367	/avatars/android/shoulder_r.vnp	# right_shoulder
+08 -0.210 -0.039 1.089	/avatars/android/forearm_r.vnp	# right_elbow
+09 -0.210 -0.023 0.841	/avatars/android/hand_r.vnp	# right_wrist
+10  0.074 -0.000 0.854	/avatars/android/thigh_l.vnp	# left_hip
+11  0.082 -0.003 0.493	/avatars/android/shin_l.vnp	# left_knee
+12  0.082 -0.003 0.072	/avatars/android/foot_l.vnp	# left_ankle
+13 -0.086 -0.015 0.830	/avatars/android/thigh_r.vnp	# right_hip
+14 -0.097 -0.016 0.512	/avatars/android/shin_r.vnp	# right_knee
+15 -0.074 -0.016 0.072	/avatars/android/foot_r.vnp	# right_ankle
+faces=/vre3d/faces.index			# faces index url

@@ -30,6 +30,7 @@
 #define HTTP_301        301     // move permanently
 #define HTTP_302        302     // move temporarily
 #define HTTP_307        307     // temporarily redirect
+#define HTTP_404        404     // not found
 #define HTTP_503        503     // server unavailable
 #define HTTP_PORT       80
 
@@ -44,8 +45,7 @@ typedef struct sWaitfifo {
 
 
 /**
- * HttpThread class
- * connection methods
+ * HttpThread Class
  */
 class HttpThread {
 friend class Http;
@@ -63,41 +63,16 @@ friend class Http;
 
   tWaitFifo *waitfifo;	///< fifo
 
-  void begin();		///< Begins a thread
-  void end();		///< Ends a thread
-
- public:
-  void *hdl;		///< thread handle
-  bool mode;		///< thread or not
+  void *thrhdl;		///< thread handle
+  bool modethr;		///< thread or not
   class Http *http;	///< http handle
   char url[URL_LEN];	///< url
 
-  HttpThread();
-  /**< Constructor */
+  void begin();		///< Begins a thread
+  void end();		///< Ends a thread
 
-  virtual ~HttpThread();
-  /**< Destructor */
-
-  void (*httpReader) (void *hdl, class Http *http);
-  /**< Http reader */
-
-  virtual int fifo();
+  virtual int putfifo();
   /**< Puts thread into a wait fifo */
-
-  static void init();
-  /**< Initializes Http thread */
-
-  static void * connection(void *_ht);
-  /**< Makes an http connection */
-
-  static void checkProxy();
-  /**< Checks proxy environment variables */
-
-  static int resolver(char *hoststr, char *portstr, struct sockaddr_in *sa);
-  /**< Resolves a hostname */
-
-  static int connect(const struct sockaddr_in *sa);
-  /**< Establishes a connection to the http server */
 
   static int send(int fd, const char *buf, int size);
   /**< Send a http request */
@@ -105,13 +80,39 @@ friend class Http;
   static int answer(int s, char *rep, int max);
   /**< Receives a response from the http server */
 
+  static void checkProxy();
+  /**< Checks proxy environment variables */
+
+  static int connect(const struct sockaddr_in *sa);
+  /**< Establishes a connection to the http server */
+
+ public:
+
+  HttpThread();
+  /**< Constructor */
+
+  virtual ~HttpThread();
+  /**< Destructor */
+
+  void (*httpReader) (void *thrhdl, class Http *http);
+  /**< Http reader */
+
+  static void init();
+  /**< Initializes Http thread */
+
+  static void * connection(void *_ht);
+  /**< Makes an http connection */
+
+  static int resolver(char *hoststr, char *portstr, struct sockaddr_in *sa);
+  /**< Resolves a hostname */
+
   static int openFile(const char *path);
   /**< Opens a local file */
 };
 
 
 /**
- * Http class
+ * Http Class
  * I/O methods
  */
 class Http {
@@ -123,6 +124,7 @@ class Http {
   char *buf;		///< buffer
 
   Http();		///< constructor
+
   virtual ~Http();	///< destructor
 
   virtual void reset();

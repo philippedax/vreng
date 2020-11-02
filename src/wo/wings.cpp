@@ -41,7 +41,7 @@ static struct sWings wingss[] = {
   {Wings::ANGEL, "angel"}, 
   {Wings::EAGLE, "eagle"},
   {Wings::HELICOPTER, "helicopter"},
-  {Wings::NONE, ""},
+  {Wings::NOWINGS, ""},
 };
 
 

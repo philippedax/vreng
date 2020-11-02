@@ -33,13 +33,27 @@
 class Door: public WObject {
 
 private:
+  uint8_t mecanism;	///< mecanism
   float aopen;		///< open angle
   float aclose;		///< close angle
-  float aspeed;		///< angular speed (radian)
+  float xopen;		///< open horizontal
+  float xclose;		///< close horizontal
+  float zopen;		///< open vertical
+  float zclose;		///< close vertical
+  float speed;		///< angular speed (radian)
   V3 center;		///< center position
   V3 size;		///< dimension
 
 public:
+
+  /* mecanisms */
+  enum {
+    NOMECANISM,
+    ANGULAR,
+    SLIDING,
+    VERTICAL
+  };
+
   /* properties */
   enum {
     PROPHNAME,

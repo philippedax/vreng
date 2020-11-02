@@ -38,7 +38,7 @@ Img * Img::loadXPM(void *tex, ImageReader read_func)
   File::closeFile(f);
 
   XpmImage xpmimage;
-  int r = XpmReadFileToXpmImage(Cache::getFileName(_tex->url), &xpmimage, NULL);
+  int r = XpmReadFileToXpmImage(Cache::getFilePath(_tex->url), &xpmimage, NULL);
   if (r != XpmSuccess) {
     if (r == XpmColorFailed) error("XpmReadFileToXpmImage: bad color");
     return NULL;
@@ -57,6 +57,7 @@ Img * Img::loadXPM(void *tex, ImageReader read_func)
   }
 
   img->pixmap = (uint8_t *) xpmimage.data;
+  if (data) delete[] data;
   return img;
 #else
   return NULL;

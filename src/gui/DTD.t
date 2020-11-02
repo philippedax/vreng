@@ -28,7 +28,7 @@ const char DTD[] = "\
 		cauldron | clip | clock | cloud | cloth |\n\
 		doc | door | dress |\n\
 		entry | escalator |\n\
-		fire | firework | flag | fountain | ftp |\n\
+		fire | firework | flag | fountain | fractal | ftp |\n\
 		gate | ground | guide | guy | \n\
 		haid | hairs | halo | hat | host |\n\
 		lift | light | local |\n\
@@ -165,6 +165,10 @@ const char DTD[] = "\
 <!ATTLIST door		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST door		open	NMTOKEN #REQUIRED>\n\
 <!ATTLIST door		close	NMTOKEN #REQUIRED>\n\
+<!ATTLIST door		xopen	NMTOKEN #REQUIRED>\n\
+<!ATTLIST door		xclose	NMTOKEN #REQUIRED>\n\
+<!ATTLIST door		zopen	NMTOKEN #REQUIRED>\n\
+<!ATTLIST door		zclose	NMTOKEN #REQUIRED>\n\
 <!ATTLIST door		speed	NMTOKEN \"1\">\n\
 \n\
 <!ELEMENT dress		(solid+)>\n\
@@ -218,6 +222,13 @@ const char DTD[] = "\
 <!ATTLIST fountain	speed	NMTOKEN \"5\">\n\
 <!ATTLIST fountain	flow	NMTOKEN \"500\">\n\
 <!ATTLIST fountain	number	NMTOKEN \"5000\">\n\
+\n\
+<!ELEMENT fractal	EMPTY>\n\
+<!ATTLIST fractal	pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST fractal	name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST fractal	descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST fractal	level	NMTOKEN #IMPLIED>\n\
+<!ATTLIST fractal	color	NMTOKEN #IMPLIED>\n\
 \n\
 <!ELEMENT ftp		(solid)>\n\
 <!ATTLIST ftp		pos	NMTOKENS #REQUIRED>\n\

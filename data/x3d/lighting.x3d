@@ -1,0 +1,81 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+
+<!DOCTYPE  X3D PUBLIC 
+	"http://www.web3D.org/TaskGroups/x3d/translation/x3d-draft.dtd"
+	"file://localhost/C:/www.web3D.org/TaskGroups/x3d/translation/x3d-draft.dtd">
+<X3D>
+    <Header>
+     <meta name="file" content="HelloWorld.x3d"/>
+     <meta name="author" content="Leonard Daly"/>
+     <meta name="revised" content="9 Feb 2000"/>
+     <meta name="description" content="Lighting Example"/>
+     <meta name="url" content="*enter url address here*"/>
+
+     <meta name="generator"
+	content="X3D-Edit, http://www.web3D.org/TaskGroups/x3d/translation/README.X3D-Edit.txt"/>
+  </Header>
+   <Scene>
+     <NavigationInfo headlight="false"/>
+     <Transform>
+       <DirectionalLight direction="1 0 -1"/>
+       <Shape>
+         <Appearance>
+           <Material DEF="Water" diffuseColor="0 0 1"/>
+           <ImageTexture url="NorthPole.png"/>
+         </Appearance>
+         <IndexedFaceSet coordIndex="1 2 3 0 1 -1">
+           <Coordinate DEF="Verticies" point="1 1 1, 1 1 -1, -1 1 -1, -1 1 1,  1 -1 1, 1 -1 -1, -1 -1 -1, -1 -1 1,  "/>
+         </IndexedFaceSet>
+       </Shape>
+       <Shape>
+         <Appearance>
+           <Material USE="Water"/>
+           <ImageTexture url="SouthPole.png"/>
+         </Appearance>
+         <IndexedFaceSet coordIndex="7 6 5 4 7 -1">
+           <Coordinate USE="Verticies"/>
+         </IndexedFaceSet>
+       </Shape>
+       <Shape>
+         <Appearance>
+           <Material USE="Water" diffuseColor="0 0 1"/>
+           <ImageTexture DEF="EarthMap" url="earth-topo-small.png"/>
+        </Appearance>
+         <IndexedFaceSet coordIndex="0 3 7 4 0 -1" texCoordIndex="1 0 5 6 1 -1">
+           <Coordinate USE="Verticies"/>
+           <TextureCoordinate DEF="TexVerticies" point="0 .75, .25 .75, .5 .75, .75 .75, 1 .75, 0 .25, .25 .25, .5 .25, .75 .25, 1 .25"/>
+         </IndexedFaceSet>
+       </Shape>
+       <Shape>
+         <Appearance>
+           <Material USE="Water"/>
+           <ImageTexture USE="EarthMap"/>
+         </Appearance>
+         <IndexedFaceSet coordIndex="1 0 4 5 1 -1" texCoordIndex="2 1 6 7 2 -1">
+           <Coordinate USE="Verticies"/>
+           <TextureCoordinate USE="TexVerticies"/>
+         </IndexedFaceSet>
+       </Shape>
+       <Shape>
+         <Appearance>
+           <Material USE="Water"/>
+           <ImageTexture USE="EarthMap"/>
+         </Appearance>
+         <IndexedFaceSet coordIndex="2 1 5 6 2 -1" texCoordIndex="3 2 7 8 3 -1">
+           <Coordinate USE="Verticies"/>
+           <TextureCoordinate USE="TexVerticies"/>
+         </IndexedFaceSet>
+       </Shape>
+       <Shape>
+         <Appearance>
+           <Material USE="Water"/>
+           <ImageTexture USE="EarthMap"/>
+         </Appearance>
+         <IndexedFaceSet coordIndex="3 2 6 7 3 -1" texCoordIndex="4 3 8 9 4 -1">
+           <Coordinate USE="Verticies"/>
+           <TextureCoordinate USE="TexVerticies"/>
+         </IndexedFaceSet>
+       </Shape>
+     </Transform>
+   </Scene>
+</X3D>

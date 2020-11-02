@@ -39,27 +39,75 @@ WObject * Door::creator(char *l)
 
 void Door::parser(char *l)
 {
+  mecanism = NOMECANISM;
+  aopen = xopen = zopen = 0;
   l = tokenize(l);
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "open"))  l = parse()->parseFloat(l, &aopen, "open");
-    else if (!stringcmp(l, "close")) l = parse()->parseFloat(l, &aclose, "close");
-    else if (!stringcmp(l, "speed")) l = parse()->parseFloat(l, &aspeed, "speed");
+    if      (!stringcmp(l, "open")) {
+      l = parse()->parseFloat(l, &aopen, "open");
+      mecanism = ANGULAR;
+    }
+    else if (!stringcmp(l, "close")) {
+      l = parse()->parseFloat(l, &aclose, "close");
+      mecanism = ANGULAR;
+    }
+    else if (!stringcmp(l, "xopen")) {
+      l = parse()->parseFloat(l, &xopen, "xopen");
+      mecanism = SLIDING;
+    }
+    else if (!stringcmp(l, "xclose")) {
+      l = parse()->parseFloat(l, &xclose, "xclose");
+      mecanism = SLIDING;
+    }
+    else if (!stringcmp(l, "zopen")) {
+      l = parse()->parseFloat(l, &zopen, "zopen");
+      mecanism = VERTICAL;
+    }
+    else if (!stringcmp(l, "zclose")) {
+      l = parse()->parseFloat(l, &zclose, "zclose");
+      mecanism = VERTICAL;
+    }
+    else if (!stringcmp(l, "speed")) {
+      l = parse()->parseFloat(l, &speed, "speed");
+    }
   }
   end_while_parse(l);
 }
 
+/* Constructor */
 Door::Door(char *l)
 {
   parser(l);
 
-  state = (aclose == pos.az) ? CLOSED : OPENED;
+  switch (mecanism) {
+  case ANGULAR:
+    state = (aclose == pos.az) ? CLOSED : OPENED;
+    break;
+  case SLIDING:
+    state = (xclose == pos.x) ? CLOSED : OPENED;
+    break;
+  case VERTICAL:
+    state = (zclose == pos.z) ? CLOSED : OPENED;
+    break;
+  }
 
   /* calls persistency MySql server to know the door state */
   getMySqlState();
-  pos.az = (state & CLOSED) ? aclose : aopen;
-  trace(DBG_WO, "Door: sql state: %d %.2f", state, pos.az);
+
+  switch (mecanism) {
+  case ANGULAR:
+    pos.az = (state & CLOSED) ? aclose : aopen;
+    trace(DBG_WO, "Door: sql state: %d %.2f", state, pos.az);
+    break;
+  case SLIDING:
+    state = (xclose == pos.x) ? CLOSED : OPENED;
+    break;
+  case VERTICAL:
+    state = (zclose == pos.z) ? CLOSED : OPENED;
+    break;
+  }
 
   V3 bbs, bbc;
   getRelativeBB(bbc, bbs);
@@ -69,7 +117,7 @@ Door::Door(char *l)
   center.v[2] = pos.z;
   pos.x += size.v[0] * cos(pos.az);
   pos.y += size.v[0] * sin(pos.az);
-  //trace(DBG_FORCE, "pos=(%.2f,%.2f,%.2f) center=(%.2f,%.2f,%.2f) size=%.2f", pos.x, pos.y, pos.z, center.v[0], center.v[1], center.v[2], size.v[0]);
+  //dax trace(DBG_FORCE, "pos=(%.2f,%.2f,%.2f) center=(%.2f,%.2f,%.2f) size=%.2f", pos.x, pos.y, pos.z, center.v[0], center.v[1], center.v[2], size.v[0]);
 
   enableBehavior(PERSISTENT);	// after init because mysql already done
   setRenderPrior(RENDER_NORMAL);
@@ -78,21 +126,51 @@ Door::Door(char *l)
   createPermanentNetObject(PROPS, ++oid);
 }
 
-void Door::updateTime(time_t sec, time_t usec, float *lasting)
+void Door::updateTime(time_t s, time_t us, float *lasting)
 {
-  if (move.aspeed.v[0] == aspeed) move.ttl = MIN(ABSF(deltaAngle(pos.az, aopen) / move.aspeed.v[0]), move.ttl);
-  else                            move.ttl = MIN(ABSF(deltaAngle(pos.az, aclose) / move.aspeed.v[0]), move.ttl);
+  switch (mecanism) {
+  case ANGULAR:
+    if (move.aspeed.v[0] == speed)
+      move.ttl = MIN(ABSF(deltaAngle(pos.az, aopen) / move.aspeed.v[0]), move.ttl);
+    else
+      move.ttl = MIN(ABSF(deltaAngle(pos.az, aclose) / move.aspeed.v[0]), move.ttl);
+    break;
+  case SLIDING:
+    if (move.lspeed.v[0] == speed)
+      move.ttl = MIN(ABSF((pos.x - xopen) / move.lspeed.v[0]), move.ttl);
+    else
+      move.ttl = MIN(ABSF((pos.x - xclose) / move.lspeed.v[0]), move.ttl);
+    break;
+  case VERTICAL:
+    if (move.lspeed.v[2] == speed)
+      move.ttl = MIN(ABSF((pos.z - zopen) / move.lspeed.v[2]), move.ttl);
+    else
+      move.ttl = MIN(ABSF((pos.z - zclose) / move.lspeed.v[2]), move.ttl);
+    break;
+  }
 
-  if (! updateLasting(sec, usec, lasting))
-    if (state == CLOSED)  Sound::playSound(DOORCLOSESND);
+  if (! updateLasting(s, us, lasting) && state == CLOSED)
+    Sound::playSound(DOORCLOSESND);
 }
 
 void Door::changePosition(float lasting)
 {
-  pos.az += lasting * move.aspeed.v[0];
-  pos.x = center.v[0] + size.v[0] * cos(pos.az);
-  pos.y = center.v[1] + size.v[0] * sin(pos.az);
-  //pos.z = center.v[2];
+  switch (mecanism) {
+  case ANGULAR:
+    pos.az += lasting * move.aspeed.v[0];
+    pos.x = center.v[0] + size.v[0] * cos(pos.az);
+    pos.y = center.v[1] + size.v[0] * sin(pos.az);
+    //pos.z = center.v[2];
+    break;
+  case SLIDING:
+    //pos.x = center.v[0] + size.v[0] * cos(pos.az);
+    //pos.y = center.v[1] + size.v[0] * sin(pos.az);
+    pos.x += lasting * move.lspeed.v[0];
+    break;
+  case VERTICAL:
+    pos.z += lasting * move.lspeed.v[2];
+    break;
+  }
 }
 
 /* Updates the network */
@@ -117,6 +195,7 @@ bool Door::whenIntersect(WObject *pcur, WObject *pold)
   switch (pcur->type) {
   case USER_TYPE:
     projectPosition(pcur, pold);
+  case DOOR_TYPE:
     break;
   default:
     pold->copyPositionAndBB(pcur);
@@ -127,11 +206,24 @@ bool Door::whenIntersect(WObject *pcur, WObject *pold)
 
 void Door::open()
 {
-  if (state == Door::OPENED || state == Door::LOCKED)  return;
+  if (state == Door::OPENED || state == Door::LOCKED)
+    return;
   clearV3(move.lspeed);
   clearV3(move.aspeed);
-  move.aspeed.v[0] = aspeed;
-  initImposedMovement(ABSF(deltaAngle(pos.az, aopen) / move.aspeed.v[0]));
+  switch (mecanism) {
+  case Door::ANGULAR:
+    move.aspeed.v[0] = speed;
+    initImposedMovement(ABSF(deltaAngle(pos.az, aopen) / move.aspeed.v[0]));
+    break;
+  case Door::SLIDING:
+    move.lspeed.v[0] = speed;
+    initImposedMovement(ABSF((pos.x - xopen) / move.lspeed.v[0]));
+    break;
+  case Door::VERTICAL:
+    move.lspeed.v[2] = speed;
+    initImposedMovement(ABSF((pos.z - zopen) / move.lspeed.v[2]));
+    break;
+  }
   Sound::playSound(DOOROPENSND);
   state = OPENED;
   pos.moved = true;	// has moved
@@ -140,11 +232,24 @@ void Door::open()
 
 void Door::close()
 {
-  if (state & Door::CLOSED)  return;
+  if (state & Door::CLOSED)
+    return;
   clearV3(move.lspeed);
   clearV3(move.aspeed);
-  move.aspeed.v[0] = -aspeed;
-  initImposedMovement(ABSF(deltaAngle(pos.az, aclose) / move.aspeed.v[0]));
+  switch (mecanism) {
+  case Door::ANGULAR:
+    move.aspeed.v[0] = -speed;
+    initImposedMovement(ABSF(deltaAngle(pos.az, aclose) / move.aspeed.v[0]));
+    break;
+  case Door::SLIDING:
+    move.lspeed.v[0] = -speed;
+    initImposedMovement(ABSF((pos.x - xclose) / move.lspeed.v[0]));
+    break;
+  case Door::VERTICAL:
+    move.lspeed.v[2] = -speed;
+    initImposedMovement(ABSF((pos.z - zclose) / move.lspeed.v[2]));
+    break;
+  }
   state = CLOSED;
   pos.moved = true;	// has moved
   updateMySqlState(state);
@@ -152,7 +257,8 @@ void Door::close()
 
 void Door::lock()
 {
-  if (state == Door::LOCKED)  return;
+  if (state == Door::LOCKED)
+    return;
   switch (state) {
   case Door::UNLOCKED:
   case Door::CLOSED:
@@ -166,7 +272,8 @@ void Door::lock()
 
 void Door::unlock()
 {
-  if (state == Door::OPENED || state == Door::UNLOCKED)  return;
+  if (state == Door::OPENED || state == Door::UNLOCKED)
+    return;
   switch (state) {
   case Door::LOCKED:
     state = Door::UNLOCKED;

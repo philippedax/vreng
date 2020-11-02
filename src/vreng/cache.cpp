@@ -30,79 +30,87 @@
 #include "str.hpp"	// stringcmp
 
 
-int Cache::setCacheName(const char *url, char *cachefile)
+int Cache::setCacheName(const char *url, char *cachepath)
 {
   if (! url) return 0;
   const char *pfile = strrchr(url, '/');
 
   if (pfile == NULL) {
-    *cachefile = '\0';
+    *cachepath = '\0';
     return 0;
   }
-  sprintf(cachefile, "%s/%s", ::g.env.cache(), ++pfile);
+  sprintf(cachepath, "%s/%s", ::g.env.cache(), ++pfile);
   return 1;
 }
 
-void Cache::getFileName(const char *url, std::string& cachefile)
+void Cache::getCacheName(const char *url, std::string& cachefile)
 {
-  static char temp[BUFSIZ];
+  static char cachepath[BUFSIZ];
   const char *pfile = strrchr(url, '/');
 
-  sprintf(temp, "%s/%s", ::g.env.cache(), ++pfile);
-  cachefile = temp;
+  sprintf(cachepath, "%s/%s", ::g.env.cache(), ++pfile);
+  cachefile = cachepath;
 }
 
-char * Cache::getFileName(const char *url)
+char * Cache::getFilePath(const char *url)
 {
-  static char filename[BUFSIZ];
+  static char filepath[BUFSIZ];
   const char *pfile = strrchr(url, '/');
 
-  sprintf(filename, "%s",  ++pfile);
-  return filename;
+  sprintf(filepath, "%s",  ++pfile);
+  return filepath;
 }
 
 FILE * Cache::openCache(const char *url, Http *http)
 {
-  char filename[PATH_LEN];
-  if (! setCacheName(url, filename)) return NULL;
+  char filepath[PATH_LEN];
+  if (! setCacheName(url, filepath)) return NULL;
   //error("url=%s http=%p", url, http);
 
   FILE *f;
-  if ((f = File::openFile(filename, "r")) == NULL) {
-    if ((f = File::openFile(filename, "w")) == NULL) {
-      error("httpReader: can't create %s", filename);
+  if ((f = File::openFile(filepath, "r")) == NULL) {
+    if ((f = File::openFile(filepath, "w")) == NULL) {
+      error("httpReader: can't create %s", filepath);
       return NULL;
     }
 
     if (! http) return NULL;
 
+    // writing the file into the cache
     int c;
-    while ((c = http->getChar()) >= 0) putc(c, f);
+    while ((c = http->getChar()) >= 0)
+      putc(c, f);
     File::closeFile(f);
     progression('c');	// c as cache
-    f = File::openFile(filename, "r");
   }
   if (::g.pref.refresh) {  // force reload
     int c;
     progression('h');	// h as http
-    while ((c = http->getChar()) >= 0) putc(c, f);
+    while ((c = http->getChar()) >= 0)
+      putc(c, f);
     File::closeFile(f);
     progression('c');
-    f = File::openFile(filename, "r");
   }
+  // and open it for reading
+  f = File::openFile(filepath, "r");
 
   return f;  // file is opened
 }
 
 bool Cache::inCache(const char *url)
 {
-  char filename[PATH_LEN];
-  if (! setCacheName(url, filename)) return false;
+  char filepath[PATH_LEN];
+  if (! setCacheName(url, filepath)) return false;
 
   FILE *f;
-  if ((f = File::openFile(filename, "r")) != NULL) {
+  struct stat bufstat;
+  if ((f = File::openFile(filepath, "r")) != NULL) {
     File::closeFile(f);
-    return true;
+    stat(filepath, &bufstat);
+    if (bufstat.st_size != 0)
+      return true;
+    else
+      error("file %s empty", filepath);
   }
   return false;
 }
@@ -134,7 +142,7 @@ void Cache::file2url(const char *filename, char *url)
   free(fname);
 }
 
-int Cache::curl(const char *url, char *filename, const char opts[])
+int Cache::curl(const char *url, char *filename, const char arg[])
 {
 #if HAVE_LIBCURL
   CURL *hcurl;
@@ -154,22 +162,20 @@ int Cache::curl(const char *url, char *filename, const char opts[])
         perror("open wb");
         return 0;
       }
-      
       curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 0);
       curl_easy_setopt(hcurl, CURLOPT_WRITEFUNCTION, NULL);
       curl_easy_setopt(hcurl, CURLOPT_WRITEDATA, fp);
-      if (stringcmp(opts, "anon") == 0) {
+      if (stringcmp(arg, "anon") == 0) {
         curl_easy_setopt(hcurl, CURLOPT_USERPWD, "ftp:vreng@");
       }
-      if (stringcmp(opts, "inout") == 0) {
+      if (stringcmp(arg, "inout") == 0) {
         curl_easy_setopt(hcurl, CURLOPT_READFUNCTION, NULL);
       }
     }
-    else if (stringcmp(opts, "check") == 0) {
+    else if (stringcmp(arg, "check") == 0) {
       curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 0);
       curl_easy_setopt(hcurl, CURLOPT_NOBODY, 1);
     }
-
     res = curl_easy_perform(hcurl);
     if (res) {
       error("curl: %s", curl_easy_strerror(res));
@@ -190,30 +196,29 @@ int Cache::curl(const char *url, char *filename, const char opts[])
 #endif
 }
 
-int Cache::download(const char *_url, char *filename, const char opts[])
+int Cache::download(const char *_url, char *filename, const char arg[])
 {
   char url[URL_LEN];
-  //unused bool cached = false;
 
   Url::abs(_url, url);
   
-  if (filename && (! strcmp(opts, "cache"))) {        // use the cache
-    //unused cached = true;
+  if (filename && (! strcmp(arg, "cache"))) {        // use the cache
     if (! Cache::setCacheName(_url, filename)) return 0;
   
     struct stat bufstat;
     if (stat(filename, &bufstat) == 0) {
       trace(DBG_TOOL, "download: %s found in cache", filename);
-      if (bufstat.st_size != 0) return 1;  // file yet in the cache
+      if (bufstat.st_size != 0)
+        return 1;  // file yet in the cache
       unlink(filename); // remove empty file
     }
     trace(DBG_TOOL, "download: download %s in %s", url, filename);
   }
 
 #if HAVE_CURL
-  return curl(url, filename, opts);
+  return curl(url, filename, arg);
 #else
-  return Wget::start(url, filename, opts);
+  return Wget::start(url, filename, arg);
 #endif
 }
 

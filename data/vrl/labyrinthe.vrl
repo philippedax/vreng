@@ -1,0 +1,361 @@
+#ifndef LABYRINTHE_VRL
+#define LABYRINTHE_VRL
+
+
+#include "stdobj.vrl"
+
+
+
+
+struct XLabyrintheWall : Wall {
+  // is the base Wall for the labyrinthe (depth = 0.1)
+  // position (labyrintheWall_x, labyrintheWall_y,labyrintheWall_z)
+  // specifies the lower left corner.
+ 
+
+  constructor(XLabyrintheWall_x, XLabyrintheWall_y, XLabyrintheWall_z,
+	      XLabyrintheWall_l, XLabyrintheWall_h) {
+    
+    Wall(XLabyrintheWall_x+(0.1/2),
+	 XLabyrintheWall_y-(XLabyrintheWall_l/2),
+	 XLabyrintheWall_z+(XLabyrintheWall_h/2),
+	 0,
+	 0.1,
+	 XLabyrintheWall_l/2,
+	 XLabyrintheWall_h/2);
+
+    // ci-dessous la couleur du mur
+    diffuseRED = 0.5;
+    diffuseGREEN = 0.8;
+    diffuseBLUE = 0.5;
+
+
+  }
+}
+
+
+
+struct YLabyrintheWall : Wall {
+  // is the base Wall for the labyrinthe (depth = 0.1)
+  // position (labyrintheWall_x, labyrintheWall_y,labyrintheWall_z)
+  // specifies the lower left corner.
+ 
+
+  constructor(YLabyrintheWall_x, YLabyrintheWall_y, YLabyrintheWall_z,
+	      YLabyrintheWall_l, YLabyrintheWall_h) {
+    
+    Wall(YLabyrintheWall_x-(YLabyrintheWall_l/2),
+	 YLabyrintheWall_y+(0.1/2),
+	 YLabyrintheWall_z+(YLabyrintheWall_h/2),
+	 0,
+	 YLabyrintheWall_l/2,
+	 0.1,
+	 YLabyrintheWall_h/2);
+
+    // ci-dessous la couleur du mur
+    diffuseRED = 0.5;
+    diffuseGREEN = 0.7;
+    diffuseBLUE = 0.5;
+
+
+  }
+}
+
+
+
+struct ZLabyrintheWall : Wall {
+  // is the base Wall for the labyrinthe (depth = 0.1)
+  // position (labyrintheWall_x, labyrintheWall_y,labyrintheWall_z)
+  // specifies the lower left corner.
+ 
+
+  constructor(ZLabyrintheWall_x, ZLabyrintheWall_y, ZLabyrintheWall_z,
+	      ZLabyrintheWall_lx, ZLabyrintheWall_ly) {
+    
+    Wall(ZLabyrintheWall_x+(ZLabyrintheWall_lx/2),
+	 ZLabyrintheWall_y-(ZLabyrintheWall_ly/2),
+	 ZLabyrintheWall_z+(0.1/2),
+	 0,
+	 ZLabyrintheWall_lx/2,
+	 ZLabyrintheWall_ly/2,
+	 0.1);
+
+    // ci-dessous la couleur du mur
+    diffuseRED = 0.5;
+    diffuseGREEN = 0;
+    diffuseBLUE = 0;
+
+
+  }
+}
+
+struct SmallLabyrinthe {
+  
+  // contour exterieur
+  var floor, ceeling;
+  var wall_left, wall_right;
+  var wall_bottom[2];
+  var wall_front;
+
+  // configuration du labyrinthe
+  // = 1 -> il y a un mur
+  // = 0 -> pas de mur
+  // les rangees sont sur Y (car YMax > XMax) dans ce cas
+  var mursX1[8];
+  var mursX2[8];
+  var mursX3[8];
+  var mursX4[8];
+  var mursX5[8];
+  var mursX6[8];
+  var mursX7[8];
+
+  var mursY1[8];
+  var mursY2[8];
+  var mursY3[8];
+  var mursY4[8];
+  var mursY5[8];
+  var mursY6[8];
+  var mursY7[8];
+
+
+
+  // construit un labyrinthe
+  // position (Labyrinthe_x, Labyrinthe_y, Labyrinthe_z)
+  // specifies the lower left corner
+  // hauteur des murs : Labyrinthe_h
+  // espace des chemins : Labyrinthe_l
+
+  constructor(Labyrinthe_x, Labyrinthe_y, Labyrinthe_z,
+	      Labyrinthe_l, Labyrinthe_h) {
+    
+    // plancher
+    floor = new ZLabyrintheWall(Labyrinthe_x,
+				Labyrinthe_y,
+				Labyrinthe_z,
+				7*Labyrinthe_l,
+				8*Labyrinthe_l);
+
+    //plafond
+      ceeling = new ZLabyrintheWall(Labyrinthe_x,
+				    Labyrinthe_y,
+				    Labyrinthe_z+Labyrinthe_h,
+				    7*Labyrinthe_l,
+				    8*Labyrinthe_l);
+
+
+    // contour exterieur
+    wall_left = new YLabyrintheWall(Labyrinthe_x+(7*Labyrinthe_l),
+				    Labyrinthe_y,
+				    Labyrinthe_z,
+				    7*Labyrinthe_l,
+				    Labyrinthe_h);
+    wall_right = new YLabyrintheWall(Labyrinthe_x+(7*Labyrinthe_l),
+				     Labyrinthe_y-(8*Labyrinthe_l),
+				     Labyrinthe_z,
+				     7*Labyrinthe_l,
+				     Labyrinthe_h);
+    wall_front = new XLabyrintheWall(Labyrinthe_x,
+				     Labyrinthe_y-Labyrinthe_h,
+				     Labyrinthe_z,
+				     7*Labyrinthe_l,
+				     Labyrinthe_h);
+    wall_bottom[0] = new XLabyrintheWall(Labyrinthe_x+(7*Labyrinthe_h),
+					 Labyrinthe_y,
+					 Labyrinthe_z,
+					 6*Labyrinthe_l,
+					 Labyrinthe_h);
+    wall_bottom[1] = new XLabyrintheWall(Labyrinthe_x+(7*Labyrinthe_h),
+					 Labyrinthe_y-(7*Labyrinthe_h),
+					 Labyrinthe_z,
+					 Labyrinthe_l,
+					 Labyrinthe_h);
+    // configuration du labyrinthe
+
+
+    // XLabyrintheWall
+    mursX1[0]=0; mursX1[1]=1; mursX1[2]=0; mursX1[3]=1;
+    mursX1[4]=0; mursX1[5]=0; mursX1[6]=1; mursX1[7]=1;
+    
+    mursX2[0]=0; mursX2[1]=1; mursX2[2]=1; mursX2[3]=0;
+    mursX2[4]=0; mursX2[5]=1; mursX2[6]=0; mursX2[7]=0;
+
+    mursX3[0]=0; mursX3[1]=0; mursX3[2]=1; mursX3[3]=0;
+    mursX3[4]=1; mursX3[5]=0; mursX3[6]=1; mursX3[7]=0;
+    
+    mursX4[0]=0; mursX4[1]=1; mursX4[2]=0; mursX4[3]=0;
+    mursX4[4]=0; mursX4[5]=0; mursX4[6]=1; mursX4[7]=1;
+    
+    mursX5[0]=0; mursX5[1]=0; mursX5[2]=0; mursX5[3]=1;
+    mursX5[4]=1; mursX5[5]=1; mursX5[6]=0; mursX5[7]=0;
+    
+    mursX6[0]=0; mursX6[1]=1; mursX6[2]=1; mursX6[3]=0;
+    mursX6[4]=0; mursX6[5]=0; mursX6[6]=1; mursX6[7]=0;
+    
+
+    // YLabyrintheWall
+    mursY1[1]=1; mursY1[2]=0; mursY1[3]=1;
+    mursY1[4]=0; mursY1[5]=1; mursY1[6]=0; mursY1[7]=0;
+    
+    mursY2[1]=0; mursY2[2]=0; mursY2[3]=1;
+    mursY2[4]=0; mursY2[5]=0; mursY2[6]=1; mursY2[7]=0;
+
+    mursY3[1]=1; mursY3[2]=0; mursY3[3]=0;
+    mursY3[4]=1; mursY3[5]=0; mursY3[6]=0; mursY3[7]=1;
+    
+    mursY4[1]=1; mursY4[2]=0; mursY4[3]=1;
+    mursY4[4]=1; mursY4[5]=1; mursY4[6]=1; mursY4[7]=0;
+    
+    mursY5[1]=0; mursY5[2]=1; mursY5[3]=1;
+    mursY5[4]=0; mursY5[5]=1; mursY5[6]=0; mursY5[7]=0;
+    
+    mursY6[1]=1; mursY6[2]=0; mursY6[3]=1;
+    mursY6[4]=0; mursY6[5]=1; mursY6[6]=0; mursY6[7]=1;
+    
+    mursY7[1]=0; mursY7[2]=0; mursY7[3]=0;
+    mursY7[4]=1; mursY7[5]=1; mursY7[6]=0; mursY7[7]=1;
+    
+
+    //creation des murs
+    var i;
+    
+
+    // XLabyrintheWall
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursX1[i] == 1) {
+	mursX1[i] = new XLabyrintheWall(Labyrinthe_x+Labyrinthe_l,
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursX2[i] == 1) {
+	mursX2[i] = new XLabyrintheWall(Labyrinthe_x+(2*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursX3[i] == 1) {
+	mursX3[i] = new XLabyrintheWall(Labyrinthe_x+(3*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursX4[i] == 1) {
+	mursX4[i] = new XLabyrintheWall(Labyrinthe_x+(4*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursX5[i] == 1) {
+	mursX5[i] = new XLabyrintheWall(Labyrinthe_x+(5*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursX6[i] == 1) {
+	mursX6[i] = new XLabyrintheWall(Labyrinthe_x+(6*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    // YLabyrintheWall
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursY1[i] == 1) {
+	mursY1[i] = new YLabyrintheWall(Labyrinthe_x+Labyrinthe_l,
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursY2[i] == 1) {
+	mursY2[i] = new YLabyrintheWall(Labyrinthe_x+(2*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursY3[i] == 1) {
+	mursY3[i] = new YLabyrintheWall(Labyrinthe_x+(3*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursY4[i] == 1) {
+	mursY4[i] = new YLabyrintheWall(Labyrinthe_x+(4*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursY5[i] == 1) {
+	mursY5[i] = new YLabyrintheWall(Labyrinthe_x+(5*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursY6[i] == 1) {
+	mursY6[i] = new YLabyrintheWall(Labyrinthe_x+(6*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+    
+    for(i=0 ; i<8 ; i=i + 1;) {
+      if(mursY7[i] == 1) {
+	mursY7[i] = new YLabyrintheWall(Labyrinthe_x+(7*Labyrinthe_l),
+					Labyrinthe_y-(i*Labyrinthe_l),
+					Labyrinthe_z,
+					Labyrinthe_l,
+					Labyrinthe_h);
+      }
+    }
+
+
+    
+    
+
+  }
+}
+
+#endif

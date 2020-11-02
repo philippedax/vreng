@@ -28,14 +28,9 @@
 #include "texture.hpp"	// Texture
 
 
-#ifndef _WIN32
 #ifndef GL_GLEXT_PROTOTYPES
 #define GL_GLEXT_PROTOTYPES 1
 #endif /* GL_GLEXT_PROTOTYPES */
-#else
-PFNGLCOMPRESSEDTEXIMAGE2DARBPROC glCompressedTexImage2D = NULL;
-#endif /* _WIN32 */
-
 
 /* DDS texture info */
 typedef struct {
@@ -141,7 +136,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   /* read magic number and check if valid .dds file */
   fread(&magic, sizeof(char), 4, dds->fp);
   if (strncmp (magic, "DDS ", 4) != 0) {
-    error("file \"%s\" is not a valid .dds file!", Cache::getFileName(_tex->url));
+    error("file \"%s\" is not a valid .dds file!", Cache::getFilePath(_tex->url));
     File::closeFile(dds->fp);
     return NULL;
   }
@@ -171,9 +166,9 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
     break;
   default:
     error("the file \"%s\" doesn't appear to be compressed using DXT1, DXT3, or DXT5! [%x]",
-          Cache::getFileName(_tex->url), ddsd.channel.fourCC);
+          Cache::getFilePath(_tex->url), ddsd.channel.fourCC);
     File::closeFile(dds->fp);
-    delete[] dds;
+    if (dds) delete[] dds;
     return NULL;
   }
 
@@ -192,7 +187,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   fread(dds->texels, sizeof (GLubyte), size, dds->fp);
 
   File::closeFile(dds->fp);
-  delete[] dds;
+  if (dds) delete[] dds;
 
   return img;
 }

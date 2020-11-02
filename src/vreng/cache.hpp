@@ -57,10 +57,10 @@ class Cache {
   static void file2url(const char *filename, char *url);
   ///< Change filename to urlname.
 
-  static void getFileName(const char *url, std::string& filename);
+  static void getCacheName(const char *url, std::string& cachename);
   ///< Gets absolute file name.
 
-  static char * getFileName(const char *url);
+  static char * getFilePath(const char *url);
   ///< Gets relative file name.
 
 };

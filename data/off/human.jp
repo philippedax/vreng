@@ -1,0 +1,19 @@
+1_l6, 1 						# num_joints, scale
+# joint points values
+00 -0.016 -0.009 1.522 /off/head.off		# upper_neck
+01 -0.016 -0.009 1.417 /off/neck.off		# lower_neck
+02  0.000  0.000 1.117 /off/chest.off		# spinal
+03  0.000  0.000 0.854 /off/hip.off		# pelvic
+04  0.148 -0.005 1.371 /off/shoulder_l.off	# left_shoulder
+05  0.179 -0.016 1.089 /off/forearm_l.off	# left_elbow
+06  0.227 -0.023 0.858 /off/hand_l.off		# left_wrist
+07 -0.173 -0.011 1.367 /off/shoulder_r.off	# right_shoulder
+08 -0.210 -0.039 1.089 /off/forearm_r.off	# right_elbow
+09 -0.210 -0.023 0.841 /off/hand_r.off		# right_wrist
+10  0.074  0.000 0.854 /off/thigh_l.off		# left_hip
+11  0.082 -0.003 0.493 /off/shin_l.off		# left_knee
+12  0.082 -0.003 0.072 /off/foot_l.off		# left_ankle
+13 -0.086 -0.015 0.830 /off/thigh_r.off		# right_hip
+14 -0.097 -0.016 0.512 /off/shin_r.off		# right_knee
+15 -0.074 -0.016 0.072 /off/foot_r.off		# right_ankle
+faces=/v3d/faces.index				# faces index url

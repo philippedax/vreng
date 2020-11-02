@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN" "http://www.web3d.org/specifications/x3d-3.0.dtd">
+
+<X3D profile="Immersive" version="3.0">
+  <head>
+    <meta name="filename" content="tutorial.x3d"/>
+    <meta name="author" content="Copyright 2007 Pascal Chambon"/>
+    <meta name="description" content="A full demo of Vreng-X3d functionnalities"/>
+  </head>
+  <Scene>
+    <Transform DEF="globalTransform" scale="1 1 1" translation="0 0 0">	
+       <Transform translation="0 0 -1">
+
+      <Transform translation="0 0 0.99" scale="0.99 0.99 1">
+        <Shape>
+          <Appearance>
+            <Material DEF="myCone" diffuseColor="1 0 0" emissiveColor="0.5 0 0"/>
+          </Appearance>
+          <Cone/>
+        </Shape>
+      </Transform>
+
+      <Transform translation="0 0 -1" scale="1 1 2">
+         <Shape>
+          <Appearance>
+            <Material DEF="myCylinder" diffuseColor="1 0 0" specularColor="0.8 0.7 0" 
+		emissiveColor="0.5 0 0" ambientIntensity="0.5" shininess="0.3" transparency="1"/>
+          </Appearance>
+         <Cylinder/>
+        </Shape>
+      </Transform>
+
+
+      <Transform translation="0 0 2.5" scale="1.5 1.5 1">
+         <Shape>
+          <Appearance>
+            <Material DEF="mySphere" diffuseColor="1 0 0" specularColor="0.8 0.7 0" 
+		emissiveColor="0.5 0 0" ambientIntensity="0.5" shininess="0.05" transparency="1"/>
+          </Appearance>
+         <Sphere/>
+        </Shape>
+      </Transform>
+
+
+ 
+     <Transform translation="0 0 -1.5" scale="1.5 1.5 1">
+        <Shape>
+          <Appearance>
+            <Material DEF="myBox" diffuseColor="0 1 0" transparency="1" shininess="0.8" />
+          </Appearance>
+          <Box/>
+        </Shape>
+      </Transform>
+
+     <Transform translation="0 0 -2" scale="3 3 0.5">
+        <Shape>
+          <Appearance>
+            <Material DEF="myFloor" diffuseColor="0 1 0" transparency="1" shininess="0.8" />
+          </Appearance>
+          <Box/>
+        </Shape>
+      </Transform>
+
+
+	<Transform DEF="pyramid" translation="0 -2 0" scale="1 1 1">
+	  <Shape>
+           <Appearance>
+             <ImageTexture url="/gif/eric.gif"/>  
+           </Appearance>
+            <IndexedFaceSet  coordIndex="3 2 1 0   -1    1 4 0    -1    2 4 1    -1    3 4 2    -1   0 4 3"  
+                         texCoordIndex="0 1 2 3   -1    0 1 2    -1    0 1 2    -1    0 1 2    -1   0 1 2">
+		<TextureCoordinate point="0 0, 1 0, 1 1, 0 1"/>
+              <Coordinate point="-0.5 -0.5 0, 0.5 -0.5 0, 0.5 0.5 0, -0.5 0.5 0, 0 0 1"/>
+            </IndexedFaceSet>
+          </Shape>
+	</Transform>
+	<Transform translation="0 3 0" scale="1 1 1">
+	  <Shape DEF="map">
+            <Appearance>
+              <Material/>
+            </Appearance>
+            <IndexedFaceSet colorIndex="0 1 2 3 -1 2 3 1 0" coordIndex="0 1 2 3 -1 3 2 1 0" colorPerVertex="true">
+              <Color color="0 0 0, 1 0 1 ,0 0 1, 1 0 0, 0.2 0.2 0.2"/>
+              <Coordinate point="0 1 0, 0 -1 0, 0 -1 1, 0 1 1"/>
+            </IndexedFaceSet>
+          </Shape>
+ 	</Transform>
+
+       </Transform>
+    </Transform>
+
+   <TimeSensor DEF="quicktransformationsTimer" cycleInterval="1" loop="true"/>
+   <TimeSensor DEF="longtransformationsTimer" cycleInterval="12" loop="false"/>
+   <TimeSensor DEF="longrotationTimer" cycleInterval="14" loop="true"/>
+   <TimeSensor DEF="quickrotationTimer" cycleInterval="2" loop="true"/>
+   <TimeSensor DEF="colorsTimer" cycleInterval="3" loop="true"/>
+   <TimeSensor DEF="scalarTimer" cycleInterval="5" loop="true"/>
+
+   <ScaleInterpolator DEF="scalInt" key="0 0.5 1" keyValue="1 1.5 1, 1.3 0.8 1.5, 1 1.5 1"/>
+   <PositionInterpolator DEF="posInt" key="0 0.25 0.5 0.75 1" keyValue="0 0 1, 3 0 1, 3 3 1, 0 3 1, 0 0 1"/>
+   <OrientationInterpolator DEF="orienInt1" key="0 0.25 0.5 0.75 1" keyValue="0 0 1 0, 0 0 1 1.57, 0 0 1 3.1416, 0 0 1 4.71, 0 0 1 0"/>
+   <OrientationInterpolator DEF="orienInt2" key="0 0.25 0.5 0.75 1" keyValue="0 0 1 0, 0 0 1 1.57, 0 0 1 3.1416, 0 0 1 4.71, 0 0 1 0"/>
+   <ColorInterpolator DEF="Colorer" key="0 0.25 0.5 0.75 1" keyValue="0 0 0, 1 0 0, 0 1 0, 0 0 1, 0 0 0"/>
+   <ColorInterpolator DEF="QuickColorer" key="0 0.25 0.5 0.75 1" keyValue="0 0 0, 1 0 0, 0 1 0, 0 0 1, 0 0 0"/>
+   <ScalarInterpolator DEF="Single" key="0 0.25 0.5 0.75 1" keyValue="1, 0.2, 0, 0.8, 1"/>
+
+   <ROUTE fromNode="quicktransformationsTimer" fromField="fraction_changed" toNode="scalInt" toField="set_fraction"/>
+   <ROUTE fromNode="scalInt" fromField="value_changed" toNode="mySphere" toField="scale"/>
+
+   <ROUTE fromNode="longtransformationsTimer" fromField="fraction_changed" toNode="posInt" toField="set_fraction"/>
+   <ROUTE fromNode="posInt" fromField="value_changed" toNode="globalTransform" toField="translation"/>
+
+   <ROUTE fromNode="colorsTimer" fromField="fraction_changed" toNode="Colorer" toField="set_fraction"/>
+   <ROUTE fromNode="Colorer" fromField="value_changed" toNode="mySphere" toField="diffuseColor"/>
+   <ROUTE fromNode="Colorer" fromField="value_changed" toNode="myBox" toField="emissiveColor"/>
+
+  <ROUTE fromNode="quickrotationTimer" fromField="fraction_changed" toNode="QuickColorer" toField="set_fraction"/>
+  <ROUTE fromNode="QuickColorer" fromField="value_changed" toNode="mySphere" toField="specularColor"/>
+
+   <ROUTE fromNode="scalarTimer" fromField="fraction_changed" toNode="Single" toField="set_fraction"/>
+   <ROUTE fromNode="Single" fromField="value_changed" toNode="myCone" toField="transparency"/>
+   <ROUTE fromNode="Single" fromField="value_changed" toNode="myCylinder" toField="shininess"/>
+   <ROUTE fromNode="Single" fromField="value_changed" toNode="myFloor" toField="ambientIntensity"/>
+
+   <ROUTE fromNode="longrotationTimer" fromField="fraction_changed" toNode="orienInt1" toField="set_fraction"/>
+   <ROUTE fromNode="orienInt1" fromField="value_changed" toNode="globalTransform" toField="rotation"/>
+
+   <ROUTE fromNode="quickrotationTimer" fromField="fraction_changed" toNode="orienInt2" toField="set_fraction"/>
+   <ROUTE fromNode="orienInt2" fromField="value_changed" toNode="pyramid" toField="rotation"/>
+   <ROUTE fromNode="orienInt2" fromField="value_changed" toNode="map" toField="rotation"/>
+  </Scene>
+</X3D>
+

@@ -126,7 +126,6 @@ void Gate::enter()
     World::enter(new_url, NULL, World::NEW);
     World::current()->linked();	// linked world
   }
-
   else {		// with channel
     if (strcmp(names.url, Universe::current()->url) == 0) {
       sprintf(chan, "%s/%u/%d",
@@ -137,16 +136,20 @@ void Gate::enter()
     //
     // call here the VACS (VREng Address Cache Server) to get the channel string
     //
+#if 0 //dax
     Vac *vac = Vac::current();
     if (! vac->getChannel(names.url, chan)) {
       // this url is not in the cache, we need to ask to the vacs to resolve it
-      if (vac->resolveWorldUrl(names.url, chan))
-        trace(DBG_IPMC, "enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
+      if (vac->resolveWorldUrl(names.url, chan)) {
+        trace(DBG_FORCE, "enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
+      }
       else {
         warning("enter: warning resolveWorldUrl failed from Vac: url=%s", names.url);
-        if (! *chan) strcpy(chan, DEF_VRE_CHANNEL);  // no given channel, forced to the default
+        if (! *chan)
+          strcpy(chan, DEF_VRE_CHANNEL);  // no given channel, forced to the default
       }
     }
+#endif //dax
     trace(DBG_IPMC, "enter: getChannel=%s url=%s", chan, new_url);
     char *new_chan_str = strdup(chan);
 

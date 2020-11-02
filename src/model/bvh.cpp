@@ -49,7 +49,7 @@ Bvh::Bvh(const char *url)
   verbose = true;
   string bvhfile;
   download(url);
-  Cache::getFileName(url, bvhfile);
+  Cache::getCacheName(url, bvhfile);
   init(bvhfile);
 }
 
@@ -362,16 +362,14 @@ rigid::rigid(const char *url)
 {
   error("rigid::rigid url=%s", url);
 #if 0 //dax
-  ring objfile;
+  string objfile;
   download(url);
-  Cache::getFileName(url, objfile);
+  Cache::getCacheName(url, objfile);
 
   theObj = new objloader(objfile);
 #else
-  //char objfile[64];
   download(url);
-  Cache::getFileName(url);
-
+  Cache::getFilePath(url);
 #endif
   //vertices = theObj->vertices;
   //normals = theObj->normals;

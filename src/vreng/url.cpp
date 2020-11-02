@@ -41,11 +41,11 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
     trace(DBG_HTTP, "BAD URL: %s", url);
     return URLBAD;
   }
-  if (!stringcmp(url, "http://")) {
+  if (! stringcmp(url, "http://")) {
     urltype = URLHTTP;
     strcpy(scheme, "http");
     url += 7;
-  } else if (!stringcmp(url, "file:")) {
+  } else if (! stringcmp(url, "file:")) {
     urltype = URLFILE;
     strcpy(scheme, "file");
     url += 5;
@@ -63,12 +63,14 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
       sprintf(path, "%s/%s", Universe::current()->urlpfx, url);
     }
     else {	// /path
-      if (!stringcmp(url, "http://") || !stringcmp(url, "/~"))
+      if (! stringcmp(url, "http://") || ! stringcmp(url, "/~")) {
         // full qualified url
         sprintf(path, "%s", url);
-      else
+      }
+      else {
         // add url prefix before url
         sprintf(path, "%s%s", Universe::current()->urlpfx, url);
+      }
     }
     return URLHTTP;
   }
@@ -96,9 +98,11 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
 void Url::abs(const char *oldurl, char *newurl)
 {
   if ((! stringcmp(oldurl, "http://")) || (! stringcmp(oldurl, "ftp://")))
-    strcpy(newurl, oldurl);
+    strncpy(newurl, oldurl, URL_LEN);
   else
     sprintf(newurl, "http://%s%s%s", Universe::current()->universe_name, Universe::current()->urlpfx, oldurl);
-  if (strlen(newurl) >= URL_LEN)
-    error("url length too big %s", newurl);
+  if (strlen(newurl) >= URL_LEN) {
+    newurl[URL_LEN -1] = '\0';
+    warning("url length too big %s", newurl);
+  }
 }

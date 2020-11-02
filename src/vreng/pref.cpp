@@ -39,6 +39,7 @@ where options are:\n\
 -g, --no-gravity		Without gravity\n\
 -h, --help			Help message\n\
 -i, --infogl			Show OpenGL infos\n\
+-k, --keepcache			keep everything in cache\n\
 -n, --number number		Number of simultaneous threads [1..7]\n\
 -p, --pseudo name		Your pseudoname\n\
 -q, --quality			high 3D quality, if you have a 3D card\n\
@@ -54,6 +55,7 @@ where options are:\n\
 -M, --multicast			MBone IP Multicast mode\n\
 -F, --fast			Without persistency (MySql)\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
+-S, --nostats			don't show stats\n\
 -T, --timetolive days		Cache time in days\n\
 --display host	 		X11 display\n\
 --bpp bpp	 		X11 visual bits per pixel\n\
@@ -81,7 +83,9 @@ Pref::Pref()
   cpulimit = true;
   reflector = true;
   fast = false;
+  keep = false;
   silent = true;
+  stats = true;
   bbox = false;
   dbgtrace = false;
   maxsimcon = DEF_MAXSIMCON;
@@ -138,6 +142,7 @@ void Pref::parse(int argc, char **argv)
     {"no-gravity", 0, 0, 'g'},
     {"help",       0, 0, 'h'},
     {"infogl",     0, 0, 'i'},
+    {"keep",       0, 0, 'k'},
     {"number",     1, 0, 'n'},
     {"pseudo",     1, 0, 'p'},
     {"quality",    0, 0, 'q'},
@@ -153,12 +158,13 @@ void Pref::parse(int argc, char **argv)
     {"multicast",  0, 0, 'M'},
     {"fullscreen", 0, 0, 'F'},
     {"reflector",  0, 0, 'R'},
+    {"nostats",    1, 0, 'S'},
     {"timetolive", 1, 0, 'T'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiqrstv2CFMRa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghikqrstv2CFMRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiqrstvx2CFMRa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghikqrstvx2CFMRSa:d:f:n:p:u:w:A:T:"))
 #endif
    != -1) {
 
@@ -212,6 +218,9 @@ void Pref::parse(int argc, char **argv)
       case 'i':
         infogl = true;
         break;
+      case 'k':
+        keep = true;
+        break;
       case 'n':
         maxsimcon = atoi(optarg);
         if (maxsimcon >= DEF_MAXSIMCON) {
@@ -236,12 +245,6 @@ void Pref::parse(int argc, char **argv)
       case 't':
         dbgtrace = true;
         break;
-#if 0 //OBSOLETE
-      case 't':
-         if (*optarg == 't')
-         gui_theme = Theme::TEXT; // text
-        break;
-#endif
       case 'u':
         ::g.universe = strdup(optarg);
         new_universe = true;
@@ -253,13 +256,11 @@ void Pref::parse(int argc, char **argv)
         ::g.url = strdup(optarg);
         char chanstr[CHAN_LEN];
         memset(chanstr, 0, sizeof(chanstr));
-#if 0 //DAX LOCAL
 	{
 	  Vac *vac = Vac::current();
           vac->resolveWorldUrl(::g.url, chanstr);
           ::g.channel = strdup(chanstr);
 	}
-#endif
         break;
       case 'x':
         helpx = true;
@@ -284,6 +285,9 @@ void Pref::parse(int argc, char **argv)
       case 'R':
         reflector = true;
         break;
+      case 'S':
+        stats = false;
+        break;
       case 'T':
         v = atoi(optarg);
 	if (v < 0 || v > 365)
@@ -293,35 +297,34 @@ void Pref::parse(int argc, char **argv)
     }
   }
 
-  char *tmp1 = new char[URL_LEN];
-  char *tmp2 = new char[URL_LEN];
-
+  char *url1 = new char[URL_LEN];
+  char *url2 = new char[URL_LEN];
   if (::g.url == NULL) {
     if (new_universe == false) {
-      sprintf(tmp1, "http://%s%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_WORLD);
+      sprintf(url1, "http://%s%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_WORLD);
     }
     else {
-      sprintf(tmp1, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
+      sprintf(url1, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
     }
-    ::g.url = strdup(tmp1);
+    ::g.url = strdup(url1);
   }
 
   if (new_universe == false) {
-    sprintf(tmp1, "%s", DEF_HTTP_SERVER);
-    ::g.server = strdup(tmp1);
+    sprintf(url1, "%s", DEF_HTTP_SERVER);
+    ::g.server = strdup(url1);
   }
   else {
     char *p1, *p2;
-    tmp1 = strdup(::g.universe);
-    p1 = strchr(tmp1, '/');
+    url1 = strdup(::g.universe);
+    p1 = strchr(url1, '/');
     p1++;
     p1 = strchr(p1, '/');
     p2 = ++p1;
     p1 = strchr(p1, '/');
     *p1 = 0;
-    strcpy(tmp2, p2); 
+    strcpy(url2, p2); 
   }
-  ::g.server = strdup(tmp2);
+  ::g.server = strdup(url2);
   trace(DBG_INIT, "server: %s", ::g.server);
   trace(DBG_INIT, "universe: %s", ::g.universe);
   trace(DBG_INIT, "url: %s", ::g.url);
@@ -350,7 +353,6 @@ void Pref::parse(int argc, char **argv)
     else
       ::g.user = strdup("unknown");
   }
-
   if (helpx) {
     argc++;
     argv++;

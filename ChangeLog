@@ -13,6 +13,13 @@ The rules for this file:
 ------------------------------------------
 
 ++ 9
+== 9.1
+== 9.1.0
+	- added door open/clode mecanisms : sliding and vertical
+	- added fractal element to dtd
+	- added command line options -k (keepcache) and -S (nostats)
+	(2020/11/02, Philippe Dax)
+
 == 9.0
 -- 9.0.3
 	- move gui/mvt.*pp to gui/motion.*pp

@@ -36,9 +36,7 @@
 // local
 static int32_t nbsimcon;		// Nb actual of simultaneous connections
 static Vpthread_mutex_t nbsimcon_mutex;	// lock on the global variable simcon
-#if defined(HAVE_LIBPTHREAD)
 static tWaitFifo *fifofirst, *fifolast;	// variables protected by nbsimcon_mutex
-#endif
 
 static const char HTTP_PROXY[]="http_proxy";
 static const char NO_PROXY[]="no_proxy";
@@ -67,7 +65,7 @@ void HttpThread::init()
 void HttpThread::begin()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-  if (mode > 0) {
+  if (modethr > 0) {
     //trace(DBG_HTTP, "-> begin %s", url);
     if (waitfifo) {	// Wait authorization to begin
       lockMutex(&nbsimcon_mutex);
@@ -89,7 +87,7 @@ void HttpThread::begin()
 void HttpThread::end()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-  if (mode > 0) {
+  if (modethr > 0) {
     lockMutex(&nbsimcon_mutex); // lock access to global variable nbsimcon
     //------------ lock
       nbsimcon--;	// decrements nbsimcon
@@ -104,10 +102,9 @@ void HttpThread::end()
 #endif
 }
 
-int HttpThread::fifo()
+int HttpThread::putfifo()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-
   lockMutex(&nbsimcon_mutex);	// lock access to global variable nbsimcon
   //------------ lock
   if (nbsimcon >= ::g.pref.maxsimcon) {	// test number of active connections
@@ -136,7 +133,6 @@ int HttpThread::fifo()
 
   /* start new thread */
   Vpthread_t tid;
-  //::g.times.image.stop();
   return pthread_create(&tid, NULL, HttpThread::connection, (void *) this);
 
 #else
@@ -157,11 +153,7 @@ int HttpThread::send(int fd, const char *buf, int size)
   int sent, r=0;
 
   for (sent = 0; sent < size; sent += r) {
-#if defined(WIN32) && !defined(CYGWIN32)
-    if ((r = write(fd, buf + sent, size - sent, 0)) == -1) {
-#else
     if ((r = write(fd, buf + sent, size - sent)) == -1) {
-#endif
       perror("httpSend: write");
       return -BADSEND;
     }
@@ -194,10 +186,13 @@ int HttpThread::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
 
   uint16_t port;
 
-  if (isdigit((int) *portstr)) port = htons(atoi(portstr));
+  if (isdigit((int) *portstr))
+    port = htons(atoi(portstr));
   else {
-    if (! strcmp(portstr, "http")) port = htons(HTTP_PORT);
-    else return -BADSERV;
+    if (! strcmp(portstr, "http"))
+      port = htons(HTTP_PORT);
+    else
+      return -BADSERV;
   }
 
   sa->sin_family = hp->h_addrtype;
@@ -246,12 +241,7 @@ void HttpThread::checkProxy()
 
 int HttpThread::openFile(const char *path)
 {
-#if defined(WIN32) && !defined(CYGWIN32)
-  return CreateFile(path, GENERIC_READ, 0, NULL, OPEN_EXISTING,
-                    FILE_ATTRIBUTE_NORMAL, NULL);
-#else
   return open(path, O_RDONLY);
-#endif
 }
 
 /** make an http connection */
@@ -281,10 +271,11 @@ void * HttpThread::connection(void *_ht)
   switch (urltype) {
 
   case Url::URLFILE:	// file://
-    if ((http->fd = HttpThread::openFile(path)) < 0) hterr = true;
+    if ((http->fd = HttpThread::openFile(path)) < 0)
+      hterr = true;
     else {
       http->off = -1;
-      ht->httpReader(ht->hdl, http);
+      ht->httpReader(ht->thrhdl, http);
       hterr = false;
     }
     break;
@@ -292,7 +283,7 @@ void * HttpThread::connection(void *_ht)
   case Url::URLHTTP:	// http://
     trace(DBG_HTTP, "HTTP: %s://%s%s", scheme, host, path);
 again:
-    if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
+    if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
       struct hostent *hp;
       if ((hp = my_gethostbyname(hostproxy, AF_INET)) == NULL) {
         trace(DBG_HTTP, "my_gethostbyname hostproxy=%s", hostproxy);
@@ -328,17 +319,19 @@ again:
     /*
      * send the GET request to the http server with adding useful infos
      */
-    if (proxy && (!noproxy || strstr(host, domnoproxy) == 0))
+    if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
       sprintf(req,
               "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
               ht->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
               ::g.env.relname(), ::g.user, host);
-    else
+    }
+    else {
       sprintf(req,
               "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
               path, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
               ::g.env.relname(), ::g.user, host);
 
+    } 
     if (HttpThread::send(http->fd, req, strlen(req)) < 0) {
       error("can't send req=%s", req);
       hterr = true;
@@ -403,14 +396,14 @@ again:
                     goto again;
                   }
                 }
-                break;
               }
+              break;
             case 404:	// not found
-              fatal("HTTP-err: %d - %s %s on %s", httperr, httpheader, ht->url, host);
+              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, ht->url, host);
               hterr = true;
               break;
             case HTTP_503:
-              fatal("HTTP-err: %d - server %s unavailable", httperr, host);
+              warning("HTTP-err: %d - server %s unavailable", httperr, host);
               hterr = true;
               break;
             default:
@@ -431,8 +424,8 @@ again:
               else p[MIME_LEN] = 0;
               trace(DBG_HTTP, "mime=%s %s", p, ht->url);
               /* only for textures */
-              if (ht->hdl && strcmp(p, "plain")) {
-                Texture *tex = (Texture *) ht->hdl;
+              if (ht->thrhdl && strcmp(p, "plain")) {
+                Texture *tex = (Texture *) ht->thrhdl;
 		tex->setMime(p);
               }
             }
@@ -446,7 +439,7 @@ again:
     /*
      * Call here the appropriated httpReader
      */
-    ht->httpReader(ht->hdl, http);
+    ht->httpReader(ht->thrhdl, http);
     hterr = false;
     break;
 
@@ -457,8 +450,7 @@ again:
   }
 
   if (hterr && ht)
-    //dax ht->httpReader(ht->hdl, (Http *)NULL);
-    ht->httpReader(ht->hdl, http);
+    ht->httpReader(ht->thrhdl, http);
 
   // free memory
   if (ht) delete ht;
@@ -470,7 +462,7 @@ again:
 }
 
 /** Open a new HTTP connection, returns -1 if error */
-int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), void *_hdl, int _threaded)
+int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), void *_thrhdl, int _threaded)
 {
   if (! isprint(*_url)) { error("httpOpen: url not printable"); return -1; }
 
@@ -482,34 +474,37 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
   ht->http = new Http();	// create a http IO
 
   // fill the ht structure
-  ht->hdl = _hdl;
+  ht->thrhdl = _thrhdl;
   ht->httpReader = _httpReader;
-  ht->mode = _threaded;
+  ht->modethr = _threaded;
   strcpy(ht->url, _url);
   strcpy(ht->http->url, _url);
 
   // Checks weither url is in the cache (_threaded < 0 : don't use the cache)
   if (_threaded >= 0 && Cache::inCache(_url)) { // in cache
-    ht->httpReader(_hdl, ht->http);  // call the appropiated httpReader
+    ht->httpReader(ht->thrhdl, ht->http);  // call the appropiated httpReader
     if (ht->http) delete ht->http;
     ht->http = NULL;
-    progression('c');
+    progression('c');	// c as cache
     delete ht;
     ht = NULL;
     return 0;
   }
-
-  progression('i');
-  //error("url=%s", ht->url);
-  if (_threaded > 0) return ht->fifo();		// it's a thread
-  else {
-    HttpThread::connection((void *) ht);	// it's not a thread
-    ::g.times.image.stop();
-    return 0;
+  else {		// it's a thread
+    progression('i');	// i as image
+    if (_threaded > 0)
+      return ht->putfifo();
+    else {
+      HttpThread::connection((void *) ht);	// it's not a thread
+      ::g.times.image.stop();
+      return 0;
+    }
   }
 }
 
-
+//
+// Http
+//
 Http::Http()
 {
   new_http++;
@@ -546,11 +541,7 @@ int Http::httpRead(char *abuf, int maxl)
 
   while (maxl > 0) {
     int r;
-#if defined(WIN32) && !defined(CYGWIN32)
-    ReadFile(fd, abuf+l, maxl, &r, NULL);
-#else
     r = read(fd, abuf+l, maxl);
-#endif
     if (r < 0) {
       error("%s (%d) l=%d maxl=%d off=%d len=%d", strerror(errno), errno, l, maxl, off, len);
       return r;
@@ -561,7 +552,6 @@ int Http::httpRead(char *abuf, int maxl)
   }
   return l;
 }
-
 
 static uint8_t htbuf[BUFSIZ];
 static int32_t htbuf_pos = 0;
@@ -583,8 +573,10 @@ int Http::getChar()
 {
   if (htbuf_pos >= htbuf_len) {	// eob
     htbuf_pos = 0;
-    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) return -1;	// eof
-    if (htbuf_len < 0) return -2;  // err
+    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0)
+      return -1;	// eof
+    if (htbuf_len < 0)
+      return -2;	// err
   }
   return htbuf[htbuf_pos++];
 }
@@ -660,7 +652,7 @@ int Http::read_string(char *s, int maxlen)
     else s[maxlen-1] = '\0';
     cnt++;
   } while (c != 0);
-  /* if length of string (including \0) is odd skip another byte */
+  /* if length of string (including \0) is odded skip another byte */
   if (cnt%2) {
     read_char();
     cnt++;

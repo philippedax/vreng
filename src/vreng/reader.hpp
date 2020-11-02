@@ -50,9 +50,9 @@ class Reader {
 
   virtual FILE * downloadInCache(class Texture *tex);
   virtual FILE * downloadInCache(void *tex, bool flagclo);
-  /**< Downloads a file into the disk cache. */
+  /**< Downloads a file into the cache. */
   virtual FILE * downloadInCache(const char *url, char *filename);
-  /**< Downloads a file into the disk cache. */
+  /**< Downloads a file into the cache. */
 
   virtual char * getFilename(void *tex);
   /**< Gets filename. */

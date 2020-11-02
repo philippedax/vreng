@@ -21,22 +21,22 @@
 
 #include <ubit/ubit.hpp>
 #include "vreng.hpp"
-#include "gui.hpp"
-#include "theme.hpp"
-#include "world.hpp"	// World
-#include "channel.hpp"	// initNetwork
-#include "pref.hpp"	// init
-#include "env.hpp"	// init
-#include "vac.hpp"	// init
-#include "universe.hpp"	// initManager
+#include "gui.hpp"	// new Gui
+#include "env.hpp"	// new Env
+#include "pref.hpp"	// new Pref
+#include "theme.hpp"	// new Theme
+#include "timer.hpp"	// new Times
+#include "render.hpp"	// new Render
+#include "universe.hpp"	// Universe::init
+#include "world.hpp"	// World::init
+#include "vac.hpp"	// Vac::init
+#include "channel.hpp"	// Channel::init
 #include "http.hpp"	// HttpThread::init
 #include "mysql.hpp"	// VRSql::init
-#include "render.hpp"	// Render::quit
 #include "stat.hpp"	// statNetwork
 #include "prof.hpp"	// statMemory
-#include "timer.hpp"	// ptime_*
-#include "openal.hpp"	// Openal::init
 #include "aiinit.hpp"	// initOcaml
+#include "openal.hpp"	// Openal::init
 
 #include "setjmp.h"	// jmp_buf
 using namespace ubit;
@@ -116,10 +116,6 @@ void Global::quitVreng(int signum)
     signal(signum, SIG_DFL);
     longjmp(sigctx, signum);
   }
-  
-#ifdef DMALLOC_FUNC_CHECK
-  dmalloc_shutdown();
-#endif
   if (inquit > 0) {
     trace(DBG_FORCE, "quit: inquit=%d sig=%d", inquit, signum);
     if (inquit > 3) exit(signum);  // force exit without quitting properly
@@ -137,29 +133,28 @@ void Global::quitVreng(int signum)
 
   // quit the application (and close the main window)
   UAppli::quit(signum);
-
-  statMemory();
-  statIO();
 }
 
 void Global::printStats()
 {
+  if (::g.pref.stats == false)
+    return;
   statLog();
   statTimings();
   statNetwork();
   Render::stat();
+  statMemory();
+  statIO();
 }
 
 extern int my_wait(pid_t);
 static void reapchild(int sig)
 {
-  //error("child pid/ppid=%d/%d", (int)getpid(), (int)getppid());
   my_wait(-1);
 }
 
 void Global::initSignals()
 {
-  //DAX signal(SIGILL, quitVreng);
   signal(SIGTRAP,quitVreng);
   signal(SIGFPE, quitVreng);
   signal(SIGBUS, quitVreng);

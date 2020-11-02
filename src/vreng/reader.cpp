@@ -38,40 +38,45 @@ FILE * Reader::downloadInCache(void *_tex, bool flagclose)
   Texture *tex = (Texture *) _tex;
 
   fp = downloadInCache(tex);
-  if (flagclose) File::closeFile(fp);
+  if (flagclose)
+    File::closeFile(fp);
   return fp;
 }
 
 FILE * Reader::downloadInCache(Texture *tex)
 {
   FILE *f = Cache::openCache(tex->url, tex->http);
-  if (! f) { error("Reader: can't open %s", tex->url); return NULL; }
+  if (! f) {
+    error("Reader: can't open %s", tex->url);
+    return NULL;
+  }
   return f;
 }
 
-FILE * Reader::downloadInCache(const char *url, char *filename)
+FILE * Reader::downloadInCache(const char *url, char *filepath)
 {
   FILE *f;
 
-  if ((f = File::openFile(filename, "rb")) == NULL) {
-    if ((f = File::openFile(filename, "wb")) == NULL) {
-      error("downloadInCache: can't create %s", filename); return NULL;
+  if ((f = File::openFile(filepath, "rb")) == NULL) {
+    if ((f = File::openFile(filepath, "wb")) == NULL) {
+      error("downloadInCache: can't create %s", filepath); return NULL;
     }
     int len;
     char buf[BUFSIZ];
-    while ((len = this->read_func(img_hdl, buf, sizeof(buf))) > 0)
+    while ((len = this->read_func(img_hdl, buf, sizeof(buf))) > 0) {
       fwrite(buf, 1, len, f);
+    }
   }
   return f;
 }
 
 char * Reader::getFilename(void *_tex)
 {
-  static char filename[PATH_LEN];
+  static char filepath[PATH_LEN];
   Texture *tex = (Texture *) _tex;
 
-  Cache::setCacheName(tex->url, filename);
-  return filename;
+  Cache::setCacheName(tex->url, filepath);
+  return filepath;
 }
 
 uint8_t Reader::getChar()
@@ -145,6 +150,7 @@ int32_t Reader::getInt()
 uint32_t Reader::getUInt(FILE *fp)
 {
   int c, c1, c2, c3;
+
   c = getc(fp);  c1 = getc(fp);  c2 = getc(fp);  c3 = getc(fp);
   return ((uint32_t) c) +
          (((uint32_t) c1) << 8) +

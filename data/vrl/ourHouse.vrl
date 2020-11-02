@@ -1,0 +1,367 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+//  File:   ourHouse.vrl
+//
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Description
+//  -----------
+//
+//  This file contains a demo for the presentation of the program 'crl2cfg'.
+//  'vrl2cfg' was written by (alphabetical order)
+//      GUILLOPE, Vincent
+//      KORNGUT,  Gilles
+//      KRAUTH,   Holger         (HK)
+//      MOALIGOU, Sebastien
+//
+//  ===== IMPORTANT =====
+//  Before reading this please have a look at the virtual world
+//  decribed below!
+//  Compile the file by 'vrl2cfg ourHouse.vrl ourHouse.cfg' and
+//  place the generated 'ourHouse.cfg' in your 'public_html/cfg' .
+//  The images are expected to be in 'public_html/gif'.
+//  ===== IMPORTANT =====
+//
+//  To get an idea about the abbreviations, please read the documentation 
+//  in French "Comment ecrire des fichiers de configuration" 
+//  (How to write configuration).
+//  
+//
+//  Down there is the vrl description of a 6 floor house.
+//  Floor 2 - 5 are in general the same. They differ in the bureaus.
+//  The Bureaus are the same on floor 0,2,4.
+//  Floor 1,3,5 have also the same kind of bureaus.
+//  Floor 6 is empty.
+//  Floor 0 has a special stairway to floor 1.
+//  Floor 1 has a whole in the ground to look at floor 0.
+//  The stairways have been encapsulated that it is easier to go up!
+//  Sometimes VRENG is so slow that it is difficult to stop in time.
+//  In the test phase it was hard not to fall down the stairs all the time
+//  - Try out, you will see.
+//
+//  After entering the world you face the "door to Space".
+//  Walk out the cat walk and watch the building.
+//
+//  Do you find all the pictures on the walls?
+//
+//  Have fun
+//  Holger Krauth
+//
+///////////////////////////////////////////////////////////////////////////////
+// 
+//  Authors
+//  -------
+//  initials    name
+//     HK       Holger Krauth
+//     SM       Moaligou Sebastien
+//
+///////////////////////////////////////////////////////////////////////////////
+//
+//  History
+//  -------
+//  when       who   what
+//  19-Dec-99  HK    Creation
+//  20-Dec-99  SM    Continuation
+///////////////////////////////////////////////////////////////////////////////
+
+
+// These files contain vrl object descriptions that are used later
+
+#include "std.vrl_lib"            // VRENG standard objects
+#include "houses.vrl_lib"         // all standard walls, ...
+#include "ourHouse.vrl_lib"   // specific, complex obj for this file
+#include "meuble.vrl" // in order to add furnitures
+
+
+main() {
+  
+  var groundFloor;  
+  var firstFloor[5];      // made from 5 pieces!
+  var floor[5];           // floor 2-6
+  var stairWay01;         // stair floor 0-1
+  var stairWay[5];        // stairs 1-2 2-3 3-4 4-5 5-6
+  var stairWidth = 2; var stairDepth = 0.3;
+
+
+  // bureaus (see "BUEREAUS" section !!)
+  // leave floor 6 empty.
+
+  // bureaus for floor 0,2,4
+  var burRight[3];   // OID will be 1,5,9 on floor 0,2,4
+  var burLeft[3];    // OID will be 2,6,10, on floor 0,2,4
+  // bureaus for floor 1,2,5
+  var singleBur[3];  // OID will be 3,7,11
+
+
+  var doorToSpace;
+  var picIguazu;   // Picture
+  var picCst;      // Picture
+  var reeling;     // see where its used
+  var pic2;
+  var tab1_bur1;
+
+
+  // ------- CONSTANTS -------------------------------------------
+  var floorDist = 4.5;         // Does NOT affect buereau height!
+  var cnt;                     // counter
+  var doorName = "BureauDoor"; // all doors!
+                               // OK if theres no Bottons !
+  var reelingURL = "http://www.enst.fr/~krauth/cfg/reeling.cfg";
+                               // see where its used
+
+  var picIguazuURL= "http://www.enst.fr/~krauth/gif/iguazu.gif";
+  var picCstURL   = "http://www.enst.fr/~krauth/gif/picCst.gif";
+  var pic2URL     = "http://www.enst.fr/~krauth/gif/casta35.gif";
+  var joconde     = "http://www.infres.enst.fr/net/vreng/gif/joconde.gif";
+  var blondwood   = "http://www.infres.enst.fr/net/vreng/gif/blondwood.gif";
+  var wood2       = "http://www.infres.enst.fr/net/vreng/gif/wood2.gif";
+  var wood1       = "http://www.infres.enst.fr/net/vreng/gif/wood1.gif";
+  var bricks      = "http://www.infres.enst.fr/net/vreng/gif/bricks.gif";
+  var parquet     = "http://www.infres.enst.fr/net/vreng/gif/parquet.gif";
+  var parquetclair= "http://www.infres.enst.fr/net/vreng/gif/parquetclair.gif";
+  var sunset      = "http://www.infres.enst.fr/net/vreng/gif/sunset.gif";
+  var pyramids    = "http://www.infres.enst.fr/net/vreng/gif/pyramids.gif";
+  var fire        = "http://www.infres.enst.fr/net/vreng/gif/fire.gif";
+  var murtex      = "http://www.infres.enst.fr/net/vreng/gif/stuc.gif";
+  var aigle       = "http://www.infres.enst.fr/net/vreng/gif/us_flag.gif";
+
+  // ------- FLOORS ----------------------------------------------
+
+  groundFloor    = new FloorType1( 2, 0, (-0.1) );
+
+  firstFloor[0]  = new FloorT1Piece( (-1.35) , 8, 4.4, 1.65, 2, 0.1 );
+  firstFloor[1]  = new FloorT1Piece(  1.0 , 5, 4.4, 4,    1, 0.1 );
+  firstFloor[2]  = new FloorT1Piece(  6.0, (-2), 4.4, 1.0,  8, 0.1 );
+  firstFloor[3]  = new FloorT1Piece(    1, (-6), 4.4, 4.0,  4, 0.1 );
+  firstFloor[4]  = new FloorT1Piece(   (-2),  1, 4.4, 1.0,  3, 0.1 );
+ 
+ 
+  // create the marble floors 2 ... 6
+  for (cnt = 0; cnt < 5; cnt = cnt + 1;) {
+    floor[cnt] = new FloorType1( 2, 0, 8.9 + (cnt * floorDist) );
+  }
+
+
+  // ------- STAIRS ----------------------------------------------
+
+  // stair to 1st floor
+  stairWay01 =  new StairCase(0.3, 3.3, 0, stairWidth, stairDepth ); 
+
+  // create the stairWays to access the floors 2 ..6
+  for (cnt = 0; cnt < 5; cnt = cnt + 1;) {
+    stairWay[cnt] = new StairCase(7, 3.3, ((cnt + 1) * floorDist), 
+                                  stairWidth, stairDepth);
+  }
+
+
+  // ------- FALLPROTECTION --------------------------------------
+  // around each floor against falling down. 
+  // Use backwalls to glide along.
+  reeling = new BackWalls (reelingURL);
+
+
+  // ------- BUREAUS ---------------------------------------------
+  //
+  //   looking from x negative!
+  //                                                        floor
+  //         -------------------------------------------     6
+  //           stair                            |  11  |
+  //         -------------------------------------------     5
+  //           stair                     |  8   |  9   |
+  //         -------------------------------------------     4
+  //           stair                            |  7   |
+  //         -------------------------------------------     3
+  //           stair                     |  6   |  5   |
+  //         -------------------------------------------     2
+  //           stair                            |  3   |
+  //         -------------------------------------------     1
+  //           stair                     |  2   |  1   |
+  //         -------------------------------------------     0
+  // bureau called                        RIGHT  LEFT
+
+  for (cnt = 0; cnt < 3; cnt = cnt + 1;) {
+    burRight[cnt] = new BureauType1 (doorName,    1 + (cnt * 4),
+                                     0 - 0.01, 
+                                     (-6) + 0.01, 
+                                     (floorDist * 2) * cnt,
+                                     0.3 + (cnt * 0.2) );
+    // argument 2 : makes OID be 1,5,9
+    // argument 5 : arranges z value for floor 0,2,4
+    // argument 6 : modify Dooroffset to make Bureaus look different!
+    //              CAREFUL THAT DOOROFFSET AND DOOR IS WITHIN THE WALL
+  }
+
+// les habillages des bureaux
+
+  burRight[0].bex1wallyp.ystdwall.tex_yn = wood2 ;
+  burRight[0].bex1wallyn.ystdwall.tex_yp = wood2 ;
+
+  burRight[0].bex1wallxp.xswwypfromWin.xstdwall.tex_xn = wood2;
+  burRight[0].bex1wallxp.xswwynfromWin.xstdwall.tex_xn = wood2;
+  burRight[0].bex1wallxp.xswwzpfromWin.xstdwall.tex_xn = wood2;
+  burRight[0].bex1wallxp.xswwznfromWin.xstdwall.tex_xn = wood2;
+  burRight[0].bex1wallxp.xswwypfromWin.xstdwall.tex_xp = murtex;
+  burRight[0].bex1wallxp.xswwynfromWin.xstdwall.tex_xp = murtex;
+  burRight[0].bex1wallxp.xswwzpfromWin.xstdwall.tex_xp = murtex;
+  burRight[0].bex1wallxp.xswwznfromWin.xstdwall.tex_xp = murtex;
+
+
+
+  burRight[0].bex1wallxp.xswwypfromWin.xstdwall.tex_yn = murtex;
+  burRight[0].bex1wallxp.xswwynfromWin.xstdwall.tex_yn = murtex;
+  burRight[0].bex1wallxp.xswwzpfromWin.xstdwall.tex_yn = murtex;
+  burRight[0].bex1wallxp.xswwznfromWin.xstdwall.tex_yn = murtex;
+  burRight[0].bex1wallxp.xswwypfromWin.xstdwall.tex_yp = murtex;
+  burRight[0].bex1wallxp.xswwynfromWin.xstdwall.tex_yp = murtex;
+  burRight[0].bex1wallxp.xswwzpfromWin.xstdwall.tex_yp = murtex;
+  burRight[0].bex1wallxp.xswwznfromWin.xstdwall.tex_yp = murtex;
+  
+
+  burRight[0].bex1wallxn.xsdwall.xswwypfromWin.xstdwall.tex_xp = wood2 ;
+  burRight[0].bex1wallxn.xsdwall.xswwynfromWin.xstdwall.tex_xp = wood2;
+  burRight[0].bex1wallxn.xsdwall.xswwzpfromWin.xstdwall.tex_xp = wood2;
+  burRight[0].bex1wallxn.xsdwall.xswwznfromWin.xstdwall.tex_xp = wood2;
+  burRight[0].bex1wallxn.xsdwall.xswwypfromWin.xstdwall.tex_xn = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwynfromWin.xstdwall.tex_xn = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwzpfromWin.xstdwall.tex_xn = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwznfromWin.xstdwall.tex_xn = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwypfromWin.xstdwall.tex_yp = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwynfromWin.xstdwall.tex_yp = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwzpfromWin.xstdwall.tex_yp = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwznfromWin.xstdwall.tex_yp = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwypfromWin.xstdwall.tex_yn = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwynfromWin.xstdwall.tex_yn = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwzpfromWin.xstdwall.tex_yn = murtex;
+  burRight[0].bex1wallxn.xsdwall.xswwznfromWin.xstdwall.tex_yn = murtex;
+
+  for (cnt = 0; cnt < 3; cnt = cnt + 1;) {
+    burLeft[cnt] = new BureauType1 (doorName,    2 + (cnt * 4),
+                                    0 - 0.01,
+                                    (-2) + 0.01, 
+                                    (floorDist * 2) * cnt,
+                                    2.6 - (cnt * 0.6) );
+    // argument 2 : makes OID be 2,6,10
+    // argument 5 : arranges z value for floor 0,2,4
+    // argument 6 : modify Dooroffset to make Bureaus look different!
+    //              CAREFUL THAT DOOROFFSET AND DOOR IS WITHIN THE WALL
+  }
+
+// les habillages des bureaux
+
+ burLeft[0].bex1wallyp.ystdwall.tex_yp = murtex;
+ burLeft[0].bex1wallyp.ystdwall.tex_yn = wood1;
+ burLeft[0].bex1wallyn.ystdwall.tex_yp = wood1;
+
+ burLeft[0].bex1wallxp.xswwypfromWin.xstdwall.tex_xn = wood1;
+ burLeft[0].bex1wallxp.xswwynfromWin.xstdwall.tex_xn = wood1;
+ burLeft[0].bex1wallxp.xswwzpfromWin.xstdwall.tex_xn = wood1;
+ burLeft[0].bex1wallxp.xswwznfromWin.xstdwall.tex_xn = wood1;
+ burLeft[0].bex1wallxp.xswwypfromWin.xstdwall.tex_xp = murtex;
+ burLeft[0].bex1wallxp.xswwynfromWin.xstdwall.tex_xp = murtex;
+ burLeft[0].bex1wallxp.xswwzpfromWin.xstdwall.tex_xp = murtex;
+ burLeft[0].bex1wallxp.xswwznfromWin.xstdwall.tex_xp = murtex;
+ 
+
+
+ burLeft[0].bex1wallxp.xswwypfromWin.xstdwall.tex_yn = murtex;
+ burLeft[0].bex1wallxp.xswwynfromWin.xstdwall.tex_yn = murtex;
+ burLeft[0].bex1wallxp.xswwzpfromWin.xstdwall.tex_yn = murtex;
+ burLeft[0].bex1wallxp.xswwznfromWin.xstdwall.tex_yn = murtex;
+ burLeft[0].bex1wallxp.xswwypfromWin.xstdwall.tex_yp = murtex;
+ burLeft[0].bex1wallxp.xswwynfromWin.xstdwall.tex_yp = murtex;
+ burLeft[0].bex1wallxp.xswwzpfromWin.xstdwall.tex_yp = murtex;
+ burLeft[0].bex1wallxp.xswwznfromWin.xstdwall.tex_yp = murtex;
+ 
+ burLeft[0].bex1wallxn.xsdwall.xswwypfromWin.xstdwall.tex_xp = wood1;
+ burLeft[0].bex1wallxn.xsdwall.xswwynfromWin.xstdwall.tex_xp = wood1;
+ burLeft[0].bex1wallxn.xsdwall.xswwzpfromWin.xstdwall.tex_xp = wood1;
+ burLeft[0].bex1wallxn.xsdwall.xswwznfromWin.xstdwall.tex_xp = wood1;
+ burLeft[0].bex1wallxn.xsdwall.xswwypfromWin.xstdwall.tex_xn = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwynfromWin.xstdwall.tex_xn = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwzpfromWin.xstdwall.tex_xn = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwznfromWin.xstdwall.tex_xn = murtex;
+
+ burLeft[0].bex1wallxn.xsdwall.xswwypfromWin.xstdwall.tex_yp = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwynfromWin.xstdwall.tex_yp = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwzpfromWin.xstdwall.tex_yp = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwznfromWin.xstdwall.tex_yp = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwypfromWin.xstdwall.tex_yn = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwynfromWin.xstdwall.tex_yn = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwzpfromWin.xstdwall.tex_yn = murtex;
+ burLeft[0].bex1wallxn.xsdwall.xswwznfromWin.xstdwall.tex_yn = murtex;
+
+
+
+  for (cnt = 0; cnt < 3; cnt = cnt + 1;) {
+    singleBur[cnt] = new BureauType2 (doorName, 3 + (cnt * 4), 
+                                      4 + 0.01, 
+                                      (-10) + 0.01, 
+                                      (floorDist * ((2 * cnt) + 1) ), 
+                                      0.3);
+    // argument 2 : makes OID be 3,7,11
+    // argument 5 : arranges z value for floor 1,3,5
+    // argument 6 : modify Dooroffset to make Bureaus look different!
+    //              CAREFUL THAT DOOROFFSET AND DOOR IS WITHIN THE WALL
+
+  }
+
+
+  // ===================================================================
+  // =======  FURNITURES OF THE BUREAUX       ==========================
+  // ===================================================================
+  
+  var meuble1,meuble2, meuble3, meuble4, meuble5, meuble6;
+  meuble1 = new MeubleBureau(4.3, (-3.1), 0); //1er etage
+  meuble2 = new MeubleBureau(4.3, (-7.1), 0);
+  meuble3 = new MeubleBureau(4.3, (-3.1), 9);//3eme etage
+  meuble4 = new MeubleBureau(4.3, (-7.1), 9);
+  meuble5 = new MeubleBureau(4.3, (-3.1), 18);//5eme etage
+  meuble6 = new MeubleBureau(4.3, (-7.1), 18);
+
+  var monOrdi;
+
+  monOrdi = new Ordinateur(4.4, (-3.5), 1, 3.14, 0.2);
+
+  var maChaise[6];
+
+  maChaise[0] = new Chaise(5.1, (-4) , 0);
+  maChaise[1] = new Chaise(5.1, (-8) , 0);
+  maChaise[2] = new Chaise(5.1, (-4) , 9);
+  maChaise[3] = new Chaise(5.1, (-8) , 9);
+  maChaise[4] = new Chaise(5.1, (-4) , 18);
+  maChaise[5] = new Chaise(5.1, (-8) , 18);
+
+  // ===================================================================
+  // ======= DETAILS ON THE PARTICULAR FLOORS ==========================
+  // ===================================================================
+
+
+
+
+  // ------- Floor 0 ---------------------------------------------
+
+  // OID = 20
+  doorToSpace = new DoorToInfinity(doorName, 20, 7, 0.7, 0);
+
+  picIguazu = new Wall(3, (-1.98), 2,   0,   2.5, 0.02, 1.2);
+  picIguazu.tex_yp = picIguazuURL;
+  picCst = new Wall(3.5, -9.78, 1.8,   0,   1.6, 0.02, 1);
+  picCst.tex_yp = picCstURL;
+  pic2 = new Wall(2, 0, -0.3, 0, 4, 8, 0.1);
+  pic2.tex_zn = pic2URL;  
+  tab1_bur1 = new Wall(3, -5.78, 1.8, 0, 0.9, 0.02, 0.7); 
+  tab1_bur1.tex_yp = joconde ;
+
+
+  var solbureau1,solbureau2, imagebureau1, imagebureau2;
+
+  solbureau1 = new Wall(3.5 , (-4), -0.01, 0 , 3.5, 2, 0.05);
+  solbureau1.tex_zp = parquetclair; 
+  solbureau2 = new Wall(3.5 , (-8), -0.01, 0 , 3.5, 2, 0.05);
+  solbureau2.tex_zp = bricks; 
+  imagebureau1 = new Wall(3, (-2.22), 2.25, 0, 1.1, 0.02, 0.8);
+  imagebureau1.tex_yn = sunset;
+  imagebureau2 = new Wall(3, (-6.22), 2.25, 0, 1.1, 0.02, 0.8);
+  imagebureau2.tex_yn = aigle;
+}
+  

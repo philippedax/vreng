@@ -1,0 +1,22 @@
+struct ATable {
+	var plateau,pied1,pied2,pied3,pied4;
+
+ constructor(x1,y1,z1) {
+	var epaiss=0.08;
+	var haut=0.8;
+	var larg=0.8;
+	var long=1.8;
+	plateau = new Wall(x1+ (larg/2) , y1 - (long/2), z1+ haut -(epaiss/2), 0, (larg/2) + 0.2 , (long/2)+ 0.2 , epaiss/2);
+	pied1 = new XStdWallF(x1 ,y1 - (epaiss/2), z1, epaiss, haut);
+	pied2 = new XStdWallF(x1+ larg - epaiss ,y1 - (epaiss/2), z1, epaiss, haut);  
+	pied3 = new XStdWallF(x1 ,y1 - long+ epaiss, z1, epaiss, haut);
+	pied4 = new XStdWallF(x1+ larg -epaiss ,y1 - long+ epaiss, z1, epaiss, haut);
+
+	plateau.tex_xn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	plateau.tex_xp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+        plateau.tex_yn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	plateau.tex_yp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	plateau.tex_zn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	plateau.tex_zp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+}
+}

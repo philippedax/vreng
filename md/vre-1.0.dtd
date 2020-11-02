@@ -27,7 +27,7 @@
 		cauldron | clip | clock | cloud | cloth |
 		doc | door | dress |
 		entry | escalator |
-		fire | firework | flag | fountain | ftp |
+		fire | firework | flag | fountain | fractal | ftp |
 		gate | ground | guide | guy | 
 		haid | hairs | halo | hat | host |
 		lift | light | local |
@@ -164,6 +164,10 @@
 <!ATTLIST door		descr	NMTOKENS #IMPLIED>
 <!ATTLIST door		open	NMTOKEN #REQUIRED>
 <!ATTLIST door		close	NMTOKEN #REQUIRED>
+<!ATTLIST door		xopen	NMTOKEN #REQUIRED>
+<!ATTLIST door		xclose	NMTOKEN #REQUIRED>
+<!ATTLIST door		zopen	NMTOKEN #REQUIRED>
+<!ATTLIST door		zclose	NMTOKEN #REQUIRED>
 <!ATTLIST door		speed	NMTOKEN "1">
 
 <!ELEMENT dress		(solid+)>
@@ -217,6 +221,13 @@
 <!ATTLIST fountain	speed	NMTOKEN "5">
 <!ATTLIST fountain	flow	NMTOKEN "500">
 <!ATTLIST fountain	number	NMTOKEN "5000">
+
+<!ELEMENT fractal	EMPTY>
+<!ATTLIST fractal	pos	NMTOKENS #REQUIRED>
+<!ATTLIST fractal	name	NMTOKEN #IMPLIED>
+<!ATTLIST fractal	descr	NMTOKENS #IMPLIED>
+<!ATTLIST fractal	level	NMTOKEN #IMPLIED>
+<!ATTLIST fractal	color	NMTOKEN #IMPLIED>
 
 <!ELEMENT ftp		(solid)>
 <!ATTLIST ftp		pos	NMTOKENS #REQUIRED>

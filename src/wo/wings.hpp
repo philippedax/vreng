@@ -45,7 +45,7 @@ protected:
 
 public:
   enum {
-    NONE,
+    NOWINGS,
     BUTTERFLY,
     LIBELLULE,
     ANGEL,

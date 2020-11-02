@@ -123,7 +123,8 @@ void Render::config(bool _quality)
     glHint(GL_LINE_SMOOTH_HINT, hint);
     glHint(GL_POLYGON_SMOOTH_HINT, hint);
     glHint(GL_FOG_HINT, hint);
-    trace(DBG_FORCE, "version=%s vendor=%s rendere=%s, depth=%d texturess=%d stencil=%d clips=%d", glGetString(GL_VERSION), glGetString(GL_VENDOR), glGetString(GL_RENDERER), haveDepth(), haveTextures(), haveStencil(), haveClips());
+    if (::g.pref.infogl == true)
+      trace(DBG_FORCE, "version=%s vendor=%s renderer=%s, depth=%d texturess=%d stencil=%d clips=%d", glGetString(GL_VERSION), glGetString(GL_VENDOR), glGetString(GL_RENDERER), haveDepth(), haveTextures(), haveStencil(), haveClips());
     configured = true;
   }
   camera();
