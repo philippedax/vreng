@@ -6,6 +6,8 @@
 #
 # Philippe Dax - Jul 2001
 #
-PATH=/infres/s3/dax/vreng/bin:/usr/local/bin:$PATH export PATH
+VRENG_HOME=/Users/dax/vreng
+
+PATH=$VRENG_HOME/bin:/usr/local/bin:$PATH export PATH
 
 vjs &

@@ -33,10 +33,10 @@
 #else
 #define IPMC_ENABLED		1 // ipmulticast enabled
 #define DEF_HTTP_SERVER		"www.vreng.enst.fr"
-#define DEF_VJS_SERVER		"www.vreng.enst.fr"
-#define DEF_VAPS_SERVER		"www.vreng.enst.fr"
-#define DEF_VACS_SERVER		"www.vreng.enst.fr"
-#define DEF_VRUM_SERVER		"www.vreng.enst.fr"
+#define DEF_VJS_SERVER		"localhost"
+#define DEF_VAPS_SERVER		"localhost"
+#define DEF_VACS_SERVER		"localhost"
+#define DEF_VRUM_SERVER		"localhost"
 #define DEF_MYSQL_SERVER	"localhost"
 #endif
 

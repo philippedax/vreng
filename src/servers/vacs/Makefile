@@ -78,7 +78,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-apple-darwin17.7.0
 host_triplet = x86_64-apple-darwin17.7.0
-#bin_PROGRAMS = vacs$(EXEEXT)
+bin_PROGRAMS = vacs$(EXEEXT)
 subdir = src/servers/vacs
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -94,7 +94,7 @@ am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man8dir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__vacs_SOURCES_DIST = vacs.cpp
 am__objects_1 = vacs.$(OBJEXT)
-#am_vacs_OBJECTS = $(am__objects_1)
+am_vacs_OBJECTS = $(am__objects_1)
 vacs_OBJECTS = $(am_vacs_OBJECTS)
 vacs_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -192,13 +192,13 @@ AUTOMAKE = ${SHELL} /Users/dax/vreng/support/missing automake-1.14
 AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVAPS -DVACS
 CPPFLAGS = -I/opt/local/include/freetype2 -I/opt/X11/include -I/opt/X11/include 
 CURLPATH = /usr/bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -DVAPS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -323,7 +323,7 @@ man_MANS = vacs.8
 EXTRA_DIST = $(VACS_SRCS) vacs.8
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng
-#vacs_SOURCES = $(VACS_SRCS)
+vacs_SOURCES = $(VACS_SRCS)
 all: all-am
 
 .SUFFIXES:

@@ -4,12 +4,13 @@
 #
 # Philippe Dax - Jul 2001
 #
-PATH=/infres/s3/dax/vreng/bin:/usr/local/bin:$PATH export PATH
+#VRENG_HOME=/infres/projets/vreng
+VRENG_HOME=/Users/dax/vreng
+
+PATH=$VRENG_HOME/bin:/usr/local/bin:$PATH export PATH
 LD_LIBRARY_PATH=/usr/lib:/usr/local/lib:$LD_LIBRARY_PATH export LD_LIBRARY_PATH
 
-VRENG_HOME=/infres/projets/vreng
-
-VAPS_DIR=${VRENG_HOME}/bap
+VAPS_DIR=${VRENG_HOME}/data/bap
 VAPS_LOG=${VRENG_HOME}/log/vaps.log
 
 #cd ${VAPS_DIR}

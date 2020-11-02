@@ -2,13 +2,15 @@
 #
 # rc.vacs (VREng Address Cache Server)
 #
-PATH=/infres/s3/dax/vreng/bin:/usr/local/bin:$PATH
+#VRENG_HOME=/infres/projets/vreng
+VRENG_HOME=/Users/dax/vreng
+
+PATH=$VRENG_HOME/bin:/usr/local/bin:$PATH
 LD_LIBRARY_PATH=/usr/lib:/usr/local/lib:/usr/local/lib/mysql:$LD_LIBRARY_PATH
 export PATH LD_LIBRARY_PATH
 
-VRENG_HOME=/infres/projets/vreng
 
-VACS_HOME=${VRENG_HOME}/vacs
+VACS_HOME=${VRENG_HOME}/data/vacs
 #VACS6_HOME=${VRENG_HOME}/vre/v6
 VACS8_HOME=${VACS_HOME}/v8
 VACS7_HOME=${VACS_HOME}/v7

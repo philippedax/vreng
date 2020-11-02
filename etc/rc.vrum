@@ -5,7 +5,8 @@
 LD_LIBRARY_PATH=/usr/lib:/usr/local/lib
 export PATH LD_LIBRARY_PATH
 
-VRUM_HOME=/infres/s3/dax/vreng/src/servers/vrum
+#VRUM_HOME=/infres/s3/dax/vreng/src/servers/vrum
+VRUM_HOME=/Users/dax/vreng/src/servers/vrum
 
 if [ -d ${VRUM_HOME} ]; then
 	cd ${VRUM_HOME}
