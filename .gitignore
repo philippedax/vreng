@@ -79,3 +79,4 @@ vrlocal
 .git_ln
 access_log
 error_log
+cache
