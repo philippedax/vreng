@@ -57,7 +57,9 @@ vreng-*
 src/ex
 src/bundle/ftgl-*rc5
 src/bundle/png/*.dist
-src/*/Makefile
+src/Makefile
+src/Makefile.in
+src/*/*.o
 src/*/Makefile.in
 src/*/*.o
 src/*/*.a
