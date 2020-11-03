@@ -15,27 +15,29 @@ The rules for this file:
 ++ 9
 == 9.1
 == 9.1.0
-	- added door open/clode mecanisms : sliding and vertical
+	- invalidated app ring in vjs/
+	- restored src/servers/vjs/gen.pl*
+	- added door open/close mecanisms : sliding and vertical
 	- added fractal element to dtd
 	- added command line options -k (keepcache) and -S (nostats)
-	(2020/11/02, Philippe Dax)
+	(2020/11/03, Philippe Dax)
 
 == 9.0
 -- 9.0.3
 	- move gui/mvt.*pp to gui/motion.*pp
 	- removed vgl/hud.*pp
-	- restore missing file in src/ai for github
+	- restored missing file in src/ai for github
 	(2020/10/19, Philippe Dax)
 
 -- 9.0.2
-	- fixed angle hen toland action
+	- fixed angle when toland action
 	- restablished gui/hud*pp
 	(2020/10/17, Philippe Dax)
 
 -- 9.0.1
 	- added user actions: flyaway and toland
-        - fix some memory leaks
-	- rename WO_ACTION to O_ACTION
+        - fixed some memory leaks
+	- renamed WO_ACTION to O_ACTION
 	- move universe.*pp into src/vreng
 	- move world.*pp into src/vreng
 	- move xml.*pp into src/vreng
