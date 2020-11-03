@@ -8,12 +8,14 @@
 #
 PATH=/usr/local/java/bin:/usr/java/bin:/usr/bin:$PATH export PATH
 
-VRENG_DATADIR=/infres/projets/vreng
+#VRENG_DATADIR=/infres/projets/vreng
+VRENG_DATADIR=/Users/dax/vreng
+
 VJS_PORT=4151
 
 # Directory where are located classes
 if [ -d ${VRENG_DATADIR} ]; then
-  CLASSDIR=${VRENG_DATADIR}/jar
+  CLASSDIR=${VRENG_DATADIR}/data/jar
 else
   CLASSDIR=./jar
 fi

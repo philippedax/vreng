@@ -79,4 +79,6 @@ vrlocal
 .git_ln
 access_log
 error_log
+log/*
 cache
+nohup.out
