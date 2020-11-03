@@ -119,10 +119,10 @@ GEN_FILES=\
 # Application files
 APPS_FILES=\
         $(APPS_SUBDIR)/Fan.java \
-        $(APPS_SUBDIR)/Ring.java \
         $(APPS_SUBDIR)/Slide.java \
         $(APPS_SUBDIR)/Board.java \
         $(APPS_SUBDIR)/TicTacToe.java
+#dax        $(APPS_SUBDIR)/Ring.java
 
 # Base files
 BASE_FILES=\

@@ -339,7 +339,7 @@ top_srcdir = @top_srcdir@
 uudecode = @uudecode@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 SUBDIRS = app base
-EXTRA_DIST = gen.pl
+EXTRA_DIST = gen.pl vjs.in
 @ENABLE_VJS_TRUE@@JAVA_TRUE@bin_SCRIPTS = vjs
 
 # ---------------
@@ -433,11 +433,11 @@ EXTRA_DIST = gen.pl
 # Application files
 @ENABLE_VJS_TRUE@@JAVA_TRUE@APPS_FILES = \
 @ENABLE_VJS_TRUE@@JAVA_TRUE@        $(APPS_SUBDIR)/Fan.java \
-@ENABLE_VJS_TRUE@@JAVA_TRUE@        $(APPS_SUBDIR)/Ring.java \
 @ENABLE_VJS_TRUE@@JAVA_TRUE@        $(APPS_SUBDIR)/Slide.java \
 @ENABLE_VJS_TRUE@@JAVA_TRUE@        $(APPS_SUBDIR)/Board.java \
 @ENABLE_VJS_TRUE@@JAVA_TRUE@        $(APPS_SUBDIR)/TicTacToe.java
 
+#dax        $(APPS_SUBDIR)/Ring.java
 
 # Base files
 @ENABLE_VJS_TRUE@@JAVA_TRUE@BASE_FILES = \
