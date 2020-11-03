@@ -339,6 +339,7 @@ top_srcdir = @top_srcdir@
 uudecode = @uudecode@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 SUBDIRS = app base
+EXTRA_DIST = gen.pl
 @ENABLE_VJS_TRUE@@JAVA_TRUE@bin_SCRIPTS = vjs
 
 # ---------------
@@ -349,7 +350,8 @@ SUBDIRS = app base
 # Vreng Java directory
 @ENABLE_VJS_TRUE@@JAVA_TRUE@VJS_DIR = @srcdir@
 # Install directory
-@ENABLE_VJS_TRUE@@JAVA_TRUE@INSTALL_DIR = /infres/ir500/adm/projets/vreng/jar
+#INSTALL_DIR=/infres/ir500/adm/projets/vreng/jar
+@ENABLE_VJS_TRUE@@JAVA_TRUE@INSTALL_DIR = /Users/dax/vreng/data/jar
 
 # ------------------
 # Source directories
@@ -851,7 +853,7 @@ uninstall-am: uninstall-binSCRIPTS
 @ENABLE_VJS_TRUE@@JAVA_TRUE@$(GEN_JAR): $(GEN_FILES)
 @ENABLE_VJS_TRUE@@JAVA_TRUE@	@echo -- Compiling constants files...
 @ENABLE_VJS_TRUE@@JAVA_TRUE@	javac $(JAVAC_FLAGS) -d $(GEN_CLASS_SUBDIR) $(GEN_FILES)
-@ENABLE_VJS_TRUE@@JAVA_TRUE@	-jar c0f $(GEN_JAR) -C $(GEN_CLASS_SUBDIR) fr
+@ENABLE_VJS_TRUE@@JAVA_TRUE@	jar c0f $(GEN_JAR) -C $(GEN_CLASS_SUBDIR) fr
 
 # Build the core jar file
 @ENABLE_VJS_TRUE@@JAVA_TRUE@$(VRENGCORE_JAR): $(GEN_JAR) $(BASE_JAR) $(SERVER_JAR)

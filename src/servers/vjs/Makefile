@@ -212,13 +212,13 @@ AUTOMAKE = ${SHELL} /Users/dax/vreng/support/missing automake-1.14
 AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVAPS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/opt/local/include/freetype2 -I/opt/X11/include -I/opt/X11/include 
 CURLPATH = /usr/bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -DVAPS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -237,9 +237,9 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-JAR = 
-JAVA = 
-JAVAC = 
+JAR = jar
+JAVA = java
+JAVAC = javac
 JAVACFLAGS = 
 JAVAFLAGS = 
 JAVAPREFIX = 
@@ -336,142 +336,144 @@ target_alias =
 top_build_prefix = ../../../
 top_builddir = ../../..
 top_srcdir = ../../..
-uudecode = 
+uudecode = yes
 AUTOMAKE_OPTIONS = foreign no-dependencies
 SUBDIRS = app base
-##bin_SCRIPTS = vjs
+EXTRA_DIST = gen.pl
+bin_SCRIPTS = vjs
 
 # ---------------
 # Global settings
 # ---------------
 # Vreng directory
-##VRENG_DIR = ../../..
+VRENG_DIR = ../../..
 # Vreng Java directory
-##VJS_DIR = .
+VJS_DIR = .
 # Install directory
-##INSTALL_DIR = /infres/ir500/adm/projets/vreng/jar
+#INSTALL_DIR=/infres/ir500/adm/projets/vreng/jar
+INSTALL_DIR = /Users/dax/vreng/data/jar
 
 # ------------------
 # Source directories
 # ------------------
 # Generated source directory
-##GEN_SUBDIR = $(VJS_DIR)/gen
+GEN_SUBDIR = $(VJS_DIR)/gen
 # Base and server source directory
-##BASE_SUBDIR = $(VJS_DIR)/base
+BASE_SUBDIR = $(VJS_DIR)/base
 # Applications source directories
-##APP_SUBDIR = $(VJS_DIR)/app
+APP_SUBDIR = $(VJS_DIR)/app
 # Jar directory
-##JAR_SUBDIR = $(VJS_DIR)/jar
+JAR_SUBDIR = $(VJS_DIR)/jar
 
 # Various source subdirectories
-##SRC_SUBDIR = $(BASE_SUBDIR)/fr/enst/vreng
-##DATA_SUBDIR = $(BASE_SUBDIR)/fr/enst/vreng/data
-##SERVER_SUBDIR = $(BASE_SUBDIR)/fr/enst/vreng/server
-##NET_SUBDIR = $(BASE_SUBDIR)/fr/enst/vreng/net
-##APPS_SUBDIR = $(APP_SUBDIR)/fr/enst/vreng/tester
+SRC_SUBDIR = $(BASE_SUBDIR)/fr/enst/vreng
+DATA_SUBDIR = $(BASE_SUBDIR)/fr/enst/vreng/data
+SERVER_SUBDIR = $(BASE_SUBDIR)/fr/enst/vreng/server
+NET_SUBDIR = $(BASE_SUBDIR)/fr/enst/vreng/net
+APPS_SUBDIR = $(APP_SUBDIR)/fr/enst/vreng/tester
 
 # ------------------
 # Output directories
 # ------------------
 # Javadoc output directory
-##DOC_SUBDIR = $(VJS_DIR)/doc
+DOC_SUBDIR = $(VJS_DIR)/doc
 # Jar files directory
-##LIB_SUBDIR = $(VJS_DIR)/lib
+LIB_SUBDIR = $(VJS_DIR)/lib
 # .class file base directory
-##CLASSES_SUBDIR = $(VJS_DIR)/classes
+CLASSES_SUBDIR = $(VJS_DIR)/classes
 # Generated .class files directory
-##GEN_CLASS_SUBDIR = $(CLASSES_SUBDIR)/gen
+GEN_CLASS_SUBDIR = $(CLASSES_SUBDIR)/gen
 # Base .class files directory
-##BASE_CLASS_SUBDIR = $(CLASSES_SUBDIR)/base
+BASE_CLASS_SUBDIR = $(CLASSES_SUBDIR)/base
 # Server .class files directory
-##SERVER_CLASS_SUBDIR = $(CLASSES_SUBDIR)/server
+SERVER_CLASS_SUBDIR = $(CLASSES_SUBDIR)/server
 # Applications .class files directory
-##APPS_CLASS_SUBDIR = $(CLASSES_SUBDIR)/app
+APPS_CLASS_SUBDIR = $(CLASSES_SUBDIR)/app
 
 # All the "temporary" directories
-##TMPDIRS = $(LIB_SUBDIR) $(CLASSES_SUBDIR) $(GEN_CLASS_SUBDIR) $(APPS_CLASS_SUBDIR) $(BASE_CLASS_SUBDIR) $(SERVER_CLASS_SUBDIR) $(JAR_SUBDIR) $(DOC_SUBDIR)
+TMPDIRS = $(LIB_SUBDIR) $(CLASSES_SUBDIR) $(GEN_CLASS_SUBDIR) $(APPS_CLASS_SUBDIR) $(BASE_CLASS_SUBDIR) $(SERVER_CLASS_SUBDIR) $(JAR_SUBDIR) $(DOC_SUBDIR)
 
 # ---------
 # Jar files
 # ---------
 # Final jar files
-##VRENGCORE_JAR = $(JAR_SUBDIR)/vrengcore.jar
-##VRENGAPP_JAR = $(JAR_SUBDIR)/vrengapp.jar
+VRENGCORE_JAR = $(JAR_SUBDIR)/vrengcore.jar
+VRENGAPP_JAR = $(JAR_SUBDIR)/vrengapp.jar
 
 # Intermediate jar files
-##GEN_JAR = $(LIB_SUBDIR)/gen.jar
-##BASE_JAR = $(LIB_SUBDIR)/base.jar
-##SERVER_JAR = $(LIB_SUBDIR)/server.jar
+GEN_JAR = $(LIB_SUBDIR)/gen.jar
+BASE_JAR = $(LIB_SUBDIR)/base.jar
+SERVER_JAR = $(LIB_SUBDIR)/server.jar
 
 # Files that need to be built
-##JARS = $(VRENGCORE_JAR) $(VRENGAPP_JAR)
+JARS = $(VRENGCORE_JAR) $(VRENGAPP_JAR)
 
 # -------------
 # Java settings
 # -------------
 # Set classpath and flags
-##CLASSPATH = $(GEN_CLASS_SUBDIR):$(BASE_CLASS_SUBDIR):$(SERVER_CLASS_SUBDIR):$(APPS_CLASS_SUBDIR):$(GEN_JAR):$(BASE_JAR):$(VRENGAPP_JAR)
-##JAVAC_FLAGS = -g -classpath $(CLASSPATH) -Xlint:-unchecked
+CLASSPATH = $(GEN_CLASS_SUBDIR):$(BASE_CLASS_SUBDIR):$(SERVER_CLASS_SUBDIR):$(APPS_CLASS_SUBDIR):$(GEN_JAR):$(BASE_JAR):$(VRENGAPP_JAR)
+JAVAC_FLAGS = -g -classpath $(CLASSPATH) -Xlint:-unchecked
 
 # ------------
 # Source files
 # ------------
 # - source dependencies
-##GEN_DEP = \
-##	$(VRENG_DIR)/src/wo/vjc.hpp \
-##	$(VRENG_DIR)/src/wo/initobj.cpp
+GEN_DEP = \
+	$(VRENG_DIR)/src/wo/vjc.hpp \
+	$(VRENG_DIR)/src/wo/initobj.cpp
 
 
 # - generated source
-##GEN_FILES = \
-##	$(GEN_SUBDIR)/fr/enst/vreng/MessageTypes.java \
-##	$(GEN_SUBDIR)/fr/enst/vreng/ObjectTypes.java
+GEN_FILES = \
+	$(GEN_SUBDIR)/fr/enst/vreng/MessageTypes.java \
+	$(GEN_SUBDIR)/fr/enst/vreng/ObjectTypes.java
 
 
 # Application files
-##APPS_FILES = \
-##        $(APPS_SUBDIR)/Fan.java \
-##        $(APPS_SUBDIR)/Ring.java \
-##        $(APPS_SUBDIR)/Slide.java \
-##        $(APPS_SUBDIR)/Board.java \
-##        $(APPS_SUBDIR)/TicTacToe.java
+APPS_FILES = \
+        $(APPS_SUBDIR)/Fan.java \
+        $(APPS_SUBDIR)/Ring.java \
+        $(APPS_SUBDIR)/Slide.java \
+        $(APPS_SUBDIR)/Board.java \
+        $(APPS_SUBDIR)/TicTacToe.java
 
 
 # Base files
-##BASE_FILES = \
-##	$(DATA_SUBDIR)/types/Point2D.java \
-##	$(DATA_SUBDIR)/types/Point3D.java \
-##	$(DATA_SUBDIR)/types/ObjPos.java \
-##	$(DATA_SUBDIR)/types/NetObjId.java \
-##	$(DATA_SUBDIR)/messages/PosMessage.java \
-##	$(DATA_SUBDIR)/messages/DrawMessage.java \
-##	$(DATA_SUBDIR)/messages/ClickMessage.java \
-##	$(DATA_SUBDIR)/messages/QueryMessage.java \
-##	$(DATA_SUBDIR)/messages/ControlMessage.java \
-##	$(DATA_SUBDIR)/messages/IntersectMessage.java \
-##	$(DATA_SUBDIR)/Header.java \
-##	$(DATA_SUBDIR)/Message.java \
-##	$(DATA_SUBDIR)/DataHelper.java \
-##	$(DATA_SUBDIR)/MsgInputStream.java \
-##	$(DATA_SUBDIR)/MsgOutputStream.java \
-##	$(DATA_SUBDIR)/InvalidMessageException.java \
-##	$(SRC_SUBDIR)/IMessage.java \
-##	$(SRC_SUBDIR)/IVrengApp.java \
-##	$(SRC_SUBDIR)/IVrengObject.java \
-##	$(SRC_SUBDIR)/IVrengProcessor.java \
-##	$(SRC_SUBDIR)/VrengException.java
+BASE_FILES = \
+	$(DATA_SUBDIR)/types/Point2D.java \
+	$(DATA_SUBDIR)/types/Point3D.java \
+	$(DATA_SUBDIR)/types/ObjPos.java \
+	$(DATA_SUBDIR)/types/NetObjId.java \
+	$(DATA_SUBDIR)/messages/PosMessage.java \
+	$(DATA_SUBDIR)/messages/DrawMessage.java \
+	$(DATA_SUBDIR)/messages/ClickMessage.java \
+	$(DATA_SUBDIR)/messages/QueryMessage.java \
+	$(DATA_SUBDIR)/messages/ControlMessage.java \
+	$(DATA_SUBDIR)/messages/IntersectMessage.java \
+	$(DATA_SUBDIR)/Header.java \
+	$(DATA_SUBDIR)/Message.java \
+	$(DATA_SUBDIR)/DataHelper.java \
+	$(DATA_SUBDIR)/MsgInputStream.java \
+	$(DATA_SUBDIR)/MsgOutputStream.java \
+	$(DATA_SUBDIR)/InvalidMessageException.java \
+	$(SRC_SUBDIR)/IMessage.java \
+	$(SRC_SUBDIR)/IVrengApp.java \
+	$(SRC_SUBDIR)/IVrengObject.java \
+	$(SRC_SUBDIR)/IVrengProcessor.java \
+	$(SRC_SUBDIR)/VrengException.java
 
 
 # Server files
-##SERVER_FILES = \
-##	$(SERVER_SUBDIR)/Vreng.java \
-##	$(SERVER_SUBDIR)/VrengApp.java \
-##	$(SERVER_SUBDIR)/VrengObject.java \
-##	$(SERVER_SUBDIR)/Server.java \
-##	$(SERVER_SUBDIR)/AppController.java \
-##	$(SERVER_SUBDIR)/ClientController.java \
-##	$(NET_SUBDIR)/Sender.java \
-##	$(NET_SUBDIR)/Receiver.java
+SERVER_FILES = \
+	$(SERVER_SUBDIR)/Vreng.java \
+	$(SERVER_SUBDIR)/VrengApp.java \
+	$(SERVER_SUBDIR)/VrengObject.java \
+	$(SERVER_SUBDIR)/Server.java \
+	$(SERVER_SUBDIR)/AppController.java \
+	$(SERVER_SUBDIR)/ClientController.java \
+	$(NET_SUBDIR)/Sender.java \
+	$(NET_SUBDIR)/Receiver.java
 
 all: all-recursive
 
@@ -706,8 +708,8 @@ installdirs-am:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-recursive
-install: install-recursive
+#install: install-recursive
+#install: install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
 uninstall: uninstall-recursive
@@ -737,9 +739,9 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-recursive
+#clean: clean-recursive
 
-clean: clean-recursive
+#clean: clean-recursive
 
 clean-am: clean-generic mostlyclean-am
 
@@ -824,86 +826,86 @@ uninstall-am: uninstall-binSCRIPTS
 # -------------
 # Build targets
 # -------------
-##all: $(TMPDIRS) $(JARS) notice
+all: $(TMPDIRS) $(JARS) notice
 
 # Create the temporary directories
-##$(TMPDIRS):
-##	mkdir -p $@
+$(TMPDIRS):
+	mkdir -p $@
 
 # Remove the temporary directories and their contents
-##clean:
-##	-rm -rf $(TMPDIRS)
+clean:
+	-rm -rf $(TMPDIRS)
 
 # Like clean, but removes the Makefile too (plus backup files)
-##clean-dist: clean
-##	-@BACKUP=`find . -type f -name "*~"` \
-##	&& if test ! -z "$$BACKUP" ; then \
-##		rm -f $$BACKUP ; \
-##	fi
-##	-rm -f Makefile
+clean-dist: clean
+	-@BACKUP=`find . -type f -name "*~"` \
+	&& if test ! -z "$$BACKUP" ; then \
+		rm -f $$BACKUP ; \
+	fi
+	-rm -f Makefile
 
 # Generate the constants files
-##$(GEN_FILES): $(GEN_DEP)
-##	@echo -- Generating constants files...
-##	perl gen.pl $(GEN_DEP) fr.enst.vreng MessageTypes ObjectTypes $(GEN_SUBDIR)
+$(GEN_FILES): $(GEN_DEP)
+	@echo -- Generating constants files...
+	perl gen.pl $(GEN_DEP) fr.enst.vreng MessageTypes ObjectTypes $(GEN_SUBDIR)
 
 # Compile the constants files
-##$(GEN_JAR): $(GEN_FILES)
-##	@echo -- Compiling constants files...
-##	javac $(JAVAC_FLAGS) -d $(GEN_CLASS_SUBDIR) $(GEN_FILES)
-##	-jar c0f $(GEN_JAR) -C $(GEN_CLASS_SUBDIR) fr
+$(GEN_JAR): $(GEN_FILES)
+	@echo -- Compiling constants files...
+	javac $(JAVAC_FLAGS) -d $(GEN_CLASS_SUBDIR) $(GEN_FILES)
+	jar c0f $(GEN_JAR) -C $(GEN_CLASS_SUBDIR) fr
 
 # Build the core jar file
-##$(VRENGCORE_JAR): $(GEN_JAR) $(BASE_JAR) $(SERVER_JAR)
-##	@echo -- Creating Vreng server core jar...
-##	-jar c0f $(VRENGCORE_JAR) -C $(GEN_CLASS_SUBDIR) fr
-##	-jar u0f $(VRENGCORE_JAR) -C $(BASE_CLASS_SUBDIR) fr
-##	-jar u0f $(VRENGCORE_JAR) -C $(SERVER_CLASS_SUBDIR) fr
-##	-@chmod 755 $(bin_SCRIPTS)
+$(VRENGCORE_JAR): $(GEN_JAR) $(BASE_JAR) $(SERVER_JAR)
+	@echo -- Creating Vreng server core jar...
+	-jar c0f $(VRENGCORE_JAR) -C $(GEN_CLASS_SUBDIR) fr
+	-jar u0f $(VRENGCORE_JAR) -C $(BASE_CLASS_SUBDIR) fr
+	-jar u0f $(VRENGCORE_JAR) -C $(SERVER_CLASS_SUBDIR) fr
+	-@chmod 755 $(bin_SCRIPTS)
 
 # Compile the base classes
-##$(BASE_JAR): $(GEN_JAR) $(BASE_FILES)
-##	javac $(JAVAC_FLAGS) -d $(BASE_CLASS_SUBDIR) $(BASE_FILES)
-##	-jar c0f $(BASE_JAR) -C $(BASE_CLASS_SUBDIR) fr
+$(BASE_JAR): $(GEN_JAR) $(BASE_FILES)
+	javac $(JAVAC_FLAGS) -d $(BASE_CLASS_SUBDIR) $(BASE_FILES)
+	-jar c0f $(BASE_JAR) -C $(BASE_CLASS_SUBDIR) fr
 
 # Compile the server classes
-##$(SERVER_JAR): $(GEN_JAR) $(SERVER_FILES)
-##	javac $(JAVAC_FLAGS) -d $(SERVER_CLASS_SUBDIR) $(SERVER_FILES)
-##	-jar c0f $(SERVER_JAR) -C $(SERVER_CLASS_SUBDIR) fr
+$(SERVER_JAR): $(GEN_JAR) $(SERVER_FILES)
+	javac $(JAVAC_FLAGS) -d $(SERVER_CLASS_SUBDIR) $(SERVER_FILES)
+	-jar c0f $(SERVER_JAR) -C $(SERVER_CLASS_SUBDIR) fr
 
 # Compile the application classes
-##$(VRENGAPP_JAR): $(GEN_JAR) $(APPS_FILES)
-##	javac $(JAVAC_FLAGS) -d $(APPS_CLASS_SUBDIR) $(APPS_FILES)
-##	-jar c0f $(VRENGAPP_JAR) -C $(APPS_CLASS_SUBDIR) fr
+$(VRENGAPP_JAR): $(GEN_JAR) $(APPS_FILES)
+	javac $(JAVAC_FLAGS) -d $(APPS_CLASS_SUBDIR) $(APPS_FILES)
+	-jar c0f $(VRENGAPP_JAR) -C $(APPS_CLASS_SUBDIR) fr
 
 # Build the javadoc for the project
-##javadoc: $(TMPDIRS)
-##	$(JAVADOC) \
-##	-classpath $(CLASSPATH) \
-##	-d $(DOC_SUBDIR) \
-##	-sourcepath $(BASE_SUBDIR):$(APP_SUBDIR):$(GEN_SUBDIR) \
-##	-doctitle "Vreng Java Server" \
-##	-windowtitle "Vreng Java Server" \
-##	-footer "Mathieu Seigneurin - ENST - July 2001" \
-##	-group  "Base classes" "fr.enst.vreng.data:fr.enst.vreng" \
-##	-group  "Data and messages" "fr.enst.vreng.data.types:fr.enst.vreng.data.messages" \
-##	-group  "Server and network classes" "fr.enst.vreng.net:fr.enst.vreng.server" \
-##	-group  "Applications" "fr.enst.vreng.tester" \
-##	fr.enst.vreng.data.types \
-##	fr.enst.vreng.data.messages \
-##	fr.enst.vreng.data \
-##	fr.enst.vreng \
-##	fr.enst.vreng.net \
-##	fr.enst.vreng.server \
-##	fr.enst.vreng.tester
+javadoc: $(TMPDIRS)
+	$(JAVADOC) \
+	-classpath $(CLASSPATH) \
+	-d $(DOC_SUBDIR) \
+	-sourcepath $(BASE_SUBDIR):$(APP_SUBDIR):$(GEN_SUBDIR) \
+	-doctitle "Vreng Java Server" \
+	-windowtitle "Vreng Java Server" \
+	-footer "Mathieu Seigneurin - ENST - July 2001" \
+	-group  "Base classes" "fr.enst.vreng.data:fr.enst.vreng" \
+	-group  "Data and messages" "fr.enst.vreng.data.types:fr.enst.vreng.data.messages" \
+	-group  "Server and network classes" "fr.enst.vreng.net:fr.enst.vreng.server" \
+	-group  "Applications" "fr.enst.vreng.tester" \
+	fr.enst.vreng.data.types \
+	fr.enst.vreng.data.messages \
+	fr.enst.vreng.data \
+	fr.enst.vreng \
+	fr.enst.vreng.net \
+	fr.enst.vreng.server \
+	fr.enst.vreng.tester
 
-##install:
-##	cp vjs $(DESTDIR)$(bindir)
-##	cp -p $(JARS) $(INSTALL_DIR)
+install:
+	cp vjs $(DESTDIR)$(bindir)
+	cp -p $(JARS) $(INSTALL_DIR)
 
-##.PHONY: notice
-##notice:
-##	@echo -- Jar up to date \($(VRENGCORE_JAR) and $(VRENGAPP_JAR)\)
+.PHONY: notice
+notice:
+	@echo -- Jar up to date \($(VRENGCORE_JAR) and $(VRENGAPP_JAR)\)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

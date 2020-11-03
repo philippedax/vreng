@@ -223,13 +223,13 @@ AUTOMAKE = ${SHELL} /Users/dax/vreng/support/missing automake-1.14
 AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVAPS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/opt/local/include/freetype2 -I/opt/X11/include -I/opt/X11/include 
 CURLPATH = /usr/bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -DVAPS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -248,9 +248,9 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-JAR = 
-JAVA = 
-JAVAC = 
+JAR = jar
+JAVA = java
+JAVAC = javac
 JAVACFLAGS = 
 JAVAFLAGS = 
 JAVAPREFIX = 
@@ -347,7 +347,7 @@ target_alias =
 top_build_prefix = ../../../
 top_builddir = ../../..
 top_srcdir = ../../..
-uudecode = 
+uudecode = yes
 AUTOMAKE_OPTIONS = foreign no-dependencies
 GLUI_SRCS = glui_add_controls.cpp glui.cpp glui_bitmap_img_data.cpp glui_bitmaps.cpp glui_button.cpp glui_edittext.cpp glui_checkbox.cpp glui_node.cpp glui_radio.cpp glui_statictext.cpp glui_panel.cpp glui_separator.cpp glui_spinner.cpp glui_control.cpp glui_column.cpp glui_translation.cpp glui_rotation.cpp glui_mouse_iaction.cpp glui_listbox.cpp glui_rollout.cpp arcball.cpp algebra3.cpp quaternion.cpp \
 glui_img_checkbox_0.c glui_img_checkbox_0_dis.c glui_img_checkbox_1.c glui_img_checkbox_1_dis.c glui_img_downarrow.c glui_img_leftarrow.c glui_img_listbox_down.c glui_img_listbox_up.c glui_img_listbox_up_dis.c glui_img_radiobutton_0.c glui_img_radiobutton_0_dis.c glui_img_radiobutton_1.c glui_img_radiobutton_1_dis.c glui_img_rightarrow.c glui_img_spindown_0.c glui_img_spindown_1.c glui_img_spindown_dis.c glui_img_spinup_0.c glui_img_spinup_1.c glui_img_spinup_dis.c glui_img_uparrow.c

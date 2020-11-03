@@ -20,7 +20,7 @@ VACS4_HOME=${VACS_HOME}/v4
 
 if [ -d ${VACS_HOME} ]; then
 	cd ${VACS_HOME}
-	vacs -l vacs.log
+	vacs -l log/vacs.log
 	echo vacs > /dev/console
 fi
 #if [ -d ${VACS6_HOME} ]; then

@@ -23,6 +23,8 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 
 SUBDIRS = app base
 
+EXTRA_DIST = gen.pl vjs.in
+
 if ENABLE_VJS
 if JAVA
 
@@ -187,7 +189,7 @@ $(GEN_FILES): $(GEN_DEP)
 $(GEN_JAR): $(GEN_FILES)
 	@echo -- Compiling constants files...
 	javac $(JAVAC_FLAGS) -d $(GEN_CLASS_SUBDIR) $(GEN_FILES)
-	-jar c0f $(GEN_JAR) -C $(GEN_CLASS_SUBDIR) fr
+	jar c0f $(GEN_JAR) -C $(GEN_CLASS_SUBDIR) fr
 
 # Build the core jar file
 $(VRENGCORE_JAR): $(GEN_JAR) $(BASE_JAR) $(SERVER_JAR)
