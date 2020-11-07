@@ -75,12 +75,16 @@ void Water::parser(char *l)
       l = parse()->parseFloat(l, &amplitude, "amplitude");
       amplitude *= DEF_AMPLITUDE;	// coef
     }
-    else if (!stringcmp(l, "freq")) l = parse()->parseFloat(l, &freq, "freq");
+    else if (!stringcmp(l, "freq")) {
+      l = parse()->parseFloat(l, &freq, "freq");
+    }
     else if (!stringcmp(l, "phase")) {
       l = parse()->parseFloat(l, &phase, "phase");
       phase *= DEF_PHASE;	// coef
     }
-    else if (!stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
+    else if (!stringcmp(l, "height")) {
+      l = parse()->parseFloat(l, &height, "height");
+    }
   }
   end_while_parse(l);
 }
@@ -91,7 +95,7 @@ void Water::behavior()
   enableBehavior(SPECIFIC_RENDER);
 }
 
-void Water::init()
+void Water::inits()
 {
   initializeMobileObject(0);
   enablePermanentMovement();
@@ -105,16 +109,16 @@ void Water::init()
   depth = pos.bbsize.v[0];
   width = pos.bbsize.v[1];
   if (depth * width > 10)
-    setRenderPrior(RENDER_LOW);
+    setRenderPrior(RENDER_LOW);	// river
   else
-    setRenderPrior(RENDER_HIGH);
+    setRenderPrior(RENDER_HIGH);// swiming pool
 }
 
 Water::Water(char *l)
 {
   parser(l);
   behavior();
-  init();
+  inits();
 }
 
 void Water::draw()

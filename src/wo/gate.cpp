@@ -49,9 +49,9 @@ WObject * Gate::creator(char *l)
 
 void Gate::defaults()
 {
-  autoEnter = false;
   link = false;
-  flagEntry = false;
+  automatic = false;
+  flagentry = false;
   memset(entry, 0, sizeof(entry));
 }
 
@@ -69,11 +69,11 @@ void Gate::parser(char *l)
       char modestr[6];
       l = parse()->parseString(l, modestr, "mode");
       if      (! stringcmp(modestr, "link")) link = true;
-      else if (! stringcmp(modestr, "auto")) autoEnter = true;
+      else if (! stringcmp(modestr, "auto")) automatic = true;
     }
     else if (! stringcmp(l, "entry")) {
       l = parse()->parseVector3f(l, entry, "entry");
-      flagEntry = true;
+      flagentry = true;
       trace(DBG_WO, "gate: entry=%.2f,%.2f,%.2f", entry[0], entry[1], entry[2]);
     }
   }
@@ -117,7 +117,7 @@ bool Gate::updateToNetwork(const Pos &oldpos)
 
 void Gate::enter()
 {
-  /* save url and channel, because World::quit frees gate */
+  /* save url because World::quit frees gate */
   char *new_url = strdup(names.url);
   if (!new_url) { error("enter: can't strdup url=%s", new_url); return; }
 
@@ -126,17 +126,15 @@ void Gate::enter()
     World::enter(new_url, NULL, World::NEW);
     World::current()->linked();	// linked world
   }
-  else {		// with channel
+  else {	// with channel
     if (strcmp(names.url, Universe::current()->url) == 0) {
       sprintf(chan, "%s/%u/%d",
               Universe::current()->group, Universe::current()->port, Channel::currentTtl());
       trace(DBG_IPMC, "initial channel = %s", chan);
     }
 
-    //
-    // call here the VACS (VREng Address Cache Server) to get the channel string
-    //
 #if 0 //dax
+    // call here the VACS (VREng Address Cache Server) to get the channel string
     Vac *vac = Vac::current();
     if (! vac->getChannel(names.url, chan)) {
       // this url is not in the cache, we need to ask to the vacs to resolve it
@@ -151,24 +149,20 @@ void Gate::enter()
     }
 #endif //dax
     trace(DBG_IPMC, "enter: getChannel=%s url=%s", chan, new_url);
-    char *new_chan_str = strdup(chan);
+    char *new_chan = strdup(chan);
 
     World::current()->quit();		// quit the current world
     delete Channel::current();		// delete Channel
-#if 0 //no sound
     Sound::playSound(GATESND);
-#endif
-    World::enter(new_url, new_chan_str, World::NEW);
 
-    char *chanstr = strdup(new_chan_str);
-    Channel::join(chanstr);
-    free(chanstr);
-    trace(DBG_IPMC, "enter: join channel=%s url=%s", new_chan_str, new_url);
+    World::enter(new_url, new_chan, World::NEW);
+    Channel::join(new_chan);
+    trace(DBG_IPMC, "enter: join channel=%s url=%s", new_chan, new_url);
 
-    //TODO declareJoinWorldToManager(new_url, new_chan_str, worlds->plocaluser->getInstance());
+    //TODO declareJoinWorldToManager(new_url, new_chan, worlds->plocaluser->getInstance());
 
-    if (audioactive) Audio::start(new_chan_str);
-    free(new_chan_str);
+    if (audioactive) Audio::start(new_chan);
+    free(new_chan);
   }
   free(new_url);
 }
@@ -178,33 +172,34 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
-    if (autoEnter) {
+    if (automatic) {
       if (pcur != localuser) {
-	notice("Another user was just pushed out of this world"); return true;
+	notice("User was just pushed out of this world");
+        return true;
       }
       else {
-        collideCnt = 0;
-        if (flagEntry) {
-          flagEntry = false;
+        collidecnt = 0;
+        if (flagentry) {
+          flagentry = false;
           pcur->updatePositionAndGrid(pcur->pos);
         }
         enter();
       }
     }
     else {
-      if (collideCnt < 20) {
+      if (collidecnt < 20) {
         pold->copyPositionAndBB(pcur);
-        notice("Warning! You are near the gate %s in=%d", getInstance(), collideCnt);
-        collideCnt++;
+        notice("Warning! You are near the gate %s in=%d", getInstance(), collidecnt);
+        collidecnt++;
       }
-      else if (collideCnt < 40) {
+      else if (collidecnt < 40) {
         pold->copyPositionAndBB(pcur);
-        notice("Warning! If you insist you'll enter in %s in=%d", getInstance(), collideCnt);
-        collideCnt++;
+        notice("Warning! If you insist you'll enter in %s in=%d", getInstance(), collidecnt);
+        collidecnt++;
       }
       else {
-        enter();
-        collideCnt = 0;
+        enter();	// enter by force
+        collidecnt = 0;
       }
     }
     break;
@@ -228,7 +223,7 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
 bool Gate::whenIntersectOut(WObject *pcur, WObject *pold)
 {
   if (pcur->type == USER_TYPE) {
-    collideCnt = 0;
+    collidecnt = 0;
     return true;
   }
   return false;

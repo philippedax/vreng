@@ -65,6 +65,13 @@ public:
     ZBUFSELECT          ///< only fill the Z-buffer (for selection).
   };
 
+  enum render_order {
+    OPAQUE,
+    TRANSLUCID,
+    FLASHRAY,
+    LOCALUSER
+  };
+
   /* display modes */
   enum display_mode {
     NORMAL,
@@ -131,8 +138,8 @@ public:
   virtual bool isOpaque();
   /**< Return if the solid is opaque or not. */
 
-  // Drawing
-  virtual void render3D(rendering_mode mode, uint8_t layer);
+  // Displaying 3D
+  virtual void display3D(rendering_mode mode, uint8_t layer);
   /**< Issue the OpenGL commands to draw the solid in the given mode.
        It is called several times with "layer" increasing from 0 to ? in
        order to allow drawing at different layers. */

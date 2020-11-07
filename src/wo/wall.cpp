@@ -52,7 +52,8 @@ Wall::Wall(char *l)
 
   setRenderPrior(RENDER_NORMAL);
 
-  initializeStillObject();
+  //dax initializeStillObject();
+  initializeMobileObject(0);
 }
 
 Wall::Wall(WObject *user, char *geom)

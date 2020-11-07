@@ -832,7 +832,8 @@ void Widgets::destinationsDialog()
 {
   char universe_url[URL_LEN];
   char str[URL_LEN];
-  if (!strncmp(Universe::current()->universe_name, "http://", 7))
+
+  if (! strncmp(Universe::current()->universe_name, "http://", 7))
     sprintf(str, "%s", "%s%s/vacs/v%d/worlds");
   else
     sprintf(str, "%s%s", "http://", "%s%s/vacs/v%d/worlds");
@@ -842,7 +843,7 @@ void Widgets::destinationsDialog()
     delete &box;
     return;
   }
-  printf("destinations: universe=%s name=%s pfx=%s : open OK\n", universe_url, Universe::current()->universe_name, Universe::current()->urlpfx);
+  //printf("destinations: universe=%s name=%s pfx=%s : open OK\n", universe_url, Universe::current()->universe_name, Universe::current()->urlpfx);
   worlds_dialog.setMessage(uscrollpane(usize(120,400) + box));
   worlds_dialog.show();
 }
@@ -851,6 +852,7 @@ void Widgets::destinationsDialog()
 void Widgets::openWorldsDialog()
 {
   char universe_url[URL_LEN];
+
   sprintf(universe_url, "%s%s/vacs/v%d/worlds",
                       Universe::current()->universe_name,
                       Universe::current()->urlpfx,

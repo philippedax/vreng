@@ -252,7 +252,7 @@ void Head::changePermanent(float lasting)
   default: pos.z = localuser->pos.z - (localuser->height / 2) - .10; break;
   }
   switch (model_t) {
-  case MODEL_LWO: dax = M_PI; daz = -M_PI_2; break;
+  case MODEL_LWO: /* dax = M_PI_2; daz = -M_PI_2;*/ break;
   case MODEL_OFF: daz = M_PI_2; break;
   case MODEL_3DS: dax = M_PI_2; break;
   case MODEL_OBJ: daz = M_PI; break;

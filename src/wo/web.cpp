@@ -27,9 +27,9 @@
 
 
 const OClass Web::oclass(WEB_TYPE, "Web", Web::creator);
+
 const float Web::TTL = 4.;       // 4 sec max
 const float Web::ASPEED = M_PI;  // 180deg/sec
-const uint16_t Web::MAXLEN = 128;// 128
 const float Web::GLYPHSIZ = 0.05;// 5 cm
 
 // local
@@ -53,15 +53,15 @@ void Web::defaults()
 
 void Web::parselegend(char *l)
 {
-  char buf[BUFSIZ];
+  char line[256];	// must be >128 else segfault !!!
 
-  strcpy(buf, l);
-  char *p = strstr(buf, "legend=");
+  strcpy(line, l);
+  char *p = strstr(line, "legend=");
   if (p) {
     p += 8;
     char *q = strchr(p, '"');
     if (q) *q = '\0';
-    legend = new char[MAXLEN];
+    legend = new char[128];
     strcpy(legend, p);
   }
 }
@@ -74,8 +74,8 @@ void Web::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "url")) l = parse()->parseUrl(l, names.url);
-    else if (!stringcmp(l, "legend")) {
+    if      (! stringcmp(l, "url")) l = parse()->parseUrl(l, names.url);
+    else if (! stringcmp(l, "legend")) {
       l += 7; // skip legend=
       l = parse()->skipAttribute(l);
     }
@@ -113,7 +113,6 @@ void Web::changePosition(float lasting)
     pos.az = acurr + M_PI;
     stopImposedMovement();
   }
-  //error("az=%.2f", pos.az);
 }
 
 /* object intersects: projection */
@@ -166,7 +165,6 @@ void Web::pivot()
       pleg->pos.y += (dim.v[0] + 0.001) * sin(afront);	// 1mm near front face
       pleg->pos.x -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
     }
-    error("legend: %.2f [%.3f %.3f %.3f] web: %.2f [%.2f %.2f %.2f %.2f - %.2f %.2f %.2f]", strlen(legend)*GLYPHSIZ, pleg->pos.x, pleg->pos.y, pleg->pos.z, dim.v[0]*2, pos.x, pos.y, pos.z, afront, dim.v[0], dim.v[1], dim.v[2]);
     text = new Text(legend, pleg->pos, 0.25, green);
     text->setShifts(pleg->pos.x, pleg->pos.y, pleg->pos.z, pleg->pos.az + M_PI, pleg->pos.ax + M_PI_2);
     delete pleg;

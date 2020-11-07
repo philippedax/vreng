@@ -33,11 +33,11 @@
 class Gate: public WObject {
 
 private:
-  int autoEnter;	///< flag enter
-  bool flagEntry;	///< flag entry
+  bool automatic;	///< flag automatic enter
+  bool flagentry;	///< flag entry
   bool link;		///< flag link
-  float entry[3];	///< position
-  uint8_t collideCnt;	///< collide count
+  uint8_t collidecnt;	///< collide count
+  float entry[3];	///< position after passing gate
 
 public:
   /* properties */

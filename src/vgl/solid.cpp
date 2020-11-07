@@ -1382,18 +1382,22 @@ void Solid::setFrame(uint16_t _frame)
 //---------------------------------------------------------------------------
 
 
-void Solid::render3D(rendering_mode mode, uint8_t order)
+void Solid::display3D(rendering_mode mode, uint8_t order)
 {
-  if (ray_dlist) displayRay();
-  if (! object() || ! object()->isValid())  return;  // orphean solid
+  if (ray_dlist)
+    displayRay();
+  if (! object() || ! object()->isValid())
+    return;		// orphean solid
   if (mode != ZBUFSELECT) {
-    if (! isVisible())  return;  // invisible
-    if (isBlinking() && (! toggleBlinking()))  return;  // pass one turn
+    if (! isVisible())
+      return;		// invisible solid
+    if (isBlinking() && (! toggleBlinking()))
+      return;		// pass one turn
   }
 
   switch (order) {
 
-    case Render::OPAQUE: // Display opaque solids
+    case OPAQUE:	// Display opaque solids
       if (isreflexive) {
         displayReflexive();
       }
@@ -1401,22 +1405,26 @@ void Solid::render3D(rendering_mode mode, uint8_t order)
       displayNormal();
       break;
 
-    case Render::TRANSLUCID: // Display translucid solids 
+    case TRANSLUCID:	// Display translucid solids 
       if (isreflexive) {
         trace2(DBG_VGL, " o%d %s", order, object()->typeName());
         displayReflexive();
       }
-      else
+      else {
         displayNormal();
+      }
       break;
 
-    case Render::FLASHRAY: // Display flashy edges and ray
-      if (isflashy && mode != ZBUFSELECT) displayFlashy();
-      if (isflary) displayFlary();	// Display attached flares
-      if (ray_dlist) displayRay();
+    case FLASHRAY:	// Display flashy edges and ray
+      if (isflashy && mode != ZBUFSELECT)
+        displayFlashy();
+      if (isflary)
+        displayFlary();	// Display attached flares
+      if (ray_dlist)
+        displayRay();
       break;
 
-    case Render::LOCALUSER: // Display local user last
+    case LOCALUSER:	// Display local user last
       displayNormal();
       break;
   }
@@ -1497,6 +1505,7 @@ int Solid::displayList(int display_mode = NORMAL)
       glPushName((GLuint) (long) object()->num & 0xffffffff);
 
    case VIRTUAL:
+     glPushMatrix();
      if (wobject && wobject->isValid() && wobject->type == USER_TYPE) {
        User *user = (User *) wobject;
        if (user->man) {
@@ -1510,7 +1519,10 @@ int Solid::displayList(int display_mode = NORMAL)
          glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
        }
      }
-     if (dlists[curframe] > 0) glCallList(dlists[curframe]);
+     if (dlists[curframe] > 0) {
+       glCallList(dlists[curframe]);
+     }
+     glPopMatrix();
      break;
 
    case FLASHY:
@@ -1521,7 +1533,8 @@ int Solid::displayList(int display_mode = NORMAL)
       glLineWidth(1);
       glScalef(1.03, 1.03, 1.03);	// 3%100 more
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-      if (dlists[curframe] > 0) glCallList(dlists[curframe]);
+      if (dlists[curframe] > 0)
+        glCallList(dlists[curframe]);
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
      glPopMatrix();
      break;
@@ -1534,7 +1547,8 @@ int Solid::displayList(int display_mode = NORMAL)
         error("no stencils available");
       }
       glPushMatrix();
-      if (dlists[curframe] > 0) glCallList(dlists[curframe]); // draw the mirror alone
+      if (dlists[curframe] > 0)
+        glCallList(dlists[curframe]); // draw the mirror alone
       glPopMatrix();
       return dlists[curframe];
     } 

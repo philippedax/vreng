@@ -31,8 +31,8 @@ ACLOCAL_AMFLAGS = -I support
 
 ## maintainer's targets
 
-NFS_FTP_ARCHIVE = /infres/ir500/adm/repos/ftp/pub/vreng
-HTML = /infres/ir500/adm/projets/vreng/html
+FTP_ARCHIVE = /Users/dax/vreng/ftp/pub/vreng
+HTML = /Users/dax/vreng/html
 HTTP_SVN = http://www.vreng.enst.fr/svn/vreng
 
 TARBALL_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
@@ -77,15 +77,15 @@ svntags:
 	su -c "svn copy $(HTTP_SVN)/trunk $(HTTP_SVN)/tags/$(PACKAGE_NAME)-$(PACKAGE_VERSION) -m \"Distribution: $(PACKAGE_NAME)-$(PACKAGE_VERSION)\"" dax
 
 archive: fingerprint rss
-	-install -m 444 $(FINGERPRINT_GZ) $(NFS_FTP_ARCHIVE)
-	-install -m 444 $(TARBALL_GZ) $(NFS_FTP_ARCHIVE)
-	-install -m 444 $(FINGERPRINT_BZ2) $(NFS_FTP_ARCHIVE)
-	-install -m 444 $(TARBALL_BZ2) $(NFS_FTP_ARCHIVE)
-	-install -m 444 $(FINGERPRINT_XZ) $(NFS_FTP_ARCHIVE)
-	-install -m 444 $(TARBALL_XZ) $(NFS_FTP_ARCHIVE)
-	-install -m 444 $(FINGERPRINT_ZIP) $(NFS_FTP_ARCHIVE)
-	-install -m 444 $(TARBALL_ZIP) $(NFS_FTP_ARCHIVE)
-	-(cd $(NFS_FTP_ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_BZ2); ln -s $(TARBALL_BZ2) $(TARLINK_BZ2); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ); rm -f $(TARLINK_ZIP); ln -s $(TARBALL_ZIP) $(TARLINK_ZIP))
+	-install -m 444 $(FINGERPRINT_GZ) $(FTP_ARCHIVE)
+	-install -m 444 $(TARBALL_GZ) $(FTP_ARCHIVE)
+	-install -m 444 $(FINGERPRINT_BZ2) $(FTP_ARCHIVE)
+	-install -m 444 $(TARBALL_BZ2) $(FTP_ARCHIVE)
+	-install -m 444 $(FINGERPRINT_XZ) $(FTP_ARCHIVE)
+	-install -m 444 $(TARBALL_XZ) $(FTP_ARCHIVE)
+	-install -m 444 $(FINGERPRINT_ZIP) $(FTP_ARCHIVE)
+	-install -m 444 $(TARBALL_ZIP) $(FTP_ARCHIVE)
+	-(cd $(FTP_ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_BZ2); ln -s $(TARBALL_BZ2) $(TARLINK_BZ2); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ); rm -f $(TARLINK_ZIP); ln -s $(TARBALL_ZIP) $(TARLINK_ZIP))
 	@-rm $(FINGERPRINT_GZ)
 	@-rm $(FINGERPRINT_BZ2)
 	@-rm $(FINGERPRINT_XZ)
@@ -99,4 +99,4 @@ snapshot:
 	$(MAKE) dist distdir=$(PACKAGE_NAME)`date +"%y%m%d"`
 
 history:
-	@(cd $(NFS_FTP_ARCHIVE); ls -ltr)
+	@(cd $(FTP_ARCHIVE); ls -ltr)

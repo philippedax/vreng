@@ -290,7 +290,7 @@ XVisualInfo* UDispX11::createGlvisual(int r, int g, int b, int a, int depth) {
   
   int glxmajor = 0, glxminor = 0;
   glXQueryVersion(sys_disp, &glxmajor, &glxminor);
-  cerr << "OpenGL version: "<< glxmajor <<"."<<glxminor << endl;
+  //dax cerr << "OpenGL version: "<< glxmajor <<"."<<glxminor << endl;
   
   // find a Visual that match the requested bpp and OpenGL options
   if (!(vis = _chooseGLVisual(sys_disp, sys_screen, r,g,b,a, depth))) {

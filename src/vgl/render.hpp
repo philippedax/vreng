@@ -56,12 +56,6 @@ public:
     VIEW_NUMBER
   };
 
-  enum render_order {
-    OPAQUE,
-    TRANSLUCID,
-    FLASHRAY,
-    LOCALUSER
-  };
 
   Render();
   /**< Constructor. */

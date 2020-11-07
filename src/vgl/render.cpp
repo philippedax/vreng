@@ -210,7 +210,7 @@ void Render::solidsOpaque(bool zsel, list<Solid*>::iterator psu, uint8_t pri)
     if (ps == psu && zsel == false) continue;  // skip local user
     //TODO: if ((*ps)->object()->isSeen() == false) continue;  // not seen
     if ((*ps)->isOpaque() == true && (*ps)->isVisible() && ((*ps)->object()->prior == pri)) {
-      (*ps)->render3D(zsel ? Solid::ZBUFSELECT : Solid::PLAIN, OPAQUE);
+      (*ps)->display3D(zsel ? Solid::ZBUFSELECT : Solid::PLAIN, Solid::OPAQUE);
       if ((*ps)->object()->isBehavior(SPECIFIC_RENDER) == true) (*ps)->object()->render();
       trace2(DBG_VGL, " %s", (*ps)->object()->getInstance());
     }
@@ -224,7 +224,7 @@ void Render::solidsTranslucid(bool zsel, list<Solid*>::iterator psu, uint8_t pri
     if (ps == psu && zsel == false) continue;  // skip local user
     //if ((*ps)->object()->isBehavior(SPECIFIC_RENDER) == true) continue;
     if ((*ps)->isOpaque() == false && (*ps)->isVisible() && ((*ps)->object()->prior == pri)) {
-      (*ps)->render3D(zsel ? Solid::ZBUFSELECT : Solid::PLAIN, TRANSLUCID);
+      (*ps)->display3D(zsel ? Solid::ZBUFSELECT : Solid::PLAIN, Solid::TRANSLUCID);
       if ((*ps)->object()->isBehavior(SPECIFIC_RENDER) == true) (*ps)->object()->render();
       trace2(DBG_VGL, " %s", (*ps)->object()->getInstance());
     }
@@ -237,17 +237,17 @@ void Render::solidsTranslucid(bool zsel, list<Solid*>::iterator psu, uint8_t pri
 void Render::specific(uint32_t num, uint8_t pri)
 {
   switch (pri) {
-  case WObject::RENDER_LOW : // low render : background
+  case WObject::RENDER_LOW:	// low render : background
     specificStill(num, pri);	// still objects : walls
     specificMobile(num, pri);	// mobile objects : particle
     specificInvisible(num, pri);// invisible objects : sun
     break;
-  case WObject::RENDER_NORMAL : // normal render
+  case WObject::RENDER_NORMAL:	// normal render
     specificStill(num, pri);	// still objects
     specificMobile(num, pri);	// mobile objects
-    specificInvisible(num, pri); // invisible objects : transform
+    specificInvisible(num, pri);// invisible objects : transform
     break;
-  case WObject::RENDER_HIGH : // high render : models
+  case WObject::RENDER_HIGH:	// high render : models
     specificStill(num, pri);	// still objects
     specificMobile(num, pri);	// mobile objects
     specificInvisible(num, pri);
@@ -267,36 +267,43 @@ void Render::solids(bool zsel = false)
   // Find the local user solid
   list<Solid*>::iterator psu;
   for (list<Solid*>::iterator ps = solidList.begin(); ps != solidList.end() ; ps++) {
-    if ((*ps)->object()->type == USER_TYPE)
+    if ((*ps)->object()->type == USER_TYPE) {
       if (! strcmp((*ps)->object()->getInstance(), localuser->getInstance()))
         psu = ps;	// local user
+    }
   }
 
   //// prior LOW == 0
+  //
   trace2(DBG_VGL, "\n--- LOW");
   trace2(DBG_VGL, "\nspeci: ");
-  // Specific rendering done by objects themself
-  for (uint32_t i=1; i < objectsnumber; i++) specific(i, WObject::RENDER_LOW);  // particules
+  for (uint32_t i=1; i < objectsnumber; i++) { // do specific rendering by objects themself
+    specific(i, WObject::RENDER_LOW);	// particules
+  }
   trace2(DBG_VGL, "\nopaque: ");
   solidsOpaque(zsel, psu, WObject::RENDER_LOW);
   trace2(DBG_VGL, "\ntranslucid: ");
   solidsTranslucid(zsel, psu, WObject::RENDER_LOW);
 
   //// prior NORMAL == 1
+  //
   trace2(DBG_VGL, "\n--- NORMAL");
   trace2(DBG_VGL, "\nspeci: ");
-  // Specific rendering done by objects themself
-  for (uint32_t i=1; i < objectsnumber; i++) specific(i, WObject::RENDER_NORMAL);
+  for (uint32_t i=1; i < objectsnumber; i++) { // do specific rendering by objects themself
+    specific(i, WObject::RENDER_NORMAL);
+  }
   trace2(DBG_VGL, "\nopaque: ");
   solidsOpaque(zsel, psu, WObject::RENDER_NORMAL);
   trace2(DBG_VGL, "\ntranslucid: ");
   solidsTranslucid(zsel, psu, WObject::RENDER_NORMAL);
 
   //// prior HIGH == 2
+  //
   trace2(DBG_VGL, "\n--- HIGH");
   trace2(DBG_VGL, "\nspeci: ");
-  // Specific rendering done by objects themself
-  for (uint32_t i=1; i < objectsnumber; i++) specific(i, WObject::RENDER_HIGH);
+  for (uint32_t i=1; i < objectsnumber; i++) { // do specific rendering by objects themself
+    specific(i, WObject::RENDER_HIGH);
+  }
   trace2(DBG_VGL, "\nspeci: ");
   solidsOpaque(zsel, psu, WObject::RENDER_HIGH);
   trace2(DBG_VGL, "\ntranslucid: ");
@@ -307,7 +314,7 @@ void Render::solids(bool zsel = false)
   for (list<Solid*>::iterator ps = solidList.begin(); ps != solidList.end() ; ps++) {
     if ((*ps) && ((*ps)->isflashy || (*ps)->isflary)) {
       //trace(DBG_FORCE, "render flashy %s", (*ps)->object()->getInstance());
-      (*ps)->render3D(Solid::PLAIN, FLASHRAY);
+      (*ps)->display3D(Solid::PLAIN, Solid::FLASHRAY);
     }
   }
 
@@ -315,7 +322,8 @@ void Render::solids(bool zsel = false)
   if (zsel)  return;
 
   // Renders local user last
-  if (localuser) (*psu)->render3D(Solid::PLAIN, LOCALUSER);
+  if (localuser)
+    (*psu)->display3D(Solid::PLAIN, Solid::LOCALUSER);
 }
 
 void Render::clearGLBuffer()
@@ -381,7 +389,7 @@ void Render::lighting()
   }
   glEnable(GL_LIGHTING);
 
-  /* renders other lights for exemple sun, moon, lamp */
+  /* renders other lights for example sun, moon, lamp */
 #if 0 //DEBUG
   trace2(DBG_VGL, "\n*** light:");
   for (list<WObject*>::iterator il = lightList.begin(); il != lightList.end() ; ++il) {

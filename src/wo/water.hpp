@@ -83,7 +83,7 @@ private:
   virtual void behavior();
   /**< Sets behaviors. */
 
-  virtual void init();
+  virtual void inits();
   /**< Makes initializations. */
 
   virtual void draw();

@@ -742,8 +742,10 @@ void World::checkPersistObjects()
       sprintf(pat, "@%s", getName());
       if (psql->getName(BALL_NAME, pat, i, qname) >= 0) {
         char *p = strchr(qname, '@');
-        *p = '\0';
-        doAction(BALL_TYPE, Ball::RECREATE, (WObject*)this, (void*)qname,0,0);
+        if (p) {
+          *p = '\0';
+          doAction(BALL_TYPE, Ball::RECREATE, (WObject*)this, (void*)qname,0,0);
+        }
       }
     }
     nitem = psql->getCount(THING_NAME, getName());	// things in MySql
@@ -752,8 +754,10 @@ void World::checkPersistObjects()
       if (psql->getName(THING_NAME, pat, i, qname) >= 0) {
         if (! stringcmp(qname, THING_NAME)) {
           char *p = strchr(qname, '@');
-          *p = '\0';
-          doAction(THING_TYPE, Thing::RECREATE, (WObject*)this, (void*)qname,0,0);
+          if (p) {
+            *p = '\0';
+            doAction(THING_TYPE, Thing::RECREATE, (WObject*)this, (void*)qname,0,0);
+          }
         }
       }
     }
@@ -763,8 +767,10 @@ void World::checkPersistObjects()
       if (psql->getName(MIRAGE_NAME, pat, i, qname) >= 0) {
         if (! stringcmp(qname, MIRAGE_NAME)) {
           char *p = strchr(qname, '@');
-          *p = '\0';
-          doAction(MIRAGE_TYPE, Mirage::RECREATE, (WObject*)this, (void*)qname,0,0);
+          if (p) {
+            *p = '\0';
+            doAction(MIRAGE_TYPE, Mirage::RECREATE, (WObject*)this, (void*)qname,0,0);
+          }
         }
       }
     }
@@ -796,7 +802,8 @@ void World::httpReader(void *url, Http *http)
     // download the vre file from the httpd server
 httpread:
     while ((vrelen = http->httpRead(vrebuf, sizeof(vrebuf))) > 0) {
-      if (vrefp) fwrite(vrebuf, 1, vrelen, vrefp);      // save into the cache
+      if (vrefp)
+        fwrite(vrebuf, 1, vrelen, vrefp);      // save into the cache
       if (parser->parseVreLines(vrebuf, vrelen) <= 0)   // parsing error
         break;
     }
@@ -804,7 +811,6 @@ httpread:
 #if 0 //HAVE_LIBXML2
     Xml::dtdValidation(vrefile);        // check the DTD
 #endif //HAVE_LIBXML2
-
   }
   else {        // file exists in the cache
     if ((vrefp = File::openFile(vrefile, "r")) == NULL) goto httpread;    // download it

@@ -66,7 +66,6 @@ public:
 private:
   static const float TTL;
   static const float ASPEED;
-  static const uint16_t MAXLEN; ///< max lenght of text.
   static const float GLYPHSIZ;
 
   float aspeed;		///< angular speed.

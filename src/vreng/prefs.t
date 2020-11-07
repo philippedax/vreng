@@ -18,7 +18,7 @@ model=guy\n\
 # head=/off/head.off\n\
 # head=/obj/head.obj\n\
 # head=/3ds/head.3ds\n\
-head=/lwo/head.lwo\n\
+#head=/lwo/head.lwo\n\
 \n\
 # my sex\n\
 # syntax: sex=male|female, default=male\n\
