@@ -49,7 +49,9 @@ Ground::Ground(char *l)
 
   initializeStillObject();
   setRenderPrior(RENDER_NORMAL);  // LOW ?
+  pos.z = 0;
   World::current()->setGround(pos.z + pos.bbsize.v[2]);
+  //error("ground: z=%.2f bb=%.2f gr=%.2f",pos.z,pos.bbsize.v[2],pos.z+pos.bbsize.v[2]);
 }
 
 Ground::Ground(WObject *user, char *geom)

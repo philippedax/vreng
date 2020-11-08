@@ -1,0 +1,20 @@
+digraph "Particle"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="Particle",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Particle class."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="WObject",height=0.2,width=0.4,color="black",URL="$a02108.html",tooltip="WObject Class."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="Firework",height=0.2,width=0.4,color="black",URL="$a01728.html",tooltip="Firework class."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="Fountain",height=0.2,width=0.4,color="black",URL="$a01736.html",tooltip="Fountain class."];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="Rain",height=0.2,width=0.4,color="black",URL="$a01920.html",tooltip="Rain class."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="Snow",height=0.2,width=0.4,color="black",URL="$a01948.html",tooltip="Snow class."];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="Waterfall",height=0.2,width=0.4,color="black",URL="$a02068.html",tooltip="Waterfall class."];
+}

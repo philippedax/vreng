@@ -592,8 +592,8 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
     pcur->toDelete();	// delete projectile
     break;
   case BALL_TYPE:
-    pcur->pos.x += Ball::SHIFTX;	// ball shifts
-    pcur->pos.y += Ball::SHIFTY;
+    pcur->pos.x += Ball::SHIFT;	// ball shifts
+    pcur->pos.y += Ball::SHIFT;
     pcur->updatePositionAndGrid(pold);
     break;
   case THING_TYPE:

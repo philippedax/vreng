@@ -221,10 +221,11 @@ void User::changePosition(const float lastings[])
   }
 
   // Fly
-  float ground = World::current()->getGround();
-  float h = pos.z - ground;  // vertical distance
-  float a = MIN((h-1) * (M_PI/18), (M_PI_4+M_PI_4/2));
-  if (h > 1) {
+  //dax float ground = World::current()->getGround();
+  //dax float h = pos.z - ground;  // vertical distance
+  //dax float a = MIN((h-1) * (M_PI/18), (M_PI_4+M_PI_4/2));
+  float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
+  if (pos.z > 2) {	// >2 m
     if (man)
       man->pos.ay = -a;
     if (guy) {
@@ -233,7 +234,7 @@ void User::changePosition(const float lastings[])
       guy->setFlying(true);
     }
   }
-  else if (h > 0.2) { // near the ground
+  else if (pos.z < 1) { // near the ground
     if (man)
       man->pos.ay = 0;
     if (guy) {

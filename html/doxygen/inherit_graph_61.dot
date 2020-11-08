@@ -1,0 +1,11 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node319 [label="Glpaint",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node319 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node0 [label="GLSection",height=0.2,width=0.4,color="black",URL="$a01452.html",tooltip=" "];
+}

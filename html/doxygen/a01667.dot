@@ -1,0 +1,20 @@
+digraph "Cloth"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="Cloth",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Cloth class."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="WObject",height=0.2,width=0.4,color="black",URL="$a02108.html",tooltip="WObject Class."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="Accessory",height=0.2,width=0.4,color="black",URL="$a01592.html",tooltip="Accessory class."];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="Dress",height=0.2,width=0.4,color="black",URL="$a01696.html",tooltip="Dress class."];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="Halo",height=0.2,width=0.4,color="black",URL="$a01816.html",tooltip="Halo class."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="Hat",height=0.2,width=0.4,color="black",URL="$a01824.html",tooltip="Hat class."];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="Wings",height=0.2,width=0.4,color="black",URL="$a02088.html",tooltip="Wings class."];
+}

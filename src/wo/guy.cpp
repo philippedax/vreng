@@ -29,10 +29,11 @@
 
 
 const OClass Guy::oclass(GUY_TYPE, "Guy", Guy::creator);
+
 uint16_t Guy::RATE = 10;
 uint8_t Guy::BODY_PARTS = 9;
 uint8_t Guy::OVERSAMPLE = 10;
-const char Guy::DEF_URL[] = "/cset/walking.cset";
+const char Guy::DEF_URL_GUY[] = "/cset/walking.cset";
 const float Guy::SKIN_COLOR[] = {.8, .6, .6, 1};
 const float Guy::BUST_COLOR[] = {1, .5, .0, 1};
 const float Guy::LEGS_COLOR[] = {.1, .3, .9, 1};
@@ -68,9 +69,9 @@ void Guy::parser(char *l)
     l = parse()->parseAttributes(l, this);
     if (!l) break;
     if      (!stringcmp(l, "url"))   l = parse()->parseUrl(l, names.url);
-    else if (!stringcmp(l, "anim=")) l = parse()->parseUInt8(l, &animing, "anim");
-    else if (!stringcmp(l, "walk=")) l = parse()->parseUInt8(l, &walking, "walk");
-    else if (!stringcmp(l, "sex="))  l = parse()->parseUInt8(l, &sex, "sex");
+    else if (!stringcmp(l, "anim=")) l = parse()->parseBool(l, &animing, "anim");
+    else if (!stringcmp(l, "walk=")) l = parse()->parseBool(l, &walking, "walk");
+    else if (!stringcmp(l, "sex="))  l = parse()->parseBool(l, &sex, "sex");
     else if (!stringcmp(l, "skin=")) l = parse()->parseVector3f(l, skin_color, "skin");
     else if (!stringcmp(l, "bust=")) l = parse()->parseVector3f(l, bust_color, "bust");
     else if (!stringcmp(l, "legs=")) l = parse()->parseVector3f(l, legs_color, "legs");
@@ -109,8 +110,9 @@ void Guy::inits()
 
   Http::httpOpen(names.url, httpReader, this, 0);
 
-  for (int j=0; j < numjoints; j++)
+  for (int j=0; j < numjoints; j++) {
     computeCurve(j);
+  }
 }
 
 /* constructor from xml file */
@@ -130,7 +132,7 @@ Guy::Guy()
   control = true;
   behavior();
 
-  strcpy(names.url, DEF_URL);
+  strcpy(names.url, DEF_URL_GUY);
   inits();
 
   setActionFunc(GUY_TYPE, 1, WO_ACTION NULL, "");  // cancel
@@ -144,14 +146,18 @@ const char * Guy::getUrl() const
 
 void Guy::httpReader(void *_guy, Http *http)
 {
-  int points = 0;
   Guy *guy = (Guy *) _guy;
   if (! guy) return;
+  int points = 0;
 
   FILE *f = Cache::openCache(guy->getUrl(), http);
-  if (! f) { error("can't open %s", guy->getUrl()); return; }
+  if (! f) {
+    error("can't open %s", guy->getUrl());
+    return;
+  }
 
   char *l, line[256];
+
   fgets(line, sizeof(line), f);	 // numjoints
   line[strlen(line) - 1] = '\0';
   guy->numjoints = atoi(line);
@@ -189,7 +195,7 @@ abort:
   return;
 }
 
-void Guy::computeCurve(int join)
+void Guy::computeCurve(uint8_t join)
 {
   float pointset[3][4];
   float prod[3][4], tm[4], vec[3];
@@ -232,14 +238,10 @@ void Guy::setPose()
 {
   for (int j=0; j < numjoints; j++) {
     curve[j].numpoints = 4;
-    curve[j].coords[0] = 0.0;
-    curve[j].angles[0]  = 0.0;
-    curve[j].coords[1] = 0.2;
-    curve[j].angles[1]  = 0.0;
-    curve[j].coords[2] = 0.8;
-    curve[j].angles[2]  = 0.0;
-    curve[j].coords[3] = 1.0;
-    curve[j].angles[3]  = 0.0;
+    curve[j].coords[0] = 0.0; curve[j].angles[0]  = 0;
+    curve[j].coords[1] = 0.2; curve[j].angles[1]  = 0;
+    curve[j].coords[2] = 0.8; curve[j].angles[2]  = 0;
+    curve[j].coords[3] = 1.0; curve[j].angles[3]  = 0;
   }
 }
 
@@ -378,7 +380,7 @@ void Guy::display_neck()
   glPopMatrix();
 }
 
-void Guy::display_breath(int side)
+void Guy::display_breath(bool side)
 {
   if (sex) {
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, bust_color);
@@ -399,7 +401,7 @@ void Guy::display_head()
   glPopMatrix();
 }
 
-void Guy::display_leg(int side)
+void Guy::display_leg(bool side)
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, legs_color);
   glPushMatrix();
@@ -429,7 +431,7 @@ void Guy::display_leg(int side)
   glPopMatrix();
 }
 
-void Guy::display_arm(int side)
+void Guy::display_arm(bool side)
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, bust_color);
   glPushMatrix();

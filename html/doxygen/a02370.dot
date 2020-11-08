@@ -1,0 +1,10 @@
+digraph "_3ds"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="_3ds",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="_3ds class"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" _3dsModel" ,fontname="FreeSans"];
+  Node2 [label="t3dsModel",height=0.2,width=0.4,color="black",URL="$a02364.html",tooltip="This holds our model information."];
+}

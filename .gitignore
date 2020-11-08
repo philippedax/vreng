@@ -80,3 +80,4 @@ error_log
 log/*
 cache
 nohup.out
+build

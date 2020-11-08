@@ -1,0 +1,28 @@
+var a01816 =
+[
+    [ "WEAR", "a01816.html#a5cd57117427c235b18d795c2ec018c16aef54799c3511fe0885bb06f39afb418a", null ],
+    [ "TAKEOFF", "a01816.html#a5cd57117427c235b18d795c2ec018c16aab7386bf63f5c4d1039a8713b5fde1e8", null ],
+    [ "MOVE", "a01816.html#a5cd57117427c235b18d795c2ec018c16acbf273a074c622e4c445b218ed073234", null ],
+    [ "CREATE_WEAR", "a01816.html#a5cd57117427c235b18d795c2ec018c16a8eb6b7d9f1103b43f151e176066af20e", null ],
+    [ "RECREATE", "a01816.html#a5cd57117427c235b18d795c2ec018c16ab7e3d43ec716ef7730bced29a3986336", null ],
+    [ "DESTROY", "a01816.html#a5cd57117427c235b18d795c2ec018c16a09b9bd2f83d25c0d24f325d12a5de936", null ],
+    [ "Halo", "a01816.html#a979f994760a086f81cd8c73131dd70a9", null ],
+    [ "Halo", "a01816.html#af897d533b08850e5e271bd82bc0c4359", null ],
+    [ "creator", "a01816.html#ac4580bf5f8adf76efe15e5d6c67f2595", null ],
+    [ "defaults", "a01816.html#a134b605f5b4e4f5c3ad5382cecbaa7ca", null ],
+    [ "funcs", "a01816.html#a69d64e2971ee22d6a51fa8b47f5b3c9e", null ],
+    [ "getOClass", "a01816.html#adee9f01d98374b0d3be1eb48e97af4e2", null ],
+    [ "makeSolid", "a01816.html#a81e67010cd29c7c9bf365402b28ad2b4", null ],
+    [ "parser", "a01816.html#adfb848a746d5fdafa84505490f30e755", null ],
+    [ "quit", "a01816.html#a64465571104faa825e29a2c7616c775e", null ],
+    [ "recreate_cb", "a01816.html#ac816ee95b8eb457f4587873aaeaa0487", null ],
+    [ "takeoff", "a01816.html#ab8b71819044348eb8217fb2282125872", null ],
+    [ "takeoff_cb", "a01816.html#aaa59f9a5147ffcc9a5953d67561344cc", null ],
+    [ "wear", "a01816.html#a8762a6a4897a17c872a77d8efe0e0a84", null ],
+    [ "wear_cb", "a01816.html#aad087a7e934ad45d66ac5f460e701c0c", null ],
+    [ "color", "a01816.html#a4e32a88acabfdfbb8a3159d3f5c5e8cd", null ],
+    [ "oclass", "a01816.html#a8e5630f2a5146faa9c12adb440066713", null ],
+    [ "RE", "a01816.html#a2e7a54d95d98a43224d4148f52ba9489", null ],
+    [ "RI", "a01816.html#a7f5532d990efb866fe0d1a66c9e75536", null ],
+    [ "strcolor", "a01816.html#af17783677a2c3210884523c1662d5d7a", null ]
+];

@@ -1,0 +1,25 @@
+var a02588 =
+[
+    [ "Dxf", "a02588.html#a0bc3425e922e2e5cbaaa78036a5a8405", null ],
+    [ "~Dxf", "a02588.html#a28fbd677ddb5f06a63554aa622a7dbd5", null ],
+    [ "bindTexture2D", "a02588.html#a99f3fb728297d276bdf15b0750413f8a", null ],
+    [ "displaylist", "a02588.html#ad887007b8d7ed25d4c100ef61b3829ca", null ],
+    [ "draw", "a02588.html#a85427feaaf0eb0a0b6b890b1401c2760", null ],
+    [ "getRadius", "a02588.html#a7088cc9bd4068a17da855a58aa70f2bc", null ],
+    [ "getUrl", "a02588.html#a0da12932a50c464b7e9c27074fa24ef8", null ],
+    [ "httpReader", "a02588.html#ae14280fbfb79e837194c4cda123487de", null ],
+    [ "render", "a02588.html#a3f68abe8ad64f59b61219837886857c4", null ],
+    [ "setColor", "a02588.html#a55104b20ce9a665e6c3307275d3f5a72", null ],
+    [ "setScale", "a02588.html#a149d23ee61f05dab0d551b0ad876554d", null ],
+    [ "currentScale", "a02588.html#a1ece931865234ce3fd286ada863cbf97", null ],
+    [ "desiredScale", "a02588.html#a2d5d3376acefc4562d9a8c49e3b00644", null ],
+    [ "dlist", "a02588.html#acd2db5a6b083c1a7f98ce8a0fa03e0aa", null ],
+    [ "dxffile", "a02588.html#a0c55a049377c1f5470f29fe509944372", null ],
+    [ "flgcolor", "a02588.html#ad2df8c133c3f1c2958f1ef5794439d47", null ],
+    [ "loaded", "a02588.html#a215db304e658e4e17361235d5b9565b4", null ],
+    [ "mat_ambient", "a02588.html#a4aa1bf0ec64462f560015fa3580cac49", null ],
+    [ "mat_diffuse", "a02588.html#a9ea38ef419ef005ed6a12b8899eb9453", null ],
+    [ "mat_specular", "a02588.html#afeda067cd899abe2133dd6db9bdb889d", null ],
+    [ "texture", "a02588.html#a13770e60267bce24ece4ba3e631035f9", null ],
+    [ "url", "a02588.html#a3d81d8c488e101297ec8093796fe2b6a", null ]
+];

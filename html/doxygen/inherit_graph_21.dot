@@ -1,0 +1,13 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="Bonename",height=0.2,width=0.4,color="black",URL="$a02488.html",tooltip="BoneName class."];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node1 [label="BoneMesh",height=0.2,width=0.4,color="black",URL="$a02484.html",tooltip="BoneMesh class."];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="BoneVertex",height=0.2,width=0.4,color="black",URL="$a02496.html",tooltip="BoneVertex class."];
+}

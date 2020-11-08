@@ -80,7 +80,7 @@ private:
   static uint16_t RATE;
   static uint8_t BODY_PARTS;
   static uint8_t OVERSAMPLE;
-  static const char DEF_URL[];
+  static const char DEF_URL_GUY[];
   static const float BUST_COLOR[];
   static const float LEGS_COLOR[];
   static const float SKIN_COLOR[];
@@ -89,9 +89,9 @@ private:
   uint8_t step;		///< position in cycle, start in middle
   float incstep;	///< step increment
   GLint dlist;		///< body displaylist
-  uint8_t sex;		///< sex toggle 0=male 1=female
-  uint8_t walking;	///< walk toggle
-  uint8_t animing;	///< anim toggle
+  bool sex;		///< sex toggle 0=male 1=female
+  bool walking;		///< walk toggle
+  bool animing;		///< anim toggle
   bool showing;		///< showing flag
   bool flying;		///< flying flag
   bool control;		///< flag controlled or not by user
@@ -111,7 +111,8 @@ public:
   static void funcs();	///< init funclist.
 
   Guy(char *l);		///< Constructor from file.
-  Guy();		///< Constructor from user.
+
+  Guy();		///< Constructor from localuser (avatar).
 
   static WObject * (creator)(char *l);
 
@@ -156,7 +157,7 @@ private:
   static void httpReader(void *oa, Http *http);
   /**< Reads cset files. */
 
-  virtual void computeCurve(int joint);
+  virtual void computeCurve(uint8_t joint);
   /**< Computes cset curves. */
 
   virtual const char * getUrl() const;
@@ -176,10 +177,10 @@ private:
 
   virtual void display_bust();
   virtual void display_neck();
-  virtual void display_breath(int which);
+  virtual void display_breath(bool side);
   virtual void display_head();
-  virtual void display_leg(int which);
-  virtual void display_arm(int which);
+  virtual void display_leg(bool side);
+  virtual void display_arm(bool side);
 
   // GUI callbacks
   static void animate_cb(Guy *o, void *d, time_t s, time_t u);

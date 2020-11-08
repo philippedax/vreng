@@ -15,6 +15,11 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.1\n\
+== 9.1.1\n\
+	- fixed guy distance to ground\n\
+	- added parseBool() methods in parse.*pp\n\
+	(2020/11/08, Philippe Dax)\n\
+\n\
 == 9.1.0\n\
 	- invalidated app ring in vjs/\n\
 	- restored src/servers/vjs/gen.pl*\n\

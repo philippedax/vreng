@@ -64,7 +64,7 @@ Wall::Wall(WObject *user, char *geom)
   enableBehavior(DYNAMIC);
   initializeMobileObject(0);
 
-  pos.x = user->pos.x + 0.7;
+  pos.x = user->pos.x + 0.7;	// in front of localuser
   pos.y = user->pos.y;
   pos.z = user->pos.z;
   updatePosition();

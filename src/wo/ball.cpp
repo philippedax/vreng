@@ -31,34 +31,20 @@
 
 #define ratio() MAX(::g.times.getRate() / 20., 1)
 
-
 const OClass Ball::oclass(BALL_TYPE, "Ball", Ball::creator, Ball::replicator);
+
 const float Ball::LSPEED = 5.0;		// 5 m/s
 const float Ball::ZSPEED = 3.0;		// 3 m/s
 const float Ball::ASPEED = -1.5;	// 1.5 rd/s
 const float Ball::ORIGZ = 1.0;		// 1 m
-const float Ball::DENSITY = 0.1;	// light
+const float Ball::SHIFT = 1.0;		// 1 m
 const float Ball::RADIUS = 0.1;		// 10 cm
-const float Ball::SHIFTX = 1.0;		// 1 m
-const float Ball::SHIFTY = 1.0;		// 1 m
-const float Ball::DELTAZ = 0.02;	// 2 cm
+const float Ball::DELTAZ = 0.02;        // 2 cm
 const float Ball::TTL = 3.0;		// 3 s
 
 // local
 static uint16_t oid = 0;
 
-
-/** Creation: this method is invisible: called by the cauldron or user */
-void Ball::create_cb(Cauldron *o, void *d, time_t s, time_t u)
-{
-  new Ball(o, d, s, u);
-}
-
-/** Creation: this method is invisible: called by the World */
-void Ball::recreate_cb(World *w, void *d, time_t s, time_t u)
-{
-  new Ball(w, d, s, u);
-}
 
 /* creation from a file */
 WObject * Ball::creator(char *l)
@@ -87,6 +73,7 @@ void Ball::setName()
 void Ball::makeSolid()
 {
   char s[128];
+
   sprintf(s, "solid shape=\"sphere\" r=\"%f\" tx=\"%s\" />", RADIUS, DEF_URL_BALL);
   parse()->parseSolid(s, SEP, this);
 }
@@ -115,7 +102,7 @@ Ball::Ball(char *l)
   createVolatileNetObject(PROPS);
 }
 
-/** Created by the cauldron or user */
+/** Created by the cauldron */
 Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 {
   /* local creation */
@@ -128,19 +115,18 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
   pos.x = ball->pos.x + (float)drand48() * 2 -1;
   pos.y = ball->pos.y + (float)drand48() * 2 -1;
   pos.z = ball->pos.z + ORIGZ;
-  origz = pos.z;	// see wall
+  origz = pos.z;	// see ground
 
   enableBehavior(PERSISTENT);
   initializeMobileObject(TTL);
   setRenderPrior(RENDER_HIGH);
   enablePermanentMovement(); // gravity
 
-  /* network creation */
   createVolatileNetObject(PROPS);
 }
 
-/** Recreated by the world */
-Ball::Ball(World *pw, void *d, time_t s, time_t u)
+/** Recreated by the world (persistency) */
+Ball::Ball(World *world, void *d, time_t s, time_t u)
 {
   char *str = (char *) d;	// string
   if (!str)  return;
@@ -159,17 +145,16 @@ Ball::Ball(World *pw, void *d, time_t s, time_t u)
   initializeMobileObject(TTL);
   enablePermanentMovement();
 
-  /* network creation */
   createVolatileNetObject(PROPS);
 }
 
 /** Created by the user */
-Ball::Ball(WObject *user, char *form)
+Ball::Ball(WObject *user, char *solid)
 {
   /* local creation */
   defaults();
   setName();
-  parse()->parseSolid(form, SEP, this);
+  parse()->parseSolid(solid, SEP, this);
 
   /* position in front of user */
   pos.x = user->pos.x + 0.4;
@@ -180,7 +165,6 @@ Ball::Ball(WObject *user, char *form)
   enableBehavior(PERSISTENT);
   initializeMobileObject(TTL);
 
-  /* network creation */
   createVolatileNetObject(PROPS);
 }
 
@@ -387,6 +371,18 @@ void Ball::take_cb(Ball *ball, void *d, time_t s, time_t u) { ball->take(); }
 void Ball::drop_cb(Ball *ball, void *d, time_t s, time_t u) { ball->drop(); }
 void Ball::turn_cb(Ball *ball, void *d, time_t s, time_t u) { ball->turn(); }
 void Ball::destroy_cb(Ball *ball, void *d, time_t s, time_t u) { ball->destroy(); }
+
+/** Creation: this method is invisible: called by the cauldron */
+void Ball::create_cb(Cauldron *o, void *d, time_t s, time_t u)
+{
+  new Ball(o, d, s, u);
+}
+
+/** Creation: this method is invisible: called by the World */
+void Ball::recreate_cb(World *w, void *d, time_t s, time_t u)
+{
+  new Ball(w, d, s, u);
+}
 
 void Ball::funcs()
 {

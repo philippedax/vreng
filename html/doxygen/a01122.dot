@@ -1,0 +1,42 @@
+digraph "src/model/bonelink.cpp"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="src/model/bonelink.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="vreng.hpp",height=0.2,width=0.4,color="black",URL="$a00143.html",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="sysdep.hpp",height=0.2,width=0.4,color="black",URL="$a00182.html",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="stdio.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="varargs.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="time.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node3 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="GL/gl.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node2 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node8 [label="macros.hpp",height=0.2,width=0.4,color="black",URL="$a00047.html",tooltip=" "];
+  Node2 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node9 [label="defaults.hpp",height=0.2,width=0.4,color="black",URL="$a00014.html",tooltip=" "];
+  Node2 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node10 [label="trigo.hpp",height=0.2,width=0.4,color="black",URL="$a00119.html",tooltip=" "];
+  Node2 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node11 [label="log.hpp",height=0.2,width=0.4,color="black",URL="$a00044.html",tooltip=" "];
+  Node11 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node12 [label="assert.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node2 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node13 [label="matvec.hpp",height=0.2,width=0.4,color="black",URL="$a00053.html",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node14 [label="bonelink.hpp",height=0.2,width=0.4,color="black",URL="$a01124.html",tooltip=" "];
+  Node14 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node15 [label="bonevertex.hpp",height=0.2,width=0.4,color="black",URL="$a01151.html",tooltip=" "];
+  Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node16 [label="bonename.hpp",height=0.2,width=0.4,color="black",URL="$a01139.html",tooltip=" "];
+  Node15 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node17 [label="vec3.hpp",height=0.2,width=0.4,color="black",URL="$a01214.html",tooltip=" "];
+  Node15 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node18 [label="bonelist.hpp",height=0.2,width=0.4,color="black",URL="$a01127.html",tooltip=" "];
+}

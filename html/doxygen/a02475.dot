@@ -1,0 +1,19 @@
+digraph "BoneNode&lt; BoneElem &gt;"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="BoneNode\< BoneElem \>",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="La classe BoneNode represente un noeud de la liste chainee."];
+  Node1 -> Node2 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< Vertex \>" ,fontname="FreeSans"];
+  Node2 [label="BoneNode\< Vertex \>",height=0.2,width=0.4,color="black",URL="$a02476.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< BoneVertex \>" ,fontname="FreeSans"];
+  Node3 [label="BoneNode\< BoneVertex \>",height=0.2,width=0.4,color="black",URL="$a02476.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< char \>" ,fontname="FreeSans"];
+  Node4 [label="BoneNode\< char \>",height=0.2,width=0.4,color="black",URL="$a02476.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< Triangle \>" ,fontname="FreeSans"];
+  Node5 [label="BoneNode\< Triangle \>",height=0.2,width=0.4,color="black",URL="$a02476.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< BoneLink \>" ,fontname="FreeSans"];
+  Node6 [label="BoneNode\< BoneLink \>",height=0.2,width=0.4,color="black",URL="$a02476.html",tooltip=" "];
+}

@@ -1,0 +1,52 @@
+digraph "Projectile"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="Projectile",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Projectilee class."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="WObject",height=0.2,width=0.4,color="black",URL="$a02108.html",tooltip="WObject Class."];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" move" ,fontname="FreeSans"];
+  Node3 [label="Move",height=0.2,width=0.4,color="black",URL="$a02104.html",tooltip="Move struct."];
+  Node3 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" next" ,fontname="FreeSans"];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" aspeed\nlspeed" ,fontname="FreeSans"];
+  Node4 [label="V3",height=0.2,width=0.4,color="black",URL="$a01436.html",tooltip=" "];
+  Node5 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" names" ,fontname="FreeSans"];
+  Node5 [label="Names",height=0.2,width=0.4,color="black",URL="$a02096.html",tooltip="Names struct."];
+  Node6 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" noid" ,fontname="FreeSans"];
+  Node6 [label="WObjectId",height=0.2,width=0.4,color="black",URL="$a02092.html",tooltip="WObjectId Class."];
+  Node7 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" noh" ,fontname="FreeSans"];
+  Node7 [label="NetObject",height=0.2,width=0.4,color="black",URL="$a02116.html",tooltip="NetObject class."];
+  Node7 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" netObjectList\nnext\nprev" ,fontname="FreeSans"];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" netprop" ,fontname="FreeSans"];
+  Node8 [label="NetProperty",height=0.2,width=0.4,color="black",URL="$a02120.html",tooltip="NetProperty class."];
+  Node9 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" noid" ,fontname="FreeSans"];
+  Node9 [label="Noid",height=0.2,width=0.4,color="black",URL="$a02124.html",tooltip="Noid class."];
+  Node2 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pobject" ,fontname="FreeSans"];
+  Node10 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" solid" ,fontname="FreeSans"];
+  Node10 [label="Solid",height=0.2,width=0.4,color="black",URL="$a02252.html",tooltip="Solid class."];
+  Node11 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" texture" ,fontname="FreeSans"];
+  Node11 [label="Texture",height=0.2,width=0.4,color="black",URL="$a02332.html",tooltip="Texture class describes a texture entry in the memory cache."];
+  Node12 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" http" ,fontname="FreeSans"];
+  Node12 [label="Http",height=0.2,width=0.4,color="black",URL="$a01424.html",tooltip="Http Class I/O methods."];
+  Node10 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" solid" ,fontname="FreeSans"];
+  Node2 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" object" ,fontname="FreeSans"];
+  Node13 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" img" ,fontname="FreeSans"];
+  Node13 [label="Img",height=0.2,width=0.4,color="black",URL="$a02316.html",tooltip="Img class."];
+  Node14 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" position" ,fontname="FreeSans"];
+  Node14 [label="M4",height=0.2,width=0.4,color="black",URL="$a01428.html",tooltip=" "];
+  Node4 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" abs_bbcent\nabs_bbsize\nrel_bbcent\nrel_bbsize" ,fontname="FreeSans"];
+  Node2 -> Node10 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" wobject" ,fontname="FreeSans"];
+  Node15 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" guip" ,fontname="FreeSans"];
+  Node15 [label="GuiItem",height=0.2,width=0.4,color="black",URL="$a01572.html",tooltip="GuiItem Class."];
+  Node16 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node16 [label="UButton",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node17 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" flare" ,fontname="FreeSans"];
+  Node17 [label="Flare",height=0.2,width=0.4,color="black",URL="$a02224.html",tooltip="Flare class."];
+  Node18 -> Node17 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" flares" ,fontname="FreeSans"];
+  Node18 [label="tFlare",height=0.2,width=0.4,color="black",URL="$a02220.html",tooltip=" "];
+  Node19 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pos" ,fontname="FreeSans"];
+  Node19 [label="Pos",height=0.2,width=0.4,color="black",URL="$a02100.html",tooltip="Pos struct."];
+  Node4 -> Node19 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" bbcenter\nbbsize" ,fontname="FreeSans"];
+}

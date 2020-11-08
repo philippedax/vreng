@@ -1,0 +1,20 @@
+digraph "Surface"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="Surface",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Surface class."];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="Material",height=0.2,width=0.4,color="black",URL="$a01784.html",tooltip="Material class."];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" ambient\ndiffuse\nemission\nspecular" ,fontname="FreeSans"];
+  Node3 [label="Color4f",height=0.2,width=0.4,color="black",URL="$a01768.html",tooltip="Color4f class."];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" fc" ,fontname="FreeSans"];
+  Node4 [label="TriFace",height=0.2,width=0.4,color="black",URL="$a01788.html",tooltip="TriFace class."];
+  Node2 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" m" ,fontname="FreeSans"];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" n" ,fontname="FreeSans"];
+  Node5 [label="Vector3",height=0.2,width=0.4,color="black",URL="$a01484.html",tooltip="Vector3 class."];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" v" ,fontname="FreeSans"];
+  Node6 [label="HVertex",height=0.2,width=0.4,color="black",URL="$a01780.html",tooltip="HVertex class."];
+  Node5 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" n\np" ,fontname="FreeSans"];
+}

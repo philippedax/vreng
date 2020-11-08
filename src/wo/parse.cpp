@@ -851,6 +851,24 @@ char * Parse::parseInt(char *ptok, int *value, const char *keystr)
   return nextToken();
 }
 
+char * Parse::parseBool(char *ptok, bool *value)
+{
+  if (ptok) {
+    ptok = skipQuotes(ptok);
+    if (ptok && isdigit((int) *ptok)) *value = atoi(ptok) & 0xff;
+  }
+  return nextToken();
+}
+
+char * Parse::parseBool(char *ptok, bool *value, const char *keystr)
+{
+  if (ptok && !stringcmp(ptok, keystr)) {
+    ptok = skipEqual(ptok);
+    return parseBool(ptok, value);
+  }
+  return nextToken();
+}
+
 char * Parse::parseUInt8(char *ptok, uint8_t *value)
 {
   if (ptok) {

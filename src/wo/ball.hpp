@@ -46,10 +46,8 @@ class Ball: public WObject {
   static const float ZSPEED;
   static const float ASPEED;
   static const float ORIGZ;
-  static const float DENSITY;
+  static const float SHIFT;
   static const float RADIUS;
-  static const float SHIFTX;
-  static const float SHIFTY;
   static const float DELTAZ;
   static const float TTL;
 
@@ -88,13 +86,13 @@ class Ball: public WObject {
   Ball(class WObject *o, void *d, time_t s, time_t u);
   /**< constructor: called by cauldron. */
 
-  Ball(class World *w, void *d, time_t s, time_t u);
+  Ball(class World *world, void *d, time_t s, time_t u);
   /**< constructor: called by world. */
 
   Ball(uint8_t type_id, Noid noid, Payload *pp);
   /**< constructor: network replication. */
 
-  Ball(WObject *user, char *form);
+  Ball(WObject *user, char *solid);
   /**< constructor: created by user. */
 
   Ball(char *l);

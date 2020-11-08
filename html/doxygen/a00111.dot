@@ -1,0 +1,44 @@
+digraph "src/vreng/timer.cpp"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="src/vreng/timer.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="vreng.hpp",height=0.2,width=0.4,color="black",URL="$a00143.html",tooltip=" "];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="sysdep.hpp",height=0.2,width=0.4,color="black",URL="$a00182.html",tooltip=" "];
+  Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="stdio.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="varargs.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node3 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="time.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node3 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="GL/gl.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node2 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node8 [label="macros.hpp",height=0.2,width=0.4,color="black",URL="$a00047.html",tooltip=" "];
+  Node2 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node9 [label="defaults.hpp",height=0.2,width=0.4,color="black",URL="$a00014.html",tooltip=" "];
+  Node2 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node10 [label="trigo.hpp",height=0.2,width=0.4,color="black",URL="$a00119.html",tooltip=" "];
+  Node2 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node11 [label="log.hpp",height=0.2,width=0.4,color="black",URL="$a00044.html",tooltip=" "];
+  Node11 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node12 [label="assert.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node2 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node13 [label="matvec.hpp",height=0.2,width=0.4,color="black",URL="$a00053.html",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node14 [label="timer.hpp",height=0.2,width=0.4,color="black",URL="$a00113.html",tooltip=" "];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node15 [label="pref.hpp",height=0.2,width=0.4,color="black",URL="$a00065.html",tooltip=" "];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node16 [label="gui.hpp",height=0.2,width=0.4,color="black",URL="$a00209.html",tooltip=" "];
+  Node16 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node17 [label="config.h",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node16 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node18 [label="vector",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node16 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node19 [label="ubit/ubit.hpp",height=0.2,width=0.4,color="grey75",tooltip=" "];
+}

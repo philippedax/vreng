@@ -1,0 +1,14 @@
+digraph "X3d"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="X3d",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="X3d class."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" rootShape" ,fontname="FreeSans"];
+  Node2 [label="X3dShape",height=0.2,width=0.4,color="black",URL="$a02700.html",tooltip="X3dShape class Node of the X3D tree, containing the data for a shape or a transormation."];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" meshInfos" ,fontname="FreeSans"];
+  Node3 [label="MeshInfos",height=0.2,width=0.4,color="black",URL="$a02692.html",tooltip="Temporary structure used to build the IndexedFaceSet meshes."];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" knownPrimitives" ,fontname="FreeSans"];
+  Node4 [label="ShapeToId",height=0.2,width=0.4,color="black",URL="$a02688.html",tooltip=" "];
+}

@@ -175,6 +175,12 @@ public:
   virtual char * parseInt(char *ptok, int *value, const char *attrstr);
   /**< Returns an integer under attr=value format */
 
+  virtual char * parseBool(char *ptok, bool *value);
+  /**< Returns an 8 bits integer */
+
+  virtual char * parseBool(char *ptok, bool *value, const char *attrstr);
+  /**< Returns an 8 bits integer under attr=value format */
+
   virtual char * parseUInt8(char *ptok, uint8_t *value);
   /**< Returns an 8 bits integer */
 

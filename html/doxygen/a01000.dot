@@ -1,0 +1,34 @@
+digraph "src/vgl/solid.hpp"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  Node1 [label="src/vgl/solid.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node2 [label="src/vreng/world.cpp",height=0.2,width=0.4,color="black",URL="$a00146.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node3 [label="src/wo/mirage.cpp",height=0.2,width=0.4,color="black",URL="$a00575.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node4 [label="src/wo/parse.cpp",height=0.2,width=0.4,color="black",URL="$a00635.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node5 [label="src/wo/sheet.cpp",height=0.2,width=0.4,color="black",URL="$a00671.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node6 [label="src/wo/smoke_new.cpp",height=0.2,width=0.4,color="black",URL="$a00695.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node7 [label="src/wo/sun.cpp",height=0.2,width=0.4,color="black",URL="$a00737.html",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node8 [label="src/wo/user.cpp",height=0.2,width=0.4,color="black",URL="$a00785.html",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node9 [label="src/wo/vr2gl.cpp",height=0.2,width=0.4,color="black",URL="$a00803.html",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node10 [label="src/wo/wobject.cpp",height=0.2,width=0.4,color="black",URL="$a00863.html",tooltip=" "];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node11 [label="src/vgl/camera.cpp",height=0.2,width=0.4,color="black",URL="$a00944.html",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node12 [label="src/vgl/render.cpp",height=0.2,width=0.4,color="black",URL="$a00989.html",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node13 [label="src/vgl/solid.cpp",height=0.2,width=0.4,color="black",URL="$a00995.html",tooltip=" "];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node14 [label="src/vgl/vicinity.cpp",height=0.2,width=0.4,color="black",URL="$a01007.html",tooltip=" "];
+}

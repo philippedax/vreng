@@ -1,0 +1,17 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname="FreeSans",fontsize="10",labelfontname="FreeSans",labelfontsize="10"];
+  node [fontname="FreeSans",fontsize="10",shape=record];
+  rankdir="LR";
+  Node128 [label="UBox",height=0.2,width=0.4,color="grey75",tooltip=" "];
+  Node128 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node0 [label="Joystick",height=0.2,width=0.4,color="black",URL="$a01536.html",tooltip="GUI Joystick."];
+  Node128 -> Node130 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node130 [label="Palette",height=0.2,width=0.4,color="black",URL="$a01556.html",tooltip="Palette class."];
+  Node128 -> Node131 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node131 [label="Pitch",height=0.2,width=0.4,color="black",URL="$a01564.html",tooltip="Pitch class."];
+  Node128 -> Node132 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="FreeSans"];
+  Node132 [label="Scene",height=0.2,width=0.4,color="black",URL="$a01456.html",tooltip=" "];
+}
