@@ -40,28 +40,16 @@ public:
     NONE
   };
 
-  static const OClass oclass;   ///< class variable
-
-  virtual const OClass* getOClass() {return &oclass;}
-
-  Snow(char *l);	///< Constructor
-
   Snow(class Cloud *o, void *d, time_t s, time_t u);
   /**< constructor: called by cloud */
 
   static void funcs();	///< init funclist
-
-  static WObject * (creator)(char *l);
-  /**< Creates from file line */
 
   virtual void changePermanent(float lasting);
   /**< Equations to move permanetly */
 
 private:
   class Cloud *pcloud;
-
-  virtual void parser(char *l);
-  /**< Parses */
 
   virtual void defaults();
   /**< Sets default values */

@@ -25,17 +25,9 @@
 #include "sound.hpp"	// playSound
 
 
-const OClass Rain::oclass(RAIN_TYPE, "Rain", Rain::creator);
-
 //local
 static Rain *prain = NULL;	// singleton
 
-
-/* creation from a file */
-WObject * Rain::creator(char *l)
-{
-  return new Rain(l);
-}
 
 void Rain::defaults()
 {
@@ -50,41 +42,17 @@ void Rain::defaults()
   for (int i=0; i<3; i++) color[i] = .5;  // grey
 }
 
-void Rain::parser(char *l)
-{
-  defaults();
-  l = tokenize(l);
-  begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
-    if (!l) break;
-    else if (!stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
-    else if (!stringcmp(l, "flow"))   l = parse()->parseFloat(l, &flow, "flow");
-    else if (!stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
-    else if (!stringcmp(l, "ground")) l = parse()->parseFloat(l, &ground, "ground");
-    else if (!stringcmp(l, "color"))  l = parse()->parseVector3f(l, color, "color");
-    else if (!stringcmp(l, "size"))   l = parse()->parseUInt8(l, &pt_size, "size");
-  }
-  end_while_parse(l);
-}
-
-Rain::Rain(char *l)
-{
-  parser(l);
-  behavior();
-  points = false;
-  inits();
-}
-
 Rain::Rain(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
   behavior();
-  setRenderPrior(RENDER_HIGH);
-  points = false;
+  setRenderPrior(RENDER_LOW);
   inits();
+  points = false;
   pcloud = cloud;
   prain = this;
   mycolor = true;
+  state = ACTIVE;
   //sound_continue();
 }
 
@@ -98,7 +66,6 @@ void Rain::changePermanent(float dt)
     pos.z = pcloud->pos.z + 3;
     pos.az = pcloud->pos.az;
   }
-
   regenerate(dt);  // new particles
 }
 

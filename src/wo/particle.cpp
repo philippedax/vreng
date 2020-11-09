@@ -329,7 +329,7 @@ void Particle::render()
     glBegin(GL_POINTS);	// points
     for (int n=0; n < number; n++) {
       if (! particles[n].alive) continue;  // dead
-      if (particles[n].vel[2] > 0) continue;
+      //dax if (particles[n].vel[2] > 0) continue;
       if (particles[n].pos[2] > pos.z && particles[n].pos[2] < ground) continue;
       glVertex3fv(particles[n].pos);
     }
@@ -342,7 +342,7 @@ void Particle::render()
     //glEnable(GL_LINE_STIPPLE);
     for (int n=0; n < number; n++) {
       if (! particles[n].alive) continue;  // dead
-      if (particles[n].vel[2] > 0) continue;
+      //dax if (particles[n].vel[2] > 0) continue;
       if (particles[n].pos[2] > pos.z && particles[n].pos[2] < ground) continue;
       glVertex3fv(particles[n].prev);
       glVertex3fv(particles[n].pos);

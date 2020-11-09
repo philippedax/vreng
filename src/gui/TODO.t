@@ -2,9 +2,8 @@ const char TODO[] = "\
 World & Objects:\n\
 	- Dynamic gates coming in the interconnection world\n\
 	- Object World (direction, speed)\n\
-	- Object Fractal (plant, mountain)\n\
 	- Object Path (corridors, rooms, halls,...)\n\
-	- Object Modeler to build world dynamicaly\n\
+	- Object Modeler to build worlds dynamicaly\n\
 	- Object Code to execute interpretated code\n\
 	- Object Video Projector\n\
 	- Lightings: laser, spot\n\
@@ -24,8 +23,6 @@ Gui:\n\
 	- Image viewer\n\
 	- Visit cards\n\
 	- Preferences graphic user interface\n\
-	- Plugin Firefox/Mozilla\n\
-	- Control-menu to manipulate objects\n\
 	- RSS feed\n\
 \n\
 Graphics:\n\
@@ -41,8 +38,6 @@ Graphics:\n\
 	- Mobile text and characters\n\
 Network:\n\
 	- Timeout on http requests if a server is down\n\
-	- Local cache for textures\n\
-	- Local cache for fonts\n\
 	- Persistency handled by IP Multicast daemons\n\
 	- SIP client interface to invite somebody\n\
 	- Packet compression on the fly (libz)\n\
@@ -53,9 +48,7 @@ Environment:\n\
 	- Template for add a new object\n\
 \n\
 Ports:\n\
-	- SGI/IRIX\n\
-	- Linux/Ipaq\n\
-	- Windows NT/2K/Xp/Vista/7\n\
+	- Windows NT/2K/Xp/7/10\n\
 \n\
 Doc:\n\
 	- man4 (description format VREF)\n\

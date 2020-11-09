@@ -24,16 +24,8 @@
 #include "cloud.hpp"	// Cloud
 
 
-const OClass Snow::oclass(SNOW_TYPE, "Snow", Snow::creator);
-
 //local
 static Snow *psnow = NULL;	// singleton
-
-/* creation from a file */
-WObject * Snow::creator(char *l)
-{
-  return new Snow(l);
-}
 
 void Snow::defaults()
 {
@@ -48,39 +40,17 @@ void Snow::defaults()
   for (int i=0; i<3; i++) color[i] = 1;	// white
 }
 
-void Snow::parser(char *l)
-{
-  defaults();
-  l = tokenize(l);
-  begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
-    if (!l) break;
-    else if (!stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
-    else if (!stringcmp(l, "flow")) l = parse()->parseFloat(l, &flow, "flow");
-    else if (!stringcmp(l, "speed")) l = parse()->parseFloat(l, &speed, "speed");
-    else if (!stringcmp(l, "ground")) l = parse()->parseFloat(l, &ground, "ground");
-    else if (!stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
-    else if (!stringcmp(l, "size")) l = parse()->parseUInt8(l, &pt_size, "size");
-  }
-  end_while_parse(l);
-}
-
-Snow::Snow(char *l)
-{
-  parser(l);
-  behavior();
-  inits();
-}
-
 Snow::Snow(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
   behavior();
+  setRenderPrior(RENDER_LOW);
   inits();
   pcloud = cloud;
   mycolor = true;
   psnow = this;
   pt_size = 2;
+  state = ACTIVE;
 }
 
 void Snow::changePermanent(float dt)
