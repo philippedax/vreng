@@ -81,4 +81,4 @@ log/*
 cache
 nohup.out
 build
-html/*
+html
