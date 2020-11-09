@@ -76,12 +76,11 @@ bool Ground::whenIntersect(WObject *pcur, WObject *pold)
     pold->setLasting(0);
     pold->disablePermanentMovement();
     pold->copyPositionAndBB(pcur);
-#if 0 //pdball
-    if (ABSF(pcur->pos.z - pcur->origz) > 0.05) {
-      pcur->pos.z = pcur->origz / 4;
-      pcur->pos.z = MAX(pcur->pos.z, BALL_RADIUS);
+#if 0
+    if (pcur->origz - pcur->pos.z > BALL_RADIUS * 2) {
+      pcur->pos.z = MAX((pcur->origz / 4), BALL_RADIUS * 2);
       pcur->origz = pcur->pos.z;
-      pcur->ttl = BALL_TTL / 4;
+      pcur->ttl /= 4;
       pcur->updatePositionAndGrid(pold);
     }
 #endif

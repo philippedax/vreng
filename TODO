@@ -1,9 +1,8 @@
 World & Objects:
 	- Dynamic gates coming in the interconnection world
 	- Object World (direction, speed)
-	- Object Fractal (plant, mountain)
 	- Object Path (corridors, rooms, halls,...)
-	- Object Modeler to build world dynamicaly
+	- Object Modeler to build worlds dynamicaly
 	- Object Code to execute interpretated code
 	- Object Video Projector
 	- Lightings: laser, spot
@@ -23,8 +22,6 @@ Gui:
 	- Image viewer
 	- Visit cards
 	- Preferences graphic user interface
-	- Plugin Firefox/Mozilla
-	- Control-menu to manipulate objects
 	- RSS feed
 
 Graphics:
@@ -40,8 +37,6 @@ Graphics:
 	- Mobile text and characters
 Network:
 	- Timeout on http requests if a server is down
-	- Local cache for textures
-	- Local cache for fonts
 	- Persistency handled by IP Multicast daemons
 	- SIP client interface to invite somebody
 	- Packet compression on the fly (libz)
@@ -52,9 +47,7 @@ Environment:
 	- Template for add a new object
 
 Ports:
-	- SGI/IRIX
-	- Linux/Ipaq
-	- Windows NT/2K/Xp/Vista/7
+	- Windows NT/2K/Xp/7/10
 
 Doc:
 	- man4 (description format VREF)

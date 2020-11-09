@@ -33,12 +33,10 @@
 class Ball: public WObject {
 
  private:
-  float lspeed;		///< linear speed in xy
+  float lspeed;		///< horizontal speed in xy
+  float zspeed;		///< vertical speed
   float aspeed;		///< angular speed
-  float zspeed;		///< linear speed in z
   float gravity;	///< gravity in z
-  float ttl;		///< time to live
-  float origz;		///< position at creation
   bool taken;		///< taken or not by an user
 
  public:
@@ -50,6 +48,9 @@ class Ball: public WObject {
   static const float RADIUS;
   static const float DELTAZ;
   static const float TTL;
+
+  float ttl;		///< time to live
+  float origz;		///< position at creation
 
   /* properties */
   enum {

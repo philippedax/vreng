@@ -119,8 +119,8 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 
   enableBehavior(PERSISTENT);
   initializeMobileObject(TTL);
-  setRenderPrior(RENDER_HIGH);
-  enablePermanentMovement(); // gravity
+  setRenderPrior(RENDER_LOW);
+  enablePermanentMovement(); // apply gravity
 
   createVolatileNetObject(PROPS);
 }
@@ -128,16 +128,15 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 /** Recreated by the world (persistency) */
 Ball::Ball(World *world, void *d, time_t s, time_t u)
 {
-  char *str = (char *) d;	// string
-  if (!str)  return;
+  char *nam = (char *) d;	// name of the ball
+  if (!nam)  return;
 
-  char *p = str;
+  char *p = nam;
   while (*p && !isdigit(*p)) p++;
   oid = atoi(p);
-  strcpy(names.named, str);
+  strcpy(names.named, nam);
   trace(DBG_SQL, "recreate: %s oid=%d", names.named, oid);
 
-  /* local creation */
   defaults();
   makeSolid();
 
@@ -258,7 +257,6 @@ bool Ball::whenIntersect(WObject *pcur, WObject *pold)
     return false;
   default:
     pold->copyPositionAndBB(pcur);
-    //pcur->pos.z += RADIUS;
     break;
   }
   pcur->updatePositionAndGrid(pold);
