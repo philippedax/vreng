@@ -15,9 +15,10 @@ The rules for this file:
 ++ 9
 == 9.1
 == 9.1.1
+	- removed code creation from vrelines for rain and snow
 	- fixed guy distance to ground
 	- added parseBool() methods in parse.*pp
-	(2020/11/08, Philippe Dax)
+	(2020/11/09, Philippe Dax)
 
 == 9.1.0
 	- invalidated app ring in vjs/
