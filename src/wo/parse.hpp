@@ -109,8 +109,8 @@ public:
   virtual char * skipSpace(char *p);
   /**< Skip space character */
 
-  virtual char * skipComma(char *p);
-  /**< Skip comma character */
+  virtual char * skipSepar(char *p);
+  /**< Skip separator character */
 
   virtual char * parseName(char *l, char *name);
   /**< Returns a named name */

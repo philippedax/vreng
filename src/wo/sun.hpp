@@ -39,14 +39,14 @@ protected:
   static const GLfloat black[4];
 
   GLfloat scale;
-  GLfloat light_diff[4];
-  GLfloat light_spec[4];
+  GLfloat light_dif[4];
+  GLfloat light_spe[4];
   GLfloat light_rot;		///< angle sun position
-  GLfloat radius;			///< sun radius
+  GLfloat radius;		///< sun radius
   GLfloat ox, oy, oz;		///< original position
 
   class Light *light;		///< light pointer
-  class Flare *flare;		///< flares
+  class Flare *flares;		///< flares
 
 public:
   static const OClass oclass;	///< class variable
@@ -66,6 +66,9 @@ public:
   virtual void lighting();
   /**< Renders light. */
 
+  virtual void render();
+  /**< Draws. */
+
   virtual void quit();
   /**< Quits. */
 
@@ -84,9 +87,6 @@ public:
 
   virtual void makeSolid();
   /**< Builds solid geometry. */
-
-  virtual void render();
-  /**< Draws. */
 };
 
 #endif

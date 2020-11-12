@@ -84,6 +84,7 @@ void Cloth::parser(char *l)
 void Cloth::makeSolid()
 {
   char s[256];
+
   switch (article) {
   case HALO:
     sprintf(s,"solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", .09, .12, color);
@@ -112,10 +113,6 @@ void Cloth::behavior()
     enableBehavior(NO_BBABLE);
     setRenderPrior(RENDER_HIGH);
   }
-}
-
-void Cloth::init()
-{
   initializeMobileObject(ttl);
   if (taken)
     enablePermanentMovement();	// follows user
@@ -133,7 +130,7 @@ void Cloth::setName()
   setName(typeName());
 }
 
-void Cloth::setMysql()
+void Cloth::setPersist()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();
@@ -146,7 +143,7 @@ void Cloth::setMysql()
 #endif
 }
 
-void Cloth::getMysql()
+void Cloth::getPersist()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();
@@ -158,7 +155,7 @@ void Cloth::getMysql()
 #endif
 }
 
-void Cloth::delMysql()
+void Cloth::delPersist()
 {
 #if HAVE_MYSQL
   if (psql && explicitName())  psql->deleteRow(this, names.named);
@@ -218,7 +215,6 @@ void Cloth::delFromList()
 {
 #if 0 //dax
   for (list<WObject*>::iterator il = wearList.begin(); il != wearList.end(); ++il) {
-    //if (il == 0x10) return; //BUG FIXME
     if (*il == this) wearList.remove(*il);
   }
 #endif

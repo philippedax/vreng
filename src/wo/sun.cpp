@@ -28,8 +28,9 @@
 
 
 const OClass Sun::oclass(SUN_TYPE, "Sun", Sun::creator);
+
 const GLfloat Sun::DEF_SCALE = 1;
-const GLfloat Sun::DEF_RADIUS = 5;
+const GLfloat Sun::DEF_RADIUS = 4;
 const GLfloat Sun::light_pos[4] = {1,0,0,0};
 const GLfloat Sun::light_amb[4] = {0.05,0.05,0.05,1};
 
@@ -45,7 +46,7 @@ void Sun::defaults()
   radius = DEF_RADIUS;
   light_rot = 0;
   state = ACTIVE;
-  flare = NULL;
+  flares = NULL;
 }
 
 void Sun::parser(char *l)
@@ -64,24 +65,19 @@ void Sun::parser(char *l)
 void Sun::behavior()
 {
   enableBehavior(SPECIFIC_RENDER);
-  //setRenderPrior(RENDER_LOW);
+  setRenderPrior(RENDER_LOW);
 
   initializeMobileObject(1);
   enablePermanentMovement();
-#if 0
-  addToInvisible();	// show flare only
-#endif
+  //dax addToInvisible();	// show flares only
 }
 
 /** Solid geometry */
 void Sun::makeSolid()
 {
   char s[128];
-#if 1
-  sprintf(s, "solid shape=\"bbox\" r=\"%f\" />", radius);
-#else // FIXME segfault
-  sprintf(s, "solid shape=\"sphere\" r=\"%f\" dif=\"white\" amb-\"white\" />", radius);
-#endif
+
+  sprintf(s, "solid shape=\"sphere\" r=\"%f\" emi=\"yellow\" />", radius);
   parse()->parseSolid(s, SEP, this);
 }
 
@@ -94,11 +90,10 @@ void Sun::inits()
 #if 0
   addToList(lightList);
 #endif
-
-  light_diff[0] = 1;
-  light_diff[1] = 0.7; //MAX(sina, 0); //0.5 + 0.5*sina;
-  light_diff[2] = 0;
-  flare = new Flare(4, radius*2, light_diff);
+  light_dif[0] = 1;
+  light_dif[1] = 0.7; //MAX(sina, 0); //0.5 + 0.5*sina;
+  light_dif[2] = 0;
+  flares = new Flare(4, radius*2, light_dif);
   if (solid) solid->setFlary(true);
 }
 
@@ -118,19 +113,19 @@ void Sun::changePermanent(float lasting)
   float sina = sin(ang);
   float cosa = cos(ang);
 
-  light_diff[0] = MAX(0.9*(1+sina), 0); //1
-  light_diff[1] = 0.7 + 0.7*sina; //MAX(sina, 0); //0.5 + 0.5*sina;
-  light_diff[2] = 0.2 + 0.2*sina;
-  light_spec[0] = 1;
-  light_spec[1] = MAX(sina, 0);
-  light_spec[2] = MAX(sina, 0);
+  light_dif[0] = MAX(0.9*(1+sina), 0); //1
+  light_dif[1] = 0.7 + 0.7*sina; //MAX(sina, 0); //0.5 + 0.5*sina;
+  light_dif[2] = 0.2 + 0.2*sina;
+  light_spe[0] = 1;
+  light_spe[1] = MAX(sina, 0);
+  light_spe[2] = MAX(sina, 0);
   light_rot += 0.005;	// in reallife: 360/86400
 
   pos.x = ox * cosa;
   pos.y = oy * cosa;
   pos.z = ox * sina;
   //trace(DBG_FORCE, "%.1f %.1f %.1f %.1f", pos.x,pos.y,pos.z,ang);
-  if (flare) flare->setColor(light_diff);
+  if (flares) flares->setColor(light_dif);
 }
 
 void Sun::render()
@@ -141,7 +136,7 @@ void Sun::render()
     glRotatef(localuser->pos.ax, 1, 0, 0);
     glRotatef(localuser->pos.ay, 0, 1, 0);
     glRotatef(localuser->pos.az, 0, 0, 1);
-    if (flare) flare->render(pos);
+    if (flares) flares->render(pos);
    glPopMatrix();
 }
 
@@ -164,20 +159,20 @@ void Sun::lighting()
   //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
    glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT3);
-   glDisable(GL_LIGHT1);
-   glDisable(GL_LIGHT0);
-   glLightfv(GL_LIGHT3, GL_POSITION, light_pos);
-   glLightfv(GL_LIGHT3, GL_DIFFUSE, light_diff);
-   glLightfv(GL_LIGHT3, GL_SPECULAR, light_spec);
-   glLightfv(GL_LIGHT3, GL_AMBIENT, light_amb);
-   glMaterialfv(GL_FRONT, GL_EMISSION, light_diff);
+   glEnable(GL_LIGHT2);
+   //glDisable(GL_LIGHT1);
+   //glDisable(GL_LIGHT0);
+   glLightfv(GL_LIGHT2, GL_POSITION, light_pos);
+   glLightfv(GL_LIGHT2, GL_DIFFUSE, light_dif);
+   glLightfv(GL_LIGHT2, GL_SPECULAR, light_spe);
+   //dax glLightfv(GL_LIGHT2, GL_AMBIENT, light_amb);
+   glMaterialfv(GL_FRONT, GL_EMISSION, light_dif);
 
    glRotatef(light_rot, -1, -1, -1);
 
-   glEnable(GL_LIGHT0);
-   glEnable(GL_LIGHT1);
-   glDisable(GL_LIGHT3);
+   //glEnable(GL_LIGHT0);
+   //glEnable(GL_LIGHT1);
+   glDisable(GL_LIGHT2);
    glDisable(GL_LIGHTING);
   glPopMatrix();
   //DAX glPopAttrib();

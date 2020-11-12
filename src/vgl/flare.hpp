@@ -23,7 +23,7 @@
 #define FLARE_HPP
 
 typedef struct t_flare {
-  int type;             // flare texture index, 0..5
+  int type;		// flare texture index, -1..5
   float scale;
   float loc;            // postion on axis
   GLfloat color[3];

@@ -119,7 +119,7 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 
   enableBehavior(PERSISTENT);
   initializeMobileObject(TTL);
-  setRenderPrior(RENDER_LOW);
+  setRenderPrior(RENDER_NORMAL);
   enablePermanentMovement(); // apply gravity
 
   createVolatileNetObject(PROPS);

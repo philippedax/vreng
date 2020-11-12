@@ -148,7 +148,7 @@ char * Parse::skipSpace(char *p)
   return p;
 }
 
-char * Parse::skipComma(char *p)
+char * Parse::skipSepar(char *p)
 {
   return nextToken();
 }
@@ -609,20 +609,26 @@ char * Parse::parseName(char *l, char *name)
   return parseQuotedString(l, name, "name");
 }
 
-/* parse spacial position: x y z az ax */
+/* parse spacial position and orientation : x y z az ax ay */
 char * Parse::parsePosition(char *ptok, Pos &pos)
 {
-  if (!stringcmp(ptok, "pos=")) ptok = skipEqual(ptok);
+  pos.x = pos.y = pos.z = pos.az = pos.ax = pos.ay = 0;
+
+  if (! stringcmp(ptok, "pos="))
+    ptok = skipEqual(ptok);
+
   ptok = skipQuotes(ptok);	// get pos.x
-  if (ptok) if (*ptok == 0) ptok = nextToken();
-  if (isFloat(ptok)) pos.x = (float) atof(ptok);
+  //dax if (ptok) if (*ptok == 0) ptok = nextToken();
+  if (isFloat(ptok))
+    pos.x = (float) atof(ptok);
   else return nextToken();
 
-  ptok = skipComma(ptok);	// get pos.y
-  if (isFloat(ptok)) pos.y = (float) atof(ptok);
+  ptok = skipSepar(ptok);	// get pos.y
+  if (isFloat(ptok))
+    pos.y = (float) atof(ptok);
   else return nextToken();
 
-  ptok = skipComma(ptok);	// get pos.z
+  ptok = skipSepar(ptok);	// get pos.z
   if (isFloat(ptok)) {
     pos.z = (float) atof(ptok);
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z"
@@ -631,7 +637,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   }
   else return nextToken();
 
-  ptok = skipComma(ptok);	// get pos.az or next token
+  ptok = skipSepar(ptok);	// get pos.az
   if (!ptok) return nextToken();
   if (isFloat(ptok)) {
     pos.az = (float) atof(ptok);
@@ -642,16 +648,28 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else // pos.az not float
     return ptok;
 
-  ptok = skipComma(ptok);	// get pos.ax
+  ptok = skipSepar(ptok);	// get pos.ax
   if (!ptok) return nextToken();
   if (isFloat(ptok)) {
     pos.ax = (float) atof(ptok);
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z,az,ax"
-      return nextToken();	// normal end
+      return nextToken();
     }
   }
   else // pos.ax not float
     if (!ptok) return ptok;
+
+  ptok = skipSepar(ptok);	// get pos.ay
+  if (!ptok) return nextToken();
+  if (isFloat(ptok)) {
+    pos.ay = (float) atof(ptok);
+    if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z,az,ax,ay"
+      return nextToken();	// normal end
+    }
+  }
+  else // pos.ay not float
+    if (!ptok) return ptok;
+
   return ptok;	//dummy
 }
 
@@ -663,12 +681,12 @@ char * Parse::parseColor(char *ptok, Pos &p)
   if (ptok) if (*ptok == 0) ptok = nextToken();
 
   p.x  = (float) atof(ptok);
-  ptok = skipComma(ptok);	// get p.y
+  ptok = skipSepar(ptok);	// get p.y
   p.y  = (float) atof(ptok);
-  ptok = skipComma(ptok);	// get p.z
+  ptok = skipSepar(ptok);	// get p.z
   p.z  = (float) atof(ptok);
   if (ptok[strlen(ptok) - 1] == '"') return nextToken();
-  ptok = skipComma(ptok);	// get p.az
+  ptok = skipSepar(ptok);	// get p.az
   if (!ptok) return nextToken();
   if (!ptok || ptok[strlen(ptok) - 1] == '"') return nextToken();
   if (ptok) p.az = (float) atof(ptok);
@@ -736,9 +754,9 @@ char * Parse::parseRotation(char *ptok, Pos &p)
   ptok = skipQuotes(ptok);
   if (ptok) if (*ptok == 0) ptok = nextToken();
 
-  p.az = (float) atof(ptok); ptok = skipComma(ptok);
-  p.x  = (float) atof(ptok); ptok = skipComma(ptok);
-  p.y  = (float) atof(ptok); ptok = skipComma(ptok);
+  p.az = (float) atof(ptok); ptok = skipSepar(ptok);
+  p.x  = (float) atof(ptok); ptok = skipSepar(ptok);
+  p.y  = (float) atof(ptok); ptok = skipSepar(ptok);
   p.z  = (float) atof(ptok);
   if (!ptok || ptok[strlen(ptok) - 1] == '"') return nextToken();
   return nextToken();
@@ -750,8 +768,8 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
   ptok = skipQuotes(ptok);
   if (ptok) if (*ptok == 0) ptok = nextToken();
 
-  p.x  = (float) atof(ptok); ptok = skipComma(ptok);
-  p.y  = (float) atof(ptok); ptok = skipComma(ptok);
+  p.x  = (float) atof(ptok); ptok = skipSepar(ptok);
+  p.y  = (float) atof(ptok); ptok = skipSepar(ptok);
   p.z  = (float) atof(ptok);
   if (!ptok || ptok[strlen(ptok) - 1] == '"') return nextToken();
   return nextToken();
@@ -930,7 +948,7 @@ char * Parse::parseVectorf(char *ptok, float *vector, int n)
 
   for (int i=0; i<n-1; i++) {		// n-1 intervals
     vector[i] = (float) atof(ptok);
-    ptok = skipComma(ptok);
+    ptok = skipSepar(ptok);
   }
   vector[n-1] = (float) atof(ptok);	// last value
   if (!ptok) return ptok;	// ptok NULL, nextToken will be done by 3f or 5f
@@ -970,9 +988,9 @@ char * Parse::parseVector3fv(char *ptok, V3 *vector)
   ptok = skipQuotes(ptok);
   if (ptok) {
     vector->v[0] = (float) atof(ptok);
-    ptok = skipComma(ptok);
+    ptok = skipSepar(ptok);
     vector->v[1] = (float) atof(ptok);
-    ptok = skipComma(ptok);
+    ptok = skipSepar(ptok);
     vector->v[2] = (float) atof(ptok);
   }
   return nextToken();

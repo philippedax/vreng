@@ -197,7 +197,7 @@ Book::Book(char *l)
   enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(TAKABLE);
-  setRenderPrior(RENDER_HIGH);
+  setRenderPrior(RENDER_NORMAL);
 
   initializeMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);

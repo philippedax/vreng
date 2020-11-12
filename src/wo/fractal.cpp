@@ -132,7 +132,8 @@ void Fractal::generate(float x, float z, float w, float h, float a, uint16_t l)
   float z2 = turtle_z;
   l--;
   if (l < 3) {
-    glColor3f(0.0, 1.0, 0.0);
+    //dax glColor3f(0.0, 1.0, 0.0);
+    glColor3fv(color);
     drawbranch(w, x, z, x2, z2);
   }
   else {
@@ -149,9 +150,9 @@ void Fractal::generate(float x, float z, float w, float h, float a, uint16_t l)
   }
 }
 
-void Fractal::turn(float angle)
+void Fractal::turn(float a)
 {
-  turtle_theta += angle;
+  turtle_theta += a;
 }
 
 float Fractal::point(float x1, float z1, float x2, float z2)
@@ -191,6 +192,13 @@ void Fractal::render()
   z = height/10.0;
   x2 = x;
   z2 = z + height;
+
+//error("w=%.2f x=%.2f z=%.2f x2=%.2f z2=%.2f",width,x,z,x2,z2);
+  glScalef(.4, .4, .4);
+  glTranslatef(pos.x, pos.y, pos.z);
+  glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
+  glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
+  glRotatef(RAD2DEG(pos.az), 0, 0, 1);
 
   drawbranch(width, x, z, x2, z2);
 

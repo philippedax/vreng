@@ -1044,10 +1044,10 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   //
   world->setState(LOADING);	// to download
   if (url) {
-    trace(DBG_FORCE, "downloading world url=%s", url);
+    trace(DBG_WO, "downloading world url=%s", url);
     world->universe->startWheel();
     if (Http::httpOpen(url, httpReader, (void *)url, 0) < 0) {
-      error("bad download: url=%s url=%s", world->url, url);
+      error("bad download: url=%s", url);
       return NULL;
     }
     world->universe->stopWheel();

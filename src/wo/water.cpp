@@ -111,7 +111,7 @@ void Water::inits()
   if (depth * width > 10)
     setRenderPrior(RENDER_LOW);	// river
   else
-    setRenderPrior(RENDER_HIGH);// swiming pool
+    setRenderPrior(RENDER_NORMAL);// swiming pool
 }
 
 Water::Water(char *l)

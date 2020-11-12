@@ -61,7 +61,7 @@ void Thunder::behavior()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_LOW);
+  setRenderPrior(RENDER_NORMAL);
 
 #if 0
   initializeEphemeralObject(0);

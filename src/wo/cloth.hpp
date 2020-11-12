@@ -102,17 +102,14 @@ protected:
   virtual void setName();
   /**< Sets qualified name */
 
-  virtual void setMysql();
+  virtual void setPersist();
   /**< inserts object */
 
-  virtual void getMysql();
+  virtual void getPersist();
   /**< Selects object */
 
-  virtual void delMysql();
+  virtual void delPersist();
   /**< Deletes object */
-
-  virtual void init();
-  /**< Do normal init */
 
   virtual void inits();
   /**< Do specific inits */

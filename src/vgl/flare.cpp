@@ -30,6 +30,7 @@
 const GLfloat Flare::red[3] = {1, 0, 0};
 const GLfloat Flare::green[3] = {0, 1, 0};
 const GLfloat Flare::blue[3] = {0, 0, 1};
+
 uint8_t Flare::MAX_SHINE = 10;
 uint8_t Flare::MAX_FLARE = 6;
 uint8_t Flare::DEF_SCALE = 1;
@@ -139,6 +140,7 @@ void Flare::render(float *from)
 void Flare::render(Pos &pos)
 {
   static float delta = 0;
+
   float from[3] = {0, 0, 0};
   from[0] = pos.x;
   from[1] = pos.y;

@@ -115,7 +115,6 @@ Wings::Wings(char *l)
   taken = false;
   behavior();
   enableBehavior(SPECIFIC_RENDER);
-  init();
 
   draw();
 }
@@ -140,10 +139,9 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   makeSolid();
   setName(modelname);
   setOwner();
-  getMysql();
+  getPersist();
   behavior();
   enableBehavior(SPECIFIC_RENDER);
-  init();
   inits();
 
   draw();
@@ -473,10 +471,9 @@ void Wings::wear()
   model = getModel(modelname);
   setName(modelname);
   setOwner();
-  setMysql();
+  setPersist();
   behavior();
   enableBehavior(SPECIFIC_RENDER);
-  init();
   inits();
   addToList();
 }
@@ -486,7 +483,7 @@ void Wings::takeoff()
 {
   // restore original position
   restorePosition();
-  delMysql();
+  delPersist();
   delFromList();
   taken = false;
 }
