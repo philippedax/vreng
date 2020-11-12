@@ -65,7 +65,7 @@ void Sun::parser(char *l)
 void Sun::behavior()
 {
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_LOW);
+  setRenderPrior(RENDER_LOW);	// OK behind objects
 
   initializeMobileObject(1);
   enablePermanentMovement();
@@ -155,16 +155,16 @@ void Sun::lighting()
 {
   static float tic = 0;
 
-#if 0 //dax
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
+#if 1 //dax
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
    glEnable(GL_LIGHTING);
-   glEnable(GL_LIGHT2);
+   glEnable(GL_LIGHT3);
    //glDisable(GL_LIGHT1);
    //glDisable(GL_LIGHT0);
-   glLightfv(GL_LIGHT2, GL_POSITION, light_pos);
-   glLightfv(GL_LIGHT2, GL_DIFFUSE, light_dif);
-   glLightfv(GL_LIGHT2, GL_SPECULAR, light_spe);
+   glLightfv(GL_LIGHT3, GL_POSITION, light_pos);
+   glLightfv(GL_LIGHT3, GL_DIFFUSE, light_dif);
+   glLightfv(GL_LIGHT3, GL_SPECULAR, light_spe);
    //dax glLightfv(GL_LIGHT2, GL_AMBIENT, light_amb);
    glMaterialfv(GL_FRONT, GL_EMISSION, light_dif);
 
@@ -172,18 +172,17 @@ void Sun::lighting()
 
    //glEnable(GL_LIGHT0);
    //glEnable(GL_LIGHT1);
-   glDisable(GL_LIGHT2);
+   glDisable(GL_LIGHT3);
    glDisable(GL_LIGHTING);
   glPopMatrix();
-  //DAX glPopAttrib();
+  glPopAttrib();
 #endif
 
   tic += 0.2;	// 360/86400
 }
 
 void Sun::quit()
-{
-} 
+{ } 
 
 void Sun::funcs()
 { } 

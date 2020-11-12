@@ -208,8 +208,10 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
     else                      selected_object_url.clear();
     gw.messages.performRequest(object);
     // Vrelet: calculate the clic vector and do the clic method on the object
-    if (gw.gui.vrelet && button == 1) object->click(x, y);
-    if (gw.gui.board  && button == 1) object->click(x, y);
+    if (button == 1) {
+      if (gw.gui.vrelet) object->click(x, y);
+      if (gw.gui.board)  object->click(x, y);
+    }
 
     selectObject(objinfo, button);
   
@@ -220,14 +222,13 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
     else if (button == 1) {	// navigator
       navig_menu.open(e);	// show(e, 0, 0);
       opened_menu = navig_menu;
-      if (object->solid) {
-        object->setFlashy();	// flashes the edges of the solid
-        object->setRay(x, y);	// launches ray
-      }
+      object->setFlashy();	// flashes the edges of the solid
+      object->setRay(x, y);	// launches ray
     }
   }
-  else
+  else {
     gw.setRayDirection(x, y);	// launches stipple ray
+  }
 }
 
 // Press button 2: fine grain selection

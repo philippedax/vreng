@@ -61,10 +61,10 @@ void Text::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "font"))  l = parse()->parseString(l, names.url, "font");
-    else if (!stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
-    else if (!stringcmp(l, "verso")) l = parse()->parseUInt8(l, &verso, "verso");
-    else if (!stringcmp(l, "scale")) l = parse()->parseFloat(l, &scale, "scale");
+    if      (! stringcmp(l, "font"))  l = parse()->parseString(l, names.url, "font");
+    else if (! stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
+    else if (! stringcmp(l, "verso")) l = parse()->parseUInt8(l, &verso, "verso");
+    else if (! stringcmp(l, "scale")) l = parse()->parseFloat(l, &scale, "scale");
     else                              l = parse()->parseQuotedString(l, text);
   }
   end_while_parse(l);
@@ -74,7 +74,8 @@ void Text::parser(char *l)
 
 void Text::makeSolid()
 {
-  char s[BUFSIZ];
+  char s[256];
+
   sprintf(s, "solid shape=\"bbox\" dim=\"%.f .01 .1\" />", (strlen(text)/2)*GLYPHSIZ);
   parse()->parseSolid(s, SEP, this);
 }
@@ -84,7 +85,7 @@ bool Text::loadFont()
 {
   // gets the font
   if ((txf = Txf::getFromCache(names.url)) == NULL) {
-    error("Text: can't load %s", names.url);
+    error("Text: can't load font %s", names.url);
     return false;
   }
   // bind the font texture
@@ -98,7 +99,7 @@ void Text::behavior()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_HIGH);
+  setRenderPrior(RENDER_NORMAL);
 
   initializeStillObject();
 }
@@ -151,7 +152,8 @@ void Text::render()
 
   txf->bindFontTexture();
 
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
+  //dax glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
+  glMaterialfv(GL_FRONT, GL_EMISSION, color);
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
   glTranslatef(pos.x + shiftx, pos.y + shifty, pos.z + shiftz);

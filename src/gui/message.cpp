@@ -212,15 +212,15 @@ void Messages::convertTextToLink(const std::string& text, char **listeObjets, in
     messages.add(uhbox(ugroup(mess)));
   }
   char *brkt = null;
-  char *temp = strtok_r(mess, " ", &brkt);
+  char *tempmess = strtok_r(mess, " ", &brkt);
 
-  while (temp) {
+  while (tempmess) {
     found = false;
     for (int i=0; i<size ; i=i+3) {
 
       if (! listeObjets[i])
         break;
-      if ((!strcasecmp(listeObjets[i], temp)) && (listeObjets[i+1])) {
+      if ((! strcasecmp(listeObjets[i], tempmess)) && (listeObjets[i+1])) {
         UIma& uimg = uima(listeObjets[i+1]);	// loads image
         uimg.rescale(0.25);
         ULinkbutton& ulinkb =
@@ -237,10 +237,10 @@ void Messages::convertTextToLink(const std::string& text, char **listeObjets, in
       }
     }
     if (!found) {
-      allmsgs->add(ugroup(temp));
+      allmsgs->add(ugroup(tempmess));
       allmsgs->add(ustr(" "));
     }
-    temp = strtok_r(NULL, " ", &brkt);
+    tempmess = strtok_r(NULL, " ", &brkt);
   }
   messages.add(uhbox(ustr("augmented msg>") + allmsgs));
   free(mess);
@@ -250,7 +250,7 @@ void Messages::postRequest(const std::string& mess, std::string& result)
 {
   int sizeMax = 256;
   int sizerecu = mess.length();
-  float tmpx, tmpy, tmpz, tmpaz; //coordonnees trouvees
+  float posx, posy, posz, posaz; //coordonnees trouvees
   int afficher = 0;
   int nbObj = 0;
   char posbuf[sizerecu +1];
@@ -282,10 +282,10 @@ void Messages::postRequest(const std::string& mess, std::string& result)
         listeObjets[nbObj+1] = strdup(posbuf);
 
         //on convertit le string en coords.
-        string2Coord(posbuf, tmpx, tmpy, tmpz, tmpaz);
+        string2Coord(posbuf, posx, posy, posz, posaz);
 
         //recupere la position et fait un snapshot de la position demandée	
-        ::g.render.calculateFov(tmpx,tmpy,tmpz,tmpaz, listeObjets[nbObj]);
+        ::g.render.calculateFov(posx,posy,posz,posaz, listeObjets[nbObj]);
         nbObj += 2;
       }
       afficher = (afficher+1) % 3;
@@ -369,7 +369,6 @@ void Messages::writeMessage(const char* mode, const char* from, const char* msg)
   }
 
   messages.add(uhbox(ugroup(UFont::bold + prefix_color + prefix) + text));
-
   return;
 }
 

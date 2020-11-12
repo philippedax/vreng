@@ -57,9 +57,13 @@ Universe::Universe()
     p = strchr(p, '/');
     *p = '\0';
     strcpy(universe_name, pserv);
+    error("universe_name=%s", universe_name);
     
+    ++p;
     urlpfx = new char[1];
-    strcpy(urlpfx, "");
+    ptmp = strrchr(p, '/');
+    if (ptmp) *ptmp = '\0';
+    sprintf(urlpfx, "/%s", p);
   }
 
   group = new char[GROUP_LEN + 1];

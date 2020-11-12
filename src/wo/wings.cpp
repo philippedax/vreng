@@ -423,11 +423,9 @@ void Wings::render()
 
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
-  //glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
   switch (model) {
   case HELICOPTER:
-    //glRotatef(90, 0, 1, 0);
     glRotatef(90, 1, 0, 0);
     glPushMatrix();
      glRotatef(angle, 0, 0, 1);
@@ -457,8 +455,8 @@ void Wings::quit()
   pwings = NULL;
   oid = 0;
   flushMySqlPosition();
-  if (dlist_middle > 0) glDeleteLists(dlist_right, 1);
-  if (dlist_right > 0) glDeleteLists(dlist_middle, 1);
+  if (dlist_middle > 0) glDeleteLists(dlist_middle, 1);
+  if (dlist_right > 0) glDeleteLists(dlist_right, 1);
   if (dlist_left > 0) glDeleteLists(dlist_left, 1);
 }
 
