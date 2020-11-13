@@ -40,15 +40,15 @@ Universe::Universe()
   strcpy(url, ::g.url);
 
   if (! ::g.pref.new_universe) { // by default
-    universe_name = new char[sizeof(DEF_HTTP_SERVER) + 1];
-    strcpy(universe_name, DEF_HTTP_SERVER);
+    server = new char[sizeof(DEF_HTTP_SERVER) + 1];
+    strcpy(server, DEF_HTTP_SERVER);
     urlpfx = new char[sizeof(DEF_URL_PFX) + 1];
     strcpy(urlpfx, DEF_URL_PFX);
   }
   else {  // universe given by -u
     char tmp[64];
     char *p, *ptmp, *pserv;
-    universe_name = new char[strlen(::g.universe) + 1];
+    server = new char[strlen(::g.universe) + 1];
     strcpy(tmp, ::g.universe);
     p = strchr(tmp, '/');
     p++;
@@ -56,8 +56,8 @@ Universe::Universe()
     pserv = ++p;
     p = strchr(p, '/');
     *p = '\0';
-    strcpy(universe_name, pserv);
-    error("universe_name=%s", universe_name);
+    strcpy(server, pserv);
+    //error("server=%s", server);
     
     ++p;
     urlpfx = new char[1];
@@ -79,12 +79,13 @@ Universe::Universe()
   wheel = NULL;
 
   wheel = new Wheel();
-  trace(DBG_INIT,"Universe: name=%s url=%s pfx=%s vers=%d ttl=%d", universe_name, url, urlpfx, version, ttl);
+  trace(DBG_INIT,"Universe: url=%s server=%s pfx=%s", url, server, urlpfx);
+  notice("Universe: url=%s server=%s pfx=%s", url, server, urlpfx);
 }
 
 Universe::~Universe()
 {
-  delete universe_name;
+  delete server;
   delete url;
   delete urlpfx;
   delete worldList;

@@ -57,9 +57,10 @@ void Wind::parser(char *l)
 void * Wind::getHttp(void * arg)
 {
   char url[URL_LEN];
-  sprintf(url, "http://%s/cgi/wind.cgi", Universe::current()->universe_name);
 
-  char cmd[BUFSIZ];
+  sprintf(url, "http://%s/%s/cgi/wind.cgi", Universe::current()->server, Universe::current()->urlpfx);
+
+  char cmd[128];
   *cmd ='\0';
 #if HAVE_CURL
   sprintf(cmd, "IFS=' '; curl -L -s %s", url);
@@ -84,9 +85,7 @@ void * Wind::getHttp(void * arg)
   Wind *wind = current();
   wind->orient = DEG2RAD(orientation);
   wind->speed = speed;
-  // BUG! the following line CRASHES vreng/ubit in the message scrollpane
-  // when rendering text font by FTGL. Maybe because we are running a thread ?
-  //notice("wind: orientation=%d° (%.2frd) speed=%dkm/h", orientation, wind->orient, speed);
+  notice("wind: orientation=%d (%.2frd) speed=%dkm/h", orientation, wind->orient, speed);
   pthread_exit(NULL);
   return NULL;
 }

@@ -422,7 +422,7 @@ void Widgets::saveCB()
 void Widgets::helpCB()
 {
   UStr cmd = "IFS=' '; firefox -remote 'openURL(http://"
-              & UStr(Universe::current()->universe_name)
+              & UStr(Universe::current()->server)
               & "/)' &";
   system(cmd.c_str());
 }
@@ -752,7 +752,7 @@ static void sourceHttpReader(void *box, Http *http)
 static void destinationsHttpReader(void *box, Http *http)
 {
   if (! http) return;
-  UBox *universe_box = (UBox *) box;
+  UBox *univ_box = (UBox *) box;
   char line[URL_LEN + CHAN_LEN +2];
 
   for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
@@ -775,7 +775,7 @@ static void destinationsHttpReader(void *box, Http *http)
     if (p) *p = '\0';
     url = tmpline;
 
-    universe_box->add(UBackground::black //+ ualpha(0.5)
+    univ_box->add(UBackground::black //+ ualpha(0.5)
                       + uitem(UBackground::none + UColor::green + UFont::bold + UFont::large + name
                       + ucall(&g.gui, (const UStr&)url, &Gui::gotoWorld))
                      );
@@ -786,7 +786,7 @@ static void destinationsHttpReader(void *box, Http *http)
 static void universeHttpReader(void *box, Http *http)
 {
   if (! http) return;
-  UBox *universe_box = (UBox *) box;
+  UBox *univ_box = (UBox *) box;
   char line[URL_LEN + CHAN_LEN +2];
 
   for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
@@ -805,7 +805,7 @@ static void universeHttpReader(void *box, Http *http)
     if (p) chan = ++p;
     url = tmpline;
 
-    universe_box->add(uitem(UColor::navy + UFont::bold + url
+    univ_box->add(uitem(UColor::navy + UFont::bold + url
                             + " " + UFont::plain + chan
                             + ucall(&g.gui, (const UStr&)url, &Gui::gotoWorld))
                       );
@@ -830,20 +830,20 @@ void Widgets::openSourceDialog()
 /** Dialog box for worlds list */
 void Widgets::destinationsDialog()
 {
-  char universe_url[URL_LEN];
+  char univ_url[URL_LEN];
   char str[URL_LEN];
 
-  if (! strncmp(Universe::current()->universe_name, "http://", 7))
+  if (! strncmp(Universe::current()->server, "http://", 7))
     sprintf(str, "%s", "%s%s/vacs/v%d/worlds");
   else
     sprintf(str, "%s%s", "http://", "%s%s/vacs/v%d/worlds");
-  sprintf(universe_url, str, Universe::current()->universe_name, Universe::current()->urlpfx, Universe::current()->version);
+  sprintf(univ_url, str, Universe::current()->server, Universe::current()->urlpfx, Universe::current()->version);
   UBox& box = uvbox(g.theme.scrollpaneStyle);
-  if (Http::httpOpen(universe_url, destinationsHttpReader, &box, 0) < 0) {
+  if (Http::httpOpen(univ_url, destinationsHttpReader, &box, 0) < 0) {
     delete &box;
     return;
   }
-  //printf("destinations: universe=%s name=%s pfx=%s : open OK\n", universe_url, Universe::current()->universe_name, Universe::current()->urlpfx);
+  //printf("destinations: universe=%s name=%s pfx=%s : open OK\n", univ_url, Universe::current()->server, Universe::current()->urlpfx);
   worlds_dialog.setMessage(uscrollpane(usize(120,400) + box));
   worlds_dialog.show();
 }
@@ -851,15 +851,15 @@ void Widgets::destinationsDialog()
 /** Dialog box for worlds list */
 void Widgets::openWorldsDialog()
 {
-  char universe_url[URL_LEN];
+  char univ_url[URL_LEN];
 
-  sprintf(universe_url, "%s%s/vacs/v%d/worlds",
-                      Universe::current()->universe_name,
+  sprintf(univ_url, "%s%s/vacs/v%d/worlds",
+                      Universe::current()->server,
                       Universe::current()->urlpfx,
                       Universe::current()->version);
 
   UBox* box = new UTextarea;
-  if (Http::httpOpen(universe_url, universeHttpReader, box, 0) < 0) {
+  if (Http::httpOpen(univ_url, universeHttpReader, box, 0) < 0) {
     delete box;
     return;
   }

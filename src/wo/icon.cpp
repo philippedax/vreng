@@ -37,6 +37,7 @@
 #include "env.hpp"	// icons
 #include "timer.hpp"	// getRate
 #include "file.hpp"	// openFile
+#include "universe.hpp"	// current
 
 
 const OClass Icon::oclass(ICON_TYPE, "Icon", NULL, Icon::replicator);
@@ -236,7 +237,8 @@ Icon::Icon(User *user, void *d)
             chmod(ofile, 0644);
 
             //FIXME: define local http_server
-            sprintf(names.url, "http://%s/~%s/vreng/%s", DEF_HTTP_SERVER, getenv("USER"), ifile);
+            //dax sprintf(names.url, "http://%s/~%s/vreng/%s", DEF_HTTP_SERVER, getenv("USER"), ifile);
+            sprintf(names.url, "http://%s%s/icon/%s", Universe::current()->server, Universe::current()->urlpfx, ifile);
           }
           else {
             error("can't open %s or %s: %s (%d)", ifile, ofile, strerror(errno), errno);
