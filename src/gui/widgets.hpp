@@ -134,7 +134,7 @@ private:
   
   // ! BEWARE: order matters !
   Gui& gui;            ///< reference to the GUI object
-  class PutInfo& putinfo;
+  class Message2& putinfo;
   class Capture& capture;
   UBox infos;
   UElem worlds, carts, avatars;
@@ -142,7 +142,7 @@ private:
   class Navig& navig;		       ///< navigation
   UOptionDialog &source_dialog, &worlds_dialog;
   UDialog &prefs_dialog, &settings_dialog, &grid_dialog, &tool_dialog, &addobj_dialog;
-  class Messages& messages;
+  class Message& message;
   class Panels& panels;
   UBox &infobar, &menubar;
   long postponedKRmask;	       ///< mask of all postponed Key Release events

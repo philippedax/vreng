@@ -29,6 +29,7 @@
  *  WWW: http://www.enst.fr/~elc/ubit
  */
 #include <cmath>
+
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "joystick.hpp"
@@ -38,7 +39,7 @@
 #include "user.hpp"	// UserAction
 
 
-Joystick::Joystick(Widgets* _gw, int _radius)
+Joystick1::Joystick1(Widgets* _gw, GLint _radius)
 : gw(*_gw), is_drawing(false), radius(_radius)
 {
   canvas_size.set(radius*2, radius*2);
@@ -46,10 +47,10 @@ Joystick::Joystick(Widgets* _gw, int _radius)
   Navig* navig = gw.getNavig();
 
   canvas.addAttr(canvas_size
-                 + UOn::paint    / ucall(this, &Joystick::paintCanvasCB)
-                 + UOn::mdrag    / ucall(this, &Joystick::dragCanvasCB)
-                 + UOn::mpress   / ucall(this, &Joystick::pressCanvasCB)
-                 + UOn::mrelease / ucall(this, &Joystick::releaseCanvasCB)
+                 + UOn::paint    / ucall(this, &Joystick1::paintCanvasCB)
+                 + UOn::mdrag    / ucall(this, &Joystick1::dragCanvasCB)
+                 + UOn::mpress   / ucall(this, &Joystick1::pressCanvasCB)
+                 + UOn::mrelease / ucall(this, &Joystick1::releaseCanvasCB)
                  );
 
   add(UOrient::horizontal + upadding(1,0) + UFont::small
@@ -79,50 +80,46 @@ Joystick::Joystick(Widgets* _gw, int _radius)
       );
 }
 
-void Joystick::pressCanvasCB(UMouseEvent& e)
+void Joystick1::pressCanvasCB(UMouseEvent& e)
 {
   gw.getNavig()->startMotion(e, &Motion::zrot, &Motion::ytrans);
   current_point.set(e.getX(), e.getY());
   is_drawing = true;
-  repaint();
+  repaint();	// uwin
 }
 
-void Joystick::dragCanvasCB(UMouseEvent& e)
+void Joystick1::dragCanvasCB(UMouseEvent& e)
 {
   gw.getNavig()->doMotion(e);
   current_point.set(e.getX(), e.getY());
-  repaint();
+  repaint();	// uwin
 }
 
-void Joystick::releaseCanvasCB(UMouseEvent& e)
+void Joystick1::releaseCanvasCB(UMouseEvent& e)
 {
   gw.getNavig()->stopMotion();
   current_point.set(e.getX(), e.getY());
   is_drawing = false;
-  repaint();
+  repaint();	// uwin
 }
 
-void Joystick::paintCanvasCB(UPaintEvent& e)
+void Joystick1::paintCanvasCB(UPaintEvent& e)
 {
   UGraph g(e);
   g.setColor(::g.theme.joystickColor);
 
+  // draw center point
+  g.fillEllipse(center_point.x-5, center_point.y-5, 10, 10);
+
   // draw cercle
   g.drawEllipse(0, 0, 2*radius, 2*radius);
 
-  if (!is_drawing) {
-    // draw center point
-    g.fillEllipse(center_point.x-5, center_point.y-5, 10, 10);
-  }
-  else {
+  if (is_drawing) {
     g.setColor(::g.theme.joystickArmColor);
-
-    // draw center point
-    g.fillEllipse(center_point.x-5, center_point.y-5, 10, 10);
 
     float dx = current_point.x - center_point.x;
     float dy = current_point.y - center_point.y;
-    float r = sqrt(dx * dx + dy * dy);
+    float r = sqrt(dx*dx + dy*dy);
     float a = dx == 0 ? 0 : atan(dy / dx);
     float sign = dx > 0 ? +1 : -1;
     if (r > radius) r = radius;
@@ -130,4 +127,90 @@ void Joystick::paintCanvasCB(UPaintEvent& e)
                center_point.x + sign * r * cos(a),
                center_point.y + sign * r * sin(a));
   }
+}
+
+//---------------------------------------------------------------------------
+
+Joystick2::Joystick2(Widgets* _gw, GLint _radius)
+: gw(*_gw), radius(_radius)
+{
+  is_drawing = false;
+  circle_radius = _radius;
+  GLint w = (GLint) circle_radius + 6;
+  GLint h = (GLint) circle_radius*2 + 4;
+  canvas_size.set(w, h);
+  arrow_point.set(w, h/2.);
+  current_radius = 2;
+  delta = 0;
+  angle = 0;
+
+  add
+  (canvas_size
+   + UOn::paint       / ucall(this, &Joystick2::paintCB)
+   + UOn::mdrag       / ucall(this, &Joystick2::dragCB)
+   + UOn::doubleClick / ucall(this, &Joystick2::doubleClickCB)
+   );
+}
+
+void Joystick2::doAction()
+{
+  if (! localuser) return;
+
+  struct timeval t;
+  gettimeofday(&t, NULL);
+  GLfloat val[1];
+  val[0] = angle;
+  localuser->specialAction(UserAction::UA_SETPITCH, (void *)val, t.tv_sec, t.tv_usec);
+}
+
+void Joystick2::dragCB(UMouseEvent &e)
+{
+  GLfloat dx = e.getX() - arrow_point.x;
+  GLfloat dy = arrow_point.y - e.getY();
+
+  current_radius = sqrt(dx * dx + dy * dy);
+  delta = asin(dy / current_radius);
+
+  if (dx <= 0) {
+    if (dy < 5 && dy > -5) delta = 0;
+  }
+  else {
+    if (dy >= 0) delta = M_PI/2; else delta = -M_PI/2;
+  }
+  angle = 180 * delta / M_PI;
+
+  doAction();
+  repaint();	// uwin
+}
+
+void Joystick2::doubleClickCB(UMouseEvent &e)
+{
+  delta = 0;
+  angle = 0;
+  doAction();
+  repaint();	// uwin
+}
+
+void Joystick2::paintCB(UPaintEvent &e)
+{
+  UGraph g(e);
+  g.setColor(::g.theme.joystickColor);
+  g.setWidth(2);
+
+  g.drawLine(1, 1, 1, arrow_point.y-2);
+  g.drawLine(1, arrow_point.y+2, 1, 2*arrow_point.y-1);
+  g.drawLine(0, arrow_point.y, 2, arrow_point.y);
+
+  g.setColor(::g.theme.joystickArmColor);
+  g.drawLine(arrow_point.x, arrow_point.y,
+             arrow_point.x - circle_radius * cos(delta),
+             arrow_point.y - circle_radius * sin(delta));
+
+  g.setColor(::g.theme.joystickColor);
+  g.drawLine(arrow_point.x, arrow_point.y,
+             arrow_point.x - 12*cos(delta+(M_PI*20/180)),
+             arrow_point.y - 12*sin(delta+(M_PI*20/180)));
+  g.drawLine(arrow_point.x, arrow_point.y,
+             arrow_point.x - 12*cos(delta-(M_PI*20/180)),
+             arrow_point.y - 12*sin(delta-(M_PI*20/180)));
 }

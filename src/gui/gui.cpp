@@ -81,19 +81,19 @@ int Gui::getCycles()
 
 void Gui::writeMessage(const char *mode, const char *from, const char *mess)
 {
-  if (widgets) widgets->messages.writeMessage(mode, from, mess);
+  if (widgets) widgets->message.writeMessage(mode, from, mess);
 }
 
 // ocaml
 void Gui::initClicked()
 {
-  if (widgets) widgets->messages.initClicked();
+  if (widgets) widgets->message.initClicked();
 }
 
 // ocaml
 void Gui::getClicked(int *click, float clicked[])
 {
-  if (widgets) widgets->messages.getClicked(click, clicked);
+  if (widgets) widgets->message.getClicked(click, clicked);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

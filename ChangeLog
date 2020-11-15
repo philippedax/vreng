@@ -15,12 +15,15 @@ The rules for this file:
 ++ 9
 == 9.1
 == 9.1.1
+	- renamed class PutInfo to class Message2
+	- renamed class Pitch to class Joystick2
+	- removed gui/pitch*pp
 	- fixed urlpfx in universe.cpp
 	- reviewed some rendering order
 	- removed code creation from vrelines for rain and snow
 	- fixed guy distance to ground
 	- added parseBool() methods in parse.*pp
-	(2020/11/12, Philippe Dax)
+	(2020/11/15, Philippe Dax)
 
 == 9.1.0
 	- invalidated app ring in vjs/

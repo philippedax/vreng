@@ -38,8 +38,7 @@
 #include "palette.hpp"
 #include "navig.hpp"
 #include "scene.hpp"
-#include "joystick.hpp"
-#include "pitch.hpp"
+#include "joystick.hpp"		// Joystick1 Joystick2
 #include "capture.hpp"
 #include "theme.hpp"
 #include "user.hpp"		// UserAction
@@ -64,8 +63,8 @@ static void toggleGridCB(Widgets*, int flag) {
 void Panels::showManipulator(bool state)
 {
   manipulator.show(state);
-  joystick->show(!state);
-  pitch->show(!state);
+  joystick1->show(!state);
+  joystick2->show(!state);
 }
 
 void Panels::showCartDialog(bool state) { cerr << "TO BE DONE!" << endl; }
@@ -89,8 +88,8 @@ static void sandboxCB(Widgets*)
 
 Panels::Panels(Widgets* _gw, Scene& scene) :
 gw(*_gw),
-joystick(new Joystick(_gw, (int) g.theme.controlPanelHeight/2 - 20)),
-pitch(new Pitch(_gw, 25)),
+joystick1(new Joystick1(_gw, (int) g.theme.controlPanelHeight/2 - 20)),
+joystick2(new Joystick2(_gw, 25)),
 manipulator(_gw->navig.createManipulator())
 {
   // WORLDS
@@ -131,16 +130,16 @@ manipulator(_gw->navig.createManipulator())
   // navigator - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   manipulator.show(false);  // joystick shown by default
-  joystick->show(true);
-  pitch->show(true);
+  joystick1->show(true);
+  joystick2->show(true);
 
   UBox& navig_box = uhbox
   (g.theme.panelStyle
    + uvcenter()
    + manipulator  // either manipulator or joystick is shown
-   + joystick
+   + joystick1
    + "   "
-   + pitch
+   + joystick2
    );
 
   // palettes - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -153,7 +152,7 @@ manipulator(_gw->navig.createManipulator())
 
   Palette& messages_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
-               + gw.messages.createMessagePanel(true));
+               + gw.message.createMessagePanel(true));
   messages_palette.setPos(50|UPERCENT_CTR, 5|UPos::BOTTOM);
   messages_palette.setTitle(UColor::yellow + UFont::bold + "Messages");
   scene.add(messages_palette);
@@ -174,7 +173,7 @@ manipulator(_gw->navig.createManipulator())
        + uleft()
        + navig_box + " "
        + uhflex()
-       + ubox(g.theme.panelStyle + gw.messages.createMessagePanel(false))
+       + ubox(g.theme.panelStyle + gw.message.createMessagePanel(false))
        );
   control_panel.show(false);
 

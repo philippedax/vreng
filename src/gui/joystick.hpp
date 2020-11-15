@@ -28,15 +28,14 @@ class Widgets;
 
 /** GUI Joystick.
  */
-class Joystick : public UBox {
+class Joystick1 : public UBox {
 public:
-  Joystick(Widgets*, int radius);
+  Joystick1(Widgets* gw, GLint radius);
 
 private:
   Widgets& gw;
-
   bool  is_drawing;
-  float radius;
+  GLfloat radius;
   UBox  canvas;
   USize canvas_size;
   UPoint center_point, current_point;
@@ -45,6 +44,29 @@ private:
   void pressCanvasCB(UMouseEvent&);
   void dragCanvasCB(UMouseEvent&);
   void releaseCanvasCB(UMouseEvent&);
+};
+
+class Joystick2 : public UBox {
+public:
+
+  Joystick2(Widgets* gw, GLint radius);
+
+private:
+  Widgets& gw;
+  bool  is_drawing;
+  GLfloat radius;
+  UBox  canvas;
+  USize canvas_size;
+
+  GLfloat delta;
+  GLfloat angle;
+  GLfloat circle_radius, current_radius;
+  UPoint arrow_point;
+
+  void doAction();
+  void paintCB(UPaintEvent&);
+  void dragCB(UMouseEvent&);
+  void doubleClickCB(UMouseEvent&);
 };
 
 #endif

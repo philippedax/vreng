@@ -206,7 +206,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
   
     if (object->names.url[0]) selected_object_url = object->names.url;
     else                      selected_object_url.clear();
-    gw.messages.performRequest(object);
+    gw.message.performRequest(object);
     // Vrelet: calculate the clic vector and do the clic method on the object
     if (button == 1) {
       if (gw.gui.vrelet) object->click(x, y);

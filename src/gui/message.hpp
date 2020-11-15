@@ -22,10 +22,13 @@
 #define MESSAGE_HPP 1
 
 #include <ubit/ubit.hpp>
+using namespace ubit;
 
-class Messages {
+class WObject;
+
+class Message {
 public:
-  Messages(class Widgets*);
+  Message(class Widgets*);
   
   UBox& createMessagePanel(bool transparent);
 
@@ -46,7 +49,7 @@ protected:
   void convertTextToLink(const std::string& text, char **listeObjets, int size);
 
   class Widgets& gw;
-  UBox messages;
+  UBox messbox;
   UScrollpane scrollpane;
   UStr entry; 
   std::vector<UStr> history; ///< history log
@@ -57,15 +60,18 @@ protected:
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 /**
- * PutInfo class
+ * Message2 class
  */
-class PutInfo {
+class Message2 {
 public:
-  PutInfo();		///< Constructor.
-  void putIcon(const UStr& val); ///< Puts Icon's infos.
-  void putIconCB();	///< Puts Icon.
+  Message2();		///< Constructor.
 
-  UStr url;		///< document's url
+  void putIcon(const UStr& val);
+  ///< Puts Icon's infos.
+  void putIconCB();
+  ///< Puts Icon.
+
+  UStr url;	///< document's url
   UStr file;	///< local file
   UStr ofile;	///< public file
   UStr name;	///< document's name

@@ -82,6 +82,7 @@
 #include "render.hpp"
 #include "move.hpp"	// changeKey
 #include "file.hpp"	// openFile
+#include "icon.hpp"	// user
 
 // Text files
 #include "README.t"
@@ -98,7 +99,7 @@ using namespace ubit;
 
 Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
 gui(*_gui),
-putinfo(*new PutInfo),
+putinfo(*new Message2),
 capture(*new Capture),
 scene(*new Scene(this)),
 navig(*new Navig(this, scene)),
@@ -109,7 +110,7 @@ settings_dialog(createSettingsDialog()),
 grid_dialog(createGridDialog()),
 tool_dialog(createToolDialog()),
 addobj_dialog(createAddobjDialog()),
-messages(*new Messages(this)),
+message(*new Message(this)),
 panels(*new Panels(this, scene)),
 infobar(createInfobar()),
 menubar(createMenubar()),
@@ -502,23 +503,24 @@ void Widgets::setKey(int key, int ispressed)
   changeKey(key, ispressed, t.tv_sec, t.tv_usec);
 }
 
+/** action on local user */
 void Widgets::callAction(int numaction)
 {
+  if (! localuser)  return;
+
   struct timeval t;
   gettimeofday(&t, NULL);
-
-  if (! localuser)  return;
   localuser->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);
 }
 
-// with current solid!
+/** action on current solid */
 static void objectActionCB(int numaction)
 {
-  WObject* sel_obj = g.gui.getSelectedObject();
-  if (sel_obj) {
+  WObject* object = g.gui.getSelectedObject();
+  if (object) {
     struct timeval t;
     gettimeofday(&t, NULL);
-    sel_obj->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);
+    object->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);
   }
 }
 
@@ -530,7 +532,6 @@ WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
 
   uint16_t num = g.render.getBufferSelection(x, y, z);
   WObject* object = WObject::byNum(num);
-
   if (! object) {
     objinfo[0].name = (char*) "World";	// avoid segfault
     objinfo[1].name = (char*) World::current()->getName();
@@ -567,29 +568,83 @@ WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
 
 void Widgets::setRayDirection(int x, int y)
 {
-  if (! localuser)  return;
-  localuser->setRayDirection(x, y);
+  if (localuser) localuser->setRayDirection(x, y);
 }
 
 //---------------------------------------------------------------------------
 /*
- *  keys.cpp : key management and correspondance with VREng
- *  NOTE: this file should be common to all X-Window GUI variants
+ *  Key management and correspondance with VREng
  */
 
-static long convertKey(long keycode, int keychar, int& vrkey);
+/*
+ * converts the X keysym into a Vreng change key (vrkey) and returns
+ * a keymask which is an hexa value for marking released keys in the KRmask
+ */
+static long convertKey(long keycode, int keychar, int& vrkey)
+{
+  long keymask = 0;
+  vrkey = 0;
+  
+  if      (keycode == UKey::Up)       { keymask = 1<<0;  vrkey = KEY_AV; }  // move forward
+  else if (keycode == UKey::Down)     { keymask = 1<<1;  vrkey = KEY_AR; }  // move backward
+  else if (keycode == UKey::Left)     { keymask = 1<<2;  vrkey = KEY_GA; }  // turn left
+  else if (keycode == UKey::Right)    { keymask = 1<<3;  vrkey = KEY_DR; }  // turn right
+  else if (keycode == UKey::PageUp)   { keymask = 1<<11; vrkey = KEY_JU; }  // move up
+  else if (keycode == UKey::PageDown) { keymask = 1<<12; vrkey = KEY_JD; }  // move down
+  else if (keycode == UKey::Insert)   { keymask = 1<<6;  vrkey = KEY_MT; }  // roll up
+  else if (keycode == UKey::Delete)   { keymask = 1<<7;  vrkey = KEY_DE; }  // roll down
+  else if (keycode == UKey::Home)     { keymask = 1<<8;  vrkey = KEY_HZ; }  // stand up
+  else if (keycode == UKey::End)      { keymask = 1<<13; vrkey = KEY_VI; }  // accelerator
+  else if (keycode == UKey::BackSpace) {
+    Widgets::callAction(UserAction::UA_ASPEEDLESS); return 0; 		    // decrease aspeed
+  }
+  else if (keycode == UKey::Tab) {
+    Widgets::callAction(UserAction::UA_ASPEEDMORE); return 0; 		    // increase aspeed
+  }
+  else {
+    switch (keychar) {
+      case '<': keymask = 1<<4;          vrkey = KEY_SG;	break;	  // left translation
+      case '>': keymask = 1<<5;          vrkey = KEY_SD;	break;    // right translation
+      case 'l': keymask = 1<<9;          vrkey = KEY_TL;	break;    // tilt left
+      case 'r': keymask = 1<<10;         vrkey = KEY_TR;	break; 	  // tilt right
+      case 'u': keymask = 1<<11 | 1<<13; vrkey = KEY_JU;	break;    // up translation
+      case ' ': keymask = 1<<13;         vrkey = KEY_VI;	break;    // accelerator
+      case '=': Widgets::callAction(UserAction::UA_FOVYDEF);    return 0; // original fovy
+      case '-': Widgets::callAction(UserAction::UA_FOVYLESS);   return 0; // decrease fovy
+      case '+': Widgets::callAction(UserAction::UA_FOVYMORE);   return 0; // increase fovy
+      case '.': Widgets::callAction(UserAction::UA_LSPEEDDEF);  return 0; // original lspeed
+      case 's': Widgets::callAction(UserAction::UA_LSPEEDLESS); return 0; // decrease lspeed
+      case 'f': Widgets::callAction(UserAction::UA_LSPEEDMORE); return 0; // increase lspeed
+      case ',': Widgets::callAction(UserAction::UA_ASPEEDDEF);  return 0; // original aspeed
+      case 'b': Widgets::callAction(UserAction::UA_BULLET);     return 0; // launche bullet
+      case 'd': Widgets::callAction(UserAction::UA_DART);       return 0; // launche dart
+      case 'v': Widgets::callAction(UserAction::UA_SWITCHVIEW); return 0; // switch view
+      case 'x': Widgets::callAction(UserAction::UA_TPVIEWROTL); return 0; // rot left
+      case 'c': Widgets::callAction(UserAction::UA_TPVIEWROTR); return 0; // rot right
+      case 'q': Widgets::callAction(UserAction::UA_TPVIEWROTU); return 0; // rot up
+      case 'w': Widgets::callAction(UserAction::UA_TPVIEWROTD); return 0; // rot down
+      case 'p': Widgets::callAction(UserAction::UA_TPVIEWROTN); return 0; // rot near
+      case 'm': Widgets::callAction(UserAction::UA_TPVIEWROTF); return 0; // rot far
+      case 'D': Widgets::callAction(UserAction::UA_PITCHMORE);  return 0; // increase pitch
+      case 'U': Widgets::callAction(UserAction::UA_PITCHLESS);  return 0; // decrease pitch
+      case 'R': Widgets::callAction(UserAction::UA_ROLLMORE);   return 0; // increase roll
+      case 'L': Widgets::callAction(UserAction::UA_ROLLLESS);   return 0; // decrease roll
+      case '^': Widgets::callAction(UserAction::UA_FLYAWAY);    return 0; // flyaway
+      case '$': Widgets::callAction(UserAction::UA_TOLAND);     return 0; // toland
+      default: return 0; 						  // undefined key
+    }
+  }
+  return keymask;
+}
 
 /** Use this callback function for handling AUTOREPEAT Key event
- * Autorepeat is logically suppressed by annulating corresponding Press
- * and Release events.
+ * Autorepeat is logically suppressed by annulating corresponding Press and Release events.
  * Principle: Release events are postponed and temporarily stored in KRmask
  * They are processed when coming back to the RenderingWorkProc of the
  * mainLoop if not annulated in the meantime by subsequent Press events.
  */
 void Widgets::processKey(long keysym, int keychar, bool press)
 {
-  // converts the X keysym into a Vreng change key (vrkey) and returns
-  // a keymask which is an hexa value for marking released keys in the KRmask
   int vrkey;
   long keymask = convertKey(keysym, keychar, vrkey);
   if (keymask == 0) return;    // return if null (undefined or not a vrkey)
@@ -607,7 +662,7 @@ void Widgets::processKey(long keysym, int keychar, bool press)
       postponedKRcount--;		// une touche en moins dans KRlist
     }
     else {  // traitement normal d'un Press
-      //fprintf(stderr, "KPress change or activate Key( %d ) \n", vrkey);
+      //fprintf(stderr, "KPress change or activate Key( %d )\n", vrkey);
       if (vrkey >= MAXKEYS || vrkey < 0)
         return;
 
@@ -643,63 +698,6 @@ void Widgets::flushPostponedKRs()
   }
   postponedKRmask = 0;
   postponedKRcount = 0;
-}
-
-static long convertKey(long keycode, int keychar, int& vrkey)
-{
-  long keymask = 0;
-  vrkey = 0;
-  
-  if      (keycode == UKey::Up)       { keymask = 1<<0;  vrkey = KEY_AV; }  // move forward
-  else if (keycode == UKey::Down)     { keymask = 1<<1;  vrkey = KEY_AR; }  // move backward
-  else if (keycode == UKey::Left)     { keymask = 1<<2;  vrkey = KEY_GA; }  // turn left
-  else if (keycode == UKey::Right)    { keymask = 1<<3;  vrkey = KEY_DR; }  // turn right
-  else if (keycode == UKey::PageUp)   { keymask = 1<<11; vrkey = KEY_JU; }  // move up
-  else if (keycode == UKey::PageDown) { keymask = 1<<12; vrkey = KEY_JD; }  // move down
-  else if (keycode == UKey::Insert)   { keymask = 1<<6;  vrkey = KEY_MT; }  // roll up
-  else if (keycode == UKey::Delete)   { keymask = 1<<7;  vrkey = KEY_DE; }  // roll down
-  else if (keycode == UKey::Home)     { keymask = 1<<8;  vrkey = KEY_HZ; }  // stand up
-  else if (keycode == UKey::End)      { keymask = 1<<13; vrkey = KEY_VI; }  // accelerator
-  else if (keycode == UKey::BackSpace) {
-    Widgets::callAction(UserAction::UA_ASPEEDLESS); return 0; // decrease aspeed
-  }
-  else if (keycode == UKey::Tab) {
-    Widgets::callAction(UserAction::UA_ASPEEDMORE); return 0; // increase aspeed
-  }
-  else {
-    switch (keychar) {
-      case '<': keymask = 1<<4;          vrkey = KEY_SG; break;  // left translation
-      case '>': keymask = 1<<5;          vrkey = KEY_SD; break;  // right translation
-      case 'l': keymask = 1<<9;          vrkey = KEY_TL; break;  // tilt left
-      case 'r': keymask = 1<<10;         vrkey = KEY_TR; break;  // tilt right
-      case 'u': keymask = 1<<11 | 1<<13; vrkey = KEY_JU; break;  // up translation
-      case ' ': keymask = 1<<13;         vrkey = KEY_VI; break;  // accelerator
-      case '=': Widgets::callAction(UserAction::UA_FOVYDEF);    return 0;  // original fovy
-      case '-': Widgets::callAction(UserAction::UA_FOVYLESS);   return 0;  // decrease fovy
-      case '+': Widgets::callAction(UserAction::UA_FOVYMORE);   return 0;  // increase fovy
-      case '.': Widgets::callAction(UserAction::UA_LSPEEDDEF);  return 0;  // original lspeed
-      case 's': Widgets::callAction(UserAction::UA_LSPEEDLESS); return 0;  // decrease lspeed
-      case 'f': Widgets::callAction(UserAction::UA_LSPEEDMORE); return 0;  // increase lspeed
-      case ',': Widgets::callAction(UserAction::UA_ASPEEDDEF);  return 0;  // original aspeed
-      case 'b': Widgets::callAction(UserAction::UA_BULLET);     return 0;  // launche bullet
-      case 'd': Widgets::callAction(UserAction::UA_DART);       return 0;  // launche dart
-      case 'v': Widgets::callAction(UserAction::UA_SWITCHVIEW); return 0;  // switch view
-      case 'x': Widgets::callAction(UserAction::UA_TPVIEWROTL); return 0;
-      case 'c': Widgets::callAction(UserAction::UA_TPVIEWROTR); return 0;
-      case 'q': Widgets::callAction(UserAction::UA_TPVIEWROTU); return 0;
-      case 'w': Widgets::callAction(UserAction::UA_TPVIEWROTD); return 0;
-      case 'p': Widgets::callAction(UserAction::UA_TPVIEWROTN); return 0;
-      case 'm': Widgets::callAction(UserAction::UA_TPVIEWROTF); return 0;
-      case 'D': Widgets::callAction(UserAction::UA_PITCHMORE);  return 0;  // increase pitch
-      case 'U': Widgets::callAction(UserAction::UA_PITCHLESS);  return 0;  // decrease pitch
-      case 'R': Widgets::callAction(UserAction::UA_ROLLMORE);   return 0;  // increase roll
-      case 'L': Widgets::callAction(UserAction::UA_ROLLLESS);   return 0;  // decrease roll
-      case '^': Widgets::callAction(UserAction::UA_FLYAWAY);    return 0;  // flyaway
-      case '$': Widgets::callAction(UserAction::UA_TOLAND);     return 0;  // toland
-      default: return 0; break; // == 0 => undefined key
-    }
-  }
-  return keymask;
 }
 
 //---------------------------------------------------------------------------
@@ -1422,7 +1420,6 @@ UMenu& Widgets::createFileMenu()
                            + ubutton("  Cancel  " + ucloseWin()))
                      );
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Put & Publish URL
   UBox& puturl_box =
   uvbox(uvspacing(5)
@@ -1439,9 +1436,8 @@ UMenu& Widgets::createFileMenu()
                     puturl_box,		// message
                     UArgs::none,	// no icon
                     ubutton("  Put & Publish URL  "
-                            + ucall(&putinfo,&PutInfo::putIconCB))); //buttons
+                            + ucall(&putinfo,&Message2::putIconCB))); //buttons
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Put & Publish File
   UBox& putfile_box =
   uvbox(uvspacing(5)
@@ -1451,8 +1447,6 @@ UMenu& Widgets::createFileMenu()
                 + uhflex() + utextfield(65, putinfo.ofile))
         + uhbox(ulabel(25, UFont::bold + "Alias" + UFont::plain + " (short name)" )
                 + uhflex() + utextfield(65, putinfo.name))
-        + uhbox(ulabel(25, UFont::bold + "Icon" + UFont::plain + " (optional)" )
-                + uhflex() + utextfield(65, putinfo.icon))
         );
 
   UDialog* putfile_dialog =
@@ -1460,9 +1454,8 @@ UMenu& Widgets::createFileMenu()
                     putfile_box,  // message
                     UArgs::none,  // no icon
                     ubutton("  Put & Publish File  "
-                            + ucall(&putinfo, &PutInfo::putIconCB)));
+                            + ucall(&putinfo, &Message2::putIconCB)));
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Create File menu
   return umenu(ubutton(g.theme.World  + " Open Vreng URL..." + openvre_dialog)
              + ubutton(g.theme.Save + " Save Vreng File" + ucall(this, &Widgets::saveCB))
@@ -1472,6 +1465,62 @@ UMenu& Widgets::createFileMenu()
              + usepar()
              + ubutton(g.theme.Exit + " Quit" + ucall(0/*status*/, Global::quitVreng))
              );
+}
+
+//---------------------------------------------------------------------------
+
+void Widgets::putMessage(UMessageEvent& e)
+{
+  const UStr* arg = e.getMessage();
+  if (!arg || arg->empty()) return;
+
+  UStr file_name = arg->basename();
+  UStr val;
+
+  if (file_name.empty()) val = "<url=\"" & *arg & "\">";
+  else                   val = "<url=\"" & *arg & "\">&<name=\"" & file_name & "\">";
+  if (! Cache::check(arg->c_str())) return;    // bad url
+  putinfo.putIcon(val);
+}
+
+void Widgets::openMessage(UMessageEvent &e)
+{
+  const UStr* msg = e.getMessage();
+  if (!msg || msg->empty()) return;
+  gui.gotoWorld(*msg);
+}
+
+void Widgets::moveMessage(UMessageEvent &e)
+{
+  const UStr* msg = e.getMessage();
+  if (!msg || msg->empty()) return;
+  const UStr& arg = *msg;
+
+  if (arg == "left 1")            setKey(KEY_SG, TRUE);
+  else if (arg == "left 0")       setKey(KEY_SG, FALSE);
+  else if (arg == "right 1")      setKey(KEY_SD, TRUE);
+  else if (arg == "right 0")      setKey(KEY_SD, FALSE);
+  else if (arg == "forward 1")    setKey(KEY_AV, TRUE);
+  else if (arg == "forward 0")    setKey(KEY_AV, FALSE);
+  else if (arg == "backward 1")   setKey(KEY_AR, TRUE);
+  else if (arg == "backward 0")   setKey(KEY_AR, FALSE);
+  else if (arg == "up 1")         setKey(KEY_JU, TRUE);
+  else if (arg == "up 0")         setKey(KEY_JU, FALSE);
+  else if (arg == "down 1")       setKey(KEY_JD, TRUE);
+  else if (arg == "down 0")       setKey(KEY_JD, FALSE);
+  else if (arg == "turn_left 1")  setKey(KEY_GA, TRUE);
+  else if (arg == "turn_left 0")  setKey(KEY_GA, FALSE);
+  else if (arg == "turn_right 1") setKey(KEY_DR, TRUE);
+  else if (arg == "turn_right 0") setKey(KEY_DR, FALSE);
+}
+
+void Widgets::getMessage(UMessageEvent &e)
+{
+  const UStr* msg = e.getMessage();
+  if (!msg || msg->empty()) return;
+
+  // a completer
+  //cerr << "get: " << *selected_object_url << endl;
 }
 
 //---------------------------------------------------------------------------

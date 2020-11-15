@@ -31,11 +31,11 @@
  *  WWW: http://www.enst.fr/~elc/ubit
  */
 #include "vreng.hpp"
+#include "message.hpp"
 #include "widgets.hpp"
 #include "scene.hpp"
 #include "navig.hpp"
 #include "theme.hpp"	// theme
-#include "message.hpp"	// PutInfo
 #include "wobject.hpp"	// WObject
 #include "user.hpp"	// userWriting
 #include "render.hpp"	// setCameraScissor
@@ -50,21 +50,21 @@
 /* ==================================================== ======== ======= */
 // MESSAGES and REQUESTS
 
-Messages::Messages(Widgets* _gw) : gw(*_gw)
+Message::Message(Widgets* _gw) : gw(*_gw)
 {
-  messages.addAttr(UOrient::vertical + UFont::small + utop());
-  messages.add(uhbox(UFont::bold + UColor::orange + "Have fun with VREng ;-)"));
+  messbox.addAttr(UOrient::vertical + UFont::small + utop());
+  messbox.add(uhbox(UFont::bold + UColor::orange + "Have fun with VREng ;-)"));
   history.push_back(ustr(""));
   history_pos = 0;
 }
 
-UBox& Messages::createMessagePanel(bool transparent)
+UBox& Message::createMessagePanel(bool transparent)
 {
-  scrollpane.add(messages);
+  scrollpane.add(messbox);
   scrollpane.showVScrollButtons(false);
   scrollpane.getHScrollbar()->show(false);
 
-  UTextfield& tf = utextfield(usize(250) + entry + ucall(this, &Messages::actionCB));
+  UTextfield& tf = utextfield(usize(250) + entry + ucall(this, &Message::actionCB));
 
   UBox& panel =
   ubox(UOrient::vertical  + uhflex()
@@ -77,9 +77,9 @@ UBox& Messages::createMessagePanel(bool transparent)
                + uright()
                + uitem(utip("Clear") + uassign(entry, "")
                        + UFont::bold + "C")
-               + uitem(utip("Previous message") + ucall(this,-1,&Messages::getHistoryCB)
+               + uitem(utip("Previous message") + ucall(this,-1,&Message::getHistoryCB)
                        + USymbol::up)
-               + uitem(utip("Next message") + ucall(this,+1,&Messages::getHistoryCB)
+               + uitem(utip("Next message") + ucall(this,+1,&Message::getHistoryCB)
                        + USymbol::down)
                )
        );
@@ -90,7 +90,7 @@ UBox& Messages::createMessagePanel(bool transparent)
   return panel;
 }
 
-void Messages::actionCB()
+void Message::actionCB()
 {
   if (entry.empty()) return;
 
@@ -104,13 +104,13 @@ void Messages::actionCB()
   entry = ""; // clear textfield
 }
 
-void Messages::getHistoryCB(int go)
+void Message::getHistoryCB(int go)
 {
   history_pos = (history.size() + history_pos + go) % history.size();
   entry = history[history_pos];
 }
 
-void Messages::performRequest(const UStr& req) // req starts with a '!'
+void Message::performRequest(const UStr& req) // req starts with a '!'
 {
 #if HAVE_OCAML
   if (req.empty() || !isalpha(req[1])) return;
@@ -139,7 +139,7 @@ void Messages::performRequest(const UStr& req) // req starts with a '!'
 #endif //HAVE_OCAML
 }
 
-void Messages::performRequest(WObject* object)
+void Message::performRequest(WObject* object)
 {
   if (object && nclicks > 0) {
     clicked[0]=object->pos.x;
@@ -154,7 +154,7 @@ void Messages::performRequest(WObject* object)
   }
 }
 
-void Messages::initClicked()
+void Message::initClicked()
 {
   nclicks = 0;
   for (uint32_t i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
@@ -162,7 +162,7 @@ void Messages::initClicked()
   }
 }
 
-void Messages::getClicked(int *_nclicks, float _clicked[])
+void Message::getClicked(int *_nclicks, float _clicked[])
 {
   *_nclicks = nclicks;
   for (uint32_t i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
@@ -201,7 +201,7 @@ static void moveSatCamera(char* posbuf)
   g.render.setCameraScissor(x, y, z, az);
 }
 
-void Messages::convertTextToLink(const std::string& text, char **listeObjets, int size)
+void Message::convertTextToLink(const std::string& text, char **listeObjets, int size)
 {
   UElem* allmsgs = new UElem();
   bool found = false;
@@ -209,7 +209,7 @@ void Messages::convertTextToLink(const std::string& text, char **listeObjets, in
 
   if (size < 1) {
     cerr << "convertTextToLink not implemented" << endl;
-    messages.add(uhbox(ugroup(mess)));
+    messbox.add(uhbox(ugroup(mess)));
   }
   char *brkt = null;
   char *tempmess = strtok_r(mess, " ", &brkt);
@@ -242,11 +242,11 @@ void Messages::convertTextToLink(const std::string& text, char **listeObjets, in
     }
     tempmess = strtok_r(NULL, " ", &brkt);
   }
-  messages.add(uhbox(ustr("augmented msg>") + allmsgs));
+  messbox.add(uhbox(ustr("augmented msg>") + allmsgs));
   free(mess);
 }
 
-void Messages::postRequest(const std::string& mess, std::string& result)
+void Message::postRequest(const std::string& mess, std::string& result)
 {
   int sizeMax = 256;
   int sizerecu = mess.length();
@@ -319,7 +319,7 @@ void Messages::postRequest(const std::string& mess, std::string& result)
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // chat, warning, notice...
 
-void Messages::writeMessage(const char* mode, const char* from, const char* msg)
+void Message::writeMessage(const char* mode, const char* from, const char* msg)
 {
   if (!msg) return;
 
@@ -349,7 +349,7 @@ void Messages::writeMessage(const char* mode, const char* from, const char* msg)
     else if (! strcmp(mode, "progress")) {
       prefix = new UStr("");
       prefix_color = ::g.theme.noticeColor;
-      messages.add(uhbox(ugroup(UFont::bold + prefix_color) + text));
+      messbox.add(uhbox(ugroup(UFont::bold + prefix_color) + text));
     }
     else if (! strcmp(mode, "request")) {
       prefix = new UStr(mode);
@@ -368,69 +368,15 @@ void Messages::writeMessage(const char* mode, const char* from, const char* msg)
     prefix_color = ::g.theme.messColor;
   }
 
-  messages.add(uhbox(ugroup(UFont::bold + prefix_color + prefix) + text));
+  messbox.add(uhbox(ugroup(UFont::bold + prefix_color + prefix) + text));
   return;
 }
 
 /* ==================================================== ======== ======= */
 
-void Widgets::putMessage(UMessageEvent& e)
-{
-  const UStr* arg = e.getMessage();
-  if (!arg || arg->empty()) return;
+Message2::Message2() {}
 
-  UStr file_name = arg->basename();
-  UStr val;
-
-  if (file_name.empty()) val = "<url=\"" & *arg & "\">";
-  else                   val = "<url=\"" & *arg & "\">&<name=\"" & file_name & "\">";
-  if (! Cache::check(arg->c_str())) return;    // bad url
-  putinfo.putIcon(val);
-}
-
-void Widgets::openMessage(UMessageEvent &e)
-{
-  const UStr* msg = e.getMessage();
-  if (!msg || msg->empty()) return;
-  gui.gotoWorld(*msg);
-}
-
-void Widgets::moveMessage(UMessageEvent &e)
-{
-  const UStr* msg = e.getMessage();
-  if (!msg || msg->empty()) return;
-  const UStr& arg = *msg;
-
-  if (arg == "left 1")            setKey(KEY_SG, TRUE);
-  else if (arg == "left 0")       setKey(KEY_SG, FALSE);
-  else if (arg == "right 1")      setKey(KEY_SD, TRUE);
-  else if (arg == "right 0")      setKey(KEY_SD, FALSE);
-  else if (arg == "forward 1")    setKey(KEY_AV, TRUE);
-  else if (arg == "forward 0")    setKey(KEY_AV, FALSE);
-  else if (arg == "backward 1")   setKey(KEY_AR, TRUE);
-  else if (arg == "backward 0")   setKey(KEY_AR, FALSE);
-  else if (arg == "up 1")         setKey(KEY_JU, TRUE);
-  else if (arg == "up 0")         setKey(KEY_JU, FALSE);
-  else if (arg == "down 1")       setKey(KEY_JD, TRUE);
-  else if (arg == "down 0")       setKey(KEY_JD, FALSE);
-  else if (arg == "turn_left 1")  setKey(KEY_GA, TRUE);
-  else if (arg == "turn_left 0")  setKey(KEY_GA, FALSE);
-  else if (arg == "turn_right 1") setKey(KEY_DR, TRUE);
-  else if (arg == "turn_right 0") setKey(KEY_DR, FALSE);
-}
-
-void Widgets::getMessage(UMessageEvent &e)
-{
-  const UStr* msg = e.getMessage();
-  if (!msg || msg->empty()) return;
-
-  // a completer
-  //cerr << "get: " << *selected_object_url << endl;
-}
-
-PutInfo::PutInfo() {}
-
-void PutInfo::putIconCB()
+void Message2::putIconCB()
 {
   char infos[BUFSIZ];
   memset(infos, 0, sizeof(infos));
@@ -462,7 +408,7 @@ void PutInfo::putIconCB()
   doAction(ICON_TYPE, Icon::CREATE, localuser, infos, 0, 0);
 }
 
-void PutInfo::putIcon(const UStr& val)
+void Message2::putIcon(const UStr& val)
 {
   doAction(ICON_TYPE, Icon::CREATE, localuser, (void*)val.c_str(), 0, 0);
 }

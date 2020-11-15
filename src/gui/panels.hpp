@@ -41,8 +41,8 @@ public:
 private:
   friend class Widgets;
   Widgets& gw;
-  class Joystick* joystick;
-  class Pitch* pitch;
+  class Joystick1* joystick1;
+  class Joystick2* joystick2;
   UBox& manipulator;  
   UBox right_panel, control_panel, main_panel;
   UBar control_bar;

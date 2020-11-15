@@ -110,6 +110,7 @@ void Icon::defaults()
 void Icon::makeSolid()
 {
   char s[256];
+
   sprintf(s, "solid dim=\"%f %f %f\" dif=\"%s\" xn=\"%s\" />",
           WIDTH, DEPTH, HEIGHT, COLOR, tex);
   parse()->parseSolid(s, SEP, this);
@@ -129,6 +130,7 @@ void Icon::parser(char *l)
 char * Icon::getParam(char *ptok)
 {
   char *p, *p2;
+
   p = strchr(ptok, '=');
   ptok++;
   if ((p = strchr(p, '"'))) {
@@ -145,6 +147,7 @@ char * Icon::getParam(char *ptok)
 Icon::Icon(User *user, void *d)
 {
   char *infos = (char *) d;
+
   ifile = NULL;
   ofile = NULL;
   char *action = NULL;
@@ -154,12 +157,31 @@ Icon::Icon(User *user, void *d)
 
   /* parameters transmission */
   for (char *pt = strtok(infos, "&"); pt ; pt = strtok(NULL, "&")) {
-    if (! stringcmp(pt, "<url=")) { pt = getParam(pt); strcpy(names.url, pt); taken = true; }
-    else if (! stringcmp(pt, "<file=")) { pt = getParam(pt); ifile = strdup(pt); }
-    else if (! stringcmp(pt, "<ofile=")) { pt = getParam(pt); strcpy(names.url, pt); }
-    else if (! stringcmp(pt, "<name=")) { pt = getParam(pt); strcpy(names.named, pt); }
-    else if (! stringcmp(pt, "<icon=")) { pt = getParam(pt); strcpy(icon, pt); }
-    else if (! stringcmp(pt, "<action=")) { pt = getParam(pt); action = strdup(pt); }
+    if (! stringcmp(pt, "<url=")) {
+      pt = getParam(pt);
+      strcpy(names.url, pt);
+      taken = true;
+    }
+    else if (! stringcmp(pt, "<file=")) {
+      pt = getParam(pt);
+      ifile = strdup(pt);
+    }
+    else if (! stringcmp(pt, "<ofile=")) {
+      pt = getParam(pt);
+      strcpy(names.url, pt);
+    }
+    else if (! stringcmp(pt, "<name=")) {
+      pt = getParam(pt);
+      strcpy(names.named, pt);
+    }
+    else if (! stringcmp(pt, "<icon=")) {
+      pt = getParam(pt);
+      strcpy(icon, pt);
+    }
+    else if (! stringcmp(pt, "<action=")) {
+      pt = getParam(pt);
+      action = strdup(pt);
+    }
     else if (! stringcmp(pt, "<vref=")) {
       pt = strchr(pt, '=');
       pt++;
@@ -174,24 +196,23 @@ Icon::Icon(User *user, void *d)
 
     // get the last loaded texture
     int texid = Texture::getIdByUrl(names.url);
-    Texture *tclast = Texture::getEntryById(texid);
-    if (! tclast) {
+    Texture *texlast = Texture::getEntryById(texid);
+    if (! texlast) {
       tex = new char[sizeof(ICO_DEF) + 1];
       strcpy(tex, ICO_DEF);	// default texture
     }
     else {
-      tex = new char[strlen(tclast->url) + 1];
-      strcpy(tex, tclast->url);
+      tex = new char[strlen(texlast->url) + 1];
+      strcpy(tex, texlast->url);
     }
     taken = false;
   }
-
   else {	// new document named interactively by hand
     /* position */
-    float off = 0.4;
+    float off = 0.4;		// 40cm in front of avatar
     pos.x = user->pos.x + off * Cos(user->pos.az);
     pos.y = user->pos.y + off * Sin(user->pos.az);
-    pos.z = user->pos.z + 0.6;        // visible by eyes
+    pos.z = user->pos.z + 0.6;	// visible by avatar's eyes
     pos.az = user->pos.az + M_PI_2;
 
     /* texture */
@@ -238,7 +259,7 @@ Icon::Icon(User *user, void *d)
 
             //FIXME: define local http_server
             //dax sprintf(names.url, "http://%s/~%s/vreng/%s", DEF_HTTP_SERVER, getenv("USER"), ifile);
-            sprintf(names.url, "http://%s%s/icon/%s", Universe::current()->server, Universe::current()->urlpfx, ifile);
+            sprintf(names.url, "http://%s%s/vreng/%s", Universe::current()->server, Universe::current()->urlpfx, ifile);
           }
           else {
             error("can't open %s or %s: %s (%d)", ifile, ofile, strerror(errno), errno);
