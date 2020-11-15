@@ -132,7 +132,6 @@ void Joystick1::paintCanvasCB(UPaintEvent& e)
 //---------------------------------------------------------------------------
 
 Joystick2::Joystick2(Widgets* _gw, GLint _radius)
-: gw(*_gw), radius(_radius)
 {
   is_drawing = false;
   circle_radius = _radius;
