@@ -589,7 +589,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_NAME \"vreng\"\n\
 \n\
 /* Define to the full name and version of this package. */\n\
-#define PACKAGE_STRING \"vreng 9.1.1\"\n\
+#define PACKAGE_STRING \"vreng 9.1.2\"\n\
 \n\
 /* Define to the one symbol short name of this package. */\n\
 #define PACKAGE_TARNAME \"vreng\"\n\
@@ -598,7 +598,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_URL \"\"\n\
 \n\
 /* Define to the version of this package. */\n\
-#define PACKAGE_VERSION \"9.1.1\"\n\
+#define PACKAGE_VERSION \"9.1.2\"\n\
 \n\
 /* */\n\
 #define PERLPATH \"/opt/local/bin/perl\"\n\
@@ -631,13 +631,13 @@ const char CONFIG_H[] = "\
 /* #undef UBUNTU */\n\
 \n\
 /* Version number of package */\n\
-#define VERSION \"9.1.1\"\n\
+#define VERSION \"9.1.2\"\n\
 \n\
 /* VReng major version */\n\
 #define VRENG_MAJOR_VERSION 9\n\
 \n\
 /* VReng micro version */\n\
-#define VRENG_MICRO_VERSION 1\n\
+#define VRENG_MICRO_VERSION 2\n\
 \n\
 /* VReng minor version */\n\
 #define VRENG_MINOR_VERSION 1\n\

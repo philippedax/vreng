@@ -51,13 +51,13 @@ public:
 
   Joystick2(Widgets* gw, GLint radius);
 
-private:
   Widgets& gw;
   bool  is_drawing;
   GLfloat radius;
   UBox  canvas;
   USize canvas_size;
 
+private:
   GLfloat delta;
   GLfloat angle;
   GLfloat circle_radius, current_radius;
