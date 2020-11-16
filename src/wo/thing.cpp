@@ -185,7 +185,7 @@ void Thing::dropIntoBasket(Thing *thing, void *d, time_t s, time_t u)
     //FIXME: should'nt be deleted but marked as deleted
     //thing->psql->deleteRow(thing);	// delete from the current world
     thing->state = DELETED;
-    thing->updateMySqlState(thing->state); // mark deleted
+    thing->updatePersistency(thing->state); // mark deleted
   }
 #endif
   // then add to Basket
@@ -223,7 +223,7 @@ void Thing::destroy(Thing *thing, void *d, time_t s, time_t u)
 void Thing::quit()
 {
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
   //FIXME: flushMysqlGeom(), flushMySqlOwner
 }
 

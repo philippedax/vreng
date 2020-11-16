@@ -106,7 +106,7 @@ bool Ground::whenIntersect(WObject *pcur, WObject *pold)
 
 void Ground::quit()
 {
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Ground::funcs()

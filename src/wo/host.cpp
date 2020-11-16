@@ -91,7 +91,7 @@ void Host::quit()
 {
   Xterm::quit();
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Host::funcs()

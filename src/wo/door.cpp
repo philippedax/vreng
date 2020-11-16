@@ -94,7 +94,7 @@ Door::Door(char *l)
   }
 
   /* calls persistency MySql server to know the door state */
-  getMySqlState();
+  getPersistency(state);
 
   switch (mecanism) {
   case ANGULAR:
@@ -227,7 +227,7 @@ void Door::open()
   Sound::playSound(DOOROPENSND);
   state = OPENED;
   pos.moved = true;	// has moved
-  updateMySqlState(state);
+  updatePersistency(state);
 }
 
 void Door::close()
@@ -252,7 +252,7 @@ void Door::close()
   }
   state = CLOSED;
   pos.moved = true;	// has moved
-  updateMySqlState(state);
+  updatePersistency(state);
 }
 
 void Door::lock()
@@ -264,7 +264,7 @@ void Door::lock()
   case Door::CLOSED:
     state = Door::LOCKED;
     pos.moved = true;	// has moved
-    updateMySqlState(state);
+    updatePersistency(state);
   default:
     break;
   }
@@ -278,7 +278,7 @@ void Door::unlock()
   case Door::LOCKED:
     state = Door::UNLOCKED;
     pos.moved = true;	// has moved
-    updateMySqlState(state);
+    updatePersistency(state);
   default:
     break;
   }
@@ -287,7 +287,7 @@ void Door::unlock()
 void Door::quit()
 {
   oid = 0;
-  quitMySql();
+  quitPersistency();
 }
 
 void Door::open_cb(Door *door, void *d, time_t s, time_t u) { door->open(); }

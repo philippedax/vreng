@@ -454,7 +454,7 @@ void Wings::quit()
 {
   pwings = NULL;
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
   if (dlist_middle > 0) glDeleteLists(dlist_middle, 1);
   if (dlist_right > 0) glDeleteLists(dlist_right, 1);
   if (dlist_left > 0) glDeleteLists(dlist_left, 1);

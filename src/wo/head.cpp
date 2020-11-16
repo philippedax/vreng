@@ -129,7 +129,7 @@ void Head::setName()
   setName(typeName());
 }
 
-void Head::setMysql()
+void Head::setPersist()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();
@@ -141,7 +141,7 @@ void Head::setMysql()
 #endif
 }
 
-void Head::getMysql()
+void Head::getPersist()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();
@@ -153,7 +153,7 @@ void Head::getMysql()
 #endif
 }
 
-void Head::delMysql()
+void Head::delPersist()
 {
 #if HAVE_MYSQL
   if (psql && explicitName()) psql->deleteRow(this, names.named);
@@ -216,7 +216,7 @@ Head::Head(User *user, void *d, time_t s, time_t u)
   makeSolid();
   setName(modelname);
   setOwner();
-  getMysql();
+  getPersist();
   behavior();
   inits();
 }
@@ -279,7 +279,7 @@ void Head::quit()
 {
   phead = NULL;
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 /* Creation: this method is invisible: called by the World */

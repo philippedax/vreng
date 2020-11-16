@@ -242,7 +242,7 @@ void Mirage::changePermanent(float lasting)
 
 void Mirage::quit()
 {
-  if (persist) flushMySqlPosition();
+  if (persist) savePersistency();
 }
 
 void Mirage::recreate(World *w, void *d, time_t s, time_t u)

@@ -62,7 +62,7 @@ void Ftp::get(Ftp *ftp, void *d, time_t s, time_t u)
 
 void Ftp::quit()
 {
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Ftp::funcs()

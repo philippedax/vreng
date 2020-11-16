@@ -194,7 +194,7 @@ void Cart::removeFromCart(WObject *po)
 
 void Cart::quit()
 {
-  quitMySql();
+  quitPersistency();
 }
 
 void Cart::funcs() {}

@@ -185,7 +185,7 @@ void Music::quit()
   case FMT_MIDI: Midi::stop(); break;
   }
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Music::funcs()

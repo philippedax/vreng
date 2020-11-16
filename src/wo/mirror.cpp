@@ -83,7 +83,7 @@ bool Mirror::whenIntersect(WObject *pcur, WObject *pold)
 void Mirror::quit()
 {
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Mirror::mirrorOn(Mirror *po, void *d, time_t s, time_t u)

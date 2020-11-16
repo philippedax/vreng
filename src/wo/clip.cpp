@@ -248,7 +248,7 @@ void Clip::quit()
   state = RTP_INACTIVE;
   stopRtp();
   Mpeg::stop();
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Clip::funcs()

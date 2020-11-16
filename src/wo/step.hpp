@@ -42,7 +42,7 @@ class Step: public WObject {
   bool stair;		///< flag stair
   bool spiral;		///< flag spiral staircase
   bool stuck;		///< flag wether user is on escalator/travelator
-  int dir;		///< direction up or down or horizontal
+  int dir;		///< direction up=1 or down=-1 or horizontal=0
   float height;		///< escalator height
   float length;		///< travelator length
   float speed;		///< linear speed of escalator/travelator
@@ -107,6 +107,7 @@ protected:
 
   // Gui callbacks
   static void pause_cb(Step *po, void *d, time_t s, time_t u);
+  static void stop_cb(Step *po, void *d, time_t s, time_t u);
 
 private:
   virtual void parser(char *l);

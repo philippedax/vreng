@@ -89,7 +89,7 @@ void Doc::quit()
 {
   Ps::quit();
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Doc::funcs()

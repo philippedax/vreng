@@ -361,7 +361,7 @@ bool Movie::whenIntersect(WObject *pcur, WObject *pold)
 void Movie::quit()
 {
   stop(this, NULL, 0L, 0L);
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Movie::funcs()

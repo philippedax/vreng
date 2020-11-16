@@ -540,7 +540,7 @@ void Guy::setShowing(bool flag)
 void Guy::quit()
 {
   if (curve) delete[] curve;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Guy::animate_cb(Guy *po, void *d, time_t s, time_t u)

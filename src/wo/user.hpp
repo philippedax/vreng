@@ -274,8 +274,8 @@ private:
   virtual void setName();
   /**< Sets user name. */
 
-  virtual void checkMysql();
-  /**< Checks Mysql objects. */
+  virtual void checkPersist();
+  /**< Checks Persist objects. */
 
   virtual void setCamera();
   /**< Sets user camera. */

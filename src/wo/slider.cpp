@@ -118,7 +118,7 @@ bool Slider::whenIntersect(WObject *pcur, WObject *pold)
 void Slider::quit()
 {
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Slider::funcs()

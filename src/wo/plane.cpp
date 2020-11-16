@@ -159,7 +159,7 @@ void Plane::quit()
   oid = 0;
   if (tex) delete[] tex;
   tex = NULL;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Plane::funcs()

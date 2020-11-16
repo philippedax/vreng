@@ -325,7 +325,7 @@ void Model::quit()
   if (sndurl) delete[] sndurl;
   if (bvhurl) delete[] bvhurl;
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Model::sound(Model *model, void *d, time_t s, time_t u)

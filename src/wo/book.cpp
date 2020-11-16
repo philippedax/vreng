@@ -288,7 +288,7 @@ void Book::quit()
 {
   if (tex) delete[] tex;
   if (html) delete[] html;
-  if (! near) flushMySqlPosition();
+  if (! near) savePersistency();
   oid = 0;
 }
 

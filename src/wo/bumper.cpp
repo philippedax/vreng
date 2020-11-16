@@ -139,7 +139,7 @@ bool Bumper::whenIntersect(WObject *pcur, WObject *pold)
 void Bumper::quit()
 {
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Bumper::funcs()

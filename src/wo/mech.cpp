@@ -647,7 +647,7 @@ void Mech::render()
 
 void Mech::quit()
 {
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Mech::still(Mech *mech, void *d, time_t s, time_t u)

@@ -44,6 +44,7 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius)
 {
   canvas_size.set(radius*2, radius*2);
   center_point.set(radius, radius);
+
   Navig* navig = gw.getNavig();
 
   canvas.addAttr(canvas_size
@@ -52,12 +53,12 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius)
                  + UOn::mpress   / ucall(this, &Joystick1::pressCanvasCB)
                  + UOn::mrelease / ucall(this, &Joystick1::releaseCanvasCB)
                  );
-
   add(UOrient::horizontal + upadding(1,0) + UFont::small
       + uvbox(uhcenter()
               + uitem(UOn::deselect / g.theme.joystickColor
                       + UOn::select / g.theme.joystickArmColor
-                      + "Lock" + utip("Set gravity on/off")
+                      + "Lock"
+                      + utip("Set gravity on/off")
                       + ucall(int(UserAction::UA_PAUSE), Widgets::callAction)
                       ).setSelectable()
               + uitem(g.theme.JoystickUpDown
@@ -143,12 +144,11 @@ Joystick2::Joystick2(Widgets* _gw, GLint _radius)
   delta = 0;
   angle = 0;
 
-  add
-  (canvas_size
-   + UOn::paint       / ucall(this, &Joystick2::paintCB)
-   + UOn::mdrag       / ucall(this, &Joystick2::dragCB)
-   + UOn::doubleClick / ucall(this, &Joystick2::doubleClickCB)
-   );
+  add(canvas_size
+      + UOn::paint       / ucall(this, &Joystick2::paintCB)
+      + UOn::mdrag       / ucall(this, &Joystick2::dragCB)
+      + UOn::doubleClick / ucall(this, &Joystick2::doubleClickCB)
+     );
 }
 
 void Joystick2::doAction()
@@ -167,16 +167,20 @@ void Joystick2::dragCB(UMouseEvent &e)
   GLfloat dx = e.getX() - arrow_point.x;
   GLfloat dy = arrow_point.y - e.getY();
 
-  current_radius = sqrt(dx * dx + dy * dy);
+  current_radius = sqrt(dx*dx + dy*dy);
   delta = asin(dy / current_radius);
 
   if (dx <= 0) {
-    if (dy < 5 && dy > -5) delta = 0;
+    if (dy < 5 && dy > -5)
+      delta = 0;
   }
   else {
-    if (dy >= 0) delta = M_PI/2; else delta = -M_PI/2;
+    if (dy >= 0)
+      delta = M_PI/2;
+    else
+      delta = -M_PI/2;
   }
-  angle = 180 * delta / M_PI;
+  angle = delta * (180/M_PI);
 
   doAction();
   repaint();	// uwin

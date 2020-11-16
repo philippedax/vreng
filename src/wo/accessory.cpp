@@ -107,7 +107,7 @@ void Accessory::changePermanent(float lasting)
 void Accessory::quit()
 {
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 /* wear */

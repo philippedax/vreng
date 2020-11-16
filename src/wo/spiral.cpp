@@ -101,7 +101,7 @@ void Spiral::quit()
 {
   oid = 0;
   clearList();
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Spiral::funcs()

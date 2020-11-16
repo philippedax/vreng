@@ -747,25 +747,22 @@ public:
   //
   // MySql
   //
-  virtual void getMySqlPosition();
+  virtual void getPersistency();
   /**< Checks if position is managed by MySql and get it. */
 
-  virtual void updateMySqlPosition();
-  /**< Checks if position is managed by MySql and update it. */
-
-  virtual int16_t getMySqlState();
+  virtual void getPersistency(int16_t state);
   /**< Gets state from MySql. */
 
-  virtual void updateMySqlPosZ();
-  /**< Checks if posZ is managed by MySql. */
+  virtual void updatePersistency();
+  /**< Checks if position is managed by MySql and update it. */
 
-  virtual void updateMySqlState(int16_t state);
+  virtual void updatePersistency(int16_t state);
   /**< Updates state for MySql. */
 
-  virtual void flushMySqlPosition();
+  virtual void savePersistency();
   /**< Flushes position for MySql. */
 
-  virtual void quitMySql();
+  virtual void quitPersistency();
   /**< Quits MySql. */
 
 protected:

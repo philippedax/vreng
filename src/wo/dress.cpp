@@ -156,7 +156,7 @@ void Dress::quit()
 {
   pdress = NULL;
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 /* wear */

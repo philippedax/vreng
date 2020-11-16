@@ -137,7 +137,7 @@ void WObject::initializeObject(uint8_t _mode)
       break;
     case MOBILE:
       if (isBehavior(PERSISTENT)) {
-        getMySqlPosition();	// calls persistency MySql server
+        getPersistency();	// calls persistency MySql server
         if (pos.x>1000 || pos.y>1000 || pos.z>1000 || pos.x<-1000 || pos.y<-1000 || pos.z<-1000) {
           error("object %s discarded, bad position in MySql: %.2f,%.2f,%.2f", names.instance, pos.x, pos.y, pos.z);
           enableBehavior(NO_BBABLE);
@@ -685,44 +685,18 @@ void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
 /** Checks whether position is managed by MySql
  * if it is, get position
  */
-void WObject::getMySqlPosition()
+void WObject::getPersistency()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && explicitName()) {
     psql->getPos(this);
   }
-  updateMySqlPosition();
-#endif
-}
-void WObject::updateMySqlPosition()
-{
-#if HAVE_MYSQL
-  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql && explicitName()) {
-    progression('m');
-    ::g.times.mysql.start();
-    psql->updatePos(this);
-    ::g.times.mysql.stop();
-  }
+  updatePersistency();
 #endif
 }
 
-void WObject::updateMySqlPosZ()
-{
-#if HAVE_MYSQL
-  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql && explicitName()) {
-    progression('m');
-    ::g.times.mysql.start();
-    pos.z = psql->getPosZ(this);
-    psql->updatePosZ(this);
-    ::g.times.mysql.stop();
-  }
-#endif
-}
-
-int16_t WObject::getMySqlState()
+void WObject::getPersistency(int16_t state)
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
@@ -732,11 +706,25 @@ int16_t WObject::getMySqlState()
     state = (st != ERR_MYSQL) ? st : 0; // updates state
   }
 #endif
-  return state;
+}
+
+void WObject::updatePersistency()
+{
+#if HAVE_MYSQL
+  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
+  if (psql && explicitName()) {
+    progression('m');
+    ::g.times.mysql.start();
+    psql->updatePos(this);
+    pos.z = psql->getPosZ(this);
+    psql->updatePosZ(this);
+    ::g.times.mysql.stop();
+  }
+#endif
 }
 
 /* Updates state for MySql */
-void WObject::updateMySqlState(int16_t _state)
+void WObject::updatePersistency(int16_t _state)
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
@@ -752,22 +740,22 @@ void WObject::updateMySqlState(int16_t _state)
 /** Flushes position for MySql
  * if it is the case, get position and update it
  */
-void WObject::flushMySqlPosition()
+void WObject::savePersistency()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && isBehavior(PERSISTENT) && !removed && explicitName()) {
-    //trace(DBG_FORCE, "flushMySql: %s pos.moved=%d", names.instance, pos.moved);
+    //trace(DBG_FORCE, "savePersistency: %s pos.moved=%d", names.instance, pos.moved);
     // update MySql table only if object has moved
     if (pos.moved) psql->updatePos(this);
     if (isBehavior(DYNAMIC)) psql->updateOwner(this);
-    quitMySql();
+    psql->quit();
   }
 #endif
 }
 
 /* Quits MySql */
-void WObject::quitMySql()
+void WObject::quitPersistency()
 {
 #if HAVE_MYSQL
   if (psql) psql->quit();

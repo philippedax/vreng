@@ -248,7 +248,7 @@ void User::addGui()
   if (! guip) guip = ::g.gui.addUser(this);
 }
 
-void User::checkMysql()
+void User::checkPersist()
 {
 #if HAVE_MYSQL
   VRSql *psql = VRSql::getVRSql();     // first get the the VRSql handle;
@@ -317,8 +317,8 @@ void User::inits()
   strcpy(basket, "name=\"basket\"");
   cart = new Cart(basket);
 
-  // checks Mysql objects
-  checkMysql();
+  // checks Persist objects
+  checkPersist();
 }
 
 /* Creates localuser */

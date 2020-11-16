@@ -102,7 +102,7 @@ void Stair::quit()
 {
   oid = 0;
   clearList();
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Stair::funcs()

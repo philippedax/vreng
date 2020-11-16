@@ -28,6 +28,7 @@
 using namespace std;
 
 const OClass Step::oclass(STEP_TYPE, "Step", Step::creator);
+
 const float Step::JUMP = 0.10;
 const float Step::LSPEED = 0.5;	// 1/2 ms
 list<Step*> Step::stepList;
@@ -66,20 +67,20 @@ void Step::parser(char *l)
     if (!stringcmp(l, "mode=")) {
       char modestr[16];
       l = parse()->parseString(l, modestr, "mode");
-      if      (!stringcmp(modestr, "escalator")) { escalator = true; mobile = true; }
-      else if (!stringcmp(modestr, "travelator")) { travelator = true; mobile = true; }
-      else if (!stringcmp(modestr, "stair")) stair = true;
-      else if (!stringcmp(modestr, "spiral")) { stair = true; spiral = true; }
+      if      (! stringcmp(modestr, "escalator")) { escalator = true; mobile = true; }
+      else if (! stringcmp(modestr, "travelator")) { travelator = true; mobile = true; }
+      else if (! stringcmp(modestr, "stair")) stair = true;
+      else if (! stringcmp(modestr, "spiral")) { stair = true; spiral = true; }
     }
     if (!stringcmp(l, "dir=")) {
       char modestr[16];
       l = parse()->parseString(l, modestr, "dir");
-      if      (!stringcmp(modestr, "up"))   dir = 1;
-      else if (!stringcmp(modestr, "down")) dir = -1;
+      if      (! stringcmp(modestr, "up"))   dir = 1;
+      else if (! stringcmp(modestr, "down")) dir = -1;
     }
-    else if (!stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
-    else if (!stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
-    else if (!stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
+    else if (! stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
+    else if (! stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
+    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
   }
   end_while_parse(l);
 
@@ -312,7 +313,7 @@ bool Step::whenIntersect(WObject *pcur, WObject *pold)
   switch (pcur->type) {
 
     case USER_TYPE:
-      if (mobile) {  // escalator
+      if (mobile) {  // escalator | travelator
         if (! stuck) {
           stuck = true;
           return true;
@@ -360,11 +361,19 @@ void Step::quit()
 {
   oid = 0;
   clearList();
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Step::pause_cb(Step *step, void *d, time_t s, time_t u)
 {
+  if (step->state == ACTIVE) step->state = INACTIVE;
+  else                       step->state = ACTIVE;
+}
+
+void Step::stop_cb(Step *step, void *d, time_t s, time_t u)
+{
+  if (step->mobile == true) step->mobile = false;
+  else                      step->mobile = true;
   if (step->state == ACTIVE) step->state = INACTIVE;
   else                       step->state = ACTIVE;
 }
@@ -378,4 +387,5 @@ void Step::funcs()
 {
   setActionFunc(STEP_TYPE, 0, WO_ACTION gotoFront, "Approach");
   setActionFunc(STEP_TYPE, 1, WO_ACTION pause_cb, "Pause/Continue");
+  setActionFunc(STEP_TYPE, 2, WO_ACTION stop_cb, "Stop/Restart");
 }

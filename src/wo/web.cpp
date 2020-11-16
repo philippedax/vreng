@@ -194,7 +194,7 @@ void Web::pivot_cb(Web *web, void *d, time_t s, time_t u)
 void Web::quit()
 {
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
   if (text) delete text;
   if (legend) delete[] legend;
 }

@@ -108,7 +108,7 @@ void Halo::quit()
 {
   phalo = NULL;
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 /* wear */

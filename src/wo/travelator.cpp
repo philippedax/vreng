@@ -50,8 +50,8 @@ void Travelator::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
-    else if (!stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
+    if      (! stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
+    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
   }
   end_while_parse(l);
 }
@@ -63,7 +63,7 @@ void Travelator::build()
   float ss = MIN(sx, sy);
 
   nsteps = (int) ceil(length / ss);
-  trace(DBG_FORCE, "nsteps = %d", nsteps);
+  trace(DBG_WO, "travellator: nsteps = %d", nsteps);
 
   for (int n=0; n <= nsteps; n++) {
     Pos newpos;
@@ -101,11 +101,12 @@ void Travelator::quit()
 {
   oid = 0;
   clearList();
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Travelator::funcs()
 {
   setActionFunc(TRAVELATOR_TYPE, 0, WO_ACTION gotoFront, "Approach");
   setActionFunc(TRAVELATOR_TYPE, 1, WO_ACTION pause_cb, "Pause/Continue");
+  setActionFunc(TRAVELATOR_TYPE, 2, WO_ACTION stop_cb, "Stop/Restart");
 }

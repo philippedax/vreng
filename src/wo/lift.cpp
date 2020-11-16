@@ -185,7 +185,7 @@ bool Lift::whenIntersectOut(WObject *pcur, WObject *pold)
 void Lift::quit()
 {
   oid = 0;
-  flushMySqlPosition();
+  savePersistency();
 }
 
 void Lift::funcs()

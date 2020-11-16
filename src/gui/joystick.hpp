@@ -48,7 +48,6 @@ private:
 
 class Joystick2 : public UBox {
 public:
-
   Joystick2(Widgets* gw, GLint radius);
 
 private:
