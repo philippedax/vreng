@@ -71,18 +71,18 @@ void Water::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "amplitude")) {
+    if (! stringcmp(l, "amplitude")) {
       l = parse()->parseFloat(l, &amplitude, "amplitude");
       amplitude *= DEF_AMPLITUDE;	// coef
     }
-    else if (!stringcmp(l, "freq")) {
+    else if (! stringcmp(l, "freq")) {
       l = parse()->parseFloat(l, &freq, "freq");
     }
-    else if (!stringcmp(l, "phase")) {
+    else if (! stringcmp(l, "phase")) {
       l = parse()->parseFloat(l, &phase, "phase");
       phase *= DEF_PHASE;	// coef
     }
-    else if (!stringcmp(l, "height")) {
+    else if (! stringcmp(l, "height")) {
       l = parse()->parseFloat(l, &height, "height");
     }
   }
@@ -92,12 +92,13 @@ void Water::parser(char *l)
 void Water::behavior()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
+  enableBehavior(LIQUID);
   enableBehavior(SPECIFIC_RENDER);
 }
 
 void Water::inits()
 {
-  initializeMobileObject(0);
+  initFluidObject(0);
   enablePermanentMovement();
 
   rotx = 0;
@@ -156,7 +157,7 @@ void Water::changePermanent(float lasting)
 
 void Water::render()
 {
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //dax glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if this line is commented, flag is ok
   glPushMatrix();
    glEnable(GL_LIGHTING);
    glEnable(GL_BLEND);
@@ -174,7 +175,7 @@ void Water::render()
    glDisable(GL_BLEND);
    glDisable(GL_LIGHTING);
   glPopMatrix();
-  //DAX glPopAttrib();
+  //dax glPopAttrib();
 }
 
 bool Water::whenIntersect(WObject *pcur, WObject *pold)
@@ -225,24 +226,24 @@ void Water::sound()
   Sound::playSound(BUBBLESSND);
 }
 
-void Water::moreAmplitude(Water *water, void *d, time_t s, time_t u)
+void Water::moreAmpl(Water *water, void *d, time_t s, time_t u)
 {
   water->amplitude += Water::INCR_AMPLITUDE;
 }
 
-void Water::lessAmplitude(Water *water, void *d, time_t s, time_t u)
+void Water::lessAmpl(Water *water, void *d, time_t s, time_t u)
 {
   water->amplitude -= Water::INCR_AMPLITUDE;
   if (water->amplitude < 0.)
     water->amplitude = Water::INCR_AMPLITUDE;
 }
 
-void Water::moreFrequence(Water *water, void *d, time_t s, time_t u)
+void Water::moreFreq(Water *water, void *d, time_t s, time_t u)
 {
   water->freq += Water::INCR_FREQ;
 }
 
-void Water::lessFrequence(Water *water, void *d, time_t s, time_t u)
+void Water::lessFreq(Water *water, void *d, time_t s, time_t u)
 {
   water->freq -= Water::INCR_FREQ;
   if (water->freq < 0.)
@@ -286,10 +287,10 @@ void Water::reset(Water *water, void *d, time_t s, time_t u)
 
 void Water::funcs()
 {
-  setActionFunc(WATER_TYPE, 0, WO_ACTION moreAmplitude, "Ampl+");
-  setActionFunc(WATER_TYPE, 1, WO_ACTION lessAmplitude, "Ampl-");
-  setActionFunc(WATER_TYPE, 2, WO_ACTION moreFrequence, "Freq+");
-  setActionFunc(WATER_TYPE, 3, WO_ACTION lessFrequence, "Freq-");
+  setActionFunc(WATER_TYPE, 0, WO_ACTION moreAmpl, "Ampl+");
+  setActionFunc(WATER_TYPE, 1, WO_ACTION lessAmpl, "Ampl-");
+  setActionFunc(WATER_TYPE, 2, WO_ACTION moreFreq, "Freq+");
+  setActionFunc(WATER_TYPE, 3, WO_ACTION lessFreq, "Freq-");
   setActionFunc(WATER_TYPE, 4, WO_ACTION morePhase, "Phase+");
   setActionFunc(WATER_TYPE, 5, WO_ACTION lessPhase, "Phase-");
   setActionFunc(WATER_TYPE, 6, WO_ACTION moreTransp, "Transp+");

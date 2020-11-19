@@ -50,7 +50,7 @@ Ftp::Ftp(char *l)
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
 }
 
 void Ftp::get(Ftp *ftp, void *d, time_t s, time_t u)

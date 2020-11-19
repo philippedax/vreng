@@ -929,6 +929,14 @@ void World::quit()
   }
   invisibleList.clear();
 
+  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+    if (*it && (*it)->isValid()) {
+      (*it)->quit();
+      delete *it;
+    }
+  }
+  fluidList.clear();
+
   for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if (*it && (*it)->isValid()) {
       (*it)->clearObjectBar();
@@ -1097,6 +1105,7 @@ void World::clearLists()
 {
   mobileList.clear();
   invisibleList.clear();
+  fluidList.clear();
   stillList.clear();
   deleteList.clear();
   lightList.clear();

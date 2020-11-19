@@ -169,7 +169,7 @@ void Step::behavior()
   enableBehavior(PERSISTENT);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 }
 
@@ -200,7 +200,7 @@ Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, 
   firstpos = _firstpos;
   stuck = false;
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   //notused addList();
 
   if (mobile) {    // escalator or travelator

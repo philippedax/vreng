@@ -51,7 +51,7 @@ Entry::Entry()
 Entry::Entry(char *l)
 {
   parser(l);
-  initializeObject(INVISIBLE);
+  initObject(INVISIBLE);
   entry = this;
 }
 

@@ -113,7 +113,7 @@ void Cloth::behavior()
     enableBehavior(NO_BBABLE);
     setRenderPrior(RENDER_HIGH);
   }
-  initializeMobileObject(ttl);
+  initMobileObject(ttl);
   if (taken)
     enablePermanentMovement();	// follows user
 }

@@ -227,7 +227,7 @@ public:
 
 private:
 
-  static const int SELECT_BUFSIZ;
+  static const int SEL_BUFSIZ;
   
   std::list<Solid*> solidList;	///< rendering solids list.
 
@@ -237,19 +237,14 @@ private:
   bool first_bbox;		///< first bbox.
   bool quality;			///< flag quality yes/no.
   bool flash;			///< flag flash.
-  GLfloat needle_angle;		///< needle progression angle
-  
   uint8_t view;			///< local user View type.
   bool viewMap;                 ///< local user Map.
   bool viewSat;                 ///< local user satellite view.
-  GLfloat	thirdPerson_yRot;	///< local user y rotation for Third Person view.
-  GLfloat	thirdPerson_xRot;	///< local user x rotation for Third Person view.
-  GLfloat	thirdPerson_Near;	///< local user distance for Third Person view.
-  GLfloat	turnAround;		///< local user rotation for Turn Around view.
-  GLfloat	pitch;			///< local user pitch rotation.
-
-  class Wheel *wheel;		///< experimental
-  
+  GLfloat thirdPerson_yRot;	///< local user y rotation for Third Person view.
+  GLfloat thirdPerson_xRot;	///< local user x rotation for Third Person view.
+  GLfloat thirdPerson_Near;	///< local user distance for Third Person view.
+  GLfloat turnAround;		///< local user rotation for Turn Around view.
+  GLfloat pitch;		///< local user pitch rotation.
   V3 satellitePos;
   V3 satelliteRot;
   V3 mapUserPos;
@@ -257,22 +252,26 @@ private:
   int numberBlinkSolid;
   int numberFlashySolid;
 
+  class Wheel *wheel;		///< experimental
 
   // rendering setup
   void lighting();		///< Set lights.
   void materials();		///< Set colors of materials.
 
-  // effective rendering
-  void solids(bool select);	///< Render solids in display-list.
+  // effective objects rendering
+  void objectsRendering(bool select);	///< Render solids in display-list.
+  void specificRender(uint32_t n, uint8_t prior);	///< Special rendering.
+  void specificStill(uint32_t n, uint8_t prior);	///< Special rendering.
+  void specificMobile(uint32_t n, uint8_t prior);	///< Special rendering.
+  void specificInvisible(uint32_t n, uint8_t prior);	///< Special rendering.
+  void specificFluid(uint32_t n, uint8_t prior);	///< Special rendering.
+
+  // effective solids rendering
   void solidsOpaque(bool zsel, list<Solid*>::iterator psu, uint8_t prior);	///< opaque solids
   void solidsTranslucid(bool zsel, list<Solid*>::iterator psu, uint8_t prior);  ///< translucid solids
-  void specific(uint32_t n, uint8_t order);	///< Special rendering.
-  void specificStill(uint32_t n, uint8_t order);	///< Special rendering.
-  void specificMobile(uint32_t n, uint8_t order);	///< Special rendering.
-  void specificInvisible(uint32_t n, uint8_t order);	///< Special rendering.
 
-  void setzname(WObject *po);
-  /**< Sets name in buffer for selection. */
+  void putSelbuf(WObject *po);
+  /**< Sets object name in Z-buffer for selection. */
 
   void map();
   /**< show the small map. */

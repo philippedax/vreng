@@ -199,7 +199,7 @@ Book::Book(char *l)
   enableBehavior(TAKABLE);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 
   // create the heaps of sheets

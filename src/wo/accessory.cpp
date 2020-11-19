@@ -73,7 +73,7 @@ void Accessory::behavior()
 
 void Accessory::init()
 {
-  initializeMobileObject(1);
+  initMobileObject(1);
   enablePermanentMovement(speed);
   createPermanentNetObject(PROPS, ++oid);
 }

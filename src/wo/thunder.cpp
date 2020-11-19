@@ -23,6 +23,7 @@
 
 
 const OClass Thunder::oclass(THUNDER_TYPE, "Thunder", Thunder::creator);
+
 const uint16_t Thunder::NUMBER = 1;
 const float Thunder::PERIOD = 2;
 
@@ -49,8 +50,8 @@ void Thunder::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
-    else if (!stringcmp(l, "period")) l = parse()->parseFloat(l, &period, "period");
+    if      (! stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
+    else if (! stringcmp(l, "period")) l = parse()->parseFloat(l, &period, "period");
   }
   end_while_parse(l);
 }
@@ -63,10 +64,10 @@ void Thunder::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_NORMAL);
 
-#if 0
-  initializeEphemeralObject(0);
+#if 1 //dax
+  initEphemeralObject(0);
 #else
-  initializeMobileObject(0);
+  initMobileObject(0);
 #endif
   enablePermanentMovement();
 }

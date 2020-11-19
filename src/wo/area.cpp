@@ -50,7 +50,7 @@ Area::Area(char *l)
 
   enableBehavior(COLLIDE_ONCE);
   enableBehavior(UNVISIBLE);
-  initializeObject(INVISIBLE);
+  initObject(INVISIBLE);
 }
 
 /** Intersection with an object */

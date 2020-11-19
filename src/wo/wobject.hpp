@@ -38,6 +38,7 @@
 #define TAKABLE			128	// bit 7
 #define REMOVABLE		256	// bit 8
 #define PARTICLE		512	// bit 9
+#define LIQUID			1024	// bit 10
 /* collide behaviors */
 #define COLLIDE_EVER		0	// bits 29,30,31
 #define COLLIDE_MASK		3<<29	// bits 29,30,31
@@ -45,10 +46,14 @@
 #define COLLIDE_NEVER		1<<30	// bit 30
 #define COLLIDE_GHOST		1<<31	// bit 31
 
-/* external variables */
+/**
+ * external variables
+ * objects lists
+ */
 extern std::list<WObject*> mobileList;
 extern std::list<WObject*> stillList;
 extern std::list<WObject*> invisibleList;
+extern std::list<WObject*> fluidList;
 extern std::list<WObject*> deleteList;
 extern std::list<WObject*> lightList;
 
@@ -135,7 +140,7 @@ public:
   class NetObject *noh;		///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
   uint8_t type;			///< object type.
-  uint8_t mode;			///< object world mode.
+  uint8_t mode;			///< object mode.
   uint16_t num;			///< object sequence number.
   uint32_t behavior;		///< behavior flags.
   Names names;			///< names.
@@ -155,17 +160,18 @@ public:
   class Flare *flare;		///< flare instance
 
   /* object's list modes */
-  enum {
+  enum object_mode {
     STILL,
     MOBILE,
     EPHEMERAL,
     INVISIBLE,
+    FLUID,
     MOBILEINVISIBLE,
     MODE_MAX
   };
 
   /* object's states */
-  enum {
+  enum object_state {
     DELETED = -1,
     NONE = 0,
     INACTIVE = 0,
@@ -180,7 +186,7 @@ public:
   };
 
   /* render priorities */
-  enum {
+  enum object_prior {
     RENDER_LOW,
     RENDER_NORMAL,
     RENDER_HIGH
@@ -455,6 +461,9 @@ public:
   virtual void addToInvisible();
   /**< Adds an object pointer into invisibleList. */
 
+  virtual void addToFluid();
+  /**< Adds an object pointer into fluidList. */
+
   virtual void addToRender();
   /**< Adds an object pointer into renderList. */
 
@@ -494,6 +503,7 @@ public:
   /**< Checks an object exists in the stilllist. */
 
   virtual bool isMobile();
+  virtual bool isFluid();
   virtual bool isEphemeral();
   /**< Checks an object exists in the mobilelist. */
 
@@ -578,15 +588,18 @@ public:
   //
   // Initializations
   //
-  virtual void initializeObject(uint8_t mode);
+  virtual void initObject(uint8_t mode);
   /**< Initializes object. */
 
-  virtual void initializeMobileObject(float last);
-  virtual void initializeEphemeralObject(float last);
+  virtual void initMobileObject(float last);
+  virtual void initEphemeralObject(float last);
   /**< Initializes mobile object. */
 
-  virtual void initializeStillObject();
+  virtual void initStillObject();
   /**< Initializes still object. */
+
+  virtual void initFluidObject(float last);
+  /**< Initializes fluid object. */
 
   void createPermanentNetObject(uint8_t props, uint16_t oid);
   /**< Creates local permanent NetObject. */

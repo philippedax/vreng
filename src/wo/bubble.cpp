@@ -80,7 +80,7 @@ void Bubble::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(BUBBLETTL);
+  initMobileObject(BUBBLETTL);
   initImposedMovement(BUBBLETTL);
   createPermanentNetObject(PROPS, ++oid);
 }

@@ -112,7 +112,7 @@ void Head::behavior()
   enableBehavior(NO_BBABLE);
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   enablePermanentMovement();	// follows user
   createPermanentNetObject(PROPS, ++oid);
 }

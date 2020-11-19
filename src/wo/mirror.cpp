@@ -44,7 +44,7 @@ void Mirror::behavior()
   enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 
   setReflexive(state);

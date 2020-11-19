@@ -102,7 +102,7 @@ Wind::Wind(char *l)
   World *world = World::current();
   world->wind = this;	//FIXME: world->setWind(this);
 
-  initializeObject(INVISIBLE);
+  initObject(INVISIBLE);
   wind = this;
 
 #if 0 //FIXME hang

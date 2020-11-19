@@ -102,7 +102,7 @@ Vrelet::Vrelet(char *l)
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
 
   Vjc::startApp(this);
   ::g.gui.setToVrelet(this);

@@ -94,7 +94,7 @@ void Fire::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_HIGH); // RENDER_LOW and RENDER_NORMAL does'nt work : FIXME
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   enablePermanentMovement();
 }
 
@@ -181,20 +181,20 @@ void Fire::render()
 {
   static uint32_t nf = 0;
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //dax glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
   float seed = ((float) drand48() * 2) - 1.;
   glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
   glDisable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-  //glEnable(GL_BLEND);
+  glEnable(GL_BLEND);
 
   draw();
 
-  //glDisable(GL_BLEND);
+  glDisable(GL_BLEND);
   glPopMatrix();
-  glPopAttrib();
+  //dax glPopAttrib();
   nf++;
 }
 

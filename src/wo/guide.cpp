@@ -104,7 +104,7 @@ Guide::Guide(char *l)
 
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_HIGH);
-  initializeMobileObject(0);
+  initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
   if (perpetual) enablePermanentMovement();
 

@@ -72,7 +72,7 @@ AnimX3d::AnimX3d(char *l)
   x3dmodel = new X3d(names.url);
   X3dModel = x3dmodel;
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   setRenderPrior(RENDER_HIGH);
 }
 

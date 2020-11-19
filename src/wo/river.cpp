@@ -52,11 +52,11 @@ void River::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "waves")) l = parse()->parseUInt8(l, &waves, "waves");
-    else if (!stringcmp(l, "width")) l = parse()->parseFloat(l, &width, "width");
-    else if (!stringcmp(l, "depth")) l = parse()->parseFloat(l, &depth, "depth");
-    else if (!stringcmp(l, "scale")) l = parse()->parseFloat(l, &scale, "scale");
-    else if (!stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
+    if      (! stringcmp(l, "waves")) l = parse()->parseUInt8(l, &waves, "waves");
+    else if (! stringcmp(l, "width")) l = parse()->parseFloat(l, &width, "width");
+    else if (! stringcmp(l, "depth")) l = parse()->parseFloat(l, &depth, "depth");
+    else if (! stringcmp(l, "scale")) l = parse()->parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
   }
   end_while_parse(l);
 }
@@ -64,30 +64,35 @@ void River::parser(char *l)
 void River::behavior()
 {
   enableBehavior(NO_BBABLE);
+  enableBehavior(LIQUID);
   enableBehavior(SPECIFIC_RENDER);
-  if (width * depth > 10)
-    setRenderPrior(RENDER_LOW);
+  if (width * depth > 10)		// large surface
+    setRenderPrior(RENDER_LOW);		// FIXME!
+					// if LOW river is not visible,
+					// if NORMAL scene is dark
+					// if HIGH river position is over the other ovjects
   else
-    setRenderPrior(RENDER_HIGH);
+    setRenderPrior(RENDER_NORMAL);
 
-  initializeStillObject();
+  //dax initStillObject();
+  initFluidObject(0);		// fluid object
 }
 
 void River::inits()
 {
   if (waves > DEF_WAVES) waves = DEF_WAVES;
-  mesh = new float[2*waves*sizeof(float)+1];
+  mesh  = new float[2*waves*sizeof(float)+1];
   phase = new float[waves*sizeof(float)];
   speed = new float[waves*sizeof(float)];
-  ampl = new float[waves*sizeof(float)];
+  ampl  = new float[waves*sizeof(float)];
   srand(time(0));
 
   for (int i=0; i<waves ; i++) {
-    mesh[2*i] = (float) (rand()%(int)ceil(width));
+    mesh[2*i]   = (float) (rand()%(int)ceil(width));
     mesh[2*i+1] = (float) (rand()%(int)ceil(depth));
-    phase[i] = (float) (rand()%10);
-    speed[i] = (float) (rand()%100)/300;
-    ampl[i] = 0.005* (float) (rand()%100)/100;
+    phase[i]    = (float) (rand()%10);
+    speed[i]    = (float) (rand()%100)/300;
+    ampl[i]     = 0.005*  (float) (rand()%100)/100;
   }
 }
 
@@ -98,7 +103,7 @@ River::River(char *l)
   inits();
 }
 
-void River::wave(float a, float b)
+void River::draw(float a, float b)
 {
   float x=0, y=0, z=0;
   float vx,vy;
@@ -138,10 +143,10 @@ void River::render()
   glBegin(GL_QUADS);
   for (int a=0; a < 2*ceil(width) ; a++) {
     for (int b=0; b < 2*ceil(depth) ; b++) {
-      wave((float) a, (float) b);
-      wave((float) a+1, (float) b);
-      wave((float) a+1, (float) b+1);
-      wave((float) a, (float) b+1);
+      draw((float) a, (float) b);
+      draw((float) a+1, (float) b);
+      draw((float) a+1, (float) b+1);
+      draw((float) a, (float) b+1);
     }
   }
   glEnd();
@@ -155,12 +160,11 @@ void River::render()
 
 void River::quit()
 {
-  if (mesh) delete[] mesh;
+  if (mesh)  delete[] mesh;
   if (phase) delete[] phase;
   if (speed) delete[] speed;
-  if (ampl) delete[] ampl;
+  if (ampl)  delete[] ampl;
 } 
 
 void River::funcs()
-{
-} 
+{ } 

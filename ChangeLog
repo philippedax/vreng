@@ -15,10 +15,12 @@ The rules for this file:
 ++ 9
 == 9.1
 == 9.1.2
+	- added FLUID mode and fluidLists
+	- renamed initialize*Object to init*Oject methods
 	- renamed class PutInfo to class Message2
 	- renamed class Pitch to class Joystick2
 	- removed gui/pitch*pp
-	(2020/11/15, Philippe Dax)
+	(2020/11/19, Philippe Dax)
 
 == 9.1.1
 	- fixed urlpfx in universe.cpp

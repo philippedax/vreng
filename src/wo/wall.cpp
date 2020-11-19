@@ -52,8 +52,8 @@ Wall::Wall(char *l)
 
   setRenderPrior(RENDER_NORMAL);
 
-  //dax initializeStillObject();
-  initializeMobileObject(0);
+  //dax initStillObject();
+  initMobileObject(0);
 }
 
 Wall::Wall(WObject *user, char *geom)
@@ -62,7 +62,7 @@ Wall::Wall(WObject *user, char *geom)
   parse()->parseSolids(geom, SEP, this);
 
   enableBehavior(DYNAMIC);
-  initializeMobileObject(0);
+  initMobileObject(0);
 
   pos.x = user->pos.x + 0.7;	// in front of localuser
   pos.y = user->pos.y;

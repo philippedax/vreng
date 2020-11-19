@@ -94,7 +94,7 @@ Web::Web(char *l)
   enableBehavior(PERSISTENT);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(TTL);
+  initMobileObject(TTL);
   createPermanentNetObject(PROPS, ++oid);
 }
 

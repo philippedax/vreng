@@ -101,7 +101,7 @@ void Text::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeStillObject();
+  initStillObject();
 }
 
 void Text::inits()
@@ -143,7 +143,7 @@ void Text::render()
   if (! loaded) return;
   if (state == INACTIVE) return;
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if this line is commented, guys have bad color
   glPushMatrix();
   glEnable(GL_LIGHTING);
   glEnable(GL_TEXTURE_2D);

@@ -120,7 +120,7 @@ Clock::Clock(char *l)
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
 
   if (! haveneedle) needle = oid;
   initTime();
@@ -137,7 +137,7 @@ Clock::Clock()
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
 
   needle = SECOND;
   initTime();

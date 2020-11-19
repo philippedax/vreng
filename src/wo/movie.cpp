@@ -82,7 +82,7 @@ void Movie::behavior()
 
 void Movie::init()
 {
-  initializeMobileObject(0);
+  initMobileObject(0);
 }
 
 Movie::Movie(char *l)

@@ -98,7 +98,7 @@ Ball::Ball(char *l)
   enableBehavior(PERSISTENT);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   createVolatileNetObject(PROPS);
 }
 
@@ -118,7 +118,7 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
   origz = pos.z;	// see ground
 
   enableBehavior(PERSISTENT);
-  initializeMobileObject(TTL);
+  initMobileObject(TTL);
   setRenderPrior(RENDER_NORMAL);
   enablePermanentMovement(); // apply gravity
 
@@ -141,7 +141,7 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
   makeSolid();
 
   enableBehavior(PERSISTENT);
-  initializeMobileObject(TTL);
+  initMobileObject(TTL);
   enablePermanentMovement();
 
   createVolatileNetObject(PROPS);
@@ -162,7 +162,7 @@ Ball::Ball(WObject *user, char *solid)
   updatePosition();
 
   enableBehavior(PERSISTENT);
-  initializeMobileObject(TTL);
+  initMobileObject(TTL);
 
   createVolatileNetObject(PROPS);
 }
@@ -183,7 +183,7 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
 
   makeSolid();
   defaults();
-  initializeMobileObject(0);
+  initMobileObject(0);
 }
 
 void Ball::updateTime(time_t sec, time_t usec, float *lasting)

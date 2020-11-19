@@ -284,7 +284,7 @@ Icon::Icon(User *user, void *d)
   enableBehavior(NO_ELEMENTARY_MOVE);
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   ttl = (taken) ? MAXFLOAT : 0;
   initImposedMovement(ttl);
   disablePermanentMovement();
@@ -320,7 +320,7 @@ Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
   parse()->parseName(names.named, names.named);
   makeSolid();
   defaults();
-  initializeMobileObject(0);
+  initMobileObject(0);
   taken = false;
 }
 

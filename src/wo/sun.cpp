@@ -67,7 +67,7 @@ void Sun::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_LOW);	// OK behind objects
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   enablePermanentMovement();
   //dax addToInvisible();	// show flares only
 }
@@ -155,8 +155,8 @@ void Sun::lighting()
 {
   static float tic = 0;
 
-#if 1 //dax
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
+#if 0 //dax
+  //dax glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT3);
@@ -175,7 +175,7 @@ void Sun::lighting()
    glDisable(GL_LIGHT3);
    glDisable(GL_LIGHTING);
   glPopMatrix();
-  glPopAttrib();
+  //dax glPopAttrib();
 #endif
 
   tic += 0.2;	// 360/86400

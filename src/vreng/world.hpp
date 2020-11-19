@@ -41,7 +41,7 @@ class World {
 #endif
 
   /* states */
-  enum {
+  enum world_state {
     LOADING,
     LOADED,
     SIMULATION,

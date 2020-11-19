@@ -96,7 +96,7 @@ void Guy::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   enablePermanentMovement();
 }
 
@@ -290,10 +290,10 @@ void Guy::draw_uleg()
   glPopMatrix();
 
   // hip
-  //glPushMatrix(); //DAX
+  glPushMatrix();
   glTranslatef(0, -HIP_R, 0);
   Draw::sphere(HIP_R, 16, 16, 0);
-  //glPopMatrix(); //DAX
+  glPopMatrix();
 
   // thig
   glPushMatrix();
@@ -405,29 +405,29 @@ void Guy::display_leg(bool side)
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, legs_color);
   glPushMatrix();
-  if (side == 0) glTranslatef(BUST_L * BUST_W/2., 0, 0);
-  else glTranslatef(-BUST_L * BUST_W/2., 0, 0);
+   if (side == 0) glTranslatef(BUST_L * BUST_W/2., 0, 0);
+   else glTranslatef(-BUST_L * BUST_W/2., 0, 0);
 
-  // Upper leg: rotates about the x axis only
-  glRotatef(cycles[side][0][step], 1, 0, 0);
-  glPushMatrix();
-  glCallList(dlist+ULEG);
-  glPopMatrix();
+   // Upper leg: rotates about the x axis only
+   glRotatef(cycles[side][0][step], 1, 0, 0);
+   glPushMatrix();
+   glCallList(dlist+ULEG);
+   glPopMatrix();
 
-  // Lower leg: rotates about the x axis only
-  glTranslatef(0, -(ULEG_H + KNEE_R), 0);
-  glRotatef(cycles[side][1][step], 1, 0, 0);
-  glPushMatrix();
-  glCallList(dlist+LLEG);
-  glPopMatrix();
+   // Lower leg: rotates about the x axis only
+   glTranslatef(0, -(ULEG_H + KNEE_R), 0);
+   glRotatef(cycles[side][1][step], 1, 0, 0);
+   glPushMatrix();
+   glCallList(dlist+LLEG);
+   glPopMatrix();
 
-  // Foot: rotates about the x axis only
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, feet_color);
-  glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0); //DAX
-  glRotatef(cycles[side][2][step], 1, 0, 0);
-  glPushMatrix();
-  glCallList(dlist+FOOT);
-  glPopMatrix();
+   // Foot: rotates about the x axis only
+   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, feet_color);
+   glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0); //DAX
+   glRotatef(cycles[side][2][step], 1, 0, 0);
+   glPushMatrix();
+   glCallList(dlist+FOOT);
+   glPopMatrix();
   glPopMatrix();
 }
 
@@ -435,31 +435,31 @@ void Guy::display_arm(bool side)
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, bust_color);
   glPushMatrix();
-  glTranslatef(0, BUST_H, 0);
-  if (side == 0) glTranslatef(BUST_W -SHOULDER_R/2, 0, 0);
-  else glTranslatef(-BUST_W + SHOULDER_R/2, 0, 0);
+   glTranslatef(0, BUST_H, 0);
+   if (side == 0) glTranslatef(BUST_W -SHOULDER_R/2, 0, 0);
+   else glTranslatef(-BUST_W + SHOULDER_R/2, 0, 0);
 
-  // Upper arm: rotates about the x axis only
-  if (flying)
-    glRotatef(135, 1, 0, 0);
-  else if (showing && side == 0)  // right arm
-    glRotatef(90, 1, 0, 0);
-  else
-    glRotatef(cycles[side][3][step], 1, 0, 0);
-  glPushMatrix();
-  glCallList(dlist+UARM);
-  glPopMatrix();
+   // Upper arm: rotates about the x axis only
+   if (flying)
+     glRotatef(135, 1, 0, 0);
+   else if (showing && side == 0)  // right arm
+     glRotatef(90, 1, 0, 0);
+   else
+     glRotatef(cycles[side][3][step], 1, 0, 0);
+   glPushMatrix();
+   glCallList(dlist+UARM);
+   glPopMatrix();
 
-  // Lower arm: rotates about the x axis only
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
-  glTranslatef(0, -(UARM_H + ELBOW_R), 0);
-  if (flying || (showing && side == 0))
-    glRotatef(0, 1, 0, 0);
-  else
-    glRotatef(cycles[side][4][step], 1, 0, 0);
-  glPushMatrix();
-  glCallList(dlist+LARM);
-  glPopMatrix();
+   // Lower arm: rotates about the x axis only
+   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
+   glTranslatef(0, -(UARM_H + ELBOW_R), 0);
+   if (flying || (showing && side == 0))
+     glRotatef(0, 1, 0, 0);
+   else
+     glRotatef(cycles[side][4][step], 1, 0, 0);
+   glPushMatrix();
+   glCallList(dlist+LARM);
+   glPopMatrix();
   glPopMatrix();
 }
 

@@ -74,7 +74,7 @@ Transform::Transform(char *l)
   }
 
   enableBehavior(SPECIFIC_RENDER);
-  initializeObject(INVISIBLE);
+  initObject(INVISIBLE);
 }
 
 void Transform::render()

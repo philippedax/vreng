@@ -62,10 +62,10 @@ public:
     PLAIN,              ///< render surfaces with plain colors.
     TEXTURED,           ///< render surfaces with their textures.
     WIRED,              ///< don't render surfaces, only render edges.
-    ZBUFSELECT          ///< only fill the Z-buffer (for selection).
+    ZBUFSEL             ///< only fill the Z-buffer (for selection).
   };
 
-  enum render_order {
+  enum render_type {
     OPAQUE,
     TRANSLUCID,
     FLASHRAY,
@@ -254,7 +254,7 @@ private:
   virtual void postDraw(int texid, GLfloat alpha, GLfloat *fog);
   /**< Ends transforms after drawing. */
 
-  virtual void getBB(V3 &max, V3 &min, bool framed) const;
+  virtual void getBB(V3 &max, V3 &min, bool framed);
   /**< Gets BB. */
 
   virtual void setBB(GLfloat w, GLfloat d, GLfloat h);

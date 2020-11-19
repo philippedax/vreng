@@ -96,7 +96,7 @@ void Particle::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_LOW);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   switch (system) {
   case FIREWORK:
     break;

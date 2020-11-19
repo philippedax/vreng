@@ -68,7 +68,7 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 }
 

@@ -61,7 +61,7 @@ void Fractal::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_LOW);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
 }
 
 void Fractal::makeSolid()

@@ -37,7 +37,7 @@
 using namespace std;
 
 // global
-list<WObject*> stillList, mobileList, invisibleList, deleteList, lightList;
+list<WObject*> stillList, mobileList, invisibleList, fluidList, deleteList, lightList;
 
 // local
 static uint32_t objectNum = 0;
@@ -121,7 +121,7 @@ WObject::~WObject()
 }
 
 /* Initializes Object */
-void WObject::initializeObject(uint8_t _mode)
+void WObject::initObject(uint8_t _mode)
 {
   mode = _mode;
   type = typeId();
@@ -131,10 +131,12 @@ void WObject::initializeObject(uint8_t _mode)
   updateNames();
 
   //error("num=%d mode=%d type=%d", num, mode, type);
-  switch (_mode) {
+  switch (mode) {
+
     case STILL:
       addToStill();
       break;
+
     case MOBILE:
       if (isBehavior(PERSISTENT)) {
         getPersistency();	// calls persistency MySql server
@@ -146,18 +148,26 @@ void WObject::initializeObject(uint8_t _mode)
       }
       addToMobile();
       break;
+
+    case FLUID:
+      addToFluid();
+      enableBehavior(NO_ELEMENTARY_MOVE);
+      break;
+
     case INVISIBLE:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
       addToInvisible();
       break;
+
     case EPHEMERAL:
       addToMobile();
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
       break;
+
     case MOBILEINVISIBLE:
       addToMobile();
       enableBehavior(NO_BBABLE);
@@ -177,23 +187,30 @@ void WObject::initializeObject(uint8_t _mode)
 }
 
 /* Initializes mobile object */
-void WObject::initializeMobileObject(float last)
+void WObject::initMobileObject(float last)
 {
-  initializeObject(MOBILE);
+  initObject(MOBILE);
   if (last) setLasting(last);
 }
 
-/* Initializes mobile object */
-void WObject::initializeEphemeralObject(float last)
+/* Initializes fluid object */
+void WObject::initFluidObject(float last)
 {
-  initializeObject(MOBILE);
+  initObject(FLUID);
+  if (last) setLasting(last);
+}
+
+/* Initializes ephemeral object */
+void WObject::initEphemeralObject(float last)
+{
+  initObject(MOBILE);
   if (last) setLasting(last);
 }
 
 /* Initializes still object */
-void WObject::initializeStillObject()
+void WObject::initStillObject()
 {
-  initializeObject(STILL);
+  initObject(STILL);
 }
 
 void WObject::enableBehavior(uint32_t flag)
@@ -875,6 +892,7 @@ void WObject::addToList()
     case STILL:     addToList(stillList); break;
     case MOBILE:    addToList(mobileList); break;
     case INVISIBLE: addToList(invisibleList); break;
+    case FLUID:     addToList(fluidList); break;
   } 
 } 
   
@@ -885,6 +903,7 @@ void WObject::delFromList()
     case STILL:     delFromList(stillList); break;
     case MOBILE:    delFromList(mobileList); break;
     case INVISIBLE: delFromList(invisibleList); break;
+    case FLUID:     delFromList(fluidList); break;
   }
 }
 
@@ -895,6 +914,7 @@ void WObject::clearList()
     case STILL:     clearList(stillList); break;
     case MOBILE:    clearList(mobileList); break;
     case INVISIBLE: clearList(invisibleList); break;
+    case FLUID:     clearList(fluidList); break;
   }
 }
 
@@ -911,6 +931,11 @@ void WObject::addToStill()
 void WObject::addToInvisible()
 {
   addToListOnce(invisibleList);
+}
+
+void WObject::addToFluid()
+{
+  addToListOnce(fluidList);
 }
 
 void WObject::addToRender()
@@ -948,45 +973,52 @@ OList * WObject::addToList(OList *olist)
 /* Adds a pointer of this object to an olist if it's not already there */
 void WObject::addToListOnce(list<WObject*> &olist)
 {
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it)
-    if (*it == this) return;
+  for (list<WObject*>::iterator ol = olist.begin(); ol != olist.end(); ++ol) {
+    if (*ol == this)
+      return;
+  }
   addToList(olist);
 }
 
 OList * WObject::addToListOnce(OList *olist)
 {
-  for (OList *pl = olist; pl ; pl = pl->next)
-    if (pl->pobject && pl->pobject == this)  return olist;
+  for (OList *ol = olist; ol ; ol = ol->next) {
+    if (ol->pobject && ol->pobject == this)
+      return olist;
+  }
   return addToList(olist);
 }
 
 /* Deletes a pointer of this object in an olist */
 void WObject::delFromList(list<WObject*> &olist)
 {
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it)
-    if (*it == this) olist.remove(*it);
+  for (list<WObject*>::iterator ol = olist.begin(); ol != olist.end(); ++ol) {
+    if (*ol == this)
+      olist.remove(*ol);
+  }
   return;
 }
 
 OList * WObject::delFromList(OList *olist)
 {
-  OList *front = olist, *elem = NULL;
+  OList *front = olist, *ol = NULL;
 
   if (! olist) {
-    error("delFromList: %s:%s NULL olist", names.type, getInstance()); return NULL;
+    error("delFromList: %s:%s NULL olist", names.type, getInstance());
+    return NULL;
   }
-  for (elem = olist; elem ; elem = elem->next) {  // sometimes crashes
-    if (elem->pobject == this) {
-      if (elem->next) {
-        front = elem->next;
-        if (elem) delete elem;
-        elem = NULL;
+  for (ol = olist; ol ; ol = ol->next) {  // sometimes crashes
+    if (ol->pobject == this) {
+      if (ol->next) {
+        front = ol->next;
+        if (ol) delete ol;
+        ol = NULL;
         return front;
       }
 #if 0
       else {
-        delete elem;
-        elem = NULL;
+        delete ol;
+        ol = NULL;
         return front;
       }
 #endif
@@ -997,42 +1029,57 @@ OList * WObject::delFromList(OList *olist)
 
 bool WObject::isStill()
 {
-  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it)
-    if (*it == this)  return true;
+  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
+    if (*o == this)  return true;
+  }
   return false;
 }
 
 bool WObject::isMobile()
 {
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it)
-    if (*it == this)  return true;
+  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
+    if (*o == this)  return true;
+  }
+  return false;
+}
+
+bool WObject::isFluid()
+{
+  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o) {
+    if (*o == this)  return true;
+  }
   return false;
 }
 
 bool WObject::isEphemeral()
 {
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it)
-    if ((*it)->mode == EPHEMERAL)  return true;
+  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
+    if ((*o)->mode == EPHEMERAL)  return true;
+  }
   return false;
 }
 
 // virtual
 WObject * WObject::byWObject(WObject *po)
 {
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it)
-    if ((*it) == po) return *it;
-  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it)
-    if ((*it) == po) return *it;
-  return NULL;
+  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o)
+    if ((*o) == po) return *o;
+  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o)
+    if ((*o) == po) return *o;
+  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o)
+    if ((*o) == po) return *o;
+  return (WObject *) NULL;
 } 
     
 // static
 WObject * WObject::byNum(uint16_t num)
 {
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it)
-    if ((*it)->num == num) return *it;
-  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it)
-    if ((*it)->num == num) return *it;
+  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o)
+    if ((*o)->num == num) return *o;
+  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o)
+    if ((*o)->num == num) return *o;
+  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o)
+    if ((*o)->num == num) return *o;
   return (WObject *) NULL;
 }
 
@@ -1076,14 +1123,14 @@ OList * WObject::addListToList(OList *l1, OList *l2)
 // static
 void WObject::show(const char *name)
 {
-  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-    if (! strcmp((*it)->names.instance, name)) {
+  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
+    if (! strcmp((*o)->names.instance, name)) {
       trace(DBG_FORCE, "%s p=%.2f,%.2f,%.2f o=%.2f,%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
             name,
-            (*it)->pos.x, (*it)->pos.y, (*it)->pos.z,
-            (*it)->pos.ax, (*it)->pos.ay, (*it)->pos.az,
-            (*it)->pos.bbcenter.v[0], (*it)->pos.bbcenter.v[1], (*it)->pos.bbcenter.v[2],
-            (*it)->pos.bbsize.v[0], (*it)->pos.bbsize.v[1], (*it)->pos.bbsize.v[2]
+            (*o)->pos.x, (*o)->pos.y, (*o)->pos.z,
+            (*o)->pos.ax, (*o)->pos.ay, (*o)->pos.az,
+            (*o)->pos.bbcenter.v[0], (*o)->pos.bbcenter.v[1], (*o)->pos.bbcenter.v[2],
+            (*o)->pos.bbsize.v[0], (*o)->pos.bbsize.v[1], (*o)->pos.bbsize.v[2]
            );
       break;
     }
@@ -1213,7 +1260,7 @@ void WObject::deleteReplica()
     delFromMobile();
 
     // delete Solids
-    for (solidList::iterator it = _solids.begin(); it != _solids.end(); it++) delete (*it);
+    for (solidList::iterator s = _solids.begin(); s != _solids.end(); s++) delete (*s);
     _solids.erase(_solids.begin(), _solids.end());
     if (noh) delete noh;
     noh = NULL; // delete NetObject

@@ -55,14 +55,14 @@ Light::Light()
   enableBehavior(UNVISIBLE);
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
-  initializeObject(INVISIBLE);
+  initObject(INVISIBLE);
 }
 
 Light::Light(char *l)
 {
   parser(l);
 
-  initializeObject(INVISIBLE);
+  initObject(INVISIBLE);
   addToList(lightList);
 
   if (!pos.x && !pos.y && !pos.z && !pos.az && !pos.ax) islight = false;

@@ -72,7 +72,7 @@ Hairs::Hairs(char *l)
   enableBehavior(UNSELECTABLE);
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   enablePermanentMovement();
 
   if (loader(names.url, scale)) 	// load model

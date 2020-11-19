@@ -39,12 +39,12 @@ protected:
   static const GLfloat DEF_COLOR[];
 
   uint8_t waves;	///< number of waves
-  float width;
-  float depth;
-  float *mesh;
-  float *phase;
-  float *speed;
-  float *ampl;
+  float width;		///< width
+  float depth;		///< depth
+  float *mesh;		///< mesh
+  float *phase;		///< phase
+  float *speed;		///< speed
+  float *ampl;		///< amplitude
   GLfloat color[4];	///< basic color
   GLfloat scale;	///< scale factor
 
@@ -79,7 +79,7 @@ public:
   virtual void inits();
   /**< Do specific inits */
 
-  virtual void wave(float a, float b);
+  virtual void draw(float a, float b);
   /**< Draws wave point */
 
 };

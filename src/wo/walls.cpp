@@ -104,7 +104,7 @@ Walls::Walls(char *l)
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeStillObject();
+  initStillObject();
 
   Http::httpOpen(names.url, httpReader, this, 0);
 

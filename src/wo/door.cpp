@@ -122,7 +122,7 @@ Door::Door(char *l)
   enableBehavior(PERSISTENT);	// after init because mysql already done
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 }
 

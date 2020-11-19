@@ -65,7 +65,7 @@ void Widget::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   updatePosition();
 }
 

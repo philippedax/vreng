@@ -62,7 +62,7 @@ void Bumper::behavior()
   enableBehavior(PERSISTENT);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 }
 

@@ -47,7 +47,7 @@ Ground::Ground(char *l)
 {
   parser(l);
 
-  initializeStillObject();
+  initStillObject();
   setRenderPrior(RENDER_NORMAL);  // LOW ?
   pos.z = 0;
   World::current()->setGround(pos.z + pos.bbsize.v[2]);
@@ -59,7 +59,7 @@ Ground::Ground(WObject *user, char *geom)
   parse()->parseSolid(geom, SEP, this);
 
   enableBehavior(PERSISTENT);
-  initializeMobileObject(0);
+  initMobileObject(0);
 
   pos.x = user->pos.x;
   pos.y = user->pos.y;

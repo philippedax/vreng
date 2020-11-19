@@ -293,7 +293,7 @@ void User::inits()
 {
   setName();
   updateNames();
-  initializeMobileObject(LASTING);
+  initMobileObject(LASTING);
   setRenderPrior(RENDER_HIGH);
   enablePermanentMovement();	// gravity
   createVolatileNetObject(PROPS);
@@ -413,7 +413,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   trace(DBG_WO, "Replica: web=%s vre=%s", web, vre);
   trace(DBG_WO, "Replica: model=%s face=%s", model, face);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
 
   trace(DBG_WO, "replica: type=%s named=%s name=%s ssrc=%x rtcpname=%s email=%s", names.type, names.named, getInstance(), ssrc, rtcpname, email);
 

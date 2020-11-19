@@ -87,7 +87,7 @@ void Android::behaviour()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_HIGH);	// NORMAL doesn't work
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   enablePermanentMovement();  // bap/fap frames
 }
 

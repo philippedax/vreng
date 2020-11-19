@@ -73,7 +73,7 @@ Lift::Lift(char *l)
   enableBehavior(PERSISTENT);	// after init because mysql already done
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 
   dest = pos.z;		// initial position

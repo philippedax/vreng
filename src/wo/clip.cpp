@@ -62,7 +62,7 @@ Clip::Clip(char *l)
   enableBehavior(COLLIDE_ONCE);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
 
   char *purl, *ptmpurl;
 

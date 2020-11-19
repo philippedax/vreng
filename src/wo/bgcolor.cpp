@@ -61,7 +61,7 @@ Bgcolor::Bgcolor(char *l)
   wcolor->color_dec[2] = (int) (color[2] * 255);
   wcolor->color_dec[3] = 255;
 
-  initializeObject(INVISIBLE);
+  initObject(INVISIBLE);
   bgcolor = this;
 }
 

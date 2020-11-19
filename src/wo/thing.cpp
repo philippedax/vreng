@@ -62,7 +62,7 @@ void Thing::behavior()
   enableBehavior(TAKABLE);	// cart
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
   createPermanentNetObject(PROPS, oid);
 }
 

@@ -61,7 +61,7 @@ Dart::Dart(WObject *user, void *d, time_t s, time_t u)
 
   enableBehavior(COLLIDE_ONCE);
   setRenderPrior(RENDER_HIGH);
-  initializeMobileObject(TTL);
+  initMobileObject(TTL);
 
   /* action */
   move.lspeed.v[0] = lspeed * Cos(user->pos.az);
@@ -98,7 +98,7 @@ Dart::Dart(uint8_t type_id, Noid _noid, Payload *pp)
 
   defaults();
   enableBehavior(COLLIDE_ONCE);
-  initializeMobileObject(0);
+  initMobileObject(0);
 
   Sound::playSound(SHOOTSND);
 }

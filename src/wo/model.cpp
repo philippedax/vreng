@@ -122,7 +122,7 @@ void Model::behavior()
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 
-  initializeMobileObject(1);
+  initMobileObject(1);
 }
 
 /** Constructor */

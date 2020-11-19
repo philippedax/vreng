@@ -93,10 +93,10 @@ private:
   virtual void sound();
 
   // GUI callbacks
-  static void moreAmplitude(Water *o, void *d, time_t s, time_t u);
-  static void lessAmplitude(Water *o, void *d, time_t s, time_t u);
-  static void moreFrequence(Water *o, void *d, time_t s, time_t u);
-  static void lessFrequence(Water *o, void *d, time_t s, time_t u);
+  static void moreAmpl(Water *o, void *d, time_t s, time_t u);
+  static void lessAmpl(Water *o, void *d, time_t s, time_t u);
+  static void moreFreq(Water *o, void *d, time_t s, time_t u);
+  static void lessFreq(Water *o, void *d, time_t s, time_t u);
   static void morePhase(Water *o, void *d, time_t s, time_t u);
   static void lessPhase(Water *o, void *d, time_t s, time_t u);
   static void moreTransp(Water *o, void *d, time_t s, time_t u);

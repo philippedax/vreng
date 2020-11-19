@@ -49,7 +49,7 @@ Cauldron::Cauldron(char *l)
 
   setRenderPrior(RENDER_HIGH);
 
-  initializeMobileObject(MAXFLOAT);
+  initMobileObject(MAXFLOAT);
   enablePermanentMovement();
 }
 

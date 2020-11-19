@@ -81,7 +81,7 @@ void Spiral::behavior()
   enableBehavior(PERSISTENT);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeStillObject();
+  initStillObject();
 }
 
 void Spiral::inits()

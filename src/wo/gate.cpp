@@ -86,7 +86,7 @@ void Gate::behavior()
   enableBehavior(COLLIDE_ONCE);
   setRenderPrior(RENDER_NORMAL);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 }
 

@@ -67,7 +67,7 @@ Animator::Animator(char *l)
   enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(RENDER_NORMAL);
-  initializeMobileObject(0);
+  initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 
   if (state == ACTIVE) {

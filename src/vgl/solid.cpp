@@ -1031,7 +1031,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
 }
 
 // accessor
-void Solid::getBB(V3 &max, V3 &min, bool framed) const
+void Solid::getBB(V3 &max, V3 &min, bool framed)
 {
   ::g.render.getBB(max, min, framed);
 }
@@ -1388,7 +1388,7 @@ void Solid::display3D(rendering_mode mode, uint8_t order)
     displayRay();
   if (! object() || ! object()->isValid())
     return;		// orphean solid
-  if (mode != ZBUFSELECT) {
+  if (mode != ZBUFSEL) {
     if (! isVisible())
       return;		// invisible solid
     if (isBlinking() && (! toggleBlinking()))
@@ -1416,7 +1416,7 @@ void Solid::display3D(rendering_mode mode, uint8_t order)
       break;
 
     case FLASHRAY:	// Display flashy edges and ray
-      if (isflashy && mode != ZBUFSELECT)
+      if (isflashy && mode != ZBUFSEL)
         displayFlashy();
       if (isflary)
         displayFlary();	// Display attached flares

@@ -215,7 +215,7 @@ Stars::Stars(char *l)
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(RENDER_LOW);
 
-  initializeMobileObject(0);
+  initMobileObject(0);
   enablePermanentMovement();
 }
 

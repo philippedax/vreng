@@ -48,10 +48,12 @@ public:
   uint32_t debug;
   uint32_t options;
 
+  // ::g instances
   class Times& times;
   class Env& env;
   class Pref& pref;
   class Render& render;
+  class Solid& solid;
   struct Theme& theme; ///< the theme used to paramaterize the GUI.
   class Gui& gui;
 

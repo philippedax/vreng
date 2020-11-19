@@ -27,6 +27,7 @@
 #include "theme.hpp"	// new Theme
 #include "timer.hpp"	// new Times
 #include "render.hpp"	// new Render
+#include "solid.hpp"	// new Solid
 #include "universe.hpp"	// Universe::init
 #include "world.hpp"	// World::init
 #include "vac.hpp"	// Vac::init
@@ -54,6 +55,7 @@ Global::Global() :
 	env(*new Env),
 	pref(*new Pref),
 	render(*new Render),
+	solid(*new Solid),
 	theme(*new Theme),
 	gui(*new Gui) {} 
 

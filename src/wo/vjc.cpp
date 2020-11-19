@@ -75,7 +75,7 @@ Vjc::Vjc(char *l)
 {
   parser(l);
 
-  initializeObject(INVISIBLE);
+  initObject(INVISIBLE);
   enablePermanentMovement();
 
   setServer(this);
