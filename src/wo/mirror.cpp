@@ -21,6 +21,10 @@
 #include "vreng.hpp"
 #include "mirror.hpp"
 #include "user.hpp"	// USER_TYPE
+#include "solid.hpp"	// getSolid
+#include "android.hpp"	//
+#include "guy.hpp"	//
+#include "man.hpp"	//
 
 
 const OClass Mirror::oclass(MIRROR_TYPE, "Mirror", Mirror::creator);
@@ -43,6 +47,7 @@ void Mirror::behavior()
 {
   enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
+  //dax enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
@@ -80,6 +85,88 @@ bool Mirror::whenIntersect(WObject *pcur, WObject *pold)
   return true;
 }
 
+void Mirror::render()
+{
+  if (state == false) return;
+
+#if 0
+     glEnable(GL_STENCIL_TEST);         // enable stencil
+     glClearStencil(0);                 // set the clear value
+     glClear(GL_STENCIL_BUFFER_BIT);    // clear the stencil buffer
+     glStencilFunc(GL_ALWAYS, 1, 1);    // always pass the stencil test
+     glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+     if (dlists[curframe] > 0)
+       glCallList(dlists[curframe]);    // draw the mirror inside the stencil
+     glStencilFunc(GL_ALWAYS, 1, 1);    // always pass the stencil test
+     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+     glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // make stencil buffer read only
+     glEnable(GL_DEPTH_TEST);
+     glStencilFunc(GL_EQUAL, 1, 1);     // draw only where the stencil == 1
+     glPushMatrix();
+      GLdouble plane[4] = {-1,0,0,0};   // do clipping plane to avoid bugs when the avatar is near
+      glClipPlane(GL_CLIP_PLANE0, plane);
+      glEnable(GL_CLIP_PLANE0);
+#endif
+
+      mirroredScene();     // display the mirrored scene
+
+#if 0
+      glDisable(GL_CLIP_PLANE0);
+     glPopMatrix();
+     glDisable(GL_STENCIL_TEST);        // disable the stencil
+     glEnable(GL_BLEND);                // mirror shine effect
+     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+     glDepthMask(GL_FALSE);
+     glDepthFunc(GL_LEQUAL);
+
+     if (dlists[curframe] > 0)
+       glCallList(dlists[curframe]);    // draw the physical mirror
+
+     glDepthFunc(GL_LESS);
+     glDepthMask(GL_TRUE);
+     glDisable(GL_BLEND);
+#endif
+}
+
+void Mirror::mirroredScene()
+{
+  if (state == false) return;
+
+  // 1) faire une translation pour amener le plan de reflexion à la position miroir
+  glTranslatef(-pos.x, 0, 0);
+  // 2) le miroir est dans le plan YZ; faire une reflexion par -1 en X
+  glScalef(-1, 1, 1);
+  // 3) mettre un plan de clipping a la position du miroir afin d'eliminer
+  //    les reflexions des objets qui sont à l'arriere du miroir
+  // 4) faire la translation inverse
+  glTranslatef(pos.x, 0, 0);
+  // D) displays scene (opaque objects only)
+  for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); o++) {
+    if ((*o) && (*o)->isVisible() && (*o)->isOpaque()) {
+      glPushMatrix();
+       // rotation inverse lorsque que le miroir tourne parallelement a notre vision.
+       glRotatef(RAD2DEG(pos.az), 0,0,1);
+       glRotatef(-RAD2DEG(pos.ay), 0,1,0);
+       glTranslatef(-pos.x, pos.y, -pos.z);
+       glScalef(1, -1, 1);
+       (*o)->getSolid()->displayVirtual();
+      glPopMatrix();
+    }
+  }
+  glPushMatrix();
+   glRotatef(RAD2DEG(pos.az), 0,0,1);
+   glRotatef(-RAD2DEG(pos.ay), 0,1,0);
+   glTranslatef(-pos.x, pos.y, -pos.z);
+
+   // Displays avatar
+   //dax if (localuser->android)  localuser->android->getSolid()->displayVirtual();
+   //dax else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
+   //dax else if (localuser->man) localuser->getSolid()->displayVirtual();
+   //dax else glCallList(localuser->getSolid()->displayVirtual());
+  glPopMatrix();
+}
+
 void Mirror::quit()
 {
   oid = 0;
@@ -88,11 +175,13 @@ void Mirror::quit()
 
 void Mirror::mirrorOn(Mirror *po, void *d, time_t s, time_t u)
 {
+  po->state = true;
   po->setReflexive(true);
 }
 
 void Mirror::mirrorOff(Mirror *po, void *d, time_t s, time_t u)
 {
+  po->state = false;
   po->setReflexive(false);
 }
 

@@ -25,6 +25,8 @@
 
 using namespace std;
 
+#define MAX_WORLDS	256	// uint8_t
+
 #define WL 0	// STL
 
 /**
@@ -49,6 +51,13 @@ class World {
   };
 
  protected:
+  static const uint8_t GRIDX;
+  static const uint8_t GRIDY;
+  static const uint8_t GRIDZ;
+  static const float   DISTX;
+  static const float   DISTY;
+  static const float   DISTZ;
+
   char *url;			///< url of world description.
   char *name;			///< world name.
   char *chan;			///< channel string addr/port/ttl.
@@ -60,22 +69,16 @@ class World {
   uint16_t num;			///< world number.
   V3 bbmin;			///< bb min of the world.
   V3 bbmax;			///< bb max of the world.
-  V3 slice;			///< slice units of the grid.
+  V3 bbslice;			///< slice units of the grid.
   float ground;			///< ground level
   uint8_t dimgrid[3];		///< grid dimensions.
   class Universe *universe;	///< universe pointer.
-  class User *plocaluser;	///< local user pointer.
   class Bgcolor *bgcolor;	///< background color.
   World *prev;			///< prev world.
   World *next;			///< next world.
+  class User *user;		///< localuser.
 
  public:
-  static const uint8_t GRIDX;
-  static const uint8_t GRIDY;
-  static const uint8_t GRIDZ;
-  static const float   DISTX;
-  static const float   DISTY;
-  static const float   DISTZ;
   static const uint8_t WORLD_LEN;
 
 #if 0 //STL
@@ -230,9 +233,6 @@ class World {
 
   static void clearLists();
   /**< Clears lists. */
-
-  static void funcs();
-  /**< Inits functions. */
 
 };
 

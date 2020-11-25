@@ -61,6 +61,9 @@ public:
   virtual bool updateToNetwork(const Pos &oldpos);
   /**< Publishes new position */
 
+  virtual void render();
+  /**< Renders mirrored scene. */
+
   virtual void quit();
   /**< Quits properly */
 
@@ -70,6 +73,8 @@ private:
 
   virtual void parser(char *l);
   /**< Parses file line */
+
+  virtual void mirroredScene();
 
   // GUI callbacks
   static void mirrorOn(Mirror *po, void *d, time_t s, time_t u);

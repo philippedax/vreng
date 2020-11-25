@@ -41,17 +41,18 @@ OList::~OList()
 // static
 void OList::remove(list<WObject*> &olist)
 {
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it)
-    if (*it) delete *it;
+  for (list<WObject*>::iterator l = olist.begin(); l != olist.end(); ++l) {
+    if (*l) delete *l;
+  }
 }
 
 // virtual
 void OList::remove()
 {
-  for (OList *pl = this; pl ; ) {
-    OList *next = pl->next;
-    if (pl && pl->pobject && pl->pobject->type)  delete pl;  //FIXME: BUG! macosx iconStick
-    pl = next;
+  for (OList *l = this; l ; ) {
+    OList *next = l->next;
+    if (l && l->pobject && l->pobject->type)  delete l;  //FIXME: BUG! macosx iconStick
+    l = next;
   }
 }
 
@@ -59,27 +60,29 @@ void OList::remove()
 // static
 void OList::clearIspointedFlag(list<WObject*> &olist)
 {
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it)
-    (*it)->is_in_a_list = false;
+  for (list<WObject*>::iterator l = olist.begin(); l != olist.end(); ++l) {
+    (*l)->is_in_a_list = false;
+  }
 }
 
 // virtual
 void OList::clearIspointedFlag()
 {
-  for (OList *pl = this; pl && pl->pobject; pl = pl->next)
-    pl->pobject->is_in_a_list = false;
+  for (OList *l = this; l && l->pobject; l = l->next) {
+    l->pobject->is_in_a_list = false;
+  }
 }
 
 /* Returns the object from the mobile list */
 // static
 WObject * OList::findInMobile(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
 {
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
-    if (((*it)->type == _type)
-    &&  ((*it)->getSrcId() == src_id)
-    &&  ((*it)->getPortId() == port_id)
-    &&  ((*it)->getObjId() == obj_id))
-      return *it;
+  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end() ; ++o) {
+    if (((*o)->type == _type)
+    &&  ((*o)->getSrcId() == src_id)
+    &&  ((*o)->getPortId() == port_id)
+    &&  ((*o)->getObjId() == obj_id))
+      return *o;
   }
   return NULL;
 }
@@ -97,10 +100,10 @@ void OList::show(list<WObject*> &olist, const char *str)
 {
   trace(DBG_FORCE, "\n%s", str);
 
-  for (list<WObject*>::reverse_iterator it = olist.rbegin(); it != olist.rend(); ++it) {
-    if ((*it)->names.instance)
-      trace(DBG_FORCE, "t=%d m=%d n=%d %s", (*it)->type, (*it)->mode, (*it)->num, (*it)->names.instance);
+  for (list<WObject*>::reverse_iterator o = olist.rbegin(); o != olist.rend(); ++o) {
+    if ((*o)->names.instance)
+      trace(DBG_FORCE, "t=%d m=%d n=%d %s", (*o)->type, (*o)->mode, (*o)->num, (*o)->names.instance);
     else
-      trace(DBG_FORCE, "t=%d m=%d n=%d (null)", (*it)->type, (*it)->mode, (*it)->num);
+      trace(DBG_FORCE, "t=%d m=%d n=%d (null)", (*o)->type, (*o)->mode, (*o)->num);
   }
 }

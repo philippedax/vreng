@@ -45,6 +45,8 @@
 #include "guy.hpp"	// Guy
 #include "flare.hpp"	// render
 
+#include <list>
+using namespace std;
 
 #define DEF_ALPHA		1.
 #define DEF_FOG			0
@@ -173,6 +175,7 @@ enum {
 };
 
 // local
+
 struct sStokens {
   const char *tokstr;
   const char *tokalias;
@@ -290,7 +293,7 @@ Solid::Solid()
   dlists = NULL;	// solid display list
   wobject = NULL;
   shape = STOK_BOX;	// box shape by default
-  numrel = 0;
+  numrel = 0;		// monosolid
   rel_bbcent = newV3(0, 0, 0);
   rel_bbsize = newV3(0, 0, 0);
   abs_bbcent = newV3(0, 0, 0);
@@ -302,7 +305,6 @@ Solid::Solid()
   is_visible = true;	// visible by default
   is_opaque = true;	// opaque by default
   isflashy = false;
-  isflashable = false;
   isreflexive = false;
   isblinking = false;
   isflary = false;
@@ -316,6 +318,12 @@ Solid::Solid()
 Solid::~Solid()
 {
   ::g.render.removeSolidFromList(this);
+#if 0
+  for (list<Solid*>::iterator s = ::g.render.relsolidList.begin(); s != ::g.render.relsolidList.end(); s++) {
+    ::g.render.relsolidList.remove(*s);
+  }
+#endif
+  ::g.render.relsolidList.clear();
 
   delete[] dlists;
   del_solid++;
@@ -351,20 +359,22 @@ char * Solid::getTok(char *l, uint16_t *tok)
 
 char * Solid::getFramesNumber(char *l)
 {
-  if (!stringcmp(l, "frames=")) l = wobject->parse()->parseUInt16(l, &nbframes, "frames");
+  if (! stringcmp(l, "frames="))
+    l = wobject->parse()->parseUInt16(l, &nbframes, "frames");
   return l;
 }
 
 /* Parses <frame , return next token after frame. */
 char * Solid::parseFrame(char *l)
 {
-  if (!strcmp(l, "frame")) {
+  if (! strcmp(l, "frame")) {
     framed = true;
     char *p = wobject->parse()->nextToken();
     return p;
   }
   while (l && framed) {
-    if (!stringcmp(l, "frame")) return wobject->parse()->nextToken();
+    if (! stringcmp(l, "frame"))
+      return wobject->parse()->nextToken();
     l = wobject->parse()->nextToken();
   }
   return l;
@@ -376,10 +386,10 @@ char * Solid::parseShape(char *l)
   const struct sStokens *ptab;
   char s[16];
 
-  if (!stringcmp(l, "shape=")) {
+  if (! stringcmp(l, "shape=")) {
     l = wobject->parse()->parseString(l, s, "shape");
     for (ptab = stokens; ptab->tokstr ; ptab++) {
-      if ((!strcmp(ptab->tokstr, s)) || (!strcmp(ptab->tokalias, s))) {
+      if ((! strcmp(ptab->tokstr, s)) || (! strcmp(ptab->tokalias, s))) {
         shape = ptab->tokid;
         return l;
       }
@@ -398,7 +408,7 @@ char * Solid::parser(char *l)
     wobject->parse()->printNumline();
     return NULL;
   }
-  char ll[BUFSIZ];
+  char ll[256];
   strcpy(ll, l);
   if (*l == '<') l++;	// skip open-tag
 
@@ -637,7 +647,11 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseUInt8(l, &flgblk);
         if (flgblk) { blink = true; setBlinking(true); } break;
       case STOK_REL:
-        l = wobject->parse()->parseVector5f(l, rel); ++numrel; break;
+        l = wobject->parse()->parseVector5f(l, rel); {
+          ++numrel;
+          ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
+        }
+        break;
       case STOK_TEXTURE:
         { char *url = new char[URL_LEN];
           l = wobject->parse()->parseString(l, url);
@@ -662,16 +676,12 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_TEX_ZN:
         { char *url = new char[URL_LEN];
           l = wobject->parse()->parseString(l, url);
-#if 0
-          if (*url) box_tex[tok-STOK_TEX_XP] = Texture::getFromCache(url);
-#else
           if (*url) {
             texture = new Texture(url);
             box_tex[tok-STOK_TEX_XP] = texture->id;
             texture->object = wobject;
             texture->solid = this;
           }
-#endif
           delete[] url;
         }
         break;
@@ -710,9 +720,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   }
 
   /**
-   * draw solids
+   * draw solids in displaylists
    */
-
   /* display list generation */
   int dlist = glGenLists(1);
   glNewList(dlist, GL_COMPILE);
@@ -1214,16 +1223,9 @@ void Solid::updateBB(GLfloat az)
 }
 
 // accessor - get WObject from Solid
-WObject* Solid::object()
+WObject* Solid::object() const
 {
-#if 0 //dax segfaukt in getDim
-  if (wobject->isValid())
     return wobject;
-  else
-    return NULL;
-#else
-    return wobject;
-#endif
 }
 
 void Solid::setPosition(const M4& mpos)
@@ -1241,12 +1243,12 @@ void Solid::setVisible(bool _isvisible)
   is_visible = _isvisible;
 }
 
-bool Solid::isVisible()
+bool Solid::isVisible() const
 {
   return is_visible;
 }
 
-bool Solid::isOpaque()
+bool Solid::isOpaque() const
 {
   return is_opaque;
 }
@@ -1301,25 +1303,25 @@ void Solid::resetRay()
   }
 }
 
-void Solid::setFlashable(bool _isflashable)
+void Solid::setFlashyEdges(bool flag)
 {
-   isflashable = _isflashable;
+  isflashy = flag;
 }
 
-void Solid::setFlashyEdges(bool _isflashy)
-{
-  isflashy = _isflashy;
-}
-
-void Solid::setFlashyEdges(const GLfloat *_flashcolor)
+void Solid::setFlashyEdges(const GLfloat *color)
 {
   isflashy = true;
-  for (int i=0; i<3; i++)  flashcolor[i] = _flashcolor[i];
+  for (int i=0; i<3; i++)  flashcolor[i] = color[i];
 }
 
 void Solid::resetFlashyEdges()
 {
   isflashy = false;
+}
+
+void Solid::setFlashable(bool flag)
+{
+  isflashable = flag;
 }
 
 bool Solid::toggleBlinking()
@@ -1334,9 +1336,9 @@ bool Solid::toggleBlinking()
   }
 }
 
-void Solid::setBlinking(bool _isblinking)
+void Solid::setBlinking(bool flag)
 {
-  isblinking = _isblinking;
+  isblinking = flag;
 }
 
 bool Solid::isBlinking() const
@@ -1344,9 +1346,9 @@ bool Solid::isBlinking() const
   return isblinking;
 }
 
-void Solid::setReflexive(bool _isreflexive)
+void Solid::setReflexive(bool flag)
 {
-  isreflexive = _isreflexive;
+  isreflexive = flag;
 }
 
 bool Solid::isReflexive() const
@@ -1354,9 +1356,9 @@ bool Solid::isReflexive() const
   return isreflexive;
 }
 
-void Solid::setFlary(bool _isflary)
+void Solid::setFlary(bool flag)
 {
-  isflary = _isflary;
+  isflary = flag;
 }
 
 bool Solid::isFlary() const
@@ -1382,32 +1384,30 @@ void Solid::setFrame(uint16_t _frame)
 //---------------------------------------------------------------------------
 
 
-void Solid::display3D(rendering_mode mode, uint8_t order)
+void Solid::display3D(render_mode mode, render_type type)
 {
   if (ray_dlist)
     displayRay();
   if (! object() || ! object()->isValid())
     return;		// orphean solid
-  if (mode != ZBUFSEL) {
-    if (! isVisible())
-      return;		// invisible solid
-    if (isBlinking() && (! toggleBlinking()))
-      return;		// pass one turn
-  }
+  if (! isVisible() && mode == DISPLAY)
+    return;		// invisible solid
+  if (isBlinking() && (! toggleBlinking()))
+    return;		// pass one turn
 
-  switch (order) {
+  switch (type) {
 
     case OPAQUE:	// Display opaque solids
-      if (isreflexive) {
+      if (isreflexive)
         displayReflexive();
-      }
-      if (isflary) displayFlary();	// Display attached flares
+      if (isflary)
+        displayFlary();	// Display attached flares
       displayNormal();
       break;
 
     case TRANSLUCID:	// Display translucid solids 
       if (isreflexive) {
-        trace2(DBG_VGL, " o%d %s", order, object()->typeName());
+        trace2(DBG_VGL, " o%d %s", type, object()->typeName());
         displayReflexive();
       }
       else {
@@ -1416,7 +1416,7 @@ void Solid::display3D(rendering_mode mode, uint8_t order)
       break;
 
     case FLASHRAY:	// Display flashy edges and ray
-      if (isflashy && mode != ZBUFSEL)
+      if (isflashy && mode == DISPLAY)
         displayFlashy();
       if (isflary)
         displayFlary();	// Display attached flares
@@ -1484,7 +1484,6 @@ void Solid::displayFlary()
     object()->flare->render(object()->pos);
     glPopMatrix();
   }
-  return;
 }
 
 
@@ -1540,6 +1539,7 @@ int Solid::displayList(int display_mode = NORMAL)
      break;
 
    case REFLEXIVE:
+#if 0 //dax debug
     if (! ::g.render.haveStencil()) {	// no stencil buffer
       static bool todo = true;
       if (todo) {
@@ -1548,19 +1548,21 @@ int Solid::displayList(int display_mode = NORMAL)
       }
       glPushMatrix();
       if (dlists[curframe] > 0)
-        glCallList(dlists[curframe]); // draw the mirror alone
+        glCallList(dlists[curframe]);	// display the mirror alone
       glPopMatrix();
       return dlists[curframe];
-    } 
-
-    glPushMatrix();
+    }
+#endif
+#if 1 // done by mirror
+    //dax glPushMatrix();
      glEnable(GL_STENCIL_TEST);		// enable stencil
      glClearStencil(0);			// set the clear value
      glClear(GL_STENCIL_BUFFER_BIT);	// clear the stencil buffer
      glStencilFunc(GL_ALWAYS, 1, 1);	// always pass the stencil test
      glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-     if (dlists[curframe] > 0) glCallList(dlists[curframe]); // draw the mirror inside the stencil
+     if (dlists[curframe] > 0)
+       glCallList(dlists[curframe]);	// display the mirror inside the stencil
      glStencilFunc(GL_ALWAYS, 1, 1);	// always pass the stencil test
      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
      glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // make stencil buffer read only
@@ -1576,32 +1578,37 @@ int Solid::displayList(int display_mode = NORMAL)
       glClipPlane(GL_CLIP_PLANE0, plane);
       glEnable(GL_CLIP_PLANE0);
 
-      displayMirroredScene();		// display the mirrored scene
+      //dax displayMirroredScene();	// display the mirrored scene
+      object()->render();		// display the mirrored scene by mirror itself
 
       glDisable(GL_CLIP_PLANE0);
      glPopMatrix();
      glDisable(GL_STENCIL_TEST);	// disable the stencil
-     glEnable(GL_BLEND);	// mirror shine effect
+     glEnable(GL_BLEND);		// mirror shine effect
      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
      glDepthMask(GL_FALSE);
      glDepthFunc(GL_LEQUAL);
 
-     if (dlists[curframe] > 0) glCallList(dlists[curframe]); // draw the physical mirror
+     if (dlists[curframe] > 0)
+       glCallList(dlists[curframe]);	// display the physical mirror
 
      glDepthFunc(GL_LESS);
      glDepthMask(GL_TRUE);
      glDisable(GL_BLEND);
-    glPopMatrix();
-    break;
+    //dax glPopMatrix();
+#endif
+    break;	// reflexive
    }
   }
   glPopMatrix();
+
   return dlists[curframe];		// displaylist number
 }
 
 /* Display mirrored scene */
 void Solid::displayMirroredScene()
 {
+#if 0 //done by mirror object
   // 1) faire une translation pour amener le plan de reflexion à la position miroir
   glTranslatef(-object()->pos.x, 0, 0);
   // 2) le miroir est dans le plan YZ; faire une reflexion par -1 en X
@@ -1611,15 +1618,15 @@ void Solid::displayMirroredScene()
   // 4) faire la translation inverse
   glTranslatef(object()->pos.x, 0, 0);
   // D) displays scene (opaque solids only)
-  for (list<Solid*>::iterator it=::g.render.solidList.begin(); it!=::g.render.solidList.end(); it++) {
-    if ((*it)->object() && (*it)->isVisible() && (*it)->isOpaque()) {
+  for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); o++) {
+    if ((*o) && (*o)->isVisible() && (*o)->isOpaque()) {
       glPushMatrix();
        // rotation inverse lorsque que le miroir tourne parallelement a notre vision.
        glRotatef(RAD2DEG(object()->pos.az), 0,0,1);
        glRotatef(-RAD2DEG(object()->pos.ay), 0,1,0);
        glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
        glScalef(1, -1, 1);
-       (*it)->displayVirtual();
+       (*o)->getSolid()->displayVirtual();
       glPopMatrix();
     }
   }
@@ -1629,19 +1636,10 @@ void Solid::displayMirroredScene()
    glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
 
    // Displays avatar
-   if (localuser->android) {
-#if 1 //dax
-     localuser->android->getSolid()->displayVirtual();
-#else
-     Pos pos;
-     pos.z = localuser->pos.z - localuser->height/2;
-     pos.x = localuser->pos.x;
-     pos.y = localuser->pos.y;
-     localuser->android->body->render(pos);
-#endif
-   }
+   if  (localuser->android) localuser->android->getSolid()->displayVirtual();
    else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
    else if (localuser->man) localuser->getSolid()->displayVirtual();
    else glCallList(localuser->getSolid()->displayVirtual());
   glPopMatrix();
+#endif
 }

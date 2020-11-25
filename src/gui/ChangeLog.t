@@ -15,15 +15,17 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.1\n\
-== 9.1.2\n\
+-- 9.1.2\n\
+	- fixed -w option in pref.cpp\n\
+	- added objectList in wobject.*pp\n\
 	- added FLUID mode and fluidLists\n\
 	- renamed initialize*Object to init*Oject methods\n\
 	- renamed class PutInfo to class Message2\n\
 	- renamed class Pitch to class Joystick2\n\
 	- removed gui/pitch*pp\n\
-	(2020/11/19, Philippe Dax)\n\
+	(2020/11/21, Philippe Dax)\n\
 \n\
-== 9.1.1\n\
+-- 9.1.1\n\
 	- fixed urlpfx in universe.cpp\n\
 	- reviewed some rendering order\n\
 	- removed code creation from vrelines for rain and snow\n\
@@ -31,7 +33,7 @@ The rules for this file:\n\
 	- added parseBool() methods in parse.*pp\n\
 	(2020/11/12, Philippe Dax)\n\
 \n\
-== 9.1.0\n\
+-- 9.1.0\n\
 	- invalidated app ring in vjs/\n\
 	- restored src/servers/vjs/gen.pl*\n\
 	- added door open/close mecanisms : sliding and vertical\n\
@@ -1797,8 +1799,8 @@ The rules for this file:\n\
 	- WObject is the top level class for all objects\n\
 	- all objects have their own class\n\
 	- all *.c source files are now rewritten in C++ (*.cc)\n\
-	(2001/05/29, Eric Lecolinet, Philippe Dax)\n\
 	- add intuitive mouse navigation\n\
+	(2001/05/29, Eric Lecolinet, Philippe Dax)\n\
 \n\
 ++ 2\n\
 == 2.6\n\
@@ -2086,7 +2088,7 @@ The rules for this file:\n\
 	- new functions (payload.c): seekPayload, tellStrInPayload, tellPayload\n\
 	- bug fixed in http.c if environment variable no_proxy undefined\n\
 	- add stat max_packet & min_packet in stat.c\n\
-	- repare lift.c\n\
+	- repair lift.c\n\
 	- declare user geometry to the network\n\
 	(2000/05/27, Philippe Dax)\n\
 \n\

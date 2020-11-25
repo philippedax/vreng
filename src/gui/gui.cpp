@@ -271,6 +271,9 @@ void Gui::updateWorld(World *world, bool isCurrent)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// VNC
+//
+
 // Handling event redirections
 
 void Gui::setToVnc(Vnc* _vnc)

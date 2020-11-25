@@ -109,7 +109,7 @@
 
 
 const struct GeneralInitList generalInitList[] = {
-/* 00 */	{World::funcs},
+/* 00 */	{NULL},
 /* 01 */	{User::funcs},
 /* 02 */	{Plane::funcs},
 /* 03 */	{Door::funcs},

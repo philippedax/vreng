@@ -50,12 +50,14 @@
  * external variables
  * objects lists
  */
+extern std::list<WObject*> objectList;
 extern std::list<WObject*> mobileList;
 extern std::list<WObject*> stillList;
 extern std::list<WObject*> invisibleList;
 extern std::list<WObject*> fluidList;
 extern std::list<WObject*> deleteList;
 extern std::list<WObject*> lightList;
+extern std::list<WObject*> renderList;
 
 
 /**
@@ -450,7 +452,10 @@ public:
   /**< Adds an object pointer into a olist. */
 
   virtual void addToList();
-  /**< Adds an object pointer into a olist. */
+  /**< Adds an object pointer into lists. */
+
+  virtual void addToObject();
+  /**< Adds an object pointer into objectList. */
 
   virtual void addToStill();
   /**< Adds an object pointer into stillList. */
@@ -628,8 +633,11 @@ public:
   virtual void setVisible(bool flag);
   /**< Sets visible or not the 3D object. */
 
-  virtual bool isVisible();
+  virtual bool isVisible() const;
   /**< Checks weither the object is visible. */
+
+  virtual bool isOpaque() const;
+  /**< Checks weither the object is opaque. */
 
   virtual void setFlashy(float *color);
   /**< Sets flashy the 3D object. */

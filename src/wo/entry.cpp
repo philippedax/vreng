@@ -26,7 +26,7 @@
 const OClass Entry::oclass(ENTRY_TYPE, "Entry", Entry::creator);
 
 // class member initialization
-Entry * Entry::entry = NULL;
+Entry * Entry::entry = (Entry *) NULL;
 
 void Entry::funcs() {}
 
@@ -72,14 +72,16 @@ Entry * Entry::current()
 /* queried by user */
 void Entry::query(User *user)
 {
-  user->pos.x = pos.x;
-  user->pos.y = pos.y;
-  user->pos.z = pos.z + user->height /2 + 0.15;
-  user->pos.az = pos.az;
-  user->pos.ax = pos.ax;
+  if (user) {
+    user->pos.x = pos.x;
+    user->pos.y = pos.y;
+    user->pos.z = pos.z + user->height /2 + 0.15;
+    user->pos.az = pos.az;
+    user->pos.ax = pos.ax;
+  }
 }
 
 void Entry::quit()
 {
-  entry = NULL;
+  entry = (Entry *) NULL;
 }

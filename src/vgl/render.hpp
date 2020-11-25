@@ -230,6 +230,7 @@ private:
   static const int SEL_BUFSIZ;
   
   std::list<Solid*> solidList;	///< rendering solids list.
+  std::list<Solid*> relsolidList; ///< rendering relative solids list.
 
   V3 bbox_min;			///< minimal bbox.
   V3 bbox_max;			///< maximal bbox.
@@ -261,12 +262,15 @@ private:
   // effective objects rendering
   void objectsRendering(bool select);	///< Render solids in display-list.
   void specificRender(uint32_t n, uint8_t prior);	///< Special rendering.
+  void specificObjects(uint32_t n, uint8_t prior);	///< Special rendering.
   void specificStill(uint32_t n, uint8_t prior);	///< Special rendering.
   void specificMobile(uint32_t n, uint8_t prior);	///< Special rendering.
   void specificInvisible(uint32_t n, uint8_t prior);	///< Special rendering.
   void specificFluid(uint32_t n, uint8_t prior);	///< Special rendering.
 
-  // effective solids rendering
+  // objects rendering
+  void objectsOpaque(bool zsel, uint8_t prior);		///< opaque objects rendering.
+  // solids rendering
   void solidsOpaque(bool zsel, list<Solid*>::iterator psu, uint8_t prior);	///< opaque solids
   void solidsTranslucid(bool zsel, list<Solid*>::iterator psu, uint8_t prior);  ///< translucid solids
 

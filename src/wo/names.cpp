@@ -64,7 +64,7 @@ void WObject::setObjectName(const char *str)
   uint32_t hval = hash_name(fullname);
   while (hval) {
     if ((*(hashtable[hval].name) == '\0') ||
-	(!strcmp(hashtable[hval].name, NAME_DELETED))) {
+	(! strcmp(hashtable[hval].name, NAME_DELETED))) {
       strcpy(hashtable[hval].name, fullname);
       hashtable[hval].po = this;
       World::current()->namecnt++;
@@ -84,7 +84,7 @@ WObject * WObject::getObjectByName(const char *str)
   trace(DBG_WO, "getObjectByName: hval=%d name=%s", hval, fullname);
   while (hval) {
     if (*(hashtable[hval].name) == '\0') return (WObject *) NULL;
-    if (!strcmp(hashtable[hval].name, fullname)) return hashtable[hval].po;
+    if (! strcmp(hashtable[hval].name, fullname)) return hashtable[hval].po;
     hval = (hval + 1) % NAME_HASH_SIZE;
   }
   return (WObject *) NULL;
@@ -100,7 +100,7 @@ void delObjectName(const char *str)
   uint32_t hval = hash_name(fullname);
   while (hval) {
     if (*(hashtable[hval].name) == '\0') return;
-    if (!strcmp(hashtable[hval].name, fullname)) {
+    if (! strcmp(hashtable[hval].name, fullname)) {
       strcpy(hashtable[hval].name, NAME_DELETED);
       World::current()->namecnt--;
       return;

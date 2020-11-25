@@ -391,7 +391,7 @@ static V3 dist;
 void World::localGrid()
 {
   for (int i=0; i<3 ; i++) dim[i] = dimgrid[i];
-  dist = newV3(slice.v[0], slice.v[1], slice.v[2]);
+  dist = newV3(bbslice.v[0], bbslice.v[1], bbslice.v[2]);
 }
 
 /**

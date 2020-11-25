@@ -66,7 +66,7 @@ void Terrain::behavior()
 {
   enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_LOW);
+  setRenderPrior(RENDER_NORMAL);
 
   initStillObject();
 }

@@ -47,8 +47,6 @@ private:
   };
 
 public:
-  //dax dans wobject static std::list<WObject*> lightList; ///< list of lights
-
   static const OClass oclass;	///< class variable
 
   virtual const OClass* getOClass() {return &oclass;}

@@ -36,6 +36,11 @@ World *manager = NULL;
 
 Universe::Universe()
 {
+  localuser = NULL;
+  port = VRENG_MPORT_BASE;
+  version = VRE_VERSION;
+  worldcnt = 0;
+
   url = new char[strlen(::g.url) + 1];
   strcpy(url, ::g.url);
 
@@ -57,27 +62,16 @@ Universe::Universe()
     p = strchr(p, '/');
     *p = '\0';
     strcpy(server, pserv);
-    //error("server=%s", server);
-    
+  
     ++p;
     urlpfx = new char[1];
     ptmp = strrchr(p, '/');
     if (ptmp) *ptmp = '\0';
     sprintf(urlpfx, "/%s", p);
   }
-
   group = new char[GROUP_LEN + 1];
   Channel::getGroup(DEF_MANAGER_CHANNEL, group);
-
-  worldList = NULL;
-  worldcnt = 0;
-  localuser = NULL;
   ttl = Channel::getTtl(::g.channel);
-  port = VRENG_MPORT_BASE;
-  version = VRE_VERSION;
-  prop = 0;
-  wheel = NULL;
-
   wheel = new Wheel();
   trace(DBG_INIT,"Universe: url=%s server=%s pfx=%s", url, server, urlpfx);
   notice("Universe: url=%s server=%s pfx=%s", url, server, urlpfx);
@@ -85,22 +79,20 @@ Universe::Universe()
 
 Universe::~Universe()
 {
-  delete server;
-  delete url;
-  delete urlpfx;
-  delete worldList;
-  delete group;
-  delete localuser;
+  if (server) delete server;
+  if (url) delete url;
+  if (urlpfx) delete urlpfx;
+  if (group) delete group;
   if (wheel) delete wheel;
 }
 
 Universe* Universe::current()
 {
-  static Universe* sDefaultUniverse = NULL;
+  static Universe* defUniverse = NULL;
 
-  if (sDefaultUniverse == NULL)
-    sDefaultUniverse = new Universe();
-  return sDefaultUniverse;
+  if (defUniverse == NULL)
+    defUniverse = new Universe();
+  return defUniverse;
 }
 
 void Universe::getUrl(char *_url)
@@ -116,30 +108,27 @@ void Universe::init()
   manager->setName(MANAGER_NAME);
 }
 
-static bool progress = false;
+static bool univ_progress = false;
 
 void Universe::sigWheel(int sig)
 {
   progression('!');
-  progress = false;
+  univ_progress = false;
 }
 
 void Universe::startWheel()
 {
-  //dax GLSection gls(::g.gui.getScene());
-#if HAVE_LIBPTHREAD
   signal(SIGTERM, sigWheel);
   pthread_create(&wheel_tid, NULL, runWheel, (void *) NULL);
-#endif
 }
 
 void * Universe::runWheel(void * arg)
 {
-  progress = true;
+  univ_progress = true;
   progression('[');
   //CRASH ubit GLSection gls(::g.gui.getScene());
 #if 0 //dax
-  while (progress) {
+  while (univ_progress) {
     //progression('.');
     //::g.render.wheel();	//CRASH
     if (new_world > 1) Wheel::current()->render();	//CRASH machine
@@ -158,5 +147,5 @@ void Universe::stopWheel()
   pthread_kill(wheel_tid, SIGTERM);
   signal(SIGTERM, SIG_IGN);
 #endif
-  progress = false;
+  univ_progress = false;
 }

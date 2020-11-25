@@ -745,8 +745,9 @@ void UDispX11::startLoop(bool main) {
                              null,      //except
                              (has_timeout ? &delay : null));
     if (has_input < 0) {
+      //dax UAppli::warning("UDispX11::startLoop (%d)","error in select()", errno);
+      printf("UDispX11::startLoop error in select() (%d)\n", errno);
       if (errno == EINTR || errno == EAGAIN) errno = 0;
-      UAppli::warning("UDispX11::startLoop","error in select()");
       a.cleanSources(a.sources); // remove invalid sources
     }
     

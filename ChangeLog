@@ -14,15 +14,17 @@ The rules for this file:
 
 ++ 9
 == 9.1
-== 9.1.2
+-- 9.1.2
+	- fixed -w option in pref.cpp
+	- added objectList in wobject.*pp
 	- added FLUID mode and fluidLists
 	- renamed initialize*Object to init*Oject methods
 	- renamed class PutInfo to class Message2
 	- renamed class Pitch to class Joystick2
 	- removed gui/pitch*pp
-	(2020/11/19, Philippe Dax)
+	(2020/11/21, Philippe Dax)
 
-== 9.1.1
+-- 9.1.1
 	- fixed urlpfx in universe.cpp
 	- reviewed some rendering order
 	- removed code creation from vrelines for rain and snow
@@ -30,7 +32,7 @@ The rules for this file:
 	- added parseBool() methods in parse.*pp
 	(2020/11/12, Philippe Dax)
 
-== 9.1.0
+-- 9.1.0
 	- invalidated app ring in vjs/
 	- restored src/servers/vjs/gen.pl*
 	- added door open/close mecanisms : sliding and vertical
@@ -1796,8 +1798,8 @@ The rules for this file:
 	- WObject is the top level class for all objects
 	- all objects have their own class
 	- all *.c source files are now rewritten in C++ (*.cc)
-	(2001/05/29, Eric Lecolinet, Philippe Dax)
 	- add intuitive mouse navigation
+	(2001/05/29, Eric Lecolinet, Philippe Dax)
 
 ++ 2
 == 2.6
@@ -2085,7 +2087,7 @@ The rules for this file:
 	- new functions (payload.c): seekPayload, tellStrInPayload, tellPayload
 	- bug fixed in http.c if environment variable no_proxy undefined
 	- add stat max_packet & min_packet in stat.c
-	- repare lift.c
+	- repair lift.c
 	- declare user geometry to the network
 	(2000/05/27, Philippe Dax)
 

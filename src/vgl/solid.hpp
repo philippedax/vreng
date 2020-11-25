@@ -30,6 +30,8 @@
 #ifndef SOLID_HPP
 #define SOLID_HPP
 
+#include <list>
+
 
 /**
  * Solid class
@@ -37,6 +39,7 @@
 class Solid {
   friend class WObject; //DB FIXME, suppress direct access from the WObject class
   friend class Texture;
+  friend class Render;
 
 protected:
   class WObject	*wobject;	///< WObject parent.
@@ -58,11 +61,10 @@ protected:
   GLfloat	scale, scalex, scaley, scalez;
 
 public:
-  enum rendering_mode {
-    PLAIN,              ///< render surfaces with plain colors.
-    TEXTURED,           ///< render surfaces with their textures.
-    WIRED,              ///< don't render surfaces, only render edges.
-    ZBUFSEL             ///< only fill the Z-buffer (for selection).
+
+  enum render_mode {
+    DISPLAY,		///< render surfaces with plain colors.
+    SELECT		///< only works with the Z-buffer (for selection).
   };
 
   enum render_type {
@@ -102,7 +104,7 @@ public:
   virtual ~Solid();	///< destructor.
 
   // Accessors
-  virtual WObject* object();
+  virtual WObject* object() const;
   /**< Returns the associated WObject. */
 
   virtual void getAbsoluteBB(V3& bbcent, V3& bbsize);
@@ -117,7 +119,7 @@ public:
   virtual void updateBB(GLfloat az);
   /**< Updates BB according to its orientation. */
 
-  virtual void getMaterials(GLfloat *diff, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha);
+  virtual void getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *opa);
   /* Returns materials. */
 
   virtual void setPosition(const M4& mpos);
@@ -132,14 +134,14 @@ public:
   virtual void setVisible(bool v);
   /**< Sets the solid visible (true) or invisible (false). */
 
-  virtual bool isVisible();
+  virtual bool isVisible() const;
   /**< Return if the solid should be drawn or not. */
 
-  virtual bool isOpaque();
+  virtual bool isOpaque() const;
   /**< Return if the solid is opaque or not. */
 
   // Displaying 3D
-  virtual void display3D(rendering_mode mode, uint8_t layer);
+  virtual void display3D(render_mode mode, render_type layer);
   /**< Issue the OpenGL commands to draw the solid in the given mode.
        It is called several times with "layer" increasing from 0 to ? in
        order to allow drawing at different layers. */
@@ -194,9 +196,6 @@ public:
   virtual void setFlashyEdges(bool flag);
   /**< Sets the solid edges flashy. */
 
-  virtual char * getFramesNumber(char *l);
-  /**< Parses frames number. */
-
   virtual int displayList(int rendertype);
   /**< Renders a solid in display-list. */
 
@@ -218,35 +217,22 @@ public:
   virtual void displayRay();
   /**< Displays ray. */
 
-  virtual char * skipEqual(char *p);
-  /** Skips '=' character. */
-
   virtual void vr2gl();
   /**< Transposes vreng coordinates in opengl coordinates. */
 
-#if 0
-  static void update3D(Pos &pos);
-  /**< Updates object in the 3D. */
-
-  static void updateAll3D(Pos &pos);
-  /**< Updates object in the 3D. */
-
-  static void updateCamera(Pos &pos);
-  /**< Updates camera in the 3D. */
-
-  static void getSurfVecs(Pos &pos, V3 *v, V3 *w, V3 *norm);
-  /**< Returns two vectors that describe the object's surface
-   * and a normal vector to that surface
-   */
-#endif
-
 private:
 
-  virtual void setFlashable(bool flag);
-  /**< Sets the solid flashable. */
+  virtual char * skipEqual(char *p);
+  /** Skips '=' character. */
+
+  virtual char * getFramesNumber(char *l);
+  /**< Parses frames number. */
 
   virtual void setBlinking(bool flag);
   /**< Sets the solid blinking. */
+
+  virtual void setFlashable(bool flag);
+  /**< Sets the solid flashable. */
 
   virtual void preDraw(int texid, GLfloat alpha, GLfloat *fog, bool cull = false);
   /**< Begins transforms before drawing. */

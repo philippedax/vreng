@@ -25,14 +25,12 @@ class World;
 class User;
 
 #define	MANAGER_NAME	"manager"
-#define MAX_WORLDS	256
 
 
 /**
  * Universe class
  */
 class Universe {
-
  public:
   char *server;		///< http server name
   char *url;		///< url
@@ -41,16 +39,13 @@ class Universe {
   uint16_t port;	///< port
   uint8_t ttl;		///< scope
   uint8_t version;	///< vre version
-  uint8_t prop;		///< notused
-  uint16_t worldcnt;	///< world counter
-  World *worldList;	///< list of worlds
-  User *localuser;	///< current player
+  uint8_t worldcnt;	///< world counter
+  User *localuser;	///< current player (init by World !)
   class Wheel *wheel;	///< wheel instance
-#if HAVE_LIBPTHREAD
   pthread_t wheel_tid;  ///< wheel thread
-#endif
 
   Universe();		///< Constructor
+
   virtual ~Universe();	///< Destructor
 
   static Universe * current();	///< pointer
@@ -65,7 +60,7 @@ class Universe {
   static void sigWheel(int sig);
   /**< Intercepts signal SIGTERM */
 
-  static void * runWheel(void * arg);
+  static void * runWheel(void *arg);
   /**< Runs the wheel progression indicator */
 
   virtual void stopWheel();

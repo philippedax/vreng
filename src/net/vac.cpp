@@ -62,10 +62,8 @@ bool Vac::isConnected()
 bool Vac::connectVac()
 {
 #if 1 //dax
-#if HAVE_LIBPTHREAD
   pthread_t tid;
   pthread_create(&tid, NULL, Vac::connectThread, (void * ) NULL);
-#endif
 #else
   Vac::connectThread();
   return connected;
@@ -107,13 +105,11 @@ void * Vac::connectThread(void *)
     perror("can't connect vacs");
     return NULL;
   }
-  //connected = true;
   return NULL;
 }
 
 bool Vac::getList()
 {
-  //int sdvac;
   uint32_t sizecache = 0;
   char reqvacs[8];
 
@@ -153,20 +149,18 @@ bool Vac::getList()
     char *p = strtok(cache, " ");
     while (p) {
       if (strncmp(p, "http://", 7) != 0) break;  // !!! ELC: pour eviter blocage
-      else{
-        Vac *vac = new Vac();
-        strcpy(vac->url, p);
-        p = strtok(NULL, " ");
-        if (p) strcpy(vac->channel, p);
-        vac->next = NULL;
-        prev->next = vac;
-        prev = vac;
-        p = strtok(NULL, " ");
-        //DEBUG printf("u=%s c=%s\n", vac->url, vac->channel);
-      }
+      Vac *vac = new Vac();
+      strcpy(vac->url, p);
+      p = strtok(NULL, " ");
+      if (p) strcpy(vac->channel, p);
+      vac->next = NULL;
+      prev->next = vac;
+      prev = vac;
+      p = strtok(NULL, " ");
+      //DEBUG printf("u=%s c=%s\n", vac->url, vac->channel);
     }
   }
-  delete[] cache;
+  if (cache) delete[] cache;
   Socket::closeStream(sdvac);
   trace(DBG_INIT, "Vacs initialized");
   return true;
@@ -174,8 +168,6 @@ bool Vac::getList()
 
 bool Vac::resolveWorldUrl(const char *url, char *chanstr)
 {
-  //int sdvac;
-
   if (connected == false) return false;
 
   // connect to the vacs server

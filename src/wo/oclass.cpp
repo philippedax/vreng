@@ -19,10 +19,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
+#include "oclass.hpp"
 #include "str.hpp"	// mystrcasecmp
 #include "netobj.hpp"	// Noid
 #include "initobj.hpp"	// OBJECTSNUMBER
-#include "oclass.hpp"
 
 using namespace std;
 
@@ -91,7 +91,7 @@ const OClass * OClass::getOClass(const char *type_name)
 #endif
   }
   error("type_name=%s not found, please upgrade VREng!", type_name);
-  return NULL;
+  return (OClass *) NULL;
 }
 
 const OClass * OClass::getOClass(uint8_t type_id)
@@ -102,7 +102,7 @@ const OClass * OClass::getOClass(uint8_t type_id)
   if (type_id < otable_size) return otable[type_id];
 #endif
   error("getOClass: type_id=%d out of bounds", type_id); dumpTable();
-  return NULL;
+  return (OClass *) NULL;
 }
 
 WObject * OClass::creatorInstance(uint8_t type_id, char *l)

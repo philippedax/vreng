@@ -37,7 +37,7 @@
 using namespace std;
 
 // global
-list<WObject*> stillList, mobileList, invisibleList, fluidList, deleteList, lightList;
+list<WObject*> objectList, stillList, mobileList, invisibleList, fluidList, deleteList, lightList, renderList;
 
 // local
 static uint32_t objectNum = 0;
@@ -129,6 +129,7 @@ void WObject::initObject(uint8_t _mode)
 
   setWObjectId();
   updateNames();
+  addToObject();
 
   //error("num=%d mode=%d type=%d", num, mode, type);
   switch (mode) {
@@ -387,16 +388,7 @@ Solid* WObject::getSolid() const
 {
   return solid;
 #if 0 //dax
-  if (_solids.empty())  return NULL;
-#endif
-#if 0 //dax
   return _solids.front();
-#endif
-#if 0
-  for (solidList::iterator it = _solids.begin(); it != _solids.end(); it++) {
-    if ((*it)->object() == this) return *it;
-  }
-  return NULL;
 #endif
 }
 
@@ -405,10 +397,20 @@ void WObject::setVisible(bool flag)
   if (solid) solid->setVisible(flag);
 }
 
-bool WObject::isVisible()
+bool WObject::isVisible() const
 {
-  if (solid) return solid->isVisible(); //FIXME solid may exists anayway
-  else return false;
+  if (solid)
+    return solid->isVisible();
+  else
+    return false;
+}
+
+bool WObject::isOpaque() const
+{
+  if (solid)
+    return solid->isOpaque();
+  else
+    return false;
 }
 
 void WObject::setRay(GLint wx, GLint wy)
@@ -442,8 +444,8 @@ void WObject::addSolid(Solid* psolid)
 void WObject::deleteSolids()
 {
   if (! _solids.empty()) {
-    for (solidList::iterator it = _solids.begin(); it != _solids.end(); it++) {
-      if (*it) delete (*it);
+    for (solidList::iterator s = _solids.begin(); s != _solids.end(); s++) {
+      if (*s) delete (*s);
     }
     _solids.erase(_solids.begin(), _solids.end());
   }
@@ -509,15 +511,7 @@ void WObject::setFlashy(float *color)
 
 void WObject::setFlashy()
 {
-#if 1
   if (solid) solid->setFlashyEdges(true);
-#else
-  if (! _solids.empty()) {
-    for (solidList::iterator it = _solids.begin(); it != _solids.end(); it++) {
-      (*it)->setFlashyEdges(true);
-    }
-  }
-#endif
 }
 
 void WObject::resetFlashy()
@@ -801,11 +795,6 @@ bool WObject::haveAction()
 /* Adds an object into the deleteList */
 void WObject::toDelete()
 {
-#if 0 //dax
-  for (list<WObject*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
-    if (*it == this) return;  // already deleted
-  }
-#endif
   if (isValid()) {
     deleteList.push_back(this);  // add to delete
     removed = true;  // mark removed
@@ -918,6 +907,11 @@ void WObject::clearList()
   }
 }
 
+void WObject::addToObject()
+{
+  addToListOnce(objectList);
+}
+
 void WObject::addToMobile()
 {
   addToListOnce(mobileList);
@@ -940,6 +934,7 @@ void WObject::addToFluid()
 
 void WObject::addToRender()
 {
+  addToListOnce(renderList);
 }
 
 void WObject::delFromMobile()
@@ -975,18 +970,18 @@ void WObject::addToListOnce(list<WObject*> &olist)
 {
   for (list<WObject*>::iterator ol = olist.begin(); ol != olist.end(); ++ol) {
     if (*ol == this)
-      return;
+      return;		// already in the list
   }
-  addToList(olist);
+  addToList(olist);	// add it into the list
 }
 
 OList * WObject::addToListOnce(OList *olist)
 {
   for (OList *ol = olist; ol ; ol = ol->next) {
     if (ol->pobject && ol->pobject == this)
-      return olist;
+      return olist;		// already in the list
   }
-  return addToList(olist);
+  return addToList(olist);	// add it into the list
 }
 
 /* Deletes a pointer of this object in an olist */
@@ -1260,7 +1255,8 @@ void WObject::deleteReplica()
     delFromMobile();
 
     // delete Solids
-    for (solidList::iterator s = _solids.begin(); s != _solids.end(); s++) delete (*s);
+    for (solidList::iterator s = _solids.begin(); s != _solids.end(); s++)
+      delete (*s);
     _solids.erase(_solids.begin(), _solids.end());
     if (noh) delete noh;
     noh = NULL; // delete NetObject

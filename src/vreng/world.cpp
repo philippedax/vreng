@@ -105,7 +105,7 @@ World::World()
   bbsize = newV3(0, 0, 0);
   bbmin = newV3(0, 0, 0);
   bbmax = newV3(0, 0, 0);
-  slice = newV3(DISTX, DISTY, DISTZ);
+  bbslice = newV3(DISTX, DISTY, DISTZ);
   grid = NULL;
 
   // interaction with general objects
@@ -176,7 +176,6 @@ void World::setName(const char *urlOrName)
   name = new char[end-begin + 1];
   memcpy(name, begin, end-begin);
   name[end-begin] = '\0';
-
   trace(DBG_WO, "setName: %s", name);
 }
 
@@ -195,11 +194,11 @@ World * World::worldByUrl(const char *url)
   Url::abs(url, urla);
 
   int loop = 0;
-  for (World *wl = worldList; wl && (loop <100) ; wl = wl->next, loop++) {
-    if ((! strcmp(wl->url, url)) || (! strcmp(wl->url, urla)))
-      return wl;	// world found
-    if (wl == wl->next) {
-      //error("getWorldByUrl: %s", wl->url);
+  for (World *w = worldList; w && (loop <100) ; w = w->next, loop++) {
+    if ((! strcmp(w->url, url)) || (! strcmp(w->url, urla)))
+      return w;	// world found
+    if (w == w->next) {
+      //error("getWorldByUrl: %s", w->url);
       break;	//FIXME: bug inside the list
     }
   }
@@ -209,18 +208,18 @@ World * World::worldByUrl(const char *url)
 World * World::worldByGroup(uint32_t group)
 {
   int loop = 0;
-  for (World *wl = worldList; wl && (loop <100) ; wl = wl->next, loop++)
-    if (wl->group == group)
-      return wl;	// world found
+  for (World *w = worldList; w && (loop <100) ; w = w->next, loop++)
+    if (w->group == group)
+      return w;	// world found
   return NULL;
 }
 
 World * World::worldBySsrc(uint32_t ssrc)
 {
   int loop = 0;
-  for (World *wl = worldList; wl && (loop <100) ; wl = wl->next, loop++)
-    if (wl->ssrc == ssrc)
-      return wl;	// world found
+  for (World *w = worldList; w && (loop <100) ; w = w->next, loop++)
+    if (w->ssrc == ssrc)
+      return w;	// world found
   return NULL;
 }
 
@@ -382,28 +381,27 @@ void World::compute(time_t sec, time_t usec)
       localuser->move.perm_sec = sec;
       localuser->move.perm_usec = usec;
     }
-    //notice("names: %d", namecnt);
 
     //
     // computes world's bb
     //
-    for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-      if (! (*it)->isValid()) continue;
-      if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
+    for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
+      if (! (*o)->isValid()) continue;
+      if (! (*o)->bbBehavior() || (*o)->isBehavior(COLLIDE_NEVER)) continue;
       for (int i=0; i<3 ; i++) {
-        bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbcenter.v[i] - (*it)->pos.bbsize.v[i]);
-        bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbcenter.v[i] + (*it)->pos.bbsize.v[i]);
+        bbmin.v[i] = MIN(bbmin.v[i], (*o)->pos.bbcenter.v[i] - (*o)->pos.bbsize.v[i]);
+        bbmax.v[i] = MAX(bbmax.v[i], (*o)->pos.bbcenter.v[i] + (*o)->pos.bbsize.v[i]);
       }
     }
-    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-      if (! (*it)->isValid()) continue;
-      if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == 1) continue;
+    for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
+      if (! (*o)->isValid()) continue;
+      if (! (*o)->bbBehavior() || (*o)->isBehavior(COLLIDE_NEVER) || (*o)->type == USER_TYPE) continue;
       for (int i=0; i<3 ; i++) {
-        bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbcenter.v[i] - (*it)->pos.bbsize.v[i]);
-        bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbcenter.v[i] + (*it)->pos.bbsize.v[i]);
+        bbmin.v[i] = MIN(bbmin.v[i], (*o)->pos.bbcenter.v[i] - (*o)->pos.bbsize.v[i]);
+        bbmax.v[i] = MAX(bbmax.v[i], (*o)->pos.bbcenter.v[i] + (*o)->pos.bbsize.v[i]);
       }
       if (bbmax.v[0] > 1000 || bbmax.v[1] >1000 || bbmax.v[2] > 1000)
-        error("mobil: %d %s bbmin=%.1f,%.1f,%.1f bbmax=%.1f,%.1f,%.1f", (*it)->type, (*it)->getInstance(), bbmin.v[0], bbmin.v[1], bbmin.v[2], bbmax.v[0], bbmax.v[1], bbmax.v[2]);
+        error("mobil: %d %s bbmin=%.1f,%.1f,%.1f bbmax=%.1f,%.1f,%.1f", (*o)->type, (*o)->getInstance(), bbmin.v[0], bbmin.v[1], bbmin.v[2], bbmax.v[0], bbmax.v[1], bbmax.v[2]);
     }
     for (int i=0; i<3 ; i++) {
       bbcenter.v[i] = (bbmax.v[i] + bbmin.v[i]);
@@ -429,7 +427,7 @@ void World::compute(time_t sec, time_t usec)
     //dimgrid[2] = dimz;
     // free the current grid, reinitialize another one with new dimensions
     //World::current->freeGrid();
-    //World::current->initGrid(dimgrid, slice);
+    //World::current->initGrid(dimgrid, bbslice);
 
     Grid::grid()->init(dimx, dimy, dimz);
     Axis::axis()->init();
@@ -456,30 +454,30 @@ void World::compute(time_t sec, time_t usec)
     //
     {
       int i=0;
-      for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it, i++) {
-        if (! (*it)->isValid()) {
+      for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o, i++) {
+        if (! (*o)->isValid()) {
           error("bad type=0: %d", i);
-          mobileList.remove(*it);
+          mobileList.remove(*o);
           continue;
         }
-        if ((*it)->type > OBJECTSNUMBER) {
-          error("bad type out of range: %d t=%d", i, (*it)->type);
-          mobileList.remove(*it);
+        if ((*o)->type > OBJECTSNUMBER) {
+          error("bad type out of range: %d t=%d", i, (*o)->type);
+          mobileList.remove(*o);
           continue;
         }
-        if ((*it)->mode > 2) {
-          error("bad mode: %d m=%d", i, (*it)->mode);
-          mobileList.remove(*it);
+        if ((*o)->mode > 2) {
+          error("bad mode: %d m=%d", i, (*o)->mode);
+          mobileList.remove(*o);
           continue;
         }
-        if (! (*it)->num) {
+        if (! (*o)->num) {
           error("num null: %d", i);
-          mobileList.remove(*it);
+          mobileList.remove(*o);
           continue;
         }
-        if (::g.pref.dbgtrace) error("obj: %s-%s", (*it)->typeName(), (*it)->getInstance());
-        (*it)->imposedMovement(sec, usec);
-        (*it)->permanentMovement(sec, usec);
+        if (::g.pref.dbgtrace) error("obj: %s-%s", (*o)->typeName(), (*o)->getInstance());
+        (*o)->imposedMovement(sec, usec);
+        (*o)->permanentMovement(sec, usec);
       }
     }
     default: return;
@@ -602,9 +600,9 @@ void World::initGrid()
   dimgrid[0] = GRIDX;
   dimgrid[1] = GRIDY;
   dimgrid[2] = GRIDZ;
-  slice.v[0] = DISTX;
-  slice.v[1] = DISTY;
-  slice.v[2] = DISTZ;
+  bbslice.v[0] = DISTX;
+  bbslice.v[1] = DISTY;
+  bbslice.v[2] = DISTZ;
   localGrid();
         
 #ifdef DYNAMIC_GRID 
@@ -617,7 +615,7 @@ void World::initGrid(const uint8_t _dim[3], const V3 &sl)
 {
   for (int i=0; i<3 ; i++) {
     dimgrid[i] = _dim[i];
-    slice.v[i] = sl.v[i];
+    bbslice.v[i] = sl.v[i];
   }
   localGrid();
 
@@ -857,16 +855,16 @@ void World::init(const char *vreurl)
 
   world->clock = new Clock();
   world->bgcolor = new Bgcolor();
-  new Entry();
 
   //
   // Create local user first
   //
   trace(DBG_WO, "createLocaluser: ");
   User *user = new User();
-
-  world->plocaluser = user;
+  world->user = user;
   Universe::current()->localuser = user;	// keep user in this universe
+  Entry *entry = new Entry();
+  entry->query(user);
 
   //
   // Download initial world (Rendezvous.vre)
@@ -878,11 +876,11 @@ void World::init(const char *vreurl)
   world->universe->stopWheel();
   endprogression();
 
-  // Attach bubble text to user
+  // Attach bubble text to localuser
   char text[32];
-  float textcolor[] = {1,0,0};
+  float red[] = {1,0,0};
   sprintf(text, "Hi! I am %s", user->getInstance());
-  user->bubble = new Bubble(user, text, textcolor, Bubble::BUBBLEBACK);
+  user->bubble = new Bubble(user, text, red, Bubble::BUBBLEBACK);
 
   // check if icons are locally presents
   world->checkIcons();
@@ -908,52 +906,44 @@ void World::quit()
   Parse *parser = Parse::getParse();
   if (parser) delete parser;
 
-  //not used
-  //declareLeaveWorldToManager(getName(), getChan(), localUser()->getInstance());
-
-#if 0
-  if (setjmp(sigctx) != 0) {
-    error("World::quit");
-    exit(1);
-  }
-#endif
+  //notused declareLeaveWorldToManager(getName(), getChan(), localUser()->getInstance());
 
   //
   // Quits and deletes objects
   //
-  for (list<WObject*>::iterator it = invisibleList.begin(); it != invisibleList.end(); ++it) {
-    if (*it && (*it)->isValid()) {
-      (*it)->quit();
-      delete *it;
+  for (list<WObject*>::iterator o = invisibleList.begin(); o != invisibleList.end(); ++o) {
+    if (*o && (*o)->isValid()) {
+      (*o)->quit();
+      delete *o;
     }
   }
   invisibleList.clear();
 
-  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
-    if (*it && (*it)->isValid()) {
-      (*it)->quit();
-      delete *it;
+  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o) {
+    if (*o && (*o)->isValid()) {
+      (*o)->quit();
+      delete *o;
     }
   }
   fluidList.clear();
 
-  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-    if (*it && (*it)->isValid()) {
-      (*it)->clearObjectBar();
-      (*it)->quit();
-      delete *it;
+  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
+    if (*o && (*o)->isValid()) {
+      (*o)->clearObjectBar();
+      (*o)->quit();
+      delete *o;
     }
   }
   stillList.clear();
 
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if ((*it) == localuser) continue;
-    if (*it) { //FIXME segfault
-      if ((*it)->isValid() && ! (*it)->isEphemeral()) {
-        //FIXME segfault (*it)->clearObjectBar();
-        (*it)->clearObjectBar();
-        (*it)->quit();
-        delete *it;
+  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
+    if ((*o) == localuser) continue;
+    if (*o) { //FIXME segfault
+      if ((*o)->isValid() && ! (*o)->isEphemeral()) {
+        //FIXME segfault (*o)->clearObjectBar();
+        (*o)->clearObjectBar();
+        (*o)->quit();
+        delete *o;
       }
     }
   }
@@ -1090,13 +1080,13 @@ void World::deleteObjects()
   //debug if (! deleteList.empty()) OList::show(deleteList);
   int s = deleteList.size();
   int i=0;
-  for (list<WObject*>::iterator it = deleteList.begin(); i<s; ++it, i++) {
-    //error("delete: i=%d < %d n=%s", i, s, (*it)->names.instance);
-    if (*it) {
-      if ((*it)->isValid() && ! (*it)->isBehavior(COLLIDE_NEVER)) (*it)->deleteFromGrid();
-      mobileList.remove(*it);
-      deleteList.remove(*it);
-      if (*it) delete *it;	//segfault
+  for (list<WObject*>::iterator o = deleteList.begin(); i<s; ++o, i++) {
+    //error("delete: i=%d < %d n=%s", i, s, (*o)->names.instance);
+    if (*o) {
+      if ((*o)->isValid() && ! (*o)->isBehavior(COLLIDE_NEVER)) (*o)->deleteFromGrid();
+      mobileList.remove(*o);
+      deleteList.remove(*o);
+      if (*o) delete *o;	//segfault
     }
   }
 }
@@ -1109,10 +1099,6 @@ void World::clearLists()
   stillList.clear();
   deleteList.clear();
   lightList.clear();
-}
-
-void World::funcs()
-{
 }
 
 #if 0 //debug

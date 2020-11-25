@@ -177,9 +177,8 @@ Step::Step(char *l)
 {
   parser(l);
   behavior();
-
-  if (stair || escalator || travelator || spiral) build();
-
+  if (stair || escalator || travelator || spiral)
+    build();
   //notused addList();
 }
 
@@ -216,7 +215,7 @@ Step::Step(WObject *user, char *geom)
 
   behavior();
 
-  /* position in front of user */
+  /* position in front of localuser */
   pos.x = user->pos.x +0.4;
   pos.y = user->pos.y;
   pos.z = user->pos.z +0.5;
