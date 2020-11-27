@@ -73,8 +73,8 @@ Universe::Universe()
   Channel::getGroup(DEF_MANAGER_CHANNEL, group);
   ttl = Channel::getTtl(::g.channel);
   wheel = new Wheel();
-  trace(DBG_INIT,"Universe: url=%s server=%s pfx=%s", url, server, urlpfx);
-  notice("Universe: url=%s server=%s pfx=%s", url, server, urlpfx);
+  trace(DBG_INIT,"Universe: url=%s server=%s pfx=%s", ::g.universe, server, urlpfx);
+  notice("Universe: url=%s server=%s pfx=%s", ::g.universe, server, urlpfx);
 }
 
 Universe::~Universe()

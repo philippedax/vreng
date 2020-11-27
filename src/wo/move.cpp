@@ -473,7 +473,8 @@ void WObject::permanentMovement(time_t sec, time_t usec)
     if (noh && noh->isResponsible()) updateToNetwork(oldpos);  // handled by each object
 
     updatePositionAndGrid(oldpos);
-    if (this == localuser) updateCamera(pos);
+    if (this == localuser)
+      updateCamera(pos);
   }
 }
 

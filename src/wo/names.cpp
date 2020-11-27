@@ -39,7 +39,7 @@ struct hash_elt {
 static struct hash_elt hashtable[NAME_HASH_SIZE];
 
 
-void World::initObjectsName()
+void World::initNames()
 {
   World::current()->namecnt = 0;
   for (int i=0; i < NAME_HASH_SIZE; i++)

@@ -38,8 +38,8 @@ extern class User *localuser;	// global
 /**
  * User class
  */
-//dax class User: public WObject, public UserAction {
 class User: public WObject {
+
 public:
   static const float LASTING;
   static const float DEFAULTWIDTH;
@@ -90,9 +90,8 @@ protected:
   char  mensuration[MENSURATIONLEN];
   char  message[MESS_LEN];	///< message buffer.
   char  request[MESS_LEN];
-  int   lastmess;	///< last message number.
+  int   lastmess;		///< last message number.
   int   lastrequest;
-  bool  goingup;	///< flag go up.
 
 #if 0
   uint8_t weight;
@@ -258,9 +257,6 @@ private:
 
   virtual void setGravity(bool flag);
   /**< enables/disables gravity. */
-
-  void setGoingup(bool flag);
-  /**< sets flog goingup. */
 
   void getMemory();
   /**< Gets needed memory. */

@@ -41,8 +41,8 @@ using namespace std;
 
 
 // local
-const int Render::SEL_BUFSIZ = (4*256);	// 256 names
-static GLuint selbuf[4*256];		// 256 objects
+const int Render::SEL_BUFSIZ = (4*1024);	// 1024 names
+static GLuint selbuf[4*1024];			// 1024 objects
 
 extern struct Render::sCamera cam_user;
 
@@ -166,6 +166,7 @@ void Render::putSelbuf(WObject *po)
 /**
  * Specific rendering to do by objects themselves
  * by scanning objects lists
+ * Note: not seemed to be the better solution (world is dark)
  */
 // Renders special objects
 void Render::specificObjects(uint32_t num, uint8_t pri)
@@ -296,7 +297,7 @@ void Render::solidsOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
     if (s == su) continue;	// skip localuser
-    //TODO: if ((*s)->object()->isSeen() == false) continue;  // not seen
+    //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
     if (   (*s)
         && (*s)->isOpaque()
         && (*s)->isVisible()
@@ -366,11 +367,11 @@ void Render::specificRender(uint32_t num, uint8_t pri)
 }
 
 /*
- * Render all objects.
+ * Render all objects and their solids.
  * - renders objects in displaylists
  * - makes specific rendering for special objects
  */
-void Render::objectsRendering(bool zsel=false)
+void Render::rendering(bool zsel=false)
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
@@ -381,6 +382,7 @@ void Render::objectsRendering(bool zsel=false)
       wu = o;	// localuser
     }
   }
+  // Find the localuser solid
   list<Solid*>::iterator su;
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
     if ((*s)->object()->type == USER_TYPE) {
@@ -458,7 +460,7 @@ void Render::render()
   cameraPosition();		// camera position
   clearGLBuffer();		// background color
   lighting();			// general lighting
-  objectsRendering(false);	// objectsRendering
+  rendering(false);		// general rendering
   Grid::grid()->render();	// grid
   Axis::axis()->render();	// axis
   satellite();                  // launch a satellite camera
@@ -469,7 +471,7 @@ void Render::minirender()
 {
   cameraPosition();		// camera position
   clearGLBuffer();		// background color
-  objectsRendering(false);	// objectsRendering
+  rendering(false);		// general rendering
 }
 
 void Render::clearGLBuffer()
@@ -566,7 +568,7 @@ void Render::setAllTypeFlashy(char *object_type, int typeflash)
  * 3D Selection with picking method.
  * returns number of hits (objects selectionned)
  */
-uint16_t Render::getBufferSelection(GLint x, GLint y, GLint z)
+uint16_t Render::bufferSelection(GLint x, GLint y, GLint z)
 {
   // set selection mode
   memset(selbuf, 0, sizeof(selbuf));
@@ -599,7 +601,7 @@ uint16_t Render::getBufferSelection(GLint x, GLint y, GLint z)
   cameraPosition();
 
   // redraw the objects into the selection buffer
-  objectsRendering(true);	// zsel true
+  rendering(true);	// zsel true
 
   // we put the normal mode back
   glMatrixMode(GL_PROJECTION);
@@ -615,15 +617,16 @@ uint16_t Render::getBufferSelection(GLint x, GLint y, GLint z)
     psel += 3 + psel[0];	// next hit
   }
 
-  uint16_t objectselected = 0;
+  uint16_t selected = 0;
 
   if (hits > 0) {
     qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
     int n = z % hits;
-    objectselected = hitlist[n][3];
+    selected = hitlist[n][3];
   }
   if (hitlist) delete[] hitlist;
-  return objectselected;
+
+  return selected;
 }
 
 /* Qsort function for elements of the selection buffer. */
@@ -798,7 +801,7 @@ WObject** Render::getDrawedObjects(int *nbhit)
   cameraPosition();
 
   // redraws the objects into the selection buffer
-  objectsRendering(true);	// zsel true
+  rendering(true);	// zsel true
 
   // we put the normal mode back
   glMatrixMode(GL_PROJECTION);

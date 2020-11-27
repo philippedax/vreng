@@ -408,7 +408,7 @@ void Vicinity::analyseVisual(int details)
       //au bout de 5 niveau de transparence on peut supposer l'objet opaque
       while (transp || depth > 4) {
 	//gestion de transparence
-        uint16_t n = ::g.render.getBufferSelection(i, j, depth);
+        uint16_t n = ::g.render.bufferSelection(i, j, depth);
         WObject* po = WObject::byNum(n);
 	depth++;
 	
@@ -419,7 +419,7 @@ void Vicinity::analyseVisual(int details)
 	}
 	if (uselessType(po)) continue;
 
-	//3 boucles for je sais c pas bien ! mais j'y suis oblige :'(
+	//3 boucles for je sais c pas bien ! mais j'y suis oblige
 	bool found = false;
 	for (int k=0; k < visualListSize; k++) {
 	  if (po && visualList[k].object && visualList[k].object == po) {

@@ -530,7 +530,7 @@ WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
   trace(DBG_GUI, "Pointed: clic=%d,%d %d", x, y, z);
   static char *classname = 0, *instancename = 0, *actionnames = 0;
 
-  uint16_t num = g.render.getBufferSelection(x, y, z);
+  uint16_t num = g.render.bufferSelection(x, y, z);
   WObject* object = WObject::byNum(num);
   if (! object) {
     objinfo[0].name = (char*) "World";	// avoid segfault

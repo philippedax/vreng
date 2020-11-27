@@ -182,7 +182,7 @@ public:
   // Selection
   /////////////
 
-  uint16_t getBufferSelection(GLint x, GLint y, GLint zdepth);
+  uint16_t bufferSelection(GLint x, GLint y, GLint zdepth);
   /**<
    * Returns the solid's num displayed in (x,y) on the screen.
    * We use here coordinates IN THE ZBUFFER and no in the display window.
@@ -259,14 +259,14 @@ private:
   void lighting();		///< Set lights.
   void materials();		///< Set colors of materials.
 
-  // effective objects rendering
-  void objectsRendering(bool select);	///< Render solids in display-list.
-  void specificRender(uint32_t n, uint8_t prior);	///< Special rendering.
-  void specificObjects(uint32_t n, uint8_t prior);	///< Special rendering.
-  void specificStill(uint32_t n, uint8_t prior);	///< Special rendering.
-  void specificMobile(uint32_t n, uint8_t prior);	///< Special rendering.
-  void specificInvisible(uint32_t n, uint8_t prior);	///< Special rendering.
-  void specificFluid(uint32_t n, uint8_t prior);	///< Special rendering.
+  // rendering
+  void rendering(bool zsel);				///< general rendering.
+  void specificRender(uint32_t n, uint8_t prior);	///< specific rendering.
+  void specificObjects(uint32_t n, uint8_t prior);	///< specific rendering.
+  void specificStill(uint32_t n, uint8_t prior);	///< specific rendering.
+  void specificMobile(uint32_t n, uint8_t prior);	///< specific rendering.
+  void specificInvisible(uint32_t n, uint8_t prior);	///< specific rendering.
+  void specificFluid(uint32_t n, uint8_t prior);	///< specific rendering.
 
   // objects rendering
   void objectsOpaque(bool zsel, uint8_t prior);		///< opaque objects rendering.

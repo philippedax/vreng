@@ -74,7 +74,8 @@ void Smoke::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_HIGH);
+  setRenderPrior(RENDER_NORMAL);
+
   initMobileObject(0);
   enablePermanentMovement();
 }
@@ -184,11 +185,11 @@ void Smoke::changePermanent(float dt)
 void Smoke::motionAnimate(float dt)
 {
   SMOKE_PARTICLE *p = &offset[0][0][0];
-  for (int z=0; z<NZ; z++) {
+  for (int z=0; z < NZ; z++) {
     int zh = z+1; int zl = z-1;
-    for (int y=0; y<NY; y++) {
+    for (int y=0; y < NY; y++) {
       int yh = y+1; int yl = y-1;
-      for (int x=0; x<NX; x++,p++) {
+      for (int x=0; x < NX; x++,p++) {
         int xh = x+1; int xl = x-1;
         for (int zi=zl; zi<=zh; zi++) {
           for (int yi=yl; yi<=yh; yi++) {
@@ -212,9 +213,9 @@ void Smoke::motionAnimate(float dt)
   }
   p = &offset[0][0][0];
   float ft = (float) pow(DYNF, dt);
-  for (int z=0; z<NZ; z++) {
-    for (int y=0; y<NY; y++) {
-      for (int x=0; x<NX; x++, p++) {
+  for (int z=0; z < NZ; z++) {
+    for (int y=0; y < NY; y++) {
+      for (int x=0; x < NX; x++, p++) {
         p->p += p->v * dt;
         if (p->p.length2() > (MAXWARPF*MAXWARPF))
           p->v.reset();
@@ -265,18 +266,18 @@ void Smoke::draw(float ex, float ey, float dx, float dy, float a)
     else
       glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
     glVertex3f(ex, ex, ey);
-    gettimeofday(&tv, NULL);
-    srand((time_t) tv.tv_usec);
+    //dax gettimeofday(&tv, NULL);
+    //dax srand((time_t) tv.tv_usec);
     if (drand48() > 0.5)
       glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, white);
     else
       glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
     glVertex3f(ex-dx, ex-dx, ey);
-    glVertex3f(ex-dx*.5, ex-dx*.5, ey + M_SQRT3_2*dy);
-    glVertex3f(ex+dx*.5, ex+dx*.5, ey + M_SQRT3_2*dy);
+    glVertex3f(ex-dx, ex-dx, ey + M_SQRT3_2*dy);
+    glVertex3f(ex+dx, ex+dx, ey + M_SQRT3_2*dy);
     glVertex3f(ex+dx, ex+dx, ey);
-    glVertex3f(ex+dx*.5, ex+dx*.5, ey - M_SQRT3_2*dy);
-    glVertex3f(ex-dx*.5, ex-dx*.5, ey - M_SQRT3_2*dy);
+    glVertex3f(ex+dx, ex+dx, ey - M_SQRT3_2*dy);
+    glVertex3f(ex-dx, ex-dx, ey - M_SQRT3_2*dy);
     glVertex3f(ex-dx, ex-dx, ey);
   glEnd();
 }
@@ -292,14 +293,14 @@ void Smoke::draw()
 
 void Smoke::render()
 {
-  static uint32_t nf = 0;
+  static uint32_t ns = 0;
 
   //error("render: %.2f,%.2f,%.2f", pos.x,pos.y,pos.z);
-  //dax glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
   float seed = ((float) drand48() * 2) - 1.;
-  glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
+  glRotatef(seed * 45 * (ns%4), 0, 0, 1);  // billboard effect
   glDisable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
   //glEnable(GL_BLEND);
@@ -308,8 +309,8 @@ void Smoke::render()
 
   //glDisable(GL_BLEND);
   glPopMatrix();
-  //dax glPopAttrib();
-  nf++;
+  //glPopAttrib();
+  ns++;
 }
 
 void Smoke::funcs() {}

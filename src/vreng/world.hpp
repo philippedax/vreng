@@ -44,6 +44,7 @@ class World {
 
   /* states */
   enum world_state {
+    TOLOAD,
     LOADING,
     LOADED,
     SIMULATION,
@@ -140,7 +141,7 @@ class World {
   virtual const char* getName() const;		///< Gets current world name.
   virtual void setName(const char* name);	///< Builds world name from url.
 
-  virtual int getState() const;			///< Gets the world state.
+  virtual uint8_t getState() const;		///< Gets the world state.
   virtual void setState(int _state);		///< Sets a world state.
   virtual bool isDead() const;			///< Checks if world is dead.
 
@@ -190,11 +191,8 @@ class World {
   /**< Frees the grid. */
 
   //
+  // World methods
   // static methods
-  //
-
-  //
-  // World history manipulation
   //
   static World* current();		///< Return the current world.
 
@@ -211,7 +209,7 @@ class World {
   /**< New World initialization. */
 
   static void init(const char *urlvre);
-  /**< General initialization of WO module. */
+  /**< General World initialization. */
 
   static void httpReader(void *urlvre, class Http *http);
   /**< World reader. */
@@ -219,7 +217,7 @@ class World {
   static void deleteObjects();
   /**< Deletes all objects dropped in the todeletelist. */
 
-  static void initObjectsName();
+  static void initNames();
   /**< Initializes hashcode table of names. */
 
   static void initGeneralFuncList();
@@ -231,8 +229,8 @@ class World {
   static const char * getManagerChan();
   /**< Gets the channel name of the manager. */
 
-  static void clearLists();
-  /**< Clears lists. */
+  static void initLists();
+  /**< Clears all lists. */
 
 };
 

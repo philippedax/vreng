@@ -15,6 +15,10 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.1\n\
+-- 9.1.3\n\
+	- rewriting some algos for rendering\n\
+	(2020/11/25, Philippe Dax)\n\
+\n\
 -- 9.1.2\n\
 	- fixed -w option in pref.cpp\n\
 	- added objectList in wobject.*pp\n\

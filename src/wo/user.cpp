@@ -86,7 +86,6 @@ void User::defaults()
   aspeed = ASPEED;
   ray = newV3(0, 0, 0);
   hit = 0;
-  goingup = false;
   carrier = NULL;
   cart = NULL;
   bubble = NULL;
@@ -297,9 +296,9 @@ void User::inits()
   setRenderPrior(RENDER_HIGH);
   enablePermanentMovement();	// gravity
   createVolatileNetObject(PROPS);
-  //pd noh->declareObjCreation(); // we don't need because delta
+  //pd noh->declareObjCreation(); // we don't need because delta do the job
 
-  setPosition();	// from entry
+  setPosition();	// position from entry
   updatePosition();
   makeSolid();
   if (current_view) setView(current_view);
@@ -530,11 +529,6 @@ void User::changePosition(float lasting)
   pos.y += lasting * move.lspeed.v[1];
   pos.z += lasting * move.lspeed.v[2];
   pos.az += lasting * move.aspeed.v[0];
-}
-
-void User::setGoingup(bool flag)
-{
-  goingup = flag;
 }
 
 /* equations system handling permanent motions */

@@ -297,7 +297,9 @@ bool WObject::isPermanent() const
 
 bool WObject::isSeen()
 {
-  return ::g.render.getVisiblePosition(this).v[2];  // seen = v[2]
+  //dax return ::g.render.getVisiblePosition(this).v[2];  // seen = v[2]
+  V3 vseen = ::g.render.getVisiblePosition(this);
+  return vseen.v[2];  // seen = v[2]
 }
 
 uint32_t WObject::collideBehavior() const

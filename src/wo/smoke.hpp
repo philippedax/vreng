@@ -29,9 +29,9 @@
 #include "fire.hpp"
 
 #define TILE 1.
-#define NX 4
-#define NY 4
 #define NZ 8
+#define NY 4
+#define NX 4
 #define WARPF (TILE*5)
 #define AFFF ((TILE/16)/WARPF)
 #define SPRINGF 0.01
@@ -44,8 +44,8 @@
 #define SMOKELIFE 3.	// 3 sec
 #define SMOKEDELTA 0.005
 #define SMOKEALPHA 0.35
-#define SQRT_5 2.236067977f
-#define SQRT_6 2.449489743f
+#define SQRT_5 2.236067977
+#define SQRT_6 2.449489743
 #define D0     0
 #define D1     1
 #define D2     2
@@ -68,6 +68,7 @@ class Smoke: public Fire {
 
 public:
   static const OClass oclass;	///< class variable.
+
   virtual const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.

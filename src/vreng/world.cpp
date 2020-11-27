@@ -223,7 +223,7 @@ World * World::worldBySsrc(uint32_t ssrc)
   return NULL;
 }
 
-int World::getState() const
+uint8_t World::getState() const
 {
   return state;
 }
@@ -834,15 +834,15 @@ void World::init(const char *vreurl)
   //
   World *world = new World();
 
-  world->setState(STOPPED);
+  world->setState(TOLOAD);
   world->setChanAndJoin(::g.channel);      // join initial channel
   world->setName(Universe::current()->url);
   Channel::getGroup(world->getChan(), Universe::current()->group);
   Universe::current()->port = Channel::getPort(world->getChan());
 
   world->initGrid();
-  clearLists();
-  initObjectsName();
+  initLists();
+  initNames();
   initGeneralFuncList();
 
   if (::g.pref.keep == false)
@@ -863,8 +863,6 @@ void World::init(const char *vreurl)
   User *user = new User();
   world->user = user;
   Universe::current()->localuser = user;	// keep user in this universe
-  Entry *entry = new Entry();
-  entry->query(user);
 
   //
   // Download initial world (Rendezvous.vre)
@@ -895,6 +893,10 @@ void World::init(const char *vreurl)
 
   world->setState(LOADED);
   trace(DBG_INIT, "World initialized");
+
+  Entry *entry = new Entry();
+  entry->query(user);
+  //dax localuser->setPosition();
 }
 
 /* Quits the current World */
@@ -976,9 +978,9 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   //OList::show(mobileList, "mobile:");
 
   // cleanup
-  clearLists();
+  initLists();
   current()->initGrid();
-  initObjectsName();
+  initNames();
 
   World *world = NULL;
 
@@ -1033,9 +1035,6 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   // default bgcolor
   world->bgcolor = new Bgcolor();
 
-  // default entry
-  new Entry();
-
   /////////////////////////////////////////////////////
   //
   // Download the vre description file of the new world
@@ -1060,6 +1059,9 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   localuser->inits();
 
+  // default entry
+  new Entry();
+
   // check wether icons are locally presents
   world->checkIcons();
 
@@ -1077,11 +1079,10 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 /* Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
-  //debug if (! deleteList.empty()) OList::show(deleteList);
   int s = deleteList.size();
   int i=0;
+
   for (list<WObject*>::iterator o = deleteList.begin(); i<s; ++o, i++) {
-    //error("delete: i=%d < %d n=%s", i, s, (*o)->names.instance);
     if (*o) {
       if ((*o)->isValid() && ! (*o)->isBehavior(COLLIDE_NEVER)) (*o)->deleteFromGrid();
       mobileList.remove(*o);
@@ -1091,7 +1092,8 @@ void World::deleteObjects()
   }
 }
 
-void World::clearLists()
+/* clears all lists */
+void World::initLists()
 {
   mobileList.clear();
   invisibleList.clear();

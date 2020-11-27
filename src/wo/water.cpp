@@ -159,6 +159,7 @@ void Water::render()
 {
   //dax glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if this line is commented, flag is ok
   glPushMatrix();
+   glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
    glEnable(GL_BLEND);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -174,6 +175,7 @@ void Water::render()
 
    glDisable(GL_BLEND);
    glDisable(GL_LIGHTING);
+   glDisable(GL_DEPTH_TEST);
   glPopMatrix();
   //dax glPopAttrib();
 }

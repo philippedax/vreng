@@ -1202,7 +1202,8 @@ void Solid::getAbsoluteBB(V3 &center, V3 &size)
 
     // add object position
     MulM4V3(&vabs, &position, &vrel);	// vabs = posmat * vrel
-    if (n == 0)  vmin = vmax = vabs;
+    if (n == 0)
+      vmin = vmax = vabs;
     else {
       for (int i=0; i<3; i++) {
 	vmin.v[i] = MIN(vabs.v[i], vmin.v[i]);
@@ -1480,7 +1481,7 @@ void Solid::displayFlary()
     glPushMatrix();
     glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);
     glTranslatef(object()->pos.x, object()->pos.y, object()->pos.z);
-    vr2gl();
+    //dax vr2gl();
     object()->flare->render(object()->pos);
     glPopMatrix();
   }
@@ -1519,7 +1520,9 @@ int Solid::displayList(int display_mode = NORMAL)
        }
      }
      if (dlists[curframe] > 0) {
+       glEnable(GL_DEPTH_TEST);
        glCallList(dlists[curframe]);
+       glDisable(GL_DEPTH_TEST);
      }
      glPopMatrix();
      break;
@@ -1595,6 +1598,7 @@ int Solid::displayList(int display_mode = NORMAL)
      glDepthFunc(GL_LESS);
      glDepthMask(GL_TRUE);
      glDisable(GL_BLEND);
+     glDisable(GL_DEPTH_TEST);
     //dax glPopMatrix();
 #endif
     break;	// reflexive
