@@ -1,0 +1,25 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="maze.vre"/>
+</head>
+
+<scene>
+
+<entry pos="0 0 0 0.85"></entry>
+
+<walls url="/walls/walls.pts"></walls>
+
+<ground name="ground" pos="25 26 -0.5 0">
+  <solid dim="58 58 1" dif=".6 .4 0" />
+</ground>
+
+<animator name="warrior" pos="2 3 .8" state="1" ttl=".5">
+  <solid frames="6">
+    <frame shape="statue" tx="/pcx/skin1.pcx" model="/md2/tris.md2" scale=".035" beginframe="66" endframe="71" />
+  </solid>
+</animator>
+
+</scene>
+</vre>

@@ -1,0 +1,31 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name='filename' content="board.vre"/>
+</head>
+
+<scene>
+
+<vjc server="localhost"></vjc>
+
+<ground name="floor" pos="5 0 -.5"> <solid dim="20 20 .5" dif="grey60" /> </ground>
+
+<vrelet name="tictactoe" pos="5 2.5 1.5 -0.78 1.57"
+  class="fr.enst.vreng.tester.TicTacToe"
+  incrx="150" incry="100" fx="1.5">
+  <solid dim="3 2 .02" dif="lightblue" />
+</vrelet>
+<vrelet name="drawing-board" pos="5 -2.5 1.5 -2.35 1.57"
+  class="fr.enst.vreng.tester.Board"
+  incrx="100" incry="100" fx="1.5" fy="1.5">
+  <solid dim="3 3 .02" emi="darkblue" />
+</vrelet>
+
+<gate name="rendezvous" pos="10 0 1 1.57"
+  url="/vre/v8/Rendezvous.vre">
+  <solid dim="2 0.4 2" xn="/gif/wood.gif" />
+</gate>
+
+</scene>
+</vre>

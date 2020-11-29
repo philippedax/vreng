@@ -1,0 +1,80 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="ring.vre"/>
+</head>
+
+<scene>
+
+<entry pos="0 0 1"></entry>
+
+<ground name="ringfloor" pos="0 0 -0.5">
+  <solid dim="20 20 1" dif="grey60" />
+</ground>
+
+<accessory name="ringyellow" pos="5 3 1 0"
+  <solid shape="torus" r="0.3" rt="0.03" dif="yellow" />
+</accessory>
+<accessory name="ballgreen" pos="5 3 1 0" shiftx="0.3"
+  <solid shape="sphere" r="0.1" dif="green" />
+</accessory>
+<accessory name="ringcyan" pos="5 -3 1 0"
+  <solid shape="torus" r="0.2" rt="0.02" dif="cyan" />
+</accessory>
+<accessory name="cubeblue" pos="5 -3 1 0" shifty="0.3"
+  <solid dim=".2 .2 .2" dif="blue" />
+</accessory>
+<accessory name="ringred" pos="5 0 1 0" shiftz="0.9"
+  <solid shape="torus" r="0.1" rt="0.01" dif="red" />
+</accessory>
+<mirage name="ringred" pos="5 1 1 0"
+  <solid shape="torus" r="0.1" rt="0.01" dif="orange" />
+</mirage>
+<accessory name="conepurple" pos="5 0 1 0"
+  <solid shape="cone" rb="0.06" rt="0" h="0.2" dif="purple" />
+</accessory>
+
+<!--
+
+<vjc server="localhost"></vjc>
+
+<vrelet name="ringyellow" pos="5 3 1 0"
+  class="fr.enst.vreng.tester.Ring"
+  incrx="50" incry="50">
+  <solid shape="torus" r="0.3" rt="0.03" dif="yellow" />
+</vrelet>
+<vrelet name="ballgreen" pos="5 3 1 0"
+  class="fr.enst.vreng.tester.Ring"
+  incrx="50" incry="50">
+  <solid shape="sphere" r="0.1" dif="green" />
+</vrelet>
+<vrelet name="ringcyan" pos="5 -3 1 0"
+  class="fr.enst.vreng.tester.Ring"
+  incrx="50" incry="50">
+  <solid shape="torus" r="0.2" rt="0.02" dif="cyan" />
+</vrelet>
+<vrelet name="cubeblue" pos="5 -3 1 0"
+  class="fr.enst.vreng.tester.Ring"
+  incrx="50" incry="50">
+  <solid dim=".2 .2 .2" dif="blue" />
+</vrelet>
+<vrelet name="ringred" pos="5 0 1 0"
+  class="fr.enst.vreng.tester.Ring"
+  incrx="50" incry="50">
+  <solid shape="torus" r="0.1" rt="0.01" dif="red" />
+</vrelet>
+<vrelet name="conepurple" pos="5 0 1 0"
+  class="fr.enst.vreng.tester.Ring"
+  incrx="50" incry="50">
+  <solid shape="cone" rb="0.06" rt="0" h="0.2" style="1" dif="purple" />
+</vrelet>
+-->
+
+<gate name="board" pos="10 0 1 1.57"
+  url="/vre/v8/board.vre">
+  <solid dim="1.6 0.04 2" dif="0.9 1 0" xn="/gif/wood.gif" />
+</gate>
+
+</scene>
+</vre>

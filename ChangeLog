@@ -15,8 +15,9 @@ The rules for this file:
 ++ 9
 == 9.1
 -- 9.1.3
+	- using std:: lists for netobj.*pp
 	- rewriting some algos for rendering
-	(2020/11/25, Philippe Dax)
+	(2020/11/29, Philippe Dax)
 
 -- 9.1.2
 	- fixed -w option in pref.cpp

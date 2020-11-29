@@ -1,0 +1,55 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="fan.vre"/>
+</head>
+
+<scene>
+
+<entry pos="0 0 1"></entry>
+
+<ground name="ground" pos="0 0 -.1"> <solid dim="60 60 .2" dif="0 .2 0" /> </ground>
+
+<bumper name="bump" pos="15 -3 .01">
+  <solid frames="2">
+  <frame shape="dsphere" r="1." re="10" dif=".8 .8 0" a=".5" />
+  <frame shape="dsphere" r=".9" re="10" dif=".8 .0 0" a=".5" />
+</bumper>
+<slider name="slide" pos="12 11 .01 1.1" incrx=".025" incry=".05">
+  <solid dim="12 4 .01" dif="0 .9 0" />
+</slider>
+<bumper name="hole" pos="15 25 .01">
+  <solid frames="2">
+  <frame shape="dsphere" r="1." re="10" dif="0 .8 .8" />
+  <frame shape="dsphere" r=".9" re="10" dif="0 .8 0" />
+</bumper>
+
+<!-- vjc + vrelets
+<vjc server="localhost"></vjc>
+
+<vrelet name="bump" pos="15 -3 .01"
+  class="fr.enst.vreng.tester.Fan"
+  incrx="-50" incry="50">
+  <solid shape="dsphere" r="1" re="11" dif=".8 .8 0" a=".5" />
+</vrelet>
+<vrelet name="slide" pos="12 11 .01 1.1"
+  class="fr.enst.vreng.tester.Slide"
+  incrx="25" incry="50">
+  <solid dim="12 4 0.01" dif="0 .9 0" />
+</vrelet>
+<vrelet name="hole" pos="15 25 .01 0"
+  class="fr.enst.vreng.tester.Fan"
+  incrx="-50" incry="-50">
+  <solid shape="dsphere" r="1" re="11" dif=".8 0 0" />
+</vrelet>
+-->
+
+<gate name="ring" pos="15.2 24.2 1 .2"
+  url="/vre/v8/ring.vre" channel="224.255.0.29/52946/127"
+  mode="auto">
+  <solid dim="1.6 .04 2" dif=".8 0 0" />
+</gate>
+
+</scene>
+</vre>

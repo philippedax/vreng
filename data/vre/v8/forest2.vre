@@ -1,0 +1,51 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="forest2.vre"/>
+</head>
+
+<scene>
+
+<bgcolor color="0.001 0.001 0.251"></bgcolor>
+
+<ground name="ground" pos="-25 -5 -8"> <solid dim="100 100 1" dif=".2 .9 .2" zp="/gif/grass.gif" zpr="5" /></ground>
+
+<!-- moon -->
+<mirage name="moon" pos="200 100 50" aspeed="-0.02" mode="turn">
+ <solid shape="sphere" r="20" tx="/gif/moon.gif" /></mirage>
+
+<!-- test Repeat  on box -->
+<wall name="photomaton" pos="5 0 -8.5"> <solid dim="2 2 2" dif="0.2 0.9 0.2" xp="/gif/piegay.gif" xpr="2" xn="/gif/piegay.gif" xnr="3" yp="/gif/piegay.gif" ypr="4" yn="/gif/piegay.gif" ynr="8" zp="/gif/piegay.gif" zpr="1" /></wall>
+
+<!-- test Repeat s or t  on box -->
+<wall name="photomaton_s-t_test" pos="5 -5 -8.5"> <solid dim="2 2 2" dif="0.2 0.9 0.2" xp="/gif/piegay.gif" xprs="2" xn="/gif/piegay.gif" xnrt="6" xnrs="2" yp="/gif/piegay.gif" yprs="8" yprt="4" yn="/gif/piegay.gif" ynr="8" zp="/gif/piegay.gif" /></wall>
+
+<!-- models -->
+<local>
+    <transform translation="7 0 -8.4"></transform>
+    <transform rotation="90 1 0 0"></transform>
+
+    <!-- Trees -->
+    <local>
+    	<transform translation="7 -1 -6"></transform>
+    	<model scale="0.07" url="/3ds/tree_2.3ds"></model>
+    	<transform translation="0 0 2"></transform>
+    	<model scale="0.06" url="/3ds/tree_2.3ds"></model>
+     	<transform translation="0 0 2"></transform>
+    	<model scale="0.08" url="/3ds/tree_2.3ds"></model>
+        <!--
+    	<transform translation="0 0 2"></transform>
+    	<model scale="0.07" url="/3ds/tree_2.3ds"></model>
+    	<transform translation="0 0 2"></transform>
+    	<model scale="0.07" url="/3ds/tree_2.3ds"></model>
+    	<transform translation="0 0 2"></transform>
+    	<model scale="0.07" url="/3ds/tree_2.3ds"></model>
+    	<transform translation="0 0 2"></transform>
+    	<model scale="0.07" url="/3ds/tree_2.3ds"></model>
+        -->
+    </local>
+</local>
+
+</scene>
+</vre>

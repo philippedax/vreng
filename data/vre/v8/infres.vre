@@ -1,0 +1,680 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="infres.vre"/>
+<meta name="author" content="Philippe Dax"/>
+</head>
+
+<scene>
+
+<entry pos="6 0 0 -3.14"></entry>
+
+<!-- murs d'enceinte -->
+
+<!-- sol c200 -->
+<ground pos="0 0 -.25"> <solid dim="106 20 .5" zp="/gif/marble.gif" /></ground>
+<!-- sol cantine -->
+<ground pos="38 18.5 -.25"> <solid dim="28 21 .5" zp="/gif/marble.gif" /></ground>
+<!-- bordure rue barrault -->
+<wall pos="0 -10 .75 0"> <solid dim="106 .4 1.5" xn="/gif/cloison.gif" /></wall>
+<wall pos="0 -10 2.25 0"> <solid dim="106 .04 1.5" a=".3" /></wall>
+<!-- bordure cour -->
+<wall pos="4 10 .75 0">  <solid dim="44 .04 1.5" yn="/gif/cloison.gif" /></wall>
+<wall pos="4 10 2.25 0"> <solid dim="44 .04 1.5" a=".3" /></wall>
+<wall pos="29.5 10 1.5 0"> <solid dim="7 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="29.5 10 .05 0"> <solid dim="7 .044 .1" dif="blue" /></wall>
+<!-- bordure cour -->
+<wall pos="-40 10 .75 0"> <solid dim="24 .4 1.5" yn="/gif/cloison.gif" /></wall>
+<!-- mur tour ouest -->
+<wall pos="39 29 1.5 0"> <solid dim="26 .4 3" /></wall>
+
+<!-- couloir central est -->
+
+<!-- bout du couloir c220 -->
+<wall pos="34 -2 1.5 0"> <solid dim="14 .04 3" xn="/gif/cloison.gif" yn="/gif/cloison.gif" /></wall>
+<wall  pos="34 -2 .05 0"> <solid dim="14 .044 .1" dif="blue" /></wall>
+<wall  pos="20 -2 1.5 0"> <solid dim="9 .04 3" xn="/gif/cloison.gif" yn="/gif/cloison.gif" /></wall>
+<wall pos="20 -2 .05 0"> <solid dim="9 .044 .1" dif="blue" /></wall>
+<wall pos="11.5 -2 1.5 0"> <solid dim="8 .04 3" yn="/gif/biblio.gif" xn="/gif/cloison.gif" /></wall>
+<wall pos="11.5 -2 .05 0"> <solid dim="8 .044 .1" dif="blue" /></wall>
+
+<!-- secretariat -->
+<wall pos="2.5 -2 1.5 0"> <solid dim="5 .04 3" xn="/gif/cloison.gif" yn="/gif/cloison.gif" /></wall>
+<wall pos="2.5 -2 .05 0"> <solid dim="5 .044 .1" dif="blue" /></wall>
+
+<!-- riguidel -->
+<wall pos="-1.25 -2 1.5 0"> <solid dim="2.5 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-1.25 -2 .05 0"> <solid dim="2.5 .044 .1" dif="blue" /></wall>
+<wall pos="-3 -2 2.5 0"> <solid dim="1 .04 1" xn="/gif/riguidel.gif" /></wall>
+
+<!-- dax -->
+<wall pos="-4.5 -2 1.5 0"> <solid dim="2.5 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-4.5 -2 .05 0"> <solid dim="2.5 .044 .1" dif="blue" /></wall>
+<gate name="dax-room"
+  pos="-6.625 -2 1 0 0"
+  url="/vre/v8/dax.vre" channel="224.255.0.11/52766/127"
+  mode="auto">
+  <solid dim="1.75 .1 2" a=".1" />
+</gate>
+<web name="dax-page"
+  pos="-6.75 -2 2.5 0"
+  url="http://www.infres.enst.fr/~dax">
+  <solid dim="1 .04 1" xn="/gif/dax.gif" />
+</web>
+
+<!-- zemor -->
+<wall pos="-8.75 -2 1.5 0"> <solid dim="2.5 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-8.75 -2 .05 0"> <solid dim="2.5 .044 .1" dif="blue" /></wall>
+<web name="zemor-page"
+  pos="-10.5 -2 02.5 0"
+  url="http://www.infres.enst.fr/~zemor/">
+  <solid dim="1 .04 1" xn="/gif/zemor.gif" />
+</web>
+
+<!-- quinot -->
+<wall pos="-13 -2 1.5 0"> <solid dim="4 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-13 -2 .05 0"> <solid dim="4 .044 .1" dif="blue" /></wall>
+
+<!-- demeure -->
+<wall pos="-17 -2 1.5 0"> <solid dim="2 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-17 -2 .05 0"> <solid dim="2 .044 .1" dif="blue" /></wall>
+<web name="demeure-page"
+  pos="-18.5 -2 2.5 0"
+  url="http://www.infres.enst.fr/~demeure/">
+  <solid dim="1 .04 1" xn="/gif/demeure.gif" />
+</web>
+
+<!-- pautet -->
+<wall pos="-23 -2 1.5 0"> <solid dim="8 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-23 -2 .05 0"> <solid dim="8 .044 .1" dif="blue" /></wall>
+<web name="pautet-page"
+  pos="-27.5 -2 2.5 0"
+  url="http://www.infres.enst.fr/~pautet/">
+  <solid dim="1 .04 1" xn="/gif/pautet.gif" />
+</web>
+
+<!-- thesards inf -->
+<wall pos="-31.5 -2 1.5 0"> <solid dim="5 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-31.5 -2 .05 0"> <solid dim="5 .044 .1" dif="blue" /></wall>
+<wall pos="-35.5 -2 1.5 0"> <solid dim="3 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-35.5 -2 .05 0"> <solid dim="3 .044 .1" dif="blue" /></wall>
+<wall pos="-40.5 -2 1.5 0"> <solid dim="5 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-40.5 -2 .05 0"> <solid dim="5 .044 .1" dif="blue" /></wall>
+<!-- c204 -->
+<wall pos="-45 -3 1.5 0"> <solid dim="4 .04 3" xn="/gif/cafe.gif" /></wall>
+<wall pos="-45 -3 .05 0"> <solid dim="4 .044 .1" dif="blue" /></wall>
+<!-- c202 -->
+<wall pos="-49.5 -2 1.5 0"> <solid dim="5 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-49.5 -2 .05 0"> <solid dim="5 .044 .1" dif="blue" /></wall>
+
+<!-- couloir central ouest -->
+<wall pos="30 2 1.5 0"> <solid dim="6 .04 3" yn="/gif/cloison.gif" yp="/gif/cloison.gif" /></wall>
+<wall pos="30 2 .05 0"> <solid dim="6 .044 .1" dif="blue" /></wall>
+<board pos="20 2 1.5 0"> <solid dim="9 .04 3" xn="/gif/wb.gif" yn="/gif/cloison.gif" /></board>
+<wall pos="20 2 .05 0"> <solid dim="9 .04 .1" dif="blue" /></wall>
+<wall pos="11 2 1.5 0"> <solid dim="9 .04 3" xn="/gif/biblio.gif" yn="/gif/cloison.gif" /></wall>
+<wall pos="11 2 .05 0"> <solid dim="9 .044 .1" dif="blue" /></wall>
+<wall pos="-5 2 1.5 0"> <solid dim="18 .04 3" yn="/gif/cloison.gif" /></wall>
+<wall pos="-5 2 .05 0"> <solid dim="18 .044 .1" dif="blue" /></wall>
+<wall pos="-18.5 2 1.5 0"> <solid dim="5 .04 3" xn="/gif/labohard.gif" yn="/gif/cloison.gif" /></wall>
+<wall pos="-18.5 2 .05 0"> <solid dim="5 .044 .1" dif="blue" /></wall>
+<wall pos="-26 2 1.5 0"> <solid dim="4 .04 3" yn="/gif/groupe.gif" /></wall>
+<wall pos="-26 2 .05 0"> <solid dim="4 .044 .1" dif="blue" /></wall>
+
+<!-- mur c201 -->
+<wall pos="-33 2 1.5 0"> <solid dim="10 .04 3" xn="/gif/cloison.gif" yn="/gif/cloison.gif" /></wall>
+<wall pos="-33 2 .05 0"> <solid dim="10 .044 .1" dif="blue" /></wall>
+<wall pos="-46 2 1.5 0"> <solid dim="12 .04 3" xn="/gif/cloison.gif" yn="/gif/cloison.gif" /></wall>
+<wall pos="-46 2 .05 0"> <solid dim="12 .044 .1" dif="blue" /></wall>
+
+<!-- couloir cantine -->
+
+<!-- bordure rue daviel -->
+<wall pos="52 10 .5 1.57"> <solid dim="40 .04 1" xn="/gif/cloison.gif" /></wall>
+<!-- mur cantine -->
+<wall pos="33 6 1.5 1.57"> <solid dim="8 .04 3" xn="/gif/outils.gif" yn="/gif/cloison.gif" /></wall>
+<wall pos="33 6 .05 1.57"> <solid dim="8 .044 .1" dif="blue" /></wall>
+<wall pos="33 16.5 1.5 1.57"> <solid dim="5 .04 3" yn="/gif/cloison.gif" /></wall>
+<wall pos="33 16.5 .05 1.57"> <solid dim="5 .044 .1" dif="blue" /></wall>
+<wall pos="26 21.5 1.5 1.57"> <solid dim="15 .4 3" /></wall>
+<!-- mur couloir res -->
+<wall pos="41 12.5 1.5 1.57"> <solid dim="21 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="41 12.5 .05 1.57">	<solid dim="21 .044 .1" dif="blue" /></wall>
+<wall pos="44 -7 1.5 1.57"> <solid dim="6 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="44 -7 .05 1.57"> <solid dim="6 .044 .1" dif="blue" /></wall>
+<wall pos="47 -7 1.5 1.57"> <solid dim="6 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="47 -7 .05 1.57"> <solid dim="6 .044 .1" dif="blue" /></wall>
+<wall pos="29.5 14 1.5 0"> <solid dim="7 .04 3" yn="/gif/cloison.gif" /></wall>
+<wall pos="29.5 14 .05 0"> <solid dim="7 .044 .1" dif="blue" /></wall>
+<wall pos="29.5 20 1.5 0"> <solid dim="7 .04 3" yn="/gif/cloison.gif" /></wall>
+<wall pos="29.5 20 .05 0"> <solid dim="7 .044 .1" dif="blue" /></wall>
+
+<!-- couloir c220 -->
+
+<!-- charon -->
+<wall pos="33.5 -5 1.5 0"> <solid dim="3 .04 3" /></wall>
+<wall pos="33.5 -5 .05 0"> <solid dim="3 .044 .1" dif="blue" /></wall>
+<web name="charon-page"
+  pos="31.5 -5 2.5 0"
+  url="http://www.infres.enst.fr/~charon/">
+  <solid dim="1 .04 1" xn="/gif/charon.gif" />
+</web>
+
+<!-- tohme -->
+<wall pos="29.5 -5 1.5 0">	<solid dim="3 .04 3" /></wall>
+<wall pos="29.5 -5 .05 0">	<solid dim="3 .044 .1" dif="blue" /></wall>
+<web
+  pos="27.5 -5 2.5 0"
+  url="http://www.infres.enst.fr/~tohme/">
+  <solid dim="1 .04 1" xn="/gif/tohme.gif" />
+</web>
+
+<!-- rigault -->
+<web
+  pos="26.5 -5 2.5 0"
+  url="http://www.infres.enst.fr/~rigault/">
+  <solid dim="1 .04 1" xn="/gif/rigault.gif" />
+</web>
+<wall pos="24.5 -5 1.5 0">	<solid dim="3 .04 3" /></wall>
+<wall pos="24.5 -5 .05 0">	<solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- kofman -->
+<wall pos="21.5 -5 1.5 0">	<solid dim="3 .04 3" /></wall>
+<wall pos="21.5 -5 .05 0">	<solid dim="3 .044 .1" dif="blue" /></wall>
+<web name="kofman-page"
+  pos="19.5 -5 2.5 0"
+  url="http://www.infres.enst.fr/~kofman/">
+  <solid dim="1 .04 1" xn="/gif/kofman.gif" />
+</web>
+
+<!-- burtschy -->
+<wall pos="16.5 -5 1.5 0">	<solid dim="3 .04 3" /></wall>
+<wall pos="16.5 -5 .05 0">	<solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- cohen -->
+<wall pos="13.5 -5 1.5 0">	<solid dim="3 .04 3" /></wall>
+<wall pos="13.5 -5 .05 0">	<solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- berenger -->
+<wall pos="9.5 -5 1.5 0">	<solid dim="3 .04 3" /></wall>
+<wall pos="9.5 -5 .05 0">	<solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- poirot -->
+<wall pos="5.5 -5 1.5 0">	<solid dim="3 .04 3" /></wall>
+<wall pos="5.5 -5 .05 0">	<solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- soussou -->
+<web
+  pos="3.5 -5 2.5 0"
+  url="http://www.infres.enst.fr/~soussou/">
+  <solid dim="1 .04 1" xn="/gif/soussou.gif" />
+</web>
+<wall pos="1.5 -5 1.5 0">	<solid dim="3 .04 3" /></wall>
+<wall pos="1.5 -5 .05 0">	<solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- couloir c215 -->
+<wall pos="6.25 4 1.5 0">	<solid dim="2.5 .04 3" /></wall>
+<wall pos="6.25 4 .05 0">	<solid dim="2.5 .044 .1" dif="blue" /></wall>
+<wall pos="1.25 4 1.5 0">	<solid dim="2.5 .04 3" /></wall>
+<wall pos="1.25 4 .05 0">	<solid dim="2.5 .044 .1" dif="blue" /></wall>
+<wall pos="-2.25 4 1.5 0">	<solid dim="2.5 .04 3" /></wall>
+<wall pos="-2.25 4 .05 0">	<solid dim="2.5 .044 .1" dif="blue" /></wall>
+<wall pos="-5 4 1.5 0">	<solid dim="3 .04 3" /></wall>
+<wall pos="-5 4 .05 0">	<solid dim="3 .044 .1" dif="blue" /></wall>
+<wall pos="-9.75 4 1.5 0">	<solid dim="2.5 .04 3" /></wall>
+<wall pos="-9.75 4 .05 0">	<solid dim="2.5 .044 .1" dif="blue" /></wall>
+
+<!-- couloir c201 -->
+
+<!-- talel -->
+<wall pos="-33 4 1.5 0"> <solid dim="2 .04 3" /></wall>
+<wall pos="-33 4 .05 0"> <solid dim="2 .044 .1" dif="blue" /></wall>
+
+<!-- saglio -->
+<wall pos="-36 4 1.5 0"> <solid dim="2 .04 3" /></wall>
+<wall pos="-36 4 .05 0"> <solid dim="2 .044 .1" dif="blue" /></wall>
+
+<!-- elc -->
+<wall pos="-39 4 1.5 0"> <solid dim="2 .04 3" /></wall>
+<wall pos="-39 4 .05 0"> <solid dim="2 .044 .1" dif="blue" /></wall>
+
+<!-- yvon -->
+<wall pos="-42 4 1.5 0"> <solid dim="2 .04 3" /></wall>
+<wall pos="-42 4 .05 0"> <solid dim="2 .044 .1" dif="blue" /></wall>
+
+<!-- jld -->
+<wall pos="-45 4 1.5 0"> <solid dim="2 .04 3" /></wall>
+<wall pos="-45 4 .05 0"> <solid dim="2 .044 .1" dif="blue" /></wall>
+
+<!-- grumbach -->
+<wall pos="-48 4 1.5 0"> <solid dim="2 .04 3" /></wall>
+<wall pos="-48 4 .05 0"> <solid dim="2 .044 .1" dif="blue" /></wall>
+
+<!-- bureaux c234 -->
+
+<!-- martins -->
+<wall pos="46 -4 1.5 0"> <solid dim="2 .04 3" /></wall>
+<wall pos="46 -4 .05 0"> <solid dim="2 .044 .1" dif="blue" /></wall>
+<web name="martins-page"
+  pos="44.5 -4 2.5 0"
+  url="http://www.infres.enst.fr/~martins/">
+  <solid dim="1 .04 1" xn="/gif/martins.gif" />
+</web>
+
+<!-- gagnaire -->
+<wall pos="42 -4 1.5 0"> <solid dim="2 .04 3" /></wall>
+<wall pos="42 -4 .05 0"> <solid dim="2 .044 .1" dif="blue" /></wall>
+<web
+  pos="43.5 -4 2.5 0"
+  url="http://www.infres.enst.fr/~gagnaire/">
+  <solid dim="1 .04 1" xn="/gif/gagnaire.gif" />
+</web>
+
+<!-- potier  danzart -->
+<wall pos="38 -6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+<web
+  pos="38.05 -6 1.5 1.57"
+  url="http://www.infres.enst.fr/~danzart/">
+  <solid dim="1 .04 1" yn="/gif/danzart.gif" />
+</web>
+<wall pos="41 -7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+<web
+  pos="40.95 -7 1.5 1.57"
+  url="http://www.infres.enst.fr/~potier/">
+  <solid dim="1 .04 1" xn="/gif/potier.gif" />
+</web>
+
+<!-- serveurs c234 -->
+<wall pos="42.5 4 .5 0"> <solid dim="3 .04 1" /></wall>
+<wall pos="42.5 4 2 0"> <solid dim="3 .04 2" a=".5" /></wall>
+<wall pos="42.5 4 .05 0"> <solid dim="3 .044 .1" dif="blue" /></wall>
+<wall pos="44 7.5 .5 1.57"> <solid dim="5 .04 1" /></wall>
+<wall pos="44 7.5 2 1.57"> <solid dim="5 .04 2" a=".5" /></wall>
+<wall pos="44 7.5 .05 1.57"> <solid dim="5 .044 1" dif="blue" /></wall>
+
+<!-- libre service c234 -->
+<wall pos="42.5 10 1.5 0"> <solid dim="3 .04 3" /></wall>
+<wall pos="44 12 1.5 1.57"> <solid dim="4 .04 3" /></wall>
+<wall pos="44 12 .05 1.57"> <solid dim="4 .044 .1" dif="blue" /></wall>
+<wall pos="44 19 .5 1.57"> <solid dim="8 .04 1" /></wall>
+<wall pos="44 19 2 1.57"> <solid dim="8 .04 2" a=".5" /></wall>
+<wall pos="44 19 .05 1.57"> <solid dim="8 .044 .1" dif="blue" /></wall>
+<wall pos="42.5 23 1.5 0"> <solid dim="3 .04 3" /></wall>
+
+<!-- couloir c234 -->
+
+<!-- thesards res -->
+<wall pos="49.5 -3 1.5 0"> <solid dim="5 .04 3" /></wall>
+
+<!-- leneutre -->
+<wall pos="49.5 1 1.5 0"> <solid dim="5 .04 3" /></wall>
+
+<!-- godlewski -->
+<wall pos="49.5 5 1.5 0"> <solid dim="5 .04 3" /></wall>
+
+<!-- najm -->
+<wall pos="49.5 9 1.5 0"> <solid dim="5 .04 3" /></wall>
+
+<!-- boukhatem  labiod -->
+<wall pos="49.5 13 1.5 0"> <solid dim="5 .04 3" /></wall>
+
+<!-- simoni -->
+<wall pos="49.5 17 1.5 0"> <solid dim="5 .04 3" /></wall>
+
+<!-- vignes -->
+<wall pos="49.5 21 1.5 0"> <solid dim="5 .04 3" /></wall>
+
+<!-- ahmed -->
+<wall pos="49 25 1.5 0"> <solid dim="6 .04 3" /></wall>
+
+<!-- leneutre -->
+<wall pos="47 -1.5 1.5 1.57"> <solid dim="3 .04 3" /></wall>
+<wall pos="47 -1.5 .05 1.57"> <solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- godlewski -->
+<wall pos="47 2.5 1.5 1.57"> <solid dim="3 .04 3" /></wall>
+<wall pos="47 2.5 .05 1.57"> <solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- najm -->
+<wall pos="47 7.5 1.5 1.57"> <solid dim="3 .04 3" /></wall>
+<wall pos="47 7.5 .05 1.57"> <solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- boukhatem  labiod -->
+<wall pos="47 1.5 1.5 1.57"> <solid dim="3 .04 3" /></wall>
+<wall pos="47 10.5 .05 1.57"> <solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- simoni -->
+<wall pos="47 15.5 1.5 1.57"> <solid dim="3 .04 3" /></wall>
+<wall pos="47 15.5 .05 1.57"> <solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- vignes -->
+<wall pos="47 18.5 1.5 1.57"> <solid dim="3 .04 3" /></wall>
+<wall pos="47 18.5 .05 1.57"> <solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- ahmed -->
+<wall pos="47 22.5 1.5 1.57"> <solid dim="3 .04 3" /></wall>
+<wall pos="47 22.5 .05 1.57"> <solid dim="3 .044 .1" dif="blue" /></wall>
+
+<!-- espace travail -->
+<wall pos="45 27 1.5 1.57"> <solid dim="4 .04 3" /></wall>
+<wall pos="45 27 .05 1.57"> <solid dim="4 .044 .1" dif="blue" /></wall>
+
+<!-- bureaux c210 -->
+
+<!-- dax  gadret -->
+<wall pos="-3.5 -6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+<web
+  pos="-3.55 -6 1.5 1.57"
+  url="http://www.infres.enst.fr/~dax/">
+  <solid dim="1 .04 1" xn="/gif/dax.gif" />
+</web>
+<wall pos="-7.5 -8 1.5 1.57"> <solid dim="4 .04 3" /></wall>
+<web
+  pos="-7.45 -8 1.5 1.57"
+  url="http://www.infres.enst.fr/~gadret/">
+  <solid dim="1 .04 1" yn="/gif/gadret.gif" />
+</web>
+
+<!-- quinot  becker -->
+<wall pos="-11 -6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+
+<!-- demeure -->
+<wall pos="-14 -7.5 1.5 1.57"> <solid dim="5 .04 3" /></wall>
+<web
+  pos="-14.05 -7.5 1.5 1.57"
+  url="http://www.infres.enst.fr/~demeure/">
+  <solid dim="1 .04 1" xn="/gif/demeure.gif" />
+</web>
+
+<!-- pautet  dupouy -->
+<wall pos="-23.5 -5 1.5 0"> <solid dim="3 .04 3" /></wall>
+<wall pos="-28 -6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+<web
+  pos="-28.05 -6 1.5 1.57"
+  url="http://www.infres.enst.fr/~dupouy/">
+  <solid dim="1 .04 1" yn="/gif/dupouy.gif" />
+</web>
+
+<!-- bureaux c215 -->
+
+<!-- rougier  legrand -->
+<wall pos="7.5 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+<!-- clement  busch -->
+<wall pos="3.5 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+<web
+  pos="3.45 7 1.5 1.57"
+  url="http://www.infres.enst.fr/~clement/">
+  <solid dim="1 .04 1" xn="/gif/clement.gif" />
+</web>
+
+<wall pos="-3.5 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+
+<!-- aissaoui -->
+<wall pos="0 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+
+<!-- mouret -->
+<wall pos="-7.5 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+<web
+  pos="-7.45 7 1.5 1.57"
+  url="http://www.infres.enst.fr/~mouret/">
+  <solid dim="1 .04 1" xn="/gif/mouret.gif" />
+</web>
+
+<!-- bureaux c220 -->
+
+<wall pos="35 -7.5 1.5 1.57"> <solid dim="5 .04 3" /></wall>
+<wall pos="33 -3 1.5 1.57"> <solid dim="2 .04 3" /></wall>
+<wall pos="31 -7.5 1.5 1.57"> <solid dim="5 .04 3" /></wall>
+<wall pos="27 -7.5 1.5 1.57"> <solid dim="5 .04 3" /></wall>
+<wall pos="23 -7.5 1.5 1.57"> <solid dim="5 .04 3" /></wall>
+<wall pos="19 -7.5 1.5 1.57"> <solid dim="5 .04 3" /></wall>
+<wall pos="15 -7.5 1.5 1.57"> <solid dim="5 .04 3" /></wall>
+<wall pos="11 -7.5 1.5 1.57"> <solid dim="5 .04 3" /></wall>
+<wall pos="7 -7.5 1.5 1.57"> <solid dim="5 .04 3" /></wall>
+
+<!-- secretariat chef -->
+<wall pos="0 -3.5 1.5 1.57"> <solid dim="3 .04 3" /></wall>
+<wall pos="0 -8 1.5 1.57"> <solid dim="4 .04 3" /></wall>
+
+<!-- bureaux c201 -->
+
+<!-- pook -->
+<wall pos="-31 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+
+<!-- talel -->
+<wall pos="-34 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+
+<!-- saglio -->
+<wall pos="-37 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+<web
+  pos="-36.95 7 1.5 1.57"
+  url="http://www.infres.enst.fr/~saglio/">
+  <solid dim="1 .04 1" yn="/gif/saglio.gif" />
+</web>
+
+<!-- elc -->
+<wall pos="-40 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+<web
+  pos="-39.95 7 1.5 1.57"
+  url="http://www.infres.enst.fr/~elc/">
+  <solid dim="1 .04 1" yn="/gif/ubit.gif" />
+</web>
+
+<!-- yvon -->
+<wall pos="-43 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+<web
+  pos="-42.95 7 1.5 1.57"
+  url="http://www.infres.enst.fr/~yvon/">
+  <solid dim="1 .04 1" yn="/gif/yvon.gif" />
+</web>
+
+<!-- jld -->
+<wall pos="-46 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+<web
+  pos="-45.95 7 1.5 1.57"
+  url="http://www.infres.enst.fr/~jld/">
+  <solid dim="1 .04 1" yn="/gif/jld.gif" />
+</web>
+
+<!-- grumbach -->
+<wall pos="-49 7 1.5 1.57"> <solid dim="6 .04 3" /></wall>
+<web
+  pos="-48.95 7 1.5 1.57"
+  url="http://www.infres.enst.fr/~grumbach/">
+  <solid dim="1 .04 1" yn="/gif/grumbach.gif" />
+</web>
+
+<!-- richard -->
+<wall pos="-52 6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+
+<!-- c209 -->
+<wall pos="-19 8 1.5 0"> <solid dim="2 .04 3" /></wall>
+<wall pos="-25.5 10 1.5 0"> <solid dim="5 .04 3" yn="/gif/groupe.gif" /></wall>
+
+<!-- c223 -->
+<wall pos="30 6 1.5 0"> <solid dim="4 .04 3" yn="/gif/cafe.gif" /></wall>
+<wall pos="28 8 1.5 1.57"> <solid dim="4 .04 3" /></wall>
+<wall pos="28 8 .05 1.57"> <solid dim="4 .044 .1" dif="blue" /></wall>
+<wall pos="26 8 1.5 1.57"> <solid dim="4 .04 3" xn="/gif/biblio.gif" yn="/gif/outils.gif" /></wall>
+<wall pos="26 8 .05 1.57"> <solid dim="4 .044 .1" dif="blue" /></wall>
+<wall pos="26 3 1.5 1.57"> <solid dim="2 .04 3" /></wall>
+<wall pos="26 3 .05 1.57"> <solid dim="2 .044 .1" dif="blue" /></wall>
+
+<!-- c213 -->
+<wall pos="-11 7 1.5 1.57"> <solid dim="6 .04 3" xn="/gif/labohard.gif" /></wall>
+<wall pos="-17.5 9 1.5 1.57"> <solid dim="2 .04 3" /></wall>
+<wall pos="-21 5 1.5 1.57"> <solid dim="6 .04 3" yn="/gif/labohard.gif" /></wall>
+<wall pos="-23 6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+
+<!-- couloir wc -->
+<wall pos="-28 6 1.5 1.57"> <solid dim="8 .04 3" xn="/gif/cloison.gif" /></wall>
+<wall pos="-28 6 .05 1.57"> <solid dim="8 .044 .1" dif="blue" /></wall>
+
+<!-- moissina -->
+<wall pos="-34 -6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+<wall pos="-38 -6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+
+<!-- c204 c202 -->
+<wall pos="-45 -6.5 1.5 1.57"> <solid dim="7 .04 3" /></wall>
+
+<!-- fin c202 -->
+<wall pos="-52 -6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+<wall pos="-22 -6 1.5 1.57"> <solid dim="8 .04 3" /></wall>
+<wall pos="-19 -2.5 1.5 1.57"> <solid dim="1 .04 3" /></wall>
+<wall pos="-17 -3.5 1.5 1.57"> <solid dim="3 .04 3" /></wall>
+
+<!-- cour -->
+<wall pos="0 0 -15.5 0"> <solid dim="106 48 .5" zp="/gif/stuc.gif" /></wall>
+
+<!-- sol -->
+<wall pos="-24.5 15 -.25 0"> <solid dim="7 10 .5" zp="/gif/marble.gif" /></wall>
+
+<!-- sol 1er -->
+<wall pos="-24.5 17 -7 0"> <solid dim="11 14 .5" zp="/gif/marble.gif" /></wall>
+<wall pos="0 0 -7 0"> <solid dim="106 20 .5" zp="/gif/marble.gif" /></wall>
+
+<!-- sol rdc -->
+<wall pos="0 0 -14 0"> <solid dim="106 20 .5" zp="/gif/marble.gif" /></wall>
+<wall pos="-24.5 17 -14 0"> <solid dim="11 14 .5" zp="/gif/marble.gif" /></wall>
+
+<!-- salle c221 -->
+
+<!-- mur atelier -->
+<wall pos="15.5 7 1.5 1.57"> <solid dim="6 .04 3" yn="/gif/bill.gif" /></wall>
+
+<!-- paillasses c221 -->
+<wall pos="17.5 7 .7 0"> <solid dim="2 4 .02" dif="grey90" /></wall>
+<wall pos="20.5 7 .7 0"> <solid dim="2 4 .02" dif="grey90" /></wall>
+<wall pos="23.5 7 .7 0"> <solid dim="2 4 .02" dif="grey90" /></wall>
+<wall pos="17.5 5 .35 0"> <solid dim="2 .02 .7" dif="grey90" /></wall>
+<wall pos="17.5 7 .35 0"> <solid dim="2 .02 .7" dif="grey90" /></wall>
+<wall pos="17.5 9 .35 0"> <solid dim="2 .02 .7" dif="grey90" /></wall>
+<wall pos="20.5 5 .35 0"> <solid dim="2 .02 .7" dif="grey90" /></wall>
+<wall pos="20.5 7 .35 0"> <solid dim="2 .02 .7" dif="grey90" /></wall>
+<wall pos="20.5 9 .35 0"> <solid dim="2 .02 .7" dif="grey90" /></wall>
+<wall pos="23.5 5 .35 0"> <solid dim="2 .02 .7" dif="grey90" /></wall>
+<wall pos="23.5 7 .35 0"> <solid dim="2 .02 .7" dif="grey90" /></wall>
+<wall pos="23.5 9 .35 0"> <solid dim="2 .02 .7" dif="grey90" /></wall>
+
+<host name="horla"		pos="-5.5 -5 .9 2.5" host="horla.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="javert"		pos="17 8.5 .9 1.57" host="javert.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="lantier"		pos="17 7.5 .9 1.57" host="lantier.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="fracasse"		pos="17 6.5 .9 1.57" host="fracasse.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="quasimodo"		pos="17 5.5 .9 1.57" host="quasimodo.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="valjean"		pos="18 8.5 .9 1.57" host="valjean.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="candide"		pos="18 7.5 .9 1.57" host="candide.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="elvire"		pos="18 6.5 .9 1.57" host="elvire.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="donjuan"		pos="18 5.5 .9 1.57" host="donjuan.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="rodrigue"		pos="20 8.5 .9 1.57" host="rodrigue.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="chimene"		pos="20 7.5 .9 1.57" host="chimene.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="cyrano"		pos="20 6.5 .9 1.57" host="cyrano.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="esmeralda"		pos="20 5.5 .9 1.57" host="esmeralda.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="gavroche"		pos="21 8.5 .9 1.57" host="gavroche.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="fadette"		pos="21 7.5 .9 1.57" host="fadette.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="roland"		pos="21 6.5 .9 1.57" host="roland.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="cosette"		pos="21 5.5 .9 1.57" host="cosette.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="folcoche"		pos="23 8.5 .9 1.57" host="folcoche.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="isengrin"		pos="23 7.5 .9 1.57" host="phedre.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="arsene"		pos="23 6.5 .9 1.57" host="arsene.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="nadja"		pos="23 5.5 .9 1.57" host="nadja.enst.fr">	<solid dim=".5 .5 .0" xn="/gif/station.gif" /></host>
+<host name="phedre"		pos="24 8.5 .9 1.57" host="isengrin.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="tartuffe"		pos="24 7.5 .9 1.57" host="tartuffe.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="dorante"		pos="24 6.5 .9 1.57" host="dorante.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<host name="cherubin"		pos="24 5.5 .9 1.57" host="cherubin.enst.fr">	<solid dim=".5 .5 .0" yn="/gif/station.gif" /></host>
+<board
+  pos="-7.5 -4 1.5 1.57">
+  <solid dim="4 .04 3" yn="/gif/wb.gif" />
+</board>
+
+<!-- escalier -->
+<wall pos="-14 17 -4 1.57">	<solid dim="7 .02 7" xn="/gif/cloison.gif" /></wall>
+<wall pos="-28 17 -4 1.57">	<solid dim="7 .02 7" xn="/gif/cloison.gif" /></wall>
+<wall pos="-21 12.5 1.5 1.57">	<solid dim="2.5 .02 1.5" xn="/gif/cloison.gif" /></wall>
+<wall pos="-23 18 1.5 1.57">	<solid dim="2 .02 1.5" /></wall>
+<wall pos="-23 14 1.5 1.57">	<solid dim="1 .02 1.5" /></wall>
+<wall pos="-23 11.5 1.5 1.57">	<solid dim=".5 .02 1.5" /></wall>
+<wall pos="-25 13.5 1.5 1.57">	<solid dim="1.5 .02 1.5" /></wall>
+<wall pos="-21 24 -6 0">	<solid dim="6 .02 9" xn="/gif/cloison.gif" /></wall>
+<wall pos="-17.5 15 1.5 0">	<solid dim="3.5 .02 1.5" xn="/gif/cloison.gif" /></wall>
+<wall pos="-20 10 1.5 0">	<solid dim="1 .02 1.5" /></wall>
+<wall pos="-25.5 15 1.5 0">	<solid dim="2.5 .02 1.5" xn="/gif/cloison.gif" /></wall>
+<wall pos="-24 12.5 1.5 0">	<solid dim="1 .02 1.5" /></wall>
+
+<!--  escalier 1er -->
+<wall pos="-14.75 17 -3.5 0">	<solid dim=".75 7 .25" zp="/gif/marble.gif" /></wall>
+<wall pos="-14.75 17 -10.5 0">	<solid dim=".75 7 .25" zp="/gif/marble.gif" /></wall>
+<wall pos="-23 22 -5.5 1.57">	<solid dim="2 .02 1.5" /></wall>
+<wall pos="-23 15 -5.5 1.57">	<solid dim="5 .02 1.5" xn="/gif/cloison.gif" /></wall>
+<wall pos="-25.5 20 -5.5 0">	<solid dim="2 .02 1.5" /></wall>
+<wall pos="-25.5 10 -5.5 0">	<solid dim="2 .02 1.5" /></wall>
+
+<step pos="-20.8 16 -.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-20.4 16 -.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-20 16 -.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-19.6 16 -.875 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-19.2 16 -1.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-18.8 16 -1.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-18.4 16 -1.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-18 16 -1.875 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-17.6 16 -2.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-17.2 16 -2.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-16.8 16 -2.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-16.4 16 -2.875 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-16 16 -3.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-15.6 16 -3.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-15.6 19 -3.375 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-16 19 -3.625 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-16.4 19 -3.875 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-16.8 19 -4.125 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-17.2 19 -4.375 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-17.6 19 -4.625 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-18 19 -4.875 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-18.4 19 -5.125 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-18.8 19 -5.375 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-19.2 19 -5.625 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-19.6 19 -5.875 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-20 19 -6.125 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-20.4 19 -6.375 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-20.8 19 -6.625 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-20.8 16 -7.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-20.4 16 -7.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-20 16 -7.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-19.6 16 -7.875 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-19.2 16 -8.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-18.8 16 -8.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-18.4 16 -8.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-18 16 -8.875 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-17.6 16 -9.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-17.2 16 -9.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-16.8 16 -9.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-16.4 16 -9.875 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-16 16 -10.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-15.6 16 -10.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-15.6 19 -10.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-16 19 -10.875 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-16.4 19 -11.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-16.8 19 -11.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-17.2 19 -11.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-17.6 19 -11.875 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-18 19 -12.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-18.4 19 -12.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-18.8 19 -12.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-19.2 19 -12.875 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-19.6 19 -13.125 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-20 19 -13.375 1.57"> <solid dim="1 .20 .125" /></step>
+<step pos="-20.4 19 -13.625 1.57"> <solid dim="1 .20 .125" dif="brown" /></step>
+<step pos="-20.8 19 -13.875 1.57"> <solid dim="1 .20 .125" /></step>
+
+<cauldron
+  pos="2 -4 .2">
+  <solid shape="torus" rb=".75" rt=".2" dif="blue" />
+</cauldron>
+
+<gate name="classroom" pos="-54 0 1.2 4.71"
+  url="/vre/v8/classroom.vre" channel="224.255.0.17/52816/127">
+  <solid dim="3 1.4 2.4" xn="/gif/classroom.gif" yn="/gif/classroom.gif" />
+</gate>
+
+</scene>
+</vre>

@@ -1,0 +1,56 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+
+<vre version="6.8" profile="Interactive">
+
+<head>
+<meta name="filename" content="desktops.vre"/>
+<meta name="description" content="Desktops using VNC"/>
+<meta name="author" content="Philippe Dax"/>
+</head>
+
+<scene>
+
+<entry pos="0 0 0"></entry>
+
+<ground name="desk-ground" pos="0 0 -.5">
+  <solid dim="60 60 .5" zp="/gif/parquet.gif" />
+</ground>
+
+<!-- VNC servers -->
+<vnc name="macosx" pos="12 7 3 1.57"
+  server="localhost" port="5901" passwd="azerty">
+  <solid shape="box" dim="8 0.2 6" a="0.6"/>
+</vnc>
+<!--
+<vnc name="solaris" pos="12 0 3 3.14"
+  server="horla.enst.fr"
+  port="5901"
+  passwd="qwerty">
+  <solid shape="box" dim=".4 6.4 6" />
+</vnc>
+-->
+<!--
+<vnc name="fedora" pos="12 0 3 3.14"
+  server="lame4.enst.fr"
+  port="5901"
+  passwd="qwerty">
+  <solid shape="box" dim=".4 6.4 6" />
+</vnc>
+-->
+<!--
+<vnc name="windows" pos="12 -7 3 3"
+  server="baraka.enst.fr">
+  <solid shape="bbox" dim=".4 6.4 6" />
+</vnc>
+-->
+
+<wall pos="-29 29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
+<wall pos="29 29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
+<wall pos="29 -29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
+<wall pos="0 -29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
+<wall pos="0 29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
+<wall pos="-29 0 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
+<wall pos="29 0 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
+
+</scene>
+</vre>

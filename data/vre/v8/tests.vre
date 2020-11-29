@@ -1,0 +1,197 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="tests.vre"/>
+</head>
+
+<scene>
+
+<mirage pos="3 3 2">  <solid dim="0.2 0.2 0.2" xp="/gif/mars.gif" /></mirage>
+<mirage pos="3 2 2">  <solid dim="0.2 0.2 0.2" xn="/gif/mars.gif" /></mirage>
+<mirage pos="3 1 2">  <solid dim="0.2 0.2 0.2" yp="/gif/mars.gif" /></mirage>
+<mirage pos="3 -1 2"> <solid dim="0.2 0.2 0.2" yn="/gif/mars.gif" /></mirage>
+<mirage pos="3 -2 2"> <solid dim="0.2 0.2 0.2" zp="/gif/mars.gif" /></mirage>
+<mirage pos="3 -3 2"> <solid dim="0.2 0.2 0.2" zn="/gif/mars.gif" /></mirage>
+
+<mirage pos="2 0 1.5"> <solid shape="point" ptsize="2" dif="0 1 1" /></mirage>
+
+<text pos="12 3 4 -1.57 1.57" font="/txf/courier-br-46.txf"> Welcome to Tests! </text>
+
+<ground name="floor" pos="0 7.5 -0.25 0">
+  <solid dim="44 13 .5" zp="/tga/terrain.tga" /></ground>
+<ground name="floor" pos="0 -7.5 -0.25 0">
+  <solid dim="44 13 .5" zp="/tga/texture.tga" /></ground>
+<ground name="floor" pos="6 0 -0.25 0">
+  <solid dim="32 2 .5" zp="/tga/particle.tga" /></ground>
+<!-- whole for elevator in -11 0 -->
+<ground name="floor" pos="-17 0 -0.25 0">
+  <solid dim="10 2 .5" zp="/gif/wood2.gif" /></ground>
+
+<!-- levels -->
+<wall name="floor2" pos="-6 0 7.75 0">
+  <solid dim="8 32 .5" zp="/gif/wood2.gif" /></wall>
+<wall name="floor1" pos="-6 0 3.75 0">
+  <solid dim="8 32 .5" zp="/gif/wood2.gif" /></wall>
+<wall name="ground1" pos="-6 0 -4.25 0">
+  <solid dim="8 32 .5" zp="/gif/wood2.gif" /></wall>
+<wall name="ground2" pos="-6 0 -8.25 0">
+  <solid dim="8 32 .5" zp="/gif/wood2.gif" /></wall>
+<wall name="underground" pos="0 0 -12.25 0">
+  <solid dim="48 32 .5" zp="/gif/wood2.gif" /></wall>
+
+<mirror name="mirror"
+  pos="4 -3 1 1.57">
+  <solid dim="1.4 0.2 2" dif="0 0 0.5" a=".7" />
+</mirror>
+
+<gate name="guide"
+  pos="6 0 1.3 1.57"
+  url="/vre/v8/guide.vre">
+  <solid dim="1.4 0.4 1.4" xn="/sgi/light.bw" />
+</gate>
+
+<lift name="elevator"
+  pos="-11 0 0 0"
+  height="4" speed="1" bot="-3" top="2">
+  <solid dim="1.9 1.9 .1" dif=".5 0 0" />
+</lift>
+
+<wall name="cage" pos="-12 0 0 1.57">
+  <solid dim="2 0.08 24" dif="0 0 0.5" a="0.6" /></wall>
+<wall name="cage" pos="-11 1 0 0">
+  <solid dim="2 0.08 24" dif="0 0 0.5" a="0.6" /></wall>
+<wall name="cage" pos="-11 -1 0 0">
+  <solid dim="2 0.08 24" dif="0 0 0.5" a="0.6" /></wall>
+<mirage name="cage" pos="-10 0 0 1.57">
+  <solid dim="2 0.02 24" a="0.3" /></mirage>
+
+<button name="level:1" pos="-10 0.95 1.55 3.14"
+  use="elevator" method0="Up">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:-1" pos="-10 0.95 1.5 3.14"
+  use="elevator" method0="Down">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="call:0" pos="-10 0.95 1.45 3.14"
+  use="elevator" method0="Call">
+  <solid dim="0.06 0.06 0.06" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:2" pos="-10 0.95 5.55 3.14"
+  use="elevator" method0="Up">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:0" pos="-10 0.95 5.5 3.14"
+  use="elevator" method0="Down">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="call:1" pos="-10 0.95 5.45 3.14"
+  use="elevator" method0="Call">
+  <solid dim="0.06 0.06 0.06" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:3" pos="-10 0.95 9.55 3.14"
+  use="elevator" method0="Up">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:1" pos="-10 0.95 9.5 3.14"
+  use="elevator" method0="Down">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="call:2" pos="-10 0.95 9.45 3.14"
+  use="elevator" method0="Call">
+  <solid dim="0.06 0.06 0.06" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:0" pos="-10 0.95 -2.45 3.14"
+  use="elevator" method0="Up">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:-2" pos="-10 0.95 -2.5 3.14"
+  use="elevator" method0="Down">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="call:-1" pos="-10 0.95 -2.55 3.14"
+  use="elevator" method0="Call">
+  <solid dim="0.06 0.06 0.06" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:-1" pos="-10 0.95 -6.45 3.14"
+  use="elevator" method0="Up">
+ <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:-3" pos="-10 0.95 -6.5 3.14"
+  use="elevator" method0="Down">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="call:-2" pos="-10 0.95 -6.55 3.14"
+  use="elevator" method0="Call">
+  <solid dim="0.06 0.06 0.06" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:-2" pos="-10 0.95 -10.45 3.14"
+  use="elevator" method0="Up">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="level:-4" pos="-10 0.95 -10.5 3.14"
+  use="elevator" method0="Down">
+  <solid dim="0.06 0.06 0.06" xn="/gif/ball_pink.gif" xp="/gif/ball_pink.gif" />
+</button>
+<button name="call:-3" pos="-10 0.95 -10.55 3.14"
+  use="elevator" method0="Call">
+  <solid dim="0.06 0.06 0.06" xp="/gif/ball_pink.gif" />
+</button>
+
+<!--
+<mirage name="sky" pos="0 0 0" aspeed="0.1" mode="turn"> <solid shape="sphere" r="150" tx="/gif/clouds.gif" /></mirage>
+-->
+<!--
+<mirage name="cube" pos="120 0 25 0" mode="turn">
+  <solid dim="20 20 20" dif="0.8 1.0 1.0" yp=/"gif/earth.gif" yn="/gif/earth.gif" xn="/gif/earth.gif" xp="/gif/earth.gif" zn="/gif/earth.gif" zp="/gif/earth.gif" />
+</mirage>
+-->
+<!--
+<mirage name="cylinder" pos="120 -30 20 0" mode="turn">
+  <solid shape="cone" rb="10" rt="10" h="25" dif=".8 1 1" tx="/gif/earth.gif" />
+</mirage>
+-->
+<!--
+<mirage pos="30 10 20 1.57 1.57">
+  <solid shape="cone" style="1" rb="5" rt="5" h="20" dif="green" /></mirage>
+-->
+<!--
+<mirage name="saturn" pos="250 135 100">
+  <solid shape="sphere" r="10" tx="/gif/saturn.gif" /></mirage>
+<mirage name="saturne-ring" pos="250 135 100 1.57 -0.66">
+  <solid shape="disk" style="1" ri="14" re="22" dif="0.2 0.2 0" /></mirage>
+-->
+
+<thing name="ring" pos="-1 4 0.5 1.57 1.57">
+  <solid shape="cone" rb="0.5" rt="0.5" h="0.10" dif="yellow" />
+</thing>
+
+<mech name="robot" pos="9.5 -3 2.05 0 -1.57" anim="1" walk="0"></mech>
+
+<!-- pos="X Y Z az ax" url=... anim=... walk=... -->
+<guy name="dunking" pos="13 -4 1.2 1.57" url="/cset/dunk.cset" anim="1"></guy>
+<guy name="Ouch" pos="13 -5 1.2 1.57" url="/cset/Ouch.cset" anim="1"></guy>
+<guy name="running" pos="13 -6 1.2 1.57" url="/cset/running.cset" anim="1"></guy>
+<guy name="walking" pos="13 -7 1.2 1.57" url="/cset/walking.cset" anim="1"></guy>
+<guy name="MrFlex" pos="13 -8 1.2 1.57" url="/cset/MrFlex.cset" anim="1"></guy>
+<guy name="bounding" pos="13 -9 1.2 1.57" url="/cset/bound.cset" anim="1"></guy>
+<guy name="impossible" pos="13 -10 1.2 1.57" url="/cset/Impossible.cset" anim="1"></guy>
+<guy name="kicking" pos="13 -11 1.2 1.57" url="/cset/kick.cset" anim="1"></guy>
+<!--
+-->
+
+<animator name="warrior2"
+  pos="8 3 0.8 -1.57 0"
+  state="1" begin="1" ttl="0.5">
+  <solid frames="198">
+    <frame shape="statue" tx="/pcx/skin1.pcx" model="/md2/player.md2" scale="0.035" />
+  </solid>
+</animator>
+
+<!--
+<stars name="stars" pos="100 100 5" number="300" speed="4"></stars>
+-->
+
+</scene>
+</vre>

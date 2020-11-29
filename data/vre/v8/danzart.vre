@@ -1,0 +1,61 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="danzart.vre"/>
+<meta name="author" content="Annie Danzart"/>
+</head>
+
+<scene>
+
+<entry pos="-03 1 0.5 0"></entry>
+<bgcolor color="0.8 1 1"></bgcolor>
+
+<step name="floor" pos="0 0 0.01 0"> <solid dim="6 3 .02" dif=".5 0 0" /> </step>
+
+<ground name="sol" pos="0 0 -0.25 0"> <solid dim="8 5 .5" zp="/gif/marble.gif" /> </ground>
+<ground name="plafond" pos="0 0 2.75 0"> <solid dim="6 3 .5" dif="0.6 0.6 0.6" /> </ground>
+
+<wall name="mur-est" pos="0 -1.5 1.5 0"> <solid dim="6 .02 3" xn="/~danzart/vreng/cloison_EO.gif" /> </wall>
+<wall name="mur-ouest" pos="0 1.5 1.5 0"> <solid dim="6 .02 3" yn="/~danzart/vreng/cloison_EO.gif" /> </wall>
+<wall name="mur-nord" pos="3 -0 0.5 1.57"> <solid dim="3 .02 1" xn="/~danzart/vreng/cloison_N.gif" /> </wall>
+<wall name="mur-sud" pos="-3 -0.5 1.5 4.71"> <solid dim="2 .02 3" xn="/~danzart/vreng/cloison_S.gif" /> </wall>
+<wall name="table-console" pos="2 -1 0.5 0"> <solid dim=".3 .3 1" xn="/~danzart/vreng/support.gif" xp="/~danzart/vreng/support.gif" /> </wall>
+<wall name="bibli-est" pos="0 -1.4 1.1 0"> <solid dim="1 .02 .22" xn="/~danzart/vreng/livres.gif" zn="/~danzart/vreng/cloison.gif" /> </wall>
+<wall name="bibli-est" pos="0 -1.4 1.7 0"> <solid dim="1 .02 .22" xn="/~danzart/vreng/livres.gif" zn="/~danzart/vreng/cloison.gif" /> </wall>
+<wall name="bureau" pos="0.5 0.25 0.8 0"> <solid dim=".5 .8 .01" xn="/~danzart/vreng/support.gif" xp="/~danzart/vreng/support.gif" /> </wall>
+
+<clock pos="0.5 1.65 2.95 1.57 1.57" needle="s">
+  <solid shape="line" l="0.09" dif="black" />
+</clock>
+<clock pos="0.5 1.65 2.95 1.57 1.57" needle="m">
+  <solid shape="line" l="0.07" dif="black" />
+</clock>
+<clock pos="0.5 1.65 2.95 1.57 1.57" needle="h">
+  <solid shape="line" l="0.05" dif="black" />
+</clock>
+
+<thing pos="0.5 1.65 2.97 6.28 -1.57"> <solid shape="disk" ri="0.01" re="0.1" dif="white" /> </thing>
+<thing pos="0.5 1.65 2.97 6.28 -1.57"> <solid shape="disk" re="0.01" dif="black" /> </thing>
+<thing pos="0.5 1.65 2.97 6.28 -1.57"> <solid shape="disk" ri="0.1" re="0.12" dif="black" /> </thing>
+
+<!-- page html sur Mur Ouest -->
+<web name="page-danzart" pos="0 01.47 1.3 0 0" url="/~danzart/">
+  <solid dim="1 .01 1" yn="/gif/danzart.gif" />
+</web>
+
+<host name="emma.enst.fr" pos="2 -1 1 0 0" host="emma.enst.fr">
+  <solid dim=".5 .5 .5" xn="/gif/station.gif" />
+</host>
+
+<!-- tableau blanc sur Mur Sud -->
+<board name="tableau-danzart" pos="-2.97 -0.5 1.5 4.71">
+  <solid dim="1.4 .01 1.4" xn="/gif/wb.gif" />
+</board>
+
+<gate name="infres" pos="-4.0 1 1.2 4.71" url="/vre/v8/infres.vre">
+  <solid dim="1 .2 2.4" xn="/gif/infres.gif" yn="/gif/infres.gif" />
+</gate>
+
+</scene>
+</vre>

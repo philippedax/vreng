@@ -1,0 +1,59 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="telecomparis.vre"/>
+</head>
+
+<scene>
+
+<ground pos="0 0 -.5"> <solid dim="80 20 1" zp="/gif/brick.gif" /> </ground>
+
+<web name="www.enst.fr" pos="6 4 1.5 2"
+  url="http://www.enst.fr/">
+  <solid dim="2 .1 2.4" xn="/gif/enst.gif" />
+</web>
+<web name="www.infres.enst.fr" pos="6 -4 1.5 1"
+  url="http://www.infres.enst.fr/infres.html">
+  <solid dim="2 .1 2.4" xn="/gif/infres.gif" />
+</web>
+<web name="www.tsi.enst.fr" pos="9 -3.75 1.5 1"
+  url="http://www.tsi.enst.fr/">
+  <solid dim="2 .1 2.4" xn="/gif/sig.gif" />
+</web>
+<web pos="12 3.5 1.5 2"
+  url="http://www.elec.enst.fr/">
+  <solid dim="2 .1 2.4" xn="/gif/elec.gif" />
+</web>
+<web name="www.comelec.enst.fr" pos="15 3.25 1.5 2"
+  url="http://www.comelec.enst.fr/">
+  <solid dim="2 .1 2.4" xn="/gif/com.gif" />
+</web>
+<web name="/www.egsh.enst.fr" pos="15 -3.25 1.5 1"
+  url="http://www.enst.fr/egsh/egsh.html">
+  <solid dim="2 .1 2.4" xn="/gif/eco.gif" />
+</web>
+<web pos="18 -3 1.5 1"
+  url="http://www.enst.fr/~benenson/lgv/">
+  <solid dim="2 .1 2.4" xn="/gif/lc.gif" />
+</web>
+<web pos="21 -2.75 1.5 1"
+  url="http://www.enst.fr/doc/">
+  <solid dim="2 .1 2.4" xn="/gif/doc.gif" />
+</web>
+<web name="www.stud.enst.fr" pos="24 2.5 1.5 2"
+  url="http://www.stud.enst.fr/">
+  <solid dim="2 .1 2.4" xn="/gif/bill.gif" />
+</web>
+<web name="www.siav.enst.fr" pos="24 -2.5 1.5 1"
+  url="http://www.siav.enst.fr/">
+  <solid dim="2 .1 2.4" xn="/gif/cal.gif" />
+</web>
+
+<gate name="Rendezvous" pos="39 0 1 1.57"
+  url="/vre/v8/Rendezvous.vre">
+  <solid dim="1.5 1 2" yp="/gif/brick.gif" />
+</gate>
+
+</scene>
+</vre>

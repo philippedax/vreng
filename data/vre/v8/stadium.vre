@@ -1,0 +1,191 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="stadium.vre"/>
+</head>
+
+<scene>
+
+<entry pos="0 0 0"></entry>
+
+<!-- sol -->
+<ground name="ground" pos="0 0 -.2"> <solid dim="140 100 .2" zp="/gif/stuc.gif" /></ground>
+<step name="green" pos="0 0 -.01"> <solid dim="88 44 .02" zp="/gif/pelouse.gif" /></step>
+
+<!-- roof -->
+<wall pos="0 28 11 0">	<solid dim="82 14 .5" zn="/gif/wood1.gif" znrs="16" /></wall>
+<wall pos="0 -28 11 0">	<solid dim="82 14 .5" zn="/gif/wood1.gif" znrs="16" /></wall>
+<wall pos="50 0 11 1.57"> <solid dim="42 14 .5" zn="/gif/wood1.gif" znrs="4" /></wall>
+<wall pos="-50 0 11 1.57"> <solid dim="42 14 .5" zn="/gif/wood1.gif" znrs="4" /></wall>
+
+<!-- white bands -->
+<step pos="0 0 0 1.57">	<solid dim="40 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="0 20 0 0">	<solid dim="80 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="0 -20 0 0">	<solid dim="80 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="40 0 0 1.57"> <solid dim="40 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="-40 0 0 1.57"> <solid dim="40 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="26 0 0 1.57"> <solid dim="16 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="-26 0 0 1.57"> <solid dim="16 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="33 8 0 0">	<solid dim="14 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="33 -8 0 0">	<solid dim="14 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="-33 8 0 0">	<solid dim="14 .06 .02" zp="/gif/white.gif" /></step>
+<step pos="-33 -8 0 0">	<solid dim="14 .06 .02" zp="/gif/white.gif" /></step>
+
+<!-- gradins -->
+<step pos="-24 22 0.2 0">	<solid dim="40 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="24 22.0 0.2 0">	<solid dim="40 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -22 0.2 0">	<solid dim="88 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="44 0 0.2 1.57">	<solid dim="44 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-44 0 0.2 1.57">	<solid dim="44 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="-24.25 22.5 0.6 0">	<solid dim="40.5 .5 .4" dif="grey60" /></step>
+<step pos="24.25 22.5 0.6 0">	<solid dim="40.5 .5 .4" dif="grey60" /></step>
+<step pos="0 -22.5 0.6 0">	<solid dim="89 .5 .4" dif="grey60" /></step>
+<step pos="44.5 0 0.6 1.57">	<solid dim="45 .5 .4" dif="grey60" /></step>
+<step pos="-44.5 0 0.6 1.57">	<solid dim="45 .5 .4" dif="grey60" /></step>
+
+<step pos="-24.5 23 1 0">	<solid dim="41 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="24.5 23 1 0">	<solid dim="41 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -23 1 0">		<solid dim="90 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="45 0 1 1.57">	<solid dim="46 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-45 0 1 1.57">	<solid dim="46 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="-24.75 23.5 1.4 0">	<solid dim="41.5 .5 .4" dif="grey60" /></step>
+<step pos="24.75 23.5 1.4 0">	<solid dim="41.5 .5 .4" dif="grey60" /></step>
+<step pos="0 -23.5 1.4 0">	<solid dim="91 .5 .4" dif="grey60" /></step>
+<step pos="45.5 0 1.4 1.57">	<solid dim="47 .5 .4" dif="grey60" /></step>
+<step pos="-45.5 0 1.4 1.57">	<solid dim="47 .5 .4" dif="grey60" /></step>
+
+<step pos="-25 24 1.8 0">	<solid dim="42 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="25 24 1.8 0">	<solid dim="42 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -24 1.8 0">	<solid dim="92 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="46 0 1.8 1.57">	<solid dim="48 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-46 0 1.8 1.57">	<solid dim="48 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="-25.25 24.5 2.2 0">	<solid dim="42.5 .5 .4" dif="grey60" /></step>
+<step pos="25.25 24.5 2.2 0">	<solid dim="42.5 .5 .4" dif="grey60" /></step>
+<step pos="0 -24.5 2.2 0">	<solid dim="93 .5 .4" dif="grey60" /></step>
+<step pos="46.5 0 2.2 1.57">	<solid dim="49 .5 .4" dif="grey60" /></step>
+<step pos="-46.5 0 2.2 1.57">	<solid dim="49 .5 .4" dif="grey60" /></step>
+
+<step pos="-25.5 25 2.6 0">	<solid dim="43 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="25.5 25 2.6 0">	<solid dim="43 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -25 2.6 0">	<solid dim="94 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="47 0 2.6 1.57">	<solid dim="50 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-47 0 2.6 1.57">	<solid dim="50 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="-25.75 25.5 3 0">	<solid dim="43.5 .5 .4" dif="grey60" /></step>
+<step pos="25.75 25.5 3 0">	<solid dim="43.5 .5 .4" dif="grey60" /></step>
+<step pos="0 -25.5 3 0">	<solid dim="95 .5 .4" dif="grey60" /></step>
+<step pos="47.5 0 3 1.57">	<solid dim="51 .5 .4" dif="grey60" /></step>
+<step pos="-47.5 0 3 1.57">	<solid dim="51 .5 .4" dif="grey60" /></step>
+
+<step pos="0 26 3.4 0">		<solid dim="96 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -26 3.4 0">	<solid dim="96 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="48 0 3.4 1.57">	<solid dim="52 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-48 0 3.4 1.57">	<solid dim="52 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="0 26.5 3.8 0">	<solid dim="97 .5 .4" dif="grey60" /></step>
+<step pos="0 -26.5 3.8 0">	<solid dim="97 .5 .4" dif="grey60" /></step>
+<step pos="48.5 0 3.8 1.57">	<solid dim="53 .5 .4" dif="grey60" /></step>
+<step pos="-48.5 0 3.8 1.57">	<solid dim="53 .5 .4" dif="grey60" /></step>
+
+<step pos="0 27 4.2 0">		<solid dim="98 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -27 4.2 0">	<solid dim="98 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="49 0 4.2 1.57">	<solid dim="54 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-49 0 4.2 1.57">	<solid dim="54 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="0 27.5 4.6 0">	<solid dim="99 .5 .4" dif="grey60" /></step>
+<step pos="0 -27.5 4.6 0">	<solid dim="99 .5 .4" dif="grey60" /></step>
+<step pos="49.5 0 4.6 1.57">	<solid dim="55 .5 .4" dif="grey60" /></step>
+<step pos="-49.5 0 4.6 1.57">	<solid dim="55 .5 .4" dif="grey60" /></step>
+
+<step pos="0 28 5 0">		<solid dim="100 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -28 5 0">		<solid dim="100 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="50 0 5 1.57">	<solid dim="56 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-50 0 5 1.57">	<solid dim="56 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="0 28.5 5.4 0">	<solid dim="101 .5 .4" dif="grey60" /></step>
+<step pos="0 -28.5 5.4 0">	<solid dim="101 .5 .4" dif="grey60" /></step>
+<step pos="50.5 0 5.4 1.57">	<solid dim="57 .5 .4" dif="grey60" /></step>
+<step pos="-50.5 0 5.4 1.57">	<solid dim="57 .5 .4" dif="grey60" /></step>
+
+<step pos="0 29 5.8 0">		<solid dim="102 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -29 5.8 0">	<solid dim="102 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="51 0 5.8 1.57">	<solid dim="58 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-51 0 5.8 1.57">	<solid dim="58 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="0 29.5 6.2 0">	<solid dim="103 .5 .4" dif="grey60" /></step>
+<step pos="0 -29.5 6.2 0">	<solid dim="103 .5 .4" dif="grey60" /></step>
+<step pos="51.5 0 6.2 1.57">	<solid dim="59 .5 .4" dif="grey60" /></step>
+<step pos="-51.5 0 6.2 1.57">	<solid dim="59 .5 .4" dif="grey60" /></step>
+
+<step pos="0 30 6.6 0">		<solid dim="104 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -30 6.6 0">	<solid dim="104 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="52 0 6.6 1.57">	<solid dim="60 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-52 0 6.6 1.57">	<solid dim="60 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="0 30.5 7 0">		<solid dim="105 .5 .4" dif="grey60" /></step>
+<step pos="0 -30.5 7 0">	<solid dim="105 .5 .4" dif="grey60" /></step>
+<step pos="52.5 0 7 1.57">	<solid dim="61 .5 .4" dif="grey60" /></step>
+<step pos="-52.5 0 7 1.57">	<solid dim="61 .5 .4" dif="grey60" /></step>
+
+<step pos="0 31 7.4 0">		<solid dim="106 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -31 7.4 0">	<solid dim="106 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="53 0 7.4 1.57">	<solid dim="62 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-53 0 7.4 1.57">	<solid dim="62 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="0 31.5 7.8 0">	<solid dim="107 .5 .4" dif="grey60" /></step>
+<step pos="0 -31.5 7.8 0">	<solid dim="107 .5 .4" dif="grey60" /></step>
+<step pos="53.5 0 7.8 1.57">	<solid dim="63 .5 .4" dif="grey60" /></step>
+<step pos="-53.5 0 7.8 1.57">	<solid dim="63 .5 .4" dif="grey60" /></step>
+
+<step pos="0 32 8.2 0">		<solid dim="108 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -32 8.2 0">	<solid dim="108 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="54 0 8.2 1.57">	<solid dim="64 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-54 0 8.2 1.57">	<solid dim="64 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="0 32.5 8.6 0">	<solid dim="109 .5 .4" dif="grey60" /></step>
+<step pos="0 -32.5 8.6 0">	<solid dim="109 .5 .4" dif="grey60" /></step>
+<step pos="54.5 0 8.6 1.57">	<solid dim="65 .5 .4" dif="grey60" /></step>
+<step pos="-54.5 0 8.6 1.57">	<solid dim="65 .5 .4" dif="grey60" /></step>
+
+<step pos="0 33 9 0">		<solid dim="110 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -33 9 0">		<solid dim="110 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="55 0 9 1.57">	<solid dim="66 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-55 0 9 1.57">	<solid dim="66 .5 .4" yn="/gif/brick.gif" /></step>
+
+<step pos="0 33.5 9.4 0">	<solid dim="111 .5 .4" dif="grey60" /></step>
+<step pos="0 -33.5 9.4 0">	<solid dim="111 .5 .4" dif="grey60" /></step>
+<step pos="55.5 0 9.4 1.57">	<solid dim="67 .5 .4" dif="grey60" /></step>
+<step pos="-55.5 0 9.4 1.57">	<solid dim="67 .5 .4" dif="grey60" /></step>
+
+<step pos="0 34 9.8 0">		<solid dim="112 .5 .4" yn="/gif/brick.gif" /></step>
+<step pos="0 -34 9.8 0">	<solid dim="112 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="56 0 9.8 1.57">	<solid dim="68 .5 .4" xn="/gif/brick.gif" /></step>
+<step pos="-56 0 9.8 1.57">	<solid dim="68 .5 .4" yn="/gif/brick.gif" /></step>
+
+<!-- goals -->
+<wall pos="40 3 1.2 1.57"> <solid dim=".1 .1 2.4" xn="/gif/white.gif" yn="/gif/white.gif" yp="/gif/white.gif" xp="/gif/white.gif" /></wall>
+<wall pos="40 -3 1.2 1.57"> <solid dim=".1 .1 2.4" xn="/gif/white.gif" yn="/gif/white.gif" yp="/gif/white.gif" xp="/gif/white.gif" /></wall>
+<wall pos="40 0 2.45 1.57"> <solid dim="6 .1 .1" xn="/gif/white.gif" yn="/gif/white.gif" zp="/gif/white.gif" zn="/gif/white.gif" /></wall>
+<wall pos="-40 3 1.2 1.57"> <solid dim=".1 .1 2.4" xn="/gif/white.gif" yn="/gif/white.gif" yp="/gif/white.gif" xp="/gif/white.gif" /></wall>
+<wall pos="-40 -3 1.2 1.57"> <solid dim=".1 .1 2.4" xn="/gif/white.gif" yn="/gif/white.gif" yp="/gif/white.gif" xp="/gif/white.gif" /></wall>
+<wall pos="-40 0 2.45 1.57"> <solid dim="6 .1 .1" xn="/gif/white.gif" yn="/gif/white.gif" zp="/gif/white.gif" zn="/gif/white.gif" /></wall>
+
+<!-- circles -->
+<cauldron pos="0 0 0.05 0"> <solid shape="torus" rb=".2" rt=".04" /></cauldron>
+<mirage pos="0 0 0.01 0"> <solid shape="torus" rb="5" rt=".02" /></mirage>
+
+<mirage name="sun" pos="-200 0 100 0" mode="turn"> <solid shape="sphere" r="15" tx="/gif/fire.gif" /></mirage>
+
+<!-- exit -->
+<gate name="Rendezvous"
+  pos="0 28 1.2 3.14"
+  url="/vre/v8/Rendezvous.vre">
+  <solid dim="2 1.4 2.4" xn="/gif/vrenglogo.gif" yn="/gif/vrenglogo.gif" />
+</gate>
+
+</scene>
+</vre>

@@ -1,0 +1,143 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="tarots.vre"/>
+</head>
+
+<scene>
+
+<entry pos="0 0 0"></entry>
+
+<mirage pos="200 0 60" mode="turn">
+ <solid shape="sphere" r="20" dif="1 1 0" tx="/gif/fire.gif" />
+</mirage>
+
+<ground name="parquet" pos="0 0 -0.5">
+  <solid dim="80 20 1" zp="/gif/parquet.gif" />
+</ground>
+
+<web name="magicien"
+  pos="6 4 1.5 2"
+  url="/~dax/elsa/paintings/tarots/magicien.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/magicien.gif" />
+</web>
+<web name="papesse"
+  pos="6 -4 1.5 1"
+  url="/~dax/elsa/paintings/tarots/papesse.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/papesse.gif" />
+</web>
+<web name="imperatrice"
+  pos="9 3.8 1.5 2"
+  url="/~dax/elsa/paintings/tarots/imperatrice.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/imperatrice.gif" />
+</web>
+<web name="empereur"
+  pos="9 -3.8 1.5 1"
+  url="/~dax/elsa/paintings/tarots/empereur.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/empereur.gif" />
+</web>
+<web name="pape"
+  pos="12 3.6 1.5 2"
+  url="/~dax/elsa/paintings/tarots/pape.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/pape.gif" />
+</web>
+<web name="amoureux"
+  pos="12 -3.6 1.5 1"
+  url="/~dax/elsa/paintings/tarots/amoureaux.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/amoureux.gif" />
+</web>
+<web name="chariot"
+  pos="15 3.4 1.5 2"
+  url="/~dax/elsa/paintings/tarots/chariot.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/chariot.gif" />
+</web>
+<web name="justice"
+  pos="15 -3.4 1.5 1"
+  url="/~dax/elsa/paintings/tarots/justice.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/justice.gif" />
+</web>
+<web name="ermite"
+  pos="18 3.2 1.5 2"
+  url="/~dax/elsa/paintings/tarots/ermite.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/ermite.gif" />
+</web>
+<web name="fortune"
+  pos="18 -3.2 1.5 1"
+  url="/~dax/elsa/paintings/tarots/fortune.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/fortune.gif" />
+</web>
+<web name="force"
+  pos="21 3 1.5 2"
+  url="/~dax/elsa/paintings/tarots/force.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/force.gif" />
+</web>
+<web name="pendu"
+  pos="21 -3 1.5 1"
+  url="/~dax/elsa/paintings/tarots/pendu.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/pendu.gif" />
+</web>
+<web name="mort"
+  pos="24 2.8 1.5 2"
+  url="/~dax/elsa/paintings/tarots/mort.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/mort.gif" />
+</web>
+<web name="temperance"
+  pos="24 -2.8 1.5 1"
+  url="/~dax/elsa/paintings/tarots/temperance.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/temperance.gif" />
+</web>
+<web name="diable"
+  pos="27 2.6 1.5 2"
+  url="/~dax/elsa/paintings/tarots/diable.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/diable.gif" />
+</web>
+<web name="tour"
+  pos="27 -2.6 1.5 1"
+  url="/~dax/elsa/paintings/tarots/tour.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/tour.gif" />
+</web>
+<web name="etoile"
+  pos="30 2.4 1.5 2"
+  url="/~dax/elsa/paintings/tarots/etoile.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/etoile.gif" />
+</web>
+<web name="lune"
+  pos="30 -2.4 1.5 1"
+  url="/~dax/elsa/paintings/tarots/lune.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/lune.gif" />
+</web>
+<web name="soleil"
+  pos="33 2.2 1.5 2"
+  url="/~dax/elsa/paintings/tarots/soleil.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/soleil.gif" />
+</web>
+<web name="jugement"
+  pos="33 -2.2 1.5 1"
+  url="/~dax/elsa/paintings/tarots/jugement.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/jugement.gif" />
+</web>
+<web name="monde"
+  pos="36 2.0 1.5 2"
+  url="/~dax/elsa/paintings/tarots/monde.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/monde.gif" />
+</web>
+<web name="fou"
+  pos="36 -2. 1.5 1"
+  url="/~dax/elsa/paintings/tarots/fou.html">
+  <solid dim="1.6 .1 2.4" xn="/elsa/tarots/fou.gif" />
+</web>
+
+<book name="tarots-book" pos="5 0 1.5 1.57 0"
+  url="/book/tarots.url">
+  <solid dim=".6 .2 .9" a="0" />
+</book>
+
+<gate name="mythology" pos="39 0 1 1.57"
+  url="/vre/v8/mythology.vre">
+  <solid dim=".75 .5 1" xn="/elsa/mythology/athena.gif" />
+</gate>
+
+</scene>
+</vre>
+

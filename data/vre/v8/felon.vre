@@ -1,0 +1,39 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre version="7.3" profile="Interactive">
+
+<head>
+<meta name="description" content="Areas of Interests"/>
+<meta name="filename" content="felon.vre"/>
+<meta name="author" content="Adrien Felon"/>
+</head>
+
+<scene>
+
+<ground name="floor-aoi" pos="0 0 -8 0">
+  <solid dim="40 20 .5" zp="/gif/marble.gif" />
+</ground>
+
+<aoi name="aoi1" pos="-4 4 -7.3 0"
+  channel="224.255.1.13/52666/127">
+  <solid dim="6 6 .2" zp="/gif/aoi1.gif" />
+</aoi>
+<aoi name="aoi2" pos="-4 -4 -7.3 0"
+  channel="224.255.2.13/52666/127">
+  <solid dim="6 6 .2" zp="/gif/aoi2.gif" />
+</aoi>
+<aoi name="aoi3" pos="4 -4 -7.3 0"
+  channel="224.255.3.13/52666/127">
+  <solid dim="6 6 .2" zp="/gif/aoi3.gif" />
+</aoi>
+<aoi name="aoi4" pos="4 4 -7.3 0"
+  channel="224.255.4.13/52666/127">
+  <solid dim="6 6 .2" zp="/gif/aoi4.gif" />
+</aoi>
+
+<gate name="Rendezvous" pos="-19.25 0 -6.6 -4.71"
+  url="/vre/v8/Rendezvous.vre">
+  <solid dim="3 .7 2.4" xn="/gif/rendezvous.gif" yn="/gif/rendezvous.gif" />
+</gate>
+
+</scene>
+</vre>

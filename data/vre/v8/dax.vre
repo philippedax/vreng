@@ -1,0 +1,403 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="dax.vre"/>
+<meta name="keyword" content="vre"/>
+<meta name="description" content="Dax's office"/>
+<meta name="author" content="Philippe Dax"/>
+</head>
+
+<scene>
+
+<entry pos="-1 3.25 0 -1.35"></entry>
+<bgcolor color=".79 1 1"></bgcolor>
+
+<ground name="carpet" pos="0 0 .01">
+  <solid dim="3 6 .02" dif="0 .7 0" />
+</ground>
+<ground name="floor" pos="0 0 -.25">
+  <solid dim="8 10 .5" dif="grey80" />
+</ground>
+
+<gate name="infres" pos="-1.5 4.45 1.5 0"
+  mode="auto" entry="-6.625 -1 0"
+  url="/vre/v8/infres.vre">
+  <solid dim="2 .1 3" a=".2" />
+</gate>
+
+<door name="doorC218" pos="-1.40 2.95 1 -1.57"
+  open="-1.57" close=".0" speed="-.4">
+  <solid dim=".98 .04 1.96" xn="/gif/parquet.gif" yn="/gif/parquet.gif" dif="brown" />
+</door>
+
+<button name="open-close" pos="-.4 2.97 1 3.14"
+  use="doorC218" method0="Open" method1="Close">
+  <solid dim=".04 .04 .04" xn="/gif/ball_pink.gif" />
+</button>
+<button name="lock-unlock" pos="-.4 2.97 .9 3.14"
+  use="doorC218" method0="Lock" method1="Unlock">
+  <solid dim=".04 .04 .04" xn="/gif/ball_pink.gif" />
+</button>
+
+<!-- floor -->
+<step pos="-1 3 .01 0">
+  <solid dim="1 .02 .02" dif="grey20" />
+</step>
+
+<!-- ceil 2.75 -->
+<wall name="ceil" pos="0 0 3">
+  <solid dim="3 6 .5" zn="/gif/stries.gif" />
+</wall>
+
+<!-- edge street -->
+<wall name="edge" pos="0 -2.95 .5 0">
+  <solid dim="3 .1 1" xn="/gif/cloison.gif" />
+</wall>
+
+<!-- window -->
+<wall name="window" pos="0 -2.9 1 0">
+  <solid dim="3 .02 .1" dif="grey40" />
+  <solid dim="3 .02 .1" dif="grey40" rel="0 0 1.7 0 0" />
+  <solid dim=".04 .1 2"   dif="grey40" rel="0 -.05 1 0 0" />
+  <solid dim=".04 .1 2"   dif="grey40" rel="1.48 -.05 1 0 0" />
+  <solid dim=".04 .1 2"   dif="grey40" rel="-1.48 -.05 1 0 0" />
+</wall>
+
+<!-- edge entry -->
+<wall pos=".5 3 1.5 0">
+  <solid dim="2 .04 3" xn="/gif/cloison.gif" yn="/gif/cloison.gif" />
+</wall>
+<wall pos="-1 3 2.5 0">
+  <solid dim="1 .04 1" xn="/gif/cloison.gif" yn="/gif/cloison.gif" />
+</wall>
+
+<!-- corridor -->
+<wall name="wall-c200" pos="0 4.49 1.5 0">
+  <solid dim="8 .04 3" dif="grey70" />
+  <solid dim="8 .02 .1" rel="0 -.03 -1.45 0 0" dif="0 0 1" />
+</wall>
+
+<!-- cloison shelves -->
+<wall pos="1.5 -0 01.5 1.57">
+  <solid dim="6 .04 3" xn="/gif/cloison.gif" />
+</wall>
+<!-- cloison boards -->
+<wall pos="-1.5 0 1.5 4.71">
+  <solid dim="6 .04 3" xn="/gif/cloison.gif" />
+</wall>
+
+<thing name="table-dax"
+  pos=".85 -.5 .70 5.2">
+  <solid dim="1.7 .6 .03" dif="grey50" />
+  <solid dim=".04 .04 .7" dif="grey50" rel="-.68 -.28 -.35 0 0" />
+  <solid dim=".04 .04 .7" dif="grey50" rel="-.68 .28 -.35 0 0" />
+  <solid dim=".04 .04 .7" dif="grey50" rel=".68 -.28 -.35 0 0" />
+  <solid dim=".04 .04 .7" dif="grey50" rel=".68 .28 -.35 0 0" />
+</thing>
+
+<!--
+<thing name="phone" pos=".4 -.1 .75 6.05">
+  <solid dim=".1 .1 .06" dif="grey70" xn="/gif/phone.gif" />
+</thing>
+-->
+<thing name="vase-roses" pos=".45 -.3 .7 0 0">
+  <solid shape="cone" rb=".035" rt=".035" h=".1" dif="0 .3 0" />
+  <solid shape="cone" rb=".035" rt=".1" h=".2" rel="0 0 .1 0 0" tx="/gif/roses.gif" a=".5" />
+</thing>
+
+<thing name="chair-dax" pos="1.1 -.2 .48 0">
+  <solid dim=".5 .5 .02" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" dif=".5 .3 .1" />
+  <solid dim=".04 .5 .5" rel=".24 0 .24 0 0" yp="/gif/wood.gif" dif=".5 .3 .1" />
+  <solid dim=".04 .04 .5" rel="-.24 -.24 -.24 0 0" yp="/gif/wood.gif" dif=".5 .3 .1" />
+  <solid dim=".04 .04 .5" rel=".24 -.24 -.24 0 0" yp="/gif/wood.gif" dif=".5 .3 .1" />
+  <solid dim=".04 .04 .5" rel="-.24 .24 -.24 0 0" yp="/gif/wood.gif" dif=".5 .3 .1" />
+  <solid dim=".04 .04 .5" rel=".24 .24 -.24 0 0" yp="/gif/wood.gif" dif=".5 .3 .1" />
+</thing>
+
+<thing name="table-gadret" pos="-1.2 -2.2 .7 1.57">
+  <solid dim="1.4 .6 .03" dif="grey50" />
+  <solid dim=".04 .04 .7" dif="grey50" rel="-.68 -.28 -.35 0 0" />
+  <solid dim=".04 .04 .7" dif="grey50" rel="-.68 .28 -.35 0 0" />
+  <solid dim=".04 .04 .7" dif="grey50" rel=".68 -.28 -.35 0 0" />
+  <solid dim=".04 .04 .7" dif="grey50" rel=".68 .28 -.35 0 0" />
+</thing>
+
+<thing name="table-internship" pos=".6 2.7 .7 0">
+  <solid dim="1.4 .6 .03" dif="grey50" />
+  <solid dim=".04 .04 .7" dif="grey50" rel="-.68 -.28 -.35 0 0" />
+  <solid dim=".04 .04 .7" dif="grey50" rel="-.68 .28 -.35 0 0" />
+  <solid dim=".04 .04 .7" dif="grey50" rel=".68 -.28 -.35 0 0" />
+  <solid dim=".04 .04 .7" dif="grey50" rel=".68 .28 -.35 0 0" />
+</thing>
+
+<!-- vertical shelves 2.20m -->
+<wall pos="1.4 -2.5 1.1 0">
+  <solid dim=".16 .02 2.2" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 -1.5 1.1 0">
+  <solid dim=".16 .02 2.2" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 -.5 1.1 0">
+  <solid dim=".16 .02 2.2" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 .5 1.1 0">
+  <solid dim=".16 .02 2.2" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 1.5 1.1 0">
+  <solid dim=".16 .02 2.2" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 2.5 1.1 0">
+  <solid dim=".16 .02 2.2" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" />
+</wall>
+
+<!-- horizontal shelves -->
+<wall pos="1.4 0 2.15 1.57">
+  <solid dim="5 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 0 1.8 1.57">
+  <solid dim="5 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 -1.5 1.45 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 1.5 1.45 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 -1.5 1.1 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 1.5 1.1 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 -1.5 .75 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 1.5 .75 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 -1.5 .4 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 1.5 .4 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 -1.5 .05 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+<wall pos="1.4 1.5 .05 1.57">
+  <solid dim="2 .16 .02" xn="/gif/blondwood.gif" zp="/gif/blondwood.gif" zn="/gif/blondwood.gif" />
+</wall>
+
+<!-- webs -->
+<web name="dax-page" pos="1.47 0 1.4 1.57"
+  url="http://perso.telecom-paristech.fr/~dax/">
+  <solid dim=".4 .02 .6" xn="/gif/dax.gif" />
+</web>
+<!--
+<web name="gadret-page" pos="-1.47 -2 1.4 4.71"
+  url="http://www.infres.enst.fr/~gadret/">
+  <solid dim=".4 .02 .6" xn="/gif/gadret.gif" />
+</web>
+-->
+
+<!-- boards -->
+<board name="white-board1" pos="-1.46 0 1.6 -1.57">
+  <solid dim="1.4 .02 1.4" xn="/gif/wb.gif" />
+</board>
+<!--  <solid dim=".55 .01 1.1" rel="0 1.4 -.4 0 0" xn="/gif/wb.gif" /> -->
+<board name="white-board2" pos="-1.46 1.4 1.2 -1.57">
+  <solid dim="1.1 .02 2.2" xn="/gif/wb.gif" />
+</board>
+
+<!-- hosts -->
+<host name="tristan.enst.fr" pos=".85 -.6 .9 6.05"
+  host="tristan.enst.fr">
+  <solid dim=".48 .04 .42" dif="grey40" xn="/gif/station.gif" />
+</host>
+<host name="lame4.enst.fr" pos="-1.35 -2.3 .9 5.2"
+  host="lame4.enst.fr">
+  <solid dim=".48 .06 .42" dif="grey20" xn="/gif/station.gif" />
+</host>
+<host name="morgane.enst.fr" pos=".7 2.8 .9 3.14"
+  host="morgane.enst.fr">
+  <solid dim=".4 .4 .4" dif="white" xn="/gif/station.gif" />
+</host>
+
+<book name="report-book" pos="1.4 .7 1.55 1.57 0"
+  url="/book/bookCR.url">
+  <solid dim=".2 .04 .2" dif=".2 .6 .2" a="0" />
+</book>
+
+<!-- specs -->
+<doc name="spec-belmon" pos="1.4 1.4 1.55 1.57 0"
+  url="/doc/spec-belmon.ps.gz">
+  <solid dim=".02 .14 .2" dif="blue" xn="/gif/b_belmon.gif" />
+</doc>
+<doc name="spec-orzan" pos="1.4 1.35 1.55 1.57 0"
+  url="/doc/spec-orzan.ps.gz">
+  <solid dim=".02 .14 .2" dif="purple" xn="/gif/b_orzan.gif" />
+</doc>
+<doc name="spec-ulmer" pos="1.4 1.3 1.55 1.57 0"
+  url="/doc/spec-ulmer.ps.gz">
+  <solid dim=".02 .14 .2" dif="yellow" xn="/gif/b_specs.gif" />
+</doc>
+<doc name="spec-bellard" pos="1.4 1.25 1.55 1.57 0"
+  url="/doc/spec-bellard.ps.gz">
+  <solid dim=".02 .14 .2" dif="1 .5 .5" xn="/gif/b_bellard.gif" />
+</doc>
+<doc name="spec-krauth" pos="1.4 1.2 1.55 1.57 0"
+  url="/doc/spec-krauth.ps.gz">
+  <solid dim=".02 .14 .2" dif="0 .5 0" xn="/gif/b_krauth.gif" />
+</doc>
+<doc name="spec-renard" pos="1.4 1.15 1.55 1.57 0"
+  url="/doc/spec-renard.ps.gz">
+  <solid dim=".02 .14 .2" dif="grey80" xn="/gif/b_vnc.gif" />
+</doc>
+<doc name="spec-vnc" pos="1.4 1.1 1.55 1.57 0"
+  url="/doc/spec-vnc.ps.gz">
+  <solid dim=".02 .14 .2" dif=".5 .5 .0" />
+</doc>
+
+<!-- reports -->
+<doc name="report-ulmer" pos="1.4 .6 1.2 1.57 0"
+  url="/doc/report-ulmer.ps.gz">
+  <solid dim=".04 .14 .2" dif="green" xn="/gif/b_ulmer.gif" />
+</doc>
+<doc name="report-felon" pos="1.4 .7 1.2 1.57 0"
+  url="/doc/report-felon.ps.gz">
+  <solid dim=".04 .14 .2" dif="red" xn="/gif/b_felon.gif" />
+</doc>
+<doc name="report-haverlant" pos="1.4 .8 1.2 1.57 0"
+  url="/doc/report-haverlant.ps.gz">
+  <solid dim=".04 .14 .2" dif="cyan" xn="/gif/b_haverlant.gif" />
+</doc>
+<doc name="report-jalote" pos="1.4 .9 1.2 1.57 0"
+  url="/doc/report-jalote.ps.gz">
+  <solid dim=".04 .14 .2" dif=".7 .7 0" />
+</doc>
+<doc name="report-seigneurin" pos="1.4 1.0 1.2 1.57 0"
+  url="/doc/report-seigneurin.ps.gz">
+  <solid dim=".04 .14 .2" dif="0 .7 .7" xn="/gif/b_ifc.gif" />
+</doc>
+
+<thing pos="1.47 1.3 1.3 1.57">
+  <solid dim=".4 .04 .2" xn="/gif/b_docs.gif" />
+</thing>
+
+<!-- bottle -->
+<thing name="bottle-empty" pos="1.4 .8 .42 0 0">
+  <solid shape="cone" rb=".035" rt=".035" h=".17" dif="0 .3 0" a=".5" />
+  <solid shape="cone" rb=".035" rt=".008" h=".03" rel="0 0 .17 0 0" dif="0 .3 0" a=".5" />
+  <solid shape="cone" rb=".008" rt=".008" h=".03" rel="0 0 .21 0 0" dif="0 .3 0" spe="0 .3 0" a=".5" />
+  <solid shape="cone" rb=".010" rt=".010" h=".02" rel="0 0 .24 0 0" dif="0 0 0" a=".5" />
+</thing>
+
+<thing name="cocacola" pos="1.4 .6 .75 0 0">
+  <solid shape="cone" rb=".03" rt=".03" h=".12" dif="red" tx="/gif/coke2.gif" />
+</thing>
+
+<thing name="cross" pos="1.4 -1.7 1.56 1.57 0">
+  <solid shape="cross" dim=".2 .06 .06" dif="green" a=".5" blink="1" />
+</thing>
+<thing name="soucoupe" pos="1.4 -1.8 1.15 1.57 0">
+  <solid shape="sphere" r=".05" re=".1" dif="blue" a=".5" />
+  <solid shape="disk" r=".05" re=".1" dif="blue" a=".5" />
+</thing>
+<thing name="hat" pos="1.4 -2.0 1.47 1.57 0">
+  <solid shape="cone" ri=".05" re=".1" radius3=".01" h=".15" dif="red" />
+  <solid shape="disk" ri=".05" re=".1" radius3=".01" h=".15" dif="red" />
+</thing>
+
+<animator name="cone-animation" pos="1.4 1.6 1.11 0 0">
+  <solid frames="3">
+    <frame shape="cone" rb=".035" rt=".035" h=".18" dif=".3 0 .3" a=".5" />
+    <frame shape="cone" rb=".035" rt=".008" h=".21" dif=".3 0 .3" />
+    <frame shape="cone" rb=".008" rt=".008" h=".24" dif="0 .3 0" />
+  </solid>
+</animator>
+
+<!-- cdrom MP3 -->
+<music name="Friends" pos="1.47 .95 .81 1.57 1.57"
+  url="/mp3/friends.mp3">
+  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom3.gif" />
+</music>
+<music name="Things" pos="1.47 .85 .81 1.57 1.57"
+  url="/mp3/things.mp2">
+  <solid shape="disk" ri=".015" re=".05" dif="0 0 .6" />
+</music>
+<music name="Malaguena" pos="1.47 .75 .81 1.57 1.57"
+  url="/midi/malaguena.mid">
+  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom3.gif" />
+</music>
+<!--
+<music name="Systemat" pos="1.47 .75 .81 1.57 1.57"
+  url="/midi/systemat.mid" state="play">
+  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom3.gif" />
+</music>
+-->
+
+<thing name="mp3" pos="1.47 .85 .95 1.57">
+  <solid dim=".3 .04 .1" xn="/gif/b_mp3.gif" />
+</thing>
+
+<!-- clip Mpeg -->
+<clip name="Prettywoman" pos="1.47 01.20 .81 1.57 1.57"
+  url="/mpg/PrettyWoman.mpg">
+  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom1.gif" />
+</clip>
+<clip name="Sophie_Marceau" pos="1.47 01.30 .81 1.57 1.57"
+  url="/mpg/Sophie_Marceau.mpg">
+  <solid shape="disk" ri=".015" re=".05" tx="/gif/cdrom1.gif" />
+</clip>
+<!--
+<clip name="Walkoflife" pos="1.47 01.40 .81 1.57 1.57"
+  url="/mpg/WalkOfLife.mpg">
+  <solid shape="disk" ri=".015" re=".05" dif=".4 0 .4" />
+</clip>
+-->
+<!-- clip RTP -->
+<clip name="Byzance" pos="1.47 1.4 .81 1.57 1.57"
+  url="/rtp/elsa/byzance.video">
+  <solid shape="disk" ri=".015" re=".05" tx="/gif/movie.gif" />
+</clip>
+
+<thing name="clips" pos="1.47 1.3 .95 1.57">
+  <solid dim=".3 .04 .1" xn="/gif/b_clips.gif" />
+</thing>
+
+<!-- clock -->
+<clock pos=".5 2.95 1.9 1.57 1.57"
+  needle="s">
+  <solid shape="line" l=".09" dif="black" />
+</clock>
+<clock pos=".5 2.95 1.9 1.57 1.57"
+  needle="m">
+  <solid shape="line" l=".07" dif="black" />
+</clock>
+<clock pos=".5 2.95 1.9 1.57 1.57"
+  needle="h">
+  <solid shape="line" l=".05" dif="black" />
+</clock>
+
+<thing name="wall-clock" pos=".5 2.97 1.9 6.28 -1.57">
+  <solid shape="disk" ri=".01" re=".1" />
+  <solid shape="disk" ri="0" re=".01" dif="black" />
+  <solid shape="disk" ri=".1" re=".12" dif="black" />
+  <solid dim=".01 .004 .02" rel="0 -.01 .08 0 1.57" dif="red" />
+  <solid dim=".01 .004 .02" rel="0 -.01 -.08 0 1.57" dif="red" />
+  <solid dim=".02 .004 .01" rel=".08 -.01 0 0 1.57" dif="red" />
+  <solid dim=".02 .004 .01" rel="-.08 -.01 0 0 1.57" dif="red" />
+</thing>
+
+<gate name="tarots" pos="4 3.75 1 1.57 0"
+  url="/vre/v8/tarots.vre">
+  <solid dim="1.5 .2 2" xn="/gif/tarots.gif" />
+</gate>
+<gate name="mythology" pos="-4 3.75 1 -1.57 0"
+  url="/vre/v8/mythology.vre">
+  <solid dim="1.5 .2 1" xn="/gif/mythology.gif" />
+</gate>
+
+</scene>
+</vre>

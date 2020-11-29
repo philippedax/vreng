@@ -1,0 +1,52 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="temple.vre"/>
+</head>
+
+<scene>
+
+<bgcolor color="0.8 0 1"></bgcolor>
+<entry pos="-15 -2 0 0"></entry>
+
+<ground name="ground" pos="0 0 -0.1"> <solid dim="40 40 .2" zp="/gif/sable.gif" /></ground>
+
+<wall name="roof" pos="15 0 8.50 0"> <solid dim="22 22 1" dif="0.6 0.6 0.6" zn="/gif/stuc.gif" yp="/gif/stuc.gif" /></wall>
+
+<!-- socle -->
+<step pos="15 0 0.25"> <solid dim="26 26 .5" dif="0.6 0.6 0.6" zp="/gif/tiles.gif" yp="/gif/tiles.gif" /></step>
+<step pos="15 0 0.50"> <solid dim="25 25 .5" dif="0.9 0.9 0.9" zp="/gif/tiles.gif" yp="/gif/tiles.gif" /></step>
+<step pos="15 0 0.75"> <solid dim="24 24 .5" dif="0.6 0.6 0.6" zp="/gif/tiles.gif" yp="/gif/tiles.gif" /></step>
+<step pos="15 0 01.0"> <solid dim="23 23 .5" dif="0.9 0.9 0.9" zp="/gif/tiles.gif" yp="/gif/tiles.gif" /></step>
+
+<mirage pos="5 -9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="5 -6 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="5 -3 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="5 0 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="5 3 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="5 6 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="5 9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+
+<mirage pos="9 -9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="9 9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+
+<mirage pos="13 -9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="13 9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+
+<mirage pos="17 -9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="17 9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+
+<mirage pos="21 -9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="21 9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+
+<mirage pos="25 -9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="25 -6 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="25 -3 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="25 0 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="25 3 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="25 6 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+<mirage pos="25 9 1 0"> <solid shape="cone" rb="0.5" rt="0.5" h="07" tx="/gif/marble.gif" /></mirage>
+
+</scene>
+</vre>

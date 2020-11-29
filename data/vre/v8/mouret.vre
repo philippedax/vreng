@@ -1,0 +1,85 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="mouret.vre"/>
+</head>
+
+<scene>
+
+<bgcolor color="blue"></bgcolor>
+
+<ground name="ground"
+  pos="0 0 -0.5 0">
+  <solid dim="80 20 1 zp=/gif/desert.gif" />
+</ground>
+
+<gate name="tarots"
+  pos="30 0 1.0 1.57"
+  url="/vre/v8/tarots.vre" channel="224.255.0.6/52666/127">
+  <solid dim="1.5 1 2" xn="/gif/tarots.gif" />
+</gate>
+
+<web name="zeal"
+  pos="6 4 1.5 2"
+  url="/~mouret/vreng/src/zeal.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/free.gif" />
+</web>
+<web name="appi"
+  pos="6 -4 1.5 1"
+  url="/~mouret/vreng/src/appi.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/appi.gif" />
+</web>
+<web name="thon"
+  pos="9 3.8 1.5 2"
+  url="/~mouret/vreng/src/thon.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/thon.gif" />
+</web>
+<web name="zeni"
+  pos="9 -3.8 1.5 1"
+  url="/~mouret/vreng/src/zeni.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/zeni.gif" />
+</web>
+<web name="arma"
+  pos="12 3.6 1.5 2"
+  url="/~mouret/vreng/src/arma.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/arma.gif" />
+</web>
+<web name="etra"
+  pos="12 -3.6 1.5 1"
+  url="/~mouret/vreng/src/etra.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/etra.gif" />
+</web>
+<web name="kios"
+  pos="15 3.4 1.5 2"
+  url="/~mouret/vreng/src/kios.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/kios.gif" />
+</web>
+<web name="capf"
+  pos="15 -3.4 1.5 1"
+  url="/~mouret/vreng/src/capf.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/capf.gif" />
+</web>
+<web name="chai"
+  pos="18 3.2 1.5 2"
+  url="/~mouret/vreng/src/chai.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/chai.gif" />
+</web>
+<web name="cous"
+  pos="18 -3.2 1.5 1"
+  url="/~mouret/vreng/src/cous.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/cous.gif" />
+</web>
+<web name="free"
+  pos="21 3 1.5 2"
+  url="/~mouret/vreng/src/free.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/free.gif" />
+</web>
+<web name="none"
+  pos="21 -3 1.5 1"
+  url="/~mouret/vreng/src/free.html">
+  <solid dim="2 .1 2.4" xn="/~mouret/vreng/gif/free.gif" />
+</web>
+
+</scene>
+</vre>

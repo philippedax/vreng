@@ -1,0 +1,83 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="land.vre"/>
+</head>
+
+<scene>
+
+<entry pos="-1 0 0"></entry>
+
+<!-- sky -->
+<bgcolor color=".8 .8 1"></bgcolor>
+
+<!-- light from sun -->
+<!--
+<light pos="200 50 80 1"></light>
+<light pos="-50 80 -200 1"></light>
+-->
+
+<!-- sun -->
+<mirage name="sun" pos="200 50 80"> <solid shape="sphere" r="10" emi="orange"/></mirage>
+
+<ground name="rivage" pos="0 0 -.5"> <solid dim="40 200 1" dif=".1 .9 .1" /></ground>
+
+<!-- Hill -->
+<plane name="hill1" pos="-15 0 2 1.57 .34"> <solid dim="200 12 1" dif=".2 .9 .2" zp="/gif/grass.gif" /></plane>
+<plane name="hill2" pos="-80 0 12.95 1.57 .15"> <solid dim="200 120 1" dif=".2 .9 .2" zp="/gif/grass.gif" /></plane>
+
+<!-- underwater -->
+<step pos="10 0 -.5 1.57"> <solid dim="100 1 1" amb="white" /></step>
+<step pos="15 0 -1.0 1.57"> <solid dim="100 10 1" amb="grey90" /></step>
+<step pos="20 0 -1.5 1.57"> <solid dim="100 10 1" amb="grey80" /></step>
+<step pos="25 0 -2.0 1.57"> <solid dim="100 10 1" amb="grey70" /></step>
+<step pos="30 0 -2.5 1.57"> <solid dim="100 10 1" amb="grey60" /></step>
+<step pos="35 0 -3.0 1.57"> <solid dim="100 10 1" amb="grey50" /></step>
+<step pos="40 0 -3.5 1.57"> <solid dim="100 10 1" amb="grey40" /></step>
+<step pos="45 0 -4.0 1.57"> <solid dim="100 10 1" amb="grey30" /></step>
+<step pos="50 0 -4.5 1.57"> <solid dim="100 10 1" amb="grey20" /></step>
+
+<!-- lake -->
+<water name="lake"
+  pos="60 0 0 1.57"
+  amplitude="1" freq="8" phase="2">
+  <solid dim="200 80 .2" zp="/gif/ecume.gif" zn="/gif/ecume.gif" />
+</water>
+
+<!-- models -->
+<local>
+    <transform translation="2.5 0 1.6"></transform>
+    <transform rotation="90 1 0 0"></transform>
+
+    <!-- Liberty face -->
+    <local>
+        <transform translation="25.15 1.5 -16"></transform>
+        <transform rotation="240 0 1 0"></transform>
+        <model name="liberty" url="/ase/liberty.ase" scale="1"></model>
+    </local>
+
+    <!-- Castle -->
+    <local>
+    	<transform translation="40 0 -1.5"></transform>
+        <transform rotation="90 0 1 0"></transform>
+    	<model name="castle" url="/3ds/castle.3ds" scale=".018"></model>
+    </local>
+
+    <!-- Trees -->
+    <local>
+    	<transform translation="-.3 -1 2"></transform>
+    	<model name="tree1" url="/3ds/tree_1.3ds" scale=".05"></model>
+    	<transform translation="3 0 -3"></transform>
+    	<model name="tree2-1" url="/3ds/tree_2.3ds" scale=".07"></model>
+    	<transform translation="0 0 2"></transform>
+    	<model name="tree2-2" url="/3ds/tree_2.3ds" scale=".06"></model>
+     	<transform translation="0 0 2"></transform>
+    	<model name="tree2-3" url="/3ds/tree_2.3ds" scale=".08"></model>
+    	<transform translation="0 0 2"></transform>
+    	<model name="tree2-4" url="/3ds/tree_2.3ds" scale=".07"></model>
+    </local>
+</local>
+
+</scene>
+</vre>

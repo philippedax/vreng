@@ -1,0 +1,102 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="romain.vre"/>
+</head>
+
+<scene>
+
+<entry pos="-8 0 0"></entry>
+
+<!-- moon -->
+<mirage name="sun"
+  pos="200 50 80"
+  aspeed="0.03" mode="turn">
+  <solid shape="sphere" r="10" tx="/gif/fire.gif" />
+</mirage>
+<mirage name="earth"
+  pos="200 0 50"
+  aspeed="-0.06" mode="turn">
+  <solid shape="sphere" r="20" tx="/gif/earth.gif" />
+</mirage>
+<mirage name="moon"
+  pos="100 1 30"
+  aspeed="-0.1" mode="orbit">
+  <solid shape="sphere" r="4" tx="/gif/moon.gif" />
+</mirage>
+
+<ground name="ground"
+  pos="0 0 -5">
+  <solid shape="box" dim="40 40 2" zp="/gif/tiling1.gif" zpr="20" />
+</ground>
+
+<wall name="wall1Up" pos="0 -20 8">
+  <solid shape="box" dim="40 2 8" xn="/gif/wall4.gif" xnr="4" xnrs="16" />
+</wall>
+<wall name="wall1Wnd" pos="0 -20 2">
+  <solid shape="box" dim="40 2 4" dif="0 .5 1" a=".2" />
+</wall>
+<wall name="wall1Dw" pos="0 -20 -2">
+  <solid shape="box" dim="40 2 4" xn="/gif/wall4.gif" xnr="4" xnrs="16" />
+</wall>
+<wall name="wall2Up" pos="0 20 8">
+  <solid shape="box" dim="40 2 8" yn="/gif/wall4.gif" ynr="4" ynrs="16" />
+</wall>
+<wall name="wall2Wnd" pos="0 20 2">
+  <solid shape="box" dim="40 2 4" dif="0 .5 1" a=".2" />
+</wall>
+<wall name="wall2Dw" pos="0 20 -2">
+  <solid shape="box" dim="40 2 4" dif="1 1 1" yn="/gif/wall4.gif" ynr="4" ynrs="16" />
+</wall>
+<wall name="wall3Up" pos="-20 0 8">
+  <solid shape="box" dim="2 40 8" yp="/gif/wall4.gif" ypr="4" yprs="16" />
+</wall>
+<wall name="wall3Wnd" pos="-20 0 2">
+  <solid shape="box" dim="2 40 4" dif="0 .5 1" a=".2" />
+</wall>
+<wall name="wall3Dw" pos="-20 0 -2">
+  <solid shape="box" dim="2 40 4" yp="/gif/wall4.gif" ypr="4" yprs="16" />
+</wall>
+<wall name="space-window" pos="20 0 1">
+  <solid shape="box" dim="2 40 20" dif="0 1 1" a=".2" />
+</wall>
+
+<wall name="cell"  pos="0 0 10">
+  <solid shape="box" dim="40 40 2" zn="/gif/wall5.gif" znr="20" />
+</wall>
+
+<web name="Romain"
+  pos="10 -10 -2.6 -2.3"
+  url="http://piegaro.free.fr/piegaropro/">
+  <solid shape="box" dim="2 0.4 2.8" a=".9" yn="/gif/piegay.gif" />
+</web>
+
+<!-- Gates Side -->
+<gate name="dax"
+  pos="10 10 -2.6 2.3"
+  url="/vre/v8/dax.vre">
+  <solid shape="box" dim="2 0.4 2.8" a=".9" xn="/gif/dax.gif" />
+</gate>
+
+<!-- Gate Front -->
+<gate name="Land"
+  pos="16 0 -2.6 -1.5"
+  url="/vre/v8/land.vre">
+  <solid shape="box" dim="3.5 0.4 2.8" a=".7" yn="/gif/w_land.gif" />
+</gate>
+
+<!-- Gates Middle -->
+<gate name="Forest"
+  pos="13 5 -2.6 -1"
+  url="/vre/v8/forest2.vre">
+  <solid shape="box" dim="2 0.4 2.8" a=".7" yn="/gif/w_forest.gif" />
+</gate>
+<gate name="Factory"
+  pos="13 -5 -2.6 1"
+  url="/vre/v8/factory.vre">
+  <solid shape="box" dim="2 0.4 2.8" a=".7" xn="/gif/w_factory.gif" />
+</gate>
+
+</scene>
+</vre>

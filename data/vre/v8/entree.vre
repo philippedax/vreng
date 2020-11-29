@@ -1,0 +1,84 @@
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre profile="Interactive">
+
+<head>
+<meta name="filename" content="entree.vre"/>
+</head>
+
+<scene>
+
+<entry pos="0 0 2"></entry>
+<!-- <vjc server="localhost"></vjc> -->
+
+<ground name="floor" pos="4.5 0 -0.1">
+  <solid dim="40 40 0.2" dif="0 .4 0" />
+</ground>
+
+<slider name="slider1" pos="9 0 .01"
+  incrx=".1">
+  <solid dim="8 2 .02" dif="0 0 .4" />
+</slider>
+<slider name="slider2" pos="14 2.5 .01 1.57"
+  incry=".1">
+  <solid dim="7.4 2 .02" dif="0 0 .6" />
+</slider>
+<slider name="slider3" pos="16 7 .01"
+  incrx=".1">
+  <solid dim="5.6 2 .02" dif="0 0 .8" />
+</slider>
+<!--
+<vrelet name="attract1" pos="9 0 0.01"
+  class="fr.enst.vreng.tester.Slide"
+  incrx="10">
+  <solid dim="8.4 2.4 0.02" dif="0 0 0.7" />
+</vrelet>
+<vrelet name="attract2" pos="12 3 0.01 1.57"
+  class="fr.enst.vreng.tester.Slide"
+  incry="10">
+  <solid dim="8.4 2.4 0.02" dif="0 0 0.7" />
+</vrelet>
+<vrelet name="attract3" pos="15 7 0.01"
+  class="fr.enst.vreng.tester.Slide"
+  incrx="10">
+  <solid dim="8.4 3 0.02" dif="0 0 0.7" />
+</vrelet>
+-->
+
+<gate name="fan" pos="19 7 1 1.57"
+  url="/vre/v8/fan.vre" channel="224.255.0.28/52936/127" mode="auto">
+  <solid dim="1.6 0.04 2" dif="0 0.5 0.5" />
+</gate>
+
+<!-- cubes -->
+<mirage pos="2 .5 1.7 .88 .88" mode="turn" mode="roll" mode="tilt" aspeed="2">
+<solid dim=".64 .64 .64" xn="/png/s3.png" xp="/png/s3.png" yn="/png/s3.png" yp="/png/s3.png" zn="/png/s3.png" zp="/png/s3.png" />
+</mirage>
+<mirage pos="2 -.5 1.7 .88 .88" mode="turn" mode="roll" mode="tilt" aspeed="2">
+<solid dim=".64 .64 .64" xn="/gif/s.gif" xp="/gif/s.gif" yn="/gif/s.gif" yp="/gif/s.gif" zn="/gif/s.gif" zp="/gif/s.gif" />
+</mirage>
+
+<animator pos="4 2 .07" anim="1">
+  <solid frames="13">
+  <frame shape="sphere" r=".07" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".09" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".11" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".13" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".15" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".17" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".19" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".21" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".23" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".25" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".27" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".29" tx="/gif/ball.gif" />
+  <frame shape="sphere" r=".31" tx="/gif/ball.gif" />
+</animator>
+
+<!--
+<ball pos="4 0 .075">
+  <solid shape="sphere" r=".075" tx="/gif/ball.gif" />
+</ball>
+-->
+
+</scene>
+</vre>
