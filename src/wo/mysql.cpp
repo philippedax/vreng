@@ -97,7 +97,7 @@ bool VRSql::connect()
 /** Allocates VRSql */
 VRSql * VRSql::init()
 {
-  if (World::current() && ! World::current()->isPersistent())
+  if (World::current())
     return NULL;
 
   vrsql = new VRSql();

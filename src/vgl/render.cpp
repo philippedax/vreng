@@ -231,7 +231,7 @@ void Render::specificMobile(uint32_t num, uint8_t pri)
 // Renders invisible objects
 void Render::specificInvisible(uint32_t num, uint8_t pri)
 {
-  for (list<WObject*>::iterator o = invisibleList.begin(); o != invisibleList.end() ; ++o) {
+  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
     if (! (*o)->isValid() || (*o)->removed) continue;
     if (   (*o)
         && (*o)->num == num
@@ -492,8 +492,9 @@ void Render::clearGLBuffer()
 
   // !NOTICE: do not do GL_COLOR_BUFFER_BIT because this would clear the color
   // of the whole window (including the background color of the widgets)
-  glClear(  //GL_COLOR_BUFFER_BIT |
-          GL_DEPTH_BUFFER_BIT
+  glClear(
+            //GL_COLOR_BUFFER_BIT |
+            GL_DEPTH_BUFFER_BIT
           | GL_STENCIL_BUFFER_BIT
           | GL_ACCUM_BUFFER_BIT
          );

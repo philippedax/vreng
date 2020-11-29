@@ -104,7 +104,7 @@ class NetObject {
    * when all the properties are initialized.
    */
 
-  virtual void buildNoidFromString(const char *str, bool netbehave);
+  virtual void setNetName(const char *str, bool netbehave);
   /**<
    * Build a NetObject name from a string "scene_id/obj_id", both uint16_t > 0
    * Used by getNetObject and declareObjDelta.
@@ -138,13 +138,11 @@ class NetObject {
   virtual uint32_t getSrcId() const;
   virtual uint16_t getPortId() const;
   virtual uint16_t getObjId() const;
-
   static void setMySsrcId(uint32_t ssrc_id);
   static void setMyMgrSsrcId(uint32_t ssrc_id);
   static void setMyHostId(uint32_t host_id);
   static void setMyPortId(uint16_t port_id);
   static void setMyObjId(uint16_t obj_id);
-
   static uint32_t getMySsrcId();
   static uint32_t getMyMgrSsrcId();
   static uint32_t getMyHostId();
@@ -243,19 +241,24 @@ class NetObject {
 
   virtual bool isPermanent() const;
 
-#if 0 //STL
-  static list<NetObject*> netobjectList;
+#if 1 //dax
+#define STL 1
+#else
+#define STL 0
+#endif
+#if STL //STL
+  static std::list<NetObject*> netobjectList;
 #else
   static NetObject *netObjectList;
 #endif
-  /**< netobject list */
+  /**< netobject list. */
 
-#if 0 //STL
+#if STL //STL
   static std::list<NetObject*>::iterator getList();
 #else
   static NetObject * getList();
 #endif
-  /**< Gets th NetObject list */
+  /**< Gets the NetObject list. */
 
   static void clearList();
   /**< Clears th NetObject list */
@@ -301,6 +304,5 @@ class NetObject {
   /**< Heuristic to avoid to send bunch of Query */
 
 };
-
 
 #endif

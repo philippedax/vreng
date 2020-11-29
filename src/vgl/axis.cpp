@@ -119,10 +119,10 @@ void Axis::render()
   glDisable(GL_LIGHTING);
 
   // get rid of translation movement:
-  GLfloat matproj[16];
-  glGetFloatv(GL_MODELVIEW_MATRIX, matproj);
-  matproj[12] = matproj[13] = matproj[14] = 0;
-  glLoadMatrixf(matproj);
+  GLfloat gl_mat[16];
+  glGetFloatv(GL_MODELVIEW_MATRIX, gl_mat);
+  gl_mat[12] = gl_mat[13] = gl_mat[14] = 0;
+  glLoadMatrixf(gl_mat);
 
   glLineWidth(DEF_WIDTH);
   glCallList(dlist);

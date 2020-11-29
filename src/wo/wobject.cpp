@@ -37,7 +37,7 @@
 using namespace std;
 
 // global
-list<WObject*> objectList, stillList, mobileList, invisibleList, fluidList, deleteList, lightList, renderList;
+list<WObject*> objectList, stillList, mobileList, invisList, fluidList, deleteList, lightList, renderList;
 
 // local
 static uint32_t objectNum = 0;
@@ -882,7 +882,7 @@ void WObject::addToList()
   switch (mode) {
     case STILL:     addToList(stillList); break;
     case MOBILE:    addToList(mobileList); break;
-    case INVISIBLE: addToList(invisibleList); break;
+    case INVISIBLE: addToList(invisList); break;
     case FLUID:     addToList(fluidList); break;
   } 
 } 
@@ -893,7 +893,7 @@ void WObject::delFromList()
   switch (mode) {
     case STILL:     delFromList(stillList); break;
     case MOBILE:    delFromList(mobileList); break;
-    case INVISIBLE: delFromList(invisibleList); break;
+    case INVISIBLE: delFromList(invisList); break;
     case FLUID:     delFromList(fluidList); break;
   }
 }
@@ -904,7 +904,7 @@ void WObject::clearList()
   switch (mode) {
     case STILL:     clearList(stillList); break;
     case MOBILE:    clearList(mobileList); break;
-    case INVISIBLE: clearList(invisibleList); break;
+    case INVISIBLE: clearList(invisList); break;
     case FLUID:     clearList(fluidList); break;
   }
 }
@@ -926,7 +926,7 @@ void WObject::addToStill()
 
 void WObject::addToInvisible()
 {
-  addToListOnce(invisibleList);
+  addToListOnce(invisList);
 }
 
 void WObject::addToFluid()

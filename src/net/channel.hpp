@@ -164,11 +164,6 @@ class Channel {
   static int getfdbysa(const struct sockaddr_in *sa, int sd);
   static struct sockaddr_in * getsabysa(const struct sockaddr_in *sa, int sd);
 
-#if 0 //not used
-  static void switchChannel();
-#endif
-
-
 //
 // ChanStr
 //

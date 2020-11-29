@@ -367,15 +367,6 @@ int Channel::create(const char *chan_str, int **pfds)
   return cntfds;
 }
 
-#if 0 //not used
-void Channel::switchChannel()
-{
-  sleep(3);
-  Channel::current()->quit();
-  Channel::join(World::current()->chan());
-}
-#endif
-
 void Channel::sendBYE()
 {
   if (session) {

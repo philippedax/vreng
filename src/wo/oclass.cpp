@@ -26,11 +26,10 @@
 
 using namespace std;
 
-#define STL 0
 
-#if STL
-vector< OClass* > OClass::otable(OBJECTSNUMBER, NULL);
-//vector< OClass* > OClass::otable(1, NULL);
+#if 0 // STL
+std::vector< OClass* > OClass::otable(OBJECTSNUMBER, NULL);
+//std::vector< OClass* > OClass::otable(1, NULL);
 #else
 OClass** OClass::otable = NULL;
 uint16_t OClass::otable_size = 0;
@@ -45,7 +44,7 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
 	       WCreator _creator, WReplicator _replicator, WBuiltin _builtin) :
   type_id(_type_id), type_name(_type_name), creator(_creator), replicator(_replicator), builtin(_builtin)
 {
-#if STL
+#if 0 // STL
   if (type_id < otable.size()) otable.at(type_id) = this;
   else {
     for (uint32_t i=1; i < otable.size(); i++) otable.push_back((OClass *) NULL);
@@ -68,7 +67,7 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
 
 const OClass * OClass::getOClass(const char *type_name)
 {
-#if STL
+#if 0 // STL
   for (uint32_t i=1; i < otable.size(); i++) {
     if (otable.at(i)) {
       if (otable.at(i)->type_name) {
@@ -96,7 +95,7 @@ const OClass * OClass::getOClass(const char *type_name)
 
 const OClass * OClass::getOClass(uint8_t type_id)
 {
-#if STL
+#if 0 // STL
   if (isValidType(type_id)) return otable[type_id];
 #else
   if (type_id < otable_size) return otable[type_id];
@@ -127,7 +126,7 @@ WObject * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 
 void OClass::dumpTable()
 {
-#if STL
+#if 0 // STL
   for (uint32_t i=1; i < otable.size(); i++)
 #else
   for (int i=1; i < otable_size; i++)

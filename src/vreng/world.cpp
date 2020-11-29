@@ -19,8 +19,8 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "wobject.hpp"
 #include "world.hpp"
+#include "wobject.hpp"
 #include "http.hpp"	// httpOpen httpRead
 #include "url.hpp"	// setCacheName
 #include "user.hpp"	// USER_TYPE
@@ -60,8 +60,7 @@
 #include <list>
 using namespace std;
 
-
-const uint8_t World::WORLD_LEN = 32;
+// local
 
 /* max space reachable, even values */
 const uint8_t World::GRIDX = 4;  // 30
@@ -70,15 +69,10 @@ const uint8_t World::GRIDZ = 2;  // 6
 const float   World::DISTX = 2.;
 const float   World::DISTY = 2.;
 const float   World::DISTZ = 2.;
+const uint8_t World::WORLD_LEN = 32;
 
-#if 1 //dax
-#define STATIC_GRID
-#endif
 #ifdef STATIC_GRID
-#undef DYNAMIC_GRID
 class OList* World::gridList[GRIDX][GRIDY][GRIDZ];
-#else
-#define DYNAMIC_GRID
 #endif
 
 World* World::worldList = NULL;
@@ -88,40 +82,37 @@ World* World::worldList = NULL;
 World::World()
 {
   new_world++;
-  guip = NULL;
-  group = 0;
-  ssrc = 0;
-  state = 0;
+  state = TOLOAD;
   num = 0;
   namecnt = 0;
+  group = 0;
   islinked = false;
   persistent = true;
-  prev = NULL;
-  next = NULL;
   url = NULL;
   name = NULL;
   chan = NULL;
+  grid = NULL;
+  guip = NULL;
   bbcenter = newV3(0, 0, 0);
   bbsize = newV3(0, 0, 0);
   bbmin = newV3(0, 0, 0);
   bbmax = newV3(0, 0, 0);
   bbslice = newV3(DISTX, DISTY, DISTZ);
-  grid = NULL;
 
   // interaction with general objects
   universe = Universe::current();
   bgcolor = NULL;
   clock = NULL;
-  ground = 0;
   vjc = NULL;
   wind = NULL;
+  ground = 0;
 
   if (universe->worldcnt == 0) {
     universe->worldcnt++;
     return;		// manager case, not in list
   }
   num = universe->worldcnt++;
-  trace(DBG_WO, "World: this=%p num=%d", this, num);
+  trace(DBG_WO, "World: num=%d", num);
 
   addToList();
 }
@@ -193,8 +184,7 @@ World * World::worldByUrl(const char *url)
   char urla[URL_LEN];
   Url::abs(url, urla);
 
-  int loop = 0;
-  for (World *w = worldList; w && (loop <100) ; w = w->next, loop++) {
+  for (World *w = worldList; w ; w = w->next) {
     if ((! strcmp(w->url, url)) || (! strcmp(w->url, urla)))
       return w;	// world found
     if (w == w->next) {
@@ -207,18 +197,8 @@ World * World::worldByUrl(const char *url)
 
 World * World::worldByGroup(uint32_t group)
 {
-  int loop = 0;
-  for (World *w = worldList; w && (loop <100) ; w = w->next, loop++)
+  for (World *w = worldList; w ; w = w->next)
     if (w->group == group)
-      return w;	// world found
-  return NULL;
-}
-
-World * World::worldBySsrc(uint32_t ssrc)
-{
-  int loop = 0;
-  for (World *w = worldList; w && (loop <100) ; w = w->next, loop++)
-    if (w->ssrc == ssrc)
       return w;	// world found
   return NULL;
 }
@@ -293,9 +273,9 @@ Bgcolor* World::backgroundColor() const
   return bgcolor;
 }
 
-void World::setPersistent(bool _persistent)
+void World::setPersistent(bool flag)
 {
-  persistent = _persistent;
+  persistent = flag;
 }
 
 const char* World::getUrl() const
@@ -325,6 +305,22 @@ float World::getGround() const
   return ground;
 }
 
+bool World::isLinked() const
+{
+  return islinked;
+}
+
+void World::linked()
+{
+  islinked = true;
+}
+
+// notused
+bool World::isPersistent() const
+{
+  return persistent;
+}
+
 uint32_t World::getSsrc() const
 {
   return ssrc;
@@ -345,21 +341,6 @@ void World::setGroupAdr(uint32_t _group)
   group = _group;
 }
 
-bool World::isLinked() const
-{
-  return islinked;
-}
-
-void World::linked()
-{
-  islinked = true;
-}
-
-bool World::isPersistent() const
-{
-  return persistent;
-}
-
 /**
  * Computes the World (Simulation) : The Heart of Vreng
  * called by gui/scene.cpp
@@ -369,8 +350,8 @@ void World::compute(time_t sec, time_t usec)
   uint16_t dimx, dimy, dimz;
 
   trace(DBG_WO, "compute:");
-  switch (getState()) {
-      
+  switch (state = getState()) {
+
   case LOADING:
     //error("compute: no end encountered");
     return;
@@ -488,14 +469,14 @@ void World::compute(time_t sec, time_t usec)
 // virtual private
 bool World::call(World *wpred)
 {
-  trace(DBG_WO, "call: leave chan=%s", wpred->chan);
   if (wpred->islinked) {
     enter(url, NULL, OLD);
     setChan(wpred->chan);
   }
   else {
     trace(DBG_IPMC, "call: leave chan=%s", wpred->chan);
-    if (Channel::current()) delete Channel::current();	// leave current channel
+    if (Channel::current())
+      delete Channel::current();	// leave current channel
 
     enter(url, NULL, OLD);
 
@@ -506,40 +487,37 @@ bool World::call(World *wpred)
     trace(DBG_IPMC, "call: join chan=%s", chan);
     if (Channel::join(chan) == 0) {	// join previous channel
       trace(DBG_IPMC, "call: can't join chan=%s", chan);
-      return false;
+      return false;	// fail
     }
     setChan(chan);
-
     ::g.gui.updateWorld(this, NEW);	// nofify the gui
   }
-  return true;
+  return true;		// success
 }
 
 /* Go to the previous World */
 // static
 World * World::goBack()
 {
-  World *world = worldList;
   World *worldback = worldList->next;
+  if (! worldback) return NULL;	// no prev world
 
-  if (! worldback) return NULL;
-  trace(DBG_WO, "goBack: ");
-
+  World *world = worldList;
   world->quit();	// quit current world first
 
   World *wp;
-  int loop = 0;
-  for (wp = worldback; wp->next && (loop <100); wp = wp->next, loop++)
-    if (wp == wp->next) break;
-
+  for (wp = worldback; wp->next ; wp = wp->next) {
+    if (wp == wp->next)
+      break;	// found
+  }
   wp->next = world;
   world->next = NULL;
   worldback->prev = NULL;
   world->prev = worldback;
   worldList = worldback;
-  //debug dumpworldlist("back");
 
-  if (worldback->call(world)) return worldList;
+  if (worldback->call(world))
+    return worldList;
   return NULL;
 }
 
@@ -547,25 +525,23 @@ World * World::goBack()
 // static
 World * World::goForward()
 {
+  if (! worldList->next) return NULL;	// no forward world
+
   World *world = worldList;
-  World *worldforw;
-
-  if (! worldList->next) return NULL;
-  trace(DBG_WO, "goForward: ");
-
   world->quit();	// quit current world first
 
   World *wp;
-  int loop = 0;
-  for (wp = world; (worldforw = wp->next)->next && (loop <100); wp = wp->next, loop++) ;
+  World *worldforw;
+  for (wp = world; (worldforw = wp->next)->next; wp = wp->next)
+    ;
   worldforw->next = world;
   worldforw->prev = NULL;
   world->prev = worldforw;
   wp->next = NULL;
   worldList = worldforw;
-  //debug dumpworldlist("forw");
 
-  if (worldforw->call(world)) return worldList;
+  if (worldforw->call(world))
+    return worldList;
   return NULL;
 }
 
@@ -573,9 +549,8 @@ World * World::goForward()
 // static
 World * World::swap(World *w)
 {
-  if (worldList == w) return worldList;
+  if (worldList == w) return worldList;	// same world
 
-  trace(DBG_WO, "swap: ");
   if (w->prev)
     w->prev->next = worldList;	// 1
   if (w->next)
@@ -583,11 +558,12 @@ World * World::swap(World *w)
   if (worldList->next)
     worldList->next->prev = w;	// 3
   worldList->prev = w->prev;	// 4
-  World *tmp = worldList->next;
+  World *wtmp = worldList->next;
   worldList->next = w->next;	// 5
-  w->next = tmp;		// 6
+  w->next = wtmp;		// 6
   w->prev = NULL;		// 7
   worldList = w;		// 8
+
   return worldList;
 }
 
@@ -727,7 +703,7 @@ void World::checkIcons()
 }
 
 /* Check wether other objects are persistents */
-void World::checkPersistObjects()
+void World::checkPersist()
 {
 #if HAVE_MYSQL
   VRSql *psql = VRSql::getVRSql();     // first take the VRSql handle;
@@ -834,7 +810,7 @@ void World::init(const char *vreurl)
   //
   World *world = new World();
 
-  world->setState(TOLOAD);
+  world->setState(LOADING);
   world->setChanAndJoin(::g.channel);      // join initial channel
   world->setName(Universe::current()->url);
   Channel::getGroup(world->getChan(), Universe::current()->group);
@@ -851,15 +827,12 @@ void World::init(const char *vreurl)
   world->setUrl(vreurl);
   world->setName(vreurl);
   world->guip = ::g.gui.addWorld(world, NEW);
-  trace(DBG_INIT, "initWO: worldname = %s", world->getName());
-
   world->clock = new Clock();
   world->bgcolor = new Bgcolor();
 
   //
   // Create local user first
   //
-  trace(DBG_WO, "createLocaluser: ");
   User *user = new User();
   world->user = user;
   Universe::current()->localuser = user;	// keep user in this universe
@@ -868,23 +841,21 @@ void World::init(const char *vreurl)
   // Download initial world (Rendezvous.vre)
   //
   trace(DBG_WO, "dowload initial world: ");
-  world->setState(LOADING);
-  world->universe->startWheel();
+  //world->universe->startWheel();
   Http::httpOpen(world->getUrl(), httpReader, (void *)vreurl, 0);
-  world->universe->stopWheel();
+  //world->universe->stopWheel();
   endprogression();
 
-  // Attach bubble text to localuser
-  char text[32];
+  // Attach bubble welcome text to localuser
+  char welcome[32];
   float red[] = {1,0,0};
-  sprintf(text, "Hi! I am %s", user->getInstance());
-  user->bubble = new Bubble(user, text, red, Bubble::BUBBLEBACK);
+  sprintf(welcome, "Hi! I am %s", user->getInstance());
+  user->bubble = new Bubble(user, welcome, red, Bubble::BUBBLEBACK);
 
   // check if icons are locally presents
   world->checkIcons();
-
   // check wether other objects are persistents by MySql
-  world->checkPersistObjects();
+  world->checkPersist();
 
   //not used
   //declareJoinWorldToManager(world->getUrl(), getChan(), user->getInstance());
@@ -892,7 +863,7 @@ void World::init(const char *vreurl)
   if (! ::g.pref.gravity) ::g.gui.pauseUser();
 
   world->setState(LOADED);
-  trace(DBG_INIT, "World initialized");
+  trace(DBG_INIT, "World %s initialized", world->getName());
 
   Entry *entry = new Entry();
   entry->query(user);
@@ -913,13 +884,13 @@ void World::quit()
   //
   // Quits and deletes objects
   //
-  for (list<WObject*>::iterator o = invisibleList.begin(); o != invisibleList.end(); ++o) {
+  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end(); ++o) {
     if (*o && (*o)->isValid()) {
       (*o)->quit();
       delete *o;
     }
   }
-  invisibleList.clear();
+  invisList.clear();
 
   for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o) {
     if (*o && (*o)->isValid()) {
@@ -1066,7 +1037,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   world->checkIcons();
 
   // check wether other objects are persistents by MySql
-  world->checkPersistObjects();
+  world->checkPersist();
 
   // create clock
   world->clock = new Clock();	// internal clock
@@ -1096,7 +1067,7 @@ void World::deleteObjects()
 void World::initLists()
 {
   mobileList.clear();
-  invisibleList.clear();
+  invisList.clear();
   fluidList.clear();
   stillList.clear();
   deleteList.clear();

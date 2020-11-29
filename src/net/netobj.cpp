@@ -32,11 +32,7 @@
 #include <list>
 using namespace std;
 
-#if 0 //STL
-#define STL 1
-#else
-#define STL 0
-#endif
+// local
 
 #if STL
 list<NetObject*> NetObject::netobjectList;
@@ -53,7 +49,7 @@ uint32_t NetObject::myMgrSsrcId = 0; // manager ssrc network format
 
 
 /*
- * Handling id names and properties
+ * Handling net id names and properties
  */
 
 /* NetObject constructors */
@@ -86,7 +82,7 @@ NetObject::NetObject(WObject *po, uint8_t nprop, uint16_t oid)
 
   char str[80];
   sprintf(str, "%d/%d", type, oid);
-  buildNoidFromString(str, permanent);     // net objname
+  setNetName(str, permanent);     // net objname
   trace(DBG_NET, "NetObject: str=%s %s", str, pobject->getInstance());
 }
 
@@ -229,7 +225,7 @@ void NetObject::addToList()
 
 void NetObject::initProperties(bool _responsible)
 {
-  if (netprop) return; //pd warning("initProperties: netprop already exists (type=%d)", type);
+  if (netprop) return; //warning("initProperties: netprop already exists (type=%d)", type);
 
   uint8_t n = NetProperty::getPropertiesNumber(type);
   if (!n) return;
@@ -291,13 +287,13 @@ void NetObject::create(bool netbehave)
 }
 
 /* Builds a netobject name from the string "scene_id/obj_id" */
-void NetObject::buildNoidFromString(const char *s, bool netbehave)
+void NetObject::setNetName(const char *s, bool netbehave)
 {
   uint16_t scene_id, obj_id;
   int c = sscanf(s, "%hu/%hu", &scene_id, &obj_id);
 
   if (c != 2 || scene_id == 0) {
-    error("buildNoidFromString: invalid name %s c=%d scene=%d", s, c, scene_id);
+    error("setNetName: invalid name %s c=%d scene=%d", s, c, scene_id);
     return;
   }
 
@@ -308,22 +304,23 @@ void NetObject::buildNoidFromString(const char *s, bool netbehave)
   noid.port_id = htons(scene_id);
   noid.obj_id = htons(obj_id);
 
-  if (getNetObject()) {
-    warning("buildNoidFromString: %s already seen %d/%d", pobject->getInstance(), scene_id, obj_id);
-    return;
-  }
-  addToList();
+  if (getNetObject())
+    return;	//warning("setNetName: %s already seen %d/%d", pobject->getInstance(), scene_id, obj_id);
+  addToList();	// add to list
 }
 
 /* Deletes a netobject from the list */
 void NetObject::deleteFromList()
 {
-  if (! getNetObject()) return; //warning("deleteFromList: already unnamed/deleted type=%d", type);
+  if (! getNetObject())
+    return;	//warning("deleteFromList: already unnamed/deleted type=%d", type);
 #if STL
   netobjectList.remove(this);
 #else
-  if (! getNetObject()) return; //warning("deleteFromList: already unnamed/deleted type=%d", type);
-  if (prev) prev->next = next;
+  if (! getNetObject())
+    return;	//warning("deleteFromList: already unnamed/deleted type=%d", type);
+  if (prev)
+    prev->next = next;
   else {
     if (this != netobjectList) {
       error("deleteFromList: %s type=%d pn=%p netobjectList=%p",
@@ -332,7 +329,8 @@ void NetObject::deleteFromList()
     }
     netobjectList = next;
   }
-  if (next) next->prev = prev;
+  if (next)
+    next->prev = prev;
   next = NULL;
   prev = NULL;
 #endif
@@ -363,7 +361,8 @@ WObject * NetObject::getWObjectByNoid() const
 {
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it)->noh) {
-      if (noid.equalNoid((*it)->noh->noid)) return *it;
+      if (noid.equalNoid((*it)->noh->noid))
+        return *it;	// found
     }
   }
   return NULL;
@@ -384,14 +383,16 @@ void NetObject::putProperty(uint8_t prop_id, Payload *pp)
 void NetObject::getAllProperties(Payload *pp) const
 {
   uint8_t _nbprop = getPropertiesNumber(type);
-  for (int p=0; p < _nbprop; p++) getProperty(p, pp);
+  for (int p=0; p < _nbprop; p++)
+    getProperty(p, pp);
 }
 
 /* Puts all properties of the netobject */
 void NetObject::putAllProperties(Payload *pp)
 {
   uint8_t _nbprop = getPropertiesNumber(type);
-  for (int p=0; p < _nbprop; p++) putProperty(p, pp);
+  for (int p=0; p < _nbprop; p++)
+    putProperty(p, pp);
 }
 
 /* Removes netobject */
@@ -462,14 +463,13 @@ void NetObject::sendCreate(const struct sockaddr_in *to)
 void NetObject::declareObjCreation()
 {
   if (! getNetObject()) {
-    //warning("declareObjCreation: unnamed netobject (type=%d)", type);
+    warning("declareObjCreation: unnamed netobject (type=%d)", type);
     return;
   }
   if (ntohl(noid.src_id) == 1) {
-    //warning("declareObjCreation: not a new netobject (type=%d)", type);
+    warning("declareObjCreation: not a new netobject (type=%d)", type);
     return;
   }
-
   Channel *pchan = Channel::current();
   if (pchan) sendCreate(pchan->sa[SA_RTP]);
 }
@@ -482,7 +482,6 @@ void NetObject::declareObjDelta(uint8_t prop_id)
     //error("declareObjDelta: unnamed netobject type=%d prop=%d", type, prop_id);
     return;
   }
-
   uint16_t nprop = getPropertiesNumber(type);
   if (prop_id >= nprop) {
     error("declareObjDelta: invalid prop_id=%d > nprop=%d (type=%d)", prop_id, nprop, type);
@@ -492,7 +491,6 @@ void NetObject::declareObjDelta(uint8_t prop_id)
   pprop->setResponsible(true);
   pprop->version += 1 + abs(rand() % VREP_VERS_JUMP); /* %10 */
   sendDelta(prop_id);
-  //error("declareObjDelta: prop_id=%d prop_version=%d (type=%d)", prop_id, pprop->version, type);
 }
 
 /* Destroy the netobject (its local copy) */
@@ -503,7 +501,6 @@ void NetObject::declareDeletion()
   if (permanent) {
     warning("declareDeletion: on permanent object (type=%d)", type); return;
   }
-
   Channel *pchan = Channel::current();
   if (pchan) sendDelete(pchan->sa[SA_RTP]);
 }
@@ -516,7 +513,7 @@ void NetObject::sendDelete(const struct sockaddr_in *to)
   pp.sendPayload(to);
 }
 
-/* Builds a concataned string name */
+/* Builds and returns a concataned string name */
 char * NetObject::getNetNameById()
 {
   static char str[80];
@@ -538,9 +535,11 @@ NetObject * NetObject::getNetObject()
 {
 #if STL
   for (list<NetObject*>::iterator it = netobjectList.begin(); it != netobjectList.end(); ++it) {
-    if ((*it)->equalNoid((*it)->noid)) return *it;  // found
+    if ((*it)->equalNoid((*it)->noid))
+      return *it;  // found
     if (! OClass::isValidType((*it)->type)) {
-      error("getNetObject: bad type=%d", (*it)->type); return NULL;
+      error("getNetObject: bad type=%d", (*it)->type);
+      return NULL;
     }
   }
 #else

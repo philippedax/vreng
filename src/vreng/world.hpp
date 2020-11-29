@@ -64,7 +64,7 @@ class World {
   char *chan;			///< channel string addr/port/ttl.
   uint8_t state;		///< current state.
   uint32_t group;		///< current group addr.
-  uint32_t ssrc;		///< current ssrc id.
+  uint32_t ssrc;		///< current ssrc.
   bool islinked;		///< linked world or not.
   bool persistent;		///< persistent world or not.
   uint16_t num;			///< world number.
@@ -82,7 +82,15 @@ class World {
  public:
   static const uint8_t WORLD_LEN;
 
-#if 0 //STL
+#if 1 //dax
+#define STATIC_GRID
+#undef DYNAMIC_GRID
+#else
+#undef STATIC_GRID
+#define DYNAMIC_GRID
+#endif
+#ifdef DYNAMIC_GRID //STL
+  class WObject;
   static std::list<WObject*> ***gridList;
   class std::list<WObject*> ***grid;	///< matrix grid pointer.
 #else
@@ -124,7 +132,7 @@ class World {
   virtual void checkIcons();
   /**< Checks whether Icon objects are locally presents. */
 
-  virtual void checkPersistObjects();
+  virtual void checkPersist();
   /**< Checks whether objects are persistents. */
 
   //
@@ -163,14 +171,13 @@ class World {
   virtual struct GuiItem * getGui() const;
   virtual bool isGui() const;
   virtual void resetGui();
-
+  virtual uint16_t number() const;
+  virtual User* localUser() const;
+  virtual Bgcolor* backgroundColor() const;
   virtual uint32_t getGroupAdr() const;
   virtual uint32_t getSsrc() const;
   virtual void setGroupAdr(uint32_t _group);
   virtual void setSsrc(uint32_t _ssrc);
-  virtual uint16_t number() const;
-  virtual User* localUser() const;
-  virtual Bgcolor* backgroundColor() const;
 
   void localGrid();
   /**< Sets locals for the current world. */
@@ -203,7 +210,6 @@ class World {
 
   static World* worldByUrl(const char *_url);	///< Gets world by url.
   static World* worldByGroup(uint32_t group);	///< Gets world by group addr.
-  static World* worldBySsrc(uint32_t ssrc);	///< Gets world by ssrc RTP.
 
   static World* enter(const char* _url, const char* _chanstr, bool _new_one);
   /**< New World initialization. */

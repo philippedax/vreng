@@ -52,7 +52,8 @@ bool Noid::equalNoid(Noid n2) const
 /* Gets a NetObject by name */
 NetObject * Noid::getNetObject()
 {
-#if 0 //STL
+#if STL //STL
+  list<NetObject*>::iterator it;
   for (list<NetObject*>::iterator it = NetObject::getList(); it != NetObject::netobjectList.end(); ++it) {
     if (! equalNoid((*it)->noid)) {
       if (! OClass::isValidType((*it)->type)) {

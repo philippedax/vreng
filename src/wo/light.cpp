@@ -65,8 +65,10 @@ Light::Light(char *l)
   initObject(INVISIBLE);
   addToList(lightList);
 
-  if (!pos.x && !pos.y && !pos.z && !pos.az && !pos.ax) islight = false;
-  else islight = true;
+  if (!pos.x && !pos.y && !pos.z && !pos.az && !pos.ax)
+    islight = false;
+  else
+    islight = true;
 
   if (islight) {
     GLfloat light_diffuse[] = {1, 1, 1, 1};
