@@ -69,21 +69,21 @@ void Panels::showManipulator(bool state)
 
 void Panels::showCartDialog(bool state) { cerr << "TO BE DONE!" << endl; }
 #if 0 //dax
- UDialog *cartDialog,
- cartDialog =    // relies on carts_pane created by createPanes()
- &udialog(utitle("Basket")
- + uheight(150) + uwidth(100)
- + carts_pane
- + ubottom() + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
- );
+  UDialog *cartDialog,
+  cartDialog =    // relies on carts_pane created by createPanes()
+  &udialog(utitle("Basket")
+  + uheight(150) + uwidth(100)
+  + carts_pane
+  + ubottom() + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
+  );
 #endif
 
 static void sandboxCB(Widgets*)
 {
- World::current()->quit();
- delete Channel::current();	// delete Channel
- World::enter(NULL, NULL, false);
- }
+  World::current()->quit();
+  delete Channel::current();	// delete Channel
+  World::enter(NULL, NULL, false);
+}
 
 
 Panels::Panels(Widgets* _gw, Scene& scene) :

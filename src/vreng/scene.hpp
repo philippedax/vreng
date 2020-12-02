@@ -72,7 +72,7 @@ private:
   void paintScene();
   /** Paints the scene */
 
-  void resizeScene(UResizeEvent&, int width, int height);
+  void resize(UResizeEvent&, int width, int height);
   /** Resizes the scene */
 
   void updateHud();

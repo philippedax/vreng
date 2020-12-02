@@ -50,7 +50,7 @@ extern struct Render::sCamera cam_user;
 /* Initialization. */
 Render::Render()
 {
-  first_bbox = false;	// mono solid
+  first_bb = false;	// mono solid
   flash = false;
 
   // camera defaults
@@ -659,12 +659,12 @@ void Render::getBB(V3& bbmax, V3& bbmin, bool framed)
 /* Computes bounding box. */
 void Render::setBB(const GLfloat *v)
 {
-  if (first_bbox) {
+  if (first_bb) {
     for (int i=0; i<3; i++) {
       bbox_min.v[i] = v[i];
       bbox_max.v[i] = v[i];
     }
-    first_bbox = false;
+    first_bb = false;
   }
   else {
     for (int i=0; i<3; i++) {

@@ -25,6 +25,7 @@
 #include "gui.hpp"	// setToCarrier
 
 const OClass Carrier::oclass(CARRIER_TYPE, "Carrier", NULL);
+
 const float Carrier::LSPEED = 0.5;
 const float Carrier::ASPEED = 0.5;
 
@@ -64,7 +65,10 @@ void Carrier::leaveControl(WObject *po, void *d, time_t s, time_t us)
 /** Takes control of the mouse to enter in manipulation mode */
 void Carrier::take(WObject *po)
 {
-  if (po->mode != MOBILE) { notice("%s is not mobile", po->getInstance()); return; }
+  if (po->mode != MOBILE) {
+    notice("%s is not mobile", po->getInstance());
+    return;
+  }
 
   ::g.gui.showManipulator();
   notice("take control of %s", po->getInstance());

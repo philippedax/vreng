@@ -25,26 +25,14 @@ static char sandbox_vre[] = "\
 <vre profile=\"Interactive\">\n\
 <head> <meta name=\"filename\" content=\"sandbox.vre\"/> </head>\n\
 <scene>\n\
-<ground name=\"ground\" pos=\"0 0 -.1\">\n\
- <solid dim=\"20 20 .1\" zp=\"/gif/pelouse.gif\" />\n\
-</ground>\n\
-<wall name=\"border-n\" pos=\"20 0 .2 1.57\">\n\
- <solid dim=\"20 .02 .2\" dif=\"1 0 0\" />\n\
-</wall>\n\
-<wall name=\"border-s\" pos=\"-20 0 .2 1.57\">\n\
- <solid dim=\"20 .02 .2\" dif=\"1 0 0\" />\n\
-</wall>\n\
-<wall name=\"border-w\" pos=\"0 20 .2 0\">\n\
- <solid dim=\"20 .02 .2\" dif=\"1 0 0\" />\n\
-</wall>\n\
-<wall name=\"border-e\" pos=\"0 -20 .2 0\">\n\
- <solid dim=\"20 .02 .2\" dif=\"1 0 0\" />\n\
-</wall>\n\
-<!--\n\
+<ground name=\"ground\" pos=\"0 0 -.2\"> <solid dim=\"20 20 .1\" zp=\"/gif/pelouse.gif\" /></ground>\n\
+<wall name=\"border-n\" pos=\"20 0 .2 1.57\"> <solid dim=\"20 .02 .4\" dif=\"1 0 0\" /></wall>\n\
+<wall name=\"border-s\" pos=\"-20 0 .2 1.57\"> <solid dim=\"20 .02 .4\" dif=\"1 0 0\" /></wall>\n\
+<wall name=\"border-w\" pos=\"0 20 .2 0\"> <solid dim=\"20 .02 .4\" dif=\"1 0 0\" /></wall>\n\
+<wall name=\"border-e\" pos=\"0 -20 .2 0\"> <solid dim=\"20 .02 .4\" dif=\"1 0 0\" /></wall>\n\
 <mirage name=\"sky\" aspeed=\".01\" mode=\"self\">\n\
  <solid shape=\"sphere\" r=\"30\" tx=\"/gif/sky.gif\" slices=\"255\" stacks=\"255\" />\n\
 </mirage>\n\
--->\n\
 </scene>\n\
 </vre>";
 

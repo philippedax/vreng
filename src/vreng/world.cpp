@@ -176,7 +176,7 @@ const char* World::getName() const
   return name;
 }
 
-/* Check wether this url has been already loaded - static */
+/* Check whether this url has been already loaded - static */
 World * World::worldByUrl(const char *url)
 {
   if (! url) return NULL;	// sandbox world
@@ -702,7 +702,7 @@ void World::checkIcons()
   chdir(::g.env.cwd());
 }
 
-/* Check wether other objects are persistents */
+/* Check whether other objects are persistents */
 void World::checkPersist()
 {
 #if HAVE_MYSQL
@@ -803,8 +803,6 @@ httpread:
 /* General World Initialization - static */
 void World::init(const char *vreurl)
 {
-  trace(DBG_INIT, "initial url = %s", vreurl);
-
   //
   // Create initial world
   //
@@ -852,13 +850,10 @@ void World::init(const char *vreurl)
   sprintf(welcome, "Hi! I am %s", user->getInstance());
   user->bubble = new Bubble(user, welcome, red, Bubble::BUBBLEBACK);
 
-  // check if icons are locally presents
+  // check whether icons are locally presents
   world->checkIcons();
-  // check wether other objects are persistents by MySql
+  // check whether other objects are persistents by MySql
   world->checkPersist();
-
-  //not used
-  //declareJoinWorldToManager(world->getUrl(), getChan(), user->getInstance());
 
   if (! ::g.pref.gravity) ::g.gui.pauseUser();
 
@@ -878,8 +873,6 @@ void World::quit()
 
   Parse *parser = Parse::getParse();
   if (parser) delete parser;
-
-  //notused declareLeaveWorldToManager(getName(), getChan(), localUser()->getInstance());
 
   //
   // Quits and deletes objects
@@ -945,8 +938,6 @@ void World::quit()
 World * World::enter(const char *url, const char *chanstr, bool isnew)
 {
   trace(DBG_WO, "world enter: ");
-  // debug show
-  //OList::show(mobileList, "mobile:");
 
   // cleanup
   initLists();
@@ -964,7 +955,6 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
       error("enter: bad old url");	//FIXME
       strcpy(world->url, url);
     }
-    //debug dumpworldlist("old ");
     if (world->guip) ::g.gui.updateWorld(world, NEW);
   }
   else if (isnew) { // new world must to be initialized
@@ -989,7 +979,6 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     }
     else return NULL;	// bad world
     
-    //debug dumpworldlist("new ");
     if (chanstr) {	// not a world link
       newworld->setChan(chanstr);
     }
@@ -1013,12 +1002,12 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   world->setState(LOADING);	// to download
   if (url) {
     trace(DBG_WO, "downloading world url=%s", url);
-    world->universe->startWheel();
+    //world->universe->startWheel();
     if (Http::httpOpen(url, httpReader, (void *)url, 0) < 0) {
       error("bad download: url=%s", url);
       return NULL;
     }
-    world->universe->stopWheel();
+    //world->universe->stopWheel();
     endprogression();
   }
   else {
@@ -1027,16 +1016,15 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     Parse *parser = Parse::getParse();
     parser->parseVreLines(sandbox_vre, sizeof(sandbox_vre));
   }
-
   localuser->inits();
 
   // default entry
   new Entry();
 
-  // check wether icons are locally presents
+  // check whether icons are locally presents
   world->checkIcons();
 
-  // check wether other objects are persistents by MySql
+  // check whether other objects are persistents by MySql
   world->checkPersist();
 
   // create clock
@@ -1050,10 +1038,10 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 /* Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
-  int s = deleteList.size();
+  int sz = deleteList.size();
   int i=0;
 
-  for (list<WObject*>::iterator o = deleteList.begin(); i<s; ++o, i++) {
+  for (list<WObject*>::iterator o = deleteList.begin(); i<sz; ++o, i++) {
     if (*o) {
       if ((*o)->isValid() && ! (*o)->isBehavior(COLLIDE_NEVER)) (*o)->deleteFromGrid();
       mobileList.remove(*o);

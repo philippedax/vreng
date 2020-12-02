@@ -27,12 +27,12 @@
 class Panels {
 public:
   static int 
-  RIGHT_PANEL_WIDTH,
-  CONTROL_PANEL_HEIGHT,
-  LIST_PALETTE_WIDTH,
-  LIST_PALETTE_HEIGHT,
-  MESSAGE_PALETTE_WIDTH,
-  MESSAGE_PALETTE_HEIGHT;
+    RIGHT_PANEL_WIDTH,
+    CONTROL_PANEL_HEIGHT,
+    LIST_PALETTE_WIDTH,
+    LIST_PALETTE_HEIGHT,
+    MESSAGE_PALETTE_WIDTH,
+    MESSAGE_PALETTE_HEIGHT;
 
   Panels(class Widgets*, class Scene&);
   void showManipulator(bool state);

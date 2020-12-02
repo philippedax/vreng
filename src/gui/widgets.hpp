@@ -133,38 +133,38 @@ private:
   friend class Panels;
   
   // ! BEWARE: order matters !
-  Gui& gui;            ///< reference to the GUI object
+  Gui& gui;            		///< reference to the GUI object
   class Message2& putinfo;
   class Capture& capture;
   UBox infos;
   UElem worlds, carts, avatars;
-  class Scene& scene;        ///< OpenGL Drawing Zone
-  class Navig& navig;		       ///< navigation
+  class Scene& scene;		///< OpenGL Drawing Zone
+  class Navig& navig;		///< navigation
   UOptionDialog &source_dialog, &worlds_dialog;
   UDialog &prefs_dialog, &settings_dialog, &grid_dialog, &tool_dialog, &addobj_dialog;
   class Message& message;
   class Panels& panels;
   UBox &infobar, &menubar;
-  long postponedKRmask;	       ///< mask of all postponed Key Release events
-  long postponedKRcount;	     ///< count in the KRbuf
+  long postponedKRmask;		///< mask of all postponed Key Release events
+  long postponedKRcount;	///< count in the KRbuf
   KRKey postponedKRbuf[KRKey::KRBUF_MAX]; ///< kbd bufs
 
   // private methods - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   // Dialog
-  void openSourceDialog();
-  void destinationsDialog();
-  void openWorldsDialog();
-  UDialog& createPrefsDialog();
-  UDialog& createSettingsDialog();
-  UDialog& createGridDialog();
-  UDialog& createToolDialog();
-  UDialog& createAddobjDialog();
-  UMenu& createFileMenu();
-  UMenu& createMarkMenu();
-  void addDynamicMenus(UMenubar&, const char* filename);
+  void sourceDialog();
+  void goDialog();
+  void worldsDialog();
+  UDialog& prefsDialog();
+  UDialog& settingsDialog();
+  UDialog& gridDialog();
+  UDialog& toolDialog();
+  UDialog& addobjDialog();
+  UMenu& fileMenu();
+  UMenu& markMenu();
   UBox& createInfobar();
   UBox& createMenubar();
+  void dynamicMenus(UMenubar&, const char* filename);
 
   // Message
   void openMessage(UMessageEvent&);

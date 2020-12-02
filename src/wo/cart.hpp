@@ -60,7 +60,7 @@ public:
   virtual void removeFromCart(WObject *po);
   /**< called by GuiRemoveCart (target = "REMOVE") */
 
-  virtual void leaveIntoWorld(WObject *po);
+  virtual void leave(WObject *po);
   /**< called by GuiRemoveCart (target = "LEAVE") */
 
   virtual bool isSomethingInCart(WObject *po);

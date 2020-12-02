@@ -528,7 +528,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
   V3 dim = newV3(.1, .1, .1);	// default dimension : box 10x10x10 cm
 
-  ::g.render.first_bbox = true;
+  ::g.render.first_bb = true;
 
   switch (shape) {
     case STOK_SPHERE:
@@ -950,7 +950,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
 
   mat_alpha = DEF_ALPHA;
 
-  ::g.render.first_bbox = true;
+  ::g.render.first_bb = true;
 
   while (l) {
     uint16_t tok;

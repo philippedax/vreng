@@ -494,14 +494,16 @@ public:
 
 #if 0 //STL
   virtual list<WObject*>::iterator getVicinityList(const WObject *pold);
+#else
+  virtual OList * getVicinityList(const WObject *pold);
 #endif
-  virtual OList *             getVicinityList(const WObject *pold);
   /**< Returns list of pointers on objects touching cell where is the object. */
 
 #if 0 //STL
   virtual list<WObject*>::iterator addListToList(list<WObject*> &list1, list<WObject> &list2);
-#endif
+#else
   virtual OList * addListToList(OList * list1, OList * list2);
+#endif
   /**< Concatenation (test of "ispointed") of list pointers on an object. */
 
   virtual bool isStill();

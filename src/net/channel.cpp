@@ -329,7 +329,6 @@ int Channel::create(const char *chan_str, int **pfds)
    * RTP session initialization
    */
   session = new Session();
-  if (! session) { error("session: can't new"); return 0; }
 
   uint32_t oldssrc = 0;
   World *world = NULL;
@@ -382,7 +381,7 @@ void Channel::deleteFromList()
   trace(DBG_NET, "deleteFromList: channel=%p", this);
   if (this == managerChannel)  return;
 
-  if (channelList.empty()) { error("deleteFromList channelList empty"); return; }
+  if (channelList.empty()) return;
   channelList.remove(this);
 }
 
@@ -428,7 +427,6 @@ bool Channel::join(char *chan_str)
   channel = new Channel();
   newChanStr(chan_str);
   trace(DBG_IPMC, "join: channel=%p -> chan_str=%s", channel, chan_str);
-  //notice("channel: %s", chan_str);
 
   int cntfd = channel->create(chan_str, &tabFd);
   if (cntfd == 0)  return false;
@@ -447,13 +445,12 @@ bool Channel::joinManager(char *manager_str, const char *chan_str)
 
   strcpy(manager_str, chan_str);
   newChanStr(manager_str);
-  trace(DBG_INIT, "joinManager: manager_str: %s", manager_str);
+  trace(DBG_IPMC, "joinManager: manager_str: %s", manager_str);
 
   int cntfd = managerChannel->create(manager_str, &tabManagerFd);
   if (cntfd == 0)  return false;
 
   ::g.gui.addChannelSources(MANAGER_MODE, tabManagerFd, cntfd);
-  trace(DBG_INIT, "joinManager: managerChannel=%p", managerChannel);
   return true;
 }
 
@@ -464,7 +461,7 @@ int Channel::getfdbysa(const struct sockaddr_in *sa, int i_fd)
 
   if (! sa) { error("getfdbysa: sa NULL"); return -1; }
 
-  if (channelList.empty()) { error("getfdbysa: channelList empty"); return -1; }
+  if (channelList.empty()) return -1;
   for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
     if ((*it)->sa[SA_RTP] == sa || (*it)->sa[SA_RTCP] == sa) {
       if ((*it)->sd[i_fd] < 0) {
@@ -494,7 +491,7 @@ struct sockaddr_in * Channel::getsabysa(const struct sockaddr_in *sa, int i_sa)
 {
   if (! sa) { error("getsabysa: sa NULL"); return NULL; }
 
-  if (channelList.empty()) { error("getsabysa: channelList empty"); return NULL; }
+  if (channelList.empty()) return NULL;
   for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it)
     if ((*it)->sa[SA_RTP] == sa || (*it)->sa[SA_RTCP] == sa) return (*it)->sa[i_sa];
   return NULL;
@@ -509,7 +506,7 @@ struct sockaddr_in * Channel::getSaRTCP(const struct sockaddr_in *sa)
 Channel * Channel::getbysa(const struct sockaddr_in *sa)
 {
   if (! sa) { error("getbysa: sa NULL"); return NULL; }
-  if (channelList.empty()) { error("getbysa: channelList empty"); return NULL; }
+  if (channelList.empty()) return NULL;
   for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
     if ((*it)->sa[SA_RTP] == sa)  return *it;
     if ((*it)->sa[SA_RTCP] == sa) return *it;
@@ -539,7 +536,6 @@ void Channel::getGroup(const char *chan_str, char *grp_str)
   char *tmpchan = strdup(chan_str);
   char *p;
   if ((p = strchr(tmpchan, '/')) == NULL) {
-    error("getGroup: chan_str=%s", chan_str);
     *grp_str = 0;	// empty string
     free(tmpchan);
     return;

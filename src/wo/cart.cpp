@@ -74,10 +74,9 @@ void Cart::addToCart(WObject *po)
   switch (po->mode) {
     case MOBILE:
       po->delFromMobile();
-      // render invisible the object
-      po->setVisible(false);
+      po->setVisible(false);	// render invisible the object
 #if HAVE_MYSQL
-      psql = VRSql::getVRSql();     // first take the VRSql handle;
+      psql = VRSql::getVRSql();	// first take the VRSql handle;
       if (psql) {
         psql->insertCol(CART_NAME, "owner", po->getInstance(), "");
         psql->updateString(po, CART_NAME, "owner", po->getInstance(), "", ::g.pref.user);
@@ -111,7 +110,7 @@ bool Cart::isSomethingInCart(WObject *po)
 /**
  * Leaves the object in the current world
  */
-void Cart::leaveIntoWorld(WObject *po)
+void Cart::leave(WObject *po)
 {
   // remove object from the cartList
   for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it)
@@ -174,8 +173,10 @@ void Cart::leaveIntoWorld(WObject *po)
 void Cart::removeFromCart(WObject *po)
 {
   // remove from cartList
-  for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it)
-    if (*it == po) cartList.remove(*it);
+  for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
+    if (*it == po)
+      cartList.remove(*it);
+  }
 
 #if HAVE_MYSQL
   psql = VRSql::getVRSql();     // first take the VRSql handle;

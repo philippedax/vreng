@@ -38,10 +38,10 @@
 #include "panels.hpp"
 #include "message.hpp"
 #include "theme.hpp"
-#include "capture.hpp"
 #include "user.hpp"	// UserAction
 #include "move.hpp"	// changeKey
 #include "vnc.hpp"	// Vnc
+#include "capture.hpp"
 
 #if (UBIT_VERSION_MAJOR < 6 || UBIT_VERSION_MAJOR >= 6 && UBIT_WITH_X11) //UBIT6
 #include <X11/keysym.h>	// XK_*
@@ -62,7 +62,7 @@
 #include "thing.hpp"	// Thing
 #include "gate.hpp"	// Gate
 #include "http.hpp"	// httpOpen
-#include "grid.hpp"	// buildBox
+#include "grid.hpp"	// gridBox
 #include "file.hpp"	// openFile
 #include "cache.hpp"	// openCache
 #include "app.hpp"	// TOOLS
@@ -105,11 +105,11 @@ scene(*new Scene(this)),
 navig(*new Navig(this, scene)),
 source_dialog(*new UOptionDialog("World source")),
 worlds_dialog(*new UOptionDialog("World list")),
-prefs_dialog(createPrefsDialog()),
-settings_dialog(createSettingsDialog()),
-grid_dialog(createGridDialog()),
-tool_dialog(createToolDialog()),
-addobj_dialog(createAddobjDialog()),
+prefs_dialog(prefsDialog()),
+settings_dialog(settingsDialog()),
+grid_dialog(gridDialog()),
+tool_dialog(toolDialog()),
+addobj_dialog(addobjDialog()),
 message(*new Message(this)),
 panels(*new Panels(this, scene)),
 infobar(createInfobar()),
@@ -165,13 +165,13 @@ void Widgets::setInfobar(UBox* content)
 
 UBox& Widgets::createMenubar()
 {
-  UMenu& file_menu = createFileMenu();
+  UMenu& file_menu = fileMenu();
   file_menu.addAttr(g.theme.menuStyle);
 
   UMenu& view_menu =
   umenu(g.theme.menuStyle
-        + ubutton(g.theme.Edit  + "Source"      + ucall(this, &Widgets::openSourceDialog))
-        + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::openWorldsDialog))
+        + ubutton(g.theme.Edit  + "Source"      + ucall(this, &Widgets::sourceDialog))
+        + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
         );
 
@@ -206,14 +206,14 @@ UBox& Widgets::createMenubar()
   // ===== Menubar ======
   UMenubar& menu_bar =
   umenubar(ubutton("File"    + file_menu)
-         + ubutton("View"    + view_menu)
-         + ubutton("Go"      + ucall(this, &Widgets::destinationsDialog))
-         + ubutton("Tools"   + tool_menu)
-         + ubutton("History" + history_menu)
+           + ubutton("View"    + view_menu)
+           + ubutton("Go"      + ucall(this, &Widgets::goDialog))
+           + ubutton("Tools"   + tool_menu)
+           + ubutton("History" + history_menu)
           );
 
-  menu_bar.add(ubutton("Marks" + createMarkMenu()));
-  addDynamicMenus(menu_bar, ::g.env.menu());
+  menu_bar.add(ubutton("Marks" + markMenu()));
+  dynamicMenus(menu_bar, ::g.env.menu());
   menu_bar.add(ubutton("Help" + help_menu));
   return menu_bar;
 }
@@ -224,7 +224,8 @@ static void functionMenu(Widgets*)
   trace(DBG_FORCE, "functionMenu OK");
 }
 
-void Widgets::addDynamicMenus(UMenubar& menu_bar, const char* filename)
+/** Adds dynamic menus */
+void Widgets::dynamicMenus(UMenubar& menu_bar, const char* filename)
 {
   FILE* menufp = null;
   UMenu* dynMenu = null;
@@ -251,13 +252,13 @@ void Widgets::addDynamicMenus(UMenubar& menu_bar, const char* filename)
 }
 
 // Mark menu
-UMenu& Widgets::createMarkMenu()
+UMenu& Widgets::markMenu()
 {
   UBox& mark_box = uvbox();
   mark_box.add(ubutton(UBackground::none + "Add Worldmark"
                        + ucall(this, &Widgets::addMarkCB)));
 #if 0 //DAX !!! BUG1 !!!
-  // Si on fait ca, le ubutton n'a plus le background du menu : full transparent 
+  // Si on fait ca, le ubutton n'a plus le background du menu on ne voit rien : full transparent 
   UScrollpane& mark_pane = uscrollpane(g.theme.menuStyle + usize().setHeight(80) + UBackground::none + mark_box);
   mark_pane.showHScrollButtons(false);
   mark_pane.getHScrollbar()->show(false);
@@ -492,7 +493,7 @@ void Widgets::addMarkCB()
   if ((fp = File::openFile(::g.env.worldmarks(), "a")) != NULL) {
     fputs(mark, fp);
     File::closeFile(fp);
-    createMarkMenu();
+    markMenu();
   }
 }
 
@@ -707,7 +708,7 @@ void Widgets::flushPostponedKRs()
 
 
 /** Displays preferences */
-UDialog& Widgets::createPrefsDialog()
+UDialog& Widgets::prefsDialog()
 {
   UBox& settings_box = uvbox(UBackground::white + upadding(2,2));
 
@@ -718,14 +719,14 @@ UDialog& Widgets::createPrefsDialog()
                           + uscrollpane(usize(400,300) + settings_box)),
                     UArgs::none, UArgs::none);
 
-  FILE *fpprefs;
-  char bufprefs[128];
-  if ((fpprefs = File::openFile(::g.env.prefs(), "r"))) {
-    while (fgets(bufprefs, sizeof(bufprefs), fpprefs)) {
-      if (isalpha(*bufprefs)) settings_box.add(uitem(UColor::red + UFont::bold + bufprefs));
-      else                    settings_box.add(uitem(UColor::black + bufprefs));
+  FILE *fp;
+  char buf[128];
+  if ((fp = File::openFile(::g.env.prefs(), "r"))) {
+    while (fgets(buf, sizeof(buf), fp)) {
+      if (isalpha(*buf)) settings_box.add(uitem(UColor::red + UFont::bold + buf));
+      else               settings_box.add(uitem(UColor::black + buf));
     }
-    File::closeFile(fpprefs);
+    File::closeFile(fp);
   }
   return *prefs_dialog;
 }
@@ -747,7 +748,7 @@ static void sourceHttpReader(void *box, Http *http)
 }
 
 /** Displays list of worlds */
-static void destinationsHttpReader(void *box, Http *http)
+static void goHttpReader(void *box, Http *http)
 {
   if (! http) return;
   UBox *univ_box = (UBox *) box;
@@ -756,7 +757,6 @@ static void destinationsHttpReader(void *box, Http *http)
   for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
     UStr& url = ustr();
 
-    //printf("line= %s\n", line);
     char tmpline[URL_LEN + CHAN_LEN +2];
     char tmpname[URL_LEN + 2];
     strcpy(tmpline, line);
@@ -774,13 +774,14 @@ static void destinationsHttpReader(void *box, Http *http)
     url = tmpline;
 
     univ_box->add(UBackground::black //+ ualpha(0.5)
-                      + uitem(UBackground::none + UColor::green + UFont::bold + UFont::large + name
-                      + ucall(&g.gui, (const UStr&)url, &Gui::gotoWorld))
-                     );
+                  + uitem(UBackground::none + UColor::green + UFont::bold + UFont::large
+                  + name
+                  + ucall(&g.gui, (const UStr&) url, &Gui::gotoWorld))
+                 );
   }
 }
 
-/** Displays list of worlds */
+/** Displays list of worlds and their urls */
 static void universeHttpReader(void *box, Http *http)
 {
   if (! http) return;
@@ -791,7 +792,6 @@ static void universeHttpReader(void *box, Http *http)
     UStr& url = ustr();
     UStr& chan = ustr();
 
-    //printf("line: %s\n", line);
     char tmpline[URL_LEN + CHAN_LEN +2];
     strcpy(tmpline, line);
     char *p = strchr(tmpline, ' ');
@@ -803,15 +803,17 @@ static void universeHttpReader(void *box, Http *http)
     if (p) chan = ++p;
     url = tmpline;
 
-    univ_box->add(uitem(UColor::navy + UFont::bold + url
-                            + " " + UFont::plain + chan
-                            + ucall(&g.gui, (const UStr&)url, &Gui::gotoWorld))
-                      );
+    univ_box->add(uitem(UColor::navy + UFont::bold
+                        + url
+                        + " " + UFont::plain
+                        + chan
+                        + ucall(&g.gui, (const UStr&) url, &Gui::gotoWorld))
+                       );
   }
 }
 
 /** Dialog box for vre source */
-void Widgets::openSourceDialog()
+void Widgets::sourceDialog()
 {
   World *world = World::current();
   if (! world) return;
@@ -826,35 +828,41 @@ void Widgets::openSourceDialog()
 }
 
 /** Dialog box for worlds list */
-void Widgets::destinationsDialog()
+void Widgets::goDialog()
 {
   char univ_url[URL_LEN];
-  char str[URL_LEN];
+  char fmt[64];
 
   if (! strncmp(Universe::current()->server, "http://", 7))
-    sprintf(str, "%s", "%s%s/vacs/v%d/worlds");
+    sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
   else
-    sprintf(str, "%s%s", "http://", "%s%s/vacs/v%d/worlds");
-  sprintf(univ_url, str, Universe::current()->server, Universe::current()->urlpfx, Universe::current()->version);
+    sprintf(fmt, "%s%s", "http://", "%s%s/vacs/v%d/worlds");
+  sprintf(univ_url, fmt, Universe::current()->server,
+                         Universe::current()->urlpfx,
+                         Universe::current()->version);
+
   UBox& box = uvbox(g.theme.scrollpaneStyle);
-  if (Http::httpOpen(univ_url, destinationsHttpReader, &box, 0) < 0) {
+  if (Http::httpOpen(univ_url, goHttpReader, &box, 0) < 0) {
     delete &box;
     return;
   }
-  //printf("destinations: universe=%s name=%s pfx=%s : open OK\n", univ_url, Universe::current()->server, Universe::current()->urlpfx);
   worlds_dialog.setMessage(uscrollpane(usize(120,400) + box));
   worlds_dialog.show();
 }
 
-/** Dialog box for worlds list */
-void Widgets::openWorldsDialog()
+/** Dialog box for worlds list and their urls */
+void Widgets::worldsDialog()
 {
   char univ_url[URL_LEN];
+  char fmt[64];
 
-  sprintf(univ_url, "%s%s/vacs/v%d/worlds",
-                      Universe::current()->server,
-                      Universe::current()->urlpfx,
-                      Universe::current()->version);
+  if (! strncmp(Universe::current()->server, "http://", 7))
+    sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
+  else
+    sprintf(fmt, "%s%s", "http://", "%s%s/vacs/v%d/worlds");
+  sprintf(univ_url, fmt, Universe::current()->server,
+                         Universe::current()->urlpfx,
+                         Universe::current()->version);
 
   UBox* box = new UTextarea;
   if (Http::httpOpen(univ_url, universeHttpReader, box, 0) < 0) {
@@ -865,7 +873,7 @@ void Widgets::openWorldsDialog()
   worlds_dialog.show();
 }
 
-UDialog& Widgets::createSettingsDialog()
+UDialog& Widgets::settingsDialog()
 {
   URadioSelect
     &sel_audio_live      = uradioSelect(),
@@ -991,12 +999,16 @@ UDialog& Widgets::createSettingsDialog()
    );
 }
 
-UDialog& Widgets::createGridDialog()
+UDialog& Widgets::gridDialog()
 {
-  return udialog(Grid::grid()->buildBox());
+  //dax return udialog(Grid::grid()->gridBox());
+  UDialog &griddial = udialog(Grid::grid()->gridBox());
+  griddial.show();
+  //dax return griddial;
+  return udialog(Grid::grid()->gridBox());
 }
 
-UDialog& Widgets::createToolDialog()
+UDialog& Widgets::toolDialog()
 {
   return udialog
   (  ubutton("Audio"      + ucall(this, true, &Widgets::setAudioCB))
@@ -1231,7 +1243,7 @@ void Widgets::addNewObjectCB()
   resetForm();	// reset to default values
 }
 
-UDialog& Widgets::createAddobjDialog()
+UDialog& Widgets::addobjDialog()
 {
   URadioSelect
     &sel_obj   = uradioSelect(),
@@ -1405,7 +1417,7 @@ UDialog& Widgets::createAddobjDialog()
 
 //---------------------------------------------------------------------------
 
-UMenu& Widgets::createFileMenu()
+UMenu& Widgets::fileMenu()
 {
   // Open a vreng URL
   UStr& url_or_name = ustr();

@@ -32,30 +32,24 @@ using namespace ubit;
 class Grid {
 
  private:
-  static const uint8_t GRID_WIDTH;
-  static const uint8_t GRID_DEPTH;
   static const uint8_t GRID_HEIGHT;
   static const uint8_t GRID_SLICE;
   static const uint8_t SCROLL_MAX;
   static const uint8_t SCROLL_INCR;
 
   bool visible;
-  GLint dlist;		///< gl display list
-  float posx;
-  float posy;
-  float posz;
-  float rotx;
-  float roty;
-  float rotz;
-  int grid_width, grid_depth, grid_height;
-  int inter_width, inter_depth, inter_height;
+  GLint dlist;			///< gl display list
+  float posx, posy, posz;	///< grid position
+  float rotx, roty, rotz;	///< grid orientation
+  int width, depth, height;	///< grid dimensions
+  int i_width, i_depth, i_height;
   GLfloat red, green, blue, alpha;
-  int behavior;		///< grid behavior
-  bool overlap;		///< loverlapped grid
-  bool grid_3d;		///< grid 3D
-  GLfloat glmat[16];	///< default matrix projection
+  int behavior;			///< grid behavior
+  bool overlap;			///< overlapped grid
+  bool grid3d;			///< grid 3D
+  GLfloat glmat[16];		///< matrix projection
 
-  enum {
+  enum grid_behavior {
     STICK,
     FOLLOW,
     SFOLLOW
@@ -74,7 +68,7 @@ class Grid {
   virtual void init(int depth, int width, int height);
   /**< Intilialization */
 
-  virtual class UBox * buildBox();
+  virtual class UBox * gridBox();
   /**< Builds a dialog box */
 
   static Grid * grid();
@@ -83,7 +77,7 @@ class Grid {
   virtual void toggleGrid();
   virtual void toggleGrid3d();
   virtual void toggleOverlap();
-  virtual void toggleBehavior(int new_behavior);
+  virtual void toggleBehavior(int _behavior);
 
  private:
   UScrollbar *s_width, *s_height, *s_depth, *s_red, *s_green, *s_blue,

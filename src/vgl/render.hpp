@@ -235,7 +235,7 @@ private:
   V3 bbox_min;			///< minimal bbox.
   V3 bbox_max;			///< maximal bbox.
   M4 camera_pos;		///< camera position.
-  bool first_bbox;		///< first bbox.
+  bool first_bb;		///< first bbox.
   bool quality;			///< flag quality yes/no.
   bool flash;			///< flag flash.
   uint8_t view;			///< local user View type.

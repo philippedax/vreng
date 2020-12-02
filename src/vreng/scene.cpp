@@ -80,7 +80,8 @@ void Scene::setBackground(UColor& c)
 void Scene::getCoords(GLint coords[4])
 {
   UView* v = getView();
-  if (!v) coords[0] = coords[1] = coords[2] = coords[3] = 0;
+  if (!v)
+    coords[0] = coords[1] = coords[2] = coords[3] = 0;
   else {
     UPoint pos = v->getGLPos();
     coords[0] = (GLint) pos.x;
@@ -93,7 +94,8 @@ void Scene::getCoords(GLint coords[4])
 void Scene::getCoords(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
 {
   UView* v = getView();
-  if (!v) x = y = w = h = 0;
+  if (!v)
+    x = y = w = h = 0;
   else {
     UPoint pos = v->getGLPos();
     x = (GLint) pos.x;
@@ -130,9 +132,10 @@ void Scene::paintCB(UPaintEvent& e)
   paintScene();
 }
 
+/* Resizes scene */
 void Scene::resizeCB(UResizeEvent& e)
 {
-  resizeScene(e, int(e.getView()->getWidth()), int(e.getView()->getHeight()));
+  resize(e, int(e.getView()->getWidth()), int(e.getView()->getHeight()));
 }
 
 // NetTimeout can't be called directly because a callback function must have 1 or 2
@@ -166,7 +169,7 @@ void Scene::init()
   is_initialized = true; // the scene is initialized and ready for rendering
 }
 
-void Scene::resizeScene(UResizeEvent& e, int width, int height)
+void Scene::resize(UResizeEvent& e, int width, int height)
 {
   ::g.pref.width3D  = width;
   ::g.pref.height3D = height;
@@ -216,31 +219,31 @@ void Scene::paintScene()
 
 void Scene::updateHud()
 {
-  char buf[1000];
+  char line[1000];
   
-  sprintf(buf, "Rate:   %.1f fps", ::g.times.getRate());
-  hud_line1 = buf;
+  sprintf(line, "Rate:   %.1f fps", ::g.times.getRate());
+  hud_line1 = line;
   
   if (! localuser) return;
-  sprintf(buf, "User:   %.2f %.2f %.2f %.0f",
+  sprintf(line, "User:   %.2f %.2f %.2f %.0f",
           localuser->pos.x, localuser->pos.y, localuser->pos.z, RAD2DEG(localuser->pos.az));
-  hud_line2 = buf;
+  hud_line2 = line;
   
   WObject* obj = ::g.gui.selected_object;
   if (obj) {
-    sprintf(buf, "Object: %.2f %.2f %.2f %.0f",
+    sprintf(line, "Object: %.2f %.2f %.2f %.0f",
             obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az));
-    hud_line3 = buf;
+    hud_line3 = line;
     
-    sprintf(buf, "BBox:   %.2f %.2f %.2f",
+    sprintf(line, "BBox:   %.2f %.2f %.2f",
             obj->pos.bbsize.v[0], obj->pos.bbsize.v[1], obj->pos.bbsize.v[2]);
-    hud_line4 = buf;
+    hud_line4 = line;
     
     float dist = sqrt((localuser->pos.x-obj->pos.x)*(localuser->pos.x-obj->pos.x) +
                       (localuser->pos.y-obj->pos.y)*(localuser->pos.y-obj->pos.y) +
                       (localuser->pos.z-obj->pos.z)*(localuser->pos.z-obj->pos.z));
-    sprintf(buf, "Dist:   %.2f", dist);
-    hud_line5 = buf;
+    sprintf(line, "Dist:   %.2f", dist);
+    hud_line5 = line;
   }
 }
 

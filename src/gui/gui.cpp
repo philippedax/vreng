@@ -138,7 +138,7 @@ void Gui::showCartDialog(bool flag)
 
 GuiItem* Gui::addCart(WObject *cart)
 {
-  if (!cart) { error("Gui::addCart: NULL item!");  return NULL; }
+  if (!cart) return NULL;
   notice("Item %s added to cart", NN(cart->getInstance()));
   
   GuiItem* gu = new GuiItem();
@@ -151,7 +151,7 @@ GuiItem* Gui::addCart(WObject *cart)
 
 void Gui::removeCart(WObject *cart, int action)
 {
-  if (!cart) { error("Gui::removeCart: NULL item!");  return; }
+  if (!cart) return;
 
   if (cart->isGui()) {
     widgets->setInfobar(null);
@@ -163,7 +163,7 @@ void Gui::removeCart(WObject *cart, int action)
   switch (action) {
   case Cart::LEAVE:
     notice("%s left in %s world", NN(cart->getInstance()),NN(World::current()->getName()));
-    localuser->cart->leaveIntoWorld(cart);
+    localuser->cart->leave(cart);
     break;
   case Cart::REMOVE:
     notice("%s removed from cart", NN(cart->getInstance()));
@@ -190,14 +190,14 @@ void Gui::updateCart(WObject* po)
 
 GuiItem * Gui::addUser(User *user) 	// when a new user comes in
 {
-  if (!user) { error("Gui::addUser: NULL user!");  return NULL; }
+  if (!user) return NULL;
   notice("Avatar %s joins %s", NN(user->getInstance()), NN(user->worldName()));
   return widgets->addUser(user);
 }
 
 void Gui::removeUser(User *user)	// when an user quits
 {
-  if (!user) { error("Gui::removeUser: NULL user!");  return; }
+  if (!user) return;
   notice("Avatar %s leaves %s", NN(user->getInstance()), NN(user->worldName()));
   if (user->isGui()) {
     widgets->removeUser(user->getGui());
@@ -210,7 +210,7 @@ void Gui::removeUser(User *user)	// when an user quits
 
 void Gui::updateUser(User *user)
 {
-  if (!user) { error("updateUser: NULL user!");  return; }
+  if (!user) return;
   notice("Avatar %s is in %s", NN(user->getInstance()), NN(user->worldName()));
   if (user->isGui()) widgets->updateUser(user->getGui(), user);
 }
@@ -245,7 +245,7 @@ void Gui::gotoWorld(const UStr& url_or_name)
   notice("goto %s at %s", urlvre, chanstr);
 
   World::current()->quit();
-  delete Channel::current();	// delete old Channel
+  delete Channel::current();			// delete old Channel
   World::enter(urlvre, chanstr, true);
   World::current()->setChanAndJoin(chanstr);	// join new channel
 
@@ -286,6 +286,8 @@ void Gui::launchVncConnect(Vnc* _vnc)
   VncDialog::create(widgets, _vnc);
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 void Gui::setToVrelet(Vrelet* _vrelet)
 {
   vrelet = _vrelet;
@@ -304,6 +306,7 @@ void Gui::setToCarrier(Carrier* _carrier)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 WObject* Gui::getSelectedObject()
 {
   return selected_object;
