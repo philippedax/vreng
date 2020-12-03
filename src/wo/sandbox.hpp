@@ -18,22 +18,29 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef VRE_HPP
-#define VRE_HPP
+#ifndef SANDBOX_HPP
+#define SANDBOX_HPP
 
 static char sandbox_vre[] = "\
-<vre profile=\"Interactive\">\n\
-<head> <meta name=\"filename\" content=\"sandbox.vre\"/> </head>\n\
+<vre version=\"8.0\" profile=\"Interactive\">\n\
+<head> <meta name=\"buildin\" content=\"sandbox_vre\"/> </head>\n\
+\n\
 <scene>\n\
-<ground name=\"ground\" pos=\"0 0 -.2\"> <solid dim=\"20 20 .1\" zp=\"/gif/pelouse.gif\" /></ground>\n\
-<wall name=\"border-n\" pos=\"20 0 .2 1.57\"> <solid dim=\"20 .02 .4\" dif=\"1 0 0\" /></wall>\n\
-<wall name=\"border-s\" pos=\"-20 0 .2 1.57\"> <solid dim=\"20 .02 .4\" dif=\"1 0 0\" /></wall>\n\
-<wall name=\"border-w\" pos=\"0 20 .2 0\"> <solid dim=\"20 .02 .4\" dif=\"1 0 0\" /></wall>\n\
-<wall name=\"border-e\" pos=\"0 -20 .2 0\"> <solid dim=\"20 .02 .4\" dif=\"1 0 0\" /></wall>\n\
+\n\
+<!-- the following line is not parsed after tag <scene> : to fix parse.cpp -->\n\
+<wall name=\"border-n\" pos=\"20 0 .2 1.57\">  <solid dim=\"40 .2 .8\" dif=\"red\" /></wall>\n\
+<wall name=\"border-s\" pos=\"-20 0 .2 1.57\"> <solid dim=\"40 .2 .8\" dif=\"red\" /></wall>\n\
+<wall name=\"border-w\" pos=\"0 20 .2 0\">     <solid dim=\"40 .2 .8\" dif=\"red\" /></wall>\n\
+<wall name=\"border-e\" pos=\"0 -20 .2 0\">    <solid dim=\"40 .2 .8\" dif=\"red\" /></wall>\n\
+<ground name=\"ground\" pos=\"0 0 -.1\"> <solid dim=\"40 40 .1\" zp=\"/gif/pelouse.gif\" /></ground>\n\
+<!--\n\
 <mirage name=\"sky\" aspeed=\".01\" mode=\"self\">\n\
  <solid shape=\"sphere\" r=\"30\" tx=\"/gif/sky.gif\" slices=\"255\" stacks=\"255\" />\n\
 </mirage>\n\
+-->\n\
+\n\
 </scene>\n\
-</vre>";
+</vre>\n\
+";
 
 #endif

@@ -26,42 +26,11 @@
 #include "color.hpp"	// getRGB
 #include "timer.hpp"	// times
 #include "pref.hpp"	// g.pref.dbgtrace
-#include "prof.hpp"	// new_world
-#include "render.hpp"	// render()
 #include "str.hpp"	// stringcmp
 
 
 // local
 static Parse *parse = NULL;
-
-#if 0 //pdtoken
-enum {
-  OTOK_ERR = 0,
-  OTOK_NAME,
-  OTOK_DESCR,
-  OTOK_CATEGORY,
-  OTOK_POS,
-  OTOK_SOLID,
-  OTOK_TAGEND,
-  OTOK_END
-};
-
-struct _otokens {
-  const char *tokstr;
-  const char *tokalias;
-  int tokid;
-};
-
-static const struct _otokens otokens[] = {
-  { "name=", "", OTOK_NAME },
-  { "descr=", "description=", OTOK_DESCR },
-  { "category=", "", OTOK_CATEGORY },
-  { "pos=", "position=", OTOK_POS },
-  { "solid", "", OTOK_SOLID },
-  { "/", "", OTOK_TAGEND },
-  { NULL, NULL, 0 }
-};
-#endif //pdtoken
 
 
 Parse::Parse()
@@ -199,7 +168,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
       FREE(pline);
       return TAG_COMMENT;
     }
-    ptok++;	// after '<'
+    ptok++;	// ptok is now after '<'
 
     // check <!--
     if ((!stringcmp(ptok, "!--"))) {
@@ -214,6 +183,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
 
     // check <vre ... > </vre>
     else if (!stringcmp(ptok, "vre>") || (!stringcmp(ptok, "vre") && isspace(ptok[3]))) {
+    //dax else if (!stringcmp(ptok, "vre>")) {
       FREE(pline);
       return TAG_BEGINFILE;
     }
@@ -239,7 +209,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
     }
 
     // check <scene> </scene>
-    else if (!stringcmp(ptok, "scene>") || (!stringcmp(ptok, "scene") && isspace(ptok[3]))) {
+    else if (!stringcmp(ptok, "scene>")) {
       FREE(pline);
       return TAG_SCENE;
     }
@@ -337,38 +307,31 @@ int Parse::parseVreLines(char *buf, int bufsiz)
         }
       }
     }
-
     if (iol == maxlen + 2) {	// end of logical line
-      // allocate a new line
-      //FIXME segfault if (line) delete[] line;
-      line = new char[eol - bol + 2];
+      line = new char[eol - bol + 2];	// allocate a new line
 
-      // build the target line from tmpline
+      // build line from tmpline
       memcpy(line, tmpline + bol, eol - bol);
       line[eol - bol] = '\0';
-      //trace(DBG_FORCE, "line: %s %d %d", line, eol, bol);
 #ifdef WIN32 // crlf
       if (line[eol - bol - 1] == '\r') line[eol - bol - 1] = '\0';
 #endif // WIN32
+      //trace(DBG_FORCE, "line: %s %d %d", line, eol, bol);
 
       // discard empty lines
       if (*line == '\0') {
-        if (line)
-          delete[] line;
-        line = NULL;
+        if (line) delete[] line; line = NULL;
         bol = eol + 1;	// begin of next line
         continue;
       }
-
-      char *p = skipSpace(line);
 
       // discard comments begining with a '#'
+      char *p = skipSpace(line);
       if (*p == '#') {
-        delete[] line;
+        if (line) delete[] line; line = NULL;
         bol = eol + 1;	// begin of next line
         continue;
       }
-      //trace(DBG_FORCE, "line=%s", line);
 
       WObject *wobject = NULL;
 
@@ -376,51 +339,32 @@ int Parse::parseVreLines(char *buf, int bufsiz)
         case TAG_BEGINFILE:
         case TAG_HEAD:
         case TAG_SCENE:
-          if (line)
-            delete[] line;
-          line = NULL;
-          break;
-
         case TAG_DOCTYPE:
-          if (line)
-            delete[] line;
-          line = NULL;
-          break;		// end of parsing
-
+          break;
         case TAG_ENDFILE:
-          if (line)
-            delete[] line;
-          line = NULL;
+          if (line) delete[] line; line = NULL;
           return 0;		// end of parsing
-
         case TAG_META:
 	  if ((p = strstr(line, "=\"refresh\"")))
             World::current()->setPersistent(false);
 	  if ((p = strstr(line, "/>"))) {
-            if (line)
-              delete[] line;
-            line = NULL;
+            if (line) delete[] line; line = NULL;
 	  }
           break;
-
         case TAG_COMMENT:
 	  if ((p = strstr(line, "-->"))) {
+            if (line) delete[] line; line = NULL;
             commented = false;
-            if (line)
-              delete[] line;
-            line = NULL;
           }
           break;
-
         case TAG_LOCAL:		// <local>, </local>
           {
-            const OClass *oclass;
-
 	    if ((p = strstr(line, "-->"))) {
               commented = false;
               break;
             }
             strcpy(tagobj, "transform");
+            const OClass *oclass;
             if ((oclass = OClass::getOClass(tagobj)))
               tag_type = oclass->type_id;
             if (strstr(line, "<local>")) strcpy(line, "push ");
@@ -430,84 +374,65 @@ int Parse::parseVreLines(char *buf, int bufsiz)
 	      return -1;
           }
           break;
-
         case TAG_OBJECT:
           //trace(DBG_FORCE, "type=%d line=%s", tag_type, line);
 	  if ((p = strstr(line, "-->"))) {
             commented = false;
             break;
           }
-
           // check end of the object </...>
           char closetag[TAG_LEN +4];
           sprintf(closetag, "</%s>", tagobj);
-	  if ((p = strstr(line, closetag)) == NULL) continue;	// not end of object
-          //trace(DBG_FORCE, "</TAG>  %s", line);
-
-          /*
-           * here, we must have reached the end of the object
-           */
+	  if ((p = strstr(line, closetag)) == NULL)
+            continue;	// not end of object
+          // here, we must have reached the end of the object description
           if (tag_type != UNKNOWN_TYPE) {
             if (! OClass::isValidType(tag_type)) {
-              error("At line %d, type=%d line=%s", numline, tag_type, line);
+              error("parse error at line %d, type=%d line=%s", numline, tag_type, line);
               return -1;
             }
-
-	    // skip <type to get attributes
+	    // skip <type to get attributes (name, pos, solid)
             char *attr = line;
             if (isspace(*line))
               attr = skipSpace(line);
             if (*attr == '<')
               attr = nextSpace(attr);
-            if (*attr == '>')
-              ++attr;
-
+	    if (*attr == '>')
+	      ++attr;
             if (::g.pref.dbgtrace) trace(DBG_FORCE, "[%d] %s", tag_type, line);
-
             /*
              * call the class creator with object attributes
              */
             progression('o');
             ::g.times.object.start();
             if ((wobject = OClass::creatorInstance(tag_type, attr)) == NULL) {
-              error("At line %d, type=%d line=%s", numline, tag_type, line);
+              error("parse error at line %d, type=%d line=%s", numline, tag_type, line);
               return -1;
             }
-#if 0 //dax
-            if (new_world > 1)  ::g.render.render();
-#endif
             ::g.times.object.stop();
           }
           break;
       }
-
-      if (line)
-        delete[] line;
-      line = NULL;
+      if (line) delete[] line; line = NULL;
       bol = eol + 1;	// begin of next line = end of current line + \n
     }
-    else break;	// next buffer
+    else break;	// next line
   }
-
-  if (line)
-    delete[] line;
-  line = NULL;
+  if (line) delete[] line; line = NULL;
 
   line = new char[maxlen - bol + 2];
 
   // copy the end of previous tmpline into line
   memcpy(line, tmpline + bol, maxlen - bol);
   line[maxlen - bol] = '\0';
-
   delete[] tmpline;
   return 1;
 }
 
 void Parse::printNumline()
 {
-  error("error at line: %d", numline);
+  error("parse error at line %d", numline);
 }
-
 
 /* parse tag : tokenize the line */
 char * WObject::tokenize(char *l)
@@ -520,7 +445,6 @@ char * WObject::tokenize(char *l)
     char *p = strstr(l, closetag);	// </type>
     if (p) *p = 0;
   }
-
   //trace(DBG_FORCE, "l=%s", l);
 
   // save solid string into geometry for MySql purposes
@@ -576,7 +500,7 @@ char * Parse::parseAttributes(char *l, WObject *wobject)
     else if (!stringcmp(l, "pos=")) { l = parsePosition(l, wobject->pos); continue; }
     else if (!stringcmp(l, "solid")) l = parseSolid(l, wobject);
     else if (!stringcmp(l, "category=")) l = parseDescr(l, wobject->names.category);
-    else if (!stringcmp(l, "descr=") || !stringcmp(l, "description=")) l = parseDescr(l, wobject->names.infos);
+    else if (!stringcmp(l, "descr=") || !stringcmp(l, "description=")) l = parseDescr(l,wobject->names.infos);
     else if (!strcmp(l, "/")) l = nextToken();
     else return l;	// child
   }

@@ -407,16 +407,14 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
       noh->getProperty(np, pp);
     }
   }
-
   notice("Avatar: rctpname=%s", rtcpname);
-  trace(DBG_WO, "Replica: web=%s vre=%s", web, vre);
-  trace(DBG_WO, "Replica: model=%s face=%s", model, face);
 
   initMobileObject(0);
-
-  trace(DBG_WO, "replica: type=%s named=%s name=%s ssrc=%x rtcpname=%s email=%s", names.type, names.named, getInstance(), ssrc, rtcpname, email);
-
   addGui();
+
+  trace(DBG_WO, "Replica: web=%s vre=%s", web, vre);
+  trace(DBG_WO, "Replica: model=%s face=%s", model, face);
+  trace(DBG_WO, "replica: type=%s named=%s name=%s ssrc=%x rtcpname=%s email=%s", names.type, names.named, getInstance(), ssrc, rtcpname, email);
 }
 
 void User::getMemory()
@@ -514,7 +512,8 @@ void User::userWriting(const char *usermsg)
 
 void User::userRequesting(const char *usermsg)
 {
-  if (strlen(usermsg) < MESS_LEN) strcpy(localuser->request, usermsg);
+  if (strlen(usermsg) < MESS_LEN)
+    strcpy(localuser->request, usermsg);
   else {
     strncpy(localuser->request, usermsg, MESS_LEN-1);
     localuser->request[MESS_LEN-1] = '\0';
@@ -613,14 +612,6 @@ void User::setRayDirection(GLint wx, GLint wy)
   GLfloat ex = pos.x + near; // +near
   GLfloat ey = pos.y;
   GLfloat ez = pos.z + height/2 - 0.10;		// top head - 10 cm
-#if 0 //dax
-  V3 d;
-  ::g.render.clickDirection(wx, wy, &d);	// gluUnproject
-
-  GLfloat tx = ex - d.V_X;
-  GLfloat ty = ey - d.V_Y;
-  GLfloat tz = ez - d.V_Z;
-#else
   GLint vp[4];
 
   glGetIntegerv(GL_VIEWPORT, vp);
@@ -629,7 +620,6 @@ void User::setRayDirection(GLint wx, GLint wy)
   GLfloat tz = vp[3]/2 - (GLfloat) wy;
   if (ty < 0) ty = MAX(ty, -FAR); else ty = MIN(ty, FAR);
   if (tz < 0) tz = MAX(tz, -FAR); else tz = MIN(tz, FAR);
-#endif
   //error("eye: %.2f %.2f %.2f, target: %.2f %.2f %.2f", ex,ey,ez,tx,ty,tz);
  
   Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
@@ -873,11 +863,6 @@ void User::pauseOn(User *user, void *d, time_t s, time_t u)
 void User::pauseOff(User *user, void *d, time_t s, time_t u)
 {
   pause_gravity = false;
-}
-
-void User::setGravity(bool flag)
-{
-  pause_gravity = flag;
 }
 
 void User::enableGravity()

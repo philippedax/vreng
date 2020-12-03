@@ -178,13 +178,13 @@ private:
   void homeCB();
   void saveCB();
   void helpCB();
-  void setPrefCB(int tool);
-  void setAudioCB(bool on);
-  void setVideoCB(bool on);
-  void setWhiteboardCB(bool on);
-  void setModelerCB(bool on);
-  void addMarkCB();
-  void addNewObjectCB();
+  void prefCB(int tool);
+  void audioCB(bool on);
+  void videoCB(bool on);
+  void whiteboardCB(bool on);
+  void modelerCB(bool on);
+  void markCB();
+  void newObjectCB();
   void setRayDirection(int x, int y);
 };
 

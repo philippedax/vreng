@@ -255,9 +255,6 @@ private:
   virtual void setView(uint8_t view);
   /**< User View managment. */
 
-  virtual void setGravity(bool flag);
-  /**< enables/disables gravity. */
-
   void getMemory();
   /**< Gets needed memory. */
 

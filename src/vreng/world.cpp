@@ -41,7 +41,7 @@
 #include "scene.hpp"	// GLSection
 #include "app.hpp"	// quitTools
 #include "channel.hpp"	// join
-#include "vre.hpp"	// sandbox world
+#include "sandbox.hpp"	// sandbox world
 #include "wind.hpp"	// Wind
 #include "bubble.hpp"	// Bubble
 #include "env.hpp"	// icons
@@ -1009,12 +1009,14 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     }
     //world->universe->stopWheel();
     endprogression();
+    localuser->enableGravity();
   }
   else {
     trace(DBG_WO, "world sandbox: ");
     world->setName("sandbox");
     Parse *parser = Parse::getParse();
     parser->parseVreLines(sandbox_vre, sizeof(sandbox_vre));
+    //dax localuser->disableGravity();
   }
   localuser->inits();
 

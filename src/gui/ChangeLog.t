@@ -16,9 +16,10 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.1\n\
 -- 9.1.3\n\
-	- using std:: lists for netobj.*pp\n\
+	- renamed vre.hpp to sandbox.hpp\n\
+	- using stl lists for netobj.*pp\n\
 	- rewriting some algos for rendering\n\
-	(2020/11/29, Philippe Dax)\n\
+	(2020/12/02, Philippe Dax)\n\
 \n\
 -- 9.1.2\n\
 	- fixed -w option in pref.cpp\n\

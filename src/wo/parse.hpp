@@ -220,8 +220,8 @@ public:
   virtual int parseVreLines(char *buf, int bufsiz);
   /**< parse vre data, called by vreHttpReader */
 
-  void printNumline();
-  /**< prints numline where an error occurs */
+  virtual void printNumline();
+  /**< print parse error at */
 
 private:
   virtual int parseLine(char *_line, int *ptag_type);

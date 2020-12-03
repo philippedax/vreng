@@ -256,7 +256,7 @@ UMenu& Widgets::markMenu()
 {
   UBox& mark_box = uvbox();
   mark_box.add(ubutton(UBackground::none + "Add Worldmark"
-                       + ucall(this, &Widgets::addMarkCB)));
+                       + ucall(this, &Widgets::markCB)));
 #if 0 //DAX !!! BUG1 !!!
   // Si on fait ca, le ubutton n'a plus le background du menu on ne voit rien : full transparent 
   UScrollpane& mark_pane = uscrollpane(g.theme.menuStyle + usize().setHeight(80) + UBackground::none + mark_box);
@@ -359,7 +359,7 @@ void Widgets::updateWorld(World *world, bool isCurrent)
   if (! world || ! world->isGui())  return;
   GuiItem *gw = world->getGui();
   if (! gw)  return;
-#if 0 //FIXME! sometimes segfault in Ubit
+#if 1 //FIXME! sometimes segfault in Ubit
   gw->removeAll(true);
 #endif
   setWorld(gw, world, isCurrent);
@@ -429,7 +429,7 @@ void Widgets::helpCB()
   system(cmd.c_str());
 }
 
-void Widgets::setPrefCB(int tool)
+void Widgets::prefCB(int tool)
 {
   if (tool & AUDIO_MASK)      Audio::init(tool);
   if (tool & VIDEO_MASK)      Video::init(tool);
@@ -444,7 +444,7 @@ void Widgets::setPrefCB(int tool)
   if (tool & OFFICE_MASK)     Office::init(tool);
 }
 
-void Widgets::setAudioCB(bool on)
+void Widgets::audioCB(bool on)
 {
   if (on) {
     audioactive = true;
@@ -456,25 +456,25 @@ void Widgets::setAudioCB(bool on)
   }
 }
 
-void Widgets::setVideoCB(bool on)
+void Widgets::videoCB(bool on)
 {
   if (on) Video::start(World::current()->getChan());
   else    Video::quit();
 }
 
-void Widgets::setWhiteboardCB(bool on)
+void Widgets::whiteboardCB(bool on)
 {
   if (on) Wb::start(World::current()->getChan());
   else    Wb::quit();
 }
 
-void Widgets::setModelerCB(bool on)
+void Widgets::modelerCB(bool on)
 {
   if (on) Modeler::start();
   else    Modeler::quit();
 }
 
-void Widgets::addMarkCB()
+void Widgets::markCB()
 {
   FILE *fp;
   char mark[URL_LEN + CHAN_LEN + 2];
@@ -891,108 +891,108 @@ UDialog& Widgets::settingsDialog()
   (
    uhbox("Audio live        : " + UFont::plain
            + ucheckbox("Rat" + sel_audio_live
-                       + UOn::select / ucall(this, RAT_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, RAT_TOOL, &Widgets::prefCB))
                        .setSelected()
            + ucheckbox("Vat" + sel_audio_live
-                       + UOn::select / ucall(this, VAT_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, VAT_TOOL, &Widgets::prefCB))
            + ucheckbox("Fphone" + sel_audio_live
-                       + UOn::select / ucall(this, FPHONE_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, FPHONE_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + uhbox("Video live      : " + UFont::plain
            + ucheckbox("Vic" + sel_video_live
-                       + UOn::select / ucall( this, VIC_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall( this, VIC_TOOL, &Widgets::prefCB))
                        .setSelected()
            + ucheckbox("Vlc" + sel_video_live
-                       + UOn::select / ucall(this, VLCMC_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, VLCMC_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + uhbox("Whiteboard      : " + UFont::plain
            + ucheckbox("Wb" + sel_wb
-                       + UOn::select / ucall(this, WB_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, WB_TOOL, &Widgets::prefCB))
                        .setSelected()
            + ucheckbox("Wbd" + sel_wb
-                       + UOn::select / ucall(this, WBD_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, WBD_TOOL, &Widgets::prefCB))
            + ucheckbox("Nte" + sel_wb
-                       + UOn::select / ucall(this, NTE_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, NTE_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + uhbox("Browser         : " + UFont::plain
            + ucheckbox("Firefox" + sel_browser
-                       + UOn::select / ucall(this, FIREFOX_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, FIREFOX_TOOL, &Widgets::prefCB))
                        .setSelected()
            + ucheckbox("Chrome" + sel_browser
-                       + UOn::select / ucall(this, CHROME_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, CHROME_TOOL, &Widgets::prefCB))
            + ucheckbox("Safari" + sel_browser
-                       + UOn::select / ucall(this, SAFARI_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, SAFARI_TOOL, &Widgets::prefCB))
            + ucheckbox("Opera" + sel_browser
-                       + UOn::select / ucall(this, OPERA_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, OPERA_TOOL, &Widgets::prefCB))
            + ucheckbox("I-Explorer" + sel_browser
-                       + UOn::select / ucall(this, IEXPLORER_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, IEXPLORER_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + uhbox("Audio streaming : " + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
-                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::setPrefCB)
+                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB)
                        ).setSelected()
            + ucheckbox("Mpg123" + sel_audio_streaming
-                       + UOn::select / ucall(this, MPG123_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, MPG123_TOOL, &Widgets::prefCB))
            + ucheckbox("Freeamp" + sel_audio_streaming
-                       + UOn::select / ucall(this, FREEAMP_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, FREEAMP_TOOL, &Widgets::prefCB))
            + ucheckbox("Quicktime" + sel_audio_streaming
-                       + UOn::select / ucall(this, QUICKTIME_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, QUICKTIME_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + uhbox("Video streaming : " + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
-                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB))
                        .setSelected()
            + ucheckbox("Mpegplay" + sel_video_streaming
-                       + UOn::select / ucall(this, MPEGPLAY_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, MPEGPLAY_TOOL, &Widgets::prefCB))
            + ucheckbox("Quicktime" + sel_video_streaming
-                       + UOn::select / ucall(this, QUICKTIME_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, QUICKTIME_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + uhbox("Modeler         : " + UFont::plain
            + ucheckbox("Vred" + sel_modeler
-                       + UOn::select / ucall(this, VRED_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, VRED_TOOL, &Widgets::prefCB))
                        .setSelected()
            + ucheckbox("Vrem" + sel_modeler
-                       + UOn::select / ucall(this, VREM_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, VREM_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + uhbox("PsPdf           : " + UFont::plain
            + ucheckbox("Evince" + sel_pspdf
-                       + UOn::select / ucall(this, EVINCE_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, EVINCE_TOOL, &Widgets::prefCB))
                        .setSelected()
            + ucheckbox("Gv" + sel_pspdf
-                       + UOn::select / ucall(this, GV_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, GV_TOOL, &Widgets::prefCB))
            + ucheckbox("Ghostscript" + sel_pspdf
-                       + UOn::select / ucall(this, GHOSTVIEW_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, GHOSTVIEW_TOOL, &Widgets::prefCB))
            + ucheckbox("Acrobat" + sel_pspdf
-                       + UOn::select / ucall(this, ACROBAT_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, ACROBAT_TOOL, &Widgets::prefCB))
            + ucheckbox("Xpdf" + sel_pspdf
-                       + UOn::select / ucall(this, XPDF_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, XPDF_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + uhbox("Office          : " + UFont::plain
            + ucheckbox("LibreOffice" + sel_office
-                       + UOn::select / ucall(this, LIBROFFICE_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, LIBROFFICE_TOOL, &Widgets::prefCB))
                        .setSelected()
            + ucheckbox("MsOffice" + sel_office
-                       + UOn::select / ucall(this, MSOFFICE_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, MSOFFICE_TOOL, &Widgets::prefCB))
            + ucheckbox("OpenOffice" + sel_office
-                       + UOn::select / ucall(this, OPENOFFICE_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, OPENOFFICE_TOOL, &Widgets::prefCB))
            + ucheckbox("StarOffice" + sel_office
-                       + UOn::select / ucall(this, STAROFFICE_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, STAROFFICE_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + uhbox("Session         : " + UFont::plain
            + ucheckbox("Ssh" + sel_session
-                       + UOn::select / ucall(this, SSH_TOOL, &Widgets::setPrefCB)
+                       + UOn::select / ucall(this, SSH_TOOL, &Widgets::prefCB)
                        ).setSelected()
            + ucheckbox("Telnet" + sel_session
-                       + UOn::select / ucall(this, TELNET_TOOL, &Widgets::setPrefCB))
+                       + UOn::select / ucall(this, TELNET_TOOL, &Widgets::prefCB))
            )
    + uhbox(UBorder::shadowOut)
    + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
@@ -1011,10 +1011,10 @@ UDialog& Widgets::gridDialog()
 UDialog& Widgets::toolDialog()
 {
   return udialog
-  (  ubutton("Audio"      + ucall(this, true, &Widgets::setAudioCB))
-   + ubutton("Video"      + ucall(this, true, &Widgets::setVideoCB))
-   + ubutton("Whiteboard" + ucall(this, true, &Widgets::setWhiteboardCB))
-   + ubutton("Modeler"    + ucall(this, true, &Widgets::setModelerCB))
+  (  ubutton("Audio"      + ucall(this, true, &Widgets::audioCB))
+   + ubutton("Video"      + ucall(this, true, &Widgets::videoCB))
+   + ubutton("Whiteboard" + ucall(this, true, &Widgets::whiteboardCB))
+   + ubutton("Modeler"    + ucall(this, true, &Widgets::modelerCB))
    + uhbox(UBorder::shadowIn)
    + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
    );
@@ -1155,7 +1155,7 @@ static void setForm(int item) {
   }
 }
 
-void Widgets::addNewObjectCB()
+void Widgets::newObjectCB()
 {
   char s[1024], url[128];
   float r = .2 * size;
@@ -1408,7 +1408,7 @@ UDialog& Widgets::addobjDialog()
     + uhcenter()
     + uhbox(uhflex()
       + ubutton(UFont::bold + uhcenter() + " Add " 
-                + ucall(this, &Widgets::addNewObjectCB))
+                + ucall(this, &Widgets::newObjectCB))
       + ubutton(UFont::bold + uhcenter() + " Cancel " + ucloseWin()))
     );
 
