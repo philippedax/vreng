@@ -57,32 +57,32 @@ Parse * Parse::getParse()
 
 
 /** Goto next token, a token is a string separated by a space */
-char * Parse::nextToken()
+char * Parse::nextToken() const
 {
   return strtok(NULL, SEP);
 }
 
-char * Parse::skipChar(char *p, char c, bool flag)
+char * Parse::skipChar(char *p, char c, bool flag) const
 {
   char *s = p;
   if (p && (p = strchr(p, c)))
     p++;
   else
-    if (flag) error("At line %d, missing '%c' in %s", numline-1, c, s);
+    if (flag) error("parse error at line %d (missing '%c' in %s)", numline-1, c, s);
   return p;
 }
 
-char * Parse::skipEqual(char *p)
+char * Parse::skipEqual(char *p) const
 {
   return skipChar(p, '=', 1);
 }
 
-char * Parse::skipOpenBracket(char *p)
+char * Parse::skipOpenBracket(char *p) const
 {
   return skipChar(p, '[', 1);
 }
 
-char * Parse::skipOpenParenthesis(char *p)
+char * Parse::skipOpenParenthesis(char *p) const
 {
   char *q = skipChar(p, '(', 0);
   if (q) return q;
@@ -92,70 +92,45 @@ char * Parse::skipOpenParenthesis(char *p)
   }
 }
 
-char * Parse::skipCloseParenthesis(char *p)
+char * Parse::skipCloseParenthesis(char *p) const
 {
   return skipChar(p, ')', 1);
 }
 
 /* Skip double quotes or single quote */
-char * Parse::skipQuotes(char *p, bool flag)
+char * Parse::skipQuotes(char *p, bool flag) const
 {
   if (p && ((*p == '"') || (*p == '\''))) p++;
   return p;
 }
 
 /* find next space or next endtag */
-char * Parse::nextSpace(char *p)
+char * Parse::nextSpace(char *p) const
 {
   while (p && *p && !isspace(*p) && *p != '>') p++;
   return p;
 }
 
-char * Parse::skipSpace(char *p)
+char * Parse::skipSpace(char *p) const
 {
   while (p && isspace(*p)) p++;
   return p;
 }
 
-char * Parse::skipSepar(char *p)
+char * Parse::skipSepar(char *p) const
 {
   return nextToken();
 }
 
-bool Parse::isFloat(const char *p)
+bool Parse::isFloat(const char *p) const
 {
   return (p && (isdigit((int) *p) || *p == '-' || *p == '+' || *p == '.'));
 }
 
-bool Parse::isInt(const char *p)
+bool Parse::isInt(const char *p) const
 {
   return (p && (isdigit((int) *p) || *p == '-' || *p == '+'));
 }
-
-#if 0 //pdtoken
-char * Parse::getTok(char *l, int *tok)
-{
-  char *t = l;
-  const struct _otokens *ptab;
-
-  *tok = OTOK_ERR;
-  for (ptab = otokens; ptab->tokstr ; ptab++) {
-    if ((!stringcmp(ptab->tokstr, t))) ||
-        (!strcmp(ptab->tokalias, t, strlen(ptab->tokalias)))) {
-      *tok = ptab->tokid;
-      char *p;
-      if ((p = strchr(l, '='))) {
-        l = skipEqual(l);
-        *(l-1) = '\0';
-      }
-      return l;
-    }
-  }
-  error("getTok: unknown \"%s\" in %s", t, l);
-  return l;
-}
-#endif //pdtoken
-
 
 /* parse begin of line */
 int Parse::parseLine(char *_line, int *ptag_type)
@@ -239,7 +214,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
       if ((oclass = OClass::getOClass(ptok))) {
         *ptag_type = oclass->type_id;
         if (! OClass::isValidType(*ptag_type))
-          error("At line %d, *ptag_type=%d ptok=%s", numline, *ptag_type, ptok);
+          error("parse error at line %d (invalid type), *ptag_type=%d ptok=%s", numline, *ptag_type, ptok);
         memset(tagobj, 0, sizeof(tagobj));
         strncpy(tagobj, ptok, TAG_LEN-1);	// memorize object tag
         if (q) *q = c;	// restore sep
@@ -265,71 +240,67 @@ int Parse::parseLine(char *_line, int *ptag_type)
 }
 
 /* parse vre data, called by World::httpReader */
-int Parse::parseVreLines(char *buf, int bufsiz)
+int Parse::parseVreFile(char *buf, int bufsiz)
 {
-  int maxlen = 0;	// length
+  int linelen = 0;	// length
   char *tmpline = NULL;
   static char *line = NULL;
 
   if (! line) {	// need a new line
     tmpline = new char[bufsiz];
     memset(tmpline, 0, bufsiz);
-    maxlen = 0;
+    linelen = 0;
   }
   else {	// old line: copy previous line in tmpline
-    maxlen = strlen(line);
-    tmpline = new char[bufsiz + maxlen];
+    linelen = strlen(line);
+    tmpline = new char[bufsiz + linelen];
     memset(tmpline, 0, bufsiz);
     strcpy(tmpline, line);
   }
 
   // copy buf at the end of tmpline
-  memcpy(tmpline + maxlen, buf, bufsiz);
-  maxlen += bufsiz;
+  memcpy(tmpline + linelen, buf, bufsiz);
+  linelen += bufsiz;
 
   int iol = 0;	// index in line;
   int bol = 0;	// index begin of line
-  numline = 1;	// line number
 
-  while (1) {
+  while (1) {		// parses all lines of the vre file
     int eol = 0;	// index end of line
 
-    for (iol = bol; iol < maxlen; iol++) {
+    for (iol = bol; iol < linelen; iol++) {
       if (tmpline[iol] == '\n') {
         numline++;
         if (tmpline[iol-1] == '\\') {	// end of physical line, line follows
           tmpline[iol-1] = tmpline[iol] = ' ';
         }
-        else {	// end of logical line
+        else {		// end of logical line
           tmpline[iol] = ' ';	// replace '\n' by ' '
 	  eol = iol;
-	  iol = maxlen + 1;	// HUGLY! (to do maxlen + 2)
+	  iol = linelen + 1;	// HUGLY! (to do linelen + 2)
         }
       }
     }
-    if (iol == maxlen + 2) {	// end of logical line
+    if (iol == linelen + 2) {	// end of logical line
       line = new char[eol - bol + 2];	// allocate a new line
 
       // build line from tmpline
       memcpy(line, tmpline + bol, eol - bol);
       line[eol - bol] = '\0';
-#ifdef WIN32 // crlf
-      if (line[eol - bol - 1] == '\r') line[eol - bol - 1] = '\0';
-#endif // WIN32
-      //trace(DBG_FORCE, "line: %s %d %d", line, eol, bol);
+      if (line[eol - bol - 1] == '\r') line[eol - bol - 1] = '\0';	// WIN32
+      trace(DBG_FORCE, "line %d: %s %d %d", numline, line, eol, bol);
 
       // discard empty lines
       if (*line == '\0') {
-        if (line) delete[] line; line = NULL;
-        bol = eol + 1;	// begin of next line
+        DELETE2(line);
+        bol = eol + 1;		// begin of next line
         continue;
       }
-
-      // discard comments begining with a '#'
+      // discard comments begining with a '#' (legacy old syntax)
       char *p = skipSpace(line);
       if (*p == '#') {
-        if (line) delete[] line; line = NULL;
-        bol = eol + 1;	// begin of next line
+        DELETE2(line);
+        bol = eol + 1;		// begin of next line
         continue;
       }
 
@@ -340,20 +311,21 @@ int Parse::parseVreLines(char *buf, int bufsiz)
         case TAG_HEAD:
         case TAG_SCENE:
         case TAG_DOCTYPE:
-          break;
+          DELETE2(line);
+          bol = eol + 1;	// begin of next line
+          continue;	// or break
         case TAG_ENDFILE:
-          if (line) delete[] line; line = NULL;
+          DELETE2(line);
           return 0;		// end of parsing
         case TAG_META:
 	  if ((p = strstr(line, "=\"refresh\"")))
             World::current()->setPersistent(false);
-	  if ((p = strstr(line, "/>"))) {
-            if (line) delete[] line; line = NULL;
-	  }
+	  if ((p = strstr(line, "/>")))
+            DELETE2(line);
           break;
         case TAG_COMMENT:
 	  if ((p = strstr(line, "-->"))) {
-            if (line) delete[] line; line = NULL;
+            DELETE2(line);
             commented = false;
           }
           break;
@@ -375,7 +347,7 @@ int Parse::parseVreLines(char *buf, int bufsiz)
           }
           break;
         case TAG_OBJECT:
-          //trace(DBG_FORCE, "type=%d line=%s", tag_type, line);
+          trace(DBG_FORCE, "object %d: type=%d line=%s", numline, tag_type, line);
 	  if ((p = strstr(line, "-->"))) {
             commented = false;
             break;
@@ -383,15 +355,16 @@ int Parse::parseVreLines(char *buf, int bufsiz)
           // check end of the object </...>
           char closetag[TAG_LEN +4];
           sprintf(closetag, "</%s>", tagobj);
-	  if ((p = strstr(line, closetag)) == NULL)
-            continue;	// not end of object
+	  if ((p = strstr(line, closetag)) == NULL) {
+            continue;	// end of object not already reached parses next lines
+          }
           // here, we must have reached the end of the object description
           if (tag_type != UNKNOWN_TYPE) {
-            if (! OClass::isValidType(tag_type)) {
-              error("parse error at line %d, type=%d line=%s", numline, tag_type, line);
+            if (! OClass::isValidType(tag_type)) {	// type not valid
+              error("parse error at line %d (not valid), type=%d line=%s", numline, tag_type, line);
               return -1;
             }
-	    // skip <type to get attributes (name, pos, solid)
+	    // skip <type to get attributes (name, pos, solid, category, descr)
             char *attr = line;
             if (isspace(*line))
               attr = skipSpace(line);
@@ -400,52 +373,51 @@ int Parse::parseVreLines(char *buf, int bufsiz)
 	    if (*attr == '>')
 	      ++attr;
             if (::g.pref.dbgtrace) trace(DBG_FORCE, "[%d] %s", tag_type, line);
-            /*
-             * call the class creator with object attributes
-             */
             progression('o');
             ::g.times.object.start();
+            // call the creator of this object with object attributes
             if ((wobject = OClass::creatorInstance(tag_type, attr)) == NULL) {
-              error("parse error at line %d, type=%d line=%s", numline, tag_type, line);
+              error("parse error at line %d (creator instance), type=%d line=%s", numline, tag_type, line);
               return -1;
             }
             ::g.times.object.stop();
           }
+          else		// unknown type
+            error("parse error at line %d (unknown type), type=%d line=%s", numline, tag_type, line);
           break;
       }
-      if (line) delete[] line; line = NULL;
+      DELETE2(line);
       bol = eol + 1;	// begin of next line = end of current line + \n
     }
     else break;	// next line
   }
-  if (line) delete[] line; line = NULL;
-
-  line = new char[maxlen - bol + 2];
+  DELETE2(line);
+  line = new char[linelen - bol + 2];
 
   // copy the end of previous tmpline into line
-  memcpy(line, tmpline + bol, maxlen - bol);
-  line[maxlen - bol] = '\0';
+  memcpy(line, tmpline + bol, linelen - bol);
+  line[linelen - bol] = '\0';
   delete[] tmpline;
   return 1;
 }
 
 void Parse::printNumline()
 {
-  error("parse error at line %d", numline);
+  error("parse error at line %d (solid)", numline);
 }
 
 /* parse tag : tokenize the line */
 char * WObject::tokenize(char *l)
 {
-  // remove close tag
   Parse *parser = parse();
+
   char closetag[Parse::TAG_LEN +2];
   if (*parser->tagobj) {
+    // remove close tag
     sprintf(closetag, "</%s", parser->tagobj);
     char *p = strstr(l, closetag);	// </type>
     if (p) *p = 0;
   }
-  //trace(DBG_FORCE, "l=%s", l);
 
   // save solid string into geometry for MySql purposes
   char *p = strstr(l, "<solid");
@@ -476,7 +448,7 @@ char * WObject::tokenize(char *l)
   return strtok(l, SEP);
 }
 
-/* skip token */
+/* skip attributes */
 char * Parse::skipAttribute(char *l)
 {
   l = skipQuotes(l);	// first quote
@@ -513,7 +485,7 @@ char * Parse::parseDescr(char *l, char *strdst)
   l = skipEqual(l);
   if (*l == '"') l++;	// double quoted string
 
-  char tmp[BUFSIZ], *p;
+  char tmp[256], *p;
   for (p = tmp; *l != '"' ; ) {
     if (*l) *p++ = *l++;
     else {
@@ -617,10 +589,11 @@ char * Parse::parseColor(char *ptok, Pos &p)
   return nextToken();
 }
 
+/* parse a path */
 char * Parse::parsePath(char *ptok, float path[][5], uint16_t *segs)
 {
   if (!stringcmp(ptok, "path=")) ptok = skipEqual(ptok);
-  ptok = skipQuotes(ptok, 0);	// we don't check the second '"'
+  ptok = skipQuotes(ptok, 0);	// don't check the second '"'
   if (ptok) if (*ptok == 0) ptok = nextToken();
 
   for (int i=0; ptok && (*ptok != '"'); i++) {
@@ -639,10 +612,11 @@ char * Parse::parsePath(char *ptok, float path[][5], uint16_t *segs)
   return nextToken();
 }
 
+/* parse a solid */
 char * Parse::parseSolid(char *ptok, WObject *wobject)
 {
   if (!ptok || !strlen(ptok)) {
-    error("At line %d, no solid", numline-1);
+    error("parse error at line %d (no solid)", numline-1);
     return nextToken();
   }
   if (! strcmp(ptok, "solid"))
@@ -659,6 +633,7 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
   return ptok;
 }
 
+/* parse a solid */
 char * Parse::parseSolid(char *ptok, const char *separ, WObject *wobject)
 {
   if (*ptok == '<') ptok++;
@@ -666,12 +641,14 @@ char * Parse::parseSolid(char *ptok, const char *separ, WObject *wobject)
   return parseSolid(ptok, wobject);
 }
 
+/* parse several solids */
 void Parse::parseSolids(char *ptok, const char *separ, WObject *wobject)
 {
   strtok(ptok, separ);
   while (ptok) ptok = parseSolid(ptok, wobject);
 }
 
+/* parse a rotation */
 char * Parse::parseRotation(char *ptok, Pos &p)
 {
   if (!stringcmp(ptok, "rot=") || !stringcmp(ptok, "rotation=")) ptok = skipEqual(ptok);
@@ -686,6 +663,7 @@ char * Parse::parseRotation(char *ptok, Pos &p)
   return nextToken();
 }
 
+/* parse a translation */
 char * Parse::parseTranslation(char *ptok, Pos &p)
 {
   if (!stringcmp(ptok, "trans=") || !stringcmp(ptok, "translation=")) ptok = skipEqual(ptok);
@@ -699,12 +677,14 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
   return nextToken();
 }
 
+/* parse an url */
 char * Parse::parseUrl(char *ptok, char *url)
 {
   if (!stringcmp(ptok, "url=")) return parseString(ptok, url, "url");
   else                           return parseString(ptok, url);
 }
 
+/* parse a world and a channel */
 char * Parse::parseWorldAndChannel(char *ptok, char *url, char *chan)
 {
   if (!strcmp(ptok, "world")) {	// <world>
@@ -720,6 +700,7 @@ char * Parse::parseWorldAndChannel(char *ptok, char *url, char *chan)
   }
 }
 
+/* parse a channel */
 char * Parse::parseChannel(char *ptok, char *channel)
 {
   if (ptok) {
@@ -731,6 +712,7 @@ char * Parse::parseChannel(char *ptok, char *channel)
   return nextToken();
 }
 
+/* parse a string */
 char * Parse::parseString(char *ptok, char *str)
 {
   if (ptok) {
@@ -742,6 +724,7 @@ char * Parse::parseString(char *ptok, char *str)
   return nextToken();
 }
 
+/* parse a string */
 char * Parse::parseString(char *ptok, char *str, const char *keystr)
 {
   if (ptok && !stringcmp(ptok, keystr)) {
@@ -751,9 +734,11 @@ char * Parse::parseString(char *ptok, char *str, const char *keystr)
   return nextToken();
 }
 
+/* parse a quoted string */
 char * Parse::parseQuotedString(char *ptok, char *str)
 {
   char *p, *s = str;
+
   if (*ptok == '"') ptok++;
   for (p = ptok; p && *p != '"' ; ) {
     if (*p) *s++ = *p++;
@@ -766,6 +751,7 @@ char * Parse::parseQuotedString(char *ptok, char *str)
   return nextToken();
 }
 
+/* parse a quoted string */
 char * Parse::parseQuotedString(char *ptok, char *str, const char *keystr)
 {
   if (ptok && !stringcmp(ptok, keystr)) {

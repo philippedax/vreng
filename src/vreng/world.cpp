@@ -778,7 +778,7 @@ httpread:
     while ((vrelen = http->httpRead(vrebuf, sizeof(vrebuf))) > 0) {
       if (vrefp)
         fwrite(vrebuf, 1, vrelen, vrefp);      // save into the cache
-      if (parser->parseVreLines(vrebuf, vrelen) <= 0)   // parsing error
+      if (parser->parseVreFile(vrebuf, vrelen) <= 0)   // parsing error
         break;
     }
 
@@ -789,7 +789,7 @@ httpread:
   else {        // file exists in the cache
     if ((vrefp = File::openFile(vrefile, "r")) == NULL) goto httpread;    // download it
     while ((vrelen = fread(vrebuf, 1, sizeof(vrebuf), vrefp)) > 0) {
-      if (parser->parseVreLines(vrebuf, vrelen) <= 0)   // parsing error
+      if (parser->parseVreFile(vrebuf, vrelen) <= 0)   // parsing error
         break;
     }
   }
@@ -1015,7 +1015,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     trace(DBG_WO, "world sandbox: ");
     world->setName("sandbox");
     Parse *parser = Parse::getParse();
-    parser->parseVreLines(sandbox_vre, sizeof(sandbox_vre));
+    parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));
     //dax localuser->disableGravity();
   }
   localuser->inits();

@@ -70,7 +70,7 @@ private:
 public:
   static const int TAG_LEN = 16;	// tag length
 
-  int numline;		///< line number
+  uint32_t numline;	///< line number
   char tagobj[TAG_LEN];	///< tag
 
   Parse();
@@ -82,47 +82,8 @@ public:
   static Parse * getParse();
   /**< Gets the parse instance */
 
-  virtual char * nextToken();
-  /**< Gets the next token */
-
-  virtual char * skipChar(char *p, char c, bool flag);
-  /**< Skip this character */
-
-  virtual char * skipEqual(char *p);
-  /**< Skip equal character */
-
-  virtual char * skipOpenBracket(char *p);
-  /**< Skip open-bracket character */
-
-  virtual char * skipOpenParenthesis(char *p);
-  /**< Skip open-parenthesis character */
-
-  virtual char * skipCloseParenthesis(char *p);
-  /**< Skip close-parenthesis character */
-
-  virtual char * skipQuotes(char *p, bool flag=true);
-  /**< Skip double quotes or single quote */
-
-  virtual char * nextSpace(char *p);
-  /**< find next space or next endtag */
-
-  virtual char * skipSpace(char *p);
-  /**< Skip space character */
-
-  virtual char * skipSepar(char *p);
-  /**< Skip separator character */
-
-  virtual char * parseName(char *l, char *name);
-  /**< Returns a named name */
-
-  virtual char * parseDescr(char *l, char *infos);
-  /**< Returns a description in infos */
-
-  virtual char * skipAttribute(char *l);
-  /**< Skip the following attribute="value" */
-
-  virtual char * parseAttributes(char *l, class WObject *po);
-  /**< Parses attribute="value" */
+  virtual int parseVreFile(char *buf, int bufsiz);
+  /**< parse vre data, called by vreHttpReader */
 
   virtual char * parseSolid(char *ptok, class WObject *po);
   /**<
@@ -133,23 +94,23 @@ public:
   virtual char * parseSolid(char *geom, const char *separ, class WObject *po);
   /**< Parses a builtin solid */
 
-  virtual void parseSolids(char *geom, const char *separ, class WObject *po);
-  /**< Parses several solids */
-
-  virtual char * parsePosition(char *ptok, Pos &p);
-  /**< Returns the spacial positions x y z az ax */
+  virtual char * parseUrl(char *ptok, char *url);
+  /**< Returns an url */
 
   virtual char * parseColor(char *ptok, Pos &p);
   /**< Returns a color under r,g,b,a format */
 
-  virtual char * parseRotation(char *ptok, Pos &p);
-  /**< Returns a rotation under r,X,Y,Z format */
+  virtual void parseSolids(char *geom, const char *separ, class WObject *po);
+  /**< Parses several solids */
 
-  virtual char * parseTranslation(char *ptok, Pos &p);
-  /**< Returns a translation under tx,ty,tz format */
+  virtual char * parseAttributes(char *l, class WObject *po);
+  /**< Parses attribute="value" */
 
-  virtual char * parseUrl(char *ptok, char *url);
-  /**< Returns an url */
+  virtual char * parsePath(char *ptok, float path[][5], uint16_t *segs);
+  /**< Returns an array of position describing the path */
+
+  virtual void printNumline();
+  /**< print parse error at */
 
   virtual char * parseWorldAndChannel(char *ptok, char *url, char *chan);
   /**< Returns a world url and a numeric string */
@@ -214,43 +175,67 @@ public:
   virtual char * parseVector5f(char *ptok, float *vector);
   /**< Returns a vector under vx,vy,vz,vaz,vax format */
 
-  virtual char * parsePath(char *ptok, float path[][5], uint16_t *segs);
-  /**< Returns an array of position describing the path */
+  virtual char * skipAttribute(char *l);
+  /**< Skip the following attribute="value" */
 
-  virtual int parseVreLines(char *buf, int bufsiz);
-  /**< parse vre data, called by vreHttpReader */
+  virtual char * parsePosition(char *ptok, Pos &p);
+  /**< Returns the spacial positions x y z az ax */
 
-  virtual void printNumline();
-  /**< print parse error at */
+  virtual char * parseRotation(char *ptok, Pos &p);
+  /**< Returns a rotation under r,X,Y,Z format */
+
+  virtual char * parseTranslation(char *ptok, Pos &p);
+  /**< Returns a translation under tx,ty,tz format */
+
+  virtual char * parseName(char *l, char *name);
+  /**< Returns a named name */
+
+  virtual char * skipEqual(char *p) const;
+  /**< Skip equal character */
+
+  virtual char * skipQuotes(char *p, bool flag=true) const;
+  /**< Skip double quotes or single quote */
+
+  virtual char * nextToken() const;
+  /**< Gets the next token */
+
 
 private:
+  virtual char * nextSpace(char *p) const;
+  /**< find next space or next endtag */
+
+  virtual char * skipChar(char *p, char c, bool flag) const;
+  /**< Skip this character */
+
+  virtual char * skipOpenBracket(char *p) const;
+  /**< Skip open-bracket character */
+
+  virtual char * skipOpenParenthesis(char *p) const;
+  /**< Skip open-parenthesis character */
+
+  virtual char * skipCloseParenthesis(char *p) const;
+  /**< Skip close-parenthesis character */
+
+  virtual char * skipSpace(char *p) const;
+  /**< Skip space character */
+
+  virtual char * skipSepar(char *p) const;
+  /**< Skip separator character */
+
+  virtual char * parseDescr(char *l, char *infos);
+  /**< Returns a description in infos */
+
   virtual int parseLine(char *_line, int *ptag_type);
   /**< parse begin of line */
 
-  inline bool isFloat(const char *p);
+  inline bool isFloat(const char *p) const;
   /**< Check if string begins with a float */
 
-  inline bool isInt(const char *p);
+  inline bool isInt(const char *p) const;
   /**< Check if string begins with an integer */
 
   virtual char * parseVectorf(char *ptok, float *vector, int n);
   /**< Returns a vector of dimension n */
-
-
-#if 0 //not used
-  virtual char * parsePositionOrientation(char *ptok);
-  /**< Returns the spacial positions x y z az ax */
-  virtual char * parseX(char *ptok);
-  /**< Returns x position */
-  virtual char * parseY(char *ptok);
-  /**< Returns y position */
-  virtual char * parseZ(char *ptok);
-  /**< Returns z position */
-  virtual char * parseAZ(char *ptok);
-  /**< Returns az orientation */
-  virtual char * parseAX(char *ptok);
-  /**< Returns ax orientation */
-#endif //not used
 
 };
 
