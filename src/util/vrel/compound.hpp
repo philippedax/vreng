@@ -44,7 +44,7 @@ class Compound : public Vrel
   void exec(Data_liste *);
   /**<
    * - 1. Sauver les variables de classe (et des superclasses ?)
-   * - 2. Lancer l'exécution du constructeur
+   * - 2. Lancer l'execution du constructeur
    * - 3. Charger l'environnement courant
    */
 };

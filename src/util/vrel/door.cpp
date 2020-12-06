@@ -21,13 +21,13 @@
 #include "door.hpp"
 
 
-// Constructeur de la classe Door 
+// Constructeur
 Door::Door()
 {
   options_box();
 }
 
-// Méthode exec de la classe Door 
+// Methode exec
 void Door::exec(Data_liste *env1)
 {
   if (env1->nb_data != 11) Erreur("Door needs 11 arguments");

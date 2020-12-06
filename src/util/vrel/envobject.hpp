@@ -35,10 +35,10 @@ class Env_objets
   virtual ~Env_objets() {};
 
   void addObjet(char *, Creation *);
-  /**< Méthode qui ajoute un objet au tableau des objets */
+  /**< Methode qui ajoute un objet au tableau des objets */
 
   void affectation(char *, char *, Data *);
-  /**< Méthode qui affecte une valeur à une variable x de l'objet y */
+  /**< Methode qui affecte une valeur à une variable x de l'objet y */
 };
 
 #endif

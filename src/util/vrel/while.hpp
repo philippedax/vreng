@@ -34,7 +34,7 @@ class Boucle_while : public Instruction
   // Ce pointeur indique l'objet "Test" qui est argument du "while".
   
   Instruction_liste * alors;
-  // Il s'agit de la liste d'instructions exécutée tant que la condition est
+  // Il s'agit de la liste d'instructions executee tant que la condition est
   // remplie.
 
  public:
@@ -47,7 +47,7 @@ class Boucle_while : public Instruction
   
   void exec ();
   /**<
-   * Vérifie qu'on ne risque pas d'avoir une boucle infinie et exécute un
+   * Verifie qu'on ne risque pas d'avoir une boucle infinie et exécute un
    * "while" sur le test "tant_que". "alors" est exécuté par appel de sa
    * méthode "exec" si la condition est remplie.
    */

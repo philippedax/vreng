@@ -44,7 +44,7 @@ class Variable : public Data
   // Retourne la valeur de la data associee au nom de variable
   float get_float();
 
-  // Méthodes inutiles
+  // Methodes inutiles
   void set_float (float)   { } 
   void set_float (int)     { }
   Data* plus (Data *)      { return NULL; }

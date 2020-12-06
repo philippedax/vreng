@@ -21,8 +21,8 @@
 #include "walls.hpp"
 
 
-// Méthode exec de la classe Walls
-//  env1 = liste des arguments passés lors de l'appel de classe 
+// Methode exec
+//  env1 = liste des arguments passes lors de l'appel de classe 
 void Walls::exec(Data_liste * env1)
 {
   if (env1->nb_data != 1) Erreur("Walls needs 1 argument");

@@ -22,7 +22,6 @@
 /******* difference de variables ******/
 
 #include "vrel.hpp"
-
 #include "dif.hpp"
 #include "data.hpp"
 
@@ -38,13 +37,10 @@ Different::Different (Data * opgauche, Data * opdroite)
 // Exécution. 
 Data* Different::get_data ()
 {
-  Data *opg, *opd;
-  Data *resultat;
-
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->Different(opd);
   
-  resultat = opg->Different(opd);
   if (resultat == NULL) {
     cout << "Error line " << ligne << " : args are not digits\n";
     exit(1);

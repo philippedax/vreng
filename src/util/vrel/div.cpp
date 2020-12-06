@@ -22,7 +22,6 @@
 /******** division de variables *******/
 
 #include "vrel.hpp"
-
 #include "div.hpp"
 #include "data.hpp"
 
@@ -35,18 +34,15 @@ Division::Division (Data * opgauche, Data * opdroite)
   op_droite = opdroite;
 }
 
-// Exécution.
+// Execution.
 Data* Division::get_data ()
 {
-  Data *opg, *opd;
-  Data *resultat;
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->div(opd);
 
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
-  
-  resultat = opg->div(opd);
   if (resultat == NULL) {
-    cout << "Error line " << ligne << " : dans la division : les deux termes ne sont pas des nombres. \n";
+    cout << "Error line " << ligne << " : dans la division : les deux termes ne sont pas des nombres.\n";
     exit(1);
   }
   return resultat;

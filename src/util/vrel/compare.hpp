@@ -32,9 +32,9 @@ class Comparaison : public Data
   
   int ligne;			///< line number supplied by bison
   
-  virtual Data* get_data () = 0; ///< Méthode d'exécution de la comparaison
+  virtual Data* get_data () = 0; ///< Methode d'execution de la comparaison
     
-  void erreur (char * texte) {	///< Méthode d'erreur
+  void erreur (char * texte) {	///< Methode d'erreur
     printf ("Erreur : ligne %d \n %s \n", ligne, texte);
     exit(1);
   }
@@ -44,7 +44,7 @@ class Comparaison : public Data
     delete op_droite;
   }
 
-  // Méthodes inutiles.
+  // Methodes inutiles.
   void set_float (float) { } 
   void set_float (int)   { }
   float get_float ()     { return 0.0; }

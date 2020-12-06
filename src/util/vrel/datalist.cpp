@@ -22,7 +22,6 @@
 /****** classe des listes de Data *****/
 
 #include "vrel.hpp"
-
 #include "datalist.hpp"
 #include "data.hpp"
 
@@ -43,7 +42,7 @@ Data_liste::Data_liste ()
 void Data_liste::ajouter (Data* data)
 {
   donnee[nb_data] = data;
-  nb_data ++;
+  nb_data++;
 }
 
 // Destructeur.

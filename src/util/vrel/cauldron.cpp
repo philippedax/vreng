@@ -29,8 +29,8 @@ Cauldron::Cauldron()
   options_app();
 }
 
-// Méthode exec de la classe Cauldron
-//  env1 = liste des arguments passés lors de l'appel de classe 
+// Methode exec de la classe Cauldron
+//  env1 = liste des arguments passes lors de l'appel de classe 
 void Cauldron::exec(Data_liste *env1)
 {
   if (env1->nb_data != 6) Erreur("Cauldron needs 6 arguments");

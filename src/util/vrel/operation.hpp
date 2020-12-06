@@ -28,13 +28,13 @@ class Operation : public Data
 {
  public:
 
-  // Numéro de ligne fournit par bison et qui sert aux messages d'erreur.
+  // Numero de ligne fournit par bison et qui sert aux messages d'erreur.
   int ligne;
 
-  // Méthode d'exécution de l'operation.
+  // Methode d'execution de l'operation.
   virtual Data* get_data () = 0;
 
-  // Méthode d'erreur.
+  // Methode d'erreur.
   void erreur (char * texte) {
     printf ("Erreur : ligne %d \n%s \n", ligne, texte);
     exit(1);
@@ -43,7 +43,7 @@ class Operation : public Data
   // Retourne le resultat.
   float get_float ()  { return (get_data()->get_float());}
 
-  // Méthodes inutiles.
+  // Methodes inutiles.
   void set_float (float) { } 
   void set_float (int)   { }
   Data* plus (Data *)      { return NULL; }

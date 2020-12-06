@@ -346,15 +346,14 @@ void UI::MyGlutIdle(void)
   /* if ( glutGetWindow() != sMainWindowID ) 
     glutSetWindow(sMainWindowID);  */
 
-  /*  GLUI_Master.sync_live_all();  -- not needed - nothing to sync in this
-                                       application  */
+  /*  GLUI_Master.sync_live_all();  -- not needed - nothing to sync in this application  */
  // glutPostRedisplay();
 }
 
 /***************************************** myGlutMouse() **********/
 void UI::MyGlutMouse(int button, int button_state, int x, int y)
 {
-  if( button_state == GLUT_DOWN && button == GLUT_LEFT_BUTTON ) {      
+  if ( button_state == GLUT_DOWN && button == GLUT_LEFT_BUTTON ) {      
       Solid *formerSelectedItem = sSelectedItem;
 
       sSelectedItem = RayCaster::GetSelection(sCamera->GetCenter(), sCamera->GetWatch(),
@@ -387,7 +386,6 @@ void UI::MyGlutMouse(int button, int button_state, int x, int y)
 	      sSelectedSet = suivant;
 	  }
       }
-
       if (sSelectedSet != NULL)
 	sSelectedItem = NULL;
 

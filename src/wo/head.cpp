@@ -120,7 +120,7 @@ void Head::behavior()
 /* Sets an unique name */
 void Head::setName(const char *modelname)
 {
-  sprintf(names.named,"%s&%s", modelname, localuser->getInstance());
+  sprintf(names.given,"%s&%s", modelname, localuser->getInstance());
   updateNames();
 }
 
@@ -156,7 +156,7 @@ void Head::getPersist()
 void Head::delPersist()
 {
 #if HAVE_MYSQL
-  if (psql && explicitName()) psql->deleteRow(this, names.named);
+  if (psql && explicitName()) psql->deleteRow(this, names.given);
 #endif
 }
 
@@ -204,7 +204,7 @@ Head::Head(User *user, void *d, time_t s, time_t u)
   char *p;
   if (!str) return;
 
-  strcpy(names.named, str);
+  strcpy(names.given, str);
   strcpy(names.type, typeName());     // need names.type for MySql
   p = strchr(str, '&');
   *p = '\0';

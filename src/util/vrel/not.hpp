@@ -37,7 +37,7 @@ class Not : public Oplogique
   // Constructeur de la classe.
   Not(Data *);
 
-  // Méthode d'exécution du Not.
+  // Methode d'execution du Not.
   Data* get_data ();
   
   virtual ~Not();	///< Destructeur

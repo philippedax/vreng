@@ -22,14 +22,13 @@
 /****** classe Env_var ******/
 
 #include "vrel.hpp"
-
 #include "envvar.hpp"
 #include "data.hpp"
 #include "number.hpp"
 #include "str.hpp"
 
 
-// Constructeur: alloue la place mémoire pour les tableaux.
+// Constructeur: alloue la place memoire pour les tableaux.
 Env_var::Env_var ()
 {
   // Initialisation du tableau de Data.
@@ -80,20 +79,16 @@ void Env_var::declaration (const char *nom_var)
 // Fonction de declaration d'un float.
 void Env_var::declaration (const char *nom, float flo1)
 {
-  Nombre * nb;
-
-  declaration (nom);
-  nb = new Nombre(flo1);
-  affectation (nom, nb);
+  declaration(nom);
+  Nombre *nb = new Nombre(flo1);
+  affectation(nom, nb);
 }
 
-// Fonction de declaration d'une chaine de caratère.
+// Fonction de declaration d'une chaine de caratere.
 void Env_var::declaration (const char *nom, const char *str)
 {
-  Chaine * ch;
-
   declaration (nom);
-  ch = new Chaine(str);
+  Chaine *ch = new Chaine(str);
   affectation (nom, ch);
 }
 
@@ -139,7 +134,5 @@ Data* Env_var::eval (const char *nom_var)
 Env_var::~Env_var()
 {
   if (donnee) delete[] donnee;
-  //for (int i = 0; i < 256; i++)
-    //if (nom[i]) delete[] nom[i];
   count = 0;
 }

@@ -35,16 +35,13 @@ Superieur::Superieur (Data * opgauche, Data * opdroite)
   op_droite = opdroite;
 }
 
-// Exécution. 
+// Execution. 
 Data* Superieur::get_data ()
 {
-  Data *opg, *opd;
-  Data *resultat;
-
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
-  
-  resultat = opg->Sup(opd);
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->Sup(opd);
+ 
   if (resultat == NULL) {
     cout << "Error at line " << ligne << " : args are not digits\n";
     exit(1);

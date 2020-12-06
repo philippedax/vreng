@@ -16,7 +16,6 @@
  ****************************************************************************/
 
 #include "vrel.hpp"
-
 #include "wall.hpp"
 #include "walls.hpp"
 #include "ground.hpp"
@@ -31,7 +30,6 @@
 #include "board.hpp"
 #include "cauldron.hpp"
 #include "aoi.hpp"
-
 #include "class.hpp"
 #include "error.hpp"
 #include "envclass.hpp"
@@ -60,7 +58,7 @@ Env_classe::Env_classe()
 // Ajouter une classe au tableau des classes 
 void Env_classe::addClasse(char nom_classe[50], Vrel * classe1)
 {
-  // test si le nom de la classe n'est pas déjà utilisé 
+  // test si le nom de la classe n'est pas deja utilise 
   for (int i=0; i<nb_classes; i++) {
     if (! strcmp(nom_classe, nom[i]))
       Erreur("Class already declared");

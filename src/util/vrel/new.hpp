@@ -31,7 +31,7 @@ class Creation : public Instruction
 {
  private:
 
-  char nom[30];              ///< Nom de la classe appelée.
+  char nom[30];              ///< Nom de la classe appelee.
   Data_liste * arg;          ///< Liste des arguments du constructeur.
   Env_var * var;   ///< Liste des variables de classe.
 
@@ -42,8 +42,8 @@ class Creation : public Instruction
   Creation(char *, Data_liste *);
   /**<
    * Constructeur
-   * - 1. Vérifier l'existence de la classe
-   * - 2. Déclarer les variables de classes dans var de Creation
+   * - 1. Verifier l'existence de la classe
+   * - 2. Declarer les variables de classes dans var de Creation
    */
 
   Creation(Variable *, char *, Data_liste *);
@@ -57,9 +57,9 @@ class Creation : public Instruction
 
   void exec();
   /**<
-   * Exécution 
+   * Execution 
    * - 1. Affecter var dans les variables de la classe
-   * - 2. Exécuter la classe
+   * - 2. Executer la classe
    */
 
 };

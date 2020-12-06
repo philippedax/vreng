@@ -36,7 +36,7 @@ class Modulo : public Operation
   // Constructeur de la classe.
   Modulo(Data *, Data *);
 
-  // Méthode d'exécution de la division.
+  // Methode d'execution de la division.
   Data* get_data();
 
   // Destructeur

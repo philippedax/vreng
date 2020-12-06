@@ -18,7 +18,6 @@
 /**** classe Decl_var_liste ****/
 
 #include "vrel.hpp"
-
 #include "decllist.hpp"
 #include "declvar.hpp"
 #include "envvar.hpp"
@@ -36,10 +35,10 @@ Decl_var_liste::~Decl_var_liste ()
   delete varloc;
 }
 
-// Ajout d'une variable à la liste varlocal.
+// Ajout d'une variable a la liste varlocal.
 void Decl_var_liste::adddeclarvar (Decl_var* declarvar)
 {
   varloc->declaration (declarvar->nomvar);
-  if(declarvar->donnee != NULL)
+  if (declarvar->donnee != NULL)
     varloc->affectation (declarvar->nomvar, declarvar->donnee);
 }

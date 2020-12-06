@@ -22,7 +22,6 @@
 /******** egalite de variables *******/
 
 #include "vrel.hpp"
-
 #include "egal.hpp"
 #include "data.hpp"
 
@@ -35,16 +34,13 @@ Egalite::Egalite (Data * opgauche, Data * opdroite)
   op_droite = opdroite;
 }
 
-// Exécution. 
+// Execution. 
 Data* Egalite::get_data (void)
 {
-  Data *opg, *opd;
-  Data *resultat;
-
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
-  
-  resultat = opg->EgalEgal(opd);
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->EgalEgal(opd);
+ 
   if (resultat == NULL) {
     cout << "Error at line " << ligne << " : args are not digits\n";
     exit(1);

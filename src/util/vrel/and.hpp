@@ -33,7 +33,7 @@ class And : public Oplogique
  public:
   
   And(Data *, Data *);		///< Constructeur de la classe
-  Data* get_data();		///< Méthode d'exécution du And
+  Data* get_data();		///< Methode d'execution du And
   virtual ~And();		///< Destructeur
 };
 

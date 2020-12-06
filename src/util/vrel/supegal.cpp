@@ -22,7 +22,6 @@
 /****** comparaison de variables *****/
 
 #include "vrel.hpp"
-
 #include "supegal.hpp"
 #include "data.hpp"
 
@@ -35,16 +34,13 @@ Supegal::Supegal (Data * opgauche, Data * opdroite)
   op_droite = opdroite;
 }
 
-// Exécution. 
+// Execution. 
 Data* Supegal::get_data ()
 {
-  Data *opg, *opd;
-  Data *resultat;
-
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
-  
-  resultat = opg->Supegal(opd);
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->Supegal(opd);
+ 
   if (resultat == NULL) {
     cout << "Error at line " << ligne << " : args are not digits\n";
     exit(1);

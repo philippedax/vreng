@@ -22,13 +22,13 @@
 /*** classe des chaines de caractere ***/
 
 #include "vrel.hpp"
-
 #include "str.hpp"
 
 
 // Constructeur
 Chaine::Chaine(const char * name)
 {
+printf("chaine: name=%s\n", name);
   strcpy(file, vrelfile);
   strcpy(nom, name);
   ligne = yylineno;
@@ -37,7 +37,6 @@ Chaine::Chaine(const char * name)
 // Destructeur
 Chaine::~Chaine()
 {
-  //if (nom) delete nom;
 }
 
 // Cette fonction renvoie systematiquement une erreur.

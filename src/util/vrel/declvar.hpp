@@ -25,27 +25,27 @@
 /**
  * class Decl_var
  *
- * Cette classe traite des déclarations de variables.
- * Elle hérite de Declaration.
+ * Cette classe traite des declarations de variables.
+ * Elle herite de Declaration.
  */
 class Decl_var : public Declaration
 {
  public:
   
   Decl_var (Variable *);  
-  // Constructeur dans le cas d'une déclaration simple.
+  // Constructeur dans le cas d'une declaration simple.
   // Il affecte var.
   
   Decl_var (Variable *, Data *);
   // Constructeur dans le cas d'une declaration avec affectation.
-  // Il évalue l'expression et affecte var et donnée.
+  // Il evalue l'expression et affecte var et donnee.
 
   virtual ~Decl_var ();		///< Destructeur de la classe
 
-  char nomvar[30];			///< Variable a déclarer
+  char nomvar[30];			///< Variable a declarer
 
   Data* donnee;
-  // Donnée à affecter a cette variable. Vaut NULL par defaut.
+  // Donnee à affecter a cette variable. Vaut NULL par defaut.
 
 };
 

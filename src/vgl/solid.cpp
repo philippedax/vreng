@@ -317,12 +317,7 @@ Solid::Solid()
 /* Deletes solid from display-list. */
 Solid::~Solid()
 {
-  ::g.render.removeSolidFromList(this);
-#if 0
-  for (list<Solid*>::iterator s = ::g.render.relsolidList.begin(); s != ::g.render.relsolidList.end(); s++) {
-    ::g.render.relsolidList.remove(*s);
-  }
-#endif
+  ::g.render.delFromList(this);
   ::g.render.relsolidList.clear();
 
   delete[] dlists;
@@ -416,7 +411,7 @@ char * Solid::parser(char *l)
 
   dlists = new GLint[nbframes];
 
-  ::g.render.addSolidInList(this);
+  ::g.render.addToList(this);	// add to solidList
   IdM4(&position);
 
   if (wobject->getInstance() && wobject->haveAction()) setFlashable(true);

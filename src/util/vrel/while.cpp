@@ -33,14 +33,11 @@ Boucle_while::Boucle_while (Data * tantque, Instruction_liste * cons)
   alors = cons;
 }
 
-// Exécute un while sur les arguments.
+// Execute un while sur les arguments.
 void Boucle_while::exec () 
 {
-  Test * condition;
-  bool test;
-
-  condition = (Test *) tant_que->get_data();
-  test = condition->booleen;
+  Test *condition = (Test *) tant_que->get_data();
+  bool test = condition->booleen;
 
   if (test) {
     alors->exec (); 

@@ -21,7 +21,7 @@
 /**
  * class Declaration
  *
- * Cette classe est la superclasse des déclarations : 
+ * Cette classe est la superclasse des declarations : 
  * superclasse de Decl_var, Decl_classe
  */
 

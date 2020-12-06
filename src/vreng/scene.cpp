@@ -32,7 +32,7 @@
 #include "widgets.hpp"  // Widgets
 #include "world.hpp"	// compute
 #include "universe.hpp"	// current
-#include "render.hpp"	// render.config
+#include "render.hpp"	// render.init
 #include "user.hpp"	// position
 #include "pref.hpp"	// width3D
 #include "event.hpp"	// NetTimeout
@@ -105,6 +105,7 @@ void Scene::getCoords(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
   }
 }
 
+/* set viewport */
 void Scene::setViewport(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   UView* v = getView();
@@ -148,8 +149,8 @@ void Scene::netTimeoutCB()
 void Scene::init()
 {
   GLSection gls(this);
-  //NB: render.config() must be called before world.init() which is called in startCB())
-  ::g.render.config(::g.pref.quality3D); 
+  //NB: render.init() must be called before world.init() which is called in startCB())
+  ::g.render.init(::g.pref.quality3D); 
 
   // complete the initialization of VRENG
   ::g.startCB();

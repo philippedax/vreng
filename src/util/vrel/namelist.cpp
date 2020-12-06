@@ -37,5 +37,4 @@ void Nom_liste::ajouter (char *name)
 // Destructeur.
 Nom_liste::~Nom_liste ()
 {
-  delete[] nom;
 }

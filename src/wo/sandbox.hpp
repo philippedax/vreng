@@ -23,15 +23,18 @@
 
 static char sandbox_vre[] = "\
 <vre version=\"8.0\" profile=\"Interactive\">\n\
-<head> <meta name=\"buildin\" content=\"sandbox_vre\"/> </head>\n\
+<head>\n\
+<meta name=\"buildin\" content=\"sandbox_vre\"/>\n\
+</head>\n\
 \n\
 <scene>\n\
 \n\
 <!-- the following line is not parsed after tag <scene> : to fix parse.cpp -->\n\
-<wall name=\"border-n\" pos=\"20 0 .2 1.57\">  <solid dim=\"40 .2 .8\" dif=\"red\" /></wall>\n\
-<wall name=\"border-s\" pos=\"-20 0 .2 1.57\"> <solid dim=\"40 .2 .8\" dif=\"red\" /></wall>\n\
-<wall name=\"border-w\" pos=\"0 20 .2 0\">     <solid dim=\"40 .2 .8\" dif=\"red\" /></wall>\n\
-<wall name=\"border-e\" pos=\"0 -20 .2 0\">    <solid dim=\"40 .2 .8\" dif=\"red\" /></wall>\n\
+<!--<entry pos=\"0 0 0\"></entry>-->\n\
+<wall name=\"border-n\" pos=\"20 0 .2 1.57\">  <solid dim=\"40 .2 1\" dif=\"red\" /></wall>\n\
+<wall name=\"border-s\" pos=\"-20 0 .2 1.57\"> <solid dim=\"40 .2 1\" dif=\"red\" /></wall>\n\
+<wall name=\"border-w\" pos=\"0 20 .2 0\">     <solid dim=\"40 .2 1\" dif=\"red\" /></wall>\n\
+<wall name=\"border-e\" pos=\"0 -20 .2 0\">    <solid dim=\"40 .2 1\" dif=\"red\" /></wall>\n\
 <ground name=\"ground\" pos=\"0 0 -.1\"> <solid dim=\"40 40 .1\" zp=\"/gif/pelouse.gif\" /></ground>\n\
 <!--\n\
 <mirage name=\"sky\" aspeed=\".01\" mode=\"self\">\n\

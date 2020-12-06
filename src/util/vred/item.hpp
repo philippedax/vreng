@@ -5,7 +5,7 @@
 class Item {
 
 public:
-  Item(char* _name);
+  Item(const char* _name);
   virtual ~Item() {if (name != NULL) {free(name);}}
 
   char* Name() {return name;}

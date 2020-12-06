@@ -21,14 +21,14 @@
 #include "mirage.hpp"
 
 
-// Constructeur de la classe Wall 
+// Constructeur
 Mirage::Mirage()
 {
   options_box();
 }
 
-// Méthode exec de la classe Mirage 
-//  env1 = liste des arguments passés lors de l'appel de classe 
+// Methode exec
+//  env1 = liste des arguments passes lors de l'appel de classe 
 void Mirage::exec(Data_liste *env1)
 {
   if (env1->nb_data != 8) Erreur("Mirage needs 8 arguments");

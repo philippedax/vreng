@@ -21,13 +21,13 @@
 #include "doc.hpp"
 
 
-// Constructeur de la classe Doc 
+// Constructeur
 Doc::Doc()
 {
   options_box();
 }
 
-// Méthode exec de la classe Doc 
+// Methode exec
 void Doc::exec(Data_liste *env1)
 {
   if (env1->nb_data != 8) Erreur("Doc needs 8 arguments");

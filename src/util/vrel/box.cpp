@@ -22,7 +22,7 @@
 #include "data.hpp"
 
 
-// Méthode d'initialisation de la classe Box 
+// Methode d'initialisation de la classe Box 
 void Box::options_box()
 {
   var = new Env_var;
@@ -37,7 +37,7 @@ void Box::options_box()
   options_app();
 } 
 
-// Méthode d'écriture des paramètres optionnels 
+// Methode d'ecriture des parametres optionnels 
 void Box::ecrire_box()
 {
   // Textures

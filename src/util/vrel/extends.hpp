@@ -49,7 +49,7 @@ class Class_extends : public Vrel
   /**<
    * - 1. Exécuter les instructions de la classe 
    * - 2. Affecter var dans les variables de la classe mere
-   * - 3. Exécuter la classe mère
+   * - 3. Exécuter la classe mere
    */
 };
 

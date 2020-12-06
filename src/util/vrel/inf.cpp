@@ -22,7 +22,6 @@
 /******** comparaison de variables *******/
 
 #include "vrel.hpp"
-
 #include "inf.hpp"
 #include "data.hpp"
 
@@ -35,16 +34,13 @@ Inferieur::Inferieur (Data * opgauche, Data * opdroite)
   op_droite = opdroite;
 }
 
-// Exécution. 
+// Execution. 
 Data* Inferieur::get_data ()
 {
-  Data *opg, *opd;
-  Data *resultat;
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->Inf(opd);
 
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
-  
-  resultat = opg->Inf(opd);
   if (resultat == NULL) {
     cout << "Error at line " << ligne << " : args are not digits\n";
     exit(1);

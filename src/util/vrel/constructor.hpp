@@ -50,7 +50,7 @@ class Constructeur
   /**<
    * - 1. Affecter les variables en arguments
    * - 2. Charger les variables en arguments 
-   * - 3. Exécuter les instructions
+   * - 3. Executer les instructions
    * - 4. Sauver l'environnement courant
    */
 };

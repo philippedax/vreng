@@ -18,7 +18,6 @@
 /*********** classe Tabobj ************/
 
 #include "vrel.hpp"
-
 #include "tabobj.hpp"
 #include "envobject.hpp"
 
@@ -35,7 +34,6 @@ Tabobj::Tabobj()
 // Destructeur de la classe.
 Tabobj::~Tabobj()
 {
-  delete[] envobj;
 }
 
 // Sauvegarde un environnement sur la pile.

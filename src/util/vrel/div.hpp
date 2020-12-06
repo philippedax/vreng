@@ -33,7 +33,7 @@ class Division : public Operation
  public:
   
   Division(Data *, Data *);	///< Constructeur de la classe
-  Data* get_data();		///< Méthode d'exécution de la division
+  Data* get_data();		///< Methode d'execution de la division
 
   virtual ~Division();		///< Destructeur
 };

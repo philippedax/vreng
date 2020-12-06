@@ -21,31 +21,31 @@
 #include "app.hpp"
 
 
-// Méthode d'initialisation de la classe App 
+// Methode d'initialisation de la classe App 
 void App::options_app()
 {
   var->declaration("diffRed",0.0);
   var->declaration("diffGreen",0.0);
   var->declaration("diffBlue",0.0);
-  // Diffuse (à remplacer par un tableau de 3 valeurs si possible)
+  // Diffuse (a remplacer par un tableau de 3 valeurs si possible)
   var->declaration("ambRed",0.0);
   var->declaration("ambGreen",0.0);
   var->declaration("ambBlue",0.0);
-  // ambiente (à remplacer par un tableau de 3 valeurs si possible)
+  // ambiente (a remplacer par un tableau de 3 valeurs si possible)
   var->declaration("shinPar1",0.0);
   var->declaration("shinPar2",0.0);
   var->declaration("shinPar3",0.0);
-  // shininess (à remplacer par un tableau de 3 valeurs si possible)
+  // shininess (a remplacer par un tableau de 3 valeurs si possible)
   var->declaration("specPar1",0.0);
   var->declaration("specPar2",0.0); 
   var->declaration("specPar3",0.0);
-  // specular (à remplacer par un tableau de 3 valeurs si possible)
+  // specular (a remplacer par un tableau de 3 valeurs si possible)
 }
 
-// Méthode d'écriture des paramètres optionnels 
+// Methode d'ecriture des parametres optionnels 
 void App::ecrire_app()
 {
-  int test = 0 ;
+  int test = 0;
 
   // Diffuse
   if ((var->eval("diffRed")->get_float() != 0.0)
@@ -55,7 +55,7 @@ void App::ecrire_app()
 	    var->eval("diffRed")->get_float(),
 	    var->eval("diffGreen")->get_float(),
 	    var->eval("diffBlue")->get_float());
-    test ++ ;
+    test++;
   }
   
   // Ambient
@@ -66,13 +66,13 @@ void App::ecrire_app()
 	    var->eval("ambRed")->get_float(),
 	    var->eval("ambGreen")->get_float(),
 	    var->eval("ambBlue")->get_float());
-    test ++ ;
+    test ++;
   }
 
   if (test == 2)
     Erreur("we can't use \"diffuse\" and \"ambient\" together");
 
-  test = 0 ;
+  test = 0;
 
   // Shininess
   if ((var->eval("shinPar1")->get_float() != 0.0)
@@ -82,7 +82,7 @@ void App::ecrire_app()
 	    var->eval("shinPar1")->get_float(),
 	    var->eval("shinPar2")->get_float(),
 	    var->eval("shinPar3")->get_float());
-    test ++ ;
+    test++;
   }
 
   // Specular
@@ -93,7 +93,7 @@ void App::ecrire_app()
 	    var->eval("specPar1")->get_float(),
 	    var->eval("specPar2")->get_float(),
 	    var->eval("specPar3")->get_float());
-    test ++ ;
+    test++;
   }
 
   // if (test == 2)

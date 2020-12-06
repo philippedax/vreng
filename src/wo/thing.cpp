@@ -69,7 +69,7 @@ void Thing::behavior()
 /** Sets an unique name */
 void Thing::setName()
 {
-  sprintf(names.named, "%s-%s.%d", names.type, localuser->getInstance(), getNum());
+  sprintf(names.given, "%s-%s.%d", names.type, localuser->getInstance(), getNum());
   updateNames();
 }
 
@@ -122,7 +122,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   while (*p && !isdigit(*p)) p++;
   int n = atoi(p);
   if (n) oid = n;
-  strcpy(names.named, str);
+  strcpy(names.given, str);
   strcpy(names.type, typeName());	// need names.type for MySql
 
   /* local creation */
@@ -141,7 +141,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   if (geometry && isprint(*geometry)) {
     parse()->parseSolids(geometry, SEP, this);
   }
-  else warning("Thing: %s has no geometry", names.named);
+  else warning("Thing: %s has no geometry", names.given);
 #endif
 
   enableBehavior(DYNAMIC);

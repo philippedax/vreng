@@ -29,7 +29,7 @@ class Supegal : public Comparaison
  public:
   
   Supegal(Data *, Data *);	///< Constructeur de la classe
-  Data* get_data();		///< Méthode d'exécution
+  Data* get_data();		///< Methode d'execution
  
 };
 

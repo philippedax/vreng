@@ -79,7 +79,7 @@ class WObjectId {
  */
 struct Names {
   char type[HNAME_LEN];		///< name of an object class.
-  char named[OBJNAME_LEN];	///< explicit name.
+  char given[OBJNAME_LEN];	///< given name.
   char *instance;		///< name of an instancied object.
   char *implicit;		///< implicit name.
   char *category;		///< category name.
@@ -324,7 +324,7 @@ public:
   /**< Checks if permanent object. */
 
   virtual const char * named() const;
-  /**< Gets names.named. */
+  /**< Gets names.given. */
 
   virtual const char * getInstance() const;
   /**< Gets names.instance. */
@@ -338,8 +338,8 @@ public:
   virtual const char * worldName() const;
   /**< Gets names.owner. */
 
-  virtual bool explicitName() const;
-  /**< Checks wether the object is explicitly named. */
+  virtual bool givenName() const;
+  /**< Checks whether the object is explicitly named. */
 
   virtual void toDelete();
   /**< Delete this object latter. */

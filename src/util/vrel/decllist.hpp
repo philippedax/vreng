@@ -35,7 +35,7 @@ class Decl_var_liste : public Declaration
   /**< Ajout d'une variable à la liste varlocal */
 
   Env_var * varloc;
-  /**< Pointeur sur la liste des variables locales créées lors des déclarations */
+  /**< Pointeur sur la liste des variables locales creees lors des declarations */
  
 };
 

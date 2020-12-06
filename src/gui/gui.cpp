@@ -139,6 +139,7 @@ void Gui::showCartDialog(bool flag)
 GuiItem* Gui::addCart(WObject *cart)
 {
   if (!cart) return NULL;
+
   notice("Item %s added to cart", NN(cart->getInstance()));
   
   GuiItem* gu = new GuiItem();
@@ -191,6 +192,7 @@ void Gui::updateCart(WObject* po)
 GuiItem * Gui::addUser(User *user) 	// when a new user comes in
 {
   if (!user) return NULL;
+
   notice("Avatar %s joins %s", NN(user->getInstance()), NN(user->worldName()));
   return widgets->addUser(user);
 }
@@ -198,6 +200,7 @@ GuiItem * Gui::addUser(User *user) 	// when a new user comes in
 void Gui::removeUser(User *user)	// when an user quits
 {
   if (!user) return;
+
   notice("Avatar %s leaves %s", NN(user->getInstance()), NN(user->worldName()));
   if (user->isGui()) {
     widgets->removeUser(user->getGui());
@@ -211,6 +214,7 @@ void Gui::removeUser(User *user)	// when an user quits
 void Gui::updateUser(User *user)
 {
   if (!user) return;
+
   notice("Avatar %s is in %s", NN(user->getInstance()), NN(user->worldName()));
   if (user->isGui()) widgets->updateUser(user->getGui(), user);
 }
@@ -255,18 +259,21 @@ void Gui::gotoWorld(const UStr& url_or_name)
 GuiItem * Gui::addWorld(World *world, bool isCurrent)
 {
   if (! world)  return NULL;
+
   return widgets->addWorld(world, isCurrent);
 }
 
 void Gui::removeWorld(World *world)
 {
   if (! world)  return;
+
   if (world->isGui()) widgets->removeWorld(world);
 }
 
 void Gui::updateWorld(World *world, bool isCurrent)
 {
   if (! world)  return;
+
   if (world->isGui()) widgets->updateWorld(world, isCurrent);
 }
 

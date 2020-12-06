@@ -22,7 +22,6 @@
 /********** Or de 2 booleens *********/
 
 #include "vrel.hpp"
-
 #include "or.hpp"
 #include "data.hpp"
 
@@ -35,16 +34,13 @@ Or::Or (Data * opgauche, Data * opdroite)
   op_droite = opdroite;
 }
 
-// Exécution.
+// Execution.
 Data* Or::get_data ()
 {
-  Data *opg, *opd;
-  Data *resultat;
-
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
-  
-  resultat = opg->Or(opd);
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->Or(opd);
+ 
   if (resultat == NULL) {
     cout << "Error at line " << ligne << " : not booleans\n";
     exit(1);

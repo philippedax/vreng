@@ -28,7 +28,7 @@
 
 
 // Constructeur.
-And::And (Data * opgauche, Data * opdroite)
+And::And (Data *opgauche, Data *opdroite)
 {
   ligne = yylineno;
   op_gauche = opgauche;
@@ -38,13 +38,10 @@ And::And (Data * opgauche, Data * opdroite)
 // Exécution.
 Data* And::get_data (void)
 {
-  Data *opg, *opd;
-  Data *resultat;
-
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->And(opd);
   
-  resultat = opg->And(opd);
   if (resultat == NULL) {
     cout << "Error at line " << ligne << " : not booleans\n";
     exit(1);

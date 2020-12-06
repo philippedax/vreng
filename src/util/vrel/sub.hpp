@@ -36,7 +36,7 @@ class Soustraction : public Operation
   // Constructeur de la classe.
   Soustraction(Data *, Data *);
 
-  // Méthode d'exécution de la soustraction.
+  // Methode d'execution de la soustraction.
   Data* get_data();
 
   // Destructeur.

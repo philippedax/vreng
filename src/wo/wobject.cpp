@@ -60,7 +60,7 @@ WObject::WObject()
   behavior = 0;
 
   memset(names.type, 0, sizeof(names.type));
-  memset(names.named, 0, sizeof(names.named));
+  memset(names.given, 0, sizeof(names.given));
   memset(names.url, 0, sizeof(names.url));
   memset(names.owner, 0, sizeof(names.owner));
   memset(chan, 0, sizeof(chan));
@@ -129,13 +129,13 @@ void WObject::initObject(uint8_t _mode)
 
   setWObjectId();
   updateNames();
-  addToObject();
+  addToObject();	// add to objectList
 
   //error("num=%d mode=%d type=%d", num, mode, type);
   switch (mode) {
 
     case STILL:
-      addToStill();
+      addToStill();	// add to stillList
       break;
 
     case MOBILE:
@@ -147,11 +147,11 @@ void WObject::initObject(uint8_t _mode)
           break;
         }
       }
-      addToMobile();
+      addToMobile();	// add to mobileList
       break;
 
     case FLUID:
-      addToFluid();
+      addToFluid();	// add to fluidList
       enableBehavior(NO_ELEMENTARY_MOVE);
       break;
 
@@ -159,7 +159,7 @@ void WObject::initObject(uint8_t _mode)
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
-      addToInvisible();
+      addToInvisible();	// add to invisList
       break;
 
     case EPHEMERAL:
@@ -177,8 +177,10 @@ void WObject::initObject(uint8_t _mode)
       addToInvisible();
       break;
   }
-  if (isBehavior(NO_BBABLE)) enableBehavior(COLLIDE_NEVER);
-  if (isBehavior(SPECIFIC_RENDER)) addToRender();
+  if (isBehavior(NO_BBABLE))
+    enableBehavior(COLLIDE_NEVER);
+  if (isBehavior(SPECIFIC_RENDER))
+    addToRender();	// add to renderList
 
   update3D(pos);
   if (bbBehavior()) {
@@ -341,7 +343,7 @@ uint16_t WObject::getNum()
 
 const char * WObject::named() const
 {
-  return names.named;
+  return names.given;
 }
 
 const char * WObject::getInstance() const
@@ -364,9 +366,9 @@ const char * WObject::worldName() const
   return names.world;
 }
 
-bool WObject::explicitName() const
+bool WObject::givenName() const
 {
-  return *names.named;
+  return *names.given;
 }
  
 
@@ -633,14 +635,14 @@ void WObject::updateNames()
 
   getObjectNameById(type, names.type);
 
-  if (! explicitName()) {	// no explicit name
+  if (! givenName()) {	// no given name
     names.implicit = new char[OBJNAME_LEN];
     sprintf(names.implicit, "%s%d", names.type, num);
     if (isupper(*(names.implicit)))
       *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
     names.instance = names.implicit;
   }
-  else names.instance = names.named;
+  else names.instance = names.given;
 
   setObjectName(names.instance);
   names.world = World::current()->getName();
@@ -702,7 +704,7 @@ void WObject::getPersistency()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     psql->getPos(this);
   }
   updatePersistency();
@@ -713,7 +715,7 @@ void WObject::getPersistency(int16_t state)
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     int st = psql->getState(this);
     trace(DBG_SQL, "state: name=%s state=%d", names.instance, st);
     state = (st != ERR_MYSQL) ? st : 0; // updates state
@@ -725,7 +727,7 @@ void WObject::updatePersistency()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     progression('m');
     ::g.times.mysql.start();
     psql->updatePos(this);
@@ -741,7 +743,7 @@ void WObject::updatePersistency(int16_t _state)
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     ::g.times.mysql.start();
     progression('m');
     psql->updateState(this, _state);
@@ -757,7 +759,7 @@ void WObject::savePersistency()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql && isBehavior(PERSISTENT) && !removed && explicitName()) {
+  if (psql && isBehavior(PERSISTENT) && !removed && givenName()) {
     //trace(DBG_FORCE, "savePersistency: %s pos.moved=%d", names.instance, pos.moved);
     // update MySql table only if object has moved
     if (pos.moved) psql->updatePos(this);

@@ -27,7 +27,7 @@ class Nom_liste
 
   int nb_nom;
 
-  // Tableau de pointeurs sur des char * : la liste est limitée à 20 noms.
+  // Tableau de pointeurs sur des char * : la liste est limitee à 20 noms.
   char nom[20][30]; 
 
   Nom_liste();

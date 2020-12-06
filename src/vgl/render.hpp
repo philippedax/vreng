@@ -39,14 +39,11 @@ class Render {
 
 public:
 
-  /* views */
+  /* points of views */
   enum view_mode {
     VIEW_FIRST_PERSON,
     VIEW_THIRD_PERSON,
     VIEW_THIRD_PERSON_FAR,
-#if 0
-    VIEW_FIRST_PERSON_VIS,
-#endif
     VIEW_VERTICAL,
     VIEW_VERTICAL_FAR,
     VIEW_GROUND_LEVEL,
@@ -56,18 +53,17 @@ public:
     VIEW_NUMBER
   };
 
-
   Render();
   /**< Constructor. */
 
-  void config(bool _quality);
+  void init(bool _quality);
   /**< Initialization. */
 
   GLint haveDepth();
   GLint haveTextures();
   GLint haveStencil();
   GLint haveClips();
-  /**< Checks buffers. */
+  /**< Checks OpenGL buffers. */
 
   static void stat();
 
@@ -78,12 +74,6 @@ public:
   void render();
   /**< Renders the current scene in the current buffer. */
 
-  // Drawing
-  //virtual void render3D(rendering_mode mode, uint8_t layer);
-  ///**< Issue the OpenGL commands to draw the solid in the given mode.
-       //It is called several times with "layer" increasing from 0 to ? in
-       //order to allow drawing at different layers. */
-
   void minirender();
   /**< Renders minimal. */
 
@@ -91,13 +81,13 @@ public:
   // Solid
   /////////////
 
-  std::list<Solid*> getSolidList() { return solidList; }
+  list<Solid*> getSolidList() { return solidList; }
   /**< return the rendering solid list. */
 
-  void addSolidInList(Solid* solid);
+  void addToList(Solid* solid);
   /**< add solid in rendering list. */
 
-  void removeSolidFromList(Solid* solid);
+  void delFromList(Solid* solid);
   /**< remove solid from rendering list. */
 
   void getBB(V3& bbmax, V3& bbmin, bool _framed);
@@ -226,11 +216,10 @@ public:
   void clearGLBuffer();		///< Clear everything.
 
 private:
-
-  static const int SEL_BUFSIZ;
+  static const int SEL_BUFSIZ;	///< selection buffer size
   
-  std::list<Solid*> solidList;	///< rendering solids list.
-  std::list<Solid*> relsolidList; ///< rendering relative solids list.
+  list<Solid*> solidList;	///< rendering solids list.
+  list<Solid*> relsolidList;	///< rendering relative solids list.
 
   V3 bbox_min;			///< minimal bbox.
   V3 bbox_max;			///< maximal bbox.

@@ -18,7 +18,6 @@
 /********** classe Programme ***********/
 
 #include "vrel.hpp"
-
 #include "program.hpp"
 #include "instlist.hpp"
 #include "declvar.hpp"
@@ -31,45 +30,44 @@ extern Env_objets * pere;
 
 
 // Constructeur de la classe.
-Programme::Programme () 
+Programme::Programme() 
 {
   instruc_main = NULL;
   strcpy(fichierimport[0], vrelfile);
+printf("programme: %s\n", vrelfile);
   nbfichiers = 1;
 }
 
 // Destructeur de la classe.
-Programme::~Programme ()
+Programme::~Programme()
 {
   delete instruc_main;
-  delete[] fichierimport;
 }
 
 // Passage a un autre fichier. 
-void Programme::import (char *file)
+void Programme::import(char *file)
 {
   extern FILE * yyin;
   extern FILE * tabyyin[];
 
   int test = 0;
-  int i = 0;
 
-  // On verifie que le fichier n'a pas déjà été parcouru.
-  while ( (i<nbfichiers) && (test == 0) ) {
-    if (strcmp(file , fichierimport[i]) == 0)
+  // On verifie que le fichier n'a pas deja ete parcouru.
+  for (int i = 0; (i<nbfichiers) && (test == 0); i++ ) {
+    if (strcmp(file , fichierimport[i]) == 0) {
       test = 1;
-    i++;
+      break;
+    }
   }
 
-  // Si le fichier n'a pas déjà été parcouru :
+  // Si le fichier n'a pas deja ete parcouru
   if (test == 0) {
-	
-    // Mémorisation de la position.
+    // Memorisation de la position.
     tabyyin[comptfichier]       = yyin;
     tablinenumber[comptfichier] = yylineno;
     strcpy (tabvrelfile[comptfichier], vrelfile);
     comptfichier ++;
-    
+ 
     // Ouverture du nouveau fichier.
     yyin = fopen(file, "r");
     if (yyin  == NULL) {
@@ -84,34 +82,29 @@ void Programme::import (char *file)
       exit(1);
     }
     
-    // Réinitialisation.
+    // Reinitialisation.
     strcpy(vrelfile, file);
     yylineno = 1;
   }
 }
 
-// Ajout d'une variable à la liste des variables globales.
-void Programme::adddeclarvar (Decl_var* declarvar)
+// Ajout d'une variable a la liste des variables globales.
+void Programme::adddeclarvar(Decl_var* declarvar)
 {
   varglobal->declaration (declarvar->nomvar);
-  if(declarvar->donnee != NULL)
+  if (declarvar->donnee != NULL)
     varglobal->affectation (declarvar->nomvar, declarvar->donnee);
 }
 
 //  Ajout de la liste des instructions du main.
-void Programme::addmain ( Decl_var_liste * varlocmain,
-			  Instruction_liste * instrucmain )
+void Programme::addmain (Decl_var_liste * varlocmain, Instruction_liste * instrucmain)
 {
-  int line;
-  
-  line = yylineno;
-
   if (instruc_main == NULL) {
     varlocal = varlocmain->varloc;
     instruc_main = instrucmain;
   }
   else {
-    printf ("Error: %s, line %d\n2 main in this file\n", vrelfile, line);
+    printf("Error: %s, line %d\n2 main in this file\n", vrelfile, yylineno);
     exit(1);
   }
 }
@@ -123,6 +116,5 @@ void Programme::exec ()
     printf("Error: no main found in this file\n");
     exit(1);
   }
-  
   instruc_main->exec();
 }

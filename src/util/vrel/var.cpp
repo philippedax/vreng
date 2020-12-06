@@ -22,7 +22,6 @@
 /*********** classe variables *********/
 
 #include "vrel.hpp"
-
 #include "var.hpp"
 #include "envvar.hpp"
 #include "data.hpp"
@@ -49,9 +48,7 @@ Data* Variable::get_data ()
 // Retourne la valeur de la data associee au nom de variable.
 float Variable::get_float()
 {
-  Data *expression;
-
-  expression = this->get_data();
+  Data *expression = this->get_data();
 
   return expression->get_float();
 }

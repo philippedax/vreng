@@ -32,7 +32,7 @@ class Ground : public Box
   virtual ~Ground() {};
 
   void exec(Data_liste *);
-  /**< lance le chargement de l'environnement de classe et l'écriture */
+  /**< lance le chargement de l'environnement de classe et l'ecriture */
 };
 
 #endif

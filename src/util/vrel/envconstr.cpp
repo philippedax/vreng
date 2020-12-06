@@ -32,11 +32,10 @@ Env_constr::Env_constr(void)
 // Ajouter un constructeur au tableau de constructeurs 
 void Env_constr::addConstr(Constructeur * constr1)
 {
-  int i;
   int nb_arg = constr1->nb_arguments ;
 
-  // test si le constructeur n'est pas déjà utilisé 
-  for (i=0; i < nb_constr; i++) 
+  // test si le constructeur n'est pas deja utilise 
+  for (int i=0; i < nb_constr; i++) 
     if (nb_arg == nb[i]) Erreur("Constructor already declared");
 
   nb[nb_constr] = nb_arg;
@@ -45,14 +44,13 @@ void Env_constr::addConstr(Constructeur * constr1)
   if (nb_constr > 255) Erreur("Number of constructeurs limited to 256");
 }
 
-// Méthode d'exécution 
+// Methode d'execution 
 void Env_constr::exec(Data_liste * arg)
 {
   int i = 0;
-  while (nb[i] != arg->nb_data)
-    {
-      if (i+1>= nb_constr) Erreur("Constructor not declared");
+  while (nb[i] != arg->nb_data) {
+      if (i+1 >= nb_constr) Erreur("Constructor not declared");
       i++; 
-    }
+  }
   constr[i]->exec(arg);
 }

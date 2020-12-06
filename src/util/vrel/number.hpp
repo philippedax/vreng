@@ -50,7 +50,7 @@ class Nombre : public Data
   void set_float (float value) { valeur = value; }
   void set_float (int value)   { valeur = (float)value; }
 
-  // Operations algébriques.
+  // Operations algebriques.
   Nombre* plus (Data *);
   Nombre* moins (Data *);
   Nombre* mult (Data *);
@@ -67,7 +67,7 @@ class Nombre : public Data
   Test* Infegal (Data *);
   Test* Different (Data *);
 
-  // Méthodes inutiles.
+  // Methodes inutiles.
   Data* And (Data *) { return NULL; }
   Data* Or (Data *)  { return NULL; }
   Data* Not ()      { return NULL; }

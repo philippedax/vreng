@@ -23,20 +23,20 @@
 /**
  * metaclass of instructions
  *
- * Cette classe est en fait le prototype dont hériteront toutes les classes
- * d'instructions que nous alons voir ci-dessous. Les méthodes "exec()" seront
- * redéfinies dans chaque cas, et des méthodes propres à chaque classe seront
- * ajoutées.
+ * Cette classe est en fait le prototype dont heriteront toutes les classes
+ * d'instructions que nous alons voir ci-dessous. Les methodes "exec()" seront
+ * redefinies dans chaque cas, et des methodes propres a chaque classe seront
+ * ajoutees.
  * L'attribut ligne n'apparait que dans l'objet "Instruction" car toutes les
  * erreurs qui peuvent apparaitre au niveau de la syntaxe seront prises en
- * charge par bison, le numéro de ligne compris. L'attribut "ligne" ici défini
- * permettra donc la localisation des erreurs d'exécution d'une instruction.
+ * charge par bison, le numero de ligne compris. L'attribut "ligne" ici defini
+ * permettra donc la localisation des erreurs d'execution d'une instruction.
  */
 class Instruction
 {
  public:
 
-  // Numéro de ligne fournit par bison et qui sert aux messages d'erreur.
+  // Numero de ligne fournit par bison et qui sert aux messages d'erreur.
   int ligne;
 
   // Fichier ou se trouve l'instruction.
@@ -45,10 +45,10 @@ class Instruction
   // Type de l'instruction.
   int kind;
 
-  // Méthode d'exécution de l'instruction.
+  // Methode d'execution de l'instruction.
   virtual void exec () = 0;
 
-  // Méthode d'erreur.
+  // Methode d'erreur.
   void erreur (const char * texte) {
     printf ("Error: file %s, line %d: %s\n", file, ligne, texte);
     exit(1);

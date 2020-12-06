@@ -32,7 +32,7 @@ class Doc : public Box
   virtual ~Doc() {};
 
   void exec(Data_liste *);
-  /**< lance le chargement de l'environnement de classe et l'écritur */
+  /**< lance le chargement de l'environnement de classe et l'ecriture */
 };
 
 #endif

@@ -23,41 +23,37 @@
 #include "test.hpp"
 
 
-// Générateur de if... then... else
-Alternative::Alternative (Data * condition, Instruction_liste * cons1, 
-			       Instruction_liste * cons2)
+// Generateur de if... then... else
+Alternative::Alternative (Data *condition, Instruction_liste *cons1, Instruction_liste *cons2)
 {
   kind = 0;
   ligne = yylineno;
-  strcpy (file, vrelfile);
+  strcpy(file, vrelfile);
 
   si = condition;
   alors = cons1;
   sinon = cons2;
 }
 
-// Générateur de if... then...
-Alternative::Alternative (Data * condition, Instruction_liste * cons)
+// Generateur de if... then...
+Alternative::Alternative (Data *condition, Instruction_liste *cons)
 {
   kind = 0;
   ligne = yylineno;
-  strcpy (file, vrelfile);
+  strcpy(file, vrelfile);
 
   si = condition;
   alors = cons;
   sinon = NULL;
 }
 
-// Exécute le if... then... else
+// Execute le if... then... else
 void Alternative::exec ()
 {
-  bool test;
-  Test * cond;
+  Test *cond = (Test *) si->get_data();
+  bool test = cond->booleen;
 
-  cond = (Test *) si->get_data();
-  test = cond->booleen;
-
-  if(test)
+  if (test)
     alors->exec();
   else
     if (sinon != NULL)

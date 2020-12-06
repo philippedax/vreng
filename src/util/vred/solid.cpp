@@ -3,7 +3,7 @@
 #include "group.hpp"
 
 
-Solid::Solid(char* _name,
+Solid::Solid(const char* _name,
 	     const Vect& _center, const Vect& _orientation, const Vect& _size,
 	     const int _renderStyle, const Color& _color, const Tex& _tex,
 	     const App& _app):

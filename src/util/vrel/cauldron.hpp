@@ -32,7 +32,7 @@ class Cauldron : public App
   virtual ~Cauldron() {};
 
   void exec(Data_liste *);
-  /**< lance le chargement de l'environnement de classe et l'écriture */
+  /**< lance le chargement de l'environnement de classe et l'ecriture */
 };
 
 #endif

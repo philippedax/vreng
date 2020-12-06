@@ -22,29 +22,25 @@
 /******** valeur absolue de datas *******/
 
 #include "vrel.hpp"
-
 #include "abs.hpp"
 #include "data.hpp"
 
 
 // Constructeur
-Valabsolue::Valabsolue (Data * operande)
+Valabsolue::Valabsolue(Data * operande)
 {
   ligne = yylineno;
   op_erande = operande;
 }
 
-// Exécution.
-Data* Valabsolue::get_data ()
+// Execution.
+Data* Valabsolue::get_data()
 {
-  Data *op;
-  Data *resultat;
-
-  op = op_erande->get_data();
-  
-  resultat = op->abs();
+  Data *op = op_erande->get_data();
+  Data *resultat = op->abs();
+ 
   if (resultat == NULL) {
-    cout << "Erreur  à la ligne " << ligne << " : dans la valeur absolue : l'opérande n'est pas un nombre. \n";
+    cout << "Erreur a la ligne " << ligne << ": dans la valeur absolue : l'operande n'est pas un nombre.\n";
     exit(1);
   }
   return resultat;

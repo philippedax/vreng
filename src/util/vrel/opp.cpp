@@ -22,7 +22,6 @@
 /********** opposee d'une data ********/
 
 #include "vrel.hpp"
-
 #include "opp.hpp"
 #include "data.hpp"
 
@@ -34,17 +33,14 @@ Opposition::Opposition (Data* operande)
   op_erande = operande;
 }
 
-// Exécution.
+// Execution.
 Data* Opposition::get_data ()
 {
-  Data *op;
-  Data *resultat;
+  Data *op = op_erande->get_data();
+  Data *resultat = op->oppose();
 
-  op = op_erande->get_data();
-  
-  resultat = op->oppose();
   if (resultat == NULL) {
-    cout << "Erreur  à la ligne " << ligne << " : dans la valeur absolue : l'opérande n'est pas un nombre. \n";
+    cout << "Erreur a la ligne " << ligne << " : dans la valeur absolue : l'operande n'est pas un nombre.\n";
     exit(1);
   }
   return resultat;

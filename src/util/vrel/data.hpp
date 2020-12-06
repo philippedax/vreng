@@ -38,7 +38,7 @@ class Data
   virtual void set_float (float) = 0; 
   virtual void set_float (int) = 0;
 
-  // Méthodes de nombres.
+  // Methodes de nombres.
   virtual Data* plus  (Data *) = 0;
   virtual Data* moins (Data *) = 0;
   virtual Data* mult  (Data *) = 0;
@@ -53,11 +53,10 @@ class Data
   virtual Data* Infegal  (Data *) = 0;
   virtual Data* Different(Data *) = 0;
 
-  // Méthodes de test.
+  // Methodes de test.
   virtual Data* And (Data *) = 0;
   virtual Data* Or  (Data *) = 0;
   virtual Data* Not () = 0;
-
 };
 
 #endif

@@ -143,8 +143,8 @@ am__objects_1 = glui_add_controls.$(OBJEXT) glui.$(OBJEXT) \
 	glui_img_spinup_0.$(OBJEXT) glui_img_spinup_1.$(OBJEXT) \
 	glui_img_spinup_dis.$(OBJEXT) glui_img_uparrow.$(OBJEXT)
 am__objects_2 =
-#am_libglui_a_OBJECTS = $(am__objects_1) \
-#	$(am__objects_2)
+am_libglui_a_OBJECTS = $(am__objects_1) \
+	$(am__objects_2)
 libglui_a_OBJECTS = $(am_libglui_a_OBJECTS)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
@@ -223,13 +223,13 @@ AUTOMAKE = ${SHELL} /Users/dax/vreng/support/missing automake-1.14
 AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVAPS -DVJS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVREL -DVRED -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/opt/local/include/freetype2 -I/opt/X11/include -I/opt/X11/include 
 CURLPATH = /usr/bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -DVAPS -DVJS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -DVREL -DVRED -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
@@ -354,8 +354,8 @@ glui_img_checkbox_0.c glui_img_checkbox_0_dis.c glui_img_checkbox_1.c glui_img_c
 
 GLUI_HDRS = algebra3.h arcball.h glui.h quaternion.h stdinc.h # viewmodel.h
 EXTRA_DIST = $(GLUI_HDRS) readme
-#noinst_LIBRARIES = libglui.a
-#libglui_a_SOURCES = $(GLUI_SRCS) $(GLUI_HDRS)
+noinst_LIBRARIES = libglui.a
+libglui_a_SOURCES = $(GLUI_SRCS) $(GLUI_HDRS)
 all: all-am
 
 .SUFFIXES:

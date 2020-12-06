@@ -38,7 +38,7 @@ class Env_classe
   virtual ~Env_classe() {};
 
   void addClasse(char *, Vrel *);
-  /**< Méthode qui ajoute une classe au tableau des classes */
+  /**< Methode qui ajoute une classe au tableau des classes */
 };
 
 #endif

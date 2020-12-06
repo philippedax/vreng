@@ -38,12 +38,12 @@ class Alternative : public Instruction
 
   Alternative (Data *, Instruction_liste *);
   Alternative (Data *, Instruction_liste *, Instruction_liste *);
-  // Constructeurs de la classe. Attribue à "si", "alors" et "sinon" les
+  // Constructeurs de la classe. Attribue a "si", "alors" et "sinon" les
   // adresses des arguments du "if ... then ... else".
 
   void exec ();
   // Execute le test puis la liste d'instructions pertiente en fonction du
-  // résultat du test. 
+  // resultat du test. 
 
   virtual ~Alternative();	///< Destructeur
 };

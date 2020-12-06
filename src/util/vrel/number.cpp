@@ -22,7 +22,6 @@
 /******* classe des nombres ***********/
 
 #include "vrel.hpp"
-
 #include "data.hpp"
 #include "number.hpp"
 #include "test.hpp"
@@ -34,11 +33,8 @@
 // Addition.
 Nombre* Nombre::plus(Data* autre_nombre)
 {
-  float resultat;
-  Nombre *Nresultat;
-  
-  resultat = valeur + autre_nombre->get_float();
-  Nresultat = new Nombre(resultat);
+  float resultat = valeur + autre_nombre->get_float();
+  Nombre *Nresultat = new Nombre(resultat);
   
   return Nresultat;
 }
@@ -46,11 +42,8 @@ Nombre* Nombre::plus(Data* autre_nombre)
 // Soustraction.
 Nombre* Nombre::moins(Data* autre_nombre)
 {
-  float resultat;
-  Nombre *Nresultat;
-  
-  resultat = valeur - autre_nombre->get_float();
-  Nresultat = new Nombre(resultat);
+  float resultat = valeur - autre_nombre->get_float();
+  Nombre *Nresultat = new Nombre(resultat);
   
   return Nresultat;
 }
@@ -58,11 +51,8 @@ Nombre* Nombre::moins(Data* autre_nombre)
 // Multiplication.
 Nombre* Nombre::mult(Data* autre_nombre)
 {
-  float resultat;
-  Nombre *Nresultat;
-  
-  resultat = valeur * autre_nombre->get_float();
-  Nresultat = new Nombre(resultat);
+  float resultat = valeur * autre_nombre->get_float();
+  Nombre *Nresultat = new Nombre(resultat);
   
   return Nresultat;
 }
@@ -70,11 +60,8 @@ Nombre* Nombre::mult(Data* autre_nombre)
 // Division.
 Nombre* Nombre::div(Data* autre_nombre)
 {
-  float resultat;
-  Nombre *Nresultat;
-  
-  resultat = valeur / autre_nombre->get_float();
-  Nresultat = new Nombre(resultat);
+  float resultat = valeur / autre_nombre->get_float();
+  Nombre *Nresultat = new Nombre(resultat);
   
   return Nresultat;
 }
@@ -82,11 +69,8 @@ Nombre* Nombre::div(Data* autre_nombre)
 // Modulo.
 Nombre* Nombre::mod(Data* autre_nombre)
 {
-  float resultat;
-  Nombre *Nresultat;
-  
-  resultat = int(valeur) % int(autre_nombre->get_float());
-  Nresultat = new Nombre(resultat);
+  float resultat = int(valeur) % int(autre_nombre->get_float());
+  Nombre *Nresultat = new Nombre(resultat);
   
   return Nresultat;
 }
@@ -95,13 +79,12 @@ Nombre* Nombre::mod(Data* autre_nombre)
 Nombre* Nombre::abs()
 {
   float resultat;
-  Nombre *Nresultat;
   
   if (valeur < 0)
     resultat = - valeur;
   else
     resultat = valeur;
-  Nresultat = new Nombre(resultat);
+  Nombre *Nresultat = new Nombre(resultat);
   
   return Nresultat;
 }
@@ -109,11 +92,8 @@ Nombre* Nombre::abs()
 // Oppose.
 Nombre* Nombre::oppose()
 {
-  float resultat;
-  Nombre *Nresultat;
-
-  resultat = - valeur;
-  Nresultat = new Nombre(resultat);
+  float resultat = - valeur;
+  Nombre *Nresultat = new Nombre(resultat);
   
   return Nresultat;
 }
@@ -129,7 +109,7 @@ Test* Nombre::EgalEgal(Data *autre_nombre)
       return new Faux();
 }
 
-// Test de supériorité stricte.
+// Test de superiorite stricte.
 Test* Nombre::Sup(Data *autre_nombre)
 {
   if (autre_nombre->get_float() < valeur) 
@@ -147,7 +127,7 @@ Test* Nombre::Inf(Data *autre_nombre)
     return new Faux();
 }
 
-// Test de supériorité.
+// Test de superiorite.
 Test* Nombre::Supegal(Data *autre_nombre)
 {
   if (autre_nombre->get_float() <= valeur) 

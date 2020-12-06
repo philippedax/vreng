@@ -22,7 +22,6 @@
 /********** Negation logique **********/
 
 #include "vrel.hpp"
-
 #include "not.hpp"
 #include "data.hpp"
 
@@ -34,15 +33,12 @@ Not::Not (Data * operande)
   op_erande = operande;
 }
 
-// Exécution.
+// Execution.
 Data* Not::get_data ()
 {
-  Data *op;
-  Data *resultat;
+  Data *op = op_erande->get_data();
+  Data *resultat = op->Not();
 
-  op = op_erande->get_data();
-  
-  resultat = op->Not();
   if (resultat == NULL) {
     cout << "Error at ligne " << ligne << " : not a  boolean\n";
     exit(1);

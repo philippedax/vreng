@@ -22,7 +22,6 @@
 /************* ADDITION **************/
 
 #include "vrel.hpp"
-
 #include "add.hpp"
 #include "data.hpp"
 
@@ -38,13 +37,10 @@ Addition::Addition (Data * opgauche, Data * opdroite)
 // Exécution.
 Data* Addition::get_data ()
 {
-  Data *opg, *opd;
-  Data *resultat;
-
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->plus(opd);
   
-  resultat = opg->plus(opd);
   if (resultat == NULL) {
     cout << "Error at line " << ligne << " : args are not digits\n";
     exit(1);

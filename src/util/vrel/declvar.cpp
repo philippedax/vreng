@@ -18,7 +18,6 @@
 /******* classe Decl_var *******/
 
 #include "vrel.hpp"
-
 #include "declvar.hpp"
 #include "data.hpp"
 #include "var.hpp"
@@ -42,5 +41,4 @@ Decl_var::Decl_var (Variable* variable, Data* expression)
 Decl_var::~Decl_var ()
 {
   delete donnee;
-  delete[] nomvar; 
 }

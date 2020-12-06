@@ -44,7 +44,7 @@ using namespace std;
 const int Render::SEL_BUFSIZ = (4*1024);	// 1024 names
 static GLuint selbuf[4*1024];			// 1024 objects
 
-extern struct Render::sCamera cam_user;
+extern struct Render::sCamera cam_user;		// camera.cpp
 
 
 /* Initialization. */
@@ -97,7 +97,7 @@ GLint Render::haveClips()
 }
 
 /* OpenGL initialization. */
-void Render::config(bool _quality)
+void Render::init(bool _quality)
 {
   static bool configured = false;
   if (! configured) {
@@ -126,6 +126,7 @@ void Render::config(bool _quality)
     glHint(GL_FOG_HINT, hint);
     if (::g.pref.infogl == true)
       trace(DBG_FORCE, "version=%s vendor=%s renderer=%s, depth=%d texturess=%d stencil=%d clips=%d", glGetString(GL_VERSION), glGetString(GL_VENDOR), glGetString(GL_RENDERER), haveDepth(), haveTextures(), haveStencil(), haveClips());
+    solidList.clear();	// clear solidList
     configured = true;
   }
   camera();
@@ -313,6 +314,7 @@ void Render::solidsOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
         (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
         //dax (*s)->display3D(Solid::DISPLAY, Solid::OPAQUE);
       trace2(DBG_VGL, " %s %d", (*s)->object()->getInstance(), solidList.size());
+      //daxdbg showSolidList();
     }
   }
 }
@@ -720,12 +722,12 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   //error("wx=%d wy=%d o1=%.2f %.2f %.2f o2=%.2f %.2f %.2f dir=%.2f %.2f %.2f", wx,wy,ex,ey,ez,tx,ty,tz,dir->v[0],dir->v[1],dir->v[2]);
 }
 
-void Render::addSolidInList(Solid* solid)
+void Render::addToList(Solid* solid)
 {
   solidList.push_back(solid);
 }
 
-void Render::removeSolidFromList(Solid* solid)
+void Render::delFromList(Solid* solid)
 {
   solidList.remove(solid);
 }

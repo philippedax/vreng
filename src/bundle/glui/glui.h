@@ -295,8 +295,8 @@ public:
     parent_node= child_head = child_tail = next_sibling = prev_sibling = NULL;
   }; 
 
-  friend struct GLUI_Rollout;
-  friend struct GLUI_Main;
+  friend class GLUI_Rollout;
+  friend class GLUI_Main;
 };
 
 
@@ -559,11 +559,11 @@ protected:
 
   /********** Friend classes *************/
 
-  friend struct GLUI_Control;
-  friend struct GLUI_Rotation;
-  friend struct GLUI_Translation;
-  friend struct GLUI;
-  friend struct GLUI_Master_Object;
+  friend class GLUI_Control;
+  friend class GLUI_Rotation;
+  friend class GLUI_Translation;
+  friend class GLUI;
+  friend class GLUI_Master_Object;
 
 
   /********** Misc functions *************/

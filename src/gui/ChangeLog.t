@@ -16,8 +16,9 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.1\n\
 -- 9.1.4\n\
+	- reviewed vrel and vred\n\
 	- fixed numline in parse.cpp\n\
-	(2020/12/03, Philippe Dax)\n\
+	(2020/12/05, Philippe Dax)\n\
 \n\
 -- 9.1.3\n\
 	- renamed vre.hpp to sandbox.hpp\n\

@@ -51,8 +51,8 @@ class Programme
   virtual ~Programme() ; // Destructeur de la classe.
   
   void import (char *) ; 
-  // Passage a un autre fichier.  L'opération inverse se fait dans la fonction
-  // yywrap définie dans le fichier vrel.flex.
+  // Passage a un autre fichier.  L'operation inverse se fait dans la fonction
+  // yywrap definie dans le fichier vrel.flex.
   
   void adddeclarvar (Decl_var *) ;  
   // Ajout d'une variable à la liste des variables globales.
@@ -61,7 +61,7 @@ class Programme
   // Ajout du main.
   
   void exec () ;   
-  // Execution du programme : appel récursif de la méthode "exec()" de tous 
+  // Execution du programme : appel recursif de la methode "exec()" de tous 
   // les objets du main.
 
 };

@@ -45,7 +45,7 @@ class Chaine : public Data
   // Renvoie une erreur.
   float get_float();
 
-  // Méthodes inutiles.
+  // Methodes inutiles.
   void set_float (float) { } 
   void set_float (int)   { }
   Data* plus (Data *)      { return NULL; }

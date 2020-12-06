@@ -29,7 +29,7 @@ class Inferieur : public Comparaison
  public:
   
   Inferieur(Data *, Data *);	///< Constructeur de la classe
-  Data* get_data();		///< Méthode d'exécution de l'addition
+  Data* get_data();		///< Methode d'execution de l'addition
 };
 
 #endif

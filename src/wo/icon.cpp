@@ -172,7 +172,7 @@ Icon::Icon(User *user, void *d)
     }
     else if (! stringcmp(pt, "<name=")) {
       pt = getParam(pt);
-      strcpy(names.named, pt);
+      strcpy(names.given, pt);
     }
     else if (! stringcmp(pt, "<icon=")) {
       pt = getParam(pt);
@@ -317,7 +317,7 @@ Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
   noh->getAllProperties(pp);
   copyNoid(_noid);
 
-  parse()->parseName(names.named, names.named);
+  //dax parse()->parseName(names.given, names.given);	// FIXME!
   makeSolid();
   defaults();
   initMobileObject(0);

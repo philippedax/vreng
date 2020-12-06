@@ -35,7 +35,7 @@ class Opposition : public Operation
 
   Opposition(Data *);	///< Constructeur de la classe
 
-  Data* get_data();	///< Méthode d'exécution de la valeur opposee
+  Data* get_data();	///< Methode d'execution de la valeur opposee
 
   virtual ~Opposition();	///< Destructeur
 

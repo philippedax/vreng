@@ -35,7 +35,7 @@ class Test : public Data
   // Se retourne lui-meme
   Test* get_data () { return this; } 
 
-  // Méthodes inutiles.
+  // Methodes inutiles.
   float get_float()   { return 0; }
   void set_float (float)  { } 
   void set_float (int)    { }

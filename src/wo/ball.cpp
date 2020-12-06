@@ -66,7 +66,7 @@ void Ball::defaults()
 void Ball::setName()
 {
   oid++;
-  sprintf(names.named, "%s-%s.%d", BALL_NAME, localuser->getInstance(), oid);
+  sprintf(names.given, "%s-%s.%d", BALL_NAME, localuser->getInstance(), oid);
 }
 
 /** Solid geometry */
@@ -134,8 +134,8 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
   char *p = nam;
   while (*p && !isdigit(*p)) p++;
   oid = atoi(p);
-  strcpy(names.named, nam);
-  trace(DBG_SQL, "recreate: %s oid=%d", names.named, oid);
+  strcpy(names.given, nam);
+  trace(DBG_SQL, "recreate: %s oid=%d", names.given, oid);
 
   defaults();
   makeSolid();

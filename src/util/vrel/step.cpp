@@ -21,14 +21,14 @@
 #include "step.hpp"
 
 
-// Constructeur de la classe Step 
+// Constructeur
 Step::Step()
 {
   options_box();
 }
 
-// Méthode exec de la classe Step
-//  env1 = liste des arguments passés lors de l'appel de classe 
+// Methode exec
+//  env1 = liste des arguments passes lors de l'appel de classe 
 void Step::exec(Data_liste *env1)
 {
   if (env1->nb_data != 7) Erreur("Step needs 7 arguments");

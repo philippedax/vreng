@@ -54,19 +54,19 @@ Class_extends::Class_extends(char nom1[30], char nom2[30], Instruction_liste * i
   // champ var 
   var = new Env_var();
 
-  // Déclarer les var de la classe mère dans var
+  // Declarer les var de la classe mere dans var
   for (j=1; j < mere->classe[i]->var->count; j++) {
     for (int k=0; k<30 ; k++) {
       nomvar[k] = mere->classe[i]->var->nom[j][k];
     }
     //nomvar = mere->classe[i]->var->nom[j] ;
     var->declaration(nomvar);
-    if( mere->classe[i]->var->donnee[j] != 0)
+    if (mere->classe[i]->var->donnee[j] != 0)
       var->affectation(nomvar, mere->classe[i]->var->donnee[j]) ;
   }
 }
 
-// Méthode d'exécution de class_extends 
+// Methode d'execution de class_extends 
 void Class_extends::exec(Data_liste * env1)
 {
   int i,j ;

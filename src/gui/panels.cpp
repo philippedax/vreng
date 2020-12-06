@@ -39,14 +39,13 @@
 #include "navig.hpp"
 #include "scene.hpp"
 #include "joystick.hpp"		// Joystick1 Joystick2
-#include "capture.hpp"
-#include "theme.hpp"
 #include "user.hpp"		// UserAction
 #include "axis.hpp"		// toggle
 #include "grid.hpp"		// toggle
 #include "world.hpp"
 #include "channel.hpp"
 #include "message.hpp"
+#include "capture.hpp"
 
 static void toggleHudCB(Widgets*) { g.gui.getScene()->toggleHud(); }
 
@@ -67,7 +66,7 @@ void Panels::showManipulator(bool state)
   joystick2->show(!state);
 }
 
-void Panels::showCartDialog(bool state) { cerr << "TO BE DONE!" << endl; }
+void Panels::showCartDialog(bool state) {
 #if 0 //dax
   UDialog *cartDialog,
   cartDialog =    // relies on carts_pane created by createPanes()
@@ -76,7 +75,10 @@ void Panels::showCartDialog(bool state) { cerr << "TO BE DONE!" << endl; }
   + carts_pane
   + ubottom() + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
   );
+#else
+  cerr << "TO BE DONE!" << endl;
 #endif
+}
 
 static void sandboxCB(Widgets*)
 {

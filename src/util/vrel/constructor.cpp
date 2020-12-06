@@ -59,20 +59,17 @@ Constructeur::Constructeur(Nom_liste * nom2, Decl_var_liste * decl1,
 }
 
 
-// Méthode d'exécution du constructeur 
+// Methode d'execution du constructeur 
 void Constructeur::exec(Data_liste * arg)
 {
-  int i;
-
   // On cree un environnement_var image qui pourra etre mofifier pendant l'exec.
   decl = new Env_var ();
-  for (i=1 ; i<declfixe->count ; i++) 
-    {
+  for (int i=1 ; i<declfixe->count ; i++) {
       decl->declaration(declfixe->nom[i]);
       if (declfixe->donnee[i] != NULL)
 	decl->affectation(declfixe->nom[i], declfixe->donnee[i]);
-    }
-  for (i=0; i<nb_arguments; i++)
+  }
+  for (int i=0; i<nb_arguments; i++)
     decl->affectation(argument->nom[i+1], arg->donnee[i]);
 
   // On change d'environnement.
@@ -84,7 +81,7 @@ void Constructeur::exec(Data_liste * arg)
   // On execute.
   instr->exec();
 
-  // On rétablit l'environnement.
+  // On retablit l'environnement.
   varlocal = tableauvar->charger();
   pere = tableauobj->charger();
 }

@@ -22,7 +22,6 @@
 /*********** classe Tabvar ************/
 
 #include "vrel.hpp"
-
 #include "tabvar.hpp"
 #include "envvar.hpp"
 
@@ -39,7 +38,6 @@ Tabvar::Tabvar()
 // Destructeur de la classe.
 Tabvar::~Tabvar()
 {
-  delete[] tabenv;
 }
 
 // Sauvegarde un environnement sur la pile.
@@ -57,10 +55,8 @@ void Tabvar::sauver (Env_var * varlocales)
 // Retire l'environnement au dessus de la pile.
 Env_var * Tabvar::charger ()
 {
-  Env_var * tabvar;
-
   profondeur --;
-  tabvar = tabenv[profondeur];
+  Env_var *tabvar = tabenv[profondeur];
 
   return tabvar;
 }

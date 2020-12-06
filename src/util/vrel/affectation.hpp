@@ -30,27 +30,27 @@ class Affectation : public Instruction
 {
  private:
 
-  Variable * var_affectee;	///< Variable affectée
+  Variable * var_affectee;	///< Variable affectee
   
  public:
 
   Data * valeur_affectee;	///< Valeur d'affectation
 
   char objet[30], variable[30];  // Nom de l'objet et de sa variable.
-  // Ces attributs ne sont utilisées que dans le cas d'une affectation 
+  // Ces attributs ne sont utilisees que dans le cas d'une affectation 
   // de variable d'un objet.
  
   Affectation(Variable *, Data *);
-  // Constructeur de la classe. Attribue respectivemnt à "var_affectee" et
-  // à "valeur_affectee" les adresses de la variable dans laquelle on stocke
+  // Constructeur de la classe. Attribue respectivemnt a "var_affectee" et
+  // a "valeur_affectee" les adresses de la variable dans laquelle on stocke
   // l'information et la data qui constitue cette information.
 
   Affectation(char *, char *,  Data *);
   // Idem pour les variables d'objet.
   
   void exec();
-  // Exec fait appel à la méthode de lecture et d'evaluation de data
-  // et à la méthode d'affectation d'une variable dans l'environnement.
+  // Exec fait appel a la methode de lecture et d'evaluation de data
+  // et a la methode d'affectation d'une variable dans l'environnement.
   
   virtual ~Affectation();	///< Destructeur
 

@@ -21,14 +21,14 @@
 #include "wall.hpp"
 
 
-// Constructeur de la classe Wall 
+// Constructeur
 Wall::Wall()
 {
   options_box();
 }
 
-// Méthode exec de la classe Wall 
-//  env1 = liste des arguments passés lors de l'appel de classe 
+// Methode exec
+//  env1 = liste des arguments passes lors de l'appel de classe 
 void Wall::exec(Data_liste *env1)
 {
   if (env1->nb_data != 8) Erreur("Wall needs 8 arguments");

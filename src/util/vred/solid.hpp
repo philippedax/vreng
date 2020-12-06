@@ -17,7 +17,7 @@ class Group;
 class  Solid : public Item {
 
 public:
-  Solid(char* _name,
+  Solid(const char* _name,
         const Vect& _center = Vect::null,
         const Vect& _orientation = Vect::null,
         const Vect& _size = Vect::unit,

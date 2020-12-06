@@ -28,10 +28,10 @@ class Instruction_liste : public Instruction
  public:
 
   Instruction * actuelle;
-  // C'est "actuelle" qui pointe sur l'instruction à effectuer.
+  // C'est "actuelle" qui pointe sur l'instruction a effectuer.
 
   Instruction_liste * suivante;
-  // L'enchainement des instructions du programme est assuré par l'enchainement
+  // L'enchainement des instructions du programme est assure par l'enchainement
   // des objets "Instruction_liste" qui pointent vers les objets "Instruction".
 
   Instruction_liste ();
@@ -39,13 +39,13 @@ class Instruction_liste : public Instruction
   // pointeurs NULL.
 
   void addInstruction (Instruction *);
-  // Méthode permettant de faire pointer l'attribut "actuelle" de cet objet 
-  // vers un objet "Instruction", et de créer l'objet "Instruction_liste" 
-  // pointé par "suivante".
+  // Methode permettant de faire pointer l'attribut "actuelle" de cet objet 
+  // vers un objet "Instruction", et de creer l'objet "Instruction_liste" 
+  // pointe par "suivante".
 
   void exec ();
-  // Méthode appelant la méthode "exec()" de "actuelle" si "actuelle != NULL"
-  // et la méthode "exec" de "suivante" si "suivante != NULL"
+  // Methode appelant la methode "exec()" de "actuelle" si "actuelle != NULL"
+  // et la methode "exec" de "suivante" si "suivante != NULL"
 
   virtual ~Instruction_liste ();
   // Destructeur de la classe.

@@ -110,7 +110,7 @@ void Mirage::parser(char *l)
 /** Sets name */
 void Mirage::setName()
 {
-  sprintf(names.named, "%s-%s.%d", MIRAGE_NAME, localuser->getInstance(), getNum());
+  sprintf(names.given, "%s-%s.%d", MIRAGE_NAME, localuser->getInstance(), getNum());
   updateNames();
 }
 
@@ -171,7 +171,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   char *str = (char *) d;       // string
   if (!str) return;
 
-  strcpy(names.named, str);
+  strcpy(names.given, str);
   strcpy(names.type, typeName());     // need names.type for MySql
 
   /* local creation */
@@ -190,7 +190,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   if (geometry && isprint(*geometry)) {	//FIXME: when object comes from Cart
     parse()->parseSolids(geometry, SEP, this);
   }
-  else warning("Mirage: %s no geometry available", names.named);
+  else warning("Mirage: %s no geometry available", names.given);
 
   enableBehavior(DYNAMIC);  // palette
   behavior();

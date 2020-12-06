@@ -30,19 +30,18 @@ Affectation::Affectation (Variable * var_affect, Data * valeur_affect)
 {
   ligne = yylineno;
   kind = 0;
-  strcpy (file, vrelfile);
+  strcpy(file, vrelfile);
 
   var_affectee = var_affect;
   valeur_affectee = valeur_affect;
 }
 
 // Constructeur dans le cas d'une variable d'objet.
-Affectation::Affectation (char objet1[30], char variable1[30],
-			  Data * valeur_affect)
+Affectation::Affectation (char objet1[30], char variable1[30], Data * valeur_affect)
 {
   ligne = yylineno;
   kind = 1;
-  strcpy (file, vrelfile);
+  strcpy(file, vrelfile);
 
   strcpy(objet, objet1);
   strcpy(variable, variable1);
@@ -73,8 +72,6 @@ void Affectation::exec ()
 // Destructeur.
 Affectation::~Affectation ()
 {
-  //if (objet) delete objet;
-  //if (variable) delete variable;
   if (valeur_affectee) delete valeur_affectee;
   if (var_affectee) delete var_affectee;
 }

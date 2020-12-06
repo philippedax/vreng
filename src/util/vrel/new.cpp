@@ -18,7 +18,6 @@
 /********** instruction new **********/
 
 #include "vrel.hpp"
-
 #include "new.hpp"
 #include "data.hpp"
 #include "datalist.hpp"
@@ -46,7 +45,7 @@ Creation::Creation(char nom1[30], Data_liste * arg1)
   // Verifie l'existence de la classe.
   int i;
   for (i=0; strcmp(mere->nom[i], nom) != 0; i++) { 
-    if (i+1 >= mere->nb_classes) erreur("Classe non déclarée");
+    if (i+1 >= mere->nb_classes) erreur("Classe non declaree");
   }
 
   // Champ arg.
@@ -85,7 +84,7 @@ Creation::Creation(Variable * var1, char nom2[30], Data_liste * arg1)
   // Verifie l'existence de la classe 
   int i;
   for (i=0; strcmp(mere->nom[i], nom) != 0; i++) { 
-    if (i+1>= mere->nb_classes) erreur("Classe non déclarée");
+    if (i+1 >= mere->nb_classes) erreur("Classe non declaree");
   }
 
   // Champ arg. 
@@ -131,10 +130,8 @@ void Creation::exec()
 }
 
 // Destructeur.
-Creation::~Creation ()
+Creation::~Creation()
 {
-  //if (nom) delete[] nom;
   if (arg) delete arg;
   if (var) delete var;
-  //if (nameobj) delete[] nameobj;
 }

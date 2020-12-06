@@ -98,9 +98,9 @@ void User::defaults()
 
 void User::setName()
 {
-  if (! explicitName()) {
-    sprintf(names.named, "%s", ::g.user);
-    names.instance = names.named;
+  if (! givenName()) {
+    sprintf(names.given, "%s", ::g.user);
+    names.instance = names.given;
   }
 }
 
@@ -414,7 +414,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
 
   trace(DBG_WO, "Replica: web=%s vre=%s", web, vre);
   trace(DBG_WO, "Replica: model=%s face=%s", model, face);
-  trace(DBG_WO, "replica: type=%s named=%s name=%s ssrc=%x rtcpname=%s email=%s", names.type, names.named, getInstance(), ssrc, rtcpname, email);
+  trace(DBG_WO, "replica: type=%s given=%s name=%s ssrc=%x rtcpname=%s email=%s", names.type, names.given, getInstance(), ssrc, rtcpname, email);
 }
 
 void User::getMemory()

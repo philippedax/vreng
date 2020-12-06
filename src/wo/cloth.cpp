@@ -121,7 +121,7 @@ void Cloth::behavior()
 /* Sets an unique name */
 void Cloth::setName(const char *modelname)
 {
-  if (localuser) sprintf(names.named,"%s&%s", modelname, localuser->getInstance());
+  if (localuser) sprintf(names.given,"%s&%s", modelname, localuser->getInstance());
   updateNames();
 }
 

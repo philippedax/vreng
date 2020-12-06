@@ -28,29 +28,29 @@ class Env_var
  public:
 
   char nom[256][30];  ///< Tableau des noms de variables.
-  Data** donnee;      ///< Tableau des data associées.
-  int count;          ///< (count-1) = nombre de variables déclarées.
+  Data** donnee;      ///< Tableau des data associees.
+  int count;          ///< (count-1) = nombre de variables declarees.
 
   Env_var(); ///< initialisation des tableaux et du compteur.
 
   int parcours(const char * str);
-  // Parcours la liste chainée des variables existantes et renvoie l'index
-  // sur cette variable si la variable existe déjà. Sinon, renvoie 0.
+  // Parcours la liste chainee des variables existantes et renvoie l'index
+  // sur cette variable si la variable existe deja. Sinon, renvoie 0.
 
   void declaration(const char* str);
   // Ajouter une variable dans le tableau de nom.
 
   void declaration(const char * str, float val);
-  // Ajouter une variable dans le tableau de nom et l'affecter à un nombre.
+  // Ajouter une variable dans le tableau de nom et l'affecter a un nombre.
   
   void declaration(const char * var, const char *str);
-  // Ajouter une variable dans le tableau de nom et l'affecter à une chaine.
+  // Ajouter une variable dans le tableau de nom et l'affecter a une chaine.
 
   int affectation(const char *, Data*);
-  // Méthode d'affectation; la data sera d'abord évaluée (méthode get_data).
+  // Mathode d'affectation; la data sera d'abord avaluae (mathode get_data).
 
   int affectation2(const char *, Data*);
-  // Méthode d'affectation sans evaluation (ie la data peut etre un pointeur 
+  // Mathode d'affectation sans evaluation (ie la data peut etre un pointeur 
   // sur un objet de type Variable).
   
   Data* eval(const char *);

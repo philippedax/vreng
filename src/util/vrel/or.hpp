@@ -36,7 +36,7 @@ class Or : public Oplogique
   // Constructeur de la classe.
   Or(Data *, Data *);
   
-  // Méthode d'exécution du Or.
+  // Methode d'execution du Or.
   Data* get_data();
   
   virtual ~Or();	// Destructeur

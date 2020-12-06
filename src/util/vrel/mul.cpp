@@ -22,7 +22,6 @@
 /***** multiplication de variables ****/
 
 #include "vrel.hpp"
-
 #include "mul.hpp"
 #include "data.hpp"
 
@@ -38,13 +37,10 @@ Multiplication::Multiplication (Data * opgauche, Data * opdroite)
 // Exécution.
 Data* Multiplication::get_data ()
 {
-  Data *opg, *opd;
-  Data *resultat;
-
-  opg = op_gauche->get_data();
-  opd = op_droite->get_data();
-  
-  resultat = opg->mult(opd);
+  Data *opg = op_gauche->get_data();
+  Data *opd = op_droite->get_data();
+  Data *resultat = opg->mult(opd);
+ 
   if (resultat == NULL) {
     cout << "Error at line " << ligne << " : args are not digits\n";
     exit(1);

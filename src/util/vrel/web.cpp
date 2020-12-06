@@ -21,14 +21,14 @@
 #include "web.hpp"
 
 
-// Constructeur de la classe Web 
+// Constructeur
 Web::Web()
 {
   options_box();
 }
 
-// Méthode exec de la classe Web
-//  env1 = liste des arguments passés lors de l'appel de classe 
+// Methode exec
+//  env1 = liste des arguments passes lors de l'appel de classe 
 void Web::exec(Data_liste *env1)
 {
   if (env1->nb_data != 8) Erreur("Web needs 8 arguments");

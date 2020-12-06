@@ -62,7 +62,7 @@ void Instruction_liste::addInstruction (Instruction * a_ajouter)
       pere->objet[i]->affectation(variable, ajout->valeur_affectee);
     }
 
-    // Si l'instruction est une création avec affectation :
+    // Si l'instruction est une creation avec affectation :
     if (a_ajouter->kind == 2) {
       Creation * ajout;
       ajout = (Creation *) a_ajouter;
@@ -78,7 +78,7 @@ void Instruction_liste::addInstruction (Instruction * a_ajouter)
     suivante->addInstruction(a_ajouter);
 }
 
-// Propagation de l'exécution
+// Propagation de l'execution
 void Instruction_liste::exec ()
 {
   if (actuelle != NULL) {

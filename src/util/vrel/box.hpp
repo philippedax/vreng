@@ -28,7 +28,7 @@ class Box : public App
  public: 
 
   void options_box();	///< initialise les paramètres optionnels
-  void ecrire_box();	///< écrit s'il y a lieu les paramètres optionnels Box
+  void ecrire_box();	///< ecrit s'il y a lieu les parametres optionnels Box
 };
 
 #endif

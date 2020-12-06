@@ -21,7 +21,7 @@
 
 Erreur::Erreur(const char *msg)
 {
-  printf("Line n°%d - %s\n", yylineno, msg);
+  printf("Error at line %d - %s\n", yylineno, msg);
   fprintf(yyout,"\n- ERROR ! -\n");
   fclose(yyout);
   exit(0);

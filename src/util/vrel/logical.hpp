@@ -28,19 +28,19 @@ class Oplogique : public Data
 {
  public:
 
-  // Numéro de ligne fournit à bison et qui sert aux messages d'erreur.
+  // Numero de ligne fournit a bison et qui sert aux messages d'erreur.
   int ligne;
 
-  // Méthode d'exécution de l'operation logique.
+  // Methode d'execution de l'operation logique.
   virtual Data* get_data () = 0;
   
-  // Méthode d'erreur.
+  // Methode d'erreur.
   void erreur (const char * texte) {
     printf ("Error: line %d: %s\n", ligne, texte);
     exit(1);
   }
 
-  // Méthodes inutiles.
+  // Methodes inutiles.
   void set_float (float)  { } 
   void set_float (int)    { }
   float get_float ()  {return 0.0;}

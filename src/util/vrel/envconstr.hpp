@@ -36,11 +36,11 @@ public:
   virtual ~Env_constr() {};
 
   void addConstr(Constructeur *);
-  // Méthode qui ajoute un constructeur au tableau des constructeurs
+  // Methode qui ajoute un constructeur au tableau des constructeurs
 
   void exec(Data_liste *);
   /**<
-   * - 1. Vérifier l'existence du constructeur
+   * - 1. Verifier l'existence du constructeur
    * - 2. Executer le constructeur
    */
 };

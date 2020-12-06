@@ -27,7 +27,7 @@ Board::Board()
   options_box();
 }
 
-// Méthode exec de la classe Board 
+// Methode exec de la classe Board 
 void Board::exec(Data_liste * env1)
 {
   if (env1->nb_data != 7) 

@@ -39,8 +39,8 @@ void Cart::parser(char *l)
 {
   defaults();
   l = tokenize(l);
-  l = parse()->parseName(l, names.named);	// basket
-  names.instance = names.named;
+  l = parse()->parseName(l, names.given);	// basket
+  names.instance = names.given;
 }
 
 /* defaults values */
@@ -136,7 +136,7 @@ void Cart::leave(WObject *po)
   // update the object's name with the type name as prefix
   char tmpname[64];
   sprintf(tmpname, "%s-%s", po->typeName(), po->named());
-  strcpy(po->names.named, tmpname);
+  strcpy(po->names.given, tmpname);
   po->updateNames();
 
   // owner is user

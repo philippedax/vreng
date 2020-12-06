@@ -134,7 +134,7 @@ Dress::Dress(User *user, void *d, time_t s, time_t u)
   char *p = str;
   if (!str) return;
 
-  strcpy(names.named, str);
+  strcpy(names.given, str);
   strcpy(names.type, typeName());     // need names.type for MySql
   p = strchr(str, '&');
   *p = '\0';

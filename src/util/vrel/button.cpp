@@ -27,7 +27,7 @@ Button::Button()
   options_box();
 }
 
-// Méthode exec de la classe Button 
+// Methode exec de la classe Button 
 void Button::exec(Data_liste * env1)
 {
   if (env1->nb_data != 11) Erreur("Button needs 11 arguments");

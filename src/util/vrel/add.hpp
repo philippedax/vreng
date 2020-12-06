@@ -33,7 +33,7 @@ class Addition : public Operation
  public:
   
   Addition (Data *, Data *);		///< Constructeur de la classe
-  Data* get_data ();			///< Méthode d'exécution de l'addition
+  Data* get_data ();			///< Methode d'execution de l'addition
   virtual ~Addition ();			///< Destructeur
 };
 
