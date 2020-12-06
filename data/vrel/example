@@ -1,0 +1,210 @@
+Var wood = "http://www.infres.enst.fr/vreng/gif/wood.gif"
+
+ 
+
+class WallUni compound
+
+{
+
+var text ;
+
+constructor(posX, posY, posZ, Angle, EpX, EpY, EpZ, text)
+
+{
+
+w = new wall(posX, posY, posZ, Angle, EpX, EpY, EpZ);
+
+w.tex_xp = text ;
+
+w.tex_xn = text ;
+
+w.tex_yp = text ;
+
+w.tex_yn = text ;
+
+w.tex_zp = text ;
+
+w.tex_zn = text ;
+
+}
+
+constructor(posX, posY, posZ, Angle, EpX, EpY, EpZ)
+
+{
+
+w = new wall(posX, posY, posZ, Angle, EpX, EpY, EpZ);
+
+w.tex_xp = tex ;
+
+w.tex_xn = tex ;
+
+w.tex_yp = tex ;
+
+w.tex_yn = tex ;
+
+w.tex_zp = tex ;
+
+w.tex_zn = tex ;
+
+}
+
+}
+
+ 
+
+ 
+
+class wallwood extends wallUni
+
+{
+
+text = wood ;
+
+}
+
+ 
+
+ 
+
+Fichier tabouret.vrel :
+
+import "walluni.vrel"
+
+class Tabouret compound
+
+{
+
+constructor (posX, posY, posZ)
+
+{
+
+new wallwood(posX, posY, posZ, 0, 2.5, 2.5, 0.2) ;
+
+new wallwood(posX+2.2, posY+2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+
+new wallwood(posX–2.2, posY+2.2, posZ–2.5, 0, 0.1, 0.1, 2.5);
+
+new wallwood(posX+2.2, posY-2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+
+new wallwood(posX-2.2, posY-2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+
+}
+
+}
+
+ 
+
+ 
+
+Fichier chaise.vrel :
+
+import "tabouret.vrel"
+
+class Chaise compound
+
+{
+
+constructor (posX, posY, posZ)
+
+{
+
+new Tabouret (posX, posY, posZ) ;
+
+new Wallwood (posX+2.4, posY, posZ+2.5, 0, 0.1, 2.5, 2.5) ;
+
+}
+
+}
+
+ 
+
+ 
+
+Fichier table.vrel
+
+import "walluni.vrel"
+
+class Table compound
+
+{
+
+constructor (posX, posY, posZ)
+
+{
+
+new WallUni(posX, posY, posZ-2.5, 0, 7.5, 5, 0.2, wood);
+
+new WallUni(posX+6.6, posY+4.4, posZ-5, 0, 0.15, 0.15, 2.5, wood);
+
+new WallUni(posX–6.6, posY+4.4, posZ-5, 0, 0.15, 0.15, 2.5, wood);
+
+new WallUni(posX+6.6, posY-4.4, posZ-5, 0, 0.15, 0.15, 2.5, wood);
+
+new WallUni(posX–6.6, posY-4.4, posZ-5, 0, 0.15, 0.15, 2.5, wood);
+
+}
+
+constructor(posX, posY, posZ, texture)
+
+{
+
+w1 = new WallUni(posX, posY, posZ, 0, 0.25, 0.25, 0.02, wood) ;
+
+w2 = new WallUni(posX+2.2, posY+2.2, posZ–2.5, 0, 0.1, 0.1, 2.5);
+
+w3 = new WallUni(posX-2.2, posY+2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+
+w4 = new WallUni(posX+2.2, posY-2.2, posZ–2.5, 0, 0.1, 0.1, 2.5);
+
+w5 = new WallUni(posX-2.2, posY-2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+
+w1.tex = texture ;
+
+w2.tex = texture ;
+
+w3.tex = texture ;
+
+w4.tex = texture ;
+
+w5.tex = texture ;
+
+}
+
+}
+
+ 
+
+ 
+
+Fichier main :
+
+import "chaise.vrel"
+
+import "table.vrel"
+
+var N = 5 ;
+
+begin
+
+{
+
+var i ;
+
+i = 0 ;
+
+while (i < N)
+
+{
+
+new Chaise (5 * i, 15, 0.5) ;
+
+new Table (4 * i, 15, 1);
+
+i = i+1 ;
+
+}
+
+}
+
+end
+

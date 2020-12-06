@@ -1,0 +1,34 @@
+Var wood = "http://localhost/~dax/gif/wood.gif"
+
+class WallUni compound
+{
+  var text ;
+
+  constructor(posX, posY, posZ, Angle, EpX, EpY, EpZ, text)
+  {
+    w = new wall(posX, posY, posZ, Angle, EpX, EpY, EpZ);
+    w.tex_xp = text ;
+    w.tex_xn = text ;
+    w.tex_yp = text ;
+    w.tex_yn = text ;
+    w.tex_zp = text ;
+    w.tex_zn = text ;
+  }
+
+  constructor(posX, posY, posZ, Angle, EpX, EpY, EpZ)
+  {
+    w = new wall(posX, posY, posZ, Angle, EpX, EpY, EpZ);
+    w.tex_xp = tex ;
+    w.tex_xn = tex ;
+    w.tex_yp = tex ;
+    w.tex_yn = tex ;
+    w.tex_zp = tex ;
+    w.tex_zn = tex ;
+  }
+}
+
+class wallwood extends wallUni
+{
+  text = wood ;
+}
+

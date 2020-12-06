@@ -1,0 +1,16 @@
+// Fichier tabouret.vrel :
+
+import "walluni.vrel"
+
+class Tabouret compound
+{
+  constructor (posX, posY, posZ)
+  {
+    new wallwood(posX, posY, posZ, 0, 2.5, 2.5, 0.2) ;
+    new wallwood(posX+2.2, posY+2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+    new wallwood(posX–2.2, posY+2.2, posZ–2.5, 0, 0.1, 0.1, 2.5);
+    new wallwood(posX+2.2, posY-2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+    new wallwood(posX-2.2, posY-2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+  }
+}
+

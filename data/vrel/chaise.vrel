@@ -1,0 +1,13 @@
+// Fichier chaise.vrel :
+
+import "tabouret.vrel"
+
+class Chaise compound
+{
+  constructor (posX, posY, posZ)
+  {
+    new Tabouret (posX, posY, posZ) ;
+    new Wallwood (posX+2.4, posY, posZ+2.5, 0, 0.1, 2.5, 2.5) ;
+  }
+}
+

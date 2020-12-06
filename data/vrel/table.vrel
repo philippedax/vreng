@@ -1,0 +1,30 @@
+// Fichier table.vrel
+
+import "walluni.vrel"
+
+class Table compound
+{
+  constructor (posX, posY, posZ)
+  {
+    new WallUni(posX, posY, posZ-2.5, 0, 7.5, 5, 0.2, wood);
+    new WallUni(posX+6.6, posY+4.4, posZ-5, 0, 0.15, 0.15, 2.5, wood);
+    new WallUni(posX–6.6, posY+4.4, posZ-5, 0, 0.15, 0.15, 2.5, wood);
+    new WallUni(posX+6.6, posY-4.4, posZ-5, 0, 0.15, 0.15, 2.5, wood);
+    new WallUni(posX–6.6, posY-4.4, posZ-5, 0, 0.15, 0.15, 2.5, wood);
+  }
+
+  constructor(posX, posY, posZ, texture)
+  {
+    w1 = new WallUni(posX, posY, posZ, 0, 0.25, 0.25, 0.02, wood) ;
+    w2 = new WallUni(posX+2.2, posY+2.2, posZ–2.5, 0, 0.1, 0.1, 2.5);
+    w3 = new WallUni(posX-2.2, posY+2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+    w4 = new WallUni(posX+2.2, posY-2.2, posZ–2.5, 0, 0.1, 0.1, 2.5);
+    w5 = new WallUni(posX-2.2, posY-2.2, posZ-2.5, 0, 0.1, 0.1, 2.5);
+    w1.tex = texture ;
+    w2.tex = texture ;
+    w3.tex = texture ;
+    w4.tex = texture ;
+    w5.tex = texture ;
+  }
+}
+
