@@ -1,0 +1,41 @@
+// variables globales
+var drydirt4 = "http://www.stud.enst.fr/~jdauphin/pierres2.gif";
+var stone4 = "http://www.enst.fr/~jdauphin/pierres4.gif";
+
+var Lr4 = 2.5; // longeur totale d'une tuile
+var Lg4 = 2.5; // largeur totale d'une tuile
+
+class dirtground4 extends wall {
+  tex_zp = drydirt4; 
+  tex_xp = stone4;
+  tex_xn = stone4;
+  tex_yp = stone4;
+  tex_yn = stone4;
+}
+
+class groundtile4 compound {
+  constructor(posX, posY, posZ, epaisseur) {
+  w1 =  new dirtground4 (posX, posY -20, posZ, 0, 0, Lr4/2, Lg4/2, epaisseur);  
+  }
+}
+
+class ground4 compound
+{
+  constructor (longtot, largtot, cote, epais) { 
+    var i;
+    var j;
+    
+    i = 0;
+    while(i <= longtot/2) {
+        j = 0;
+        while(j <= largtot/2) {
+	    new groundtile4 (i + Lr4/2,j + Lg4/2, cote, epais);
+	    new groundtile4 (-i - Lr4/2, j + Lg4/2, cote, epais);
+	    new groundtile4 (i + Lr4/2, -j - Lg4/2, cote, epais);
+	    new groundtile4 (-i - Lr4/2, -j - Lg4/2, cote, epais);
+	    j = j + Lg4;
+          }
+      i = i + Lr4;
+    }
+  }
+}

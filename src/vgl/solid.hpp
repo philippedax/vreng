@@ -46,10 +46,8 @@ protected:
   class Texture *texture;
   GLint*	dlists;		///< cached display list.
   M4		position;	///< position matrix.
-  V3		rel_bbcent;	///< relative center of BB.
-  V3		rel_bbsize;	///< relative half sizes of BB.
-  V3		abs_bbcent;	///< absolute center of BB.
-  V3		abs_bbsize;	///< absolute half sizes of BB.
+  V3		bbcent;		///< relative center of BB.
+  V3		bbsize;		///< relative half sizes of BB.
   bool		is_visible;	///< should this solid be drawn ?.
   bool		is_opaque;	///< set if the solid is totaly opaque.
   GLfloat	mat_diffuse[4];
@@ -59,12 +57,28 @@ protected:
   GLint		mat_shininess[1];
   GLfloat	mat_alpha;
   GLfloat	scale, scalex, scaley, scalez;
+  bool		isframed;	///< flag framed.
+  bool		isflashy;	///< flag flashy.
+  bool		isflashable;	///< flag flashable.
+  bool		isreflexive;	///< flag reflexive.
+  bool		isflary;	///< flag flary.
+  bool		isblinking;	///< flag blinking.
+  bool		blink;		///< flag blink.
+  uint8_t	shape;		///< basic shape.
+  uint8_t	numrel;		///< relative solid number.
+  uint16_t	nbrframes;	///< number of frames of this solid.
+  uint16_t	idxframe;	///< frame index.
+  uint16_t	frame;		///< current frame to render.
+  int		texid;		///< texture id
+  GLfloat 	flashcol[3];	///< flash color.
+  GLfloat 	pos[5];		///< relative position/orientation.
+  GLfloat	fog[4];		///< fog params
 
 public:
 
   enum render_mode {
     DISPLAY,		///< render surfaces with plain colors.
-    SELECT		///< only works with the Z-buffer (for selection).
+    SELECT		///< selection in the Z-buffer.
   };
 
   enum render_type {
@@ -83,22 +97,7 @@ public:
     PROGRESS
   };
 
-  uint8_t	shape;		///< basic shape.
-  uint8_t	numrel;		///< relative solid number.
-  uint16_t	nbframes;	///< number of frames of this solid.
-  uint16_t	frame;		///< frame number.
-  uint16_t	curframe;	///< current frame.
-  bool		framed;		///< flag framed.
-  bool		isflashy;	///< flag flashy.
-  bool		isflashable;	///< flag flashable.
-  bool		isreflexive;	///< flag reflexive.
-  bool		isflary;	///< flag flary.
-  bool		isblinking;	///< flag blinking.
-  bool		blink;		///< flag blink.
   GLint		ray_dlist;	///< ray display list.
-  GLfloat 	flashcolor[3];	///< flash color.
-  GLfloat 	rel[5];		///< relative position/orientation.
-  char		name[HNAME_LEN];///< solid name.
 
   Solid();		///< constructor.
   virtual ~Solid();	///< destructor.
@@ -175,7 +174,7 @@ public:
   virtual void resetRay();
   /**< Resets ray. */
 
-  virtual void setFlashyEdges(const GLfloat *_flashcolor);
+  virtual void setFlashyEdges(const GLfloat *_flashcol);
   /**< Sets the solid edges flashy with this color. */
 
   virtual void resetFlashyEdges();
@@ -246,19 +245,19 @@ private:
   virtual void setBB(GLfloat w, GLfloat d, GLfloat h);
   /**< Sets BB. */
 
-  virtual void testRelative(bool flag);
-  /**< Makes transforms if relative postion. */
+  virtual void doRotateTranslate(bool flag);
+  /**< Makes transforms rotations and translations. */
 
-  virtual void testScale(bool flag);
+  virtual void doScale(bool flag);
   /**< Makes scaling operations. */
 
-  virtual void testBlend(bool flag, GLfloat alpha);
+  virtual void doBlend(bool flag, GLfloat alpha);
   /**< Makes blending operations if alpha. */
 
-  virtual void testFog(bool flag, GLfloat *fog);
+  virtual void doFog(bool flag, GLfloat *fog);
   /**< Makes fog operations if fog. */
 
-  virtual void testTexture(bool flag, int texid);
+  virtual void doTexture(bool flag, int texid);
   /**< Makes texture binding */
 
   virtual char* getTok(char* l, uint16_t* tok);

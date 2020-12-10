@@ -669,8 +669,8 @@ void X3d::render()
   glMaterialfv(GL_FRONT, GL_EMISSION, reset1);
 
   //We update the timers for animation//
-  for (std::vector<TimeSensor>::iterator timer = timeSensors.begin(); timer!=timeSensors.end(); timer++)
-    timer->updateFraction(animationOn);
+  for (std::vector<TimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++)
+    t->updateFraction(animationOn);
 
   //list to make an iterative treatment of the tree
   std::vector<X3dShape*> nextShapes;
@@ -778,8 +778,8 @@ void X3d::resetFlashy()
 
 void X3d::resetAnimations()
 {
-  for (std::vector<TimeSensor>::iterator timer = timeSensors.begin(); timer!=timeSensors.end(); timer++)
-    timer->resetFraction();
+  for (std::vector<TimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++)
+    t->resetFraction();
 }
 
 

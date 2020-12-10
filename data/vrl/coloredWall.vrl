@@ -1,0 +1,41 @@
+#include "stdobj.vrl"
+
+struct RedWall : Wall {
+  constructor(x1, y1, z1, a1, lx1, ly1, lz1) {
+    Wall(x1, y1, z1, a1, lx1, ly1, lz1) ;
+    diffuseRED = 0.7;
+  }
+}
+struct GreenWall : Wall {
+  constructor(x1, y1, z1, a1, lx1, ly1, lz1) {
+    Wall(x1, y1, z1, a1, lx1, ly1, lz1) ;
+    diffuseGREEN = 0.7;
+  }
+}
+struct BlueWall : Wall {
+  constructor(x1, y1, z1, a1, lx1, ly1, lz1) {
+    Wall(x1, y1, z1, a1, lx1, ly1, lz1) ;
+    diffuseBLUE = 0.7;
+  }
+}
+struct YellowWall : Wall {
+  constructor(x2, y2, z2, a2, lx2, ly2, lz2) {
+    Wall(x2, y2, z2, a2, lx2, ly2, lz2) ;
+    diffuseRED   = 0.7;	
+    diffuseGREEN = 0.7;
+  }
+}
+struct VioletWall : Wall {
+  constructor(x2, y2, z2, a2, lx2, ly2, lz2) {
+    Wall(x2, y2, z2, a2, lx2, ly2, lz2) ;
+    diffuseRED  = 0.7;
+    diffuseBLUE = 0.7;
+  }
+}
+struct CyanWall : Wall {
+  constructor(x2, y2, z2, a2, lx2, ly2, lz2) {
+    Wall(x2, y2, z2, a2, lx2, ly2, lz2) ;
+    diffuseBLUE  = 0.7
+    diffuseGREEN = 0.7;
+  }
+}

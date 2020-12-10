@@ -1,0 +1,12 @@
+import "chair.vrel"
+import "table.vrel"
+
+
+class Tab_and_chair compound
+{
+    constructor (posx, posy, posz)
+    {
+	new Chair (posx + 0.75, posy, posz + 0.5);
+	new Table (posx, posy,posz + 0.75);
+    }
+}

@@ -146,11 +146,11 @@ float Particle::timedelta()
 {
   struct timeval endtime;
   gettimeofday(&endtime, NULL);
-  srand((time_t) endtime.tv_usec);
+  //srand((time_t) endtime.tv_usec);
 
-  double diff = Times::diffDates(begintime, endtime);
+  double difftime = Times::diffDates(begintime, endtime);
   begintime = endtime;
-  return (float)diff;
+  return (float)difftime;
 }
 
 void Particle::generate(tParticle *p, float dt)

@@ -291,27 +291,25 @@ Solid::Solid()
 {
   new_solid++;
   dlists = NULL;	// solid display list
-  wobject = NULL;
+  wobject = NULL;	// wobject associated with this solid setted by addSolid in wobject.cpp (friend)
   shape = STOK_BOX;	// box shape by default
   numrel = 0;		// monosolid
-  rel_bbcent = newV3(0, 0, 0);
-  rel_bbsize = newV3(0, 0, 0);
-  abs_bbcent = newV3(0, 0, 0);
-  abs_bbsize = newV3(0, 0, 0);
-  frame = 0;		// frame index in displaylist
-  curframe = 0;		// frame to render
-  nbframes = 1;		// 1 frame by default
-  framed = false;	// mono framed by default
-  is_visible = true;	// visible by default
-  is_opaque = true;	// opaque by default
+  bbcent = newV3(0, 0, 0);
+  bbsize = newV3(0, 0, 0);
+  idxframe = 0;		// frame index in displaylist
+  frame = 0;		// frame to render
+  nbrframes = 1;	// 1 frame by default
+  isframed = false;	// mono framed by default
   isflashy = false;
   isreflexive = false;
-  isblinking = false;
   isflary = false;
+  isblinking = false;
   blink = false;
+  is_visible = true;	// visible by default
+  is_opaque = true;	// opaque by default
   ray_dlist = 0;
-  for (int i=0; i<5; i++) rel[i] = 0;
-  for (int i=0; i<3; i++) flashcolor[i] = 1;  // white
+  for (int i=0; i<5; i++) pos[i] = 0;
+  for (int i=0; i<3; i++) flashcol[i] = 1;  // white
 }
 
 /* Deletes solid from display-list. */
@@ -355,7 +353,7 @@ char * Solid::getTok(char *l, uint16_t *tok)
 char * Solid::getFramesNumber(char *l)
 {
   if (! stringcmp(l, "frames="))
-    l = wobject->parse()->parseUInt16(l, &nbframes, "frames");
+    l = wobject->parse()->parseUInt16(l, &nbrframes, "frames");
   return l;
 }
 
@@ -363,11 +361,11 @@ char * Solid::getFramesNumber(char *l)
 char * Solid::parseFrame(char *l)
 {
   if (! strcmp(l, "frame")) {
-    framed = true;
+    isframed = true;
     char *p = wobject->parse()->nextToken();
     return p;
   }
-  while (l && framed) {
+  while (l && isframed) {
     if (! stringcmp(l, "frame"))
       return wobject->parse()->nextToken();
     l = wobject->parse()->nextToken();
@@ -409,7 +407,7 @@ char * Solid::parser(char *l)
 
   l = getFramesNumber(l);
 
-  dlists = new GLint[nbframes];
+  dlists = new GLint[nbrframes];
 
   ::g.render.addToList(this);	// add to solidList
   IdM4(&position);
@@ -421,7 +419,7 @@ char * Solid::parser(char *l)
   V3 bbmin = newV3(0, 0, 0);
 
   // for each frame
-  for (frame = 0; frame < nbframes; ) {
+  for (idxframe = 0; idxframe < nbrframes; ) {
     int r = 0;
 
     l = parseFrame(l);
@@ -463,13 +461,13 @@ char * Solid::parser(char *l)
     }
 
     if (r == -1) { error("parser error: shape=%hu ll=%s", shape, ll); delete this; return NULL; }
-    frame += r;
+    idxframe += r;
   }
 
   /* computes relative AABB of this solid: bbcent and bbsize */
   for (int i=0; i<3; i++) {
-    rel_bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]) / 2;
-    rel_bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]) / 2;
+    bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]) / 2;
+    bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]) / 2;
   }
 
   /* next Token */
@@ -501,7 +499,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   GLfloat light_constant_attenuation[] = {1};
   GLfloat light_linear_attenuation[] = {0};
   GLfloat light_quadratic_attenuation[] = {0};
-  GLfloat fog[] = {DEF_FOG,1,1,1};	// density + white
+  fog[0] = 0;
+  fog[1] = fog[2] = fog[3] = 1; // white
 
   // default draws params
   scale = scalex = scaley = scalez = DEF_SCALE;
@@ -514,7 +513,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   uint8_t face = 0;	// default face
 
   // default textures
-  int texid = -1;	// for quadrics (sphere, cylinder, disc, torus, ...)
+  texid = -1;			// for quadrics (sphere, cylinder, disc, torus, ...)
   int box_tex[6] = {-1,-1,-1,-1,-1,-1};	// for parallepipedic shapes
   GLfloat box_texrep[6][2] = { {1,1}, {1,1}, {1,1}, {1,1}, {1,1}, {1,1} };
   GLfloat tex_r_s = 1, tex_r_t = 1;
@@ -585,6 +584,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_ALPHA:
         l = wobject->parse()->parseFloat(l, &mat_alpha);
         mat_diffuse[3] = mat_ambient[3] = mat_alpha; break;
+        if (mat_alpha < 1)
+          is_opaque = false;
       case STOK_SCALE:
         l = wobject->parse()->parseFloat(l, &scale); break;
       case STOK_SCALEX:
@@ -642,25 +643,25 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseUInt8(l, &flgblk);
         if (flgblk) { blink = true; setBlinking(true); } break;
       case STOK_REL:
-        l = wobject->parse()->parseVector5f(l, rel); {
+        l = wobject->parse()->parseVector5f(l, pos); {
           ++numrel;
           ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
         }
         break;
       case STOK_TEXTURE:
-        { char *url = new char[URL_LEN];
-          l = wobject->parse()->parseString(l, url);
+        { char *urltex = new char[URL_LEN];
+          l = wobject->parse()->parseString(l, urltex);
 #if 0
-          if (*url) texid = Texture::getFromCache(url);
+          if (*urltex) texid = Texture::getFromCache(urltex);
 #else
-          if (*url) {
-            texture = new Texture(url);
+          if (*urltex) {
+            texture = new Texture(urltex);
             texid = texture->id;
             texture->object = wobject;
             texture->solid = this;
           }
 #endif
-          delete[] url;
+          delete[] urltex;
         }
         break;
       case STOK_TEX_XP:
@@ -669,15 +670,16 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_TEX_YN:
       case STOK_TEX_ZP:
       case STOK_TEX_ZN:
-        { char *url = new char[URL_LEN];
-          l = wobject->parse()->parseString(l, url);
-          if (*url) {
-            texture = new Texture(url);
+        { char *urltex = new char[URL_LEN];
+          l = wobject->parse()->parseString(l, urltex);
+          if (*urltex) {
+            texture = new Texture(urltex);
             box_tex[tok-STOK_TEX_XP] = texture->id;
+            texid = texture->id;
             texture->object = wobject;
             texture->solid = this;
           }
-          delete[] url;
+          delete[] urltex;
         }
         break;
       case STOK_TEXTURE_R:
@@ -732,12 +734,12 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
   switch (shape) {
 
-    case STOK_BBOX:	// invisible box
+    case STOK_BBOX:	// invisible bounding box
       setBB(dim.v[0], dim.v[1], dim.v[2]);
       if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
 
-    case STOK_BSPHERE:	// invisible sphere
+    case STOK_BSPHERE:	// invisible bounding sphere
       if (! radius) radius = (dim.v[0] + dim.v[1] + dim.v[2]) / 3;
       dim.v[0] = dim.v[1] = dim.v[2] = 2*radius;
       setBB(2*radius, 2*radius, 2*radius);
@@ -745,10 +747,18 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_BOX:
-      preDraw(0, mat_alpha, fog);
+#if 1 //dax
+      preDraw(texid, mat_alpha, fog);
+#else
+  if (texid >= 0) {
+      glEnable(GL_TEXTURE_2D);
+      glBindTexture(GL_TEXTURE_2D, texid);
+  }
+#endif
       Draw::box(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, style);
       if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
-      postDraw(0, mat_alpha, fog);
+      postDraw(texid, mat_alpha, fog);
+      //dax glDisable(GL_TEXTURE_2D);
       break;
 
     case STOK_MAN:
@@ -838,10 +848,10 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_CROSS:
-      preDraw(0, mat_alpha, fog);
+      preDraw(texid, mat_alpha, fog);
       Draw::box(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, style);
       Draw::box(dim.v[2], dim.v[1], dim.v[0], box_tex, box_texrep, style);
-      postDraw(0, mat_alpha, fog);
+      postDraw(texid, mat_alpha, fog);
       break;
 
     case STOK_RECT:
@@ -871,17 +881,17 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       postDraw(texid, mat_alpha, fog);
       break;
 
-    case STOK_POINT:
-      glPointSize((radius) ? radius : 1);
-      Draw::point(dim.v[0], dim.v[1], dim.v[2]);
-      glPointSize(1);
-      break;
-
     case STOK_HELIX:
       preDraw(texid, mat_alpha, fog, true);
       Draw::helix(radius, length, height, slices, thick, mat_diffuse);
       setBB(radius, radius, length/2);
       postDraw(texid, mat_alpha, fog);
+      break;
+
+    case STOK_POINT:
+      glPointSize((radius) ? radius : 1);
+      Draw::point(dim.v[0], dim.v[1], dim.v[2]);
+      glPointSize(1);
       break;
 
     case STOK_CAR:
@@ -912,7 +922,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   glEndList();
 
   /* sets dlists number for this frame */
-  dlists[frame] = dlist;
+  dlists[idxframe] = dlist;
 
   /*
    * sets bounding boxes max and min
@@ -928,7 +938,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     case STOK_ELLIPSE: // 2D shapes without BBox
       break;
     default: // with bounding boxes
-      getBB(bbmax, bbmin, frame != 0);
+      getBB(bbmax, bbmin, idxframe != 0);
   }
   return 1;	// only one frame
 }
@@ -939,9 +949,9 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   int texid = -1;
   GLfloat scale = DEF_SCALE;
   uint16_t firstframe = 1;
-  uint16_t lastframe = nbframes;
+  uint16_t lastframe = nbrframes;
   uint16_t tabframes[FRAME_MAX] = { 0 };
-  char *url_model = NULL;
+  char *urlmdl = NULL;
 
   mat_alpha = DEF_ALPHA;
 
@@ -959,8 +969,8 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_SOLID: break;
       case STOK_MODEL:
       case STOK_URL:
-        url_model = new char[URL_LEN];
-        l = wobject->parse()->parseString(l, url_model); break;
+        urlmdl = new char[URL_LEN];
+        l = wobject->parse()->parseString(l, urlmdl); break;
       case STOK_SCALE:
         l = wobject->parse()->parseFloat(l, &scale); break;
       case STOK_BEGINFRAME:
@@ -977,19 +987,21 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_ALPHA:
         l = wobject->parse()->parseFloat(l, &mat_alpha);
         mat_diffuse[3] = mat_ambient[3] = mat_alpha; break;
+        if (mat_alpha < 1)
+          is_opaque = false;
       case STOK_TEXTURE:
-        { char *url_tex = new char[URL_LEN];
-          l = wobject->parse()->parseString(l, url_tex);
+        { char *urltex = new char[URL_LEN];
+          l = wobject->parse()->parseString(l, urltex);
 #if 0
-          if (*url_tex) texid = Texture::getFromCache(url_tex);
+          if (*urltex) texid = Texture::getFromCache(urltex);
 #else
-          if (*url_tex) {
-            texture = new Texture(url_tex);
+          if (*urltex) {
+            texture = new Texture(urltex);
             texid = texture->id;
             texture->object = wobject;
           }
 #endif
-          delete[] url_tex;
+          delete[] urltex;
         }
         break;
       default: error("statueParser: bad tok=%d", tok); return -1;
@@ -997,47 +1009,53 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   }
   firstframe = (firstframe == 0) ? 1 : firstframe;
   if (lastframe < firstframe) lastframe = firstframe;
-  int f;
-  for (f=0; firstframe <= lastframe; f++) tabframes[f] = firstframe++;
-  tabframes[f] = 0;
 
-  if (url_model) {	// model url exists
-    int model_t = Format::getModelByUrl(url_model);
-    switch (model_t) {
+  int nf;
+  for (nf=0; firstframe <= lastframe; nf++)
+    tabframes[nf] = firstframe++;
+  tabframes[nf] = 0;
+
+  if (urlmdl) {	// model url exists
+    int model = Format::getModelByUrl(urlmdl);
+    switch (model) {
+
       case MODEL_MD2: {
-          Md2 *md2 = new Md2(url_model);
+        Md2 *md2 = new Md2(urlmdl);
 
-          for (f=0; tabframes[f] && f < FRAME_MAX; f++) {
-            md2->setScale(scale);
-            if ((dlists[f] = md2->displaylist(tabframes[f], texid)) < 0) {
-              f = -1;
-              break;
-            }
-            getBB(bbmax, bbmin, framed); // get bounding box
+        for (nf=0; tabframes[nf] && nf < FRAME_MAX; nf++) {
+          md2->setScale(scale);
+          if ((dlists[nf] = md2->displaylist(tabframes[nf], texid)) < 0) {
+            nf = -1;
+            break;
           }
-          delete md2;
+          getBB(bbmax, bbmin, isframed); // get bounding box
         }
+        if (md2) delete md2;
         break;
+        }
+
       case MODEL_OBJ: {
-          Obj *obj = new Obj(url_model, 0);
-          obj->setScale(scale);
-          obj->setColor(GL_DIFFUSE, mat_diffuse);
-          obj->setColor(GL_AMBIENT, mat_diffuse);
-          obj->setColor(GL_SPECULAR, mat_specular);
-          dlists[0] = obj->displaylist();
-          delete obj;
-          f = 1;
-        }
+        Obj *obj = new Obj(urlmdl, 0);
+
+        obj->setScale(scale);
+        obj->setColor(GL_DIFFUSE, mat_diffuse);
+        obj->setColor(GL_AMBIENT, mat_diffuse);
+        obj->setColor(GL_SPECULAR, mat_specular);
+        dlists[0] = obj->displaylist();
+        nf = 1;
+        if (obj) delete obj;
         break;
+        }
     }
+    delete[] urlmdl;
   }
-  return f;	// number f frames
+  return nf;	// number nf frames
 }
 
 // accessor
-void Solid::getBB(V3 &max, V3 &min, bool framed)
+void Solid::getBB(V3 &max, V3 &min, bool is_framed)
 {
-  ::g.render.getBB(max, min, framed);
+  ::g.render.getBB(max, min, is_framed);
 }
 
 // accessor
@@ -1046,30 +1064,15 @@ void Solid::setBB(GLfloat w, GLfloat d, GLfloat h)
   ::g.render.setBB(w*1, d*1, h*1);
 }
 
-void Solid::testRelative(bool flag)
-{
-  if (numrel) {
-    switch ((int)flag) {
-    case true:  // pre
-      glPushMatrix();
-      glRotatef(RAD2DEG(rel[3]), 0, 0, 1);	// az
-      glRotatef(RAD2DEG(rel[4]), 1, 0, 0);	// ax
-      glTranslatef(rel[0], rel[1], rel[2]);	// x y z
-      break;
-    case false: // post
-      glPopMatrix();
-      break;
-    }
-  }
-}
-
-void Solid::testScale(bool flag)
+void Solid::doRotateTranslate(bool flag)
 {
   switch ((int)flag) {
   case true:  // pre
+    glEnable(GL_DEPTH_TEST);
     glPushMatrix();
-    if (scale != 1) glScalef(scale, scale, scale);
-    if (scalex != 1 || scaley != 1 || scalez != 1) glScalef(scalex, scaley, scalez);
+    glRotatef(RAD2DEG(pos[3]), 0, 0, 1);	// az
+    glRotatef(RAD2DEG(pos[4]), 1, 0, 0);	// ax
+    glTranslatef(pos[0], pos[1], pos[2]);	// x y z
     break;
   case false: // post
     glPopMatrix();
@@ -1077,32 +1080,48 @@ void Solid::testScale(bool flag)
   }
 }
 
-void Solid::testBlend(bool flag, GLfloat alpha)
+void Solid::doScale(bool flag)
 {
-  if (alpha < 1) {
-    is_opaque = false;
+  switch ((int)flag) {
+  case true:  // pre
+    glPushMatrix();
+    if (scale != 1)
+      glScalef(scale, scale, scale);
+    if (scalex != 1 || scaley != 1 || scalez != 1)
+      glScalef(scalex, scaley, scalez);
+    break;
+  case false: // post
+    glPopMatrix();
+    break;
+  }
+}
+
+void Solid::doBlend(bool flag, GLfloat _alpha)
+{
+  if (_alpha < 1) {
+    is_opaque = false;		// if commented translucids are opaques
     switch ((int)flag) {
     case true:  // pre
-      glEnable(GL_BLEND);
-      glDepthMask(GL_FALSE);
+      //dax1 glEnable(GL_BLEND);
+      //dax1 glDepthMask(GL_FALSE);
       break;
     case false: // post
-      glDepthMask(GL_TRUE);
-      glDisable(GL_BLEND);
+      //dax1 glDepthMask(GL_TRUE);
+      //dax1 glDisable(GL_BLEND);
       break;
     }
   }
 }
 
-void Solid::testFog(bool flag, GLfloat *fog)
+void Solid::doFog(bool flag, GLfloat *_fog)
 {
-  if (*fog > 0) {
+  if (*_fog > 0) {
     switch ((int)flag) {
     case true:  // pre
       glEnable(GL_FOG);
       glFogi(GL_FOG_MODE, GL_EXP);
-      glFogf(GL_FOG_DENSITY, *fog);
-      glFogfv(GL_FOG_COLOR, fog+1);
+      glFogf(GL_FOG_DENSITY, *_fog);
+      glFogfv(GL_FOG_COLOR, _fog+1);
       break;
     case false: // post
       glDisable(GL_FOG);
@@ -1111,13 +1130,13 @@ void Solid::testFog(bool flag, GLfloat *fog)
   }
 }
 
-void Solid::testTexture(bool flag, int texid)
+void Solid::doTexture(bool flag, int _texid)
 {
-  if (texid > 0) {
+  if (_texid > 0) {
     switch ((int)flag) {
     case true:  // pre
       glEnable(GL_TEXTURE_2D);
-      glBindTexture(GL_TEXTURE_2D, texid);
+      glBindTexture(GL_TEXTURE_2D, _texid);
       break;
     case false: // post
       glDisable(GL_TEXTURE_2D);
@@ -1128,45 +1147,46 @@ void Solid::testTexture(bool flag, int texid)
 
 void Solid::preDraw(int texid, GLfloat alpha, GLfloat *fog, bool cull)
 {
-  testFog(true, fog);
-  testBlend(true, alpha);
-  testTexture(true, texid);
-  testScale(true);
-  testRelative(true);
-  if (cull) glDisable(GL_CULL_FACE);
+  //dax doFog(true, fog);
+  doBlend(true, alpha);
+  doTexture(true, texid);
+  //dax doScale(true);
+  doRotateTranslate(true);
+  if (cull)
+    glDisable(GL_CULL_FACE);
 }
 
 void Solid::postDraw(int texid, GLfloat alpha, GLfloat *fog)
 {
   glEnable(GL_CULL_FACE);
-  testRelative(false);
-  testScale(false);
-  testTexture(false, texid);
-  testBlend(false, alpha);
-  testFog(false, fog);
+  doRotateTranslate(false);
+  //dax doScale(false);
+  doTexture(false, texid);
+  doBlend(false, alpha);
+  //dax doFog(false, fog);
 }
 
 /* returns relative center and size of BB. */
 void Solid::getRelativeBB(V3 &center, V3 &size) const
 {
-  center = rel_bbcent;
-  size = rel_bbsize;
+  center = bbcent;
+  size = bbsize;
 }
 
 /* returns size of BB. */
 void Solid::getDim(V3 &dim) const
 {
-  dim = rel_bbsize;
+  dim = bbsize;
 }
 
 /* returns relative center of BB. */
 void Solid::getCenter(V3 &center) const
 {
-  center = rel_bbcent;
+  center = bbcent;
 }
 
 /* returns materials. */
-void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha)
+void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alp)
 {
   for (int i=0; i<4; i++) {
     dif[i] = mat_diffuse[i];
@@ -1175,7 +1195,7 @@ void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi,
     emi[i] = mat_emission[i];
   }
   shi[0] = mat_shininess[0];
-  *alpha = mat_alpha;
+  *alp = mat_alpha;
 }
 
 /*
@@ -1186,10 +1206,9 @@ void Solid::getAbsoluteBB(V3 &center, V3 &size)
   V3 vtmp[2], vrel, vabs, vmin, vmax;
 
   for (int i=0; i<3; i++) {
-    vtmp[0].v[i] = rel_bbcent.v[i] - rel_bbsize.v[i]; // min
-    vtmp[1].v[i] = rel_bbcent.v[i] + rel_bbsize.v[i]; // max
+    vtmp[0].v[i] = bbcent.v[i] - bbsize.v[i]; // min
+    vtmp[1].v[i] = bbcent.v[i] + bbsize.v[i]; // max
   }
-
   for (int n=0; n < 8; n++) {	// 8 points of AABB parallelepidic
     vrel.v[0] = vtmp[n     % 2].v[0];
     vrel.v[1] = vtmp[(n/2) % 2].v[1];
@@ -1206,10 +1225,9 @@ void Solid::getAbsoluteBB(V3 &center, V3 &size)
       }
     }
   }
-
   for (int i=0; i<3; i++) {
-    center.v[i] = abs_bbcent.v[i] = (vmax.v[i] + vmin.v[i]) / 2;
-    size.v[i]   = abs_bbsize.v[i] = (vmax.v[i] - vmin.v[i]) / 2;
+    center.v[i] = (vmax.v[i] + vmin.v[i]) / 2;
+    size.v[i]   = (vmax.v[i] - vmin.v[i]) / 2;
   }
 }
 
@@ -1307,7 +1325,7 @@ void Solid::setFlashyEdges(bool flag)
 void Solid::setFlashyEdges(const GLfloat *color)
 {
   isflashy = true;
-  for (int i=0; i<3; i++)  flashcolor[i] = color[i];
+  for (int i=0; i<3; i++)  flashcol[i] = color[i];
 }
 
 void Solid::resetFlashyEdges()
@@ -1364,17 +1382,17 @@ bool Solid::isFlary() const
 
 uint8_t Solid::getFrames() const
 {
-  return nbframes;
+  return nbrframes;
 }
 
 uint8_t Solid::getFrame() const
 {
-  return curframe;
+  return frame;
 }
 
 void Solid::setFrame(uint16_t _frame)
 {
-  curframe = _frame % nbframes;
+  frame = _frame % nbrframes;
 }
 
 //---------------------------------------------------------------------------
@@ -1499,7 +1517,7 @@ int Solid::displayList(int display_mode = NORMAL)
       glPopName();
       glPushName((GLuint) (long) object()->num & 0xffffffff);
 
-   case VIRTUAL:
+   case VIRTUAL:	// and NORMAL
      glPushMatrix();
      if (wobject && wobject->isValid() && wobject->type == USER_TYPE) {
        User *user = (User *) wobject;
@@ -1514,9 +1532,37 @@ int Solid::displayList(int display_mode = NORMAL)
          glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
        }
      }
-     if (dlists[curframe] > 0) {
+     else if (dlists[frame] > 0) {
        glEnable(GL_DEPTH_TEST);
-       glCallList(dlists[curframe]);
+       glDepthFunc(GL_LESS);	//dax
+#if 1 //dax
+       glPushMatrix();
+       glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
+       glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
+       glTranslatef(pos[0], pos[1], pos[2]);     // x y z
+       if (scale != 1)
+         glScalef(scale, scale, scale);
+       if (scalex != 1 || scaley != 1 || scalez != 1)
+         glScalef(scalex, scaley, scalez);
+       glPopMatrix();
+       if (texid >= 0) {
+         glEnable(GL_TEXTURE_2D);
+         glBindTexture(GL_TEXTURE_2D, texid);
+       }
+       if (mat_alpha < 1) {
+         glEnable(GL_BLEND);
+         glDepthMask(GL_FALSE);
+       }
+       if (*fog > 0) {
+         glEnable(GL_FOG);
+         glFogi(GL_FOG_MODE, GL_EXP);
+         glFogf(GL_FOG_DENSITY, *fog);
+         glFogfv(GL_FOG_COLOR, fog+1);
+       }
+#endif
+
+       glCallList(dlists[frame]);
+
        glDisable(GL_DEPTH_TEST);
      }
      glPopMatrix();
@@ -1526,12 +1572,13 @@ int Solid::displayList(int display_mode = NORMAL)
      glPushMatrix();
       glPolygonOffset(2., 1.);		// factor=2 unit=1
       glDisable(GL_POLYGON_OFFSET_FILL);// wired mode
-      glColor3fv(flashcolor);
+      glColor3fv(flashcol);
       glLineWidth(1);
       glScalef(1.03, 1.03, 1.03);	// 3%100 more
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-      if (dlists[curframe] > 0)
-        glCallList(dlists[curframe]);
+      if (dlists[frame] > 0)
+        glCallList(dlists[frame]);
+
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
      glPopMatrix();
      break;
@@ -1545,10 +1592,10 @@ int Solid::displayList(int display_mode = NORMAL)
         error("no stencils available");
       }
       glPushMatrix();
-      if (dlists[curframe] > 0)
-        glCallList(dlists[curframe]);	// display the mirror alone
+      if (dlists[frame] > 0)
+        glCallList(dlists[frame]);	// display the mirror alone
       glPopMatrix();
-      return dlists[curframe];
+      return dlists[frame];
     }
 #endif
 #if 1 // done by mirror
@@ -1559,8 +1606,9 @@ int Solid::displayList(int display_mode = NORMAL)
      glStencilFunc(GL_ALWAYS, 1, 1);	// always pass the stencil test
      glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-     if (dlists[curframe] > 0)
-       glCallList(dlists[curframe]);	// display the mirror inside the stencil
+     if (dlists[frame] > 0)
+       glCallList(dlists[frame]);	// display the mirror inside the stencil
+
      glStencilFunc(GL_ALWAYS, 1, 1);	// always pass the stencil test
      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
      glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // make stencil buffer read only
@@ -1587,8 +1635,8 @@ int Solid::displayList(int display_mode = NORMAL)
      glDepthMask(GL_FALSE);
      glDepthFunc(GL_LEQUAL);
 
-     if (dlists[curframe] > 0)
-       glCallList(dlists[curframe]);	// display the physical mirror
+     if (dlists[frame] > 0)
+       glCallList(dlists[frame]);	// display the physical mirror
 
      glDepthFunc(GL_LESS);
      glDepthMask(GL_TRUE);
@@ -1598,10 +1646,14 @@ int Solid::displayList(int display_mode = NORMAL)
 #endif
     break;	// reflexive
    }
+   glDisable(GL_FOG);
+   glDisable(GL_TEXTURE_2D);
+   glDepthMask(GL_TRUE);
+   glDisable(GL_BLEND);
   }
   glPopMatrix();
 
-  return dlists[curframe];		// displaylist number
+  return dlists[frame];		// displaylist number
 }
 
 /* Display mirrored scene */

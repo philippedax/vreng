@@ -42,8 +42,7 @@ Compound::Compound(char nom1[30], Decl_var_liste * env, Env_constr * construc)
   // champs de definition 
   constr = construc;
 
-  // On verifie qu'aucune variable locale de constructeur n'a le meme nom 
-  // qu'un attribut.
+  // On verifie qu'aucune variable locale de constructeur n'a le meme nom qu'un attribut.
   for (int i=0; i<construc->nb_constr; i++) {
       envvar = construc->constr[i]->decl;
 

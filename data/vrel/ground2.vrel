@@ -1,0 +1,41 @@
+// variables globales
+var drydirt2 = "http://www.stud.enst.fr/~belin/patterns/tiles.gif";
+var stone2 = "http://www.enst.fr/~belin/patterns/roche.gif";
+
+var Lr2 = 2.5; // longeur totale d'une tuile
+var Lg2 = 2.5; // largeur totale d'une tuile
+
+class dirtground2 extends wall {
+  tex_zp = drydirt2;
+  tex_xp = stone2;
+  tex_xn = stone2;
+  tex_yp = stone2;
+  tex_yn = stone2;
+}
+
+class groundtile2 compound
+{
+  constructor(posX, posY, posZ, epaisseur) {
+    new dirtground2 (posX, posY, posZ, 0, 0, Lr2/2, Lg2/2, epaisseur);
+  }
+}
+
+class ground2 compound
+{
+  constructor (longtot, largtot, cote, epais) { 
+    var i = 0;
+    var j = 0;
+    
+    while(i <= longtot/2) {
+        j = 0;
+        while(j <= largtot/2) {
+	    new groundtile2 (i + Lr2/2,j + Lg2/2, cote, epais);
+	    new groundtile2 (-i - Lr2/2, j + Lg2/2, cote, epais);
+	    new groundtile2 (i + Lr2/2, -j - Lg2/2, cote, epais);
+	    new groundtile2 (-i - Lr2/2, -j - Lg2/2, cote, epais);
+	    j = j + Lg2;
+        }
+        i = i + Lr2;
+    }
+  }
+}

@@ -1788,7 +1788,7 @@ yyreduce:
 
   case 32:
 #line 250 "vrel.y"
-    { (yyval.data) = new Chaine((yyvsp[(1) - (1)].chaine)) ;  /* Data=chaine de caractères */ }
+    { (yyval.data) = new Chaine((yyvsp[(1) - (1)].chaine)) ;  /* Data=chaine de caracteres */ }
     break;
 
   case 33:

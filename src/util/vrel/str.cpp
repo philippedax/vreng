@@ -30,7 +30,7 @@ Chaine::Chaine(const char * name)
 {
 printf("chaine: name=%s\n", name);
   strcpy(file, vrelfile);
-  strcpy(nom, name);
+  //dax segfault  if (name) strcpy(nom, name);
   ligne = yylineno;
 }
 

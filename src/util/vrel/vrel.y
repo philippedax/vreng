@@ -247,7 +247,7 @@ DATA :  VARIABLE
 	| NOMBRE
 		{ $$ = $1 ; /* Data=nombre */ }
         | CHAINE
-		{ $$ = new Chaine($1) ;  /* Data=chaine de caractères */ }
+		{ $$ = new Chaine($1) ;  /* Data=chaine de caracteres */ }
 	| PARENTOUVR DATA PARENTFERM
 		{ $$ = $2 ; /* (data) */ }
 	| OPERATION

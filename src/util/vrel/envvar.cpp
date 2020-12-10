@@ -65,7 +65,7 @@ void Env_var::declaration (const char *nom_var)
   }
 
   if (parcours(nom_var) == 0) {
-    strcpy (nom[count] , nom_var);
+    strcpy(nom[count], nom_var);
     donnee[count] = NULL;
     count ++;
   }
@@ -84,50 +84,48 @@ void Env_var::declaration (const char *nom, float flo1)
   affectation(nom, nb);
 }
 
-// Fonction de declaration d'une chaine de caratere.
+// Fonction de declaration d'une chaine de caracteres.
 void Env_var::declaration (const char *nom, const char *str)
 {
-  declaration (nom);
+  declaration(nom);
   Chaine *ch = new Chaine(str);
-  affectation (nom, ch);
+  affectation(nom, ch);
 }
 
 // Fonction d'affectation.
 int Env_var::affectation (const char *nom_var, Data* valeur)
 {
-  int ptr;
+  int ind;
 
-  if ((ptr = parcours(nom_var)) != 0)
-    donnee[ptr] = valeur->get_data();
-
-  return ptr;  // On renvoie 0 si l'affectation n'a pas eu lieu
+  if ((ind = parcours(nom_var)) != 0)
+    donnee[ind] = valeur->get_data();
+  return ind;  // On renvoie 0 si l'affectation n'a pas eu lieu
 }
 
 // Fonction d'affectation sans evaluation (ie la data peut etre un pointeur 
 // sur un objet de type Variable).
 int Env_var::affectation2 (const char *nom_var, Data* valeur)
 {
-  int ptr;
+  int ind;
 
-  if ((ptr = parcours(nom_var)) != 0)
-    donnee[ptr] = valeur;
-
-  return ptr;  // On renvoie 0 si l'affectation n'a pas eu lieu
+  if ((ind = parcours(nom_var)) != 0)
+    donnee[ind] = valeur;
+  return ind;  // On renvoie 0 si l'affectation n'a pas eu lieu
 }
 
 // Fonction qui renvoie la valeur d'une variable.
 Data* Env_var::eval (const char *nom_var)
 {
-  int ptr = parcours(nom_var);
+  int ind = parcours(nom_var);
 
-  if (ptr == 0)
+  if (ind == 0)
     return NULL;
 
-  else if (donnee[ptr] == NULL) {
+  else if (donnee[ind] == NULL) {
     printf ("Error:\ncan't evaluate this variable %s because not affected\n", nom_var);    
     exit(1);
   }
-  return donnee[ptr];   
+  return donnee[ind];   
 }
 
 // Destructeur.

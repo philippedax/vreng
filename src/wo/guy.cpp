@@ -22,7 +22,7 @@
 #include "guy.hpp"
 #include "http.hpp"	// httpOpen
 #include "draw.hpp"	// Draw
-#include "timer.hpp"	// checkRate
+#include "timer.hpp"	// isRate
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// openCache
 #include "file.hpp"	// closeFile
@@ -507,8 +507,10 @@ void Guy::render()
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
   glRotatef(90, 1, 0, 0);
 
-  if (::g.times.checkRate(RATE)) guy_radian -= M_2PI / guy_step;
-  if (guy_radian <= 0) guy_radian = M_2PI;
+  if (::g.times.isRate(RATE))
+    guy_radian -= M_2PI / guy_step;
+  if (guy_radian <= 0)
+    guy_radian = M_2PI;
   if (walking == 1) {
     dx =  guy_radius * cos(guy_radian);
     dz = -guy_radius * sin(guy_radian);

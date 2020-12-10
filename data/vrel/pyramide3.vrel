@@ -1,0 +1,20 @@
+import "ground5.vrel"
+import "ground4.vrel"
+import "stonestairs2.vrel"
+//import "pyr.vrel"
+
+
+begin
+{
+  new stairs2 (-17.5, 0, 0, 5, 10);
+
+  // new pyr (2.5, 2.5, 4);
+  new ground4 (2.5, 2.5, -1.25, 1.25);
+  new ground4 (5, 5, -3.75, 1.25);
+  new ground4 (12.5,12.5, -6.25, 1.25);
+  new ground4 (17.5, 17.5, -8.75, 1.25);
+
+  /* cette ligne est à conserver */
+  new ground5 (30, 30, -10, 0.1);
+}
+end

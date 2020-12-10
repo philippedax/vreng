@@ -1,0 +1,36 @@
+// variables globales
+var dirtrock = "http://www.stud.enst.fr/~belin/patterns/dirtrock.gif";
+var graystone = "http://www.enst.fr/~jdauphin/pierres3.gif";
+
+
+class mystep extends step {
+  tex_zp = dirtrock;
+  tex_zn = dirtrock;
+  tex_xp = graystone;
+  tex_xn = graystone;
+  tex_yp = graystone;
+  tex_yn = graystone;
+}
+
+class steptile compound{
+  constructor(posX, posY, posZ) {
+    new mystep (posX, posY, posZ, 0, 0.125, 0.5, 0.125);
+  }
+}
+
+class stairs compound
+{
+  constructor (x, y, z, largeur, hauteur) { 
+    var i = 0.125;
+    var j;
+    
+    while(i <= hauteur) {
+        j = -largeur/2 + 0.5;
+        while(j <= largeur/2) {
+	    new steptile(x + i, y + j, z - i);
+	    j = j + 1;
+        }
+        i = i + 0.25;
+    }
+  }
+}

@@ -1,22 +1,16 @@
-// Fichier main :
-
-import "chaise.vrel"
+import "chair.vrel"
 import "table.vrel"
-
-var N = 5 ;
+var N = 5;
 
 begin
 {
-  var i ;
+        var i;
 
-  i = 0 ;
-  while (i < N)
-  {
-    new Chaise (5 * i, 15, 0.5) ;
-    new Table (4 * i, 15, 1);
-    i = i+1 ;
-  }
+        i = 0;
+        while (i < N) {
+          new Chair (5 * i, 15, 0.5);
+          new Table (4 * i, 15, 1);
+          i = i+1;
+        }
 }
-
 end
-

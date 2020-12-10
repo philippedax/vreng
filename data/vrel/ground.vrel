@@ -1,0 +1,41 @@
+// variables globales
+var drydirt = "http://www.stud.enst.fr/~jdauphin/pierres2.gif";
+var stone = "http://www.enst.fr/~jdauphin/pierres4.gif";
+
+var Lr = 2.5; // tile width
+var Lg = 2.5; // tile width
+
+class dirtground extends wall {
+  tex_zp = drydirt; 
+  tex_xp = stone;
+  tex_xn = stone;
+  tex_yp = stone;
+  tex_yn = stone;
+}
+
+class groundtile compound {
+  constructor(posX, posY, posZ, depth) {
+    w1 =  new dirtground (posX - 20, posY, posZ, 0, 0, Lr/2, Lg/2, depth);  
+  }
+}
+
+class ground compound
+{
+  constructor (longtot, largtot, cote, depth) { 
+    var i;
+    var j;
+    
+    i = 0;
+    while(i <= longtot/2) {
+      j = 0;
+      while(j <= largtot/2) {
+	new groundtile (i + Lr/2,j + Lg/2, cote, depth);
+	new groundtile (-i - Lr/2, j + Lg/2, cote, depth);
+	new groundtile (i + Lr/2, -j - Lg/2, cote, depth);
+	new groundtile (-i - Lr/2, -j - Lg/2, cote, depth);
+	j = j + Lg;
+      }
+      i = i + Lr;
+    }
+  }
+}

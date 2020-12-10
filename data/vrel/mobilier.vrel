@@ -1,0 +1,14 @@
+import "chair.vrel"
+import "table.vrel"
+import "ground2.vrel"
+import "tab_and_chair.vrel"
+
+// Main
+
+begin
+{
+  new ground2 (40, 40, -0.1,0.1);
+  new Tab_and_chair (4, 2, 0);
+}
+
+end

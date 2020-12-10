@@ -24,7 +24,7 @@
 #include "ball.hpp"	// BALL_TYPE
 #include "cauldron.hpp"	// CAULDRON_TYPE
 #include "sound.hpp"	// playSound
-#include "timer.hpp"	// checkRate
+#include "timer.hpp"	// isRate
 
 
 const OClass Water::oclass(WATER_TYPE, "Water", Water::creator);
@@ -38,12 +38,12 @@ const float Water::DEF_AMPLITUDE = 0.05;	// original: 0.03
 const float Water::DEF_FREQ = 1.;		// 1 wave
 const float Water::DEF_PHASE = 0.0001;		// original: 0.00003
 const float Water::INCR_AMPLITUDE = 0.01;
-const float Water::INCR_FREQ = 1.;
+const float Water::INCR_FREQ = 1.;		// + 1 wave
 const float Water::INCR_PHASE = 0.00005;
 const float Water::INCR_TRANSP = 0.05;
 
 // local
-static float tcolor[] = {0.4, 0.7, 1.0, Water::DEF_TRANSP}; // triangles color
+static float tcolor[] = {.4, .7, 1, Water::DEF_TRANSP}; // triangles light blue color
 static bool first = true;
 
 
@@ -152,7 +152,7 @@ void Water::draw()
 
 void Water::changePermanent(float lasting)
 {
-  play = ::g.times.checkRate(RATE);
+  play = ::g.times.isRate(RATE);
 }
 
 void Water::render()

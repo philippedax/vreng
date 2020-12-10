@@ -24,19 +24,22 @@
 #include "gui.hpp"	// getCycles
 
 
-ProfileTime::ProfileTime() {
+ProfileTime::ProfileTime()
+{
   memset(&start_time, 0, sizeof(start_time));
   memset(&stop_time, 0, sizeof(stop_time));
   cumul_time = 0;
   diff_time = 0;
 }
 
-void ProfileTime::start() {
+void ProfileTime::start()
+{
   gettimeofday(&start_time, NULL);
 }
 
 /* stop time & cumul time, return last diff */
-double ProfileTime::stop() {
+double ProfileTime::stop()
+{
   gettimeofday(&stop_time, NULL);
   double d = Times::diffDates(start_time, stop_time);
   diff_time = d;
@@ -45,7 +48,8 @@ double ProfileTime::stop() {
 }
 
 /* returns last diff */
-double ProfileTime::diff() {
+double ProfileTime::diff()
+{
   return diff_time;
 }
 
@@ -65,13 +69,16 @@ double Times::diffDates(struct timeval t1, struct timeval t2)
   ((double) t2.tv_usec - (double) t1.tv_usec) * 1e-6;
 }
 
-float Times::getRate() {
+float Times::getRate()
+{
   double time_cycles = simul.cumul_time + render.cumul_time + idle.cumul_time;
-  if (time_cycles == 0) return 5.0;
-  else return (float) (::g.gui.getCycles() / time_cycles);
+  if (time_cycles == 0)
+    return 5.0;	// 5 sec
+  else return
+    (float) (::g.gui.getCycles() / time_cycles);
 }
 
-bool Times::checkRate(uint16_t rate)
+bool Times::isRate(uint16_t rate)
 {
   int ratio = int(getRate() / rate);
   return ((ratio <= 1) || ((ratio > 1) && (::g.gui.getCycles() % ratio) == 1));
@@ -96,18 +103,18 @@ float Times::delta()
   return (float)difftime;
 }
 
-#if 0
- void idleTime()
- {
- startTime(&ptime_idle);
- float rate = getRate();
- if (rate > ::g.pref.maxfps && ::g.pref.cpulimit) {
- struct timeval to;
- to.tv_sec = 0;
- to.tv_usec = ::g.pref.frame_delay;     // 20ms -> 50 fps
- select(0, 0, 0, 0, &to);
- }
- stopTime(&ptime_idle);
- }
- #endif
+#if 0 //notused
+void idleTime()
+{
+  startTime(&ptime_idle);
+  float rate = getRate();
+  if (rate > ::g.pref.maxfps && ::g.pref.cpulimit) {
+    struct timeval to;
+    to.tv_sec = 0;
+    to.tv_usec = ::g.pref.frame_delay;     // 20ms -> 50 fps
+    select(0, 0, 0, 0, &to);
+  }
+  stopTime(&ptime_idle);
+}
+#endif
 

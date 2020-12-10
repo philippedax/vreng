@@ -391,9 +391,6 @@ uint32_t WObject::countOfSolids() const
 Solid* WObject::getSolid() const
 {
   return solid;
-#if 0 //dax
-  return _solids.front();
-#endif
 }
 
 void WObject::setVisible(bool flag)
@@ -432,16 +429,14 @@ void WObject::setReflexive(bool flag)
   if (solid) solid->setReflexive(flag);
 }
 
-/* Sets a WObject pointer to this object in the Solid */
+/* Sets a WObject pointer to this object in the Solid (friend) */
 /* adds solid to the list of solids for this object */
 void WObject::addSolid(Solid* psolid)
 {
   if (!_solids.empty()) psolid->numrel++;
   _solids.push_back(psolid);
-#if 1 //done in parse.cpp
-  psolid->wobject = this;
+  psolid->wobject = this;	// Solid is friend of WObject
   solid = psolid; // keep solid pointer in WObject
-#endif
 }
 
 /* deletes all solids of this object */
@@ -1014,13 +1009,6 @@ OList * WObject::delFromList(OList *olist)
         ol = NULL;
         return front;
       }
-#if 0
-      else {
-        delete ol;
-        ol = NULL;
-        return front;
-      }
-#endif
     }
   }
   return front;

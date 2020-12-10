@@ -51,7 +51,7 @@ public:
   float getRate();
   /**< Returns actual rate */
 
-  bool checkRate(uint16_t rate);
+  bool isRate(uint16_t rate);
 
   static double fTime();
   /**< Returns float time in milliseconds */
