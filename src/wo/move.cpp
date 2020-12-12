@@ -469,6 +469,7 @@ void WObject::permanentMovement(time_t sec, time_t usec)
         if (isBehavior(NO_ELEMENTARY_MOVE)) return;  // do movement only once
       }
     }
+    //dax8 updateTime(sec, usec, &lasting);  // see clock.cpp never called FIXME!
 
     if (noh && noh->isResponsible()) updateToNetwork(oldpos);  // handled by each object
 

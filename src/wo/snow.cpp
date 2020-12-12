@@ -44,7 +44,7 @@ Snow::Snow(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
   behavior();
-  setRenderPrior(RENDER_LOW);
+  setRenderPrior(PRIOR_LOW);
   inits();
   pcloud = cloud;
   mycolor = true;

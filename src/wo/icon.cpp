@@ -282,7 +282,7 @@ Icon::Icon(User *user, void *d)
 
   enableBehavior(REMOVABLE);
   enableBehavior(NO_ELEMENTARY_MOVE);
-  setRenderPrior(RENDER_HIGH);
+  setRenderPrior(PRIOR_HIGH);
 
   initMobileObject(1);
   ttl = (taken) ? MAXFLOAT : 0;

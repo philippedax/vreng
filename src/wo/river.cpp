@@ -67,12 +67,12 @@ void River::behavior()
   enableBehavior(LIQUID);
   enableBehavior(SPECIFIC_RENDER);
   if (width * depth > 10)		// large surface
-    setRenderPrior(RENDER_LOW);		// FIXME!
+    setRenderPrior(PRIOR_LOW);		// FIXME!
 					// if LOW river is not visible,
 					// if NORMAL scene is dark
 					// if HIGH river position is over the other ovjects
   else
-    setRenderPrior(RENDER_NORMAL);
+    setRenderPrior(PRIOR_MEDIUM);
 
   //dax initStillObject();
   initFluidObject(0);		// fluid object

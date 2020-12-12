@@ -30,34 +30,99 @@ static uint16_t oid = 1;
 void Clock::funcs() {}
 
 
-void Clock::initTime()
+/** External clock (from vre file) */
+Clock::Clock(char *l)
+{
+  parser(l);
+
+  enableBehavior(NO_ELEMENTARY_MOVE);
+  enableBehavior(NO_BBABLE);
+  enableBehavior(COLLIDE_NEVER);
+  setRenderPrior(PRIOR_HIGH);
+
+  initMobileObject(0);
+
+  if (! haveneedle) needle = oid;
+  init();
+  oid++;
+}
+
+/** Internal clock */
+Clock::Clock()
+{
+  enableBehavior(NO_ELEMENTARY_MOVE);
+  enableBehavior(NO_BBABLE);
+  enableBehavior(UNSELECTABLE);
+  enableBehavior(UNVISIBLE);
+
+  initMobileObject(0);
+
+  needle = SECOND;
+  init();
+}
+
+/* Inits time */
+void Clock::init()
 {
   time_t t = time(0);
-  struct tm *pdate = localtime(&t);
-  sec = pdate->tm_sec;
-  min = pdate->tm_min;
-  hour = pdate->tm_hour;
+  struct tm *ptime = localtime(&t);
+  sec = ptime->tm_sec;
+  min = ptime->tm_min;
+  hour = ptime->tm_hour;
   sec_last = min_last = hour_last = 255;
 
   enablePermanentMovement();
-  changePermanent(0.);
+  changePermanent(60.);
 }
 
+void Clock::parser(char *l)
+{
+  haveneedle = false;
+
+  l = tokenize(l);
+  begin_while_parse(l) {
+    l = parse()->parseAttributes(l, this);
+    if (!l) break;
+    if (! stringcmp(l, "needle")) {
+      char needlestr[8] = "";
+      l = parse()->parseString(l, needlestr, "needle");
+      haveneedle = true;
+      switch (*needlestr) {
+        case 's': needle = SECOND; break;
+        case 'm': needle = MINUTE; break;
+        case 'h': needle = HOUR;   break;
+        default: haveneedle = false;
+      }
+    }
+  }
+  end_while_parse(l);
+}
+
+/* never called : notused */
 void Clock::updateTime(time_t s, time_t us, float *lasting)
 {
-  struct tm *pdate = localtime(&s);
+  struct tm *ptime = localtime(&s);
 
-  sec = pdate->tm_sec;
-  min = pdate->tm_min;
-  hour = pdate->tm_hour;
-  yday = pdate->tm_yday;
+  sec = ptime->tm_sec;
+  min = ptime->tm_min;
+  hour = ptime->tm_hour;
+  yday = ptime->tm_yday;
 }
 
 void Clock::changePermanent(float lasting)
 {
+  time_t t = time(0);
+  struct tm *ptime = localtime(&t);
+
+  sec = ptime->tm_sec;
+  min = ptime->tm_min;
+  hour = ptime->tm_hour;
+  yday = ptime->tm_yday;
+
   switch (needle % 3) {
     case SECOND:	// secondes
       pos.ax = ((float) sec * M_PI / 30) + M_PI_2;
+      //error("sec=%d", sec);
       break;
     case MINUTE:	// minutes
       if (min != min_last) {
@@ -85,62 +150,6 @@ void Clock::changePermanent(float lasting)
 WObject * Clock::creator(char *l)
 {
   return new Clock(l);
-}
-
-void Clock::parser(char *l)
-{
-  haveneedle = false;
-
-  l = tokenize(l);
-  begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
-    if (!l) break;
-    if (!stringcmp(l, "needle")) {
-      char needlestr[8] = "";
-      l = parse()->parseString(l, needlestr, "needle");
-      haveneedle = true;
-      switch (*needlestr) {
-        case 's': needle = SECOND; break;
-        case 'm': needle = MINUTE; break;
-        case 'h': needle = HOUR; break;
-        default: haveneedle = false;
-      }
-    }
-  }
-  end_while_parse(l);
-}
-
-/** External clock */
-Clock::Clock(char *l)
-{
-  parser(l);
-
-  enableBehavior(NO_ELEMENTARY_MOVE);
-  enableBehavior(NO_BBABLE);
-  enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(RENDER_HIGH);
-
-  initMobileObject(0);
-
-  if (! haveneedle) needle = oid;
-  initTime();
-  oid++;
-}
-
-/** Internal clock */
-Clock::Clock()
-{
-  enableBehavior(NO_ELEMENTARY_MOVE);
-  enableBehavior(NO_BBABLE);
-  enableBehavior(UNSELECTABLE);
-  enableBehavior(UNVISIBLE);
-  enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(RENDER_HIGH);
-
-  initMobileObject(0);
-
-  needle = SECOND;
-  initTime();
 }
 
 void Clock::quit()

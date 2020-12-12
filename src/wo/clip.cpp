@@ -60,7 +60,7 @@ Clip::Clip(char *l)
 
   enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
 

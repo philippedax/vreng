@@ -68,7 +68,7 @@ void Accessory::parser(char *l)
 void Accessory::behavior()
 {
   enableBehavior(PERSISTENT);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 }
 
 void Accessory::init()

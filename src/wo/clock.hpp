@@ -71,7 +71,7 @@ public:
   virtual void quit();
 
 private:
-  void initTime();	///< init time
+  void init();		///< init time
 
   virtual void parser(char *l);
   /**< Parses */

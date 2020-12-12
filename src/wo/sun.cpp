@@ -65,7 +65,7 @@ void Sun::parser(char *l)
 void Sun::behavior()
 {
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_LOW);	// OK behind objects
+  setRenderPrior(PRIOR_LOW);	// OK behind objects
 
   initMobileObject(1);
   enablePermanentMovement();

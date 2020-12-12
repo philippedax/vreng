@@ -111,7 +111,7 @@ void Cloth::behavior()
     enableBehavior(DYNAMIC);
     enableBehavior(PERSISTENT);
     enableBehavior(NO_BBABLE);
-    setRenderPrior(RENDER_HIGH);
+    setRenderPrior(PRIOR_HIGH);
   }
   initMobileObject(ttl);
   if (taken)

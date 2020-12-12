@@ -60,7 +60,7 @@ void Bumper::parser(char *l)
 void Bumper::behavior()
 {
   enableBehavior(PERSISTENT);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
@@ -124,7 +124,7 @@ bool Bumper::whenIntersect(WObject *pcur, WObject *pold)
       pcur->pos.z = pold->pos.z - (forcez * dz);
       pcur->projectPosition(pold, pcur);
       capted = pcur;
-      setRenderPrior(RENDER_HIGH);
+      setRenderPrior(PRIOR_HIGH);
       enableImposedMovement();
       state = ACTIVE;
       break;

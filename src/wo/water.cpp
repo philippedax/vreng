@@ -110,9 +110,9 @@ void Water::inits()
   depth = pos.bbsize.v[0];
   width = pos.bbsize.v[1];
   if (depth * width > 10)
-    setRenderPrior(RENDER_LOW);	// river
+    setRenderPrior(PRIOR_LOW);	// river
   else
-    setRenderPrior(RENDER_NORMAL);// swiming pool
+    setRenderPrior(PRIOR_MEDIUM);// swiming pool
 }
 
 Water::Water(char *l)

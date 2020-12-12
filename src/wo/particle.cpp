@@ -94,7 +94,7 @@ void Particle::behavior()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_LOW);
+  setRenderPrior(PRIOR_LOW);
 
   initMobileObject(0);
   switch (system) {

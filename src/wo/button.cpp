@@ -82,7 +82,7 @@ Button::Button(char *l)
   parser(l);
 
   enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(RENDER_HIGH);
+  setRenderPrior(PRIOR_HIGH);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);

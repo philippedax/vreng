@@ -92,7 +92,7 @@ void Fire::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_HIGH); // RENDER_LOW and RENDER_NORMAL does'nt work : FIXME
+  setRenderPrior(PRIOR_HIGH); // PRIOR_LOW and PRIOR_MEDIUM does'nt work : FIXME
 
   initMobileObject(0);
   enablePermanentMovement();

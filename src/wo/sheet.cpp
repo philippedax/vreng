@@ -66,7 +66,7 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   //error("pos: %.2f %.2f %.2f %.2f", pos.x,pos.y,pos.z,pos.az);
 
   enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(RENDER_HIGH);
+  setRenderPrior(PRIOR_HIGH);
 
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);

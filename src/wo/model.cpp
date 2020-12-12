@@ -130,7 +130,7 @@ Model::Model(char *l)
 {
   parser(l);
   makeSolid();
-  setRenderPrior(RENDER_HIGH);
+  setRenderPrior(PRIOR_HIGH);
   behavior();
 
   loader();
@@ -152,7 +152,7 @@ Model::Model(WObject *user, char *url, float _scale)
   setOwner();
   makeSolid();
   enableBehavior(DYNAMIC);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
   behavior();
 
   strcpy(names.url, url);

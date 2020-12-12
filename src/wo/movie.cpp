@@ -77,7 +77,7 @@ void Movie::behavior()
   enableBehavior(PERSISTENT);
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_ONCE);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 }
 
 void Movie::init()

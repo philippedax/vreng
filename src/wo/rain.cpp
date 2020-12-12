@@ -46,7 +46,7 @@ Rain::Rain(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
   behavior();
-  setRenderPrior(RENDER_LOW);
+  setRenderPrior(PRIOR_LOW);
   inits();
   points = false;
   pcloud = cloud;

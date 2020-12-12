@@ -180,11 +180,11 @@ void Render::specificObjects(uint32_t num, uint8_t pri)
         && (*o)->prior == pri
        ) {
       //dax1
-      if (pri != WObject::RENDER_HIGH)
+      if (pri != WObject::PRIOR_HIGH)
         materials();
       putSelbuf(*o);
       (*o)->render();		// rendering done by object itself
-      trace2(DBG_VGL, " %s", (*o)->typeName());
+      trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
   }
 }
@@ -200,11 +200,11 @@ void Render::specificStill(uint32_t num, uint8_t pri)
         && (*o)->prior == pri
        ) {
       //dax1
-      if (pri != WObject::RENDER_HIGH)
+      if (pri != WObject::PRIOR_HIGH)
         materials();
       putSelbuf(*o);
       (*o)->render();		// rendering done by object itself
-      trace2(DBG_VGL, " %s", (*o)->typeName());
+      trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
   }
 }
@@ -220,11 +220,11 @@ void Render::specificMobile(uint32_t num, uint8_t pri)
         && (*o)->prior == pri
        ) {
       //dax1
-      if (pri != WObject::RENDER_HIGH)
+      if (pri != WObject::PRIOR_HIGH)
         materials();
       putSelbuf(*o);
       (*o)->render();		// rendering done by object itself
-      trace2(DBG_VGL, " %s", (*o)->typeName());
+      trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
   }
 }
@@ -241,7 +241,7 @@ void Render::specificInvisible(uint32_t num, uint8_t pri)
        ) {
       putSelbuf(*o);
       (*o)->render();		// rendering done by object itself
-      trace2(DBG_VGL, " %s", (*o)->typeName());
+      trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
   }
 }
@@ -258,7 +258,7 @@ void Render::specificFluid(uint32_t num, uint8_t pri)
        ) {
       putSelbuf(*o);
       (*o)->render();		// rendering done by object itself
-      trace2(DBG_VGL, " %s", (*o)->typeName());
+      trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
   }
 }
@@ -282,7 +282,7 @@ void Render::objectsOpaque(bool zsel, uint8_t pri)
       trace2(DBG_VGL, " %s", (*o)->getInstance());
       if (! relsolidList.empty()) {
         for (list<Solid*>::iterator s = relsolidList.begin(); s != relsolidList.end() ; s++) {
-          //trace2(DBG_FORCE, "rel %s %d ", (*o)->getInstance(), relsolidList.size());
+          //trace2(DBG_VGL, "rel %s %d ", (*o)->getInstance(), relsolidList.size());
           if ((*o)->isBehavior(SPECIFIC_RENDER))
             (*s)->object()->render();
           else
@@ -313,7 +313,8 @@ void Render::solidsOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
       else
         (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
         //dax (*s)->display3D(Solid::DISPLAY, Solid::OPAQUE);
-      trace2(DBG_VGL, " %s %d", (*s)->object()->getInstance(), solidList.size());
+      //trace2(DBG_VGL, " %s %d", (*s)->object()->getInstance(), solidList.size());
+      trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
       //daxdbg showSolidList();
     }
   }
@@ -347,19 +348,19 @@ void Render::solidsTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 void Render::specificRender(uint32_t num, uint8_t pri)
 {
   switch (pri) {
-  case WObject::RENDER_LOW:	// low render
+  case WObject::PRIOR_LOW:	// low render
     specificStill(num, pri);	// still objects : walls
     specificMobile(num, pri);	// mobile objects : particle
     specificInvisible(num, pri);// invisible objects : sun
     //dax specificFluid(num, pri);	// fluid objects : water
     break;
-  case WObject::RENDER_NORMAL:	// normal render
+  case WObject::PRIOR_MEDIUM:	// normal render
     specificStill(num, pri);	// still objects
     specificMobile(num, pri);	// mobile objects
     specificInvisible(num, pri);// invisible objects : transform
     specificFluid(num, pri);	// fluid objects : water
     break;
-  case WObject::RENDER_HIGH:	// high render : models
+  case WObject::PRIOR_HIGH:	// high render : models
     specificStill(num, pri);	// still objects
     specificMobile(num, pri);	// mobile objects
     specificInvisible(num, pri);
@@ -398,42 +399,42 @@ void Render::rendering(bool zsel=false)
   //// prior LOW == 0
   //
   trace2(DBG_VGL, "\n--- LOW");
-  trace2(DBG_VGL, "\nspeci: ");
+  trace2(DBG_VGL, "\nspec: ");
   for (uint32_t i=1; i < objectsnumber; i++) { // for all objects LOW
-    specificRender(i, WObject::RENDER_LOW);	// particules
+    specificRender(i, WObject::PRIOR_LOW);	// particules
   }
-  trace2(DBG_VGL, "\nopaque: ");
-  solidsOpaque(zsel, su, WObject::RENDER_LOW);
-  trace2(DBG_VGL, "\ntranslucid: ");
-  solidsTranslucid(zsel, su, WObject::RENDER_LOW);
+  trace2(DBG_VGL, "\nopaq: ");
+  solidsOpaque(zsel, su, WObject::PRIOR_LOW);
+  trace2(DBG_VGL, "\ntran: ");
+  solidsTranslucid(zsel, su, WObject::PRIOR_LOW);
 #endif
 
-  //// prior NORMAL == 1
+  //// prior MEDIUM == 1
   //
-  trace2(DBG_VGL, "\n--- NORMAL");
-  trace2(DBG_VGL, "\nspeci: ");
-  for (uint32_t i=1; i < objectsnumber; i++) { // for all objects NORMAL
-    specificRender(i, WObject::RENDER_NORMAL);
-    //dax specificObjects(i, WObject::RENDER_NORMAL);
+  trace2(DBG_VGL, "\n--- MEDIUM");
+  trace2(DBG_VGL, "\nspec: ");
+  for (uint32_t i=1; i < objectsnumber; i++) { // for all objects MEDIUM
+    specificRender(i, WObject::PRIOR_MEDIUM);
+    //dax specificObjects(i, WObject::PRIOR_MEDIUM);
   }
-  trace2(DBG_VGL, "\nopaque: ");
-  solidsOpaque(zsel, su, WObject::RENDER_NORMAL);
-  //dax objectsOpaque(zsel, WObject::RENDER_NORMAL);
-  trace2(DBG_VGL, "\ntranslucid: ");
-  solidsTranslucid(zsel, su, WObject::RENDER_NORMAL);
+  trace2(DBG_VGL, "\nopaq: ");
+  solidsOpaque(zsel, su, WObject::PRIOR_MEDIUM);
+  //dax objectsOpaque(zsel, WObject::PRIOR_MEDIUM);
+  trace2(DBG_VGL, "\ntran: ");
+  solidsTranslucid(zsel, su, WObject::PRIOR_MEDIUM);
 
 #if 1 //dax2
   //// prior HIGH == 2
   //
   trace2(DBG_VGL, "\n--- HIGH");
-  trace2(DBG_VGL, "\nspeci: ");
+  trace2(DBG_VGL, "\nspec: ");
   for (uint32_t i=1; i < objectsnumber; i++) { // for all objects HIGH
-    specificRender(i, WObject::RENDER_HIGH);
+    specificRender(i, WObject::PRIOR_HIGH);
   }
-  trace2(DBG_VGL, "\nspeci: ");
-  solidsOpaque(zsel, su, WObject::RENDER_HIGH);
-  trace2(DBG_VGL, "\ntranslucid: ");
-  solidsTranslucid(zsel, su, WObject::RENDER_HIGH);
+  trace2(DBG_VGL, "\nopaq: ");
+  solidsOpaque(zsel, su, WObject::PRIOR_HIGH);
+  trace2(DBG_VGL, "\ntran: ");
+  solidsTranslucid(zsel, su, WObject::PRIOR_HIGH);
   trace2(DBG_VGL, "\n");
 #endif
 
@@ -540,11 +541,11 @@ void Render::lighting()
 
   /* renders other lights for example sun, moon, lamp */
 #if 0 //DEBUG
-  trace2(DBG_VGL, "\n*** light:");
+  trace2(DBG_FORCE, "\n*** light:");
   for (list<WObject*>::iterator l = lightList.begin(); l != lightList.end() ; ++l) {
     if (*l && (*l)->isValid()) { //FIXME segfault sometimes
       (*l)->lighting();
-      trace2(DBG_VGL, " %s", (*l)->typeName());
+      trace2(DBG_FORCE, " %s", (*l)->getInstance());
     }
   }
   printf("\n");

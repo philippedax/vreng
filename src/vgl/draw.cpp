@@ -50,6 +50,7 @@ void Draw::point(GLfloat x, GLfloat y, GLfloat z)
 /* Draws line */
 void Draw::line(GLfloat l, GLfloat w = 0)
 {
+  glPushMatrix();
   glEnable(GL_LINE_SMOOTH);  // anti aliasing
   if (!w) w = 1;
   glLineWidth(w);
@@ -58,6 +59,7 @@ void Draw::line(GLfloat l, GLfloat w = 0)
    glVertex2f(0, l);
   glEnd();
   glDisable(GL_LINE_SMOOTH);
+  glPopMatrix();
 }
 
 /* Draws rectangle */

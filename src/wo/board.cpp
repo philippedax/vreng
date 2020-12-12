@@ -58,7 +58,7 @@ Board::Board(char *l)
   parser(l);
 
   enableBehavior(PERSISTENT);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);

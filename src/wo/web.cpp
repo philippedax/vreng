@@ -92,7 +92,7 @@ Web::Web(char *l)
   aback = afront + M_PI;
 
   enableBehavior(PERSISTENT);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(TTL);
   createPermanentNetObject(PROPS, ++oid);

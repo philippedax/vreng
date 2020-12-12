@@ -213,7 +213,7 @@ Stars::Stars(char *l)
   enableBehavior(UNSELECTABLE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_LOW);
+  setRenderPrior(PRIOR_LOW);
 
   initMobileObject(0);
   enablePermanentMovement();

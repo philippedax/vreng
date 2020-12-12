@@ -79,7 +79,7 @@ Aoi::Aoi(char *l)
 #endif
 
   initStillObject();
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 }
 
 /**

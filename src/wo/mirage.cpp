@@ -118,7 +118,7 @@ void Mirage::behavior()
 {
   if (persist) enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);
   if (turn || roll || tilt || orbit || circular || flares)

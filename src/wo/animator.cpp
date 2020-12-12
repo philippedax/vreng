@@ -66,12 +66,12 @@ Animator::Animator(char *l)
 
   enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 
   if (state == ACTIVE) {
-    setRenderPrior(RENDER_HIGH);
+    setRenderPrior(PRIOR_HIGH);
     enableImposedMovement();
   }
 }
@@ -110,7 +110,7 @@ void Animator::start(Animator *animator, void *d, time_t s, time_t u)
 void Animator::stop(Animator *animator, void *d, time_t s, time_t u)
 {
   animator->state = Animator::INACTIVE;
-  animator->setRenderPrior(RENDER_NORMAL);
+  animator->setRenderPrior(PRIOR_MEDIUM);
 }
 
 /* object intersects: stop */

@@ -60,7 +60,7 @@ void Thing::behavior()
   enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
   enableBehavior(TAKABLE);	// cart
-  setRenderPrior(RENDER_HIGH);
+  setRenderPrior(PRIOR_HIGH);
 
   initMobileObject(1);
   createPermanentNetObject(PROPS, oid);

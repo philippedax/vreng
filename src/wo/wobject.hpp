@@ -189,9 +189,9 @@ public:
 
   /* render priorities */
   enum object_prior {
-    RENDER_LOW,
-    RENDER_NORMAL,
-    RENDER_HIGH
+    PRIOR_LOW,
+    PRIOR_MEDIUM,
+    PRIOR_HIGH
   };
 
   WObject();

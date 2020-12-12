@@ -79,7 +79,7 @@ void Spiral::build()
 void Spiral::behavior()
 {
   enableBehavior(PERSISTENT);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initStillObject();
 }

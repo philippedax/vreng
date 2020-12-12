@@ -55,7 +55,7 @@ protected:
   GLfloat	mat_specular[4];
   GLfloat	mat_emission[4];
   GLint		mat_shininess[1];
-  GLfloat	mat_alpha;
+  GLfloat	alpha;
   GLfloat	scale, scalex, scaley, scalez;
   bool		isframed;	///< flag framed.
   bool		isflashy;	///< flag flashy.

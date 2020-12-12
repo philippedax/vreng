@@ -53,7 +53,7 @@ Doc::Doc(char *l)
 
   enableBehavior(PERSISTENT);
   enableBehavior(TAKABLE);
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);

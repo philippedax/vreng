@@ -334,7 +334,6 @@ char * Solid::getTok(char *l, uint16_t *tok)
   const struct sStokens *ptab;
 
   *tok = STOK_ERR;
-  //error("l=%s",l);
   l = skipEqual(l);
   if (l) {
     *(l-1) = '\0';	// end of token '=',  replaced by null terminated
@@ -347,7 +346,10 @@ char * Solid::getTok(char *l, uint16_t *tok)
     error("getTok: unknown \"%s\" in %s", t, l);
     return l;
   }
-  else { error("getTok: in %s", t); return t; }
+  else {
+    error("getTok: in %s", t);
+    return t;
+  }
 }
 
 char * Solid::getFramesNumber(char *l)
@@ -460,7 +462,11 @@ char * Solid::parser(char *l)
         return NULL;
     }
 
-    if (r == -1) { error("parser error: shape=%hu ll=%s", shape, ll); delete this; return NULL; }
+    if (r == -1) {
+      error("parser error: shape=%hu ll=%s", shape, ll);
+      delete this;
+      return NULL;
+    }
     idxframe += r;
   }
 
@@ -479,7 +485,10 @@ char * Solid::parser(char *l)
 /* Solid Parser. */
 int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 {
-  if (!l) { error("no solid description"); return -1; }
+  if (!l) {
+    error("no solid description");
+    return -1;
+  }
 
   // default dimensions
   GLfloat radius = 0, radius2 = 0, radius3 = 0;
@@ -491,7 +500,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     mat_emission[i] = 0;
   }
   mat_shininess[0] = DEF_SHININESS;
-  mat_alpha = DEF_ALPHA;	// opaque
+  alpha = DEF_ALPHA;	// opaque
 
   // default lights params
   GLfloat light_spot_direction[] = {1,1,1,1};
@@ -582,9 +591,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_SHININESS:
         l = wobject->parse()->parseInt(l, &mat_shininess[0]); break;
       case STOK_ALPHA:
-        l = wobject->parse()->parseFloat(l, &mat_alpha);
-        mat_diffuse[3] = mat_ambient[3] = mat_alpha; break;
-        if (mat_alpha < 1)
+        l = wobject->parse()->parseFloat(l, &alpha);
+        mat_diffuse[3] = mat_ambient[3] = alpha; break;
+        if (alpha < 1)
           is_opaque = false;
       case STOK_SCALE:
         l = wobject->parse()->parseFloat(l, &scale); break;
@@ -651,16 +660,12 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_TEXTURE:
         { char *urltex = new char[URL_LEN];
           l = wobject->parse()->parseString(l, urltex);
-#if 0
-          if (*urltex) texid = Texture::getFromCache(urltex);
-#else
           if (*urltex) {
             texture = new Texture(urltex);
             texid = texture->id;
             texture->object = wobject;
             texture->solid = this;
           }
-#endif
           delete[] urltex;
         }
         break;
@@ -711,8 +716,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_TEX_ZP_RT:
       case STOK_TEX_ZN_RT:
         l = wobject->parse()->parseFloat(l, &box_texrep[tok-STOK_TEX_XP_RT][1]); break;
-
-      default: error("solidParser: bad token=%hu", tok); return -1;
+      default:
+        error("solidParser: bad token=%hu", tok);
+        return -1;
     }
   }
 
@@ -723,7 +729,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   int dlist = glGenLists(1);
   glNewList(dlist, GL_COMPILE);
 
-  glCullFace(GL_BACK);
+  glCullFace(GL_BACK);		// don't draw back face
   glShadeModel(GL_SMOOTH);
 
   glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
@@ -747,8 +753,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_BOX:
-#if 1 //dax
-      preDraw(texid, mat_alpha, fog);
+#if 1 //dax2
+      preDraw(texid, alpha, fog);
 #else
   if (texid >= 0) {
       glEnable(GL_TEXTURE_2D);
@@ -757,12 +763,13 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 #endif
       Draw::box(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, style);
       if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
-      postDraw(texid, mat_alpha, fog);
-      //dax glDisable(GL_TEXTURE_2D);
+      postDraw(texid, alpha, fog);
+      //dax2 glDisable(GL_TEXTURE_2D);
       break;
 
     case STOK_MAN:
-      if (localuser->man) localuser->man->draw();
+      if (localuser->man)
+        localuser->man->draw();
       else {
         Man *man = new Man(dim.v[0], dim.v[1], dim.v[2]);
         man->draw();
@@ -778,16 +785,16 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_SPHERE:
-      preDraw(texid, mat_alpha, fog, true);
+      preDraw(texid, alpha, fog, true);
       Draw::sphere(radius, slices, stacks, style);
-      setBB(radius * M_SQRT2, radius * M_SQRT2, radius * M_SQRT2);
-      if (::g.pref.bbox) Draw::bbox(radius * M_SQRT2, radius * M_SQRT2, radius * M_SQRT2);
-      postDraw(texid, mat_alpha, fog);
+      setBB(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2);
+      if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_CONE:
       if (radius == radius2) stacks = 1; // cylinder
-      preDraw(texid, mat_alpha, fog, true);
+      preDraw(texid, alpha, fog, true);
       if (thick) {	// double surface
         Draw::cylinder(radius - thick/2, radius2 - thick/2, height, slices, stacks, style);
         glEnable(GL_CULL_FACE);
@@ -798,94 +805,96 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       }
       //setBB(radius, radius, height);
       if (::g.pref.bbox) Draw::bbox(radius, radius, height);
-      postDraw(texid, mat_alpha, fog);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_TORUS:
-      preDraw(texid, mat_alpha, fog);
+      preDraw(texid, alpha, fog);
       Draw::torus(radius2, cylinders, radius, circles, style);
-      if (::g.pref.bbox) Draw::bbox(radius * M_SQRT2, radius * M_SQRT2, radius2);
-      postDraw(texid, mat_alpha, fog);
+      if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius2);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_DISK:
-      preDraw(texid, mat_alpha, fog, true);
+      preDraw(texid, alpha, fog, true);
       Draw::disk(radius, radius2, slices, stacks, style);
-      postDraw(texid, mat_alpha, fog);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_PYRAMID:
-      preDraw(texid, mat_alpha, fog, true);
+      preDraw(texid, alpha, fog, true);
       Draw::pyramid(side, height, style);
       if (::g.pref.bbox) Draw::bbox(side, side, height/2);
-      postDraw(texid, mat_alpha, fog);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_SPHERE_TORUS:
-      preDraw(texid, mat_alpha, fog);
+      preDraw(texid, alpha, fog);
       Draw::sphere(radius, slices, stacks, style);
       Draw::torus(0.05, cylinders, radius2, circles, style);
-      setBB(radius2 * M_SQRT1_2/2, radius2 * M_SQRT1_2/2, radius * M_SQRT1_2/2);
-      if (::g.pref.bbox) Draw::bbox(radius2 * M_SQRT2, radius2 * M_SQRT2, radius * M_SQRT2/2);
-      postDraw(texid, mat_alpha, fog);
+      setBB(radius2*M_SQRT1_2/2, radius2*M_SQRT1_2/2, radius*M_SQRT1_2/2);
+      if (::g.pref.bbox) Draw::bbox(radius2*M_SQRT2, radius2*M_SQRT2, radius*M_SQRT2/2);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_SPHERE_DISK:
-      preDraw(texid, mat_alpha, fog);
+      preDraw(texid, alpha, fog);
       Draw::sphere(radius, slices, stacks, style);
       Draw::disk(radius, radius2, slices, stacks, style);
-      setBB(radius2 * M_SQRT1_2, radius2 * M_SQRT1_2, radius * M_SQRT1_2);
-      if (::g.pref.bbox) Draw::bbox(radius * M_SQRT2, radius * M_SQRT2, radius * M_SQRT2/2);
-      postDraw(texid, mat_alpha, fog);
+      setBB(radius2*M_SQRT1_2, radius2*M_SQRT1_2, radius*M_SQRT1_2);
+      if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2/2);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_CONE_DISK:
       if (radius == radius3) stacks = 1; // cylinder
-      preDraw(texid, mat_alpha, fog);
+      preDraw(texid, alpha, fog);
       Draw::cylinder(radius, radius3, height, slices, stacks, style);
       Draw::disk(radius, radius2, slices, stacks, style);
-      postDraw(texid, mat_alpha, fog);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_CROSS:
-      preDraw(texid, mat_alpha, fog);
+      preDraw(texid, alpha, fog);
       Draw::box(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, style);
       Draw::box(dim.v[2], dim.v[1], dim.v[0], box_tex, box_texrep, style);
-      postDraw(texid, mat_alpha, fog);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_RECT:
-      preDraw(texid, mat_alpha, fog, face);
+      doRotateTranslate(true);	//dax4
       Draw::rect(dim.v[0], dim.v[1], style, tex_r_s, tex_r_t);
-      postDraw(texid, mat_alpha, fog);
+      doRotateTranslate(false);	//dax4
       break;
 
     case STOK_LINE:
-      preDraw(texid, mat_alpha, fog, true);
+      //dax4 preDraw(texid, alpha, fog, false); //dax4 if commented only ray blue is rendered
+      doRotateTranslate(true);	//dax4
       Draw::line(length, thick);
-      postDraw(texid, mat_alpha, fog);
+      doRotateTranslate(false);	//dax4
+      //dax4 postDraw(texid, alpha, fog);
       break;
 
     case STOK_CIRCLE:
-      preDraw(texid, mat_alpha, fog, true);
+      doRotateTranslate(true);	//dax4
       Draw::ellipse(radius, radius, style);
-      postDraw(texid, mat_alpha, fog);
+      doRotateTranslate(false);	//dax4
       break;
 
     case STOK_TRIANGLE:
       break;
 
     case STOK_ELLIPSE:
-      preDraw(texid, mat_alpha, fog, true);
+      doRotateTranslate(true);	//dax4
       Draw::ellipse(radius, radius2, style);
-      postDraw(texid, mat_alpha, fog);
+      doRotateTranslate(false);	//dax4
       break;
 
     case STOK_HELIX:
-      preDraw(texid, mat_alpha, fog, true);
+      doRotateTranslate(true);	//dax4
       Draw::helix(radius, length, height, slices, thick, mat_diffuse);
       setBB(radius, radius, length/2);
-      postDraw(texid, mat_alpha, fog);
+      doRotateTranslate(false);	//dax4
       break;
 
     case STOK_POINT:
@@ -895,28 +904,24 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_CAR:
-      preDraw(texid, mat_alpha, fog, true);
+      preDraw(texid, alpha, fog, true);
       Car::draw(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, slices, style);
       setBB(dim.v[0], dim.v[1], dim.v[2] / 2);
       if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]/2);
-      postDraw(texid, mat_alpha, fog);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_TEAPOT:
-      preDraw(texid, mat_alpha, fog, true);
+      preDraw(texid, alpha, fog, true);
       teapot = new Teapot();
       teapot->draw(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, slices, style);
       setBB(dim.v[0], dim.v[1], dim.v[2]);
       if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
-      postDraw(texid, mat_alpha, fog);
+      postDraw(texid, alpha, fog);
       break;
 
     case STOK_WHEEL:
-#if 0
-      preDraw(texid, mat_alpha, fog);
-      Wheel *wheel = new Wheel(spokes, radius, mat_diffuse);
-      postDraw(texid, mat_alpha, fog);
-#endif
+      //dax5 Wheel *wheel = new Wheel(spokes, radius, mat_diffuse);
       break;
   }
   glEndList();
@@ -953,7 +958,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   uint16_t tabframes[FRAME_MAX] = { 0 };
   char *urlmdl = NULL;
 
-  mat_alpha = DEF_ALPHA;
+  alpha = DEF_ALPHA;
 
   ::g.render.first_bb = true;
 
@@ -985,26 +990,24 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_SPECULAR:
         l = wobject->parse()->parseVector3f(l, &mat_specular[0]); break;
       case STOK_ALPHA:
-        l = wobject->parse()->parseFloat(l, &mat_alpha);
-        mat_diffuse[3] = mat_ambient[3] = mat_alpha; break;
-        if (mat_alpha < 1)
+        l = wobject->parse()->parseFloat(l, &alpha);
+        mat_diffuse[3] = mat_ambient[3] = alpha; break;
+        if (alpha < 1)
           is_opaque = false;
       case STOK_TEXTURE:
         { char *urltex = new char[URL_LEN];
           l = wobject->parse()->parseString(l, urltex);
-#if 0
-          if (*urltex) texid = Texture::getFromCache(urltex);
-#else
           if (*urltex) {
             texture = new Texture(urltex);
             texid = texture->id;
             texture->object = wobject;
           }
-#endif
           delete[] urltex;
         }
         break;
-      default: error("statueParser: bad tok=%d", tok); return -1;
+      default:
+        error("statueParser: bad tok=%d", tok);
+        return -1;
     }
   }
   firstframe = (firstframe == 0) ? 1 : firstframe;
@@ -1068,7 +1071,6 @@ void Solid::doRotateTranslate(bool flag)
 {
   switch ((int)flag) {
   case true:  // pre
-    glEnable(GL_DEPTH_TEST);
     glPushMatrix();
     glRotatef(RAD2DEG(pos[3]), 0, 0, 1);	// az
     glRotatef(RAD2DEG(pos[4]), 1, 0, 0);	// ax
@@ -1132,7 +1134,7 @@ void Solid::doFog(bool flag, GLfloat *_fog)
 
 void Solid::doTexture(bool flag, int _texid)
 {
-  if (_texid > 0) {
+  if (_texid >= 0) {
     switch ((int)flag) {
     case true:  // pre
       glEnable(GL_TEXTURE_2D);
@@ -1147,6 +1149,7 @@ void Solid::doTexture(bool flag, int _texid)
 
 void Solid::preDraw(int texid, GLfloat alpha, GLfloat *fog, bool cull)
 {
+  // order is important !!!
   //dax doFog(true, fog);
   doBlend(true, alpha);
   doTexture(true, texid);
@@ -1158,7 +1161,9 @@ void Solid::preDraw(int texid, GLfloat alpha, GLfloat *fog, bool cull)
 
 void Solid::postDraw(int texid, GLfloat alpha, GLfloat *fog)
 {
+  // order is important !!!
   glEnable(GL_CULL_FACE);
+  //dax doFog(true, fog);
   doRotateTranslate(false);
   //dax doScale(false);
   doTexture(false, texid);
@@ -1195,7 +1200,7 @@ void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi,
     emi[i] = mat_emission[i];
   }
   shi[0] = mat_shininess[0];
-  *alp = mat_alpha;
+  *alp = alpha;
 }
 
 /*
@@ -1291,29 +1296,17 @@ void Solid::setRay(GLint wx, GLint wy)
   Draw::ray(&ray_dlist, ex, ey, ez, ox, oy, oz, color, 0x3333);  // alternative
 
   localuser->ray = newV3(ox, oy, oz);
-
   localuser->noh->declareObjDelta(User::PROPRAY);  // publish ray property to network
-
-#if 0 //dax not used
-  GLdouble mview[16], mproj[16];
-  GLdouble tx, ty, tz;	// computed target
-  GLint vp[4];
-  
-  ::g.gui.getScene()->getCoords(vp);
-  glGetDoublev(GL_MODELVIEW_MATRIX, mview);
-  glGetDoublev(GL_PROJECTION_MATRIX, mproj);
-  gluUnProject(wx, vp[3]-wy, 0, mview, mproj, vp, &tx, &ty, &tz);
-  //error("e: %.1f %.1f %.1f t: %.1f %.1f %.1f o: %.1f %.1f %.1f v: %d %d %d %d w: %d %d", ex,ey,ez, tx,ty,tz, ox,oy,oz, vp[0],vp[1],vp[2],vp[3], wx,wy);
-#endif
 }
 
 void Solid::resetRay()
 {
   if (ray_dlist) {
     ray_dlist = 0;
-    if (! localuser)  return;
-    localuser->ray = newV3(0, 0, 0);
-    localuser->noh->declareObjDelta(User::PROPRAY);
+    if (localuser) {
+      localuser->ray = newV3(0, 0, 0);
+      localuser->noh->declareObjDelta(User::PROPRAY);
+    }
   }
 }
 
@@ -1421,7 +1414,7 @@ void Solid::display3D(render_mode mode, render_type type)
 
     case TRANSLUCID:	// Display translucid solids 
       if (isreflexive) {
-        trace2(DBG_VGL, " o%d %s", type, object()->typeName());
+        trace2(DBG_VGL, " o%d %s", type, object()->getInstance());
         displayReflexive();
       }
       else {
@@ -1536,6 +1529,7 @@ int Solid::displayList(int display_mode = NORMAL)
        glEnable(GL_DEPTH_TEST);
        glDepthFunc(GL_LESS);	//dax
 #if 1 //dax
+         //dax7 if (texid <0) error("line=%.2f %s", pos[4],object()->getInstance());
        glPushMatrix();
        glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
        glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
@@ -1549,11 +1543,13 @@ int Solid::displayList(int display_mode = NORMAL)
          glEnable(GL_TEXTURE_2D);
          glBindTexture(GL_TEXTURE_2D, texid);
        }
-       if (mat_alpha < 1) {
+       if (alpha < 1) {
+         //error("alpha=%.1f %s", alpha,object()->getInstance());
          glEnable(GL_BLEND);
          glDepthMask(GL_FALSE);
        }
        if (*fog > 0) {
+         error("fog=%.1f %s", *fog,object()->getInstance());
          glEnable(GL_FOG);
          glFogi(GL_FOG_MODE, GL_EXP);
          glFogf(GL_FOG_DENSITY, *fog);
@@ -1561,9 +1557,9 @@ int Solid::displayList(int display_mode = NORMAL)
        }
 #endif
 
-       glCallList(dlists[frame]);
+       glCallList(dlists[frame]);	// display here !!!
 
-       glDisable(GL_DEPTH_TEST);
+       //glDisable(GL_DEPTH_TEST);
      }
      glPopMatrix();
      break;
@@ -1584,7 +1580,7 @@ int Solid::displayList(int display_mode = NORMAL)
      break;
 
    case REFLEXIVE:
-#if 0 //dax debug
+#if 0 //dax0 debug (notused)
     if (! ::g.render.haveStencil()) {	// no stencil buffer
       static bool todo = true;
       if (todo) {
@@ -1598,8 +1594,8 @@ int Solid::displayList(int display_mode = NORMAL)
       return dlists[frame];
     }
 #endif
-#if 1 // done by mirror
-    //dax glPushMatrix();
+#if 1 //dax0 if 0 done by mirror
+    glPushMatrix();
      glEnable(GL_STENCIL_TEST);		// enable stencil
      glClearStencil(0);			// set the clear value
      glClear(GL_STENCIL_BUFFER_BIT);	// clear the stencil buffer
@@ -1616,7 +1612,7 @@ int Solid::displayList(int display_mode = NORMAL)
      glStencilFunc(GL_EQUAL, 1, 1);	// draw only where the stencil == 1
      glPushMatrix();
       GLdouble plane[4] = {-1,0,0,0};	// do clipping plane to avoid bugs when the avatar is near
-#if 0 //DAX
+#if 1 //dax6
       glCullFace(GL_FRONT);
       glRotatef(RAD2DEG(object()->pos.az), 0,0,1);
       glTranslatef(-object()->pos.x, -object()->pos.y, -object()->pos.z);
@@ -1624,7 +1620,7 @@ int Solid::displayList(int display_mode = NORMAL)
       glClipPlane(GL_CLIP_PLANE0, plane);
       glEnable(GL_CLIP_PLANE0);
 
-      //dax displayMirroredScene();	// display the mirrored scene
+      //dax0 displayMirroredScene();	// display the mirrored scene
       object()->render();		// display the mirrored scene by mirror itself
 
       glDisable(GL_CLIP_PLANE0);
@@ -1642,7 +1638,7 @@ int Solid::displayList(int display_mode = NORMAL)
      glDepthMask(GL_TRUE);
      glDisable(GL_BLEND);
      glDisable(GL_DEPTH_TEST);
-    //dax glPopMatrix();
+    glPopMatrix();
 #endif
     break;	// reflexive
    }
@@ -1659,7 +1655,8 @@ int Solid::displayList(int display_mode = NORMAL)
 /* Display mirrored scene */
 void Solid::displayMirroredScene()
 {
-#if 0 //done by mirror object
+#if 0 //dax0 done by mirror object
+
   // 1) faire une translation pour amener le plan de reflexion à la position miroir
   glTranslatef(-object()->pos.x, 0, 0);
   // 2) le miroir est dans le plan YZ; faire une reflexion par -1 en X
@@ -1692,5 +1689,6 @@ void Solid::displayMirroredScene()
    else if (localuser->man) localuser->getSolid()->displayVirtual();
    else glCallList(localuser->getSolid()->displayVirtual());
   glPopMatrix();
-#endif
+
+#endif //dax0
 }

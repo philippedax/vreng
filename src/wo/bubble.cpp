@@ -78,7 +78,7 @@ void Bubble::behavior()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(RENDER_HIGH);
+  setRenderPrior(PRIOR_HIGH);
 
   initMobileObject(BUBBLETTL);
   initImposedMovement(BUBBLETTL);

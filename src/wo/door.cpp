@@ -120,7 +120,7 @@ Door::Door(char *l)
   //dax trace(DBG_FORCE, "pos=(%.2f,%.2f,%.2f) center=(%.2f,%.2f,%.2f) size=%.2f", pos.x, pos.y, pos.z, center.v[0], center.v[1], center.v[2], size.v[0]);
 
   enableBehavior(PERSISTENT);	// after init because mysql already done
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);

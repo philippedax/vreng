@@ -91,7 +91,7 @@ WObject::WObject()
   noid.port_id = 0;
   noid.obj_id = 0;
 
-  prior = RENDER_NORMAL;
+  prior = PRIOR_MEDIUM;
 
   solid = NULL;
 
@@ -343,12 +343,18 @@ uint16_t WObject::getNum()
 
 const char * WObject::named() const
 {
-  return names.given;
+  if (names.given)
+    return names.given;
+  else
+    return NULL;
 }
 
 const char * WObject::getInstance() const
 {
-  return names.instance;
+  if (names.instance)
+    return names.instance;
+  else
+    return names.given;
 }
 
 const char * WObject::urlName() const
@@ -637,7 +643,8 @@ void WObject::updateNames()
       *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
     names.instance = names.implicit;
   }
-  else names.instance = names.given;
+  else
+    names.instance = names.given;
 
   setObjectName(names.instance);
   names.world = World::current()->getName();

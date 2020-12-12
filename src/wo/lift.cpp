@@ -71,7 +71,7 @@ Lift::Lift(char *l)
   parser(l);
 
   enableBehavior(PERSISTENT);	// after init because mysql already done
-  setRenderPrior(RENDER_NORMAL);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
