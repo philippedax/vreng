@@ -15,9 +15,11 @@ The rules for this file:
 ++ 9
 == 9.1
 -- 9.1.4
+	- reviewed timer.*pp
+	- fixed needles motion in clock.cpp
 	- reviewed vrel and vred
 	- fixed numline in parse.cpp
-	(2020/12/05, Philippe Dax)
+	(2020/12/14, Philippe Dax)
 
 -- 9.1.3
 	- renamed vre.hpp to sandbox.hpp

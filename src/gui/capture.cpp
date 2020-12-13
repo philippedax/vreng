@@ -183,7 +183,7 @@ void Capture::startVideo()
   is_capturing = true;
   capture_no =0;
   notice("sequence capture starts");
-  ::g.times.capture.start();
+  ::g.timer.capture.start();
 }
 
 // stop capture video
@@ -193,7 +193,7 @@ void Capture::stopVideo()
   char swfname[World::WORLD_LEN + 4];  // video flash (swf)
   char cmd[BUFSIZ];
   
-  int rate = int(ceil( float(MAX_CAPTURE_COUNT) / (time_t) ::g.times.capture.stop()));
+  int rate = int(ceil( float(MAX_CAPTURE_COUNT) / (time_t) ::g.timer.capture.stop()));
   
   notice("sequence capture stops at %d images, rate=%d", capture_no + 1, rate);
   sprintf(jpegbase, "/tmp/vreng-");

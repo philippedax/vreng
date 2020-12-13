@@ -41,14 +41,14 @@ public:
 
 
 /**
- * Times class
+ * Timer class
  */
-class Times {
+class Timer {
 public:
 
   ProfileTime init, net, simul, render, idle, capture, mysql, object, image;
 
-  float getRate();
+  float rate();
   /**< Returns actual rate */
 
   bool isRate(uint16_t rate);

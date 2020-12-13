@@ -148,19 +148,19 @@ int NetTimeout()
        * test if refresh timeout reached
        */
       if (pprop->responsible 
-          && Times::diffDates(pprop->last_seen, now) > refresh) {
+          && Timer::diffDates(pprop->last_seen, now) > refresh) {
         // now - last_seen > refresh: we are responsible, we must refresh
         
         (*it)->sendDelta(i);	// publish a heartbeat
       }
-      if (Times::diffDates(pprop->assume_at, now) > 0) {
+      if (Timer::diffDates(pprop->assume_at, now) > 0) {
         // now > assume_at: assume's timeout on this property
         if ((*it)->permanent) { // permanent object (door, lift, anim, button, thing, book)
           if (pprop->version != 0) {
             // if permanent prop hasn't its initial value,
             // somebody must assume responsibility
             trace(DBG_FORCE, "NetTimeout: (permanent) Assuming responsibility for %s prop=%d unseen for %5.2fs",
-                  (*it)->noid.getNetNameById(), i,Times::diffDates(pprop->last_seen, now));
+                  (*it)->noid.getNetNameById(), i,Timer::diffDates(pprop->last_seen, now));
             if (pprop->responsible) {
               trace(DBG_FORCE, "NetTimeout: (permanent) should assume responsibility "
                     "of something I am responsible for");
@@ -177,7 +177,7 @@ int NetTimeout()
           }
           trace(DBG_NET, "NetTimeout: (volatile) Assuming death of %s [%s] (unseen for %.2fs)",
                 (*it)->pobject->getInstance(), (*it)->noid.getNetNameById(), 
-                Times::diffDates(pprop->last_seen, now));
+                Timer::diffDates(pprop->last_seen, now));
           (*it)->declareDeletion();
           (*it)->requestDeletionFromNetwork();	// discard the dead
           // no reason to continue after a requestDeletion
@@ -212,7 +212,7 @@ int NetTimeout()
        * test if refresh timeout reached
        */
       if (pprop->responsible
-          && Times::diffDates(pprop->last_seen, now) > refresh) {
+          && Timer::diffDates(pprop->last_seen, now) > refresh) {
         // now - last_seen > refresh: we are responsible, we must refresh
 
         pn->sendDelta(i);       // publish a heartbeat
@@ -220,7 +220,7 @@ int NetTimeout()
         //error("NetTimeout: sendDelta type (%d)", pn->type);
       }
 
-      if (Times::diffDates(pprop->assume_at, now) > 0) {
+      if (Timer::diffDates(pprop->assume_at, now) > 0) {
         // now > assume_at: assume's timeout on this property
         if (pn->permanent) {
           /*
@@ -230,7 +230,7 @@ int NetTimeout()
             // if permanent prop hasn't its initial value,
             // somebody must assume responsibility
             trace(DBG_FORCE, "NetTimeout: (permanent) Assuming responsibility for %s prop=%d unseen for %5.2fs",
-                  pn->noid.getNetNameById(), i, Times::diffDates(pprop->last_seen, now));
+                  pn->noid.getNetNameById(), i, Timer::diffDates(pprop->last_seen, now));
             if (pprop->responsible) {
               trace(DBG_FORCE, "NetTimeout: (permanent) should assume responsibility "
                     "of something I am responsible for");
@@ -250,7 +250,7 @@ int NetTimeout()
           }
           trace(DBG_NET, "NetTimeout: (volatile) Assuming death of %s [%s] (unseen for %.2fs)",
                 pn->pobject->getInstance(), pn->noid.getNetNameById(),
-                Times::diffDates(pprop->last_seen, now));
+                Timer::diffDates(pprop->last_seen, now));
           pn->declareDeletion();
           pn->requestDeletionFromNetwork();     // discard the dead
           // no reason to continue after a requestDeletion

@@ -28,7 +28,7 @@
 #include "env.hpp"	// sysname
 #include "pref.hpp"	// maxsimcon
 #include "prof.hpp"	// new_http new_htppthread
-#include "timer.hpp"	// times
+#include "timer.hpp"	// timer
 #include "cache.hpp"	// inCache
 #include "universe.hpp"	// universe_name
 
@@ -469,7 +469,7 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
   HttpThread *ht = new HttpThread();
 
   trace(DBG_HTTP, "httpOpen: %s", _url);
-  ::g.times.image.start();
+  ::g.timer.image.start();
 
   ht->http = new Http();	// create a http IO
 
@@ -496,7 +496,7 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
       return ht->putfifo();
     else {
       HttpThread::connection((void *) ht);	// it's not a thread
-      ::g.times.image.stop();
+      ::g.timer.image.stop();
       return 0;
     }
   }

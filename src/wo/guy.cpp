@@ -507,7 +507,7 @@ void Guy::render()
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
   glRotatef(90, 1, 0, 0);
 
-  if (::g.times.isRate(RATE))
+  if (::g.timer.isRate(RATE))
     guy_radian -= M_2PI / guy_step;
   if (guy_radian <= 0)
     guy_radian = M_2PI;

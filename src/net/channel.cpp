@@ -31,7 +31,7 @@
 #include "gui.hpp"	// addChannelSources
 #include "pref.hpp"	// reflector
 #include "sap.hpp"	// init
-#include "timer.hpp"	// :g.times
+#include "timer.hpp"	// :g.timer
 #include "prof.hpp"	// new_channel
 
 #include <list>
@@ -72,7 +72,7 @@ void Channel::init()
   static bool first = true;
 
   if (first) {
-    ::g.times.net.start();
+    ::g.timer.net.start();
     initReflector();
     first = false;
   }

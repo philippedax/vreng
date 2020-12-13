@@ -152,7 +152,7 @@ void Water::draw()
 
 void Water::changePermanent(float lasting)
 {
-  play = ::g.times.isRate(RATE);
+  play = ::g.timer.isRate(RATE);
 }
 
 void Water::render()

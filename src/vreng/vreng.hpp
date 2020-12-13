@@ -32,30 +32,32 @@
 
 
 class Global {
+
 public:
-  Global();
-  ~Global() {}
-
-  char *version;        ///< VREng version
-  char *universe;       ///< universe httpd server url
-  char *server;         ///< server httpd
-  char *url;            ///< initial world url
-  char *channel;        ///< initial Multicast channel
-  char *user;           ///< user name
-  char *skinf;          ///< front face url
-  char *skinb;          ///< back face url
-
-  uint32_t debug;
-  uint32_t options;
+  char *version;        ///< VREng version.
+  char *universe;       ///< universe httpd server url.
+  char *server;         ///< server httpd.
+  char *url;            ///< initial world url.
+  char *channel;        ///< initial Multicast channel.
+  char *user;           ///< user name.
+  char *skinf;          ///< front face url.
+  char *skinb;          ///< back face url.
+  uint32_t debug;	///< debug flags.
+  uint32_t options;	///x command line options.
 
   // ::g instances
-  class Times& times;
-  class Env& env;
-  class Pref& pref;
-  class Render& render;
-  class Solid& solid;
-  struct Theme& theme; ///< the theme used to paramaterize the GUI.
-  class Gui& gui;
+  class Timer& timer;	///< ::g.timer
+  class Env& env;	///< ::g.env
+  class Pref& pref;	///< ::g.pref
+  class Render& render;	///< ::g.render
+  class Solid& solid;	///< ::g.solid
+  struct Theme& theme;	///< ::g.theme used to paramaterize the GUI.
+  class Gui& gui;	///< ::g.gui
+
+  // Methods
+
+  Global();		///< constructor.
+  ~Global() {}		///< destructor.
 
   int start(int argc, char *argv[]);
 

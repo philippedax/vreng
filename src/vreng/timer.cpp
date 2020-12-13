@@ -41,7 +41,7 @@ void ProfileTime::start()
 double ProfileTime::stop()
 {
   gettimeofday(&stop_time, NULL);
-  double d = Times::diffDates(start_time, stop_time);
+  double d = Timer::diffDates(start_time, stop_time);
   diff_time = d;
   cumul_time += d;
   return d;
@@ -54,7 +54,7 @@ double ProfileTime::diff()
 }
 
 /** Return float time in milliseconds */
-double Times::fTime()
+double Timer::fTime()
 {
   struct timeval t;
   gettimeofday(&t, NULL);
@@ -63,13 +63,13 @@ double Times::fTime()
 }
 
 /** Computes t2-t1 in seconds */
-double Times::diffDates(struct timeval t1, struct timeval t2)
+double Timer::diffDates(struct timeval t1, struct timeval t2)
 {
   return ((double) t2.tv_sec - (double) t1.tv_sec) +
   ((double) t2.tv_usec - (double) t1.tv_usec) * 1e-6;
 }
 
-float Times::getRate()
+float Timer::rate()
 {
   double time_cycles = simul.cumul_time + render.cumul_time + idle.cumul_time;
   if (time_cycles == 0)
@@ -78,15 +78,15 @@ float Times::getRate()
     (float) (::g.gui.getCycles() / time_cycles);
 }
 
-bool Times::isRate(uint16_t rate)
+bool Timer::isRate(uint16_t _rate)
 {
-  int ratio = int(getRate() / rate);
+  int ratio = int(rate() / _rate);
   return ((ratio <= 1) || ((ratio > 1) && (::g.gui.getCycles() % ratio) == 1));
 }
 
 /* Returns the number of seconds that have elapsed since
    the previous call to this function. */
-float Times::delta()
+float Timer::delta()
 {
   static bool first = true;
   static timeval lasttime;
@@ -98,7 +98,7 @@ float Times::delta()
   }
   gettimeofday(&nowtime, NULL);
 
-  double difftime = Times::diffDates(lasttime, nowtime);
+  double difftime = Timer::diffDates(lasttime, nowtime);
   lasttime = nowtime;
   return (float)difftime;
 }
@@ -107,8 +107,8 @@ float Times::delta()
 void idleTime()
 {
   startTime(&ptime_idle);
-  float rate = getRate();
-  if (rate > ::g.pref.maxfps && ::g.pref.cpulimit) {
+  float _rate = rate();
+  if (_rate > ::g.pref.maxfps && ::g.pref.cpulimit) {
     struct timeval to;
     to.tv_sec = 0;
     to.tv_usec = ::g.pref.frame_delay;     // 20ms -> 50 fps

@@ -24,7 +24,7 @@
 #include "world.hpp"	// current
 #include "solid.hpp"	// Solid
 #include "color.hpp"	// getRGB
-#include "timer.hpp"	// times
+#include "timer.hpp"	// timer
 #include "pref.hpp"	// g.pref.dbgtrace
 #include "str.hpp"	// stringcmp
 
@@ -364,13 +364,13 @@ int Parse::parseVreFile(char *buf, int bufsiz)
 	      ++attr;
             if (::g.pref.dbgtrace) trace(DBG_FORCE, "[%d] %s", tag_type, line);
             progression('o');
-            ::g.times.object.start();
+            ::g.timer.object.start();
             // call the creator of this object with object attributes
             if ((wobject = OClass::creatorInstance(tag_type, attr)) == NULL) {
               error("parse error at line %d (creator instance), type=%d line=%s", numline, tag_type, line);
               return -1;
             }
-            ::g.times.object.stop();
+            ::g.timer.object.stop();
           }
           else		// unknown type
             error("parse error at line %d (unknown type), type=%d line=%s", numline, tag_type, line);

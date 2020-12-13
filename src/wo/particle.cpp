@@ -148,7 +148,7 @@ float Particle::timedelta()
   gettimeofday(&endtime, NULL);
   //srand((time_t) endtime.tv_usec);
 
-  double difftime = Times::diffDates(begintime, endtime);
+  double difftime = Timer::diffDates(begintime, endtime);
   begintime = endtime;
   return (float)difftime;
 }

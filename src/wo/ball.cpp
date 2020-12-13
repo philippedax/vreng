@@ -26,10 +26,10 @@
 #include "step.hpp"	// STEP_TYPE
 #include "move.hpp"	// GRAVITY
 #include "netobj.hpp"	// NetObject
-#include "timer.hpp"	// getRate
+#include "timer.hpp"	// rate
 
 
-#define ratio() MAX(::g.times.getRate() / 20., 1)
+#define ratio() MAX(::g.timer.rate() / 20., 1)
 
 const OClass Ball::oclass(BALL_TYPE, "Ball", Ball::creator, Ball::replicator);
 

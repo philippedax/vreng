@@ -23,7 +23,7 @@
 #include "netobj.hpp"
 #include "session.hpp"	// Session
 #include "gui.hpp"	// getCycles
-#include "timer.hpp"	// getRate diffDates
+#include "timer.hpp"	// rate diffDates
 
 
 /*** network counters ***/
@@ -109,7 +109,7 @@ void statAdjust()
   struct timeval now;
 
   gettimeofday(&now, NULL);
-  float d = Times::diffDates(then, now);
+  float d = Timer::diffDates(then, now);
   if (fabs(d) > 0.1) {
     kbps_sent = bytes_sent/d/1000*8;
     kbps_recvd = bytes_recvd/d/1000*8;
@@ -130,33 +130,33 @@ void statTimings()
 {
   fprintf(stderr, "\n### Timings ###\n");
 
-  Times& times = ::g.times;
-  d = times.net.stop();
+  Timer& timer = ::g.timer;
+  d = timer.net.stop();
 
   fprintf(stderr, "elapsed time    : %5.2fs\n", d);
   fprintf(stderr, "init time       : %5.2fs, %4.2f%%\n", 
-          (float) times.init.cumul_time, (float) 100*times.init.cumul_time/d);
+          (float) timer.init.cumul_time, (float) 100*timer.init.cumul_time/d);
   fprintf(stderr, "simul time      : %5.2fs, %4.2f%%\n", 
-          (float) times.simul.cumul_time, (float) 100*times.simul.cumul_time/d);
+          (float) timer.simul.cumul_time, (float) 100*timer.simul.cumul_time/d);
   fprintf(stderr, "render time     : %5.2fs, %4.2f%%\n", 
-          (float) times.render.cumul_time, (float) 100*times.render.cumul_time/d);
+          (float) timer.render.cumul_time, (float) 100*timer.render.cumul_time/d);
   fprintf(stderr, "object time     : %5.2fs, %4.2f%%\n", 
-          (float) times.object.cumul_time, (float) 100*times.object.cumul_time/d);
+          (float) timer.object.cumul_time, (float) 100*timer.object.cumul_time/d);
   fprintf(stderr, "image time      : %5.2fs, %4.2f%%\n", 
-          (float) times.image.cumul_time, (float) 100*times.image.cumul_time/d);
+          (float) timer.image.cumul_time, (float) 100*timer.image.cumul_time/d);
   fprintf(stderr, "mysql time      : %5.2fs, %4.2f%%\n", 
-          (float) times.mysql.cumul_time, (float) 100*times.mysql.cumul_time/d);
+          (float) timer.mysql.cumul_time, (float) 100*timer.mysql.cumul_time/d);
   fprintf(stderr, "idle time       : %5.2fs, %4.2f%%\n", 
-          (float) times.idle.cumul_time, (float) 100*times.idle.cumul_time/d);
+          (float) timer.idle.cumul_time, (float) 100*timer.idle.cumul_time/d);
   fprintf(stderr, "cycles          : %d\n", ::g.gui.getCycles());
-  fprintf(stderr, "cycles/s        : %5.2f/s\n", times.getRate());
+  fprintf(stderr, "cycles/s        : %5.2f/s\n", timer.rate());
 }
 
 void statNetwork()
 {
   fprintf(stderr, "### Network ###\n");
 
-  if (!d) d = ::g.times.net.stop();
+  if (!d) d = ::g.timer.net.stop();
   float bw = (float)((sum_bytes_sent + sum_bytes_recvd + 2 * (8 + 20)) * 8) / d;
 
   if (sum_pkts_sent) {

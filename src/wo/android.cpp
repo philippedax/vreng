@@ -27,7 +27,7 @@
 #include "socket.hpp"	// openStream
 #include "nsl.hpp"	// get_mygethostbyname
 #include "pref.hpp"	// reflector
-#include "timer.hpp"	// getRate
+#include "timer.hpp"	// rate
 #include "user.hpp"	// localuser
 
 
@@ -202,11 +202,11 @@ int Android::connectToBapServer(int _ipmode)
     Channel::getGroup(World::current()->getChan(), group);
     sprintf(setup_cmd, "setup a=%s p=%d t=%d r=%.2f ",
             group, vaps_port, Channel::getTtl(World::current()->getChan()), 
-            ::g.times.getRate());
+            ::g.timer.rate());
   }
   else
 #endif
-  sprintf(setup_cmd, "setup p=%d r=%.2f ", vaps_port, ::g.times.getRate());
+  sprintf(setup_cmd, "setup p=%d r=%.2f ", vaps_port, ::g.timer.rate());
   write(sdtcp, setup_cmd, strlen(setup_cmd));  // setup packet
   return sdtcp;
 }

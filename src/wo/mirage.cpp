@@ -23,7 +23,7 @@
 #include "user.hpp"	// user
 #include "move.hpp"	// gotoFront
 #include "mysql.hpp"	// VRSql
-#include "timer.hpp"	// getRate
+#include "timer.hpp"	// rate
 #include "flare.hpp"	// Flare
 #include "solid.hpp"	// setFlary
 
@@ -225,7 +225,7 @@ void Mirage::changePermanent(float lasting)
     else {
       sx = +1; sy = +1;
     }
-    dy = sy / ::g.times.getRate();
+    dy = sy / ::g.timer.rate();
     pos.y += dy;
     dx = (float) sqrt(fabs(x0x0y0y0 - pos.y*pos.y));
     pos.x = sx * dx;

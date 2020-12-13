@@ -35,7 +35,7 @@
 #include "browser.hpp"	// start
 #include "office.hpp"	// start
 #include "env.hpp"	// icons
-#include "timer.hpp"	// getRate
+#include "timer.hpp"	// rate
 #include "file.hpp"	// openFile
 #include "universe.hpp"	// current
 
@@ -69,7 +69,7 @@ bool Icon::isMoving()
 void Icon::changePosition(float lasting)
 {
   if (! taken) {
-    float ratio = MAX(::g.times.getRate() / 40., 1);
+    float ratio = MAX(::g.timer.rate() / 40., 1);
     pos.x  += lasting * move.lspeed.v[0] * ratio;
     pos.y  += lasting * move.lspeed.v[1] * ratio;
     pos.z  += lasting * move.lspeed.v[2] * ratio;

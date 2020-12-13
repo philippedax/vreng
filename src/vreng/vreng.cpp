@@ -25,7 +25,7 @@
 #include "env.hpp"	// new Env
 #include "pref.hpp"	// new Pref
 #include "theme.hpp"	// new Theme
-#include "timer.hpp"	// new Times
+#include "timer.hpp"	// new Timer
 #include "render.hpp"	// new Render
 #include "solid.hpp"	// new Solid
 #include "universe.hpp"	// Universe::init
@@ -51,7 +51,7 @@ jmp_buf sigctx;
 Global::Global() :
 	debug(0),
 	options(0),
-	times(*new Times),
+	timer(*new Timer),
 	env(*new Env),
 	pref(*new Pref),
 	render(*new Render),
@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 
 int Global::start(int argc, char *argv[])
 {
-  times.init.start();
+  timer.init.start();
   pref.init(argc, argv, g.env.prefs());	// Options & Preferences initialization
 
   // UAppli::conf.setDepthBuffer(16);   // utile ???  
@@ -105,7 +105,7 @@ void Global::startCB()
 #endif
   // NB: this function takes a significant amount of time to launch
   World::init(Universe::current()->url);
-  times.init.stop();
+  timer.init.stop();
 }
 
 void Global::quitVreng(int signum)

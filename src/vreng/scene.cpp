@@ -192,7 +192,7 @@ void Scene::paintScene()
   if (gw.pendingPostponedKRs()) gw.flushPostponedKRs();
 
   // Computes current world
-  ProfileTime& tsimul = ::g.times.simul;
+  ProfileTime& tsimul = ::g.timer.simul;
   tsimul.start();
   if (World::current())
     World::current()->compute(tsimul.start_time.tv_sec, tsimul.start_time.tv_usec);
@@ -200,7 +200,7 @@ void Scene::paintScene()
   trace(DBG_WO, "world computed");
   
   // General rendering
-  ProfileTime& trender = ::g.times.render;
+  ProfileTime& trender = ::g.timer.render;
   trender.start();
   ::g.render.render();
   trender.stop();
@@ -222,7 +222,7 @@ void Scene::updateHud()
 {
   char line[1000];
   
-  sprintf(line, "Rate:   %.1f fps", ::g.times.getRate());
+  sprintf(line, "Rate:   %.1f fps", ::g.timer.rate());
   hud_line1 = line;
   
   if (! localuser) return;
