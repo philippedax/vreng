@@ -193,7 +193,7 @@ void Vnc::changePermanent(float lasting)
 
     if (select(32, &rmask, NULL, NULL, &delay)) {
       if (FD_ISSET(rfbsock, &rmask)) {
-        if (! vncClient->handleRFBServerMessage()) {
+        if (! vncClient->handleRFBMessage()) {
           error("can't handle RFB server message");
           return;
         }
@@ -301,6 +301,7 @@ void Vnc::connectServer()
   if (! serverdefined) return;
 
   vncClient = new VNCClientTextured(servername, port, passwdfile);
+    warning("VNC try to connect to %s:%d", servername, port);
 
   // client initialization
   if (! vncClient->VNCInit()) {
@@ -357,13 +358,14 @@ void Vnc::reconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
     ::g.gui.launchVncConnect(vnc);
 }
 
-/* Update server parameters from the dialog window */
+/* Update server parameters from the dialog window : called from gui */
 void Vnc::convert(const char *srvstr, const char *portstr, const char *passstr)
 {
   if (!srvstr || !portstr || !passstr) {
     warning("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
     return;
   }
+  notice("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
 
   strcpy(servername, srvstr);
   port = atoi(portstr);

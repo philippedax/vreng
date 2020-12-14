@@ -178,15 +178,12 @@ typedef struct {
  * The format string below can be used in sprintf or sscanf to generate or
  * decode the version string respectively.
  */
-
 #define rfbProtocolVersionFormat "RFB %03d.%03d\n"
 #define rfbProtocolMajorVersion 3
+#define sz_rfbProtocolVersionMsg 12
 #define rfbProtocolMinorVersion 3
 
 typedef char rfbProtocolVersionMsg[13];	/* allow extra byte for null */
-
-#define sz_rfbProtocolVersionMsg 12
-
 
 /*-----------------------------------------------------------------------------
  * Authentication
@@ -196,7 +193,6 @@ typedef char rfbProtocolVersionMsg[13];	/* allow extra byte for null */
  * The value of this word determines the authentication scheme in use.  For
  * version 3.0 of the protocol this may have one of the following values:
  */
-
 #define rfbConnFailed 0
 #define rfbNoAuth 1
 #define rfbVncAuth 2
@@ -222,11 +218,9 @@ typedef char rfbProtocolVersionMsg[13];	/* allow extra byte for null */
  *			server should not allow an immediate reconnection by
  *			the client.
  */
-
 #define rfbVncAuthOK 0
 #define rfbVncAuthFailed 1
 #define rfbVncAuthTooMany 2
-
 
 /*-----------------------------------------------------------------------------
  * Client Initialisation Message
@@ -237,13 +231,11 @@ typedef char rfbProtocolVersionMsg[13];	/* allow extra byte for null */
  * to share the desktop by leaving other clients connected, or give exclusive
  * access to this client by disconnecting all other clients.
  */
-
 typedef struct {
     uint8_t shared;
 } rfbClientInitMsg;
 
 #define sz_rfbClientInitMsg 1
-
 
 /*-----------------------------------------------------------------------------
  * Server Initialisation Message
@@ -252,7 +244,6 @@ typedef struct {
  * This tells the client the width and height of the server's framebuffer,
  * its pixel format and the name associated with the desktop.
  */
-
 typedef struct {
     uint16_t framebufferWidth;
     uint16_t framebufferHeight;
@@ -262,7 +253,6 @@ typedef struct {
 } rfbServerInitMsg;
 
 #define sz_rfbServerInitMsg (8 + sz_rfbPixelFormat)
-
 
 /*
  * Following the server initialisation message it's up to the client to send
@@ -277,21 +267,15 @@ typedef struct {
  * should be regulated to avoid hogging the network.
  */
 
-
-
 /*****************************************************************************
- *
  * Message types
- *
  *****************************************************************************/
-
 /* server -> client */
 
 #define rfbFramebufferUpdate 0
 #define rfbSetColourMapEntries 1
 #define rfbBell 2
-#define rfbServerCutText 3
-
+#define rfbCutText 3
 
 /* client -> server */
 
@@ -303,29 +287,18 @@ typedef struct {
 #define rfbPointerEvent 5
 #define rfbClientCutText 6
 
-
-
-
 /*****************************************************************************
- *
  * Encoding types
- *
  *****************************************************************************/
-
 #define rfbEncodingRaw 0
 #define rfbEncodingCopyRect 1
 #define rfbEncodingRRE 2
 #define rfbEncodingCoRRE 4
 #define rfbEncodingHextile 5
 
-
-
 /*****************************************************************************
- *
  * Server -> client message definitions
- *
  *****************************************************************************/
-
 
 /*-----------------------------------------------------------------------------
  * FramebufferUpdate - a block of rectangles to be copied to the framebuffer.
@@ -335,7 +308,6 @@ typedef struct {
  * together with the type byte it is an exact multiple of 4 bytes (to help
  * with alignment of 32-bit pixels):
  */
-
 typedef struct {
     uint8_t type;			/* always rfbFramebufferUpdate */
     uint8_t pad;
@@ -352,7 +324,6 @@ typedef struct {
  * not sent a SetEncodings message then it will only receive raw pixel data.
  * Also note again that this structure is a multiple of 4 bytes.
  */
-
 typedef struct {
     rfbRectangle r;
     uint32_t encoding;	/* one of the encoding types rfbEncoding... */
@@ -360,18 +331,15 @@ typedef struct {
 
 #define sz_rfbFramebufferUpdateRectHeader (sz_rfbRectangle + 4)
 
-
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  * Raw Encoding.  Pixels are sent in top-to-bottom scanline order,
  * left-to-right within a scanline with no padding in between.
  */
 
-
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  * CopyRect Encoding.  The pixels are specified simply by the x and y position
  * of the source rectangle.
  */
-
 typedef struct {
     uint16_t srcX;
     uint16_t srcY;
@@ -379,20 +347,17 @@ typedef struct {
 
 #define sz_rfbCopyRect 4
 
-
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  * RRE - Rise-and-Run-length Encoding.  We have an rfbRREHeader structure
  * giving the number of subrectangles following.  Finally the data follows in
  * the form [<bgpixel><subrect><subrect>...] where each <subrect> is
  * [<pixel><rfbRectangle>].
  */
-
 typedef struct {
     uint32_t nSubrects;
 } rfbRREHeader;
 
 #define sz_rfbRREHeader 4
-
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  * CoRRE - Compact RRE Encoding.  We have an rfbRREHeader structure giving
@@ -401,7 +366,6 @@ typedef struct {
  * [<pixel><rfbCoRRERectangle>].  This means that
  * the whole rectangle must be at most 255x255 pixels.
  */
-
 typedef struct {
     uint8_t x;
     uint8_t y;
@@ -410,7 +374,6 @@ typedef struct {
 } rfbCoRRERectangle;
 
 #define sz_rfbCoRRERectangle 4
-
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  * Hextile Encoding.  The rectangle is divided up into "tiles" of 16x16 pixels,
@@ -450,7 +413,6 @@ typedef struct {
  * and the Extract macros can be used to extract the x, y, w, h values from
  * the two bytes.
  */
-
 #define rfbHextileRaw			(1 << 0)
 #define rfbHextileBackgroundSpecified	(1 << 1)
 #define rfbHextileForegroundSpecified	(1 << 2)
@@ -464,7 +426,6 @@ typedef struct {
 #define rfbHextileExtractW(byte) (((byte) >> 4) + 1)
 #define rfbHextileExtractH(byte) (((byte) & 0xf) + 1)
 
-
 /*-----------------------------------------------------------------------------
  * SetColourMapEntries - these messages are only sent if the pixel
  * format uses a "colour map" (i.e. trueColour false) and the client has not
@@ -473,7 +434,6 @@ typedef struct {
  * FramebufferUpdateRequest.  So if the client always tells the server to use
  * trueColour then it never needs to process this type of message.
  */
-
 typedef struct {
     uint8_t type;			/* always rfbSetColourMapEntries */
     uint8_t pad;
@@ -487,48 +447,38 @@ typedef struct {
 
 #define sz_rfbSetColourMapEntriesMsg 6
 
-
-
 /*-----------------------------------------------------------------------------
  * Bell - ring a bell on the client if it has one.
  */
-
 typedef struct {
     uint8_t type;			/* always rfbBell */
 } rfbBellMsg;
 
 #define sz_rfbBellMsg 1
 
-
-
 /*-----------------------------------------------------------------------------
  * ServerCutText - the server has new text in its cut buffer.
  */
-
 typedef struct {
-    uint8_t type;			/* always rfbServerCutText */
+    uint8_t type;			/* always rfbCutText */
     uint8_t pad1;
     uint16_t pad2;
     uint32_t length;
     /* followed by char text[length] */
-} rfbServerCutTextMsg;
+} rfbCutTextMsg;
 
-#define sz_rfbServerCutTextMsg 8
-
+#define sz_rfbCutTextMsg 8
 
 /*-----------------------------------------------------------------------------
  * Union of all server->client messages.
  */
-
 typedef union {
     uint8_t type;
     rfbFramebufferUpdateMsg fu;
     rfbSetColourMapEntriesMsg scme;
     rfbBellMsg b;
-    rfbServerCutTextMsg sct;
-} rfbServerToClientMsg;
-
-
+    rfbCutTextMsg sct;
+} rfbToClientMsg;
 
 /*****************************************************************************
  *
@@ -536,12 +486,10 @@ typedef union {
  *
  *****************************************************************************/
 
-
 /*-----------------------------------------------------------------------------
  * SetPixelFormat - tell the RFB server the format in which the client wants
  * pixels sent.
  */
-
 typedef struct {
     uint8_t type;			/* always rfbSetPixelFormat */
     uint8_t pad1;
@@ -551,14 +499,12 @@ typedef struct {
 
 #define sz_rfbSetPixelFormatMsg (sz_rfbPixelFormat + 4)
 
-
 /*-----------------------------------------------------------------------------
  * FixColourMapEntries - when the pixel format uses a "colour map", fix
  * read-only colour map entries.
  *
  *    ***************** NOT CURRENTLY SUPPORTED *****************
  */
-
 typedef struct {
     uint8_t type;			/* always rfbFixColourMapEntries */
     uint8_t pad;
@@ -572,13 +518,11 @@ typedef struct {
 
 #define sz_rfbFixColourMapEntriesMsg 6
 
-
 /*-----------------------------------------------------------------------------
  * SetEncodings - tell the RFB server which encoding types we accept.  Put them
  * in order of preference, if we have any.  We may always receive raw
  * encoding, even if we don't specify it here.
  */
-
 typedef struct {
     uint8_t type;			/* always rfbSetEncodings */
     uint8_t pad;
@@ -588,13 +532,11 @@ typedef struct {
 
 #define sz_rfbSetEncodingsMsg 4
 
-
 /*-----------------------------------------------------------------------------
  * FramebufferUpdateRequest - request for a framebuffer update.  If incremental
  * is true then the client just wants the changes since the last update.  If
  * false then it wants the whole of the specified rectangle.
  */
-
 typedef struct {
     uint8_t type;			/* always rfbFramebufferUpdateRequest */
     uint8_t incremental;
@@ -605,7 +547,6 @@ typedef struct {
 } rfbFramebufferUpdateRequestMsg;
 
 #define sz_rfbFramebufferUpdateRequestMsg 10
-
 
 /*-----------------------------------------------------------------------------
  * KeyEvent - key press or release
@@ -637,7 +578,6 @@ typedef struct {
  * Meta			0xffe7
  * Alt			0xffe9
  */
-
 typedef struct {
     uint8_t type;			/* always rfbKeyEvent */
     uint8_t down;			/* true if down (press), false if up */
@@ -647,11 +587,9 @@ typedef struct {
 
 #define sz_rfbKeyEventMsg 8
 
-
 /*-----------------------------------------------------------------------------
  * PointerEvent - mouse/pen move and/or button press.
  */
-
 typedef struct {
     uint8_t type;			/* always rfbPointerEvent */
     uint8_t buttonMask;		/* bits 0-7 are buttons 1-8, 0=up, 1=down */
@@ -665,12 +603,9 @@ typedef struct {
 
 #define sz_rfbPointerEventMsg 6
 
-
-
 /*-----------------------------------------------------------------------------
  * ClientCutText - the client has new text in its cut buffer.
  */
-
 typedef struct {
     uint8_t type;			/* always rfbClientCutText */
     uint8_t pad1;
@@ -681,12 +616,9 @@ typedef struct {
 
 #define sz_rfbClientCutTextMsg 8
 
-
-
 /*-----------------------------------------------------------------------------
  * Union of all client->server messages.
  */
-
 typedef union {
     uint8_t type;
     rfbSetPixelFormatMsg spf;
@@ -701,7 +633,6 @@ typedef union {
 /*-----------------------------------------------------------------------------
  * VNCRFBproto class
  */
-
 class VNCRFBproto {
  private:
 
@@ -719,14 +650,14 @@ class VNCRFBproto {
 
  public:
 
-  VNCSockets VNC_sock;
+  VNCSockets vncsock;
 
+  VNCRFBproto(char *ServeurName, int Port, char *pswdFile);
 #if 0 //not used
   VNCRFBproto();
   VNCRFBproto(char *serveurname, int port);
   VNCRFBproto(unsigned int IPAddr, int Port, char *pswdfile);
 #endif
-  VNCRFBproto(char *ServeurName, int Port, char *pswdFile);
   ///< constructors
 
 #if 0 //not used
@@ -744,10 +675,10 @@ class VNCRFBproto {
   void setVisual32();
   ///< default is 32 BPP
 
-  bool connectToRFBServer();
+  bool connectRFB();
   ///< connects to the server
 
-  bool initialiseRFBConnection();
+  bool initRFB();
   ///< initialise the connection with this server
 
   //Send different kind of events
@@ -768,4 +699,5 @@ class VNCRFBproto {
   ///< get the used socket
 
 };
+
 #endif

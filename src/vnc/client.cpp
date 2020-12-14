@@ -31,23 +31,23 @@
 
 VNCRGB::VNCRGB()
 {
-  Red = 0;
-  Green = 0;
-  Blue = 0;
+  red = 0;
+  green = 0;
+  blue = 0;
 }
 
 VNCRGB::VNCRGB(const uint32_t &pixel)
 {
-  Red = (uint8_t) (pixel);
-  Green = (uint8_t) (pixel >> 8);
-  Blue = (uint8_t) (pixel >> 16);
+  red = (uint8_t) (pixel);
+  green = (uint8_t) (pixel >> 8);
+  blue = (uint8_t) (pixel >> 16);
 }
 
 VNCRGB::VNCRGB(uint8_t r, uint8_t g, uint8_t b)
 {
-  Red = r;
-  Green = g;
-  Blue = b;
+  red = r;
+  green = g;
+  blue = b;
 }
 
 VNCClient::VNCClient(char *server, int port, char *pswdfile) : rfbproto(server,port,pswdfile)
@@ -57,7 +57,7 @@ VNCClient::VNCClient(char *server, int port, char *pswdfile) : rfbproto(server,p
   framebuffer = NULL;
   viewonly = false;
   serverCutText = NULL;
-  newServerCutText = false;
+  newCutText = false;
 }
 
 VNCClientTextured::VNCClientTextured(char *server, int port, char *pswdfile) : VNCClient(server,port,pswdfile)
@@ -68,7 +68,7 @@ VNCClientTextured::VNCClientTextured(char *server, int port, char *pswdfile) : V
 
 bool VNCClient::VNCInit()
 {
-  if (rfbproto.connectToRFBServer() && rfbproto.initialiseRFBConnection()) {
+  if (rfbproto.connectRFB() && rfbproto.initRFB()) {
 
     rfbproto.setVisual32();
 
@@ -77,7 +77,6 @@ bool VNCClient::VNCInit()
       VNCClose();
       return false;
     }
-
     fbWidth = rfbproto.si.framebufferWidth;
     fbHeight = rfbproto.si.framebufferHeight;
     framebuffer = new VNCRGB[fbWidth * fbHeight];
@@ -97,7 +96,7 @@ bool VNCClient::VNCInit()
 
 bool VNCClientTextured::VNCInit()
 {
-  if (rfbproto.connectToRFBServer() && rfbproto.initialiseRFBConnection()) {
+  if (rfbproto.connectRFB() && rfbproto.initRFB()) {
 
     rfbproto.setVisual32();
 
@@ -106,10 +105,8 @@ bool VNCClientTextured::VNCInit()
       VNCClose();
       return false;
     }
-
     realScreenWidth = rfbproto.si.framebufferWidth;
     realScreenHeight = rfbproto.si.framebufferHeight;
-
     trace(DBG_VNC, "VNCInit: w=%d h=%d", realScreenWidth, realScreenHeight);
 
     uint16_t powerof2;
@@ -117,7 +114,6 @@ bool VNCClientTextured::VNCInit()
     fbWidth = powerof2;
     for (powerof2 = 1; powerof2 < realScreenHeight; powerof2 *= 2) ;
     fbHeight = powerof2;
-
     trace(DBG_VNC, "VNCInit: fbw=%d fbh=%d", fbWidth, fbHeight);
 
     framebuffer = new VNCRGB[fbWidth * fbHeight];
@@ -259,7 +255,6 @@ bool VNCClient::handleCR(int srcx, int srcy, int rx, int ry, int rw, int rh)
 void VNCClient::fillRect(int rx, int ry, int rw, int rh, VNCRGB pixel)
 {
   VNCRGB *dest = framebuffer + (ry * fbWidth + rx);
-
   trace(DBG_VNC, "fillRect: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
 
   for (int h = 0; h < rh; h++) {
@@ -278,22 +273,21 @@ bool VNCClient::handleRRE32(int rx, int ry, int rw, int rh)
 
   trace(DBG_VNC, "handleRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
 
-  if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&hdr, sz_rfbRREHeader))
+  if (!rfbproto.vncsock.readRFB((char *)&hdr, sz_rfbRREHeader))
     return false;
 
   hdr.nSubrects = swap32IfLE(hdr.nSubrects);
 
-  if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&pix, sizeof(pix)))
+  if (!rfbproto.vncsock.readRFB((char *)&pix, sizeof(pix)))
     return false;
 
   pixel = cardToVNCRGB(swap32IfLE(pix));
   fillRect(rx, ry, rw, rh, pixel);
 
   for (unsigned int i=0; i < hdr.nSubrects; i++) {
-    if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&pix, sizeof(pix)))
+    if (!rfbproto.vncsock.readRFB((char *)&pix, sizeof(pix)))
       return false;
-
-    if (!rfbproto.VNC_sock.ReadFromRFBServer((char*)&subrect, sz_rfbRectangle))
+    if (!rfbproto.vncsock.readRFB((char*)&subrect, sz_rfbRectangle))
       return false;
 
     subrect.x = swap16IfLE(subrect.x);
@@ -317,18 +311,18 @@ bool VNCClient::handleCoRRE32(int rx, int ry, int rw, int rh)
 
   trace(DBG_VNC, "handleCoRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
 
-  if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&hdr, sz_rfbRREHeader))
+  if (!rfbproto.vncsock.readRFB((char *)&hdr, sz_rfbRREHeader))
     return false;
 
   hdr.nSubrects = swap32IfLE(hdr.nSubrects);
 
-  if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&pix, sizeof(pix)))
+  if (!rfbproto.vncsock.readRFB((char *)&pix, sizeof(pix)))
     return false;
 
   pixel = cardToVNCRGB(swap32IfLE(pix));
   fillRect(rx, ry, rw, rh, pixel);
 
-  if (!rfbproto.VNC_sock.ReadFromRFBServer(rfbbuffer, hdr.nSubrects * 8))
+  if (!rfbproto.vncsock.readRFB(rfbbuffer, hdr.nSubrects * 8))
     return false;
 
   ptr = (uint8_t *) rfbbuffer;
@@ -373,10 +367,10 @@ bool VNCClient::handleHextile32(int rx, int ry, int rw, int rh)
       if (ry+rh - y < 16)
 	h = ry+rh - y;
 
-      if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&subencoding, 1))
+      if (!rfbproto.vncsock.readRFB((char *)&subencoding, 1))
 	return false;
       if (subencoding & rfbHextileRaw) {
-	if (!rfbproto.VNC_sock.ReadFromRFBServer(rfbbuffer, w * h * 4))
+	if (!rfbproto.vncsock.readRFB(rfbbuffer, w * h * 4))
 	  return false;
 	
 	handleRAW32(x, y, w, h);
@@ -384,25 +378,25 @@ bool VNCClient::handleHextile32(int rx, int ry, int rw, int rh)
       }
 
       if (subencoding & rfbHextileBackgroundSpecified)
-	if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&bg, sizeof(bg)))
+	if (!rfbproto.vncsock.readRFB((char *)&bg, sizeof(bg)))
 	  return false;
 
       pixel = VNCRGB(swap32IfLE(bg));
       fillRect(x, y, w, h, pixel);
 
       if (subencoding & rfbHextileForegroundSpecified)
-	if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&fg, sizeof(fg)))
+	if (!rfbproto.vncsock.readRFB((char *)&fg, sizeof(fg)))
 	  return false;
       if (!(subencoding & rfbHextileAnySubrects))
 	continue;
 
-      if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&nSubrects, 1))
+      if (!rfbproto.vncsock.readRFB((char *)&nSubrects, 1))
 	return false;
 
       ptr = (uint8_t *) rfbbuffer;
 
       if (subencoding & rfbHextileSubrectsColoured) {
-	if (!rfbproto.VNC_sock.ReadFromRFBServer(rfbbuffer, nSubrects * 6))
+	if (!rfbproto.vncsock.readRFB(rfbbuffer, nSubrects * 6))
 	  return false;
 
 	for (i=0; i < nSubrects; i++) {
@@ -418,7 +412,7 @@ bool VNCClient::handleHextile32(int rx, int ry, int rw, int rh)
 	}
       }
       else {
-	if (!rfbproto.VNC_sock.ReadFromRFBServer(rfbbuffer, nSubrects * 2))
+	if (!rfbproto.vncsock.readRFB(rfbbuffer, nSubrects * 2))
 	  return false;
 
 	for (i=0; i < nSubrects; i++) {
@@ -437,23 +431,23 @@ bool VNCClient::handleHextile32(int rx, int ry, int rw, int rh)
   return true;
 }
 
-bool VNCClient::handleRFBServerMessage()
+bool VNCClient::handleRFBMessage()
 {
-  rfbServerToClientMsg msg;
+  rfbToClientMsg msg;
 
   if (!framebuffer)
     return false;
-  if (!rfbproto.VNC_sock.ReadFromRFBServer((char *) &msg, 1))
+  if (!rfbproto.vncsock.readRFB((char *) &msg, 1))
     return false;
 
   switch (msg.type) {
 
   case rfbSetColourMapEntries:
   {
-    error("handleRFBServerMessage: rfbSetColourMapEntries not supported yet");
+    error("handleRFBMessage: rfbSetColourMapEntries not supported yet");
     uint16_t rgb[3];
 
-    if (!rfbproto.VNC_sock.ReadFromRFBServer(((char *)&msg) + 1,
+    if (!rfbproto.vncsock.readRFB(((char *)&msg) + 1,
 			   sz_rfbSetColourMapEntriesMsg - 1))
       return false;
 
@@ -461,7 +455,7 @@ bool VNCClient::handleRFBServerMessage()
     msg.scme.nColours = swap16IfLE(msg.scme.nColours);
 
     for (int i=0; i < msg.scme.nColours; i++) {
-      if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)rgb, 6))
+      if (!rfbproto.vncsock.readRFB((char *)rgb, 6))
 	return false;
     }
     break;
@@ -469,20 +463,20 @@ bool VNCClient::handleRFBServerMessage()
 
   case rfbFramebufferUpdate:
   {
-    //trace(DBG_VNC, "handleRFBServerMessage: rfbFramebufferUpdate");
+    //trace(DBG_VNC, "handleRFBMessage: rfbFramebufferUpdate");
 
     rfbFramebufferUpdateRectHeader rect;
-    int linesToRead;
+    int linestoread;
     int bytesPerLine;
     int i;
 
-    if (!rfbproto.VNC_sock.ReadFromRFBServer(((char *)&msg.fu) + 1, sz_rfbFramebufferUpdateMsg - 1))
+    if (!rfbproto.vncsock.readRFB(((char *)&msg.fu) + 1, sz_rfbFramebufferUpdateMsg - 1))
       return false;
 
     msg.fu.nRects = swap16IfLE(msg.fu.nRects);
 
     for (i=0; i < msg.fu.nRects; i++) {
-      if (!rfbproto.VNC_sock.ReadFromRFBServer((char *)&rect, sz_rfbFramebufferUpdateRectHeader))
+      if (!rfbproto.vncsock.readRFB((char *)&rect, sz_rfbFramebufferUpdateRectHeader))
 	return false;
 
       rect.r.x = swap16IfLE(rect.r.x);
@@ -507,27 +501,27 @@ bool VNCClient::handleRFBServerMessage()
 
       case rfbEncodingRaw:
 	bytesPerLine = rect.r.w * rfbproto.pixFormat.bitsPerPixel / 8;
-	linesToRead = sizeof(rfbbuffer) / bytesPerLine;
+	linestoread = sizeof(rfbbuffer) / bytesPerLine;
 
-        //trace(DBG_VNC, "handleRFBServerMessage: rfbFramebufferUpdate rfbEncodingRaw bytesPerLine=%d linesToRead=%d", bytesPerLine, linesToRead);
+        //trace(DBG_VNC, "handleRFBMessage: rfbFramebufferUpdate rfbEncodingRaw bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
 
 	while (rect.r.h > 0) {
-	  if (linesToRead > rect.r.h)
-	    linesToRead = rect.r.h;
-	  if (!rfbproto.VNC_sock.ReadFromRFBServer(rfbbuffer,bytesPerLine * linesToRead))
+	  if (linestoread > rect.r.h)
+	    linestoread = rect.r.h;
+	  if (!rfbproto.vncsock.readRFB(rfbbuffer,bytesPerLine * linestoread))
 	    return false;
 
           if (!handleRAW32(rect.r.x, rect.r.y, rect.r.w, rect.r.h))
 	    return false;
-	  rect.r.h -= linesToRead;
-	  rect.r.y += linesToRead;
+	  rect.r.h -= linestoread;
+	  rect.r.y += linestoread;
 	}
 	break;
 
       case rfbEncodingCopyRect:
       {
 	rfbCopyRect cr;
-	if (!rfbproto.VNC_sock.ReadFromRFBServer((char *) &cr, sz_rfbCopyRect))
+	if (!rfbproto.vncsock.readRFB((char *) &cr, sz_rfbCopyRect))
 	  return false;
 
 	cr.srcX = swap16IfLE(cr.srcX);
@@ -565,8 +559,8 @@ bool VNCClient::handleRFBServerMessage()
     //XBell(dpy,100);
     break;
 
-  case rfbServerCutText:
-    if (!rfbproto.VNC_sock.ReadFromRFBServer(((char *) &msg) + 1, sz_rfbServerCutTextMsg - 1))
+  case rfbCutText:
+    if (!rfbproto.vncsock.readRFB(((char *) &msg) + 1, sz_rfbCutTextMsg - 1))
       return false;
 
     msg.sct.length = swap32IfLE(msg.sct.length);
@@ -575,11 +569,11 @@ bool VNCClient::handleRFBServerMessage()
     serverCutText = NULL;
     serverCutText = new char[msg.sct.length+1];
 
-    if (!rfbproto.VNC_sock.ReadFromRFBServer(serverCutText, msg.sct.length))
+    if (!rfbproto.vncsock.readRFB(serverCutText, msg.sct.length))
       return false;
 
     serverCutText[msg.sct.length] = 0;
-    newServerCutText = true;
+    newCutText = true;
     break;
 
   default:

@@ -47,7 +47,7 @@
 
 int endianTest = 1;
 char *serverCutText = NULL;
-bool newServerCutText = false;
+bool newCutText = false;
 
 /* note that the CoRRE encoding uses this buffer and assumes it is big enough
    to hold 255 * 255 * 32 bits -> 260100 bytes.  640*480 = 307200 bytes */
@@ -56,7 +56,7 @@ bool newServerCutText = false;
 
 /** Constructors */
 VNCRFBproto::VNCRFBproto(char *Servername, int Port, char* pswdFile)
- : VNC_sock(Servername, Port)
+ : vncsock(Servername, Port)
 {
   ShareDesktop = true;
   buffered = 0;
@@ -66,18 +66,18 @@ VNCRFBproto::VNCRFBproto(char *Servername, int Port, char* pswdFile)
 #endif //not used
 }
 
-/** ConnectToRFBServer */
-bool VNCRFBproto::connectToRFBServer()
+/** connectRFB server */
+bool VNCRFBproto::connectRFB()
 {
-  int sock = VNC_sock.ConnectToTcpAddr();
+  int sock = vncsock.connectToTcp();
   if (sock < 0) {
-    error("connectToRFBServer: unable to connect to VNC server");
+    error("connectRFB: unable to connect to RFB server");
     return false;
   }
-  return VNC_sock.SetNonBlocking();
+  return vncsock.setNonBlocking();
 }
 
-bool VNCRFBproto::initialiseRFBConnection()
+bool VNCRFBproto::initRFB()
 {
   rfbProtocolVersionMsg pv;
   rfbClientInitMsg ci;
@@ -86,39 +86,39 @@ bool VNCRFBproto::initialiseRFBConnection()
   uint32_t authScheme, reasonLen, authResult;
   uint8_t challenge[CHALLENGESIZE];
 
-  trace(DBG_VNC, "initialiseRFBConnection: initializing RFB connection");
+  trace(DBG_VNC, "initRFB: initializing RFB connection");
 
-  if (!VNC_sock.ReadFromRFBServer(pv, sz_rfbProtocolVersionMsg))
+  if (!vncsock.readRFB(pv, sz_rfbProtocolVersionMsg))
     return false;
 
   pv[sz_rfbProtocolVersionMsg] = 0;
 
   if (sscanf(pv, rfbProtocolVersionFormat, &major, &minor) != 2) {
-    error("initialiseRFBConnection: not a valid VNC server");
+    error("initRFB: not a valid VNC server");
     return false;
   }
-  trace(DBG_VNC, "initialiseRFBConnection: VNC server supports protocol version %d.%d (viewer %d.%d)",
+  trace(DBG_VNC, "initRFB: VNC server supports protocol version %d.%d (viewer %d.%d)",
 	major, minor, rfbProtocolMajorVersion, rfbProtocolMinorVersion);
 
   major = rfbProtocolMajorVersion;
   minor = rfbProtocolMinorVersion;
   sprintf(pv, rfbProtocolVersionFormat, major, minor);
 
-  if (!VNC_sock.WriteExact(pv, sz_rfbProtocolVersionMsg))
+  if (!vncsock.writeExact(pv, sz_rfbProtocolVersionMsg))
     return false;
-  if (!VNC_sock.ReadFromRFBServer((char *) &authScheme, 4))
+  if (!vncsock.readRFB((char *) &authScheme, 4))
     return false;
 
   authScheme = (uint32_t) swap32IfLE(authScheme);
   switch (authScheme) {
 
   case rfbConnFailed:
-    if (!VNC_sock.ReadFromRFBServer((char *) &reasonLen, 4))
+    if (!vncsock.readRFB((char *) &reasonLen, 4))
       return false;
     reasonLen = swap32IfLE(reasonLen);
     reason = new char[reasonLen];
 
-    if (!VNC_sock.ReadFromRFBServer(reason, reasonLen))
+    if (!vncsock.readRFB(reason, reasonLen))
       return false;
     error("VNC connection failed: %.*s", (int)reasonLen, reason);
     delete[] reason;
@@ -129,7 +129,7 @@ bool VNCRFBproto::initialiseRFBConnection()
     break;
 
   case rfbVncAuth:
-    if (!VNC_sock.ReadFromRFBServer((char *) challenge, CHALLENGESIZE))
+    if (!vncsock.readRFB((char *) challenge, CHALLENGESIZE))
       return false;
 
     //look for a password stored in passwordFile
@@ -139,7 +139,7 @@ bool VNCRFBproto::initialiseRFBConnection()
       return false;
     }
     if (! passwd || (! strlen(passwd))) {
-      error("initialiseRFBConnection: reading password failed");
+      error("initRFB: reading password failed");
       return false;
     }
     if (strlen(passwd) > 8)
@@ -151,18 +151,18 @@ bool VNCRFBproto::initialiseRFBConnection()
     for (int i = strlen(passwd); i >= 0; i--)
       passwd[i] = '\0';
 
-    if (!VNC_sock.WriteExact((char *) challenge, CHALLENGESIZE))
+    if (!vncsock.writeExact((char *) challenge, CHALLENGESIZE))
       return false;
-    if (!VNC_sock.ReadFromRFBServer((char *) &authResult, 4))
+    if (!vncsock.readRFB((char *) &authResult, 4))
       return false;
 
     authResult = swap32IfLE(authResult);
     switch (authResult) {
     case rfbVncAuthOK:
-      trace(DBG_VNC, "initialiseRFBConnection: VNC authentication succeeded");
+      trace(DBG_VNC, "initRFB: VNC authentication succeeded");
       break;
     case rfbVncAuthFailed:
-      error("initialiseRFBConnection: VNC authentication failed");
+      error("initRFB: VNC authentication failed");
       return false;
     case rfbVncAuthTooMany:
       error("VNC authentication failed - too many tries");
@@ -180,9 +180,9 @@ bool VNCRFBproto::initialiseRFBConnection()
 
   ci.shared = (ShareDesktop ? 1 : 0);
 
-  if (!VNC_sock.WriteExact((char *)&ci, sz_rfbClientInitMsg))
+  if (!vncsock.writeExact((char *)&ci, sz_rfbClientInitMsg))
     return false;
-  if (!VNC_sock.ReadFromRFBServer((char *)&si, sz_rfbServerInitMsg))
+  if (!vncsock.readRFB((char *)&si, sz_rfbServerInitMsg))
     return false;
 
   si.framebufferWidth = swap16IfLE(si.framebufferWidth);
@@ -193,7 +193,7 @@ bool VNCRFBproto::initialiseRFBConnection()
   si.nameLength = swap32IfLE(si.nameLength);
 
   desktopName = new char[si.nameLength + 1];
-  if (!VNC_sock.ReadFromRFBServer(desktopName, si.nameLength)) {
+  if (!vncsock.readRFB(desktopName, si.nameLength)) {
     delete[] desktopName;
     desktopName = NULL;
     return false;
@@ -203,11 +203,10 @@ bool VNCRFBproto::initialiseRFBConnection()
   delete[] desktopName;
   desktopName = NULL;
 
-  trace(DBG_VNC, "initialiseRFBConnection: connected to VNC server, using protocol version %d.%d",
+  trace(DBG_VNC, "initRFB: connected to VNC server, using protocol version %d.%d",
 	rfbProtocolMajorVersion, rfbProtocolMinorVersion);
-  trace(DBG_VNC, "initialiseRFBConnection: VNC server default format:");
+  trace(DBG_VNC, "initRFB: VNC server default format:");
   printPixelFormat(&si.format);
-
   return true;
 }
 
@@ -225,14 +224,14 @@ bool VNCRFBproto::setFormatAndEncodings()
   spf.format.greenMax = swap16IfLE(spf.format.greenMax);
   spf.format.blueMax = swap16IfLE(spf.format.blueMax);
 
-  if (!VNC_sock.WriteExact((char *)&spf, sz_rfbSetPixelFormatMsg))
+  if (!vncsock.writeExact((char *)&spf, sz_rfbSetPixelFormatMsg))
     return false;
 
   se->type = rfbSetEncodings;
   se->nEncodings = 0;
 
-  if (VNC_sock.SameMachine()) {
-    trace(DBG_VNC, "Same machine: preferring raw encoding");
+  if (vncsock.sameMachine()) {
+    trace(DBG_VNC, "same machine: preferring raw encoding");
     encs[se->nEncodings++] = swap32IfLE(rfbEncodingRaw);
   }
   encs[se->nEncodings++] = swap32IfLE(rfbEncodingCopyRect);
@@ -243,9 +242,8 @@ bool VNCRFBproto::setFormatAndEncodings()
   len = sz_rfbSetEncodingsMsg + se->nEncodings * 4;
   se->nEncodings = swap16IfLE(se->nEncodings);
 
-  if (!VNC_sock.WriteExact(buf, len))
+  if (!vncsock.writeExact(buf, len))
     return false;
-
   return true;
 }
 
@@ -266,9 +264,8 @@ bool VNCRFBproto::sendFramebufferUpdateRequest(int x, int y, int w, int h, bool 
   fur.w = swap16IfLE(w);
   fur.h = swap16IfLE(h);
 
-  if (!VNC_sock.WriteExact((char *)&fur, sz_rfbFramebufferUpdateRequestMsg))
+  if (!vncsock.writeExact((char *)&fur, sz_rfbFramebufferUpdateRequestMsg))
     return false;
-
   return true;
 }
 
@@ -282,7 +279,7 @@ bool VNCRFBproto::sendPointerEvent(int x, int y, int buttonMask)
   if (y < 0) y = 0;
   pe.x = swap16IfLE(x);
   pe.y = swap16IfLE(y);
-  return VNC_sock.WriteExact((char *)&pe, sz_rfbPointerEventMsg);
+  return vncsock.writeExact((char *)&pe, sz_rfbPointerEventMsg);
 }
 
 bool VNCRFBproto::sendKeyEvent(uint32_t key, bool down)
@@ -292,7 +289,7 @@ bool VNCRFBproto::sendKeyEvent(uint32_t key, bool down)
   ke.type = rfbKeyEvent;
   ke.down = down ? 1 : 0;
   ke.key = swap32IfLE(key);
-  return VNC_sock.WriteExact((char *)&ke, sz_rfbKeyEventMsg);
+  return vncsock.writeExact((char *)&ke, sz_rfbKeyEventMsg);
 }
 
 bool VNCRFBproto::sendClientCutText(char *str, int len)
@@ -305,8 +302,8 @@ bool VNCRFBproto::sendClientCutText(char *str, int len)
   cct.type = rfbClientCutText;
   cct.length = swap32IfLE(len);
 
-  return  (VNC_sock.WriteExact((char *)&cct, sz_rfbClientCutTextMsg) &&
-	   VNC_sock.WriteExact(str, len));
+  return  (vncsock.writeExact((char *)&cct, sz_rfbClientCutTextMsg) &&
+	   vncsock.writeExact(str, len));
 }
 
 /**
@@ -356,7 +353,7 @@ void VNCRFBproto::printPixelFormat(rfbPixelFormat *format)
 
 int VNCRFBproto::getSock()
 {
-  return VNC_sock.GetSock();
+  return vncsock.getSock();
 }
 
 #endif

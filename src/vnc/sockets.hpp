@@ -29,7 +29,7 @@
 class VNCSockets {
 
  private:
-  char ServerName[MAXHOSTNAMELEN];
+  char servername[MAXHOSTNAMELEN];
   ///< name of the server
 
   uint16_t port;
@@ -46,13 +46,13 @@ class VNCSockets {
   uint8_t *bufoutptr;
   ///< buffer
 
-  bool StringToIPAddr();
+  bool stringToIP();
   ///< stores the IP address of the server in ipaddr, returns false if unknown
 
  public:
   VNCSockets() {};
   VNCSockets(const char *_servername, uint16_t _port);
-  VNCSockets(uint32_t IPAddr, uint16_t _port);
+  VNCSockets(uint32_t ipaddr, uint16_t _port);
   ///< constructors
 
 #if 0 //unused
@@ -60,24 +60,24 @@ class VNCSockets {
   ///< Print out the contents of a packet for debugging.
 #endif
 
-  signed int ConnectToTcpAddr();
+  signed int connectToTcp();
   /**<
    * Connects to the given TCP port.
    * Returns the socket if connected, -1 if connection failed */
 
-  bool SameMachine();
+  bool sameMachine();
   ///< Test if the other end of a socket is on the same machine.
 
-  bool SetNonBlocking();
+  bool setNonBlocking();
   ///< sets a socket into non-blocking mode.
 
-  bool ReadFromRFBServer(char *out, uint32_t n);
+  bool readRFB(char *out, uint32_t n);
   ///< Read bytes from the sever and stores it in the buffer
 
-  bool WriteExact(char *buf, int n);
+  bool writeExact(char *buf, int n);
   ///< Write an exact number of bytes, and don't return until you've sent them.
 
-  int GetSock();
+  int getSock();
   ///< get the socket used
 };
 

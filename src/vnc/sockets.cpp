@@ -46,26 +46,26 @@
 
 VNCSockets::VNCSockets(const char *_servername, uint16_t _port=5901)
 {
-  strcpy(ServerName, _servername);
+  strcpy(servername, _servername);
   port = _port;
   buffered = 0;
   bufoutptr = buf;
   rfbsock = -1;
-  if (! StringToIPAddr()) error("VNCSockets: can't resolve %s", _servername);
+  if (! stringToIP()) error("VNCSockets: can't resolve %s", _servername);
 }
 
-VNCSockets::VNCSockets(uint32_t IPAddr, uint16_t _port=5901)
+VNCSockets::VNCSockets(uint32_t _ipaddr, uint16_t _port=5901)
 {
   error("VNCSockets::VNCSockets: 3 not used, port=%d", _port);
   port = _port;
   buffered = 0;
   bufoutptr = buf;
   rfbsock = -1;
-  ipaddr = IPAddr;
+  ipaddr = _ipaddr;
 }
 
 /*
- * ReadFromRFBServer is called whenever we want to read some data from the RFB
+ * ReadFromRFB is called whenever we want to read some data from the RFB
  * server.  It is non-trivial for two reasons:
  *
  * 1. For efficiency it performs some intelligent buffering, avoiding invoking
@@ -81,7 +81,7 @@ VNCSockets::VNCSockets(uint32_t IPAddr, uint16_t _port=5901)
 /*
  * Read bytes from the server
  */
-bool VNCSockets::ReadFromRFBServer(char *out, uint32_t n)
+bool VNCSockets::readRFB(char *out, uint32_t n)
 {
   if (n <= buffered) {
     memcpy(out, bufoutptr, n);
@@ -145,7 +145,7 @@ bool VNCSockets::ReadFromRFBServer(char *out, uint32_t n)
 /*
  * Write an exact number of bytes, and don't return until you've sent them.
  */
-bool VNCSockets::WriteExact(char *buf, int n)
+bool VNCSockets::writeExact(char *buf, int n)
 {
   for (int i=0; i < n; ) {
     int j = write(rfbsock, buf + i, (n - i));
@@ -176,19 +176,19 @@ bool VNCSockets::WriteExact(char *buf, int n)
 }
 
 /*
- * ConnectToTcpAddr connects to the given TCP port.
+ * connectToTcp connects to the given TCP port.
  */
-int VNCSockets::ConnectToTcpAddr()
+int VNCSockets::connectToTcp()
 {
-  if ((rfbsock = Socket::openStream()) < 0) { error("ConnectToTcpAddr: socket"); return -1; }
+  if ((rfbsock = Socket::openStream()) < 0) { error("connectToTcp: socket"); return -1; }
 
   struct sockaddr_in sa;
   sa.sin_family = AF_INET;
   sa.sin_port = htons(port);
   sa.sin_addr.s_addr = htonl(ipaddr);
 
-  trace(DBG_VNC, "ConnectToTcpAddr: connecting to %s:%i %x",
-                 ServerName, ntohs(sa.sin_port), ntohl(sa.sin_addr.s_addr));
+  trace(DBG_VNC, "connectToTcp: connecting to %s:%i %x",
+                 servername, ntohs(sa.sin_port), ntohl(sa.sin_addr.s_addr));
 
   struct timeval timeout;      
   timeout.tv_sec = 10;
@@ -198,35 +198,35 @@ int VNCSockets::ConnectToTcpAddr()
     error("setsockopt failed\n");
   if (connect(rfbsock, (const struct sockaddr *) &sa, sizeof(sa)) < 0) {
     perror("VNC: connect");
-    error("ConnectToTcpAddr: %s (%d) sock=%d", strerror(errno), errno, rfbsock);
+    error("connectToTcp: %s (%d) sock=%d", strerror(errno), errno, rfbsock);
     Socket::closeStream(rfbsock);
     return -1;
   }
   if (Socket::tcpNoDelay(rfbsock) < 0)
-    error("ConnectToTcpAddr: TCP_NODELAY %s (%d)", strerror(errno), errno);
+    error("connectToTcp: TCP_NODELAY %s (%d)", strerror(errno), errno);
   return rfbsock;
 }
 
 /*
  * SetNonBlocking sets a socket into non-blocking mode.
  */
-bool VNCSockets::SetNonBlocking()
+bool VNCSockets::setNonBlocking()
 {
   if (Socket::setNoBlocking(rfbsock) < 0) return false;
   return true;
 }
 
 /*
- * StringToIPAddr - convert a host string to an IP address.
+ * stringToIP - convert a host string to an IP address.
  */
-bool VNCSockets::StringToIPAddr()
+bool VNCSockets::stringToIP()
 {
   struct hostent *hp;
 
-  if ((hp = my_gethostbyname(ServerName, AF_INET)) != NULL) {
+  if ((hp = my_gethostbyname(servername, AF_INET)) != NULL) {
     memcpy(&ipaddr, hp->h_addr, hp->h_length);
     ipaddr = ntohl(ipaddr);
-    trace(DBG_VNC, "StringToIPAddr: ServerName=%s (%x)", ServerName, ipaddr);
+    trace(DBG_VNC, "stringToIP: servername=%s (%x)", servername, ipaddr);
     return true;
   }
   return false;
@@ -235,7 +235,7 @@ bool VNCSockets::StringToIPAddr()
 /*
  * Test if the other end of a socket is on the same machine.
  */
-bool VNCSockets::SameMachine()
+bool VNCSockets::sameMachine()
 {
   struct sockaddr_in peersa, mysa;
   socklen_t slen = sizeof(struct sockaddr_in);
@@ -257,7 +257,7 @@ void VNCSockets::PrintInHex(char *buf, int len)
 
   str[16] = 0;
 
-  trace(DBG_VNC, "ReadExact: ");
+  trace(DBG_VNC, "readExact: ");
 
   for (i = 0; i < len; i++) {
     if ((i % 16 == 0) && (i != 0))
@@ -285,7 +285,7 @@ void VNCSockets::PrintInHex(char *buf, int len)
 /*
  * Returns the socket used
  */
-int VNCSockets::GetSock()
+int VNCSockets::getSock()
 {
   return rfbsock;
 }

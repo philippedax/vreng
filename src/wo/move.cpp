@@ -44,7 +44,6 @@ void changeKey(int k_id, bool pressed, time_t sec, time_t usec)
     warning("changeKey: invalid k_id = %d", k_id);
     return;
   }
-
   if (localuser) {
     if (localuser->kpressed[k_id] != pressed) {
       localuser->kpressed[k_id] = pressed;
@@ -71,7 +70,7 @@ void User::clearKeyTab()
 }
 
 /* update the keydifftime arrays */
-void User::updateKeysTimes(time_t sec, time_t usec)
+void User::updateKeys(time_t sec, time_t usec)
 {
   for (int k=0; k < MAXKEYS; k++) {
     if (kpressed[k]) {
@@ -229,7 +228,7 @@ void User::changePosition(const float lastings[])
     if (man)
       man->pos.ay = -a;
     if (guy) {
-      guy->pos.ax = -a;  //orig ay
+      guy->pos.ax = -a;	//orig ay
       guy->setAniming(true);
       guy->setFlying(true);
     }
@@ -263,6 +262,7 @@ float WObject::diffTime(time_t sec, time_t usec)
 void WObject::enableImposedMovement()
 {
   struct timeval t;
+
   gettimeofday(&t, NULL);
   move.sec = t.tv_sec;
   move.usec = t.tv_usec;
@@ -288,6 +288,7 @@ void WObject::stopImposedMovement()
 void WObject::enablePermanentMovement()
 {
   struct timeval t;
+
   gettimeofday(&t, NULL);
   move.perm_sec = t.tv_sec;
   move.perm_usec = t.tv_usec;
@@ -316,7 +317,7 @@ void WObject::checkVicinity(WObject *pold)
   }
 }
 
-void User::elementaryUserMovement(const float tabdt[])
+void User::elemUserMovement(const float tabdt[])
 {
   WObject *pold = new WObject();
   copyPositionAndBB(pold);  // keep oldpos for intersection
@@ -330,11 +331,10 @@ void User::elementaryUserMovement(const float tabdt[])
 void User::userMovement(time_t sec, time_t usec)
 {
   Pos oldpos = pos;
-  copyPosAndBB(oldpos);  // keep oldpos for network
-
   float keylastings[MAXKEYS];
 
-  updateKeysTimes(sec, usec);
+  copyPosAndBB(oldpos);  // keep oldpos for network
+  updateKeys(sec, usec);
   updateTime(keylastings);
 
   float lasting = -1.;
@@ -359,7 +359,7 @@ void User::userMovement(time_t sec, time_t usec)
           keylastings[k] = 0;
         }
       }
-      elementaryUserMovement(tabdt);
+      elemUserMovement(tabdt);
     }
     updateToNetwork(oldpos);
     updatePositionAndGrid(oldpos);
@@ -367,7 +367,7 @@ void User::userMovement(time_t sec, time_t usec)
   }
 }
 
-void WObject::elementaryImposedMovement(float dt)
+void WObject::elemImposedMovement(float dt)
 {
   if (isBehavior(COLLIDE_NEVER)) {
     changePosition(dt);  // handled by each object
@@ -393,7 +393,7 @@ void WObject::imposedMovement(time_t sec, time_t usec)
   copyPosAndBB(oldpos);  // keep oldpos for network
 
   float lasting = -1;
-  updateTime(sec, usec, &lasting);  // handled by each object
+  updateTime(sec, usec, &lasting);  // handled by each object only for imposed movements
 
   if (lasting > MIN_LASTING) {
     float maxlast = getLasting();
@@ -411,7 +411,7 @@ void WObject::imposedMovement(time_t sec, time_t usec)
         tabdt = lasting;
         lasting = 0;
       }
-      elementaryImposedMovement(tabdt);
+      elemImposedMovement(tabdt);
       if (isBehavior(NO_ELEMENTARY_MOVE)) return;  // do movement only once
     }
   }
@@ -420,7 +420,7 @@ void WObject::imposedMovement(time_t sec, time_t usec)
   updatePositionAndGrid(oldpos);
 }
 
-void WObject::elementaryPermanentMovement(float dt)
+void WObject::elemPermanentMovement(float dt)
 {
   if (isBehavior(COLLIDE_NEVER)) {
     changePermanent(dt);  // handled by each object
@@ -465,7 +465,7 @@ void WObject::permanentMovement(time_t sec, time_t usec)
           tabdt = lasting;
           lasting = 0;
         }
-        elementaryPermanentMovement(tabdt);
+        elemPermanentMovement(tabdt);
         if (isBehavior(NO_ELEMENTARY_MOVE)) return;  // do movement only once
       }
     }

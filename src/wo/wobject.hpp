@@ -529,7 +529,7 @@ public:
   virtual void imposedMovement(time_t sec, time_t usec);
   /**< Handles an object movement. */
 
-  virtual void elementaryImposedMovement(float lasting);
+  virtual void elemImposedMovement(float lasting);
   /**< Handles an elementary object movement. */
 
   virtual void enableImposedMovement();
@@ -556,8 +556,8 @@ public:
   virtual void permanentMovement(time_t sec, time_t usec);
   /**< Handles a permanent object movement. */
 
-  virtual void elementaryPermanentMovement(float lasting);
-  /**< Handles an elementary  permanent object movement. */
+  virtual void elemPermanentMovement(float lasting);
+  /**< Handles an elementary permanent object movement. */
 
   virtual void setLasting(float maxlast);
   /**< Sets the max lasting time of an object. */

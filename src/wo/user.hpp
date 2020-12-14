@@ -208,7 +208,7 @@ public:
   virtual void clearKeyTab();
   /**< Clears keys times array. */
 
-  virtual void updateKeysTimes(time_t sec, time_t usec);
+  virtual void updateKeys(time_t sec, time_t usec);
   /**< Updates the keydifftime arrays. */
 
   virtual void changePositionOneDir(const int move_type, const float last);
@@ -220,7 +220,7 @@ public:
   virtual void changePosition(const float lasting[]);
   /**< Does the motion in each direction. */
 
-  virtual void elementaryUserMovement(const float lastings[]);
+  virtual void elemUserMovement(const float lastings[]);
   /**< User motion limited by the maxlast. */
 
   virtual void userMovement(time_t sec, time_t usec);

@@ -40,9 +40,9 @@ class VNCRGB {
   VNCRGB(const uint32_t &pixel);
   VNCRGB(uint8_t red, uint8_t green, uint8_t blue);
 
-  uint8_t Red;
-  uint8_t Green;
-  uint8_t Blue;
+  uint8_t red;
+  uint8_t green;
+  uint8_t blue;
 };
 
 
@@ -86,7 +86,7 @@ class VNCClient {
   ///< constructor
 
   char *serverCutText;
-  bool newServerCutText;
+  bool newCutText;
   ///< for now, public attributes we keep to handle server cut texts
 
   VNCRGB *framebuffer;
@@ -116,7 +116,7 @@ class VNCClient {
   bool sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incremental);
   ///< messages from client to server
 
-  bool handleRFBServerMessage();
+  bool handleRFBMessage();
   ///< handle the messages from the server
 };
 
