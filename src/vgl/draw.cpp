@@ -118,28 +118,7 @@ void Draw::ellipse(GLfloat xr, GLfloat yr, uint8_t style)
 }
 
 /*
- * Draw a bounding box
- */
-void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
-{
-  int tex[6] = {-1,-1,-1,-1,-1,-1};
-  GLfloat texrep[6][2] = { {1,1}, {1,1}, {1,1}, {1,1}, {1,1}, {1,1} };
-
-  glPushMatrix();
-  glLineWidth(2);
-  glEnable(GL_LINE_STIPPLE);
-  glDisable(GL_LIGHTING);
-  glLineStipple(1, 0x3333);
-  glColor3f(1, 0, 1); // magenta
-  Draw::box(width, depth, height, tex, texrep, 1);
-  //dax Draw::box(width, depth, height);
-  glEnable(GL_LIGHTING);
-  glDisable(GL_LINE_STIPPLE);
-  glPopMatrix();
-}
-
-/*
- * Draw a box (taken from Mesa)
+ * Draws a box (taken from Mesa)
  */
 void Draw::box(GLfloat width, GLfloat depth, GLfloat height, const int textures[], GLfloat rtx[6][2], uint8_t style)
 {
@@ -222,6 +201,7 @@ void Draw::box(GLfloat width, GLfloat depth, GLfloat height, const int textures[
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
       }
     }
+
     glBegin(drawtype);
     for (int j=0; j<4; j++) {
       if (textures[i] > 0)
@@ -230,6 +210,7 @@ void Draw::box(GLfloat width, GLfloat depth, GLfloat height, const int textures[
       vertex3fv(&v[faces[i][j]][0]);
     }
     glEnd();
+
     if (textures[i] > 0)
       glDisable(GL_TEXTURE_2D);
   }
@@ -284,6 +265,27 @@ void Draw::box(GLfloat width, GLfloat depth, GLfloat height)
   }
 }
 
+/*
+ * Draws a bounding box
+ */
+void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
+{
+  int tex[6] = {-1,-1,-1,-1,-1,-1};
+  GLfloat texrep[6][2] = { {1,1}, {1,1}, {1,1}, {1,1}, {1,1}, {1,1} };
+
+  glPushMatrix();
+  glLineWidth(2);
+  glEnable(GL_LINE_STIPPLE);
+  glDisable(GL_LIGHTING);
+  glLineStipple(1, 0x3333);
+  glColor3f(1, 0, 1); // magenta
+  //dax Draw::box(width, depth, height, tex, texrep, 1);
+  Draw::box(width, depth, height);
+  glEnable(GL_LIGHTING);
+  glDisable(GL_LINE_STIPPLE);
+  glPopMatrix();
+}
+
 void Draw::pyramid(GLfloat _side, GLfloat height, uint8_t style)
 {
   GLfloat side = _side/2;
@@ -306,7 +308,6 @@ void Draw::pyramid(GLfloat _side, GLfloat height, uint8_t style)
    glVertex3f(-side, +side, 0);
   glEnd();
 }
-
 
 void Draw::octagon(GLfloat side, GLfloat height, uint8_t style)
 {

@@ -65,7 +65,7 @@ private:
   uint8_t *pixmap;		///< pixmap of the video
   class Avi *avi;		///< avi instance
 #if HAVE_LIBMPEG
-  char *cachempeg;		///< name of the mpeg file in cache
+  char *filempeg;		///< name of the mpeg file in cache
   ImageDesc *imgmpeg;		///< this is a structure used by mpeg_lib to
 				///< store infos, see mpeg_lib for more info
 #endif

@@ -23,14 +23,14 @@
 #include "texture.hpp"	// getCurrent
 #include "cache.hpp"	// download
 #include "file.hpp"	// openFile
-#include "pref.hpp"
+#include "pref.hpp"	// quality
 #include "format.hpp"	// Format
 #include "theme.hpp"	// theme.playvideo
 #include "avi.hpp"	// Avi
 #if HAVE_LIBMPEG
 #include <mpeg.h>	// /usr/local/include
 #else
-#include "mpeg.h"	// local: src/extra/mpeg_lib
+#include "mpeg.h"	// local: src/bundle/mpeg_lib
 #endif
 
 
@@ -49,13 +49,13 @@ void Movie::defaults()
   state = INACTIVE;
   begin = false;
   fp = NULL;
-  texid = 0;
+  texid = -1;
   rate = FPS;
   pixmap = NULL;
   pixtex = NULL;
   avi = NULL;
   video = 0;
-  cachempeg = NULL;
+  filempeg = NULL;
   imgmpeg = NULL;
 }
 
@@ -96,11 +96,13 @@ int Movie::inits()
 {
   //Texture::listTextures();
   texid = Texture::getIdByObject(this);
-  trace(DBG_FORCE, "texid=%d (%s)", texid, Texture::getUrlById(texid));
+  trace(DBG_WO, "texid=%d (%s)", texid, Texture::getUrlById(texid));
 
   video = Format::getPlayerByUrl(names.url);
-  if (video == PLAYER_AVI) return aviInit();
-  else return mpegInit();
+  if (video == PLAYER_AVI)
+    return aviInit();
+  else
+    return mpegInit();
 }
 
 int Movie::aviInit()
@@ -143,15 +145,15 @@ void mpegAbort(int sig)
 int Movie::mpegInit()
 {
   /* download Mpeg file */
-  cachempeg = new char[MAXHOSTNAMELEN];
-  if (Cache::download(names.url, cachempeg) == 0) {
-    error("can't download %s", cachempeg);
-    delete[] cachempeg;
+  filempeg = new char[MAXHOSTNAMELEN];
+  if (Cache::download(names.url, filempeg) == 0) {
+    error("can't download %s", filempeg);
+    delete[] filempeg;
     return 0;
   }
-  if ((fp = File::openFile(cachempeg, "r")) == NULL) {
+  if ((fp = File::openFile(filempeg, "r")) == NULL) {
     error("can't open mpeg");
-    delete[] cachempeg;
+    delete[] filempeg;
     return 0;
   }
 
@@ -250,7 +252,7 @@ void Movie::changePermanent(float lasting)
           begin = true;
           return;
         }
-        error("frames=%d", ++frame);
+        //error("frames=%d", ++frame);
         CloseMPEG();
         state = INACTIVE;
         return;
@@ -317,8 +319,9 @@ void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
 {
   if (movie->state != Movie::INACTIVE) {
     movie->state = Movie::INACTIVE;
-    if (movie->video == PLAYER_MPG) CloseMPEG();
-    if (movie->cachempeg) delete[] movie->cachempeg;
+    if (movie->video == PLAYER_MPG)
+      CloseMPEG();
+    if (movie->filempeg) delete[] movie->filempeg;
     File::closeFile(movie->fp);
   }
   movie->disablePermanentMovement();
@@ -333,14 +336,17 @@ void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
 
 void Movie::pause(Movie *movie, void *d, time_t s, time_t u)
 {
-  if (movie->state == Movie::PLAYING || movie->state == Movie::LOOP) movie->state = Movie::PAUSE;
-  else if (movie->state == Movie::PAUSE) movie->state = Movie::PLAYING;
+  if (movie->state == Movie::PLAYING || movie->state == Movie::LOOP)
+    movie->state = Movie::PAUSE;
+  else if (movie->state == Movie::PAUSE)
+    movie->state = Movie::PLAYING;
 }
 
 void Movie::rewind(Movie *movie, void *d, time_t s, time_t u)
 {
   if (movie->state != Movie::PLAYING && movie->state != Movie::LOOP && movie->fp != NULL) {
-    if (movie->video == PLAYER_MPG) RewindMPEG(movie->fp, movie->imgmpeg);
+    if (movie->video == PLAYER_MPG)
+      RewindMPEG(movie->fp, movie->imgmpeg);
     movie->frame = 0;
     movie->begin = true;
     movie->state = Movie::PLAYING;
