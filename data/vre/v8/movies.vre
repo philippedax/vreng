@@ -12,35 +12,35 @@
 <ground name="floor" pos="0 0 -.25"> <solid shape="box" dim="24 24 .5" zp="/gif/wood2.gif" /> </ground>
 
 <movie name="wallace" pos="8 0 2 1.57"
-  url="http://vreng.enst.fr/mpg/wallace.mpg" rate="10">
+  url="http://localhost/mpg/wallace.mpg" rate="10">
   <solid dim="4 .02 4" xn="/gif/wallace.gif" />
 </movie>
 <!-- assert
 -->
 <movie name="rednightmare" pos="0 8 2 3.14"
-  url="http://vreng.enst.fr/mpg/rednightmare.mpg" rate="10">
+  url="http://localhost/mpg/rednightmare.mpg" rate="10">
   <solid dim="4 .02 4" xn="/gif/rednightmare.gif" />
 </movie>
 <!--
 -->
 <movie name="mjackson" pos="0 -8 2 0"
-  url="http://vreng.enst.fr/mpg/mjackson.mpg" rate="10">
+  url="http://localhost/mpg/mjackson.mpg" rate="10">
   <solid dim="4 .02 4" xn="/gif/mjackson.gif" />
 </movie>
 <!-- test avi
 <movie name="mjackson" pos="0 -8 2 0"
-  url="http://vreng.enst.fr/avi/sacre-coeur.avi" rate="10">
+  url="http://localhost/avi/sacre-coeur.avi" rate="10">
   <solid dim="4 .02 4" xn="/gif/mjackson.gif" />
 </movie>
 -->
 <movie name="mooglie" pos="-8 0 2 4.71"
-  url="http://vreng.enst.fr/mpg/mooglie.mpg" rate="10">
+  url="http://localhost/mpg/mooglie.mpg" rate="10">
   <solid dim="4 .02 4" xp="/gif/mooglie.gif" />
 </movie>
 
 <!--
-<movie pos="8 2.25 0 0" url="http://vreng.enst.fr/mpg/wallace.mpg" rate="10"> <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></movie>
-<movie pos="8 -2.25 0 0" url="http://vreng.enst.fr/mpg/mooglie.mpg" rate="10"> <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></movie>
+<movie pos="8 2.25 0 0" url="http://localhost/mpg/wallace.mpg" rate="10"> <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></movie>
+<movie pos="8 -2.25 0 0" url="http://localhost/mpg/mooglie.mpg" rate="10"> <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></movie>
 <mirage pos="8 2.25 0 0" <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></mirage>
 <mirage pos="8 -2.25 0 0" <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></mirage>
 -->
