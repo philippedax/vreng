@@ -631,9 +631,9 @@ typedef union {
 } rfbClientToServerMsg;
 
 /*-----------------------------------------------------------------------------
- * VNCRFBproto class
+ * VNCRFB class
  */
-class VNCRFBproto {
+class VNCRFB {
  private:
 
   char passwordFile[64];
@@ -642,7 +642,7 @@ class VNCRFBproto {
   int buffered;
   ///< size of what is stored in the buffer
 
-  bool ShareDesktop;
+  bool shareDesktop;
   ///< indicates whether other connection on the server are allowed
 
   char *desktopName;
@@ -652,11 +652,11 @@ class VNCRFBproto {
 
   VNCSockets vncsock;
 
-  VNCRFBproto(char *ServeurName, int Port, char *pswdFile);
+  VNCRFB(char *ServeurName, int Port, char *pswdFile);
 #if 0 //not used
-  VNCRFBproto();
-  VNCRFBproto(char *serveurname, int port);
-  VNCRFBproto(unsigned int IPAddr, int Port, char *pswdfile);
+  VNCRFB();
+  VNCRFB(char *serveurname, int port);
+  VNCRFB(unsigned int IPAddr, int Port, char *pswdfile);
 #endif
   ///< constructors
 

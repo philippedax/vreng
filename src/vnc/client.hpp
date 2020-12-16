@@ -76,8 +76,8 @@ class VNCClient {
   bool handleHextile32(int rx, int ry, int rw, int rh);
 
  protected:
-  VNCRFBproto rfbproto;
-  /**< the VNCRFBproto object implements all we need to to send and receive
+  VNCRFB rfbproto;
+  /**< the VNCRFB object implements all we need to to send and receive
    * messages specified in the RFB protocol
    */
 

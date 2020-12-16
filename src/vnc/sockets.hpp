@@ -60,7 +60,7 @@ class VNCSockets {
   ///< Print out the contents of a packet for debugging.
 #endif
 
-  signed int connectToTcp();
+  signed int connectRFB();
   /**<
    * Connects to the given TCP port.
    * Returns the socket if connected, -1 if connection failed */
@@ -68,7 +68,7 @@ class VNCSockets {
   bool sameMachine();
   ///< Test if the other end of a socket is on the same machine.
 
-  bool setNonBlocking();
+  bool setBlocking();
   ///< sets a socket into non-blocking mode.
 
   bool readRFB(char *out, uint32_t n);

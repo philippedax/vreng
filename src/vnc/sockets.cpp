@@ -176,18 +176,21 @@ bool VNCSockets::writeExact(char *buf, int n)
 }
 
 /*
- * connectToTcp connects to the given TCP port.
+ * connectRFB connects to the given TCP port.
  */
-int VNCSockets::connectToTcp()
+int VNCSockets::connectRFB()
 {
-  if ((rfbsock = Socket::openStream()) < 0) { error("connectToTcp: socket"); return -1; }
+  if ((rfbsock = Socket::openStream()) < 0) {
+    error("connectRFB: open socket");
+    return -1;
+  }
 
   struct sockaddr_in sa;
   sa.sin_family = AF_INET;
   sa.sin_port = htons(port);
   sa.sin_addr.s_addr = htonl(ipaddr);
 
-  trace(DBG_VNC, "connectToTcp: connecting to %s:%i %x",
+  trace(DBG_FORCE, "connectRFB: connecting to %s:%i %x",
                  servername, ntohs(sa.sin_port), ntohl(sa.sin_addr.s_addr));
 
   struct timeval timeout;      
@@ -196,21 +199,22 @@ int VNCSockets::connectToTcp()
 
   if (setsockopt(rfbsock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
     error("setsockopt failed\n");
+
   if (connect(rfbsock, (const struct sockaddr *) &sa, sizeof(sa)) < 0) {
     perror("VNC: connect");
-    error("connectToTcp: %s (%d) sock=%d", strerror(errno), errno, rfbsock);
+    error("connectRFB: %s (%d) sock=%d", strerror(errno), errno, rfbsock);
     Socket::closeStream(rfbsock);
     return -1;
   }
   if (Socket::tcpNoDelay(rfbsock) < 0)
-    error("connectToTcp: TCP_NODELAY %s (%d)", strerror(errno), errno);
+    error("connectRFB: TCP_NODELAY %s (%d)", strerror(errno), errno);
   return rfbsock;
 }
 
 /*
- * SetNonBlocking sets a socket into non-blocking mode.
+ * setBlocking sets a socket into non-blocking mode.
  */
-bool VNCSockets::setNonBlocking()
+bool VNCSockets::setBlocking()
 {
   if (Socket::setNoBlocking(rfbsock) < 0) return false;
   return true;

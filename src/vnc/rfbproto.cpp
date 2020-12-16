@@ -55,29 +55,29 @@ bool newCutText = false;
 
 
 /** Constructors */
-VNCRFBproto::VNCRFBproto(char *Servername, int Port, char* pswdFile)
- : vncsock(Servername, Port)
+VNCRFB::VNCRFB(char *_servername, int _port, char* _pswdFile)
+ : vncsock(_servername, _port)
 {
-  ShareDesktop = true;
+  shareDesktop = true;
   buffered = 0;
-  strcpy(passwordFile, pswdFile);
+  strcpy(passwordFile, _pswdFile);
 #if 0 //not used
   Encodings = NULL; // not used
 #endif //not used
 }
 
 /** connectRFB server */
-bool VNCRFBproto::connectRFB()
+bool VNCRFB::connectRFB()
 {
-  int sock = vncsock.connectToTcp();
+  int sock = vncsock.connectRFB();
   if (sock < 0) {
-    error("connectRFB: unable to connect to RFB server");
+    error("connectRFB: unable to connect to RFB");
     return false;
   }
-  return vncsock.setNonBlocking();
+  return vncsock.setBlocking();
 }
 
-bool VNCRFBproto::initRFB()
+bool VNCRFB::initRFB()
 {
   rfbProtocolVersionMsg pv;
   rfbClientInitMsg ci;
@@ -94,7 +94,7 @@ bool VNCRFBproto::initRFB()
   pv[sz_rfbProtocolVersionMsg] = 0;
 
   if (sscanf(pv, rfbProtocolVersionFormat, &major, &minor) != 2) {
-    error("initRFB: not a valid VNC server");
+    error("initRFB: not a valid RFB");
     return false;
   }
   trace(DBG_VNC, "initRFB: VNC server supports protocol version %d.%d (viewer %d.%d)",
@@ -120,7 +120,7 @@ bool VNCRFBproto::initRFB()
 
     if (!vncsock.readRFB(reason, reasonLen))
       return false;
-    error("VNC connection failed: %.*s", (int)reasonLen, reason);
+    error("RFB connection failed: %.*s", (int)reasonLen, reason);
     delete[] reason;
     return false;
 
@@ -135,7 +135,7 @@ bool VNCRFBproto::initRFB()
     //look for a password stored in passwordFile
     passwd = vncDecryptPasswdFromFile(passwordFile);
     if (!passwd) {
-      error("Cannot read valid password from file \"%s\"", passwordFile);
+      error("initRFB: cannot read valid password from file \"%s\"", passwordFile);
       return false;
     }
     if (! passwd || (! strlen(passwd))) {
@@ -165,7 +165,7 @@ bool VNCRFBproto::initRFB()
       error("initRFB: VNC authentication failed");
       return false;
     case rfbVncAuthTooMany:
-      error("VNC authentication failed - too many tries");
+      error("RFB authentication failed - too many tries");
       return false;
     default:
       error("Unknown VNC authentication result: %d", (int)authResult);
@@ -178,7 +178,7 @@ bool VNCRFBproto::initRFB()
     return false;
   }
 
-  ci.shared = (ShareDesktop ? 1 : 0);
+  ci.shared = (shareDesktop ? 1 : 0);
 
   if (!vncsock.writeExact((char *)&ci, sz_rfbClientInitMsg))
     return false;
@@ -210,10 +210,11 @@ bool VNCRFBproto::initRFB()
   return true;
 }
 
-bool VNCRFBproto::setFormatAndEncodings()
+bool VNCRFB::setFormatAndEncodings()
 {
   rfbSetPixelFormatMsg spf;
   char buf[sz_rfbSetEncodingsMsg + MAX_ENCODINGS * 4];
+
   rfbSetEncodingsMsg *se = (rfbSetEncodingsMsg *)buf;
   uint32_t *encs = (uint32_t *)(&buf[sz_rfbSetEncodingsMsg]);
   int len = 0;
@@ -247,13 +248,13 @@ bool VNCRFBproto::setFormatAndEncodings()
   return true;
 }
 
-bool VNCRFBproto::sendIncrementalFramebufferUpdateRequest()
+bool VNCRFB::sendIncrementalFramebufferUpdateRequest()
 {
   return sendFramebufferUpdateRequest(0, 0, si.framebufferWidth,
 				      si.framebufferHeight, true);
 }
 
-bool VNCRFBproto::sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incremental)
+bool VNCRFB::sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incremental)
 {
   rfbFramebufferUpdateRequestMsg fur;
 
@@ -269,7 +270,7 @@ bool VNCRFBproto::sendFramebufferUpdateRequest(int x, int y, int w, int h, bool 
   return true;
 }
 
-bool VNCRFBproto::sendPointerEvent(int x, int y, int buttonMask)
+bool VNCRFB::sendPointerEvent(int x, int y, int buttonMask)
 {
   rfbPointerEventMsg pe;
 
@@ -279,20 +280,22 @@ bool VNCRFBproto::sendPointerEvent(int x, int y, int buttonMask)
   if (y < 0) y = 0;
   pe.x = swap16IfLE(x);
   pe.y = swap16IfLE(y);
+
   return vncsock.writeExact((char *)&pe, sz_rfbPointerEventMsg);
 }
 
-bool VNCRFBproto::sendKeyEvent(uint32_t key, bool down)
+bool VNCRFB::sendKeyEvent(uint32_t key, bool down)
 {
   rfbKeyEventMsg ke;
 
   ke.type = rfbKeyEvent;
   ke.down = down ? 1 : 0;
   ke.key = swap32IfLE(key);
+
   return vncsock.writeExact((char *)&ke, sz_rfbKeyEventMsg);
 }
 
-bool VNCRFBproto::sendClientCutText(char *str, int len)
+bool VNCRFB::sendClientCutText(char *str, int len)
 {
   rfbClientCutTextMsg cct;
 
@@ -313,7 +316,7 @@ bool VNCRFBproto::sendClientCutText(char *str, int len)
  * sur 3*8 bits = 24 bits
  * A APPELER DANS LE CONSTRUCTEUR (mto)
  */
-void VNCRFBproto::setVisual32()
+void VNCRFB::setVisual32()
 {
   trace(DBG_VNC, "SetVisual32");
   pixFormat.bitsPerPixel = 32;
@@ -328,7 +331,7 @@ void VNCRFBproto::setVisual32()
   pixFormat.blueShift = 16;
 }
 
-void VNCRFBproto::printPixelFormat(rfbPixelFormat *format)
+void VNCRFB::printPixelFormat(rfbPixelFormat *format)
 {
   if (format->bitsPerPixel == 1) {
     trace(DBG_VNC, " Single bit per pixel");
@@ -351,7 +354,7 @@ void VNCRFBproto::printPixelFormat(rfbPixelFormat *format)
   }
 }
 
-int VNCRFBproto::getSock()
+int VNCRFB::getSock()
 {
   return vncsock.getSock();
 }
