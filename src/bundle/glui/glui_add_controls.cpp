@@ -408,8 +408,8 @@ add_spinner_to_panel( GLUI_Panel *panel, char *name,
 
   control = new GLUI_Spinner;
  
-  if ( NOT strcmp( name, "Spinner Test" ))
-    id=id;
+  //dax if ( NOT strcmp( name, "Spinner Test" ))
+    //dax id=id;
 
 
   if ( control ) {

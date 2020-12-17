@@ -703,7 +703,7 @@ void    GLUI_Main::mouse(int button, int state, int x, int y)
     glut_mouse_CB( button, state, x, y );
     **/
 
-  callthrough=callthrough; /* To get rid of compiler warnings */
+  //dax callthrough=callthrough; /* To get rid of compiler warnings */
 }
 
 
@@ -732,7 +732,7 @@ void    GLUI_Main::motion(int x, int y)
     glut_motion_CB(x,y);
     **/
 
-  callthrough=callthrough; /* To get rid of compiler warnings */
+  //dax callthrough=callthrough; /* To get rid of compiler warnings */
 }
 
 

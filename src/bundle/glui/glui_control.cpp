@@ -108,9 +108,9 @@ void    GLUI_Control::pack_old( int x, int y )
   /*** Record start of this set of columns ***/
   y_top_column = curr_y;
   column_x     = 0;
-  if ( this == glui->main_panel ) {
-    x=x;
-  }
+  //dax if ( this == glui->main_panel ) {
+  //dax   x=x;
+  //dax }
   /*** Iterate over children, packing them first ***/
   node = (GLUI_Control*) this->first_child();
   while( node != NULL ) {

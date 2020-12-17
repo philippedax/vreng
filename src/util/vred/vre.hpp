@@ -1,5 +1,5 @@
-#ifndef VRE_H
-#define VRE_H
+#ifndef VRE_HPP
+#define VRE_HPP
 
 #include "vred.hpp"
 

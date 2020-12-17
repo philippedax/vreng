@@ -14,54 +14,39 @@ const char *UI::kObjectTypesString[] =
 enum UIObjectTypes {UI_WALL_TYPE, UI_GATE_TYPE, UI_STEP_TYPE, UI_WEB_TYPE, 
 		 UI_BOARD_TYPE, UI_HOST_TYPE, UI_DOC_TYPE,UI_EARTH_SPHERE_TYPE  };
 int UI::sCurrentObjectType = 0;
-
 int UI::sMainWindowID;
 GLUI *UI::sNorthGlui, *UI::sEastGlui, *UI::sSouthGlui, *UI::sDialogGlui=NULL;
 Solid *UI::sSelectedItem=NULL;
 struct ObjectChain *UI::sSelectedSet=NULL;
-
 GLUI_EditText *UI::sCenterField[3];
 GLUI_Translation *UI::sObjectTransXYButton;
 GLUI_Translation *UI::sObjectTransZButton;
 float UI::sCenterVal[3] = {0., 0., 0.}, UI::sCenterXButtonVal=0;
-
 GLUI_EditText *UI::sSizeField[3];
 GLUI_Translation *UI::sSizeButton[3];
 float UI::sSizeVal[3];
-
 GLUI_EditText *UI::sAngleZField;
 GLUI_Translation *UI::sAngleZButton;
 float UI::sAngleZVal;
-
 GLUI_EditText *UI::sRadiusField;
 float UI::sRadiusVal;
-
 GLUI_Rollout *UI::sTextureRollout;
 GLUI_EditText *UI::sTextureXp, *UI::sTextureXn, *UI::sTextureYp, *UI::sTextureYn;
 GLUI_EditText *UI::sTextureZp, *UI::sTextureZn, *UI::sTextureSphere;
 char UI::sTexURLXp[300]="", UI::sTexURLXn[300]="", UI::sTexURLYp[300]="", UI::sTexURLYn[300]="";
 char UI::sTexURLZp[300]="", UI::sTexURLZn[300]="";
-
 GLUI_StaticText *UI::sObjectClassDescription;
-
 GLUI_Rollout *UI::sAppearanceRollout;
 GLUI_EditText *UI::sDiffuseField[3], *UI::sAmbientField[3], *UI::sShininessField[3], *UI::sSpecularField[3];
 float UI::sDiffuseVal[3], UI::sAmbientVal[3], UI::sShininessVal[3], UI::sSpecularVal[3];
-
 GLUI_EditText *UI::sToWhereField, *UI::sIPMulticastField;
 char UI::sToWhereVal[300]="", UI::sIPMulticastVal[300]="";
-
 float UI::sViewRotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
-
 GLUI_Button *UI::sGroupButton, *UI::sUngroupButton, *UI::sDeleteButton;
-
 int UI::sPreventCollision=true;
-
 Camera *UI::sCamera;
-
 bool UI::sMotionEnabled = false;
 int UI::sMouseX, UI::sMouseY;
-
 char *UI::sDialogString=NULL;
 GLUI_EditText *UI::sDialogEditText;
 int UI::sDialogUsage;
@@ -69,7 +54,6 @@ int UI::sDialogUsage;
 
 /**************************************** control_cb() *******************/
 /* GLUI control callback                                                 */
-
 void UI::HandleControlEvent( int control )
 {
   switch (control) {
@@ -487,7 +471,7 @@ void UI::MyGlutReshape( int x, int y )
 /***************************************** myGlutDisplay() *****************/
 void UI::MyGlutDisplay( void )
 {
-  //printf("myGlutDisplay\n");
+  printf("myGlutDisplay\n");
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   DrawGrid();
@@ -568,12 +552,11 @@ void UI::DrawGrid()
   glEnd();
 }
 
+/****************************************/
+/*   Initialize GLUT and create window  */
+/****************************************/
 void UI::SetupUI(int argc, char *argv[])
 {
-  /****************************************/
-  /*   Initialize GLUT and create window  */
-  /****************************************/
-
   glutInit(&argc, argv);
   glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
   glutInitWindowPosition( 50, 50 );
@@ -591,13 +574,13 @@ void UI::SetupUI(int argc, char *argv[])
   // setup de l'environnement GL
   glLightfv(GL_LIGHT0, GL_AMBIENT, Color::white);
   glEnable(GL_LIGHT0);
-  glLightfv(GL_LIGHT1, GL_DIFFUSE, Color::white );
+  glLightfv(GL_LIGHT1, GL_DIFFUSE, Color::white);
   glEnable(GL_LIGHT1);
-  glLightfv(GL_LIGHT2, GL_SPECULAR, Color(0.2, 0.2, 0.2, 1.0) );
+  glLightfv(GL_LIGHT2, GL_SPECULAR, Color(0.2, 0.2, 0.2, 1.0));
   glEnable(GL_LIGHT2);
   glEnable(GL_LIGHTING);
 
-  glClearColor(0.0, 0.0, 0.0, 0.0);
+  glClearColor(0., 0., 0., 0.);
   glShadeModel(GL_SMOOTH);
 
   glEnable(GL_DEPTH_TEST);
@@ -614,6 +597,7 @@ void UI::SetupUI(int argc, char *argv[])
 
   /*** Create the top subwindow ***/
   sNorthGlui = GLUI_Master.create_glui_subwindow(sMainWindowID, GLUI_SUBWINDOW_TOP);
+  printf("subwindow top\n");
   sNorthGlui->set_main_gfx_window(sMainWindowID);
 
   /* Boxtype */  
@@ -632,42 +616,110 @@ void UI::SetupUI(int argc, char *argv[])
   /* placement */
   sNorthGlui->add_column(true);
   GLUI_Panel *xyzPanel = sNorthGlui->add_panel("");
-  (sCenterField[0] = sNorthGlui->add_edittext_to_panel(xyzPanel, "x", GLUI_EDITTEXT_FLOAT, &sCenterVal[0], UI_CENTER, HandleControlEvent))->set_w(25);
+  (sCenterField[0] = sNorthGlui->add_edittext_to_panel(xyzPanel,
+                                                      "x",
+                                                      GLUI_EDITTEXT_FLOAT,
+                                                      &sCenterVal[0],
+                                                      UI_CENTER,
+                                                      HandleControlEvent))->set_w(25);
   sNorthGlui->add_column_to_panel(xyzPanel, false);
-  (sCenterField[1] = sNorthGlui->add_edittext_to_panel(xyzPanel, "y", GLUI_EDITTEXT_FLOAT, &sCenterVal[1], UI_CENTER, HandleControlEvent))->set_w(25);
+  (sCenterField[1] = sNorthGlui->add_edittext_to_panel(xyzPanel,
+                                                      "y",
+                                                      GLUI_EDITTEXT_FLOAT,
+                                                      &sCenterVal[1],
+                                                      UI_CENTER,
+                                                      HandleControlEvent))->set_w(25);
   sNorthGlui->add_column_to_panel(xyzPanel, false);
-  (sCenterField[2] = sNorthGlui->add_edittext_to_panel(xyzPanel, "z", GLUI_EDITTEXT_FLOAT, &sCenterVal[2], UI_CENTER, HandleControlEvent))->set_w(25);
+  (sCenterField[2] = sNorthGlui->add_edittext_to_panel(xyzPanel,
+                                                      "z",
+                                                      GLUI_EDITTEXT_FLOAT,
+                                                      &sCenterVal[2],
+                                                      UI_CENTER,
+                                                      HandleControlEvent))->set_w(25);
 
   GLUI_Panel *deltaXyzPanel = sNorthGlui->add_panel("");
-  (sSizeField[0] = sNorthGlui->add_edittext_to_panel(deltaXyzPanel, "Dx", GLUI_EDITTEXT_FLOAT, 
-						    &sSizeVal[0], UI_SIZE, HandleControlEvent ) )->set_w(25);
+  (sSizeField[0] = sNorthGlui->add_edittext_to_panel(deltaXyzPanel,
+                                                    "Dx",
+                                                    GLUI_EDITTEXT_FLOAT, 
+						    &sSizeVal[0],
+                                                    UI_SIZE,
+                                                    HandleControlEvent ) )->set_w(25);
   sNorthGlui->add_column_to_panel(deltaXyzPanel, false);
-  (sSizeField[1] = sNorthGlui->add_edittext_to_panel(deltaXyzPanel, "Dy", GLUI_EDITTEXT_FLOAT, 
-						    &sSizeVal[1], UI_SIZE, HandleControlEvent ) )->set_w(25);
+  (sSizeField[1] = sNorthGlui->add_edittext_to_panel(deltaXyzPanel,
+                                                    "Dy",
+                                                    GLUI_EDITTEXT_FLOAT, 
+						    &sSizeVal[1],
+                                                    UI_SIZE,
+                                                    HandleControlEvent ) )->set_w(25);
   sNorthGlui->add_column_to_panel(deltaXyzPanel, false);
-  (sSizeField[2] = sNorthGlui->add_edittext_to_panel(deltaXyzPanel, "Dz", GLUI_EDITTEXT_FLOAT, 
-						    &sSizeVal[2], UI_SIZE, HandleControlEvent ) )->set_w(25);
+  (sSizeField[2] = sNorthGlui->add_edittext_to_panel(deltaXyzPanel,
+                                                    "Dz",
+                                                    GLUI_EDITTEXT_FLOAT, 
+						    &sSizeVal[2], UI_SIZE,
+                                                    HandleControlEvent ) )->set_w(25);
   sNorthGlui->add_column(false);
-  sAngleZField = sNorthGlui->add_edittext("Angle /Z", GLUI_EDITTEXT_FLOAT, 
-						  &sAngleZVal, UI_ROT_Z, HandleControlEvent );
+  sAngleZField = sNorthGlui->add_edittext("Angle /Z",
+                                          GLUI_EDITTEXT_FLOAT, 
+					  &sAngleZVal,
+                                          UI_ROT_Z,
+                                          HandleControlEvent);
   sAngleZField->set_float_limits(-180, 180, GLUI_LIMIT_WRAP);
 
-  sRadiusField = sNorthGlui->add_edittext("Radius", GLUI_EDITTEXT_FLOAT, 
-						  &sRadiusVal, UI_RADIUS, HandleControlEvent );
+  sRadiusField = sNorthGlui->add_edittext("Radius",
+                                           GLUI_EDITTEXT_FLOAT, 
+					   &sRadiusVal,
+                                           UI_RADIUS,
+                                           HandleControlEvent);
 
   /*** Create the side subwindow ***/
   sEastGlui = GLUI_Master.create_glui_subwindow(sMainWindowID, GLUI_SUBWINDOW_RIGHT);
+  printf("subwindow right\n");
 
   sEastGlui->set_main_gfx_window(sMainWindowID);
   /* texture */
   sTextureRollout = sEastGlui->add_rollout( "Texture" );
-  (sTextureXp = sEastGlui->add_edittext_to_panel(sTextureRollout, "Xp",GLUI_EDITTEXT_TEXT, sTexURLXp, UI_TEXTURE, HandleControlEvent))->set_w(200);
-  (sTextureXn = sEastGlui->add_edittext_to_panel(sTextureRollout, "Xn",GLUI_EDITTEXT_TEXT, sTexURLXn, UI_TEXTURE, HandleControlEvent))->set_w(200);
-  (sTextureYp = sEastGlui->add_edittext_to_panel(sTextureRollout, "Yp",GLUI_EDITTEXT_TEXT, sTexURLYp, UI_TEXTURE, HandleControlEvent))->set_w(200);
-  (sTextureYn = sEastGlui->add_edittext_to_panel(sTextureRollout, "Yn",GLUI_EDITTEXT_TEXT, sTexURLYn, UI_TEXTURE, HandleControlEvent))->set_w(200);
-  (sTextureZp = sEastGlui->add_edittext_to_panel(sTextureRollout, "Zp",GLUI_EDITTEXT_TEXT, sTexURLZp, UI_TEXTURE, HandleControlEvent))->set_w(200);
-  (sTextureZn = sEastGlui->add_edittext_to_panel(sTextureRollout, "Zn",GLUI_EDITTEXT_TEXT, sTexURLZn, UI_TEXTURE, HandleControlEvent))->set_w(200);
-  (sTextureSphere = sEastGlui->add_edittext_to_panel(sTextureRollout, "Sp",GLUI_EDITTEXT_TEXT, sTexURLXp,UI_TEXTURE, HandleControlEvent))->set_w(200);
+  (sTextureXp = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                "Xp",
+                                                GLUI_EDITTEXT_TEXT,
+                                                sTexURLXp,
+                                                UI_TEXTURE,
+                                                HandleControlEvent))->set_w(200);
+  (sTextureXn = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                "Xn",
+                                                GLUI_EDITTEXT_TEXT,
+                                                sTexURLXn,
+                                                UI_TEXTURE,
+                                                HandleControlEvent))->set_w(200);
+  (sTextureYp = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                "Yp",
+                                                GLUI_EDITTEXT_TEXT,
+                                                sTexURLYp,
+                                                UI_TEXTURE,
+                                                HandleControlEvent))->set_w(200);
+  (sTextureYn = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                "Yn",
+                                                GLUI_EDITTEXT_TEXT,
+                                                sTexURLYn,
+                                                UI_TEXTURE,
+                                                HandleControlEvent))->set_w(200);
+  (sTextureZp = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                "Zp",
+                                                GLUI_EDITTEXT_TEXT,
+                                                sTexURLZp,
+                                                UI_TEXTURE,
+                                                HandleControlEvent))->set_w(200);
+  (sTextureZn = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                "Zn",
+                                                GLUI_EDITTEXT_TEXT,
+                                                sTexURLZn,
+                                                UI_TEXTURE,
+                                                HandleControlEvent))->set_w(200);
+  (sTextureSphere = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                "Sp",
+                                                GLUI_EDITTEXT_TEXT,
+                                                sTexURLXp,
+                                                UI_TEXTURE,
+                                                HandleControlEvent))->set_w(200);
   
   sEastGlui->add_button_to_panel(sTextureRollout, "Load textures", UI_TEXTURE, HandleControlEvent);
 
@@ -675,61 +727,115 @@ void UI::SetupUI(int argc, char *argv[])
   sAppearanceRollout = sEastGlui->add_rollout( "Appearance" );
 
   GLUI_Panel *ambientPanel = sEastGlui->add_panel_to_panel(sAppearanceRollout, "Ambient");
-  (sAmbientField[0] = sEastGlui->add_edittext_to_panel(ambientPanel, "R",GLUI_EDITTEXT_FLOAT,
-						      &sAmbientVal[0], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sAmbientField[0] = sEastGlui->add_edittext_to_panel(ambientPanel,
+                                                      "R",
+                                                      GLUI_EDITTEXT_FLOAT,
+						      &sAmbientVal[0],
+                                                      APPEARANCE,
+                                                      HandleControlEvent ) )->set_w(20);
   sAmbientField[0]->set_float_limits(0, 1);
   sEastGlui->add_column_to_panel(ambientPanel, false);  
-  (sAmbientField[1] = sEastGlui->add_edittext_to_panel(ambientPanel, "G",GLUI_EDITTEXT_FLOAT,
-						      &sAmbientVal[1], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sAmbientField[1] = sEastGlui->add_edittext_to_panel(ambientPanel,
+                                                      "G",
+                                                      GLUI_EDITTEXT_FLOAT,
+						      &sAmbientVal[1],
+                                                      APPEARANCE,
+                                                      HandleControlEvent ) )->set_w(20);
   sAmbientField[1]->set_float_limits(0, 1);
   sEastGlui->add_column_to_panel(ambientPanel, false);
-  (sAmbientField[2] = sEastGlui->add_edittext_to_panel(ambientPanel, "B",GLUI_EDITTEXT_FLOAT,
-						      &sAmbientVal[2], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sAmbientField[2] = sEastGlui->add_edittext_to_panel(ambientPanel,
+                                                      "B",
+                                                      GLUI_EDITTEXT_FLOAT,
+						      &sAmbientVal[2],
+                                                      APPEARANCE,
+                                                      HandleControlEvent ) )->set_w(20);
   sAmbientField[2]->set_float_limits(0, 1);
 
   GLUI_Panel *diffusePanel = sEastGlui->add_panel_to_panel(sAppearanceRollout, "Diffuse");
-  (sDiffuseField[0] = sEastGlui->add_edittext_to_panel(diffusePanel, "R",GLUI_EDITTEXT_FLOAT,
-						       &sDiffuseVal[0], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sDiffuseField[0] = sEastGlui->add_edittext_to_panel(diffusePanel,
+                                                      "R",
+                                                      GLUI_EDITTEXT_FLOAT,
+					              &sDiffuseVal[0],
+                                                      APPEARANCE,
+                                                      HandleControlEvent ) )->set_w(20);
   sDiffuseField[0]->set_float_limits(0, 1);
   sEastGlui->add_column_to_panel(diffusePanel, false);  
-  (sDiffuseField[1] = sEastGlui->add_edittext_to_panel(diffusePanel, "G",GLUI_EDITTEXT_FLOAT, 
-						       &sDiffuseVal[1], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sDiffuseField[1] = sEastGlui->add_edittext_to_panel(diffusePanel,
+                                                      "G",
+                                                      GLUI_EDITTEXT_FLOAT, 
+						      &sDiffuseVal[1],
+                                                      APPEARANCE,
+                                                      HandleControlEvent ) )->set_w(20);
   sDiffuseField[1]->set_float_limits(0, 1);
   sEastGlui->add_column_to_panel(diffusePanel, false);
-  (sDiffuseField[2] = sEastGlui->add_edittext_to_panel(diffusePanel, "B",GLUI_EDITTEXT_FLOAT,
-						       &sDiffuseVal[2], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sDiffuseField[2] = sEastGlui->add_edittext_to_panel(diffusePanel,
+                                                      "B",
+                                                      GLUI_EDITTEXT_FLOAT,
+						      &sDiffuseVal[2],
+                                                      APPEARANCE,
+                                                      HandleControlEvent ) )->set_w(20);
   sDiffuseField[2]->set_float_limits(0, 1);
 
   GLUI_Panel *specularPanel = sEastGlui->add_panel_to_panel(sAppearanceRollout, "Specular");
-  (sSpecularField[0] = sEastGlui->add_edittext_to_panel(specularPanel, "V1",GLUI_EDITTEXT_FLOAT,
-							&sSpecularVal[0], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sSpecularField[0] = sEastGlui->add_edittext_to_panel(specularPanel,
+                                                       "V1",
+                                                        GLUI_EDITTEXT_FLOAT,
+							&sSpecularVal[0],
+                                                        APPEARANCE,
+                                                        HandleControlEvent ) )->set_w(20);
   sSpecularField[0]->set_float_limits(0, 1);
   sEastGlui->add_column_to_panel(specularPanel, false);  
-  (sSpecularField[1] = sEastGlui->add_edittext_to_panel(specularPanel, "V2",GLUI_EDITTEXT_FLOAT,
-							&sSpecularVal[1], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sSpecularField[1] = sEastGlui->add_edittext_to_panel(specularPanel,
+                                                        "V2",
+                                                        GLUI_EDITTEXT_FLOAT,
+							&sSpecularVal[1],
+                                                        APPEARANCE,
+                                                        HandleControlEvent ) )->set_w(20);
   sSpecularField[1]->set_float_limits(0, 1);
   sEastGlui->add_column_to_panel(specularPanel, false);
-  (sSpecularField[2] = sEastGlui->add_edittext_to_panel(specularPanel, "V3",GLUI_EDITTEXT_FLOAT,
-							&sSpecularVal[2], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sSpecularField[2] = sEastGlui->add_edittext_to_panel(specularPanel,
+                                                        "V3",
+                                                        GLUI_EDITTEXT_FLOAT,
+							&sSpecularVal[2],
+                                                        APPEARANCE,
+                                                        HandleControlEvent ) )->set_w(20);
   sSpecularField[2]->set_float_limits(0, 1);
 
   GLUI_Panel *shininessPanel = sEastGlui->add_panel_to_panel(sAppearanceRollout, "Shininess");
-  (sShininessField[0] = sEastGlui->add_edittext_to_panel(shininessPanel, "V1",GLUI_EDITTEXT_FLOAT,
-							 &sShininessVal[0], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sShininessField[0] = sEastGlui->add_edittext_to_panel(shininessPanel,
+                                                         "V1",
+                                                         GLUI_EDITTEXT_FLOAT,
+							 &sShininessVal[0],
+                                                         APPEARANCE,
+                                                         HandleControlEvent ) )->set_w(20);
   sShininessField[0]->set_float_limits(0, 1);
   sEastGlui->add_column_to_panel(shininessPanel, false);  
-  (sShininessField[1] = sEastGlui->add_edittext_to_panel(shininessPanel, "V2",GLUI_EDITTEXT_FLOAT,
-							 &sShininessVal[1], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sShininessField[1] = sEastGlui->add_edittext_to_panel(shininessPanel,
+                                                         "V2",
+                                                         GLUI_EDITTEXT_FLOAT,
+							 &sShininessVal[1],
+                                                         APPEARANCE,
+                                                         HandleControlEvent ) )->set_w(20);
   sShininessField[1]->set_float_limits(0, 1);
   sEastGlui->add_column_to_panel(shininessPanel, false);
-  (sShininessField[2] = sEastGlui->add_edittext_to_panel(shininessPanel, "V3",GLUI_EDITTEXT_FLOAT,
-							 &sShininessVal[2], APPEARANCE, HandleControlEvent ) )->set_w(20);
+  (sShininessField[2] = sEastGlui->add_edittext_to_panel(shininessPanel,
+                                                         "V3",
+                                                         GLUI_EDITTEXT_FLOAT,
+							 &sShininessVal[2],
+                                                         APPEARANCE,
+                                                         HandleControlEvent ) )->set_w(20);
   sShininessField[2]->set_float_limits(0, 1);
 
-  (sToWhereField = sEastGlui->add_edittext("To Where (URL)", GLUI_EDITTEXT_TEXT, sToWhereVal, 
-					     TARGET_URL, HandleControlEvent ) )->set_w(250);
-  (sIPMulticastField = sEastGlui->add_edittext("IP Multicast", GLUI_EDITTEXT_TEXT, sIPMulticastVal, 
-					     TARGET_URL, HandleControlEvent ) )->set_w(250);
+  (sToWhereField = sEastGlui->add_edittext("To Where (URL)",
+                                           GLUI_EDITTEXT_TEXT,
+                                           sToWhereVal, 
+					   TARGET_URL,
+                                           HandleControlEvent ) )->set_w(250);
+  (sIPMulticastField = sEastGlui->add_edittext("IP Multicast",
+                                               GLUI_EDITTEXT_TEXT,
+                                               sIPMulticastVal, 
+					       TARGET_URL,
+                                               HandleControlEvent ) )->set_w(250);
   
   sEastGlui->add_separator();
   sObjectClassDescription = sEastGlui->add_statictext("Object type :");
@@ -738,28 +844,47 @@ void UI::SetupUI(int argc, char *argv[])
 
   sSouthGlui = GLUI_Master.create_glui_subwindow(sMainWindowID, GLUI_SUBWINDOW_BOTTOM);
   sSouthGlui->set_main_gfx_window(sMainWindowID);
+  printf("subwindow bottom\n");
   
-  sObjectTransXYButton = sSouthGlui->add_translation("Object YZ", GLUI_TRANSLATION_XY,
-                                                     &sCenterVal[1], UI_CENTER, HandleControlEvent);
+  sObjectTransXYButton = sSouthGlui->add_translation("Object YZ",
+                                                     GLUI_TRANSLATION_XY,
+                                                     &sCenterVal[1],
+                                                     UI_CENTER,
+                                                     HandleControlEvent);
   sObjectTransXYButton->set_speed(0.1);
   sSouthGlui->add_column(false);
-  sObjectTransZButton = sSouthGlui->add_translation("Object X", GLUI_TRANSLATION_Z,
-                                                    &sCenterXButtonVal, UI_CENTER_X_BTN, HandleControlEvent);
+  sObjectTransZButton = sSouthGlui->add_translation("Object X",
+                                                     GLUI_TRANSLATION_Z,
+                                                     &sCenterXButtonVal,
+                                                     UI_CENTER_X_BTN,
+                                                     HandleControlEvent);
   sObjectTransZButton->set_speed(0.1);
   sSouthGlui->add_column(false);
-  sAngleZButton = sSouthGlui->add_translation("Rot /Z", GLUI_TRANSLATION_X,
-                                              &sAngleZVal, UI_ROT_Z, HandleControlEvent);
+  sAngleZButton = sSouthGlui->add_translation("Rot /Z",
+                                              GLUI_TRANSLATION_X,
+                                              &sAngleZVal,
+                                              UI_ROT_Z,
+                                              HandleControlEvent);
   sSouthGlui->add_column(true);
-  sSizeButton[0] =  sSouthGlui->add_translation("Size X", GLUI_TRANSLATION_Z, 
-						&sSizeVal[0], UI_SIZE, HandleControlEvent);
+  sSizeButton[0] =  sSouthGlui->add_translation("Size X",
+                                                GLUI_TRANSLATION_Z, 
+						&sSizeVal[0],
+                                                UI_SIZE,
+                                                HandleControlEvent);
   sSizeButton[0]->set_speed(0.1);
   sSouthGlui->add_column(false);
-  sSizeButton[1] =  sSouthGlui->add_translation("Size Y", GLUI_TRANSLATION_X, 
-						&sSizeVal[1], UI_SIZE, HandleControlEvent);
+  sSizeButton[1] =  sSouthGlui->add_translation("Size Y",
+                                                GLUI_TRANSLATION_X, 
+						&sSizeVal[1],
+                                                UI_SIZE,
+                                                HandleControlEvent);
   sSizeButton[1]->set_speed(0.1);
   sSouthGlui->add_column(false);
-  sSizeButton[2] =  sSouthGlui->add_translation("Size Z", GLUI_TRANSLATION_Y, 
-						&sSizeVal[2], UI_SIZE, HandleControlEvent);
+  sSizeButton[2] =  sSouthGlui->add_translation("Size Z",
+                                                GLUI_TRANSLATION_Y, 
+						&sSizeVal[2],
+                                                UI_SIZE,
+                                                HandleControlEvent);
   sSizeButton[2]->set_speed(0.1);
 
   sSouthGlui->add_column(true);
@@ -850,6 +975,7 @@ void UI::UpdateControls()
   sGroupButton->disable();
   sUngroupButton->disable();
   sDeleteButton->disable();
+
   if (sSelectedItem == NULL) {
     sRadiusField->Hide();
      
@@ -871,7 +997,7 @@ void UI::UpdateControls()
   
   /* box */
   Box *box = dynamic_cast<Box*>(sSelectedItem);
-  if (box!=NULL) { //on a bien un objet de type box
+  if (box != NULL) { //on a bien un objet de type box
     sSizeField[0]->enable();
     sSizeField[1]->enable();
     sSizeField[2]->enable();
@@ -918,6 +1044,7 @@ void UI::UpdateControls()
     sTextureZp->Hide();
     sTextureZn->Hide();
     sTextureSphere->Show();
+
     Tex tex = sSelectedItem->GetTexture();
     Safe::strcpy(sTexURLXp, tex.GetTex_xp() );
     sTexURLXn[0] = sTexURLYp[0] = sTexURLYn[0] = sTexURLZp[0] = sTexURLZn[0] = 0;
