@@ -1,9 +1,9 @@
 #include <GL/glut.h>
 
+#include "ui.hpp"
 #include "vred.hpp"
 #include "vre.hpp"
 #include "safe.hpp"
-#include "ui.hpp"
 #include "raycaster.hpp"
 
 #define MIN_SOLID_SIZE  0.1
