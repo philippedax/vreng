@@ -28,7 +28,7 @@
 // Constructeur
 Chaine::Chaine(const char * name)
 {
-printf("chaine: name=%s\n", name);
+  //dax printf("chaine: name=%s\n", name);
   strcpy(file, vrelfile);
   //dax segfault  if (name) strcpy(nom, name);
   ligne = yylineno;
@@ -42,6 +42,6 @@ Chaine::~Chaine()
 // Cette fonction renvoie systematiquement une erreur.
 float Chaine::get_float() 
 {
-  printf("Error: file %s, line %d\nError of type: string %s is not a digit\n", file, ligne, nom);
+  printf("chaine: error file %s, line %d\nerror of type: string %s is not a digit\n", file, ligne, nom);
   exit(1);
 }

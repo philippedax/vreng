@@ -15,6 +15,11 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.1\n\
+-- 9.1.5\n\
+	- reviewed util/vred\n\
+	- reviewed compilation warnings bundle/glui\n\
+	(2020/12/17, Philippe Dax)\n\
+\n\
 -- 9.1.4\n\
 	- reviewed timer.*pp\n\
 	- fixed needles motion in clock.cpp\n\

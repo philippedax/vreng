@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef ENVCONSTR_H
-#define ENVCONSTR_H
+#ifndef ENVCONSTR_HPP
+#define ENVCONSTR_HPP
 
 #include "constructor.hpp"
 #include "datalist.hpp"

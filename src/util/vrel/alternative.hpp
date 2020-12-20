@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef ALTERNATIVE_H
-#define ALTERNATIVE_H
+#ifndef ALTERNATIVE_HPP
+#define ALTERNATIVE_HPP
 
 #include "inst.hpp"
 #include "instlist.hpp"

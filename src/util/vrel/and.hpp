@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef AND_H
-#define AND_H
+#ifndef AND_HPP
+#define AND_HPP
 
 #include "logical.hpp"
 #include "data.hpp"

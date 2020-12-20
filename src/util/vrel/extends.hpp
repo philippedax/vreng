@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef EXTENDS_H
-#define EXTENDS_H
+#ifndef EXTENDS_HPP
+#define EXTENDS_HPP
 
 #include "class.hpp"
 #include "instlist.hpp"

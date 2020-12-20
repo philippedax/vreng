@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef NAMELIST_H
-#define NAMELIST_H
+#ifndef NAMELIST_HPP
+#define NAMELIST_HPP
 
 /**
  * class of lists of Nom

@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef WALL_H
-#define WALL_H
+#ifndef WALL_HPP
+#define WALL_HPP
 
 #include "box.hpp"
 #include "datalist.hpp"

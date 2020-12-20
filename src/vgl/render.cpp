@@ -100,6 +100,7 @@ GLint Render::haveClips()
 void Render::init(bool _quality)
 {
   static bool configured = false;
+
   if (! configured) {
     glFrontFace(GL_CCW);		// trigo
     glEnable(GL_DEPTH_TEST);
@@ -124,8 +125,10 @@ void Render::init(bool _quality)
     glHint(GL_LINE_SMOOTH_HINT, hint);
     glHint(GL_POLYGON_SMOOTH_HINT, hint);
     glHint(GL_FOG_HINT, hint);
+
     if (::g.pref.infogl == true)
       trace(DBG_FORCE, "version=%s vendor=%s renderer=%s, depth=%d texturess=%d stencil=%d clips=%d", glGetString(GL_VERSION), glGetString(GL_VENDOR), glGetString(GL_RENDERER), haveDepth(), haveTextures(), haveStencil(), haveClips());
+
     solidList.clear();	// clear solidList
     configured = true;
   }
@@ -151,7 +154,7 @@ void Render::materials()
   glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
   glMaterialfv(GL_FRONT, GL_SPECULAR, color);
-  //glMaterialfv(GL_FRONT, GL_EMISSION, color);
+  glMaterialfv(GL_FRONT, GL_EMISSION, color);
 }
 
 /** puts object into buffer selection */
@@ -540,15 +543,15 @@ void Render::lighting()
   glEnable(GL_LIGHTING);
 
   /* renders other lights for example sun, moon, lamp */
-#if 0 //DEBUG
-  trace2(DBG_FORCE, "\n*** light:");
+#if 1 //DEBUG
+  //trace2(DBG_FORCE, "\n*** light:");
   for (list<WObject*>::iterator l = lightList.begin(); l != lightList.end() ; ++l) {
     if (*l && (*l)->isValid()) { //FIXME segfault sometimes
       (*l)->lighting();
-      trace2(DBG_FORCE, " %s", (*l)->getInstance());
+      //trace2(DBG_FORCE, " %s", (*l)->getInstance());
     }
   }
-  printf("\n");
+  //printf("\n");
 #endif
 #if 0 //DEBUG
   Light::lights();

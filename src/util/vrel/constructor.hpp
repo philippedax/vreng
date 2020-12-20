@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef CONSTRUCTOR_H
-#define CONSTRUCTOR_H
+#ifndef CONSTRUCTOR_HPP
+#define CONSTRUCTOR_HPP
 
 #include "decllist.hpp"
 #include "instlist.hpp"

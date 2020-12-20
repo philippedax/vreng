@@ -53,7 +53,7 @@ static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 
 static void toggleGridCB(Widgets*, int flag) {
   switch (flag) {
-    case 0: Grid::grid()->toggleGrid(); break;
+    case 0: Grid::grid()->toggleGrid2d(); break;
     case 1: Grid::grid()->toggleGrid3d(); break;
     case 2: Grid::grid()->toggleOverlap(); break;
   }

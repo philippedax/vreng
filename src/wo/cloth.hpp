@@ -43,7 +43,8 @@ protected:
   uint8_t article;			///< types of article
   char color[16];			///< given color
 
-  enum {
+  /* cloth models */
+  enum cloth_model {
     HALO,
     HAT,
     DRESS,
@@ -52,7 +53,7 @@ protected:
   };
 
 public:
-  /* properties */
+  /* net properties */
   enum {
     PROPHNAME,
     PROPXY,
@@ -64,7 +65,7 @@ public:
   };
 
   /* actions */
-  enum {
+  enum cloth_action {
     WEAR,
     TAKEOFF,
     RECREATE,
@@ -78,7 +79,7 @@ public:
 
   virtual const OClass* getOClass() {return &oclass;}
 
-  static void funcs();	///< init funclist
+  static void funcs();		///< init funclist
 
   Cloth(char *l);		///< Constructor
   Cloth() {}			///< Constructor for sub-classes

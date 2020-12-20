@@ -42,10 +42,13 @@ Class_extends::Class_extends(char nom1[30], char nom2[30], Instruction_liste * i
   mere->addClasse(nom1,this);
 
   // champs heritage 
+  //dax printf("extends: nom2=%s\n",nom2);
   strcpy(heritage, nom2);
   for (i=0; strcmp(mere->nom[i], nom2) != 0; i++) {
-    if (i+1>= mere->nb_classes)
-      Erreur("Parent Class not declared");
+    if (i+1 >= mere->nb_classes)
+      //dax Erreur("Parent Class not declared");
+      printf("extends: parent class not declared\n");
+      break; //dax
   }
 
   // champs de definition 
@@ -59,7 +62,7 @@ Class_extends::Class_extends(char nom1[30], char nom2[30], Instruction_liste * i
     for (int k=0; k<30 ; k++) {
       nomvar[k] = mere->classe[i]->var->nom[j][k];
     }
-    //nomvar = mere->classe[i]->var->nom[j] ;
+    //nomvar = mere->classe[i]->var->nom[j];
     var->declaration(nomvar);
     if (mere->classe[i]->var->donnee[j] != 0)
       var->affectation(nomvar, mere->classe[i]->var->donnee[j]) ;
@@ -72,11 +75,10 @@ void Class_extends::exec(Data_liste * env1)
   int i,j ;
 
   attribut = var;
-  
   instr->exec();
 
   i = 0;
-  while (strcmp (heritage, mere->nom[i]) != 0) i++;
+  while (strcmp(heritage, mere->nom[i]) != 0) i++;
 
   // Transmettre les variables de classes
   for (j = 1; j < var->count; j++) {

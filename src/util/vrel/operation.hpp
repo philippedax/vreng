@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  ******************************************************************************/
 
-#ifndef OPERATION_H
-#define OPERATION_H
+#ifndef OPERATION_HPP
+#define OPERATION_HPP
 
 #include "vrel.hpp"
 #include "data.hpp"

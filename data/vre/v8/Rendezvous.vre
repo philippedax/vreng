@@ -27,16 +27,16 @@
 
 <!-- ground -6m -->
 <ground name="ground-c" pos="0 6.5 -.25">
-  <solid dim="4.4 17 .5" zp="/gif/marble.gif" />
+  <solid dim="4.0 17 .25" zp="/gif/marble.gif" xp="/gif/marble.gif" xn="/gif/marble.gif" yp="/gif/marble.gif" yn="/gif/marble.gif" />
 </ground>
 <ground name="ground-e" pos="0 -10.5 -.25">
-  <solid dim="4.4 9 .5" zp="/gif/marble.gif" />
+  <solid dim="4.0 9 .25" zp="/gif/marble.gif" />
 </ground>
 <ground name="ground-n" pos="12 0 -.25">
-  <solid dim="19.9 30 .5" zp="/gif/marble.gif" />
+  <solid dim="20.0 30 .25" zp="/gif/marble.gif" />
 </ground>
 <ground name="ground-s" pos="-12 0 -.25">
-  <solid dim="19.9 30 .5" zp="/gif/marble.gif" />
+  <solid dim="20.0 30 .25" zp="/gif/marble.gif" />
 </ground>
 <!--
 <ground name="basement" pos="0 0 -6.25"> <solid dim="60 40 .5" zp="/gif/stuc.gif" /> </ground>
@@ -160,7 +160,7 @@
 -->
 
 <!-- mythology 224.255.0.15 -->
-<gate name="mythology" pos="15.5 7 1 2"
+<gate name="mythology" pos="17.5 0 1 1.57"
   url="/vre/v8/mythology.vre" channel="224.255.0.15/52806/127">
   <solid dim="1.6 .2 2" xn="/gif/mythology2.gif" />
 </gate>
@@ -172,14 +172,14 @@
 </gate>
 
 <!-- house 224.255.0.17 -->
-<gate name="house" pos="17.5 0 2.2 1.57"
+<gate name="house" pos="15.5 7 1 2"
   url="/vre/v8/house.vre" channel="224.255.0.17/52826/127">
-  <solid dim="6 1 4.4" xn="/gif/house.gif" />
+  <solid dim="3 1 2" xn="/gif/house.gif" />
 </gate>
 
-<ftp name="ftp-download" pos="17 0 4.5 1.57"
-  url="ftp://ftp.enst.fr/pub/vreng/vreng.tar.gz">
-  <solid dim="5 .08 .6" xn="/php/download.php" />
+<ftp name="ftp-download" pos="15 7 2.5 1.57"
+  url="ftp://localhost/~dax/ftp/pub/vreng/vreng.tar.gz">
+  <solid dim="3 .08 .4" xn="/php/download.php" />
 </ftp>
 
 <!-- labyrinthe 224.255.0.18 -->
@@ -308,7 +308,7 @@
   <solid shape="sphere" r="20" tx="/gif/earth.gif" />
 </mirage>
 -->
-<mirage name="moon" pos="100 1 30" mode="orbit" mode="turn" azspeed="0.1">
+<mirage name="moon" pos="100 1 30" mode="orbit" aspeed="-0.5" mode="turn" azspeed="0.1">
   <solid shape="sphere" r="4" tx="/gif/moon.gif" />
 </mirage>
 
@@ -351,10 +351,10 @@
   <solid shape="line" l=".18" thick="1" dif="red" />
 </clock>
 <clock name="minutes" pos="5 3.99 2 1.57" needle="m">
-  <solid shape="line" l=".14" thick="2" dif="red" />
+  <solid shape="line" l=".14" thick="1" dif="red" />
 </clock>
 <clock name="hours" pos="5 3.99 2 1.57" needle="h">
-  <solid shape="line" l=".10" thick="3" dif="red" />
+  <solid shape="line" l=".10" thick="2" dif="red" />
 </clock>
 <mirage name="horloge" pos="5 4 2 3.14 -1.57">
  <solid shape="disk" ri=".02" re=".2" dif="white" />
@@ -717,9 +717,7 @@
 <animx3d pos="2 2 .5" dim="1 1 1" url="/x3d/lighting.x3d"></animx3d>
 -->
 <!--
-<mirage pos="2 0 1 1.57 1.57">
-  <solid shape="ellipse" r="1" radius2=".5" dif="gold" a=".6" />
-</mirage>
+<mirage pos="2 0 1 1.57 1.57"> <solid shape="ellipse" r="1" radius2=".5" dif="gold" a=".6" /> </mirage>
 -->
 <!-- widget -->
 <!--

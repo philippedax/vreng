@@ -96,14 +96,14 @@ void Model::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "url="))   l = parse()->parseUrl(l, names.url);
-    else if (!stringcmp(l, "scale=")) l = parse()->parseFloat(l, &scale, "scale");
-    else if (!stringcmp(l, "color=")) l = parse()->parseVector3f(l, color, "color");
-    else if (!stringcmp(l, "bvh=")) {
+    if      (! stringcmp(l, "url="))   l = parse()->parseUrl(l, names.url);
+    else if (! stringcmp(l, "scale=")) l = parse()->parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "color=")) l = parse()->parseVector3f(l, color, "color");
+    else if (! stringcmp(l, "bvh=")) {
       bvhurl = new char[URL_LEN];
       l = parse()->parseString(l, bvhurl, "bvh");
     }
-    else if (!stringcmp(l, "sound=")) {
+    else if (! stringcmp(l, "sound=")) {
       sndurl = new char[URL_LEN];
       l = parse()->parseString(l, sndurl, "sound");
     }
@@ -125,13 +125,13 @@ void Model::behavior()
   initMobileObject(1);
 }
 
-/** Constructor */
+/** Constructor : creation from vre file */
 Model::Model(char *l)
 {
   parser(l);
   makeSolid();
-  setRenderPrior(PRIOR_HIGH);
   behavior();
+  setRenderPrior(PRIOR_MEDIUM);
 
   loader();
   scaler();
@@ -144,6 +144,7 @@ Model::Model(char *l)
   if (bvhurl) bvh = new Bvh(bvhurl);
 }
 
+/* creation from Gui addobj */
 Model::Model(WObject *user, char *url, float _scale)
 {
   defaults();
@@ -151,9 +152,9 @@ Model::Model(WObject *user, char *url, float _scale)
   setName();
   setOwner();
   makeSolid();
+  behavior();
   enableBehavior(DYNAMIC);
   setRenderPrior(PRIOR_MEDIUM);
-  behavior();
 
   strcpy(names.url, url);
   loader();

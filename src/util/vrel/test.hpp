@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef TEST_H
-#define TEST_H
+#ifndef TEST_HPP
+#define TEST_HPP
 
 #include "vrel.hpp"
 #include "data.hpp"

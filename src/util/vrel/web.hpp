@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef WEB_H
-#define WEB_H
+#ifndef WEB_HPP
+#define WEB_HPP
 
 #include "box.hpp"
 #include "datalist.hpp"

@@ -16,8 +16,8 @@
  *                                                                          *
  ****************************************************************************/
 
-#ifndef ERROR_H
-#define ERROR_H
+#ifndef ERROR_HPP
+#define ERROR_HPP
 
 /**
  * class Erreur

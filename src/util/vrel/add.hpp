@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef ADD_H
-#define ADD_H
+#ifndef ADD_HPP
+#define ADD_HPP
 
 #include "operation.hpp"
 #include "data.hpp"

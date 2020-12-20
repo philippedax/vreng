@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef OPPOSITION_H
-#define OPPOSITION_H
+#ifndef OPPOSITION_HPP
+#define OPPOSITION_HPP
 
 #include "operation.hpp"
 #include "data.hpp"

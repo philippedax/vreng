@@ -46,17 +46,21 @@ void Wall::parser(char *l)
   l = parse()->parseAttributes(l, this);
 }
 
+/* creation from vre file */
 Wall::Wall(char *l)
 {
   parser(l);
 
   setRenderPrior(PRIOR_MEDIUM);
-  //dax initMobileObject(0);
-  initStillObject();
+  initMobileObject(0);
+  //dax initStillObject();
 }
 
+/* creation from gui addobject */
 Wall::Wall(WObject *user, char *geom)
 {
+  if (! user) return;
+
   setOwner();
   parse()->parseSolids(geom, SEP, this);
 
@@ -99,11 +103,12 @@ bool Wall::whenIntersect(WObject *pcur, WObject *pold)
 
 void Wall::destroy(Wall *po, void *d, time_t s, time_t u)
 {
-  po->removeFromScene();
+  if (po->isBehavior(DYNAMIC))
+    po->removeFromScene();
 }
 
 void Wall::funcs()
 {
   setActionFunc(WALL_TYPE, 0, WO_ACTION moveObject, "Move");
-  //setActionFunc(WALL_TYPE, 1, WO_ACTION destroy, "Destroy");
+  setActionFunc(WALL_TYPE, 1, WO_ACTION destroy, "Destroy");
 }

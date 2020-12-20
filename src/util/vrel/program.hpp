@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef PROGRAM_H
-#define PROGRAM_H
+#ifndef PROGRAM_HPP
+#define PROGRAM_HPP
 
 #include "instlist.hpp"
 #include "declvar.hpp"

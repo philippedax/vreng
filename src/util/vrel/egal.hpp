@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef EGAL_H
-#define EGAL_H
+#ifndef EGAL_HPP
+#define EGAL_HPP
 
 #include "compare.hpp"
 #include "data.hpp"

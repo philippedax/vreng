@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef INFEGAL_H
-#define INFEGAL_H
+#ifndef INFEGAL_HPP
+#define INFEGAL_HPP
 
 #include "compare.hpp"
 #include "data.hpp"

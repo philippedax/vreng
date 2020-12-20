@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef GATE_H
-#define GATE_H
+#ifndef GATE_HPP
+#define GATE_HPP
 
 #include "box.hpp"
 #include "datalist.hpp"

@@ -59,7 +59,7 @@ void Env_var::declaration (const char *nom_var)
   extern Env_var * varglobal;
 
   if (varglobal->parcours(nom_var) != 0) {
-    printf("Error: %s, line %d\n", vrelfile, yylineno);
+    printf("envar: error: %s, line %d\n", vrelfile, yylineno);
     printf("\t this variable %s has been declared as global\n", nom_var);
     exit(1);
   }
@@ -70,7 +70,7 @@ void Env_var::declaration (const char *nom_var)
     count ++;
   }
   else {
-    printf("Error: %s, line %d\n", vrelfile, yylineno);
+    printf("envar: error: %s, line %d\n", vrelfile, yylineno);
     printf("\t this variable %s has been declared twice\n", nom_var);
     exit(1);
   }
@@ -106,7 +106,7 @@ int Env_var::affectation (const char *nom_var, Data* valeur)
 // sur un objet de type Variable).
 int Env_var::affectation2 (const char *nom_var, Data* valeur)
 {
-  int ind;
+  int ind = 0;
 
   if ((ind = parcours(nom_var)) != 0)
     donnee[ind] = valeur;
@@ -120,9 +120,8 @@ Data* Env_var::eval (const char *nom_var)
 
   if (ind == 0)
     return NULL;
-
   else if (donnee[ind] == NULL) {
-    printf ("Error:\ncan't evaluate this variable %s because not affected\n", nom_var);    
+    printf ("envar: error:\ncan't evaluate this variable %s because not affected\n", nom_var);    
     exit(1);
   }
   return donnee[ind];   

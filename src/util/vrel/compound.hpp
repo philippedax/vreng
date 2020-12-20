@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef COMPOUND_H
-#define COMPOUND_H
+#ifndef COMPOUND_HPP
+#define COMPOUND_HPP
 
 #include "decllist.hpp"
 #include "class.hpp"

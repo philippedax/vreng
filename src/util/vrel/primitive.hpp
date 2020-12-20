@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef PRIMITIVE_H
-#define PRIMITIVE_H
+#ifndef PRIMITIVE_HPP
+#define PRIMITIVE_HPP
 
 #include "class.hpp"
 

@@ -66,6 +66,7 @@ void Hat::defaults()
 void Hat::makeSolid()
 {
   char s[256];
+
   switch (model) {
   case Hat::TOPHAT:
     sprintf(s,"solid shape=\"cone\" ri=\"%f\" re=\"%f\" h=\"%f\" dif=\"%s\" />",.09,.09,.20,"black"); parse()->parseSolid(s, SEP, this);
@@ -101,7 +102,8 @@ uint8_t Hat::getModel(const char *name)
     struct sHat *phats = hats;
 
     for ( ; phats; phats++) {
-      if (! strcmp(name, phats->hat_str)) return phats->hat_id;
+      if (! strcmp(name, phats->hat_str))
+        return phats->hat_id;
     }
   }
   return NONE;
@@ -115,14 +117,14 @@ void Hat::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);	// <solid ... />
     if (!l) break;
-    if (!stringcmp(l, "model=")) {
+    if (! stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
-      if      (!stringcmp(modelname, "tophat"))   model = TOPHAT;
-      else if (!stringcmp(modelname, "bowler"))   model = BOWLER;
-      else if (!stringcmp(modelname, "chinese"))  model = CHINESE;
-      else if (!stringcmp(modelname, "cardinal")) model = CARDINAL;
-      else if (!stringcmp(modelname, "country"))  model = COUNTRY;
-      else if (!stringcmp(modelname, "clown"))    model = CLOWN;
+      if      (! stringcmp(modelname, "tophat"))   model = TOPHAT;
+      else if (! stringcmp(modelname, "bowler"))   model = BOWLER;
+      else if (! stringcmp(modelname, "chinese"))  model = CHINESE;
+      else if (! stringcmp(modelname, "cardinal")) model = CARDINAL;
+      else if (! stringcmp(modelname, "country"))  model = COUNTRY;
+      else if (! stringcmp(modelname, "clown"))    model = CLOWN;
     }
   }
   end_while_parse(l);

@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef INSTLIST_H
-#define INSTLIST_H
+#ifndef INSTLIST_HPP
+#define INSTLIST_HPP
 
 #include "inst.hpp"
 

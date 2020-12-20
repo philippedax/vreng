@@ -27,6 +27,7 @@
 Decl_var::Decl_var (Variable* variable)
 {
   strcpy(nomvar, variable->nom);
+printf("nomvar=%s\n", nomvar);
   donnee = NULL;
 }
 
@@ -34,6 +35,7 @@ Decl_var::Decl_var (Variable* variable)
 Decl_var::Decl_var (Variable* variable, Data* expression)
 {
   strcpy(nomvar, variable->nom);
+printf("nomvar=%s=\n", nomvar);
   donnee = expression;
 }
 

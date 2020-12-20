@@ -1,4 +1,4 @@
-Var wood = "http://localhost/~dax/gif/wood.gif"
+var wood = "http://localhost/~dax/gif/wood.gif";
 
 class WallUni compound
 {
@@ -6,7 +6,7 @@ class WallUni compound
 
   constructor(posX, posY, posZ, Angle, EpX, EpY, EpZ, text)
   {
-    w = new wall(posX, posY, posZ, Angle, EpX, EpY, EpZ);
+    w = new wall(posX, posY, posZ, Angle, EpX, EpY, EpZ, text);
     w.tex_xp = text ;
     w.tex_xn = text ;
     w.tex_yp = text ;
@@ -17,7 +17,7 @@ class WallUni compound
 
   constructor(posX, posY, posZ, Angle, EpX, EpY, EpZ)
   {
-    w = new wall(posX, posY, posZ, Angle, EpX, EpY, EpZ);
+    w = new wall(posX, posY, posZ, Angle, EpX, EpY, EpZ, tex);
     w.tex_xp = tex ;
     w.tex_xn = tex ;
     w.tex_yp = tex ;
@@ -27,7 +27,7 @@ class WallUni compound
   }
 }
 
-class wallwood extends wallUni
+class Wallwood extends WallUni
 {
   text = wood ;
 }

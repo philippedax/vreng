@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef TABOBJ_H
-#define TABOBJ_H
+#ifndef TABOBJ_HPP
+#define TABOBJ_HPP
 
 #include "envobject.hpp"
 

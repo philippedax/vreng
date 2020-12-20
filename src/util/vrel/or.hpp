@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef OR_H
-#define OR_H
+#ifndef OR_HPP
+#define OR_HPP
 
 #include "logical.hpp"
 #include "data.hpp"

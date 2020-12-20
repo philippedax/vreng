@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef SUPEGAL_H
-#define SUPEGAL_H
+#ifndef SUPEGAL_HPP
+#define SUPEGAL_HPP
 
 #include "compare.hpp"
 #include "data.hpp"

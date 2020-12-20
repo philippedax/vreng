@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef ENVVAR_H
-#define ENVVAR_H
+#ifndef ENVVAR_HPP
+#define ENVVAR_HPP
 
 #include "data.hpp"
 

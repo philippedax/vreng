@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef MIRAGE_H
-#define MIRAGE_H
+#ifndef MIRAGE_HPP
+#define MIRAGE_HPP
 
 #include "box.hpp"
 #include "datalist.hpp"

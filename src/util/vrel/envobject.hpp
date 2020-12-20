@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef ENVOBJECT_H
-#define ENVOBJECT_H
+#ifndef ENVOBJECT_HPP
+#define ENVOBJECT_HPP
 
 #include "new.hpp"
 

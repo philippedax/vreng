@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef SUP_H
-#define SUP_H
+#ifndef SUP_HPP
+#define SUP_HPP
 
 #include "compare.hpp"
 #include "data.hpp"

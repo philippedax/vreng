@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef AOI_H
-#define AOI_H
+#ifndef AOI_HPP
+#define AOI_HPP
 
 #include "box.hpp"
 #include "datalist.hpp"

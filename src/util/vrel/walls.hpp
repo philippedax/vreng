@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef WALLS_H
-#define WALLS_H
+#ifndef WALLS_HPP
+#define WALLS_HPP
 
 #include "primitive.hpp"
 #include "datalist.hpp"

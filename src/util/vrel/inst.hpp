@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef INST_H
-#define INST_H
+#ifndef INST_HPP
+#define INST_HPP
 
 #include "vrel.hpp"
 

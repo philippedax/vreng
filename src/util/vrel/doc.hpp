@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef DOC_H
-#define DOC_H
+#ifndef DOC_HPP
+#define DOC_HPP
 
 #include "box.hpp"
 #include "datalist.hpp"

@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef CHAINE_H
-#define CHAINE_H
+#ifndef CHAINE_HPP
+#define CHAINE_HPP
 
 #include "vrel.hpp"
 #include "data.hpp"

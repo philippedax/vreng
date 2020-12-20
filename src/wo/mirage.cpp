@@ -137,7 +137,7 @@ Mirage::Mirage(char *l)
   }
 }
 
-/** Created by user via palette */
+/** Created by user via Gui addobj */
 Mirage::Mirage(WObject *user, char *geom)
 {
   defaults();
@@ -155,11 +155,11 @@ Mirage::Mirage(WObject *user, char *geom)
 #endif
   parse()->parseSolids(geom, SEP, this);
 
-  enableBehavior(DYNAMIC);	// palette
   behavior();
+  enableBehavior(DYNAMIC);	// addobj
 
   /* position */
-  pos.x = user->pos.x + 0.5;
+  pos.x = user->pos.x + 0.7;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
   updatePosition();
@@ -252,7 +252,8 @@ void Mirage::recreate(World *w, void *d, time_t s, time_t u)
 
 void Mirage::destroy(Mirage *mirage, void *d, time_t s, time_t u)
 {
-  mirage->removeFromScene();
+  if (mirage->isBehavior(DYNAMIC))
+    mirage->removeFromScene();
 }
 
 void Mirage::funcs()

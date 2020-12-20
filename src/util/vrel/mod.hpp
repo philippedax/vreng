@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef MOD_H
-#define MOD_H
+#ifndef MOD_HPP
+#define MOD_HPP
 
 #include "operation.hpp"
 #include "data.hpp"

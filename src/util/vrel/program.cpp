@@ -34,7 +34,6 @@ Programme::Programme()
 {
   instruc_main = NULL;
   strcpy(fichierimport[0], vrelfile);
-printf("programme: %s\n", vrelfile);
   nbfichiers = 1;
 }
 
@@ -78,7 +77,7 @@ void Programme::import(char *file)
     nbfichiers++;
 
     if (nbfichiers >= 100) {
-      printf("Error: too much imported files\n");
+      printf("program: error too much imported files\n");
       exit(1);
     }
     
@@ -104,7 +103,7 @@ void Programme::addmain (Decl_var_liste * varlocmain, Instruction_liste * instru
     instruc_main = instrucmain;
   }
   else {
-    printf("Error: %s, line %d\n2 main in this file\n", vrelfile, yylineno);
+    printf("program: %s, line %d\n2 main in this file\n", vrelfile, yylineno);
     exit(1);
   }
 }
@@ -113,7 +112,7 @@ void Programme::addmain (Decl_var_liste * varlocmain, Instruction_liste * instru
 void Programme::exec ()
 {
   if (instruc_main == NULL) {
-    printf("Error: no main found in this file\n");
+    printf("program: error no main found in this file\n");
     exit(1);
   }
   instruc_main->exec();

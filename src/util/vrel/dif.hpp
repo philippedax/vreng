@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef DIF_H
-#define DIF_H
+#ifndef DIF_HPP
+#define DIF_HPP
 
 #include "compare.hpp"
 #include "data.hpp"

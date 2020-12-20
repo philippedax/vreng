@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef SUB_H
-#define SUB_H
+#ifndef SUB_HPP
+#define SUB_HPP
 
 #include "operation.hpp"
 #include "data.hpp"

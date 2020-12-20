@@ -39,8 +39,8 @@ Data* Variable::get_data ()
       expression = varglobal->eval(nom);
 
   if (expression == NULL) {
-    printf ("Error: variable %s has not been declared\n", nom);
-    exit(1);
+    printf("var: error: variable %s has not been declared\n", nom);
+    //dax exit(1);
   }
   return expression;
 }

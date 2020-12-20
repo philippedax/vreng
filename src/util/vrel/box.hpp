@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef BOX_H
-#define BOX_H
+#ifndef BOX_HPP
+#define BOX_HPP
 
 #include "app.hpp"
 

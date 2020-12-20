@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  ******************************************************************************/
 
-#ifndef COMPARE_H
-#define COMPARE_H
+#ifndef COMPARE_HPP
+#define COMPARE_HPP
 
 #include "vrel.hpp"
 #include "data.hpp"

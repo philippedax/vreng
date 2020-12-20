@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef TABVAR_H
-#define TABVAR_H
+#ifndef TABVAR_HPP
+#define TABVAR_HPP
 
 #include "envvar.hpp"
 

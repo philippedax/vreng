@@ -125,26 +125,26 @@ Light::Light(char *l)
 /* Called by renderer if in lightList */
 void Light::lights()
 {
-  printf("\n*** light:");
+  //printf("\n*** light:");
   for (list<WObject*>::iterator il = lightList.begin(); il != lightList.end() ; ++il) {
     if (*il && (*il)->isValid()) {
       (*il)->lighting();
-      printf(" %s", (*il)->typeName());
+      //printf(" %s", (*il)->typeName());
     }
   }
-  printf("\n");
+  //printf("\n");
 }
 
 void Light::lighting()
 {
-  printf("\n*** lighting\n");
+  //printf("\n*** lighting\n");
   if (islight) {
     glPushAttrib(GL_LIGHTING_BIT);
     if (light_mode == POS) {
-      glPushMatrix();
+      //dax glPushMatrix();
       //dax glLoadIdentity();
       glLightfv(GL_LIGHT2, GL_POSITION, light_position);
-      glPopMatrix();
+      //dax glPopMatrix();
     }
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
@@ -152,7 +152,7 @@ void Light::lighting()
     glPopAttrib();
   }
   if (fog) glEnable(GL_FOG);
-  printf("\n");
+  //printf("\n");
 }
 
 void Light::quit()

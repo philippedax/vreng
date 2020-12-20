@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef DOOR_H
-#define DOOR_H
+#ifndef DOOR_HPP
+#define DOOR_HPP
 
 #include "box.hpp"
 #include "datalist.hpp"

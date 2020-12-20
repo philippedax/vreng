@@ -1022,83 +1022,87 @@ UDialog& Widgets::toolDialog()
 
 //---------------------------------------------------------------------------
 /*
- * addobj
+ * Addobj
+ *
+ * Dynamicaly objects creation
  */
-#ifdef HUGE
-#undef HUGE
-#endif
 
 /* items */
 enum {
   NONE,
-  THING, MIRAGE, WALL, GROUND, BALL, STEP, GATE,
-  CUBE, SPHERE, CONE, CYLINDER, DISK, TORUS,
+  WALL, THING, MIRAGE, BALL, STEP, GROUND, GATE,
+  BOX, SPHERE, CONE, CYLINDER, DISK, TORUS,
+  BLACK, RED, GREEN, BLUE, PURPLE, YELLOW, CYAN, WHITE,
+  TINY, SMALL, MEDIUM, BIG, BIGEST,
+  OPAQUE, OPAQUE8, OPAQUE6, OPAQUE4, OPAQUE2, OPAQUE0,
+  WOOD, MARBLE, BRICK, STUC, GRASS, PAPER, WATER, CLOUD,
   MODEL, MAN, CAR, SHRUB, TREE, PENGUIN,
   CHAIR_WOOD, TABLE_WOOD, TABLE_METAL, TABLE_GLASS,
-  BLACK, RED, GREEN, BLUE, PURPLE, YELLOW, CYAN, WHITE,
-  TINY, SMALL, MEDIUM, BIG, HUGE,
-  WOOD, MARBLE, BRICK, STUC, GRASS, PAPER, WATER, CLOUD, CHECK,
-  OPAQUE, OPAQUE8, OPAQUE6, OPAQUE4, OPAQUE2, OPAQUE0,
   END
 };
 
 // Local
-static uint8_t obj = THING;	// thing
-static char shape[16] = "cube";	// box
+static uint8_t objtype = THING;	// thing (for multiple solids)
+static char shape[16] = "box";	// box
 static char texture[128] = "";	// empty
-static V3 color;		// black
+static V3 color;		// white
 static float alpha = 1;		// opaque
-static float size = .5;		// small
+static float size = .5;		// medium
 
 static const char chair_wood[] = "\
-<solid dim=\".25 .25 .01\" dif=\".5 .3 .1\" zp=\"/gif/wood.gif\" />\n\
-<solid dim=\".02 .25 .25\" rel=\".24 0 .24 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".01 .01 .25\" rel=\"-.24 .24 -.24 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".01 .01 .25\" rel=\".24 .24 -.24 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".01 .01 .25\" rel=\"-.24 -.24 -.24 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".01 .01 .25\" rel=\".24 -.24 -.24 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".25 .25 .01\" dif=\".5 .3 .1\" zp=\"/gif/wood.gif\" xp=\"/gif/wood.gif\" xn=\"/gif/wood.gif\" yp=\"/gif/wood.gif\" yn=\"/gif/wood.gif\" />\n\
+<solid dim=\".02 .25 .25\" rel=\".12 0 .12 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".01 .01 .25\" rel=\"-.12 .12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".01 .01 .25\" rel=\".12 .12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".01 .01 .25\" rel=\"-.12 -.12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".01 .01 .25\" rel=\".12 -.12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
 ";
-
 static const char table_wood[] = "\
-<solid dim=\".40 .80 .02\" yp=\"/gif/blondwood.gif\" xp=\"/gif/blondwood.gif\" xn=\"/gif/blondwood.gif\" yn=\"/gif/blondwood.gif\" zp=\"/gif/blondwood.gif\" />\n\
-<solid dim=\".02 .02 .40\" rel=\"-.36 .76 -.39 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".02 .02 .40\" rel=\".36 .76 -.39 0 0\"  dif=\".5 .3 .1\" />\n\
-<solid dim=\".02 .02 .40\" rel=\"-.36 -.76 -.39 0 0\" dif=\".5 .3 .1\" />\n\
-<solid dim=\".02 .02 .40\" rel=\".36 -.76 -.39 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".40 .80 .02\" dif=\".5 .3 .1\" yp=\"/gif/blondwood.gif\" xp=\"/gif/blondwood.gif\" xn=\"/gif/blondwood.gif\" yp=\"/gif/blondwood.gif\" yn=\"/gif/blondwood.gif\" />\n\
+<solid dim=\".02 .02 .40\" rel=\"-.18 .38 -.20 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".02 .02 .40\" rel=\".18 .38 -.20 0 0\"  dif=\".5 .3 .1\" />\n\
+<solid dim=\".02 .02 .40\" rel=\"-.18 -.38 -.20 0 0\" dif=\".5 .3 .1\" />\n\
+<solid dim=\".02 .02 .40\" rel=\".18 -.38 -.20 0 0\" dif=\".5 .3 .1\" />\n\
 ";
-
 static const char table_metal[] = "\
 <solid dim=\".70 .3 .02\" dif=\".5 .5 .5\" />\n\
-<solid dim=\".02,.02 .35\" dif=\".5 .5 .5\" rel=\"-.68 -.28 -.35 0 0\" />\n\
-<solid dim=\".02 .02 .35\" dif=\".5 .5 .5\" rel=\"-.68 .28 -.35 0 0\" />\n\
-<solid dim=\".02 .02 .35\" dif=\".5 .5 .5\" rel=\".68 -.28 -.35 0 0\" />\n\
-<solid dim=\".02 .02 .35\" dif=\".5 .5 .5\" rel=\".68 .28 -.35 0 0\" />\n\
+<solid dim=\".02,.02 .35\" dif=\".5 .5 .5\" rel=\"-.34 -.14 -.17 0 0\" />\n\
+<solid dim=\".02 .02 .35\" dif=\".5 .5 .5\" rel=\"-.34 .14 -.17 0 0\" />\n\
+<solid dim=\".02 .02 .35\" dif=\".5 .5 .5\" rel=\".34 -.14 -.17 0 0\" />\n\
+<solid dim=\".02 .02 .35\" dif=\".5 .5 .5\" rel=\".34 .14 -.17 0 0\" />\n\
 ";
-
 static const char table_glass[] = "\
-<solid dim=\".5,.3 .02\" dif=\"0 1 0\" spe=\"0 1 1\" a=\".4\" />\n\
+<solid dim=\".5,.3 .02\" dif=\"0 1 0\" spe=\"0 1 1\" a=\".3\" />\n\
 <solid shape=\"cone\" rb=\".1\" rt=\".1\" h=\".30\" dif=\"0 1 0\" spe=\"0 1 1\" a=\".5\" rel=\"0 0 -.30 0 0\" />\n\
 ";
 
-static void resetForm() {
-  obj = THING;
-  strcpy(shape, "cube");
-  *texture = '\0';
-  alpha = 1;
-  size = .5;
-  color = newV3(1, 1, 1);
+/* default values */
+static void defaultAddobj()
+{
+  objtype = THING;	// thing (default for muliple solids)
+  strcpy(shape, "box");	// box
+  *texture = '\0';	// no textures
+  alpha = 1;		// opaque
+  size = .5;		// 50 cm
+  color = newV3(1,1,1);	// white
 }
 
-/** pour l'addition d'objet */
-static void setForm(int item) {
+/* set values */
+static void setVal(int item) {
   switch (item) {
-    // objs :
-    case THING : case MIRAGE : case WALL : case GROUND : case BALL : case STEP :
-      obj = item; break;
+    // objtypes :
+    case THING :
+    case MIRAGE :
+    case WALL :
+    case BALL :
+    case STEP :
+    case GROUND :
+      objtype = item;
+      break;
 
     // shapes
+    case BOX :      sprintf(shape, "box"); break;
     case SPHERE :   sprintf(shape, "sphere"); break;
-    case CUBE :     sprintf(shape, "cube"); break;
     case CONE :     sprintf(shape, "cone"); break;
     case CYLINDER : sprintf(shape, "cylinder"); break;
     case DISK :     sprintf(shape, "disk"); break;
@@ -1115,6 +1119,7 @@ static void setForm(int item) {
     case WHITE :  color = newV3(1,1,1); break;
 
     // textures
+    case NONE :   sprintf(texture, ""); break;
     case WOOD :   sprintf(texture, "/gif/wood.gif"); break;
     case MARBLE : sprintf(texture, "/gif/marble.gif"); break;
     case STUC :   sprintf(texture, "/gif/stuc.gif"); break;
@@ -1123,10 +1128,10 @@ static void setForm(int item) {
     case PAPER :  sprintf(texture, "/gif/paper.gif"); break;
     case WATER :  sprintf(texture, "/gif/water.gif"); break;
     case CLOUD :  sprintf(texture, "/gif/clouds.gif"); break;
-    case CHECK :  sprintf(texture, "/gif/check.gif"); break;
+    //dax case CHECK :  sprintf(texture, "/gif/check.gif"); break;
 
     // alpha
-    case OPAQUE  : alpha = 1; break;
+    case OPAQUE  : alpha = 1.; break;
     case OPAQUE8 : alpha = .8; break;
     case OPAQUE6 : alpha = .6; break;
     case OPAQUE4 : alpha = .4; break;
@@ -1134,11 +1139,11 @@ static void setForm(int item) {
     case OPAQUE0 : alpha = .0; break;
 
     // sizes
-    case TINY :   size = .125; break;
+    case TINY :   size = .12; break;
     case SMALL :  size = .25; break;
-    case MEDIUM : size = .5; break;
-    case BIG :    size = 1; break;
-    case HUGE :   size = 2; break;
+    case MEDIUM : size = .50; break;
+    case BIG :    size = 1.0; break;
+    case BIGEST : size = 2.0; break;
 
     // models
     case MAN :     sprintf(shape, "man"); break;
@@ -1155,105 +1160,112 @@ static void setForm(int item) {
   }
 }
 
+/* callbach witch build <solid ... \> */
 void Widgets::newObjectCB()
 {
-  char s[1024], url[128];
+  char solid[BUFSIZ], url[128];
   float r = .2 * size;
   float scale = 1;
   V3 c = color;
 
-  s[0] = url[0] = '\0';
+  solid[0] = url[0] = '\0';
 
   // Shapes
-  if (! strcmp(shape, "cube")) {
-    sprintf(s, "solid shape=\"box\" dim=\"%f %f %f\" dif=\"%f %f %f\" tx_front=\"%s\" a=\"%f\"/>", r,r,r, c.v[0],c.v[1],c.v[2], texture, alpha);
+  if (! strcmp(shape, "box")) {
+    sprintf(solid, "solid shape=\"box\" dim=\"%f %f %f\" dif=\"%f %f %f\" tx_front=\"%s\" a=\"%f\" />", r,r,r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
   else if (! strcmp(shape, "sphere")) {
-    sprintf(s, "solid shape=\"sphere\" r=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\"/>", r, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(solid, "solid shape=\"sphere\" r=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
   else if (! strcmp(shape, "cone")) {
-    sprintf(s, "solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\"/>", r,r/2,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(solid, "solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/2,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
   else if (! strcmp(shape, "cylinder")) {
-    sprintf(s, "solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\"/>", r,r,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(solid, "solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
   else if (! strcmp(shape, "disk")) {
-    sprintf(s, "solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\"/>", r,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(solid, "solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,2*r, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
   else if (! strcmp(shape, "torus")) {
-    sprintf(s, "solid shape=\"torus\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\"/>", r,r/5, c.v[0],c.v[1],c.v[2], texture, alpha);
+    sprintf(solid, "solid shape=\"torus\" ri=\"%f\" re=\"%f\" dif=\"%f %f %f\" tx=\"%s\" a=\"%f\" />", r,r/5, c.v[0],c.v[1],c.v[2], texture, alpha);
   }
   if (! strcmp(shape, "man")) {
-    sprintf(s, "solid shape=\"man\" dim=\".8 .15 .85\" a=\"%f\"/>", alpha);
+    sprintf(solid, "solid shape=\"man\" dim=\".2 .1 .85\" />");
   }
   if (! strcmp(shape, "car")) {
-    sprintf(s, "solid shape=\"car\" dim=\".7 .7 .7\" dif=\"%f %f %f\" a=\"%f\"/>", c.v[0],c.v[1],c.v[2], alpha);
+    sprintf(solid, "solid shape=\"car\" dim=\".7 .7 .7\" dif=\"%f %f %f\" a=\"%f\" />", c.v[0],c.v[1],c.v[2], alpha);
   }
 
   // Models
   else if (! strcmp(shape, "shrub")) {
-    obj = MODEL;
+    objtype = MODEL;
     sprintf(url, "/3ds/tree_1.3ds");
-    scale = .05;
+    scale = .03;
   }
   else if (! strcmp(shape, "tree")) {
-    obj = MODEL;
+    objtype = MODEL;
     sprintf(url, "/3ds/tree_2.3ds");
-    scale = .07;
+    scale = .03;
   }
   else if (! strcmp(shape, "penguin")) {
-    obj = MODEL;
+    objtype = MODEL;
     sprintf(url, "/lwo/penguin.lwo");
     scale = .3;
   }
+
+  // Compound solids
   else if (! strcmp(shape, "chair_wood")) {
-    sprintf(s, "%s", chair_wood);
+    objtype = THING;
+    sprintf(solid, "%s", chair_wood);
   }
   else if (! strcmp(shape, "table_wood")) {
-    sprintf(s, "%s", table_wood);
+    objtype = THING;
+    sprintf(solid, "%s", table_wood);
   }
   else if (! strcmp(shape, "table_metal")) {
-    sprintf(s, "%s", table_metal);
+    objtype = THING;
+    sprintf(solid, "%s", table_metal);
   }
   else if (! strcmp(shape, "table_glass")) {
-    sprintf(s, "%s", table_glass);
+    objtype = THING;
+    sprintf(solid, "%s", table_glass);
+  }
+
+  if (!solid) {
+    printf("solid is null\n");
+    defaultAddobj();	// reset to default values
+    return;
   }
 
   // Calls constructor of the selectioned object
   if (! localuser) return;
 
-  switch (obj) {
-  case MIRAGE:
-    new Mirage(localuser, s); break;
-  case WALL:
-    new Wall(localuser, s); break;
+  switch (objtype) {
+  case THING:	new Thing(localuser, solid);	break;
+  case WALL:	new Wall(localuser, solid);	break;
+  case MIRAGE:	new Mirage(localuser, solid);	break;
+  case BALL:	new Ball(localuser, solid);	break;
+  case STEP:	new Step(localuser, solid);	break;
+  case MODEL:	new Model(localuser, url, scale); break;
   case GROUND:
-    sprintf(s, "solid dim=\"%f %f %f\" dif=\"%f %f %f\" zp=\"%s\"/>", 10.,10.,.1, c.v[0],c.v[1],c.v[2], texture);
-    new Ground(localuser, s); break;
-  case BALL:
-    new Ball(localuser, s); break;
-  case THING:
-    new Thing(localuser, s); break;
-  case STEP:
-    new Step(localuser, s); break;
-  case MODEL:
-    new Model(localuser, url, scale); break;
+    sprintf(solid, "solid dim=\"%f %f %f\" dif=\"%f %f %f\" zp=\"%s\"/>", 10.,10.,.1, c.v[0],c.v[1],c.v[2], texture);
+    new Ground(localuser, solid); break;
   }
 
-  resetForm();	// reset to default values
+  defaultAddobj();	// reset to default values
 }
 
 UDialog& Widgets::addobjDialog()
 {
   URadioSelect
-    &sel_obj   = uradioSelect(),
-    &sel_shape = uradioSelect(),
-    &sel_color = uradioSelect(),
-    &sel_tex   = uradioSelect(),
-    &sel_alpha = uradioSelect(),
-    &sel_size  = uradioSelect(),
-    &sel_model = uradioSelect(),
-    &sel_solid = uradioSelect() ;
+    &sel_objtype  = uradioSelect(),
+    &sel_shape    = uradioSelect(),
+    &sel_color    = uradioSelect(),
+    &sel_tex      = uradioSelect(),
+    &sel_alpha    = uradioSelect(),
+    &sel_size     = uradioSelect(),
+    &sel_model    = uradioSelect(),
+    &sel_compound = uradioSelect() ;
 
   UBox* addobjBox = new UBox
     (UFont::bold
@@ -1268,109 +1280,105 @@ UDialog& Widgets::addobjDialog()
      + UFont::plain
      + uhbox(UBorder::shadowOut)
      + uhbox("Object : " + UFont::plain
-              + ucheckbox("Thing" + sel_obj
-                          + UOn::select / ucall((int)THING, setForm)
-                          ).setSelected()
-              + ucheckbox("Mirage" + sel_obj
-                          + UOn::select / ucall((int)MIRAGE, setForm))
-              + ucheckbox("Wall" + sel_obj
-                          + UOn::select / ucall((int)WALL, setForm))
-              + ucheckbox("Ground" + sel_obj
-                          + UOn::select / ucall((int)GROUND, setForm))
-              + ucheckbox("Ball" + sel_obj
-                          + UOn::select / ucall((int)BALL, setForm))
-              + ucheckbox("Step" + sel_obj
-                          + UOn::select / ucall((int)STEP, setForm))
-              //+ ucheckbox("Gate" + sel_obj
-              //            + UOn::select / ucall((int)GATE, setForm))
+              + ucheckbox("Thing" + sel_objtype
+                          + UOn::select / ucall((int)THING, setVal)).setSelected()
+              + ucheckbox("Wall" + sel_objtype
+                          + UOn::select / ucall((int)WALL, setVal))
+              + ucheckbox("Mirage" + sel_objtype
+                          + UOn::select / ucall((int)MIRAGE, setVal))
+              + ucheckbox("Ball" + sel_objtype
+                          + UOn::select / ucall((int)BALL, setVal))
+              + ucheckbox("Step" + sel_objtype
+                          + UOn::select / ucall((int)STEP, setVal))
+              + ucheckbox("Ground" + sel_objtype
+                          + UOn::select / ucall((int)GROUND, setVal))
+              //+ ucheckbox("Gate" + sel_objtype
+              //            + UOn::select / ucall((int)GATE, setVal))
             )
      + uhbox(UBorder::shadowOut)
      + uhbox("Shape :  " + UFont::plain
              + ucheckbox("Cube" + sel_shape
-                         + UOn::select / ucall((int)CUBE, setForm)
-                         ).setSelected()
+                         + UOn::select / ucall((int)BOX, setVal)).setSelected()
              + ucheckbox("Sphere" + sel_shape
-                         + UOn::select / ucall((int)SPHERE, setForm))
+                         + UOn::select / ucall((int)SPHERE, setVal))
              + ucheckbox("Cone" + sel_shape
-                         + UOn::select / ucall((int)CONE, setForm))
+                         + UOn::select / ucall((int)CONE, setVal))
              + ucheckbox("Cylinder" + sel_shape
-                         + UOn::select / ucall((int)CYLINDER, setForm))
+                         + UOn::select / ucall((int)CYLINDER, setVal))
              + ucheckbox("Disk" + sel_shape
-                         + UOn::select / ucall((int)DISK, setForm))
+                         + UOn::select / ucall((int)DISK, setVal))
              + ucheckbox("Torus" + sel_shape
-                         + UOn::select / ucall((int)TORUS, setForm))
+                         + UOn::select / ucall((int)TORUS, setVal))
             )
      + uhbox(UBorder::shadowOut)
      + uhbox("Color :  " + UFont::plain
-             + ucheckbox("Black" + sel_color
-                         + UOn::select / ucall((int)BLACK, setForm)
-                         ).setSelected()
              + ucheckbox("White" + sel_color
-                         + UOn::select / ucall((int)WHITE, setForm))
+                         + UOn::select / ucall((int)WHITE, setVal)).setSelected()
+             + ucheckbox("Black" + sel_color
+                         + UOn::select / ucall((int)BLACK, setVal))
              + ucheckbox("Red" + sel_color
-                         + UOn::select / ucall((int)RED, setForm))
+                         + UOn::select / ucall((int)RED, setVal))
              + ucheckbox("Green" + sel_color
-                         + UOn::select / ucall((int)GREEN, setForm))
+                         + UOn::select / ucall((int)GREEN, setVal))
              + ucheckbox("Blue" + sel_color
-                         + UOn::select / ucall((int)BLUE, setForm))
+                         + UOn::select / ucall((int)BLUE, setVal))
              + ucheckbox("Purple" + sel_color
-                         + UOn::select / ucall((int)PURPLE, setForm))
+                         + UOn::select / ucall((int)PURPLE, setVal))
              + ucheckbox("Yellow" + sel_color
-                         + UOn::select / ucall((int)YELLOW, setForm))
+                         + UOn::select / ucall((int)YELLOW, setVal))
              + ucheckbox("Cyan" + sel_color
-                         + UOn::select / ucall((int)CYAN, setForm))
+                         + UOn::select / ucall((int)CYAN, setVal))
             )
     + uhbox(UBorder::shadowOut)
     + uhbox("Texture : " + UFont::plain
+             + ucheckbox("None" + sel_tex
+                         + UOn::select / ucall((int)WOOD, setVal))
              + ucheckbox("Wood" + sel_tex
-                         + UOn::select / ucall((int)WOOD, setForm)
-                         ).setSelected()
+                         + UOn::select / ucall((int)WOOD, setVal))
              + ucheckbox("Marble" + sel_tex
-                         + UOn::select / ucall((int)MARBLE, setForm))
+                         + UOn::select / ucall((int)MARBLE, setVal))
              + ucheckbox("Stuc" + sel_tex
-                         + UOn::select / ucall((int)STUC, setForm))
+                         + UOn::select / ucall((int)STUC, setVal))
              + ucheckbox("Brick" + sel_tex
-                         + UOn::select / ucall((int)BRICK, setForm))
+                         + UOn::select / ucall((int)BRICK, setVal))
              + ucheckbox("Grass" + sel_tex
-                         + UOn::select / ucall((int)GRASS, setForm))
+                         + UOn::select / ucall((int)GRASS, setVal))
              + ucheckbox("Paper" + sel_tex
-                         + UOn::select / ucall((int)PAPER, setForm))
+                         + UOn::select / ucall((int)PAPER, setVal))
              + ucheckbox("Water" + sel_tex
-                         + UOn::select / ucall((int)WATER, setForm))
+                         + UOn::select / ucall((int)WATER, setVal))
              + ucheckbox("Cloud" + sel_tex
-                         + UOn::select / ucall((int)CLOUD, setForm))
-             + ucheckbox("Check" + sel_tex
-                         + UOn::select / ucall((int)CHECK, setForm))
+                         + UOn::select / ucall((int)CLOUD, setVal))
+             //dax + ucheckbox("Check" + sel_tex
+             //dax             + UOn::select / ucall((int)CHECK, setVal))
             )
     + uhbox(UBorder::shadowOut)
     + uhbox("Alpha :  " + UFont::plain
              + ucheckbox("Opaque" + sel_alpha 
-                         + UOn::select / ucall((int)OPAQUE, setForm)
-                         ).setSelected()
+                         + UOn::select / ucall((int)OPAQUE, setVal)).setSelected()
              + ucheckbox(".8" + sel_alpha
-                         + UOn::select / ucall((int)OPAQUE8, setForm))
+                         + UOn::select / ucall((int)OPAQUE8, setVal))
              + ucheckbox(".6" + sel_alpha
-                         + UOn::select / ucall((int)OPAQUE6, setForm))
+                         + UOn::select / ucall((int)OPAQUE6, setVal))
              + ucheckbox(".4" + sel_alpha
-                         + UOn::select / ucall((int)OPAQUE4, setForm))
+                         + UOn::select / ucall((int)OPAQUE4, setVal))
              + ucheckbox(".2" + sel_alpha
-                         + UOn::select / ucall((int)OPAQUE2, setForm))
-             + ucheckbox("Translucid" + sel_alpha
-                         + UOn::select / ucall((int)OPAQUE0, setForm))
+                         + UOn::select / ucall((int)OPAQUE2, setVal))
+             + ucheckbox("Invisible" + sel_alpha
+                         + UOn::select / ucall((int)OPAQUE0, setVal))
             )
     + uhbox(UBorder::shadowOut)
     + uhbox("Size :   " + UFont::plain
              + ucheckbox("Tiny" + sel_size
-                         + UOn::select / ucall((int)TINY, setForm))
+                         + UOn::select / ucall((int)TINY, setVal))
              + ucheckbox("Small" + sel_size 
-                         + UOn::select / ucall((int)SMALL, setForm)
-                         ).setSelected()
+                         + UOn::select / ucall((int)SMALL, setVal)).setSelected()
              + ucheckbox("Normal" + sel_size
-                         + UOn::select / ucall((int)MEDIUM, setForm))
+                         + UOn::select / ucall((int)MEDIUM, setVal))
              + ucheckbox("Big" + sel_size
-                         + UOn::select / ucall((int)BIG, setForm))
+                         + UOn::select / ucall((int)BIG, setVal))
              + ucheckbox("Huge" + sel_size
-                         + UOn::select / ucall((int)HUGE, setForm))
+                         + UOn::select / ucall((int)BIGEST, setVal))
             )
      + uhbox(UBorder::shadowOut)
      + UFont::bold
@@ -1379,15 +1387,15 @@ UDialog& Widgets::addobjDialog()
      + uhbox(UBorder::shadowOut)
      + uhbox("Model :  " + UFont::plain
              + ucheckbox("Car" + sel_model
-                         + UOn::select / ucall((int)CAR, setForm))
+                         + UOn::select / ucall((int)CAR, setVal))
              + ucheckbox("Man" + sel_model
-                         + UOn::select / ucall((int)MAN, setForm))
+                         + UOn::select / ucall((int)MAN, setVal))
              + ucheckbox("Shrub" + sel_model
-                         + UOn::select / ucall((int)SHRUB, setForm))
+                         + UOn::select / ucall((int)SHRUB, setVal))
              + ucheckbox("Tree" + sel_model
-                         + UOn::select / ucall((int)TREE, setForm))
+                         + UOn::select / ucall((int)TREE, setVal))
              + ucheckbox("Penguin" + sel_model
-                         + UOn::select / ucall((int)PENGUIN, setForm))
+                         + UOn::select / ucall((int)PENGUIN, setVal))
             )
      + uhbox(UBorder::shadowOut)
      + UFont::bold
@@ -1395,21 +1403,24 @@ UDialog& Widgets::addobjDialog()
      + UFont::plain
      + uhbox(UBorder::shadowOut)
      + uhbox("Solids :  " + UFont::plain
-             + ucheckbox("Chair wood" + sel_solid
-                         + UOn::select / ucall((int)CHAIR_WOOD, setForm))
-             + ucheckbox("Table wood" + sel_solid
-                         + UOn::select / ucall((int)TABLE_WOOD, setForm))
-             + ucheckbox("Table metal" + sel_solid
-                         + UOn::select / ucall((int)TABLE_METAL, setForm))
-             + ucheckbox("Table glass" + sel_solid
-                         + UOn::select / ucall((int)TABLE_GLASS, setForm))
+             + ucheckbox("Chair wood" + sel_compound
+                         + UOn::select / ucall((int)CHAIR_WOOD, setVal))
+             + ucheckbox("Table wood" + sel_compound
+                         + UOn::select / ucall((int)TABLE_WOOD, setVal))
+             + ucheckbox("Table metal" + sel_compound
+                         + UOn::select / ucall((int)TABLE_METAL, setVal))
+             + ucheckbox("Table glass" + sel_compound
+                         + UOn::select / ucall((int)TABLE_GLASS, setVal))
             )
     + uhbox(UBorder::shadowOut)
     + uhcenter()
     + uhbox(uhflex()
-      + ubutton(UFont::bold + uhcenter() + " Add " 
+      + ubutton(UFont::bold + uhcenter()
+                + " Add " 
                 + ucall(this, &Widgets::newObjectCB))
-      + ubutton(UFont::bold + uhcenter() + " Cancel " + ucloseWin()))
+      + ubutton(UFont::bold + uhcenter()
+                + " Cancel "
+                + ucloseWin()))
     );
 
   return udialog(addobjBox);

@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef VAR_H
-#define VAR_H
+#ifndef VAR_HPP
+#define VAR_HPP
 
 #include "vrel.hpp"
 #include "data.hpp"

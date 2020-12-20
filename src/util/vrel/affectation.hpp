@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef AFFECTATION_H
-#define AFFECTATION_H
+#ifndef AFFECTATION_HPP
+#define AFFECTATION_HPP
 
 #include "inst.hpp"
 #include "var.hpp"

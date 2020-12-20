@@ -45,7 +45,7 @@ Creation::Creation(char nom1[30], Data_liste * arg1)
   // Verifie l'existence de la classe.
   int i;
   for (i=0; strcmp(mere->nom[i], nom) != 0; i++) { 
-    if (i+1 >= mere->nb_classes) erreur("Classe non declaree");
+    if (i+1 >= mere->nb_classes) erreur("new: error Classe non declaree");
   }
 
   // Champ arg.
@@ -84,7 +84,7 @@ Creation::Creation(Variable * var1, char nom2[30], Data_liste * arg1)
   // Verifie l'existence de la classe 
   int i;
   for (i=0; strcmp(mere->nom[i], nom) != 0; i++) { 
-    if (i+1 >= mere->nb_classes) erreur("Classe non declaree");
+    if (i+1 >= mere->nb_classes) erreur("new: error Classe non declaree");
   }
 
   // Champ arg. 
@@ -106,8 +106,10 @@ Creation::Creation(Variable * var1, char nom2[30], Data_liste * arg1)
 // Affecte une valeur a une variable de classe 
 void Creation::affectation(char nom[30], Data * flo1)
 {
-  if (var->affectation2(nom,flo1) == 0) 
-    erreur("La variable n'est pas declaree");
+  if (var->affectation2(nom,flo1) == 0) {
+    //dax erreur("new: error la variable n'est pas declaree");
+    printf("new: error la variable %s n'est pas declaree\n", nom);
+  }
 }
 
 // Methode d'execution de l'instruction new 
@@ -120,7 +122,8 @@ void Creation::exec()
 
   // Transmettre les variables de classes
   for (int j=1; j < var->count; j++) {
-    strcpy (nomvar, var->nom[j]);
+    strcpy(nomvar, var->nom[j]);
+    printf("new: nomvar=%s\n", nomvar); //dax
     if (var->donnee[j] != NULL)
       mere->classe[i]->var->affectation(nomvar, var->donnee[j]);
   }

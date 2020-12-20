@@ -81,13 +81,15 @@ Thing::Thing(char *l)
   oid++;
 }
 
-/** Created by user via the palette */
+/** Created by user via the Gui addobj */
 Thing::Thing(WObject *user, char *geom)
 {
   defaults();
   setName();
   setOwner();
   oid++;
+
+  parse()->parseSolids(geom, SEP, this);
 
   /* position in front of the user */
   pos.x = user->pos.x + 1;
@@ -106,7 +108,6 @@ Thing::Thing(WObject *user, char *geom)
     psql->updateOwner(this);
     if (geom) {
       psql->updateGeom(this, geom);
-      parse()->parseSolids(geom, SEP, this);
     }
   }
 #endif
@@ -217,7 +218,8 @@ void Thing::recreate(World *w, void *d, time_t s, time_t u)
 
 void Thing::destroy(Thing *thing, void *d, time_t s, time_t u)
 {
-  thing->removeFromScene();
+  if (thing->isBehavior(DYNAMIC))
+    thing->removeFromScene();
 }
 
 void Thing::quit()

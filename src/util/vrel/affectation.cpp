@@ -64,8 +64,10 @@ void Affectation::exec ()
       if ( (attribut->affectation(nomvar, valeur_affectee)) == 0 )
 	resultat = varglobal->affectation(nomvar , valeur_affectee);  
 
-    if (resultat == 0)
-      erreur("Impossible de faire l'affectation, la variable n'existe pas");
+    if (resultat == 0) {
+      //dax erreur("affectation: impossible de faire l'affectation, la variable %s n'existe pas", nomvar);
+      printf("affectation: impossible de faire l'affectation, la variable %s n'existe pas\n", nomvar);
+    }
   }
 }
 

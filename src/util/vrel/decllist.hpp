@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef DECLLIST_H
-#define DECLLIST_H
+#ifndef DECLLIST_HPP
+#define DECLLIST_HPP
 
 #include "declvar.hpp"
 #include "envvar.hpp"

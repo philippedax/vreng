@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef ABS_H
-#define ABS_H
+#ifndef ABS_HPP
+#define ABS_HPP
 
 #include "operation.hpp"
 #include "data.hpp"

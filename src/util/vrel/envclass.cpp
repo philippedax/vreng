@@ -65,6 +65,7 @@ void Env_classe::addClasse(char nom_classe[50], Vrel * classe1)
   }
 
   strcpy(nom[nb_classes], nom_classe);
+printf("envclass: add class=%s\n", nom_classe);
   classe[nb_classes]=classe1;
   nb_classes++;
   if (nb_classes > MAX_CLASSES)

@@ -35,7 +35,7 @@ static char sandbox_vre[] = "\
 <wall name=\"border-s\" pos=\"-20 0 .2 1.57\"> <solid dim=\"40 .2 1\" dif=\"red\" /></wall>\n\
 <wall name=\"border-w\" pos=\"0 20 .2 0\">     <solid dim=\"40 .2 1\" dif=\"red\" /></wall>\n\
 <wall name=\"border-e\" pos=\"0 -20 .2 0\">    <solid dim=\"40 .2 1\" dif=\"red\" /></wall>\n\
-<ground name=\"ground\" pos=\"0 0 -.1\"> <solid dim=\"40 40 .1\" zp=\"/gif/pelouse.gif\" /></ground>\n\
+<ground name=\"ground\" pos=\"0 0 -.1\"> <solid dim=\"40 40 .1\" dif=\".3 .3 .3\" /></ground>\n\
 <!--\n\
 <mirage name=\"sky\" aspeed=\".01\" mode=\"self\">\n\
  <solid shape=\"sphere\" r=\"30\" tx=\"/gif/sky.gif\" slices=\"255\" stacks=\"255\" />\n\

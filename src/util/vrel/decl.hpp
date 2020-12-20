@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef DECL_H
-#define DECL_H
+#ifndef DECL_HPP
+#define DECL_HPP
 
 /**
  * class Declaration

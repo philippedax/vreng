@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef ENVCLASS_H
-#define ENVCLASS_H
+#ifndef ENVCLASS_HPP
+#define ENVCLASS_HPP
 
 #include "class.hpp"
 

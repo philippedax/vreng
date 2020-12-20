@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef DIV_H
-#define DIV_H
+#ifndef DIV_HPP
+#define DIV_HPP
 
 #include "operation.hpp"
 #include "data.hpp"

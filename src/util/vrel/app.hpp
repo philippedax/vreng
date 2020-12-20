@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef APP_H
-#define APP_H
+#ifndef APP_HPP
+#define APP_HPP
 
 #include "primitive.hpp"
 

@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef WHILE_H
-#define WHILE_H
+#ifndef WHILE_HPP
+#define WHILE_HPP
 
 #include "inst.hpp"
 #include "data.hpp"

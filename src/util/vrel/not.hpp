@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef NOT_H
-#define NOT_H
+#ifndef NOT_HPP
+#define NOT_HPP
 
 #include "logical.hpp"
 #include "data.hpp"

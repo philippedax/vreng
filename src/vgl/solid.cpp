@@ -226,10 +226,10 @@ static const struct sStokens stokens[] = {
   { "s", "side", STOK_SIDE },
   { "rel", "pos", STOK_REL },
   { "tx", "texture", STOK_TEXTURE },
-  { "xp", "tx_right", STOK_TEX_XP },
+  { "xp", "tx_back", STOK_TEX_XP },
   { "xn", "tx_front", STOK_TEX_XN },
   { "yp", "tx_left", STOK_TEX_YP },
-  { "yn", "tx_back", STOK_TEX_YN },
+  { "yn", "tx_right", STOK_TEX_YN },
   { "zp", "tx_top", STOK_TEX_ZP },
   { "zn", "tx_bottom", STOK_TEX_ZN },
   { "txr", "texture_r", STOK_TEXTURE_R },
@@ -403,8 +403,8 @@ char * Solid::parser(char *l)
     wobject->parse()->printNumline();
     return NULL;
   }
-  char ll[256];
-  strcpy(ll, l);
+  char ll[BUFSIZ];
+  strcpy(ll, l);	// copy origin line for debug
   if (*l == '<') l++;	// skip open-tag
 
   l = getFramesNumber(l);

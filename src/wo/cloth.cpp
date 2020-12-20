@@ -67,13 +67,13 @@ void Cloth::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "article=")) {
+    if (! stringcmp(l, "article=")) {
       char str[16];
       l = parse()->parseString(l, str, "article");
-      if      (!stringcmp(str, "halo")) { halo = true; article = HALO; }
-      else if (!stringcmp(str, "hat"))  { hat = true; article = HAT; }
-      else if (!stringcmp(str, "dress")) { skirt = true; article = DRESS; }
-      else if (!stringcmp(str, "wings")) { wings = true; article = WINGS; }
+      if      (! stringcmp(str, "halo")) { halo = true; article = HALO; }
+      else if (! stringcmp(str, "hat"))  { hat = true; article = HAT; }
+      else if (! stringcmp(str, "dress")) { skirt = true; article = DRESS; }
+      else if (! stringcmp(str, "wings")) { wings = true; article = WINGS; }
     }
     else if (!stringcmp(l, "color=")) l = parse()->parseString(l, color, "color");
   }
@@ -171,6 +171,7 @@ void Cloth::inits()
     if (localuser) dz += localuser->height / 2;
     break;
   }
+
   // save original position
   ox = pos.x; oy = pos.y; oz = pos.z;
   oax = pos.ax; oay = pos.ay; oaz = pos.az;
@@ -181,6 +182,7 @@ void Cloth::inits()
   pos.ax = dax;
   pos.ay = day;
   if (localuser) pos.az = localuser->pos.az + daz;
+
   updatePosition();
 }
 

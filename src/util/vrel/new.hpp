@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef NEW_H
-#define NEW_H
+#ifndef NEW_HPP
+#define NEW_HPP
 
 #include "inst.hpp"
 #include "datalist.hpp"

@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef NOMBRE_H
-#define NOMBRE_H
+#ifndef NOMBRE_HPP
+#define NOMBRE_HPP
 
 #include "vrel.hpp"
 #include "data.hpp"

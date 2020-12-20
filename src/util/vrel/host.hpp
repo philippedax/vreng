@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef HOST_H
-#define HOST_H
+#ifndef HOST_HPP
+#define HOST_HPP
 
 #include "box.hpp"
 #include "datalist.hpp"

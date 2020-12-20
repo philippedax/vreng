@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  *****************************************************************************/
 
-#ifndef MUL_H
-#define MUL_H
+#ifndef MUL_HPP
+#define MUL_HPP
 
 #include "operation.hpp"
 #include "data.hpp"

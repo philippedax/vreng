@@ -15,8 +15,8 @@
  *    GNU General Public License for more details.                            *
  ******************************************************************************/
 
-#ifndef LOGICAL_H
-#define LOGICAL_H
+#ifndef LOGICAL_HPP
+#define LOGICAL_HPP
 
 #include "vrel.hpp"
 #include "data.hpp"

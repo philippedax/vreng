@@ -602,15 +602,16 @@ char * Parse::parsePath(char *ptok, float path[][5], uint16_t *segs)
   return nextToken();
 }
 
-/* parse a solid */
+/* tag <solid : creates a solid and calls its parser */
 char * Parse::parseSolid(char *ptok, WObject *wobject)
 {
   if (!ptok || !strlen(ptok)) {
     error("parse error at line %d (no solid)", numline-1);
     return nextToken();
   }
+  if (*ptok == '<') ptok++;
   if (! strcmp(ptok, "solid"))
-    ptok = nextToken();	// skip tag solid
+    ptok = nextToken();		// skip tag solid
 
   Solid *s = new Solid();
 
@@ -619,7 +620,8 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
   else
     error("no wobject");
 
-  ptok = s->parser(ptok);	// parse solid here
+  ptok = s->parser(ptok);	// calls its parser
+
   return ptok;
 }
 
@@ -635,7 +637,9 @@ char * Parse::parseSolid(char *ptok, const char *separ, WObject *wobject)
 void Parse::parseSolids(char *ptok, const char *separ, WObject *wobject)
 {
   strtok(ptok, separ);
-  while (ptok) ptok = parseSolid(ptok, wobject);
+  while (ptok) {
+    ptok = parseSolid(ptok, wobject);
+  }
 }
 
 /* parse a rotation */

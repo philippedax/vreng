@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef TRUE_H
-#define TRUE_H
+#ifndef TRUE_HPP
+#define TRUE_HPP
 
 #include "test.hpp"
 

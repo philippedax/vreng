@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef DATALISTE_H
-#define DATALISTE_H
+#ifndef DATALISTE_HPP
+#define DATALISTE_HPP
 
 #include "data.hpp"
 

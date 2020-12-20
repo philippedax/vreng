@@ -224,7 +224,7 @@ UBox * Grid::gridBox()
   uvbox(	//usize(160,400)
           uvbox(UBorder::none	//etchedIn
                 + uhbox(UColor::blue + UFont::bold + "View")
-                + ucheckbox("Visible Grid" + ucall(this, &Grid::toggleGrid))
+                + ucheckbox("Visible Grid" + ucall(this, &Grid::toggleGrid2d))
                 + ucheckbox("3D Grid"      + ucall(this, &Grid::toggleGrid3d))
                 + ucheckbox("Overlap"      + ucall(this, &Grid::toggleOverlap))
                )
@@ -289,7 +289,7 @@ void Grid::toggleBehavior(int _behavior)
 void Grid::toggleOverlap()
 { overlap ^= 1; }
 
-void Grid::toggleGrid()
+void Grid::toggleGrid2d()
 { visible ^= 1; }
 
 void Grid::toggleGrid3d()

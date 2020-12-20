@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef CAULDRON_H
-#define CAULDRON_H
+#ifndef CAULDRON_HPP
+#define CAULDRON_HPP
 
 #include "app.hpp"
 #include "datalist.hpp"

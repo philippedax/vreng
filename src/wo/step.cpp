@@ -209,16 +209,18 @@ Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, 
   }
 }
 
+/* creation from Gui addobj */
 Step::Step(WObject *user, char *geom)
 {
   parse()->parseSolid(geom, SEP, this);
 
   behavior();
+  enableBehavior(DYNAMIC);
 
   /* position in front of localuser */
-  pos.x = user->pos.x +0.4;
+  pos.x = user->pos.x + 0.7;
   pos.y = user->pos.y;
-  pos.z = user->pos.z +0.5;
+  pos.z = user->pos.z + 0.5;
   updatePosition();
 }
 
@@ -379,7 +381,8 @@ void Step::stop_cb(Step *step, void *d, time_t s, time_t u)
 
 void Step::destroy_cb(Step *step, void *d, time_t s, time_t u)
 {
-  step->removeFromScene();
+  if (step->isBehavior(DYNAMIC))
+    step->removeFromScene();
 }
 
 void Step::funcs()

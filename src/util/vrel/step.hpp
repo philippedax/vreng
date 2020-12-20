@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef STEP_H
-#define STEP_H
+#ifndef STEP_HPP
+#define STEP_HPP
 
 #include "box.hpp"
 #include "datalist.hpp"

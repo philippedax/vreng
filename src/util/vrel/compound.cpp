@@ -44,17 +44,17 @@ Compound::Compound(char nom1[30], Decl_var_liste * env, Env_constr * construc)
 
   // On verifie qu'aucune variable locale de constructeur n'a le meme nom qu'un attribut.
   for (int i=0; i<construc->nb_constr; i++) {
-      envvar = construc->constr[i]->decl;
+    envvar = construc->constr[i]->decl;
 
-      for (int j=1; j<envvar->count; j++) {
-	  int result = var->parcours(envvar->nom[j]);
-	  if (result != 0) {
-	      printf("Error: line %d\n", yylineno);
-	      printf ("variable %s has already been declared as attribute of class %s\n", 
-		      envvar->nom[j], nom1);
-	      exit(1);
-	  }
+    for (int j=1; j<envvar->count; j++) {
+      int result = var->parcours(envvar->nom[j]);
+      if (result != 0) {
+        printf("Error: line %d\n", yylineno);
+        printf("compound: variable %s has already been declared as attribute of class %s\n", 
+  	      envvar->nom[j], nom1);
+        //dax exit(1);
       }
+    }
   }
 }
 

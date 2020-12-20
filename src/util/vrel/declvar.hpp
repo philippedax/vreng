@@ -15,8 +15,8 @@
  *   GNU General Public License for more details.                           *
  ****************************************************************************/
 
-#ifndef DECLVAR_H
-#define DECLVAR_H
+#ifndef DECLVAR_HPP
+#define DECLVAR_HPP
 
 #include "decl.hpp"
 #include "data.hpp"
