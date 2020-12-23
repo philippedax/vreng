@@ -42,18 +42,19 @@ class Grid {
   float posx, posy, posz;	///< grid position
   float rotx, roty, rotz;	///< grid orientation
   int width, depth, height;	///< grid dimensions
-  int i_width, i_depth, i_height;
-  GLfloat red, green, blue, alpha;
+  int i_width, i_depth, i_height; ///< size increments
+  GLfloat red, green, blue, alpha;///< color
   int behavior;			///< grid behavior
   bool overlap;			///< overlapped grid
   bool grid3d;			///< grid 3D
   GLfloat glmat[16];		///< matrix projection
 
+  // behaviors
   enum grid_behavior {
     STICK,
     FOLLOW,
     SFOLLOW
-  }; // behaviors
+  };
 
  public:
   Grid();
@@ -99,7 +100,7 @@ class Grid {
   virtual void draw();		///< draws grids
 
   virtual void defaults();	///< default values
-  virtual void genScrollbar();
+  virtual void genValues();
 };
 
 #endif

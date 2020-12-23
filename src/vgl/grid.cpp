@@ -164,7 +164,7 @@ void Grid::render()
  * Dialog functions
  */
 
-void Grid::genScrollbar()
+void Grid::genValues()
 {
   s_width = &uhscrollbar(UOn::change / ucall(this, &Grid::setWidth));
   s_width->setValue(GRID_SLICE);
@@ -218,15 +218,15 @@ UBox * Grid::gridBox()
 {
   URadioSelect &behavior = uradioSelect();
   
-  genScrollbar();
+  genValues();	// if commented : ubit crashes UArgs::operator+()
   
   UBox& grid1 =
   uvbox(	//usize(160,400)
           uvbox(UBorder::none	//etchedIn
                 + uhbox(UColor::blue + UFont::bold + "View")
-                + ucheckbox("Visible Grid" + ucall(this, &Grid::toggleGrid2d))
-                + ucheckbox("3D Grid"      + ucall(this, &Grid::toggleGrid3d))
-                + ucheckbox("Overlap"      + ucall(this, &Grid::toggleOverlap))
+                + ucheckbox("2D Grid" + ucall(this, &Grid::toggleGrid2d))
+                + ucheckbox("3D Grid" + ucall(this, &Grid::toggleGrid3d))
+                + ucheckbox("Overlap" + ucall(this, &Grid::toggleOverlap))
                )
         + uvbox(UBorder::none	//etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Behavior")
@@ -248,27 +248,27 @@ UBox * Grid::gridBox()
   uvbox(usize(160,400)
         + uvbox(UBorder::none	//etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Slice ")
-                + uhbox("  Width:  " + uhflex() + s_width)
-                + uhbox("  Height: " + uhflex() + s_height)
-                + uhbox("  Depth:  " + uhflex() + s_depth)
+                + uhbox("Width:  " + uhflex() + s_width)
+                + uhbox("Height: " + uhflex() + s_height)
+                + uhbox("Depth:  " + uhflex() + s_depth)
                 )
         + uvbox(UBorder::none	//etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Orientation")
-                + uhbox("  Rot X: " + uhflex() + s_rotx)
-                + uhbox("  Rot Y: " + uhflex() + s_roty)
-                + uhbox("  Rot Z: " + uhflex() + s_rotz)
+                + uhbox("Rot X: " + uhflex() + s_rotx)
+                + uhbox("Rot Y: " + uhflex() + s_roty)
+                + uhbox("Rot Z: " + uhflex() + s_rotz)
                 )
         + uvbox(UBorder::none	//etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Position")
-                + uhbox("  Pos X: " + uhflex() + s_x)
-                + uhbox("  Pos Y: " + uhflex() + s_y)
-                + uhbox("  Pos Z: " + uhflex() + s_z)
+                + uhbox("Pos X: " + uhflex() + s_x)
+                + uhbox("Pos Y: " + uhflex() + s_y)
+                + uhbox("Pos Z: " + uhflex() + s_z)
                 )
         + uvbox(UBorder::none	//etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Color ")
-                + uhbox("  R: " + uhflex() + *s_red)
-                + uhbox("  G: " + uhflex() + *s_green)
-                + uhbox("  B: " + uhflex() + *s_blue)
+                + uhbox("R: " + uhflex() + *s_red)
+                + uhbox("G: " + uhflex() + *s_green)
+                + uhbox("B: " + uhflex() + *s_blue)
                 )
         );
   

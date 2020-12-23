@@ -92,7 +92,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 gw(*_gw),
 joystick1(new Joystick1(_gw, (int) g.theme.controlPanelHeight/2 - 20)),
 joystick2(new Joystick2(_gw, 25)),
-manipulator(_gw->navig.createManipulator())
+manipulator(_gw->navig.manipulator())
 {
   // WORLDS
   UScrollpane& worlds_spane = uscrollpane(true, false, uvbox(gw.worlds));
@@ -135,14 +135,13 @@ manipulator(_gw->navig.createManipulator())
   joystick1->show(true);
   joystick2->show(true);
 
-  UBox& navig_box = uhbox
-  (g.theme.panelStyle
-   + uvcenter()
-   + manipulator  // either manipulator or joystick is shown
-   + joystick1
-   + "   "
-   + joystick2
-   );
+  UBox& navig_box = uhbox(g.theme.panelStyle
+                          + uvcenter()
+                          + manipulator  // either manipulator or joystick is shown
+                          + joystick1
+                          + "   "
+                          + joystick2
+                         );
 
   // palettes - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -222,10 +221,10 @@ manipulator(_gw->navig.createManipulator())
        + viewlist
        + usepar()
        + "Show:"
-       + uitem( utip("Show axis") + ucall(_gw, toggleAxisCB) + g.theme.Axis)
-       + uitem( utip("Show 2D grid") + ucall(_gw, 0, toggleGridCB) + g.theme.Grid2D)
-       + uitem( utip("Show 3D grid") + ucall(_gw, 1, toggleGridCB) + g.theme.Grid3D)
-       + uitem( utip("Show hud") + ucall(_gw, toggleHudCB) + g.theme.Counter)
+       + uitem(utip("Show axis") + ucall(_gw, toggleAxisCB) + g.theme.Axis)
+       + uitem(utip("Show 2D grid") + ucall(_gw, 0, toggleGridCB) + g.theme.Grid2D)
+       + uitem(utip("Show 3D grid") + ucall(_gw, 1, toggleGridCB) + g.theme.Grid3D)
+       + uitem(utip("Show hud") + ucall(_gw, toggleHudCB) + g.theme.Counter)
        + uitem( utip("Show map") + ucall(int(UserAction::UA_MAPVIEW), Widgets::callAction) + g.theme.World)
        + usepar()
        + "Objects:"

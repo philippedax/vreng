@@ -85,6 +85,7 @@ void Navig::mousePressCB(UMouseEvent& e)
   int x = (int) e.getX(), y = (int) e.getY();
   int button = 0;
   int bid = e.getButton();
+
   if      (bid == UMouseEvent::LeftButton)  button = 1;
   else if (bid == UMouseEvent::MidButton)   button = 2;
   else if (bid == UMouseEvent::RightButton) button = 3;
@@ -109,7 +110,7 @@ void Navig::mousePressCB(UMouseEvent& e)
 // the mouse is released on the canvas
 void Navig::mouseReleaseCB(UMouseEvent& e)
 {
-  stopMotion(); // securite
+  stopMotion(); // sanity
   
   opened_menu = null;
   
@@ -117,7 +118,8 @@ void Navig::mouseReleaseCB(UMouseEvent& e)
     gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0/*button*/);
   else if (gw.gui.selected_object)
     gw.gui.selected_object->resetRay();
-  if (localuser) localuser->resetRay(); //stop showing direction
+  if (localuser)
+    localuser->resetRay(); //stop showing direction
 }
 
 // the mouse is dragged on the canvas
@@ -128,7 +130,8 @@ void Navig::mouseDragCB(UMouseEvent& e)
     gw.gui.selected_object->resetRay();
   }
   else {
-    if (localuser) localuser->resetRay();	//stop showing direction
+    if (localuser)
+      localuser->resetRay();	//stop showing direction
   }
 }
 
@@ -200,6 +203,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
   // current object
   depthsel = 0;
   WObject* object = gw.getPointedObject(x, y, objinfo, depthsel);
+
   if (object && object->isValid()) {
     gw.gui.selected_object = object;
     trace(DBG_GUI, "clic [%d %d] on %s", x, y, object->getInstance());
@@ -290,6 +294,16 @@ void Navig::startMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
   motiony = _motiony;
 }
 
+void Navig::startMove(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
+{
+  xref = e.getX();
+  yref = e.getY();
+  if (motionx)  motionx->stop();
+  if (motiony)  motiony->stop();
+  motionx = _motionx;
+  motiony = _motiony;
+}
+
 void Navig::doMotion(UMouseEvent& e)
 {
   float dx = e.getX() - xref;
@@ -329,55 +343,56 @@ void Navig::initNavigMenu()
                          + UOn::disarm / stop
                          );
   // FORWARD
-  navig_menu.item(2).add(g.theme.Forward
+  navig_menu.item(1).add(g.theme.Forward
                          + UOn::arm / startYZMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                          );
-  // VERTICAL TRANSLATION
-  navig_menu.item(3).add(g.theme.UpDown
+  // VERTICAL
+  navig_menu.item(2).add(g.theme.UpDown
                          + UOn::arm / startZTranslation
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                          );
   // LEFT
-  navig_menu.item(4).add(g.theme.Left
+  navig_menu.item(3).add(g.theme.Left
                          + UOn::arm / startYZMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                          );
-  // HORIZONTAL TRANSLATION
-  navig_menu.item(5).add(g.theme.LeftTrans
+  // HORIZONTAL
+  navig_menu.item(4).add(g.theme.LeftTrans
                          + UOn::arm / startXTranslation
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                          );
   // BACKWARD
-  navig_menu.item(6).add(g.theme.Backward
+  navig_menu.item(5).add(g.theme.Backward
                          + UOn::arm / startYZMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                          );
-  // HORIZONTAL TRANSLATION
-  navig_menu.item(7).add(g.theme.RightTrans
+  // HORIZONTAL
+  navig_menu.item(6).add(g.theme.RightTrans
                          + UOn::arm / startXTranslation
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                          );
 }
 
-//////////////
+///////////////////
 // MANIPULATOR
 //
-// called by move action
+// called by panels
 //
-//////////////
+///////////////////
 
-UBox& Navig::createManipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
+UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
 {
-  UPadding& pad = upadding(2,2);
-  UVspacing &vs = uvspacing(2);
-  UHspacing &hs = uhspacing(2);
+  UPadding& pad = upadding(4,4);
+  UVspacing &vs = uvspacing(4);
+  UHspacing &hs = uhspacing(4);
+
   UArgs l = uhcenter() + uvcenter()
          + UOn::enter / UBackground::orange
          + UOn::arm   / UBackground::green
@@ -386,70 +401,70 @@ UBox& Navig::createManipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
   UTrow& row1 = utrow
   (pad + vs + hs
    + uitem(l + g.theme.Transx	 // FORWARD/BACKWARD
-           + UOn::mpress   / ucall(this, &Navig::setMouseRef)
+           + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm / ucall(this, (Motion*)0, &Motion::trans_forw, &Navig::startMotion)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_forw, &Navig::startMove)
 	  )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzleft	 // TURN LEFT
-           + UOn::mpress   / ucall(this, &Navig::setMouseRef)
+           + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm / ucall(this, (Motion*)0, &Motion::zrot_left, &Navig::startMotion)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::zrot_left, &Navig::startMove)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzright // TURN RIGHT
-           + UOn::mpress   / ucall(this, &Navig::setMouseRef)
+           + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm / ucall(this, (Motion*)0, &Motion::zrot_right, &Navig::startMotion)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::zrot_right, &Navig::startMove)
    )
   );
   UTrow& row2 = utrow
   (pad + vs + hs
    + uitem(l + g.theme.Transy	 // LEFT/RIGHT
-           + UOn::mpress   / ucall(this, &Navig::setMouseRef)
+           + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm / ucall(this, (Motion*)0, &Motion::trans_left, &Navig::startMotion)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_left, &Navig::startMove)
            )
    + uitem(l + " ")
    + uitem(l+ g.theme.Rotxleft	 // ROLL LEFT
-           + UOn::mpress   / ucall(this, &Navig::setMouseRef)
+           + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm / ucall(this, (Motion*)0, &Motion::xrot_left, &Navig::startMotion)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_left, &Navig::startMove)
            )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotxright // ROLL RIGHT
-           + UOn::mpress   / ucall(this, &Navig::setMouseRef)
+           + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm / ucall(this, (Motion*)0, &Motion::xrot_right, &Navig::startMotion)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_right, &Navig::startMove)
            )
   );
   UTrow& row3 = utrow
   (pad + vs + hs
    + uitem(l + g.theme.Transz	 // UP/DOWN
-           + UOn::mpress   / ucall(this, &Navig::setMouseRef)
+           + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm / ucall(this, (Motion*)0, &Motion::trans_up, &Navig::startMotion)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_up, &Navig::startMove)
            )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotyup	 // TILT UP
-           + UOn::mpress   / ucall(this, &Navig::setMouseRef)
+           + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm / ucall(this, (Motion*)0, &Motion::yrot_up, &Navig::startMotion)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_up, &Navig::startMove)
            )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotydown	 // TILT DOWN
-           + UOn::mpress   / ucall(this, &Navig::setMouseRef)
+           + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm / ucall(this, (Motion*)0, &Motion::yrot_down, &Navig::startMotion)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_down, &Navig::startMove)
            )
    );
   
@@ -462,9 +477,9 @@ UBox& Navig::createManipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
                );
 }
 
-void Navig::setMouseRef(UMouseEvent& e)
+void Navig::mouseRefCB(UMouseEvent& e)
 { 
-#if 0
+#if 0 //dax button not declared
   int bid = e.getButton();
   if      (bid == UMouseEvent::LeftButton)  button = 1;
   else if (bid == UMouseEvent::MidButton)   button = 2;

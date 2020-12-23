@@ -50,6 +50,7 @@
 #include "theme.hpp"
 
 
+// Constructor
 Gui::Gui() :
 widgets(null),
 selected_object(null),  // the object that is currently selected
@@ -97,8 +98,8 @@ void Gui::getClicked(int *click, float clicked[])
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Handling Sources
-
+// Handling Network
+//
 struct Gui::ChannelSources : public vector<USource*> {
   ChannelSources(int count) : vector<USource*>(count) {}
 };
@@ -130,7 +131,7 @@ void Gui::removeChannelSources(int channel)
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling Cart
-
+//
 void Gui::showCartDialog(bool flag)
 {
   widgets->panels.showCartDialog(flag);
@@ -175,20 +176,27 @@ void Gui::removeCart(WObject *cart, int action)
 
 void Gui::updateCart(WObject* po)
 {
-  UBox* actions_cart 
-  = &uhbox(ulabel(ugroup(g.theme.objectTypeStyle + USymbol::right + ustr(po->names.type))
-                  + " "
-                  + ugroup(g.theme.objectNameStyle + po->getInstance())
-                  )
-           + uitem("Leave"  + ucall(this, po, int(Cart::LEAVE), &Gui::removeCart))
-           + uitem("Remove" + ucall(this, po, int(Cart::REMOVE), &Gui::removeCart))
-           );
+  UBox* actions_cart = &uhbox(ulabel(ugroup(g.theme.objectTypeStyle
+                              + USymbol::right
+                              + ustr(po->names.type))
+                              + " "
+                              + ugroup(g.theme.objectNameStyle
+                                       + po->getInstance()
+                                      )
+                                    )
+                              + uitem("Leave"
+                                       + ucall(this, po, int(Cart::LEAVE), &Gui::removeCart)
+                                     )
+                              + uitem("Remove"
+                                       + ucall(this, po, int(Cart::REMOVE), &Gui::removeCart)
+                                     )
+                             );
   widgets->setInfobar(actions_cart);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling User
-
+//
 GuiItem * Gui::addUser(User *user) 	// when a new user comes in
 {
   if (!user) return NULL;
@@ -226,7 +234,7 @@ void Gui::pauseUser()
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling World
-
+//
 void Gui::gotoWorld(const UStr& url_or_name)
 {
   if (url_or_name.empty())  return;
@@ -278,11 +286,8 @@ void Gui::updateWorld(World *world, bool isCurrent)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// VNC
+// Handling VNC
 //
-
-// Handling event redirections
-
 void Gui::setToVnc(Vnc* _vnc)
 {
   vnc = _vnc;
@@ -294,7 +299,8 @@ void Gui::launchVncConnect(Vnc* _vnc)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+// Handling Vrelet
+//
 void Gui::setToVrelet(Vrelet* _vrelet)
 {
   vrelet = _vrelet;

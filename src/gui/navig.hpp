@@ -32,11 +32,12 @@ class Widgets;
 class Navig {
 public:
   Navig(Widgets*, class Scene&);
-  UBox& createManipulator();
+  UBox& manipulator();
   
   void selectObject(ObjInfo*, int button_no);
-  void startMotion(UMouseEvent&, Motion* mvt_x, Motion* mvt_y);
-  void doMotion(UMouseEvent&);
+  void startMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
+  void startMove(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
+  void doMotion(UMouseEvent& e);
   void stopMotion();
   
 private:
@@ -53,15 +54,15 @@ private:
   uptr<UMenu> opened_menu;
 
   void initNavigMenu();
-  void setMouseRef(UMouseEvent& e);
-  void mousePressB1orB3(UMouseEvent&, int x, int y, int button_no);
-  void mousePressB2(UMouseEvent&, int x, int y, int button_no);
-  void mousePressCB(UMouseEvent&);  
-  void mouseReleaseCB(UMouseEvent&);
-  void mouseDragCB(UMouseEvent&);
-  void mouseMoveCB(UMouseEvent&);
-  void keyPressCB(UKeyEvent&);
-  void keyReleaseCB(UKeyEvent&);
+  void mouseRefCB(UMouseEvent& e);
+  void mousePressB1orB3(UMouseEvent& e, int x, int y, int button_no);
+  void mousePressB2(UMouseEvent& e, int x, int y, int button_no);
+  void mousePressCB(UMouseEvent& e);  
+  void mouseReleaseCB(UMouseEvent& e);
+  void mouseDragCB(UMouseEvent& e);
+  void mouseMoveCB(UMouseEvent& e);
+  void keyPressCB(UKeyEvent& e);
+  void keyReleaseCB(UKeyEvent& e);
  };
 
 #endif
