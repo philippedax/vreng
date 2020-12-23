@@ -1,0 +1,99 @@
+#Include "
+
+struct XStdWallF {
+ 
+  // X means its normal vektor points to x positive (or negative).
+  // x,y,z is position of z negative, y positive corner.
+  // Looking from -x its the lower left corner.
+  
+   var xstdwallf;
+  
+  constructor(x,y,z,w,h) {
+    var xPos, yPos, zPos;
+    var width, height;
+    xPos = x;  yPos = y;  zPos = z;
+    width = w; height = h;
+    var thick = 0.08;
+
+    xstdwallf = new Wall(xPos+(thick/2), yPos-(w/2), zPos+(h/2), 0,
+                       			 thick/2, w/2, h/2);
+    xstdwallf.diffuseRED=0.5;
+    xstdwallf.diffuseGREEN=0.3;
+    xstdwallf.diffuseBLUE=0.1;
+    xstdwallf.tex_xp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+  }
+}
+
+struct YStdWallF {
+  
+  // Y means its normal vektor points to y positive (or negative).
+  // x,y,z is position of lower left corner looking from  - y
+  
+   var ystdwallf;
+  
+  constructor(x,y,z,w,h) {
+    var xPos, yPos, zPos;
+    var width, height;
+    xPos = x;  yPos = y;  zPos = z;
+    width = w;  height = h;
+    var thick = 0.08;
+
+    ystdwallf = new Wall(xPos+ (w/2), yPos+ (thick/2), zPos+ (h/2), 0,
+                            w/2, thick/2, h/2);
+    ystdwallf.tex_xn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+    ystdwallf.tex_xp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+    ystdwallf.tex_yn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+    ystdwallf.tex_yp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+    ystdwallf.tex_zn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+    ystdwallf.tex_zp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+  }
+}
+
+
+struct Furniture {
+	var mur1,mur2,mur3,mur4,fond,etagere1,etagere2;
+
+ constructor(x1,y1,z1, h1, w1, d1) {
+//(x1,y1,z1) coin inferieur gauche devant
+//h1 hauteur
+//w1 largeur
+//d1 profondeur
+
+	var thick1;
+	thick1=0.08;
+
+	mur1 = new YStdWallF(x1, y1 - thick1, z1, d1, h1);
+        mur2 = new YStdWallF(x1, y1 - w1, z1, d1, h1);
+        mur3 = new Wall((x1+ (d1/2)), y1- (w1/2), z1+ (thick1)/2, 0, d1/2, w1/2, thick1/2);
+        mur4 = new Wall((x1+ (d1/2)), y1- (w1/2), z1+ h1- (thick1/2), 0, d1/2, w1/2, thick1/2);
+
+	fond = new XStdWallF(x1+ d1 - thick1, y1, z1, w1, h1);
+	etagere1 = new Wall((x1+ (d1/2)), y1- (w1/2), z1+(h1/3)+ 2*(thick1)/2, 0, d1/2, w1/2, thick1/2);
+	etagere2 = new Wall((x1+ (d1/2)), y1- (w1/2), z1+((2*h1)/3)+ (thick1)/2, 0, d1/2, w1/2, thick1/2);
+
+	mur3.tex_xn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+        mur3.tex_xp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+        mur3.tex_yn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	mur3.tex_yp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	mur3.tex_zn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	mur3.tex_zp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	mur4.tex_xn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	mur4.tex_xp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+        mur4.tex_yn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	mur4.tex_yp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	mur4.tex_zn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	mur4.tex_zp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere1.tex_xn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere1.tex_xp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+        etagere1.tex_yn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere1.tex_yp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere1.tex_zn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere1.tex_zp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere2.tex_xn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere2.tex_xp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+        etagere2.tex_yn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere2.tex_yp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere2.tex_zn="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+	etagere2.tex_zp="http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+ }
+}

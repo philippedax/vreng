@@ -40,6 +40,8 @@ noinst_SCRIPTS =
 
 # to copy into bin/
 if VREL
+vrl: ../src/util/vrl/src/vrl
+	-cp -p ../src/util/vrl/src/vrel .
 vrel: ../src/util/vrel/vrel
 	-cp -p ../src/util/vrel/vrel .
 else

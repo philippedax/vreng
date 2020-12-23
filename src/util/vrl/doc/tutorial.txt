@@ -1,0 +1,333 @@
+#########################################################################
+#									#
+#  Auteurs								#
+#	VG	Vincent GUILLOPE					#
+#	SM	Sebastien MOALIGOU					#
+#	GK	Gilles KORNGUT						#
+#									#
+#   Historique :							#
+#	22/12/1999 Création						#
+#									#
+#########################################################################
+
+
+                      *******************
+		      *	TUTORIAL DE VRL *
+                      *******************
+
+I- L'ENVIRONNEMENT
+------------------
+
+	VRL est un langage permettant de programmer des mondes
+virtuels affichés par le moteur de réalité virtuelle VRENG, développé 
+a l'ENST. Ce langage n'a donc un sens qu'associé à VRENG, disponible à 
+l'ENST.
+
+	Pour lancer VRENG, à partir d'un ordinateur de l'ENST, il faut 
+taper la commande VRENG. On se retrouve alors dans le monde de base World.
+	commande : $ vreng &
+
+	L'utilisation de VRL en vue de créer ses propres mondes est la 
+suivante. Il faut tout d'abord programmer son monde en langage VRL,
+puis compiler le fichier .vrl à l'aide du compilateur vrl. Dans un
+répertoire comprenant le compilateur vrl. La commande est la
+suivante.
+	commande : $ vrl fichier.vrl fichier.vre
+
+	Le fichier .vre issue de la compilation est le fichier de
+configuration qui sera interprété par VRENG. Celui-ci doit être
+accessible à l'aide d'une URL. Pour visualiser son monde, il faudra
+alors taper la commande suivante.
+	commande : $ vreng -w URL
+
+Par exemple :
+$ vreng -w "http://www.infres.enst.fr/net/vreng/vre/labyrinthe.vre"
+
+	L'environnement de VRL est aussi constitué d'une bibliothèque
+des objets de base reconnus par VRENG : lib/stdobj.vrl. Pour plus de
+renseignements, se reporter aux documentations existantes sur les
+objets VRENG (EcrireUnCfg.doc, VREFdescription.txt).
+
+
+
+
+II- APPRENDRE VRL
+-----------------
+
+	0) Conception d'un objet
+        ------------------------
+VRL est un langage orienté objet à héritage simple. Le
+schéma principal de conception d'un objet est le suivant : définir son
+objet comme une classe, c'est-à-dire comme composé d'autres objets
+et/ou héritant d'un objet. Vous trouverez des exemples d'héritage dans
+examples/coloredWall.vrl. Puis, écrire la fonction de construction
+"constructor()" de l'objet. Enfin, écrire le programme principal, où
+vous instancierez votre classe. Tout cela vous est expliqué plus en
+détails avec quelques exemples dans la suite de ce tutorial.
+
+
+
+	1) Créer une nouvelle variable :
+        -------------------------------
+
+		var maVariable_a_moi ;
+
+  Un nom de variable commence par une lettre, majuscule ou minuscule. Les autres caractères doivent être soit une lettre, soit un chiffre, soit '_'.
+
+	2) Créer un tableau de variables :
+	---------------------------------
+		var monTableau[8] ;
+
+  Cette instruction crée 8 variables, de monTableau[0] à monTableau[7].
+
+	3) Assigner une variable :
+	-------------------------
+		maVariable_a_moi = 4 ;
+
+		var i ;
+		i = (-3) ;                 // parenthèses obligatoires
+		
+		var j ;
+		j = 2 ;
+
+		var k ;
+		k = 2*i-j/i ;
+
+		var monObjet ;
+		monObjet = new Earth(0, 1, 2, 3) ;
+
+  Earth est une structure VRL predefinie dans "stdobj.vrl" qui
+correspond à l'objet VREng "Earth" de base
+
+
+		var monObjet2 ;
+		monObjet2 = new maStructure(1, 2, 3, 0, 4, 5, 6) ;
+	
+  maStructure est une structure VRL dont le constructeur prend 7
+arguments qui peut être une structure prédéfinie ,ou une structure créée
+par l'utilisateur.
+
+	
+		monTableau[0] = 5 ;
+		monTableau[1] = new Wall(1, 2, 3, 0, 4, 5, 6) ;
+		...
+		monTableau[7] = 9+monTableau[0] ;
+
+
+
+	4) Créer une nouvelle structure :
+          ------------------------------
+
+  struct Chaise { // structure sans héritage
+
+        ////////////// les Attributs //////////////////
+
+	var plateau, dossier; //on declare ici les attributs de la nouvelle
+	var pied[4];          //structure, generalement des objets.
+
+	/////////////// le Constructeur /////////////////
+
+  constructor(Chaise_x,Chaise_y,Chaise_z) {
+	var epaiss=0.04; //on peut declarer dans le constructeur
+	var haut=0.5; //des variables locales pour faciliter les
+	var larg=0.6; //les calculs
+	var long=0.5;
+	var woodtext;
+
+ // ne pas oublier dans le constructeur l'instanciation des attributs!!!
+
+	plateau = new Wall(Chaise_x + (larg/2) , Chaise_y - (long/2) ,
+                        Chaise_z+ haut - (epaiss/2) , 0 , (larg/2) ,
+                        (long/2) , epaiss/2);
+	pied[0] = new XStdWallF(Chaise_x , Chaise_y - (epaiss/2) ,
+			Chaise_z ,
+                        epaiss, haut);
+	pied[1] = new XStdWallF(Chaise_x+ larg - epaiss , 
+			Chaise_y - (epaiss/2),
+                        Chaise_z , epaiss , haut);
+	pied[2] = new XStdWallF(Chaise_x , (Chaise_y - long)+ epaiss,
+			Chaise_z ,
+                        epaiss, haut);
+	pied[3]= new XStdWallF((Chaise_x+larg)- epaiss,
+			 (Chaise_y - long)+ epaiss, Chaise_z ,
+			 epaiss , haut);
+
+	dossier = new XStdWallF(Chaise_x+ larg , Chaise_y , 
+			Chaise_z+haut ,
+                        long, 0.5);
+
+	woodtext = "http://www.infres.enst.fr/net/vreng/gif/wood.gif";
+
+// la notation pointée permet d'accéder aux attributs de n'importe quel objet
+
+	plateau.tex_xn = woodtext;
+	plateau.tex_xp = woodtext;
+        plateau.tex_yn = woodtext;
+	plateau.tex_yp = woodtext;
+	plateau.tex_zn = woodtext;
+	plateau.tex_zp = woodtext;
+
+   }
+  }
+
+  struct RedWall : Wall{ // structure avec héritage
+       //les attributs du Wall sont automatiquement reportés
+
+    constructor(x1, y1, z1, a1, lx1, ly1, lz1) {
+	// la première instruction du constructeur doit être l'appel
+        // du constructeur de la classe héritée !!!
+
+	 Wall(x1, y1, z1, a1, lx1, ly1, lz1) ;
+	 diffuseRED = 0.7;
+    }
+   }
+
+
+	REMARQUE IMPORTANTE : il est important qu'un constructeur soit 
+appelé au moment d'une instanciation avec des paramêtres dont les noms 
+sont différents de ceux utilisés dans la structure.
+	Exemple :
+	par rapport à l'exemple précédent, 
+		var x1, y1, z1, a1, lx1, ly1, lz1;
+		...
+		var mur;
+		mur = new RedWall(x1, y1, z1, a1, lx1, ly1, lz1)
+	ne fonctionnera pas correctement.
+
+	5) Utilisation de la boucle FOR :
+          ------------------------------
+
+	#include "meuble.vrl"
+	#include "coloredWall.vrl"
+
+	main () {
+		var sol ;
+		var point_observation ;
+		sol = new BlueWall(0,0,(-0.1)-3,0,20,20,0.1) ;
+		point_observation = new RedWall(0,0,(-0.1),0,0.2,0.2,0.1) ;
+
+		var maTable_et_2Chaises[25] ;
+		var i;
+		var j;
+		var k;
+
+	// dans la syntaxe de la boucle for, il ne faut surtout pas oublier
+        // le dernier ';' apres l'instruction d'incrementation i=i+1 !!!
+        // sinon l'emploi de la boucle for s'utilise comme en c++
+        // l'interet étant de pouvoir dupliquer des objets selon des
+        // translations voulues
+
+		for(j=0 ; j <5 ; j=j+1;) {
+			for(i=0 ; i <5 ; i=i+1;) {
+			k = 5*j+i ;
+			maTable_et_2Chaises[k] = 
+				new Table_et_2Chaises(2.2+2*j,
+							(-3)*i - 1.8,
+							(-3));
+			}
+		}	
+	}
+
+
+	6) Utilisation de la condition if..then...else
+	----------------------------------------------
+
+	la syntaxe est la suivante :
+	
+	if (condition) {
+	//bloc
+	}
+	else {
+	//bloc
+	}
+
+	"condition" est une expression logique à évaluation boolenne
+(vrai ou faux).
+
+
+	7) La fonction principale
+	-------------------------
+
+	La fonction principale doit avoir le nom main(). C'est dans
+cette fonction que seront instanciés les objets que vous voulez mettre 
+dans votre monde.
+	Exemple :
+
+	#include "labyrinthe.vrl"
+	
+	main()	{
+
+	var laby;
+	laby = new SmallLabyrinthe(1, 1.5, -1, 3, 3);
+	}
+
+	Cet exemple crée le labyrinthe défini dans la structure
+SmallLabyrinthe du fichier labyrinthe.vrl.
+
+
+	8) Des Exemples
+	---------------
+	
+	Vous trouverez les exemples ci-dessus dans le répertoire
+examples/. Ces fichiers ont déjà été compilés. Vous trouverez le résultat
+de la compilation dans vre/. Ces fichiers vre ne sont pas utilisables
+tel quel, car ils ne possèdent pas de fonction principale "main()"
+
+
+
+
+
+III- POUR ALLER PLUS LOIN
+-------------------------
+
+	1) Mise en garde
+        -----------------
+Ce langage n'est guère stabilisé, et ses caractéristiques
+peuvent évoluer. La pérennité de ce qui suit n'est donc pas
+assurée, des modifications pouvant être effectuées.
+
+	2) Assignations et délarations sur une même ligne.
+        --------------------------------------------------
+Il est possible de déclarer et d'affecter une variable en une seule ligne. 
+Exemples :
+	var i = 2;
+	var texte = "monTexte";
+Mais ATTENTION, il N'est PAS possible d'instancier sur la même ligne
+qu'une déclaration (var mur = new Wall(..) IMPOSSIBLE !!!).
+Il N'est PAS possible non plus d'affecter un tableau (var mur[4] = qch 
+IMPOSSIBLE!!!).
+
+	3) Multi-déclarations
+        ---------------------
+Il est possible de déclarer plusieurs variables sur une seule ligne. 
+Exemples :
+	var i, j, k;
+Cependant, il ne faut faire aucune assignation.
+
+	4) Déclarations dynamiques
+        --------------------------
+Les déclarations ne doivent pas obligatoirement être faites au début
+d'un bloc (un bloc est défini par "{" bloc "}"). 
+Exemples :
+	var i =  1;
+
+	var object1;
+	object1 = new Wall(..., i, ...);
+
+	var object2;
+	object2 = new Wall(..., i, ...);
+
+	5) Utilisation d'expressions pour accéder à un élément de tableau 
+        -----------------------------------------------------------------
+
+	Les lignes de code suivantes seront correctement reconnues :
+	var i, j;
+
+	// initialisation des variables i et j.	
+	...
+	i = 2;
+	j = 5;
+	
+	// définition d'un tableau à 11 éléments.
+	var object[3*i+j];
+

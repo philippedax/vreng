@@ -1,0 +1,2852 @@
+Terminals which are not used
+
+   PERIODKEY
+
+
+Grammar
+
+    0 $accept: FILE $end
+
+    1 FILE: EMPTY
+    2     | FILE STRUCTURE
+    3     | FILE FUNCTION
+    4     | FILE MAIN
+
+    5 STRUCTURE: STRUCTKEY NAME LEFTBRACEKEY STRUCTBODY1 RIGHTBRACEKEY
+    6          | STRUCTKEY NAME COLONKEY NAMELIST LEFTBRACEKEY STRUCTBODY2 RIGHTBRACEKEY
+
+    7 STRUCTBODY1: EMPTY
+    8            | STRUCTBODY1 SIMPLE_DECLARATION
+    9            | STRUCTBODY1 FUNCTION
+   10            | STRUCTBODY1 CONSTRUCTOR
+
+   11 STRUCTBODY2: EMPTY
+   12            | STRUCTBODY2 SIMPLE_DECLARATION
+   13            | STRUCTBODY2 FUNCTION
+   14            | STRUCTBODY2 CONSTRUCTOR
+
+   15 FUNCTION: FUNCTIONKEY NAME LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   16         | FUNCTIONKEY NAME LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   17         | FUNCTIONKEY NAME LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+   18 MAIN: MAINKEY LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+   19 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY
+   20            | CONSTRUCTORKEY LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY
+
+   21 CONSTRUCTORBODY: EMPTY
+   22                | CONSTRUCTORBODY CONSTRUCTOR_CALL
+   23                | CONSTRUCTORBODY INSTRUCTION
+
+   24 INSTRUCTIONLIST: EMPTY
+   25                | INSTRUCTIONLIST INSTRUCTION
+
+   26 INSTRUCTION: DECLARATION
+   27            | ASSIGNMENT
+   28            | STATEMENT
+
+   29 CONSTRUCTOR_CALL: NAME LEFTPARENKEY RIGHTPARENKEY SEMICOLONKEY
+   30                 | NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY SEMICOLONKEY
+
+   31 DECLARATION: SIMPLE_DECLARATION
+   32            | COMPLEX_DECLARATION
+
+   33 ASSIGNMENT: STRING_ASSIGNMENT
+   34           | EXPRESSION_ASSIGNMENT
+   35           | VARIABLE_ASSIGNMENT
+   36           | NEWOBJECT_ASSIGNMENT
+
+   37 STATEMENT: IF_STATEMENT
+   38          | FOR_STATEMENT
+   39          | RETURNKEY EXPRESSION SEMICOLONKEY
+
+   40 SIMPLE_DECLARATION: VARKEY NAMELIST SEMICOLONKEY
+   41                   | VARKEY ARRAYNAME SEMICOLONKEY
+
+   42 COMPLEX_DECLARATION: VARKEY VARIABLE EQUALKEY STRING SEMICOLONKEY
+   43                    | VARKEY VARIABLE EQUALKEY EXPRESSION SEMICOLONKEY
+
+   44 STRING_ASSIGNMENT: VARIABLE EQUALKEY STRING SEMICOLONKEY
+
+   45 EXPRESSION_ASSIGNMENT: VARIABLE EQUALKEY CALCULABLE_EXPRESSION SEMICOLONKEY
+
+   46 VARIABLE_ASSIGNMENT: VARIABLE EQUALKEY VARIABLE SEMICOLONKEY
+
+   47 NEWOBJECT_ASSIGNMENT: VARIABLE EQUALKEY NEWOBJECT SEMICOLONKEY
+
+   48 IF_STATEMENT: SIMPLE_IF_STATEMENT
+   49             | IF_ELSE_STATEMENT
+
+   50 SIMPLE_IF_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+   51 IF_ELSE_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY ELSEKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+   53 EXPRESSIONLIST: EXPRESSION
+   54               | EXPRESSIONLIST COMMAKEY EXPRESSION
+
+   55 EXPRESSION: CALCULABLE_EXPRESSION
+   56           | VARIABLE
+
+   57 CALCULABLE_EXPRESSION: NUMBER
+   58                      | CALLKEY NAME LEFTPARENKEY RIGHTPARENKEY
+   59                      | CALLKEY NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY
+   60                      | BINARY_OPERATION
+   61                      | UNARY_OPERATION
+   62                      | LEFTPARENKEY EXPRESSION RIGHTPARENKEY
+
+   63 LOGICAL_EXPRESSION: COMPARISON
+   64                   | LOGICAL_BINARY_OPERATION
+   65                   | LOGICAL_UNARY_OPERATION
+   66                   | LEFTPARENKEY LOGICAL_EXPRESSION RIGHTPARENKEY
+
+   67 NEWOBJECT: NEWKEY NAME LEFTPARENKEY RIGHTPARENKEY
+   68          | NEWKEY NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY
+
+   69 VARIABLE: SIMPLE_VARIABLE
+   70         | COMPLEX_VARIABLE
+
+   71 SIMPLE_VARIABLE: NAME
+   72                | ARRAYNAME
+
+   73 ARRAYNAME: NAME LEFTBRACKETKEY EXPRESSION RIGHTBRACKETKEY
+
+   74 COMPLEX_VARIABLE: SIMPLE_VARIABLE DOTKEY SIMPLE_VARIABLE
+   75                 | COMPLEX_VARIABLE DOTKEY SIMPLE_VARIABLE
+
+   76 NAMELIST: NAME
+   77         | NAMELIST COMMAKEY NAME
+
+   78 UNARY_OPERATION: LEFTPARENKEY MINUSKEY EXPRESSION RIGHTPARENKEY
+   79                | ABSKEY LEFTPARENKEY EXPRESSION RIGHTPARENKEY
+
+   80 BINARY_OPERATION: EXPRESSION PLUSKEY EXPRESSION
+   81                 | EXPRESSION MINUSKEY EXPRESSION
+   82                 | EXPRESSION MULTKEY EXPRESSION
+   83                 | EXPRESSION DIVKEY EXPRESSION
+
+   84 COMPARISON: EXPRESSION SUPKEY EXPRESSION
+   85           | EXPRESSION INFKEY EXPRESSION
+   86           | EXPRESSION SUPEQUALKEY EXPRESSION
+   87           | EXPRESSION INFEQUALKEY EXPRESSION
+   88           | EXPRESSION EQUALEQUALKEY EXPRESSION
+   89           | EXPRESSION EXCLAMATIONEQUALKEY EXPRESSION
+
+   90 LOGICAL_UNARY_OPERATION: EXCLAMATIONKEY LOGICAL_EXPRESSION
+
+   91 LOGICAL_BINARY_OPERATION: LOGICAL_EXPRESSION ORKEY LOGICAL_EXPRESSION
+   92                         | LOGICAL_EXPRESSION ANDKEY LOGICAL_EXPRESSION
+
+   93 NUMBER: INTEGER
+   94       | FLOATNUMBER
+
+   95 EMPTY: /* empty */
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+STRUCTKEY (258) 5 6
+LEFTBRACEKEY (259) 5 6 15 16 17 18 19 20 50 51 52
+RIGHTBRACEKEY (260) 5 6 15 16 17 18 19 20 50 51 52
+VARKEY (261) 40 41 42 43
+SEMICOLONKEY (262) 29 30 39 40 41 42 43 44 45 46 47 52
+COMMAKEY (263) 54 77
+LEFTBRACKETKEY (264) 73
+RIGHTBRACKETKEY (265) 73
+CONSTRUCTORKEY (266) 19 20
+NEWKEY (267) 67 68
+LEFTPARENKEY (268) 16 17 18 19 20 29 30 52 58 59 62 66 67 68 78 79
+RIGHTPARENKEY (269) 16 17 18 19 20 29 30 52 58 59 62 66 67 68 78 79
+EQUALKEY (270) 42 43 44 45 46 47
+PERIODKEY (271)
+COLONKEY (272) 6
+MAINKEY (273) 18
+FUNCTIONKEY (274) 15 16 17
+CALLKEY (275) 58 59
+RETURNKEY (276) 39
+IFKEY (277) 50 51
+ELSEKEY (278) 51
+FORKEY (279) 52
+DOTKEY (280) 74 75
+PLUSKEY (281) 80
+MINUSKEY (282) 78 81
+MULTKEY (283) 82
+DIVKEY (284) 83
+ABSKEY (285) 79
+SUPKEY (286) 84
+INFKEY (287) 85
+SUPEQUALKEY (288) 86
+INFEQUALKEY (289) 87
+EQUALEQUALKEY (290) 88
+EXCLAMATIONEQUALKEY (291) 89
+EXCLAMATIONKEY (292) 90
+ORKEY (293) 91
+ANDKEY (294) 92
+NAME (295) 5 6 15 16 17 29 30 58 59 67 68 71 73 76 77
+STRING (296) 42 44
+INTEGER (297) 93
+FLOATNUMBER (298) 94
+
+
+Nonterminals, with rules where they appear
+
+$accept (44)
+    on left: 0
+FILE (45)
+    on left: 1 2 3 4, on right: 0 2 3 4
+STRUCTURE (46)
+    on left: 5 6, on right: 2
+STRUCTBODY1 (47)
+    on left: 7 8 9 10, on right: 5 8 9 10
+STRUCTBODY2 (48)
+    on left: 11 12 13 14, on right: 6 12 13 14
+FUNCTION (49)
+    on left: 15 16 17, on right: 3 9 13
+MAIN (50)
+    on left: 18, on right: 4
+CONSTRUCTOR (51)
+    on left: 19 20, on right: 10 14
+CONSTRUCTORBODY (52)
+    on left: 21 22 23, on right: 19 20 22 23
+INSTRUCTIONLIST (53)
+    on left: 24 25, on right: 15 16 17 18 25 50 51 52
+INSTRUCTION (54)
+    on left: 26 27 28, on right: 23 25
+CONSTRUCTOR_CALL (55)
+    on left: 29 30, on right: 22
+DECLARATION (56)
+    on left: 31 32, on right: 26
+ASSIGNMENT (57)
+    on left: 33 34 35 36, on right: 27
+STATEMENT (58)
+    on left: 37 38 39, on right: 28
+SIMPLE_DECLARATION (59)
+    on left: 40 41, on right: 8 12 31
+COMPLEX_DECLARATION (60)
+    on left: 42 43, on right: 32
+STRING_ASSIGNMENT (61)
+    on left: 44, on right: 33
+EXPRESSION_ASSIGNMENT (62)
+    on left: 45, on right: 34 52
+VARIABLE_ASSIGNMENT (63)
+    on left: 46, on right: 35
+NEWOBJECT_ASSIGNMENT (64)
+    on left: 47, on right: 36
+IF_STATEMENT (65)
+    on left: 48 49, on right: 37
+SIMPLE_IF_STATEMENT (66)
+    on left: 50, on right: 48
+IF_ELSE_STATEMENT (67)
+    on left: 51, on right: 49
+FOR_STATEMENT (68)
+    on left: 52, on right: 38
+EXPRESSIONLIST (69)
+    on left: 53 54, on right: 30 54 59 68
+EXPRESSION (70)
+    on left: 55 56, on right: 39 43 53 54 62 73 78 79 80 81 82 83 84
+    85 86 87 88 89
+CALCULABLE_EXPRESSION (71)
+    on left: 57 58 59 60 61 62, on right: 45 55
+LOGICAL_EXPRESSION (72)
+    on left: 63 64 65 66, on right: 50 51 52 66 90 91 92
+NEWOBJECT (73)
+    on left: 67 68, on right: 47
+VARIABLE (74)
+    on left: 69 70, on right: 42 43 44 45 46 47 56
+SIMPLE_VARIABLE (75)
+    on left: 71 72, on right: 69 74 75
+ARRAYNAME (76)
+    on left: 73, on right: 41 72
+COMPLEX_VARIABLE (77)
+    on left: 74 75, on right: 70 75
+NAMELIST (78)
+    on left: 76 77, on right: 6 17 20 40 77
+UNARY_OPERATION (79)
+    on left: 78 79, on right: 61
+BINARY_OPERATION (80)
+    on left: 80 81 82 83, on right: 60
+COMPARISON (81)
+    on left: 84 85 86 87 88 89, on right: 63
+LOGICAL_UNARY_OPERATION (82)
+    on left: 90, on right: 65
+LOGICAL_BINARY_OPERATION (83)
+    on left: 91 92, on right: 64
+NUMBER (84)
+    on left: 93 94, on right: 57
+EMPTY (85)
+    on left: 95, on right: 1 7 11 21 24
+
+
+state 0
+
+    0 $accept: . FILE $end
+
+    $default  reduce using rule 95 (EMPTY)
+
+    FILE   go to state 1
+    EMPTY  go to state 2
+
+
+state 1
+
+    0 $accept: FILE . $end
+    2 FILE: FILE . STRUCTURE
+    3     | FILE . FUNCTION
+    4     | FILE . MAIN
+
+    $end         shift, and go to state 3
+    STRUCTKEY    shift, and go to state 4
+    MAINKEY      shift, and go to state 5
+    FUNCTIONKEY  shift, and go to state 6
+
+    STRUCTURE  go to state 7
+    FUNCTION   go to state 8
+    MAIN       go to state 9
+
+
+state 2
+
+    1 FILE: EMPTY .
+
+    $default  reduce using rule 1 (FILE)
+
+
+state 3
+
+    0 $accept: FILE $end .
+
+    $default  accept
+
+
+state 4
+
+    5 STRUCTURE: STRUCTKEY . NAME LEFTBRACEKEY STRUCTBODY1 RIGHTBRACEKEY
+    6          | STRUCTKEY . NAME COLONKEY NAMELIST LEFTBRACEKEY STRUCTBODY2 RIGHTBRACEKEY
+
+    NAME  shift, and go to state 10
+
+
+state 5
+
+   18 MAIN: MAINKEY . LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTPARENKEY  shift, and go to state 11
+
+
+state 6
+
+   15 FUNCTION: FUNCTIONKEY . NAME LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   16         | FUNCTIONKEY . NAME LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   17         | FUNCTIONKEY . NAME LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    NAME  shift, and go to state 12
+
+
+state 7
+
+    2 FILE: FILE STRUCTURE .
+
+    $default  reduce using rule 2 (FILE)
+
+
+state 8
+
+    3 FILE: FILE FUNCTION .
+
+    $default  reduce using rule 3 (FILE)
+
+
+state 9
+
+    4 FILE: FILE MAIN .
+
+    $default  reduce using rule 4 (FILE)
+
+
+state 10
+
+    5 STRUCTURE: STRUCTKEY NAME . LEFTBRACEKEY STRUCTBODY1 RIGHTBRACEKEY
+    6          | STRUCTKEY NAME . COLONKEY NAMELIST LEFTBRACEKEY STRUCTBODY2 RIGHTBRACEKEY
+
+    LEFTBRACEKEY  shift, and go to state 13
+    COLONKEY      shift, and go to state 14
+
+
+state 11
+
+   18 MAIN: MAINKEY LEFTPARENKEY . RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    RIGHTPARENKEY  shift, and go to state 15
+
+
+state 12
+
+   15 FUNCTION: FUNCTIONKEY NAME . LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   16         | FUNCTIONKEY NAME . LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   17         | FUNCTIONKEY NAME . LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTBRACEKEY  shift, and go to state 16
+    LEFTPARENKEY  shift, and go to state 17
+
+
+state 13
+
+    5 STRUCTURE: STRUCTKEY NAME LEFTBRACEKEY . STRUCTBODY1 RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    STRUCTBODY1  go to state 18
+    EMPTY        go to state 19
+
+
+state 14
+
+    6 STRUCTURE: STRUCTKEY NAME COLONKEY . NAMELIST LEFTBRACEKEY STRUCTBODY2 RIGHTBRACEKEY
+
+    NAME  shift, and go to state 20
+
+    NAMELIST  go to state 21
+
+
+state 15
+
+   18 MAIN: MAINKEY LEFTPARENKEY RIGHTPARENKEY . LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTBRACEKEY  shift, and go to state 22
+
+
+state 16
+
+   15 FUNCTION: FUNCTIONKEY NAME LEFTBRACEKEY . INSTRUCTIONLIST RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    INSTRUCTIONLIST  go to state 23
+    EMPTY            go to state 24
+
+
+state 17
+
+   16 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY . RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   17         | FUNCTIONKEY NAME LEFTPARENKEY . NAMELIST RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    RIGHTPARENKEY  shift, and go to state 25
+    NAME           shift, and go to state 20
+
+    NAMELIST  go to state 26
+
+
+state 18
+
+    5 STRUCTURE: STRUCTKEY NAME LEFTBRACEKEY STRUCTBODY1 . RIGHTBRACEKEY
+    8 STRUCTBODY1: STRUCTBODY1 . SIMPLE_DECLARATION
+    9            | STRUCTBODY1 . FUNCTION
+   10            | STRUCTBODY1 . CONSTRUCTOR
+
+    RIGHTBRACEKEY   shift, and go to state 27
+    VARKEY          shift, and go to state 28
+    CONSTRUCTORKEY  shift, and go to state 29
+    FUNCTIONKEY     shift, and go to state 6
+
+    FUNCTION            go to state 30
+    CONSTRUCTOR         go to state 31
+    SIMPLE_DECLARATION  go to state 32
+
+
+state 19
+
+    7 STRUCTBODY1: EMPTY .
+
+    $default  reduce using rule 7 (STRUCTBODY1)
+
+
+state 20
+
+   76 NAMELIST: NAME .
+
+    $default  reduce using rule 76 (NAMELIST)
+
+
+state 21
+
+    6 STRUCTURE: STRUCTKEY NAME COLONKEY NAMELIST . LEFTBRACEKEY STRUCTBODY2 RIGHTBRACEKEY
+   77 NAMELIST: NAMELIST . COMMAKEY NAME
+
+    LEFTBRACEKEY  shift, and go to state 33
+    COMMAKEY      shift, and go to state 34
+
+
+state 22
+
+   18 MAIN: MAINKEY LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY . INSTRUCTIONLIST RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    INSTRUCTIONLIST  go to state 35
+    EMPTY            go to state 24
+
+
+state 23
+
+   15 FUNCTION: FUNCTIONKEY NAME LEFTBRACEKEY INSTRUCTIONLIST . RIGHTBRACEKEY
+   25 INSTRUCTIONLIST: INSTRUCTIONLIST . INSTRUCTION
+
+    RIGHTBRACEKEY  shift, and go to state 36
+    VARKEY         shift, and go to state 37
+    RETURNKEY      shift, and go to state 38
+    IFKEY          shift, and go to state 39
+    FORKEY         shift, and go to state 40
+    NAME           shift, and go to state 41
+
+    INSTRUCTION            go to state 42
+    DECLARATION            go to state 43
+    ASSIGNMENT             go to state 44
+    STATEMENT              go to state 45
+    SIMPLE_DECLARATION     go to state 46
+    COMPLEX_DECLARATION    go to state 47
+    STRING_ASSIGNMENT      go to state 48
+    EXPRESSION_ASSIGNMENT  go to state 49
+    VARIABLE_ASSIGNMENT    go to state 50
+    NEWOBJECT_ASSIGNMENT   go to state 51
+    IF_STATEMENT           go to state 52
+    SIMPLE_IF_STATEMENT    go to state 53
+    IF_ELSE_STATEMENT      go to state 54
+    FOR_STATEMENT          go to state 55
+    VARIABLE               go to state 56
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 24
+
+   24 INSTRUCTIONLIST: EMPTY .
+
+    $default  reduce using rule 24 (INSTRUCTIONLIST)
+
+
+state 25
+
+   16 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY RIGHTPARENKEY . LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTBRACEKEY  shift, and go to state 60
+
+
+state 26
+
+   17 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY NAMELIST . RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   77 NAMELIST: NAMELIST . COMMAKEY NAME
+
+    COMMAKEY       shift, and go to state 34
+    RIGHTPARENKEY  shift, and go to state 61
+
+
+state 27
+
+    5 STRUCTURE: STRUCTKEY NAME LEFTBRACEKEY STRUCTBODY1 RIGHTBRACEKEY .
+
+    $default  reduce using rule 5 (STRUCTURE)
+
+
+state 28
+
+   40 SIMPLE_DECLARATION: VARKEY . NAMELIST SEMICOLONKEY
+   41                   | VARKEY . ARRAYNAME SEMICOLONKEY
+
+    NAME  shift, and go to state 62
+
+    ARRAYNAME  go to state 63
+    NAMELIST   go to state 64
+
+
+state 29
+
+   19 CONSTRUCTOR: CONSTRUCTORKEY . LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY
+   20            | CONSTRUCTORKEY . LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY
+
+    LEFTPARENKEY  shift, and go to state 65
+
+
+state 30
+
+    9 STRUCTBODY1: STRUCTBODY1 FUNCTION .
+
+    $default  reduce using rule 9 (STRUCTBODY1)
+
+
+state 31
+
+   10 STRUCTBODY1: STRUCTBODY1 CONSTRUCTOR .
+
+    $default  reduce using rule 10 (STRUCTBODY1)
+
+
+state 32
+
+    8 STRUCTBODY1: STRUCTBODY1 SIMPLE_DECLARATION .
+
+    $default  reduce using rule 8 (STRUCTBODY1)
+
+
+state 33
+
+    6 STRUCTURE: STRUCTKEY NAME COLONKEY NAMELIST LEFTBRACEKEY . STRUCTBODY2 RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    STRUCTBODY2  go to state 66
+    EMPTY        go to state 67
+
+
+state 34
+
+   77 NAMELIST: NAMELIST COMMAKEY . NAME
+
+    NAME  shift, and go to state 68
+
+
+state 35
+
+   18 MAIN: MAINKEY LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST . RIGHTBRACEKEY
+   25 INSTRUCTIONLIST: INSTRUCTIONLIST . INSTRUCTION
+
+    RIGHTBRACEKEY  shift, and go to state 69
+    VARKEY         shift, and go to state 37
+    RETURNKEY      shift, and go to state 38
+    IFKEY          shift, and go to state 39
+    FORKEY         shift, and go to state 40
+    NAME           shift, and go to state 41
+
+    INSTRUCTION            go to state 42
+    DECLARATION            go to state 43
+    ASSIGNMENT             go to state 44
+    STATEMENT              go to state 45
+    SIMPLE_DECLARATION     go to state 46
+    COMPLEX_DECLARATION    go to state 47
+    STRING_ASSIGNMENT      go to state 48
+    EXPRESSION_ASSIGNMENT  go to state 49
+    VARIABLE_ASSIGNMENT    go to state 50
+    NEWOBJECT_ASSIGNMENT   go to state 51
+    IF_STATEMENT           go to state 52
+    SIMPLE_IF_STATEMENT    go to state 53
+    IF_ELSE_STATEMENT      go to state 54
+    FOR_STATEMENT          go to state 55
+    VARIABLE               go to state 56
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 36
+
+   15 FUNCTION: FUNCTIONKEY NAME LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY .
+
+    $default  reduce using rule 15 (FUNCTION)
+
+
+state 37
+
+   40 SIMPLE_DECLARATION: VARKEY . NAMELIST SEMICOLONKEY
+   41                   | VARKEY . ARRAYNAME SEMICOLONKEY
+   42 COMPLEX_DECLARATION: VARKEY . VARIABLE EQUALKEY STRING SEMICOLONKEY
+   43                    | VARKEY . VARIABLE EQUALKEY EXPRESSION SEMICOLONKEY
+
+    NAME  shift, and go to state 70
+
+    VARIABLE          go to state 71
+    SIMPLE_VARIABLE   go to state 57
+    ARRAYNAME         go to state 72
+    COMPLEX_VARIABLE  go to state 59
+    NAMELIST          go to state 64
+
+
+state 38
+
+   39 STATEMENT: RETURNKEY . EXPRESSION SEMICOLONKEY
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 78
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 39
+
+   50 SIMPLE_IF_STATEMENT: IFKEY . LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   51 IF_ELSE_STATEMENT: IFKEY . LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY ELSEKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTPARENKEY    shift, and go to state 84
+    CALLKEY         shift, and go to state 74
+    ABSKEY          shift, and go to state 75
+    EXCLAMATIONKEY  shift, and go to state 85
+    NAME            shift, and go to state 41
+    INTEGER         shift, and go to state 76
+    FLOATNUMBER     shift, and go to state 77
+
+    EXPRESSION                go to state 86
+    CALCULABLE_EXPRESSION     go to state 79
+    LOGICAL_EXPRESSION        go to state 87
+    VARIABLE                  go to state 80
+    SIMPLE_VARIABLE           go to state 57
+    ARRAYNAME                 go to state 58
+    COMPLEX_VARIABLE          go to state 59
+    UNARY_OPERATION           go to state 81
+    BINARY_OPERATION          go to state 82
+    COMPARISON                go to state 88
+    LOGICAL_UNARY_OPERATION   go to state 89
+    LOGICAL_BINARY_OPERATION  go to state 90
+    NUMBER                    go to state 83
+
+
+state 40
+
+   52 FOR_STATEMENT: FORKEY . LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTPARENKEY  shift, and go to state 91
+
+
+state 41
+
+   71 SIMPLE_VARIABLE: NAME .
+   73 ARRAYNAME: NAME . LEFTBRACKETKEY EXPRESSION RIGHTBRACKETKEY
+
+    LEFTBRACKETKEY  shift, and go to state 92
+
+    $default  reduce using rule 71 (SIMPLE_VARIABLE)
+
+
+state 42
+
+   25 INSTRUCTIONLIST: INSTRUCTIONLIST INSTRUCTION .
+
+    $default  reduce using rule 25 (INSTRUCTIONLIST)
+
+
+state 43
+
+   26 INSTRUCTION: DECLARATION .
+
+    $default  reduce using rule 26 (INSTRUCTION)
+
+
+state 44
+
+   27 INSTRUCTION: ASSIGNMENT .
+
+    $default  reduce using rule 27 (INSTRUCTION)
+
+
+state 45
+
+   28 INSTRUCTION: STATEMENT .
+
+    $default  reduce using rule 28 (INSTRUCTION)
+
+
+state 46
+
+   31 DECLARATION: SIMPLE_DECLARATION .
+
+    $default  reduce using rule 31 (DECLARATION)
+
+
+state 47
+
+   32 DECLARATION: COMPLEX_DECLARATION .
+
+    $default  reduce using rule 32 (DECLARATION)
+
+
+state 48
+
+   33 ASSIGNMENT: STRING_ASSIGNMENT .
+
+    $default  reduce using rule 33 (ASSIGNMENT)
+
+
+state 49
+
+   34 ASSIGNMENT: EXPRESSION_ASSIGNMENT .
+
+    $default  reduce using rule 34 (ASSIGNMENT)
+
+
+state 50
+
+   35 ASSIGNMENT: VARIABLE_ASSIGNMENT .
+
+    $default  reduce using rule 35 (ASSIGNMENT)
+
+
+state 51
+
+   36 ASSIGNMENT: NEWOBJECT_ASSIGNMENT .
+
+    $default  reduce using rule 36 (ASSIGNMENT)
+
+
+state 52
+
+   37 STATEMENT: IF_STATEMENT .
+
+    $default  reduce using rule 37 (STATEMENT)
+
+
+state 53
+
+   48 IF_STATEMENT: SIMPLE_IF_STATEMENT .
+
+    $default  reduce using rule 48 (IF_STATEMENT)
+
+
+state 54
+
+   49 IF_STATEMENT: IF_ELSE_STATEMENT .
+
+    $default  reduce using rule 49 (IF_STATEMENT)
+
+
+state 55
+
+   38 STATEMENT: FOR_STATEMENT .
+
+    $default  reduce using rule 38 (STATEMENT)
+
+
+state 56
+
+   44 STRING_ASSIGNMENT: VARIABLE . EQUALKEY STRING SEMICOLONKEY
+   45 EXPRESSION_ASSIGNMENT: VARIABLE . EQUALKEY CALCULABLE_EXPRESSION SEMICOLONKEY
+   46 VARIABLE_ASSIGNMENT: VARIABLE . EQUALKEY VARIABLE SEMICOLONKEY
+   47 NEWOBJECT_ASSIGNMENT: VARIABLE . EQUALKEY NEWOBJECT SEMICOLONKEY
+
+    EQUALKEY  shift, and go to state 93
+
+
+state 57
+
+   69 VARIABLE: SIMPLE_VARIABLE .
+   74 COMPLEX_VARIABLE: SIMPLE_VARIABLE . DOTKEY SIMPLE_VARIABLE
+
+    DOTKEY  shift, and go to state 94
+
+    $default  reduce using rule 69 (VARIABLE)
+
+
+state 58
+
+   72 SIMPLE_VARIABLE: ARRAYNAME .
+
+    $default  reduce using rule 72 (SIMPLE_VARIABLE)
+
+
+state 59
+
+   70 VARIABLE: COMPLEX_VARIABLE .
+   75 COMPLEX_VARIABLE: COMPLEX_VARIABLE . DOTKEY SIMPLE_VARIABLE
+
+    DOTKEY  shift, and go to state 95
+
+    $default  reduce using rule 70 (VARIABLE)
+
+
+state 60
+
+   16 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY . INSTRUCTIONLIST RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    INSTRUCTIONLIST  go to state 96
+    EMPTY            go to state 24
+
+
+state 61
+
+   17 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY NAMELIST RIGHTPARENKEY . LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTBRACEKEY  shift, and go to state 97
+
+
+state 62
+
+   73 ARRAYNAME: NAME . LEFTBRACKETKEY EXPRESSION RIGHTBRACKETKEY
+   76 NAMELIST: NAME .
+
+    LEFTBRACKETKEY  shift, and go to state 92
+
+    $default  reduce using rule 76 (NAMELIST)
+
+
+state 63
+
+   41 SIMPLE_DECLARATION: VARKEY ARRAYNAME . SEMICOLONKEY
+
+    SEMICOLONKEY  shift, and go to state 98
+
+
+state 64
+
+   40 SIMPLE_DECLARATION: VARKEY NAMELIST . SEMICOLONKEY
+   77 NAMELIST: NAMELIST . COMMAKEY NAME
+
+    SEMICOLONKEY  shift, and go to state 99
+    COMMAKEY      shift, and go to state 34
+
+
+state 65
+
+   19 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY . RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY
+   20            | CONSTRUCTORKEY LEFTPARENKEY . NAMELIST RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY
+
+    RIGHTPARENKEY  shift, and go to state 100
+    NAME           shift, and go to state 20
+
+    NAMELIST  go to state 101
+
+
+state 66
+
+    6 STRUCTURE: STRUCTKEY NAME COLONKEY NAMELIST LEFTBRACEKEY STRUCTBODY2 . RIGHTBRACEKEY
+   12 STRUCTBODY2: STRUCTBODY2 . SIMPLE_DECLARATION
+   13            | STRUCTBODY2 . FUNCTION
+   14            | STRUCTBODY2 . CONSTRUCTOR
+
+    RIGHTBRACEKEY   shift, and go to state 102
+    VARKEY          shift, and go to state 28
+    CONSTRUCTORKEY  shift, and go to state 29
+    FUNCTIONKEY     shift, and go to state 6
+
+    FUNCTION            go to state 103
+    CONSTRUCTOR         go to state 104
+    SIMPLE_DECLARATION  go to state 105
+
+
+state 67
+
+   11 STRUCTBODY2: EMPTY .
+
+    $default  reduce using rule 11 (STRUCTBODY2)
+
+
+state 68
+
+   77 NAMELIST: NAMELIST COMMAKEY NAME .
+
+    $default  reduce using rule 77 (NAMELIST)
+
+
+state 69
+
+   18 MAIN: MAINKEY LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY .
+
+    $default  reduce using rule 18 (MAIN)
+
+
+state 70
+
+   71 SIMPLE_VARIABLE: NAME .
+   73 ARRAYNAME: NAME . LEFTBRACKETKEY EXPRESSION RIGHTBRACKETKEY
+   76 NAMELIST: NAME .
+
+    LEFTBRACKETKEY  shift, and go to state 92
+
+    SEMICOLONKEY  reduce using rule 76 (NAMELIST)
+    COMMAKEY      reduce using rule 76 (NAMELIST)
+    $default      reduce using rule 71 (SIMPLE_VARIABLE)
+
+
+state 71
+
+   42 COMPLEX_DECLARATION: VARKEY VARIABLE . EQUALKEY STRING SEMICOLONKEY
+   43                    | VARKEY VARIABLE . EQUALKEY EXPRESSION SEMICOLONKEY
+
+    EQUALKEY  shift, and go to state 106
+
+
+state 72
+
+   41 SIMPLE_DECLARATION: VARKEY ARRAYNAME . SEMICOLONKEY
+   72 SIMPLE_VARIABLE: ARRAYNAME .
+
+    SEMICOLONKEY  shift, and go to state 98
+
+    $default  reduce using rule 72 (SIMPLE_VARIABLE)
+
+
+state 73
+
+   62 CALCULABLE_EXPRESSION: LEFTPARENKEY . EXPRESSION RIGHTPARENKEY
+   78 UNARY_OPERATION: LEFTPARENKEY . MINUSKEY EXPRESSION RIGHTPARENKEY
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    MINUSKEY      shift, and go to state 107
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 108
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 74
+
+   58 CALCULABLE_EXPRESSION: CALLKEY . NAME LEFTPARENKEY RIGHTPARENKEY
+   59                      | CALLKEY . NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY
+
+    NAME  shift, and go to state 109
+
+
+state 75
+
+   79 UNARY_OPERATION: ABSKEY . LEFTPARENKEY EXPRESSION RIGHTPARENKEY
+
+    LEFTPARENKEY  shift, and go to state 110
+
+
+state 76
+
+   93 NUMBER: INTEGER .
+
+    $default  reduce using rule 93 (NUMBER)
+
+
+state 77
+
+   94 NUMBER: FLOATNUMBER .
+
+    $default  reduce using rule 94 (NUMBER)
+
+
+state 78
+
+   39 STATEMENT: RETURNKEY EXPRESSION . SEMICOLONKEY
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    SEMICOLONKEY  shift, and go to state 111
+    PLUSKEY       shift, and go to state 112
+    MINUSKEY      shift, and go to state 113
+    MULTKEY       shift, and go to state 114
+    DIVKEY        shift, and go to state 115
+
+
+state 79
+
+   55 EXPRESSION: CALCULABLE_EXPRESSION .
+
+    $default  reduce using rule 55 (EXPRESSION)
+
+
+state 80
+
+   56 EXPRESSION: VARIABLE .
+
+    $default  reduce using rule 56 (EXPRESSION)
+
+
+state 81
+
+   61 CALCULABLE_EXPRESSION: UNARY_OPERATION .
+
+    $default  reduce using rule 61 (CALCULABLE_EXPRESSION)
+
+
+state 82
+
+   60 CALCULABLE_EXPRESSION: BINARY_OPERATION .
+
+    $default  reduce using rule 60 (CALCULABLE_EXPRESSION)
+
+
+state 83
+
+   57 CALCULABLE_EXPRESSION: NUMBER .
+
+    $default  reduce using rule 57 (CALCULABLE_EXPRESSION)
+
+
+state 84
+
+   62 CALCULABLE_EXPRESSION: LEFTPARENKEY . EXPRESSION RIGHTPARENKEY
+   66 LOGICAL_EXPRESSION: LEFTPARENKEY . LOGICAL_EXPRESSION RIGHTPARENKEY
+   78 UNARY_OPERATION: LEFTPARENKEY . MINUSKEY EXPRESSION RIGHTPARENKEY
+
+    LEFTPARENKEY    shift, and go to state 84
+    CALLKEY         shift, and go to state 74
+    MINUSKEY        shift, and go to state 107
+    ABSKEY          shift, and go to state 75
+    EXCLAMATIONKEY  shift, and go to state 85
+    NAME            shift, and go to state 41
+    INTEGER         shift, and go to state 76
+    FLOATNUMBER     shift, and go to state 77
+
+    EXPRESSION                go to state 116
+    CALCULABLE_EXPRESSION     go to state 79
+    LOGICAL_EXPRESSION        go to state 117
+    VARIABLE                  go to state 80
+    SIMPLE_VARIABLE           go to state 57
+    ARRAYNAME                 go to state 58
+    COMPLEX_VARIABLE          go to state 59
+    UNARY_OPERATION           go to state 81
+    BINARY_OPERATION          go to state 82
+    COMPARISON                go to state 88
+    LOGICAL_UNARY_OPERATION   go to state 89
+    LOGICAL_BINARY_OPERATION  go to state 90
+    NUMBER                    go to state 83
+
+
+state 85
+
+   90 LOGICAL_UNARY_OPERATION: EXCLAMATIONKEY . LOGICAL_EXPRESSION
+
+    LEFTPARENKEY    shift, and go to state 84
+    CALLKEY         shift, and go to state 74
+    ABSKEY          shift, and go to state 75
+    EXCLAMATIONKEY  shift, and go to state 85
+    NAME            shift, and go to state 41
+    INTEGER         shift, and go to state 76
+    FLOATNUMBER     shift, and go to state 77
+
+    EXPRESSION                go to state 86
+    CALCULABLE_EXPRESSION     go to state 79
+    LOGICAL_EXPRESSION        go to state 118
+    VARIABLE                  go to state 80
+    SIMPLE_VARIABLE           go to state 57
+    ARRAYNAME                 go to state 58
+    COMPLEX_VARIABLE          go to state 59
+    UNARY_OPERATION           go to state 81
+    BINARY_OPERATION          go to state 82
+    COMPARISON                go to state 88
+    LOGICAL_UNARY_OPERATION   go to state 89
+    LOGICAL_BINARY_OPERATION  go to state 90
+    NUMBER                    go to state 83
+
+
+state 86
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+   84 COMPARISON: EXPRESSION . SUPKEY EXPRESSION
+   85           | EXPRESSION . INFKEY EXPRESSION
+   86           | EXPRESSION . SUPEQUALKEY EXPRESSION
+   87           | EXPRESSION . INFEQUALKEY EXPRESSION
+   88           | EXPRESSION . EQUALEQUALKEY EXPRESSION
+   89           | EXPRESSION . EXCLAMATIONEQUALKEY EXPRESSION
+
+    PLUSKEY              shift, and go to state 112
+    MINUSKEY             shift, and go to state 113
+    MULTKEY              shift, and go to state 114
+    DIVKEY               shift, and go to state 115
+    SUPKEY               shift, and go to state 119
+    INFKEY               shift, and go to state 120
+    SUPEQUALKEY          shift, and go to state 121
+    INFEQUALKEY          shift, and go to state 122
+    EQUALEQUALKEY        shift, and go to state 123
+    EXCLAMATIONEQUALKEY  shift, and go to state 124
+
+
+state 87
+
+   50 SIMPLE_IF_STATEMENT: IFKEY LOGICAL_EXPRESSION . LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   51 IF_ELSE_STATEMENT: IFKEY LOGICAL_EXPRESSION . LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY ELSEKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   91 LOGICAL_BINARY_OPERATION: LOGICAL_EXPRESSION . ORKEY LOGICAL_EXPRESSION
+   92                         | LOGICAL_EXPRESSION . ANDKEY LOGICAL_EXPRESSION
+
+    LEFTBRACEKEY  shift, and go to state 125
+    ORKEY         shift, and go to state 126
+    ANDKEY        shift, and go to state 127
+
+
+state 88
+
+   63 LOGICAL_EXPRESSION: COMPARISON .
+
+    $default  reduce using rule 63 (LOGICAL_EXPRESSION)
+
+
+state 89
+
+   65 LOGICAL_EXPRESSION: LOGICAL_UNARY_OPERATION .
+
+    $default  reduce using rule 65 (LOGICAL_EXPRESSION)
+
+
+state 90
+
+   64 LOGICAL_EXPRESSION: LOGICAL_BINARY_OPERATION .
+
+    $default  reduce using rule 64 (LOGICAL_EXPRESSION)
+
+
+state 91
+
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY . EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    NAME  shift, and go to state 41
+
+    EXPRESSION_ASSIGNMENT  go to state 128
+    VARIABLE               go to state 129
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 92
+
+   73 ARRAYNAME: NAME LEFTBRACKETKEY . EXPRESSION RIGHTBRACKETKEY
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 130
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 93
+
+   44 STRING_ASSIGNMENT: VARIABLE EQUALKEY . STRING SEMICOLONKEY
+   45 EXPRESSION_ASSIGNMENT: VARIABLE EQUALKEY . CALCULABLE_EXPRESSION SEMICOLONKEY
+   46 VARIABLE_ASSIGNMENT: VARIABLE EQUALKEY . VARIABLE SEMICOLONKEY
+   47 NEWOBJECT_ASSIGNMENT: VARIABLE EQUALKEY . NEWOBJECT SEMICOLONKEY
+
+    NEWKEY        shift, and go to state 131
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    STRING        shift, and go to state 132
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 133
+    CALCULABLE_EXPRESSION  go to state 134
+    NEWOBJECT              go to state 135
+    VARIABLE               go to state 136
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 94
+
+   74 COMPLEX_VARIABLE: SIMPLE_VARIABLE DOTKEY . SIMPLE_VARIABLE
+
+    NAME  shift, and go to state 41
+
+    SIMPLE_VARIABLE  go to state 137
+    ARRAYNAME        go to state 58
+
+
+state 95
+
+   75 COMPLEX_VARIABLE: COMPLEX_VARIABLE DOTKEY . SIMPLE_VARIABLE
+
+    NAME  shift, and go to state 41
+
+    SIMPLE_VARIABLE  go to state 138
+    ARRAYNAME        go to state 58
+
+
+state 96
+
+   16 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST . RIGHTBRACEKEY
+   25 INSTRUCTIONLIST: INSTRUCTIONLIST . INSTRUCTION
+
+    RIGHTBRACEKEY  shift, and go to state 139
+    VARKEY         shift, and go to state 37
+    RETURNKEY      shift, and go to state 38
+    IFKEY          shift, and go to state 39
+    FORKEY         shift, and go to state 40
+    NAME           shift, and go to state 41
+
+    INSTRUCTION            go to state 42
+    DECLARATION            go to state 43
+    ASSIGNMENT             go to state 44
+    STATEMENT              go to state 45
+    SIMPLE_DECLARATION     go to state 46
+    COMPLEX_DECLARATION    go to state 47
+    STRING_ASSIGNMENT      go to state 48
+    EXPRESSION_ASSIGNMENT  go to state 49
+    VARIABLE_ASSIGNMENT    go to state 50
+    NEWOBJECT_ASSIGNMENT   go to state 51
+    IF_STATEMENT           go to state 52
+    SIMPLE_IF_STATEMENT    go to state 53
+    IF_ELSE_STATEMENT      go to state 54
+    FOR_STATEMENT          go to state 55
+    VARIABLE               go to state 56
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 97
+
+   17 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY . INSTRUCTIONLIST RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    INSTRUCTIONLIST  go to state 140
+    EMPTY            go to state 24
+
+
+state 98
+
+   41 SIMPLE_DECLARATION: VARKEY ARRAYNAME SEMICOLONKEY .
+
+    $default  reduce using rule 41 (SIMPLE_DECLARATION)
+
+
+state 99
+
+   40 SIMPLE_DECLARATION: VARKEY NAMELIST SEMICOLONKEY .
+
+    $default  reduce using rule 40 (SIMPLE_DECLARATION)
+
+
+state 100
+
+   19 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY RIGHTPARENKEY . LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY
+
+    LEFTBRACEKEY  shift, and go to state 141
+
+
+state 101
+
+   20 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY NAMELIST . RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY
+   77 NAMELIST: NAMELIST . COMMAKEY NAME
+
+    COMMAKEY       shift, and go to state 34
+    RIGHTPARENKEY  shift, and go to state 142
+
+
+state 102
+
+    6 STRUCTURE: STRUCTKEY NAME COLONKEY NAMELIST LEFTBRACEKEY STRUCTBODY2 RIGHTBRACEKEY .
+
+    $default  reduce using rule 6 (STRUCTURE)
+
+
+state 103
+
+   13 STRUCTBODY2: STRUCTBODY2 FUNCTION .
+
+    $default  reduce using rule 13 (STRUCTBODY2)
+
+
+state 104
+
+   14 STRUCTBODY2: STRUCTBODY2 CONSTRUCTOR .
+
+    $default  reduce using rule 14 (STRUCTBODY2)
+
+
+state 105
+
+   12 STRUCTBODY2: STRUCTBODY2 SIMPLE_DECLARATION .
+
+    $default  reduce using rule 12 (STRUCTBODY2)
+
+
+state 106
+
+   42 COMPLEX_DECLARATION: VARKEY VARIABLE EQUALKEY . STRING SEMICOLONKEY
+   43                    | VARKEY VARIABLE EQUALKEY . EXPRESSION SEMICOLONKEY
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    STRING        shift, and go to state 143
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 144
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 107
+
+   78 UNARY_OPERATION: LEFTPARENKEY MINUSKEY . EXPRESSION RIGHTPARENKEY
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 145
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 108
+
+   62 CALCULABLE_EXPRESSION: LEFTPARENKEY EXPRESSION . RIGHTPARENKEY
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    RIGHTPARENKEY  shift, and go to state 146
+    PLUSKEY        shift, and go to state 112
+    MINUSKEY       shift, and go to state 113
+    MULTKEY        shift, and go to state 114
+    DIVKEY         shift, and go to state 115
+
+
+state 109
+
+   58 CALCULABLE_EXPRESSION: CALLKEY NAME . LEFTPARENKEY RIGHTPARENKEY
+   59                      | CALLKEY NAME . LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY
+
+    LEFTPARENKEY  shift, and go to state 147
+
+
+state 110
+
+   79 UNARY_OPERATION: ABSKEY LEFTPARENKEY . EXPRESSION RIGHTPARENKEY
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 148
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 111
+
+   39 STATEMENT: RETURNKEY EXPRESSION SEMICOLONKEY .
+
+    $default  reduce using rule 39 (STATEMENT)
+
+
+state 112
+
+   80 BINARY_OPERATION: EXPRESSION PLUSKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 149
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 113
+
+   81 BINARY_OPERATION: EXPRESSION MINUSKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 150
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 114
+
+   82 BINARY_OPERATION: EXPRESSION MULTKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 151
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 115
+
+   83 BINARY_OPERATION: EXPRESSION DIVKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 152
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 116
+
+   62 CALCULABLE_EXPRESSION: LEFTPARENKEY EXPRESSION . RIGHTPARENKEY
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+   84 COMPARISON: EXPRESSION . SUPKEY EXPRESSION
+   85           | EXPRESSION . INFKEY EXPRESSION
+   86           | EXPRESSION . SUPEQUALKEY EXPRESSION
+   87           | EXPRESSION . INFEQUALKEY EXPRESSION
+   88           | EXPRESSION . EQUALEQUALKEY EXPRESSION
+   89           | EXPRESSION . EXCLAMATIONEQUALKEY EXPRESSION
+
+    RIGHTPARENKEY        shift, and go to state 146
+    PLUSKEY              shift, and go to state 112
+    MINUSKEY             shift, and go to state 113
+    MULTKEY              shift, and go to state 114
+    DIVKEY               shift, and go to state 115
+    SUPKEY               shift, and go to state 119
+    INFKEY               shift, and go to state 120
+    SUPEQUALKEY          shift, and go to state 121
+    INFEQUALKEY          shift, and go to state 122
+    EQUALEQUALKEY        shift, and go to state 123
+    EXCLAMATIONEQUALKEY  shift, and go to state 124
+
+
+state 117
+
+   66 LOGICAL_EXPRESSION: LEFTPARENKEY LOGICAL_EXPRESSION . RIGHTPARENKEY
+   91 LOGICAL_BINARY_OPERATION: LOGICAL_EXPRESSION . ORKEY LOGICAL_EXPRESSION
+   92                         | LOGICAL_EXPRESSION . ANDKEY LOGICAL_EXPRESSION
+
+    RIGHTPARENKEY  shift, and go to state 153
+    ORKEY          shift, and go to state 126
+    ANDKEY         shift, and go to state 127
+
+
+state 118
+
+   90 LOGICAL_UNARY_OPERATION: EXCLAMATIONKEY LOGICAL_EXPRESSION .
+   91 LOGICAL_BINARY_OPERATION: LOGICAL_EXPRESSION . ORKEY LOGICAL_EXPRESSION
+   92                         | LOGICAL_EXPRESSION . ANDKEY LOGICAL_EXPRESSION
+
+    $default  reduce using rule 90 (LOGICAL_UNARY_OPERATION)
+
+
+state 119
+
+   84 COMPARISON: EXPRESSION SUPKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 154
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 120
+
+   85 COMPARISON: EXPRESSION INFKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 155
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 121
+
+   86 COMPARISON: EXPRESSION SUPEQUALKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 156
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 122
+
+   87 COMPARISON: EXPRESSION INFEQUALKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 157
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 123
+
+   88 COMPARISON: EXPRESSION EQUALEQUALKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 158
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 124
+
+   89 COMPARISON: EXPRESSION EXCLAMATIONEQUALKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 159
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 125
+
+   50 SIMPLE_IF_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY . INSTRUCTIONLIST RIGHTBRACEKEY
+   51 IF_ELSE_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY . INSTRUCTIONLIST RIGHTBRACEKEY ELSEKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    INSTRUCTIONLIST  go to state 160
+    EMPTY            go to state 24
+
+
+state 126
+
+   91 LOGICAL_BINARY_OPERATION: LOGICAL_EXPRESSION ORKEY . LOGICAL_EXPRESSION
+
+    LEFTPARENKEY    shift, and go to state 84
+    CALLKEY         shift, and go to state 74
+    ABSKEY          shift, and go to state 75
+    EXCLAMATIONKEY  shift, and go to state 85
+    NAME            shift, and go to state 41
+    INTEGER         shift, and go to state 76
+    FLOATNUMBER     shift, and go to state 77
+
+    EXPRESSION                go to state 86
+    CALCULABLE_EXPRESSION     go to state 79
+    LOGICAL_EXPRESSION        go to state 161
+    VARIABLE                  go to state 80
+    SIMPLE_VARIABLE           go to state 57
+    ARRAYNAME                 go to state 58
+    COMPLEX_VARIABLE          go to state 59
+    UNARY_OPERATION           go to state 81
+    BINARY_OPERATION          go to state 82
+    COMPARISON                go to state 88
+    LOGICAL_UNARY_OPERATION   go to state 89
+    LOGICAL_BINARY_OPERATION  go to state 90
+    NUMBER                    go to state 83
+
+
+state 127
+
+   92 LOGICAL_BINARY_OPERATION: LOGICAL_EXPRESSION ANDKEY . LOGICAL_EXPRESSION
+
+    LEFTPARENKEY    shift, and go to state 84
+    CALLKEY         shift, and go to state 74
+    ABSKEY          shift, and go to state 75
+    EXCLAMATIONKEY  shift, and go to state 85
+    NAME            shift, and go to state 41
+    INTEGER         shift, and go to state 76
+    FLOATNUMBER     shift, and go to state 77
+
+    EXPRESSION                go to state 86
+    CALCULABLE_EXPRESSION     go to state 79
+    LOGICAL_EXPRESSION        go to state 162
+    VARIABLE                  go to state 80
+    SIMPLE_VARIABLE           go to state 57
+    ARRAYNAME                 go to state 58
+    COMPLEX_VARIABLE          go to state 59
+    UNARY_OPERATION           go to state 81
+    BINARY_OPERATION          go to state 82
+    COMPARISON                go to state 88
+    LOGICAL_UNARY_OPERATION   go to state 89
+    LOGICAL_BINARY_OPERATION  go to state 90
+    NUMBER                    go to state 83
+
+
+state 128
+
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT . LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTPARENKEY    shift, and go to state 84
+    CALLKEY         shift, and go to state 74
+    ABSKEY          shift, and go to state 75
+    EXCLAMATIONKEY  shift, and go to state 85
+    NAME            shift, and go to state 41
+    INTEGER         shift, and go to state 76
+    FLOATNUMBER     shift, and go to state 77
+
+    EXPRESSION                go to state 86
+    CALCULABLE_EXPRESSION     go to state 79
+    LOGICAL_EXPRESSION        go to state 163
+    VARIABLE                  go to state 80
+    SIMPLE_VARIABLE           go to state 57
+    ARRAYNAME                 go to state 58
+    COMPLEX_VARIABLE          go to state 59
+    UNARY_OPERATION           go to state 81
+    BINARY_OPERATION          go to state 82
+    COMPARISON                go to state 88
+    LOGICAL_UNARY_OPERATION   go to state 89
+    LOGICAL_BINARY_OPERATION  go to state 90
+    NUMBER                    go to state 83
+
+
+state 129
+
+   45 EXPRESSION_ASSIGNMENT: VARIABLE . EQUALKEY CALCULABLE_EXPRESSION SEMICOLONKEY
+
+    EQUALKEY  shift, and go to state 164
+
+
+state 130
+
+   73 ARRAYNAME: NAME LEFTBRACKETKEY EXPRESSION . RIGHTBRACKETKEY
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    RIGHTBRACKETKEY  shift, and go to state 165
+    PLUSKEY          shift, and go to state 112
+    MINUSKEY         shift, and go to state 113
+    MULTKEY          shift, and go to state 114
+    DIVKEY           shift, and go to state 115
+
+
+state 131
+
+   67 NEWOBJECT: NEWKEY . NAME LEFTPARENKEY RIGHTPARENKEY
+   68          | NEWKEY . NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY
+
+    NAME  shift, and go to state 166
+
+
+state 132
+
+   44 STRING_ASSIGNMENT: VARIABLE EQUALKEY STRING . SEMICOLONKEY
+
+    SEMICOLONKEY  shift, and go to state 167
+
+
+state 133
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    PLUSKEY   shift, and go to state 112
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+
+state 134
+
+   45 EXPRESSION_ASSIGNMENT: VARIABLE EQUALKEY CALCULABLE_EXPRESSION . SEMICOLONKEY
+   55 EXPRESSION: CALCULABLE_EXPRESSION .
+
+    SEMICOLONKEY  shift, and go to state 168
+
+    $default  reduce using rule 55 (EXPRESSION)
+
+
+state 135
+
+   47 NEWOBJECT_ASSIGNMENT: VARIABLE EQUALKEY NEWOBJECT . SEMICOLONKEY
+
+    SEMICOLONKEY  shift, and go to state 169
+
+
+state 136
+
+   46 VARIABLE_ASSIGNMENT: VARIABLE EQUALKEY VARIABLE . SEMICOLONKEY
+   56 EXPRESSION: VARIABLE .
+
+    SEMICOLONKEY  shift, and go to state 170
+
+    $default  reduce using rule 56 (EXPRESSION)
+
+
+state 137
+
+   74 COMPLEX_VARIABLE: SIMPLE_VARIABLE DOTKEY SIMPLE_VARIABLE .
+
+    $default  reduce using rule 74 (COMPLEX_VARIABLE)
+
+
+state 138
+
+   75 COMPLEX_VARIABLE: COMPLEX_VARIABLE DOTKEY SIMPLE_VARIABLE .
+
+    $default  reduce using rule 75 (COMPLEX_VARIABLE)
+
+
+state 139
+
+   16 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY .
+
+    $default  reduce using rule 16 (FUNCTION)
+
+
+state 140
+
+   17 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST . RIGHTBRACEKEY
+   25 INSTRUCTIONLIST: INSTRUCTIONLIST . INSTRUCTION
+
+    RIGHTBRACEKEY  shift, and go to state 171
+    VARKEY         shift, and go to state 37
+    RETURNKEY      shift, and go to state 38
+    IFKEY          shift, and go to state 39
+    FORKEY         shift, and go to state 40
+    NAME           shift, and go to state 41
+
+    INSTRUCTION            go to state 42
+    DECLARATION            go to state 43
+    ASSIGNMENT             go to state 44
+    STATEMENT              go to state 45
+    SIMPLE_DECLARATION     go to state 46
+    COMPLEX_DECLARATION    go to state 47
+    STRING_ASSIGNMENT      go to state 48
+    EXPRESSION_ASSIGNMENT  go to state 49
+    VARIABLE_ASSIGNMENT    go to state 50
+    NEWOBJECT_ASSIGNMENT   go to state 51
+    IF_STATEMENT           go to state 52
+    SIMPLE_IF_STATEMENT    go to state 53
+    IF_ELSE_STATEMENT      go to state 54
+    FOR_STATEMENT          go to state 55
+    VARIABLE               go to state 56
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 141
+
+   19 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY . CONSTRUCTORBODY RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    CONSTRUCTORBODY  go to state 172
+    EMPTY            go to state 173
+
+
+state 142
+
+   20 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY NAMELIST RIGHTPARENKEY . LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY
+
+    LEFTBRACEKEY  shift, and go to state 174
+
+
+state 143
+
+   42 COMPLEX_DECLARATION: VARKEY VARIABLE EQUALKEY STRING . SEMICOLONKEY
+
+    SEMICOLONKEY  shift, and go to state 175
+
+
+state 144
+
+   43 COMPLEX_DECLARATION: VARKEY VARIABLE EQUALKEY EXPRESSION . SEMICOLONKEY
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    SEMICOLONKEY  shift, and go to state 176
+    PLUSKEY       shift, and go to state 112
+    MINUSKEY      shift, and go to state 113
+    MULTKEY       shift, and go to state 114
+    DIVKEY        shift, and go to state 115
+
+
+state 145
+
+   78 UNARY_OPERATION: LEFTPARENKEY MINUSKEY EXPRESSION . RIGHTPARENKEY
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    RIGHTPARENKEY  shift, and go to state 177
+    PLUSKEY        shift, and go to state 112
+    MINUSKEY       shift, and go to state 113
+    MULTKEY        shift, and go to state 114
+    DIVKEY         shift, and go to state 115
+
+
+state 146
+
+   62 CALCULABLE_EXPRESSION: LEFTPARENKEY EXPRESSION RIGHTPARENKEY .
+
+    $default  reduce using rule 62 (CALCULABLE_EXPRESSION)
+
+
+state 147
+
+   58 CALCULABLE_EXPRESSION: CALLKEY NAME LEFTPARENKEY . RIGHTPARENKEY
+   59                      | CALLKEY NAME LEFTPARENKEY . EXPRESSIONLIST RIGHTPARENKEY
+
+    LEFTPARENKEY   shift, and go to state 73
+    RIGHTPARENKEY  shift, and go to state 178
+    CALLKEY        shift, and go to state 74
+    ABSKEY         shift, and go to state 75
+    NAME           shift, and go to state 41
+    INTEGER        shift, and go to state 76
+    FLOATNUMBER    shift, and go to state 77
+
+    EXPRESSIONLIST         go to state 179
+    EXPRESSION             go to state 180
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 148
+
+   79 UNARY_OPERATION: ABSKEY LEFTPARENKEY EXPRESSION . RIGHTPARENKEY
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    RIGHTPARENKEY  shift, and go to state 181
+    PLUSKEY        shift, and go to state 112
+    MINUSKEY       shift, and go to state 113
+    MULTKEY        shift, and go to state 114
+    DIVKEY         shift, and go to state 115
+
+
+state 149
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   80                 | EXPRESSION PLUSKEY EXPRESSION .
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+    $default  reduce using rule 80 (BINARY_OPERATION)
+
+
+state 150
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   81                 | EXPRESSION MINUSKEY EXPRESSION .
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    MULTKEY  shift, and go to state 114
+    DIVKEY   shift, and go to state 115
+
+    $default  reduce using rule 81 (BINARY_OPERATION)
+
+
+state 151
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   82                 | EXPRESSION MULTKEY EXPRESSION .
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    DIVKEY  shift, and go to state 115
+
+    $default  reduce using rule 82 (BINARY_OPERATION)
+
+
+state 152
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+   83                 | EXPRESSION DIVKEY EXPRESSION .
+
+    $default  reduce using rule 83 (BINARY_OPERATION)
+
+
+state 153
+
+   66 LOGICAL_EXPRESSION: LEFTPARENKEY LOGICAL_EXPRESSION RIGHTPARENKEY .
+
+    $default  reduce using rule 66 (LOGICAL_EXPRESSION)
+
+
+state 154
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+   84 COMPARISON: EXPRESSION SUPKEY EXPRESSION .
+
+    PLUSKEY   shift, and go to state 112
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+    $default  reduce using rule 84 (COMPARISON)
+
+
+state 155
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+   85 COMPARISON: EXPRESSION INFKEY EXPRESSION .
+
+    PLUSKEY   shift, and go to state 112
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+    $default  reduce using rule 85 (COMPARISON)
+
+
+state 156
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+   86 COMPARISON: EXPRESSION SUPEQUALKEY EXPRESSION .
+
+    PLUSKEY   shift, and go to state 112
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+    $default  reduce using rule 86 (COMPARISON)
+
+
+state 157
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+   87 COMPARISON: EXPRESSION INFEQUALKEY EXPRESSION .
+
+    PLUSKEY   shift, and go to state 112
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+    $default  reduce using rule 87 (COMPARISON)
+
+
+state 158
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+   88 COMPARISON: EXPRESSION EQUALEQUALKEY EXPRESSION .
+
+    PLUSKEY   shift, and go to state 112
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+    $default  reduce using rule 88 (COMPARISON)
+
+
+state 159
+
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+   89 COMPARISON: EXPRESSION EXCLAMATIONEQUALKEY EXPRESSION .
+
+    PLUSKEY   shift, and go to state 112
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+    $default  reduce using rule 89 (COMPARISON)
+
+
+state 160
+
+   25 INSTRUCTIONLIST: INSTRUCTIONLIST . INSTRUCTION
+   50 SIMPLE_IF_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST . RIGHTBRACEKEY
+   51 IF_ELSE_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST . RIGHTBRACEKEY ELSEKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    RIGHTBRACEKEY  shift, and go to state 182
+    VARKEY         shift, and go to state 37
+    RETURNKEY      shift, and go to state 38
+    IFKEY          shift, and go to state 39
+    FORKEY         shift, and go to state 40
+    NAME           shift, and go to state 41
+
+    INSTRUCTION            go to state 42
+    DECLARATION            go to state 43
+    ASSIGNMENT             go to state 44
+    STATEMENT              go to state 45
+    SIMPLE_DECLARATION     go to state 46
+    COMPLEX_DECLARATION    go to state 47
+    STRING_ASSIGNMENT      go to state 48
+    EXPRESSION_ASSIGNMENT  go to state 49
+    VARIABLE_ASSIGNMENT    go to state 50
+    NEWOBJECT_ASSIGNMENT   go to state 51
+    IF_STATEMENT           go to state 52
+    SIMPLE_IF_STATEMENT    go to state 53
+    IF_ELSE_STATEMENT      go to state 54
+    FOR_STATEMENT          go to state 55
+    VARIABLE               go to state 56
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 161
+
+   91 LOGICAL_BINARY_OPERATION: LOGICAL_EXPRESSION . ORKEY LOGICAL_EXPRESSION
+   91                         | LOGICAL_EXPRESSION ORKEY LOGICAL_EXPRESSION .
+   92                         | LOGICAL_EXPRESSION . ANDKEY LOGICAL_EXPRESSION
+
+    $default  reduce using rule 91 (LOGICAL_BINARY_OPERATION)
+
+
+state 162
+
+   91 LOGICAL_BINARY_OPERATION: LOGICAL_EXPRESSION . ORKEY LOGICAL_EXPRESSION
+   92                         | LOGICAL_EXPRESSION . ANDKEY LOGICAL_EXPRESSION
+   92                         | LOGICAL_EXPRESSION ANDKEY LOGICAL_EXPRESSION .
+
+    ORKEY  shift, and go to state 126
+
+    $default  reduce using rule 92 (LOGICAL_BINARY_OPERATION)
+
+
+state 163
+
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION . SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+   91 LOGICAL_BINARY_OPERATION: LOGICAL_EXPRESSION . ORKEY LOGICAL_EXPRESSION
+   92                         | LOGICAL_EXPRESSION . ANDKEY LOGICAL_EXPRESSION
+
+    SEMICOLONKEY  shift, and go to state 183
+    ORKEY         shift, and go to state 126
+    ANDKEY        shift, and go to state 127
+
+
+state 164
+
+   45 EXPRESSION_ASSIGNMENT: VARIABLE EQUALKEY . CALCULABLE_EXPRESSION SEMICOLONKEY
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 133
+    CALCULABLE_EXPRESSION  go to state 134
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 165
+
+   73 ARRAYNAME: NAME LEFTBRACKETKEY EXPRESSION RIGHTBRACKETKEY .
+
+    $default  reduce using rule 73 (ARRAYNAME)
+
+
+state 166
+
+   67 NEWOBJECT: NEWKEY NAME . LEFTPARENKEY RIGHTPARENKEY
+   68          | NEWKEY NAME . LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY
+
+    LEFTPARENKEY  shift, and go to state 184
+
+
+state 167
+
+   44 STRING_ASSIGNMENT: VARIABLE EQUALKEY STRING SEMICOLONKEY .
+
+    $default  reduce using rule 44 (STRING_ASSIGNMENT)
+
+
+state 168
+
+   45 EXPRESSION_ASSIGNMENT: VARIABLE EQUALKEY CALCULABLE_EXPRESSION SEMICOLONKEY .
+
+    $default  reduce using rule 45 (EXPRESSION_ASSIGNMENT)
+
+
+state 169
+
+   47 NEWOBJECT_ASSIGNMENT: VARIABLE EQUALKEY NEWOBJECT SEMICOLONKEY .
+
+    $default  reduce using rule 47 (NEWOBJECT_ASSIGNMENT)
+
+
+state 170
+
+   46 VARIABLE_ASSIGNMENT: VARIABLE EQUALKEY VARIABLE SEMICOLONKEY .
+
+    $default  reduce using rule 46 (VARIABLE_ASSIGNMENT)
+
+
+state 171
+
+   17 FUNCTION: FUNCTIONKEY NAME LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY .
+
+    $default  reduce using rule 17 (FUNCTION)
+
+
+state 172
+
+   19 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY . RIGHTBRACEKEY
+   22 CONSTRUCTORBODY: CONSTRUCTORBODY . CONSTRUCTOR_CALL
+   23                | CONSTRUCTORBODY . INSTRUCTION
+
+    RIGHTBRACEKEY  shift, and go to state 185
+    VARKEY         shift, and go to state 37
+    RETURNKEY      shift, and go to state 38
+    IFKEY          shift, and go to state 39
+    FORKEY         shift, and go to state 40
+    NAME           shift, and go to state 186
+
+    INSTRUCTION            go to state 187
+    CONSTRUCTOR_CALL       go to state 188
+    DECLARATION            go to state 43
+    ASSIGNMENT             go to state 44
+    STATEMENT              go to state 45
+    SIMPLE_DECLARATION     go to state 46
+    COMPLEX_DECLARATION    go to state 47
+    STRING_ASSIGNMENT      go to state 48
+    EXPRESSION_ASSIGNMENT  go to state 49
+    VARIABLE_ASSIGNMENT    go to state 50
+    NEWOBJECT_ASSIGNMENT   go to state 51
+    IF_STATEMENT           go to state 52
+    SIMPLE_IF_STATEMENT    go to state 53
+    IF_ELSE_STATEMENT      go to state 54
+    FOR_STATEMENT          go to state 55
+    VARIABLE               go to state 56
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 173
+
+   21 CONSTRUCTORBODY: EMPTY .
+
+    $default  reduce using rule 21 (CONSTRUCTORBODY)
+
+
+state 174
+
+   20 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY . CONSTRUCTORBODY RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    CONSTRUCTORBODY  go to state 189
+    EMPTY            go to state 173
+
+
+state 175
+
+   42 COMPLEX_DECLARATION: VARKEY VARIABLE EQUALKEY STRING SEMICOLONKEY .
+
+    $default  reduce using rule 42 (COMPLEX_DECLARATION)
+
+
+state 176
+
+   43 COMPLEX_DECLARATION: VARKEY VARIABLE EQUALKEY EXPRESSION SEMICOLONKEY .
+
+    $default  reduce using rule 43 (COMPLEX_DECLARATION)
+
+
+state 177
+
+   78 UNARY_OPERATION: LEFTPARENKEY MINUSKEY EXPRESSION RIGHTPARENKEY .
+
+    $default  reduce using rule 78 (UNARY_OPERATION)
+
+
+state 178
+
+   58 CALCULABLE_EXPRESSION: CALLKEY NAME LEFTPARENKEY RIGHTPARENKEY .
+
+    $default  reduce using rule 58 (CALCULABLE_EXPRESSION)
+
+
+state 179
+
+   54 EXPRESSIONLIST: EXPRESSIONLIST . COMMAKEY EXPRESSION
+   59 CALCULABLE_EXPRESSION: CALLKEY NAME LEFTPARENKEY EXPRESSIONLIST . RIGHTPARENKEY
+
+    COMMAKEY       shift, and go to state 190
+    RIGHTPARENKEY  shift, and go to state 191
+
+
+state 180
+
+   53 EXPRESSIONLIST: EXPRESSION .
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    PLUSKEY   shift, and go to state 112
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+    $default  reduce using rule 53 (EXPRESSIONLIST)
+
+
+state 181
+
+   79 UNARY_OPERATION: ABSKEY LEFTPARENKEY EXPRESSION RIGHTPARENKEY .
+
+    $default  reduce using rule 79 (UNARY_OPERATION)
+
+
+state 182
+
+   50 SIMPLE_IF_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY .
+   51 IF_ELSE_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY . ELSEKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    ELSEKEY  shift, and go to state 192
+
+    $default  reduce using rule 50 (SIMPLE_IF_STATEMENT)
+
+
+state 183
+
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY . EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    NAME  shift, and go to state 41
+
+    EXPRESSION_ASSIGNMENT  go to state 193
+    VARIABLE               go to state 129
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 184
+
+   67 NEWOBJECT: NEWKEY NAME LEFTPARENKEY . RIGHTPARENKEY
+   68          | NEWKEY NAME LEFTPARENKEY . EXPRESSIONLIST RIGHTPARENKEY
+
+    LEFTPARENKEY   shift, and go to state 73
+    RIGHTPARENKEY  shift, and go to state 194
+    CALLKEY        shift, and go to state 74
+    ABSKEY         shift, and go to state 75
+    NAME           shift, and go to state 41
+    INTEGER        shift, and go to state 76
+    FLOATNUMBER    shift, and go to state 77
+
+    EXPRESSIONLIST         go to state 195
+    EXPRESSION             go to state 180
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 185
+
+   19 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY .
+
+    $default  reduce using rule 19 (CONSTRUCTOR)
+
+
+state 186
+
+   29 CONSTRUCTOR_CALL: NAME . LEFTPARENKEY RIGHTPARENKEY SEMICOLONKEY
+   30                 | NAME . LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY SEMICOLONKEY
+   71 SIMPLE_VARIABLE: NAME .
+   73 ARRAYNAME: NAME . LEFTBRACKETKEY EXPRESSION RIGHTBRACKETKEY
+
+    LEFTBRACKETKEY  shift, and go to state 92
+    LEFTPARENKEY    shift, and go to state 196
+
+    $default  reduce using rule 71 (SIMPLE_VARIABLE)
+
+
+state 187
+
+   23 CONSTRUCTORBODY: CONSTRUCTORBODY INSTRUCTION .
+
+    $default  reduce using rule 23 (CONSTRUCTORBODY)
+
+
+state 188
+
+   22 CONSTRUCTORBODY: CONSTRUCTORBODY CONSTRUCTOR_CALL .
+
+    $default  reduce using rule 22 (CONSTRUCTORBODY)
+
+
+state 189
+
+   20 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY . RIGHTBRACEKEY
+   22 CONSTRUCTORBODY: CONSTRUCTORBODY . CONSTRUCTOR_CALL
+   23                | CONSTRUCTORBODY . INSTRUCTION
+
+    RIGHTBRACEKEY  shift, and go to state 197
+    VARKEY         shift, and go to state 37
+    RETURNKEY      shift, and go to state 38
+    IFKEY          shift, and go to state 39
+    FORKEY         shift, and go to state 40
+    NAME           shift, and go to state 186
+
+    INSTRUCTION            go to state 187
+    CONSTRUCTOR_CALL       go to state 188
+    DECLARATION            go to state 43
+    ASSIGNMENT             go to state 44
+    STATEMENT              go to state 45
+    SIMPLE_DECLARATION     go to state 46
+    COMPLEX_DECLARATION    go to state 47
+    STRING_ASSIGNMENT      go to state 48
+    EXPRESSION_ASSIGNMENT  go to state 49
+    VARIABLE_ASSIGNMENT    go to state 50
+    NEWOBJECT_ASSIGNMENT   go to state 51
+    IF_STATEMENT           go to state 52
+    SIMPLE_IF_STATEMENT    go to state 53
+    IF_ELSE_STATEMENT      go to state 54
+    FOR_STATEMENT          go to state 55
+    VARIABLE               go to state 56
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 190
+
+   54 EXPRESSIONLIST: EXPRESSIONLIST COMMAKEY . EXPRESSION
+
+    LEFTPARENKEY  shift, and go to state 73
+    CALLKEY       shift, and go to state 74
+    ABSKEY        shift, and go to state 75
+    NAME          shift, and go to state 41
+    INTEGER       shift, and go to state 76
+    FLOATNUMBER   shift, and go to state 77
+
+    EXPRESSION             go to state 198
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 191
+
+   59 CALCULABLE_EXPRESSION: CALLKEY NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY .
+
+    $default  reduce using rule 59 (CALCULABLE_EXPRESSION)
+
+
+state 192
+
+   51 IF_ELSE_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY ELSEKEY . LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTBRACEKEY  shift, and go to state 199
+
+
+state 193
+
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT . RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    RIGHTPARENKEY  shift, and go to state 200
+
+
+state 194
+
+   67 NEWOBJECT: NEWKEY NAME LEFTPARENKEY RIGHTPARENKEY .
+
+    $default  reduce using rule 67 (NEWOBJECT)
+
+
+state 195
+
+   54 EXPRESSIONLIST: EXPRESSIONLIST . COMMAKEY EXPRESSION
+   68 NEWOBJECT: NEWKEY NAME LEFTPARENKEY EXPRESSIONLIST . RIGHTPARENKEY
+
+    COMMAKEY       shift, and go to state 190
+    RIGHTPARENKEY  shift, and go to state 201
+
+
+state 196
+
+   29 CONSTRUCTOR_CALL: NAME LEFTPARENKEY . RIGHTPARENKEY SEMICOLONKEY
+   30                 | NAME LEFTPARENKEY . EXPRESSIONLIST RIGHTPARENKEY SEMICOLONKEY
+
+    LEFTPARENKEY   shift, and go to state 73
+    RIGHTPARENKEY  shift, and go to state 202
+    CALLKEY        shift, and go to state 74
+    ABSKEY         shift, and go to state 75
+    NAME           shift, and go to state 41
+    INTEGER        shift, and go to state 76
+    FLOATNUMBER    shift, and go to state 77
+
+    EXPRESSIONLIST         go to state 203
+    EXPRESSION             go to state 180
+    CALCULABLE_EXPRESSION  go to state 79
+    VARIABLE               go to state 80
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+    UNARY_OPERATION        go to state 81
+    BINARY_OPERATION       go to state 82
+    NUMBER                 go to state 83
+
+
+state 197
+
+   20 CONSTRUCTOR: CONSTRUCTORKEY LEFTPARENKEY NAMELIST RIGHTPARENKEY LEFTBRACEKEY CONSTRUCTORBODY RIGHTBRACEKEY .
+
+    $default  reduce using rule 20 (CONSTRUCTOR)
+
+
+state 198
+
+   54 EXPRESSIONLIST: EXPRESSIONLIST COMMAKEY EXPRESSION .
+   80 BINARY_OPERATION: EXPRESSION . PLUSKEY EXPRESSION
+   81                 | EXPRESSION . MINUSKEY EXPRESSION
+   82                 | EXPRESSION . MULTKEY EXPRESSION
+   83                 | EXPRESSION . DIVKEY EXPRESSION
+
+    PLUSKEY   shift, and go to state 112
+    MINUSKEY  shift, and go to state 113
+    MULTKEY   shift, and go to state 114
+    DIVKEY    shift, and go to state 115
+
+    $default  reduce using rule 54 (EXPRESSIONLIST)
+
+
+state 199
+
+   51 IF_ELSE_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY ELSEKEY LEFTBRACEKEY . INSTRUCTIONLIST RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    INSTRUCTIONLIST  go to state 204
+    EMPTY            go to state 24
+
+
+state 200
+
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY . LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
+
+    LEFTBRACEKEY  shift, and go to state 205
+
+
+state 201
+
+   68 NEWOBJECT: NEWKEY NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY .
+
+    $default  reduce using rule 68 (NEWOBJECT)
+
+
+state 202
+
+   29 CONSTRUCTOR_CALL: NAME LEFTPARENKEY RIGHTPARENKEY . SEMICOLONKEY
+
+    SEMICOLONKEY  shift, and go to state 206
+
+
+state 203
+
+   30 CONSTRUCTOR_CALL: NAME LEFTPARENKEY EXPRESSIONLIST . RIGHTPARENKEY SEMICOLONKEY
+   54 EXPRESSIONLIST: EXPRESSIONLIST . COMMAKEY EXPRESSION
+
+    COMMAKEY       shift, and go to state 190
+    RIGHTPARENKEY  shift, and go to state 207
+
+
+state 204
+
+   25 INSTRUCTIONLIST: INSTRUCTIONLIST . INSTRUCTION
+   51 IF_ELSE_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY ELSEKEY LEFTBRACEKEY INSTRUCTIONLIST . RIGHTBRACEKEY
+
+    RIGHTBRACEKEY  shift, and go to state 208
+    VARKEY         shift, and go to state 37
+    RETURNKEY      shift, and go to state 38
+    IFKEY          shift, and go to state 39
+    FORKEY         shift, and go to state 40
+    NAME           shift, and go to state 41
+
+    INSTRUCTION            go to state 42
+    DECLARATION            go to state 43
+    ASSIGNMENT             go to state 44
+    STATEMENT              go to state 45
+    SIMPLE_DECLARATION     go to state 46
+    COMPLEX_DECLARATION    go to state 47
+    STRING_ASSIGNMENT      go to state 48
+    EXPRESSION_ASSIGNMENT  go to state 49
+    VARIABLE_ASSIGNMENT    go to state 50
+    NEWOBJECT_ASSIGNMENT   go to state 51
+    IF_STATEMENT           go to state 52
+    SIMPLE_IF_STATEMENT    go to state 53
+    IF_ELSE_STATEMENT      go to state 54
+    FOR_STATEMENT          go to state 55
+    VARIABLE               go to state 56
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 205
+
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY . INSTRUCTIONLIST RIGHTBRACEKEY
+
+    $default  reduce using rule 95 (EMPTY)
+
+    INSTRUCTIONLIST  go to state 209
+    EMPTY            go to state 24
+
+
+state 206
+
+   29 CONSTRUCTOR_CALL: NAME LEFTPARENKEY RIGHTPARENKEY SEMICOLONKEY .
+
+    $default  reduce using rule 29 (CONSTRUCTOR_CALL)
+
+
+state 207
+
+   30 CONSTRUCTOR_CALL: NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY . SEMICOLONKEY
+
+    SEMICOLONKEY  shift, and go to state 210
+
+
+state 208
+
+   51 IF_ELSE_STATEMENT: IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY ELSEKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY .
+
+    $default  reduce using rule 51 (IF_ELSE_STATEMENT)
+
+
+state 209
+
+   25 INSTRUCTIONLIST: INSTRUCTIONLIST . INSTRUCTION
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST . RIGHTBRACEKEY
+
+    RIGHTBRACEKEY  shift, and go to state 211
+    VARKEY         shift, and go to state 37
+    RETURNKEY      shift, and go to state 38
+    IFKEY          shift, and go to state 39
+    FORKEY         shift, and go to state 40
+    NAME           shift, and go to state 41
+
+    INSTRUCTION            go to state 42
+    DECLARATION            go to state 43
+    ASSIGNMENT             go to state 44
+    STATEMENT              go to state 45
+    SIMPLE_DECLARATION     go to state 46
+    COMPLEX_DECLARATION    go to state 47
+    STRING_ASSIGNMENT      go to state 48
+    EXPRESSION_ASSIGNMENT  go to state 49
+    VARIABLE_ASSIGNMENT    go to state 50
+    NEWOBJECT_ASSIGNMENT   go to state 51
+    IF_STATEMENT           go to state 52
+    SIMPLE_IF_STATEMENT    go to state 53
+    IF_ELSE_STATEMENT      go to state 54
+    FOR_STATEMENT          go to state 55
+    VARIABLE               go to state 56
+    SIMPLE_VARIABLE        go to state 57
+    ARRAYNAME              go to state 58
+    COMPLEX_VARIABLE       go to state 59
+
+
+state 210
+
+   30 CONSTRUCTOR_CALL: NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY SEMICOLONKEY .
+
+    $default  reduce using rule 30 (CONSTRUCTOR_CALL)
+
+
+state 211
+
+   52 FOR_STATEMENT: FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY .
+
+    $default  reduce using rule 52 (FOR_STATEMENT)

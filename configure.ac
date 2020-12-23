@@ -1773,6 +1773,8 @@ AC_CONFIG_FILES([
         src/vnc/Makefile
         src/ai/Makefile
         src/util/Makefile
+        src/util/vrl/Makefile
+        src/util/vrl/src/Makefile
         src/util/vrel/Makefile
         src/util/vred/Makefile
         src/util/vmm/Makefile

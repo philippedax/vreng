@@ -16,11 +16,12 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.1\n\
 -- 9.1.5\n\
+	- integrated src/ex/vrl to src/util/vrl\n\
 	- fixed addobj in widgets.cpp (compound solids)\n\
 	- fixed parseSolids to parse multi-solids\n\
 	- reviewed util/vred\n\
 	- reviewed compilation warnings bundle/glui\n\
-	(2020/12/20, Philippe Dax)\n\
+	(2020/12/23, Philippe Dax)\n\
 \n\
 -- 9.1.4\n\
 	- reviewed timer.*pp\n\

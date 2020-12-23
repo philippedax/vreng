@@ -1,0 +1,16 @@
+INSTALL
+vred development team
+Installation procedure
+
+Simply type './configure' and 'make' in this very directory
+(you must use GNU make). This will create 'glui/libglui.a'
+(a patched version of GLUI), the main binary 'vred' and the
+report 'report-vred.ps'.
+
+To clean the whole tree, type 'make clean'.
+
+Note on GLUI:
+The included version of glui is a patched glui v2.0beta. If you want
+to use a newer version, you will have to apply the patch available in
+the 'glui-patch' directory on it (refer to the corresponding 'INSTALL'
+for details).

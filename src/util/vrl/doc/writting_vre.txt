@@ -1,0 +1,205 @@
+#############################################################################
+# Goal of this file:                                                        #  
+# This file is a short overview over the possible types that can be         #
+# declared and later visualized by VRENG.                                   #
+#                                                                           #
+# Background:                                                               #
+# As our group should create a language to describe 3D objects and an       #
+# interpreter to translate this language into configuration files needed by #
+# VRENG, we should have some knowledge of the format of the configuration   #
+# file expected by VRENG.                                                   #
+#                                                                           #
+#############################################################################
+#                                                                           #
+#   Authors:                                                                #
+#     HK     Holger Krauth (krauth@enst.fr)                                 #
+#                                                                           #
+#   History:                                                                #
+#     25.10.99  HK  Creation                                                #
+#     28.10.99  HK  Added ANNEX                                             #
+#     31.10.99  HK  Completion                                              #
+#                                                                           #
+#############################################################################
+
++-------------------------------------------+
+| Object description in configuration file. |
++-------------------------------------------+
+
+# Vreng types (natural language description):
+  To perform an action related to an object, always click on the object
+  (RIGHT hand side button) and chose an action from the popup menue.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TYPE [wall]
+   Object with shape of a box. Solid = not possible to go through.
+   This is a BOX.
+TYPE [gate]
+   Solid box, mostly the shape of a door. Through this gate one can pass to 
+   another world, that is another configuration file.
+TYPE [web]
+   Solid box, opens browser and opens a certain web page.
+TYPE [board]
+   Solid box. Opens drawing application.
+TYPE [host]
+   Solid box. Opens telnet connection to a specified host.
+TYPE [doc]
+   Solid box. Opens specified document in viewer.
+TYPE [cauldron]
+   Solid torus.
+TYPE [step]
+   Solid box. Same as wall, but avatars automatically climb on it when getting
+   very close. To climb a wall you have to explicitly lift yourself.
+TYPE [aoi]
+   All users in aoi have closer interaction. Therefore some information is
+   only distributed amongst the users being currently in a aoi. E.g. a
+   corner of a room could be a aoi. You can see all the other persons in
+   the room, but you can only hear people talking who are standing in the 
+   corner. The sound information would be distributed within the aoi, not
+   the visual information. Avatars outside the aoi couldnt hear what guys
+   within the aoi say.
+TYPE [door]
+   Solid box. The door has a name to be referenced. See button. 
+   Angle should be the dame as either opened_angle or closed_angle. The sign
+   of the speed determines also the direction of the door movement.
+(TYPE [lift]) 
+   The lift is not yet understood and will currently not be regarded in our
+   work.
+TYPE [button]
+   Solid box. A button can perform actions on other objects that have 
+   an explicit name.
+(TYPE [animator])
+   Dynamic object. Several occurences (frames) can be specified for this
+   object, that are shown subsequently (animation).
+(TYPE [walls])
+   Walls are walls where you glide along when colliding. They are
+   specified in a special file containing 10 columns. Each line specifies
+   one wall:
+   xStart xEnd yStart yEnd zStart zEnd red green blue
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+NOTES for the following sections:
+- BNR used on right hand side only: "[" and "]" for optionals.
+- Literals in double quotes like "Keyword".
+- All Variables start "V", they have to be SUPPLIED BY THE USER.
+- Configuration files that are referred to are in:
+  /infres/wwwinf/pages/net/vreng/vre/
+
+
+# Vreng types (tested in config file!)
+  Before each object the keyword in square brackets has to be used 
+  (eg. [wall]). The last line of a configuration file must be "</vre>".
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TYPE [wall]    :: POS_ANG BOX_PROPS
+TYPE [gate]    :: POS_ANG BOX_PROPS 2WHERE IP_MULTI
+TYPE [web]     :: POS_ANG BOX_PROPS URL
+TYPE [board]   :: => [wall]
+TYPE [host]    :: POS_ANG BOX_PROPS TLNT
+TYPE [doc]     :: POS_ANG BOX_PROPS PS_FILE
+TYPE [cauldron]:: SPHER_POS TOR_PROPS
+TYPE [step]    :: => [wall]
+TYPE [aoi]     :: POS BOX_PROPS IP_MULTI
+TYPE [door]    :: DOR_NAME POS_ANG BOX_PROPS DOR_PARS
+TYPE [lift]    :: POS_ANG BOX_PROPS LIFT_PARS
+TYPE [button]  :: POS_ANG BOX_PROPS BUTT_PARS
+TYPE [animator]:: POS_ANG ANIMATION
+TYPE [walls]   :: walls_url
+TYPE </vre>    :: # has to be in last line of file
+
+# Composed expressions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+BOX_PROPS   :: BOX_SIZE[,BOX_TEX][,APP]
+SPHER_PROPS :: SPHER_SIZE[,SPHER_TEX][,APP]
+TOR_PROPS   :: TOR_SIZE[,APP]
+ANIMATION   :: ANI_PARS FRAME_PARS
+
+# Terminals (Atoms)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SPHER_POS :: VxPos VyPos VzPos "0"
+POS_ANG   :: VxPos VyPos VzPos VaZ VaX          # in meters and radians
+BOX_SIZE  :: "box,size="Vhalf_x,Vhalf_y,Vhalf_z # measured from body's center
+SPHER_SIZE:: "sphere,radius="Vradius
+TOR_SIZE  :: "torus,radius="Vtorradius",radius2="Vtorradius2
+BOX_TEX   :: ["tex_xp"=Vurlgif] [","]           # comma seperated list
+             ["tex_xn"=Vurlgif] [","]
+             ["tex_yp"=Vurlgif] [","]
+             ["tex_yn"=Vurlgif] [","]
+             ["tex_zp"=Vurlgif] [","]
+             ["tex_zn"=Vurlgif]
+SPHER_TEX :: "texture="Vurlgif
+APP       :: ["diffuse="Vred,Vgreen,Vblue][","]
+             ["ambiente="Vred,Vgreen,Vblue][","]
+             ["shininess="Vpar1,Vpar2,Vpar3][","]
+             ["specular="Vpar1,Vpar2,Vpar3]
+2WHERE    :: VCfgURL [","]                      # url of congif file 
+                                                # passing the gate.
+IP_MULTI  :: VAddr                  # group/port/ttl eg. 224.255.0.2/62666/15
+URL       :: VhtmlURL               # url of page to browse to
+TLNT      :: "telnet://"Vhostname
+PS_FILE   :: VpsURL                 # url of document to show 
+AOI_NAME  :: <any string>
+WRL_FILE  :: VwrlURL
+DOR_NAME  :: "(" <any string> ") "
+DOR_PARS  :: Vangle_open Vangle_closed V_Speed Vx_offset V_SID/OID
+LIFT_PARS :: # ???
+BUTT_PARS :: VstartState VobjectName Vmethod1 Vmethod2 V_SID/OID # see annex!
+ANI_PARS  :: Vanimated_bool Vframes V1stframe Vspeed V_SID/OID
+FRAME_PARS:: "[" VNrOfFrames "]" { "[" Statedescription "]" }
+
+#############################################################################
+#                                                                           #
+#  ANNEX: Examples of type declarations in configuration files              #
+#         See Notes above where to find these files                         #
+#                                                                           #
+#############################################################################
+
+[wall]    in world.vre
+0 0 -10.5 0 box,size=22.0,14,0.5,tex_zp=http://www.infres.enst.fr/net/vreng/gif/marble.gif
+
+[gate]    in dax.vre
+0.0 4.5 1.2 3.14 http://www.infres.enst.fr/net/vreng/vre/world.vre  224.255.0.1/62666/15  box,size=0.5,0.1,1.2,tex_yp=http://www.infres.enst.fr/net/vreng/gif/vrenglogo.gif
+
+[web]     in dax.vre
+01.47   00.00  00.90 1.57 http://www.infres.enst.fr/~dax/   box,size=00.40,0.01,0.60,tex_yp=http://www.infres.enst.fr/net/vreng/gif/dax.gif
+
+[board]   in dax.vre
+-01.48  01.40  01.20 1.57 box,size=00.55,0.005,1.10,tex_yn=http://www.infres.enst.fr/net/vreng/gif/wb.gif
+
+[host]    in dax.vre
+00.80  -00.60  00.90 5.70 telnet://horla.enst.fr box,size=0.20,0.20,0.20,diffuse=0.6,0.6,0.6,tex_yp=http://www.infres.enst.fr/net/vreng/gif/station.gif,diffuse=0.7,0.7,0.7
+
+[doc]     in dax.vre
+01.40   00.70   1.00 1.57 http://www.infres.enst.fr/net/vreng/doc/report-felon.ps  box,size=0.02,0.07,0.10,diffuse=1,0,0
+
+[cauldron]	in stadium.vre
+0 0 0.02 0 torus,radius=0.2,radius2=0.02,diffuse=1,1,1
+
+[step]    in stadium.vre
+0 0  0.02 1.57 box,size=20,0.03,0.01,tex_zp=http://www.infres.enst.fr/net/vreng/gif/white.gif
+
+[aoi]     in felon.vre
+-4.0  4.0 -7.3 box,size=3.00,3.00,0.1,tex_zp=http://www.infres.enst.fr/~felon/vreng/gif/aoi1.gif 224.255.1.13/62666/15
+
+[door]    in dax.vre
+(doorC218) -01.43  02.95 01.00 -1.57 -1.57 0.00 -0.8  0.49 1/1 box,size=0.50,0.02,0.98,diffuse=0,0,1
+
+#[lift]    in world.vre
+#                    org_l levels height speed name solid
+#-11.0 0.0 -5.0 3.14 -5.0   0      2      1     1/1  box,size=0.90,0.90,0.95,ambient=0.5,0.5,0.5,specular=0.5,0.5,0.5
+
+[button]  in dax.vre
+-00.40  02.97  01.00 3.14 0 doorC218 0 1 1/2 box,size=0.02,0.02,0.02,tex_yp=http://www.infres.enst.fr/net/vreng/gif/ball_pink.gif
+# Comments on BUTT_PARS
+# starting state = 0
+# object to perform actions on: doorC218
+# Button_State1: Perform method 0 on doorC218
+# Button_State2: Perform method 1 on doorC218
+
+[animator] in maze.vre
+# X Y Z a   state frames frame speed name solid
+2 3 1.5 0   1     6      0     0.5   1/1  [6][statue,texture=http://www.infres.enst.fr/net/vreng/vre/skin1.pcx,geometry=http://www.infres.enst.fr/net/vreng/vre/player.md2,scale=0.05,frames=[41-46]]
+
+[walls] in maze.vre
+http://www.infres.enst.fr/net/vreng/vre/walls.vre
+
+</vre> in each file (last line)

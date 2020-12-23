@@ -21,4 +21,4 @@
 
 AUTOMAKE_OPTIONS = gnu no-dependencies
 
-SUBDIRS = vrel vred vmm tools
+SUBDIRS = vrl vrel vred vmm tools
