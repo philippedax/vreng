@@ -53,6 +53,11 @@ src/*/*/Makefile.in
 src/*/*/.deps
 src/*/*/*.o
 src/*/*/*.a
+src/*/*/*/Makefile
+src/*/*/*/Makefile.in
+src/*/*/*/.deps
+src/*/*/*/*.o
+src/*/*/*/*.a
 src/servers/vjs/classes
 src/servers/vjs/jar
 wwwlocal
