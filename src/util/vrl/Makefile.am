@@ -16,6 +16,9 @@ TARBALL = $(PACKAGE)-$(VERSION).tar.gz
 TARLINK = $(PACKAGE).tar.gz
 FINGERPRINT = $(PACKAGE)-$(VERSION).md5sum
 
+clean:
+	@(cd src; make clean)
+
 fingerprint:
 	md5sum < $(TARBALL) > $(FINGERPRINT)
 

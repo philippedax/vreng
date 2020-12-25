@@ -22,7 +22,7 @@ y.tab.cpp y.tab.h: vrl.y
 	mv y.tab.c y.tab.cpp
 
 clean:
-	rm lex.yy.c* y.tab.* y.output
+	rm vrl *.o lex.yy.c* y.tab.* y.output
 
 
 vrl_SOURCES = $(VRL_SRCS) y.tab.cpp lex.yy.cpp
