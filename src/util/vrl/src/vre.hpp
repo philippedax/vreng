@@ -2,7 +2,6 @@
 #define VRE_HPP
 
 #include "global.hpp"
-
 #include "vrl.hpp"
 
 #define DEBBOUT if(1==1) fprintf
@@ -39,7 +38,6 @@ class BoxTextures;
  * Token
  */
 class Token {
-
  public:
   virtual Token *readTable(char *name)=0;
   virtual void write2CFG(Table *data)=0;
@@ -49,15 +47,13 @@ class Token {
  * TokenListe
  */
 class TokenListe {
-
  public:
   Token **array;
   int length;
- public:
+
   TokenListe();
   Token *readTable(char *name);
 };
-
 
 /**
  * Wall
@@ -176,7 +172,6 @@ class Mirage : public Token {
   void write2CFG(Table *data);
 };
 
-
 /**
  * AttributFacultatif
  */
@@ -190,7 +185,6 @@ class AttributFacultatif {
  * Apparence
  */
 class Apparence : public AttributFacultatif {
-  
   char *nom;
   char **v;
   int nrOfReadParams;
@@ -205,7 +199,6 @@ class Apparence : public AttributFacultatif {
  * BoxTextures
  */
 class BoxTextures : public AttributFacultatif {
-  
   char **nom;
   char **v;
   int compteur;
@@ -220,7 +213,6 @@ class BoxTextures : public AttributFacultatif {
  * Texture
  */
 class Texture : public AttributFacultatif {
-  
   char * name;
   char * gifUrl;
   int isThereGifUrl;

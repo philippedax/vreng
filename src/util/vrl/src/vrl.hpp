@@ -4,13 +4,9 @@
 #include "global.hpp"
 
 
-// *************************** DEBUT 1 **************************************
-
-
 //REMARQUES :
 // les listes doivent parfois etre creees dans les constructeurs
 // faire un fprintf(stderr, ...) dans les constructeurs, pour le debogage
-
 
 // **************** les classes pour l'arbre d'environnement ****************
 class Table;	//liste d'instance Entree
@@ -51,29 +47,29 @@ class Declaration;	//abstraite, herite de Instruction
 class DeclarationSimple; //herite de Declaration
 class DeclarationComplexe; //abstraite, herite de Declaration
 class DeclarationComplexeChaine; //herite de DeclarationComplexeChaine
-class DeclarationComplexeExpression; //herite de DeclarationComplexeChaine
+class DeclarationComplexeExpr; //herite de DeclarationComplexeChaine
 class DeclarationComplexeNouvelObjet; //herite de DeclarationComplexeChaine
 
 // ***************************** les assignations ***************************
-//class AssignationListe;
-class Assignation;	//abstraite, herite de Instruction
-class AssignationChaine; //herite de Assignation
-class AssignationExpression; //herite de Assignation
-class AssignationVariable;
-class AssignationNouvelObjet; //herite de Assignation
+//class AssignListe;
+class Assign;	//abstraite, herite de Instruction
+class AssignChaine; //herite de Assign
+class AssignExpr; //herite de Assign
+class AssignVariable;
+class AssignNouvelObjet; //herite de Assign
 
 // ************************** nouvel object *********************************
 class NouvelObjet;
 
-// *************************** les expressions ******************************
-class ExpressionListe;
-class Expression;	//abstraite
-class ExpressionCalculable;
-class Nombre;		// herite de expression calculable
+// *************************** les exprs ******************************
+class ExprListe;
+class Expr;	//abstraite
+class ExprCalculable;
+class Nombre;		// herite de expr calculable
 class AppelDeFonction;
 
 // ****************************** Variables *********************************
-class Variable;		//abstraite    herite de expression
+class Variable;		//abstraite    herite de expr
 class VariableSimpleListe;
 class VariableSimple;
 class NomListe;		//liste de nom
@@ -92,9 +88,9 @@ class OperationUnaire;
 class Negation;		
 class Absolu;
 
-// ********************* les expressions logique ****************************
-class ExpressionLogiqueListe;
-class ExpressionLogique;	//abstraite
+// ********************* les exprs logique ****************************
+class ExprLogiqueListe;
+class ExprLogique;	//abstraite
 
 // ************************** comparaisons **********************************
 class Comparaison;	//abstraite
@@ -117,15 +113,7 @@ class NegationLogique;
 //extern int   yyparse(); //dax
 /* extern FILE *fichierCFG; */
 
-
-//***************************** DEBUT 2**************************************
-
-// ************************** la pile de pointeur ***************************
-
-// *************************** la table d'environnement *********************
-
 // ***************************le fichier ************************************
-
 class Fichier {
   
   StructureListe *maStructureListe;  // il faut creer ces listes
@@ -154,8 +142,6 @@ public:
 
 
 // *************************** les structures *******************************
-
-//---------------------------------------------------------------------------  
 class StructureListe  { 
   Structure *premier; 
   Structure *dernier; 
@@ -165,12 +151,11 @@ class StructureListe  {
   void addStructure(Structure *);
   void checkNoms(); 
    
-  Structure *getElement(char *); 
-  Structure *getElement(int i); 
+  Structure *getElem(char *); 
+  Structure *getElem(int i); 
   Structure *getPremier() {return premier;} 
   Structure *getDernier() {return dernier;}
 }; 
-
 
 class Structure {
   // int nbConstr;
@@ -212,15 +197,12 @@ public:
   friend class StructureListe;
 };
 
-//---------------------------------------------------------------------------  
 
 class StructureHeritee : public Structure {
 public:
   NomListe *structHeritees; //structures heritees
 
   // void setNomListe(NomListe *maNomListe) {structHeritees = maNomListe;}
-  
- 
 };
 
 
@@ -233,13 +215,12 @@ public:
   void addFonction(Fonction *);
   //void checkNoms();
 
-  Fonction *getByNameElement(char *);
-  Fonction *getElement(int i);
+  Fonction *getByNameElem(char *);
+  Fonction *getElem(int i);
   Fonction *getPremier() {return premier;}
   Fonction *getDernier() {return dernier;}
 };
 
-//--------------------------------------------------------------------------
 
 class Fonction {
   char *monNom;
@@ -264,8 +245,8 @@ public:
   friend class FonctionListe;
 };
 
-// **************************************************************************
 
+// **************************************************************************
 class PointDEntree {
   InstructionListe *maInstructionListe;
 
@@ -280,8 +261,8 @@ public:
   Instruction *getDernierInstruction();
 };
 
-// **************************************************************************
 
+// **************************************************************************
 class Constructeur {
   InstructionListe *maInstructionListe;
   NomListe *maNomListe;
@@ -305,33 +286,31 @@ public:
   AppelDeConstructeur *getAppelDeConstructeur(){return monAppelDeConstructeur;}
 };
 
-//--------------------------------------------------------------------------
 
+//--------------------------------------------------------------------------
 class AppelDeConstructeur {
   char *monNom;
-  ExpressionListe *maExpressionListe;
+  ExprListe *maExprListe;
 
 public:
   AppelDeConstructeur();
   AppelDeConstructeur(char *);
-  AppelDeConstructeur(char *, ExpressionListe *);
+  AppelDeConstructeur(char *, ExprListe *);
 
   char *getNom() {return monNom;}
   
-  Expression *getExpression(int i);
-  Expression *getPremierExpression();
-  Expression *getDernierExpression();
+  Expr *getExpr(int i);
+  Expr *getPremierExpr();
+  Expr *getDernierExpr();
 
-  ExpressionListe *getListe() {return maExpressionListe ;}
+  ExprListe *getListe() {return maExprListe ;}
 
   void updateTable();
   void declareAttribut();
 };
 
-// **************************************************************************
-// *************************** les instructions *****************************
-// **************************************************************************
 
+// *************************** les instructions *****************************
 class InstructionListe {
   Instruction *premier;
   Instruction *dernier;
@@ -342,14 +321,14 @@ class InstructionListe {
   void addInstruction(Instruction *);
   void updateTable();
   
-  Instruction *getElement(int i);
+  Instruction *getElem(int i);
   Instruction *getPremier() {return premier;}
   Instruction *getDernier() {return dernier;}
 
 };
 
-//--------------------------------------------------------------------------
 
+//--------------------------------------------------------------------------
 class Instruction { //abstraite
  protected:
   Instruction *instructionSuivant;
@@ -361,45 +340,42 @@ class Instruction { //abstraite
   friend class InstructionListe;
 };
 
-// *************************** les statements *******************************
 
+// *************************** les statements *******************************
 //class StatementListe {     Necessaire ???
 //};
 
-//--------------------------------------------------------------------------
 
 class Statement : public Instruction { //abstraite
 };
 
-//--------------------------------------------------------------------------
 
 class Retour : public Statement {
-  Expression *monExpression;
+  Expr *monExpr;
 
  public:
   Retour();
-  Retour(Expression *);
+  Retour(Expr *);
 
   void updateTable();
 
-  Expression *getExpression() {return monExpression;}
+  Expr *getExpr() {return monExpr;}
 };
 
-//--------------------------------------------------------------------------
 
 class BoucleIf : public Statement {
-  ExpressionLogique *monExpressionLogique;
+  ExprLogique *monExprLogique;
   InstructionListe *maInstructionListeSi;
   InstructionListe *maInstructionListeSinon;
 
 public:
   BoucleIf();
-  BoucleIf(ExpressionLogique *, InstructionListe *);
-  BoucleIf(ExpressionLogique *, InstructionListe *, InstructionListe *);
+  BoucleIf(ExprLogique *, InstructionListe *);
+  BoucleIf(ExprLogique *, InstructionListe *, InstructionListe *);
 
   void updateTable();
   
-  ExpressionLogique *getExpressionLogique() {return monExpressionLogique;}
+  ExprLogique *getExprLogique() {return monExprLogique;}
   
   Instruction *getInstructionSi(int i);
   Instruction *getPremierInstructionSi();
@@ -410,32 +386,31 @@ public:
   Instruction *getDernierInstructionSinon();
 };    
 
-//--------------------------------------------------------------------------
 
 class BoucleFor : public Statement {
-  AssignationExpression *monAssignationExpressionDebut;
-  ExpressionLogique *monExpressionLogiqueFin;
-  AssignationExpression *monAssignationExpressionIncrementation;
+  AssignExpr *monAssignExprDebut;
+  ExprLogique *monExprLogiqueFin;
+  AssignExpr *monAssignExprIncrement;
   InstructionListe *monInstructionListe;
 
  public:
   BoucleFor();
-  BoucleFor(AssignationExpression *, ExpressionLogique *, AssignationExpression *, InstructionListe *);
+  BoucleFor(AssignExpr *, ExprLogique *, AssignExpr *, InstructionListe *);
 
   void updateTable();
 
-  AssignationExpression *getAssignationExpressionDebut() {return monAssignationExpressionDebut;}
-  ExpressionLogique *getExpressionLogiqueFin() {return monExpressionLogiqueFin;}
-  AssignationExpression *getAssignationExpressionIncrementation() {return monAssignationExpressionIncrementation;}
+  AssignExpr *getAssignExprDebut() {return monAssignExprDebut;}
+  ExprLogique *getExprLogiqueFin() {return monExprLogiqueFin;}
+  AssignExpr *getAssignExprIncrement() {return monAssignExprIncrement;}
   InstructionListe *getInstructionListe() {return monInstructionListe;}
 
   Instruction *getInstruction(int i);
-  Instruction *getPremierExpression();
-  Instruction *getDernierExpression();
+  Instruction *getPremierExpr();
+  Instruction *getDernierExpr();
 };
 
-// **************************** les declarations ****************************
 
+// **************************** les declarations ****************************
 class DeclarationListe {
   Declaration *premier;
   Declaration *dernier;
@@ -444,12 +419,11 @@ class DeclarationListe {
   DeclarationListe();
   void addDeclaration(Declaration *);
 
-  Declaration *getElement(int i);
+  Declaration *getElem(int i);
   Declaration *getPremier() {return premier;}
   Declaration *getDernier() {return dernier;}
 };
 
-//--------------------------------------------------------------------------
 
 class Declaration : public Instruction {	//abstraite
 protected:  
@@ -459,7 +433,6 @@ protected:
   friend class DeclarationListe;
 };
 
-//--------------------------------------------------------------------------
 
 class DeclarationSimple : public Declaration {
   NomListe *maNomListe;
@@ -475,10 +448,8 @@ class DeclarationSimple : public Declaration {
   Nom *getNom(int i);
   Nom *getPremierNom();
   Nom *getDernierNom();
-
 };
 
-//--------------------------------------------------------------------------
 
 class DeclarationComplexe : public Declaration { //abstraite
  protected:
@@ -502,17 +473,17 @@ class DeclarationComplexeChaine : public DeclarationComplexe {
 };
 
 
-class DeclarationComplexeExpression : public DeclarationComplexe { 
-  Expression *monExpression;
+class DeclarationComplexeExpr : public DeclarationComplexe { 
+  Expr *monExpr;
 
  public:
-  DeclarationComplexeExpression();
-  DeclarationComplexeExpression(Variable *, Expression *);
+  DeclarationComplexeExpr();
+  DeclarationComplexeExpr(Variable *, Expr *);
 
   void updateTable();
 
   Variable *getVariable() {return maVariable;}
-  Expression *getExpression() {return monExpression;}
+  Expr *getExpr() {return monExpr;}
 };
 
 class DeclarationComplexeNouvelObjet : public DeclarationComplexe { 
@@ -529,49 +500,44 @@ class DeclarationComplexeNouvelObjet : public DeclarationComplexe {
 };
 
 
-
 // ***************************** les assignations ***************************
 
-// class AssignationListe ??? Necessaire ???
-
-class AssignationListe {
-  Assignation *premier;
-  Assignation *dernier;
+// class AssignListe ??? Necessaire ???
+class AssignListe {
+  Assign *premier;
+  Assign *dernier;
 
  public:
-  AssignationListe();
-  void addAssignation(Assignation *);
+  AssignListe();
+  void addAssign(Assign *);
 
-  Assignation *getPremier() {return premier;}
-  Assignation *getDernier() {return dernier;}
+  Assign *getPremier() {return premier;}
+  Assign *getDernier() {return dernier;}
 };
 
 
-//--------------------------------------------------------------------------
-
-class Assignation : public Instruction {     //abstraite
-  Assignation *suivant;
+class Assign : public Instruction {     //abstraite
+  Assign *suivant;
 protected: 
   Variable *maVariable;
 public:
-  Assignation();
-  Assignation(Variable *_variable);
+  Assign();
+  Assign(Variable *_variable);
   
-  Assignation *getSuivant() {return suivant;}
+  Assign *getSuivant() {return suivant;}
 
   virtual Variable *getVariable() = 0;
   
-  friend class AssignationListe;
+  friend class AssignListe;
 };
 
-//--------------------------------------------------------------------------
 
-class AssignationChaine : public Assignation {
+class AssignChaine : public Assign {
   char *maChaine; //char * ??
 
  public:
-  AssignationChaine();
-  AssignationChaine(Variable *,char *);
+  AssignChaine();
+  AssignChaine(Variable *,char *);
   
   void updateTable();
   
@@ -579,27 +545,27 @@ class AssignationChaine : public Assignation {
   char *getChaine() {return maChaine;}
 };
 
-//--------------------------------------------------------------------------
 
-class AssignationExpression : public Assignation {
-  Expression *monExpression;
+class AssignExpr : public Assign {
+  Expr *monExpr;
 
  public:
-  AssignationExpression() ;
-  AssignationExpression(Variable *_variable1, Expression *_variable2);
+  AssignExpr() ;
+  AssignExpr(Variable *_variable1, Expr *_variable2);
 
   void updateTable();
 
   Variable *getVariable() {return maVariable;}
-  Expression *getExpression() {return monExpression;}
+  Expr *getExpr() {return monExpr;}
 };
-//--------------------------------------------------------------------------
-class AssignationVariable : public Assignation {
+
+
+class AssignVariable : public Assign {
   Variable *variableAAssigner;
 
 public:
-  AssignationVariable() ;
-  AssignationVariable(Variable *, Variable *);
+  AssignVariable() ;
+  AssignVariable(Variable *, Variable *);
 
   void updateTable();
 
@@ -607,14 +573,13 @@ public:
   Variable *getVariableAAssigner() {return variableAAssigner;}
 };
 
-//--------------------------------------------------------------------------
 
-class AssignationNouvelObjet : public Assignation {
+class AssignNouvelObjet : public Assign {
   NouvelObjet *monObjet;
 
  public:
-  AssignationNouvelObjet();
-  AssignationNouvelObjet(Variable *, NouvelObjet *);
+  AssignNouvelObjet();
+  AssignNouvelObjet(Variable *, NouvelObjet *);
 
   void updateTable();
 
@@ -622,136 +587,131 @@ class AssignationNouvelObjet : public Assignation {
   NouvelObjet *getObjet() {return monObjet;}
 };
 
-// ************************** nouvel object *********************************
 
+// ************************** nouvel object *********************************
 class NouvelObjet {
   char *monNom;
-  ExpressionListe *maExpressionListe;
+  ExprListe *maExprListe;
 
 public:
   NouvelObjet();
   NouvelObjet(char *);
-  NouvelObjet(char *, ExpressionListe *);
+  NouvelObjet(char *, ExprListe *);
 
-  Expression *getExpression(int i);
-  Expression *getPremierExpression();
-  Expression *getDernierExpression();
-  ExpressionListe *getExpressionListe() { return maExpressionListe ; }
+  Expr *getExpr(int i);
+  Expr *getPremierExpr();
+  Expr *getDernierExpr();
+  ExprListe *getExprListe() { return maExprListe ; }
 
   char *getNom() {return monNom;}
 };
 
-//**************************** FIN 2 ****************************************
 
+// *************************** les exprs ******************************
 
-//***************************** DEBUT 3**************************************
-
-// *************************** les expressions ******************************
-
-class ExpressionListe{ 
-  Expression *premier; 
-  Expression *dernier;
+class ExprListe{ 
+  Expr *premier; 
+  Expr *dernier;
   int taille;
 
-  Expression *getElementRecursivement(Expression *expression, int i);
+  Expr *getElemRecursivement(Expr *expr, int i);
 public:
-  ExpressionListe() : premier((Expression *)NULL), dernier((Expression *)NULL), taille(0) {  }
-  ExpressionListe(Expression *monExpression);
-  void addExpression(Expression *expression);
-  Expression *getElement(int i){return getElementRecursivement(premier, i);}
-  Expression *getPremier(){return premier;}
-  Expression *getDernier(){return dernier;}
+  ExprListe() : premier((Expr *)NULL), dernier((Expr *)NULL), taille(0) {  }
+  ExprListe(Expr *monExpr);
+  void addExpr(Expr *expr);
+  Expr *getElem(int i){return getElemRecursivement(premier, i);}
+  Expr *getPremier(){return premier;}
+  Expr *getDernier(){return dernier;}
   int getTaille() {return taille;}
 };
 
 
-/* class ExpressionListe : public Liste<Expression> { */
+/* class ExprListe : public Liste<Expr> { */
 /* }; */
 
-//--------------------------------------------------------------------------
 
-class Expression{   	//abstraite
+class Expr {   	//abstraite
 protected:
-  Expression *suivant;
+  Expr *suivant;
+
 public :
-  Expression() : suivant((Expression *)NULL) {} //non necessaire
-  Expression *getSuivant() {return suivant;}
+  Expr() : suivant((Expr *)NULL) {} //non necessaire
+  Expr *getSuivant() {return suivant;}
   virtual float evaluate() = 0;
-  virtual Assignation *creerAssignation(Variable *variable) = 0;
+  virtual Assign *creerAssign(Variable *variable) = 0;
 
-  friend class ExpressionListe;
+  friend class ExprListe;
 };
-//--------------------------------------------------------------------------
 
-class ExpressionCalculable : public Expression {
+
+class ExprCalculable : public Expr {
 private: 
-  Expression *expression;
+  Expr *expr;
 public:
-  ExpressionCalculable() : Expression(){}
-  ExpressionCalculable(Expression *_expression) : Expression(), expression(_expression) {}
-  float evaluate() {return expression->evaluate();}
-  virtual Assignation *creerAssignation(Variable *variable);
+  ExprCalculable() : Expr(){}
+  ExprCalculable(Expr *_expr) : Expr(), expr(_expr) {}
+  float evaluate() {return expr->evaluate();}
+  virtual Assign *creerAssign(Variable *variable);
 };
 
-//--------------------------------------------------------------------------
 
-class Nombre : public ExpressionCalculable { 
+class Nombre : public ExprCalculable { 
   float valeur;
 public:
-  Nombre(float x) : ExpressionCalculable(), valeur(x) { }
-  Nombre(int x) : ExpressionCalculable(), valeur(x) { }
+  Nombre(float x) : ExprCalculable(), valeur(x) { }
+  Nombre(int x) : ExprCalculable(), valeur(x) { }
   float getValeur(){return valeur;}
   float evaluate(){return valeur;}
 };
 
 //--------------------------------------------------------------------------
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
 //methode evaluate non implementee
 
 
-class AppelDeFonction : public ExpressionCalculable{ //dur !!!!!!!!!!!!!!!!!!!!!!!!!!!
+class AppelDeFonction : public ExprCalculable{ //dur !!!!!!!!!!!!!!!!!!!!!!!!!!!
   char *nom;
-  ExpressionListe *liste;
+  ExprListe *liste;
   Table *tableLocale;
   Fonction *fonction;
+
 public:
-  AppelDeFonction(char *_nom) : ExpressionCalculable(), nom(_nom) {  }
-  AppelDeFonction(char *_nom, ExpressionListe *_liste) : ExpressionCalculable(), nom(_nom), liste(_liste) {}
+  AppelDeFonction(char *_nom) : ExprCalculable(), nom(_nom) {  }
+  AppelDeFonction(char *_nom, ExprListe *_liste) : ExprCalculable(), nom(_nom), liste(_liste) {}
   char *getNom(){return nom;};
-  ExpressionListe *getExpressionListe(){return liste;};
-  Expression *getExpression(int i){return liste->getElement(i);};
-  Expression *getPremierExpression(){return liste->getPremier();}
-  Expression *getDernierExpression(){return liste->getDernier();}
+  ExprListe *getExprListe(){return liste;};
+  Expr *getExpr(int i){return liste->getElem(i);};
+  Expr *getPremierExpr(){return liste->getPremier();}
+  Expr *getDernierExpr(){return liste->getDernier();}
 
   float evaluate();
 };
 
-//--------------------------------------------------------------------------
-class Variable : public Expression{ 	
+
+class Variable : public Expr {
 protected:	
   char *nom;
+
 public:
-  Variable(char *_nom) : Expression(), nom(_nom) {  }
+  Variable(char *_nom) : Expr(), nom(_nom) {  }
   virtual Table *emplacement() =0;
   virtual void creer(Entree *entree) =0;
   virtual PointeurPile *substituer(Entree *entree) = 0;
   virtual char *getNom() = 0 ;
   virtual char *getRealNom() {return nom;}
-  virtual Assignation *creerAssignation(Variable *variable);
+  virtual Assign *creerAssign(Variable *variable);
 };
 
-//--------------------------------------------------------------------------
+
 class VariableSimpleListe{
   VariableSimple *premier;
   VariableSimple *dernier;
+  VariableSimple *getElemRecursivement(VariableSimple *variable, int i);
 
-  VariableSimple *getElementRecursivement(VariableSimple *variable, int i);
 public:
   VariableSimpleListe() : premier((VariableSimple *)NULL), dernier((VariableSimple *)NULL) {}
   void addVariable(VariableSimple *variable);
-  VariableSimple *getElement(int i);
+  VariableSimple *getElem(int i);
   VariableSimple *getPremier();
   VariableSimple *getDernier();
 
@@ -761,10 +721,11 @@ public:
 // aussi les methodes sont un peu speciales
 // (dans l'urgence du deboggage)
 
-//--------------------------------------------------------------------------
+
 class VariableSimple : public Variable {
 protected:
   VariableSimple *suivant;
+
 public:
   VariableSimple()  : Variable((char *)NULL){  }
   VariableSimple(char *_nom) : Variable(_nom), suivant((VariableSimple *)NULL) {}
@@ -774,33 +735,32 @@ public:
   friend class VariableSimpleListe;
 };
 
-//--------------------------------------------------------------------------
-class NomListe{ 
+
+class NomListe {
   Nom *premier;
   Nom *dernier;
   int taille;
 
-  Nom *getElementRecursivement(Nom *nom, int i);
+  Nom *getElemRecursivement(Nom *nom, int i);
 public:
   NomListe() : premier((Nom *)NULL), dernier((Nom *)NULL), taille(0) {  }
   NomListe(char *_nom) : premier((Nom *)NULL), dernier((Nom *)NULL), taille(0){ addNom(_nom);}
   void addNom(char *nom);
-  Nom *getElement(int i){return getElementRecursivement(premier, i);}
+  Nom *getElem(int i){return getElemRecursivement(premier, i);}
 
   Nom *getPremier(){return premier;}
   Nom *getDernier(){return dernier;}
   int getTaille() {return taille;}
-
 };
 
 // class NomListe : Liste<Nom>{
 // };		
 
-//--------------------------------------------------------------------------
 
 class Nom : public VariableSimple { 
   //char *nom;  herite de Variable
   Nom *suivant;
+
  public: 
   Nom(char *_nom) : VariableSimple(_nom), suivant((Nom *)NULL) {  }
   Nom *getSuivant(){return this->suivant;}
@@ -817,17 +777,16 @@ class Nom : public VariableSimple {
   friend class NomListe;
 };		
 
-//--------------------------------------------------------------------------
 
 class NomDeTableau : public VariableSimple {
   char *nom;   // attribut herite
   int taille;
-  Expression *index;
+  Expr *index;
 
 public:
   // recupere le nom d'une part, la taille de l'autre
-  NomDeTableau(char *_nom, int _taille) { nom = _nom; taille = _taille; index = (Expression *)NULL ;} 
-  NomDeTableau(char *nom1, Expression *_expression) ;
+  NomDeTableau(char *_nom, int _taille) { nom = _nom; taille = _taille; index = (Expr *)NULL ;} 
+  NomDeTableau(char *nom1, Expr *_expr) ;
   int getTaille(){return taille;};	//est-ce utile
   float evaluate(); //dur
   char *getNom(){return nom;};	//est-ce utile
@@ -838,7 +797,6 @@ public:
   char *getRealNom();
 };
 
-//--------------------------------------------------------------------------
 
 class VariableComplexe : public Variable {
   char *nom;
@@ -851,10 +809,10 @@ public:
 
   void addNomComposant(VariableSimple *var);
   char *getNom(){return nom;}
-  //char *getNomComposant(int i){return liste->getElement(i)->getRealNom();}
+  //char *getNomComposant(int i){return liste->getElem(i)->getRealNom();}
   //char *getPremierNomComposant(){return liste->getPremier()->getRealNom();}
   //char *getDernierNomComposant(){return liste->getDernier()->getRealNom();}
-  //Nom *getVariable(int i){return liste->getElement(i);}
+  //Nom *getVariable(int i){return liste->getElem(i);}
   Nom *getPremierVariable();
   Nom *getDernierVariable();
   float evaluate(); 
@@ -865,221 +823,199 @@ public:
 };
 
 // ****************************** Operations ********************************
-class Operation : public ExpressionCalculable {	//abstraite
+class Operation : public ExprCalculable {	//abstraite
   virtual float evaluate() =0;
 };
 
-//--------------------------------------------------------------------------
 
 class OperationBinaire : public Operation {
 protected:
-  Expression *operandeGauche;
-  Expression *operandeDroit;
+  Expr *operandeGauche;
+  Expr *operandeDroit;
 public:
-  OperationBinaire(Expression *expressionGauche, Expression *expressionDroit) : operandeGauche(expressionGauche), operandeDroit(expressionDroit) {  }
-  Expression *getOperandeGauche(){return operandeGauche;}
-  Expression *getOperandeDroit(){return operandeDroit;}
+  OperationBinaire(Expr *exprGauche, Expr *exprDroit) : operandeGauche(exprGauche), operandeDroit(exprDroit) {  }
+  Expr *getOperandeGauche(){return operandeGauche;}
+  Expr *getOperandeDroit(){return operandeDroit;}
 }; 
 
-//--------------------------------------------------------------------------
 
 class Addition : public OperationBinaire {
 public:
-  Addition(Expression *expressionGauche, Expression *expressionDroit) : OperationBinaire(expressionGauche, expressionDroit) {  }
+  Addition(Expr *exprGauche, Expr *exprDroit) : OperationBinaire(exprGauche, exprDroit) {  }
   float evaluate(){return ((operandeGauche->evaluate()) + (operandeDroit->evaluate()));}
 };
 
-//--------------------------------------------------------------------------
 
 class Soustraction : public OperationBinaire {
 public:
-  Soustraction(Expression *expressionGauche, Expression *expressionDroit) : OperationBinaire(expressionGauche, expressionDroit) {  }
+  Soustraction(Expr *exprGauche, Expr *exprDroit) : OperationBinaire(exprGauche, exprDroit) {  }
   float evaluate(){return ((operandeGauche->evaluate()) - (operandeDroit->evaluate()));}
 };
 
-//--------------------------------------------------------------------------
 
 class Multiplication : public OperationBinaire {
 public:
-  Multiplication(Expression *expressionGauche, Expression *expressionDroit) : OperationBinaire(expressionGauche, expressionDroit) {  }
+  Multiplication(Expr *exprGauche, Expr *exprDroit) : OperationBinaire(exprGauche, exprDroit) {  }
   float evaluate(){return ((operandeGauche->evaluate()) * (operandeDroit->evaluate()));}
 };
 
-//--------------------------------------------------------------------------
 
 class Division : public OperationBinaire {
 public:
-  Division(Expression *expressionGauche, Expression *expressionDroit) : OperationBinaire(expressionGauche, expressionDroit) {  }
+  Division(Expr *exprGauche, Expr *exprDroit) : OperationBinaire(exprGauche, exprDroit) {  }
   float evaluate(){return ((operandeGauche->evaluate()) / (operandeDroit->evaluate()));}
  };
 
-//--------------------------------------------------------------------------
 
 class OperationUnaire : public Operation {
 protected:
-  Expression *operande;
+  Expr *operande;
 public:
-  OperationUnaire(Expression *expression) : operande(expression) {  }
-  Expression *getOperande(){return operande;}
+  OperationUnaire(Expr *expr) : operande(expr) {  }
+  Expr *getOperande(){return operande;}
  };
 
-//--------------------------------------------------------------------------
+
 class Negation : public OperationUnaire {
 public:
-  Negation(Expression *expression) : OperationUnaire(expression) {  };
+  Negation(Expr *expr) : OperationUnaire(expr) {  };
   float evaluate(){return (- (operande->evaluate()));}
 };		
 
-//--------------------------------------------------------------------------
+
 class Absolu : public OperationUnaire {
 public:
-  Absolu(Expression *expression) : OperationUnaire(expression) {  }
+  Absolu(Expr *expr) : OperationUnaire(expr) {  }
   float evaluate();
 };
 
-// ********************* les expressions logiques ***************************
 
-class ExpressionLogiqueListe {
-  ExpressionLogique *premier;
-  ExpressionLogique *dernier;
+// ********************* les exprs logiques ***************************
+class ExprLogiqueListe {
+  ExprLogique *premier;
+  ExprLogique *dernier;
   
-  ExpressionLogique *getElementRecursivement(ExpressionLogique *expression, int i);
+  ExprLogique *getElemRecursivement(ExprLogique *expr, int i);
 public:
-  ExpressionLogiqueListe() : premier((ExpressionLogique *)NULL), dernier(premier) {}
-  void addExpressionLogique(ExpressionLogique *expression);
-  ExpressionLogique *getElement(int i){return getElementRecursivement(premier, i);}
-  ExpressionLogique *getPremier(){return premier;}
-  ExpressionLogique *getDernier(){return dernier;}
+  ExprLogiqueListe() : premier((ExprLogique *)NULL), dernier(premier) {}
+  void addExprLogique(ExprLogique *expr);
+  ExprLogique *getElem(int i) {return getElemRecursivement(premier, i);}
+  ExprLogique *getPremier(){return premier;}
+  ExprLogique *getDernier(){return dernier;}
 };
 
-// class ExpressionLogiqueListe : Liste<ExpressionLogique> {
+// class ExprLogiqueListe : Liste<ExprLogique> {
 // };
 
-//--------------------------------------------------------------------------
 
-class ExpressionLogique { 	//abstraite
+class ExprLogique { 	//abstraite
 protected:
-  ExpressionLogique *suivant;
+  ExprLogique *suivant;
 public:
-  ExpressionLogique *getSuivant() {return suivant;}
-  ExpressionLogique() : suivant((ExpressionLogique *)NULL) {  }
+  ExprLogique *getSuivant() {return suivant;}
+  ExprLogique() : suivant((ExprLogique *)NULL) {  }
   virtual int evaluate() = 0;
 
-  friend class ExpressionLogiqueListe;
+  friend class ExprLogiqueListe;
 };
+
 
 // ************************** comparaisons **********************************
-class Comparaison : public ExpressionLogique {
+class Comparaison : public ExprLogique {
 protected:
-  Expression *operandeGauche;
-  Expression *operandeDroit;
+  Expr *operandeGauche;
+  Expr *operandeDroit;
 public:
-  Comparaison(Expression *expressionGauche, Expression *expressionDroit) : operandeGauche(expressionGauche), operandeDroit(expressionDroit) {  }
+  Comparaison(Expr *exprGauche, Expr *exprDroit) : operandeGauche(exprGauche), operandeDroit(exprDroit) {  }
   //virtual int evaluate();
-  Expression *getOperandeGauche(){return operandeGauche;}
-  Expression *getOperandeDroit(){return operandeDroit;}
+  Expr *getOperandeGauche(){return operandeGauche;}
+  Expr *getOperandeDroit(){return operandeDroit;}
 };
 
-//--------------------------------------------------------------------------
 
 class Superieur : public Comparaison {
 public:
-  Superieur(Expression *expressionGauche, Expression *expressionDroit) : Comparaison(expressionGauche, expressionDroit) {  }
+  Superieur(Expr *exprGauche, Expr *exprDroit) : Comparaison(exprGauche, exprDroit) {  }
   int evaluate(){return (operandeGauche->evaluate() > operandeDroit->evaluate());}
 };
 
-//--------------------------------------------------------------------------
 
 class Inferieur : public Comparaison {
 public:
-  Inferieur(Expression *expressionGauche, Expression *expressionDroit) : Comparaison(expressionGauche, expressionDroit) {  }
+  Inferieur(Expr *exprGauche, Expr *exprDroit) : Comparaison(exprGauche, exprDroit) {  }
   int evaluate(){return (operandeGauche->evaluate() < operandeDroit->evaluate());}
 };
 
-//--------------------------------------------------------------------------
 
 class SuperieurOuEgal : public Comparaison {
 public:
-  SuperieurOuEgal(Expression *expressionGauche, Expression *expressionDroit) : Comparaison(expressionGauche, expressionDroit) {  }
+  SuperieurOuEgal(Expr *exprGauche, Expr *exprDroit) : Comparaison(exprGauche, exprDroit) {  }
   int evaluate(){return (operandeGauche->evaluate() >= operandeDroit->evaluate());}
 };
 
-//--------------------------------------------------------------------------
 
 class InferieurOuEgal : public Comparaison {
 public:
-  InferieurOuEgal(Expression *expressionGauche, Expression *expressionDroit) : Comparaison(expressionGauche, expressionDroit) {  }
+  InferieurOuEgal(Expr *exprGauche, Expr *exprDroit) : Comparaison(exprGauche, exprDroit) {  }
   int evaluate(){return (operandeGauche->evaluate() <= operandeDroit->evaluate());};
 };
 
-//--------------------------------------------------------------------------
 
 class EgalEgal : public Comparaison {
 public:
-  EgalEgal(Expression *expressionGauche, Expression *expressionDroit) : Comparaison(expressionGauche, expressionDroit) {  }
+  EgalEgal(Expr *exprGauche, Expr *exprDroit) : Comparaison(exprGauche, exprDroit) {  }
   int evaluate(){return (operandeGauche->evaluate() == operandeDroit->evaluate());}
 };
 
-//--------------------------------------------------------------------------
 
 class Different : public Comparaison {
 public:
-  Different(Expression *expressionGauche, Expression *expressionDroit) : Comparaison(expressionGauche, expressionDroit) {  }
+  Different(Expr *exprGauche, Expr *exprDroit) : Comparaison(exprGauche, exprDroit) {  }
   int evaluate(){return ((operandeGauche->evaluate()) != (operandeDroit->evaluate()));}
 };
 
-// *************************** Operations logiques **************************
 
-class OperationBinaireLogique : public ExpressionLogique {
+// *************************** Operations logiques **************************
+class OperationBinaireLogique : public ExprLogique {
 protected:
-  ExpressionLogique *operandeGauche;
-  ExpressionLogique *operandeDroit;
+  ExprLogique *operandeGauche;
+  ExprLogique *operandeDroit;
 public:
-  OperationBinaireLogique(ExpressionLogique *expressionGauche, ExpressionLogique *expressionDroit) : operandeGauche(expressionGauche), operandeDroit(expressionDroit){  }
-  ExpressionLogique *getOperandeGauche() {return operandeGauche;}
-  ExpressionLogique *getOperandeDroit(){return operandeDroit;}
+  OperationBinaireLogique(ExprLogique *exprGauche, ExprLogique *exprDroit) : operandeGauche(exprGauche), operandeDroit(exprDroit){  }
+  ExprLogique *getOperandeGauche() {return operandeGauche;}
+  ExprLogique *getOperandeDroit(){return operandeDroit;}
  };
 
-//--------------------------------------------------------------------------
 
 class OuLogique : public OperationBinaireLogique {
 public:
-  OuLogique(ExpressionLogique *expressionGauche, ExpressionLogique *expressionDroit) : OperationBinaireLogique(expressionGauche, expressionDroit){  }
+  OuLogique(ExprLogique *exprGauche, ExprLogique *exprDroit) : OperationBinaireLogique(exprGauche, exprDroit){  }
   int evaluate(){return ((1 +  (operandeGauche->evaluate()) + (operandeDroit->evaluate())) / 2);}
 };
 
-//--------------------------------------------------------------------------
 
 class EtLogique : public OperationBinaireLogique {
 public:
-  EtLogique(ExpressionLogique *expressionGauche, ExpressionLogique *expressionDroit) : OperationBinaireLogique(expressionGauche, expressionDroit){  }
+  EtLogique(ExprLogique *exprGauche, ExprLogique *exprDroit) : OperationBinaireLogique(exprGauche, exprDroit){  }
   int evaluate(){return ((operandeGauche->evaluate()) * (operandeDroit->evaluate()));}
 };
 
-//--------------------------------------------------------------------------
 
-class OperationUnaireLogique : public ExpressionLogique {
+class OperationUnaireLogique : public ExprLogique {
 protected:
-  ExpressionLogique *operande;
+  ExprLogique *operande;
 public:
-  OperationUnaireLogique(ExpressionLogique *expression) : operande(expression){  }
-  ExpressionLogique *getOperande(){return operande;}  
+  OperationUnaireLogique(ExprLogique *expr) : operande(expr){  }
+  ExprLogique *getOperande(){return operande;}  
 };
  
-//--------------------------------------------------------------------------
 
 class NegationLogique : public OperationUnaireLogique {
 public:
-  NegationLogique (ExpressionLogique *expression) : OperationUnaireLogique(expression){  }
+  NegationLogique (ExprLogique *expr) : OperationUnaireLogique(expr){  }
   int evaluate(){return ((1 + (operande->evaluate())) % 2);}
 };
 
-//--------------------------------------------------------------------------
-
-//***************************** FIN 3****************************************
-
-
-//***************************** DEBUT ***************************************
 
 //************************ la pile de pointeur ******************************
 class PointeurPile {
@@ -1101,7 +1037,7 @@ public:
   PointeurPile *inverser();
 } ;
 
-// **************************************************************************
+
 class Pointeur {
   Table *valeur ;
   Pointeur *pointeurSuivant ;
@@ -1116,6 +1052,7 @@ public:
 
   friend class PointeurPile ;
 } ;
+
 
 //************************ la table d'environnement *************************
 class Table {
@@ -1160,12 +1097,14 @@ public:
   Table *dupliquer();
 };
 
+
 // **************************************************************************
 class Entree  {	//class abstraite racine des Entrees
 protected:
   char *nom;
   Table *table;
   Entree *suivant ;
+
 public:
   Entree(); 
   Entree(char *monNom);
@@ -1185,7 +1124,7 @@ public:
   friend class Table;
 };
 
-// **************************************************************************
+
 class EntreeFloat : public Entree {
   float valeur;
 
@@ -1204,7 +1143,7 @@ class EntreeFloat : public Entree {
   float toFloat() {return valeur;}
 } ;
 
-// **************************************************************************
+
 class EntreeString : public Entree {
   char *valeur;
  public:
@@ -1220,9 +1159,8 @@ class EntreeString : public Entree {
   float toFloat();
 } ;
 
-// **************************************************************************
-class EntreeNouvelObjet : public Entree {
 
+class EntreeNouvelObjet : public Entree {
  public:
   EntreeNouvelObjet();
   EntreeNouvelObjet(char *monNom);
@@ -1230,11 +1168,9 @@ class EntreeNouvelObjet : public Entree {
   Entree *dupliquer();
   Entree *dupliquer(char *);
 
-
   void setTable(Table *maTable);
   char *toString() {cout << "erreur : table non terminale\n";exit(1);return NULL;}
   float toFloat();
-
 } ;
 
 #endif

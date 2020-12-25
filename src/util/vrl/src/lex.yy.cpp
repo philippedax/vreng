@@ -535,7 +535,7 @@ extern "C" {
 extern void yyerror(char *s);
 
 int lineNumber = 1;
-int charPos =1;
+int charPos = 1;
 
 #define RETURN charPos += strlen(yytext); return
 
@@ -2050,21 +2050,33 @@ void yyfree (void * ptr )
 
 
 
-int yywrap() {
-	return 1;
+int yywrap()
+{
+  return 1;
 }
 
 // dax
 int main(int argc, char **argv)
 {
   ++argv, --argc; /* skip over program name */
-  if ( argc > 0 )
+  if ( argc > 0 ) {
     yyin = fopen( argv[0], "r" );
-  else
+    printf("input = %s\n", argv[0]);
+  }
+  else {
     yyin = stdin;
-
+    printf("input = stdin\n");
+  }
   fvrl = yyin;
-  fvre = stdout;
+
+  if ( argc > 1 ) {
+    fvre = fopen( argv[1], "w" );
+    printf("output = %s\n", argv[1]);
+  }
+  else {
+    fvre = stdout;
+    printf("output = stdout\n");
+  }
 
   yylex();
 }

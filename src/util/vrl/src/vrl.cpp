@@ -4,7 +4,6 @@
 #include "vre.hpp"
 
 
-extern int main();
 extern Fichier *fvrl;
 extern int yyparse();
 
@@ -12,132 +11,123 @@ Table *tablePrincipal;
 PointeurPile *pileDesPointeurs;
 
 char *createName(char *monNom, int taille);
-int longueur (int taille);
-void erreur(char *nom) ;
+int longueur(int taille);
+void erreur(char *nom);
 
-#if 0 //dax
-int main()
+// ************************** le fichier ************************************
+
+Fichier::Fichier()
 {
-  return 0;
-}
-#endif
-
-// ***************************le fichier ************************************
-
-// CONSTRUCTEUR
-Fichier::Fichier(void) {
-  
   maStructureListe = new StructureListe();
   maFonctionListe = new FonctionListe();
   monPrg = (PointDEntree *)NULL;
 }
 
-void
-Fichier::addStructure(Structure *maStructure) {
+void Fichier::addStructure(Structure *maStructure)
+{
   maStructureListe->addStructure(maStructure);
 }
 
-void
-Fichier::addFonction(Fonction *maFonction) {
+void Fichier::addFonction(Fonction *maFonction)
+{
   maFonctionListe->addFonction(maFonction);
 }
 
-void
-Fichier::addPointDEntree(PointDEntree *monPointDEntree) {
+void Fichier::addPointDEntree(PointDEntree *monPointDEntree)
+{
   monPrg = monPointDEntree;
 }
 
-Structure *
-Fichier::getStructure(char *nomStructure) {
-  return maStructureListe->getElement(nomStructure);
+Structure * Fichier::getStructure(char *nomStructure)
+{
+  return maStructureListe->getElem(nomStructure);
 }
   
-Structure *
-Fichier::getStructure(int i) {
-  return maStructureListe->getElement(i);
+Structure * Fichier::getStructure(int i)
+{
+  return maStructureListe->getElem(i);
 }
 
-Structure *
-Fichier::getPremierStructure(void) {
+Structure * Fichier::getPremierStructure()
+{
   return maStructureListe->getPremier();
 }
 
-Structure *
-Fichier::getDernierStructure(void) {
+Structure * Fichier::getDernierStructure()
+{
   return maStructureListe->getDernier();
 }
 
-
-Fonction
-*Fichier::getByNameFonction(char *nom){
-  return maFonctionListe->getByNameElement(nom);
+Fonction *Fichier::getByNameFonction(char *nom)
+{
+  return maFonctionListe->getByNameElem(nom);
 }
 
-Fonction *
-Fichier::getFonction(int i) {
-  return maFonctionListe->getElement(i);
+Fonction * Fichier::getFonction(int i)
+{
+  return maFonctionListe->getElem(i);
 }
 
-Fonction *
-Fichier::getPremierFonction(void) {
+Fonction * Fichier::getPremierFonction()
+{
   return maFonctionListe->getPremier();
 }
 
-Fonction *
-Fichier::getDernierFonction(void) {
+Fonction * Fichier::getDernierFonction()
+{
   return maFonctionListe->getDernier();
 }
 
-PointDEntree 
-*Fichier::getPointDEntree(void){return monPrg;}
+PointDEntree *Fichier::getPointDEntree()
+{
+  return monPrg;
+}
+
 
 // *************************** les structures *******************************
 
-// StructureListe
-// CONSTRUCTEUR
-StructureListe::StructureListe(void) {
-  
+// class StructureListe
+StructureListe::StructureListe()
+{
   premier = (Structure *)NULL;
   dernier = (Structure *)NULL;
 }
 
-void
-StructureListe::addStructure(Structure *monElement) {
+void StructureListe::addStructure(Structure *monElem)
+{
   if (premier == (Structure *)NULL)
-    premier = dernier = monElement;
+    premier = dernier = monElem;
   else {
-    dernier->structSuivant = monElement;
-    dernier = monElement;
+    dernier->structSuivant = monElem;
+    dernier = monElem;
   }
-  monElement->structSuivant = (Structure *)NULL;
+  monElem->structSuivant = (Structure *)NULL;
 }
 
-Structure *
-StructureListe::getElement(char *nomStructure) {
-  Structure *temp;
-  temp = premier;
- //  if (temp == (Structure *)NULL) {
-//     cout << "ma Structureliste est vide!!!\n";
-//     return (Structure *)NULL;
-//   }
+Structure * StructureListe::getElem(char *nomStructure)
+{
+  Structure *temp = premier;
+ 
   while (temp != (Structure *)NULL) {
-    if ( strcmp(temp->getNom(), nomStructure) == 0) return temp;
-    else temp = temp->structSuivant;
+    if ( strcmp(temp->getNom(), nomStructure) == 0)
+      return temp;
+    else
+      temp = temp->structSuivant;
   }
   cout << "pas de structure possedant le nom voulu\n";
   return (Structure *)NULL;
 }
 
-Structure *
-StructureListe::getElement(int i) {
-  Structure *temp;
-  temp = premier;
+Structure * StructureListe::getElem(int i)
+{
+  Structure *temp = premier;
+
   if (temp == (Structure *)NULL) {
     cout << "ma Structureliste est vide!!!\n";
     return (Structure *)NULL;
   }
-  for(int j=1 ; j<=(i-1) ; j++){
-    if (temp->structSuivant == (Structure *)NULL){
+  for (int j=1; j<=(i-1); j++) {
+    if (temp->structSuivant == (Structure *)NULL) {
       cout << "pas assez d'elements!!!";
       return (Structure *)NULL;}
     else
@@ -146,8 +136,7 @@ StructureListe::getElement(int i) {
   return temp;
 }
 
-//Structure
-// CONSTRUCTEUR
+// class Structure
 Structure::Structure()
 {
   //nbConstr = 0;
@@ -156,7 +145,6 @@ Structure::Structure()
   monConstructeur = (Constructeur *)NULL;
   structSuivant = (Structure *)NULL;
   structHeritees = (NomListe *)NULL;
-
 }
 
 void Structure::setNom(char *monNom)
@@ -178,7 +166,7 @@ void Structure::addFonction(Fonction *fonction)
 
 Declaration * Structure::getDeclaration(int i)
 {
-  return maDeclarationListe->getElement(i);
+  return maDeclarationListe->getElem(i);
 }
 
 Declaration * Structure::getPremierDeclaration()
@@ -196,56 +184,56 @@ Nom *Structure::getPremierNom()
   if (!structHeritees)
     return (Nom *)NULL;
 
-  return structHeritees->getPremier() ;
+  return structHeritees->getPremier();
 }
 
 NomListe *Structure::getHeritage() 
-{ return structHeritees ; }
+{
+  return structHeritees;
+}
 
 
 // **************************************************************************
-//FonctionListe
-// CONSTRUCTEUR
-FonctionListe::FonctionListe() {
+// class FonctionListe
+FonctionListe::FonctionListe()
+{
   premier = (Fonction *)NULL;
   dernier = (Fonction *)NULL;
 }
 
-void
-FonctionListe::addFonction(Fonction *monElement) {
-   if (premier == (Fonction *)NULL)
-    premier = dernier = monElement;
+void FonctionListe::addFonction(Fonction *monElem)
+{
+  if (premier == (Fonction *)NULL)
+    premier = dernier = monElem;
   else {
-    dernier->fonctionSuivant = monElement;
-    dernier = monElement;
+    dernier->fonctionSuivant = monElem;
+    dernier = monElem;
   }
-   monElement->fonctionSuivant = (Fonction *)NULL;
+  monElem->fonctionSuivant = (Fonction *)NULL;
 }
 
-
-Fonction
-*FonctionListe::getByNameElement(char *nom) {
+Fonction *FonctionListe::getByNameElem(char *nom)
+{
   Fonction *fonction = premier;
 
-  do
-    if(strcmp(fonction->monNom, nom) == 0)
+  do {
+    if (strcmp(fonction->monNom, nom) == 0)
       return fonction;
-  while ((fonction = fonction->fonctionSuivant)!= NULL);
+  } while ((fonction = fonction->fonctionSuivant)!= NULL);
   
   return (Fonction *)NULL;
-
 }
 
-Fonction*
-FonctionListe::getElement(int i) {
- Fonction *temp;
+Fonction* FonctionListe::getElem(int i)
+{
+  Fonction *temp;
   temp = premier;
   if (temp == (Fonction *)NULL) {
     cout << "ma Fonctionliste est vide!!!\n";
     return (Fonction *)NULL;
   }
-  for(int j=1 ; j<=(i-1) ; j++){
-    if (temp->fonctionSuivant == (Fonction *)NULL){
+  for (int j=1; j<=(i-1); j++) {
+    if (temp->fonctionSuivant == (Fonction *)NULL) {
       cout << "pas assez d'elements!!!";
       return (Fonction *)NULL;}
     else
@@ -254,9 +242,7 @@ FonctionListe::getElement(int i) {
   return temp;
 }
 
-
-//Fonction
-// CONSTRUCTEUR
+// class Fonction
 Fonction::Fonction()
 {
   monNom = (char *)NULL;
@@ -265,7 +251,6 @@ Fonction::Fonction()
   fonctionSuivant = (Fonction *)NULL;
 }
 
-// CONSTRUCTEUR
 Fonction::Fonction(char *monNom, InstructionListe *maInstructionListe)
 {
   this->monNom = monNom;
@@ -274,7 +259,6 @@ Fonction::Fonction(char *monNom, InstructionListe *maInstructionListe)
   fonctionSuivant = (Fonction *)NULL;
 }
 
-// CONSTRUCTEUR
 Fonction::Fonction(char *monNom, NomListe *maNomListe, InstructionListe *maInstructionListe)
 {
   this->monNom = monNom;
@@ -285,7 +269,7 @@ Fonction::Fonction(char *monNom, NomListe *maNomListe, InstructionListe *maInstr
 
 Instruction * Fonction::getInstruction(int i)
 {
-  return maInstructionListe->getElement(i);
+  return maInstructionListe->getElem(i);
 }
 
 Instruction * Fonction::getPremierInstruction()
@@ -300,267 +284,253 @@ Instruction * Fonction::getDernierInstruction()
 
 
 // **************************************************************************
-//PointDEntree
-// CONSTRUCTEUR
-PointDEntree::PointDEntree(void) {
-  
+// class PointDEntree
+PointDEntree::PointDEntree()
+{
   maInstructionListe = (InstructionListe *)NULL;
 }
 
-// CONSTRUCTEUR
-PointDEntree::PointDEntree(InstructionListe *maInstructionListe) {
-  
+PointDEntree::PointDEntree(InstructionListe *maInstructionListe)
+{
   this->maInstructionListe = maInstructionListe;
 }
 
-Instruction *
-PointDEntree::getInstruction(int i) {
-  return maInstructionListe->getElement(i);
+Instruction * PointDEntree::getInstruction(int i)
+{
+  return maInstructionListe->getElem(i);
 }
 
-Instruction *
-PointDEntree::getPremierInstruction(void) {
+Instruction * PointDEntree::getPremierInstruction()
+{
   return maInstructionListe->getPremier();
 }
 
-Instruction *
-PointDEntree::getDernierInstruction(void) {
+Instruction * PointDEntree::getDernierInstruction()
+{
   return maInstructionListe->getDernier();
 }
 
+
 // **************************************************************************
-//Constructeur
-// CONSTRUCTEUR
-Constructeur::Constructeur(void) {
-  
+// class Constructeur
+Constructeur::Constructeur()
+{
   maInstructionListe = new InstructionListe();
   maNomListe = (NomListe *)NULL;
 }
 
-void
-Constructeur::addInstruction(Instruction *maInstruction) {
+void Constructeur::addInstruction(Instruction *maInstruction)
+{
   maInstructionListe->addInstruction(maInstruction);
 } 
  
-Instruction *
-Constructeur::getInstruction(int i) {
-  return maInstructionListe->getElement(i);
+Instruction * Constructeur::getInstruction(int i)
+{
+  return maInstructionListe->getElem(i);
 }
 
-Instruction *
-Constructeur::getPremierInstruction(void) {
+Instruction * Constructeur::getPremierInstruction()
+{
   return maInstructionListe->getPremier();
 }
 
-Instruction *
-Constructeur::getDernierInstruction(void) {
+Instruction * Constructeur::getDernierInstruction()
+{
   return maInstructionListe->getDernier();
 }
 
-Nom *
-Constructeur::getNom(int i) {
-  return maNomListe->getElement(i);
+Nom * Constructeur::getNom(int i)
+{
+  return maNomListe->getElem(i);
 }
 
-Nom *
-Constructeur::getPremierNom(void) {
+Nom * Constructeur::getPremierNom()
+{
   return maNomListe->getPremier();
 }
 
-Nom *
-Constructeur::getDernierNom(void) {
+Nom * Constructeur::getDernierNom()
+{
   return maNomListe->getDernier();
 }
 
-//AppelDeConstructeur
-// CONSTRUCTEUR
-AppelDeConstructeur::AppelDeConstructeur(void) {
-  
-  monNom = (char *)NULL;
-  maExpressionListe = (ExpressionListe *)NULL;
-}
-
-// CONSTRUCTEUR
-AppelDeConstructeur::AppelDeConstructeur(char *monNom) {
-  
-  this->monNom = monNom;
-  maExpressionListe = (ExpressionListe *)NULL;
-}
-
-// CONSTRUCTEUR
-AppelDeConstructeur::AppelDeConstructeur(char *monNom, ExpressionListe *maExpressionListe) {
-  
-  this->monNom = monNom;
-  this->maExpressionListe = maExpressionListe;
-}
-
-Expression *
-AppelDeConstructeur::getExpression(int i) {
-  return maExpressionListe->getElement(i);
-}
-
-Expression *
-AppelDeConstructeur::getPremierExpression(void) {
-  return maExpressionListe->getPremier();
-}
-
-Expression *
-AppelDeConstructeur::getDernierExpression(void) {
-  return maExpressionListe->getDernier();
-}
-
 // ************************ AppelDeConstructeur *****************************
-// *********************** methode update ***********************************
+// class AppelDeConstructeur
+AppelDeConstructeur::AppelDeConstructeur()
+{
+  monNom = (char *)NULL;
+  maExprListe = (ExprListe *)NULL;
+}
 
-void
-AppelDeConstructeur::updateTable()
+AppelDeConstructeur::AppelDeConstructeur(char *monNom)
+{
+  this->monNom = monNom;
+  maExprListe = (ExprListe *)NULL;
+}
+
+AppelDeConstructeur::AppelDeConstructeur(char *monNom, ExprListe *maExprListe)
+{
+  this->monNom = monNom;
+  this->maExprListe = maExprListe;
+}
+
+Expr * AppelDeConstructeur::getExpr(int i)
+{
+  return maExprListe->getElem(i);
+}
+
+Expr * AppelDeConstructeur::getPremierExpr()
+{
+  return maExprListe->getPremier();
+}
+
+Expr * AppelDeConstructeur::getDernierExpr()
+{
+  return maExprListe->getDernier();
+}
+
+// *********************** methode update ***********************************
+void AppelDeConstructeur::updateTable()
 {
   // la table empilee prend le nom de la structure appelee
-  Table  *tableCourante = pileDesPointeurs->getTopPointeur() ;
+  Table *tableCourante = pileDesPointeurs->getTopPointeur();
   tableCourante->setNom(monNom);
 
   // recherche de la structure appelee
-  Structure *structure = fvrl->getStructure(monNom) ;
+  Structure *structure = fvrl->getStructure(monNom);
 
-  if (structure == NULL){
+  if (structure == NULL) {
     cout << " erreur : " << monNom << " non declaree\n";
     exit(0);
   }
 
   // recuperation du constructeur
-  Constructeur *constructeur = structure->getConstructeur() ;
+  Constructeur *constructeur = structure->getConstructeur();
   
   AppelDeConstructeur *appel = constructeur->getAppelDeConstructeur();
 
   NomListe *arguments = constructeur->getNomListe();
-  ExpressionListe *parametres = maExpressionListe;
+  ExprListe *parametres = maExprListe;
 
   if (arguments->getTaille() != (parametres->getTaille())) {
-    cout << "le constructeur " << monNom << "n'est pas appele avec le bon nombre d'arguments\n" ;
-    exit(1) ;
+    cout << "le constructeur " << monNom << "n'est pas appele avec le bon nombre d'arguments\n";
+    exit(1);
   }
   
-  AssignationListe *initialisations = new AssignationListe();
+  AssignListe *initialisations = new AssignListe();
    
   Nom *arg = arguments->getPremier();
-  Expression *param = parametres->getPremier();
-
+  Expr *param = parametres->getPremier();
 
   // on y declare les attributs de la structure
   Declaration *attribut = structure->getPremierDeclaration();
-  while(attribut) {
-    attribut->updateTable() ;
-    attribut = attribut->getSuivant() ;
+  while (attribut) {
+    attribut->updateTable();
+    attribut = attribut->getSuivant();
   }
 
   // creation d'une assignation entre arguments et parametres
-  while(arg) {	// traite aussi le cas ou il n'y a pas d'argument
-    initialisations->addAssignation(param->creerAssignation(arg)); 
+  while (arg) {	// traite aussi le cas ou il n'y a pas d'argument
+    initialisations->addAssign(param->creerAssign(arg)); 
     arg = arg->getSuivant();
     param = param->getSuivant();
   }
 
-  // on y declare les arguments du constructeur, puis on realise les assignations de la liste cree precedemment
+  // on y declare les arguments du constructeur,
+  // puis on realise les assignations de la liste cree precedemment
   DeclarationSimple *declarerArgs = new DeclarationSimple(arguments); 
-  declarerArgs->updateTable() ;
+  declarerArgs->updateTable();
 
-  Assignation *initialisation = initialisations->getPremier();
-  while(initialisation) {
+  Assign *initialisation = initialisations->getPremier();
+  while (initialisation) {
     initialisation->updateTable();
     initialisation = initialisation->getSuivant();
   }
+
+  ///////  SI HERITAGE ////////
+  // la methode update de AppelDeConstructeur realise les instructions dans la table
+  // actuelle et change le nom de cette table actuelle. Elle prend le nom 
+  // de la structure heritee
+
+  if (appel) {
+    // verification de l'implementation de l'heritage
+    // recherche de la structure heritee
+    Nom *nomTmp =  structure->getPremierNom();
+    if (!nomTmp) {
+      cout << "appel de constructeur dans " << monNom << " sans heritage !\n";
+      exit(1);
+    }
+    if (strcmp(nomTmp->getNom(), appel->getNom())) {
+      cout << monNom << " : incoherence entre appel de constructeur et heritage\n";
+      exit(1);
+    }
+
+    // realisation de l'appel au constructeur
+    appel->updateTable();
+  } 
   
+  // on realise les instructions du constructeur
+  Instruction *instruction = constructeur->getPremierInstruction();
 
-
-   ///////  SI HERITAGE ////////
-   // la methode update de AppelDeConstructeur realise les instructions dans la table
-   // actuelle et change le nom de cette table actuelle. Elle prend le nom 
-   // de la structure heritee
-
-   if(appel) {
-     // verification de l'implementation de l'heritage
-     // recherche de la structure heritee
-     Nom *nomTmp =  structure->getPremierNom();
-     if(!nomTmp) {
-       cout << "appel de constructeur dans " << monNom << " sans heritage !\n";
-       exit(1);
-     }
-     if(strcmp(nomTmp->getNom(), appel->getNom())) {
-       cout << monNom << " : incoherence entre appel de constructeur et heritage\n";
-       exit(1);
-     }
-
-     // realisation de l'appel au constructeur
-     appel->updateTable();
-   } 
-
-  
-     // on realise les instructions du constructeur
-     Instruction *instruction = constructeur->getPremierInstruction() ;
-
-     while(instruction) {
-       instruction->updateTable() ;
-       instruction = instruction->getSuivant() ;
-     }
+  while (instruction) {
+    instruction->updateTable();
+    instruction = instruction->getSuivant();
+  }
 }
 
-
-
-// ************************ AppelDeConstructeur *****************************
 // *********************** methode declareAttribut **************************
-void
-AppelDeConstructeur::declareAttribut(void) {
+void AppelDeConstructeur::declareAttribut()
+{
   // recuperation de la structure
-  Structure *structure = fvrl->getStructure(monNom) ;
+  Structure *structure = fvrl->getStructure(monNom);
 
   // si c'est une structure heritee
-  if(structure->getHeritage()) {
+  if (structure->getHeritage()) {
     AppelDeConstructeur *appel = new AppelDeConstructeur(structure->getPremierNom()->getNom());
     appel->declareAttribut();
   }
   
   Declaration *attributs = structure->getPremierDeclaration();
 
-  while(attributs) {
+  while (attributs) {
     attributs->updateTable();
     attributs = attributs->getSuivant();
   }
-  
 }
 
+
 // *************************** les instructions *****************************
-//InstructionListe
-// CONSTRUCTEUR
-InstructionListe::InstructionListe(void) {
-  
+// class InstructionListe
+InstructionListe::InstructionListe()
+{
   taille = 0;
   premier = (Instruction *)NULL;
   dernier = (Instruction *)NULL; 
 }
 
-void
-InstructionListe::addInstruction(Instruction *monElement) {
+void InstructionListe::addInstruction(Instruction *monElem)
+{
   taille++;
   //  cout << "instruction " << taille << " ajoutee\n";
    if (premier == (Instruction *)NULL)
-    premier = dernier = monElement;
+    premier = dernier = monElem;
   else {
-    dernier->instructionSuivant = monElement;
-    dernier = monElement;
+    dernier->instructionSuivant = monElem;
+    dernier = monElem;
   }
-   monElement->instructionSuivant = (Instruction *)NULL;
+  monElem->instructionSuivant = (Instruction *)NULL;
 }
 
-Instruction *
-InstructionListe::getElement(int i) {
+Instruction * InstructionListe::getElem(int i)
+{
   Instruction *temp;
   temp = premier;
   if (temp == (Instruction *)NULL) {
     cout << "ma Instructionliste est vide!!!\n";
     return (Instruction *)NULL;
   }
-  for(int j=1 ; j<=(i-1) ; j++){
-    if (temp->instructionSuivant == (Instruction *)NULL){
+  for (int j=1; j<=(i-1); j++) {
+    if (temp->instructionSuivant == (Instruction *)NULL) {
       cout << "pas assez d'elements!!!";
       return (Instruction *)NULL;}
     else
@@ -569,152 +539,146 @@ InstructionListe::getElement(int i) {
   return temp;
 }
 
-Instruction
-*Instruction::getSuivant(void){
+Instruction *Instruction::getSuivant()
+{
   return instructionSuivant;
 }
 
+
 // *************************** les statements *******************************
-//Retour
-// CONSTRUCTEUR
-Retour::Retour(void) {
-  
-  monExpression = (Expression *)NULL;
+// class Retour
+Retour::Retour()
+{
+  monExpr = (Expr *)NULL;
   instructionSuivant = (Instruction *)NULL;
 }
 
-// CONSTRUCTEUR
-Retour::Retour(Expression *monExpression) {
-  
+Retour::Retour(Expr *monExpr)
+{
   instructionSuivant = (Instruction *)NULL;
-  this->monExpression = monExpression;
+  this->monExpr = monExpr;
 }
 
-//BoucleIf
-// CONSTRUCTEUR
-BoucleIf::BoucleIf(void) {
-  
+// class BoucleIf
+BoucleIf::BoucleIf()
+{
   instructionSuivant = (Instruction *)NULL;
-  monExpressionLogique = (ExpressionLogique *)NULL;
+  monExprLogique = (ExprLogique *)NULL;
   maInstructionListeSi = (InstructionListe *)NULL;
   maInstructionListeSinon = (InstructionListe *)NULL;
 }
 
-// CONSTRUCTEUR
-BoucleIf::BoucleIf(ExpressionLogique *monExpressionLogique, InstructionListe *maInstructionListeSi) {
-  
+BoucleIf::BoucleIf(ExprLogique *monExprLogique, InstructionListe *maInstructionListeSi)
+{
   instructionSuivant = (Instruction *)NULL;
-  this->monExpressionLogique = monExpressionLogique;
+  this->monExprLogique = monExprLogique;
   this->maInstructionListeSi = maInstructionListeSi;
   maInstructionListeSinon = (InstructionListe *)NULL;
 }
 
-// CONSTRUCTEUR
-BoucleIf::BoucleIf(ExpressionLogique *monExpressionLogique, InstructionListe *maInstructionListeSi, InstructionListe *maInstructionListeSinon) {
-  
+BoucleIf::BoucleIf(ExprLogique *monExprLogique, InstructionListe *maInstructionListeSi, InstructionListe *maInstructionListeSinon)
+{
   instructionSuivant = (Instruction *)NULL;
-  this->monExpressionLogique = monExpressionLogique;
+  this->monExprLogique = monExprLogique;
   this->maInstructionListeSi = maInstructionListeSi;
   this->maInstructionListeSinon = maInstructionListeSinon;
 }
 
-Instruction *
-BoucleIf::getInstructionSi(int i) {
-  return maInstructionListeSi->getElement(i);
+Instruction * BoucleIf::getInstructionSi(int i)
+{
+  return maInstructionListeSi->getElem(i);
 }
 
-Instruction *
-BoucleIf::getPremierInstructionSi(void) {
+Instruction * BoucleIf::getPremierInstructionSi()
+{
   return maInstructionListeSi->getPremier();
 }
 
-Instruction *
-BoucleIf::getDernierInstructionSi(void) {
+Instruction * BoucleIf::getDernierInstructionSi()
+{
   return maInstructionListeSi->getDernier();
 }
 
-Instruction *
-BoucleIf::getInstructionSinon(int i) {
-  return maInstructionListeSinon->getElement(i);
+Instruction * BoucleIf::getInstructionSinon(int i)
+{
+  return maInstructionListeSinon->getElem(i);
 }
 
-Instruction *
-BoucleIf::getPremierInstructionSinon(void) {
+Instruction * BoucleIf::getPremierInstructionSinon()
+{
   return maInstructionListeSinon->getPremier();
 }
 
-Instruction *
-BoucleIf::getDernierInstructionSinon(void) {
+Instruction * BoucleIf::getDernierInstructionSinon()
+{
   return maInstructionListeSinon->getDernier();
 }
     
-//BoucleFor
-// CONSTRUCTEUR
-BoucleFor::BoucleFor(void) {
-  
+// class BoucleFor
+BoucleFor::BoucleFor()
+{
   instructionSuivant = (Instruction *)NULL;
-  monAssignationExpressionDebut = (AssignationExpression *)NULL;
-  monExpressionLogiqueFin = (ExpressionLogique *)NULL;
-  monAssignationExpressionIncrementation = (AssignationExpression *)NULL;
+  monAssignExprDebut = (AssignExpr *)NULL;
+  monExprLogiqueFin = (ExprLogique *)NULL;
+  monAssignExprIncrement = (AssignExpr *)NULL;
   monInstructionListe = (InstructionListe *)NULL;
 }
 
-// CONSTRUCTEUR
-BoucleFor::BoucleFor(AssignationExpression *monAssignationExpressionDebut, ExpressionLogique *monExpressionLogiqueFin, AssignationExpression *monAssignationExpressionIncrementation, InstructionListe *monInstructionListe) {
-  
+BoucleFor::BoucleFor(AssignExpr *monAssignExprDebut, ExprLogique *monExprLogiqueFin, AssignExpr *monAssignExprIncrement, InstructionListe *monInstructionListe)
+{
   instructionSuivant = (Instruction *)NULL;
-  this->monAssignationExpressionDebut = monAssignationExpressionDebut;
-  this->monExpressionLogiqueFin = monExpressionLogiqueFin;
-  this->monAssignationExpressionIncrementation = monAssignationExpressionIncrementation;
+  this->monAssignExprDebut = monAssignExprDebut;
+  this->monExprLogiqueFin = monExprLogiqueFin;
+  this->monAssignExprIncrement = monAssignExprIncrement;
   this->monInstructionListe = monInstructionListe;
 }
 
-Instruction *
-BoucleFor::getInstruction(int i) {
-  return monInstructionListe->getElement(i);
+Instruction * BoucleFor::getInstruction(int i)
+{
+  return monInstructionListe->getElem(i);
 }
 
-Instruction *
-BoucleFor::getPremierExpression(void) {
+Instruction * BoucleFor::getPremierExpr()
+{
   return monInstructionListe->getPremier();
 }
 
-Instruction *
-BoucleFor::getDernierExpression(void) {
+Instruction * BoucleFor::getDernierExpr()
+{
   return monInstructionListe->getDernier();
 }
 
+
 // **************************** les declarations ****************************
-//DeclarationListe
-// CONSTRUCTEUR
-DeclarationListe::DeclarationListe(void) {
-  
+// class DeclarationListe
+DeclarationListe::DeclarationListe()
+{
   premier = (Declaration *)NULL;
   dernier = (Declaration *)NULL;
 }
 
-void
-DeclarationListe::addDeclaration(Declaration *monElement) {
+void DeclarationListe::addDeclaration(Declaration *monElem)
+{
   if (premier == (Declaration *)NULL)
-    premier = dernier = monElement;
+    premier = dernier = monElem;
   else {
-    dernier->declarationSuivant = monElement;
-    dernier = monElement;
+    dernier->declarationSuivant = monElem;
+    dernier = monElem;
   }
-  monElement->declarationSuivant = (Declaration *)NULL;
+  monElem->declarationSuivant = (Declaration *)NULL;
 }
 
-Declaration *
-DeclarationListe::getElement(int i) {
-  Declaration *temp;
-  temp = premier;
+Declaration * DeclarationListe::getElem(int i)
+{
+  Declaration *temp = premier;
+
   if (temp == (Declaration *)NULL) {
     cout << "ma Declarationliste est vide!!!\n";
     return (Declaration *)NULL;
   }
 
-  for(int j=1 ; j<=(i-1) ; j++){
-    if (temp->declarationSuivant == (Declaration *)NULL){
+  for (int j=1; j<=(i-1); j++) {
+    if (temp->declarationSuivant == (Declaration *)NULL) {
       cout << "pas assez d'elements!!!";
       return (Declaration *)NULL;}
     else
@@ -723,98 +687,89 @@ DeclarationListe::getElement(int i) {
   return temp;
 }
 
-//DeclarationSimple
-// CONSTRUCTEUR
-DeclarationSimple::DeclarationSimple(void) {
-  
+// class DeclarationSimple
+DeclarationSimple::DeclarationSimple()
+{
   instructionSuivant = (Instruction *)NULL;
   declarationSuivant = (Declaration *)NULL;
   maNomListe = (NomListe *)NULL;
   monNomDeTableau = (NomDeTableau *)NULL;
 }
 
-// CONSTRUCTEUR
-DeclarationSimple::DeclarationSimple(NomListe *maNomListe) {
-  
+DeclarationSimple::DeclarationSimple(NomListe *maNomListe)
+{
   instructionSuivant = (Instruction *)NULL;
   declarationSuivant = (Declaration *)NULL;
   monNomDeTableau = (NomDeTableau *)NULL;
   this->maNomListe = maNomListe;
 }
 
-// CONSTRUCTEUR
-DeclarationSimple::DeclarationSimple(NomDeTableau *monNomDeTableau) {
-  
+DeclarationSimple::DeclarationSimple(NomDeTableau *monNomDeTableau)
+{
   instructionSuivant = (Instruction *)NULL;
   declarationSuivant = (Declaration *)NULL;
   maNomListe = (NomListe *)NULL;
   this->monNomDeTableau = monNomDeTableau;
 }
 
-Nom *
-DeclarationSimple::getNom(int i) {
-  return maNomListe->getElement(i);
+Nom * DeclarationSimple::getNom(int i)
+{
+  return maNomListe->getElem(i);
 }
 
-Nom *
-DeclarationSimple::getPremierNom(void) {
+Nom * DeclarationSimple::getPremierNom()
+{
   return maNomListe->getPremier();
 }
 
-Nom *
-DeclarationSimple::getDernierNom(void) {
+Nom * DeclarationSimple::getDernierNom()
+{
   return maNomListe->getDernier();
 }
 
-//DeclarationComplexe
-// CONSTRUCTEUR
-DeclarationComplexeChaine::DeclarationComplexeChaine(void) {
-  
+// class DeclarationComplexe
+DeclarationComplexeChaine::DeclarationComplexeChaine()
+{
   instructionSuivant = (Instruction *)NULL;
   declarationSuivant = (Declaration *)NULL;
   maVariable = (Variable *)NULL;
   maChaine = (char *)NULL;
 }
 
-// CONSTRUCTEUR
-DeclarationComplexeChaine::DeclarationComplexeChaine(Variable *maVariable, char *maChaine) {
-  
+DeclarationComplexeChaine::DeclarationComplexeChaine(Variable *maVariable, char *maChaine)
+{
   instructionSuivant = (Instruction *)NULL;
   declarationSuivant = (Declaration *)NULL;
   this->maVariable = maVariable;
   this->maChaine = maChaine;
 }
 
-// CONSTRUCTEUR
-DeclarationComplexeExpression::DeclarationComplexeExpression(void) {
-  
+DeclarationComplexeExpr::DeclarationComplexeExpr()
+{
   instructionSuivant = (Instruction *)NULL;
   declarationSuivant = (Declaration *)NULL;
   maVariable = (Variable *)NULL;
-  monExpression = (Expression *)NULL;
+  monExpr = (Expr *)NULL;
 }
 
-// CONSTRUCTEUR
-DeclarationComplexeExpression::DeclarationComplexeExpression(Variable *maVariable, Expression *monExpression) {
-  
+DeclarationComplexeExpr::DeclarationComplexeExpr(Variable *maVariable, Expr *monExpr)
+{
   instructionSuivant = (Instruction *)NULL;
   declarationSuivant = (Declaration *)NULL;
   this->maVariable = maVariable;
-  this->monExpression = monExpression;
+  this->monExpr = monExpr;
 }
 
-// CONSTRUCTEUR
-DeclarationComplexeNouvelObjet::DeclarationComplexeNouvelObjet(void) {
-  
+DeclarationComplexeNouvelObjet::DeclarationComplexeNouvelObjet()
+{
   instructionSuivant = (Instruction *)NULL;
   declarationSuivant = (Declaration *)NULL;
   maVariable = (Variable *)NULL;
   monNouvelObjet = (NouvelObjet *)NULL;
 }
 
-// CONSTRUCTEUR
-DeclarationComplexeNouvelObjet::DeclarationComplexeNouvelObjet(Variable *maVariable, NouvelObjet *monNouvelObjet) {
-  
+DeclarationComplexeNouvelObjet::DeclarationComplexeNouvelObjet(Variable *maVariable, NouvelObjet *monNouvelObjet)
+{
   instructionSuivant = (Instruction *)NULL;
   declarationSuivant = (Declaration *)NULL;
   this->maVariable = maVariable;
@@ -823,182 +778,164 @@ DeclarationComplexeNouvelObjet::DeclarationComplexeNouvelObjet(Variable *maVaria
 
 
 // ***************************** les assignations ***************************
-//AssigantionListe
-//Constructeur
-AssignationListe::AssignationListe(void) : premier((Assignation *)NULL), dernier((Assignation *)NULL) {}
+// class AssigantionListe
+AssignListe::AssignListe() : premier((Assign *)NULL), dernier((Assign *)NULL) {}
 
-void
-AssignationListe::addAssignation(Assignation *assignation) {
- if (premier == (Assignation *)NULL)
-    premier = dernier = assignation;
+void AssignListe::addAssign(Assign *assign)
+{
+  if (premier == (Assign *)NULL)
+    premier = dernier = assign;
   else {
-    dernier->suivant = assignation;
-    dernier = assignation;
+    dernier->suivant = assign;
+    dernier = assign;
   }
-  assignation->suivant = (Assignation *)NULL;
+  assign->suivant = (Assign *)NULL;
 }
 
-
-//Assignation
-//Constructeur
-Assignation::Assignation(void) : maVariable((Variable *)NULL) {}
-Assignation::Assignation(Variable *_variable) : maVariable(_variable) {}
+// class Assign
+Assign::Assign() : maVariable((Variable *)NULL) {}
+Assign::Assign(Variable *_variable) : maVariable(_variable) {}
 
 
-
-//AssignationChaine
-// CONSTRUCTEUR
-AssignationChaine::AssignationChaine(void) {
-  
+// class AssignChaine
+AssignChaine::AssignChaine()
+{
   instructionSuivant = (Instruction *)NULL;
   maVariable = (Variable *)NULL;
   maChaine = (char *)NULL;
 }
 
-// CONSTRUCTEUR
-AssignationChaine::AssignationChaine(Variable *maVariable, char *maChaine) {
-  
+AssignChaine::AssignChaine(Variable *maVariable, char *maChaine)
+{
   instructionSuivant = (Instruction *)NULL;
   this->maVariable = maVariable;
   this->maChaine = maChaine;
 }
 
-//AssignationExpresssion
-// CONSTRUCTEUR
-AssignationExpression::AssignationExpression(void) {
-  
+// class AssignExpresssion
+AssignExpr::AssignExpr()
+{
   instructionSuivant = (Instruction *)NULL;
   maVariable = (Variable *)NULL;
-  monExpression = (Expression *)NULL;
+  monExpr = (Expr *)NULL;
 }
-// CONSTRUCTEUR
-AssignationExpression::AssignationExpression(Variable *maVariable, Expression *monExpression) {
-  
+
+AssignExpr::AssignExpr(Variable *maVariable, Expr *monExpr)
+{
   instructionSuivant = (Instruction *)NULL;
   this->maVariable = maVariable;
-  this->monExpression = monExpression;
+  this->monExpr = monExpr;
 }
 
-//AssignationVariable
-// Constructeur
-AssignationVariable::AssignationVariable(void) : Assignation() {}
-AssignationVariable::AssignationVariable(Variable *_variable1, Variable *_variable2) : Assignation(_variable1), variableAAssigner(_variable2) {}
+// class AssignVariable
+AssignVariable::AssignVariable() : Assign() {}
+AssignVariable::AssignVariable(Variable *_variable1, Variable *_variable2) : Assign(_variable1), variableAAssigner(_variable2) {}
   
 
-//AssignationNouvelObjet
-// CONSTRUCTEUR
-AssignationNouvelObjet::AssignationNouvelObjet(void) {
-  
+// class AssignNouvelObjet
+AssignNouvelObjet::AssignNouvelObjet()
+{
   instructionSuivant = (Instruction *)NULL;
   maVariable = (Variable *)NULL;
   monObjet = (NouvelObjet *)NULL;
 }
 
-// CONSTRUCTEUR
-AssignationNouvelObjet::AssignationNouvelObjet(Variable *maVariable, NouvelObjet *monObjet) {
-  
+AssignNouvelObjet::AssignNouvelObjet(Variable *maVariable, NouvelObjet *monObjet)
+{
   instructionSuivant = (Instruction *)NULL;
   this->maVariable = maVariable;
   this->monObjet = monObjet;
 }
 
 // ************************** nouvel object *********************************
-// CONSTRUCTEUR
-NouvelObjet::NouvelObjet(void) {
-  
+// class NouvelObjet
+NouvelObjet::NouvelObjet()
+{
   monNom = (char *)NULL;
-  maExpressionListe = (ExpressionListe *)NULL;
+  maExprListe = (ExprListe *)NULL;
 }
 
-// CONSTRUCTEUR
-NouvelObjet::NouvelObjet(char *monNom) {
-  
+NouvelObjet::NouvelObjet(char *monNom)
+{
   this->monNom = monNom;
-  maExpressionListe = (ExpressionListe *)NULL;
+  maExprListe = (ExprListe *)NULL;
 }
 
-// CONSTRUCTEUR
-NouvelObjet::NouvelObjet(char *monNom, ExpressionListe *maExpressionListe) {
-  
+NouvelObjet::NouvelObjet(char *monNom, ExprListe *maExprListe)
+{
   this->monNom = monNom;
-  this->maExpressionListe = maExpressionListe;
+  this->maExprListe = maExprListe;
 }
 
-Expression *
-NouvelObjet::getExpression(int i) {
-  return maExpressionListe->getElement(i);
+Expr * NouvelObjet::getExpr(int i)
+{
+  return maExprListe->getElem(i);
 }
 
-Expression *
-NouvelObjet::getPremierExpression(void) {
-  return maExpressionListe->getPremier();
+Expr * NouvelObjet::getPremierExpr()
+{
+  return maExprListe->getPremier();
 }
 
-Expression *
-NouvelObjet::getDernierExpression(void) {
-  return maExpressionListe->getDernier();
+Expr * NouvelObjet::getDernierExpr()
+{
+  return maExprListe->getDernier();
 }
 
 // **************************************************************************
-//void
-//Entree DeclarationSimple::updateTable(Table *table) {
-
-//};
+//void Entree DeclarationSimple::updateTable(Table *table) { };
 
 //***************************** FIN 1****************************************
 
 
 //***************************** DEBUT 2**************************************
 
-//***************************** ExpressionListe *****************************
-// template <class Element> void
-// Liste<Element>::addElement(Element *element){
-//   if (premier == (Element *)NULL)
+//***************************** ExprListe *****************************
+// template <class Elem> void
+// Liste<Elem>::addElem(Elem *element) {
+//   if (premier == (Elem *)NULL)
 //     premier = dernier = element;
 //   else {
 //     dernier->suivant = element;
 //     dernier = dernier->suivant;
 //   }
 // }
-
-
-// template <class Element> Element
-// *Liste<Element>::getElementRecursivement(Element *element, int i){
-//   if(element == (Element *)NULL)
-//     return (Element *)NULL;
-    
-
-//   return getElementRecursivement(element->suivant, i-1);
+// template <class Elem> Elem
+// *Liste<Elem>::getElemRecursivement(Elem *element, int i) {
+//   if (element == (Elem *)NULL)
+//     return (Elem *)NULL;
+//   return getElemRecursivement(element->suivant, i-1);
 // }
 
-ExpressionListe::ExpressionListe(Expression *monExpression)  : premier((Expression *)NULL), dernier((Expression *)NULL), taille(0) {
-  this->addExpression(monExpression);
+ExprListe::ExprListe(Expr *monExpr)  : premier((Expr *)NULL), dernier((Expr *)NULL), taille(0)
+{
+  this->addExpr(monExpr);
 }
 
-void
-ExpressionListe::addExpression(Expression *expression){
+void ExprListe::addExpr(Expr *expr)
+{
   taille++;
-  if (premier == (Expression *)NULL)
-    premier = dernier = expression;
+  if (premier == (Expr *)NULL)
+    premier = dernier = expr;
   else {
-    dernier->suivant = expression;
+    dernier->suivant = expr;
     dernier = dernier->suivant;
   }
-  expression->suivant = (Expression *)NULL;
+  expr->suivant = (Expr *)NULL;
 }
 
-Expression
-*ExpressionListe::getElementRecursivement(Expression *expression, int i){
-  if(expression == (Expression *)NULL)
-    return (Expression *)NULL;
+Expr *ExprListe::getElemRecursivement(Expr *expr, int i)
+{
+  if (expr == (Expr *)NULL)
+    return (Expr *)NULL;
 
-  return getElementRecursivement(expression->suivant, i-1);
+  return getElemRecursivement(expr->suivant, i-1);
 }
 
 
 //************************* VariableSimpleListe *****************************
-void
-VariableSimpleListe::addVariable(VariableSimple *variable){
+void VariableSimpleListe::addVariable(VariableSimple *variable)
+{
   if (premier == (VariableSimple *)NULL)
     premier = dernier = variable;
   else {
@@ -1008,48 +945,46 @@ VariableSimpleListe::addVariable(VariableSimple *variable){
   variable->suivant = (VariableSimple *)NULL;
 }
 
-VariableSimple
-*VariableSimpleListe::getElementRecursivement(VariableSimple *variable, int i){
-  if(variable == (VariableSimple *)NULL)
+VariableSimple *VariableSimpleListe::getElemRecursivement(VariableSimple *variable, int i)
+{
+  if (variable == (VariableSimple *)NULL)
     return (VariableSimple *)NULL;
 
-  return getElementRecursivement(variable->suivant, i-1);
+  return getElemRecursivement(variable->suivant, i-1);
 }
 
-VariableSimple
-*VariableSimpleListe::getElement(int i) {
-  VariableSimple *var = getElementRecursivement(premier, i);
+VariableSimple *VariableSimpleListe::getElem(int i) {
+  VariableSimple *var = getElemRecursivement(premier, i);
   return var;
 }
 
-VariableSimple
-*VariableSimpleListe::getPremier(void) {
+VariableSimple *VariableSimpleListe::getPremier() {
   return premier;
 }
 
-VariableSimple
-*VariableSimpleListe::getDernier(void) {
+VariableSimple *VariableSimpleListe::getDernier() {
   return dernier;
 }
 
 
-//************************* ExpressionCalculable ****************************
+//************************* ExprCalculable ****************************
 
-Assignation 
-*ExpressionCalculable::creerAssignation(Variable *variable) {
-  Assignation *assignation = new AssignationExpression(variable, this);
-  return assignation;
+Assign *ExprCalculable::creerAssign(Variable *variable)
+{
+  Assign *assign = new AssignExpr(variable, this);
+  return assign;
 }
+
 //************************* Variable ********** *****************************
-Assignation
-*Variable::creerAssignation(Variable *variable) {
-  Assignation *assignation = new AssignationVariable(variable, this);
-  return assignation;
+Assign *Variable::creerAssign(Variable *variable)
+{
+  Assign *assign = new AssignVariable(variable, this);
+  return assign;
 }
 
 //************************* AppelDeFonction - evaluate **********************
-float
-AppelDeFonction::evaluate(void) {
+float AppelDeFonction::evaluate()
+{
   // creer une table locale
   tableLocale = new Table(nom);	
   // empile un pointeur sur cette table locale
@@ -1059,19 +994,19 @@ AppelDeFonction::evaluate(void) {
 
   NomListe *nomListe = fonction->getNomListe();
   Nom *nomVar = nomListe->getPremier();
-  Expression *expressionVar = liste->getPremier();
+  Expr *exprVar = liste->getPremier();
   
   // 1- verification du nombre d'argument passe a la fonction
-  if(nomListe->getTaille() != liste->getTaille()) {
+  if (nomListe->getTaille() != liste->getTaille()) {
     cout << "erreur : nombre de parametres de la fonction " << nom << " incorrect\n";
     exit(0);
   }
 
   // 2- initialisation de la table
   do {
-    tableLocale->addEntree(new EntreeFloat(nomVar->getNom(), expressionVar->evaluate()));
-    expressionVar = expressionVar->getSuivant();
-  } while((nomVar = nomVar->getSuivant()) != (Nom *)NULL);
+    tableLocale->addEntree(new EntreeFloat(nomVar->getNom(), exprVar->evaluate()));
+    exprVar = exprVar->getSuivant();
+  } while ((nomVar = nomVar->getSuivant()) != (Nom *)NULL);
     
   // 3- deroulement des instructions. Test si on est tombe sur un return
   Instruction *instruction = fonction->getPremierInstruction();
@@ -1080,20 +1015,18 @@ AppelDeFonction::evaluate(void) {
     instruction->updateTable();
 
     // si on n'est plus sur la meme table que la tablelocale alors il y a eu un return
-    if(pileDesPointeurs->getTopPointeur() != tableLocale)
+    if (pileDesPointeurs->getTopPointeur() != tableLocale)
       break;
 
-  } while((instruction = instruction->getSuivant()) != (Instruction *)NULL);
-
-
+  } while ((instruction = instruction->getSuivant()) != (Instruction *)NULL);
   
   // 4- recuperation de la valeur associee au return
   return tableLocale->getByNameEntree((char *)"return")->toFloat();;
 }
 
 //***************************** NomListe ************************************
-void
-NomListe::addNom(char *nom){
+void NomListe::addNom(char *nom)
+{
   taille++;
   if (premier == (Nom *)NULL)
     premier = dernier = new Nom(nom);
@@ -1104,20 +1037,18 @@ NomListe::addNom(char *nom){
   dernier->suivant = (Nom *)NULL;
 }
 
-Nom
-*NomListe::getElementRecursivement(Nom *nom, int i){
-  if(nom == (Nom *)NULL)
+Nom *NomListe::getElemRecursivement(Nom *nom, int i)
+{
+  if (nom == (Nom *)NULL)
     return (Nom *)NULL;
 
-  return getElementRecursivement(nom->suivant, i-1);
+  return getElemRecursivement(nom->suivant, i-1);
 }
 
 //***************************** Nom - methode evaluate **********************
-float
-Nom::evaluate(void){
-
+float Nom::evaluate()
+{
   //cout << "evaluation de la variable " << nom << "\n";
-
 
   Pointeur *pointeur = pileDesPointeurs->getTop();
   Table *table;
@@ -1133,7 +1064,7 @@ Nom::evaluate(void){
     
   } while (pointeur != NULL);
   
-  if (entree == (Entree *)NULL){
+  if (entree == (Entree *)NULL) {
     cout << "erreur : la variable " << nom << " n'est pas declaree !\n";
     exit(1);
   }
@@ -1143,14 +1074,15 @@ Nom::evaluate(void){
 }
 
 //************************ NomDeTableau - constructor **** ******************
-NomDeTableau::NomDeTableau(char *nomDeTableau, Expression *_expression){
+NomDeTableau::NomDeTableau(char *nomDeTableau, Expr *_expr)
+{
   taille = -1;
   nom =nomDeTableau;
-  index = _expression;
+  index = _expr;
 }
 
-char
-*NomDeTableau::getRealNom(void) {
+char *NomDeTableau::getRealNom()
+{
   char *monVraiNom;
   int n;
 
@@ -1158,15 +1090,14 @@ char
     n = (int)index->evaluate();
   else n = taille;
 
-  monVraiNom = createName(nom, n) ;
+  monVraiNom = createName(nom, n);
 
   return monVraiNom;
-
 }
 
 //************************ NomDeTableau - methode evaluate ******************
-float
-NomDeTableau::evaluate(void){
+float NomDeTableau::evaluate()
+{
   char *nomVar = getRealNom();
   Pointeur *pointeurBottom = pileDesPointeurs->getBottom();
   Pointeur *pointeur = pileDesPointeurs->getTop();
@@ -1183,7 +1114,7 @@ NomDeTableau::evaluate(void){
     
   } while (pointeur != pointeurBottom);
   
-  if (entree == (Entree *)NULL){
+  if (entree == (Entree *)NULL) {
     cout << "erreur : la variable " << nomVar << " n'est pas declaree !\n";
     exit(1);
   }
@@ -1191,22 +1122,22 @@ NomDeTableau::evaluate(void){
 }
 
 //********************* VariableComplexe ************************************
-VariableComplexe::VariableComplexe(VariableSimple *var1, VariableSimple *var2) : Variable((char *)NULL) { 
-
+VariableComplexe::VariableComplexe(VariableSimple *var1, VariableSimple *var2)
+ : Variable((char *)NULL)
+{
   liste = (NomListe *)NULL;
   liste2 = new VariableSimpleListe();
   addNomComposant(var1); 
   addNomComposant(var2); 
 }
 
-void
-VariableComplexe::addNomComposant(VariableSimple *var) {
+void VariableComplexe::addNomComposant(VariableSimple *var)
+{
   liste2->addVariable(var);
 }
 
-
-Nom 
-*VariableComplexe::getPremierVariable(void) {
+Nom *VariableComplexe::getPremierVariable()
+{
   VariableSimple *var;
 
   // on commence par creer la liste des noms a partir des variables
@@ -1214,7 +1145,7 @@ Nom
   liste = new NomListe();
   var = liste2->getPremier();
   
-  while(var) {
+  while (var) {
     liste->addNom(var->getRealNom());
     var = var->getSuivant();
   }
@@ -1223,20 +1154,18 @@ Nom
   return liste->getPremier();
 }
 
-
-Nom 
-*VariableComplexe::getDernierVariable(void) {
-  if(!liste)
+Nom *VariableComplexe::getDernierVariable()
+{
+  if (!liste)
     return NULL;
   
   return liste->getDernier();
 }
 
 //********************* VariableComplexe - methode evaluate *****************
-float 
-VariableComplexe::evaluate(void){
+float VariableComplexe::evaluate()
+{
   // 1- recherche montante de la racine de la VariableComplex (notation pointee)
-
   Nom *nomRacine = liste->getPremier();
   Pointeur *pointeurBottom = pileDesPointeurs->getBottom();
   Pointeur *pointeur = pileDesPointeurs->getTop();
@@ -1253,7 +1182,7 @@ VariableComplexe::evaluate(void){
     
   } while (pointeur != pointeurBottom);
   
-  if (entree == (Entree *)NULL){
+  if (entree == (Entree *)NULL) {
     cout << "erreur : la variable " << nomRacine->getNom() << " n'est pas declaree !\n";
     exit(1);
   }
@@ -1265,83 +1194,65 @@ VariableComplexe::evaluate(void){
 
   Nom *nomSuivant = nomRacine;
   
-  while((nomSuivant = nomSuivant->getSuivant()) != NULL) {
+  while ((nomSuivant = nomSuivant->getSuivant()) != NULL) {
     
-    if((table = entree->getTable()) == (Table *)NULL) {
+    if ((table = entree->getTable()) == (Table *)NULL) {
       cout << "erreur : " << nomRacine->getNom() << "..." << nomSuivant->getNom() << " n'existe pas\n";
       exit(0);
     }
     
-    if((entree = table->getByNameEntree(nomSuivant->getNom())) == (Entree *)NULL) {
+    if ((entree = table->getByNameEntree(nomSuivant->getNom())) == (Entree *)NULL) {
       cout << "erreur : la variable " << nomRacine->getNom() << " n'est pas declaree !\n";
       exit(1);
     }
   } 
 
   return entree->toFloat();
-  
 }
 
-//****************************** ExpressionLogiqueListe *********************
-void
-ExpressionLogiqueListe::addExpressionLogique(ExpressionLogique *expression){
-  if (premier == (ExpressionLogique *)NULL)
-    premier = dernier = expression;
+//****************************** ExprLogiqueListe *********************
+void ExprLogiqueListe::addExprLogique(ExprLogique *expr)
+{
+  if (premier == (ExprLogique *)NULL)
+    premier = dernier = expr;
   else {
-    dernier->suivant = expression;
+    dernier->suivant = expr;
     dernier = dernier->suivant;
   }
-  dernier->suivant = (ExpressionLogique *)NULL;
+  dernier->suivant = (ExprLogique *)NULL;
 }
 
-ExpressionLogique
-*ExpressionLogiqueListe::getElementRecursivement(ExpressionLogique *expression, int i){
-  if(expression == (ExpressionLogique *)NULL)
-    return (ExpressionLogique *)NULL;
+ExprLogique *ExprLogiqueListe::getElemRecursivement(ExprLogique *expr, int i)
+{
+  if (expr == (ExprLogique *)NULL)
+    return (ExprLogique *)NULL;
 
-  return getElementRecursivement(expression->suivant, i-1);
+  return getElemRecursivement(expr->suivant, i-1);
 }
 
-//***************************** VariableComplexe ****************************
-// VariableSimple
-// *VariableComplexe::getVariable(int i){
-//   return liste->getElement(i);
-// }
-
-// VariableSimple
-// *VariableComplexe::getPremierVariable(void){
-//   return liste->getPremier();
-// }
-
-// VariableSimple
-// *VariableComplexe::getDernierVariable(void){
-//   return liste->getDernier();
-// }
 
 //***************************** Operations **********************************
 //---------------------------- valeur absolue -------------------------------
-float
-Absolu::evaluate(void){
+float Absolu::evaluate()
+{
   float valeur = operande->evaluate();
   return (valeur > 0 ? valeur : -valeur);
 }
 
-//***************************** FIN 2 ****************************************
-
 
 // ************************* les methodes triviales *************************
 // --------------------------- PointeurPile --------------------------------
-PointeurPile::PointeurPile(void){
-  
+PointeurPile::PointeurPile()
+{
   top = bottom = (Pointeur *)NULL;
   taille = 0;
 }
 
-void
-PointeurPile::addPointeur(Pointeur *pointeur){
+void PointeurPile::addPointeur(Pointeur *pointeur)
+{
   taille++;
 
-  if(top == (Pointeur *)NULL){
+  if (top == (Pointeur *)NULL) {
     top = bottom = pointeur;
     pointeur->pointeurSuivant = (Pointeur *)NULL;
     return;
@@ -1351,11 +1262,11 @@ PointeurPile::addPointeur(Pointeur *pointeur){
   top = pointeur;  
 }
 
-Table
-*PointeurPile::takeTopPointeur(void){
-  if(taille <= 0){
-    cout << "*** erreur : pile vide\n" ;
-    exit(1) ;
+Table *PointeurPile::takeTopPointeur()
+{
+  if (taille <= 0) {
+    cout << "*** erreur : pile vide\n";
+    exit(1);
   }
     
   taille--;
@@ -1367,33 +1278,38 @@ Table
 }
 
 Table
-*PointeurPile::getTopPointeur(void){
+*PointeurPile::getTopPointeur()
+{
   return top->getValeur();
 }
 
 // ------------------------------ Pointeur ---------------------------------
-Pointeur::Pointeur(Table *table){
-  
+Pointeur::Pointeur(Table *table)
+{
   valeur = table;
 }
 
 void
-Pointeur::setValeur(Table *table){
+Pointeur::setValeur(Table *table)
+{
   valeur = table;
 }
 
 Table 
-*Pointeur::getValeur(void){
+*Pointeur::getValeur()
+{
   return valeur;
 }
 
 Pointeur 
-*Pointeur::getSuivant(void){
+*Pointeur::getSuivant()
+{
   return pointeurSuivant;
 }
 
 void
-Pointeur::setSuivant(Pointeur *pointeur){
+Pointeur::setSuivant(Pointeur *pointeur)
+{
   pointeurSuivant = pointeur;
 }
 
@@ -1425,7 +1341,7 @@ Entree *Table::getEntreeRecursivement(Entree *entree, int i)
   if (entree == (Entree *)NULL)
     return (Entree *)NULL;
 
-  if(i == 0)
+  if (i == 0)
     return entree;
 
   return getEntreeRecursivement(entree->suivant, i-1);
@@ -1443,7 +1359,7 @@ char *Table::getEntreeNom(int i)
 char *Table::getEntreeValeur(int i)
 {
   Entree *entree = getEntree(i);
-  if(!entree)
+  if (!entree)
     return NULL;
   
   return entree->toString();
@@ -1451,20 +1367,20 @@ char *Table::getEntreeValeur(int i)
 
 void Table::addEntree(Entree *entree)
 {
- if (premier == (Entree *)NULL)
+  if (premier == (Entree *)NULL)
     premier = dernier = entree;
   else {
     dernier->suivant = entree;
     dernier = dernier->suivant;
   }
- dernier->suivant = (Entree *)NULL;
+  dernier->suivant = (Entree *)NULL;
 }
 
 void Table::removeDernierEntree()
 {
   Entree *entree = premier;
   
-  if (premier == (Entree *)NULL){
+  if (premier == (Entree *)NULL) {
     cout << "erreur dans Table::removeDernierEntree() -> table vide\n";
     exit(1);
   }
@@ -1493,10 +1409,10 @@ int Table::isFeuille()
     return 0;
   }
 
-  do
+  do {
     if (entree->table != 0)
       return 0;
-  while ((entree = entree->suivant)!= NULL);
+  } while ((entree = entree->suivant)!= NULL);
     
   return 1;
 }
@@ -1508,10 +1424,10 @@ Entree *Table::getByNameEntree(char *nom)
   if (entree == (Entree *)NULL)
     return (Entree *)NULL;
 
-  do
+  do {
     if (!strcmp(entree->nom, nom))
       return entree;
-  while ((entree = entree->suivant)!= NULL);
+  } while ((entree = entree->suivant)!= NULL);
     
   return (Entree *)NULL;
 }
@@ -1540,7 +1456,7 @@ Table *Table::dupliquer()
     entreeDupliquee = entree->dupliquer();
     entreeDupliquee->setNom(entree->getNom());
     table->addEntree(entreeDupliquee);
-  } while((entree = entree->suivant) != (Entree *)NULL);
+  } while ((entree = entree->suivant) != (Entree *)NULL);
 
   return table;
 }
@@ -1579,7 +1495,7 @@ Entree *EntreeString::dupliquer(char *_nom)
 
 // --------------------------------------------------------------------------
 EntreeFloat::EntreeFloat(char *monNom) : Entree(monNom), valeur(0) {}
-EntreeFloat::EntreeFloat(float x) : valeur(x){} 
+EntreeFloat::EntreeFloat(float x) : valeur(x) {} 
 EntreeFloat::EntreeFloat(char *monNom, float x) : Entree(monNom), valeur(x) {}
 
 char *EntreeFloat::toString()
@@ -1614,7 +1530,7 @@ EntreeNouvelObjet::EntreeNouvelObjet(char *monNom) :Entree() {nom = monNom;}
 
 void EntreeNouvelObjet::setTable(Table *maTable)
 {
-  table = maTable ;
+  table = maTable;
 }
 
 Entree *EntreeNouvelObjet::dupliquer()
@@ -1637,105 +1553,103 @@ Entree *EntreeNouvelObjet::dupliquer(char *_nom)
 
 void Fichier::createTable()
 {
-  cout << "-> createTable de Fichier\n" ;
+  cout << "-> createTable de Fichier\n";
   if (!monPrg) {
     cout << "le programme ne contient pas de main() !";
     exit(0);
   }
 
-  monPrg->createTable() ;
-  cout << "<- createTable de Fichier\n" ;
+  monPrg->createTable();
+  cout << "<- createTable de Fichier\n";
 }
 
 void PointDEntree::createTable()
 {
-  cout << "-> createTable de PointDEntree\n" ;
+  cout << "-> createTable de PointDEntree\n";
   pileDesPointeurs = new PointeurPile();
   pileDesPointeurs->addPointeur(new Pointeur(tablePrincipal));
 
-  Instruction *monInstruction = getPremierInstruction() ;
+  Instruction *monInstruction = getPremierInstruction();
   while (monInstruction != NULL) {
-    monInstruction->updateTable() ;
-    monInstruction = monInstruction->getSuivant() ;
+    monInstruction->updateTable();
+    monInstruction = monInstruction->getSuivant();
   }
 }
 
 void InstructionListe::updateTable()
 {
-  Instruction *monInstruction = premier ;
+  Instruction *monInstruction = premier;
+
   while (monInstruction != NULL) {
-    monInstruction->updateTable() ;
-    monInstruction = monInstruction->getSuivant() ;
+    monInstruction->updateTable();
+    monInstruction = monInstruction->getSuivant();
   }
 }
 
 void DeclarationSimple::updateTable()
 {
-  Table *tableCourante = pileDesPointeurs->getTopPointeur() ;	
+  Table *tableCourante = pileDesPointeurs->getTopPointeur();	
   
   if (monNomDeTableau == NULL) { // Si c'est une liste de noms
     
-    Nom *monNom = maNomListe->getPremier() ;
+    Nom *monNom = maNomListe->getPremier();
     while (monNom != NULL) {
-      EntreeFloat *monEntree = new EntreeFloat(monNom->getNom()) ;
-      tableCourante->addEntree(monEntree) ;
-      monNom = monNom->getSuivant() ;
+      EntreeFloat *monEntree = new EntreeFloat(monNom->getNom());
+      tableCourante->addEntree(monEntree);
+      monNom = monNom->getSuivant();
     }
   }
   else { // Si c'est un nom de tableau
 
-    char *monNom = strdup(monNomDeTableau->getNom()) ;
-    int taille = monNomDeTableau->getTaille() ;
+    char *monNom = strdup(monNomDeTableau->getNom());
+    int taille = monNomDeTableau->getTaille();
     int n;
 
     if (taille < 0 ) {
       n =  monNomDeTableau->getIndex();
     } else n = taille;
 
-
-    for (int i = 0 ; i < n ; i++) {
-      char *monVraiNom = strdup(createName(monNom, i)) ; // createName("tab", 3) renvoie "tab[3]"
-      EntreeFloat *monEntree = new EntreeFloat(monVraiNom) ;
-      tableCourante->addEntree(monEntree) ;
+    for (int i = 0; i < n; i++) {
+      char *monVraiNom = strdup(createName(monNom, i)); // createName("tab", 3) renvoie "tab[3]"
+      EntreeFloat *monEntree = new EntreeFloat(monVraiNom);
+      tableCourante->addEntree(monEntree);
     }
   }
 }
 
 void DeclarationComplexeChaine::updateTable()
 {
-  EntreeString *monEntreeString = new EntreeString(maChaine) ;
-  maVariable->creer(monEntreeString) ;
+  EntreeString *monEntreeString = new EntreeString(maChaine);
+  maVariable->creer(monEntreeString);
 }
 
-void DeclarationComplexeExpression::updateTable()
+void DeclarationComplexeExpr::updateTable()
 {
-  EntreeFloat *monEntreeFloat = new EntreeFloat(monExpression->evaluate()) ;
-  maVariable->creer(monEntreeFloat) ;
+  EntreeFloat *monEntreeFloat = new EntreeFloat(monExpr->evaluate());
+  maVariable->creer(monEntreeFloat);
 }
 
 void DeclarationComplexeNouvelObjet::updateTable()
 {
-  ////
 }
 
-void AssignationChaine::updateTable()
+void AssignChaine::updateTable()
 {
-  EntreeString *monEntreeString = new EntreeString(maChaine) ;
-  maVariable->substituer(monEntreeString) ;
+  EntreeString *monEntreeString = new EntreeString(maChaine);
+  maVariable->substituer(monEntreeString);
 }
 
-void AssignationExpression::updateTable()
+void AssignExpr::updateTable()
 {
-  EntreeFloat *monEntreeFloat = new EntreeFloat(monExpression->evaluate()) ;
-  maVariable->substituer(monEntreeFloat) ;
+  EntreeFloat *monEntreeFloat = new EntreeFloat(monExpr->evaluate());
+  maVariable->substituer(monEntreeFloat);
 }
 
-void AssignationVariable::updateTable()
+void AssignVariable::updateTable()
 {
-  // 1- rechercher la variable variablAAssigner et recuperer une duplication de l'Element
-
+  // 1- rechercher la variable variablAAssigner et recuperer une duplication de l'Elem
   Pointeur *pointeur = pileDesPointeurs->getTop();
-  Entree *entree ;
+  Entree *entree;
   Table *table;
   
   do {
@@ -1748,224 +1662,162 @@ void AssignationVariable::updateTable()
     
   } while (pointeur != NULL);
 
-  if(!entree) {
+  if (!entree) {
     cout << "la variable " << variableAAssigner->getRealNom() << " n'a pas ete trouvee.\n";
     exit(1);
   }
 
-  // 2- et recuperer une duplication de l'Element
+  // 2- et recuperer une duplication de l'Elem
   Entree *entreeNouvelle = entree->dupliquer(maVariable->getNom());
 
-  // 2- substituer dans la table courante
+  // 3- substituer dans la table courante
   maVariable->substituer(entreeNouvelle);
 }
 
-void AssignationNouvelObjet::updateTable()
+void AssignNouvelObjet::updateTable()
 {
-  char *monObjetNom = monObjet->getNom() ;
-  Structure *structure = fvrl->getStructure(monObjetNom) ;
-  if(structure == NULL){
+  char *monObjetNom = monObjet->getNom();
+  Structure *structure = fvrl->getStructure(monObjetNom);
+  if (structure == NULL) {
     cout << " erreur : " << monObjetNom << " non declaree\n";
     exit(0);
   }
-  Constructeur *constructeur = structure->getConstructeur() ;
+  Constructeur *constructeur = structure->getConstructeur();
 
   AppelDeConstructeur *appel = constructeur->getAppelDeConstructeur();
 
   NomListe *arguments = constructeur->getNomListe();
-  ExpressionListe *parametres = monObjet->getExpressionListe();
+  ExprListe *parametres = monObjet->getExprListe();
   
   if (arguments->getTaille() != (parametres->getTaille())) {
-    cout << "le constructeur " << monObjetNom << "n'est pas appele avec le bon nombre d'arguments\n" ;
-    exit(1) ;
+    cout << "le constructeur " << monObjetNom <<"n'est pas appele avec le bon nombre d'arguments\n";
+    exit(1);
   }
   
-  AssignationListe *initialisations = new AssignationListe();
+  AssignListe *initialisations = new AssignListe();
    
   Nom *arg = arguments->getPremier();
-  Expression *param = parametres->getPremier();
+  Expr *param = parametres->getPremier();
 
   // creation d'une table provisoire ou seront stockes le resultat de l'appel au constructeur
   char * nomDeTable = (char *)malloc(100 * sizeof(char));
   strcat(nomDeTable, "Constructeur ");
   strcat(nomDeTable, monObjetNom);
 
-   Table *tableTmp = new Table(nomDeTable);
-   Table *tableFinale = new Table(monObjetNom);
+  Table *tableTmp = new Table(nomDeTable);
+  Table *tableFinale = new Table(monObjetNom);
 
-   // on pointe dessus pour realiser des operations
-   pileDesPointeurs->addPointeur(new Pointeur(tableTmp));
+  // on pointe dessus pour realiser des operations
+  pileDesPointeurs->addPointeur(new Pointeur(tableTmp));
 
-   // on y declare les attributs de la structure
-   Declaration *attribut = structure->getPremierDeclaration();
-   while(attribut) {
-     attribut->updateTable() ;
-     attribut = attribut->getSuivant() ;
+  // on y declare les attributs de la structure
+  Declaration *attribut = structure->getPremierDeclaration();
+  while (attribut) {
+    attribut->updateTable();
+    attribut = attribut->getSuivant();
+  }
+
+  // creation d'une assignation entre arguments et parametres
+  while (arg) {	// traite aussi le cas ou il n'y a pas d'argument
+    initialisations->addAssign(param->creerAssign(arg)); 
+    arg = arg->getSuivant();
+    param = param->getSuivant();
+  }
+
+  // on y declare les arguments du constructeur,
+  // puis on realise les assignations de la liste cree precedemment
+  DeclarationSimple *declarerArgs = new DeclarationSimple(arguments); 
+  declarerArgs->updateTable();
+
+  Assign *initialisation = initialisations->getPremier();
+  while (initialisation) {
+    initialisation->updateTable();
+    initialisation = initialisation->getSuivant();
+  }
+
+  ///////  SI HERITAGE ////////
+  // la methode update de AppelDeConstructeur realise les instructions dans la table
+  // actuelle et change le nom de cette table actuelle. Elle prend le nom 
+  // de la structure heritee
+
+  if (appel) {
+    // verification de l'implementation de l'heritage
+    // recherche de la structure heritee
+    Nom *nomTmp =  structure->getPremierNom();
+    if (!nomTmp) {
+      cout << "appel de constructeur dans " << monObjetNom << " sans heritage !\n";
+      exit(1);
+    }
+    if (strcmp(nomTmp->getNom(), appel->getNom())) {
+      cout << monObjetNom << " : incoherence entre appel de constructeur et heritage\n";
+      exit(1);
     }
 
-   // creation d'une assignation entre arguments et parametres
-   while(arg) {	// traite aussi le cas ou il n'y a pas d'argument
-     initialisations->addAssignation(param->creerAssignation(arg)); 
-     arg = arg->getSuivant();
-     param = param->getSuivant();
-   }
+    // realisation de l'appel au constructeur
+    appel->updateTable();
+    tableFinale->setNom(pileDesPointeurs->getTopPointeur()->getNom());
+  } 
 
-   // on y declare les arguments du constructeur, puis on realise les assignations de la liste cree precedemment
-   DeclarationSimple *declarerArgs = new DeclarationSimple(arguments); 
-   declarerArgs->updateTable() ;
+  // on realise les instructions du constructeur
+  Instruction *instruction = constructeur->getPremierInstruction();
 
-   Assignation *initialisation = initialisations->getPremier();
-   while(initialisation) {
-     initialisation->updateTable();
-     initialisation = initialisation->getSuivant();
-   }
-
-   ///////  SI HERITAGE ////////
-   // la methode update de AppelDeConstructeur realise les instructions dans la table
-   // actuelle et change le nom de cette table actuelle. Elle prend le nom 
-   // de la structure heritee
-
-   if (appel) {
-     // verification de l'implementation de l'heritage
-     // recherche de la structure heritee
-     Nom *nomTmp =  structure->getPremierNom();
-     if (!nomTmp) {
-       cout << "appel de constructeur dans " << monObjetNom << " sans heritage !\n";
-       exit(1);
-     }
-     if(strcmp(nomTmp->getNom(), appel->getNom())) {
-       cout << monObjetNom << " : incoherence entre appel de constructeur et heritage\n";
-       exit(1);
-     }
-
-     // realisation de l'appel au constructeur
-     appel->updateTable();
-     tableFinale->setNom(pileDesPointeurs->getTopPointeur()->getNom());
-   } 
-
-   // on realise les instructions du constructeur
-   Instruction *instruction = constructeur->getPremierInstruction() ;
-
-   while(instruction) {
-     instruction->updateTable() ;
-     instruction = instruction->getSuivant() ;
-   }
-   
-   // il faut maintenant creer la table correspondant a la structure a partir de la table temporaire
-   // on depile la table temporaire
-   tableTmp = pileDesPointeurs->takeTopPointeur();
-   
-   // on empile la table finale
-    
-   pileDesPointeurs->addPointeur(new Pointeur(tableFinale));
-
-   // on declare les attributs dans la table finale
-   attribut = structure->getPremierDeclaration();
-   while (attribut) {
-     attribut->updateTable() ;
-     attribut = attribut->getSuivant() ;
-   }
-
-   if(appel)
-     appel->declareAttribut();
-
-   // on cherche dans la tableTmp les entrees correspondantes, on les duplique puis on les ajoute
-   Entree *entreeFinale = tableFinale->getPremier();
-   Nom *nomVar = new Nom((char *)"");
-   Entree *entreeTmp;
-
-   while(entreeFinale) {
-     nomVar->setNom(entreeFinale->getNom()); 
-     entreeTmp = tableTmp->getByNameEntree(entreeFinale->getNom());
-     nomVar->substituer(entreeTmp->dupliquer());
-     entreeFinale = entreeFinale->getSuivant();
-   }
-
-   // on depile
-   tableFinale = pileDesPointeurs->takeTopPointeur();
-   
-   EntreeNouvelObjet *entreeNouvelle = new EntreeNouvelObjet();
-   entreeNouvelle->setTable(tableFinale);
-   
-   maVariable->substituer(entreeNouvelle);
-
-   return;
-}
-
-//////////////////////////////////////////////////
-//   char *monObjetNom = monObjet->getNom() ;
-//   Expression *monObjetExpression = monObjet->getPremierExpression() ;
-//   Structure *maStructure = fvrl->getStructure(monObjetNom) ;
-//   if(maStructure == NULL){
-//     cout << " erreur : " << monObjetNom << " non declare\n";
-//     exit(0);
-//   }
-
-
-//   Constructeur *monConstructeur = maStructure->getConstructeur() ;
-//   Nom *monArgumentFormel = monConstructeur->getPremierNom() ;
-//   AppelDeConstructeur *monAppel = monConstructeur->getAppelDeConstructeur() ;
-
-
-//   if (monConstructeur->getNomListe()->getTaille() != (monObjet->getExpressionListe())->getTaille()) {
-//     cout << "le constructeur " << monObjetNom << "n'est pas appele avec le bon nombre d'arguments\n" ;
-//     exit(1) ;
-//   }
-
-//   PointeurPile *monAnciennePile = pileDesPointeurs->dupliquer() ;
-//   EntreeNouvelObjet *monEntreeNouvelObjet = new EntreeNouvelObjet() ;
-//   pileDesPointeurs = maVariable->substituer(monEntreeNouvelObjet) ;
-
-//   Table *maTable = new Table(monObjetNom) ;
-//   monEntreeNouvelObjet->setTable(maTable) ;
-
-//   pileDesPointeurs->addPointeur(new Pointeur(maTable));
+  while (instruction) {
+    instruction->updateTable();
+    instruction = instruction->getSuivant();
+  }
   
-//   if (monAppel == NULL) {
-//     Declaration *maDeclaration = maStructure->getPremierDeclaration() ;
-//     while(maDeclaration) {
-//       maDeclaration->updateTable() ;
-//       maDeclaration = maDeclaration->getSuivant() ;
-//     }
-//     while(monArgumentFormel) {
-//       NomListe *nomListe = new NomListe();
-//       nomListe->addNom(monArgumentFormel->getNom());
-//       maDeclaration = new DeclarationSimple(nomListe) ;
-//       maDeclaration->updateTable() ;
+  // il faut maintenant creer la table correspondant a la structure a partir de la table temporaire
+  // on depile la table temporaire
+  tableTmp = pileDesPointeurs->takeTopPointeur();
+  
+  // on empile la table finale
+   
+  pileDesPointeurs->addPointeur(new Pointeur(tableFinale));
 
-//       Table *tableTmp = pileDesPointeurs->takeTopPointeur();/////
-//       Nombre *nombre = new Nombre(monObjetExpression->evaluate());//////
-//       pileDesPointeurs->addPointeur(new Pointeur(tableTmp));//////
+  // on declare les attributs dans la table finale
+  attribut = structure->getPremierDeclaration();
+  while (attribut) {
+    attribut->updateTable();
+    attribut = attribut->getSuivant();
+  }
 
-//       AssignationExpression *monAssignationExpression = new AssignationExpression(monArgumentFormel,nombre) ;
+  if (appel)
+    appel->declareAttribut();
 
-//       monAssignationExpression->updateTable() ;
+  // on cherche dans la tableTmp les entrees correspondantes, on les duplique puis on les ajoute
+  Entree *entreeFinale = tableFinale->getPremier();
+  Nom *nomVar = new Nom((char *)"");
+  Entree *entreeTmp;
 
+  while (entreeFinale) {
+    nomVar->setNom(entreeFinale->getNom()); 
+    entreeTmp = tableTmp->getByNameEntree(entreeFinale->getNom());
+    nomVar->substituer(entreeTmp->dupliquer());
+    entreeFinale = entreeFinale->getSuivant();
+  }
 
-//       monArgumentFormel = monArgumentFormel->getSuivant() ;
-//       monObjetExpression = monObjetExpression->getSuivant() ;
-//     }
-//     Instruction *monInstruction = monConstructeur->getPremierInstruction() ;
-//     while(monInstruction) {
-//       monInstruction->updateTable() ;
-//       monInstruction = monInstruction->getSuivant() ;
-//     }
-//  }
+  // on depile
+  tableFinale = pileDesPointeurs->takeTopPointeur();
+  
+  EntreeNouvelObjet *entreeNouvelle = new EntreeNouvelObjet();
+  entreeNouvelle->setTable(tableFinale);
+  
+  maVariable->substituer(entreeNouvelle);
 
-//   pileDesPointeurs = monAnciennePile ;
-//}
+  return;
+}
 
 void Retour::updateTable()
 {
  Table *tableCourante = pileDesPointeurs->getTopPointeur();
-  tableCourante->addEntree(new EntreeFloat((char *)"return", monExpression->evaluate()));
+  tableCourante->addEntree(new EntreeFloat((char *)"return", monExpr->evaluate()));
   
   pileDesPointeurs->takeTopPointeur();
 }
 
 void BoucleIf::updateTable()
 {
-  if (monExpressionLogique->evaluate()) {
+  if (monExprLogique->evaluate()) {
     if (getPremierInstructionSi() != NULL)
       maInstructionListeSi->updateTable();
   }
@@ -1978,29 +1830,29 @@ void BoucleIf::updateTable()
 void BoucleFor::updateTable()
 {
   Table *tableCourante = pileDesPointeurs->getTopPointeur();
-  EntreeNouvelObjet *monEntree = new EntreeNouvelObjet((char *)"for") ;
-  tableCourante->addEntree(monEntree) ;
+  EntreeNouvelObjet *monEntree = new EntreeNouvelObjet((char *)"for");
+  tableCourante->addEntree(monEntree);
 
-  monAssignationExpressionDebut->updateTable() ;
+  monAssignExprDebut->updateTable();
   
-  while (monExpressionLogiqueFin->evaluate()) {
-    Table *maTable = new Table((char *)"for") ;
-    monEntree->setTable(maTable) ;
-    pileDesPointeurs->addPointeur(new Pointeur(maTable)); // pile->addPointeur(maTable) ;	je suis passe par la..(VG)
-    monInstructionListe->updateTable() ;
+  while (monExprLogiqueFin->evaluate()) {
+    Table *maTable = new Table((char *)"for");
 
-    pileDesPointeurs->takeTopPointeur() ;
-    monAssignationExpressionIncrementation->updateTable() ;
+    monEntree->setTable(maTable);
+    pileDesPointeurs->addPointeur(new Pointeur(maTable)); // pile->addPointeur(maTable);
+    monInstructionListe->updateTable();
+    pileDesPointeurs->takeTopPointeur();
+    monAssignExprIncrement->updateTable();
   }
 
-  tableCourante->removeDernierEntree() ;
+  tableCourante->removeDernierEntree();
 }
 
 PointeurPile * Nom::substituer(Entree *monEntree)
 {
-  monEntree->setNom(nom) ;
-  Table *tableConcernee = this->emplacement() ;
-  tableConcernee->substituer(nom, monEntree) ;
+  monEntree->setNom(nom);
+  Table *tableConcernee = this->emplacement();
+  tableConcernee->substituer(nom, monEntree);
 
   return pileDesPointeurs;
 }
@@ -2014,36 +1866,35 @@ PointeurPile * NomDeTableau::substituer(Entree *monEntree)
     n = (int)index->evaluate();
   else n = taille;
   
-  monVraiNom = createName(nom, n) ;
+  monVraiNom = createName(nom, n);
 
-  monEntree->setNom(monVraiNom) ;
-  Table *tableConcernee = this->emplacement() ;
-  tableConcernee->substituer(monVraiNom, monEntree) ;
+  monEntree->setNom(monVraiNom);
+  Table *tableConcernee = this->emplacement();
+  tableConcernee->substituer(monVraiNom, monEntree);
 
   return pileDesPointeurs;
 }
 
 // PointeurPile *
 // VariableComplexe::substituer(Entree *monEntree) {
-//  Nom *monNom = this->getPremierVariable() ;
-//  Table *tableConcernee = monNom->emplacement() ;
-//  monNom = monNom->getSuivant() ;
-//  EntreeNouvelObjet *monEntreeNouvelObjet ;
-
+//  Nom *monNom = this->getPremierVariable();
+//  Table *tableConcernee = monNom->emplacement();
+//  monNom = monNom->getSuivant();
+//  EntreeNouvelObjet *monEntreeNouvelObjet;
 //  while (monNom->getSuivant()) {
-//    monEntreeNouvelObjet = (EntreeNouvelObjet *)tableConcernee->getByNameEntree(monNom->getNom()) ;
-//    tableConcernee = monEntreeNouvelObjet->getTable() ;
-//    monNom = monNom->getSuivant() ;
+//    monEntreeNouvelObjet = (EntreeNouvelObjet *)tableConcernee->getByNameEntree(monNom->getNom());
+//    tableConcernee = monEntreeNouvelObjet->getTable();
+//    monNom = monNom->getSuivant();
 //  }
-//  monEntree->setNom(monNom->getNom()) ;
-//  tableConcernee->substituer(monNom->getNom(), monEntree) ;
+//  monEntree->setNom(monNom->getNom());
+//  tableConcernee->substituer(monNom->getNom(), monEntree);
 // }
 
 void Nom::creer(Entree *monEntree)
 {
-  monEntree->setNom(nom) ;
+  monEntree->setNom(nom);
   Table *tableCourante = pileDesPointeurs->getTopPointeur();
-  tableCourante->addEntree(monEntree) ;
+  tableCourante->addEntree(monEntree);
 }
 
 void NomDeTableau::creer(Entree *monEntree)
@@ -2055,41 +1906,40 @@ void NomDeTableau::creer(Entree *monEntree)
     n = (int)index->evaluate();
   else n = taille;
 
-  monVraiNom = createName(nom, n) ;
-  monEntree->setNom(monVraiNom) ;
+  monVraiNom = createName(nom, n);
+  monEntree->setNom(monVraiNom);
   Table *tableCourante = pileDesPointeurs->getTopPointeur();
-  tableCourante->addEntree(monEntree) ;
+  tableCourante->addEntree(monEntree);
 }
 
 void Table::substituer(char *monNom, Entree *monEntree)
 {
-  Entree *entreeCourante = premier ;
-  char *nomCourant = entreeCourante->getNom() ;
+  Entree *entreeCourante = premier;
+  char *nomCourant = entreeCourante->getNom();
 
   // 1- si c'est le premier...
-
   if (!strcmp(monNom, nomCourant)) {
-    monEntree->setSuivant(entreeCourante->getSuivant()) ;
-    premier = monEntree ;
+    monEntree->setSuivant(entreeCourante->getSuivant());
+    premier = monEntree;
   }
 
   // 2- sinon
   else {
-    Entree *entreeSuivante = entreeCourante->getSuivant() ;
+    Entree *entreeSuivante = entreeCourante->getSuivant();
     while (entreeSuivante) {
       if (!strcmp(monNom, entreeSuivante->getNom())) {
-	entreeCourante->setSuivant(monEntree) ;
-	monEntree->setSuivant(entreeSuivante->getSuivant()) ;
+	entreeCourante->setSuivant(monEntree);
+	monEntree->setSuivant(entreeSuivante->getSuivant());
 	
-	if(entreeSuivante == dernier)
+	if (entreeSuivante == dernier)
 	  dernier = monEntree;
       }
-      entreeCourante = entreeSuivante ;
-      entreeSuivante = entreeCourante->getSuivant() ;
+      entreeCourante = entreeSuivante;
+      entreeSuivante = entreeCourante->getSuivant();
     }
   }
 
-  if(monEntree->suivant == NULL) 
+  if (monEntree->suivant == NULL) 
     dernier = monEntree;
 }
 
@@ -2102,44 +1952,44 @@ Table * Nom::emplacement()
     table = pointeur->getValeur();
     entree = table->getByNameEntree(nom);
     if (entree != (Entree *)NULL)
-      return table ;
+      return table;
     pointeur = pointeur->getSuivant();
   }
 
-  erreur(nom) ;
+  erreur(nom);
   return NULL;
 }
 
 PointeurPile * PointeurPile::inverser()
 {
-  PointeurPile *maPointeurPile = new PointeurPile() ;
+  PointeurPile *maPointeurPile = new PointeurPile();
   Pointeur *monPointeur = top;
 
   while (monPointeur) {
-    maPointeurPile->addPointeur(monPointeur->dupliquer()) ;
-    monPointeur = monPointeur->getSuivant() ;
+    maPointeurPile->addPointeur(monPointeur->dupliquer());
+    monPointeur = monPointeur->getSuivant();
   }
-  return maPointeurPile ;
+  return maPointeurPile;
 }
 
 PointeurPile * PointeurPile::dupliquer()
 {
   PointeurPile *interm = pileDesPointeurs->inverser();
-  return interm->inverser() ;
+  return interm->inverser();
 }
 
 Table * NomDeTableau::emplacement()
 {
- char *monVraiNom;
+  char *monVraiNom;
   int n;
 
   if (taille < 0)
     n = (int)index->evaluate();
   else n = taille;
 
-  monVraiNom = createName(nom, n) ;
-  Nom *monNom = new Nom(monVraiNom) ;
-  return monNom->emplacement() ;
+  monVraiNom = createName(nom, n);
+  Nom *monNom = new Nom(monVraiNom);
+  return monNom->emplacement();
 }
 
 PointeurPile * VariableComplexe::substituer(Entree *monEntree)
@@ -2151,7 +2001,7 @@ PointeurPile * VariableComplexe::substituer(Entree *monEntree)
   Table *tableConcernee = pileDesPointeurs->getTopPointeur();
 
   // je retire le premier composant de la variable complexe (salle.mur1.x -> salle)
-  Nom *nom = this->getPremierVariable() ;
+  Nom *nom = this->getPremierVariable();
 
   // je reitere sur le nomComposant suivant, tant qu'on n'est pas a la variable terminale
   do {
@@ -2162,7 +2012,7 @@ PointeurPile * VariableComplexe::substituer(Entree *monEntree)
     EntreeNouvelObjet *entreeTmp = (EntreeNouvelObjet *)tableConcernee->getByNameEntree(nom->getNom());
     // si elle n'existe pas , je vais voir dans la table precedente
     // (on est peut etre dans une boucle for)
-    if(!entreeTmp) {
+    if (!entreeTmp) {
       Table *tableInterm = ((pileDesPointeurs->getTop())->getSuivant())->getValeur();
       entreeTmp = (EntreeNouvelObjet *)tableInterm->getByNameEntree(nom->getNom());
     }
@@ -2172,42 +2022,23 @@ PointeurPile * VariableComplexe::substituer(Entree *monEntree)
       exit(1);
     }
     // on descend
-    tableConcernee = entreeTmp->getTable() ;
-    pileDesPointeurs->addPointeur(new Pointeur(tableConcernee)) ;
+    tableConcernee = entreeTmp->getTable();
+    pileDesPointeurs->addPointeur(new Pointeur(tableConcernee));
     
   } while ((nom = nom->getSuivant()) != NULL);
   
-  monEntree->setNom(nom->getNom()) ;
-  tableConcernee->substituer(nom->getNom(), monEntree) ;
+  monEntree->setNom(nom->getNom());
+  tableConcernee->substituer(nom->getNom(), monEntree);
 
   // restauration de la pile originale
   pileDesPointeurs = pileSauv;
 
-  return pileSauv ;
+  return pileSauv;
 }
  
- //  PointeurPile *maPointeurPile ;
- //  maPointeurPile = monNom->emplacementPile() ;
- //  Table *tableConcernee = monNom->emplacement() ;
- //monNom = monNom->getSuivant() ;
-//  EntreeNouvelObjet *monEntreeNouvelObjet ;
-
-//  do{
-//    if (monNom->getSuivant() == NULL) 
-//       break;
-//    monEntreeNouvelObjet = (EntreeNouvelObjet *)tableConcernee->getByNameEntree(monNom->getNom()) ;
-//    tableConcernee = monEntreeNouvelObjet->getTable() ;
-//    maPointeurPile->addPointeur(new Pointeur(tableConcernee)) ;
-//  } while ((monNom = monNom->getSuivant()) != NULL);
-//  monEntree->setNom(monNom->getNom()) ;
-//  tableConcernee->substituer(monNom->getNom(), monEntree) ;
-//  return maPointeurPile ;
- //}
-
-
 PointeurPile * Nom::emplacementPile()
 {
-  PointeurPile *maPointeurPile = pileDesPointeurs->dupliquer() ;
+  PointeurPile *maPointeurPile = pileDesPointeurs->dupliquer();
   Pointeur *pointeur = pileDesPointeurs->getTop();
   Table *table;
   Entree *entree = (Entree *)NULL;
@@ -2215,13 +2046,13 @@ PointeurPile * Nom::emplacementPile()
     table = pointeur->getValeur();
     entree = table->getByNameEntree(nom);
     if (entree != (Entree *)NULL)
-      return maPointeurPile ;
-    pointeur = pointeur->getSuivant() ;
-    maPointeurPile->takeTopPointeur() ;
+      return maPointeurPile;
+    pointeur = pointeur->getSuivant();
+    maPointeurPile->takeTopPointeur();
   }
 
-  erreur(nom) ;
-  return NULL ;
+  erreur(nom);
+  return NULL;
 }
 
 
@@ -2239,7 +2070,7 @@ char *createName(char *monNom, int taille)
   strcat(nom, "]");
   
   //cout << "createName!!!!! ->  " << nom << "\n";
-  return nom ;
+  return nom;
 }
 
 int longueur (int taille)
@@ -2247,15 +2078,15 @@ int longueur (int taille)
   int x;
   cout << "longueur!!!! <-  " << taille << "\n";
   if ((x = taille/10))
-    return 1+longueur(x) ;
+    return 1+longueur(x);
   else
-    return 1 ;
+    return 1;
 }
 
 void erreur(char* nom)
 {
-  cout << "la variable " << nom << " n'existe pas !!!\n" ;
-  exit(1) ;
+  cout << "la variable " << nom << " n'existe pas !!!\n";
+  exit(1);
 }
 
 
@@ -2263,15 +2094,15 @@ void erreur(char* nom)
 void Table::parcoursFinal()
 {
   if (this->isFeuille()) {
-    TokenListe *listeDesTokens = new TokenListe() ;
-    Token *tokenResultat = listeDesTokens->readTable(this->nom) ;
+    TokenListe *listeDesTokens = new TokenListe();
+    Token *tokenResultat = listeDesTokens->readTable(this->nom);
     if (tokenResultat)
-      tokenResultat->write2CFG(this) ;
-    return ;
+      tokenResultat->write2CFG(this);
+    return;
   }
 
-  Table *tableSuivante ;
-  Entree *entree = this->premier ;
+  Table *tableSuivante;
+  Entree *entree = this->premier;
   
   while (entree != NULL) {
     if ((tableSuivante = entree->getTable()) != NULL)
@@ -2281,4 +2112,3 @@ void Table::parcoursFinal()
   return;
 }
 
-//***************************** FIN 3****************************************

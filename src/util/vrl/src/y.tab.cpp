@@ -229,17 +229,17 @@ typedef union YYSTYPE
 	DeclarationSimple              *declarationsimple ;
 	DeclarationComplexe            *declarationcomplexe ;
 	DeclarationComplexeChaine      *declarationcomplexechaine ;
-	DeclarationComplexeExpression  *declarationcomplexeexpression ;
+	DeclarationComplexeExpr        *declarationcomplexeexpr ;
 	DeclarationComplexeNouvelObjet *declarationcomplexenouvelobjet ;
-	Assignation                    *assignation ;
-	AssignationChaine	       *assignationchaine ;
-	AssignationExpression	       *assignationexpression ;
-	AssignationVariable	       *assignationvariable ;
-	AssignationNouvelObjet         *assignationnouvelobjet ;
+	Assign                         *assign ;
+	AssignChaine	               *assignchaine ;
+	AssignExpr	               *assignexpr ;
+	AssignVariable	               *assignvariable ;
+	AssignNouvelObjet              *assignnouvelobjet ;
 	NouvelObjet                    *nouvelobjet ;
-	ExpressionListe                *expressionliste ;
-	Expression                     *expression ;
-	ExpressionCalculable	       *calculableexpression ;
+	ExprListe                      *exprliste ;
+	Expr                           *expr ;
+	ExprCalculable	               *calculableexpr ;
 	Nombre                         *nombre ;
 	AppelDeFonction                *appeldefonction ;
 	Variable                       *variable ;
@@ -258,8 +258,8 @@ typedef union YYSTYPE
 	OperationUnaire                *operationunaire ;
 	Negation                       *negation ;
 	Absolu                         *absolu ;
-	ExpressionLogiqueListe         *expressionlogiqueliste ;
-	ExpressionLogique              *expressionlogique ;
+	ExprLogiqueListe               *exprlogiqueliste ;
+	ExprLogique                    *exprlogique ;
 	Comparaison                    *comparaison ;
 	Superieur                      *superieur ;
 	Inferieur                      *inferieur ;
@@ -617,16 +617,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   191,   191,   194,   197,   200,   204,   207,   211,   214,
-     217,   220,   223,   226,   229,   232,   235,   238,   241,   245,
-     249,   252,   256,   259,   262,   267,   270,   274,   277,   280,
-     284,   287,   291,   294,   298,   301,   304,   307,   311,   314,
-     317,   321,   324,   328,   331,   338,   342,   346,   351,   355,
-     358,   362,   366,   370,   374,   377,   382,   385,   389,   392,
-     395,   398,   401,   404,   408,   411,   414,   417,   421,   424,
-     430,   433,   436,   439,   445,   450,   453,   457,   460,   464,
-     467,   471,   474,   477,   480,   484,   487,   490,   493,   496,
-     499,   503,   507,   510,   514,   516,   520
+       0,   191,   191,   193,   195,   197,   200,   202,   205,   207,
+     209,   211,   214,   216,   218,   220,   223,   225,   227,   230,
+     233,   235,   238,   240,   242,   245,   247,   250,   252,   254,
+     257,   259,   262,   264,   267,   269,   271,   273,   276,   278,
+     280,   283,   285,   288,   290,   297,   300,   303,   306,   309,
+     311,   314,   317,   320,   323,   325,   328,   330,   333,   335,
+     337,   339,   341,   343,   346,   348,   350,   352,   355,   357,
+     360,   362,   365,   367,   372,   375,   377,   380,   382,   385,
+     387,   390,   392,   394,   396,   399,   401,   403,   405,   407,
+     409,   412,   415,   417,   420,   422,   426
 };
 #endif
 
@@ -1707,472 +1707,472 @@ yyreduce:
     break;
 
   case 3:
-#line 195 "vrl.y"
+#line 194 "vrl.y"
     { (yyvsp[(1) - (2)].fichier)->addStructure((yyvsp[(2) - (2)].structure)) ; }
     break;
 
   case 4:
-#line 198 "vrl.y"
+#line 196 "vrl.y"
     { (yyvsp[(1) - (2)].fichier)->addFonction((yyvsp[(2) - (2)].fonction)) ; }
     break;
 
   case 5:
-#line 201 "vrl.y"
+#line 198 "vrl.y"
     { (yyvsp[(1) - (2)].fichier)->addPointDEntree((yyvsp[(2) - (2)].pointdentree)) ; }
     break;
 
   case 6:
-#line 205 "vrl.y"
+#line 201 "vrl.y"
     { (yyval.structure) = (yyvsp[(4) - (5)].structure) ; (yyval.structure)->setNom((yyvsp[(2) - (5)].chaine)) ; }
     break;
 
   case 7:
-#line 208 "vrl.y"
+#line 203 "vrl.y"
     { (yyval.structure) = (yyvsp[(6) - (7)].structureheritee) ; (yyval.structure)->setNom((yyvsp[(2) - (7)].chaine)) ; (yyval.structure)->setNomListe((yyvsp[(4) - (7)].nomliste)) ; }
     break;
 
   case 8:
-#line 212 "vrl.y"
+#line 206 "vrl.y"
     { (yyval.structure) = new Structure() ; }
     break;
 
   case 9:
-#line 215 "vrl.y"
+#line 208 "vrl.y"
     { (yyvsp[(1) - (2)].structure)->addDeclaration((yyvsp[(2) - (2)].declarationsimple)) ; }
     break;
 
   case 10:
-#line 218 "vrl.y"
+#line 210 "vrl.y"
     { (yyvsp[(1) - (2)].structure)->addFonction((yyvsp[(2) - (2)].fonction)) ; }
     break;
 
   case 11:
-#line 221 "vrl.y"
+#line 212 "vrl.y"
     { (yyvsp[(1) - (2)].structure)->addConstructeur((yyvsp[(2) - (2)].constructeur)) ; }
     break;
 
   case 12:
-#line 224 "vrl.y"
+#line 215 "vrl.y"
     { (yyval.structureheritee) = new StructureHeritee() ; }
     break;
 
   case 13:
-#line 227 "vrl.y"
+#line 217 "vrl.y"
     { (yyvsp[(1) - (2)].structureheritee)->addDeclaration((yyvsp[(2) - (2)].declarationsimple)) ; }
     break;
 
   case 14:
-#line 230 "vrl.y"
+#line 219 "vrl.y"
     { (yyvsp[(1) - (2)].structureheritee)->addFonction((yyvsp[(2) - (2)].fonction)) ; }
     break;
 
   case 15:
-#line 233 "vrl.y"
+#line 221 "vrl.y"
     { (yyvsp[(1) - (2)].structureheritee)->addConstructeur((yyvsp[(2) - (2)].constructeur)) ; }
     break;
 
   case 16:
-#line 236 "vrl.y"
+#line 224 "vrl.y"
     { (yyval.fonction) = new Fonction((yyvsp[(2) - (5)].chaine), (yyvsp[(4) - (5)].instructionliste)) ; }
     break;
 
   case 17:
-#line 239 "vrl.y"
+#line 226 "vrl.y"
     { (yyval.fonction) = new Fonction((yyvsp[(2) - (7)].chaine), (yyvsp[(6) - (7)].instructionliste)) ; }
     break;
 
   case 18:
-#line 242 "vrl.y"
+#line 228 "vrl.y"
     { (yyval.fonction) = new Fonction((yyvsp[(2) - (8)].chaine), (yyvsp[(4) - (8)].nomliste), (yyvsp[(7) - (8)].instructionliste)) ; }
     break;
 
   case 19:
-#line 246 "vrl.y"
+#line 231 "vrl.y"
     { (yyval.pointdentree) = new PointDEntree((yyvsp[(5) - (6)].instructionliste)) ; }
     break;
 
   case 20:
-#line 250 "vrl.y"
+#line 234 "vrl.y"
     { (yyval.constructeur) = (yyvsp[(5) - (6)].constructeur) ; }
     break;
 
   case 21:
-#line 253 "vrl.y"
+#line 236 "vrl.y"
     { (yyval.constructeur) = (yyvsp[(6) - (7)].constructeur) ; (yyval.constructeur)->setNomListe((yyvsp[(3) - (7)].nomliste)) ; }
     break;
 
   case 22:
-#line 257 "vrl.y"
+#line 239 "vrl.y"
     { (yyval.constructeur) = new Constructeur() ; }
     break;
 
   case 23:
-#line 260 "vrl.y"
+#line 241 "vrl.y"
     { (yyvsp[(1) - (2)].constructeur)->addAppelDeConstructeur((yyvsp[(2) - (2)].appeldeconstructeur)) ; }
     break;
 
   case 24:
-#line 263 "vrl.y"
+#line 243 "vrl.y"
     { (yyvsp[(1) - (2)].constructeur)->addInstruction((yyvsp[(2) - (2)].instruction)) ; }
     break;
 
   case 25:
-#line 268 "vrl.y"
+#line 246 "vrl.y"
     { (yyval.instructionliste) = new InstructionListe() ; }
     break;
 
   case 26:
-#line 271 "vrl.y"
+#line 248 "vrl.y"
     { (yyvsp[(1) - (2)].instructionliste)->addInstruction((yyvsp[(2) - (2)].instruction)) ; }
     break;
 
   case 27:
-#line 275 "vrl.y"
+#line 251 "vrl.y"
     { (yyval.instruction) = (yyvsp[(1) - (1)].declaration) ; }
     break;
 
   case 28:
-#line 278 "vrl.y"
-    { ; (yyval.instruction) = (yyvsp[(1) - (1)].assignation) ; }
+#line 253 "vrl.y"
+    { ; (yyval.instruction) = (yyvsp[(1) - (1)].assign) ; }
     break;
 
   case 29:
-#line 281 "vrl.y"
+#line 255 "vrl.y"
     { (yyval.instruction) = (yyvsp[(1) - (1)].statement) ; }
     break;
 
   case 30:
-#line 285 "vrl.y"
+#line 258 "vrl.y"
     { (yyval.appeldeconstructeur) = new AppelDeConstructeur((yyvsp[(1) - (4)].chaine)) ; }
     break;
 
   case 31:
-#line 288 "vrl.y"
-    { (yyval.appeldeconstructeur) = new AppelDeConstructeur((yyvsp[(1) - (5)].chaine), (yyvsp[(3) - (5)].expressionliste)) ; }
+#line 260 "vrl.y"
+    { (yyval.appeldeconstructeur) = new AppelDeConstructeur((yyvsp[(1) - (5)].chaine), (yyvsp[(3) - (5)].exprliste)) ; }
     break;
 
   case 32:
-#line 292 "vrl.y"
+#line 263 "vrl.y"
     { (yyval.declaration) = (yyvsp[(1) - (1)].declarationsimple) ; }
     break;
 
   case 33:
-#line 295 "vrl.y"
+#line 265 "vrl.y"
     { (yyval.declaration) = (yyvsp[(1) - (1)].declarationcomplexe) ; }
     break;
 
   case 34:
-#line 299 "vrl.y"
-    { (yyval.assignation) = (yyvsp[(1) - (1)].assignationchaine) ; }
+#line 268 "vrl.y"
+    { (yyval.assign) = (yyvsp[(1) - (1)].assignchaine) ; }
     break;
 
   case 35:
-#line 302 "vrl.y"
-    { (yyval.assignation) = (yyvsp[(1) - (1)].assignationexpression) ; }
+#line 270 "vrl.y"
+    { (yyval.assign) = (yyvsp[(1) - (1)].assignexpr) ; }
     break;
 
   case 36:
-#line 305 "vrl.y"
-    { (yyval.assignation) = (yyvsp[(1) - (1)].assignationvariable) ; }
+#line 272 "vrl.y"
+    { (yyval.assign) = (yyvsp[(1) - (1)].assignvariable) ; }
     break;
 
   case 37:
-#line 308 "vrl.y"
-    { (yyval.assignation) = (yyvsp[(1) - (1)].assignationnouvelobjet) ; }
+#line 274 "vrl.y"
+    { (yyval.assign) = (yyvsp[(1) - (1)].assignnouvelobjet) ; }
     break;
 
   case 38:
-#line 312 "vrl.y"
+#line 277 "vrl.y"
     { (yyval.statement) = (yyvsp[(1) - (1)].boucleif) ; }
     break;
 
   case 39:
-#line 315 "vrl.y"
+#line 279 "vrl.y"
     { (yyval.statement) = (yyvsp[(1) - (1)].bouclefor) ; }
     break;
 
   case 40:
-#line 318 "vrl.y"
-    { (yyval.statement) = new Retour((yyvsp[(2) - (3)].expression)) ; }
+#line 281 "vrl.y"
+    { (yyval.statement) = new Retour((yyvsp[(2) - (3)].expr)) ; }
     break;
 
   case 41:
-#line 322 "vrl.y"
+#line 284 "vrl.y"
     { (yyval.declarationsimple) = new DeclarationSimple((yyvsp[(2) - (3)].nomliste)) ; }
     break;
 
   case 42:
-#line 325 "vrl.y"
+#line 286 "vrl.y"
     { (yyval.declarationsimple) = new DeclarationSimple((yyvsp[(2) - (3)].nomdetableau)) ; }
     break;
 
   case 43:
-#line 329 "vrl.y"
+#line 289 "vrl.y"
     { (yyval.declarationcomplexe) = new DeclarationComplexeChaine((yyvsp[(2) - (5)].variable), (yyvsp[(4) - (5)].chaine)) ; }
     break;
 
   case 44:
-#line 332 "vrl.y"
-    { (yyval.declarationcomplexe) = new DeclarationComplexeExpression((yyvsp[(2) - (5)].variable), (yyvsp[(4) - (5)].expression)) ; }
+#line 291 "vrl.y"
+    { (yyval.declarationcomplexe) = new DeclarationComplexeExpr((yyvsp[(2) - (5)].variable), (yyvsp[(4) - (5)].expr)) ; }
     break;
 
   case 45:
-#line 339 "vrl.y"
-    { (yyval.assignationchaine) = new AssignationChaine((yyvsp[(1) - (4)].variable),(yyvsp[(3) - (4)].chaine)) ; }
+#line 298 "vrl.y"
+    { (yyval.assignchaine) = new AssignChaine((yyvsp[(1) - (4)].variable),(yyvsp[(3) - (4)].chaine)) ; }
     break;
 
   case 46:
-#line 343 "vrl.y"
-    { (yyval.assignationexpression) = new AssignationExpression((yyvsp[(1) - (4)].variable),(yyvsp[(3) - (4)].calculableexpression)) ; }
+#line 301 "vrl.y"
+    { (yyval.assignexpr) = new AssignExpr((yyvsp[(1) - (4)].variable),(yyvsp[(3) - (4)].calculableexpr)) ; }
     break;
 
   case 47:
-#line 347 "vrl.y"
-    { (yyval.assignationvariable) = new AssignationVariable((yyvsp[(1) - (4)].variable), (yyvsp[(3) - (4)].variable)); }
+#line 304 "vrl.y"
+    { (yyval.assignvariable) = new AssignVariable((yyvsp[(1) - (4)].variable), (yyvsp[(3) - (4)].variable)); }
     break;
 
   case 48:
-#line 352 "vrl.y"
-    { (yyval.assignationnouvelobjet) = new AssignationNouvelObjet((yyvsp[(1) - (4)].variable),(yyvsp[(3) - (4)].nouvelobjet)) ; }
+#line 307 "vrl.y"
+    { (yyval.assignnouvelobjet) = new AssignNouvelObjet((yyvsp[(1) - (4)].variable),(yyvsp[(3) - (4)].nouvelobjet)) ; }
     break;
 
   case 49:
-#line 356 "vrl.y"
+#line 310 "vrl.y"
     { (yyval.boucleif) = (yyvsp[(1) - (1)].boucleif) ; }
     break;
 
   case 50:
-#line 359 "vrl.y"
+#line 312 "vrl.y"
     { (yyval.boucleif) = (yyvsp[(1) - (1)].boucleif) ; }
     break;
 
   case 51:
-#line 363 "vrl.y"
-    { (yyval.boucleif) = new BoucleIf((yyvsp[(2) - (5)].expressionlogique),(yyvsp[(4) - (5)].instructionliste)) ; }
+#line 315 "vrl.y"
+    { (yyval.boucleif) = new BoucleIf((yyvsp[(2) - (5)].exprlogique),(yyvsp[(4) - (5)].instructionliste)) ; }
     break;
 
   case 52:
-#line 367 "vrl.y"
-    { (yyval.boucleif) = new BoucleIf((yyvsp[(2) - (9)].expressionlogique),(yyvsp[(4) - (9)].instructionliste),(yyvsp[(8) - (9)].instructionliste)) ; }
+#line 318 "vrl.y"
+    { (yyval.boucleif) = new BoucleIf((yyvsp[(2) - (9)].exprlogique),(yyvsp[(4) - (9)].instructionliste),(yyvsp[(8) - (9)].instructionliste)) ; }
     break;
 
   case 53:
-#line 371 "vrl.y"
-    { (yyval.bouclefor) = new BoucleFor((yyvsp[(3) - (10)].assignationexpression), (yyvsp[(4) - (10)].expressionlogique), (yyvsp[(6) - (10)].assignationexpression), (yyvsp[(9) - (10)].instructionliste)) ; }
+#line 321 "vrl.y"
+    { (yyval.bouclefor) = new BoucleFor((yyvsp[(3) - (10)].assignexpr), (yyvsp[(4) - (10)].exprlogique), (yyvsp[(6) - (10)].assignexpr), (yyvsp[(9) - (10)].instructionliste)) ; }
     break;
 
   case 54:
-#line 375 "vrl.y"
-    { (yyval.expressionliste) = new ExpressionListe((yyvsp[(1) - (1)].expression)) ; }
+#line 324 "vrl.y"
+    { (yyval.exprliste) = new ExprListe((yyvsp[(1) - (1)].expr)) ; }
     break;
 
   case 55:
-#line 378 "vrl.y"
-    { (yyvsp[(1) - (3)].expressionliste)->addExpression((yyvsp[(3) - (3)].expression)) ; }
+#line 326 "vrl.y"
+    { (yyvsp[(1) - (3)].exprliste)->addExpr((yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 56:
-#line 383 "vrl.y"
-    { (yyval.expression) = (yyvsp[(1) - (1)].calculableexpression) ; }
+#line 329 "vrl.y"
+    { (yyval.expr) = (yyvsp[(1) - (1)].calculableexpr) ; }
     break;
 
   case 57:
-#line 386 "vrl.y"
-    { (yyval.expression) = (yyvsp[(1) - (1)].variable) ; }
+#line 331 "vrl.y"
+    { (yyval.expr) = (yyvsp[(1) - (1)].variable) ; }
     break;
 
   case 58:
-#line 390 "vrl.y"
-    { (yyval.calculableexpression) = (yyvsp[(1) - (1)].nombre) ; }
+#line 334 "vrl.y"
+    { (yyval.calculableexpr) = (yyvsp[(1) - (1)].nombre) ; }
     break;
 
   case 59:
-#line 393 "vrl.y"
-    { (yyval.calculableexpression) = new AppelDeFonction((yyvsp[(2) - (4)].chaine)) ; }
+#line 336 "vrl.y"
+    { (yyval.calculableexpr) = new AppelDeFonction((yyvsp[(2) - (4)].chaine)) ; }
     break;
 
   case 60:
-#line 396 "vrl.y"
-    { (yyval.calculableexpression) = new AppelDeFonction((yyvsp[(2) - (5)].chaine), (yyvsp[(4) - (5)].expressionliste)) ; }
+#line 338 "vrl.y"
+    { (yyval.calculableexpr) = new AppelDeFonction((yyvsp[(2) - (5)].chaine), (yyvsp[(4) - (5)].exprliste)) ; }
     break;
 
   case 61:
-#line 399 "vrl.y"
-    { (yyval.calculableexpression) = (yyvsp[(1) - (1)].operationbinaire) ; }
+#line 340 "vrl.y"
+    { (yyval.calculableexpr) = (yyvsp[(1) - (1)].operationbinaire) ; }
     break;
 
   case 62:
-#line 402 "vrl.y"
-    { (yyval.calculableexpression) = (yyvsp[(1) - (1)].operationunaire) ; }
+#line 342 "vrl.y"
+    { (yyval.calculableexpr) = (yyvsp[(1) - (1)].operationunaire) ; }
     break;
 
   case 63:
-#line 405 "vrl.y"
-    { (yyval.calculableexpression) = new ExpressionCalculable((yyvsp[(2) - (3)].expression)) ; }
+#line 344 "vrl.y"
+    { (yyval.calculableexpr) = new ExprCalculable((yyvsp[(2) - (3)].expr)) ; }
     break;
 
   case 64:
-#line 409 "vrl.y"
-    { (yyval.expressionlogique) = (yyvsp[(1) - (1)].comparaison) ; }
+#line 347 "vrl.y"
+    { (yyval.exprlogique) = (yyvsp[(1) - (1)].comparaison) ; }
     break;
 
   case 65:
-#line 412 "vrl.y"
-    { (yyval.expressionlogique) = (yyvsp[(1) - (1)].operationbinairelogique) ; }
+#line 349 "vrl.y"
+    { (yyval.exprlogique) = (yyvsp[(1) - (1)].operationbinairelogique) ; }
     break;
 
   case 66:
-#line 415 "vrl.y"
-    { (yyval.expressionlogique) = (yyvsp[(1) - (1)].operationunairelogique) ; }
+#line 351 "vrl.y"
+    { (yyval.exprlogique) = (yyvsp[(1) - (1)].operationunairelogique) ; }
     break;
 
   case 67:
-#line 418 "vrl.y"
-    { (yyval.expressionlogique) = (yyvsp[(2) - (3)].expressionlogique) ; }
+#line 353 "vrl.y"
+    { (yyval.exprlogique) = (yyvsp[(2) - (3)].exprlogique) ; }
     break;
 
   case 68:
-#line 422 "vrl.y"
+#line 356 "vrl.y"
     {/* erreur ici */ (yyval.nouvelobjet) = new NouvelObjet((yyvsp[(2) - (4)].chaine)) ; }
     break;
 
   case 69:
-#line 425 "vrl.y"
-    {/* erreur ici */ (yyval.nouvelobjet) = new NouvelObjet((yyvsp[(2) - (5)].chaine), (yyvsp[(4) - (5)].expressionliste)) ; }
+#line 358 "vrl.y"
+    {/* erreur ici */ (yyval.nouvelobjet) = new NouvelObjet((yyvsp[(2) - (5)].chaine), (yyvsp[(4) - (5)].exprliste)) ; }
     break;
 
   case 70:
-#line 431 "vrl.y"
+#line 361 "vrl.y"
     { (yyval.variable) = (yyvsp[(1) - (1)].variablesimple) ; }
     break;
 
   case 71:
-#line 434 "vrl.y"
+#line 363 "vrl.y"
     { (yyval.variable) = (yyvsp[(1) - (1)].variablecomplexe) ; }
     break;
 
   case 72:
-#line 437 "vrl.y"
+#line 366 "vrl.y"
     { (yyval.variablesimple) = new Nom((yyvsp[(1) - (1)].chaine)) ; }
     break;
 
   case 73:
-#line 440 "vrl.y"
+#line 368 "vrl.y"
     { (yyval.variablesimple) = (yyvsp[(1) - (1)].nomdetableau) ; }
     break;
 
   case 74:
-#line 446 "vrl.y"
-    { (yyval.nomdetableau) = new NomDeTableau((yyvsp[(1) - (4)].chaine), (yyvsp[(3) - (4)].expression)) ; }
+#line 373 "vrl.y"
+    { (yyval.nomdetableau) = new NomDeTableau((yyvsp[(1) - (4)].chaine), (yyvsp[(3) - (4)].expr)) ; }
     break;
 
   case 75:
-#line 451 "vrl.y"
+#line 376 "vrl.y"
     { (yyval.variablecomplexe) = new VariableComplexe((yyvsp[(1) - (3)].variablesimple), (yyvsp[(3) - (3)].variablesimple)) ; }
     break;
 
   case 76:
-#line 454 "vrl.y"
+#line 378 "vrl.y"
     { (yyvsp[(1) - (3)].variablecomplexe)->addNomComposant((yyvsp[(3) - (3)].variablesimple)) ; }
     break;
 
   case 77:
-#line 458 "vrl.y"
+#line 381 "vrl.y"
     { (yyval.nomliste) = new NomListe((yyvsp[(1) - (1)].chaine)) ; }
     break;
 
   case 78:
-#line 461 "vrl.y"
+#line 383 "vrl.y"
     { (yyvsp[(1) - (3)].nomliste)->addNom((yyvsp[(3) - (3)].chaine)) ; }
     break;
 
   case 79:
-#line 465 "vrl.y"
-    { (yyval.operationunaire) = new Negation((yyvsp[(3) - (4)].expression)) ; }
+#line 386 "vrl.y"
+    { (yyval.operationunaire) = new Negation((yyvsp[(3) - (4)].expr)) ; }
     break;
 
   case 80:
-#line 468 "vrl.y"
-    { (yyval.operationunaire) = new Absolu((yyvsp[(3) - (4)].expression)) ; }
+#line 388 "vrl.y"
+    { (yyval.operationunaire) = new Absolu((yyvsp[(3) - (4)].expr)) ; }
     break;
 
   case 81:
-#line 472 "vrl.y"
-    { (yyval.operationbinaire) = new Addition((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 391 "vrl.y"
+    { (yyval.operationbinaire) = new Addition((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 82:
-#line 475 "vrl.y"
-    { (yyval.operationbinaire) = new Soustraction((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 393 "vrl.y"
+    { (yyval.operationbinaire) = new Soustraction((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 83:
-#line 478 "vrl.y"
-    { (yyval.operationbinaire) = new Multiplication((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 395 "vrl.y"
+    { (yyval.operationbinaire) = new Multiplication((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 84:
-#line 481 "vrl.y"
-    { (yyval.operationbinaire) = new Division((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 397 "vrl.y"
+    { (yyval.operationbinaire) = new Division((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 85:
-#line 485 "vrl.y"
-    { (yyval.comparaison) = new Superieur((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 400 "vrl.y"
+    { (yyval.comparaison) = new Superieur((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 86:
-#line 488 "vrl.y"
-    { (yyval.comparaison) = new Inferieur((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 402 "vrl.y"
+    { (yyval.comparaison) = new Inferieur((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 87:
-#line 491 "vrl.y"
-    { (yyval.comparaison) = new SuperieurOuEgal((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 404 "vrl.y"
+    { (yyval.comparaison) = new SuperieurOuEgal((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 88:
-#line 494 "vrl.y"
-    { (yyval.comparaison) = new InferieurOuEgal((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 406 "vrl.y"
+    { (yyval.comparaison) = new InferieurOuEgal((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 89:
-#line 497 "vrl.y"
-    { (yyval.comparaison) = new EgalEgal((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 408 "vrl.y"
+    { (yyval.comparaison) = new EgalEgal((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 90:
-#line 500 "vrl.y"
-    { (yyval.comparaison) = new Different((yyvsp[(1) - (3)].expression), (yyvsp[(3) - (3)].expression)) ; }
+#line 410 "vrl.y"
+    { (yyval.comparaison) = new Different((yyvsp[(1) - (3)].expr), (yyvsp[(3) - (3)].expr)) ; }
     break;
 
   case 91:
-#line 504 "vrl.y"
-    { (yyval.operationunairelogique) = new NegationLogique((yyvsp[(2) - (2)].expressionlogique)) ; }
+#line 413 "vrl.y"
+    { (yyval.operationunairelogique) = new NegationLogique((yyvsp[(2) - (2)].exprlogique)) ; }
     break;
 
   case 92:
-#line 508 "vrl.y"
-    { (yyval.operationbinairelogique) = new OuLogique((yyvsp[(1) - (3)].expressionlogique), (yyvsp[(3) - (3)].expressionlogique)) ; }
+#line 416 "vrl.y"
+    { (yyval.operationbinairelogique) = new OuLogique((yyvsp[(1) - (3)].exprlogique), (yyvsp[(3) - (3)].exprlogique)) ; }
     break;
 
   case 93:
-#line 511 "vrl.y"
-    { (yyval.operationbinairelogique) = new EtLogique((yyvsp[(1) - (3)].expressionlogique), (yyvsp[(3) - (3)].expressionlogique)) ; }
+#line 418 "vrl.y"
+    { (yyval.operationbinairelogique) = new EtLogique((yyvsp[(1) - (3)].exprlogique), (yyvsp[(3) - (3)].exprlogique)) ; }
     break;
 
   case 94:
-#line 515 "vrl.y"
+#line 421 "vrl.y"
     { (yyval.nombre) = new Nombre((yyvsp[(1) - (1)].valeurint)) ; }
     break;
 
   case 95:
-#line 517 "vrl.y"
+#line 423 "vrl.y"
     { (yyval.nombre) = new Nombre((yyvsp[(1) - (1)].valeurfloat)) ; }
     break;
 
   case 96:
-#line 520 "vrl.y"
+#line 426 "vrl.y"
     {}
     break;
 
@@ -2392,12 +2392,13 @@ yyreturn:
 }
 
 
-#line 522 "vrl.y"
+#line 428 "vrl.y"
 
 
-void yyerror(char *s) {
-	fprintf(stderr, "### Error : %s\n", s) ;
-	fprintf(stderr, "### Line=%d, Char=%dth : ''%s''\n", lineNumber, charPos, yytext) ;
-	exit(-1) ;
-} ;
+void yyerror(char *s)
+{
+  fprintf(stderr, "### Error : %s\n", s) ;
+  fprintf(stderr, "### Line=%d, Char=%dth : ''%s''\n", lineNumber, charPos, yytext) ;
+  exit(-1) ;
+}
 

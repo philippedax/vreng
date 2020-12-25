@@ -14,7 +14,6 @@
    Vincent GUILLOPE   VG
    Holger KRAUTH      HK
 
-
    History
    -------
    when       who   what
@@ -31,27 +30,13 @@
 
 char *rognerGuillemets(char *);
 
-//#define DEB
+#define DEB
 
-
-// petites structures
-#if 0
-typedef struct texture {
-  char *nom;    // tex_[xyz][np]
-  char *val;    // vGifURL of texture
-} Texture;
-    
-typedef struct apparence {
-  char *nom;    // "diffuse", "ambient", ...
-  float v1, v2, v3 ;  // les valeurs de couleur
-} App ;
-#endif
 
 //************************* CLASSES D'AFFICHAGE ************************
 
 //************************** TOKENLIST *********************************
-
-TokenListe::TokenListe(void)
+TokenListe::TokenListe()
 {
   // Liste des types VRENG qu'on peut reconnaitre avec 'vrl'
 
@@ -105,7 +90,7 @@ void Wall::write2CFG(Table *data)
   // Recuperer les elements de la structure
   int k = 0;
   char *nomm;
-  while ((data->getEntree(k)) != NULL){
+  while ((data->getEntree(k)) != NULL) {
     nomm = data->getEntreeNom(k);
     printf("------>  %s\n", nomm);
     k++; 
@@ -209,12 +194,8 @@ void Gate::write2CFG (Table *data)
   ipMulti = rognerGuillemets(data->getEntreeValeur(8));
   
   // printing to file in proper format: See VRENG doc.
-#if 1
   fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle);
   fprintf(fvre, " world=\"%s\">", v2where);
-#else
-  fprintf(fvre, " pos=\"%s,%s,%s,%s\">", xPos, yPos, zPos, angle);
-#endif
   fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
@@ -235,10 +216,6 @@ void Gate::write2CFG (Table *data)
       attrFalc[j]->print(fvre);
   } 
   fprintf(fvre, " />"); 
-#if 0
-  fprintf(fvre, " %s ", v2where);
-  //fprintf(fvre, " world=\"%s\" channel=\"%s\"", v2where, ipMulti);
-#endif
 
   // terminate line
   fprintf(fvre, "</gate>\n"); 
@@ -288,12 +265,8 @@ void Web::write2CFG(Table *data)
   url2load= rognerGuillemets(data->getEntreeValeur(7));  
   
   // printing to file in proper format: See VRENG doc.
-#if 1
   fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
   fprintf(fvre, " url=\"%s\">", url2load);
-#else
-  fprintf(fvre, " pos=\"%s,%s,%s,%s\">", xPos, yPos, zPos, angle); 
-#endif
   fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
@@ -314,9 +287,6 @@ void Web::write2CFG(Table *data)
   for (int j = 0 ; j < cNrofOptAttr ; j++)
       attrFalc[j]->print(fvre);
   fprintf(fvre, " />");   
-#if 0
-  fprintf(fvre, " %s ", url2load);
-#endif
 
   // terminate line
   fprintf(fvre, "</web>\n");   
@@ -433,12 +403,8 @@ void Host::write2CFG(Table *data)
   telnet2open = rognerGuillemets(data->getEntreeValeur(7));
   
   // printing to file in proper format: See VRENG doc.
-#if 1
   fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
   fprintf(fvre, " host=\"%s\">", telnet2open);
-#else
-  fprintf(fvre, " pos=\"%s,%s,%s,%s\">", xPos, yPos, zPos, angle); 
-#endif
   fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
@@ -459,9 +425,6 @@ void Host::write2CFG(Table *data)
   for (int j = 0 ; j < cNrofOptAttr ; j++)
       attrFalc[j]->print(fvre);
   fprintf(fvre, " />");     
-#if 0
-  fprintf(fvre, " %s ", telnet2open);
-#endif
   
   // terminate line
   fprintf(fvre, "</host>\n");     
@@ -511,12 +474,8 @@ void Doc::write2CFG(Table *data)
   doc2open = rognerGuillemets(data->getEntreeValeur(7));
   
   // printing to file in proper format: See VRENG doc.
-#if 1
   fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
   fprintf(fvre, " url=\"%s\">", doc2open);
-#else
-  fprintf(fvre, " pos=\"%s,%s,%s,%s\">", xPos, yPos, zPos, angle); 
-#endif
   fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
@@ -537,9 +496,6 @@ void Doc::write2CFG(Table *data)
   for (int j = 0 ; j < cNrofOptAttr ; j++)
       attrFalc[j]->print(fvre);
   fprintf(fvre, " />");     
-#if 0
-  fprintf(fvre, " %s ", doc2open);
-#endif
  
   // terminate line
   fprintf(fvre, "</doc>\n");     
@@ -724,12 +680,8 @@ void Aoi::write2CFG(Table *data)
   ipMulti = rognerGuillemets(data->getEntreeValeur(7)); 
   
   // printing to file in proper format: See VRENG doc.
-#if 1
   fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
   fprintf(fvre, " channel=\"%s\">", ipMulti);
-#else
-  fprintf(fvre, " pos=\"%s,%s,%s,%s\">", xPos, yPos, zPos, angle); 
-#endif
   fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
@@ -750,9 +702,6 @@ void Aoi::write2CFG(Table *data)
   for (int j = 0 ; j < cNrofOptAttr ; j++)
       attrFalc[j]->print(fvre);
   fprintf(fvre, " />");    
-#if 0
-  fprintf(fvre, " %s ", ipMulti);
-#endif
   
   // terminate line
   fprintf(fvre, "</aoi>\n");    
@@ -865,13 +814,8 @@ void Walls::write2CFG(Table *data)
 {
   char * urlOfConfigFile;
   urlOfConfigFile = data->getEntreeValeur(0);
-#if 1
   fprintf(fvre, "<walls ");
   fprintf(fvre, "url=\"%s\">", rognerGuillemets(urlOfConfigFile));
-#else
-  fprintf(fvre, "<walls>");
-  fprintf(fvre, " %s ", rognerGuillemets(urlOfConfigFile));
-#endif
   fprintf(fvre, "</walls>\n");
 }
 
@@ -991,7 +935,7 @@ void Apparence::print(FILE *f)
 }
 
 /** Texture BOX_TEX */
-BoxTextures::BoxTextures(void)
+BoxTextures::BoxTextures()
 {
   compteur = 0;
 
