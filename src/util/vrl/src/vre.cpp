@@ -27,6 +27,7 @@
 #include "global.hpp"
 #include "vre.hpp"
 
+extern FILE *yyout;
 
 char *rognerGuillemets(char *);
 
@@ -98,7 +99,7 @@ void Wall::write2CFG(Table *data)
 #endif
 
   // en-tete
-  fprintf(fvre, "<wall");
+  fprintf(yyout, "<wall");
 
   // arguments obligatoires
   const int N_ATTROBL = 7;
@@ -112,8 +113,8 @@ void Wall::write2CFG(Table *data)
   ly = data->getEntreeValeur(5);
   lz = data->getEntreeValeur(6);
   
-  fprintf(fvre, " pos=\"%s %s %s %s\">", x, y, z, a);
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " pos=\"%s %s %s %s\">", x, y, z, a);
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // arguments facultatifs
   const int N_ATTRFALC = 5;
@@ -140,9 +141,9 @@ void Wall::write2CFG(Table *data)
   }
   
   for (int j = 0 ; j < N_ATTRFALC ; j++)
-      attrFalc[j]->print(fvre);
+      attrFalc[j]->print(yyout);
   
-  fprintf(fvre, " /></wall>\n");
+  fprintf(yyout, " /></wall>\n");
   free(attrFalc);
 }
 
@@ -179,7 +180,7 @@ void Gate::write2CFG (Table *data)
   attrFalc[4] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<gate");
+  fprintf(yyout, "<gate");
 
   // Treatment of MUST parameters
   xPos    = data->getEntreeValeur(0);
@@ -194,9 +195,9 @@ void Gate::write2CFG (Table *data)
   ipMulti = rognerGuillemets(data->getEntreeValeur(8));
   
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle);
-  fprintf(fvre, " world=\"%s\">", v2where);
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle);
+  fprintf(yyout, " world=\"%s\">", v2where);
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -213,12 +214,12 @@ void Gate::write2CFG (Table *data)
   } 
   // print all  
   for (j = 0 ; j < cNrofOptGateAttr ; j++) {
-      attrFalc[j]->print(fvre);
+      attrFalc[j]->print(yyout);
   } 
-  fprintf(fvre, " />"); 
+  fprintf(yyout, " />"); 
 
   // terminate line
-  fprintf(fvre, "</gate>\n"); 
+  fprintf(yyout, "</gate>\n"); 
   free(attrFalc);
 }
 
@@ -252,7 +253,7 @@ void Web::write2CFG(Table *data)
   attrFalc[4] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<web");
+  fprintf(yyout, "<web");
 
   // Treatment of MUST parameters
   xPos    = data->getEntreeValeur(0);
@@ -265,9 +266,9 @@ void Web::write2CFG(Table *data)
   url2load= rognerGuillemets(data->getEntreeValeur(7));  
   
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
-  fprintf(fvre, " url=\"%s\">", url2load);
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
+  fprintf(yyout, " url=\"%s\">", url2load);
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -285,11 +286,11 @@ void Web::write2CFG(Table *data)
 
   // print all  
   for (int j = 0 ; j < cNrofOptAttr ; j++)
-      attrFalc[j]->print(fvre);
-  fprintf(fvre, " />");   
+      attrFalc[j]->print(yyout);
+  fprintf(yyout, " />");   
 
   // terminate line
-  fprintf(fvre, "</web>\n");   
+  fprintf(yyout, "</web>\n");   
   free(attrFalc);
 }
 
@@ -322,7 +323,7 @@ void Board::write2CFG(Table *data)
   attrFalc[4] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<board");
+  fprintf(yyout, "<board");
 
   // Treatment of MUST parameters
   xPos    = data->getEntreeValeur(0);
@@ -334,8 +335,8 @@ void Board::write2CFG(Table *data)
   lz      = data->getEntreeValeur(6);
   
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " pos=\"%s %s %s %s\">", xPos, yPos, zPos, angle); 
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " pos=\"%s %s %s %s\">", xPos, yPos, zPos, angle); 
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -353,10 +354,10 @@ void Board::write2CFG(Table *data)
 
   // print all  
   for (int j = 0 ; j < cNrofOptAttr ; j++)
-      attrFalc[j]->print(fvre);
+      attrFalc[j]->print(yyout);
   
   // terminate line
-  fprintf(fvre, " /></board>\n");   
+  fprintf(yyout, " /></board>\n");   
   free(attrFalc);  
 }
 
@@ -390,7 +391,7 @@ void Host::write2CFG(Table *data)
   attrFalc[4] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<host");
+  fprintf(yyout, "<host");
 
   // Treatment of MUST parameters
   xPos    = data->getEntreeValeur(0);
@@ -403,9 +404,9 @@ void Host::write2CFG(Table *data)
   telnet2open = rognerGuillemets(data->getEntreeValeur(7));
   
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
-  fprintf(fvre, " host=\"%s\">", telnet2open);
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
+  fprintf(yyout, " host=\"%s\">", telnet2open);
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -423,11 +424,11 @@ void Host::write2CFG(Table *data)
 
   // print all  
   for (int j = 0 ; j < cNrofOptAttr ; j++)
-      attrFalc[j]->print(fvre);
-  fprintf(fvre, " />");     
+      attrFalc[j]->print(yyout);
+  fprintf(yyout, " />");     
   
   // terminate line
-  fprintf(fvre, "</host>\n");     
+  fprintf(yyout, "</host>\n");     
   free(attrFalc);  
 }
 
@@ -461,7 +462,7 @@ void Doc::write2CFG(Table *data)
   attrFalc[4] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<doc");
+  fprintf(yyout, "<doc");
 
   // Treatment of MUST parameters
   xPos    = data->getEntreeValeur(0);
@@ -474,9 +475,9 @@ void Doc::write2CFG(Table *data)
   doc2open = rognerGuillemets(data->getEntreeValeur(7));
   
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
-  fprintf(fvre, " url=\"%s\">", doc2open);
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
+  fprintf(yyout, " url=\"%s\">", doc2open);
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -494,11 +495,11 @@ void Doc::write2CFG(Table *data)
 
   // print all  
   for (int j = 0 ; j < cNrofOptAttr ; j++)
-      attrFalc[j]->print(fvre);
-  fprintf(fvre, " />");     
+      attrFalc[j]->print(yyout);
+  fprintf(yyout, " />");     
  
   // terminate line
-  fprintf(fvre, "</doc>\n");     
+  fprintf(yyout, "</doc>\n");     
   free(attrFalc);  
 }
 
@@ -530,7 +531,7 @@ void Cauldron::write2CFG(Table *data)
   attrFalc[3] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<cauldron");
+  fprintf(yyout, "<cauldron");
 
   // Treatment of MUST parameters
   xPos    = data->getEntreeValeur(0);
@@ -544,8 +545,8 @@ void Cauldron::write2CFG(Table *data)
   radius2 = data->getEntreeValeur(4);
   
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " pos=\"%s %s %s %s\">", xPos, yPos, zPos, angle); 
-  fprintf(fvre, " <solid shape=\"torus\" r=\"%s\" radius2=\"%s\"", radius, radius2);
+  fprintf(yyout, " pos=\"%s %s %s %s\">", xPos, yPos, zPos, angle); 
+  fprintf(yyout, " <solid shape=\"torus\" r=\"%s\" radius2=\"%s\"", radius, radius2);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -563,10 +564,10 @@ void Cauldron::write2CFG(Table *data)
 
   // print all  
   for (int j = 0 ; j < cNrofOptAttr ; j++)
-      attrFalc[j]->print(fvre);
+      attrFalc[j]->print(yyout);
   
   // terminate line
-  fprintf(fvre, " /></cauldron>\n");    
+  fprintf(yyout, " /></cauldron>\n");    
   free(attrFalc);     
 }
 
@@ -599,7 +600,7 @@ void Step::write2CFG(Table *data)
   attrFalc[4] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<step");
+  fprintf(yyout, "<step");
 
   // Treatment of MUST parameters
   xPos    = data->getEntreeValeur(0);
@@ -611,8 +612,8 @@ void Step::write2CFG(Table *data)
   lz      = data->getEntreeValeur(6); 
   
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " pos=\"%s %s %s %s\">", xPos, yPos, zPos, angle); 
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " pos=\"%s %s %s %s\">", xPos, yPos, zPos, angle); 
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -630,10 +631,10 @@ void Step::write2CFG(Table *data)
 
   // print all  
   for (int j = 0 ; j < cNrofOptAttr ; j++)
-      attrFalc[j]->print(fvre);
+      attrFalc[j]->print(yyout);
   
   // terminate line
-  fprintf(fvre, " /></step>\n");      
+  fprintf(yyout, " /></step>\n");      
   free(attrFalc);   
 }
 
@@ -667,7 +668,7 @@ void Aoi::write2CFG(Table *data)
   attrFalc[4] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<aoi");
+  fprintf(yyout, "<aoi");
 
   // Treatment of MUST parameters
   xPos    = data->getEntreeValeur(0);
@@ -680,9 +681,9 @@ void Aoi::write2CFG(Table *data)
   ipMulti = rognerGuillemets(data->getEntreeValeur(7)); 
   
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
-  fprintf(fvre, " channel=\"%s\">", ipMulti);
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
+  fprintf(yyout, " channel=\"%s\">", ipMulti);
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -700,11 +701,11 @@ void Aoi::write2CFG(Table *data)
 
   // print all  
   for (int j = 0 ; j < cNrofOptAttr ; j++)
-      attrFalc[j]->print(fvre);
-  fprintf(fvre, " />");    
+      attrFalc[j]->print(yyout);
+  fprintf(yyout, " />");    
   
   // terminate line
-  fprintf(fvre, "</aoi>\n");    
+  fprintf(yyout, "</aoi>\n");    
   free(attrFalc);
 }
 
@@ -739,7 +740,7 @@ void Door::write2CFG(Table *data)
   attrFalc[4] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<door");
+  fprintf(yyout, "<door");
 
   // Treatment of MUST parameters
   doorName= rognerGuillemets(data->getEntreeValeur(0));
@@ -756,11 +757,11 @@ void Door::write2CFG(Table *data)
   lz      = data->getEntreeValeur(11); 
 
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " name=\"%s\"", doorName); 
-  fprintf(fvre, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
-  fprintf(fvre, " open=\"%s\" close=\"%s\" speed=\"%s\">", 
+  fprintf(yyout, " name=\"%s\"", doorName); 
+  fprintf(yyout, " pos=\"%s %s %s %s\"", xPos, yPos, zPos, angle); 
+  fprintf(yyout, " open=\"%s\" close=\"%s\" speed=\"%s\">", 
                 angOpen, angClos, speed); 
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -778,11 +779,11 @@ void Door::write2CFG(Table *data)
 
   // print all  
   for (int j = 0 ; j < cNrofOptAttr ; j++)
-      attrFalc[j]->print(fvre);
-  fprintf(fvre, " />");     
+      attrFalc[j]->print(yyout);
+  fprintf(yyout, " />");     
   
   // terminate line
-  fprintf(fvre, "</door>\n");     
+  fprintf(yyout, "</door>\n");     
   free(attrFalc); 
 }
 
@@ -814,9 +815,9 @@ void Walls::write2CFG(Table *data)
 {
   char * urlOfConfigFile;
   urlOfConfigFile = data->getEntreeValeur(0);
-  fprintf(fvre, "<walls ");
-  fprintf(fvre, "url=\"%s\">", rognerGuillemets(urlOfConfigFile));
-  fprintf(fvre, "</walls>\n");
+  fprintf(yyout, "<walls ");
+  fprintf(yyout, "url=\"%s\">", rognerGuillemets(urlOfConfigFile));
+  fprintf(yyout, "</walls>\n");
 }
 
 /** MIRAGE*/
@@ -848,7 +849,7 @@ void Mirage::write2CFG(Table *data)
   attrFalc[4] = new Apparence((char *)"shininess");
 
   // print key word to tell VRENG parser what is coming.
-  fprintf(fvre, "<mirage");
+  fprintf(yyout, "<mirage");
 
   // Treatment of MUST parameters
   xPos    = data->getEntreeValeur(0);
@@ -861,8 +862,8 @@ void Mirage::write2CFG(Table *data)
   lz      = data->getEntreeValeur(7);
   
   // printing to file in proper format: See VRENG doc.
-  fprintf(fvre, " pos=\"%s %s %s %s %s\">", xPos, yPos, zPos, aZ, aX);
-  fprintf(fvre, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
+  fprintf(yyout, " pos=\"%s %s %s %s %s\">", xPos, yPos, zPos, aZ, aX);
+  fprintf(yyout, " <solid shape=\"box\" dim=\"%s %s %s\"", lx, ly, lz);
 
   // Treatment of CAN parameters
   // point on first CAN. MUST are numbered 0..cNrofOblGateAttr-1 !
@@ -880,10 +881,10 @@ void Mirage::write2CFG(Table *data)
 
   // print all  
   for (int j = 0 ; j < cNrofOptAttr ; j++)
-      attrFalc[j]->print(fvre);
+      attrFalc[j]->print(yyout);
   
   // terminate line
-  fprintf(fvre, " /></mirage>\n");   
+  fprintf(yyout, " /></mirage>\n");   
   free(attrFalc);  
 }
 

@@ -1549,7 +1549,7 @@ int Solid::displayList(int display_mode = NORMAL)
          glDepthMask(GL_FALSE);
        }
        if (*fog > 0) {
-         error("fog=%.1f %s", *fog,object()->getInstance());
+         error("fog=%.2f %s", *fog, object()->getInstance());
          glEnable(GL_FOG);
          glFogi(GL_FOG_MODE, GL_EXP);
          glFogf(GL_FOG_DENSITY, *fog);

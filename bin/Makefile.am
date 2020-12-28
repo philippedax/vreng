@@ -29,7 +29,7 @@ VRENG_SRCS = $(SRCDIR)/vreng/vreng.cpp
 vreng_SOURCES = $(VRENG_SRCS)
 
 # targets
-all: all-am vrel vred vacs vaps vjs # vrum
+all: all-am vrl vrel vred vacs vaps vjs # vrum
 
 # to install
 bin_PROGRAMS = vreng
@@ -39,15 +39,17 @@ bin_SCRIPTS = vre
 noinst_SCRIPTS =
 
 # to copy into bin/
+
 if VREL
 vrl: ../src/util/vrl/src/vrl
-	-cp -p ../src/util/vrl/src/vrel .
+	-cp -p ../src/util/vrl/src/vrl .
 vrel: ../src/util/vrel/vrel
 	-cp -p ../src/util/vrel/vrel .
 else
 vrel:
 	@echo "" >/dev/null
 endif
+
 if VRED
 vred: ../src/util/vred/vred
 	-cp -p ../src/util/vred/vred .
@@ -55,6 +57,7 @@ else
 vred:
 	@echo "" >/dev/null
 endif
+
 if VMM
 vmm: ../src/util/vmm/vmm
 	-cp -p ../src/util/vmm/vmm .
@@ -62,6 +65,7 @@ else
 vmm:
 	@echo "" >/dev/null
 endif
+
 if ENABLE_VACS
 vacs: ../src/servers/vacs/vacs
 	-cp -p ../src/servers/vacs/vacs .
@@ -69,6 +73,7 @@ else
 vacs:
 	@echo "" >/dev/null
 endif
+
 if ENABLE_VAPS
 vaps: ../src/servers/vaps/vaps
 	-cp -p ../src/servers/vaps/vaps .
@@ -76,6 +81,7 @@ else
 vaps:
 	@echo "" >/dev/null
 endif
+
 if ENABLE_VJS
 vjs: ../src/servers/vjs/vjs
 	-cp -p ../src/servers/vjs/vjs .
@@ -83,6 +89,7 @@ else
 vjs:
 	@echo "" >/dev/null
 endif
+
 #if ENABLE_VRUM
 #vrum: ../src/servers/vrum/rc.vrum
 #	-cp -p ../src/servers/vrum/rc.vrum vrum
@@ -107,38 +114,46 @@ ZLIB=-L$(SRCDIR)/bundle/zlib $(SRCDIR)/bundle/zlib/libz.a
 else
 ZLIB= -lz
 endif
+
 if BUNDLE_LIBPNG
 PNGLIB=-L$(SRCDIR)/bundle/mypng $(SRCDIR)/bundle/mypng/libpng.a
 else
 PNGLIB= -lpng
 endif
+
 if BUNDLE_LIBMPEG
 MPEGLIB=-L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
 else
 MPEGLIB=
 endif
+
 #old GLPNGLIB=-L$(SRCDIR)/bundle/glpng $(SRCDIR)/bundle/glpng/libglpng.a
 XMLLIB=-L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
+
 if BUNDLE_GL2PS
 GL2PSLIB=-L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
 else
 GL2PSLIB=
 endif
+
 if OCAML
 AILIB=-L$(SRCDIR)/ai $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
 else
 AILIB=
 endif
+
 if BUNDLE_GLUI
 GLUILIB=-L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a
 else
 GLUILIB= 
 endif
+
 if UBIT
 UBITLIB=-L$(SRCDIR)/ubit $(SRCDIR)/ubit/libubit.a
 else
 UBITLIB= -lubit
 endif
+
 if BUNDLE_FTGL
 FTGLLIB=-L$(SRCDIR)/bundle/ftgl $(SRCDIR)/bundle/ftgl/libftgl.a
 else

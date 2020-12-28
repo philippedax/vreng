@@ -422,10 +422,10 @@ NUMBER : INTEGER
 	| FLOATNUMBER
 		{ $$ = new Nombre($1) ; }
 
-
 EMPTY : {}
 
 %%
+
 
 void yyerror(char *s)
 {

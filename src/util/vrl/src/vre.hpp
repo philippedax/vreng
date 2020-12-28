@@ -6,8 +6,6 @@
 
 #define DEBBOUT if(1==1) fprintf
 
-extern FILE *fvre;
-
 
 /**
  * Class declarations
