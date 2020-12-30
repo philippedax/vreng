@@ -301,7 +301,8 @@ void Guide::restore(User *user)
   pos.az = initial[3];
   updatePositionAndGrid(pos);
 
-  if (oneway) notice("end of trip");
+  if (oneway)
+    notice("end of trip");
   else {
     user->pos.x = uinitial[0];
     user->pos.y = uinitial[1];

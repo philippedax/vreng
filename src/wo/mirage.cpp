@@ -69,32 +69,32 @@ void Mirage::parser(char *l)
   begin_while_parse (l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "aspeed")) {
+    if (! stringcmp(l, "aspeed")) {
       l = parse()->parseFloat(l, &aspeed, "aspeed");
       azspeed = ayspeed = axspeed = aspeed;
     }
-    else if (!stringcmp(l, "azspeed")) l = parse()->parseFloat(l, &azspeed, "azspeed");
-    else if (!stringcmp(l, "ayspeed")) l = parse()->parseFloat(l, &ayspeed, "ayspeed");
-    else if (!stringcmp(l, "axspeed")) l = parse()->parseFloat(l, &axspeed, "axspeed");
-    else if (!stringcmp(l, "radius")) l = parse()->parseFloat(l, &radius, "radius");
-    else if (!stringcmp(l, "flare")) l = parse()->parseUInt8(l, &flares, "flare");
-    else if (!stringcmp(l, "scale")) l = parse()->parseFloat(l, &scale, "scale");
-    else if (!stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
-    else if (!stringcmp(l, "mode=")) {
+    else if (! stringcmp(l, "azspeed")) l = parse()->parseFloat(l, &azspeed, "azspeed");
+    else if (! stringcmp(l, "ayspeed")) l = parse()->parseFloat(l, &ayspeed, "ayspeed");
+    else if (! stringcmp(l, "axspeed")) l = parse()->parseFloat(l, &axspeed, "axspeed");
+    else if (! stringcmp(l, "radius"))  l = parse()->parseFloat(l, &radius, "radius");
+    else if (! stringcmp(l, "flare"))   l = parse()->parseUInt8(l, &flares, "flare");
+    else if (! stringcmp(l, "scale"))   l = parse()->parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "color"))   l = parse()->parseVector3f(l, color, "color");
+    else if (! stringcmp(l, "mode=")) {
       char modestr[16];
       l = parse()->parseString(l, modestr, "mode");
-      if (!stringcmp(modestr, "turn") || !stringcmp(modestr, "self")) turn = true;
-      if (!stringcmp(modestr, "roll")) roll = true;
-      if (!stringcmp(modestr, "tilt")) tilt = true;
-      else if (!stringcmp(modestr, "refresh") || !stringcmp(modestr, "volatile")) persist = false;
-      else if (!stringcmp(modestr, "orbit")) {
+      if (! stringcmp(modestr, "turn") || ! stringcmp(modestr, "self")) turn = true;
+      if (! stringcmp(modestr, "roll")) roll = true;
+      if (! stringcmp(modestr, "tilt")) tilt = true;
+      else if (! stringcmp(modestr, "refresh") || ! stringcmp(modestr, "volatile")) persist = false;
+      else if (! stringcmp(modestr, "orbit")) {
         orbit = true;
         x0x0y0y0 = pos.x*pos.x + pos.y*pos.y;
         maxx = maxy = (float) sqrt(x0x0y0y0);
         minx = miny = -maxx;
         persist = false;
       }
-      else if (!stringcmp(modestr, "circular")) {
+      else if (! stringcmp(modestr, "circular")) {
         circular = true;
         centrex = pos.x;
         centrey = pos.y;

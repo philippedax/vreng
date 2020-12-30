@@ -183,40 +183,40 @@ struct sStokens {
 };
 
 static const struct sStokens stokens[] = {
-  { "shape", "", STOK_SHAPE },
-  { "box", "", STOK_BOX },
-  { "man", "", STOK_MAN},
-  { "guy", "", STOK_GUY},
-  { "android", "", STOK_ANDROID},
-  { "car","", STOK_CAR},
-  { "sphere", "", STOK_SPHERE },
+  { "shape", "shape", STOK_SHAPE },
+  { "box", "cube", STOK_BOX },
+  { "man", "woman", STOK_MAN },
+  { "guy", "boy", STOK_GUY },
+  { "android", "android", STOK_ANDROID },
+  { "car", "car", STOK_CAR },
+  { "sphere", "sphere", STOK_SPHERE },
   { "cone", "cylinder", STOK_CONE },
-  { "torus", "", STOK_TORUS },
-  { "rect", "", STOK_RECT },
-  { "disk", "", STOK_DISK },
-  { "line", "", STOK_LINE },
-  { "pyramid", "", STOK_PYRAMID },
-  { "triangle", "", STOK_TRIANGLE },
-  { "circle", "", STOK_CIRCLE },
-  { "ellipse", "", STOK_ELLIPSE },
+  { "torus", "torus", STOK_TORUS },
+  { "rect", "rect", STOK_RECT },
+  { "disk", "disk", STOK_DISK },
+  { "line", "line", STOK_LINE },
+  { "pyramid", "pyramid", STOK_PYRAMID },
+  { "triangle", "triangle", STOK_TRIANGLE },
+  { "circle", "circle", STOK_CIRCLE },
+  { "ellipse", "ellipse", STOK_ELLIPSE },
   { "pt", "point", STOK_POINT },
-  { "statue", "", STOK_STATUE },
+  { "statue", "statue", STOK_STATUE },
   { "bb", "bbox", STOK_BBOX },
   { "bs", "bsphere", STOK_BSPHERE },
-  { "cross", "", STOK_CROSS },
+  { "cross", "cross", STOK_CROSS },
   { "sphere+torus", "dsphere", STOK_SPHERE_TORUS },
   { "sphere+disk", "saucer", STOK_SPHERE_DISK },
   { "cone+disk", "hat", STOK_CONE_DISK },
-  { "wheel", "", STOK_WHEEL },
-  { "helix","", STOK_HELIX},
-  { "teapot","", STOK_TEAPOT},
+  { "wheel", "wheel", STOK_WHEEL },
+  { "helix","helix", STOK_HELIX},
+  { "teapot","teapot", STOK_TEAPOT},
   { "url", "solid", STOK_URL },
   { "dim", "size", STOK_SIZE },
   { "r", "radius", STOK_RADIUS },
   { "rb", "ri", STOK_RADIUS },
   { "radius2", "rc", STOK_RADIUS2 },
   { "rt", "re", STOK_RADIUS2 },
-  { "radius3", "", STOK_RADIUS3 },
+  { "radius3", "radius3", STOK_RADIUS3 },
   { "ptsize", "pointsize", STOK_PTSIZE },
   { "h", "height", STOK_HEIGHT },
   { "l", "length", STOK_LENGTH },
@@ -259,7 +259,7 @@ static const struct sStokens stokens[] = {
   { "emi", "emission", STOK_EMISSION },
   { "shi", "shininess", STOK_SHININESS },
   { "a", "alpha", STOK_ALPHA },
-  { "fog", "", STOK_FOG },
+  { "fog", "fog", STOK_FOG },
   { "st", "style", STOK_STYLE },
   { "fa", "face", STOK_FACE },
   { "sl", "slices", STOK_SLICES },
@@ -271,7 +271,7 @@ static const struct sStokens stokens[] = {
   { "nf", "frames", STOK_FRAMES },
   { "bf", "beginframe", STOK_BEGINFRAME },
   { "ef", "endframe", STOK_ENDFRAME },
-  { "solid", "", STOK_SOLID },
+  { "solid", "solid", STOK_SOLID },
   { "m", "model", STOK_MODEL },
   { "sc", "scale", STOK_SCALE },
   { "sx", "scalex", STOK_SCALEX },
@@ -957,6 +957,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   uint16_t lastframe = nbrframes;
   uint16_t tabframes[FRAME_MAX] = { 0 };
   char *urlmdl = NULL;
+  fog[0] = 0;
 
   alpha = DEF_ALPHA;
 
@@ -1549,7 +1550,7 @@ int Solid::displayList(int display_mode = NORMAL)
          glDepthMask(GL_FALSE);
        }
        if (*fog > 0) {
-         error("fog=%.2f %s", *fog, object()->getInstance());
+         error("fog=%f %s", *fog, object()->getInstance());
          glEnable(GL_FOG);
          glFogi(GL_FOG_MODE, GL_EXP);
          glFogf(GL_FOG_DENSITY, *fog);

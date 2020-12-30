@@ -1,6 +1,5 @@
 <!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
-<vre profile="Interactive">
-
+<vre version="8.0" profile="Interactive">
 <head>
 <meta name="filename" content="guide.vre"/>
 </head>
@@ -33,22 +32,14 @@
 <bgcolor color=".4 .1 0"></bgcolor>
 <!-- sun -->
 <mirage name="sun" pos="200 50 80">
-  <solid shape="sphere" r="5" emi="1 1 0" amb="1 1 1" dif="0 0 0" />
+  <solid shape="sphere" r="5" emi="1 1 0" amb="1 1 1" dif="1 1 1" />
 </mirage>
 
 <!-- the grounds -->
-<ground name="ground1" pos="29 30 -0.25">
-  <solid dim="60 60 .5" zp="/gif/marble.gif" />
-</ground>
-<ground name="ground2" pos="89 32.5 -0.25">
-  <solid dim="60 55 .5" zp="/tga/terrain.tga" />
-</ground>
-<ground name="ground3" pos="89 -32.5 -0.25">
-  <solid dim="60 55 .5" zp="/gif/desert.gif" />
-</ground>
-<ground name="ground4" pos="29 -30 -0.25">
-  <solid dim="60 60 .5" zp="/gif/grass.gif" a="0.5" />
-</ground>
+<ground name="ground1" pos="29 30 -0.25"> <solid dim="60 60 .5" zp="/gif/marble.gif" /> </ground>
+<ground name="ground2" pos="89 32.5 -0.25"> <solid dim="60 55 .5" zp="/tga/terrain.tga" /> </ground>
+<ground name="ground3" pos="89 -32.5 -0.25"> <solid dim="60 55 .5" zp="/gif/desert.gif" /> </ground>
+<ground name="ground4" pos="29 -30 -0.25"> <solid dim="60 60 .5" zp="/gif/grass.gif" a="0.5" /> </ground>
 
 <!-- dunes -->
 <mirage name="dune1" pos="-6.5 0 -0.4 1.57 0.44">
@@ -68,36 +59,34 @@
 
 
 <!-- bassin -->
-<step pos="56.5 2 0.5 0">
-  <solid dim="4.5 .5 .8" dif="0.8 0.4 0.4" />
-</step>
-<step pos="56.5 -2 0.5 0">
-  <solid dim="4.5 .5 .8" dif="0.8 0.4 0.4" />
-</step>
-<step pos="58.75 0 0.5 1.57">
-  <solid dim="4.5 .5 .8" dif="0.8 0.4 0.4" />
-</step>
-<step pos="54.25 0 0.5 4.71">
-  <solid dim="4.5 .5 .8" dif="0.8 0.4 0.4" />
-</step>
+<!--
+<step pos="56.5 2 0.5 0"> <solid dim="4.5 .5 .8" dif="0.8 0.4 0.4" /> </step>
+<step pos="56.5 -2 0.5 0"> <solid dim="4.5 .5 .8" dif="0.8 0.4 0.4" /> </step>
+<step pos="58.75 0 0.5 1.57"> <solid dim="4.5 .5 .8" dif="0.8 0.4 0.4" /> </step>
+<step pos="54.25 0 0.5 4.71"> <solid dim="4.5 .5 .8" dif="0.8 0.4 0.4" /> </step>
 
 <water name="water-1" pos="56.5 0 0.6 1.57 0"
   amplitude="1" freq="2" phase="1">
   <solid dim="3.6 3.6 .02" zp="/gif/water1.gif" />
 </water>
+-->
 
 <!-- ocean -->
+<!--
 <water name="sea" pos="89 0 -0.1 1.57"
   amplitude="1" freq="8" phase="2">
   <solid dim="10 60 .2" zp="/tga/texture.tga" zn="/gif/ecume.gif" />
 </water>
+-->
 
 <!-- Des  mondes !!!  -->
 
 <!-- infres 224.255.0.4 -->
+<!--
 <gate  pos="8 30 2 3.14" url="/vre/v8/infres.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/infres.gif" />
 </gate>
+-->
 
 <!-- dax 224.255.0.11 -->
 <gate  pos="18 38 2 3.7" url="/vre/v8/dax.vre">
@@ -105,9 +94,11 @@
 </gate>
 
 <!-- danzart 224.255.0.12 -->
+<!--
 <gate  pos="28 40 2 3.1" url="/vre/v8/danzart.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/danzart.gif" />
 </gate>
+-->
 
 <!-- stadium 224.255.0.8 -->
 <gate  pos="38 42 2 3.1" url="/vre/v8/stadium.vre">
@@ -147,12 +138,14 @@
 
 <!-- Des objets et du multimedia -->
 
+<!--
 <mirror pos="65 -40 1.75 1.57">
   <solid shape="sphere" r="0.5" dif="0.5 1 0.9" a="0.5" />
 </mirror>
 <mirage pos="65 -40 0">
   <solid shape="pyramid" s="1" h="1" dif="0.5 1 0.9" a="0.5" />
 </mirage>
+-->
 
 <!-- message board -->
 <wall name="messages-board-1_2" pos="95 -15 1.25 1.2" >
@@ -174,9 +167,11 @@
 <!-- <mech  pos="89 -33 0 0 3.94" anim="1" walk="0"></mech> -->
 
 <!-- girl -->
+<!--
 <mirage pos="72 -43 1.5 1.57">
   <solid dim="4 .9 4" xn="/gif/girl.gif" yn="/gif/girlback.gif" />
 </mirage>
+-->
 
 <!-- trees -->
 <mirage pos="22 -33 1"> <solid shape="cone" rb="0.4" rt="0.0" h="3.0" amb="0 0.27 0" /></mirage>
@@ -233,6 +228,8 @@
 <mirage pos="24.3 -26.0 0"> <solid shape="cone" rb="0.09" rt="0.09" h="1.7" dif="0.26 0.15 0" /></mirage>
 <mirage pos="28 -30 1"> <solid shape="cone" rb="0.4" rt="0.0" h="3.9" amb="0 0.27 0" /></mirage>
 <mirage pos="28 -30 0"> <solid shape="cone" rb="0.14" rt="0.14" h="1.9" dif="0.26 0.15 0" /></mirage>
+<!--
+-->
 
 </scene>
 </vre>
