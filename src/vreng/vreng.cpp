@@ -173,6 +173,7 @@ void Global::initSignals()
 #endif
 }
 
+// increases resource limits
 void Global::initLimits()
 {
 #if HAVE_SETRLIMIT
@@ -184,4 +185,3 @@ void Global::initLimits()
   //printf("new nofile: %d/%d\n", rl.rlim_cur, rl.rlim_max);
 #endif
 }
-
