@@ -56,9 +56,9 @@ private:
   GLuint texid;			///< texture id
   uint16_t width;		///< mpeg width in pixels
   uint16_t height;		///< mpeg height in pixels
-  uint16_t texsize;		///< tex width/height in pixels
+  uint16_t texsz;		///< tex width/height in pixels
   uint16_t frame;		///< the current frame being displayed
-  uint8_t video;		///< video type
+  uint8_t video;		///< video format (mpg avi)
   FILE *fp;			///< the corresponding file pointer
   struct timeval start;		///< video starting time
   GLubyte *pixtex;		///< pixmap of the tex
@@ -66,6 +66,7 @@ private:
   class Avi *avi;		///< avi instance
 #if HAVE_LIBMPEG
   char *filempeg;		///< name of the mpeg file in cache
+  ColormapEntry *colormap;	///< colorMap if exists
   ImageDesc *imgmpeg;		///< this is a structure used by mpeg_lib to
 				///< store infos, see mpeg_lib for more info
 #endif

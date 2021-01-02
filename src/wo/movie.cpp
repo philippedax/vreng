@@ -57,6 +57,7 @@ void Movie::defaults()
   video = 0;
   filempeg = NULL;
   imgmpeg = NULL;
+  colormap = NULL;
 }
 
 void Movie::parser(char *l)
@@ -94,52 +95,53 @@ Movie::Movie(char *l)
 
 int Movie::inits()
 {
-  //Texture::listTextures();
-  texid = Texture::getIdByObject(this);
+  texid = Texture::getIdByObject(this);		// bad texid returned FIXME!
   trace(DBG_WO, "texid=%d (%s)", texid, Texture::getUrlById(texid));
 
   video = Format::getPlayerByUrl(names.url);
-  if (video == PLAYER_AVI)
-    return aviInit();
-  else
-    return mpegInit();
+  switch (video) {
+    case PLAYER_MPG: return mpegInit();
+    case PLAYER_AVI: return aviInit();
+    default: return 0;
+  }
+}
+
+void mpegAbort(int sig)
+{
+  CloseMPEG();
 }
 
 int Movie::aviInit()
 {
   if (avi) return 0;
 
-  avi = new Avi(names.url);
+  avi = new Avi(names.url);	// downloads avi file
 
   int r = avi->read_header();
   if (r) {
-    error("avi: error=%d", r);
+    error("avi: no header err=%d", r);
     delete avi;
     avi = NULL;
     return r;
   }
-  fp = avi->getInfos(&width, &height, &fps);
-  //error("avi: w=%d h=%d f=%.3f", width, height, fps);
+  fp = avi->getFile();
+  avi->getInfos(&width, &height, &fps);
+  trace(DBG_WO, "avi: w=%d h=%d f=%.3f", width, height, fps);
   pixmap = new uint8_t[3 * width * height];
   begin = true;
   frame = 0;
 
-  /* compute texsize */
+  /* compute texsz */
   int i, power = 0;
-  texsize = MAX(width, height);
-  while ((texsize = texsize/2) > 0) power++;
-  for (i=0, texsize=1; i <= power; i++) texsize *= 2;
-  //error("texsize=%d", texsize);
+  texsz = MAX(width, height);
+  while ((texsz = texsz/2) > 0) power++;
+  for (i=0, texsz=1; i <= power; i++) texsz *= 2;
+  //error("avi: texsz=%d", texsz);
 
   /* get memory for tex pixmap */
-  pixtex = new GLubyte[3 * texsize * texsize];
+  pixtex = new GLubyte[3 * texsz * texsz];
 
   return r;
-}
-
-void mpegAbort(int sig)
-{
-  CloseMPEG();
 }
 
 int Movie::mpegInit()
@@ -167,17 +169,18 @@ int Movie::mpegInit()
   width = imgmpeg->Width;
   height = imgmpeg->Height;
   fps = imgmpeg->PictureRate;
+  ColormapEntry *colormap = imgmpeg->Colormap;
   pixmap = new uint8_t[imgmpeg->Size];
 
-  /* compute texsize */
+  /* compute texsz */
   int i, power = 0;
-  texsize = MAX(width, height);
-  while ((texsize = texsize/2) > 0) power++;
-  for (i=0, texsize=1; i <= power; i++) texsize *= 2;
-  //error("mpg: size=%d w=%d h=%d texsize=%d f=%.1f", imgmpeg->Size,width,height,texsize,fps);
+  texsz = MAX(width, height);
+  while ((texsz = texsz/2) > 0) power++;
+  for (i=0, texsz=1; i <= power; i++) texsz *= 2;
+  //error("mpg: sz=%d w=%d h=%d texsz=%d f=%.1f", imgmpeg->Size,width,height,texsz,fps);
 
   /* get memory for tex pixmap */
-  pixtex = new GLubyte[3 * texsize * texsize];
+  pixtex = new GLubyte[3 * texsz * texsz];
 
   frame = 0;
   begin = true;
@@ -187,6 +190,8 @@ int Movie::mpegInit()
 
 void Movie::changePermanent(float lasting)
 {
+  static int n = 0;
+
   if (state == INACTIVE || state == PAUSE) return;
 
   if (begin) {
@@ -194,106 +199,115 @@ void Movie::changePermanent(float lasting)
     begin = false;
   }
 
+  state = PLAYING;
   uint16_t inter = frame;
   struct timeval t;
   gettimeofday(&t, NULL);
   frame = (int) floor(((((float) (t.tv_sec - start.tv_sec) * 1000.) +
 	                ((float) (t.tv_usec - start.tv_usec) / 1000.)
                      ) / 1000.) * (float) rate);
+  //error("frame = %d inter = %d", frame, inter);
 
-  for (int f=0; f < frame-inter; f++) {
-    /* get Mpeg frame or not */
+  for (int f=0; f < (frame - inter); f++) {
+    /* get video frame or not */
     if (f >= (int) fps) break;
 
-    if (video == PLAYER_AVI) {
-      /* get Avi frame */
-      if (avi) {
-        int r, l;
-        static int n = 0;
+    switch (video) {
 
-        r = avi->read_data(pixmap, width * height * 3, &l);
-        //error("n=%d l=%d", n, l);
-        if (r == 0) {
-          //error("end of avi video");
-          File::closeFile(fp);
-          fp = NULL;
-          delete avi;
-          avi = NULL;
-          begin = true;
+    case PLAYER_AVI:
+      {
+        if (avi) {
+          int r, l;
+
+          r = avi->read_data(pixmap, width * height * 3, &l); // get Avi frame
+          error("n=%d l=%d", n, l);
+          if (r == 0) {
+            error("end of avi video");
+            File::closeFile(fp);
+            fp = NULL;
+            delete avi;
+            avi = NULL;
+            begin = true;
+            state = INACTIVE;
+            return;
+          }
+          n++;
+          int wof = (texsz - width) / 2;
+          int hof = (texsz - height) / 2;
+          for (int h=0; h < height; h++) {
+            for (int w=0; w < width; w++) {
+              int u = 3 * (texsz * (h+hof) + (w+wof));
+              int v = 3 * (width * h + w);
+              if (File::littleEndian()) {
+                pixtex[u+0] = pixmap[v+0];
+                pixtex[u+1] = pixmap[v+1];
+                pixtex[u+2] = pixmap[v+2];
+              }
+              else { // RGB = BGR
+                pixtex[u+0] = pixmap[v+2];
+                pixtex[u+1] = pixmap[v+1];
+                pixtex[u+2] = pixmap[v+0];
+              }
+            }
+          }
+        }
+        else
+          return;
+      }
+      break;
+
+    case PLAYER_MPG:
+      {
+        if (GetMPEGFrame((char *)pixmap) == false) {	// get mpeg frame
+          if (state == LOOP) {
+            RewindMPEG(fp, imgmpeg);
+            begin = true;
+            return;
+          }
+          CloseMPEG();
           state = INACTIVE;
           return;
         }
         n++;
-        int woff = (texsize - width) / 2;
-        int hoff = (texsize - height) / 2;
-        for (int j=0; j < height; j++) {
-          for (int i=0; i < width; i++) {
-            int u = 3 * (texsize * (j+hoff) + (i+woff));
-            int v = 3 * (width * j + i);
-            if (File::littleEndian()) {
-              pixtex[u+0] = pixmap[v+0];
-              pixtex[u+1] = pixmap[v+1];
-              pixtex[u+2] = pixmap[v+2];
-            }
-            else {
-              pixtex[u+0] = pixmap[v+2]; // RGB = ABG
-              pixtex[u+1] = pixmap[v+1];
-              pixtex[u+2] = pixmap[v+0];
-            }
-          }
-        }
-      }
-    }
-    else if (video == PLAYER_MPG) {
-      if (GetMPEGFrame((char *)pixmap) == false) {
-        /* The End */
-        if (state == LOOP) {
-          RewindMPEG(fp, imgmpeg);
-          begin = true;
-          return;
-        }
-        //error("frames=%d", ++frame);
-        CloseMPEG();
-        state = INACTIVE;
-        return;
-      }
-      int woff = (texsize - width) / 2;
-      int hoff = (texsize - height) / 2;
-      trace(DBG_WO, "frame=%d f=%d texid=%d size=%d w=%d h=%d woff=%d hoff=%d", frame, f, texid, texsize, width, height, woff, hoff);
+        int wof = (texsz - width) / 2;
+        int hof = (texsz - height) / 2;
+        trace(DBG_WO, "frame=%d n=%d id=%d sz=%d w=%d h=%d", frame,n,texid,texsz,width,height);
 
-      ColormapEntry *colorMap = imgmpeg->Colormap;
-      if (colorMap) {	// case of Colormap Index
-        for (int h=0; h < height; h++) {
-          for (int w=0; w < width; w++) {
-            int cmapindex = pixmap[h * width + w];
-            ColormapEntry *color = &colorMap[cmapindex];
-            int u = 3 * ((h+hoff) * texsize + (w+hoff));
-            pixtex[u+0] = color->red % 255;	
-            pixtex[u+1] = color->green % 255;	
-            pixtex[u+2] = color->blue % 255;
-          }
-        }
-      }
-      else {
-        for (int h=0; h < height; h++) {
-          for (int w=0; w < width; w++) {
-            int u = 3 * (texsize * (h+hoff) + (w+woff));
-            int v = 4 * (width * h + w);
-            if (File::littleEndian()) {
-              pixtex[u+0] = pixmap[v+0];
-              pixtex[u+1] = pixmap[v+1];
-              pixtex[u+2] = pixmap[v+2];
-            }
-            else {
-              pixtex[u+0] = pixmap[v+2]; // RGB = ABG
-              pixtex[u+1] = pixmap[v+1];
-              pixtex[u+2] = pixmap[v+0];
+        if (colormap) {	// case of Colormap Index
+          for (int h=0; h < height; h++) {
+            for (int w=0; w < width; w++) {
+              int index = pixmap[h * width + w];
+              ColormapEntry *color = &colormap[index];
+              int u = 3 * ((h+hof) * texsz + (w+hof));
+              pixtex[u+0] = color->red % 255;	
+              pixtex[u+1] = color->green % 255;	
+              pixtex[u+2] = color->blue % 255;
             }
           }
         }
-      }
-    }
-  }
+        else {
+          for (int h=0; h < height; h++) {
+            for (int w=0; w < width; w++) {
+              int u = 3 * (texsz * (h+hof) + (w+wof));
+              int v = 4 * (width * h + w);
+              if (File::littleEndian()) {
+                pixtex[u+0] = pixmap[v+0];
+                pixtex[u+1] = pixmap[v+1];
+                pixtex[u+2] = pixmap[v+2];
+              }
+              else { // RGB = BGR
+                pixtex[u+0] = pixmap[v+2];
+                pixtex[u+1] = pixmap[v+1];
+                pixtex[u+2] = pixmap[v+0];
+              }
+            }
+          }
+        }
+      } //end mpeg
+      break;
+    default: break;
+    } //end switch
+  } //end for
 
   // bind the frame texid
   GLint param = (::g.pref.quality3D) ? GL_LINEAR : GL_NEAREST;
@@ -303,7 +317,7 @@ void Movie::changePermanent(float lasting)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texid);
-  glTexImage2D(GL_TEXTURE_2D, 0, 3, texsize, texsize, 0, GL_RGB, GL_UNSIGNED_BYTE, pixtex);
+  glTexImage2D(GL_TEXTURE_2D, 0, 3, texsz, texsz, 0, GL_RGB, GL_UNSIGNED_BYTE, pixtex);
 }
 
 void Movie::play(Movie *movie, void *d, time_t s, time_t u)

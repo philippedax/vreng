@@ -238,12 +238,14 @@ GLuint Texture::getFromCache(const char *url)
 {
   if (! check(url)) return 0;
 
+/*dax is util ?
   GLuint texid = exist(url);
   if (texid) return texid;
+*/
 
-  Texture * texture = new Texture(); // new entry in cache
+  Texture * texture = new Texture();	// new entry in cache
   strcpy(texture->url, url);
-  texture->id = getid();
+  texture->id = getid();		// creates texture and return texid
   last_texid = texture->id;
   //trace(DBG_IMG, "texture: id=%d %s", texture->id, url);
 
@@ -273,7 +275,6 @@ GLuint Texture::getid()
 
 GLuint Texture::current()
 {
-  //DEBUG Texture::listTextures();
   return last_texid;
 }
 
@@ -302,6 +303,7 @@ GLuint Texture::getIdByUrl(const char *url)
 
 GLuint Texture::getIdByObject(WObject *wo)
 {
+  //dax Texture::listTextures();
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
     if ((*it)->object == wo) return (*it)->id;
   return 0;

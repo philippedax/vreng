@@ -22,7 +22,8 @@
 #ifndef __MPEG_H
 #define __MPEG_H
 
-#define ENABLE_DITHER 1
+//dax #define ENABLE_DITHER 1
+#define ENABLE_DITHER 0
 
 #include <stdio.h>
 #include <stdlib.h>

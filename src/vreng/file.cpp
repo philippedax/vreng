@@ -26,21 +26,21 @@
 /* Open a file */
 FILE * File::openFile(const char *filename, const char *param)
 {
-  FILE *f = NULL;
-  f = fopen(filename, param);
-  if (f) cnt_open++;
-  return f; 
+  FILE *fp = NULL;
+  fp = fopen(filename, param);
+  if (fp) cnt_open++;
+  return fp; 
 }
 
 /* Close a file */
-void File::closeFile(FILE *f)
+void File::closeFile(FILE *fp)
 {
-  fclose(f);
+  fclose(fp);
   cnt_close++;
 }
 
 /**
- * check that this machine is big endian
+ * check whether this machine is big endian
  * return 1 if big endian else 0 if little endian
  */
 bool File::bigEndian()
@@ -55,7 +55,7 @@ bool File::bigEndian()
 }
 
 /**
- * check that this machine is little endian
+ * check whether this machine is little endian
  * return 1 if little endian else 0 if big endian
  */
 bool File::littleEndian()

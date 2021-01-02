@@ -113,7 +113,6 @@ uint16_t Source::getMembersNumber()
 {
   uint16_t members = 0;
 
-  //pd CHECK_SESSION_LIST
   for (Session *pse = Session::getList(); pse && pse->mode; pse = pse->next) {
     for (Source *pso = pse->source; pso ; pso = pso->next)
       members++;
@@ -143,7 +142,6 @@ void Source::dumpAll()
 {
   uint32_t * ssrctab = new uint32_t[100];
 
-  //pd CHECK_SESSION_LIST
   for (Session *pse = Session::getList(); pse && pse->mode && pse->nbsources > 1; pse = pse->next) {
     int i = 0;
     for (Source *pso = pse->source; pso && i < 100; pso = pso->next, i++) {
@@ -155,7 +153,6 @@ void Source::dumpAll()
       for (int j=0; ssrctab[j]; j++) {
         if (ssrctab[j] == pso->ssrc) {
           yet = 1;
-          //pd continue;
           break;
         }
       }
@@ -167,4 +164,3 @@ void Source::dumpAll()
   }
   delete[] ssrctab;
 }
-

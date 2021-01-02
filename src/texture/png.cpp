@@ -28,7 +28,7 @@
 
 Img * Img::loadPNG(void *tex, ImageReader read_func)
 {
-#if 0 //DAX
+#if 1 //DAX
   Texture *_tex = (Texture *) tex;
   FILE *f;
   if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;

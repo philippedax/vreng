@@ -515,7 +515,7 @@ int Payload::sendPayload(const struct sockaddr_in *to)
 /**
  * Receives a Payload packet
  */
-int Payload::recvPayload(int fd, struct sockaddr_in *from)
+int Payload::recvPayload(int sd, struct sockaddr_in *from)
 {
   if (! from) { error("recvPayload: from NULL"); return -1; }
 
@@ -526,9 +526,9 @@ int Payload::recvPayload(int fd, struct sockaddr_in *from)
   socklen_t l = sizeof(struct sockaddr_in);
 
   memset(from, 0, sizeof(struct sockaddr_in));
-  if ((pkt_len = recvfrom(fd, pkt, sizeof(pkt), 0, (struct sockaddr *)from, &l)) <0) {
+  if ((pkt_len = recvfrom(sd, pkt, sizeof(pkt), 0, (struct sockaddr *)from, &l)) <0) {
 #if IPMC_ENABLED
-    error("recvfrom: %s on %d", strerror(errno), fd);
+    error("recvfrom: %s on %d", strerror(errno), sd);
 #endif
     return pkt_len;	// here pkt_len < 0 -> error
   }

@@ -91,7 +91,7 @@ public:
   virtual void add_frame(const char *jpeg_data, int32_t length);
   virtual void add_audio(const char *audio_data, int32_t length);
 
-  virtual FILE * getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const;
+  virtual void getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const;
   virtual FILE * getFile() const;
   virtual int32_t read_header();
   virtual int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen);
@@ -101,7 +101,7 @@ public:
 
 private:
 
-  FILE *file;
+  FILE *fp;
   char *url;
   uint32_t frames;
   uint32_t audio_samples;

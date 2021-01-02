@@ -67,9 +67,9 @@ FILE * Cache::openCache(const char *url, Http *http)
   if (! setCacheName(url, filepath)) return NULL;
   //error("url=%s http=%p", url, http);
 
-  FILE *f;
-  if ((f = File::openFile(filepath, "r")) == NULL) {
-    if ((f = File::openFile(filepath, "w")) == NULL) {
+  FILE *fp;
+  if ((fp = File::openFile(filepath, "r")) == NULL) {
+    if ((fp = File::openFile(filepath, "w")) == NULL) {
       error("httpReader: can't create %s", filepath);
       return NULL;
     }
@@ -79,22 +79,22 @@ FILE * Cache::openCache(const char *url, Http *http)
     // writing the file into the cache
     int c;
     while ((c = http->getChar()) >= 0)
-      putc(c, f);
-    File::closeFile(f);
+      putc(c, fp);
+    File::closeFile(fp);
     progression('c');	// c as cache
   }
   if (::g.pref.refresh) {  // force reload
     int c;
     progression('h');	// h as http
     while ((c = http->getChar()) >= 0)
-      putc(c, f);
-    File::closeFile(f);
+      putc(c, fp);
+    File::closeFile(fp);
     progression('c');
   }
   // and open it for reading
-  f = File::openFile(filepath, "r");
+  fp = File::openFile(filepath, "r");
 
-  return f;  // file is opened
+  return fp;  // file is opened
 }
 
 bool Cache::inCache(const char *url)
@@ -102,10 +102,10 @@ bool Cache::inCache(const char *url)
   char filepath[PATH_LEN];
   if (! setCacheName(url, filepath)) return false;
 
-  FILE *f;
+  FILE *fp;
   struct stat bufstat;
-  if ((f = File::openFile(filepath, "r")) != NULL) {
-    File::closeFile(f);
+  if ((fp = File::openFile(filepath, "r")) != NULL) {
+    File::closeFile(fp);
     stat(filepath, &bufstat);
     if (bufstat.st_size != 0)
       return true;

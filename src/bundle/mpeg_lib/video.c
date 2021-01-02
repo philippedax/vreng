@@ -82,12 +82,12 @@ VidStream *curVidStream = NULL;
 */
 
 int zigzag[64][2] = {
-  0, 0, 1, 0, 0, 1, 0, 2, 1, 1, 2, 0, 3, 0, 2, 1, 1, 2, 0, 3, 0, 4, 1, 3,
-  2, 2, 3, 1, 4, 0, 5, 0, 4, 1, 3, 2, 2, 3, 1, 4, 0, 5, 0, 6, 1, 5, 2, 4,
-  3, 3, 4, 2, 5, 1, 6, 0, 7, 0, 6, 1, 5, 2, 4, 3, 3, 4, 2, 5, 1, 6, 0, 7,
-  1, 7, 2, 6, 3, 5, 4, 4, 5, 3, 6, 2, 7, 1, 7, 2, 6, 3, 5, 4, 4, 5, 3, 6,
-  2, 7, 3, 7, 4, 6, 5, 5, 6, 4, 7, 3, 7, 4, 6, 5, 5, 6, 4, 7, 5, 7, 6, 6,
-7, 5, 7, 6, 6, 7, 7, 7};
+  {0, 0}, {1, 0}, {0, 1}, {0, 2}, {1, 1}, {2, 0}, {3, 0}, {2, 1}, {1, 2}, {0, 3}, {0, 4}, {1, 3},
+  {2, 2}, {3, 1}, {4, 0}, {5, 0}, {4, 1}, {3, 2}, {2, 3}, {1, 4}, {0, 5}, {0, 6}, {1, 5}, {2, 4},
+  {3, 3}, {4, 2}, {5, 1}, {6, 0}, {7, 0}, {6, 1}, {5, 2}, {4, 3}, {3, 4}, {2, 5}, {1, 6}, {0, 7},
+  {1, 7}, {2, 6}, {3, 5}, {4, 4}, {5, 3}, {6, 2}, {7, 1}, {7, 2}, {6, 3}, {5, 4}, {4, 5}, {3, 6},
+  {2, 7}, {3, 7}, {4, 6}, {5, 5}, {6, 4}, {7, 3}, {7, 4}, {6, 5}, {5, 6}, {4, 7}, {5, 7}, {6, 6},
+{7, 5}, {7, 6}, {6, 7}, {7, 7}};
 /* Array mapping zigzag to array pointer offset. */
 
 int zigzag_direct[64] = {
@@ -129,12 +129,12 @@ static int cmaxy;
 
 #define MAX_NEG_CROP 384
 #define NUM_CROP_ENTRIES (256+2*MAX_NEG_CROP)
-#if 0	//PD
+#if 0	//dax
 #define assertCrop(x)	assert(((x) >= -MAX_NEG_CROP) && \
 			       ((x) <= 256+MAX_NEG_CROP))
 #else
 #define assertCrop(x)
-#endif //PD 
+#endif //dax 
 static unsigned char cropTbl[NUM_CROP_ENTRIES];
 
 
@@ -1161,7 +1161,9 @@ ParseMacroBlock(vid_stream)
       recon_down_back;
   int zero_block_flag;
   BOOLEAN mb_quant=0, mb_motion_forw=0, mb_motion_back=0, mb_pattern=0;
+#if (ENABLE_DITHER) //dax
   int no_dith_flag = 0;
+#endif
 
   /*
    * Parse off macroblock address increment and add to macroblock address.

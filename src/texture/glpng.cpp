@@ -28,7 +28,7 @@
 #include <math.h>
 #include "glpng.hpp"
 
-#if 0 //DAX
+#if 1 //DAX
 #include "mypng.h"
 
 

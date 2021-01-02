@@ -111,36 +111,36 @@ void Channel::addToList()
 }
 
 /** Join group */
-int Channel::joinGroup(int sock)
+int Channel::joinGroup(int sd)
 {
   memset(&mreq, 0, sizeof(struct ip_mreq));
   mreq.imr_multiaddr.s_addr = group;
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-  if (Socket::addMembership(sock, (void *) &mreq) < 0)  return -1;
-  return sock;
+  if (Socket::addMembership(sd, (void *) &mreq) < 0)  return -1;
+  return sd;
 }
 
 /** Leave group */
-int Channel::leaveGroup(int sock)
+int Channel::leaveGroup(int sd)
 {
-  if (Socket::dropMembership(sock, (void *) &mreq) < 0)  return -1;
-  return sock;
+  if (Socket::dropMembership(sd, (void *) &mreq) < 0)  return -1;
+  return sd;
 }
 
 /** Create a Multicast listen socket on the channel defined by group/port */
 int Channel::createMcastRecvSocket(struct sockaddr_in *sa)
 {
-  int sock = -1;
+  int sd = -1;
 
-  if ((sock = Socket::openDatagram()) < 0)  return -1;
+  if ((sd = Socket::openDatagram()) < 0)  return -1;
 
-  if (Socket::reuseAddr(sock) < 0)
+  if (Socket::reuseAddr(sd) < 0)
     perror("reuse failed");
-  if (bind(sock, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0)
+  if (bind(sd, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0)
     error("bind: %s port=%d", strerror(errno), ntohs(sa->sin_port));
 
-  joinGroup(sock);
-  return sock;
+  joinGroup(sd);
+  return sd;
 }
 
 void Channel::closeMcastSocket()

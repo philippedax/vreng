@@ -49,19 +49,19 @@ void Sap::finish(int status)
 /** SAP/SDR listener: MBone detection */
 void * Sap::listener(void *arg)
 {
-  int sdsap;
+  int sd;
   struct sockaddr_in sasap, sasrc;
 
-  if ((sdsap = Socket::openDatagram()) < 0)
+  if ((sd = Socket::openDatagram()) < 0)
     finish(1);
 
   sasap.sin_family = AF_INET;
   sasap.sin_addr.s_addr = htonl(INADDR_ANY);
   sasap.sin_port = htons(SAP_PORT);
 
-  if (Socket::reuseAddr(sdsap) < 0)
+  if (Socket::reuseAddr(sd) < 0)
     finish(1);
-  if (bind(sdsap, (struct sockaddr *) &sasap, sizeof(sasap)) < 0) {
+  if (bind(sd, (struct sockaddr *) &sasap, sizeof(sasap)) < 0) {
     perror("bind sap");
     finish(1);
   }
@@ -71,17 +71,17 @@ void * Sap::listener(void *arg)
   inet4_pton(SAP_ADDR, &(mreq.imr_multiaddr.s_addr));
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
 
-  if (Socket::addMembership(sdsap, &mreq) < 0) {
+  if (Socket::addMembership(sd, &mreq) < 0) {
     error("sapListener: can't membership");
     finish(1);
   }
-  Socket::setNoLoopback(sdsap);
+  Socket::setNoLoopback(sd);
 
   socklen_t len = sizeof(struct sockaddr_in);
   char bufsap[BUFSIZ];
   memset(bufsap, 0, BUFSIZ);
 
-  recvfrom(sdsap, bufsap, sizeof(bufsap), 0, (struct sockaddr *) &sasrc, &len);
+  recvfrom(sd, bufsap, sizeof(bufsap), 0, (struct sockaddr *) &sasrc, &len);
   for (int i=8; i<12; i++)
     printf("%c", bufsap[i]);	// print SDP version v=
 

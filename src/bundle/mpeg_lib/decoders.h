@@ -209,7 +209,7 @@ extern unsigned short int dct_coeff_first[256];
 	    level = next32bits >> (10-flushed);				\
 	    level &= 0xff;						\
 	    flushed += 22;						\
- 	    assert(level >= 128);					\
+ 	    /* dax assert(level >= 128); */					\
 	 } else if (temp != 128) {					\
 	    /* Grab sign bit */						\
 	    flushed += 14;						\
@@ -219,8 +219,9 @@ extern unsigned short int dct_coeff_first[256];
 	    level = next32bits >> (10-flushed);				\
 	    level &= 0xff;						\
 	    flushed += 22;						\
-	    level = level - 256;					\
-	    assert(level <= -128 && level >= -255);			\
+	    level = level - 256; /* dax orig 256 */					\
+            printf("level = %d\n", level);                              \
+	    /* dax assert(level <= -128 && level >= -255); */			\
 	 }								\
        }								\
        /* Update bitstream... */					\

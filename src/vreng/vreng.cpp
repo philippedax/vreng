@@ -39,7 +39,9 @@
 #include "aiinit.hpp"	// initOcaml
 #include "openal.hpp"	// Openal::init
 
-#include "setjmp.h"	// jmp_buf
+#include <setjmp.h>	// jmp_buf
+#include <sys/resource.h>	// rlimit
+
 using namespace ubit;
 
 // global variable that refers to the various modules
@@ -91,6 +93,7 @@ int Global::start(int argc, char *argv[])
 
 void Global::startCB()
 {
+  initLimits();		// Change rlimit
   initTrigo();		// Trigo
   initSignals();	// Signals initialization
   HttpThread::init();	// Simultaneous http connections initialization
@@ -167,6 +170,18 @@ void Global::initSignals()
   trace(DBG_INIT, "Signals initialized");
 #if 0
   longjmp(sigctx, 0);
+#endif
+}
+
+void Global::initLimits()
+{
+#if HAVE_SETRLIMIT
+  struct rlimit rl;
+  getrlimit(RLIMIT_NOFILE, &rl);
+  //printf("default nofile: %d/%d\n", rl.rlim_cur, rl.rlim_max);
+  rl.rlim_cur = 4096;
+  setrlimit(RLIMIT_NOFILE, &rl);
+  //printf("new nofile: %d/%d\n", rl.rlim_cur, rl.rlim_max);
 #endif
 }
 

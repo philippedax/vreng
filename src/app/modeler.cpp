@@ -48,7 +48,7 @@ void Modeler::start()
     break;
   case 0:
     if (toolid == VRED_TOOL) {
-      execlp("vred", "vred", (char*)NULL);
+      execlp("./bin/vred", "vred", (char*)NULL);
       error("%s vred", e_exec);
     }
     if (toolid == VREM_TOOL) {

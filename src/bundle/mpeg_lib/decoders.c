@@ -821,9 +821,7 @@ decodeDCTCoeff(unsigned short int *dct_coeff_tbl, unsigned int *run, int *level)
 	    *level = next32bits >> (24-flushed);
 	    flushed += 8;
 	    /* next32bits &= bitMask[flushed];  last op before update */
-#if 0 //dax
- 	    assert(*level >= 128);
-#endif
+ 	    //dax assert(*level >= 128);
 	 } else if (temp != 128) {
 	    /* Grab sign bit */
 	    *level = ((int) (temp << 24)) >> 24;
@@ -833,9 +831,7 @@ decodeDCTCoeff(unsigned short int *dct_coeff_tbl, unsigned int *run, int *level)
 	    flushed += 8;
 	    /* next32bits &= bitMask[flushed];  last op before update */
 	    *level = *level - 256;
-#if 0 //dax 
-	    assert(*level <= -128 && *level >= -255);
-#endif
+	    //dax assert(*level <= -128 && *level >= -255);
 	 }
        }
        /* Update bitstream... */

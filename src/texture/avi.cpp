@@ -50,7 +50,7 @@
 
 void Avi::defaults()
 {
-  file = NULL;
+  fp = NULL;
   url = NULL;
   audio_samples = 0;
   frames = 0;
@@ -78,7 +78,7 @@ Avi::Avi(const char *_url)
 Avi::~Avi()
 {
   if (url) delete[] url;
-  if (file) File::closeFile(file);
+  if (fp) File::closeFile(fp);
 }
 
 /*******************************************************************
@@ -101,21 +101,20 @@ void Avi::httpReader(void *_avi, Http *http)
   Avi *avi = (Avi *) _avi;
   if (! avi) return;
         
-  avi->file = Cache::openCache(avi->getUrl(), http);
+  avi->fp = Cache::openCache(avi->getUrl(), http);
   //avi->read_header();
 }
 
 FILE * Avi::getFile() const
 {
-  return file;
+  return fp;
 }
 
-FILE * Avi::getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const
+void Avi::getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const
 {
   if (width) *_width = width;
   if (height) *_height = height;
   if (fps) *_fps = (float) fps;
-  return file;
 }
 
 /*
@@ -133,18 +132,18 @@ int32_t Avi::read_header()
   uint32_t args[64];
 
   /* Read first 12 bytes and check that this is an AVI file */
-  if (fread(&tag , 4, 1, file) != 1) return 1;
-  if (fread(&n   , 4, 1, file) != 1) return 1;
-  if (fread(&name, 4, 1, file) != 1) return 1;
+  if (fread(&tag , 4, 1, fp) != 1) return 1;
+  if (fread(&n   , 4, 1, fp) != 1) return 1;
+  if (fread(&name, 4, 1, fp) != 1) return 1;
   if (tag != RIFFtag || name != MAKEFOURCC('A','V','I',' ')) {
-    error("avi: not a AVI file");
+    error("avi: not a AVI fp");
     return ERR_NO_AVI;
   }
 
   /* Read all tags until we encounter a 'LIST xxx movi' tag */
   while (1) {
-    if (fread(&tag, 4, 1, file) != 1) return 1;
-    if (fread(&n  , 4, 1, file) != 1) return 1;
+    if (fread(&tag, 4, 1, fp) != 1) return 1;
+    if (fread(&n  , 4, 1, fp) != 1) return 1;
 #if WORDS_BIGENDIAN
     char tmp;
     SWAPL(&n, tmp);
@@ -153,7 +152,7 @@ int32_t Avi::read_header()
     //error("avi: tag=%08x n=%d", tag, n);
     /* Unless a LIST tag hasn't name movi, it is ignored */
     if (tag == LISTtag) {
-      if (fread(&name, 4, 1, file) != 1) return 1;
+      if (fread(&name, 4, 1, fp) != 1) return 1;
       //error("avi: name=%08x", name);
       if (name == MAKEFOURCC('m','o','v','i')) {
         //error("avi: movi");
@@ -164,11 +163,11 @@ int32_t Avi::read_header()
 
     /* Read the arguments of this tag, 256 bytes are sufficient, remainder is skipped */
     if (n <= 256) {
-      if (fread(args, n, 1, file) != 1) return 1;
+      if (fread(args, n, 1, fp) != 1) return 1;
     }
     else {
-      if (fread(args, 256, 1, file) != 1) return 1;
-      if (fseek(file, n-256, SEEK_CUR)) return 1;
+      if (fread(args, 256, 1, fp) != 1) return 1;
+      if (fseek(fp, n-256, SEEK_CUR)) return 1;
     }
 
     /* Interpret the tag and its args */
@@ -249,12 +248,12 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
 {
   uint32_t tag, n;
 
-  while (file) {
+  while (fp) {
     /* Read tag and length */
-    if (fread(&tag, 4, 1, file) != 1 ||
-        fread(&n  , 4, 1, file) != 1 ) {
+    if (fread(&tag, 4, 1, fp) != 1 ||
+        fread(&n  , 4, 1, fp) != 1 ) {
       //error("avi: read error");
-      file = NULL;
+      fp = NULL;
       return 0;
     }
 #if WORDS_BIGENDIAN
@@ -269,21 +268,21 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
       case MAKEFOURCC('0','0','d','c'):
         if (n > max_vid) {
           error("avi: video buffer too small n=%d", n);
-          file = NULL;
+          fp = NULL;
           return -1;
         }
         *retlen = n;
-        if (fread(vidbuf, n, 1, file) != 1) {
+        if (fread(vidbuf, n, 1, fp) != 1) {
           //error("avi: eof! n=%d", n);
-          file = NULL;
+          fp = NULL;
           return 0;
         }
         return 1;	// OK
         break;
       default:
-        if (fseek(file, n, SEEK_CUR)) {
+        if (fseek(fp, n, SEEK_CUR)) {
           error("avi: ignore tag=%08x n=%d", tag, n);
-          file = NULL;
+          fp = NULL;
           return 0;
         }
         break;
@@ -297,12 +296,12 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t 
   uint32_t tag;
   uint32_t n;
 
-  while (file) {
+  while (fp) {
     /* Read tag and length */
-    if (fread(&tag, 4, 1, file) != 1 ||
-        fread(&n, 4, 1, file) != 1 ) {
+    if (fread(&tag, 4, 1, fp) != 1 ||
+        fread(&n, 4, 1, fp) != 1 ) {
       //error("avi: read error");
-      file = NULL;
+      fp = NULL;
       return 0;
     }
 #if WORDS_BIGENDIAN
@@ -316,13 +315,13 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t 
       case MAKEFOURCC('0','0','d','c'):
         if (n > (uint32_t) max_vid) {
           error("avi: video buffer too small n=%d", n);
-          file = NULL;
+          fp = NULL;
           return -1;
         }
         *retlen = n;
-        if (fread(vidbuf, n, 1, file) != 1) {
-          //error("avi: eof! n=%d", n);
-          file = NULL;
+        if (fread(vidbuf, n, 1, fp) != 1) {
+          error("avi: eof! n=%d", n);
+          fp = NULL;
           return 0;
         }
         return 1;
@@ -330,13 +329,13 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t 
       case MAKEFOURCC('0','1','w','b'):
         if (n > (uint32_t) max_aud) return -2;
         *retlen = n;
-        if (fread(audbuf, n, 1, file) != 1) return 0;
+        if (fread(audbuf, n, 1, fp) != 1) return 0;
         return 2;
         break;
       default:
-        if (fseek(file, n, SEEK_CUR)) {
+        if (fseek(fp, n, SEEK_CUR)) {
           error("avi: ignore tag=%08x n=%d", tag, n);
-          file = NULL;
+          fp = NULL;
           return 0;
         }
         break;
@@ -350,24 +349,24 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t 
  *******************************************************************/
 int32_t Avi::tell(int fd)
 {
-  return (fseek(file, fd, SEEK_CUR));
+  return (fseek(fp, fd, SEEK_CUR));
 }
 
 void Avi::out4cc(const char *s)
 {
-  if (fwrite(s, 4, 1, file) != 1 ) { perror("write"); return; }
+  if (fwrite(s, 4, 1, fp) != 1 ) { perror("write"); return; }
 }
 
 void Avi::outlong(int32_t n)
 {
-  if (fwrite(&n, 4, 1, file) != 1 ) { perror("write"); return; }
+  if (fwrite(&n, 4, 1, fp) != 1 ) { perror("write"); return; }
 }
 
 void Avi::outshrt(int32_t n)
 {
   int16_t s = (int16_t)n;
 
-  if (fwrite(&s, 2, 1, file) != 1 ) { perror("write"); return; }
+  if (fwrite(&s, 2, 1, fp) != 1 ) { perror("write"); return; }
 }
 
 void Avi::start_list(const char * name)
@@ -379,7 +378,7 @@ void Avi::start_list(const char * name)
 
   out4cc("LIST");
   outlong(0);        /* Length of list in bytes, will be written by finish_list */
-  list_pos[list_depth-1] = ftell(file);
+  list_pos[list_depth-1] = ftell(fp);
   out4cc(name);
   strncpy(list_name[list_depth-1], name,4);
 }
@@ -395,10 +394,10 @@ void Avi::finish_list(const char * name)
     error("finish_list does not match open list"); return;
   }
 
-  pos = ftell(file);
-  fseek(file, list_pos[list_depth-1]-4, SEEK_SET);
+  pos = ftell(fp);
+  fseek(fp, list_pos[list_depth-1]-4, SEEK_SET);
   outlong(pos-list_pos[list_depth-1]);
-  fseek(file, pos, SEEK_SET);
+  fseek(fp, pos, SEEK_SET);
 
   list_depth--;
 }
@@ -408,19 +407,19 @@ void Avi::open_output_file(const char *filename)
   int i;
   char c[DATASTART-12];
 
-  file = File::openFile(filename, "wb+");//O_RDWR|O_CREAT|O_TRUNC,0600);
-  if (file == NULL) { error("open"); return; }
+  fp = File::openFile(filename, "wb+");//O_RDWR|O_CREAT|O_TRUNC,0600);
+  if (fp == NULL) { error("open"); return; }
 
   /* Set it nonblocking */
-  //i = fcntl(file, F_SETFL, O_NONBLOCK);
+  //i = fcntl(fp, F_SETFL, O_NONBLOCK);
   //if( i<0 ) { perror("fcntl on avi output"); return; }
 
   /* Write out DATASTART - 12 bytes, the header will go here when we are finished with writing */
   for (i=0; i<DATASTART-12; i++) c[i] = 0;
-  fwrite(c, DATASTART-12, 1, file);
+  fwrite(c, DATASTART-12, 1, fp);
  
-  fseek(file, DATASTART-12, SEEK_SET);
-  //int x = ftell(file);
+  fseek(fp, DATASTART-12, SEEK_SET);
+  //int x = ftell(fp);
   start_list("movi");
 }
 
@@ -430,16 +429,16 @@ void Avi::write_header(int width, int height, int norm, int audio, int stereo, i
 
   /* write index */
   finish_list("movi");
-  fseek(file, 0, SEEK_END);
+  fseek(fp, 0, SEEK_END);
   out4cc("idx1");
   outlong(n_idx*4);       /* # of bytes to follow */
-  nbytes = fwrite(idx, n_idx*4, 1, file);
+  nbytes = fwrite(idx, n_idx*4, 1, fp);
   if (nbytes != 1) { perror("write"); return; }
 
   /* get the file size */
-  fseek(file, 0, SEEK_END);
-  nbytes = ftell(file);
-  fseek(file, 0, SEEK_SET); /* Rewind */
+  fseek(fp, 0, SEEK_END);
+  nbytes = ftell(fp);
+  fseek(fp, 0, SEEK_SET); /* Rewind */
 
   if (!audio && audio_samples)
     error("AVI: Audio samples present, but no audio specified");
@@ -572,27 +571,27 @@ void Avi::write_header(int width, int height, int norm, int audio, int stereo, i
   finish_list("hdrl");
 
   /* Calculate the needed amount of junk bytes, output junk */
-  pos = ftell(file);
+  pos = ftell(fp);
   njunk = DATASTART - pos - 8 - 12;
   out4cc("JUNK");
   outlong(njunk);
-  File::closeFile(file);
-  file = NULL;
+  File::closeFile(fp);
+  fp = NULL;
 }
 
 void Avi::add_frame(const char *jpeg_data, int length)
 {
-  fseek(file, 0, SEEK_END);
+  fseek(fp, 0, SEEK_END);
   if (n_idx >= MAXIDX) {error("IDX"); return;}
   idx[n_idx  ] = MAKEFOURCC('0','0','d','b');
   idx[n_idx+1] = 0x10; /* RJ: No idea what that means */
-  idx[n_idx+2] = ftell(file);
+  idx[n_idx+2] = ftell(fp);
   idx[n_idx+3] = length;
   n_idx += 4;
   out4cc("00db");
   outlong(length);
 
-  int nw = fwrite(jpeg_data, length, 1, file);
+  int nw = fwrite(jpeg_data, length, 1, fp);
   if (nw != 1) { perror("write"); return; }
   frames++;
 }
@@ -602,13 +601,13 @@ void Avi::add_audio(const char *audio_data, int length)
   if (n_idx >= MAXIDX) {error("IDX"); return;}
   idx[n_idx  ] = MAKEFOURCC('0','1','w','b');
   idx[n_idx+1] = 0x00; /* RJ: No idea what that means */
-  idx[n_idx+2] = ftell(file);
+  idx[n_idx+2] = ftell(fp);
   idx[n_idx+3] = length;
   n_idx += 4;
   out4cc("01wb");
   outlong(length);
 
-  int nw = fwrite(audio_data, length, 1, file);
+  int nw = fwrite(audio_data, length, 1, fp);
   if (nw != 1) { perror("write"); return; }
   audio_samples += length;
 }

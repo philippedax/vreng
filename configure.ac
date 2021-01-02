@@ -1287,6 +1287,7 @@ if test "${with_mpeg:=yes}" = "yes"; then
        [AC_MSG_RESULT([	use bundle mpeg_lib ])],
        [${OSDEP_LIBS}])
   if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
+    bundle_libmpeg="yes"
     AC_DEFINE(HAVE_LIBMPEG)
   else
     bundle_libmpeg="yes"

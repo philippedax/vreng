@@ -68,6 +68,8 @@ public:
   static void printStats();
 
   void initSignals();
+
+  void initLimits();
 };
 
 extern Global g;

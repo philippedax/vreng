@@ -26,83 +26,83 @@
 /** Open a datagram socket */
 int Socket::openDatagram()
 {
-  int sock = -1;
+  int sd = -1;
 
-  if ((sock = socket(PF_INET, SOCK_DGRAM, 0)) < 0)
+  if ((sd = socket(PF_INET, SOCK_DGRAM, 0)) < 0)
     error("socket: %s (%d)", strerror(errno), errno);
-  if (sock > 0) cnt_open_socket++;
-  return sock;
+  if (sd > 0) cnt_open_socket++;
+  return sd;
 }
 
 /** Open a stream socket */
 int Socket::openStream()
 {
-  int sock = -1;
+  int sd = -1;
 
-  if ((sock = socket(PF_INET, SOCK_STREAM, 0)) < 0)
+  if ((sd = socket(PF_INET, SOCK_STREAM, 0)) < 0)
     error("socket: %s (%d)", strerror(errno), errno);
-  if (sock > 0) cnt_open_socket++;
-  return sock;
+  if (sd > 0) cnt_open_socket++;
+  return sd;
 }
 
 /** Close a socket datagram*/
-void Socket::closeDatagram(int sock)
+void Socket::closeDatagram(int sd)
 {
-  if (sock > 0) {
-    close(sock);
+  if (sd > 0) {
+    close(sd);
     cnt_close_socket++;
   }
 }
 
 /** Close a socket stream */
-void Socket::closeStream(int sock)
+void Socket::closeStream(int sd)
 {
-  if (sock > 0) {
-    close(sock);
+  if (sd > 0) {
+    close(sd);
     cnt_close_socket++;
   }
 }
 
-int Socket::connection(int sock, const sockaddr_in *sa)
+int Socket::connection(int sd, const sockaddr_in *sa)
 {
-  if (connect(sock, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0) {
+  if (connect(sd, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0) {
     error("connect: %s (%d)", strerror(errno), errno);
-    close(sock);
+    close(sd);
     cnt_close_socket++;
     return -1;
   }
-  return sock;
+  return sd;
 }
 
 /**
  * Do REUSEADDR on the socket
- * return sock if OK, else -1
+ * return sd if OK, else -1
  */
-int Socket::reuseAddr(int sock)
+int Socket::reuseAddr(int sd)
 {
   const int one = 1;
 
-  if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,
+  if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR,
 		 (char *) &one, sizeof(one)) < 0) {
     error("SO_REUSEADDR: %s (%d)", strerror(errno), errno);
     return -1;
   }
-  return sock;
+  return sd;
 }
 
-int Socket::tcpNoDelay(int sock)
+int Socket::tcpNoDelay(int sd)
 {
   const int one = 1;
 
-  if (setsockopt(sock, SOL_SOCKET, TCP_NODELAY,
+  if (setsockopt(sd, SOL_SOCKET, TCP_NODELAY,
 		 (char *) &one, sizeof(one)) < 0) {
-    error("TCP_NODELAY: %s (%d) sock=%d", strerror(errno), errno, sock);
+    error("TCP_NODELAY: %s (%d) sock=%d", strerror(errno), errno, sd);
     return -1;
   }
-  return sock;
+  return sd;
 }
 
-uint16_t Socket::getSrcPort(int sock)
+uint16_t Socket::getSrcPort(int sd)
 {
   struct sockaddr_in sa;
   socklen_t slen = sizeof(struct sockaddr_in);
@@ -110,7 +110,7 @@ uint16_t Socket::getSrcPort(int sock)
   sa.sin_family = AF_INET;
   sa.sin_port = 0;
   sa.sin_addr.s_addr = htonl(INADDR_ANY);
-  if (getsockname(sock, (struct sockaddr *) &sa, (socklen_t *) &slen) < 0) {
+  if (getsockname(sd, (struct sockaddr *) &sa, (socklen_t *) &slen) < 0) {
     error("getSrcPort: %s (%d)", strerror(errno), errno);
     return 0;
   }
@@ -119,14 +119,14 @@ uint16_t Socket::getSrcPort(int sock)
 
 /**
  * Control blocking(1)/non blocking(0)
- * return sock if OK, else -1
+ * return sd if OK, else -1
  */
-int Socket::handleBlocking(int sock, bool block)
+int Socket::handleBlocking(int sd, bool block)
 {
 #if HAVE_FCNTL
   int flags;
 
-  if ((flags = fcntl(sock, F_GETFL)) < 0) {
+  if ((flags = fcntl(sd, F_GETFL)) < 0) {
     error("F_GETFL: %s (%d)", strerror(errno), errno);
     return -1;
   }
@@ -134,29 +134,29 @@ int Socket::handleBlocking(int sock, bool block)
     flags &= ~O_NONBLOCK;
   else
     flags |= O_NONBLOCK;
-  if (fcntl(sock, F_SETFL, flags) < 0) {
+  if (fcntl(sd, F_SETFL, flags) < 0) {
     error("F_SETFL: %s (%d)", strerror(errno), errno);
     return -1;
   }
 #endif // HAVE_FCNTL
-  return sock;
+  return sd;
 }
 
-int Socket::setBlocking(int sock)
+int Socket::setBlocking(int sd)
 {
-  return handleBlocking(sock, true);
+  return handleBlocking(sd, true);
 }
 
-int Socket::setNoBlocking(int sock)
+int Socket::setNoBlocking(int sd)
 {
-  return handleBlocking(sock, false);
+  return handleBlocking(sd, false);
 }
 
 /**
  * Set the ttl
- * return sock if OK, else -1
+ * return sd if OK, else -1
  */
-int Socket::setScope(int sock, uint8_t _ttl)
+int Socket::setScope(int sd, uint8_t _ttl)
 {
 #if defined(__WIN32__) || defined(_WIN32)
 #define TTL_TYPE int
@@ -165,22 +165,22 @@ int Socket::setScope(int sock, uint8_t _ttl)
 #endif
   if (_ttl) {
     TTL_TYPE ttl = (TTL_TYPE)_ttl;
-    if (setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, sizeof(ttl)) < 0) {
+    if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, sizeof(ttl)) < 0) {
       error("IP_MULTICAST_TTL: %s (%d)", strerror(errno), errno);
       return -1;
     }
   }
-  return sock;
+  return sd;
 }
 
 /**
  * Set loopback: active (1) either inactive (0)
- * return sock if OK, else -1
+ * return sd if OK, else -1
  */
-int Socket::handleLoopback(int sock, uint8_t loop)
+int Socket::handleLoopback(int sd, uint8_t loop)
 {
 #ifdef IP_MULTICAST_LOOP // Windoze doesn't handle IP_MULTICAST_LOOP
-  if (setsockopt(sock, IPPROTO_IP, IP_MULTICAST_LOOP,
+  if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_LOOP,
 		 &loop, sizeof(loop)) < 0) {
 #if IPMC_ENABLED
     error("IP_MULTICAST_LOOP: %s (%d)", strerror(errno), errno);
@@ -188,22 +188,22 @@ int Socket::handleLoopback(int sock, uint8_t loop)
     return -1;
   }
 #endif
-  return sock;
+  return sd;
 }
 
-int Socket::setLoopback(int sock)
+int Socket::setLoopback(int sd)
 {
-  return handleLoopback(sock, 1);
+  return handleLoopback(sd, 1);
 }
 
-int Socket::setNoLoopback(int sock)
+int Socket::setNoLoopback(int sd)
 {
-  return handleLoopback(sock, 0);
+  return handleLoopback(sd, 0);
 }
 
-int Socket::addMembership(int sock, const void *pmreq)
+int Socket::addMembership(int sd, const void *pmreq)
 {
-  if (setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP,
+  if (setsockopt(sd, IPPROTO_IP, IP_ADD_MEMBERSHIP,
                  pmreq, sizeof(struct ip_mreq)) < 0) {
 #if IPMC_ENABLED
     error("IP_ADD_MEMBERSHIP: %s (%d)", strerror(errno), errno);
@@ -213,9 +213,9 @@ int Socket::addMembership(int sock, const void *pmreq)
   return 0;
 }
 
-int Socket::dropMembership(int sock, const void *pmreq)
+int Socket::dropMembership(int sd, const void *pmreq)
 {
-  if (setsockopt(sock, IPPROTO_IP, IP_DROP_MEMBERSHIP,
+  if (setsockopt(sd, IPPROTO_IP, IP_DROP_MEMBERSHIP,
                  pmreq, sizeof(struct ip_mreq)) < 0) {
 #if IPMC_ENABLED
     error("IP_DROP_MEMBERSHIP: %s (%d)", strerror(errno), errno);
@@ -226,42 +226,42 @@ int Socket::dropMembership(int sock, const void *pmreq)
 }
 
 /** Set a Multicast socket */
-void Socket::setSendSocket(int sock, uint8_t ttl)
+void Socket::setSendSocket(int sd, uint8_t ttl)
 {
 #ifdef PROXY_MULTICAST
   if (mup.active) {
-    setNoBlocking(sock);
+    setNoBlocking(sd);
     return;
   }
 #endif
 
-  setScope(sock, ttl);
+  setScope(sd, ttl);
 #if NEEDLOOPBACK
-  setLoopback(sock);    // loopback
+  setLoopback(sd);    // loopback
 #else
-  setNoLoopback(sock);  // no loopback (default)
+  setNoLoopback(sd);  // no loopback (default)
 #endif
-  setNoBlocking(sock);
+  setNoBlocking(sd);
 }
 
 /**
  * Create an UDP socket
  * Prevue pour emettre (uni et mcast) et recevoir (unicast donc)
  * Do setScope (ttl) and setLoopback (off)
- * return sock if OK, else -1
+ * return sd if OK, else -1
  */
 int Socket::createSendSocket(uint8_t ttl)
 {
-  int sock = -1;
+  int sd = -1;
 
-  if ((sock = openDatagram()) >= 0)
-    setSendSocket(sock, ttl);
-  return sock;
+  if ((sd = openDatagram()) >= 0)
+    setSendSocket(sd, ttl);
+  return sd;
 }
 /**
  * bind
  */
-int Socket::bindSocket(int sock, uint32_t uni_addr, uint16_t port)
+int Socket::bindSocket(int sd, uint32_t uni_addr, uint16_t port)
 {
   struct sockaddr_in sa;
 
@@ -270,11 +270,11 @@ int Socket::bindSocket(int sock, uint32_t uni_addr, uint16_t port)
   sa.sin_port = htons(port);
   sa.sin_addr.s_addr = htonl(uni_addr);
 
-  reuseAddr(sock);
-  if (bind(sock, (struct sockaddr *) &sa, sizeof(struct sockaddr_in)) < 0) {
+  reuseAddr(sd);
+  if (bind(sd, (struct sockaddr *) &sa, sizeof(struct sockaddr_in)) < 0) {
     error("receive unicast bind: %s (%d)", strerror(errno), errno);
   }
-  return sock;
+  return sd;
 }
 
 /**
@@ -283,9 +283,9 @@ int Socket::bindSocket(int sock, uint32_t uni_addr, uint16_t port)
  */
 int Socket::createUcastSocket(uint32_t uni_addr, uint16_t port)
 {
-  int sock = -1;
+  int sd = -1;
 
-  if ((sock = openDatagram()) < 0) return -1;
+  if ((sd = openDatagram()) < 0) return -1;
 #if 0
   struct sockaddr_in sa;
   memset(&sa, 0, sizeof(struct sockaddr_in));
@@ -293,14 +293,14 @@ int Socket::createUcastSocket(uint32_t uni_addr, uint16_t port)
   sa.sin_port = htons(port);
   sa.sin_addr.s_addr = htonl(uni_addr);
 
-  Socket::reuseAddr(sock);
+  Socket::reuseAddr(sd);
   struct sockaddr_in sa;
-  if (bind(sock, (struct sockaddr *) &sa, sizeof(struct sockaddr_in)) < 0) {
+  if (bind(sd, (struct sockaddr *) &sa, sizeof(struct sockaddr_in)) < 0) {
     error("receive unicast bind: %s (%d)", strerror(errno), errno);
   }
 #endif
-  bindSocket(sock, uni_addr, port);
-  return sock;
+  bindSocket(sd, uni_addr, port);
+  return sd;
 }
 
 bool Socket::isMulticastAddress(uint32_t address)
