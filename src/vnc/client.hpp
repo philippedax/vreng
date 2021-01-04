@@ -129,6 +129,7 @@ class VNCClient {
  * needed by OpenGL to map the texture
  */
 class VNCClientTextured : public VNCClient {
+
  public:
   VNCClientTextured(char *server, int port, char *pass);
 

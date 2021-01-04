@@ -40,19 +40,19 @@
 /*   This function is not used anymore.  It has been replaced by directly    */
 /*   Including an optional pointer to a spinner from an edittext box         */
 
+#if 0 //dax notused
 void  spinner_edittext_callback( int id )
 {
-  GLUI_Spinner *spinner;
+  GLUI_Spinner *spinner = (GLUI_Spinner*) id;
 
   putchar( '.' ); flushout;
-  
-  spinner = (GLUI_Spinner*) id;
 
   if ( NOT spinner )
     return;
 
   spinner->do_callbacks();
 }
+#endif
 
 
 /****************************** GLUI_Spinner::mouse_down_handler() **********/

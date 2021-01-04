@@ -25,19 +25,13 @@
 <fractal pos="5 0 0 1.57" level="4" color="green"> <solid shape="bbox" dim="1 1 1" /></fractal>
 -->
 
-<!-- ground -6m -->
+<!-- ground -->
 <ground name="ground-c" pos="0 6.5 -.25">
   <solid dim="4.0 17 .25" zp="/gif/marble.gif" xp="/gif/marble.gif" xn="/gif/marble.gif" yp="/gif/marble.gif" yn="/gif/marble.gif" />
 </ground>
-<ground name="ground-e" pos="0 -10.5 -.25">
-  <solid dim="4.0 9 .25" zp="/gif/marble.gif" />
-</ground>
-<ground name="ground-n" pos="12 0 -.25">
-  <solid dim="20.0 30 .25" zp="/gif/marble.gif" />
-</ground>
-<ground name="ground-s" pos="-12 0 -.25">
-  <solid dim="20.0 30 .25" zp="/gif/marble.gif" />
-</ground>
+<ground name="ground-e" pos="0 -10.5 -.25"> <solid dim="4.0 9 .25" zp="/gif/marble.gif" /> </ground>
+<ground name="ground-n" pos="12 0 -.25">  <solid dim="20.0 30 .25" zp="/gif/marble.gif" /> </ground>
+<ground name="ground-s" pos="-12 0 -.25"> <solid dim="20.0 30 .25" zp="/gif/marble.gif" /> </ground>
 <!--
 <ground name="basement" pos="0 0 -6.25"> <solid dim="60 40 .5" zp="/gif/stuc.gif" /> </ground>
 <ground name="ground" pos="0 6.5 -.25">
@@ -94,7 +88,7 @@
 -->
 
 <!-- tarots 224.255.0.6 -->
-<gate name="tarots" pos="16.5 4.7 1 1.9"
+<gate name="tarots" pos="16.5 1.0 1 1.57"
   url="/vre/v8/tarots.vre" channel="224.255.0.6/52716/127">
   <solid dim="2 .2 2" xn="/gif/tarots.gif" />
 </gate>
@@ -160,7 +154,7 @@
 -->
 
 <!-- mythology 224.255.0.15 -->
-<gate name="mythology" pos="17.5 0 1 1.57"
+<gate name="mythology" pos="17.5 -2 1 1.57"
   url="/vre/v8/mythology.vre" channel="224.255.0.15/52806/127">
   <solid dim="1.6 .2 2" xn="/gif/mythology2.gif" />
 </gate>
@@ -172,7 +166,7 @@
 </gate>
 
 <!-- house 224.255.0.17 -->
-<gate name="house" pos="15.5 7 1 2"
+<gate name="house" pos="16.5 5 1 2"
   url="/vre/v8/house.vre" channel="224.255.0.17/52826/127">
   <solid dim="3 1 2" xn="/gif/house.gif" />
 </gate>
@@ -209,19 +203,19 @@
 -->
 
 <!-- tests 224.255.0.22 -->
-<gate name="tests" pos="7 -12.5 1.3 .2"
+<gate name="tests" pos="12 -10.5 0.7 .2"
   url="/vre/v8/tests.vre" channel="224.255.0.22/52876/127">
-  <solid dim="1 .2 1.4" xn="/gif/travaux.gif" dif="pink" />
+  <solid dim="1 .2 1.0" xn="/gif/travaux.gif" dif="pink" />
 </gate>
 
 <!-- sea 224.255.0.23 -->
-<gate name="seasexsun" pos="12.8 8 .8 2.3"
+<gate name="seasexsun" pos="12.8 6 .8 2.3"
   url="/vre/v8/sea.vre" channel="224.255.0.23/52886/127">
   <solid dim="1.6 .2 1.6" xn="/pgm/girl.pgm" dif="lightblue" />
 </gate>
 
 <!-- movies 224.255.0.24 -->
-<gate name="movies" pos="10 -12 .7 0.4"
+<gate name="movies" pos="15 -11 .7 0.4"
   url="/vre/v8/movies.vre" channel="224.255.0.24/52896/127">
   <solid dim="1 .2 1.4" xn="/gif/film.gif" dif="lightgreen" />
 </gate>
@@ -233,7 +227,7 @@
 </gate>
 
 <!-- desktops 224.255.0.26 -->
-<gate name="desktops" pos="15 -7.5 1.3 1"
+<gate name="desktops" pos="15 -7.5 1.1 1"
   url="/vre/v8/desktops.vre" channel="224.255.0.26/52916/127">
   <solid dim="2 .2 1.4" xn="/gif/vnc.gif" />
 </gate>
@@ -272,8 +266,8 @@
 <!-- factory 224.255.0.34 -->
 <!-- forest2 224.255.0.35 -->
 
-<!-- benelos 239.254.2.96 -->
-<gate name="router" pos="8.5 -12.5 .7 .3"
+<!-- router 239.254.2.96 -->
+<gate name="router" pos="7.5 -12.5 .7 .3"
   url="/vre/v8/router.vre" channel="239.254.2.96/52666/127">
   <solid dim="1 .2 1.4" xn="/gif/router.gif" />
 </gate>
@@ -304,10 +298,10 @@
 -->
 
 <!--
-<mirage name="earth" pos="200 0 50" aspeed="-.02" mode="turn">
-  <solid shape="sphere" r="20" tx="/gif/earth.gif" />
-</mirage>
 -->
+<mirage name="earth" pos="200 0 50" aspeed="-.02" mode="turn">
+  <solid shape="sphere" r="10" tx="/gif/earth.gif" />
+</mirage>
 <mirage name="moon" pos="100 1 30" mode="orbit" aspeed="-0.5" mode="turn" azspeed="0.1">
   <solid shape="sphere" r="4" tx="/gif/moon.gif" />
 </mirage>

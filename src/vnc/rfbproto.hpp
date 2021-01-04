@@ -147,7 +147,6 @@ typedef struct {
 #define sz_rfbPixelFormat 16
 
 
-
 /*****************************************************************************
  *
  * Initial handshaking messages

@@ -26,8 +26,8 @@
 #include <ubit/uconf.hpp>
 #include <ubit/uwin.hpp>
 #include <ubit/ucursor.hpp>
-#include <ubit/nat/udispGLUT.hpp>
-#include <ubit/nat/urendercontext.hpp>
+#include <ubit/udispGLUT.hpp>
+#include <ubit/urendercontext.hpp>
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT

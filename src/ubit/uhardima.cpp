@@ -52,7 +52,7 @@ typedef Colormap USysColormap;
 typedef XGCValues GCValues;
 
 //#elif UBIT_WITH_GDK
-//#  include <ubit/nat/udispGDK.hpp>
+//#  include <ubit/udispGDK.hpp>
 // etc...
 
 #endif

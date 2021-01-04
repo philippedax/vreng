@@ -27,6 +27,7 @@
 
 
 const OClass Vnc::oclass(VNC_TYPE, "Vnc", Vnc::creator);
+
 const uint16_t Vnc::DEF_PORT = 5901;
 
 

@@ -231,6 +231,7 @@ FREETYPE_CFLAGS = -I/opt/local/include/freetype2
 FREETYPE_CONFIG = /opt/local/bin/freetype-config
 FREETYPE_LIBS = -L/opt/local/lib -lfreetype -lz -lbz2 -lpng15
 GL_CFLAGS = -I/opt/X11/include
+GNUT_LIB = 
 GREP = /usr/bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644

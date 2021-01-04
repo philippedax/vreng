@@ -331,7 +331,7 @@ void UI::MyGlutIdle(void)
     glutSetWindow(sMainWindowID);  */
 
   /*  GLUI_Master.sync_live_all();  -- not needed - nothing to sync in this application  */
- // glutPostRedisplay();
+  glutPostRedisplay();
 }
 
 /***************************************** myGlutMouse() **********/

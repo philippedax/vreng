@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 
 #include <gui.hpp>
-#if (UBIT_VERSION_MAJOR < 6 || (UBIT_VERSION_MAJOR >= 6 && UBIT_WITH_X11)) //UBIT-X11
+//dax #if (UBIT_VERSION_MAJOR < 6 || (UBIT_VERSION_MAJOR >= 6 && UBIT_WITH_X11)) //UBIT-X11
 #include <X11/Xlib.h>	//XStringToKeysym
 #include "client.hpp"
 
@@ -598,4 +598,4 @@ bool VNCClient::sendFramebufferUpdateRequest(int x, int y, int w, int h, bool in
   return rfbproto.sendFramebufferUpdateRequest(x, y, w, h, incremental);
 }
 
-#endif
+//dax #endif

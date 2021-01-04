@@ -56,9 +56,7 @@ class Vnc : public WObject {
  private:
   static const uint16_t DEF_PORT;
 
-#if (UBIT_VERSION_MAJOR < 6 || (UBIT_VERSION_MAJOR >= 6 && UBIT_WITH_X11)) //UBIT-X11
   VNCClientTextured *vncClient;	///< vnc client
-#endif
   GLuint texture;		///< texture number
   uint16_t tex_width;		///< texture width
   uint16_t tex_height;		///< texture height

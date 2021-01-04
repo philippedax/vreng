@@ -21,12 +21,15 @@ y.tab.cpp y.tab.h: vred.y
 	mv y.tab.c y.tab.cpp
 
 clean:
-	@-rm vred *.o y.output y.tab.h # y.tab.cpp lex.yy.cpp
+	@-rm vred *.o y.output y.tab.h y.tab.cpp lex.yy.cpp
 
 
 vred_SOURCES = $(VRED_SRCS) $(VRED_HDRS) y.tab.cpp lex.yy.cpp
+
 bin_PROGRAMS = vred
-vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a\
- $(X_LIBS) $(XLIBS) $(GL_LDOPTS) -lglut -lGLU -lGL -lm
+
+GLUT_LIB = -L/System/Library/Frameworks -framework GLUT
+
+vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a $(X_LIBS) $(XLIBS) $(GL_LDOPTS) -L/usr/local/opt/freeglut/lib -lglut -lGLU -lGL -lm 
 
 endif

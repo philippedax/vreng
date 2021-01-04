@@ -801,7 +801,8 @@ case "`$ac_config_sub $build`" in
 *-*-darwin*)
   AC_CHECK_HEADERS([GLUT/glut.h])
   # LIBS="$LIBS -framework GLUT -framework OpenGL"
-  LIBS="$LIBS -framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib"
+  OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
+  LIBS="$LIBS $(OPENGL_LIBS)"
   # search in MacPorts and Fink installs
   if test -d /opt/X11/include ; then
     OSDEP_CFLAGS="-I/opt/X11/include"
@@ -840,6 +841,8 @@ case "`$ac_config_sub $build`" in
   else
     CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
     LIBS="$OSDEP_LIBS -lglut $LIBS"
+    GLUT_LIB="$OSDEP_LIBS -lglut"
+    AC_SUBST(GNUT_LIB)
   fi
   ;;
 esac
@@ -1287,7 +1290,6 @@ if test "${with_mpeg:=yes}" = "yes"; then
        [AC_MSG_RESULT([	use bundle mpeg_lib ])],
        [${OSDEP_LIBS}])
   if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
-    bundle_libmpeg="yes"
     AC_DEFINE(HAVE_LIBMPEG)
   else
     bundle_libmpeg="yes"

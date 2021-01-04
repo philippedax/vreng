@@ -38,66 +38,6 @@ bin_PROGRAMS = vreng
 bin_SCRIPTS = vre
 noinst_SCRIPTS =
 
-# to copy into bin/
-
-if VREL
-vrl: ../src/util/vrl/src/vrl
-	-cp -p ../src/util/vrl/src/vrl .
-vrel: ../src/util/vrel/vrel
-	-cp -p ../src/util/vrel/vrel .
-else
-vrel:
-	@echo "" >/dev/null
-endif
-
-if VRED
-vred: ../src/util/vred/vred
-	-cp -p ../src/util/vred/vred .
-else
-vred:
-	@echo "" >/dev/null
-endif
-
-if VMM
-vmm: ../src/util/vmm/vmm
-	-cp -p ../src/util/vmm/vmm .
-else
-vmm:
-	@echo "" >/dev/null
-endif
-
-if ENABLE_VACS
-vacs: ../src/servers/vacs/vacs
-	-cp -p ../src/servers/vacs/vacs .
-else
-vacs:
-	@echo "" >/dev/null
-endif
-
-if ENABLE_VAPS
-vaps: ../src/servers/vaps/vaps
-	-cp -p ../src/servers/vaps/vaps .
-else
-vaps:
-	@echo "" >/dev/null
-endif
-
-if ENABLE_VJS
-vjs: ../src/servers/vjs/vjs
-	-cp -p ../src/servers/vjs/vjs .
-else
-vjs:
-	@echo "" >/dev/null
-endif
-
-#if ENABLE_VRUM
-#vrum: ../src/servers/vrum/rc.vrum
-#	-cp -p ../src/servers/vrum/rc.vrum vrum
-#else
-#vrum:
-#	@echo "" >/dev/null
-#endif
-
 # core includes
 CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/texture -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/app -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 
@@ -182,3 +122,63 @@ endif
 
 # executable
 vreng_LDADD = $(CORE_LIBS) $(BUNDLE_LIBS)
+
+# to copy into bin/
+
+if VREL
+vrl: ../src/util/vrl/src/vrl
+	-cp -p ../src/util/vrl/src/vrl .
+vrel: ../src/util/vrel/vrel
+	-cp -p ../src/util/vrel/vrel .
+else
+vrel:
+	@echo "" >/dev/null
+endif
+
+if VRED
+vred: ../src/util/vred/vred
+	-cp -p ../src/util/vred/vred .
+else
+vred:
+	@echo "" >/dev/null
+endif
+
+if VMM
+vmm: ../src/util/vmm/vmm
+	-cp -p ../src/util/vmm/vmm .
+else
+vmm:
+	@echo "" >/dev/null
+endif
+
+if ENABLE_VACS
+vacs: ../src/servers/vacs/vacs
+	-cp -p ../src/servers/vacs/vacs .
+else
+vacs:
+	@echo "" >/dev/null
+endif
+
+if ENABLE_VAPS
+vaps: ../src/servers/vaps/vaps
+	-cp -p ../src/servers/vaps/vaps .
+else
+vaps:
+	@echo "" >/dev/null
+endif
+
+if ENABLE_VJS
+vjs: ../src/servers/vjs/vjs
+	-cp -p ../src/servers/vjs/vjs .
+else
+vjs:
+	@echo "" >/dev/null
+endif
+
+#if ENABLE_VRUM
+#vrum: ../src/servers/vrum/rc.vrum
+#	-cp -p ../src/servers/vrum/rc.vrum vrum
+#else
+#vrum:
+#	@echo "" >/dev/null
+#endif
