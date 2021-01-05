@@ -1,9 +1,17 @@
-#! /bin/sh -x
+#! /bin/sh
 #
 # rc.mysqld
 #
 # Philippe Dax
 #
+
+os=$(uname -s)
+case $os in
+Darwin)
+  mysql.server start;
+  exit 0
+  ;;
+esac
 
 # version
 #
@@ -21,9 +29,9 @@ MYSQL_VERSION=5.2.13	# 1/12/12
 rel=`uname -r`
 case $rel in
 5.9)
-  LD_LIBRARY_PATH=/usr/local/lib:/usr/local/ssl/lib:/usr/local/packages/gcc4_9/lib:$LD_LIBRARY_PATH ;;
+LD_LIBRARY_PATH=/usr/local/lib:/usr/local/ssl/lib:/usr/local/packages/gcc4_9/lib:$LD_LIBRARY_PATH ;;
 5.10)
-  LD_LIBRARY_PATH=/usr/local/lib:/usr/local/ssl/lib:/usr/local/gcc4/lib:/usr/local/packages/gcc3/lib:$LD_LIBRARY_PATH ;;
+LD_LIBRARY_PATH=/usr/local/lib:/usr/local/ssl/lib:/usr/local/gcc4/lib:/usr/local/packages/gcc3/lib:$LD_LIBRARY_PATH ;;
 esac
 export LD_LIBRARY_PATH
 
@@ -60,14 +68,14 @@ mv /tmp/last.err $MYSQL_DATA/$host.err
 # exec
 #
 if [ -f ${MYSQLD_SAFE} ]; then
-  ${MYSQLD_SAFE} \
-	--ledir=$MYSQL_LEDIR \
-	--datadir=$MYSQL_DATA \
-	--port=$MYSQL_PORT \
-        --socket=$MYSQL_SOCK \
-        --basedir=$MYSQL_DIR/$MYSQL_VERSION \
-	&
-  echo " mysqld_safe" >/dev/console
+${MYSQLD_SAFE} \
+--ledir=$MYSQL_LEDIR \
+--datadir=$MYSQL_DATA \
+--port=$MYSQL_PORT \
+--socket=$MYSQL_SOCK \
+--basedir=$MYSQL_DIR/$MYSQL_VERSION \
+&
+echo " mysqld_safe" >/dev/console
 else
-  echo " mysqld_safe not found" >/dev/console
+echo " mysqld_safe not found" >/dev/console
 fi

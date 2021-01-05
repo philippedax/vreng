@@ -331,6 +331,7 @@ void UI::MyGlutIdle(void)
     glutSetWindow(sMainWindowID);  */
 
   /*  GLUI_Master.sync_live_all();  -- not needed - nothing to sync in this application  */
+  printf("MyGlutIdle: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 
@@ -385,6 +386,7 @@ void UI::MyGlutMouse(int button, int button_state, int x, int y)
       sMotionEnabled = false;
   }
 
+  printf("MyGlutMouse: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 
@@ -411,6 +413,7 @@ void UI::MyGlutMotion(int x, int y)
       sMouseY = y;
     }
     sCamera->Move(Vect::null, Vect(0.0, dpitch, dheading));
+  printf("MyGlutMotion: glutPostRedisplay\n");
     glutPostRedisplay();
   }
 }
@@ -458,6 +461,7 @@ void UI::MyGlutSpecialKeyboard(int key, int x, int y)
     //cout << "key: \"" << key << "\"" << endl;
     break;
   }
+  printf("MyGlutSpecialKey: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 
@@ -465,13 +469,13 @@ void UI::MyGlutSpecialKeyboard(int key, int x, int y)
 void UI::MyGlutReshape( int x, int y )
 {
   GLUI_Master.auto_set_viewport();
+  printf("MyGlutReshape: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 
 /***************************************** myGlutDisplay() *****************/
 void UI::MyGlutDisplay( void )
 {
-  printf("myGlutDisplay\n");
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   DrawGrid();
@@ -947,6 +951,7 @@ void UI::CreateNewObject()
     Vred::treeRoot->Add(sSelectedItem);
 
   UpdateControls();
+  printf("CreateNewObject: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 

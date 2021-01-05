@@ -8,6 +8,14 @@ PATH=/usr/share/bin:$PATH export PATH
 
 p=`basename $0`
 
+os=$(uname -s)
+case $os in
+Darwin)
+  sudo apachectl start
+  exit 0
+  ;;
+esac
+
 svnvers=`svn --version -q`
 
 case `uname -s` in
