@@ -21,7 +21,7 @@
 #ifndef XML_HPP
 #define XML_HPP
 
-#if HAVE_LIBXML2
+#if 0 //dax HAVE_LIBXML2
 
 #if HAVE_LIBXML_PARSER_H
 #include <libxml/parser.h>

@@ -42,7 +42,6 @@
 #include "vreng.hpp"
 
 #include <gui.hpp>
-//dax #if (UBIT_VERSION_MAJOR < 6 || (UBIT_VERSION_MAJOR >= 6 && UBIT_WITH_X11)) //UBIT-X11
 #include "rfbproto.hpp"
 
 int endianTest = 1;
@@ -358,5 +357,3 @@ int VNCRFB::getSock()
 {
   return vncsock.getSock();
 }
-
-//dax #endif

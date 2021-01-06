@@ -23,7 +23,7 @@
 #include "xml.hpp"
 
 
-#if HAVE_LIBXML2
+#if 0 //dax HAVE_LIBXML2
 
 #define XML_ERROR -1
 #define DETECTION_ERROR -2
