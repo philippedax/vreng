@@ -15,13 +15,14 @@ The rules for this file:
 ++ 9
 == 9.1
 -- 9.1.5
+	- invalided xml*pp xml2 includes not found
 	- added setrlimit to increase no of open files
 	- integrated src/ex/vrl to src/util/vrl
 	- fixed addobj in widgets.cpp (compound solids)
 	- fixed parseSolids to parse multi-solids
 	- reviewed util/vred
 	- reviewed compilation warnings bundle/glui
-	(2021/01/02, Philippe Dax)
+	(2021/01/06, Philippe Dax)
 
 -- 9.1.4
 	- reviewed timer.*pp
