@@ -461,17 +461,6 @@ AC_TYPE_MODE_T
 AC_TYPE_UID_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
-#AC_DIAGNOSE([obsolete],[your code may safely assume C89 semantics that RETSIGTYPE is void.
-#Remove this warning and the `AC_CACHE_CHECK' when you adjust the code.])dnl
-#AC_CACHE_CHECK([return type of signal handlers],[ac_cv_type_signal],[AC_COMPILE_IFELSE(
-#[AC_LANG_PROGRAM([#include <sys/types.h>
-##include <signal.h>
-#],
-#		 [return *(signal (0, 0)) (0) == 1;])],
-#		   [ac_cv_type_signal=int],
-#		   [ac_cv_type_signal=void])])
-#AC_DEFINE_UNQUOTED([RETSIGTYPE],[$ac_cv_type_signal],[Define as the return type of signal handlers
-#		    (`int' or `void').])
 
 
 AC_MSG_CHECKING(for socklen_t)
@@ -509,17 +498,6 @@ fi
 if test "$ac_cv_func_strerror" = "no"; then
   AC_CHECK_LIB([iberty], [strerror])
 fi
-#AC_DIAGNOSE([obsolete],[your code may safely assume C89 semantics that RETSIGTYPE is void.
-#Remove this warning and the `AC_CACHE_CHECK' when you adjust the code.])dnl
-#AC_CACHE_CHECK([return type of signal handlers],[ac_cv_type_signal],[AC_COMPILE_IFELSE(
-#[AC_LANG_PROGRAM([#include <sys/types.h>
-##include <signal.h>
-#],
-#		 [return *(signal (0, 0)) (0) == 1;])],
-#		   [ac_cv_type_signal=int],
-#		   [ac_cv_type_signal=void])])
-#AC_DEFINE_UNQUOTED([RETSIGTYPE],[$ac_cv_type_signal],[Define as the return type of signal handlers
-#		    (`int' or `void').])
 
 
 # --------------------------------------------------------------------------
@@ -588,6 +566,25 @@ if test "${enable_standalone}" = "yes"; then
     AC_DEFINE_UNQUOTED(DEF_URL_PFX, ["/vreng"]) 
     AC_MSG_RESULT(no -> "/vreng")
   fi
+fi
+
+
+# --------------------------------------------------------------------------
+#
+# vrl configuration
+#
+vrl="no"
+AC_MSG_CHECKING(if vrl is enabled)
+AC_ARG_ENABLE(vrl,
+              AS_HELP_STRING([--enable-vrl],[allow use of vrl [[default=no]]]))
+
+if test "${enable_vrl:=no}" = "yes"; then
+  vrl="yes"
+  CFLAGS="${CFLAGS} -DVRL"
+  CXXFLAGS="${CXXFLAGS} -DVRL"
+  AC_MSG_RESULT(yes)
+else
+  AC_MSG_RESULT(no)
 fi
 
 
@@ -1740,6 +1737,7 @@ AM_CONDITIONAL(UBIT, test "$ubit" = "yes")
 AM_CONDITIONAL(IPV6, test "$ipv6" = "yes")
 AM_CONDITIONAL(JAVA, test "$java" = "yes")
 AM_CONDITIONAL(OCAML, test "$ocaml" = "yes")
+AM_CONDITIONAL(VRL, test "$vrl" = "yes")
 AM_CONDITIONAL(VREL, test "$vrel" = "yes")
 AM_CONDITIONAL(VRED, test "$vred" = "yes")
 AM_CONDITIONAL(VMM, test "$vmm" = "yes")

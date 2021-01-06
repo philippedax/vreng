@@ -29,7 +29,7 @@ VRENG_SRCS = $(SRCDIR)/vreng/vreng.cpp
 vreng_SOURCES = $(VRENG_SRCS)
 
 # targets
-all: all-am vrel vred vacs vaps vjs # vrum
+all: all-am vrel vred vacs vaps vjs vmm
 
 # to install
 bin_PROGRAMS = vreng
@@ -39,6 +39,13 @@ bin_SCRIPTS = vre
 noinst_SCRIPTS =
 
 # to copy into bin/
+if VRL
+vrl: ../src/util/vrl/src/vrl
+	-cp -p ../src/util/vrl/src/vrl .
+else
+vrl:
+	@echo "" >/dev/null
+endif
 if VREL
 vrel: ../src/util/vrel/vrel
 	-cp -p ../src/util/vrel/vrel .
@@ -94,62 +101,62 @@ endif
 
 # bundle libraries
 if BUNDLE_LIBZ
-ZLIB=-L$(SRCDIR)/bundle/zlib $(SRCDIR)/bundle/zlib/libz.a
+Z_LIB=-L$(SRCDIR)/bundle/zlib $(SRCDIR)/bundle/zlib/libz.a
 else
-ZLIB= -lz
+Z_LIB= -lz
 endif
 if BUNDLE_LIBPNG
-PNGLIB=-L$(SRCDIR)/bundle/mypng $(SRCDIR)/bundle/mypng/libpng.a
+PNG_LIB=-L$(SRCDIR)/bundle/mypng $(SRCDIR)/bundle/mypng/libpng.a
 else
-PNGLIB= -lpng
+PNG_LIB= -lpng
 endif
 if BUNDLE_LIBMPEG
-MPEGLIB=-L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
+MPEG_LIB=-L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
 else
-MPEGLIB=
+MPEG_LIB=
 endif
-XMLLIB=-L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
+XML_LIB=-L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
 if BUNDLE_GL2PS
-GL2PSLIB=-L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
+GL2PS_LIB=-L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
 else
-GL2PSLIB=
+GL2PS_LIB=
 endif
 if BUNDLE_GLUI
-GLUILIB=-L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a
+GLUI_LIB=-L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a
 else
-GLUILIB= 
+GLUI_LIB= 
 endif
 if BUNDLE_FTGL
-FTGLLIB=-L$(SRCDIR)/bundle/ftgl $(SRCDIR)/bundle/ftgl/libftgl.a
+FTGL_LIB=-L$(SRCDIR)/bundle/ftgl $(SRCDIR)/bundle/ftgl/libftgl.a
 else
-FTGLLIB= 
+FTGL_LIB= 
 endif
 
 # core libs
-VRENGLIB  = -L$(SRCDIR)/vreng $(SRCDIR)/vreng/libvreng.a
-SYSLIB    = -L$(SRCDIR)/sys $(SRCDIR)/sys/libsys.a
-GUILIB    = -L$(SRCDIR)/gui $(SRCDIR)/gui/libgui.a
-WOLIB     = -L$(SRCDIR)/wo  $(SRCDIR)/wo/libwo.a
-NETLIB    = -L$(SRCDIR)/net $(SRCDIR)/net/libnet.a
-TEXLIB    = -L$(SRCDIR)/texture $(SRCDIR)/texture/libtexture.a
-MODELLIB  = -L$(SRCDIR)/model $(SRCDIR)/model/libmodel.a
-VGLLIB    = -L$(SRCDIR)/vgl $(SRCDIR)/vgl/libvgl.a
-APPLIB    = -L$(SRCDIR)/app $(SRCDIR)/app/libapp.a
-VNCLIB    = -L$(SRCDIR)/vnc $(SRCDIR)/vnc/libvnc.a
+VRENG_LIB  = -L$(SRCDIR)/vreng $(SRCDIR)/vreng/libvreng.a
+SYS_LIB    = -L$(SRCDIR)/sys $(SRCDIR)/sys/libsys.a
+GUI_LIB    = -L$(SRCDIR)/gui $(SRCDIR)/gui/libgui.a
+WO_LIB     = -L$(SRCDIR)/wo  $(SRCDIR)/wo/libwo.a
+NET_LIB    = -L$(SRCDIR)/net $(SRCDIR)/net/libnet.a
+TEX_LIB    = -L$(SRCDIR)/texture $(SRCDIR)/texture/libtexture.a
+MODEL_LIB  = -L$(SRCDIR)/model $(SRCDIR)/model/libmodel.a
+VGL_LIB    = -L$(SRCDIR)/vgl $(SRCDIR)/vgl/libvgl.a
+APP_LIB    = -L$(SRCDIR)/app $(SRCDIR)/app/libapp.a
+VNC_LIB    = -L$(SRCDIR)/vnc $(SRCDIR)/vnc/libvnc.a
 if UBIT
-UBITLIB=-L$(SRCDIR)/ubit $(SRCDIR)/ubit/libubit.a
+UBIT_LIB=-L$(SRCDIR)/ubit $(SRCDIR)/ubit/libubit.a
 else
-UBITLIB= -lubit
+UBIT_LIB= -lubit
 endif
 if OCAML
-AILIB=-L$(SRCDIR)/ai $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
+AI_LIB=-L$(SRCDIR)/ai $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
 else
-AILIB=
+AI_LIB=
 endif
-CORE_LIBS = $(GUILIB) $(WOLIB) $(NETLIB) $(TEXLIB) $(MODELLIB) $(VGLLIB) $(APPLIB) $(VNCLIB) $(VRENGLIB) $(SYSLIB) $(UBITLIB) $(AILIB)
+CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(NET_LIB) $(TEX_LIB) $(MODEL_LIB) $(VGL_LIB) $(APP_LIB) $(VNC_LIB) $(VRENG_LIB) $(SYS_LIB) $(UBIT_LIB) $(AI_LIB)
 
 # bundle libs
-BUNDLE_LIBS = $(ZLIB) $(GLPNGLIB) $(MPEGLIB) $(GL2PSLIB) $(GLUILIB) $(FTGLLIB) $(XMLLIB) $(PNGLIB)
+BUNDLE_LIBS = $(Z_LIB) $(GLPNG_LIB) $(MPEG_LIB) $(GL2PS_LIB) $(GLUI_LIB) $(FTGL_LIB) $(XML_LIB) $(PNG_LIB)
 
 # executable
 vreng_LDADD = $(CORE_LIBS) $(BUNDLE_LIBS) $(VRELIBS) $(XLIBS)

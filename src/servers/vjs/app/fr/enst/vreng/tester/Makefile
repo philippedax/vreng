@@ -121,13 +121,13 @@ AUTOMAKE = ${SHELL} /Users/dax/vreng/support/missing automake-1.14
 AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -I/usr/X11/include -L/usr/X11/lib -Wall -fno-strict-aliasing -Wno-missing-declarations -DVREL -DVRED -DVAPS -DVJS -DVACS
+CFLAGS = -I/usr/X11/include -L/usr/X11/lib -Wall -fno-strict-aliasing -Wno-missing-declarations -m64 -DVRL -DVREL -DVRED -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/usr/local/opt/freetype/include/freetype2 -I/opt/X11/include -I/opt/X11/include 
 CURLPATH = /usr/bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -DVREL -DVRED -DVAPS -DVJS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -m64 -DVRL -DVREL -DVRED -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
