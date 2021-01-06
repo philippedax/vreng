@@ -99,8 +99,8 @@ am__v_AR_1 =
 libai_a_AR = $(AR) $(ARFLAGS)
 libai_a_LIBADD =
 am__libai_a_SOURCES_DIST = aiinit.cpp dummy_.ml aiinit.hpp
-#am__objects_1 = aiinit.$(OBJEXT) dummy_.$(OBJEXT)
-#am_libai_a_OBJECTS = $(am__objects_1)
+am__objects_1 = aiinit.$(OBJEXT) dummy_.$(OBJEXT)
+am_libai_a_OBJECTS = $(am__objects_1)
 libai_a_OBJECTS = $(am_libai_a_OBJECTS)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
@@ -221,9 +221,9 @@ MAKEINFO = ${SHELL} /Users/dax/vreng/support/missing makeinfo
 MKDIR_P = ../../support/install-sh -c -d
 MYSQL_CFLAGS = 
 OBJEXT = o
-OCAMLOPT = 
-OCAML_CFLAGS = 
-OCAML_LIBS = 
+OCAMLOPT = /usr/local/bin/ocamlopt
+OCAML_CFLAGS = -I/usr/local/lib/ocaml
+OCAML_LIBS = -L/usr/local/lib/ocaml
 PACKAGE = vreng
 PACKAGE_BUGREPORT = philippe.dax@gmail.com
 PACKAGE_NAME = vreng
@@ -307,19 +307,19 @@ top_builddir = ../..
 top_srcdir = ../..
 uudecode = yes
 AUTOMAKE_OPTIONS = foreign
-#OCAML_INIT = aiinit.cpp dummy_.ml
-#OCAML_SRCS = $(OCAML_INIT) stringParser.mly stringLexer.mll requeteParser.mly requeteLexer.mll requeteAffichage.ml requeteSemantique.ml analyseur.ml
-#OCAML_HDRS = aiinit.hpp analyseur.mli requeteAffichage.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
-#EXTRA_DIST = $(OCAML_SRCS) $(OCAML_HDRS)
-#AM_CPPFLAGS =  -I/usr/local/include/libxml2 -I../../src -I$(top_srcdir)/src/sys -I$(top_srcdir)/src/vreng -I$(top_srcdir)/src/com -I$(top_srcdir)/src/net -I$(top_srcdir)/src/wo -I$(top_srcdir)/src/vgl -I$(top_srcdir)/src/gui
-#libai_a_SOURCES = $(OCAML_INIT) aiinit.hpp
-#noinst_LIBRARIES = libai.a
-#GEN = stringLexer.ml stringParser.mli stringParser.ml requeteLexer.ml requeteParser.mli requeteParser.ml
-#CML = stringParser.ml stringLexer.ml requeteLexer.ml requeteParser.ml requeteAffichage.ml requeteSemantique.ml analyseur.ml
-#CMLI = requeteSyntax.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteAffichage.mli requeteSemantique.mli analyseur.mli
-#CMI = $(CMLI:.mli=.cmi)
-#CMO = $(CML:.ml=.cmo)
-#CMX = $(CML:.ml=.cmx)
+OCAML_INIT = aiinit.cpp dummy_.ml
+OCAML_SRCS = $(OCAML_INIT) stringParser.mly stringLexer.mll requeteParser.mly requeteLexer.mll requeteAffichage.ml requeteSemantique.ml analyseur.ml
+OCAML_HDRS = aiinit.hpp analyseur.mli requeteAffichage.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
+EXTRA_DIST = $(OCAML_SRCS) $(OCAML_HDRS)
+AM_CPPFLAGS = -I/usr/local/lib/ocaml -I/usr/local/include/libxml2 -I../../src -I$(top_srcdir)/src/sys -I$(top_srcdir)/src/vreng -I$(top_srcdir)/src/com -I$(top_srcdir)/src/net -I$(top_srcdir)/src/wo -I$(top_srcdir)/src/vgl -I$(top_srcdir)/src/gui
+libai_a_SOURCES = $(OCAML_INIT) aiinit.hpp
+noinst_LIBRARIES = libai.a
+GEN = stringLexer.ml stringParser.mli stringParser.ml requeteLexer.ml requeteParser.mli requeteParser.ml
+CML = stringParser.ml stringLexer.ml requeteLexer.ml requeteParser.ml requeteAffichage.ml requeteSemantique.ml analyseur.ml
+CMLI = requeteSyntax.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteAffichage.mli requeteSemantique.mli analyseur.mli
+CMI = $(CMLI:.mli=.cmi)
+CMO = $(CML:.ml=.cmo)
+CMX = $(CML:.ml=.cmx)
 all: all-am
 
 .SUFFIXES:
@@ -494,7 +494,7 @@ install-strip:
 	fi
 mostlyclean-generic:
 
-clean-generic:
+#clean-generic:
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -589,29 +589,29 @@ uninstall-am:
 
 
 ####################### Les etapes de compilation #########################
-#SUFFIXES: .o .c .cmo .cmi .cmx .ml .mli .mll .mly
+SUFFIXES: .o .c .cmo .cmi .cmx .ml .mli .mll .mly
 
-#.ml.o:
-#	ocamlopt -c $<
-#.mli.cmi:
-#	ocamlc -c $<
-#.cmo:
-#	ocamlc -c $<
-#.mll.ml:
-#	ocamllex $<
-#.mly.ml:
-#	ocamlyacc $<
-#.mly.mli:
-#	ocamlyacc $<
+.ml.o:
+	ocamlopt -c $<
+.mli.cmi:
+	ocamlc -c $<
+.cmo:
+	ocamlc -c $<
+.mll.ml:
+	ocamllex $<
+.mly.ml:
+	ocamlyacc $<
+.mly.mli:
+	ocamlyacc $<
 
-#all: dummy_.o
+all: dummy_.o
 
-#dummy_.o: $(GEN) $(CMI) $(CML) dummy_.ml
-#	ocamlopt -output-obj $(CML) -o dummy.o
-#	mv dummy.o dummy_.o
+dummy_.o: $(GEN) $(CMI) $(CML) dummy_.ml
+	ocamlopt -output-obj $(CML) -o dummy.o
+	mv dummy.o dummy_.o
 
-#clean-generic:
-#	-@rm -f $(GEN) $(CMO) $(CMI) $(CMX) dummy_.cmx dummy_.cmi Libai.a
+clean-generic:
+	-@rm -f $(GEN) $(CMO) $(CMI) $(CMX) dummy_.cmx dummy_.cmi Libai.a
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
