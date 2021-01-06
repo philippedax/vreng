@@ -300,7 +300,7 @@
 <!--
 -->
 <mirage name="earth" pos="200 0 50" aspeed="-.02" mode="turn">
-  <solid shape="sphere" r="10" tx="/gif/earth.gif" />
+  <solid shape="sphere" r="15" tx="/gif/earth.gif" />
 </mirage>
 <mirage name="moon" pos="100 1 30" mode="orbit" aspeed="-0.5" mode="turn" azspeed="0.1">
   <solid shape="sphere" r="4" tx="/gif/moon.gif" />
