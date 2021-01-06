@@ -15,6 +15,7 @@ The rules for this file:
 ++ 9
 == 9.1
 -- 9.1.5
+	- fixed type converson in aiinit.cpp
 	- invalided xml*pp xml2 includes not found
 	- added setrlimit to increase no of open files
 	- integrated src/ex/vrl to src/util/vrl
