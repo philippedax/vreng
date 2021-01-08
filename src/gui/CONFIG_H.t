@@ -262,19 +262,19 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBXML2 1\n\
 \n\
 /* Define to 1 if you have the <libxml/parser.h> header file. */\n\
-/* #undef HAVE_LIBXML_PARSER_H */\n\
+#define HAVE_LIBXML_PARSER_H 1\n\
 \n\
 /* Define to 1 if you have the <libxml/tree.h> header file. */\n\
-/* #undef HAVE_LIBXML_TREE_H */\n\
+#define HAVE_LIBXML_TREE_H 1\n\
 \n\
 /* Define to 1 if you have the <libxml/xmlreader.h> header file. */\n\
-/* #undef HAVE_LIBXML_XMLREADER_H */\n\
+#define HAVE_LIBXML_XMLREADER_H 1\n\
 \n\
 /* Define to 1 if you have the <libxml/xpathInternals.h> header file. */\n\
-/* #undef HAVE_LIBXML_XPATHINTERNALS_H */\n\
+#define HAVE_LIBXML_XPATHINTERNALS_H 1\n\
 \n\
 /* Define to 1 if you have the <libxml/xpath.h> header file. */\n\
-/* #undef HAVE_LIBXML_XPATH_H */\n\
+#define HAVE_LIBXML_XPATH_H 1\n\
 \n\
 /* */\n\
 #define HAVE_LIBXMU 1\n\

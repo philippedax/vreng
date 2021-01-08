@@ -21,23 +21,13 @@
 #ifndef XML_HPP
 #define XML_HPP
 
-#if 0 //dax HAVE_LIBXML2
+#if HAVE_LIBXML2 && HAVE_LIBXML_PARSER_H
 
-#if HAVE_LIBXML_PARSER_H
 #include <libxml/parser.h>
-#endif
-#if HAVE_LIBXML_TREE_H
 #include <libxml/tree.h>
-#endif
-#if HAVE_LIBXML_XMLREADER_H
 #include <libxml/xmlreader.h>
-#endif
-#if HAVE_LIBXML_XPATH_H
 #include <libxml/xpath.h>
-#endif
-#if HAVE_LIBXML_XPATHINTERNALS_H
 #include <libxml/xpathInternals.h>
-#endif
 
 
 /**

@@ -14,6 +14,9 @@ The rules for this file:
 
 ++ 9
 == 9.1
+-- 9.1.6
+	(2021/01/08, Philippe Dax)
+
 -- 9.1.5
 	- fixed type converson in aiinit.cpp
 	- invalided xml*pp xml2 includes not found
@@ -42,7 +45,7 @@ The rules for this file:
 	- fixed -w option in pref.cpp
 	- added objectList in wobject.*pp
 	- added FLUID mode and fluidLists
-	- renamed initialize*Object to init*Oject methods
+	- renamed initialize*Object to init*Object methods
 	- renamed class PutInfo to class Message2
 	- renamed class Pitch to class Joystick2
 	- removed gui/pitch*pp

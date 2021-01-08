@@ -23,7 +23,7 @@
 #include "xml.hpp"
 
 
-#if 0 //dax (xml2 includes not found) HAVE_LIBXML2
+#if HAVE_LIBXML2 && HAVE_LIBXML_PARSER_H
 
 #define XML_ERROR -1
 #define DETECTION_ERROR -2
