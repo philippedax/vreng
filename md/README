@@ -24,6 +24,6 @@ To launch VREng in your favorite browser, do:
 
 4- Kill -HUP <httpd_pid>
 
-5- Try to get by Netscape: http://your_site/yout_path/sdr_id.vreng.
+5- Try to get "sdr_id" by http://your_site/yout_path/sdr_id.vreng.
    "sdr_id" is the file name found in your ~/.sdr/cache/ or ~/sdr/cache
    which contains the SDP announce of VREng.
