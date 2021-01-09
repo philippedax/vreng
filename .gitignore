@@ -9,7 +9,6 @@ autom4te.cache
 TOFIX
 aclocal.m4
 automa4te.cache
-target
 config.h*
 config.log
 config.status
