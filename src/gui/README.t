@@ -39,9 +39,9 @@ VREng has not been ported on other platforms yet, but any port will be welcome.\
 DOWNLOADING\n\
 -----------\n\
 The VREng sources are available by:\n\
-  - Tarball:    wget http://www.infres.enst.fr/ftp/pub/vreng/vreng.tar.{gz,xz,bz2,zip}\n\
-  - Git:        git clone https://github.com/philippedax/vreng.git\n\
-  - Subversion: svn co http://www.infres.enst.fr/svn/vreng/trunk vreng\n\
+  - Git:        git clone https://github.com/philippedax/vreng.git (recommanded)\n\
+  - Subversion: svn co http://www.vreng.enst.fr/svn/vreng/trunk vreng (no more active)\n\
+  - Tarball:    wget http://www.vreng.enst.fr/ftp/pub/vreng/vreng.tar.{gz,xz,bz2,zip} (no more active)\n\
 \n\
 \n\
 COMPILING\n\
@@ -118,8 +118,8 @@ Fabrice Bellard <bellard@email.enst.fr>: 3D rendering\n\
 Stephane Belmon <belmon@email.enst.fr>: network interface\n\
 Samuel Orzan <orzan@email.enst.fr>: world management\n\
 Lionel Ulmer <ulmer@email.enst.fr>: the GUI under X11\n\
-Eric Lecolinet <elc@enst.fr>: new GUI + Ubit GUI\n\
-Philippe Dax <dax@enst.fr>: project supervisor\n\
+Eric Lecolinet <elc@telecom-paris.fr>: new GUI + Ubit GUI\n\
+Philippe Dax <philippe.dax@gmail.com>: project supervisor\n\
 \n\
 CONTRIBUTORS\n\
 ------------\n\
@@ -136,19 +136,19 @@ Pierre Gros <gros@limsi.fr> : transform, lwo, mysql\n\
 Mario Trentini <trentini@enst.fr> : landmarks\n\
 Julien Desreumaux <desreuma@enst.fr> - Sebastien Piraud <piraud@enst.fr> : book\n\
 Romain Piegay <piegay@enst.fr> : views, 3ds, ase, repeat textures\n\
-Eric Varadaradjou <vardara@enst.fr> : communication agent, ocaml\n\
+Eric Varadaradjou <varadara@enst.fr> : communication agent, ocaml\n\
 \n\
 MAINTAINER\n\
 ----------\n\
-Philippe Dax <dax@telecom-paristech.fr>: project supervisor\n\
+Philippe Dax <philippe.dax@gmail.com>: project supervisor\n\
 \n\
 CONTACTS\n\
 --------\n\
 The mailing-list <vreng@listserv.enst.fr> has been opened for any discussion\n\
 about the VREng application and its evolution. To be added on this\n\
-mailing-list, send a message to <vreng-request@listserv.enst.fr>.\n\
+mailing-list, send a message to <vreng-request@listserv.enst.fr> (no more active).\n\
 \n\
-You can send BUG reports and comments at <vreng@enst.fr>.\n\
+You can send BUG reports and comments via Github.\n\
 \n\
 Have fun!\n\
 \n\
