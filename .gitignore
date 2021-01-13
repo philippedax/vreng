@@ -1,4 +1,3 @@
-archive/*
 ANNOUNCE
 .svn
 .git_github
@@ -7,7 +6,6 @@ ANNOUNCE
 .gitlab
 .git_ln
 autom4te.cache
-TOFIX
 aclocal.m4
 automa4te.cache
 config.h*
@@ -18,7 +16,6 @@ Makefile
 Makefile.in
 build
 commit
-ubit_svn
 cache
 ftp
 vd
@@ -32,6 +29,7 @@ stamp-*
 vreng-*
 bin/*
 log/*
+archive/*
 src/vreng/txt2str
 src/vreng/.dirstamp
 src/util/tools/snd2str
@@ -60,7 +58,5 @@ src/*/*/*/*.o
 src/*/*/*/*.a
 src/servers/vjs/classes
 src/servers/vjs/jar
-wwwlocal
 access_log
 error_log
-nohup.out

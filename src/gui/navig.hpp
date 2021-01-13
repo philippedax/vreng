@@ -34,7 +34,7 @@ public:
   Navig(Widgets*, class Scene&);
   UBox& manipulator();
   
-  void selectObject(ObjInfo*, int button_no);
+  void selectObject(ObjInfo* objinfo);
   void startMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
   void startMove(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
   void doMotion(UMouseEvent& e);
@@ -44,11 +44,11 @@ private:
   friend class Widgets;
   Widgets& gw;
   float xref, yref;
-  bool followMouseMode;		///< flag to follow mouse.
+  bool followMouse;		///< flag to follow mouse.
   int depthsel;
   UStr selected_object_url;
   UStr object_name, object_class;
-  ULabel object_infos;
+  ULabel object_infos;		///< infos box
   UPopmenu object_menu;
   UCtlmenu navig_menu;
   uptr<UMenu> opened_menu;
@@ -56,7 +56,7 @@ private:
   void initNavigMenu();
   void mouseRefCB(UMouseEvent& e);
   void mousePressB1orB3(UMouseEvent& e, int x, int y, int button_no);
-  void mousePressB2(UMouseEvent& e, int x, int y, int button_no);
+  void mousePressB2(UMouseEvent& e, int x, int y);
   void mousePressCB(UMouseEvent& e);  
   void mouseReleaseCB(UMouseEvent& e);
   void mouseDragCB(UMouseEvent& e);

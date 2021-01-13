@@ -52,12 +52,12 @@ static Motion *motionx = null, *motiony = null;
 
 /* Constructor */
 Navig::Navig(Widgets* _gw, Scene& scene) :
-gw(*_gw), xref(0), yref(0), followMouseMode(false), depthsel(0), opened_menu(null) 
+gw(*_gw), xref(0), yref(0), followMouse(false), depthsel(0), opened_menu(null) 
 {  
   object_infos.addAttr(UBackground::green + UColor::white);
   object_infos.add(uelem(UFont::bold + " " + object_class + " ") 
                    + uelem(UFont::bold + UFont::italic + object_name + " ")
-                   + " ");
+                  );
   object_menu.addAttr(ualpha(0.5) + UBackground::black);
   object_menu.add(object_infos);
   object_menu.softwin();
@@ -83,28 +83,28 @@ gw(*_gw), xref(0), yref(0), followMouseMode(false), depthsel(0), opened_menu(nul
 void Navig::mousePressCB(UMouseEvent& e)
 {
   int x = (int) e.getX(), y = (int) e.getY();
-  int button = 0;
+  int btn = 0;
   int bid = e.getButton();
 
-  if      (bid == UMouseEvent::LeftButton)  button = 1;
-  else if (bid == UMouseEvent::MidButton)   button = 2;
-  else if (bid == UMouseEvent::RightButton) button = 3;
+  if      (bid == UMouseEvent::LeftButton)  btn = 1;
+  else if (bid == UMouseEvent::MidButton)   btn = 2;
+  else if (bid == UMouseEvent::RightButton) btn = 3;
 
   // GL graphics can be performed until the current function returns
   GLSection gls(&gw.scene); 
 
   if (gw.gui.carrier && gw.gui.carrier->isTaking()) // events are sent to Carrier
-    gw.gui.carrier->mouseEvent(x, y, button);
+    gw.gui.carrier->mouseEvent(x, y, btn);
 #if 0 //dax
   else if (gw.gui.board && gw.gui.board->isDrawing()) // events are sent to Board
-    gw.gui.board->mouseEvent(x, y, button);
+    gw.gui.board->mouseEvent(x, y, btn);
 #endif
   else if (gw.gui.vnc)		// events are sent to Vnc
-    gw.gui.vnc->mouseEvent(x, y, button);
-  else if (button == 2)		// button 2: fine grain selection
-    mousePressB2(e, x, y, button);
+    gw.gui.vnc->mouseEvent(x, y, btn);
+  else if (btn == 2)		// button 2: fine grain selection
+    mousePressB2(e, x, y);
   else 				// buttons 1 or 3: navigator or info menu
-    mousePressB1orB3(e, x, y, button);
+    mousePressB1orB3(e, x, y, btn);
 }
 
 // the mouse is released on the canvas
@@ -115,7 +115,7 @@ void Navig::mouseReleaseCB(UMouseEvent& e)
   opened_menu = null;
   
   if (gw.gui.vnc)	// events are redirected to Vnc
-    gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0/*button*/);
+    gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0);
   else if (gw.gui.selected_object)
     gw.gui.selected_object->resetRay();
   if (localuser)
@@ -141,11 +141,11 @@ void Navig::mouseMoveCB(UMouseEvent& e)
   float x = e.getX(), y = e.getY();
   
   if (gw.gui.vnc)		// events are redirected to Vnc
-    gw.gui.vnc->mouseEvent((int) x, (int) y, 0/*button*/);
-  else if (/*button == 0 &&*/ followMouseMode) {
+    gw.gui.vnc->mouseEvent((int) x, (int) y, 0);
+  else if (followMouse) {
     // mode followMouse continuously indicates object under pointer
     WObject *object = gw.getPointedObject((int) x, (int) y, objinfo, depthsel);
-    selectObject((object ? objinfo : null), 0);
+    selectObject(object ? objinfo : null);
   }
   else if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
     gw.gui.selected_object->resetFlashy();	// stop flashing edges
@@ -217,7 +217,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
       if (gw.gui.board)  object->click(x, y);
     }
 
-    selectObject(objinfo, button);
+    selectObject(objinfo);
   
     if (button == 3) {		// show object menu
       object_menu.open(e);
@@ -236,7 +236,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
 }
 
 // Press button 2: fine grain selection
-void Navig::mousePressB2(UMouseEvent&, int x, int y, int button)
+void Navig::mousePressB2(UMouseEvent&, int x, int y)
 {
   depthsel++;
   WObject* object = gw.getPointedObject(x, y, objinfo, depthsel);
@@ -245,39 +245,39 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y, int button)
     object->resetFlashy();
     object->setFlashy();	// flashes edges of the solid
     object->setRay(x, y);	// launches ray
-    selectObject(objinfo, button);
+    selectObject(objinfo);
   }  
   else
     gw.setRayDirection(x, y);	// launches stipple ray
 }
 
-// Updates object info (infoBox in the infoBar and contextual info menu)
-void Navig::selectObject(ObjInfo* objinfo, int btn)
+// Updates object infos (infoBox in the infoBar and contextual info menu)
+void Navig::selectObject(ObjInfo* objinfo)
 {
+  // clears infos bar
   gw.infos.removeAll();
   object_menu.removeAll();
+  
+  if (!objinfo)  return;
+
+  // add object class and name to the infos box and the contextual menu
+  object_class = objinfo[0].name;
+  object_name  = objinfo[1].name;
+  gw.infos.add(object_infos);
+  gw.infos.addAttr(UBackground::white + UColor::navy + UFont::bold);
+
   object_menu.add(object_infos);
   object_menu.add(UColor::white);
 
-  if (!objinfo)  return;
-  
-  object_class = objinfo[0].name;
-  object_name  = objinfo[1].name;
-  
-  // add object class and name to the infos box
-  gw.infos.add(object_infos);
-  gw.infos.add(UColor::navy);
-  gw.infos.add(UBackground::green);
-
-  // add buttons to the infos box and the object menu
-  for (ObjInfo* poi = objinfo + 2; poi->name != null; poi++) {
-    // add button to infobox
-    UBox& b = ubutton(poi->name);
-    if (poi->fun) b.add(ucall(poi->farg, poi->fun));
+  // add buttons (actions) to the infos box and the contextual menu
+  for (ObjInfo* oi = objinfo + 2; oi->name != null; oi++) {
+    UBox& b = ubutton(oi->name); // add action button to infobox
+    if (oi->fun)
+      b.add(ucall(oi->farg, oi->fun));
     gw.infos.add(b);
-    // add button to object menu
-    object_menu.add(b);
+    object_menu.add(b);		// add button to contextual menu
   }
+  gw.infos.addAttr(UBackground::none);
 }
 
 /////////
@@ -479,11 +479,11 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
 
 void Navig::mouseRefCB(UMouseEvent& e)
 { 
-#if 0 //dax button not declared
+#if 0 //dax btn not declared
   int bid = e.getButton();
-  if      (bid == UMouseEvent::LeftButton)  button = 1;
-  else if (bid == UMouseEvent::MidButton)   button = 2;
-  else if (bid == UMouseEvent::RightButton) button = 3;
-  else button = 0;
+  if      (bid == UMouseEvent::LeftButton)  btn = 1;
+  else if (bid == UMouseEvent::MidButton)   btn = 2;
+  else if (bid == UMouseEvent::RightButton) btn = 3;
+  else btn = 0;
 #endif
 }

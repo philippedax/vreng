@@ -340,6 +340,6 @@ void Gui::clearInfoBar(WObject *obj)
 {
   if (obj == selected_object) {
     selected_object = NULL;
-    widgets->navig.selectObject(NULL, 0); // clears the objectBar
+    widgets->navig.selectObject(NULL);	// clears the objectBar
   }
 }
