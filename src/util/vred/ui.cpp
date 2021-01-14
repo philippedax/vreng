@@ -9,107 +9,107 @@
 #define MIN_SOLID_SIZE  0.1
 
 
-const char *UI::kObjectTypesString[] =
-                 {"Wall", "Gate", "Step", "Web", "Board", "Host", "Doc", "Earth"};
-enum UIObjectTypes {UI_WALL_TYPE, UI_GATE_TYPE, UI_STEP_TYPE, UI_WEB_TYPE, 
-		 UI_BOARD_TYPE, UI_HOST_TYPE, UI_DOC_TYPE,UI_EARTH_SPHERE_TYPE  };
-int UI::sCurrentObjectType = 0;
-int UI::sMainWindowID;
-GLUI *UI::sNorthGlui, *UI::sEastGlui, *UI::sSouthGlui, *UI::sDialogGlui=NULL;
-Solid *UI::sSelectedItem=NULL;
-struct ObjectChain *UI::sSelectedSet=NULL;
-GLUI_EditText *UI::sCenterField[3];
-GLUI_Translation *UI::sObjectTransXYButton;
-GLUI_Translation *UI::sObjectTransZButton;
-float UI::sCenterVal[3] = {0., 0., 0.}, UI::sCenterXButtonVal=0;
-GLUI_EditText *UI::sSizeField[3];
-GLUI_Translation *UI::sSizeButton[3];
-float UI::sSizeVal[3];
-GLUI_EditText *UI::sAngleZField;
-GLUI_Translation *UI::sAngleZButton;
-float UI::sAngleZVal;
-GLUI_EditText *UI::sRadiusField;
-float UI::sRadiusVal;
-GLUI_Rollout *UI::sTextureRollout;
-GLUI_EditText *UI::sTextureXp, *UI::sTextureXn, *UI::sTextureYp, *UI::sTextureYn;
-GLUI_EditText *UI::sTextureZp, *UI::sTextureZn, *UI::sTextureSphere;
-char UI::sTexURLXp[300]="", UI::sTexURLXn[300]="", UI::sTexURLYp[300]="", UI::sTexURLYn[300]="";
-char UI::sTexURLZp[300]="", UI::sTexURLZn[300]="";
-GLUI_StaticText *UI::sObjectClassDescription;
-GLUI_Rollout *UI::sAppearanceRollout;
-GLUI_EditText *UI::sDiffuseField[3], *UI::sAmbientField[3], *UI::sShininessField[3], *UI::sSpecularField[3];
-float UI::sDiffuseVal[3], UI::sAmbientVal[3], UI::sShininessVal[3], UI::sSpecularVal[3];
-GLUI_EditText *UI::sToWhereField, *UI::sIPMulticastField;
-char UI::sToWhereVal[300]="", UI::sIPMulticastVal[300]="";
-float UI::sViewRotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
-GLUI_Button *UI::sGroupButton, *UI::sUngroupButton, *UI::sDeleteButton;
-int UI::sPreventCollision=true;
-Camera *UI::sCamera;
-bool UI::sMotionEnabled = false;
-int UI::sMouseX, UI::sMouseY;
-char *UI::sDialogString=NULL;
-GLUI_EditText *UI::sDialogEditText;
-int UI::sDialogUsage;
+const char *UI::objectTypesString[] =
+                 { "Wall", "Gate", "Step", "Web", "Board", "Host", "Doc", "Earth" };
+enum UIObjectTypes { WALL_TYPE, GATE_TYPE, STEP_TYPE, WEB_TYPE, 
+		     BOARD_TYPE, HOST_TYPE, DOC_TYPE, EARTH_TYPE };
+
+int UI::mainWindowID;
+int UI::currentObjectType = 0;
+Solid *UI::item = NULL;
+struct objectChain *UI::selected = NULL;
+float UI::center[3] = {0., 0., 0.}, UI::centerXButton = 0;
+float UI::size[3];
+float UI::angleZ;
+float UI::radius;
+char UI::urlXp[128]="", UI::urlXn[128]="", UI::urlYp[128]="", UI::urlYn[128]="";
+char UI::urlZp[128]="", UI::urlZn[128]="";
+float UI::dif[3], UI::amb[3], UI::shi[3], UI::spe[3];
+char UI::url[128]="", UI::ipmc[32]="";
+float UI::viewRotate[16] = { 1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1 };
+int UI::preventCollision = true;
+Camera *UI::camera;
+bool UI::motionEnabled = false;
+int UI::mouseX, UI::mouseY;
+char *UI::dialogString = NULL;
+int UI::dialogUsage;
+
+GLUI *UI::topSubwin, *UI::rightSubwin, *UI::bottomSubwin, *UI::dialogGlui=NULL;
+GLUI_EditText *UI::dialogEditText;
+GLUI_EditText *UI::centerField[3];
+GLUI_EditText *UI::sizeField[3];
+GLUI_EditText *UI::angleZField;
+GLUI_EditText *UI::radiusField;
+GLUI_EditText *UI::difField[3], *UI::ambField[3], *UI::shiField[3], *UI::speField[3];
+GLUI_EditText *UI::texXp, *UI::texXn, *UI::texYp, *UI::texYn, *UI::texZp, *UI::texZn, *UI::texSph;
+GLUI_EditText *UI::urlField, *UI::ipmcField;
+GLUI_Button *UI::groupButton, *UI::ungroupButton, *UI::deleteButton;
+GLUI_Translation *UI::objectTransXYButton, *UI::objectTransZButton;
+GLUI_Translation *UI::sizeButton[3];
+GLUI_Translation *UI::angleZButton;
+GLUI_Rollout *UI::texRollout;
+GLUI_Rollout *UI::appearanceRollout;
+GLUI_StaticText *UI::objectClassDescription;
 
 
 /**************************************** control_cb() *******************/
 /* GLUI control callback                                                 */
-void UI::HandleControlEvent( int control )
+void UI::controlEvent( int control )
 {
   switch (control) {
 
     case UI_ADD_OBJECT:
-      CreateNewObject();
+      createNewObject();
       break;
 
     case UI_GROUP:
       {
 	Group *newGroup = new Group("newGroup", COLORED, Color::green);
-	Vred::treeRoot->Add(newGroup);
+	Vred::treeRoot->add(newGroup);
 	int i=0;
 
-	while (sSelectedSet != NULL) {
-	    newGroup->Add(sSelectedSet->current);
+	while (selected != NULL) {
+	    newGroup->add(selected->current);
 	    i++;
-	    struct ObjectChain *suivant = sSelectedSet->next;
-	    free(sSelectedSet);
-	    sSelectedSet = suivant;
+	    struct objectChain *suivant = selected->next;
+	    free(selected);
+	    selected = suivant;
 	}
 	printf("%d in new group\n", i);
-	sSelectedItem = newGroup;
-	UpdateControls();
+	item = newGroup;
+	updateControls();
       }
       break;
 
     case UI_UNGROUP:
       {
-	Group *group = dynamic_cast<Group*>(sSelectedItem);
+	Group *group = dynamic_cast<Group*>(item);
 	if (group != NULL) {
-	    group->Explode();
-	    Vred::treeRoot->Remove(group);
+	    group->explode();
+	    Vred::treeRoot->remove(group);
 	    delete group;
 	}
-	sSelectedItem = NULL;
-	UpdateControls();
+	item = NULL;
+	updateControls();
       }
       break;
 
     case UI_DELETE:
-      if (sSelectedItem != NULL) {
-	  Vred::treeRoot->Remove(sSelectedItem);
-	  sSelectedItem = NULL;
-	  UpdateControls();
+      if (item != NULL) {
+	  Vred::treeRoot->remove(item);
+	  item = NULL;
+	  updateControls();
 
 	  printf("Object deleted from treeRoot\n");
       }
       break;
 
     case UI_OPEN:
-      AskForString("File to open :", DLOG_OPEN_FILE);
+      askFor("File to open :", DLOG_OPEN_FILE);
       break;
 
     case UI_SAVE:
-      AskForString("File to save :", DLOG_SAVE_FILE, "output.vre");
+      askFor("File to save :", DLOG_SAVE_FILE, "output.vre");
       break;
 
     case UI_QUIT:
@@ -117,201 +117,200 @@ void UI::HandleControlEvent( int control )
       break;
 
     case UI_OK_BTN:
-      switch (sDialogUsage) {
+      switch (dialogUsage) {
 	case DLOG_OPEN_FILE:
 	  delete Vred::treeRoot;
 	  Vred::treeRoot = new Group("treeRoot", COLORED, Color::white);
-	  printf("Loading file.................");
-	  if( Vred::treeRoot->LoadFile(sDialogString) != 0 )
-	    printf( "FAILED TO LOAD FILE : %s\n", sDialogString );
+	  printf("loading file.................");
+	  if ( Vred::treeRoot->loadFile(dialogString) != 0 )
+	    printf( "FAILED TO LOAD FILE : %s\n", dialogString );
 	  else
 	    printf("OK\n");
-	  sSelectedItem = NULL;
-	  
+	  item = NULL;
 	  break;
 	case DLOG_SAVE_FILE:
-	  Vred::treeRoot->PrintFile(sDialogString);
+	  Vred::treeRoot->printFile(dialogString);
 	  break;
       }
-      StopAskingForString();
-      sSelectedItem = NULL;
-      UpdateControls();
+      stopAskingFor();
+      item = NULL;
+      updateControls();
       break;
 
     case UI_CANCEL_BTN:
-      StopAskingForString();
+      stopAskingFor();
       break;
 
     case UI_CENTER:
-      if (sSelectedItem != NULL) {
-	  Vect oldCenter = sSelectedItem->GetCenter();
+      if (item != NULL) {
+	  Vect oldCenter = item->getCenter();
 
-	  if (sPreventCollision) {	      
-	      int wasColliding = Vred::treeRoot->Collide(*sSelectedItem);
-	      sSelectedItem->SetCenter( Vect(sCenterVal[0], sCenterVal[1], sCenterVal[2]) );
-	      if (!wasColliding && Vred::treeRoot->Collide(*sSelectedItem)) {
+	  if (preventCollision) {	      
+	      int wasColliding = Vred::treeRoot->collide(*item);
+	      item->setCenter( Vect(center[0], center[1], center[2]) );
+	      if (!wasColliding && Vred::treeRoot->collide(*item)) {
 		  // there's a true collision : it wasn't colliding but now it is
 		  // so we restore previous state
 		  //printf( "COLLISION !!\n");
-		  sSelectedItem->SetCenter(oldCenter);
-		  sCenterVal[0] = oldCenter[0];
-		  sCenterVal[1] = oldCenter[1];
-		  sCenterVal[2] = oldCenter[2];  
+		  item->setCenter(oldCenter);
+		  center[0] = oldCenter[0];
+		  center[1] = oldCenter[1];
+		  center[2] = oldCenter[2];  
 		}
 	    }
 	  else
-	    sSelectedItem->SetCenter( Vect(sCenterVal[0], sCenterVal[1], sCenterVal[2]) );
+	    item->setCenter( Vect(center[0], center[1], center[2]) );
 	  
-	  sCenterField[0]->set_float_val(sCenterVal[0]);
-	  sCenterField[1]->set_float_val(sCenterVal[1]);
-	  sCenterField[2]->set_float_val(sCenterVal[2]);
-	  sCenterXButtonVal = -sCenterVal[0];
+	  centerField[0]->set_float_val(center[0]);
+	  centerField[1]->set_float_val(center[1]);
+	  centerField[2]->set_float_val(center[2]);
+	  centerXButton = -center[0];
 	}
       break;
 
     case UI_CENTER_X_BTN:
-      sCenterVal[0] = -sCenterXButtonVal;
-      HandleControlEvent(UI_CENTER);
+      center[0] = -centerXButton;
+      controlEvent(UI_CENTER);
       break;
 
     case UI_SIZE:
-      if (sSelectedItem != NULL) {
-	  if( sSizeVal[0] <MIN_SOLID_SIZE)
-	    sSizeVal[0] = MIN_SOLID_SIZE;
-	  if( sSizeVal[1] <MIN_SOLID_SIZE)
-	    sSizeVal[1] = MIN_SOLID_SIZE;
-	  if( sSizeVal[2] <MIN_SOLID_SIZE)
-	    sSizeVal[2] = MIN_SOLID_SIZE;
+      if (item != NULL) {
+	  if (size[0] <MIN_SOLID_SIZE)
+	    size[0] = MIN_SOLID_SIZE;
+	  if (size[1] <MIN_SOLID_SIZE)
+	    size[1] = MIN_SOLID_SIZE;
+	  if (size[2] <MIN_SOLID_SIZE)
+	    size[2] = MIN_SOLID_SIZE;
 	  
-	  if (dynamic_cast<Sphere*>(sSelectedItem) != NULL) {
+	  if (dynamic_cast<Sphere*>(item) != NULL) {
 	      //printf("resizing sphere\n");
-	      sSizeVal[0] = sSizeVal[1] = sSizeVal[2];
-	      sRadiusField->set_float_val(sSizeVal[2]);
+	      size[0] = size[1] = size[2];
+	      radiusField->set_float_val(size[2]);
 	  }
 	  
-	  Vect oldSize = sSelectedItem->GetSize();
+	  Vect oldSize = item->getSize();
 
-	  if (sPreventCollision) {	      
-	      int wasColliding = Vred::treeRoot->Collide(*sSelectedItem);
+	  if (preventCollision) {	      
+	      int wasColliding = Vred::treeRoot->collide(*item);
 
-	      sSelectedItem->SetSize(Vect(sSizeVal[0], sSizeVal[1], sSizeVal[2]));  
-	      if (!wasColliding && Vred::treeRoot->Collide(*sSelectedItem)) {
+	      item->setSize(Vect(size[0], size[1], size[2]));  
+	      if (!wasColliding && Vred::treeRoot->collide(*item)) {
 		  // there's a true collision : it wasn't colliding but now it is
 		  // so we restore previous state
 		  //printf( "COLLISION !!\n");
-		  sSelectedItem->SetSize(oldSize);
-		  sSizeVal[0] = oldSize[0];
-		  sSizeVal[1] = oldSize[1];
-		  sSizeVal[2] = oldSize[2];  
-		  sRadiusVal = sSizeVal[2];
+		  item->setSize(oldSize);
+		  size[0] = oldSize[0];
+		  size[1] = oldSize[1];
+		  size[2] = oldSize[2];  
+		  radius = size[2];
 	      }
 	  }
 	  else
-	    sSelectedItem->SetSize(Vect(sSizeVal[0], sSizeVal[1], sSizeVal[2]));  
-	  sSizeField[0]->set_float_val(sSizeVal[0]);
-	  sSizeField[1]->set_float_val(sSizeVal[1]);
-	  sSizeField[2]->set_float_val(sSizeVal[2]);
-	  sEastGlui->sync_live();
-	  sSouthGlui->sync_live();
+	    item->setSize(Vect(size[0], size[1], size[2]));  
+	  sizeField[0]->set_float_val(size[0]);
+	  sizeField[1]->set_float_val(size[1]);
+	  sizeField[2]->set_float_val(size[2]);
+	  rightSubwin->sync_live();
+	  bottomSubwin->sync_live();
 	}
       break;
 
     case UI_ROT_Z:
-      if (sSelectedItem != NULL) {
-	  while(sAngleZVal>180)
-	    sAngleZVal -= 360;
-	  while(sAngleZVal<-180)
-	    sAngleZVal += 360;
+      if (item != NULL) {
+	  while(angleZ>180)
+	    angleZ -= 360;
+	  while(angleZ<-180)
+	    angleZ += 360;
 	  
-	  double oldAngle = sSelectedItem->GetOrientation()[2];
+	  double oldAngle = item->getOrientation()[2];
 
-	  if (sPreventCollision) {	      
-	      int wasColliding = Vred::treeRoot->Collide(*sSelectedItem);
-	      sSelectedItem->SetOrientation( Vect(0, 0, sAngleZVal) );
+	  if (preventCollision) {	      
+	      int wasColliding = Vred::treeRoot->collide(*item);
+	      item->setOrientation( Vect(0, 0, angleZ) );
 
-	      if (!wasColliding && Vred::treeRoot->Collide(*sSelectedItem)) {
+	      if (!wasColliding && Vred::treeRoot->collide(*item)) {
 		  // there's a true collision : it wasn't colliding but now it is
 		  // so we restore previous state
 		  //printf( "COLLISION !!\n");
-		  sSelectedItem->SetOrientation( Vect(0, 0, oldAngle) );
-		  sAngleZVal = oldAngle;
+		  item->setOrientation( Vect(0, 0, oldAngle) );
+		  angleZ = oldAngle;
 	      }
 	  }
 	  else
-	    sSelectedItem->SetOrientation( Vect(0, 0, sAngleZVal) );
+	    item->setOrientation( Vect(0, 0, angleZ) );
 	  
-	  sAngleZField->set_float_val(sAngleZVal);
+	  angleZField->set_float_val(angleZ);
       }
       break;
 
     case UI_RADIUS:
-      if (sSelectedItem != NULL) {
-	  if( sRadiusVal <MIN_SOLID_SIZE)
-	    sRadiusVal = MIN_SOLID_SIZE;
+      if (item != NULL) {
+	  if (radius <MIN_SOLID_SIZE)
+	    radius = MIN_SOLID_SIZE;
 	  
-	  double oldRadius = sSelectedItem->GetSize()[0];
+	  double oldRadius = item->getSize()[0];
 
-	  if (sPreventCollision) {	      
-	      int wasColliding = Vred::treeRoot->Collide(*sSelectedItem);
+	  if (preventCollision) {	      
+	      int wasColliding = Vred::treeRoot->collide(*item);
 
-	      sSelectedItem->SetSize( Vect(sRadiusVal, sRadiusVal, sRadiusVal) );
-	      if (!wasColliding && Vred::treeRoot->Collide(*sSelectedItem)) {
+	      item->setSize( Vect(radius, radius, radius) );
+	      if (!wasColliding && Vred::treeRoot->collide(*item)) {
 		  // there's a true collision : it wasn't colliding but now it is
 		  // so we restore previous state
 		  //printf( "COLLISION !!\n");
-		  sSelectedItem->SetSize(Vect(oldRadius, oldRadius, oldRadius));
-		  sRadiusVal = oldRadius;
+		  item->setSize(Vect(oldRadius, oldRadius, oldRadius));
+		  radius = oldRadius;
 	      }
 	  }
 	  else
-	    sSelectedItem->SetSize( Vect(sRadiusVal, sRadiusVal, sRadiusVal) );            
-	  sSizeVal[0] = sSizeVal[1] = sSizeVal[2] = sRadiusVal;
-	  sNorthGlui->sync_live();
+	    item->setSize( Vect(radius, radius, radius) );            
+	  size[0] = size[1] = size[2] = radius;
+	  topSubwin->sync_live();
       }
       break;
 
     case UI_TEXTURE:
-      sSelectedItem->SetTexture(Tex(sTexURLXp, sTexURLXn, sTexURLYp, sTexURLYn, sTexURLZp, sTexURLZn) );
+      item->setTexture(Tex(urlXp, urlXn, urlYp, urlYn, urlZp, urlZn));
       
-      if( sTexURLXp[0]!=0 || sTexURLXn[0]!=0 || sTexURLYp[0]!=0 || sTexURLYn[0]!=0 || sTexURLZp[0]!=0 || sTexURLZn[0]!=0 )
-	  sSelectedItem->SetRenderStyle(TEXTURED);
+      if (urlXp[0]!=0 || urlXn[0]!=0 || urlYp[0]!=0 || urlYn[0]!=0 || urlZp[0]!=0 || urlZn[0]!=0 )
+	  item->setStyle(TEXTURED);
       else
-	sSelectedItem->SetRenderStyle(COLORED);
+	item->setStyle(COLORED);
 
-      //printf("Texture modified\n");
+      //printf("Tex modified\n");
       break;
 
     case APPEARANCE:
-      if (sSelectedItem != NULL) {	  
-	Color diffColor(sDiffuseVal[0], sDiffuseVal[1], sDiffuseVal[2], 1.0);
-	Color ambientColor(sAmbientVal[0], sAmbientVal[1], sAmbientVal[2], 1.0);
-	Color shininessColor(sShininessVal[0], sShininessVal[1], sShininessVal[2], 1.0);
-	Color specularColor(sSpecularVal[0], sSpecularVal[1], sSpecularVal[2], 1.0);
-	App newAppearance( ambientColor, diffColor, specularColor, shininessColor );
-	sSelectedItem->SetApp( newAppearance );
+      if (item != NULL) {	  
+	Color difColor(dif[0], dif[1], dif[2], 1.0);
+	Color ambColor(amb[0], amb[1], amb[2], 1.0);
+	Color shiColor(shi[0], shi[1], shi[2], 1.0);
+	Color speColor(spe[0], spe[1], spe[2], 1.0);
+	App newAppearance( ambColor, difColor, speColor, shiColor );
+	item->setApp( newAppearance );
 	//printf("appearance modified\n");
       }
       break;
 
     case TARGET_URL:
       {
-	Gate *gate = dynamic_cast<Gate*>(sSelectedItem);
+	Gate *gate = dynamic_cast<Gate*>(item);
 	if (gate != NULL) {
-	    gate->SetToWhere(sToWhereVal);
-	    gate->SetIp_multi(sIPMulticastVal);
+	    gate->setUrl(url);
+	    gate->setIpmc(ipmc);
 	}
 	
-	Web *web = dynamic_cast<Web*>(sSelectedItem);
+	Web *web = dynamic_cast<Web*>(item);
 	if (web != NULL)
-	  web->SetUrl(sToWhereVal);
+	  web->setUrl(url);
 	
-	Host *host = dynamic_cast<Host*>(sSelectedItem);
+	Host *host = dynamic_cast<Host*>(item);
 	if (host != NULL)
-	  host->SetHostname(sToWhereVal);
+	  host->setHostname(url);
 	
-	Doc *doc = dynamic_cast<Doc*>(sSelectedItem);
+	Doc *doc = dynamic_cast<Doc*>(item);
 	if (doc != NULL)
-	  doc->SetUrl(sToWhereVal);
+	  doc->setUrl(url);
 
 	printf("Target URL updated\n");
       }
@@ -322,237 +321,236 @@ void UI::HandleControlEvent( int control )
 }
 
 /***************************************** myGlutIdle() ***********/
-void UI::MyGlutIdle(void)
+void UI::myGlutIdle(void)
 {
   /* According to the GLUT specification, the current window is 
      undefined during an idle callback.  So we need to explicitly change
      it if necessary */
-  /* if ( glutGetWindow() != sMainWindowID ) 
-    glutSetWindow(sMainWindowID);  */
+#if 0 //dax
+  if ( glutGetWindow() != mainWindowID ) 
+    glutSetWindow(mainWindowID);
+#endif
 
   /*  GLUI_Master.sync_live_all();  -- not needed - nothing to sync in this application  */
-  printf("MyGlutIdle: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 
 /***************************************** myGlutMouse() **********/
-void UI::MyGlutMouse(int button, int button_state, int x, int y)
+void UI::myGlutMouse(int button, int button_state, int x, int y)
 {
   if ( button_state == GLUT_DOWN && button == GLUT_LEFT_BUTTON ) {      
-      Solid *formerSelectedItem = sSelectedItem;
+      Solid *formerSelectedItem = item;
 
-      sSelectedItem = RayCaster::GetSelection(sCamera->GetCenter(), sCamera->GetWatch(),
-					      x, glutGet((GLenum)GLUT_WINDOW_HEIGHT)-sSouthGlui->getH()-y,
-					      0,
-					      0,
-					      glutGet((GLenum)GLUT_WINDOW_WIDTH)-sEastGlui->getW(),
-					      glutGet((GLenum)GLUT_WINDOW_HEIGHT)-sNorthGlui->getH()-sSouthGlui->getH() );
+      item = RayCaster::getSelection(camera->getCenter(), camera->getWatch(),
+					     x, glutGet((GLenum)GLUT_WINDOW_HEIGHT)-bottomSubwin->getH()-y,
+					     0,
+					     0,
+					     glutGet((GLenum)GLUT_WINDOW_WIDTH)-rightSubwin->getW(),
+					     glutGet((GLenum)GLUT_WINDOW_HEIGHT)-topSubwin->getH()-bottomSubwin->getH() );
  
       if (glutGetModifiers() == GLUT_ACTIVE_SHIFT) {
-	  if (sSelectedItem != NULL) {
-	      struct ObjectChain *maillon = (struct ObjectChain*)malloc(sizeof(struct ObjectChain));
-	      maillon->current = sSelectedItem;
-	      maillon->next = sSelectedSet;
-	      sSelectedSet = maillon;
-	  }
-	  if (formerSelectedItem != NULL) {
-	      struct ObjectChain *maillon = (struct ObjectChain*)malloc(sizeof(struct ObjectChain));
-	      maillon->current = formerSelectedItem;
-	      maillon->next = sSelectedSet;
-	      sSelectedSet = maillon;
-	  }
+	if (item != NULL) {
+	  struct objectChain *maillon = (struct objectChain*)malloc(sizeof(struct objectChain));
+	  maillon->current = item;
+	  maillon->next = selected;
+	  selected = maillon;
+	}
+	if (formerSelectedItem != NULL) {
+	  struct objectChain *maillon = (struct objectChain*)malloc(sizeof(struct objectChain));
+	  maillon->current = formerSelectedItem;
+	  maillon->next = selected;
+	  selected = maillon;
+	}
       }
       else {
-	  // on desselectionne tout
-	  while (sSelectedSet != NULL) {
-	      struct ObjectChain *suivant = sSelectedSet->next;
+	// on desselectionne tout
+	while (selected != NULL) {
+	  struct objectChain *suivant = selected->next;
 
-	      free(sSelectedSet);
-	      sSelectedSet = suivant;
-	  }
+	  free(selected);
+	  selected = suivant;
+	}
       }
-      if (sSelectedSet != NULL)
-	sSelectedItem = NULL;
+      if (selected != NULL)
+	item = NULL;
 
-      UpdateControls();
+      updateControls();
     }
   
   if (button_state == GLUT_DOWN && button == GLUT_RIGHT_BUTTON) {
-      sMotionEnabled = true;
-      sMouseX = x;
-      sMouseY = y;
+    motionEnabled = true;
+    mouseX = x;
+    mouseY = y;
   }
   if (button_state == GLUT_UP && button == GLUT_RIGHT_BUTTON) {
-      sMotionEnabled = false;
+    motionEnabled = false;
   }
 
-  printf("MyGlutMouse: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 
 /***************************************** myGlutMotion() **********/
-void UI::MyGlutMotion(int x, int y)
+void UI::myGlutMotion(int x, int y)
 {
-  if (sMotionEnabled) {
+  if (motionEnabled) {
     double dheading = 0.0, dpitch = 0.0;
 
-    if (x < sMouseX - 1) {
+    if (x < mouseX - 1) {
       dheading = 2.0;
-      sMouseX = x; 
+      mouseX = x; 
     }
-    else if (x > sMouseX + 1) {
+    else if (x > mouseX + 1) {
       dheading = -2.0;
-      sMouseX = x; 
+      mouseX = x; 
     }
-    if (y < sMouseY - 1) {
+    if (y < mouseY - 1) {
       dpitch = -2.0;
-      sMouseY = y;
+      mouseY = y;
     }
-    else if (y > sMouseY + 1) {
+    else if (y > mouseY + 1) {
       dpitch = 2.0;
-      sMouseY = y;
+      mouseY = y;
     }
-    sCamera->Move(Vect::null, Vect(0.0, dpitch, dheading));
-  printf("MyGlutMotion: glutPostRedisplay\n");
+    camera->move(Vect::null, Vect(0.0, dpitch, dheading));
     glutPostRedisplay();
   }
 }
 
 /***************************************** myGlutKeyboard() **********/
-void UI::MyGlutKeyboard(unsigned char key, int x, int y) 
+void UI::myGlutKeyboard(unsigned char key, int x, int y) 
 {
-  MyGlutSpecialKeyboard(key, x, y);
+  myGlutSpecialKeyboard(key, x, y);
 }
 
-void UI::MyGlutSpecialKeyboard(int key, int x, int y) 
+void UI::myGlutSpecialKeyboard(int key, int x, int y) 
 {
   switch (key) {
   case GLUT_KEY_UP:
-    sCamera->Move(Vect(0.5, 0.0, 0.0), Vect::null);
+    camera->move(Vect(0.5, 0.0, 0.0), Vect::null);
     break;
   case GLUT_KEY_DOWN:
-    sCamera->Move(Vect(-0.5, 0.0, 0.0), Vect::null);
+    camera->move(Vect(-0.5, 0.0, 0.0), Vect::null);
     break;
   case GLUT_KEY_LEFT:
-    sCamera->Move(Vect(0.0, 0.5, 0.0), Vect::null);
+    camera->move(Vect(0.0, 0.5, 0.0), Vect::null);
     break;
   case GLUT_KEY_RIGHT:
-    sCamera->Move(Vect(0.0, -0.5, 0.0), Vect::null);
+    camera->move(Vect(0.0, -0.5, 0.0), Vect::null);
     break;
   case GLUT_KEY_PAGE_UP:
-    sCamera->Move(Vect(0.0, 0.0, 0.5), Vect::null);
+    camera->move(Vect(0.0, 0.0, 0.5), Vect::null);
     break;
   case GLUT_KEY_PAGE_DOWN:
-    sCamera->Move(Vect(0.0, 0.0, -0.5), Vect::null);
+    camera->move(Vect(0.0, 0.0, -0.5), Vect::null);
     break;
   case '4':
-    sCamera->Move(Vect::null, Vect(0.0, 0.0, 5.0));
+    camera->move(Vect::null, Vect(0.0, 0.0, 5.0));
     break;
   case '6':
-    sCamera->Move(Vect::null, Vect(0.0, 0.0, -5.0));
+    camera->move(Vect::null, Vect(0.0, 0.0, -5.0));
     break;
   case '8':
-    sCamera->Move(Vect::null, Vect(0.0, -5.0, 0.0));
+    camera->move(Vect::null, Vect(0.0, -5.0, 0.0));
     break;
   case '2':
-    sCamera->Move(Vect::null, Vect(0.0, 5.0, 0.0));
+    camera->move(Vect::null, Vect(0.0, 5.0, 0.0));
     break;
   default:
     //cout << "key: \"" << key << "\"" << endl;
     break;
   }
-  printf("MyGlutSpecialKey: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 
 /**************************************** myGlutReshape() *************/
-void UI::MyGlutReshape( int x, int y )
+void UI::myGlutReshape( int x, int y )
 {
   GLUI_Master.auto_set_viewport();
-  printf("MyGlutReshape: glutPostRedisplay\n");
+  printf("myGlutReshape: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 
 /***************************************** myGlutDisplay() *****************/
-void UI::MyGlutDisplay( void )
+void UI::myGlutDisplay( void )
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  DrawGrid();
-  Vred::treeRoot->Render();
+  drawGrid();
+  Vred::treeRoot->render();
 
   // pour les objets selectionnes: changer en wired
   // redessiner et rechanger en textured.
 
-  struct ObjectChain *currentObjChain = sSelectedSet;
+  struct objectChain *currentObjChain = selected;
   while (currentObjChain != NULL) {
-    RenderSolidAsSelected(currentObjChain->current);
+    renderSolid(currentObjChain->current);
     currentObjChain = currentObjChain->next;
   }
-  if (sSelectedItem != NULL)
-    RenderSolidAsSelected(sSelectedItem);
+  if (item != NULL)
+    renderSolid(item);
 
   glutSwapBuffers(); 
 }
 
-void UI::RenderSolidAsSelected(Solid *solid)
+void UI::renderSolid(Solid *solid)
 {
   if (solid == NULL) return;
 
-  //printf("RenderSolidAsSelected : ");
+  //printf("renderSolid: ");
   //solid->Print();
   
-  int oldRenderStyle = solid->GetRenderStyle();
-  solid->SetRenderStyle(WIRED);
-  App app = solid->GetApp();
-  Color color = app.GetAmbient();
-  solid->SetApp(App(Color::red, app.GetDiffuse(), app.GetSpecular(), app.GetShininess()) );
-  solid->Render();
-  solid->SetRenderStyle(oldRenderStyle);
-  solid->SetApp(App(color, app.GetDiffuse(), app.GetSpecular(), app.GetShininess()) );
+  int oldStyle = solid->getStyle();
+  solid->setStyle(WIRED);
+  App app = solid->getApp();
+  Color color = app.getAmbient();
+  solid->setApp(App(Color::red, app.getDiffuse(), app.getSpecular(), app.getShininess()) );
+  solid->render();
+  solid->setStyle(oldStyle);
+  solid->setApp(App(color, app.getDiffuse(), app.getSpecular(), app.getShininess()));
 }
 
-void UI::Vertex(const Vect& v) {
+void UI::vertex(const Vect& v)
+{
   glVertex3d(v[0], v[1], v[2]);
 }
 
-void UI::DrawGrid()
+void UI::drawGrid()
 {
   Vect ux(1., 0., 0.), uy(0., 1., 0.), v(-3., -3., 0.);
 
   glMaterialfv(GL_FRONT, GL_AMBIENT, Color::blue);
   glBegin(GL_LINES);
-    Vertex(v);
-    Vertex(v + 6 * ux);
-    Vertex(v + uy);
-    Vertex(v + uy + 6 * ux);
-    Vertex(v + 2 * uy);
-    Vertex(v + 2 * uy + 6 * ux);
-    Vertex(v + 3 * uy);
-    Vertex(v + 3 * uy + 6 * ux);
-    Vertex(v + 4 * uy);
-    Vertex(v + 4 * uy + 6 * ux);
-    Vertex(v + 5 * uy);
-    Vertex(v + 5 * uy + 6 * ux);
-    Vertex(v + 6 * uy);
-    Vertex(v + 6 * uy + 6 * ux);
+    vertex(v);
+    vertex(v + 6 * ux);
+    vertex(v + uy);
+    vertex(v + uy + 6 * ux);
+    vertex(v + 2 * uy);
+    vertex(v + 2 * uy + 6 * ux);
+    vertex(v + 3 * uy);
+    vertex(v + 3 * uy + 6 * ux);
+    vertex(v + 4 * uy);
+    vertex(v + 4 * uy + 6 * ux);
+    vertex(v + 5 * uy);
+    vertex(v + 5 * uy + 6 * ux);
+    vertex(v + 6 * uy);
+    vertex(v + 6 * uy + 6 * ux);
   glEnd();
   v = Vect(-3.0, -3.0, 0.0);
   glBegin(GL_LINES);
-    Vertex(v);
-    Vertex(v + 6 * uy);
-    Vertex(v + ux);
-    Vertex(v + ux + 6 * uy);
-    Vertex(v + 2 * ux);
-    Vertex(v + 2 * ux + 6 * uy);
-    Vertex(v + 3 * ux);
-    Vertex(v + 3 * ux + 6 * uy);
-    Vertex(v + 4 * ux);
-    Vertex(v + 4 * ux + 6 * uy);
-    Vertex(v + 5 * ux);
-    Vertex(v + 5 * ux + 6 * uy);
-    Vertex(v + 6 * ux);
-    Vertex(v + 6 * ux + 6 * uy);
+    vertex(v);
+    vertex(v + 6 * uy);
+    vertex(v + ux);
+    vertex(v + ux + 6 * uy);
+    vertex(v + 2 * ux);
+    vertex(v + 2 * ux + 6 * uy);
+    vertex(v + 3 * ux);
+    vertex(v + 3 * ux + 6 * uy);
+    vertex(v + 4 * ux);
+    vertex(v + 4 * ux + 6 * uy);
+    vertex(v + 5 * ux);
+    vertex(v + 5 * ux + 6 * uy);
+    vertex(v + 6 * ux);
+    vertex(v + 6 * ux + 6 * uy);
   glEnd();
 }
 
@@ -566,13 +564,13 @@ void UI::SetupUI(int argc, char *argv[])
   glutInitWindowPosition( 50, 50 );
   glutInitWindowSize( 800, 700 );
  
-  sMainWindowID = glutCreateWindow( "VRed" );
-  glutDisplayFunc( MyGlutDisplay );
-  GLUI_Master.set_glutReshapeFunc( MyGlutReshape );  
-  GLUI_Master.set_glutKeyboardFunc( MyGlutKeyboard );
-  GLUI_Master.set_glutMouseFunc( MyGlutMouse );
-  GLUI_Master.set_glutSpecialFunc( MyGlutSpecialKeyboard );
-  glutMotionFunc( MyGlutMotion );
+  mainWindowID = glutCreateWindow( "VRed" );
+  glutDisplayFunc( myGlutDisplay );
+  GLUI_Master.set_glutReshapeFunc( myGlutReshape );  
+  GLUI_Master.set_glutKeyboardFunc( myGlutKeyboard );
+  GLUI_Master.set_glutMouseFunc( myGlutMouse );
+  GLUI_Master.set_glutSpecialFunc( myGlutSpecialKeyboard );
+  glutMotionFunc( myGlutMotion );
   GLUI_Master.set_glutIdleFunc( NULL );
   
   // setup de l'environnement GL
@@ -592,7 +590,7 @@ void UI::SetupUI(int argc, char *argv[])
   glMatrixMode(GL_PROJECTION);
   gluPerspective(60.0, 1.0, 0.2, 100.0);
 
-  sCamera = new Camera("cam0", Vect(7.0, 6.0, 3.0), Vect(0.0, 20.0, -140.0));
+  camera = new Camera("cam0", Vect(7.0, 6.0, 3.0), Vect(0.0, 20.0, -140.0));
   Vred::treeRoot = new Group("treeRoot", COLORED, Color::white);
 
   /****************************************/
@@ -600,560 +598,559 @@ void UI::SetupUI(int argc, char *argv[])
   /****************************************/
 
   /*** Create the top subwindow ***/
-  sNorthGlui = GLUI_Master.create_glui_subwindow(sMainWindowID, GLUI_SUBWINDOW_TOP);
+  topSubwin = GLUI_Master.create_glui_subwindow(mainWindowID, GLUI_SUBWINDOW_TOP);
   printf("subwindow top\n");
-  sNorthGlui->set_main_gfx_window(sMainWindowID);
+  topSubwin->set_main_gfx_window(mainWindowID);
 
   /* Boxtype */  
-  GLUI_Panel *objectTypePanel = sNorthGlui->add_panel("");
-  GLUI_Listbox *objectTypeList = sNorthGlui->add_listbox_to_panel(objectTypePanel, "Object type:", &sCurrentObjectType);
-  for (unsigned int i=0; i < sizeof(kObjectTypesString) / sizeof(const char*); i++)
-    objectTypeList->add_item(i, (char *) kObjectTypesString[i]);
+  GLUI_Panel *objectTypePanel = topSubwin->add_panel("");
+  GLUI_Listbox *objectTypeList = topSubwin->add_listbox_to_panel(objectTypePanel, "Object type:", &currentObjectType);
+  for (unsigned int i=0; i < sizeof(objectTypesString) / sizeof(const char*); i++)
+    objectTypeList->add_item(i, (char *) objectTypesString[i]);
 
-  sNorthGlui->add_column_to_panel(objectTypePanel, false);
-  sNorthGlui->add_button_to_panel(objectTypePanel, "Add", UI_ADD_OBJECT, HandleControlEvent);
+  topSubwin->add_column_to_panel(objectTypePanel, false);
+  topSubwin->add_button_to_panel(objectTypePanel, "Add", UI_ADD_OBJECT, controlEvent);
   
   /* collision */
-  sNorthGlui->add_separator();
-  sNorthGlui->add_checkbox("Prevent collision while moving objects", &sPreventCollision);
+  topSubwin->add_separator();
+  topSubwin->add_checkbox("Prevent collision while moving objects", &preventCollision);
 
   /* placement */
-  sNorthGlui->add_column(true);
-  GLUI_Panel *xyzPanel = sNorthGlui->add_panel("");
-  (sCenterField[0] = sNorthGlui->add_edittext_to_panel(xyzPanel,
+  topSubwin->add_column(true);
+  GLUI_Panel *xyzPanel = topSubwin->add_panel("");
+  (centerField[0] = topSubwin->add_edittext_to_panel(xyzPanel,
                                                       "x",
                                                       GLUI_EDITTEXT_FLOAT,
-                                                      &sCenterVal[0],
+                                                      &center[0],
                                                       UI_CENTER,
-                                                      HandleControlEvent))->set_w(25);
-  sNorthGlui->add_column_to_panel(xyzPanel, false);
-  (sCenterField[1] = sNorthGlui->add_edittext_to_panel(xyzPanel,
+                                                      controlEvent))->set_w(25);
+  topSubwin->add_column_to_panel(xyzPanel, false);
+  (centerField[1] = topSubwin->add_edittext_to_panel(xyzPanel,
                                                       "y",
                                                       GLUI_EDITTEXT_FLOAT,
-                                                      &sCenterVal[1],
+                                                      &center[1],
                                                       UI_CENTER,
-                                                      HandleControlEvent))->set_w(25);
-  sNorthGlui->add_column_to_panel(xyzPanel, false);
-  (sCenterField[2] = sNorthGlui->add_edittext_to_panel(xyzPanel,
+                                                      controlEvent))->set_w(25);
+  topSubwin->add_column_to_panel(xyzPanel, false);
+  (centerField[2] = topSubwin->add_edittext_to_panel(xyzPanel,
                                                       "z",
                                                       GLUI_EDITTEXT_FLOAT,
-                                                      &sCenterVal[2],
+                                                      &center[2],
                                                       UI_CENTER,
-                                                      HandleControlEvent))->set_w(25);
+                                                      controlEvent))->set_w(25);
 
-  GLUI_Panel *deltaXyzPanel = sNorthGlui->add_panel("");
-  (sSizeField[0] = sNorthGlui->add_edittext_to_panel(deltaXyzPanel,
+  GLUI_Panel *deltaXyzPanel = topSubwin->add_panel("");
+  (sizeField[0] = topSubwin->add_edittext_to_panel(deltaXyzPanel,
                                                     "Dx",
                                                     GLUI_EDITTEXT_FLOAT, 
-						    &sSizeVal[0],
+						    &size[0],
                                                     UI_SIZE,
-                                                    HandleControlEvent ) )->set_w(25);
-  sNorthGlui->add_column_to_panel(deltaXyzPanel, false);
-  (sSizeField[1] = sNorthGlui->add_edittext_to_panel(deltaXyzPanel,
+                                                    controlEvent ) )->set_w(25);
+  topSubwin->add_column_to_panel(deltaXyzPanel, false);
+  (sizeField[1] = topSubwin->add_edittext_to_panel(deltaXyzPanel,
                                                     "Dy",
                                                     GLUI_EDITTEXT_FLOAT, 
-						    &sSizeVal[1],
+						    &size[1],
                                                     UI_SIZE,
-                                                    HandleControlEvent ) )->set_w(25);
-  sNorthGlui->add_column_to_panel(deltaXyzPanel, false);
-  (sSizeField[2] = sNorthGlui->add_edittext_to_panel(deltaXyzPanel,
+                                                    controlEvent ) )->set_w(25);
+  topSubwin->add_column_to_panel(deltaXyzPanel, false);
+  (sizeField[2] = topSubwin->add_edittext_to_panel(deltaXyzPanel,
                                                     "Dz",
                                                     GLUI_EDITTEXT_FLOAT, 
-						    &sSizeVal[2], UI_SIZE,
-                                                    HandleControlEvent ) )->set_w(25);
-  sNorthGlui->add_column(false);
-  sAngleZField = sNorthGlui->add_edittext("Angle /Z",
+						    &size[2], UI_SIZE,
+                                                    controlEvent ) )->set_w(25);
+  topSubwin->add_column(false);
+  angleZField = topSubwin->add_edittext("Angle /Z",
                                           GLUI_EDITTEXT_FLOAT, 
-					  &sAngleZVal,
+					  &angleZ,
                                           UI_ROT_Z,
-                                          HandleControlEvent);
-  sAngleZField->set_float_limits(-180, 180, GLUI_LIMIT_WRAP);
+                                          controlEvent);
+  angleZField->set_float_limits(-180, 180, GLUI_LIMIT_WRAP);
 
-  sRadiusField = sNorthGlui->add_edittext("Radius",
+  radiusField = topSubwin->add_edittext("Radius",
                                            GLUI_EDITTEXT_FLOAT, 
-					   &sRadiusVal,
+					   &radius,
                                            UI_RADIUS,
-                                           HandleControlEvent);
+                                           controlEvent);
 
   /*** Create the side subwindow ***/
-  sEastGlui = GLUI_Master.create_glui_subwindow(sMainWindowID, GLUI_SUBWINDOW_RIGHT);
+  rightSubwin = GLUI_Master.create_glui_subwindow(mainWindowID, GLUI_SUBWINDOW_RIGHT);
   printf("subwindow right\n");
 
-  sEastGlui->set_main_gfx_window(sMainWindowID);
+  rightSubwin->set_main_gfx_window(mainWindowID);
   /* texture */
-  sTextureRollout = sEastGlui->add_rollout( "Texture" );
-  (sTextureXp = sEastGlui->add_edittext_to_panel(sTextureRollout,
+  texRollout = rightSubwin->add_rollout( "Texture" );
+  (texXp = rightSubwin->add_edittext_to_panel(texRollout,
                                                 "Xp",
                                                 GLUI_EDITTEXT_TEXT,
-                                                sTexURLXp,
+                                                urlXp,
                                                 UI_TEXTURE,
-                                                HandleControlEvent))->set_w(200);
-  (sTextureXn = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                controlEvent))->set_w(128);
+  (texXn = rightSubwin->add_edittext_to_panel(texRollout,
                                                 "Xn",
                                                 GLUI_EDITTEXT_TEXT,
-                                                sTexURLXn,
+                                                urlXn,
                                                 UI_TEXTURE,
-                                                HandleControlEvent))->set_w(200);
-  (sTextureYp = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                controlEvent))->set_w(128);
+  (texYp = rightSubwin->add_edittext_to_panel(texRollout,
                                                 "Yp",
                                                 GLUI_EDITTEXT_TEXT,
-                                                sTexURLYp,
+                                                urlYp,
                                                 UI_TEXTURE,
-                                                HandleControlEvent))->set_w(200);
-  (sTextureYn = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                controlEvent))->set_w(128);
+  (texYn = rightSubwin->add_edittext_to_panel(texRollout,
                                                 "Yn",
                                                 GLUI_EDITTEXT_TEXT,
-                                                sTexURLYn,
+                                                urlYn,
                                                 UI_TEXTURE,
-                                                HandleControlEvent))->set_w(200);
-  (sTextureZp = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                controlEvent))->set_w(128);
+  (texZp = rightSubwin->add_edittext_to_panel(texRollout,
                                                 "Zp",
                                                 GLUI_EDITTEXT_TEXT,
-                                                sTexURLZp,
+                                                urlZp,
                                                 UI_TEXTURE,
-                                                HandleControlEvent))->set_w(200);
-  (sTextureZn = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                controlEvent))->set_w(128);
+  (texZn = rightSubwin->add_edittext_to_panel(texRollout,
                                                 "Zn",
                                                 GLUI_EDITTEXT_TEXT,
-                                                sTexURLZn,
+                                                urlZn,
                                                 UI_TEXTURE,
-                                                HandleControlEvent))->set_w(200);
-  (sTextureSphere = sEastGlui->add_edittext_to_panel(sTextureRollout,
+                                                controlEvent))->set_w(128);
+  (texSph = rightSubwin->add_edittext_to_panel(texRollout,
                                                 "Sp",
                                                 GLUI_EDITTEXT_TEXT,
-                                                sTexURLXp,
+                                                urlXp,
                                                 UI_TEXTURE,
-                                                HandleControlEvent))->set_w(200);
+                                                controlEvent))->set_w(128);
   
-  sEastGlui->add_button_to_panel(sTextureRollout, "Load textures", UI_TEXTURE, HandleControlEvent);
+  rightSubwin->add_button_to_panel(texRollout, "Load textures", UI_TEXTURE, controlEvent);
 
   /* Appearance */
-  sAppearanceRollout = sEastGlui->add_rollout( "Appearance" );
+  appearanceRollout = rightSubwin->add_rollout( "Appearance" );
 
-  GLUI_Panel *ambientPanel = sEastGlui->add_panel_to_panel(sAppearanceRollout, "Ambient");
-  (sAmbientField[0] = sEastGlui->add_edittext_to_panel(ambientPanel,
+  GLUI_Panel *ambientPanel = rightSubwin->add_panel_to_panel(appearanceRollout, "Ambient");
+  (ambField[0] = rightSubwin->add_edittext_to_panel(ambientPanel,
                                                       "R",
                                                       GLUI_EDITTEXT_FLOAT,
-						      &sAmbientVal[0],
+						      &amb[0],
                                                       APPEARANCE,
-                                                      HandleControlEvent ) )->set_w(20);
-  sAmbientField[0]->set_float_limits(0, 1);
-  sEastGlui->add_column_to_panel(ambientPanel, false);  
-  (sAmbientField[1] = sEastGlui->add_edittext_to_panel(ambientPanel,
+                                                      controlEvent ) )->set_w(20);
+  ambField[0]->set_float_limits(0, 1);
+  rightSubwin->add_column_to_panel(ambientPanel, false);  
+  (ambField[1] = rightSubwin->add_edittext_to_panel(ambientPanel,
                                                       "G",
                                                       GLUI_EDITTEXT_FLOAT,
-						      &sAmbientVal[1],
+						      &amb[1],
                                                       APPEARANCE,
-                                                      HandleControlEvent ) )->set_w(20);
-  sAmbientField[1]->set_float_limits(0, 1);
-  sEastGlui->add_column_to_panel(ambientPanel, false);
-  (sAmbientField[2] = sEastGlui->add_edittext_to_panel(ambientPanel,
+                                                      controlEvent ) )->set_w(20);
+  ambField[1]->set_float_limits(0, 1);
+  rightSubwin->add_column_to_panel(ambientPanel, false);
+  (ambField[2] = rightSubwin->add_edittext_to_panel(ambientPanel,
                                                       "B",
                                                       GLUI_EDITTEXT_FLOAT,
-						      &sAmbientVal[2],
+						      &amb[2],
                                                       APPEARANCE,
-                                                      HandleControlEvent ) )->set_w(20);
-  sAmbientField[2]->set_float_limits(0, 1);
+                                                      controlEvent ) )->set_w(20);
+  ambField[2]->set_float_limits(0, 1);
 
-  GLUI_Panel *diffusePanel = sEastGlui->add_panel_to_panel(sAppearanceRollout, "Diffuse");
-  (sDiffuseField[0] = sEastGlui->add_edittext_to_panel(diffusePanel,
+  GLUI_Panel *diffusePanel = rightSubwin->add_panel_to_panel(appearanceRollout, "Diffuse");
+  (difField[0] = rightSubwin->add_edittext_to_panel(diffusePanel,
                                                       "R",
                                                       GLUI_EDITTEXT_FLOAT,
-					              &sDiffuseVal[0],
+					              &dif[0],
                                                       APPEARANCE,
-                                                      HandleControlEvent ) )->set_w(20);
-  sDiffuseField[0]->set_float_limits(0, 1);
-  sEastGlui->add_column_to_panel(diffusePanel, false);  
-  (sDiffuseField[1] = sEastGlui->add_edittext_to_panel(diffusePanel,
+                                                      controlEvent ) )->set_w(20);
+  difField[0]->set_float_limits(0, 1);
+  rightSubwin->add_column_to_panel(diffusePanel, false);  
+  (difField[1] = rightSubwin->add_edittext_to_panel(diffusePanel,
                                                       "G",
                                                       GLUI_EDITTEXT_FLOAT, 
-						      &sDiffuseVal[1],
+						      &dif[1],
                                                       APPEARANCE,
-                                                      HandleControlEvent ) )->set_w(20);
-  sDiffuseField[1]->set_float_limits(0, 1);
-  sEastGlui->add_column_to_panel(diffusePanel, false);
-  (sDiffuseField[2] = sEastGlui->add_edittext_to_panel(diffusePanel,
+                                                      controlEvent ) )->set_w(20);
+  difField[1]->set_float_limits(0, 1);
+  rightSubwin->add_column_to_panel(diffusePanel, false);
+  (difField[2] = rightSubwin->add_edittext_to_panel(diffusePanel,
                                                       "B",
                                                       GLUI_EDITTEXT_FLOAT,
-						      &sDiffuseVal[2],
+						      &dif[2],
                                                       APPEARANCE,
-                                                      HandleControlEvent ) )->set_w(20);
-  sDiffuseField[2]->set_float_limits(0, 1);
+                                                      controlEvent ) )->set_w(20);
+  difField[2]->set_float_limits(0, 1);
 
-  GLUI_Panel *specularPanel = sEastGlui->add_panel_to_panel(sAppearanceRollout, "Specular");
-  (sSpecularField[0] = sEastGlui->add_edittext_to_panel(specularPanel,
+  GLUI_Panel *specularPanel = rightSubwin->add_panel_to_panel(appearanceRollout, "Specular");
+  (speField[0] = rightSubwin->add_edittext_to_panel(specularPanel,
                                                        "V1",
                                                         GLUI_EDITTEXT_FLOAT,
-							&sSpecularVal[0],
+							&spe[0],
                                                         APPEARANCE,
-                                                        HandleControlEvent ) )->set_w(20);
-  sSpecularField[0]->set_float_limits(0, 1);
-  sEastGlui->add_column_to_panel(specularPanel, false);  
-  (sSpecularField[1] = sEastGlui->add_edittext_to_panel(specularPanel,
+                                                        controlEvent ) )->set_w(20);
+  speField[0]->set_float_limits(0, 1);
+  rightSubwin->add_column_to_panel(specularPanel, false);  
+  (speField[1] = rightSubwin->add_edittext_to_panel(specularPanel,
                                                         "V2",
                                                         GLUI_EDITTEXT_FLOAT,
-							&sSpecularVal[1],
+							&spe[1],
                                                         APPEARANCE,
-                                                        HandleControlEvent ) )->set_w(20);
-  sSpecularField[1]->set_float_limits(0, 1);
-  sEastGlui->add_column_to_panel(specularPanel, false);
-  (sSpecularField[2] = sEastGlui->add_edittext_to_panel(specularPanel,
+                                                        controlEvent ) )->set_w(20);
+  speField[1]->set_float_limits(0, 1);
+  rightSubwin->add_column_to_panel(specularPanel, false);
+  (speField[2] = rightSubwin->add_edittext_to_panel(specularPanel,
                                                         "V3",
                                                         GLUI_EDITTEXT_FLOAT,
-							&sSpecularVal[2],
+							&spe[2],
                                                         APPEARANCE,
-                                                        HandleControlEvent ) )->set_w(20);
-  sSpecularField[2]->set_float_limits(0, 1);
+                                                        controlEvent ) )->set_w(20);
+  speField[2]->set_float_limits(0, 1);
 
-  GLUI_Panel *shininessPanel = sEastGlui->add_panel_to_panel(sAppearanceRollout, "Shininess");
-  (sShininessField[0] = sEastGlui->add_edittext_to_panel(shininessPanel,
+  GLUI_Panel *shininessPanel = rightSubwin->add_panel_to_panel(appearanceRollout, "Shininess");
+  (shiField[0] = rightSubwin->add_edittext_to_panel(shininessPanel,
                                                          "V1",
                                                          GLUI_EDITTEXT_FLOAT,
-							 &sShininessVal[0],
+							 &shi[0],
                                                          APPEARANCE,
-                                                         HandleControlEvent ) )->set_w(20);
-  sShininessField[0]->set_float_limits(0, 1);
-  sEastGlui->add_column_to_panel(shininessPanel, false);  
-  (sShininessField[1] = sEastGlui->add_edittext_to_panel(shininessPanel,
+                                                         controlEvent ) )->set_w(20);
+  shiField[0]->set_float_limits(0, 1);
+  rightSubwin->add_column_to_panel(shininessPanel, false);  
+  (shiField[1] = rightSubwin->add_edittext_to_panel(shininessPanel,
                                                          "V2",
                                                          GLUI_EDITTEXT_FLOAT,
-							 &sShininessVal[1],
+							 &shi[1],
                                                          APPEARANCE,
-                                                         HandleControlEvent ) )->set_w(20);
-  sShininessField[1]->set_float_limits(0, 1);
-  sEastGlui->add_column_to_panel(shininessPanel, false);
-  (sShininessField[2] = sEastGlui->add_edittext_to_panel(shininessPanel,
+                                                         controlEvent ) )->set_w(20);
+  shiField[1]->set_float_limits(0, 1);
+  rightSubwin->add_column_to_panel(shininessPanel, false);
+  (shiField[2] = rightSubwin->add_edittext_to_panel(shininessPanel,
                                                          "V3",
                                                          GLUI_EDITTEXT_FLOAT,
-							 &sShininessVal[2],
+							 &shi[2],
                                                          APPEARANCE,
-                                                         HandleControlEvent ) )->set_w(20);
-  sShininessField[2]->set_float_limits(0, 1);
+                                                         controlEvent ) )->set_w(20);
+  shiField[2]->set_float_limits(0, 1);
 
-  (sToWhereField = sEastGlui->add_edittext("To Where (URL)",
+  (urlField = rightSubwin->add_edittext("To Where (URL)",
                                            GLUI_EDITTEXT_TEXT,
-                                           sToWhereVal, 
+                                           url, 
 					   TARGET_URL,
-                                           HandleControlEvent ) )->set_w(250);
-  (sIPMulticastField = sEastGlui->add_edittext("IP Multicast",
+                                           controlEvent ) )->set_w(128);
+  (ipmcField = rightSubwin->add_edittext("IP Multicast",
                                                GLUI_EDITTEXT_TEXT,
-                                               sIPMulticastVal, 
+                                               ipmc, 
 					       TARGET_URL,
-                                               HandleControlEvent ) )->set_w(250);
+                                               controlEvent ) )->set_w(32);
   
-  sEastGlui->add_separator();
-  sObjectClassDescription = sEastGlui->add_statictext("Object type :");
+  rightSubwin->add_separator();
+  objectClassDescription = rightSubwin->add_statictext("Object type :");
   
   /*********** South subWindow **********************************/
 
-  sSouthGlui = GLUI_Master.create_glui_subwindow(sMainWindowID, GLUI_SUBWINDOW_BOTTOM);
-  sSouthGlui->set_main_gfx_window(sMainWindowID);
+  bottomSubwin = GLUI_Master.create_glui_subwindow(mainWindowID, GLUI_SUBWINDOW_BOTTOM);
+  bottomSubwin->set_main_gfx_window(mainWindowID);
   printf("subwindow bottom\n");
   
-  sObjectTransXYButton = sSouthGlui->add_translation("Object YZ",
+  objectTransXYButton = bottomSubwin->add_translation("Object YZ",
                                                      GLUI_TRANSLATION_XY,
-                                                     &sCenterVal[1],
+                                                     &center[1],
                                                      UI_CENTER,
-                                                     HandleControlEvent);
-  sObjectTransXYButton->set_speed(0.1);
-  sSouthGlui->add_column(false);
-  sObjectTransZButton = sSouthGlui->add_translation("Object X",
+                                                     controlEvent);
+  objectTransXYButton->set_speed(0.1);
+  bottomSubwin->add_column(false);
+  objectTransZButton = bottomSubwin->add_translation("Object X",
                                                      GLUI_TRANSLATION_Z,
-                                                     &sCenterXButtonVal,
+                                                     &centerXButton,
                                                      UI_CENTER_X_BTN,
-                                                     HandleControlEvent);
-  sObjectTransZButton->set_speed(0.1);
-  sSouthGlui->add_column(false);
-  sAngleZButton = sSouthGlui->add_translation("Rot /Z",
+                                                     controlEvent);
+  objectTransZButton->set_speed(0.1);
+  bottomSubwin->add_column(false);
+  angleZButton = bottomSubwin->add_translation("Rot /Z",
                                               GLUI_TRANSLATION_X,
-                                              &sAngleZVal,
+                                              &angleZ,
                                               UI_ROT_Z,
-                                              HandleControlEvent);
-  sSouthGlui->add_column(true);
-  sSizeButton[0] =  sSouthGlui->add_translation("Size X",
+                                              controlEvent);
+  bottomSubwin->add_column(true);
+  sizeButton[0] =  bottomSubwin->add_translation("Size X",
                                                 GLUI_TRANSLATION_Z, 
-						&sSizeVal[0],
+						&size[0],
                                                 UI_SIZE,
-                                                HandleControlEvent);
-  sSizeButton[0]->set_speed(0.1);
-  sSouthGlui->add_column(false);
-  sSizeButton[1] =  sSouthGlui->add_translation("Size Y",
+                                                controlEvent);
+  sizeButton[0]->set_speed(0.1);
+  bottomSubwin->add_column(false);
+  sizeButton[1] =  bottomSubwin->add_translation("Size Y",
                                                 GLUI_TRANSLATION_X, 
-						&sSizeVal[1],
+						&size[1],
                                                 UI_SIZE,
-                                                HandleControlEvent);
-  sSizeButton[1]->set_speed(0.1);
-  sSouthGlui->add_column(false);
-  sSizeButton[2] =  sSouthGlui->add_translation("Size Z",
+                                                controlEvent);
+  sizeButton[1]->set_speed(0.1);
+  bottomSubwin->add_column(false);
+  sizeButton[2] =  bottomSubwin->add_translation("Size Z",
                                                 GLUI_TRANSLATION_Y, 
-						&sSizeVal[2],
+						&size[2],
                                                 UI_SIZE,
-                                                HandleControlEvent);
-  sSizeButton[2]->set_speed(0.1);
+                                                controlEvent);
+  sizeButton[2]->set_speed(0.1);
 
-  sSouthGlui->add_column(true);
-  sGroupButton = sSouthGlui->add_button("Group", UI_GROUP, HandleControlEvent);
-  sUngroupButton = sSouthGlui->add_button("Ungroup", UI_UNGROUP, HandleControlEvent);
-  sSouthGlui->add_column(false);
-  sDeleteButton = sSouthGlui->add_button("Delete", UI_DELETE, HandleControlEvent);
+  bottomSubwin->add_column(true);
+  groupButton = bottomSubwin->add_button("Group", UI_GROUP, controlEvent);
+  ungroupButton = bottomSubwin->add_button("Ungroup", UI_UNGROUP, controlEvent);
+  bottomSubwin->add_column(false);
+  deleteButton = bottomSubwin->add_button("Delete", UI_DELETE, controlEvent);
 
   /*  buttons save and quit */
-  sSouthGlui->add_column(true);
-  sSouthGlui->add_button("Open", UI_OPEN, HandleControlEvent);
-  sSouthGlui->add_button("Save", UI_SAVE, HandleControlEvent);
-  sSouthGlui->add_separator();
-  sSouthGlui->add_button("Quit", UI_QUIT, HandleControlEvent);
+  bottomSubwin->add_column(true);
+  bottomSubwin->add_button("Open", UI_OPEN, controlEvent);
+  bottomSubwin->add_button("Save", UI_SAVE, controlEvent);
+  bottomSubwin->add_separator();
+  bottomSubwin->add_button("Quit", UI_QUIT, controlEvent);
 
-  UpdateControls();
+  updateControls();
 }
 
-void UI::CreateNewObject()
+void UI::createNewObject()
 {
-  sSelectedItem = NULL;
-  switch(sCurrentObjectType) {
-    case UI_WALL_TYPE:
-      sSelectedItem = new Wall("unMur", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
+  item = NULL;
+  switch(currentObjectType) {
+    case WALL_TYPE:
+      item = new Wall("unMur", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
 			       Tex(), App() );
       break;
-    case UI_GATE_TYPE:
-      sSelectedItem = new Gate("unMur", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
+    case GATE_TYPE:
+      item = new Gate("unMur", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
 			       Tex(), App() );
       break;
-    case UI_EARTH_SPHERE_TYPE:
-      sSelectedItem = new Earth("uneSphere", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
-				Tex(), App(),10, 10 );
+    case EARTH_TYPE:
+      item = new Earth("uneSphere", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
+				Tex(), App(), 10, 10 );
       break;
-    case UI_WEB_TYPE:
-      sSelectedItem = new Web("unWeb", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
+    case WEB_TYPE:
+      item = new Web("unWeb", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
 			       Tex(), App() );
       break;
-    case UI_BOARD_TYPE:
-      sSelectedItem = new Board("unBoard", Vect::null, Vect::null, Vect::unit, COLORED, Color::white,
+    case BOARD_TYPE:
+      item = new Board("unBoard", Vect::null, Vect::null, Vect::unit, COLORED, Color::white,
 			       Tex(), App() );
       break;
-    case UI_HOST_TYPE:
-      sSelectedItem = new Host("unHost", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
+    case HOST_TYPE:
+      item = new Host("unHost", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
 			       Tex(), App() );
       break;
-    case UI_DOC_TYPE:
-      sSelectedItem = new Board("unDoc", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
+    case DOC_TYPE:
+      item = new Board("unDoc", Vect::null, Vect::null, Vect::unit, COLORED, Color::white, 
 			       Tex(), App() );
       break;
-    case UI_STEP_TYPE:
-      sSelectedItem = new Board("unStep", Vect::null, Vect::null, Vect::unit, COLORED, Color::white,
+    case STEP_TYPE:
+      item = new Board("unStep", Vect::null, Vect::null, Vect::unit, COLORED, Color::white,
 			       Tex(), App() );
       break;
     default:
       printf("object type unknown\n");
   }
   
-  if (sSelectedItem != NULL)
-    Vred::treeRoot->Add(sSelectedItem);
+  if (item != NULL)
+    Vred::treeRoot->add(item);
 
-  UpdateControls();
-  printf("CreateNewObject: glutPostRedisplay\n");
+  updateControls();
+  printf("createNewObject: glutPostRedisplay\n");
   glutPostRedisplay();
 }
 
-void UI::UpdateControls()
+void UI::updateControls()
 {
-  sAngleZField->disable();
-  sCenterField[0]->disable();
-  sCenterField[1]->disable();
-  sCenterField[2]->disable();
-  sSizeField[0]->disable();
-  sSizeField[1]->disable();
-  sSizeField[2]->disable();
-  sSizeButton[0]->disable();
-  sSizeButton[1]->disable();
-  sSizeButton[2]->disable();
+  angleZField->disable();
+  centerField[0]->disable();
+  centerField[1]->disable();
+  centerField[2]->disable();
+  sizeField[0]->disable();
+  sizeField[1]->disable();
+  sizeField[2]->disable();
+  sizeButton[0]->disable();
+  sizeButton[1]->disable();
+  sizeButton[2]->disable();
 
-  sTextureRollout->disable();
-  sAppearanceRollout->disable();
-  sToWhereField->disable();
-  sIPMulticastField->disable();
+  texRollout->disable();
+  appearanceRollout->disable();
+  urlField->disable();
+  ipmcField->disable();
 
-  sAngleZButton->disable();
-  sObjectTransXYButton->disable();
-  sObjectTransZButton->disable();
+  angleZButton->disable();
+  objectTransXYButton->disable();
+  objectTransZButton->disable();
   
-  sGroupButton->disable();
-  sUngroupButton->disable();
-  sDeleteButton->disable();
+  groupButton->disable();
+  ungroupButton->disable();
+  deleteButton->disable();
 
-  if (sSelectedItem == NULL) {
-    sRadiusField->Hide();
+  if (item == NULL) {
+    radiusField->Hide();
      
-    if (sSelectedSet != NULL)
-      sGroupButton->enable();
-      sNorthGlui->refresh();
+    if (selected != NULL)
+      groupButton->enable();
+      topSubwin->refresh();
       return;
   }
 
   // it's at least a solid
-  sAngleZField->enable();
-  sCenterField[0]->enable();
-  sCenterField[1]->enable();
-  sCenterField[2]->enable();
-  sAngleZButton->enable();
-  sObjectTransXYButton->enable();
-  sObjectTransZButton->enable();
-  sDeleteButton->enable();
+  angleZField->enable();
+  centerField[0]->enable();
+  centerField[1]->enable();
+  centerField[2]->enable();
+  angleZButton->enable();
+  objectTransXYButton->enable();
+  objectTransZButton->enable();
+  deleteButton->enable();
   
   /* box */
-  Box *box = dynamic_cast<Box*>(sSelectedItem);
+  Box *box = dynamic_cast<Box*>(item);
   if (box != NULL) { //on a bien un objet de type box
-    sSizeField[0]->enable();
-    sSizeField[1]->enable();
-    sSizeField[2]->enable();
-    sSizeButton[0]->enable();
-    sSizeButton[1]->enable();
-    sSizeButton[2]->enable();
-    sRadiusField->Hide();
+    sizeField[0]->enable();
+    sizeField[1]->enable();
+    sizeField[2]->enable();
+    sizeButton[0]->enable();
+    sizeButton[1]->enable();
+    sizeButton[2]->enable();
+    radiusField->Hide();
  
-    Tex tex = sSelectedItem->GetTexture();
-    sTextureRollout->enable(); 
-    sTextureSphere->Hide();
+    Tex tex = item->getTexture();
+    texRollout->enable(); 
+    texSph->Hide();
 
-    sTextureXp->Show();
-    Safe::strcpy(sTexURLXp, tex.GetTex_xp() );
-    sTextureXn->Show();
-    Safe::strcpy(sTexURLXn, tex.GetTex_xn() );
-    sTextureYp->Show();
-    Safe::strcpy(sTexURLYp, tex.GetTex_yp() );
-    sTextureYn->Show();
-    Safe::strcpy(sTexURLYn, tex.GetTex_yn() );
-    sTextureZp->Show();
-    Safe::strcpy(sTexURLZp, tex.GetTex_zp() );
-    sTextureZn->Show();
-    Safe::strcpy(sTexURLZn, tex.GetTex_zn() );
+    texXp->Show();
+    Safe::strcpy(urlXp, tex.getTex_xp() );
+    texXn->Show();
+    Safe::strcpy(urlXn, tex.getTex_xn() );
+    texYp->Show();
+    Safe::strcpy(urlYp, tex.getTex_yp() );
+    texYn->Show();
+    Safe::strcpy(urlYn, tex.getTex_yn() );
+    texZp->Show();
+    Safe::strcpy(urlZp, tex.getTex_zp() );
+    texZn->Show();
+    Safe::strcpy(urlZn, tex.getTex_zn() );
     
-    sAppearanceRollout->enable();
+    appearanceRollout->enable();
     
-    sEastGlui->refresh();
-    sNorthGlui->refresh();
-    sEastGlui->sync_live();
+    rightSubwin->refresh();
+    topSubwin->refresh();
+    rightSubwin->sync_live();
   }
 
-  Sphere *sphere = dynamic_cast<Sphere*>(sSelectedItem);
+  Sphere *sphere = dynamic_cast<Sphere*>(item);
   if (sphere != NULL) {
-    sRadiusField->Show();
-    sSizeButton[2]->enable();
+    radiusField->Show();
+    sizeButton[2]->enable();
 
-    sTextureRollout->enable(); 
+    texRollout->enable(); 
    
-    sTextureXp->Hide();
-    sTextureXn->Hide();
-    sTextureYp->Hide();
-    sTextureYn->Hide();
-    sTextureZp->Hide();
-    sTextureZn->Hide();
-    sTextureSphere->Show();
+    texXp->Hide();
+    texXn->Hide();
+    texYp->Hide();
+    texYn->Hide();
+    texZp->Hide();
+    texZn->Hide();
+    texSph->Show();
 
-    Tex tex = sSelectedItem->GetTexture();
-    Safe::strcpy(sTexURLXp, tex.GetTex_xp() );
-    sTexURLXn[0] = sTexURLYp[0] = sTexURLYn[0] = sTexURLZp[0] = sTexURLZn[0] = 0;
-    sAppearanceRollout->enable();
-    sNorthGlui->refresh();
-    sEastGlui->refresh();
+    Tex tex = item->getTexture();
+    Safe::strcpy(urlXp, tex.getTex_xp() );
+    urlXn[0] = urlYp[0] = urlYn[0] = urlZp[0] = urlZn[0] = 0;
+    appearanceRollout->enable();
+    topSubwin->refresh();
+    rightSubwin->refresh();
   }
 
-  Group *group = dynamic_cast<Group*>(sSelectedItem);
+  Group *group = dynamic_cast<Group*>(item);
   if (group != NULL) {
-    sUngroupButton->enable();
+    ungroupButton->enable();
 
-    sRadiusField->Hide();
-    sSizeField[0]->enable();
-    sSizeField[1]->enable();
-    sSizeField[2]->enable();
-    sSizeButton[0]->enable();
-    sSizeButton[1]->enable();
-    sSizeButton[2]->enable();
+    radiusField->Hide();
+    sizeField[0]->enable();
+    sizeField[1]->enable();
+    sizeField[2]->enable();
+    sizeButton[0]->enable();
+    sizeButton[1]->enable();
+    sizeButton[2]->enable();
   }
 
-  int classId = sSelectedItem->GetClassId();
+  int classId = item->getClassId();
   if (classId == GATE) {
-    sToWhereField->enable();
-    Safe::strcpy( sToWhereVal, ((Gate*)sSelectedItem)->ToWhere() );
-    sIPMulticastField->enable();
-    Safe::strcpy( sIPMulticastVal, ((Gate*)sSelectedItem)->Ip_multi() );
+    urlField->enable();
+    Safe::strcpy( url, ((Gate*)item)->getUrl() );
+    ipmcField->enable();
+    Safe::strcpy( ipmc, ((Gate*)item)->getIpmc() );
   }
   if (classId == WEB || classId==DOC || classId==HOST)
-    sToWhereField->enable();
+    urlField->enable();
   if (classId == WEB)
-    Safe::strcpy( sToWhereVal, ((Web*)sSelectedItem)->GetUrl() );
+    Safe::strcpy( url, ((Web*)item)->getUrl() );
   if (classId == DOC)
-    Safe::strcpy( sToWhereVal, ((Doc*)sSelectedItem)->GetUrl() );
+    Safe::strcpy( url, ((Doc*)item)->getUrl() );
   if (classId == HOST)
-    Safe::strcpy( sToWhereVal, ((Host*)sSelectedItem)->GetHostname() );
+    Safe::strcpy( url, ((Host*)item)->getHostname() );
   
   Vect tempVect;
-  tempVect = sSelectedItem->GetCenter();
-  sCenterVal[0] = tempVect[0];
-  sCenterVal[1] = tempVect[1];
-  sCenterVal[2] = tempVect[2];
+  tempVect = item->getCenter();
+  center[0] = tempVect[0];
+  center[1] = tempVect[1];
+  center[2] = tempVect[2];
 
-  tempVect = sSelectedItem->GetSize();
-  sSizeVal[0] = tempVect[0];
-  sSizeVal[1] = tempVect[1];
-  sSizeVal[2] = tempVect[2];
-  sRadiusVal = sSizeVal[2];
+  tempVect = item->getSize();
+  size[0] = tempVect[0];
+  size[1] = tempVect[1];
+  size[2] = tempVect[2];
+  radius = size[2];
   
-  tempVect = sSelectedItem->GetOrientation();
-  sAngleZVal = tempVect[2];
+  tempVect = item->getOrientation();
+  angleZ = tempVect[2];
  
-  char tempStr[300];
-  sprintf( tempStr, "Object type : %s", sSelectedItem->GetClassName() );
-  sObjectClassDescription->set_text(tempStr);
+  char tempStr[128];
+  sprintf( tempStr, "Object type : %s", item->getClassName() );
+  objectClassDescription->set_text(tempStr);
   
-  Color tempColor = sSelectedItem->GetApp().GetAmbient();
-  sAmbientVal[0] = tempColor[0];
-  sAmbientVal[1] = tempColor[1];
-  sAmbientVal[2] = tempColor[2];
+  Color tempColor = item->getApp().getAmbient();
+  amb[0] = tempColor[0];
+  amb[1] = tempColor[1];
+  amb[2] = tempColor[2];
 
-  tempColor = sSelectedItem->GetApp().GetDiffuse();
-  sDiffuseVal[0] = tempColor[0];
-  sDiffuseVal[1] = tempColor[1];
-  sDiffuseVal[2] = tempColor[2];
+  tempColor = item->getApp().getDiffuse();
+  dif[0] = tempColor[0];
+  dif[1] = tempColor[1];
+  dif[2] = tempColor[2];
 
-  tempColor = sSelectedItem->GetApp().GetSpecular();
-  sSpecularVal[0] = tempColor[0];
-  sSpecularVal[1] = tempColor[1];
-  sSpecularVal[2] = tempColor[2];
+  tempColor = item->getApp().getSpecular();
+  spe[0] = tempColor[0];
+  spe[1] = tempColor[1];
+  spe[2] = tempColor[2];
 
-  tempColor = sSelectedItem->GetApp().GetShininess();
-  sShininessVal[0] = tempColor[0];
-  sShininessVal[1] = tempColor[1];
-  sShininessVal[2] = tempColor[2];
+  tempColor = item->getApp().getShininess();
+  shi[0] = tempColor[0];
+  shi[1] = tempColor[1];
+  shi[2] = tempColor[2];
 
   GLUI_Master.sync_live_all();
 }
 
-void UI::AskForString( const char *_question, int _dlogUsage, const char *_defaultAnswer )
+void UI::askFor( const char *_question, int _dlogUsage, const char *_defaultAnswer )
 {
-  if (sDialogGlui == NULL) {
-    if (sDialogString == NULL)
-    sDialogString = (char*)malloc(300);
+  if (dialogGlui == NULL) {
+    if (dialogString == NULL)
+    dialogString = (char*)malloc(128);
 
-    sDialogGlui = GLUI_Master.create_glui("");
-    sDialogEditText = sDialogGlui->add_edittext( (char*)_question, GLUI_EDITTEXT_TEXT, sDialogString, UI_OK_BTN);
-    sDialogEditText->set_w(400);
-    sDialogGlui->add_column(false);
-
-    sDialogGlui->add_button("OK", UI_OK_BTN, HandleControlEvent);
-    sDialogGlui->add_button("Cancel", UI_CANCEL_BTN, HandleControlEvent);
+    dialogGlui = GLUI_Master.create_glui("");
+    dialogEditText = dialogGlui->add_edittext( (char*)_question, GLUI_EDITTEXT_TEXT, dialogString, UI_OK_BTN);
+    dialogEditText->set_w(256);
+    dialogGlui->add_column(false);
+    dialogGlui->add_button("OK", UI_OK_BTN, controlEvent);
+    dialogGlui->add_button("Cancel", UI_CANCEL_BTN, controlEvent);
       
-    sDialogGlui->set_main_gfx_window(sMainWindowID);
+    dialogGlui->set_main_gfx_window(mainWindowID);
   }
 
-  sDialogEditText->set_name((char*)_question);
-  strcpy(sDialogString, _defaultAnswer);
-  sDialogUsage = _dlogUsage;
-  sDialogGlui->show();
-  sDialogGlui->sync_live();
+  dialogEditText->set_name((char*)_question);
+  strcpy(dialogString, _defaultAnswer);
+  dialogUsage = _dlogUsage;
+  dialogGlui->show();
+  dialogGlui->sync_live();
 }
 
-void UI::StopAskingForString()
+void UI::stopAskingFor()
 {
-  sDialogGlui->hide();
+  dialogGlui->hide();
 }

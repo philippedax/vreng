@@ -1,5 +1,5 @@
-#ifndef BOX_H
-#define BOX_H
+#ifndef BOX_HPP
+#define BOX_HPP
 
 #include "solid.hpp"
 
@@ -14,14 +14,14 @@ public:
       const Tex& _tex = Tex(), const App& _app = App());
   virtual ~Box() {}
 
-  virtual int GetClassId() const {return BOX;}
-  virtual const char* GetClassName() const {return "box";}
+  virtual int getClassId() const { return BOX; }
+  virtual const char* getClassName() const { return "box"; }
 
-  virtual void UpdateBoundingVolumes(int recalc);
-  virtual void Render();
-  virtual void Print() const {
+  virtual void updateBB(int recalc);
+  virtual void render();
+  virtual void print() const {
     cout << "box ";
-    Solid::Print();
+    Solid::print();
   }
 
 };

@@ -10,18 +10,18 @@ Box::Box(char* _name,
   Solid(_name, _center, _orientation, _size, _renderStyle, _color, _tex, _app)
 {
 
-  myBoundingBox.Set(_center,_size[0],_size[1],_size[2],_orientation[2]);
-  myBoundingSphere.Set(_center,sqrt(_size.Norm()));
+  myBoundingBox.set(_center,_size[0],_size[1],_size[2],_orientation[2]);
+  myBoundingSphere.set(_center,sqrt(_size.norm()));
 }
 
-void Box::Render() {
-//   color.Apply();
+void Box::render() {
+//   color.apply();
 
   // TODO: to be tested ...or removed !!!
-  glMaterialfv(GL_FRONT, GL_AMBIENT, app.GetAmbient());
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, app.GetDiffuse());
-  glMaterialfv(GL_FRONT, GL_SPECULAR, app.GetSpecular());
-  glMaterialfv(GL_FRONT, GL_SHININESS, app.GetShininess());
+  glMaterialfv(GL_FRONT, GL_AMBIENT, app.getAmbient());
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, app.getDiffuse());
+  glMaterialfv(GL_FRONT, GL_SPECULAR, app.getSpecular());
+  glMaterialfv(GL_FRONT, GL_SHININESS, app.getShininess());
 
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
@@ -49,7 +49,7 @@ void Box::Render() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
     // XP
-    if ((texData[0] = tex.GetMap_xp()) != NULL) {
+    if ((texData[0] = tex.getMap_xp()) != NULL) {
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
 		   Map::defaultTexSize, Map::defaultTexSize,
 		   0, GL_RGB, GL_UNSIGNED_BYTE, texData[0]);
@@ -64,7 +64,7 @@ void Box::Render() {
     glDisable(GL_TEXTURE_2D);
 
     // XN
-    if ((texData[1] = tex.GetMap_xn()) != NULL) {
+    if ((texData[1] = tex.getMap_xn()) != NULL) {
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
 		   Map::defaultTexSize, Map::defaultTexSize,
 		   0, GL_RGB, GL_UNSIGNED_BYTE, texData[1]);
@@ -79,7 +79,7 @@ void Box::Render() {
     glDisable(GL_TEXTURE_2D);
 
     // YP
-    if ((texData[2] = tex.GetMap_yp()) != NULL) {
+    if ((texData[2] = tex.getMap_yp()) != NULL) {
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
 		   Map::defaultTexSize, Map::defaultTexSize,
 		   0, GL_RGB, GL_UNSIGNED_BYTE, texData[2]);
@@ -94,7 +94,7 @@ void Box::Render() {
     glDisable(GL_TEXTURE_2D);
 
     // YN
-    if ((texData[3] = tex.GetMap_yn()) != NULL) {
+    if ((texData[3] = tex.getMap_yn()) != NULL) {
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
 		   Map::defaultTexSize, Map::defaultTexSize,
 		   0, GL_RGB, GL_UNSIGNED_BYTE, texData[3]);
@@ -109,7 +109,7 @@ void Box::Render() {
     glDisable(GL_TEXTURE_2D);
 
     // ZP
-    if ((texData[4] = tex.GetMap_zp()) != NULL) {
+    if ((texData[4] = tex.getMap_zp()) != NULL) {
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
 		   Map::defaultTexSize, Map::defaultTexSize,
 		   0, GL_RGB, GL_UNSIGNED_BYTE, texData[4]);
@@ -124,7 +124,7 @@ void Box::Render() {
     glDisable(GL_TEXTURE_2D);
 
     // ZN
-    if ((texData[5] = tex.GetMap_zn()) != NULL) {
+    if ((texData[5] = tex.getMap_zn()) != NULL) {
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
 		   Map::defaultTexSize, Map::defaultTexSize,
 		   0, GL_RGB, GL_UNSIGNED_BYTE, texData[5]);

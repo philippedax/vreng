@@ -10,7 +10,7 @@
 
 
 #if 0
-Vect* Bbox::RayIntersect(Ray& _ray) const
+Vect* Bbox::rayIntersect(Ray& _ray) const
 {
   Vect start = _ray.Start();
   Vect dir = _ray.Dir();
@@ -73,7 +73,7 @@ Vect* Bbox::RayIntersect(Ray& _ray) const
 }
 #endif
 
-Vect* Bsphere::RayIntersect(Ray& _ray) const
+Vect* Bsphere::rayIntersect(Ray& _ray) const
 {
   double delta;
   double a,b,c;
@@ -88,7 +88,7 @@ Vect* Bsphere::RayIntersect(Ray& _ray) const
   return result;
 }
 
-Vect* Bbox::RayIntersect(Ray& _ray) const
+Vect* Bbox::rayIntersect(Ray& _ray) const
 {
   int i;
   Vect pos = _ray.Start();
@@ -97,7 +97,7 @@ Vect* Bbox::RayIntersect(Ray& _ray) const
 
   for (i=0; i < 1000; i++) {
     pos += incr;
-    if (Inner(pos)) {
+    if (inner(pos)) {
       return new Vect(pos);
     }
     if (incr[3] > 0 && pos[3] > center[3]+height/2) break;

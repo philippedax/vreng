@@ -6,34 +6,34 @@ double rad(double d);
 
 void printHeader(const Item& i, ostream& out)
 {
-  out << "<" << i.GetClassName() << " ";
+  out << "<" << i.getClassName() << " ";
 }
 
 void printTailer(const Item& i, ostream& out)
 {
-  out << "</" << i.GetClassName() << ">\n";
+  out << "</" << i.getClassName() << ">\n";
 }
 
 
 // TODO : implementer le Valpha
 void pos_ang(const Solid& b, ostream& out)
 {
-  const Vect& c = b.GetCenter();
-  const Vect& o = b.GetOrientation();
+  const Vect& c = b.getCenter();
+  const Vect& o = b.getOrientation();
 
   out << "pos=\"" << c[0] << " " << c[1] << " " << c[2] << " " << rad(o[2]) << "\"> ";
 }
 
 void pos_ang_sphere(const Solid& b, ostream& out)
 {
-  const Vect& c = b.GetCenter();
+  const Vect& c = b.getCenter();
 
   out << "pos=\"" << c[0] << " " << c[1] << " " << c[2] << "\"> ";
 }
 
 void box_size(const Box& b, ostream& out)
 {
-  const Vect& dim = b.GetSize();
+  const Vect& dim = b.getSize();
 
   out << "<solid shape=\"box\" dim=\"";
   out << dim[0] << " " << dim[1] << " " << dim[2];
@@ -52,24 +52,24 @@ void printColor(const Color& c, ostream& out) {
 void printApp(const App& a, ostream& out)
 {
   App aref;
-  if (!(a.GetDiffuse() == aref.GetDiffuse())) {
+  if (!(a.getDiffuse() == aref.getDiffuse())) {
     out << " dif=\"";
-    printColor(a.GetDiffuse(), out);
+    printColor(a.getDiffuse(), out);
     out << "\"";
   }
-  if (!(a.GetAmbient() == aref.GetAmbient())) {
+  if (!(a.getAmbient() == aref.getAmbient())) {
     out << " amb=\"";
-    printColor(a.GetAmbient(), out);
+    printColor(a.getAmbient(), out);
     out << "\"";
   }
-  if (!(a.GetShininess() == aref.GetShininess())) {
+  if (!(a.getShininess() == aref.getShininess())) {
     out << " shi=\"";
-    printColor(a.GetShininess(), out);
+    printColor(a.getShininess(), out);
     out << "\"";
   }
-  if (!(a.GetSpecular() == aref.GetSpecular())) {
+  if (!(a.getSpecular() == aref.getSpecular())) {
     out << " spe=\"";
-    printColor(a.GetSpecular(), out);
+    printColor(a.getSpecular(), out);
     out << "\"";
   }
 }
@@ -80,28 +80,28 @@ void box_props(const Box& b, ostream& out)
   box_size(b, out);
 
   // BOX_TEX
-  Tex t=b.GetTexture();
-  if (t.GetTex_xp() != NULL) {
-    out << " xp=\"" << t.GetTex_xp() << "\"";
+  Tex t=b.getTexture();
+  if (t.getTex_xp() != NULL) {
+    out << " xp=\"" << t.getTex_xp() << "\"";
   }
-  if (t.GetTex_xn() != NULL) {
-    out << " xn=\"" << t.GetTex_xn() << "\"";
+  if (t.getTex_xn() != NULL) {
+    out << " xn=\"" << t.getTex_xn() << "\"";
   }
-  if (t.GetTex_yp() != NULL) {
-    out << " yp=\"" << t.GetTex_yp() << "\"";
+  if (t.getTex_yp() != NULL) {
+    out << " yp=\"" << t.getTex_yp() << "\"";
   }
-  if (t.GetTex_yn() != NULL) {
-    out << " yn=\"" << t.GetTex_yn() << "\"";
+  if (t.getTex_yn() != NULL) {
+    out << " yn=\"" << t.getTex_yn() << "\"";
   }
-  if (t.GetTex_zp() != NULL) {
-    out << " zp=\"" << t.GetTex_zp() << "\"";
+  if (t.getTex_zp() != NULL) {
+    out << " zp=\"" << t.getTex_zp() << "\"";
   }
-  if (t.GetTex_zn() != NULL) {
-    out << " zn=\"" << t.GetTex_zn() << "\"";
+  if (t.getTex_zn() != NULL) {
+    out << " zn=\"" << t.getTex_zn() << "\"";
   }
 
   // APP
-  printApp(b.GetApp(), out);
+  printApp(b.getApp(), out);
   out << " />";
 }
 
@@ -112,7 +112,7 @@ void box_props(const Box& b, ostream& out)
 // }
 void spher_size(const Sphere& s, ostream& out)
 {
-  const Vect& dim = s.GetSize();
+  const Vect& dim = s.getSize();
 
   out << "<solid shape=\"sphere\" r=\"";
   out << dim[0];
@@ -125,13 +125,13 @@ void spher_props (const Sphere &s, ostream& out)
   spher_size(s, out);
   
   // SPHER_TEX
-  if ( s.GetTexture().GetTex_xp() != NULL ) {
+  if ( s.getTexture().getTex_xp() != NULL ) {
     out << " tx=\"";
-    out << s.GetTexture().GetTex_xp();
+    out << s.getTexture().getTex_xp();
     out << "\"";
   }
   // APP
-  printApp(s.GetApp(), out);
+  printApp(s.getApp(), out);
   out << " />";
 }
 

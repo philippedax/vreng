@@ -1,5 +1,5 @@
-#ifndef GROUP_H
-#define GROUP_H
+#ifndef GROUP_HPP
+#define GROUP_HPP
 
 #include "solid.hpp"
 
@@ -12,36 +12,36 @@ public:
   Group(const char* _name, const int _renderStyle, const Color& _color);
   virtual ~Group();
 
-  int GetClassId() const  {return GROUP;}
-  const char* GetClassName() const {return "Group";}
+  int getClassId() const  { return GROUP; }
+  const char* getClassName() const { return "Group"; }
 
   friend ostream& operator<<(ostream& out, const Group& g);
-  void Render();
+  void render();
 
-  Solid& operator[](const int n) {return (*group[n]);}
-  Solid* GetElement(int i) {return group[i];}
-  void Add(Solid* const solid);
-  void Remove(Solid* const solid);
-  void Explode();
-  int GetCard() const {return card;}
-  void SetRenderStyle(const int _renderStyle);
-  void SetColor(const Color& _color);
-  Solid** GetGroup() {return group;}
+  Solid& operator[](const int n) { return (*group[n]); }
+  Solid* getElement(int i) { return group[i]; }
+  void add(Solid* const solid);
+  void remove(Solid* const solid);
+  void explode();
+  int getCard() const {return card;}
+  void setStyle(const int _renderStyle);
+  void setColor(const Color& _color);
+  Solid** getGroup() {return group;}
 
-  virtual void UpdateBoundingVolumes(int recalc);
-  virtual int Collide(Solid& moving) const;
+  virtual void updateBB(int recalc);
+  virtual int collide(Solid& moving) const;
 
-  void Print() const {
+  void print() const {
     cout << "group ";
-    Solid::Print();
+    Solid::print();
     cout << " card=" << card << " containing:" << endl;
     for (int i = 0; i < card; ++i)
-      group[i]->Print();
+      group[i]->print();
   }
 
-  void PrintFile(const char *fichier) const;
-  int LoadFile(const char *file);
-  int LoadFile(FILE *file);
+  void printFile(const char *fichier) const;
+  int loadFile(const char *file);
+  int loadFile(FILE *file);
 
 private:
   Solid** group;

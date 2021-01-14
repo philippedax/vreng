@@ -1,8 +1,8 @@
-#ifndef INPUT_H
-#define INPUT_H
+#ifndef INPUT_HPP
+#define INPUT_HPP
 
 #include "vre.hpp"
 
-extern int FileToGroup(FILE *fp, Group *grp);
+extern int fileToGroup(FILE *fp, Group *grp);
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef DOC_H
-#define DOC_H
+#ifndef DOC_HPP
+#define DOC_HPP
 
 #include "vred.hpp"
 #include "box.hpp"
@@ -20,16 +20,16 @@ public:
       Box(_name, _center, _orientation, _size, _renderStyle, _color, _tex, _app)
       {
         url = NULL;
-        SetUrl(_url);
+        setUrl(_url);
       }
 
-  virtual int GetClassId() const {return DOC;}
-  virtual const char* GetClassName() const {return "doc";}
+  virtual int getClassId() const {return DOC;}
+  virtual const char* getClassName() const {return "doc";}
 
   friend ostream& operator<<(ostream& out, const Doc& d);
 
-  inline const char* const GetUrl() const {return url;}
-  void SetUrl(const char* _url)
+  inline const char* const getUrl() const {return url;}
+  void setUrl(const char* _url)
   {
     Safe::safe_strdup(&url, _url);
   }

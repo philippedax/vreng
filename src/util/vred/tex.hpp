@@ -15,28 +15,28 @@ public:
   virtual ~Tex();
   Tex& operator=(const Tex& v);
 
-  void SetTex_xp (const char* url);
-  void SetTex_yp (const char* url);
-  void SetTex_zp (const char* url); 
-  void SetTex_xn (const char* url); 
-  void SetTex_yn (const char* url);
-  void SetTex_zn (const char* url);
+  void setTex_xp (const char* url);
+  void setTex_yp (const char* url);
+  void setTex_zp (const char* url); 
+  void setTex_xn (const char* url); 
+  void setTex_yn (const char* url);
+  void setTex_zn (const char* url);
   
-  const char*	const GetTex_xp() const {return tex_xp;}
-  const char*	const GetTex_xn() const {return tex_xn;}
-  const char*	const GetTex_yp() const {return tex_yp;}
-  const char*	const GetTex_yn() const {return tex_yn;}
-  const char*	const GetTex_zp() const {return tex_zp;}
-  const char*	const GetTex_zn() const {return tex_zn;}
+  const char*	const getTex_xp() const {return tex_xp;}
+  const char*	const getTex_xn() const {return tex_xn;}
+  const char*	const getTex_yp() const {return tex_yp;}
+  const char*	const getTex_yn() const {return tex_yn;}
+  const char*	const getTex_zp() const {return tex_zp;}
+  const char*	const getTex_zn() const {return tex_zn;}
 
-  const GLvoid*	const GetMap_xp() const;
-  const GLvoid*	const GetMap_xn() const;
-  const GLvoid*	const GetMap_yp() const;
-  const GLvoid*	const GetMap_yn() const;
-  const GLvoid*	const GetMap_zp() const;
-  const GLvoid*	const GetMap_zn() const;
+  const GLvoid*	const getMap_xp() const;
+  const GLvoid*	const getMap_xn() const;
+  const GLvoid*	const getMap_yp() const;
+  const GLvoid*	const getMap_yn() const;
+  const GLvoid*	const getMap_zp() const;
+  const GLvoid*	const getMap_zn() const;
 
-  void Print() const;
+  void print() const;
 
 private:
   char *tex_xp,*tex_xn,*tex_yp,*tex_yn,*tex_zp,*tex_zn;

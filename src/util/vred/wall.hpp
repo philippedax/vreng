@@ -1,5 +1,5 @@
-#ifndef WALL_H
-#define WALL_H
+#ifndef WALL_HPP
+#define WALL_HPP
 
 #include "box.hpp"
 
@@ -13,8 +13,8 @@ public:
        int _renderStyle = WIRED, const Color& _color = Color::white,
        const Tex& _tex = Tex(), const App& _app = App());
 
-  virtual int GetClassId() const {return WALL;}
-  virtual const char* GetClassName() const {return "wall";}
+  virtual int getClassId() const {return WALL;}
+  virtual const char* getClassName() const {return "wall";}
 
   friend ostream& operator<<(ostream& out, const Wall& w);
 

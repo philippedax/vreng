@@ -5,7 +5,7 @@
 #include "group.hpp"
 
 
-Solid* RayCaster::GetSelection(
+Solid* RayCaster::getSelection(
 		const Vect& position, const Vect& watch, 
 		GLdouble x, GLdouble y, 
 		GLint x0, GLint y0, GLint width, GLint height)
@@ -88,15 +88,15 @@ Solid* RayCaster::GetSelection(
 #ifdef VERBOSE
   cout << "TreeRoot is : " << Vred::treeRoot << endl;
 #endif
-  for (int i=0; i<Vred::treeRoot->GetCard(); ++i) {
-    Temp = Vred::treeRoot->GetElement(i)->GetBoundingBox().RayIntersect(cast);
+  for (int i=0; i<Vred::treeRoot->getCard(); ++i) {
+    Temp = Vred::treeRoot->getElement(i)->getBoundingBox().rayIntersect(cast);
 #ifdef VERBOSE
     cout << " Bounding sphere center : " << 
-    Vred::treeRoot->GetElement(i)->GetBoundingSphere().Center()[0] << ", " <<
-    Vred::treeRoot->GetElement(i)->GetBoundingSphere().Center()[1] << ", " <<
-    Vred::treeRoot->GetElement(i)->GetBoundingSphere().Center()[2] << endl;
+    Vred::treeRoot->getElement(i)->getBoundingSphere().getCenter()[0] << ", " <<
+    Vred::treeRoot->getElement(i)->getBoundingSphere().getCenter()[1] << ", " <<
+    Vred::treeRoot->getElement(i)->getBoundingSphere().getCenter()[2] << endl;
     cout << " Bounding Sphere radius : " << 
-    Vred::treeRoot->GetElement(i)->GetBoundingSphere().Radius() << endl;
+    Vred::treeRoot->getElement(i)->getBoundingSphere().getRadius() << endl;
 #endif
 
     if (Temp != 0) {
@@ -105,12 +105,12 @@ Solid* RayCaster::GetSelection(
 #endif
       tmpdist = (*Temp - l_Start) * (*Temp - l_Start);
       if (Nearest == 0) {
-        result = Vred::treeRoot->GetElement(i);
+        result = Vred::treeRoot->getElement(i);
         Nearest = Temp;
         dist = tmpdist;
       } else {
         if (tmpdist <= dist) {
-          result = Vred::treeRoot->GetElement(i);
+          result = Vred::treeRoot->getElement(i);
           delete Nearest;
           Nearest = Temp; 
           dist = tmpdist;

@@ -28,8 +28,10 @@ vred_SOURCES = $(VRED_SRCS) $(VRED_HDRS) y.tab.cpp lex.yy.cpp
 
 bin_PROGRAMS = vred
 
-MACOS_GLUT_LIB = -L/System/Library/Frameworks -framework GLUT
+MACOS_GLUT_LIB = -L/System/Library/Frameworks -framework GLUT -framework OpenGL
+MACOS_GLUT = /System/Library/Frameworks/GLUT.framework/Versions/A/GLUT
+MACOS_FREEGLUT_LIB = -L/usr/local/opt/freeglut/lib -lglut 
 
-vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a -L/usr/local/opt/freeglut/lib -lglut -L/usr/X11/lib -lGLU -lGL -lICE -lSM -lXext -lX11 -lm 
+vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a $(MACOS_FREEGLUT_LIB) -L/usr/X11/lib -lGLU -lGL -lXext -lX11 -lm 
 
 endif

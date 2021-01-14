@@ -2,7 +2,8 @@
 #include "matrix.hpp"
 
 
-Matrix::Matrix() {
+Matrix::Matrix()
+{
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
   glLoadIdentity();
@@ -12,7 +13,8 @@ Matrix::Matrix() {
 
 Matrix::Matrix(const Vect& translation,
 	       const Vect& rotation,
-	       const Vect& scaling) {
+	       const Vect& scaling)
+{
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
   glLoadIdentity();
@@ -25,7 +27,8 @@ Matrix::Matrix(const Vect& translation,
   glPopMatrix();
 }
 
-Matrix Matrix::operator*(const Matrix& m) const {
+Matrix Matrix::operator*(const Matrix& m) const
+{
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
   glLoadMatrixd(a);
@@ -36,7 +39,8 @@ Matrix Matrix::operator*(const Matrix& m) const {
   return tmp;  
 }
 
-Matrix& Matrix::operator*=(const Matrix& m) {
+Matrix& Matrix::operator*=(const Matrix& m)
+{
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
   glLoadMatrixd(a);
@@ -46,9 +50,10 @@ Matrix& Matrix::operator*=(const Matrix& m) {
   return *this;
 }
 
-Matrix Matrix::Invert() const {
-  double sx = sqrt(Vect(a[0], a[1], a[2]).Norm());
-  double sy = sqrt(Vect(a[4], a[5], a[6]).Norm());
+Matrix Matrix::invert() const
+{
+  double sx = sqrt(Vect(a[0], a[1], a[2]).norm());
+  double sy = sqrt(Vect(a[4], a[5], a[6]).norm());
   double sz = a[10];
   double cos = a[0] / sx, sin = a[1] / sy, alpha = 0;
   if (sin >= 0)
@@ -68,7 +73,8 @@ Matrix Matrix::Invert() const {
   return m;
 }
 
-void Matrix::Print() const {
+void Matrix::print() const
+{
   cout << "(" << a[0] << " " << a[1] << " " << a[2] << " " << a[3] << ")" << endl;
   cout << "(" << a[4] << " " << a[5] << " " << a[6] << " " << a[7] << ")" << endl;
   cout << "(" << a[8] << " " << a[9] << " " << a[10] << " " << a[11] << ")" << endl;

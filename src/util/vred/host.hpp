@@ -1,5 +1,5 @@
-#ifndef HOST_H
-#define HOST_H
+#ifndef HOST_HPP
+#define HOST_HPP
 
 #include "vred.hpp"
 #include "box.hpp"
@@ -21,16 +21,16 @@ public:
        Box(_name, _center, _orientation, _size, _renderStyle, _color, _tex, _app)
        {
          hostname = NULL;
-         SetHostname(_hostname);
+         setHostname(_hostname);
        }
 
-  virtual int GetClassId() const {return HOST;}
-  virtual const char* GetClassName() const {return "host";}
+  virtual int getClassId() const {return HOST;}
+  virtual const char* getClassName() const {return "host";}
 
   friend ostream& operator<<(ostream& out, const Host& h);
   
-  inline const char* const GetHostname() const {return hostname;}
-  void SetHostname(const char* _hostname)
+  inline const char* const getHostname() const {return hostname;}
+  void setHostname(const char* _hostname)
   {
     Safe::safe_strdup(&hostname, _hostname);
   }

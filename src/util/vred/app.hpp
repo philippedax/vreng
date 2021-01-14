@@ -1,5 +1,5 @@
-#ifndef APP_H
-#define APP_H
+#ifndef APP_HPP
+#define APP_HPP
 
 #include "color.hpp"
 
@@ -12,18 +12,18 @@ public:
       const Color& emission = Color::black,
       const Color& shininess = Color::black);
 
-  const Color& GetDiffuse() const {return diffuse;}
-  void SetDiffuse(const Color& d) {diffuse = d;}
-  const Color& GetAmbient() const {return ambient;}
-  void SetAmbient(const Color& a) {ambient = a;}
-  const Color& GetSpecular() const {return specular;}
-  void SetSpecular(const Color& s) {specular = s;}
-  const Color& GetEmission() const {return emission;}
-  void SetEmission(const Color& s) {emission = s;}
-  const Color& GetShininess() const {return shininess;}
-  void SetShininess(const Color& s) {shininess = s;}
+  const Color& getDiffuse() const {return diffuse;}
+  void setDiffuse(const Color& d) {diffuse = d;}
+  const Color& getAmbient() const {return ambient;}
+  void setAmbient(const Color& a) {ambient = a;}
+  const Color& getSpecular() const {return specular;}
+  void setSpecular(const Color& s) {specular = s;}
+  const Color& getEmission() const {return emission;}
+  void setEmission(const Color& s) {emission = s;}
+  const Color& getShininess() const {return shininess;}
+  void setShininess(const Color& s) {shininess = s;}
 
-  void Print() const;
+  void print() const;
 
 private:
   Color	ambient, diffuse, specular, emission, shininess;

@@ -1,17 +1,17 @@
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef ITEM_HPP
+#define ITEM_HPP
 
 
 class Item {
 
 public:
   Item(const char* _name);
-  virtual ~Item() {if (name != NULL) {free(name);}}
+  virtual ~Item() { if (name != NULL) { free(name); } }
 
-  char* Name() {return name;}
+  char* getName() { return name; }
 
-  virtual int GetClassId() const = 0;
-  virtual const char* GetClassName() const = 0;
+  virtual int getClassId() const = 0;
+  virtual const char* getClassName() const = 0;
 
 private:
   char* name;

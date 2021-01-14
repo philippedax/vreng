@@ -5,13 +5,13 @@
 Camera::Camera(const char* _name, const Vect& position, const Vect& aim):
   Solid(_name, position, aim, Vect::unit, WIRED, Color::black) 
 {
-  myBoundingBox.Set(position,2.0,2.0,2.0,0.0);
-  myBoundingSphere.Set(position,1.0);
+  myBoundingBox.set(position,2.0,2.0,2.0,0.0);
+  myBoundingSphere.set(position,1.0);
 
-  Look(position, aim);
+  look(position, aim);
 }
 
-void Camera::Look(const Vect& position, const Vect& aim) const
+void Camera::look(const Vect& position, const Vect& aim) const
 {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -21,7 +21,7 @@ void Camera::Look(const Vect& position, const Vect& aim) const
   glTranslated(-position[0], -position[1], -position[2]);
 }
 
-void Camera::Move(const Vect& translation, const Vect& rotation)
+void Camera::move(const Vect& translation, const Vect& rotation)
 {
 // - run * COS(heading) * COS(pitch)
 //   - strafe * SIN(heading)
@@ -38,14 +38,14 @@ void Camera::Move(const Vect& translation, const Vect& rotation)
 		 - translation[0] * SIN(orientation[1])
 		 + translation[2] * COS(orientation[1]));
   orientation += rotation;
-  Look(center, orientation);
+  look(center, orientation);
 }
 
-Vect Camera::GetWatch() const
+Vect Camera::getWatch() const
 {
   // (cos(-pitch) * cos(heading), sin(heading), sin(-pitch) * cos(heading))
   Vect watch(COS(orientation[2]) * COS(orientation[1]),
 	      SIN(orientation[2]),
 	      - SIN(orientation[1]) * COS(orientation[2]));
-  return (1.0 / sqrt(watch.Norm())) * watch;
+  return (1.0 / sqrt(watch.norm())) * watch;
 }

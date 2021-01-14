@@ -1,5 +1,5 @@
-#ifndef WEB_H
-#define WEB_H
+#ifndef WEB_HPP
+#define WEB_HPP
 
 #include "box.hpp"
 #include "tex.hpp"
@@ -19,16 +19,16 @@ public:
       Box(_name, _center, _orientation, _size, _renderStyle, _color, _tex, _app)
       {
         url = NULL;
-        SetUrl(_url);
+        setUrl(_url);
       }
 
-  virtual int GetClassId() const {return WEB;}
-  virtual const char* GetClassName() const {return "web";}
+  virtual int getClassId() const {return WEB;}
+  virtual const char* getClassName() const {return "web";}
 
   friend ostream& operator<<(ostream& out, const Web& w);
 
-  inline const char* const GetUrl() const {return url;}
-  void SetUrl(const char* _url)
+  inline const char* const getUrl() const {return url;}
+  void setUrl(const char* _url)
   {
     Safe::safe_strdup(&url, _url);
   }

@@ -11,7 +11,7 @@ Color::Color(const float r, const float g, const float b, const float a) {
   color[0] = r; color[1] = g; color[2] = b; color[3] = a;
 }
 
-void Color::Print() const {
+void Color::print() const {
   cout << "(" << color[0] << ", " << color[1] << ", "
        << color[2] << ", " << color[3] << ")" << endl;
 }

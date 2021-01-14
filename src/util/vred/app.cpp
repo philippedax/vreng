@@ -6,17 +6,17 @@ App::App(const Color& ambient, const Color& diffuse, const Color& specular,
   ambient(ambient), diffuse(diffuse), specular(specular), emission(emission), shininess(shininess) {
 }
 
-void App::Print() const 
+void App::print() const 
 {
   printf("diffuse : ");
-  diffuse.Print();
+  diffuse.print();
   printf("\nambient : ");
-  ambient.Print();
+  ambient.print();
   printf("\nspecular : ");
-  specular.Print();
+  specular.print();
   printf("\nemission : ");
-  emission.Print();
+  emission.print();
   printf("\nshininess : ");
-  shininess.Print();
+  shininess.print();
   printf("\n");
 }

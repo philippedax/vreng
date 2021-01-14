@@ -32,7 +32,7 @@ const double epsilon = 1E-5;
 						} \
 					}
 
-int Bbox::Collide(const Bbox& box) const
+int Bbox::collide(const Bbox& box) const
 {
     //separes trivialement en z ?
     if (box.height/2+box.center[3]<=center[3]-height/2) return 0;
@@ -93,7 +93,7 @@ int Bbox::Collide(const Bbox& box) const
 
 	//Calcul des intersections
 
-	for(i=0;i<4;i++) {
+	for (i=0;i<4;i++) {
 
 		int j=(i+1)&3;
 #ifdef VERBOSE
@@ -130,15 +130,15 @@ int Bbox::Collide(const Bbox& box) const
     return 0;
 }
 
-int Bsphere::Collide(const Bsphere& sph) const
+int Bsphere::collide(const Bsphere& sph) const
 {
   Vect val=center;
   val-=sph.center;
-  if (val.Norm()>=radius*radius+sph.radius*sph.radius+2*sph.radius*radius) return 0;
+  if (val.norm()>=radius*radius+sph.radius*sph.radius+2*sph.radius*radius) return 0;
   else return 1;
 }
 
-void Bsphere::CalcGroup(int n,Solid** table)
+void Bsphere::calcGroup(int n,Solid** table)
 {
   Vect temp,bordi,bordj;
 
@@ -159,10 +159,10 @@ void Bsphere::CalcGroup(int n,Solid** table)
       temp=table[i]->myBoundingSphere.center;
       temp-=table[j]->myBoundingSphere.center;
       
-      double d=(sqrt(temp.Norm())+table[i]->myBoundingSphere.radius+table[j]->myBoundingSphere.radius)/2.0;
+      double d=(sqrt(temp.norm())+table[i]->myBoundingSphere.radius+table[j]->myBoundingSphere.radius)/2.0;
       if (d>radius) {
 	radius=d;
-	temp*=1/sqrt(temp.Norm());
+	temp*=1/sqrt(temp.norm());
 	
 	bordi=temp;
 	bordi*=table[i]->myBoundingSphere.radius;
@@ -182,7 +182,7 @@ void Bsphere::CalcGroup(int n,Solid** table)
   }
   
 #ifdef VERBOSE
-  printf("CalcGroup: center=<%g %g %g> radius=%g\n",center[0],center[1],center[2],radius);	
+  printf("calcGroup: center=<%g %g %g> radius=%g\n",center[0],center[1],center[2],radius);	
 #endif
 }
 
@@ -192,7 +192,7 @@ void Bsphere::CalcGroup(int n,Solid** table)
 #define max(a,b)      temp=(b); if ((a)<temp) (a)=temp;
 #define minmax(a,b,c) temp=(c); if ((a)>temp) (a)=temp; else if ((b)<temp) (b)=temp;
 
-void Bbox::CalcGroup(int n,Solid** table)
+void Bbox::calcGroup(int n,Solid** table)
 {
   alpha=0.0;
   
@@ -241,11 +241,11 @@ void Bbox::CalcGroup(int n,Solid** table)
 
   //  printf("   xmin=%g, xmax=%g, ymin=%g, ymax=%g, zmin=%g, zmax=%g\n",xmin,xmax,ymin,ymax,zmin,zmax);
 #ifdef VERBOSE
-  printf("CalcGroup: center=<%g %g %g>, depth=%g, width=%g, height=%g, alpha=%g\n",center[0],center[1],center[2],depth, width, height, alpha);  
+  printf("calcGroup: center=<%g %g %g>, depth=%g, width=%g, height=%g, alpha=%g\n",center[0],center[1],center[2],depth, width, height, alpha);  
 #endif
 }
 
-void Bbox::Set(const Vect& _center, double d, double w, double h, double a)
+void Bbox::set(const Vect& _center, double d, double w, double h, double a)
 {
   center=_center;
   depth=d;
@@ -254,80 +254,80 @@ void Bbox::Set(const Vect& _center, double d, double w, double h, double a)
   alpha=a;
 }
 
-void Bsphere::Set(const Vect& _center, double r)
+void Bsphere::set(const Vect& _center, double r)
 {
   center=_center;
   radius=r;
 }
 
-void Camera::UpdateBoundingVolumes(int recalc)
+void Camera::updateBB(int recalc)
 {
 #ifdef VERBOSE
-  printf("Camera::UpdateBoundingVolumes()\n");
+  printf("Camera::updateBB()\n");
 #endif
-  myBoundingBox.SetCenter(GetCenter());
-  myBoundingSphere.SetCenter(GetCenter());
+  myBoundingBox.setCenter(getCenter());
+  myBoundingSphere.setCenter(getCenter());
 }
 
-void Sphere::UpdateBoundingVolumes(int recalc)
+void Sphere::updateBB(int recalc)
 {
 #ifdef VERBOSE
-  printf("Sphere::UpdateBoundingVolumes()\n");
+  printf("Sphere::updateBB()\n");
 #endif
-  double radius=GetSize()[0];
-  myBoundingBox.Set(GetCenter(),2.0*radius,2.0*radius,2.0*radius,0.0);
-  myBoundingSphere.Set(GetCenter(),radius);
+  double radius=getSize()[0];
+  myBoundingBox.set(getCenter(),2.0*radius,2.0*radius,2.0*radius,0.0);
+  myBoundingSphere.set(getCenter(),radius);
 
   if (recalc!=1) {
-    father->UpdateBoundingVolumes(2);
+    father->updateBB(2);
   }
 
-  myBoundingBox.Print();
-  myBoundingSphere.Print();
+  myBoundingBox.print();
+  myBoundingSphere.print();
 }
 
-void Box::UpdateBoundingVolumes(int recalc)
+void Box::updateBB(int recalc)
 {
 #ifdef VERBOSE
-  printf("Box::UpdateBoundingVolumes()\n");
+  printf("Box::updateBB()\n");
 #endif
-  myBoundingBox.Set(GetCenter(),GetSize()[0],GetSize()[1],GetSize()[2],GetOrientation()[2]);
-  myBoundingSphere.Set(GetCenter(),sqrt(GetSize().Norm())/2.0);
+  myBoundingBox.set(getCenter(),getSize()[0],getSize()[1],getSize()[2],getOrientation()[2]);
+  myBoundingSphere.set(getCenter(),sqrt(getSize().norm())/2.0);
 
   if (recalc!=1) {
-    father->UpdateBoundingVolumes(2);
+    father->updateBB(2);
   }
 
-  myBoundingBox.Print();
-  myBoundingSphere.Print();
+  myBoundingBox.print();
+  myBoundingSphere.print();
 }
 
-void Group::UpdateBoundingVolumes(int recalc)
+void Group::updateBB(int recalc)
 {
   #ifdef VERBOSE
-  printf("Group::UpdateBoundingVolumes() : card=%d\n",card);
+  printf("Group::updateBB() : card=%d\n",card);
   #endif
 
   if (recalc!=2) {
     for (int i = 0; i < card; ++i) {
-      group[i]->UpdateBoundingVolumes(1);
+      group[i]->updateBB(1);
     }
   }
 
-  myBoundingSphere.CalcGroup(card,group);
-  myBoundingBox.CalcGroup(card,group);
+  myBoundingSphere.calcGroup(card,group);
+  myBoundingBox.calcGroup(card,group);
 
-  myBoundingBox.Print();
-  myBoundingSphere.Print();
+  myBoundingBox.print();
+  myBoundingSphere.print();
 }
 
-int Bbox::Inner(Vect pt) const
+int Bbox::inner(Vect pt) const
 {
   if (pt[3]<center[3]-height/2.0||pt[3]>center[3]+height/2.0) return 0;
 
 #ifdef VERBOSE
   printf("Point a tester:");
-  pt.Print();
+  pt.print();
   printf("\n");
 #endif
 

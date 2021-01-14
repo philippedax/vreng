@@ -14,23 +14,25 @@ Sphere::Sphere(char* _name,
   Solid(_name, _center, _orientation, _size, _renderStyle, _color, _tex, _app),
   slices(_slices), stacks(_stacks), vertices(NULL)
 {
-  myBoundingBox.Set(_center,_size[0],_size[1],_size[2],0);
-  myBoundingSphere.Set(_center,_size[0]);
+  myBoundingBox.set(_center,_size[0],_size[1],_size[2],0);
+  myBoundingSphere.set(_center,_size[0]);
 }
 
-Sphere::~Sphere() {
+Sphere::~Sphere()
+{
   if (vertices != NULL)
     delete[] vertices;
 }
 
-void Sphere::Render() {
-//   color.Apply();
+void Sphere::render()
+{
+//   color.apply();
 
   // TODO: to be tested ...or removed !!!
-  glMaterialfv(GL_FRONT, GL_AMBIENT, app.GetAmbient());
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, app.GetDiffuse());
-  glMaterialfv(GL_FRONT, GL_SPECULAR, app.GetSpecular());
-  glMaterialfv(GL_FRONT, GL_SHININESS, app.GetShininess());
+  glMaterialfv(GL_FRONT, GL_AMBIENT, app.getAmbient());
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, app.getDiffuse());
+  glMaterialfv(GL_FRONT, GL_SPECULAR, app.getSpecular());
+  glMaterialfv(GL_FRONT, GL_SHININESS, app.getShininess());
 
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
@@ -82,7 +84,7 @@ void Sphere::Render() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-    if ((texData = tex.GetMap_xp()) != NULL) {
+    if ((texData = tex.getMap_xp()) != NULL) {
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 
 		   Map::defaultTexSize, Map::defaultTexSize,
 		   0, GL_RGB, GL_UNSIGNED_BYTE, texData);
@@ -159,8 +161,9 @@ void Sphere::Render() {
   glPopMatrix();
 }
 
-void Sphere::SetSize(const Vect& size) {
+void Sphere::setSize(const Vect& size)
+{
   // constraint the sphere to be a sphere...
   double radius = (size[0]+size[1]+size[2])/3;
-  Solid::SetSize(Vect(radius, radius, radius));
+  Solid::setSize(Vect(radius, radius, radius));
 }

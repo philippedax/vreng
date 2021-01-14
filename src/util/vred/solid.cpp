@@ -9,25 +9,29 @@ Solid::Solid(const char* _name,
 	     const App& _app):
   Item(_name), center(_center), orientation(_orientation), size(_size),
   modelView(Matrix(_center, _orientation, _size)),
-  renderStyle(_renderStyle), color(_color), father(NULL), tex(_tex), app(_app) {
+  renderStyle(_renderStyle), color(_color), father(NULL), tex(_tex), app(_app)
+{
 }
 
-Vect Solid::GetCenter() const {
-  return Vect(GetAbsoluteModelView()[12],
-	      GetAbsoluteModelView()[13],
-	      GetAbsoluteModelView()[14]);
+Vect Solid::getCenter() const
+{
+  return Vect(getAbsoluteModelView()[12],
+	      getAbsoluteModelView()[13],
+	      getAbsoluteModelView()[14]);
 }
 
-void Solid::SetCenter(const Vect& center) {
-  modelView = Matrix(center, GetOrientation(), GetSize());
-  ChangeRef(father->GetModelView());
-  UpdateBoundingVolumes(0);
+void Solid::setCenter(const Vect& center)
+{
+  modelView = Matrix(center, getOrientation(), getSize());
+  changeRef(father->getModelView());
+  updateBB(0);
 }
 
-Vect Solid::GetOrientation() const {
-  Matrix m = GetAbsoluteModelView();
-  double sx = sqrt(Vect(m[0], m[1], m[2]).Norm());
-  double sy = sqrt(Vect(m[4], m[5], m[6]).Norm());
+Vect Solid::getOrientation() const
+{
+  Matrix m = getAbsoluteModelView();
+  double sx = sqrt(Vect(m[0], m[1], m[2]).norm());
+  double sy = sqrt(Vect(m[4], m[5], m[6]).norm());
   double cos = m[0] / sx, sin = m[1] / sy, alpha = 0;
   if (sin >= 0)
     alpha = ACOS(cos);
@@ -36,40 +40,45 @@ Vect Solid::GetOrientation() const {
   return Vect(0.0, 0.0, alpha);
 }
 
-void Solid::SetOrientation(const Vect& orientation) {
-  modelView = Matrix(GetCenter(), orientation, GetSize());
-  ChangeRef(father->GetModelView());
-  UpdateBoundingVolumes(0);
+void Solid::setOrientation(const Vect& orientation)
+{
+  modelView = Matrix(getCenter(), orientation, getSize());
+  changeRef(father->getModelView());
+  updateBB(0);
 }
 
-Vect Solid::GetSize() const {
-  Matrix m = GetAbsoluteModelView();
-  return Vect(sqrt(Vect(m[0], m[1], m[2]).Norm()),
-	      sqrt(Vect(m[4], m[5], m[6]).Norm()),
+Vect Solid::getSize() const
+{
+  Matrix m = getAbsoluteModelView();
+  return Vect(sqrt(Vect(m[0], m[1], m[2]).norm()),
+	      sqrt(Vect(m[4], m[5], m[6]).norm()),
 	      m[10]);
 }
 
-void Solid::SetSize(const Vect& size) {
-  modelView = Matrix(GetCenter(), GetOrientation(), size);
-  ChangeRef(father->GetModelView());
-  UpdateBoundingVolumes(0);
+void Solid::setSize(const Vect& size)
+{
+  modelView = Matrix(getCenter(), getOrientation(), size);
+  changeRef(father->getModelView());
+  updateBB(0);
 }
 
-void Solid::SetRenderStyle(const int _renderStyle) {
+void Solid::setStyle(const int _renderStyle)
+{
   renderStyle = _renderStyle;
 }
 
-Group& Solid::GetRoot() {
+Group& Solid::getRoot()
+{
   if (father == NULL)
     return *(Group*)this;
   else
-    return father->GetRoot();
+    return father->getRoot();
 }
 
-int Solid::Collide(Solid& moving) const
+int Solid::collide(Solid& moving) const
 { 
-  if (!GetBoundingSphere().Collide(moving.GetBoundingSphere())) return 0;
-  if (!GetBoundingBox().Collide(moving.GetBoundingBox())) return 0;
+  if (!getBoundingSphere().collide(moving.getBoundingSphere())) return 0;
+  if (!getBoundingBox().collide(moving.getBoundingBox())) return 0;
   return 1;
 }
 
@@ -78,17 +87,19 @@ void Solid::Transform(const Vect& translation,
 		      const Vect& scaling) 
 {
   modelView *= Matrix(translation, rotation, scaling);
-  UpdateBoundingVolumes(0);
+  updateBB(0);
 }
 
-Matrix Solid::GetAbsoluteModelView() const {
+Matrix Solid::getAbsoluteModelView() const
+{
   if (father == NULL)
     return modelView;
   else
-    return father->GetAbsoluteModelView() * modelView;
+    return father->getAbsoluteModelView() * modelView;
 }
 
-void Solid::ChangeRef(const Matrix& m) {
+void Solid::changeRef(const Matrix& m)
+{
   modelView = m * modelView;
 }
 

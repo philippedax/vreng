@@ -6,7 +6,7 @@
 #include "bbox.hpp"
 #include "ray.hpp"
 
-void Bbox::Print()
+void Bbox::print()
 {
 #ifdef VERBOSE
   printf("  BBOX: center=<%g %g %g> size=<%g %g %g> alpha=%g\n",center[0],center[1],center[2],depth,width,height,alpha);

@@ -174,14 +174,16 @@ struct structSpherProps
     App* sp_app;
   };
 
-void free_box_props (struct structBoxProps *bp) {
+void free_box_props (struct structBoxProps *bp)
+{
   if (bp->bp_box_size != NULL) delete(bp->bp_box_size);
   if (bp->bp_box_tex != NULL) delete(bp->bp_box_tex);
   if (bp->bp_app != NULL) delete(bp->bp_app);
   free(bp);
 }
 
-void free_spher_props (struct structSpherProps *sp) {
+void free_spher_props (struct structSpherProps *sp)
+{
   if (sp->sp_spher_tex != NULL) free(sp->sp_spher_tex);
   if (sp->sp_app != NULL) delete(sp->sp_app);
   free(sp);
@@ -209,7 +211,7 @@ void free_spher_props (struct structSpherProps *sp) {
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 57 "vred.y"
+#line 59 "vred.y"
 {
   double dval;
   char*  sval;
@@ -221,7 +223,7 @@ typedef union YYSTYPE
   App* appval;
 }
 /* Line 193 of yacc.c.  */
-#line 225 "y.tab.c"
+#line 227 "y.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -234,7 +236,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 238 "y.tab.c"
+#line 240 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -545,13 +547,13 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    91,    91,    93,    93,    96,    97,    98,    99,   100,
-     101,   102,   103,   107,   108,   108,   109,   122,   123,   123,
-     124,   139,   140,   140,   141,   153,   154,   154,   155,   169,
-     170,   170,   171,   184,   185,   185,   186,   199,   200,   200,
-     201,   215,   216,   216,   217,   234,   243,   252,   261,   272,
-     281,   290,   299,   311,   322,   326,   331,   332,   339,   340,
-     341,   342,   343,   344,   347,   348,   355,   359,   365,   371
+       0,    93,    93,    95,    95,    98,    99,   100,   101,   102,
+     103,   104,   105,   109,   110,   110,   111,   124,   125,   125,
+     126,   141,   142,   142,   143,   155,   156,   156,   157,   171,
+     172,   172,   173,   186,   187,   187,   188,   201,   202,   202,
+     203,   217,   218,   218,   219,   236,   245,   254,   263,   274,
+     283,   292,   301,   313,   325,   330,   336,   337,   344,   345,
+     346,   347,   348,   349,   352,   353,   360,   364,   370,   376
 };
 #endif
 
@@ -1538,7 +1540,7 @@ yyreduce:
   switch (yyn)
     {
         case 16:
-#line 109 "vred.y"
+#line 111 "vred.y"
     {
   Vect center((yyvsp[(1) - (2)].dpval)[0], (yyvsp[(1) - (2)].dpval)[1], (yyvsp[(1) - (2)].dpval)[2]);
   Vect size(*((yyvsp[(2) - (2)].bpval)->bp_box_size));
@@ -1547,14 +1549,14 @@ yyreduce:
   Tex* t = (yyvsp[(2) - (2)].bpval)->bp_box_tex;
   App* a = (yyvsp[(2) - (2)].bpval)->bp_app;
   Wall *w = new Wall("myWall", center, o, size, TEXTURED, Color::white, *t, *a);
-  gr->Add(w);
+  gr->add(w);
   free_box_props((yyvsp[(2) - (2)].bpval)); // libere aussi les objets pointes
   delete[]((yyvsp[(1) - (2)].dpval));
 }
     break;
 
   case 20:
-#line 124 "vred.y"
+#line 126 "vred.y"
     {
   Vect center((yyvsp[(1) - (4)].dpval)[0], (yyvsp[(1) - (4)].dpval)[1], (yyvsp[(1) - (4)].dpval)[2]);
   Vect size(*((yyvsp[(4) - (4)].bpval)->bp_box_size));
@@ -1564,7 +1566,7 @@ yyreduce:
   App* a = (yyvsp[(4) - (4)].bpval)->bp_app;
   Gate *g = new Gate("myWall", center, o, size, TEXTURED, Color::white, *t, *a,
 		     (yyvsp[(2) - (4)].sval), (yyvsp[(3) - (4)].sval));
-  gr->Add(g);
+  gr->add(g);
   cout << *g;
   free_box_props((yyvsp[(4) - (4)].bpval));
   delete[]((yyvsp[(1) - (4)].dpval));
@@ -1572,14 +1574,14 @@ yyreduce:
     break;
 
   case 24:
-#line 141 "vred.y"
+#line 143 "vred.y"
     {
   Vect center((yyvsp[(1) - (2)].dpval)[0], (yyvsp[(1) - (2)].dpval)[1], (yyvsp[(1) - (2)].dpval)[2]);
   Vect size((yyvsp[(2) - (2)].spval)->sp_spher_size,(yyvsp[(2) - (2)].spval)->sp_spher_size,(yyvsp[(2) - (2)].spval)->sp_spher_size);
   App* a = (yyvsp[(2) - (2)].spval)->sp_app;
   Earth *s = new Earth("mySphere", center, Vect::null, size, TEXTURED,
 		       Color::white, Tex((yyvsp[(2) - (2)].spval)->sp_spher_tex), *a);
-  gr->Add(s);
+  gr->add(s);
   cout << *s;
   free_spher_props((yyvsp[(2) - (2)].spval));
   delete[]((yyvsp[(1) - (2)].dpval));
@@ -1587,7 +1589,7 @@ yyreduce:
     break;
 
   case 28:
-#line 155 "vred.y"
+#line 157 "vred.y"
     {
   Vect center((yyvsp[(1) - (3)].dpval)[0], (yyvsp[(1) - (3)].dpval)[1], (yyvsp[(1) - (3)].dpval)[2]);
   Vect size(*((yyvsp[(3) - (3)].bpval)->bp_box_size));
@@ -1597,14 +1599,14 @@ yyreduce:
   App* a = (yyvsp[(3) - (3)].bpval)->bp_app;
   Web *w = new Web("myWall", center, o, size, 
 		   TEXTURED, Color::white, *t, *a, (yyvsp[(2) - (3)].sval));
-  gr->Add(w);
+  gr->add(w);
   free_box_props((yyvsp[(3) - (3)].bpval));
   delete[]((yyvsp[(1) - (3)].dpval));
 }
     break;
 
   case 32:
-#line 171 "vred.y"
+#line 173 "vred.y"
     {
   Vect center((yyvsp[(1) - (2)].dpval)[0], (yyvsp[(1) - (2)].dpval)[1], (yyvsp[(1) - (2)].dpval)[2]);
   Vect size(*((yyvsp[(2) - (2)].bpval)->bp_box_size));
@@ -1613,14 +1615,14 @@ yyreduce:
   Tex* t = (yyvsp[(2) - (2)].bpval)->bp_box_tex;
   App* a = (yyvsp[(2) - (2)].bpval)->bp_app;
   Board *b = new Board("myWall", center, o, size, TEXTURED, Color::white, *t, *a);
-  gr->Add(b);
+  gr->add(b);
   free_box_props((yyvsp[(2) - (2)].bpval));
   delete[]((yyvsp[(1) - (2)].dpval));
 }
     break;
 
   case 36:
-#line 186 "vred.y"
+#line 188 "vred.y"
     {
   Vect center((yyvsp[(1) - (2)].dpval)[0], (yyvsp[(1) - (2)].dpval)[1], (yyvsp[(1) - (2)].dpval)[2]);
   Vect size(*((yyvsp[(2) - (2)].bpval)->bp_box_size));
@@ -1629,14 +1631,14 @@ yyreduce:
   Tex* t = (yyvsp[(2) - (2)].bpval)->bp_box_tex;
   App* a = (yyvsp[(2) - (2)].bpval)->bp_app;
   Step *s = new Step("myWall", center, o, size, TEXTURED, Color::white, *t, *a);
-  gr->Add(s);
+  gr->add(s);
   free_box_props((yyvsp[(2) - (2)].bpval));
   delete[]((yyvsp[(1) - (2)].dpval));
 }
     break;
 
   case 40:
-#line 201 "vred.y"
+#line 203 "vred.y"
     {
   Vect center((yyvsp[(1) - (3)].dpval)[0], (yyvsp[(1) - (3)].dpval)[1], (yyvsp[(1) - (3)].dpval)[2]);
   Vect size(*((yyvsp[(3) - (3)].bpval)->bp_box_size));
@@ -1646,14 +1648,14 @@ yyreduce:
   App* a = (yyvsp[(3) - (3)].bpval)->bp_app == NULL ? new App() : new App(*((yyvsp[(3) - (3)].bpval)->bp_app));
   Host *h = new Host("myWall", center, o, size, 
 		   TEXTURED, Color::white, *t, *a, (yyvsp[(2) - (3)].sval));
-  gr->Add(h);
+  gr->add(h);
   free_box_props((yyvsp[(3) - (3)].bpval));
   delete[]((yyvsp[(1) - (3)].dpval));
 }
     break;
 
   case 44:
-#line 217 "vred.y"
+#line 219 "vred.y"
     {
   Vect center((yyvsp[(1) - (3)].dpval)[0], (yyvsp[(1) - (3)].dpval)[1], (yyvsp[(1) - (3)].dpval)[2]);
   Vect size(*((yyvsp[(3) - (3)].bpval)->bp_box_size));
@@ -1663,14 +1665,14 @@ yyreduce:
   App* a = (yyvsp[(3) - (3)].bpval)->bp_app;
   Doc *d = new Doc("myWall", center, o, size, 
 		   TEXTURED, Color::white, *t, *a, (yyvsp[(2) - (3)].sval));
-  gr->Add(d);
+  gr->add(d);
   free_box_props((yyvsp[(3) - (3)].bpval));
   delete[]((yyvsp[(1) - (3)].dpval));
 }
     break;
 
   case 45:
-#line 234 "vred.y"
+#line 236 "vred.y"
     {
       struct structBoxProps *res;
       res = (struct structBoxProps *)malloc(sizeof(struct structBoxProps));
@@ -1683,7 +1685,7 @@ yyreduce:
     break;
 
   case 46:
-#line 243 "vred.y"
+#line 245 "vred.y"
     {
       struct structBoxProps *res;
       res = (struct structBoxProps *)malloc(sizeof(struct structBoxProps));
@@ -1696,7 +1698,7 @@ yyreduce:
     break;
 
   case 47:
-#line 252 "vred.y"
+#line 254 "vred.y"
     {
       struct structBoxProps *res;
       res = (struct structBoxProps *)malloc(sizeof(struct structBoxProps));
@@ -1709,7 +1711,7 @@ yyreduce:
     break;
 
   case 48:
-#line 261 "vred.y"
+#line 263 "vred.y"
     { 
       struct structBoxProps *res;
       res = (struct structBoxProps *)malloc(sizeof(struct structBoxProps));
@@ -1722,7 +1724,7 @@ yyreduce:
     break;
 
   case 49:
-#line 272 "vred.y"
+#line 274 "vred.y"
     {
       struct structSpherProps *res;
       res = (struct structSpherProps *)malloc(sizeof(struct structSpherProps));
@@ -1735,7 +1737,7 @@ yyreduce:
     break;
 
   case 50:
-#line 281 "vred.y"
+#line 283 "vred.y"
     {
       struct structSpherProps *res;
       res = (struct structSpherProps *)malloc(sizeof(struct structSpherProps));
@@ -1748,7 +1750,7 @@ yyreduce:
     break;
 
   case 51:
-#line 290 "vred.y"
+#line 292 "vred.y"
     {
       struct structSpherProps *res;
       res = (struct structSpherProps *)malloc(sizeof(struct structSpherProps));
@@ -1761,7 +1763,7 @@ yyreduce:
     break;
 
   case 52:
-#line 299 "vred.y"
+#line 301 "vred.y"
     {
       struct structSpherProps *res;
       res = (struct structSpherProps *)malloc(sizeof(struct structSpherProps));
@@ -1774,7 +1776,7 @@ yyreduce:
     break;
 
   case 53:
-#line 311 "vred.y"
+#line 314 "vred.y"
     {
      double *res = new double[5];
      res[0]=(yyvsp[(1) - (5)].dval); 
@@ -1788,26 +1790,26 @@ yyreduce:
     break;
 
   case 54:
-#line 322 "vred.y"
+#line 326 "vred.y"
     {
   (yyval.vectval) = new Vect((yyvsp[(2) - (6)].dval), (yyvsp[(4) - (6)].dval), (yyvsp[(6) - (6)].dval));
 }
     break;
 
   case 55:
-#line 326 "vred.y"
+#line 331 "vred.y"
     {
   (yyval.dval) = (yyvsp[(2) - (2)].dval);
 }
     break;
 
   case 56:
-#line 331 "vred.y"
+#line 336 "vred.y"
     { (yyval.texval) = (yyvsp[(1) - (1)].texval); }
     break;
 
   case 57:
-#line 332 "vred.y"
+#line 337 "vred.y"
     { 
     mix_texture((yyvsp[(3) - (3)].texval), (yyvsp[(1) - (3)].texval));
     delete((yyvsp[(3) - (3)].texval));
@@ -1816,42 +1818,42 @@ yyreduce:
     break;
 
   case 58:
-#line 339 "vred.y"
+#line 344 "vred.y"
     { (yyval.texval) = new Tex((yyvsp[(1) - (1)].sval), NULL, NULL, NULL, NULL, NULL); }
     break;
 
   case 59:
-#line 340 "vred.y"
+#line 345 "vred.y"
     { (yyval.texval) = new Tex(NULL, (yyvsp[(1) - (1)].sval), NULL, NULL, NULL, NULL); }
     break;
 
   case 60:
-#line 341 "vred.y"
+#line 346 "vred.y"
     { (yyval.texval) = new Tex(NULL, NULL, (yyvsp[(1) - (1)].sval), NULL, NULL, NULL); }
     break;
 
   case 61:
-#line 342 "vred.y"
+#line 347 "vred.y"
     { (yyval.texval) = new Tex(NULL, NULL, NULL, (yyvsp[(1) - (1)].sval), NULL, NULL); }
     break;
 
   case 62:
-#line 343 "vred.y"
+#line 348 "vred.y"
     { (yyval.texval) = new Tex(NULL, NULL, NULL, NULL, (yyvsp[(1) - (1)].sval), NULL); }
     break;
 
   case 63:
-#line 344 "vred.y"
+#line 349 "vred.y"
     { (yyval.texval) = new Tex(NULL, NULL, NULL, NULL, NULL, (yyvsp[(1) - (1)].sval)); }
     break;
 
   case 64:
-#line 347 "vred.y"
+#line 352 "vred.y"
     { (yyval.appval) = (yyvsp[(1) - (1)].appval); }
     break;
 
   case 65:
-#line 348 "vred.y"
+#line 353 "vred.y"
     {
     mix_app((yyvsp[(3) - (3)].appval), (yyvsp[(1) - (3)].appval));
     delete((yyvsp[(3) - (3)].appval));
@@ -1860,7 +1862,7 @@ yyreduce:
     break;
 
   case 66:
-#line 355 "vred.y"
+#line 360 "vred.y"
     {
     Color v((yyvsp[(1) - (5)].dval), (yyvsp[(3) - (5)].dval), (yyvsp[(5) - (5)].dval), 1.0);
     (yyval.appval) = new App(v);
@@ -1868,38 +1870,38 @@ yyreduce:
     break;
 
   case 67:
-#line 359 "vred.y"
+#line 364 "vred.y"
     {
     Color v((yyvsp[(1) - (5)].dval), (yyvsp[(3) - (5)].dval), (yyvsp[(5) - (5)].dval), 1.0);
     App *a = new App();
-    a->SetDiffuse(v);
+    a->setDiffuse(v);
     (yyval.appval) = a;
   }
     break;
 
   case 68:
-#line 365 "vred.y"
+#line 370 "vred.y"
     {
     Color v((yyvsp[(1) - (5)].dval), (yyvsp[(3) - (5)].dval), (yyvsp[(5) - (5)].dval), 1.0);
     App *a = new App();
-    a->SetShininess(v);
+    a->setShininess(v);
     (yyval.appval) = a;
   }
     break;
 
   case 69:
-#line 371 "vred.y"
+#line 376 "vred.y"
     {
     Color v((yyvsp[(1) - (5)].dval), (yyvsp[(3) - (5)].dval), (yyvsp[(5) - (5)].dval), 1.0);
     App *a = new App();
-    a->SetSpecular(v);
+    a->setSpecular(v);
     (yyval.appval) = a;
   }
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1903 "y.tab.c"
+#line 1905 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2113,7 +2115,7 @@ yyreturn:
 }
 
 
-#line 377 "vred.y"
+#line 382 "vred.y"
 
 
 /*
@@ -2121,54 +2123,57 @@ yyreturn:
   ex : t1(a1, NULL, ..., NULL) et t2(b1, ..., b6)
   resultat : t2(a1, b2, ..., b6)
  */
-void mix_texture(Tex* t1, Tex* t2){
-  if(t1->GetTex_xp() != NULL){
-    t2->SetTex_xp(t1->GetTex_xp());
+void mix_texture(Tex* t1, Tex* t2)
+{
+  if (t1->getTex_xp() != NULL) {
+    t2->setTex_xp(t1->getTex_xp());
     return ;
   }
-  if(t1->GetTex_xn() != NULL){
-    t2->SetTex_xn(t1->GetTex_xn());
+  if (t1->getTex_xn() != NULL) {
+    t2->setTex_xn(t1->getTex_xn());
     return ;
   }
-  if(t1->GetTex_yp() != NULL){
-    t2->SetTex_yp(t1->GetTex_yp());
+  if (t1->getTex_yp() != NULL) {
+    t2->setTex_yp(t1->getTex_yp());
     return ;
   }
-  if(t1->GetTex_yn() != NULL){
-    t2->SetTex_yn(t1->GetTex_yn());
+  if (t1->getTex_yn() != NULL) {
+    t2->setTex_yn(t1->getTex_yn());
     return ;
   }
-  if(t1->GetTex_zp() != NULL){
-    t2->SetTex_zp(t1->GetTex_zp());
+  if (t1->getTex_zp() != NULL) {
+    t2->setTex_zp(t1->getTex_zp());
     return;
   }
-  if(t1->GetTex_zn() != NULL){
-    t2->SetTex_zn(t1->GetTex_zn());
+  if (t1->getTex_zn() != NULL) {
+    t2->setTex_zn(t1->getTex_zn());
     return ;
   }
   return ;
 }
 
-void mix_app(App* a1, App* a2){
-  if(!(a1->GetDiffuse() == a->GetDiffuse())){
-    a2->SetDiffuse(a1->GetDiffuse());
+void mix_app(App* a1, App* a2)
+{
+  if (!(a1->getDiffuse() == a->getDiffuse())) {
+    a2->setDiffuse(a1->getDiffuse());
     return ;
   }
-  if(!(a1->GetAmbient() == a->GetAmbient())){
-    a2->SetAmbient(a1->GetAmbient());
+  if (!(a1->getAmbient() == a->getAmbient())) {
+    a2->setAmbient(a1->getAmbient());
     return ;
   }
-  if(!(a1->GetSpecular() == a->GetSpecular())){
-    a2->SetSpecular(a1->GetSpecular());
+  if (!(a1->getSpecular() == a->getSpecular())) {
+    a2->setSpecular(a1->getSpecular());
     return ;
   }
-  if(!(a1->GetShininess() == a->GetShininess())){
-    a2->SetShininess(a1->GetShininess());
+  if (!(a1->getShininess() == a->getShininess())) {
+    a2->setShininess(a1->getShininess());
     return ;
   }
 }
 
-double deg(const double rad) {
+double deg(const double rad)
+{
   return (rad * 180.0 / M_PI);
 }
 
@@ -2177,7 +2182,8 @@ void moveCenter(Vect& center, Vect& size)
   center += Vect(size[0], -size[1], size[2]);
 }
 
-int FileToGroup(FILE *in, Group *gp) { 
+int fileToGroup(FILE *in, Group *gp)
+{ 
   a = new App();
   //yydebug = 0;   // debogage (yacc)
   //yy_flex_debug = 0;  // pour le debogage (lex)
@@ -2190,7 +2196,8 @@ int FileToGroup(FILE *in, Group *gp) {
   return yyparse();
 }
 
-int yyerror(char *s) {
+int yyerror(char *s)
+{
   fprintf(stderr, "line %d:%s\n", yylineno, s);
   return 0;
 }

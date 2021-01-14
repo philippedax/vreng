@@ -1,5 +1,5 @@
-#ifndef VECT_H
-#define VECT_H
+#ifndef VECT_HPP
+#define VECT_HPP
 
 class Vect {
 
@@ -18,8 +18,8 @@ public:
   Vect& operator*=(const double d);
   bool operator==(const Vect&) const;
 
-  double Norm() const {return (x * x + y * y + z * z);}
-  void Print() const;
+  double norm() const {return (x * x + y * y + z * z);}
+  void print() const;
 
   const static Vect null, unit;
 

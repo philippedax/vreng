@@ -9,7 +9,7 @@ Gate::Gate(char* _name, const Vect& _center, const Vect& _orientation, const Vec
   Box(_name, _center, _orientation, _size, _renderStyle, _color, _tex, _appli)
 {
   toWhere = NULL;
-  SetToWhere(_toWhere);
+  setUrl(_toWhere);
 }
 
 Gate::~Gate()
@@ -17,11 +17,11 @@ Gate::~Gate()
   free(toWhere);
 }
 
-void Gate::SetToWhere(const char *_toWhere)
+void Gate::setUrl(const char *_toWhere)
 {
   Safe::safe_strdup(&toWhere, _toWhere);  
 }
 
-void Gate::SetIp_multi(const char *_ip_multi)
+void Gate::setIpmc(const char *_ip_multi)
 {
 }

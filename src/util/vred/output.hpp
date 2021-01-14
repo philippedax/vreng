@@ -1,5 +1,5 @@
-#ifndef OUTPUT_H
-#define OUTPUT_H
+#ifndef OUTPUT_HPP
+#define OUTPUT_HPP
 
 #include "vre.hpp"
 

@@ -7,19 +7,19 @@ int Map::defaultTexSize = 128;
 
 //#define VERBOSE 1
 
-Map::Map(const char* const _URL)
+Map::Map(const char* const _url)
 {
   data=0;
   length=0;
   height=0;
   error=false;
-  URL= (char *) strdup((char *) _URL);
+  url= (char *) strdup((char *) _url);
 }
 
 Map::~Map()
 {
   if (data!=0&&!error) free(data);
-  if (URL != NULL) free(URL);
+  if (url != NULL) free(url);
 }
 
 char* HttpGet(char* serverName, char* chemin, int& pos)
@@ -28,7 +28,7 @@ char* HttpGet(char* serverName, char* chemin, int& pos)
   struct sockaddr_in serv_addr;
 
 #ifdef VERBOSE
-  printf("URL server=%s path=%s\n",serverName,chemin);
+  printf("url server=%s path=%s\n",serverName,chemin);
 #endif
 
   if ((hostptr = gethostbyname(serverName)) == NULL) {
@@ -141,7 +141,7 @@ char* HttpGet(char* serverName, char* chemin, int& pos)
   return temp;
 }
 
-const GLubyte* const Map::GetData()
+const GLubyte* const Map::getData()
 {
   if (error) return 0;
   if (data!=0) return data;
@@ -151,21 +151,21 @@ const GLubyte* const Map::GetData()
   char* fromWeb;
 
 #ifdef VERBOSE
-  printf("URL '%s'\n",URL);
+  printf("url '%s'\n",url);
 #endif 
 
   //parsing
 
-  if (strncmp(URL,"file://",7)==0) {
+  if (strncmp(url,"file://",7)==0) {
 
 #ifdef VERBOSE
-    printf("File URL %s\n",URL);
+    printf("File url %s\n",url);
 #endif    
-    FILE* in=fopen(URL+7,"rb");
+    FILE* in=fopen(url+7,"rb");
     if (in==NULL) {
       printf("file not found !\n");
-      free(URL);
-      URL = 0;
+      free(url);
+      url = 0;
       error=true;
       data=0;
       return 0;
@@ -181,8 +181,8 @@ const GLubyte* const Map::GetData()
     fromWeb=(char *)malloc(tailleGif);
                                             
     if (fromWeb==NULL) {
-      free(URL);
-      URL = 0;
+      free(url);
+      url = 0;
       error=true;
       data=0;
       fclose(in);
@@ -194,8 +194,8 @@ const GLubyte* const Map::GetData()
 	printf("Error while loading the file\n");
 	free(fromWeb);
 	fclose(in);
-	free(URL);
-	URL = 0;
+	free(url);
+	url = 0;
 	error=true;
 	data=0;
 	return 0;
@@ -203,50 +203,50 @@ const GLubyte* const Map::GetData()
 
     fclose(in);
 
-  } else if (strncmp(URL,"http://",7)==0) {
+  } else if (strncmp(url,"http://",7)==0) {
     int i;
-    for(i=7;URL[i]!=0;i++)
-      if (URL[i]=='/') 
+    for(i=7;url[i]!=0;i++)
+      if (url[i]=='/') 
 	break;
     
-    if (URL[i]==0) {
-      printf("Mauvaise http URL %s\n",URL);
-      free(URL); URL = 0;
+    if (url[i]==0) {
+      printf("Mauvaise http url %s\n",url);
+      free(url); url = 0;
       error=true;
       data=0;
       return 0;    
     }
     
-    URL[i]=0;
+    url[i]=0;
     
     //Get http
-    fromWeb=HttpGet(URL+7,URL+i+1,tailleGif);
+    fromWeb=HttpGet(url+7,url+i+1,tailleGif);
     if (fromWeb==0) {
-      free(URL); URL = 0;
+      free(url); url = 0;
       error=true;
       data=0;
       return 0;
     }
-  } else if (URL[0] == '/') {
+  } else if (url[0] == '/') {
     int i;
-    for(i=1;URL[i]!=0;i++)
-      if (URL[i]=='/') 
+    for(i=1;url[i]!=0;i++)
+      if (url[i]=='/') 
 	break;
     
-    if (URL[i]==0) {
-      printf("Mauvaise http URL %s\n",URL);
-      free(URL); URL = 0;
+    if (url[i]==0) {
+      printf("Mauvaise http url %s\n",url);
+      free(url); url = 0;
       error=true;
       data=0;
       return 0;    
     }
     
-    URL[i]=0;
+    url[i]=0;
     
     //Get http
-    fromWeb=HttpGet(URL+1,URL+i+1,tailleGif);
+    fromWeb=HttpGet(url+1,url+i+1,tailleGif);
     if (fromWeb==0) {
-      free(URL); URL = 0;
+      free(url); url = 0;
       error=true;
       data=0;
       return 0;
@@ -254,15 +254,15 @@ const GLubyte* const Map::GetData()
   } else {
 
 #ifdef VERBOSE
-    printf("URL non reconnue '%s'\n",URL);
+    printf("url non reconnue '%s'\n",url);
 #endif
-    free(URL); URL = 0;
+    free(url); url = 0;
     error=true;
     data=0;
     return 0;
   }
   
-  free(URL); URL = 0;
+  free(url); url = 0;
 
   //decompresse
   int l,h;
@@ -321,12 +321,12 @@ const GLubyte* const Map::GetData()
   return data;
 }
 
-int Map::GetLength() const
+int Map::getLength() const
 {
   return length;
 }
 
-int Map::GetHeight() const
+int Map::getHeight() const
 {
   return height;
 }

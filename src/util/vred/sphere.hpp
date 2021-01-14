@@ -1,5 +1,5 @@
-#ifndef SPHERE_H
-#define SPHERE_H
+#ifndef SPHERE_HPP
+#define SPHERE_HPP
 
 #include "solid.hpp"
 
@@ -15,16 +15,16 @@ public:
 	 const int _slices = 10, const int _stacks = 10);
   virtual ~Sphere();
 
-  virtual int GetClassId() const { return SPHERE; };
-  virtual const char* GetClassName() const { return "sphere"; } ;
+  virtual int getClassId() const { return SPHERE; };
+  virtual const char* getClassName() const { return "sphere"; } ;
 
-  virtual void UpdateBoundingVolumes(int recalc);
-  virtual void Render();
-  virtual void Print() const {
+  virtual void updateBB(int recalc);
+  virtual void render();
+  virtual void print() const {
     cout << "sphere ";
-    Solid::Print();
+    Solid::print();
   }
-  virtual void SetSize(const Vect&);
+  virtual void setSize(const Vect&);
 
 private:
   int slices, stacks;

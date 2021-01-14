@@ -1,5 +1,5 @@
-#ifndef STEP_H
-#define STEP_H
+#ifndef STEP_HPP
+#define STEP_HPP
 
 #include "box.hpp"
 
@@ -13,8 +13,8 @@ public:
        int _renderStyle = WIRED, const Color& _color = Color::white,
        const Tex& _tex = Tex(), const App& _app = App());
 
-  virtual int GetClassId() const {return STEP;}
-  virtual const char* GetClassName() const {return "step";}
+  virtual int getClassId() const {return STEP;}
+  virtual const char* getClassName() const {return "step";}
 
   friend ostream& operator<<(ostream& out, const Step& s);
 

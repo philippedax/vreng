@@ -1,5 +1,5 @@
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef BOARD_HPP
+#define BOARD_HPP
 
 #include "box.hpp"
 
@@ -14,8 +14,8 @@ public:
         const Color& _color = Color::white,
         const Tex& _tex = Tex(), const App& _app = App());
 
-  virtual int GetClassId() const {return BOARD;}
-  virtual const char* GetClassName() const {return "board";}
+  virtual int getClassId() const { return BOARD; }
+  virtual const char* getClassName() const { return "board"; }
 
   friend ostream& operator<<(ostream& out, const Board& b);
 

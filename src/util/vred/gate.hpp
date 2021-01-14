@@ -1,5 +1,5 @@
-#ifndef GATE_H
-#define GATE_H
+#ifndef GATE_HPP
+#define GATE_HPP
 
 #include "box.hpp"
 
@@ -15,15 +15,15 @@ public:
        char* _toWhere = NULL, char* _ip_multi = NULL);
   virtual ~Gate();
 
-  virtual int     GetClassId() const {return GATE;}
-  virtual const char*   GetClassName() const {return "gate";}
+  virtual int getClassId() const { return GATE; }
+  virtual const char* getClassName() const { return "gate"; }
 
   friend ostream& operator<<(ostream& out, const Gate& gate);
 
-  void SetToWhere(const char *_toWhere);
-  void SetIp_multi(const char *_ip_multi);
-  const char* const ToWhere() const {return toWhere;}
-  const char* const Ip_multi() const {return ip_multi;}
+  void setUrl(const char *_toWhere);
+  void setIpmc(const char *_ip_multi);
+  const char* const getUrl() const { return toWhere; }
+  const char* const getIpmc() const { return ip_multi; }
 
 private:
   char* toWhere;

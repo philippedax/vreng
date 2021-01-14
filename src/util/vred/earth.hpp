@@ -1,5 +1,5 @@
-#ifndef EARTH_H
-#define EARTH_H
+#ifndef EARTH_HPP
+#define EARTH_HPP
 
 #include "sphere.hpp"
 
@@ -15,8 +15,8 @@ public:
        const Tex& _tex = Tex(), const App& _app = App(),
        const int _slices = 10, const int _stacks = 10);
 
-  virtual int     GetClassId() const {return EARTH;}
-  virtual const char*   GetClassName() const {return "earth";}
+  virtual int getClassId() const {return EARTH;}
+  virtual const char* getClassName() const {return "earth";}
 
   friend ostream& operator<<(ostream& out, const Earth& earth);
 

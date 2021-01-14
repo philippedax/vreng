@@ -1,21 +1,21 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef MAP_HPP
+#define MAP_HPP
 
 class Map {
 
 public:
   Map(const char* const URL);
   virtual ~Map();
-  const GLubyte* const GetData();
-  int GetLength() const;
-  int GetHeight() const;
+  const GLubyte* const getData();
+  int getLength() const;
+  int getHeight() const;
 
 private:
   GLubyte* data;
   int length;
   int height;
   bool error;
-  char* URL;
+  char* url;
 
 public:
   static int defaultTexSize;  

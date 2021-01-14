@@ -9,7 +9,7 @@ ostream& operator<<(ostream& out, const Gate& g)
   printHeader(g, out);
 
   pos_ang(g, out);
-  out << (g).ToWhere();
+  out << (g).getUrl();
   box_props(g, out);
   printTailer(g, out);
 
@@ -54,7 +54,7 @@ ostream& operator<<(ostream& out, const Web& w)
   printHeader(w, out);
 
   pos_ang(w, out);
-  out << w.GetUrl() << " ";
+  out << w.getUrl() << " ";
   box_props(w, out);
   printTailer(w, out);
 
@@ -77,7 +77,7 @@ ostream& operator<<(ostream& out, const Host& h)
   printHeader(h, out);
 
   pos_ang(h, out);
-  out << h.GetHostname() ;
+  out << h.getHostname() ;
   box_props(h, out);
   printTailer(h, out);
 
@@ -89,7 +89,7 @@ ostream& operator<<(ostream& out, const Doc& d)
   printHeader(d, out);
 
   pos_ang(d, out);
-  out << d.GetUrl() << " ";
+  out << d.getUrl() << " ";
   box_props(d, out);
   printTailer(d, out);
 

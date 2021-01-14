@@ -39,14 +39,16 @@ struct structSpherProps
     App* sp_app;
   };
 
-void free_box_props (struct structBoxProps *bp) {
+void free_box_props (struct structBoxProps *bp)
+{
   if (bp->bp_box_size != NULL) delete(bp->bp_box_size);
   if (bp->bp_box_tex != NULL) delete(bp->bp_box_tex);
   if (bp->bp_app != NULL) delete(bp->bp_app);
   free(bp);
 }
 
-void free_spher_props (struct structSpherProps *sp) {
+void free_spher_props (struct structSpherProps *sp)
+{
   if (sp->sp_spher_tex != NULL) free(sp->sp_spher_tex);
   if (sp->sp_app != NULL) delete(sp->sp_app);
   free(sp);
@@ -114,7 +116,7 @@ wall_single: pos_ang box_props {
   Tex* t = $2->bp_box_tex;
   App* a = $2->bp_app;
   Wall *w = new Wall("myWall", center, o, size, TEXTURED, Color::white, *t, *a);
-  gr->Add(w);
+  gr->add(w);
   free_box_props($2); // libere aussi les objets pointes
   delete[]($1);
 }
@@ -130,7 +132,7 @@ gate_single: pos_ang STRING STRING box_props {
   App* a = $4->bp_app;
   Gate *g = new Gate("myWall", center, o, size, TEXTURED, Color::white, *t, *a,
 		     $2, $3);
-  gr->Add(g);
+  gr->add(g);
   cout << *g;
   free_box_props($4);
   delete[]($1);
@@ -144,7 +146,7 @@ earth_single: pos_ang spher_props {
   App* a = $2->sp_app;
   Earth *s = new Earth("mySphere", center, Vect::null, size, TEXTURED,
 		       Color::white, Tex($2->sp_spher_tex), *a);
-  gr->Add(s);
+  gr->add(s);
   cout << *s;
   free_spher_props($2);
   delete[]($1);
@@ -161,7 +163,7 @@ web_single: pos_ang STRING box_props {
   App* a = $3->bp_app;
   Web *w = new Web("myWall", center, o, size, 
 		   TEXTURED, Color::white, *t, *a, $2);
-  gr->Add(w);
+  gr->add(w);
   free_box_props($3);
   delete[]($1);
 }
@@ -176,7 +178,7 @@ board_single: pos_ang box_props {
   Tex* t = $2->bp_box_tex;
   App* a = $2->bp_app;
   Board *b = new Board("myWall", center, o, size, TEXTURED, Color::white, *t, *a);
-  gr->Add(b);
+  gr->add(b);
   free_box_props($2);
   delete[]($1);
 }
@@ -191,7 +193,7 @@ step_single: pos_ang box_props {
   Tex* t = $2->bp_box_tex;
   App* a = $2->bp_app;
   Step *s = new Step("myWall", center, o, size, TEXTURED, Color::white, *t, *a);
-  gr->Add(s);
+  gr->add(s);
   free_box_props($2);
   delete[]($1);
 }
@@ -207,7 +209,7 @@ host_single: pos_ang TLNT box_props {
   App* a = $3->bp_app == NULL ? new App() : new App(*($3->bp_app));
   Host *h = new Host("myWall", center, o, size, 
 		   TEXTURED, Color::white, *t, *a, $2);
-  gr->Add(h);
+  gr->add(h);
   free_box_props($3);
   delete[]($1);
 }
@@ -223,7 +225,7 @@ doc_single: pos_ang STRING box_props {
   App* a = $3->bp_app;
   Doc *d = new Doc("myWall", center, o, size, 
 		   TEXTURED, Color::white, *t, *a, $2);
-  gr->Add(d);
+  gr->add(d);
   free_box_props($3);
   delete[]($1);
 }
@@ -308,7 +310,8 @@ spher_props:
 
 /************************ Terminals *************************/
 
-pos_ang: NUMBER NUMBER NUMBER NUMBER NUMBER {
+pos_ang: NUMBER NUMBER NUMBER NUMBER NUMBER
+{
      double *res = new double[5];
      res[0]=$1; 
      res[1]=$2; 
@@ -319,11 +322,13 @@ pos_ang: NUMBER NUMBER NUMBER NUMBER NUMBER {
      $$ = res;
   }
 
-box_size: TK_BOX_SIZE NUMBER COMMA NUMBER COMMA NUMBER {
+box_size: TK_BOX_SIZE NUMBER COMMA NUMBER COMMA NUMBER
+{
   $$ = new Vect($2, $4, $6);
 }
 
-spher_size: TK_SPHER_SIZE NUMBER {
+spher_size: TK_SPHER_SIZE NUMBER
+{
   $$ = $2;
 }
 
@@ -359,19 +364,19 @@ app_single:
 | TK_DIFFUSE COMMA NUMBER COMMA NUMBER {
     Color v($1, $3, $5, 1.0);
     App *a = new App();
-    a->SetDiffuse(v);
+    a->setDiffuse(v);
     $$ = a;
   }
 | TK_SHININESS COMMA NUMBER COMMA NUMBER {
     Color v($1, $3, $5, 1.0);
     App *a = new App();
-    a->SetShininess(v);
+    a->setShininess(v);
     $$ = a;
   }
 | TK_SPECULAR COMMA NUMBER COMMA NUMBER {
     Color v($1, $3, $5, 1.0);
     App *a = new App();
-    a->SetSpecular(v);
+    a->setSpecular(v);
     $$ = a;
   }
 %%
@@ -381,54 +386,57 @@ app_single:
   ex : t1(a1, NULL, ..., NULL) et t2(b1, ..., b6)
   resultat : t2(a1, b2, ..., b6)
  */
-void mix_texture(Tex* t1, Tex* t2){
-  if(t1->GetTex_xp() != NULL){
-    t2->SetTex_xp(t1->GetTex_xp());
+void mix_texture(Tex* t1, Tex* t2)
+{
+  if (t1->getTex_xp() != NULL) {
+    t2->setTex_xp(t1->getTex_xp());
     return ;
   }
-  if(t1->GetTex_xn() != NULL){
-    t2->SetTex_xn(t1->GetTex_xn());
+  if (t1->getTex_xn() != NULL) {
+    t2->setTex_xn(t1->getTex_xn());
     return ;
   }
-  if(t1->GetTex_yp() != NULL){
-    t2->SetTex_yp(t1->GetTex_yp());
+  if (t1->getTex_yp() != NULL) {
+    t2->setTex_yp(t1->getTex_yp());
     return ;
   }
-  if(t1->GetTex_yn() != NULL){
-    t2->SetTex_yn(t1->GetTex_yn());
+  if (t1->getTex_yn() != NULL) {
+    t2->setTex_yn(t1->getTex_yn());
     return ;
   }
-  if(t1->GetTex_zp() != NULL){
-    t2->SetTex_zp(t1->GetTex_zp());
+  if (t1->getTex_zp() != NULL) {
+    t2->setTex_zp(t1->getTex_zp());
     return;
   }
-  if(t1->GetTex_zn() != NULL){
-    t2->SetTex_zn(t1->GetTex_zn());
+  if (t1->getTex_zn() != NULL) {
+    t2->setTex_zn(t1->getTex_zn());
     return ;
   }
   return ;
 }
 
-void mix_app(App* a1, App* a2){
-  if(!(a1->GetDiffuse() == a->GetDiffuse())){
-    a2->SetDiffuse(a1->GetDiffuse());
+void mix_app(App* a1, App* a2)
+{
+  if (!(a1->getDiffuse() == a->getDiffuse())) {
+    a2->setDiffuse(a1->getDiffuse());
     return ;
   }
-  if(!(a1->GetAmbient() == a->GetAmbient())){
-    a2->SetAmbient(a1->GetAmbient());
+  if (!(a1->getAmbient() == a->getAmbient())) {
+    a2->setAmbient(a1->getAmbient());
     return ;
   }
-  if(!(a1->GetSpecular() == a->GetSpecular())){
-    a2->SetSpecular(a1->GetSpecular());
+  if (!(a1->getSpecular() == a->getSpecular())) {
+    a2->setSpecular(a1->getSpecular());
     return ;
   }
-  if(!(a1->GetShininess() == a->GetShininess())){
-    a2->SetShininess(a1->GetShininess());
+  if (!(a1->getShininess() == a->getShininess())) {
+    a2->setShininess(a1->getShininess());
     return ;
   }
 }
 
-double deg(const double rad) {
+double deg(const double rad)
+{
   return (rad * 180.0 / M_PI);
 }
 
@@ -437,7 +445,8 @@ void moveCenter(Vect& center, Vect& size)
   center += Vect(size[0], -size[1], size[2]);
 }
 
-int FileToGroup(FILE *in, Group *gp) { 
+int fileToGroup(FILE *in, Group *gp)
+{ 
   a = new App();
   //yydebug = 0;   // debogage (yacc)
   //yy_flex_debug = 0;  // pour le debogage (lex)
@@ -450,7 +459,8 @@ int FileToGroup(FILE *in, Group *gp) {
   return yyparse();
 }
 
-int yyerror(char *s) {
+int yyerror(char *s)
+{
   fprintf(stderr, "line %d:%s\n", yylineno, s);
   return 0;
 }

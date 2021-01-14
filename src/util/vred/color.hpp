@@ -1,5 +1,5 @@
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef COLOR_HPP
+#define COLOR_HPP
 
 #include "vect.hpp"
 
@@ -11,8 +11,8 @@ public:
   operator const GLfloat* const() const {return color;}
   bool operator==(const Color&) const;
 
-  void Apply() const {glMaterialfv(GL_FRONT, GL_AMBIENT, color);}
-  void Print() const;
+  void apply() const {glMaterialfv(GL_FRONT, GL_AMBIENT, color);}
+  void print() const;
 
   const static Color black, white, red, green, blue;
 

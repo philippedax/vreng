@@ -1,5 +1,5 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef MATRIX_HPP
+#define MATRIX_HPP
 
 #include "vect.hpp"
 
@@ -23,8 +23,8 @@ public:
   Matrix operator*(const Matrix&) const;
   Matrix& operator*=(const Matrix&);
   
-  Matrix Invert() const;
-  void Print() const;
+  Matrix invert() const;
+  void print() const;
 
 private:
   GLdouble a[16];

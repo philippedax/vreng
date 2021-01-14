@@ -1,5 +1,5 @@
-#ifndef SOLID_H
-#define SOLID_H
+#ifndef SOLID_HPP
+#define SOLID_HPP
 
 #include "matrix.hpp"
 #include "item.hpp"
@@ -10,7 +10,7 @@
 #include "tex.hpp"
 
 enum ItemId {SPHERE, BOX, CAMERA, GROUP, WALL, GATE, EARTH, WEB, BOARD, STEP, HOST, DOC};
-enum RenderStyle {WIRED, COLORED, TEXTURED};
+enum Style {WIRED, COLORED, TEXTURED};
 
 class Group;
 
@@ -30,43 +30,43 @@ public:
   friend ostream& operator<<(ostream& out, const Solid& solid);
 
   // those accessors deal with *absolute* coordinates 
-  virtual Vect GetCenter() const;
-  virtual void SetCenter(const Vect& _center);
-  virtual Vect GetOrientation() const;
-  virtual void SetOrientation(const Vect& _orientation);
-  virtual Vect GetSize() const;
-  virtual void SetSize(const Vect& _size);
-  virtual void UpdateBoundingVolumes(int recalc) {}
-  virtual void SetTexture(const Tex& _tex) { tex = _tex; }
-  const Tex& GetTexture() const { return tex; }
-  virtual void SetApp(const App& _app) { app = _app; }
-  const App& GetApp() const { return app; }
-  const Bbox& GetBoundingBox() const {return myBoundingBox;}
-  const Bsphere& GetBoundingSphere() const {return myBoundingSphere;}
-  int GetRenderStyle() const {return renderStyle;}
-  virtual void SetRenderStyle(const int _renderStyle);
-  const Color& GetColor() const {return color;}
-  virtual void SetColor(const Color& _color) {color = _color;}
-  Solid& GetFather() {return *father;}
-  void SetFather(Solid* const father) {this->father = father;}
-  Group& GetRoot();
+  virtual Vect getCenter() const;
+  virtual void setCenter(const Vect& _center);
+  virtual Vect getOrientation() const;
+  virtual void setOrientation(const Vect& _orientation);
+  virtual Vect getSize() const;
+  virtual void setSize(const Vect& _size);
+  virtual void updateBB(int recalc) {}
+  virtual void setTexture(const Tex& _tex) { tex = _tex; }
+  const Tex& getTexture() const { return tex; }
+  virtual void setApp(const App& _app) { app = _app; }
+  const App& getApp() const { return app; }
+  const Bbox& getBoundingBox() const { return myBoundingBox; }
+  const Bsphere& getBoundingSphere() const { return myBoundingSphere; }
+  int getStyle() const { return renderStyle; }
+  virtual void setStyle(const int _renderStyle);
+  const Color& getColor() const { return color; }
+  virtual void setColor(const Color& _color) { color = _color; }
+  Solid& getFather() { return *father; }
+  void setFather(Solid* const father) { this->father = father; }
+  Group& getRoot();
 
   //virtual void Add(Solid* const solid) {}
   //virtual void Remove(Solid* const solid) {}
-  //virtual int GetCard() const {return 1;}
-  //virtual Solid& operator[](const int n) {return *this;}
+  //virtual int getCard() const { return 1; }
+  //virtual Solid& operator[](const int n) { return *this; }
 
-  virtual int Collide(Solid& moving) const;
+  virtual int collide(Solid& moving) const;
   void Transform(const Vect& translation, const Vect& rotation, const Vect& scaling);
 
-  const Matrix& GetModelView() const {return modelView;}
-  Matrix GetAbsoluteModelView() const;
-  void SetAbsoluteModelView() {modelView = GetAbsoluteModelView();}
-  void ChangeRef(const Matrix&);
+  const Matrix& getModelView() const { return modelView; }
+  Matrix getAbsoluteModelView() const;
+  void setAbsoluteModelView() { modelView = getAbsoluteModelView(); }
+  void changeRef(const Matrix&);
 
-  virtual void Render() = 0;
+  virtual void render() = 0;
 
-  virtual void Print() const { cout << this << " father=" << father << endl; }
+  virtual void print() const { cout << this << " father=" << father << endl; }
 
 public:
   Bbox myBoundingBox;

@@ -54,7 +54,7 @@ Vect Vect::operator^(const Vect& v) const {
   return Vect(y * v.z -z * v.y, z * v.x - x * v.z, x * v.y - x * v.y);
 }
 
-void Vect::Print() const {
+void Vect::print() const {
   cout << "(" << x << ", " << y << ", " << z << ")" << endl;
 }
 

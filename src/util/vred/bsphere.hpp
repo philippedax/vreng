@@ -1,5 +1,5 @@
-#ifndef BSPHERE_H
-#define BSPHERE_H
+#ifndef BSPHERE_HPP
+#define BSPHERE_HPP
 
 #include "vect.hpp"
 
@@ -17,19 +17,19 @@ public:
 
   virtual ~Bsphere() {}
 
-  Vect*  RayIntersect(Ray& _ray) const;
-  int     Collide(const Bsphere& sph) const;
-  void    Set(const Vect& _center, double r);
+  Vect*   rayIntersect(Ray& _ray) const;
+  int     collide(const Bsphere& sph) const;
+  void    set(const Vect& _center, double r);
 
-  Vect  Center() const {return center;}
-  void  SetCenter(const Vect& _center) {center = _center;}
-  double  Radius() const {return radius;}
-  void    SetRadius(double _radius) {radius = _radius;}
-  void    CalcGroup(int n,Solid** table);
-  void Print();
+  Vect    getCenter() const { return center; }
+  void    setCenter(const Vect& _center) { center = _center; }
+  double  getRadius() const { return radius; }
+  void    setRadius(double _radius) { radius = _radius; }
+  void    calcGroup(int n,Solid** table);
+  void    print();
 
 private:
-  Vect  center;
+  Vect    center;
   double  radius;
 
 };
