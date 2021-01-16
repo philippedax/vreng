@@ -77,7 +77,7 @@ clean-tar: archive
 svntags:
 	su -c "svn copy $(HTTP_SVN)/trunk $(HTTP_SVN)/tags/$(PACKAGE_NAME)-$(PACKAGE_VERSION) -m \"Distribution: $(PACKAGE_NAME)-$(PACKAGE_VERSION)\"" dax
 
-archive: fingerprint rss
+archive: dist fingerprint
 	-install -m 444 $(FINGERPRINT_GZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_GZ) $(ARCHIVE)
 	-install -m 444 $(FINGERPRINT_BZ2) $(ARCHIVE)
