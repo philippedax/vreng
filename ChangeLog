@@ -15,7 +15,9 @@ The rules for this file:
 ++ 9
 == 9.1
 -- 9.1.6
-	(2021/01/08, Philippe Dax)
+	- added getDlist()
+	- reviewed vred
+	(2021/01/16, Philippe Dax)
 
 -- 9.1.5
 	- fixed type converson in aiinit.cpp
