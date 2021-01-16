@@ -69,8 +69,9 @@ fingerprint:
 rss:
 	support/vreng-rss
 
-clean-tar:
+clean-tar: archive
 	tar xpf $(TARBALL_GZ)
+	cp $(TARBALL_GZ) vreng.tar.gz
 	rm $(TARBALLS)
 
 svntags:
