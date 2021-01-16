@@ -58,7 +58,7 @@ void OList::remove()
 
 /* Clears flags "ispointed" of all objects in an olist */
 // static
-void OList::clearIspointedFlag(list<WObject*> &olist)
+void OList::clearIspointed(list<WObject*> &olist)
 {
   for (list<WObject*>::iterator l = olist.begin(); l != olist.end(); ++l) {
     (*l)->is_in_a_list = false;
@@ -66,7 +66,7 @@ void OList::clearIspointedFlag(list<WObject*> &olist)
 }
 
 // virtual
-void OList::clearIspointedFlag()
+void OList::clearIspointed()
 {
   for (OList *l = this; l && l->pobject; l = l->next) {
     l->pobject->is_in_a_list = false;

@@ -40,8 +40,8 @@ public:
   virtual void remove();
   /**< Frees an object list. */
 
-  static void  clearIspointedFlag(std::list<WObject*> &olist);
-  virtual void clearIspointedFlag();
+  static void  clearIspointed(std::list<WObject*> &olist);
+  virtual void clearIspointed();
   /**< Clears flags "ispointed" of all objects in a list. */
 
   static WObject * findInMobile(uint8_t type_id, uint32_t src_id, uint16_t port_id, uint16_t obj_id);

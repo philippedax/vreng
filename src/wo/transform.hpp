@@ -48,7 +48,6 @@ struct sOplist {
 class Transform: public WObject {
 
  private:
-  //notused uint8_t op;			///< current transform operation
   struct sOplist *opList;	///< list of operations
   struct sOplist *opl;		///< current pointer in the list of operations
 

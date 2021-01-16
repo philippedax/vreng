@@ -42,9 +42,6 @@ class Solid {
   friend class Render;
 
 protected:
-  class WObject	*wobject;	///< WObject parent.
-  class Texture *texture;
-  GLint*	dlists;		///< cached display list.
   M4		position;	///< position matrix.
   V3		bbcent;		///< relative center of BB.
   V3		bbsize;		///< relative half sizes of BB.
@@ -97,6 +94,9 @@ public:
     PROGRESS
   };
 
+  class WObject	*wobject;	///< WObject parent.
+  class Texture *texture;
+  GLint*	dlists;		///< cached display list.
   GLint		ray_dlist;	///< ray display list.
 
   Solid();		///< constructor.
@@ -218,6 +218,12 @@ public:
 
   virtual void vr2gl();
   /**< Transposes vreng coordinates in opengl coordinates. */
+
+  virtual GLint getDlist() const;
+  /**< Gets current displaylist number. */
+
+  virtual GLint getTexid() const;
+  /**< Gets current texid. */
 
 private:
 

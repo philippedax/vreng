@@ -257,7 +257,8 @@ int Parse::parseVreFile(char *buf, int bufsiz)
   int iol = 0;	// index in line;
   int bol = 0;	// index begin of line
 
-  while (1) {		// parses all lines of the vre file
+  // parses all lines of the vre file
+  while (1) {
     int eol = 0;	// index end of line
 
     for (iol = bol; iol < linelen; iol++) {
@@ -306,21 +307,25 @@ int Parse::parseVreFile(char *buf, int bufsiz)
           DELETE2(line);
           bol = eol + 1;	// begin of next line
           continue;	// or break
-        case TAG_ENDFILE:
-          DELETE2(line);
-          return 0;		// end of parsing
+
         case TAG_META:
 	  if ((p = strstr(line, "=\"refresh\"")))
             World::current()->setPersistent(false);
 	  if ((p = strstr(line, "/>")))
             DELETE2(line);
           break;
+
         case TAG_COMMENT:
 	  if ((p = strstr(line, "-->"))) {
             DELETE2(line);
             commented = false;
           }
           break;
+
+        case TAG_ENDFILE:
+          DELETE2(line);
+          return 0;		// end of parsing
+
         case TAG_LOCAL:		// <local>, </local>
 	  if ((p = strstr(line, "-->"))) {
             commented = false;
@@ -330,12 +335,15 @@ int Parse::parseVreFile(char *buf, int bufsiz)
           const OClass *oclass;
           if ((oclass = OClass::getOClass(tagobj)))
             tag_type = oclass->type_id;
-          if (strstr(line, "<local>")) strcpy(line, "push ");
-          else                         strcpy(line, "pop ");
+          if (strstr(line, "<local>"))
+            strcpy(line, "push ");	// <local>
+          else
+            strcpy(line, "pop ");	// </local>
           //trace(DBG_FORCE, "LOCAL: type=%d line=%s", tag_type, line);
           if ((wobject = OClass::creatorInstance(tag_type, line)) == NULL)
 	    return -1;
           break;
+
         case TAG_OBJECT:
           //trace(DBG_FORCE, "object %d: type=%d line=%s", numline, tag_type, line);
 	  if ((p = strstr(line, "-->"))) {

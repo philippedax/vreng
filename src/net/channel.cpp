@@ -416,7 +416,7 @@ Channel::~Channel()
   channelCount--;
   if (channelCount < 0) channelCount = 0;
   channel = NULL;
-  trace(DBG_IPMC, "~Channel: channelCount=%d", channelCount);
+  //trace(DBG_IPMC, "~Channel: channelCount=%d", channelCount);
 }
 
 /** join the channel and return the new channel string */

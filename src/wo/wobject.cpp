@@ -25,7 +25,7 @@
 #include "netobj.hpp"	// NetObject
 #include "mysql.hpp"	// VRSql
 #include "solid.hpp"	// Solid
-#include "olist.hpp"	// clearIsPointedFlag
+#include "olist.hpp"	// OList
 #include "gui.hpp"	// clearInfoBar, removeUser
 #include "payload.hpp"	// Payload
 #include "carrier.hpp"	// carrier->take

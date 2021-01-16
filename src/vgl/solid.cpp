@@ -1446,6 +1446,16 @@ void Solid::vr2gl()
   glMultMatrixf(gl_mat);
 }
 
+GLint Solid::getDlist() const
+{
+  return dlists[0];
+}
+
+GLint Solid::getTexid() const
+{
+  return texid;
+}
+
 void Solid::displayRay()
 {
   glPushAttrib(GL_LINE_BIT);

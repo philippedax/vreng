@@ -564,6 +564,6 @@ OList * WObject::getVicinityList(const WObject *obj)
         vicinityList = addListToList(World::gridList[x][y][z], vicinityList);
 #endif
 
-  if (vicinityList) vicinityList->clearIspointedFlag();
+  if (vicinityList) vicinityList->clearIspointed();
   return vicinityList;
 }

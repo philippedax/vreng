@@ -24,6 +24,7 @@
 #include "wb.hpp"	// start
 #include "gui.hpp"	// ::g.gui.setToBoard
 #include "user.hpp"	// localuser
+#include "solid.hpp"	// getDlist
 
 
 const OClass Board::oclass(BOARD_TYPE, "Board", Board::creator);
@@ -119,7 +120,9 @@ void Board::wb_cb(Board *board, void *d, time_t s, time_t u)
 /* Displays the Board's 2D object list */
 void Board::render()
 {
-  if (dlist) {
+  if (dlist) {		// note: dlist is always null (not used) !!!
+    GLint texid = getSolid()->getTexid();
+    //error("board: texid=%d", texid);
     glPushMatrix();
     glLoadName(dlist);
     float gl_mat[16];
@@ -127,17 +130,23 @@ void Board::render()
     getPosition(posmat);
     M4toV16(&posmat, gl_mat);
     glMultMatrixf(gl_mat);
+
     glCallList(dlist);
+
     glPopMatrix();
   }
 }
 
+/* note: effect the board disappear */
 void Board::draw()
 {
   enableBehavior(SPECIFIC_RENDER);
+  dlist = getSolid()->getDlist();
+  error("board: dlist=%d", dlist);
   /* TODO */
 }
 
+/* note: effect the board reappear */
 void Board::leave()
 {
   disableBehavior(SPECIFIC_RENDER);

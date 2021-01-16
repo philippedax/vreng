@@ -234,7 +234,7 @@ void User::setRtcp()
   Rtp::getRtcpEmail(email);
   Rtp::getRtcpTool(tool);
   ssrc = NetObject::getMySsrcId();
-  trace(DBG_WO, "User: name=%s ssrc=%x rtcpname=%s email=%s", getInstance(), ssrc, rtcpname, email);
+  //trace(DBG_WO, "User: name=%s ssrc=%x rtcpname=%s email=%s", getInstance(), ssrc, rtcpname, email);
 }
 
 void User::setCamera()

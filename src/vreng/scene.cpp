@@ -197,7 +197,7 @@ void Scene::paintScene()
   if (World::current())
     World::current()->compute(tsimul.start_time.tv_sec, tsimul.start_time.tv_usec);
   tsimul.stop();
-  trace(DBG_WO, "world computed");
+  //dax trace(DBG_WO, "world computed");
   
   // General rendering
   ProfileTime& trender = ::g.timer.render;

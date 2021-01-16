@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "transform.hpp"
+#include "solid.hpp"	// vr2gl
 
 
 const OClass Transform::oclass(TRANSFORM_TYPE, "Transform", Transform::creator);
@@ -51,23 +52,23 @@ Transform::Transform(char *l)
 
   l = tokenize(l);
   while (l) {
-    if (!stringcmp(l, "push")) {
+    if (! stringcmp(l, "push")) {		// <local>
       l = parse()->parseString(l, opstr);
       addList(PUSH);
     }
-    else if (!stringcmp(l, "pop")) {
+    else if (! stringcmp(l, "pop")) {		// </local>
       l = parse()->parseString(l, opstr);
       addList(POP);
     }
-    else if (!stringcmp(l, "rot") || !stringcmp(l, "rotation")) {
+    else if (! stringcmp(l, "rot") || !stringcmp(l, "rotation")) {
       l = parse()->parseRotation(l, rot);
       addList(ROT, rot.x, rot.y, rot.z, rot.az);
     }
-    else if (!stringcmp(l, "trans") || !stringcmp(l, "translation")) {
+    else if (! stringcmp(l, "trans") || !stringcmp(l, "translation")) {
       l = parse()->parseTranslation(l, trans);
       addList(TRANS, trans.x, trans.y, trans.z);
     }
-    else if (!stringcmp(l, "scale")) {
+    else if (! stringcmp(l, "scale")) {
       l = parse()->parseTranslation(l, scale);
       addList(SCALE, scale.x, scale.y, scale.z);
     }
@@ -81,11 +82,17 @@ void Transform::render()
 {
   for (opl = opList; opl ; opl = opl->next) {
     switch (opl->op) {
-    case PUSH:  glPushMatrix(); break;
-    case POP:   glPopMatrix(); break;
-    case ROT:   glRotatef(opl->a, opl->x, opl->y, opl->z); break;
-    case TRANS: glTranslatef(opl->x, opl->y, opl->z); break;
-    case SCALE: glScalef(opl->x, opl->y, opl->z); break;
+    case PUSH:  glPushMatrix();
+                //dax getSolid()->vr2gl();
+                break;
+    case POP:   glPopMatrix();
+                break;
+    case ROT:   glRotatef(opl->a, opl->x, opl->y, opl->z);
+                break;
+    case TRANS: glTranslatef(opl->x, opl->y, opl->z);
+                break;
+    case SCALE: glScalef(opl->x, opl->y, opl->z);
+                break;
     }
   }
 }
