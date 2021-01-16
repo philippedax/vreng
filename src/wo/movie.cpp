@@ -176,8 +176,8 @@ int Movie::mpegInit()
   int i, power = 0;
   texsz = MAX(width, height);
   while ((texsz = texsz/2) > 0) power++;
-  for (i=0, texsz=1; i <= power; i++) texsz *= 2;
-  //error("mpg: sz=%d w=%d h=%d texsz=%d f=%.1f", imgmpeg->Size,width,height,texsz,fps);
+  for (i=0, texsz=1; i <= power; i++)
+    texsz *= 2;
 
   /* get memory for tex pixmap */
   pixtex = new GLubyte[3 * texsz * texsz];
@@ -185,6 +185,7 @@ int Movie::mpegInit()
   frame = 0;
   begin = true;
   signal(SIGABRT, mpegAbort);
+
   return 1;
 }
 
@@ -199,7 +200,6 @@ void Movie::changePermanent(float lasting)
     begin = false;
   }
 
-  state = PLAYING;
   uint16_t inter = frame;
   struct timeval t;
   gettimeofday(&t, NULL);
@@ -224,11 +224,11 @@ void Movie::changePermanent(float lasting)
           if (r == 0) {
             error("end of avi video");
             File::closeFile(fp);
+            state = INACTIVE;
             fp = NULL;
             delete avi;
             avi = NULL;
             begin = true;
-            state = INACTIVE;
             return;
           }
           n++;
@@ -369,7 +369,11 @@ void Movie::rewind(Movie *movie, void *d, time_t s, time_t u)
 
 void Movie::loop(Movie *movie, void *d, time_t s, time_t u)
 {
-  if (movie->state != Movie::INACTIVE) movie->state = Movie::LOOP;
+  if (movie->state == Movie::INACTIVE) {
+    movie->state = Movie::LOOP;
+    movie->enablePermanentMovement();	// for get frames
+    if (! movie->inits()) return;
+  }
 }
 
 bool Movie::whenIntersect(WObject *pcur, WObject *pold)
