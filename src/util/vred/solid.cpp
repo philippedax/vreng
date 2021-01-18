@@ -4,11 +4,11 @@
 
 
 Solid::Solid(const char* _name,
-	     const Vect& _center, const Vect& _orientation, const Vect& _size,
+	     const Vect& _center, const Vect& _orient, const Vect& _size,
 	     const int _renderStyle, const Color& _color, const Tex& _tex,
 	     const App& _app):
-  Item(_name), center(_center), orientation(_orientation), size(_size),
-  modelView(Matrix(_center, _orientation, _size)),
+  Item(_name), center(_center), orient(_orient), size(_size),
+  modelView(Matrix(_center, _orient, _size)),
   renderStyle(_renderStyle), color(_color), father(NULL), tex(_tex), app(_app)
 {
 }
@@ -22,12 +22,12 @@ Vect Solid::getCenter() const
 
 void Solid::setCenter(const Vect& center)
 {
-  modelView = Matrix(center, getOrientation(), getSize());
+  modelView = Matrix(center, getOrient(), getSize());
   changeRef(father->getModelView());
   updateBB(0);
 }
 
-Vect Solid::getOrientation() const
+Vect Solid::getOrient() const
 {
   Matrix m = getAbsoluteModelView();
   double sx = sqrt(Vect(m[0], m[1], m[2]).norm());
@@ -40,9 +40,9 @@ Vect Solid::getOrientation() const
   return Vect(0.0, 0.0, alpha);
 }
 
-void Solid::setOrientation(const Vect& orientation)
+void Solid::setOrient(const Vect& orient)
 {
-  modelView = Matrix(getCenter(), orientation, getSize());
+  modelView = Matrix(getCenter(), orient, getSize());
   changeRef(father->getModelView());
   updateBB(0);
 }
@@ -57,7 +57,7 @@ Vect Solid::getSize() const
 
 void Solid::setSize(const Vect& size)
 {
-  modelView = Matrix(getCenter(), getOrientation(), size);
+  modelView = Matrix(getCenter(), getOrient(), size);
   changeRef(father->getModelView());
   updateBB(0);
 }

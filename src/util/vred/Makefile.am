@@ -32,6 +32,6 @@ MACOS_GLUT_LIB = -L/System/Library/Frameworks -framework GLUT -framework OpenGL
 MACOS_GLUT = /System/Library/Frameworks/GLUT.framework/Versions/A/GLUT
 MACOS_FREEGLUT_LIB = -L/usr/local/opt/freeglut/lib -lglut 
 
-vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a $(MACOS_FREEGLUT_LIB) -L/usr/X11/lib -lGLU -lGL -lXext -lX11 -lm 
+vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a -lglut -L/usr/X11/lib -lGLU -lGL -lX11 -lm 
 
 endif

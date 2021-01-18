@@ -9,7 +9,7 @@
 #include "app.hpp"
 #include "tex.hpp"
 
-enum ItemId {SPHERE, BOX, CAMERA, GROUP, WALL, GATE, EARTH, WEB, BOARD, STEP, HOST, DOC};
+enum ItemId {SPHERE, BOX, CAMERA, GRP, WALL, GATE, EARTH, WEB, BOARD, STEP, HOST, DOC};
 enum Style {WIRED, COLORED, TEXTURED};
 
 class Group;
@@ -19,7 +19,7 @@ class  Solid : public Item {
 public:
   Solid(const char* _name,
         const Vect& _center = Vect::null,
-        const Vect& _orientation = Vect::null,
+        const Vect& _orient= Vect::null,
         const Vect& _size = Vect::unit,
         const int _renderStyle = WIRED,
         const Color& _color = Color::white,
@@ -32,8 +32,8 @@ public:
   // those accessors deal with *absolute* coordinates 
   virtual Vect getCenter() const;
   virtual void setCenter(const Vect& _center);
-  virtual Vect getOrientation() const;
-  virtual void setOrientation(const Vect& _orientation);
+  virtual Vect getOrient() const;
+  virtual void setOrient(const Vect& _orient);
   virtual Vect getSize() const;
   virtual void setSize(const Vect& _size);
   virtual void updateBB(int recalc) {}
@@ -73,7 +73,7 @@ public:
   Bsphere myBoundingSphere;
 
 protected:
-  Vect center, orientation, size;
+  Vect center, orient, size;
   Matrix modelView;
   int renderStyle;
   Color color;

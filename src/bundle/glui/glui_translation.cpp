@@ -10,15 +10,63 @@
 
   Copyright (c) 1998 Paul Rademacher
 
-  This program is freely distributable without licensing fees and is
-  provided without guarantee or warrantee expressed or implied. This
-  program is -not- in the public domain.
+  WWW:    http://sourceforge.net/projects/glui/
+  Forums: http://sourceforge.net/forum/?group_id=92496
+
+  This software is provided 'as-is', without any express or implied 
+  warranty. In no event will the authors be held liable for any damages 
+  arising from the use of this software. 
+
+  Permission is granted to anyone to use this software for any purpose, 
+  including commercial applications, and to alter it and redistribute it 
+  freely, subject to the following restrictions: 
+
+  1. The origin of this software must not be misrepresented; you must not 
+  claim that you wrote the original software. If you use this software 
+  in a product, an acknowledgment in the product documentation would be 
+  appreciated but is not required. 
+  2. Altered source versions must be plainly marked as such, and must not be 
+  misrepresented as being the original software. 
+  3. This notice may not be removed or altered from any source distribution. 
 
 *****************************************************************************/
 
-#include "glui.h"
-#include "stdinc.h"
+#include "GL/glui.h"
+#include "glui_internal.h"
 #include "algebra3.h"
+
+/********************** GLUI_Translation::GLUI_Translation() ***/
+
+GLUI_Translation::GLUI_Translation(
+  GLUI_Node *parent, const char *name, 
+  int trans_t, float *value_ptr,
+  int id, GLUI_CB cb )
+{
+  common_init();
+
+  set_ptr_val( value_ptr );
+  user_id    = id;
+  set_name( name );
+  callback    = cb;
+  parent->add_control( this );
+  //init_live();
+
+  trans_type = trans_t;
+
+  if ( trans_type == GLUI_TRANSLATION_XY ) {
+    float_array_size = 2;
+  }
+  else if ( trans_type == GLUI_TRANSLATION_X ) {
+    float_array_size = 1;
+  }
+  else if ( trans_type == GLUI_TRANSLATION_Y ) {
+    float_array_size = 1;
+  }
+  else if ( trans_type == GLUI_TRANSLATION_Z ) {
+    float_array_size = 1;
+  }
+  init_live();
+}
 
 /********************** GLUI_Translation::iaction_mouse_down_handler() ***/
 /*  These are really in local coords (5/10/99)                            */
@@ -42,12 +90,12 @@ int    GLUI_Translation::iaction_mouse_down_handler( int local_x,
 
     if ( glui->curr_modifiers & GLUT_ACTIVE_ALT ) {
       if ( ABS(local_y-center_y) > ABS(local_x-center_x) ) {
-	locked = GLUI_TRANSLATION_LOCK_Y;
-	glutSetCursor( GLUT_CURSOR_UP_DOWN );
+        locked = GLUI_TRANSLATION_LOCK_Y;
+        glutSetCursor( GLUT_CURSOR_UP_DOWN );
       }
       else {
-	locked = GLUI_TRANSLATION_LOCK_X;
-	glutSetCursor( GLUT_CURSOR_LEFT_RIGHT );
+        locked = GLUI_TRANSLATION_LOCK_X;
+        glutSetCursor( GLUT_CURSOR_LEFT_RIGHT );
       }
     }
     else {
@@ -69,7 +117,7 @@ int    GLUI_Translation::iaction_mouse_down_handler( int local_x,
   }
 
   trans_mouse_code = 1;
-  translate_and_draw_front();
+  redraw();
 
   return false;
 }
@@ -78,12 +126,12 @@ int    GLUI_Translation::iaction_mouse_down_handler( int local_x,
 /*********************** GLUI_Translation::iaction_mouse_up_handler() **********/
 
 int    GLUI_Translation::iaction_mouse_up_handler( int local_x, int local_y, 
-						   int inside )
+						   bool inside )
 {
   trans_mouse_code = GLUI_TRANSLATION_MOUSE_NONE;
   locked = GLUI_TRANSLATION_LOCK_NONE;
 
-  translate_and_draw_front();
+  redraw();
 
   return false;
 }
@@ -92,7 +140,7 @@ int    GLUI_Translation::iaction_mouse_up_handler( int local_x, int local_y,
 /******************* GLUI_Translation::iaction_mouse_held_down_handler() ******/
 
 int    GLUI_Translation::iaction_mouse_held_down_handler( int local_x, int local_y,
-							  int inside)
+							  bool inside)
 {  
   float x_off, y_off;
   float off_array[2];
@@ -140,8 +188,6 @@ int    GLUI_Translation::iaction_mouse_held_down_handler( int local_x, int local
 
 void    GLUI_Translation::iaction_draw_active_area_persp( void )
 {
-  if ( NOT can_draw() )
-    return;
 }
 
 
@@ -149,9 +195,6 @@ void    GLUI_Translation::iaction_draw_active_area_persp( void )
 
 void    GLUI_Translation::iaction_draw_active_area_ortho( void )
 {
-  if ( NOT can_draw() )
-    return;
-
   /********* Draw emboss circles around arcball control *********/
   float radius;
   radius = (float)(h-22)/2.0;  /*  MIN((float)w/2.0, (float)h/2.0); */
@@ -301,12 +344,14 @@ void    GLUI_Translation::draw_2d_arrow( int radius, int filled, int orientation
 {
   float x1 = .2, x2 = .4, y1 = .54, y2 = .94, y0;
   float x1a, x1b;
+/*
   vec3  col1( 0.0, 0.0, 0.0 ), col2( .45, .45, .45 ), 
     col3( .7, .7, .7 ), col4( 1.0, 1.0, 1.0 );
   vec3  c1, c2, c3, c4, c5, c6;
+*/
   vec3  white(1.0,1.0,1.0), black(0.0,0.0,0.0), gray(.45,.45,.45), 
     bkgd(.7,.7,.7);
-  int   c_off = 0; /* color index offset */
+  int   c_off=0; /* color index offset */
 
   if ( glui )
     bkgd.set(glui->bkgd_color_f[0],

@@ -16,7 +16,8 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.1\n\
 -- 9.1.6\n\
-	- added getDlist()\n\
+	- fixed loop state in movie.cpp\n\
+	- added getDlist() in solid*pp for board.cpp\n\
 	- reviewed vred\n\
 	(2021/01/16, Philippe Dax)\n\
 \n\

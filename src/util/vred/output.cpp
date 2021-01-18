@@ -19,7 +19,7 @@ void printTailer(const Item& i, ostream& out)
 void pos_ang(const Solid& b, ostream& out)
 {
   const Vect& c = b.getCenter();
-  const Vect& o = b.getOrientation();
+  const Vect& o = b.getOrient();
 
   out << "pos=\"" << c[0] << " " << c[1] << " " << c[2] << " " << rad(o[2]) << "\"> ";
 }

@@ -12,7 +12,7 @@ public:
   Group(const char* _name, const int _renderStyle, const Color& _color);
   virtual ~Group();
 
-  int getClassId() const  { return GROUP; }
+  int getClassId() const  { return GRP; }
   const char* getClassName() const { return "Group"; }
 
   friend ostream& operator<<(ostream& out, const Group& g);

@@ -4,7 +4,6 @@
 #include "vred.hpp"
 #include "map.hpp"
 
-class Tex;
 class Tex {
 public:
 

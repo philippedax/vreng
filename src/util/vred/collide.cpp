@@ -291,7 +291,7 @@ void Box::updateBB(int recalc)
 #ifdef VERBOSE
   printf("Box::updateBB()\n");
 #endif
-  myBoundingBox.set(getCenter(),getSize()[0],getSize()[1],getSize()[2],getOrientation()[2]);
+  myBoundingBox.set(getCenter(),getSize()[0],getSize()[1],getSize()[2],getOrient()[2]);
   myBoundingSphere.set(getCenter(),sqrt(getSize().norm())/2.0);
 
   if (recalc!=1) {

@@ -8,6 +8,7 @@ Group * Vred::treeRoot;
 
 int main(int argc, char* argv[])
 { 
-  UI::SetupUI(argc, argv);
+  UI::setupUI(argc, argv);
+
   glutMainLoop();
 }

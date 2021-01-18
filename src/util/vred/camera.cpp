@@ -28,24 +28,22 @@ void Camera::move(const Vect& translation, const Vect& rotation)
 //   - jetpack * SIN(pitch),
 // + run * SIN(heading) - strafe * COS(heading),
 // - run * SIN(pitch) - jetpack * COS(pitch)
-  center += Vect(+ translation[0] * COS(orientation[2]) * COS(orientation[1])
-		 - translation[1] * SIN(orientation[2])
-		 + translation[2] * SIN(orientation[1]),
+  center += Vect(+ translation[0] * COS(orient[2]) * COS(orient[1])
+		 - translation[1] * SIN(orient[2])
+		 + translation[2] * SIN(orient[1]),
 
-		 + translation[0] * SIN(orientation[2])
-		 + translation[1] * COS(orientation[2]),
+		 + translation[0] * SIN(orient[2])
+		 + translation[1] * COS(orient[2]),
 
-		 - translation[0] * SIN(orientation[1])
-		 + translation[2] * COS(orientation[1]));
-  orientation += rotation;
-  look(center, orientation);
+		 - translation[0] * SIN(orient[1])
+		 + translation[2] * COS(orient[1]));
+  orient += rotation;
+  look(center, orient);
 }
 
 Vect Camera::getWatch() const
 {
   // (cos(-pitch) * cos(heading), sin(heading), sin(-pitch) * cos(heading))
-  Vect watch(COS(orientation[2]) * COS(orientation[1]),
-	      SIN(orientation[2]),
-	      - SIN(orientation[1]) * COS(orientation[2]));
+  Vect watch(COS(orient[2]) * COS(orient[1]), SIN(orient[2]), - SIN(orient[1]) * COS(orient[2]));
   return (1.0 / sqrt(watch.norm())) * watch;
 }
