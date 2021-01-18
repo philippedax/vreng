@@ -16,10 +16,11 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.1\n\
 -- 9.1.6\n\
+	- replace glui-2.01f by glui-2.37\n\
 	- fixed loop state in movie.cpp\n\
 	- added getDlist() in solid*pp for board.cpp\n\
 	- reviewed vred\n\
-	(2021/01/16, Philippe Dax)\n\
+	(2021/01/18, Philippe Dax)\n\
 \n\
 -- 9.1.5\n\
 	- fixed type converson in aiinit.cpp\n\
