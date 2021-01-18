@@ -5,7 +5,7 @@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 ACLOCAL_AMFLAGS = -I config
 
-SUBDIRS = src lib config doc examples
+SUBDIRS = src # lib config doc examples
 
 EXTRA_DIST = COPYRIGHT VERSION vrl.dox
 
