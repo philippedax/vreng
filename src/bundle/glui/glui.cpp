@@ -90,7 +90,7 @@ int GLUI_Node::add_control( GLUI_Control *child )
 
 /************************************ GLUI_Main::add_control() **************/
  
-int GLUI_Main::add_control( GLUI_Node *parent, GLUI_Control *control )
+int GLUI_Main::add_control2( GLUI_Node *parent, GLUI_Control *control ) //dax doublon
 {
   add_child_to_control(parent,control);
   return true;
@@ -813,7 +813,7 @@ void    GLUI_Main::mouse(int button, int state, int x, int y)
     glut_mouse_CB( button, state, x, y );
     **/
 
-  callthrough=callthrough; /* To get rid of compiler warnings */
+  //dax warning// callthrough=callthrough; /* To get rid of compiler warnings */
 }
 
 
@@ -842,7 +842,7 @@ void    GLUI_Main::motion(int x, int y)
     glut_motion_CB(x,y);
     **/
 
-  callthrough=callthrough; /* To get rid of compiler warnings */
+  //dax warning// callthrough=callthrough; /* To get rid of compiler warnings */
 }
 
 

@@ -16,7 +16,7 @@
   3. This notice may not be removed or altered from any source distribution. 
 */
 
-#include "GL/glui.h"
+#include "glui.h"
 
 
 
@@ -185,7 +185,7 @@ void GLUI_TreePanel::formatNode(GLUI_Tree *temp)
   GLUI_String level_name="";
   GLUI_String full_name="";
 
-  temp->level_name == "";
+  temp->level_name = ""; //dax ==
 
   if (format & GLUI_TREEPANEL_DISPLAY_HIERARCHY) {
     if (format & GLUI_TREEPANEL_HIERARCHY_LEVEL_ONLY) {

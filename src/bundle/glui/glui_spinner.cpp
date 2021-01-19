@@ -96,7 +96,8 @@ void GLUI_Spinner::common_construct( GLUI_Node* parent, const char *name,
   common_init();
 
   if ( NOT strcmp( name, "Spinner Test" ))
-    id=id;
+    //dax id=id;
+    ; //dax
 
   int text_type;
   if ( data_t == GLUI_SPINNER_INT ) {

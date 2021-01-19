@@ -30,7 +30,7 @@
 
 *****************************************************************************/
 
-#include "GL/glui.h"
+#include "glui.h"
 #include "glui_internal.h"
 
 /****************************** GLUI_CommandLine::GLUI_CommandLine() **********/

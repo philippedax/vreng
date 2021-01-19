@@ -116,13 +116,14 @@ int    GLUI_List::mouse_down_handler( int local_x, int local_y )
     if (scrollbar)
       scrollbar->set_int_val(curr_line);
     this->execute_callback();
-    if (associated_object != NULL)
+    if (associated_object != NULL) {
       if (cb_click_type == GLUI_SINGLE_CLICK) {
         if (obj_cb) {
           // obj_cb(associated_object, user_id);
           obj_cb(this);
         }
-      } else {
+      }
+      else {
         if (last_line == curr_line && (ms - last_click_time) < 300) {
           //obj_cb(associated_object, user_id);
           obj_cb(this);
@@ -131,6 +132,7 @@ int    GLUI_List::mouse_down_handler( int local_x, int local_y )
           last_line = curr_line;
         }
       }
+    }
     if ( can_draw())
       update_and_draw_text();
   }

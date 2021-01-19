@@ -684,7 +684,7 @@ protected:
 
     /*********** Controls ************/
 
-    virtual int    add_control( GLUI_Node *parent, GLUI_Control *control );
+    virtual int    add_control2( GLUI_Node *parent, GLUI_Control *control ); //dax doublon
 
 
     /********** Constructors and Destructors ***********/
@@ -1300,7 +1300,7 @@ public:
     void set_level(int l) { level = l; }
     void set_format(int f) { format = f; }
     void set_current(int c) { is_current = c; }
-    int get_id() { return id; }
+    //dax doublon// int get_id() { return id; }
     int get_level() { return level; }
     int get_child_number() { return child_number; }
     void enable_bar() { if (column) { column->int_val = 1;  set_color(red, green, blue); } }
@@ -1565,8 +1565,8 @@ public:
 
     int init( const char *name, long flags, int x, int y, int parent_window );
 protected:
-    virtual int add_control( GLUI_Node *parent, GLUI_Control *control ) {
-        return GLUI_Main::add_control( parent, control );
+    virtual int add_control2( GLUI_Node *parent, GLUI_Control *control ) { //dax doublon
+        return GLUI_Main::add_control2( parent, control ); //dax doublon
     }
 };
 
