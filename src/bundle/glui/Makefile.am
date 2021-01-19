@@ -6,7 +6,7 @@ glui_img_checkbox_0.c glui_img_checkbox_0_dis.c glui_img_checkbox_1.c glui_img_c
 GLUI_HDRS = glui.h algebra3.h arcball.h glui_internal.h glui_internal_control.h quaternion.h viewmodel.h
 
 
-EXTRA_DIST = $(GLUI_HDRS) readme
+EXTRA_DIST = $(GLUI_HDRS)
 
 if BUNDLE_GLUI
 noinst_LIBRARIES = libglui.a
