@@ -25,6 +25,7 @@
 #include "android.hpp"	//
 #include "guy.hpp"	//
 #include "man.hpp"	//
+#include "render.hpp"	// minirender
 
 
 const OClass Mirror::oclass(MIRROR_TYPE, "Mirror", Mirror::creator);
@@ -102,16 +103,16 @@ void Mirror::render()
      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
      glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // make stencil buffer read only
      glEnable(GL_DEPTH_TEST);
-     glStencilFunc(GL_EQUAL, 1, 1);     // draw only where the stencil == 1
      glPushMatrix();
-      GLdouble plane[4] = {-1,0,0,0};   // do clipping plane to avoid bugs when the avatar is near
-      glClipPlane(GL_CLIP_PLANE0, plane);
+      GLdouble eqn[4] = {-1,0,0,0};   // do clipping plane to avoid bugs when the avatar is near
+      glClipPlane(GL_CLIP_PLANE0, eqn);
       glEnable(GL_CLIP_PLANE0);
+      glStencilFunc(GL_EQUAL, 1, 1);     // draw only where the stencil == 1
 #endif
 
       mirroredScene();     // display the mirrored scene
 
-#if 0
+#if 0 //dax
       glDisable(GL_CLIP_PLANE0);
      glPopMatrix();
      glDisable(GL_STENCIL_TEST);        // disable the stencil
@@ -134,30 +135,40 @@ void Mirror::mirroredScene()
   if (state == false) return;
 
   // 1) faire une translation pour amener le plan de reflexion à la position miroir
-  glTranslatef(-pos.x, 0, 0);
+  glTranslatef(-pos.x, -pos.y, -pos.z);
   // 2) le miroir est dans le plan YZ; faire une reflexion par -1 en X
   glScalef(-1, 1, 1);
   // 3) mettre un plan de clipping a la position du miroir afin d'eliminer
   //    les reflexions des objets qui sont à l'arriere du miroir
   // 4) faire la translation inverse
-  glTranslatef(pos.x, 0, 0);
+  glTranslatef(pos.x, pos.y, pos.z);
   // D) displays scene (opaque objects only)
-  for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); o++) {
-    if ((*o) && (*o)->isVisible() && (*o)->isOpaque()) {
+#if 0 //dax crashes!
+  ::g.render.minirender();
+#else
+  static int n = 0;
+  int i = 0;
+  for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); o++, i++) {
+    if ((*o) && (*o)->isValid() && (*o)->isVisible() && (*o)->isOpaque()) {
+      //trace2(DBG_FORCE, " %d-%d %s", i, n, (*o)->getInstance());
       glPushMatrix();
        // rotation inverse lorsque que le miroir tourne parallelement a notre vision.
        glRotatef(RAD2DEG(pos.az), 0,0,1);
        glRotatef(-RAD2DEG(pos.ay), 0,1,0);
-       glTranslatef(-pos.x, pos.y, -pos.z);
+       //dax glTranslatef(-pos.x, pos.y, -pos.z);
        glScalef(1, -1, 1);
        (*o)->getSolid()->displayVirtual();
       glPopMatrix();
     }
   }
+  n++;
+#endif
   glPushMatrix();
+#if 0 //dax
    glRotatef(RAD2DEG(pos.az), 0,0,1);
    glRotatef(-RAD2DEG(pos.ay), 0,1,0);
    glTranslatef(-pos.x, pos.y, -pos.z);
+#endif
 
    // Displays avatar
    //dax if (localuser->android)  localuser->android->getSolid()->displayVirtual();

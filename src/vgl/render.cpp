@@ -574,6 +574,7 @@ void Render::setAllTypeFlashy(char *object_type, int typeflash)
 /*
  * 3D Selection with picking method.
  * returns number of hits (objects selectionned)
+ * called by camera and gtePointedObject (widgets.cpp)
  */
 uint16_t Render::bufferSelection(GLint x, GLint y, GLint z)
 {

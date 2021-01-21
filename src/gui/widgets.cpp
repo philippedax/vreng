@@ -313,6 +313,7 @@ static void setUser(UBox *gu, User *user)
 GuiItem *Widgets::addUser(User *user)
 {
   if (! user)  return null;
+
   GuiItem *gu = new GuiItem();
   setUser(gu, user);
   avatars.add(*gu);
@@ -322,6 +323,7 @@ GuiItem *Widgets::addUser(User *user)
 void Widgets::updateUser(GuiItem* gu, User *user)
 {
   if (! user)  return;
+
   gu->removeAll(true);
   setUser(gu, user);
 }
@@ -335,6 +337,7 @@ void Widgets::removeUser(GuiItem* gu)
 static void setWorld(GuiItem* gw, World *world, bool isCurrent)
 {
   if (! gw || !world)  return;
+
   UFont *ft = isCurrent ? &UFont::bold : &UFont::plain;
   gw->add(ft
           + ustr(world->getName())
@@ -348,6 +351,7 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
 GuiItem *Widgets::addWorld(World *world, bool isCurrent)
 {
   if (! world)  return null;
+
   GuiItem *gw = new GuiItem();
   setWorld(gw, world, isCurrent);
   worlds.add(*gw);
@@ -357,6 +361,7 @@ GuiItem *Widgets::addWorld(World *world, bool isCurrent)
 void Widgets::updateWorld(World *world, bool isCurrent)
 {
   if (! world || ! world->isGui())  return;
+
   GuiItem *gw = world->getGui();
   if (! gw)  return;
 #if 1 //FIXME! sometimes segfault in Ubit
@@ -369,13 +374,90 @@ void Widgets::updateWorld(World *world, bool isCurrent)
 void Widgets::removeWorld(World *world)
 {
   if (! world)  return;
+
   GuiItem *gw = world->getGui();
   if (! gw)  return;
   worlds.remove(*gw);
   world->resetGui();
 }
 
+/** do an action on local user */
+void Widgets::callAction(int numaction)
+{
+  if (! localuser)  return;
+
+  struct timeval t;
+
+  gettimeofday(&t, NULL);
+  localuser->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);	// do action
+}
+
+/** do an action on current object */
+static void objectActionCB(int numaction)
+{
+  WObject* object = g.gui.getSelectedObject();
+  if (object) {
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    object->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);	// do action
+  }
+}
+
+/** returns info about the pointed object */
+WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
+{
+  trace(DBG_GUI, "Pointed: clic=%d,%d %d", x, y, z);
+  static char *classname = 0, *instancename = 0, *actionnames = 0;
+
+  // Interaction GUI <--> 3D
+  uint16_t num = g.render.bufferSelection(x, y, z);	// find object number in the Z-buffer
+
+  WObject* object = WObject::byNum(num);
+  if (! object) {
+    objinfo[0].name = (char*) "World";	// avoid segfault
+    objinfo[1].name = (char*) World::current()->getName();
+    objinfo[2].name = NULL;	// NULL terminaison
+    return NULL;
+  }
+  if (! object->isVisible())  return NULL;	// invisible
+
+  // an object has been selected
+  if (::g.pref.dbgtrace) trace(DBG_FORCE, "Pointed: obj=%p", object);
+
+  // get the object hname or avatar name
+  object->getObjectHumanName(&classname, &instancename, &actionnames);
+  if (classname == NULL)  return NULL;
+  objinfo[0].name = classname;
+  if (instancename == NULL) instancename = (char *)"";
+  objinfo[1].name = instancename;   // TO BE COMPLETED
+  if (::g.pref.dbgtrace) error("Pointed: %s:%s %p", classname, instancename, actionnames);
+
+  // get actions of this object
+  int i = 0;
+  if (actionnames) {
+    for (i = 0; i < ACTIONSNUMBER ; i++) {
+      if (*actionnames) {
+        objinfo[i+2].name = actionnames;
+        objinfo[i+2].fun  = objectActionCB;
+        objinfo[i+2].farg = i;
+        trace(DBG_GUI, "i=%d act=%s", i, actionnames);
+      }
+      actionnames += ACTIONNAME_LEN;	// AWFULL !!!
+    }
+  }
+  objinfo[i+2].name = NULL; // NULL terminated
+
+  return object;
+}
+
+void Widgets::setRayDirection(int x, int y)
+{
+  if (localuser) localuser->setRayDirection(x, y);
+}
+
+//
 // CALLBACKS
+//
 
 void Widgets::homeCB()
 {
@@ -497,85 +579,18 @@ void Widgets::markCB()
   }
 }
 
-void Widgets::setKey(int key, int ispressed)
-{
-  struct timeval t;
-  gettimeofday(&t, NULL);       // get time
-  changeKey(key, ispressed, t.tv_sec, t.tv_usec);
-}
-
-/** action on local user */
-void Widgets::callAction(int numaction)
-{
-  if (! localuser)  return;
-
-  struct timeval t;
-  gettimeofday(&t, NULL);
-  localuser->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);
-}
-
-/** action on current solid */
-static void objectActionCB(int numaction)
-{
-  WObject* object = g.gui.getSelectedObject();
-  if (object) {
-    struct timeval t;
-    gettimeofday(&t, NULL);
-    object->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);
-  }
-}
-
-// returns info about the pointed object but do NOT select it
-WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
-{
-  trace(DBG_GUI, "Pointed: clic=%d,%d %d", x, y, z);
-  static char *classname = 0, *instancename = 0, *actionnames = 0;
-
-  uint16_t num = g.render.bufferSelection(x, y, z);
-  WObject* object = WObject::byNum(num);
-  if (! object) {
-    objinfo[0].name = (char*) "World";	// avoid segfault
-    objinfo[1].name = (char*) World::current()->getName();
-    objinfo[2].name = NULL;	// NULL terminaison
-    return NULL;
-  }
-  if (! object->isVisible())  return NULL;	// invisible
-  /* an object has been selected */
-  if (::g.pref.dbgtrace) trace(DBG_FORCE, "Pointed: obj=%p", object);
-  /* get the object hname or avatar name */
-  object->getObjectHumanName(&classname, &instancename, &actionnames);
-
-  if (classname == NULL)  return NULL;
-  objinfo[0].name = classname;
-  if (instancename == NULL) instancename = (char *)"";
-  objinfo[1].name = instancename;   // TO BE COMPLETED
-  if (::g.pref.dbgtrace) error("Pointed: %s:%s %p", classname, instancename, actionnames);
-
-  int i = 0;
-  if (actionnames) {
-    for (i = 0; i < ACTIONSNUMBER ; i++) {
-      if (*actionnames) {
-        objinfo[i+2].name = actionnames;
-        objinfo[i+2].fun  = objectActionCB;
-        objinfo[i+2].farg = i;
-        trace(DBG_GUI, "i=%d act=%s", i, actionnames);
-      }
-      actionnames += ACTIONNAME_LEN;	// AWFULL !!!
-    }
-  }
-  objinfo[i+2].name = NULL; // NULL terminated
-  return object;
-}
-
-void Widgets::setRayDirection(int x, int y)
-{
-  if (localuser) localuser->setRayDirection(x, y);
-}
-
 //---------------------------------------------------------------------------
 /*
  *  Key management and correspondance with VREng
  */
+
+void Widgets::setKey(int key, int ispressed)
+{
+  struct timeval t;
+
+  gettimeofday(&t, NULL);       // get time
+  changeKey(key, ispressed, t.tv_sec, t.tv_usec);
+}
 
 /*
  * converts the X keysym into a Vreng change key (vrkey) and returns

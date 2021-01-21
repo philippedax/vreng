@@ -1508,6 +1508,8 @@ void Solid::displayFlary()
 /* Renders a solid calling its dlists. */
 int Solid::displayList(int display_mode = NORMAL)
 {
+  GLint bufs = GL_NONE;
+
   if (! dlists)  return 0;
 
   glPushMatrix();
@@ -1569,8 +1571,11 @@ int Solid::displayList(int display_mode = NORMAL)
 #endif
 
        glCallList(dlists[frame]);	// display here !!!
+       //dax glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
+       //dax glCallList(dlists[frame]);	// display here in the z-buffer !!!
+       //dax glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
 
-       //glDisable(GL_DEPTH_TEST);
+       glDisable(GL_DEPTH_TEST);
      }
      glPopMatrix();
      break;
@@ -1606,30 +1611,37 @@ int Solid::displayList(int display_mode = NORMAL)
     }
 #endif
 #if 1 //dax0 if 0 done by mirror
+
+    glGetIntegerv(GL_DRAW_BUFFER, &bufs); // get the current color buffer being drawn to
     glPushMatrix();
-     glEnable(GL_STENCIL_TEST);		// enable stencil
      glClearStencil(0);			// set the clear value
      glClear(GL_STENCIL_BUFFER_BIT);	// clear the stencil buffer
      glStencilFunc(GL_ALWAYS, 1, 1);	// always pass the stencil test
-     glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+     glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE); // set operation to modify the stencil buffer
      glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-     if (dlists[frame] > 0)
+     glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
+     glEnable(GL_STENCIL_TEST);		// enable stencil
+
+     if (dlists[frame] > 0)		// is displaylist of mirror exists ?
        glCallList(dlists[frame]);	// display the mirror inside the stencil
 
      glStencilFunc(GL_ALWAYS, 1, 1);	// always pass the stencil test
      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+     glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
      glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // make stencil buffer read only
-     glEnable(GL_DEPTH_TEST);
-     glStencilFunc(GL_EQUAL, 1, 1);	// draw only where the stencil == 1
+     //dax glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the color and depth bufs
+     glEnable(GL_DEPTH_TEST);		// enable z-buffer
+
      glPushMatrix();
-      GLdouble plane[4] = {-1,0,0,0};	// do clipping plane to avoid bugs when the avatar is near
-#if 1 //dax6
-      glCullFace(GL_FRONT);
+      GLdouble eqn[4] = {0,0,-1,0};	// do clipping plane to avoid bugs when the avatar is near
+#if 0 //dax6
+      //dax glCullFace(GL_FRONT);
       glRotatef(RAD2DEG(object()->pos.az), 0,0,1);
       glTranslatef(-object()->pos.x, -object()->pos.y, -object()->pos.z);
 #endif
-      glClipPlane(GL_CLIP_PLANE0, plane);
-      glEnable(GL_CLIP_PLANE0);
+      glClipPlane(GL_CLIP_PLANE0, eqn);
+      glEnable(GL_CLIP_PLANE0);		// enable clipping
+      glStencilFunc(GL_EQUAL, 1, 1);	// draw only where the stencil == 1
 
       //dax0 displayMirroredScene();	// display the mirrored scene
       object()->render();		// display the mirrored scene by mirror itself
@@ -1637,6 +1649,9 @@ int Solid::displayList(int display_mode = NORMAL)
       glDisable(GL_CLIP_PLANE0);
      glPopMatrix();
      glDisable(GL_STENCIL_TEST);	// disable the stencil
+     glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
+       glCallList(dlists[frame]);	// display the mirror into the z-buffer
+     glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
      glEnable(GL_BLEND);		// mirror shine effect
      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
      glDepthMask(GL_FALSE);
