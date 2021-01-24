@@ -214,12 +214,12 @@ public:
 
   void cameraPosition();	///< Set camera position.
   void clearGLBuffer();		///< Clear everything.
-
-private:
-  static const int SEL_BUFSIZ;	///< selection buffer size
   
   list<Solid*> solidList;	///< rendering solids list.
   list<Solid*> relsolidList;	///< rendering relative solids list.
+
+private:
+  static const int SEL_BUFSIZ;	///< selection buffer size
 
   V3 bbox_min;			///< minimal bbox.
   V3 bbox_max;			///< maximal bbox.

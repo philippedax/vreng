@@ -411,6 +411,7 @@ WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
 
   // Interaction GUI <--> 3D
   uint16_t num = g.render.bufferSelection(x, y, z);	// find object number in the Z-buffer
+  trace(DBG_GUI, "num=%d", num);
 
   WObject* object = WObject::byNum(num);
   if (! object) {

@@ -179,10 +179,8 @@ void Render::specificObjects(uint32_t num, uint8_t pri)
     if (! (*o)->isValid() || (*o)->removed) continue;
     if (
         (*o)->num == num
-        //dax
         && (*o)->prior == pri
        ) {
-      //dax1
       if (pri != WObject::PRIOR_HIGH)
         materials();
       putSelbuf(*o);
@@ -202,7 +200,6 @@ void Render::specificStill(uint32_t num, uint8_t pri)
         && (*o)->isBehavior(SPECIFIC_RENDER)
         && (*o)->prior == pri
        ) {
-      //dax1
       if (pri != WObject::PRIOR_HIGH)
         materials();
       putSelbuf(*o);
@@ -222,7 +219,6 @@ void Render::specificMobile(uint32_t num, uint8_t pri)
         && (*o)->isBehavior(SPECIFIC_RENDER)
         && (*o)->prior == pri
        ) {
-      //dax1
       if (pri != WObject::PRIOR_HIGH)
         materials();
       putSelbuf(*o);
@@ -315,7 +311,6 @@ void Render::solidsOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
         (*s)->object()->render();
       else
         (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
-        //dax (*s)->display3D(Solid::DISPLAY, Solid::OPAQUE);
       //trace2(DBG_VGL, " %s %d", (*s)->object()->getInstance(), solidList.size());
       trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
       //daxdbg showSolidList();
@@ -328,12 +323,10 @@ void Render::solidsTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
     if (s == su) continue;	// FIXME! sun flary doesn't appear
-    //dax0
     if (s == su && !zsel) continue;
     if (   (*s)
         && (*s)->isOpaque() == false
         && (*s)->isVisible()
-        //dax
         && (*s)->object()->prior == pri
        ) {
       if ((*s)->object()->isBehavior(SPECIFIC_RENDER))
@@ -502,7 +495,7 @@ void Render::clearGLBuffer()
             //GL_COLOR_BUFFER_BIT |
             GL_DEPTH_BUFFER_BIT
           | GL_STENCIL_BUFFER_BIT
-          | GL_ACCUM_BUFFER_BIT
+          //| GL_ACCUM_BUFFER_BIT
          );
 }
 
@@ -573,8 +566,8 @@ void Render::setAllTypeFlashy(char *object_type, int typeflash)
 
 /*
  * 3D Selection with picking method.
- * returns number of hits (objects selectionned)
- * called by camera and gtePointedObject (widgets.cpp)
+ * returns object number selectionned
+ * called by camera and getPointedObject (widgets.cpp)
  */
 uint16_t Render::bufferSelection(GLint x, GLint y, GLint z)
 {
@@ -744,6 +737,7 @@ WObject** Render::getVisibleTypedObjects(char **listtype, int nbr, int *nbelems)
 {
   int hits = 0;
   int nb = 0;
+
   WObject **drawedlist = Render::getDrawedObjects(&hits);
 #if 0 //DAXVECTOR
   vector<WObject**> objlist(hits);
@@ -817,7 +811,7 @@ WObject** Render::getDrawedObjects(int *nbhit)
 
   // scan the selection buffer
   GLint hits = glRenderMode(GL_RENDER);
-  if (hits < 0)  return NULL;
+  if (hits <= 0)  return NULL;
 
   GLuint** hitlist = new GLuint*[hits];
   GLuint *psel = selbuf;
@@ -827,19 +821,21 @@ WObject** Render::getDrawedObjects(int *nbhit)
   }
   qsort((void *) hitlist, hits, sizeof(GLuint *), compareHit);
 
-  int count = 0;
+  int usercount = 0;
   if (! strcasecmp((WObject::byNum((uint16_t) hitlist[0][3]))->typeName(), "User")) {
     hitlist[0] = NULL;
-    count++;
+    usercount = 1;
   }
 
-  WObject** selectlist = new WObject*[hits-count];
+  WObject** selectlist = new WObject*[hits - usercount];
 
   for (int i=0; i < hits; i++) {
-    if (hitlist[i]) selectlist[i] = WObject::byNum(hitlist[i][3]);
+    if (hitlist[i])
+      selectlist[i] = WObject::byNum(hitlist[i][3]);
   }
   if (hitlist) delete[] hitlist;
-  *nbhit = hits - count;
+  *nbhit = hits - usercount;
+
   return selectlist;
 }
 

@@ -90,7 +90,7 @@ void Mirror::render()
 {
   if (state == false) return;
 
-#if 0
+#if 0 //done by solid.cpp
      glEnable(GL_STENCIL_TEST);         // enable stencil
      glClearStencil(0);                 // set the clear value
      glClear(GL_STENCIL_BUFFER_BIT);    // clear the stencil buffer
@@ -112,7 +112,7 @@ void Mirror::render()
 
       mirroredScene();     // display the mirrored scene
 
-#if 0 //dax
+#if 0 //dax done by solid.cpp
       glDisable(GL_CLIP_PLANE0);
      glPopMatrix();
      glDisable(GL_STENCIL_TEST);        // disable the stencil
@@ -143,11 +143,23 @@ void Mirror::mirroredScene()
   // 4) faire la translation inverse
   glTranslatef(pos.x, pos.y, pos.z);
   // D) displays scene (opaque objects only)
-#if 0 //dax crashes!
-  ::g.render.minirender();
-#else
   static int n = 0;
   int i = 0;
+#if 1 //dax8
+  list<Solid*> solidlist = ::g.render.getSolidList();
+  for (list<Solid*>::iterator s = solidlist.begin(); s != solidlist.end(); s++, i++) {
+    if ((*s) && (*s)->isVisible() && (*s)->isOpaque()) {
+      //trace2(DBG_FORCE, " %d-%d %s", i, n, (*s)->object()->getInstance());
+      glPushMatrix();
+       glRotatef(RAD2DEG((*s)->object()->pos.az), 0,0,1);
+       glRotatef(-RAD2DEG((*s)->object()->pos.ay), 0,1,0);
+       glTranslatef(-(*s)->object()->pos.x, (*s)->object()->pos.y, -(*s)->object()->pos.z);
+       glScalef(1, -1, 1);
+       glCallList((*s)->getDlist());
+      glPopMatrix();
+    }
+  }
+#else
   for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); o++, i++) {
     if ((*o) && (*o)->isValid() && (*o)->isVisible() && (*o)->isOpaque()) {
       //trace2(DBG_FORCE, " %d-%d %s", i, n, (*o)->getInstance());
@@ -155,27 +167,21 @@ void Mirror::mirroredScene()
        // rotation inverse lorsque que le miroir tourne parallelement a notre vision.
        glRotatef(RAD2DEG(pos.az), 0,0,1);
        glRotatef(-RAD2DEG(pos.ay), 0,1,0);
-       //dax glTranslatef(-pos.x, pos.y, -pos.z);
+       glTranslatef(-pos.x, -pos.y, -pos.z);
        glScalef(1, -1, 1);
        (*o)->getSolid()->displayVirtual();
       glPopMatrix();
     }
   }
+#endif
   n++;
-#endif
-  glPushMatrix();
-#if 0 //dax
-   glRotatef(RAD2DEG(pos.az), 0,0,1);
-   glRotatef(-RAD2DEG(pos.ay), 0,1,0);
-   glTranslatef(-pos.x, pos.y, -pos.z);
-#endif
-
+  //dax glPushMatrix();
    // Displays avatar
    //dax if (localuser->android)  localuser->android->getSolid()->displayVirtual();
    //dax else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
    //dax else if (localuser->man) localuser->getSolid()->displayVirtual();
    //dax else glCallList(localuser->getSolid()->displayVirtual());
-  glPopMatrix();
+  //dax glPopMatrix();
 }
 
 void Mirror::quit()

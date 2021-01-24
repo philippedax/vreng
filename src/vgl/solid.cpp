@@ -1521,11 +1521,12 @@ int Solid::displayList(int display_mode = NORMAL)
    case NORMAL:
       // marks the object in the zbuffer
       glPopName();
-      glPushName((GLuint) (long) object()->num & 0xffffffff);
+      glPushName((GLuint) (long) object()->num & 0xffffffff);	// push object number
 
    case VIRTUAL:	// and NORMAL
      glPushMatrix();
-     if (wobject && wobject->isValid() && wobject->type == USER_TYPE) {
+
+     if (wobject && wobject->isValid() && wobject->type == USER_TYPE) {	// if localuser
        User *user = (User *) wobject;
        if (user->man) {
          glRotatef(RAD2DEG(-user->man->pos.ax), 1, 0, 0);
@@ -1537,21 +1538,25 @@ int Solid::displayList(int display_mode = NORMAL)
          glRotatef(RAD2DEG(-user->pos.ay), 0, 1, 0);
          glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
        }
+       glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
      }
-     else if (dlists[frame] > 0) {
-       glEnable(GL_DEPTH_TEST);
-       glDepthFunc(GL_LESS);	//dax
+     else if (dlists[frame] > 0) {	// else normal object
 #if 1 //dax
-         //dax7 if (texid <0) error("line=%.2f %s", pos[4],object()->getInstance());
+       //dax7 if (texid <0) error("line=%.2f %s", pos[4],object()->getInstance());
+       glEnable(GL_DEPTH_TEST);
+       glDepthMask(GL_TRUE);	//dax
+       glDepthFunc(GL_LESS);	//dax GL_LESS
+
        glPushMatrix();
-       glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
-       glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
-       glTranslatef(pos[0], pos[1], pos[2]);     // x y z
-       if (scale != 1)
-         glScalef(scale, scale, scale);
-       if (scalex != 1 || scaley != 1 || scalez != 1)
-         glScalef(scalex, scaley, scalez);
+        glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
+        glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
+        glTranslatef(pos[0], pos[1], pos[2]);     // x y z
+        if (scale != 1)
+          glScalef(scale, scale, scale);
+        if (scalex != 1 || scaley != 1 || scalez != 1)
+          glScalef(scalex, scaley, scalez);
        glPopMatrix();
+
        if (texid >= 0) {
          glEnable(GL_TEXTURE_2D);
          glBindTexture(GL_TEXTURE_2D, texid);
@@ -1570,12 +1575,7 @@ int Solid::displayList(int display_mode = NORMAL)
        }
 #endif
 
-       glCallList(dlists[frame]);	// display here !!!
-       //dax glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
-       //dax glCallList(dlists[frame]);	// display here in the z-buffer !!!
-       //dax glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
-
-       glDisable(GL_DEPTH_TEST);
+       glCallList(dlists[frame]);	// display the object here !!!
      }
      glPopMatrix();
      break;
@@ -1588,6 +1588,7 @@ int Solid::displayList(int display_mode = NORMAL)
       glLineWidth(1);
       glScalef(1.03, 1.03, 1.03);	// 3%100 more
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
       if (dlists[frame] > 0)
         glCallList(dlists[frame]);
 
@@ -1596,22 +1597,8 @@ int Solid::displayList(int display_mode = NORMAL)
      break;
 
    case REFLEXIVE:
-#if 0 //dax0 debug (notused)
-    if (! ::g.render.haveStencil()) {	// no stencil buffer
-      static bool todo = true;
-      if (todo) {
-        todo = false;
-        error("no stencils available");
-      }
-      glPushMatrix();
-      if (dlists[frame] > 0)
-        glCallList(dlists[frame]);	// display the mirror alone
-      glPopMatrix();
-      return dlists[frame];
-    }
-#endif
-#if 1 //dax0 if 0 done by mirror
 
+#if 1 //dax0 if 0 done by mirror
     glGetIntegerv(GL_DRAW_BUFFER, &bufs); // get the current color buffer being drawn to
     glPushMatrix();
      glClearStencil(0);			// set the clear value
@@ -1629,16 +1616,9 @@ int Solid::displayList(int display_mode = NORMAL)
      glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
      glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
      glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // make stencil buffer read only
-     //dax glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the color and depth bufs
-     glEnable(GL_DEPTH_TEST);		// enable z-buffer
 
      glPushMatrix();
-      GLdouble eqn[4] = {0,0,-1,0};	// do clipping plane to avoid bugs when the avatar is near
-#if 0 //dax6
-      //dax glCullFace(GL_FRONT);
-      glRotatef(RAD2DEG(object()->pos.az), 0,0,1);
-      glTranslatef(-object()->pos.x, -object()->pos.y, -object()->pos.z);
-#endif
+      GLdouble eqn[4] = {-0,-0,-1,0};	// do clipping plane to avoid bugs when the avatar is near
       glClipPlane(GL_CLIP_PLANE0, eqn);
       glEnable(GL_CLIP_PLANE0);		// enable clipping
       glStencilFunc(GL_EQUAL, 1, 1);	// draw only where the stencil == 1
@@ -1649,21 +1629,20 @@ int Solid::displayList(int display_mode = NORMAL)
       glDisable(GL_CLIP_PLANE0);
      glPopMatrix();
      glDisable(GL_STENCIL_TEST);	// disable the stencil
-     glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
-       glCallList(dlists[frame]);	// display the mirror into the z-buffer
-     glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
+     //dax glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
+     //dax   glCallList(dlists[frame]);	// display the mirror into the z-buffer
+     //dax glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
+
      glEnable(GL_BLEND);		// mirror shine effect
      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
      glDepthMask(GL_FALSE);
-     glDepthFunc(GL_LEQUAL);
+     //dax8 glDepthFunc(GL_LEQUAL);
 
-     if (dlists[frame] > 0)
-       glCallList(dlists[frame]);	// display the physical mirror
+     glCallList(dlists[frame]);		// display the physical mirror
 
      glDepthFunc(GL_LESS);
      glDepthMask(GL_TRUE);
      glDisable(GL_BLEND);
-     glDisable(GL_DEPTH_TEST);
     glPopMatrix();
 #endif
     break;	// reflexive
