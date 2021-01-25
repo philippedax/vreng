@@ -135,13 +135,15 @@ void Mirror::mirroredScene()
   if (state == false) return;
 
   // 1) faire une translation pour amener le plan de reflexion à la position miroir
-  glTranslatef(-pos.x, -pos.y, -pos.z);
+  //dax8 glTranslatef(-pos.x, -pos.y, -pos.z);
+  glTranslatef(-pos.x, 0, 0);
   // 2) le miroir est dans le plan YZ; faire une reflexion par -1 en X
   glScalef(-1, 1, 1);
   // 3) mettre un plan de clipping a la position du miroir afin d'eliminer
   //    les reflexions des objets qui sont à l'arriere du miroir
   // 4) faire la translation inverse
-  glTranslatef(pos.x, pos.y, pos.z);
+  //dax8 glTranslatef(pos.x, pos.y, pos.z);
+  glTranslatef(pos.x, 0, 0);
   // D) displays scene (opaque objects only)
   static int n = 0;
   int i = 0;
@@ -152,8 +154,9 @@ void Mirror::mirroredScene()
       //trace2(DBG_FORCE, " %d-%d %s", i, n, (*s)->object()->getInstance());
       glPushMatrix();
        glRotatef(RAD2DEG((*s)->object()->pos.az), 0,0,1);
-       glRotatef(-RAD2DEG((*s)->object()->pos.ay), 0,1,0);
-       glTranslatef(-(*s)->object()->pos.x, (*s)->object()->pos.y, -(*s)->object()->pos.z);
+       //dax7 glRotatef(-RAD2DEG((*s)->object()->pos.ay), 0,1,0);
+       //dax7 glRotatef(-RAD2DEG((*s)->object()->pos.ax), 1,0,0);
+       glTranslatef(-(*s)->object()->pos.x, -(*s)->object()->pos.y, -(*s)->object()->pos.z);
        glScalef(1, -1, 1);
        glCallList((*s)->getDlist());
       glPopMatrix();

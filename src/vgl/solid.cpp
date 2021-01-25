@@ -1626,6 +1626,12 @@ int Solid::displayList(int display_mode = NORMAL)
       //dax0 displayMirroredScene();	// display the mirrored scene
       object()->render();		// display the mirrored scene by mirror itself
 
+     // Displays avatar
+     //if  (localuser->android) localuser->android->getSolid()->displayVirtual();
+     //else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
+     //else if (localuser->man) localuser->getSolid()->displayVirtual();
+     //else glCallList(localuser->getSolid()->displayVirtual());
+
       glDisable(GL_CLIP_PLANE0);
      glPopMatrix();
      glDisable(GL_STENCIL_TEST);	// disable the stencil

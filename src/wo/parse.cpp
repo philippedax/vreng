@@ -146,53 +146,53 @@ int Parse::parseLine(char *_line, int *ptag_type)
     ptok++;	// ptok is now after '<'
 
     // check <!--
-    if ((!stringcmp(ptok, "!--"))) {
+    if ((! stringcmp(ptok, "!--"))) {
       commented = true;
       FREE(line);
       return TAG_COMMENT;
     }
-    else if ((!stringcmp(ptok, "!DOCTYPE"))) {
+    else if ((! stringcmp(ptok, "!DOCTYPE"))) {
       FREE(line);
       return TAG_DOCTYPE;
     }
     // check <vre ... > </vre>
-    else if (!stringcmp(ptok, "vre>") || (!stringcmp(ptok, "vre") && isspace(ptok[3]))) {
+    else if (! stringcmp(ptok, "vre>") || (! stringcmp(ptok, "vre") && isspace(ptok[3]))) {
       FREE(line);
       return TAG_BEGINFILE;
     }
-    else if (!stringcmp(ptok, "/vre>")) {
+    else if (! stringcmp(ptok, "/vre>")) {
       FREE(line);
       return TAG_ENDFILE;
     }
     // check <head> </head>
-    else if ((!stringcmp(ptok, "head>"))) {
+    else if ((! stringcmp(ptok, "head>"))) {
       FREE(line);
       return TAG_HEAD;
     }
-    else if ((!stringcmp(ptok, "/head>"))) {
+    else if ((! stringcmp(ptok, "/head>"))) {
       FREE(line);
       return TAG_HEAD;
     }
     // check <meta ... />
-    else if ((!stringcmp(ptok, "meta"))) {
+    else if ((! stringcmp(ptok, "meta"))) {
       FREE(line);
       return TAG_META;
     }
     // check <scene> </scene>
-    else if (!stringcmp(ptok, "scene>")) {
+    else if (! stringcmp(ptok, "scene>")) {
       FREE(line);
       return TAG_SCENE;
     }
-    else if ((!stringcmp(ptok, "/scene>"))) {
+    else if ((! stringcmp(ptok, "/scene>"))) {
       FREE(line);
       return TAG_SCENE;
     }
     // check <local> </local>
-    else if ((!stringcmp(ptok, "local>"))) {
+    else if ((! stringcmp(ptok, "local>"))) {
       FREE(line);
       return TAG_LOCAL;
     }
-    else if ((!stringcmp(ptok, "/local>"))) {
+    else if ((! stringcmp(ptok, "/local>"))) {
       FREE(line);
       return TAG_LOCAL;
     }
@@ -219,7 +219,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
     return TAG_OBJECT;
   }
   // not a '<'
-  if ((!stringcmp(ptok, "-->"))) {
+  if ((! stringcmp(ptok, "-->"))) {
     FREE(line);
     return TAG_COMMENT;
   }
@@ -462,16 +462,24 @@ char * Parse::skipAttribute(char *l)
   return l;
 }
 
-/* parse attributes */
+/* parse attributes: name pos solid ... */
 char * Parse::parseAttributes(char *l, WObject *wobject)
 {
   while (l) {
-    if      (!stringcmp(l, "name=")) l = parseName(l, wobject->names.given);
-    else if (!stringcmp(l, "pos=")) { l = parsePosition(l, wobject->pos); continue; }
-    else if (!stringcmp(l, "solid")) l = parseSolid(l, wobject);
-    else if (!stringcmp(l, "category=")) l = parseDescr(l, wobject->names.category);
-    else if (!stringcmp(l, "descr=") || !stringcmp(l, "description=")) l = parseDescr(l,wobject->names.infos);
-    else if (!strcmp(l, "/")) l = nextToken();
+    if      (! stringcmp(l, "name="))
+      l = parseName(l, wobject->names.given);
+    else if (! stringcmp(l, "pos=")) {
+      l = parsePosition(l, wobject->pos);
+      continue;
+    }
+    else if (! stringcmp(l, "solid"))
+      l = parseSolid(l, wobject);
+    else if (! stringcmp(l, "category="))
+      l = parseDescr(l, wobject->names.category);
+    else if (! stringcmp(l, "descr=") || ! stringcmp(l, "description="))
+      l = parseDescr(l,wobject->names.infos);
+    else if (! strcmp(l, "/"))
+      l = nextToken();
     else return l;	// child
   }
   return l;
@@ -512,7 +520,6 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
     ptok = skipEqual(ptok);
 
   ptok = skipQuotes(ptok);	// get pos.x
-  //dax if (ptok) if (*ptok == 0) ptok = nextToken();
   if (isFloat(ptok))
     pos.x = (float) atof(ptok);
   else return nextToken();
@@ -570,7 +577,8 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
 /* parse colors: r g b a */
 char * Parse::parseColor(char *ptok, Pos &p)
 {
-  if (!stringcmp(ptok, "color=")) ptok = skipEqual(ptok);
+  if (! stringcmp(ptok, "color="))
+    ptok = skipEqual(ptok);
   ptok = skipQuotes(ptok);
   if (ptok) if (*ptok == 0) ptok = nextToken();
 
@@ -590,7 +598,8 @@ char * Parse::parseColor(char *ptok, Pos &p)
 /* parse a path */
 char * Parse::parsePath(char *ptok, float path[][5], uint16_t *segs)
 {
-  if (!stringcmp(ptok, "path=")) ptok = skipEqual(ptok);
+  if (! stringcmp(ptok, "path="))
+    ptok = skipEqual(ptok);
   ptok = skipQuotes(ptok, 0);	// don't check the second '"'
   if (ptok) if (*ptok == 0) ptok = nextToken();
 
@@ -653,7 +662,8 @@ void Parse::parseSolids(char *ptok, const char *separ, WObject *wobject)
 /* parse a rotation */
 char * Parse::parseRotation(char *ptok, Pos &p)
 {
-  if (!stringcmp(ptok, "rot=") || !stringcmp(ptok, "rotation=")) ptok = skipEqual(ptok);
+  if (! stringcmp(ptok, "rot=") || ! stringcmp(ptok, "rotation="))
+    ptok = skipEqual(ptok);
   ptok = skipQuotes(ptok);
   if (ptok) if (*ptok == 0) ptok = nextToken();
 
@@ -668,7 +678,8 @@ char * Parse::parseRotation(char *ptok, Pos &p)
 /* parse a translation */
 char * Parse::parseTranslation(char *ptok, Pos &p)
 {
-  if (!stringcmp(ptok, "trans=") || !stringcmp(ptok, "translation=")) ptok = skipEqual(ptok);
+  if (! stringcmp(ptok, "trans=") || ! stringcmp(ptok, "translation="))
+    ptok = skipEqual(ptok);
   ptok = skipQuotes(ptok);
   if (ptok) if (*ptok == 0) ptok = nextToken();
 
@@ -682,14 +693,16 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
 /* parse an url */
 char * Parse::parseUrl(char *ptok, char *url)
 {
-  if (!stringcmp(ptok, "url=")) return parseString(ptok, url, "url");
-  else                           return parseString(ptok, url);
+  if (! stringcmp(ptok, "url="))
+    return parseString(ptok, url, "url");
+  else
+    return parseString(ptok, url);
 }
 
 /* parse a world and a channel */
 char * Parse::parseWorldAndChannel(char *ptok, char *url, char *chan)
 {
-  if (!strcmp(ptok, "world")) {	// <world>
+  if (! strcmp(ptok, "world")) {	// <world>
     ptok = nextToken();
     ptok = parseString(ptok, url);
     ptok = parseChannel(ptok, chan);
@@ -706,7 +719,8 @@ char * Parse::parseWorldAndChannel(char *ptok, char *url, char *chan)
 char * Parse::parseChannel(char *ptok, char *channel)
 {
   if (ptok) {
-    if (!stringcmp(ptok, "channel=")) ptok = skipEqual(ptok);
+    if (! stringcmp(ptok, "channel="))
+      ptok = skipEqual(ptok);
     ptok = skipQuotes(ptok);
 
     if (isdigit((int) *ptok)) strcpy(channel, ptok);
