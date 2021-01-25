@@ -39,7 +39,7 @@ DOWNLOADING
 -----------
 The VREng sources are available by:
   - Git:        git clone https://github.com/philippedax/vreng/ (recommanded)
-  - Git:        git clone https://gitlab.com/philippe.dax/vreng/
+  - Git:        git clone https://gitlab.freedesktop.org/philippedax/vreng/
   - Subversion: svn co http://www.vreng.enst.fr/svn/vreng/trunk vreng (no more active)
   - Tarball:    wget http://www.vreng.enst.fr/ftp/pub/vreng/vreng.tar.{gz,xz,bz2,zip} (no more active)
 
