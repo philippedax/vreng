@@ -23,6 +23,7 @@
 #include "solid.hpp"	// Solid
 #include "render.hpp"	// ::g.render
 #include "user.hpp"	// localuser
+#include "matvec.hpp"	// matrix M4
 #include <list>
 
 
@@ -32,10 +33,10 @@ void WObject::updateAll3D(Pos &pos)
   if (! solid) return;
 
   for (list<Solid*>::iterator s = _solids.begin(); s != _solids.end(); s++) {
-    M4 matobj = MulM4(TranslateM4(pos.x, pos.y, pos.z),
-				  MulM4(RotateM4(pos.az, UZ),
-                                        MulM4(RotateM4(pos.ay, UY),
-			                      RotateM4(pos.ax, UX)
+    M4 matobj = mulM4(transM4(pos.x, pos.y, pos.z),
+				  mulM4(rotM4(pos.az, UZ),
+                                        mulM4(rotM4(pos.ay, UY),
+			                      rotM4(pos.ax, UX)
                                              )
                                        )
                      );
@@ -52,9 +53,9 @@ void WObject::update3D(Pos &pos)
     return;
   }
   for (list<Solid*>::iterator s = _solids.begin(); s != _solids.end(); s++) {
-    M4 matobj = MulM4(TranslateM4(pos.x, pos.y, pos.z),
-				  MulM4(RotateM4(pos.az, UZ),
-			                RotateM4(pos.ax, UX)
+    M4 matobj = mulM4(transM4(pos.x, pos.y, pos.z),
+				  mulM4(rotM4(pos.az, UZ),
+			                rotM4(pos.ax, UX)
                                  )
                      );
     (*s)->setPosition(matobj);
@@ -64,12 +65,12 @@ void WObject::update3D(Pos &pos)
 /* Updates camera in 3D */
 void WObject::updateCamera(Pos &pos)
 {
-  M4 matcam = MulM4(RotateM4(-M_PI_2, UX),
-                    MulM4(RotateM4(M_PI_2, UZ),
-                          MulM4(RotateM4(pos.ax, UX),
-                                MulM4(RotateM4(pos.ay, UY),
-                                      MulM4(RotateM4(-pos.az, UZ),
-                                            TranslateM4(-pos.x, -pos.y, -(pos.z + localuser->height/2))
+  M4 matcam = mulM4(rotM4(-M_PI_2, UX),
+                    mulM4(rotM4(M_PI_2, UZ),
+                          mulM4(rotM4(pos.ax, UX),
+                                mulM4(rotM4(pos.ay, UY),
+                                      mulM4(rotM4(-pos.az, UZ),
+                                            transM4(-pos.x, -pos.y, -(pos.z + localuser->height/2))
                                            )
                                      )
                                )
@@ -81,11 +82,11 @@ void WObject::updateCamera(Pos &pos)
 /* Returns three vectors (v, w, n) that describe the object's surface */
 void WObject::getSurfVecs(Pos &pos, V3 *v, V3 *w, V3 *normal)
 {
-  M4 rot = MulM4(RotateM4(pos.az, UZ), RotateM4(pos.ax, UX));
+  M4 rot = mulM4(rotM4(pos.az, UZ), rotM4(pos.ax, UX));
   V3 vec = newV3(1, 0, 0);
-  MulM4V3(v, &rot, &vec);       // v
+  mulM4V3(v, &rot, &vec);       // v
   vec = newV3(0, 1, 0);
-  MulM4V3(w, &rot, &vec);       // w
+  mulM4V3(w, &rot, &vec);       // w
   vec = newV3(0, 0, 1);
-  MulM4V3(normal, &rot, &vec);  // n
+  mulM4V3(normal, &rot, &vec);  // n
 }

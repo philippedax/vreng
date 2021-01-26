@@ -44,6 +44,7 @@
 #include "body.hpp"	// render
 #include "guy.hpp"	// Guy
 #include "flare.hpp"	// render
+#include "matvec.hpp"	// matrix M4
 
 #include <list>
 using namespace std;
@@ -412,7 +413,7 @@ char * Solid::parser(char *l)
   dlists = new GLint[nbrframes];
 
   ::g.render.addToList(this);	// add to solidList
-  IdM4(&position);
+  idM4(&position);	// init position to 0
 
   if (wobject->getInstance() && wobject->haveAction()) setFlashable(true);
 
@@ -1221,7 +1222,7 @@ void Solid::getAbsoluteBB(V3 &center, V3 &size)
     vrel.v[2] = vtmp[(n/4) % 2].v[2];
 
     // add object position
-    MulM4V3(&vabs, &position, &vrel);	// vabs = posmat * vrel
+    mulM4V3(&vabs, &position, &vrel);	// vabs = posmat * vrel
     if (n == 0)
       vmin = vmax = vabs;
     else {
@@ -1597,6 +1598,8 @@ int Solid::displayList(int display_mode = NORMAL)
      break;
 
    case REFLEXIVE:
+      glPopName();
+      glPushName((GLuint) (long) object()->num & 0xffffffff);	// push object number
 
 #if 1 //dax0 if 0 done by mirror
     glGetIntegerv(GL_DRAW_BUFFER, &bufs); // get the current color buffer being drawn to

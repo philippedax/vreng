@@ -154,20 +154,20 @@ void User::changePositionOneDir(int move_type, float lasting)
   else {                                 // Navigator
     switch (move_type) {
       case KEY_AV:  // move forward left
-        pos.x += lasting * lspeed * Cos(pos.az);
-        pos.y += lasting * lspeed * Sin(pos.az);
+        pos.x += lasting * lspeed * cos(pos.az);
+        pos.y += lasting * lspeed * sin(pos.az);
         break;
       case KEY_AR:  // move backward right
-        pos.x -= lasting * lspeed * Cos(pos.az);
-        pos.y -= lasting * lspeed * Sin(pos.az);
+        pos.x -= lasting * lspeed * cos(pos.az);
+        pos.y -= lasting * lspeed * sin(pos.az);
         break;
       case KEY_SD:  // move forward right
         pos.x += lasting * lspeed * sin(pos.az);
-        pos.y -= lasting * lspeed * Cos(pos.az);
+        pos.y -= lasting * lspeed * cos(pos.az);
         break;
       case KEY_SG:  // move backward left
-        pos.x -= lasting * lspeed * Sin(pos.az);
-        pos.y += lasting * lspeed * Cos(pos.az);
+        pos.x -= lasting * lspeed * sin(pos.az);
+        pos.y += lasting * lspeed * cos(pos.az);
         break;
       case KEY_DR:  // turn right
         pos.az -= lasting * aspeed;
@@ -487,8 +487,8 @@ void WObject::moveUserToObject(float val, float _lttl, float attl)
 
   int sign = (val >= 0) ? 1 : -1;
   float d = RATIO_GOTO * sign * MAX(pos.bbsize.v[0], pos.bbsize.v[1]);
-  float dx = pos.x - (d * Sin(pos.az)) - localuser->pos.x;
-  float dy = pos.y + (d * Cos(pos.az)) - localuser->pos.y;
+  float dx = pos.x - (d * sin(pos.az)) - localuser->pos.x;
+  float dy = pos.y + (d * cos(pos.az)) - localuser->pos.y;
   float dz = MAX(pos.z - localuser->pos.z, 0.20);
   float da = deltaAngle(pos.az, localuser->pos.az + 1.57);
   float db = deltaAngle(pos.ay, localuser->pos.ay);  //FIXME: atan
@@ -521,8 +521,8 @@ void gotoXYZ(float gox, float goy, float goz, float az)
 {
   if (! localuser) return;
 
-  float dx = gox - (Sin(az)) - localuser->pos.x;
-  float dy = goy + (Cos(az)) - localuser->pos.y;
+  float dx = gox - (sin(az)) - localuser->pos.x;
+  float dy = goy + (cos(az)) - localuser->pos.y;
   float dz = MAX(goz - localuser->pos.z, 0.20);
   float da = deltaAngle(az, localuser->pos.az + 1.57);
 

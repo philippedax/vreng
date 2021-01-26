@@ -157,13 +157,12 @@ void Render::materials()
   glMaterialfv(GL_FRONT, GL_EMISSION, color);
 }
 
-/** puts object into buffer selection */
+/** puts object number into the buffer selection */
 void Render::putSelbuf(WObject *po)
 {
-  //error("zname: %s %d", po->names.instance, po->num);
   if (po && po->isValid() && po->isSelectable()) {
     glPopName();
-    glPushName((GLuint) (long)po->num & 0xffffffff); // hack for 64 bits
+    glPushName((GLuint) (long) po->num & 0xffffffff); // hack for 64 bits
   }
 }
 
@@ -535,8 +534,7 @@ void Render::lighting()
   }
   glEnable(GL_LIGHTING);
 
-  /* renders other lights for example sun, moon, lamp */
-#if 1 //DEBUG
+  // renders other lights for example sun, moon, lamp
   //trace2(DBG_FORCE, "\n*** light:");
   for (list<WObject*>::iterator l = lightList.begin(); l != lightList.end() ; ++l) {
     if (*l && (*l)->isValid()) { //FIXME segfault sometimes
@@ -545,10 +543,6 @@ void Render::lighting()
     }
   }
   //printf("\n");
-#endif
-#if 0 //DEBUG
-  Light::lights();
-#endif
 }
 
 /* highlight same type object. */
@@ -703,6 +697,7 @@ void Render::updateBB(GLfloat az)
 void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
 {
   GLint vp[4];
+
   //dax glGetIntegerv(GL_VIEWPORT, vp);
   ::g.gui.getScene()->getCoords(vp[0], vp[1], vp[2], vp[3]);	// get viewport
 

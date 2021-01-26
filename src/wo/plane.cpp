@@ -123,7 +123,7 @@ bool Plane::whenIntersect(WObject *pcur, WObject *pold)
   case USER_TYPE:
   case THING_TYPE:
     if (pos.ax > 0.01) {	// inclinated plane
-      pcur->pos.z += Step::JUMP; // * Sin(pos.ax);   // up
+      pcur->pos.z += Step::JUMP; // * sin(pos.ax);   // up
       pcur->updatePositionAndGrid(pold);
     }
     projectPosition(pcur, pold);

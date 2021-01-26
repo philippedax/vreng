@@ -78,8 +78,8 @@ void Icon::changePosition(float lasting)
   }
   else {
     float off = 0.4;
-    pos.x = localuser->pos.x + off * Cos(localuser->pos.az);
-    pos.y = localuser->pos.y + off * Sin(localuser->pos.az);
+    pos.x = localuser->pos.x + off * cos(localuser->pos.az);
+    pos.y = localuser->pos.y + off * sin(localuser->pos.az);
     pos.z = localuser->pos.z + 0.6;
     pos.az = localuser->pos.az + M_PI_2;
   }
@@ -210,8 +210,8 @@ Icon::Icon(User *user, void *d)
   else {	// new document named interactively by hand
     /* position */
     float off = 0.4;		// 40cm in front of avatar
-    pos.x = user->pos.x + off * Cos(user->pos.az);
-    pos.y = user->pos.y + off * Sin(user->pos.az);
+    pos.x = user->pos.x + off * cos(user->pos.az);
+    pos.y = user->pos.y + off * sin(user->pos.az);
     pos.z = user->pos.z + 0.6;	// visible by avatar's eyes
     pos.az = user->pos.az + M_PI_2;
 
@@ -377,8 +377,8 @@ void Icon::pin(Icon *icon, void *d, time_t s, time_t u)
 {
   clearV3(icon->move.lspeed);
   clearV3(icon->move.aspeed);
-  icon->move.lspeed.v[0] = icon->lspeed * 4 * Cos(localuser->pos.az);
-  icon->move.lspeed.v[1] = icon->lspeed * 4 * Sin(localuser->pos.az);
+  icon->move.lspeed.v[0] = icon->lspeed * 4 * cos(localuser->pos.az);
+  icon->move.lspeed.v[1] = icon->lspeed * 4 * sin(localuser->pos.az);
   icon->ttl = Icon::TTL * 10;
   icon->initImposedMovement(icon->ttl);
   icon->disablePermanentMovement();
@@ -390,8 +390,8 @@ void Icon::push(Icon *icon, void *d, time_t s, time_t u)
 {
   clearV3(icon->move.lspeed);
   clearV3(icon->move.aspeed);
-  icon->move.lspeed.v[0] = icon->lspeed * Cos(localuser->pos.az);
-  icon->move.lspeed.v[1] = icon->lspeed * Sin(localuser->pos.az);
+  icon->move.lspeed.v[0] = icon->lspeed * cos(localuser->pos.az);
+  icon->move.lspeed.v[1] = icon->lspeed * sin(localuser->pos.az);
   icon->ttl = Icon::TTL * 4;
   icon->initImposedMovement(icon->ttl);
   icon->disablePermanentMovement();
@@ -405,8 +405,8 @@ void Icon::pull(Icon *icon, void *d, time_t s, time_t u)
     icon->resetFlashy();
     clearV3(icon->move.lspeed);
     clearV3(icon->move.aspeed);
-    icon->move.lspeed.v[0] = -icon->lspeed * Cos(localuser->pos.az);
-    icon->move.lspeed.v[1] = -icon->lspeed * Sin(localuser->pos.az);
+    icon->move.lspeed.v[0] = -icon->lspeed * cos(localuser->pos.az);
+    icon->move.lspeed.v[1] = -icon->lspeed * sin(localuser->pos.az);
     icon->ttl = Icon::TTL;
     icon->initImposedMovement(icon->ttl);
     icon->disablePermanentMovement();

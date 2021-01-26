@@ -23,14 +23,14 @@
 
 
 /* identity matrix */
-void IdM4(M4 *a)
+void idM4(M4 *a)
 {
   for (int i=0; i<4; i++)
     for (int j=0; j<4; j++)
       a->m[i][j] = (i==j) ? 1.0 : 0.0;
 }
 
-M4 MulM4(M4 a, M4 b)
+M4 mulM4(M4 a, M4 b)
 {
   M4 c;
 
@@ -44,18 +44,18 @@ M4 MulM4(M4 a, M4 b)
   return c;
 }
 
-M4 ScaleM4(float sx, float sy, float sz)
+M4 scaleM4(float sx, float sy, float sz)
 {
   M4 a;
 
-  IdM4(&a);
+  idM4(&a);
   a.m[0][0] = sx;
   a.m[1][1] = sy;
   a.m[2][2] = sz;
   return a;
 }
 
-M4 RotateM4(float t, int u)
+M4 rotM4(float t, int u)
 {
   float s,c;
   int v,w;
@@ -65,17 +65,17 @@ M4 RotateM4(float t, int u)
   if ((w = v+1)>2) w = 0;
   s = sin(t);
   c = cos(t);
-  IdM4(&a);
+  idM4(&a);
   a.m[v][v] = c;  a.m[v][w] = -s;
   a.m[w][v] = s;  a.m[w][w] = c;
   return a;
 }
 
-M4 TranslateM4(float x, float y, float z)
+M4 transM4(float x, float y, float z)
 {
   M4 a;
 
-  IdM4(&a);
+  idM4(&a);
   a.m[0][3] = x;
   a.m[1][3] = y;
   a.m[2][3] = z;
@@ -83,7 +83,7 @@ M4 TranslateM4(float x, float y, float z)
 }
 
 /* returns a = b x c */
-void MulM4V3(V3 *a, const M4 *b, const V3 *c)
+void mulM4V3(V3 *a, const M4 *b, const V3 *c)
 {
   a->v[0] = b->m[0][0]*c->v[0] + b->m[0][1]*c->v[1] + b->m[0][2]*c->v[2] + b->m[0][3];
   a->v[1] = b->m[1][0]*c->v[0] + b->m[1][1]*c->v[1] + b->m[1][2]*c->v[2] + b->m[1][3];
@@ -91,7 +91,7 @@ void MulM4V3(V3 *a, const M4 *b, const V3 *c)
 }
 
 /* Matrix times a vector, dest = m*v */
-void MulM3V4(float m[3][4], float v[4], float dest[3])
+void mulM3V4(float m[3][4], float v[4], float dest[3])
 {
   for (int i=0; i<3; i++) {
     dest[i] = 0;
@@ -101,7 +101,7 @@ void MulM3V4(float m[3][4], float v[4], float dest[3])
 }
 
 /* Matrix multiplication, dest = m1*m2 */
-void MulM3M4(float m1[3][4], float m2[4][4], float dest[3][4])
+void mulM3M4(float m1[3][4], float m2[4][4], float dest[3][4])
 {
   for (int i=0; i<3; i++)
     for (int j=0; j<4; j++) {
@@ -183,14 +183,14 @@ void moveV3(V3 *a, const V3 *b)
   memcpy(a, b, sizeof(V3));
 }
 
-void MulM3V3(V3 *a, const M4 *b, const V3 *c)
+void mulM3V3(V3 *a, const M4 *b, const V3 *c)
 {
   a->v[0]=b->m[0][0]*c->v[0]+b->m[0][1]*c->v[1]+b->m[0][2]*c->v[2];
   a->v[1]=b->m[1][0]*c->v[0]+b->m[1][1]*c->v[1]+b->m[1][2]*c->v[2];
   a->v[2]=b->m[2][0]*c->v[0]+b->m[2][1]*c->v[1]+b->m[2][2]*c->v[2];
 }
 
-void MulM4V4(V4 *a, const M4 *b, const V4 *c)
+void mulM4V4(V4 *a, const M4 *b, const V4 *c)
 {
  a->v[0]=b->m[0][0]*c->v[0]+b->m[0][1]*c->v[1]+b->m[0][2]*c->v[2]+b->m[0][3]*c->v[3];
  a->v[1]=b->m[1][0]*c->v[0]+b->m[1][1]*c->v[1]+b->m[1][2]*c->v[2]+b->m[1][3]*c->v[3];

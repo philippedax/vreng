@@ -90,8 +90,8 @@ void Stars::create(int n, int d)
 
 void Stars::rotate(float *x, float *y, float rot)
 {
-  float tx = *x * Cos(rot) - *y * Sin(rot);
-  float ty = *y * Cos(rot) + *x * Sin(rot);
+  float tx = *x * cos(rot) - *y * sin(rot);
+  float ty = *y * cos(rot) + *x * sin(rot);
   *x = tx;
   *y = ty;
 }

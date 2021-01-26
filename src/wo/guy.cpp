@@ -26,6 +26,7 @@
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// openCache
 #include "file.hpp"	// closeFile
+#include "matvec.hpp"	// matrix M4
 
 
 const OClass Guy::oclass(GUY_TYPE, "Guy", Guy::creator);
@@ -212,14 +213,14 @@ void Guy::computeCurve(uint8_t join)
       pointset[0][i] = curve[join].coords[p + i];
       pointset[1][i] = curve[join].angles[p + i];
     }
-    MulM3M4(pointset, basis, prod);
+    mulM3M4(pointset, basis, prod);
 
     while (t <= 1) {
       tm[0] = t*t*t;
       tm[1] = t*t;
       tm[2] = t;
       tm[3] = 1;
-      MulM3V4(prod, tm, vec);
+      mulM3V4(prod, tm, vec);
       newindex = (int) (vec[0] * (CYCLE-1));
       if (newindex > lastindex) {  // go at least one
         newindex %= CYCLE;  // avoid out of bounds

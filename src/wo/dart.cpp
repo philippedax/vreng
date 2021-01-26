@@ -64,8 +64,8 @@ Dart::Dart(WObject *user, void *d, time_t s, time_t u)
   initMobileObject(TTL);
 
   /* action */
-  move.lspeed.v[0] = lspeed * Cos(user->pos.az);
-  move.lspeed.v[1] = lspeed * Sin(user->pos.az);
+  move.lspeed.v[0] = lspeed * cos(user->pos.az);
+  move.lspeed.v[1] = lspeed * sin(user->pos.az);
   initImposedMovement(TTL);
 
   /* network creation */

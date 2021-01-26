@@ -21,14 +21,12 @@
 #ifndef VRENG_HPP
 #define VRENG_HPP
 
-//using namespace std;
-
 #include "sysdep.hpp"	// system includes
 #include "macros.hpp"	// builtin defines
 #include "defaults.hpp"	// DEF_*
-#include "trigo.hpp"	// my_trigo functions
 #include "log.hpp"	// notice, warning, fatal, trace
-#include "matvec.hpp"	// matrices M4, vectors V3
+#include "matvec.hpp"	// matrix M4 vector V3
+#include "trigo.hpp"	// my_trigo
 
 
 class Global {

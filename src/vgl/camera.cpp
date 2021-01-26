@@ -30,6 +30,7 @@
 #include "ogl.hpp"	// copyPixels
 #include "pref.hpp"	// width3D
 #include "timer.hpp"	// rate
+#include "matvec.hpp"	// matrix M4
 
 
 // global
@@ -54,8 +55,8 @@ void Render::setCameraPosition(M4 *vr_mat)
 void Render::cameraProjection(GLfloat fovy, GLfloat near, GLfloat far)
 {
   GLint vp[4];
-  glGetIntegerv(GL_VIEWPORT, vp);
 
+  glGetIntegerv(GL_VIEWPORT, vp);
   GLint width = vp[2];
   GLint height = vp[3];
   GLfloat ratio = (GLfloat) width / (GLfloat) height;
@@ -107,23 +108,23 @@ void Render::cameraPosition()
   switch (view) {
 
     case VIEW_FIRST_PERSON:
-      vr_mat = MulM4(TranslateM4(0, 0, 0.15),
-                     MulM4(RotateM4(pitch, UX), camera_pos));
+      vr_mat = mulM4(transM4(0, 0, 0.15),
+                     mulM4(rotM4(pitch, UX), camera_pos));
       break;
 
     case VIEW_THIRD_PERSON:
-      vr_mat = MulM4(TranslateM4(0, localuser->height/6, thirdPerson_Near-.8),
-                     MulM4(RotateM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
-                           MulM4(RotateM4(thirdPerson_yRot, UY),
+      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-.8),
+                     mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
+                           mulM4(rotM4(thirdPerson_yRot, UY),
                                  camera_pos)
                           )
                     );
       break;
 
     case VIEW_THIRD_PERSON_FAR:
-      vr_mat = MulM4(TranslateM4(0, localuser->height/6, thirdPerson_Near-2.4),
-                     MulM4(RotateM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
-                           MulM4(RotateM4(thirdPerson_yRot, UY),
+      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-2.4),
+                     mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
+                           mulM4(rotM4(thirdPerson_yRot, UY),
                                  camera_pos)
                           )
                     );
@@ -131,35 +132,35 @@ void Render::cameraPosition()
 
     case VIEW_TURN_AROUND:
       turnAround += (M_PI/18) / MAX(::g.timer.rate() / 5, 1);
-      vr_mat = MulM4(TranslateM4(0, localuser->height/4, -2),
-                     MulM4(RotateM4(M_PI_2/4, UX),
-                           MulM4(RotateM4(thirdPerson_yRot + turnAround, UY),
+      vr_mat = mulM4(transM4(0, localuser->height/4, -2),
+                     mulM4(rotM4(M_PI_2/4, UX),
+                           mulM4(rotM4(thirdPerson_yRot + turnAround, UY),
                                  camera_pos)
                           )
                     );
       break;
 
     case VIEW_VERTICAL:
-      vr_mat = MulM4(RotateM4(M_PI_2, UX),
-                     MulM4(TranslateM4(0, -0.5, 0),	// 50cm top
+      vr_mat = mulM4(rotM4(M_PI_2, UX),
+                     mulM4(transM4(0, -0.5, 0),	// 50cm top
                            camera_pos)
                     );
       break;
 
     case VIEW_VERTICAL_FAR:
-      vr_mat = MulM4(RotateM4(M_PI_2, UX),
-                     MulM4(TranslateM4(0, -3, 0),	// 3m top
+      vr_mat = mulM4(rotM4(M_PI_2, UX),
+                     mulM4(transM4(0, -3, 0),	// 3m top
                            camera_pos)
                     );
       break;
 
     case VIEW_GROUND_LEVEL:
-      vr_mat = MulM4(TranslateM4(0, localuser->height - 0.10, 0), camera_pos);
+      vr_mat = mulM4(transM4(0, localuser->height - 0.10, 0), camera_pos);
       break;
 
     case VIEW_WIRED:
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-      vr_mat = MulM4(RotateM4(pitch, UX), camera_pos);
+      vr_mat = mulM4(rotM4(pitch, UX), camera_pos);
       break;
 
     case VIEW_SCISSOR:
@@ -191,7 +192,7 @@ void Render::map()
     // place the mini-map at a position depending on the world's dimensions
     World *world = World::current();
     GLfloat d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1]) / tan(DEG2RAD(User::FOVY)) - 5);
-    M4 vr_mat = MulM4(RotateM4(M_PI_2, UZ), TranslateM4(0, 0, -d)); // dm top
+    M4 vr_mat = mulM4(rotM4(M_PI_2, UZ), transM4(0, 0, -d)); // dm top
 
     // transpose vreng to opengl
     GLfloat gl_mat[16];	// opengl matrix

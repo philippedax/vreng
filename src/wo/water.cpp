@@ -133,13 +133,13 @@ void Water::draw()
       v = i * d;
       x = -1. + 2. * u;
       z = -1. + 2. * v;
-      y = amplitude * Sin(freq * M_2PI * v + off);
+      y = amplitude * sin(freq * M_2PI * v + off);
       glTexCoord2f(u, v); glVertex3f(x, y, z);
       u += d;
       v += d;
       x = -1. + 2. * u;
       z = -1. + 2. * v;
-      y = amplitude * Sin(freq * M_2PI * v + off);
+      y = amplitude * sin(freq * M_2PI * v + off);
       glTexCoord2f(u, v); glVertex3f(x, y, z);
       if (play) {
         off += phase;

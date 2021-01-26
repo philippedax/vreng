@@ -118,8 +118,8 @@ void Cart::leave(WObject *po)
 
   // set the object's new coordinates & state
   float near = 0.5;
-  po->pos.x = localuser->pos.x + near * Cos(localuser->pos.az);
-  po->pos.y = localuser->pos.y + near * Sin(localuser->pos.az);
+  po->pos.x = localuser->pos.x + near * cos(localuser->pos.az);
+  po->pos.y = localuser->pos.y + near * sin(localuser->pos.az);
   po->pos.z = localuser->pos.z + 0.5;	// visible by eyes
   po->move.ttl = 0;
 

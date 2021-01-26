@@ -41,14 +41,14 @@ typedef struct { float v[3]; } V3;
 typedef struct { float v[4]; } V4;
 
 
-void IdM4(M4 *a);
-M4 MulM4(M4 a, M4 b);
-M4 ScaleM4(float sx, float sy, float sz);
-M4 RotateM4(float t, int u);
-M4 TranslateM4(float x, float y, float z);
-void MulM4V3(V3 *a, const M4 *b, const V3 *c);
-void MulM3V4(float m[3][4], float v[4], float dest[3]);
-void MulM3M4(float m1[3][4], float m2[4][4], float dest[3][4]);
+void idM4(M4 *a);
+M4 mulM4(M4 a, M4 b);
+M4 scaleM4(float sx, float sy, float sz);
+M4 rotM4(float t, int u);
+M4 transM4(float x, float y, float z);
+void mulM4V3(V3 *a, const M4 *b, const V3 *c);
+void mulM3V4(float m[3][4], float v[4], float dest[3]);
+void mulM3M4(float m1[3][4], float m2[4][4], float dest[3][4]);
 
 V3 newV3(float x, float y, float z);
 /**< Create a new vector. */

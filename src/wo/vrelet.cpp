@@ -526,8 +526,8 @@ void Vrelet::draw()
         glBegin(GL_LINE_LOOP);
         glColor3f(o2->color.v[0], o2->color.v[1], o2->color.v[2]);
         for (int i=19; i>=0; i--) {
-          glVertex2f(center.v[0]/rx+diam.v[0]*Cos(i*arc)/rx,
-                     center.v[1]/ry+diam.v[1]*Sin(i*arc)/rx);
+          glVertex2f(center.v[0]/rx+diam.v[0]*cos(i*arc)/rx,
+                     center.v[1]/ry+diam.v[1]*sin(i*arc)/rx);
         }
         glEnd();
         }

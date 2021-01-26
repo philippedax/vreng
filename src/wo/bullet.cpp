@@ -64,8 +64,8 @@ Bullet::Bullet(WObject *pu, void *d, time_t s, time_t u)
   initMobileObject(TTL);
 
   /* action */
-  move.lspeed.v[0] = lspeed * Cos(pu->pos.az);
-  move.lspeed.v[1] = lspeed * Sin(pu->pos.az);
+  move.lspeed.v[0] = lspeed * cos(pu->pos.az);
+  move.lspeed.v[1] = lspeed * sin(pu->pos.az);
   initImposedMovement(TTL);
 
   /* network creation */

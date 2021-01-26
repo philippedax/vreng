@@ -216,8 +216,8 @@ void Ball::changePosition(float lasting)
   }
   else { // ball is taken by user
     float off = 0.4; //(pos.x > localuser->pos.x) ? 0.4 : -0.4;
-    pos.x = localuser->pos.x + off * Cos(localuser->pos.az);
-    pos.y = localuser->pos.y + off * Sin(localuser->pos.az);
+    pos.x = localuser->pos.x + off * cos(localuser->pos.az);
+    pos.y = localuser->pos.y + off * sin(localuser->pos.az);
     pos.z = localuser->pos.z + 0.5;
   }
 }
@@ -245,8 +245,8 @@ bool Ball::whenIntersect(WObject *pcur, WObject *pold)
   case USER_TYPE:
     if (! taken) {
       /* user pushes the ball on the ground */
-      move.lspeed.v[0] = (lspeed / 2) * Cos(pcur->pos.az);
-      move.lspeed.v[1] = (lspeed / 2) * Sin(pcur->pos.az);
+      move.lspeed.v[0] = (lspeed / 2) * cos(pcur->pos.az);
+      move.lspeed.v[1] = (lspeed / 2) * sin(pcur->pos.az);
       ttl = 1;	// 1 sec
       initImposedMovement(ttl);
       pcur->updatePositionAndGrid(pold);
@@ -274,8 +274,8 @@ void Ball::push()
 {
   clearV3(move.lspeed);
   clearV3(move.aspeed);
-  move.lspeed.v[0] = lspeed * Cos(localuser->pos.az);
-  move.lspeed.v[1] = lspeed * Sin(localuser->pos.az);
+  move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
+  move.lspeed.v[1] = lspeed * sin(localuser->pos.az);
   move.aspeed.v[0] = aspeed;
   ttl = Ball::TTL;
   ttl /= ratio();
@@ -287,8 +287,8 @@ void Ball::pull()
 {
   clearV3(move.lspeed);
   clearV3(move.aspeed);
-  move.lspeed.v[0] = -lspeed * Cos(localuser->pos.az);
-  move.lspeed.v[1] = -lspeed * Sin(localuser->pos.az);
+  move.lspeed.v[0] = -lspeed * cos(localuser->pos.az);
+  move.lspeed.v[1] = -lspeed * sin(localuser->pos.az);
   move.aspeed.v[0] = aspeed;
   ttl = Ball::TTL;
   ttl /= ratio();
@@ -299,8 +299,8 @@ void Ball::pull()
 void Ball::shoot()
 {
   clearV3(move.aspeed);
-  move.lspeed.v[0] = lspeed * Cos(localuser->pos.az);
-  move.lspeed.v[1] = lspeed * Sin(localuser->pos.az);
+  move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
+  move.lspeed.v[1] = lspeed * sin(localuser->pos.az);
   move.lspeed.v[2] = zspeed;
   move.aspeed.v[0] = aspeed;
   ttl = Ball::TTL;
