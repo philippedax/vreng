@@ -1,0 +1,3 @@
+#! /bin/sh
+#ulimit -n 2048 2>/dev/null
+bin/vreng -k -S -u http://localhost/~dax/ $*
