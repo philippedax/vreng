@@ -26,7 +26,6 @@
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// openCache
 #include "file.hpp"	// closeFile
-#include "matvec.hpp"	// matrix M4
 
 
 const OClass Guy::oclass(GUY_TYPE, "Guy", Guy::creator);

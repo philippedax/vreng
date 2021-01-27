@@ -2149,7 +2149,8 @@ The rules for this file:\n\
 	(2000/05/22, Philippe Dax)\n\
 	- refresh timeout grows as log(nb_sources) to limit bandwidth\n\
 	(2000/05/19, Philippe Dax)\n\
-	- bug fixed in http.c if no threads (Samuel Tardieu)\n\
+	- bug fixed in http.c if no threads\n\
+        (2000/05/20, Samuel Tardieu)\n\
 	- add object names for aoi, gate, host, doc, cd, clock\n\
 	- new object clock(#33)\n\
 	(2000/05/17, Philippe Dax)\n\
@@ -2505,7 +2506,7 @@ The rules for this file:\n\
 	(1997/12/19, Philippe Dax)\n\
 \n\
 -- 1.2.7\n\
- 	- bug fix en configure.in\n\
+ 	- bug fix in configure.in\n\
 	- bug fix if proxy variable empty\n\
 	- mainloop, rescan events\n\
 	(1997/12/16, Samuel Tardieu)\n\

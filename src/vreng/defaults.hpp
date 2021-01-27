@@ -32,7 +32,7 @@
 #define DEF_MYSQL_SERVER	"localhost"
 #else
 #define IPMC_ENABLED		1 // ipmulticast enabled
-#define DEF_HTTP_SERVER		"www.vreng.enst.fr"
+#define DEF_HTTP_SERVER		"localhost"	// should be "www.vreng.enst.fr"
 #define DEF_VJS_SERVER		"localhost"
 #define DEF_VAPS_SERVER		"localhost"
 #define DEF_VACS_SERVER		"localhost"
@@ -43,7 +43,7 @@
 /* default URLs */
 #define GEN_URL(h, u, p) 	("http://" h u p)
 #if !defined(DEF_URL_PFX)
-#define DEF_URL_PFX	""
+#define DEF_URL_PFX	"~dax/"		// should be ""
 #endif
 #define VRE_VERSION	8
 #define DEF_URL_WORLD	"/vre/v8/Rendezvous.vre"

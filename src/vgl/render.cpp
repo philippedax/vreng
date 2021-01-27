@@ -102,7 +102,7 @@ void Render::init(bool _quality)
   static bool configured = false;
 
   if (! configured) {
-    glFrontFace(GL_CCW);		// trigo
+    glFrontFace(GL_CCW);		// trigo counter clock wise
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_ALPHA_TEST);
     glEnable(GL_CULL_FACE);
@@ -262,6 +262,7 @@ void Render::specificFluid(uint32_t num, uint8_t pri)
 }
 
 // Renders opaque objects
+// Note: preference for solidsOpaque()
 void Render::objectsOpaque(bool zsel, uint8_t pri)
 {
   for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end() ; o++) {
@@ -390,7 +391,7 @@ void Render::rendering(bool zsel=false)
     }
   }
 
-#if 1 //dax2
+#if 0 //dax2
   //// prior LOW == 0
   //
   trace2(DBG_VGL, "\n--- LOW");

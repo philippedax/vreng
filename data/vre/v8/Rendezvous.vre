@@ -267,10 +267,12 @@
 <!-- forest2 224.255.0.35 -->
 
 <!-- router 239.254.2.96 -->
+<!--
 <gate name="router" pos="7.5 -12.5 .7 .3"
   url="/vre/v8/router.vre" channel="239.254.2.96/52666/127">
   <solid dim="1 .2 1.4" xn="/gif/router.gif" />
 </gate>
+-->
 
 <!-- archive -->
 <!--

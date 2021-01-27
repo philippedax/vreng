@@ -42,7 +42,7 @@ class Solid {
   friend class Render;
 
 protected:
-  M4		position;	///< position matrix.
+  M4		matpos;		///< position matrix.
   V3		bbcent;		///< relative center of BB.
   V3		bbsize;		///< relative half sizes of BB.
   bool		is_visible;	///< should this solid be drawn ?.

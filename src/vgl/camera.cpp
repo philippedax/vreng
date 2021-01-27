@@ -30,7 +30,6 @@
 #include "ogl.hpp"	// copyPixels
 #include "pref.hpp"	// width3D
 #include "timer.hpp"	// rate
-#include "matvec.hpp"	// matrix M4
 
 
 // global
@@ -288,8 +287,8 @@ V3 Render::getVisiblePosition(WObject *po)
 
   for (int i=0; i<5; i++) {
     if ((x[i] > w) || (x[i] < 0) || (y[i] > h) || (y[i] < 0)) continue;
-    uint16_t n = bufferSelection((GLint) x[i], (GLint) y[i], 0);
-    WObject *o = WObject::byNum(n);
+    uint16_t num = bufferSelection((GLint) x[i], (GLint) y[i], 0);
+    WObject *o = WObject::byNum(num);
     if (o && ! strcasecmp(po->getInstance(), o->getInstance())) {
       seen = true;
       break;

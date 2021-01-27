@@ -44,7 +44,6 @@
 #include "body.hpp"	// render
 #include "guy.hpp"	// Guy
 #include "flare.hpp"	// render
-#include "matvec.hpp"	// matrix M4
 
 #include <list>
 using namespace std;
@@ -292,7 +291,7 @@ Solid::Solid()
 {
   new_solid++;
   dlists = NULL;	// solid display list
-  wobject = NULL;	// wobject associated with this solid setted by addSolid in wobject.cpp (friend)
+  wobject = NULL;	// wobject associated with this solid set by addSolid in wobject.cpp
   shape = STOK_BOX;	// box shape by default
   numrel = 0;		// monosolid
   bbcent = newV3(0, 0, 0);
@@ -309,6 +308,7 @@ Solid::Solid()
   is_visible = true;	// visible by default
   is_opaque = true;	// opaque by default
   ray_dlist = 0;
+
   for (int i=0; i<5; i++) pos[i] = 0;
   for (int i=0; i<3; i++) flashcol[i] = 1;  // white
 }
@@ -396,7 +396,9 @@ char * Solid::parseShape(char *l)
   return l;
 }
 
-/* solid parser. */
+/*
+ * solid parser.
+ */
 char * Solid::parser(char *l)
 {
   if (!l) {
@@ -413,7 +415,7 @@ char * Solid::parser(char *l)
   dlists = new GLint[nbrframes];
 
   ::g.render.addToList(this);	// add to solidList
-  idM4(&position);	// init position to 0
+  idM4(&matpos);	// init position to 0
 
   if (wobject->getInstance() && wobject->haveAction()) setFlashable(true);
 
@@ -479,11 +481,15 @@ char * Solid::parser(char *l)
 
   /* next Token */
   l = wobject->parse()->nextToken();
-  if (l && !strcmp(l, "/solid")) l = wobject->parse()->nextToken(); // skip </solid>
+  if (l && !strcmp(l, "/solid"))
+    l = wobject->parse()->nextToken(); // skip </solid>
   return l;
 }
 
-/* Solid Parser. */
+/*
+ * Single solid parser.
+ * returns bbmax bbmin
+ */
 int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 {
   if (!l) {
@@ -582,9 +588,11 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         for (int i=0; i<3; i++) mat_ambient[i] = mat_diffuse[i];
         break;
       case STOK_AMBIENT:
-        l = wobject->parse()->parseVector3f(l, &mat_ambient[0]); break;
+        l = wobject->parse()->parseVector3f(l, &mat_ambient[0]);
+        break;
       case STOK_SPECULAR:
-        l = wobject->parse()->parseVector3f(l, &mat_specular[0]); break;
+        l = wobject->parse()->parseVector3f(l, &mat_specular[0]);
+        break;
       case STOK_EMISSION:
         l = wobject->parse()->parseVector3f(l, &mat_emission[0]);
         for (int i=0; i<3; i++) mat_ambient[i] = mat_emission[i];
@@ -593,9 +601,10 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseInt(l, &mat_shininess[0]); break;
       case STOK_ALPHA:
         l = wobject->parse()->parseFloat(l, &alpha);
-        mat_diffuse[3] = mat_ambient[3] = alpha; break;
+        mat_diffuse[3] = mat_ambient[3] = alpha;
         if (alpha < 1)
           is_opaque = false;
+        break;
       case STOK_SCALE:
         l = wobject->parse()->parseFloat(l, &scale); break;
       case STOK_SCALEX:
@@ -624,7 +633,10 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseFloat(l, &radius); break;
       case STOK_FOG:
         l = wobject->parse()->parseFloat(l, &fog[0]);
-        for (int i=0; i<3; i++) { fog[i+1] = mat_diffuse[i]; }  break;
+        for (int i=0; i<3; i++) {
+          fog[i+1] = mat_diffuse[i];
+        }
+        break;
       case STOK_STYLE:
         l = wobject->parse()->parseUInt8(l, &style); break;
       case STOK_FACE:
@@ -651,7 +663,11 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseFloat(l, &light_quadratic_attenuation[0]); break;
       case STOK_BLINK:
         l = wobject->parse()->parseUInt8(l, &flgblk);
-        if (flgblk) { blink = true; setBlinking(true); } break;
+        if (flgblk) {
+          blink = true;
+          setBlinking(true);
+        }
+        break;
       case STOK_REL:
         l = wobject->parse()->parseVector5f(l, pos); {
           ++numrel;
@@ -723,10 +739,10 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     }
   }
 
-  /**
-   * draw solids in displaylists
+  /*
+   * draw solid in displaylist
    */
-  /* display list generation */
+  // display list generation
   int dlist = glGenLists(1);
   glNewList(dlist, GL_COMPILE);
 
@@ -794,7 +810,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_CONE:
-      if (radius == radius2) stacks = 1; // cylinder
+      if (radius == radius2)
+        stacks = 1;	// cylinder
       preDraw(texid, alpha, fog, true);
       if (thick) {	// double surface
         Draw::cylinder(radius - thick/2, radius2 - thick/2, height, slices, stacks, style);
@@ -907,7 +924,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     case STOK_CAR:
       preDraw(texid, alpha, fog, true);
       Car::draw(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, slices, style);
-      setBB(dim.v[0], dim.v[1], dim.v[2] / 2);
+      setBB(dim.v[0], dim.v[1], dim.v[2]/2);
       if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]/2);
       postDraw(texid, alpha, fog);
       break;
@@ -927,11 +944,11 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   }
   glEndList();
 
-  /* sets dlists number for this frame */
+  // sets dlists number for this frame
   dlists[idxframe] = dlist;
 
   /*
-   * sets bounding boxes max and min
+   * gets bounding boxes bbmax and bbmin
    */
   switch (shape) {
     // without bounding boxes
@@ -949,7 +966,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   return 1;	// only one frame
 }
 
-/* Parses statue and returns f (number of frames). */
+/*
+ * Parses statue and returns f (number of frames).
+ */
 int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
 {
   int texid = -1;
@@ -993,9 +1012,10 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseVector3f(l, &mat_specular[0]); break;
       case STOK_ALPHA:
         l = wobject->parse()->parseFloat(l, &alpha);
-        mat_diffuse[3] = mat_ambient[3] = alpha; break;
+        mat_diffuse[3] = mat_ambient[3] = alpha;
         if (alpha < 1)
           is_opaque = false;
+        break;
       case STOK_TEXTURE:
         { char *urltex = new char[URL_LEN];
           l = wobject->parse()->parseString(l, urltex);
@@ -1222,7 +1242,7 @@ void Solid::getAbsoluteBB(V3 &center, V3 &size)
     vrel.v[2] = vtmp[(n/4) % 2].v[2];
 
     // add object position
-    mulM4V3(&vabs, &position, &vrel);	// vabs = posmat * vrel
+    mulM4V3(&vabs, &matpos, &vrel);	// vabs = posmat * vrel
     if (n == 0)
       vmin = vmax = vabs;
     else {
@@ -1251,12 +1271,12 @@ WObject* Solid::object() const
 
 void Solid::setPosition(const M4& mpos)
 {
-  position = mpos;
+  matpos = mpos;
 }
 
 void Solid::getPosition(M4& mpos)
 {
-  mpos = position;
+  mpos = matpos;
 }
 
 void Solid::setVisible(bool _isvisible)
@@ -1443,7 +1463,7 @@ void Solid::display3D(render_mode mode, render_type type)
 void Solid::vr2gl()
 {
   GLfloat gl_mat[16];
-  M4toV16(&position, gl_mat);
+  M4toV16(&matpos, gl_mat);
   glMultMatrixf(gl_mat);
 }
 

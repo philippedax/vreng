@@ -23,7 +23,6 @@
 #include "solid.hpp"	// Solid
 #include "render.hpp"	// ::g.render
 #include "user.hpp"	// localuser
-#include "matvec.hpp"	// matrix M4
 #include <list>
 
 
@@ -34,11 +33,11 @@ void WObject::updateAll3D(Pos &pos)
 
   for (list<Solid*>::iterator s = _solids.begin(); s != _solids.end(); s++) {
     M4 matobj = mulM4(transM4(pos.x, pos.y, pos.z),
-				  mulM4(rotM4(pos.az, UZ),
-                                        mulM4(rotM4(pos.ay, UY),
-			                      rotM4(pos.ax, UX)
-                                             )
-                                       )
+			      mulM4(rotM4(pos.az, UZ),
+                                    mulM4(rotM4(pos.ay, UY),
+			                  rotM4(pos.ax, UX)
+                                         )
+                                   )
                      );
     (*s)->setPosition(matobj);
   }
@@ -54,9 +53,9 @@ void WObject::update3D(Pos &pos)
   }
   for (list<Solid*>::iterator s = _solids.begin(); s != _solids.end(); s++) {
     M4 matobj = mulM4(transM4(pos.x, pos.y, pos.z),
-				  mulM4(rotM4(pos.az, UZ),
-			                rotM4(pos.ax, UX)
-                                 )
+			      mulM4(rotM4(pos.az, UZ),
+			            rotM4(pos.ax, UX)
+                             )
                      );
     (*s)->setPosition(matobj);
   }
