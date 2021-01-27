@@ -1,0 +1,24 @@
+#! /bin/sh
+#
+# clone
+#
+# Philippe Dax - jan 2021
+#
+p=$(basename $0)
+
+case $# in
+0)
+  echo "usage: $p github | gitlab"
+  ;;
+1)
+  case $1
+  github)
+    rm -rf github
+    git clone https://github.com/philippedax/vreng.git github
+    ;;
+  gitlab)
+    rm -rf gitlab
+    git clone https://gitlab.freedesktop.org/philippedax/vreng.git gitlab
+    ;;
+  esac
+esac

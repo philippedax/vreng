@@ -16,6 +16,7 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.1\n\
 -- 9.1.6\n\
+	- updated defaults to run local\n\
 	- replace glui-2.01f by glui-2.37\n\
 	- fixed loop state in movie.cpp\n\
 	- added getDlist() in solid*pp for board.cpp\n\
