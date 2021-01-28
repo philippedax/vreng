@@ -1585,6 +1585,7 @@ int Solid::displayList(int display_mode = NORMAL)
        if (alpha < 1) {
          //error("alpha=%.1f %s", alpha,object()->getInstance());
          glEnable(GL_BLEND);
+         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
          glDepthMask(GL_FALSE);
        }
        if (*fog > 0) {

@@ -26,7 +26,7 @@ AUTOMAKE_OPTIONS = foreign no-dependencies subdir-objects
 SUBDIRS = src man bin etc
 
 
-EXTRA_DIST = COPYRIGHT VERSION ANNOUNCE CONTRIBUTING support/* md/* fonts/* autogen.sh commit clone
+EXTRA_DIST = COPYRIGHT VERSION ANNOUNCE CONTRIBUTING support/* md/* fonts/* autogen.sh commit clone vr
 ACLOCAL_AMFLAGS = -I support
 
 ## maintainer's targets

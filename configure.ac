@@ -383,7 +383,11 @@ armv4l-*-linux*)
   ;;
 *-*-darwin*|*-*-macosx*)
   # search in MacPorts and Fink installs
-  if test -d /opt/X11/include ; then
+  if test -d /usr/X11/include ; then
+    OSDEP_CFLAGS="-I/usr/X11/include"
+    X_CFLAGS="-I/usr/X11/include"
+    CPPFLAGS="-I/usr/X11/include ${OSDEP_CFLAGS} $CPPFLAGS"
+  elif test -d /opt/X11/include ; then
     OSDEP_CFLAGS="-I/opt/X11/include"
     X_CFLAGS="-I/opt/X11/include"
     CPPFLAGS="-I/opt/X11/include ${OSDEP_CFLAGS} $CPPFLAGS"
@@ -394,7 +398,10 @@ armv4l-*-linux*)
     OSDEP_CFLAGS="${OSDEP_CFLAGS} -I/sw/include"
     CPPFLAGS="-I/sw/include ${OSDEP_CFLAGS} $CPPFLAGS"
   fi
-  if test -d /opt/X11/lib ; then
+  if test -d /usr/X11/lib ; then
+    OSDEP_LIBS="-L/usr/X11/lib"
+    X_LIBS="-L/usr/X11/lib"
+  elif test -d /opt/X11/lib ; then
     OSDEP_LIBS="-L/opt/X11/lib"
     X_LIBS="-L/opt/X11/lib"
   elif test -d /opt/local/lib ; then
@@ -802,22 +809,22 @@ case "`$ac_config_sub $build`" in
   OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
   LIBS="$LIBS $(OPENGL_LIBS)"
   # search in MacPorts and Fink installs
-  if test -d /opt/X11/include ; then
+  if test -d /wudr/X11/include ; then
+    OSDEP_CFLAGS="-I/wudr/X11/include"
+  elif test -d /opt/X11/include ; then
     OSDEP_CFLAGS="-I/opt/X11/include"
-  fi
-  if test -d /opt/local/include ; then
+  elif test -d /opt/local/include ; then
     OSDEP_CFLAGS="-I/opt/local/include"
-  fi
-  if test -d /sw/include ; then
+  elif test -d /sw/include ; then
     OSDEP_CFLAGS="$OSDEP_CFLAGS -I/sw/include"
   fi
-  if test -d /opt/X11/lib ; then
+  if test -d /usr/X11/lib ; then
     OSDEP_LIBS="-L/opt/X11/lib"
-  fi
-  if test -d /opt/local/lib ; then
+  elif test -d /opt/X11/lib ; then
+    OSDEP_LIBS="-L/opt/X11/lib"
+  elif test -d /opt/local/lib ; then
     OSDEP_LIBS="-L/opt/local/lib"
-  fi
-  if test -d /sw/lib ; then
+  elif test -d /sw/lib ; then
     OSDEP_LIBS="$OSDEP_LIBS -L/sw/lib"
   fi
   LDFLAGS="$OSDEP_LIBS $LDFLAGS"
@@ -1117,8 +1124,8 @@ AC_ARG_WITH([GL-prefix],
 
 case "`$ac_config_sub $build`" in
 *-*-darwin*)
-GL_L="-L/opt/X11/lib"
-GL_I="-I/opt/X11/include"
+GL_L="-L/usr/X11/lib"
+GL_I="-I/usr/X11/include"
 ;;
 *)
 GL_L="-L/usr/lib"
