@@ -152,7 +152,7 @@ void Web::pivot()
     V3 dim;
     float green[4] = {0,1,0,1}; // green
     copyPositionAndBB(pleg);
-    getDim(dim);	// get dim
+    getDimBB(dim);	// get dim
     pleg->pos.z += (dim.v[2] - 0.15);	// 15cm under the top
     pleg->pos.ax = pos.ax;
     pleg->pos.az = afront;

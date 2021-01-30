@@ -57,7 +57,7 @@ protected:
   bool		isframed;	///< flag framed.
   bool		isflashy;	///< flag flashy.
   bool		isflashable;	///< flag flashable.
-  bool		isreflexive;	///< flag reflexive.
+  bool		isreflex;	///< flag reflexive.
   bool		isflary;	///< flag flary.
   bool		isblinking;	///< flag blinking.
   bool		blink;		///< flag blink.
@@ -106,13 +106,13 @@ public:
   virtual WObject* object() const;
   /**< Returns the associated WObject. */
 
-  virtual void getAbsoluteBB(V3& bbcent, V3& bbsize);
+  virtual void getAbsBB(V3& bbcent, V3& bbsize);
   /**< Returns a bounding box for this solid.
    * The bounding box is aligned with the world reference. */
 
-  virtual void getRelativeBB(V3& bbcent, V3& bbsize) const;
-  virtual void getDim(V3& bbsize) const;
-  virtual void getCenter(V3& bbcent) const;
+  virtual void getRelBB(V3& bbcent, V3& bbsize) const;
+  virtual void getDimBB(V3& bbsize) const;
+  virtual void getCentBB(V3& bbcent) const;
   /**< Returns relative bounding-box. */
 
   virtual void updateBB(GLfloat az);
@@ -251,7 +251,7 @@ private:
   virtual void setBB(GLfloat w, GLfloat d, GLfloat h);
   /**< Sets BB. */
 
-  virtual void doRotateTranslate(bool flag);
+  virtual void doTransform(bool flag);
   /**< Makes transforms rotations and translations. */
 
   virtual void doScale(bool flag);

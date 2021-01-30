@@ -108,7 +108,7 @@ void Vnc::buildScreen()
   if (_solids.empty()) return;	// no solid
 
   V3 dim;
-  getDim(dim);
+  getDimBB(dim);
 
   float left  = MAX(dim.v[1], dim.v[0]);
   float front = MIN(dim.v[0], dim.v[1]) + 0.02;

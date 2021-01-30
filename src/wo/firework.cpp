@@ -72,7 +72,7 @@ void Firework::makeSolid()
   }
   V3 dim;
 
-  getDim(dim);
+  getDimBB(dim);
   w = dim.v[0];
   d = dim.v[1];
   h = dim.v[2];

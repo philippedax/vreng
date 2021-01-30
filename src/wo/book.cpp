@@ -186,7 +186,7 @@ Book::Book(char *l)
 {
   parser(l);
 
-  getDim(size);
+  getDimBB(size);
   width = size.v[0];
   height = size.v[2];
 
@@ -330,7 +330,7 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
       cancelSheet(right);
       createSheet(s, Sheet::RIGHT, RIGHT);
       // replace the left heap if too big (case of bookClose)
-      if (left) left->getDim(size);
+      if (left) left->getDimBB(size);
       else { error("no left sheet"); return; }
       if (size.v[1] > 0.7 * thick) {
 	setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
@@ -413,7 +413,7 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
       cancelSheet(left);
       createSheet(s, Sheet::LEFT, LEFT);
       // replace the right heap if not too big
-      if (right) right->getDim(size);
+      if (right) right->getDimBB(size);
       else { error("no right sheet"); return; }
       if (size.v[1] > 0.7 * thick) {
 	setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
@@ -616,7 +616,7 @@ void Book::approach()
 
     // move the right sheet
     if (right) {
-      right->getDim(size);
+      right->getDimBB(size);
       float dxright = dx + size.v[1] * (sin(aright0) - sin(azend));
       float dyright = dy + size.v[1] * (cos(azend) - cos(aright0));
       right->move.lspeed.v[0] = dxright / ttl;
@@ -630,7 +630,7 @@ void Book::approach()
     }
     // move the left sheet
     if (left) {
-      left->getDim(size);
+      left->getDimBB(size);
       float dxleft = dx + size.v[1] * (sin(aleft0+daz) - sin(aleft0));
       float dyleft = dy + size.v[1] * (cos(aleft0) - cos(aleft0+daz));
       left->move.lspeed.v[0] = dxleft / ttl;

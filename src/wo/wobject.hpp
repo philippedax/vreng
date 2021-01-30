@@ -302,10 +302,10 @@ public:
   virtual void getPosition(M4& mpos);
   /**< Gives solid's position. */
 
-  virtual void getRelativeBB(V3 &center, V3 &size);
-  virtual void getDim(V3 &dim);
-  virtual void getCenter(V3 &center);
-  virtual void getAbsoluteBB(V3 &center, V3 &size);
+  virtual void getRelBB(V3 &center, V3 &size);
+  virtual void getDimBB(V3 &dim);
+  virtual void getCentBB(V3 &center);
+  virtual void getAbsBB(V3 &center, V3 &size);
   /**< Gets relative or absolute center and size of solid. */
 
   virtual uint8_t getFrames();

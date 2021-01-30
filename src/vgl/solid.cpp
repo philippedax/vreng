@@ -290,7 +290,7 @@ static const struct sStokens stokens[] = {
 Solid::Solid()
 {
   new_solid++;
-  dlists = NULL;	// solid display list
+  dlists = NULL;	// solid display lists
   wobject = NULL;	// wobject associated with this solid set by addSolid in wobject.cpp
   shape = STOK_BOX;	// box shape by default
   numrel = 0;		// monosolid
@@ -301,7 +301,7 @@ Solid::Solid()
   nbrframes = 1;	// 1 frame by default
   isframed = false;	// mono framed by default
   isflashy = false;
-  isreflexive = false;
+  isreflex = false;
   isflary = false;
   isblinking = false;
   blink = false;
@@ -757,31 +757,32 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
   switch (shape) {
 
+    case STOK_BOX:
+      preDraw(texid, alpha, fog);
+      Draw::box(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, style);
+      if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
+      postDraw(texid, alpha, fog);
+      break;
+
     case STOK_BBOX:	// invisible bounding box
       setBB(dim.v[0], dim.v[1], dim.v[2]);
       if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
 
+    case STOK_SPHERE:
+      preDraw(texid, alpha, fog, true);
+      Draw::sphere(radius, slices, stacks, style);
+      setBB(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2);
+      if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2);
+      postDraw(texid, alpha, fog);
+      break;
+
     case STOK_BSPHERE:	// invisible bounding sphere
-      if (! radius) radius = (dim.v[0] + dim.v[1] + dim.v[2]) / 3;
+      if (! radius)
+        radius = (dim.v[0] + dim.v[1] + dim.v[2]) / 3;
       dim.v[0] = dim.v[1] = dim.v[2] = 2*radius;
       setBB(2*radius, 2*radius, 2*radius);
       if (::g.pref.bbox) Draw::bbox(2*radius, 2*radius, 2*radius);
-      break;
-
-    case STOK_BOX:
-#if 1 //dax2
-      preDraw(texid, alpha, fog);
-#else
-  if (texid >= 0) {
-      glEnable(GL_TEXTURE_2D);
-      glBindTexture(GL_TEXTURE_2D, texid);
-  }
-#endif
-      Draw::box(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, style);
-      if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
-      postDraw(texid, alpha, fog);
-      //dax2 glDisable(GL_TEXTURE_2D);
       break;
 
     case STOK_MAN:
@@ -799,14 +800,6 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     case STOK_ANDROID:
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
       if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
-      break;
-
-    case STOK_SPHERE:
-      preDraw(texid, alpha, fog, true);
-      Draw::sphere(radius, slices, stacks, style);
-      setBB(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2);
-      if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2);
-      postDraw(texid, alpha, fog);
       break;
 
     case STOK_CONE:
@@ -879,40 +872,39 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       postDraw(texid, alpha, fog);
       break;
 
-    case STOK_RECT:
-      doRotateTranslate(true);	//dax4
-      Draw::rect(dim.v[0], dim.v[1], style, tex_r_s, tex_r_t);
-      doRotateTranslate(false);	//dax4
+    case STOK_LINE:
+      doTransform(true);
+      Draw::line(length, thick);
+      doTransform(false);
+      postDraw(texid, alpha, fog);
       break;
 
-    case STOK_LINE:
-      //dax4 preDraw(texid, alpha, fog, false); //dax4 if commented only ray blue is rendered
-      doRotateTranslate(true);	//dax4
-      Draw::line(length, thick);
-      doRotateTranslate(false);	//dax4
-      //dax4 postDraw(texid, alpha, fog);
+    case STOK_RECT:
+      doTransform(true);
+      Draw::rect(dim.v[0], dim.v[1], style, tex_r_s, tex_r_t);
+      doTransform(false);
       break;
 
     case STOK_CIRCLE:
-      doRotateTranslate(true);	//dax4
+      doTransform(true);
       Draw::ellipse(radius, radius, style);
-      doRotateTranslate(false);	//dax4
+      doTransform(false);
       break;
 
     case STOK_TRIANGLE:
       break;
 
     case STOK_ELLIPSE:
-      doRotateTranslate(true);	//dax4
+      doTransform(true);
       Draw::ellipse(radius, radius2, style);
-      doRotateTranslate(false);	//dax4
+      doTransform(false);
       break;
 
     case STOK_HELIX:
-      doRotateTranslate(true);	//dax4
+      doTransform(true);
       Draw::helix(radius, length, height, slices, thick, mat_diffuse);
       setBB(radius, radius, length/2);
-      doRotateTranslate(false);	//dax4
+      doTransform(false);
       break;
 
     case STOK_POINT:
@@ -1077,19 +1069,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   return nf;	// number nf frames
 }
 
-// accessor
-void Solid::getBB(V3 &max, V3 &min, bool is_framed)
-{
-  ::g.render.getBB(max, min, is_framed);
-}
-
-// accessor
-void Solid::setBB(GLfloat w, GLfloat d, GLfloat h)
-{
-  ::g.render.setBB(w*1, d*1, h*1);
-}
-
-void Solid::doRotateTranslate(bool flag)
+void Solid::doTransform(bool flag)
 {
   switch ((int)flag) {
   case true:  // pre
@@ -1172,42 +1152,47 @@ void Solid::doTexture(bool flag, int _texid)
 void Solid::preDraw(int texid, GLfloat alpha, GLfloat *fog, bool cull)
 {
   // order is important !!!
-  //dax doFog(true, fog);
   doBlend(true, alpha);
   doTexture(true, texid);
-  //dax doScale(true);
-  doRotateTranslate(true);
-  if (cull)
-    glDisable(GL_CULL_FACE);
+  doTransform(true);
+  if (cull) glDisable(GL_CULL_FACE);
 }
 
 void Solid::postDraw(int texid, GLfloat alpha, GLfloat *fog)
 {
-  // order is important !!!
   glEnable(GL_CULL_FACE);
-  //dax doFog(true, fog);
-  doRotateTranslate(false);
-  //dax doScale(false);
+  doTransform(false);
   doTexture(false, texid);
   doBlend(false, alpha);
-  //dax doFog(false, fog);
+}
+
+// Gets max min BB.
+void Solid::getBB(V3 &max, V3 &min, bool is_framed)
+{
+  ::g.render.getBB(max, min, is_framed);
+}
+
+// Sets BB dims.
+void Solid::setBB(GLfloat w, GLfloat d, GLfloat h)
+{
+  ::g.render.setBB(w*1, d*1, h*1);
 }
 
 /* returns relative center and size of BB. */
-void Solid::getRelativeBB(V3 &center, V3 &size) const
+void Solid::getRelBB(V3 &center, V3 &size) const
 {
   center = bbcent;
   size = bbsize;
 }
 
 /* returns size of BB. */
-void Solid::getDim(V3 &dim) const
+void Solid::getDimBB(V3 &dim) const
 {
   dim = bbsize;
 }
 
 /* returns relative center of BB. */
-void Solid::getCenter(V3 &center) const
+void Solid::getCentBB(V3 &center) const
 {
   center = bbcent;
 }
@@ -1225,10 +1210,8 @@ void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi,
   *alp = alpha;
 }
 
-/*
- * Computes BB and returns absolute center and size of AABB.
- */
-void Solid::getAbsoluteBB(V3 &center, V3 &size)
+/* Returns absolute center and size of AABB. */
+void Solid::getAbsBB(V3 &center, V3 &size)
 {
   V3 vtmp[2], vrel, vabs, vmin, vmax;
 
@@ -1308,7 +1291,7 @@ void Solid::setRay(GLint wx, GLint wy)
   GLfloat ex = localuser->pos.x + User::NEAR; //eye + near
   GLfloat ey = localuser->pos.y;
   GLfloat ez = localuser->pos.z + localuser->height/2 - 0.10; //eye's height
-  // center of selectionned object
+  // center of object
   GLfloat ox = wobject->pos.x;
   GLfloat oy = wobject->pos.y;
   GLfloat oz = wobject->pos.z;
@@ -1377,12 +1360,12 @@ bool Solid::isBlinking() const
 
 void Solid::setReflexive(bool flag)
 {
-  isreflexive = flag;
+  isreflex = flag;
 }
 
 bool Solid::isReflexive() const
 {
-  return isreflexive;
+  return isreflex;
 }
 
 void Solid::setFlary(bool flag)
@@ -1427,7 +1410,7 @@ void Solid::display3D(render_mode mode, render_type type)
   switch (type) {
 
     case OPAQUE:	// Display opaque solids
-      if (isreflexive)
+      if (isreflex)
         displayReflexive();
       if (isflary)
         displayFlary();	// Display attached flares
@@ -1435,8 +1418,7 @@ void Solid::display3D(render_mode mode, render_type type)
       break;
 
     case TRANSLUCID:	// Display translucid solids 
-      if (isreflexive) {
-        trace2(DBG_VGL, " o%d %s", type, object()->getInstance());
+      if (isreflex) {
         displayReflexive();
       }
       else {
@@ -1483,7 +1465,9 @@ void Solid::displayRay()
   glPushMatrix();
    glDisable(GL_LIGHTING);
    glEnable(GL_LINE_STIPPLE);
+
    glCallList(ray_dlist);
+
    glDisable(GL_LINE_STIPPLE);
    glEnable(GL_LIGHTING);
   glPopMatrix();
@@ -1513,14 +1497,15 @@ int Solid::displayFlashy()
 void Solid::displayFlary()
 {
   if (object()->flare) {
-    //error("flary: %s %.2f %.2f %.2f", object()->names.instance, object()->pos.x, object()->pos.y, object()->pos.z);
     displayNormal();  // object alone
 
     glPushMatrix();
-    glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);
-    glTranslatef(object()->pos.x, object()->pos.y, object()->pos.z);
-    //dax vr2gl();
-    object()->flare->render(object()->pos);
+     glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);
+     glTranslatef(object()->pos.x, object()->pos.y, object()->pos.z);
+     //dax vr2gl();
+
+     object()->flare->render(object()->pos);
+
     glPopMatrix();
   }
 }
@@ -1562,7 +1547,6 @@ int Solid::displayList(int display_mode = NORMAL)
        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
      }
      else if (dlists[frame] > 0) {	// else normal object
-#if 1 //dax
        //dax7 if (texid <0) error("line=%.2f %s", pos[4],object()->getInstance());
        glEnable(GL_DEPTH_TEST);
        glDepthMask(GL_TRUE);	//dax
@@ -1583,7 +1567,6 @@ int Solid::displayList(int display_mode = NORMAL)
          glBindTexture(GL_TEXTURE_2D, texid);
        }
        if (alpha < 1) {
-         //error("alpha=%.1f %s", alpha,object()->getInstance());
          glEnable(GL_BLEND);
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
          glDepthMask(GL_FALSE);
@@ -1595,86 +1578,85 @@ int Solid::displayList(int display_mode = NORMAL)
          glFogf(GL_FOG_DENSITY, *fog);
          glFogfv(GL_FOG_COLOR, fog+1);
        }
-#endif
 
        glCallList(dlists[frame]);	// display the object here !!!
+
      }
      glPopMatrix();
      break;
 
    case FLASHY:
-     glPushMatrix();
-      glPolygonOffset(2., 1.);		// factor=2 unit=1
-      glDisable(GL_POLYGON_OFFSET_FILL);// wired mode
-      glColor3fv(flashcol);
-      glLineWidth(1);
-      glScalef(1.03, 1.03, 1.03);	// 3%100 more
-      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+     if (dlists[frame] > 0) {
+       glPushMatrix();
+        glPolygonOffset(2., 1.);		// factor=2 unit=1
+        glDisable(GL_POLYGON_OFFSET_FILL);// wired mode
+        glColor3fv(flashcol);
+        glLineWidth(1);
+        glScalef(1.03, 1.03, 1.03);	// 3%100 more
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-      if (dlists[frame] > 0)
         glCallList(dlists[frame]);
 
-      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-     glPopMatrix();
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+       glPopMatrix();
+     }
      break;
 
    case REFLEXIVE:
+     if (dlists[frame] > 0) {		// is displaylist of mirror exists ?
       glPopName();
       glPushName((GLuint) (long) object()->num & 0xffffffff);	// push object number
 
 #if 1 //dax0 if 0 done by mirror
-    glGetIntegerv(GL_DRAW_BUFFER, &bufs); // get the current color buffer being drawn to
-    glPushMatrix();
-     glClearStencil(0);			// set the clear value
-     glClear(GL_STENCIL_BUFFER_BIT);	// clear the stencil buffer
-     glStencilFunc(GL_ALWAYS, 1, 1);	// always pass the stencil test
-     glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE); // set operation to modify the stencil buffer
-     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-     glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
-     glEnable(GL_STENCIL_TEST);		// enable stencil
+      glGetIntegerv(GL_DRAW_BUFFER, &bufs); 	// get the current color buffer being drawn to
+      glPushMatrix();
+       glClearStencil(0);			// set the clear value
+       glClear(GL_STENCIL_BUFFER_BIT);		// clear the stencil buffer
+       glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
+       glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE); // operation to modify the stencil buffer
+       glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+       //dax5 glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
+       glEnable(GL_STENCIL_TEST);		// enable stencil
 
-     if (dlists[frame] > 0)		// is displaylist of mirror exists ?
-       glCallList(dlists[frame]);	// display the mirror inside the stencil
+       glCallList(dlists[frame]);		// display the mirror inside the stencil
 
-     glStencilFunc(GL_ALWAYS, 1, 1);	// always pass the stencil test
-     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-     glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
-     glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // make stencil buffer read only
+       glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
+       glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+       //dax5 glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
+       glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); 	// make stencil buffer read only
 
-     glPushMatrix();
-      GLdouble eqn[4] = {-0,-0,-1,0};	// do clipping plane to avoid bugs when the avatar is near
-      glClipPlane(GL_CLIP_PLANE0, eqn);
-      glEnable(GL_CLIP_PLANE0);		// enable clipping
-      glStencilFunc(GL_EQUAL, 1, 1);	// draw only where the stencil == 1
+       glPushMatrix();
+        GLdouble eqn[4] = {-0,-0,-1,0};	// do clipping plane to avoid bugs when the avatar is near
+        glClipPlane(GL_CLIP_PLANE0, eqn);
+        glEnable(GL_CLIP_PLANE0);		// enable clipping
+        glStencilFunc(GL_EQUAL, 1, 1);		// draw only where the stencil == 1
 
-      //dax0 displayMirroredScene();	// display the mirrored scene
-      object()->render();		// display the mirrored scene by mirror itself
+        //dax0 displayMirroredScene();		// display the mirrored scene
+        object()->render();			// display the mirrored scene by mirror itself
 
-     // Displays avatar
-     //if  (localuser->android) localuser->android->getSolid()->displayVirtual();
-     //else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
-     //else if (localuser->man) localuser->getSolid()->displayVirtual();
-     //else glCallList(localuser->getSolid()->displayVirtual());
+       // displays avatar
+       //if  (localuser->android) localuser->android->getSolid()->displayVirtual();
+       //else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
+       //else if (localuser->man) localuser->getSolid()->displayVirtual();
+       //else glCallList(localuser->getSolid()->displayVirtual());
 
-      glDisable(GL_CLIP_PLANE0);
-     glPopMatrix();
-     glDisable(GL_STENCIL_TEST);	// disable the stencil
-     //dax glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
-     //dax   glCallList(dlists[frame]);	// display the mirror into the z-buffer
-     //dax glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
+        glDisable(GL_CLIP_PLANE0);
+       glPopMatrix();
+       glDisable(GL_STENCIL_TEST);		// disable the stencil
 
-     glEnable(GL_BLEND);		// mirror shine effect
-     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-     glDepthMask(GL_FALSE);
-     //dax8 glDepthFunc(GL_LEQUAL);
+       glEnable(GL_BLEND);			// mirror shine effect
+       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+       glDepthMask(GL_FALSE);
+       //dax8 glDepthFunc(GL_LEQUAL);
 
-     glCallList(dlists[frame]);		// display the physical mirror
+       glCallList(dlists[frame]);		// display the physical mirror
 
-     glDepthFunc(GL_LESS);
-     glDepthMask(GL_TRUE);
-     glDisable(GL_BLEND);
-    glPopMatrix();
+       glDepthFunc(GL_LESS);
+       glDepthMask(GL_TRUE);
+       glDisable(GL_BLEND);
+      glPopMatrix();
 #endif
+    }
     break;	// reflexive
    }
    glDisable(GL_FOG);

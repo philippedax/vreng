@@ -467,27 +467,27 @@ void WObject::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *em
 }
 
 /* Gets relative center and size of solid */
-void WObject::getRelativeBB(V3 &center, V3 &size)
+void WObject::getRelBB(V3 &center, V3 &size)
 {
-  if (solid) solid->getRelativeBB(center, size);
+  if (solid) solid->getRelBB(center, size);
 }
 
 /* Gets size of solid */
-void WObject::getDim(V3 &dim)
+void WObject::getDimBB(V3 &dim)
 {
-  if (solid) solid->getDim(dim);
+  if (solid) solid->getDimBB(dim);
 }
 
 /* Gets relative center of solid */
-void WObject::getCenter(V3 &center)
+void WObject::getCentBB(V3 &center)
 {
-  if (solid) solid->getCenter(center);
+  if (solid) solid->getCentBB(center);
 }
 
 /* Gets absolute center and size of solid */
-void WObject::getAbsoluteBB(V3 &center, V3 &size)
+void WObject::getAbsBB(V3 &center, V3 &size)
 {
-  if (solid) solid->getAbsoluteBB(center, size);
+  if (solid) solid->getAbsBB(center, size);
 }
 
 /* Gets number of frames of this solid */
@@ -657,7 +657,7 @@ void WObject::updateBB()
 {
   if (! solid) return;
   solid->updateBB(pos.az);
-  solid->getAbsoluteBB(pos.bbcenter, pos.bbsize);
+  solid->getAbsBB(pos.bbcenter, pos.bbsize);
 }
 
 /* Inits 3D and grid position */

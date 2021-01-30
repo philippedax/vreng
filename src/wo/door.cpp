@@ -110,7 +110,7 @@ Door::Door(char *l)
   }
 
   V3 bbs, bbc;
-  getRelativeBB(bbc, bbs);
+  getRelBB(bbc, bbs);
   size.v[0] = bbs.v[0];
   center.v[0] = pos.x;	// hinge
   center.v[1] = pos.y;

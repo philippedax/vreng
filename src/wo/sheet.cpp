@@ -55,7 +55,7 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   center.v[1] = pos.y;
   center.v[2] = pos.z;
 
-  getDim(size);
+  getDimBB(size);
   pos.x = center.v[0] + (size.v[0] * cos(pos.az));
   pos.y = center.v[1] + (size.v[0] * sin(pos.az));
   //pos.z = center.v[2];
@@ -157,7 +157,7 @@ void Sheet::turnPrev()
 void Sheet::pullNext()
 {
   // if (state == LEFT) return;
-  getDim(size);
+  getDimBB(size);
   float ttl = ABSF(deltaAngle(pos.az, aleft) / aspeed);
   float dx = -size.v[1] * (cos(aleft) + cos(aright));
   float dy =  size.v[1] * (sin(aleft) + sin(aright));
@@ -173,7 +173,7 @@ void Sheet::pullNext()
 void Sheet::pullPrev()
 {
   // if (state == RIGHT) return;
-  getDim(size);
+  getDimBB(size);
   float ttl = ABSF(deltaAngle(aleft, aright) / aspeed);
   float dx =  size.v[1] * (cos(aleft) + cos(aright));
   float dy = -size.v[1] * (sin(aleft) + sin(aright));
