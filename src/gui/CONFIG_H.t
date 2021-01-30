@@ -50,6 +50,9 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the <arpa/inet.h> header file. */\n\
 #define HAVE_ARPA_INET_H 1\n\
 \n\
+/* Define to 1 if you have the <arpa/nameser.h> header file. */\n\
+#define HAVE_ARPA_NAMESER_H 1\n\
+\n\
 /* */\n\
 #define HAVE_CAML_CALLBACK_H 1\n\
 \n\
@@ -86,9 +89,6 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you have the <floatingpoint.h> header file. */\n\
 /* #undef HAVE_FLOATINGPOINT_H */\n\
-\n\
-/* Define to 1 if you have the <float.h> header file. */\n\
-#define HAVE_FLOAT_H 1\n\
 \n\
 /* Define to 1 if you have the `floor' function. */\n\
 #define HAVE_FLOOR 1\n\
@@ -380,6 +380,9 @@ const char CONFIG_H[] = "\
    and to 0 otherwise. */\n\
 #define HAVE_REALLOC 1\n\
 \n\
+/* Define to 1 if you have the <resolv.h> header file. */\n\
+#define HAVE_RESOLV_H 1\n\
+\n\
 /* Define to 1 if you have the <SDL/SDL.h> header file. */\n\
 /* #undef HAVE_SDL_SDL_H */\n\
 \n\
@@ -417,8 +420,8 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the <stdarg.h> header file. */\n\
 #define HAVE_STDARG_H 1\n\
 \n\
-/* Define to 1 if you have the <stddef.h> header file. */\n\
-#define HAVE_STDDEF_H 1\n\
+/* Define to 1 if stdbool.h conforms to C99. */\n\
+/* #undef HAVE_STDBOOL_H */\n\
 \n\
 /* Define to 1 if you have the <stdint.h> header file. */\n\
 #define HAVE_STDINT_H 1\n\
@@ -475,9 +478,6 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you have the <sys/stat.h> header file. */\n\
 #define HAVE_SYS_STAT_H 1\n\
-\n\
-/* Define to 1 if you have the <sys/time.h> header file. */\n\
-#define HAVE_SYS_TIME_H 1\n\
 \n\
 /* Define to 1 if you have the <sys/types.h> header file. */\n\
 #define HAVE_SYS_TYPES_H 1\n\
@@ -539,6 +539,9 @@ const char CONFIG_H[] = "\
 /* */\n\
 #define HAVE_XPM_H 1\n\
 \n\
+/* Define to 1 if the system has the type `_Bool'. */\n\
+/* #undef HAVE__BOOL */\n\
+\n\
 /* */\n\
 /* #undef HPUX */\n\
 \n\
@@ -563,6 +566,9 @@ const char CONFIG_H[] = "\
 \n\
 /* */\n\
 #define MACOSX 1\n\
+\n\
+/* Define to 1 if assertions should be disabled. */\n\
+/* #undef NDEBUG */\n\
 \n\
 /* */\n\
 /* #undef NETBSD */\n\
@@ -614,6 +620,9 @@ const char CONFIG_H[] = "\
 \n\
 /* */\n\
 /* #undef SOLARIS */\n\
+\n\
+/* Define to 1 if the `S_IS*' macros in <sys/stat.h> do not work properly. */\n\
+/* #undef STAT_MACROS_BROKEN */\n\
 \n\
 /* Define to 1 if you have the ANSI C header files. */\n\
 #define STDC_HEADERS 1\n\

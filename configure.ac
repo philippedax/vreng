@@ -444,15 +444,19 @@ AC_CHECK_LIB([m], [sqrt])
 #
 # Check headers
 #
+AC_INCLUDES_DEFAULT([])
 AC_HEADER_STDC
-#AC_HEADER_STDBOOL
-AC_HEADER_SYS_WAIT
+AC_HEADER_STDBOOL
 AC_HEADER_DIRENT
 AC_HEADER_TIME
+AC_HEADER_RESOLV
+AC_HEADER_STAT
+AC_HEADER_ASSERT
+AC_HEADER_SYS_WAIT
+
+AC_CHECK_HEADERS([unistd.h fcntl.h stdarg.h ctype.h utime.h sys/socket.h malloc.h signal.h math.h errno.h sys/select.h sys/resource.h getopt.h pwd.h pthread.h netinet/tcp.h arpa/inet.h sys/utsname.h sys/param.h floatingpoint.h ieeefp.h locale.h])
+
 #AC_STRUCT_TM
-
-AC_CHECK_HEADERS([unistd.h fcntl.h string.h stdarg.h ctype.h stdint.h sys/types.h sys/time.h utime.h sys/socket.h malloc.h signal.h math.h errno.h sys/stat.h sys/select.h sys/resource.h getopt.h pwd.h pthread.h netdb.h netinet/in.h netinet/tcp.h arpa/inet.h sys/utsname.h sys/param.h floatingpoint.h float.h stddef.h ieeefp.h locale.h])
-
 
 # --------------------------------------------------------------------------
 #
