@@ -24,9 +24,9 @@
 #include "vreng.hpp"
 #include "solid.hpp"
 #include "draw.hpp"	// STYLE
-#include "render.hpp"	// sharedRender
+#include "render.hpp"	// ::g.render
 #include "scene.hpp"	// getScene
-#include "texture.hpp"	// getFromCache
+#include "texture.hpp"	// Texture
 #include "wobject.hpp"	// WObject
 #include "netobj.hpp"	// declareObjDelta
 #include "color.hpp"	// Color
@@ -876,7 +876,6 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       doTransform(true);
       Draw::line(length, thick);
       doTransform(false);
-      postDraw(texid, alpha, fog);
       break;
 
     case STOK_RECT:
@@ -1048,6 +1047,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
           getBB(bbmax, bbmin, isframed); // get bounding box
         }
         if (md2) delete md2;
+        md2 = NULL;
         break;
         }
 
@@ -1061,6 +1061,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         dlists[0] = obj->displaylist();
         nf = 1;
         if (obj) delete obj;
+        obj = NULL;
         break;
         }
     }
@@ -1580,7 +1581,6 @@ int Solid::displayList(int display_mode = NORMAL)
        }
 
        glCallList(dlists[frame]);	// display the object here !!!
-
      }
      glPopMatrix();
      break;
@@ -1607,7 +1607,6 @@ int Solid::displayList(int display_mode = NORMAL)
       glPopName();
       glPushName((GLuint) (long) object()->num & 0xffffffff);	// push object number
 
-#if 1 //dax0 if 0 done by mirror
       glGetIntegerv(GL_DRAW_BUFFER, &bufs); 	// get the current color buffer being drawn to
       glPushMatrix();
        glClearStencil(0);			// set the clear value
@@ -1615,30 +1614,24 @@ int Solid::displayList(int display_mode = NORMAL)
        glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
        glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE); // operation to modify the stencil buffer
        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-       //dax5 glDrawBuffer(GL_NONE);		// disable drawing to the color buffer
+       glDrawBuffer(GL_NONE);			// disable drawing to the color buffer
        glEnable(GL_STENCIL_TEST);		// enable stencil
 
        glCallList(dlists[frame]);		// display the mirror inside the stencil
 
        glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-       //dax5 glDrawBuffer((GLenum) bufs);	// reenable drawing to color buffer
+       glDrawBuffer((GLenum) bufs);		// reenable drawing to color buffer
        glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); 	// make stencil buffer read only
 
        glPushMatrix();
-        GLdouble eqn[4] = {-0,-0,-1,0};	// do clipping plane to avoid bugs when the avatar is near
+        GLdouble eqn[4] = {-0,-0,-1,0};		// clipping plane
         glClipPlane(GL_CLIP_PLANE0, eqn);
         glEnable(GL_CLIP_PLANE0);		// enable clipping
         glStencilFunc(GL_EQUAL, 1, 1);		// draw only where the stencil == 1
 
         //dax0 displayMirroredScene();		// display the mirrored scene
         object()->render();			// display the mirrored scene by mirror itself
-
-       // displays avatar
-       //if  (localuser->android) localuser->android->getSolid()->displayVirtual();
-       //else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
-       //else if (localuser->man) localuser->getSolid()->displayVirtual();
-       //else glCallList(localuser->getSolid()->displayVirtual());
 
         glDisable(GL_CLIP_PLANE0);
        glPopMatrix();
@@ -1647,7 +1640,7 @@ int Solid::displayList(int display_mode = NORMAL)
        glEnable(GL_BLEND);			// mirror shine effect
        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
        glDepthMask(GL_FALSE);
-       //dax8 glDepthFunc(GL_LEQUAL);
+       glDepthFunc(GL_LEQUAL);
 
        glCallList(dlists[frame]);		// display the physical mirror
 
@@ -1655,7 +1648,6 @@ int Solid::displayList(int display_mode = NORMAL)
        glDepthMask(GL_TRUE);
        glDisable(GL_BLEND);
       glPopMatrix();
-#endif
     }
     break;	// reflexive
    }
