@@ -31,7 +31,7 @@ const float Dart::LSPEED = 5.;	// 5 m/s
 const float Dart::TTL = 3.;		// 3 sec
 
 // local
-static const char *DIM = ".25 .01 .01";
+static const char *DIM = "1.00 .01 .01";
 static const char *COLOR = "0 0 0";	///< black
 
 
@@ -60,7 +60,7 @@ Dart::Dart(WObject *user, void *d, time_t s, time_t u)
   pos.az = user->pos.az;
 
   enableBehavior(COLLIDE_ONCE);
-  setRenderPrior(PRIOR_HIGH);
+  setRenderPrior(PRIOR_MEDIUM);
   initMobileObject(TTL);
 
   /* action */

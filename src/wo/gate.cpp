@@ -115,6 +115,7 @@ bool Gate::updateToNetwork(const Pos &oldpos)
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
+/* action: enter */
 void Gate::enter()
 {
   /* save url because World::quit frees gate */
@@ -133,7 +134,10 @@ void Gate::enter()
       trace(DBG_IPMC, "initial channel = %s", chan);
     }
 
-#if 0 //dax
+#if 1 //dax
+#define USE_VACS 0
+#endif
+#if USE_VACS
     // call here the VACS (VREng Address Cache Server) to get the channel string
     Vac *vac = Vac::current();
     if (! vac->getChannel(names.url, chan)) {
@@ -146,25 +150,30 @@ void Gate::enter()
         if (! *chan)
           strcpy(chan, DEF_VRE_CHANNEL);  // no given channel, forced to the default
       }
+      trace(DBG_IPMC, "enter: getChannel=%s url=%s", chan, new_url);
     }
-#endif //dax
-    trace(DBG_IPMC, "enter: getChannel=%s url=%s", chan, new_url);
-    char *new_chan = strdup(chan);
+#endif //USE_VACS
+
+    char *new_chan = NULL;
+    new_chan = strdup(chan);
 
     World::current()->quit();		// quit the current world
     delete Channel::current();		// delete Channel
     Sound::playSound(GATESND);
 
-    World::enter(new_url, new_chan, World::NEW);
+    World::enter(new_url, new_chan, World::NEW);	// enter
+
     Channel::join(new_chan);
     trace(DBG_IPMC, "enter: join channel=%s url=%s", new_chan, new_url);
 
     //TODO declareJoinWorldToManager(new_url, new_chan, worlds->plocaluser->getInstance());
 
     if (audioactive) Audio::start(new_chan);
-    free(new_chan);
+    if (new_chan)
+      free(new_chan);
   }
-  free(new_url);
+  if (new_url)
+    free(new_url);
 }
 
 /* when an intersection occurs */

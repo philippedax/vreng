@@ -29,7 +29,7 @@
 const OClass Bullet::oclass(BULLET_TYPE, "Bullet", NULL, Bullet::replicator);
 const float Bullet::LSPEED = 5.0;	// 5 m/s
 const float Bullet::TTL = 3.0;		// 3 sec
-const float Bullet::RADIUS = 0.01;	// 1 cm
+const float Bullet::RADIUS = 0.05;	// 5 cm
 
 // local
 static const char *COLOR = "1 0 0";	// red
@@ -60,7 +60,7 @@ Bullet::Bullet(WObject *pu, void *d, time_t s, time_t u)
   pos.az = pu->pos.az;
 
   enableBehavior(COLLIDE_ONCE);
-  setRenderPrior(PRIOR_HIGH);
+  setRenderPrior(PRIOR_MEDIUM);
   initMobileObject(TTL);
 
   /* action */

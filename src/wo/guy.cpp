@@ -331,8 +331,10 @@ void Guy::draw_uarm()
   glPopMatrix();
 
   // shoulder
+  glPushMatrix();
   glTranslatef(0, -SHOULDER_R, 0);
   Draw::sphere(SHOULDER_R, 16, 16, 0);
+  glPopMatrix();
 
   // upper arm
   glPushMatrix();
