@@ -528,11 +528,11 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
   memset(from, 0, sizeof(struct sockaddr_in));
   if ((pkt_len = recvfrom(sd, pkt, sizeof(pkt), 0, (struct sockaddr *)from, &l)) <0) {
 #if IPMC_ENABLED
-    error("recvfrom: %s on %d", strerror(errno), sd);
+    error("recvPayload: %s on %d", strerror(errno), sd);
 #endif
     return pkt_len;	// here pkt_len < 0 -> error
   }
-  //trace(DBG_FORCE, "recvfrom: %lx (%x)", ntohl(from->sin_addr.s_addr), pkt_len);
+  //trace(DBG_FORCE, "recvPayload: %lx (%x)", ntohl(from->sin_addr.s_addr), pkt_len);
 
   /*
    * test if the packet was sent by myself

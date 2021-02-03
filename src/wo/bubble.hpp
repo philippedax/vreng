@@ -30,7 +30,7 @@ struct TexFont;
 /**
  * Bubble class
  */
-class Bubble: public Text {
+class Bubble: public Text {	// inherits fo Text class
 
 private:
   static const float BUBBLETTL;		///< bubble time to live
@@ -77,10 +77,8 @@ private:
   virtual void defaults();
   /**< Sets default values. */
 
-#if 1
   virtual void makeSolid();
   /**< Builds translucid bubble. */
-#endif
 
   virtual void setPosition();
   /**< Sets position above the head. */

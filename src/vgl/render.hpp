@@ -260,8 +260,8 @@ private:
   // objects rendering
   void objectsOpaque(bool zsel, uint8_t prior);		///< opaque objects rendering.
   // solids rendering
-  void solidsOpaque(bool zsel, list<Solid*>::iterator psu, uint8_t prior);	///< opaque solids
-  void solidsTranslucid(bool zsel, list<Solid*>::iterator psu, uint8_t prior);  ///< translucid solids
+  void renderOpaque(bool zsel, list<Solid*>::iterator psu, uint8_t prior);	///< opaque solids
+  void renderTranslucid(bool zsel, list<Solid*>::iterator psu, uint8_t prior);  ///< translucid solids
 
   void putSelbuf(WObject *po);
   /**< Sets object name in Z-buffer for selection. */

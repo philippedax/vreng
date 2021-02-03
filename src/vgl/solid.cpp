@@ -48,9 +48,9 @@
 #include <list>
 using namespace std;
 
-#define DEF_ALPHA		1.
-#define DEF_FOG			0
-#define DEF_SCALE		1.
+#define DEF_ALPHA		1.	// opaque
+#define DEF_FOG			0	// no fog
+#define DEF_SCALE		1.	// no scale
 #define DEF_SHININESS		20
 #define DEF_SPHERE_SLICES	16
 #define DEF_SPHERE_STACKS	16
@@ -519,7 +519,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   fog[1] = fog[2] = fog[3] = 1; // white
 
   // default draws params
-  scale = scalex = scaley = scalez = DEF_SCALE;
+  scale = scalex = scaley = scalez = DEF_SCALE;	// no scale
   uint8_t style = Draw::STYLE_FILL;	// default style
   uint8_t slices = DEF_SPHERE_SLICES;
   uint8_t stacks = DEF_SPHERE_STACKS;
@@ -786,6 +786,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_MAN:
+      is_opaque = true;
       if (localuser->man)
         localuser->man->draw();
       else {
@@ -798,6 +799,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
     case STOK_GUY:
     case STOK_ANDROID:
+      is_opaque = true;
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
       if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
@@ -1078,6 +1080,7 @@ void Solid::doTransform(bool flag)
     glRotatef(RAD2DEG(pos[3]), 0, 0, 1);	// az
     glRotatef(RAD2DEG(pos[4]), 1, 0, 0);	// ax
     glTranslatef(pos[0], pos[1], pos[2]);	// x y z
+    glScalef(scalex, scaley, scalez);
     break;
   case false: // post
     glPopMatrix();
@@ -1107,12 +1110,12 @@ void Solid::doBlend(bool flag, GLfloat _alpha)
     is_opaque = false;		// if commented translucids are opaques
     switch ((int)flag) {
     case true:  // pre
-      //dax1 glEnable(GL_BLEND);
-      //dax1 glDepthMask(GL_FALSE);
+      glEnable(GL_BLEND);
+      glDepthMask(GL_FALSE);
       break;
     case false: // post
-      //dax1 glDepthMask(GL_TRUE);
-      //dax1 glDisable(GL_BLEND);
+      glDepthMask(GL_TRUE);
+      glDisable(GL_BLEND);
       break;
     }
   }

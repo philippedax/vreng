@@ -31,7 +31,7 @@
 const OClass Guy::oclass(GUY_TYPE, "Guy", Guy::creator);
 
 uint16_t Guy::RATE = 10;
-uint8_t Guy::BODY_PARTS = 9;
+uint8_t Guy::GUY_PARTS = 9;
 uint8_t Guy::OVERSAMPLE = 10;
 const char Guy::DEF_URL_GUY[] = "/cset/walking.cset";
 const float Guy::SKIN_COLOR[] = {.8, .6, .6, 1};
@@ -68,14 +68,14 @@ void Guy::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "url"))   l = parse()->parseUrl(l, names.url);
-    else if (!stringcmp(l, "anim=")) l = parse()->parseBool(l, &animing, "anim");
-    else if (!stringcmp(l, "walk=")) l = parse()->parseBool(l, &walking, "walk");
-    else if (!stringcmp(l, "sex="))  l = parse()->parseBool(l, &sex, "sex");
-    else if (!stringcmp(l, "skin=")) l = parse()->parseVector3f(l, skin_color, "skin");
-    else if (!stringcmp(l, "bust=")) l = parse()->parseVector3f(l, bust_color, "bust");
-    else if (!stringcmp(l, "legs=")) l = parse()->parseVector3f(l, legs_color, "legs");
-    else if (!stringcmp(l, "feet=")) l = parse()->parseVector3f(l, feet_color, "feet");
+    if      (! stringcmp(l, "url"))   l = parse()->parseUrl(l, names.url);
+    else if (! stringcmp(l, "anim=")) l = parse()->parseBool(l, &animing, "anim");
+    else if (! stringcmp(l, "walk=")) l = parse()->parseBool(l, &walking, "walk");
+    else if (! stringcmp(l, "sex="))  l = parse()->parseBool(l, &sex, "sex");
+    else if (! stringcmp(l, "skin=")) l = parse()->parseVector3f(l, skin_color, "skin");
+    else if (! stringcmp(l, "bust=")) l = parse()->parseVector3f(l, bust_color, "bust");
+    else if (! stringcmp(l, "legs=")) l = parse()->parseVector3f(l, legs_color, "legs");
+    else if (! stringcmp(l, "feet=")) l = parse()->parseVector3f(l, feet_color, "feet");
   }
   end_while_parse(l);
 }
@@ -94,7 +94,7 @@ void Guy::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_HIGH);
+  setRenderPrior(PRIOR_HIGH);	// if MEDIUM fails FIXME!
 
   initMobileObject(0);
   enablePermanentMovement();
@@ -102,8 +102,8 @@ void Guy::behavior()
 
 void Guy::inits()
 {
-  step = CYCLE/2;
-  incstep = 1.;
+  stp = CYCLES/2;
+  incstp = 1.;
   dlist = -1;
 
   draw();
@@ -128,7 +128,6 @@ Guy::Guy(char *l)
 Guy::Guy()
 {
   defaults();
-  //dax makeSolid();
   control = true;
   behavior();
 
@@ -168,7 +167,7 @@ void Guy::httpReader(void *_guy, Http *http)
     fgets(line, sizeof(line), f);
     line[strlen(line) - 1] = '\0';
     points = atoi(line);	// numpoints
-    if (points < 4 || points > MAX_CPOINTS) goto abort;
+    if (points < 4 || points > MAX_POINTS) goto abort;
     guy->curve[j].numpoints = points;
     fgets(line, sizeof(line), f);  // coords
     line[strlen(line) - 1] = '\0';
@@ -199,7 +198,7 @@ void Guy::computeCurve(uint8_t join)
 {
   float pointset[3][4];
   float prod[3][4], tm[4], vec[3];
-  float tinc = 1./CYCLE/OVERSAMPLE;
+  float tinc = 1./CYCLES/OVERSAMPLE;
   float basis[4][4] = {{-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3,  0, 0}, {1,  0, 0, 0}};
 
   for (int i=0; i<4; i++)  // z's are always zero, only 2D
@@ -220,17 +219,17 @@ void Guy::computeCurve(uint8_t join)
       tm[2] = t;
       tm[3] = 1;
       mulM3V4(prod, tm, vec);
-      newindex = (int) (vec[0] * (CYCLE-1));
+      newindex = (int) (vec[0] * (CYCLES-1));
       if (newindex > lastindex) {  // go at least one
-        newindex %= CYCLE;  // avoid out of bounds
+        newindex %= CYCLES;  // avoid out of bounds
         cycles[0][join][newindex] = vec[1];
         lastindex++;
       }
       t += tinc;
     }
   }
-  for (int c=0; c < CYCLE; c++) {  // copy to other leg, out-o-phase
-    cycles[1][join][c] = cycles[0][join][(c+(CYCLE/2))%CYCLE];
+  for (int c=0; c < CYCLES; c++) {  // copy to other leg, out-o-phase
+    cycles[1][join][c] = cycles[0][join][(c+(CYCLES/2))%CYCLES];
   }
 }
 
@@ -245,6 +244,20 @@ void Guy::setPose()
   }
 }
 
+void Guy::changePermanent(float lasting)
+{
+  if (animing) {
+    stp = (int) fmod((double) stp + incstp, CYCLES);
+  }
+  if (control && localuser) {
+    pos.x = localuser->pos.x;
+    pos.y = localuser->pos.y;
+    pos.z = localuser->pos.z;
+    pos.az = localuser->pos.az - M_PI_2;
+    updatePosition();
+  }
+}
+
 void Guy::draw_bust()
 {
   glPushMatrix();
@@ -255,12 +268,12 @@ void Guy::draw_bust()
   glPopMatrix();
 }
 
-void Guy::draw_breath()
+void Guy::draw_brea()
 {
   glPushMatrix();
-  glTranslatef(0, BUST_H - NECK_H*3, BREATH_R);
+  glTranslatef(0, BUST_H - NECK_H*3, BREA_R);
   glRotatef(180, 0, 1, 0);
-  Draw::cylinder(BREATH_R, 0, BREATH_R, 16, 16, 0);
+  Draw::cylinder(BREA_R, 0, BREA_R, 16, 16, 0);
   glPopMatrix();
 }
 
@@ -290,10 +303,10 @@ void Guy::draw_uleg()
   glPopMatrix();
 
   // hip
-  glPushMatrix();
+  //dax1 glPushMatrix();
   glTranslatef(0, -HIP_R, 0);
   Draw::sphere(HIP_R, 16, 16, 0);
-  glPopMatrix();
+  //dax1 glPopMatrix();
 
   // thig
   glPushMatrix();
@@ -331,10 +344,8 @@ void Guy::draw_uarm()
   glPopMatrix();
 
   // shoulder
-  glPushMatrix();
   glTranslatef(0, -SHOULDER_R, 0);
   Draw::sphere(SHOULDER_R, 16, 16, 0);
-  glPopMatrix();
 
   // upper arm
   glPushMatrix();
@@ -353,11 +364,11 @@ void Guy::draw_larm()
 
 void Guy::draw()
 {
-  if (dlist != -1) glDeleteLists(dlist, BODY_PARTS);
-  dlist = glGenLists(BODY_PARTS);
+  if (dlist != -1) glDeleteLists(dlist, GUY_PARTS);
+  dlist = glGenLists(GUY_PARTS);
   glNewList(dlist+BUST, GL_COMPILE); draw_bust(); glEndList();
   glNewList(dlist+NECK, GL_COMPILE); draw_neck(); glEndList();
-  glNewList(dlist+BREATH, GL_COMPILE); draw_breath(); glEndList();
+  glNewList(dlist+BREA, GL_COMPILE); draw_brea(); glEndList();
   glNewList(dlist+HEAD, GL_COMPILE); draw_head(); glEndList();
   glNewList(dlist+ULEG, GL_COMPILE); draw_uleg(); glEndList();
   glNewList(dlist+LLEG, GL_COMPILE); draw_lleg(); glEndList();
@@ -382,14 +393,14 @@ void Guy::display_neck()
   glPopMatrix();
 }
 
-void Guy::display_breath(bool side)
+void Guy::display_brea(bool side)
 {
   if (sex) {
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, bust_color);
     glPushMatrix();
-    if (side == 0) glTranslatef(BREATH_R*1.5, 0, 0);
-    else glTranslatef(-BREATH_R*1.5, 0, 0);
-    glCallList(dlist+BREATH);
+    if (side == 0) glTranslatef(BREA_R*1.5, 0, 0);
+    else glTranslatef(-BREA_R*1.5, 0, 0);
+    glCallList(dlist+BREA);
     glPopMatrix();
   }
 }
@@ -411,14 +422,14 @@ void Guy::display_leg(bool side)
    else glTranslatef(-BUST_L * BUST_W/2., 0, 0);
 
    // Upper leg: rotates about the x axis only
-   glRotatef(cycles[side][0][step], 1, 0, 0);
+   glRotatef(cycles[side][0][stp], 1, 0, 0);
    glPushMatrix();
    glCallList(dlist+ULEG);
    glPopMatrix();
 
    // Lower leg: rotates about the x axis only
    glTranslatef(0, -(ULEG_H + KNEE_R), 0);
-   glRotatef(cycles[side][1][step], 1, 0, 0);
+   glRotatef(cycles[side][1][stp], 1, 0, 0);
    glPushMatrix();
    glCallList(dlist+LLEG);
    glPopMatrix();
@@ -426,7 +437,7 @@ void Guy::display_leg(bool side)
    // Foot: rotates about the x axis only
    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, feet_color);
    glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0); //DAX
-   glRotatef(cycles[side][2][step], 1, 0, 0);
+   glRotatef(cycles[side][2][stp], 1, 0, 0);
    glPushMatrix();
    glCallList(dlist+FOOT);
    glPopMatrix();
@@ -447,7 +458,7 @@ void Guy::display_arm(bool side)
    else if (showing && side == 0)  // right arm
      glRotatef(90, 1, 0, 0);
    else
-     glRotatef(cycles[side][3][step], 1, 0, 0);
+     glRotatef(cycles[side][3][stp], 1, 0, 0);
    glPushMatrix();
    glCallList(dlist+UARM);
    glPopMatrix();
@@ -458,35 +469,19 @@ void Guy::display_arm(bool side)
    if (flying || (showing && side == 0))
      glRotatef(0, 1, 0, 0);
    else
-     glRotatef(cycles[side][4][step], 1, 0, 0);
+     glRotatef(cycles[side][4][stp], 1, 0, 0);
    glPushMatrix();
    glCallList(dlist+LARM);
    glPopMatrix();
   glPopMatrix();
 }
 
-void Guy::changePermanent(float lasting)
-{
-  if (animing) {
-    step = (int) fmod((double) step + incstep, CYCLE);
-  }
-  if (control) {
-    if (localuser) {
-      pos.x = localuser->pos.x;
-      pos.y = localuser->pos.y;
-      pos.z = localuser->pos.z;
-      pos.az = localuser->pos.az - M_PI_2;
-      updatePosition();
-    }
-  }
-}
-
 void Guy::display_body()
 {
   display_bust();
   display_neck();
-  display_breath(0);
-  display_breath(1);
+  display_brea(0);
+  display_brea(1);
   display_head();
   display_leg(0);
   display_leg(1);
@@ -498,7 +493,7 @@ void Guy::render()
 {
   float dx, dz;
   static       float guy_radian = 3 * M_PI/2;	// radian
-  static const float guy_step   = 72;		// number of steps
+  static const float guy_stp   = 72;		// number of steps
   static const float guy_radius = 1.5;		// space unit
 
   //glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -510,7 +505,7 @@ void Guy::render()
   glRotatef(90, 1, 0, 0);
 
   if (::g.timer.isRate(RATE))
-    guy_radian -= M_2PI / guy_step;
+    guy_radian -= M_2PI / guy_stp;
   if (guy_radian <= 0)
     guy_radian = M_2PI;
   if (walking == 1) {

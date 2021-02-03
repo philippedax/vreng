@@ -38,7 +38,7 @@ Clock::Clock(char *l)
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);
   enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(PRIOR_HIGH);
+  setRenderPrior(PRIOR_HIGH);	// if MEDIUM fails
 
   initMobileObject(0);
 

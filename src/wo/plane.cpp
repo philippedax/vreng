@@ -56,7 +56,7 @@ void Plane::makeSolid()
 {
   V3 dim, rel;
   uint8_t nbsec;
-  char s[BUFSIZ*2], materials[BUFSIZ];
+  char s[BUFSIZ], materials[128];
   GLfloat dif[4], amb[4], spe[4], emi[4], a;
   GLint shi[1];
 

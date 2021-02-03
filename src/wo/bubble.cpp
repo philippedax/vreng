@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "bubble.hpp"
+#include "text.hpp"	// Text
 #include "txf.hpp"	// TexFont
 #include "world.hpp"	// current
 #include "user.hpp"	// localuser
@@ -61,14 +62,14 @@ void Bubble::setPosition()
 /** Make translucid bubble */
 void Bubble::makeSolid()
 {
-  char s[BUFSIZ];
+  char s[256];
   float r = MAX(shifty, 2*Text::GLYPHSIZ);
 
-  // obloid
-  sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".4\" sz=\".5\" dif=\"pink\" a=\".3\" />", r);
+  // bubble
+  sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".4\" sz=\".5\" dif=\"pink\" a=\".4\" />", r);
   parse()->parseSolid(s, SEP, this);
   // arrow
-  sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.1 0 1.57\" rb=\".03\" rt=\"0\" h=\".1\" sy=\".3\" dif=\"pink\" a=\".3\" />");
+  sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.0.4 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".3\" dif=\"pink\" a=\".4\" />");
   parse()->parseSolid(s, SEP, this);
 }
 
@@ -77,8 +78,8 @@ void Bubble::behavior()
   enableBehavior(DYNAMIC);      // dynamicaly introduced
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
-  enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_HIGH);
+  enableBehavior(SPECIFIC_RENDER);	// render method is done by Text
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(BUBBLETTL);
   initImposedMovement(BUBBLETTL);

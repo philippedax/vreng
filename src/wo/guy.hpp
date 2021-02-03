@@ -29,9 +29,9 @@ class Http;
 #define GUY_NAME "Guy"
 
 
-#define CYCLE		50
+#define CYCLES		50
 #define MAX_JOINTS	5
-#define MAX_CPOINTS	34	// 2 end point ones and 10 in the middle
+#define MAX_POINTS	34	// 2 end point ones and 10 in the middle
 #define HEAD_R		0.08	// d=16
 #define NECK_H		0.05	//
 #define NECK_R		0.04	//
@@ -49,13 +49,13 @@ class Http;
 #define KNEE_R		0.05	// d=10
 #define ELBOW_R		0.03	// d=6
 #define WRIST_R		0.03	// d=6
-#define BREATH_R	0.06	// d
+#define BREA_R		0.06	// d
 
 
 typedef struct {
   int numpoints;
-  float coords[MAX_CPOINTS];
-  float angles[MAX_CPOINTS];
+  float coords[MAX_POINTS];
+  float angles[MAX_POINTS];
 } tGuyCtrlPts;
 
 
@@ -74,11 +74,11 @@ private:
     FOOT,
     UARM,
     LARM,
-    BREATH
+    BREA
   };
 
   static uint16_t RATE;
-  static uint8_t BODY_PARTS;
+  static uint8_t GUY_PARTS;
   static uint8_t OVERSAMPLE;
   static const char DEF_URL_GUY[];
   static const float BUST_COLOR[];
@@ -86,22 +86,22 @@ private:
   static const float SKIN_COLOR[];
   static const float FEET_COLOR[];
 
-  uint8_t step;		///< position in cycle, start in middle
-  float incstep;	///< step increment
-  GLint dlist;		///< body displaylist
+  uint8_t stp;		///< position in cycle, start in middle
+  float incstp;		///< step increment
+  GLint dlist;		///< guy displaylist
   bool sex;		///< sex toggle 0=male 1=female
   bool walking;		///< walk toggle
   bool animing;		///< anim toggle
   bool showing;		///< showing flag
   bool flying;		///< flying flag
-  bool control;		///< flag controlled or not by user
+  bool control;		///< control by user
   uint8_t numjoints;	///< joinpoint number
   tGuyCtrlPts *curve;	///< series of ctrl points for a joint
   float skin_color[4];  ///< skin color
   float bust_color[4];  ///< bust color
   float legs_color[4];  ///< legs color
   float feet_color[4];  ///< feet color
-  float cycles[2][MAX_JOINTS][CYCLE]; ///< array of angles
+  float cycles[2][MAX_JOINTS][CYCLES]; ///< array of angles
 
 public:
   static const OClass oclass;	///< class variable.
@@ -118,16 +118,11 @@ public:
 
   virtual void changePermanent(float lasting);
 
-  virtual void draw();
-  /**< Draws the body. */
-
   virtual void render();
   /**< Specific rendering. */
 
   virtual void quit();
   /**< Quits properly. */
-
-  virtual void setPose();
 
   virtual void setAniming(bool flag);
   /**< Set animing flag. */
@@ -154,17 +149,23 @@ private:
   virtual void inits();
   /**< Do specific initializations. */
 
+  virtual void draw();
+  /**< Draws the body. */
+
+  virtual void setPose();
+  /**< unused */
+
+  virtual const char * getUrl() const;
+
   static void httpReader(void *oa, Http *http);
   /**< Reads cset files. */
 
   virtual void computeCurve(uint8_t joint);
   /**< Computes cset curves. */
 
-  virtual const char * getUrl() const;
-
   virtual void draw_bust();
   virtual void draw_neck();
-  virtual void draw_breath();
+  virtual void draw_brea();
   virtual void draw_head();
   virtual void draw_uleg();
   virtual void draw_lleg();
@@ -177,7 +178,7 @@ private:
 
   virtual void display_bust();
   virtual void display_neck();
-  virtual void display_breath(bool side);
+  virtual void display_brea(bool side);
   virtual void display_head();
   virtual void display_leg(bool side);
   virtual void display_arm(bool side);
