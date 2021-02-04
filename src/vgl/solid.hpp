@@ -254,14 +254,8 @@ private:
   virtual void doTransform(bool flag);
   /**< Makes transforms rotations and translations. */
 
-  virtual void doScale(bool flag);
-  /**< Makes scaling operations. */
-
   virtual void doBlend(bool flag, GLfloat alpha);
   /**< Makes blending operations if alpha. */
-
-  virtual void doFog(bool flag, GLfloat *fog);
-  /**< Makes fog operations if fog. */
 
   virtual void doTexture(bool flag, int texid);
   /**< Makes texture binding */

@@ -260,6 +260,7 @@ private:
   // objects rendering
   void objectsOpaque(bool zsel, uint8_t prior);		///< opaque objects rendering.
   // solids rendering
+  void renderSolids(bool zsel, list<Solid*>::iterator psu, uint8_t prior);	///< all solids
   void renderOpaque(bool zsel, list<Solid*>::iterator psu, uint8_t prior);	///< opaque solids
   void renderTranslucid(bool zsel, list<Solid*>::iterator psu, uint8_t prior);  ///< translucid solids
 

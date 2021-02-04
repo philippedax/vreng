@@ -23,6 +23,7 @@
 #include "txf.hpp"	// Txf
 #include "world.hpp"	// current
 #include "user.hpp"	// User
+#include "solid.hpp"	// getDlist
 
 
 const OClass Text::oclass(TEXT_TYPE, "Text", Text::creator);
@@ -46,7 +47,7 @@ void Text::defaults()
   strcpy(names.url, DEF_URL_FONT);	// font's url
   for (int i=0; i<4; i++) color[i] = DEF_COLOR[i];	// color
   verso = false;	// recto
-  scale = 1;
+  scale = 1;		// no scale
   loaded = false;
   state = ACTIVE;
   shiftx = shifty = shiftz = shiftaz = shiftax = 0.;
@@ -163,6 +164,16 @@ void Text::render()
 
   // render the text
   txf->renderString(text, (int) strlen(text));
+
+  // bubble case
+  if (dlists[0]) {	// is bubble present ?
+    glPushMatrix();
+    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
+    glTranslatef(pos.x, pos.y, pos.z);
+    glCallList(dlists[0]);	// display bubble
+    glCallList(dlists[1]);	// display bubble arrow
+    glPopMatrix();
+  }
 
   glEnable(GL_CULL_FACE);
   glDisable(GL_TEXTURE_2D);

@@ -47,6 +47,7 @@ protected:
   uint8_t verso;	///< flag text verso.
   bool side;		///< bubble text side.
   bool loaded;		///< flag texture established.
+  GLint dlists[2];	///< bubble dlists
 
 public:
   static const float GLYPHSIZ;		///< lenght of a glyph.

@@ -142,7 +142,6 @@ void Board::draw()
 {
   enableBehavior(SPECIFIC_RENDER);
   dlist = getSolid()->getDlist();
-  error("board: dlist=%d", dlist);
   /* TODO */
 }
 

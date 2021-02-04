@@ -24,6 +24,7 @@
 #include "txf.hpp"	// TexFont
 #include "world.hpp"	// current
 #include "user.hpp"	// localuser
+#include "solid.hpp"	// getDlist
 
 
 const OClass Bubble::oclass(BUBBLE_TYPE, "Bubble", NULL);
@@ -40,6 +41,8 @@ void Bubble::defaults()
   verso = false;        // recto
   loaded = false;
   txf = NULL;
+  dlists[0] = 0;
+  dlists[1] = 0;
   scale = BUBBLESCALE;
   state = INACTIVE;
   shiftx = shifty = shiftz = 0.;
@@ -68,9 +71,13 @@ void Bubble::makeSolid()
   // bubble
   sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".4\" sz=\".5\" dif=\"pink\" a=\".4\" />", r);
   parse()->parseSolid(s, SEP, this);
+  dlists[0] = getSolid()->getDlist();
+  //error("bubble dlist=%d", dlists[0]);
   // arrow
   sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.0.4 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".3\" dif=\"pink\" a=\".4\" />");
   parse()->parseSolid(s, SEP, this);
+  dlists[1] = getSolid()->getDlist();
+  //error("bubble dlist=%d", dlists[1]);
 }
 
 void Bubble::behavior()

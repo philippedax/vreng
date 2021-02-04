@@ -124,7 +124,7 @@ bool Bumper::whenIntersect(WObject *pcur, WObject *pold)
       pcur->pos.z = pold->pos.z - (forcez * dz);
       pcur->projectPosition(pold, pcur);
       capted = pcur;
-      setRenderPrior(PRIOR_HIGH);
+      //dax setRenderPrior(PRIOR_HIGH);
       enableImposedMovement();
       state = ACTIVE;
       break;

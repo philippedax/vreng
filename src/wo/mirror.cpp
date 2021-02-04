@@ -48,7 +48,7 @@ void Mirror::behavior()
 {
   enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
-  //dax enableBehavior(SPECIFIC_RENDER);
+  //dax6 enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
@@ -88,45 +88,63 @@ bool Mirror::whenIntersect(WObject *pcur, WObject *pold)
 
 void Mirror::render()
 {
-  if (state == false) return;
-
 #if 0 //done by solid.cpp
-     glEnable(GL_STENCIL_TEST);         // enable stencil
-     glClearStencil(0);                 // set the clear value
-     glClear(GL_STENCIL_BUFFER_BIT);    // clear the stencil buffer
-     glStencilFunc(GL_ALWAYS, 1, 1);    // always pass the stencil test
-     glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
-     glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-     if (dlists[curframe] > 0)
-       glCallList(dlists[curframe]);    // draw the mirror inside the stencil
-     glStencilFunc(GL_ALWAYS, 1, 1);    // always pass the stencil test
-     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-     glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // make stencil buffer read only
-     glEnable(GL_DEPTH_TEST);
-     glPushMatrix();
-      GLdouble eqn[4] = {-1,0,0,0};   // do clipping plane to avoid bugs when the avatar is near
-      glClipPlane(GL_CLIP_PLANE0, eqn);
-      glEnable(GL_CLIP_PLANE0);
-      glStencilFunc(GL_EQUAL, 1, 1);     // draw only where the stencil == 1
+  glEnable(GL_STENCIL_TEST);         // enable stencil
+  glClearStencil(0);                 // set the clear value
+  glClear(GL_STENCIL_BUFFER_BIT);    // clear the stencil buffer
+  glStencilFunc(GL_ALWAYS, 1, 1);    // always pass the stencil test
+  glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE);
+  glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+  if (dlists[curframe] > 0)
+    glCallList(dlists[curframe]);    // draw the mirror inside the stencil
+  glStencilFunc(GL_ALWAYS, 1, 1);    // always pass the stencil test
+  glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+  glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // make stencil buffer read only
+  glEnable(GL_DEPTH_TEST);
+  glPushMatrix();
+   GLdouble eqn[4] = {-1,0,0,0};	// do clipping plane to avoid bugs when the avatar is near
+   glClipPlane(GL_CLIP_PLANE0, eqn);
+   glEnable(GL_CLIP_PLANE0);
+   glStencilFunc(GL_EQUAL, 1, 1);	// draw only where the stencil == 1
 #endif
 
-      mirroredScene();     // display the mirrored scene
-
-#if 0 //dax done by solid.cpp
-      glDisable(GL_CLIP_PLANE0);
-     glPopMatrix();
-     glDisable(GL_STENCIL_TEST);        // disable the stencil
+  if (state == true) {			// if is reflexive
+    mirroredScene();			// display the mirrored scene
+  }
+  else { //dax6
+    glPushMatrix();
+     glRotatef(RAD2DEG(pos.az), 0,0,1);
+     glTranslatef(pos.x, pos.y, pos.z);
      glEnable(GL_BLEND);                // mirror shine effect
      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
      glDepthMask(GL_FALSE);
      glDepthFunc(GL_LEQUAL);
 
-     if (dlists[curframe] > 0)
-       glCallList(dlists[curframe]);    // draw the physical mirror
+     GLint dlist = getSolid()->getDlist();
+     if (dlist > 0)
+       glCallList(dlist);    		// draw the physical mirror without reflexions
 
      glDepthFunc(GL_LESS);
      glDepthMask(GL_TRUE);
      glDisable(GL_BLEND);
+    glPopMatrix();
+  }
+
+#if 0 //dax done by solid.cpp
+   glDisable(GL_CLIP_PLANE0);
+  glPopMatrix();
+  glDisable(GL_STENCIL_TEST);        // disable the stencil
+  glEnable(GL_BLEND);                // mirror shine effect
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glDepthMask(GL_FALSE);
+  glDepthFunc(GL_LEQUAL);
+
+  if (dlists[curframe] > 0)
+    glCallList(dlists[curframe]);    // draw the physical mirror
+
+  glDepthFunc(GL_LESS);
+  glDepthMask(GL_TRUE);
+  glDisable(GL_BLEND);
 #endif
 }
 

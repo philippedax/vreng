@@ -1088,22 +1088,6 @@ void Solid::doTransform(bool flag)
   }
 }
 
-void Solid::doScale(bool flag)
-{
-  switch ((int)flag) {
-  case true:  // pre
-    glPushMatrix();
-    if (scale != 1)
-      glScalef(scale, scale, scale);
-    if (scalex != 1 || scaley != 1 || scalez != 1)
-      glScalef(scalex, scaley, scalez);
-    break;
-  case false: // post
-    glPopMatrix();
-    break;
-  }
-}
-
 void Solid::doBlend(bool flag, GLfloat _alpha)
 {
   if (_alpha < 1) {
@@ -1116,23 +1100,6 @@ void Solid::doBlend(bool flag, GLfloat _alpha)
     case false: // post
       glDepthMask(GL_TRUE);
       glDisable(GL_BLEND);
-      break;
-    }
-  }
-}
-
-void Solid::doFog(bool flag, GLfloat *_fog)
-{
-  if (*_fog > 0) {
-    switch ((int)flag) {
-    case true:  // pre
-      glEnable(GL_FOG);
-      glFogi(GL_FOG_MODE, GL_EXP);
-      glFogf(GL_FOG_DENSITY, *_fog);
-      glFogfv(GL_FOG_COLOR, _fog+1);
-      break;
-    case false: // post
-      glDisable(GL_FOG);
       break;
     }
   }
