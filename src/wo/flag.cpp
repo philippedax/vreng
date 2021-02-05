@@ -136,7 +136,6 @@ void Flag::draw()
 
 GLvoid Flag::render()
 {
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glEnable(GL_LIGHTING);
   glDisable(GL_CULL_FACE);
@@ -163,7 +162,6 @@ GLvoid Flag::render()
   glEnable(GL_CULL_FACE);
   glDisable(GL_LIGHTING);
   glPopMatrix();
-  //DAX glPopAttrib();
 }
 
 void Flag::funcs()

@@ -144,7 +144,7 @@ void Text::render()
   if (! loaded) return;
   if (state == INACTIVE) return;
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if this line is commented, guys have bad color
+  glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, guys have bad color
   glPushMatrix();
   glEnable(GL_LIGHTING);
   glEnable(GL_TEXTURE_2D);
@@ -165,15 +165,24 @@ void Text::render()
   // render the text
   txf->renderString(text, (int) strlen(text));
 
+#if 1 //dax1
   // bubble case
   if (dlists[0]) {	// is bubble present ?
     glPushMatrix();
-    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-    glTranslatef(pos.x, pos.y, pos.z);
-    glCallList(dlists[0]);	// display bubble
-    glCallList(dlists[1]);	// display bubble arrow
+     glRotatef(RAD2DEG(pos.az), 0, 0, 1);
+     glTranslatef(pos.x, pos.y, pos.z);
+     glEnable(GL_BLEND);
+     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+     glDepthMask(GL_FALSE);
+
+     glCallList(dlists[0]);	// display bubble
+     glCallList(dlists[1]);	// display bubble arrow
+
+     glDisable(GL_BLEND);
+     glDepthMask(GL_TRUE);
     glPopMatrix();
   }
+#endif
 
   glEnable(GL_CULL_FACE);
   glDisable(GL_TEXTURE_2D);

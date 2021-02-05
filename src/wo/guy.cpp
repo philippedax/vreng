@@ -496,7 +496,6 @@ void Guy::render()
   static const float guy_stp   = 72;		// number of steps
   static const float guy_radius = 1.5;		// space unit
 
-  //glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
 
   glTranslatef(pos.x, pos.y, pos.z);
@@ -518,7 +517,6 @@ void Guy::render()
   display_body();
 
   glPopMatrix();
-  //glPopAttrib();
 }
 
 void Guy::setAniming(bool flag)

@@ -139,7 +139,7 @@ void Light::lighting()
 {
   //printf("\n*** lighting\n");
   if (islight) {
-    glPushAttrib(GL_LIGHTING_BIT);
+    //dax1 glPushAttrib(GL_LIGHTING_BIT);
     if (light_mode == POS) {
       //dax glPushMatrix();
       //dax glLoadIdentity();
@@ -149,7 +149,7 @@ void Light::lighting()
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
     glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
-    glPopAttrib();
+    //dax1 glPopAttrib();
   }
   if (fog) glEnable(GL_FOG);
   //printf("\n");

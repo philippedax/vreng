@@ -617,7 +617,7 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
     //error("on affiche la dlist no %d", X3dDisplayList);
     glCallList(*i);
     if (selected) {  //selected mesh
-      glPushAttrib(GL_ALL_ATTRIB_BITS);
+      //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
       glPushMatrix();
 
       glLineWidth(1);
@@ -638,7 +638,7 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
       glDisable(GL_COLOR_MATERIAL);
 
       glPopMatrix();
-      glPopAttrib();
+      //dax1 glPopAttrib();
     }
   }
 }
@@ -700,7 +700,7 @@ void X3d::render()
     previousLevel = currentShape->level;
 
     glPushMatrix();
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
     npush++;
 
     if (currentShape->texture) {  //texture is there in priority
@@ -728,7 +728,7 @@ void X3d::render()
   //We remove the remaining matrixes after having browsed the complete tree
   for (int k = -1; k < previousLevel; k++) {
     glPopMatrix();
-    glPopAttrib();
+    //dax1 glPopAttrib();
     npop++;
   }
 }

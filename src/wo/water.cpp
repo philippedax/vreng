@@ -157,7 +157,7 @@ void Water::changePermanent(float lasting)
 
 void Water::render()
 {
-  //dax glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if this line is commented, flag is ok
+  //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, flag is ok
   glPushMatrix();
    glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
@@ -177,7 +177,7 @@ void Water::render()
    glDisable(GL_LIGHTING);
    glDisable(GL_DEPTH_TEST);
   glPopMatrix();
-  //dax glPopAttrib();
+  //dax1 glPopAttrib();
 }
 
 bool Water::whenIntersect(WObject *pcur, WObject *pold)

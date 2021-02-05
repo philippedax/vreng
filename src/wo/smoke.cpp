@@ -296,7 +296,6 @@ void Smoke::render()
   static uint32_t ns = 0;
 
   //error("render: %.2f,%.2f,%.2f", pos.x,pos.y,pos.z);
-  //glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
   float seed = ((float) drand48() * 2) - 1.;
@@ -309,7 +308,6 @@ void Smoke::render()
 
   //glDisable(GL_BLEND);
   glPopMatrix();
-  //glPopAttrib();
   ns++;
 }
 

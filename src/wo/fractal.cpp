@@ -184,7 +184,6 @@ void Fractal::updateTime(time_t sec, time_t usec, float *lasting)
 void Fractal::render()
 {
   //if (state == INACTIVE) return;
-  //glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glEnable(GL_LIGHTING);
 
@@ -213,7 +212,6 @@ void Fractal::render()
   generate(x2, z2, left_w_factor*width, left_h_factor*height, right_angle, level);
   glDisable(GL_LIGHTING);
   glPopMatrix();
-  //glPopAttrib();
 }
 
 void Fractal::funcs()

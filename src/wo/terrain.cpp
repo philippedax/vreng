@@ -174,7 +174,6 @@ void Terrain::draw()
 
 void Terrain::render()
 {
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glEnable(GL_COLOR_MATERIAL);
   glEnable(GL_LIGHTING);
@@ -186,7 +185,6 @@ void Terrain::render()
 
   glDisable(GL_LIGHTING);
   glPopMatrix();
-  //DAX glPopAttrib();
 }
 
 void Terrain::setColor(float z)

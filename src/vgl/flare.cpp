@@ -190,7 +190,7 @@ void Flare::render(float *from, float delta)
   vnorm(dx);				// dx = normalize(axis)
   vcross(dy, dx, view_dir);		// dy = cross(dx,view_dir)
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
+  //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_LIGHTING);
@@ -231,7 +231,7 @@ void Flare::render(float *from, float delta)
   glEnable(GL_LIGHTING);
   glEnable(GL_DEPTH_TEST);
   glPopMatrix();
-  glPopAttrib();
+  //dax1 glPopAttrib();
 }
 
 void Flare::setTexture(GLuint texid)

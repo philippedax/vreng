@@ -248,7 +248,6 @@ void Model::preRender()
 {
   if (transform) return;
 
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   if (texid) {
     glEnable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
@@ -269,7 +268,6 @@ void Model::postRender()
 
   if (texid) glDisable(GL_LIGHTING);
   glPopMatrix();
-  //DAX glPopAttrib();
 }
 
 void Model::render()

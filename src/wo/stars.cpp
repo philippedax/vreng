@@ -227,7 +227,6 @@ void Stars::changePermanent(float lasting)
 
 void Stars::render()
 {
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glTranslatef(0, 0, pos.z);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
@@ -238,7 +237,6 @@ void Stars::render()
       show(n);
   }
   glPopMatrix();
-  //DAX glPopAttrib();
 }
 
 void Stars::quit()

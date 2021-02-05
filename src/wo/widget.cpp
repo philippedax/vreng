@@ -181,7 +181,6 @@ void Widget::render()
   updatePosition();
 
   // push
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glEnable(GL_LIGHTING);
   glEnable(GL_CULL_FACE);
@@ -213,7 +212,6 @@ void Widget::render()
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_LIGHTING);
   glPopMatrix();
-  //DAX glPopAttrib();
 }
 
 void Widget::getCoords(int16_t &x, int16_t &y)

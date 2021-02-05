@@ -186,7 +186,6 @@ void Cloud::changePermanent(float lasting)
 
 void Cloud::render()
 {
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glEnable(GL_CULL_FACE);
   glEnable(GL_BLEND);
@@ -202,7 +201,6 @@ void Cloud::render()
   glDisable(GL_BLEND);
   glDisable(GL_CULL_FACE);
   glPopMatrix();
-  //DAX glPopAttrib();
 }
 
 void Cloud::quit()

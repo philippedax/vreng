@@ -1432,7 +1432,7 @@ GLint Solid::getTexid() const
 
 void Solid::displayRay()
 {
-  glPushAttrib(GL_LINE_BIT);
+  //dax1 glPushAttrib(GL_LINE_BIT);
   glPushMatrix();
    glDisable(GL_LIGHTING);
    glEnable(GL_LINE_STIPPLE);
@@ -1442,7 +1442,7 @@ void Solid::displayRay()
    glDisable(GL_LINE_STIPPLE);
    glEnable(GL_LIGHTING);
   glPopMatrix();
-  glPopAttrib();
+  //dax1 glPopAttrib();
 }
 
 int Solid::displayNormal()
@@ -1621,10 +1621,16 @@ int Solid::displayList(int display_mode = NORMAL)
     }
     break;	// reflexive
    }
-   glDisable(GL_FOG);
-   glDisable(GL_TEXTURE_2D);
-   glDepthMask(GL_TRUE);
-   glDisable(GL_BLEND);
+   if (*fog > 0) {
+     glDisable(GL_FOG);
+   }
+   if (texid >= 0) {
+     glDisable(GL_TEXTURE_2D);
+   }
+   if (alpha < 1) {
+     glDepthMask(GL_TRUE);
+     glDisable(GL_BLEND);
+   }
   }
   glPopMatrix();
 

@@ -145,16 +145,17 @@ void Firework::render()
     if (sqr(particles[i].pos[0] - pos.x) +
         sqr(particles[i].pos[1] - pos.y) +
         sqr(particles[i].pos[2] - pos.z) < w*w + d*d + h*h) {
-      glPushAttrib(GL_ALL_ATTRIB_BITS);
+      glPushAttrib(GL_ALL_ATTRIB_BITS);	// if commented jaunatre
       glPushMatrix();
-      glEnable(GL_COLOR_MATERIAL);
-      glDisable(GL_LIGHTING);
-      glPointSize(pt_size);
-      glBegin(GL_POINTS);
-      glColor3fv(particles[i].rgb);
-      glVertex3fv(particles[i].pos);
-      glEnd();
-      glEnable(GL_LIGHTING);
+       glEnable(GL_COLOR_MATERIAL);
+       glDisable(GL_LIGHTING);
+       glPointSize(pt_size);
+       glBegin(GL_POINTS);
+       glColor3fv(particles[i].rgb);
+       glVertex3fv(particles[i].pos);
+       glEnd();
+       glEnable(GL_LIGHTING);
+       //dax1 glDisable(GL_COLOR_MATERIAL); // if not commented bubble text not visible
       glPopMatrix();
       glPopAttrib();
     }

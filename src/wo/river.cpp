@@ -126,7 +126,6 @@ void River::draw(float a, float b)
 
 void River::render()
 {
-  //DAX glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glEnable(GL_COLOR_MATERIAL);
   glMateriali(GL_FRONT_AND_BACK,GL_SHININESS, 30);
@@ -155,7 +154,6 @@ void River::render()
 
   glDisable(GL_LIGHTING);
   glPopMatrix();
-  //DAX glPopAttrib();
 }
 
 void River::quit()
