@@ -73,6 +73,7 @@ void Bubble::makeSolid()
   parse()->parseSolid(s, SEP, this);
   dlists[0] = getSolid()->getDlist();
   //error("bubble dlist=%d", dlists[0]);
+
   // arrow
   sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.0.4 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".3\" dif=\"pink\" a=\".4\" />");
   parse()->parseSolid(s, SEP, this);

@@ -28,7 +28,7 @@ const uint8_t River::DEF_WAVES = 10;
 const float River::DEF_WIDTH = 20;
 const float River::DEF_DEPTH = 5;
 const GLfloat River::DEF_SCALE = 1;
-const GLfloat River::DEF_COLOR[4] = {0, 0.1, 0.2, 1};
+const GLfloat River::DEF_COLOR[4] = {0.2, 0.4, 0.7, 0.9};
 
 
 WObject * River::creator(char *l)
@@ -127,9 +127,9 @@ void River::draw(float a, float b)
 void River::render()
 {
   glPushMatrix();
-  glEnable(GL_COLOR_MATERIAL);
+  //dax8 glEnable(GL_COLOR_MATERIAL);
   glMateriali(GL_FRONT_AND_BACK,GL_SHININESS, 30);
-  glMaterialfv(GL_FRONT_AND_BACK,GL_EMISSION, color);
+  glMaterialfv(GL_FRONT_AND_BACK,GL_SPECULAR, color);
   glEnable(GL_LIGHTING);
   glColor4f(0.2, 0.4, 0.7, 0.9);
 
@@ -153,6 +153,7 @@ void River::render()
     phase[i] += speed[i];
 
   glDisable(GL_LIGHTING);
+  glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
 }
 

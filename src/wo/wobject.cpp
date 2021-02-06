@@ -104,8 +104,10 @@ WObject::WObject()
 /* WObject destructor */
 WObject::~WObject()
 {
-  if (! isBehavior(COLLIDE_NEVER)) deleteFromGrid();
-  deleteSolids(); // delete attached 3D solids
+  if (! isBehavior(COLLIDE_NEVER))
+    deleteFromGrid();
+
+  deleteSolids();	// delete attached solids
 
   // delete NetObject
   if (noh && (mode == MOBILE)) {
@@ -805,6 +807,8 @@ void WObject::toDelete()
     deleteList.push_back(this);  // add to delete
     removed = true;  // mark removed
   }
+  deleteSolids();
+  //dax8 if (solid) { delete solid; solid = NULL; }
 }
 
 /** Calls special methods for each object
@@ -1101,11 +1105,12 @@ OList * WObject::addListToList(OList *l1, OList *l2)
 {
   if (! l1) {
     if (! l2) return NULL;
+    //dax8 if (! l2->pobject) return NULL;
     if (l2->pobject != this) return l2;
     else                     return NULL;
   }
   else {
-    if (l1->pobject->isValid() && !(l1->pobject->is_in_a_list) && (l1->pobject != this)) {
+    if (l1->pobject && l1->pobject->isValid() && !(l1->pobject->is_in_a_list) && (l1->pobject != this)) {
       l1->pobject->is_in_a_list = true;
       return  addListToList(l1->next, l1->pobject->addToListOnce(l2));
     }

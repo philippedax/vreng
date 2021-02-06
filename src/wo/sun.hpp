@@ -87,6 +87,8 @@ public:
 
   virtual void makeSolid();
   /**< Builds solid geometry. */
+
+  static void destroy(Sun *o, void *d, time_t s, time_t u);
 };
 
 #endif

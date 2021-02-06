@@ -62,13 +62,9 @@ void Thunder::behavior()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_MEDIUM);
+  setRenderPrior(PRIOR_LOW);
 
-#if 1 //dax
   initEphemeralObject(0);
-#else
-  initMobileObject(0);
-#endif
   enablePermanentMovement();
 }
 
@@ -103,7 +99,7 @@ void Thunder::draw()
     pt.x = pos.x + ((rand()%20) - 20/2);	// xorig +- 10
     pt.y = pos.y + ((rand()%40) - 40/2);	// yorig +- 20
     pt.z = pos.z + ((rand()%10) - 10/2);	// zorig +- 5
-    // increment
+    // increments
     inc.x = pt.x / div;
     inc.y = pt.y / div;
     inc.z = (pt.z + 10) / div;
@@ -154,21 +150,20 @@ void Thunder::render()
   struct timeval tv;
   gettimeofday(&tv, NULL);
   if (((int) tv.tv_sec) % (int) period != 0) return;
+  if (!state || dlist <= 0) return;
 
-  if (state && dlist > 0) {
-    for (int n=0; n < number; n++) {
-      int w = rand()%6 + 1;	// thickness [1..6]
-      glPushAttrib(GL_LINE_BIT | GL_CURRENT_BIT);
-      glPushMatrix();
-      glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
-      glLineWidth(w);
+  for (int n=0; n < number; n++) {
+    int wid = rand()%6 + 1;	// thickness [1..6]
+    glPushAttrib(GL_LINE_BIT | GL_CURRENT_BIT);
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
+    glLineWidth(wid);
 
-      glCallList(dlist + n);	// display
+    glCallList(dlist + n);	// display
 
-      glLineWidth(1);
-      glPopMatrix();
-      glPopAttrib();
-    }
+    glLineWidth(1);
+    glPopMatrix();
+    glPopAttrib();
   }
 }
 

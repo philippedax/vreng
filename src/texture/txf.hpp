@@ -77,14 +77,6 @@ struct TexFont {
  */
 class Txf {
 
-private:
-  static std::list<Txf*> txfList; ///< txf list
-
-  uint16_t  num;		///< Txf number
-  char url[URL_LEN];		///< font url
-  Txf *next;			///< next Txf
-  struct TexFont *texfont;	///< texfont ptr
-
 public:
   Txf(const char *url);	///< constructor
 
@@ -105,25 +97,32 @@ public:
   virtual void render(int c);
   /**< render one character. */
 
-  virtual Txf * getByUrl(const char *url);
-  /**< get Txf by its url  */
-
-  virtual Txf * getByNumber(uint16_t num);
-  /**< get Txf by its number  */
-
-  virtual uint16_t getCurrentNumber() const;
-  /**< get Txf current font number  */
-
 private:
+  static std::list<Txf*> txfList; ///< txf list
+
+  uint16_t  num;		///< Txf number
+  char url[URL_LEN];		///< font url
+  Txf *next;			///< next Txf
+  struct TexFont *texfont;	///< texfont ptr
+
   static void httpReader(void *atexfont, class Http *http);
   /**< http texfont loader */
 
   virtual const char * getUrl() const;
   /**< Gets url name */
 
-  virtual TexGlyphVertexInfo * getTCVI(int c);
+  virtual TexGlyphVertexInfo * getGlyph(int c);
+
+  virtual uint16_t getCurrentNumber() const;
+  /**< get Txf current font number  */
 
   static const char *errorString();
+
+  virtual Txf * getByUrl(const char *url);
+  /**< get Txf by its url  */
+
+  virtual Txf * getByNumber(uint16_t num);
+  /**< get Txf by its number  */
 
 };
 

@@ -55,18 +55,14 @@ Txf::~Txf()
   txfList.remove(this);
 }
 
+/* Loads texture font. */
 Txf * Txf::load(const char *url)
 {
-  Txf *txf;
-
-  /* we must download the txf now */
   trace(DBG_IMG, "load: loading %s", url);
 
-  /* new entry in cache */
-  txf = new Txf(url);
+  Txf * txf = new Txf(url);	// new entry
 
-  /* add to cache list */
-  txfList.push_back(txf);
+  txfList.push_back(txf);	// add to cache list
 
   /* load font */
   Http::httpOpen(url, httpReader, txf, 0);
@@ -227,7 +223,7 @@ error:
   return;
 }
 
-TexGlyphVertexInfo * Txf::getTCVI(int c)
+TexGlyphVertexInfo * Txf::getGlyph(int c)
 {
   TexGlyphVertexInfo *tgvi;
 
@@ -255,29 +251,30 @@ lastchance:
 
 GLuint Txf::buildTexture(GLuint texobj, GLboolean setupMipmaps)
 {
-  if (texfont) {
-    if (texfont->texobj == 0) {
-      if (texobj == 0) glGenTextures(1, &texfont->texobj);
-      else texfont->texobj = texobj;
-    }
+  if (! texfont) return (GLuint) 0;
 
-    glBindTexture(GL_TEXTURE_2D, texfont->texobj);
-
-    /* Use GL_INTENSITY4 as internal texture format since we want to use as
-       little texture memory as possible. */
-    if (setupMipmaps) {
-      gluBuild2DMipmaps(GL_TEXTURE_2D, GL_INTENSITY4,
-	                texfont->tex_width, texfont->tex_height,
-	                GL_LUMINANCE, GL_UNSIGNED_BYTE, texfont->teximage);
-    }
-    else {
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_INTENSITY4,
-	           texfont->tex_width, texfont->tex_height, 0,
-		   GL_LUMINANCE, GL_UNSIGNED_BYTE, texfont->teximage);
-    }
-    return texfont->texobj;
+  if (texfont->texobj == 0) {
+    if (texobj == 0)
+      glGenTextures(1, &texfont->texobj);
+    else
+      texfont->texobj = texobj;
   }
-  else return (GLuint) 0;
+
+  glBindTexture(GL_TEXTURE_2D, texfont->texobj);
+
+  /* Use GL_INTENSITY4 as internal texture format since we want to use as
+     little texture memory as possible. */
+  if (setupMipmaps) {
+    gluBuild2DMipmaps(GL_TEXTURE_2D, GL_INTENSITY4,
+                      texfont->tex_width, texfont->tex_height,
+	              GL_LUMINANCE, GL_UNSIGNED_BYTE, texfont->teximage);
+  }
+  else {
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_INTENSITY4,
+	         texfont->tex_width, texfont->tex_height, 0,
+		 GL_LUMINANCE, GL_UNSIGNED_BYTE, texfont->teximage);
+  }
+  return texfont->texobj;
 }
 
 void Txf::bindTexture()
@@ -289,7 +286,7 @@ void Txf::bindTexture()
 void Txf::render(int c)
 {
   TexGlyphVertexInfo *tgvi;
-  if ((tgvi = getTCVI(c)) == NULL) return;
+  if ((tgvi = getGlyph(c)) == NULL) return;
 
   glBegin(GL_QUADS);
   glTexCoord2fv(tgvi->t0);
@@ -301,26 +298,30 @@ void Txf::render(int c)
   glTexCoord2fv(tgvi->t3);
   glVertex2sv(tgvi->v3);
   glEnd();
+
   glTranslatef(tgvi->advance, 0, 0);
 }
 
 // Renders a string of glyphs.
-void Txf::render(const char *str, int len)
+void Txf::render(const char *s, int l)
 {
-  for (int i=0; i < len; i++)  render(str[i]);
+  for (int i=0; i < l; i++)
+    render(s[i]);
 }
 
 Txf * Txf::getByUrl(const char *url)
 {
-  for (list<Txf*>::iterator il = txfList.begin(); il != txfList.end() ; ++il)
-    if (! strcmp((*il)->url, url))  return (*il);  // txf is in the cache
-  return NULL;	// we must dowdload the txf latter
+  for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it)
+    if (! strcmp((*it)->url, url))
+      return (*it);	// txf is in the cache
+  return NULL;		// we must dowdload the txf latter
 }
 
 Txf * Txf::getByNumber(uint16_t num)
 {
-  for (list<Txf*>::iterator il = txfList.begin(); il != txfList.end() ; ++il)
-    if ((*il)->num == num)  return (*il);  // txf is in the cache
+  for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it)
+    if ((*it)->num == num)
+      return (*it);	// txf is in the cache
   return NULL;
 }
 

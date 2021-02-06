@@ -434,13 +434,13 @@ void Render::rendering(bool zsel=false)
   // prior LOW == 0
   //
   trace2(DBG_VGL, "\n--- LOW");
-#if 0 //dax4
+#if 1 //dax4
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { // for all objects LOW
     specificRender(n, WObject::PRIOR_LOW);	// particules
   }
 #endif
-#if 0 //dax5
+#if 1 //dax5
   renderSolids(zsel, su, WObject::PRIOR_LOW);
 #else
   trace2(DBG_VGL, "\nopaq: ");
@@ -458,7 +458,7 @@ void Render::rendering(bool zsel=false)
     specificRender(n, WObject::PRIOR_MEDIUM);
   }
 #endif
-#if 0 //dax5
+#if 1 //dax5
   renderSolids(zsel, su, WObject::PRIOR_MEDIUM);
 #else
   trace2(DBG_VGL, "\nopaq: ");
@@ -476,7 +476,7 @@ void Render::rendering(bool zsel=false)
     specificRender(n, WObject::PRIOR_HIGH);
   }
 #endif
-#if 0 //dax5
+#if 1 //dax5
   renderSolids(zsel, su, WObject::PRIOR_HIGH);
 #else
   trace2(DBG_VGL, "\nopaq: ");

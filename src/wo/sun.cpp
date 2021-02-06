@@ -65,7 +65,7 @@ void Sun::parser(char *l)
 void Sun::behavior()
 {
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_LOW);	// OK behind objects
+  setRenderPrior(PRIOR_HIGH);	// OK behind objects
 
   initMobileObject(1);
   enablePermanentMovement();
@@ -179,8 +179,17 @@ void Sun::lighting()
   tic += 0.2;	// 360/86400
 }
 
+void Sun::destroy(Sun *sun, void *d, time_t s, time_t u)
+{
+  if (sun->solid)
+    delete sun->solid;
+  sun->toDelete();
+}
+
 void Sun::quit()
 { } 
 
 void Sun::funcs()
-{ } 
+{
+  setActionFunc(SUN_TYPE, 0, WO_ACTION destroy, "Destroy");
+} 

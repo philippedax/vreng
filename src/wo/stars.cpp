@@ -187,10 +187,10 @@ void Stars::parser(char *l)
   begin_while_parse (l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
-    else if (!stringcmp(l, "speed")) l = parse()->parseFloat(l, &speed, "speed");
-    else if (!stringcmp(l, "warp")) l = parse()->parseFloat(l, &warp, "warp");
-    else if (!stringcmp(l, "maxpos")) l = parse()->parseUInt16(l, &maxpos, "maxpos");
+    if      (! stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
+    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
+    else if (! stringcmp(l, "warp"))   l = parse()->parseFloat(l, &warp, "warp");
+    else if (! stringcmp(l, "maxpos")) l = parse()->parseUInt16(l, &maxpos, "maxpos");
   }
   end_while_parse(l);
 }
@@ -213,9 +213,9 @@ Stars::Stars(char *l)
   enableBehavior(UNSELECTABLE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_LOW);
+  setRenderPrior(PRIOR_LOW);	// LOW
 
-  initMobileObject(0);
+  initEphemeralObject(0);
   enablePermanentMovement();
 }
 
