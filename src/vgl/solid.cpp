@@ -1524,9 +1524,9 @@ int Solid::displayList(int display_mode = NORMAL)
        glDepthFunc(GL_LESS);	//dax GL_LESS
 
        glPushMatrix();
+        glTranslatef(pos[0], pos[1], pos[2]);     // x y z
         glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
         glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
-        glTranslatef(pos[0], pos[1], pos[2]);     // x y z
         if (scale != 1)
           glScalef(scale, scale, scale);
         if (scalex != 1 || scaley != 1 || scalez != 1)

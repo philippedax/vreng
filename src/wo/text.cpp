@@ -85,12 +85,12 @@ void Text::makeSolid()
 bool Text::loadFont()
 {
   // gets the font
-  if ((txf = Txf::getFromCache(names.url)) == NULL) {
+  if ((txf = Txf::load(names.url)) == NULL) {
     error("Text: can't load font %s", names.url);
     return false;
   }
-  // bind the font texture
-  txf->establishTexture(0, GL_TRUE);	// mipmaps true
+  // build the font texture
+  txf->buildTexture(0, GL_TRUE);	// mipmaps true
   loaded = true;
   return loaded;
 }
@@ -141,17 +141,18 @@ void Text::setShifts(float x, float y, float z, float az, float ax)
 
 void Text::render()
 {
-  if (! loaded) return;
-  if (state == INACTIVE) return;
+  if (! loaded || (state == INACTIVE)) return;
 
   glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, guys have bad color
   glPushMatrix();
-  glEnable(GL_LIGHTING);
-  glEnable(GL_TEXTURE_2D);
-  if (verso) glDisable(GL_CULL_FACE); // both faces
-  else       glEnable(GL_CULL_FACE);  // front face
+  //dax1 glEnable(GL_LIGHTING);
+  if (verso)
+    glDisable(GL_CULL_FACE); // both faces visibles
+  else
+    glEnable(GL_CULL_FACE);  // front face
 
-  txf->bindFontTexture();
+  txf->bindTexture();
+  glEnable(GL_TEXTURE_2D);
 
   //dax glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
   glMaterialfv(GL_FRONT, GL_EMISSION, color);
@@ -163,7 +164,7 @@ void Text::render()
   glScalef(SCALE*scale, SCALE*scale, SCALE*scale);
 
   // render the text
-  txf->renderString(text, (int) strlen(text));
+  txf->render(text, (int) strlen(text));
 
 #if 1 //dax1
   // bubble case

@@ -302,7 +302,7 @@ void Render::objectsOpaque(bool zsel, uint8_t pri)
 void Render::renderSolids(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    //dax4 if (s == su) continue;	// skip localuser
+    //dax2 if (s == su) continue;	// skip localuser
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
     if (   (*s)
         && (*s)->isVisible()
@@ -330,8 +330,8 @@ void Render::renderSolids(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-      //trace2(DBG_VGL, " %s", (*s)->object()->names.type);
-    //dax4 if (s == su) continue;	// skip localuser
+    //trace2(DBG_VGL, " %s", (*s)->object()->names.type);
+    //dax2 if (s == su) continue;	// skip localuser
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
     if (   (*s)
         && (*s)->isOpaque()
@@ -434,13 +434,13 @@ void Render::rendering(bool zsel=false)
   // prior LOW == 0
   //
   trace2(DBG_VGL, "\n--- LOW");
-#if 0 //dax3
+#if 0 //dax4
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { // for all objects LOW
     specificRender(n, WObject::PRIOR_LOW);	// particules
   }
 #endif
-#if 1 //dax5
+#if 0 //dax5
   renderSolids(zsel, su, WObject::PRIOR_LOW);
 #else
   trace2(DBG_VGL, "\nopaq: ");
@@ -452,13 +452,13 @@ void Render::rendering(bool zsel=false)
   // prior MEDIUM == 1
   //
   trace2(DBG_VGL, "\n--- MEDIUM");
-#if 0 //dax3
+#if 0 //dax4
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { // for all objects MEDIUM
     specificRender(n, WObject::PRIOR_MEDIUM);
   }
 #endif
-#if 1 //dax5
+#if 0 //dax5
   renderSolids(zsel, su, WObject::PRIOR_MEDIUM);
 #else
   trace2(DBG_VGL, "\nopaq: ");
@@ -470,13 +470,13 @@ void Render::rendering(bool zsel=false)
   // prior HIGH == 2
   //
   trace2(DBG_VGL, "\n--- HIGH");
-#if 1 //dax3
+#if 1 //dax4 if 0 guy is not rendered FIXME!
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { // for all objects HIGH
     specificRender(n, WObject::PRIOR_HIGH);
   }
 #endif
-#if 1 //dax5
+#if 0 //dax5
   renderSolids(zsel, su, WObject::PRIOR_HIGH);
 #else
   trace2(DBG_VGL, "\nopaq: ");
@@ -495,7 +495,7 @@ void Render::rendering(bool zsel=false)
   }
 
   // if buffer selection mode is on, don't do anything else: end
-  //dax4 if (zsel)  return;
+  //dax2 if (zsel)  return;
 
   // Renders localuser last
   if (localuser) {

@@ -80,7 +80,7 @@ class Txf {
 private:
   static std::list<Txf*> txfList; ///< txf list
 
-  int  num;			///< Txf number
+  uint16_t  num;		///< Txf number
   char url[URL_LEN];		///< font url
   Txf *next;			///< next Txf
   struct TexFont *texfont;	///< texfont ptr
@@ -90,33 +90,33 @@ public:
 
   virtual ~Txf();	///< destructor
 
-  static Txf * getFromCache(const char *url);
-  /**< get Txf from cache or downloading */
+  static Txf * load(const char *url);
+  /**< get Txf from cache or downloading. */
 
-  virtual void bindFontTexture();
-  /**< bind texture */
+  virtual void bindTexture();
+  /**< bind font texture. */
 
-  virtual GLuint establishTexture(GLuint texobj, GLboolean setupMipmaps);
-  /**< build texture */
+  virtual GLuint buildTexture(GLuint texobj, GLboolean setupMipmaps);
+  /**< build texture. */
 
-  virtual void renderString(const char *string, int len);
-  /**< render string */
+  virtual void render(const char *string, int len);
+  /**< render string. */
+
+  virtual void render(int c);
+  /**< render one character. */
 
   virtual Txf * getByUrl(const char *url);
   /**< get Txf by its url  */
 
-  virtual Txf * getByNumber(int num);
+  virtual Txf * getByNumber(uint16_t num);
   /**< get Txf by its number  */
 
-  static uint16_t getCurrentNumber();
+  virtual uint16_t getCurrentNumber() const;
   /**< get Txf current font number  */
 
 private:
   static void httpReader(void *atexfont, class Http *http);
   /**< http texfont loader */
-
-  virtual void renderGlyph(int c);
-  /**< render one character */
 
   virtual const char * getUrl() const;
   /**< Gets url name */

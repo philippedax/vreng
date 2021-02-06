@@ -55,12 +55,12 @@ Txf::~Txf()
   txfList.remove(this);
 }
 
-Txf * Txf::getFromCache(const char *url)
+Txf * Txf::load(const char *url)
 {
   Txf *txf;
 
   /* we must download the txf now */
-  trace(DBG_IMG, "getFromCache: loading %s", url);
+  trace(DBG_IMG, "load: loading %s", url);
 
   /* new entry in cache */
   txf = new Txf(url);
@@ -253,7 +253,7 @@ lastchance:
   /* NOTREACHED */
 }
 
-GLuint Txf::establishTexture(GLuint texobj, GLboolean setupMipmaps)
+GLuint Txf::buildTexture(GLuint texobj, GLboolean setupMipmaps)
 {
   if (texfont) {
     if (texfont->texobj == 0) {
@@ -280,12 +280,13 @@ GLuint Txf::establishTexture(GLuint texobj, GLboolean setupMipmaps)
   else return (GLuint) 0;
 }
 
-void Txf::bindFontTexture()
+void Txf::bindTexture()
 {
   glBindTexture(GL_TEXTURE_2D, texfont->texobj);
 }
 
-void Txf::renderGlyph(int c)
+// Renders a glyph.
+void Txf::render(int c)
 {
   TexGlyphVertexInfo *tgvi;
   if ((tgvi = getTCVI(c)) == NULL) return;
@@ -303,9 +304,10 @@ void Txf::renderGlyph(int c)
   glTranslatef(tgvi->advance, 0, 0);
 }
 
-void Txf::renderString(const char *str, int len)
+// Renders a string of glyphs.
+void Txf::render(const char *str, int len)
 {
-  for (int i=0; i < len; i++)  renderGlyph(str[i]);
+  for (int i=0; i < len; i++)  render(str[i]);
 }
 
 Txf * Txf::getByUrl(const char *url)
@@ -315,14 +317,14 @@ Txf * Txf::getByUrl(const char *url)
   return NULL;	// we must dowdload the txf latter
 }
 
-Txf * Txf::getByNumber(int num)
+Txf * Txf::getByNumber(uint16_t num)
 {
   for (list<Txf*>::iterator il = txfList.begin(); il != txfList.end() ; ++il)
     if ((*il)->num == num)  return (*il);  // txf is in the cache
   return NULL;
 }
 
-uint16_t Txf::getCurrentNumber()
+uint16_t Txf::getCurrentNumber() const
 {
   return txf_number;
 }
