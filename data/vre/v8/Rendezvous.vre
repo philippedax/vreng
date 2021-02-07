@@ -483,24 +483,24 @@
 -->
 
 <!-- guys -->
-<guy name="mec1"    pos="11.0 4 .85 1.5"  skin="wheat"     bust="green" legs="brown" feet="black"    url="/cset/walking.cset"> sex=1 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
-<guy name="mec2"    pos="10.5 4.5 .85 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
-<guy name="mec3"    pos="10.5 3.5 .85 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
-<mirage name="mec4" pos="10.0 4.0 .85 0.5"> <solid shape="man" dim=".3 .2 1.7" emi="grey" /></mirage>
+<guy name="guy1"    pos="11.0 4 .85 1.5"  skin="wheat"     bust="green" legs="brown" feet="black"    url="/cset/walking.cset"> sex=1 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
+<guy name="guy2"    pos="10.5 4.5 .85 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
+<guy name="guy3"    pos="10.5 3.5 .85 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
+<mirage name="guy4" pos="10.0 4.0 .85 0.5"> <solid shape="man" dim=".3 .2 1.7" emi="grey" /></mirage>
 <!--
 -->
 
 <!-- heads -->
-<model name="tete1" pos="11.0 4.0 1.52 1.5 1.57"  url="/lwo/head.lwo" scale=".0028"></model>
-<model name="tete2" pos="10.5 4.5 -.10 1.0 -1.57" url="/obj/head.obj" scale=".96"></model>
-<model name="tete3" pos="10.5 3.5 -.03 -1.5 0.00" url="/off/head.off" color="pink"></model>
-<model name="tete4" pos="10.0 4.0 1.55 6.5 0.00"  url="/3ds/head.3ds" scale=".028"></model>
+<model name="head1" pos="11.0 4.0 1.52 1.5 1.57"  url="/lwo/head.lwo" scale=".0028"></model>
+<model name="head2" pos="10.5 4.5 -.10 1.0 -1.57" url="/obj/head.obj" scale=".96"></model>
+<model name="head3" pos="10.5 3.5 -.03 -1.5 0.00" url="/off/head.off" color="pink"></model>
+<model name="head4" pos="10.0 4.0 1.55 6.5 0.00"  url="/3ds/head.3ds" scale=".028"></model>
 <!--
 -->
 
 <!-- hairs -->
 <!--
-<model name="tete" pos="5 2 1.55 1.57 1.57" scale=".0028" url="/lwo/head.lwo"></model>
+<model name="head" pos="5 2 1.55 1.57 1.57" scale=".0028" url="/lwo/head.lwo"></model>
 -->
 <!--
 <hairs pos="5 2 1.60" scale=".0028" url="/lwo/head.lwo"> <solid shape="bbox" dim=".2 .2 .2" /></hairs>
@@ -549,7 +549,7 @@
 
 <!-- mirror -->
 <mirror name="mirror" pos="7 5 1 1.57"> <solid dim="2 .01 2" dif="darkgrey" a=".3" /> </mirror>
-<mirage name="cadre"  pos="7 5 2 1.57"> <solid                 dim="2 .02 .04" emi="grey" />
+<mirage name="cadre"  pos="7 5 2 1.57"> <solid   dim="2 .02 .04" emi="grey" />
                           <solid rel="1 0 -1 0"  dim=".04 .02 2" emi="grey" />
                           <solid rel="-1 0 -1 0" dim=".04 .02 2" emi="grey" />
                           <solid rel="0 0 -2 0"  dim="2 .02 .04" emi="grey" />
@@ -566,8 +566,8 @@
 <fire name="fire" pos="2.25 -2.25 1" number="1000"> </fire>
 <mirage pos="2.25 -2.25 0.3" name="torchere"> <solid shape="cone" rb=".1" rt=".3" h=".3" dif="black" /></mirage>
 <!-- smoke -->
-<smoke pos="0.25 -0.25 1" number="400" speed=".5"> <solid shape="bbox" dim=".4 .4 .4" /></smoke>
 <!--
+<smoke pos="0.25 -0.25 1" number="400" speed=".5"> <solid shape="bbox" dim=".4 .4 .4" /></smoke>
 -->
 
 <!-- halo -->
@@ -649,10 +649,9 @@
 <terrain pos="-20 20 -1" height="0.2" color="green"> </terrain>
 <ground pos="-10 20 -1 0"> <solid dim="20 10 0.4" dif="grey" /></ground>
 -->
-<!-- river -->
 <!--
--->
 <river name="river" pos="-25 -25 -0.5 0" width="50" depth="5" waves="20"></river>
+-->
 <ground pos="0 -20 -1.5 0"> <solid dim="44 10 0.4" a="0" /></ground>
 <!-- sun -->
 <sun name="sun" pos="200 -100 0"></sun>

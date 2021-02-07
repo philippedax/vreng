@@ -80,11 +80,11 @@ void Fire::parser(char *l)
 
 void Fire::makeSolid()
 {
-  if (countOfSolids() == 0) {
+  //dax8 if (countOfSolids() == 0) {
     char s[256];
-    sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.25,.25,.75);
+    sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.25,.25,.50);
     parse()->parseSolid(s, SEP, this);
-  }
+  //dax8 }
 }
 
 void Fire::behavior()
