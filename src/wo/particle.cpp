@@ -278,16 +278,17 @@ void Particle::regenerate(float dt)
     timestep(&particles[n], dt);
 
     // collision with ground ?
-    if (particles[n].pos[2] <= ground)
-      //bounce(&particles[n], dt);
+    if (particles[n].pos[2] <= ground) {
+      bounce(&particles[n], dt);
+    }
 
     // dead particle ?
     if (particles[n].pos[2] < (ground + 0.005)) {
-      //particles[n].alive = false;  // death
+      //dax2 particles[n].alive = false;  // death
     }
     if (fequal(particles[n].vel[2], 0)) {
       particles[n].alive = false;  // death
-      //generate(&particles[n], dt);
+      generate(&particles[n], dt);
     }
   }
 }

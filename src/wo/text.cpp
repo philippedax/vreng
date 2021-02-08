@@ -154,7 +154,6 @@ void Text::render()
   txf->bindTexture();
   glEnable(GL_TEXTURE_2D);
 
-  //dax glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
   glMaterialfv(GL_FRONT, GL_EMISSION, color);
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 

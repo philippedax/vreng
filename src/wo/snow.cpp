@@ -32,7 +32,7 @@ void Snow::defaults()
   system = SNOW;
   number = DEF_NUM;
   flow = DEF_FLOW;
-  speed = 0.25; //DEF_SPEED / 4;
+  speed = 0.5; //DEF_SPEED / 2;
   pt_size = DEF_PTSIZE;
   points = true;
   ground = World::current()->getGround();

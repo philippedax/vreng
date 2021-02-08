@@ -46,15 +46,17 @@
 <mirage pos="0 0 0 0 1.57">
   <solid shape="cross" dim=".8 .04 .04" dif="red" />
 </mirage>
-<text pos=".45 .1 0.01 -1.57 0"   color="red"> N </text>
-<text pos="-.65 .1 0.01 -1.57 0"  color="red"> S </text>
-<text pos="-.1 .70 0.01 -1.57 0"  color="red"> W </text>
-<text pos="0.1 -.45 0.01 -1.57 0" color="red"> E </text>
+<text pos=".45 .1 0.05 -1.57 0"   color="red"> N </text>
+<text pos="-.65 .1 0.05 -1.57 0"  color="red"> S </text>
+<text pos="-.1 .70 0.05 -1.57 0"  color="red"> W </text>
+<text pos="0.1 -.45 0.05 -1.57 0" color="red"> E </text>
 
 <!-- welcome text -->
-<text name="welcome" pos="6 -2 5.5 -1.57 1.57"> Welcome to VREng </text>
 <!--
-<text pos="6 -2 5 -1.57 1.57" font="/txf/helvetica-br-24.txf"> Rendezvous </text>
+-->
+<text name="welcome" pos="9 -2 5.5 -1.57 1.57"> Welcome to VREng </text>
+<!--
+<text name="rendezvous" pos="9 -2 5 -1.57 1.57" font="/txf/helvetica-br-24.txf"> Rendezvous </text>
 -->
 
 <!-- wheel progression
@@ -171,7 +173,7 @@
   <solid dim="3 1 2" xn="/gif/house.gif" />
 </gate>
 
-<ftp name="ftp-download" pos="15 7 2.5 1.57"
+<ftp name="download" pos="15 7 2.5 1.57"
   url="ftp://localhost/~dax/ftp/pub/vreng/vreng.tar.gz">
   <solid dim="3 .08 .4" xn="/php/download.php" />
 </ftp>
@@ -423,7 +425,7 @@
 </water>
 -->
 <!-- swim-bottom -->
-<ground name="ground-swim" pos="0 -4.25 -1.5"> <solid dim="4.5 4.5 .5" dif="turquoise" a="0.1" /> </ground>
+<ground name="ground-swim" pos="0 -4.25 -1.5"> <solid dim="4.5 4.5 .5" dif="blue" a="0.1" /> </ground>
 
 <!-- firework, waterfall and fountain -->
 <firework pos="10 0 6"> </firework>
@@ -549,7 +551,7 @@
 
 <!-- mirror -->
 <mirror name="mirror" pos="7 5 1 1.57"> <solid dim="2 .01 2" dif="darkgrey" a=".3" /> </mirror>
-<mirage name="cadre"  pos="7 5 2 1.57"> <solid   dim="2 .02 .04" emi="grey" />
+<mirage name="border" pos="7 5 2 1.57"> <solid   dim="2 .02 .04" emi="grey" />
                           <solid rel="1 0 -1 0"  dim=".04 .02 2" emi="grey" />
                           <solid rel="-1 0 -1 0" dim=".04 .02 2" emi="grey" />
                           <solid rel="0 0 -2 0"  dim="2 .02 .04" emi="grey" />
@@ -572,37 +574,37 @@
 
 <!-- halo -->
 <halo name="halo" pos="1.2 -2.1 .6 0 -.78">
- <solid shape="disk" ri=".07" re=".1" emi="gold" />
+ <solid shape="disk" ri=".07" re=".1" dif="gold" />
 </halo>
 <!-- hat -->
 <hat name="tophat" pos="0.8 -2.1 .5" model="tophat">
- <solid shape="cone" rb=".08" rt=".08" h=".15" emi="black" />
- <solid shape="disk" ri=".08" re=".12" emi="black" />
- <solid shape="disk" rel="0 0 .15 0 0" ri="0" re=".08" emi="black" />
+ <solid shape="cone" rb=".08" rt=".08" h=".15" dif="black" />
+ <solid shape="disk" ri=".08" re=".12" dif="black" />
+ <solid shape="disk" rel="0 0 .15 0 0" ri="0" re=".08" dif="black" />
 </hat>
 <hat name="chinese" pos="0.6 -2.1 .5" model="chinese">
- <solid shape="cone" rb=".2" rt="0" h=".15" emi="yellow" />
+ <solid shape="cone" rb=".2" rt="0" h=".15" dif="yellow" />
 </hat>
 <hat name="cardinal" pos="0.4 -2.1 .5" model="cardinal">
- <solid shape="cone" rb=".09" rt=".05" h=".12" emi="red" />
- <solid shape="disk" ri=".09" re=".12" emi="red" />
+ <solid shape="cone" rb=".09" rt=".05" h=".12" dif="red" />
+ <solid shape="disk" ri=".09" re=".12" dif="red" />
 </hat>
 <hat name="bowler" pos="0.2 -2.1 .5" model="bowler">
- <solid shape="cone" rb=".09" rt=".05" h=".10" emi="green" />
- <solid shape="torus" r=".09" rt=".02" emi="darkgreen" />
+ <solid shape="cone" rb=".09" rt=".05" h=".10" dif="green" />
+ <solid shape="torus" r=".09" rt=".02" dif="darkgreen" />
 </hat>
 <hat name="country" pos="0.0 -2.1 .5" model="country">
- <solid shape="cone" rb=".09" rt=".04" h=".12" emi="yellow" style="1" />
- <solid shape="torus" r=".09" rt=".02" emi="yellow" style="1" />
+ <solid shape="cone" rb=".09" rt=".04" h=".12" dif="yellow" style="1" />
+ <solid shape="torus" r=".09" rt=".02" dif="yellow" style="1" />
 </hat>
 <hat name="clown" pos="-.2 -2.1 .5" model="clown">
- <solid shape="cone" rb=".08" rt=".0" h=".30" emi="white" />
+ <solid shape="cone" rb=".08" rt=".0" h=".30" dif="white" />
 </hat>
 
 <!-- teapot -->
 <!--
 <mirage name="teapot" pos="-.4 -2.1 .5 3.14" flare="1" scale="0.1" color="green">
- <solid shape="teapot" dim=".2 .2 .2" emi="blue" spe="1 1 1" />
+ <solid shape="teapot" dim=".2 .2 .2" dif="blue" spe="1 1 1" />
 </mirage>
 -->
 

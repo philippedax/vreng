@@ -191,7 +191,7 @@ void Render::specificObjects(uint32_t num, uint8_t pri)
 #endif
 }
 
-#if 0 //dax0 debug
+#if 1 //dax0 debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -452,10 +452,10 @@ void Render::rendering(bool zsel=false)
   // prior MEDIUM == 1
   //
   trace2(DBG_VGL, "\n--- MEDIUM");
-#if 0 //dax4
+#if 1 //dax4
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { // for all objects MEDIUM
-    specificRender(n, WObject::PRIOR_MEDIUM);
+    specificRender(n, WObject::PRIOR_MEDIUM);	// text
   }
 #endif
 #if 1 //dax5
