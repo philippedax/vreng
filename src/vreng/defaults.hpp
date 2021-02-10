@@ -32,7 +32,14 @@
 #define DEF_MYSQL_SERVER	"localhost"
 #else
 #define IPMC_ENABLED		1 // ipmulticast enabled
-#define DEF_HTTP_SERVER		"localhost"	// should be "www.vreng.enst.fr"
+#define DEF_HTTP_SERVER		"localhost"	// was "www.vreng.enst.fr" but recently unreachable
+						// because no more maintained today
+						// the httpd server and its datas associated
+						// should be well known at a stable location (url)
+						// and so reachable for everybody
+						// allowing multi-users behavior
+						// localhost is not the ideal solution (mono-user)
+						// localhost allows to run simply autonomously
 #define DEF_VJS_SERVER		"localhost"
 #define DEF_VAPS_SERVER		"localhost"
 #define DEF_VACS_SERVER		"localhost"
