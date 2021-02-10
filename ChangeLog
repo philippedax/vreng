@@ -15,7 +15,9 @@ The rules for this file:
 ++ 9
 == 9.1
 -- 9.1.6
-	- updated defaults to run local
+	- added fictif solid to play all solids
+	(2021/02/10, Philippe Dax)
+	- updated defaults to run local autonomously
 	- replace glui-2.01f by glui-2.37
 	- fixed loop state in movie.cpp
 	- added getDlist() in solid*pp for board.cpp

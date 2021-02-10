@@ -11,7 +11,7 @@ case $# in
   echo "usage: $p github | gitlab"
   ;;
 1)
-  case $1
+  case $1 in
   github)
     rm -rf github
     git clone https://github.com/philippedax/vreng.git github
