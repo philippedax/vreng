@@ -66,12 +66,12 @@ void Fractal::behavior()
 
 void Fractal::makeSolid()
 {
-  if (countOfSolids() == 0) {
+  //dax2 if (countOfSolids() == 0) {
     char s[256];
     //sprintf(s,"solid shape=\"bsphere\" radius=\"%f\" />",1.);
     sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",1.,.25,1.);
     parse()->parseSolid(s, SEP, this);
-  }
+  //dax2 }
 }
 
 void Fractal::inits()

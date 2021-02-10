@@ -217,6 +217,10 @@ Stars::Stars(char *l)
 
   initEphemeralObject(0);
   enablePermanentMovement();
+
+  char s[128];
+  sprintf(s, "solid shape=\"none\" />");
+  parse()->parseSolid(s, SEP, this);
 }
 
 void Stars::changePermanent(float lasting)

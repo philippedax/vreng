@@ -75,9 +75,13 @@ void Thunder::inits()
 
 Thunder::Thunder(char *l)
 {
+  char s[128];
+
   parser(l);
   behavior();
   inits();
+  sprintf(s, "solid shape=\"none\" />");
+  parse()->parseSolid(s, SEP, this);
 }
 
 void Thunder::draw()

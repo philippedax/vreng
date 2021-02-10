@@ -56,6 +56,8 @@ private:
   virtual void defaults();
   /**< Sets default values */
 
+  virtual void makeSolid();
+
   static void sound_continue(int sig);
   virtual void sound_continue();
 

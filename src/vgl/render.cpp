@@ -148,13 +148,13 @@ void Render::setFlash()
 
 void Render::materials()
 {
-  const GLfloat ambient[] = {0.2, 0.2, 0.2, 1};
-  const GLfloat color[] =   {0.9, 0.9, 0.9, 1};
+  const GLfloat ambient[] = {0.2, 0.2, 0.2, 1};	// dark grey
+  const GLfloat color[] =   {0.8, 0.8, 0.8, 1};	// light grey
 
   glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, color);
-  glMaterialfv(GL_FRONT, GL_EMISSION, color);
+  //dax2 glMaterialfv(GL_FRONT, GL_SPECULAR, color);
+  //dax2 glMaterialfv(GL_FRONT, GL_EMISSION, color);
 }
 
 /** puts object number into the buffer selection */
@@ -302,13 +302,14 @@ void Render::objectsOpaque(bool zsel, uint8_t pri)
 void Render::renderSolids(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    //dax2 if (s == su) continue;	// skip localuser
+    if (s == su) continue;	// skip localuser
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
     if (   (*s)
         && (*s)->isVisible()
         && (*s)->object()->prior == pri
        ) {
       putSelbuf((*s)->object());
+      materials();
       if (! (*s)->object()->isBehavior(SPECIFIC_RENDER)) {
         if ((*s)->isOpaque()) {
           (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
@@ -434,7 +435,7 @@ void Render::rendering(bool zsel=false)
   // prior LOW == 0
   //
   trace2(DBG_VGL, "\n--- LOW");
-#if 1 //dax4
+#if 0 //dax4
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { // for all objects LOW
     specificRender(n, WObject::PRIOR_LOW);	// particules

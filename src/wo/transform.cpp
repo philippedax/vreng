@@ -76,6 +76,10 @@ Transform::Transform(char *l)
 
   enableBehavior(SPECIFIC_RENDER);
   initObject(INVISIBLE);
+
+  char s[128];
+  sprintf(s, "solid shape=\"none\" />");
+  parse()->parseSolid(s, SEP, this);
 }
 
 void Transform::render()

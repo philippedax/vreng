@@ -47,6 +47,7 @@ protected:
   V3		bbsize;		///< relative half sizes of BB.
   bool		is_visible;	///< should this solid be drawn ?.
   bool		is_opaque;	///< set if the solid is totaly opaque.
+  bool		is_fictif;	///< set if the solid is fictif.
   GLfloat	mat_diffuse[4];
   GLfloat	mat_ambient[4];
   GLfloat	mat_specular[4];

@@ -68,6 +68,7 @@ enum {
   STOK_ERR = 0,
   /* shapes */
   STOK_SHAPE,
+  STOK_NONE,
   STOK_BOX,
   STOK_MAN,
   STOK_GUY,
@@ -203,6 +204,7 @@ static const struct sStokens stokens[] = {
   { "statue", "statue", STOK_STATUE },
   { "bb", "bbox", STOK_BBOX },
   { "bs", "bsphere", STOK_BSPHERE },
+  { "none", "fictif", STOK_NONE },
   { "cross", "cross", STOK_CROSS },
   { "sphere+torus", "dsphere", STOK_SPHERE_TORUS },
   { "sphere+disk", "saucer", STOK_SPHERE_DISK },
@@ -307,6 +309,7 @@ Solid::Solid()
   blink = false;
   is_visible = true;	// visible by default
   is_opaque = true;	// opaque by default
+  is_fictif = false;	// true solid
   ray_dlist = 0;
 
   for (int i=0; i<5; i++) pos[i] = 0;
@@ -430,6 +433,7 @@ char * Solid::parser(char *l)
     l = parseFrame(l);
     l = parseShape(l);
     switch (shape) {
+      case STOK_NONE:
       case STOK_BBOX:
       case STOK_BOX:
       case STOK_SPHERE:
@@ -756,6 +760,10 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   glMaterialiv(GL_FRONT, GL_SHININESS, mat_shininess);
 
   switch (shape) {
+
+    case STOK_NONE:
+      is_fictif = true;
+      break;
 
     case STOK_BOX:
       preDraw(texid, alpha, fog);

@@ -118,6 +118,10 @@ Particle::Particle(char *l)
   parser(l);
   behavior();
   inits();
+
+  char s[128];
+  sprintf(s, "solid shape=\"none\" />");
+  parse()->parseSolid(s, SEP, this);
 }
 
 void Particle::inits()

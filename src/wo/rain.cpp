@@ -42,11 +42,19 @@ void Rain::defaults()
   for (int i=0; i<3; i++) color[i] = .5;  // grey
 }
 
+void Rain::makeSolid()
+{
+  char s[128];
+  sprintf(s, "solid shape=\"none\" />");
+  parse()->parseSolid(s, SEP, this);
+}
+
 Rain::Rain(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
   behavior();
   setRenderPrior(PRIOR_LOW);
+  makeSolid();
   inits();
   points = false;
   pcloud = cloud;

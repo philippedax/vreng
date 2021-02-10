@@ -54,6 +54,8 @@ private:
   virtual void defaults();
   /**< Sets default values */
 
+  virtual void makeSolid();
+
   // Callbacks
   static void start_cb(class Cloud *cloud, void *d, time_t s, time_t u);
   static void stop_cb(class Cloud *cloud, void *d, time_t s, time_t u);

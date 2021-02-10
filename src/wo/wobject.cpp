@@ -153,8 +153,8 @@ void WObject::initObject(uint8_t _mode)
       break;
 
     case FLUID:
-      addToFluid();	// add to fluidList
       enableBehavior(NO_ELEMENTARY_MOVE);
+      addToFluid();	// add to fluidList
       break;
 
     case INVISIBLE:
@@ -165,17 +165,17 @@ void WObject::initObject(uint8_t _mode)
       break;
 
     case EPHEMERAL:
-      addToMobile();
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
+      addToMobile();
       break;
 
     case MOBILEINVISIBLE:
-      addToMobile();
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
+      addToMobile();
       addToInvisible();
       break;
   }

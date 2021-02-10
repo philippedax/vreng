@@ -40,11 +40,19 @@ void Snow::defaults()
   for (int i=0; i<3; i++) color[i] = 1;	// white
 }
 
+void Snow::makeSolid()
+{
+  char s[128];
+  sprintf(s, "solid shape=\"none\" />");
+  parse()->parseSolid(s, SEP, this);
+}
+
 Snow::Snow(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
   behavior();
   setRenderPrior(PRIOR_LOW);
+  makeSolid();
   inits();
   pcloud = cloud;
   mycolor = true;

@@ -65,11 +65,11 @@ void Firework::parser(char *l)
 
 void Firework::makeSolid()
 {
-  if (countOfSolids() == 0) {
+  //dax2 if (countOfSolids() == 0) {
     char s[256];
     sprintf(s,"solid shape=\"bsphere\" radius=\"%f\" />",1.);
     parse()->parseSolid(s, SEP, this);
-  }
+  //dax2 }
   V3 dim;
 
   getDimBB(dim);
