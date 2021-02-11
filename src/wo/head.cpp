@@ -23,7 +23,7 @@
 #include "format.hpp"
 #include "user.hpp"	// localuser
 #include "model.hpp"	// Model
-#include "mysql.hpp"	// VRSql
+#include "vrsql.hpp"	// VRSql
 
 
 const OClass Head::oclass(HEAD_TYPE, "Head", Head::creator);

@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "ball.hpp"
 #include "user.hpp"	// User
-#include "mysql.hpp"	// deleteRow
+#include "vrsql.hpp"	// deleteRow
 #include "cauldron.hpp"	// Cauldron
 #include "step.hpp"	// STEP_TYPE
 #include "move.hpp"	// GRAVITY

@@ -23,7 +23,7 @@
 #include "halo.hpp"
 #include "hat.hpp"
 #include "user.hpp"	// localuser
-#include "mysql.hpp"	// VRSql
+#include "vrsql.hpp"	// VRSql
 
 
 const OClass Cloth::oclass(CLOTH_TYPE, "Cloth", Cloth::creator);

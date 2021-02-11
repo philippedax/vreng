@@ -16,6 +16,7 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.1\n\
 -- 9.1.6\n\
+	- added support for sqlite in configure.ac\n\
 	- added fictif solid to play all solids\n\
 	(2021/02/10, Philippe Dax)\n\
 	- updated defaults to run local autonomously\n\

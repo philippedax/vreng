@@ -19,7 +19,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "mysql.hpp"
+#include "vrsql.hpp"
 #include "world.hpp"	// current
 #include "android.hpp"	// Android
 #include "pref.hpp"	// g.pref.user

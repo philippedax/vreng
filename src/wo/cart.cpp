@@ -24,7 +24,7 @@
 #include "user.hpp"	// localuser
 #include "gui.hpp"	// addCart, dialogCart
 #include "netobj.hpp"	// noh
-#include "mysql.hpp"	// VRSql
+#include "vrsql.hpp"	// VRSql
 #include "render.hpp"	// showSolidList
 #include "pref.hpp"	// g.pref.user
 #include <list>
