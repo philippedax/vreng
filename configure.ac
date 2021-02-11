@@ -1309,6 +1309,41 @@ fi
 
 # --------------------------------------------------------------------------
 #
+# SQLlite configuration
+#
+AC_ARG_WITH([sqlite],
+    AS_HELP_STRING([--with-sqlite],[allow use of sqlite if available [[default=no]]]),
+    [ac_cv_use_sqlite=$withval], [ac_cv_use_sqlite=no])
+
+AH_TEMPLATE(WITH_SQLITE)
+if test "${with_sqlite:=no}" = "yes"; then
+  AC_DEFINE(WITH_SQLITE)
+  AH_TEMPLATE(HAVE_SQLITE)
+  AH_TEMPLATE(HAVE_SQLITE_H)
+
+  SQLITE_L="-L${prefix}/lib"
+  SQLITE_I="-I${prefix}/include"
+    SQLITE_L="-L${prefix}/lib"
+  if test -f ${prefix}/include/sqlite3.h ; then
+    SQLITE_I="-I${prefix}/include"
+    #AC_DEFINE(HAVE_SQLITE_H)
+  else
+    echo "sqlite3.h not found, check config.log!"
+  fi
+  saved_cppflags=$CPPFLAGS
+  SQLITE_CFLAGS=${SQLITE_I}
+  AC_SUBST(SQLITE_CFLAGS)
+  CPPFLAGS="${SQLITE_I} ${CPPFLAGS}"
+  AC_CHECK_HEADER([sqlite3.h], [AC_DEFINE([HAVE_SQLITE_H])],)
+  AC_CHECK_LIB([sqlite3], [sqlite3_open], [VRELIBS="${SQLITE_L} -lsqlite3 ${VRELIBS}"],,)
+  if test "$ac_cv_lib_sqlite3_sqlite3_open" = "yes" ; then
+    AC_DEFINE(HAVE_SQLITE)
+  fi
+fi
+
+
+# --------------------------------------------------------------------------
+#
 # MySql configuration
 #
 AC_ARG_WITH([mysql],

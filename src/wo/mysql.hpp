@@ -22,8 +22,10 @@
 #define MYSQL_HPP
 
 #if 0 //debug mysql forced
+#if !HAVE_SQLLITE
 #define HAVE_MYSQL 1
 #include <mysql/mysql.h>
+#endif
 #endif
 #include "wobject.hpp"
 
