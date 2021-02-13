@@ -146,7 +146,7 @@ Mirage::Mirage(WObject *user, char *geom)
 
 #if HAVE_MYSQL
   psql = VRSql::getVRSql();
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     psql->insertRow(this);
     psql->updatePos(this);
     psql->updateGeom(this, geom);
@@ -181,7 +181,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   geometry = new char[BUFSIZ];
 #if HAVE_MYSQL
   psql = VRSql::getVRSql();
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     psql->getGeom(this);
     psql->getOwner(this);
     psql->getPos(this);

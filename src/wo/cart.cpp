@@ -26,7 +26,7 @@
 #include "netobj.hpp"	// noh
 #include "vrsql.hpp"	// VRSql
 #include "render.hpp"	// showSolidList
-#include "pref.hpp"	// g.pref.user
+#include "pref.hpp"	// g.user
 #include <list>
 using namespace std;
 
@@ -79,7 +79,7 @@ void Cart::addToCart(WObject *po)
       psql = VRSql::getVRSql();	// first take the VRSql handle;
       if (psql) {
         psql->insertCol(CART_NAME, "owner", po->getInstance(), "");
-        psql->updateString(po, CART_NAME, "owner", po->getInstance(), "", ::g.pref.user);
+        psql->updateString(po, CART_NAME, "owner", po->getInstance(), "", ::g.user);
         trace(DBG_SQL, "cartRow: (%s,%s)", po->getInstance(), po->ownerName());
       }
 #endif

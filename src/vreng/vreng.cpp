@@ -100,7 +100,7 @@ void Global::startCB()
   Channel::init();	// Network initialization
   Universe::init();	// World manager initialisation
   Vac::init();	    	// Vac cache initialization
-#if HAVE_MYSQL
+#if HAVE_SQLITE | HAVE_MYSQL
   VRSql::init();	// MySql initialization
 #endif
 #if HAVE_OPENAL

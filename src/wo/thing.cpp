@@ -102,7 +102,7 @@ Thing::Thing(WObject *user, char *geom)
 
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     psql->insertRow(this);
     psql->updatePos(this);
     psql->updateOwner(this);
@@ -134,7 +134,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   geometry = new char[BUFSIZ];
   if (! psql)
     psql = VRSql::getVRSql();
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     psql->getGeom(this);
     psql->getOwner(this);
     psql->getPos(this);

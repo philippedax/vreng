@@ -133,7 +133,7 @@ void Head::setPersist()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     psql->insertRow(this);
     psql->updatePos(this);
     psql->updateOwner(this);
@@ -145,7 +145,7 @@ void Head::getPersist()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     psql->getOwner(this);
     psql->getPos(this);
     psql->getGeom(this);
@@ -156,7 +156,7 @@ void Head::getPersist()
 void Head::delPersist()
 {
 #if HAVE_MYSQL
-  if (psql && explicitName()) psql->deleteRow(this, names.given);
+  if (psql && givenName()) psql->deleteRow(this, names.given);
 #endif
 }
 

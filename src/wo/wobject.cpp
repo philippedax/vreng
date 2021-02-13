@@ -31,7 +31,7 @@
 #include "carrier.hpp"	// carrier->take
 #include "render.hpp"	// getVisiblePosition
 #include "prof.hpp"	// new_wobject
-#include "timer.hpp"	// ::g.times
+#include "timer.hpp"	// ::g.timer
 
 #include <list>
 using namespace std;
@@ -95,7 +95,7 @@ WObject::WObject()
 
   solid = NULL;
 
-#if HAVE_MYSQL
+#if VRSQL
   psql = NULL;
 #endif
   flare = NULL;
@@ -617,7 +617,7 @@ void WObject::resetGui()
 bool WObject::removeFromScene()
 {
   if (isOwner()) {
-#if HAVE_MYSQL
+#if VRSQL
     if (psql) psql->deleteRow(this);
 #endif
     toDelete();
@@ -706,7 +706,7 @@ void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
  */
 void WObject::getPersistency()
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     psql->getPos(this);
@@ -717,27 +717,27 @@ void WObject::getPersistency()
 
 void WObject::getPersistency(int16_t state)
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     int st = psql->getState(this);
     trace(DBG_SQL, "state: name=%s state=%d", names.instance, st);
-    state = (st != ERR_MYSQL) ? st : 0; // updates state
+    state = (st != ERR_SQL) ? st : 0; // updates state
   }
 #endif
 }
 
 void WObject::updatePersistency()
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     progression('m');
-    ::g.times.mysql.start();
+    ::g.timer.mysql.start();
     psql->updatePos(this);
     pos.z = psql->getPosZ(this);
     psql->updatePosZ(this);
-    ::g.times.mysql.stop();
+    ::g.timer.mysql.stop();
   }
 #endif
 }
@@ -745,13 +745,13 @@ void WObject::updatePersistency()
 /* Updates state for MySql */
 void WObject::updatePersistency(int16_t _state)
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
-    ::g.times.mysql.start();
+    ::g.timer.mysql.start();
     progression('m');
     psql->updateState(this, _state);
-    ::g.times.mysql.stop();
+    ::g.timer.mysql.stop();
   }
 #endif
 }
@@ -761,7 +761,7 @@ void WObject::updatePersistency(int16_t _state)
  */
 void WObject::savePersistency()
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && isBehavior(PERSISTENT) && !removed && givenName()) {
     //trace(DBG_FORCE, "savePersistency: %s pos.moved=%d", names.instance, pos.moved);
@@ -776,9 +776,7 @@ void WObject::savePersistency()
 /* Quits MySql */
 void WObject::quitPersistency()
 {
-#if HAVE_MYSQL
   if (psql) psql->quit();
-#endif
 }
 
 //

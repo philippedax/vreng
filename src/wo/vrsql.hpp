@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
+// Copyright (C) 1997-2021 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -18,38 +18,51 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef MYSQL_HPP
-#define MYSQL_HPP
+#ifndef VRSQL_HPP
+#define VRSQL_HPP
 
-#if 0 //debug mysql forced
-#if !HAVE_SQLLITE
-#define HAVE_MYSQL 1
+#if !HAVE_SQLITE & !HAVE_MYSQL
+#define VRSQL 0
+#else
+#define VRSQL 1
+//#define HAVE_SQLITE 0 //debug try without SQLITE !!!!!!!!!!!!!!!!!!!
+//#if !HAVE_SQLITE
+//#define HAVE_MYSQL 1 // mysql forced if sqlite not present
+//#endif
+#endif
+
+#if HAVE_SQLITE
+#include <sqlite3.h>
+#elif HAVE_MYSQL
 #include <mysql/mysql.h>
 #endif
-#endif
-#include "wobject.hpp"
+
+#include "wobject.hpp"	// typeName
 
 
-#if HAVE_MYSQL
+#define	ERR_SQL	-11111	// query error
 
-#define	ERR_MYSQL	-11111
 
 /**
  * VRSql class
- *
- * MySql encapsulation of calls to the vreng database
  */
 class VRSql {
 
  private:
   static const uint16_t CMD_SIZE = 1024;	///< query size max
-
-  MYSQL_RES *ressql;	///< MySqsl result
-  MYSQL_ROW row;	///< MySql row
   char sqlcmd[CMD_SIZE];///< MySql command
 
+#if HAVE_MYSQL
+  MYSQL_RES *ressql;	///< MySqsl result
+  MYSQL_ROW row;	///< MySql row
+#endif
+
  public:
-  MYSQL *mysql;		///< MySql handle
+#if HAVE_SQLITE
+  sqlite3 *db;		///< Sqlite handle
+#elif HAVE_MYSQL
+  MYSQL *mysqlhdl;	///< MySql handle
+#endif
 
   VRSql();		///< constructor
 
@@ -61,17 +74,29 @@ class VRSql {
   static VRSql* getVRSql();
   /**< returns the vrsql pointer */
 
+#if HAVE_SQLITE
+  virtual bool open();
+#elif HAVE_MYSQL
   virtual bool connect();
   /**< connects to the MySql server */
+#endif
 
   virtual void quit();
   /**< closes the MySql link */
 
-  virtual bool query(const char *sqlcmd);
-  /**< sends a MySql query */
+#if HAVE_SQLITE
+  virtual int callback(void *, int argc, char **argv, char **errmsg);
+  virtual int prepare(const char *sqlcmd);
+#endif
 
+  virtual bool query(const char *sqlcmd);
+  /**< sends a Sql query */
+
+#if HAVE_SQLITE
+#elif HAVE_MYSQL
   virtual MYSQL_RES * result();
   /**< gets the Sql result */
+#endif
 
   virtual int getCount(const char *table, const char *col, const char *pattern);
   /**< gets a count of rows matching the pattern */
@@ -138,9 +163,6 @@ class VRSql {
   virtual void deleteRows(const char *table);
   /**< deletes all rows from table */
 
-  virtual void deleteRows(WObject *o);
-  /**< deletes all rows of this object */
-
   virtual void deleteRow(WObject *o, const char *table, const char *object, const char *world);
   /**< deletes a row from table */
 
@@ -149,6 +171,9 @@ class VRSql {
 
   virtual void deleteRow(WObject *o);
   /**< deletes a row of this object */
+
+  virtual void deleteRows(WObject *o);
+  /**< deletes all rows of this object */
 
   // get
 
@@ -219,6 +244,4 @@ class VRSql {
   virtual void updateColorA(WObject *o);
 };
 
-#endif // HAVE_MYSQL
-
-#endif
+#endif // VRSQL

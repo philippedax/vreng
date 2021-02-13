@@ -134,7 +134,7 @@ void Cloth::setPersist()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     psql->insertRow(this);
     psql->updatePos(this);
     psql->updateOwner(this);
@@ -147,7 +147,7 @@ void Cloth::getPersist()
 {
 #if HAVE_MYSQL
   if (! psql) psql = VRSql::getVRSql();
-  if (psql && explicitName()) {
+  if (psql && givenName()) {
     psql->getOwner(this);
     psql->getPos(this);
     psql->getGeom(this);
@@ -158,7 +158,7 @@ void Cloth::getPersist()
 void Cloth::delPersist()
 {
 #if HAVE_MYSQL
-  if (psql && explicitName())  psql->deleteRow(this, names.named);
+  if (psql && givenName())  psql->deleteRow(this, names.given);
 #endif
 }
 

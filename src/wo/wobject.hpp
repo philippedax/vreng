@@ -156,7 +156,7 @@ public:
   char *geometry;		///< geometry string.
   class Solid *solid;		///< solid pointer
   char chan[CHAN_LEN];		///< channel.
-#if HAVE_MYSQL
+#if HAVE_SQLITE | HAVE_MYSQL
   class VRSql *psql;		///< VRSql handle.
 #endif
   class Flare *flare;		///< flare instance
