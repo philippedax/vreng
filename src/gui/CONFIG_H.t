@@ -54,7 +54,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ARPA_NAMESER_H 1\n\
 \n\
 /* */\n\
-#define HAVE_CAML_CALLBACK_H 1\n\
+/* #undef HAVE_CAML_CALLBACK_H */\n\
 \n\
 /* Define to 1 if you have the <ctype.h> header file. */\n\
 #define HAVE_CTYPE_H 1\n\
@@ -190,7 +190,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ISASCII 1\n\
 \n\
 /* */\n\
-#define HAVE_JAVA 1\n\
+/* #undef HAVE_JAVA */\n\
 \n\
 /* */\n\
 #define HAVE_JPEGLIB_H 1\n\
@@ -347,7 +347,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_NO_SOCKLEN_T */\n\
 \n\
 /* */\n\
-#define HAVE_OCAML 1\n\
+/* #undef HAVE_OCAML */\n\
 \n\
 /* */\n\
 /* #undef HAVE_OPENAL */\n\
@@ -411,10 +411,10 @@ const char CONFIG_H[] = "\
 #define HAVE_SOCKET 1\n\
 \n\
 /* */\n\
-#define HAVE_SQLITE 1\n\
+/* #undef HAVE_SQLITE */\n\
 \n\
 /* */\n\
-#define HAVE_SQLITE_H 1\n\
+/* #undef HAVE_SQLITE_H */\n\
 \n\
 /* Define to 1 if you have the `sqrt' function. */\n\
 #define HAVE_SQRT 1\n\
@@ -583,7 +583,7 @@ const char CONFIG_H[] = "\
 /* #undef NEXTSTEP */\n\
 \n\
 /* */\n\
-#define OCAML_PATH \"/usr/local/lib/ocaml\"\n\
+/* #undef OCAML_PATH */\n\
 \n\
 /* */\n\
 /* #undef OPENBSD */\n\
@@ -661,13 +661,13 @@ const char CONFIG_H[] = "\
 /* #undef WANT_GL2PS */\n\
 \n\
 /* */\n\
-#define WANT_GLUI 1\n\
+/* #undef WANT_GLUI */\n\
 \n\
 /* */\n\
 /* #undef WANT_IPV6 */\n\
 \n\
 /* */\n\
-#define WANT_OCAML 1\n\
+/* #undef WANT_OCAML */\n\
 \n\
 /* */\n\
 #define WANT_UBIT 1\n\
@@ -691,7 +691,7 @@ const char CONFIG_H[] = "\
 /* #undef WITH_PYTHON */\n\
 \n\
 /* */\n\
-#define WITH_SQLITE 1\n\
+/* #undef WITH_SQLITE */\n\
 \n\
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most\n\
    significant byte first (like Motorola and SPARC, unlike Intel). */\n\

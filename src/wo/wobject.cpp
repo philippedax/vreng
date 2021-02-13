@@ -776,7 +776,9 @@ void WObject::savePersistency()
 /* Quits MySql */
 void WObject::quitPersistency()
 {
+#if VRSQL
   if (psql) psql->quit();
+#endif
 }
 
 //

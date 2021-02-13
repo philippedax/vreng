@@ -156,10 +156,10 @@ public:
   char *geometry;		///< geometry string.
   class Solid *solid;		///< solid pointer
   char chan[CHAN_LEN];		///< channel.
-#if HAVE_SQLITE | HAVE_MYSQL
-  class VRSql *psql;		///< VRSql handle.
+#if VRSQL 			///< HAVE_SQLITE | HAVE_MYSQL
+  class VRSql *psql;		///< VRSql pointer.
 #endif
-  class Flare *flare;		///< flare instance
+  class Flare *flare;		///< flare instance.
 
   /* object's list modes */
   enum object_mode {
