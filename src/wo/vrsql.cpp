@@ -61,7 +61,7 @@ VRSql::VRSql()
   db = NULL;
 #endif
 #if HAVE_MYSQL
-  mysqlhdl = NULL;
+  msql = NULL;
   ressql = NULL;
 #endif
 }
@@ -75,7 +75,6 @@ bool VRSql::open()
   char *err_msg = 0;
     
   int rc = sqlite3_open(DB, &db);
-    
   if (rc != SQLITE_OK) {
     fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
     sqlite3_close(db);
@@ -84,14 +83,11 @@ bool VRSql::open()
   return true;
 }
 
-int VRSql::callback(void *NotUsed, int argc, char **argv, char **errmsg)
+int VRSql::callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
-  NotUsed = 0;
-    
-  //for (int i = 0; i < argc; i++) {
-  //  printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-  //}
-  //printf("\n");
+  for (int i = 0; i < argc; i++) {
+    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+  }
   return 0;
 }
 
@@ -107,12 +103,12 @@ bool VRSql::connect()
     return false;
 
 #ifdef HAVE_MYSQL_REAL_CONNECT
-  if ((mysqlhdl = mysql_init(mysqlhdl)) != NULL) {
-    if (! mysql_real_connect(mysqlhdl, DEF_MYSQL_SERVER, USER, PASSWD, DB, 0, NULL, 0)) {
+  if ((msql = mysql_init(msql)) != NULL) {
+    if (! mysql_real_connect(msql, DEF_MYSQL_SERVER, USER, PASSWD, DB, 0, NULL, 0)) {
       warning("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
 #if HAVE_MYSQL_ERROR
-      if (mysql_errno(mysqlhdl))
-        error("mysql_error: %s", mysql_error(mysqlhdl));
+      if (mysql_errno(msql))
+        error("mysql_error: %s", mysql_error(msql));
 #endif
       return false;
     }
@@ -123,11 +119,11 @@ bool VRSql::connect()
   }
   return true;
 #else
-  if ((mysqlhdl = mysql_connect(NULL, DEF_MYSQL_SERVER, USER, PASSWD)) == NULL) {
+  if ((msql = mysql_connect(NULL, DEF_MYSQL_SERVER, USER, PASSWD)) == NULL) {
     warning("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
     return false;
   }
-  if (mysqlhdl && mysql_select_db(mysqlhdl, DB) != 0) {
+  if (msql && mysql_select_db(msql, DB) != 0) {
     error("VRSql: can't find database %s", DB);
     return false;
   }
@@ -175,8 +171,8 @@ void VRSql::quit()
     if (db) sqlite3_close(db);
     db = NULL;
 #elif HAVE_MYSQL
-    if (mysqlhdl) mysql_close(mysqlhdl);
-    mysqlhdl = NULL;
+    if (msql) mysql_close(msql);
+    msql = NULL;
 #endif
   }
 }
@@ -185,12 +181,12 @@ void VRSql::quit()
 int VRSql::prepare(const char *sqlcmd)
 {
   int rc;
-  sqlite3_stmt *pstmt;
+  sqlite3_stmt *res;
 
-  rc = sqlite3_prepare_v2(db, sqlcmd, -1, &pstmt, 0);
+  rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
 
-  int step = sqlite3_step(pstmt);
-  sqlite3_finalize(pstmt);
+  int step = sqlite3_step(res);
+  sqlite3_finalize(res);
   //sqlite3_close(db);
   return rc;
 }
@@ -203,33 +199,38 @@ bool VRSql::query(const char *sqlcmd)
 
 #if HAVE_SQLITE
   int rc;
-  sqlite3_stmt *pstmt;
+  sqlite3_stmt *res;
   char *err_msg = 0;
 
+  //trace(DBG_FORCE, "query: %s", sqlcmd);
   if (! db) {
     open();	// we need to reopen database
   }
 
-  rc = sqlite3_prepare_v2(db, sqlcmd, -1, &pstmt, 0);
-  rc = sqlite3_exec(db, sqlcmd, 0, 0, &err_msg);	// without callback
+  //rc = sqlite3_exec(db, sqlcmd, 0, 0, &err_msg);	// without callback
+  rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
   if (rc != SQLITE_OK) {
-    //dax1 error("query: err %s", &err_msg);
+    //dax1 error("query: err %s", err_msg);
     sqlite3_free(err_msg);
     sqlite3_close(db);
     return false;
   }
-  sqlite3_finalize(pstmt);
+  rc = sqlite3_step(res);
+  if (rc == SQLITE_ROW) {
+    error("step: %s", sqlite3_column_text(res, 0));
+  }
+  sqlite3_finalize(res);
   //sqlite3_close(db);
   return true;
 
 #elif HAVE_MYSQL
-  if (! mysqlhdl) {
+  if (! msql) {
     connect();	// we need to reconnect to the MySql server
   }
 
-  if (mysql_query(mysqlhdl, sqlcmd) != 0) {
+  if (mysql_query(msql, sqlcmd) != 0) {
 #if HAVE_MYSQL_ERROR
-    if (mysql_errno(mysqlhdl)) error("mysql_error: %s", mysql_error(mysqlhdl));
+    if (mysql_errno(msql)) error("mysql_error: %s", mysql_error(msql));
     error("query: %s", sqlcmd);
 #endif
     return false;
@@ -244,11 +245,10 @@ bool VRSql::query(const char *sqlcmd)
 /** Gets a result, fetching the row */
 MYSQL_RES * VRSql::result()
 {
-  MYSQL_RES *res = mysql_store_result(mysqlhdl);
+  MYSQL_RES *res = mysql_store_result(msql);
 
 #if HAVE_MYSQL_ERROR
-  if (res == NULL)
-    error("mysql_error: %s", mysql_error(mysqlhdl));
+  if (! res) error("mysql_error: %s", mysql_error(msql));
 #endif
   return res;
 }
@@ -256,65 +256,71 @@ MYSQL_RES * VRSql::result()
 
 
 /** Gets an integer value from a row in the sql table
- *  if value doesn'nt exist, the value is inserted
+ *  if value doesn't exist, the value is inserted
  */
 int VRSql::getInt(const char *table, const char *col, const char *object, const char *world, uint16_t irow)
 {
   int val = 0;
-  sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
-          col, table, COL_NAME, object, (*world) ? "@" : "", world);
-  if (! query(sqlcmd)) return ERR_SQL;
-#if HAVE_SQLITE
-#elif HAVE_MYSQL
-  if ((ressql = result()) == NULL) return ERR_SQL;
-  mysql_data_seek(ressql, irow);
-  if ((row = mysql_fetch_row(ressql)) == NULL) {
-    // then insert col into the table
-    insertCol(table, col, object, world);
-    mysql_free_result(ressql);
-    return ERR_SQL;	// no row
-  }
-  val = (row[0] == NULL ? ERR_SQL : atoi(row[0]));
-  mysql_free_result(ressql);
-#endif
-  return val;
-}
 
-/** Gets a float value from a row in the sql table
- *  if value doesn'nt exist, the value is inserted
- */
-float VRSql::getFloat(const char *table, const char *col, const char *object, const char *world, uint16_t irow)
-{
-  float val = 0;
   sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
   if (! query(sqlcmd)) return ERR_SQL;
+
 #if HAVE_SQLITE
 #elif HAVE_MYSQL
-  if ((ressql = result()) == NULL) return ERR_SQL;
+  ressql = mysql_store_result(msql);
   mysql_data_seek(ressql, irow);
   if ((row = mysql_fetch_row(ressql)) == NULL) {
     insertCol(table, col, object, world); // then insert col into the table
     mysql_free_result(ressql);
     return ERR_SQL;	// no row
   }
-  val = (row[0] == NULL ? ERR_SQL : atof(row[0]));
+  val = atoi(row[0]));
   mysql_free_result(ressql);
 #endif
+
   return val;
 }
 
-/** Gets a string from a row in the sql table
+/** Gets a float value from a row in the sql table
+ *  if value doesn't exist, the value is inserted
+ */
+float VRSql::getFloat(const char *table, const char *col, const char *object, const char *world, uint16_t irow)
+{
+  float val = 0;
+
+  sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
+          col, table, COL_NAME, object, (*world) ? "@" : "", world);
+  if (! query(sqlcmd)) return ERR_SQL;
+
+#if HAVE_SQLITE
+#elif HAVE_MYSQL
+  ressql = mysql_store_result(msql);
+  mysql_data_seek(ressql, irow);
+  if ((row = mysql_fetch_row(ressql)) == NULL) {
+    insertCol(table, col, object, world); // then insert col into the table
+    mysql_free_result(ressql);
+    return ERR_SQL;	// no row
+  }
+  val = atof(row[0]));
+  mysql_free_result(ressql);
+#endif
+
+  return val;
+}
+
+/** Gets a string (retstring) from a row in the sql table
  *  if string is not found, the string is inserted
  */
-int VRSql::getString(const char *table, const char *col, const char *object, const char *world, char *str, uint16_t irow)
+int VRSql::getString(const char *table, const char *col, const char *object, const char *world, char *retstring, uint16_t irow)
 {
   sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
   if (! query(sqlcmd)) return ERR_SQL;
+
 #if HAVE_SQLITE
 #elif HAVE_MYSQL
-  if ((ressql = result()) == NULL) return ERR_SQL;
+  ressql = mysql_store_result(msql);
   mysql_data_seek(ressql, irow);
   if ((row = mysql_fetch_row(ressql)) == NULL) {
     insertCol(table, col, object, world); // then insert col into the table
@@ -322,9 +328,10 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
     return ERR_SQL;	// no row
   }
   if (row[0] == NULL) return ERR_SQL;
-  if (str) strcpy(str, row[0]);
+  if (retstring) strcpy(retstring, row[0]);
   mysql_free_result(ressql);
 #endif
+
   return irow;
 }
 
@@ -332,23 +339,26 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
 int VRSql::getCount(const char *table, const char *col, const char *pattern)
 {
   int val = 0;
+
   sprintf(sqlcmd, "select SQL_CACHE count(*) from %s where %s regexp %s",
           table, col, pattern);
   if (! query(sqlcmd)) return ERR_SQL;
+
 #if HAVE_SQLITE
 #elif HAVE_MYSQL
-  if ((ressql = result()) == NULL) return ERR_SQL;
+  ressql = mysql_store_result(msql);
   if ((row = mysql_fetch_row(ressql)) == NULL) {
     mysql_free_result(ressql);
     return 0;	// no row
   }
-  val = (row[0] == NULL ? ERR_SQL : atoi(row[0]));
+  val = atoi(row[0]);
   mysql_free_result(ressql);
 #endif
+
   return val;
 }
 
-/** Gets a string if the pattern matches
+/** Gets a string (retstring) if the pattern matches
  *  and returns the index of the row
  */
 int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, char *retstring)
@@ -356,9 +366,10 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s regexp '%s'",
           COL_NAME, table, COL_NAME, pattern);
   if (! query(sqlcmd)) return ERR_SQL;
+
 #if HAVE_SQLITE
 #elif HAVE_MYSQL
-  if ((ressql = result()) == NULL) return ERR_SQL;
+  ressql = mysql_store_result(msql);
   mysql_data_seek(ressql, irow);
   if ((row = mysql_fetch_row(ressql)) == NULL) {
     mysql_free_result(ressql);
@@ -372,9 +383,11 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
     mysql_free_result(ressql);
     return ERR_SQL;	// no match
   }
-  if (retstring) strcpy(retstring, row[0]);
+  if (retstring)
+    strcpy(retstring, row[0]);
   mysql_free_result(ressql);
 #endif
+
   return irow;
 }
 

@@ -21,23 +21,24 @@
 #ifndef VRSQL_HPP
 #define VRSQL_HPP
 
-#if !HAVE_SQLITE & !HAVE_MYSQL
-#define VRSQL 0
-#else
+#if HAVE_SQLITE | HAVE_MYSQL
 #define VRSQL 1
-//#define HAVE_SQLITE 0 //debug try without SQLITE !!!!!!!!!!!!!!!!!!!
+#else
+#define VRSQL 0
+#endif
+//#define HAVE_SQLITE 0 //debug try without SQLITE !!!
 //#if !HAVE_SQLITE
 //#define HAVE_MYSQL 1 // mysql forced if sqlite not present
 //#endif
-#endif
 
+// includes system
 #if HAVE_SQLITE
 #include <sqlite3.h>
 #elif HAVE_MYSQL
 #include <mysql/mysql.h>
 #endif
 
-#include "wobject.hpp"	// typeName
+#include "wobject.hpp"	// typeName (table)
 
 
 #define	ERR_SQL	-11111	// query error
@@ -61,7 +62,7 @@ class VRSql {
 #if HAVE_SQLITE
   sqlite3 *db;		///< Sqlite handle
 #elif HAVE_MYSQL
-  MYSQL *mysqlhdl;	///< MySql handle
+  MYSQL *msql;		///< MySql handle
 #endif
 
   VRSql();		///< constructor
@@ -74,6 +75,12 @@ class VRSql {
   static VRSql* getVRSql();
   /**< returns the vrsql pointer */
 
+  virtual bool query(const char *sqlcmd);
+  /**< sends a Sql query */
+
+  virtual void quit();
+  /**< closes the MySql link */
+
 #if HAVE_SQLITE
   virtual bool open();
 #elif HAVE_MYSQL
@@ -81,16 +88,10 @@ class VRSql {
   /**< connects to the MySql server */
 #endif
 
-  virtual void quit();
-  /**< closes the MySql link */
-
 #if HAVE_SQLITE
-  virtual int callback(void *, int argc, char **argv, char **errmsg);
+  virtual int callback(void *, int argc, char **argv, char **azColName);
   virtual int prepare(const char *sqlcmd);
 #endif
-
-  virtual bool query(const char *sqlcmd);
-  /**< sends a Sql query */
 
 #if HAVE_SQLITE
 #elif HAVE_MYSQL
@@ -175,7 +176,7 @@ class VRSql {
   virtual void deleteRows(WObject *o);
   /**< deletes all rows of this object */
 
-  // get
+  // gets values
 
   virtual int getCountCart();
   /**< gets the count of rows from Cart table */

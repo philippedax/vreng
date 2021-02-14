@@ -24,6 +24,7 @@
 #include "oclass.hpp"	// OClass
 #include "olist.hpp"	// OList
 #include "parse.hpp"	// Parse
+#include "vrsql.hpp"	// VRSql
 
 
 /* special behavior masks */
