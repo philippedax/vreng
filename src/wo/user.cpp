@@ -249,7 +249,7 @@ void User::addGui()
 
 void User::checkPersist()
 {
-#if HAVE_MYSQL
+#if VRSQL
   VRSql *psql = VRSql::getVRSql();     // first get the the VRSql handle;
   if (psql) {
     int nitem;

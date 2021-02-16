@@ -132,7 +132,7 @@ void Cloth::setName()
 
 void Cloth::setPersist()
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->insertRow(this);
@@ -145,7 +145,7 @@ void Cloth::setPersist()
 
 void Cloth::getPersist()
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->getOwner(this);
@@ -157,7 +157,7 @@ void Cloth::getPersist()
 
 void Cloth::delPersist()
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (psql && givenName())  psql->deleteRow(this, names.given);
 #endif
 }

@@ -351,7 +351,7 @@ void Ball::destroy()
   toDelete();	// delete Wobject
   taken = false;
   clearObjectBar();
-#if HAVE_MYSQL
+#if VRSQL
   if (psql) psql->deleteRow(this);
 #endif
 }

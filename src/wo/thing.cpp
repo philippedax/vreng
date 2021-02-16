@@ -100,7 +100,7 @@ Thing::Thing(WObject *user, char *geom)
   enableBehavior(DYNAMIC);	// dynamicaly introduced
   behavior();
 
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->insertRow(this);
@@ -129,7 +129,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   /* local creation */
   defaults();
 
-#if HAVE_MYSQL
+#if VRSQL
   // we don't know anything about the geometry except from MySql
   geometry = new char[BUFSIZ];
   if (! psql)
@@ -181,7 +181,7 @@ bool Thing::updateToNetwork(const Pos &oldpos)
 
 void Thing::dropIntoBasket(Thing *thing, void *d, time_t s, time_t u)
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (thing->psql) {
     //FIXME: should'nt be deleted but marked as deleted
     //thing->psql->deleteRow(thing);	// delete from the current world

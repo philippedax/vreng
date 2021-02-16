@@ -693,7 +693,7 @@ void World::checkIcons()
 /* Check whether other objects are persistents */
 void World::checkPersist()
 {
-#if HAVE_MYSQL
+#if VRSQL
   VRSql *psql = VRSql::getVRSql();     // first take the VRSql handle;
   if (psql) {
     int nitem;

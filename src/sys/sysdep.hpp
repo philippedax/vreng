@@ -238,11 +238,9 @@
 
 #if defined(WITH_MYSQL) && defined(HAVE_MYSQL_H) && defined(HAVE_LIBMYSQLCLIENT)
 #include <mysql.h>
-#define HAVE_MYSQL 1
 #endif
 #if defined(WITH_MYSQL) && defined(HAVE_MYSQL_MYSQL_H) && defined(HAVE_LIBMYSQLCLIENT)
 #include <mysql/mysql.h>
-#define HAVE_MYSQL 1
 #endif
 
 #if (HAVE_SDL_SDL_MIXER_H && HAVE_LIBSDLMIXER)

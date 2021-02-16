@@ -178,14 +178,13 @@ void VRSql::quit()
 }
 
 #if HAVE_SQLITE
-int VRSql::prepare(const char *sqlcmd)
+int VRSql::prepare(const char *sqlcmd, sqlite3_stmt *res)
 {
   int rc;
-  sqlite3_stmt *res;
 
   rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
 
-  int step = sqlite3_step(res);
+  rc = sqlite3_step(res);
   sqlite3_finalize(res);
   //sqlite3_close(db);
   return rc;
@@ -199,7 +198,7 @@ bool VRSql::query(const char *sqlcmd)
 
 #if HAVE_SQLITE
   int rc;
-  sqlite3_stmt *res;
+  sqlite3_stmt *res = NULL;
   char *err_msg = 0;
 
   //trace(DBG_FORCE, "query: %s", sqlcmd);
@@ -207,8 +206,8 @@ bool VRSql::query(const char *sqlcmd)
     open();	// we need to reopen database
   }
 
-  //rc = sqlite3_exec(db, sqlcmd, 0, 0, &err_msg);	// without callback
-  rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
+  rc = sqlite3_exec(db, sqlcmd, 0, 0, &err_msg);	// without callback
+  //rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
   if (rc != SQLITE_OK) {
     //dax1 error("query: err %s", err_msg);
     sqlite3_free(err_msg);
@@ -216,9 +215,9 @@ bool VRSql::query(const char *sqlcmd)
     return false;
   }
   rc = sqlite3_step(res);
-  if (rc == SQLITE_ROW) {
-    error("step: %s", sqlite3_column_text(res, 0));
-  }
+  //if (rc == SQLITE_ROW) {
+  //  error("step: %s", sqlite3_column_text(res, 0));
+  //}
   sqlite3_finalize(res);
   //sqlite3_close(db);
   return true;
@@ -264,10 +263,17 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
 
   sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
-  if (! query(sqlcmd)) return ERR_SQL;
 
 #if HAVE_SQLITE
+  sqlite3_stmt *res = NULL;
+
+  prepare(sqlcmd, res);
+  sqlite3_bind_int(res, 1, 1);
+  sqlite3_step(res);
+  val = sqlite3_column_int(res, 1);
+  sqlite3_finalize(res);
 #elif HAVE_MYSQL
+  query(sqlcmd);
   ressql = mysql_store_result(msql);
   mysql_data_seek(ressql, irow);
   if ((row = mysql_fetch_row(ressql)) == NULL) {
@@ -291,10 +297,18 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
 
   sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
-  if (! query(sqlcmd)) return ERR_SQL;
 
 #if HAVE_SQLITE
+  sqlite3_stmt *res = NULL;
+
+  prepare(sqlcmd, res);
+  sqlite3_bind_double(res, 1, 1);
+  sqlite3_step(res);
+  val = sqlite3_column_double(res, 1);
+  error("table=%s col=%s row=%d val=%.1f", table,col,irow,val);
+  sqlite3_finalize(res);
 #elif HAVE_MYSQL
+  query(sqlcmd);
   ressql = mysql_store_result(msql);
   mysql_data_seek(ressql, irow);
   if ((row = mysql_fetch_row(ressql)) == NULL) {
@@ -316,10 +330,18 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
 {
   sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
-  if (! query(sqlcmd)) return ERR_SQL;
 
 #if HAVE_SQLITE
+  sqlite3_stmt *res = NULL;
+
+  prepare(sqlcmd, res);
+  sqlite3_bind_text(res, 1, NULL, -1, NULL);
+  sqlite3_step(res);
+  if (retstring)
+    strcpy(retstring, (char *) sqlite3_column_text(res, 1));
+  sqlite3_finalize(res);
 #elif HAVE_MYSQL
+  if (! query(sqlcmd)) return ERR_SQL;
   ressql = mysql_store_result(msql);
   mysql_data_seek(ressql, irow);
   if ((row = mysql_fetch_row(ressql)) == NULL) {
@@ -328,47 +350,33 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
     return ERR_SQL;	// no row
   }
   if (row[0] == NULL) return ERR_SQL;
-  if (retstring) strcpy(retstring, row[0]);
   mysql_free_result(ressql);
+  if (retstring)
+    strcpy(retstring, row[0]);
 #endif
 
   return irow;
 }
 
-/** Gets a count of rows from a sql table */
-int VRSql::getCount(const char *table, const char *col, const char *pattern)
-{
-  int val = 0;
-
-  sprintf(sqlcmd, "select SQL_CACHE count(*) from %s where %s regexp %s",
-          table, col, pattern);
-  if (! query(sqlcmd)) return ERR_SQL;
-
-#if HAVE_SQLITE
-#elif HAVE_MYSQL
-  ressql = mysql_store_result(msql);
-  if ((row = mysql_fetch_row(ressql)) == NULL) {
-    mysql_free_result(ressql);
-    return 0;	// no row
-  }
-  val = atoi(row[0]);
-  mysql_free_result(ressql);
-#endif
-
-  return val;
-}
-
-/** Gets a string (retstring) if the pattern matches
+/** Gets a substring (retstring) if the pattern matches
  *  and returns the index of the row
  */
 int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, char *retstring)
 {
   sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s regexp '%s'",
           COL_NAME, table, COL_NAME, pattern);
-  if (! query(sqlcmd)) return ERR_SQL;
 
 #if HAVE_SQLITE
+  sqlite3_stmt *res = NULL;
+
+  prepare(sqlcmd, res);
+  sqlite3_bind_text(res, 1, NULL, -1, NULL);
+  sqlite3_step(res);
+  if (retstring)
+    strcpy(retstring, (char *) sqlite3_column_text(res, 1));
+  sqlite3_finalize(res);
 #elif HAVE_MYSQL
+  if (! query(sqlcmd)) return ERR_SQL;
   ressql = mysql_store_result(msql);
   mysql_data_seek(ressql, irow);
   if ((row = mysql_fetch_row(ressql)) == NULL) {
@@ -383,12 +391,42 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
     mysql_free_result(ressql);
     return ERR_SQL;	// no match
   }
+  mysql_free_result(ressql);
   if (retstring)
     strcpy(retstring, row[0]);
-  mysql_free_result(ressql);
 #endif
 
   return irow;
+}
+
+/** Gets a count of rows from a sql table */
+int VRSql::getCount(const char *table, const char *col, const char *pattern)
+{
+  int val = 0;
+
+  sprintf(sqlcmd, "select SQL_CACHE count(*) from %s where %s regexp %s",
+          table, col, pattern);
+
+#if HAVE_SQLITE
+  sqlite3_stmt *res = NULL;
+
+  prepare(sqlcmd, res);
+  sqlite3_bind_int(res, 1, 1);
+  sqlite3_step(res);
+  val = sqlite3_column_int(res, 1);
+  sqlite3_finalize(res);
+#elif HAVE_MYSQL
+  if (! query(sqlcmd)) return ERR_SQL;
+  ressql = mysql_store_result(msql);
+  if ((row = mysql_fetch_row(ressql)) == NULL) {
+    mysql_free_result(ressql);
+    return 0;	// no row
+  }
+  val = atoi(row[0]);
+  mysql_free_result(ressql);
+#endif
+
+  return val;
 }
 
 

@@ -26,6 +26,7 @@
 #else
 #define VRSQL 0
 #endif
+#define VRSQL 0	//debug forced to 0
 //#define HAVE_SQLITE 0 //debug try without SQLITE !!!
 //#if !HAVE_SQLITE
 //#define HAVE_MYSQL 1 // mysql forced if sqlite not present
@@ -90,7 +91,7 @@ class VRSql {
 
 #if HAVE_SQLITE
   virtual int callback(void *, int argc, char **argv, char **azColName);
-  virtual int prepare(const char *sqlcmd);
+  virtual int prepare(const char *sqlcmd, sqlite3_stmt *res);
 #endif
 
 #if HAVE_SQLITE

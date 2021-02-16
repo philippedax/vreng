@@ -191,7 +191,7 @@ void Render::specificObjects(uint32_t num, uint8_t pri)
 #endif
 }
 
-#if 1 //dax0 debug
+#if 0 //dax0 debug
 #define DBG_VGL DBG_FORCE
 #endif
 

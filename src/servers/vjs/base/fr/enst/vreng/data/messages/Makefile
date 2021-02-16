@@ -121,13 +121,13 @@ AUTOMAKE = ${SHELL} /Users/dax/vreng/support/missing automake-1.14
 AWK = awk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-missing-declarations -DVRL -DVREL -DVRED -DVAPS -DVJS -DVACS
+CFLAGS = -g -O2 -Wall -fno-strict-aliasing -Wno-macro-redefined -Wno-missing-declarations -DVRL -DVREL -DVRED -DVAPS -DVJS -DVACS
 CPPFLAGS = -I/usr/local/include -I/usr/local/opt/freetype/include/freetype2 -I/usr/X11/include -I/usr/X11/include 
 CURLPATH = /usr/bin/curl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -Wno-infinite-recursion -DVRL -DVREL -DVRED -DVAPS -DVJS -DVACS -D_REENTRANT
+CXXFLAGS = -g  -Wall -fno-strict-aliasing -fpermissive -Wno-macro-redefined -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -Wno-infinite-recursion -DVRL -DVREL -DVRED -DVAPS -DVJS -DVACS -D_REENTRANT
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps

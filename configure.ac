@@ -118,8 +118,8 @@ CPPFLAGS="${CPPFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-missing-declarations"
-  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated  -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -Wno-infinite-recursion" ### -Wno-literal-suffix -Wno-misleading-indentation
+  CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-macro-redefined -Wno-missing-declarations"
+  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-macro-redefined -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated  -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -Wno-infinite-recursion" ### -Wno-literal-suffix -Wno-misleading-indentation
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS="-Wl,-no_compact_unwind"
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`

@@ -131,7 +131,7 @@ void Head::setName()
 
 void Head::setPersist()
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->insertRow(this);
@@ -143,7 +143,7 @@ void Head::setPersist()
 
 void Head::getPersist()
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (! psql) psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->getOwner(this);
@@ -155,7 +155,7 @@ void Head::getPersist()
 
 void Head::delPersist()
 {
-#if HAVE_MYSQL
+#if VRSQL
   if (psql && givenName()) psql->deleteRow(this, names.given);
 #endif
 }

@@ -55,7 +55,7 @@ Cart::Cart(char *l)
   parser(l);
 
   // If Cart is really persistent, these lines should be deleted
-#if HAVE_MYSQL
+#if VRSQL
   // systematicaly remove objects (debug phase)
   if ((psql = VRSql::getVRSql())) {
     psql->deleteRows(this);
@@ -75,7 +75,7 @@ void Cart::addToCart(WObject *po)
     case MOBILE:
       po->delFromMobile();
       po->setVisible(false);	// render invisible the object
-#if HAVE_MYSQL
+#if VRSQL
       psql = VRSql::getVRSql();	// first take the VRSql handle;
       if (psql) {
         psql->insertCol(CART_NAME, "owner", po->getInstance(), "");
@@ -145,7 +145,7 @@ void Cart::leave(WObject *po)
   // declare that the object has moved for MySql update
   po->pos.moved = true;
 
-#if HAVE_MYSQL
+#if VRSQL
   psql = VRSql::getVRSql();     // first take the VRSql handle;
   if (psql) {
     po->psql = psql;		// copy it into the object
@@ -178,7 +178,7 @@ void Cart::removeFromCart(WObject *po)
       cartList.remove(*it);
   }
 
-#if HAVE_MYSQL
+#if VRSQL
   psql = VRSql::getVRSql();     // first take the VRSql handle;
   if (psql) {
     psql->deleteRow(po, CART_NAME, po->getInstance(), "");
