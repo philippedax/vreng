@@ -73,7 +73,7 @@ bool VRSql::openDB()
     
   int rc = sqlite3_open(DB, &db);
   if (rc != SQLITE_OK) {
-    fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+    error("Cannot open database: %s", sqlite3_errmsg(db));
     sqlite3_close(db);
     return false;
   }
@@ -177,13 +177,12 @@ void VRSql::quit()
 #if HAVE_SQLITE
 int VRSql::prepare(const char *sqlcmd)
 {
-  int rc;
-
-  rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
-
+  int rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
+/** bad code !!! FIXME 
   rc = sqlite3_step(res);
   sqlite3_finalize(res);
   //sqlite3_close(db);
+**/
   return rc;
 }
 #endif
@@ -194,7 +193,6 @@ bool VRSql::query(const char *sqlcmd)
   trace(DBG_SQL, "query: %s", sqlcmd);
 
 #if HAVE_SQLITE
-  int rc;
   char *err_msg = 0;
 
   //trace(DBG_FORCE, "query: %s", sqlcmd);
@@ -202,7 +200,8 @@ bool VRSql::query(const char *sqlcmd)
     openDB();	// we need to reopen database
   }
 
-  rc = sqlite3_exec(db, sqlcmd, 0, 0, &err_msg);	// without callback
+/** bad code !!! FIXME 
+  int rc = sqlite3_exec(db, sqlcmd, 0, 0, &err_msg);	// without callback
   //rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
   if (rc != SQLITE_OK) {
     //dax1 error("query: err %s", err_msg);
@@ -215,6 +214,7 @@ bool VRSql::query(const char *sqlcmd)
   //  error("step: %s", sqlite3_column_text(res, 0));
   //}
   sqlite3_finalize(res);
+**/
   //sqlite3_close(db);
   return true;
 
@@ -231,6 +231,7 @@ bool VRSql::query(const char *sqlcmd)
     return false;
   }
   return true;
+
 #else
   return false;		// SQLite and MySql not presents
 #endif
@@ -261,11 +262,13 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if HAVE_SQLITE
+/** bad code !!! FIXME 
   prepare(sqlcmd);
   sqlite3_bind_int(res, 1, 1);
   sqlite3_step(res);
   val = sqlite3_column_int(res, 1);
   sqlite3_finalize(res);
+**/
 #elif HAVE_MYSQL
   query(sqlcmd);
   res = mysql_store_result(db);
@@ -293,12 +296,14 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if HAVE_SQLITE
+/** bad code !!! FIXME 
   prepare(sqlcmd);
   sqlite3_bind_double(res, 1, 1);
   sqlite3_step(res);
   val = sqlite3_column_double(res, 1);
   error("table=%s col=%s row=%d val=%.1f", table,col,irow,val);
   sqlite3_finalize(res);
+**/
 #elif HAVE_MYSQL
   query(sqlcmd);
   res = mysql_store_result(db);
@@ -324,12 +329,14 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if HAVE_SQLITE
+/** bad code !!! FIXME 
   prepare(sqlcmd);
   sqlite3_bind_text(res, 1, NULL, -1, NULL);
   sqlite3_step(res);
   if (retstring)
     strcpy(retstring, (char *) sqlite3_column_text(res, 1));
   sqlite3_finalize(res);
+**/
 #elif HAVE_MYSQL
   if (! query(sqlcmd)) return ERR_SQL;
   res = mysql_store_result(db);
@@ -357,12 +364,14 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
           COL_NAME, table, COL_NAME, pattern);
 
 #if HAVE_SQLITE
+/** bad code !!! FIXME 
   prepare(sqlcmd);
   sqlite3_bind_text(res, 1, NULL, -1, NULL);
   sqlite3_step(res);
   if (retstring)
     strcpy(retstring, (char *) sqlite3_column_text(res, 1));
   sqlite3_finalize(res);
+**/
 #elif HAVE_MYSQL
   if (! query(sqlcmd)) return ERR_SQL;
   res = mysql_store_result(db);
@@ -396,11 +405,13 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
           table, col, pattern);
 
 #if HAVE_SQLITE
+/** bad code !!! FIXME 
   prepare(sqlcmd);
   sqlite3_bind_int(res, 1, 1);
   sqlite3_step(res);
   val = sqlite3_column_int(res, 1);
   sqlite3_finalize(res);
+**/
 #elif HAVE_MYSQL
   if (! query(sqlcmd)) return ERR_SQL;
   res = mysql_store_result(db);
