@@ -116,7 +116,7 @@ void Mirage::setName()
 
 void Mirage::behavior()
 {
-  if (persist) enableBehavior(PERSISTENT);
+  //dax1 if (persist) enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(PRIOR_MEDIUM);
 

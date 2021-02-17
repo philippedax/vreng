@@ -67,7 +67,7 @@ void Accessory::parser(char *l)
 
 void Accessory::behavior()
 {
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 }
 

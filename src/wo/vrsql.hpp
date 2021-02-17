@@ -26,7 +26,7 @@
 #else
 #define VRSQL 0
 #endif
-#define VRSQL 0	//debug forced to 0
+//dax1 #define VRSQL 0	//debug forced to 0
 //#define HAVE_SQLITE 0 //debug try without SQLITE !!!
 //#if !HAVE_SQLITE
 //#define HAVE_MYSQL 1 // mysql forced if sqlite not present
@@ -51,11 +51,13 @@
 class VRSql {
 
  private:
-  static const uint16_t CMD_SIZE = 1024;	///< query size max
-  char sqlcmd[CMD_SIZE];///< MySql command
+  static const uint16_t CMD_MAX = 1024;	///< query size max
+  char sqlcmd[CMD_MAX];	///< Sql command
 
-#if HAVE_MYSQL
-  MYSQL_RES *ressql;	///< MySqsl result
+#if HAVE_SQLITE
+  sqlite3_stmt *res;	///< Sqlite result
+#elif HAVE_MYSQL
+  MYSQL_RES *res;	///< MySqsl result
   MYSQL_ROW row;	///< MySql row
 #endif
 
@@ -63,7 +65,7 @@ class VRSql {
 #if HAVE_SQLITE
   sqlite3 *db;		///< Sqlite handle
 #elif HAVE_MYSQL
-  MYSQL *msql;		///< MySql handle
+  MYSQL *db;		///< MySql handle
 #endif
 
   VRSql();		///< constructor
@@ -80,18 +82,19 @@ class VRSql {
   /**< sends a Sql query */
 
   virtual void quit();
-  /**< closes the MySql link */
+  /**< closes the VRSql link */
 
 #if HAVE_SQLITE
-  virtual bool open();
+  virtual bool openDB();
+  /**< opens to the Sqlite database */
 #elif HAVE_MYSQL
-  virtual bool connect();
+  virtual bool connectDB();
   /**< connects to the MySql server */
 #endif
 
 #if HAVE_SQLITE
   virtual int callback(void *, int argc, char **argv, char **azColName);
-  virtual int prepare(const char *sqlcmd, sqlite3_stmt *res);
+  virtual int prepare(const char *sqlcmd);
 #endif
 
 #if HAVE_SQLITE
@@ -99,9 +102,6 @@ class VRSql {
   virtual MYSQL_RES * result();
   /**< gets the Sql result */
 #endif
-
-  virtual int getCount(const char *table, const char *col, const char *pattern);
-  /**< gets a count of rows matching the pattern */
 
   virtual int getInt(const char *table, const char *col, const char *object, const char *world, uint16_t irow);
   /**< returns an int from a column */
@@ -114,6 +114,9 @@ class VRSql {
 
   virtual int getSubstring(const char *table, const char *pattern, uint16_t irow, char *substring);
   /**< gets a string and returns an index if pattern matches */
+
+  virtual int getCount(const char *table, const char *col, const char *pattern);
+  /**< gets a count of rows matching the pattern */
 
   virtual int getInt(WObject *o, const char *col, uint16_t irow);
   /**< returns an int from a column */
@@ -179,14 +182,12 @@ class VRSql {
 
   // gets values
 
-  virtual int getCountCart();
-  /**< gets the count of rows from Cart table */
-
   virtual int getCount(const char *table);
+  virtual int getCount(const char *table, const char *world);
   /**< gets the count of rows from this table */
 
-  virtual int getCount(const char *table, const char *world);
-  /**< gets the count of rows from Ball table */
+  virtual int getCountCart();
+  /**< gets the count of rows from Cart table */
 
   virtual int getName(const char *table, const char *pattern, int num, char *retstr);
   /**< gets the qualified name of an object */
@@ -197,6 +198,18 @@ class VRSql {
 
   virtual void getPos(WObject *o);
   virtual void getPos(WObject *o, uint16_t irow);
+
+  virtual float getPosX(WObject *o, uint16_t irow);
+  virtual float getPosY(WObject *o, uint16_t irow);
+  virtual float getPosZ(WObject *o, uint16_t irow = 0);
+  virtual float getPosAZ(WObject *o, uint16_t irow);
+  virtual float getPosAX(WObject *o, uint16_t irow);
+  virtual float getPosAY(WObject *o, uint16_t irow);
+  virtual float getColorR(WObject *o, uint16_t irow);
+  virtual float getColorG(WObject *o, uint16_t irow);
+  virtual float getColorB(WObject *o, uint16_t irow);
+  virtual float getColorA(WObject *o, uint16_t irow);
+
   virtual void getColor(WObject *o);
   virtual void getColor(WObject *o, uint16_t irow);
   virtual void getGeom(WObject *o);
@@ -208,18 +221,6 @@ class VRSql {
   virtual void getOwner(WObject *o);
   virtual void getOwner(WObject *o, uint16_t irow);
   virtual void getBap(WObject *o, char *bap, uint16_t irow);
-
-  virtual float getPosX(WObject *o, uint16_t irow);
-  virtual float getPosY(WObject *o, uint16_t irow);
-  virtual float getPosZ(WObject *o, uint16_t irow = 0);
-  virtual float getPosAZ(WObject *o, uint16_t irow);
-  virtual float getPosAX(WObject *o, uint16_t irow);
-  virtual float getPosAY(WObject *o, uint16_t irow);
-
-  virtual float getColorR(WObject *o, uint16_t irow);
-  virtual float getColorG(WObject *o, uint16_t irow);
-  virtual float getColorB(WObject *o, uint16_t irow);
-  virtual float getColorA(WObject *o, uint16_t irow);
 
   virtual void updateState(WObject *o);
   virtual void updateState(WObject *o, int val);

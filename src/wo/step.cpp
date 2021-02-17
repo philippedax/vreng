@@ -159,14 +159,14 @@ void Step::build()
   if (geom) delete[] geom;
 
   if (mobile) {
-    disableBehavior(PERSISTENT);
+    //dax1 disableBehavior(PERSISTENT);
     enablePermanentMovement(speed);
   }
 }
 
 void Step::behavior()
 {
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);
@@ -203,7 +203,7 @@ Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, 
   //notused addList();
 
   if (mobile) {    // escalator or travelator
-    disableBehavior(PERSISTENT);
+    //dax1 disableBehavior(PERSISTENT);
     enablePermanentMovement(speed);
     state = ACTIVE;
   }

@@ -59,7 +59,7 @@ void Slider::parser(char *l)
 
 void Slider::behavior()
 {
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);

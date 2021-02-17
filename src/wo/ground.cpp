@@ -58,7 +58,7 @@ Ground::Ground(WObject *user, char *geom)
 {
   parse()->parseSolid(geom, SEP, this);
 
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   initMobileObject(0);
 
   pos.x = user->pos.x;

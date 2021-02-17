@@ -82,7 +82,7 @@ void Gate::parser(char *l)
 
 void Gate::behavior()
 {
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
   setRenderPrior(PRIOR_MEDIUM);
 

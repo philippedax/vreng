@@ -57,17 +57,14 @@ static const char * COL_BAP = "bap";		///< column bap
 /** Constructor */
 VRSql::VRSql()
 {
-#if HAVE_SQLITE
+#if HAVE_SQLITE | HAVE_MYSQL
   db = NULL;
-#endif
-#if HAVE_MYSQL
-  msql = NULL;
-  ressql = NULL;
+  res = NULL;
 #endif
 }
 
 #if HAVE_SQLITE
-bool VRSql::open()
+bool VRSql::openDB()
 {
   if (::g.pref.fast == true)
     return false;
@@ -97,18 +94,18 @@ int VRSql::callback(void *NotUsed, int argc, char **argv, char **azColName)
 /**
  * Establishes a link with the mysql server
  */
-bool VRSql::connect()
+bool VRSql::connectDB()
 {
   if (::g.pref.fast == true)
     return false;
 
 #ifdef HAVE_MYSQL_REAL_CONNECT
-  if ((msql = mysql_init(msql)) != NULL) {
-    if (! mysql_real_connect(msql, DEF_MYSQL_SERVER, USER, PASSWD, DB, 0, NULL, 0)) {
+  if ((db = mysql_init(db)) != NULL) {
+    if (! mysql_real_connect(db, DEF_MYSQL_SERVER, USER, PASSWD, DB, 0, NULL, 0)) {
       warning("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
 #if HAVE_MYSQL_ERROR
-      if (mysql_errno(msql))
-        error("mysql_error: %s", mysql_error(msql));
+      if (mysql_errno(db))
+        error("mysql_error: %s", mysql_error(db));
 #endif
       return false;
     }
@@ -119,11 +116,11 @@ bool VRSql::connect()
   }
   return true;
 #else
-  if ((msql = mysql_connect(NULL, DEF_MYSQL_SERVER, USER, PASSWD)) == NULL) {
+  if ((db = mysql_connect(NULL, DEF_MYSQL_SERVER, USER, PASSWD)) == NULL) {
     warning("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
     return false;
   }
-  if (msql && mysql_select_db(msql, DB) != 0) {
+  if (db && mysql_select_db(db, DB) != 0) {
     error("VRSql: can't find database %s", DB);
     return false;
   }
@@ -143,9 +140,9 @@ VRSql * VRSql::init()
   int r = 0;
   if (vrsql) {
 #if HAVE_SQLITE
-    r = vrsql->open();		// open database
+    r = vrsql->openDB();	// open database
 #elif HAVE_MYSQL
-    r = vrsql->connect();	// connect to database server
+    r = vrsql->connectDB();	// connect to database server
 #endif
     if (! r) {
       trace(DBG_INIT, "init: can't reach database");
@@ -171,14 +168,14 @@ void VRSql::quit()
     if (db) sqlite3_close(db);
     db = NULL;
 #elif HAVE_MYSQL
-    if (msql) mysql_close(msql);
-    msql = NULL;
+    if (db) mysql_close(db);
+    db = NULL;
 #endif
   }
 }
 
 #if HAVE_SQLITE
-int VRSql::prepare(const char *sqlcmd, sqlite3_stmt *res)
+int VRSql::prepare(const char *sqlcmd)
 {
   int rc;
 
@@ -198,12 +195,11 @@ bool VRSql::query(const char *sqlcmd)
 
 #if HAVE_SQLITE
   int rc;
-  sqlite3_stmt *res = NULL;
   char *err_msg = 0;
 
   //trace(DBG_FORCE, "query: %s", sqlcmd);
   if (! db) {
-    open();	// we need to reopen database
+    openDB();	// we need to reopen database
   }
 
   rc = sqlite3_exec(db, sqlcmd, 0, 0, &err_msg);	// without callback
@@ -223,13 +219,13 @@ bool VRSql::query(const char *sqlcmd)
   return true;
 
 #elif HAVE_MYSQL
-  if (! msql) {
-    connect();	// we need to reconnect to the MySql server
+  if (! db) {
+    connectDB();	// we need to reconnect to the MySql server
   }
 
-  if (mysql_query(msql, sqlcmd) != 0) {
+  if (mysql_query(db, sqlcmd) != 0) {
 #if HAVE_MYSQL_ERROR
-    if (mysql_errno(msql)) error("mysql_error: %s", mysql_error(msql));
+    if (mysql_errno(db)) error("mysql_error: %s", mysql_error(db));
     error("query: %s", sqlcmd);
 #endif
     return false;
@@ -244,10 +240,10 @@ bool VRSql::query(const char *sqlcmd)
 /** Gets a result, fetching the row */
 MYSQL_RES * VRSql::result()
 {
-  MYSQL_RES *res = mysql_store_result(msql);
+  MYSQL_RES *res = mysql_store_result(db);
 
 #if HAVE_MYSQL_ERROR
-  if (! res) error("mysql_error: %s", mysql_error(msql));
+  if (! res) error("mysql_error: %s", mysql_error(db));
 #endif
   return res;
 }
@@ -265,24 +261,22 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if HAVE_SQLITE
-  sqlite3_stmt *res = NULL;
-
-  prepare(sqlcmd, res);
+  prepare(sqlcmd);
   sqlite3_bind_int(res, 1, 1);
   sqlite3_step(res);
   val = sqlite3_column_int(res, 1);
   sqlite3_finalize(res);
 #elif HAVE_MYSQL
   query(sqlcmd);
-  ressql = mysql_store_result(msql);
-  mysql_data_seek(ressql, irow);
-  if ((row = mysql_fetch_row(ressql)) == NULL) {
+  res = mysql_store_result(db);
+  mysql_data_seek(res, irow);
+  if ((row = mysql_fetch_row(res)) == NULL) {
     insertCol(table, col, object, world); // then insert col into the table
-    mysql_free_result(ressql);
+    mysql_free_result(res);
     return ERR_SQL;	// no row
   }
   val = atoi(row[0]));
-  mysql_free_result(ressql);
+  mysql_free_result(res);
 #endif
 
   return val;
@@ -299,9 +293,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if HAVE_SQLITE
-  sqlite3_stmt *res = NULL;
-
-  prepare(sqlcmd, res);
+  prepare(sqlcmd);
   sqlite3_bind_double(res, 1, 1);
   sqlite3_step(res);
   val = sqlite3_column_double(res, 1);
@@ -309,15 +301,15 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   sqlite3_finalize(res);
 #elif HAVE_MYSQL
   query(sqlcmd);
-  ressql = mysql_store_result(msql);
-  mysql_data_seek(ressql, irow);
-  if ((row = mysql_fetch_row(ressql)) == NULL) {
+  res = mysql_store_result(db);
+  mysql_data_seek(res, irow);
+  if ((row = mysql_fetch_row(res)) == NULL) {
     insertCol(table, col, object, world); // then insert col into the table
-    mysql_free_result(ressql);
+    mysql_free_result(res);
     return ERR_SQL;	// no row
   }
   val = atof(row[0]));
-  mysql_free_result(ressql);
+  mysql_free_result(res);
 #endif
 
   return val;
@@ -332,9 +324,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if HAVE_SQLITE
-  sqlite3_stmt *res = NULL;
-
-  prepare(sqlcmd, res);
+  prepare(sqlcmd);
   sqlite3_bind_text(res, 1, NULL, -1, NULL);
   sqlite3_step(res);
   if (retstring)
@@ -342,15 +332,15 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   sqlite3_finalize(res);
 #elif HAVE_MYSQL
   if (! query(sqlcmd)) return ERR_SQL;
-  ressql = mysql_store_result(msql);
-  mysql_data_seek(ressql, irow);
-  if ((row = mysql_fetch_row(ressql)) == NULL) {
+  res = mysql_store_result(db);
+  mysql_data_seek(res, irow);
+  if ((row = mysql_fetch_row(res)) == NULL) {
     insertCol(table, col, object, world); // then insert col into the table
-    mysql_free_result(ressql);
+    mysql_free_result(res);
     return ERR_SQL;	// no row
   }
   if (row[0] == NULL) return ERR_SQL;
-  mysql_free_result(ressql);
+  mysql_free_result(res);
   if (retstring)
     strcpy(retstring, row[0]);
 #endif
@@ -367,9 +357,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
           COL_NAME, table, COL_NAME, pattern);
 
 #if HAVE_SQLITE
-  sqlite3_stmt *res = NULL;
-
-  prepare(sqlcmd, res);
+  prepare(sqlcmd);
   sqlite3_bind_text(res, 1, NULL, -1, NULL);
   sqlite3_step(res);
   if (retstring)
@@ -377,21 +365,21 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   sqlite3_finalize(res);
 #elif HAVE_MYSQL
   if (! query(sqlcmd)) return ERR_SQL;
-  ressql = mysql_store_result(msql);
-  mysql_data_seek(ressql, irow);
-  if ((row = mysql_fetch_row(ressql)) == NULL) {
-    mysql_free_result(ressql);
+  res = mysql_store_result(db);
+  mysql_data_seek(res, irow);
+  if ((row = mysql_fetch_row(res)) == NULL) {
+    mysql_free_result(res);
     return ERR_SQL;	// no row
   }
   if (row[0] == NULL) {
-    mysql_free_result(ressql);
+    mysql_free_result(res);
     return ERR_SQL;
   }
   if (! strstr(row[0], pattern)) {
-    mysql_free_result(ressql);
+    mysql_free_result(res);
     return ERR_SQL;	// no match
   }
-  mysql_free_result(ressql);
+  mysql_free_result(res);
   if (retstring)
     strcpy(retstring, row[0]);
 #endif
@@ -408,22 +396,20 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
           table, col, pattern);
 
 #if HAVE_SQLITE
-  sqlite3_stmt *res = NULL;
-
-  prepare(sqlcmd, res);
+  prepare(sqlcmd);
   sqlite3_bind_int(res, 1, 1);
   sqlite3_step(res);
   val = sqlite3_column_int(res, 1);
   sqlite3_finalize(res);
 #elif HAVE_MYSQL
   if (! query(sqlcmd)) return ERR_SQL;
-  ressql = mysql_store_result(msql);
-  if ((row = mysql_fetch_row(ressql)) == NULL) {
-    mysql_free_result(ressql);
+  res = mysql_store_result(db);
+  if ((row = mysql_fetch_row(res)) == NULL) {
+    mysql_free_result(res);
     return 0;	// no row
   }
   val = atoi(row[0]);
-  mysql_free_result(ressql);
+  mysql_free_result(res);
 #endif
 
   return val;
@@ -588,6 +574,26 @@ int VRSql::getState(WObject *o, uint16_t irow)
   return getInt(o, COL_STATE, irow);
 }
 
+void VRSql::getPos(WObject *o)
+{
+  o->pos.x = getPosX(o, 0);
+  o->pos.y = getPosY(o, 0);
+  o->pos.z = getPosZ(o, 0);
+  o->pos.az = getPosAZ(o, 0);
+  o->pos.ax = getPosAX(o, 0);
+  o->pos.ay = getPosAY(o, 0);
+}
+
+void VRSql::getPos(WObject *o, uint16_t irow)
+{
+  o->pos.x = getPosX(o, irow);
+  o->pos.y = getPosY(o, irow);
+  o->pos.z = getPosZ(o, irow);
+  o->pos.az = getPosAZ(o, irow);
+  o->pos.ax = getPosAX(o, irow);
+  o->pos.ay = getPosAY(o, irow);
+}
+
 float VRSql::getPosX(WObject *o, uint16_t irow = 0)
 {
   float val = getFloat(o, COL_X, irow);
@@ -646,26 +652,6 @@ float VRSql::getColorA(WObject *o, uint16_t irow)
 {
   float val = getFloat(o, COL_A, irow);
   return (val != ERR_SQL) ? val : o->pos.az;
-}
-
-void VRSql::getPos(WObject *o)
-{
-  o->pos.x = getPosX(o, 0);
-  o->pos.y = getPosY(o, 0);
-  o->pos.z = getPosZ(o, 0);
-  o->pos.az = getPosAZ(o, 0);
-  o->pos.ax = getPosAX(o, 0);
-  o->pos.ay = getPosAY(o, 0);
-}
-
-void VRSql::getPos(WObject *o, uint16_t irow)
-{
-  o->pos.x = getPosX(o, irow);
-  o->pos.y = getPosY(o, irow);
-  o->pos.z = getPosZ(o, irow);
-  o->pos.az = getPosAZ(o, irow);
-  o->pos.ax = getPosAX(o, irow);
-  o->pos.ay = getPosAY(o, irow);
 }
 
 void VRSql::getColor(WObject *o)

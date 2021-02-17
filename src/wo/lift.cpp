@@ -58,10 +58,10 @@ void Lift::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
-    else if (!stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
-    else if (!stringcmp(l, "top"))    l = parse()->parseInt(l, &top, "top");
-    else if (!stringcmp(l, "bot"))    l = parse()->parseInt(l, &bot, "bot");
+    if      (! stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
+    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
+    else if (! stringcmp(l, "top"))    l = parse()->parseInt(l, &top, "top");
+    else if (! stringcmp(l, "bot"))    l = parse()->parseInt(l, &bot, "bot");
   }
   end_while_parse(l);
 }
@@ -70,7 +70,7 @@ Lift::Lift(char *l)
 {
   parser(l);
 
-  enableBehavior(PERSISTENT);	// after init because mysql already done
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);

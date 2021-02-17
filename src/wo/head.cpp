@@ -108,7 +108,7 @@ void Head::behavior()
 {
   enableBehavior(SPECIFIC_RENDER);
   enableBehavior(DYNAMIC);
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(NO_BBABLE);
   setRenderPrior(PRIOR_HIGH);
 

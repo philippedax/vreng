@@ -59,7 +59,7 @@ void Bumper::parser(char *l)
 
 void Bumper::behavior()
 {
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);

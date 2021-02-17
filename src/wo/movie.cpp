@@ -75,7 +75,7 @@ void Movie::parser(char *l)
 
 void Movie::behavior()
 {
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_ONCE);
   setRenderPrior(PRIOR_MEDIUM);

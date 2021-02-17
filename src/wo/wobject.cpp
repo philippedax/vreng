@@ -142,7 +142,7 @@ void WObject::initObject(uint8_t _mode)
 
     case MOBILE:
       if (isBehavior(PERSISTENT)) {
-        getPersistency();	// calls persistency MySql server
+        getPersistency();	// calls persistency VRSql
         if (pos.x>1000 || pos.y>1000 || pos.z>1000 || pos.x<-1000 || pos.y<-1000 || pos.z<-1000) {
           error("object %s discarded, bad position in MySql: %.2f,%.2f,%.2f", names.instance, pos.x, pos.y, pos.z);
           enableBehavior(NO_BBABLE);
@@ -701,7 +701,7 @@ void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
 // MySql interface
 //
 
-/** Checks whether position is managed by MySql
+/** Checks whether position is managed by VRSql
  * if it is, get position
  */
 void WObject::getPersistency()

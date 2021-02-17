@@ -46,7 +46,7 @@ void Mirror::defaults()
 
 void Mirror::behavior()
 {
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
   //dax6 enableBehavior(SPECIFIC_RENDER);
 

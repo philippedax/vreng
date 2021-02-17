@@ -56,7 +56,7 @@ Cart::Cart(char *l)
 
   // If Cart is really persistent, these lines should be deleted
 #if VRSQL
-  // systematicaly remove objects (debug phase)
+  // systematicaly remove objects
   if ((psql = VRSql::getVRSql())) {
     psql->deleteRows(this);
   }
@@ -128,7 +128,7 @@ void Cart::leave(WObject *po)
 
   // render visible the object coming back into the world
   po->setVisible(true);
-  po->enableBehavior(PERSISTENT);
+  //dax1 po->enableBehavior(PERSISTENT);
 
   // show the object
   po->updatePosition();

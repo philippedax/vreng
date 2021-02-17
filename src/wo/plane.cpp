@@ -108,7 +108,7 @@ Plane::Plane(char *l)
     //enableBehavior(COLLIDE_ONCE);
     makeSolid();
   }
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);

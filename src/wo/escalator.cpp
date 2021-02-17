@@ -89,13 +89,13 @@ void Escalator::build()
     nextstep = new Step(newpos, pos, geometry, mobile, height, speed, dir);
   }
 
-  disableBehavior(PERSISTENT);
+  //dax1 disableBehavior(PERSISTENT);
   enablePermanentMovement(speed);
 }
 
 void Escalator::behavior()
 {
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);

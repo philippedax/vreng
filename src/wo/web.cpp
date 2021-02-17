@@ -91,7 +91,7 @@ Web::Web(char *l)
   acurr = afront;
   aback = afront + M_PI;
 
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(TTL);

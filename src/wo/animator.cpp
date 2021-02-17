@@ -64,7 +64,7 @@ Animator::Animator(char *l)
 {
   parser(l);
 
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(PRIOR_MEDIUM);
   initMobileObject(0);

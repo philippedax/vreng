@@ -82,7 +82,7 @@ Music::Music(char *l)
   parser(l);
   format();
 
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   setRenderPrior(PRIOR_MEDIUM);
 

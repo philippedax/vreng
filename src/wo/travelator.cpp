@@ -77,13 +77,13 @@ void Travelator::build()
     nextstep = new Step(newpos, pos, geometry, mobile, length, speed, dir);
   }
 
-  disableBehavior(PERSISTENT);
+  //dax1 disableBehavior(PERSISTENT);
   enablePermanentMovement(speed);
 }
 
 void Travelator::behavior()
 {
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);

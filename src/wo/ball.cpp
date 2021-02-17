@@ -95,7 +95,7 @@ Ball::Ball(char *l)
 {
   parser(l);
 
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);
@@ -117,7 +117,7 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
   pos.z = ball->pos.z + ORIGZ;
   origz = pos.z;	// see ground
 
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   initMobileObject(TTL);
   setRenderPrior(PRIOR_MEDIUM);
   enablePermanentMovement(); // apply gravity
@@ -140,7 +140,7 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
   defaults();
   makeSolid();
 
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   initMobileObject(TTL);
   enablePermanentMovement();
 
@@ -161,7 +161,7 @@ Ball::Ball(WObject *user, char *solid)
   pos.z = user->pos.z + 0.5;
   updatePosition();
 
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   initMobileObject(TTL);
 
   createVolatileNetObject(PROPS);

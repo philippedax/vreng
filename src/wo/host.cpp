@@ -50,7 +50,7 @@ Host::Host(char *l)
 {
   parser(l);
 
-  enableBehavior(PERSISTENT);
+  //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);

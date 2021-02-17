@@ -108,8 +108,8 @@ void Cloth::behavior()
 {
   enableBehavior(TAKABLE);      // cart
   if (taken) {
+    //dax1 enableBehavior(PERSISTENT);
     enableBehavior(DYNAMIC);
-    enableBehavior(PERSISTENT);
     enableBehavior(NO_BBABLE);
     setRenderPrior(PRIOR_HIGH);
   }
