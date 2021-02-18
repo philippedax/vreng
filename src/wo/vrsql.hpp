@@ -93,7 +93,7 @@ class VRSql {
 #endif
 
 #if HAVE_SQLITE
-  virtual int callback(void *, int argc, char **argv, char **azColName);
+  static int callback(void *, int argc, char **argv, char **azColName);
   virtual int prepare(const char *sqlcmd);
 #endif
 

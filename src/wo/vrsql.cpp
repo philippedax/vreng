@@ -26,32 +26,33 @@
 
 
 // local
-static VRSql *vrsql = NULL;	// vrsql handle, only one by universe
+static VRSql *vrsql = NULL;		// vrsql handle, only one by universe
 
 #if HAVE_SQLITE
-static const char * DB = "vreng.db";		///< database name
+static const char * DB = "vreng.db";	///< database name
+#elif HAVE_MYSQL
+static const char * DB = "vreng";	///< database name
+static const char * USER = "vreng";	///< user name
+static const char * PASSWD = NULL;	///< no password
+#else
+static const char * DB = NULL;		///< no database
 #endif
-#if HAVE_MYSQL
-static const char * DB = "vreng";		///< database name
-static const char * USER = "vreng";		///< user name
-static const char * PASSWD = NULL;		///< no password
-#endif
-static const char * COL_NAME = "name";		///< column name
-static const char * COL_STATE = "state";	///< column state
-static const char * COL_X = "x";		///< column x
-static const char * COL_Y = "y";		///< column y
-static const char * COL_Z = "z";		///< column z
-static const char * COL_AZ = "az";		///< column az
-static const char * COL_AX = "ax";		///< column ax
-static const char * COL_AY = "ay";		///< column ay
-static const char * COL_R = "r";		///< column r (red)
-static const char * COL_G = "g";		///< column g (green)
-static const char * COL_B = "b";		///< column b (blue)
-static const char * COL_A = "a";		///< column a (alpha)
-static const char * COL_OWNER = "owner";	///< column owner
-static const char * COL_GEOM = "geom";		///< column geom
-static const char * COL_URL = "url";		///< column url
-static const char * COL_BAP = "bap";		///< column bap
+static const char * COL_NAME = "name";	///< column name
+static const char * COL_ST = "state";	///< column state
+static const char * COL_X = "x";	///< column x
+static const char * COL_Y = "y";	///< column y
+static const char * COL_Z = "z";	///< column z
+static const char * COL_AZ = "az";	///< column az
+static const char * COL_AX = "ax";	///< column ax
+static const char * COL_AY = "ay";	///< column ay
+static const char * COL_R = "r";	///< column r (red)
+static const char * COL_G = "g";	///< column g (green)
+static const char * COL_B = "b";	///< column b (blue)
+static const char * COL_A = "a";	///< column a (alpha)
+static const char * COL_OWN = "owner";	///< column owner
+static const char * COL_GEOM = "geom";	///< column geom
+static const char * COL_URL = "url";	///< column url
+static const char * COL_BAP = "bap";	///< column bap
 
 
 /** Constructor */
@@ -82,12 +83,12 @@ bool VRSql::openDB()
 
 int VRSql::callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
+  error("callback: argc=%d", argc);
   for (int i = 0; i < argc; i++) {
-    printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+    printf("%d: %s = %s\n", i, azColName[i], argv[i] ? argv[i] : "NULL");
   }
   return 0;
 }
-
 #endif
 
 #if HAVE_MYSQL
@@ -166,21 +167,20 @@ void VRSql::quit()
   if (vrsql) {
 #if HAVE_SQLITE
     if (db) sqlite3_close(db);
-    db = NULL;
 #elif HAVE_MYSQL
     if (db) mysql_close(db);
-    db = NULL;
 #endif
+    db = NULL;
   }
 }
 
 #if HAVE_SQLITE
 int VRSql::prepare(const char *sqlcmd)
 {
-  int rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
+  int rc = sqlite3_prepare_v2(db, sqlcmd, strlen(sqlcmd) + 1, &res, NULL);
 /** bad code !!! FIXME 
-  rc = sqlite3_step(res);
-  sqlite3_finalize(res);
+  //rc = sqlite3_step(res);
+  //sqlite3_finalize(res);
   //sqlite3_close(db);
 **/
   return rc;
@@ -232,7 +232,7 @@ bool VRSql::query(const char *sqlcmd)
   }
   return true;
 
-#else
+#else // NO DBMS
   return false;		// SQLite and MySql not presents
 #endif
 }
@@ -263,12 +263,31 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
 
 #if HAVE_SQLITE
 /** bad code !!! FIXME 
-  prepare(sqlcmd);
-  sqlite3_bind_int(res, 1, 1);
-  sqlite3_step(res);
-  val = sqlite3_column_int(res, 1);
-  sqlite3_finalize(res);
 **/
+  int rc;
+  char *err_msg = NULL;
+
+  createTable(table);
+  rc = prepare(sqlcmd);
+  if (rc != SQLITE_OK) {
+    error("%s %s %d err prepare %s", table,col,irow, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+  }
+  rc = sqlite3_bind_int(res, 1, 1);
+  if (rc != SQLITE_OK) {
+    error("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+  }
+  rc = sqlite3_step(res);
+  if (rc == SQLITE_ROW) {
+    val = sqlite3_column_int(res, 0);
+    error("rc=%d val=%d", rc,val);
+  }
+  else {
+    error("%s %s %d err step %s", table,col,irow, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+  }
+  sqlite3_finalize(res);
 #elif HAVE_MYSQL
   query(sqlcmd);
   res = mysql_store_result(db);
@@ -297,13 +316,42 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
 
 #if HAVE_SQLITE
 /** bad code !!! FIXME 
-  prepare(sqlcmd);
-  sqlite3_bind_double(res, 1, 1);
-  sqlite3_step(res);
-  val = sqlite3_column_double(res, 1);
-  error("table=%s col=%s row=%d val=%.1f", table,col,irow,val);
-  sqlite3_finalize(res);
 **/
+  int rc;
+  char *err_msg = NULL;
+
+  createTable(table);
+  rc = sqlite3_exec(db, sqlcmd, callback, this, &err_msg);	// with callback
+  error("exec rc=%d", rc);
+  //if (rc != SQLITE_OK) {
+  //  error("%s err exec %s", table, sqlite3_errmsg(db));
+  //  sqlite3_free(err_msg);
+  //}
+  rc = prepare(sqlcmd);
+  if (rc != SQLITE_OK) {
+    error("%s err prepare %s", table, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+  }
+  rc = sqlite3_bind_double(res, 1, 0);
+  if (rc != SQLITE_OK) {
+    error("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+  }
+  rc = sqlite3_step(res);
+  if (rc == SQLITE_ROW) {
+    val = sqlite3_column_double(res, 0);
+    error("rc=%d val=%.1f", rc,val);
+  }
+  else if (rc == SQLITE_DONE) {
+    val = sqlite3_column_double(res, 0);
+    error("rc=%d val=%.1f", rc,val);
+  }
+  else {
+    error("rc=%d err step %s", rc, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+  }
+  sqlite3_finalize(res);
+
 #elif HAVE_MYSQL
   query(sqlcmd);
   res = mysql_store_result(db);
@@ -330,13 +378,27 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
 
 #if HAVE_SQLITE
 /** bad code !!! FIXME 
-  prepare(sqlcmd);
-  sqlite3_bind_text(res, 1, NULL, -1, NULL);
-  sqlite3_step(res);
-  if (retstring)
-    strcpy(retstring, (char *) sqlite3_column_text(res, 1));
-  sqlite3_finalize(res);
 **/
+  int rc;
+  char *err_msg = NULL;
+
+  createTable(table);
+  rc = prepare(sqlcmd);
+  rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
+  rc = sqlite3_step(res);
+  if (rc == SQLITE_ROW) {
+    if (retstring) {
+      strcpy(retstring, (char *) sqlite3_column_text(res, 0));
+      error("rc=%d str=%s", rc,retstring);
+    }
+  }
+  else {
+    error("rc=%d err step %s", rc, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+  }
+  sqlite3_reset(res);
+  sqlite3_finalize(res);
+
 #elif HAVE_MYSQL
   if (! query(sqlcmd)) return ERR_SQL;
   res = mysql_store_result(db);
@@ -365,13 +427,23 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
 
 #if HAVE_SQLITE
 /** bad code !!! FIXME 
-  prepare(sqlcmd);
-  sqlite3_bind_text(res, 1, NULL, -1, NULL);
-  sqlite3_step(res);
-  if (retstring)
-    strcpy(retstring, (char *) sqlite3_column_text(res, 1));
-  sqlite3_finalize(res);
 **/
+  int rc;
+  char *err_msg = NULL;
+
+  createTable(table);
+  rc = prepare(sqlcmd);
+  rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
+  rc = sqlite3_step(res);
+  if (rc == SQLITE_ROW) {
+    if (retstring) {
+      strcpy(retstring, (char *) sqlite3_column_text(res, 0));
+      error("rc=%d str=%s", rc,retstring);
+    }
+  }
+  sqlite3_reset(res);
+  sqlite3_finalize(res);
+
 #elif HAVE_MYSQL
   if (! query(sqlcmd)) return ERR_SQL;
   res = mysql_store_result(db);
@@ -409,9 +481,10 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
   prepare(sqlcmd);
   sqlite3_bind_int(res, 1, 1);
   sqlite3_step(res);
-  val = sqlite3_column_int(res, 1);
+  val = sqlite3_column_int(res, 0);
   sqlite3_finalize(res);
 **/
+
 #elif HAVE_MYSQL
   if (! query(sqlcmd)) return ERR_SQL;
   res = mysql_store_result(db);
@@ -445,7 +518,7 @@ void VRSql::insertRow(WObject *o)
   createTable(o->typeName());
   sprintf(sqlcmd, "insert into %s (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) values ('%s@%s', '0', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', '%s', 'NULL', 'NULL')",
           o->typeName(),
-          COL_NAME, COL_STATE, COL_X, COL_Y, COL_Z, COL_AZ, COL_AX, COL_AY, COL_OWNER, COL_GEOM, COL_URL,
+          COL_NAME, COL_ST, COL_X, COL_Y, COL_Z, COL_AZ, COL_AX, COL_AY, COL_OWN, COL_GEOM, COL_URL,
           o->named(), World::current()->getName(), o->ownerName());
   query(sqlcmd);
 }
@@ -577,12 +650,12 @@ int VRSql::getString(WObject *o, const char *col, char *str, uint16_t irow)
 
 int VRSql::getState(WObject *o)
 {
-  return getInt(o, COL_STATE, 0);
+  return getInt(o, COL_ST, 0);
 }
 
 int VRSql::getState(WObject *o, uint16_t irow)
 {
-  return getInt(o, COL_STATE, irow);
+  return getInt(o, COL_ST, irow);
 }
 
 void VRSql::getPos(WObject *o)
@@ -685,7 +758,7 @@ int VRSql::getCountCart()
 {
   char pattern[256];
   //dax sprintf(pattern, "'^%s$'", ::g.user);
-  int val = getCount("Cart", COL_OWNER, pattern);
+  int val = getCount("Cart", COL_OWN, pattern);
   return (val != ERR_SQL) ? val : 0;
 }
 
@@ -749,7 +822,7 @@ void VRSql::getOwner(WObject *o)
 
 void VRSql::getOwner(WObject *o, uint16_t irow)
 {
-  getString(o, COL_OWNER, (char *) o->ownerName(), irow);
+  getString(o, COL_OWN, (char *) o->ownerName(), irow);
 }
 
 void VRSql::getBap(WObject *o, char *bap, uint16_t irow)
@@ -761,12 +834,12 @@ void VRSql::getBap(WObject *o, char *bap, uint16_t irow)
 
 void VRSql::updateState(WObject *o)
 {
-  updateInt(o, COL_STATE, o->state);
+  updateInt(o, COL_ST, o->state);
 }
 
 void VRSql::updateState(WObject *o, int val)
 {
-  updateInt(o, COL_STATE, val);
+  updateInt(o, COL_ST, val);
 }
 
 void VRSql::updatePosX(WObject *o)
@@ -854,7 +927,7 @@ void VRSql::updateUrl(WObject *o)
 
 void VRSql::updateOwner(WObject *o)
 {
-  updateString(o, COL_OWNER, o->ownerName());
+  updateString(o, COL_OWN, o->ownerName());
 }
 
 void VRSql::updateBap(Android *o)

@@ -117,7 +117,7 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
   pos.z = ball->pos.z + ORIGZ;
   origz = pos.z;	// see ground
 
-  //dax1 enableBehavior(PERSISTENT);
+  enableBehavior(PERSISTENT);	//dax1
   initMobileObject(TTL);
   setRenderPrior(PRIOR_MEDIUM);
   enablePermanentMovement(); // apply gravity
