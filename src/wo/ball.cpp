@@ -361,14 +361,45 @@ void Ball::quit()
   savePersistency();
 }
 
-void Ball::push_cb(Ball *ball, void *d, time_t s, time_t u) { ball->push(); }
-void Ball::pull_cb(Ball *ball, void *d, time_t s, time_t u) { ball->pull(); }
-void Ball::shoot_cb(Ball *ball, void *d, time_t s, time_t u) { ball->shoot(); }
-void Ball::up_cb(Ball *ball, void *d, time_t s, time_t u) { ball->up(); }
-void Ball::take_cb(Ball *ball, void *d, time_t s, time_t u) { ball->take(); }
-void Ball::drop_cb(Ball *ball, void *d, time_t s, time_t u) { ball->drop(); }
-void Ball::turn_cb(Ball *ball, void *d, time_t s, time_t u) { ball->turn(); }
-void Ball::destroy_cb(Ball *ball, void *d, time_t s, time_t u) { ball->destroy(); }
+void Ball::push_cb(Ball *ball, void *d, time_t s, time_t u)
+{
+  ball->push();
+}
+
+void Ball::pull_cb(Ball *ball, void *d, time_t s, time_t u)
+{
+  ball->pull();
+}
+
+void Ball::shoot_cb(Ball *ball, void *d, time_t s, time_t u)
+{
+  ball->shoot();
+}
+
+void Ball::up_cb(Ball *ball, void *d, time_t s, time_t u)
+{
+  ball->up();
+}
+
+void Ball::take_cb(Ball *ball, void *d, time_t s, time_t u)
+{
+  ball->take();
+}
+
+void Ball::drop_cb(Ball *ball, void *d, time_t s, time_t u)
+{
+  ball->drop();
+}
+
+void Ball::turn_cb(Ball *ball, void *d, time_t s, time_t u)
+{
+  ball->turn();
+}
+
+void Ball::destroy_cb(Ball *ball, void *d, time_t s, time_t u)
+{
+  ball->destroy();
+}
 
 /** Creation: this method is invisible: called by the cauldron */
 void Ball::create_cb(Cauldron *o, void *d, time_t s, time_t u)
