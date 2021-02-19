@@ -49,6 +49,8 @@ public:
   Dart(WObject *po, void *d, time_t s, time_t u);
   /**< Constructor */
 
+  virtual ~Dart() {};
+
   Dart(uint8_t type_id, Noid noid, Payload *pp);
   /**< Constructor replicator */
 
@@ -63,7 +65,7 @@ private:
 
   // callbacks
   static void get_hit(Dart *pcur, Payload *pp);
-  static void createdByUser(User *pu, void *d, time_t s, time_t u);
+  static void create(User *pu, void *d, time_t s, time_t u);
 };
 
 #endif

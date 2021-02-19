@@ -1019,7 +1019,7 @@ UDialog& Widgets::gridDialog()
 {
   //dax return udialog(Grid::grid()->gridBox());
   UDialog &griddial = udialog(Grid::grid()->gridBox());
-  griddial.show();
+  griddial.show(true);
   //dax return griddial;
   return udialog(Grid::grid()->gridBox());
 }

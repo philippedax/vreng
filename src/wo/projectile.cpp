@@ -28,9 +28,7 @@ void Projectile::updateTime(time_t s, time_t us, float *plasting)
 {
   if (! updateLasting(s, us, plasting)) {
     /* the projectile has spent its time to live => destroyed */
-#if 0 //FIXME segfault
-    toDelete();	// delete Wobject
-#endif
+    toDelete();	// delete projectile
   }
 }
 
@@ -64,9 +62,7 @@ bool Projectile::whenIntersect(WObject *pcur, WObject *pold)
   default:
     pold->copyPositionAndBB(pcur);
   }
-#if 0 
-  toDelete();	// delete Wobject
-#endif
+  toDelete();	// delete projectile
   return true;
 }
 

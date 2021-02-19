@@ -50,7 +50,7 @@ WObject::WObject()
 
   noh = NULL;
   guip = NULL;
-  is_in_a_list = false;
+  inlist = false;
   removed = false;
   objectbar = false;
 
@@ -276,13 +276,14 @@ uint8_t WObject::getRenderPrior() const
 
 bool WObject::isValid() const
 {
-  return OClass::isValidType(type) && (mode <MODE_MAX) && (num >0 && num <5000);
+  return OClass::isValidType(type);
 }
 
 void WObject::setType(int _type)
 {
   type = _type;
 }
+
 // static
 uint32_t WObject::getObjectsNumber()
 {
@@ -804,10 +805,10 @@ bool WObject::haveAction()
 void WObject::toDelete()
 {
   if (isValid()) {
-    deleteList.push_back(this);  // add to delete
-    removed = true;  // mark removed
+    deleteList.push_back(this); // add to delete
+    removed = true;		// mark as removed
   }
-  deleteSolids();
+  //dax8 deleteSolids();
   //dax8 if (solid) { delete solid; solid = NULL; }
 }
 
@@ -1092,8 +1093,8 @@ list<WObject*>::iterator WObject::addListToList(list<WObject*> &l1, list<WObject
     //else           return NULL;
   }
   else {
-    if (l1.front()->isValid() && !(l1.front()->is_in_a_list) && (*l1.front()!= this)) {
-      *l1.front()>is_in_a_list = true;
+    if (l1.front()->isValid() && !(l1.front()->inlist) && (*l1.front()!= this)) {
+      *l1.front()>inlist = true;
       return  addListToList(l1, l1.front()->addToListOnce(l2));
     }
     else  return addListToList(l1.front(), l2);
@@ -1110,8 +1111,8 @@ OList * WObject::addListToList(OList *l1, OList *l2)
     else                     return NULL;
   }
   else {
-    if (l1->pobject && l1->pobject->isValid() && !(l1->pobject->is_in_a_list) && (l1->pobject != this)) {
-      l1->pobject->is_in_a_list = true;
+    if (l1->pobject && !(l1->pobject->inlist) && (l1->pobject != this)) {
+      l1->pobject->inlist = true;
       return  addListToList(l1->next, l1->pobject->addToListOnce(l2));
     }
     else  return addListToList(l1->next, l2);

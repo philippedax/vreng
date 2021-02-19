@@ -29,7 +29,7 @@
 const OClass Bullet::oclass(BULLET_TYPE, "Bullet", NULL, Bullet::replicator);
 const float Bullet::LSPEED = 5.0;	// 5 m/s
 const float Bullet::TTL = 3.0;		// 3 sec
-const float Bullet::RADIUS = 0.05;	// 5 cm
+const float Bullet::RADIUS = 0.03;	// 3 cm
 
 // local
 static const char *COLOR = "1 0 0";	// red
@@ -76,7 +76,7 @@ Bullet::Bullet(WObject *pu, void *d, time_t s, time_t u)
 }
 
 /* Creation: this method is invisible, called by user */
-void Bullet::createdByUser(User *user, void *d, time_t s, time_t u)
+void Bullet::create(User *user, void *d, time_t s, time_t u)
 {
   new Bullet(user, d, s, u);
 }
@@ -125,5 +125,5 @@ void Bullet::funcs()
   putPropertyFunc(BULLET_TYPE, PROPXY, WO_PAYLOAD put_xy);
   putPropertyFunc(BULLET_TYPE, PROPHIT, WO_PAYLOAD User::bulletPutHit); // user
 
-  setActionFunc(BULLET_TYPE, CREATE, WO_ACTION createdByUser, "");
+  setActionFunc(BULLET_TYPE, CREATE, WO_ACTION create, "");
 }

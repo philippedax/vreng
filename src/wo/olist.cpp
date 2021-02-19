@@ -42,7 +42,8 @@ OList::~OList()
 void OList::remove(list<WObject*> &olist)
 {
   for (list<WObject*>::iterator l = olist.begin(); l != olist.end(); ++l) {
-    if (*l) delete *l;
+    if (*l)
+      delete *l;
   }
 }
 
@@ -51,7 +52,8 @@ void OList::remove()
 {
   for (OList *l = this; l ; ) {
     OList *next = l->next;
-    if (l && l->pobject && l->pobject->type)  delete l;  //FIXME: BUG! macosx iconStick
+    if (l && l->pobject && l->pobject->type)
+      delete l;  	//FIXME: BUG! macosx iconStick
     l = next;
   }
 }
@@ -61,7 +63,7 @@ void OList::remove()
 void OList::clearIspointed(list<WObject*> &olist)
 {
   for (list<WObject*>::iterator l = olist.begin(); l != olist.end(); ++l) {
-    (*l)->is_in_a_list = false;
+    (*l)->inlist = false;
   }
 }
 
@@ -69,7 +71,7 @@ void OList::clearIspointed(list<WObject*> &olist)
 void OList::clearIspointed()
 {
   for (OList *l = this; l && l->pobject; l = l->next) {
-    l->pobject->is_in_a_list = false;
+    l->pobject->inlist = false;
   }
 }
 

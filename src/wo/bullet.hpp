@@ -51,6 +51,8 @@ public:
   Bullet(uint8_t type_id, Noid noid, Payload *pp);
   /**< Constructor replicator */
 
+  virtual ~Bullet() {};
+
   static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
 
 private:
@@ -62,7 +64,7 @@ private:
 
   // callbacks
   static void get_hit(Bullet *pcur, Payload *pp);
-  static void createdByUser(User *u, void *d, time_t s, time_t us);
+  static void create(User *u, void *d, time_t s, time_t us);
 };
 
 #endif

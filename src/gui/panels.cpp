@@ -51,7 +51,8 @@ static void toggleHudCB(Widgets*) { g.gui.getScene()->toggleHud(); }
 
 static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 
-static void toggleGridCB(Widgets*, int flag) {
+static void toggleGridCB(Widgets*, int flag)
+{
   switch (flag) {
     case 0: Grid::grid()->toggleGrid2d(); break;
     case 1: Grid::grid()->toggleGrid3d(); break;
@@ -66,7 +67,8 @@ void Panels::showManipulator(bool state)
   joystick2->show(!state);
 }
 
-void Panels::showCartDialog(bool state) {
+void Panels::showCartDialog(bool state)
+{
 #if 0 //dax
   UDialog *cartDialog,
   cartDialog =    // relies on carts_pane created by createPanes()
@@ -164,6 +166,7 @@ manipulator(_gw->navig.manipulator())
   avatars_palette.setPos(5|UPos::RIGHT, 5|UPos::BOTTOM);
   avatars_palette.setTitle(UColor::yellow + UFont::bold + "Avatars");
   scene.add(avatars_palette);
+  //dax avatars_palette.show(false);
 
   // control panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

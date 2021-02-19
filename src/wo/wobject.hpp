@@ -150,7 +150,7 @@ public:
   Pos pos;			///< position in the space.
   Move move;			///< movement specific.
   class WObjectId noid;		///< WObject Id.
-  bool is_in_a_list;		///< true if it is already in an OList.
+  bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
   int16_t state;		///< current state.
   int8_t prior;			///< render priority.

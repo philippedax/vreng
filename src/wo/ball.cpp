@@ -78,7 +78,7 @@ void Ball::makeSolid()
   parse()->parseSolid(s, SEP, this);
 }
 
-/** Parse fileline */
+/** Parse vre fileline */
 void Ball::parser(char *l)
 {
   defaults();
@@ -105,7 +105,6 @@ Ball::Ball(char *l)
 /** Created by the cauldron */
 Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 {
-  /* local creation */
   defaults();
   setName();
   makeSolid();
@@ -117,7 +116,7 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
   pos.z = ball->pos.z + ORIGZ;
   origz = pos.z;	// see ground
 
-  enableBehavior(PERSISTENT);	//dax1
+  //dax1 enableBehavior(PERSISTENT);	//dax1
   initMobileObject(TTL);
   setRenderPrior(PRIOR_MEDIUM);
   enablePermanentMovement(); // apply gravity
@@ -150,7 +149,6 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
 /** Created by the user */
 Ball::Ball(WObject *user, char *solid)
 {
-  /* local creation */
   defaults();
   setName();
   parse()->parseSolid(solid, SEP, this);
@@ -193,7 +191,8 @@ void Ball::updateTime(time_t sec, time_t usec, float *lasting)
 
 bool Ball::isMoving()
 {
-  if (taken)  return true;
+  if (taken)
+    return true;
   return testMoving();
 }
 
@@ -245,8 +244,8 @@ bool Ball::whenIntersect(WObject *pcur, WObject *pold)
   case USER_TYPE:
     if (! taken) {
       /* user pushes the ball on the ground */
-      move.lspeed.v[0] = (lspeed / 2) * cos(pcur->pos.az);
-      move.lspeed.v[1] = (lspeed / 2) * sin(pcur->pos.az);
+      move.lspeed.v[0] = (lspeed / 4) * cos(pcur->pos.az);
+      move.lspeed.v[1] = (lspeed / 4) * sin(pcur->pos.az);
       ttl = 1;	// 1 sec
       initImposedMovement(ttl);
       pcur->updatePositionAndGrid(pold);
@@ -272,11 +271,10 @@ void Ball::whenWallsIntersect(WObject *pold, V3 *normal)
 
 void Ball::push()
 {
-  clearV3(move.lspeed);
-  clearV3(move.aspeed);
   move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
   move.lspeed.v[1] = lspeed * sin(localuser->pos.az);
-  move.aspeed.v[0] = aspeed;
+  move.lspeed.v[2] = 0;
+  move.aspeed.v[0] = 0; //aspeed;
   ttl = Ball::TTL;
   ttl /= ratio();
   initImposedMovement(ttl);
@@ -285,11 +283,10 @@ void Ball::push()
 
 void Ball::pull()
 {
-  clearV3(move.lspeed);
-  clearV3(move.aspeed);
   move.lspeed.v[0] = -lspeed * cos(localuser->pos.az);
   move.lspeed.v[1] = -lspeed * sin(localuser->pos.az);
-  move.aspeed.v[0] = aspeed;
+  move.lspeed.v[2] = 0;
+  move.aspeed.v[0] = 0; //aspeed;
   ttl = Ball::TTL;
   ttl /= ratio();
   initImposedMovement(ttl);
@@ -298,7 +295,6 @@ void Ball::pull()
 
 void Ball::shoot()
 {
-  clearV3(move.aspeed);
   move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
   move.lspeed.v[1] = lspeed * sin(localuser->pos.az);
   move.lspeed.v[2] = zspeed;
@@ -311,12 +307,11 @@ void Ball::shoot()
 
 void Ball::up()
 {
-  clearV3(move.lspeed);
-  clearV3(move.aspeed);
+  move.lspeed.v[0] = 0;
+  move.lspeed.v[1] = 0;
   move.lspeed.v[2] = zspeed;
-  move.aspeed.v[0] = aspeed;
-  ttl = Ball::TTL / 4;
-  ttl /= ratio();
+  move.aspeed.v[0] = 0; //aspeed;
+  ttl = 1;	// 1 sec
   initImposedMovement(ttl);
 }
 
@@ -331,7 +326,7 @@ void Ball::take()
 void Ball::drop()
 {
   enablePermanentMovement();
-  ttl = 0.;
+  ttl = 0;
   initImposedMovement(ttl);
   taken = false;
 }
@@ -340,9 +335,9 @@ void Ball::turn()
 {
   clearV3(move.lspeed);
   clearV3(move.aspeed);
+  move.lspeed.v[2] = 0;
   move.aspeed.v[0] = aspeed * 2;
-  ttl = Ball::TTL;
-  ttl /= ratio();
+  ttl = 1;	// 1 sec
   initImposedMovement(ttl);
 }
 

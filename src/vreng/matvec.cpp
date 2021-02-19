@@ -133,7 +133,9 @@ V3 newV3(float x, float y, float z)
 /* Clear a vector */
 void clearV3(V3 vec)
 {
-  vec.v[0] = vec.v[1] = vec.v[2] = 0;
+  vec.v[0] = 0;
+  vec.v[1] = 0;
+  vec.v[2] = 0;
 }
 
 /* Copies a vector into another */

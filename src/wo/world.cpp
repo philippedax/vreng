@@ -1037,10 +1037,17 @@ void World::deleteObjects()
 
   for (list<WObject*>::iterator o = deleteList.begin(); i<sz; ++o, i++) {
     if (*o) {
-      if ((*o)->isValid() && ! (*o)->isBehavior(COLLIDE_NEVER)) (*o)->deleteFromGrid();
+      if ((*o)->isValid() && ! (*o)->isBehavior(COLLIDE_NEVER))
+        (*o)->deleteFromGrid();
       mobileList.remove(*o);
       deleteList.remove(*o);
-      if (*o) delete *o;	//segfault
+      if (*o) {
+        if ((*o)->removed) {
+          error("todelete: %s", (*o)->getInstance());
+          //dax8 delete (*o);	//segfault
+          //dax8 error("deleted");
+        }
+      }
     }
   }
 }

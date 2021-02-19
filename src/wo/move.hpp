@@ -21,7 +21,7 @@
 #ifndef MOVE_HPP
 #define MOVE_HPP
 
-#define GRAVITY		1.0	// 1.5 m/s
+#define GRAVITY		1.5	// 1.5 m/s
 #define MIN_LASTING     0.00005	// 50 usec
 #if 0
 #define MIN_KEYLASTING	0.00000005

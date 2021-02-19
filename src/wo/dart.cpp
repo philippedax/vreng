@@ -27,12 +27,12 @@
 
 
 const OClass Dart::oclass(DART_TYPE, "Dart", NULL, Dart::replicator);
-const float Dart::LSPEED = 5.;	// 5 m/s
+const float Dart::LSPEED = 5.;		// 5 m/s
 const float Dart::TTL = 3.;		// 3 sec
 
 // local
-static const char *DIM = "1.00 .01 .01";
-static const char *COLOR = "0 0 0";	///< black
+static const char *DIM = "0.50 .01 .01";// 50 cm
+static const char *COLOR = "0 0 0";	// black
 
 
 void Dart::defaults()
@@ -76,7 +76,7 @@ Dart::Dart(WObject *user, void *d, time_t s, time_t u)
 }
 
 /* Creation: this method is invisible, called by user */
-void Dart::createdByUser(User *user, void *d, time_t s, time_t u)
+void Dart::create(User *user, void *d, time_t s, time_t u)
 {
   new Dart(user, d, s, u);
 }
@@ -127,5 +127,5 @@ void Dart::funcs()
   putPropertyFunc(DART_TYPE, PROPXY, WO_PAYLOAD put_xy);
   putPropertyFunc(DART_TYPE, PROPHIT, WO_PAYLOAD User::dartPutHit);
 
-  setActionFunc(DART_TYPE, CREATE, WO_ACTION createdByUser, "");
+  setActionFunc(DART_TYPE, CREATE, WO_ACTION create, "");
 }
