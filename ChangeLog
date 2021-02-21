@@ -15,6 +15,8 @@ The rules for this file:
 ++ 9
 == 9.1
 -- 9.1.6
+	- fixed toDelete call to deleteFromGrid()
+	(2021/02/21, Philippe Dax)
 	- added sqlite operations in vrsql*pp
 	- added support for sqlite in configure.ac
 	- added fictif solid to play all solids
