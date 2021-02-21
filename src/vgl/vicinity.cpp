@@ -506,7 +506,7 @@ void Vicinity::show(const char *str)
 {
   trace(DBG_FORCE, "\n%s", str);
   int i=0;
-  OList *vicinityList = localuser->getVicinityList(localuser);
+  OList *vicinityList = localuser->getVicinity(localuser);
   for (OList *ol = vicinityList; ol && ol->pobject ; ol = ol->next, i++)
     trace(DBG_FORCE, "%2d: %s", i, (ol->pobject)->getInstance());
 }

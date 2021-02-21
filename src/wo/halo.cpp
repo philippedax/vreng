@@ -121,7 +121,7 @@ void Halo::wear()
   setPersist();
   behavior();
   inits();
-  addToList();
+  addToWearList();
 }
 
 /* takeoff */
@@ -130,6 +130,7 @@ void Halo::takeoff()
   // restore original position
   restorePosition();
   delPersist();
+  delFromWearList();
   taken = false;
 }
 

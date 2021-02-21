@@ -34,7 +34,8 @@ static uint16_t oid = 0;
 
 #include <list>
 using namespace std;
-list<WObject*> Cloth::wearList;
+
+list<WObject*> Cloth::wearList;		// list of objects weared by local user
 
 
 WObject * Cloth::creator(char *l)
@@ -206,20 +207,16 @@ void Cloth::changePermanent(float lasting)
   updatePosition();
 }
 
-void Cloth::addToList()
+void Cloth::addToWearList()
 {
-#if 0 //dax
   wearList.push_back(this);
-#endif
 }
 
-void Cloth::delFromList()
+void Cloth::delFromWearList()
 {
-#if 0 //dax
   for (list<WObject*>::iterator il = wearList.begin(); il != wearList.end(); ++il) {
     if (*il == this) wearList.remove(*il);
   }
-#endif
 }
 
 void Cloth::restorePosition()

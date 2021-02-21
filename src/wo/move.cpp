@@ -310,21 +310,21 @@ void WObject::enablePermanentMovement(float speed)
 
 void WObject::checkVicinity(WObject *pold)
 {
-  OList *vicinityList = getVicinityList(pold);
-  if (vicinityList) {
-    generalIntersect(pold, vicinityList);
-    vicinityList->remove();
+  OList *vicinity = getVicinity(pold);
+  if (vicinity) {
+    generalIntersect(pold, vicinity);
+    vicinity->remove();
   }
 }
 
 void User::elemUserMovement(const float tabdt[])
 {
-  WObject *pold = new WObject();
-  copyPositionAndBB(pold);  // keep oldpos for intersection
+  WObject *po = new WObject();
+  copyPositionAndBB(po);  // keep oldpos for intersection
   changePosition(tabdt);
   updatePosition();
-  checkVicinity(pold);
-  delete pold;
+  checkVicinity(po);
+  delete po;
 }
 
 /* user general motion */

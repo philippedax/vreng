@@ -453,7 +453,8 @@ void WObject::deleteSolids()
 {
   if (! _solids.empty()) {
     for (solidList::iterator s = _solids.begin(); s != _solids.end(); s++) {
-      if (*s) delete (*s);
+      if (*s)
+        delete (*s);
     }
     _solids.erase(_solids.begin(), _solids.end());
   }
@@ -806,6 +807,7 @@ void WObject::toDelete()
 {
   if (isValid()) {
     deleteList.push_back(this); // add to delete
+    deleteFromGrid();
     removed = true;		// mark as removed
   }
   //dax8 deleteSolids();
@@ -895,10 +897,11 @@ void WObject::addToList()
     case FLUID:     addToList(fluidList); break;
   } 
 } 
-  
+
 /* Deletes an object from an olist */
 void WObject::delFromList()
 {
+  delFromList(objectList);
   switch (mode) {
     case STILL:     delFromList(stillList); break;
     case MOBILE:    delFromList(mobileList); break;
@@ -910,6 +913,7 @@ void WObject::delFromList()
 /* Clears an olist */
 void WObject::clearList()
 {
+  clearList(objectList);
   switch (mode) {
     case STILL:     clearList(stillList); break;
     case MOBILE:    clearList(mobileList); break;
@@ -970,10 +974,10 @@ OList * WObject::addToList(OList *olist)
 {
   if (! isValid()) return olist;
 
-  OList *new_list = new OList();
-  new_list->pobject = this;
-  new_list->next = olist;
-  return new_list;
+  OList *ol = new OList();
+  ol->pobject = this;
+  ol->next = olist;
+  return ol;
 }
 
 /* Adds a pointer of this object to an olist if it's not already there */

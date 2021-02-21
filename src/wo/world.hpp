@@ -91,10 +91,10 @@ class World {
 #endif
 #ifdef DYNAMIC_GRID //STL
   class WObject;
-  static std::list<WObject*> ***gridList;
+  //dax2 static std::list<WObject*> ***gridArray;
   class std::list<WObject*> ***grid;	///< matrix grid pointer.
 #else
-  static class OList *gridList[4][4][2];
+  static class OList *gridArray[4][4][2];
   class OList ****grid;	///< matrix grid pointer.
 #endif
 

@@ -171,7 +171,7 @@ void Dress::wear()
   setPersist();
   behavior();
   inits();
-  addToList();
+  addToWearList();
 }
 
 /* takeoff */
@@ -180,7 +180,7 @@ void Dress::takeoff()
   // restore original position
   restorePosition();
   delPersist();
-  delFromList();
+  delFromWearList();
   taken = false;
 }
 

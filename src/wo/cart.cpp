@@ -32,7 +32,7 @@ using namespace std;
 
 const OClass Cart::oclass(CART_TYPE, "Cart", NULL);
 
-list<WObject*> Cart::cartList;
+list<WObject*> Cart::cartList;	// list of objects in Cart
 
 
 void Cart::parser(char *l)

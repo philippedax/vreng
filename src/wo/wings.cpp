@@ -473,7 +473,7 @@ void Wings::wear()
   behavior();
   enableBehavior(SPECIFIC_RENDER);
   inits();
-  addToList();
+  addToWearList();
 }
 
 /* takeoff */
@@ -482,7 +482,7 @@ void Wings::takeoff()
   // restore original position
   restorePosition();
   delPersist();
-  delFromList();
+  delFromWearList();
   taken = false;
 }
 

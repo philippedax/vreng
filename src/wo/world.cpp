@@ -72,7 +72,7 @@ const float   World::DISTZ = 2.;
 const uint8_t World::WORLD_LEN = 32;
 
 #ifdef STATIC_GRID
-class OList* World::gridList[GRIDX][GRIDY][GRIDZ];
+class OList* World::gridArray[GRIDX][GRIDY][GRIDZ];
 #endif
 
 World* World::worldList = NULL;
@@ -609,12 +609,13 @@ void World::clearGrid()
 {
   for (int x=0; x < dimgrid[0]; x++)
     for (int y=0; y < dimgrid[1]; y++)
-      for (int z=0; z < dimgrid[2]; z++)
+      for (int z=0; z < dimgrid[2]; z++) {
 #ifdef DYNAMIC_GRID
         if (grid) grid[x][y][z] = NULL;
 #else
-        gridList[x][y][z] = NULL;
+        gridArray[x][y][z] = NULL;
 #endif
+      }
 }
 
 /** free all the grid (static) */
@@ -629,8 +630,8 @@ void World::freeGrid()
           grid[x][y][z] = NULL;
         }
 #else
-        if (gridList[x][y][z]) gridList[x][y][z]->remove();
-        gridList[x][y][z] = NULL;
+        if (gridArray[x][y][z]) gridArray[x][y][z]->remove();
+        gridArray[x][y][z] = NULL;
 #endif
       }
 #ifdef DYNAMIC_GRID
@@ -869,7 +870,7 @@ void World::quit()
   for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end(); ++o) {
     if (*o && (*o)->isValid()) {
       (*o)->quit();
-      delete *o;
+      delete (*o);
     }
   }
   invisList.clear();
@@ -877,7 +878,7 @@ void World::quit()
   for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o) {
     if (*o && (*o)->isValid()) {
       (*o)->quit();
-      delete *o;
+      delete (*o);
     }
   }
   fluidList.clear();
@@ -886,7 +887,7 @@ void World::quit()
     if (*o && (*o)->isValid()) {
       (*o)->clearObjectBar();
       (*o)->quit();
-      delete *o;
+      delete (*o);
     }
   }
   stillList.clear();
@@ -898,7 +899,7 @@ void World::quit()
         //FIXME segfault (*o)->clearObjectBar();
         (*o)->clearObjectBar();
         (*o)->quit();
-        delete *o;
+        delete (*o);
       }
     }
   }

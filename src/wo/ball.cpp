@@ -343,9 +343,9 @@ void Ball::turn()
 
 void Ball::destroy()
 {
-  toDelete();	// delete Wobject
   taken = false;
   clearObjectBar();
+  toDelete();	// delete Ball
 #if VRSQL
   if (psql) psql->deleteRow(this);
 #endif

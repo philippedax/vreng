@@ -476,10 +476,8 @@ public:
   virtual void delFromMobile();
   /**< Deletes an object pointer from mobileList. */
 
-  virtual void clearList();
-  /**< Clears an olist. */
-
   virtual void clearList(std::list<WObject*> &olist);
+  virtual void clearList();
   /**< Clears an olist. */
 
   virtual void    addToListOnce(std::list<WObject*> &olist);
@@ -494,9 +492,9 @@ public:
   /**< Deletes an object pointer from a olist. */
 
 #if 0 //STL
-  virtual list<WObject*>::iterator getVicinityList(const WObject *pold);
+  virtual list<WObject*>::iterator getVicinity(const WObject *pold);
 #else
-  virtual OList * getVicinityList(const WObject *pold);
+  virtual OList * getVicinity(const WObject *pold);
 #endif
   /**< Returns list of pointers on objects touching cell where is the object. */
 

@@ -186,7 +186,7 @@ void Hat::wear()
   inits();
   setPersist();
   createPermanentNetObject(PROPS, ++oid);
-  addToList();
+  addToWearList();
 }
 
 /* takeoff */
@@ -197,7 +197,7 @@ void Hat::takeoff()
   // restore original position
   restorePosition();
   delPersist();
-  delFromList();
+  delFromWearList();
   taken = false;
 }
 
@@ -206,8 +206,8 @@ void Hat::destroy()
 {
   taken = false;
   delPersist();
+  delFromWearList();
   toDelete();
-  delFromList();
   phat = NULL;
 }
 

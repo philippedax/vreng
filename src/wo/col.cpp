@@ -195,21 +195,29 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
 
   // Scans neighbors for collision discovery
   for (OList *vl = vicinity; vl ; scans++) {
-    if (! vl->pobject) { vl = vl->next; continue; }  // discard non existant object
+    if (! vl->pobject) {
+      vl = vl->next;
+      continue;
+    }  // discard non existant object
 
     WObject *neighbor = vl->pobject;
 
     // Hack-3! Assertion on valid neighbor
-    if (! neighbor || ! isValid()) {
-      vl = vl->next; continue;
+    if (! neighbor) {
+      vl = vl->next;
+      continue;
     }
 
     // Hack-1! Skip scanning if neighbor has already been seen
     if ((neighbor == wofirst) && (scans > 1)) {
-      error("first=%s scans=%d", wofirst->getInstance(), scans);
-      vl = vl->next; continue;
+      //error("first=%s scans=%d", wofirst->getInstance(), scans);
+      vl = vl->next;
+      continue;
     }
-    if (neighbor->behavior & COLLIDE_NEVER) { vl = vl->next; continue; }
+    if (neighbor->behavior & COLLIDE_NEVER) {
+      vl = vl->next;
+      continue;
+    }
 
     if (ingoingNeighbor(pold, neighbor)) {
       // current object intersects and its old instance didn't intersect
@@ -232,21 +240,25 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
 
           // assertion
           if (! isValid()) {
-            vl = vl->next; continue;
+            vl = vl->next;
+            continue;
           }
 
           switch (neighbor->collideBehavior()) {
             case COLLIDE_ONCE: case COLLIDE_GHOST:
-              vl = vl->next; continue;
+              vl = vl->next;
+              continue;
             default:
               if (isBehavior(COLLIDE_GHOST) || isBehavior(COLLIDE_ONCE)) {
-                vl = vl->next; continue;
+                vl = vl->next;
+                continue;
               }
               else {
                 if (rescans++ > 999) {
                   error("collide loop between %s and %s %d", getInstance(), neighbor->getInstance(), rescans);
                   scans = rescans = 0;
-                  vl = vl->next; continue;
+                  vl = vl->next;
+                  continue;
                 }
                 scans = 0;
                 vl = vicinity;	// not next COLLIDE_EVER ?
@@ -256,7 +268,8 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
     }
     else if (outgoingNeighbor(pold, neighbor)) // current object leaves intersection
       neighbor->whenIntersectOut(this, pold);
-    if (vl) vl = vl->next;
+    if (vl)
+      vl = vl->next;
   } //end neighbors
 }
 
@@ -390,7 +403,8 @@ static V3 dist;
 // sets locals
 void World::localGrid()
 {
-  for (int i=0; i<3 ; i++) dim[i] = dimgrid[i];
+  for (int i=0; i<3 ; i++)
+    dim[i] = dimgrid[i];
   dist = newV3(bbslice.v[0], bbslice.v[1], bbslice.v[2]);
 }
 
@@ -408,7 +422,7 @@ static void indiceGrid(const float bb[3], int igrid[3])
   igrid[2] = MIN(dim[2]-1, MAX(0, igrid[2]));
 }
 
-/** Adds an object in the grid */
+/** Adds an object into the grid */
 void WObject::insertIntoGrid()
 {
   float bbmin[3], bbmax[3];
@@ -423,16 +437,17 @@ void WObject::insertIntoGrid()
 
   for (int x=imin[0]; x <= imax[0]; x++)
     for (int y=imin[1]; y <= imax[1]; y++)
-      for (int z=imin[2]; z <= imax[2]; z++)
+      for (int z=imin[2]; z <= imax[2]; z++) {
 #ifdef DYNAMIC_GRID
         if (grid)
 	  World::current()->grid[x][y][z] = addToListOnce(World::current()->grid[x][y][z]);
 #else
-	World::gridList[x][y][z] = addToListOnce(World::gridList[x][y][z]);
+	World::gridArray[x][y][z] = addToListOnce(World::gridArray[x][y][z]);
 #endif
+      }
 }
 
-/** Deletes an object in the grid */
+/** Deletes an object from the grid */
 void WObject::deleteFromGrid()
 {
 #if 1 //MS
@@ -455,20 +470,21 @@ void WObject::deleteFromGrid()
         if (grid && World::current()->grid[x][y][z])
 	  World::current()->grid[x][y][z] = delFromList(World::current()->grid[x][y][z]);
 #else
-        if (World::gridList[x][y][z])
-	  World::gridList[x][y][z] = delFromList(World::gridList[x][y][z]);
+        if (World::gridArray[x][y][z])
+	  World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
 #endif
-#else //MS
+#else //!MS
   for (int x=0; x < dim[0]; x++)
     for (int y=0; y < dim[1]; y++)
-      for (int z=0; z < dim[2]; z++)
+      for (int z=0; z < dim[2]; z++) {
 #ifdef DYNAMIC_GRID
         if (grid && World::current()->grid[x][y][z])
           World::current()->grid[x][y][z] = delFromList(World::current()->grid[x][y][z]);
 #else
-        if (World::gridList[x][y][z])
-	  World::gridList[x][y][z] = delFromList(World::gridList[x][y][z]);
+        if (World::gridArray[x][y][z])
+	  World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
 #endif
+      }
 #endif //MS
 }
 
@@ -494,8 +510,8 @@ void WObject::updateGrid(const float *bbminnew, const float *bbmaxnew, const flo
           if (grid && World::current()->grid[x][y][z])
 	    World::current()->grid[x][y][z] = delFromList(World::current()->grid[x][y][z]);
 #else
-          if (World::gridList[x][y][z])
-	    World::gridList[x][y][z] = delFromList(World::gridList[x][y][z]);
+          if (World::gridArray[x][y][z])
+	    World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
 #endif
 #else //MS
     deleteFromGrid();
@@ -507,7 +523,7 @@ void WObject::updateGrid(const float *bbminnew, const float *bbmaxnew, const flo
           if (grid)
 	    World::current()->grid[x][y][z] = addToListOnce(World::current()->grid[x][y][z]);
 #else
-	  World::gridList[x][y][z] = addToListOnce(World::gridList[x][y][z]);
+	  World::gridArray[x][y][z] = addToListOnce(World::gridArray[x][y][z]);
 #endif
   }
 }
@@ -540,7 +556,7 @@ void WObject::updateGrid(const Pos& oldpos)
  * retourne la liste des pointeurs sur les objets touchants
  * la case des grilles intersectees par la BB englobante des 2 objets
  */
-OList * WObject::getVicinityList(const WObject *obj)
+OList * WObject::getVicinity(const WObject *obj)
 {
   float bbmin[3], bbmax[3];
   for (int i=0; i<3; i++) {
@@ -554,16 +570,17 @@ OList * WObject::getVicinityList(const WObject *obj)
   indiceGrid(bbmin, imin);
   indiceGrid(bbmax, imax);
 
-  OList *vicinityList = NULL;
+  OList *vl = NULL;
   for (int x=imin[0]; x <= imax[0]; x++)
     for (int y=imin[1]; y <= imax[1]; y++)
       for (int z=imin[2]; z <= imax[2]; z++)
 #ifdef DYNAMIC_GRID
-        vicinityList = addListToList(World::current()->grid[x][y][z], vicinityList);
+        vl = addListToList(World::current()->grid[x][y][z], vl);
 #else
-        vicinityList = addListToList(World::gridList[x][y][z], vicinityList);
+        vl = addListToList(World::gridArray[x][y][z], vl);
 #endif
 
-  if (vicinityList) vicinityList->clearIspointed();
-  return vicinityList;
+  if (vl)
+    vl->clearIspointed();
+  return vl;
 }
