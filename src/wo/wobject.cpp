@@ -37,7 +37,14 @@
 using namespace std;
 
 // global
-list<WObject*> objectList, stillList, mobileList, invisList, fluidList, deleteList, lightList, renderList;
+list<WObject*> objectList;
+list<WObject*> stillList;
+list<WObject*> mobileList;
+list<WObject*> invisList;
+list<WObject*> fluidList;
+list<WObject*> deleteList;
+list<WObject*> lightList;
+list<WObject*> renderList;
 
 // local
 static uint32_t objectNum = 0;
@@ -302,7 +309,6 @@ bool WObject::isPermanent() const
 
 bool WObject::isSeen()
 {
-  //dax return ::g.render.getVisiblePosition(this).v[2];  // seen = v[2]
   V3 vseen = ::g.render.getVisiblePosition(this);
   return vseen.v[2];  // seen = v[2]
 }
@@ -314,7 +320,8 @@ uint32_t WObject::collideBehavior() const
 
 bool WObject::isOwner() const
 {
-  if (! strcmp(names.owner, localuser->names.instance)) return true;
+  if (! strcmp(names.owner, localuser->names.instance))
+    return true;
   return false;
 }
 
@@ -325,16 +332,20 @@ void WObject::setOwner(const char *_owner)
 
 void WObject::setOwner()
 {
-  if (localuser) setOwner(localuser->names.instance);
-  else setOwner("me");
+  if (localuser)
+    setOwner(localuser->names.instance);
+  else
+    setOwner("me");
 }
 
 // Returns name
 void WObject::getObjectNameById(uint8_t type_id, char *name)
 {
   const OClass *oclass = OClass::getOClass(type_id);
-  if (! oclass) warning("getObjectNameById: no name found for type=%d", type_id);
-  else strcpy(name, oclass->type_name);
+  if (! oclass)
+    warning("getObjectNameById: no name found for type=%d", type_id);
+  else
+    strcpy(name, oclass->type_name);
   return;
 }
 

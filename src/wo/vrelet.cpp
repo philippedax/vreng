@@ -223,7 +223,7 @@ void Vrelet::processClient()
     uint16_t id   = msg->read16();
 
     // locate the object
-    WObject *who = ((type==0) ? this : OList::findInMobile(type, src, port, id));
+    WObject *who = ((type==0) ? this : OList::findMobile(type, src, port, id));
     if (! who) {
       // we didn't find anything that matched
       sendPosError(type, src, port, id);

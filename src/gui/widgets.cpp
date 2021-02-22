@@ -33,20 +33,18 @@
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "scene.hpp"	// new Scene
-#include "gui.hpp"
-#include "navig.hpp"
-#include "panels.hpp"
-#include "message.hpp"
-#include "theme.hpp"
+#include "gui.hpp"	// Gui
+#include "navig.hpp"	// Navig
+#include "panels.hpp"	// Panels
+#include "message.hpp"	// Message
+#include "theme.hpp"	// Theme
 #include "user.hpp"	// UserAction
 #include "move.hpp"	// changeKey
 #include "vnc.hpp"	// Vnc
-#include "capture.hpp"
-
+#include "capture.hpp"	// Capture
 #if (UBIT_VERSION_MAJOR < 6 || UBIT_VERSION_MAJOR >= 6 && UBIT_WITH_X11) //UBIT6
 #include <X11/keysym.h>	// XK_*
 #endif
-
 #include "pref.hpp"	// width3Dm height3D
 #include "env.hpp"	// menu
 #include "universe.hpp" // Universe
@@ -79,7 +77,7 @@
 #include "office.hpp"	// start
 #include "channel.hpp"	// current
 #include "cache.hpp"	// setCacheName
-#include "render.hpp"
+#include "render.hpp"	// g.render.bufferSelection
 #include "move.hpp"	// changeKey
 #include "file.hpp"	// openFile
 #include "icon.hpp"	// user
@@ -257,17 +255,8 @@ UMenu& Widgets::markMenu()
   UBox& mark_box = uvbox();
   mark_box.add(ubutton(UBackground::none + "Add Worldmark"
                        + ucall(this, &Widgets::markCB)));
-#if 0 //DAX !!! BUG1 !!!
-  // Si on fait ca, le ubutton n'a plus le background du menu on ne voit rien : full transparent 
-  UScrollpane& mark_pane = uscrollpane(g.theme.menuStyle + usize().setHeight(80) + UBackground::none + mark_box);
-  mark_pane.showHScrollButtons(false);
-  mark_pane.getHScrollbar()->show(false);
-  UMenu& mark_menu
-  = umenu(g.theme.menuStyle + UBackground::none + mark_pane);
-#else
   UMenu& mark_menu
   = umenu(g.theme.menuStyle + uscrollpane(usize().setHeight(80) + UBackground::none + mark_box));
-#endif
 
   FILE *fp = null;
   char buf[URL_LEN + CHAN_LEN + 2];
@@ -364,9 +353,7 @@ void Widgets::updateWorld(World *world, bool isCurrent)
 
   GuiItem *gw = world->getGui();
   if (! gw)  return;
-#if 1 //FIXME! sometimes segfault in Ubit
-  gw->removeAll(true);
-#endif
+  gw->removeAll(true);	//FIXME! sometimes segfault in Ubit
   setWorld(gw, world, isCurrent);
   gw->update();
 }
@@ -414,13 +401,15 @@ WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
   trace(DBG_GUI, "num=%d", num);
 
   WObject* object = WObject::byNum(num);
+
   if (! object) {
     objinfo[0].name = (char*) "World";	// avoid segfault
     objinfo[1].name = (char*) World::current()->getName();
     objinfo[2].name = NULL;	// NULL terminaison
     return NULL;
   }
-  if (! object->isVisible())  return NULL;	// invisible
+  if (! object->isVisible())
+    return NULL;	// invisible
 
   // an object has been selected
   if (::g.pref.dbgtrace) trace(DBG_FORCE, "Pointed: obj=%p", object);
@@ -453,7 +442,8 @@ WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
 
 void Widgets::setRayDirection(int x, int y)
 {
-  if (localuser) localuser->setRayDirection(x, y);
+  if (localuser)
+    localuser->setRayDirection(x, y);	// play the ray
 }
 
 //
@@ -462,16 +452,17 @@ void Widgets::setRayDirection(int x, int y)
 
 void Widgets::homeCB()
 {
-  char chan_home_str[CHAN_LEN];
-  sprintf(chan_home_str, "%s/%u/%d", Universe::current()->group, Universe::current()->port, Channel::currentTtl());
-  trace(DBG_IPMC, "WO: goto %s at %s", Universe::current()->url, chan_home_str);
+  char chan_str[CHAN_LEN];
+
+  sprintf(chan_str, "%s/%u/%d", Universe::current()->group, Universe::current()->port, Channel::currentTtl());
+  trace(DBG_IPMC, "WO: goto %s at %s", Universe::current()->url, chan_str);
 
   World::current()->quit();
   delete Channel::current();  // delete Channel
-  World::enter(Universe::current()->url, chan_home_str, true);
-  World::current()->setChanAndJoin(chan_home_str);  // join new channel
+  World::enter(Universe::current()->url, chan_str, true);
+  World::current()->setChanAndJoin(chan_str);  // join new channel
 
-  if (audioactive) Audio::start(chan_home_str);
+  if (audioactive) Audio::start(chan_str);
 }
 
 void Widgets::backCB()
@@ -1511,28 +1502,35 @@ UMenu& Widgets::fileMenu()
 void Widgets::putMessage(UMessageEvent& e)
 {
   const UStr* arg = e.getMessage();
-  if (!arg || arg->empty()) return;
+
+  if (!arg || arg->empty())
+    return;
 
   UStr file_name = arg->basename();
   UStr val;
 
   if (file_name.empty()) val = "<url=\"" & *arg & "\">";
   else                   val = "<url=\"" & *arg & "\">&<name=\"" & file_name & "\">";
-  if (! Cache::check(arg->c_str())) return;    // bad url
+  if (! Cache::check(arg->c_str()))
+    return;    // bad url
   putinfo.putIcon(val);
 }
 
 void Widgets::openMessage(UMessageEvent &e)
 {
   const UStr* msg = e.getMessage();
-  if (!msg || msg->empty()) return;
+
+  if (!msg || msg->empty())
+    return;
   gui.gotoWorld(*msg);
 }
 
 void Widgets::moveMessage(UMessageEvent &e)
 {
   const UStr* msg = e.getMessage();
-  if (!msg || msg->empty()) return;
+
+  if (!msg || msg->empty())
+    return;
   const UStr& arg = *msg;
 
   if (arg == "left 1")            setKey(KEY_SG, TRUE);
@@ -1556,7 +1554,9 @@ void Widgets::moveMessage(UMessageEvent &e)
 void Widgets::getMessage(UMessageEvent &e)
 {
   const UStr* msg = e.getMessage();
-  if (!msg || msg->empty()) return;
+
+  if (!msg || msg->empty())
+    return;
 
   // a completer
   //cerr << "get: " << *selected_object_url << endl;

@@ -77,7 +77,7 @@ void OList::clearIspointed()
 
 /* Returns the object from the mobile list */
 // static
-WObject * OList::findInMobile(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
+WObject * OList::findMobile(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
 {
   for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end() ; ++o) {
     if (((*o)->type == _type)

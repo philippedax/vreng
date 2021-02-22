@@ -23,11 +23,11 @@
 #include "cache.hpp"
 #include "file.hpp"	// openFile, closeFile
 #include "url.hpp"	// abs
-#include "env.hpp"	// cache
-#include "wget.hpp"	// start
 #include "http.hpp"	// getChar
+#include "env.hpp"	// ::g.env.cache
 #include "pref.hpp"	// ::g.pref.refresh
 #include "str.hpp"	// stringcmp
+#include "wget.hpp"	// start
 
 
 int Cache::setCacheName(const char *url, char *cachepath)

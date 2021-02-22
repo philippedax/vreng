@@ -281,7 +281,8 @@ GLuint Texture::current()
 Texture * Texture::getEntryByUrl(const char *url)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if (! strcmp((*it)->url, url)) return *it;	// texture is in the cache
+    if (! strcmp((*it)->url, url))
+      return *it;	// texture is in the cache
   /* we will download the texture later */
   return NULL;
 }
@@ -289,7 +290,8 @@ Texture * Texture::getEntryByUrl(const char *url)
 Texture * Texture::getEntryById(GLuint texid)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if ((*it)->id == texid) return *it;	// texture is in the cache
+    if ((*it)->id == texid)
+      return *it;	// texture is in the cache
   return NULL;
 }
 
@@ -297,7 +299,8 @@ GLuint Texture::getIdByUrl(const char *url)
 {
   getFromCache(url);
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if (! strcmp((*it)->url, url)) return (*it)->id;
+    if (! strcmp((*it)->url, url))
+      return (*it)->id;
   return 0;
 }
 
@@ -305,14 +308,16 @@ GLuint Texture::getIdByObject(WObject *wo)
 {
   //dax Texture::listTextures();
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if ((*it)->object == wo) return (*it)->id;
+    if ((*it)->object == wo)
+      return (*it)->id;
   return 0;
 }
 
 char * Texture::getUrlById(GLuint texid)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if ((*it)->id == texid) return (*it)->url;	// texture is in the cache
+    if ((*it)->id == texid)
+      return (*it)->url;	// texture is in the cache
   return NULL;
 }
 

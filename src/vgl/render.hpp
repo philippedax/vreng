@@ -215,8 +215,11 @@ public:
   void cameraPosition();	///< Set camera position.
   void clearGLBuffer();		///< Clear everything.
   
-  list<Solid*> solidList;	///< rendering solids list.
-  list<Solid*> relsolidList;	///< rendering relative solids list.
+  //
+  // Lists of solids
+  //
+  list<Solid*> solidList;	///< solids list.
+  list<Solid*> relsolidList;	///< relative solids list.
 
 private:
   static const int SEL_BUFSIZ;	///< selection buffer size
