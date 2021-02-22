@@ -810,7 +810,7 @@ void World::init(const char *vreurl)
   initGeneralFuncList();
 
   if (::g.pref.keep == false)
-    ::g.env.cleanCacheByExt(".vre");	// remove *.vre in the cache
+    ::g.env.cleanCacheByExt("vre");	// remove *.vre in the cache
 
   world->setUrl(vreurl);
   world->setName(vreurl);

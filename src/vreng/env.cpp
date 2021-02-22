@@ -172,7 +172,8 @@ void Env::cleanCacheByExt(const char *ext)
       if (stat(dp->d_name, &bufstat) == 0) {
         if (strstr(dp->d_name, ext)) {
           char *p = strrchr(dp->d_name, '.');
-          if (p && strlen(p) == 4) {
+          p++;
+          if (p && strlen(p) == 3) {
             unlink(dp->d_name);
           }
         }
