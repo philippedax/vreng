@@ -122,7 +122,8 @@ void Cloth::behavior()
 /* Sets an unique name */
 void Cloth::setName(const char *modelname)
 {
-  if (localuser) sprintf(names.given,"%s&%s", modelname, localuser->getInstance());
+  if (localuser)
+    sprintf(names.given,"%s&%s", modelname, localuser->getInstance());
   updateNames();
 }
 
@@ -198,13 +199,13 @@ Cloth::Cloth(char *l)
 
 void Cloth::changePermanent(float lasting)
 {
-  if (! taken)  return;
-
-  pos.x = localuser->pos.x + dx;
-  pos.y = localuser->pos.y + dy;
-  pos.z = localuser->pos.z + dz;
-  pos.az = localuser->pos.az + daz;
-  updatePosition();
+  if (taken) {
+    pos.x = localuser->pos.x + dx;
+    pos.y = localuser->pos.y + dy;
+    pos.z = localuser->pos.z + dz;
+    pos.az = localuser->pos.az + daz;
+    updatePosition();
+  }
 }
 
 void Cloth::addToWearList()
@@ -214,9 +215,12 @@ void Cloth::addToWearList()
 
 void Cloth::delFromWearList()
 {
-  for (list<WObject*>::iterator il = wearList.begin(); il != wearList.end(); ++il) {
-    if (*il == this) wearList.remove(*il);
+#if 0 //dax1 if 1 the object is blocked
+  for (list<WObject*>::iterator il = wearList.begin(); il != wearList.end(); il++) {
+    if (*il == this)
+      wearList.remove(*il);
   }
+#endif
 }
 
 void Cloth::restorePosition()
@@ -228,7 +232,7 @@ void Cloth::restorePosition()
   pos.ay = oay;
   pos.az = oaz;
   updatePosition();
-  disableBehavior(UNSELECTABLE); // when not weared
+  //dax disableBehavior(UNSELECTABLE); // when not weared
   behavior();
 }
 

@@ -35,13 +35,13 @@ struct sHat {
 };
 
 static struct sHat hats[] = {
-  {Hat::TOPHAT, "tophat"},
-  {Hat::BOWLER, "bowler"},
-  {Hat::CHINESE, "chinese"},
+  {Hat::TOPHAT,   "tophat"},
+  {Hat::BOWLER,   "bowler"},
+  {Hat::CHINESE,  "chinese"},
   {Hat::CARDINAL, "cardinal"},
-  {Hat::COUNTRY, "country"},
-  {Hat::CLOWN, "clown"},
-  {Hat::NONE, ""},
+  {Hat::COUNTRY,  "country"},
+  {Hat::CLOWN,    "clown"},
+  {Hat::NONE,     ""},
 };
 
 WObject * Hat::creator(char *l)

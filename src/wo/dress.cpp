@@ -36,9 +36,9 @@ struct sDress {
 
 static struct sDress dresss[] = {
   {Dress::SPIRES, "spires"},
-  {Dress::BANDS, "bands"},
-  {Dress::ROSES, "roses"},
-  {Dress::NONE, ""},
+  {Dress::BANDS,  "bands"},
+  {Dress::ROSES,  "roses"},
+  {Dress::NONE,   ""},
 };
 
 
@@ -112,7 +112,8 @@ uint8_t Dress::getModel(const char *name)
 
   if (name) {
     for ( ; pdresss; pdresss++)
-      if (! strcmp(name, pdresss->dress_str)) return pdresss->dress_id;
+      if (! strcmp(name, pdresss->dress_str))
+        return pdresss->dress_id;
   }
   return NONE;
 }

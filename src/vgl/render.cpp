@@ -298,7 +298,7 @@ void Render::objectsOpaque(bool zsel, uint8_t pri)
   }
 }
 
-//dax5 Renders all solids
+// Renders all solids
 void Render::renderSolids(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
