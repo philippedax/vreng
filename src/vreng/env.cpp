@@ -173,7 +173,7 @@ void Env::cleanCacheByExt(const char *ext)
         if (strstr(dp->d_name, ext)) {
           char *p = strrchr(dp->d_name, '.');
           p++;
-          if (p && strlen(p) == 3) {
+          if (! strcmp(p, ext)) {
             unlink(dp->d_name);
           }
         }
