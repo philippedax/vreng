@@ -817,7 +817,7 @@ bool WObject::haveAction()
 void WObject::toDelete()
 {
   if (isValid()) {
-    deleteList.push_back(this); // add to delete
+    deleteList.push_back(this); // add to deleteList
     deleteFromGrid();
     removed = true;		// mark as removed
   }

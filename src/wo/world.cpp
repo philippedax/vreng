@@ -1035,23 +1035,19 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 /* Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
-  int sz = deleteList.size();
-  int i=0;
-
-  for (list<WObject*>::iterator o = deleteList.begin(); i<sz; ++o, i++) {
-    if (*o) {
-      if ((*o)->isValid() && ! (*o)->isBehavior(COLLIDE_NEVER))
-        (*o)->deleteFromGrid();
-      //dax1 mobileList.erase(o);
-      mobileList.remove(*o);
-      deleteList.remove(*o);
-      if (*o) {
-        if ((*o)->removed) {
-          error("todelete: %s", (*o)->getInstance());
-          //dax8 delete (*o);	//segfault
+  for (list<WObject*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
+    if (*it) {
+      if ((*it)->isValid() && ! (*it)->isBehavior(COLLIDE_NEVER))
+        (*it)->deleteFromGrid();
+      mobileList.remove(*it);
+      deleteList.erase(it);
+      //dax8 if (*it) {
+        //dax8 if ((*it)->removed) {
+          //dax8 error("todelete: %s", (*it)->getInstance());
+          //dax8 delete (*it);	//segfault
           //dax8 error("deleted");
-        }
-      }
+        //dax8 }
+      //dax8 }
     }
   }
 }
@@ -1065,6 +1061,7 @@ void World::clearLists()
   stillList.clear();
   deleteList.clear();
   lightList.clear();
+  renderList.clear();
 }
 
 #if 0 //debug
