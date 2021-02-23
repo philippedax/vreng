@@ -114,7 +114,9 @@ void Cart::leave(WObject *po)
 {
   // remove object from the cartList
   for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it)
-    if (*it == po) cartList.remove(*it);
+    if (*it == po) {
+      cartList.erase(it);	//dax1 remove(*it) ???
+    }
 
   // set the object's new coordinates & state
   float near = 0.5;
@@ -174,8 +176,9 @@ void Cart::removeFromCart(WObject *po)
 {
   // remove from cartList
   for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
-    if (*it == po)
-      cartList.remove(*it);
+    if (*it == po) {
+      cartList.erase(it);	// dax1 remove(*it) ???
+    }
   }
 
 #if VRSQL
