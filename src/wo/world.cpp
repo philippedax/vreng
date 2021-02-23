@@ -67,9 +67,7 @@ const float   World::DISTY = 2.;
 const float   World::DISTZ = 2.;
 const uint8_t World::WORLD_LEN = 32;
 
-#ifdef STATIC_GRID
 class OList* World::gridArray[GRIDX][GRIDY][GRIDZ];
-#endif
 
 World* World::worldList = NULL;
 

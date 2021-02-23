@@ -82,22 +82,8 @@ class World {
  public:
   static const uint8_t WORLD_LEN;
 
-#if 1 //dax
-#define STATIC_GRID
-#undef DYNAMIC_GRID
-//#else
-//#undef STATIC_GRID
-//#define DYNAMIC_GRID
-#endif
-
-#ifdef DYNAMIC_GRID //STL
-  //dax3 class WObject;
-  //dax2 static std::list<WObject*> ***gridArray;
-  class std::list<WObject*> ***grid;	///< matrix grid pointer.
-#else
   static class OList *gridArray[4][4][2];
   class OList ****grid;	///< matrix grid pointer.
-#endif
 
   int namecnt;			///< name counter.
   V3 bbcenter;			///< bb center of the world.
