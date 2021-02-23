@@ -88,7 +88,7 @@ void Cart::addToCart(WObject *po)
   }
 
   // remove object from collision checking grid
-  po->deleteFromGrid();
+  po->delFromGrid();
 
   // informs the GUI
   po->guip = ::g.gui.addCart(po);

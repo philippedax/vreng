@@ -51,10 +51,6 @@
 #include "axis.hpp"	// Axis
 #include "prof.hpp"	// new_world
 #include "entry.hpp"	// Entry
-#include "halo.hpp"	// Halo
-#include "hat.hpp"	// Hat
-#include "dress.hpp"	// Dress
-#include "wings.hpp"	// Wings
 #include "file.hpp"	// OpenFile
 
 #include <list>
@@ -571,9 +567,6 @@ void World::initGrid()
   bbslice.v[2] = DISTZ;
   localGrid();
         
-#ifdef DYNAMIC_GRID 
-  grid = allocGrid();
-#endif
   clearGrid();
 }
 
@@ -585,25 +578,12 @@ void World::initGrid(const uint8_t _dim[3], const V3 &sl)
   }
   localGrid();
 
-#ifdef DYNAMIC_GRID
-  grid = allocGrid();
-#endif
   clearGrid();
 }
 
 OList **** World::allocGrid()
 {
-#ifdef DYNAMIC_GRID
-  grid = new OList***[dimgrid[0]];
-  for (int x=0; x < dimgrid[0] ; x++)
-    grid[x] = new OList**[dimgrid[1]];
-  for (int x=0; x < dimgrid[0] ; x++)
-    for (int y=0; y < dimgrid[1] ; y++)
-      grid[x][y] = new OList*[dimgrid[2]];
-  return grid;
-#else
   return NULL;
-#endif
 }
   
 /** clear all pointers in the grid */
@@ -612,11 +592,7 @@ void World::clearGrid()
   for (int x=0; x < dimgrid[0]; x++)
     for (int y=0; y < dimgrid[1]; y++)
       for (int z=0; z < dimgrid[2]; z++) {
-#ifdef DYNAMIC_GRID
-        if (grid) grid[x][y][z] = NULL;
-#else
         gridArray[x][y][z] = NULL;
-#endif
       }
 }
 
@@ -626,25 +602,11 @@ void World::freeGrid()
   for (int x=0; x < dimgrid[0]; x++)
     for (int y=0; y < dimgrid[1]; y++)
       for (int z=0; z < dimgrid[2]; z++) {
-#ifdef DYNAMIC_GRID
-        if (grid) {
-          if (grid[x][y][z]) grid[x][y][z]->remove();
-          grid[x][y][z] = NULL;
+        if (gridArray[x][y][z]) {
+          //dax3 gridArray[x][y][z]->remove();
+          gridArray[x][y][z] = NULL;
         }
-#else
-        if (gridArray[x][y][z]) gridArray[x][y][z]->remove();
-        gridArray[x][y][z] = NULL;
-#endif
       }
-#ifdef DYNAMIC_GRID
-  for (int x=0; x < dimgrid[0]; x++)
-    for (int y=0; y < dimgrid[1]; y++)
-      if (grid[x][y]) delete[] grid[x][y];
-  for (int x=0; x < dimgrid[0]; x++)
-    if (grid[x]) delete[] grid[x];
-  if (grid) delete[] grid;
-  grid = NULL;
-#endif
 }
 
 /* Check and load my proper icons - static */
@@ -844,7 +806,7 @@ void World::init(const char *vreurl)
 
   // check whether icons are locally presents
   world->checkIcons();
-  // check whether other objects are persistents by MySql
+  // check whether other objects are persistents
   world->checkPersist();
 
   if (! ::g.pref.gravity) ::g.gui.pauseUser();
@@ -866,9 +828,12 @@ void World::quit()
   Parse *parser = Parse::getParse();
   if (parser) delete parser;
 
-  //
-  // Quits and deletes objects
-  //
+  //dax3 current()->freeGrid();
+
+  /*
+   * Quits and deletes objects
+   */
+  // invisible objects
   for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end(); ++o) {
     if (*o && (*o)->isValid()) {
       (*o)->quit();
@@ -877,14 +842,7 @@ void World::quit()
   }
   invisList.clear();
 
-  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o) {
-    if (*o && (*o)->isValid()) {
-      (*o)->quit();
-      delete (*o);
-    }
-  }
-  fluidList.clear();
-
+  // still objects
   for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
     if (*o && (*o)->isValid()) {
       (*o)->clearObjectBar();
@@ -894,20 +852,26 @@ void World::quit()
   }
   stillList.clear();
 
+  // mobile objects
   for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
     if ((*o) == localuser) continue;
-    if (*o) { //FIXME segfault
-      if ((*o)->isValid() && ! (*o)->isEphemeral()) {
-        //FIXME segfault (*o)->clearObjectBar();
-        (*o)->clearObjectBar();
-        (*o)->quit();
-        delete (*o);
-      }
+    if (*o && (*o)->isValid() && ! (*o)->isEphemeral()) {
+      //FIXME segfault (*o)->clearObjectBar();
+      (*o)->clearObjectBar();
+      (*o)->quit();
+      delete (*o);
     }
   }
   mobileList.clear();
 
-  //dax current()->freeGrid();
+  // fluid objects
+  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o) {
+    if (*o && (*o)->isValid()) {
+      (*o)->quit();
+      delete (*o);
+    }
+  }
+  fluidList.clear();
 
   // Update GUI
   if (guip) ::g.gui.updateWorld(this, OLD);
@@ -1038,7 +1002,7 @@ void World::deleteObjects()
   for (list<WObject*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
     if (*it) {
       if ((*it)->isValid() && ! (*it)->isBehavior(COLLIDE_NEVER))
-        (*it)->deleteFromGrid();
+        (*it)->delFromGrid();
       mobileList.remove(*it);
       deleteList.erase(it);
       //dax8 if (*it) {

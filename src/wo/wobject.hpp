@@ -435,15 +435,15 @@ public:
   // Grid
   //
   virtual void insertIntoGrid();
-  /**< Adds an object into the grid. */
+  /**< Adds an object into the vicinity grid. */
 
-  virtual void deleteFromGrid();
-  /**< Deletes an object from the grid. */
+  virtual void delFromGrid();
+  /**< Deletes an object from the vicinity grid. */
 
   virtual void updateGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold);
   virtual void updateGrid(const Pos &oldpos);
   virtual void updateGrid(const WObject *pold);
-  /**< Updates an object into the grid. */
+  /**< Updates an object into the vicinity grid. */
 
   //
   // List

@@ -415,13 +415,15 @@ void Render::rendering(bool zsel=false)
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
+#if 0 //dax4
   // Find the localuser object
   list<WObject*>::iterator wu;
-  for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end() ; o++) {
-    if ((*o)->type == USER_TYPE) {
-      wu = o;	// localuser
+  for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end() ; it++) {
+    if ((*it) && (*it)->type == USER_TYPE) {
+      wu = it;	// localuser
     }
   }
+#endif
   // Find the localuser solid
   list<Solid*>::iterator su;
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {

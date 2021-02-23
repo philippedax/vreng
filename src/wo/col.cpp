@@ -385,17 +385,8 @@ void WObject::bounceTrajectory(WObject *pold, V3 *normal)
 }
 
 //
-// GRID
+// GRID vicinity
 //
-
-#if 1 //dax
-#define STATIC_GRID
-#endif
-#ifdef STATIC_GRID
-#undef DYNAMIC_GRID
-#else
-#define DYNAMIC_GRID
-#endif
 
 static uint8_t dim[3];
 static V3 dist;
@@ -438,17 +429,12 @@ void WObject::insertIntoGrid()
   for (int x=imin[0]; x <= imax[0]; x++)
     for (int y=imin[1]; y <= imax[1]; y++)
       for (int z=imin[2]; z <= imax[2]; z++) {
-#ifdef DYNAMIC_GRID
-        if (grid)
-	  World::current()->grid[x][y][z] = addToListOnce(World::current()->grid[x][y][z]);
-#else
 	World::gridArray[x][y][z] = addToListOnce(World::gridArray[x][y][z]);
-#endif
       }
 }
 
-/** Deletes an object from the grid */
-void WObject::deleteFromGrid()
+/** Deletes an object from the vicinity grid. */
+void WObject::delFromGrid()
 {
 #if 1 //MS
 // This estimation doesn't work 100%.
@@ -466,24 +452,14 @@ void WObject::deleteFromGrid()
   for (int x=imin[0]; x <= imax[0]; x++)
     for (int y=imin[1]; y <= imax[1]; y++)
       for (int z=imin[2]; z <= imax[2]; z++)
-#ifdef DYNAMIC_GRID
-        if (grid && World::current()->grid[x][y][z])
-	  World::current()->grid[x][y][z] = delFromList(World::current()->grid[x][y][z]);
-#else
         if (World::gridArray[x][y][z])
 	  World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
-#endif
 #else //!MS
   for (int x=0; x < dim[0]; x++)
     for (int y=0; y < dim[1]; y++)
       for (int z=0; z < dim[2]; z++) {
-#ifdef DYNAMIC_GRID
-        if (grid && World::current()->grid[x][y][z])
-          World::current()->grid[x][y][z] = delFromList(World::current()->grid[x][y][z]);
-#else
         if (World::gridArray[x][y][z])
 	  World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
-#endif
       }
 #endif //MS
 }
@@ -506,25 +482,16 @@ void WObject::updateGrid(const float *bbminnew, const float *bbmaxnew, const flo
     for (int x=iminold[0]; x <= imaxold[0]; x++)
       for (int y=iminold[1]; y <= imaxold[1]; y++)
 	for (int z=iminold[2]; z <= imaxold[2]; z++)
-#ifdef DYNAMIC_GRID
-          if (grid && World::current()->grid[x][y][z])
-	    World::current()->grid[x][y][z] = delFromList(World::current()->grid[x][y][z]);
-#else
           if (World::gridArray[x][y][z])
 	    World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
-#endif
 #else //MS
-    deleteFromGrid();
+    delFromGrid();
 #endif //MS
     for (int x=iminnew[0]; x <= imaxnew[0]; x++)
       for (int y=iminnew[1]; y <= imaxnew[1]; y++)
-	for (int z=iminnew[2]; z <= imaxnew[2]; z++)
-#ifdef DYNAMIC_GRID
-          if (grid)
-	    World::current()->grid[x][y][z] = addToListOnce(World::current()->grid[x][y][z]);
-#else
+	for (int z=iminnew[2]; z <= imaxnew[2]; z++) {
 	  World::gridArray[x][y][z] = addToListOnce(World::gridArray[x][y][z]);
-#endif
+        }
   }
 }
 
@@ -573,12 +540,9 @@ OList * WObject::getVicinity(const WObject *obj)
   OList *vl = NULL;
   for (int x=imin[0]; x <= imax[0]; x++)
     for (int y=imin[1]; y <= imax[1]; y++)
-      for (int z=imin[2]; z <= imax[2]; z++)
-#ifdef DYNAMIC_GRID
-        vl = addListToList(World::current()->grid[x][y][z], vl);
-#else
+      for (int z=imin[2]; z <= imax[2]; z++) {
         vl = addListToList(World::gridArray[x][y][z], vl);
-#endif
+      }
 
   if (vl)
     vl->clearIspointed();

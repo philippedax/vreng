@@ -112,7 +112,7 @@ WObject::WObject()
 WObject::~WObject()
 {
   if (! isBehavior(COLLIDE_NEVER))
-    deleteFromGrid();
+    delFromGrid();
 
   deleteSolids();	// delete attached solids
 
@@ -453,10 +453,11 @@ void WObject::setReflexive(bool flag)
 /* adds solid to the list of solids for this object */
 void WObject::addSolid(Solid* psolid)
 {
-  if (!_solids.empty()) psolid->numrel++;
+  if (!_solids.empty())
+    psolid->numrel++;
   _solids.push_back(psolid);
   psolid->wobject = this;	// Solid is friend of WObject
-  solid = psolid; // keep solid pointer in WObject
+  solid = psolid;		// keep solid pointer in WObject
 }
 
 /* deletes all solids of this object */
@@ -818,7 +819,7 @@ void WObject::toDelete()
 {
   if (isValid()) {
     deleteList.push_back(this); // add to deleteList
-    deleteFromGrid();
+    delFromGrid();
     removed = true;		// mark as removed
   }
   //dax8 deleteSolids();
@@ -1271,13 +1272,14 @@ void WObject::deleteReplica()
 {
   if (this != localuser) {
     if (type == USER_TYPE) ::g.gui.removeUser((User *) this);
-    deleteFromGrid();
+    delFromGrid();
     delFromMobile();
 
     // delete Solids
     for (solidList::iterator s = _solids.begin(); s != _solids.end(); s++)
       delete (*s);
     _solids.erase(_solids.begin(), _solids.end());
+
     if (noh) delete noh;
     noh = NULL; // delete NetObject
   }

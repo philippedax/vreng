@@ -85,12 +85,13 @@ class World {
 #if 1 //dax
 #define STATIC_GRID
 #undef DYNAMIC_GRID
-#else
-#undef STATIC_GRID
-#define DYNAMIC_GRID
+//#else
+//#undef STATIC_GRID
+//#define DYNAMIC_GRID
 #endif
+
 #ifdef DYNAMIC_GRID //STL
-  class WObject;
+  //dax3 class WObject;
   //dax2 static std::list<WObject*> ***gridArray;
   class std::list<WObject*> ***grid;	///< matrix grid pointer.
 #else
