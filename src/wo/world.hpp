@@ -27,7 +27,6 @@ using namespace std;
 
 #define MAX_WORLDS	256	// uint8_t
 
-#define WL 0	// STL
 
 /**
  * World class
@@ -35,12 +34,7 @@ using namespace std;
 class World {
 
  private:
-#if WL
-#include <list>
-  static std::list<World*> worldList;
-#else
   static class World * worldList;
-#endif
 
   /* states */
   enum world_state {
