@@ -428,11 +428,13 @@ void World::compute(time_t sec, time_t usec)
     for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
       if (! (*o)->isValid()) {
         error("bad type=0");
+        //dax1 mobileList.erase(o);
         mobileList.remove(*o);
         continue;
       }
       if ((*o)->type > OBJECTSNUMBER) {
         error("bad type out of range: t=%d", (*o)->type);
+        //dax1 mobileList.erase(o);
         mobileList.remove(*o);
         continue;
       }
@@ -1040,6 +1042,7 @@ void World::deleteObjects()
     if (*o) {
       if ((*o)->isValid() && ! (*o)->isBehavior(COLLIDE_NEVER))
         (*o)->deleteFromGrid();
+      //dax1 mobileList.erase(o);
       mobileList.remove(*o);
       deleteList.remove(*o);
       if (*o) {

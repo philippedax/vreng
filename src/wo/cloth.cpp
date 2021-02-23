@@ -215,12 +215,12 @@ void Cloth::addToWearList()
 
 void Cloth::delFromWearList()
 {
-#if 0 //dax1 if 1 the object is blocked
-  for (list<WObject*>::iterator il = wearList.begin(); il != wearList.end(); il++) {
-    if (*il == this)
-      wearList.remove(*il);
+  for (list<WObject*>::iterator it = wearList.begin(); it != wearList.end(); it++) {
+    if (*it == this) {
+      //dax1 wearList.erase(it);	// same as pop_back
+      wearList.pop_back();
+    }
   }
-#endif
 }
 
 void Cloth::restorePosition()
