@@ -27,13 +27,8 @@
 using namespace std;
 
 
-#if 0 // STL
-std::vector< OClass* > OClass::otable(OBJECTSNUMBER, NULL);
-//std::vector< OClass* > OClass::otable(1, NULL);
-#else
 OClass** OClass::otable = NULL;
 uint16_t OClass::otable_size = 0;
-#endif
 
 // local
 static const OClass end(0, "End", NULL);
@@ -44,15 +39,6 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
 	       WCreator _creator, WReplicator _replicator, WBuiltin _builtin) :
   type_id(_type_id), type_name(_type_name), creator(_creator), replicator(_replicator), builtin(_builtin)
 {
-#if 0 // STL
-  if (type_id < otable.size()) otable.at(type_id) = this;
-  else {
-    for (uint32_t i=1; i < otable.size(); i++) otable.push_back((OClass *) NULL);
-    //for (uint32_t i=1; i < otable.size(); i++) otable.at(i) = (OClass *) NULL;
-    otable.push_back(this);
-  }
-  //error("otable[%d] %s size=%d", type_id, type_name, otable.size());
-#else
   if (type_id < otable_size) otable[type_id] = this;
   else {
     if (! (otable = (OClass**) realloc(otable, sizeof(OClass *) * (type_id+1))))
@@ -62,22 +48,10 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
     otable[type_id] = this;
   }
   //error("otable[%d] %s size=%d", type_id, type_name, otable_size);
-#endif
 }
 
 const OClass * OClass::getOClass(const char *type_name)
 {
-#if 0 // STL
-  for (uint32_t i=1; i < otable.size(); i++) {
-    if (otable.at(i)) {
-      if (otable.at(i)->type_name) {
-        if (type_name)
-          if (! mystrcasecmp(type_name, otable.at(i)->type_name)) return otable.at(i);
-      }
-      else
-        error("otable[%d]->type_name=%s", i, otable.at(i)->type_name);
-    }
-#else
   for (int i=1; i < otable_size; i++) {
     if (otable[i]) {
       if (otable[i]->type_name) {
@@ -87,7 +61,6 @@ const OClass * OClass::getOClass(const char *type_name)
       else
         error("otable[%d]->type_name=%s", i, otable[i]->type_name);
     }
-#endif
   }
   error("type_name=%s not found, please upgrade VREng!", type_name);
   return (OClass *) NULL;
@@ -95,11 +68,7 @@ const OClass * OClass::getOClass(const char *type_name)
 
 const OClass * OClass::getOClass(uint8_t type_id)
 {
-#if 0 // STL
-  if (isValidType(type_id)) return otable[type_id];
-#else
   if (type_id < otable_size) return otable[type_id];
-#endif
   error("getOClass: type_id=%d out of bounds", type_id); dumpTable();
   return (OClass *) NULL;
 }
@@ -126,11 +95,7 @@ WObject * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 
 void OClass::dumpTable()
 {
-#if 0 // STL
-  for (uint32_t i=1; i < otable.size(); i++)
-#else
   for (int i=1; i < otable_size; i++)
-#endif
     printf("%02d: %p %02d %s\n", i, otable[i], otable[i]->type_id, otable[i]->type_name);
 }
 

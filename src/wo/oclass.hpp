@@ -37,12 +37,8 @@ typedef void (WBuiltin) ();
 class OClass {
 
 protected:
-#if 0 //STL
-  static vector< OClass* > otable;
-#else
   static OClass **otable;		///< objects table
   static uint16_t otable_size;		///< table size
-#endif
 
 public:
   const uint8_t       type_id;		///< class id
