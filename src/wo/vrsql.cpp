@@ -167,10 +167,11 @@ void VRSql::quit()
   if (vrsql) {
 #if HAVE_SQLITE
     if (db) sqlite3_close(db);
+    db = NULL;
 #elif HAVE_MYSQL
     if (db) mysql_close(db);
-#endif
     db = NULL;
+#endif
   }
 }
 
