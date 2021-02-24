@@ -1099,25 +1099,6 @@ WObject * WObject::byNum(uint16_t num)
 }
 
 /* Concatenates (with test of ispointed & object) pointers list on an object */
-#if 0 //VL
-list<WObject*>::iterator WObject::addListToList(list<WObject*> &l1, list<WObject*> &l2)
-{
-#if 0 //TODO use splice(l1, l2)
-  if (l1.empty()) {
-    if (l2.empty()) return NULL;
-    if (*l2 != this) return l2.begin();
-    //else           return NULL;
-  }
-  else {
-    if (l1.front()->isValid() && !(l1.front()->inlist) && (*l1.front()!= this)) {
-      *l1.front()>inlist = true;
-      return  addListToList(l1, l1.front()->addToListOnce(l2));
-    }
-    else  return addListToList(l1.front(), l2);
-  }
-#endif
-}
-#else
 OList * WObject::addListToList(OList *l1, OList *l2)
 {
   if (! l1) {
@@ -1134,7 +1115,6 @@ OList * WObject::addListToList(OList *l1, OList *l2)
     else  return addListToList(l1->next, l2);
   }
 }
-#endif
 
 // static
 void WObject::show(const char *name)

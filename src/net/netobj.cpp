@@ -34,11 +34,8 @@ using namespace std;
 
 // local
 
-#if STL
 list<NetObject*> NetObject::netobjectList;
-#else
-static NetObject *netobjectList = NULL; // netobjects list
-#endif
+//static NetObject *netobjectList = NULL; // netobjects list
 
 // network ids
 uint32_t NetObject::mySsrcId = 0;   // ssrc network format
@@ -109,25 +106,14 @@ NetObject::NetObject(WObject *po, uint8_t nprop, Noid _noid)
   setPropertiesNumber(nprop);
 }
 
-#if STL
 list<NetObject*>::iterator NetObject::getList()
 {
   return netobjectList.begin();
 }
-#else
-NetObject * NetObject::getList()
-{
-  return netobjectList;
-}
-#endif
 
 void NetObject::clearList()
 {
-#if STL
   netobjectList.clear();
-#else
-  netobjectList = NULL;
-#endif
 }
 
 void NetObject::setMyMgrSsrcId(uint32_t mgr_ssrc_id)
@@ -214,9 +200,8 @@ uint16_t NetObject::getObjId() const
 /* Inserts netobject in head of netobjectList */
 void NetObject::addToList()
 {
-#if STL
   netobjectList.push_back(this);
-#else
+#if 0 //!STL
   if ((next = netobjectList) != NULL) netobjectList->prev = this;
   netobjectList = this;
   prev = NULL;
@@ -314,9 +299,9 @@ void NetObject::deleteFromList()
 {
   if (! getNetObject())
     return;	//warning("deleteFromList: already unnamed/deleted type=%d", type);
-#if STL
+
   netobjectList.remove(this);
-#else
+#if 0 //!STL
   if (! getNetObject())
     return;	//warning("deleteFromList: already unnamed/deleted type=%d", type);
   if (prev)
@@ -533,7 +518,6 @@ bool NetObject::equalNoid(Noid n2) const
 /* Gets a NetObject by name */
 NetObject * NetObject::getNetObject()
 {
-#if STL
   for (list<NetObject*>::iterator it = netobjectList.begin(); it != netobjectList.end(); ++it) {
     if ((*it)->equalNoid((*it)->noid))
       return *it;  // found
@@ -542,7 +526,7 @@ NetObject * NetObject::getNetObject()
       return NULL;
     }
   }
-#else
+#if 0 //!STL
   NetObject *pn;
 
   for (pn = getList(); pn ; pn = pn->next) { // FIXEME : loop observed

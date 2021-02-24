@@ -491,18 +491,10 @@ public:
   virtual void delFromList();
   /**< Deletes an object pointer from a olist. */
 
-#if 0 //STL
-  virtual list<WObject*>::iterator getVicinity(const WObject *pold);
-#else
   virtual OList * getVicinity(const WObject *pold);
-#endif
   /**< Returns list of pointers on objects touching cell where is the object. */
 
-#if 0 //STL
-  virtual list<WObject*>::iterator addListToList(list<WObject*> &list1, list<WObject> &list2);
-#else
   virtual OList * addListToList(OList * list1, OList * list2);
-#endif
   /**< Concatenation (test of "ispointed") of list pointers on an object. */
 
   virtual bool isStill();

@@ -241,23 +241,10 @@ class NetObject {
 
   virtual bool isPermanent() const;
 
-#if 1 //dax
-#define STL 1
-#else
-#define STL 0
-#endif
-#if STL //STL
   static std::list<NetObject*> netobjectList;
-#else
-  static NetObject *netObjectList;
-#endif
   /**< netobject list. */
 
-#if STL //STL
   static std::list<NetObject*>::iterator getList();
-#else
-  static NetObject * getList();
-#endif
   /**< Gets the NetObject list. */
 
   static void clearList();

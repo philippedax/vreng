@@ -125,7 +125,6 @@ int NetTimeout()
   /*
    * for each netobject in netobjectlist
    */
-#if STL //STL
   for (list<NetObject*>::iterator it = NetObject::netobjectList.begin(); it != NetObject::netobjectList.end(); ++it) {
     if (! OClass::isValidType((*it)->type)) {
       error("NetTimout: invalid type (%d)", (*it)->type); return -1;
@@ -186,81 +185,6 @@ int NetTimeout()
       }
     } // end scan properties
   } // end list
-#else
-  for (NetObject *pn = NetObject::getList() ; pn ; ) {
-    if (! OClass::isValidType(pn->type)) {
-      error("NetTimeout: invalid type (%d)", pn->type);
-      return -1;
-    }
-   
-    NetObject *next = pn->next; // save it now, pn may disapear if death
-   
-    /*
-     * scan its properties
-     */
-    uint8_t nprop = pn->getPropertiesNumber();
-    for (int i=0; i < nprop; i++) {
-      switch (pn->type) {
-        case USER_TYPE:
-          if (i < User::PROPBEGINVAR || i > User::PROPENDVAR)
-            //trace(DBG_NET, "skip property %d", i); // skip static properties
-            continue;
-      }
-      NetProperty *pprop = pn->netprop + i;
-
-      /*
-       * test if refresh timeout reached
-       */
-      if (pprop->responsible
-          && Timer::diffDates(pprop->last_seen, now) > refresh) {
-        // now - last_seen > refresh: we are responsible, we must refresh
-
-        pn->sendDelta(i);       // publish a heartbeat
-
-        //error("NetTimeout: sendDelta type (%d)", pn->type);
-      }
-
-      if (Timer::diffDates(pprop->assume_at, now) > 0) {
-        // now > assume_at: assume's timeout on this property
-        if (pn->permanent) {
-          /*
-           * permanent object (door, lift, anim, button, thing, book)
-           */
-          if (pprop->version != 0) {
-            // if permanent prop hasn't its initial value,
-            // somebody must assume responsibility
-            trace(DBG_FORCE, "NetTimeout: (permanent) Assuming responsibility for %s prop=%d unseen for %5.2fs",
-                  pn->noid.getNetNameById(), i, Timer::diffDates(pprop->last_seen, now));
-            if (pprop->responsible) {
-              trace(DBG_FORCE, "NetTimeout: (permanent) should assume responsibility "
-                    "of something I am responsible for");
-              return -1;
-            }
-            /* heartbeat */
-            pn->declareObjDelta(i);     // assume responsibility: publish
-          }
-        }
-        else {
-          /*
-           * volatile object (user, ball, dart, bullet, sheet, icon)
-           */
-          if (pprop->responsible) {
-            trace(DBG_FORCE, "NetTimeout: (volatile) should assume death of %s I am responsible for", pn->pobject->getInstance());
-            return -1;
-          }
-          trace(DBG_NET, "NetTimeout: (volatile) Assuming death of %s [%s] (unseen for %.2fs)",
-                pn->pobject->getInstance(), pn->noid.getNetNameById(),
-                Timer::diffDates(pprop->last_seen, now));
-          pn->declareDeletion();
-          pn->requestDeletionFromNetwork();     // discard the dead
-          // no reason to continue after a requestDeletion
-          break;
-        }
-      }
-    } // end scan properties
-    pn = next;  // next object
-  } // end list
-#endif
 
   return (int) ceil(refresh * 1000);
 }
