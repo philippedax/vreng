@@ -281,7 +281,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   rc = sqlite3_step(res);
   if (rc == SQLITE_ROW) {
     val = sqlite3_column_int(res, 0);
-    error("rc=%d val=%d", rc,val);
+    //dax1 error("rc=%d val=%d", rc,val);
   }
   else {
     error("%s %s %d err step %s", table,col,irow, sqlite3_errmsg(db));
@@ -389,7 +389,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(res, 0));
-      error("rc=%d str=%s", rc,retstring);
+      //dax1 error("rc=%d str=%s", rc,retstring);
     }
   }
   else {
@@ -438,7 +438,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(res, 0));
-      error("rc=%d str=%s", rc,retstring);
+      //dax1 error("rc=%d str=%s", rc,retstring);
     }
   }
   sqlite3_reset(res);
