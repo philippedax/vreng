@@ -13,6 +13,11 @@ The rules for this file:
 ------------------------------------------
 
 ++ 9
+== 9.2
+-- 9.2.0
+	- removed old lists
+	(2021/02/24, Philippe Dax)
+
 == 9.1
 -- 9.1.6
 	- fixed toDelete call to deleteFromGrid()

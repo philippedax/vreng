@@ -14,6 +14,11 @@ The rules for this file:\n\
 ------------------------------------------\n\
 \n\
 ++ 9\n\
+== 9.2\n\
+-- 9.2.0\n\
+	- removed old lists\n\
+	(2021/02/24, Philippe Dax)\n\
+\n\
 == 9.1\n\
 -- 9.1.6\n\
 	- fixed toDelete call to deleteFromGrid()\n\

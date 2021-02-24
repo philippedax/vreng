@@ -133,8 +133,8 @@ struct Move {
  */
 class WObject {
 public:
-  typedef std::list<class Solid*> solidList;
-  solidList _solids;		///< list of solids.
+  typedef std::list<class Solid*> SolidList;
+  SolidList _solids;		///< list of solids.
 
 protected:
   bool objectbar;		///< true if object bar is active.
@@ -251,7 +251,7 @@ public:
   //
   // Accessors to Solid
   //
-  const solidList& solids() const;
+  const SolidList& solids() const;
   /**< solidlist address. */
 
   uint32_t countOfSolids() const;

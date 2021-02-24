@@ -397,7 +397,7 @@ bool WObject::givenName() const
 //
 
 /* solids accessor */
-const WObject::solidList& WObject::solids() const
+const WObject::SolidList& WObject::solids() const
 {
   return _solids;
 }
@@ -464,7 +464,7 @@ void WObject::addSolid(Solid* psolid)
 void WObject::deleteSolids()
 {
   if (! _solids.empty()) {
-    for (solidList::iterator s = _solids.begin(); s != _solids.end(); s++) {
+    for (SolidList::iterator s = _solids.begin(); s != _solids.end(); s++) {
       if (*s)
         delete (*s);
     }
@@ -1256,7 +1256,7 @@ void WObject::deleteReplica()
     delFromMobile();
 
     // delete Solids
-    for (solidList::iterator s = _solids.begin(); s != _solids.end(); s++)
+    for (SolidList::iterator s = _solids.begin(); s != _solids.end(); s++)
       delete (*s);
     _solids.erase(_solids.begin(), _solids.end());
 
