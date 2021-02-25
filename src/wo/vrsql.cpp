@@ -29,7 +29,7 @@
 static VRSql *vrsql = NULL;		// vrsql handle, only one by universe
 
 #if HAVE_SQLITE
-static const char * DB = "~/.vreng.db";	///< database name
+static const char * DB = "~/.vreng/db";	///< database name
 #elif HAVE_MYSQL
 static const char * DB = "vreng";	///< database name
 static const char * USER = "vreng";	///< user name
