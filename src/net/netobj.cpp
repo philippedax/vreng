@@ -201,11 +201,6 @@ uint16_t NetObject::getObjId() const
 void NetObject::addToList()
 {
   netobjectList.push_back(this);
-#if 0 //!STL
-  if ((next = netobjectList) != NULL) netobjectList->prev = this;
-  netobjectList = this;
-  prev = NULL;
-#endif
 }
 
 void NetObject::initProperties(bool _responsible)
@@ -301,24 +296,6 @@ void NetObject::deleteFromList()
     return;	//warning("deleteFromList: already unnamed/deleted type=%d", type);
 
   netobjectList.remove(this);
-#if 0 //!STL
-  if (! getNetObject())
-    return;	//warning("deleteFromList: already unnamed/deleted type=%d", type);
-  if (prev)
-    prev->next = next;
-  else {
-    if (this != netobjectList) {
-      error("deleteFromList: %s type=%d pn=%p netobjectList=%p",
-            pobject->getInstance(), type, this, netobjectList);
-      return;
-    }
-    netobjectList = next;
-  }
-  if (next)
-    next->prev = prev;
-  next = NULL;
-  prev = NULL;
-#endif
 }
 
 NetObject::~NetObject()
@@ -526,17 +503,6 @@ NetObject * NetObject::getNetObject()
       return NULL;
     }
   }
-#if 0 //!STL
-  NetObject *pn;
-
-  for (pn = getList(); pn ; pn = pn->next) { // FIXEME : loop observed
-    if (equalNoid(pn->noid)) return pn; // NetObject found
-    if (! OClass::isValidType(pn->type)) {
-      error("getNetObject: bad type=%d", pn->type);
-      return NULL;
-    }
-  }
-#endif
   return NULL;
 }
 
