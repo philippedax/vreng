@@ -191,20 +191,20 @@ float File::read_float_le(FILE *f)
   return (float) *(float *)&v;
 }
 
-int File::read_string(FILE *f, char *s, int maxlen)
+int File::read_string(FILE *f, char *str, int maxlen)
 {
   int c;
   int cnt = 0;
   do {
     c = read_char(f);
     if (cnt < maxlen)
-      s[cnt] = c;
+      str[cnt] = c;
     else
-      s[maxlen-1] = '\0';
-    s[cnt] = c;
+      str[maxlen-1] = '\0';
+    str[cnt] = c;
     cnt++;
   } while (c != 0);
-  /* if length of string (including \0) is odd skip another byte */
+  /* if length of string (including \0) is odded skip another byte */
   if (cnt%2) {
     read_char(f);
     cnt++;
@@ -212,16 +212,17 @@ int File::read_string(FILE *f, char *s, int maxlen)
   return cnt;
 }
 
-void File::read_buf(FILE *f, char *s, int len)
+void File::read_buf(FILE *f, char *buf, int len)
 {
   int c;
   int cnt = 0;
+
   do {
     c = read_char(f);
-    s[cnt] = c;
+    buf[cnt] = c;
     cnt++;
     len--;
-  } while (len != 0);
+  } while (len != 0) ;
 }
 
 void File::skip_byte(FILE *f, int skiplen)

@@ -167,10 +167,12 @@ int HttpThread::connect(const struct sockaddr_in *sa)
   int sdhttp;
 
   if ((sdhttp = Socket::openStream()) < 0) {
-    perror("httpConnect: socket"); return -BADSOCKET;
+    perror("httpConnect: socket");
+    return -BADSOCKET;
   }
   if (Socket::connection(sdhttp, sa) < 0) {
-    perror("httpConnect: connect"); return -BADCONNECT;
+    perror("httpConnect: connect");
+    return -BADCONNECT;
   }
   return sdhttp;
 }
@@ -461,10 +463,13 @@ again:
   return NULL;
 }
 
-/** Open a new HTTP connection, returns -1 if error */
+/** Opens a HTTP transaction, returns -1 if error */
 int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), void *_thrhdl, int _threaded)
 {
-  if (! isprint(*_url)) { error("httpOpen: url not printable"); return -1; }
+  if (! isprint(*_url)) {
+    error("httpOpen: url not printable");
+    return -1;
+  }
 
   HttpThread *ht = new HttpThread();
 
@@ -480,7 +485,7 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
   strcpy(ht->url, _url);
   strcpy(ht->http->url, _url);
 
-  // Checks weither url is in the cache (_threaded < 0 : don't use the cache)
+  // Checks if url is in the cache (_threaded < 0 : don't use the cache)
   if (_threaded >= 0 && Cache::inCache(_url)) { // in cache
     ht->httpReader(ht->thrhdl, ht->http);  // call the appropiated httpReader
     if (ht->http) delete ht->http;
@@ -492,8 +497,9 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
   }
   else {		// it's a thread
     progression('i');	// i as image
-    if (_threaded > 0)
+    if (_threaded > 0) {
       return ht->putfifo();
+    }
     else {
       HttpThread::connection((void *) ht);	// it's not a thread
       ::g.timer.image.stop();
@@ -521,7 +527,8 @@ Http::~Http()
   if (url) delete[] url;
   if (buf) delete[] buf;
   buf = NULL;
-  if (fd > 0) Socket::closeStream(fd);
+  if (fd > 0)
+    Socket::closeStream(fd);
 }
 
 int Http::httpRead(char *abuf, int maxl)
@@ -642,16 +649,19 @@ GLfloat Http::read_GLfloat()
   return (GLfloat) *(GLfloat *) &n;
 }
 
-int Http::read_string(char *s, int maxlen)
+int Http::read_string(char *str, int maxlen)
 {
   int c;
   int cnt = 0;
+
   do {
     c = read_char();
-    if (cnt < maxlen) s[cnt] = c;
-    else s[maxlen-1] = '\0';
+    if (cnt < maxlen)
+      str[cnt] = c;
+    else
+      str[maxlen-1] = '\0';
     cnt++;
-  } while (c != 0);
+  } while (c != 0) ;
   /* if length of string (including \0) is odded skip another byte */
   if (cnt%2) {
     read_char();
@@ -692,7 +702,8 @@ bool isEmptyLine(char *line)
 bool Http::getLine(char *line)
 {
   do {
-    if (! nextLine(line)) return false;
+    if (! nextLine(line))
+      return false;
   } while (isEmptyLine(line)) ;
   return true;
 }
@@ -717,7 +728,7 @@ int Http::fread(char *pbuf, int size, int nitems)
   return nitems;
 }
 
-/** returns a block and the length */
+/** returns a block and its size */
 uint32_t Http::read_buf(char *buffer, int maxlen)
 {
   int32_t siz = htbuf_len - htbuf_pos;
@@ -730,8 +741,8 @@ uint32_t Http::read_buf(char *buffer, int maxlen)
   else {
     memcpy(buffer, htbuf, siz);
     htbuf_pos = htbuf_len;
-    int s = siz + httpRead((char *) buffer+siz, maxlen-siz);
-    return s;
+    int size = siz + httpRead((char *) buffer+siz, maxlen-siz);
+    return size;
   }
 }
 
