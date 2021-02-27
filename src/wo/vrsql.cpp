@@ -23,13 +23,14 @@
 #include "world.hpp"	// current
 #include "android.hpp"	// Android bap
 #include "pref.hpp"	// g.user
+#include "env.hpp"	// home
 
 
 // local
 static VRSql *vrsql = NULL;		// vrsql handle, only one by universe
 
 #if HAVE_SQLITE
-static const char * DB = "~/.vreng/db";	///< database name
+static const char * DB = "db";		///< database name
 #elif HAVE_MYSQL
 static const char * DB = "vreng";	///< database name
 static const char * USER = "vreng";	///< user name
@@ -70,9 +71,11 @@ bool VRSql::openDB()
   if (::g.pref.fast == true)
     return false;
 
+  char pathDB[128];
   char *err_msg = 0;
-    
-  int rc = sqlite3_open(DB, &db);
+
+  sprintf(pathDB, "%s/.vreng/%s", Env::home(), DB);
+  int rc = sqlite3_open(pathDB, &db);
   if (rc != SQLITE_OK) {
     error("Cannot open database: %s", sqlite3_errmsg(db));
     sqlite3_close(db);
