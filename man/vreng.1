@@ -28,7 +28,7 @@ The user will benefit more from this experience if connected on the MBone
 (IP Multicast Backbone), but if not, he beneficiates of the full-duplex
 Reflector Unicast/Multicast (see -R option below).
 .PP
-See http://vreng.enst.fr/.
+See http://www.vreng.enst.fr/.
 .SH OPTIONS
 \fBvreng\fP accepts the following options:
 .TP
@@ -61,6 +61,9 @@ To show summary of command line options.
 .TP
 .BR  " -i, --infogl"
 To show current OpenGL infos (GL/GLU versions and extensions).
+.TP
+.BR  " -k, --keepcache"
+Keeps in the cache xml description file, do not use http to retrieve these files.
 .\".TP
 .\".BR  " -l, --look old|new"
 .\"To choose look and feel between old one and new one.
@@ -121,6 +124,9 @@ your host cannot benefit of IP Multicast routing protocols as PIM-SM,
 or if your Internet Provider doesn't supply this service.
 This option is set by default.
 .TP
+.BR  " -S, --nostats"
+Do not print statistics when quiting.
+.TP
 .BR  " -T, --timetolive days"
 Cache time to live in the cache (default 3 days).
 .TP
@@ -143,8 +149,8 @@ To show summary of Ubit toolkit options.
 \fBVREng\fP is an Open Source Software under the GPL (Gnu Public License).
 .SH AUTHORS
 .PP
-Philippe Dax <dax at enst.fr> (project manager),
-Eric Lecolinet <elc at enst.fr> (GUI under Ubit),
+Philippe Dax <philippe.dax at gmail.com> (project manager),
+Eric Lecolinet <elc at telecom-paris.fr> (GUI under Ubit),
 Denis Arnaud (world management),
 Fabrice Bellard	(3D rendering),
 Stephane Belmon	(network interface),
