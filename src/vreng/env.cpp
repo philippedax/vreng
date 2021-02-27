@@ -43,7 +43,12 @@ Env::Env()
 #endif
   
   sysinfo();
-  initDirs();
+  init();
+}
+
+char * Env::home()
+{
+  return homedir;
 }
 
 char * Env::cwd()
@@ -117,18 +122,22 @@ void Env::sysinfo()
 #endif
 }
 
-void Env::initDirs()
+void Env::init()
 {
-  char *home;
   char pathenvdir[PATH_LEN+8], pathprefs[PATH_LEN+16], pathmenu[PATH_LEN+16], pathicons[PATH_LEN+16], pathworldmarks[PATH_LEN+32], pathcache[PATH_LEN+32], pathpasswd[PATH_LEN+32];
   struct stat bufstat;
 
-  if ((home = getenv("HOME")) == NULL)
+  char *home;
+  if ((home = getenv("HOME"))) {
+    strcpy(homedir, home);
+  }
+  else
     return;
+
   if (getcwd(vrengcwd, sizeof(vrengcwd)) == NULL)
     return;
 
-  sprintf(pathenvdir, "%s/.vreng", home);
+  sprintf(pathenvdir, "%s/.vreng", homedir);
   if (stat(pathenvdir, &bufstat) < 0)
     mkdir(pathenvdir, 0700);
   strcpy(vrengdir, pathenvdir);

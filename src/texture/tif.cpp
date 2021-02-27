@@ -33,20 +33,20 @@
 Img * Img::loadTIF(void *tex, ImageReader read_func)
 {
 #if HAVE_LIBTIFF
-  // we download the tiff file and put it into the cache
+  // download the tiff file and put it into the cache
   Reader *ir = new Reader(tex, read_func);
 
-  if (ir->downloadInCache(tex, Reader::KEEP_CLOSE) == NULL) {	// not opened
+  if (ir->getFileCache(tex, Reader::KEEP_CLOSE) == NULL) {	// not opened
     delete ir;
     return NULL;
   }
   delete ir;
 
-  // we open the tiff file
+  // open the tiff file
   TIFF *fp;
   if (! (fp = TIFFOpen(ir->getFilename(tex), "r"))) return NULL;
 
-  /* we read the header */
+  /* read the header */
   uint16_t width, height;
   uint8_t channel;
 
@@ -62,18 +62,19 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
   // always 4 bytes per pixel for this
   uint32 * tmpImage = (uint32 *)_TIFFmalloc((tsize_t)(width * height * sizeof(uint32_t)));
 
-  // we read the data with the library
+  // read the data with the library
   if (! TIFFReadRGBAImage(fp, width, height, tmpImage, 0)) {
     error("loadTIF: error reading file %s", ir->getFilename(tex));
     return NULL;
   }
 
-  // we alloc img and the pixmap
+  // alloc img
   Img *img = new Img(width, height, channel);
 
   // convert component format
   uint8_t *pixptr = img->pixmap;
 
+  // fill the pixmap
   for (int i=0; i < height ; i++) {
     for (int j=0; j < width ; j++) {
       uint32_t pixel = tmpImage[(i*width) + j];

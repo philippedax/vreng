@@ -48,10 +48,10 @@ class Reader {
   virtual ~Reader() { del_imgreader++; };
   /**< Destructor */
 
-  virtual FILE * downloadInCache(class Texture *tex);
-  virtual FILE * downloadInCache(void *tex, bool flagclo);
-  /**< Downloads a file into the cache. */
-  virtual FILE * downloadInCache(const char *url, char *filename);
+  virtual FILE * getFileCache(class Texture *tex);
+  virtual FILE * getFileCache(void *tex, bool flagclo);
+  /**< Gets a file into the cache. */
+  virtual FILE * getFileCache(const char *url, char *filename);
   /**< Downloads a file into the cache. */
 
   virtual char * getFilename(void *tex);

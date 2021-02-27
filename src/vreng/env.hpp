@@ -29,6 +29,7 @@ class Env {
 public:
   Env();		///< constructor
   
+  char * home();
   char * cwd();
   char * dir();
   char * prefs();
@@ -45,6 +46,7 @@ public:
   void cleanCacheByTime(time_t cachetime);
   
 private:
+  char homedir[PATH_LEN];
   char vrengdir[PATH_LEN];
   char vrengcwd[PATH_LEN];
   char vrengprefs[PATH_LEN];
@@ -59,7 +61,7 @@ private:
   char machinename[32];
   
   void sysinfo();
-  void initDirs();
+  void init();
 };
 
 

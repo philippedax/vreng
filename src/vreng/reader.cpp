@@ -32,18 +32,18 @@ Reader::Reader(void *tex, ImageReader _read_func)
   read_func = _read_func;
 }
 
-FILE * Reader::downloadInCache(void *_tex, bool flagclose)
+FILE * Reader::getFileCache(void *_tex, bool flagclose)
 {
   FILE *fp = NULL;
   Texture *tex = (Texture *) _tex;
 
-  fp = downloadInCache(tex);
+  fp = getFileCache(tex);
   if (flagclose)
     File::closeFile(fp);
   return fp;
 }
 
-FILE * Reader::downloadInCache(Texture *tex)
+FILE * Reader::getFileCache(Texture *tex)
 {
   FILE *f = Cache::openCache(tex->url, tex->http);
   if (! f) {
@@ -53,13 +53,14 @@ FILE * Reader::downloadInCache(Texture *tex)
   return f;
 }
 
-FILE * Reader::downloadInCache(const char *url, char *filepath)
+FILE * Reader::getFileCache(const char *url, char *filepath)
 {
   FILE *f;
 
   if ((f = File::openFile(filepath, "rb")) == NULL) {
     if ((f = File::openFile(filepath, "wb")) == NULL) {
-      error("downloadInCache: can't create %s", filepath); return NULL;
+      error("getFileCache: can't create %s", filepath);
+      return NULL;
     }
     int len;
     char buf[BUFSIZ];

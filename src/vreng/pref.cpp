@@ -121,7 +121,7 @@ Pref::Pref()
 
 void Pref::init(int argc, char **argv, const char* pref_file)
 {
-  initEnvPrefs(pref_file);  // ::g.env.prefs());
+  initPrefs(pref_file);  // ::g.env.prefs());
   parse(argc, argv);
   trace(DBG_INIT, "Pref initialized");
 }
@@ -361,7 +361,7 @@ void Pref::parse(int argc, char **argv)
   }
 }
 
-void Pref::initEnvPrefs(const char* pref_file)
+void Pref::initPrefs(const char* pref_file)
 {
   FILE *fp;
   char *p1, *p2, buf[BUFSIZ];
