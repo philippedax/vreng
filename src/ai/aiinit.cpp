@@ -309,7 +309,7 @@ void msg_debug(value mot)
 void viewed_objects(value mot)
 {
   char *val = (char *) String_val(mot);
-  g.render.analyseUserScene(val);
+  g.render.analyseScene(val);
 }
 
 

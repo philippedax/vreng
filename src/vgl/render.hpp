@@ -187,7 +187,7 @@ public:
   WObject** getDrawedObjects(int* nbr);
   /**< get All drawed Objects on the screen. */
 
-  void analyseUserScene(char* nameObj);
+  void analyseScene(char* nameObj);
 
   /////////////
   // Misc

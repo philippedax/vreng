@@ -36,13 +36,14 @@ class Vicinity {
   friend class Render;  ///< access to Rendering
 
 private:
+
   typedef enum {
     DIST_INCL,
     DIST_INTER,
     DIST_STUCK,
     DIST_NEAR,
     DIST_FAR
-  } Distance;
+  } Dist;
 
   typedef enum {
     SIZE_TINY,
@@ -55,17 +56,17 @@ private:
   typedef struct s_vicin {
     WObject *object;
     Size size;
-    Distance dist;
+    Dist dist;
   } Vicin;
 
   typedef struct s_visualPosition {
     WObject *object;
-    int nbrePixels;
+    int nbPixels;
     int xmin;
     int xmax;
     int ymin;
     int ymax;
-  } visualPosition;
+  } VisualPosition;
 
 //   typedef struct typeTable{
 //     char typeName[100];
@@ -76,12 +77,12 @@ private:
   std::string refObjectName;
 
   User *user;
-  Distance userDistance;
+  Dist userDist;
   Size userSize;
   Size objectSize;
 
   Vicin* vicinList;
-  visualPosition* visualList;
+  VisualPosition* visualList;
 
   std::list<Solid*> solidList; ///< solids list
   int listSize;
@@ -89,16 +90,16 @@ private:
 
   /**** METHODS ****/
 
-  static Distance computeDistance(WObject *obj1, WObject *obj2);
+  static Dist computeDistance(WObject *obj1, WObject *obj2);
   static Size computeSize(WObject *obj);
 
-  static int compareByDistance(const void *t1, const void *t2);
-  virtual void sortByDistance();
+  static int cmpDistance(const void *t1, const void *t2);
+  virtual void sortDistance();
 
-  static int compareByInterest(const void *t1, const void *t2);
-  virtual void sortByInterest();
+  static int cmpInterest(const void *t1, const void *t2);
+  virtual void sortInterest();
 
-  static int compare4Visual(const void *t1, const void *t2);
+  static int cmpVisual(const void *t1, const void *t2);
   virtual void sortVisual();
 
   virtual bool uselessType(WObject *obj);
@@ -125,7 +126,7 @@ public:
   virtual void analyseVicinity();
   virtual WObject* searchProximityObject(char **typeObj, int nbre);
 
-  virtual void analyseUserScene();
+  virtual void analyseScene();
   /**<
    * describe the scene viewed by the user and use the vicinity list for the AOI
    */

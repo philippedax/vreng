@@ -175,7 +175,7 @@ void Water::render()
 
    glDisable(GL_BLEND);
    glDisable(GL_LIGHTING);
-   glDisable(GL_DEPTH_TEST);
+   //dax5 glDisable(GL_DEPTH_TEST);
   glPopMatrix();
   //dax1 glPopAttrib();
 }

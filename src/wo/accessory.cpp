@@ -93,13 +93,13 @@ void Accessory::changePermanent(float lasting)
   float distx = localuser->pos.x + shiftx - pos.x;
   float disty = localuser->pos.y + shifty - pos.y;
   float distz = localuser->pos.z + shiftz - pos.z;
-  float deltax = ABSF(distx / slowx);
-  float deltay = ABSF(disty / slowy);
-  float deltaz = ABSF(distz / slowz);
+  float dx = ABSF(distx / slowx);
+  float dy = ABSF(disty / slowy);
+  float dz = ABSF(distz / slowz);
   // progression
-  if (distx > 0) pos.x += deltax; else pos.x -= deltax;
-  if (disty > 0) pos.y += deltay; else pos.y -= deltay;
-  if (distz > 0) pos.z += deltaz; else pos.z -= deltaz;
+  if (distx > 0) pos.x += dx; else pos.x -= dx;
+  if (disty > 0) pos.y += dy; else pos.y -= dy;
+  if (distz > 0) pos.z += dz; else pos.z -= dz;
 
   updatePosition();
 }

@@ -1103,10 +1103,10 @@ void Solid::doBlend(bool flag, GLfloat _alpha)
     switch ((int)flag) {
     case true:  // pre
       glEnable(GL_BLEND);
-      glDepthMask(GL_FALSE);
+      glDepthMask(GL_FALSE);	// turn off the depth buffer for writing
       break;
     case false: // post
-      glDepthMask(GL_TRUE);
+      glDepthMask(GL_TRUE);	// turn on the depth buffer for writing
       glDisable(GL_BLEND);
       break;
     }
@@ -1225,13 +1225,13 @@ void Solid::updateBB(GLfloat az)
   ::g.render.updateBB(az);
 }
 
-// accessor - get WObject from Solid
+// accessor - get WObject parent from Solid
 WObject* Solid::object() const
 {
     return wobject;
 }
 
-void Solid::setPosition(const M4& mpos)
+void Solid::setPosition(const M4 &mpos)
 {
   matpos = mpos;
 }
@@ -1528,15 +1528,15 @@ int Solid::displayList(int display_mode = NORMAL)
      else if (dlists[frame] > 0) {	// else normal object
        //dax7 if (texid <0) error("line=%.2f %s", pos[4],object()->getInstance());
        glEnable(GL_DEPTH_TEST);
-       glDepthMask(GL_TRUE);	//dax
-       glDepthFunc(GL_LESS);	//dax GL_LESS
+       glDepthMask(GL_TRUE);	//dax5
+       glDepthFunc(GL_LESS);	//dax5 GL_LESS
 
        glPushMatrix();
         glTranslatef(pos[0], pos[1], pos[2]);     // x y z
         glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
         glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
-        if (scale != 1)
-          glScalef(scale, scale, scale);
+        //dax6 if (scale != 1)
+        //dax6   glScalef(scale, scale, scale);
         if (scalex != 1 || scaley != 1 || scalez != 1)
           glScalef(scalex, scaley, scalez);
        glPopMatrix();
@@ -1545,10 +1545,10 @@ int Solid::displayList(int display_mode = NORMAL)
          glEnable(GL_TEXTURE_2D);
          glBindTexture(GL_TEXTURE_2D, texid);
        }
-       if (alpha < 1) {
+       if (alpha < 1) {		// translucid
+         glDepthMask(GL_FALSE);
          glEnable(GL_BLEND);
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
-         glDepthMask(GL_FALSE);
        }
        if (*fog > 0) {
          error("fog=%f %s", *fog, object()->getInstance());
@@ -1615,16 +1615,16 @@ int Solid::displayList(int display_mode = NORMAL)
        glPopMatrix();
        glDisable(GL_STENCIL_TEST);		// disable the stencil
 
+       glDepthMask(GL_FALSE);
        glEnable(GL_BLEND);			// mirror shine effect
        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-       glDepthMask(GL_FALSE);
        glDepthFunc(GL_LEQUAL);
 
        glCallList(dlists[frame]);		// display the physical mirror
 
        glDepthFunc(GL_LESS);
-       glDepthMask(GL_TRUE);
        glDisable(GL_BLEND);
+       glDepthMask(GL_TRUE);
       glPopMatrix();
     }
     break;	// reflexive
@@ -1635,9 +1635,9 @@ int Solid::displayList(int display_mode = NORMAL)
    if (texid >= 0) {
      glDisable(GL_TEXTURE_2D);
    }
-   if (alpha < 1) {
-     glDepthMask(GL_TRUE);
+   if (alpha < 1) {	// translucid
      glDisable(GL_BLEND);
+     glDepthMask(GL_TRUE);
    }
   }
   glPopMatrix();

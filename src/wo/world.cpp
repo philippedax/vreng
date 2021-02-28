@@ -568,11 +568,12 @@ void World::initGrid()
   clearGrid();
 }
 
-void World::initGrid(const uint8_t _dim[3], const V3 &sl)
+// notused
+void World::initGrid(const uint8_t _dim[3], const V3 &slice)
 {
   for (int i=0; i<3 ; i++) {
     dimgrid[i] = _dim[i];
-    bbslice.v[i] = sl.v[i];
+    bbslice.v[i] = slice.v[i];
   }
   localGrid();
 

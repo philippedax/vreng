@@ -545,6 +545,7 @@ void Render::clearGLBuffer()
     }
   }
   glClearDepth(1);	// depth of Z-buffer to clear
+  //dax5 glClearDepth(0);	// depth of Z-buffer to clear
 
   // !NOTICE: do not do GL_COLOR_BUFFER_BIT because this would clear the color
   // of the whole window (including the background color of the widgets)
@@ -892,10 +893,10 @@ WObject** Render::getDrawedObjects(int *nbhit)
   return selectlist;
 }
 
-void Render::analyseUserScene(char* nameobj)
+void Render::analyseScene(char* nameobj)
 {
   Vicinity* vicin = new Vicinity(nameobj);
-  vicin->analyseUserScene();
+  vicin->analyseScene();
 }
 
 /* Debug */
