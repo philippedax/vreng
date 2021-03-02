@@ -191,7 +191,7 @@ void Render::specificObjects(uint32_t num, uint8_t pri)
 #endif
 }
 
-#if 0 //dax0 debug
+#if 1 //dax0 debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -443,13 +443,15 @@ void Render::rendering(bool zsel=false)
     specificRender(n, WObject::PRIOR_LOW);	// particules
   }
 #endif
-#if 1 //dax5
+#if 0 //dax5
   renderSolids(zsel, su, WObject::PRIOR_LOW);
 #else
   trace2(DBG_VGL, "\nopaq: ");
   renderOpaque(zsel, su, WObject::PRIOR_LOW);
+#if 0 //dax5
   trace2(DBG_VGL, "\ntran: ");
   renderTranslucid(zsel, su, WObject::PRIOR_LOW);
+#endif
 #endif
 
   // prior MEDIUM == 1
@@ -461,13 +463,15 @@ void Render::rendering(bool zsel=false)
     specificRender(n, WObject::PRIOR_MEDIUM);	// text
   }
 #endif
-#if 1 //dax5
+#if 0 //dax5
   renderSolids(zsel, su, WObject::PRIOR_MEDIUM);
 #else
   trace2(DBG_VGL, "\nopaq: ");
   renderOpaque(zsel, su, WObject::PRIOR_MEDIUM);
+#if 0 //dax5
   trace2(DBG_VGL, "\ntran: ");
   renderTranslucid(zsel, su, WObject::PRIOR_MEDIUM);
+#endif
 #endif
 
   // prior HIGH == 2
@@ -479,12 +483,24 @@ void Render::rendering(bool zsel=false)
     specificRender(n, WObject::PRIOR_HIGH);
   }
 #endif
-#if 1 //dax5
+#if 0 //dax5
   renderSolids(zsel, su, WObject::PRIOR_HIGH);
 #else
   trace2(DBG_VGL, "\nopaq: ");
   renderOpaque(zsel, su, WObject::PRIOR_HIGH);
+#if 0 //dax5
   trace2(DBG_VGL, "\ntran: ");
+  renderTranslucid(zsel, su, WObject::PRIOR_HIGH);
+#endif
+#endif
+
+#if 1 //dax5
+  //
+  // renders translucid solids
+  //
+  trace2(DBG_VGL, "\ntran: ");
+  renderTranslucid(zsel, su, WObject::PRIOR_LOW);
+  renderTranslucid(zsel, su, WObject::PRIOR_MEDIUM);
   renderTranslucid(zsel, su, WObject::PRIOR_HIGH);
 #endif
 

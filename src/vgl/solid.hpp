@@ -71,6 +71,7 @@ protected:
   GLfloat 	flashcol[3];	///< flash color.
   GLfloat 	pos[5];		///< relative position/orientation.
   GLfloat	fog[4];		///< fog params
+  float		userdist;	///< distance to localuser
 
 public:
 
@@ -130,6 +131,9 @@ public:
 
   virtual void getPosition(M4& mpos);
   /**< Gives solid's position. */
+
+  virtual void updateDist();
+  /**< Updates distance to localuser */
 
   virtual void setVisible(bool v);
   /**< Sets the solid visible (true) or invisible (false). */

@@ -310,6 +310,7 @@ Solid::Solid()
   is_visible = true;	// visible by default
   is_opaque = true;	// opaque by default
   is_fictif = false;	// true solid
+  userdist = 0;		// distance to localuser
   ray_dlist = 0;
 
   for (int i=0; i<5; i++) pos[i] = 0;
@@ -964,7 +965,20 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     default: // with bounding boxes
       getBB(bbmax, bbmin, idxframe != 0);
   }
+
+  updateDist();
+
   return 1;	// only one frame
+}
+
+/* compute distance to localuser */
+void Solid::updateDist()
+{
+  if (localuser) {
+    float dx = ABSF(localuser->pos.x - pos[0]);
+    float dy = ABSF(localuser->pos.y - pos[1]);
+    userdist = sqrt(dx*dx + dy*dy);
+  }
 }
 
 /*

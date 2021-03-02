@@ -109,10 +109,10 @@ private:
 
   virtual void actionList();
 
-  virtual void setUserSize(WObject *user);
-
+  virtual void setSize(WObject *user);
 
 public:
+
   Vicinity();
   Vicinity(std::string _objectName);
 

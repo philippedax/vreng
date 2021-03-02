@@ -37,7 +37,7 @@ Vicinity::Vicinity()
   solidList = ::g.render.getSolidList();
   refObject = (WObject *) localuser;
   refObjectName = refObject->getInstance();
-  setUserSize(user);
+  setSize(user);
   userDist = DIST_INCL;
   objectSize = userSize;
 
@@ -56,7 +56,7 @@ Vicinity::Vicinity()
 
 Vicinity::Vicinity(string objectName)
 {
-  //on instancie l'objet
+  // On instancie l'objet
   refObjectName = strdup(objectName.c_str());
   solidList = ::g.render.getSolidList();
 
@@ -65,7 +65,7 @@ Vicinity::Vicinity(string objectName)
   refObject->getObjectByName(refObjectName.c_str());
   //error("J'ai trouve l'objet %s dans la liste des objets",refObject->getInstance());
 
-  setUserSize(localuser);
+  setSize(localuser);
   userDist = computeDistance(user, refObject);
   objectSize = computeSize(refObject);
 
@@ -84,7 +84,7 @@ Vicinity::Vicinity(string objectName)
 }
 
 // Evaluate size of the avatar
-void Vicinity::setUserSize(WObject *user)
+void Vicinity::setSize(WObject *user)
 {
   if      ((user->pos.bbsize.v[0] > 10) &&
            (user->pos.bbsize.v[1] > 4) &&

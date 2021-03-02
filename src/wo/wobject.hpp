@@ -698,6 +698,9 @@ public:
   virtual void updatePositionAndGrid(WObject *pold);
   /**< Updating 3D and grid position. */
 
+  virtual void updateDist();
+  /**< Updating distance to localuser. */
+
   virtual void computeNormal(WObject *mobil, V3 *normal);
   /**< Computes the normal of an object. */
 

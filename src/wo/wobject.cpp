@@ -692,6 +692,7 @@ void WObject::updatePosition()
   updateAll3D(pos);
   if (bbBehavior()) updateBB();
   pos.moved = true;	// has moved
+  updateDist();
 }
 
 void WObject::updatePositionAndGrid(Pos &oldpos)
@@ -704,6 +705,13 @@ void WObject::updatePositionAndGrid(WObject *pold)
 {
   updatePosition();
   if (bbBehavior()) updateGrid(pold);
+}
+
+/* accessor */
+void WObject::updateDist()
+{
+  if (! solid) return;
+  solid->updateDist();
 }
 
 void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
