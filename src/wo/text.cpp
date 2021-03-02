@@ -171,11 +171,11 @@ void Text::render()
     glPushMatrix();
      glRotatef(RAD2DEG(pos.az), 0, 0, 1);
      glTranslatef(pos.x, pos.y, pos.z);
-     glEnable(GL_BLEND);
-     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
      glDepthMask(GL_FALSE);
+     glEnable(GL_BLEND);
+     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-     glCallList(dlists[0]);	// display bubble
+     glCallList(dlists[0]);	// display bubble glob
      glCallList(dlists[1]);	// display bubble arrow
 
      glDisable(GL_BLEND);

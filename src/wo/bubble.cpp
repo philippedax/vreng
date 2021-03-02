@@ -66,16 +66,17 @@ void Bubble::setPosition()
 void Bubble::makeSolid()
 {
   char s[256];
-  float r = MAX(shifty, 2*Text::GLYPHSIZ);
 
-  // bubble
-  sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".4\" sz=\".5\" dif=\"pink\" a=\".4\" />", r);
+  float r = MAX(shifty, 2*Text::GLYPHSIZ);
+  float a = 0.4;	// transparence
+
+  // bubble glob
+  sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".4\" sz=\".5\" dif=\"pink\" a=%f />", r, a);
   parse()->parseSolid(s, SEP, this);
   dlists[0] = getSolid()->getDlist();
-  //error("bubble dlist=%d", dlists[0]);
 
   // arrow
-  sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.0.4 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".3\" dif=\"pink\" a=\".4\" />");
+  sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.0.4 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".3\" dif=\"pink\" a=%f />", a);
   parse()->parseSolid(s, SEP, this);
   dlists[1] = getSolid()->getDlist();
   //error("bubble dlist=%d", dlists[1]);
@@ -101,8 +102,9 @@ Bubble::Bubble(User *user, char *_text, float *_color, bool _side)
   side = _side;
   text = new char[strlen(_text)+1];
   strcpy(text, _text);
-  for (int i=0; i<3; i++) color[i] = _color[i];
-  shifty = ((strlen(text)+1)/2)*Text::GLYPHSIZ;
+  for (int i=0; i<3; i++)
+    color[i] = _color[i];
+  shifty = ((strlen(text)+1)/2) * Text::GLYPHSIZ;
   shiftz = -0.02; // -2 cm
 
   makeSolid();

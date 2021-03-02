@@ -219,7 +219,7 @@ Vicinity::Size Vicinity::computeSize(WObject *obj)
   return objSize;
 }
 
-int Vicinity::cmpDistance(const void *t1, const void *t2)
+int Vicinity::compDistance(const void *t1, const void *t2)
 {
   Vicin s1 = *((Vicin*) t1);
   Vicin s2 = *((Vicin*) t2);
@@ -234,10 +234,10 @@ int Vicinity::cmpDistance(const void *t1, const void *t2)
 
 void Vicinity::sortDistance()
 {
-  qsort((void *)vicinList, listSize, sizeof(vicinList[0]), cmpDistance);
+  qsort((void *)vicinList, listSize, sizeof(vicinList[0]), compDistance);
 }
 
-int Vicinity::cmpInterest(const void *t1, const void *t2)
+int Vicinity::compInterest(const void *t1, const void *t2)
 {
   Vicin s1 = *((Vicin*) t1);
   Vicin s2 = *((Vicin*) t2);
@@ -277,7 +277,7 @@ int Vicinity::cmpInterest(const void *t1, const void *t2)
 
 void Vicinity::sortInterest()
 {
-  qsort((void *)vicinList, listSize, sizeof(Vicin), cmpInterest);
+  qsort((void *)vicinList, listSize, sizeof(Vicin), compInterest);
 }
 
 WObject* Vicinity::searchProximityObject(char** typeObj, int nb)
@@ -352,7 +352,7 @@ bool Vicinity::uselessType(WObject *obj)
   return false;
 }
 
-int Vicinity::cmpVisual(const void *t1, const void *t2)
+int Vicinity::compVisual(const void *t1, const void *t2)
 {
   VisualPosition s1 = *((VisualPosition*) t1);
   VisualPosition s2 = *((VisualPosition*) t2);
@@ -365,7 +365,7 @@ int Vicinity::cmpVisual(const void *t1, const void *t2)
 
 void Vicinity::sortVisual()
 {
-  qsort((void *)visualList, visualListSize, sizeof(VisualPosition), cmpVisual);
+  qsort((void *)visualList, visualListSize, sizeof(VisualPosition), compVisual);
 }
 
 /**

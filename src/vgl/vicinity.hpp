@@ -93,13 +93,13 @@ private:
   static Dist computeDistance(WObject *obj1, WObject *obj2);
   static Size computeSize(WObject *obj);
 
-  static int cmpDistance(const void *t1, const void *t2);
+  static int compDistance(const void *t1, const void *t2);
   virtual void sortDistance();
 
-  static int cmpInterest(const void *t1, const void *t2);
+  static int compInterest(const void *t1, const void *t2);
   virtual void sortInterest();
 
-  static int cmpVisual(const void *t1, const void *t2);
+  static int compVisual(const void *t1, const void *t2);
   virtual void sortVisual();
 
   virtual bool uselessType(WObject *obj);

@@ -686,15 +686,17 @@ void WObject::initPosition()
   }
 }
 
-/* Updates 3D and grid position */
+/* Updates 3D position */
 void WObject::updatePosition()
 {
-  updateAll3D(pos);
+  //dax3 updateAll3D(pos);
+  update3D(pos);
   if (bbBehavior()) updateBB();
   pos.moved = true;	// has moved
   updateDist();
 }
 
+/* Updates 3D and grid position */
 void WObject::updatePositionAndGrid(Pos &oldpos)
 {
   updatePosition();

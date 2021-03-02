@@ -220,6 +220,7 @@ public:
   //
   list<Solid*> solidList;	///< solids list.
   list<Solid*> relsolidList;	///< relative solids list.
+  list<Solid*> translucidList;	///< translucid solids list.
 
 private:
   static const int SEL_BUFSIZ;	///< selection buffer size
@@ -263,9 +264,13 @@ private:
   // objects rendering
   void objectsOpaque(bool zsel, uint8_t prior);		///< opaque objects rendering.
   // solids rendering
-  void renderSolids(bool zsel, list<Solid*>::iterator psu, uint8_t prior);	///< all solids
-  void renderOpaque(bool zsel, list<Solid*>::iterator psu, uint8_t prior);	///< opaque solids
-  void renderTranslucid(bool zsel, list<Solid*>::iterator psu, uint8_t prior);  ///< translucid solids
+  void renderSolids(bool zsel, list<Solid*>::iterator su, uint8_t pri);	///< all solids
+  void renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri);	///< opaque solids
+  void renderTranslucid(bool zsel);  					///< translucid solids
+  void renderTranslucid(bool zsel, list<Solid*>::iterator su);  	///< translucid solids
+  void renderTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri);  ///< translucid solids
+
+  static int compDist(const void *t1, const void *t2);	///< compare distantes
 
   void putSelbuf(WObject *po);
   /**< Sets object name in Z-buffer for selection. */

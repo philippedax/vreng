@@ -356,7 +356,72 @@ void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
   }
 }
 
-// Renders translucid solids
+// compare distance to sort
+int Render::compDist(const void *t1, const void *t2)
+{
+  Solid *s1 = (Solid *) t1;
+  Solid *s2 = (Solid *) t2;
+
+  // decreasing order : furtherest -> nearest
+  if (s2->userdist > s1->userdist)
+    return 1;
+  else if (s2->userdist < s1->userdist)
+    return -1;
+  else
+    return 0;
+}
+
+// Renders translucid solids sorted from the further to the nearest
+void Render::renderTranslucid(bool zsel)
+{
+  translucidList.clear();
+  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
+    if (   (*s)
+        && (*s)->isOpaque() == false
+        && (*s)->isVisible()
+       ) {
+      translucidList.push_back(*s);
+      putSelbuf((*s)->object());
+    }
+  }
+  for (list<Solid*>::iterator s = translucidList.begin(); s != translucidList.end() ; s++) {
+    if (! (*s)->object()->isBehavior(SPECIFIC_RENDER)) {
+      (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
+    } //dax7 bubble case
+    else {
+      (*s)->object()->render();
+    }
+  }
+  //dax7 qsort(translucidList.begin(), translucidList.size(), sizeof(Solid), compDist);
+  translucidList.sort(compDist);
+  for (list<Solid*>::iterator s = translucidList.begin(); s != translucidList.end() ; s++) {
+    trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
+  }
+}
+
+// Renders translucid solids without using prior
+void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su)
+{
+  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
+    if (s == su) continue;	// FIXME! sun flary doesn't appear
+    if (s == su && !zsel) continue;
+    if (   (*s)
+        && (*s)->isOpaque() == false
+        && (*s)->isVisible()
+       ) {
+      putSelbuf((*s)->object());
+      if (! (*s)->object()->isBehavior(SPECIFIC_RENDER)) {
+        (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
+      } //dax7 bubble case
+      else {
+        (*s)->object()->render();
+      }
+      trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
+    }
+  }
+}
+
+// Renders translucid solids using prior
 void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
@@ -499,9 +564,14 @@ void Render::rendering(bool zsel=false)
   // renders translucid solids
   //
   trace2(DBG_VGL, "\ntran: ");
+#if 1 //dax6
+  //dax6 renderTranslucid(zsel, su);
+  renderTranslucid(zsel);
+#else
   renderTranslucid(zsel, su, WObject::PRIOR_LOW);
   renderTranslucid(zsel, su, WObject::PRIOR_MEDIUM);
   renderTranslucid(zsel, su, WObject::PRIOR_HIGH);
+#endif
 #endif
 
   trace2(DBG_VGL, "\n");	// end of trace !
