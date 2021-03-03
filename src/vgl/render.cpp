@@ -157,7 +157,7 @@ void Render::materials()
   //dax2 glMaterialfv(GL_FRONT, GL_EMISSION, color);
 }
 
-/** puts object number into the buffer selection */
+/** Puts object number into the buffer selection */
 void Render::putSelbuf(WObject *po)
 {
   if (po && po->isValid() && po->isSelectable()) {
@@ -166,34 +166,82 @@ void Render::putSelbuf(WObject *po)
   }
 }
 
+// DEBUG //
+#if 1 //dax0 set to 1 to debug
+#define DBG_VGL DBG_FORCE
+#endif
+
 /**
  * Specific rendering to do by objects themselves
  * by scanning objects lists
- * Note: not seemed to be the better solution (world is dark)
  */
-// Renders special objects
-void Render::specificObjects(uint32_t num, uint8_t pri)
+
+// Renders specific still objects
+void Render::specificStill(uint32_t num)
 {
-#if 0 //dax2
-  for (list<WObject*>::iterator o = renderList.begin(); o != renderList.end(); ++o) {
+  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
     if (! (*o)->isValid() || (*o)->removed) continue;
-    if (
-        (*o)->num == num
-        && (*o)->prior == pri
+    if (   (*o)
+        && (*o)->num == num
+        && (*o)->isBehavior(SPECIFIC_RENDER)
        ) {
-      //dax3 if (pri != WObject::PRIOR_HIGH)
-        materials();
+      materials();
       putSelbuf(*o);
       (*o)->render();		// rendering done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
   }
-#endif
 }
 
-#if 1 //dax0 debug
-#define DBG_VGL DBG_FORCE
-#endif
+// Renders specific mobile objects
+void Render::specificMobile(uint32_t num)
+{
+  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
+    if (! (*o)->isValid() || (*o)->removed) continue;
+    if (   (*o)
+        && (*o)->num == num
+        && (*o)->isBehavior(SPECIFIC_RENDER)
+       ) {
+      //if (pri != WObject::PRIOR_HIGH)	// if commented guy doesn't appear
+      materials();
+      putSelbuf(*o);
+      (*o)->render();		// rendering done by object itself
+      trace2(DBG_VGL, " %s", (*o)->getInstance());
+    }
+  }
+}
+
+// Renders specific fluid objects
+void Render::specificFluid(uint32_t num)
+{
+  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end() ; ++o) {
+    if (! (*o)->isValid() || (*o)->removed) continue;
+    if (   (*o)
+        && (*o)->num == num
+        && (*o)->isBehavior(SPECIFIC_RENDER)
+       ) {
+      putSelbuf(*o);
+      (*o)->render();		// rendering done by object itself
+      trace2(DBG_VGL, " %s", (*o)->getInstance());
+    }
+  }
+}
+
+// Renders specific invisible objects
+void Render::specificInvisible(uint32_t num)
+{
+  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
+    if (! (*o)->isValid() || (*o)->removed) continue;
+    if (   (*o)
+        && (*o)->num == num
+        && (*o)->isBehavior(SPECIFIC_RENDER)
+       ) {
+      putSelbuf(*o);
+      (*o)->render();		// rendering done by object itself
+      trace2(DBG_VGL, " %s", (*o)->getInstance());
+    }
+  }
+}
 
 // Renders specific still objects
 void Render::specificStill(uint32_t num, uint8_t pri)
@@ -233,23 +281,6 @@ void Render::specificMobile(uint32_t num, uint8_t pri)
   }
 }
 
-// Renders specific invisible objects
-void Render::specificInvisible(uint32_t num, uint8_t pri)
-{
-  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
-    if (! (*o)->isValid() || (*o)->removed) continue;
-    if (   (*o)
-        && (*o)->num == num
-        && (*o)->isBehavior(SPECIFIC_RENDER)
-        && (*o)->prior == pri
-       ) {
-      putSelbuf(*o);
-      (*o)->render();		// rendering done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
 // Renders specific fluid objects
 void Render::specificFluid(uint32_t num, uint8_t pri)
 {
@@ -267,60 +298,38 @@ void Render::specificFluid(uint32_t num, uint8_t pri)
   }
 }
 
-// Renders opaque objects
-// Note: preference for renderOpaque()
-void Render::objectsOpaque(bool zsel, uint8_t pri)
+// Renders specific invisible objects
+void Render::specificInvisible(uint32_t num, uint8_t pri)
 {
-  for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end() ; o++) {
-    if (!zsel) continue;  // zbuf selection
-    if ((*o)->type == USER_TYPE) continue;	// localuser
+  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
+    if (! (*o)->isValid() || (*o)->removed) continue;
     if (   (*o)
-        && (*o)->isOpaque()
-        && (*o)->isVisible()
+        && (*o)->num == num
+        && (*o)->isBehavior(SPECIFIC_RENDER)
         && (*o)->prior == pri
        ) {
       putSelbuf(*o);
-      if ((*o)->isBehavior(SPECIFIC_RENDER))
-        (*o)->render();
-      else
-        (*o)->solid->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
+      (*o)->render();		// rendering done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
-      if (! relsolidList.empty()) {
-        for (list<Solid*>::iterator s = relsolidList.begin(); s != relsolidList.end() ; s++) {
-          //trace2(DBG_VGL, "rel %s %d ", (*o)->getInstance(), relsolidList.size());
-          if ((*o)->isBehavior(SPECIFIC_RENDER))
-            (*s)->object()->render();
-          else
-            (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
-        }
-      }
     }
   }
 }
 
-// Renders all solids
-void Render::renderSolids(bool zsel, list<Solid*>::iterator su, uint8_t pri)
+// Renders opaque solids without prior
+void Render::renderOpaque(bool zsel)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
-    if (s == su) continue;	// skip localuser
-    //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
-    if (   (*s)
-        && (*s)->isVisible()
-        && (*s)->object()->prior == pri
-       ) {
+    if ( (*s) && (*s)->isOpaque() && (*s)->isVisible()) {
       putSelbuf((*s)->object());
-      materials();
-      if (! (*s)->object()->isBehavior(SPECIFIC_RENDER)) {
-        if ((*s)->isOpaque()) {
-          (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
-        }
-        else {
-          (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
-          //dax6 (*s)->object()->render();	//dax6
-        }
-      }
-      else {	//dax6 bubble case
+      /* FIXME!
+       * if the following 3 lines are presents then  water ondulation is ok but hats are not ok
+       * if the following 3 lines are commented then water ondulation is not ok but hats are ok
+       */
+      if ((*s)->object()->isBehavior(SPECIFIC_RENDER)) {
         (*s)->object()->render();
+      }
+      else {
+        (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
       }
       trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
     }
@@ -395,7 +404,7 @@ void Render::renderTranslucid(bool zsel)
     else {
       (*it)->object()->render();
     }
-    trace2(DBG_VGL, " %s-%.2f", (*it)->object()->getInstance(), (*it)->userdist);
+    trace2(DBG_VGL, " %s:%.2f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
 
@@ -446,26 +455,34 @@ void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 /*
  * Rendering specific
  */
+void Render::specificRender(uint32_t num)
+{
+  specificStill(num);	// still objects : walls
+  specificMobile(num);	// mobile objects : particle
+  specificFluid(num);	// fluid objects : river
+  specificInvisible(num);// invisible objects
+}
+
 void Render::specificRender(uint32_t num, uint8_t pri)
 {
   switch (pri) {
   case WObject::PRIOR_LOW:	// low render
     specificStill(num, pri);	// still objects : walls
     specificMobile(num, pri);	// mobile objects : particle
-    specificInvisible(num, pri);// invisible objects : sun
-    specificFluid(num, pri);	// fluid objects : water
+    specificFluid(num, pri);	// fluid objects : river
+    specificInvisible(num, pri);// invisible objects
     break;
   case WObject::PRIOR_MEDIUM:	// normal render
     specificStill(num, pri);	// still objects
     specificMobile(num, pri);	// mobile objects
-    specificInvisible(num, pri);// invisible objects : transform
     specificFluid(num, pri);	// fluid objects : water
+    specificInvisible(num, pri);// invisible objects : transform
     break;
   case WObject::PRIOR_HIGH:	// high render : models
     specificStill(num, pri);	// still objects
     specificMobile(num, pri);	// mobile objects
-    specificInvisible(num, pri);
     specificFluid(num, pri);	// fluid objects
+    specificInvisible(num, pri);
     break;
   }
 }
@@ -479,15 +496,6 @@ void Render::rendering(bool zsel=false)
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
-#if 0 //dax4
-  // Find the localuser object
-  list<WObject*>::iterator wu;
-  for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end() ; it++) {
-    if ((*it) && (*it)->type == USER_TYPE) {
-      wu = it;	// localuser
-    }
-  }
-#endif
   // Find the localuser solid
   list<Solid*>::iterator su;
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
@@ -498,80 +506,66 @@ void Render::rendering(bool zsel=false)
     }
   }
 
-  // prior LOW == 0
-  //
-  trace2(DBG_VGL, "\n--- LOW");
-#if 0 //dax4
-  trace2(DBG_VGL, "\nspec: ");
-  for (uint32_t n=1; n < objectsnumber; n++) { // for all objects LOW
-    specificRender(n, WObject::PRIOR_LOW);	// particules
-  }
-#endif
-#if 0 //dax5
-  renderSolids(zsel, su, WObject::PRIOR_LOW);
-#else
+  //dax6 trace2(DBG_VGL, "\n--- LOW");
+#if 1 //dax6
   trace2(DBG_VGL, "\nopaq: ");
   renderOpaque(zsel, su, WObject::PRIOR_LOW);
-#if 0 //dax5
-  trace2(DBG_VGL, "\ntran: ");
-  renderTranslucid(zsel, su, WObject::PRIOR_LOW);
-#endif
 #endif
 
   // prior MEDIUM == 1
-  //
-  trace2(DBG_VGL, "\n--- MEDIUM");
-#if 1 //dax4
+  trace2(DBG_VGL, "\n--- MED");
+#if 0 //dax4
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { // for all objects MEDIUM
-    specificRender(n, WObject::PRIOR_MEDIUM);	// text
+    //dax7 specificRender(n, WObject::PRIOR_MEDIUM);	// text
+    specificRender(n);	// text
   }
 #endif
-#if 0 //dax5
-  renderSolids(zsel, su, WObject::PRIOR_MEDIUM);
-#else
+#if 1 //dax6
   trace2(DBG_VGL, "\nopaq: ");
   renderOpaque(zsel, su, WObject::PRIOR_MEDIUM);
-#if 0 //dax5
-  trace2(DBG_VGL, "\ntran: ");
-  renderTranslucid(zsel, su, WObject::PRIOR_MEDIUM);
-#endif
 #endif
 
   // prior HIGH == 2
-  //
-  trace2(DBG_VGL, "\n--- HIGH");
+  trace2(DBG_VGL, "\n--- HIG");
 #if 1 //dax4 if 0 guy is not rendered FIXME!
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { // for all objects HIGH
-    specificRender(n, WObject::PRIOR_HIGH);
+    //dax7 specificRender(n, WObject::PRIOR_HIGH);
+    specificRender(n);
   }
 #endif
-#if 0 //dax5
-  renderSolids(zsel, su, WObject::PRIOR_HIGH);
-#else
+#if 1 //dax6
   trace2(DBG_VGL, "\nopaq: ");
   renderOpaque(zsel, su, WObject::PRIOR_HIGH);
-#if 0 //dax5
-  trace2(DBG_VGL, "\ntran: ");
-  renderTranslucid(zsel, su, WObject::PRIOR_HIGH);
-#endif
 #endif
 
 #if 1 //dax5
+#if 0 //dax4
+  trace2(DBG_VGL, "\nspec: ");
+  for (uint32_t n=1; n < objectsnumber; n++) { // for all objects HIGH
+    specificRender(n);
+  }
+#endif
+  //
+  // renders opaque solids
+  //
+#if 0 //dax6
+  trace2(DBG_VGL, "\nopaq: ");
+  renderOpaque(zsel);
+#endif
   //
   // renders translucid solids
   //
   trace2(DBG_VGL, "\ntran: ");
 #if 1 //dax6
-  //dax6 renderTranslucid(zsel, su);
   renderTranslucid(zsel);
 #else
   renderTranslucid(zsel, su, WObject::PRIOR_LOW);
   renderTranslucid(zsel, su, WObject::PRIOR_MEDIUM);
   renderTranslucid(zsel, su, WObject::PRIOR_HIGH);
 #endif
-#endif
+#endif //dax5
 
   trace2(DBG_VGL, "\n");	// end of trace !
 
@@ -601,7 +595,7 @@ void Render::render()
   cameraPosition();		// camera position
   clearGLBuffer();		// background color
   lighting();			// general lighting
-  rendering(false);		// general rendering
+  rendering(0);			// solids rendering
   Grid::grid()->render();	// grid
   Axis::axis()->render();	// axis
   satellite();                  // launch a satellite camera
@@ -612,7 +606,7 @@ void Render::minirender()
 {
   cameraPosition();		// camera position
   clearGLBuffer();		// background color
-  rendering(false);		// general rendering
+  rendering(0);			// solids rendering
 }
 
 void Render::clearGLBuffer()

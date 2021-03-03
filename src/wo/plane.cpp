@@ -55,7 +55,7 @@ void Plane::parser(char *l)
 void Plane::makeSolid()
 {
   V3 dim, rel;
-  uint8_t nbsec;
+  uint8_t sections;
   char s[BUFSIZ], materials[128];
   GLfloat dif[4], amb[4], spe[4], emi[4], a;
   GLint shi[1];
@@ -68,19 +68,19 @@ void Plane::makeSolid()
   getMaterials(dif, amb, spe, emi, shi, &a);
   //TODO: getTextures()
   sprintf(materials, "dif=\"%.2f %.2f %.2f\" amb=\"%.2f %.2f %.2f\" spe=\"%.2f %.2f %.2f\" emi=\"%.2f %.2f %.2f\" shi=\"%d\" a=\"%.2f\" %s ", dif[0], dif[1], dif[2], amb[0], amb[1], amb[2], spe[0], spe[1], spe[2], emi[0], emi[1], emi[2], shi[0], a, (tex != NULL) ? tex : "");
-  nbsec = (uint8_t) ceil(dim.v[2] / 0.2);
-  float xsec = dim.v[0] / nbsec;
-  float ysec = dim.v[1] / nbsec;
-  float zsec = dim.v[2] / nbsec;
+  sections = (uint8_t) ceil(dim.v[2] / 0.2);
+  float xsec = dim.v[0] / sections;
+  float ysec = dim.v[1] / sections;
+  float zsec = dim.v[2] / sections;
   //error("dim=%.2f %.2f %.2f", dim.v[0],dim.v[1],dim.v[2]);
-  //error("nbsec=%d zsec=%.2f %.2f %.2f", nbsec, xsec, ysec, zsec);
+  //error("sections=%d zsec=%.2f %.2f %.2f", sections, xsec, ysec, zsec);
   deleteSolids();
 
   // le premier solide est au centre
   sprintf(s, "solid dim=\"%.2f %.2f %.2f\" %s />", 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
   //error("s: %s", s);
   parse()->parseSolid(s, SEP, this);
-  for (int i=1; i < nbsec; i++) {
+  for (int i=1; i < sections; i++) {
     for (int j=0; j<2; j++) {
       // les autres solides s'ecartent progressivement du centre en negatif et positif
       int k = 2*j-1; // k=-1, k=1

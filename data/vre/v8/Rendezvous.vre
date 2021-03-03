@@ -346,25 +346,25 @@
 
 <!-- clock -->
 <clock name="seconds" pos="5 3.99 2 1.57" needle="s">
-  <solid shape="line" l=".18" thick="1" dif="red" />
+  <solid shape="line" l=".18" thick="1" dif="black" />
 </clock>
 <clock name="minutes" pos="5 3.99 2 1.57" needle="m">
-  <solid shape="line" l=".14" thick="1" dif="red" />
+  <solid shape="line" l=".14" thick="1" dif="black" />
 </clock>
 <clock name="hours" pos="5 3.99 2 1.57" needle="h">
-  <solid shape="line" l=".10" thick="2" dif="red" />
+  <solid shape="line" l=".10" thick="2" dif="black" />
 </clock>
 <mirage name="horloge" pos="5 4 2 3.14 -1.57">
  <solid shape="disk" ri=".02" re=".2" dif="white" />
  <solid shape="disk" rel="0 -.01 0 0 0" ri="0" re=".02" dif="grey40" />
  <solid shape="disk" rel="0 -.01 0 0 0" ri=".2" re=".24" dif="grey40" />
- <solid shape="disk" rel="0 -.02 0 0 0" re=".2" dif=".6 1 .6" a=".2" />
+ <solid shape="disk" rel="0 -.02 0 0 0" re=".2" dif=".6 1 .6" a=".1" />
  <solid shape="disk" rel="0 .01 0 -6.28 0" ri="0" re=".2" dif="grey40" />
  <solid shape="cone" rel="0 0 -2 0 1.57" rb=".03" rt=".03" h="1.8" dif="grey40" />
- <solid rel="0 0 .14 0 1.57"  dim=".02 .01 .04" dif="red" />
- <solid rel="0 0 -.14 0 1.57" dim=".02 .01 .04" dif="red" />
- <solid rel=".16 0 0 0 1.57"  dim=".04 .01 .02" dif="red" />
- <solid rel="-.16 0 0 0 1.57" dim=".04 .01 .02" dif="red" />
+ <solid rel="0 0 .14 0 1.57"  dim=".02 .01 .04" dif="black" />
+ <solid rel="0 0 -.14 0 1.57" dim=".02 .01 .04" dif="black" />
+ <solid rel=".16 0 0 0 1.57"  dim=".04 .01 .02" dif="black" />
+ <solid rel="-.16 0 0 0 1.57" dim=".04 .01 .02" dif="black" />
 </mirage>
 
 <!--
@@ -391,8 +391,8 @@
 <!-- new stairs -->
 <stair pos="-4.8 -4 .2 1.57" height="2.7"> <solid dim="1 .2 .02" dif=".8 .4 0" /> </stair>
 <plane name="diving-board" pos="-1.65 -4 3 0"> <solid dim="1 .7 .02" dif="red" /> </plane>
-<plane pos="-3.45 -3.5 1.5 1.57 .785"> <solid dim=".04 .2 4.5" dif=".5 .1 0" /> </plane>
-<plane pos="-3.45 -4.5 1.5 1.57 .785"> <solid dim=".04 .2 4.5" dif=".5 .1 0" /> </plane>
+<plane name="ramp-l" pos="-3.45 -3.5 1.5 1.57 .785"> <solid dim=".04 .2 4.5" dif=".5 .1 0" /> </plane>
+<plane name="ramp-r" pos="-3.45 -4.5 1.5 1.57 .785"> <solid dim=".04 .2 4.5" dif=".5 .1 0" /> </plane>
 
 <!-- cauldron -->
 <cauldron name="rubber-ring" pos="1.2 -3.5 5.4">
@@ -653,8 +653,8 @@
 -->
 <!--
 <river name="river" pos="-25 -25 -0.5 0" width="50" depth="5" waves="20"></river>
+<ground name="river-ground" pos="0 -20 -1.5 0"> <solid dim="44 10 0.4" a="0" /></ground>
 -->
-<ground pos="0 -20 -1.5 0"> <solid dim="44 10 0.4" a="0" /></ground>
 <!-- sun -->
 <sun name="sun" pos="200 -100 0"></sun>
 <!--

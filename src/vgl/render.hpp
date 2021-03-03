@@ -254,23 +254,27 @@ private:
 
   // rendering
   void rendering(bool zsel);				///< general rendering.
+
+  // specific rendering
+  void specificRender(uint32_t n);	///< specific rendering.
+  void specificStill(uint32_t n);	///< specific rendering.
+  void specificMobile(uint32_t n);	///< specific rendering.
+  void specificFluid(uint32_t n);	///< specific rendering.
+  void specificInvisible(uint32_t n);	///< specific rendering.
   void specificRender(uint32_t n, uint8_t prior);	///< specific rendering.
-  void specificObjects(uint32_t n, uint8_t prior);	///< specific rendering.
   void specificStill(uint32_t n, uint8_t prior);	///< specific rendering.
   void specificMobile(uint32_t n, uint8_t prior);	///< specific rendering.
-  void specificInvisible(uint32_t n, uint8_t prior);	///< specific rendering.
   void specificFluid(uint32_t n, uint8_t prior);	///< specific rendering.
+  void specificInvisible(uint32_t n, uint8_t prior);	///< specific rendering.
 
-  // objects rendering
-  void objectsOpaque(bool zsel, uint8_t prior);		///< opaque objects rendering.
   // solids rendering
-  void renderSolids(bool zsel, list<Solid*>::iterator su, uint8_t pri);	///< all solids
+  void renderOpaque(bool zsel);						///< opaque solids
   void renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri);	///< opaque solids
   void renderTranslucid(bool zsel);  					///< translucid solids
   void renderTranslucid(bool zsel, list<Solid*>::iterator su);  	///< translucid solids
   void renderTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri);  ///< translucid solids
 
-  static int compDist(const void *t1, const void *t2);	///< compare distantes
+  static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
 
   void putSelbuf(WObject *po);
   /**< Sets object name in Z-buffer for selection. */
