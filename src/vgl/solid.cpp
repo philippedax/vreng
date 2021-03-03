@@ -975,9 +975,10 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 void Solid::updateDist()
 {
   if (localuser) {
-    float dx = ABSF(localuser->pos.x - pos[0]);
-    float dy = ABSF(localuser->pos.y - pos[1]);
+    float dx = ABSF(localuser->pos.x - object()->pos.x);
+    float dy = ABSF(localuser->pos.y - object()->pos.y);
     userdist = sqrt(dx*dx + dy*dy);
+    //error("%s-%.2f", object()->getInstance(), userdist);
   }
 }
 

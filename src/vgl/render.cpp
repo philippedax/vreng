@@ -301,7 +301,7 @@ void Render::objectsOpaque(bool zsel, uint8_t pri)
 // Renders all solids
 void Render::renderSolids(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
+  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     if (s == su) continue;	// skip localuser
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
     if (   (*s)
@@ -330,7 +330,7 @@ void Render::renderSolids(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 // Renders opaque solids
 void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
+  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     //trace2(DBG_VGL, " %s", (*s)->object()->names.type);
     //dax2 if (s == su) continue;	// skip localuser
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
@@ -356,55 +356,54 @@ void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
   }
 }
 
-// compare distance to sort
+// Compares distance to eyes : called by sort()
 int Render::compDist(const void *t1, const void *t2)
 {
   Solid *s1 = (Solid *) t1;
   Solid *s2 = (Solid *) t2;
 
-  // decreasing order : furtherest -> nearest
-  if (s2->userdist > s1->userdist)
+  // sort by decreasing order : furthest -> nearest
+  if (s1->userdist < s2->userdist)
     return 1;
-  else if (s2->userdist < s1->userdist)
+  else if (s1->userdist > s2->userdist)
     return -1;
   else
     return 0;
 }
 
-// Renders translucid solids sorted from the further to the nearest
+// Renders translucid solids sorted from the furthest to the nearest
 void Render::renderTranslucid(bool zsel)
 {
+  // build translucidList from solidList
   translucidList.clear();
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    if (   (*s)
-        && (*s)->isOpaque() == false
-        && (*s)->isVisible()
-       ) {
-      translucidList.push_back(*s);
-      putSelbuf((*s)->object());
+  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
+    if ( (*it) && (*it)->isOpaque() == false && (*it)->isVisible() ) {
+      translucidList.push_back(*it);	// add to translucid list
+      putSelbuf((*it)->object());
     }
   }
-  for (list<Solid*>::iterator s = translucidList.begin(); s != translucidList.end() ; s++) {
-    if (! (*s)->object()->isBehavior(SPECIFIC_RENDER)) {
-      (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
-    } //dax7 bubble case
-    else {
-      (*s)->object()->render();
-    }
-  }
+
+  // sort translucidList
   //dax7 qsort(translucidList.begin(), translucidList.size(), sizeof(Solid), compDist);
   translucidList.sort(compDist);
-  for (list<Solid*>::iterator s = translucidList.begin(); s != translucidList.end() ; s++) {
-    trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
+
+  // render translucidList
+  for (list<Solid*>::reverse_iterator it = translucidList.rbegin(); it != translucidList.rend() ; ++it) {
+    if (! (*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
+    } //dax7 bubble case
+    else {
+      (*it)->object()->render();
+    }
+    trace2(DBG_VGL, " %s-%.2f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
 
 // Renders translucid solids without using prior
 void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su)
 {
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
+  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     if (s == su) continue;	// FIXME! sun flary doesn't appear
-    if (s == su && !zsel) continue;
     if (   (*s)
         && (*s)->isOpaque() == false
         && (*s)->isVisible()
@@ -424,7 +423,7 @@ void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su)
 // Renders translucid solids using prior
 void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
+  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     if (s == su) continue;	// FIXME! sun flary doesn't appear
     if (s == su && !zsel) continue;
     if (   (*s)

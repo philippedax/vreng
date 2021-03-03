@@ -722,7 +722,7 @@ void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
 }
 
 //
-// MySql interface
+// VRSql interface
 //
 
 /** Checks whether position is managed by VRSql
