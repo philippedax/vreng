@@ -15,6 +15,8 @@ The rules for this file:
 ++ 9
 == 9.2
 -- 9.2.0
+	- added translucid list to render decreasingly distance from eyes
+	(2021/03/03, Philippe Dax)
 	- removed old lists
 	(2021/02/24, Philippe Dax)
 
