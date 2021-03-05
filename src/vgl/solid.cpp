@@ -312,6 +312,7 @@ Solid::Solid()
   is_fictif = false;	// true solid
   userdist = 0;		// distance to localuser
   ray_dlist = 0;
+  rendered = false;	// flag if alredy rendered
 
   for (int i=0; i<5; i++) pos[i] = 0;
   for (int i=0; i<3; i++) flashcol[i] = 1;  // white

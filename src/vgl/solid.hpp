@@ -100,6 +100,7 @@ public:
   class Texture *texture;
   GLint*	dlists;		///< cached display list.
   GLint		ray_dlist;	///< ray display list.
+  bool		rendered;	///< flag if is already rendered
 
   Solid();		///< constructor.
   virtual ~Solid();	///< destructor.

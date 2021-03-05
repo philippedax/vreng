@@ -70,7 +70,7 @@ Hairs::Hairs(char *l)
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
   enableBehavior(UNSELECTABLE);
-  setRenderPrior(PRIOR_HIGH);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   enablePermanentMovement();

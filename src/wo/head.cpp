@@ -108,9 +108,8 @@ void Head::behavior()
 {
   enableBehavior(SPECIFIC_RENDER);
   enableBehavior(DYNAMIC);
-  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(NO_BBABLE);
-  setRenderPrior(PRIOR_HIGH);
+  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   enablePermanentMovement();	// follows user

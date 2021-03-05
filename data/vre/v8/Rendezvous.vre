@@ -46,10 +46,10 @@
 <mirage pos="0 0 0 0 1.57">
   <solid shape="cross" dim=".8 .04 .04" dif="red" />
 </mirage>
-<text pos=".45 .1 0.05 -1.57 0"   color="red"> N </text>
-<text pos="-.65 .1 0.05 -1.57 0"  color="red"> S </text>
-<text pos="-.1 .70 0.05 -1.57 0"  color="red"> W </text>
-<text pos="0.1 -.45 0.05 -1.57 0" color="red"> E </text>
+<text pos=".45 .1 .05 -1.57"   color="red"> N </text>
+<text pos="-.65 .1 .05 -1.57"  color="red"> S </text>
+<text pos="-.1 .70 .05 -1.57"  color="red"> W </text>
+<text pos="-.1 -.35 .05 -1.57" color="red"> E </text>
 
 <!-- welcome text -->
 <!--
@@ -395,8 +395,8 @@
 <plane name="ramp-r" pos="-3.45 -4.5 1.5 1.57 .785"> <solid dim=".04 .2 4.5" dif=".5 .1 0" /> </plane>
 
 <!-- cauldron -->
-<cauldron name="rubber-ring" pos="1.2 -3.5 5.4">
-  <solid shape="torus" r=".3" rc=".1" dif="grey20" />
+<cauldron name="rubber-ring" pos="1.2 -3.5 5">
+  <solid shape="torus" r=".3" rc=".07" dif="grey20" />
 </cauldron>
 
 <!-- message board -->

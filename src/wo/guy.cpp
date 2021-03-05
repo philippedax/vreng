@@ -94,7 +94,7 @@ void Guy::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_HIGH);	// if MEDIUM fails FIXME!
+  setRenderPrior(PRIOR_MEDIUM);	// if MEDIUM fails FIXME!
 
   initMobileObject(0);
   enablePermanentMovement();
@@ -500,8 +500,7 @@ void Guy::render()
 
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-  glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
-  glRotatef(90, 1, 0, 0);
+  glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
 
   if (::g.timer.isRate(RATE))
     guy_radian -= M_2PI / guy_stp;

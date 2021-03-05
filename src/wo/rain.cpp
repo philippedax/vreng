@@ -53,7 +53,7 @@ Rain::Rain(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
   behavior();
-  setRenderPrior(PRIOR_LOW);
+  setRenderPrior(PRIOR_MEDIUM);
   makeSolid();
   inits();
   points = false;

@@ -71,7 +71,7 @@ Animator::Animator(char *l)
   createPermanentNetObject(PROPS, ++oid);
 
   if (state == ACTIVE) {
-    setRenderPrior(PRIOR_HIGH);
+    setRenderPrior(PRIOR_MEDIUM);
     enableImposedMovement();
   }
 }

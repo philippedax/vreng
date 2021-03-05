@@ -256,7 +256,12 @@ private:
   void rendering(bool zsel);				///< general rendering.
 
   // specific rendering
+  void specificObjects();		///< specific rendering.
   void specificRender(uint32_t n);	///< specific rendering.
+  void specificStill();			///< specific rendering.
+  void specificMobile();		///< specific rendering.
+  void specificFluid();			///< specific rendering.
+  void specificInvisible();		///< specific rendering.
   void specificStill(uint32_t n);	///< specific rendering.
   void specificMobile(uint32_t n);	///< specific rendering.
   void specificFluid(uint32_t n);	///< specific rendering.
