@@ -426,6 +426,19 @@ bool WObject::isVisible() const
     return false;
 }
 
+void WObject::setRendered(bool flag)
+{
+  if (solid) solid->setRendered(flag);
+}
+
+bool WObject::isRendered() const
+{
+  if (solid)
+    return solid->isRendered();
+  else
+    return false;
+}
+
 bool WObject::isOpaque() const
 {
   if (solid)

@@ -72,6 +72,7 @@ protected:
   GLfloat 	pos[5];		///< relative position/orientation.
   GLfloat	fog[4];		///< fog params
   float		userdist;	///< distance to localuser
+  bool		rendered;	///< flag if is already rendered
 
 public:
 
@@ -100,7 +101,6 @@ public:
   class Texture *texture;
   GLint*	dlists;		///< cached display list.
   GLint		ray_dlist;	///< ray display list.
-  bool		rendered;	///< flag if is already rendered
 
   Solid();		///< constructor.
   virtual ~Solid();	///< destructor.
@@ -141,6 +141,12 @@ public:
 
   virtual bool isVisible() const;
   /**< Return if the solid should be drawn or not. */
+
+  virtual void setRendered(bool v);
+  /**< Sets the solid rendered (true) or not (false). */
+
+  virtual bool isRendered() const;
+  /**< Return if the solid should be rendered or not. */
 
   virtual bool isOpaque() const;
   /**< Return if the solid is opaque or not. */

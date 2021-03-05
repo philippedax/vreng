@@ -14,16 +14,16 @@
 <scene>
 
 <bgcolor color="0 0 0"></bgcolor>
-<!-- <bgcolor color=".5 .5 1"></bgcolor> -->
+<!-- background color -->
+<!--
+<bgcolor color=".5 .5 1"></bgcolor>
+-->
+
+<!-- entry point -->
 <entry pos="-5 0 0"></entry>
 
+<!-- wind -->
 <wind></wind>
-<!--
--->
-
-<!--
-<fractal pos="5 0 0 1.57" level="4" color="green"> <solid shape="bbox" dim="1 1 1" /></fractal>
--->
 
 <!-- ground -->
 <ground name="ground-c" pos="0 6.5 -.25">
@@ -43,7 +43,7 @@
 -->
 
 <!-- cardinal points -->
-<mirage pos="0 0 0 0 1.57">
+<mirage name="cardinal" pos="0 0 0 0 1.57">
   <solid shape="cross" dim=".8 .04 .04" dif="red" />
 </mirage>
 <text pos=".45 .1 .05 -1.57"   color="red"> N </text>
@@ -52,8 +52,6 @@
 <text pos="-.1 -.35 .05 -1.57" color="red"> E </text>
 
 <!-- welcome text -->
-<!--
--->
 <text name="welcome" pos="9 -2 5.5 -1.57 1.57"> Welcome to VREng </text>
 <!--
 <text name="rendezvous" pos="9 -2 5 -1.57 1.57" font="/txf/helvetica-br-24.txf"> Rendezvous </text>
@@ -278,14 +276,12 @@
 
 <!-- archive -->
 <!--
-<web name="ftp-archive" pos="4 -1.75 3.55 1.57" url="http://www.vreng.enst.fr/ftp/">
+<web name="wget-archive" pos="4 -1.75 3.55 1.57" url="http://www.vreng.enst.fr/ftp/">
   <solid dim="3.6 1 .2" xn="/gif/b_download.gif" />
 </web>
 -->
 
 <!-- Webs -->
-<!--
--->
 <!--
 <web name="daxpage" pos="-7 -12.5 .7 6.0"
   url="/~dax/" legend="Home page de Philippe Dax">
@@ -301,8 +297,6 @@
 </web>
 -->
 
-<!--
--->
 <mirage name="earth" pos="200 0 50" aspeed="-.02" mode="turn">
   <solid shape="sphere" r="15" tx="/gif/earth.gif" />
 </mirage>
@@ -312,6 +306,7 @@
 
 <!-- pylone -->
 <mirage pos="20.8 3 0 0"> <solid shape="cone" rb=".14" rt=".14" h="6" dif="grey60" /></mirage>
+
 <!-- antenna -->
 <mirage pos="20.8 3 6 1.57 1.57" mode="turn"> <solid shape="disk" rb=".1" rt=".2" dif="grey10" /></mirage>
 <mirage pos="20.7 3 6 1.57 1.57" mode="turn"> <solid shape="disk" rb=".2" rt=".3" dif="grey20" /></mirage>
@@ -335,6 +330,7 @@
   <solid shape="disk" rel="-.8 0 0 0 0" rb=".9" rt="1." dif="grey90" />
 </mirage>
 -->
+
 <!-- rays -->
 <mirage name="rays" pos="20.8 3 6 1.57 0" mode="turn">
   <solid shape="line" rel="0 0 0 0 0"     l="300" dif="red" />
@@ -375,18 +371,10 @@
   <solid rel="-2.25 -4.25 0 1.57 0" dim="4.5 .5 2" dif="magenta" />
 </step>
 -->
-<step name="solarium-west" pos="0 -2.25 -.5 0">
-  <solid dim="4.5 .5 2" dif="indianred" />
-</step>
-<step name="solarium-east" pos="0 -6.25 -.5 0">
-  <solid dim="4.5 .5 2" dif="indianred" />
-</step>
-<step name="solarium-north" pos="2.25 -4.25 -.5 1.57">
-  <solid dim="4.5 .5 2" dif="indianred" />
-</step>
-<step name="solarium-south" pos="-2.25 -4.25 -.5 1.57">
-  <solid dim="4.5 .5 2" dif="indianred" />
-</step>
+<step name="solarium-w" pos="0 -2.25 -.5 0"> <solid dim="4.5 .5 2" dif="indianred" /> </step>
+<step name="solarium-e" pos="0 -6.25 -.5 0"> <solid dim="4.5 .5 2" dif="indianred" /> </step>
+<step name="solarium-n" pos="2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" dif="indianred" /> </step>
+<step name="solarium-s" pos="-2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" dif="indianred" /> </step>
 
 <!-- new stairs -->
 <stair pos="-4.8 -4 .2 1.57" height="2.7"> <solid dim="1 .2 .02" dif=".8 .4 0" /> </stair>
@@ -395,7 +383,7 @@
 <plane name="ramp-r" pos="-3.45 -4.5 1.5 1.57 .785"> <solid dim=".04 .2 4.5" dif=".5 .1 0" /> </plane>
 
 <!-- cauldron -->
-<cauldron name="rubber-ring" pos="1.2 -3.5 5">
+<cauldron name="rubber-ring" pos="1.2 -3.5 4">
   <solid shape="torus" r=".3" rc=".07" dif="grey20" />
 </cauldron>
 
@@ -416,32 +404,36 @@
 -->
 
 <!-- water -->
-<!--
-<river name="swimming-pool" pos="-2 -6 0.25 0" width="1.7" depth="1.7" waves="30"></river>
--->
 <water name="swimming-pool" pos="0 -4.25 0.05 1.57"
   amplitude="1" freq="1" phase="1">
   <solid dim="3.4 3.8 .01" zp="/gif/water1.gif" />
 </water>
--->
-<!-- swim-bottom -->
-<ground name="ground-swim" pos="0 -4.25 -1.5"> <solid dim="4.5 4.5 .5" dif="blue" a="0.1" /> </ground>
-
-<!-- firework, waterfall and fountain -->
-<firework pos="10 0 6"> </firework>
 <!--
+<river name="swimming-pool" pos="-2 -6 0.25 0" width="1.7" depth="1.7" waves="30"></river>
+-->
+
+<!-- swim-bottom -->
+<ground name="bottom" pos="0 -4.25 -1.5"> <solid dim="4.5 4.5 .5" dif="blue" a="0.1" /> </ground>
+
+<!-- firework -->
+<firework pos="10 0 6"> </firework>
 <firework pos="10 1 5" number="300" color="red" ttl="60"> </firework>
 <firework pos="10 -1 5" number="200" color="green"> </firework>
 <firework pos="10 -2 4" number="100" color="lightblue"> </firework>
 <firework pos="10 -3 4" number="50" color="grey" ttl="6" size="4"> </firework>
--->
+
+<!-- waterfall -->
 <!--
 <waterfall name="waterfall" pos="2 -4.25 1.05" number="3000" flow="300" size="2"> </waterfall>
+-->
+
+<!-- fountain -->
+<!--
 <fountain name="fountain"   pos="-1 -4 1" number="3000" flow="300" color="lightblue"> </fountain>
 -->
 
 <!--
-<button name="water-tap" pos="2.05 -4.25 0.5" use="waterfall fountain" method0="Switch">
+<button name="tap" pos="2.05 -4.25 0.5" use="waterfall fountain" method0="Switch">
   <solid shape="cone"   rb=".05" rt=".05" h=".45" dif="indianred" />
   <solid shape="sphere" rel="0 0 .5 0 0" r=".05" dif="indianred" />
   <solid shape="cone"   rel="0 0 .5 1.57 -1.57" rb=".05" rt=".05" h=".1" dif="indianred" />
@@ -456,17 +448,16 @@
 -->
 
 <!-- flag -->
-<flag pos="4 -3.5 2.5"> <solid shape="bbox" dim="1 .001 .6" xn="/gif/fr_flag.gif" /></flag> 
-<mirage pos="4 -3.5 1"> <solid shape="cone" rb=".01" rt=".01" h="1.8" dif="brown" /></mirage>
+<flag name="drapeau" pos="4 -3.5 2.5"> <solid shape="bbox" dim="1 .001 .6" xn="/gif/fr_flag.gif" /></flag> 
+<mirage name="hampe" pos="4 -3.5 1"> <solid shape="cone" rb=".01" rt=".01" h="1.8" dif="brown" /></mirage>
+
 <!-- helix -->
-<!--
-<mirage pos="4 -3.5 .9 1.57">
-  <solid shape="helix"                        r=".05" l="1.8" h=".005" t="4" sl="32" dif="green" />
-  <solid shape="helix" rel=".02 .00 0 1.57 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="red" />
-  <solid shape="helix" rel=".00 .02 0 2.07 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="white" />
-  <solid shape="helix" rel=".02 .02 0 2.57 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="blue" />
+<mirage name="helix" pos="4 -3.5 .9 1.57">
+  <solid shape="helix"                        r=".05" l="1.8" h=".005" t="4" sl="32" dif="black" />
+  <solid shape="helix" rel=".02 .00 0 1.57 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="black" />
+  <solid shape="helix" rel=".00 .02 0 2.07 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="black" />
+  <solid shape="helix" rel=".02 .02 0 2.57 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="black" />
 </mirage>
--->
 
 <!-- stars -->
 <!--
@@ -489,16 +480,12 @@
 <guy name="guy2"    pos="10.5 4.5 .85 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
 <guy name="guy3"    pos="10.5 3.5 .85 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
 <mirage name="guy4" pos="10.0 4.0 .85 0.5"> <solid shape="man" dim=".3 .2 1.7" emi="grey" /></mirage>
-<!--
--->
 
 <!-- heads -->
 <model name="head1" pos="11.0 4.0 1.52 1.5 1.57"  url="/lwo/head.lwo" scale=".0028"></model>
 <model name="head2" pos="10.5 4.5 -.10 1.0 -1.57" url="/obj/head.obj" scale=".96"></model>
 <model name="head3" pos="10.5 3.5 -.03 -1.5 0.00" url="/off/head.off" color="pink"></model>
 <model name="head4" pos="10.0 4.0 1.55 6.5 0.00"  url="/3ds/head.3ds" scale=".028"></model>
-<!--
--->
 
 <!-- hairs -->
 <!--
@@ -523,19 +510,20 @@
 -->
 
 <!-- hats -->
-<!--
- <solid shape="disk" rel="0 0 0 0 0" ri=".09" re=".18" dif="beige" />
- <solid shape="cone" rel="0 0 0 0 0" rb=".095" rt=".095" h=".03" dif="black" />
- <solid shape="disk" rel="0 0 .09 0 0" ri="0" re=".08" dif="beige" />
-</hat>
-<hat name="hat2" pos="10.5 4.5 1.57 0 0" model="tophat">
+<hat name="hat2" pos="10.5 4.5 1.65" model="tophat">
  <solid shape="cone" rb=".08" rt=".08" h=".15" dif="black" />
  <solid shape="disk" rel="0 0 0 0 0" ri=".08" re=".15" dif="black" />
  <solid shape="disk" rel="0 0 .15 0 0" ri="0" re=".08" dif="black" />
 </hat>
-<hat name="cycle3" pos="10.41 3.45 1.62 1.50 1.57" model="tophat">
- <solid shape="disk" ri="0" re=".025" dif="white" a=".8" />
- <solid shape="disk" rel="0.05 0 0 0 0" ri="0" re=".025" dif="white" a=".8" />
+<hat name="hat3" pos="10.5 4.0 1.65" model="tophat">
+ <solid shape="disk" rel="0 0 0 0 0" ri=".09" re=".18" dif="red" />
+ <solid shape="cone" rel="0 0 0 0 0" rb=".09" rt=".09" h=".08" dif="red" />
+ <solid shape="disk" rel="0 0 .08 0 0" ri="0" re=".09" dif="beige" />
+</hat>
+<!--
+<hat name="hat4" pos="10.5 3.5 1.7" model="tophat">
+ <solid shape="disk" ri="0" re=".055" dif="blue" a="1" />
+ <solid shape="disk" rel="0.15 0 0 0 0" ri="0" re=".055" dif="blue" a="1" />
 </hat>
 -->
 
@@ -546,8 +534,6 @@
  <solid shape="cone" rel="0 0 .02 0 0" rb=".05" rt=".005" h="0" tx="/gif/redbands.gif" dif="magenta" />
  <solid shape="cone" rel="0 0 .01 0 0" rb=".005" rt=".05" h=".02" tx="/gif/redbands.gif" dif="magenta" />
 </mirage>
-<!--
--->
 
 <!-- mirror -->
 <mirror name="mirror" pos="7 5 1 1.57"> <solid dim="2 .01 2" dif="darkgrey" a=".3" /> </mirror>
@@ -556,17 +542,14 @@
                           <solid rel="-1 0 -1 0" dim=".04 .02 2" emi="grey" />
                           <solid rel="0 0 -2 0"  dim="2 .02 .04" emi="grey" />
 </mirage>
-<!--
--->
 
 <!-- pyramid -->
-<mirage name="cristal-pyramid" pos="4 -3.5 0"> <solid shape="pyramid" s="1" h="1" dif=".5 1 .9" a=".4" /> </mirage>
+<mirage name="cristal" pos="4 -3.5 0"> <solid shape="pyramid" s="1" h="1" dif=".5 1 .9" a=".4" /> </mirage>
 
 <!-- fire -->
-<!--
--->
 <fire name="fire" pos="2.25 -2.25 1" number="1000"> </fire>
 <mirage pos="2.25 -2.25 0.3" name="torchere"> <solid shape="cone" rb=".1" rt=".3" h=".3" dif="black" /></mirage>
+
 <!-- smoke -->
 <!--
 <smoke pos="0.25 -0.25 1" number="400" speed=".5"> <solid shape="bbox" dim=".4 .4 .4" /></smoke>
@@ -576,7 +559,7 @@
 <halo name="halo" pos="1.2 -2.1 .6 0 -.78">
  <solid shape="disk" ri=".07" re=".1" dif="gold" />
 </halo>
-<!-- hat -->
+<!-- hats -->
 <hat name="tophat" pos="0.8 -2.1 .5" model="tophat">
  <solid shape="cone" rb=".08" rt=".08" h=".15" dif="black" />
  <solid shape="disk" ri=".08" re=".12" dif="black" />
@@ -585,7 +568,7 @@
 <hat name="chinese" pos="0.6 -2.1 .5" model="chinese">
  <solid shape="cone" rb=".2" rt="0" h=".15" dif="yellow" />
 </hat>
-<hat name="cardinal" pos="0.4 -2.1 .5" model="cardinal">
+<hat name="redhat" pos="0.4 -2.1 .5" model="redhat">
  <solid shape="cone" rb=".09" rt=".05" h=".12" dif="red" />
  <solid shape="disk" ri=".09" re=".12" dif="red" />
 </hat>
@@ -602,11 +585,9 @@
 </hat>
 
 <!-- teapot -->
-<!--
 <mirage name="teapot" pos="-.4 -2.1 .5 3.14" flare="1" scale="0.1" color="green">
  <solid shape="teapot" dim=".2 .2 .2" dif="blue" spe="1 1 1" />
 </mirage>
--->
 
 <!-- dress -->
 <dress name="dress-blue" pos="-1 -2.2 .95" model="spires">
@@ -621,12 +602,8 @@
  <solid shape="cone" rb=".10" rt=".20" h="-.45" tx="/gif/roses.gif" />
  <solid shape="cone" rb=".10" rt=".15" h=".25"  tx="/gif/roses.gif" />
 </dress>
-<!--
--->
 
 <!-- wings -->
-<!--
--->
 <wings name="helicopter" pos="-2.2 -2.5 1.2 0 1.6" model="helicopter"> <solid shape="bbox" dim="1 .01 1" /> </wings>
 <wings name="butterfly"  pos="-2.2 -2.6 1.2 0 0.0" model="butterfly">  <solid shape="bbox" dim=".1 1 1.2" /> </wings>
 <wings name="libellule"  pos="-2.2 -2.7 1.2 0 0.0" model="libellule">  <solid shape="bbox" dim=".1 1 1.2" /> </wings>
@@ -636,13 +613,9 @@
 -->
 
 <!-- thunder -->
-<!--
--->
 <thunder pos="50 0 30"></thunder>
 
 <!-- cloud -->
-<!--
--->
 <cloud pos="20 10 12"></cloud>
 
 <!-- terrain -->
@@ -655,13 +628,11 @@
 <river name="river" pos="-25 -25 -0.5 0" width="50" depth="5" waves="20"></river>
 <ground name="river-ground" pos="0 -20 -1.5 0"> <solid dim="44 10 0.4" a="0" /></ground>
 -->
+
 <!-- sun -->
 <sun name="sun" pos="200 -100 0"></sun>
-<!--
--->
 
 <!-- lift -->
-<!--
 <lift name="lift" pos="-21 0 0 0"
   height="3" speed="1" bot="0" top="1">
   <solid dim="1.9 1.9 1" dif="black" />
@@ -689,7 +660,6 @@
   use="lift" method0="Call">
   <solid dim=".08 .08 .08" xp="/gif/b_green.gif" />
 </button>
--->
 
 <!-- escalator -->
 <!--
@@ -704,7 +674,10 @@
 <!-- 1st level -->
 <step pos="-15 0 3 1.57"> <solid dim="30 10 .1" dif="pink" a="1" /></step>
 
-<!-- <model name="liberty" pos="80 -60 0 2.4 0" scale="1"    url="/ase/liberty.ase"> </model> -->
+<!-- model liberty -->
+<!--
+<model name="liberty" pos="-80 -60 0 2.4 0" scale="1" url="/ase/liberty.ase"> </model>
+-->
 
 <!-- x3d -->
 <!--
@@ -713,13 +686,22 @@
 <!--
 <animx3d pos="2 2 .5" dim="1 1 1" url="/x3d/lighting.x3d"></animx3d>
 -->
+
+<!-- ellipse -->
 <!--
 <mirage pos="2 0 1 1.57 1.57"> <solid shape="ellipse" r="1" radius2=".5" dif="gold" a=".6" /> </mirage>
 -->
+
 <!-- widget -->
 <!--
 <widget pos="6 6 1 1.57"> <solid dim="1.6 .2 1.6" a=".6" /></widget>
 -->
+
+<!-- fractal -->
+<!-- bad idea !!!
+<fractal pos="5 0 0 1.57" level="4" color="green"> <solid shape="bbox" dim="1 1 1" /></fractal>
+-->
+
 <!-- <fish name="shark" pos="1 -5 -4 0"></fish> -->
 
 </scene>

@@ -182,8 +182,8 @@ void Render::specificObjects()	//dax8 loop ???
   //dax8 error("objectList: %d", objectList.size());
   for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); ++o) {
     if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->getSolid()->rendered) continue;
-      (*o)->getSolid()->rendered = true;
+      if ((*o)->isRendered()) continue;
+      (*o)->setRendered(true);
       materials();
       putSelbuf(*o);
       (*o)->render();		// render done by object itself
@@ -197,8 +197,8 @@ void Render::specificStill()
 {
   for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
     if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->getSolid()->rendered) continue;
-      (*o)->getSolid()->rendered = true;
+      if ((*o)->isRendered()) continue;
+      (*o)->setRendered(true);
       materials();
       putSelbuf(*o);
       (*o)->render();		// render done by object itself
@@ -212,8 +212,8 @@ void Render::specificMobile()
 {
   for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
     if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->getSolid()->rendered) continue;
-      (*o)->getSolid()->rendered = true;
+      if ((*o)->isRendered()) continue;
+      (*o)->setRendered(true);
       materials();
       putSelbuf(*o);
       (*o)->render();		// render done by object itself
@@ -227,8 +227,8 @@ void Render::specificFluid()
 {
   for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end() ; ++o) {
     if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->getSolid()->rendered) continue;
-      (*o)->getSolid()->rendered = true;
+      if ((*o)->isRendered()) continue;
+      (*o)->setRendered(true);
       putSelbuf(*o);
       (*o)->render();		// render done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
@@ -241,8 +241,8 @@ void Render::specificInvisible()
 {
   for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
     if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->getSolid()->rendered) continue;
-      (*o)->getSolid()->rendered = true;
+      if ((*o)->isRendered()) continue;
+      (*o)->setRendered(true);
       (*o)->render();		// render done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
@@ -253,12 +253,12 @@ void Render::specificInvisible()
 void Render::specificStill(uint32_t num)
 {
   for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
-    if ( !(*o)->isValid() || (*o)->removed ) continue;
+    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
     if (   (*o)
         && (*o)->num == num
         && (*o)->isBehavior(SPECIFIC_RENDER)
        ) {
-      //dax3 (*o)->getSolid()->rendered = true;
+      (*o)->setRendered(true);
       materials();
       putSelbuf(*o);
       (*o)->render();		// render done by object itself
@@ -271,13 +271,13 @@ void Render::specificStill(uint32_t num)
 void Render::specificMobile(uint32_t num)
 {
   for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-    if ( !(*o)->isValid() || (*o)->removed ) continue;
+    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
     if (   (*o)
         && (*o)->num == num
         && (*o)->isBehavior(SPECIFIC_RENDER)
        ) {
       //if (pri != WObject::PRIOR_HIGH)	// if commented guy doesn't appear
-      //dax3 (*o)->getSolid()->rendered = true;
+      (*o)->setRendered(true);
       materials();
       putSelbuf(*o);
       (*o)->render();		// render done by object itself
@@ -290,12 +290,12 @@ void Render::specificMobile(uint32_t num)
 void Render::specificFluid(uint32_t num)
 {
   for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end() ; ++o) {
-    if ( !(*o)->isValid() || (*o)->removed ) continue;
+    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
     if (   (*o)
         && (*o)->num == num
         && (*o)->isBehavior(SPECIFIC_RENDER)
        ) {
-      //dax3 (*o)->getSolid()->rendered = true;
+      (*o)->setRendered(true);
       putSelbuf(*o);
       (*o)->render();		// render done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
@@ -307,12 +307,12 @@ void Render::specificFluid(uint32_t num)
 void Render::specificInvisible(uint32_t num)
 {
   for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
-    if ( !(*o)->isValid() || (*o)->removed ) continue;
+    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
     if (   (*o)
         && (*o)->num == num
         && (*o)->isBehavior(SPECIFIC_RENDER)
        ) {
-      //dax3 (*o)->getSolid()->rendered = true;
+      (*o)->setRendered(true);
       (*o)->render();		// render done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
@@ -323,7 +323,7 @@ void Render::specificInvisible(uint32_t num)
 void Render::specificStill(uint32_t num, uint8_t pri)
 {
   for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->getSolid()->rendered ) continue;
+    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
     if (   (*o)
         && (*o)->num == num
         && (*o)->isBehavior(SPECIFIC_RENDER)
@@ -332,7 +332,7 @@ void Render::specificStill(uint32_t num, uint8_t pri)
       if (pri != WObject::PRIOR_HIGH)
         materials();
       putSelbuf(*o);
-      //dax3 (*o)->getSolid()->rendered = true;
+      (*o)->setRendered(true);
       (*o)->render();		// render done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
@@ -343,7 +343,7 @@ void Render::specificStill(uint32_t num, uint8_t pri)
 void Render::specificMobile(uint32_t num, uint8_t pri)
 {
   for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->getSolid()->rendered ) continue;
+    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
     if (   (*o)
         && (*o)->num == num
         && (*o)->isBehavior(SPECIFIC_RENDER)
@@ -352,7 +352,7 @@ void Render::specificMobile(uint32_t num, uint8_t pri)
       if (pri != WObject::PRIOR_HIGH)	// if commented guy doesn't appear
         materials();
       putSelbuf(*o);
-      //dax3 (*o)->getSolid()->rendered = true;
+      (*o)->setRendered(true);
       (*o)->render();		// render done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
@@ -363,14 +363,14 @@ void Render::specificMobile(uint32_t num, uint8_t pri)
 void Render::specificFluid(uint32_t num, uint8_t pri)
 {
   for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end() ; ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->getSolid()->rendered ) continue;
+    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
     if (   (*o)
         && (*o)->num == num
         && (*o)->isBehavior(SPECIFIC_RENDER)
         && (*o)->prior == pri
        ) {
       putSelbuf(*o);
-      //dax3 (*o)->getSolid()->rendered = true;
+      (*o)->setRendered(true);
       (*o)->render();		// render done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
@@ -381,13 +381,13 @@ void Render::specificFluid(uint32_t num, uint8_t pri)
 void Render::specificInvisible(uint32_t num, uint8_t pri)
 {
   for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->getSolid()->rendered ) continue;
+    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
     if (   (*o)
         && (*o)->num == num
         && (*o)->isBehavior(SPECIFIC_RENDER)
         && (*o)->prior == pri
        ) {
-      //dax3 (*o)->getSolid()->rendered = true;
+      (*o)->setRendered(true);
       (*o)->render();		// render done by object itself
       trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
@@ -397,21 +397,16 @@ void Render::specificInvisible(uint32_t num, uint8_t pri)
 // Renders opaque solids without prior
 void Render::renderOpaque(bool zsel)
 {
-  error("opaqList: %d", solidList.size());
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
-    if ( (*s) && (*s)->isOpaque() && (*s)->isVisible() && !(*s)->rendered ) {
-      (*s)->rendered = true;
+    if ( (*s) && (*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() ) {
       putSelbuf((*s)->object());
-      /* FIXME!
-       * if the following 3 lines are presents then  water ondulation is ok but hats are not ok
-       * if the following 3 lines are commented then water ondulation is not ok but hats are ok
-       */
       if ((*s)->object()->isBehavior(SPECIFIC_RENDER)) {
         (*s)->object()->render();
       }
       else {
         (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
       }
+      (*s)->setRendered(true);
       trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
     }
   }
@@ -420,18 +415,17 @@ void Render::renderOpaque(bool zsel)
 // Renders opaque solids
 void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
-  error("opaqList: %d", solidList.size());
+  //error("opaqList: %d", solidList.size());
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     //trace2(DBG_VGL, " %s", (*s)->object()->names.type);
     //dax2 if (s == su) continue;	// skip localuser
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
     if (   (*s)
-        && !(*s)->rendered
+        && !(*s)->isRendered()
         && (*s)->isOpaque()
         && (*s)->isVisible()
         && (*s)->object()->prior == pri
        ) {
-      (*s)->rendered = true;
       putSelbuf((*s)->object());
       /* FIXME!
        * if the following 3 lines are presents then  water ondulation is ok but hats are not ok
@@ -443,6 +437,8 @@ void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
       else {
         (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
       }
+      (*s)->setRendered(true);
+      //trace2(DBG_VGL, " %s?%d", (*s)->object()->getInstance(), (*s)->isRendered());
       trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
       //daxdbg showSolidList();
     }
@@ -594,7 +590,7 @@ void Render::rendering(bool zsel=false)
   // Find the localuser solid
   list<Solid*>::iterator su;
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    (*s)->rendered = false;
+    (*s)->setRendered(false);
     if ((*s)->object()->type == USER_TYPE) {
       if (! strcmp((*s)->object()->getInstance(), localuser->getInstance())) {
         su = s;	// localuser
@@ -602,11 +598,13 @@ void Render::rendering(bool zsel=false)
     }
   }
 
+// LOW
 #if 0 //dax6 opaq
-# trace2(DBG_VGL, "\nopaq: ");
-# renderOpaque(zsel, su, WObject::PRIOR_LOW);
+  trace2(DBG_VGL, "\nopaq: ");
+  renderOpaque(zsel, su, WObject::PRIOR_LOW);
 #endif //dax6 opaq
 
+// MEDIUM
 #if 0 //dax4 spec
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { specificRender(n); }
@@ -614,9 +612,10 @@ void Render::rendering(bool zsel=false)
 #if 1 //dax6 opaq
   trace2(DBG_VGL, "\nopaq: ");
   renderOpaque(zsel, su, WObject::PRIOR_MEDIUM);
-  //renderOpaque(zsel);
+  //dax7 renderOpaque(zsel);
 #endif //dax6 opaq
 
+// HIGH
 #if 1 //dax4 spec #if 0 guy is not rendered FIXME!
   trace2(DBG_VGL, "\nspec: ");
   for (uint32_t n=1; n < objectsnumber; n++) { specificRender(n); }
@@ -624,10 +623,9 @@ void Render::rendering(bool zsel=false)
 #if 1 //dax6 opaq
   trace2(DBG_VGL, "\nopaq: ");
   renderOpaque(zsel, su, WObject::PRIOR_HIGH);	// if commented PB with clock
-  //renderOpaque(zsel);
+  renderOpaque(zsel);
 #endif //dax6 opaq
 
-#if 1 //dax5 fin
   //
   // render specific objects
   //
@@ -652,14 +650,7 @@ void Render::rendering(bool zsel=false)
   // renders translucid solids
   //
   trace2(DBG_VGL, "\ntran: ");
-#if 1 //dax7
   renderTranslucid(zsel);
-#else
-  renderTranslucid(zsel, su, WObject::PRIOR_LOW);
-  renderTranslucid(zsel, su, WObject::PRIOR_MEDIUM);
-  renderTranslucid(zsel, su, WObject::PRIOR_HIGH);
-#endif //dax7
-#endif //dax5
 
   trace2(DBG_VGL, "\n");	// end of trace !
 

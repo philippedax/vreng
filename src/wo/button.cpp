@@ -71,9 +71,13 @@ void Button::parser(char *l)
   if (p) *p = '\0';
 
   WObject *puse = getObjectByName(pname);
-  num_action0 = indexAction(puse->type, str_action0);
-  if (*str_action1)                           num_action1 = indexAction(puse->type, str_action1);
-  if (num_action1 == 0 || num_action1 == 255) num_action1 = num_action0;
+  if (puse) {
+    num_action0 = indexAction(puse->type, str_action0);
+    if (*str_action1)
+      num_action1 = indexAction(puse->type, str_action1);
+    if (num_action1 == 0 || num_action1 == 255)
+      num_action1 = num_action0;
+  }
   delete[] pname;
 }
 

@@ -615,19 +615,25 @@ public:
   /**< Disables behavior. */
 
   virtual bool isBehavior(uint32_t flag) const;
-  /**< Checks weither this behavior is on. */
+  /**< Checks if this behavior is on. */
 
   virtual bool bbBehavior() const;
-  /**< Checks weither BBox behavior is on. */
+  /**< Checks if BBox behavior is on. */
 
   virtual bool isSeen();
-  /**< Checks weither the object is in the sight view of the user. */
+  /**< Checks if the object is in the sight view of the user. */
 
   virtual void setVisible(bool flag);
   /**< Sets visible or not the 3D object. */
 
   virtual bool isVisible() const;
-  /**< Checks weither the object is visible. */
+  /**< Checks if the object is visible. */
+
+  virtual void setRendered(bool flag);
+  /**< Sets rendered or not the 3D object. */
+
+  virtual bool isRendered() const;
+  /**< Checks if the object is Rendered. */
 
   virtual bool isOpaque() const;
   /**< Checks weither the object is opaque. */
