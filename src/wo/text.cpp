@@ -77,7 +77,7 @@ void Text::makeSolid()
 {
   char s[256];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%.f .01 .1\" />", (strlen(text)/2)*GLYPHSIZ);
+  sprintf(s, "solid shape=\"bbox\" dim=\"%f .01 .1\" />", (strlen(text)*GLYPHSIZ / 2));
   parse()->parseSolid(s, SEP, this);
 }
 
@@ -117,6 +117,7 @@ Text::Text(char *l)
 {
   parser(l);
   behavior();
+  makeSolid();
   inits();
 }
 
@@ -127,6 +128,7 @@ Text::Text(const char *t, Pos &pos, float _scale, float *_color)
   scale = _scale;
   for (int i=0; i<4; i++) color[i] = _color[i];
   behavior();
+  makeSolid();
   inits();
 }
 

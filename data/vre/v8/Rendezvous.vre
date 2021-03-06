@@ -417,10 +417,10 @@
 
 <!-- firework -->
 <firework pos="10 0 6"> </firework>
-<firework pos="10 1 5" number="300" color="red" ttl="60"> </firework>
-<firework pos="10 -1 5" number="200" color="green"> </firework>
-<firework pos="10 -2 4" number="100" color="lightblue"> </firework>
-<firework pos="10 -3 4" number="50" color="grey" ttl="6" size="4"> </firework>
+<firework pos="10 1 5" number="300" color="red" ttl="20"> </firework>
+<firework pos="10 -1 5" number="200" color="green"> ttl="15" </firework>
+<firework pos="10 -2 4" number="100" color="lightblue"> ttl="10" </firework>
+<firework pos="10 -3 4" number="50" color="grey" ttl="5" size="4"> </firework>
 
 <!-- waterfall -->
 <!--
@@ -585,9 +585,11 @@
 </hat>
 
 <!-- teapot -->
+<!--
 <mirage name="teapot" pos="-.4 -2.1 .5 3.14" flare="1" scale="0.1" color="green">
  <solid shape="teapot" dim=".2 .2 .2" dif="blue" spe="1 1 1" />
 </mirage>
+-->
 
 <!-- dress -->
 <dress name="dress-blue" pos="-1 -2.2 .95" model="spires">

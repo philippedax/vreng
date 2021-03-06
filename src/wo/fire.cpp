@@ -80,11 +80,9 @@ void Fire::parser(char *l)
 
 void Fire::makeSolid()
 {
-  //dax8 if (countOfSolids() == 0) {
-    char s[256];
-    sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.25,.25,.50);
-    parse()->parseSolid(s, SEP, this);
-  //dax8 }
+  char s[256];
+  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.25,.25,.50);
+  parse()->parseSolid(s, SEP, this);
 }
 
 void Fire::behavior()
@@ -92,7 +90,7 @@ void Fire::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_HIGH); // PRIOR_LOW and PRIOR_MEDIUM does'nt work : FIXME
+  setRenderPrior(PRIOR_MEDIUM); // PRIOR_LOW and PRIOR_MEDIUM does'nt work : FIXME
 
   initMobileObject(0);
   enablePermanentMovement();

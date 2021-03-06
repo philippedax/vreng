@@ -90,7 +90,6 @@ void Guy::makeSolid()
 
 void Guy::behavior()
 {
-  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
@@ -121,6 +120,7 @@ Guy::Guy(char *l)
   parser(l);
   control = false;
   behavior();
+  makeSolid();
   inits();
 }
 
@@ -130,6 +130,7 @@ Guy::Guy()
   defaults();
   control = true;
   behavior();
+  makeSolid();
 
   strcpy(names.url, DEF_URL_GUY);
   inits();
@@ -492,29 +493,27 @@ void Guy::display_body()
 void Guy::render()
 {
   float dx, dz;
-  static       float guy_radian = 3 * M_PI/2;	// radian
-  static const float guy_stp   = 72;		// number of steps
+  static       float guy_rot = 3 * M_PI/2;	// radian
+  static const float guy_stp = 72;		// number of steps
   static const float guy_radius = 1.5;		// space unit
 
   glPushMatrix();
+   glTranslatef(pos.x, pos.y, pos.z);
+   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
+   glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
 
-  glTranslatef(pos.x, pos.y, pos.z);
-  glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-  glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
+   if (::g.timer.isRate(RATE))
+     guy_rot -= M_2PI / guy_stp;
+   if (guy_rot <= 0)
+     guy_rot = M_2PI;
+   if (walking == 1) {
+     dx =  guy_radius * cos(guy_rot);
+     dz = -guy_radius * sin(guy_rot);
+     glTranslatef(-dx, 0, -dz);
+     glRotatef(RAD2DEG(guy_rot), 0, 1, 0);
+   }
 
-  if (::g.timer.isRate(RATE))
-    guy_radian -= M_2PI / guy_stp;
-  if (guy_radian <= 0)
-    guy_radian = M_2PI;
-  if (walking == 1) {
-    dx =  guy_radius * cos(guy_radian);
-    dz = -guy_radius * sin(guy_radian);
-    glTranslatef(-dx, 0, -dz);
-    glRotatef(RAD2DEG(guy_radian), 0, 1, 0);
-  }
-
-  display_body();
-
+   display_body();
   glPopMatrix();
 }
 

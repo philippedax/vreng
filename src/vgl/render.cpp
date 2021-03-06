@@ -177,19 +177,32 @@ void Render::putSelbuf(WObject *po)
  */
 
 // Renders specific objects
-void Render::specificObjects()	//dax8 loop ???
+void Render::specificObjects()	//dax8
 {
+#if 1 //dax9	// text and guy not rendered
+  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end(); ++it) {
+    if ( (*it)->object()->isBehavior(SPECIFIC_RENDER) ) {
+      if ((*it)->isRendered()) continue;
+      (*it)->setRendered(true);
+      materials();
+      putSelbuf((*it)->object());
+      (*it)->object()->render();		// render done by object itself
+      trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
+    }
+  }
+#else //dax9 segfault on isValid()
   //dax8 error("objectList: %d", objectList.size());
   for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); ++o) {
+      trace2(DBG_VGL, " %s", (*o)->getInstance());
     if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
       if ((*o)->isRendered()) continue;
       (*o)->setRendered(true);
       materials();
       putSelbuf(*o);
       (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
     }
   }
+#endif
 }
 
 // Renders specific still objects
@@ -618,12 +631,13 @@ void Render::rendering(bool zsel=false)
 // HIGH
 #if 1 //dax4 spec #if 0 guy is not rendered FIXME!
   trace2(DBG_VGL, "\nspec: ");
-  for (uint32_t n=1; n < objectsnumber; n++) { specificRender(n); }
+  specificObjects(); //dax9 segfault isValid
+  //dax9 for (uint32_t n=1; n < objectsnumber; n++) { specificRender(n); }
 #endif //dax4 spec
 #if 1 //dax6 opaq
   trace2(DBG_VGL, "\nopaq: ");
   renderOpaque(zsel, su, WObject::PRIOR_HIGH);	// if commented PB with clock
-  renderOpaque(zsel);
+  //dax7 renderOpaque(zsel);
 #endif //dax6 opaq
 
   //

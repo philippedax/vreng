@@ -175,7 +175,6 @@ void Water::render()
 
    glDisable(GL_BLEND);
    glDisable(GL_LIGHTING);
-   //dax5 glDisable(GL_DEPTH_TEST);
   glPopMatrix();
   //dax1 glPopAttrib();
 }
@@ -202,11 +201,10 @@ bool Water::whenIntersect(WObject *pcur, WObject *pold)
       first = false;
     }
     pcur->pos.z += 2 * Ball::DELTAZ;
-    pcur->pos.ay = DEG2RAD((float) floor(5*amplitude * freq * (off-MAX_OFF/2)));
+    pcur->pos.ay = DEG2RAD((float) floor(3 * amplitude * freq * (off-MAX_OFF/2)));
     break;
   }
-  //dax pcur->updatePositionAndGrid(pcur->pos);
-  pcur->updatePosition();
+  pcur->updatePositionAndGrid(pcur->pos);
   return true;
 }
 
