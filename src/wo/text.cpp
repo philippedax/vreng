@@ -167,7 +167,7 @@ void Text::render()
   // render the text
   txf->render(text, (int) strlen(text));
 
-#if 1 //dax1
+#if 0 //dax1
   // bubble case
   if (dlists[0]) {	// is bubble present ?
     glPushMatrix();

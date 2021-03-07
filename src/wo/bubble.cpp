@@ -86,8 +86,8 @@ void Bubble::behavior()
 {
   enableBehavior(DYNAMIC);      // dynamicaly introduced
   enableBehavior(NO_BBABLE);
-  enableBehavior(UNSELECTABLE);
-  enableBehavior(SPECIFIC_RENDER);	// render method is done by Text
+  //dax enableBehavior(UNSELECTABLE);
+  //dax enableBehavior(SPECIFIC_RENDER);	// render method is done by Text
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(BUBBLETTL);

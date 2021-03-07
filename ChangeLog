@@ -15,6 +15,7 @@ The rules for this file:
 ++ 9
 == 9.2
 -- 9.2.0
+	- fixed text.cpp and guy.cpp : call maleSolid
 	- added methods isRendered() & setRendered()
 	(2021/03/05, Philippe Dax)
 	- added translucid list to render decreasingly distance from eyes

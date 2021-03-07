@@ -47,7 +47,7 @@ Cauldron::Cauldron(char *l)
 {
   parser(l);
 
-  setRenderPrior(PRIOR_HIGH);	// PRIOR_MEDIUM deasn't work FIXME!
+  setRenderPrior(PRIOR_HIGH);	// PRIOR_MEDIUM doesn't work FIXME!
 
   initMobileObject(MAXFLOAT);
   enablePermanentMovement();

@@ -190,7 +190,7 @@ void Render::specificObjects()	//dax8
       trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
     }
   }
-#else //dax9 segfault on isValid()
+#else //dax9 fixed segfault on isValid()
   //dax8 error("objectList: %d", objectList.size());
   for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); ++o) {
       trace2(DBG_VGL, " %s", (*o)->getInstance());
@@ -413,6 +413,7 @@ void Render::renderOpaque(bool zsel)
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     if ( (*s) && (*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() ) {
       putSelbuf((*s)->object());
+      materials();
       if ((*s)->object()->isBehavior(SPECIFIC_RENDER)) {
         (*s)->object()->render();
       }
@@ -428,18 +429,13 @@ void Render::renderOpaque(bool zsel)
 // Renders opaque solids
 void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
-  //error("opaqList: %d", solidList.size());
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
-    //trace2(DBG_VGL, " %s", (*s)->object()->names.type);
-    //dax2 if (s == su) continue;	// skip localuser
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
-    if (   (*s)
-        && !(*s)->isRendered()
-        && (*s)->isOpaque()
-        && (*s)->isVisible()
-        && (*s)->object()->prior == pri
+    if ( (*s) && !(*s)->isRendered() && (*s)->isOpaque() && (*s)->isVisible()
+        && (*s)->object()->prior == pri	//dax8 if commented no clock !!!
        ) {
       putSelbuf((*s)->object());
+      materials();
       /* FIXME!
        * if the following 3 lines are presents then  water ondulation is ok but hats are not ok
        * if the following 3 lines are commented then water ondulation is not ok but hats are ok
@@ -453,7 +449,6 @@ void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
       (*s)->setRendered(true);
       //trace2(DBG_VGL, " %s?%d", (*s)->object()->getInstance(), (*s)->isRendered());
       trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
-      //daxdbg showSolidList();
     }
   }
 }
@@ -611,54 +606,21 @@ void Render::rendering(bool zsel=false)
     }
   }
 
-// LOW
-#if 0 //dax6 opaq
-  trace2(DBG_VGL, "\nopaq: ");
-  renderOpaque(zsel, su, WObject::PRIOR_LOW);
-#endif //dax6 opaq
-
 // MEDIUM
-#if 0 //dax4 spec
-  trace2(DBG_VGL, "\nspec: ");
-  for (uint32_t n=1; n < objectsnumber; n++) { specificRender(n); }
-#endif //dax4 spec
-#if 1 //dax6 opaq
-  trace2(DBG_VGL, "\nopaq: ");
+  trace2(DBG_VGL, "\nopaq-m: ");
+#if 0 //dax7 opaq
+  renderOpaque(zsel);
+#else
   renderOpaque(zsel, su, WObject::PRIOR_MEDIUM);
-  //dax7 renderOpaque(zsel);
-#endif //dax6 opaq
+#endif //dax7
 
 // HIGH
-#if 1 //dax4 spec #if 0 guy is not rendered FIXME!
-  trace2(DBG_VGL, "\nspec: ");
-  specificObjects(); //dax9 segfault isValid
-  //dax9 for (uint32_t n=1; n < objectsnumber; n++) { specificRender(n); }
-#endif //dax4 spec
-#if 1 //dax6 opaq
-  trace2(DBG_VGL, "\nopaq: ");
-  renderOpaque(zsel, su, WObject::PRIOR_HIGH);	// if commented PB with clock
-  //dax7 renderOpaque(zsel);
-#endif //dax6 opaq
-
-  //
-  // render specific objects
-  //
-#if 0 //dax4 spe
-  trace2(DBG_VGL, "\nspec: ");
-#if 0 //dax9 spe
-  specificObjects();
+  trace2(DBG_VGL, "\nopaq-h: ");
+#if 0 //dax7 opaq
+  renderOpaque(zsel);	// if uncommented PB with clock
 #else
-  for (uint32_t n=1; n < objectsnumber; n++) { specificRender(n); }
-#endif //dax9 spe
-#endif //dax4 spe
-
-  //
-  // renders opaque solids
-  //
-#if 0 //dax6 opaq
-  trace2(DBG_VGL, "\nopaq: ");
-  renderOpaque(zsel);
-#endif //dax6 opaq
+  renderOpaque(zsel, su, WObject::PRIOR_HIGH);	// if commented PB with clock
+#endif //dax7
 
   //
   // renders translucid solids

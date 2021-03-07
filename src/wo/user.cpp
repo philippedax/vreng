@@ -301,8 +301,10 @@ void User::inits()
   setPosition();	// position from entry
   updatePosition();
   makeSolid();
-  if (current_view) setView(current_view);
-  else              setView(Render::VIEW_FIRST_PERSON);
+  if (current_view)
+    setView(current_view);
+  else
+   setView(Render::VIEW_FIRST_PERSON);
   setCamera();
   setRtcp();
   clearKeyTab();

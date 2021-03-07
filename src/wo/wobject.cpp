@@ -198,6 +198,12 @@ void WObject::initObject(uint8_t _mode)
   }
 }
 
+/* Initializes still object */
+void WObject::initStillObject()
+{
+  initObject(STILL);
+}
+
 /* Initializes mobile object */
 void WObject::initMobileObject(float last)
 {
@@ -217,12 +223,6 @@ void WObject::initEphemeralObject(float last)
 {
   initObject(MOBILE);
   if (last) setLasting(last);
-}
-
-/* Initializes still object */
-void WObject::initStillObject()
-{
-  initObject(STILL);
 }
 
 void WObject::enableBehavior(uint32_t flag)
@@ -810,7 +810,7 @@ void WObject::savePersistency()
 #endif
 }
 
-/* Quits MySql */
+/* Quits VRSql */
 void WObject::quitPersistency()
 {
 #if VRSQL

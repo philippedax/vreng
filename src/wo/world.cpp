@@ -981,10 +981,16 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   // default entry
   new Entry();
 
+  // Attach bubble hello text to localuser
+  char hello[32];
+  float black[] = {0,0,0};
+  sprintf(hello, "Hi! I am %s", localuser->getInstance());
+  localuser->bubble = new Bubble(localuser, hello, black, Bubble::BUBBLEBACK);
+
   // check whether icons are locally presents
   world->checkIcons();
 
-  // check whether other objects are persistents by MySql
+  // check whether other objects are persistents by VRSql
   world->checkPersist();
 
   // create clock
