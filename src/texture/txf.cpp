@@ -172,9 +172,13 @@ void Txf::httpReader(void *_txf, Http *http)
   txf->texfont->range = max_glyph - min_glyph + 1;
 
   txf->texfont->lut = new TexGlyphVertexInfo*[txf->texfont->range];
-  if (txf->texfont->lut == NULL) { lastError = "out of memory."; goto error; }
-  for (int i=0; i < txf->texfont->num_glyphs; i++) 
+  if (txf->texfont->lut == NULL) {
+    lastError = "out of memory.";
+    goto error;
+  }
+  for (int i=0; i < txf->texfont->num_glyphs; i++) {
     txf->texfont->lut[txf->texfont->tgi[i].c - txf->texfont->min_glyph] = &txf->texfont->tgvi[i];
+  }
 
   uint8_t *texbitmap;
 
@@ -190,17 +194,20 @@ void Txf::httpReader(void *_txf, Http *http)
     height = txf->texfont->tex_height;
     stride = (width + 7) >> 3;
     if ((texbitmap = new uint8_t[stride * height]) == NULL) {
-      lastError = "out of memory."; goto error;
+      lastError = "out of memory.";
+      goto error;
     }
     got = fread((char *) texbitmap, 1, stride * height, f);
     EXPECT(stride * height);
     if ((txf->texfont->teximage = new uint8_t[width * height]) == NULL) {
-      lastError = "out of memory."; goto error;
+      lastError = "out of memory.";
+      goto error;
     }
     for (int i=0; i < height; i++) {
       for (int j=0; j < width; j++) {
-        if (texbitmap[i * stride + (j >> 3)] & (1 << (j & 7)))
+        if (texbitmap[i * stride + (j >> 3)] & (1 << (j & 7))) {
           txf->texfont->teximage[i * width + j] = 255;
+        }
       }
     }
     if (texbitmap) delete[] texbitmap;
@@ -231,7 +238,8 @@ TexGlyphVertexInfo * Txf::getGlyph(int c)
      uppercase available (and vice versa). */
 lastchance:
   if ((c >= texfont->min_glyph) && (c < texfont->min_glyph + texfont->range)) {
-    if ((tgvi = texfont->lut[c - texfont->min_glyph]) != 0) return tgvi;
+    if ((tgvi = texfont->lut[c - texfont->min_glyph]) != 0)
+      return tgvi;
     if (islower(c)) {
       c = toupper(c);
       if ((c >= texfont->min_glyph) && (c < texfont->min_glyph + texfont->range))
@@ -305,8 +313,9 @@ void Txf::render(int c)
 // Renders a string of glyphs.
 void Txf::render(const char *s, int l)
 {
-  for (int i=0; i < l; i++)
-    render(s[i]);
+  for (int i=0; i < l; i++) {
+    render(s[i]);	// render glyph by glyph
+  }
 }
 
 Txf * Txf::getByUrl(const char *url)

@@ -79,6 +79,7 @@ void Text::makeSolid()
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%f .01 .1\" />", (strlen(text)*GLYPHSIZ / 2));
   parse()->parseSolid(s, SEP, this);
+  dlists[2] = getSolid()->getDlist();
 }
 
 /* Loads the font */
@@ -102,7 +103,7 @@ void Text::behavior()
   enableBehavior(SPECIFIC_RENDER);
   setRenderPrior(PRIOR_MEDIUM);
 
-  initStillObject();
+  initMobileObject(0);
 }
 
 void Text::inits()
@@ -111,6 +112,8 @@ void Text::inits()
 
   // sanity check to avoid segfault with "'", "`"
   for (char * p=text; *p; p++) if (*p == '\'' || *p == '`') *p = ' ';
+
+  setObjectName("message");
 }
 
 Text::Text(char *l)
@@ -132,7 +135,8 @@ Text::Text(const char *t, Pos &pos, float _scale, float *_color)
   inits();
 }
 
-void Text::setShifts(float x, float y, float z, float az, float ax)
+/* Sets text positions */
+void Text::setPos(float x, float y, float z, float az, float ax)
 {
   shiftx = x;
   shifty = y;
@@ -147,7 +151,7 @@ void Text::render()
 
   glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, guys have bad color
   glPushMatrix();
-  //dax1 glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHTING);
   if (verso)
     glDisable(GL_CULL_FACE); // both faces visibles
   else
@@ -155,7 +159,6 @@ void Text::render()
 
   txf->bindTexture();
   glEnable(GL_TEXTURE_2D);
-
   glMaterialfv(GL_FRONT, GL_EMISSION, color);
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 

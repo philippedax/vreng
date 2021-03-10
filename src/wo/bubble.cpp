@@ -21,7 +21,6 @@
 #include "vreng.hpp"
 #include "bubble.hpp"
 #include "text.hpp"	// Text
-#include "txf.hpp"	// TexFont
 #include "world.hpp"	// current
 #include "user.hpp"	// localuser
 #include "solid.hpp"	// getDlist
@@ -39,10 +38,9 @@ static uint16_t oid = 0;
 void Bubble::defaults()
 {
   verso = false;        // recto
-  loaded = false;
-  txf = NULL;
   dlists[0] = 0;
   dlists[1] = 0;
+  dlists[2] = 0;
   scale = BUBBLESCALE;
   state = INACTIVE;
   shiftx = shifty = shiftz = 0.;
@@ -68,15 +66,15 @@ void Bubble::makeSolid()
   char s[256];
 
   float r = MAX(shifty, 2*Text::GLYPHSIZ);
-  float a = 0.4;	// transparence
+  float a = 0.4;	// transparency
 
-  // bubble glob
-  sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".4\" sz=\".5\" dif=\"pink\" a=%f />", r, a);
+  // bubble glob (obloid)
+  sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
   parse()->parseSolid(s, SEP, this);
   dlists[0] = getSolid()->getDlist();
 
   // arrow
-  sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.0.4 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".3\" dif=\"pink\" a=%f />", a);
+  sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.0.4 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".2\" dif=\"pink\" a=%f />", a);
   parse()->parseSolid(s, SEP, this);
   dlists[1] = getSolid()->getDlist();
   //error("bubble dlist=%d", dlists[1]);
@@ -86,12 +84,11 @@ void Bubble::behavior()
 {
   enableBehavior(DYNAMIC);      // dynamicaly introduced
   enableBehavior(NO_BBABLE);
-  //dax enableBehavior(UNSELECTABLE);
   //dax enableBehavior(SPECIFIC_RENDER);	// render method is done by Text
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(BUBBLETTL);
-  initImposedMovement(BUBBLETTL);
+  initImposedMovement(BUBBLETTL);		// alive delay
   createPermanentNetObject(PROPS, ++oid);
 }
 
@@ -102,17 +99,28 @@ Bubble::Bubble(User *user, char *_text, float *_color, bool _side)
   side = _side;
   text = new char[strlen(_text)+1];
   strcpy(text, _text);
+  shifty = (strlen(text)+1) * Text::GLYPHSIZ /2;
+  shiftz = -0.02; // -2 cm
   for (int i=0; i<3; i++)
     color[i] = _color[i];
-  shifty = ((strlen(text)+1)/2) * Text::GLYPHSIZ;
-  shiftz = -0.02; // -2 cm
 
   makeSolid();
   setPosition();
   state = ACTIVE;
   behavior();
+
+#if 0 //dax
+  Pos postext = pos;
+  postext.az -= M_PI_2;
+  postext.ax += M_PI_2;
+  error("pos    : %.2f %.2f %.2f %.2f %.2f",pos.x,pos.y,pos.z,pos.az,pos.ax);
+  error("postext: %.2f %.2f %.2f %.2f %.2f",postext.x,postext.y,postext.z,postext.az,postext.ax);
+  mess = new Text(text, postext, 1, color);
+  mess->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
+#endif
+
   updatePosition();
-  loadFont();
+  Text::loadFont();		// method in parent Text
 }
 
 void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
@@ -133,6 +141,29 @@ void Bubble::changePosition(float lasting)
 bool Bubble::updateToNetwork(const Pos &oldpos)
 {
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+}
+
+void Bubble::render()
+{
+  if (state == INACTIVE) return;
+
+  if (dlists[0]) {      // is bubble present ?
+    error("dlists = %d %d %d", dlists[0], dlists[1], dlists[2]);
+    glPushMatrix();
+     glRotatef(RAD2DEG(pos.az), 0, 0, 1);
+     glTranslatef(pos.x, pos.y, pos.z);
+     glDepthMask(GL_FALSE);
+     glEnable(GL_BLEND);
+     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+     glCallList(dlists[0]);     // display bubble glob
+     glCallList(dlists[1]);     // display bubble arrow
+     glCallList(dlists[2]);     // display bubble text
+
+     glDisable(GL_BLEND);
+     glDepthMask(GL_TRUE);
+    glPopMatrix();
+  }
 }
 
 void Bubble::quit()

@@ -167,7 +167,7 @@ void Render::putSelbuf(WObject *po)
 }
 
 // DEBUG //
-#if 1 //dax0 set to 1 to debug
+#if 0 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -411,7 +411,7 @@ void Render::specificInvisible(uint32_t num, uint8_t pri)
 void Render::renderOpaque(bool zsel)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
-    if ( (*s) && (*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() ) {
+    if ( (*s) && (*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() && !(*s)->object()->removed ) {
       putSelbuf((*s)->object());
       materials();
       if ((*s)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -432,6 +432,7 @@ void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
     if ( (*s) && !(*s)->isRendered() && (*s)->isOpaque() && (*s)->isVisible()
+        && !(*s)->object()->removed
         && (*s)->object()->prior == pri	//dax8 if commented no clock !!!
        ) {
       putSelbuf((*s)->object());
@@ -474,7 +475,7 @@ void Render::renderTranslucid(bool zsel)
   // build translucidList from solidList
   translucidList.clear();
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    if ( (*it) && (*it)->isOpaque() == false && (*it)->isVisible() ) {
+    if ( (*it) && (*it)->isOpaque() == false && (*it)->isVisible() && !(*it)->object()->removed ) {
       translucidList.push_back(*it);	// add to translucid list
       putSelbuf((*it)->object());
     }
@@ -504,6 +505,7 @@ void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su)
     if (   (*s)
         && (*s)->isOpaque() == false
         && (*s)->isVisible()
+        && !(*s)->object()->removed
        ) {
       putSelbuf((*s)->object());
       if (! (*s)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -526,6 +528,7 @@ void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri)
     if (   (*s)
         && (*s)->isOpaque() == false
         && (*s)->isVisible()
+        && !(*s)->object()->removed
         && (*s)->object()->prior == pri
        ) {
       putSelbuf((*s)->object());
@@ -600,7 +603,8 @@ void Render::rendering(bool zsel=false)
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
     (*s)->setRendered(false);
     if ((*s)->object()->type == USER_TYPE) {
-      if (! strcmp((*s)->object()->getInstance(), localuser->getInstance())) {
+      //dax segfault if (! strcmp((*s)->object()->getInstance(), localuser->getInstance())) {
+      if ((*s)->object() == localuser) {
         su = s;	// localuser
       }
     }

@@ -166,7 +166,7 @@ void Web::pivot()
       pleg->pos.x -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
     }
     text = new Text(legend, pleg->pos, 0.25, green);
-    text->setShifts(pleg->pos.x, pleg->pos.y, pleg->pos.z, pleg->pos.az + M_PI, pleg->pos.ax + M_PI_2);
+    text->setPos(pleg->pos.x, pleg->pos.y, pleg->pos.z, pleg->pos.az + M_PI, pleg->pos.ax + M_PI_2);
     delete pleg;
   }
   state ^= 1;

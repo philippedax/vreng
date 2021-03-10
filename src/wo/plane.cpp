@@ -74,7 +74,7 @@ void Plane::makeSolid()
   float zsec = dim.v[2] / sections;
   //error("dim=%.2f %.2f %.2f", dim.v[0],dim.v[1],dim.v[2]);
   //error("sections=%d zsec=%.2f %.2f %.2f", sections, xsec, ysec, zsec);
-  deleteSolids();
+  //dax1 deleteSolids();	// segfault
 
   // le premier solide est au centre
   sprintf(s, "solid dim=\"%.2f %.2f %.2f\" %s />", 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);

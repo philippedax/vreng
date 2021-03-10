@@ -802,6 +802,7 @@ void World::init(const char *vreurl)
   float red[] = {1,0,0};
   sprintf(welcome, "Hi! I am %s", user->getInstance());
   user->bubble = new Bubble(user, welcome, red, Bubble::BUBBLEBACK);
+  user->bubble->setObjectName("hi");
 
   // check whether icons are locally presents
   world->checkIcons();
@@ -983,9 +984,10 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // Attach bubble hello text to localuser
   char hello[32];
-  float black[] = {0,0,0};
+  float color[] = {1,0,0};
   sprintf(hello, "Hi! I am %s", localuser->getInstance());
-  localuser->bubble = new Bubble(localuser, hello, black, Bubble::BUBBLEBACK);
+  localuser->bubble = new Bubble(localuser, hello, color, Bubble::BUBBLEBACK);
+  localuser->bubble->setObjectName("hello");
 
   // check whether icons are locally presents
   world->checkIcons();
@@ -1008,15 +1010,14 @@ void World::deleteObjects()
     if (*it) {
       if ((*it)->isValid() && ! (*it)->isBehavior(COLLIDE_NEVER))
         (*it)->delFromGrid();
-      mobileList.remove(*it);
-      deleteList.erase(it);
-      //dax8 if (*it) {
-        //dax8 if ((*it)->removed) {
-          //dax8 error("todelete: %s", (*it)->getInstance());
-          //dax8 delete (*it);	//segfault
-          //dax8 error("deleted");
-        //dax8 }
-      //dax8 }
+      if ((*it)->removed) {
+        objectList.remove(*it);
+        mobileList.remove(*it);
+        stillList.remove(*it);
+        error("delete: %s", (*it)->getInstance());
+        //dax8 delete (*it);	//segfault
+        deleteList.erase(it);
+      }
     }
   }
 }
@@ -1024,10 +1025,11 @@ void World::deleteObjects()
 /* clears all lists */
 void World::clearLists()
 {
+  objectList.clear();
   mobileList.clear();
-  invisList.clear();
-  fluidList.clear();
   stillList.clear();
+  fluidList.clear();
+  invisList.clear();
   deleteList.clear();
   lightList.clear();
   renderList.clear();

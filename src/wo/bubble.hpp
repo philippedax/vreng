@@ -30,11 +30,14 @@ struct TexFont;
 /**
  * Bubble class
  */
-class Bubble: public Text {	// inherits fo Text class
+class Bubble: public Text {
 
 private:
   static const float BUBBLETTL;		///< bubble time to live
   static const float BUBBLESCALE;	///< bubble scale
+
+  //dax GLint dlists[3];	///< display lists (glob, arrow, text)
+  Text *mess;		///< message inside bubble
 
 public:
   /* properties */
@@ -69,6 +72,9 @@ public:
 
   virtual bool updateToNetwork(const Pos &oldpos);
   /**< Publishes to network. */
+
+  virtual void render();
+  /**< Renders bubble. */
 
   virtual void quit();
   /**< Quits bubble. */

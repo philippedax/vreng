@@ -40,8 +40,8 @@ using namespace std;
 list<WObject*> objectList;
 list<WObject*> stillList;
 list<WObject*> mobileList;
-list<WObject*> invisList;
 list<WObject*> fluidList;
+list<WObject*> invisList;
 list<WObject*> deleteList;
 list<WObject*> lightList;
 list<WObject*> renderList;
@@ -114,7 +114,7 @@ WObject::~WObject()
   if (! isBehavior(COLLIDE_NEVER))
     delFromGrid();
 
-  deleteSolids();	// delete attached solids
+  deleteSolids();	// delete all solids
 
   // delete NetObject
   if (noh && (mode == MOBILE)) {
@@ -476,13 +476,12 @@ void WObject::addSolid(Solid* psolid)
 /* deletes all solids of this object */
 void WObject::deleteSolids()
 {
-  if (! _solids.empty()) {
-    for (SolidList::iterator s = _solids.begin(); s != _solids.end(); s++) {
-      if (*s)
-        delete (*s);
-    }
-    _solids.erase(_solids.begin(), _solids.end());
+  if (_solids.empty()) return;
+  for (SolidList::iterator it = _solids.begin(); it != _solids.end(); ++it) {
+    if (*it)
+      delete (*it);
   }
+  _solids.erase(_solids.begin(), _solids.end());
 }
 
 void WObject::getPosition(M4& mpos)
@@ -779,7 +778,7 @@ void WObject::updatePersistency()
 #endif
 }
 
-/* Updates state for MySql */
+/* Updates state for VRSql */
 void WObject::updatePersistency(int16_t _state)
 {
 #if VRSQL
@@ -793,7 +792,7 @@ void WObject::updatePersistency(int16_t _state)
 #endif
 }
 
-/** Flushes position for MySql
+/** Flushes position for VRSql
  * if it is the case, get position and update it
  */
 void WObject::savePersistency()
@@ -854,7 +853,8 @@ void WObject::toDelete()
  */
 void WObject::specialAction(int act_id, void *data, time_t s, time_t us)
 {
-  if (isAction(type, act_id)) doAction(type, act_id, this, data, s, us);
+  if (isAction(type, act_id))
+    doAction(type, act_id, this, data, s, us);
 }
 
 bool WObject::runAction(const char *action)

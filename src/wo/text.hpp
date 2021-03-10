@@ -47,7 +47,7 @@ protected:
   uint8_t verso;	///< flag text verso.
   bool side;		///< bubble text side.
   bool loaded;		///< flag texture established.
-  GLint dlists[2];	///< bubble dlists
+  GLint dlists[3];	///< bubble dlists (glob, arrow, text)
 
 public:
   static const float GLYPHSIZ;		///< lenght of a glyph.
@@ -69,7 +69,7 @@ public:
   virtual void render();
   /**< Special rendering for text. */
 
-  virtual void setShifts(float x, float y, float z, float az, float ax);
+  virtual void setPos(float x, float y, float z, float az, float ax);
   /**< Sets positional shifts. */
 
   virtual void quit();

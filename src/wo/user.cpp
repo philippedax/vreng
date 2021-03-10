@@ -506,7 +506,9 @@ void User::userWriting(const char *usermsg)
   localuser->lastmess++;
   localuser->noh->declareObjDelta(PROPMSG); // msg property
 
-  if (localuser->getBubble()) localuser->getBubble()->toDelete(); // delete previous text
+  localuser->bubble = localuser->getBubble();
+  if (localuser->bubble)
+    localuser->bubble->toDelete();	// delete previous text
   localuser->bubble = new Bubble(localuser, localuser->message, green, Bubble::BUBBLEBACK);
 
   Sound::playSound(KEYBOARDSND);
@@ -940,7 +942,9 @@ void User::get_msg(User *pu, Payload *pp)
     if (strlen(msg) && mess != pu->lastmess) {
       ::g.gui.writeMessage("chat", pu->getInstance(), msg);
       pu->lastmess = mess;
-      if (pu->getBubble()) pu->getBubble()->toDelete();	// delete previous text
+      pu->bubble = pu->getBubble();
+      if (pu->bubble)
+        pu->bubble->toDelete();	// delete previous text
       pu->bubble = new Bubble(pu, msg, blue, Bubble::BUBBLEFRONT);
     }
   }
