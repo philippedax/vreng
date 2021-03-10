@@ -79,7 +79,7 @@ void Text::makeSolid()
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%f .01 .1\" />", (strlen(text)*GLYPHSIZ / 2));
   parse()->parseSolid(s, SEP, this);
-  dlists[2] = getSolid()->getDlist();
+  //dax2 dlists[2] = getSolid()->getDlist();
 }
 
 /* Loads the font */
@@ -169,25 +169,6 @@ void Text::render()
 
   // render the text
   txf->render(text, (int) strlen(text));
-
-#if 0 //dax1
-  // bubble case
-  if (dlists[0]) {	// is bubble present ?
-    glPushMatrix();
-     glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-     glTranslatef(pos.x, pos.y, pos.z);
-     glDepthMask(GL_FALSE);
-     glEnable(GL_BLEND);
-     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-     glCallList(dlists[0]);	// display bubble glob
-     glCallList(dlists[1]);	// display bubble arrow
-
-     glDisable(GL_BLEND);
-     glDepthMask(GL_TRUE);
-    glPopMatrix();
-  }
-#endif
 
   glEnable(GL_CULL_FACE);
   glDisable(GL_TEXTURE_2D);

@@ -167,7 +167,7 @@ void Render::putSelbuf(WObject *po)
 }
 
 // DEBUG //
-#if 0 //dax0 set to 1 to debug
+#if 1 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -411,7 +411,7 @@ void Render::specificInvisible(uint32_t num, uint8_t pri)
 void Render::renderOpaque(bool zsel)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
-    if ( (*s) && (*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() && !(*s)->object()->removed ) {
+    if ((*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() && !(*s)->object()->removed) {
       putSelbuf((*s)->object());
       materials();
       if ((*s)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -431,7 +431,7 @@ void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
-    if ( (*s) && !(*s)->isRendered() && (*s)->isOpaque() && (*s)->isVisible()
+    if ( !(*s)->isRendered() && (*s)->isOpaque() && (*s)->isVisible()
         && !(*s)->object()->removed
         && (*s)->object()->prior == pri	//dax8 if commented no clock !!!
        ) {
@@ -613,17 +613,17 @@ void Render::rendering(bool zsel=false)
 // MEDIUM
   trace2(DBG_VGL, "\nopaq-m: ");
 #if 0 //dax7 opaq
-  renderOpaque(zsel);
+  renderOpaque(zsel);	// no clock
 #else
-  renderOpaque(zsel, su, WObject::PRIOR_MEDIUM);
+  renderOpaque(zsel, su, WObject::PRIOR_MEDIUM);	// ok clock
 #endif //dax7
 
 // HIGH
   trace2(DBG_VGL, "\nopaq-h: ");
-#if 0 //dax7 opaq
-  renderOpaque(zsel);	// if uncommented PB with clock
+#if 1 //dax7 opaq
+  renderOpaque(zsel);
 #else
-  renderOpaque(zsel, su, WObject::PRIOR_HIGH);	// if commented PB with clock
+  renderOpaque(zsel, su, WObject::PRIOR_HIGH);
 #endif //dax7
 
   //

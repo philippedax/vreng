@@ -420,6 +420,7 @@ void World::compute(time_t sec, time_t usec)
     // objects with imposed and permanent movements
     //
     for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
+#if 1 //dax3
       if (! (*o)->isValid()) {
         error("bad type=0");
         //dax1 mobileList.erase(o);
@@ -433,6 +434,7 @@ void World::compute(time_t sec, time_t usec)
         continue;
       }
       if (::g.pref.dbgtrace) error("obj: %s-%s", (*o)->typeName(), (*o)->getInstance());
+#endif
 
       (*o)->imposedMovement(sec, usec);		// object imposed movement
       (*o)->permanentMovement(sec, usec);	// object permanent movement

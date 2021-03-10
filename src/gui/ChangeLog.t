@@ -16,6 +16,7 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.2\n\
 -- 9.2.0\n\
+	- fixed delete bubble text\n\
 	- fixed text.cpp and guy.cpp : call maleSolid\n\
 	- added methods isRendered() & setRendered()\n\
 	(2021/03/05, Philippe Dax)\n\

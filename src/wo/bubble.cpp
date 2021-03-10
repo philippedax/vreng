@@ -28,7 +28,7 @@
 
 const OClass Bubble::oclass(BUBBLE_TYPE, "Bubble", NULL);
 
-const float Bubble::BUBBLETTL = 60.;	// 1 min
+const float Bubble::BUBBLETTL = 15.;	// 15 sec
 const float Bubble::BUBBLESCALE = 1/4.;	// bubble scale
 
 // local
@@ -42,6 +42,7 @@ void Bubble::defaults()
   dlists[1] = 0;
   dlists[2] = 0;
   scale = BUBBLESCALE;
+  mess = NULL;
   state = INACTIVE;
   shiftx = shifty = shiftz = 0.;
   strcpy(names.url, DEF_URL_FONT);      // font
@@ -71,20 +72,18 @@ void Bubble::makeSolid()
   // bubble glob (obloid)
   sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
   parse()->parseSolid(s, SEP, this);
-  dlists[0] = getSolid()->getDlist();
+  //dax2 dlists[0] = getSolid()->getDlist();
 
   // arrow
   sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.0.4 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".2\" dif=\"pink\" a=%f />", a);
   parse()->parseSolid(s, SEP, this);
-  dlists[1] = getSolid()->getDlist();
-  //error("bubble dlist=%d", dlists[1]);
+  //dax2 dlists[1] = getSolid()->getDlist();
 }
 
 void Bubble::behavior()
 {
   enableBehavior(DYNAMIC);      // dynamicaly introduced
   enableBehavior(NO_BBABLE);
-  //dax enableBehavior(SPECIFIC_RENDER);	// render method is done by Text
   setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(BUBBLETTL);
@@ -100,7 +99,7 @@ Bubble::Bubble(User *user, char *_text, float *_color, bool _side)
   text = new char[strlen(_text)+1];
   strcpy(text, _text);
   shifty = (strlen(text)+1) * Text::GLYPHSIZ /2;
-  shiftz = -0.02; // -2 cm
+  shiftz = -0.25;	// -25 cm / -2 cm
   for (int i=0; i<3; i++)
     color[i] = _color[i];
 
@@ -108,19 +107,15 @@ Bubble::Bubble(User *user, char *_text, float *_color, bool _side)
   setPosition();
   state = ACTIVE;
   behavior();
-
-#if 0 //dax
-  Pos postext = pos;
-  postext.az -= M_PI_2;
-  postext.ax += M_PI_2;
-  error("pos    : %.2f %.2f %.2f %.2f %.2f",pos.x,pos.y,pos.z,pos.az,pos.ax);
-  error("postext: %.2f %.2f %.2f %.2f %.2f",postext.x,postext.y,postext.z,postext.az,postext.ax);
-  mess = new Text(text, postext, 1, color);
-  mess->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
-#endif
-
   updatePosition();
+
+#if 1 //dax3
+  mess = new Text(text, pos, scale, color);
+  if (mess)
+    mess->setPos(pos.x, pos.y + shifty, pos.z + shiftz, pos.az, pos.ax);
+#else
   Text::loadFont();		// method in parent Text
+#endif
 }
 
 void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
@@ -128,6 +123,9 @@ void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
   if (! updateLasting(sec, usec, lasting)) {
     /* the text has spent its live time, it must be destroyed */
     toDelete(); // delete Bubble
+    if (mess) {
+      mess->toDelete();
+    }
     localuser->resetBubble();
     state = INACTIVE;
   }
@@ -148,7 +146,7 @@ void Bubble::render()
   if (state == INACTIVE) return;
 
   if (dlists[0]) {      // is bubble present ?
-    error("dlists = %d %d %d", dlists[0], dlists[1], dlists[2]);
+    //dax2 error("dlists = %d %d %d", dlists[0], dlists[1], dlists[2]);
     glPushMatrix();
      glRotatef(RAD2DEG(pos.az), 0, 0, 1);
      glTranslatef(pos.x, pos.y, pos.z);
