@@ -44,9 +44,12 @@ WObject * Web::creator(char *l)
 
 void Web::defaults()
 {
-  state = 0;	// normal face
+  face = 0;	// normal face
   aspeed = ASPEED;
   atemp = 0;
+  afront = pos.az;
+  aback = afront + M_PI;
+  acurr = afront;
   text = NULL;
   legend = NULL;
 }
@@ -62,14 +65,15 @@ void Web::parselegend(char *l)
     char *q = strchr(p, '"');
     if (q) *q = '\0';
     legend = new char[128];
-    strcpy(legend, p);
+    strncpy(legend, p, 127);
+    //error("legend: %s", legend);
   }
 }
 
 void Web::parser(char *l)
 {
-  parselegend(l);
   defaults();
+  parselegend(l);
   l = tokenize(l);
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
@@ -85,11 +89,8 @@ void Web::parser(char *l)
 
 Web::Web(char *l)
 {
+  defaults();
   parser(l);
-
-  afront = pos.az;
-  acurr = afront;
-  aback = afront + M_PI;
 
   //dax1 enableBehavior(PERSISTENT);
   setRenderPrior(PRIOR_MEDIUM);
@@ -131,11 +132,11 @@ bool Web::whenIntersect(WObject *pcur, WObject *pold)
 
 void Web::pivot()
 {
-  float nexta;
+  float nexta = 0.;
 
   acurr = pos.az;
   atemp = 0;
-  switch (state) {
+  switch (face) {
   case 0: nexta = aback;  break;
   case 1: nexta = afront; break;
   }
@@ -143,33 +144,53 @@ void Web::pivot()
   clearV3(move.aspeed);
   move.aspeed.v[0] = aspeed;
   initImposedMovement(TTL);
-  if (text) {	// get rid of previous text
-    text->delFromList();
-  }
 
-  if (nexta == aback && legend) {
-    WObject *pleg = new WObject();
+  //dax if (text) {	// get rid of previous text
+  //dax   text->delFromList();
+  //dax }
+
+  if (legend && nexta == aback) {
+    WObject *wo = new WObject();
+
     V3 dim;
-    float green[4] = {0,1,0,1}; // green
-    copyPositionAndBB(pleg);
-    getDimBB(dim);	// get dim
-    pleg->pos.z += (dim.v[2] - 0.15);	// 15cm under the top
-    pleg->pos.ax = pos.ax;
-    pleg->pos.az = afront;
+    float daz = 0.0;
+    float color[4] = {0,0,0,0}; // black
+    copyPositionAndBB(wo);
+    getDimBB(dim);			// get dim of the surface
+    wo->pos.z += (dim.v[2] - 0.2);	// 20cm under the top
+    wo->pos.ax = pos.ax;
+    wo->pos.az = afront;
     pos.az = afront;
+    if (pos.az == 0)
+      daz = M_PI;
+    else if (pos.az == 1.57)
+      daz = M_PI + M_PI;
+    else if (pos.az == 3.14)
+      daz = 0;
+    else if (pos.az == 4.71)
+      daz = M_PI + M_PI_2;
+
     if (dim.v[0] > dim.v[1]) {
-      pleg->pos.x += (dim.v[0] + 0.001) * sin(afront);	// 1mm near front face
-      pleg->pos.y -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
+      wo->pos.x += (dim.v[0] + 0.001) * sin(afront);	// 1mm near front face
+      wo->pos.y -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
     }
     else {
-      pleg->pos.y += (dim.v[0] + 0.001) * sin(afront);	// 1mm near front face
-      pleg->pos.x -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
+      wo->pos.y += (dim.v[0] + 0.001) * sin(afront);	// 1mm near front face
+      wo->pos.x -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
     }
-    text = new Text(legend, pleg->pos, 0.25, green);
-    text->setPos(pleg->pos.x, pleg->pos.y, pleg->pos.z, pleg->pos.az + M_PI, pleg->pos.ax + M_PI_2);
-    delete pleg;
+
+    text = new Text(legend, wo->pos, 0.5, color);	// scale half
+    text->setPos(wo->pos.x, wo->pos.y, wo->pos.z, wo->pos.az + daz , wo->pos.ax+M_PI_2);
+
+    delete wo;
   }
-  state ^= 1;
+  else {	// front face
+    if (text) {
+      text->toDelete();
+      text = NULL;
+    }
+  }
+  face ^= 1;
   pos.moved = true;     // has moved
 }
 
@@ -195,7 +216,7 @@ void Web::quit()
 {
   oid = 0;
   savePersistency();
-  if (text) delete text;
+  if (text) text->toDelete();
   if (legend) delete[] legend;
 }
 

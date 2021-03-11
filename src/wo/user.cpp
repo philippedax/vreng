@@ -492,10 +492,10 @@ void User::updateTime(time_t sec, time_t usec, float *lasting)
   updateLasting(sec, usec, lasting);
 }
 
-/* Informs a message sent by an user */
+/* Informs a message sent by localuser */
 void User::userWriting(const char *usermsg)
 {
-  float green[] = {0,1,0}; // green
+  float colormess[] = {0,0,0}; // balck
 
   if (strlen(usermsg) < MESS_LEN)
     strcpy(localuser->message, usermsg);
@@ -509,7 +509,7 @@ void User::userWriting(const char *usermsg)
   localuser->bubble = localuser->getBubble();
   if (localuser->bubble)
     localuser->bubble->toDelete();	// delete previous text
-  localuser->bubble = new Bubble(localuser, localuser->message, green, Bubble::BUBBLEBACK);
+  localuser->bubble = new Bubble(localuser, localuser->message, colormess, Bubble::BUBBLEBACK);
 
   Sound::playSound(KEYBOARDSND);
 }

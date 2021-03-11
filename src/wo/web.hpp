@@ -68,6 +68,7 @@ private:
   static const float ASPEED;
   static const float GLYPHSIZ;
 
+  uint8_t face;		///< face front or back
   float aspeed;		///< angular speed.
   float afront;		///< normal angle.
   float aback;		///< back angle.
