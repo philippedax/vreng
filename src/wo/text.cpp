@@ -127,7 +127,7 @@ Text::Text(char *l)
 Text::Text(const char *t, Pos &pos, float _scale, float *_color)
 {
   defaults();
-  strncpy(text, t, 127);
+  strcpy(text, t);
   scale = _scale;
   for (int i=0; i<4; i++) color[i] = _color[i];
   behavior();
