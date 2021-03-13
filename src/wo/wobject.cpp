@@ -701,7 +701,7 @@ void WObject::initPosition()
 /* Updates 3D position */
 void WObject::updatePosition()
 {
-  //dax3 updateAll3D(pos);
+  updateAll3D(pos);
   update3D(pos);
   if (bbBehavior()) updateBB();
   pos.moved = true;	// has moved
@@ -1106,6 +1106,8 @@ WObject * WObject::byWObject(WObject *po)
     if ((*o) == po) return *o;
   for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o)
     if ((*o) == po) return *o;
+  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end(); ++o)
+    if ((*o) == po) return *o;
   return (WObject *) NULL;
 } 
     
@@ -1118,6 +1120,8 @@ WObject * WObject::byNum(uint16_t num)
     if ((*o)->num == num) return *o;
   for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o)
     if ((*o)->num == num) return *o;
+  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end(); ++o)
+    if ((*o)->num == num) return *o;
   return (WObject *) NULL;
 }
 
@@ -1127,8 +1131,10 @@ OList * WObject::addListToList(OList *l1, OList *l2)
   if (! l1) {
     if (! l2) return NULL;
     //dax8 if (! l2->pobject) return NULL;
-    if (l2->pobject != this) return l2;
-    else                     return NULL;
+    if (l2->pobject != this)
+      return l2;
+    else
+      return NULL;
   }
   else {
     if (l1->pobject && !(l1->pobject->inlist) && (l1->pobject != this)) {
@@ -1144,10 +1150,10 @@ void WObject::show(const char *name)
 {
   for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
     if (! strcmp((*o)->names.instance, name)) {
-      trace(DBG_FORCE, "%s p=%.2f,%.2f,%.2f o=%.2f,%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
+      trace(DBG_FORCE, "%s p=%.2f,%.2f,%.2f o=%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
             name,
             (*o)->pos.x, (*o)->pos.y, (*o)->pos.z,
-            (*o)->pos.ax, (*o)->pos.ay, (*o)->pos.az,
+            (*o)->pos.ax, (*o)->pos.az,
             (*o)->pos.bbcenter.v[0], (*o)->pos.bbcenter.v[1], (*o)->pos.bbcenter.v[2],
             (*o)->pos.bbsize.v[0], (*o)->pos.bbsize.v[1], (*o)->pos.bbsize.v[2]
            );

@@ -35,19 +35,17 @@ protected:
   static const float SCALE;		///< default scale.
   static const uint16_t MAXLEN;		///< max lenght of text.
 
-  char *text;		///< text string.
+  char *textstr;	///< text string.
   class Txf *txf;	///< font pointer.
   GLfloat scale;	///< scale to apply.
-  GLfloat color[4];	///< color of text.
+  float color[4];	///< color of text.
   GLfloat shiftx;	///< shift pos.x to apply.
   GLfloat shifty;	///< shift pos.y to apply.
   GLfloat shiftz;	///< shift pos.z to apply.
   GLfloat shiftaz;	///< shift pos.az to apply.
   GLfloat shiftax;	///< shift pos.ax to apply.
   uint8_t verso;	///< flag text verso.
-  bool side;		///< bubble text side.
   bool loaded;		///< flag texture established.
-  GLint dlists[3];	///< bubble dlists (glob, arrow, text)
 
 public:
   static const float GLYPHSIZ;		///< lenght of a glyph.
@@ -58,10 +56,14 @@ public:
 
   static void funcs();	///< init funclist.
 
-  Text(char *l);	///< Constructor.
-  Text(const char *t, struct Pos &pos, float _scale, float *_color);	///< Constructor for legend.
-  Text() {}		///< Constructor needed for bubble class.
-  Text(class User *user, char *text, bool side);	///< Constructor.
+  Text(char *l);
+  ///< Constructor for vre file.
+
+  Text(const char *t, struct Pos &pos, float _scale, const float *_color);
+  ///< Constructor for legend.
+
+  Text(const char *t, struct Pos &pos, float _scale, const float *_color, bool _face);
+  ///< Constructor for bubble.
 
   static WObject * (creator)(char *l);
   /**< Creates from fileline. */
@@ -71,6 +73,9 @@ public:
 
   virtual void setPos(float x, float y, float z, float az, float ax);
   /**< Sets positional shifts. */
+
+  virtual float lenText(const char *text);
+  ///< Returns lenght en glyphs.
 
   virtual void quit();
   /**< Quits text. */

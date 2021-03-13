@@ -24,13 +24,13 @@
 #include "browser.hpp"	// start
 #include "user.hpp"	// USER_TYPE
 #include "text.hpp"	// Text
+#include "color.hpp"	// Color
 
 
 const OClass Web::oclass(WEB_TYPE, "Web", Web::creator);
 
 const float Web::TTL = 4.;       // 4 sec max
 const float Web::ASPEED = M_PI;  // 180deg/sec
-const float Web::GLYPHSIZ = 0.05;// 5 cm
 
 // local
 static uint16_t oid = 0;
@@ -154,7 +154,6 @@ void Web::pivot()
     Pos postx = pos;
 
     V3 dim;
-    float color[4] = {0,0,0,1}; // black
     getDimBB(dim);			// get dim of the surface
     postx.z += (dim.v[2] - 0.20);	// 20cm under the top
     postx.ax = pos.ax;
@@ -170,7 +169,7 @@ void Web::pivot()
       postx.x -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
     }
 
-    text = new Text(legend, postx, 0.5, color);		// scale half
+    text = new Text(legend, postx, 0.5, Color::black);	// scale half
     if (text)
       text->setPos(postx.x, postx.y, postx.z, postx.az + M_PI, postx.ax + M_PI_2);
   }

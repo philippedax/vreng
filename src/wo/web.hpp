@@ -66,7 +66,6 @@ public:
 private:
   static const float TTL;
   static const float ASPEED;
-  static const float GLYPHSIZ;
 
   float aspeed;		///< angular speed.
   float afront;		///< normal angle.

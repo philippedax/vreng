@@ -488,7 +488,7 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
   // Checks if url is in the cache (_threaded < 0 : don't use the cache)
   if (_threaded >= 0 && Cache::inCache(_url)) { // in cache
     ht->httpReader(ht->thrhdl, ht->http);  // call the appropiated httpReader
-    //dax if (ht->http) delete ht->http;	// segfault
+    if (ht->http) delete ht->http;	// segfault
     ht->http = NULL;
     progression('c');	// c as cache
     delete ht;

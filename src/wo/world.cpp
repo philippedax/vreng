@@ -52,6 +52,7 @@
 #include "prof.hpp"	// new_world
 #include "entry.hpp"	// Entry
 #include "file.hpp"	// OpenFile
+#include "color.hpp"	// Color
 
 #include <list>
 using namespace std;
@@ -420,7 +421,6 @@ void World::compute(time_t sec, time_t usec)
     // objects with imposed and permanent movements
     //
     for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-#if 1 //dax3
       if (! (*o)->isValid()) {
         error("bad type=0");
         //dax1 mobileList.erase(o);
@@ -434,7 +434,6 @@ void World::compute(time_t sec, time_t usec)
         continue;
       }
       if (::g.pref.dbgtrace) error("obj: %s-%s", (*o)->typeName(), (*o)->getInstance());
-#endif
 
       (*o)->imposedMovement(sec, usec);		// object imposed movement
       (*o)->permanentMovement(sec, usec);	// object permanent movement
@@ -604,7 +603,6 @@ void World::freeGrid()
     for (int y=0; y < dimgrid[1]; y++)
       for (int z=0; z < dimgrid[2]; z++) {
         if (gridArray[x][y][z]) {
-          //dax3 gridArray[x][y][z]->remove();
           gridArray[x][y][z] = NULL;
         }
       }
@@ -801,9 +799,8 @@ void World::init(const char *vreurl)
 
   // Attach bubble welcome text to localuser
   char welcome[32];
-  float red[] = {1,0,0};
   sprintf(welcome, "Hi! I am %s", user->getInstance());
-  user->bubble = new Bubble(user, welcome, red, Bubble::BUBBLEBACK);
+  user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEBACK);
   user->bubble->setObjectName("hi");
 
   // check whether icons are locally presents
@@ -847,7 +844,6 @@ void World::quit()
   // still objects
   for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
     if (*o && (*o)->isValid()) {
-      (*o)->clearObjectBar();
       (*o)->quit();
       delete (*o);
     }
@@ -858,8 +854,7 @@ void World::quit()
   for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
     if ((*o) == localuser) continue;
     if (*o && (*o)->isValid() && ! (*o)->isEphemeral()) {
-      //FIXME segfault (*o)->clearObjectBar();
-      (*o)->clearObjectBar();
+      (*o)->clearObjectBar();	// segfault FIXME
       (*o)->quit();
       delete (*o);
     }
@@ -876,7 +871,8 @@ void World::quit()
   fluidList.clear();
 
   // Update GUI
-  if (guip) ::g.gui.updateWorld(this, OLD);
+  if (guip)
+    ::g.gui.updateWorld(this, OLD);
   ::g.gui.showNavigator();	// force navig mode
 
   if (localuser && localuser->noh) {
@@ -889,7 +885,7 @@ void World::quit()
   if (islinked) return;
 
   WObject::resetObjectsNumber();
-  App::quitTools();
+  App::quitTools();		// quits all tools
 }
 
 /* New World initialization - static */
@@ -986,9 +982,8 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // Attach bubble hello text to localuser
   char hello[32];
-  float color[] = {1,0,0};
-  sprintf(hello, "Hi! I am %s", localuser->getInstance());
-  localuser->bubble = new Bubble(localuser, hello, color, Bubble::BUBBLEBACK);
+  sprintf(hello, "Hello! I am %s", localuser->getInstance());
+  localuser->bubble = new Bubble(localuser, hello, Color::black, Bubble::BUBBLEBACK);
   localuser->bubble->setObjectName("hello");
 
   // check whether icons are locally presents

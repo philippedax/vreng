@@ -30,14 +30,16 @@ struct TexFont;
 /**
  * Bubble class
  */
-class Bubble: public Text {
+class Bubble: public WObject {
 
 private:
   static const float BUBBLETTL;		///< bubble time to live
   static const float BUBBLESCALE;	///< bubble scale
 
-  //dax GLint dlists[3];	///< display lists (glob, arrow, text)
-  Text *mess;		///< message inside bubble
+  Text *bubtext;	///< message inside bubble
+  char *text;		///< text to display
+  bool face;		///< face recto=0 verso=1
+  float scale;		///x scale
 
 public:
   /* properties */
@@ -52,8 +54,8 @@ public:
   };
 
   enum {
-    BUBBLEFRONT,
-    BUBBLEBACK
+    BUBBLEFRONT,	// recto
+    BUBBLEBACK		// verso
   };
 
   static const OClass oclass;	///< class variable.
@@ -62,7 +64,7 @@ public:
 
   static void funcs();	///< init funclist.
 
-  Bubble(class User *user, char *string, float *color, bool side);	///< Constructor.
+  Bubble(class User *user, char *string, const float *color, bool face);	///< Constructor.
 
   virtual void updateTime(time_t s, time_t us, float *lasting);
   /**< Updates lasting time. */

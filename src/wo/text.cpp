@@ -28,7 +28,7 @@
 
 const OClass Text::oclass(TEXT_TYPE, "Text", Text::creator);
 
-const uint16_t Text::MAXLEN = 64;	// max length of text
+const uint16_t Text::MAXLEN = 128;	// max length of text
 const float Text::SCALE = 1/60.;	// default scale
 const float Text::GLYPHSIZ = 0.03;	// 3 cm
 
@@ -44,15 +44,15 @@ WObject * Text::creator(char *l)
 
 void Text::defaults()
 {
-  strcpy(names.url, DEF_URL_FONT);	// font's url
-  for (int i=0; i<4; i++) color[i] = DEF_COLOR[i];	// color
   verso = false;	// recto
   scale = 1;		// no scale
   loaded = false;
   state = ACTIVE;
   shiftx = shifty = shiftz = shiftaz = shiftax = 0.;
   txf = NULL;
-  text = new char[MAXLEN];
+  textstr = new char[MAXLEN];
+  strcpy(names.url, DEF_URL_FONT);	// font's url
+  for (int i=0; i<4; i++) color[i] = DEF_COLOR[i];	// color
 }
 
 void Text::parser(char *l)
@@ -66,20 +66,19 @@ void Text::parser(char *l)
     else if (! stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
     else if (! stringcmp(l, "verso")) l = parse()->parseUInt8(l, &verso, "verso");
     else if (! stringcmp(l, "scale")) l = parse()->parseFloat(l, &scale, "scale");
-    else                              l = parse()->parseQuotedString(l, text);
+    else                              l = parse()->parseQuotedString(l, textstr);
   }
   end_while_parse(l);
 
-  text[MAXLEN - 1] = '\0';
+  textstr[MAXLEN - 1] = '\0';
 }
 
 void Text::makeSolid()
 {
   char s[256];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f .01 .1\" />", (strlen(text)*GLYPHSIZ / 2));
+  sprintf(s, "solid shape=\"bbox\" dim=\"%f .01 .1\" />", (strlen(textstr)*GLYPHSIZ / 2));
   parse()->parseSolid(s, SEP, this);
-  //dax2 dlists[2] = getSolid()->getDlist();
 }
 
 /* Loads the font */
@@ -111,7 +110,7 @@ void Text::inits()
   if (! loadFont()) return;
 
   // sanity check to avoid segfault with "'", "`"
-  for (char * p=text; *p; p++) if (*p == '\'' || *p == '`') *p = ' ';
+  for (char * p=textstr; *p; p++) if (*p == '\'' || *p == '`') *p = ' ';
 
   setObjectName("message");
 }
@@ -124,10 +123,22 @@ Text::Text(char *l)
   inits();
 }
 
-Text::Text(const char *t, Pos &pos, float _scale, float *_color)
+Text::Text(const char *t, Pos &pos, float _scale, const float *_color)
 {
   defaults();
-  strcpy(text, t);
+  strcpy(textstr, t);
+  scale = _scale;
+  for (int i=0; i<4; i++) color[i] = _color[i];
+  behavior();
+  makeSolid();
+  inits();
+}
+
+Text::Text(const char *t, Pos &pos, float _scale, const float *_color, bool _face)
+{
+  defaults();
+  verso = _face;
+  strcpy(textstr, t);
   scale = _scale;
   for (int i=0; i<4; i++) color[i] = _color[i];
   behavior();
@@ -143,6 +154,12 @@ void Text::setPos(float x, float y, float z, float az, float ax)
   shiftz = z;
   shiftaz = az;
   shiftax = ax;
+}
+
+/* Returns lenght of text */
+float Text::lenText(const char *_text)
+{
+  return (strlen(_text)+1) * GLYPHSIZ;
 }
 
 void Text::render()
@@ -168,7 +185,7 @@ void Text::render()
   glScalef(SCALE*scale, SCALE*scale, SCALE*scale);
 
   // render the text
-  txf->render(text, (int) strlen(text));
+  txf->render(textstr, (int) strlen(textstr));
 
   glEnable(GL_CULL_FACE);
   glDisable(GL_TEXTURE_2D);
@@ -179,7 +196,7 @@ void Text::render()
 
 void Text::quit()
 {
-  if (text) delete[] text;
+  if (textstr) delete[] textstr;
 }
 
 void Text::funcs()

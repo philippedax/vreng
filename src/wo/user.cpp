@@ -495,8 +495,6 @@ void User::updateTime(time_t sec, time_t usec, float *lasting)
 /* Informs a message sent by localuser */
 void User::userWriting(const char *usermsg)
 {
-  float colormess[] = {0,0,0}; // balck
-
   if (strlen(usermsg) < MESS_LEN)
     strcpy(localuser->message, usermsg);
   else {
@@ -508,8 +506,9 @@ void User::userWriting(const char *usermsg)
 
   localuser->bubble = localuser->getBubble();
   if (localuser->bubble)
-    localuser->bubble->toDelete();	// delete previous text
-  localuser->bubble = new Bubble(localuser, localuser->message, colormess, Bubble::BUBBLEBACK);
+    localuser->bubble->toDelete();	// delete previous bubble
+  localuser->bubble = new Bubble(localuser, localuser->message, Color::black, Bubble::BUBBLEBACK);
+  //dax localuser->bubble->setPos(pos.x, pos.y+lenText(localuser->message /2, pos.z+0.2, pos.az, pos.ax);
 
   Sound::playSound(KEYBOARDSND);
 }
