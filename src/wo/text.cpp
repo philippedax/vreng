@@ -166,32 +166,32 @@ void Text::render()
 {
   if (! loaded || (state == INACTIVE)) return;
 
-  glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, guys have bad color
   glPushMatrix();
-  glEnable(GL_LIGHTING);
-  if (verso)
-    glDisable(GL_CULL_FACE); // both faces visibles
-  else
-    glEnable(GL_CULL_FACE);  // front face
+  glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, world is strumbled
+   glEnable(GL_LIGHTING);
+   if (verso)
+     glDisable(GL_CULL_FACE); // both faces visibles
+   else
+     glEnable(GL_CULL_FACE);  // front face
 
-  txf->bindTexture();
-  glEnable(GL_TEXTURE_2D);
-  glMaterialfv(GL_FRONT, GL_EMISSION, color);
-  glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+   txf->bindTexture();
+   glEnable(GL_TEXTURE_2D);
+   glMaterialfv(GL_FRONT, GL_EMISSION, color);
+   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-  glTranslatef(pos.x + shiftx, pos.y + shifty, pos.z + shiftz);
-  glRotatef(RAD2DEG(pos.az + shiftaz), 0, 0, 1);
-  glRotatef(RAD2DEG(pos.ax + shiftax), 1, 0, 0);
-  glScalef(SCALE*scale, SCALE*scale, SCALE*scale);
+   glTranslatef(pos.x + shiftx, pos.y + shifty, pos.z + shiftz);
+   glRotatef(RAD2DEG(pos.az + shiftaz), 0, 0, 1);
+   glRotatef(RAD2DEG(pos.ax + shiftax), 1, 0, 0);
+   glScalef(SCALE*scale, SCALE*scale, SCALE*scale);
 
-  // render the text
-  txf->render(textstr, (int) strlen(textstr));
+   // render the text
+   txf->render(textstr, (int) strlen(textstr));
 
-  glEnable(GL_CULL_FACE);
-  glDisable(GL_TEXTURE_2D);
-  glDisable(GL_LIGHTING);
+   glEnable(GL_CULL_FACE);
+   glDisable(GL_TEXTURE_2D);
+   glDisable(GL_LIGHTING);
+  glPopAttrib();	// if commented world is bad
   glPopMatrix();
-  glPopAttrib();
 }
 
 void Text::quit()

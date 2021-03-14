@@ -64,6 +64,9 @@ To show current OpenGL infos (GL/GLU versions and extensions).
 .TP
 .BR  " -k, --keepcache"
 Keeps in the cache xml description file, do not use http to retrieve these files.
+.TP
+.BR  " -l, --listcache"
+Lists the cache and exit.
 .\".TP
 .\".BR  " -l, --look old|new"
 .\"To choose look and feel between old one and new one.
@@ -117,15 +120,16 @@ Mode fast without persistency, e.g. without MySql requests to a server.
 To use directly the MBone IP Multicast infrastructure,
 opposite to -r,--reflector option.
 .TP
+.BR  " -N, --nostats"
+Do not print statistics when quiting.
+.TP
+.TP
 .BR  " -R, --reflector"
 To use the reflector Unicast/Multicast if your host is not on the MBone.
 This option is strongly recommended if the case where, either
 your host cannot benefit of IP Multicast routing protocols as PIM-SM,
 or if your Internet Provider doesn't supply this service.
 This option is set by default.
-.TP
-.BR  " -S, --nostats"
-Do not print statistics when quiting.
 .TP
 .BR  " -T, --timetolive days"
 Cache time to live in the cache (default 3 days).

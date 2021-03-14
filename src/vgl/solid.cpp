@@ -1551,18 +1551,16 @@ int Solid::displayList(int display_mode = NORMAL)
        }
        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
      }
-     else if (dlists[frame] > 0) {	// else normal object
-       //dax7 if (texid <0) error("line=%.2f %s", pos[4],object()->getInstance());
+     else if (dlists[frame] > 0) {	// else normal solid
+       //dax8 glPushAttrib(GL_ALL_ATTRIB_BITS); //dax8
        glEnable(GL_DEPTH_TEST);
-       glDepthMask(GL_TRUE);	//dax5
-       glDepthFunc(GL_LESS);	//dax5 GL_LESS
+       glDepthMask(GL_TRUE);
+       glDepthFunc(GL_LESS);
 
        glPushMatrix();
         glTranslatef(pos[0], pos[1], pos[2]);     // x y z
         glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
         glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
-        //dax6 if (scale != 1)
-        //dax6   glScalef(scale, scale, scale);
         if (scalex != 1 || scaley != 1 || scalez != 1)
           glScalef(scalex, scaley, scalez);
        glPopMatrix();
@@ -1586,6 +1584,7 @@ int Solid::displayList(int display_mode = NORMAL)
 
        glCallList(dlists[frame]);	// display the object here !!!
      }
+     //dax8 glPopAttrib(); //dax8
      glPopMatrix();
      break;
 

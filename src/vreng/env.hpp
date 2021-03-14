@@ -42,6 +42,7 @@ public:
   char * relname();
   char * machname();
   
+  void listCache();
   void cleanCacheByExt(const char *ext);
   void cleanCacheByTime(time_t cachetime);
   

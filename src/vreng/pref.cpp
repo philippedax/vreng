@@ -36,10 +36,11 @@ where options are:\n\
 -b, --bbox	 		Draw bounding-boxes\n\
 -d, --debug mask 		Debug mask\n\
 -f, --frames rate		Max frames per second [1..255]\n\
--g, --no-gravity		Without gravity\n\
+-g, --nogravity			Without gravity\n\
 -h, --help			Help message\n\
 -i, --infogl			Show OpenGL infos\n\
--k, --keepcache			keep everything in cache\n\
+-k, --keepcache			Keep everything in cache\n\
+-l, --listcache			List the cache\n\
 -n, --number number		Number of simultaneous threads [1..7]\n\
 -p, --pseudo name		Your pseudoname\n\
 -q, --quality			high 3D quality, if you have a 3D card\n\
@@ -52,10 +53,10 @@ where options are:\n\
 -2, --fullscreen		Screen double size\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
 -C, --clean			Clean cache\n\
--M, --multicast			MBone IP Multicast mode\n\
 -F, --fast			Without persistency (MySql)\n\
+-M, --multicast			MBone IP Multicast mode\n\
+-N, --nostats			No stats when quiting\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
--S, --nostats			don't show stats\n\
 -T, --timetolive days		Cache time in days\n\
 --display host	 		X11 display\n\
 --bpp bpp	 		X11 visual bits per pixel\n\
@@ -139,10 +140,11 @@ void Pref::parse(int argc, char **argv)
     {"bbox",       0, 0, 'b'},
     {"debug",      1, 0, 'd'},
     {"frames",     1, 0, 'f'},
-    {"no-gravity", 0, 0, 'g'},
+    {"nogravity",  0, 0, 'g'},
     {"help",       0, 0, 'h'},
     {"infogl",     0, 0, 'i'},
-    {"keep",       0, 0, 'k'},
+    {"keepcache",  0, 0, 'k'},
+    {"listcache",  0, 0, 'l'},
     {"number",     1, 0, 'n'},
     {"pseudo",     1, 0, 'p'},
     {"quality",    0, 0, 'q'},
@@ -153,18 +155,18 @@ void Pref::parse(int argc, char **argv)
     {"version",    0, 0, 'v'},
     {"world",      1, 0, 'w'},
     {"fullscreen", 0, 0, '2'},
-    {"clean",      0, 0, 'C'},
     {"address",    1, 0, 'A'},
+    {"clean",      0, 0, 'C'},
+    {"fast",       0, 0, 'F'},
     {"multicast",  0, 0, 'M'},
-    {"fullscreen", 0, 0, 'F'},
+    {"nostats",    1, 0, 'N'},
     {"reflector",  0, 0, 'R'},
-    {"nostats",    1, 0, 'S'},
     {"timetolive", 1, 0, 'T'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghikqrstv2CFMRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv2CFMNRa:d:f:n:p:u:w:A:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghikqrstvx2CFMRSa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx2CFMNRa:d:f:n:p:u:w:A:T:"))
 #endif
    != -1) {
 
@@ -178,17 +180,6 @@ void Pref::parse(int argc, char **argv)
       case 'b':
         bbox = true;
         break;
-#if 0 //OBSOLETE
-      case 'b':
-        switch (*optarg) {
-        case 'b': gui_skin = Theme::BLACK; break; // black
-        case 'g': gui_skin = Theme::GREY; break; // grey
-        case 'y': gui_skin = Theme::YELLOW; break; // yellow
-        case 'w': gui_skin = Theme::WHITE; break; // white
-        case 'W': gui_skin = Theme::WOOD; break; // wood
-        }
-        break;
-#endif
       case 'd':
          dbg = atoi(optarg);
          ::g.debug = atoi(optarg);
@@ -221,6 +212,9 @@ void Pref::parse(int argc, char **argv)
       case 'k':
         keep = true;
         break;
+      case 'l':
+        ::g.env.listCache();
+        exit(0);
       case 'n':
         maxsimcon = atoi(optarg);
         if (maxsimcon >= DEF_MAXSIMCON) {
@@ -273,6 +267,17 @@ void Pref::parse(int argc, char **argv)
         ::g.channel = strdup(optarg);
         reflector = false;
         break;
+      case 'B':
+#if 0 //obsoleted
+        switch (*optarg) {
+        case 'b': gui_skin = Theme::BLACK; break; // black
+        case 'g': gui_skin = Theme::GREY; break; // grey
+        case 'y': gui_skin = Theme::YELLOW; break; // yellow
+        case 'w': gui_skin = Theme::WHITE; break; // white
+        case 'W': gui_skin = Theme::WOOD; break; // wood
+        }
+#endif
+        break;
       case 'C':
         ::g.env.cleanCacheByTime(0L);
         break;
@@ -282,11 +287,11 @@ void Pref::parse(int argc, char **argv)
       case 'M':
         reflector = false;
         break;
+      case 'N':
+        stats = false;
+        break;
       case 'R':
         reflector = true;
-        break;
-      case 'S':
-        stats = false;
         break;
       case 'T':
         v = atoi(optarg);
@@ -368,7 +373,7 @@ void Pref::initPrefs(const char* pref_file)
 
   if ((fp = File::openFile(pref_file, "r")) == NULL) {
     if ((fp = File::openFile(pref_file, "w")) == NULL) {
-      perror("create prefs");
+      perror("can't create prefs");
       return;
     }
     fputs(def_prefs, fp);

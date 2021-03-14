@@ -498,6 +498,7 @@ void Guy::render()
   static const float guy_radius = 1.5;		// space unit
 
   glPushMatrix();
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
    glTranslatef(pos.x, pos.y, pos.z);
    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
    glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
@@ -514,6 +515,7 @@ void Guy::render()
    }
 
    display_body();
+  glPopAttrib();
   glPopMatrix();
 }
 

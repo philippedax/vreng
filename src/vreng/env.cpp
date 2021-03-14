@@ -167,6 +167,14 @@ void Env::init()
   chdir(vrengcwd);
 }
 
+void Env::listCache()
+{
+  char cmd[128];
+
+  chdir(vrengcache);
+  sprintf(cmd, "IFS=' '; /bin/ls -l");
+  system(cmd);
+}
 
 void Env::cleanCacheByExt(const char *ext)
 {
