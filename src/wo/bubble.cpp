@@ -47,13 +47,18 @@ void Bubble::defaults()
 /* position above the avatar's head */
 void Bubble::setPosition()
 {
-                          pos.z  = localuser->pos.z + localuser->height/2 + 0.10;
-                          pos.x  = localuser->pos.x;
-                          pos.ax = M_PI_2; // vertical
-  if (face == BUBBLEBACK) pos.y  = localuser->pos.y;
-  else                    pos.y  = localuser->pos.y;
-  if (face == BUBBLEBACK) pos.az = localuser->pos.az - M_PI_2;
-  else                    pos.az = localuser->pos.az + M_PI_2;
+  //dax pos.z  = localuser->pos.z + localuser->height/2 + 0.10;
+  pos.z  = localuser->height + 0.10;
+  pos.x  = localuser->pos.x;
+  pos.ax = M_PI_2;	// vertical
+  if (face == BUBBLEBACK)
+    pos.y  = localuser->pos.y;
+  else
+    pos.y  = -localuser->pos.y;
+  if (face == BUBBLEBACK)
+    pos.az = localuser->pos.az - M_PI_2;
+  else
+    pos.az = localuser->pos.az + M_PI_2;
 }
 
 /** Make translucid bubble */
@@ -92,8 +97,9 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   text = strdup(_text);
   setPosition();
   Pos postext = pos;
-  postext.y += (strlen(_text) * Text::GLYPHSIZ / 2);
-  postext.z += -0.25;	// -25 cm / -2 cm
+  postext.y += (strlen(_text)+1) * Text::GLYPHSIZ / 2;
+  postext.z += 0.15;	// -25 cm / -2 cm
+  //error("text : %.2f %.2f %.2f",postext.x,postext.y,postext.z);
 
   makeSolid();
   state = ACTIVE;
@@ -124,7 +130,7 @@ void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
 
 void Bubble::changePosition(float lasting)
 {
-  if (state == ACTIVE) setPosition();
+  //dax if (state == ACTIVE) setPosition();
 }
 
 bool Bubble::updateToNetwork(const Pos &oldpos)
