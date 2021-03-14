@@ -96,9 +96,11 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   face = _face;
   text = strdup(_text);
   setPosition();
+
+  // adjusting text
   Pos postext = pos;
   postext.y += (strlen(_text)+1) * Text::GLYPHSIZ / 2;
-  postext.z += 0.15;	// -25 cm / -2 cm
+  postext.z += -0.02;	// -2 cm
   //error("text : %.2f %.2f %.2f",postext.x,postext.y,postext.z);
 
   makeSolid();
