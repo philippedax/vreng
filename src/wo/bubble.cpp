@@ -67,14 +67,14 @@ void Bubble::makeSolid()
   char s[256];
 
   float r = MAX((strlen(text)+1) * Text::GLYPHSIZ / 2.5, 2*Text::GLYPHSIZ); // A REVOIR !!!
-  float a = 0.4;	// transparency
+  float a = 0.3;	// transparency
 
   // bubble glob (obloid)
   sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
   parse()->parseSolid(s, SEP, this);
 
   // arrow
-  sprintf(s, "solid shape=\"cone\" rel=\"0 0 -.0.4 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".2\" dif=\"pink\" a=%f />", a);
+  sprintf(s, "solid shape=\"cone\" rel=\"0 0 +.1.0 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".2\" dif=\"pink\" a=%f />", a);
   parse()->parseSolid(s, SEP, this);
 }
 
@@ -99,7 +99,7 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
 
   // adjusting text
   Pos postext = pos;
-  postext.y += (strlen(_text)+1) * Text::GLYPHSIZ / 2;
+  postext.y += (strlen(_text)+2) * Text::GLYPHSIZ / 2;
   postext.z += -0.02;	// -2 cm
   //error("text : %.2f %.2f %.2f",postext.x,postext.y,postext.z);
 
