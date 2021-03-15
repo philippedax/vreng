@@ -1,0 +1,20 @@
+<vre version="8.0" profile="Interactive">
+<head>
+<meta name="filename" content="sandbox.vre"/>
+</head>
+
+<scene>
+
+<wall name="border-s" pos="-20 0 .2 1.57"> <solid dim="40 .2 .8" dif="red" /></wall>
+<wall name="border-n" pos="20 0 .2 1.57">  <solid dim="40 .2 .8" dif="red" /></wall>
+<wall name="border-w" pos="0 20 .2 0">     <solid dim="40 .2 .8" dif="red" /></wall>
+<wall name="border-e" pos="0 -20 .2 0">    <solid dim="40 .2 .8" dif="red" /></wall>
+<ground pos="0 0 -.1"> <solid dim="40 40 .1" zp="/gif/pelouse.gif" /></ground>
+<!--
+<mirage name="sky" aspeed=".01" mode="self">
+ <solid shape="sphere" r="30" tx="/gif/sky.gif" slices="255" stacks="255" />
+</mirage>
+-->
+
+</scene>
+</vre>
