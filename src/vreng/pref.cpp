@@ -302,34 +302,36 @@ void Pref::parse(int argc, char **argv)
     }
   }
 
-  char *url1 = new char[URL_LEN];
-  char *url2 = new char[URL_LEN];
+  char *tmp1 = new char[URL_LEN];
+  char *tmp2 = new char[URL_LEN];
   if (::g.url == NULL) {
     if (new_universe == false) {
-      sprintf(url1, "http://%s%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_WORLD);
+     sprintf(tmp1, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_WORLD);
     }
     else {
-      sprintf(url1, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
+      sprintf(tmp1, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
     }
-    ::g.url = strdup(url1);
+    ::g.url = strdup(tmp1);
   }
+  error("url: %s", ::g.url);
 
   if (new_universe == false) {
-    sprintf(url1, "%s", DEF_HTTP_SERVER);
-    ::g.server = strdup(url1);
+    sprintf(tmp1, "%s", DEF_HTTP_SERVER);
+    ::g.server = strdup(tmp1);
   }
   else {
     char *p1, *p2;
-    url1 = strdup(::g.universe);
-    p1 = strchr(url1, '/');
+    tmp1 = strdup(::g.universe);
+    p1 = strchr(tmp1, '/');
     p1++;
     p1 = strchr(p1, '/');
     p2 = ++p1;
     p1 = strchr(p1, '/');
     *p1 = 0;
-    strcpy(url2, p2); 
+    strcpy(tmp2, p2); 
+    ::g.server = strdup(tmp2);
   }
-  ::g.server = strdup(url2);
+
   trace(DBG_INIT, "server: %s", ::g.server);
   trace(DBG_INIT, "universe: %s", ::g.universe);
   trace(DBG_INIT, "url: %s", ::g.url);
