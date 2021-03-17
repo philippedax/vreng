@@ -54,7 +54,12 @@
 #define GEN_URL(h, u, p) 	("http://" h u p)
 #if !defined(DEF_URL_PFX)
 // default url prefix: can be changed to be adapted to your site.
-#define DEF_URL_PFX	"~dax/"			// prefix to tune should be "" (old prefix)
+#define DEF_URL_PFX	"~dax/vreng/"	// prefix to tune, should be "" (old prefix)
+					// it is the HTDOCS equivallent for your
+					// local httpd server (after http://httpserver/)
+					// ~/public_html/vreng/ or 
+					// ~/Sites/vreng/ (Mac) for example
+					// where vreng/ is the same as data/ directory
 #endif
 #define DEF_URL_WORLD	"/vre/v8/Rendezvous.vre"	// old location: /vre/v8/Rendezvous.vre
 #define DEF_URL_WORLD_BAK "/vre.v8/Rendezvous.vre" // old location: /vre/v8/Rendezvous.vre
