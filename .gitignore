@@ -17,6 +17,7 @@ Makefile.in
 build
 commit
 cache
+data
 ftp
 vd
 vv

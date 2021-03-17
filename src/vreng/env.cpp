@@ -124,18 +124,50 @@ void Env::sysinfo()
 
 void Env::init()
 {
-  char pathenvdir[PATH_LEN+8], pathprefs[PATH_LEN+16], pathmenu[PATH_LEN+16], pathicons[PATH_LEN+16], pathworldmarks[PATH_LEN+32], pathcache[PATH_LEN+32], pathpasswd[PATH_LEN+32];
+  char pathenvdir[PATH_LEN+8];
+  char pathweb[PATH_LEN+8];
+  char pathhtdocs[PATH_LEN+8];
+  char pathdata[PATH_LEN+8];
+  char pathprefs[PATH_LEN+16];
+  char pathmenu[PATH_LEN+16];
+  char pathicons[PATH_LEN+16];
+  char pathworldmarks[PATH_LEN+32];
+  char pathcache[PATH_LEN+32];
+  char pathpasswd[PATH_LEN+32];
   struct stat bufstat;
 
   char *home;
   if ((home = getenv("HOME"))) {
     strcpy(homedir, home);
   }
-  else
+  else {
     return;
+  }
 
-  if (getcwd(vrengcwd, sizeof(vrengcwd)) == NULL)
+  if (getcwd(vrengcwd, sizeof(vrengcwd)) == NULL) {
     return;
+  }
+
+  if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local
+    sprintf(pathdata, "%s/htdocs", vrengcwd);	// htdocs location
+#if MACOSX
+    sprintf(pathweb, "%s/Sites", home);
+#else
+    sprintf(pathweb, "%s/public_html", home);
+#endif
+    if (stat(pathweb, &bufstat) < 0) {
+      mkdir(pathweb, 0755);
+      sprintf(pathhtdocs, "%s/vreng", pathweb);
+      if (stat(pathhtdocs, &bufstat) < 0) {
+        int r;
+        r = symlink(pathdata, pathhtdocs);
+        error("create link htdocs: %s (%d)", pathhtdocs, r);
+      }
+      else {
+        error("htdocs exists: %s", pathhtdocs);
+      }
+    }
+  }
 
   sprintf(pathenvdir, "%s/.vreng", homedir);
   if (stat(pathenvdir, &bufstat) < 0)
