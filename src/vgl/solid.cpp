@@ -770,20 +770,20 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     case STOK_BOX:
       preDraw(texid, alpha, fog);
       Draw::box(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, style);
-      if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
+      //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       postDraw(texid, alpha, fog);
       break;
 
     case STOK_BBOX:	// invisible bounding box
       setBB(dim.v[0], dim.v[1], dim.v[2]);
-      if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
+      //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
 
     case STOK_SPHERE:
       preDraw(texid, alpha, fog, true);
       Draw::sphere(radius, slices, stacks, style);
       setBB(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2);
-      if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2);
+      //dax1 if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2);
       postDraw(texid, alpha, fog);
       break;
 
@@ -792,7 +792,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         radius = (dim.v[0] + dim.v[1] + dim.v[2]) / 3;
       dim.v[0] = dim.v[1] = dim.v[2] = 2*radius;
       setBB(2*radius, 2*radius, 2*radius);
-      if (::g.pref.bbox) Draw::bbox(2*radius, 2*radius, 2*radius);
+      //dax1 if (::g.pref.bbox) Draw::bbox(2*radius, 2*radius, 2*radius);
       break;
 
     case STOK_MAN:
@@ -804,14 +804,14 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         man->draw();
       }
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
-      if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
+      //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
 
     case STOK_GUY:
     case STOK_ANDROID:
       is_opaque = true;
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
-      if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
+      //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
 
     case STOK_CONE:
@@ -827,14 +827,14 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         Draw::cylinder(radius, radius2, height, slices, stacks, style);
       }
       //setBB(radius, radius, height);
-      if (::g.pref.bbox) Draw::bbox(radius, radius, height);
+      //dax1 if (::g.pref.bbox) Draw::bbox(radius, radius, height);
       postDraw(texid, alpha, fog);
       break;
 
     case STOK_TORUS:
       preDraw(texid, alpha, fog);
       Draw::torus(radius2, cylinders, radius, circles, style);
-      if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius2);
+      //dax1 if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius2);
       postDraw(texid, alpha, fog);
       break;
 
@@ -847,7 +847,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     case STOK_PYRAMID:
       preDraw(texid, alpha, fog, true);
       Draw::pyramid(side, height, style);
-      if (::g.pref.bbox) Draw::bbox(side, side, height/2);
+      //dax1 if (::g.pref.bbox) Draw::bbox(side, side, height/2);
       postDraw(texid, alpha, fog);
       break;
 
@@ -856,7 +856,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       Draw::sphere(radius, slices, stacks, style);
       Draw::torus(0.05, cylinders, radius2, circles, style);
       setBB(radius2*M_SQRT1_2/2, radius2*M_SQRT1_2/2, radius*M_SQRT1_2/2);
-      if (::g.pref.bbox) Draw::bbox(radius2*M_SQRT2, radius2*M_SQRT2, radius*M_SQRT2/2);
+      //dax1 if (::g.pref.bbox) Draw::bbox(radius2*M_SQRT2, radius2*M_SQRT2, radius*M_SQRT2/2);
       postDraw(texid, alpha, fog);
       break;
 
@@ -865,7 +865,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       Draw::sphere(radius, slices, stacks, style);
       Draw::disk(radius, radius2, slices, stacks, style);
       setBB(radius2*M_SQRT1_2, radius2*M_SQRT1_2, radius*M_SQRT1_2);
-      if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2/2);
+      //dax1 if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius*M_SQRT2/2);
       postDraw(texid, alpha, fog);
       break;
 
@@ -928,7 +928,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       preDraw(texid, alpha, fog, true);
       Car::draw(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, slices, style);
       setBB(dim.v[0], dim.v[1], dim.v[2]/2);
-      if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]/2);
+      //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]/2);
       postDraw(texid, alpha, fog);
       break;
 
@@ -937,7 +937,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       teapot = new Teapot();
       teapot->draw(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, slices, style);
       setBB(dim.v[0], dim.v[1], dim.v[2]);
-      if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
+      //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       postDraw(texid, alpha, fog);
       break;
 
