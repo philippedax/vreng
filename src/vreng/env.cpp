@@ -151,11 +151,12 @@ void Env::init()
   if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local
     sprintf(pathdata, "%s/htdocs", vrengcwd);	// htdocs location
 #if MACOSX
-    sprintf(pathweb, "%s/Sites", home);
+    sprintf(pathweb, "%s/Sites", homedir);
 #else
-    sprintf(pathweb, "%s/public_html", home);
+    sprintf(pathweb, "%s/public_html", homedir);
 #endif
     if (stat(pathweb, &bufstat) < 0) {
+      error("sites does not exist: %s", pathweb);
       mkdir(pathweb, 0755);
       sprintf(pathhtdocs, "%s/vreng", pathweb);
       if (stat(pathhtdocs, &bufstat) < 0) {
@@ -163,8 +164,13 @@ void Env::init()
         r = symlink(pathdata, pathhtdocs);
         error("create link htdocs: %s (%d)", pathhtdocs, r);
       }
-      else {
-        error("htdocs exists: %s", pathhtdocs);
+    }
+    else {
+      sprintf(pathhtdocs, "%s/vreng", pathweb);
+      if (stat(pathhtdocs, &bufstat) < 0) {
+        int r;
+        r = symlink(pathdata, pathhtdocs);
+        error("create link htdocs: %s (%d)", pathhtdocs, r);
       }
     }
   }
