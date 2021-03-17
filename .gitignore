@@ -4,7 +4,6 @@ ANNOUNCE
 .git_gitlab
 .github
 .gitlab
-.git_ln
 autom4te.cache
 aclocal.m4
 automa4te.cache
@@ -17,7 +16,6 @@ Makefile.in
 build
 commit
 cache
-data
 ftp
 vd
 vv
