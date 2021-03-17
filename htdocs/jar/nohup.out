@@ -1,0 +1,29 @@
+Vjs listening on port 4151
+[Got an initiate message]
+[Got an initiated source]
+[Addind Vreng -1587178458]
+[Loaded fr.enst.vreng.tester.TicTacToe through http://localhost/jar/vrengapp.jar]
+[tictactoe: Adding client <VrengObject 0:-1587178458:5158:768/>]
+[Loaded fr.enst.vreng.tester.Board through http://localhost/jar/vrengapp.jar]
+[drawing-board: Adding client <VrengObject 0:-1587178458:5158:1024/>]
+Non-fatal error from receiver:
+fr.enst.vreng.VrengException: Can't handle incoming draw messages. (Vreng Receiver for Vreng Server (4151))
+	at fr.enst.vreng.data.messages.DrawMessage.<init>(DrawMessage.java:50)
+	at fr.enst.vreng.net.Receiver.messageFromStream(Receiver.java:120)
+	at fr.enst.vreng.net.Receiver.run(Receiver.java:87)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+Header was: Message header (-21555, 0, -1587178458, 2, 2, 46)
+Non-fatal error from receiver:
+fr.enst.vreng.VrengException: Can't handle incoming draw messages. (Vreng Receiver for Vreng Server (4151))
+	at fr.enst.vreng.data.messages.DrawMessage.<init>(DrawMessage.java:50)
+	at fr.enst.vreng.net.Receiver.messageFromStream(Receiver.java:120)
+	at fr.enst.vreng.net.Receiver.run(Receiver.java:87)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+Header was: Message header (-21555, 0, -1587178458, 2, 2, 46)
+[Discarding Vreng -1587178458]
+[tictactoe: Removing client <VrengObject 0:-1587178458:5158:768/>]
+[drawing-board: Removing client <VrengObject 0:-1587178458:5158:1024/>]
+[<App drawing-board/> going down]
+[<App drawing-board/> down]
+[<App tictactoe/> going down]
+[<App tictactoe/> down]

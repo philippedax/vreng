@@ -57,12 +57,14 @@
 #define DEF_URL_PFX	"~dax/vreng/"	// prefix to tune, should be "" (old prefix)
 					// it is the HTDOCS equivallent for your
 					// local httpd server (after http://httpserver/)
+					// for example :
 					// ~/public_html/vreng/ or 
-					// ~/Sites/vreng/ (Mac) for example
-					// where vreng/ is the same as data/ directory
+					// ~/Sites/vreng/ (Mac)
+					// where vreng/ is the same as htdocs/ directory
+					// of this distribution.
 #endif
 #define DEF_URL_WORLD	"/vre/v8/Rendezvous.vre"	// old location: /vre/v8/Rendezvous.vre
-#define DEF_URL_WORLD_BAK "/vre.v8/Rendezvous.vre" // old location: /vre/v8/Rendezvous.vre
+#define DEF_URL_WORLD_BAK "/vre/v8/Rendezvous.vre" // old location: /vre/v8/Rendezvous.vre
 #define DEF_URL_FRONT	"/gif/default.gif"
 #define DEF_URL_BACK	"/gif/default.1.gif"
 #define DEF_URL_BALL	"/gif/ball.gif"
