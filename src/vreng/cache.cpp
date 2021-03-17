@@ -45,7 +45,7 @@ int Cache::setCacheName(const char *url, char *cachepath)
 
 void Cache::getCacheName(const char *url, std::string& cachefile)
 {
-  static char cachepath[BUFSIZ];
+  static char cachepath[PATH_LEN];
   const char *pfile = strrchr(url, '/');
 
   sprintf(cachepath, "%s/%s", ::g.env.cache(), ++pfile);
@@ -54,7 +54,7 @@ void Cache::getCacheName(const char *url, std::string& cachefile)
 
 char * Cache::getFilePath(const char *url)
 {
-  static char filepath[BUFSIZ];
+  static char filepath[PATH_LEN];
   const char *pfile = strrchr(url, '/');
 
   sprintf(filepath, "%s",  ++pfile);

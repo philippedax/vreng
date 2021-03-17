@@ -216,8 +216,10 @@ void HttpThread::checkProxy()
 
   char *p;
 
-  if (::g.pref.httpproxystr) p = ::g.pref.httpproxystr;
-  else                       p = getenv(HTTP_PROXY);  // syntax: http://hostname:port/
+  if (::g.pref.httpproxystr)
+    p = ::g.pref.httpproxystr;
+  else   
+    p = getenv(HTTP_PROXY);  // syntax: http://hostname:port/
   if (p && *p) {
     char envproxy[90];
 
@@ -227,8 +229,10 @@ void HttpThread::checkProxy()
     p = strrchr(envproxy, ':');
     *p = '\0';
     portproxy = atoi(++p);
-    if ((p = strrchr(envproxy, '/')) == NULL) sprintf(hostproxy, "http://%s", envproxy);
-    else                                      strcpy(hostproxy, ++p);
+    if ((p = strrchr(envproxy, '/')) == NULL)
+      sprintf(hostproxy, "http://%s", envproxy);
+    else
+      strcpy(hostproxy, ++p);
     proxy = 1;
     trace(DBG_HTTP, "proxy=%s:%d", hostproxy, portproxy);
   }

@@ -58,9 +58,6 @@ where options are:\n\
 -N, --nostats			No stats when quiting\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
 -T, --timetolive days		Cache time in days\n\
---display host	 		X11 display\n\
---bpp bpp	 		X11 visual bits per pixel\n\
---help-x	 		X11/Ubit toolkit options\n\
 ";
 
 
@@ -205,6 +202,7 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'h':
         printf("%s\n", HELPSTRING);
+        UConf::printHelp();
         exit(0);
       case 'i':
         infogl = true;

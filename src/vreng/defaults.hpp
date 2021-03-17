@@ -56,7 +56,7 @@
 // default url prefix: can be changed to be adapted to your site.
 #define DEF_URL_PFX	"~dax/"			// prefix to tune should be "" (old prefix)
 #endif
-#define DEF_URL_WORLD	"/vre/Rendezvous.vre"	// old location: /vre/v8/Rendezvous.vre
+#define DEF_URL_WORLD	"/vre/v8/Rendezvous.vre"	// old location: /vre/v8/Rendezvous.vre
 #define DEF_URL_WORLD_BAK "/vre.v8/Rendezvous.vre" // old location: /vre/v8/Rendezvous.vre
 #define DEF_URL_FRONT	"/gif/default.gif"
 #define DEF_URL_BACK	"/gif/default.1.gif"

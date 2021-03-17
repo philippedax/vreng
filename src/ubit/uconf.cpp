@@ -310,7 +310,8 @@ void UConf::parseOptions(int& argc, char** argv, UOption* options) {
   UOption::parseOptions(argc, argv, options);
 }
 
-void UConf::parseUbitOptions(int& argc, char** argv) {
+void UConf::parseUbitOptions(int& argc, char** argv)
+{
   const char* conf_file = null;
   bool help = false, version = false, group = false, all_sync = false;
   
@@ -377,7 +378,8 @@ void UConf::parseUbitOptions(int& argc, char** argv) {
 
 /* ==================================================== ===== ======= */
 
-void UConf::printHelp() {
+void UConf::printHelp()
+{
   cout
   << "Ubit options: "
   << "\n  --help-x, --help-ubit : prints this message"

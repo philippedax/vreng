@@ -114,7 +114,7 @@ public:
     
   void setTransparentScrollbars(bool);
   
-  virtual void printHelp();
+  static void printHelp();
   ///< prints Ubit help on cout.
   
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
