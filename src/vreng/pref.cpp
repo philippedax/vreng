@@ -261,8 +261,8 @@ void Pref::parse(int argc, char **argv)
         helpx = true;
         break;
       case '2':
-        width3D *= 3/2;
-        height3D *= 3/2;
+        width3D = 1180;
+        height3D = 656;
         break;
       case 'A':
         ::g.channel = strdup(optarg);

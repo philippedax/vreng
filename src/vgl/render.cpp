@@ -167,7 +167,7 @@ void Render::putSelbuf(WObject *po)
 }
 
 // DEBUG //
-#if 0 //dax0 set to 1 to debug
+#if 1 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -177,7 +177,7 @@ void Render::putSelbuf(WObject *po)
  */
 
 // Renders specific objects
-void Render::specificObjects()	//dax8
+void Render::specificObjects()
 {
 #if 1 //dax9	// text and guy not rendered
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end(); ++it) {
@@ -191,7 +191,6 @@ void Render::specificObjects()	//dax8
     }
   }
 #else //dax9 fixed segfault on isValid()
-  //dax8 error("objectList: %d", objectList.size());
   for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); ++o) {
       trace2(DBG_VGL, " %s", (*o)->getInstance());
     if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
@@ -413,7 +412,7 @@ void Render::renderOpaque(bool zsel)
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     if ((*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() && !(*s)->object()->removed) {
       putSelbuf((*s)->object());
-      materials();
+      //dax7 materials();
       if ((*s)->object()->isBehavior(SPECIFIC_RENDER)) {
         (*s)->object()->render();
       }
@@ -431,12 +430,11 @@ void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
     //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
-    if ( !(*s)->isRendered() && (*s)->isOpaque() && (*s)->isVisible()
-        && !(*s)->object()->removed
+    if ((*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() && !(*s)->object()->removed
         && (*s)->object()->prior == pri	//dax8 if commented no clock !!!
        ) {
       putSelbuf((*s)->object());
-      materials();
+      //dax7 materials();
       /* FIXME!
        * if the following 3 lines are presents then  water ondulation is ok but hats are not ok
        * if the following 3 lines are commented then water ondulation is not ok but hats are ok
@@ -448,7 +446,6 @@ void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
         (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
       }
       (*s)->setRendered(true);
-      //trace2(DBG_VGL, " %s?%d", (*s)->object()->getInstance(), (*s)->isRendered());
       trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
     }
   }
@@ -620,11 +617,13 @@ void Render::rendering(bool zsel=false)
 
 // HIGH
   trace2(DBG_VGL, "\nopaq-h: ");
-#if 1 //dax7 opaq
+#if 1 //dax8 if 0 no clock
+#if 0 //dax7 opaq 0 or 1 works
   renderOpaque(zsel);
 #else
   renderOpaque(zsel, su, WObject::PRIOR_HIGH);
 #endif //dax7
+#endif //dax8
 
   //
   // renders translucid solids
