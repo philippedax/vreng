@@ -123,6 +123,9 @@ public:
   void camera();
   /**< Repaint. */
 
+  void resetCamera();
+  /**< Resets view. */
+
   void setCameraPosition(M4 *vr_mat);
   /**<
    * Sets camera position:
@@ -181,7 +184,7 @@ public:
   V3 getVisiblePosition(WObject *po);
   /**< get the 3D position of the object on the user screen. */
 
-  WObject** getVisibleTypedObjects(char **listetype, int nbr, int* nbrElemts);
+  WObject** getVisibleObjects(char **listetype, int nbr, int* nbrElemts);
   /**< Get the object list where each object have a type present in the given list. */
 
   WObject** getDrawedObjects(int* nbr);
@@ -255,29 +258,10 @@ private:
   // rendering
   void rendering(bool zsel);				///< general rendering.
 
-  // specific rendering
-  void specificObjects();		///< specific rendering.
-  void specificRender(uint32_t n);	///< specific rendering.
-  void specificStill();			///< specific rendering.
-  void specificMobile();		///< specific rendering.
-  void specificFluid();			///< specific rendering.
-  void specificInvisible();		///< specific rendering.
-  void specificStill(uint32_t n);	///< specific rendering.
-  void specificMobile(uint32_t n);	///< specific rendering.
-  void specificFluid(uint32_t n);	///< specific rendering.
-  void specificInvisible(uint32_t n);	///< specific rendering.
-  void specificRender(uint32_t n, uint8_t prior);	///< specific rendering.
-  void specificStill(uint32_t n, uint8_t prior);	///< specific rendering.
-  void specificMobile(uint32_t n, uint8_t prior);	///< specific rendering.
-  void specificFluid(uint32_t n, uint8_t prior);	///< specific rendering.
-  void specificInvisible(uint32_t n, uint8_t prior);	///< specific rendering.
-
   // solids rendering
   void renderOpaque(bool zsel);						///< opaque solids
   void renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri);	///< opaque solids
   void renderTranslucid(bool zsel);  					///< translucid solids
-  void renderTranslucid(bool zsel, list<Solid*>::iterator su);  	///< translucid solids
-  void renderTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri);  ///< translucid solids
 
   static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
 

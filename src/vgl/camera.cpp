@@ -168,9 +168,9 @@ void Render::cameraPosition()
   }
 
   // transpose Vreng to OpenGl coordinates
-  GLfloat gl_mat[16];	// opengl matrix
-  M4toV16(&vr_mat, gl_mat);
-  glLoadMatrixf(gl_mat);
+  GLfloat ogl_mat[16];		// opengl matrix
+  M4toV16(&vr_mat, ogl_mat);
+  glLoadMatrixf(ogl_mat);
 }
 
 /* Displays the map on the top-right corner of the canvas */
@@ -244,6 +244,12 @@ void Render::satellite()
   mapUserPos.V_Z = 0;	//retire l'affichage de la position ds la map
 }
 
+void Render::resetCamera()
+{
+  view = VIEW_FIRST_PERSON;
+  thirdPerson_xRot = thirdPerson_yRot = thirdPerson_Near = 0;
+}
+
 void Render::setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz)
 {
   if (view != VIEW_SCISSOR) {
@@ -252,7 +258,9 @@ void Render::setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat 
     satellitePos.v[1] = posy;
     satellitePos.v[2] = posz;
     satelliteRot.v[2] = rotz;
-  } else view = VIEW_FIRST_PERSON;
+  }
+  else
+    view = VIEW_FIRST_PERSON;
 }
 
 V3 Render::getVisiblePosition(WObject *po)

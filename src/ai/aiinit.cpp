@@ -228,7 +228,7 @@ value recherche_Func(value mot, value act)
     }
 
     int nb = 0;
-    WObject **listObj = g.render.getVisibleTypedObjects(typelist, nbtype, &nb);
+    WObject **listObj = g.render.getVisibleObjects(typelist, nbtype, &nb);
 
     if (nb > 0 && strcasecmp(actiontype, "NA")) {
       //on lance la méthode sur les objets visibles! faut-il la lancer sur tout?

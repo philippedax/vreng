@@ -29,7 +29,7 @@
 #include "user.hpp"	// USER_TYPE
 #include "mirror.hpp"	// MIRROR_TYPE
 #include "vicinity.hpp"	// Vicinity
-#include "pref.hpp"	// width3D
+#include "pref.hpp"	// ::g.pref
 #include "grid.hpp"	// Grid
 #include "axis.hpp"	// Axis
 #include "light.hpp"	// lights
@@ -127,23 +127,19 @@ void Render::init(bool _quality)
     glHint(GL_FOG_HINT, hint);
 
     if (::g.pref.infogl == true)
-      trace(DBG_FORCE, "version=%s vendor=%s renderer=%s, depth=%d texturess=%d stencil=%d clips=%d", glGetString(GL_VERSION), glGetString(GL_VENDOR), glGetString(GL_RENDERER), haveDepth(), haveTextures(), haveStencil(), haveClips());
+      trace(DBG_FORCE, "version=%s vendor=%s renderer=%s, depth=%d textures=%d stencil=%d clips=%d",
+            glGetString(GL_VERSION),
+            glGetString(GL_VENDOR),
+            glGetString(GL_RENDERER),
+            haveDepth(),
+            haveTextures(),
+            haveStencil(),
+            haveClips());
 
     solidList.clear();	// clear solidList
     configured = true;
   }
   camera();
-}
-
-void Render::stat()
-{
-  GLint dlist = glGenLists(1);
-  trace(DBG_FORCE, "### Graphic ###\ndisplay-lists : %d", --dlist);
-}
-
-void Render::setFlash()
-{
-  flash = true;
 }
 
 void Render::materials()
@@ -170,241 +166,6 @@ void Render::putSelbuf(WObject *po)
 #if 1 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
-
-/**
- * Specific rendering to do by objects themselves
- * by scanning objects lists
- */
-
-// Renders specific objects
-void Render::specificObjects()
-{
-#if 1 //dax9	// text and guy not rendered
-  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end(); ++it) {
-    if ( (*it)->object()->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*it)->isRendered()) continue;
-      (*it)->setRendered(true);
-      materials();
-      putSelbuf((*it)->object());
-      (*it)->object()->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
-    }
-  }
-#else //dax9 fixed segfault on isValid()
-  for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); ++o) {
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->isRendered()) continue;
-      (*o)->setRendered(true);
-      materials();
-      putSelbuf(*o);
-      (*o)->render();		// render done by object itself
-    }
-  }
-#endif
-}
-
-// Renders specific still objects
-void Render::specificStill()
-{
-  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
-    if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->isRendered()) continue;
-      (*o)->setRendered(true);
-      materials();
-      putSelbuf(*o);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific mobile objects
-void Render::specificMobile()
-{
-  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-    if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->isRendered()) continue;
-      (*o)->setRendered(true);
-      materials();
-      putSelbuf(*o);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific fluid objects
-void Render::specificFluid()
-{
-  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end() ; ++o) {
-    if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->isRendered()) continue;
-      (*o)->setRendered(true);
-      putSelbuf(*o);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific invisible objects
-void Render::specificInvisible()
-{
-  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
-    if ( (*o) && (*o)->isValid() && !(*o)->removed && (*o)->isBehavior(SPECIFIC_RENDER) ) {
-      if ((*o)->isRendered()) continue;
-      (*o)->setRendered(true);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific still objects
-void Render::specificStill(uint32_t num)
-{
-  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
-    if (   (*o)
-        && (*o)->num == num
-        && (*o)->isBehavior(SPECIFIC_RENDER)
-       ) {
-      (*o)->setRendered(true);
-      materials();
-      putSelbuf(*o);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific mobile objects
-void Render::specificMobile(uint32_t num)
-{
-  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
-    if (   (*o)
-        && (*o)->num == num
-        && (*o)->isBehavior(SPECIFIC_RENDER)
-       ) {
-      //if (pri != WObject::PRIOR_HIGH)	// if commented guy doesn't appear
-      (*o)->setRendered(true);
-      materials();
-      putSelbuf(*o);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific fluid objects
-void Render::specificFluid(uint32_t num)
-{
-  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end() ; ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
-    if (   (*o)
-        && (*o)->num == num
-        && (*o)->isBehavior(SPECIFIC_RENDER)
-       ) {
-      (*o)->setRendered(true);
-      putSelbuf(*o);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific invisible objects
-void Render::specificInvisible(uint32_t num)
-{
-  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
-    if (   (*o)
-        && (*o)->num == num
-        && (*o)->isBehavior(SPECIFIC_RENDER)
-       ) {
-      (*o)->setRendered(true);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific still objects
-void Render::specificStill(uint32_t num, uint8_t pri)
-{
-  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
-    if (   (*o)
-        && (*o)->num == num
-        && (*o)->isBehavior(SPECIFIC_RENDER)
-        && (*o)->prior == pri
-       ) {
-      if (pri != WObject::PRIOR_HIGH)
-        materials();
-      putSelbuf(*o);
-      (*o)->setRendered(true);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific mobile objects
-void Render::specificMobile(uint32_t num, uint8_t pri)
-{
-  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
-    if (   (*o)
-        && (*o)->num == num
-        && (*o)->isBehavior(SPECIFIC_RENDER)
-        && (*o)->prior == pri
-       ) {
-      if (pri != WObject::PRIOR_HIGH)	// if commented guy doesn't appear
-        materials();
-      putSelbuf(*o);
-      (*o)->setRendered(true);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific fluid objects
-void Render::specificFluid(uint32_t num, uint8_t pri)
-{
-  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end() ; ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
-    if (   (*o)
-        && (*o)->num == num
-        && (*o)->isBehavior(SPECIFIC_RENDER)
-        && (*o)->prior == pri
-       ) {
-      putSelbuf(*o);
-      (*o)->setRendered(true);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
-
-// Renders specific invisible objects
-void Render::specificInvisible(uint32_t num, uint8_t pri)
-{
-  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end() ; ++o) {
-    if ( !(*o)->isValid() || (*o)->removed || (*o)->isRendered() ) continue;
-    if (   (*o)
-        && (*o)->num == num
-        && (*o)->isBehavior(SPECIFIC_RENDER)
-        && (*o)->prior == pri
-       ) {
-      (*o)->setRendered(true);
-      (*o)->render();		// render done by object itself
-      trace2(DBG_VGL, " %s", (*o)->getInstance());
-    }
-  }
-}
 
 // Renders opaque solids without prior
 void Render::renderOpaque(bool zsel)
@@ -494,99 +255,9 @@ void Render::renderTranslucid(bool zsel)
   }
 }
 
-// Renders translucid solids without using prior
-void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su)
-{
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
-    if (s == su) continue;	// FIXME! sun flary doesn't appear
-    if (   (*s)
-        && (*s)->isOpaque() == false
-        && (*s)->isVisible()
-        && !(*s)->object()->removed
-       ) {
-      putSelbuf((*s)->object());
-      if (! (*s)->object()->isBehavior(SPECIFIC_RENDER)) {
-        (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
-      } //dax7 bubble case
-      else {
-        (*s)->object()->render();
-      }
-      trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
-    }
-  }
-}
-
-// Renders translucid solids using prior
-void Render::renderTranslucid(bool zsel, list<Solid*>::iterator su, uint8_t pri)
-{
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
-    if (s == su) continue;	// FIXME! sun flary doesn't appear
-    if (s == su && !zsel) continue;
-    if (   (*s)
-        && (*s)->isOpaque() == false
-        && (*s)->isVisible()
-        && !(*s)->object()->removed
-        && (*s)->object()->prior == pri
-       ) {
-      putSelbuf((*s)->object());
-      if (! (*s)->object()->isBehavior(SPECIFIC_RENDER)) {
-        (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
-      } //dax7 bubble case
-      else {
-        (*s)->object()->render();
-      }
-      trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
-    }
-  }
-}
-
 /*
- * Rendering specific
- */
-void Render::specificRender(uint32_t num)
-{
-#if 0 //dax8
-  specificObjects();	// all objects
-#else
-#if 0 //dax9
-  specificStill();	// still objects : walls
-  specificMobile();	// mobile objects : particle
-  specificFluid();	// fluid objects : river
-  specificInvisible();  // invisible objects
-#else
-  specificStill(num);	// still objects : walls
-  specificMobile(num);	// mobile objects : particle
-  specificFluid(num);	// fluid objects : river
-  specificInvisible(num);// invisible objects
-#endif //dax9
-#endif //dax8
-}
-
-void Render::specificRender(uint32_t num, uint8_t pri)
-{
-  switch (pri) {
-  case WObject::PRIOR_LOW:	// low render
-    specificStill(num, pri);	// still objects : walls
-    specificMobile(num, pri);	// mobile objects : particle
-    specificFluid(num, pri);	// fluid objects : river
-    specificInvisible(num, pri);// invisible objects
-    break;
-  case WObject::PRIOR_MEDIUM:	// normal render
-    specificStill(num, pri);	// still objects
-    specificMobile(num, pri);	// mobile objects
-    specificFluid(num, pri);	// fluid objects : water
-    specificInvisible(num, pri);// invisible objects : transform
-    break;
-  case WObject::PRIOR_HIGH:	// high render : models
-    specificStill(num, pri);	// still objects
-    specificMobile(num, pri);	// mobile objects
-    specificFluid(num, pri);	// fluid objects
-    specificInvisible(num, pri);
-    break;
-  }
-}
-
-/*
+ * Rendering
+ * 
  * Render all objects and their solids.
  * - renders objects in displaylists
  * - makes specific rendering for special objects
@@ -930,7 +601,7 @@ void Render::delFromList(Solid* solid)
 /*
  * Get the object list where each object have a type present in the given list.
  */
-WObject** Render::getVisibleTypedObjects(char **listtype, int nbr, int *nbelems)
+WObject** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
 {
   int hits = 0;
   int nb = 0;
@@ -1040,6 +711,17 @@ void Render::analyseScene(char* nameobj)
 {
   Vicinity* vicin = new Vicinity(nameobj);
   vicin->analyseScene();
+}
+
+void Render::setFlash()
+{
+  flash = true;
+}
+
+void Render::stat()
+{
+  GLint dlist = glGenLists(1);
+  trace(DBG_FORCE, "### Graphic ###\ndisplay-lists : %d", --dlist);
 }
 
 /* Debug */
