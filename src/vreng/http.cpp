@@ -262,7 +262,7 @@ void * HttpThread::connection(void *_ht)
   struct sockaddr_in sa;
   bool hterr = false;
   bool eoheader = false;
-  bool answerline = true; // position first line
+  bool answerline = true;	// position first line
 
   char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[BUFSIZ];
   memset(host, 0, sizeof(host));
@@ -271,7 +271,8 @@ void * HttpThread::connection(void *_ht)
 
   int urltype = Url::parser(ht->url, host, scheme, path);
   trace(DBG_HTTP, "connection: url=%s", ht->url);
-  trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d", ::g.url,::g.universe,scheme,host,path,urltype);
+  trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
+                  ::g.url, ::g.universe, scheme, host, path, urltype);
 
   /* which kind of URL ? */
   switch (urltype) {
@@ -288,14 +289,14 @@ void * HttpThread::connection(void *_ht)
 
   case Url::URLHTTP:	// http://
     trace(DBG_HTTP, "HTTP: %s://%s%s", scheme, host, path);
-again:
+htagain:
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
       struct hostent *hp;
       if ((hp = my_gethostbyname(hostproxy, AF_INET)) == NULL) {
         trace(DBG_HTTP, "my_gethostbyname hostproxy=%s", hostproxy);
         proxy = 0;
         noproxy = 0;
-        goto again;
+        goto htagain;
       }
       memset(&sa, 0, sizeof(struct sockaddr_in));
       sa.sin_family = AF_INET;
@@ -304,13 +305,13 @@ again:
       my_free_hostent(hp);
     }
     else {
-      int res;
-      if ((res = HttpThread::resolver(host, scheme, &sa)) != 0) {
+      int r;
+      if ((r = HttpThread::resolver(host, scheme, &sa)) != 0) {
         if (! strncmp(host, "localhost", 9)) {
           hterr = false;
         }
         else {
-          error("can't resolve %s err=%d", host, res);
+          error("can't resolve %s err=%d", host, r);
           hterr = true;
         }
         break;
@@ -362,8 +363,9 @@ again:
         int i = 0;
         char httpheader[HTTP_BUFSIZ];
 
-        while ((http->off < http->len) && (http->buf[http->off] != '\n'))
+        while ((http->off < http->len) && (http->buf[http->off] != '\n')) {
           httpheader[i++] = http->buf[http->off++];
+        }
 
         if (http->off < http->len) {
           if (httpheader[0] == '\r') { // test end of header
@@ -372,8 +374,8 @@ again:
             hterr = true;
             break;
           }
-          httpheader[i-1] = '\0'; // replace '\r' by '\0'
-          http->off++;		// skip '\0'
+          httpheader[i-1] = '\0';	// replace '\r' by '\0'
+          http->off++;			// skip '\0'
           trace(DBG_HTTP, "->%s", httpheader);
 
           if (answerline) {
@@ -399,7 +401,7 @@ again:
                     *q = '\0';
                     strcpy(host, p+17);	// redirect host
                     trace(DBG_HTTP, "redirect host = %s", host);
-                    goto again;
+                    goto htagain;
                   }
                 }
               }
@@ -439,7 +441,7 @@ again:
         }
         else
           break;
-      }
+      } // end for
     } while (!eoheader);
 
     /*
@@ -450,13 +452,15 @@ again:
     break;
 
   default:	// scheme:// unknown
-    if (urltype) error("unknown scheme urltype=%d", urltype);
+    if (urltype)
+      error("unknown scheme urltype=%d", urltype);
     hterr = true;
     break;
   }
 
-  if (hterr && ht)
+  if (hterr && ht) {
     ht->httpReader(ht->thrhdl, http);
+  }
 
   // free memory
   if (ht) delete ht;

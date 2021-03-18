@@ -21,6 +21,7 @@
 #include "vreng.hpp"
 #include "gui.hpp" 	// writeMessage
 #include "env.hpp" 	// dir
+#include "pref.hpp" 	// ::g.pref
 #include "file.hpp" 	// openFile
 #include <iostream>
 
@@ -40,7 +41,7 @@ void fatal(const char *s, ...)
   vfprintf(stderr, s, ap);
   va_end(ap);
   fprintf(stderr, "\n");
-  if (!infatal) {
+  if (! infatal) {
     infatal = true;
     Global::quitVreng(-1);
   }
@@ -151,12 +152,16 @@ void printlog()
 
 void progression(char c)
 {
-  fprintf(stderr, "%c", c);
-  //::g.gui.writeMessage("progress", NULL, &c);
+  if (::g.pref.progress) {
+    fprintf(stderr, "%c", c);
+    //::g.gui.writeMessage("progress", NULL, &c);
+  }
 }
 
 void endprogression()
 {
-  fprintf(stderr, "\n");
-  //::g.gui.writeMessage("progress", NULL, "\n");
+  if (::g.pref.progress) {
+    fprintf(stderr, "\n");
+    //::g.gui.writeMessage("progress", NULL, "\n");
+  }
 }

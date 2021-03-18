@@ -53,8 +53,9 @@ public:
   bool fast;		///< no persistency if true
   bool bbox;		///< draw bounding-boxes
   bool silent;		///< audio silent
-  bool stats;		///< audio silent
-  bool dbgtrace;	///< trace
+  bool progress;	///< show progression
+  bool stats;		///< show stats
+  bool dbgtrace;	///< show trace
 
   /* preferences */
   char *my_avatar;	///< avatar model

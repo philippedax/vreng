@@ -120,8 +120,8 @@ Mode fast without persistency, e.g. without MySql requests to a server.
 To use directly the MBone IP Multicast infrastructure,
 opposite to -r,--reflector option.
 .TP
-.BR  " -N, --nostats"
-Do not print statistics when quiting.
+.BR  " -P, --noprogress"
+Do not show progression indicators.
 .TP
 .TP
 .BR  " -R, --reflector"
@@ -130,6 +130,9 @@ This option is strongly recommended if the case where, either
 your host cannot benefit of IP Multicast routing protocols as PIM-SM,
 or if your Internet Provider doesn't supply this service.
 This option is set by default.
+.TP
+.BR  " -S, --nostats"
+Do not print statistics when quiting.
 .TP
 .BR  " -T, --timetolive days"
 Cache time to live in the cache (default 3 days).

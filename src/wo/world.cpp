@@ -423,13 +423,11 @@ void World::compute(time_t sec, time_t usec)
     for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
       if (! (*o)->isValid()) {
         error("bad type=0");
-        //dax1 mobileList.erase(o);
         mobileList.remove(*o);
         continue;
       }
       if ((*o)->type > OBJECTSNUMBER) {
         error("bad type out of range: t=%d", (*o)->type);
-        //dax1 mobileList.erase(o);
         mobileList.remove(*o);
         continue;
       }
@@ -971,7 +969,6 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     Parse *parser = Parse::getParse();
     parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));
     world->islinked = true;
-    //worldList = swap(world);
     Grid::grid()->toggleGrid2d();
     //dax localuser->disableGravity();
   }
@@ -1011,7 +1008,7 @@ void World::deleteObjects()
         objectList.remove(*it);
         mobileList.remove(*it);
         stillList.remove(*it);
-        error("delete: %s", (*it)->getInstance());
+        //error("delete: %s", (*it)->getInstance());
         //dax8 delete (*it);	//segfault
         deleteList.erase(it);
       }

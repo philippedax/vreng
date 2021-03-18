@@ -37,15 +37,15 @@ where options are:\n\
 -d, --debug mask 		Debug mask\n\
 -f, --frames rate		Max frames per second [1..255]\n\
 -g, --nogravity			Without gravity\n\
--h, --help			Help message\n\
+-h, --help			Help message and exit\n\
 -i, --infogl			Show OpenGL infos\n\
 -k, --keepcache			Keep everything in cache\n\
--l, --listcache			List the cache\n\
+-l, --listcache			List the cache and exit\n\
 -n, --number number		Number of simultaneous threads [1..7]\n\
 -p, --pseudo name		Your pseudoname\n\
 -q, --quality			high 3D quality, if you have a 3D card\n\
 -r, --refresh			Refresh the cache\n\
--s, --silent			No sound effects\n\
+-s, --silent			No sounds effects\n\
 -t, --trace			Trace for debugging\n\
 -u, --universe url		Universe url of httpd server\n\
 -v, --version			Version number\n\
@@ -55,8 +55,9 @@ where options are:\n\
 -C, --clean			Clean cache\n\
 -F, --fast			Without persistency (MySql)\n\
 -M, --multicast			MBone IP Multicast mode\n\
--N, --nostats			No stats when quiting\n\
+-P, --noprogress		No not show progression indicators\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
+-S, --nostats			No stats when quiting\n\
 -T, --timetolive days		Cache time in days\n\
 ";
 
@@ -84,6 +85,7 @@ Pref::Pref()
   keep = false;
   silent = true;
   stats = true;
+  progress = true;
   bbox = false;
   dbgtrace = false;
   maxsimcon = DEF_MAXSIMCON;
@@ -156,14 +158,15 @@ void Pref::parse(int argc, char **argv)
     {"clean",      0, 0, 'C'},
     {"fast",       0, 0, 'F'},
     {"multicast",  0, 0, 'M'},
-    {"nostats",    1, 0, 'N'},
+    {"noprogress", 0, 0, 'P'},
+    {"nostats",    0, 0, 'S'},
     {"reflector",  0, 0, 'R'},
     {"timetolive", 1, 0, 'T'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiklqrstv2CFMNRa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv2CFMPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiklqrstvx2CFMNRa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx2CFMPRSa:d:f:n:p:u:w:A:T:"))
 #endif
    != -1) {
 
@@ -258,8 +261,8 @@ void Pref::parse(int argc, char **argv)
         helpx = true;
         break;
       case '2':
-        width3D *= 2;
-        height3D *= 2;
+        width3D *= 3/2;
+        height3D *= 3/2;
         break;
       case 'A':
         ::g.channel = strdup(optarg);
@@ -285,11 +288,14 @@ void Pref::parse(int argc, char **argv)
       case 'M':
         reflector = false;
         break;
-      case 'N':
-        stats = false;
+      case 'P':
+        progress = false;
         break;
       case 'R':
         reflector = true;
+        break;
+      case 'S':
+        stats = false;
         break;
       case 'T':
         v = atoi(optarg);
