@@ -53,7 +53,6 @@ Doc::Doc(char *l)
 
   //dax1 enableBehavior(PERSISTENT);
   enableBehavior(TAKABLE);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);

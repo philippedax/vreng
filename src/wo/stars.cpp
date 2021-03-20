@@ -211,9 +211,7 @@ Stars::Stars(char *l)
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
-  enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_LOW);	// LOW
 
   initEphemeralObject(0);
   enablePermanentMovement();

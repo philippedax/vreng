@@ -95,9 +95,6 @@ void Escalator::build()
 
 void Escalator::behavior()
 {
-  //dax1 enableBehavior(PERSISTENT);
-  setRenderPrior(PRIOR_MEDIUM);
-
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 }

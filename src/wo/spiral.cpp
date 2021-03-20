@@ -78,9 +78,6 @@ void Spiral::build()
 
 void Spiral::behavior()
 {
-  //dax1 enableBehavior(PERSISTENT);
-  setRenderPrior(PRIOR_MEDIUM);
-
   initStillObject();
 }
 

@@ -100,7 +100,6 @@ Vrelet::Vrelet(char *l)
   //Vrelet objects can't currently collide with anything, they move through them
   enableBehavior(COLLIDE_GHOST);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
 

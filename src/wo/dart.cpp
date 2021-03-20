@@ -60,7 +60,6 @@ Dart::Dart(WObject *user, void *d, time_t s, time_t u)
   pos.az = user->pos.az;
 
   enableBehavior(COLLIDE_ONCE);
-  setRenderPrior(PRIOR_MEDIUM);
   initMobileObject(TTL);
 
   /* action */

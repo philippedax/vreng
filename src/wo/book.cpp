@@ -197,7 +197,6 @@ Book::Book(char *l)
   //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(TAKABLE);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);

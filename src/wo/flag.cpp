@@ -56,7 +56,6 @@ void Flag::behavior()
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   enablePermanentMovement();

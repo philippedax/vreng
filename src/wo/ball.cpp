@@ -96,7 +96,6 @@ Ball::Ball(char *l)
   parser(l);
 
   //dax1 enableBehavior(PERSISTENT);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);
   createVolatileNetObject(PROPS);
@@ -118,7 +117,6 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 
   //dax1 enableBehavior(PERSISTENT);	//dax1
   initMobileObject(TTL);
-  setRenderPrior(PRIOR_MEDIUM);
   enablePermanentMovement(); // apply gravity
 
   createVolatileNetObject(PROPS);

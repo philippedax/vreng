@@ -51,7 +51,6 @@ Wall::Wall(char *l)
 {
   parser(l);
 
-  setRenderPrior(PRIOR_MEDIUM);
   initMobileObject(0);
   //dax initStillObject();
 }

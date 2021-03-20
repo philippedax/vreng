@@ -60,7 +60,6 @@ Bullet::Bullet(WObject *pu, void *d, time_t s, time_t u)
   pos.az = pu->pos.az;
 
   enableBehavior(COLLIDE_ONCE);
-  setRenderPrior(PRIOR_MEDIUM);
   initMobileObject(TTL);
 
   /* action */

@@ -46,9 +46,7 @@ Ftp::Ftp(char *l)
 {
   parser(l);
 
-  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
 }

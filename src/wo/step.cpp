@@ -166,9 +166,6 @@ void Step::build()
 
 void Step::behavior()
 {
-  //dax1 enableBehavior(PERSISTENT);
-  setRenderPrior(PRIOR_MEDIUM);
-
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 }

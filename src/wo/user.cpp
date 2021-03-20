@@ -294,7 +294,6 @@ void User::inits()
   setName();
   updateNames();
   initMobileObject(LASTING);
-  setRenderPrior(PRIOR_MEDIUM);
   enablePermanentMovement();	// gravity
   createVolatileNetObject(PROPS);
   //pd noh->declareObjCreation(); // we don't need because delta do the job

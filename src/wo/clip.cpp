@@ -58,9 +58,7 @@ Clip::Clip(char *l)
 {
   parser(l);
 
-  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
 

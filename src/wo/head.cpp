@@ -109,7 +109,6 @@ void Head::behavior()
   enableBehavior(SPECIFIC_RENDER);
   enableBehavior(DYNAMIC);
   enableBehavior(NO_BBABLE);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   enablePermanentMovement();	// follows user

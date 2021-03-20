@@ -59,9 +59,6 @@ void Bumper::parser(char *l)
 
 void Bumper::behavior()
 {
-  //dax1 enableBehavior(PERSISTENT);
-  setRenderPrior(PRIOR_MEDIUM);
-
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 }

@@ -73,7 +73,6 @@ AnimX3d::AnimX3d(char *l)
   X3dModel = x3dmodel;
 
   initMobileObject(0);
-  setRenderPrior(PRIOR_MEDIUM);
 }
 
 X3d * AnimX3d::current()

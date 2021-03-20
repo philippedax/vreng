@@ -59,7 +59,6 @@ void Fractal::behavior()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);
 }

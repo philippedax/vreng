@@ -48,7 +48,6 @@ Ground::Ground(char *l)
   parser(l);
 
   initStillObject();
-  setRenderPrior(PRIOR_MEDIUM);  // LOW ?
   //dax pos.z = 0;
   World::current()->setGround(pos.z + pos.bbsize.v[2]);
   //dax error("ground: z=%.2f bb=%.2f gr=%.2f",pos.z,pos.bbsize.v[2],pos.z+pos.bbsize.v[2]);
@@ -58,7 +57,6 @@ Ground::Ground(WObject *user, char *geom)
 {
   parse()->parseSolid(geom, SEP, this);
 
-  //dax1 enableBehavior(PERSISTENT);
   initMobileObject(0);
 
   pos.x = user->pos.x;

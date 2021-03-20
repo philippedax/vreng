@@ -85,7 +85,6 @@ void Android::behaviour()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_MEDIUM);	// MEDIUM doesn't work
 
   initMobileObject(0);
   enablePermanentMovement();  // bap/fap frames

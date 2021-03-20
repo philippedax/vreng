@@ -118,7 +118,6 @@ void Mirage::behavior()
 {
   //dax1 if (persist) enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(1);
   if (turn || roll || tilt || orbit || circular || flares)

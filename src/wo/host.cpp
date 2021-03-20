@@ -50,9 +50,6 @@ Host::Host(char *l)
 {
   parser(l);
 
-  //dax1 enableBehavior(PERSISTENT);
-  setRenderPrior(PRIOR_MEDIUM);
-
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 }

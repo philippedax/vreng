@@ -112,7 +112,6 @@ void Cloth::behavior()
     //dax1 enableBehavior(PERSISTENT);
     enableBehavior(DYNAMIC);
     enableBehavior(NO_BBABLE);
-    setRenderPrior(PRIOR_MEDIUM);
   }
   initMobileObject(ttl);
   if (taken)

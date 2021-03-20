@@ -66,12 +66,10 @@ Animator::Animator(char *l)
 
   //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
-  setRenderPrior(PRIOR_MEDIUM);
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 
   if (state == ACTIVE) {
-    setRenderPrior(PRIOR_MEDIUM);
     enableImposedMovement();
   }
 }
@@ -110,7 +108,6 @@ void Animator::start(Animator *animator, void *d, time_t s, time_t u)
 void Animator::stop(Animator *animator, void *d, time_t s, time_t u)
 {
   animator->state = Animator::INACTIVE;
-  animator->setRenderPrior(PRIOR_MEDIUM);
 }
 
 /* object intersects: stop */

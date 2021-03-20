@@ -108,8 +108,6 @@ Plane::Plane(char *l)
     //enableBehavior(COLLIDE_ONCE);
     makeSolid();
   }
-  //dax1 enableBehavior(PERSISTENT);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);

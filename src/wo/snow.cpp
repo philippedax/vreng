@@ -51,7 +51,6 @@ Snow::Snow(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
   behavior();
-  setRenderPrior(PRIOR_MEDIUM);
   makeSolid();
   inits();
   pcloud = cloud;

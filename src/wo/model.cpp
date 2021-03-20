@@ -131,7 +131,6 @@ Model::Model(char *l)
   parser(l);
   makeSolid();
   behavior();
-  setRenderPrior(PRIOR_MEDIUM);
 
   loader();
   scaler();
@@ -154,7 +153,6 @@ Model::Model(WObject *user, char *url, float _scale)
   makeSolid();
   behavior();
   enableBehavior(DYNAMIC);
-  setRenderPrior(PRIOR_MEDIUM);
 
   strcpy(names.url, url);
   loader();

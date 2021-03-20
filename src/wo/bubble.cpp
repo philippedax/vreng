@@ -82,7 +82,6 @@ void Bubble::behavior()
 {
   enableBehavior(DYNAMIC);      // dynamicaly introduced
   enableBehavior(NO_BBABLE);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(BUBBLETTL);
   initImposedMovement(BUBBLETTL);		// alive delay

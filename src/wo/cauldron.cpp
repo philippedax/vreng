@@ -47,8 +47,6 @@ Cauldron::Cauldron(char *l)
 {
   parser(l);
 
-  //dax1 setRenderPrior(PRIOR_HIGH);	// PRIOR_MEDIUM doesn't work FIXME!
-
   initMobileObject(MAXFLOAT);
   enablePermanentMovement();
 }

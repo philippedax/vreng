@@ -90,7 +90,6 @@ void Fire::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_MEDIUM); // PRIOR_LOW and PRIOR_MEDIUM does'nt work : FIXME
 
   initMobileObject(0);
   enablePermanentMovement();

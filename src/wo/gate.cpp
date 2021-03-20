@@ -82,9 +82,7 @@ void Gate::parser(char *l)
 
 void Gate::behavior()
 {
-  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);

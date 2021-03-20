@@ -112,7 +112,6 @@ void Cloud::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-  setRenderPrior(PRIOR_MEDIUM);
 
   initMobileObject(0);
   enablePermanentMovement();
