@@ -190,6 +190,7 @@ void Flare::render(float *from, float delta)
   vnorm(dx);				// dx = normalize(axis)
   vcross(dy, dx, view_dir);		// dy = cross(dx,view_dir)
 
+  //error("render flare");
   //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glDisable(GL_DEPTH_TEST);

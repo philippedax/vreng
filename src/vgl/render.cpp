@@ -172,14 +172,14 @@ void Render::putSelbuf(WObject *po)
  * by scanning objects lists
  */
 
-// Renders specific objects
+// Renders specific objects (not necessary, not used already done by renderOpaque)
 void Render::renderSpecific()  //dax8
 {
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end(); ++it) {
     if ( (*it)->object()->isBehavior(SPECIFIC_RENDER) &&
          !(*it)->isRendered() &&
-         !(*it)->isflashy &&
-         !(*it)->isflary ) {
+         !(*it)->isflashy
+       ) {
       (*it)->setRendered(true);
       //dax7 materials();
       putSelbuf((*it)->object());
@@ -189,7 +189,7 @@ void Render::renderSpecific()  //dax8
   }
 }
 
-// Renders opaque solids without prior
+// Renders opaque solids
 void Render::renderOpaque(bool zsel)
 {
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
@@ -197,8 +197,7 @@ void Render::renderOpaque(bool zsel)
          (*it)->isVisible() &&
          !(*it)->isRendered() &&
          !(*it)->object()->removed &&
-         !(*it)->isflashy &&
-         !(*it)->isflary ) {
+         !(*it)->isflashy ) {
       putSelbuf((*it)->object());
       //dax7 materials();
       if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -209,37 +208,6 @@ void Render::renderOpaque(bool zsel)
       }
       //dax8 hack! FIXME!
       if ((*it)->object()->typeName() != "Clock" && (*it)->object()->typeName() != "Guy")
-      (*it)->setRendered(true);
-      trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
-    }
-  }
-}
-
-// Renders opaque solids
-void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
-{
-  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    //TODO if ((*it)->object()->isSeen() == false) continue;  // not seen
-    if ( (*it)->isOpaque() &&
-         (*it)->isVisible() &&
-         !(*it)->isRendered() &&
-         !(*it)->object()->removed &&
-         !(*it)->isflashy &&
-         !(*it)->isflary &&
-         (*it)->object()->prior == pri	//dax8 if commented no clock !!!
-       ) {
-      putSelbuf((*it)->object());
-      //dax7 materials();
-      /* FIXME!
-       * if the following 3 lines are presents then  water ondulation is ok but hats are not ok
-       * if the following 3 lines are commented then water ondulation is not ok but hats are ok
-       */
-      if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-        (*it)->object()->render();
-      }
-      else {
-        (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
-      }
       (*it)->setRendered(true);
       trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
     }
@@ -311,24 +279,12 @@ void Render::rendering(bool zsel=false)
     }
   }
 
-  //dax8 trace2(DBG_VGL, "\nspecif: ");
-  //dax8 renderSpecific();	// no guys text water, hats ok
   trace2(DBG_VGL, "\nopaq-1: ");
-#if 1 //dax7 opaq
-  renderOpaque(zsel);	// no clock
-#else
-  renderOpaque(zsel, su, WObject::PRIOR_MEDIUM);	// ok clock
-#endif //dax7
+  renderOpaque(zsel);		// no clock, bad guy
   trace2(DBG_VGL, "\nopaq-2: ");
-#if 1 //dax8 if 0 no clock
-#if 1 //dax7 opaq 0 or 1 works
-  renderOpaque(zsel);
-#else
-  renderOpaque(zsel, su, WObject::PRIOR_HIGH);
-#endif //dax7
-#endif //dax8
-  //dax8 trace2(DBG_VGL, "\nspecif: ");
-  //dax8 renderSpecific();	// guys are black
+  renderOpaque(zsel);		// second pass to render clock and guy !!!???
+  trace2(DBG_VGL, "\nspecif: ");
+  //dax8 renderSpecific();		// no guys text water, hats ok
 
   // renders translucid solids
   trace2(DBG_VGL, "\ntran: ");

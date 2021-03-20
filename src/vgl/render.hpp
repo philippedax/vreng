@@ -256,13 +256,12 @@ private:
   void materials();		///< Set colors of materials.
 
   // rendering
-  void rendering(bool zsel);				///< general rendering.
+  void rendering(bool zsel);		///< general rendering.
 
   // solids rendering
-  void renderOpaque(bool zsel);						///< opaque solids
-  void renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri);	///< opaque solids
-  void renderTranslucid(bool zsel);  					///< translucid solids
-  void renderSpecific();
+  void renderOpaque(bool zsel);		///< opaque solids
+  void renderTranslucid(bool zsel);  	///< translucid solids
+  void renderSpecific();		///x specific objects (notused)
 
   static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
 
