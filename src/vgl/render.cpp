@@ -221,9 +221,9 @@ int Render::compDist(const void *t1, const void *t2)
   Solid *s2 = (Solid *) t2;
 
   // sort by decreasing order : furthest -> nearest
-  if (s1->userdist < s2->userdist)
+  if (s1->userdist > s2->userdist)
     return 1;
-  else if (s1->userdist > s2->userdist)
+  else if (s1->userdist < s2->userdist)
     return -1;
   else
     return 0;
@@ -246,12 +246,12 @@ void Render::renderTranslucid(bool zsel)
   translucidList.sort(compDist);
 
   // render translucidList
-  for (list<Solid*>::reverse_iterator it = translucidList.rbegin(); it != translucidList.rend() ; ++it) {
-    if (! (*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
-    } //dax7 bubble case
-    else {
+  for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
+    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
+    }
+    else {
+      (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
     }
     trace2(DBG_VGL, " %s:%.2f", (*it)->object()->getInstance(), (*it)->userdist);
   }
