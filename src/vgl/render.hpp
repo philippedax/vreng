@@ -262,6 +262,7 @@ private:
   void renderOpaque(bool zsel);						///< opaque solids
   void renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri);	///< opaque solids
   void renderTranslucid(bool zsel);  					///< translucid solids
+  void renderSpecific();
 
   static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
 

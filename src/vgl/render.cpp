@@ -167,21 +167,50 @@ void Render::putSelbuf(WObject *po)
 #define DBG_VGL DBG_FORCE
 #endif
 
+/**
+ * Specific rendering to do by objects themselves
+ * by scanning objects lists
+ */
+
+// Renders specific objects
+void Render::renderSpecific()  //dax8
+{
+  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end(); ++it) {
+    if ( (*it)->object()->isBehavior(SPECIFIC_RENDER) &&
+         !(*it)->isRendered() &&
+         !(*it)->isflashy &&
+         !(*it)->isflary ) {
+      (*it)->setRendered(true);
+      //dax7 materials();
+      putSelbuf((*it)->object());
+      (*it)->object()->render();	// render done by object itself
+      trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
+    }
+  }
+}
+
 // Renders opaque solids without prior
 void Render::renderOpaque(bool zsel)
 {
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
-    if ((*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() && !(*s)->object()->removed) {
-      putSelbuf((*s)->object());
+  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
+    if ( (*it)->isOpaque() &&
+         (*it)->isVisible() &&
+         !(*it)->isRendered() &&
+         !(*it)->object()->removed &&
+         !(*it)->isflashy &&
+         !(*it)->isflary ) {
+      putSelbuf((*it)->object());
       //dax7 materials();
-      if ((*s)->object()->isBehavior(SPECIFIC_RENDER)) {
-        (*s)->object()->render();
+      if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+        (*it)->object()->render();
       }
       else {
-        (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
+        (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
       }
-      (*s)->setRendered(true);
-      trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
+      //dax8 hack! FIXME!
+      if ((*it)->object()->typeName() != "Clock" && (*it)->object()->typeName() != "Guy")
+      (*it)->setRendered(true);
+      trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
     }
   }
 }
@@ -189,25 +218,30 @@ void Render::renderOpaque(bool zsel)
 // Renders opaque solids
 void Render::renderOpaque(bool zsel, list<Solid*>::iterator su, uint8_t pri)
 {
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; ++s) {
-    //TODO if ((*s)->object()->isSeen() == false) continue;  // not seen
-    if ((*s)->isOpaque() && (*s)->isVisible() && !(*s)->isRendered() && !(*s)->object()->removed
-        && (*s)->object()->prior == pri	//dax8 if commented no clock !!!
+  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
+    //TODO if ((*it)->object()->isSeen() == false) continue;  // not seen
+    if ( (*it)->isOpaque() &&
+         (*it)->isVisible() &&
+         !(*it)->isRendered() &&
+         !(*it)->object()->removed &&
+         !(*it)->isflashy &&
+         !(*it)->isflary &&
+         (*it)->object()->prior == pri	//dax8 if commented no clock !!!
        ) {
-      putSelbuf((*s)->object());
+      putSelbuf((*it)->object());
       //dax7 materials();
       /* FIXME!
        * if the following 3 lines are presents then  water ondulation is ok but hats are not ok
        * if the following 3 lines are commented then water ondulation is not ok but hats are ok
        */
-      if ((*s)->object()->isBehavior(SPECIFIC_RENDER)) {
-        (*s)->object()->render();
+      if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+        (*it)->object()->render();
       }
       else {
-        (*s)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
+        (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
       }
-      (*s)->setRendered(true);
-      trace2(DBG_VGL, " %s", (*s)->object()->getInstance());
+      (*it)->setRendered(true);
+      trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
     }
   }
 }
@@ -266,53 +300,51 @@ void Render::rendering(bool zsel=false)
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
-  // Find the localuser solid
+  // Set setRendered=false for all solids and find the localuser solid
   list<Solid*>::iterator su;
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    (*s)->setRendered(false);
-    if ((*s)->object()->type == USER_TYPE) {
-      //dax segfault if (! strcmp((*s)->object()->getInstance(), localuser->getInstance())) {
-      if ((*s)->object() == localuser) {
-        su = s;	// localuser
+  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
+    (*it)->setRendered(false);
+    if ((*it)->object()->type == USER_TYPE) {
+      if ((*it)->object() == localuser) {
+        su = it;	// localuser
       }
     }
   }
 
-// MEDIUM
-  trace2(DBG_VGL, "\nopaq-m: ");
-#if 0 //dax7 opaq
+  //dax8 trace2(DBG_VGL, "\nspecif: ");
+  //dax8 renderSpecific();	// no guys text water, hats ok
+  trace2(DBG_VGL, "\nopaq-1: ");
+#if 1 //dax7 opaq
   renderOpaque(zsel);	// no clock
 #else
   renderOpaque(zsel, su, WObject::PRIOR_MEDIUM);	// ok clock
 #endif //dax7
-
-// HIGH
-  trace2(DBG_VGL, "\nopaq-h: ");
+  trace2(DBG_VGL, "\nopaq-2: ");
 #if 1 //dax8 if 0 no clock
-#if 0 //dax7 opaq 0 or 1 works
+#if 1 //dax7 opaq 0 or 1 works
   renderOpaque(zsel);
 #else
   renderOpaque(zsel, su, WObject::PRIOR_HIGH);
 #endif //dax7
 #endif //dax8
+  //dax8 trace2(DBG_VGL, "\nspecif: ");
+  //dax8 renderSpecific();	// guys are black
 
-  //
   // renders translucid solids
-  //
   trace2(DBG_VGL, "\ntran: ");
   renderTranslucid(zsel);
 
   trace2(DBG_VGL, "\n");	// end of trace !
 
-  // Renders flashy edges and ray impact
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    if ((*s) && ((*s)->isflashy || (*s)->isflary)) {
-      (*s)->display3D(Solid::DISPLAY, Solid::FLASHRAY);
+  // Renders flashy edges and ray impacts
+  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
+    if ( ((*it)->isflashy || (*it)->isflary) ) {
+      (*it)->display3D(Solid::DISPLAY, Solid::FLASHRAY);
     }
   }
 
   // if buffer selection mode is on, don't do anything else: end
-  //dax2 if (zsel)  return;
+  if (zsel)  return;
 
   // Renders localuser last
   if (localuser) {

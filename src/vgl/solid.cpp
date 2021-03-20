@@ -1596,7 +1596,7 @@ int Solid::displayList(int display_mode = NORMAL)
         glColor3fv(flashcol);
         glLineWidth(1);
         glScalef(1.03, 1.03, 1.03);	// 3%100 more
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glPolygonMode(GL_FRONT, GL_LINE);
 
         glCallList(dlists[frame]);
 

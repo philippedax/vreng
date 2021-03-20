@@ -203,7 +203,8 @@ void User::makeSolid()
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", depth, width, height);
     }
     else if (! strcmp(model, "box")) {
-      sprintf(mensuration, "shape=\"box\" size=\"%.2f %.2f %.2f\"", depth, width, height);
+      sprintf(mensuration, "shape=\"box\" size=\"%.2f %.2f %.2f\" yp=\"%s\" xp=\"%s\"",
+              depth, width, height, front, back);
     }
     else {
       sprintf(mensuration, "shape=\"bbox\" size=\"%.2f %.2f %.2f\"", depth, width, height);
@@ -213,7 +214,7 @@ void User::makeSolid()
     guy = new Guy();
     sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", depth, width, height);
   }
-  sprintf(s, "%s yp=\"%s\" xp=\"%s\" />", mensuration, front, back);
+  sprintf(s, "%s />", mensuration);
   trace(DBG_WO, "User: s=%s", s);
   parse()->parseSolid(s, SEP, this);
 
@@ -416,7 +417,8 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
 
   trace(DBG_WO, "Replica: web=%s vre=%s", web, vre);
   trace(DBG_WO, "Replica: model=%s face=%s", model, face);
-  trace(DBG_WO, "replica: type=%s given=%s name=%s ssrc=%x rtcpname=%s email=%s", names.type, names.given, getInstance(), ssrc, rtcpname, email);
+  trace(DBG_WO, "replica: type=%s given=%s name=%s ssrc=%x rtcpname=%s email=%s",
+        names.type, names.given, getInstance(), ssrc, rtcpname, email);
 }
 
 void User::getMemory()
@@ -442,7 +444,7 @@ void User::getMemory()
 
 User::~User()
 {
-  //notice("User %s quits", getInstance());
+  notice("User %s quits", getInstance());
   ::g.gui.removeUser(this);
 
   // MS. if this destructor is called for a remote user,
@@ -508,7 +510,7 @@ void User::userWriting(const char *usermsg)
   if (localuser->bubble)
     localuser->bubble->toDelete();	// delete previous bubble
   localuser->bubble = new Bubble(localuser, localuser->message, Color::black, Bubble::BUBBLEBACK);
-  //dax localuser->bubble->setPos(pos.x, pos.y+lenText(localuser->message /2, pos.z+0.2, pos.az, pos.ax);
+  //daxwrong localuser->bubble->setPos(pos.x, pos.y+lenText(localuser->message /2, pos.z+0.2, pos.az, pos.ax);
 
   Sound::playSound(KEYBOARDSND);
 }
@@ -536,7 +538,8 @@ void User::changePosition(float lasting)
 /* equations system handling permanent motions */
 void User::changePermanent(float lasting)
 {
-  if (! pause_gravity) pos.z -= lasting * GRAVITY;
+  if (! pause_gravity)
+    pos.z -= lasting * GRAVITY;
 }
 
 void User::resetBubble()
