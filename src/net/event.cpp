@@ -57,11 +57,11 @@ void NetIncoming(int fd)
     }
     
     /*
-     * check weither this packet belongs to VREP (VREng Protocol)
+     * check if this packet belongs to VREP (VREng Protocol)
      */
     uint8_t cmd;
     if (pp->len > 0 && pp->getPayload("c", &cmd) >= 0) {
-#if 0 //debug
+#if 1 //debug
       trace(DBG_FORCE, "Incoming from %lx/%x len=%d cmd=%02x",
             ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
             pp->len, cmd);

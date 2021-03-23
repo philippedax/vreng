@@ -202,7 +202,7 @@ int Render::compSurf(const void *t1, const void *t2)
  * by scanning objects lists
  */
 
-// Renders specific objects (not necessary, not used already done by renderOpaque)
+// Renders specific objects (not necessary, not used already done by renderSolids)
 void Render::renderSpecific()  //dax8
 {
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end(); ++it) {
@@ -235,9 +235,11 @@ void Render::renderOpaque(bool zsel)
       //dax7 materials();
     }
   }
+
   // sort opaqueList
   opaqueList.sort(compDist);	// large surfaces overlap
-  opaqueList.sort(compSurf);
+  opaqueList.sort(compSurf);	// fix overlaping but flag is bad
+
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
@@ -245,9 +247,13 @@ void Render::renderOpaque(bool zsel)
     else {
       (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
     }
-    //dax8 hack! FIXME!
-    if ((*it)->object()->typeName() != "Clock" && (*it)->object()->typeName() != "Guy")
-    (*it)->setRendered(true);
+    //dax5 hack! FIXME!
+    if (
+          (*it)->object()->typeName() != "Clock" 
+       && (*it)->object()->typeName() != "Guy"
+       //dax5 && (*it)->object()->typeName() != "Flag" //dax5 flag ok but no guys cristal horloge
+       )
+      (*it)->setRendered(true);
     trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
   }
 }
@@ -258,7 +264,7 @@ void Render::renderTranslucid(bool zsel)
   // build translucidList from solidList
   translucidList.clear();
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    if ( (*it) && (*it)->isOpaque() == false && (*it)->isVisible() && !(*it)->object()->removed ) {
+    if ( (*it)->isOpaque() == false && (*it)->isVisible() && !(*it)->object()->removed ) {
       translucidList.push_back(*it);	// add to translucid list
       putSelbuf((*it)->object());
     }

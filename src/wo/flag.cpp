@@ -99,14 +99,14 @@ Flag::Flag(char *l)
 
 void Flag::changePermanent(float dt)
 {
-  //dax if (wiggle == 2) {
+  if (wiggle == 2) {
     for (int y=0; y < DIM_FLAG; y++) {
       GLfloat w = mesh[0][y][2];
       for (int x=0; x < DIM_FLAG; x++) mesh[x][y][2] = mesh[x+1][y][2];	// next wave to the right
       mesh[DIM_FLAG][y][2] = w;
     }
     wiggle = 0;
-  //dax }
+  }
   wiggle++;
 }
 
@@ -138,8 +138,6 @@ GLvoid Flag::render()
   glPushMatrix();
   glEnable(GL_LIGHTING);
   glDisable(GL_CULL_FACE);
-  //dax glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  //dax glEnable(GL_BLEND);
   //dax glPolygonMode(GL_BACK, GL_FILL); glPolygonMode(GL_FRONT, GL_LINE);
 
   if (texid) {
@@ -156,8 +154,6 @@ GLvoid Flag::render()
   draw();
 
   glDisable(GL_TEXTURE_2D);
-  //dax glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-  //dax glDisable(GL_BLEND);
   glEnable(GL_CULL_FACE);
   glDisable(GL_LIGHTING);
   glPopMatrix();

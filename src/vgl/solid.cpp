@@ -485,7 +485,8 @@ char * Solid::parser(char *l)
     bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]) / 2;
     bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]) / 2;
   }
-  objsurf = bbsize.v[0] * bbsize.v[1];	// surface
+  objsurf = MAX(bbsize.v[0]*bbsize.v[1], bbsize.v[0]*bbsize.v[2]);
+  objsurf = MAX(objsurf, bbsize.v[1]*bbsize.v[2]);	// surface max
 
   /* next Token */
   l = wobject->parse()->nextToken();
