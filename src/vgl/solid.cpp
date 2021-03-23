@@ -311,6 +311,7 @@ Solid::Solid()
   is_opaque = true;	// opaque by default
   is_fictif = false;	// true solid
   userdist = 0;		// distance to localuser
+  objsurf = 0;		// surface of solid
   ray_dlist = 0;
   rendered = false;	// flag if alredy rendered
 
@@ -484,6 +485,7 @@ char * Solid::parser(char *l)
     bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]) / 2;
     bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]) / 2;
   }
+  objsurf = bbsize.v[0] * bbsize.v[1];	// surface
 
   /* next Token */
   l = wobject->parse()->nextToken();

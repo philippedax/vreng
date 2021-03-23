@@ -262,6 +262,7 @@ private:
   void renderSpecific();		///x specific objects (notused)
 
   static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
+  static int compSurf(const void *t1, const void *t2);	///< compare surfaces
 
   void putSelbuf(WObject *po);
   /**< Sets object name in Z-buffer for selection. */

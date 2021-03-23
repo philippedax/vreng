@@ -182,6 +182,21 @@ int Render::compDist(const void *t1, const void *t2)
     return 0;
 }
 
+// Compares surfaces  : called by sort()
+int Render::compSurf(const void *t1, const void *t2)
+{
+  Solid *s1 = (Solid *) t1;
+  Solid *s2 = (Solid *) t2;
+
+  // sort by decreasing order : largest -> smallest
+  if (s1->objsurf > s2->objsurf)
+    return 1;
+  else if (s1->objsurf < s2->objsurf)
+    return -1;
+  else
+    return 0;
+}
+
 /**
  * Specific rendering to do by objects themselves
  * by scanning objects lists
@@ -221,7 +236,8 @@ void Render::renderOpaque(bool zsel)
     }
   }
   // sort opaqueList
-  //dax9 opaqueList.sort(compDist);	// large surfaces overlap
+  opaqueList.sort(compDist);	// large surfaces overlap
+  opaqueList.sort(compSurf);
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
