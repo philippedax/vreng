@@ -167,6 +167,21 @@ void Render::putSelbuf(WObject *po)
 #define DBG_VGL DBG_FORCE
 #endif
 
+// Compares distances  : called by sort()
+int Render::compDist(const void *t1, const void *t2)
+{
+  Solid *s1 = (Solid *) t1;
+  Solid *s2 = (Solid *) t2;
+
+  // sort by decreasing order : furthest -> nearest
+  if (s1->userdist > s2->userdist)
+    return 1;
+  else if (s1->userdist < s2->userdist)
+    return -1;
+  else
+    return 0;
+}
+
 /**
  * Specific rendering to do by objects themselves
  * by scanning objects lists
@@ -192,41 +207,33 @@ void Render::renderSpecific()  //dax8
 // Renders opaque solids
 void Render::renderOpaque(bool zsel)
 {
+  // build opaqueList from solidList
+  opaqueList.clear();
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() &&
          (*it)->isVisible() &&
          !(*it)->isRendered() &&
          !(*it)->object()->removed &&
          !(*it)->isflashy ) {
+      opaqueList.push_back(*it);	// add to opaque list
       putSelbuf((*it)->object());
       //dax7 materials();
-      if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-        (*it)->object()->render();
-      }
-      else {
-        (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
-      }
-      //dax8 hack! FIXME!
-      if ((*it)->object()->typeName() != "Clock" && (*it)->object()->typeName() != "Guy")
-      (*it)->setRendered(true);
-      trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
     }
   }
-}
-
-// Compares distances  : called by sort()
-int Render::compDist(const void *t1, const void *t2)
-{
-  Solid *s1 = (Solid *) t1;
-  Solid *s2 = (Solid *) t2;
-
-  // sort by decreasing order : furthest -> nearest
-  if (s1->userdist > s2->userdist)
-    return 1;
-  else if (s1->userdist < s2->userdist)
-    return -1;
-  else
-    return 0;
+  // sort opaqueList
+  //dax9 opaqueList.sort(compDist);	// large surfaces overlap
+  for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
+    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->object()->render();
+    }
+    else {
+      (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
+    }
+    //dax8 hack! FIXME!
+    if ((*it)->object()->typeName() != "Clock" && (*it)->object()->typeName() != "Guy")
+    (*it)->setRendered(true);
+    trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
+  }
 }
 
 // Renders translucid solids sorted from the furthest to the nearest

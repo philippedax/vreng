@@ -224,6 +224,7 @@ public:
   list<Solid*> solidList;	///< solids list.
   list<Solid*> relsolidList;	///< relative solids list.
   list<Solid*> translucidList;	///< translucid solids list.
+  list<Solid*> opaqueList;	///< opaque solids list.
 
 private:
   static const int SEL_BUFSIZ;	///< selection buffer size
@@ -245,9 +246,6 @@ private:
   V3 satellitePos;
   V3 satelliteRot;
   V3 mapUserPos;
-  int numberVisibleSolid;
-  int numberBlinkSolid;
-  int numberFlashySolid;
 
   class Wheel *wheel;		///< experimental
 
