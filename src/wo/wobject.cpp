@@ -674,7 +674,7 @@ void WObject::updateNames()
   else
     names.instance = names.given;
 
-  setObjectName(names.instance);
+  setObjName(names.instance);
   names.world = World::current()->getName();
 
   if (*names.owner == 0) setOwner("public");  // public by default

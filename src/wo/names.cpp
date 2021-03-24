@@ -55,7 +55,7 @@ static uint32_t hash_name(const char *s)
   return h;
 }
 
-void WObject::setObjectName(const char *str)
+void WObject::setObjName(const char *str)
 {
   if (! str) return;
 

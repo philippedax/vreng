@@ -799,7 +799,7 @@ void World::init(const char *vreurl)
   char welcome[32];
   sprintf(welcome, "Hi! I am %s", user->getInstance());
   user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEBACK);
-  user->bubble->setObjectName("hi");
+  //dax user->bubble->setObjName("hi");
 
   // check whether icons are locally presents
   world->checkIcons();
@@ -983,7 +983,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   char hello[32];
   sprintf(hello, "Hello! I am %s", localuser->getInstance());
   localuser->bubble = new Bubble(localuser, hello, Color::black, Bubble::BUBBLEBACK);
-  localuser->bubble->setObjectName("hello");
+  //dax localuser->bubble->setObjName("hello");
 
   // check whether icons are locally presents
   world->checkIcons();

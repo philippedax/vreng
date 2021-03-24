@@ -111,7 +111,7 @@ void Text::inits()
   // sanity check to avoid segfault with "'", "`"
   for (char * p=textstr; *p; p++) if (*p == '\'' || *p == '`') *p = ' ';
 
-  setObjectName("message");
+  //dax setObjName("message");
 }
 
 Text::Text(char *l)

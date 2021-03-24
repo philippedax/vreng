@@ -571,7 +571,7 @@ public:
   //
   // Names
   //
-  virtual void setObjectName(const char *str);
+  virtual void setObjName(const char *str);
   /**< Sets an object name. */
 
   virtual WObject *getObjectByName(const char *str);
