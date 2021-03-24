@@ -311,7 +311,7 @@ Solid::Solid()
   is_opaque = true;	// opaque by default
   is_fictif = false;	// true solid
   userdist = 0;		// distance to localuser
-  objsurf = 0;		// surface of solid
+  surfsize = 0;		// surface of solid
   ray_dlist = 0;
   rendered = false;	// flag if alredy rendered
 
@@ -480,13 +480,15 @@ char * Solid::parser(char *l)
     idxframe += r;
   }
 
-  /* computes relative AABB of this solid: bbcent and bbsize */
+  // computes relative AABB of this solid: bbcent and bbsize
   for (int i=0; i<3; i++) {
     bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]) / 2;
     bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]) / 2;
   }
-  objsurf = MAX(bbsize.v[0]*bbsize.v[1], bbsize.v[0]*bbsize.v[2]);
-  objsurf = MAX(objsurf, bbsize.v[1]*bbsize.v[2]);	// surface max
+
+  // computes max surface of this solid
+  surfsize = MAX(bbsize.v[0]*bbsize.v[1], bbsize.v[0]*bbsize.v[2]);
+  surfsize = MAX(surfsize, bbsize.v[1]*bbsize.v[2]);	// surface max
 
   /* next Token */
   l = wobject->parse()->nextToken();

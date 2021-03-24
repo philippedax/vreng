@@ -16,6 +16,7 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.2\n\
 -- 9.2.0\n\
+	- added opaque list sorted decreasingly by surface sizes\n\
 	- added symlink to htdocs if universe is local\n\
 	(2021/03/18, Philippe Dax)\n\
 	- fixed delete bubble text\n\

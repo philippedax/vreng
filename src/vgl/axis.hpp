@@ -28,16 +28,16 @@
 class Axis {
 
 private:
-  static const GLfloat DEF_LENGTH;
+  static const GLfloat DEF_GLYPH;
   static const GLbyte DEF_WIDTH;
 
   bool visible;		///< flag visible or not
   GLint dlist;		///< gl display list
-  GLfloat length;	///< axis length
+  GLfloat glyph;	///< axis glyph
 
 public:
   Axis();
-  Axis(GLfloat length);
+  Axis(GLfloat glyph);
   /**< Constructors */
 
   virtual ~Axis() {};
@@ -50,6 +50,8 @@ public:
   /**< Returns axis instance */
 
   virtual void toggle();
+
+  virtual void reset();
 
   virtual void init();
 

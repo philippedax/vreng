@@ -189,9 +189,9 @@ int Render::compSurf(const void *t1, const void *t2)
   Solid *s2 = (Solid *) t2;
 
   // sort by decreasing order : largest -> smallest
-  if (s1->objsurf > s2->objsurf)
+  if (s1->surfsize > s2->surfsize)
     return 1;
-  else if (s1->objsurf < s2->objsurf)
+  else if (s1->surfsize < s2->surfsize)
     return -1;
   else
     return 0;
@@ -207,8 +207,7 @@ void Render::renderSpecific()  //dax8
 {
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end(); ++it) {
     if ( (*it)->object()->isBehavior(SPECIFIC_RENDER) &&
-         !(*it)->isRendered() &&
-         !(*it)->isflashy
+         !(*it)->isRendered()
        ) {
       (*it)->setRendered(true);
       //dax7 materials();
@@ -228,8 +227,8 @@ void Render::renderOpaque(bool zsel)
     if ( (*it)->isOpaque() &&
          (*it)->isVisible() &&
          !(*it)->isRendered() &&
-         !(*it)->object()->removed &&
-         !(*it)->isflashy ) {
+         !(*it)->object()->removed
+       ) {
       opaqueList.push_back(*it);	// add to opaque list
       putSelbuf((*it)->object());
       //dax7 materials();
@@ -247,7 +246,7 @@ void Render::renderOpaque(bool zsel)
     else {
       (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
     }
-    //dax5 hack! FIXME!
+    //dax5 hack exeptions! FIXME!
     if (
           (*it)->object()->typeName() != "Clock" 
        && (*it)->object()->typeName() != "Guy"
@@ -287,10 +286,10 @@ void Render::renderTranslucid(bool zsel)
 }
 
 /*
- * Rendering
+ * General Rendering
  * 
  * Render all objects and their solids.
- * - renders objects in displaylists
+ * - renders solids in displaylists
  * - makes specific rendering for special objects
  */
 void Render::rendering(bool zsel=false)
@@ -312,11 +311,11 @@ void Render::rendering(bool zsel=false)
   renderOpaque(zsel);		// no clock, bad guy
   trace2(DBG_VGL, "\nopaq-2: ");
   renderOpaque(zsel);		// second pass to render clock and guy !!!???
-  trace2(DBG_VGL, "\nspecif: ");
+  //dax8 trace2(DBG_VGL, "\nspecif: ");
   //dax8 renderSpecific();		// no guys text water, hats ok
 
   // renders translucid solids
-  trace2(DBG_VGL, "\ntran: ");
+  trace2(DBG_VGL, "\ntransl: ");
   renderTranslucid(zsel);
 
   trace2(DBG_VGL, "\n");	// end of trace !

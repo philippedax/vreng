@@ -75,6 +75,7 @@ class Grid {
   static Grid * grid();
   /**< Returns grid instance */
 
+  virtual void reset();
   virtual void toggleGrid2d();
   virtual void toggleGrid3d();
   virtual void toggleOverlap();

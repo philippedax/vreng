@@ -72,7 +72,7 @@ protected:
   GLfloat 	pos[5];		///< relative position/orientation.
   GLfloat	fog[4];		///< fog params
   float		userdist;	///< distance to localuser
-  float		objsurf;	///< surface of solid
+  float		surfsize;	///< max surface size of solid
   bool		rendered;	///< flag if is already rendered
 
 public:

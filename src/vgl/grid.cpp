@@ -298,6 +298,11 @@ void Grid::toggleGrid3d()
   draw();
 }
 
+void Grid::reset()
+{
+  visible = false;
+}
+
 /* changing width and depth of the grid */
 void Grid::setWidth(UEvent &e)
 {

@@ -925,8 +925,6 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
       newworld->setName(newworld->url);
     }
     else if (! url) {	// sandbox world
-      newworld->setName("sandbox");
-      worldList = swap(newworld);
       if (newworld->guip) ::g.gui.updateWorld(newworld, NEW);
     }
     else return NULL;	// bad world
@@ -962,15 +960,19 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     //world->universe->stopWheel();
     endprogression();
     localuser->enableGravity();
+    Grid::grid()->reset();
+    Axis::axis()->reset();
   }
-  else {
+  else {	// world sandbox
     trace(DBG_WO, "enter: world sandbox: ");
-    world->setName("sandbox");
+    World *sandbox = world;
+
+    sandbox->setName("sandbox");
     Parse *parser = Parse::getParse();
     parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));
-    world->islinked = true;
+    sandbox->islinked = true;
     Grid::grid()->toggleGrid2d();
-    //dax localuser->disableGravity();
+    Axis::axis()->toggle();
   }
   localuser->inits();
 

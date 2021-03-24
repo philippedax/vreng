@@ -28,7 +28,7 @@
 // local
 static Axis _axis;	// axis instance
 
-const GLfloat Axis::DEF_LENGTH = .1;
+const GLfloat Axis::DEF_GLYPH = 0.05;	// 5 cm
 const GLbyte  Axis::DEF_WIDTH = 2;
 
 
@@ -36,19 +36,24 @@ const GLbyte  Axis::DEF_WIDTH = 2;
 Axis::Axis()
 {
   defaults();
-  length = DEF_LENGTH;
+  glyph = DEF_GLYPH;
 }
 
-Axis::Axis(GLfloat _length)
+Axis::Axis(GLfloat _glyph)
 {
   defaults();
-  length = _length;
+  glyph = _glyph;
 }
 
 void Axis::defaults()
 {
   dlist = -1;
   visible = false;
+}
+
+void Axis::reset()
+{
+  defaults();
 }
 
 /* Accessor */
@@ -69,44 +74,38 @@ void Axis::draw()
   glNewList(dlist, GL_COMPILE);
   glBegin(GL_LINES);
    glColor3f(1, 0, 0);   glVertex3f(0, 0, 0);		// X+ light red
-   glColor3f(1, .5, .5); glVertex3f(length, 0, 0);
-
-   glColor3f(1, 0, 0);	// X letter red
-   glVertex3f(length+length/5, length/10, length/10);
-   glVertex3f(length+length/5, -length/10, -length/10);
-   glVertex3f(length+length/5, length/10, -length/10);
-   glVertex3f(length+length/5, -length/10, length/10);
-
+   glColor3f(1, .5, .5); glVertex3f(glyph, 0, 0);
+   glColor3f(1, 0, 0);					// X letter red
+   glVertex3f(glyph+glyph/5, glyph/10, glyph/10);
+   glVertex3f(glyph+glyph/5, -glyph/10, -glyph/10);
+   glVertex3f(glyph+glyph/5, glyph/10, -glyph/10);
+   glVertex3f(glyph+glyph/5, -glyph/10, glyph/10);
    glColor3f(1, 0, 0);   glVertex3f(0, 0, 0);		// X- dark red
-   glColor3f(.5, 0, 0);  glVertex3f(-length, 0, 0);
+   glColor3f(.5, 0, 0);  glVertex3f(-glyph, 0, 0);
 
    glColor3f(0, 1, 0);   glVertex3f(0, 0, 0);		// Y+ light green
-   glColor3f(.5, 1, .5); glVertex3f(0, length, 0);
-
-   glColor3f(0, 1, 0);	// Y letter green
-   glVertex3f(length/10, length+length/5, length/10);
-   glVertex3f(0, length+length/5, 0);
-   glVertex3f(-length/10, length+length/5, length/10);
-   glVertex3f(0, length+length/5, 0);
-   glVertex3f(0, length+length/5, 0);
-   glVertex3f(0, length+length/5, -length/10);
-
+   glColor3f(.5, 1, .5); glVertex3f(0, glyph, 0);
+   glColor3f(0, 1, 0);					// Y letter green
+   glVertex3f(glyph/10, glyph+glyph/5, glyph/10);
+   glVertex3f(0, glyph+glyph/5, 0);
+   glVertex3f(-glyph/10, glyph+glyph/5, glyph/10);
+   glVertex3f(0, glyph+glyph/5, 0);
+   glVertex3f(0, glyph+glyph/5, 0);
+   glVertex3f(0, glyph+glyph/5, -glyph/10);
    glColor3f(0, 1, 0);   glVertex3f(0, 0, 0);		// Y- dark green
-   glColor3f(0, .5, 0);  glVertex3f(0, -length, 0);
+   glColor3f(0, .5, 0);  glVertex3f(0, -glyph, 0);
 
    glColor3f(0, 0, 1);   glVertex3f(0, 0, 0);		// Z+ light blue
-   glColor3f(.5, .5, 1); glVertex3f(0, 0, length);
-
-   glColor3f(0, 0, 1); 	// Z letter blue
-   glVertex3f(-length/10, length/10, length+length/5);
-   glVertex3f(length/10, length/10, length+length/5);
-   glVertex3f(length/10, length/10, length+length/5);
-   glVertex3f(-length/10, -length/10, length+length/5);
-   glVertex3f(-length/10, -length/10, length+length/5);
-   glVertex3f(length/10, -length/10, length+length/5);
-
+   glColor3f(.5, .5, 1); glVertex3f(0, 0, glyph);
+   glColor3f(0, 0, 1); 					// Z letter blue
+   glVertex3f(-glyph/10, glyph/10, glyph+glyph/5);
+   glVertex3f(glyph/10, glyph/10, glyph+glyph/5);
+   glVertex3f(glyph/10, glyph/10, glyph+glyph/5);
+   glVertex3f(-glyph/10, -glyph/10, glyph+glyph/5);
+   glVertex3f(-glyph/10, -glyph/10, glyph+glyph/5);
+   glVertex3f(glyph/10, -glyph/10, glyph+glyph/5);
    glColor3f(0, 0, 1);   glVertex3f(0, 0, 0);		// Z- dark blue
-   glColor3f(0, 0, .5);  glVertex3f(0, 0, -length);
+   glColor3f(0, 0, .5);  glVertex3f(0, 0, -glyph);
   glEnd();
   glEndList();
 }
