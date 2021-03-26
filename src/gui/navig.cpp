@@ -93,18 +93,25 @@ void Navig::mousePressCB(UMouseEvent& e)
   // GL graphics can be performed until the current function returns
   GLSection gls(&gw.scene); 
 
-  if (gw.gui.carrier && gw.gui.carrier->isTaking()) // events are sent to Carrier
+  if (gw.gui.carrier && gw.gui.carrier->isTaking()) {	// events are sent to Carrier
     gw.gui.carrier->mouseEvent(x, y, btn);
+  }
 #if 0 //dax
-  else if (gw.gui.board && gw.gui.board->isDrawing()) // events are sent to Board
+  else if (gw.gui.board && gw.gui.board->isDrawing()) {	// events are sent to Board
     gw.gui.board->mouseEvent(x, y, btn);
+  }
 #endif
-  else if (gw.gui.vnc)		// events are sent to Vnc
+  else if (gw.gui.vnc) {				// events are sent to Vnc
     gw.gui.vnc->mouseEvent(x, y, btn);
-  else if (btn == 2)		// button 2: fine grain selection
+  }
+  else if (btn == 2) {			// button 2: fine grain selection
     mousePressB2(e, x, y);
-  else 				// buttons 1 or 3: navigator or info menu
+    //dax mousePressB1orB3(e, x, y, btn);	// dax reverse buttons B1 B2
+  }
+  else {				// buttons 1 or 3: navigator or info menu
     mousePressB1orB3(e, x, y, btn);
+    //dax mousePressB2(e, x, y);		// dax reverse buttons B1 B2
+  }
 }
 
 // the mouse is released on the canvas
@@ -114,12 +121,15 @@ void Navig::mouseReleaseCB(UMouseEvent& e)
   
   opened_menu = null;
   
-  if (gw.gui.vnc)	// events are redirected to Vnc
+  if (gw.gui.vnc) {	// events are redirected to Vnc
     gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0);
-  else if (gw.gui.selected_object)
+  }
+  else if (gw.gui.selected_object) {
     gw.gui.selected_object->resetRay();
-  if (localuser)
-    localuser->resetRay(); //stop showing direction
+  }
+  if (localuser) {
+    localuser->resetRay();	//stop showing direction
+  }
 }
 
 // the mouse is dragged on the canvas
@@ -130,8 +140,9 @@ void Navig::mouseDragCB(UMouseEvent& e)
     gw.gui.selected_object->resetRay();
   }
   else {
-    if (localuser)
+    if (localuser) {
       localuser->resetRay();	//stop showing direction
+    }
   }
 }
 
@@ -140,11 +151,12 @@ void Navig::mouseMoveCB(UMouseEvent& e)
 {
   float x = e.getX(), y = e.getY();
   
-  if (gw.gui.vnc)		// events are redirected to Vnc
+  if (gw.gui.vnc) {		// events are redirected to Vnc
     gw.gui.vnc->mouseEvent((int) x, (int) y, 0);
+  }
   else if (followMouse) {
     // mode followMouse continuously indicates object under pointer
-    WObject *object = gw.getPointedObject((int) x, (int) y, objinfo, depthsel);
+    WObject *object = gw.pointedObject((int) x, (int) y, objinfo, depthsel);
     selectObject(object ? objinfo : null);
   }
   else if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
@@ -202,14 +214,16 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
 
   // current object
   depthsel = 0;
-  WObject* object = gw.getPointedObject(x, y, objinfo, depthsel);
+  WObject* object = gw.pointedObject(x, y, objinfo, depthsel);
 
   if (object && object->isValid()) {
     gw.gui.selected_object = object;
     trace(DBG_GUI, "clic [%d %d] on %s", x, y, object->getInstance());
   
-    if (object->names.url[0]) selected_object_url = object->names.url;
-    else                      selected_object_url.clear();
+    if (object->names.url[0])
+      selected_object_url = object->names.url;
+    else
+      selected_object_url.clear();
     gw.message.performRequest(object);
     // Vrelet: calculate the clic vector and do the clic method on the object
     if (button == 1) {
@@ -239,7 +253,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
 void Navig::mousePressB2(UMouseEvent&, int x, int y)
 {
   depthsel++;
-  WObject* object = gw.getPointedObject(x, y, objinfo, depthsel);
+  WObject* object = gw.pointedObject(x, y, objinfo, depthsel);
   if (object && object->isValid() && object->solid) {
     gw.gui.selected_object = object;
     object->resetFlashy();
@@ -247,8 +261,9 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y)
     object->setRay(x, y);	// launches ray
     selectObject(objinfo);
   }  
-  else
+  else {
     gw.setRayDirection(x, y);	// launches stipple ray
+  }
 }
 
 // Updates object infos (infoBox in the infoBar and contextual info menu)
@@ -272,8 +287,9 @@ void Navig::selectObject(ObjInfo* objinfo)
   // add buttons (actions) to the infos box and the contextual menu
   for (ObjInfo* oi = objinfo + 2; oi->name != null; oi++) {
     UBox& b = ubutton(oi->name); // add action button to infobox
-    if (oi->fun)
+    if (oi->fun) {
       b.add(ucall(oi->farg, oi->fun));
+    }
     gw.infos.add(b);
     object_menu.add(b);		// add button to contextual menu
   }

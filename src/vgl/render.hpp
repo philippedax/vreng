@@ -225,6 +225,37 @@ public:
   list<Solid*> relsolidList;	///< relative solids list.
   list<Solid*> translucidList;	///< translucid solids list.
   list<Solid*> opaqueList;	///< opaque solids list.
+  list<Solid*> flashyList;	///< flashy solids list.
+
+#if 0 //dax10
+  // Displaying 3D
+  //dax6 virtual void display3D(render_mode mode, render_type layer);
+  virtual void display3D(render_type layer);
+  /**< Issue the OpenGL commands to draw the solid in the given mode.
+       It is called several times with "layer" increasing from 0 to ? in
+       order to allow drawing at different layers. */
+
+  virtual int displayList(int rendertype);
+  /**< Renders a solid in display-list. */
+
+  virtual int displayNormal();
+  /**< Renders a normal solid. */
+
+  virtual int displayReflexive();
+  /**< Renders a reflexive solid. */
+
+  virtual int displayVirtual();
+  /**< Renders a reflexive solid. */
+
+  virtual void displayFlary();
+  /**< Renders attached flare to a solid. */
+
+  virtual int displayFlashy();
+  /**< Renders a solid flashy. */
+
+  virtual void displayRay();
+  /**< Displays ray. */
+#endif //dax10
 
 private:
   static const int SEL_BUFSIZ;	///< selection buffer size
@@ -262,7 +293,7 @@ private:
   void renderSpecific();		///x specific objects (notused)
 
   static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
-  static int compSurf(const void *t1, const void *t2);	///< compare surfaces
+  static int compSize(const void *t1, const void *t2);	///< compare surfaces sizes
 
   void putSelbuf(WObject *po);
   /**< Sets object name in Z-buffer for selection. */

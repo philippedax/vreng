@@ -303,8 +303,8 @@ Solid::Solid()
   nbrframes = 1;	// 1 frame by default
   isframed = false;	// mono framed by default
   isflashy = false;
-  isreflex = false;
   isflary = false;
+  isreflex = false;
   isblinking = false;
   blink = false;
   is_visible = true;	// visible by default
@@ -1287,6 +1287,31 @@ bool Solid::isOpaque() const
   return is_opaque;
 }
 
+bool Solid::isFlashy() const
+{
+  return isflashy;
+}
+
+bool Solid::isFlary() const
+{
+  return isflary;
+}
+
+void Solid::setFlary(bool flag)
+{
+  isflary = flag;
+}
+
+void Solid::setReflexive(bool flag)
+{
+  isreflex = flag;
+}
+
+bool Solid::isReflexive() const
+{
+  return isreflex;
+}
+
 /** Draws a ray between user'eyes and the object's impact
  * window: +--> x	viewport: y
  *         |			  ^
@@ -1368,26 +1393,6 @@ bool Solid::isBlinking() const
   return isblinking;
 }
 
-void Solid::setReflexive(bool flag)
-{
-  isreflex = flag;
-}
-
-bool Solid::isReflexive() const
-{
-  return isreflex;
-}
-
-void Solid::setFlary(bool flag)
-{
-  isflary = flag;
-}
-
-bool Solid::isFlary() const
-{
-  return isflary;
-}
-
 uint8_t Solid::getFrames() const
 {
   return nbrframes;
@@ -1401,54 +1406,6 @@ uint8_t Solid::getFrame() const
 void Solid::setFrame(uint16_t _frame)
 {
   frame = _frame % nbrframes;
-}
-
-//---------------------------------------------------------------------------
-
-
-void Solid::display3D(render_mode mode, render_type type)
-{
-  if (ray_dlist)
-    displayRay();
-  if (! object() || ! object()->isValid())
-    return;		// orphean solid
-  if (! isVisible() && mode == DISPLAY)
-    return;		// invisible solid
-  if (isBlinking() && (! toggleBlinking()))
-    return;		// pass one turn
-
-  switch (type) {
-
-    case OPAQUE:	// Display opaque solids
-      if (isreflex)
-        displayReflexive();
-      if (isflary)
-        displayFlary();	// Display attached flares
-      displayNormal();
-      break;
-
-    case TRANSLUCID:	// Display translucid solids 
-      if (isreflex) {
-        displayReflexive();
-      }
-      else {
-        displayNormal();
-      }
-      break;
-
-    case FLASHRAY:	// Display flashy edges and ray
-      if (isflashy && mode == DISPLAY)
-        displayFlashy();
-      if (isflary)
-        displayFlary();	// Display attached flares
-      if (ray_dlist)
-        displayRay();
-      break;
-
-    case LOCALUSER:	// Display local user last
-      displayNormal();
-      break;
-  }
 }
 
 /* transpose vreng to opengl coordinates system */
@@ -1467,6 +1424,60 @@ GLint Solid::getDlist() const
 GLint Solid::getTexid() const
 {
   return texid;
+}
+
+//---------------------------------------------------------------------------
+
+void Solid::display3D(render_type type)
+{
+#if 0 //dax6
+  if (ray_dlist)
+    displayRay();
+  if (! object() || ! object()->isValid())
+    return;		// orphean solid
+  if (! isVisible())
+    return;		// invisible solid
+#endif //dax6
+  if (isBlinking() && (! toggleBlinking()))
+    return;		// pass one turn
+
+  switch (type) {
+
+    case OPAQUE:	// Display opaque solids
+      if (isReflexive()) {
+        displayReflexive();
+      }
+      if (isFlary()) {
+        displayFlary();	// Display attached flares
+      }
+      displayNormal();
+      break;
+
+    case TRANSLUCID:	// Display translucid solids 
+      if (isReflexive()) {
+        displayReflexive();
+      }
+      else {
+        displayNormal();
+      }
+      break;
+
+    case FLASHRAY:	// Display flashy edges and ray
+      if (isFlashy()) {
+        displayFlashy();
+      }
+      if (isFlary()) {
+        displayFlary();	// Display attached flares
+      }
+      if (ray_dlist) {
+        displayRay();
+      }
+      break;
+
+    case LOCALUSER:	// Display local user last
+      displayNormal();
+      break;
+  }
 }
 
 void Solid::displayRay()

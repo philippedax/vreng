@@ -431,7 +431,7 @@ void World::compute(time_t sec, time_t usec)
         mobileList.remove(*o);
         continue;
       }
-      if (::g.pref.dbgtrace) error("obj: %s-%s", (*o)->typeName(), (*o)->getInstance());
+      //dax if (::g.pref.dbgtrace) error("obj: %s-%s", (*o)->typeName(), (*o)->getInstance());
 
       (*o)->imposedMovement(sec, usec);		// object imposed movement
       (*o)->permanentMovement(sec, usec);	// object permanent movement

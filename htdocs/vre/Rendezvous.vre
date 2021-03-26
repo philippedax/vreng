@@ -13,8 +13,8 @@
 
 <scene>
 
-<bgcolor color="0 0 0"></bgcolor>
 <!-- background color -->
+<bgcolor color="0 0 0"></bgcolor>
 <!--
 <bgcolor color=".5 .5 1"></bgcolor>
 -->
@@ -26,20 +26,20 @@
 <wind></wind>
 
 <!-- ground -->
-<ground name="ground-c" pos="0 6.5 -.25">
+<ground name="parvis-c" pos="0 6.5 -.25">
   <solid dim="4.0 17 .25" zp="/gif/marble.gif" xp="/gif/marble.gif" xn="/gif/marble.gif" yp="/gif/marble.gif" yn="/gif/marble.gif" />
 </ground>
-<ground name="ground-e" pos="0 -10.5 -.25"> <solid dim="4.0 9 .25" zp="/gif/marble.gif" /> </ground>
-<ground name="ground-n" pos="12 0 -.25">  <solid dim="20.0 30 .25" zp="/gif/marble.gif" /> </ground>
-<ground name="ground-s" pos="-12 0 -.25"> <solid dim="20.0 30 .25" zp="/gif/marble.gif" /> </ground>
+<ground name="parvis-e" pos="0 -10.5 -.25"> <solid dim="4.0 9 .25" zp="/gif/marble.gif" /> </ground>
+<ground name="parvis-n" pos="12 0 -.25">  <solid dim="20.0 30 .25" zp="/gif/marble.gif" /> </ground>
+<ground name="parvis-s" pos="-12 0 -.25"> <solid dim="20.0 30 .25" zp="/gif/marble.gif" /> </ground>
 <!--
-<ground name="basement" pos="0 0 -6.25"> <solid dim="60 40 .5" zp="/gif/stuc.gif" /> </ground>
-<ground name="ground" pos="0 6.5 -.25">
+<ground name="parvis" pos="0 6.5 -.25">
   <solid dim="4 17 .5"                         zp="/gif/marble.gif" dif="grey" />
   <solid dim="4 7 .5"     rel="0 -5 0 0 0"     zp="/gif/marble.gif" dif="grey" />
   <solid dim="19.9 30 .5" rel="12 -6.5 0 0 0"  zp="/gif/marble.gif" dif="grey" />
   <solid dim="19.9 30 .5" rel="-12 -6.5 0 0 0" zp="/gif/marble.gif" dif="grey" />
 </ground>
+<ground name="basement" pos="0 0 -6.25"> <solid dim="60 40 .5" zp="/gif/stuc.gif" /> </ground>
 -->
 
 <!-- cardinal points -->
@@ -93,9 +93,9 @@
   <solid dim="2 .2 2" xn="/gif/tarots.gif" />
 </gate>
 <!--
-<gate name="tarots" pos="15 .3 2.25 1.45"
+<gate name="tarots" pos="16.5 1.0 1 1.57"
   url="/vre/v8/tarots.vre" channel="224.255.0.6/52716/127">
-  <solid dim="2 .2 .5" xn="/gif/b_museum.gif" />
+  <solid dim="2 .2 2" xn="/gif/b_museum.gif" />
 </gate>
 -->
 
@@ -342,13 +342,13 @@
 
 <!-- clock -->
 <clock name="seconds" pos="5 3.99 2 1.57" needle="s">
-  <solid shape="line" l=".18" thick="1" dif="black" />
+  <solid shape="line" l=".18" thick="1" dif="red" />
 </clock>
 <clock name="minutes" pos="5 3.99 2 1.57" needle="m">
-  <solid shape="line" l=".14" thick="1" dif="black" />
+  <solid shape="line" l=".14" thick="1" dif="red" />
 </clock>
 <clock name="hours" pos="5 3.99 2 1.57" needle="h">
-  <solid shape="line" l=".10" thick="2" dif="black" />
+  <solid shape="line" l=".10" thick="2" dif="red" />
 </clock>
 <mirage name="horloge" pos="5 4 2 3.14 -1.57">
  <solid shape="disk" ri=".02" re=".2" dif="white" />
@@ -357,10 +357,10 @@
  <solid shape="disk" rel="0 -.02 0 0 0" re=".2" dif=".6 1 .6" a=".1" />
  <solid shape="disk" rel="0 .01 0 -6.28 0" ri="0" re=".2" dif="grey40" />
  <solid shape="cone" rel="0 0 -2 0 1.57" rb=".03" rt=".03" h="1.8" dif="grey40" />
- <solid rel="0 0 .14 0 1.57"  dim=".02 .01 .04" dif="black" />
- <solid rel="0 0 -.14 0 1.57" dim=".02 .01 .04" dif="black" />
- <solid rel=".16 0 0 0 1.57"  dim=".04 .01 .02" dif="black" />
- <solid rel="-.16 0 0 0 1.57" dim=".04 .01 .02" dif="black" />
+ <solid rel="0 0 .14 0 1.57"  dim=".02 .01 .04" dif="grey" />
+ <solid rel="0 0 -.14 0 1.57" dim=".02 .01 .04" dif="grey" />
+ <solid rel=".16 0 0 0 1.57"  dim=".04 .01 .02" dif="grey" />
+ <solid rel="-.16 0 0 0 1.57" dim=".04 .01 .02" dif="grey" />
 </mirage>
 
 <!--
@@ -419,8 +419,10 @@
 <firework pos="10 0 6"> </firework>
 <firework pos="10 1 5" number="300" color="red" ttl="20"> </firework>
 <firework pos="10 -1 5" number="200" color="green"> ttl="15" </firework>
+<!--
 <firework pos="10 -2 4" number="100" color="lightblue"> ttl="10" </firework>
 <firework pos="10 -3 4" number="50" color="grey" ttl="5" size="4"> </firework>
+-->
 
 <!-- waterfall -->
 <!--
@@ -452,12 +454,14 @@
 <mirage name="hampe" pos="4 -3.5 1"> <solid shape="cone" rb=".01" rt=".01" h="1.8" dif="brown" /></mirage>
 
 <!-- helix -->
+<!--
 <mirage name="helix" pos="4 -3.5 .9 1.57">
-  <solid shape="helix"                        r=".05" l="1.8" h=".005" t="4" sl="32" dif="black" />
-  <solid shape="helix" rel=".02 .00 0 1.57 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="black" />
-  <solid shape="helix" rel=".00 .02 0 2.07 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="black" />
-  <solid shape="helix" rel=".02 .02 0 2.57 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="black" />
+  <solid shape="helix"                        r=".05" l="1.8" h=".005" t="4" sl="32" dif="blue" />
+  <solid shape="helix" rel=".02 .00 0 1.57 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="blue" />
+  <solid shape="helix" rel=".00 .02 0 2.07 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="blue" />
+  <solid shape="helix" rel=".02 .02 0 2.57 0" r=".05" l="1.8" h=".005" t="4" sl="32" dif="blue" />
 </mirage>
+-->
 
 <!-- stars -->
 <!--
@@ -479,13 +483,17 @@
 <guy name="guy1"    pos="11.0 4 .85 1.5"  skin="wheat"     bust="green" legs="brown" feet="black"    url="/cset/walking.cset"> sex=1 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
 <guy name="guy2"    pos="10.5 4.5 .85 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
 <guy name="guy3"    pos="10.5 3.5 .85 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
-<mirage name="guy4" pos="10.0 4.0 .85 0.5"> <solid shape="man" dim=".3 .2 1.7" emi="grey" /></mirage>
+<!--
+<mirage name="guy4" pos="10.0 4.0 .85 0.5"> <solid shape="man" dim=".3 .2 1.7" /></mirage>
+-->
 
 <!-- heads -->
 <model name="head1" pos="11.0 4.0 1.52 1.5 1.57"  url="/lwo/head.lwo" scale=".0028"></model>
 <model name="head2" pos="10.5 4.5 -.10 1.0 -1.57" url="/obj/head.obj" scale=".96"></model>
 <model name="head3" pos="10.5 3.5 -.03 -1.5 0.00" url="/off/head.off" color="pink"></model>
+<!--
 <model name="head4" pos="10.0 4.0 1.55 6.5 0.00"  url="/3ds/head.3ds" scale=".028"></model>
+-->
 
 <!-- hairs -->
 <!--

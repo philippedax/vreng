@@ -183,7 +183,7 @@ int Render::compDist(const void *t1, const void *t2)
 }
 
 // Compares surfaces  : called by sort()
-int Render::compSurf(const void *t1, const void *t2)
+int Render::compSize(const void *t1, const void *t2)
 {
   Solid *s1 = (Solid *) t1;
   Solid *s2 = (Solid *) t2;
@@ -223,37 +223,49 @@ void Render::renderOpaque(bool zsel)
 {
   // build opaqueList from solidList
   opaqueList.clear();
+  flashyList.clear();
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() &&
          (*it)->isVisible() &&
          !(*it)->isRendered() &&
          !(*it)->object()->removed
        ) {
-      opaqueList.push_back(*it);	// add to opaque list
-      putSelbuf((*it)->object());
-      //dax7 materials();
+      if ( (*it)->isFlashy() || (*it)->isFlary() )
+        flashyList.push_back(*it);	// add to flashy list
+      else
+        opaqueList.push_back(*it);	// add to opaque list
     }
   }
 
   // sort opaqueList
   opaqueList.sort(compDist);	// large surfaces overlap
-  opaqueList.sort(compSurf);	// fix overlaping but flag is bad
+  opaqueList.sort(compSize);	// fix overlaping but flag is bad
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
+    materials();
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
     else {
-      (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
+      //dax6 (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
+      (*it)->display3D(Solid::OPAQUE);
     }
+    //putSelbuf((*it)->object());
     //dax5 hack exeptions! FIXME!
     if (
           (*it)->object()->typeName() != "Clock" 
-       && (*it)->object()->typeName() != "Guy"
+        && (*it)->object()->typeName() != "Guy"		// if commented bad colors
+       //dax5 && (*it)->object()->typeName() != "Mirage"// no effects
        //dax5 && (*it)->object()->typeName() != "Flag" //dax5 flag ok but no guys cristal horloge
-       )
+       ) {
+      putSelbuf((*it)->object());
       (*it)->setRendered(true);
-    trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
+    }
+    else {
+      (*it)->setRendered(false);
+    }
+    //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
+    trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
 }
 
@@ -265,21 +277,20 @@ void Render::renderTranslucid(bool zsel)
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() == false && (*it)->isVisible() && !(*it)->object()->removed ) {
       translucidList.push_back(*it);	// add to translucid list
-      putSelbuf((*it)->object());
     }
   }
 
   // sort translucidList
-  //dax7 qsort(translucidList.begin(), translucidList.size(), sizeof(Solid), compDist);
   translucidList.sort(compDist);
 
   // render translucidList
   for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
+    putSelbuf((*it)->object());
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
     else {
-      (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::TRANSLUCID);
+      (*it)->display3D(Solid::TRANSLUCID);
     }
     trace2(DBG_VGL, " %s:%.2f", (*it)->object()->getInstance(), (*it)->userdist);
   }
@@ -307,33 +318,39 @@ void Render::rendering(bool zsel=false)
     }
   }
 
+  // renders opaque solids
   trace2(DBG_VGL, "\nopaq-1: ");
   renderOpaque(zsel);		// no clock, bad guy
   trace2(DBG_VGL, "\nopaq-2: ");
   renderOpaque(zsel);		// second pass to render clock and guy !!!???
-  //dax8 trace2(DBG_VGL, "\nspecif: ");
-  //dax8 renderSpecific();		// no guys text water, hats ok
 
   // renders translucid solids
   trace2(DBG_VGL, "\ntransl: ");
   renderTranslucid(zsel);
 
-  trace2(DBG_VGL, "\n");	// end of trace !
-
   // Renders flashy edges and ray impacts
-  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    if ( ((*it)->isflashy || (*it)->isflary) ) {
-      (*it)->display3D(Solid::DISPLAY, Solid::FLASHRAY);
+  trace2(DBG_VGL, "\nflashy: ");
+  for (list<Solid*>::iterator it = flashyList.begin(); it != flashyList.end() ; ++it) {
+    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->object()->render();
     }
+    else {
+      (*it)->display3D(Solid::FLASHRAY);
+    }
+    trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
 
   // if buffer selection mode is on, don't do anything else: end
-  if (zsel)  return;
+  //dax2 if (zsel)  return;
 
   // Renders localuser last
+  trace2(DBG_VGL, "\nuser: ");
   if (localuser) {
-    (*su)->display3D(Solid::DISPLAY, Solid::LOCALUSER);
+    (*su)->display3D(Solid::LOCALUSER);
+    trace2(DBG_VGL, " %s", (*su)->object()->getInstance());
   }
+
+  trace2(DBG_VGL, "\n");	// end of trace2 !
 }
 
 
@@ -496,7 +513,10 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint z)
   GLuint** hitlist = new GLuint*[hits];
   GLuint *psel = selbuf;
   for (int i=0; i < hits; i++) {
-    if (::g.pref.dbgtrace) error("hit=%d/%d numobject=%d", i, hits, psel[3]);
+    if (::g.pref.dbgtrace)
+      error("hit=%d/%d num=%d name=%s/%s",
+            i, hits, psel[3],
+            WObject::byNum(psel[3])->typeName(),WObject::byNum(psel[3])->getInstance());
     hitlist[i] = psel;
     psel += 3 + psel[0];	// next hit
   }
@@ -507,6 +527,8 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint z)
     qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
     int n = z % hits;
     selected = hitlist[n][3];
+    if (::g.pref.dbgtrace)
+      error("selected=%d num=%d name=%s", n, selected, WObject::byNum(selected)->getInstance());
   }
   if (hitlist) delete[] hitlist;
 
@@ -520,8 +542,8 @@ int Render::compareHit(const void *t1, const void *t2)
   GLuint s2 = (*((GLuint **)t2))[1];
 
   if (s1 > s2)  return 1;
-  if (s1 < s2)  return -1;
-  return 0;
+  else if (s1 < s2)  return -1;
+  else  return 0;
 }
 
 /* Computes and returns bbmax, bbmin in Solid::parser. */
@@ -714,8 +736,9 @@ WObject** Render::getDrawedObjects(int *nbhit)
   WObject** selectlist = new WObject*[hits - usercount];
 
   for (int i=0; i < hits; i++) {
-    if (hitlist[i])
+    if (hitlist[i]) {
       selectlist[i] = WObject::byNum(hitlist[i][3]);
+    }
   }
   if (hitlist) delete[] hitlist;
   *nbhit = hits - usercount;
@@ -762,3 +785,299 @@ void Render::quit()
 {
   Texture::closeCache();
 }
+
+//---------------------------------------------------------------------------
+#if 0 //dax10
+
+void Render::display3D(uint8_t type)
+{
+  if (isBlinking() && (! toggleBlinking()))
+    return;		// pass one turn
+
+  switch (type) {
+
+    case OPAQUE:	// Display opaque solids
+      if (isReflexive()) {
+        displayReflexive();
+      }
+      if (isFlary()) {
+        displayFlary();	// Display attached flares
+      }
+      displayNormal();
+      break;
+
+    case TRANSLUCID:	// Display translucid solids 
+      if (isReflexive()) {
+        displayReflexive();
+      }
+      else {
+        displayNormal();
+      }
+      break;
+
+    case FLASHRAY:	// Display flashy edges and ray
+      if (isFlashy()) {
+        displayFlashy();
+      }
+      if (isFlary()) {
+        displayFlary();	// Display attached flares
+      }
+      if (ray_dlist) {
+        displayRay();
+      }
+      break;
+
+    case LOCALUSER:	// Display local user last
+      displayNormal();
+      break;
+  }
+}
+
+void Render::displayRay()
+{
+  //dax1 glPushAttrib(GL_LINE_BIT);
+  glPushMatrix();
+   glDisable(GL_LIGHTING);
+   glEnable(GL_LINE_STIPPLE);
+
+   glCallList(ray_dlist);
+
+   glDisable(GL_LINE_STIPPLE);
+   glEnable(GL_LIGHTING);
+  glPopMatrix();
+  //dax1 glPopAttrib();
+}
+
+int Render::displayNormal()
+{
+  return displayList(NORMAL);
+}
+
+int Render::displayReflexive()
+{
+  return displayList(REFLEXIVE);
+}
+
+int Render::displayVirtual()
+{
+  return displayList(VIRTUAL);
+}
+
+int Render::displayFlashy()
+{
+  return displayList(FLASHY);
+}
+
+void Render::displayFlary()
+{
+  if (object()->flare) {
+    displayNormal();  // object alone
+
+    glPushMatrix();
+     glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);
+     glTranslatef(object()->pos.x, object()->pos.y, object()->pos.z);
+     //dax vr2gl();
+
+     object()->flare->render(object()->pos);
+
+    glPopMatrix();
+  }
+}
+
+
+/* Renders a solid calling its dlists. */
+int Render::displayList(int display_mode = NORMAL)
+{
+  GLint bufs = GL_NONE;
+
+  if (! dlists)  return 0;
+
+  glPushMatrix();
+  {
+   vr2gl();	// transpose vreng to opengl
+
+   switch (display_mode) {
+
+   case NORMAL:
+      // marks the object in the zbuffer
+      glPopName();
+      glPushName((GLuint) (long) object()->num & 0xffffffff);	// push object number
+
+   case VIRTUAL:	// and NORMAL
+     glPushMatrix();
+
+     if (wobject && wobject->isValid() && wobject->type == USER_TYPE) {	// if localuser
+       User *user = (User *) wobject;
+       if (user->man) {
+         glRotatef(RAD2DEG(-user->man->pos.ax), 1, 0, 0);
+         glRotatef(RAD2DEG(-user->man->pos.ay), 0, 1, 0);
+         glRotatef(RAD2DEG(-user->man->pos.az), 0, 0, 1);
+       }
+       else {
+         glRotatef(RAD2DEG(-user->pos.ax), 1, 0, 0);
+         glRotatef(RAD2DEG(-user->pos.ay), 0, 1, 0);
+         glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
+       }
+       glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
+     }
+     else if (dlists[frame] > 0) {	// else normal solid
+       //dax8 glPushAttrib(GL_ALL_ATTRIB_BITS); //dax8
+       glEnable(GL_DEPTH_TEST);
+       glDepthMask(GL_TRUE);
+       glDepthFunc(GL_LESS);
+
+       glPushMatrix();
+        glTranslatef(pos[0], pos[1], pos[2]);     // x y z
+        glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
+        glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
+        if (scalex != 1 || scaley != 1 || scalez != 1)
+          glScalef(scalex, scaley, scalez);
+       glPopMatrix();
+
+       if (texid >= 0) {
+         glEnable(GL_TEXTURE_2D);
+         glBindTexture(GL_TEXTURE_2D, texid);
+       }
+       if (alpha < 1) {		// translucid
+         glDepthMask(GL_FALSE);
+         glEnable(GL_BLEND);
+         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
+       }
+       if (*fog > 0) {
+         error("fog=%f %s", *fog, object()->getInstance());
+         glEnable(GL_FOG);
+         glFogi(GL_FOG_MODE, GL_EXP);
+         glFogf(GL_FOG_DENSITY, *fog);
+         glFogfv(GL_FOG_COLOR, fog+1);
+       }
+
+       glCallList(dlists[frame]);	// display the object here !!!
+     }
+     //dax8 glPopAttrib(); //dax8
+     glPopMatrix();
+     break;
+
+   case FLASHY:
+     if (dlists[frame] > 0) {
+       glPushMatrix();
+        glPolygonOffset(2., 1.);		// factor=2 unit=1
+        glDisable(GL_POLYGON_OFFSET_FILL);// wired mode
+        glColor3fv(flashcol);
+        glLineWidth(1);
+        glScalef(1.03, 1.03, 1.03);	// 3%100 more
+        glPolygonMode(GL_FRONT, GL_LINE);
+
+        glCallList(dlists[frame]);
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+       glPopMatrix();
+     }
+     break;
+
+   case REFLEXIVE:
+     if (dlists[frame] > 0) {		// is displaylist of mirror exists ?
+      glPopName();
+      glPushName((GLuint) (long) object()->num & 0xffffffff);	// push object number
+
+      glGetIntegerv(GL_DRAW_BUFFER, &bufs); 	// get the current color buffer being drawn to
+      glPushMatrix();
+       glClearStencil(0);			// set the clear value
+       glClear(GL_STENCIL_BUFFER_BIT);		// clear the stencil buffer
+       glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
+       glStencilOp(GL_REPLACE, GL_REPLACE, GL_REPLACE); // operation to modify the stencil buffer
+       glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+       glDrawBuffer(GL_NONE);			// disable drawing to the color buffer
+       glEnable(GL_STENCIL_TEST);		// enable stencil
+
+       glCallList(dlists[frame]);		// display the mirror inside the stencil
+
+       glStencilFunc(GL_ALWAYS, 1, 1);		// always pass the stencil test
+       glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+       glDrawBuffer((GLenum) bufs);		// reenable drawing to color buffer
+       glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); 	// make stencil buffer read only
+
+       glPushMatrix();
+        GLdouble eqn[4] = {-0,-0,-1,0};		// clipping plane
+        glClipPlane(GL_CLIP_PLANE0, eqn);
+        glEnable(GL_CLIP_PLANE0);		// enable clipping
+        glStencilFunc(GL_EQUAL, 1, 1);		// draw only where the stencil == 1
+
+        //dax0 displayMirroredScene();		// display the mirrored scene
+        object()->render();			// display the mirrored scene by mirror itself
+
+        glDisable(GL_CLIP_PLANE0);
+       glPopMatrix();
+       glDisable(GL_STENCIL_TEST);		// disable the stencil
+
+       glDepthMask(GL_FALSE);
+       glEnable(GL_BLEND);			// mirror shine effect
+       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+       glDepthFunc(GL_LEQUAL);
+
+       glCallList(dlists[frame]);		// display the physical mirror
+
+       glDepthFunc(GL_LESS);
+       glDisable(GL_BLEND);
+       glDepthMask(GL_TRUE);
+      glPopMatrix();
+    }
+    break;	// reflexive
+   }
+   if (*fog > 0) {
+     glDisable(GL_FOG);
+   }
+   if (texid >= 0) {
+     glDisable(GL_TEXTURE_2D);
+   }
+   if (alpha < 1) {	// translucid
+     glDisable(GL_BLEND);
+     glDepthMask(GL_TRUE);
+   }
+  }
+  glPopMatrix();
+
+  return dlists[frame];		// displaylist number
+}
+
+/* Display mirrored scene */
+void Render::displayMirroredScene()
+{
+#if 0 //dax0 done by mirror object
+
+  // 1) faire une translation pour amener le plan de reflexion à la position miroir
+  glTranslatef(-object()->pos.x, 0, 0);
+  // 2) le miroir est dans le plan YZ; faire une reflexion par -1 en X
+  glScalef(-1, 1, 1);
+  // 3) mettre un plan de clipping a la position du miroir afin d'eliminer
+  //    les reflexions des objets qui sont à l'arriere du miroir
+  // 4) faire la translation inverse
+  glTranslatef(object()->pos.x, 0, 0);
+  // D) displays scene (opaque solids only)
+  for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); o++) {
+    if ((*o) && (*o)->isVisible() && (*o)->isOpaque()) {
+      glPushMatrix();
+       // rotation inverse lorsque que le miroir tourne parallelement a notre vision.
+       glRotatef(RAD2DEG(object()->pos.az), 0,0,1);
+       glRotatef(-RAD2DEG(object()->pos.ay), 0,1,0);
+       glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
+       glScalef(1, -1, 1);
+       (*o)->getSolid()->displayVirtual();
+      glPopMatrix();
+    }
+  }
+  glPushMatrix();
+   glRotatef(RAD2DEG(object()->pos.az), 0,0,1);
+   glRotatef(-RAD2DEG(object()->pos.ay), 0,1,0);
+   glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
+
+   // Displays avatar
+   if  (localuser->android) localuser->android->getSolid()->displayVirtual();
+   else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
+   else if (localuser->man) localuser->getSolid()->displayVirtual();
+   else glCallList(localuser->getSolid()->displayVirtual());
+  glPopMatrix();
+
+#endif //dax0
+}
+
+#endif //dax10

@@ -374,7 +374,6 @@ void Widgets::callAction(int numaction)
   if (! localuser)  return;
 
   struct timeval t;
-
   gettimeofday(&t, NULL);
   localuser->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);	// do action
 }
@@ -391,7 +390,7 @@ static void objectActionCB(int numaction)
 }
 
 /** returns info about the pointed object */
-WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
+WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 {
   trace(DBG_GUI, "Pointed: clic=%d,%d %d", x, y, z);
   static char *classname = 0, *instancename = 0, *actionnames = 0;
@@ -412,15 +411,13 @@ WObject* Widgets::getPointedObject(int x, int y, ObjInfo *objinfo, int z)
     return NULL;	// invisible
 
   // an object has been selected
-  if (::g.pref.dbgtrace) trace(DBG_FORCE, "Pointed: obj=%p", object);
-
-  // get the object hname or avatar name
+  // get the object hname
   object->getObjectHumanName(&classname, &instancename, &actionnames);
   if (classname == NULL)  return NULL;
   objinfo[0].name = classname;
   if (instancename == NULL) instancename = (char *)"";
   objinfo[1].name = instancename;   // TO BE COMPLETED
-  if (::g.pref.dbgtrace) error("Pointed: %s:%s %p", classname, instancename, actionnames);
+  if (::g.pref.dbgtrace) trace(DBG_FORCE, "Pointed: %s", classname);
 
   // get actions of this object
   int i = 0;

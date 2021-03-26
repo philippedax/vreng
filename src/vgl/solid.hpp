@@ -58,8 +58,8 @@ protected:
   bool		isframed;	///< flag framed.
   bool		isflashy;	///< flag flashy.
   bool		isflashable;	///< flag flashable.
-  bool		isreflex;	///< flag reflexive.
   bool		isflary;	///< flag flary.
+  bool		isreflex;	///< flag reflexive.
   bool		isblinking;	///< flag blinking.
   bool		blink;		///< flag blink.
   uint8_t	shape;		///< basic shape.
@@ -152,11 +152,23 @@ public:
   virtual bool isOpaque() const;
   /**< Return if the solid is opaque or not. */
 
-  // Displaying 3D
-  virtual void display3D(render_mode mode, render_type layer);
-  /**< Issue the OpenGL commands to draw the solid in the given mode.
-       It is called several times with "layer" increasing from 0 to ? in
-       order to allow drawing at different layers. */
+  virtual bool isFlashy() const;
+  /**< Return if the solid is flashy or not. */
+
+  virtual void setFlashyEdges(bool flag);
+  /**< Sets the solid edges flashy. */
+
+  virtual bool isFlary() const;
+  /**< Return if the solid is flary or not. */
+
+  virtual void setFlary(bool flag);
+  /**< Sets the solid flary. */
+
+  virtual bool isReflexive() const;
+  /**< Return if the solid is reflexive or not. */
+
+  virtual void setReflexive(bool flag);
+  /**< Sets the solid reflexive. */
 
   // File parsing
   virtual char* parser(char *l);	///< Parser commun.
@@ -193,20 +205,22 @@ public:
   virtual void resetFlashyEdges();
   /**< Resets the solid edges flashy. */
 
-  virtual void setReflexive(bool flag);
-  /**< Sets the solid reflexive. */
+  virtual void vr2gl();
+  /**< Transposes vreng coordinates in opengl coordinates. */
 
-  virtual bool isReflexive() const;
-  /**< Checks whether the solid is reflexive. */
+  virtual GLint getDlist() const;
+  /**< Gets current displaylist number. */
 
-  virtual void setFlary(bool flag);
-  /**< Sets the solid flary. */
+  virtual GLint getTexid() const;
+  /**< Gets current texid. */
 
-  virtual bool isFlary() const;
-  /**< Checks whether the solid is flary. */
-
-  virtual void setFlashyEdges(bool flag);
-  /**< Sets the solid edges flashy. */
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Displaying 3D
+  //dax6 virtual void display3D(render_mode mode, render_type layer);
+  virtual void display3D(render_type layer);
+  /**< Issue the OpenGL commands to draw the solid in the given mode.
+       It is called several times with "layer" increasing from 0 to ? in
+       order to allow drawing at different layers. */
 
   virtual int displayList(int rendertype);
   /**< Renders a solid in display-list. */
@@ -228,15 +242,6 @@ public:
 
   virtual void displayRay();
   /**< Displays ray. */
-
-  virtual void vr2gl();
-  /**< Transposes vreng coordinates in opengl coordinates. */
-
-  virtual GLint getDlist() const;
-  /**< Gets current displaylist number. */
-
-  virtual GLint getTexid() const;
-  /**< Gets current texid. */
 
 private:
 

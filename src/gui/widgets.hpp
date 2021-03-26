@@ -116,7 +116,7 @@ public:
   ///< Removes a world name.
 
   // Callback functions
-  class WObject* getPointedObject(int x, int y, ObjInfo* obji, int depthsel);
+  class WObject* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
   /**< returns info about the pointed object but do NOT select it */
   
   static void callAction(int numaction);
