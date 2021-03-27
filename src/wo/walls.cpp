@@ -100,7 +100,7 @@ Walls::Walls(char *l)
   parser(l);
 
   enableBehavior(NO_BBABLE);
-  enableBehavior(UNSELECTABLE);
+  //dax enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
 
   initStillObject();

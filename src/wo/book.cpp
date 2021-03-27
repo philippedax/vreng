@@ -569,14 +569,9 @@ void Book::pushNext(Sheet* sheet, float dist)
 
 void Book::cancelSheet(Sheet* sheet)
 {
-#if 0
-  sheet->destroy();
-#else
   if (sheet) {
-    //FIXME segfault sheet->toDelete();
-    //delete sheet;
+    sheet->toDelete();
   }
-#endif
 }
 
 /* approach the book near the avatar */

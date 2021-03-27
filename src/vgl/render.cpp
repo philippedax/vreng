@@ -163,7 +163,7 @@ void Render::putSelbuf(WObject *po)
 }
 
 // DEBUG //
-#if 1 //dax0 set to 1 to debug
+#if 0 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -262,6 +262,7 @@ void Render::renderOpaque(bool zsel)
       (*it)->setRendered(true);
     }
     else {
+      putSelbuf((*it)->object());
       (*it)->setRendered(false);
     }
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
@@ -282,16 +283,17 @@ void Render::renderTranslucid(bool zsel)
 
   // sort translucidList
   translucidList.sort(compDist);
+  opaqueList.sort(compSize);
 
   // render translucidList
   for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
-    putSelbuf((*it)->object());
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
     else {
       (*it)->display3D(Solid::TRANSLUCID);
     }
+    putSelbuf((*it)->object());
     trace2(DBG_VGL, " %s:%.2f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
@@ -337,6 +339,7 @@ void Render::rendering(bool zsel=false)
     else {
       (*it)->display3D(Solid::FLASHRAY);
     }
+    putSelbuf((*it)->object());
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
 
@@ -346,7 +349,13 @@ void Render::rendering(bool zsel=false)
   // Renders localuser last
   trace2(DBG_VGL, "\nuser: ");
   if (localuser) {
-    (*su)->display3D(Solid::LOCALUSER);
+    if ((*su)->object()->isBehavior(SPECIFIC_RENDER)) {
+      (*su)->object()->render();
+    }
+    else {
+      (*su)->display3D(Solid::LOCALUSER);
+    }
+    putSelbuf((*su)->object());
     trace2(DBG_VGL, " %s", (*su)->object()->getInstance());
   }
 
@@ -514,25 +523,26 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint z)
   GLuint *psel = selbuf;
   for (int i=0; i < hits; i++) {
     if (::g.pref.dbgtrace)
-      error("hit=%d/%d num=%d name=%s/%s",
-            i, hits, psel[3],
+      error("hit=%d/%d num=%d min=%ud name=%s/%s",
+            i, hits, psel[3], psel[1],
             WObject::byNum(psel[3])->typeName(),WObject::byNum(psel[3])->getInstance());
     hitlist[i] = psel;
-    psel += 3 + psel[0];	// next hit
+    //dax psel += 3 + psel[0];	// next hit
+    psel += 4;			// next hit
   }
 
-  uint16_t selected = 0;
+  uint16_t nearest = 0;
 
   if (hits > 0) {
     qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
     int n = z % hits;
-    selected = hitlist[n][3];
+    nearest = hitlist[n][3];
     if (::g.pref.dbgtrace)
-      error("selected=%d num=%d name=%s", n, selected, WObject::byNum(selected)->getInstance());
+      error("nearest=%d num=%d name=%s", n, nearest, WObject::byNum(nearest)->getInstance());
   }
   if (hitlist) delete[] hitlist;
 
-  return selected;
+  return nearest;
 }
 
 /* Qsort function for elements of the selection buffer. */

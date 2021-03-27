@@ -103,15 +103,6 @@ protected:
   virtual void setName();
   /**< Sets qualified name */
 
-  virtual void setPersist();
-  /**< inserts object */
-
-  virtual void getPersist();
-  /**< Selects object */
-
-  virtual void delPersist();
-  /**< Deletes object */
-
   virtual void inits();
   /**< Do specific inits */
 

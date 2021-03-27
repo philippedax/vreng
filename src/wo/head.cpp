@@ -23,7 +23,6 @@
 #include "format.hpp"
 #include "user.hpp"	// localuser
 #include "model.hpp"	// Model
-#include "vrsql.hpp"	// VRSql
 
 
 const OClass Head::oclass(HEAD_TYPE, "Head", Head::creator);
@@ -127,37 +126,6 @@ void Head::setName()
   setName(typeName());
 }
 
-void Head::setPersist()
-{
-#if VRSQL
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql && givenName()) {
-    psql->insertRow(this);
-    psql->updatePos(this);
-    psql->updateOwner(this);
-  }
-#endif
-}
-
-void Head::getPersist()
-{
-#if VRSQL
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql && givenName()) {
-    psql->getOwner(this);
-    psql->getPos(this);
-    psql->getGeom(this);
-  }
-#endif
-}
-
-void Head::delPersist()
-{
-#if VRSQL
-  if (psql && givenName()) psql->deleteRow(this, names.given);
-#endif
-}
-
 /* special initializations */
 void Head::inits()
 {
@@ -214,7 +182,6 @@ Head::Head(User *user, void *d, time_t s, time_t u)
   makeSolid();
   setName(modelname);
   setOwner();
-  getPersist();
   behavior();
   inits();
 }
@@ -277,7 +244,6 @@ void Head::quit()
 {
   phead = NULL;
   oid = 0;
-  savePersistency();
 }
 
 /* Creation: this method is invisible: called by the World */

@@ -36,15 +36,17 @@ static struct sCyl cyl[3];
 
 static float hrnd(float n) { return (n*rand())/RAND_MAX; }
 
-static float nrnd(float d) // normal distribution randomizer
+// normal distribution randomizer
+static float nrnd(float d)
 {
   float r,v1,v2;
+
   do {
-    v1=2*hrnd(1.)-1.;
-    v2=2*hrnd(1.)-1.;
-    r=v1*v1+v2*v2;
+    v1 = 2*hrnd(1.)-1.;
+    v2 = 2*hrnd(1.)-1.;
+    r = v1*v1+v2*v2;
   } while (r >= 1. || r == 0.);
-  r = sqrt(-2.*log(r)/r);
+  r = sqrt(-2. * log(r)/r);
   return v1*d*r;
 }
 
@@ -137,8 +139,9 @@ void Fire::draw()
 {
   struct sParticle *p = particles;
 
-  for (int n=0; n<np ; n++, p++)
+  for (int n=0; n<np ; n++, p++) {
     draw(p->ex, p->ey, p->dx, p->dx, p->a);
+  }
 }
 
 void Fire::draw(float ex, float ey, float dx, float dy, float a)
@@ -153,24 +156,24 @@ void Fire::draw(float ex, float ey, float dx, float dy, float a)
   glBegin(GL_TRIANGLE_FAN);
   gettimeofday(&tv, NULL);
   srand((time_t) tv.tv_usec);
-   if (drand48() > 0.5)
-     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, yellow);
-   else
-     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, red);
-   glVertex3f(ex, ex, ey);
+  if (drand48() > 0.5)
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, yellow);
+  else
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, red);
+  glVertex3f(ex, ex, ey);
   gettimeofday(&tv, NULL);
   srand((time_t) tv.tv_usec);
-   if (drand48() > 0.5)
-     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, yellow);
-   else
-     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, red);
-   glVertex3f(ex-dx, ex-dx, ey);
-   glVertex3f(ex-dx*.5, ex-dx*.5, ey + M_SQRT3_2*dy);
-   glVertex3f(ex+dx*.5, ex+dx*.5, ey + M_SQRT3_2*dy);
-   glVertex3f(ex+dx, ex+dx, ey);
-   glVertex3f(ex+dx*.5, ex+dx*.5, ey - M_SQRT3_2*dy);
-   glVertex3f(ex-dx*.5, ex-dx*.5, ey - M_SQRT3_2*dy);
-   glVertex3f(ex-dx, ex-dx, ey);
+  if (drand48() > 0.5)
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, yellow);
+  else
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, red);
+  glVertex3f(ex-dx, ex-dx, ey);
+  glVertex3f(ex-dx*1.8, ex-dx*1.8, ey + M_SQRT3_2*dy);
+  glVertex3f(ex+dx*1.8, ex+dx*1.8, ey + M_SQRT3_2*dy);
+  glVertex3f(ex+dx, ex+dx, ey);
+  glVertex3f(ex+dx*1.8, ex+dx*1.8, ey - M_SQRT3_2*dy);
+  glVertex3f(ex-dx*1.8, ex-dx*1.8, ey - M_SQRT3_2*dy);
+  glVertex3f(ex-dx, ex-dx, ey);
   glEnd();
 }
 
@@ -180,6 +183,7 @@ void Fire::render()
 
   //dax glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
+  glEnable(GL_LIGHTING);
   glTranslatef(pos.x, pos.y, pos.z);
   float seed = ((float) drand48() * 2) - 1.;
   glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
@@ -190,8 +194,10 @@ void Fire::render()
   draw();
 
   glDisable(GL_BLEND);
+  glDisable(GL_LIGHTING);
   glPopMatrix();
   //dax glPopAttrib();
+
   nf++;
 }
 
@@ -232,7 +238,9 @@ void Fire::changePermanent(float dt)
       p->s.z = .05*FIRESIZE + .77*FIRESIZE*(1-p->t/FIRELIFE);
     }
   }
-  else lasttime += dt;
+  else {
+    lasttime += dt;
+  }
 
   Vector3 v, o;
   Matrix3 m;
