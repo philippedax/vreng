@@ -730,6 +730,12 @@ void UDispX11::startLoop(bool main) {
     
     if (UAppli::impl.sources) a.resetSources(UAppli::impl.sources, read_set, maxfd);
     
+#if 1 //dax FIX startLloop
+    if (maxfd > 128) {	// bad maxfd returned by resetSources FIXME!
+      //printf("maxfd=%d\n", maxfd);
+      maxfd = 3;
+    }
+#endif //dax
     struct timeval delay;
     bool has_timeout = false;
     UTimerImpl::Timers& timers = UAppli::impl.timer_impl.timers;
@@ -746,9 +752,10 @@ void UDispX11::startLoop(bool main) {
                              (has_timeout ? &delay : null));
     if (has_input < 0) {
       //dax UAppli::warning("UDispX11::startLoop (%d)","error in select()", errno);
-      printf("UDispX11::startLoop error in select() (%d) main=%d\n", errno, main);
-      //dax if (errno == EINTR || errno == EAGAIN) errno = 0;
-      if (errno == EINTR || errno == EAGAIN || errno == EINVAL ) errno = 0;
+      printf("UDispX11::startLoop error in select() (%d) main=%d to=%d sec=%ld usec=%d maxfd=%d\n", errno, main, has_timeout, delay.tv_sec, delay.tv_usec, maxfd);
+
+      if (errno == EINTR || errno == EAGAIN) errno = 0;
+      if (errno == EINVAL ) errno = 0;
       a.cleanSources(a.sources); // remove invalid sources
     }
     
