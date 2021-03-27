@@ -70,10 +70,13 @@ void * Wind::getHttp(void * arg)
 #endif
 #endif
   FILE *pp;
-  if ((pp = popen(cmd, "r")) == NULL) { perror("popen wind"); return NULL; }
+  if ((pp = popen(cmd, "r")) == NULL) {
+    perror("popen wind");
+    return NULL;
+  }
 
   int orientation=0, speed=0;
-  char buf[BUFSIZ];
+  char buf[128];
   fgets(buf, sizeof(buf), pp);
   if (isdigit(*buf)) {
     orientation = -atoi(buf);
@@ -105,13 +108,11 @@ Wind::Wind(char *l)
   initObject(INVISIBLE);
   wind = this;
 
-#if 0 //FIXME hang
-  signal(SIGALRM, sigwind);
-  alarm(5);
-#endif
 #if HAVE_LIBPTHREAD
-  pthread_create(&tid, NULL, getHttp, (void *) NULL);
-  pthread_join(tid, NULL);
+  int r = pthread_create(&tid, NULL, getHttp, (void *) NULL);
+  if (r)
+    perror("wind: pthread_create");
+  //dax pthread_join(tid, NULL);
 #else
   if (fork() == 0) {
     getHttp((void *) NULL);

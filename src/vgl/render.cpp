@@ -211,7 +211,6 @@ void Render::renderSpecific()  //dax8
        ) {
       (*it)->setRendered(true);
       //dax7 materials();
-      putSelbuf((*it)->object());
       (*it)->object()->render();	// render done by object itself
       trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
     }
@@ -250,7 +249,6 @@ void Render::renderOpaque(bool zsel)
       //dax6 (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
       (*it)->display3D(Solid::OPAQUE);
     }
-    //putSelbuf((*it)->object());
     //dax5 hack exeptions! FIXME!
     if (
           (*it)->object()->typeName() != "Clock" 
@@ -258,11 +256,9 @@ void Render::renderOpaque(bool zsel)
        //dax5 && (*it)->object()->typeName() != "Mirage"// no effects
        //dax5 && (*it)->object()->typeName() != "Flag" //dax5 flag ok but no guys cristal horloge
        ) {
-      putSelbuf((*it)->object());
       (*it)->setRendered(true);
     }
     else {
-      putSelbuf((*it)->object());
       (*it)->setRendered(false);
     }
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
@@ -293,7 +289,6 @@ void Render::renderTranslucid(bool zsel)
     else {
       (*it)->display3D(Solid::TRANSLUCID);
     }
-    putSelbuf((*it)->object());
     trace2(DBG_VGL, " %s:%.2f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
@@ -309,10 +304,11 @@ void Render::rendering(bool zsel=false)
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
-  // Set setRendered=false for all solids and find the localuser solid
+  // Set setRendered=false putSelbuf for all solids and find the localuser solid
   list<Solid*>::iterator su;
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     (*it)->setRendered(false);
+    putSelbuf((*it)->object());
     if ((*it)->object()->type == USER_TYPE) {
       if ((*it)->object() == localuser) {
         su = it;	// localuser
@@ -339,7 +335,6 @@ void Render::rendering(bool zsel=false)
     else {
       (*it)->display3D(Solid::FLASHRAY);
     }
-    putSelbuf((*it)->object());
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
 
@@ -355,7 +350,6 @@ void Render::rendering(bool zsel=false)
     else {
       (*su)->display3D(Solid::LOCALUSER);
     }
-    putSelbuf((*su)->object());
     trace2(DBG_VGL, " %s", (*su)->object()->getInstance());
   }
 

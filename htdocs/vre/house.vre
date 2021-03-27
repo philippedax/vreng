@@ -386,7 +386,7 @@
 
 <door name="portique-door" pos="7.22 -.6 1 -.1" open="-1.57" close="1.57" speed="-1"> <solid dim="1.2 .04 2" dif=".9 .1 .1" /> </door>
 
-<wall name="gateway" pos="13.5 0 -.1"> <solid dim="13 2 .2" dif="yellow" /></wall>
+<wall name="gateway" pos="13.5 0 -.1"> <solid dim="13 2 .1" dif="yellow" /></wall>
 
 <thing name="iguazu" pos="3 -1.98 2"> <solid dim="5 .04 2.4" xn="/gif/iguazu.gif" /></thing>
 <thing name="abstract" pos="3.5 -9.78 1.8"> <solid dim="3.2 .04 2" xn="/gif/picCst.gif" /></thing>
