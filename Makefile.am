@@ -55,16 +55,16 @@ FINGERPRINT_ZIP = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-zip.md5sum
 
 dist dist-all:
 	-make dist-gzip
-	-make dist-bzip2
+#	-make dist-bzip2
 	-make dist-xz
-	-make dist-zip
+#	-make dist-zip
 	-cp -p ChangeLog VERSION $(HTML)
 
 fingerprint:
 	-md5sum < $(TARBALL_GZ) > $(FINGERPRINT_GZ)
-	-md5sum < $(TARBALL_BZ2) > $(FINGERPRINT_BZ2)
+#	-md5sum < $(TARBALL_BZ2) > $(FINGERPRINT_BZ2)
 	-md5sum < $(TARBALL_XZ) > $(FINGERPRINT_XZ)
-	-md5sum < $(TARBALL_ZIP) > $(FINGERPRINT_ZIP)
+#	-md5sum < $(TARBALL_ZIP) > $(FINGERPRINT_ZIP)
 
 rss:
 	support/vreng-rss
@@ -80,17 +80,17 @@ svntags:
 archive: dist fingerprint
 	-install -m 444 $(FINGERPRINT_GZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_GZ) $(ARCHIVE)
-	-install -m 444 $(FINGERPRINT_BZ2) $(ARCHIVE)
-	-install -m 444 $(TARBALL_BZ2) $(ARCHIVE)
+#	-install -m 444 $(FINGERPRINT_BZ2) $(ARCHIVE)
+#	-install -m 444 $(TARBALL_BZ2) $(ARCHIVE)
 	-install -m 444 $(FINGERPRINT_XZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_XZ) $(ARCHIVE)
-	-install -m 444 $(FINGERPRINT_ZIP) $(ARCHIVE)
-	-install -m 444 $(TARBALL_ZIP) $(ARCHIVE)
+#	-install -m 444 $(FINGERPRINT_ZIP) $(ARCHIVE)
+#	-install -m 444 $(TARBALL_ZIP) $(ARCHIVE)
 	-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_BZ2); ln -s $(TARBALL_BZ2) $(TARLINK_BZ2); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ); rm -f $(TARLINK_ZIP); ln -s $(TARBALL_ZIP) $(TARLINK_ZIP))
 	@-rm $(FINGERPRINT_GZ)
-	@-rm $(FINGERPRINT_BZ2)
+#	@-rm $(FINGERPRINT_BZ2)
 	@-rm $(FINGERPRINT_XZ)
-	@-rm $(FINGERPRINT_ZIP)
+#	@-rm $(FINGERPRINT_ZIP)
 
 doxygen:
 	@-rm -f $(HTML)/doxygen/html/*

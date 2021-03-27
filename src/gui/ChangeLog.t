@@ -16,6 +16,8 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.2\n\
 -- 9.2.0\n\
+	- fixed errno 22 on select in udispX11.cpp (bad maxfd)\n\
+	(2021/03/27, Philippe Dax)\n\
 	- added opaque list sorted decreasingly by surface sizes\n\
 	- added symlink to htdocs if universe is local\n\
 	(2021/03/18, Philippe Dax)\n\
