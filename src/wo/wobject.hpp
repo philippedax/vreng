@@ -656,6 +656,9 @@ public:
   virtual bool isSelectable() const;
   /**< Checks weither 3D selectable behavior is on. */
 
+  virtual bool isRemoved() const;
+  /**< Returns if object has been removed or not. */
+
   virtual uint32_t collideBehavior() const;
   /**< Returns collide behavior. */
 

@@ -26,4 +26,4 @@ git push origin master
 #./.github
 
 touch ci.log
-echo "${date}	$message" >>ci.log
+echo "$(date)	$message" >> ci.log

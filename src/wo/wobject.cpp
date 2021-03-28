@@ -291,6 +291,11 @@ void WObject::setType(int _type)
   type = _type;
 }
 
+bool WObject::isRemoved() const
+{
+  return removed;
+}
+
 // static
 uint32_t WObject::getObjectsNumber()
 {

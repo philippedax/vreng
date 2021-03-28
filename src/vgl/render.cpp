@@ -227,7 +227,7 @@ void Render::renderOpaque(bool zsel)
     if ( (*it)->isOpaque() &&
          (*it)->isVisible() &&
          !(*it)->isRendered() &&
-         !(*it)->object()->removed
+         !(*it)->object()->isRemoved()
        ) {
       if ( (*it)->isFlashy() || (*it)->isFlary() )
         flashyList.push_back(*it);	// add to flashy list
@@ -261,6 +261,7 @@ void Render::renderOpaque(bool zsel)
     else {
       (*it)->setRendered(false);
     }
+    putSelbuf((*it)->object());
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
@@ -272,14 +273,14 @@ void Render::renderTranslucid(bool zsel)
   // build translucidList from solidList
   translucidList.clear();
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    if ( (*it)->isOpaque() == false && (*it)->isVisible() && !(*it)->object()->removed ) {
+    if ( (*it)->isOpaque() == false && (*it)->isVisible() && !(*it)->object()->isRemoved() ) {
       translucidList.push_back(*it);	// add to translucid list
     }
   }
 
   // sort translucidList
   translucidList.sort(compDist);
-  opaqueList.sort(compSize);
+  //dax5 translucidList.sort(compSize);
 
   // render translucidList
   for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
@@ -289,6 +290,7 @@ void Render::renderTranslucid(bool zsel)
     else {
       (*it)->display3D(Solid::TRANSLUCID);
     }
+    //dax4 putSelbuf((*it)->object());
     trace2(DBG_VGL, " %s:%.2f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
@@ -312,7 +314,7 @@ void Render::rendering(bool zsel=false)
   list<Solid*>::iterator su;
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     (*it)->setRendered(false);
-    putSelbuf((*it)->object());
+    //dax4 putSelbuf((*it)->object());
     if ((*it)->object()->type == USER_TYPE) {
       if ((*it)->object() == localuser) {
         su = it;	// localuser
