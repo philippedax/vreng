@@ -41,8 +41,8 @@ using namespace std;
 
 
 // local
-const int Render::SEL_BUFSIZ = (4*1024);	// 1024 names
-static GLuint selbuf[4*1024];			// 1024 objects
+const int Render::SEL_BUFSIZ = (4*128);		// 128 names
+static GLuint selbuf[4*128];			// 128 objects
 
 extern struct Render::sCamera cam_user;		// camera.cpp
 
@@ -153,19 +153,19 @@ void Render::materials()
   //dax2 glMaterialfv(GL_FRONT, GL_EMISSION, color);
 }
 
-/** Puts object number into the buffer selection */
-void Render::putSelbuf(WObject *po)
-{
-  if (po && po->isValid() && po->isSelectable()) {
-    glPopName();
-    glPushName((GLuint) (long) po->num & 0xffffffff); // hack for 64 bits
-  }
-}
-
 // DEBUG //
 #if 0 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
+
+/** Puts object number into the selection buffer */
+void Render::putSelbuf(WObject *obj)
+{
+  if (obj->isSelectable()) {
+    glPopName();
+    glPushName((GLuint) (long) obj->num); // push number
+  }
+}
 
 // Compares distances  : called by sort()
 int Render::compDist(const void *t1, const void *t2)
@@ -304,7 +304,11 @@ void Render::rendering(bool zsel=false)
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
-  // Set setRendered=false putSelbuf for all solids and find the localuser solid
+  // clear the selection buffer
+  glInitNames();
+
+  // for all solids
+  // set setRendered=false putSelbuf and find the localuser solid
   list<Solid*>::iterator su;
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     (*it)->setRendered(false);
@@ -472,14 +476,26 @@ void Render::setAllTypeFlashy(char *object_type, int typeflash)
  * returns object number selectionned
  * called by camera and getPointedObject (widgets.cpp)
  */
-uint16_t Render::bufferSelection(GLint x, GLint y, GLint z)
+uint16_t Render::bufferSelection(GLint x, GLint y)
 {
+  return bufferSelection(x, y, 0);
+}
+
+uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
+{
+#if 0 //dax3
+  int max, cur = 0;
+  glGetIntegerv(GL_NAME_STACK_DEPTH, &cur);
+  glGetIntegerv(GL_MAX_NAME_STACK_DEPTH, &max);
+  error("bufselect: x=%d y=%d names:%d/%d", x, y, cur, max);
+#endif //dax3
+
   // set selection mode
   memset(selbuf, 0, sizeof(selbuf));
   glSelectBuffer(sizeof(selbuf), selbuf);
   glRenderMode(GL_SELECT);
-  glInitNames();
-  glPushName(0);
+  //dax3 glInitNames();
+  //dax3 glPushName(0);
 
   GLint vp[4];
   glGetIntegerv(GL_VIEWPORT, vp);
@@ -521,7 +537,6 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint z)
             i, hits, psel[3], psel[1],
             WObject::byNum(psel[3])->typeName(),WObject::byNum(psel[3])->getInstance());
     hitlist[i] = psel;
-    //dax psel += 3 + psel[0];	// next hit
     psel += 4;			// next hit
   }
 
@@ -529,10 +544,10 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint z)
 
   if (hits > 0) {
     qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
-    int n = z % hits;
+    int n = depth % hits;
     nearest = hitlist[n][3];
     if (::g.pref.dbgtrace)
-      error("nearest=%d num=%d name=%s", n, nearest, WObject::byNum(nearest)->getInstance());
+      error("n=%d num=%d name=%s", n, nearest, WObject::byNum(nearest)->getInstance());
   }
   if (hitlist) delete[] hitlist;
 
@@ -685,8 +700,8 @@ WObject** Render::getDrawedObjects(int *nbhit)
   // set selection mode
   glSelectBuffer(sizeof(selbuf), selbuf);
   glRenderMode(GL_SELECT);
-  glInitNames();
-  glPushName(0);
+  //dax3 glInitNames();
+  //dax3 glPushName(0);
 
   GLint vp[4];
   glGetIntegerv(GL_VIEWPORT, vp);

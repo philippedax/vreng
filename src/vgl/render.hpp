@@ -175,7 +175,8 @@ public:
   // Selection
   /////////////
 
-  uint16_t bufferSelection(GLint x, GLint y, GLint zdepth);
+  uint16_t bufferSelection(GLint x, GLint y);
+  uint16_t bufferSelection(GLint x, GLint y, GLint depth);
   /**<
    * Returns the solid's num displayed in (x,y) on the screen.
    * We use here coordinates IN THE ZBUFFER and no in the display window.

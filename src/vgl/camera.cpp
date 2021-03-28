@@ -295,7 +295,7 @@ V3 Render::getVisiblePosition(WObject *po)
 
   for (int i=0; i<5; i++) {
     if ((x[i] > w) || (x[i] < 0) || (y[i] > h) || (y[i] < 0)) continue;
-    uint16_t num = bufferSelection((GLint) x[i], (GLint) y[i], 0);
+    uint16_t num = bufferSelection((GLint) x[i], (GLint) y[i]);
     WObject *o = WObject::byNum(num);
     if (o && ! strcasecmp(po->getInstance(), o->getInstance())) {
       seen = true;
