@@ -242,18 +242,17 @@ void Render::renderOpaque(bool zsel)
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
+    putSelbuf((*it)->object());		// record the name before display
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
     else {
-      //dax6 (*it)->display3D(zsel ? Solid::SELECT : Solid::DISPLAY, Solid::OPAQUE);
       (*it)->display3D(Solid::OPAQUE);
     }
     //dax5 hack exeptions! FIXME!
     if (
-          (*it)->object()->typeName() != "Clock" 
+           (*it)->object()->typeName() != "Clock" 
         && (*it)->object()->typeName() != "Guy"		// if commented bad colors
-       //dax5 && (*it)->object()->typeName() != "Mirage"// no effects
        //dax5 && (*it)->object()->typeName() != "Flag" //dax5 flag ok but no guys cristal horloge
        ) {
       (*it)->setRendered(true);
@@ -261,7 +260,6 @@ void Render::renderOpaque(bool zsel)
     else {
       (*it)->setRendered(false);
     }
-    putSelbuf((*it)->object());
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
@@ -280,17 +278,17 @@ void Render::renderTranslucid(bool zsel)
 
   // sort translucidList
   translucidList.sort(compDist);
-  //dax5 translucidList.sort(compSize);
+  translucidList.sort(compSize);
 
   // render translucidList
   for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
+    putSelbuf((*it)->object());		// record the name before display
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
     else {
       (*it)->display3D(Solid::TRANSLUCID);
     }
-    //dax4 putSelbuf((*it)->object());
     trace2(DBG_VGL, " %s:%.2f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
@@ -306,15 +304,11 @@ void Render::rendering(bool zsel=false)
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
-  // clear the selection buffer
-  glInitNames();
-
   // for all solids
-  // set setRendered=false putSelbuf and find the localuser solid
+  // set setRendered=false and find the localuser solid
   list<Solid*>::iterator su;
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     (*it)->setRendered(false);
-    //dax4 putSelbuf((*it)->object());
     if ((*it)->object()->type == USER_TYPE) {
       if ((*it)->object() == localuser) {
         su = it;	// localuser
@@ -343,9 +337,6 @@ void Render::rendering(bool zsel=false)
     }
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
-
-  // if buffer selection mode is on, don't do anything else: end
-  //dax2 if (zsel)  return;
 
   // Renders localuser last
   trace2(DBG_VGL, "\nuser: ");
@@ -496,8 +487,8 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   memset(selbuf, 0, sizeof(selbuf));
   glSelectBuffer(sizeof(selbuf), selbuf);
   glRenderMode(GL_SELECT);
-  //dax3 glInitNames();
-  //dax3 glPushName(0);
+  glInitNames();
+  glPushName(0);
 
   GLint vp[4];
   glGetIntegerv(GL_VIEWPORT, vp);
@@ -526,7 +517,8 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   rendering(true);	// zsel true
 
   // we put the normal mode back
-  glMatrixMode(GL_PROJECTION);
+  //dax6 glMatrixMode(GL_PROJECTION);
+  glMatrixMode(GL_MODELVIEW);
   glPopMatrix();
 
   // scan the selection buffer, find the nearest hit
@@ -539,7 +531,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
             i, hits, psel[3], psel[1],
             WObject::byNum(psel[3])->typeName(),WObject::byNum(psel[3])->getInstance());
     hitlist[i] = psel;
-    psel += 4;			// next hit
+    psel += 3 + psel[0];	// next hit
   }
 
   uint16_t nearest = 0;
@@ -702,8 +694,8 @@ WObject** Render::getDrawedObjects(int *nbhit)
   // set selection mode
   glSelectBuffer(sizeof(selbuf), selbuf);
   glRenderMode(GL_SELECT);
-  //dax3 glInitNames();
-  //dax3 glPushName(0);
+  glInitNames();
+  glPushName(0);
 
   GLint vp[4];
   glGetIntegerv(GL_VIEWPORT, vp);
@@ -945,7 +937,7 @@ int Render::displayList(int display_mode = NORMAL)
        //dax8 glPushAttrib(GL_ALL_ATTRIB_BITS); //dax8
        glEnable(GL_DEPTH_TEST);
        glDepthMask(GL_TRUE);
-       glDepthFunc(GL_LESS);
+       glDepthFunc(GL_LEQUAL);
 
        glPushMatrix();
         glTranslatef(pos[0], pos[1], pos[2]);     // x y z
@@ -1037,7 +1029,7 @@ int Render::displayList(int display_mode = NORMAL)
 
        glCallList(dlists[frame]);		// display the physical mirror
 
-       glDepthFunc(GL_LESS);
+       //dax glDepthFunc(GL_LESS);
        glDisable(GL_BLEND);
        glDepthMask(GL_TRUE);
       glPopMatrix();
