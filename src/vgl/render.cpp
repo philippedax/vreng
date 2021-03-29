@@ -158,12 +158,12 @@ void Render::materials()
 #define DBG_VGL DBG_FORCE
 #endif
 
-/** Puts object number into the selection buffer */
+/** Records object number into the selection buffer */
 void Render::putSelbuf(WObject *obj)
 {
   if (obj->isSelectable()) {
     glPopName();
-    glPushName((GLuint) (long) obj->num); // push number
+    glPushName((GLuint) obj->num); // push number
   }
 }
 
@@ -218,7 +218,7 @@ void Render::renderSpecific()  //dax8
 }
 
 // Renders opaque solids
-void Render::renderOpaque(bool zsel)
+void Render::renderOpaque()
 {
   // build opaqueList from solidList
   opaqueList.clear();
@@ -242,7 +242,7 @@ void Render::renderOpaque(bool zsel)
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
-    putSelbuf((*it)->object());		// record the name before display
+    putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
@@ -253,7 +253,6 @@ void Render::renderOpaque(bool zsel)
     if (
            (*it)->object()->typeName() != "Clock" 
         && (*it)->object()->typeName() != "Guy"		// if commented bad colors
-       //dax5 && (*it)->object()->typeName() != "Flag" //dax5 flag ok but no guys cristal horloge
        ) {
       (*it)->setRendered(true);
     }
@@ -266,7 +265,7 @@ void Render::renderOpaque(bool zsel)
 }
 
 // Renders translucid solids sorted from the furthest to the nearest
-void Render::renderTranslucid(bool zsel)
+void Render::renderTranslucid()
 {
   // build translucidList from solidList
   translucidList.clear();
@@ -282,7 +281,7 @@ void Render::renderTranslucid(bool zsel)
 
   // render translucidList
   for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
-    putSelbuf((*it)->object());		// record the name before display
+    putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
@@ -300,7 +299,7 @@ void Render::renderTranslucid(bool zsel)
  * - renders solids in displaylists
  * - makes specific rendering for special objects
  */
-void Render::rendering(bool zsel=false)
+void Render::rendering()
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
@@ -318,13 +317,13 @@ void Render::rendering(bool zsel=false)
 
   // renders opaque solids
   trace2(DBG_VGL, "\nopaq-1: ");
-  renderOpaque(zsel);		// no clock, bad guy
+  renderOpaque();		// no clock, bad guy
   trace2(DBG_VGL, "\nopaq-2: ");
-  renderOpaque(zsel);		// second pass to render clock and guy !!!???
+  renderOpaque();		// second pass to render clock and guy !!!???
 
   // renders translucid solids
   trace2(DBG_VGL, "\ntransl: ");
-  renderTranslucid(zsel);
+  renderTranslucid();
 
   // Renders flashy edges and ray impacts
   trace2(DBG_VGL, "\nflashy: ");
@@ -363,7 +362,7 @@ void Render::render()
   cameraPosition();		// camera position
   clearGLBuffer();		// background color
   lighting();			// general lighting
-  rendering(0);			// solids rendering
+  rendering();			// solids rendering
   Grid::grid()->render();	// grid
   Axis::axis()->render();	// axis
   satellite();                  // launch a satellite camera
@@ -374,7 +373,7 @@ void Render::minirender()
 {
   cameraPosition();		// camera position
   clearGLBuffer();		// background color
-  rendering(0);			// solids rendering
+  rendering();			// solids rendering
 }
 
 void Render::clearGLBuffer()
@@ -514,7 +513,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   cameraPosition();
 
   // redraw the objects into the selection buffer
-  rendering(true);	// zsel true
+  rendering();
 
   // we put the normal mode back
   //dax6 glMatrixMode(GL_PROJECTION);
@@ -722,7 +721,7 @@ WObject** Render::getDrawedObjects(int *nbhit)
   cameraPosition();
 
   // redraws the objects into the selection buffer
-  rendering(true);	// zsel true
+  rendering();
 
   // we put the normal mode back
   glMatrixMode(GL_PROJECTION);

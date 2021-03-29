@@ -201,8 +201,8 @@ void Render::map()
     // redraw the scene inside the scissor
     minirender();
 
-    if (localuser) mapUserPos = getVisiblePosition(localuser);
-    mapUserPos.V_Z = 1;
+    if (localuser) mapPos = getVisiblePosition(localuser);
+    mapPos.V_Z = 1;
 
     // reset initial state
     glDisable(GL_SCISSOR_TEST);
@@ -241,7 +241,7 @@ void Render::satellite()
   // reset initial state
   glDisable(GL_SCISSOR_TEST);
   ::g.gui.getScene()->setViewport(x, y, w, h);
-  mapUserPos.V_Z = 0;	//retire l'affichage de la position ds la map
+  mapPos.V_Z = 0;	//retire l'affichage de la position ds la map
 }
 
 void Render::resetCamera()
@@ -328,7 +328,7 @@ void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz
 
    // redraw the scene (objects only)
    clearGLBuffer();
-   rendering(false);
+   rendering();
   glPopMatrix();
 
   // we use the back, then we read the back

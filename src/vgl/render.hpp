@@ -165,7 +165,7 @@ public:
   void setAllTypeFlashy(char * object_type, int typeflash);
   /**< enable flashy for all same type object. */
 
-  V3 getMapUserPos() { return mapUserPos; }
+  V3 getMapPos() { return mapPos; }
   /**<
    * return the x,y position of the user on the map
    * and z is a bool what say if map is on/off.
@@ -277,7 +277,7 @@ private:
   GLfloat pitch;		///< local user pitch rotation.
   V3 satellitePos;
   V3 satelliteRot;
-  V3 mapUserPos;
+  V3 mapPos;
 
   class Wheel *wheel;		///< experimental
 
@@ -286,12 +286,12 @@ private:
   void materials();		///< Set colors of materials.
 
   // rendering
-  void rendering(bool zsel);		///< general rendering.
+  void rendering();		///< general rendering.
 
   // solids rendering
-  void renderOpaque(bool zsel);		///< opaque solids
-  void renderTranslucid(bool zsel);  	///< translucid solids
-  void renderSpecific();		///x specific objects (notused)
+  void renderOpaque();		///< opaque solids
+  void renderTranslucid();  	///< translucid solids
+  void renderSpecific();	///x specific objects (notused)
 
   static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
   static int compSize(const void *t1, const void *t2);	///< compare surfaces sizes

@@ -15,6 +15,8 @@ The rules for this file:
 ++ 9
 == 9.2
 -- 9.2.0
+	- fixed picking in thr selection buffer before display
+	(2021/03/29, Philippe Dax)
 	- fixed errno 22 on select in udispX11.cpp (bad maxfd)
 	(2021/03/27, Philippe Dax)
 	- added opaque list sorted decreasingly by surface sizes
