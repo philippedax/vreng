@@ -149,8 +149,6 @@ void Render::materials()
 
   glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
-  //dax2 glMaterialfv(GL_FRONT, GL_SPECULAR, color);
-  //dax2 glMaterialfv(GL_FRONT, GL_EMISSION, color);
 }
 
 // DEBUG //
@@ -210,7 +208,6 @@ void Render::renderSpecific()  //dax8
          !(*it)->isRendered()
        ) {
       (*it)->setRendered(true);
-      //dax7 materials();
       (*it)->object()->render();	// render done by object itself
       trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
     }
@@ -391,7 +388,6 @@ void Render::clearGLBuffer()
     }
   }
   glClearDepth(1);	// depth of Z-buffer to clear
-  //dax5 glClearDepth(0);	// depth of Z-buffer to clear
 
   // !NOTICE: do not do GL_COLOR_BUFFER_BIT because this would clear the color
   // of the whole window (including the background color of the widgets)
@@ -475,12 +471,10 @@ uint16_t Render::bufferSelection(GLint x, GLint y)
 
 uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
 {
-#if 0 //dax3
   int max, cur = 0;
   glGetIntegerv(GL_NAME_STACK_DEPTH, &cur);
   glGetIntegerv(GL_MAX_NAME_STACK_DEPTH, &max);
-  error("bufselect: x=%d y=%d names:%d/%d", x, y, cur, max);
-#endif //dax3
+  //error("bufselect: x=%d y=%d names:%d/%d", x, y, cur, max);
 
   // set selection mode
   memset(selbuf, 0, sizeof(selbuf));
@@ -516,7 +510,6 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   rendering();
 
   // we put the normal mode back
-  //dax6 glMatrixMode(GL_PROJECTION);
   glMatrixMode(GL_MODELVIEW);
   glPopMatrix();
 
@@ -847,7 +840,6 @@ void Render::display3D(uint8_t type)
 
 void Render::displayRay()
 {
-  //dax1 glPushAttrib(GL_LINE_BIT);
   glPushMatrix();
    glDisable(GL_LIGHTING);
    glEnable(GL_LINE_STIPPLE);
@@ -857,7 +849,6 @@ void Render::displayRay()
    glDisable(GL_LINE_STIPPLE);
    glEnable(GL_LIGHTING);
   glPopMatrix();
-  //dax1 glPopAttrib();
 }
 
 int Render::displayNormal()
@@ -933,7 +924,6 @@ int Render::displayList(int display_mode = NORMAL)
        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
      }
      else if (dlists[frame] > 0) {	// else normal solid
-       //dax8 glPushAttrib(GL_ALL_ATTRIB_BITS); //dax8
        glEnable(GL_DEPTH_TEST);
        glDepthMask(GL_TRUE);
        glDepthFunc(GL_LEQUAL);
@@ -965,7 +955,6 @@ int Render::displayList(int display_mode = NORMAL)
 
        glCallList(dlists[frame]);	// display the object here !!!
      }
-     //dax8 glPopAttrib(); //dax8
      glPopMatrix();
      break;
 
@@ -1014,7 +1003,7 @@ int Render::displayList(int display_mode = NORMAL)
         glEnable(GL_CLIP_PLANE0);		// enable clipping
         glStencilFunc(GL_EQUAL, 1, 1);		// draw only where the stencil == 1
 
-        //dax0 displayMirroredScene();		// display the mirrored scene
+        //dax displayMirroredScene();		// display the mirrored scene
         object()->render();			// display the mirrored scene by mirror itself
 
         glDisable(GL_CLIP_PLANE0);
@@ -1028,7 +1017,6 @@ int Render::displayList(int display_mode = NORMAL)
 
        glCallList(dlists[frame]);		// display the physical mirror
 
-       //dax glDepthFunc(GL_LESS);
        glDisable(GL_BLEND);
        glDepthMask(GL_TRUE);
       glPopMatrix();
@@ -1054,7 +1042,7 @@ int Render::displayList(int display_mode = NORMAL)
 /* Display mirrored scene */
 void Render::displayMirroredScene()
 {
-#if 0 //dax0 done by mirror object
+#if 0 //dax done by mirror object
 
   // 1) faire une translation pour amener le plan de reflexion à la position miroir
   glTranslatef(-object()->pos.x, 0, 0);
@@ -1089,7 +1077,7 @@ void Render::displayMirroredScene()
    else glCallList(localuser->getSolid()->displayVirtual());
   glPopMatrix();
 
-#endif //dax0
+#endif //dax
 }
 
 #endif //dax10
