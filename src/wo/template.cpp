@@ -114,7 +114,7 @@ void Template::action2(Template *template, void *d, time_t s, time_t u)
 {
 }
 
-void TemplatTemplate::funcs()
+void Template::funcs()
 {
   setActionFunc(TEMPLATE_TYPE, 0, WO_ACTION action1, "action1");
   setActionFunc(TEMPLATE_TYPE, 1, WO_ACTION action2, "action2");

@@ -1430,14 +1430,6 @@ GLint Solid::getTexid() const
 
 void Solid::display3D(render_type type)
 {
-#if 0 //dax6
-  if (ray_dlist)
-    displayRay();
-  if (! object() || ! object()->isValid())
-    return;		// orphean solid
-  if (! isVisible())
-    return;		// invisible solid
-#endif //dax6
   if (isBlinking() && (! toggleBlinking()))
     return;		// pass one turn
 
@@ -1568,7 +1560,6 @@ int Solid::displayList(int display_mode = NORMAL)
        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
      }
      else if (dlists[frame] > 0) {	// else normal solid
-       //dax8 glPushAttrib(GL_ALL_ATTRIB_BITS); //dax8
        glEnable(GL_DEPTH_TEST);
        glDepthMask(GL_TRUE);
        glDepthFunc(GL_LESS);
@@ -1600,7 +1591,6 @@ int Solid::displayList(int display_mode = NORMAL)
 
        glCallList(dlists[frame]);	// display the object here !!!
      }
-     //dax8 glPopAttrib(); //dax8
      glPopMatrix();
      break;
 
@@ -1689,7 +1679,7 @@ int Solid::displayList(int display_mode = NORMAL)
 /* Display mirrored scene */
 void Solid::displayMirroredScene()
 {
-#if 0 //dax0 done by mirror object
+#if 0 //dax done by mirror object
 
   // 1) faire une translation pour amener le plan de reflexion à la position miroir
   glTranslatef(-object()->pos.x, 0, 0);
@@ -1724,5 +1714,5 @@ void Solid::displayMirroredScene()
    else glCallList(localuser->getSolid()->displayVirtual());
   glPopMatrix();
 
-#endif //dax0
+#endif //dax
 }
