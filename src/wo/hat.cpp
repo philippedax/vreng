@@ -38,7 +38,7 @@ static struct sHat hats[] = {
   {Hat::TOPHAT,   "tophat"},
   {Hat::BOWLER,   "bowler"},
   {Hat::CHINESE,  "chinese"},
-  {Hat::CARDINAL, "cardinal"},
+  {Hat::CARDINAL, "redhat"},
   {Hat::COUNTRY,  "country"},
   {Hat::CLOWN,    "clown"},
   {Hat::NONE,     ""},
@@ -55,7 +55,7 @@ void Hat::defaults()
   ttl = MAXFLOAT;
   dx = 0;
   dy = 0;
-  dz = -0.07;		// 7 cm above
+  dz = -0.1;		// above the head
   dax = 0;
   day = 0;
   daz = 0;
@@ -122,7 +122,7 @@ void Hat::parser(char *l)
       if      (! stringcmp(modelname, "tophat"))   model = TOPHAT;
       else if (! stringcmp(modelname, "bowler"))   model = BOWLER;
       else if (! stringcmp(modelname, "chinese"))  model = CHINESE;
-      else if (! stringcmp(modelname, "cardinal")) model = CARDINAL;
+      else if (! stringcmp(modelname, "redhat"))   model = CARDINAL;
       else if (! stringcmp(modelname, "country"))  model = COUNTRY;
       else if (! stringcmp(modelname, "clown"))    model = CLOWN;
     }

@@ -176,13 +176,16 @@ void Cloth::inits()
   // save original position
   ox = pos.x; oy = pos.y; oz = pos.z;
   oax = pos.ax; oay = pos.ay; oaz = pos.az;
+
   // set new position
-  if (localuser) pos.x = localuser->pos.x + dx;
-  if (localuser) pos.y = localuser->pos.y + dy;
-  if (localuser) pos.z = localuser->pos.z + dz;
+  if (localuser) {
+    pos.x = localuser->pos.x + dx;
+    pos.y = localuser->pos.y + dy;
+    pos.z = localuser->pos.z + dz;
+    pos.az = localuser->pos.az + daz;
+  }
   pos.ax = dax;
   pos.ay = day;
-  if (localuser) pos.az = localuser->pos.az + daz;
 
   updatePosition();
 }
@@ -216,8 +219,7 @@ void Cloth::delFromWearList()
 {
   for (list<WObject*>::iterator it = wearList.begin(); it != wearList.end(); it++) {
     if (*it == this) {
-      //dax1 wearList.erase(it);	// same as pop_back
-      wearList.pop_back();
+      wearList.pop_back();	// wearList.erase(it);
     }
   }
 }
@@ -231,7 +233,6 @@ void Cloth::restorePosition()
   pos.ay = oay;
   pos.az = oaz;
   updatePosition();
-  //dax disableBehavior(UNSELECTABLE); // when not weared
   behavior();
 }
 
