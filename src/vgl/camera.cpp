@@ -174,7 +174,7 @@ void Render::cameraPosition()
 }
 
 /* Displays the map on the top-right corner of the canvas */
-void Render::map()
+void Render::showMap()
 {
   if (viewMap) {
     uint8_t bord = 1;	// 1 pixel
@@ -211,7 +211,7 @@ void Render::map()
 }
 
 /* Displays the satellite on the bottom-left corner of the canvas */
-void Render::satellite()
+void Render::showSat()
 {
   if (view != VIEW_SCISSOR) return;
 
@@ -231,8 +231,8 @@ void Render::satellite()
   glRotatef(90,0,0,1);
 
   // camera position
-  glRotatef(-RAD2DEG(satelliteRot.V_Z), 0, 0, 1);
-  glTranslatef(-satellitePos.v[0], -satellitePos.v[1], -satellitePos.v[2]);
+  glRotatef(-RAD2DEG(satRot.V_Z), 0, 0, 1);
+  glTranslatef(-satPos.v[0], -satPos.v[1], -satPos.v[2]);
 
   // draw the scene inside the scissor
   glClear(GL_COLOR_BUFFER_BIT);
@@ -254,10 +254,10 @@ void Render::setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat 
 {
   if (view != VIEW_SCISSOR) {
     view = VIEW_SCISSOR;
-    satellitePos.v[0] = posx;
-    satellitePos.v[1] = posy;
-    satellitePos.v[2] = posz;
-    satelliteRot.v[2] = rotz;
+    satPos.v[0] = posx;
+    satPos.v[1] = posy;
+    satPos.v[2] = posz;
+    satRot.v[2] = rotz;
   }
   else
     view = VIEW_FIRST_PERSON;
@@ -327,8 +327,8 @@ void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz
    glTranslatef(-posx, -posy, -posz);
 
    // redraw the scene (objects only)
-   clearGLBuffer();
-   rendering();
+   clearBuffer();
+   renderSolids();
   glPopMatrix();
 
   // we use the back, then we read the back

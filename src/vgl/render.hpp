@@ -151,10 +151,6 @@ public:
   void setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz);
   /**< move the intelligente satellite camera to the good position. */
 
-#if 0 //not used
-   void cameraPerspective(GLfloat fovy, GLfloat near, GLfloat far, GLfloat ratio);
-#endif //not used
-
   /////////////
   // Effects
   /////////////
@@ -165,12 +161,6 @@ public:
   void setAllTypeFlashy(char * object_type, int typeflash);
   /**< enable flashy for all same type object. */
 
-  V3 getMapPos() { return mapPos; }
-  /**<
-   * return the x,y position of the user on the map
-   * and z is a bool what say if map is on/off.
-   */
-
   /////////////
   // Selection
   /////////////
@@ -178,8 +168,7 @@ public:
   uint16_t bufferSelection(GLint x, GLint y);
   uint16_t bufferSelection(GLint x, GLint y, GLint depth);
   /**<
-   * Returns the solid's num displayed in (x,y) on the screen.
-   * We use here coordinates IN THE ZBUFFER and no in the display window.
+   * Returns the object's num displayed in (x,y) on the screen.
    */
 
   V3 getVisiblePosition(WObject *po);
@@ -189,13 +178,9 @@ public:
   /**< Get the object list where each object have a type present in the given list. */
 
   WObject** getDrawedObjects(int* nbr);
-  /**< get All drawed Objects on the screen. */
+  /**< get all drawed Objects on the screen. */
 
   void analyseScene(char* nameObj);
-
-  /////////////
-  // Misc
-  /////////////
 
   void quit();			///< Closes the 3d display.
 
@@ -217,7 +202,7 @@ public:
   struct sCamera { GLfloat fovy, near, far; };
 
   void cameraPosition();	///< Set camera position.
-  void clearGLBuffer();		///< Clear everything.
+  void clearBuffer();		///< Clear everything.
   
   //
   // Lists of solids
@@ -275,10 +260,9 @@ private:
   GLfloat thirdPerson_Near;	///< local user distance for Third Person view.
   GLfloat turnAround;		///< local user rotation for Turn Around view.
   GLfloat pitch;		///< local user pitch rotation.
-  V3 satellitePos;
-  V3 satelliteRot;
-  V3 mapPos;
-
+  V3 satPos;			///< satellite position
+  V3 satRot;			///< satellite orientation
+  V3 mapPos;			///< map position
   class Wheel *wheel;		///< experimental
 
   // rendering setup
@@ -286,12 +270,10 @@ private:
   void materials();		///< Set colors of materials.
 
   // rendering
-  void rendering();		///< general rendering.
-
-  // solids rendering
+  void renderSolids();		///< general rendering.
   void renderOpaque();		///< opaque solids
   void renderTranslucid();  	///< translucid solids
-  void renderSpecific();	///x specific objects (notused)
+  void renderSpecific();	///< specific objects (notused)
 
   static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
   static int compSize(const void *t1, const void *t2);	///< compare surfaces sizes
@@ -299,10 +281,10 @@ private:
   void putSelbuf(WObject *po);
   /**< Sets object name in Z-buffer for selection. */
 
-  void map();
+  void showMap();
   /**< show the small map. */
 
-  void satellite();
+  void showSat();
   /**< show the satellite view. */
 
   static int compareHit(const void *t1, const void *t2);

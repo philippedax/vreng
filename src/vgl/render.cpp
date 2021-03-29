@@ -296,7 +296,7 @@ void Render::renderTranslucid()
  * - renders solids in displaylists
  * - makes specific rendering for special objects
  */
-void Render::rendering()
+void Render::renderSolids()
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
@@ -357,23 +357,23 @@ void Render::render()
 {
   Texture::update();		// textures
   cameraPosition();		// camera position
-  clearGLBuffer();		// background color
+  clearBuffer();		// background color
   lighting();			// general lighting
-  rendering();			// solids rendering
+  renderSolids();		// solids rendering
   Grid::grid()->render();	// grid
   Axis::axis()->render();	// axis
-  satellite();                  // launch a satellite camera
-  map();                        // display map
+  showSat();			// launch a satellite camera
+  showMap();			// display map
 }
 
 void Render::minirender()
 {
   cameraPosition();		// camera position
-  clearGLBuffer();		// background color
-  rendering();			// solids rendering
+  clearBuffer();		// background color
+  renderSolids();		// solids rendering
 }
 
-void Render::clearGLBuffer()
+void Render::clearBuffer()
 {
   if (flash) {
     ::g.gui.getScene()->setBackground(UColor::white);
@@ -507,7 +507,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   cameraPosition();
 
   // redraw the objects into the selection buffer
-  rendering();
+  renderSolids();
 
   // we put the normal mode back
   glMatrixMode(GL_MODELVIEW);
@@ -714,7 +714,7 @@ WObject** Render::getDrawedObjects(int *nbhit)
   cameraPosition();
 
   // redraws the objects into the selection buffer
-  rendering();
+  renderSolids();
 
   // we put the normal mode back
   glMatrixMode(GL_PROJECTION);
