@@ -1498,11 +1498,6 @@ int Solid::displayReflexive()
   return displayList(REFLEXIVE);
 }
 
-int Solid::displayVirtual()
-{
-  return displayList(VIRTUAL);
-}
-
 int Solid::displayFlashy()
 {
   return displayList(FLASHY);
@@ -1540,7 +1535,6 @@ int Solid::displayList(int display_mode = NORMAL)
    switch (display_mode) {
 
    case NORMAL:
-   case VIRTUAL:
      glPushMatrix();
 
      if (wobject && wobject->isValid() && wobject->type == USER_TYPE) {	// if localuser
@@ -1690,7 +1684,7 @@ void Solid::displayMirroredScene()
        glRotatef(-RAD2DEG(object()->pos.ay), 0,1,0);
        glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
        glScalef(1, -1, 1);
-       (*o)->getSolid()->displayVirtual();
+       (*o)->getSolid()->displayNormal();
       glPopMatrix();
     }
   }
@@ -1700,10 +1694,10 @@ void Solid::displayMirroredScene()
    glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
 
    // Displays avatar
-   if  (localuser->android) localuser->android->getSolid()->displayVirtual();
-   else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
-   else if (localuser->man) localuser->getSolid()->displayVirtual();
-   else glCallList(localuser->getSolid()->displayVirtual());
+   if  (localuser->android) localuser->android->getSolid()->displayNormal();
+   else if (localuser->guy) localuser->guy->getSolid()->displayNormal();
+   else if (localuser->man) localuser->getSolid()->displayNormal();
+   else glCallList(localuser->getSolid()->displayNormal());
   glPopMatrix();
 
 #endif //dax

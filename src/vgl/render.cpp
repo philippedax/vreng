@@ -844,11 +844,6 @@ int Render::displayReflexive()
   return displayList(REFLEXIVE);
 }
 
-int Render::displayVirtual()
-{
-  return displayList(VIRTUAL);
-}
-
 int Render::displayFlashy()
 {
   return displayList(FLASHY);
@@ -877,6 +872,7 @@ int Render::displayList(int display_mode = NORMAL)
   GLint bufs = GL_NONE;
 
   if (! dlists)  return 0;
+  if (dlists[frame] > 0)  return 0;
 
   glPushMatrix();
   {
@@ -885,11 +881,6 @@ int Render::displayList(int display_mode = NORMAL)
    switch (display_mode) {
 
    case NORMAL:
-      // marks the object in the zbuffer
-      glPopName();
-      glPushName((GLuint) (long) object()->num & 0xffffffff);	// push object number
-
-   case VIRTUAL:	// and NORMAL
      glPushMatrix();
 
      if (wobject && wobject->isValid() && wobject->type == USER_TYPE) {	// if localuser
@@ -906,62 +897,57 @@ int Render::displayList(int display_mode = NORMAL)
        }
        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
      }
-     else if (dlists[frame] > 0) {	// else normal solid
-       glEnable(GL_DEPTH_TEST);
-       glDepthMask(GL_TRUE);
-       glDepthFunc(GL_LEQUAL);
+     glEnable(GL_DEPTH_TEST);
+     glDepthMask(GL_TRUE);
+     glDepthFunc(GL_LEQUAL);
 
-       glPushMatrix();
-        glTranslatef(pos[0], pos[1], pos[2]);     // x y z
-        glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
-        glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
-        if (scalex != 1 || scaley != 1 || scalez != 1)
-          glScalef(scalex, scaley, scalez);
-       glPopMatrix();
+     glPushMatrix();
+      glTranslatef(pos[0], pos[1], pos[2]);     // x y z
+      glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
+      glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
+      if (scalex != 1 || scaley != 1 || scalez != 1)
+        glScalef(scalex, scaley, scalez);
+     glPopMatrix();
 
-       if (texid >= 0) {
-         glEnable(GL_TEXTURE_2D);
-         glBindTexture(GL_TEXTURE_2D, texid);
-       }
-       if (alpha < 1) {		// translucid
-         glDepthMask(GL_FALSE);
-         glEnable(GL_BLEND);
-         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
-       }
-       if (*fog > 0) {
-         error("fog=%f %s", *fog, object()->getInstance());
-         glEnable(GL_FOG);
-         glFogi(GL_FOG_MODE, GL_EXP);
-         glFogf(GL_FOG_DENSITY, *fog);
-         glFogfv(GL_FOG_COLOR, fog+1);
-       }
-
-       glCallList(dlists[frame]);	// display the object here !!!
+     if (texid >= 0) {
+       glEnable(GL_TEXTURE_2D);
+       glBindTexture(GL_TEXTURE_2D, texid);
      }
+     if (alpha < 1) {		// translucid
+       glDepthMask(GL_FALSE);
+       glEnable(GL_BLEND);
+       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
+     }
+     if (*fog > 0) {
+       error("fog=%f %s", *fog, object()->getInstance());
+       glEnable(GL_FOG);
+       glFogi(GL_FOG_MODE, GL_EXP);
+       glFogf(GL_FOG_DENSITY, *fog);
+       glFogfv(GL_FOG_COLOR, fog+1);
+     }
+
+     glCallList(dlists[frame]);	// display the object here !!!
      glPopMatrix();
      break;
 
    case FLASHY:
-     if (dlists[frame] > 0) {
-       glPushMatrix();
-        glPolygonOffset(2., 1.);		// factor=2 unit=1
-        glDisable(GL_POLYGON_OFFSET_FILL);// wired mode
-        glColor3fv(flashcol);
-        glLineWidth(1);
-        glScalef(1.03, 1.03, 1.03);	// 3%100 more
-        glPolygonMode(GL_FRONT, GL_LINE);
+     glPushMatrix();
+      glPolygonOffset(2., 1.);		// factor=2 unit=1
+      glDisable(GL_POLYGON_OFFSET_FILL);// wired mode
+      glColor3fv(flashcol);
+      glLineWidth(1);
+      glScalef(1.03, 1.03, 1.03);	// 3%100 more
+      glPolygonMode(GL_FRONT, GL_LINE);
 
-        glCallList(dlists[frame]);
+      glCallList(dlists[frame]);
 
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-       glPopMatrix();
-     }
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+     glPopMatrix();
      break;
 
    case REFLEXIVE:
-     if (dlists[frame] > 0) {		// is displaylist of mirror exists ?
       glPopName();
-      glPushName((GLuint) (long) object()->num & 0xffffffff);	// push object number
+      glPushName((GLuint) object()->num);	// push object number
 
       glGetIntegerv(GL_DRAW_BUFFER, &bufs); 	// get the current color buffer being drawn to
       glPushMatrix();
@@ -986,7 +972,6 @@ int Render::displayList(int display_mode = NORMAL)
         glEnable(GL_CLIP_PLANE0);		// enable clipping
         glStencilFunc(GL_EQUAL, 1, 1);		// draw only where the stencil == 1
 
-        //dax displayMirroredScene();		// display the mirrored scene
         object()->render();			// display the mirrored scene by mirror itself
 
         glDisable(GL_CLIP_PLANE0);
@@ -1003,9 +988,9 @@ int Render::displayList(int display_mode = NORMAL)
        glDisable(GL_BLEND);
        glDepthMask(GL_TRUE);
       glPopMatrix();
-    }
     break;	// reflexive
    }
+
    if (*fog > 0) {
      glDisable(GL_FOG);
    }
@@ -1044,7 +1029,7 @@ void Render::displayMirroredScene()
        glRotatef(-RAD2DEG(object()->pos.ay), 0,1,0);
        glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
        glScalef(1, -1, 1);
-       (*o)->getSolid()->displayVirtual();
+       (*o)->getSolid()->displayNormal();
       glPopMatrix();
     }
   }
@@ -1054,10 +1039,10 @@ void Render::displayMirroredScene()
    glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
 
    // Displays avatar
-   if  (localuser->android) localuser->android->getSolid()->displayVirtual();
-   else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
-   else if (localuser->man) localuser->getSolid()->displayVirtual();
-   else glCallList(localuser->getSolid()->displayVirtual());
+   if  (localuser->android) localuser->android->getSolid()->displayNormal();
+   else if (localuser->guy) localuser->guy->getSolid()->displayNormal();
+   else if (localuser->man) localuser->getSolid()->displayNormal();
+   else glCallList(localuser->getSolid()->displayNormal());
   glPopMatrix();
 
 #endif //dax

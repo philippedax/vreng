@@ -215,33 +215,28 @@ public:
   /**< Gets current texid. */
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Displaying 3D
-  //dax6 virtual void display3D(render_mode mode, render_type layer);
+  // Displaying 3D displaylists
   virtual void display3D(render_type layer);
   /**< Issue the OpenGL commands to draw the solid in the given mode.
-       It is called several times with "layer" increasing from 0 to ? in
-       order to allow drawing at different layers. */
+       It is called with "layer" to allow drawing at different layers. */
 
-  virtual int displayList(int rendertype);
+  virtual int displayList(int layer);
   /**< Renders a solid in display-list. */
 
   virtual int displayNormal();
   /**< Renders a normal solid. */
 
-  virtual int displayReflexive();
-  /**< Renders a reflexive solid. */
-
-  virtual int displayVirtual();
-  /**< Renders a reflexive solid. */
+  virtual int displayFlashy();
+  /**< Renders a solid flashy. */
 
   virtual void displayFlary();
   /**< Renders attached flare to a solid. */
 
-  virtual int displayFlashy();
-  /**< Renders a solid flashy. */
-
   virtual void displayRay();
   /**< Displays ray. */
+
+  virtual int displayReflexive();
+  /**< Renders a reflexive solid. */
 
 private:
 
