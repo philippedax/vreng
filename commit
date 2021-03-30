@@ -25,5 +25,14 @@ git push origin master
 #git push origin master
 #./.github
 
-touch git.log
-echo "$(date)	$message" >> git.log
+log=git.log
+if [ -f $log ] ; then
+  last=$(tail -1 $log)
+  num=$(echo $last | cut -f1 -d ' ')
+  num=$[ $num + 1 ]
+else
+  num=0
+  touch $log
+fi
+echo "$num $(date)	$message" >> $log
+echo "$num $(date)	$message"
