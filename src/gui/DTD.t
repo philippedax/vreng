@@ -285,7 +285,7 @@ const char DTD[] = "\
 <!ATTLIST hat		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST hat		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST hat		descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST hat		model	(highform | boiler | cardinal | chinese | country) #IMPLIED>\n\
+<!ATTLIST hat		model	(tophat | boiler | redhat | chinese | country | clown) #IMPLIED>\n\
 \n\
 <!ELEMENT head		EMPTY>\n\
 <!ATTLIST head		pos	NMTOKENS #REQUIRED>\n\
@@ -580,7 +580,7 @@ const char DTD[] = "\
 <!ATTLIST wings		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST wings		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST wings		descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST wings		model	(butterfly | libellule | angel | eagle) #IMPLIED>\n\
+<!ATTLIST wings		model	(helicopter | butterfly | libellule | angel | eagle) #IMPLIED>\n\
 \n\
 \n\
 <!-- sub-structure of main tokens -->\n\
@@ -624,7 +624,7 @@ const char DTD[] = "\
 <!ATTLIST solid		scalex	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scaley	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scalez	NMTOKEN \"1\">\n\
-<!ATTLIST solid		shape	(bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | man | guy | car | teapot) \"box\">\n\
+<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | man | guy | car | teapot) \"box\">\n\
 <!ATTLIST solid		shi	NMTOKEN \"20\">\n\
 <!ATTLIST solid		shininess NMTOKEN \"20\">\n\
 <!ATTLIST solid		side	NMTOKEN #IMPLIED>\n\

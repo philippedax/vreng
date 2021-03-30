@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
 // Copyright (C) 1997-2011 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
@@ -195,25 +195,6 @@ int Render::compSize(const void *t1, const void *t2)
     return 0;
 }
 
-/**
- * Specific rendering to do by objects themselves
- * by scanning objects lists
- */
-
-// Renders specific objects (not necessary, not used already done by renderSolids)
-void Render::renderSpecific()  //dax8
-{
-  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end(); ++it) {
-    if ( (*it)->object()->isBehavior(SPECIFIC_RENDER) &&
-         !(*it)->isRendered()
-       ) {
-      (*it)->setRendered(true);
-      (*it)->object()->render();	// render done by object itself
-      trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
-    }
-  }
-}
-
 // Renders opaque solids
 void Render::renderOpaque()
 {
@@ -223,8 +204,8 @@ void Render::renderOpaque()
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() &&
          (*it)->isVisible() &&
-         !(*it)->isRendered() &&
-         !(*it)->object()->isRemoved()
+         ! (*it)->isRendered() &&
+         ! (*it)->object()->isRemoved()
        ) {
       if ( (*it)->isFlashy() || (*it)->isFlary() )
         flashyList.push_back(*it);	// add to flashy list
@@ -235,7 +216,7 @@ void Render::renderOpaque()
 
   // sort opaqueList
   opaqueList.sort(compDist);	// large surfaces overlap
-  opaqueList.sort(compSize);	// fix overlaping but flag is bad
+  opaqueList.sort(compSize);	// fix overlaping
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
@@ -257,7 +238,8 @@ void Render::renderOpaque()
       (*it)->setRendered(false);
     }
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
-    trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
+    //trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
+    trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->surfsize);
   }
 }
 
@@ -301,10 +283,11 @@ void Render::renderSolids()
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
   // for all solids
-  // set setRendered=false and find the localuser solid
+  // set setRendered=false updateDist and find the localuser solid
   list<Solid*>::iterator su;
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     (*it)->setRendered(false);
+    (*it)->updateDist();
     if ((*it)->object()->type == USER_TYPE) {
       if ((*it)->object() == localuser) {
         su = it;	// localuser

@@ -273,7 +273,6 @@ private:
   void renderSolids();		///< general rendering.
   void renderOpaque();		///< opaque solids
   void renderTranslucid();  	///< translucid solids
-  void renderSpecific();	///< specific objects (notused)
 
   static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
   static int compSize(const void *t1, const void *t2);	///< compare surfaces sizes
