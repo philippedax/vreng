@@ -225,7 +225,7 @@ void Render::renderOpaque()
       (*it)->object()->render();
     }
     else {
-      (*it)->display3D(Solid::OPAQUE);
+      (*it)->displaySolid(Solid::OPAQUE);
     }
     //dax5 hack exeptions! FIXME!
     if (
@@ -265,7 +265,7 @@ void Render::renderTranslucid()
       (*it)->object()->render();
     }
     else {
-      (*it)->display3D(Solid::TRANSLUCID);
+      (*it)->displaySolid(Solid::TRANSLUCID);
     }
     trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
   }
@@ -312,7 +312,7 @@ void Render::renderSolids()
       (*it)->object()->render();
     }
     else {
-      (*it)->display3D(Solid::FLASH);
+      (*it)->displaySolid(Solid::FLASH);
     }
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
@@ -324,7 +324,7 @@ void Render::renderSolids()
       (*su)->object()->render();
     }
     else {
-      (*su)->display3D(Solid::USER);
+      (*su)->displaySolid(Solid::USER);
     }
     trace2(DBG_VGL, " %s", (*su)->object()->getInstance());
   }
@@ -775,7 +775,7 @@ void Render::quit()
 //---------------------------------------------------------------------------
 #if 0 //dax10
 
-void Render::display3D(uint8_t type)
+void Render::displaySolid(uint8_t type)
 {
   if (isBlinking() && (! toggleBlinking()))
     return;		// pass one turn

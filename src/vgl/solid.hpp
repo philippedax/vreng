@@ -215,7 +215,7 @@ public:
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Displaying 3D displaylists
-  virtual void display3D(render_type layer);
+  virtual void displaySolid(render_type layer);
   /**< Issue the OpenGL commands to draw the solid in the given mode.
        It is called with "layer" to allow drawing at different layers. */
 

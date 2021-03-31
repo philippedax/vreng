@@ -1429,7 +1429,7 @@ GLint Solid::getTexid() const
 
 //---------------------------------------------------------------------------
 
-void Solid::display3D(render_type type)
+void Solid::displaySolid(render_type type)
 {
   if (isBlinking() && (! toggleBlinking()))
     return;		// pass one turn
