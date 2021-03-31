@@ -267,7 +267,7 @@ void Render::renderTranslucid()
     else {
       (*it)->display3D(Solid::TRANSLUCID);
     }
-    trace2(DBG_VGL, " %s:%.2f", (*it)->object()->getInstance(), (*it)->userdist);
+    trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
 
@@ -306,13 +306,13 @@ void Render::renderSolids()
   renderTranslucid();
 
   // Renders flashy edges and ray impacts
-  trace2(DBG_VGL, "\nflashy: ");
+  trace2(DBG_VGL, "\nflash: ");
   for (list<Solid*>::iterator it = flashyList.begin(); it != flashyList.end() ; ++it) {
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
     else {
-      (*it)->display3D(Solid::FLASHRAY);
+      (*it)->display3D(Solid::FLASH);
     }
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
@@ -324,12 +324,10 @@ void Render::renderSolids()
       (*su)->object()->render();
     }
     else {
-      (*su)->display3D(Solid::LOCALUSER);
+      (*su)->display3D(Solid::USER);
     }
     trace2(DBG_VGL, " %s", (*su)->object()->getInstance());
   }
-
-  trace2(DBG_VGL, "\n");	// end of trace2 !
 }
 
 
@@ -347,6 +345,7 @@ void Render::render()
   Axis::axis()->render();	// axis
   showSat();			// launch a satellite camera
   showMap();			// display map
+  trace2(DBG_VGL, "\n");	// end of trace2 !
 }
 
 void Render::minirender()
@@ -419,14 +418,13 @@ void Render::lighting()
   glEnable(GL_LIGHTING);
 
   // renders other lights for example sun, moon, lamp
-  //trace2(DBG_FORCE, "\n*** light:");
+  trace2(DBG_VGL, "\nlight:");
   for (list<WObject*>::iterator l = lightList.begin(); l != lightList.end() ; ++l) {
-    if (*l && (*l)->isValid()) { //FIXME segfault sometimes
+    if ((*l)->isValid()) { //FIXME segfault sometimes
       (*l)->lighting();
-      //trace2(DBG_FORCE, " %s", (*l)->getInstance());
+      trace2(DBG_VGL, " %s", (*l)->getInstance());
     }
   }
-  //printf("\n");
 }
 
 /* highlight same type object. */
@@ -786,26 +784,26 @@ void Render::display3D(uint8_t type)
 
     case OPAQUE:	// Display opaque solids
       if (isReflexive()) {
-        displayReflexive();
+        displayList(REFLEXIVE);
       }
       if (isFlary()) {
         displayFlary();	// Display attached flares
       }
-      displayNormal();
+      displayList(NORMAL);
       break;
 
     case TRANSLUCID:	// Display translucid solids 
       if (isReflexive()) {
-        displayReflexive();
+        displayList(REFLEXIVE);
       }
       else {
-        displayNormal();
+        displayList(NORMAL);
       }
       break;
 
-    case FLASHRAY:	// Display flashy edges and ray
+    case FLASH:		// Display flashy edges and ray
       if (isFlashy()) {
-        displayFlashy();
+        displayList(FLASHY);
       }
       if (isFlary()) {
         displayFlary();	// Display attached flares
@@ -815,8 +813,8 @@ void Render::display3D(uint8_t type)
       }
       break;
 
-    case LOCALUSER:	// Display local user last
-      displayNormal();
+    case USER:		// Display local user last
+      displayList(NORMAL);
       break;
   }
 }
@@ -834,30 +832,14 @@ void Render::displayRay()
   glPopMatrix();
 }
 
-int Render::displayNormal()
-{
-  return displayList(NORMAL);
-}
-
-int Render::displayReflexive()
-{
-  return displayList(REFLEXIVE);
-}
-
-int Render::displayFlashy()
-{
-  return displayList(FLASHY);
-}
-
 void Render::displayFlary()
 {
   if (object()->flare) {
-    displayNormal();  // object alone
+    displayList(NORMAL);  // object alone
 
     glPushMatrix();
      glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);
      glTranslatef(object()->pos.x, object()->pos.y, object()->pos.z);
-     //dax vr2gl();
 
      object()->flare->render(object()->pos);
 
@@ -1029,7 +1011,7 @@ void Render::displayMirroredScene()
        glRotatef(-RAD2DEG(object()->pos.ay), 0,1,0);
        glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
        glScalef(1, -1, 1);
-       (*o)->getSolid()->displayNormal();
+       (*o)->getSolid()->displayList(NORMAL);
       glPopMatrix();
     }
   }
@@ -1039,10 +1021,10 @@ void Render::displayMirroredScene()
    glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
 
    // Displays avatar
-   if  (localuser->android) localuser->android->getSolid()->displayNormal();
-   else if (localuser->guy) localuser->guy->getSolid()->displayNormal();
-   else if (localuser->man) localuser->getSolid()->displayNormal();
-   else glCallList(localuser->getSolid()->displayNormal());
+   if  (localuser->android) localuser->android->getSolid()->displayList(NORMAL);
+   else if (localuser->guy) localuser->guy->getSolid()->displayList(NORMAL);
+   else if (localuser->man) localuser->getSolid()->displayList(NORMAL);
+   else glCallList(localuser->getSolid()->displayList(NORMAL));
   glPopMatrix();
 
 #endif //dax

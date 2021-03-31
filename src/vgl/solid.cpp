@@ -487,9 +487,9 @@ char * Solid::parser(char *l)
   }
 
   // computes max surface of this solid
-  //dax surfsize = MAX(bbsize.v[0]*bbsize.v[1], bbsize.v[0]*bbsize.v[2]);
-  //dax surfsize = MAX(surfsize, bbsize.v[1]*bbsize.v[2]);	// surface max
-  surfsize = bbsize.v[0] * bbsize.v[1] * bbsize.v[2];	// surface
+  surfsize = MAX(bbsize.v[0]*bbsize.v[1], bbsize.v[0]*bbsize.v[2]);
+  surfsize = MAX(surfsize, bbsize.v[1]*bbsize.v[2]);	// surface max
+  //dax surfsize = bbsize.v[0] * bbsize.v[1] * bbsize.v[2];	// volume
 
   /* next Token */
   l = wobject->parse()->nextToken();
@@ -1438,26 +1438,26 @@ void Solid::display3D(render_type type)
 
     case OPAQUE:	// Display opaque solids
       if (isReflexive()) {
-        displayReflexive();
+        displayList(REFLEXIVE);
       }
       if (isFlary()) {
         displayFlary();	// Display attached flares
       }
-      displayNormal();
+      displayList(NORMAL);
       break;
 
     case TRANSLUCID:	// Display translucid solids 
       if (isReflexive()) {
-        displayReflexive();
+        displayList(REFLEXIVE);
       }
       else {
-        displayNormal();
+        displayList(NORMAL);
       }
       break;
 
-    case FLASHRAY:	// Display flashy edges and ray
+    case FLASH:		// Display flashy edges and ray
       if (isFlashy()) {
-        displayFlashy();
+        displayList(FLASHY);
       }
       if (isFlary()) {
         displayFlary();	// Display attached flares
@@ -1467,8 +1467,8 @@ void Solid::display3D(render_type type)
       }
       break;
 
-    case LOCALUSER:	// Display local user last
-      displayNormal();
+    case USER:		// Display local user last
+      displayList(NORMAL);
       break;
   }
 }
@@ -1488,30 +1488,14 @@ void Solid::displayRay()
   //dax1 glPopAttrib();
 }
 
-int Solid::displayNormal()
-{
-  return displayList(NORMAL);
-}
-
-int Solid::displayReflexive()
-{
-  return displayList(REFLEXIVE);
-}
-
-int Solid::displayFlashy()
-{
-  return displayList(FLASHY);
-}
-
 void Solid::displayFlary()
 {
   if (object()->flare) {
-    displayNormal();  // object alone
+    displayList(NORMAL);  // object alone
 
     glPushMatrix();
      glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);
      glTranslatef(object()->pos.x, object()->pos.y, object()->pos.z);
-     //dax vr2gl();
 
      object()->flare->render(object()->pos);
 
@@ -1684,7 +1668,7 @@ void Solid::displayMirroredScene()
        glRotatef(-RAD2DEG(object()->pos.ay), 0,1,0);
        glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
        glScalef(1, -1, 1);
-       (*o)->getSolid()->displayNormal();
+       (*o)->getSolid()->displayList(NORMAL);
       glPopMatrix();
     }
   }
@@ -1694,10 +1678,10 @@ void Solid::displayMirroredScene()
    glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
 
    // Displays avatar
-   if  (localuser->android) localuser->android->getSolid()->displayNormal();
-   else if (localuser->guy) localuser->guy->getSolid()->displayNormal();
-   else if (localuser->man) localuser->getSolid()->displayNormal();
-   else glCallList(localuser->getSolid()->displayNormal());
+   if  (localuser->android) localuser->android->getSolid()->displayList(NORMAL);
+   else if (localuser->guy) localuser->guy->getSolid()->displayList(NORMAL);
+   else if (localuser->man) localuser->getSolid()->displayList(NORMAL);
+   else glCallList(localuser->getSolid()->displayList(NORMAL));
   glPopMatrix();
 
 #endif //dax

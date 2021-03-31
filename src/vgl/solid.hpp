@@ -83,28 +83,27 @@ public:
   };
 
   enum render_type {
-    OPAQUE,
-    TRANSLUCID,
-    FLASHRAY,
-    LOCALUSER
+    OPAQUE,		///< opaque
+    TRANSLUCID,		///< translucid
+    FLASH,		///< flash effect
+    USER		///< localuser
   };
 
   /* display modes */
   enum display_mode {
     NORMAL,
-    VIRTUAL,
     FLASHY,
     REFLEXIVE,
     PROGRESS
   };
 
   class WObject	*wobject;	///< WObject parent.
-  class Texture *texture;
+  class Texture *texture;	///< texture if exists.
   GLint*	dlists;		///< cached display list.
   GLint		ray_dlist;	///< ray display list.
 
-  Solid();		///< constructor.
-  virtual ~Solid();	///< destructor.
+  Solid();			///< constructor.
+  virtual ~Solid();		///< destructor.
 
   // Accessors
   virtual WObject* object() const;
@@ -223,20 +222,11 @@ public:
   virtual int displayList(int layer);
   /**< Renders a solid in display-list. */
 
-  virtual int displayNormal();
-  /**< Renders a normal solid. */
-
-  virtual int displayFlashy();
-  /**< Renders a solid flashy. */
-
   virtual void displayFlary();
   /**< Renders attached flare to a solid. */
 
   virtual void displayRay();
   /**< Displays ray. */
-
-  virtual int displayReflexive();
-  /**< Renders a reflexive solid. */
 
 private:
 

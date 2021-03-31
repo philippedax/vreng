@@ -222,17 +222,8 @@ public:
   virtual int displayList(render_type layer);
   /**< Renders a solid in display-list. */
 
-  virtual int displayNormal();
-  /**< Renders a normal solid. */
-
-  virtual int displayReflexive();
-  /**< Renders a reflexive solid. */
-
   virtual void displayFlary();
   /**< Renders attached flare to a solid. */
-
-  virtual int displayFlashy();
-  /**< Renders a solid flashy. */
 
   virtual void displayRay();
   /**< Displays ray. */
