@@ -136,7 +136,6 @@ void Flag::draw()
 GLvoid Flag::render()
 {
   glPushMatrix();
-  glEnable(GL_LIGHTING);
   glDisable(GL_CULL_FACE);
   //dax glPolygonMode(GL_BACK, GL_FILL); glPolygonMode(GL_FRONT, GL_LINE);
 
@@ -155,7 +154,6 @@ GLvoid Flag::render()
 
   glDisable(GL_TEXTURE_2D);
   glEnable(GL_CULL_FACE);
-  glDisable(GL_LIGHTING);
   glPopMatrix();
 }
 

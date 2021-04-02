@@ -65,13 +65,12 @@ void Firework::parser(char *l)
 
 void Firework::makeSolid()
 {
-  //dax2 if (countOfSolids() == 0) {
-    char s[256];
-    sprintf(s,"solid shape=\"bsphere\" radius=\"%f\" />",1.);
-    parse()->parseSolid(s, SEP, this);
-  //dax2 }
-  V3 dim;
+  char s[256];
 
+  sprintf(s,"solid shape=\"bsphere\" radius=\"%f\" />",1.);
+  parse()->parseSolid(s, SEP, this);
+
+  V3 dim;
   getDimBB(dim);
   w = dim.v[0];
   d = dim.v[1];
@@ -148,13 +147,13 @@ void Firework::render()
       glPushAttrib(GL_ALL_ATTRIB_BITS);	// if commented jaunatre
       glPushMatrix();
        glEnable(GL_COLOR_MATERIAL);
-       glDisable(GL_LIGHTING);
+       //dax1 glDisable(GL_LIGHTING);
        glPointSize(pt_size);
        glBegin(GL_POINTS);
        glColor3fv(particles[i].rgb);
        glVertex3fv(particles[i].pos);
        glEnd();
-       glEnable(GL_LIGHTING);
+       //dax1 glEnable(GL_LIGHTING);
        //dax1 glDisable(GL_COLOR_MATERIAL); // if not commented bubble text not visible
       glPopMatrix();
       glPopAttrib();

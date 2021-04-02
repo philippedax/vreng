@@ -423,8 +423,6 @@ char * Solid::parser(char *l)
   ::g.render.addToList(this);	// add to solidList
   idM4(&matpos);	// init position to 0
 
-  if (wobject->getInstance() && wobject->haveAction()) setFlashable(true);
-
   // axis aligned bounding boxes (AABB) are here
   V3 bbmax = newV3(0, 0, 0);
   V3 bbmin = newV3(0, 0, 0);
@@ -1367,11 +1365,6 @@ void Solid::resetFlashyEdges()
   isflashy = false;
 }
 
-void Solid::setFlashable(bool flag)
-{
-  isflashable = flag;
-}
-
 bool Solid::toggleBlinking()
 {
   if (blink) {
@@ -1475,7 +1468,7 @@ void Solid::displaySolid(render_type type)
 
 void Solid::displayRay()
 {
-  //dax1 glPushAttrib(GL_LINE_BIT);
+  glPushAttrib(GL_LINE_BIT);
   glPushMatrix();
    glDisable(GL_LIGHTING);
    glEnable(GL_LINE_STIPPLE);
@@ -1485,7 +1478,7 @@ void Solid::displayRay()
    glDisable(GL_LINE_STIPPLE);
    glEnable(GL_LIGHTING);
   glPopMatrix();
-  //dax1 glPopAttrib();
+  glPopAttrib();
 }
 
 void Solid::displayFlary()

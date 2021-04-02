@@ -260,8 +260,8 @@ private:
   void renderOpaque();		///< opaque solids
   void renderTranslucid();  	///< translucid solids
 
-  static int compDist(const void *t1, const void *t2);	///< compare distantes to eyes
-  static int compSize(const void *t1, const void *t2);	///< compare surfaces sizes
+  static bool compDist(const void *t1, const void *t2);	///< compare distantes to eyes
+  static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes
 
   void putSelbuf(WObject *po);
   /**< Sets object name in Z-buffer for selection. */

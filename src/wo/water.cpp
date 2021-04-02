@@ -155,7 +155,6 @@ void Water::render()
 {
   //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, flag is ok
   glPushMatrix();
-   glEnable(GL_DEPTH_TEST);
    glEnable(GL_LIGHTING);
    glEnable(GL_BLEND);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

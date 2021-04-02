@@ -181,9 +181,7 @@ void Fire::render()
 {
   static uint32_t nf = 0;
 
-  //dax glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
-  glEnable(GL_LIGHTING);
   glTranslatef(pos.x, pos.y, pos.z);
   float seed = ((float) drand48() * 2) - 1.;
   glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
@@ -194,9 +192,7 @@ void Fire::render()
   draw();
 
   glDisable(GL_BLEND);
-  glDisable(GL_LIGHTING);
   glPopMatrix();
-  //dax glPopAttrib();
 
   nf++;
 }

@@ -36,6 +36,7 @@
 
 #include <vector>
 #include <list>
+#include <algorithm>
 
 using namespace std;
 
@@ -152,7 +153,7 @@ void Render::materials()
 }
 
 // DEBUG //
-#if 1 //dax0 set to 1 to debug
+#if 0 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -166,33 +167,39 @@ void Render::putSelbuf(WObject *obj)
 }
 
 // Compares distances  : called by sort()
-int Render::compDist(const void *t1, const void *t2)
+bool Render::compDist(const void *t1, const void *t2)
 {
   Solid *s1 = (Solid *) t1;
   Solid *s2 = (Solid *) t2;
 
   // sort by decreasing order : furthest -> nearest
+  return (s1->userdist > s2->userdist);
+#if 0 //dax3
   if (s1->userdist > s2->userdist)
     return 1;
   else if (s1->userdist < s2->userdist)
     return -1;
   else
     return 0;
+#endif //dax3
 }
 
 // Compares surfaces  : called by sort()
-int Render::compSize(const void *t1, const void *t2)
+bool Render::compSize(const void *t1, const void *t2)
 {
   Solid *s1 = (Solid *) t1;
   Solid *s2 = (Solid *) t2;
 
   // sort by decreasing order : largest -> smallest
+  return (s1->surfsize > s2->surfsize);
+#if 0 //dax3
   if (s1->surfsize > s2->surfsize)
     return 1;
   else if (s1->surfsize < s2->surfsize)
     return -1;
   else
     return 0;
+#endif //dax3
 }
 
 // Renders opaque solids
@@ -217,18 +224,37 @@ void Render::renderOpaque()
   // sort opaqueList
   opaqueList.sort(compDist);	// large surfaces overlap
   opaqueList.sort(compSize);	// fix overlaping
+  //dax1 qsort((list<Solid*> *) &opaqueList, opaqueList.size(), sizeof(Solid), compDist);
+  //dax1 qsort((list<Solid*> *) &opaqueList, opaqueList.size(), sizeof(Solid), compSize);
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
     putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      (*it)->object()->render();
+      if (
+         //ok(*it)->object()->typeName() != "Fire" && //bad
+         //ok(*it)->object()->typeName() != "Flag" && //bad
+         //ok(*it)->object()->typeName() != "Text" &&
+         //ok(*it)->object()->typeName() != "Guy" &&
+         //ok(*it)->object()->typeName() != "Water" &&
+         //ok(*it)->object()->typeName() != "Firework" &&
+         //ok(*it)->object()->typeName() != "Cloud" &&
+         //ok(*it)->object()->typeName() != "Wings" &&
+         //ok(*it)->object()->typeName() != "Head" &&
+         //ok(*it)->object()->typeName() != "Hat" &&
+         //ok(*it)->object()->typeName() != "Sun" &&
+         (*it)->object()->typeName() != "NONE"
+         ) //dax5 hack 
+      {
+      //dax trace2(DBG_FORCE, " %s", (*it)->object()->getInstance());
+      (*it)->object()->render();	// if commented bad color (pink)
+      }
     }
     else {
       (*it)->displaySolid(Solid::OPAQUE);
     }
     //dax5 hack exeptions! FIXME!
-    if (
+    if (	// candidates for the 2nd passe
            (*it)->object()->typeName() != "Clock" 
         && (*it)->object()->typeName() != "Guy"		// if commented bad colors
        ) {
@@ -239,7 +265,7 @@ void Render::renderOpaque()
     }
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
     //trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
-    trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->surfsize);
+    trace2(DBG_VGL, " %s:%.1f:%.1f", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize);
   }
 }
 
@@ -255,8 +281,8 @@ void Render::renderTranslucid()
   }
 
   // sort translucidList
-  translucidList.sort(compDist);
   translucidList.sort(compSize);
+  translucidList.sort(compDist);
 
   // render translucidList
   for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
@@ -418,11 +444,11 @@ void Render::lighting()
   glEnable(GL_LIGHTING);
 
   // renders other lights for example sun, moon, lamp
-  trace2(DBG_VGL, "\nlight:");
+  //trace2(DBG_VGL, "\nlight:");
   for (list<WObject*>::iterator l = lightList.begin(); l != lightList.end() ; ++l) {
     if ((*l)->isValid()) { //FIXME segfault sometimes
       (*l)->lighting();
-      trace2(DBG_VGL, " %s", (*l)->getInstance());
+      //trace2(DBG_VGL, " %s", (*l)->getInstance());
     }
   }
 }

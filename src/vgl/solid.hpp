@@ -57,7 +57,6 @@ protected:
   GLfloat	scale, scalex, scaley, scalez;
   bool		isframed;	///< flag framed.
   bool		isflashy;	///< flag flashy.
-  bool		isflashable;	///< flag flashable.
   bool		isflary;	///< flag flary.
   bool		isreflex;	///< flag reflexive.
   bool		isblinking;	///< flag blinking.
@@ -238,9 +237,6 @@ private:
 
   virtual void setBlinking(bool flag);
   /**< Sets the solid blinking. */
-
-  virtual void setFlashable(bool flag);
-  /**< Sets the solid flashable. */
 
   virtual void preDraw(int texid, GLfloat alpha, GLfloat *fog, bool cull = false);
   /**< Begins transforms before drawing. */
