@@ -94,6 +94,14 @@ void Walls::parser(char *l)
   end_while_parse(l);
 }
 
+void Walls::makeSolid()
+{
+  char s[128];
+
+  sprintf(s, "shape=\"none\" />");
+  parse()->parseSolid(s, SEP, this);
+}
+
 /* Constructors */
 Walls::Walls(char *l)
 {
@@ -101,6 +109,7 @@ Walls::Walls(char *l)
 
   enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
+  makeSolid();
 
   initStillObject();
 

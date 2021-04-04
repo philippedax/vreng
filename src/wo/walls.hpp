@@ -68,6 +68,9 @@ private:
   virtual void defaults();
   /**< Sets default values */
 
+  virtual void makeSolid();
+  /**< Sets solid values */
+
   static void httpReader(void *va, class Http *http);
   /**< download walls */
 
