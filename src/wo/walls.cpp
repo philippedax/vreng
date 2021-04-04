@@ -100,7 +100,6 @@ Walls::Walls(char *l)
   parser(l);
 
   enableBehavior(NO_BBABLE);
-  //dax enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
 
   initStillObject();
@@ -227,13 +226,13 @@ void Walls::draw()
 void Walls::render()
 {
   glPushMatrix();
-  glDisable(GL_LIGHTING);	// no lighting on walls
+  //dax1 glDisable(GL_LIGHTING);	// no lighting on walls
   glDisable(GL_CULL_FACE);	// two facets => no culling
 
   glCallList(dlist);
 
   glEnable(GL_CULL_FACE);
-  glEnable(GL_LIGHTING);
+  //dax1 glEnable(GL_LIGHTING);
   glPopMatrix();
 }
 

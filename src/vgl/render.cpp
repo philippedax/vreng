@@ -153,7 +153,7 @@ void Render::materials()
 }
 
 // DEBUG //
-#if 0 //dax0 set to 1 to debug
+#if 1 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -173,15 +173,7 @@ bool Render::compDist(const void *t1, const void *t2)
   Solid *s2 = (Solid *) t2;
 
   // sort by decreasing order : furthest -> nearest
-  return (s1->userdist > s2->userdist);
-#if 0 //dax3
-  if (s1->userdist > s2->userdist)
-    return 1;
-  else if (s1->userdist < s2->userdist)
-    return -1;
-  else
-    return 0;
-#endif //dax3
+  return (s1->userdist >= s2->userdist);
 }
 
 // Compares surfaces  : called by sort()
@@ -191,15 +183,7 @@ bool Render::compSize(const void *t1, const void *t2)
   Solid *s2 = (Solid *) t2;
 
   // sort by decreasing order : largest -> smallest
-  return (s1->surfsize > s2->surfsize);
-#if 0 //dax3
-  if (s1->surfsize > s2->surfsize)
-    return 1;
-  else if (s1->surfsize < s2->surfsize)
-    return -1;
-  else
-    return 0;
-#endif //dax3
+  return (s1->surfsize >= s2->surfsize);
 }
 
 // Renders opaque solids
@@ -232,8 +216,9 @@ void Render::renderOpaque()
     putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       if (
-         //ok(*it)->object()->typeName() != "Fire" && //bad
-         //ok(*it)->object()->typeName() != "Flag" && //bad
+#if 0 //dax5 debug zone
+         //ok(*it)->object()->typeName() != "Fire" && //bad GL_LIGHTING
+         //ok(*it)->object()->typeName() != "Flag" && //bad GL_LIGHTING
          //ok(*it)->object()->typeName() != "Text" &&
          //ok(*it)->object()->typeName() != "Guy" &&
          //ok(*it)->object()->typeName() != "Water" &&
@@ -243,6 +228,7 @@ void Render::renderOpaque()
          //ok(*it)->object()->typeName() != "Head" &&
          //ok(*it)->object()->typeName() != "Hat" &&
          //ok(*it)->object()->typeName() != "Sun" &&
+#endif //dax5
          (*it)->object()->typeName() != "NONE"
          ) //dax5 hack 
       {

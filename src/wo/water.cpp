@@ -153,9 +153,9 @@ void Water::changePermanent(float lasting)
 
 void Water::render()
 {
-  //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, flag is ok
+  //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);	// if uncommented no water FIXME
   glPushMatrix();
-   glEnable(GL_LIGHTING);
+   glEnable(GL_LIGHTING);	// if commented no water FIXME
    glEnable(GL_BLEND);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, tcolor);
