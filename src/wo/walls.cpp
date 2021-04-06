@@ -98,7 +98,7 @@ void Walls::makeSolid()
 {
   char s[128];
 
-  sprintf(s, "shape=\"none\" />");
+  sprintf(s, "shape=\"walls\" dim=\"2 0.02 2\" />");
   parse()->parseSolid(s, SEP, this);
 }
 

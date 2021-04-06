@@ -431,10 +431,10 @@ void Render::lighting()
 
   // renders other lights for example sun, moon, lamp
   //trace2(DBG_VGL, "\nlight:");
-  for (list<WObject*>::iterator l = lightList.begin(); l != lightList.end() ; ++l) {
-    if ((*l)->isValid()) { //FIXME segfault sometimes
-      (*l)->lighting();
-      //trace2(DBG_VGL, " %s", (*l)->getInstance());
+  for (list<WObject*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
+    if ((*it)->isValid()) { //FIXME segfault sometimes
+      (*it)->lighting();
+      //trace2(DBG_VGL, " %s", (*it)->getInstance());
     }
   }
 }
@@ -442,11 +442,11 @@ void Render::lighting()
 /* highlight same type object. */
 void Render::setAllTypeFlashy(char *object_type, int typeflash)
 {
-  for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    if (! strcasecmp((*s)->object()->typeName(), object_type)) {
+  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; it++) {
+    if (! strcasecmp((*it)->object()->typeName(), object_type)) {
       switch (typeflash) {
-      case 0: if (*s) (*s)->isflashy = false; break;
-      case 1: if (*s) (*s)->isflashy = true; break;
+      case 0: if (*it) (*it)->isflashy = false; break;
+      case 1: if (*it) (*it)->isflashy = true; break;
       }
     }
   }

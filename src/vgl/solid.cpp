@@ -95,6 +95,7 @@ enum {
   STOK_WHEEL,
   STOK_HELIX,
   STOK_TEAPOT,
+  STOK_WALLS,
   /* dimensions */
   STOK_URL,
   STOK_SIZE,
@@ -212,6 +213,7 @@ static const struct sStokens stokens[] = {
   { "wheel", "wheel", STOK_WHEEL },
   { "helix","helix", STOK_HELIX},
   { "teapot","teapot", STOK_TEAPOT},
+  { "ws","walls", STOK_WALLS},
   { "url", "solid", STOK_URL },
   { "dim", "size", STOK_SIZE },
   { "r", "radius", STOK_RADIUS },
@@ -456,6 +458,7 @@ char * Solid::parser(char *l)
       case STOK_WHEEL:
       case STOK_HELIX:
       case STOK_TEAPOT:
+      case STOK_WALLS:
       case STOK_MAN:
       case STOK_GUY:
       case STOK_ANDROID:
@@ -513,7 +516,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
   // default materials
   for (int i=0; i<4; i++) {
-    mat_diffuse[i] = mat_ambient[i] = mat_specular[i] = 1;
+    mat_diffuse[i] = mat_ambient[i] = mat_specular[i] = 1; // white
     mat_emission[i] = 0;
   }
   mat_shininess[0] = DEF_SHININESS;
