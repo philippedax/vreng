@@ -705,7 +705,7 @@ void UDispX11::startLoop(bool main) {
       } //endfor(k)
       
       // pour TOUS les disps
-      //if (UAppli::impl.request_mask) UAppli::impl.processPendingRequests();
+      if (UAppli::impl.request_mask) UAppli::impl.processPendingRequests();
       
       if (!e_found) break;  // continuer jusqu'au select
     } //endwhile

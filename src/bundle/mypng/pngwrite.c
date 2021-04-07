@@ -13,7 +13,7 @@
 
 /* get internal access to png.h */
 #define PNG_INTERNAL
-#include "mypng.h"
+#include "png.h"
 #ifdef PNG_WRITE_SUPPORTED
 
 /* Writes all the PNG information.  This is the suggested way to use the

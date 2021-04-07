@@ -50,14 +50,14 @@
 </gate>
 
 <!-- cubes -->
-<mirage pos="2 .5 1.7 .88 .88" mode="turn" mode="roll" mode="tilt" aspeed="2">
+<mirage name="cube1" pos="2 .5 1.7 .88 .88" mode="turn" mode="roll" mode="tilt" aspeed="2">
 <solid dim=".64 .64 .64" xn="/png/s3.png" xp="/png/s3.png" yn="/png/s3.png" yp="/png/s3.png" zn="/png/s3.png" zp="/png/s3.png" />
 </mirage>
-<mirage pos="2 -.5 1.7 .88 .88" mode="turn" mode="roll" mode="tilt" aspeed="2">
+<mirage name="cube2" pos="2 -.5 1.7 .88 .88" mode="turn" mode="roll" mode="tilt" aspeed="2">
 <solid dim=".64 .64 .64" xn="/gif/s.gif" xp="/gif/s.gif" yn="/gif/s.gif" yp="/gif/s.gif" zn="/gif/s.gif" zp="/gif/s.gif" />
 </mirage>
 
-<animator pos="4 2 .07" anim="1">
+<animator name="ballon" pos="4 2 .07" anim="1">
   <solid frames="13">
   <frame shape="sphere" r=".07" tx="/gif/ball.gif" />
   <frame shape="sphere" r=".09" tx="/gif/ball.gif" />

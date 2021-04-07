@@ -18,6 +18,9 @@
  *    misrepresented as being the original source.
  * 3. This notice must not be removed or altered from any source distribution.
  */ 
+
+#if 0 //DAX
+
 #ifdef _WIN32 /* Stupid Windows needs to include windows.h before gl.h */
 #undef FAR
 #include <windows.h>
@@ -28,8 +31,7 @@
 #include <math.h>
 #include "glpng.hpp"
 
-#if 1 //DAX
-#include "mypng.h"
+#include "png.h"	// src/bundle/mypng
 
 
 /* Used to decide if GL/gl.h supports the paletted extension */

@@ -519,6 +519,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     mat_diffuse[i] = mat_ambient[i] = mat_specular[i] = 1; // white
     mat_emission[i] = 0;
   }
+  mat_emission[3] = 1;
   mat_shininess[0] = DEF_SHININESS;
   alpha = DEF_ALPHA;	// opaque
 

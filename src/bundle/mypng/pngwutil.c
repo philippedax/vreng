@@ -12,7 +12,7 @@
  */
 
 #define PNG_INTERNAL
-#include "mypng.h"
+#include "png.h"
 #ifdef PNG_WRITE_SUPPORTED
 
 /* Place a 32-bit number into a buffer in PNG byte order.  We work

@@ -12,7 +12,7 @@
  */
 
 #define PNG_INTERNAL
-#include "mypng.h"
+#include "png.h"
 
 #ifdef PNG_PROGRESSIVE_READ_SUPPORTED
 

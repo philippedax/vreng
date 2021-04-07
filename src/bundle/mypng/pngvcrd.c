@@ -28,7 +28,7 @@
  */
 
 #define PNG_INTERNAL
-#include "mypng.h"
+#include "png.h"
 
 #if defined(PNG_ASSEMBLER_CODE_SUPPORTED) && defined(PNG_USE_PNGVCRD)
 

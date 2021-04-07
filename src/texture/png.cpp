@@ -28,7 +28,7 @@
 
 Img * Img::loadPNG(void *tex, ImageReader read_func)
 {
-#if 1 //DAX
+#if 0 //DAX
   Texture *_tex = (Texture *) tex;
   FILE *f;
   if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
@@ -43,9 +43,9 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
   }
 #else
   return NULL;
-#endif
+#endif //HAVE_PNG_H
   File::closeFile(f);
-  trace(DBG_IMG, "loadPNG: width=%d height=%d depth=%d alpha=%d",
+  trace(DBG_FORCE, "loadPNG: width=%d height=%d depth=%d alpha=%d",
                  rawinfo.Width, rawinfo.Height, rawinfo.Depth, rawinfo.Alpha);
 
   Img *img = new Img(rawinfo.Width, rawinfo.Height, Img::RGB);
@@ -54,7 +54,7 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
   return img;
 #else
   return NULL;
-#endif
+#endif //DAX
 }
 
 void Img::savePNG(const char *filename, GLint width, GLint height) 
@@ -111,5 +111,5 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
   free(image);
   File::closeFile(f);
 #endif
-#endif
+#endif //DAX
 }

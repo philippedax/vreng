@@ -19,7 +19,7 @@
  */
 
 #define PNG_INTERNAL
-#include "mypng.h"
+#include "png.h"
 #ifdef PNG_WRITE_SUPPORTED
 
 /* Write the data to whatever output you are using.  The default routine

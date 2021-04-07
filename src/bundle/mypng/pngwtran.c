@@ -12,7 +12,7 @@
  */
 
 #define PNG_INTERNAL
-#include "mypng.h"
+#include "png.h"
 #ifdef PNG_WRITE_SUPPORTED
 
 /* Transform the data according to the user's wishes.  The order of
