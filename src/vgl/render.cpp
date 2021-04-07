@@ -173,7 +173,7 @@ bool Render::compDist(const void *t1, const void *t2)
   Solid *s2 = (Solid *) t2;
 
   // sort by decreasing order : furthest -> nearest
-  return (s1->userdist >= s2->userdist);
+  return (s1->userdist > s2->userdist);
 }
 
 // Compares surfaces  : called by sort()
@@ -183,7 +183,7 @@ bool Render::compSize(const void *t1, const void *t2)
   Solid *s2 = (Solid *) t2;
 
   // sort by decreasing order : largest -> smallest
-  return (s1->surfsize >= s2->surfsize);
+  return (s1->surfsize > s2->surfsize);
 }
 
 // Renders opaque solids
@@ -208,8 +208,6 @@ void Render::renderOpaque()
   // sort opaqueList
   opaqueList.sort(compDist);	// large surfaces overlap
   opaqueList.sort(compSize);	// fix overlaping
-  //dax1 qsort((list<Solid*> *) &opaqueList, opaqueList.size(), sizeof(Solid), compDist);
-  //dax1 qsort((list<Solid*> *) &opaqueList, opaqueList.size(), sizeof(Solid), compSize);
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
@@ -227,7 +225,7 @@ void Render::renderOpaque()
          //ok(*it)->object()->typeName() != "Wings" &&
          //ok(*it)->object()->typeName() != "Head" &&
          //ok(*it)->object()->typeName() != "Hat" &&
-         //ok(*it)->object()->typeName() != "Sun" &&
+         //ok(*it)->object()->typeName() != "Walls" &&
 #endif //dax5
          (*it)->object()->typeName() != "NONE"
          ) //dax5 hack 
@@ -239,18 +237,21 @@ void Render::renderOpaque()
     else {
       (*it)->displaySolid(Solid::OPAQUE);
     }
+#if 0 //dax5 debug zone
     //dax5 hack exeptions! FIXME!
     if (	// candidates for the 2nd passe
-           (*it)->object()->typeName() != "Clock" 
-        && (*it)->object()->typeName() != "Guy"		// if commented bad colors
+            (*it)->object()->typeName() != "Clock" 
+        //dax5 && (*it)->object()->typeName() != "Guy"		// if commented bad colors
        ) {
       (*it)->setRendered(true);
     }
     else {
       (*it)->setRendered(false);
     }
+#else
+      (*it)->setRendered(true);
+#endif //dax5
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
-    //trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
     trace2(DBG_VGL, " %s:%.1f:%.1f", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize);
   }
 }
@@ -310,8 +311,8 @@ void Render::renderSolids()
   // renders opaque solids
   trace2(DBG_VGL, "\nopaq-1: ");
   renderOpaque();		// no clock, bad guy
-  trace2(DBG_VGL, "\nopaq-2: ");
-  renderOpaque();		// second pass to render clock and guy !!!???
+  //dax5 trace2(DBG_VGL, "\nopaq-2: ");
+  //dax5 renderOpaque();		// second pass to render clock and guy !!!???
 
   // renders translucid solids
   trace2(DBG_VGL, "\ntransl: ");
