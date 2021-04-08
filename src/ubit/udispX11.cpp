@@ -697,7 +697,7 @@ void UDispX11::startLoop(bool main) {
           //cerr << "MainLoop: before dispatch " << e.type  << " "<< e_count << endl;
           nd->dispatchEvent(&e);
           // !!! ca devrait etre lie au disp !!!
-          if (UAppli::impl.request_mask) UAppli::impl.processPendingRequests();
+          //if (UAppli::impl.request_mask) UAppli::impl.processPendingRequests();
         }
         //else
         //  cerr << "trash event " << e.type  << " apptime " << t - nd->appli_time 
