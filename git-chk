@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# git-chk : check sources at github
+#
+n=0
+
+echo "########## src/"
+for f in src/*/*.[lych] src/*/*.*p
+do
+  #echo $f
+  diff $f github/$f
+  n=$[ $n + 1 ]
+done
+
+echo "########## src/bundle/"
+for f in src/bundle/*/*.*[lych] src/bundle/*/*.*p
+do
+  #echo $f
+  diff $f github/$f
+  n=$[ $n + 1 ]
+done
+
+echo "########## src/util/"
+for f in src/util/*/*.[lych] src/util/*/*.*p
+do
+  #echo $f
+  diff $f github/$f
+  n=$[ $n + 1 ]
+done
+
+echo "########## src/servers/"
+for f in src/servers/*/*.[ch]pp
+do
+  #echo $f
+  diff $f github/$f
+  n=$[ $n + 1 ]
+done
+
+echo "$n files"
