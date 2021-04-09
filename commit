@@ -25,7 +25,8 @@ git push origin master
 #git push origin master
 #./.github
 
-log=git.log
+mkdir log 2>/dev/null
+log=log/commit.log
 if [ -f $log ] ; then
   last=$(tail -1 $log)
   num=$(echo $last | cut -f1 -d ' ')
