@@ -361,13 +361,6 @@ char * Solid::getTok(char *l, uint16_t *tok)
   }
 }
 
-char * Solid::getFramesNumber(char *l)
-{
-  if (! stringcmp(l, "frames="))
-    l = wobject->parse()->parseUInt16(l, &nbrframes, "frames");
-  return l;
-}
-
 /* Parses <frame , return next token after frame. */
 char * Solid::parseFrame(char *l)
 {
@@ -414,12 +407,12 @@ char * Solid::parser(char *l)
     wobject->parse()->printNumline();
     return NULL;
   }
-  char ll[BUFSIZ];
-  strcpy(ll, l);	// copy origin line for debug
+  char *ll = strdup(l);	// copy origin line for debug
   if (*l == '<') l++;	// skip open-tag
 
-  l = getFramesNumber(l);
-
+  if (! stringcmp(l, "frames=")) {
+    l = wobject->parse()->parseUInt16(l, &nbrframes, "frames");
+  }
   dlists = new GLint[nbrframes];
 
   ::g.render.addToList(this);	// add to solidList
@@ -475,6 +468,7 @@ char * Solid::parser(char *l)
 
     if (r == -1) {
       error("parser error: shape=%hu ll=%s", shape, ll);
+      free(ll);
       delete this;
       return NULL;
     }
@@ -488,14 +482,16 @@ char * Solid::parser(char *l)
   }
 
   // computes max surface of this solid
-  surfsize = MAX(bbsize.v[0]*bbsize.v[1], bbsize.v[0]*bbsize.v[2]);
-  surfsize = MAX(surfsize, bbsize.v[1]*bbsize.v[2]);	// surface max
-  //dax surfsize = bbsize.v[0] * bbsize.v[1] * bbsize.v[2];	// volume
+  surfsize = MAX( bbsize.v[0]*bbsize.v[1], bbsize.v[0]*bbsize.v[2] );
+  surfsize = MAX (surfsize, bbsize.v[1]*bbsize.v[2] );	// surface max
+  //dax surfsize = bbsize.v[0] * bbsize.v[1] * bbsize.v[2];	// volume notused
 
   /* next Token */
   l = wobject->parse()->nextToken();
-  if (l && !strcmp(l, "/solid"))
+  if (l && !strcmp(l, "/solid")) {
     l = wobject->parse()->nextToken(); // skip </solid>
+  }
+
   return l;
 }
 

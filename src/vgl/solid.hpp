@@ -45,17 +45,12 @@ protected:
   M4		matpos;		///< position matrix.
   V3		bbcent;		///< relative center of BB.
   V3		bbsize;		///< relative half sizes of BB.
+  float 	pos[5];		///< relative position/orientation.
   bool		is_visible;	///< should this solid be drawn ?.
   bool		is_opaque;	///< set if the solid is totaly opaque.
   bool		is_fictif;	///< set if the solid is fictif.
-  GLfloat	mat_diffuse[4];
-  GLfloat	mat_ambient[4];
-  GLfloat	mat_specular[4];
-  GLfloat	mat_emission[4];
-  GLint		mat_shininess[1];
-  GLfloat	alpha;
-  GLfloat	scale, scalex, scaley, scalez;
-  bool		isframed;	///< flag framed.
+  float		alpha;
+  float		scale, scalex, scaley, scalez;
   bool		isflashy;	///< flag flashy.
   bool		isflary;	///< flag flary.
   bool		isreflex;	///< flag reflexive.
@@ -64,15 +59,18 @@ protected:
   uint8_t	shape;		///< basic shape.
   uint8_t	numrel;		///< relative solid number.
   uint16_t	nbrframes;	///< number of frames of this solid.
-  uint16_t	idxframe;	///< frame index.
   uint16_t	frame;		///< current frame to render.
   int		texid;		///< texture id
-  GLfloat 	flashcol[3];	///< flash color.
-  GLfloat 	pos[5];		///< relative position/orientation.
-  GLfloat	fog[4];		///< fog params
   float		userdist;	///< distance to localuser
   float		surfsize;	///< max surface size of solid
   bool		rendered;	///< flag if is already rendered
+  GLfloat	mat_diffuse[4];
+  GLfloat	mat_ambient[4];
+  GLfloat	mat_specular[4];
+  GLfloat	mat_emission[4];
+  GLint		mat_shininess[1];
+  GLfloat 	flashcol[3];	///< flash color.
+  GLfloat	fog[4];		///< fog params
 
 public:
 
@@ -228,12 +226,11 @@ public:
   /**< Displays ray. */
 
 private:
+  uint16_t	idxframe;	///< frame index.
+  bool		isframed;	///< flag framed.
 
   virtual char * skipEqual(char *p);
   /** Skips '=' character. */
-
-  virtual char * getFramesNumber(char *l);
-  /**< Parses frames number. */
 
   virtual void setBlinking(bool flag);
   /**< Sets the solid blinking. */

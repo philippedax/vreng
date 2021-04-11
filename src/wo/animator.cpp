@@ -64,7 +64,6 @@ Animator::Animator(char *l)
 {
   parser(l);
 
-  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);

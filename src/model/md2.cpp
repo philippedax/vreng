@@ -90,7 +90,7 @@ bool Md2::loadFromFile(FILE *f)
 
   /* Read the header */
   tMd2Header md2_hdr;
-  int32_t o=0;
+  int32_t o = 0;	// offset in file
 
   File::read_buf(f, md2_hdr.ident, 4); o+=4;
   md2_hdr.version = File::read_long_le(f); o+=4;
@@ -185,15 +185,13 @@ bool Md2::loadFromHttp(Http *h)
 
 int32_t Md2::getFrames(tMd2Header *md2_hdr, FILE *f)
 {
-  //trace(DBG_FORCE, "getFrames: numframes=%d", numframes);
-
   /* converts the FrameInfos to Frames */
   frames = new tMd2Frame[numframes];
 
   // allocate display list
   dlists = new GLint[numframes];
 
-  int32_t o=0;
+  int32_t o = 0;
   for (int fr=0; fr < numframes; fr++) {
     tMd2Vec3 scale, origin;
 
@@ -226,15 +224,13 @@ int32_t Md2::getFrames(tMd2Header *md2_hdr, FILE *f)
 
 int32_t Md2::getFrames(tMd2Header *md2_hdr, Http *h)
 {
-  //trace(DBG_FORCE, "getFrames: numframes=%d", numframes);
-
   /* converts the FrameInfos to Frames */
   frames = new tMd2Frame[numframes];
 
   // allocate display list
   dlists = new GLint[numframes];
 
-  int32_t o=0;
+  int32_t o = 0;
   for (int f=0; f < numframes; f++) {
     tMd2Vec3 scale, origin;
 
@@ -483,6 +479,8 @@ void Md2::render(Pos &pos, uint16_t frame)
   glRotatef(pos.ay, 0,1,0);	//FIXME
   glRotatef(pos.az, 0,0,1);	//FIXME
   //glScalef(desiredScale, desiredScale, desiredScale);
+
   glCallList(dlists[frame]);
+
   glPopMatrix();
 }
