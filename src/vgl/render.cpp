@@ -241,6 +241,9 @@ void Render::renderOpaque()
          )
 #endif //dax5
       (*it)->object()->render();	// if commented bad color (pink)
+      if ( (*it)->object()->typeName() == "Guide" ) {	// exception: guide is both
+        (*it)->displaySolid(Solid::OPAQUE);
+      }
     }
     else {
       (*it)->displaySolid(Solid::OPAQUE);
