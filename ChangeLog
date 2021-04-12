@@ -15,6 +15,9 @@ The rules for this file:
 ++ 9
 == 9.2
 -- 9.2.0
+	- fixed rendering guide both specific and normal
+	- added compFrame to sort solids by increasing order of frames
+	(2021/04/12, Philippe Dax)
 	- fixed picking in thr selection buffer before display
 	(2021/03/29, Philippe Dax)
 	- fixed errno 22 on select in udispX11.cpp (bad maxfd)
