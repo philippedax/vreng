@@ -262,6 +262,7 @@ private:
 
   static bool compDist(const void *t1, const void *t2);	///< compare distantes to eyes
   static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes
+  static bool compFrame(const void *t1, const void *t2);///< compare nbframes
 
   void putSelbuf(WObject *po);
   /**< Sets object name in Z-buffer for selection. */

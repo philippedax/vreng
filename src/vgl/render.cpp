@@ -186,6 +186,16 @@ bool Render::compSize(const void *t1, const void *t2)
   return (s1->surfsize > s2->surfsize);
 }
 
+// Compares nbframes  : called by sort()
+bool Render::compFrame(const void *t1, const void *t2)
+{
+  Solid *s1 = (Solid *) t1;
+  Solid *s2 = (Solid *) t2;
+
+  // sort by increasing order : less -> more
+  return (s1->nbframes < s2->nbframes);
+}
+
 // Renders opaque solids
 void Render::renderOpaque()
 {
@@ -208,6 +218,7 @@ void Render::renderOpaque()
   // sort opaqueList
   opaqueList.sort(compDist);	// large surfaces overlap
   opaqueList.sort(compSize);	// fix overlaping
+  opaqueList.sort(compFrame);	// fix overlaping
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();

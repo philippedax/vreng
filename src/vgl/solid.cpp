@@ -296,13 +296,13 @@ Solid::Solid()
   new_solid++;
   dlists = NULL;	// solid display lists
   wobject = NULL;	// wobject associated with this solid set by addSolid in wobject.cpp
-  shape = STOK_BOX;	// box shape by default
+  shape = STOK_BOX;	// shape by default: box
   numrel = 0;		// monosolid
   bbcent = newV3(0, 0, 0);
   bbsize = newV3(0, 0, 0);
   idxframe = 0;		// frame index in displaylist
   frame = 0;		// frame to render
-  nbrframes = 1;	// 1 frame by default
+  nbframes = 1;		// 1 frame by default
   isframed = false;	// mono framed by default
   isflashy = false;
   isflary = false;
@@ -377,8 +377,8 @@ char * Solid::parseFrame(char *l)
   return l;
 }
 
-/* Sets shape class member from shape="...", return next token. */
-char * Solid::parseShape(char *l)
+/* Sets shape from shape="...", return next token. */
+char * Solid::parseShape(char *l, uint8_t *shape)
 {
   const struct sStokens *ptab;
   char s[16];
@@ -387,12 +387,12 @@ char * Solid::parseShape(char *l)
     l = wobject->parse()->parseString(l, s, "shape");
     for (ptab = stokens; ptab->tokstr ; ptab++) {
       if ((! strcmp(ptab->tokstr, s)) || (! strcmp(ptab->tokalias, s))) {
-        shape = ptab->tokid;
+        *shape = ptab->tokid;
         return l;
       }
     }
     error("unknown shape \"%s\" in %s'", s, l);
-    shape = 0;
+    *shape = STOK_ERR;
   }
   return l;
 }
@@ -408,12 +408,12 @@ char * Solid::parser(char *l)
     return NULL;
   }
   char *ll = strdup(l);	// copy origin line for debug
-  if (*l == '<') l++;	// skip open-tag
 
+  if (*l == '<') l++;	// skip open-tag
   if (! stringcmp(l, "frames=")) {
-    l = wobject->parse()->parseUInt16(l, &nbrframes, "frames");
+    l = wobject->parse()->parseUInt8(l, &nbframes, "frames");
   }
-  dlists = new GLint[nbrframes];
+  dlists = new GLint[nbframes];
 
   ::g.render.addToList(this);	// add to solidList
   idM4(&matpos);	// init position to 0
@@ -423,11 +423,12 @@ char * Solid::parser(char *l)
   V3 bbmin = newV3(0, 0, 0);
 
   // for each frame
-  for (idxframe = 0; idxframe < nbrframes; ) {
+  for (idxframe = 0; idxframe < nbframes; ) {
     int r = 0;
 
     l = parseFrame(l);
-    l = parseShape(l);
+    l = parseShape(l, &shape);
+
     switch (shape) {
       case STOK_NONE:
       case STOK_BBOX:
@@ -994,9 +995,9 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
 {
   int texid = -1;
   GLfloat scale = DEF_SCALE;
-  uint16_t firstframe = 1;
-  uint16_t lastframe = nbrframes;
-  uint16_t tabframes[FRAME_MAX] = { 0 };
+  uint8_t firstframe = 1;
+  uint8_t lastframe = nbframes;
+  uint8_t tabframes[FRAME_MAX] = { 0 };
   char *urlmdl = NULL;
   fog[0] = 0;
 
@@ -1021,9 +1022,9 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_SCALE:
         l = wobject->parse()->parseFloat(l, &scale); break;
       case STOK_BEGINFRAME:
-        l = wobject->parse()->parseUInt16(l, &firstframe); break;
+        l = wobject->parse()->parseUInt8(l, &firstframe); break;
       case STOK_ENDFRAME:
-        l = wobject->parse()->parseUInt16(l, &lastframe); break;
+        l = wobject->parse()->parseUInt8(l, &lastframe); break;
       case STOK_DIFFUSE:
         l = wobject->parse()->parseVector3f(l, &mat_diffuse[0]);
         for (int i=0; i<3; i++) { mat_ambient[i] = mat_diffuse[i]; } break;
@@ -1389,7 +1390,7 @@ bool Solid::isBlinking() const
 
 uint8_t Solid::getFrames() const
 {
-  return nbrframes;
+  return nbframes;
 }
 
 uint8_t Solid::getFrame() const
@@ -1397,15 +1398,16 @@ uint8_t Solid::getFrame() const
   return frame;
 }
 
-void Solid::setFrame(uint16_t _frame)
+void Solid::setFrame(uint8_t _frame)
 {
-  frame = _frame % nbrframes;
+  frame = _frame % nbframes;
 }
 
 /* transpose vreng to opengl coordinates system */
 void Solid::vr2gl()
 {
   GLfloat gl_mat[16];
+
   M4toV16(&matpos, gl_mat);
   glMultMatrixf(gl_mat);
 }

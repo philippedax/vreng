@@ -58,8 +58,8 @@ protected:
   bool		blink;		///< flag blink.
   uint8_t	shape;		///< basic shape.
   uint8_t	numrel;		///< relative solid number.
-  uint16_t	nbrframes;	///< number of frames of this solid.
-  uint16_t	frame;		///< current frame to render.
+  uint8_t	nbframes;	///< number of frames of this solid.
+  uint8_t	frame;		///< current frame to render.
   int		texid;		///< texture id
   float		userdist;	///< distance to localuser
   float		surfsize;	///< max surface size of solid
@@ -170,7 +170,7 @@ public:
   virtual char* parser(char *l);	///< Parser commun.
 
   virtual char* parseFrame(char* l);
-  virtual char* parseShape(char* l);
+  virtual char* parseShape(char* l, uint8_t *shape);
   virtual int statueParser(char* l, V3& bbmax, V3& bbmin);
   virtual int solidParser(char* l, V3& bbmax, V3& bbmin);
 
@@ -180,7 +180,7 @@ public:
   virtual uint8_t getFrame() const;
   /**< Gets the index of current frames. */
 
-  virtual void setFrame(uint16_t frame);
+  virtual void setFrame(uint8_t frame);
   /**< Changes the "frame" of the solid (ie its geometry). */
 
   virtual bool isBlinking() const;
@@ -226,7 +226,7 @@ public:
   /**< Displays ray. */
 
 private:
-  uint16_t	idxframe;	///< frame index.
+  uint8_t	idxframe;	///< frame index.
   bool		isframed;	///< flag framed.
 
   virtual char * skipEqual(char *p);
