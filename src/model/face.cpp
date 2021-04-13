@@ -36,18 +36,11 @@
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// setCacheName, openCache
 #include "file.hpp"	// closeFile
-#include "v3d.hpp"	// V3d
+#include "bone.hpp"	// V3d
 
 
 static const char headRoot[]		= "root";
-#if 0 //notused
-static const char frontRoot[]		= "frontRoot"; //not used
-#endif
 static const char lipsRoot[]		= "lipsRoot";
-#if 0 //notused
-static const char lipsTopRoot[]		= "lipsTopRoot"; //not used
-static const char lipsBotRoot[]		= "lipsBotRoot"; //not used
-#endif
 static const char eyeLeftRoot[]		= "eyeLeftRoot";
 static const char eyeRightRoot[]	= "eyeRightRoot";
 static const char eyeLeftTopRoot[]	= "eyeLeftTopRoot";
@@ -57,9 +50,6 @@ static const char eyeRightBotRoot[]	= "eyeRightBotRoot";
 static const char browLeftRoot[]	= "sourcilLeftRoot";
 static const char browRightRoot[]	= "sourcilRightRoot";
 static const char noseRoot[]		= "noseRoot";
-#if 0 //notused
-static const char noseExtremity[]	= "noseExtremity"; // not used
-#endif
 
 static const char eyeLeftTopL[]		= "eyeLeftTopL";
 static const char eyeRightTopL[]	= "eyeRightTopL";
@@ -69,10 +59,6 @@ static const char eyeLeftBotL[]		= "eyeLeftBotL";
 static const char eyeRightBotL[]	= "eyeRightBotL";
 static const char eyeLeftBotR[]		= "eyeLeftBotR";
 static const char eyeRightBotR[]	= "eyeRightBotR";
-#if 0 //notused
-static const char browLeftL[]		= "sourcilLeftL"; // not used
-static const char browLeftR[]		= "sourcilLeftR"; // not used
-#endif
 static const char browRightL[]		= "sourcilRightL";
 static const char browRightR[]		= "sourcilRightR";
 static const char noseLeft[]		= "noseLeft";
@@ -178,9 +164,9 @@ void Face::load(const char *url)
 
   V3d::readV3Dfile(newMesh, newRoot, cachefile);
 
-  animator.registerMesh(newMesh);
-  animator.registerSkeleton(newRoot);
-  animator.generateLinkList();
+  bone.registerMesh(newMesh);
+  bone.registerSkeleton(newRoot);
+  bone.generateLinkList();
 
   if (mesh) delete mesh;
   mesh = newMesh;
@@ -191,16 +177,12 @@ void Face::load(const char *url)
 void Face::render()
 {
   if (! mesh) {
-#if 1 //dax
     return;
-#else
-    change();
-#endif
   }
-  if (animator.meshToMove) {
-    if (animator.skeleton) {
-      animator.animate();
-      animator.render();
+  if (bone.meshToMove) {
+    if (bone.skeleton) {
+      bone.animate();
+      bone.render();
     }
   }
 }

@@ -23,9 +23,9 @@ AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = bap.t
 
-MODEL_SRCS = md2.cpp lwo.cpp off.cpp 3ds.cpp ase.cpp man.cpp obj.cpp vec3.cpp dxf.cpp x3d.cpp body.cpp face.cpp bap.cpp bvh.cpp boneanim.cpp v3d.cpp bonemesh.cpp bonename.cpp bonelink.cpp bonevertex.cpp bonetri.cpp car.cpp teapot.cpp
+MODEL_SRCS = md2.cpp lwo.cpp off.cpp 3ds.cpp ase.cpp man.cpp obj.cpp vec3.cpp dxf.cpp x3d.cpp body.cpp face.cpp bap.cpp bvh.cpp bone.cpp car.cpp teapot.cpp
 
-MODEL_HDRS = md2.hpp lwo.hpp off.hpp 3ds.hpp ase.hpp man.hpp obj.hpp vec3.hpp dxf.hpp x3d.hpp body.hpp face.hpp bap.hpp fap.hpp bvh.hpp boneanim.hpp v3d.hpp bonelink.hpp bonelist.hpp bonemesh.hpp bonename.hpp bonetri.hpp bonevertex.hpp car.hpp teapot.hpp
+MODEL_HDRS = md2.hpp lwo.hpp off.hpp 3ds.hpp ase.hpp man.hpp obj.hpp vec3.hpp dxf.hpp x3d.hpp body.hpp face.hpp bap.hpp fap.hpp bvh.hpp bone.hpp car.hpp teapot.hpp
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/texture -I$(SRCDIR)/vgl -I$(SRCDIR)/bundle/xmlParser

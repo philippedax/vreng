@@ -787,17 +787,14 @@ void Body::jpBack(int part)
 void Body::display(int part)
 {
   if (part >= 0 && part < MAX_PARTS) {
-//dax #if 0
     glEnable(GL_LIGHTING);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, bodyparts[part].color);
-//dax #else
     if (bodyparts[part].texid) {
       glEnable(GL_TEXTURE_2D);
       glBindTexture(GL_TEXTURE_2D, bodyparts[part].texid);
     }
     else
       glColor3fv(bodyparts[part].color);
-//dax #endif
 
     glCallList(dlist + part);
 
@@ -916,13 +913,8 @@ void Body::display()
      jpGo(R_SHOULDER);
      if (model_t == MODEL_OFF) glRotatef(90, 0,0,1);	//OK but FIXME
      //if (model_t == MODEL_OBJ) glRotatef(-90, 1,0,0);  //FIXME dax
-#if 0 //dax
-     bap->jpRX(-R_SHOULDER_FLEXION, model_t);
-     bap->jpRY(R_SHOULDER_ABDUCT, model_t);
-#else
      bap->jpRX(-R_SHOULDER_ABDUCT, model_t);
      bap->jpRY(R_SHOULDER_FLEXION, model_t);
-#endif
      bap->jpRZ(-R_SHOULDER_TWIST, model_t);
      jpBack(R_SHOULDER);
      display(R_ARM);

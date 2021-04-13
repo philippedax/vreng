@@ -32,7 +32,7 @@
 #define FACE_HPP
 
 #include "wobject.hpp"
-#include "boneanim.hpp"	// The animator class
+#include "bone.hpp"	// The bone class
 
 class Http;
 
@@ -63,7 +63,7 @@ protected:
 
   BoneMesh *mesh;	///< mesh
   BoneVertex *root;	///< bone root
-  BoneAnimator animator; ///< animator
+  Bone bone;		///< bone animator
 
 public:
   Face();			///< Constructor
