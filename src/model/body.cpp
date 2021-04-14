@@ -557,7 +557,6 @@ endparse:
       switch (bodyparts[i].model_t) {
       case MODEL_OFF:
         bodyparts[i].off = new Off(bodyparts[i].url);
-        //dax bodyparts[i].off = new Off(bscale * bodyparts[i].scale);
         Http::httpOpen(bodyparts[i].url, Off::httpReader, bodyparts[i].off, 0);
         break;
       case MODEL_OBJ:
@@ -787,7 +786,6 @@ void Body::jpBack(int part)
 void Body::display(int part)
 {
   if (part >= 0 && part < MAX_PARTS) {
-    glEnable(GL_LIGHTING);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, bodyparts[part].color);
     if (bodyparts[part].texid) {
       glEnable(GL_TEXTURE_2D);
@@ -798,8 +796,7 @@ void Body::display(int part)
 
     glCallList(dlist + part);
 
-    if (bodyparts[part].texid)
-      glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
   }
 }
 
@@ -822,8 +819,6 @@ void Body::display()
 
    if (isLoaded(SKIRT)) {
      glPushMatrix();
-     //jpGo(SKIRT);
-     //jpBack(SKIRT);
      display(SKIRT);
      glPopMatrix();
    }
@@ -883,8 +878,8 @@ void Body::display()
 
     glPushMatrix();	//  Left Shoulder -> Left Arm
      jpGo(L_SHOULDER);
-     if (model_t == MODEL_OFF) glRotatef(-90, 0,0,1);  //FIXME
-     //if (model_t == MODEL_OBJ) glRotatef(90, 1,0,0);  //FIXME dax
+     if (model_t == MODEL_OFF)
+       glRotatef(-90, 0,0,1);  //FIXME
      bap->jpRX(L_SHOULDER_ABDUCT, model_t);
      bap->jpRY(-L_SHOULDER_FLEXION, model_t);
      bap->jpRZ(-L_SHOULDER_TWIST, model_t);
@@ -911,8 +906,8 @@ void Body::display()
 
     glPushMatrix();	//  Right Shoulder -> Right Arm
      jpGo(R_SHOULDER);
-     if (model_t == MODEL_OFF) glRotatef(90, 0,0,1);	//OK but FIXME
-     //if (model_t == MODEL_OBJ) glRotatef(-90, 1,0,0);  //FIXME dax
+     if (model_t == MODEL_OFF)
+       glRotatef(90, 0,0,1);	//OK but FIXME
      bap->jpRX(-R_SHOULDER_ABDUCT, model_t);
      bap->jpRY(R_SHOULDER_FLEXION, model_t);
      bap->jpRZ(-R_SHOULDER_TWIST, model_t);
@@ -932,6 +927,7 @@ void Body::display()
        bap->jpRY(R_WRIST_PIVOT, model_t);
        bap->jpRZ(R_WRIST_TWIST, model_t);
        jpBack(R_WRIST);
+
 #if 0 //dax
        glPushMatrix();	//  Right fingers
        glPushMatrix();	//  Right thumb
@@ -1031,7 +1027,7 @@ void Body::render(Pos& pos)
   if (!bap) return;
 
   float dtz = (bscale != 1) ?  B_HEIGHT/2 : 0;
-  const GLfloat specular[] = {.4,.4,.4,1};
+  const GLfloat color[] = {.4,.4,.4,1};
 
   glPushMatrix();
    glTranslatef(pos.x + tx, pos.y + ty, pos.z + tz + dtz);
@@ -1048,7 +1044,7 @@ void Body::render(Pos& pos)
      glRotatef(RAD2DEG(pos.az) + rz + 180, 0,0,1);
      break;
    }
-   glMaterialfv(GL_FRONT, GL_SPECULAR,  specular);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
    glColorMaterial(GL_FRONT, GL_DIFFUSE);
    glEnable(GL_COLOR_MATERIAL);
 
