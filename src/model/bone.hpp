@@ -34,6 +34,7 @@
 
 class BoneLink;
 
+
 //---------------------------------------------------------------------------
 
 /**
@@ -545,9 +546,9 @@ public:
 //---------------------------------------------------------------------------
 
 /**
- * Triangle class
+ * BoneTriangle class
  */
-class Triangle {
+class BoneTriangle {
  public:
 
   // Datas for the triangle class
@@ -560,9 +561,9 @@ class Triangle {
   float finalRed, finalGreen, finalBlue, finalAlpha; // Projected colors
 
   // Construct / destruct
-  Triangle();
+  BoneTriangle();
 
-  virtual ~Triangle();
+  virtual ~BoneTriangle();
 
   // Accessing datas
   //void addVertex(Vertex *zeVertex, int index, float u=-1, float v=-1);
@@ -580,7 +581,8 @@ class Triangle {
  * BoneMesh class
  */
 class BoneMesh : public Bonename {
-public:
+
+ public:
 
   // Gestion des sommets
   BoneList < Vertex > vertexList;
@@ -589,8 +591,8 @@ public:
   int vertexListCompiled;
 
   // Gestion des faces triangulaires
-  BoneList<Triangle> triangleList;
-  Triangle **triangle;
+  BoneList<BoneTriangle> triangleList;
+  BoneTriangle **triangle;
   int triangles;
   int triangleListCompiled;
 
@@ -639,6 +641,7 @@ public:
  */
 
 class Bone {
+
  public:
 
   /* What we'll animate */
@@ -694,5 +697,7 @@ class V3d {
 			char *filename,
 			float size = 1.);
 };
+
+//---------------------------------------------------------------------------
 
 #endif

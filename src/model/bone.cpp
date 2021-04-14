@@ -356,7 +356,7 @@ void Bone::render()
   // Now, we'll render the 3d mesh on the screen
   if (! meshToMove->triangleListCompiled) meshToMove->compileTriangleList();
 
-  Triangle *triangle;
+  BoneTriangle *triangle;
   Vect3D *v1, *v2, *v3;
   Vect3D *n1, *n2, *n3;
   Vect3D *normal;
@@ -611,7 +611,7 @@ void BoneMesh::addTriangle(int index1, int index2, int index3)
 {
   if (! vertexListCompiled) compileVertexList();
 
-  Triangle * tri = new Triangle();
+  BoneTriangle * tri = new BoneTriangle();
   tri->addVertex(vertex[index1], index1, -1, -1);
   tri->addVertex(vertex[index2], index2, -1, -1);
   tri->addVertex(vertex[index3], index3, -1, -1);
@@ -1251,20 +1251,20 @@ void Vertex::compileLinkList()
 //---------------------------------------------------------------------------
 
 // Construct / destruct
-Triangle::Triangle()
+BoneTriangle::BoneTriangle()
 {
-    vertex1 = NULL;
-    vertex2 = NULL;
-    vertex3 = NULL;
-    initialNormal.reset();
-    currentNormal.reset();
-    setColor(0.5, 0.5, 0.5, 1);
+  vertex1 = NULL;
+  vertex2 = NULL;
+  vertex3 = NULL;
+  initialNormal.reset();
+  currentNormal.reset();
+  setColor(0.5, 0.5, 0.5, 1);
 }
 
-Triangle::~Triangle() {}
+BoneTriangle::~BoneTriangle() {}
 
 // Accessing datas
-void Triangle::addVertex(Vertex *zeVertex, int index, float u=-1, float v=-1)
+void BoneTriangle::addVertex(Vertex *zeVertex, int index, float u=-1, float v=-1)
 {
   if (( u == -1 ) && ( v == -1 )) {
      u = zeVertex -> initialPosition.x / 3.0f;
@@ -1281,7 +1281,7 @@ void Triangle::addVertex(Vertex *zeVertex, int index, float u=-1, float v=-1)
   }
 }
 
-void Triangle::rebuildNormal()
+void BoneTriangle::rebuildNormal()
 {
   Vect3D edge1;
   Vect3D edge2;
@@ -1292,7 +1292,7 @@ void Triangle::rebuildNormal()
   currentNormal = initialNormal;
 }
 
-void Triangle::setColor(float r=0.5, float g=0.5, float b=0.5, float a=1)
+void BoneTriangle::setColor(float r=0.5, float g=0.5, float b=0.5, float a=1)
 {
   colorRed   = finalRed   = r;
   colorGreen = finalGreen = g;
@@ -1332,7 +1332,7 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename
     int index2 = readInt(fp);
     int index3 = readInt(fp);
     result->addTriangle(index1, index2, index3);
-    Triangle *triangle = result->triangleList.getElemAt(i);
+    BoneTriangle *triangle = result->triangleList.getElemAt(i);
     // Reading color
     float r = readFloat(fp);
     float g = readFloat(fp);
@@ -1355,6 +1355,7 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename
   File::closeFile(fp);
   result->rebuildNormals();
 }
+
 
 #if 0 //notused
 //---------------------------------------------------------------------------
@@ -1475,7 +1476,7 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
   if (!feof(fp))
     fscanf(fp, "%s", skippedText);
   if (!feof(fp) && strcmp(skippedText, "NULL")) {
-    Triangle * triangle;
+    BoneTriangle * triangle;
     float r,g,b;
     int cpt=0;
 

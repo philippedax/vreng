@@ -16,9 +16,10 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.2\n\
 -- 9.2.0\n\
+	- rewrited model/bone* to bone.cpp and bone.hpp\"\n\
 	- fixed rendering guide both specific and normal\n\
 	- added compFrame to sort solids by increasing order of frames\n\
-	(2021/04/12, Philippe Dax)\n\
+	(2021/04/13, Philippe Dax)\n\
 	- fixed picking in thr selection buffer before display\n\
 	(2021/03/29, Philippe Dax)\n\
 	- fixed errno 22 on select in udispX11.cpp (bad maxfd)\n\
