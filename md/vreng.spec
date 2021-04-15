@@ -1,4 +1,4 @@
-%define ver	7.4.0
+%define ver	9.2.0
 %define prefix	/usr
 
 Summary:	VREng (Virtual Reality Engine)
@@ -7,8 +7,8 @@ Version:	%ver
 Release:	1
 License:	GPL
 Group:
-Source0:	http://www.infres.enst.fr/ftp/pub/vreng/%{name}-%{version}.tar.gz
-URL:		http://vreng.enst.fr/
+Source0:	http://www.vreng.enst.fr/ftp/pub/vreng/%{name}-%{version}.tar.gz
+URL:		http://www.vreng.enst.fr/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root-%(id -u -n)

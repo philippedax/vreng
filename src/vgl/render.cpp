@@ -239,7 +239,7 @@ void Render::renderOpaque()
          //ok(*it)->object()->typeName() != "Walls" &&
          (*it)->object()->typeName() != "NONE"
          )
-#endif //dax5
+#endif //dax5 debug
       (*it)->object()->render();	// if commented bad color (pink)
       if ( (*it)->object()->typeName() == "Guide" ) {	// exception: guide is both
         (*it)->displaySolid(Solid::OPAQUE);
@@ -259,7 +259,7 @@ void Render::renderOpaque()
     else {
       (*it)->setRendered(false);
     }
-#endif //dax5
+#endif //dax5 debug
       (*it)->setRendered(true);
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
     trace2(DBG_VGL, " %s:%.1f:%.1f", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize);
@@ -320,15 +320,13 @@ void Render::renderSolids()
 
   // renders opaque solids
   trace2(DBG_VGL, "\nopaque: ");
-  renderOpaque();		// no clock, bad guy
-  //dax5 trace2(DBG_VGL, "\nopaq-2: ");
-  //dax5 renderOpaque();		// second pass to render clock and guy !!!???
+  renderOpaque();
 
   // renders translucid solids
   trace2(DBG_VGL, "\ntransl: ");
   renderTranslucid();
 
-  // Renders flashy edges
+  // renders flashy edges
   trace2(DBG_VGL, "\nflash: ");
   for (list<Solid*>::iterator it = flashyList.begin(); it != flashyList.end() ; ++it) {
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -340,8 +338,8 @@ void Render::renderSolids()
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
 
-  // Renders localuser last
-  //trace2(DBG_VGL, "\nuser: ");
+  // renders localuser last
+  trace2(DBG_VGL, "\nuser: ");
   if (localuser) {
     if ((*su)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*su)->object()->render();
@@ -349,7 +347,7 @@ void Render::renderSolids()
     else {
       (*su)->displaySolid(Solid::USER);
     }
-    //trace2(DBG_VGL, " %s", (*su)->object()->getInstance());
+    trace2(DBG_VGL, " %s", (*su)->object()->getInstance());
   }
 }
 

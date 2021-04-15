@@ -83,7 +83,6 @@ void User::defaults()
   height = DEFAULTHEIGHT;
   lspeed = LSPEED;
   aspeed = ASPEED;
-  ray = newV3(0, 0, 0);
   carrier = NULL;
   cart = NULL;
   bubble = NULL;
@@ -92,6 +91,7 @@ void User::defaults()
   android = NULL;
   head = NULL;
   current_view = Render::VIEW_FIRST_PERSON;
+  ray = newV3(0, 0, 0);
   hit = 0;
 }
 
@@ -107,9 +107,10 @@ void User::resetPosition()
 {
   pos.x = 0;
   pos.y = 0;
-  pos.z = height/2 + 0.15;
+  pos.z = height/2;	// + 0.15;
   pos.az = 0;
   pos.ax = 0;
+  pos.ay = 0;
 }
 
 void User::setPosition()
@@ -187,31 +188,31 @@ void User::makeSolid()
   else				{ color = strdup(" "); *color = 0; }
   if (pref->my_bapsstr)		baps = strdup(pref->my_bapsstr);
 
-  if (isalpha(*model)) {	// model is defined in prefs
-    // 5 models available : guy, man, android, box, bbox
+  if (isalpha(*model)) {	// model is defined in ~./.vreng/prefs
+    // 5 available models : guy, man, android, box, bbox
     if (! strcmp(model, "guy")) {
       guy = new Guy();
-      sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", depth, width, height);
+      sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
     else if (! strcmp(model, "man")) {
-      man = new Man(width, depth, height);
-      sprintf(mensuration, "shape=\"man\" size=\"%.2f %.2f %.2f\"", depth, width, height);
+      man = new Man(width/2, depth/2, height/2);
+      sprintf(mensuration, "shape=\"man\" size=\"%.2f %.2f %.2f\"", width/2, depth/2, height/2);
     }
     else if (! strcmp(model, "android")) {
       android = new Android();
-      sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", depth, width, height);
+      sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
     else if (! strcmp(model, "box")) {
       sprintf(mensuration, "shape=\"box\" size=\"%.2f %.2f %.2f\" yp=\"%s\" xp=\"%s\"",
-              depth, width, height, front, back);
+                            depth, width, height, front, back);
     }
     else {
-      sprintf(mensuration, "shape=\"bbox\" size=\"%.2f %.2f %.2f\"", depth, width, height);
+      sprintf(mensuration, "shape=\"bbox\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
   }
   else {	// take the default
     guy = new Guy();
-    sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", depth, width, height);
+    sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
   }
   sprintf(s, "%s />", mensuration);
   trace(DBG_WO, "User: s=%s", s);

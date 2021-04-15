@@ -27,13 +27,13 @@
 #include "user.hpp"	// localuser
 
 #include "man.data"	// vertices, texcoord, normals, triangles
-
-#define MAN_STATIC 1
-
 // 462 Verticies
 // 526 Texture Coordinates
 // 775 Normals
 // 940 Triangles
+
+#define MAN_STATIC 1
+
 
 struct tMaterial {
  float ambient[3];
@@ -179,9 +179,8 @@ void Man::draw(float _width, float _depth, float _height)
   int vcount = 0, part = 0;
 
   glPushMatrix();
-  glScalef(_height/2, _height/2, _height/2);
   glRotatef(90, 0,0,1);
-  glRotatef(90, 1,0,0);
+  glRotatef(90, 1,0,0);	// stand up
 
   for (int i=0; i < (int)(sizeof(faces) / sizeof(faces[0])); i++) {
     glBegin(GL_TRIANGLES);

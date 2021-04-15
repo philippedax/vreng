@@ -3,7 +3,7 @@
 #
 
 # my body model
-# 3 models available : guy, man, box, default=guy
+# 5 available models : guy, android, man, box, default=guy
 # model=box
 # model=man
 # model=guy
@@ -11,7 +11,7 @@
 model=guy
 
 # my head model
-# 4 models available : lwo, off, obj, 3ds
+# 4 available models : lwo, off, obj, 3ds
 # syntax: head=url
 # head=/lwo/head.lwo
 # head=/off/head.off
