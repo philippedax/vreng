@@ -81,11 +81,9 @@ void User::defaults()
   width = DEFAULTWIDTH;
   depth = DEFAULTDEPTH;
   height = DEFAULTHEIGHT;
-  pos.z = height;
   lspeed = LSPEED;
   aspeed = ASPEED;
   ray = newV3(0, 0, 0);
-  hit = 0;
   carrier = NULL;
   cart = NULL;
   bubble = NULL;
@@ -93,7 +91,8 @@ void User::defaults()
   guy = NULL;
   android = NULL;
   head = NULL;
-  current_view = 0;
+  current_view = Render::VIEW_FIRST_PERSON;
+  hit = 0;
 }
 
 void User::setName()
@@ -532,6 +531,9 @@ void User::changePosition(float lasting)
   pos.y += lasting * move.lspeed.v[1];
   pos.z += lasting * move.lspeed.v[2];
   pos.az += lasting * move.aspeed.v[0];
+  if (localuser->man) {
+    localuser->man->pos = pos;
+  }
 }
 
 /* equations system handling permanent motions */

@@ -31,18 +31,18 @@ class Man {
 public:
   Pos pos;		///< position and BB
 
-  //Man();
   Man(float width, float depth, float height);		///< constructor
 
   virtual ~Man();	///< destructor
 
   virtual void draw();
-  virtual void draw(float width, float depth, float height);
 
 private:
   float width;
   float depth;
   float height;
+
+  virtual void draw(float width, float depth, float height);
 
   static void myMaterial(GLenum mode, float *f, float alpha);
 

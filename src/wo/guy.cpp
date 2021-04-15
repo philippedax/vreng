@@ -83,6 +83,7 @@ void Guy::parser(char *l)
 void Guy::makeSolid()
 {
   char s[256];
+
   sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />",
           BUST_W, HIP_R*2, HEAD_R*2+NECK_H+BUST_H+ULEG_H+LLEG_H+FOOT_H);
   parse()->parseSolid(s, SEP, this);

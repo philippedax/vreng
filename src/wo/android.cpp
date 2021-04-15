@@ -65,10 +65,10 @@ void Android::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "body="))   l = parse()->parseString(l, names.url, "body"); //body
-    else if (!stringcmp(l, "face="))   l = parse()->parseString(l, face_url, "face");  //face
-    else if (!stringcmp(l, "color="))  l = parse()->parseVector3f(l, cloth, "color");  //color
-    else if (!stringcmp(l, "server=")) l = parse()->parseString(l, vaps, "server");    //server
+    if      (! stringcmp(l, "body="))   l = parse()->parseString(l, names.url, "body"); //body
+    else if (! stringcmp(l, "face="))   l = parse()->parseString(l, face_url, "face");  //face
+    else if (! stringcmp(l, "color="))  l = parse()->parseVector3f(l, cloth, "color");  //color
+    else if (! stringcmp(l, "server=")) l = parse()->parseString(l, vaps, "server");    //server
   }
   end_while_parse(l);
 }
@@ -76,6 +76,7 @@ void Android::parser(char *l)
 void Android::makeSolid()
 {
   char s[256];
+
   sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />",.24,.14,B_HEIGHT);
   parse()->parseSolid(s, SEP, this);
 }
@@ -258,7 +259,7 @@ int Android::readBapFrame()
 /** system of equations handling permanent motion */
 void Android::changePermanent(float lasting)
 {
-  if (usercontrol) {
+  if (usercontrol && localuser) {
     pos.x = localuser->pos.x;
     pos.y = localuser->pos.y;
     pos.z = localuser->pos.z - localuser->height / 2;

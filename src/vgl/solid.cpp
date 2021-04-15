@@ -1516,21 +1516,33 @@ int Solid::displayList(int display_mode = NORMAL)
    case NORMAL:
      glPushMatrix();
 
-     if (wobject && wobject->isValid() && wobject->type == USER_TYPE) {	// if localuser
+     if (wobject->type == USER_TYPE) {	// if localuser
        User *user = (User *) wobject;
-       if (user->man) {
-         glRotatef(RAD2DEG(-user->man->pos.ax), 1, 0, 0);
-         glRotatef(RAD2DEG(-user->man->pos.ay), 0, 1, 0);
-         glRotatef(RAD2DEG(-user->man->pos.az), 0, 0, 1);
-       }
-       else {
+       glPushMatrix();
+       glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
+       if (user->guy || user->android) {
          glRotatef(RAD2DEG(-user->pos.ax), 1, 0, 0);
          glRotatef(RAD2DEG(-user->pos.ay), 0, 1, 0);
          glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
        }
-       glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
+       if (user->man) {
+         glRotatef(RAD2DEG(-user->man->pos.ax), 1, 0, 0);
+         glRotatef(RAD2DEG(-user->man->pos.ay), 0, 1, 0);
+         glRotatef(RAD2DEG(-user->man->pos.az), 0, 0, 1);
+         //glScalef(.5, .5, .5);
+       }
+       else {	// box
+         glRotatef(RAD2DEG(-user->pos.ax), 1, 0, 0);
+         glRotatef(RAD2DEG(-user->pos.ay), 0, 1, 0);
+         glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
+         //glScalef(.5, .5, .5);
+       }
+
+       glCallList(dlists[frame]);	// display the localuser here !!!
+
+       glPopMatrix();
      }
-     else {	// else normal solid
+     else {			// normal solid
        glEnable(GL_DEPTH_TEST);
        glDepthMask(GL_TRUE);
        glDepthFunc(GL_LESS);
