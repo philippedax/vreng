@@ -82,7 +82,8 @@ void Fire::parser(char *l)
 
 void Fire::makeSolid()
 {
-  char s[256];
+  char s[128];
+
   sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.25,.25,.50);
   parse()->parseSolid(s, SEP, this);
 }
@@ -139,7 +140,7 @@ void Fire::draw()
 {
   struct sParticle *p = particles;
 
-  for (int n=0; n<np ; n++, p++) {
+  for (int n=0; n < np ; n++, p++) {
     draw(p->ex, p->ey, p->dx, p->dx, p->a);
   }
 }

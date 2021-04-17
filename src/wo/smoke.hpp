@@ -64,7 +64,7 @@ inline int f2int(float f) { f+=FLOATTOINT; return ((*((int*)&f))&0x007fffff)-0x0
 /**
  * Smoke class
  */
-class Smoke: public Fire {
+class Smoke: public WObject {
 
 public:
   static const OClass oclass;	///< class variable.
@@ -83,6 +83,11 @@ public:
   virtual void render();
 
 private:
+  uint16_t np;  ///< number of particles
+  float time;   ///< fire time
+  float speed;
+  float lasttime;
+
   virtual void defaults();
   /**< Sets defaults values. */
 
@@ -90,6 +95,8 @@ private:
   /**< Parses. */
 
   virtual void behavior();
+
+  virtual void makeSolid();
 
   virtual void inits();
   /**< Initializations. */

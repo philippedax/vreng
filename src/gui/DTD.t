@@ -30,7 +30,7 @@ const char DTD[] = "\
 		entry | escalator |\n\
 		fire | firework | flag | fountain | fractal | ftp |\n\
 		gate | ground | guide | guy | \n\
-		haid | hairs | halo | hat | host |\n\
+		hairs | halo | hat | head | host |\n\
 		lift | light | local |\n\
 		mech | mirage | mirror | model | movie | music |\n\
 		particle | plane |\n\
@@ -624,7 +624,7 @@ const char DTD[] = "\
 <!ATTLIST solid		scalex	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scaley	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scalez	NMTOKEN \"1\">\n\
-<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | man | guy | car | teapot) \"box\">\n\
+<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | man | guy | car | teapot | walls) \"box\">\n\
 <!ATTLIST solid		shi	NMTOKEN \"20\">\n\
 <!ATTLIST solid		shininess NMTOKEN \"20\">\n\
 <!ATTLIST solid		side	NMTOKEN #IMPLIED>\n\

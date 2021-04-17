@@ -46,9 +46,7 @@ void Mirror::defaults()
 
 void Mirror::behavior()
 {
-  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
-  //dax6 enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
@@ -215,12 +213,14 @@ void Mirror::mirrorOn(Mirror *po, void *d, time_t s, time_t u)
 {
   po->state = true;
   po->setReflexive(true);
+  po->enableBehavior(SPECIFIC_RENDER);
 }
 
 void Mirror::mirrorOff(Mirror *po, void *d, time_t s, time_t u)
 {
   po->state = false;
   po->setReflexive(false);
+  po->disableBehavior(SPECIFIC_RENDER);
 }
 
 void Mirror::funcs()

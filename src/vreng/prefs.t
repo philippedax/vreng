@@ -4,7 +4,7 @@ const char def_prefs[] = "\
 #\n\
 \n\
 # my body model\n\
-# 3 models available : guy, man, box, default=guy\n\
+# 5 available models : guy, android, man, box, default=guy\n\
 # model=box\n\
 # model=man\n\
 # model=guy\n\
@@ -12,7 +12,7 @@ const char def_prefs[] = "\
 model=guy\n\
 \n\
 # my head model\n\
-# 4 models available : lwo, off, obj, 3ds\n\
+# 4 available models : lwo, off, obj, 3ds\n\
 # syntax: head=url\n\
 # head=/lwo/head.lwo\n\
 # head=/off/head.off\n\
