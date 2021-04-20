@@ -20,34 +20,60 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "smoke.hpp"
-#include "timer.hpp"	// delta
+#include "wobject.hpp"
 
 
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
 // local
-static float norms[3][3][3] = {
-{ {TILE*D0,TILE*D1,TILE*D2}    ,{TILE*D1,TILE*D1_1,TILE*D2_1}      ,{TILE*D2,TILE*D2_1,TILE*D2_2} },
-{ {TILE*D1,TILE*D1_1,TILE*D2_1},{TILE*D1_1,TILE*D1_1_1,TILE*D2_1_1},{TILE*D2_1,TILE*D2_1_1,TILE*D2_2_1} },
-{ {TILE*D2,TILE*D2_1,TILE*D2_2},{TILE*D2_1,TILE*D2_1_1,TILE*D2_2_1},{TILE*D2_2,TILE*D2_2_1,TILE*D2_2_2} }
-};
+const float ParticleSmoke::S = 0.0025;	//dax 0.005
+const float ParticleSmoke::PI = 3.141592;
+const float ParticleSmoke::A[10] = { PI*1/5, PI*2/5, PI*3/5, PI*4/5, PI*5/5, PI*6/5, PI*7/5, PI*8/5, PI*9/5, 2*PI };
+const float ParticleSmoke::COS[10] = { S*cos(A[0]), S*cos(A[1]), S*cos(A[2]), S*cos(A[3]), S*cos(A[4]), S*cos(A[5]), S*cos(A[6]), S*cos(A[7]), S*cos(A[8]), S*cos(A[9]) };
+const float ParticleSmoke::SIN[10] = { S*sin(A[0]), S*sin(A[1]), S*sin(A[2]), S*sin(A[3]), S*sin(A[4]), S*sin(A[5]), S*sin(A[6]), S*sin(A[7]), S*sin(A[8]), S*sin(A[9]) };
 
-struct SMOKE_PARTICLE {
-  Vector3 p, v;
-  Vector3 s; // size
-  float a;     // alpha
-  float t;     // time to death
-  float ex,ey,ez; // screen pos
-  float dx,dy; // screen size
-} offset[NZ][NY][NX];
 
-static struct sParticle particles[FIREMAX];
-static float distvar[3] = {-TILE,0,TILE};
-static float deplfact[1<<8];
-static Vector3 src(0,5,-1.5);
-static Vector3 fpart(0.,0.,4.);
-static Matrix3 M;
-static Vector3 O;
+ParticleSmoke::ParticleSmoke(Vector3 l)
+{
+  loc = l;
+  vel = Vector3(0, 0.0005, 0);
+  life = 255;
+  //error("new: loc=%.2f,%.2f,%.2f", loc.x,loc.y,loc.z);
+}
+
+void ParticleSmoke::update()
+{
+  float x_acc = 0.000034 * (1+(-2*((float)rand())/(RAND_MAX)));	//dax 0.000034
+  float y_acc = 0.00001 *  (1+(-2*((float)rand())/(RAND_MAX)));
+  float z_acc = 0;	//0.0001*randomf();
+
+  acc = Vector3(x_acc, y_acc, z_acc);
+  vel.add(acc);
+  loc.add(vel);
+  life -= 0.5;	//dax -> 511, 0.2 -> 1277
+  //error("update: %.2f %.2f %.2f %.2f", loc.x,loc.y,loc.z,life);
+}
+
+void ParticleSmoke::draw()
+{
+  float a = 1.2 - life/255;
+  float x = loc.x; // +2.25;
+  float y = loc.y; // -2.25;
+  float z = loc.z; // +0.25;
+
+  glPushMatrix();
+  glColor4f(.9,.9,.9, a);
+  //dax glTranslatef(x, y, z);	// vreng
+  //dax glTranslatef(-y, z, -x);	// opengl
+  //error("draw: %.2f %.2f %.2f %.2f", x,y,z,a);
+  glBegin( GL_POLYGON ); // OR GL_LINE_LOOP
+  for (int i=0; i<10; ++i) {
+    glVertex3f(loc.x+COS[i], loc.y+SIN[i], loc.z);
+  }
+  glEnd();
+  glPopMatrix();
+}
+
 
 /* creation from a file */
 WObject * Smoke::creator(char *l)
@@ -55,9 +81,16 @@ WObject * Smoke::creator(char *l)
   return new Smoke(l);
 }
 
+/* constructor */
+Smoke::Smoke(Vector3 l)
+{
+  emitter = l;
+  //error("smoke: emitter=%.2f %.2f %.2f", emitter.x,emitter.y,emitter.z);
+}
+
 void Smoke::defaults()
 {
-  np = FIRENB;
+  np = SMOKENB;
   speed = 0.5;
 }
 
@@ -84,14 +117,6 @@ void Smoke::behavior()
   enablePermanentMovement();
 }
 
-void Smoke::makeSolid()
-{
-  char s[128];
-
-  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" a=\"0.7\" />", 0.25, 0.25, 0.25);
-  parse()->parseSolid(s, SEP, this);
-}
-
 Smoke::Smoke(char *l)
 {
   parser(l);
@@ -100,297 +125,111 @@ Smoke::Smoke(char *l)
   inits();
 }
 
+void Smoke::makeSolid()
+{
+  char s[128];
+
+  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" a=\"0.7\" />", 0.25, 0.25, 0.25);
+  parse()->parseSolid(s, SEP, this);
+}
+
 void Smoke::inits()
 {
-  lasttime = 0;
-  np = MIN(np, FIREMAX);
+#if 0
+  Vector3 emitter(pos.x, pos.y, pos.z);
 
-  for (int i=0 ; i < (1<<8) ; i++)
-    deplfact[i] = i/((float)(1<<8));
+  Smoke ps(emitter);
 
-  //initialise gelly
-  float t0, t1, t2, t3, tt0, tt1, tt2, tt3, ttt0, ttt1, ttt2, ttt3, xf, yf;
-  float f0, f1, f2, f3, ff0, ff1, ff2, ff3, fff0, fff1, fff2, fff3;
-  ttt0 = rnd2(M_2PI); f0=rnd2(ANGRND)+ANG0; ff0=rnd2(ANGRND)+ANG0; fff0=rnd2(ANGRND)+ANG0;
-  ttt1 = rnd2(M_2PI); f1=rnd2(ANGRND)+ANG0; ff1=rnd2(ANGRND)+ANG0; fff1=rnd2(ANGRND)+ANG0;
-  ttt2 = rnd2(M_2PI); f2=rnd2(ANGRND)+ANG0; ff2=rnd2(ANGRND)+ANG0; fff2=rnd2(ANGRND)+ANG0;
-  ttt3 = rnd2(M_2PI); f3=rnd2(ANGRND)+ANG0; ff3=rnd2(ANGRND)+ANG0; fff3=rnd2(ANGRND)+ANG0;
-
-  SMOKE_PARTICLE *p = &offset[0][0][0];
-  for (int z=0; z < NZ; z++) {
-    //notused zf = float(z);
-    tt0 = ttt0; tt1 = ttt1; tt2 = ttt3; tt3 = ttt3;
-    ttt0 += fff0; ttt1 += fff1; ttt2 += fff2; ttt3 += fff3;
-    for (int y=0; y < NY; y++) {
-      yf = float(y);
-      t0 = tt0; t1 = tt1; t2 = tt3; t3 = tt3;
-      tt0 += ff0; tt1 += ff1; tt2 += ff2; tt3 += ff3;
-      for (int x=0; x < NX; x++, p++) {
-        xf = float(x);
-        t0 += f0; t1 += f1; t2 += f2; t3 += f3;
-        p->p.x = WARPF*(sin(t2-xf)+cos(t2+yf)+sin(t0-yf)-cos(t0+xf));
-        p->p.y = WARPF*(sin(t1-xf)+cos(t3+yf)+sin(t3-yf)-cos(t1+xf));
-        p->p.z = WARPF*(sin(t0-xf)+cos(t2+yf)+sin(t0-yf)-cos(t2+xf));
-        p->v.reset();
-      }
-    }
+  for (int n=0; n < np; n++) {
+    addParticle();
+    animParticle();
   }
+  //error("smoke: inits emitter=%.2f %.2f %.2f", emitter.x,emitter.y,emitter.z);
+#endif //0
 }
 
 void Smoke::changePermanent(float dt)
 {
-  time += dt;
-  motionAnimate(dt);
-
-  float da = pow(0.2, dt);
-
-#if 1 //dax3
-  SMOKE_PARTICLE *p = &offset[0][0][0];
-  for (int z=0; z < NZ; z++) {
-    for (int y=0; y < NY; y++) {
-      for (int x=0; x < NX; x++, p++) {
-        p->v += fpart * dt;
-        p->p += p->v * dt;
-        motionWarp(p->p, dt);
-        p->a *= da;
-      }
-    }
-  }
-#else
-  struct sParticle *p = particles;
-  for (int n=0; n < np; n++, p++) {
-    if ((p->t -= dt) <= 0) {
-      *p = particles[--np]; // kill it
-    }
-    else { // animate it
-      p->v += fpart * dt;
-      p->p += p->v * dt;
-      motionWarp(p->p, dt);
-      p->a *= da;
-    }
-  }
-#endif
-  lasttime += dt;
-  while ((time - lasttime >= SMOKEDELTA)) { 
-    Vector3 dir(0,0,.25);
-    lasttime += SMOKEDELTA;
-#if 1 //dax3
-    SMOKE_PARTICLE *p = &offset[0][0][0];
-    for (int z=0; z < NZ; z++) {
-      for (int y=0; y < NY; y++) {
-        for (int x=0; x < NX; x++, p++) {
-          p->p = src; // + DS1*rnd2(0.25) + DS2*rnd2(0.25);
-          p->v = dir;
-          motionWarp(p->p, (time - lasttime));
-          p->t = SMOKELIFE + lasttime - time;
-          float size = SMOKESIZE * (0.5+rnd2(0.5));
-          float alpha = SMOKEALPHA * (float)pow(size/SMOKESIZE, 0.5);
-          p->s.x = p->s.y = p->s.z = size;
-          p->a = alpha*pow(da, (time - lasttime));
-          p->s *= 0.5 + rnd2(0.5);
-        }
-        O.reset();
-        M.apply(src, &O);
-        O = src - O;
-        p = &offset[0][0][0];
-        for (int n=0; n < np; n++, p++) {
-          float foc = 2.;
-          Vector3 v;
-          M.apply(p->p, &v);
-          v += O;
-          if (v.y > 1) {
-            p->ex = projx(v);
-            p->ey = projy(v);
-            projz(p->ez, v);
-            p->dx = foc*p->s.x/v.y;
-            p->dy = foc*p->s.z/v.y;
-          }
-          else p->dx = 0;
-        }
-      }
-    }
-#else
-    p = particles + (np++);
-    p->p = src; // + DS1*rnd2(0.25) + DS2*rnd2(0.25);
-    p->v = dir;
-    motionWarp(p->p, (time - lasttime));
-    p->t = SMOKELIFE + lasttime - time;
-    float size = SMOKESIZE * (0.5+rnd2(0.5));
-    float alpha = SMOKEALPHA * (float)pow(size/SMOKESIZE, 0.5);
-    p->s.x = p->s.y = p->s.z = size;
-    p->a = alpha*pow(da, (time - lasttime));
-    p->s *= 0.5 + rnd2(0.5);
-  }
-  O.reset();
-  M.apply(src, &O);
-  O = src - O;
-  p = particles;
-  for (int n=0; n < np; n++, p++) {
-    float foc = 2.;
-    Vector3 v;
-    M.apply(p->p, &v);
-    v += O;
-    if (v.y > 1) {
-      p->ex = projx(v);
-      p->ey = projy(v);
-      projz(p->ez, v);
-      p->dx = foc*p->s.x/v.y;
-      p->dy = foc*p->s.z/v.y;
-    }
-    else p->dx = 0;
-  }
-#endif
-}
+  addParticle();
+  updParticle();
+  drawParticle();
 }
 
-// Handles the wobbling gel, which is used to give the WarpMap it's shape
-void Smoke::motionAnimate(float dt)
-{
-#if 0 //dax2
-  SMOKE_PARTICLE *p = &offset[0][0][0];
-  for (int z=0; z < NZ; z++) {
-    int zh = z+1; int zl = z-1;
-    for (int y=0; y < NY; y++) {
-      int yh = y+1; int yl = y-1;
-      for (int x=0; x < NX; x++,p++) {
-        int xh = x+1; int xl = x-1;
-        for (int zi=zl; zi <= zh; zi++) {
-          for (int yi=yl; yi <= yh; yi++) {
-            for (int xi=xl; xi <= xh; xi++) {
-              if ((xi != x) || (yi != y) || (zi != z)) {
-                float norm = norms[abs(zi-z)][abs(yi-y)][abs(xi-x)];
-                SMOKE_PARTICLE *p2 = &offset[zi&(NZ-1)][yi&(NY-1)][xi&(NX-1)];
-                Vector3 spring = p2->p;
-                spring -= p->p;
-                spring.x += distvar[xi-x+1];
-                spring.y += distvar[yi-y+1];
-                spring.z += distvar[zi-z+1];
-                spring *= (norm-spring.length()) * (float)SPRINGF * dt;
-                p2->v += spring;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  float ft = (float) pow(DYNF, dt);
-  p = &offset[0][0][0];
-  for (int z=0; z < NZ; z++) {
-    for (int y=0; y < NY; y++) {
-      for (int x=0; x < NX; x++, p++) {
-        p->p += p->v * dt;
-        if (p->p.length2() > (MAXWARPF*MAXWARPF))
-          p->v.reset();
-        else
-          p->v *= ft;
-      }
-    }
-  }
-#endif
+void Smoke::addParticle()
+{   
+  Vector3 tmp = randomv();
+  tmp.add(emitter);
+  //error("add: tmp=%.2f %.2f %.2f", tmp.x,tmp.y,tmp.z);
+  ParticleSmoke p(tmp);
+#if 0 //dax1
+  p.loc.x = pos.x;
+  p.loc.y = pos.y;
+  p.loc.z = pos.z;
+#endif //dax1
+  particles.push_back(p);
 }
 
-void Smoke::motionWarp(Vector3 &p, float dt)
-{
-  static Vector3 v0,v1,v2,v3,v4,v5,v;
-
-  int sx = (f2int((p.x)*(TILE*(1<<8)))+((NX/2)<<8)) & ((NX<<8)-1);
-  int sy = (f2int((p.y)*(TILE*(1<<8)))+((NY/2)<<8)) & ((NY<<8)-1);
-  int sz = (f2int((p.z)*(TILE*(1<<8)))) & ((NZ<<8)-1);
-  float fx = deplfact[sx&((1<<8)-1)];
-  float fy = deplfact[sy&((1<<8)-1)];
-  float fz = deplfact[sz&((1<<8)-1)];
-
-  sx >>= 8; //notused int x2 = (sx+1)&(NX-1);
-  sy >>= 8; //notused int y2 = (sy+1)&(NY-1);
-  sz >>= 8; int z2 = (sz+1)&(NZ-1);
-
-  v0.lerp(offset[sz][sy][sx].p, offset[sz][sy][sx+1].p, fx);
-  v1.lerp(offset[z2][sy][sx].p, offset[z2][sy][sx+1].p, fy);
-  v.lerp(v0, v1, fz);
-  v *= dt;
-  p += v;
-}
-
-void Smoke::draw(float ex, float ey, float dx, float dy, float a)
-{
-  float white[] = {.7, .7, .7, .7};
-  float grey[] = {.1, .1, .1, .1};
-
-  white[3] = a;
-  grey[3] = a;
-  struct timeval tv;
-  //error("draw %.2f %.2f %.2f %.2f %.2f", ex,ey,dx,dy,a);
-
-  glBegin(GL_TRIANGLE_FAN);
-    gettimeofday(&tv, NULL);
-    srand((time_t) tv.tv_usec);
-    if (drand48() > 0.5)
-      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, white);
-    else
-      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
-    glVertex3f(ex, ex, ey);
-    //dax gettimeofday(&tv, NULL);
-    //dax srand((time_t) tv.tv_usec);
-    if (drand48() > 0.5)
-      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, white);
-    else
-      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
-    // draw triangle
-    glVertex3f(ex-dx, ex-dx, ey);
-    glVertex3f(ex-dx, ex-dx, ey + M_SQRT3_2*dy);
-    glVertex3f(ex+dx, ex+dx, ey + M_SQRT3_2*dy);
-    glVertex3f(ex+dx, ex+dx, ey);
-    glVertex3f(ex+dx, ex+dx, ey - M_SQRT3_2*dy);
-    glVertex3f(ex-dx, ex-dx, ey - M_SQRT3_2*dy);
-    glVertex3f(ex-dx, ex-dx, ey);
-  glEnd();
-}
-
-void Smoke::draw()
-{
-#if 1 //dax6
-  SMOKE_PARTICLE *p = &offset[0][0][0];
-  int i = 0;
-
-  for (int z=0; z < NZ; z++) {
-    for (int y=0; y < NY; y++) {
-      for (int x=0; x < NX; x++, p++) {
-        draw(p->ex, p->ey, p->dx, p->dy, p->a);
-        i++;
-      }
+void Smoke::updParticle()
+{     
+  for (vector<ParticleSmoke>::iterator it = particles.begin(); it < particles.end(); ++it) {
+    if ((*it).life > 0) {	// is alive
+      (*it).update();
+    }
+    else {
+      particles.erase(it);
     }
   }
-#else
-  struct sParticle *p = particles;
+} 
 
-  for (int n=0; n < np ; n++, p++) {
-    draw(p->ex, p->ey, p->dx, p->dy, p->a);
+void Smoke::drawParticle()
+{     
+  for (vector<ParticleSmoke>::iterator it = particles.begin(); it < particles.end(); ++it) {
+    if ((*it).life > 0) {	// is alive
+      (*it).draw();
+    }
   }
-#endif
+  error("[%d]", particles.size());
+} 
+
+void Smoke::animParticle()
+{     
+  for (vector<ParticleSmoke>::iterator it = particles.begin(); it < particles.end(); ++it) {
+    if ((*it).life > 0) {	// is alive
+      (*it).update();
+      (*it).draw();
+    }
+    else {
+      particles.erase(it);
+    }
+  }
+} 
+
+Vector3 Smoke::randomv()
+{ 
+  float x = -0.01+(0.02*((float)rand())/(RAND_MAX));	//dax -0.02+(0.04
+  float y = -0.01+(0.02*((float)rand())/(RAND_MAX));	//dax -0.02+(0.04
+  return Vector3(x, y, 0);
 }
 
 void Smoke::render()
 {
-  static uint32_t ns = 0;
+  static uint32_t nf = 0;
 
-  //error("smoke render: %.2f,%.2f,%.2f", pos.x,pos.y,pos.z);
+  //error("render: %.2f %.2f %.2f", pos.x,pos.y,pos.z);
   glPushMatrix();
-  //dax glEnable(GL_LIGHTING);	// bad colors around
-  //dax glTranslatef(pos.x, pos.y, pos.z);	// vreng coord
-  glTranslatef(-pos.y, pos.z, -pos.x);		// opengl coord
-  float seed = ((float) drand48() * 2) - 1.;
-  glRotatef(seed * 45 * (ns%4), 0, 0, 1);  // billboard effect
+  //dax glTranslatef(pos.x, pos.y, pos.z);
+  glTranslatef(-pos.y, pos.z, -pos.x);	// coord opengl
+  //float seed = ((float) drand48() * 2) - 1.;
+  //glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
   glDisable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
   glEnable(GL_BLEND);
 
-  draw();
+  drawParticle();
 
   glDisable(GL_BLEND);
-  //dax glDisable(GL_LIGHTING);
   glPopMatrix();
-  ns++;
+  nf++;
 }
 
 void Smoke::funcs() {}

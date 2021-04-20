@@ -211,7 +211,7 @@ public:
   list<Solid*> relsolidList;	///< relative solids list.
   list<Solid*> translucidList;	///< translucid solids list.
   list<Solid*> opaqueList;	///< opaque solids list.
-  list<Solid*> flashyList;	///< flashy solids list.
+  list<Solid*> flaryList;	///< flary solids list.
 
 #if 0 //dax10
   // Displaying 3D displaylists

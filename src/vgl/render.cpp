@@ -201,7 +201,7 @@ void Render::renderOpaque()
 {
   // build opaqueList from solidList
   opaqueList.clear();
-  flashyList.clear();
+  flaryList.clear();
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() &&
          (*it)->isVisible() &&
@@ -209,7 +209,7 @@ void Render::renderOpaque()
          ! (*it)->object()->isRemoved()
        ) {
       if ( (*it)->isFlashy() || (*it)->isFlary() )
-        flashyList.push_back(*it);	// add to flashy list
+        flaryList.push_back(*it);	// add to flary list
       else
         opaqueList.push_back(*it);	// add to opaque list
     }
@@ -224,7 +224,7 @@ void Render::renderOpaque()
     materials();
     putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-#if 0 //dax5 debug zone
+#if 1 //dax5 debug zone
       if (
          //ok(*it)->object()->typeName() != "Fire" && //bad GL_LIGHTING
          //ok(*it)->object()->typeName() != "Flag" && //bad GL_LIGHTING
@@ -237,6 +237,7 @@ void Render::renderOpaque()
          //ok(*it)->object()->typeName() != "Head" &&
          //ok(*it)->object()->typeName() != "Hat" &&
          //ok(*it)->object()->typeName() != "Walls" &&
+         (*it)->object()->typeName() != "Smoke" &&	// never opaque
          (*it)->object()->typeName() != "NONE"
          )
 #endif //dax5 debug
@@ -326,9 +327,9 @@ void Render::renderSolids()
   trace2(DBG_VGL, "\ntransl: ");
   renderTranslucid();
 
-  // renders flashy edges
-  trace2(DBG_VGL, "\nflash: ");
-  for (list<Solid*>::iterator it = flashyList.begin(); it != flashyList.end() ; ++it) {
+  // renders flary solids
+  trace2(DBG_VGL, "\nflary: ");
+  for (list<Solid*>::iterator it = flaryList.begin(); it != flaryList.end() ; ++it) {
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }

@@ -25,41 +25,35 @@
 #define SMOKE_NAME 	"Smoke"
 
 #include "vector3.hpp"
+#include "wobject.hpp"
 #include <vector>
-#include "fire.hpp"
 
-#define TILE 1.
-#define NZ 8
-#define NY 4
-#define NX 4
-#define WARPF (TILE*5)
-#define AFFF ((TILE/16)/WARPF)
-#define SPRINGF 0.01
-#define DYNF 0.998
-#define MAXWARPF (WARPF*4)
-#define ANGF 1
-#define ANGRND 0.16
-#define ANG0 0.16
-#define SMOKESIZE .25	// 25 cm
-#define SMOKELIFE 3.	// 3 sec
-#define SMOKEDELTA 0.005
-#define SMOKEALPHA 0.35
-#define SQRT_5 2.236067977
-#define SQRT_6 2.449489743
-#define D0     0
-#define D1     1
-#define D2     2
-#define D1_1   M_SQRT2
-#define D2_1   SQRT_5
-#define D2_2   2*M_SQRT2
-#define D1_1_1 M_SQRT3
-#define D2_1_1 SQRT_6
-#define D2_2_1 3
-#define D2_2_2 3*M_SQRT2
-#define FLOATTOINT (((1.5*65536*256)))
+#define SMOKENB		100
 
-inline int f2int(float f) { f+=FLOATTOINT; return ((*((int*)&f))&0x007fffff)-0x00400000; }
-#define rnd2(f) ((float)rand()*(f/(float)RAND_MAX)) // Floating point random number generator (0->1)
+
+/**
+ * ParticleSmoke class
+ */
+class ParticleSmoke {
+
+private:
+  static const float S;
+  static const float PI;
+  static const float A[10];
+  static const float COS[10];
+  static const float SIN[10];
+
+public:
+  Vector3 loc;
+  Vector3 vel;
+  Vector3 acc;
+  float life;
+
+  ParticleSmoke(Vector3 l);
+
+  void update();
+  void draw();
+};
 
 /**
  * Smoke class
@@ -68,12 +62,12 @@ class Smoke: public WObject {
 
 public:
   static const OClass oclass;	///< class variable.
-
   virtual const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
   Smoke(char *l);	///< Constructor.
+  ~Smoke() {};		///< Destructor.
 
   static WObject * (creator)(char *l);
   ///< Creates from fileline.
@@ -83,10 +77,12 @@ public:
   virtual void render();
 
 private:
-  uint16_t np;  ///< number of particles
-  float time;   ///< fire time
+  uint16_t np;
   float speed;
-  float lasttime;
+  vector<ParticleSmoke> particles;
+  Vector3 emitter;
+
+  Smoke(Vector3 l);	///< Constructor.
 
   virtual void defaults();
   /**< Sets defaults values. */
@@ -101,13 +97,13 @@ private:
   virtual void inits();
   /**< Initializations. */
 
-  virtual void draw();
+  void addParticle();   
 
-  virtual void draw(float ex, float ey, float dx, float dy, float a);
-  /**< Draws smoke particules. */
+  void animParticle();
+  void updParticle();
+  void drawParticle();
 
-  virtual void motionAnimate(float dt);
-  virtual void motionWarp(Vector3 &p, float dt);
+  Vector3 randomv();
 };
 
 #endif
