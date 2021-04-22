@@ -29,6 +29,7 @@
 #include <vector>
 
 #define SMOKENB		100
+#define NA		8	// number of angles of polygon
 
 
 /**
@@ -36,23 +37,26 @@
  */
 class ParticleSmoke {
 
+#if 0 //dax0
 private:
   static const float S;
   static const float PI;
-  static const float A[10];
-  static const float COS[10];
-  static const float SIN[10];
+  static const float A[NA];
+  static const float COS[NA];
+  static const float SIN[NA];
 
 public:
   Vector3 loc;
   Vector3 vel;
   Vector3 acc;
   float life;
+  GLint dlist;
 
   ParticleSmoke(Vector3 l);
 
   void update();
   void draw();
+#endif //dax0
 };
 
 /**
@@ -61,12 +65,23 @@ public:
 class Smoke: public WObject {
 
 public:
+  Vector3 loc;
+  Vector3 vel;
+  Vector3 acc;
+  float life;
+  GLint dlist;
+
+  vector<Smoke> particles;
+  Vector3 emitter;
+  uint16_t np;		// notused
+
   static const OClass oclass;	///< class variable.
   virtual const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
   Smoke(char *l);	///< Constructor.
+  Smoke(Vector3 l);	///< Constructor.
   ~Smoke() {};		///< Destructor.
 
   static WObject * (creator)(char *l);
@@ -76,15 +91,18 @@ public:
 
   virtual void render();
 
-private:
-  uint16_t np;
-  float speed;
-  vector<ParticleSmoke> particles;
-  Vector3 emitter;
+  void update();
+  void draw();
 
-  Smoke(Vector3 l);	///< Constructor.
+private:
+  static const float S;
+  static const float PI;
+  static const float A[NA];
+  static const float COS[NA];
+  static const float SIN[NA];
 
   virtual void defaults();
+
   /**< Sets defaults values. */
 
   virtual void parser(char *l);
@@ -94,16 +112,17 @@ private:
 
   virtual void makeSolid();
 
-  virtual void inits();
+  virtual void inits();	// notused
   /**< Initializations. */
 
   void addParticle();   
 
   void animParticle();
-  void updParticle();
+  void moveParticle();
   void drawParticle();
+  void dlistParticle();
 
-  Vector3 randomv();
+  Vector3 random();
 };
 
 #endif

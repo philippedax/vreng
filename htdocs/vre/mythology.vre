@@ -11,7 +11,7 @@
 
 <ground name="street"    pos="-3 0 -0.1"> <solid dim="6 20 .2" zp="/gif/stuc.gif" zpr="4" /> </ground>
 <ground name="sidewalk"  pos="1 0 -0.1">  <solid dim="6 20 .1" dif=".3 .3 .3" /> </ground>
-<ground name="parquet"   pos="24 0 -0.1"> <solid dim="48 20 .1" zp="/gif/parquet.gif" zpr="8" /> </ground>
+<ground name="parquet"   pos="24 0 -0.1"> <solid dim="48 20 .1" dif="brown" zp="/gif/parquet.gif" zpr="4" /> </ground>
 
 <!--
 <wall name="facade-w"    pos="3.6  6 1.5 1.57"> <solid dim="8 .1 3" xn="/gif/stuc.gif" yn="/gif/bricksred.gif" xnrs="16" xnrt="8" ynrs="16" ynrt="8" /> </wall>
@@ -29,189 +29,188 @@
 <!--  room 1 wall back left -->
 <web name="gaia" pos="4.15 5 1.3 4.71"
   url="/~dax/elsa/paintings/mythology/gaia.html" legend="Gaia">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/gaia.gif" /> 
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/gaia.gif" xp="/gif/wood1.gif" /> 
 </web>
 
 <!--  room 1 wall back right -->
 <web name="night" pos="4.15 -5 1.3 4.71"
   url="/~dax/elsa/paintings/mythology/night.html" legend="Night">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/night.gif" /> 
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/night.gif" xp="/gif/wood1.gif" /> 
 </web>
 
 <!--  room 1 wall left -->
 <web name="rhea" pos="9.0 9.9 1.3 3.14"
   url="/~dax/elsa/paintings/mythology/rhea.html" legend="Rhea">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/rhea.gif" /> 
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/rhea.gif" xp="/gif/wood1.gif" /> 
 </web>
 
 <!--  room 1 wall right -->
 <web name="chaos" pos="9.0 -9.9 1.3"
   url="/~dax/elsa/paintings/mythology/chaos.html" legend="Chaos">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/chaos.gif" /> 
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/chaos.gif" xp="/gif/wood1.gif" /> 
 </web>
 
 <!--  room 1 pannel front left -->
 <web name="hades" pos="13.9 5 1.3 1.57"
   url="/~dax/elsa/paintings/mythology/hades.html" legend="Hades / Vulcain">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/hades.gif" /> 
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/hades.gif" xp="/gif/wood1.gif" dif="brown" /> 
 </web>
 
 <!--  room 1 wall left middle -->
 <web name="hermes" pos="14.0 9.9 1.3 3.14"
   url="/~dax/elsa/paintings/mythology/hermes.html legend="Hermes"">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/hermes.gif" /> 
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/hermes.gif" xp="/gif/wood1.gif" /> 
 </web>
 
 <!--  room 1 pannel front right -->
 <web name="ceres" pos="13.9 -5 1.3 1.57"
   url="/~dax/elsa/paintings/mythology/ceres.html" legend="Ceres">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/ceres.gif" /> 
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/ceres.gif" xp="/gif/wood1.gif" dif="brown" /> 
 </web>
 
 <!--  room 1 wall right middle -->
 <web name="bastet" pos="14.0 -9.9 1.3"
   url="/~dax/elsa/paintings/mythology/bastet.html" legend="Bastet">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/bastet.gif" /> 
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/bastet.gif" xp="/gif/wood1.gif" /> 
 </web>
 
 <!--  room 2 pannel back left -->
 <web name="creation" pos="14.1 5 1.3 4.71"
    url="/~dax/elsa/paintings/misc/creation.html" legend="Creation">
-  <solid dim="1 .1 2" xn="/elsa/mythology/creation.gif" />
+  <solid dim="1 .1 2" xn="/elsa/mythology/creation.gif" xp="/gif/wood1.gif" dif="brown" />
 </web>
 
 <!--  room 2 pannel back right -->
 <web name="apollo2" pos="14.1 -5 1.3 4.71"
   url="/~dax/elsa/paintings/mythology/apollon2.html" legend="Apollon">
-  <solid dim="1 .1 2" xn="/elsa/mythology/apollon.gif" /> 
+  <solid dim="1 .1 2" xn="/elsa/mythology/apollon.gif" xp="/gif/wood1.gif" dif="brown" /> 
 </web>
 
 <!--  room 2 wall left -->
 <web name="apollo" pos="19.0 9.9 1.3 3.14"
   url="/~dax/elsa/paintings/mythology/apollon.html" legend="Apollon">
-  <solid dim="1 .1 2" xn="/elsa/mythology/apollon.gif" /> 
+  <solid dim="1 .1 2" xn="/elsa/mythology/apollon.gif" xp="/gif/wood1.gif" /> 
 </web>
 
 <!--  room 2 wall right -->
 <web name="athena" pos="19.0 -9.9 1.3"
   url="/~dax/elsa/paintings/mythology/athena.html" legend="Athena">
-  <solid dim="1 .1 2" xn="/elsa/mythology/athena.gif" /> 
+  <solid dim="1 .1 2" xn="/elsa/mythology/athena.gif" xp="/gif/wood1.gif" /> 
 </web>
 
 <!--  room 2 wall right middle -->
 <web name="baraka" pos="24.0 -9.9 1.3"
   url="/~dax/elsa/paintings/mythology/baraka.html" legend="Baraka">
-  <solid dim=".95 .05 1" xn="/elsa/mythology/baraka.gif" /> 
+  <solid dim=".95 .05 1" xn="/elsa/mythology/baraka.gif" xp="/gif/wood1.gif" /> 
 </web>
 
 <!--  room 2 pannel front left -->
 <web name="vulcano" pos="23.9 5 1.3 1.57"
   url="/~dax/elsa/paintings/mythology/vulcain.html" legend="Vulcain">
-  <solid dim="1 .1 2" xn="/elsa/mythology/vulcain.gif" /> 
+  <solid dim="1 .1 2" xn="/elsa/mythology/vulcain.gif" xp="/gif/wood1.gif" dif="brown" /> 
 </web>
 
 <!--  room 2 wall left middle -->
 <web name="venus" pos="24.0 9.9 1.3 3.14"
   url="/~dax/elsa/paintings/mythology/venus.html" legend="Venus">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/venus.gif" />
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/venus.gif" xp="/gif/wood1.gif" />
 </web>
 
 <!--  room 2 pannel front right -->
 <web name="diana" pos="23.9 -5 1.3 1.57"
   url="/~dax/elsa/paintings/mythology/diana.html" legend="Diana">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/diana.gif" />
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/diana.gif" xp="/gif/wood1.gif" dif="brown" />
 </web>
 
 <!--  room 3 wall back left -->
 <web name="eos" pos="24.1 5 1.3 4.71"
-  url="/~dax/elsa/paintings/mythology/eos.html">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/eos.gif" />
+  url="/~dax/elsa/paintings/mythology/eos.html" legend="Eos">
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/eos.gif" xp="/gif/wood1.gif" />
 </web>
 
 <!--  room 3 pannel back right -->
 <web name="bacchus" pos="24.1 -5 1.3 4.71"
-  url="/~dax/elsa/paintings/mythology/bacchus.html">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/bacchus.gif" />
+  url="/~dax/elsa/paintings/mythology/bacchus.html" legend="Bacchus">
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/bacchus.gif" xp="/gif/wood1.gif" dif="brown" />
 </web>
 
 <!--  room 3 wall left -->
 <web name="poseidon" pos="29 9.9 1.3 3.14"
-  url="/~dax/elsa/paintings/mythology/poseidon.html">
-  <solid dim="2 .1 1.5" xn="/elsa/mythology/poseidon.gif" />
+  url="/~dax/elsa/paintings/mythology/poseidon.html" legend="Poseidon">
+  <solid dim="2 .1 1.5" xn="/elsa/mythology/poseidon.gif" xp="/gif/wood1.gif" />
 </web>
 
 <!--  room 3 wall right -->
 <web name="zeus" pos="29 -9.9 1.3"
-  url="/~dax/elsa/paintings/mythology/zeus.html">
-  <solid dim="1 .1 2" xn="/elsa/mythology/zeus.gif" />
+  url="/~dax/elsa/paintings/mythology/zeus.html" legend="Zeus">
+  <solid dim="1 .1 2" xn="/elsa/mythology/zeus.gif" xp="/gif/wood1.gif" />
 </web>
 
 <!--  room 3 pannel front left -->
 <web name="thewit" pos="33.9 5 1.3 1.57"
-  url="/~dax/elsa/paintings/mythology/thewit.html">
-  <solid dim="1 .1 2" xn="/elsa/misc/thewit.gif" />
+  url="/~dax/elsa/paintings/mythology/thewit.html" legend="Thewit">
+  <solid dim="1 .1 2" xn="/elsa/misc/thewit.gif" xp="/gif/wood1.gif" dif="brown" />
 </web>
 
 <!--  room 3 pannel front right -->
 <web name="god" pos="33.9 -5 1.3 1.57"
-  url="/~dax/elsa/paintings/mythology/god.html">
-  <solid dim="2 .1 1" xn="/elsa/mythology/god.gif" />
+  url="/~dax/elsa/paintings/mythology/god.html" legend="God">
+  <solid dim="2 .1 1" xn="/elsa/mythology/god.gif" xp="/gif/wood1.gif" dif="brown" />
 </web>
 
 <!--  room 4 pannel front left -->
 <web name="elsa" pos="34.1 5 1.3 4.71"
-  url="/~dax/elsa/photos/elsa.jpg">
-  <solid dim="1.3 .1 1.9" xn="/elsa/misc/elsa.gif" />
+  url="/~dax/elsa/photos/elsa.jpg" legend="Elsa">
+  <solid dim="1.3 .1 1.9" xn="/elsa/misc/elsa.gif" xp="/gif/wood1.gif" dif="brown" />
 </web>
 
 <!--  room 4 pannel front right -->
 <web name="entombed" pos="34.1 -5 1.3 4.71"
-  url="/~dax/elsa/paintings/misc/entombed.html">
-  <solid dim=".2 .2 .4" xn="/elsa/misc/entombed.gif" />
+  url="/~dax/elsa/paintings/misc/entombed.html" legend="Entombed">
+  <solid dim="1 .1 1.4" xn="/elsa/misc/entombed.gif" xp="/gif/wood1.gif" dif="brown" />
 </web>
 
 <!--  room 4 wall left middle -->
 <web name="sadness" pos="34 9.9 1.3 3.14"
-  url="/~dax/elsa/paintings/mythology/tristesse.html">
-  <solid dim="1 .1 1.2" xn="/elsa/misc/tristesse.gif" />
+  url="/~dax/elsa/paintings/mythology/tristesse.html" legend="Tristesse">
+  <solid dim="1 .1 1.2" xn="/elsa/misc/tristesse.gif" xp="/gif/wood1.gif" />
 </web>
 
 <!--  room 4 wall right middle -->
 <web name="herma" pos="34 -9.9 1.3"
-  url="/~dax/elsa/paintings/mythology/herma.html">
-  <solid dim="1.8 .1 1.4" xn="/elsa/mythology/herma.gif" />
+  url="/~dax/elsa/paintings/mythology/herma.html" legend="Herma">
+  <solid dim="1.8 .1 1.4" xn="/elsa/mythology/herma.gif" xp="/gif/wood1.gif" />
 </web>
 
 <!--  room 4 wall left -->
 <web name="siren" pos="37 9.9 1.3 3.14"
-  url="/~dax/elsa/paintings/misc/siren.html">
-  <solid dim="1.5 .1 1" xn="/elsa/misc/siren.gif" />
+  url="/~dax/elsa/paintings/misc/siren.html" legend="Siren">
+  <solid dim="1.5 .1 1" xn="/elsa/misc/siren.gif" xp="/gif/wood1.gif" />
 </web>
 
 <!--  room 4 wall right -->
 <web name="hypnos" pos="37 -9.9 1.3"
-  url="/~dax/elsa/paintings/mythology/hypnos.html">
-  <solid dim="1.5 .1 1.5" xn="/elsa/mythology/hypnos.gif" />
+  url="/~dax/elsa/paintings/mythology/hypnos.html" legend="Hypnos">
+  <solid dim="1.5 .1 1.5" xn="/elsa/mythology/hypnos.gif" xp="/gif/wood1.gif" />
 </web>
 
 <!--  room 4 wall front left -->
 <web name="tarots" pos="43.9 5 1.3 1.57"
-  url="/~dax/elsa/paintings/tarots/tarots.html">
-  <solid dim="1.6 .1 2" xn="/gif/tarots.gif" />
+  url="/~dax/elsa/paintings/tarots/tarots.html" legend="Tarots">
+  <solid dim="1.6 .1 2" xn="/gif/tarots.gif" xp="/gif/wood1.gif" />
 </web>
 
 <!--  room 4 wall front right -->
 <web name="athena2" pos="43.9 -5 1.3 1.57"
-  url="/~dax/elsa/paintings/mythology/athena.html">
-  <solid dim="1.3 .1 2" xn="/elsa/mythology/athena.gif" />
+  url="/~dax/elsa/paintings/mythology/athena.html" megend="Athena">
+  <solid dim="1.3 .1 2" xn="/elsa/mythology/athena.gif" xp="/gif/wood1.gif" />
 </web>
 
-<!--  next -->
-
 <gate name="mouret" pos="43.9 0 1.3 1.57"
-  url="/vre/v8/mouret.vre">
-  <solid dim="1.5 .1 2.6" xn="/gif/zeni.gif" />
+  url="/vre/v8/mouret.vre" legend="Mouret">
+  <solid dim="1.5 .1 2.6" xn="/gif/zeni.gif" xp="/gif/wood1.gif" />
 </gate>
+
 
 <!--  translucid panels -->
 <wall name="pane6" pos="34 -5 1.5 1.57"> <solid dim="3 .02 3" dif=".6 1 .6" a=".5" /> </wall>

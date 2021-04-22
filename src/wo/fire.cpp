@@ -57,6 +57,14 @@ WObject * Fire::creator(char *l)
   return new Fire(l);
 }
 
+Fire::Fire(char *l)
+{
+  parser(l);
+  behavior();
+  makeSolid();
+  inits();
+}
+
 void Fire::defaults()
 {
   np = FIRENB;
@@ -96,14 +104,6 @@ void Fire::behavior()
 
   initMobileObject(0);
   enablePermanentMovement();
-}
-
-Fire::Fire(char *l)
-{
-  parser(l);
-  behavior();
-  makeSolid();
-  inits();
 }
 
 void Fire::inits()
@@ -178,26 +178,6 @@ void Fire::draw(float ex, float ey, float dx, float dy, float a)
   glEnd();
 }
 
-void Fire::render()
-{
-  static uint32_t nf = 0;
-
-  glPushMatrix();
-  glTranslatef(pos.x, pos.y, pos.z);
-  float seed = ((float) drand48() * 2) - 1.;
-  glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
-  glDisable(GL_CULL_FACE);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-  glEnable(GL_BLEND);
-
-  draw();
-
-  glDisable(GL_BLEND);
-  glPopMatrix();
-
-  nf++;
-}
-
 void Fire::changePermanent(float dt)
 {
   struct sParticle *p;
@@ -268,6 +248,26 @@ void Fire::changePermanent(float dt)
     projz(fground.v[n].ez, v);
   }
 #endif
+}
+
+void Fire::render()
+{
+  static uint32_t nf = 0;
+
+  glPushMatrix();
+  glTranslatef(pos.x, pos.y, pos.z);
+  float seed = ((float) drand48() * 2) - 1.;
+  glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
+  glDisable(GL_CULL_FACE);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+  glEnable(GL_BLEND);
+
+  draw();
+
+  glDisable(GL_BLEND);
+  glPopMatrix();
+
+  nf++;
 }
 
 void Fire::quit()

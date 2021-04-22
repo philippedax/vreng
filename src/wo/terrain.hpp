@@ -91,7 +91,7 @@ public:
   virtual void draw();
   /**< Draws the terrain */
 
-  virtual void initNormales();
+  virtual void setNormales();
   /**< Inits normales */
 
   virtual void setColor(float z);

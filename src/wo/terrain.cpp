@@ -79,7 +79,7 @@ void Terrain::inits()
   normales = new nVect[size*size*sizeof(nVect)+1];
   srand(time(0));
   heights(level, 0, 0, height, div);
-  initNormales();
+  setNormales();
   draw();
 }
 
@@ -119,7 +119,7 @@ void Terrain::prodvect(float x1, float y1, float z1, float x2, float y2, float z
   *pz = x1*y2 - y1*x2;
 }
 
-void Terrain::initNormales()
+void Terrain::setNormales()
 {
   for (int i=0; i<size ; i++) {
     for (int j=0; j<size ; j++) {

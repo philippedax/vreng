@@ -87,6 +87,7 @@ void Thunder::draw()
 {
   for (int i=0; i < 4; i++) color[i] = 1;
 
+  dlist = glGenLists(number);
   for (int n=0; n < number; n++) {
     s_point pt;
     struct timeval tv;
@@ -107,7 +108,6 @@ void Thunder::draw()
     inc.y = pt.y / div;
     inc.z = (pt.z + 10) / div;
 
-    dlist = glGenLists(number);
     glNewList(dlist + n, GL_COMPILE);
     glBegin(GL_LINE_STRIP);
     glVertex3f(pt.x, pt.y, pt.z);
@@ -120,8 +120,8 @@ void Thunder::draw()
       pt.z -= inc.z; // fall down
     }
     glEnd();
-    glEndList();
   }
+  glEndList();
 }
 
 void Thunder::changePermanent(float lasting)

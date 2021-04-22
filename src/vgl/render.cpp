@@ -246,8 +246,16 @@ void Render::renderOpaque()
         (*it)->displaySolid(Solid::OPAQUE);
       }
     }
-    else {
-      (*it)->displaySolid(Solid::OPAQUE);
+    else {	// no specific render
+      if ( (*it)->numrel == 0) {	// mono solid
+        (*it)->displaySolid(Solid::OPAQUE);
+      }
+      else {				// multi solids
+        for (list<Solid*>::iterator it = relsolidList.begin(); it != relsolidList.end() ; ++it) {
+          (*it)->displaySolid(Solid::OPAQUE);
+          (*it)->setRendered(true);
+        }
+      }
     }
 #if 0 //dax5 debug zone
     //dax5 hack exeptions! FIXME!
@@ -263,7 +271,7 @@ void Render::renderOpaque()
 #endif //dax5 debug
       (*it)->setRendered(true);
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
-    trace2(DBG_VGL, " %s:%.1f:%.1f", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize);
+    trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->numrel);
   }
 }
 
@@ -324,7 +332,7 @@ void Render::renderSolids()
   renderOpaque();
 
   // renders translucid solids
-  trace2(DBG_VGL, "\ntransl: ");
+  trace2(DBG_VGL, "\ntranslulid: ");
   renderTranslucid();
 
   // renders flary solids
