@@ -59,9 +59,9 @@
 <wall name="window" pos="0 -2.9 1 0">
   <solid dim="3 .02 .1" dif="grey40" />
   <solid dim="3 .02 .1" dif="grey40" rel="0 0 1.7 0 0" />
-  <solid dim=".04 .1 2"   dif="grey40" rel="0 -.05 1 0 0" />
-  <solid dim=".04 .1 2"   dif="grey40" rel="1.48 -.05 1 0 0" />
-  <solid dim=".04 .1 2"   dif="grey40" rel="-1.48 -.05 1 0 0" />
+  <solid dim=".04 .1 2" dif="grey40" rel="0 -.05 1 0 0" />
+  <solid dim=".04 .1 2" dif="grey40" rel="1.48 -.05 1 0 0" />
+  <solid dim=".04 .1 2" dif="grey40" rel="-1.48 -.05 1 0 0" />
 </wall>
 
 <!-- edge entry -->
@@ -96,11 +96,10 @@
   <solid dim=".04 .04 .7" dif="grey50" rel=".68 .28 -.35 0 0" />
 </thing>
 
-<!--
 <thing name="phone" pos=".4 -.1 .75 6.05">
   <solid dim=".1 .1 .06" dif="grey70" xn="/gif/phone.gif" />
 </thing>
--->
+
 <thing name="vase-roses" pos=".45 -.3 .7 0 0">
   <solid shape="cone" rb=".035" rt=".035" h=".1" dif="0 .3 0" />
   <solid shape="cone" rb=".035" rt=".1" h=".2" rel="0 0 .1 0 0" tx="/gif/roses.gif" a=".5" />
@@ -205,7 +204,6 @@
 <board name="white-board1" pos="-1.46 0 1.6 -1.57">
   <solid dim="1.4 .02 1.4" xn="/gif/wb.gif" />
 </board>
-<!--  <solid dim=".55 .01 1.1" rel="0 1.4 -.4 0 0" xn="/gif/wb.gif" /> -->
 <board name="white-board2" pos="-1.46 1.4 1.2 -1.57">
   <solid dim="1.1 .02 2.2" xn="/gif/wb.gif" />
 </board>

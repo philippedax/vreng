@@ -407,11 +407,6 @@ public:
   //
   // 3D
   //
-#if 0 //notused
-  virtual void setBB();
-  /**< Sets solid's Bounding Box. */
-#endif //notused
-
   virtual void update3D(Pos &pos);
   /**< Updates object in the 3D. */
 
@@ -771,7 +766,7 @@ public:
    * Called by GUI. */
 
   //
-  // MySql
+  // VRSql
   //
   virtual void getPersistency();
   /**< Checks if position is managed by MySql and get it. */

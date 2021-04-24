@@ -247,18 +247,18 @@ void Render::renderOpaque()
       }
     }
     else {	// no specific render
-      if ( (*it)->numrel == 0) {	// mono solid
+      if ( (*it)->numrel == 1) {	// mono solid
         (*it)->displaySolid(Solid::OPAQUE);
       }
       else {				// multi solids
+        (*it)->displaySolid(Solid::OPAQUE);	// main solid first
         for (list<Solid*>::iterator it = relsolidList.begin(); it != relsolidList.end() ; ++it) {
           (*it)->displaySolid(Solid::OPAQUE);
           (*it)->setRendered(true);
         }
       }
     }
-#if 0 //dax5 debug zone
-    //dax5 hack exeptions! FIXME!
+#if 0 //dax5 debug zone hack exeptions! FIXME!
     if (	// candidates for the 2nd passe
             (*it)->object()->typeName() != "Clock" 
          && (*it)->object()->typeName() != "Guy"	// if commented bad colors
@@ -271,7 +271,10 @@ void Render::renderOpaque()
 #endif //dax5 debug
       (*it)->setRendered(true);
     //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
-    trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->numrel);
+    if ((*it)->numrel > 1)
+      trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->numrel);
+    else
+      trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
 
@@ -294,6 +297,9 @@ void Render::renderTranslucid()
   for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
     putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+      if ( (*it)->object()->typeName() == "Smoke" ) {
+        (*it)->vr2gl();
+      }
       (*it)->object()->render();
     }
     else {

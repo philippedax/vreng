@@ -169,15 +169,15 @@ void Smoke::render()
 {
   //error("render: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
   glPushMatrix();
-  //dax glTranslatef(pos.x, pos.y, pos.z);	// coord vreng
-  glTranslatef(-pos.y, pos.z, -pos.x);	// coord opengl
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-  glEnable(GL_BLEND);
+  glTranslatef(pos.x, pos.y, pos.z);	// coord vreng
+  //dax glTranslatef(-pos.y, pos.z, -pos.x);	// coord opengl
+  //dax glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+  //dax glEnable(GL_BLEND);
 
   drawParticle();
   //dax dlistParticle();
 
-  glDisable(GL_BLEND);
+  //dax glDisable(GL_BLEND);
   glPopMatrix();
 }
 

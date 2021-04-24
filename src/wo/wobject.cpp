@@ -101,6 +101,7 @@ WObject::WObject()
   prior = PRIOR_MEDIUM;
 
   solid = NULL;
+  ::g.render.relsolidList.clear();
 
 #if VRSQL
   psql = NULL;
@@ -471,9 +472,7 @@ void WObject::setReflexive(bool flag)
 /* adds solid to the list of solids for this object */
 void WObject::addSolid(Solid* psolid)
 {
-  if (!_solids.empty())
-    psolid->numrel++;
-  _solids.push_back(psolid);
+  _solids.push_back(psolid);	// add solid to solidList
   psolid->wobject = this;	// Solid is friend of WObject
   solid = psolid;		// keep solid pointer in WObject
 }

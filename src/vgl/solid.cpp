@@ -297,7 +297,6 @@ Solid::Solid()
   dlists = NULL;	// solid display lists
   wobject = NULL;	// wobject associated with this solid set by addSolid in wobject.cpp
   shape = STOK_BOX;	// shape by default: box
-  numrel = 0;		// monosolid
   bbcent = newV3(0, 0, 0);
   bbsize = newV3(0, 0, 0);
   idxframe = 0;		// frame index in displaylist
@@ -316,6 +315,9 @@ Solid::Solid()
   surfsize = 0;		// surface of solid
   ray_dlist = 0;
   rendered = false;	// flag if alredy rendered
+  numrel = 0;		// mono solid //dax BAD here!!! FIXME!!!
+  ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
+  numrel = ::g.render.relsolidList.size();
 
   for (int i=0; i<5; i++) pos[i] = 0;
   for (int i=0; i<3; i++) flashcol[i] = 1;  // white
@@ -326,6 +328,7 @@ Solid::~Solid()
 {
   ::g.render.delFromList(this);
   ::g.render.relsolidList.clear();
+  numrel = 0;
 
   delete[] dlists;
   del_solid++;
@@ -681,8 +684,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         break;
       case STOK_REL:
         l = wobject->parse()->parseVector5f(l, pos); {
-          ++numrel;
-          ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
+          //dax ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
+          numrel = ::g.render.relsolidList.size();
         }
         break;
       case STOK_TEXTURE:
