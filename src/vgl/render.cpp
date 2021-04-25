@@ -216,65 +216,40 @@ void Render::renderOpaque()
   }
 
   // sort opaqueList
-  opaqueList.sort(compDist);	// large surfaces overlap
-  opaqueList.sort(compSize);	// fix overlaping
-  opaqueList.sort(compFrame);	// fix overlaping
+  opaqueList.sort(compDist);	// sort distances decreasingly : large surfaces overlap
+  opaqueList.sort(compSize);	// sort surfaces decreasingly : fix overlaping
+  opaqueList.sort(compFrame);	// sort nbframes increasingly : fix overlaping
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
     putSelbuf((*it)->object());		// records the name before displaying it
-    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-#if 1 //dax5 debug zone
-      if (
-         //ok(*it)->object()->typeName() != "Fire" && //bad GL_LIGHTING
-         //ok(*it)->object()->typeName() != "Flag" && //bad GL_LIGHTING
-         //ok(*it)->object()->typeName() != "Text" &&
-         //ok(*it)->object()->typeName() != "Guy" &&
-         //ok(*it)->object()->typeName() != "Water" &&
-         //ok(*it)->object()->typeName() != "Firework" &&
-         //ok(*it)->object()->typeName() != "Cloud" &&
-         //ok(*it)->object()->typeName() != "Wings" &&
-         //ok(*it)->object()->typeName() != "Head" &&
-         //ok(*it)->object()->typeName() != "Hat" &&
-         //ok(*it)->object()->typeName() != "Walls" &&
-         (*it)->object()->typeName() != "Smoke" &&	// never opaque
-         (*it)->object()->typeName() != "NONE"
-         )
-#endif //dax5 debug
-      (*it)->object()->render();	// if commented bad color (pink)
-      if ( (*it)->object()->typeName() == "Guide" ) {	// exception: guide is both
+
+    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
+      if ((*it)->object()->typeName() != "Smoke") {	// never opaque
+        (*it)->object()->render();			// if commented bad color (pink)
+      }
+      if ((*it)->object()->typeName() == "Guide") {	// exception: guide is both
         (*it)->displaySolid(Solid::OPAQUE);
       }
+      trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }
-    else {	// no specific render
-      if ( (*it)->numrel == 1) {	// mono solid
+    else {	// general render, no specific render
+      if ((*it)->numrel == 1) {			// mono solid
         (*it)->displaySolid(Solid::OPAQUE);
+        trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
-      else {				// multi solids
+      else {					// multi solids
         (*it)->displaySolid(Solid::OPAQUE);	// main solid first
-        for (list<Solid*>::iterator it = relsolidList.begin(); it != relsolidList.end() ; ++it) {
-          (*it)->displaySolid(Solid::OPAQUE);
-          (*it)->setRendered(true);
+        trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->numrel);
+
+        for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
+          (*jt)->displaySolid(Solid::OPAQUE);
+          (*jt)->setRendered(true);
+          trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->surfsize, (*jt)->numrel);
         }
       }
     }
-#if 0 //dax5 debug zone hack exeptions! FIXME!
-    if (	// candidates for the 2nd passe
-            (*it)->object()->typeName() != "Clock" 
-         && (*it)->object()->typeName() != "Guy"	// if commented bad colors
-       ) {
-      (*it)->setRendered(true);
-    }
-    else {
-      (*it)->setRendered(false);
-    }
-#endif //dax5 debug
-      (*it)->setRendered(true);
-    //trace2(DBG_VGL, " %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
-    if ((*it)->numrel > 1)
-      trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->numrel);
-    else
-      trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+    (*it)->setRendered(true);
   }
 }
 
@@ -284,7 +259,10 @@ void Render::renderTranslucid()
   // build translucidList from solidList
   translucidList.clear();
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    if ( (*it)->isOpaque() == false && (*it)->isVisible() && !(*it)->object()->isRemoved() ) {
+    if ( (*it)->isOpaque() == false &&
+         (*it)->isVisible() &&
+         ! (*it)->isRendered() &&
+         ! (*it)->object()->isRemoved() ) {
       translucidList.push_back(*it);	// add to translucid list
     }
   }
@@ -296,16 +274,31 @@ void Render::renderTranslucid()
   // render translucidList
   for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
     putSelbuf((*it)->object());		// records the name before displaying it
+
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      if ( (*it)->object()->typeName() == "Smoke" ) {
-        (*it)->vr2gl();
+      if ((*it)->object()->typeName() == "Smoke") {
+        (*it)->vr2gl();		// not sure ???
       }
       (*it)->object()->render();
+      trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }
     else {
-      (*it)->displaySolid(Solid::TRANSLUCID);
+      if ((*it)->numrel == 1) {			// mono solid
+        (*it)->displaySolid(Solid::TRANSLUCID);
+        trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+      }
+      else {					// multi solids
+        (*it)->displaySolid(Solid::TRANSLUCID);
+        trace2(DBG_VGL, " %s:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->numrel);
+
+        for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
+          (*jt)->displaySolid(Solid::TRANSLUCID);
+          (*jt)->setRendered(true);
+          trace2(DBG_VGL, " %s:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->numrel);
+        }
+      }
     }
-    trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+    (*it)->setRendered(true);
   }
 }
 

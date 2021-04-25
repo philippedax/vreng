@@ -120,6 +120,7 @@ void User::setPosition()
   if (entry) {
     entry->query(this);
     trace(DBG_INIT, "new entry: %.2f %.2f %.2f", pos.x, pos.y, pos.z);
+    //error("entry: %.2f %.2f %.2f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
   } 
 }
 

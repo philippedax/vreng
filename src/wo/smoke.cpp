@@ -102,7 +102,7 @@ void Smoke::addParticle()
   //error("add: emitter=%.1f %.1f %.1f", emitter.x,emitter.y,emitter.z);
   Vector3 tmp = random();
   tmp.add(emitter);
-  error("add: tmp=%.1f %.1f %.1f", tmp.x,tmp.y,tmp.z);
+  //error("add: tmp=%.1f %.1f %.1f", tmp.x,tmp.y,tmp.z);
   Smoke p(tmp);
 #if 0 //dax1 bad no smoke
   p.loc.x = pos.x;
@@ -132,7 +132,7 @@ void Smoke::drawParticle()
       (*it).draw();
     }
   }
-  error("(%d)", particles.size());
+  //error("(%d)", particles.size());
 } 
 
 void Smoke::dlistParticle()
@@ -142,7 +142,7 @@ void Smoke::dlistParticle()
       glCallList((*it).dlist);
     }
   }
-  error("[%d]", particles.size());
+  //error("[%d]", particles.size());
 } 
 
 void Smoke::animParticle()

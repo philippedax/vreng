@@ -332,8 +332,13 @@ int Channel::create(const char *chan_str, int **pfds)
 
   uint32_t oldssrc = 0;
   World *world = NULL;
-  if ((world = World::worldByGroup(group)) != NULL)
-    oldssrc = world->getSsrc();
+#if 0 //dax loop in worldByGroup
+  if ((world = World::worldByGroup(group)) != NULL) {
+    if (world) {
+      oldssrc = world->getSsrc();
+    }
+  }
+#endif
   if ((ssrc = session->create(group, port, ttl, oldssrc)) == 0) {
     error("create Channel: can't create session");
     delete session;

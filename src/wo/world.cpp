@@ -192,9 +192,10 @@ World * World::worldByUrl(const char *url)
 
 World * World::worldByGroup(uint32_t group)
 {
-  for (World *w = worldList; w ; w = w->next)
+  for (World *w = worldList; w ; w = w->next) {
     if (w->group == group)
       return w;	// world found
+  }
   return NULL;
 }
 
@@ -795,12 +796,6 @@ void World::init(const char *vreurl)
   //world->universe->stopWheel();
   endprogression();
 
-  // Attach bubble welcome text to localuser
-  char welcome[32];
-  sprintf(welcome, "Hi! I am %s", user->getInstance());
-  user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEBACK);
-  //dax user->bubble->setObjName("hi");
-
   // check whether icons are locally presents
   world->checkIcons();
   // check whether other objects are persistents
@@ -813,7 +808,12 @@ void World::init(const char *vreurl)
 
   Entry *entry = new Entry();
   entry->query(user);
-  //dax localuser->setPosition();
+  localuser->setPosition();
+
+  // Attach bubble welcome text to localuser
+  char welcome[32];
+  sprintf(welcome, "Hi! I am %s", user->getInstance());
+  user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEBACK);
 }
 
 /* Quits the current World */
