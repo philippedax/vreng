@@ -629,7 +629,7 @@ void User::setRayDirection(GLint wx, GLint wy)
   GLfloat tz = vp[3]/2 - (GLfloat) wy;
   if (ty < 0) ty = MAX(ty, -FAR); else ty = MIN(ty, FAR);
   if (tz < 0) tz = MAX(tz, -FAR); else tz = MIN(tz, FAR);
-  //error("eye: %.2f %.2f %.2f, target: %.2f %.2f %.2f", ex,ey,ez,tx,ty,tz);
+  error("eye: %.1f %.1f %.1f, target: %.1f %.1f %.1f", ex,ey,ez,tx,ty,tz);
  
   Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
 

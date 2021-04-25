@@ -1433,38 +1433,26 @@ void Solid::displaySolid(render_type type)
     return;		// pass one turn
 
   switch (type) {
-
     case OPAQUE:	// Display opaque solids
-      if (isReflexive()) {
+      if (isReflexive())
         displayList(REFLEXIVE);
-      }
-      if (isFlary()) {
-        displayFlary();	// Display attached flares
-      }
-      displayList(NORMAL);
-      break;
-
-    case TRANSLUCID:	// Display translucid solids 
-      if (isReflexive()) {
-        displayList(REFLEXIVE);
-      }
-      else {
+      else
         displayList(NORMAL);
-      }
       break;
-
-    case FLASH:		// Display flashy edges and ray
-      if (isFlashy()) {
+    case TRANSLUCID:	// Display translucid solids 
+      if (isReflexive())
+        displayList(REFLEXIVE);
+      else
+        displayList(NORMAL);
+      break;
+    case FLASH:		// Display flashy edges
+      if (isFlashy())
         displayList(FLASHY);
-      }
-      if (isFlary()) {
+      if (isFlary())
         displayFlary();	// Display attached flares
-      }
-      if (ray_dlist) {
+      if (ray_dlist)
         displayRay();
-      }
       break;
-
     case USER:		// Display local user last
       displayList(NORMAL);
       break;

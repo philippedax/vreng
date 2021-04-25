@@ -45,7 +45,6 @@ void Entry::parser(char *l)
 
 Entry::Entry()
 {
-  //dax entry = NULL;
 }
 
 Entry::Entry(char *l)

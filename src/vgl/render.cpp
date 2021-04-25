@@ -218,7 +218,7 @@ void Render::renderOpaque()
   // sort opaqueList
   opaqueList.sort(compDist);	// sort distances decreasingly : large surfaces overlap
   opaqueList.sort(compSize);	// sort surfaces decreasingly : fix overlaping
-  opaqueList.sort(compFrame);	// sort nbframes increasingly : fix overlaping
+  opaqueList.sort(compFrame);	// sort nbframes increasingly : fix overlaping (see maze.vre)
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
@@ -276,9 +276,6 @@ void Render::renderTranslucid()
     putSelbuf((*it)->object());		// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      if ((*it)->object()->typeName() == "Smoke") {
-        (*it)->vr2gl();		// not sure ???
-      }
       (*it)->object()->render();
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }

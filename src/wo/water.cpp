@@ -156,8 +156,8 @@ void Water::render()
   //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);	// if uncommented no water FIXME
   glPushMatrix();
    glEnable(GL_LIGHTING);	// if commented no water FIXME
-   //dax glEnable(GL_BLEND);
-   //dax glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+   glEnable(GL_BLEND);
+   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, tcolor);
 
    glTranslatef(pos.x, pos.y, pos.z + height);
@@ -168,7 +168,7 @@ void Water::render()
 
    draw();
 
-   //dax glDisable(GL_BLEND);
+   glDisable(GL_BLEND);
    glDisable(GL_LIGHTING);
   glPopMatrix();
   //dax1 glPopAttrib();
