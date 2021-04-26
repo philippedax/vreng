@@ -19,15 +19,15 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
+#include "draw.hpp"
 #include "render.hpp"	// render
 #include "color.hpp"	// Color
-#include "draw.hpp"
 
 
 /* Draws vertex */
 void Draw::vertex3fv(const GLfloat *v)
 {
-  ::g.render.setBB(v); //update bbin & bbmax
+  ::g.render.setBB(v);		//update bbin & bbmax
   glVertex3f(v[0], v[1], v[2]);
 }
 
@@ -43,14 +43,13 @@ void Draw::vertex3f(GLfloat x, GLfloat y, GLfloat z)
 void Draw::point(GLfloat x, GLfloat y, GLfloat z)
 {
   glBegin(GL_POINTS);
-  glVertex3f(x, y, z);
+   glVertex3f(x, y, z);
   glEnd();
 }
 
 /* Draws line */
 void Draw::line(GLfloat l, GLfloat w = 0)
 {
-  glPushMatrix();
   glEnable(GL_LINE_SMOOTH);  // anti aliasing
   if (!w) w = 1;
   glLineWidth(w);
@@ -59,7 +58,6 @@ void Draw::line(GLfloat l, GLfloat w = 0)
    glVertex2f(0, l);
   glEnd();
   glDisable(GL_LINE_SMOOTH);
-  glPopMatrix();
 }
 
 /* Draws rectangle */
@@ -74,14 +72,14 @@ void Draw::rect(GLfloat w, GLfloat h, uint8_t style, GLfloat rtxs, GLfloat rtxt)
     case STYLE_LINES:  glBegin(GL_LINE_LOOP); break;
     case STYLE_POINTS: glBegin(GL_POINTS); break;
   }
-  glTexCoord2f(0, 0);
-  glVertex3f(-w, -h, 0);
-  glTexCoord2f(rtxs, 0);
-  glVertex3f(w, -h, 0);
-  glTexCoord2f(rtxs, rtxt);
-  glVertex3f(w, h, 0);
-  glTexCoord2f(0, rtxt);
-  glVertex3f(-w, h, 0);
+   glTexCoord2f(0, 0);
+   glVertex3f(-w, -h, 0);
+   glTexCoord2f(rtxs, 0);
+   glVertex3f(w, -h, 0);
+   glTexCoord2f(rtxs, rtxt);
+   glVertex3f(w, h, 0);
+   glTexCoord2f(0, rtxt);
+   glVertex3f(-w, h, 0);
   glEnd();
 }
 
@@ -101,19 +99,19 @@ void Draw::ellipse(GLfloat xr, GLfloat yr, uint8_t style)
   switch (style) {
   case STYLE_FILL:
     glBegin(GL_TRIANGLE_FAN);
-    glVertex2f(0, 0);
-    break;
+     glVertex2f(0, 0);
+     break;
   case STYLE_LINES:
     glLineWidth(2);
     glBegin(GL_LINE_LOOP);
-    break;
+     break;
   case STYLE_POINTS:
     glPointSize(1);
     glBegin(GL_POINTS);
-    break;
+     break;
   }
-  for (int i=360; i>=0; i -=5)
-    glVertex2f(cos(DEG2RAD(i))*xr, sin(DEG2RAD(i))*yr);
+   for (int i=360; i>=0; i -=5)
+     glVertex2f(cos(DEG2RAD(i))*xr, sin(DEG2RAD(i))*yr);
   glEnd();
 }
 
@@ -192,23 +190,22 @@ void Draw::box(GLfloat width, GLfloat depth, GLfloat height, const int textures[
     case STYLE_POINTS: drawtype = GL_POINTS; break;
     default:           drawtype = GL_QUADS; break;
   }
-  for (int i=0; i<6; i++) {
-    if (textures[i] > 0) {
-      glEnable(GL_TEXTURE_2D);
-      glBindTexture(GL_TEXTURE_2D, textures[i]);
-      if ((rtx[i][0] > 1) || (rtx[i][1] > 1)) {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-      }
-    }
-
-    glBegin(drawtype);
-    for (int j=0; j<4; j++) {
-      if (textures[i] > 0)
-        glTexCoord2fv(&texcoords[i][j][0]);
-      glNormal3fv(&normals[i][0]);
-      vertex3fv(&v[faces[i][j]][0]);
-    }
+   for (int i=0; i<6; i++) {
+     if (textures[i] > 0) {
+       glEnable(GL_TEXTURE_2D);
+       glBindTexture(GL_TEXTURE_2D, textures[i]);
+       if ((rtx[i][0] > 1) || (rtx[i][1] > 1)) {
+         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+       }
+     }
+     glBegin(drawtype);
+     for (int j=0; j<4; j++) {
+       if (textures[i] > 0)
+         glTexCoord2fv(&texcoords[i][j][0]);
+       glNormal3fv(&normals[i][0]);
+       vertex3fv(&v[faces[i][j]][0]);
+     }
     glEnd();
 
     if (textures[i] > 0)
@@ -270,19 +267,16 @@ void Draw::box(GLfloat width, GLfloat depth, GLfloat height)
  */
 void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
 {
-  int tex[6] = {-1,-1,-1,-1,-1,-1};
-  GLfloat texrep[6][2] = { {1,1}, {1,1}, {1,1}, {1,1}, {1,1}, {1,1} };
-
-  glPushMatrix();
   glLineWidth(2);
   glEnable(GL_LINE_STIPPLE);
   glDisable(GL_LIGHTING);
   glLineStipple(1, 0x3333);
-  glColor3f(1, 0, 1); // magenta
+  glColor3f(1, 0, 1);		// magenta
+
   Draw::box(width, depth, height);
+
   glEnable(GL_LIGHTING);
   glDisable(GL_LINE_STIPPLE);
-  glPopMatrix();
 }
 
 void Draw::pyramid(GLfloat _width, GLfloat height, uint8_t style)
@@ -350,21 +344,21 @@ void Draw::torus(GLfloat rc, uint8_t numc, GLfloat rt, uint8_t numt, uint8_t sty
 
     if (style == STYLE_FILL) glBegin(GL_QUAD_STRIP);
     else                     glBegin(GL_LINE_STRIP);
-    for (int j=0; j <= numt; j++) {
-      for (int k=1; k >= 0; k--) {
-        s = (i + k) % numc + 0.5;
-        t = j % numt;
-        x = cos(t*M_2PI/numt) * cos(s*M_2PI/numc);
-        y = sin(t*M_2PI/numt) * cos(s*M_2PI/numc);
-        z = sin(s*M_2PI/numc);
-        glNormal3f(x, y, z);
+     for (int j=0; j <= numt; j++) {
+       for (int k=1; k >= 0; k--) {
+         s = (i + k) % numc + 0.5;
+         t = j % numt;
+         x = cos(t*M_2PI/numt) * cos(s*M_2PI/numc);
+         y = sin(t*M_2PI/numt) * cos(s*M_2PI/numc);
+         z = sin(s*M_2PI/numc);
+         glNormal3f(x, y, z);
 
-        x = (rt + rc * cos(s*M_2PI/numc)) * cos(t*M_2PI/numt);
-        y = (rt + rc * cos(s*M_2PI/numc)) * sin(t*M_2PI/numt);
-        z = rc * sin(s*M_2PI/numc);
-        vertex3f(x, y, z);
-      }
-    }
+         x = (rt + rc * cos(s*M_2PI/numc)) * cos(t*M_2PI/numt);
+         y = (rt + rc * cos(s*M_2PI/numc)) * sin(t*M_2PI/numt);
+         z = rc * sin(s*M_2PI/numc);
+         vertex3f(x, y, z);
+       }
+     }
     glEnd();
   }
 }
@@ -383,17 +377,17 @@ void Draw::sphere(GLfloat r, uint8_t slices, uint8_t stacks, uint8_t style)
 
   // draw +Z end as a triangle fan
   glBegin(GL_TRIANGLE_FAN);
-  glNormal3f(0, 0, 1);
-  glTexCoord2f(0.5, 0);
-  vertex3f(0, 0, r);
-  for (int j=0; j <= slices; j++) {
-    theta = (j==slices) ? 0 : j*dtheta;
-    x = -sin(theta) * sin(drho);
-    y = cos(theta) * sin(drho);
-    z = cos(drho);
-    glNormal3f(x, y, z);
-    vertex3f(x*r, y*r, z*r);
-  }
+   glNormal3f(0, 0, 1);
+   glTexCoord2f(0.5, 0);
+   vertex3f(0, 0, r);
+   for (int j=0; j <= slices; j++) {
+     theta = (j==slices) ? 0 : j*dtheta;
+     x = -sin(theta) * sin(drho);
+     y = cos(theta) * sin(drho);
+     z = cos(drho);
+     glNormal3f(x, y, z);
+     vertex3f(x*r, y*r, z*r);
+   }
   glEnd();
 
   ds = 1. / slices;
@@ -404,44 +398,44 @@ void Draw::sphere(GLfloat r, uint8_t slices, uint8_t stacks, uint8_t style)
   for (int i=0; i < stacks; i++) {
      rho = i * drho;
      glBegin(GL_QUAD_STRIP);
-     s = 0;
-     for (int j=0; j <= slices; j++) {
-       theta = (j==slices) ? 0 : j*dtheta;
-       x = -sin(theta) * sin(rho);
-       y = cos(theta) * sin(rho);
-       z = cos(rho);
-       glNormal3f(x, y, z);
-       glTexCoord2f(s, 1-t);
-       vertex3f(x*r, y*r, z*r);
-       x = -sin(theta) * sin(rho+drho);
-       y = cos(theta) * sin(rho+drho);
-       z = cos(rho+drho);
-       glNormal3f(x, y, z);
-       glTexCoord2f(s, 1-(t-dt));
-       s += ds;
-       vertex3f(x*r, y*r, z*r);
-    }
+      s = 0;
+      for (int j=0; j <= slices; j++) {
+        theta = (j==slices) ? 0 : j*dtheta;
+        x = -sin(theta) * sin(rho);
+        y = cos(theta) * sin(rho);
+        z = cos(rho);
+        glNormal3f(x, y, z);
+        glTexCoord2f(s, 1-t);
+        vertex3f(x*r, y*r, z*r);
+        x = -sin(theta) * sin(rho+drho);
+        y = cos(theta) * sin(rho+drho);
+        z = cos(rho+drho);
+        glNormal3f(x, y, z);
+        glTexCoord2f(s, 1-(t-dt));
+        s += ds;
+        vertex3f(x*r, y*r, z*r);
+     }
     glEnd();
     t -= dt;
   }
   // draw -Z end as a triangle fan
   glBegin(GL_TRIANGLE_FAN);
-  glNormal3f(0, 0, -1);
-  glTexCoord2f(0.5, 1);
-  vertex3f(0, 0, -r);
-  rho = M_PI - drho;
-  s = 1;
-  t = dt;
-  for (int j=slices; j >= 0; j--) {
-    theta = (j==slices) ? 0 : j*dtheta;
-    x = -sin(theta) * sin(rho);
-    y = cos(theta) * sin(rho);
-    z = cos(rho);
-    glNormal3f(x, y, z);
-    glTexCoord2f(s, 1-t);
-    s -= ds;
-    vertex3f(x*r, y*r, z*r);
-  }
+   glNormal3f(0, 0, -1);
+   glTexCoord2f(0.5, 1);
+   vertex3f(0, 0, -r);
+   rho = M_PI - drho;
+   s = 1;
+   t = dt;
+   for (int j=slices; j >= 0; j--) {
+     theta = (j==slices) ? 0 : j*dtheta;
+     x = -sin(theta) * sin(rho);
+     y = cos(theta) * sin(rho);
+     z = cos(rho);
+     glNormal3f(x, y, z);
+     glTexCoord2f(s, 1-t);
+     s -= ds;
+     vertex3f(x*r, y*r, z*r);
+   }
   glEnd();
 }
 
@@ -633,20 +627,20 @@ void Draw::ray(GLint *ray_dl, GLfloat x1, GLfloat y1, GLfloat z1, GLfloat x2, GL
 {
   *ray_dl = glGenLists(1);
   glNewList(*ray_dl, GL_COMPILE);
-  glLineWidth(1);
-  glEnable(GL_LINE_SMOOTH);	// anti aliasing
-  if (stipple) {
-    glEnable(GL_LINE_STIPPLE);
-    glLineStipple(1, stipple);
-  }
-  glBegin(GL_LINES);
-   glColor3fv(color);
-   glVertex3f(x1, y1, z1);
-   glVertex3f(x2, y2, z2);
-  glEnd();
-  if (stipple)
-    glDisable(GL_LINE_STIPPLE);
-  glDisable(GL_LINE_SMOOTH);
+   glLineWidth(1);
+   glEnable(GL_LINE_SMOOTH);	// anti aliasing
+   if (stipple) {
+     glEnable(GL_LINE_STIPPLE);
+     glLineStipple(1, stipple);
+   }
+   glBegin(GL_LINES);
+    glColor3fv(color);
+    glVertex3f(x1, y1, z1);
+    glVertex3f(x2, y2, z2);
+   glEnd();
+   if (stipple)
+     glDisable(GL_LINE_STIPPLE);
+   glDisable(GL_LINE_SMOOTH);
   glEndList();
 }
 
@@ -662,10 +656,10 @@ void Draw::helix(GLfloat r, GLfloat length, GLfloat height, GLfloat slices, GLfl
   GLfloat a, h;
 
   glBegin(GL_LINE_STRIP);
-  glColor3fv(color);
-  glLineWidth(thick);
-  for (a=0, h=0; h < length; a += M_PI/180, h += height)
-    glVertex3f(r * cos(a*slices), r * sin(a*slices), h);
-  glLineWidth(1);
+   glColor3fv(color);
+   glLineWidth(thick);
+   for (a=0, h=0; h < length; a += M_PI/180, h += height)
+     glVertex3f(r * cos(a*slices), r * sin(a*slices), h);
+   glLineWidth(1);
   glEnd();
 }
