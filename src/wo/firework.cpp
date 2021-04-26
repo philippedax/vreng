@@ -147,14 +147,12 @@ void Firework::render()
       glPushAttrib(GL_ALL_ATTRIB_BITS);	// if commented jaunatre
       glPushMatrix();
        glEnable(GL_COLOR_MATERIAL);
-       //dax1 glDisable(GL_LIGHTING);
        glPointSize(pt_size);
        glBegin(GL_POINTS);
        glColor3fv(particles[i].rgb);
        glVertex3fv(particles[i].pos);
        glEnd();
-       //dax1 glEnable(GL_LIGHTING);
-       //dax1 glDisable(GL_COLOR_MATERIAL); // if not commented bubble text not visible
+       glDisable(GL_COLOR_MATERIAL); // if not commented bubble text not visible
       glPopMatrix();
       glPopAttrib();
     }

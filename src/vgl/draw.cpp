@@ -279,39 +279,38 @@ void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
   glDisable(GL_LIGHTING);
   glLineStipple(1, 0x3333);
   glColor3f(1, 0, 1); // magenta
-  //dax Draw::box(width, depth, height, tex, texrep, 1);
   Draw::box(width, depth, height);
   glEnable(GL_LIGHTING);
   glDisable(GL_LINE_STIPPLE);
   glPopMatrix();
 }
 
-void Draw::pyramid(GLfloat _side, GLfloat height, uint8_t style)
+void Draw::pyramid(GLfloat _width, GLfloat height, uint8_t style)
 {
-  GLfloat side = _side/2;
+  GLfloat width = _width/2;
 
   if (style == STYLE_FILL) glBegin(GL_TRIANGLE_FAN);
   else                     glBegin(GL_LINE_LOOP);
    glVertex3f(0, 0, height);
-   glVertex3f(-side, -side, 0);
-   glVertex3f(+side, -side, 0);
-   glVertex3f(+side, +side, 0);
-   glVertex3f(-side, +side, 0);
-   glVertex3f(-side, -side, 0);
+   glVertex3f(-width, -width, 0);
+   glVertex3f(+width, -width, 0);
+   glVertex3f(+width, +width, 0);
+   glVertex3f(-width, +width, 0);
+   glVertex3f(-width, -width, 0);
   glEnd();
 
   if (style == STYLE_FILL) glBegin(GL_QUADS);
   else                     glBegin(GL_LINE_LOOP);
-   glVertex3f(-side, -side, 0);
-   glVertex3f(+side, -side, 0);
-   glVertex3f(+side, +side, 0);
-   glVertex3f(-side, +side, 0);
+   glVertex3f(-width, -width, 0);
+   glVertex3f(+width, -width, 0);
+   glVertex3f(+width, +width, 0);
+   glVertex3f(-width, +width, 0);
   glEnd();
 }
 
-void Draw::octagon(GLfloat side, GLfloat height, uint8_t style)
+void Draw::octagon(GLfloat width, GLfloat height, uint8_t style)
 {
-  GLfloat x = side * sin(M_PI_4), y = side/2., z = height/2., c;
+  GLfloat x = width * sin(M_PI_4), y = width/2., z = height/2., c;
 
   c = x + y;
   for (int j=0; j<8; j++) {

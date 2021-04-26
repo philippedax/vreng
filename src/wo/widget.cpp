@@ -61,7 +61,7 @@ void Widget::parser(char *l)
 void Widget::behavior()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
-  enableBehavior(COLLIDE_NEVER);
+  enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);

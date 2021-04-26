@@ -848,13 +848,13 @@ void Render::displaySolid(uint8_t type)
 void Render::displayRay()
 {
   glPushMatrix();
-   glDisable(GL_LIGHTING);
+   //dax1 glDisable(GL_LIGHTING);
    glEnable(GL_LINE_STIPPLE);
 
    glCallList(ray_dlist);
 
    glDisable(GL_LINE_STIPPLE);
-   glEnable(GL_LIGHTING);
+   //dax1 glEnable(GL_LIGHTING);
   glPopMatrix();
 }
 

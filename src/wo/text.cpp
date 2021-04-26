@@ -167,7 +167,6 @@ void Text::render()
 
   glPushMatrix();
   glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, world is strumbled
-   //dax1 glEnable(GL_LIGHTING);
    if (verso)
      glDisable(GL_CULL_FACE); // both faces visibles
    else
@@ -188,7 +187,7 @@ void Text::render()
 
    glEnable(GL_CULL_FACE);
    glDisable(GL_TEXTURE_2D);
-   //dax1 glDisable(GL_LIGHTING);
+   glDisable(GL_LIGHTING);
   glPopAttrib();	// if commented world is bad
   glPopMatrix();
 }

@@ -90,7 +90,6 @@ void Template::render()
 
   // push
   glPushMatrix();
-  glEnable(GL_LIGHTING);
   glEnable(GL_CULL_FACE);
 
   // render
@@ -98,7 +97,6 @@ void Template::render()
   // pop
   glDisable(GL_CULL_FACE);
   glDisable(GL_TEXTURE_2D);
-  glDisable(GL_LIGHTING);
   glPopMatrix();
 }
 
@@ -118,5 +116,5 @@ void Template::funcs()
 {
   setActionFunc(TEMPLATE_TYPE, 0, WO_ACTION action1, "action1");
   setActionFunc(TEMPLATE_TYPE, 1, WO_ACTION action2, "action2");
-  setActionFunc(TEMPLATE_TYPE, 2, WO_ACTION gotoFront, "Approach---
+  setActionFunc(TEMPLATE_TYPE, 2, WO_ACTION gotoFront, "Approach");
 }

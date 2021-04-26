@@ -71,8 +71,8 @@ void Bubble::makeSolid()
   float a = 0.3;	// transparency
 
   // bubble glob (obloid)
-  sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
-  //dax sprintf(s, "solid shape=\"sphere\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
+  sprintf(s, "solid shape=\"sphere\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
+  //dax sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
   parse()->parseSolid(s, SEP, this);
 
   // arrow

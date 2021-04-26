@@ -241,11 +241,11 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
       navig_menu.open(e);	// show(e, 0, 0);
       opened_menu = navig_menu;
       object->setFlashy();	// flashes the edges of the solid
-      object->setRay(x, y);	// launches ray
+      object->setRay(x, y);	// launches stipple ray on the object
     }
   }
-  else {
-    gw.setRayDirection(x, y);	// launches stipple ray
+  else {	// no object!
+    gw.setRayDirection(x, y);	// launches ray on x,y screen coord
   }
 }
 
@@ -254,15 +254,15 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y)
 {
   depthsel++;
   WObject* object = gw.pointedObject(x, y, objinfo, depthsel);
-  if (object && object->isValid() && object->solid) {
+  if (object && object->isValid()) {
     gw.gui.selected_object = object;
     object->resetFlashy();
     object->setFlashy();	// flashes edges of the solid
-    object->setRay(x, y);	// launches ray
+    object->setRay(x, y);	// launches stipple ray on the object
     selectObject(objinfo);
   }  
-  else {
-    gw.setRayDirection(x, y);	// launches stipple ray
+  else {	// no object!
+    gw.setRayDirection(x, y);	// launches ray on x,y screen coord
   }
 }
 

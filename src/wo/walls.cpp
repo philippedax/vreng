@@ -235,13 +235,11 @@ void Walls::draw()
 void Walls::render()
 {
   glPushMatrix();
-  //dax1 glDisable(GL_LIGHTING);	// no lighting on walls
   glDisable(GL_CULL_FACE);	// two facets => no culling
 
   glCallList(dlist);
 
   glEnable(GL_CULL_FACE);
-  //dax1 glEnable(GL_LIGHTING);
   glPopMatrix();
 }
 
