@@ -294,9 +294,9 @@ static const struct sStokens stokens[] = {
 Solid::Solid()
 {
   new_solid++;
+  shape = STOK_BOX;	// shape by default: box
   dlists = NULL;	// solid display lists
   wobject = NULL;	// wobject associated with this solid set by addSolid in wobject.cpp
-  shape = STOK_BOX;	// shape by default: box
   bbcent = newV3(0, 0, 0);
   bbsize = newV3(0, 0, 0);
   idxframe = 0;		// frame index in displaylist
@@ -313,11 +313,10 @@ Solid::Solid()
   is_fictif = false;	// true solid
   userdist = 0;		// distance to localuser
   surfsize = 0;		// surface of solid
-  ray_dlist = 0;
+  ray_dlist = 0;	// ray display-list
   rendered = false;	// flag if alredy rendered
-  numrel = 0;		// mono solid //dax BAD here!!! FIXME!!!
-  ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
-  numrel = ::g.render.relsolidList.size();
+  ::g.render.relsolidList.push_back(this);	// add solid to relsolidList
+  numrel = ::g.render.relsolidList.size();	// number of solids
 
   for (int i=0; i<5; i++) pos[i] = 0;
   for (int i=0; i<3; i++) flashcol[i] = 1;  // white
@@ -490,7 +489,7 @@ char * Solid::parser(char *l)
   surfsize = MAX (surfsize, bbsize.v[1]*bbsize.v[2] );	// surface max
   //dax surfsize = bbsize.v[0] * bbsize.v[1] * bbsize.v[2];	// volume notused
 
-  /* next Token */
+  /* next token */
   l = wobject->parse()->nextToken();
   if (l && !strcmp(l, "/solid")) {
     l = wobject->parse()->nextToken(); // skip </solid>
@@ -683,16 +682,17 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         }
         break;
       case STOK_REL:
-        l = wobject->parse()->parseVector5f(l, pos); {
-          //dax ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
-          numrel = ::g.render.relsolidList.size();
-        }
+        l = wobject->parse()->parseVector5f(l, pos);
+        //dax ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
+        numrel = ::g.render.relsolidList.size();
         break;
       case STOK_TEXTURE:
         { char *urltex = new char[URL_LEN];
           l = wobject->parse()->parseString(l, urltex);
           if (*urltex) {
             texture = new Texture(urltex);
+            for (int i=0; i<6 ; i++)
+              box_tex[i] = texture->id;
             texid = texture->id;
             texture->object = wobject;
             texture->solid = this;
@@ -710,7 +710,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
           l = wobject->parse()->parseString(l, urltex);
           if (*urltex) {
             texture = new Texture(urltex);
-            box_tex[tok-STOK_TEX_XP] = texture->id;
+            box_tex[tok - STOK_TEX_XP] = texture->id;
             texid = texture->id;
             texture->object = wobject;
             texture->solid = this;
@@ -834,7 +834,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       else {		// single surface
         Draw::cylinder(radius, radius2, height, slices, stacks, style);
       }
-      //setBB(radius, radius, height);
+      setBB(radius, radius, height);
       //dax1 if (::g.pref.bbox) Draw::bbox(radius, radius, height);
       postDraw(texid, alpha, fog);
       break;
@@ -843,19 +843,14 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       preDraw(texid, alpha, fog);
       Draw::torus(radius2, cylinders, radius, circles, style);
       //dax1 if (::g.pref.bbox) Draw::bbox(radius*M_SQRT2, radius*M_SQRT2, radius2);
-      postDraw(texid, alpha, fog);
-      break;
-
-    case STOK_DISK:
-      preDraw(texid, alpha, fog, true);
-      Draw::disk(radius, radius2, slices, stacks, style);
+      setBB(radius*M_SQRT2, radius*M_SQRT2, radius2);
       postDraw(texid, alpha, fog);
       break;
 
     case STOK_PYRAMID:
       preDraw(texid, alpha, fog, true);
       Draw::pyramid(side, height, style);
-      //dax1 if (::g.pref.bbox) Draw::bbox(side, side, height/2);
+      setBB(side, side, height);
       postDraw(texid, alpha, fog);
       break;
 
@@ -865,6 +860,12 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       Draw::torus(0.05, cylinders, radius2, circles, style);
       setBB(radius2*M_SQRT1_2/2, radius2*M_SQRT1_2/2, radius*M_SQRT1_2/2);
       //dax1 if (::g.pref.bbox) Draw::bbox(radius2*M_SQRT2, radius2*M_SQRT2, radius*M_SQRT2/2);
+      postDraw(texid, alpha, fog);
+      break;
+
+    case STOK_DISK:
+      preDraw(texid, alpha, fog, true);
+      Draw::disk(radius, radius2, slices, stacks, style);
       postDraw(texid, alpha, fog);
       break;
 
