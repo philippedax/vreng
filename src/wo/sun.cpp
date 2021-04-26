@@ -29,7 +29,6 @@
 
 const OClass Sun::oclass(SUN_TYPE, "Sun", Sun::creator);
 
-const GLfloat Sun::DEF_SCALE = 1;
 const GLfloat Sun::DEF_RADIUS = 4;
 const GLfloat Sun::light_pos[4] = {1,0,0,0};
 const GLfloat Sun::light_amb[4] = {0.05,0.05,0.05,1};
@@ -42,7 +41,7 @@ WObject * Sun::creator(char *l)
 
 void Sun::defaults()
 {
-  scale = DEF_SCALE;
+  scale = 1;
   radius = DEF_RADIUS;
   light_rot = 0;
   state = ACTIVE;

@@ -32,6 +32,22 @@
 
 #include <list>
 
+// defaults
+#define DEF_ALPHA		1.	// opaque
+#define DEF_FOG			0	// no fog
+#define DEF_SCALE		1.	// no scale
+#define DEF_SHININESS		20
+#define DEF_SPHERE_SLICES	16
+#define DEF_SPHERE_STACKS	16
+#define DEF_CONE_SLICES		16
+#define DEF_CONE_STACKS		8
+#define DEF_TORUS_CYLINDERS	16
+#define DEF_TORUS_CIRCLES	16
+#define DEF_DISK_SLICES		16
+#define DEF_WHEEL_SPOKES	12
+#define DEF_DISK_LOOPS		8
+#define FRAME_MAX		256
+
 
 /**
  * Solid class
@@ -57,7 +73,7 @@ protected:
   bool		isblinking;	///< flag blinking.
   bool		blink;		///< flag blink.
   uint8_t	shape;		///< basic shape.
-  uint8_t	numrel;		///< relative solid number.
+  uint8_t	nbsolids;	///< number of solids.
   uint8_t	nbframes;	///< number of frames of this solid.
   uint8_t	frame;		///< current frame to render.
   int		texid;		///< texture id

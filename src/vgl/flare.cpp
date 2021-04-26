@@ -33,14 +33,13 @@ const GLfloat Flare::blue[3] = {0, 0, 1};
 
 uint8_t Flare::MAX_SHINE = 10;
 uint8_t Flare::MAX_FLARE = 6;
-uint8_t Flare::DEF_SCALE = 1;
 uint8_t Flare::DEF_FLARES = 12;
 
 
 void Flare::defaults()
 {
   num_flares = DEF_FLARES;
-  scale = DEF_SCALE;
+  scale = 1;
   num_shine = 0;
 }
 

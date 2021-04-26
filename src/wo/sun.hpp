@@ -32,7 +32,6 @@
 class Sun: public WObject {
 
 protected:
-  static const GLfloat DEF_SCALE;
   static const GLfloat DEF_RADIUS;
   static const GLfloat light_pos[4];
   static const GLfloat light_amb[4];

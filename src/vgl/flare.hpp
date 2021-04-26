@@ -43,7 +43,6 @@ private:
   static const GLfloat blue[3];
   static uint8_t MAX_SHINE;
   static uint8_t MAX_FLARE;
-  static uint8_t DEF_SCALE;
   static uint8_t DEF_FLARES;
 
   tFlare flares[16];	///< array of flares

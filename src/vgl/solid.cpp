@@ -48,20 +48,6 @@
 #include <list>
 using namespace std;
 
-#define DEF_ALPHA		1.	// opaque
-#define DEF_FOG			0	// no fog
-#define DEF_SCALE		1.	// no scale
-#define DEF_SHININESS		20
-#define DEF_SPHERE_SLICES	16
-#define DEF_SPHERE_STACKS	16
-#define DEF_CONE_SLICES		16
-#define DEF_CONE_STACKS		8
-#define DEF_TORUS_CYLINDERS	16
-#define DEF_TORUS_CIRCLES	16
-#define DEF_DISK_SLICES		16
-#define DEF_WHEEL_SPOKES	12
-#define DEF_DISK_LOOPS		8
-#define FRAME_MAX		256
 
 /* Solid tokens. */
 enum {
@@ -316,7 +302,7 @@ Solid::Solid()
   ray_dlist = 0;	// ray display-list
   rendered = false;	// flag if alredy rendered
   ::g.render.relsolidList.push_back(this);	// add solid to relsolidList
-  numrel = ::g.render.relsolidList.size();	// number of solids
+  nbsolids = ::g.render.relsolidList.size();	// number of solids
 
   for (int i=0; i<5; i++) pos[i] = 0;
   for (int i=0; i<3; i++) flashcol[i] = 1;  // white
@@ -327,7 +313,7 @@ Solid::~Solid()
 {
   ::g.render.delFromList(this);
   ::g.render.relsolidList.clear();
-  numrel = 0;
+  nbsolids = 0;
 
   delete[] dlists;
   del_solid++;
@@ -591,11 +577,13 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     l = getTok(l, &tok);
     switch (tok) {
       case STOK_SOLID:	//not used
-        error("token solid"); break;
+        error("token solid");
+        break;
       case STOK_URL:
         break; //TODO
       case STOK_SIZE:
-        l = wobject->parse()->parseVector3fv(l, &dim); break;
+        l = wobject->parse()->parseVector3fv(l, &dim);
+        break;
       case STOK_DIFFUSE:
         l = wobject->parse()->parseVector3f(l, &mat_diffuse[0]);
         for (int i=0; i<3; i++) mat_ambient[i] = mat_diffuse[i];
@@ -611,7 +599,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         for (int i=0; i<3; i++) mat_ambient[i] = mat_emission[i];
         break;
       case STOK_SHININESS:
-        l = wobject->parse()->parseInt(l, &mat_shininess[0]); break;
+        l = wobject->parse()->parseInt(l, &mat_shininess[0]);
+        break;
       case STOK_ALPHA:
         l = wobject->parse()->parseFloat(l, &alpha);
         mat_diffuse[3] = mat_ambient[3] = alpha;
@@ -619,31 +608,44 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
           is_opaque = false;
         break;
       case STOK_SCALE:
-        l = wobject->parse()->parseFloat(l, &scale); break;
+        l = wobject->parse()->parseFloat(l, &scale);
+        break;
       case STOK_SCALEX:
-        l = wobject->parse()->parseFloat(l, &scalex); break;
+        l = wobject->parse()->parseFloat(l, &scalex);
+        break;
       case STOK_SCALEY:
-        l = wobject->parse()->parseFloat(l, &scaley); break;
+        l = wobject->parse()->parseFloat(l, &scaley);
+        break;
       case STOK_SCALEZ:
-        l = wobject->parse()->parseFloat(l, &scalez); break;
+        l = wobject->parse()->parseFloat(l, &scalez);
+        break;
       case STOK_RADIUS3:
-        l = wobject->parse()->parseFloat(l, &radius3); break;
+        l = wobject->parse()->parseFloat(l, &radius3);
+        break;
       case STOK_RADIUS2:
-        l = wobject->parse()->parseFloat(l, &radius2); break;
+        l = wobject->parse()->parseFloat(l, &radius2);
+        break;
       case STOK_RADIUS:
-        l = wobject->parse()->parseFloat(l, &radius); break;
+        l = wobject->parse()->parseFloat(l, &radius);
+        break;
       case STOK_HEIGHT:
-        l = wobject->parse()->parseFloat(l, &height); break;
+        l = wobject->parse()->parseFloat(l, &height);
+        break;
       case STOK_LENGTH:
-        l = wobject->parse()->parseFloat(l, &length); break;
+        l = wobject->parse()->parseFloat(l, &length);
+        break;
       case STOK_WIDTH:
-        l = wobject->parse()->parseFloat(l, &width); break;
+        l = wobject->parse()->parseFloat(l, &width);
+        break;
       case STOK_THICK:
-        l = wobject->parse()->parseFloat(l, &thick); break;
+        l = wobject->parse()->parseFloat(l, &thick);
+        break;
       case STOK_SIDE:
-        l = wobject->parse()->parseFloat(l, &side); break;
+        l = wobject->parse()->parseFloat(l, &side);
+        break;
       case STOK_PTSIZE:
-        l = wobject->parse()->parseFloat(l, &radius); break;
+        l = wobject->parse()->parseFloat(l, &radius);
+        break;
       case STOK_FOG:
         l = wobject->parse()->parseFloat(l, &fog[0]);
         for (int i=0; i<3; i++) {
@@ -651,29 +653,41 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         }
         break;
       case STOK_STYLE:
-        l = wobject->parse()->parseUInt8(l, &style); break;
+        l = wobject->parse()->parseUInt8(l, &style);
+        break;
       case STOK_FACE:
-        l = wobject->parse()->parseUInt8(l, &face); break;
+        l = wobject->parse()->parseUInt8(l, &face);
+        break;
       case STOK_SLICES:
-        l = wobject->parse()->parseUInt8(l, &slices); break;
+        l = wobject->parse()->parseUInt8(l, &slices);
+        break;
       case STOK_STACKS:
-        l = wobject->parse()->parseUInt8(l, &stacks); break;
+        l = wobject->parse()->parseUInt8(l, &stacks);
+        break;
       case STOK_CYLINDERS:
-        l = wobject->parse()->parseUInt8(l, &cylinders); break;
+        l = wobject->parse()->parseUInt8(l, &cylinders);
+        break;
       case STOK_CIRCLES:
-        l = wobject->parse()->parseUInt8(l, &circles); break;
+        l = wobject->parse()->parseUInt8(l, &circles);
+        break;
       case STOK_SPOKES:
-        l = wobject->parse()->parseUInt8(l, &spokes); break;
+        l = wobject->parse()->parseUInt8(l, &spokes);
+        break;
       case STOK_SPOT_CUTOFF:
-        l = wobject->parse()->parseFloat(l, &light_spot_cutoff[0]); break;
+        l = wobject->parse()->parseFloat(l, &light_spot_cutoff[0]);
+        break;
       case STOK_SPOT_DIRECTION:
-        l = wobject->parse()->parseVector3f(l, &light_spot_direction[0]); break;
+        l = wobject->parse()->parseVector3f(l, &light_spot_direction[0]);
+        break;
       case STOK_CONSTANT_ATTENUAT:
-        l = wobject->parse()->parseFloat(l, &light_constant_attenuation[0]); break;
+        l = wobject->parse()->parseFloat(l, &light_constant_attenuation[0]);
+        break;
       case STOK_LINEAR_ATTENUAT:
-        l = wobject->parse()->parseFloat(l, &light_linear_attenuation[0]); break;
+        l = wobject->parse()->parseFloat(l, &light_linear_attenuation[0]);
+        break;
       case STOK_QUADRATIC_ATTENUAT:
-        l = wobject->parse()->parseFloat(l, &light_quadratic_attenuation[0]); break;
+        l = wobject->parse()->parseFloat(l, &light_quadratic_attenuation[0]);
+        break;
       case STOK_BLINK:
         l = wobject->parse()->parseUInt8(l, &flgblk);
         if (flgblk) {
@@ -684,7 +698,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_REL:
         l = wobject->parse()->parseVector5f(l, pos);
         //dax ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
-        numrel = ::g.render.relsolidList.size();
+        nbsolids = ::g.render.relsolidList.size();
         break;
       case STOK_TEXTURE:
         { char *urltex = new char[URL_LEN];
@@ -719,11 +733,15 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         }
         break;
       case STOK_TEXTURE_R:
-        l = wobject->parse()->parseFloat(l, &tex_r_s); tex_r_t = tex_r_s; break;
+        l = wobject->parse()->parseFloat(l, &tex_r_s);
+        tex_r_t = tex_r_s;
+        break;
       case STOK_TEXTURE_RS:
-        l = wobject->parse()->parseFloat(l, &tex_r_s); break;
+        l = wobject->parse()->parseFloat(l, &tex_r_s);
+        break;
       case STOK_TEXTURE_RT:
-        l = wobject->parse()->parseFloat(l, &tex_r_t); break;
+        l = wobject->parse()->parseFloat(l, &tex_r_t);
+        break;
       case STOK_TEX_XP_R:
       case STOK_TEX_XN_R:
       case STOK_TEX_YP_R:
@@ -739,14 +757,16 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_TEX_YN_RS:
       case STOK_TEX_ZP_RS:
       case STOK_TEX_ZN_RS:
-        l = wobject->parse()->parseFloat(l, &box_texrep[tok-STOK_TEX_XP_RS][0]); break;
+        l = wobject->parse()->parseFloat(l, &box_texrep[tok-STOK_TEX_XP_RS][0]);
+        break;
       case STOK_TEX_XP_RT:
       case STOK_TEX_XN_RT:
       case STOK_TEX_YP_RT:
       case STOK_TEX_YN_RT:
       case STOK_TEX_ZP_RT:
       case STOK_TEX_ZN_RT:
-        l = wobject->parse()->parseFloat(l, &box_texrep[tok-STOK_TEX_XP_RT][1]); break;
+        l = wobject->parse()->parseFloat(l, &box_texrep[tok-STOK_TEX_XP_RT][1]);
+        break;
       default:
         error("solidParser: bad token=%hu", tok);
         return -1;
@@ -805,21 +825,20 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
     case STOK_MAN:
       is_opaque = true;
-      if (localuser->man)
+      if (localuser->man) {
         localuser->man->draw();
+      }
       else {
         Man *man = new Man(dim.v[0], dim.v[1], dim.v[2]);
         man->draw();
       }
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
-      //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
 
     case STOK_GUY:
     case STOK_ANDROID:
       is_opaque = true;
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
-      //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
 
     case STOK_CONE:
@@ -988,7 +1007,6 @@ void Solid::updateDist()
     float dx = ABSF(localuser->pos.x - object()->pos.x);
     float dy = ABSF(localuser->pos.y - object()->pos.y);
     userdist = sqrt(dx*dx + dy*dy);
-    //error("%s-%.2f", object()->getInstance(), userdist);
   }
 }
 
@@ -1022,20 +1040,29 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_MODEL:
       case STOK_URL:
         urlmdl = new char[URL_LEN];
-        l = wobject->parse()->parseString(l, urlmdl); break;
+        l = wobject->parse()->parseString(l, urlmdl);
+        break;
       case STOK_SCALE:
-        l = wobject->parse()->parseFloat(l, &scale); break;
+        l = wobject->parse()->parseFloat(l, &scale);
+        break;
       case STOK_BEGINFRAME:
-        l = wobject->parse()->parseUInt8(l, &firstframe); break;
+        l = wobject->parse()->parseUInt8(l, &firstframe);
+        break;
       case STOK_ENDFRAME:
-        l = wobject->parse()->parseUInt8(l, &lastframe); break;
+        l = wobject->parse()->parseUInt8(l, &lastframe);
+        break;
       case STOK_DIFFUSE:
         l = wobject->parse()->parseVector3f(l, &mat_diffuse[0]);
-        for (int i=0; i<3; i++) { mat_ambient[i] = mat_diffuse[i]; } break;
+        for (int i=0; i<3; i++) {
+          mat_ambient[i] = mat_diffuse[i];
+        }
+        break;
       case STOK_AMBIENT:
-        l = wobject->parse()->parseVector3f(l, &mat_ambient[0]); break;
+        l = wobject->parse()->parseVector3f(l, &mat_ambient[0]);
+        break;
       case STOK_SPECULAR:
-        l = wobject->parse()->parseVector3f(l, &mat_specular[0]); break;
+        l = wobject->parse()->parseVector3f(l, &mat_specular[0]);
+        break;
       case STOK_ALPHA:
         l = wobject->parse()->parseFloat(l, &alpha);
         mat_diffuse[3] = mat_ambient[3] = alpha;
@@ -1253,7 +1280,7 @@ void Solid::updateBB(GLfloat az)
 // accessor - get WObject parent from Solid
 WObject* Solid::object() const
 {
-    return wobject;
+  return wobject;
 }
 
 void Solid::setPosition(const M4 &mpos)
@@ -1427,6 +1454,9 @@ GLint Solid::getTexid() const
 }
 
 //---------------------------------------------------------------------------
+//
+// Rendering solids
+//
 
 void Solid::displaySolid(render_type type)
 {
@@ -1434,18 +1464,21 @@ void Solid::displaySolid(render_type type)
     return;		// pass one turn
 
   switch (type) {
+
     case OPAQUE:	// Display opaque solids
       if (isReflexive())
         displayList(REFLEXIVE);
       else
         displayList(NORMAL);
       break;
+
     case TRANSLUCID:	// Display translucid solids 
       if (isReflexive())
         displayList(REFLEXIVE);
       else
         displayList(NORMAL);
       break;
+
     case FLASH:		// Display flashy edges
       if (isFlashy())
         displayList(FLASHY);
@@ -1454,6 +1487,7 @@ void Solid::displaySolid(render_type type)
       if (ray_dlist)
         displayRay();
       break;
+
     case USER:		// Display local user last
       displayList(NORMAL);
       break;
@@ -1501,7 +1535,7 @@ int Solid::displayList(int display_mode = NORMAL)
 
   glPushMatrix();
   {
-   vr2gl();	// transpose vreng to opengl
+   vr2gl();	// transpose vreng coord to opengl coord
 
    switch (display_mode) {
 

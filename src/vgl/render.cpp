@@ -234,18 +234,18 @@ void Render::renderOpaque()
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }
     else {	// general render, no specific render
-      if ((*it)->numrel == 1) {			// mono solid
+      if ((*it)->nbsolids == 1) {			// mono solid
         (*it)->displaySolid(Solid::OPAQUE);
         trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
       else {					// multi solids
         (*it)->displaySolid(Solid::OPAQUE);	// main solid first
-        trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->numrel);
+        trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
 
         for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::OPAQUE);
           (*jt)->setRendered(true);
-          trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->surfsize, (*jt)->numrel);
+          trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
         }
       }
     }
@@ -280,18 +280,18 @@ void Render::renderTranslucid()
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }
     else {
-      if ((*it)->numrel == 1) {			// mono solid
+      if ((*it)->nbsolids == 1) {			// mono solid
         (*it)->displaySolid(Solid::TRANSLUCID);
         trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
       else {					// multi solids
         (*it)->displaySolid(Solid::TRANSLUCID);
-        trace2(DBG_VGL, " %s:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->numrel);
+        trace2(DBG_VGL, " %s:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->nbsolids);
 
         for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::TRANSLUCID);
           (*jt)->setRendered(true);
-          trace2(DBG_VGL, " %s:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->numrel);
+          trace2(DBG_VGL, " %s:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->nbsolids);
         }
       }
     }
