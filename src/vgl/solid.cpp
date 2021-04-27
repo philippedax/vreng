@@ -824,7 +824,6 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_MAN:
-      is_opaque = true;
       if (localuser->man) {
         localuser->man->draw();
       }
@@ -837,7 +836,6 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
     case STOK_GUY:
     case STOK_ANDROID:
-      is_opaque = true;
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
       break;
 

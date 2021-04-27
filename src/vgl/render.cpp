@@ -225,19 +225,14 @@ void Render::renderOpaque()
     putSelbuf((*it)->object());		// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
-      if (
-          (*it)->object()->typeName() != "Smoke"
-       //dax && (*it)->object()->typeName() != "Water"
-         ) {	// never opaque
-        (*it)->object()->render();			// if commented bad color (pink)
-      }
+      (*it)->object()->render();
       if ((*it)->object()->typeName() == "Guide") {	// exception: guide is both
         (*it)->displaySolid(Solid::OPAQUE);
       }
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }
     else {	// general render, no specific render
-      if ((*it)->nbsolids == 1) {			// mono solid
+      if ((*it)->nbsolids == 1) {		// mono solid
         (*it)->displaySolid(Solid::OPAQUE);
         trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
@@ -271,8 +266,8 @@ void Render::renderTranslucid()
   }
 
   // sort translucidList
-  translucidList.sort(compSize);
-  translucidList.sort(compDist);
+  translucidList.sort(compSize);	// sort surfaces decreasingly
+  translucidList.sort(compDist);	// sort distances decreasingly
 
   // render translucidList
   for (list<Solid*>::iterator it = translucidList.begin(); it != translucidList.end() ; ++it) {
@@ -283,7 +278,7 @@ void Render::renderTranslucid()
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }
     else {
-      if ((*it)->nbsolids == 1) {			// mono solid
+      if ((*it)->nbsolids == 1) {		// mono solid
         (*it)->displaySolid(Solid::TRANSLUCID);
         trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
