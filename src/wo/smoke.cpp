@@ -207,7 +207,6 @@ void Smoke::draw()
 {
   float a = 1.2 - life/255;	//dax 1.2
 
-  glPushMatrix();
   //dax dlist = glGenLists(1);
   //dax glNewList(dlist, GL_COMPILE);
   glColor4f(.9,.9,.9, a);
@@ -218,7 +217,6 @@ void Smoke::draw()
   }
   glEnd();
   //dax glEndList();
-  glPopMatrix();
 }
 
 void Smoke::funcs() {}

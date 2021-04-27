@@ -42,7 +42,7 @@ public:
     TOPHAT,
     BOWLER,
     CHINESE,
-    CARDINAL,
+    REDHAT,
     COUNTRY,
     CLOWN,
     CANOTIER,
@@ -54,7 +54,6 @@ public:
     WEAR,
     TAKEOFF,
     MOVE,
-    CREATE_WEAR,
     RECREATE,
     DESTROY
   };

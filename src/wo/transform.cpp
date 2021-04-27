@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "transform.hpp"
-#include "solid.hpp"	// vr2gl
 
 
 const OClass Transform::oclass(TRANSFORM_TYPE, "Transform", Transform::creator);
@@ -87,7 +86,6 @@ void Transform::render()
   for (opl = opList; opl ; opl = opl->next) {
     switch (opl->op) {
     case PUSH:  glPushMatrix();
-                //dax getSolid()->vr2gl();
                 break;
     case POP:   glPopMatrix();
                 break;
