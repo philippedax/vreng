@@ -225,7 +225,10 @@ void Render::renderOpaque()
     putSelbuf((*it)->object());		// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
-      if ((*it)->object()->typeName() != "Smoke") {	// never opaque
+      if (
+          (*it)->object()->typeName() != "Smoke"
+       //dax && (*it)->object()->typeName() != "Water"
+         ) {	// never opaque
         (*it)->object()->render();			// if commented bad color (pink)
       }
       if ((*it)->object()->typeName() == "Guide") {	// exception: guide is both

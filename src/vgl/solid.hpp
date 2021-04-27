@@ -164,6 +164,9 @@ public:
   virtual bool isOpaque() const;
   /**< Return if the solid is opaque or not. */
 
+  virtual void setTranslucid(float _alpha);
+  /**< Sets translucidity. */
+
   virtual bool isFlashy() const;
   /**< Return if the solid is flashy or not. */
 

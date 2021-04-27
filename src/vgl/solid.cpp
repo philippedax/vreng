@@ -1328,6 +1328,13 @@ bool Solid::isFlary() const
   return isflary;
 }
 
+void Solid::setTranslucid(float _alpha)
+{
+  alpha = _alpha;
+  if (alpha < 1)
+    is_opaque = false;
+}
+
 void Solid::setFlary(bool flag)
 {
   isflary = flag;

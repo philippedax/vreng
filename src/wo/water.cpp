@@ -25,6 +25,7 @@
 #include "cauldron.hpp"	// CAULDRON_TYPE
 #include "sound.hpp"	// playSound
 #include "timer.hpp"	// isRate
+#include "solid.hpp"	// setTranslucid
 
 
 const OClass Water::oclass(WATER_TYPE, "Water", Water::creator);
@@ -109,6 +110,8 @@ void Water::inits()
         pos.bbcenter.v[0], pos.bbcenter.v[1], pos.bbcenter.v[2]);
   depth = pos.bbsize.v[0];
   width = pos.bbsize.v[1];
+
+  this->getSolid()->setTranslucid(tcolor[3]);
 }
 
 Water::Water(char *l)
@@ -130,7 +133,8 @@ void Water::draw()
       x = -1. + 2. * u;
       z = -1. + 2. * v;
       y = amplitude * sin(freq * M_2PI * v + off);
-      glTexCoord2f(u, v); glVertex3f(x, y, z);
+      glTexCoord2f(u, v);
+      glVertex3f(x, y, z);
       u += d;
       v += d;
       x = -1. + 2. * u;
@@ -260,6 +264,7 @@ void Water::moreTransp(Water *water, void *d, time_t s, time_t u)
   water->transparency -= Water::INCR_TRANSP;
   water->transparency = MAX(water->transparency, 0);
   tcolor[3] = water->transparency;
+  water->getSolid()->setTranslucid(tcolor[3]);
 }
 
 void Water::lessTransp(Water *water, void *d, time_t s, time_t u)
@@ -267,6 +272,7 @@ void Water::lessTransp(Water *water, void *d, time_t s, time_t u)
   water->transparency += Water::INCR_TRANSP;
   water->transparency = MIN(water->transparency, 1);
   tcolor[3] = water->transparency;
+  water->getSolid()->setTranslucid(tcolor[3]);
 }
 
 void Water::reset(Water *water, void *d, time_t s, time_t u)
@@ -276,6 +282,7 @@ void Water::reset(Water *water, void *d, time_t s, time_t u)
   water->phase = Water::DEF_PHASE;
   water->transparency = Water::DEF_TRANSP;
   tcolor[3] = water->transparency;
+  water->getSolid()->setTranslucid(tcolor[3]);
 }
 
 void Water::funcs()
