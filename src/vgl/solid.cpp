@@ -171,36 +171,37 @@ struct sStokens {
 };
 
 static const struct sStokens stokens[] = {
+  { "solid", "solid", STOK_SOLID },
+  { "none", "fictif", STOK_NONE },
   { "shape", "shape", STOK_SHAPE },
   { "box", "cube", STOK_BOX },
   { "man", "woman", STOK_MAN },
   { "guy", "boy", STOK_GUY },
-  { "android", "android", STOK_ANDROID },
+  { "android", "human", STOK_ANDROID },
   { "car", "car", STOK_CAR },
-  { "sphere", "sphere", STOK_SPHERE },
+  { "sphere", "ball", STOK_SPHERE },
   { "cone", "cylinder", STOK_CONE },
   { "torus", "torus", STOK_TORUS },
-  { "rect", "rect", STOK_RECT },
+  { "rect", "rectangle", STOK_RECT },
   { "disk", "disk", STOK_DISK },
   { "line", "line", STOK_LINE },
-  { "pyramid", "pyramid", STOK_PYRAMID },
-  { "triangle", "triangle", STOK_TRIANGLE },
-  { "circle", "circle", STOK_CIRCLE },
-  { "ellipse", "ellipse", STOK_ELLIPSE },
+  { "pyr", "pyramid", STOK_PYRAMID },
+  { "tri", "triangle", STOK_TRIANGLE },
+  { "cir", "circle", STOK_CIRCLE },
+  { "ell", "ellipse", STOK_ELLIPSE },
   { "pt", "point", STOK_POINT },
   { "statue", "statue", STOK_STATUE },
   { "bb", "bbox", STOK_BBOX },
   { "bs", "bsphere", STOK_BSPHERE },
-  { "none", "fictif", STOK_NONE },
   { "cross", "cross", STOK_CROSS },
   { "sphere+torus", "dsphere", STOK_SPHERE_TORUS },
   { "sphere+disk", "saucer", STOK_SPHERE_DISK },
   { "cone+disk", "hat", STOK_CONE_DISK },
   { "wheel", "wheel", STOK_WHEEL },
-  { "helix","helix", STOK_HELIX},
+  { "hel","helix", STOK_HELIX},
   { "teapot","teapot", STOK_TEAPOT},
   { "ws","walls", STOK_WALLS},
-  { "url", "solid", STOK_URL },
+  { "url", "url", STOK_URL },
   { "dim", "size", STOK_SIZE },
   { "r", "radius", STOK_RADIUS },
   { "rb", "ri", STOK_RADIUS },
@@ -261,8 +262,7 @@ static const struct sStokens stokens[] = {
   { "nf", "frames", STOK_FRAMES },
   { "bf", "beginframe", STOK_BEGINFRAME },
   { "ef", "endframe", STOK_ENDFRAME },
-  { "solid", "solid", STOK_SOLID },
-  { "m", "model", STOK_MODEL },
+  { "ml", "model", STOK_MODEL },
   { "sc", "scale", STOK_SCALE },
   { "sx", "scalex", STOK_SCALEX },
   { "sy", "scaley", STOK_SCALEY },
@@ -387,6 +387,8 @@ char * Solid::parseShape(char *l, uint8_t *shape)
 
 /*
  * solid parser.
+ * returns next token if it exists
+ * called by parseSolid(l) in parse.cpp.
  */
 char * Solid::parser(char *l)
 {
@@ -396,6 +398,12 @@ char * Solid::parser(char *l)
     return NULL;
   }
   char *ll = strdup(l);	// copy origin line for debug
+
+#if 0 //dax1 debug can be removed
+  if (! stringcmp(wobject->getInstance(), "hat4")) {
+    error("solid: %s", ll);
+  }
+#endif
 
   if (*l == '<') l++;	// skip open-tag
   if (! stringcmp(l, "frames=")) {
@@ -477,7 +485,7 @@ char * Solid::parser(char *l)
 
   /* next token */
   l = wobject->parse()->nextToken();
-  if (l && !strcmp(l, "/solid")) {
+  if (l && !strcmp(l, "/")) {
     l = wobject->parse()->nextToken(); // skip </solid>
   }
 

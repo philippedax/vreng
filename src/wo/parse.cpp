@@ -472,8 +472,10 @@ char * Parse::parseAttributes(char *l, WObject *wobject)
       l = parsePosition(l, wobject->pos);
       continue;
     }
-    else if (! stringcmp(l, "solid"))
+    else if (! stringcmp(l, "solid")) {
       l = parseSolid(l, wobject);
+      //daxbad l = parseSolids(l, SEP, wobject);
+    }
     else if (! stringcmp(l, "category="))
       l = parseDescr(l, wobject->names.category);
     else if (! stringcmp(l, "descr=") || ! stringcmp(l, "description="))
