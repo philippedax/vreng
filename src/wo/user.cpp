@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -497,8 +497,9 @@ void User::updateTime(time_t sec, time_t usec, float *lasting)
 /* Informs a message sent by localuser */
 void User::userWriting(const char *usermsg)
 {
-  if (strlen(usermsg) < MESS_LEN)
+  if (strlen(usermsg) < MESS_LEN) {
     strcpy(localuser->message, usermsg);
+  }
   else {
     strncpy(localuser->message, usermsg, MESS_LEN-1);
     localuser->message[MESS_LEN-1] = '\0';
@@ -507,9 +508,10 @@ void User::userWriting(const char *usermsg)
   localuser->noh->declareObjDelta(PROPMSG); // msg property
 
   localuser->bubble = localuser->getBubble();
-  if (localuser->bubble)
+  if (localuser->bubble) {
     localuser->bubble->toDelete();	// delete previous bubble
-  localuser->bubble = new Bubble(localuser, localuser->message, Color::black, Bubble::BUBBLEBACK);
+  }
+  localuser->bubble = new Bubble(localuser, localuser->message, Color::black, Bubble::BUBBLEVERSO);
   //daxwrong localuser->bubble->setPos(pos.x, pos.y+lenText(localuser->message /2, pos.z+0.2, pos.az, pos.ax);
 
   Sound::playSound(KEYBOARDSND);
@@ -517,8 +519,9 @@ void User::userWriting(const char *usermsg)
 
 void User::userRequesting(const char *usermsg)
 {
-  if (strlen(usermsg) < MESS_LEN)
+  if (strlen(usermsg) < MESS_LEN) {
     strcpy(localuser->request, usermsg);
+  }
   else {
     strncpy(localuser->request, usermsg, MESS_LEN-1);
     localuser->request[MESS_LEN-1] = '\0';
@@ -950,7 +953,7 @@ void User::get_msg(User *pu, Payload *pp)
       pu->bubble = pu->getBubble();
       if (pu->bubble)
         pu->bubble->toDelete();	// delete previous text
-      pu->bubble = new Bubble(pu, msg, blue, Bubble::BUBBLEFRONT);
+      pu->bubble = new Bubble(pu, msg, blue, Bubble::BUBBLERECTO);
     }
   }
 }

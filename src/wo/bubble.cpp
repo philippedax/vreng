@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
+// Copyright (C) 1997-2021 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -36,7 +36,7 @@ static uint16_t oid = 0;
 
 void Bubble::defaults()
 {
-  face = false;        // recto
+  face = BUBBLERECTO;        // recto
   scale = BUBBLESCALE;
   bubtext = NULL;
   text = NULL;
@@ -47,15 +47,14 @@ void Bubble::defaults()
 /* position above the avatar's head */
 void Bubble::setPosition()
 {
-  //dax pos.z  = localuser->pos.z + localuser->height/2 + 0.10;
   pos.z  = localuser->height + 0.10;
   pos.x  = localuser->pos.x;
   pos.ax = M_PI_2;	// vertical
-  if (face == BUBBLEBACK)
+  if (face == BUBBLEVERSO)
     pos.y  = localuser->pos.y;
   else
     pos.y  = -localuser->pos.y;
-  if (face == BUBBLEBACK)
+  if (face == BUBBLEVERSO)
     pos.az = localuser->pos.az - M_PI_2;
   else
     pos.az = localuser->pos.az + M_PI_2;
@@ -72,7 +71,6 @@ void Bubble::makeSolid()
 
   // bubble glob (obloid)
   sprintf(s, "solid shape=\"sphere\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
-  //dax sprintf(s, "solid shape=\"sphere\" rel=\"0 0 0 0 0\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
   parse()->parseSolid(s, SEP, this);
 
   // arrow
@@ -112,10 +110,6 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   bubtext = new Text(_text, postext, scale, _color, _face);
   if (bubtext)
     bubtext->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
-
-#if 0 //dax3
-  Text::loadFont();		// method in parent Text
-#endif
 }
 
 void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
@@ -133,7 +127,7 @@ void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
 
 void Bubble::changePosition(float lasting)
 {
-  //dax if (state == ACTIVE) setPosition();
+  if (state == ACTIVE) setPosition();
 }
 
 bool Bubble::updateToNetwork(const Pos &oldpos)
@@ -141,11 +135,11 @@ bool Bubble::updateToNetwork(const Pos &oldpos)
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-void Bubble::render()	 // notused because no specific render
+void Bubble::render()	 // notused because no specific render, use general render
 {
   if (state == INACTIVE) return;
 
-  //dax if (dlists[0]) {      // is bubble present ?
+  //dax2 if (dlists[0]) {      // is bubble present ?
     //dax2 error("dlists = %d %d %d", dlists[0], dlists[1], dlists[2]);
     glPushMatrix();
      glRotatef(RAD2DEG(pos.az), 0, 0, 1);
@@ -154,14 +148,14 @@ void Bubble::render()	 // notused because no specific render
      glEnable(GL_BLEND);
      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-     //dax glCallList(dlists[0]);     // display bubble glob
-     //dax glCallList(dlists[1]);     // display bubble arrow
-     //dax glCallList(dlists[2]);     // display bubble text
+     //dax2 glCallList(dlists[0]);     // display bubble glob
+     //dax2 glCallList(dlists[1]);     // display bubble arrow
+     //dax2 glCallList(dlists[2]);     // display bubble text
 
      glDisable(GL_BLEND);
      glDepthMask(GL_TRUE);
     glPopMatrix();
-  //dax }
+  //dax2 }
 }
 
 void Bubble::quit()

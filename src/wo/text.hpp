@@ -32,7 +32,7 @@
 class Text: public WObject {
 
 protected:
-  static const float SCALE;		///< default scale.
+  static const float RATIO_SCALE;	///< default scale ratio.
   static const uint16_t MAXLEN;		///< max lenght of text.
 
   char *textstr;	///< text string.
@@ -44,8 +44,8 @@ protected:
   GLfloat shiftz;	///< shift pos.z to apply.
   GLfloat shiftaz;	///< shift pos.az to apply.
   GLfloat shiftax;	///< shift pos.ax to apply.
-  uint8_t verso;	///< flag text verso.
-  bool loaded;		///< flag texture established.
+  uint8_t verso;	///< flag text recto/verso.
+  bool havefont;	///< flag texture txf established.
 
 public:
   static const float GLYPHSIZ;		///< lenght of a glyph.

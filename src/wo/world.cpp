@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -813,7 +813,7 @@ void World::init(const char *vreurl)
   // Attach bubble welcome text to localuser
   char welcome[32];
   sprintf(welcome, "Hi! I am %s", user->getInstance());
-  user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEBACK);
+  user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEVERSO);
 }
 
 /* Quits the current World */
@@ -982,8 +982,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   // Attach bubble hello text to localuser
   char hello[32];
   sprintf(hello, "Hello! I am %s", localuser->getInstance());
-  localuser->bubble = new Bubble(localuser, hello, Color::black, Bubble::BUBBLEBACK);
-  //dax localuser->bubble->setObjName("hello");
+  localuser->bubble = new Bubble(localuser, hello, Color::black, Bubble::BUBBLEVERSO);
 
   // check whether icons are locally presents
   world->checkIcons();

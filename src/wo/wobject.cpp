@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -130,7 +130,7 @@ WObject::~WObject()
   del_wobject++;
 }
 
-/* Initializes Object */
+/* Initializes Object. */
 void WObject::initObject(uint8_t _mode)
 {
   mode = _mode;
@@ -628,7 +628,6 @@ void WObject::replicateVolatileNetObject(uint8_t props, Noid _noid)
 //
 // Gui
 //
-
 struct GuiItem* WObject::getGui() const
 {
   return guip;
@@ -671,12 +670,14 @@ void WObject::updateNames()
   if (! givenName()) {	// no given name
     names.implicit = new char[OBJNAME_LEN];
     sprintf(names.implicit, "%s%d", names.type, num);
-    if (isupper(*(names.implicit)))
+    if (isupper(*(names.implicit))) {
       *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
+    }
     names.instance = names.implicit;
   }
-  else
+  else {
     names.instance = names.given;
+  }
 
   setObjName(names.instance);
   names.world = World::current()->getName();

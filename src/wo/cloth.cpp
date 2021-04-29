@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
+// Copyright (C) 1997-2021 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -71,8 +71,8 @@ void Cloth::parser(char *l)
     if (! stringcmp(l, "article=")) {
       char str[16];
       l = parse()->parseString(l, str, "article");
-      if      (! stringcmp(str, "halo")) { halo = true; article = HALO; }
-      else if (! stringcmp(str, "hat"))  { hat = true; article = HAT; }
+      if      (! stringcmp(str, "halo"))  { halo = true;  article = HALO; }
+      else if (! stringcmp(str, "hat"))   { hat = true;   article = HAT; }
       else if (! stringcmp(str, "dress")) { skirt = true; article = DRESS; }
       else if (! stringcmp(str, "wings")) { wings = true; article = WINGS; }
     }
@@ -109,7 +109,6 @@ void Cloth::behavior()
 {
   enableBehavior(TAKABLE);      // cart
   if (taken) {
-    //dax1 enableBehavior(PERSISTENT);
     enableBehavior(DYNAMIC);
     enableBehavior(NO_BBABLE);
   }

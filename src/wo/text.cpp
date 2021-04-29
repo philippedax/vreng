@@ -23,13 +23,12 @@
 #include "txf.hpp"	// Txf
 #include "world.hpp"	// current
 #include "user.hpp"	// User
-#include "solid.hpp"	// getDlist
 
 
 const OClass Text::oclass(TEXT_TYPE, "Text", Text::creator);
 
 const uint16_t Text::MAXLEN = 128;	// max length of text
-const float Text::SCALE = 1/60.;	// default scale
+const float Text::RATIO_SCALE = 1/60.;	// default scale ratio
 const float Text::GLYPHSIZ = 0.03;	// 3 cm
 
 // local
@@ -46,7 +45,7 @@ void Text::defaults()
 {
   verso = false;	// recto
   scale = 1;		// no scale
-  loaded = false;
+  havefont = false;
   state = ACTIVE;
   shiftx = shifty = shiftz = shiftaz = shiftax = 0.;
   txf = NULL;
@@ -91,8 +90,8 @@ bool Text::loadFont()
   }
   // build the font texture
   txf->buildTexture(0, GL_TRUE);	// mipmaps true
-  loaded = true;
-  return loaded;
+  havefont = true;
+  return havefont;
 }
 
 void Text::behavior()
@@ -114,6 +113,7 @@ void Text::inits()
   //dax setObjName("message");
 }
 
+/* Constructors. */
 Text::Text(char *l)
 {
   parser(l);
@@ -163,7 +163,7 @@ float Text::lenText(const char *_text)
 
 void Text::render()
 {
-  if (! loaded || (state == INACTIVE)) return;
+  if (! havefont || (state == INACTIVE)) return;
 
   glPushMatrix();
   glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, world is strumbled
@@ -180,14 +180,13 @@ void Text::render()
    glTranslatef(pos.x + shiftx, pos.y + shifty, pos.z + shiftz);
    glRotatef(RAD2DEG(pos.az + shiftaz), 0, 0, 1);
    glRotatef(RAD2DEG(pos.ax + shiftax), 1, 0, 0);
-   glScalef(SCALE*scale, SCALE*scale, SCALE*scale);
+   glScalef(RATIO_SCALE*scale, RATIO_SCALE*scale, RATIO_SCALE*scale);
 
    // render the text
    txf->render(textstr, (int) strlen(textstr));
 
    glEnable(GL_CULL_FACE);
    glDisable(GL_TEXTURE_2D);
-   glDisable(GL_LIGHTING);
   glPopAttrib();	// if commented world is bad
   glPopMatrix();
 }

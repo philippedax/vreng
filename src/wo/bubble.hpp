@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
+// Copyright (C) 1997-2021 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -31,10 +31,7 @@ struct TexFont;
  * Bubble class
  */
 class Bubble: public WObject {
-
 private:
-  static const float BUBBLETTL;		///< bubble time to live
-  static const float BUBBLESCALE;	///< bubble scale
 
   Text *bubtext;	///< message inside bubble
   char *text;		///< text to display
@@ -54,9 +51,11 @@ public:
   };
 
   enum {
-    BUBBLEFRONT,	// recto
-    BUBBLEBACK		// verso
+    BUBBLERECTO,	// recto
+    BUBBLEVERSO		// verso
   };
+  static const float BUBBLETTL;		///< bubble time to live
+  static const float BUBBLESCALE;	///< bubble scale
 
   static const OClass oclass;	///< class variable.
 

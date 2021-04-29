@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by

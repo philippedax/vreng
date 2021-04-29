@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -81,7 +81,7 @@ void Hat::makeSolid()
   case Hat::BOWLER:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.05,.12,"green");
     parse()->parseSolid(s, SEP, this);
-    sprintf(s,"<solid shape=\"torus\" rel=\"0 0 0 0 0\" r=\"%f\" rt=\"%f\" dif=\"%s\" />",.08,.02,"darkgreen");
+    sprintf(s,"solid shape=\"torus\" rel=\"0 0 0 0 0\" r=\"%f\" rt=\"%f\" dif=\"%s\" />",.08,.02,"darkgreen");
     parse()->parseSolid(s, SEP, this);
     break;
 
@@ -91,16 +91,16 @@ void Hat::makeSolid()
     break;
 
   case Hat::REDHAT:
-    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,0.5,.10,"red");
+    sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.05,.10,"red");
     parse()->parseSolid(s, SEP, this);
-    sprintf(s,"<solid shape=\"disk\" rel=\"0 0 0 0 0\" ri=\"%f\" re=\"%f\" dif=\"%s\" />",.08,.12,"red");
+    sprintf(s,"solid shape=\"disk\" rel=\"0 0 0 0 0\" ri=\"%f\" re=\"%f\" dif=\"%s\" />",.08,.12,"red");
     parse()->parseSolid(s, SEP, this);
     break;
 
   case Hat::COUNTRY:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" style=\"1\" />",.08,.04,.12,"wheat");
     parse()->parseSolid(s, SEP, this);
-    sprintf(s,"<solid shape=\"torus\" r=\"%f\" rt=\"%f\" dif=\"%s\" style=\"1\" />",.08,.02,"wheat");
+    sprintf(s,"solid shape=\"torus\" r=\"%f\" rt=\"%f\" dif=\"%s\" style=\"1\" />",.08,.02,"wheat");
     parse()->parseSolid(s, SEP, this);
     break;
 
