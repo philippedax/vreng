@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
+// Copyright (C) 1997-2021 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -56,7 +56,7 @@ Parse * Parse::getParse()
 }
 
 
-/** Goto next token, a token is a string separated by a space */
+/** Goto next token, a token is a string delimitrd by a separator (see SEP) */
 char * Parse::nextToken() const
 {
   return strtok(NULL, SEP);
@@ -442,7 +442,7 @@ char * WObject::tokenize(char *l)
     }
   }
 
-  // tokenize the object line, make all tokens of this line
+  // tokenizes the object line, make all tokens of this line
   return strtok(l, SEP);
 }
 
@@ -453,9 +453,9 @@ char * Parse::skipAttribute(char *l)
   while (l) {
     char *p;
     p = strchr(l, '"');	// search second quote
-    if (! p)	// not there
+    if (! p)		// not there
       l = nextToken(); 	// call next token
-    else {	// found here
+    else {		// found here
       return nextToken();
     }
   }
@@ -474,7 +474,6 @@ char * Parse::parseAttributes(char *l, WObject *wobject)
     }
     else if (! stringcmp(l, "solid")) {
       l = parseSolid(l, wobject);
-      //daxbad l = parseSolids(l, SEP, wobject);
     }
     else if (! stringcmp(l, "category="))
       l = parseDescr(l, wobject->names.category);
@@ -518,18 +517,21 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
 {
   pos.x = pos.y = pos.z = pos.az = pos.ax = pos.ay = 0;
 
-  if (! stringcmp(ptok, "pos="))
+  if (! stringcmp(ptok, "pos=")) {
     ptok = skipEqual(ptok);
+  }
 
   ptok = skipQuotes(ptok);	// get pos.x
   if (isFloat(ptok))
     pos.x = (float) atof(ptok);
-  else return nextToken();
+  else
+    return nextToken();
 
   ptok = skipSepar(ptok);	// get pos.y
   if (isFloat(ptok))
     pos.y = (float) atof(ptok);
-  else return nextToken();
+  else
+    return nextToken();
 
   ptok = skipSepar(ptok);	// get pos.z
   if (isFloat(ptok)) {
@@ -538,40 +540,52 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
       return nextToken();
     }
   }
-  else return nextToken();
+  else {
+    return nextToken();
+  }
 
   ptok = skipSepar(ptok);	// get pos.az
-  if (!ptok) return nextToken();
+  if (!ptok) {
+    return nextToken();
+  }
   if (isFloat(ptok)) {
     pos.az = (float) atof(ptok);
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z,az"
       return nextToken();
     }
   }
-  else // pos.az not float
+  else { // pos.az not float
     return ptok;
+  }
 
   ptok = skipSepar(ptok);	// get pos.ax
-  if (!ptok) return nextToken();
+  if (!ptok) {
+    return nextToken();
+  }
   if (isFloat(ptok)) {
     pos.ax = (float) atof(ptok);
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z,az,ax"
       return nextToken();
     }
   }
-  else // pos.ax not float
+  else { // pos.ax not float
     if (!ptok) return ptok;
+  }
 
   ptok = skipSepar(ptok);	// get pos.ay
-  if (!ptok) return nextToken();
+  if (!ptok) {
+    return nextToken();
+  }
   if (isFloat(ptok)) {
     pos.ay = (float) atof(ptok);
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z,az,ax,ay"
       return nextToken();	// normal end
     }
   }
-  else // pos.ay not float
-    if (!ptok) return ptok;
+  else { // pos.ay not float
+    if (!ptok)
+      return ptok;
+  }
 
   return ptok;	//dummy
 }
@@ -579,31 +593,46 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
 /* parse colors: r g b a */
 char * Parse::parseColor(char *ptok, Pos &p)
 {
-  if (! stringcmp(ptok, "color="))
+  if (! stringcmp(ptok, "color=")) {
     ptok = skipEqual(ptok);
+  }
   ptok = skipQuotes(ptok);
-  if (ptok) if (*ptok == 0) ptok = nextToken();
+  if (ptok) {
+    if (*ptok == 0)
+      ptok = nextToken();
+  }
 
   p.x  = (float) atof(ptok);
   ptok = skipSepar(ptok);	// get p.y
   p.y  = (float) atof(ptok);
   ptok = skipSepar(ptok);	// get p.z
   p.z  = (float) atof(ptok);
-  if (ptok[strlen(ptok) - 1] == '"') return nextToken();
+  if (ptok[strlen(ptok) - 1] == '"') {
+    return nextToken();
+  }
   ptok = skipSepar(ptok);	// get p.az
-  if (!ptok) return nextToken();
-  if (!ptok || ptok[strlen(ptok) - 1] == '"') return nextToken();
+  if (!ptok) {
+    return nextToken();
+  }
+  if (!ptok || ptok[strlen(ptok) - 1] == '"') {
+    return nextToken();
+  }
   if (ptok) p.az = (float) atof(ptok);
+
   return nextToken();
 }
 
 /* parse a path */
 char * Parse::parsePath(char *ptok, float path[][5], uint16_t *segs)
 {
-  if (! stringcmp(ptok, "path="))
+  if (! stringcmp(ptok, "path=")) {
     ptok = skipEqual(ptok);
+  }
   ptok = skipQuotes(ptok, 0);	// don't check the second '"'
-  if (ptok) if (*ptok == 0) ptok = nextToken();
+  if (ptok) {
+    if (*ptok == 0)
+      ptok = nextToken();
+  }
 
   for (int i=0; ptok && (*ptok != '"'); i++) {
     path[i][0] = (float) atof(ptok); ptok = nextToken();
@@ -629,15 +658,18 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
     return nextToken();
   }
   if (*ptok == '<') ptok++;
-  if (! strcmp(ptok, "solid"))
+  if (! strcmp(ptok, "solid")) {
     ptok = nextToken();		// skip tag solid
+  }
 
   Solid *s = new Solid();
 
-  if (wobject)
+  if (wobject) {
     wobject->addSolid(s);	// add solid to solidList
-  else
+  }
+  else {
     error("no wobject");
+  }
 
   ptok = s->parser(ptok);	// calls its parser
 
@@ -645,17 +677,17 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
 }
 
 /* parse a solid */
-char * Parse::parseSolid(char *ptok, const char *separ, WObject *wobject)
+char * Parse::parseSolid(char *ptok, const char *sep, WObject *wobject)
 {
   if (*ptok == '<') ptok++;
-  strtok(ptok, separ);
+  strtok(ptok, sep);
   return parseSolid(ptok, wobject);
 }
 
 /* parse several solids */
-void Parse::parseSolids(char *ptok, const char *separ, WObject *wobject)
+void Parse::parseSolids(char *ptok, const char *sep, WObject *wobject)
 {
-  strtok(ptok, separ);
+  strtok(ptok, sep);
   while (ptok) {
     ptok = parseSolid(ptok, wobject);
   }
@@ -664,31 +696,43 @@ void Parse::parseSolids(char *ptok, const char *separ, WObject *wobject)
 /* parse a rotation */
 char * Parse::parseRotation(char *ptok, Pos &p)
 {
-  if (! stringcmp(ptok, "rot=") || ! stringcmp(ptok, "rotation="))
+  if (! stringcmp(ptok, "rot=") || ! stringcmp(ptok, "rotation=")) {
     ptok = skipEqual(ptok);
+  }
   ptok = skipQuotes(ptok);
-  if (ptok) if (*ptok == 0) ptok = nextToken();
+  if (ptok) {
+    if (*ptok == 0)
+      ptok = nextToken();
+  }
 
   p.az = (float) atof(ptok); ptok = skipSepar(ptok);
   p.x  = (float) atof(ptok); ptok = skipSepar(ptok);
   p.y  = (float) atof(ptok); ptok = skipSepar(ptok);
   p.z  = (float) atof(ptok);
-  if (!ptok || ptok[strlen(ptok) - 1] == '"') return nextToken();
+  if (!ptok || ptok[strlen(ptok) - 1] == '"') {
+    return nextToken();
+  }
   return nextToken();
 }
 
 /* parse a translation */
 char * Parse::parseTranslation(char *ptok, Pos &p)
 {
-  if (! stringcmp(ptok, "trans=") || ! stringcmp(ptok, "translation="))
+  if (! stringcmp(ptok, "trans=") || ! stringcmp(ptok, "translation=")) {
     ptok = skipEqual(ptok);
+  }
   ptok = skipQuotes(ptok);
-  if (ptok) if (*ptok == 0) ptok = nextToken();
+  if (ptok) {
+    if (*ptok == 0)
+      ptok = nextToken();
+  }
 
   p.x  = (float) atof(ptok); ptok = skipSepar(ptok);
   p.y  = (float) atof(ptok); ptok = skipSepar(ptok);
   p.z  = (float) atof(ptok);
-  if (!ptok || ptok[strlen(ptok) - 1] == '"') return nextToken();
+  if (!ptok || ptok[strlen(ptok) - 1] == '"') {
+    return nextToken();
+  }
   return nextToken();
 }
 
@@ -855,7 +899,9 @@ char * Parse::parseFloat(char *ptok, float *value)
 {
   if (ptok) {
     ptok = skipQuotes(ptok);
-    if (isFloat(ptok)) *value = (float) atof(ptok);
+    if (isFloat(ptok)) {
+      *value = (float) atof(ptok);
+    }
   }
   return nextToken();
 }
@@ -872,24 +918,34 @@ char * Parse::parseFloat(char *ptok, float *value, const char *keystr)
 char * Parse::parseVectorf(char *ptok, float *vector, int n)
 {
   ptok = skipQuotes(ptok);
-  if (! isFloat(ptok)) return ptok;	// parse color name
+  if (! isFloat(ptok)) {
+    return ptok;	// parse color name
+  }
 
   for (int i=0; i<n-1; i++) {		// n-1 intervals
     vector[i] = (float) atof(ptok);
     ptok = skipSepar(ptok);
   }
   vector[n-1] = (float) atof(ptok);	// last value
-  if (!ptok) return ptok;	// ptok NULL, nextToken will be done by 3f or 5f
-  if (ptok[strlen(ptok) - 1] == '"') return nextToken();
+  if (!ptok) {
+    return ptok;	// ptok NULL, nextToken will be done by 3f or 5f
+  }
+  if (ptok[strlen(ptok) - 1] == '"') {
+    return nextToken();
+  }
   return ptok;		// abnormal string
 }
 
 char * Parse::parseVector3f(char *ptok, float *vector)
 {
-  if (!ptok) return nextToken();	// sanity
+  if (!ptok) {
+    return nextToken();	// sanity
+  }
   char *p = ptok;
   ptok = parseVectorf(ptok, vector, 3);
-  if (!ptok) return nextToken();
+  if (!ptok) {
+    return nextToken();
+  }
   if (ptok != p+1) {	// numeric
     return ptok;	// nextToken done by parseVectorf
   }
@@ -904,15 +960,18 @@ char * Parse::parseVector3f(char *ptok, float *vector)
 
 char * Parse::parseVector5f(char *ptok, float *vector)
 {
-  if (!ptok) return nextToken();	// sanity
+  if (!ptok)
+    return nextToken();	// sanity
   ptok = parseVectorf(ptok, vector, 5);
-  if (!ptok) return nextToken();
+  if (!ptok)
+    return nextToken();
   return ptok;
 }
 
 char * Parse::parseVector3fv(char *ptok, V3 *vector)
 {
-  if (!ptok) return nextToken();
+  if (!ptok)
+    return nextToken();
   ptok = skipQuotes(ptok);
   if (ptok) {
     vector->v[0] = (float) atof(ptok);
