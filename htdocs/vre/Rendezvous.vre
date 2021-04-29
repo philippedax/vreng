@@ -371,10 +371,10 @@
   <solid rel="-2.25 -4.25 0 1.57 0" dim="4.5 .5 2" dif="magenta" />
 </step>
 -->
-<step name="solarium-w" pos="0 -2.25 -.5 0"> <solid dim="4.5 .5 2" dif="indianred" /> </step>
-<step name="solarium-e" pos="0 -6.25 -.5 0"> <solid dim="4.5 .5 2" dif="indianred" /> </step>
-<step name="solarium-n" pos="2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" dif="indianred" /> </step>
-<step name="solarium-s" pos="-2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" dif="indianred" /> </step>
+<step name="solarium-w" pos="0 -2.25 -.5 0"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
+<step name="solarium-e" pos="0 -6.25 -.5 0"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
+<step name="solarium-n" pos="2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
+<step name="solarium-s" pos="-2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
 
 <!-- new stairs -->
 <stair pos="-4.8 -4 .2 1.57" height="2.7"> <solid dim="1 .2 .02" dif=".8 .4 0" /> </stair>
@@ -480,11 +480,11 @@
 -->
 
 <!-- guys -->
-<guy name="girl1"   pos="11.0 4.0 .85 1.5" skin="wheat"    bust="green" legs="brown" feet="black"    url="/cset/walking.cset"> sex=1 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
+<guy name="girl1"   pos="11.0 4.0 .85 1.5" skin="wheat"    bust="wheat" legs="pink" feet="black"    url="/cset/walking.cset"> sex=1 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
 <guy name="guy2"    pos="10.5 4.5 .85 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
 <guy name="guy3"    pos="10.5 3.5 .85 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
+<mirage name="man4" pos="10.0 4.0 .80 0.5"> <solid shape="man" dim=".3 .2 1.70" /></mirage>
 <!--
-<mirage name="guy4" pos="10.0 4.0 .85 0.5"> <solid shape="man" dim=".3 .2 1.8" /></mirage>
 -->
 
 <!-- heads -->
@@ -496,21 +496,27 @@
 -->
 
 <!-- hats -->
-<hat name="hat2" pos="10.5 4.5 1.70" model="tophat">
- <solid shape="cone" rb=".08" rt=".08" h=".15" dif="black" />
- <solid shape="disk" rel="0 0 0 0 0" ri=".08" re=".15" dif="black" />
- <solid shape="disk" rel="0 0 .15 0 0" ri="0" re=".08" dif="black" />
+<hat name="hat1" pos="11.0 4.0 1.60" >
+ <solid shape="cone" rb=".08" rt=".08" h=".05"         dif="pink" />
+ <solid shape="disk" rel="0 0 .05 0 0" ri="0" re=".08" dif="pink" />
+ <solid shape="disk" rel="0 0 0 0 0" ri=".08" re=".20" dif="pink" />
 </hat>
-<hat name="hat3" pos="10.5 3.5 1.70" model="tophat">
- <solid shape="disk" rel="0 0 0 0 0" ri=".09" re=".18" dif="red" />
- <solid shape="cone" rel="0 0 0 0 0" rb=".09" rt=".09" h=".08" dif="red" />
- <solid shape="disk" rel="0 0 .08 0 0" ri="0" re=".09" dif="beige" />
+<hat name="hat2" pos="10.5 4.5 1.60" >
+ <solid shape="cone" rb=".08" rt=".08" h=".10"         dif="green" />
+ <solid shape="disk" rel="0 0 .10 0 0" ri="0" re=".08" dif="green" />
+ <solid shape="disk" rel="0 0 0 0 0" ri=".08" re=".15" dif="green" />
+</hat>
+<hat name="hat3" pos="10.5 3.5 1.60" >
+ <solid shape="cone" rb=".08" rt=".08" h=".08"         dif="red" />
+ <solid shape="disk" rel="0 0 .08 0 0" ri="0" re=".08" dif="red" />
+ <solid shape="disk" rel="0 0 0 0 0" ri=".08" re=".15" dif="red" />
+</hat>
+<hat name="hat4" pos="10.0 4.0 1.7" >
+ <solid shape="cone" rb=".08" rt=".08" h=".08"          dif="blue" />
+ <solid shape="disk" rel="0 0 0.08 0 0" ri="0" re=".08" dif="blue" />
+ <solid shape="disk" rel="0 0 0 0 0" ri=".08"  re=".12" dif="blue" />
 </hat>
 <!--
-<hat name="hat4" pos="10.0 4.0 1.8" model="tophat">
- <solid shape="disk" ri="0" re=".055" dif="blue" a="1" />
- <solid shape="disk" rel="0.15 0 0 0 0" ri="0" re=".055" dif="blue" a="1" />
-</hat>
 -->
 
 <!-- hairs -->
@@ -560,7 +566,7 @@
 
 <!-- smoke -->
 <!--
-<smoke pos="0.25 -0.25 1" number="400" speed=".5"> <solid shape="bbox" dim=".4 .4 .4" /></smoke>
+<smoke pos="2.25 -2.25 0.3"> <solid shape="bbox" dim=".4 .4 .4" /></smoke>
 -->
 
 <!-- halo -->
@@ -568,27 +574,27 @@
  <solid shape="disk" ri=".07" re=".1" emi="gold" />
 </halo>
 <!-- hats -->
-<hat name="tophat" pos="0.8 -2.1 .5" model="tophat">
+<hat name="tophat" pos="0.8 -2.1 .5" >
  <solid shape="cone" rb=".08" rt=".08" h=".15" tx="/gif/redbands.gif" />
  <solid shape="disk" ri=".08" re=".12" tx="/gif/redbands.gif" />
  <solid shape="disk" rel="0 0 .15 0 0" ri="0" re=".08" tx="/gif/redbands.gif" />
 </hat>
-<hat name="chinese" pos="0.6 -2.1 .5" model="chinese">
+<hat name="chinese" pos="0.6 -2.1 .5" >
  <solid shape="cone" rb=".2" rt="0" h=".15" tx="/gif/paper.gif" />
 </hat>
-<hat name="redhat" pos="0.4 -2.1 .5" model="redhat">
+<hat name="redhat" pos="0.4 -2.1 .5" >
  <solid shape="cone" rb=".09" rt=".05" h=".12" tx="/gif/redbands.gif" />
  <solid shape="disk" ri=".09" re=".12" tx="/gif/redbands.gif" />
 </hat>
-<hat name="bowler" pos="0.2 -2.1 .5" model="bowler">
+<hat name="bowler" pos="0.2 -2.1 .5" >
  <solid shape="cone" rb=".09" rt=".05" h=".10" tx="/gif/pelouse.gif" />
  <solid shape="torus" r=".09" rt=".02" tx="/gif/pelouse.gif" />
 </hat>
-<hat name="country" pos="0.0 -2.1 .5" model="country">
+<hat name="country" pos="0.0 -2.1 .5" >
  <solid shape="cone" rb=".09" rt=".04" h=".12" tx="/gif/yellowbands.gif" style="1" />
  <solid shape="torus" r=".09" rt=".02" tx="/gif/yellowbands.gif" style="1" />
 </hat>
-<hat name="clown" pos="-.2 -2.1 .5" model="clown">
+<hat name="clown" pos="-.2 -2.1 .5" >
  <solid shape="cone" rb=".08" rt=".0" h=".25" tx="/gif/white.gif" />
 </hat>
 
