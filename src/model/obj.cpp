@@ -195,7 +195,6 @@ void Obj::render(float *color)
 {
   if (!loaded) return;
 
-  //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
   glEnable(GL_COLOR_MATERIAL);
@@ -204,14 +203,12 @@ void Obj::render(float *color)
   glCallList(dlist);
   glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
-  //dax1 glPopAttrib();
 }
 
 void Obj::render(const Pos &pos, float *color)
 {
   if (!loaded) return;
 
-  //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
   glEnable(GL_COLOR_MATERIAL);
@@ -224,7 +221,6 @@ void Obj::render(const Pos &pos, float *color)
   glCallList(dlist);
   glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
-  //dax1 glPopAttrib();
 }
 
 // Draws in the display list

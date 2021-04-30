@@ -617,9 +617,7 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
     //error("on affiche la dlist no %d", X3dDisplayList);
     glCallList(*i);
     if (selected) {  //selected mesh
-      //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
       glPushMatrix();
-
       glLineWidth(1);
       glDisable(GL_POLYGON_OFFSET_FILL);
       glEnable(GL_COLOR_MATERIAL);
@@ -636,9 +634,7 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
       glDisable(GL_BLEND);
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
       glDisable(GL_COLOR_MATERIAL);
-
       glPopMatrix();
-      //dax1 glPopAttrib();
     }
   }
 }
@@ -658,10 +654,10 @@ void X3d::render()
   glEnable(GL_POLYGON_SMOOTH);
 
   //default values for materials
-  float shin=1;
+  float shin = 1;
   glColor4f(0,0,0,1); //must track the default ambient material wanted else problems with gl_color_material
-  float reset1[4]={0,0,0,1};
-  float reset2[4]={1,1,1,1};
+  float reset1[4] = {0,0,0,1};
+  float reset2[4] = {1,1,1,1};
   glMaterialfv(GL_FRONT, GL_AMBIENT, reset1);
   glMaterialfv(GL_FRONT, GL_SPECULAR, reset2);
   glMaterialfv(GL_FRONT, GL_SHININESS, &shin);
@@ -689,18 +685,17 @@ void X3d::render()
     //and if we switch to a child, we don't touch the current (parent) matrix
     if (currentShape->level<=previousLevel) {
       glPopMatrix(); //we remove the matrix of the current shape
-      glPopAttrib();
+      //dax1 glPopAttrib();
       npop++;
       if (currentShape->level<previousLevel) {
         glPopMatrix(); //we aso remove the matrix of the previous shape because we went down
-        glPopAttrib();
+        //dax1 glPopAttrib();
         npop++;
       }
     }
     previousLevel = currentShape->level;
 
     glPushMatrix();
-    //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
     npush++;
 
     if (currentShape->texture) {  //texture is there in priority
@@ -728,7 +723,6 @@ void X3d::render()
   //We remove the remaining matrixes after having browsed the complete tree
   for (int k = -1; k < previousLevel; k++) {
     glPopMatrix();
-    //dax1 glPopAttrib();
     npop++;
   }
 }

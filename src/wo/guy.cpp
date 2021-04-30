@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -35,7 +35,7 @@ uint8_t Guy::GUY_PARTS = 9;
 uint8_t Guy::OVERSAMPLE = 10;
 const char Guy::DEF_URL_GUY[] = "/cset/walking.cset";
 const float Guy::SKIN_COLOR[] = {.8, .6, .6, 1};
-const float Guy::BUST_COLOR[] = {1, .5, .0, 1};
+const float Guy::BUST_COLOR[] = {.9, .5, .1, 1};
 const float Guy::LEGS_COLOR[] = {.1, .3, .9, 1};
 const float Guy::FEET_COLOR[] = {.0, .0, .0, 1};
 
@@ -265,7 +265,7 @@ void Guy::draw_bust()
   //ORIG glScalef(BUST_W, BUST_H, ULEG_R);
   glScalef(.8, 1, .5);
   glRotatef(-90, 1, 0, 0);
-  Draw::cylinder(HIP_R*2, BUST_W, BUST_H, 16, 16, 0);
+  Draw::cylinder(HIP_R*2 - 0.05, BUST_W, BUST_H, 16, 16, 0);
   glPopMatrix();
 }
 
@@ -274,7 +274,6 @@ void Guy::draw_brea()
   glPushMatrix();
   glTranslatef(0, BUST_H - NECK_H*4, BREA_R);
   glRotatef(180, 0, 1, 0);
-  //dax Draw::cylinder(BREA_R, 0, BREA_R, 16, 16, 0);
   Draw::sphere(BREA_R, 16, 16, 0);
   glPopMatrix();
 }
@@ -389,7 +388,7 @@ void Guy::display_bust()
 
 void Guy::display_neck()
 {
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, skin_color);
   glPushMatrix();
   glCallList(dlist+NECK);
   glPopMatrix();
@@ -418,7 +417,7 @@ void Guy::display_head()
 
 void Guy::display_leg(bool side)
 {
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, legs_color);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, legs_color);
   glPushMatrix();
    if (side == 0) glTranslatef(BUST_L * BUST_W/2., 0, 0);
    else glTranslatef(-BUST_L * BUST_W/2., 0, 0);
@@ -437,7 +436,7 @@ void Guy::display_leg(bool side)
    glPopMatrix();
 
    // Foot: rotates about the x axis only
-   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, feet_color);
+   glMaterialfv(GL_FRONT, GL_AMBIENT, feet_color);
    glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0); //DAX
    glRotatef(cycles[side][2][stp], 1, 0, 0);
    glPushMatrix();
@@ -448,7 +447,7 @@ void Guy::display_leg(bool side)
 
 void Guy::display_arm(bool side)
 {
-  glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, bust_color);
+  glMaterialfv(GL_FRONT, GL_AMBIENT, bust_color);
   glPushMatrix();
    glTranslatef(0, BUST_H, 0);
    if (side == 0) glTranslatef(BUST_W -SHOULDER_R/2, 0, 0);
@@ -499,7 +498,6 @@ void Guy::render()
   static const float guy_radius = 1.5;		// space unit
 
   glPushMatrix();
-  glPushAttrib(GL_ALL_ATTRIB_BITS);
    glTranslatef(pos.x, pos.y, pos.z);
    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
    glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
@@ -508,7 +506,7 @@ void Guy::render()
      guy_rot -= M_2PI / guy_stp;
    if (guy_rot <= 0)
      guy_rot = M_2PI;
-   if (walking == 1) {
+   if (walking) {
      dx =  guy_radius * cos(guy_rot);
      dz = -guy_radius * sin(guy_rot);
      glTranslatef(-dx, 0, -dz);
@@ -516,7 +514,7 @@ void Guy::render()
    }
 
    display_body();
-  glPopAttrib();
+
   glPopMatrix();
 }
 

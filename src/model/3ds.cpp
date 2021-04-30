@@ -220,7 +220,6 @@ void _3ds::render(const Pos &pos, float *color)
 {
   if (!loaded) return;
 
-  //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
   glEnable(GL_COLOR_MATERIAL);
@@ -234,7 +233,6 @@ void _3ds::render(const Pos &pos, float *color)
   glCallList(dlist);
   glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
-  //dax1 glPopAttrib();
 }
 
 GLint _3ds::displaylist()

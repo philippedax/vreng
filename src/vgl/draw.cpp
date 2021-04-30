@@ -269,13 +269,13 @@ void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
 {
   glLineWidth(2);
   glEnable(GL_LINE_STIPPLE);
-  glDisable(GL_LIGHTING);
+  //dax1 glDisable(GL_LIGHTING);
   glLineStipple(1, 0x3333);
   glColor3f(1, 0, 1);		// magenta
 
   Draw::box(width, depth, height);
 
-  glEnable(GL_LIGHTING);
+  //dax1 glEnable(GL_LIGHTING);
   glDisable(GL_LINE_STIPPLE);
 }
 

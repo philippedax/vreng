@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,15 +32,17 @@ class Http;
 #define CYCLES		50
 #define MAX_JOINTS	5
 #define MAX_POINTS	34	// 2 end point ones and 10 in the middle
+
+// body parts
 #define HEAD_R		0.08	// d=16
-#define NECK_H		0.05	//
+#define NECK_H		0.07	// 05
 #define NECK_R		0.04	//
 #define BUST_H		0.60	//
 #define BUST_W		0.22	//
-#define BUST_L		0.52	//
+#define BUST_L		0.46	// 52
 #define ULEG_H		0.37	//
 #define LLEG_H		0.37	//
-#define UARM_H		0.33	//
+#define UARM_H		0.30	// 33
 #define LARM_H		0.33	//
 #define ANKLE_R		0.03	//
 #define FOOT_H		0.11	//

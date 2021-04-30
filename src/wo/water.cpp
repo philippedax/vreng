@@ -140,7 +140,8 @@ void Water::draw()
       x = -1. + 2. * u;
       z = -1. + 2. * v;
       y = amplitude * sin(freq * M_2PI * v + off);
-      glTexCoord2f(u, v); glVertex3f(x, y, z);
+      glTexCoord2f(u, v);
+      glVertex3f(x, y, z);
       if (play) {
         off += phase;
         if (off > MAX_OFF) off = 0.;
@@ -157,7 +158,6 @@ void Water::changePermanent(float lasting)
 
 void Water::render()
 {
-  //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);	// if uncommented no water FIXME
   glPushMatrix();
    glEnable(GL_BLEND);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -173,7 +173,6 @@ void Water::render()
 
    glDisable(GL_BLEND);
   glPopMatrix();
-  //dax1 glPopAttrib();
 }
 
 bool Water::whenIntersect(WObject *pcur, WObject *pold)

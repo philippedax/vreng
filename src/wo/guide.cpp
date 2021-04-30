@@ -349,13 +349,13 @@ void Guide::render()
 {
   if (! show || dlist < 0) return;
 
-  //dax1 glPushAttrib(GL_LINE_BIT);
+  glPushAttrib(GL_LINE_BIT);
   glPushMatrix();
    glDisable(GL_LIGHTING);
    glCallList(dlist);
    glEnable(GL_LIGHTING);
   glPopMatrix();
-  //dax1 glPopAttrib();
+  glPopAttrib();
 }
 
 void Guide::showhide(Guide *o, void *d, time_t s, time_t u)
