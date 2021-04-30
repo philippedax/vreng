@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -209,7 +209,7 @@ public:
   //
   list<Solid*> solidList;	///< solids list.
   list<Solid*> relsolidList;	///< relative solids list.
-  list<Solid*> translucidList;	///< translucid solids list.
+  list<Solid*> translucentList;	///< translucent solids list.
   list<Solid*> opaqueList;	///< opaque solids list.
   list<Solid*> flaryList;	///< flary solids list.
 
@@ -258,7 +258,7 @@ private:
   // rendering
   void renderSolids();		///< general rendering.
   void renderOpaque();		///< opaque solids
-  void renderTranslucid();  	///< translucid solids
+  void renderTranslucent();  	///< translucent solids
 
   static bool compDist(const void *t1, const void *t2);	///< compare distantes to eyes
   static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes

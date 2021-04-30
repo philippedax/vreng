@@ -276,6 +276,23 @@ static const struct sStokens stokens[] = {
 };
 
 
+// defaults
+const uint8_t Solid::DEF_ALPHA = 1.;	// opaque
+const uint8_t Solid::DEF_FOG = 0;	// no fog
+const uint8_t Solid::DEF_SCALE = 1.;	// no scale
+const uint8_t Solid::DEF_SHININESS = 20;
+const uint8_t Solid::DEF_SPHERE_SLICES = 16;
+const uint8_t Solid::DEF_SPHERE_STACKS = 16;
+const uint8_t Solid::DEF_CONE_SLICES = 16;
+const uint8_t Solid::DEF_CONE_STACKS = 8;
+const uint8_t Solid::DEF_TORUS_CYLINDERS = 16;
+const uint8_t Solid::DEF_TORUS_CIRCLES = 16;
+const uint8_t Solid::DEF_DISK_SLICES = 16;
+const uint8_t Solid::DEF_WHEEL_SPOKES = 12;
+const uint8_t Solid::DEF_DISK_LOOPS = 8;
+const uint8_t Solid::FRAME_MAX = 255;
+
+
 /* New Solid. */
 Solid::Solid()
 {
@@ -1334,11 +1351,13 @@ bool Solid::isFlary() const
   return isflary;
 }
 
-void Solid::setTranslucid(float _alpha)
+void Solid::setTransparent(float _alpha)
 {
   alpha = _alpha;
   if (alpha < 1)
     is_opaque = false;
+  else
+    is_opaque = true;
 }
 
 void Solid::setFlary(bool flag)
@@ -1485,7 +1504,7 @@ void Solid::displaySolid(render_type type)
         displayList(NORMAL);
       break;
 
-    case TRANSLUCID:	// Display translucid solids 
+    case TRANSLUCENT:	// Display translucid solids 
       if (isReflexive())
         displayList(REFLEXIVE);
       else

@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,29 +32,12 @@
 
 #include <list>
 
-// defaults
-#define DEF_ALPHA		1.	// opaque
-#define DEF_FOG			0	// no fog
-#define DEF_SCALE		1.	// no scale
-#define DEF_SHININESS		20
-#define DEF_SPHERE_SLICES	16
-#define DEF_SPHERE_STACKS	16
-#define DEF_CONE_SLICES		16
-#define DEF_CONE_STACKS		8
-#define DEF_TORUS_CYLINDERS	16
-#define DEF_TORUS_CIRCLES	16
-#define DEF_DISK_SLICES		16
-#define DEF_WHEEL_SPOKES	12
-#define DEF_DISK_LOOPS		8
-#define FRAME_MAX		256
 
 
 /**
  * Solid class
  */
 class Solid {
-  friend class WObject; //DB FIXME, suppress direct access from the WObject class
-  friend class Texture;
   friend class Render;
 
 protected:
@@ -88,6 +71,21 @@ protected:
   GLfloat 	flashcol[3];	///< flash color.
   GLfloat	fog[4];		///< fog params
 
+// defaults constantes
+static const uint8_t DEF_ALPHA;		// 1.	// opaque
+static const uint8_t DEF_FOG;		// 0	// no fog
+static const uint8_t DEF_SCALE;		// 1.	// no scale
+static const uint8_t DEF_SHININESS;	// 20
+static const uint8_t DEF_SPHERE_SLICES;	// 16
+static const uint8_t DEF_SPHERE_STACKS;	// 16
+static const uint8_t DEF_CONE_SLICES;	// 16
+static const uint8_t DEF_CONE_STACKS;	// 8
+static const uint8_t DEF_TORUS_CYLINDERS; // 16
+static const uint8_t DEF_TORUS_CIRCLES;	// 16
+static const uint8_t DEF_DISK_SLICES;	// 16
+static const uint8_t DEF_WHEEL_SPOKES;	// 12
+static const uint8_t DEF_DISK_LOOPS;	//  8
+static const uint8_t FRAME_MAX;		// 255
 public:
 
   enum render_mode {
@@ -97,7 +95,7 @@ public:
 
   enum render_type {
     OPAQUE,		///< opaque
-    TRANSLUCID,		///< translucid
+    TRANSLUCENT,	///< translucid
     FLASH,		///< flash effect
     USER		///< localuser
   };
@@ -164,8 +162,8 @@ public:
   virtual bool isOpaque() const;
   /**< Return if the solid is opaque or not. */
 
-  virtual void setTranslucid(float _alpha);
-  /**< Sets translucidity. */
+  virtual void setTransparent(float _alpha);
+  /**< Sets translucently. */
 
   virtual bool isFlashy() const;
   /**< Return if the solid is flashy or not. */

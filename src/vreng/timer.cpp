@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -66,16 +66,17 @@ double Timer::fTime()
 double Timer::diffDates(struct timeval t1, struct timeval t2)
 {
   return ((double) t2.tv_sec - (double) t1.tv_sec) +
-  ((double) t2.tv_usec - (double) t1.tv_usec) * 1e-6;
+         ((double) t2.tv_usec - (double) t1.tv_usec) * 1e-6;
 }
 
 float Timer::rate()
 {
   double time_cycles = simul.cumul_time + render.cumul_time + idle.cumul_time;
+
   if (time_cycles == 0)
     return 5.0;	// 5 sec
-  else return
-    (float) (::g.gui.getCycles() / time_cycles);
+  else
+    return (float) (::g.gui.getCycles() / time_cycles);
 }
 
 bool Timer::isRate(uint16_t _rate)
@@ -117,4 +118,3 @@ void idleTime()
   stopTime(&ptime_idle);
 }
 #endif
-
