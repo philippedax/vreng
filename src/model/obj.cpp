@@ -36,29 +36,20 @@
 #include "file.hpp"	// closeFile
 
 
-#if 1 //pdsides
-#define QUAD 1
-#define SIDES 4
-#else
-#define QUAD 0
-#define SIDES 3
-#endif
-
 Obj::Obj(const char *_url, int _flgpart)
  : loaded(false), currentScale(1.0), desiredScale(1.0), fp(NULL)
 {
-#if QUAD //pdobj4
-  viewMode = GL_QUADS;	// We want the default drawing mode to be normal
-#else
-  viewMode = GL_TRIANGLES;	// We want the default drawing mode to be normal
-#endif //pdobj4
   OBJModel.numOfObjects = 0;
   OBJModel.numOfMaterials = 0;
   bObjectHasUV   = false;
   bObjectHasNormal = false;
   bJustReadAFace = false;
   flgcolor = false;
-  for (int i=0; i<4 ; i++) { mat_diffuse[i] = 1; mat_ambient[i] = 1; mat_specular[i] = 1; }
+  for (int i=0; i<4 ; i++) {
+    mat_diffuse[i] = 1;
+    mat_ambient[i] = 1;
+    mat_specular[i] = 1;
+  }
 
   flgpart = _flgpart;
   url = new char[strlen(_url) + 1];
@@ -249,9 +240,9 @@ void Obj::draw()
 
     tOBJObject *pobject = &OBJModel.pObject[i];	// get the current object
 
-    glBegin(viewMode);
+    glBegin(GL_QUADS);
     for (int j=0; j < pobject->numOfFaces; j++) {
-      for (int c=0; c < SIDES; c++) {  // go through each corner of the triangle and draw it.
+      for (int c=0; c < 4; c++) {  // go through each corner of the triangle and draw it.
         int vi = pobject->pFaces[j].vertIndex[c]; // get the vertex index for each point of the face
         if (vi < 0 || vi > pobject->numOfVerts) continue; //DAX BUGFIX: to avoid segfault
         glNormal3f(pobject->pNormals[vi].x, pobject->pNormals[vi].y, pobject->pNormals[vi].z);
@@ -441,7 +432,7 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
     }
     // because the face indices start at 1, we need to minus 1 from them due
     // to arrays being zero based, this is VERY important!
-    for (int j=0; j<SIDES; j++) {
+    for (int j=0; j<4; j++) {
       // for each index, minus 1 to conform with zero based arrays.
       // we also need to add the vertex and texture offsets to subtract
       // the total amount necessary for this to work.  The first object

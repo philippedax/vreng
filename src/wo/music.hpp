@@ -31,15 +31,13 @@
  * Music class
  */
 class Music: public WObject {
-friend class Model;	// play
 
 private:
   uint8_t fmt;		///< audio format
+  bool repeat;		///< repeat flag
   char statestr[8];	///< action string
 
 public:
-  bool repeat;	///< repeat flag
-
   /* properties */
   enum {
     PROPHNAME,

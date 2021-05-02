@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	htt://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	htt://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -40,7 +40,6 @@
 
 const OClass Model::oclass(MODEL_TYPE, "Model", Model::creator);
 
-const float Model::LSPEED = 0.25;       ///< 0.25 m/s
 const float Model::DEF_SCALE = 1;       ///< 1
 
 // local
@@ -55,15 +54,12 @@ WObject * Model::creator(char *l)
 void Model::defaults()
 {
   scale = DEF_SCALE;
-  lspeed = LSPEED;
   state = INACTIVE;
   texid = 0;
   texurl = NULL;
   sndurl = NULL;
   bvhurl = NULL;
   taken = false;
-  rendered = false;
-  transform = false;
   lwo = NULL;
   ds3 = NULL;
   ase = NULL;
@@ -73,7 +69,7 @@ void Model::defaults()
   off = NULL;
   x3d = NULL;
   bvh = NULL;
-  color[0] = 1; color[1] = .75; color[2] = .7;
+  color[0] = 1; color[1] = .75; color[2] = .7; color[3] = 1;
 }
 
 /** solid geometry */
@@ -118,7 +114,6 @@ void Model::parser(char *l)
 
 void Model::behavior()
 {
-  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 
@@ -136,10 +131,7 @@ Model::Model(char *l)
   scaler();
   drawer();
 
-  // TODO: get the current position pos from last transform
-  //error("initial position: %.2f,%.2f,%.2f", pos.x, pos.y, pos.z);
-  if (pos.x == 0 && pos.y == 0 && pos.z == 0) transform = true;
-  else transform = false;
+  //error("initial model: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
   if (bvhurl) bvh = new Bvh(bvhurl);
 }
 
@@ -244,66 +236,65 @@ void Model::changePermanent(float lasting)
 
 void Model::preRender()
 {
-  if (transform) return;
-
   if (texid) {
     glEnable(GL_LIGHTING);
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texid);
   }
-  else glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
+  else {
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
+  }
 
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(RAD2DEG(pos.az), 0,0,1);
   glRotatef(RAD2DEG(pos.ax) + 90, 1,0,0);
-  //glRotatef(RAD2DEG(pos.ay), 0,1,0);
+  glRotatef(RAD2DEG(pos.ay), 0,1,0);
 }
 
 void Model::postRender()
 {
-  if (transform) return;
-
-  if (texid) glDisable(GL_LIGHTING);
+  if (texid)
+    glDisable(GL_LIGHTING);
   glPopMatrix();
 }
 
 void Model::render()
 {
-  if (rendered) return;	// already rendered by the object itself
-
   switch (model_t) {
   case MODEL_LWO: if (lwo) { preRender(); lwo->render(); postRender(); } break;
   case MODEL_3DS: if (ds3) { preRender(); ds3->render(color); postRender(); } break;
   case MODEL_ASE: if (ase) { preRender(); ase->render(); postRender(); } break;
   case MODEL_OBJ: if (obj) { preRender(); obj->render(color); postRender(); } break;
-  case MODEL_MD2: if (md2) { /*preRender();*/ md2->render(pos); /*postRender();*/ } break;
   case MODEL_DXF: if (dxf) { preRender(); dxf->render(); postRender(); } break;
   case MODEL_OFF: if (off) { preRender(); off->render(color); postRender(); } break;
+  case MODEL_MD2: if (md2) { /*preRender();*/ md2->render(pos); /*postRender();*/ } break;
   case MODEL_X3D: break;
   }
 }
 
 void Model::render(const Pos &pos)
 {
-  rendered = true;
+#if 0 //dax notused
   switch (model_t) {
   case MODEL_LWO: if (lwo) { lwo->render(pos); } break;
   case MODEL_3DS: if (ds3) { ds3->render(pos, color); } break;
   case MODEL_OBJ: if (obj) { obj->render(pos, color); } break;
   case MODEL_OFF: if (off) { off->render(pos, color); } break;
   }
+#endif
 }
 
 void Model::render(const Pos &pos, float *color)
 {
-  rendered = true;
+#if 0 //dax notused
   switch (model_t) {
   case MODEL_LWO: if (lwo) { lwo->render(pos); } break;
   case MODEL_3DS: if (ds3) { ds3->render(pos, color); } break;
   case MODEL_OBJ: if (obj) { obj->render(pos, color); } break;
   case MODEL_OFF: if (off) { off->render(pos, color); } break;
   }
+#endif
 }
 
 void Model::quit()

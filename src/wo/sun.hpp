@@ -37,12 +37,12 @@ protected:
   static const GLfloat light_amb[4];
   static const GLfloat black[4];
 
+  GLfloat radius;		///< sun radius
   GLfloat scale;
   GLfloat light_dif[4];
   GLfloat light_spe[4];
   GLfloat light_rot;		///< angle sun position
-  GLfloat radius;		///< sun radius
-  GLfloat ox, oy, oz;		///< original position
+  GLfloat ox, oy, oz;		///< origin position
 
   class Light *light;		///< light pointer
   class Flare *flares;		///< flares
@@ -86,8 +86,6 @@ public:
 
   virtual void makeSolid();
   /**< Builds solid geometry. */
-
-  static void destroy(Sun *o, void *d, time_t s, time_t u);
 };
 
 #endif

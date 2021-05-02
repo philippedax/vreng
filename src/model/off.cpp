@@ -160,12 +160,13 @@ void Off::draw()
 void Off::render(float *color)
 {
   glPushMatrix();
-  //glScalef(currentScale, currentScale, currentScale);
   glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
   glEnable(GL_COLOR_MATERIAL);
   glRotatef(-90, 1,0,0);
   glColor3fv(color);
+
   glCallList(dlist);
+
   glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
 }
@@ -173,19 +174,21 @@ void Off::render(float *color)
 void Off::render(const Pos &pos, float *color)
 {
   glPushMatrix();
-  //glScalef(currentScale, currentScale, currentScale);
   glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
   glEnable(GL_COLOR_MATERIAL);
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(RAD2DEG(pos.az), 0,0,1);
   glRotatef(RAD2DEG(pos.ax), 1,0,0);
-  //glRotatef(RAD2DEG(pos.ay), 0,1,0);
+  glRotatef(RAD2DEG(pos.ay), 0,1,0);
   glColor3fv(color);
+
   glCallList(dlist);
+
   glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
 }
 
+/* Returns a b c floats */
 void Off::getOff3i(char *s, int *a, int *b, int *c)
 {
   int k = strlen(s);
@@ -203,6 +206,7 @@ void Off::getOff3i(char *s, int *a, int *b, int *c)
   *c = atoi(&s[z]);
 }
 
+/* Returns a b c floats */
 void Off::getOff3f(char *s, float *a, float *b, float *c, float scale)
 {
   int k = strlen(s);

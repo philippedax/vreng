@@ -23,7 +23,6 @@
  *
  * Based on code Copyright (C) 1997 Trey Harrison <trey@crack.com>
  */
-
 #ifndef MD2_HPP
 #define MD2_HPP
 
@@ -31,23 +30,23 @@
 typedef struct {
   float x, y, z;	///< vertex coords
   float nx, ny, xz;	///< vertex normals
-} tMd2Vertex;
+} tVertex;
 
 /** Md2 texture coord */
 typedef struct {
   float s, t;		///< texture coords
-} tMd2TexInfo;
+} tTexInfo;
 
 /** Md2 frame */
 typedef struct {
   char name[16];	///< frame name
-  tMd2Vertex *vert_table;	///< vertexes table
-} tMd2Frame;
+  tVertex *vert_table;	///< vertexes table
+} tFrame;
 
 /** Vector */
 typedef struct {
   float x, y, z;	///< vector 3D
-} tMd2Vec3;
+} tVec3;
 
 /** Md2 Trivertex */
 typedef struct {
@@ -55,7 +54,7 @@ typedef struct {
   uint8_t y;	///< y coord
   uint8_t z;	///< z coord
   uint8_t normal; ///< index of the vertex normal
-} Trivertex;
+} tTrivertex;
 
 /** Md2 Bounding Box */
 typedef struct sBoundingBox {
@@ -66,41 +65,6 @@ typedef struct sBoundingBox {
   float zmin;
   float zmax;
 } tBoundingBox;
-
-#if 0 //not used
-typedef struct {
-  tMd2Vec3 scale;	///< multiply byte verts by this
-  tMd2Vec3 origin;	///< then add this
-  char name[16];	///< frame name from grabbing
-  Trivertex verts[1];	///< variable sized
-} tMd2FrameInfo;
-
-anim_t animlist[21] =
-{
-  // first, last, fps
-  {   0,  39,  9 },   // STAND
-  {  40,  45, 10 },   // RUN
-  {  46,  53, 10 },   // ATTACK
-  {  54,  57,  7 },   // PAIN_A
-  {  58,  61,  7 },   // PAIN_B
-  {  62,  65,  7 },   // PAIN_C
-  {  66,  71,  7 },   // JUMP
-  {  72,  83,  7 },   // FLIP
-  {  84,  94,  7 },   // SALUTE
-  {  95, 111, 10 },   // FALLBACK
-  { 112, 122,  7 },   // WAVE
-  { 123, 134,  6 },   // POINT
-  { 135, 153, 10 },   // CROUCH_STAND
-  { 154, 159,  7 },   // CROUCH_WALK
-  { 160, 168, 10 },   // CROUCH_ATTACK
-  { 196, 172,  7 },   // CROUCH_PAIN
-  { 173, 177,  5 },   // CROUCH_DEATH
-  { 178, 183,  7 },   // DEATH_FALLBACK
-  { 184, 189,  7 },   // DEATH_FALLFORWARD
-  { 190, 197,  7 },   // DEATH_FALLBACKSLOW
-  { 198, 198,  5 },   // BOOM
-};
-#endif
 
 /** Md2 header */
 typedef struct {
@@ -121,7 +85,7 @@ typedef struct {
   int32_t ofs_frames;   ///< offset for first frame
   int32_t ofs_glcmds;	///< offset for gl cmds
   int32_t ofs_end;      ///< end of file
-} tMd2Header;
+} tHeader;
 
 /**
  * Md2 class
@@ -130,8 +94,8 @@ class Md2 {
 
 private:
   int32_t *glcmds;	///< GL commands
-  tMd2TexInfo *texinfo;	///< texture infos
-  tMd2Frame *frames;	///< frames
+  tTexInfo *texinfo;	///< texture infos
+  tFrame *frames;	///< frames
   tBoundingBox bbox;	///< bounding box
   bool loaded;		///< flag loaded or not
   GLint *dlists;	///< diplay list for frames
@@ -168,21 +132,21 @@ private:
   virtual void defaults();
   /**< Sets default values */
 
-  virtual bool loadFromHttp(Http *http);
+  virtual bool readHttp(Http *http);
   /**< Loads from http */
 
-  virtual bool loadFromFile(FILE *f);
+  virtual bool readFile(FILE *f);
   /**< Loads from file */
 
   virtual const char * getUrl() const;
   /**< get an Url */
 
-  virtual int32_t getFrames(tMd2Header *md2_hdr, FILE *f);
-  virtual int32_t getFrames(tMd2Header *md2_hdr, class Http *http);
+  virtual int32_t getFrames(tHeader *md2_hdr, FILE *f);
+  virtual int32_t getFrames(tHeader *md2_hdr, class Http *http);
   /**< Get frames from Md2 model */
 
-  virtual int32_t getGLCmds(tMd2Header *md2_hdr, FILE *f);
-  virtual int32_t getGLCmds(tMd2Header *md2_hdr, class Http *http);
+  virtual int32_t getGLCmds(tHeader *md2_hdr, FILE *f);
+  virtual int32_t getGLCmds(tHeader *md2_hdr, class Http *http);
   /**< Get GL commands from Md2 model */
 
   virtual void updBbox(float x, float y, float z);

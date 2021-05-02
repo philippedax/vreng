@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -33,21 +33,16 @@
 class Model: public WObject {
 
  private:
-  static const float LSPEED; ///< default linear speed
   static const float DEF_SCALE; ///< default scale
 
-  float lspeed;         ///< linear speed.
-  float aspeed;         ///< angular speed.
   uint8_t model_t;	///< type of model.
   float scale;		///< scale to apply.
   bool taken;		///< taken or not by user.
-  bool rendered;	///< rendered or not by user.
-  bool transform;	///< transform or not.
   int texid;		///< texture number.
   char *texurl;		///< texture url.
   char *sndurl;		///< sound url.
   char *bvhurl;		///< bvh url.
-  float color[3];	///< main color.
+  float color[4];	///< main color.
 
   // model pointers
   class Lwo  *lwo;	///< Lwo Model pointer.

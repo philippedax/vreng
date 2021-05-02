@@ -97,13 +97,11 @@ struct tOBJModel
 class Obj {
 
 private:
-
   tOBJModel OBJModel;	///< model
 
   bool loaded;		///< flag loaded or not
   float currentScale;	///< current scale
   float desiredScale;	///< desired scale
-  int viewMode;		///< We want the default drawing mode to be normal
   GLint dlist;		///< displaylist
   char *url;		///< obj url
   FILE *fp;		///< file pointer to load the .obj file

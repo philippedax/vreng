@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)       http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -20,11 +20,11 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "sun.hpp"
-#include "draw.hpp"	// sphere
 #include "flare.hpp"	// Flare
 #include "user.hpp"	// localuser
 #include "light.hpp"	// lightList
 #include "solid.hpp"	// setFlary
+#include "draw.hpp"	// sphere
 
 
 const OClass Sun::oclass(SUN_TYPE, "Sun", Sun::creator);
@@ -67,7 +67,6 @@ void Sun::behavior()
 
   initMobileObject(1);
   enablePermanentMovement();
-  //dax addToInvisible();	// show flares only
 }
 
 /** Solid geometry */
@@ -122,19 +121,21 @@ void Sun::changePermanent(float lasting)
   pos.x = ox * cosa;
   pos.y = oy * cosa;
   pos.z = ox * sina;
-  //trace(DBG_FORCE, "%.1f %.1f %.1f %.1f", pos.x,pos.y,pos.z,ang);
-  if (flares) flares->setColor(light_dif);
+  if (flares)
+    flares->setColor(light_dif);
 }
 
 void Sun::render()
 {
    glPushMatrix();
-    glScalef(scale, scale, scale);
     glTranslatef(pos.x, pos.y, pos.z);
-    glRotatef(localuser->pos.ax, 1, 0, 0);
-    glRotatef(localuser->pos.ay, 0, 1, 0);
-    glRotatef(localuser->pos.az, 0, 0, 1);
-    if (flares) flares->render(pos);
+    glRotatef(RAD2DEG(localuser->pos.ax), 1, 0, 0);
+    glRotatef(RAD2DEG(localuser->pos.ay), 0, 1, 0);
+    glRotatef(RAD2DEG(localuser->pos.az), 0, 0, 1);
+    glScalef(scale, scale, scale);
+    if (flares) {
+      flares->render(pos);
+    }
    glPopMatrix();
 }
 
@@ -177,17 +178,9 @@ void Sun::lighting()
   tic += 0.2;	// 360/86400
 }
 
-void Sun::destroy(Sun *sun, void *d, time_t s, time_t u)
-{
-  if (sun->solid)
-    delete sun->solid;
-  sun->toDelete();
-}
-
 void Sun::quit()
 { } 
 
 void Sun::funcs()
 {
-  setActionFunc(SUN_TYPE, 0, WO_ACTION destroy, "Destroy");
 } 

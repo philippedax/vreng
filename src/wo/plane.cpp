@@ -72,13 +72,9 @@ void Plane::makeSolid()
   float xsec = dim.v[0] / sections;
   float ysec = dim.v[1] / sections;
   float zsec = dim.v[2] / sections;
-  //error("dim=%.2f %.2f %.2f", dim.v[0],dim.v[1],dim.v[2]);
-  //error("sections=%d zsec=%.2f %.2f %.2f", sections, xsec, ysec, zsec);
-  //dax1 deleteSolids();	// segfault
 
   // le premier solide est au centre
   sprintf(s, "solid dim=\"%.2f %.2f %.2f\" %s />", 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
-  //error("s: %s", s);
   parse()->parseSolid(s, SEP, this);
   for (int i=1; i < sections; i++) {
     for (int j=0; j<2; j++) {
@@ -105,7 +101,6 @@ Plane::Plane(char *l)
   parser(l);
 
   if (pos.ax) {	// inclinated
-    //enableBehavior(COLLIDE_ONCE);
     makeSolid();
   }
 
@@ -129,16 +124,12 @@ bool Plane::whenIntersect(WObject *pcur, WObject *pold)
 
   case BALL_TYPE:
     {
-#if 1 //cpax FIXME
     V3 normal;
     computeNormal(pold, &normal);
     bounceTrajectory(pold, &normal);
     pold->setLasting(0);
     pold->disablePermanentMovement();
     pold->copyPosAndBB(pcur->pos);
-#else
-    projectPosition(pcur, pold);
-#endif
     }
     break;
 

@@ -416,12 +416,6 @@ char * Solid::parser(char *l)
   }
   char *ll = strdup(l);	// copy origin line for debug
 
-#if 0 //dax1 debug can be removed
-  if (! stringcmp(wobject->getInstance(), "hat4")) {
-    error("solid: %s", ll);
-  }
-#endif
-
   if (*l == '<') l++;	// skip open-tag
   if (! stringcmp(l, "frames=")) {
     l = wobject->parse()->parseUInt8(l, &nbframes, "frames");
@@ -502,8 +496,8 @@ char * Solid::parser(char *l)
 
   /* next token */
   l = wobject->parse()->nextToken();
-  if (l && !strcmp(l, "/")) {
-    l = wobject->parse()->nextToken(); // skip </solid>
+  if (l && !strcmp(l, "/solid")) {	// md2
+    l = wobject->parse()->nextToken();	// skip </solid>
   }
 
   return l;

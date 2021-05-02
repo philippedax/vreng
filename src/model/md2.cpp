@@ -48,10 +48,10 @@ Md2::~Md2()
   delete[] frames;
   delete[] glcmds;
   delete[] texinfo;
-  if (url) delete[] url;
   //FIXME! if (dlists > 0) glDeleteLists(dlists, 1);
   if (dlists > 0 && dlists < 1000) delete[] dlists;
 #endif
+  if (url) delete[] url;
 }
 
 void Md2::defaults()
@@ -80,16 +80,16 @@ void Md2::httpReader(void *_md2, Http *http)
   if (! md2) return;
 
   FILE *f = Cache::openCache(md2->getUrl(), http);
-  md2->loadFromFile(f);	// from cache
+  md2->readFile(f);	// from cache
 }
 
 /** Md2 model file-reader */
-bool Md2::loadFromFile(FILE *f)
+bool Md2::readFile(FILE *f)
 {
   if (! f) return false;
 
   /* Read the header */
-  tMd2Header md2_hdr;
+  tHeader md2_hdr;
   int32_t o = 0;	// offset in file
 
   File::read_buf(f, md2_hdr.ident, 4); o+=4;
@@ -135,10 +135,10 @@ bool Md2::loadFromFile(FILE *f)
 }
 
 /** Md2 model http-reader */
-bool Md2::loadFromHttp(Http *h)
+bool Md2::readHttp(Http *h)
 {
   /* Read the header */
-  tMd2Header md2_hdr;
+  tHeader md2_hdr;
   int32_t o = 0;
 
   h->read_buf((char *) md2_hdr.ident, 4); o+=4;
@@ -183,17 +183,17 @@ bool Md2::loadFromHttp(Http *h)
   return loaded;
 }
 
-int32_t Md2::getFrames(tMd2Header *md2_hdr, FILE *f)
+int32_t Md2::getFrames(tHeader *md2_hdr, FILE *f)
 {
   /* converts the FrameInfos to Frames */
-  frames = new tMd2Frame[numframes];
+  frames = new tFrame[numframes];
 
   // allocate display list
   dlists = new GLint[numframes];
 
   int32_t o = 0;
   for (int fr=0; fr < numframes; fr++) {
-    tMd2Vec3 scale, origin;
+    tVec3 scale, origin;
 
     scale.x = File::read_float_le(f); o +=4;
     scale.y = File::read_float_le(f); o +=4;
@@ -203,12 +203,12 @@ int32_t Md2::getFrames(tMd2Header *md2_hdr, FILE *f)
     origin.z = File::read_float_le(f); o +=4;
     File::read_buf(f, frames[fr].name, 16); o +=16;
 
-    frames[fr].vert_table = new tMd2Vertex[md2_hdr->num_xyz];
+    frames[fr].vert_table = new tVertex[md2_hdr->num_xyz];
 
     /* loads the vertices */
     for (int i=0; i < md2_hdr->num_xyz; i++) {
-      Trivertex cur_vert;
-      tMd2Vertex *p = (frames[fr].vert_table) + i;
+      tTrivertex cur_vert;
+      tVertex *p = (frames[fr].vert_table) + i;
 
       cur_vert.x = File::read_char(f); o++;
       cur_vert.y = File::read_char(f); o++;
@@ -222,17 +222,17 @@ int32_t Md2::getFrames(tMd2Header *md2_hdr, FILE *f)
   return o;
 }
 
-int32_t Md2::getFrames(tMd2Header *md2_hdr, Http *h)
+int32_t Md2::getFrames(tHeader *md2_hdr, Http *h)
 {
   /* converts the FrameInfos to Frames */
-  frames = new tMd2Frame[numframes];
+  frames = new tFrame[numframes];
 
   // allocate display list
   dlists = new GLint[numframes];
 
   int32_t o = 0;
   for (int f=0; f < numframes; f++) {
-    tMd2Vec3 scale, origin;
+    tVec3 scale, origin;
 
     scale.x = h->read_float(); o+=4;
     scale.y = h->read_float(); o+=4;
@@ -242,12 +242,12 @@ int32_t Md2::getFrames(tMd2Header *md2_hdr, Http *h)
     origin.z = h->read_float(); o+=4;
     h->read_buf((char *) frames[f].name, 16); o+=16;
 
-    frames[f].vert_table = new tMd2Vertex[md2_hdr->num_xyz];
+    frames[f].vert_table = new tVertex[md2_hdr->num_xyz];
 
     /* loads the vertices */
     for (int i=0; i < md2_hdr->num_xyz; i++) {
-      Trivertex cur_vert;
-      tMd2Vertex *p = (frames[f].vert_table) + i;
+      tTrivertex cur_vert;
+      tVertex *p = (frames[f].vert_table) + i;
 
       cur_vert.x = h->read_char(); o++;
       cur_vert.y = h->read_char(); o++;
@@ -266,18 +266,18 @@ int32_t Md2::getFrames(tMd2Header *md2_hdr, Http *h)
  * we 'pre-parse' the texture coordinates
  * do not ask me how I found this formula :-))
  */
-int32_t Md2::getGLCmds(tMd2Header *md2_hdr, FILE *f)
+int32_t Md2::getGLCmds(tHeader *md2_hdr, FILE *f)
 {
   int32_t num_vertices = ((md2_hdr->num_tris + 2 * md2_hdr->num_glcmds - 2) / 7);
   //trace(DBG_FORCE, "getGLCmds: num_vertices=%d", num_vertices);
 
-  texinfo = new tMd2TexInfo[num_vertices];
+  texinfo = new tTexInfo[num_vertices];
   glcmds = new int32_t[md2_hdr->num_glcmds - 2 * num_vertices];
   trace(DBG_VGL, "glcmds size = %d", sizeof(int32_t) * (md2_hdr->num_glcmds - 2 * num_vertices));
 
   /* now transform the GL commands */
   int32_t *glcmds_copy = glcmds;
-  tMd2TexInfo *_texinfo = texinfo;
+  tTexInfo *_texinfo = texinfo;
 
   int32_t glcmd, o;
 
@@ -309,18 +309,18 @@ int32_t Md2::getGLCmds(tMd2Header *md2_hdr, FILE *f)
   return o+4;
 }
 
-int32_t Md2::getGLCmds(tMd2Header *md2_hdr, Http *h)
+int32_t Md2::getGLCmds(tHeader *md2_hdr, Http *h)
 {
   int32_t num_vertices = ((md2_hdr->num_tris + 2 * md2_hdr->num_glcmds - 2) / 7);
   //trace(DBG_FORCE, "getGLCmds: num_vertices=%d", num_vertices);
 
-  texinfo = new tMd2TexInfo[num_vertices];
+  texinfo = new tTexInfo[num_vertices];
   glcmds = new int32_t[md2_hdr->num_glcmds - 2 * num_vertices];
   trace(DBG_VGL, "glcmds size = %d", sizeof(int32_t) * (md2_hdr->num_glcmds - 2 * num_vertices));
 
   /* now transform the GL commands */
   int32_t *glcmds_copy = glcmds;
-  tMd2TexInfo *_texinfo = texinfo;
+  tTexInfo *_texinfo = texinfo;
 
   int32_t glcmd, o;
 
@@ -392,8 +392,8 @@ void Md2::draw(int32_t frame, int32_t nextframe, float ratio, float scale)
   //trace(DBG_FORCE, "draw: frame=%d", frame);
 
   /* get the frames information */
-  tMd2Frame *frame1 = frames + frame;
-  tMd2Frame *frame2 = frames + nextframe;
+  tFrame *frame1 = frames + frame;
+  tFrame *frame2 = frames + nextframe;
 
   /* do the gl commands */
   int32_t *glcmd = glcmds;
@@ -414,7 +414,7 @@ void Md2::draw(int32_t frame, int32_t nextframe, float ratio, float scale)
     glcmd++;
 
     for (int i=0; i < num_verts; i++) {
-      tMd2Vec3 p;  // Interpolated point
+      tVec3 p;  // Interpolated point
       int32_t vert_index;
 
       /* Grab the vertex index */
@@ -475,10 +475,10 @@ void Md2::render(Pos &pos, uint16_t frame)
 {
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z + pos.bbsize.v[2]);
-  glRotatef(pos.ax, 1,0,0);	//FIXME
-  glRotatef(pos.ay, 0,1,0);	//FIXME
-  glRotatef(pos.az, 0,0,1);	//FIXME
-  //glScalef(desiredScale, desiredScale, desiredScale);
+  glRotatef(RAD2DEG(pos.ax), 1,0,0);
+  glRotatef(RAD2DEG(pos.ay), 0,1,0);
+  glRotatef(RAD2DEG(pos.az), 0,0,1);
+  glScalef(desiredScale, desiredScale, desiredScale);
 
   glCallList(dlists[frame]);
 

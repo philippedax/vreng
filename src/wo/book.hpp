@@ -33,7 +33,7 @@ class Sheet;
  * Book class
  */
 class Book: public WObject {
-friend class Sheet;
+  friend class Sheet;
 
 protected:
   class Sheet *right;	///< rightside sheet
