@@ -34,7 +34,7 @@ class Solid;
  */
 class Render {
  friend class User;		///< access to many members.
- friend class WObject;		///< access to many members.
+ //friend class WObject;		///< access to many members.
  friend class Solid;		///< access to many members.
 
 public:
@@ -212,7 +212,9 @@ public:
   list<Solid*> translucentList;	///< translucent solids list.
   list<Solid*> opaqueList;	///< opaque solids list.
   list<Solid*> flaryList;	///< flary solids list.
+  list<Solid*> modelList;	///< model solids list.
 
+//------------------------------------------------------------------------
 #if 0 //dax10
   // Displaying 3D displaylists
   virtual void displaySolid(render_type layer);

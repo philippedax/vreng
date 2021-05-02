@@ -153,7 +153,7 @@ void Render::materials()
 }
 
 // DEBUG //
-#if 0 //dax0 set to 1 to debug
+#if 1 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -202,16 +202,23 @@ void Render::renderOpaque()
   // build opaqueList from solidList
   opaqueList.clear();
   flaryList.clear();
+  modelList.clear();
+
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() &&
          (*it)->isVisible() &&
          ! (*it)->isRendered() &&
          ! (*it)->object()->isRemoved()
        ) {
-      if ( (*it)->isFlashy() || (*it)->isFlary() )
+      if ( (*it)->isFlashy() || (*it)->isFlary() ) {
         flaryList.push_back(*it);	// add to flary list
-      else
+      }
+      else if ( (*it)->object()->typeName() == "Model" ) {
+        modelList.push_back(*it);	// add to model list
+      }
+      else {
         opaqueList.push_back(*it);	// add to opaque list
+      }
     }
   }
 
@@ -329,14 +336,17 @@ void Render::renderSolids()
   trace2(DBG_VGL, "\ntranslucent: ");
   renderTranslucent();
 
-  // renders flary solids
-  trace2(DBG_VGL, "\nflary: ");
-  for (list<Solid*>::iterator it = flaryList.begin(); it != flaryList.end() ; ++it) {
+  // renders model solids
+  trace2(DBG_VGL, "\nmodel: ");
+  modelList.sort(compDist);		// sort distances decreasingly
+  for (list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
+    materials();
+    putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
     else {
-      (*it)->displaySolid(Solid::FLASH);
+      (*it)->displaySolid(Solid::OPAQUE);
     }
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
@@ -351,6 +361,18 @@ void Render::renderSolids()
       (*su)->displaySolid(Solid::USER);
     }
     trace2(DBG_VGL, " %s", (*su)->object()->getInstance());
+  }
+
+  // renders flary solids
+  trace2(DBG_VGL, "\nflary: ");
+  for (list<Solid*>::iterator it = flaryList.begin(); it != flaryList.end() ; ++it) {
+    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->object()->render();
+    }
+    else {
+      (*it)->displaySolid(Solid::FLASH);
+    }
+    trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
 }
 
