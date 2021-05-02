@@ -348,7 +348,7 @@ void Render::renderSolids()
     else {
       (*it)->displaySolid(Solid::OPAQUE);
     }
-    trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
+    trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 
   // renders localuser last

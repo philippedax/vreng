@@ -54,6 +54,7 @@ class Model: public WObject {
   class Off  *off;	///< Off Model pointer.
   class X3d  *x3d;	///< X3d Model pointer.
   class Bvh  *bvh;	///< Bvh Model pointer.
+  class Man  *man;	///< Man Model pointer.
 
  public:
   static const OClass oclass;	///< class variable.

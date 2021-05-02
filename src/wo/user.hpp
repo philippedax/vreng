@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -25,7 +25,7 @@
 #include "move.hpp"	// MAXKEYS
 
 #define USER_TYPE	1
-#define USER_NAME	"Avatar"
+#define USER_NAME	"User"
 
 class Bullet;
 class Dart;
@@ -42,9 +42,9 @@ class User: public WObject {
 
 public:
   static const float LASTING;
-  static const float DEFAULTWIDTH;
-  static const float DEFAULTDEPTH;
-  static const float DEFAULTHEIGHT;
+  static const float DEF_WIDTH;
+  static const float DEF_DEPTH;
+  static const float DEF_HEIGHT;
   static const float LSPEED;
   static const float ASPEED;
   static const float DELTAZ;
@@ -65,8 +65,6 @@ protected:
   friend class WObject;
   float lspeed;		///< linear speed.
   float aspeed;		///< angular speed.
-  float width;		///< body width.
-  float depth;		///< body depth.
 
   uint32_t ssrc;	///< ssrc id.
   char  *front;		///< url body front.
@@ -101,12 +99,14 @@ protected:
 #endif
 
 public:
+  float width;		///< body width.
+  float depth;		///< body depth.
+  float height;		///< body height.
   char  *web;		///< url web.
   char  *cname;		///< RTP cname.
   char  *rtcpname;	///< RTCP name.
   char  *email;		///< user's email.
   char  *tool;		///< tool used.
-  float height;		///< body height.
   V3 ray;		///< ray extremity.
   uint8_t hit;		///< hit.
   Carrier *carrier;	///< Carrier.

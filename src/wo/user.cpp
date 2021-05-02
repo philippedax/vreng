@@ -54,10 +54,11 @@
 
 
 const OClass User::oclass(USER_TYPE, "User", NULL, User::replicator);
+
 const float User::LASTING = 0.015;	// 15 ms
-const float User::DEFAULTWIDTH = 0.26;	// width = 26 cm
-const float User::DEFAULTDEPTH = 0.16;	// depth = 16 cm
-const float User::DEFAULTHEIGHT = 1.70;	// height= 170 cm
+const float User::DEF_WIDTH = 0.26;	// width = 26 cm
+const float User::DEF_DEPTH = 0.16;	// depth = 16 cm
+const float User::DEF_HEIGHT = 1.70;	// height= 170 cm
 const float User::LSPEED = 2.;		// linear speed: 2 m/s
 const float User::ASPEED = 1.;		// angular speed
 const float User::DELTAZ = 0.02;	// 2 cm
@@ -78,9 +79,9 @@ static bool pause_gravity = false;	// with gravity by default
 
 void User::defaults()
 {
-  width = DEFAULTWIDTH;
-  depth = DEFAULTDEPTH;
-  height = DEFAULTHEIGHT;
+  width = DEF_WIDTH;
+  depth = DEF_DEPTH;
+  height = DEF_HEIGHT;
   lspeed = LSPEED;
   aspeed = ASPEED;
   carrier = NULL;
@@ -388,7 +389,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   else {
     // builtin user solid
     sprintf(s, "dim=\"%.2f %.2f %.2f\" xp=\"%s\" xn=\"%s\" />",
-            DEFAULTWIDTH, DEFAULTDEPTH, DEFAULTHEIGHT, front, back);
+            DEF_WIDTH, DEF_DEPTH, DEF_HEIGHT, front, back);
   }
   trace(DBG_WO, "Replica: s=%s", s);
   parse()->parseSolid(s, SEP, this);

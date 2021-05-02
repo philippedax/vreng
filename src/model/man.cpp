@@ -131,6 +131,13 @@ static tBody manpart[] = {
 
 
 /* Constructor */
+Man::Man()
+{
+  width = User::DEF_WIDTH;	// 0.26;
+  depth = User::DEF_DEPTH;	// 0.16;
+  height = User::DEF_HEIGHT;	// 1.70;
+}
+
 Man::Man(float _width, float _depth, float _height)
 {
   width = _width;

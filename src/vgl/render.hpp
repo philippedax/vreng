@@ -34,7 +34,6 @@ class Solid;
  */
 class Render {
  friend class User;		///< access to many members.
- //friend class WObject;		///< access to many members.
  friend class Solid;		///< access to many members.
 
 public:
@@ -52,6 +51,16 @@ public:
     VIEW_SCISSOR,
     VIEW_NUMBER
   };
+  
+  //
+  // Lists of solids
+  //
+  list<Solid*> solidList;	///< solids list.
+  list<Solid*> relsolidList;	///< relative solids list.
+  list<Solid*> translucentList;	///< translucent solids list.
+  list<Solid*> opaqueList;	///< opaque solids list.
+  list<Solid*> flaryList;	///< flary solids list.
+  list<Solid*> modelList;	///< model solids list.
 
   Render();
   /**< Constructor. */
@@ -151,6 +160,15 @@ public:
   void setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz);
   /**< move the intelligente satellite camera to the good position. */
 
+  /**
+   * Camera handling
+   */
+  struct sCamera { GLfloat fovy, near, far; };
+
+  void cameraPosition();	///< Set camera position.
+
+  void clearBuffer();		///< Clear everything.
+
   /////////////
   // Effects
   /////////////
@@ -194,25 +212,6 @@ public:
   void showSolidList();
   /**< show all solid of the render list. */
 
-
-public:
-  /**
-   * Camera handling
-   */
-  struct sCamera { GLfloat fovy, near, far; };
-
-  void cameraPosition();	///< Set camera position.
-  void clearBuffer();		///< Clear everything.
-  
-  //
-  // Lists of solids
-  //
-  list<Solid*> solidList;	///< solids list.
-  list<Solid*> relsolidList;	///< relative solids list.
-  list<Solid*> translucentList;	///< translucent solids list.
-  list<Solid*> opaqueList;	///< opaque solids list.
-  list<Solid*> flaryList;	///< flary solids list.
-  list<Solid*> modelList;	///< model solids list.
 
 //------------------------------------------------------------------------
 #if 0 //dax10

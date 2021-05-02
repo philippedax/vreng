@@ -36,6 +36,7 @@
 #include "off.hpp"      // Off
 #include "x3d.hpp"      // X3d
 #include "bvh.hpp"      // Bvh
+#include "man.hpp"      // Man
 
 
 const OClass Model::oclass(MODEL_TYPE, "Model", Model::creator);
@@ -69,6 +70,7 @@ void Model::defaults()
   off = NULL;
   x3d = NULL;
   bvh = NULL;
+  man = NULL;
   color[0] = 1; color[1] = .75; color[2] = .7; color[3] = 1;
 }
 
@@ -76,6 +78,7 @@ void Model::defaults()
 void Model::makeSolid()
 {
   char s[128];
+
   sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .3, .16, 1.7);
   parse()->parseSolid(s, SEP, this);
 }
@@ -163,7 +166,12 @@ Model::Model(WObject *user, char *url, float _scale)
 
 void Model::loader()
 {
-  model_t = Format::getModelByUrl(names.url);
+  if (! strcmp(names.url, "man")) {
+    model_t = MODEL_MAN;	// hugly hack!!!
+    disableBehavior(SPECIFIC_RENDER);
+  }
+  else
+    model_t = Format::getModelByUrl(names.url);
 
   switch (model_t) {
   case MODEL_LWO: lwo = new Lwo(names.url); break;
@@ -174,6 +182,7 @@ void Model::loader()
   case MODEL_DXF: dxf = new Dxf(names.url); break;
   case MODEL_OFF: off = new Off(names.url); break;
   case MODEL_X3D: x3d = new X3d(names.url); break;
+  case MODEL_MAN: man = new Man(); break;
   default: warning("Model: unknown type=%d url=%s", model_t, names.url); return;
   }
 }
@@ -190,6 +199,7 @@ void Model::scaler()
     case MODEL_DXF: if (dxf) scale = dxf->getRadius(); break;
     case MODEL_OFF: break;
     case MODEL_X3D: break;
+    case MODEL_MAN: break;
     }
   }
   else {
@@ -202,6 +212,7 @@ void Model::scaler()
     case MODEL_DXF: if (dxf) dxf->setScale(scale); break;
     case MODEL_OFF: if (off) off->setScale(scale); break;
     case MODEL_X3D: break;
+    case MODEL_MAN: break;
     }
   }
 }
@@ -217,6 +228,7 @@ void Model::drawer()
   case MODEL_DXF: if (dxf) dxf->displaylist(); break;
   case MODEL_OFF: if (off) off->displaylist(); break;
   case MODEL_X3D: break;
+  case MODEL_MAN: break;
   }
 }
 
@@ -269,6 +281,7 @@ void Model::render()
   case MODEL_DXF: if (dxf) { preRender(); dxf->render(); postRender(); } break;
   case MODEL_OFF: if (off) { preRender(); off->render(color); postRender(); } break;
   case MODEL_MD2: if (md2) { /*preRender();*/ md2->render(pos); /*postRender();*/ } break;
+  case MODEL_MAN: if (man) { /*preRender(); man->render(); postRender();*/ } break;
   case MODEL_X3D: break;
   }
 }

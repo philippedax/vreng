@@ -70,8 +70,8 @@ using namespace std;
 _3ds::_3ds(const char *_url)
  : loaded(false), currentScale(1.0), desiredScale(1.0)
 {
-  _3dsModel.numOfMaterials = 0;
-  _3dsModel.numOfObjects = 0;
+  _3dsModel.numMaterials = 0;
+  _3dsModel.numObjects = 0;
   fp = NULL;
 
   url = new char[strlen(_url) + 1];
@@ -82,7 +82,7 @@ _3ds::_3ds(const char *_url)
 
 _3ds::~_3ds()
 {
-  for (int i=0; i < _3dsModel.numOfObjects; i++) {
+  for (int i=0; i < _3dsModel.numObjects; i++) {
     delete[] _3dsModel.pObject[i].pFaces;
     delete[] _3dsModel.pObject[i].pNormals;
     delete[] _3dsModel.pObject[i].pVerts;
@@ -106,7 +106,7 @@ bool _3ds::importTextures()
   int id = 0;
 
   // Go through all the materials
-  for (int i=0; i < _3dsModel.numOfMaterials; i++) {
+  for (int i=0; i < _3dsModel.numMaterials; i++) {
 
     // Check to see if there is a file name to load in this material
     if (strlen(_3dsModel.pMaterials[i].strFile) > 0) {
@@ -151,10 +151,10 @@ float _3ds::getRadius()
   float max_radius = 0.;
 
   if (loaded) {
-    for (int i=0; i < _3dsModel.numOfObjects; i++) {
+    for (int i=0; i < _3dsModel.numObjects; i++) {
       if (_3dsModel.pObject.size() <= 0) break;
       tObject *pObject = &_3dsModel.pObject[i];
-      for (int j=0; j < pObject->numOfFaces; j++) {
+      for (int j=0; j < pObject->numFaces; j++) {
         for (int whichVertex=0; whichVertex < 3; whichVertex++) {
           int vi = pObject->pFaces[j].vertIndex[whichVertex];
           float r= pObject->pVerts[vi].x * pObject->pVerts[vi].x +
@@ -174,10 +174,10 @@ void _3ds::setScale(float scale)
     if (! loaded) desiredScale = scale;
     else {
       currentScale = desiredScale = scale;
-      for (int i=0; i < _3dsModel.numOfObjects; i++) {
+      for (int i=0; i < _3dsModel.numObjects; i++) {
         if (_3dsModel.pObject.size() <= 0) break;
         tObject *pObject = &_3dsModel.pObject[i];
-        for (int j=0; j < pObject->numOfVerts; j++) {
+        for (int j=0; j < pObject->numVerts; j++) {
           pObject->pVerts[j].x *= scale;
           pObject->pVerts[j].y *= scale;
           pObject->pVerts[j].z *= scale;
@@ -251,7 +251,7 @@ void _3ds::draw()
 
   if (currentScale != desiredScale) setScale(desiredScale);
 
-  for (int i=0; i < _3dsModel.numOfObjects; i++) {
+  for (int i=0; i < _3dsModel.numObjects; i++) {
     if (_3dsModel.pObject.size() <= 0) break;
     tObject *pObject = &_3dsModel.pObject[i]; // Get the current object
 
@@ -270,7 +270,7 @@ void _3ds::draw()
 
     glBegin(GL_TRIANGLES);		// Begin drawing
 
-    for (int j=0; j < pObject->numOfFaces; j++) {  // all faces
+    for (int j=0; j < pObject->numFaces; j++) {  // all faces
       for (int whichVertex=0; whichVertex < 3; whichVertex++) {
         int vi = pObject->pFaces[j].vertIndex[whichVertex];
         if (vi < 0) continue;	//DAX BUG: segfault
@@ -360,7 +360,7 @@ void _3ds::processNextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       break;
     case MATERIAL:			// This holds the material information
       // This chunk is the header for the material info chunks
-      pModel->numOfMaterials++;
+      pModel->numMaterials++;
 
       // Add a empty texture structure to our texture list.
       pModel->pMaterials.push_back(newTexture);
@@ -371,19 +371,19 @@ void _3ds::processNextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
     case OBJECT:		// This holds the name of the object being read
       // This chunk is the header for the object info chunks.  It also
       // holds the name of the object.
-      pModel->numOfObjects++; // Increase the object count
+      pModel->numObjects++; // Increase the object count
 
       // Add a new tObject node to our list of objects (like a link list)
       pModel->pObject.push_back(newObject);
 
       // Initialize the object and all it's data members
-      memset(&(pModel->pObject[pModel->numOfObjects - 1]), 0, sizeof(tObject));
+      memset(&(pModel->pObject[pModel->numObjects - 1]), 0, sizeof(tObject));
 
       // Get the name of the object and store it, then add the read bytes
-      currentChunk.bytesRead += getString(pModel->pObject[pModel->numOfObjects - 1].strName);
+      currentChunk.bytesRead += getString(pModel->pObject[pModel->numObjects - 1].strName);
 
       // Now proceed to read in the rest of the object information
-      processNextObjectChunk(pModel, &(pModel->pObject[pModel->numOfObjects - 1]), &currentChunk);
+      processNextObjectChunk(pModel, &(pModel->pObject[pModel->numObjects - 1]), &currentChunk);
       break;
     case EDITKEYFRAME:
       //processNextKeyFrameChunk(pModel, currentChunk);
@@ -461,10 +461,10 @@ void _3ds::processNextMaterialChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
     switch (currentChunk.ID) {
     case MATNAME:		// This chunk holds the name of the material
       // Here we read in the material name
-      currentChunk.bytesRead += fread(pModel->pMaterials[pModel->numOfMaterials - 1].strName, 1, currentChunk.length - currentChunk.bytesRead, fp);
+      currentChunk.bytesRead += fread(pModel->pMaterials[pModel->numMaterials - 1].strName, 1, currentChunk.length - currentChunk.bytesRead, fp);
       break;
     case MATDIFFUSE:		// This holds the R G B color of our object
-      readColorChunk(&(pModel->pMaterials[pModel->numOfMaterials - 1]), &currentChunk);
+      readColorChunk(&(pModel->pMaterials[pModel->numMaterials - 1]), &currentChunk);
       break;
     case MATMAP:		// This is the header for the texture info
       // Proceed to read in the material information
@@ -472,7 +472,7 @@ void _3ds::processNextMaterialChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       break;
     case MATMAPFILE:		// This stores the file name of the material
       // Here we read in the material's file name
-      currentChunk.bytesRead += fread(pModel->pMaterials[pModel->numOfMaterials - 1].strFile, 1, currentChunk.length - currentChunk.bytesRead, fp);
+      currentChunk.bytesRead += fread(pModel->pMaterials[pModel->numMaterials - 1].strFile, 1, currentChunk.length - currentChunk.bytesRead, fp);
       break;
     default:
       currentChunk.bytesRead += fread(buffer, 1, currentChunk.length - currentChunk.bytesRead, fp);
@@ -529,14 +529,14 @@ void _3ds::readVertexIndices(tObject *pObject, tChunk *pPreviousChunk)
   uint16_t index = 0;	// This is used to read in the current face index
 
   // Read in the number of faces that are in this object (int)
-  pPreviousChunk->bytesRead += fread(&pObject->numOfFaces, 1, 2, fp);
-  File::localEndian(&pObject->numOfFaces,sizeof(int));
+  pPreviousChunk->bytesRead += fread(&pObject->numFaces, 1, 2, fp);
+  File::localEndian(&pObject->numFaces,sizeof(int));
 
   // Alloc enough memory for the faces and initialize the structure
-  pObject->pFaces = new t3dsFace [pObject->numOfFaces];
-  memset(pObject->pFaces, 0, sizeof(t3dsFace) * pObject->numOfFaces);
+  pObject->pFaces = new t3dsFace [pObject->numFaces];
+  memset(pObject->pFaces, 0, sizeof(t3dsFace) * pObject->numFaces);
 
-  for (int i=0; i < pObject->numOfFaces; i++) {  // all faces
+  for (int i=0; i < pObject->numFaces; i++) {  // all faces
     // Next, we read in the A then B then C index for the face, but ignore the 4th value.
     // The fourth value is a visibility flag for 3D Studio Max, we don't care about this.
     for (int j=0; j < 4; j++) {
@@ -571,14 +571,14 @@ void _3ds::readUVCoordinates(tObject *pObject, tChunk *pPreviousChunk)
 void _3ds::readVertices(tObject *pObject, tChunk *pPreviousChunk)
 {
   // Read in the number of vertices (int)
-  pPreviousChunk->bytesRead += fread(&(pObject->numOfVerts), 1, 2, fp);
-  File::localEndian(&pObject->numOfVerts,sizeof(int));
+  pPreviousChunk->bytesRead += fread(&(pObject->numVerts), 1, 2, fp);
+  File::localEndian(&pObject->numVerts,sizeof(int));
 
-  //error("readVertices: numOfVerts=%d", pObject->numOfVerts);
+  //error("readVertices: numVerts=%d", pObject->numVerts);
 
   // Allocate the memory for the verts and initialize the structure
-  pObject->pVerts = new Vec3 [pObject->numOfVerts];
-  memset(pObject->pVerts, 0, sizeof(Vec3) * pObject->numOfVerts);
+  pObject->pVerts = new Vec3 [pObject->numVerts];
+  memset(pObject->pVerts, 0, sizeof(Vec3) * pObject->numVerts);
 
   // Read in the array of vertices (an array of 3 floats)
   pPreviousChunk->bytesRead += fread(pObject->pVerts, 1, pPreviousChunk->length - pPreviousChunk->bytesRead, fp);
@@ -591,7 +591,7 @@ void _3ds::readVertices(tObject *pObject, tChunk *pPreviousChunk)
   // we need to negate the Z to make it come out correctly.
 
   // Go through all of the vertices that we just read and swap the Y and Z values
-  for (int i=0; i < pObject->numOfVerts; i++) {
+  for (int i=0; i < pObject->numVerts; i++) {
     File::localEndian(&pObject->pVerts[i].x,sizeof(float));
     File::localEndian(&pObject->pVerts[i].y,sizeof(float));
     File::localEndian(&pObject->pVerts[i].z,sizeof(float));
@@ -623,7 +623,7 @@ void _3ds::readObjectMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPrev
   // Yes though, we could have just passed in the model and not the object too.
 
   // Go through all of the textures
-  for (int i=0; i < pModel->numOfMaterials; i++) {
+  for (int i=0; i < pModel->numMaterials; i++) {
     // If the material we just read in matches the current texture name
     if (strcmp(strMaterial, pModel->pMaterials[i].strName) == 0) {
       // Set the material ID to the current index 'i' and stop checking
@@ -651,7 +651,7 @@ void _3ds::computeNormals(t3dsModel *pModel)
   int i;
 
   // If there are no objects, we can skip this part
-  if (pModel->numOfObjects <= 0) return;
+  if (pModel->numObjects <= 0) return;
 
   // What are vertex normals?  And how are they different from other normals?
   // Well, if you find the normal to a triangle, you are finding a "Face Normal"
@@ -663,15 +663,15 @@ void _3ds::computeNormals(t3dsModel *pModel)
   // vertex. It's just averaging. That way you get a better approximation for that vertex.
 
   // Go through each of the objects to calculate their normals
-  for (int index=0; index < pModel->numOfObjects; index++) {
+  for (int index=0; index < pModel->numObjects; index++) {
     tObject *pObject = &(pModel->pObject[index]); // Get the current object
 
-    Vec3 *pNormals     = new Vec3 [pObject->numOfFaces];
-    Vec3 *pTempNormals = new Vec3 [pObject->numOfFaces];
-    pObject->pNormals  = new Vec3 [pObject->numOfVerts];
-    //error("Debug: numOfFaces=%d",pObject->numOfFaces);
+    Vec3 *pNormals     = new Vec3 [pObject->numFaces];
+    Vec3 *pTempNormals = new Vec3 [pObject->numFaces];
+    pObject->pNormals  = new Vec3 [pObject->numVerts];
+    //error("Debug: numFaces=%d",pObject->numFaces);
 
-    for (i=0; i < pObject->numOfFaces; i++) { // all of the faces
+    for (i=0; i < pObject->numFaces; i++) { // all of the faces
       // To cut down LARGE code, we extract the 3 points of this face
       vPoly[0] = pObject->pVerts[pObject->pFaces[i].vertIndex[0]];
       vPoly[1] = pObject->pVerts[pObject->pFaces[i].vertIndex[1]];
@@ -691,8 +691,8 @@ void _3ds::computeNormals(t3dsModel *pModel)
     Vec3 vZero = vSum;
     int shared = 0;
 
-    for (i=0; i < pObject->numOfVerts; i++) {	// all the vertices
-      for (int j=0; j < pObject->numOfFaces; j++) {  // all the triangles
+    for (i=0; i < pObject->numVerts; i++) {	// all the vertices
+      for (int j=0; j < pObject->numFaces; j++) {  // all the triangles
       	// Check if the vertex is shared by another face
         if (pObject->pFaces[j].vertIndex[0] == i ||
             pObject->pFaces[j].vertIndex[1] == i ||

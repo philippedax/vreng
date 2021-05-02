@@ -60,6 +60,7 @@
 #define EXT_MD3		"md3"
 #define EXT_MDL		"mdl"
 #define EXT_DXF		"dxf"
+#define EXT_MAN		"man"
 #define EXT_AC3D	"ac3d"
 #define EXT_TXF		"txf"
 #define EXT_HTML	"html"
@@ -213,6 +214,7 @@ enum {
   MODEL_MD3,
   MODEL_MDL,
   MODEL_DXF,
+  MODEL_MAN,
   MODEL_AC3D,
   MODEL_X3D,
   MODEL_V3D,

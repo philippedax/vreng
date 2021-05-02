@@ -46,8 +46,8 @@ struct t3dsFace {
  * This holds all the information for our model/scene.
  */
 struct tObject {
-  int  numOfVerts;	///< The number of verts in the model
-  int  numOfFaces;	///< The number of faces in the model
+  int  numVerts;	///< The number of verts in the model
+  int  numFaces;	///< The number of faces in the model
   int  numTexVertex;	///< The number of texture coordinates
   int  materialID;	///< The texture ID to use, which is the index into our texture array
   bool bHasTexture;	///< This is TRUE if there is a texture map for this object
@@ -79,8 +79,8 @@ struct t3dsMaterialInfo {
  * to ease our link list burdens. :)
  */
 struct t3dsModel {
-  int numOfObjects;		///< The number of objects in the model
-  int numOfMaterials;		///< The number of materials for the model
+  int numObjects;		///< The number of objects in the model
+  int numMaterials;		///< The number of materials for the model
   std::vector<t3dsMaterialInfo> pMaterials; ///< The list of material information (Textures and colors)
   std::vector<tObject> pObject;	///< The object list for our model
 };

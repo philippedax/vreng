@@ -31,6 +31,7 @@ class Man {
 public:
   Pos pos;		///< position and BB
 
+  Man();		///< constructor
   Man(float width, float depth, float height);		///< constructor
 
   virtual ~Man();	///< destructor

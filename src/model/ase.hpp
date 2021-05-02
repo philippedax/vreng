@@ -50,8 +50,8 @@ struct tASEFace {
  * This holds all the information for our model/scene.
  */
 struct tASEObject {
-  int numOfVerts;	///< The number of verts in the model
-  int numOfFaces;	///< The number of faces in the model
+  int numVerts;		///< The number of verts in the model
+  int numFaces;		///< The number of faces in the model
   int numTexVertex;	///< The number of texture coordinates
   int materialID;	///< The texture ID to use, which is the index into our texture array
   bool bHasTexture;	///< TRUE if there is a texture map for this object
@@ -75,14 +75,14 @@ struct tASEMaterialInfo
   float uTile;		///< u tiling of texture  (Currently not used)
   float vTile;		///< v tiling of texture  (Currently not used)
   float vOffset;	///< v offset of texture  (Currently not used)
-} ;
+};
 
 /**
  * This holds our model information.
  */
 struct tASEModel {
-  int numOfObjects;		///< The number of objects in the model
-  int numOfMaterials;		///< The number of materials for the model
+  int numObjects;		///< The number of objects in the model
+  int numMaterials;		///< The number of materials for the model
   std::vector<tASEMaterialInfo> pMaterials;	///< The list of material information (Textures and colors)
   std::vector<tASEObject> pObject;	///< The object list for our model
 };
