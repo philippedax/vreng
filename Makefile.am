@@ -21,58 +21,56 @@
 ##
 ## Maintainer: Philippe Dax
 ##
+
 AUTOMAKE_OPTIONS = foreign no-dependencies subdir-objects
+ACLOCAL_AMFLAGS = -I support
 
 SUBDIRS = src man bin etc
 
-
 EXTRA_DIST = COPYRIGHT VERSION ANNOUNCE CONTRIBUTING support/* md/* fonts/* autogen.sh commit clone vr git-chk
-ACLOCAL_AMFLAGS = -I support
 
 ## maintainer's targets
 
-ARCHIVE = /Users/dax/vreng/archive
-HTML = /Users/dax/vreng/html
+ARCHIVE  = /Users/dax/vreng/archive
+HTML     = /Users/dax/vreng/html
 HTTP_SVN = http://www.vreng.enst.fr/svn/vreng
 
 TARBALL_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
-TARBALL_BZ2 = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.bz2
 TARBALL_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.xz
+TARBALL_BZ2 = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.bz2
 TARBALL_ZIP = $(PACKAGE_NAME)-$(PACKAGE_VERSION).zip
 TARBALLS = $(TARBALL_GZ) $(TARBALL_BZ2) $(TARBALL_XZ) $(TARBALL_ZIP)
 
 TARLINK_GZ = $(PACKAGE_NAME).tar.gz
-TARLINK_BZ2 = $(PACKAGE_NAME).tar.bz2
 TARLINK_XZ = $(PACKAGE_NAME).tar.xz
+TARLINK_BZ2 = $(PACKAGE_NAME).tar.bz2
 TARLINK_ZIP = $(PACKAGE_NAME).zip
 
 FINGERPRINT_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-gz.md5sum
-FINGERPRINT_BZ2 = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-bz2.md5sum
 FINGERPRINT_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-xz.md5sum
+FINGERPRINT_BZ2 = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-bz2.md5sum
 FINGERPRINT_ZIP = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-zip.md5sum
-
-.PHONY: dist fingerprint doxygen snapshot history rss svntags
 
 dist dist-all:
 	-make dist-gzip
-#	-make dist-bzip2
 	-make dist-xz
+#	-make dist-bzip2
 #	-make dist-zip
 	-cp -p ChangeLog VERSION $(HTML)
 
 fingerprint:
 	-md5sum < $(TARBALL_GZ) > $(FINGERPRINT_GZ)
-#	-md5sum < $(TARBALL_BZ2) > $(FINGERPRINT_BZ2)
 	-md5sum < $(TARBALL_XZ) > $(FINGERPRINT_XZ)
+#	-md5sum < $(TARBALL_BZ2) > $(FINGERPRINT_BZ2)
 #	-md5sum < $(TARBALL_ZIP) > $(FINGERPRINT_ZIP)
-
-rss:
-	support/vreng-rss
 
 clean-tar:
 	tar xpf $(TARBALL_GZ)
 	cp $(TARBALL_GZ) vreng.tar.gz
 	rm $(TARBALLS)
+
+data-tar:
+	tar zcf vreng-data.tar.gz htdocs
 
 svntags:
 	su -c "svn copy $(HTTP_SVN)/trunk $(HTTP_SVN)/tags/$(PACKAGE_NAME)-$(PACKAGE_VERSION) -m \"Distribution: $(PACKAGE_NAME)-$(PACKAGE_VERSION)\"" dax
@@ -80,16 +78,16 @@ svntags:
 archive: dist fingerprint
 	-install -m 444 $(FINGERPRINT_GZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_GZ) $(ARCHIVE)
-#	-install -m 444 $(FINGERPRINT_BZ2) $(ARCHIVE)
-#	-install -m 444 $(TARBALL_BZ2) $(ARCHIVE)
 	-install -m 444 $(FINGERPRINT_XZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_XZ) $(ARCHIVE)
+#	-install -m 444 $(FINGERPRINT_BZ2) $(ARCHIVE)
+#	-install -m 444 $(TARBALL_BZ2) $(ARCHIVE)
 #	-install -m 444 $(FINGERPRINT_ZIP) $(ARCHIVE)
 #	-install -m 444 $(TARBALL_ZIP) $(ARCHIVE)
 	-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_BZ2); ln -s $(TARBALL_BZ2) $(TARLINK_BZ2); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ); rm -f $(TARLINK_ZIP); ln -s $(TARBALL_ZIP) $(TARLINK_ZIP))
 	@-rm $(FINGERPRINT_GZ)
-#	@-rm $(FINGERPRINT_BZ2)
 	@-rm $(FINGERPRINT_XZ)
+#	@-rm $(FINGERPRINT_BZ2)
 #	@-rm $(FINGERPRINT_ZIP)
 
 doxygen:
@@ -101,3 +99,8 @@ snapshot:
 
 history:
 	@(cd $(ARCHIVE); ls -ltr)
+
+rss:
+	support/vreng-rss
+
+.PHONY: dist fingerprint doxygen snapshot history rss svntags data-tar
