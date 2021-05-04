@@ -38,7 +38,6 @@ Theme::Theme() {}
 void Theme::setTheme(int type)
 {
   controlPanelHeight = 120;
-  //rightPanelWidth = 130;
   paletteWidth = 100;
   paletteHeight = 100; 
   messagePaletteWidth = 350; 

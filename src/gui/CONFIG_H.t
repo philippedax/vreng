@@ -235,7 +235,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_LIBNSL */\n\
 \n\
 /* */\n\
-#define HAVE_LIBPNG 1\n\
+#define HAVE_LIBPNG 0\n\
 \n\
 /* */\n\
 #define HAVE_LIBPTHREAD 1\n\
@@ -353,7 +353,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_OPENAL */\n\
 \n\
 /* */\n\
-#define HAVE_PNG_H 1\n\
+#define HAVE_PNG_H 0\n\
 \n\
 /* Define to 1 if you have the `pow' function. */\n\
 #define HAVE_POW 1\n\

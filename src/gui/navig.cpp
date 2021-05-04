@@ -196,8 +196,9 @@ void Navig::keyReleaseCB(UKeyEvent& e)
     kstr[1] = 0;
     gw.gui.vnc->keyEvent(kstr, false);
   }
-  else			// normal behaviour
+  else {		// normal behaviour
     gw.processKey(e.getKeyCode(), e.getKeyChar(), false);
+  }
 }
 
 // Press Buttons 1 or 3: navigator or info menu
@@ -220,10 +221,12 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
     gw.gui.selected_object = object;
     trace(DBG_GUI, "clic [%d %d] on %s", x, y, object->getInstance());
   
-    if (object->names.url[0])
+    if (object->names.url[0]) {
       selected_object_url = object->names.url;
-    else
+    }
+    else {
       selected_object_url.clear();
+    }
     gw.message.performRequest(object);
     // Vrelet: calculate the clic vector and do the clic method on the object
     if (button == 1) {
@@ -357,43 +360,43 @@ void Navig::initNavigMenu()
                          + UOn::arm / startYZMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
-                         );
+                        );
   // FORWARD
   navig_menu.item(1).add(g.theme.Forward
                          + UOn::arm / startYZMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
-                         );
+                        );
   // VERTICAL
   navig_menu.item(2).add(g.theme.UpDown
                          + UOn::arm / startZTranslation
                          + UOn::mdrag / move
                          + UOn::disarm / stop
-                         );
+                        );
   // LEFT
   navig_menu.item(3).add(g.theme.Left
                          + UOn::arm / startYZMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
-                         );
+                        );
   // HORIZONTAL
   navig_menu.item(4).add(g.theme.LeftTrans
                          + UOn::arm / startXTranslation
                          + UOn::mdrag / move
                          + UOn::disarm / stop
-                         );
+                        );
   // BACKWARD
   navig_menu.item(5).add(g.theme.Backward
                          + UOn::arm / startYZMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
-                         );
+                        );
   // HORIZONTAL
   navig_menu.item(6).add(g.theme.RightTrans
                          + UOn::arm / startXTranslation
                          + UOn::mdrag / move
                          + UOn::disarm / stop
-                         );
+                        );
 }
 
 ///////////////////
@@ -435,7 +438,7 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
            + UOn::arm      / ucall(this, (Motion*)0, &Motion::zrot_right, &Navig::startMove)
-   )
+          )
   );
   UTrow& row2 = utrow
   (pad + vs + hs
@@ -444,21 +447,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
            + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_left, &Navig::startMove)
-           )
+          )
    + uitem(l + " ")
    + uitem(l+ g.theme.Rotxleft	 // ROLL LEFT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
            + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_left, &Navig::startMove)
-           )
+          )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotxright // ROLL RIGHT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
            + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_right, &Navig::startMove)
-           )
+          )
   );
   UTrow& row3 = utrow
   (pad + vs + hs
@@ -467,30 +470,30 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
            + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_up, &Navig::startMove)
-           )
+          )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotyup	 // TILT UP
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
            + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_up, &Navig::startMove)
-           )
+          )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotydown	 // TILT DOWN
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
            + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_down, &Navig::startMove)
-           )
-   );
-  
+          )
+  );
+
  return utable(pad + vs + hs
                + UBorder::none + UFont::bold
                + UBackground::none + UColor::white
                + row1
                + row2
                + row3
-               );
+              );
 }
 
 void Navig::mouseRefCB(UMouseEvent& e)

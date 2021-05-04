@@ -439,8 +439,9 @@ WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 
 void Widgets::setRayDirection(int x, int y)
 {
-  if (localuser)
+  if (localuser) {
     localuser->setRayDirection(x, y);	// play the ray
+  }
 }
 
 //

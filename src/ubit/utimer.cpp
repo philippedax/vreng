@@ -269,7 +269,7 @@ bool UTimerImpl::resetTimers(struct timeval& delay) {
   
   struct timeval time, mintime;
   getTime(time);
-#if 1 //dax
+#if 0 //dax
   mintime.tv_sec  = LONG_MAX;
   mintime.tv_usec = LONG_MAX;
 #else
