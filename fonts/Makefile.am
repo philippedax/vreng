@@ -21,4 +21,5 @@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
+# true-type fonts needed to compile ubit
 EXTRA_DIST = UTBI____.pfa UTB_____.pfa UTI_____.pfa UTRG____.pfa
