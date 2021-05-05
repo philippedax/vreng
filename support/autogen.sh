@@ -35,6 +35,7 @@ rm -f config.cache acconfig.h
 echo "- autoreconf."     	&& \
 autoreconf -fvi          	&& \
 echo "- configure."		&& \
+chmod u+x autogen.sh configure  && \
 ./configure "$@"		&& exit 0
 
 exit 1
