@@ -841,10 +841,11 @@ void Widgets::goDialog()
   if (! strncmp(Universe::current()->server, "http://", 7))
     sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
   else
-    sprintf(fmt, "%s%s", "http://", "%s%s/vacs/v%d/worlds");
+    sprintf(fmt, "%s%s", "http://", "%s/%s/vacs/v%d/worlds");
   sprintf(univ_url, fmt, Universe::current()->server,
                          Universe::current()->urlpfx,
                          Universe::current()->version);
+  //error("url: %s", univ_url);
 
   UBox& box = uvbox(g.theme.scrollpaneStyle);
   if (Http::httpOpen(univ_url, goHttpReader, &box, 0) < 0) {
