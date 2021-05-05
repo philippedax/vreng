@@ -50,6 +50,7 @@ public:
   bool infogl;		///< OpenGL infos
   bool keep;		///< keep all in cache
   bool reflector;	///< unicast/multicast reflector
+  bool expand;		///< palettes collapsed by default
   bool fast;		///< no persistency if true
   bool bbox;		///< draw bounding-boxes
   bool silent;		///< audio silent

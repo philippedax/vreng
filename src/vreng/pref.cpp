@@ -53,6 +53,7 @@ where options are:\n\
 -2, --fullscreen		Screen double size\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
 -C, --clean			Clean cache\n\
+-E, --expand			Expands palettes (GUI)\n\
 -F, --fast			Without persistency (MySql)\n\
 -M, --multicast			MBone IP Multicast mode\n\
 -P, --noprogress		No not show progression indicators\n\
@@ -86,6 +87,7 @@ Pref::Pref()
   silent = true;
   stats = true;
   progress = true;
+  expand = false;
   bbox = false;
   dbgtrace = false;
   maxsimcon = DEF_MAXSIMCON;
@@ -156,6 +158,7 @@ void Pref::parse(int argc, char **argv)
     {"fullscreen", 0, 0, '2'},
     {"address",    1, 0, 'A'},
     {"clean",      0, 0, 'C'},
+    {"expand",     0, 0, 'E'},
     {"fast",       0, 0, 'F'},
     {"multicast",  0, 0, 'M'},
     {"noprogress", 0, 0, 'P'},
@@ -164,9 +167,9 @@ void Pref::parse(int argc, char **argv)
     {"timetolive", 1, 0, 'T'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiklqrstv2CFMPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv2CEFMPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiklqrstvx2CFMPRSa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx2CEFMPRSa:d:f:n:p:u:w:A:T:"))
 #endif
    != -1) {
 
@@ -281,6 +284,9 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'C':
         ::g.env.cleanCacheByTime(0L);
+        break;
+      case 'E':
+        expand = true;
         break;
       case 'F':
         fast = true;

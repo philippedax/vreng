@@ -39,6 +39,7 @@
 #include "navig.hpp"
 #include "scene.hpp"
 #include "joystick.hpp"		// Joystick1 Joystick2
+#include "pref.hpp"		// ::g.pref.expand
 #include "user.hpp"		// UserAction
 #include "axis.hpp"		// toggle
 #include "grid.hpp"		// toggle
@@ -179,8 +180,13 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + avatars_spane);
   avatars_palette.setPos(5|UPos::RIGHT, 5|UPos::BOTTOM);
   avatars_palette.setTitle(UColor::yellow + UFont::bold + "Avatars");
-  //dax avatars_palette.show(false);	//dax
   scene.add(avatars_palette);
+
+  if (::g.pref.expand == false) {
+    navig_palette.collapse();
+    messages_palette.collapse();
+    avatars_palette.collapse();
+  }
 
   // control panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

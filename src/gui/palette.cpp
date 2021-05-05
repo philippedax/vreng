@@ -33,8 +33,8 @@
 
 #include "vreng.hpp"
 #include "widgets.hpp"
-#include "panels.hpp"
 #include "palette.hpp"
+#include "pref.hpp"	// ::g.pref.expand
 
 
 Palette::Palette(UArgs a) :
@@ -45,7 +45,12 @@ ptitlebox(new UBox),
 pcontent(new UBox(a))
 {
   piconify->addAttr(UColor::red + UFont::bold + ucall(this, &Palette::titleCB));
-  piconify->add(UOn::select / ustr(" ^ ") + UOn::deselect / ustr(" X "));
+  if (::g.pref.expand == true) {
+    piconify->add(UOn::select / ustr(" + ") + UOn::deselect / ustr(" x "));
+  }
+  else {
+    piconify->add(UOn::select / ustr(" x ") + UOn::deselect / ustr(" + "));
+  }
 
   ptitle->addAttr(UOrient::horizontal  // + new UPosChooser(*ppos) DECONNE !!!
                   + UOn::doubleClick / ucall(this, &Palette::titleCB));
