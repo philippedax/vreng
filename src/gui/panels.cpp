@@ -68,30 +68,12 @@ void Panels::showManipulator(bool state)
   joystick2->show(!state);
 }
 
-void Panels::showCartDialog(bool state)
-{
-#if 0 //dax
-  // relies on carts_pane created by createPanes()
-  UDialog * cartDialog = &udialog(utitle("Basket")
-                                  + uheight(150) + uwidth(100)
-                                  + carts_pane
-                                  + ubottom()
-                                  + ubutton(UFont::bold + uhcenter()
-                                  + " Close "
-                                  + ucloseWin())
-                                 );
-#else
-  cerr << "TO BE DONE!" << endl;
-#endif
-}
-
 static void sandboxCB(Widgets*)
 {
   World::current()->quit();
   delete Channel::current();	// delete Channel
   World::enter(NULL, NULL, false);
 }
-
 
 Panels::Panels(Widgets* _gw, Scene& scene) :
   gw(*_gw),
@@ -322,3 +304,21 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   main_panel.addAttr(UOrient::vertical).add(control_bar + control_panel);
 }
+
+void Panels::showCartDialog(bool state)
+{
+#if 0 //dax
+  // relies on carts_pane created by createPanes()
+  UDialog * cartDialog = &udialog(utitle("Basket")
+                                  + uheight(150) + uwidth(100)
+                                  + carts_pane
+                                  + ubottom()
+                                  + ubutton(UFont::bold + uhcenter()
+                                  + " Close "
+                                  + ucloseWin())
+                                 );
+#else
+  cerr << "TO BE DONE!" << endl;
+#endif
+}
+

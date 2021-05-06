@@ -26,20 +26,21 @@
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "capture.hpp"
-#include "pref.hpp"
 #include "sound.hpp"	// playSound
-#include "world.hpp"
+#include "world.hpp"	// current
 #include "ogl.hpp"	// copyPixels
 #include "img.hpp"	// saveJPG
 #include "render.hpp"	// sharedRender
-#include "timer.hpp"
+#include "timer.hpp"	// ::g.timer
 #include "file.hpp"	// openFile
 #if WANT_GL2PS
 # include "gl2ps.h"	// GL2PS_*
 #endif
 
+
 Capture::Capture() 
-: is_capturing(false), capture_no(0) {
+: is_capturing(false), capture_no(0)
+{
 }
 
 /** capture JPEG (only 3D) */
@@ -79,7 +80,7 @@ void Capture::captureGl2png(const char *filename)
 /** capture XWD (whole window) */
 void Capture::captureXwd(const char *ext)
 {
-  char cmd[BUFSIZ];
+  char cmd[128];
 
   const char *name = World::current()->getName();
   sprintf(cmd, "IFS=' '; xwd -name vreng >/tmp/%s.xwd; convert /tmp/%s.xwd %s.%s; rm -f /tmp/%s.xwd", name, name, name, ext, name);
@@ -92,9 +93,9 @@ void Capture::captureXwd(const char *ext)
 void Capture::captureGl2ps(const char *ext)
 {
   FILE *fp;
-  GLint buffsize = 0, state = GL2PS_OVERFLOW;
+  GLint bufsize = 0, state = GL2PS_OVERFLOW;
   GLuint form;
-  char name[World::WORLD_LEN];
+  char worldname[World::WORLD_LEN];
 
   if      (!strcmp(ext, "ps"))  form = GL2PS_PS;
   else if (!strcmp(ext, "eps")) form = GL2PS_EPS;
@@ -102,12 +103,15 @@ void Capture::captureGl2ps(const char *ext)
   else if (!strcmp(ext, "svg")) form = GL2PS_SVG;
   else return;
 
-  sprintf(name, "%s.%s", World::current()->getName(), ext);
-  if ((fp = File::openFile(name, "wb")) == 0) { perror("open"); return; }
+  sprintf(worldname, "%s.%s", World::current()->getName(), ext);
+  if ((fp = File::openFile(worldname, "wb")) == 0) {
+    perror("open");
+    return;
+  }
 
   for (int i=1; state == GL2PS_OVERFLOW; i++) {
-    buffsize += 512*512;
-    gl2psBeginPage(name, PACKAGE_STRING, NULL, form,
+    bufsize += 512*512;
+    gl2psBeginPage(worldname, PACKAGE_STRING, NULL, form,
                    GL2PS_SIMPLE_SORT,	// GL2PS_BSP_SORT,
                    GL2PS_SILENT |
                    GL2PS_BEST_ROOT |
@@ -116,12 +120,12 @@ void Capture::captureGl2ps(const char *ext)
                    GL2PS_DRAW_BACKGROUND |
                    GL2PS_USE_CURRENT_VIEWPORT |
                    GL2PS_SIMPLE_LINE_OFFSET,
-                   GL_RGBA, 0, NULL, 0, 0, 0, buffsize, fp, name);
+                   GL_RGBA, 0, NULL, 0, 0, 0, bufsize, fp, worldname);
     Render::sharedRender()->rendering();
     state = gl2psEndPage();
   }
   File::closeFile(fp);
-  notice("capture done in file %s", name);
+  notice("capture done in file %s", worldname);
 }
 
 /** callback capture PS */
@@ -147,7 +151,8 @@ void Capture::writeSVGImage()
 {
   captureGl2ps("svg");
 }
-#endif
+#endif //GL2PS
+
 
 /** callback capture JPG */
 void Capture::writeJPGImage()
@@ -181,7 +186,7 @@ void Capture::writePNGImage()
 void Capture::startVideo()
 {
   is_capturing = true;
-  capture_no =0;
+  capture_no = 0;
   notice("sequence capture starts");
   ::g.timer.capture.start();
 }
@@ -190,8 +195,8 @@ void Capture::startVideo()
 void Capture::stopVideo()
 {
   char jpegbase[16];
+  char cmd[256];
   char swfname[World::WORLD_LEN + 4];  // video flash (swf)
-  char cmd[BUFSIZ];
   
   int rate = int(ceil( float(MAX_CAPTURE_COUNT) / (time_t) ::g.timer.capture.stop()));
   
@@ -202,7 +207,7 @@ void Capture::stopVideo()
   system(cmd);
   notice("file %s created", swfname);
   is_capturing = false;
-  capture_no =0;
+  capture_no = 0;
 }
 
 // capture video 
@@ -213,5 +218,6 @@ void Capture::writeVideoFrame()
   sprintf(filename, "/tmp/vreng-%03d.jpg", capture_no);
   captureGl2jpg(filename);
   capture_no++;
-  if (capture_no >= MAX_CAPTURE_COUNT) stopVideo();
+  if (capture_no >= MAX_CAPTURE_COUNT)
+    stopVideo();
 }
