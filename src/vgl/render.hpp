@@ -57,7 +57,7 @@ public:
   //
   list<Solid*> solidList;	///< solids list.
   list<Solid*> relsolidList;	///< relative solids list.
-  list<Solid*> translucentList;	///< translucent solids list.
+  list<Solid*> transparentList;	///< transparent solids list.
   list<Solid*> opaqueList;	///< opaque solids list.
   list<Solid*> flaryList;	///< flary solids list.
   list<Solid*> modelList;	///< model solids list.
@@ -259,7 +259,7 @@ private:
   // rendering
   void renderSolids();		///< general rendering.
   void renderOpaque();		///< opaque solids
-  void renderTranslucent();  	///< translucent solids
+  void renderTranslucent();  	///< transparent solids
 
   static bool compDist(const void *t1, const void *t2);	///< compare distantes to eyes
   static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes

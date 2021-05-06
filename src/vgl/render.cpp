@@ -258,26 +258,26 @@ void Render::renderOpaque()
   }
 }
 
-// Renders translucent solids sorted from the furthest to the nearest
+// Renders transparent solids sorted from the furthest to the nearest
 void Render::renderTranslucent()
 {
-  // build translucentList from solidList
-  translucentList.clear();
+  // build transparentList from solidList
+  transparentList.clear();
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() == false &&
          (*it)->isVisible() &&
          ! (*it)->isRendered() &&
          ! (*it)->object()->isRemoved() ) {
-      translucentList.push_back(*it);	// add to translucent list
+      transparentList.push_back(*it);	// add to transparent list
     }
   }
 
-  // sort translucentList
-  translucentList.sort(compSize);	// sort surfaces decreasingly
-  translucentList.sort(compDist);	// sort distances decreasingly
+  // sort transparentList
+  transparentList.sort(compSize);	// sort surfaces decreasingly
+  transparentList.sort(compDist);	// sort distances decreasingly
 
-  // render translucentList
-  for (list<Solid*>::iterator it = translucentList.begin(); it != translucentList.end() ; ++it) {
+  // render transparentList
+  for (list<Solid*>::iterator it = transparentList.begin(); it != transparentList.end() ; ++it) {
     putSelbuf((*it)->object());		// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -286,15 +286,15 @@ void Render::renderTranslucent()
     }
     else {
       if ((*it)->nbsolids == 1) {		// mono solid
-        (*it)->displaySolid(Solid::TRANSLUCENT);
+        (*it)->displaySolid(Solid::TRANSPARENT);
         trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
       else {					// multi solids
-        (*it)->displaySolid(Solid::TRANSLUCENT);
+        (*it)->displaySolid(Solid::TRANSPARENT);
         trace2(DBG_VGL, " %s:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->nbsolids);
 
         for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
-          (*jt)->displaySolid(Solid::TRANSLUCENT);
+          (*jt)->displaySolid(Solid::TRANSPARENT);
           (*jt)->setRendered(true);
           trace2(DBG_VGL, " %s:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->nbsolids);
         }
@@ -332,8 +332,8 @@ void Render::renderSolids()
   trace2(DBG_VGL, "\nopaque: ");
   renderOpaque();
 
-  // renders translucent solids
-  trace2(DBG_VGL, "\ntranslucent: ");
+  // renders transparent solids
+  trace2(DBG_VGL, "\ntransparent: ");
   renderTranslucent();
 
   // renders model solids
@@ -838,7 +838,7 @@ void Render::displaySolid(uint8_t type)
       displayList(NORMAL);
       break;
 
-    case TRANSLUCENT:	// Display translucent solids 
+    case TRANSPARENT:	// Display transparent solids 
       if (isReflexive()) {
         displayList(REFLEXIVE);
       }
@@ -941,7 +941,7 @@ int Render::displayList(int display_mode = NORMAL)
        glEnable(GL_TEXTURE_2D);
        glBindTexture(GL_TEXTURE_2D, texid);
      }
-     if (alpha < 1) {		// translucent
+     if (alpha < 1) {		// transparent
        glDepthMask(GL_FALSE);
        glEnable(GL_BLEND);
        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
@@ -1025,7 +1025,7 @@ int Render::displayList(int display_mode = NORMAL)
    if (texid >= 0) {
      glDisable(GL_TEXTURE_2D);
    }
-   if (alpha < 1) {	// translucent
+   if (alpha < 1) {	// transparent
      glDisable(GL_BLEND);
      glDepthMask(GL_TRUE);
    }

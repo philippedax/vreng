@@ -147,21 +147,21 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   Palette& navig_palette = *new Palette(g.theme.paletteStyle
                + navig_box);
   navig_palette.setPos(5|UPos::LEFT, 5|UPos::BOTTOM);
-  navig_palette.setTitle(UColor::yellow + UFont::bold + "Navigator");
+  navig_palette.setTitle(UColor::orange + UFont::bold + "Navigator");
   scene.add(navig_palette);
 
   Palette& messages_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
                + gw.message.createMessagePanel(true));
   messages_palette.setPos(50|UPERCENT_CTR, 5|UPos::BOTTOM);
-  messages_palette.setTitle(UColor::yellow + UFont::bold + "Notifications & Messages");
+  messages_palette.setTitle(UColor::orange + UFont::bold + "Notifications & Messages");
   scene.add(messages_palette);
 
   Palette& avatars_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.paletteWidth, g.theme.paletteHeight)
                + avatars_spane);
   avatars_palette.setPos(5|UPos::RIGHT, 5|UPos::BOTTOM);
-  avatars_palette.setTitle(UColor::yellow + UFont::bold + "Avatars");
+  avatars_palette.setTitle(UColor::orange + UFont::bold + "Avatars");
   scene.add(avatars_palette);
 
   if (::g.pref.expand == false) {

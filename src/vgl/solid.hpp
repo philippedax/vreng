@@ -95,7 +95,7 @@ public:
 
   enum render_type {
     OPAQUE,		///< opaque
-    TRANSLUCENT,	///< translucid
+    TRANSPARENT,	///< transparent
     FLASH,		///< flash effect
     USER		///< localuser
   };
@@ -163,7 +163,7 @@ public:
   /**< Return if the solid is opaque or not. */
 
   virtual void setTransparent(float _alpha);
-  /**< Sets translucently. */
+  /**< Sets transparent. */
 
   virtual bool isFlashy() const;
   /**< Return if the solid is flashy or not. */

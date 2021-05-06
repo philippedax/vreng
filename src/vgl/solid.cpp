@@ -1168,7 +1168,7 @@ void Solid::doTransform(bool flag)
 void Solid::doBlend(bool flag, GLfloat _alpha)
 {
   if (_alpha < 1) {
-    is_opaque = false;		// if commented translucids are opaques
+    is_opaque = false;
     switch ((int)flag) {
     case true:  // pre
       glEnable(GL_BLEND);
@@ -1498,7 +1498,7 @@ void Solid::displaySolid(render_type type)
         displayList(NORMAL);
       break;
 
-    case TRANSLUCENT:	// Display translucid solids 
+    case TRANSPARENT:	// Display transparent solids 
       if (isReflexive())
         displayList(REFLEXIVE);
       else
@@ -1611,7 +1611,7 @@ int Solid::displayList(int display_mode = NORMAL)
          glEnable(GL_TEXTURE_2D);
          glBindTexture(GL_TEXTURE_2D, texid);
        }
-       if (alpha < 1) {		// translucid
+       if (alpha < 1) {		// transparent
          glDepthMask(GL_FALSE);
          glEnable(GL_BLEND);
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
@@ -1695,7 +1695,7 @@ int Solid::displayList(int display_mode = NORMAL)
    if (texid >= 0) {
      glDisable(GL_TEXTURE_2D);
    }
-   if (alpha < 1) {	// translucid
+   if (alpha < 1) {	// transparent
      glDisable(GL_BLEND);
      glDepthMask(GL_TRUE);
    }
