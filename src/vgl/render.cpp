@@ -259,7 +259,7 @@ void Render::renderOpaque()
 }
 
 // Renders transparent solids sorted from the furthest to the nearest
-void Render::renderTranslucent()
+void Render::renderTransparent()
 {
   // build transparentList from solidList
   transparentList.clear();
@@ -334,7 +334,7 @@ void Render::renderSolids()
 
   // renders transparent solids
   trace2(DBG_VGL, "\ntransparent: ");
-  renderTranslucent();
+  renderTransparent();
 
   // renders model solids
   trace2(DBG_VGL, "\nmodel: ");
