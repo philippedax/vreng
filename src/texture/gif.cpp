@@ -244,7 +244,6 @@ static int gifReadBlocks(GifInfo *g)
       break;
     default:
       trace(DBG_IMG, "gifReadBlocks: ch=%02x off=%d(0x%x)", c, offset, offset);
-      //dax continue;
       return -10;
     }
   }

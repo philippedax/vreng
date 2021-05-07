@@ -320,17 +320,21 @@ void Txf::render(const char *s, int l)
 
 Txf * Txf::getByUrl(const char *url)
 {
-  for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it)
-    if (! strcmp((*it)->url, url))
+  for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it) {
+    if (! strcmp((*it)->url, url)) {
       return (*it);	// txf is in the cache
+    }
+  }
   return NULL;		// we must dowdload the txf latter
 }
 
 Txf * Txf::getByNumber(uint16_t num)
 {
-  for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it)
-    if ((*it)->num == num)
+  for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it) {
+    if ((*it)->num == num) {
       return (*it);	// txf is in the cache
+    }
+  }
   return NULL;
 }
 

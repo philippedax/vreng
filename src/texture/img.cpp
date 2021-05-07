@@ -73,9 +73,7 @@ Img * Img::init()
   GLubyte *pixmap = default_img->pixmap;
   for (int i=0; i < SIDE_SIZE*SIDE_SIZE; i++) {
     pixmap[channel*i+0] = pixmap[channel*i+1] = pixmap[channel*i+2] = 0x80; //grey
-#if 0   // RGBA
-    pixmap[channel*i+3] = 0xff;
-#endif
+   // RGBA pixmap[channel*i+3] = 0xff;
   }
   return default_img;
 }
@@ -113,10 +111,10 @@ int interpol(int v00, int v01, int v10, int v11, int xf, int yf)
 Img * Img::resize(uint16_t width_new, uint16_t height_new)
 {
   if (channel != RGB &&
-      channel != BW &&
-      channel != RGBA) {
-        error("resize invalid channel: f=%d w=%d h=%d", channel, width, height);
-        return NULL;
+    channel != BW &&
+    channel != RGBA) {
+      error("resize invalid channel: f=%d w=%d h=%d", channel, width, height);
+      return NULL;
   }
   if (pixmap == NULL) {
     warning("resize pixmap null");
@@ -141,15 +139,12 @@ Img * Img::resize(uint16_t width_new, uint16_t height_new)
 
       if (xi < (width-1) && yi < (height-1)) {
         for (int k=0; k<channel; k++) {
-#if 1 //DAX segfault
+          //DAX segfault
           pix_new[k] = interpol(pixmap[(yi     * width+xi)   * channel+k],
                                 pixmap[(yi     * width+xi+1) * channel+k],
                                 pixmap[((yi+1) * width+xi)   * channel+k],
                                 pixmap[((yi+1) * width+xi+1) * channel+k],
                                 xf, yf);
-#else
-	  ;
-#endif
         }
       }
       else {

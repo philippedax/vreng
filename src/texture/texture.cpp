@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -206,10 +206,14 @@ Texture::~Texture()
 
 bool Texture::check(const char *url)
 {
-  if (! url) { error("getFromCache: url NULL"); return false; }
+  if (! url) {
+    error("getFromCache: url NULL");
+    return false;
+  }
   if (! isprint(*url)) {
     error("getFromCache: url not printable");
-    for (int i=0; i<16; i++) fprintf(stderr, "%02x ", url[i]);
+    for (int i=0; i<16; i++)
+      fprintf(stderr, "%02x ", url[i]);
     error("");
     return false;
   }
@@ -226,22 +230,19 @@ GLuint Texture::exist(const char *url)
   return 0;
 }
 
+/* Returns texid */
 GLuint Texture::get(const char *url, WObject *wo)
 {
   GLuint texid = getFromCache(url);
-  if (texid)
+  if (texid) {
     this->object = wo;
+  }
   return texid;
 }
 
 GLuint Texture::getFromCache(const char *url)
 {
   if (! check(url)) return 0;
-
-/*dax is util ?
-  GLuint texid = exist(url);
-  if (texid) return texid;
-*/
 
   Texture * texture = new Texture();	// new entry in cache
   strcpy(texture->url, url);
@@ -257,6 +258,7 @@ GLuint Texture::getFromCache(const char *url)
   return texture->id;
 }
 
+/* Creates texid and returns it. */
 GLuint Texture::getid()
 {
   GLuint texid = 0;
@@ -280,50 +282,61 @@ GLuint Texture::current()
 
 Texture * Texture::getEntryByUrl(const char *url)
 {
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if (! strcmp((*it)->url, url))
+  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+    if (! strcmp((*it)->url, url)) {
       return *it;	// texture is in the cache
+    }
+  }
   /* we will download the texture later */
   return NULL;
 }
 
 Texture * Texture::getEntryById(GLuint texid)
 {
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if ((*it)->id == texid)
+  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+    if ((*it)->id == texid) {
       return *it;	// texture is in the cache
+    }
+  }
   return NULL;
 }
 
 GLuint Texture::getIdByUrl(const char *url)
 {
   getFromCache(url);
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if (! strcmp((*it)->url, url))
+  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+    if (! strcmp((*it)->url, url)) {
       return (*it)->id;
+    }
+  }
   return 0;
 }
 
 GLuint Texture::getIdByObject(WObject *wo)
 {
   //dax Texture::listTextures();
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if ((*it)->object == wo)
+  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+    if ((*it)->object == wo) {
       return (*it)->id;
+    }
+  }
   return 0;
 }
 
 char * Texture::getUrlById(GLuint texid)
 {
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
-    if ((*it)->id == texid)
+  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+    if ((*it)->id == texid) {
       return (*it)->url;	// texture is in the cache
+    }
+  }
   return NULL;
 }
 
 void Texture::setMime(char *p)
 {
-  if (strlen(p) < MIME_LEN) strcpy(mime, p);
+  if (strlen(p) < MIME_LEN)
+    strcpy(mime, p);
   else {
     strncpy(mime, p, MIME_LEN-1);
     mime[MIME_LEN-1] = 0;
@@ -333,7 +346,8 @@ void Texture::setMime(char *p)
 
 void Texture::listTextures()
 {
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it)
+  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     error("%d %s", (*it)->id, (*it)->url);
+  }
   return;
 }
