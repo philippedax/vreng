@@ -171,10 +171,10 @@
   <solid dim="3 1 2" xn="/gif/house.gif" />
 </gate>
 
-<download name="download" pos="15 7 2.5 1.57"
+<ftp name="download" pos="15 7 2.5 1.57"
   url="http://localhost/~dax/ftp/pub/vreng/vreng.tar.gz">
   <solid dim="3 .08 .4" xn="/php/download.php" />
-</download>
+</ftp>
 
 <!-- labyrinthe 224.255.0.18 -->
 <gate name="labyrinthe" pos="11.5 10 .7 2.3"
