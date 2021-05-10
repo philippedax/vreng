@@ -28,12 +28,6 @@ typedef class WObject * (WCreator) (char *);
 typedef class WObject * (WReplicator) (uint8_t, class Noid, class Payload *);
 typedef void (WBuiltin) ();
 
-/* aliases */
-struct sObj {
-  const char *objalias;
-  const char *objreal;
-};
-
 
 /**
  * OClass Class

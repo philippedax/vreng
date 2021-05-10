@@ -32,10 +32,6 @@ uint16_t OClass::otable_size = 0;
 
 // local
 static const OClass end(0, "End", NULL);
-static const struct sObj objs[] = {
-  { "ftp", "download" },
-  { NULL, NULL }
-};
 
 
 /** OClass constructor */
@@ -69,13 +65,6 @@ const OClass * OClass::getOClass(const char *type_name)
     if (otable[i]) {
       if (otable[i]->type_name) {
         if (type_name) {
-          // handles aliases here !!!
-          const struct sObj *ptab;
-          for (ptab = objs; ptab->objalias; ptab++) {
-            if (! strcmp(otable[i]->type_name, ptab->objalias)) {
-              strcpy((char *)type_name, ptab->objreal);
-            }
-          }
           if (! mystrcasecmp(type_name, otable[i]->type_name)) {
             return otable[i];
           }
@@ -87,6 +76,7 @@ const OClass * OClass::getOClass(const char *type_name)
     }
   }
   error("type_name=%s not found, please upgrade VREng!", type_name);
+  //dumpTable();
   return (OClass *) NULL;
 }
 

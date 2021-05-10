@@ -32,6 +32,17 @@
 // local
 static Parse *parse = NULL;
 
+/* aliases */
+struct sObj {
+  const char *objalias;
+  const char *objreal;
+};
+
+static const struct sObj objs[] = {
+  { "ftp", "download" },
+  { NULL, NULL }
+};
+
 
 Parse::Parse()
 {
@@ -197,16 +208,24 @@ int Parse::parseLine(char *_line, int *ptag_type)
       return TAG_LOCAL;
     }
 
-    // object
+    // this is an object
     const OClass *oclass = NULL;
-    char *q, c = 0;
+    char *nexttok, sep = 0;
 
-    if ((q = nextSpace(ptok))) {	// either ' ' or '>'
-      c = *q;
-      *q = '\0';
+    if ((nexttok = nextSpace(ptok))) {	// either ' ' or '>'
+      sep = *nexttok;
+      *nexttok = '\0';
     }
 
-    // TODO: handle aliases
+    // handles aliases here !!! doesn't work !!!
+    const struct sObj *ptab;
+    for (ptab = objs; ptab->objalias; ptab++) {
+      if (! strcmp(ptok, ptab->objalias)) {
+        strcpy((char *) ptok, ptab->objreal);
+        //error("parse: %d %s", numline, ptok);
+      }
+    }
+    // identify the object
     if ((oclass = OClass::getOClass(ptok))) {
       *ptag_type = oclass->type_id;
       if (! OClass::isValidType(*ptag_type)) {
@@ -215,7 +234,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
       }
       memset(tagobj, 0, sizeof(tagobj));
       strncpy(tagobj, ptok, TAG_LEN-1);	// memorize object tag
-      if (q) *q = c;	// restore sep
+      if (nexttok) *nexttok = sep;	// restore sep
       FREE(line);
       return TAG_OBJECT;
     }
