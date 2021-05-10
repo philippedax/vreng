@@ -65,7 +65,6 @@ FILE * Cache::openCache(const char *url, Http *http)
 {
   char filepath[PATH_LEN];
   if (! setCacheName(url, filepath)) return NULL;
-  //error("url=%s http=%p", url, http);
 
   FILE *fp;
   if ((fp = File::openFile(filepath, "r")) == NULL) {
@@ -78,16 +77,18 @@ FILE * Cache::openCache(const char *url, Http *http)
 
     // writing the file into the cache
     int c;
-    while ((c = http->getChar()) >= 0)
+    while ((c = http->getChar()) >= 0) {
       putc(c, fp);
+    }
     File::closeFile(fp);
     progression('c');	// c as cache
   }
   if (::g.pref.refresh) {  // force reload
     int c;
     progression('h');	// h as http
-    while ((c = http->getChar()) >= 0)
+    while ((c = http->getChar()) >= 0) {
       putc(c, fp);
+    }
     File::closeFile(fp);
     progression('c');
   }

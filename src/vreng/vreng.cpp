@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -51,15 +51,16 @@ jmp_buf sigctx;
 
 
 Global::Global() :
-	debug(0),
-	options(0),
-	timer(*new Timer),
-	env(*new Env),
-	pref(*new Pref),
-	render(*new Render),
-	solid(*new Solid),
-	theme(*new Theme),
-	gui(*new Gui) {} 
+  debug(0),
+  options(0),
+  timer(*new Timer),
+  env(*new Env),
+  pref(*new Pref),
+  render(*new Render),
+  solid(*new Solid),
+  theme(*new Theme),
+  gui(*new Gui)
+{} 
 
 int main(int argc, char *argv[])
 {
@@ -142,8 +143,8 @@ void Global::quitVreng(int signum)
 
 void Global::printStats()
 {
-  if (::g.pref.stats == false)
-    return;
+  if (::g.pref.stats == false) return;
+
   statLog();
   statTimings();
   statNetwork();

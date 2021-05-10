@@ -24,7 +24,6 @@
  *  Author: Eric Lecolinet - ENST Paris
  *  http://www.enst.fr/~elc  http://vreng.enst.fr/
  */
-
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
@@ -34,16 +33,12 @@
 struct GLSection : public ubit::UGraph::Glpaint { GLSection(class Scene*); };
 
 class Scene : public ubit::UBox {
-
 public:
-  bool hudvisible;
-
-  Scene(class Widgets*);
+  Scene(class Widgets*);	///< constructor.
   
-  bool isInitialized() {return is_initialized;} ///< checks whether the scene is initialized.
-
-  void setNetDelay(int msec) {net_delay = msec;}  // default is 500ms
-  int getNetDelay() const {return net_delay;}
+  bool isInitialized();
+  void setNetDelay(int msec);
+  int getNetDelay() const;
   
   void getCoords(GLint coords[4]);
   void getCoords(GLint& x, GLint& y, GLsizei& w, GLsizei& h);
@@ -52,13 +47,15 @@ public:
   void toggleHud();
   
 private:
-  friend class Gui;
+  friend class Gui;		// cycles net_delay
+
   class Widgets& gw;
-  bool is_visible;		 ///< true if visible (not iconified).
+  bool is_visible;		///< true if visible (not iconified).
   bool is_initialized;
   bool is_startCB_launched;
-  int  net_delay;     ///< default is 500ms
-  int  cycles;
+  bool is_hudvisible;
+  int  cycles;			///< scenes per sec
+  int  net_delay;		///< default is 500ms
   UTimer render_timer, net_timer;
   ULabel message;
   UBox hudbox;

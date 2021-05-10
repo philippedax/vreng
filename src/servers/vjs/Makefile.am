@@ -189,7 +189,7 @@ $(GEN_FILES): $(GEN_DEP)
 $(GEN_JAR): $(GEN_FILES)
 	@echo -- Compiling constants files...
 	javac $(JAVAC_FLAGS) -d $(GEN_CLASS_SUBDIR) $(GEN_FILES)
-	jar c0f $(GEN_JAR) -C $(GEN_CLASS_SUBDIR) fr
+	-jar c0f $(GEN_JAR) -C $(GEN_CLASS_SUBDIR) fr
 
 # Build the core jar file
 $(VRENGCORE_JAR): $(GEN_JAR) $(BASE_JAR) $(SERVER_JAR)
@@ -236,12 +236,12 @@ javadoc: $(TMPDIRS)
 	fr.enst.vreng.tester
 
 install:
-	cp vjs $(DESTDIR)$(bindir)
-	cp -p $(JARS) $(INSTALL_DIR)
+	-cp vjs $(DESTDIR)$(bindir)
+	-cp -p $(JARS) $(INSTALL_DIR)
 
 .PHONY: notice
 notice:
-	@echo -- Jar up to date \($(VRENGCORE_JAR) and $(VRENGAPP_JAR)\)
+	@echo -- Jar up to date
 
-endif
-endif
+endif # JAVA
+endif # ENABLE_VJS

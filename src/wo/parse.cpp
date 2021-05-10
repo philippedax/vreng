@@ -203,12 +203,16 @@ int Parse::parseLine(char *_line, int *ptag_type)
 
     if ((q = nextSpace(ptok))) {	// either ' ' or '>'
       c = *q;
-      *q = 0;
+      *q = '\0';
     }
+
+    // TODO: handle aliases
     if ((oclass = OClass::getOClass(ptok))) {
       *ptag_type = oclass->type_id;
-      if (! OClass::isValidType(*ptag_type))
-        error("parse error at line %d (invalid type), *ptag_type=%d ptok=%s", numline, *ptag_type, ptok);
+      if (! OClass::isValidType(*ptag_type)) {
+        error("parse error at line %d (invalid type), *ptag_type=%d ptok=%s",
+              numline, *ptag_type, ptok);
+      }
       memset(tagobj, 0, sizeof(tagobj));
       strncpy(tagobj, ptok, TAG_LEN-1);	// memorize object tag
       if (q) *q = c;	// restore sep
@@ -218,8 +222,9 @@ int Parse::parseLine(char *_line, int *ptag_type)
     FREE(line);
     return TAG_OBJECT;
   }
+
   // not a '<'
-  if ((! stringcmp(ptok, "-->"))) {
+  if (! stringcmp(ptok, "-->")) {
     FREE(line);
     return TAG_COMMENT;
   }
@@ -333,12 +338,15 @@ int Parse::parseVreFile(char *buf, int bufsiz)
           }
           strcpy(tagobj, "transform");
           const OClass *oclass;
-          if ((oclass = OClass::getOClass(tagobj)))
+          if ((oclass = OClass::getOClass(tagobj))) {
             tag_type = oclass->type_id;
-          if (strstr(line, "<local>"))
+          }
+          if (strstr(line, "<local>")) {
             strcpy(line, "push ");	// <local>
-          else
+          }
+          else if (strstr(line, "</local>")) {
             strcpy(line, "pop ");	// </local>
+          }
           //trace(DBG_FORCE, "LOCAL: type=%d line=%s", tag_type, line);
           if ((wobject = OClass::creatorInstance(tag_type, line)) == NULL)
 	    return -1;

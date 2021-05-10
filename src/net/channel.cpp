@@ -61,9 +61,8 @@ void Channel::initReflector()
     strcpy(vrum_addr, inet4_ntop(hp->h_addr_list[0]));
     my_free_hostent(hp);
   }
-#if 1 //FIXME timeout
+  //FIXME timeout
   if (::g.pref.reflector) Sap::init();
-#endif
 }
 
 /** Network Initialization */

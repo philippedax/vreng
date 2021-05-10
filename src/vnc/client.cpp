@@ -19,7 +19,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-
 #include <gui.hpp>
 
 #include <X11/Xlib.h>	//XStringToKeysym
@@ -28,7 +27,6 @@
 /*
  * Constructors
  */
-
 VNCRGB::VNCRGB()
 {
   red = 0;
@@ -167,10 +165,12 @@ void VNCClient::sendRFBEvent(char **params, unsigned int *num_params)
       error("Invalid keysym '%s' passed to sendRFBEvent", params[1]);
       return;
     }
-    if (strcasecmp(params[0], "keydown") == 0)
+    if (strcasecmp(params[0], "keydown") == 0) {
       rfbproto.sendKeyEvent(ks, 1);
-    else if (strcasecmp(params[0], "keyup") == 0)
+    }
+    else if (strcasecmp(params[0], "keyup") == 0) {
       rfbproto.sendKeyEvent(ks, 0);
+    }
     else if (strcasecmp(params[0], "key") == 0) {
       rfbproto.sendKeyEvent(ks, 1);
       rfbproto.sendKeyEvent(ks, 0);
@@ -258,8 +258,9 @@ void VNCClient::fillRect(int rx, int ry, int rw, int rh, VNCRGB pixel)
   trace(DBG_VNC, "fillRect: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
 
   for (int h = 0; h < rh; h++) {
-    for (int w = 0; w < rw; w++)
+    for (int w = 0; w < rw; w++) {
       *dest++ = pixel;
+    }
     dest += fbWidth - rw;
   }
 }

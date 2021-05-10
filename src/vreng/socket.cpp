@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2028 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -30,7 +30,8 @@ int Socket::openDatagram()
 
   if ((sd = socket(PF_INET, SOCK_DGRAM, 0)) < 0)
     error("socket: %s (%d)", strerror(errno), errno);
-  if (sd > 0) cnt_open_socket++;
+  if (sd > 0)
+    cnt_open_socket++;
   return sd;
 }
 
@@ -41,11 +42,12 @@ int Socket::openStream()
 
   if ((sd = socket(PF_INET, SOCK_STREAM, 0)) < 0)
     error("socket: %s (%d)", strerror(errno), errno);
-  if (sd > 0) cnt_open_socket++;
+  if (sd > 0)
+    cnt_open_socket++;
   return sd;
 }
 
-/** Close a socket datagram*/
+/** Close a socket datagram */
 void Socket::closeDatagram(int sd)
 {
   if (sd > 0) {
@@ -82,8 +84,7 @@ int Socket::reuseAddr(int sd)
 {
   const int one = 1;
 
-  if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR,
-		 (char *) &one, sizeof(one)) < 0) {
+  if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, (char *) &one, sizeof(one)) < 0) {
     error("SO_REUSEADDR: %s (%d)", strerror(errno), errno);
     return -1;
   }
@@ -94,8 +95,7 @@ int Socket::tcpNoDelay(int sd)
 {
   const int one = 1;
 
-  if (setsockopt(sd, SOL_SOCKET, TCP_NODELAY,
-		 (char *) &one, sizeof(one)) < 0) {
+  if (setsockopt(sd, SOL_SOCKET, TCP_NODELAY, (char *) &one, sizeof(one)) < 0) {
     error("TCP_NODELAY: %s (%d) sock=%d", strerror(errno), errno, sd);
     return -1;
   }
@@ -123,7 +123,6 @@ uint16_t Socket::getSrcPort(int sd)
  */
 int Socket::handleBlocking(int sd, bool block)
 {
-#if HAVE_FCNTL
   int flags;
 
   if ((flags = fcntl(sd, F_GETFL)) < 0) {
@@ -138,7 +137,6 @@ int Socket::handleBlocking(int sd, bool block)
     error("F_SETFL: %s (%d)", strerror(errno), errno);
     return -1;
   }
-#endif // HAVE_FCNTL
   return sd;
 }
 
@@ -158,13 +156,8 @@ int Socket::setNoBlocking(int sd)
  */
 int Socket::setScope(int sd, uint8_t _ttl)
 {
-#if defined(__WIN32__) || defined(_WIN32)
-#define TTL_TYPE int
-#else
-#define TTL_TYPE uint8_t
-#endif
   if (_ttl) {
-    TTL_TYPE ttl = (TTL_TYPE)_ttl;
+    uint8_t ttl = (uint8_t) _ttl;
     if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, sizeof(ttl)) < 0) {
       error("IP_MULTICAST_TTL: %s (%d)", strerror(errno), errno);
       return -1;
@@ -180,8 +173,7 @@ int Socket::setScope(int sd, uint8_t _ttl)
 int Socket::handleLoopback(int sd, uint8_t loop)
 {
 #ifdef IP_MULTICAST_LOOP // Windoze doesn't handle IP_MULTICAST_LOOP
-  if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_LOOP,
-		 &loop, sizeof(loop)) < 0) {
+  if (setsockopt(sd, IPPROTO_IP, IP_MULTICAST_LOOP, &loop, sizeof(loop)) < 0) {
 #if IPMC_ENABLED
     error("IP_MULTICAST_LOOP: %s (%d)", strerror(errno), errno);
 #endif
@@ -203,8 +195,7 @@ int Socket::setNoLoopback(int sd)
 
 int Socket::addMembership(int sd, const void *pmreq)
 {
-  if (setsockopt(sd, IPPROTO_IP, IP_ADD_MEMBERSHIP,
-                 pmreq, sizeof(struct ip_mreq)) < 0) {
+  if (setsockopt(sd, IPPROTO_IP, IP_ADD_MEMBERSHIP, pmreq, sizeof(struct ip_mreq)) < 0) {
 #if IPMC_ENABLED
     error("IP_ADD_MEMBERSHIP: %s (%d)", strerror(errno), errno);
 #endif
@@ -215,8 +206,7 @@ int Socket::addMembership(int sd, const void *pmreq)
 
 int Socket::dropMembership(int sd, const void *pmreq)
 {
-  if (setsockopt(sd, IPPROTO_IP, IP_DROP_MEMBERSHIP,
-                 pmreq, sizeof(struct ip_mreq)) < 0) {
+  if (setsockopt(sd, IPPROTO_IP, IP_DROP_MEMBERSHIP, pmreq, sizeof(struct ip_mreq)) < 0) {
 #if IPMC_ENABLED
     error("IP_DROP_MEMBERSHIP: %s (%d)", strerror(errno), errno);
 #endif
@@ -258,8 +248,9 @@ int Socket::createSendSocket(uint8_t ttl)
     setSendSocket(sd, ttl);
   return sd;
 }
+
 /**
- * bind
+ * Bind
  */
 int Socket::bindSocket(int sd, uint32_t uni_addr, uint16_t port)
 {
@@ -286,19 +277,6 @@ int Socket::createUcastSocket(uint32_t uni_addr, uint16_t port)
   int sd = -1;
 
   if ((sd = openDatagram()) < 0) return -1;
-#if 0
-  struct sockaddr_in sa;
-  memset(&sa, 0, sizeof(struct sockaddr_in));
-  sa.sin_family = AF_INET;
-  sa.sin_port = htons(port);
-  sa.sin_addr.s_addr = htonl(uni_addr);
-
-  Socket::reuseAddr(sd);
-  struct sockaddr_in sa;
-  if (bind(sd, (struct sockaddr *) &sa, sizeof(struct sockaddr_in)) < 0) {
-    error("receive unicast bind: %s (%d)", strerror(errno), errno);
-  }
-#endif
   bindSocket(sd, uni_addr, port);
   return sd;
 }

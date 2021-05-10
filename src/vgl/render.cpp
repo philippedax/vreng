@@ -27,7 +27,6 @@
 #include "world.hpp"	// current
 #include "bgcolor.hpp"	// Bgcolor
 #include "user.hpp"	// USER_TYPE
-#include "mirror.hpp"	// MIRROR_TYPE
 #include "vicinity.hpp"	// Vicinity
 #include "pref.hpp"	// ::g.pref
 #include "grid.hpp"	// Grid
@@ -466,7 +465,7 @@ void Render::lighting()
   // renders other lights for example sun, moon, lamp
   //trace2(DBG_VGL, "\nlight:");
   for (list<WObject*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
-    if ((*it)->isValid()) { //FIXME segfault sometimes
+    if ((*it)->isValid()) {	 //FIXME segfault sometimes
       (*it)->lighting();
       //trace2(DBG_VGL, " %s", (*it)->getInstance());
     }
@@ -545,10 +544,11 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   GLuint** hitlist = new GLuint*[hits];
   GLuint *psel = selbuf;
   for (int i=0; i < hits; i++) {
-    if (::g.pref.dbgtrace)
+    if (::g.pref.dbgtrace) {
       error("hit=%d/%d num=%d min=%ud name=%s/%s",
             i, hits, psel[3], psel[1],
             WObject::byNum(psel[3])->typeName(),WObject::byNum(psel[3])->getInstance());
+    }
     hitlist[i] = psel;
     psel += 3 + psel[0];	// next hit
   }
@@ -677,11 +677,7 @@ WObject** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
   int nb = 0;
 
   WObject **drawedlist = Render::getDrawedObjects(&hits);
-#if 0 //DAXVECTOR
-  vector<WObject**> objlist(hits);
-#else
   WObject **objlist = (WObject**) malloc(hits*sizeof(WObject*));
-#endif
 
   for (int i=0; i < hits ; i++) {
     for (int j=0; j < nbr ; j++) {
@@ -695,11 +691,7 @@ WObject** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
       }
     }
   }
-#if 0 //DAXVECTOR
-  objlist.resize(nb);
-#else
   objlist = (WObject**) realloc(objlist, nb * sizeof(WObject*));
-#endif
 
   *nbelems = nb;
   if (drawedlist) delete[] drawedlist;

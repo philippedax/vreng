@@ -189,8 +189,9 @@ void WObject::initObject(uint8_t _mode)
   }
   if (isBehavior(NO_BBABLE))
     enableBehavior(COLLIDE_NEVER);
-  if (isBehavior(SPECIFIC_RENDER))
+  if (isBehavior(SPECIFIC_RENDER)) {
     addToRender();	// add to renderList
+  }
 
   update3D(pos);
   if (bbBehavior()) {
@@ -483,7 +484,7 @@ void WObject::deleteSolids()
   if (_solids.empty()) return;
   for (SolidList::iterator it = _solids.begin(); it != _solids.end(); ++it) {
     if (*it)
-      delete (*it);
+      delete(*it);
   }
   _solids.erase(_solids.begin(), _solids.end());
 }
@@ -858,8 +859,9 @@ void WObject::toDelete()
  */
 void WObject::specialAction(int act_id, void *data, time_t s, time_t us)
 {
-  if (isAction(type, act_id))
+  if (isAction(type, act_id)) {
     doAction(type, act_id, this, data, s, us);
+  }
 }
 
 bool WObject::runAction(const char *action)
@@ -1006,8 +1008,9 @@ void WObject::clearList(list<WObject*> &olist)
 /* Adds a pointer of this object in an olist */
 void WObject::addToList(list<WObject*> &olist)
 {
-  if (isValid()) 
+  if (isValid()) {
     olist.push_back(this);
+  }
 }
 
 OList * WObject::addToList(OList *olist)

@@ -115,8 +115,9 @@ World::World()
 /* Adds world into world list */
 void World::addToList()
 {
-  if (!worldList)	// first world encountered
+  if (!worldList) {	// first world encountered
     next = prev = NULL;
+  }
   else if (worldList != this) {
     next = worldList;
     worldList->prev = this;
@@ -398,12 +399,6 @@ void World::compute(time_t sec, time_t usec)
     dimy = MIN(64, dimy);
     dimz = MIN(16, dimz);
     //notice("dim: %d,%d,%d", dimx, dimy, dimz);
-    //dimgrid[Ø] = dimx;
-    //dimgrid[1] = dimy;
-    //dimgrid[2] = dimz;
-    // free the current grid, reinitialize another one with new dimensions
-    //World::current->freeGrid();
-    //World::current->initGrid(dimgrid, bbslice);
 
     Grid::grid()->init(dimx, dimy, dimz);
     Axis::axis()->init();
@@ -588,23 +583,27 @@ OList **** World::allocGrid()
 /** clear all pointers in the grid */
 void World::clearGrid()
 {
-  for (int x=0; x < dimgrid[0]; x++)
-    for (int y=0; y < dimgrid[1]; y++)
+  for (int x=0; x < dimgrid[0]; x++) {
+    for (int y=0; y < dimgrid[1]; y++) {
       for (int z=0; z < dimgrid[2]; z++) {
         gridArray[x][y][z] = NULL;
       }
+    }
+  }
 }
 
 /** free all the grid (static) */
 void World::freeGrid()
 {
-  for (int x=0; x < dimgrid[0]; x++)
-    for (int y=0; y < dimgrid[1]; y++)
+  for (int x=0; x < dimgrid[0]; x++) {
+    for (int y=0; y < dimgrid[1]; y++) {
       for (int z=0; z < dimgrid[2]; z++) {
         if (gridArray[x][y][z]) {
           gridArray[x][y][z] = NULL;
         }
       }
+    }
+  }
 }
 
 /* Check and load my proper icons - static */
@@ -626,21 +625,23 @@ void World::checkIcons()
           for (struct dirent *di = readdir(diri); di; di = readdir(diri)) {
             if (stat(di->d_name, &bufstat) == 0 &&
                 S_ISREG(bufstat.st_mode)) {
+
               // open the icon and read it
               FILE *fp;
               if ((fp = File::openFile(di->d_name, "r")) == NULL) {
                 error("can't open %s/%s/%s", ::g.env.icons(), getName(), di->d_name);
                 continue;
               }
-              char vref[BUFSIZ], infos[BUFSIZ *2], urlvre[URL_LEN];
+              char vref[BUFSIZ], infos[BUFSIZ *2], url[URL_LEN];
               fgets(vref, sizeof(vref), fp);
               File::closeFile(fp);
-              Cache::file2url(di->d_name, urlvre);
+              Cache::file2url(di->d_name, url);
               // create the icon
-              sprintf(infos, "<url=\"%s\">&<vref=%s>", urlvre, vref);
+              sprintf(infos, "<url=\"%s\">&<vref=%s>", url, vref);
               trace(DBG_WO, "load-icon: %s", infos);
-              if (isAction(ICON_TYPE, Icon::CREATE))
+              if (isAction(ICON_TYPE, Icon::CREATE)) {
                 doAction(ICON_TYPE, Icon::CREATE, localUser(), infos, 0, 0);
+              }
             }
           }
           closedir(diri);
@@ -704,56 +705,63 @@ void World::checkPersist()
 }
 
 /* world reader - static */
-void World::httpReader(void *url, Http *http)
+void World::httpReader(void *_url, Http *http)
 {
-  char *vreurl = (char *) url;
-  char vrefile[URL_LEN];
-  Cache::setCacheName(vreurl, vrefile);
-  trace(DBG_WO, "httpReader %s:", vreurl);
+  char *url = (char *) _url;
+  trace(DBG_WO, "httpReader %s:", url);
+  if (! http) {
+    error("can't download %s, check access to the remote http server", url);
+  }
 
-  if (! http)
-    error("can't download %s, check access to the remote http server", vreurl);
+  FILE *fp = NULL;
+  int len = 0;
+  struct stat bufstat;
+  char file[URL_LEN];
+  char buf[BUFSIZ];
 
-  Parse *parser = new Parse();	// create the parser instance
+  Cache::setCacheName(url, file);
 
-  FILE *vrefp;
-  int vrelen = 0;
-  struct stat vrestat;
-  char vrebuf[BUFSIZ];
+  Parse *parser = new Parse();		// create the parser instance
 
-  if (stat(vrefile, &vrestat) < 0) {    // file is not in the cache
-    if ((vrefp = File::openFile(vrefile, "w")) == NULL)
-      error("can't create file %s", vrefile);
+  if (stat(file, &bufstat) < 0) {	// file is not in the cache
+    if ((fp = File::openFile(file, "w")) == NULL) {
+      error("can't create file %s", file);
+    }
 
     // download the vre file from the httpd server
 httpread:
-    while ((vrelen = http->httpRead(vrebuf, sizeof(vrebuf))) > 0) {
-      if (vrefp)
-        fwrite(vrebuf, 1, vrelen, vrefp);      // save into the cache
-      if (parser->parseVreFile(vrebuf, vrelen) <= 0)   // parsing error
+    while ((len = http->httpRead(buf, sizeof(buf))) > 0) {
+      if (fp) {
+        fwrite(buf, 1, len, fp);	// save into the cache
+      }
+      if (parser->parseVreFile(buf, len) <= 0) {  // eof or parsing error
         break;
+      }
     }
 
 #if 0 //HAVE_LIBXML2
-    Xml::dtdValidation(vrefile);        // check the DTD
+    Xml::dtdValidation(file);        // check the DTD
 #endif //HAVE_LIBXML2
   }
   else {        // file exists in the cache
-    if ((vrefp = File::openFile(vrefile, "r")) == NULL) goto httpread;    // download it
-    while ((vrelen = fread(vrebuf, 1, sizeof(vrebuf), vrefp)) > 0) {
-      if (parser->parseVreFile(vrebuf, vrelen) <= 0)   // parsing error
+    if ((fp = File::openFile(file, "r")) == NULL) {
+      goto httpread;			// download it
+    }
+    while ((len = fread(buf, 1, sizeof(buf), fp)) > 0) {
+      if (parser->parseVreFile(buf, len) <= 0) {  // eof or parsing error
         break;
+      }
     }
   }
   parser->numline = 0;
-  if (vrefp) File::closeFile(vrefp);
+  if (fp) File::closeFile(fp);
 
-  trace(DBG_WO, "httpReader: %s downloaded", vreurl);
+  trace(DBG_WO, "httpReader: %s downloaded", url);
   return;
 }
 
 /* General World Initialization - static */
-void World::init(const char *vreurl)
+void World::init(const char *url)
 {
   //
   // Create initial world
@@ -771,11 +779,12 @@ void World::init(const char *vreurl)
   initNames();
   initGeneralFuncList();
 
-  if (::g.pref.keep == false)
+  if (::g.pref.keep == false) {
     ::g.env.cleanCacheByExt("vre");	// remove *.vre in the cache
+  }
 
-  world->setUrl(vreurl);
-  world->setName(vreurl);
+  world->setUrl(url);
+  world->setName(url);
   world->guip = ::g.gui.addWorld(world, NEW);
   world->clock = new Clock();
   world->bgcolor = new Bgcolor();
@@ -792,7 +801,7 @@ void World::init(const char *vreurl)
   //
   trace(DBG_WO, "download initial world");
   //world->universe->startWheel();
-  Http::httpOpen(world->getUrl(), httpReader, (void *)vreurl, 0);
+  Http::httpOpen(world->getUrl(), httpReader, (void *)url, 0);
   //world->universe->stopWheel();
   endprogression();
 
@@ -834,7 +843,7 @@ void World::quit()
   for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end(); ++o) {
     if (*o && (*o)->isValid()) {
       (*o)->quit();
-      delete (*o);
+      delete(*o);
     }
   }
   invisList.clear();
@@ -843,7 +852,7 @@ void World::quit()
   for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
     if (*o && (*o)->isValid()) {
       (*o)->quit();
-      delete (*o);
+      delete(*o);
     }
   }
   stillList.clear();
@@ -854,7 +863,7 @@ void World::quit()
     if (*o && (*o)->isValid() && ! (*o)->isEphemeral()) {
       (*o)->clearObjectBar();	// segfault FIXME
       (*o)->quit();
-      delete (*o);
+      delete(*o);
     }
   }
   mobileList.clear();
@@ -863,14 +872,15 @@ void World::quit()
   for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o) {
     if (*o && (*o)->isValid()) {
       (*o)->quit();
-      delete (*o);
+      delete(*o);
     }
   }
   fluidList.clear();
 
   // Update GUI
-  if (guip)
+  if (guip) {
     ::g.gui.updateWorld(this, OLD);
+  }
   ::g.gui.showNavigator();	// force navig mode
 
   if (localuser && localuser->noh) {
@@ -915,8 +925,9 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
     if (url && isprint(*url)) {
       newworld->url = new char[strlen(url) + 1];
-      if (strlen(url) < URL_LEN)
+      if (strlen(url) < URL_LEN) {
         strcpy(newworld->url, url);
+      }
       else {
         strncpy(newworld->url, url, URL_LEN-1);
         newworld->url[URL_LEN] = '\0';
@@ -936,7 +947,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     newworld->guip = ::g.gui.addWorld(world, NEW);
     world = newworld;
   }
-  else { // world already exists
+  else {	// world already exists
     trace(DBG_WO, "enter: world=%s (%d) already exists", current()->getName(), isnew);
     world = current();
     if (world->guip) ::g.gui.updateWorld(world, OLD);
@@ -995,6 +1006,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   trace(DBG_WO, "enter: world %s loaded: ", world->name);
   world->setState(LOADED);// downloaded
+
   return world;
 }
 
@@ -1003,14 +1015,15 @@ void World::deleteObjects()
 {
   for (list<WObject*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
     if (*it) {
-      if ((*it)->isValid() && ! (*it)->isBehavior(COLLIDE_NEVER))
+      if ((*it)->isValid() && ! (*it)->isBehavior(COLLIDE_NEVER)) {
         (*it)->delFromGrid();
+      }
       if ((*it)->removed) {
         objectList.remove(*it);
         mobileList.remove(*it);
         stillList.remove(*it);
         //error("delete: %s", (*it)->getInstance());
-        //dax8 delete (*it);	//segfault
+        //dax8 delete(*it);	//segfault FIXME!
         deleteList.erase(it);
       }
     }

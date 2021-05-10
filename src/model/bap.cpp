@@ -126,9 +126,6 @@ int Bap::readFrame(char *bapline)
   // num_faps to be added
   //
   char *l;
-  //float vreng_rate;
-  //float bap_rate;
-  //float ratio_rate;
 
   //debug error("%s", bapline);
   l = strtok(bapline, " \t");
@@ -144,10 +141,6 @@ int Bap::readFrame(char *bapline)
     resetMask(num_baps);
     bfflag = TYPE_BAP_V32;
     l = strtok(NULL, " \t"); l = strtok(NULL, " \t");
-    //bap_rate = (float) atof(l);
-    //vreng_rate = ::g.times.getRate();
-    //ratio_rate = vreng_rate / bap_rate;
-    //debug error("readFrame bap3.2: num_baps=%d vreng_rate=%.2f bap_rate=%.2f ratio_rate=%.2f", num_baps, vreng_rate, bap_rate, ratio_rate);
   }
   else if (! stringcmp(l, HEAD_FAP_V20)) {	// Fap2.0 Header
     num_baps = NUM_FAPS;

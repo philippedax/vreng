@@ -42,16 +42,18 @@ static struct hash_elt hashtable[NAME_HASH_SIZE];
 void World::initNames()
 {
   World::current()->namecnt = 0;
-  for (int i=0; i < NAME_HASH_SIZE; i++)
+  for (int i=0; i < NAME_HASH_SIZE; i++) {
     memset(hashtable[i].name, 0, OBJNAME_LEN);
+  }
 }
 
 static uint32_t hash_name(const char *s)
 {
   uint32_t h;
 
-  for (h=0; *s ; s++)
+  for (h=0; *s ; s++) {
     h = ((h << 8) + *s) % NAME_HASH_SIZE;
+  }
   return h;
 }
 
@@ -83,8 +85,10 @@ WObject * WObject::getObjectByName(const char *str)
   uint32_t hval = hash_name(fullname);
   trace(DBG_WO, "getObjectByName: hval=%d name=%s", hval, fullname);
   while (hval) {
-    if (*(hashtable[hval].name) == '\0') return (WObject *) NULL;
-    if (! strcmp(hashtable[hval].name, fullname)) return hashtable[hval].po;
+    if (*(hashtable[hval].name) == '\0')
+      return (WObject *) NULL;
+    if (! strcmp(hashtable[hval].name, fullname))
+      return hashtable[hval].po;
     hval = (hval + 1) % NAME_HASH_SIZE;
   }
   return (WObject *) NULL;

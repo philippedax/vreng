@@ -282,7 +282,9 @@ void WObject::stopImposedMovement()
   move.sec = 0;
   move.usec = 0;
   move.without_col = false;
-  for (Move *pm = move.next; pm ; pm = pm->next) delete[] pm;
+  for (Move *pm = move.next; pm ; pm = pm->next) {
+    delete[] pm;
+  }
 }
 
 void WObject::enablePermanentMovement()
@@ -338,8 +340,9 @@ void User::userMovement(time_t sec, time_t usec)
   updateTime(keylastings);
 
   float lasting = -1.;
-  for (int k=0; k < MAXKEYS; k++)
+  for (int k=0; k < MAXKEYS; k++) {
     if (keylastings[k] > lasting) lasting = keylastings[k];
+  }
 
   if (lasting > MIN_LASTING) {  // user is moving
     if (! isValid()) { error("usermove: type=%d", type); return; }
@@ -429,7 +432,7 @@ void WObject::elemPermanentMovement(float dt)
   }
   WObject *pold = new WObject();
   copyPositionAndBB(pold);  // keep oldpos for intersection
-  changePermanent(dt);  // handled by each object
+  changePermanent(dt);	// handled by each object
   updatePosition();
   checkVicinity(pold);
   delete pold;
@@ -529,7 +532,7 @@ void gotoXYZ(float gox, float goy, float goz, float az)
   float attl = 0.5;  // 1/2 sec
   float lttl = sqrt(dx*dx + dy*dy + dz*dz) / User::LSPEED;
 
-  //l'utilisateur tourne en direction de l'objet avant d'aller vers celui ci
+  // l'utilisateur tourne en direction de l'objet avant d'aller vers celui ci
   localuser->move.ttl = attl;    // needed for pthreaded endMovement
   clearV3(localuser->move.lspeed);
   clearV3(localuser->move.aspeed);

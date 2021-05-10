@@ -250,6 +250,14 @@ bool VNCSockets::sameMachine()
   return (peersa.sin_addr.s_addr == mysa.sin_addr.s_addr);
 }
 
+/*
+ * Returns the socket used
+ */
+int VNCSockets::getSock()
+{
+  return rfbsock;
+}
+
 #if 0 //unused
 /*
  * Print out the contents of a packet for debugging.
@@ -285,11 +293,3 @@ void VNCSockets::PrintInHex(char *buf, int len)
   fflush(stderr);
 }
 #endif //unused
-
-/*
- * Returns the socket used
- */
-int VNCSockets::getSock()
-{
-  return rfbsock;
-}

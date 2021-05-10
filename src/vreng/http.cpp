@@ -439,8 +439,9 @@ htagain:
             }
           }
         }
-        else
+        else {
           break;
+        }
       } // end for
     } while (!eoheader);
 
@@ -517,7 +518,7 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
 }
 
 //
-// Http
+// Http class
 //
 Http::Http()
 {

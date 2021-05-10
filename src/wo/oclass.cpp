@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,18 +32,31 @@ uint16_t OClass::otable_size = 0;
 
 // local
 static const OClass end(0, "End", NULL);
+static const struct sObj objs[] = {
+  { "ftp", "download" },
+  { NULL, NULL }
+};
 
 
 /** OClass constructor */
 OClass::OClass(uint8_t _type_id, const char* _type_name,
 	       WCreator _creator, WReplicator _replicator, WBuiltin _builtin) :
-  type_id(_type_id), type_name(_type_name), creator(_creator), replicator(_replicator), builtin(_builtin)
+  type_id(_type_id),
+  type_name(_type_name),
+  creator(_creator),
+  replicator(_replicator),
+  builtin(_builtin)
 {
-  if (type_id < otable_size) otable[type_id] = this;
+  if (type_id < otable_size) {
+    otable[type_id] = this;
+  }
   else {
-    if (! (otable = (OClass**) realloc(otable, sizeof(OClass *) * (type_id+1))))
+    if (! (otable = (OClass**) realloc(otable, sizeof(OClass *) * (type_id+1)))) {
       fatal("can't realloc otable");
-    for (int i=otable_size; i < type_id + 1; i++) otable[i] = (OClass *) NULL;
+    }
+    for (int i = otable_size; i < (type_id + 1); i++) {
+      otable[i] = (OClass *) NULL;
+    }
     otable_size = type_id + 1;
     otable[type_id] = this;
   }
@@ -55,11 +68,22 @@ const OClass * OClass::getOClass(const char *type_name)
   for (int i=1; i < otable_size; i++) {
     if (otable[i]) {
       if (otable[i]->type_name) {
-        if (type_name)
-          if (! mystrcasecmp(type_name, otable[i]->type_name)) return otable[i];
+        if (type_name) {
+          // handles aliases here !!!
+          const struct sObj *ptab;
+          for (ptab = objs; ptab->objalias; ptab++) {
+            if (! strcmp(otable[i]->type_name, ptab->objalias)) {
+              strcpy((char *)type_name, ptab->objreal);
+            }
+          }
+          if (! mystrcasecmp(type_name, otable[i]->type_name)) {
+            return otable[i];
+          }
+        }
       }
-      else
+      else {
         error("otable[%d]->type_name=%s", i, otable[i]->type_name);
+      }
     }
   }
   error("type_name=%s not found, please upgrade VREng!", type_name);
@@ -68,35 +92,46 @@ const OClass * OClass::getOClass(const char *type_name)
 
 const OClass * OClass::getOClass(uint8_t type_id)
 {
-  if (type_id < otable_size) return otable[type_id];
+  if (type_id < otable_size) {
+    return otable[type_id];
+  }
   error("getOClass: type_id=%d out of bounds", type_id); dumpTable();
   return (OClass *) NULL;
 }
 
 WObject * OClass::creatorInstance(uint8_t type_id, char *l)
 {
-  if (isValidType(type_id)) return otable[type_id]->creator(l);
+  if (isValidType(type_id)) {
+    return otable[type_id]->creator(l);
+  }
   error("creatorInstance: type_id=%d out of bounds", type_id); dumpTable();
   return NULL;
 }
 
 void OClass::builtinInstance(uint8_t type_id)
 {
-  if (isValidType(type_id)) otable[type_id]->builtin();
-  else error("builtinInstance: type_id=%d out of bounds", type_id);
+  if (isValidType(type_id)) {
+    otable[type_id]->builtin();
+  }
+  else {
+    error("builtinInstance: type_id=%d out of bounds", type_id);
+  }
 }
 
 WObject * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 {
-  if (isValidType(type_id)) return otable[type_id]->replicator(type_id, noid, pp);
+  if (isValidType(type_id)) {
+    return otable[type_id]->replicator(type_id, noid, pp);
+  }
   error("replicatorInstance: type_id=%d out of bounds", type_id); dumpTable();
   return NULL;
 }
 
 void OClass::dumpTable()
 {
-  for (int i=1; i < otable_size; i++)
+  for (int i=1; i < otable_size; i++) {
     printf("%02d: %p %02d %s\n", i, otable[i], otable[i]->type_id, otable[i]->type_name);
+  }
 }
 
 bool OClass::isValidType(int type_id)

@@ -171,10 +171,10 @@
   <solid dim="3 1 2" xn="/gif/house.gif" />
 </gate>
 
-<ftp name="download" pos="15 7 2.5 1.57"
-  url="ftp://localhost/~dax/ftp/pub/vreng/vreng.tar.gz">
+<download name="download" pos="15 7 2.5 1.57"
+  url="http://localhost/~dax/ftp/pub/vreng/vreng.tar.gz">
   <solid dim="3 .08 .4" xn="/php/download.php" />
-</ftp>
+</download>
 
 <!-- labyrinthe 224.255.0.18 -->
 <gate name="labyrinthe" pos="11.5 10 .7 2.3"
@@ -209,7 +209,7 @@
 </gate>
 
 <!-- sea 224.255.0.23 -->
-<gate name="seasexsun" pos="12.8 6 .8 2.3"
+<gate name="sea" pos="12.8 6 .8 2.3"
   url="/vre/v8/sea.vre" channel="224.255.0.23/52886/127">
   <solid dim="1.6 .2 1.6" xn="/pgm/girl.pgm" dif="lightblue" />
 </gate>
@@ -483,7 +483,7 @@
 <guy name="girl1"   pos="11.0 4.0 .85 1.5" skin="wheat"    bust="wheat" legs="pink" feet="black"    url="/cset/walking.cset"> sex=1 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
 <guy name="guy2"    pos="10.5 4.5 .85 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
 <guy name="guy3"    pos="10.5 3.5 .85 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
-<mirage name="man4" pos="10.0 4.0 .80 0.5"> <solid shape="man" dim=".3 .2 1.70" /></mirage>
+<model name="man4" pos="10.0 4.0 .80 0.5" url="man"> <solid shape="man" dim=".3 .2 1.70" /></model>
 <!--
 -->
 

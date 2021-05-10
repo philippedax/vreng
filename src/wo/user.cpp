@@ -545,8 +545,9 @@ void User::changePosition(float lasting)
 /* equations system handling permanent motions */
 void User::changePermanent(float lasting)
 {
-  if (! pause_gravity)
+  if (! pause_gravity) {
     pos.z -= lasting * GRAVITY;
+  }
 }
 
 void User::resetBubble()
@@ -613,7 +614,6 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
     return false;	//TODO
   default:
     pcur->updatePositionAndGrid(pold);
-    //dax pold->copyPositionAndBB(pcur);
   }
   return true;
 }
@@ -653,17 +653,20 @@ void User::specialAction(int action_id, void *d, time_t s, time_t u)
   if (carrier && carrier->isTaking()) o = carrier;  // carrier
   else                                o = this;	    // user
 
-  if (isAction(o->type, action_id)) doAction(o->type, action_id, o, d, s, u);
+  if (isAction(o->type, action_id))
+    doAction(o->type, action_id, o, d, s, u);
 }
 
 void User::createBullet(User *user, void *d, time_t s, time_t u)
 {
-  if (isAction(BULLET_TYPE, Bullet::CREATE)) doAction(BULLET_TYPE, Bullet::CREATE, user, d, s, u);
+  if (isAction(BULLET_TYPE, Bullet::CREATE))
+    doAction(BULLET_TYPE, Bullet::CREATE, user, d, s, u);
 }
 
 void User::createDart(User *user, void *d, time_t s, time_t u)
 {
-  if (isAction(DART_TYPE, Dart::CREATE)) doAction(DART_TYPE, Dart::CREATE, user, d, s, u);
+  if (isAction(DART_TYPE, Dart::CREATE))
+    doAction(DART_TYPE, Dart::CREATE, user, d, s, u);
 }
 
 void User::defaultZoom(User *user, void *d, time_t s, time_t u)

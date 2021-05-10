@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -44,19 +44,20 @@
 #include "pref.hpp"	// width3D
 #include "cache.hpp"	// check
 #include "audio.hpp"	// start
-#include "event.hpp"	// NetIncoming NetTimeout
+#include "event.hpp"	// netIncoming
 #include "channel.hpp"	// Channel
 #include "vac.hpp"	// resolveWorldUrl, getUrlAndChannel
-#include "theme.hpp"
+#include "theme.hpp"	// g.theme
 
 
 // Constructor
 Gui::Gui() :
-widgets(null),
-selected_object(null),  // the object that is currently selected
-vnc(null),
-carrier(null),
-vrelet(null) {
+  widgets(null),
+  selected_object(null),  // the object that is currently selected
+  vnc(null),
+  carrier(null),
+  vrelet(null)
+{
 }
 
 void Gui::createWidgets()
@@ -85,13 +86,14 @@ void Gui::writeMessage(const char *mode, const char *from, const char *mess)
   if (widgets) widgets->message.writeMessage(mode, from, mess);
 }
 
-// ocaml
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Ocaml
+//
 void Gui::initClicked()
 {
   if (widgets) widgets->message.initClicked();
 }
 
-// ocaml
 void Gui::getClicked(int *click, float clicked[])
 {
   if (widgets) widgets->message.getClicked(click, clicked);
@@ -112,7 +114,8 @@ void Gui::addChannelSources(int channel, int table[], int table_count)
   channel_sources[channel] = new ChannelSources(table_count);
   for (int k=0; k < table_count; k++) {
     USource* s =  new USource(table[k]);
-    s->onAction(ucall(table[k], ::NetIncoming));
+    //dax (Event) *event = new Event();
+    s->onAction(ucall(table[k], ::netIncoming));
     channel_sources[channel]->push_back(s);
   }
 }
@@ -124,7 +127,8 @@ void Gui::removeChannelSources(int channel)
   ChannelSources* css = channel_sources[channel];
   if (css == null)  return;
 
-  for (unsigned int k=0; k < css->size(); k++) delete (*css)[k];
+  for (int k=0; k < css->size(); k++)
+    delete(*css)[k];
   delete css;
   channel_sources[channel] = null;
 }

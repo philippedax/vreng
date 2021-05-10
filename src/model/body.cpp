@@ -763,7 +763,8 @@ void Body::anim(int param)
 
 bool Body::isLoaded(int part)
 {
-  if (part >= 0 && part < MAX_PARTS) return bodyparts[part].loaded;
+  if (part >= 0 && part < MAX_PARTS)
+    return bodyparts[part].loaded;
   return false;
 }
 

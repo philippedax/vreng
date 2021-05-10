@@ -352,7 +352,7 @@ char * Solid::getTok(char *l, uint16_t *tok)
   if (l) {
     *(l-1) = '\0';	// end of token '=',  replaced by null terminated
     for (ptab = stokens; ptab->tokstr ; ptab++) {
-      if ((!strcmp(ptab->tokstr, t)) || (!strcmp(ptab->tokalias, t))) {
+      if ( (!strcmp(ptab->tokstr, t)) || (!strcmp(ptab->tokalias, t)) ) {
         *tok = ptab->tokid;
         return l;
       }

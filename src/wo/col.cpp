@@ -76,12 +76,14 @@ int WObject::interAABB(V3 center1, V3 size1, V3 center2, V3 size2)
       (dcx >= sx1+sx2 - 1e-3) ||
       (dcy >= sy1+sy2 - 1e-3))
     return NO_INTER;	// doesn't intersect == 0
-  if (dcz < sz1+sz2 + 1e-3) return INTERSECT;	// intersects == 3
+  if (dcz < sz1+sz2 + 1e-3)
+    return INTERSECT;	// intersects == 3
   if ((dcx+sx1 <= sx2) && (dcy+sy1 <= sy2) && (dcz+sz1 <= sz2))
     return IN2;		// obj1 inside obj2 == 1
   if ((dcx+sx2 <= sx1) && (dcy+sy2 <= sy1) && (dcz+sz2 <= sz1))
     return IN1;		// obj2 inside obj1 == 2
-  if ((dcy < sy1+sy2) || (dcx < sx1+sx2)) return INTERSECT;	// == 3
+  if ((dcy < sy1+sy2) || (dcx < sx1+sx2))
+    return INTERSECT;	// == 3
   return NO_INTER;	// doesn't intersect == 0
 }
 
@@ -394,8 +396,9 @@ static V3 dist;
 // sets locals
 void World::localGrid()
 {
-  for (int i=0; i<3 ; i++)
+  for (int i=0; i<3 ; i++) {
     dim[i] = dimgrid[i];
+  }
   dist = newV3(bbslice.v[0], bbslice.v[1], bbslice.v[2]);
 }
 
@@ -417,6 +420,7 @@ static void indiceGrid(const float bb[3], int igrid[3])
 void WObject::insertIntoGrid()
 {
   float bbmin[3], bbmax[3];
+
   for (int i=0; i<3; i++) {
     bbmin[i] = pos.bbcenter.v[i] - pos.bbsize.v[i]; // pos min
     bbmax[i] = pos.bbcenter.v[i] + pos.bbsize.v[i]; // pos max
@@ -426,19 +430,20 @@ void WObject::insertIntoGrid()
   indiceGrid(bbmin, imin);
   indiceGrid(bbmax, imax);
 
-  for (int x=imin[0]; x <= imax[0]; x++)
-    for (int y=imin[1]; y <= imax[1]; y++)
+  for (int x=imin[0]; x <= imax[0]; x++) {
+    for (int y=imin[1]; y <= imax[1]; y++) {
       for (int z=imin[2]; z <= imax[2]; z++) {
 	World::gridArray[x][y][z] = addToListOnce(World::gridArray[x][y][z]);
       }
+    }
+  }
 }
 
 /** Deletes an object from the vicinity grid. */
 void WObject::delFromGrid()
 {
-#if 1 //MS
-// This estimation doesn't work 100%.
-// Doing the above reduces crash rate when sending a bunch of darts.
+  // This estimation doesn't work 100%.
+  // Doing the above reduces crash rate when sending a bunch of darts.
   float bbmin[3], bbmax[3];
   for (int i=0; i<3; i++) {
     bbmin[i] = pos.bbcenter.v[i] - pos.bbsize.v[i];
@@ -449,19 +454,15 @@ void WObject::delFromGrid()
   indiceGrid(bbmin, imin);
   indiceGrid(bbmax, imax);
 
-  for (int x=imin[0]; x <= imax[0]; x++)
-    for (int y=imin[1]; y <= imax[1]; y++)
-      for (int z=imin[2]; z <= imax[2]; z++)
-        if (World::gridArray[x][y][z])
+  for (int x=imin[0]; x <= imax[0]; x++) {
+    for (int y=imin[1]; y <= imax[1]; y++) {
+      for (int z=imin[2]; z <= imax[2]; z++) {
+        if (World::gridArray[x][y][z]) {
 	  World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
-#else //!MS
-  for (int x=0; x < dim[0]; x++)
-    for (int y=0; y < dim[1]; y++)
-      for (int z=0; z < dim[2]; z++) {
-        if (World::gridArray[x][y][z])
-	  World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
+        }
       }
-#endif //MS
+    }
+  }
 }
 
 /** Updates an object in the grid */
@@ -474,24 +475,20 @@ void WObject::updateGrid(const float *bbminnew, const float *bbmaxnew, const flo
   indiceGrid(bbmaxold, imaxold);
 
   bool change = false;
-  for (int i=0; i<3; i++)
-    if ((iminnew[i] != iminold[i]) || (imaxnew[i] != imaxold[i])) change = true;
+  for (int i=0; i<3; i++) {
+    if ((iminnew[i] != iminold[i]) || (imaxnew[i] != imaxold[i]))
+      change = true;
+  }
 
   if (change) {
-#if 0 //MS
-    for (int x=iminold[0]; x <= imaxold[0]; x++)
-      for (int y=iminold[1]; y <= imaxold[1]; y++)
-	for (int z=iminold[2]; z <= imaxold[2]; z++)
-          if (World::gridArray[x][y][z])
-	    World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
-#else //MS
     delFromGrid();
-#endif //MS
-    for (int x=iminnew[0]; x <= imaxnew[0]; x++)
-      for (int y=iminnew[1]; y <= imaxnew[1]; y++)
+    for (int x=iminnew[0]; x <= imaxnew[0]; x++) {
+      for (int y=iminnew[1]; y <= imaxnew[1]; y++) {
 	for (int z=iminnew[2]; z <= imaxnew[2]; z++) {
 	  World::gridArray[x][y][z] = addToListOnce(World::gridArray[x][y][z]);
         }
+      }
+    }
   }
 }
 
@@ -538,13 +535,16 @@ OList * WObject::getVicinity(const WObject *obj)
   indiceGrid(bbmax, imax);
 
   OList *vl = NULL;
-  for (int x=imin[0]; x <= imax[0]; x++)
-    for (int y=imin[1]; y <= imax[1]; y++)
+  for (int x=imin[0]; x <= imax[0]; x++) {
+    for (int y=imin[1]; y <= imax[1]; y++) {
       for (int z=imin[2]; z <= imax[2]; z++) {
         vl = addListToList(World::gridArray[x][y][z], vl);
       }
+    }
+  }
 
-  if (vl)
+  if (vl) {
     vl->clearIspointed();
+  }
   return vl;
 }

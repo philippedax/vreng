@@ -22,20 +22,19 @@
 #define EVENT_HPP
 
 
-  int NetTimeout();
-  /**<
-   * Check if some responsibilities must not to be taken when a timeout occurs.
-   * Do the heatbeat refreshing.
-   * Check if some netobjects must not to be deleted.
-   * Returns the delay after which we want to be awaked (ms) before recall.
-   * Exported to GUI.
-   */
+int netTimeout();
+/**<
+ * Check if some responsibilities must not to be taken when a timeout occurs.
+ * Do the heatbeat refreshing.
+ * Check if some netobjects must not to be deleted.
+ * Returns the delay after which we want to be awaked (ms) before recall.
+ * Exported to GUI.
+ */
 
-  void NetIncoming(int fd);
-  /**<
-   * Awake the net when data is available on fd.
-   * Exported to GUI.
-   */
-
+void netIncoming(int fd);
+/**<
+ * Awake the net when data is available on fd.
+ * Exported to GUI.
+ */
 
 #endif

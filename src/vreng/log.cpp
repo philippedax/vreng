@@ -50,7 +50,7 @@ void fatal(const char *s, ...)
 void warning(const char *s, ...)
 {
   va_list ap;
-  char buf[BUFSIZ];
+  char buf[256];
 
   va_start(ap, s);
   vfprintf(stderr, s, ap);
@@ -66,7 +66,7 @@ void warning(const char *s, ...)
 void notice(const char *s, ...)
 {
   va_list ap;
-  char buf[BUFSIZ];
+  char buf[256];
 
   va_start(ap, s);
   vsprintf(buf, s, ap);
@@ -138,15 +138,16 @@ void printlog()
 {
   FILE *fl;
   char logfile[PATH_LEN];
-  char buf[BUFSIZ];
+  char buf[256];
 
   sprintf(logfile, "%s/log", ::g.env.dir());
   if ((fl = File::openFile(logfile, "r")) == NULL) {
     perror("open log");
     return;
   }
-  while (fgets(buf, sizeof(buf), fl) != NULL)
+  while (fgets(buf, sizeof(buf), fl) != NULL) {
     fputs(buf, stderr);
+  }
   closelog(fl);
 }
 

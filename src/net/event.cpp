@@ -30,7 +30,7 @@
 
 
 /* When something is available on file-descriptor "fd" */
-void NetIncoming(int fd)
+void netIncoming(int fd)
 {
   while (1) {
     fd_set set;
@@ -39,8 +39,9 @@ void NetIncoming(int fd)
     FD_ZERO(&set);
     FD_SET(fd, &set);
     timeout.tv_sec = timeout.tv_usec = 0;
-    if (select(FD_SETSIZE, &set, NULL, NULL, &timeout) == 0)
+    if (select(FD_SETSIZE, &set, NULL, NULL, &timeout) == 0) {
       break;
+    }
     
     /*
      * read the packet
@@ -51,7 +52,7 @@ void NetIncoming(int fd)
     Payload *pp = new Payload();	// create the payload to get the data
     
     if ((r = pp->recvPayload(fd, &from)) <= 0) {
-      //error("NetIncoming: from %lx", ntohl(from.sin_addr.s_addr));
+      //error("netIncoming: from %lx", ntohl(from.sin_addr.s_addr));
       delete pp;
       return;	// read error <0 or ignore == 0
     }
@@ -61,11 +62,9 @@ void NetIncoming(int fd)
      */
     uint8_t cmd;
     if (pp->len > 0 && pp->getPayload("c", &cmd) >= 0) {
-#if 1 //debug
       trace(DBG_FORCE, "Incoming from %lx/%x len=%d cmd=%02x",
             ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
             pp->len, cmd);
-#endif
       //
       // parse VREP
       //
@@ -97,7 +96,7 @@ void NetIncoming(int fd)
     else {
       // empty or invalid payload
       pp->incomingOther(&from, r);
-      error("NetIncoming other= %lx (%x)", ntohl(from.sin_addr.s_addr), r);
+      error("netIncoming other= %lx (%x)", ntohl(from.sin_addr.s_addr), r);
       delete pp;
       return;
     }
@@ -106,7 +105,7 @@ void NetIncoming(int fd)
 
 
 /* Check if some responsibilities should to be taken when a timeout occurs */
-int NetTimeout()
+int netTimeout()
 {
   float refresh = DEF_REFRESH_TIMEOUT;
   
@@ -127,7 +126,7 @@ int NetTimeout()
    */
   for (list<NetObject*>::iterator it = NetObject::netobjectList.begin(); it != NetObject::netobjectList.end(); ++it) {
     if (! OClass::isValidType((*it)->type)) {
-      error("NetTimout: invalid type (%d)", (*it)->type); return -1;
+      error("netTimout: invalid type (%d)", (*it)->type); return -1;
     }
     
     /*
@@ -158,10 +157,10 @@ int NetTimeout()
           if (pprop->version != 0) {
             // if permanent prop hasn't its initial value,
             // somebody must assume responsibility
-            trace(DBG_FORCE, "NetTimeout: (permanent) Assuming responsibility for %s prop=%d unseen for %5.2fs",
+            trace(DBG_FORCE, "netTimeout: (permanent) Assuming responsibility for %s prop=%d unseen for %5.2fs",
                   (*it)->noid.getNetNameById(), i,Timer::diffDates(pprop->last_seen, now));
             if (pprop->responsible) {
-              trace(DBG_FORCE, "NetTimeout: (permanent) should assume responsibility "
+              trace(DBG_FORCE, "netTimeout: (permanent) should assume responsibility "
                     "of something I am responsible for");
               return -1;
             }
@@ -171,10 +170,10 @@ int NetTimeout()
         }
         else { // volatile object (user, ball, dart, bullet, sheet, icon)
           if (pprop->responsible) {
-            trace(DBG_FORCE, "NetTimeout: (volatile) should assume death of %s I am responsible for", (*it)->pobject->getInstance());
+            trace(DBG_FORCE, "netTimeout: (volatile) should assume death of %s I am responsible for", (*it)->pobject->getInstance());
             return -1;
           }
-          trace(DBG_NET, "NetTimeout: (volatile) Assuming death of %s [%s] (unseen for %.2fs)",
+          trace(DBG_NET, "netTimeout: (volatile) Assuming death of %s [%s] (unseen for %.2fs)",
                 (*it)->pobject->getInstance(), (*it)->noid.getNetNameById(), 
                 Timer::diffDates(pprop->last_seen, now));
           (*it)->declareDeletion();

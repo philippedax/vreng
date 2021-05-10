@@ -50,7 +50,7 @@
 #include "movie.hpp"	/* 25 */
 #include "clip.hpp"	/* 26 */
 #include "clock.hpp"	/* 27 */
-#include "ftp.hpp"	/* 28 */
+#include "download.hpp"	/* 28 */
 #include "mirror.hpp"	/* 29 */
 #include "stars.hpp"	/* 30 */
 #include "particle.hpp"	/* 31 */
@@ -137,7 +137,7 @@ const struct GeneralInitList generalInitList[] = {
 /* 25 */	{Movie::funcs},
 /* 26 */	{Clip::funcs},
 /* 27 */	{Clock::funcs},
-/* 28 */	{Ftp::funcs},
+/* 28 */	{Download::funcs},
 /* 29 */	{Mirror::funcs},
 /* 30 */	{Stars::funcs},
 /* 31 */	{Particle::funcs},

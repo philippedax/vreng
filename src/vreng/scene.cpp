@@ -35,21 +35,20 @@
 #include "render.hpp"	// render.init
 #include "user.hpp"	// position
 #include "pref.hpp"	// width3D
-#include "event.hpp"	// NetTimeout
+#include "event.hpp"	// netTimeout
 #include "capture.hpp"  // isCapturingVideo
-#include "timer.hpp"
+#include "timer.hpp"	// ::g.timer
 
 
 /* constructor */
 Scene::Scene(Widgets* _gw) :
-gw(*_gw), 
-is_visible(true),    // should be set to false when the window is iconified !!!!
-is_initialized(false),
-is_startCB_launched(false),
-net_delay(500),
-cycles(0)
+  gw(*_gw), 
+  is_visible(true),    // should be set to false when the window is iconified !!!!
+  is_initialized(false),
+  is_startCB_launched(false),
+  cycles(0),
+  net_delay(500)
 {
-  hudvisible = true;
   background = UBackground::blue;
   addAttr(background);
   addAttr(usize(g.pref.width3D, g.pref.height3D));
@@ -60,6 +59,7 @@ cycles(0)
                  );
   hudbox.add(hud_line1 + hud_line2 + hud_line3 + hud_line4 + hud_line5);
   add(hudbox);	// add the hudbox to the scene
+  is_hudvisible = true;
 
   message.addAttr(UFont::bold + UFont::xx_large + UColor::orange + uhcenter() + uvcenter());
   message.add("Please wait, VReng is coming up...");
@@ -72,6 +72,22 @@ cycles(0)
           + UOn::resize / ucall(this, &Scene::resizeCB));
 }
 
+///< checks whether the scene is initialized.
+bool Scene::isInitialized()
+{
+  return is_initialized;
+}
+
+void Scene::setNetDelay(int msec)
+{
+  net_delay = msec;
+}
+
+int Scene::getNetDelay() const
+{
+  return net_delay;
+}
+
 void Scene::setBackground(UColor& c)
 {
   background.setColor(c);
@@ -80,8 +96,9 @@ void Scene::setBackground(UColor& c)
 void Scene::getCoords(GLint coords[4])
 {
   UView* v = getView();
-  if (!v)
+  if (!v) {
     coords[0] = coords[1] = coords[2] = coords[3] = 0;
+  }
   else {
     UPoint pos = v->getGLPos();
     coords[0] = (GLint) pos.x;
@@ -94,8 +111,9 @@ void Scene::getCoords(GLint coords[4])
 void Scene::getCoords(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
 {
   UView* v = getView();
-  if (!v)
+  if (!v) {
     x = y = w = h = 0;
+  }
   else {
     UPoint pos = v->getGLPos();
     x = (GLint) pos.x;
@@ -123,7 +141,8 @@ void Scene::setViewport(GLint x, GLint y, GLsizei w, GLsizei h)
 // only one window (and one GL context) is used
 
 GLSection::GLSection(Scene* s) 
-: UGraph::Glpaint(s->getView(), true) {}
+: UGraph::Glpaint(s->getView(), true)
+{}
 
 void Scene::paintCB(UPaintEvent& e)
 {
@@ -139,11 +158,12 @@ void Scene::resizeCB(UResizeEvent& e)
   resize(e, int(e.getView()->getWidth()), int(e.getView()->getHeight()));
 }
 
-// NetTimeout can't be called directly because a callback function must have 1 or 2
+// netTimeout can't be called directly because a callback function must have 1 or 2
 // arguments (the arg of netTimeoutCB is not used by syntactically required)
 void Scene::netTimeoutCB()
 {
-  ::NetTimeout();  // checks if various updates are needed
+  //dax (Event) event = new Event();
+  ::netTimeout();  // checks if various updates are needed
 }
 
 void Scene::init()
@@ -163,7 +183,7 @@ void Scene::init()
   // le 2e arg., -1, signifie qu'on repete indefiniement
   render_timer.start((time_t) (::g.pref.frame_delay/1000.), (int) (-1));
 
-  // timer qui execute NetTimeout() tous les delta t
+  // timer qui execute netTimeout() tous les delta t
   net_timer.onAction(ucall(this, &Scene::netTimeoutCB));
   net_timer.start(net_delay, -1);
   message.show(false);
@@ -189,7 +209,9 @@ void Scene::paintScene()
   if (! is_visible || ! is_initialized) return;
 
   // at least one postponed Key Release event
-  if (gw.pendingPostponedKRs()) gw.flushPostponedKRs();
+  if (gw.pendingPostponedKRs()) {
+    gw.flushPostponedKRs();
+  }
 
   // Computes current world
   ProfileTime& tsimul = ::g.timer.simul;
@@ -197,7 +219,6 @@ void Scene::paintScene()
   if (World::current())
     World::current()->compute(tsimul.start_time.tv_sec, tsimul.start_time.tv_usec);
   tsimul.stop();
-  //dax trace(DBG_WO, "world computed");
   
   // General rendering
   ProfileTime& trender = ::g.timer.render;
@@ -206,14 +227,17 @@ void Scene::paintScene()
   trender.stop();
 
   // Displays misc infos
-  if (hudvisible) {
+  if (is_hudvisible) {
     updateHud();
     hudbox.show(true);
   }
-  else hudbox.show(false);
+  else
+    hudbox.show(false);
 
   // check if video capture is running
-  if (gw.capture.isCapturingVideo()) gw.capture.writeVideoFrame();
+  if (gw.capture.isCapturingVideo()) {
+    gw.capture.writeVideoFrame();
+  }
 
   cycles++;		// increments cycles
 }
@@ -250,5 +274,5 @@ void Scene::updateHud()
 
 void Scene::toggleHud()
 {
-  hudvisible ^= 1;
+  is_hudvisible ^= 1;
 }
