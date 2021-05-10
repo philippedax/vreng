@@ -322,8 +322,10 @@ int Parse::parseVreFile(char *buf, int bufsiz)
       }
 
       WObject *wobject = NULL;
+      uint8_t tag = parseLine(line, &tag_type);
 
-      switch (parseLine(line, &tag_type)) {
+      switch (tag) {
+
         case TAG_BEGINFILE:
         case TAG_HEAD:
         case TAG_SCENE:
@@ -333,10 +335,12 @@ int Parse::parseVreFile(char *buf, int bufsiz)
           continue;	// or break
 
         case TAG_META:
-	  if ((p = strstr(line, "=\"refresh\"")))
+	  if ((p = strstr(line, "=\"refresh\""))) {
             World::current()->setPersistent(false);
-	  if ((p = strstr(line, "/>")))
+          }
+	  if ((p = strstr(line, "/>"))) {
             DELETE2(line);
+          }
           break;
 
         case TAG_COMMENT:
@@ -363,7 +367,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
           if (strstr(line, "<local>")) {
             strcpy(line, "push ");	// <local>
           }
-          else if (strstr(line, "</local>")) {
+          else {
             strcpy(line, "pop ");	// </local>
           }
           //trace(DBG_FORCE, "LOCAL: type=%d line=%s", tag_type, line);
@@ -391,12 +395,15 @@ int Parse::parseVreFile(char *buf, int bufsiz)
             }
 	    // skip <type to get attributes (name, pos, solid, category, descr)
             char *attr = line;
-            if (isspace(*line))
+            if (isspace(*line)) {
               attr = skipSpace(line);
-            if (*attr == '<')
+            }
+            if (*attr == '<') {
               attr = nextSpace(attr);
-	    if (*attr == '>')
+            }
+	    if (*attr == '>') {
 	      ++attr;
+            }
             if (::g.pref.dbgtrace) trace(DBG_FORCE, "[%d] %s", tag_type, line);
             progression('o');
             ::g.timer.object.start();
@@ -414,7 +421,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
       DELETE2(line);
       bol = eol + 1;	// begin of next line = end of current line + \n
     }
-    else break;	// next line
+    else break;	// goto next line
   }
   DELETE2(line);
   line = new char[linelen - bol + 2];
@@ -441,7 +448,7 @@ char * WObject::tokenize(char *l)
     // remove close tag
     sprintf(closetag, "</%s", parser->tagobj);
     char *p = strstr(l, closetag);	// </type>
-    if (p) *p = 0;
+    if (p) *p = '\0';
   }
 
   // save solid string into geometry for MySql purposes
@@ -480,8 +487,9 @@ char * Parse::skipAttribute(char *l)
   while (l) {
     char *p;
     p = strchr(l, '"');	// search second quote
-    if (! p)		// not there
+    if (! p) {		// not there
       l = nextToken(); 	// call next token
+    }
     else {		// found here
       return nextToken();
     }
@@ -489,12 +497,13 @@ char * Parse::skipAttribute(char *l)
   return l;
 }
 
-/* parse attributes: name pos solid ... */
+/* parse attributes: name pos solid category description / */
 char * Parse::parseAttributes(char *l, WObject *wobject)
 {
   while (l) {
-    if      (! stringcmp(l, "name="))
+    if      (! stringcmp(l, "name=")) {
       l = parseName(l, wobject->names.given);
+    }
     else if (! stringcmp(l, "pos=")) {
       l = parsePosition(l, wobject->pos);
       continue;
@@ -502,13 +511,18 @@ char * Parse::parseAttributes(char *l, WObject *wobject)
     else if (! stringcmp(l, "solid")) {
       l = parseSolid(l, wobject);
     }
-    else if (! stringcmp(l, "category="))
+    else if (! stringcmp(l, "category=")) {
       l = parseDescr(l, wobject->names.category);
-    else if (! stringcmp(l, "descr=") || ! stringcmp(l, "description="))
+    }
+    else if (! stringcmp(l, "descr=") || ! stringcmp(l, "description=")) {
       l = parseDescr(l,wobject->names.infos);
-    else if (! strcmp(l, "/"))
+    }
+    else if (! strcmp(l, "/")) {
       l = nextToken();
-    else return l;	// child
+    }
+    else {
+      return l;
+    }
   }
   return l;
 }
@@ -521,7 +535,9 @@ char * Parse::parseDescr(char *l, char *strdst)
 
   char tmp[256], *p;
   for (p = tmp; *l != '"' ; ) {
-    if (*l) *p++ = *l++;
+    if (*l) {
+      *p++ = *l++;
+    }
     else {
       *p++ = ' ';
       l = nextToken();
@@ -689,16 +705,16 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
     ptok = nextToken();		// skip tag solid
   }
 
-  Solid *s = new Solid();
+  Solid *solid = new Solid();
 
   if (wobject) {
-    wobject->addSolid(s);	// add solid to solidList
+    wobject->addSolid(solid);	// add solid to solidList
   }
   else {
     error("no wobject");
   }
 
-  ptok = s->parser(ptok);	// calls its parser
+  ptok = solid->parser(ptok);	// calls its parser
 
   return ptok;
 }
@@ -872,7 +888,9 @@ char * Parse::parseBool(char *ptok, bool *value)
 {
   if (ptok) {
     ptok = skipQuotes(ptok);
-    if (ptok && isdigit((int) *ptok)) *value = atoi(ptok) & 0xff;
+    if (ptok && isdigit((int) *ptok)) {
+      *value = atoi(ptok) & 0xff;
+    }
   }
   return nextToken();
 }
