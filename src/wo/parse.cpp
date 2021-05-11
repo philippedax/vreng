@@ -50,7 +50,6 @@ Parse::Parse()
   numline = 0;
   tag_type = 0;
   commented = false;
-  memset(tagobj, 0, sizeof(tagobj));
 }
 
 Parse::~Parse()
@@ -208,32 +207,34 @@ int Parse::parseLine(char *_line, int *ptag_type)
       return TAG_LOCAL;
     }
 
-    // this is an object
+    //
+    // else this is an object !!!
+    //
     const OClass *oclass = NULL;
     char *nexttok, sep = 0;
 
     if ((nexttok = nextSpace(ptok))) {	// either ' ' or '>'
-      sep = *nexttok;
-      *nexttok = '\0';
+      sep = *nexttok;	// memorize sep
+      *nexttok = '\0';	// replace it by null
     }
+    strncpy(tagobj, ptok, TAG_LEN-1);	// memorize object tag
 
-    // handles aliases here !!! doesn't work !!!
+    // handles aliases here !!! doesn't work yet !!!
     const struct sObj *ptab;
     for (ptab = objs; ptab->objalias; ptab++) {
       if (! strcmp(ptok, ptab->objalias)) {
-        strcpy((char *) ptok, ptab->objreal);
-        //error("parse: %d %s", numline, ptok);
+        strcpy(tagobj, ptab->objreal);	// memorize object tag
+        //error("parse: %d %s", numline, tagobj);
+        break;
       }
     }
     // identify the object
-    if ((oclass = OClass::getOClass(ptok))) {
+    if ((oclass = OClass::getOClass(tagobj))) {
       *ptag_type = oclass->type_id;
       if (! OClass::isValidType(*ptag_type)) {
         error("parse error at line %d (invalid type), *ptag_type=%d ptok=%s",
-              numline, *ptag_type, ptok);
+              numline, *ptag_type, tagobj);
       }
-      memset(tagobj, 0, sizeof(tagobj));
-      strncpy(tagobj, ptok, TAG_LEN-1);	// memorize object tag
       if (nexttok) *nexttok = sep;	// restore sep
       FREE(line);
       return TAG_OBJECT;
@@ -245,6 +246,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
   // not a '<'
   if (! stringcmp(ptok, "-->")) {
     FREE(line);
+    commented = false;
     return TAG_COMMENT;
   }
   if (commented) {
@@ -258,25 +260,25 @@ int Parse::parseLine(char *_line, int *ptag_type)
 /* parse vre data, called by World::httpReader */
 int Parse::parseVreFile(char *buf, int bufsiz)
 {
-  int linelen = 0;	// length
+  int len = 0;	// line length
   char *tmpline = NULL;
   static char *line = NULL;
 
   if (! line) {	// need a new line
     tmpline = new char[bufsiz];
     memset(tmpline, 0, bufsiz);
-    linelen = 0;
+    len = 0;
   }
   else {	// old line: copy previous line in tmpline
-    linelen = strlen(line);
-    tmpline = new char[bufsiz + linelen];
+    len = strlen(line);
+    tmpline = new char[bufsiz + len];
     memset(tmpline, 0, bufsiz);
     strcpy(tmpline, line);
   }
 
   // copy buf at the end of tmpline
-  memcpy(tmpline + linelen, buf, bufsiz);
-  linelen += bufsiz;
+  memcpy(tmpline + len, buf, bufsiz);
+  len += bufsiz;
 
   int iol = 0;	// index in line;
   int bol = 0;	// index begin of line
@@ -285,7 +287,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
   while (1) {
     int eol = 0;	// index end of line
 
-    for (iol = bol; iol < linelen; iol++) {
+    for (iol = bol; iol < len; iol++) {
       if (tmpline[iol] == '\n') {
         numline++;
         if (tmpline[iol-1] == '\\') {	// end of physical line, line follows
@@ -294,11 +296,11 @@ int Parse::parseVreFile(char *buf, int bufsiz)
         else {		// end of logical line
           tmpline[iol] = ' ';	// replace '\n' by ' '
 	  eol = iol;
-	  iol = linelen + 1;	// HUGLY! (to do linelen + 2)
+	  iol = len + 1;	// HUGLY! (to do len + 2)
         }
       }
     }
-    if (iol == linelen + 2) {	// end of logical line
+    if (iol == len + 2) {	// end of logical line
       line = new char[eol - bol + 2];	// allocate a new line
 
       // build line from tmpline
@@ -371,8 +373,9 @@ int Parse::parseVreFile(char *buf, int bufsiz)
             strcpy(line, "pop ");	// </local>
           }
           //trace(DBG_FORCE, "LOCAL: type=%d line=%s", tag_type, line);
-          if ((wobject = OClass::creatorInstance(tag_type, line)) == NULL)
+          if ((wobject = OClass::creatorInstance(tag_type, line)) == NULL) {
 	    return -1;
+          }
           break;
 
         case TAG_OBJECT:
@@ -382,9 +385,10 @@ int Parse::parseVreFile(char *buf, int bufsiz)
             break;
           }
           // check end of the object </...>
-          char closetag[TAG_LEN +4];
+          char closetag[TAG_LEN + 4];
           sprintf(closetag, "</%s>", tagobj);
 	  if ((p = strstr(line, closetag)) == NULL) {
+            //error("closetag: %s", closetag);
             continue;	// end of object not already reached parses next lines
           }
           // here, we must have reached the end of the object description
@@ -424,11 +428,11 @@ int Parse::parseVreFile(char *buf, int bufsiz)
     else break;	// goto next line
   }
   DELETE2(line);
-  line = new char[linelen - bol + 2];
+  line = new char[len - bol + 2];
 
   // copy the end of previous tmpline into line
-  memcpy(line, tmpline + bol, linelen - bol);
-  line[linelen - bol] = '\0';
+  memcpy(line, tmpline + bol, len - bol);
+  line[len - bol] = '\0';
   delete[] tmpline;
   return 1;
 }
