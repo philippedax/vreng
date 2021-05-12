@@ -38,13 +38,13 @@ extern "C" {  // stupid JPEG library
 #include <setjmp.h>
 
 
-static void readJpegHeader(FILE* infile, struct jpeg_decompress_struct& cinfo)
+static void readJpegHeader(FILE* fp, struct jpeg_decompress_struct& cinfo)
 {
   // Step 1: allocate and initialize JPEG decompression object
   jpeg_create_decompress(&cinfo);
 
   // Step 2: specify data source (eg, a file)
-  jpeg_stdio_src(&cinfo, infile);
+  jpeg_stdio_src(&cinfo, fp);
 
   // Step 3: read file parameters with jpeg_read_header()
   jpeg_read_header(&cinfo, TRUE);
@@ -52,7 +52,7 @@ static void readJpegHeader(FILE* infile, struct jpeg_decompress_struct& cinfo)
 
 static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
 {
-  JSAMPARRAY buffer;	// Output row buffer
+  JSAMPARRAY buf;	// Output row buffer
   int row_stride;	// physical row width in output buffer
 
   // Step 4: set parameters for decompression
@@ -63,8 +63,7 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
   row_stride = cinfo.output_width * cinfo.output_components;
 
   // Make a one-row-high sample array that will go away when done with image
-  buffer = (*cinfo.mem->alloc_sarray)
-                ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
+  buf = (*cinfo.mem->alloc_sarray) ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
 
   // Step 6: while (scan lines remain to be read)
   trace(DBG_IMG, "readJpegData: width=%d height=%d channel=%d",
@@ -72,11 +71,11 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
   int k = 0;
   int y = 0;
   while (cinfo.output_scanline < cinfo.output_height) {
-    jpeg_read_scanlines(&cinfo, buffer, 1);
-    JSAMPROW prow = buffer[0];
+    jpeg_read_scanlines(&cinfo, buf, 1);
+    JSAMPROW prow = buf[0];
 
     if (cinfo.output_components == 3) {      // RGB
-      for (unsigned int x = 0; x < cinfo.output_width; x++) {
+      for (int x = 0; x < cinfo.output_width; x++) {
         img->pixmap[k +0] = prow[0];
         img->pixmap[k +1] = prow[1];
         img->pixmap[k +2] = prow[2];
@@ -85,7 +84,7 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
       }
     }
     else if (cinfo.output_components == 1) {  // GREYSCALE
-      for (unsigned int x = 0; x < cinfo.output_width; x++) {
+      for (int x = 0; x < cinfo.output_width; x++) {
         img->pixmap[k] = *prow;
         prow++;
         k++;
@@ -103,14 +102,13 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
 
 struct my_error_mgr {
   struct jpeg_error_mgr pub;	// "public" fields
-  jmp_buf setjmp_buffer;	// for return to caller
+  jmp_buf setjmp_buf;	// for return to caller
 };
 
 static void my_error_exit(j_common_ptr cinfo)
 {
   my_error_mgr* myerr = (my_error_mgr*) cinfo->err;
-  // (*cinfo->err->output_message) (cinfo);
-  longjmp(myerr->setjmp_buffer, 1);
+  longjmp(myerr->setjmp_buf, 1);
 }
 #endif //!HAVE_JPEG
 
@@ -128,7 +126,7 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
   struct my_error_mgr jerr;
   cinfo.err = jpeg_std_error(&jerr.pub);
   jerr.pub.error_exit = my_error_exit;
-  if (setjmp(jerr.setjmp_buffer)) {
+  if (setjmp(jerr.setjmp_buf)) {
     error("loadJPG: invalidData");
     jpeg_destroy_decompress(&cinfo);
     File::closeFile(fp);
@@ -139,8 +137,8 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
   readJpegHeader(fp, cinfo);
 
   /* we read the data */
+  // we can only decode RGB (num=3) or greayscale (num=1)
   if (cinfo.image_width == 0 || cinfo.image_height == 0
-      // we can only decode RGB (num=3) or greayscale (num=1)
       || (cinfo.num_components != 3 && cinfo.num_components != 1)) {
     error("loadJPG: num_components=%d", cinfo.num_components);
     jpeg_destroy_decompress(&cinfo);
@@ -165,10 +163,10 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
 #endif //!HAVE_JPEG
 }
 
-void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality, const GLubyte *buffer)
+void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality, const GLubyte *buf)
 {
 #if HAVE_JPEG
-  JSAMPLE *image_buffer = (JSAMPLE *) buffer;
+  JSAMPLE *image_buf = (JSAMPLE *) buf;
 
   struct jpeg_compress_struct cinfo;
   struct jpeg_error_mgr jerr;
@@ -200,7 +198,7 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
   /* Step 5: while (scan lines remain to be written) */
   row_stride = width * 3; /* JSAMPLEs per row in image_buffer */
   while (cinfo.next_scanline < cinfo.image_height) {
-    row_pointer[0] = & image_buffer[cinfo.next_scanline * row_stride];
+    row_pointer[0] = & image_buf[cinfo.next_scanline * row_stride];
     jpeg_write_scanlines(&cinfo, row_pointer, 1);
   }
 

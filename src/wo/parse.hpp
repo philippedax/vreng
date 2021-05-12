@@ -23,17 +23,17 @@
 
 #include "str.hpp"	// stringcmp()
 
-#define SEP	" ,<>\t\n"	///< token separators: space comma tags tab nl
-#define MAX_ATTR 32
 
-// macros
+#define SEP	" ,<>\t\n"	///< token separators: space comma tags tab nl
+
+// internal macros
 #define begin_while_parse(l) \
 next_attr: \
   int cnt_attr; \
-  for (cnt_attr = 0; l && cnt_attr < MAX_ATTR ; cnt_attr++)
+  for (cnt_attr = 0; l && cnt_attr < 256 ; cnt_attr++)
 
 #define end_while_parse(l) \
-  if (cnt_attr >=  MAX_ATTR) { \
+  if (cnt_attr >= 256) { \
     error("%s: bad attribute", l); \
     l = strtok(NULL, SEP); \
     goto next_attr; \
