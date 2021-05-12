@@ -92,7 +92,7 @@ void User::defaults()
   android = NULL;
   head = NULL;
   current_view = Render::VIEW_FIRST_PERSON;
-  ray = newV3(0, 0, 0);
+  ray = setV3(0, 0, 0);
   hit = 0;
 }
 
@@ -637,7 +637,7 @@ void User::setRayDirection(GLint wx, GLint wy)
  
   Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
 
-  ray = newV3(tx, ty, tz);
+  ray = setV3(tx, ty, tz);
   noh->declareObjDelta(User::PROPRAY); // publishes ray property to network
 }
 
@@ -1029,7 +1029,7 @@ void User::get_ray(User *pu, Payload *pp)
       }
       else {
         pu->getSolid()->ray_dlist = 0;
-        pu->ray = newV3(0, 0, 0);
+        pu->ray = setV3(0, 0, 0);
       }
     }
   }

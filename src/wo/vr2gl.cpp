@@ -82,10 +82,10 @@ void WObject::updateCamera(Pos &pos)
 void WObject::getSurfVecs(Pos &pos, V3 *v, V3 *w, V3 *normal)
 {
   M4 rot = mulM4(rotM4(pos.az, UZ), rotM4(pos.ax, UX));
-  V3 vec = newV3(1, 0, 0);
+  V3 vec = setV3(1, 0, 0);
   mulM4V3(v, &rot, &vec);       // v
-  vec = newV3(0, 1, 0);
+  vec = setV3(0, 1, 0);
   mulM4V3(w, &rot, &vec);       // w
-  vec = newV3(0, 0, 1);
+  vec = setV3(0, 0, 1);
   mulM4V3(normal, &rot, &vec);  // n
 }

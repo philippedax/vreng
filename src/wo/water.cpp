@@ -105,9 +105,9 @@ void Water::inits()
   rotx = 0;
   roty = 90;
   rotz = 90;
-  trace(DBG_WO, "Water: bbsize=%.2f,%.2f,%.2f bbcenter=%.2f,%.2f,%.2f",
+  trace(DBG_WO, "Water: bbsize=%.2f,%.2f,%.2f bbcent=%.2f,%.2f,%.2f",
         pos.bbsize.v[0], pos.bbsize.v[1], pos.bbsize.v[2],
-        pos.bbcenter.v[0], pos.bbcenter.v[1], pos.bbcenter.v[2]);
+        pos.bbcent.v[0], pos.bbcent.v[1], pos.bbcent.v[2]);
   depth = pos.bbsize.v[0];
   width = pos.bbsize.v[1];
 
@@ -191,9 +191,9 @@ bool Water::whenIntersect(WObject *pcur, WObject *pold)
 
   case CAULDRON_TYPE:
     if (first) {
-      trace(DBG_WO, "WaterC: bbsize=%.2f,%.2f,%.2f bbcenter=%.2f,%.2f,%.2f",
+      trace(DBG_WO, "WaterC: bbsize=%.2f,%.2f,%.2f bbcent=%.2f,%.2f,%.2f",
             pos.bbsize.v[0], pos.bbsize.v[1], pos.bbsize.v[2],
-            pos.bbcenter.v[0], pos.bbcenter.v[1], pos.bbcenter.v[2]);
+            pos.bbcent.v[0], pos.bbcent.v[1], pos.bbcent.v[2]);
       first = false;
     }
     pcur->pos.z += 2 * Ball::DELTAZ;

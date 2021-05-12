@@ -56,7 +56,7 @@ void WObject::copyPositionAndBB(WObject *o)
 /* Returns a constant describing intersection status of both Bounding Boxes */
 int WObject::interAABB(WObject *o1, WObject *o2)
 {
-  return interAABB(o1->pos.bbcenter, o1->pos.bbsize, o2->pos.bbcenter, o2->pos.bbsize);
+  return interAABB(o1->pos.bbcent, o1->pos.bbsize, o2->pos.bbcent, o2->pos.bbsize);
 }
 
 /* Returns a constant describing intersection status of both Bounding Boxes */
@@ -118,7 +118,7 @@ int WObject::interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2)
 void WObject::ingoingWalls(WObject *pold)
 {
   V3 normal;
-  if (Walls::whenIntersect(pos.bbcenter, pos.bbsize, normal)) {
+  if (Walls::whenIntersect(pos.bbcent, pos.bbsize, normal)) {
     float nx = normal.v[0];
     float ny = normal.v[1];
     float cx = pos.x;
@@ -147,10 +147,10 @@ void WObject::ingoingWalls(WObject *pold)
  */
 bool WObject::ingoingNeighbor(WObject *pold, WObject *neighbor)
 {
-  if ((interAABB(pos.bbcenter,           pos.bbsize,
-                 neighbor->pos.bbcenter, neighbor->pos.bbsize) != NO_INTER) &&
-      (interAABB(pold->pos.bbcenter,     pold->pos.bbsize,
-                 neighbor->pos.bbcenter, neighbor->pos.bbsize) == NO_INTER)) {
+  if ((interAABB(pos.bbcent,           pos.bbsize,
+                 neighbor->pos.bbcent, neighbor->pos.bbsize) != NO_INTER) &&
+      (interAABB(pold->pos.bbcent,     pold->pos.bbsize,
+                 neighbor->pos.bbcent, neighbor->pos.bbsize) == NO_INTER)) {
 
     // check wether the neighbor is oblique
     int az = (int) RAD2DEG(neighbor->pos.az) % 90;
@@ -169,10 +169,10 @@ bool WObject::ingoingNeighbor(WObject *pold, WObject *neighbor)
 /* Checks for outgoing intersection (lift, step, guide, attractor,...) */
 bool WObject::outgoingNeighbor(WObject *pold, WObject *neighbor)
 {
-  if ((interAABB(pos.bbcenter,           pos.bbsize,
-                 neighbor->pos.bbcenter, neighbor->pos.bbsize) == NO_INTER) &&
-      (interAABB(pold->pos.bbcenter,     pold->pos.bbsize,
-                 neighbor->pos.bbcenter, neighbor->pos.bbsize) != NO_INTER))
+  if ((interAABB(pos.bbcent,           pos.bbsize,
+                 neighbor->pos.bbcent, neighbor->pos.bbsize) == NO_INTER) &&
+      (interAABB(pold->pos.bbcent,     pold->pos.bbsize,
+                 neighbor->pos.bbcent, neighbor->pos.bbsize) != NO_INTER))
     return true;
   return false;
 }
@@ -279,10 +279,10 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
 /** Returns normal vectors 'normal' of still object */
 void WObject::computeNormal(WObject *mobil, V3 *normal)
 {
-  float fxmin = pos.bbcenter.v[0] - pos.bbsize.v[0];
-  float fxmax = pos.bbcenter.v[0] + pos.bbsize.v[0];
-  float fymin = pos.bbcenter.v[1] - pos.bbsize.v[1];
-  float fymax = pos.bbcenter.v[1] + pos.bbsize.v[1];
+  float fxmin = pos.bbcent.v[0] - pos.bbsize.v[0];
+  float fxmax = pos.bbcent.v[0] + pos.bbsize.v[0];
+  float fymin = pos.bbcent.v[1] - pos.bbsize.v[1];
+  float fymax = pos.bbcent.v[1] + pos.bbsize.v[1];
 
   normal->v[2] = 1;
   if (fxmax - fxmin < fymax - fymin) {
@@ -293,9 +293,9 @@ void WObject::computeNormal(WObject *mobil, V3 *normal)
     normal->v[1] = 1;
   }
   /* test which normal we take, computes dotprod */
-  float dp = (mobil->pos.bbcenter.v[0] - pos.bbcenter.v[0]) * normal->v[0]
-           + (mobil->pos.bbcenter.v[1] - pos.bbcenter.v[1]) * normal->v[1]
-           + (mobil->pos.bbcenter.v[2] - pos.bbcenter.v[2]) * normal->v[2];
+  float dp = (mobil->pos.bbcent.v[0] - pos.bbcent.v[0]) * normal->v[0]
+           + (mobil->pos.bbcent.v[1] - pos.bbcent.v[1]) * normal->v[1]
+           + (mobil->pos.bbcent.v[2] - pos.bbcent.v[2]) * normal->v[2];
   if (dp < 0) {
     normal->v[0] = -normal->v[0];
     normal->v[1] = -normal->v[1];
@@ -315,9 +315,9 @@ void WObject::computeNormal(Pos &mobil, Pos &still, V3 *normal)
   }
 
   /* test which normal we take, computes dotprod */
-  float dp = (mobil.bbcenter.v[0] - still.bbcenter.v[0]) * normal->v[0]
-           + (mobil.bbcenter.v[1] - still.bbcenter.v[1]) * normal->v[1]
-           + (mobil.bbcenter.v[2] - still.bbcenter.v[2]) * normal->v[2];
+  float dp = (mobil.bbcent.v[0] - still.bbcent.v[0]) * normal->v[0]
+           + (mobil.bbcent.v[1] - still.bbcent.v[1]) * normal->v[1]
+           + (mobil.bbcent.v[2] - still.bbcent.v[2]) * normal->v[2];
   if (dp < 0) {
     normal->v[0] = -normal->v[0];
     normal->v[1] = -normal->v[1];
@@ -399,7 +399,7 @@ void World::localGrid()
   for (int i=0; i<3 ; i++) {
     dim[i] = dimgrid[i];
   }
-  dist = newV3(bbslice.v[0], bbslice.v[1], bbslice.v[2]);
+  dist = setV3(bbslice.v[0], bbslice.v[1], bbslice.v[2]);
 }
 
 /**
@@ -422,8 +422,8 @@ void WObject::insertIntoGrid()
   float bbmin[3], bbmax[3];
 
   for (int i=0; i<3; i++) {
-    bbmin[i] = pos.bbcenter.v[i] - pos.bbsize.v[i]; // pos min
-    bbmax[i] = pos.bbcenter.v[i] + pos.bbsize.v[i]; // pos max
+    bbmin[i] = pos.bbcent.v[i] - pos.bbsize.v[i]; // pos min
+    bbmax[i] = pos.bbcent.v[i] + pos.bbsize.v[i]; // pos max
   }
 
   int imin[3], imax[3];
@@ -446,8 +446,8 @@ void WObject::delFromGrid()
   // Doing the above reduces crash rate when sending a bunch of darts.
   float bbmin[3], bbmax[3];
   for (int i=0; i<3; i++) {
-    bbmin[i] = pos.bbcenter.v[i] - pos.bbsize.v[i];
-    bbmax[i] = pos.bbcenter.v[i] + pos.bbsize.v[i];
+    bbmin[i] = pos.bbcent.v[i] - pos.bbsize.v[i];
+    bbmax[i] = pos.bbcent.v[i] + pos.bbsize.v[i];
   }
 
   int imin[3], imax[3];
@@ -496,10 +496,10 @@ void WObject::updateGrid(const WObject *obj)
 {
   float bbminnew[3], bbmaxnew[3], bbminold[3], bbmaxold[3];
   for (int i=0; i<3; i++) {
-    bbminnew[i] = pos.bbcenter.v[i] - pos.bbsize.v[i];
-    bbmaxnew[i] = pos.bbcenter.v[i] + pos.bbsize.v[i];
-    bbminold[i] = obj->pos.bbcenter.v[i] - obj->pos.bbsize.v[i];
-    bbmaxold[i] = obj->pos.bbcenter.v[i] + obj->pos.bbsize.v[i];
+    bbminnew[i] = pos.bbcent.v[i] - pos.bbsize.v[i];
+    bbmaxnew[i] = pos.bbcent.v[i] + pos.bbsize.v[i];
+    bbminold[i] = obj->pos.bbcent.v[i] - obj->pos.bbsize.v[i];
+    bbmaxold[i] = obj->pos.bbcent.v[i] + obj->pos.bbsize.v[i];
   }
   updateGrid(bbminnew, bbmaxnew, bbminold, bbmaxold);
 }
@@ -508,10 +508,10 @@ void WObject::updateGrid(const Pos& oldpos)
 {
   float bbminnew[3], bbmaxnew[3], bbminold[3], bbmaxold[3];
   for (int i=0; i<3; i++) {
-    bbminnew[i] = pos.bbcenter.v[i] - pos.bbsize.v[i];
-    bbmaxnew[i] = pos.bbcenter.v[i] + pos.bbsize.v[i];
-    bbminold[i] = oldpos.bbcenter.v[i] - oldpos.bbsize.v[i];
-    bbmaxold[i] = oldpos.bbcenter.v[i] + oldpos.bbsize.v[i];
+    bbminnew[i] = pos.bbcent.v[i] - pos.bbsize.v[i];
+    bbmaxnew[i] = pos.bbcent.v[i] + pos.bbsize.v[i];
+    bbminold[i] = oldpos.bbcent.v[i] - oldpos.bbsize.v[i];
+    bbmaxold[i] = oldpos.bbcent.v[i] + oldpos.bbsize.v[i];
   }
   updateGrid(bbminnew, bbmaxnew, bbminold, bbmaxold);
 }
@@ -524,10 +524,10 @@ OList * WObject::getVicinity(const WObject *obj)
 {
   float bbmin[3], bbmax[3];
   for (int i=0; i<3; i++) {
-    bbmin[i] = MIN(pos.bbcenter.v[i] - pos.bbsize.v[i],
-               obj->pos.bbcenter.v[i] - obj->pos.bbsize.v[i]);
-    bbmax[i] = MAX(pos.bbcenter.v[i] + pos.bbsize.v[i],
-               obj->pos.bbcenter.v[i] + obj->pos.bbsize.v[i]);
+    bbmin[i] = MIN(pos.bbcent.v[i] - pos.bbsize.v[i],
+               obj->pos.bbcent.v[i] - obj->pos.bbsize.v[i]);
+    bbmax[i] = MAX(pos.bbcent.v[i] + pos.bbsize.v[i],
+               obj->pos.bbcent.v[i] + obj->pos.bbsize.v[i]);
   }
 
   int imin[3], imax[3];

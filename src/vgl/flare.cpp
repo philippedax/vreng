@@ -160,16 +160,9 @@ void Flare::render(float *from, float delta)
   float at[3], light[3], view_dir[3], tmp[3], light_dir[3], pos[3], dx[3], dy[3], center[3], axis[3], sx[3], sy[3], dot;
   float near = 1.;
 
-#if 0 //TEST
-  at[0] = localuser->pos.x;
-  at[1] = localuser->pos.y;
-  at[2] = localuser->pos.z;
-#endif
-#if 1
   from[0] = localuser->pos.x;
   from[1] = localuser->pos.y;
   from[2] = localuser->pos.z;
-#endif
   light[0] = sin(delta * 0.73) + 2.;
   light[1] = sin(delta * 0.678) * 0.5 + 2.;
   light[2] = sin(delta * 0.895) * 0.5 + 2.;
@@ -189,12 +182,9 @@ void Flare::render(float *from, float delta)
   vnorm(dx);				// dx = normalize(axis)
   vcross(dy, dx, view_dir);		// dy = cross(dx,view_dir)
 
-  //error("render flare");
-  //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
-  glDisable(GL_DEPTH_TEST);
   glDisable(GL_LIGHTING);
-  glDisable(GL_DITHER);
+  //dax glDisable(GL_DITHER);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE);
@@ -227,11 +217,9 @@ void Flare::render(float *from, float delta)
   }
   glDisable(GL_BLEND);
   glDisable(GL_TEXTURE_2D);
-  glEnable(GL_DITHER);
+  //dax glEnable(GL_DITHER);
   glEnable(GL_LIGHTING);
-  glEnable(GL_DEPTH_TEST);
   glPopMatrix();
-  //dax1 glPopAttrib();
 }
 
 void Flare::setTexture(GLuint texid)

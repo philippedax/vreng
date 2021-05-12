@@ -93,9 +93,9 @@ void Board::click(V3 d)
   //if (sp < 0) { warning("Board::click: bad side!"); }
 
   // eye position
-  V3 e = newV3(localuser->pos.x, localuser->pos.y, localuser->pos.z + localuser->height/2 - 0.10);
+  V3 e = setV3(localuser->pos.x, localuser->pos.y, localuser->pos.z + localuser->height/2 - 0.10);
   // object's center coordinates
-  V3 c = newV3(pos.x, pos.y, pos.z);
+  V3 c = setV3(pos.x, pos.y, pos.z);
 
   // determine (x,y) coord. relativly to our surface
   float det = detV3(d, v, w);

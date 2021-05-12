@@ -25,22 +25,26 @@
 /* identity matrix */
 void idM4(M4 *a)
 {
-  for (int i=0; i<4; i++)
-    for (int j=0; j<4; j++)
+  for (int i=0; i<4; i++) {
+    for (int j=0; j<4; j++) {
       a->m[i][j] = (i==j) ? 1.0 : 0.0;
+    }
+  }
 }
 
 M4 mulM4(M4 a, M4 b)
 {
   M4 c;
 
-  for (int i=0; i<4; i++)
+  for (int i=0; i<4; i++) {
     for (int j=0; j<4; j++) {
       float s = 0.;
-      for (int k=0; k<4; k++)
+      for (int k=0; k<4; k++) {
         s += a.m[i][k] * b.m[k][j];
+      }
       c.m[i][j] = s;
     }
+  }
   return c;
 }
 
@@ -95,32 +99,37 @@ void mulM3V4(float m[3][4], float v[4], float dest[3])
 {
   for (int i=0; i<3; i++) {
     dest[i] = 0;
-    for (int j=0; j<4; j++)
+    for (int j=0; j<4; j++) {
       dest[i] += m[i][j] * v[j];
+    }
   }
 }
 
 /* Matrix multiplication, dest = m1*m2 */
 void mulM3M4(float m1[3][4], float m2[4][4], float dest[3][4])
 {
-  for (int i=0; i<3; i++)
+  for (int i=0; i<3; i++) {
     for (int j=0; j<4; j++) {
       dest[i][j] = 0;
-      for (int k=0; k<4; k++)
+      for (int k=0; k<4; k++) {
         dest[i][j] += (m1[i][k] * m2[k][j]);
+      }
     }
+  }
 }
 
 void M4toV16(const M4 *mat, float *_vec)
 {
   float *vec = _vec;
 
-  for (int i=0; i<4; i++)
-    for (int j=0; j<4; j++)
+  for (int i=0; i<4; i++) {
+    for (int j=0; j<4; j++) {
       *vec++ = mat->m[j][i];
+    }
+  }
 }
 
-V3 newV3(float x, float y, float z)
+V3 setV3(float x, float y, float z)
 {
   V3 v;
 
@@ -151,7 +160,8 @@ float detV3(V3 d, V3 v, V3 w)
 {
   return (  d.v[0] * (v.v[2] * w.v[1] - v.v[1] * w.v[2])
           + d.v[1] * (v.v[0] * w.v[2] - v.v[2] * w.v[0])
-          + d.v[2] * (v.v[1] * w.v[0] - v.v[0] * w.v[1]) );
+          + d.v[2] * (v.v[1] * w.v[0] - v.v[0] * w.v[1])
+         );
 }
 
 /* Compute an quantity that's used in the line/surface intersection */
@@ -159,19 +169,20 @@ float calcV3(V3 c, V3 e, V3 w, V3 v)
 {
   return (  (c.v[0] - e.v[0]) * (v.v[2] * w.v[1] - v.v[1] * w.v[2])
           + (c.v[1] - e.v[1]) * (v.v[0] * w.v[2] - v.v[2] * w.v[0])
-          + (c.v[2] - e.v[2]) * (v.v[1] * w.v[0] - v.v[0] * w.v[1]) );
+          + (c.v[2] - e.v[2]) * (v.v[1] * w.v[0] - v.v[0] * w.v[1])
+         );
 }
 
 #if 0 //notused
 
-V4 newV4(float x, float y, float z, float w)
+V4 setV4(float x, float y, float z, float w)
 {
   V4 v;
 
-  v.v[0]=x;
-  v.v[1]=y;
-  v.v[2]=z;
-  v.v[3]=w;
+  v.v[0] = x;
+  v.v[1] = y;
+  v.v[2] = z;
+  v.v[3] = w;
   return v;
 }
 
@@ -187,17 +198,17 @@ void moveV3(V3 *a, const V3 *b)
 
 void mulM3V3(V3 *a, const M4 *b, const V3 *c)
 {
-  a->v[0]=b->m[0][0]*c->v[0]+b->m[0][1]*c->v[1]+b->m[0][2]*c->v[2];
-  a->v[1]=b->m[1][0]*c->v[0]+b->m[1][1]*c->v[1]+b->m[1][2]*c->v[2];
-  a->v[2]=b->m[2][0]*c->v[0]+b->m[2][1]*c->v[1]+b->m[2][2]*c->v[2];
+  a->v[0] = b->m[0][0]*c->v[0]+b->m[0][1]*c->v[1]+b->m[0][2]*c->v[2];
+  a->v[1] = b->m[1][0]*c->v[0]+b->m[1][1]*c->v[1]+b->m[1][2]*c->v[2];
+  a->v[2] = b->m[2][0]*c->v[0]+b->m[2][1]*c->v[1]+b->m[2][2]*c->v[2];
 }
 
 void mulM4V4(V4 *a, const M4 *b, const V4 *c)
 {
- a->v[0]=b->m[0][0]*c->v[0]+b->m[0][1]*c->v[1]+b->m[0][2]*c->v[2]+b->m[0][3]*c->v[3];
- a->v[1]=b->m[1][0]*c->v[0]+b->m[1][1]*c->v[1]+b->m[1][2]*c->v[2]+b->m[1][3]*c->v[3];
- a->v[2]=b->m[2][0]*c->v[0]+b->m[2][1]*c->v[1]+b->m[2][2]*c->v[2]+b->m[2][3]*c->v[3];
- a->v[3]=b->m[3][0]*c->v[0]+b->m[3][1]*c->v[1]+b->m[3][2]*c->v[2]+b->m[3][3]*c->v[3];
+ a->v[0] = b->m[0][0]*c->v[0]+b->m[0][1]*c->v[1]+b->m[0][2]*c->v[2]+b->m[0][3]*c->v[3];
+ a->v[1] = b->m[1][0]*c->v[0]+b->m[1][1]*c->v[1]+b->m[1][2]*c->v[2]+b->m[1][3]*c->v[3];
+ a->v[2] = b->m[2][0]*c->v[0]+b->m[2][1]*c->v[1]+b->m[2][2]*c->v[2]+b->m[2][3]*c->v[3];
+ a->v[3] = b->m[3][0]*c->v[0]+b->m[3][1]*c->v[1]+b->m[3][2]*c->v[2]+b->m[3][3]*c->v[3];
 }
 
 float * getGLMatrix(const M4 *vrmat)
@@ -218,26 +229,26 @@ M3 M3_Inv(M3 m)
         m.m[1][0]*m.m[0][1]*m.m[2][2]+m.m[1][0]*m.m[0][2]*m.m[2][1]+
         m.m[2][0]*m.m[0][1]*m.m[1][2]-m.m[2][0]*m.m[0][2]*m.m[1][1];
 
-  a.m[0][0]=(m.m[1][1]*m.m[2][2]-m.m[1][2]*m.m[2][1])/det;
-  a.m[0][1]=-(m.m[0][1]*m.m[2][2]-m.m[0][2]*m.m[2][1])/det;
-  a.m[0][2]=-(-m.m[0][1]*m.m[1][2]+m.m[0][2]*m.m[1][1])/det;
-  a.m[1][0]=-(m.m[1][0]*m.m[2][2]-m.m[1][2]*m.m[2][0])/det;
-  a.m[1][1]=(m.m[0][0]*m.m[2][2]-m.m[0][2]*m.m[2][0])/det;
-  a.m[1][2]=-(m.m[0][0]*m.m[1][2]-m.m[0][2]*m.m[1][0])/det;
-  a.m[2][0]=(m.m[1][0]*m.m[2][1]-m.m[1][1]*m.m[2][0])/det;
-  a.m[2][1]=-(m.m[0][0]*m.m[2][1]-m.m[0][1]*m.m[2][0])/det;
-  a.m[2][2]=(m.m[0][0]*m.m[1][1]-m.m[0][1]*m.m[1][0])/det;
+  a.m[0][0] = (m.m[1][1]*m.m[2][2]-m.m[1][2]*m.m[2][1])/det;
+  a.m[0][1] = -(m.m[0][1]*m.m[2][2]-m.m[0][2]*m.m[2][1])/det;
+  a.m[0][2] = -(-m.m[0][1]*m.m[1][2]+m.m[0][2]*m.m[1][1])/det;
+  a.m[1][0] = -(m.m[1][0]*m.m[2][2]-m.m[1][2]*m.m[2][0])/det;
+  a.m[1][1] = (m.m[0][0]*m.m[2][2]-m.m[0][2]*m.m[2][0])/det;
+  a.m[1][2] = -(m.m[0][0]*m.m[1][2]-m.m[0][2]*m.m[1][0])/det;
+  a.m[2][0] = (m.m[1][0]*m.m[2][1]-m.m[1][1]*m.m[2][0])/det;
+  a.m[2][1] = -(m.m[0][0]*m.m[2][1]-m.m[0][1]*m.m[2][0])/det;
+  a.m[2][2] = (m.m[0][0]*m.m[1][1]-m.m[0][1]*m.m[1][0])/det;
   return a;
 }
 
 /* normalisation d'un vecteur */
 int normV3(V3 *v)
 {
-  float n=sqrt(v->v[0]*v->v[0] + v->v[1]*v->v[1] + v->v[2]*v->v[2]);
-  if (n==0) return 1;
-  v->v[0]/=n;
-  v->v[1]/=n;
-  v->v[2]/=n;
+  float n = sqrt(v->v[0]*v->v[0] + v->v[1]*v->v[1] + v->v[2]*v->v[2]);
+  if (n == 0) return 1;
+  v->v[0] /= n;
+  v->v[1] /= n;
+  v->v[2] /= n;
   return 0;
 }
 

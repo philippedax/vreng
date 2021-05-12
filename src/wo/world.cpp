@@ -88,11 +88,11 @@ World::World()
   chan = NULL;
   grid = NULL;
   guip = NULL;
-  bbcenter = newV3(0, 0, 0);
-  bbsize = newV3(0, 0, 0);
-  bbmin = newV3(0, 0, 0);
-  bbmax = newV3(0, 0, 0);
-  bbslice = newV3(DISTX, DISTY, DISTZ);
+  bbcent = setV3(0, 0, 0);
+  bbsize = setV3(0, 0, 0);
+  bbmin = setV3(0, 0, 0);
+  bbmax = setV3(0, 0, 0);
+  bbslice = setV3(DISTX, DISTY, DISTZ);
 
   // interaction with general objects
   universe = Universe::current();
@@ -181,8 +181,9 @@ World * World::worldByUrl(const char *url)
   Url::abs(url, urla);
 
   for (World *w = worldList; w ; w = w->next) {
-    if ((! strcmp(w->url, url)) || (! strcmp(w->url, urla)))
+    if ((! strcmp(w->url, url)) || (! strcmp(w->url, urla))) {
       return w;	// world found
+    }
     if (w == w->next) {
       //error("getWorldByUrl: %s", w->url);
       break;	//FIXME: bug inside the list
@@ -194,8 +195,9 @@ World * World::worldByUrl(const char *url)
 World * World::worldByGroup(uint32_t group)
 {
   for (World *w = worldList; w ; w = w->next) {
-    if (w->group == group)
+    if (w->group == group) {
       return w;	// world found
+    }
   }
   return NULL;
 }
@@ -366,25 +368,25 @@ void World::compute(time_t sec, time_t usec)
       if (! (*o)->isValid()) continue;
       if (! (*o)->bbBehavior() || (*o)->isBehavior(COLLIDE_NEVER)) continue;
       for (int i=0; i<3 ; i++) {
-        bbmin.v[i] = MIN(bbmin.v[i], (*o)->pos.bbcenter.v[i] - (*o)->pos.bbsize.v[i]);
-        bbmax.v[i] = MAX(bbmax.v[i], (*o)->pos.bbcenter.v[i] + (*o)->pos.bbsize.v[i]);
+        bbmin.v[i] = MIN(bbmin.v[i], (*o)->pos.bbcent.v[i] - (*o)->pos.bbsize.v[i]);
+        bbmax.v[i] = MAX(bbmax.v[i], (*o)->pos.bbcent.v[i] + (*o)->pos.bbsize.v[i]);
       }
     }
     for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
       if (! (*o)->isValid()) continue;
       if (! (*o)->bbBehavior() || (*o)->isBehavior(COLLIDE_NEVER) || (*o)->type == USER_TYPE) continue;
       for (int i=0; i<3 ; i++) {
-        bbmin.v[i] = MIN(bbmin.v[i], (*o)->pos.bbcenter.v[i] - (*o)->pos.bbsize.v[i]);
-        bbmax.v[i] = MAX(bbmax.v[i], (*o)->pos.bbcenter.v[i] + (*o)->pos.bbsize.v[i]);
+        bbmin.v[i] = MIN(bbmin.v[i], (*o)->pos.bbcent.v[i] - (*o)->pos.bbsize.v[i]);
+        bbmax.v[i] = MAX(bbmax.v[i], (*o)->pos.bbcent.v[i] + (*o)->pos.bbsize.v[i]);
       }
       if (bbmax.v[0] > 1000 || bbmax.v[1] >1000 || bbmax.v[2] > 1000)
         error("mobil: %d %s bbmin=%.1f,%.1f,%.1f bbmax=%.1f,%.1f,%.1f", (*o)->type, (*o)->getInstance(), bbmin.v[0], bbmin.v[1], bbmin.v[2], bbmax.v[0], bbmax.v[1], bbmax.v[2]);
     }
     for (int i=0; i<3 ; i++) {
-      bbcenter.v[i] = (bbmax.v[i] + bbmin.v[i]);
+      bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]);
       bbsize.v[i]   = (bbmax.v[i] - bbmin.v[i]);
     }
-    notice("size=%.1f,%.1f,%.1f center=%.1f,%.1f,%.1f", bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcenter.v[0], bbcenter.v[1], bbcenter.v[2]);
+    notice("bbsize=%.1f,%.1f,%.1f bbcent=%.1f,%.1f,%.1f", bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
 
     OList::clearIspointed(mobileList);
 
@@ -454,8 +456,9 @@ bool World::call(World *wpred)
   }
   else {
     trace(DBG_IPMC, "call: leave chan=%s", wpred->chan);
-    if (Channel::current())
+    if (Channel::current()) {
       delete Channel::current();	// leave current channel
+    }
 
     enter(url, NULL, OLD);
 
@@ -486,8 +489,9 @@ World * World::goBack()
 
   World *wp;
   for (wp = worldback; wp->next ; wp = wp->next) {
-    if (wp == wp->next)
+    if (wp == wp->next) {
       break;	// found
+    }
   }
   wp->next = world;
   world->next = NULL;
@@ -495,8 +499,9 @@ World * World::goBack()
   world->prev = worldback;
   worldList = worldback;
 
-  if (worldback->call(world))
+  if (worldback->call(world)) {
     return worldList;
+  }
   return NULL;
 }
 
@@ -511,16 +516,18 @@ World * World::goForward()
 
   World *wp;
   World *worldforw;
-  for (wp = world; (worldforw = wp->next)->next; wp = wp->next)
+  for (wp = world; (worldforw = wp->next)->next; wp = wp->next) {
     ;
+  }
   worldforw->next = world;
   worldforw->prev = NULL;
   world->prev = worldforw;
   wp->next = NULL;
   worldList = worldforw;
 
-  if (worldforw->call(world))
+  if (worldforw->call(world)) {
     return worldList;
+  }
   return NULL;
 }
 

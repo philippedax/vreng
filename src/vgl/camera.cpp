@@ -302,7 +302,7 @@ V3 Render::getVisiblePosition(WObject *po)
       break;
     }
   }
-  return newV3(x[0], y[0], seen);
+  return setV3(x[0], y[0], seen);
 }
 
 void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz, char* filename)

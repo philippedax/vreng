@@ -1090,7 +1090,7 @@ static void defaultAddobj()
   *texture = '\0';	// no textures
   alpha = 1;		// opaque
   size = .5;		// 50 cm
-  color = newV3(1,1,1);	// white
+  color = setV3(1,1,1);	// white
 }
 
 /* set values */
@@ -1115,14 +1115,14 @@ static void setVal(int item) {
     case TORUS :    sprintf(shape, "torus"); break;
 
     // colors
-    case BLACK :  color = newV3(0,0,0); break;
-    case RED :    color = newV3(1,0,0); break;
-    case GREEN :  color = newV3(0,1,0); break;
-    case BLUE :   color = newV3(0,0,1); break;
-    case PURPLE : color = newV3(1,0,1); break;
-    case YELLOW : color = newV3(1,1,0); break;
-    case CYAN :   color = newV3(0,1,1); break;
-    case WHITE :  color = newV3(1,1,1); break;
+    case BLACK :  color = setV3(0,0,0); break;
+    case RED :    color = setV3(1,0,0); break;
+    case GREEN :  color = setV3(0,1,0); break;
+    case BLUE :   color = setV3(0,0,1); break;
+    case PURPLE : color = setV3(1,0,1); break;
+    case YELLOW : color = setV3(1,1,0); break;
+    case CYAN :   color = setV3(0,1,1); break;
+    case WHITE :  color = setV3(1,1,1); break;
 
     // textures
     case NONE :   sprintf(texture, ""); break;

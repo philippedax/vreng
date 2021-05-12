@@ -103,7 +103,7 @@ struct Pos {
   float az;		///< angle plan xy axis z.
   float ay;		///< angle plan xz axis y.
   float ax;		///< angle plan yz axis x.
-  V3 bbcenter;		///< Bounding Box's center.
+  V3 bbcent;		///< Bounding Box's center.
   V3 bbsize;		///< Bounding Box's dimension.
   bool moved;		///< has moved or not.
   uint8_t state;	///< button state.

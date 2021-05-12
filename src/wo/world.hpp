@@ -80,7 +80,7 @@ class World {
   class OList ****grid;	///< matrix grid pointer.
 
   int namecnt;			///< name counter.
-  V3 bbcenter;			///< bb center of the world.
+  V3 bbcent;			///< bb center of the world.
   V3 bbsize;			///< bb size of the world.
 
   struct GuiItem *guip;		///< gui handle.

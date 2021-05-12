@@ -87,8 +87,8 @@ WObject::WObject()
   pos.az = 0;
   pos.state = 0;
   pos.moved = false;
-  pos.bbcenter = newV3(0, 0, 0);
-  pos.bbsize = newV3(0, 0, 0);
+  pos.bbcent = setV3(0, 0, 0);
+  pos.bbsize = setV3(0, 0, 0);
 
   move.perm_sec = 0;
   move.perm_usec = 0;
@@ -691,7 +691,7 @@ void WObject::updateBB()
 {
   if (! solid) return;
   solid->updateBB(pos.az);
-  solid->getAbsBB(pos.bbcenter, pos.bbsize);
+  solid->getAbsBB(pos.bbcent, pos.bbsize);
 }
 
 /* Inits 3D and grid position */
@@ -1204,7 +1204,7 @@ void WObject::show(const char *name)
             name,
             (*o)->pos.x, (*o)->pos.y, (*o)->pos.z,
             (*o)->pos.ax, (*o)->pos.az,
-            (*o)->pos.bbcenter.v[0], (*o)->pos.bbcenter.v[1], (*o)->pos.bbcenter.v[2],
+            (*o)->pos.bbcent.v[0], (*o)->pos.bbcent.v[1], (*o)->pos.bbcent.v[2],
             (*o)->pos.bbsize.v[0], (*o)->pos.bbsize.v[1], (*o)->pos.bbsize.v[2]
            );
       break;

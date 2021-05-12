@@ -167,7 +167,7 @@ void Vrelet::processClient()
 {
   bool processed = false;
   int tag;
-  V3 color = newV3(0, 0, 0);	//black;
+  V3 color = setV3(0, 0, 0);	//black;
 
   // check if the client has sent anything
   VjcMessage *msg;
@@ -295,10 +295,10 @@ void Vrelet::click(V3 dir)
   if (sp < 0) { warning("Vrelet::click: bad side!"); return; }
 
   // eye position
-  V3 e = newV3(localuser->pos.x, localuser->pos.y, localuser->pos.z + localuser->height/2 - 0.10);
+  V3 e = setV3(localuser->pos.x, localuser->pos.y, localuser->pos.z + localuser->height/2 - 0.10);
 
   // object's center coordinates
-  V3 c = newV3(pos.x, pos.y, pos.z);
+  V3 c = setV3(pos.x, pos.y, pos.z);
 
   // determine (x,y) coord. relativly to our surface
   float det = detV3(dir, v, w);

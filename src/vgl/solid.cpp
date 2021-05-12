@@ -300,8 +300,8 @@ Solid::Solid()
   shape = STOK_BOX;	// shape by default: box
   dlists = NULL;	// solid display lists
   wobject = NULL;	// wobject associated with this solid set by addSolid in wobject.cpp
-  bbcent = newV3(0, 0, 0);
-  bbsize = newV3(0, 0, 0);
+  bbcent = setV3(0, 0, 0);
+  bbsize = setV3(0, 0, 0);
   idxframe = 0;		// frame index in displaylist
   frame = 0;		// frame to render
   nbframes = 1;		// 1 frame by default
@@ -426,8 +426,8 @@ char * Solid::parser(char *l)
   idM4(&matpos);	// init position to 0
 
   // axis aligned bounding boxes (AABB) are here
-  V3 bbmax = newV3(0, 0, 0);
-  V3 bbmin = newV3(0, 0, 0);
+  V3 bbmax = setV3(0, 0, 0);
+  V3 bbmin = setV3(0, 0, 0);
 
   // for each frame
   for (idxframe = 0; idxframe < nbframes; ) {
@@ -554,7 +554,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
   Teapot *teapot = NULL;
 
-  V3 dim = newV3(.1, .1, .1);	// default dimension : box 10x10x10 cm
+  V3 dim = setV3(.1, .1, .1);	// default dimension : box 10x10x10 cm
 
   ::g.render.first_bb = true;
 
@@ -1392,7 +1392,7 @@ void Solid::setRay(GLint wx, GLint wy)
 
   Draw::ray(&ray_dlist, ex, ey, ez, ox, oy, oz, color, 0x3333);  // alternative
 
-  localuser->ray = newV3(ox, oy, oz);
+  localuser->ray = setV3(ox, oy, oz);
   localuser->noh->declareObjDelta(User::PROPRAY);  // publish ray property to network
 }
 
@@ -1401,7 +1401,7 @@ void Solid::resetRay()
   if (ray_dlist) {
     ray_dlist = 0;
     if (localuser) {
-      localuser->ray = newV3(0, 0, 0);
+      localuser->ray = setV3(0, 0, 0);
       localuser->noh->declareObjDelta(User::PROPRAY);
     }
   }

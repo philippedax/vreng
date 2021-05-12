@@ -50,7 +50,7 @@ void mulM4V3(V3 *a, const M4 *b, const V3 *c);
 void mulM3V4(float m[3][4], float v[4], float dest[3]);
 void mulM3M4(float m1[3][4], float m2[4][4], float dest[3][4]);
 
-V3 newV3(float x, float y, float z);
+V3 setV3(float x, float y, float z);
 /**< Create a new vector. */
 
 void clearV3(V3 vec);
@@ -71,7 +71,7 @@ float calcV3(V3 c, V3 e, V3 w, V3 v);
 #if 0 //notused
 float * getGLMatrix(const M4 *m4);
 /**< Gets a vec[16] from a 4x4 matrix */
-V4 newV4(float x, float y, float z, float w);
+V4 setV4(float x, float y, float z, float w);
 void MulM4V4(V4 *a, const M4 *b, const V4 * c);
 void MulM3V3(V3 *a, const M4 *b, const V3 *c);
 void moveM4(M4 *a, const M4 *b);
