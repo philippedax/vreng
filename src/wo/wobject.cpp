@@ -924,6 +924,48 @@ Parse * WObject::parse()
   return Parse::getParse();
 }
 
+/* parse tag : tokenize the line */
+char * WObject::tokenize(char *l)
+{
+  Parse *parser = parse();
+
+  char tag[Parse::TAG_LEN +2];
+  if (*parser->tagobj) {
+    // ignore close tag
+    sprintf(tag, "</%s", parser->tagobj);
+    char *p = strstr(l, tag);	// </type>
+    if (p) *p = '\0';
+  }
+
+  // save solid string into geometry for MySql purposes
+  char *p = strstr(l, "<solid");
+  if (p) {
+    char *q, *s;
+    geometry = new char[strlen(l)];
+    strcpy(geometry, ++p);
+    for (s = geometry; (q = strstr(s, "/>")) ; ) {
+      s = q;			// end of geometry found
+      p = strstr(s, "<solid");  // search next solid
+      if (p) {
+        s = p;
+        continue;		// next
+      }
+      else {
+        *s = '\0';
+        break;			// end
+      }
+    }
+    *s = '\0';
+    for (s = geometry; (p = strchr(s, '<')) ; ) {
+      *p = ' ';
+      s = ++p;
+    }
+  }
+
+  // tokenizes the object line, make all tokens of this line
+  return strtok(l, SEP);
+}
+
 
 //
 // List

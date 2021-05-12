@@ -442,48 +442,6 @@ void Parse::printNumline()
   error("parse error at line %d (solid)", numline);
 }
 
-/* parse tag : tokenize the line */
-char * WObject::tokenize(char *l)
-{
-  Parse *parser = parse();
-
-  char closetag[Parse::TAG_LEN +2];
-  if (*parser->tagobj) {
-    // remove close tag
-    sprintf(closetag, "</%s", parser->tagobj);
-    char *p = strstr(l, closetag);	// </type>
-    if (p) *p = '\0';
-  }
-
-  // save solid string into geometry for MySql purposes
-  char *p = strstr(l, "<solid");
-  if (p) {
-    char *q, *s;
-    geometry = new char[strlen(l)];
-    strcpy(geometry, ++p);
-    for (s = geometry; (q = strstr(s, "/>")) ; ) {
-      s = q;	// end of geometry found
-      p = strstr(s, "<solid");	// search next solid
-      if (p) {
-        s = p;
-        continue;
-      }
-      else {
-        *s = '\0';
-        break;
-      }
-    }
-    *s = '\0';
-    for (s = geometry; (p = strchr(s, '<')) ; ) {
-      *p = ' ';
-      s = ++p;
-    }
-  }
-
-  // tokenizes the object line, make all tokens of this line
-  return strtok(l, SEP);
-}
-
 /* skip attributes */
 char * Parse::skipAttribute(char *l)
 {
