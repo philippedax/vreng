@@ -81,8 +81,8 @@ UBox& Message::createMessagePanel(bool transparent)
                        + USymbol::up)
                + uitem(utip("Next message") + ucall(this,+1,&Message::getHistoryCB)
                        + USymbol::down)
-               )
-       );
+              )
+      );
   if (transparent) {
     tf.addAttr(UBackground::none + UColor::white);
     panel.addAttr(UColor::white);
@@ -94,14 +94,16 @@ void Message::actionCB()
 {
   if (entry.empty()) return;
 
-  history.push_back(entry);  // save in history
+  history.push_back(entry);	// save in history
 
-  if (entry[0] == '!') performRequest(entry);
+  if (entry[0] == '!') {	// starts with a '!'
+    performRequest(entry);
+  }
   else {
     writeMessage("chat", g.user, entry.c_str());  // display in message zone
-    User::userWriting(entry.c_str());		       // send to World Management
+    User::userWriting(entry.c_str());		  // send to World Management
   }
-  entry = ""; // clear textfield
+  entry = "";	// clear textfield
 }
 
 void Message::getHistoryCB(int go)
@@ -110,12 +112,12 @@ void Message::getHistoryCB(int go)
   entry = history[history_pos];
 }
 
-void Message::performRequest(const UStr& req) // req starts with a '!'
+void Message::performRequest(const UStr& req)	// req starts with a '!'
 {
 #if HAVE_OCAML
   if (req.empty() || !isalpha(req[1])) return;
 
-  const char* req_chars = req.c_str() + 1;  // skip the initial '!'
+  const char* req_chars = req.c_str() + 1;	// skip the initial '!'
   entry = "";
   int r = read_request(req_chars);
 

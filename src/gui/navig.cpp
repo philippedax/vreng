@@ -52,10 +52,18 @@ static Motion *motionx = null, *motiony = null;
 
 /* Constructor */
 Navig::Navig(Widgets* _gw, Scene& scene) :
-gw(*_gw), xref(0), yref(0), followMouse(false), depthsel(0), opened_menu(null) 
+ gw(*_gw),
+ xref(0),
+ yref(0),
+ followMouse(false),
+ depthsel(0),
+ opened_menu(null) 
 {  
   object_infos.addAttr(UBackground::green + UColor::white);
-  object_infos.add(uelem(UFont::bold + " " + object_class + " ") 
+  object_infos.add(uelem(UFont::bold
+                   + " "
+                   + object_class
+                   + " ") 
                    + uelem(UFont::bold + UFont::italic + object_name + " ")
                   );
   object_menu.addAttr(ualpha(0.5) + UBackground::black);
@@ -72,7 +80,7 @@ gw(*_gw), xref(0), yref(0), followMouse(false), depthsel(0), opened_menu(null)
             + UOn::mmove    / ucall(this, &Navig::mouseMoveCB)
             + UOn::kpress   / ucall(this, &Navig::keyPressCB)
             + UOn::krelease / ucall(this, &Navig::keyReleaseCB)
-            );
+           );
 }
 
 //////////////////
@@ -202,7 +210,7 @@ void Navig::keyReleaseCB(UKeyEvent& e)
 }
 
 // Press Buttons 1 or 3: navigator or info menu
-void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
+void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
 {
   //Sound::playSound(CLICKSND);
 
@@ -229,18 +237,18 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int button)
     }
     gw.message.performRequest(object);
     // Vrelet: calculate the clic vector and do the clic method on the object
-    if (button == 1) {
+    if (btn == 1) {
       if (gw.gui.vrelet) object->click(x, y);
       if (gw.gui.board)  object->click(x, y);
     }
 
     selectObject(objinfo);
   
-    if (button == 3) {		// show object menu
+    if (btn == 3) {		// show object menu
       object_menu.open(e);
       opened_menu = object_menu;
     }
-    else if (button == 1) {	// navigator
+    else if (btn == 1) {	// navigator
       navig_menu.open(e);	// show(e, 0, 0);
       opened_menu = navig_menu;
       object->setFlashy();	// flashes the edges of the solid

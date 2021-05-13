@@ -8,7 +8,7 @@ p=$(basename $0)
 
 case $# in
 0)
-  echo "usage: $p github | gitlab"
+  echo "usage: $p github | gitlab | bitbucket"
   ;;
 1)
   case $1 in
@@ -19,6 +19,13 @@ case $# in
   gitlab)
     rm -rf gitlab
     git clone https://gitlab.freedesktop.org/philippedax/vreng.git gitlab
+    ;;
+  bitbucket)
+    rm -rf bitbucket
+    git clone https://bitbucket.org/philippedax/vreng/src/master/ bitbucket
+    ;;
+  *)
+    echo "usage: $p github | gitlab | bitbucket"
     ;;
   esac
 esac

@@ -39,8 +39,10 @@
 #include "user.hpp"	// UserAction
 
 
-Joystick1::Joystick1(Widgets* _gw, GLint _radius)
-: gw(*_gw), is_drawing(false), radius(_radius)
+Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
+ gw(*_gw),
+ is_drawing(false),
+ radius(_radius)
 {
   canvas_size.set(radius*2, radius*2);
   center_point.set(radius, radius);
@@ -52,7 +54,7 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius)
                  + UOn::mdrag    / ucall(this, &Joystick1::dragCanvasCB)
                  + UOn::mpress   / ucall(this, &Joystick1::pressCanvasCB)
                  + UOn::mrelease / ucall(this, &Joystick1::releaseCanvasCB)
-                 );
+                );
   add(UOrient::horizontal + upadding(1,0) + UFont::small
       + uvbox(uhcenter()
               + uitem(UOn::deselect / g.theme.joystickColor
@@ -60,14 +62,14 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius)
                       + "Lock"
                       + utip("Set gravity on/off")
                       + ucall(int(UserAction::UA_PAUSE), Widgets::callAction)
-                      ).setSelectable()
+                     ).setSelectable()
               + uitem(g.theme.JoystickUpDown
                       + utip("Drag on the Y axis to move verticaly")
                       + UOn::arm / ucall(navig, (Motion*)0, &Motion::ztrans, &Navig::startMotion)
                       + UOn::mdrag / ucall(navig, &Navig::doMotion)
                       + UOn::mrelease / ucall(navig, &Navig::stopMotion)
-                      )
-              )
+                     )
+             )
       + uvbox(
               canvas
               + uright()
@@ -76,9 +78,9 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius)
                       + UOn::arm / ucall(navig, &Motion::xtrans, (Motion*)0, &Navig::startMotion)
                       + UOn::mdrag / ucall(navig, &Navig::doMotion)
                       + UOn::mrelease / ucall(navig, &Navig::stopMotion)
-                      )
-              )
-      );
+                     )
+             )
+     );
 }
 
 void Joystick1::pressCanvasCB(UMouseEvent& e)
@@ -112,7 +114,7 @@ void Joystick1::paintCanvasCB(UPaintEvent& e)
   // draw center point
   g.fillEllipse(center_point.x-5, center_point.y-5, 10, 10);
 
-  // draw cercle
+  // draw circle
   g.drawEllipse(0, 0, 2*radius, 2*radius);
 
   if (is_drawing) {
@@ -126,7 +128,8 @@ void Joystick1::paintCanvasCB(UPaintEvent& e)
     if (r > radius) r = radius;
     g.drawLine(center_point.x, center_point.y,
                center_point.x + sign * r * cos(a),
-               center_point.y + sign * r * sin(a));
+               center_point.y + sign * r * sin(a)
+              );
   }
 }
 
