@@ -113,8 +113,7 @@ void Gui::addChannelSources(int channel, int table[], int table_count)
   }
   channel_sources[channel] = new ChannelSources(table_count);
   for (int k=0; k < table_count; k++) {
-    USource* s =  new USource(table[k]);
-    //dax (Event) *event = new Event();
+    USource* s = new USource(table[k]);
     s->onAction(ucall(table[k], ::netIncoming));
     channel_sources[channel]->push_back(s);
   }
@@ -124,12 +123,13 @@ void Gui::removeChannelSources(int channel)
 {
   if (channel >= int(channel_sources.size()))  return;
   
-  ChannelSources* css = channel_sources[channel];
-  if (css == null)  return;
+  ChannelSources* cs = channel_sources[channel];
+  if (! cs)  return;
 
-  for (int k=0; k < css->size(); k++)
-    delete(*css)[k];
-  delete css;
+  for (int k=0; k < cs->size(); k++) {
+    delete(*cs)[k];
+  }
+  delete cs;
   channel_sources[channel] = null;
 }
 
@@ -181,12 +181,13 @@ void Gui::removeCart(WObject *cart, int action)
 void Gui::updateCart(WObject* po)
 {
   UBox* actions_cart = &uhbox(ulabel(ugroup(g.theme.objectTypeStyle
-                              + USymbol::right
-                              + ustr(po->names.type))
-                              + " "
-                              + ugroup(g.theme.objectNameStyle
-                                       + po->getInstance()
-                                      )
+                                            + USymbol::right
+                                            + ustr(po->names.type)
+                                           )
+                                     + " "
+                                     + ugroup(g.theme.objectNameStyle
+                                              + po->getInstance()
+                                             )
                                     )
                               + uitem("Leave"
                                        + ucall(this, po, int(Cart::LEAVE), &Gui::removeCart)
@@ -216,9 +217,8 @@ void Gui::removeUser(User *user)	// when an user quits
   notice("Avatar %s leaves %s", NN(user->getInstance()), NN(user->worldName()));
   if (user->isGui()) {
     widgets->removeUser(user->getGui());
-    // MS : for Ubit at least, removeUser does a delete on
-    // the guiItem structure. Safer to mark it a NULL than to
-    // carry an invalid pointer around.
+    // MS : for Ubit at least, removeUser does a delete on the guiItem structure.
+    // Safer to mark it a NULL than to carry an invalid pointer around.
     user->resetGui();
   }
 }

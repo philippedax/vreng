@@ -60,11 +60,16 @@ Navig::Navig(Widgets* _gw, Scene& scene) :
  opened_menu(null) 
 {  
   object_infos.addAttr(UBackground::green + UColor::white);
-  object_infos.add(uelem(UFont::bold
-                   + " "
-                   + object_class
-                   + " ") 
-                   + uelem(UFont::bold + UFont::italic + object_name + " ")
+  object_infos.add(  uelem(UFont::bold
+                           + " "
+                           + object_class
+                           + " "
+                          ) 
+                   + uelem(UFont::bold
+                           + UFont::italic
+                           + object_name
+                           + " "
+                          )
                   );
   object_menu.addAttr(ualpha(0.5) + UBackground::black);
   object_menu.add(object_infos);
@@ -270,6 +275,7 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y)
     object->resetFlashy();
     object->setFlashy();	// flashes edges of the solid
     object->setRay(x, y);	// launches stipple ray on the object
+
     selectObject(objinfo);
   }  
   else {	// no object!
@@ -296,13 +302,13 @@ void Navig::selectObject(ObjInfo* objinfo)
   object_menu.add(UColor::white);
 
   // add buttons (actions) to the infos box and the contextual menu
-  for (ObjInfo* oi = objinfo + 2; oi->name != null; oi++) {
-    UBox& b = ubutton(oi->name); // add action button to infobox
+  for (ObjInfo* oi = objinfo + 2; oi->name ; oi++) {
+    UBox& b = ubutton(oi->name);
     if (oi->fun) {
-      b.add(ucall(oi->farg, oi->fun));
+      b.add(ucall(oi->farg, oi->fun));	// add action button to infobox
     }
     gw.infos.add(b);
-    object_menu.add(b);		// add button to contextual menu
+    object_menu.add(b);			// add action button to contextual menu
   }
   gw.infos.addAttr(UBackground::none);
 }

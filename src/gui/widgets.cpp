@@ -96,24 +96,24 @@ using namespace ubit;
 
 
 Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
-gui(*_gui),
-putinfo(*new Message2),
-capture(*new Capture),
-scene(*new Scene(this)),
-navig(*new Navig(this, scene)),
-source_dialog(*new UOptionDialog("World source")),
-worlds_dialog(*new UOptionDialog("World list")),
-prefs_dialog(prefsDialog()),
-settings_dialog(settingsDialog()),
-grid_dialog(gridDialog()),
-tool_dialog(toolDialog()),
-addobj_dialog(addobjDialog()),
-message(*new Message(this)),
-panels(*new Panels(this, scene)),
-infobar(createInfobar()),
-menubar(createMenubar()),
-postponedKRmask(0),
-postponedKRcount(0)
+ gui(*_gui),
+ putinfo(*new Message2),
+ capture(*new Capture),
+ scene(*new Scene(this)),
+ navig(*new Navig(this, scene)),
+ source_dialog(*new UOptionDialog("World source")),
+ worlds_dialog(*new UOptionDialog("World list")),
+ prefs_dialog(prefsDialog()),
+ settings_dialog(settingsDialog()),
+ grid_dialog(gridDialog()),
+ tool_dialog(toolDialog()),
+ addobj_dialog(addobjDialog()),
+ message(*new Message(this)),
+ panels(*new Panels(this, scene)),
+ infobar(createInfobar()),
+ menubar(createMenubar()),
+ postponedKRmask(0),
+ postponedKRcount(0)
 {
   worlds.addAttr(UOrient::vertical + utop());
   carts.addAttr(UOrient::vertical + utop());
@@ -126,7 +126,8 @@ postponedKRcount(0)
       + uhbox(uvflex() + uhflex() + uhspacing(0)
               + uvbox(uhflex() + uvflex() + scene + ubottom() + panels.main_panel)
               + uright() + panels.right_panel)
-      );
+     );
+
   // process ubit messages coming from other applications
   UAppli::onMessage("file",   ucall(this, &Widgets::openMessage));
   UAppli::onMessage("open",   ucall(this, &Widgets::openMessage));
@@ -148,7 +149,8 @@ UBox& Widgets::createInfobar()
         + uitem(USymbol::right + UBackground::green + utip("Next world") + ucall(this, &Widgets::forwardCB))
         + usepar()
         );
-  // infos initially contains the welcome message, its changed dynamically when objects are selected
+  // infos initially contains the welcome message,
+  // its changed dynamically when objects are selected
   infos.addAttr(UOrient::horizontal + uleft());
   infos.add(uleft() + UPix::ray + UColor::red + UFont::bold + " Welcome to VREng " + UPix::ray);
   return uhbox(uvspacing(2) + navigbox + infos);
@@ -171,7 +173,7 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.Edit  + "Source"      + ucall(this, &Widgets::sourceDialog))
         + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
-        );
+       );
 
   UMenu& tool_menu =
   umenu(g.theme.menuStyle
@@ -179,7 +181,7 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.Grid2D + " Grid "     + grid_dialog)
         + ubutton(g.theme.Tools  + " Tools "    + tool_dialog)
         + ubutton(g.theme.AddObj + " Addobj "   + addobj_dialog)
-        );
+       );
 
   UMenu& history_menu =
   umenu(g.theme.menuStyle
@@ -187,7 +189,7 @@ UBox& Widgets::createMenubar()
         + ubutton("Next World"       + ucall(this, &Widgets::forwardCB))
         + ubutton("Home"             + ucall(this, &Widgets::homeCB))
         + ubutton("Visited Worlds >" + umenu(g.theme.menuStyle + worlds))
-        );
+       );
 
   UMenu& help_menu =
   umenu(g.theme.menuStyle
@@ -199,7 +201,7 @@ UBox& Widgets::createMenubar()
         + ubutton("TODO"      + ucall("TODO", TODO, &Widgets::showInfoDialog))
         + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &Widgets::showInfoDialog))
         + ubutton("LICENSE"   + ucall("LICENSE", COPYING, &Widgets::showInfoDialog))
-        );
+       );
 
   // ===== Menubar ======
   UMenubar& menu_bar =
@@ -208,7 +210,7 @@ UBox& Widgets::createMenubar()
            + ubutton("Go"      + ucall(this, &Widgets::goDialog))
            + ubutton("Tools"   + tool_menu)
            + ubutton("History" + history_menu)
-          );
+         );
 
   menu_bar.add(ubutton("Marks" + markMenu()));
   dynamicMenus(menu_bar, ::g.env.menu());
@@ -253,10 +255,15 @@ void Widgets::dynamicMenus(UMenubar& menu_bar, const char* filename)
 UMenu& Widgets::markMenu()
 {
   UBox& mark_box = uvbox();
-  mark_box.add(ubutton(UBackground::none + "Add Worldmark"
-                       + ucall(this, &Widgets::markCB)));
-  UMenu& mark_menu
-  = umenu(g.theme.menuStyle + uscrollpane(usize().setHeight(80) + UBackground::none + mark_box));
+  mark_box.add(ubutton(UBackground::none
+                       + "Add Worldmark"
+                       + ucall(this, &Widgets::markCB))
+                      );
+  UMenu& mark_menu = umenu(g.theme.menuStyle
+                           + uscrollpane(usize().setHeight(80)
+                           + UBackground::none
+                           + mark_box)
+                          );
 
   FILE *fp = null;
   char buf[URL_LEN + CHAN_LEN + 2];
@@ -295,8 +302,8 @@ static void setUser(UBox *gu, User *user)
                   + uhbox(" Cname: " + UFont::plain + user->rtcpname)
                   + uhbox(" Vreng: " + UFont::plain + user->tool)
                   + uhbox(" Web: "   + UFont::plain + user->web)
-                  )
-          );
+                 )
+         );
 }
 
 GuiItem *Widgets::addUser(User *user)
@@ -333,8 +340,8 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
           + umenu(UFont::bold + UColor::navy
                   + uhbox(" URL: " + UFont::plain + world->getUrl())
                   + uhbox(" Channel: " + UFont::plain + world->getChan())
-                  )
-          );
+                 )
+         );
 }
 
 GuiItem *Widgets::addWorld(World *world, bool isCurrent)
@@ -407,8 +414,9 @@ WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
     objinfo[2].name = NULL;	// NULL terminaison
     return NULL;
   }
-  if (! object->isVisible())
+  if (! object->isVisible()) {
     return NULL;	// invisible
+  }
 
   // an object has been selected
   // get the object hname
@@ -488,7 +496,7 @@ void Widgets::saveCB()
       while (fgets(buf, sizeof(buf), fi)) fputs(buf, fo);
       File::closeFile(fo);
       File::closeFile(fi);
-      notice("file %s saved", vreout);
+      notice("world %s saved", vreout);
     }
   }
 }
@@ -555,7 +563,7 @@ void Widgets::markCB()
   sprintf(mark, "%s %s\n", World::current()->getUrl(), World::current()->getChan());
   if ((fp = File::openFile(::g.env.worldmarks(), "r")) != NULL) {
     while (fgets(buf, sizeof(buf), fp)) {
-      if (!strcmp(buf, mark)) {
+      if (! strcmp(buf, mark)) {
         File::closeFile(fp);
         return;
       }
@@ -746,8 +754,9 @@ static void sourceHttpReader(void *box, Http *http)
   source_box->setAutoUpdate(false);
 
   FILE *fpcache = Cache::openCache(http->url, http);
-  while (fgets(line, sizeof(line), fpcache))
+  while (fgets(line, sizeof(line), fpcache)) {
     source_box->add(uitem(UColor::black + line));
+  }
   source_box->setAutoUpdate(true);
   source_box->update();
 }
@@ -865,7 +874,7 @@ void Widgets::worldsDialog()
   if (! strncmp(Universe::current()->server, "http://", 7))
     sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
   else
-    sprintf(fmt, "%s%s", "http://", "%s%s/vacs/v%d/worlds");
+    sprintf(fmt, "%s%s", "http://", "%s/%s/vacs/v%d/worlds");
   sprintf(univ_url, fmt, Universe::current()->server,
                          Universe::current()->urlpfx,
                          Universe::current()->version);
@@ -903,7 +912,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, VAT_TOOL, &Widgets::prefCB))
            + ucheckbox("Fphone" + sel_audio_live
                        + UOn::select / ucall(this, FPHONE_TOOL, &Widgets::prefCB))
-           )
+        )
    + uhbox(UBorder::shadowOut)
    + uhbox("Video live      : " + UFont::plain
            + ucheckbox("Vic" + sel_video_live
@@ -911,7 +920,7 @@ UDialog& Widgets::settingsDialog()
                        .setSelected()
            + ucheckbox("Vlc" + sel_video_live
                        + UOn::select / ucall(this, VLCMC_TOOL, &Widgets::prefCB))
-           )
+          )
    + uhbox(UBorder::shadowOut)
    + uhbox("Whiteboard      : " + UFont::plain
            + ucheckbox("Wb" + sel_wb
@@ -921,7 +930,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, WBD_TOOL, &Widgets::prefCB))
            + ucheckbox("Nte" + sel_wb
                        + UOn::select / ucall(this, NTE_TOOL, &Widgets::prefCB))
-           )
+          )
    + uhbox(UBorder::shadowOut)
    + uhbox("Browser         : " + UFont::plain
            + ucheckbox("Firefox" + sel_browser
@@ -935,7 +944,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, OPERA_TOOL, &Widgets::prefCB))
            + ucheckbox("I-Explorer" + sel_browser
                        + UOn::select / ucall(this, IEXPLORER_TOOL, &Widgets::prefCB))
-           )
+          )
    + uhbox(UBorder::shadowOut)
    + uhbox("Audio streaming : " + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
@@ -947,7 +956,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, FREEAMP_TOOL, &Widgets::prefCB))
            + ucheckbox("Quicktime" + sel_audio_streaming
                        + UOn::select / ucall(this, QUICKTIME_TOOL, &Widgets::prefCB))
-           )
+          )
    + uhbox(UBorder::shadowOut)
    + uhbox("Video streaming : " + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
@@ -957,7 +966,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, MPEGPLAY_TOOL, &Widgets::prefCB))
            + ucheckbox("Quicktime" + sel_video_streaming
                        + UOn::select / ucall(this, QUICKTIME_TOOL, &Widgets::prefCB))
-           )
+          )
    + uhbox(UBorder::shadowOut)
    + uhbox("Modeler         : " + UFont::plain
            + ucheckbox("Vred" + sel_modeler
@@ -965,7 +974,7 @@ UDialog& Widgets::settingsDialog()
                        .setSelected()
            + ucheckbox("Vrem" + sel_modeler
                        + UOn::select / ucall(this, VREM_TOOL, &Widgets::prefCB))
-           )
+          )
    + uhbox(UBorder::shadowOut)
    + uhbox("PsPdf           : " + UFont::plain
            + ucheckbox("Evince" + sel_pspdf
@@ -979,7 +988,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, ACROBAT_TOOL, &Widgets::prefCB))
            + ucheckbox("Xpdf" + sel_pspdf
                        + UOn::select / ucall(this, XPDF_TOOL, &Widgets::prefCB))
-           )
+          )
    + uhbox(UBorder::shadowOut)
    + uhbox("Office          : " + UFont::plain
            + ucheckbox("LibreOffice" + sel_office
@@ -991,7 +1000,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, OPENOFFICE_TOOL, &Widgets::prefCB))
            + ucheckbox("StarOffice" + sel_office
                        + UOn::select / ucall(this, STAROFFICE_TOOL, &Widgets::prefCB))
-           )
+          )
    + uhbox(UBorder::shadowOut)
    + uhbox("Session         : " + UFont::plain
            + ucheckbox("Ssh" + sel_session
@@ -999,10 +1008,10 @@ UDialog& Widgets::settingsDialog()
                        ).setSelected()
            + ucheckbox("Telnet" + sel_session
                        + UOn::select / ucall(this, TELNET_TOOL, &Widgets::prefCB))
-           )
+          )
    + uhbox(UBorder::shadowOut)
    + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
-   );
+  );
 }
 
 UDialog& Widgets::gridDialog()
@@ -1023,7 +1032,7 @@ UDialog& Widgets::toolDialog()
    + ubutton("Modeler"    + ucall(this, true, &Widgets::modelerCB))
    + uhbox(UBorder::shadowIn)
    + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
-   );
+  );
 }
 
 //---------------------------------------------------------------------------
@@ -1447,7 +1456,7 @@ UMenu& Widgets::fileMenu()
                      UArgs::none,
                      uhbox(ubutton("  Open  " + ucall(&gui, (const UStr&)url_or_name, &Gui::gotoWorld))
                            + ubutton("  Cancel  " + ucloseWin()))
-                     );
+                   );
 
   // Put & Publish URL
   UBox& puturl_box =
@@ -1458,7 +1467,7 @@ UMenu& Widgets::fileMenu()
                 + uhflex() + utextfield(65, putinfo.name))
         + uhbox(ulabel(20, UFont::bold + "Icon" + UFont::plain + " (optional)" )
                 + uhflex() + utextfield(65, putinfo.icon))
-        );
+       );
 
   UDialog* puturl_dialog =
   new UOptionDialog("Put new URL document", //title
@@ -1476,7 +1485,7 @@ UMenu& Widgets::fileMenu()
                 + uhflex() + utextfield(65, putinfo.ofile))
         + uhbox(ulabel(25, UFont::bold + "Alias" + UFont::plain + " (short name)" )
                 + uhflex() + utextfield(65, putinfo.name))
-        );
+       );
 
   UDialog* putfile_dialog =
   new UOptionDialog("Put new File document",  // title
@@ -1487,13 +1496,13 @@ UMenu& Widgets::fileMenu()
 
   // Create File menu
   return umenu(ubutton(g.theme.World  + " Open Vreng URL..." + openvre_dialog)
-             + ubutton(g.theme.Save + " Save Vreng File" + ucall(this, &Widgets::saveCB))
-             + usepar()
-             + ubutton(g.theme.Doc  + " Put & Publish URL..." + puturl_dialog)
-             + ubutton(g.theme.Book + " Put & Publish File..." + putfile_dialog)
-             + usepar()
-             + ubutton(g.theme.Exit + " Quit" + ucall(0/*status*/, Global::quitVreng))
-             );
+               + ubutton(g.theme.Save + " Save Vreng File" + ucall(this, &Widgets::saveCB))
+               + usepar()
+               + ubutton(g.theme.Doc  + " Put & Publish URL..." + puturl_dialog)
+               + ubutton(g.theme.Book + " Put & Publish File..." + putfile_dialog)
+               + usepar()
+               + ubutton(g.theme.Exit + " Quit" + ucall(0/*status*/, Global::quitVreng))
+              );
 }
 
 //---------------------------------------------------------------------------
@@ -1587,7 +1596,8 @@ VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
                            + utextfield(vnc_port))
                    + uhbox(ulabel(14, UFont::bold + "Password:")
                            + utextfield(vnc_passwd))
-                   ));
+                  )
+            );
   setButtons(ubutton("Connect" + ucloseWin() + ucall(vnc_dialog, &VncDialog::convert))
              + " "
              + ubutton("Cancel" + ucloseWin()));
