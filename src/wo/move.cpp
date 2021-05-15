@@ -29,7 +29,7 @@
 #include "man.hpp"	// Man
 
 #define MIN_MOVES	20	// orig: 20
-#define RATIO_GOTO	2	// orig: 4
+#define RATIO_GOTO	6	// orig: 4
 
 
 /**
@@ -91,13 +91,12 @@ bool WObject::testMoving()
 void * endMovement(void *arg)
 {
   if (localuser) {
-    float ttl = localuser->move.ttl;
-    uint32_t savebehave = localuser->behavior;	// save current behavior
+    uint32_t behave = localuser->behavior;	// save current behavior
     localuser->disableGravity();		// avoid to fall into the void
     localuser->enableBehavior(COLLIDE_NEVER);	// temporaly disabled
-    sleep((uint32_t) ttl);			// waits
+    sleep((uint32_t) localuser->move.ttl);	// waits
     localuser->enableGravity();			// restore gravity
-    localuser->behavior = savebehave;		// restablish previous behavior
+    localuser->behavior = behave;		// restablish previous behavior
 #if HAVE_LIBPTHREAD
     pthread_exit(NULL);
 #endif
@@ -116,15 +115,14 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
   }
   else {
     if (move.next) {
-      move = *(move.next);  // copy next motion into current
-      delete[] move.next;  // delete next, now obsoleted
+      move = *(move.next);	// copy next motion into current
+      delete[] move.next;	// delete next, now obsoleted
       move.next = NULL;
       move.sec = sec;
       move.usec = usec;
       move.perm_sec = sec;
       move.perm_usec = usec;
-      if (move.without_col) {
-        trace(DBG_WO, "next ttl=%.2f", move.ttl);
+      if (move.nocol) {
 #if HAVE_LIBPTHREAD
         pthread_t tid;
         pthread_create(&tid, NULL, endMovement, (void *) NULL);
@@ -134,7 +132,7 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
           exit(0);
         }
 #endif
-        move.without_col = false;
+        move.nocol = false;
       }
       return true;
     }
@@ -215,18 +213,19 @@ void User::updateTime(float lastings[])
 void User::changePosition(const float lastings[])
 {
   for (int k=0; (k < MAXKEYS); k++) {
-    if (lastings[k] > MIN_KEYLASTING)
+    if (lastings[k] > MIN_KEYLASTING) {
       changePositionOneDir(k, lastings[k] * (kpressed[KEY_VI]+1));
+    }
   }
 
   // Fly
   //dax float ground = World::current()->getGround();
   //dax float h = pos.z - ground;  // vertical distance
-  //dax float a = MIN((h-1) * (M_PI/18), (M_PI_4+M_PI_4/2));
   float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
   if (pos.z > 2) {	// >2 m
-    if (man)
+    if (man) {
       man->pos.ay = -a;
+    }
     if (guy) {
       guy->pos.ax = -a;	//orig ay
       guy->setAniming(true);
@@ -234,8 +233,9 @@ void User::changePosition(const float lastings[])
     }
   }
   else if (pos.z < 1) { // near the ground
-    if (man)
+    if (man) {
       man->pos.ay = 0;
+    }
     if (guy) {
       guy->pos.ax = 0;  //orig ay
       guy->setAniming(false);
@@ -273,7 +273,7 @@ void WObject::initImposedMovement(float ttl)
   enableImposedMovement();
   move.ttl = (ttl < 0) ? -ttl : ttl;
   move.next = NULL;
-  move.without_col = false;
+  move.nocol = false;	// with collision
 }
 
 void WObject::stopImposedMovement()
@@ -281,7 +281,7 @@ void WObject::stopImposedMovement()
   move.ttl = 0;
   move.sec = 0;
   move.usec = 0;
-  move.without_col = false;
+  move.nocol = false;
   for (Move *pm = move.next; pm ; pm = pm->next) {
     delete[] pm;
   }
@@ -341,11 +341,12 @@ void User::userMovement(time_t sec, time_t usec)
 
   float lasting = -1.;
   for (int k=0; k < MAXKEYS; k++) {
-    if (keylastings[k] > lasting) lasting = keylastings[k];
+    if (keylastings[k] > lasting) {
+      lasting = keylastings[k];
+    }
   }
 
   if (lasting > MIN_LASTING) {  // user is moving
-    if (! isValid()) { error("usermove: type=%d", type); return; }
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
     int moves = (int) (lasting / maxlast);
@@ -372,23 +373,24 @@ void User::userMovement(time_t sec, time_t usec)
 
 void WObject::elemImposedMovement(float dt)
 {
-  if (isBehavior(COLLIDE_NEVER)) {
-    changePosition(dt);  // handled by each object
-    update3D(pos);
-    return;
-  }
-  WObject *pold = new WObject();
-  copyPositionAndBB(pold);  // keep oldpos for intersection
   changePosition(dt);  // handled by each object
   updatePosition();
-  checkVicinity(pold);
-  delete pold;
+
+  if (! isBehavior(COLLIDE_NEVER)) {
+    WObject *pold = new WObject();
+    copyPositionAndBB(pold);  // keep oldpos for intersection
+    checkVicinity(pold);
+    delete pold;
+  }
 }
 
 /* object imposed motion */
 void WObject::imposedMovement(time_t sec, time_t usec)
 {
-  if (! isValid()) { error("imposedMovement: type=%d invalid", type); return; }
+  if (! isValid()) {
+    error("imposedMovement: type=%d invalid", type);
+    return;
+  }
   if (World::current()->isDead()) return;
   if (! isMoving()) return;  // no moving
 
@@ -441,7 +443,10 @@ void WObject::elemPermanentMovement(float dt)
 /* object permanent motion */
 void WObject::permanentMovement(time_t sec, time_t usec)
 {
-  if (! isValid()) { error("permanentMovement: type=%d invalid", type); return; }
+  if (! isValid()) {
+    error("permanentMovement: type=%d invalid", type);
+    return;
+  }
   if (World::current()->isDead()) return;
 
   if (move.perm_sec > 0) {  // is permanent movement activated ?
@@ -472,93 +477,94 @@ void WObject::permanentMovement(time_t sec, time_t usec)
         if (isBehavior(NO_ELEMENTARY_MOVE)) return;  // do movement only once
       }
     }
-    //dax8 updateTime(sec, usec, &lasting);  // see clock.cpp never called FIXME!
+    //dax8 updateTime(sec, usec, &lasting);	// see clock.cpp never called FIXME!
 
-    if (noh && noh->isResponsible()) updateToNetwork(oldpos);  // handled by each object
+    if (noh && noh->isResponsible()) {
+      updateToNetwork(oldpos);		// handled by each object
+    }
 
     updatePositionAndGrid(oldpos);
-    if (this == localuser)
+    if (this == localuser) {
       updateCamera(pos);
+    }
   }
 }
 
 /* Moves the user towards the object */
-void WObject::moveUserToObject(float val, float _lttl, float attl)
+void WObject::moveUserToObject(float sgn, float lttl, float attl)
 {
-  // val could be whether a speed either a ttl, that depends on the context
   if (! localuser) return;
 
-  int sign = (val >= 0) ? 1 : -1;
-  float d = RATIO_GOTO * sign * MAX(pos.bbsize.v[0], pos.bbsize.v[1]);
-  float dx = pos.x - (d * sin(pos.az)) - localuser->pos.x;
-  float dy = pos.y + (d * cos(pos.az)) - localuser->pos.y;
-  float dz = MAX(pos.z - localuser->pos.z, 0.20);
-  float da = deltaAngle(pos.az, localuser->pos.az + 1.57);
-  float db = deltaAngle(pos.ay, localuser->pos.ay);  //FIXME: atan
+  int sign = (sgn >= 0) ? 1 : -1;
+  float d = sign * MAX(pos.bbsize.v[0], pos.bbsize.v[1]) * RATIO_GOTO;
+  //float dx = pos.x - (d * sin(pos.az)) - localuser->pos.x;
+  //float dy = pos.y + (d * cos(pos.az)) - localuser->pos.y;
+  float dx = pos.x - localuser->pos.x;
+  float dy = pos.y - localuser->pos.y;
+  float dz = ABSF(pos.z - localuser->pos.z);
+  float da = (deltaAngle(pos.az - 0, localuser->pos.az + M_PI_2));
+  da = MIN(da, M_PI);
+  da = MAX(da, -M_PI);
+  //error("a=%.2f o=%.2f u=%.2f", da, pos.az, localuser->pos.az);
+  //error("d=%.1f %.1f,%.1f,%.1f %.2f", d,dx,dy,dz,da);
 
-  float lttl;
-  if (_lttl) lttl = _lttl;  // ttl given
-  else lttl = sqrt(dx*dx + dy*dy + dz*dz) / User::LSPEED;  // compute ttl
-  //trace(DBG_FORCE, "lttl=%.2f d=%.2f %.2f,%.2f,%.2f", lttl,d,dx,dy,dz);
-
-  localuser->move.ttl = attl;  // needed for pthreaded endMovement
+  // first movement: user turns in direction of the object
+  localuser->move.ttl = attl;
   clearV3(localuser->move.lspeed);
   clearV3(localuser->move.aspeed);
   localuser->move.aspeed.v[0] = da / attl;
-  localuser->move.aspeed.v[1] = db / attl;
-  localuser->initImposedMovement(attl);  // start orientation
+  localuser->initImposedMovement(attl);	// init orientation
+  localuser->move.nocol = true;
 
-  localuser->move.next = new Move[1];  // build 2nd movement eg. translation
-
-  localuser->move.next->ttl = lttl;  // needed for pthreaded endMovement
-  localuser->move.next->next = NULL;
-  localuser->move.next->without_col = true;
+  // second movement: user translates towards the object
+  localuser->move.next = new Move[1];
+  localuser->move.next->ttl = lttl;
   localuser->move.next->lspeed.v[0] = dx / lttl;
   localuser->move.next->lspeed.v[1] = dy / lttl;
   localuser->move.next->lspeed.v[2] = dz / lttl;
+  localuser->move.next->nocol = true;
+  localuser->move.next->next = NULL;
+  //localuser->initImposedMovement(lttl);	// init translation
   clearV3(localuser->move.aspeed);
 }
 
-/* Move the user at the point x,y,z **/
+/* Move the user at the point x,y,z */
 void gotoXYZ(float gox, float goy, float goz, float az)
 {
   if (! localuser) return;
 
   float dx = gox - (sin(az)) - localuser->pos.x;
   float dy = goy + (cos(az)) - localuser->pos.y;
-  float dz = MAX(goz - localuser->pos.z, 0.20);
+  float dz = goz - localuser->pos.z;
   float da = deltaAngle(az, localuser->pos.az + 1.57);
-
   float attl = 0.5;  // 1/2 sec
   float lttl = sqrt(dx*dx + dy*dy + dz*dz) / User::LSPEED;
 
-  // l'utilisateur tourne en direction de l'objet avant d'aller vers celui ci
-  localuser->move.ttl = attl;    // needed for pthreaded endMovement
+  localuser->move.ttl = attl;
   clearV3(localuser->move.lspeed);
   clearV3(localuser->move.aspeed);
   localuser->move.aspeed.v[0] = da / attl;
-  localuser->initImposedMovement(attl);  // start orientation
+  localuser->initImposedMovement(attl);	// start orientation
 
-  localuser->move.next = new Move[1];  // build 2nd movement eg. translation
-
-  localuser->move.next->ttl = lttl;  // needed for pthreaded endMovement
-  localuser->move.next->next = NULL;
-  localuser->move.next->without_col = true;
+  localuser->move.next = new Move[1];	// build 2nd movement eg. translation
+  localuser->move.next->ttl = lttl;	// needed for pthreaded endMovement
   clearV3(localuser->move.lspeed);
   clearV3(localuser->move.aspeed);
   localuser->move.next->lspeed.v[0] = dx / lttl;
   localuser->move.next->lspeed.v[1] = dy / lttl;
   localuser->move.next->lspeed.v[2] = dz / lttl;
+  localuser->move.next->nocol = true;
+  localuser->move.next->next = NULL;
 }
 
 /* Moves the user in front of the object */
 void gotoFront(WObject *po, void *d, time_t s, time_t u)
 {
-  po->moveUserToObject(1, 0, 0.5);
+  po->moveUserToObject(1, 5, .5);	// lttl: 5sec attl: 1/2sec
 }
 
 /* Moves the user behind the object */
 void gotoBehind(WObject *po, void *d, time_t s, time_t u)
 {
-  po->moveUserToObject(-1, 0, 0.5);
+  po->moveUserToObject(-1, 4, 1);
 }

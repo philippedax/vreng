@@ -26,6 +26,7 @@
 
 
 const OClass Sheet::oclass(SHEET_TYPE, "Sheet", NULL);
+
 const float Sheet::LSPEED = 1.0;
 const float Sheet::ASPEED = 1.0;
 
@@ -211,11 +212,7 @@ void Sheet::pushPrev(float dist)
 
 void Sheet::destroy()
 {
-#if 1 //FIXME segfault in deleteObject
   toDelete();	// delete Wobject
-#else
-  delete this;
-#endif
 }
 
 void Sheet::quit()

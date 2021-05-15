@@ -30,6 +30,7 @@
 
 
 const OClass Book::oclass(BOOK_TYPE, "Book", Book::creator);
+
 const float Book::ASPEED = 1.0;
 const float Book::ARIGHT = 0;
 const float Book::ALEFT = 3.14;
@@ -201,7 +202,7 @@ Book::Book(char *l)
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 
-  // create the heaps of sheets
+  // create the heaps (right and left) of sheets
 
   char s[BUFSIZ];
   if (num == 0) { // book closed on the right side

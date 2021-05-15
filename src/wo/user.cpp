@@ -653,20 +653,23 @@ void User::specialAction(int action_id, void *d, time_t s, time_t u)
   if (carrier && carrier->isTaking()) o = carrier;  // carrier
   else                                o = this;	    // user
 
-  if (isAction(o->type, action_id))
+  if (isAction(o->type, action_id)) {
     doAction(o->type, action_id, o, d, s, u);
+  }
 }
 
 void User::createBullet(User *user, void *d, time_t s, time_t u)
 {
-  if (isAction(BULLET_TYPE, Bullet::CREATE))
+  if (isAction(BULLET_TYPE, Bullet::CREATE)) {
     doAction(BULLET_TYPE, Bullet::CREATE, user, d, s, u);
+  }
 }
 
 void User::createDart(User *user, void *d, time_t s, time_t u)
 {
-  if (isAction(DART_TYPE, Dart::CREATE))
+  if (isAction(DART_TYPE, Dart::CREATE)) {
     doAction(DART_TYPE, Dart::CREATE, user, d, s, u);
+  }
 }
 
 void User::defaultZoom(User *user, void *d, time_t s, time_t u)
@@ -825,45 +828,54 @@ void User::thirdPersonViewFar(User *user, void *d, time_t s, time_t u)
 
 void User::thirdPersonView_RotL(User *user, void *d, time_t s, time_t u)
 {
-  if (::g.render.getViewMode() == Render::VIEW_THIRD_PERSON)
+  if (::g.render.getViewMode() == Render::VIEW_THIRD_PERSON) {
     ::g.render.thirdPerson_xRot += M_PI/18;
+  }
 }
 
 void User::thirdPersonView_RotR(User *user, void *d, time_t s, time_t u)
 {
-  if (::g.render.getViewMode() == Render::VIEW_THIRD_PERSON)
+  if (::g.render.getViewMode() == Render::VIEW_THIRD_PERSON) {
     ::g.render.thirdPerson_xRot -= M_PI/18;
+  }
 }
 
 void User::thirdPersonView_RotU(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
-  if (render->getViewMode() == Render::VIEW_THIRD_PERSON)
-    if (render->thirdPerson_xRot + M_PI_2/4 < M_PI_2)
+  if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
+    if (render->thirdPerson_xRot + M_PI_2/4 < M_PI_2) {
       render->thirdPerson_yRot += M_PI/18;
+    }
+  }
 }
 
 void User::thirdPersonView_RotD(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
-  if (render->getViewMode() == Render::VIEW_THIRD_PERSON)
-    if (render->thirdPerson_xRot + M_PI_2/4 > -M_PI_2/4)
+  if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
+    if (render->thirdPerson_xRot + M_PI_2/4 > -M_PI_2/4) {
       render->thirdPerson_yRot -= M_PI/18;
+    }
+  }
 }
 
 void User::thirdPersonView_Near(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
-  if (render->getViewMode() == Render::VIEW_THIRD_PERSON)
-    if (render->thirdPerson_Near > -1.5)
+  if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
+    if (render->thirdPerson_Near > -1.5) {
       render->thirdPerson_Near -= 0.1;
+    }
+  }
 }
 
 void User::thirdPersonView_Far(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
-  if (render->getViewMode() == Render::VIEW_THIRD_PERSON)
+  if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
     render->thirdPerson_Near += 0.1;
+  }
 }
 
 void User::pause(User *user, void *d, time_t s, time_t u)

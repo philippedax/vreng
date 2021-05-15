@@ -31,10 +31,10 @@ float deltaAngle(float a1, float a2)
   float da = a1 - a2;
 
   da -= M_2PI * ((int)(da / M_2PI));
-  if (da < -3.14)
-    da += 6.28;
-  if (da > 3.14)
-    da -= 6.28;
+  if (da < -M_PI)
+    da += M_2PI;
+  if (da > M_PI)
+    da -= M_2PI;
   return da;
 }
 

@@ -455,7 +455,8 @@ void Guy::display_arm(bool side)
 
    // Upper arm: rotates about the x axis only
    if (flying)
-     glRotatef(135, 1, 0, 0);
+     //dax glRotatef(135, 1, 0, 0);
+     glRotatef(135, 0, 1, 0);	// y axis
    else if (showing && side == 0)  // right arm
      glRotatef(90, 1, 0, 0);
    else

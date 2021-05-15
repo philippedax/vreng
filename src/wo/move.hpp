@@ -21,13 +21,9 @@
 #ifndef MOVE_HPP
 #define MOVE_HPP
 
-#define GRAVITY		1.5	// 1.5 m/s
-#define MIN_LASTING     0.00005	// 50 usec
-#if 0
-#define MIN_KEYLASTING	0.00000005
-#else
+#define GRAVITY		1.5		// 1.5 m/s
+#define MIN_LASTING     0.00005		// 50 usec
 #define MIN_KEYLASTING	0.000001	// 1 usec
-#endif
 
 /* Keys needed by VREng move module */
 enum {

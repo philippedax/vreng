@@ -115,15 +115,15 @@ struct Pos {
  * Motion parameters of the object.
  */
 struct Move {
+  float ttl;		///< time to live.
   V3 lspeed;		///< linear speed.
   V3 aspeed;		///< angular speed.
   time_t sec;		///< timestamp.
   time_t usec;		///< timestamp.
   time_t perm_sec;	///< time in sec of last permanent movement.
   time_t perm_usec;	///< time in usec of last permanent movement.
-  float ttl;		///< time to live.
-  bool without_col;	///< flag without collision.
-  struct Move *next;	///< next motion.
+  bool nocol;		///< flag without collision.
+  struct Move *next;	///< next movement.
 };
 
 /**

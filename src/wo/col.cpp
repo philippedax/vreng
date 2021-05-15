@@ -224,54 +224,60 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
     if (ingoingNeighbor(pold, neighbor)) {
       // current object intersects and its old instance didn't intersect
       switch (neighbor->type) {
-        case AOI_TYPE:
-          if (this == (WObject *) localuser) {
-            if (currentAoi != neighbor) {
-              Aoi *aoi = (Aoi *) neighbor;
-              aoi->aoiEnter();	// avatars: change mcast address
-            }
+      case AOI_TYPE:
+        if (this == (WObject *) localuser) {
+          if (currentAoi != neighbor) {
+            Aoi *aoi = (Aoi *) neighbor;
+            aoi->aoiEnter();	// avatars: change mcast address
           }
-          else  // other mobile objects: problem of property transfert
-            ;
-          break;  // avoids a warning
+        }
+        else  // other mobile objects: problem of property transfert
+          ;
+        break;  // avoids a warning
 
+      default:
+        if (! neighbor->whenIntersect(this, pold)) { // call the object itself
+          vl = vl->next; continue;
+        }
+
+        // assertion
+        if (! isValid()) {
+          vl = vl->next;
+          continue;
+        }
+        if (! neighbor->isValid()) {
+          vl = vl->next;
+          continue;
+        }
+
+        switch (neighbor->collideBehavior()) {
+        case COLLIDE_ONCE: case COLLIDE_GHOST:
+          vl = vl->next;
+          continue;
         default:
-          if (! neighbor->whenIntersect(this, pold)) { // call the object itself
-            vl = vl->next; continue;
-          }
-
-          // assertion
-          if (! isValid()) {
+          if (isBehavior(COLLIDE_GHOST) || isBehavior(COLLIDE_ONCE)) {
             vl = vl->next;
             continue;
           }
-
-          switch (neighbor->collideBehavior()) {
-            case COLLIDE_ONCE: case COLLIDE_GHOST:
+          else {
+            if (rescans++ > 999) {
+              error("collide loop between %s and %s %d", getInstance(), neighbor->getInstance(), rescans);
+              scans = rescans = 0;
               vl = vl->next;
               continue;
-            default:
-              if (isBehavior(COLLIDE_GHOST) || isBehavior(COLLIDE_ONCE)) {
-                vl = vl->next;
-                continue;
-              }
-              else {
-                if (rescans++ > 999) {
-                  error("collide loop between %s and %s %d", getInstance(), neighbor->getInstance(), rescans);
-                  scans = rescans = 0;
-                  vl = vl->next;
-                  continue;
-                }
-                scans = 0;
-                vl = vicinity;	// not next COLLIDE_EVER ?
-              }
+            }
+            scans = 0;
+            vl = vicinity;	// not next COLLIDE_EVER ?
           }
+        }
       }
     }
-    else if (outgoingNeighbor(pold, neighbor)) // current object leaves intersection
+    else if (outgoingNeighbor(pold, neighbor)) { // current object leaves intersection
       neighbor->whenIntersectOut(this, pold);
-    if (vl)
+    }
+    if (vl) {
       vl = vl->next;
+    }
   } //end neighbors
 }
 
