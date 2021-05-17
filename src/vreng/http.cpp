@@ -745,13 +745,13 @@ uint32_t Http::read_buf(char *buffer, int maxlen)
   if (siz >= maxlen) {
     memcpy(buffer, htbuf, maxlen);
     htbuf_pos += maxlen;
-    return maxlen;
+    return (uint32_t) maxlen;
   }
   else {
     memcpy(buffer, htbuf, siz);
     htbuf_pos = htbuf_len;
     int size = siz + httpRead((char *) buffer+siz, maxlen-siz);
-    return size;
+    return (uint32_t) size;
   }
 }
 
@@ -767,7 +767,8 @@ uint32_t Http::skip(int32_t skiplen)
   else {
     skiplen -= ptr;
     while (skiplen > 0) {
-      if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) break;
+      if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0)
+        break;
       if (skiplen >= htbuf_len) {
         skiplen -= htbuf_len;
         htbuf_pos = htbuf_len;
@@ -777,6 +778,6 @@ uint32_t Http::skip(int32_t skiplen)
         skiplen = 0;
       }
     }
-    return skiplen;
+    return (uint32_t) skiplen;
   }
 }

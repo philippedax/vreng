@@ -26,8 +26,7 @@
 /* Open a file */
 FILE * File::openFile(const char *filename, const char *param)
 {
-  FILE *fp = NULL;
-  fp = fopen(filename, param);
+  FILE *fp = fopen(filename, param);
   if (fp) cnt_open++;
   return fp; 
 }
@@ -46,12 +45,12 @@ void File::closeFile(FILE *fp)
 bool File::bigEndian()
 {
   union {
-    int testword;
-    char testbyte[4];
-  } endiantest;
+    int word;
+    char byte[4];
+  } endian;
 
-  endiantest.testword = 1;
-  return (endiantest.testbyte[0] == 1) ? 0 : 1;
+  endian.word = 1;
+  return (endian.byte[0] == 1) ? 0 : 1;
 }
 
 /**
@@ -63,88 +62,88 @@ bool File::littleEndian()
   return (! bigEndian());
 }
 
-void * File::swapEndian(void* addr, int nb)
+void * File::swapEndian(void* addr, int n)
 {
   static char swapped[16];
-  switch (nb) {
-    case 2: swapped[0]=*((char*)addr+1);
-            swapped[1]=*((char*)addr  );
+  switch (n) {
+    case 2: swapped[0] = *((char*)addr+1);
+            swapped[1] = *((char*)addr  );
             break;
-    case 4: swapped[0]=*((char*)addr+3);
-            swapped[1]=*((char*)addr+2);
-            swapped[2]=*((char*)addr+1);
-            swapped[3]=*((char*)addr  );
+    case 4: swapped[0] = *((char*)addr+3);
+            swapped[1] = *((char*)addr+2);
+            swapped[2] = *((char*)addr+1);
+            swapped[3] = *((char*)addr  );
             break;
-    case 6: swapped[0]=*((char*)addr+5);
-            swapped[1]=*((char*)addr+4);
-            swapped[2]=*((char*)addr+3);
-            swapped[3]=*((char*)addr+2);
-            swapped[4]=*((char*)addr+1);
-            swapped[5]=*((char*)addr  );
+    case 6: swapped[0] = *((char*)addr+5);
+            swapped[1] = *((char*)addr+4);
+            swapped[2] = *((char*)addr+3);
+            swapped[3] = *((char*)addr+2);
+            swapped[4] = *((char*)addr+1);
+            swapped[5] = *((char*)addr  );
             break;
-    case 8: swapped[0]=*((char*)addr+7);
-            swapped[1]=*((char*)addr+6);
-            swapped[2]=*((char*)addr+5);
-            swapped[3]=*((char*)addr+4);
-            swapped[4]=*((char*)addr+3);
-            swapped[5]=*((char*)addr+2);
-            swapped[6]=*((char*)addr+1);
-            swapped[7]=*((char*)addr  );
+    case 8: swapped[0] = *((char*)addr+7);
+            swapped[1] = *((char*)addr+6);
+            swapped[2] = *((char*)addr+5);
+            swapped[3] = *((char*)addr+4);
+            swapped[4] = *((char*)addr+3);
+            swapped[5] = *((char*)addr+2);
+            swapped[6] = *((char*)addr+1);
+            swapped[7] = *((char*)addr  );
             break;
-     case 16:swapped[0]=*((char*)addr+15);
-            swapped[1]=*((char*)addr+14);
-            swapped[2]=*((char*)addr+13);
-            swapped[3]=*((char*)addr+12);
-            swapped[4]=*((char*)addr+11);
-            swapped[5]=*((char*)addr+10);
-            swapped[6]=*((char*)addr+9);
-            swapped[7]=*((char*)addr+8);
-            swapped[8]=*((char*)addr+7);
-            swapped[9]=*((char*)addr+6);
-            swapped[10]=*((char*)addr+5);
-            swapped[11]=*((char*)addr+4);
-            swapped[12]=*((char*)addr+3);
-            swapped[13]=*((char*)addr+2);
-            swapped[14]=*((char*)addr+1);
-            swapped[15]=*((char*)addr  );
+     case 16:swapped[0] = *((char*)addr+15);
+            swapped[1] = *((char*)addr+14);
+            swapped[2] = *((char*)addr+13);
+            swapped[3] = *((char*)addr+12);
+            swapped[4] = *((char*)addr+11);
+            swapped[5] = *((char*)addr+10);
+            swapped[6] = *((char*)addr+9);
+            swapped[7] = *((char*)addr+8);
+            swapped[8] = *((char*)addr+7);
+            swapped[9] = *((char*)addr+6);
+            swapped[10] = *((char*)addr+5);
+            swapped[11] = *((char*)addr+4);
+            swapped[12] = *((char*)addr+3);
+            swapped[13] = *((char*)addr+2);
+            swapped[14] = *((char*)addr+1);
+            swapped[15] = *((char*)addr  );
             break;
       default:error("Unsupported length for swapEndian");
   }
-  return (void*)swapped;
+  return (void*) swapped;
 }
 
-void File::localEndian(void * addr, int nb)
+void File::localEndian(void * addr, int n)
 {           
   if (bigEndian()) {
-    char *tmp = (char *) swapEndian(addr, nb);
-    memcpy(addr, tmp, nb);
+    char *tmp = (char *) swapEndian(addr, n);
+    memcpy(addr, tmp, n);
   }         
 }
 
-void File::convertShort(uint16_t *array, long length)
+void File::convertShort(uint16_t *array, long len)
 {
   uint32_t b1, b2;
-  uint8_t *ptr;
+  uint8_t *p;
 
-  ptr = (uint8_t *) array;
-  while (length--) {
-    b1 = *ptr++;
-    b2 = *ptr++;
+  p = (uint8_t *) array;
+  while (len--) {
+    b1 = *p++;
+    b2 = *p++;
     *array++ = (b1 << 8) | (b2);
   }
 }
 
-void File::convertLong(uint32_t *array, long length)
+void File::convertLong(uint32_t *array, long len)
 {
   uint32_t b1, b2, b3, b4;
-  uint8_t *ptr;
+  uint8_t *p;
 
-  ptr = (uint8_t *) array;
-  while (length--) {
-    b1 = *ptr++;
-    b2 = *ptr++;
-    b3 = *ptr++;
-    b4 = *ptr++;
+  p = (uint8_t *) array;
+  while (len--) {
+    b1 = *p++;
+    b2 = *p++;
+    b3 = *p++;
+    b4 = *p++;
     *array++ = (b1 << 24) | (b2 << 16) | (b3 << 8) | (b4);
   }
 }
@@ -153,10 +152,9 @@ int File::read_char(FILE *f)
 {
   int c = fgetc(f);
 
-  if (c != EOF)
-    return c;
-  else
+  if (c == EOF)
     return -1;
+  return c;
 }
 
 int File::read_short(FILE *f)
@@ -195,12 +193,15 @@ int File::read_string(FILE *f, char *str, int maxlen)
 {
   int c;
   int cnt = 0;
+
   do {
     c = read_char(f);
-    if (cnt < maxlen)
+    if (cnt < maxlen) {
       str[cnt] = c;
-    else
+    }
+    else {
       str[maxlen-1] = '\0';
+    }
     str[cnt] = c;
     cnt++;
   } while (c != 0);
