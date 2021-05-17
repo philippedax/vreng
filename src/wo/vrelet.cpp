@@ -87,7 +87,7 @@ void Vrelet::parser(char *l)
       //error("Vrelet: computed codebase=%s", url);
     }
     else { // neither of the above methods worked, just put a default url
-      sprintf(url, "http://%s%s%s", Universe::current()->server, Universe::current()->urlpfx, DEF_URL_JAR);
+      sprintf(url, "http://%s/%s%s", Universe::current()->server, Universe::current()->urlpfx, DEF_URL_JAR);
       //error("Vrelet: default codebase=%s", url);
     }
   }
