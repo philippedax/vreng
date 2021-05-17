@@ -65,6 +65,10 @@ public:
   Render();
   /**< Constructor. */
 
+  /////////////
+  // Config
+  /////////////
+
   void init(bool _quality);
   /**< Initialization. */
 
@@ -160,10 +164,10 @@ public:
   void setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz);
   /**< move the intelligente satellite camera to the good position. */
 
-  /**
-   * Camera handling
-   */
-  struct sCamera { GLfloat fovy, near, far; };
+  /** Camera handling */
+  struct sCamera {
+    GLfloat fovy, near, far;
+  };
 
   void cameraPosition();	///< Set camera position.
 
@@ -185,9 +189,7 @@ public:
 
   uint16_t bufferSelection(GLint x, GLint y);
   uint16_t bufferSelection(GLint x, GLint y, GLint depth);
-  /**<
-   * Returns the object's num displayed in (x,y) on the screen.
-   */
+  /**< Returns the object's num displayed in (x,y) on the screen. */
 
   V3 getVisiblePosition(WObject *po);
   /**< get the 3D position of the object on the user screen. */
@@ -200,35 +202,15 @@ public:
 
   void analyseScene(char* nameObj);
 
-  void quit();			///< Closes the 3d display.
+
+  void quit();			///< Closes the 3d renderer.
 
   void clickDirection(GLint x, GLint y, V3 *dir);
   /**< Converts (x,y) screen coord into a direction from eyes to the click. */
 
-  /////////////
-  // Debug
-  /////////////
-
   void showSolidList();
   /**< show all solid of the render list. */
 
-
-//------------------------------------------------------------------------
-#if 0 //dax10
-  // Displaying 3D displaylists
-  virtual void displaySolid(render_type layer);
-  /**< Issue the OpenGL commands to draw the solid in the given mode.
-       It is called with "layer" to allow drawing at different layers. */
-
-  virtual int displayList(render_type layer);
-  /**< Renders a solid in display-list. */
-
-  virtual void displayFlary();
-  /**< Renders attached flare to a solid. */
-
-  virtual void displayRay();
-  /**< Displays ray. */
-#endif //dax10
 
 private:
   static const int SEL_BUFSIZ;	///< selection buffer size

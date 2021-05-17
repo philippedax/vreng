@@ -492,7 +492,6 @@ char * Solid::parser(char *l)
   // computes max surface of this solid
   surfsize = MAX( bbsize.v[0]*bbsize.v[1], bbsize.v[0]*bbsize.v[2] );
   surfsize = MAX (surfsize, bbsize.v[1]*bbsize.v[2] );	// surface max
-  //dax surfsize = bbsize.v[0] * bbsize.v[1] * bbsize.v[2];	// volume notused
 
   /* next token */
   l = wobject->parse()->nextToken();
@@ -605,7 +604,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         break;
       case STOK_DIFFUSE:
         l = wobject->parse()->parseVector3f(l, &mat_diffuse[0]);
-        for (int i=0; i<3; i++) mat_ambient[i] = mat_diffuse[i];
+        for (int i=0; i<3; i++) {
+          mat_ambient[i] = mat_diffuse[i];
+        }
         break;
       case STOK_AMBIENT:
         l = wobject->parse()->parseVector3f(l, &mat_ambient[0]);
@@ -615,7 +616,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         break;
       case STOK_EMISSION:
         l = wobject->parse()->parseVector3f(l, &mat_emission[0]);
-        for (int i=0; i<3; i++) mat_ambient[i] = mat_emission[i];
+        for (int i=0; i<3; i++) {
+          mat_ambient[i] = mat_emission[i];
+        }
         break;
       case STOK_SHININESS:
         l = wobject->parse()->parseInt(l, &mat_shininess[0]);
@@ -623,8 +626,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_ALPHA:
         l = wobject->parse()->parseFloat(l, &alpha);
         mat_diffuse[3] = mat_ambient[3] = alpha;
-        if (alpha < 1)
+        if (alpha < 1) {
           is_opaque = false;
+        }
         break;
       case STOK_SCALE:
         l = wobject->parse()->parseFloat(l, &scale);
@@ -716,7 +720,6 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         break;
       case STOK_REL:
         l = wobject->parse()->parseVector5f(l, pos);
-        //dax ::g.render.relsolidList.push_back(this);	// add rel solid to relsolidList
         nbsolids = ::g.render.relsolidList.size();
         break;
       case STOK_TEXTURE:
@@ -724,8 +727,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
           l = wobject->parse()->parseString(l, urltex);
           if (*urltex) {
             texture = new Texture(urltex);
-            for (int i=0; i<6 ; i++)
+            for (int i=0; i<6 ; i++) {
               box_tex[i] = texture->id;
+            }
             texid = texture->id;
             texture->object = wobject;
             texture->solid = this;
@@ -793,7 +797,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   }
 
   /*
-   * draw solid in displaylist
+   * draws solid in displaylist
    */
   // display list generation
   int dlist = glGenLists(1);
@@ -835,8 +839,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_BSPHERE:	// invisible bounding sphere
-      if (! radius)
+      if (! radius) {
         radius = (dim.v[0] + dim.v[1] + dim.v[2]) / 3;
+      }
       dim.v[0] = dim.v[1] = dim.v[2] = 2*radius;
       setBB(2*radius, 2*radius, 2*radius);
       //dax1 if (::g.pref.bbox) Draw::bbox(2*radius, 2*radius, 2*radius);
@@ -859,8 +864,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_CONE:
-      if (radius == radius2)
+      if (radius == radius2) {
         stacks = 1;	// cylinder
+      }
       preDraw(texid, alpha, fog, true);
       if (thick) {	// double surface
         Draw::cylinder(radius - thick/2, radius2 - thick/2, height, slices, stacks, style);
@@ -915,7 +921,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_CONE_DISK:
-      if (radius == radius3) stacks = 1; // cylinder
+      if (radius == radius3) {
+        stacks = 1; // cylinder
+      }
       preDraw(texid, alpha, fog);
       Draw::cylinder(radius, radius3, height, slices, stacks, style);
       Draw::disk(radius, radius2, slices, stacks, style);
@@ -1083,8 +1091,9 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_ALPHA:
         l = wobject->parse()->parseFloat(l, &alpha);
         mat_diffuse[3] = mat_ambient[3] = alpha;
-        if (alpha < 1)
+        if (alpha < 1) {
           is_opaque = false;
+        }
         break;
       case STOK_TEXTURE:
         { char *urltex = new char[URL_LEN];
@@ -1106,8 +1115,9 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   if (lastframe < firstframe) lastframe = firstframe;
 
   int nf;
-  for (nf=0; firstframe <= lastframe; nf++)
+  for (nf=0; firstframe <= lastframe; nf++) {
     tabframes[nf] = firstframe++;
+  }
   tabframes[nf] = 0;
 
   if (urlmdl) {	// model url exists
@@ -1274,8 +1284,9 @@ void Solid::getAbsBB(V3 &center, V3 &size)
 
     // add object position
     mulM4V3(&vabs, &matpos, &vrel);	// vabs = posmat * vrel
-    if (n == 0)
+    if (n == 0) {
       vmin = vmax = vabs;
+    }
     else {
       for (int i=0; i<3; i++) {
 	vmin.v[i] = MIN(vabs.v[i], vmin.v[i]);
@@ -1415,7 +1426,9 @@ void Solid::setFlashyEdges(bool flag)
 void Solid::setFlashyEdges(const GLfloat *color)
 {
   isflashy = true;
-  for (int i=0; i<3; i++)  flashcol[i] = color[i];
+  for (int i=0; i<3; i++) {
+    flashcol[i] = color[i];
+  }
 }
 
 void Solid::resetFlashyEdges()
@@ -1541,10 +1554,10 @@ void Solid::displayFlary()
     displayList(NORMAL);  // object alone
 
     glPushMatrix();
-     glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);
+     glRotatef(RAD2DEG(localuser->pos.az), 0, 0, -1);	// one degree
      glTranslatef(object()->pos.x, object()->pos.y, object()->pos.z);
 
-     object()->flare->render(object()->pos);
+     object()->flare->render(object()->pos);	// render the flare
 
     glPopMatrix();
   }
@@ -1603,8 +1616,9 @@ int Solid::displayList(int display_mode = NORMAL)
         glTranslatef(pos[0], pos[1], pos[2]);     // x y z
         glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
         glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
-        if (scalex != 1 || scaley != 1 || scalez != 1)
+        if (scalex != 1 || scaley != 1 || scalez != 1) {
           glScalef(scalex, scaley, scalez);
+        }
        glPopMatrix();
 
        if (texid >= 0) {
