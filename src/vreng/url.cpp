@@ -97,12 +97,15 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
 
 void Url::abs(const char *oldurl, char *newurl)
 {
-  if ((! stringcmp(oldurl, "http://")) || (! stringcmp(oldurl, "ftp://")))
+  if ((! stringcmp(oldurl, "http://")) || (! stringcmp(oldurl, "ftp://"))) {
     strncpy(newurl, oldurl, URL_LEN);
-  else
-    sprintf(newurl, "http://%s%s%s", Universe::current()->server, Universe::current()->urlpfx, oldurl);
+  }
+  else {
+    sprintf(newurl, "http://%s/%s%s", Universe::current()->server, Universe::current()->urlpfx, oldurl);
+  }
   if (strlen(newurl) >= URL_LEN) {
     newurl[URL_LEN -1] = '\0';
     warning("url length too big %s", newurl);
   }
+  //error("newurl: %s", newurl);
 }
