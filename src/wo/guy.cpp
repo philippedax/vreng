@@ -399,8 +399,10 @@ void Guy::display_brea(bool side)
   if (sex) {
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, bust_color);
     glPushMatrix();
-    if (side == 0) glTranslatef(BREA_R*1.5, 0, 0);
-    else glTranslatef(-BREA_R*1.5, 0, 0);
+    if (side == 0)
+     glTranslatef(BREA_R*1.5, 0, 0);
+    else
+     glTranslatef(-BREA_R*1.5, 0, 0);
     glCallList(dlist+BREA);
     glPopMatrix();
   }
@@ -419,8 +421,10 @@ void Guy::display_leg(bool side)
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT, legs_color);
   glPushMatrix();
-   if (side == 0) glTranslatef(BUST_L * BUST_W/2., 0, 0);
-   else glTranslatef(-BUST_L * BUST_W/2., 0, 0);
+   if (side == 0)
+     glTranslatef(BUST_L * BUST_W/2., 0, 0);
+   else
+     glTranslatef(-BUST_L * BUST_W/2., 0, 0);
 
    // Upper leg: rotates about the x axis only
    glRotatef(cycles[side][0][stp], 1, 0, 0);
@@ -450,17 +454,24 @@ void Guy::display_arm(bool side)
   glMaterialfv(GL_FRONT, GL_AMBIENT, bust_color);
   glPushMatrix();
    glTranslatef(0, BUST_H, 0);
-   if (side == 0) glTranslatef(BUST_W -SHOULDER_R/2, 0, 0);
-   else glTranslatef(-BUST_W + SHOULDER_R/2, 0, 0);
+   if (side == 0) {
+     glTranslatef(BUST_W -SHOULDER_R/2, 0, 0);
+   }
+   else {
+     glTranslatef(-BUST_W + SHOULDER_R/2, 0, 0);
+   }
 
    // Upper arm: rotates about the x axis only
-   if (flying)
-     //dax glRotatef(135, 1, 0, 0);
+   if (flying) {
+     glRotatef(135, 1, 0, 0);	// x axis
      glRotatef(135, 0, 1, 0);	// y axis
-   else if (showing && side == 0)  // right arm
+   }
+   else if (showing && side == 0) {  // right arm
      glRotatef(90, 1, 0, 0);
-   else
+   }
+   else {
      glRotatef(cycles[side][3][stp], 1, 0, 0);
+   }
    glPushMatrix();
    glCallList(dlist+UARM);
    glPopMatrix();
@@ -468,10 +479,12 @@ void Guy::display_arm(bool side)
    // Lower arm: rotates about the x axis only
    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
    glTranslatef(0, -(UARM_H + ELBOW_R), 0);
-   if (flying || (showing && side == 0))
+   if (flying || (showing && side == 0)) {
      glRotatef(0, 1, 0, 0);
-   else
+   }
+   else {
      glRotatef(cycles[side][4][stp], 1, 0, 0);
+   }
    glPushMatrix();
    glCallList(dlist+LARM);
    glPopMatrix();

@@ -237,7 +237,8 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
 
       default:
         if (! neighbor->whenIntersect(this, pold)) { // call the object itself
-          vl = vl->next; continue;
+          vl = vl->next;
+          continue;
         }
 
         // assertion
