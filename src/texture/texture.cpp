@@ -30,6 +30,7 @@
 #include <list>
 using namespace std;
 
+
 /* local variables */
 static list<Texture*> textureList;
 static Img *default_img = NULL;
@@ -64,7 +65,7 @@ void Texture::update()
 
       if (! (*it)->img->wellSized()) { /* image to resize */
         Img *img1 = NULL;
-        if ((img1 = (*it)->img->resize(Img::SIDE_SIZE, Img::SIDE_SIZE)) == NULL) {
+        if ((img1 = (*it)->img->resize(Img::SIZE, Img::SIZE)) == NULL) {
           //error("updateTextures: n=%d u=%s", (*it)->id, (*it)->url);
           continue;
         }
@@ -335,8 +336,9 @@ char * Texture::getUrlById(GLuint texid)
 
 void Texture::setMime(char *p)
 {
-  if (strlen(p) < MIME_LEN)
+  if (strlen(p) < MIME_LEN) {
     strcpy(mime, p);
+  }
   else {
     strncpy(mime, p, MIME_LEN-1);
     mime[MIME_LEN-1] = 0;

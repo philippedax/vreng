@@ -46,7 +46,7 @@ public:
     RGBA	///< red green blue alpha.
   };
 
-  static const uint16_t SIDE_SIZE;   ///< default image side size.
+  static const uint16_t SIZE;   ///< default image side size.
 
   uint16_t width;	///< image width in pixels.
   uint16_t height;	///< image height in pixels.

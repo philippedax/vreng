@@ -22,7 +22,7 @@
 #include "img.hpp"
 #include "texture.hpp"	// Texture
 
-const uint16_t Img::SIDE_SIZE = 256;
+const uint16_t Img::SIZE = 256;
 
 
 void Img::defaults()
@@ -68,10 +68,10 @@ Img::~Img()
 Img * Img::init()
 {
   uint8_t channel = RGB;
-  Img * default_img = new Img(SIDE_SIZE, SIDE_SIZE, RGB);
+  Img * default_img = new Img(SIZE, SIZE, RGB);
 
   GLubyte *pixmap = default_img->pixmap;
-  for (int i=0; i < SIDE_SIZE*SIDE_SIZE; i++) {
+  for (int i=0; i < SIZE*SIZE; i++) {
     pixmap[channel*i+0] = pixmap[channel*i+1] = pixmap[channel*i+2] = 0x80; //grey
    // RGBA pixmap[channel*i+3] = 0xff;
   }
@@ -81,10 +81,10 @@ Img * Img::init()
 
 bool Img::wellSized()
 {
-  if ( (width != SIDE_SIZE   || height != SIDE_SIZE)   &&
-       (width != SIDE_SIZE/2 || height != SIDE_SIZE/2) &&
-       (width != SIDE_SIZE/4 || height != SIDE_SIZE/4) &&
-       (width != SIDE_SIZE/8 || height != SIDE_SIZE/8)
+  if ( (width != SIZE   || height != SIZE)   &&
+       (width != SIZE/2 || height != SIZE/2) &&
+       (width != SIZE/4 || height != SIZE/4) &&
+       (width != SIZE/8 || height != SIZE/8)
      ) return false;
   return true;
 }
@@ -110,11 +110,9 @@ int interpol(int v00, int v01, int v10, int v11, int xf, int yf)
  */
 Img * Img::resize(uint16_t width_new, uint16_t height_new)
 {
-  if (channel != RGB &&
-    channel != BW &&
-    channel != RGBA) {
-      error("resize invalid channel: f=%d w=%d h=%d", channel, width, height);
-      return NULL;
+  if (channel != RGB && channel != BW && channel != RGBA) {
+    error("resize invalid channel: f=%d w=%d h=%d", channel, width, height);
+    return NULL;
   }
   if (pixmap == NULL) {
     warning("resize pixmap null");
