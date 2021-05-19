@@ -49,6 +49,7 @@ Wheel::Wheel(uint8_t teeth, GLfloat r, const GLfloat *color)
 Wheel::Wheel()
 {
   GLfloat color[4] = {.8,.8,.8,1};      // light grey
+
   defaults();
   pwheel = this;
   displaylist(12, 1, color);
@@ -78,17 +79,16 @@ void Wheel::spoke(GLfloat r)
   glNormal3f(0.0, 0.0, 1.0);
 
   glBegin(GL_QUADS);
-  glVertex3f(r, - w/2, 0);
-  glVertex3f(r*2, - w/2, 0);
-  glVertex3f(r*2, + w/2, 0);
-  glVertex3f(r, + w/2, 0);
+   glVertex3f(r, - w/2, 0);
+   glVertex3f(r*2, - w/2, 0);
+   glVertex3f(r*2, + w/2, 0);
+   glVertex3f(r, + w/2, 0);
   glEnd();
 }
 
 /* draws every spoke */
 void Wheel::dial(GLfloat a, GLfloat r, const GLfloat *color)
 {
-  //error("dial: %.1f", a);
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
   glPushMatrix();
    glRotatef(a, 0, 0, 1);
@@ -99,7 +99,6 @@ void Wheel::dial(GLfloat a, GLfloat r, const GLfloat *color)
 /* draws needles */
 void Wheel::needle(uint8_t teeth, GLfloat r)
 {
-  //error("needle: %d", teeth);
   GLfloat c[4] = {0,0,0,1};	// black
 
   for (int i=0; i<teeth ; i++) {
@@ -131,7 +130,10 @@ void Wheel::needle_displaylist(uint8_t teeth, GLfloat r)
 void Wheel::draw(uint8_t teeth, GLfloat r, const GLfloat *color)
 {
   GLfloat c[4];
-  for (int i=0; i<4 ; i++) c[i] = color[i];
+
+  for (int i=0; i<4 ; i++) {
+    c[i] = color[i];
+  }
 
   for (int i=0; i<teeth ; i++) {
     float a = i * 360 / teeth;
@@ -150,37 +152,32 @@ void Wheel::displaylist(uint8_t teeth, GLfloat r, const GLfloat *color)
 
 void Wheel::render()
 {
-#if 0 //dax
-  cameraPosition();
-  clearGLBuffer();
-#endif
-
   glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT);
   glPushMatrix();
-#if 1 //dax
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
    glOrtho(0, (GLdouble) ::g.pref.width3D, 0, (GLdouble) ::g.pref.height3D, -1., 1.);
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
-#endif
    glEnable(GL_LIGHTING);
    glEnable(GL_BLEND);
    glDisable(GL_DEPTH_TEST);
    glRasterPos2i(300, 200);
    glRotatef(90, 1, 0, 0);
    glRotatef(-90, 0, 1, 0);
+
    glCallList(wheel_dlist);
+
    needle_angle += 5;
    glTranslatef(-0.01, 0, 0);
    glRotatef(needle_angle, 0, 0, 1);
+
    glCallList(needle_dlist);
+
    glEnable(GL_DEPTH_TEST);
    glDisable(GL_BLEND);
    glDisable(GL_LIGHTING);
    glMatrixMode(GL_PROJECTION);
   glPopMatrix();
   glPopAttrib();
-
-  //glXSwapBuffers(display, drawable);
 }
