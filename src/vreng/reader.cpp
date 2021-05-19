@@ -84,7 +84,8 @@ uint8_t Reader::getChar()
 {
   uint8_t data;
 
-  if (this->read_func(img_hdl, (char *) &data, 1) < 1) data = 0;
+  if (this->read_func(img_hdl, (char *) &data, 1) < 1)
+    data = 0;
   ch = data;
   return data;
 }
@@ -99,9 +100,9 @@ uint8_t Reader::getChar1()
 {
   getChar();
   while (ch == '#') {
-    do
+    do {
       getChar();
-    while (ch != 0 && ch != '\n' && ch != '\r');
+    } while (ch != 0 && ch != '\n' && ch != '\r');
     getChar();
   }
   return ch;
@@ -111,9 +112,9 @@ uint8_t Reader::getChar1(FILE *fp)
 {
   getChar(fp);
   while (ch == '#') {
-    do
+    do {
       getChar(fp);
-    while (ch != 0 && ch != '\n' && ch != '\r');
+    } while (ch != 0 && ch != '\n' && ch != '\r');
     getChar(fp);
   }
   return ch;
@@ -131,9 +132,11 @@ void Reader::skipSpaces(FILE *fp)
 
 int16_t Reader::getShort(FILE *fp)
 {
-  int c, c1;
-  c = getc(fp);  c1 = getc(fp);
-  return ((int16_t) c) + (((int16_t) c1) << 8);
+  int c1, c2;
+
+  c1 = getc(fp);
+  c2 = getc(fp);
+  return ((int16_t) c1) + (((int16_t) c2) << 8);
 }
 
 int32_t Reader::getInt()
@@ -150,13 +153,13 @@ int32_t Reader::getInt()
 
 uint32_t Reader::getUInt(FILE *fp)
 {
-  int c, c1, c2, c3;
+  int c1, c2, c3, c4;
 
-  c = getc(fp);  c1 = getc(fp);  c2 = getc(fp);  c3 = getc(fp);
-  return ((uint32_t) c) +
-         (((uint32_t) c1) << 8) +
-         (((uint32_t) c2) << 16) +
-         (((uint32_t) c3) << 24);
+  c1 = getc(fp);  c2 = getc(fp);  c3 = getc(fp);  c4 = getc(fp);
+  return ((uint32_t) c1) +
+         (((uint32_t) c2) << 8) +
+         (((uint32_t) c3) << 16) +
+         (((uint32_t) c4) << 24);
 }
 
 int32_t Reader::getInt(FILE *fp)
@@ -172,20 +175,20 @@ int32_t Reader::getInt(FILE *fp)
 }
 
 
-static uint8_t imgbuf[BUFSIZ];
-static int32_t imgbuf_pos = 0;
-static int32_t imgbuf_len = 0;
+static uint8_t buf[BUFSIZ];
+static int32_t pos = 0;
+static int32_t len = 0;
 
 void Reader::reset()
 {
-  imgbuf_pos = imgbuf_len = 0;
+  pos = len = 0;
 }
 
 uint8_t Reader::getByte(void *texhdl, ImageReader read_func)
 {
-  if (imgbuf_pos >= imgbuf_len) {
-    imgbuf_pos = 0;
-    imgbuf_len = read_func(texhdl, (char *) imgbuf, sizeof(imgbuf));
+  if (pos >= len) {
+    pos = 0;
+    len = read_func(texhdl, (char *) buf, sizeof(buf));
   }
-  return imgbuf[imgbuf_pos++];
+  return buf[pos++];
 }
