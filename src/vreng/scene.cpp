@@ -162,17 +162,17 @@ void Scene::resizeCB(UResizeEvent& e)
 // arguments (the arg of netTimeoutCB is not used by syntactically required)
 void Scene::netTimeoutCB()
 {
-  //dax (Event) event = new Event();
   ::netTimeout();  // checks if various updates are needed
 }
 
 void Scene::init()
 {
   GLSection gls(this);
+
   //NB: render.init() must be called before world.init() which is called in startCB())
   ::g.render.init(::g.pref.quality3D); 
 
-  // complete the initialization of VRENG
+  // complete the initialization of VREng
   ::g.startCB();
 
   // timer qui lance le reaffichage de la scene (repaint) tous les delta t
@@ -226,13 +226,14 @@ void Scene::paintScene()
   ::g.render.render();
   trender.stop();
 
-  // Displays misc infos
+  // Displays misc infos in the hud
   if (is_hudvisible) {
     updateHud();
     hudbox.show(true);
   }
-  else
+  else {
     hudbox.show(false);
+  }
 
   // check if video capture is running
   if (gw.capture.isCapturingVideo()) {
@@ -250,24 +251,24 @@ void Scene::updateHud()
   hud_line1 = line;
   
   if (! localuser) return;
-  sprintf(line, "User:   %.2f %.2f %.2f %.0f",
+  sprintf(line, "User:   %.1f %.1f %.1f %.0f",
           localuser->pos.x, localuser->pos.y, localuser->pos.z, RAD2DEG(localuser->pos.az));
   hud_line2 = line;
   
   WObject* obj = ::g.gui.selected_object;
   if (obj) {
-    sprintf(line, "Object: %.2f %.2f %.2f %.0f",
+    sprintf(line, "Object: %.1f %.1f %.1f %.0f",
             obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az));
     hud_line3 = line;
     
-    sprintf(line, "BBox:   %.2f %.2f %.2f",
+    sprintf(line, "BBox:   %.1f %.1f %.1f",
             obj->pos.bbsize.v[0], obj->pos.bbsize.v[1], obj->pos.bbsize.v[2]);
     hud_line4 = line;
     
     float dist = sqrt((localuser->pos.x-obj->pos.x)*(localuser->pos.x-obj->pos.x) +
                       (localuser->pos.y-obj->pos.y)*(localuser->pos.y-obj->pos.y) +
                       (localuser->pos.z-obj->pos.z)*(localuser->pos.z-obj->pos.z));
-    sprintf(line, "Dist:   %.2f", dist);
+    sprintf(line, "Dist:   %.1f", dist);
     hud_line5 = line;
   }
 }
