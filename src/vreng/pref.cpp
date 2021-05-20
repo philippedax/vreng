@@ -39,7 +39,7 @@ where options are:\n\
 -g, --nogravity			Without gravity\n\
 -h, --help			Help message and exit\n\
 -i, --infogl			Show OpenGL infos\n\
--k, --keepcache			Keep everything in cache\n\
+-k, --keepcache			Do not keep *.vre in cache\n\
 -l, --listcache			List the cache and exit\n\
 -n, --number number		Number of simultaneous threads [1..7]\n\
 -p, --pseudo name		Your pseudoname\n\
@@ -83,7 +83,7 @@ Pref::Pref()
   cpulimit = true;
   reflector = true;
   fast = false;
-  keep = false;
+  keep = true;
   silent = true;
   stats = true;
   progress = true;
@@ -214,7 +214,7 @@ void Pref::parse(int argc, char **argv)
         infogl = true;
         break;
       case 'k':
-        keep = true;
+        keep = false;
         break;
       case 'l':
         ::g.env.listCache();
