@@ -112,10 +112,15 @@ void Channel::addToList()
 /** Join group */
 int Channel::joinGroup(int sd)
 {
-  memset(&mreq, 0, sizeof(struct ip_mreq));
-  mreq.imr_multiaddr.s_addr = group;
-  mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-  if (Socket::addMembership(sd, (void *) &mreq) < 0)  return -1;
+  if (strcmp(Universe::current()->server, "localhost")) {
+    memset(&mreq, 0, sizeof(struct ip_mreq));
+    mreq.imr_multiaddr.s_addr = group;
+    mreq.imr_interface.s_addr = htonl(INADDR_ANY);
+    if (Socket::addMembership(sd, (void *) &mreq) < 0) {
+      error("addMembership");
+      return -1;
+    }
+  }
   return sd;
 }
 

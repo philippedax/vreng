@@ -15,6 +15,11 @@
 <entry pos="7 23.8 2.5 1.57"></entry>
 <bgcolor color="0 .17 .6"></bgcolor>
 
+<!-- sol general -->
+<ground name="sol" pos="15 0 -.2">
+  <solid dim="100 100 .4" dif="grey50" zp="/gif/herbe2.gif" zpr="40" />
+</ground>
+
 <!-- les axes -->
 <mirage pos="40 0 10 0">
   <solid dim="40 .2 .2" dif="1 .4 .4" />
@@ -26,105 +31,43 @@
 </mirage>
 
 <!-- le chemin -->
-<step pos="0 -2 .01 0">
-<solid dim="50 2.1 .02"
-       zp="/gif/herbevar1.gif" zprt="1" zprs="25"
-       yp="/gif/herbe2.gif" ypr="1"
-       xp="/gif/herbe2.gif" xpr="1"
-       zn="/gif/herbe2.gif" znr="1"
-       yn="/gif/herbe2.gif" ynr="1"
-       xn="/gif/herbe2.gif" xnr="1"
-       />
+<step pos="0 -2 .02">
+<solid dim="50 2.1 .02" zp="/gif/herbevar1.gif" zprt="1" zprs="25" />
 </step>
 
-<step pos="0 0 .01 0">
-<solid dim="50 2.1 .02"
-       zp="/gif/pave1.gif" zprt="1" zprs="25"
-       yp="/gif/herbe2.gif" ypr="1"
-       xp="/gif/herbe2.gif" xpr="1"
-       zn="/gif/herbe2.gif" znr="1"
-       yn="/gif/herbe2.gif" ynr="1"
-       xn="/gif/herbe2.gif" xnr="1"
-       />
+<step pos="0 0 .02">
+<solid dim="50 2.1 .02" zp="/gif/pave1.gif" zprt="1" zprs="25" />
 </step>
 
-<step pos="0 2 .01 3.14">
-<solid dim="50 2.1 .02"
-       zp="/gif/herbevar1.gif" zprt="1" zprs="25"
-       yp="/gif/herbe2.gif" ypr="1"
-       xp="/gif/herbe2.gif" xpr="1"
-       zn="/gif/herbe2.gif" znr="1"
-       yn="/gif/herbe2.gif" ynr="1"
-       xn="/gif/herbe2.gif" xnr="1"
-       />
+<step pos="0 2 .02 3.14">
+<solid dim="50 2.1 .02" zp="/gif/herbevar1.gif" zprt="1" zprs="25" />
 </step>
 
-<step pos="27 12 .01 0">
-<solid dim="2.1 24 .02"
-       zp="/gif/herbe3.gif" zprt="7" zprs="1"
-       yp="/gif/herbe2.gif" ypr="1"
-       xp="/gif/herbe2.gif" xpr="1"
-       zn="/gif/herbe2.gif" znr="1"
-       yn="/gif/herbe2.gif" ynr="1"
-       xn="/gif/herbe2.gif" xnr="1"
-       />
+<step pos="27 12 .02 0">
+<solid dim="2.1 24 .02" zp="/gif/herbe3.gif" zprt="7" zprs="1" />
 </step>
 
- <!--et le parking -->
+<!-- le parking -->
 <step pos="12 -13 .01">
-<solid dim="1 16 .02" dif=".5 1 1"
-       yp="/gif/stone78.gif" yprs="5" yprt="1"
-       yn="/gif/stone78.gif" ynrs="5" ynrt="1"
-       xp="/gif/stone78.gif" xprs="1" xprt="1"
-       xn="/gif/stone78.gif" xnrs="1" xnrt="1"
-       zp="/gif/stone78.gif" zprs="1" zprt="5"
-       zn="/gif/stone78.gif" znrs="1" znrt="5"
-/>
+<solid dim="1 16 .02" dif=".5 1 1" zp="/gif/stone78.gif" zprs="1" zprt="5" />
 </step>
 
 <step pos="28 -13 .01">
-<solid dim="1 16 .02" dif=".5 1 1"
-       yp="/gif/stone78.gif" yprs="5" yprt="1"
-       yn="/gif/stone78.gif" ynrs="5" ynrt="1"
-       xp="/gif/stone78.gif" xprs="1" xprt="1"
-       xn="/gif/stone78.gif" xnrs="1" xnrt="1"
-       zp="/gif/stone78.gif" zprs="1" zprt="5"
-       zn="/gif/stone78.gif" znrs="1" znrt="5"
-/>
+<solid dim="1 16 .02" dif=".5 1 1" zp="/gif/stone78.gif" zprs="1" zprt="5" />
 </step>
 
 <step pos="20 -20.5 .05 1.57">
-<solid dim="1 15 .02" dif=".5 1 1"
-       yp="/gif/stone78.gif" yprs="5" yprt="1"
-       yn="/gif/stone78.gif" ynrs="5" ynrt="1"
-       xp="/gif/stone78.gif" xprs="1" xprt="1"
-       xn="/gif/stone78.gif" xnrs="1" xnrt="1"
-       zp="/gif/stone78.gif" zprs="1" zprt="5"
-       zn="/gif/stone78.gif" znrs="1" znrt="5"
-/>
+<solid dim="1 15 .02" dif=".5 1 1" zp="/gif/stone78.gif" zprs="1" zprt="5" />
 </step>
 
 <step pos="20 -13 .01 0">
-<solid dim="16 16 .02"
-       yp="/gif/stones1.gif" ypr="6" 
-       yn="/gif/stones1.gif" ynr="6" 
-       xp="/gif/stones1.gif" xpr="6" 
-       xn="/gif/stones1.gif" xnr="6" 
-       zp="/gif/stones1.gif" zpr="6"
-       />
+<solid dim="16 16 .02" zp="/gif/stones1.gif" zpr="6" />
 </step>
 
 <!-- les voitures qui roulent -->
 <!--
 <step pos="40 0 -2.99 0">
-<solid dim="23 23 .01"
-       zp="/gif/road03.gif" zprt="1" zprs="1"
-       yp="/gif/herbe2.gif" ypr="1"
-       xp="/gif/herbe2.gif" xpr="1"
-       zn="/gif/herbe2.gif" znr="1"
-       yn="/gif/herbe2.gif" ynr="1"
-       xn="/gif/herbe2.gif" xnr="1"
-       />
+<solid dim="23 23 .01" zp="/gif/road03.gif" zprt="1" zprs="1" />
 </step>
 -->
 
@@ -133,80 +76,44 @@
 </step>
 
 <mirage pos="40 0 0 1.57">
-  <solid shape="cone" rb="6" rt=".1" h="4" dif="red" spe=".35 .35 .35" tx="/gif/herbe2.gif" a="0.5" />
+  <solid shape="cone" rb="6" rt=".1" h="4" dif="red" tx="/gif/herbe2.gif" a="0.5" />
 </mirage>
 
 <mirage pos="40 0 0 1.57" aspeed="1" radius="10" mode="circular">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="cyan" xp="/gif/stries.gif" xn="/gif/stries.gif" yp="/gif/stries.gif" yn="/gif/stries.gif" zp="/gif/stries.gif" />
+  <solid shape="car" dim="1.4 1.4 1.4" dif="grey" xp="/gif/stries.gif" xn="/gif/stries.gif" yp="/gif/stries.gif" yn="/gif/stries.gif" zp="/gif/stries.gif" />
 </mirage>
 
 <mirage pos="40 0 0 -1.57" aspeed="-.5" radius="7.3" mode="circular">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="purple" xp="gif/damier.gif" xn="/gif/damier.gif" yp="gif/damier.gif" yn="/gif/damier.gif" zp="/gif/damier.gif" />
+  <solid shape="car" dim="1.4 1.4 1.4" dif="darkgrey" xp="gif/damier.gif" xn="/gif/damier.gif" yp="gif/damier.gif" yn="/gif/damier.gif" zp="/gif/damier.gif" />
 </mirage>
-
-<!-- 2 voitures et une caisse -->
-<!--
-<thing pos="-8 0 0 3.14">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="red" />
-</thing>
-<thing pos="-13 0 0 3.14">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="blue" />
-</thing>
-<thing pos="-13 0 1.1">
-  <solid dim=".7 .7 .7" dif="green" />
-</thing>
-<thing pos="-8 0 .75 0">
-  <solid dim="3.6 1.8 1.6" dif="0 .7 0" a=".6" />
-</thing>
--->
 
 <!-- les voitures dans le parking -->
-<mirage pos="25 -7 0 1.57">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="black" />
-</mirage>
-<thing pos="25 -13 0 3.14">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="orange" />
-</thing>
-<thing pos="25 -16 0 3.14">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="beige" />
-</thing>
-<thing pos="18 -7 0 3.14">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="blue" />
-</thing>
-<thing pos="18 -10 0 3.14">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="red" />
-</thing>
-<thing pos="18 -13 0 3.14">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="purple" />
-</thing>
-<thing pos="18 -16 0 3.14">
-  <solid shape="car" dim="1.4 1.4 1.4" dif="green" />
-</thing>
-<mirage pos="5 3.96 -3.86 6.28">
-  <solid dim=".02 .01 .04" dif="red" />
-</mirage>
-<mirage pos="5 3.96 -4.16 6.28">
-  <solid dim=".02 .01 .04" dif="red" />
-</mirage>
-<mirage pos="5.16 3.96 -4 6.28">
-  <solid dim=".04 .01 .02" dif="red" />
-</mirage>
-<mirage pos="4.84 3.96 -4 6.28">
-  <solid dim=".04 .01 .02" dif="red" />
-</mirage>
-<mirage pos="5 4 -6 0">
-  <solid shape="cone" rb=".03" rt=".03" h="1.8" dif="grey40" spe="white" />
-</mirage>
+<thing pos="25 -7 0 1.57">  <solid shape="car" dim="1.4 1.4 1.4" dif="purple" /> </thing>
+<thing pos="25 -13 0 3.14"> <solid shape="car" dim="1.4 1.4 1.4" dif="orange" /> </thing>
+<thing pos="25 -16 0 3.14"> <solid shape="car" dim="1.4 1.4 1.4" dif="beige" /> </thing>
+<thing pos="18 -7 0 3.14">  <solid shape="car" dim="1.4 1.4 1.4" dif="blue" /> </thing>
+<thing pos="18 -10 0 3.14"> <solid shape="car" dim="1.4 1.4 1.4" dif="red" /> </thing>
+<thing pos="18 -13 0 3.14"> <solid shape="car" dim="1.4 1.4 1.4" dif="purple" /> </thing>
+<thing pos="18 -16 0 3.14"> <solid shape="car" dim="1.4 1.4 1.4" dif="green" /> </thing>
 
-<!-- Les murs de la maison -->
-<!-- -->
+<mirage pos="5 3.96 -3.86 6.28"> <solid dim=".02 .01 .04" dif="red" /> </mirage>
+<mirage pos="5 3.96 -4.16 6.28"> <solid dim=".02 .01 .04" dif="red" /> </mirage>
+<mirage pos="5.16 3.96 -4 6.28"> <solid dim=".04 .01 .02" dif="red" /> </mirage>
+<mirage pos="4.84 3.96 -4 6.28"> <solid dim=".04 .01 .02" dif="red" /> </mirage>
+
+<mirage pos="5 4 -6 0"> <solid shape="cone" rb=".03" rt=".03" h="1.8" dif="grey40" /> </mirage>
+
+<!-- L'ecole -->
+<!-- sol de l'ecole -->
+<step name="carrelage" pos="54 60 -.1">
+  <solid dim="12 12 .2" dif="grey50" zp="/gif/ceramic2.gif" zpr="6" />
+</step>
+
 <!-- le mur de droite-->
 <wall pos="32.8 29.8 3 0">
   <solid dim=".4 12 6"
   yp="/gif/brick.gif" ypr="3" 
   yn="/gif/brick.gif" ynr="3" 
-  zp="/gif/brick.gif" zpr="1" 
-  zn="/gif/brick.gif" znr="1" 
   xp="/gif/paper.gif" xpr="3"
   xn="/gif/brick.gif" xnr="3"
   />
@@ -218,8 +125,6 @@
   yp="/gif/sup02.gif" ypr="3" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  zn="/gif/sup02.gif" znr="1" 
-  zp="/gif/sup02.gif" zpr="1" 
   xp="/gif/paper.gif" xpr="3"
   />
 </wall>
@@ -228,8 +133,6 @@
 <wall pos="21.2 29.8 3 0">
   <solid dim=".4 12 6"
   xp="/gif/sup02.gif" xprs="2" xprt="2"
-  zn="/gif/sup02.gif" znr="1" 
-  zp="/gif/sup02.gif" zpr="1" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
   yp="/gif/paper.gif" ypr="3"
@@ -242,8 +145,6 @@
   xp="/gif/sup02.gif" xprs="3" xprt=".5"
   xn="/gif/sup02.gif" xnr="2"
   yn="/gif/sup02.gif" ynr="2"
-  zn="/gif/sup02.gif" znr="1" 
-  zp="/gif/sup02.gif" zpr="1" 
   yp="/gif/paper.gif" ypr="3"
   />
 </wall>
@@ -254,8 +155,6 @@
   xp="/gif/sup02.gif" xpr="1" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  zn="/gif/sup02.gif" znr="1"
-  zp="/gif/sup02.gif" zpr="1" 
   yp="/gif/paper.gif" ypr="3"
   />
 </wall>
@@ -266,19 +165,15 @@
   xp="/gif/sup02.gif" xpr="1" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  zn="/gif/sup02.gif" znr="1" 
-  zp="/gif/sup02.gif" zpr="1" 
   yp="/gif/paper.gif" ypr="3"
   />
 </wall>
 
-<!-- le toit -->
-<wall pos="27.5 29.8 5.35 1.57">
+<!-- le toit de l'ecole -->
+<mirage pos="27.5 29.8 5.35 1.57">
   <solid shape="cone" rb="10" rt=".1" h="6" tx="/gif/roof06.gif" />
-</wall>
+</mirage>
 
-<!-- La table et la chaise -->
-<!-- numerotation par sens de lecture -->
 <!-- table 1-->
 <thing pos="27 31 .76 1.57">
  <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
@@ -397,11 +292,11 @@
 </host>
 
 <!-- Tableau et Estrade -->
-<board  pos="29 35.8 3 -1.57">
+<board name="tableau" pos="29 35.8 3 -1.57">
   <solid dim=".14 5 1.8" yp="/gif/blank.gif" dif="0 .7 0" />
 </board>
 
-<step pos="29.8 33.9 .2 -1.57">
+<step name="estrade" pos="29.8 33.9 .2 -1.57">
   <solid dim="4 6 .4" 
 	 zp="/gif/wood1.gif" 
 	 xn="/gif/wood1.gif" 
@@ -412,29 +307,17 @@
 </step>
 
 <!-- le miroir-->
-<mirror pos="21.41 30 3 -1.57">
+<!--
+<mirror name="miroir" pos="21.41 30 3 -1.57">
 <solid dim="10 .05 6" dif="blue" spe="white" a=".2" />
 </mirror>
+-->
 
-<!-- les sols -->
-<!-- sol general -->
-<ground pos="15 0 -.2">
-  <solid dim="100 100 .4" dif="grey50" zp="/gif/herbe2.gif" zpr="40" />
-</ground>
-
-<!-- sol de l'ecole -->
-<step pos="54 60 -.1">
-  <solid dim="12 12 .2" dif="grey50" zp="/gif/ceramic2.gif" zpr="6" />
-</step>
-
-<!-- Les murs de la maison pour la description -->
-<!-- ref maison vue de face -->
+<!-- Les murs de la maison -->
 <!-- le mur de droite-->
 <wall pos="12.8 29.8 3 0">
   <solid dim=".4 12 6"
   yp="/gif/sup02.gif" ypr="3" 
-  zn="/gif/sup02.gif" znr="1" 
-  zp="/gif/sup02.gif" zpr="1" 
   xp="/gif/sup02.gif" xpr="3"
   />
 </wall>
@@ -445,8 +328,6 @@
   yp="/gif/sup02.gif" ypr="3" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  zn="/gif/sup02.gif" znr="1" 
-  zp="/gif/sup02.gif" zpr="1" 
   xp="/gif/sup02.gif" xpr="3"
   />
 </wall>
@@ -455,8 +336,6 @@
 <wall pos="1.2 29.8 3 0">
   <solid dim=".4 12 6"
   xp="/gif/sup02.gif" xprs="2" xprt="2"
-  zn="/gif/sup02.gif" znr="1" 
-  zp="/gif/sup02.gif" zpr="1" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
   yp="/gif/sup02.gif" ypr="3"
@@ -469,8 +348,6 @@
   xp="/gif/sup02.gif" xprs="3"  xprt=".5"
   xn="/gif/sup02.gif" xnr="2"
   yn="/gif/sup02.gif" ynr="2"
-  zn="/gif/sup02.gif" znr="1" 
-  zp="/gif/sup02.gif" zpr="1" 
   yp="/gif/sup02.gif" ypr="3"
   />
 </wall>
@@ -481,8 +358,6 @@
   xp="/gif/sup02.gif" xpr="1" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  zn="/gif/sup02.gif" znr="1"
-  zp="/gif/sup02.gif" zpr="1" 
   yp="/gif/sup02.gif" ypr="3"
   />
 </wall>
@@ -493,16 +368,14 @@
   xp="/gif/sup02.gif" xpr="1" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  zn="/gif/sup02.gif" znr="1" 
-  zp="/gif/sup02.gif" zpr="1" 
   yp="/gif/sup02.gif" ypr="3"
   />
 </wall>
 
-<!-- le toit de la maison de description -->
-<wall pos="7.5 29.8 5.35 1.57">
+<!-- le toit de la maison -->
+<mirage pos="7.5 29.8 5.35 1.57">
   <solid shape="cone" rb="10" rt=".1" h="6" tx="/gif/roof06.gif"/>
-</wall>
+</mirage>
 
 <!-- la bouteille -->
 <thing name="bouteille" pos="8.85 32.3 .6">
@@ -516,6 +389,25 @@
   <solid shape="cone" rb=".03" rt=".03" h=".12" dif="red" tx="/gif/coke2.gif" />
 </thing>
 
+<!-- ordinateur -->
+<!--
+<host name="ordinateur" pos="9 24 2"
+  host="marius.enst.fr">
+  <solid dim=".6 .04 .6" dif="grey40" xn="/gif/station.gif" />
+</host>
+-->
+
+<!-- La TV -->
+<movie name="tele" pos="3.5 32 1.3 -1.57"
+  url="/mpg/wallace.mpg" rate="10">
+  <solid dim="2 .4 1.4" xn="/gif/wallace.gif" dif="grey50" />
+</movie>
+
+<thing name="table-tele" pos="3.5 32 .5">
+  <solid dim="2 3.6 .1" dif="white" a="1" />
+  <solid rel="0 0 -.25 0 0" dim="1.4 3 .5" a="1" />
+</thing>
+
 <!-- le canape -->
 <!--
 <local>
@@ -527,13 +419,15 @@
 -->
 
 <!-- la plante --> 
+<!--
 <local>
   <transform translation="12 33.8 .8"></transform>
   <transform rotation="90 1 0 0"></transform>
   <model name="plante" scale=".045" url="/3ds/tree_1.3ds"></model>
 </local>
+-->
 
-<thing name="pot1" pos="12 33.8 0">
+<thing name="pot" pos="12 33.8 0">
   <solid shape="cone" rb=".2" rt=".25" h=".8" dif="white" />
 </thing>
 
@@ -543,6 +437,13 @@
   <solid rel="0 0 -.25 0 0" dim=".6 1.1 .02" dif="white" a=".5" />
   <solid rel="0 0 -.27 0 0" dim=".2 .2 .54" dif="white" />
   <solid rel="0 0 -.55 0 0" dim=".6 1.1 .02" dif="white" />
+</thing>
+
+<!-- La Lampe -->
+<thing name="lampe" pos="7.5 29.8 4">
+  <solid shape="cone" rb=".015" rt=".015" h="7" dif="white" />
+  <solid shape="cone" rb=".3" rt=".05" h=".07" dif="0 .1 .8" />
+  <solid shape="sphere" r=".05" dif=".8 .8 .0" />
 </thing>
 
 <!-- Tableaux --> 
@@ -555,14 +456,8 @@
   <solid dim=".02 1 2" xp="/~dax/elsa/paintings/mythology/gif/vulcain.gif" />
 </web>
 
-<!-- La Lampe -->
-<thing name="lampe" pos="7.5 29.8 4">
-  <solid shape="cone" rb=".015" rt=".015" h="7" dif="white" />
-  <solid shape="cone" rb=".3" rt=".05" h=".07" dif="0 .1 .8" />
-  <solid shape="sphere" r=".05" dif=".8 .8 .0" />
-</thing>
-
 <!-- Les livres -->
+<!--
 <book name="livre-technique1" pos="8.1 32.8 .62 0 1.57"
   url="/book/bookCR.url">
   <solid dim=".24 .04 .24" dif=".2 .6 .2" a="0" />
@@ -575,23 +470,7 @@
   url="/book/tarots.url">
   <solid dim=".24 .04 .24" dif=".2 .6 .2" a="0" />
 </book>
-
-<!-- ordinateur -->
-<host name="ordinateur" pos="9 24 2"
-  host="marius.enst.fr">
-  <solid dim=".6 .04 .6" dif="grey40" xn="/gif/station.gif" />
-</host>
-
-<!-- La TV -->
-<movie name="tele" pos="3.5 32 1.3 -1.57"
-  url="/mpg/wallace.mpg" rate="10">
-  <solid dim="2 .4 1.4" xn="/gif/wallace.gif" dif="grey50" />
-</movie>
-
-<thing name="table-tele" pos="3.5 32 .5">
-  <solid dim="2 3.6 .1" dif="white" a="1" />
-  <solid rel="0 0 -.25 0 0" dim="1.4 3 .5" a="1" />
-</thing>
+-->
 
 
 </scene>
