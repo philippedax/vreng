@@ -127,7 +127,10 @@ int Channel::joinGroup(int sd)
 /** Leave group */
 int Channel::leaveGroup(int sd)
 {
-  if (Socket::dropMembership(sd, (void *) &mreq) < 0)  return -1;
+  if (strcmp(Universe::current()->server, "localhost")) {
+    if (Socket::dropMembership(sd, (void *) &mreq) < 0)
+      return -1;
+  }
   return sd;
 }
 
