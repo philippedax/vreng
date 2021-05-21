@@ -63,7 +63,7 @@ To show summary of command line options.
 To show current OpenGL infos (GL/GLU versions and extensions).
 .TP
 .BR  " -k, --keepcache"
-Keeps in the cache xml description file, do not use http to retrieve these files.
+Do not keeps in the cache xml description files (*.vre), use http to retrieve these files.
 .TP
 .BR  " -l, --listcache"
 Lists the cache and exit.
@@ -123,8 +123,8 @@ Mode fast without persistency, e.g. without MySql requests to a server.
 To use directly the MBone IP Multicast infrastructure,
 opposite to -r,--reflector option.
 .TP
-.BR  " -P, --noprogress"
-Do not show progression indicators.
+.BR  " -P, --progress"
+Shows progression indicators when loading objects.
 .TP
 .TP
 .BR  " -R, --reflector"
@@ -134,8 +134,8 @@ your host cannot benefit of IP Multicast routing protocols as PIM-SM,
 or if your Internet Provider doesn't supply this service.
 This option is set by default.
 .TP
-.BR  " -S, --nostats"
-Do not print statistics when quiting.
+.BR  " -S, --stats"
+Prints statistics when quiting.
 .TP
 .BR  " -T, --timetolive days"
 Cache time to live in the cache (default 3 days).
