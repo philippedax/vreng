@@ -32,13 +32,13 @@
 static const char HELPSTRING[] = "\
 Usage: vreng [options]\n\
 where options are:\n\
--a, --avatar model		Avatar model (man | guy | android)\n\
+-a, --avatar model		Avatar model (man | guy | android | box)\n\
 -b, --bbox	 		Draw bounding-boxes\n\
 -d, --debug mask 		Debug mask\n\
 -f, --frames rate		Max frames per second [1..255]\n\
 -g, --nogravity			Without gravity\n\
 -h, --help			Help message and exit\n\
--i, --infogl			Show OpenGL infos\n\
+-i, --infogl			Infos OpenGL (show)\n\
 -k, --keepcache			Do not keep *.vre in cache\n\
 -l, --listcache			List the cache and exit\n\
 -n, --number number		Number of simultaneous threads [1..7]\n\
@@ -53,12 +53,12 @@ where options are:\n\
 -2, --fullscreen		Screen double size\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
 -C, --clean			Clean cache\n\
--E, --expand			Expands palettes (GUI)\n\
+-E, --expand			Expand palettes (GUI)\n\
 -F, --fast			Without persistency (MySql)\n\
 -M, --multicast			MBone IP Multicast mode\n\
--P, --noprogress		No not show progression indicators\n\
+-P, --progress			Progression indicators (show)\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
--S, --stats			Shows stats when quiting\n\
+-S, --stats			Stats when quiting (show)\n\
 -T, --timetolive days		Cache time in days\n\
 ";
 
@@ -86,7 +86,7 @@ Pref::Pref()
   keep = true;
   silent = true;
   stats = false;
-  progress = true;
+  progress = false;
   expand = false;
   bbox = false;
   dbgtrace = false;
@@ -161,7 +161,7 @@ void Pref::parse(int argc, char **argv)
     {"expand",     0, 0, 'E'},
     {"fast",       0, 0, 'F'},
     {"multicast",  0, 0, 'M'},
-    {"noprogress", 0, 0, 'P'},
+    {"progress",   0, 0, 'P'},
     {"stats",      0, 0, 'S'},
     {"reflector",  0, 0, 'R'},
     {"timetolive", 1, 0, 'T'},
@@ -295,7 +295,7 @@ void Pref::parse(int argc, char **argv)
         reflector = false;
         break;
       case 'P':
-        progress = false;
+        progress = true;
         break;
       case 'R':
         reflector = true;
