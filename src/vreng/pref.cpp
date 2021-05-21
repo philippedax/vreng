@@ -58,7 +58,7 @@ where options are:\n\
 -M, --multicast			MBone IP Multicast mode\n\
 -P, --noprogress		No not show progression indicators\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
--S, --nostats			No stats when quiting\n\
+-S, --stats			Shows stats when quiting\n\
 -T, --timetolive days		Cache time in days\n\
 ";
 
@@ -85,7 +85,7 @@ Pref::Pref()
   fast = false;
   keep = true;
   silent = true;
-  stats = true;
+  stats = false;
   progress = true;
   expand = false;
   bbox = false;
@@ -162,7 +162,7 @@ void Pref::parse(int argc, char **argv)
     {"fast",       0, 0, 'F'},
     {"multicast",  0, 0, 'M'},
     {"noprogress", 0, 0, 'P'},
-    {"nostats",    0, 0, 'S'},
+    {"stats",      0, 0, 'S'},
     {"reflector",  0, 0, 'R'},
     {"timetolive", 1, 0, 'T'},
     {0,0,0,0}
@@ -301,7 +301,7 @@ void Pref::parse(int argc, char **argv)
         reflector = true;
         break;
       case 'S':
-        stats = false;
+        stats = true;
         break;
       case 'T':
         v = atoi(optarg);
