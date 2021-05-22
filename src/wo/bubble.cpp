@@ -61,7 +61,7 @@ void Bubble::setPosition()
   //error("bubble: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
 }
 
-/** Make translucid bubble */
+/** Make transparent bubble */
 void Bubble::makeSolid()
 {
   char s[256];
@@ -95,39 +95,49 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   face = _face;
   text = strdup(_text);
   setPosition();
-
-  // adjusting text
-  Pos postext = pos;
-  postext.y += (strlen(_text)+2) * Text::GLYPHSIZ / 2;
-  postext.z += -0.02;	// -2 cm
-  //error("text : %.2f %.2f %.2f",postext.x,postext.y,postext.z);
-
   makeSolid();
   state = ACTIVE;
   behavior();
   updatePosition();
 
-  bubtext = new Text(_text, postext, scale, _color, _face);
-  if (bubtext)
+  // adjusting text position
+  postext = pos;
+  postext.y += (strlen(text)+2) * Text::GLYPHSIZ / 2;
+  postext.z += -0.02;	// -2 cm
+  //error("text : %.2f %.2f %.2f",postext.x,postext.y,postext.z);
+
+  bubtext = new Text(text, postext, scale, _color, _face);
+  if (bubtext) {
     bubtext->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
+  }
+}
+
+void Bubble::changePosition(float lasting)
+{
+  if (state == ACTIVE) {
+    setPosition();
+  }
+  if (bubtext) {
+    postext = pos;
+    postext.y += (strlen(text)+2) * Text::GLYPHSIZ / 2;
+    postext.z += -0.02;	// -2 cm
+    bubtext->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
+  }
 }
 
 void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
 {
   if (! updateLasting(sec, usec, lasting)) {
     /* the text has spent its live time, it must be destroyed */
-    toDelete(); 	// delete Bubble
     if (bubtext) {
-      bubtext->toDelete();	// delete text inside Bubble
+      //error("bubble: delet text %s", text);
+      bubtext->expire();	// delete text inside Bubble
     }
+    toDelete(); 	// delete Bubble
     localuser->resetBubble();
+    bubtext = NULL;
     state = INACTIVE;
   }
-}
-
-void Bubble::changePosition(float lasting)
-{
-  if (state == ACTIVE) setPosition();
 }
 
 bool Bubble::updateToNetwork(const Pos &oldpos)
@@ -135,34 +145,13 @@ bool Bubble::updateToNetwork(const Pos &oldpos)
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-void Bubble::render()	 // notused because no specific render, use general render
-{
-  if (state == INACTIVE) return;
-
-  //dax2 if (dlists[0]) {      // is bubble present ?
-    //dax2 error("dlists = %d %d %d", dlists[0], dlists[1], dlists[2]);
-    glPushMatrix();
-     glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-     glTranslatef(pos.x, pos.y, pos.z);
-     glDepthMask(GL_FALSE);
-     glEnable(GL_BLEND);
-     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-     //dax2 glCallList(dlists[0]);     // display bubble glob
-     //dax2 glCallList(dlists[1]);     // display bubble arrow
-     //dax2 glCallList(dlists[2]);     // display bubble text
-
-     glDisable(GL_BLEND);
-     glDepthMask(GL_TRUE);
-    glPopMatrix();
-  //dax2 }
-}
-
 void Bubble::quit()
 {
   oid = 0;
-  if (text)
+  if (text) {
     free(text);
+  }
 }
 
-void Bubble::funcs() {}
+void Bubble::funcs()
+{}

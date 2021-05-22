@@ -51,7 +51,8 @@ void Text::defaults()
   txf = NULL;
   textstr = new char[MAXLEN];
   strcpy(names.url, DEF_URL_FONT);	// font's url
-  for (int i=0; i<4; i++) color[i] = DEF_COLOR[i];	// color
+  for (int i=0; i<4; i++)
+    color[i] = DEF_COLOR[i];	// color
 }
 
 void Text::parser(char *l)
@@ -108,9 +109,9 @@ void Text::inits()
   if (! loadFont()) return;
 
   // sanity check to avoid segfault with "'", "`"
-  for (char * p=textstr; *p; p++) if (*p == '\'' || *p == '`') *p = ' ';
-
-  //dax setObjName("message");
+  for (char * p=textstr; *p; p++) if (*p == '\'' || *p == '`') {
+    *p = ' ';
+  }
 }
 
 /* Constructors. */
@@ -127,7 +128,9 @@ Text::Text(const char *t, Pos &pos, float _scale, const float *_color)
   defaults();
   strcpy(textstr, t);
   scale = _scale;
-  for (int i=0; i<4; i++) color[i] = _color[i];
+  for (int i=0; i<4; i++) {
+    color[i] = _color[i];
+  }
   behavior();
   makeSolid();
   inits();
@@ -139,7 +142,9 @@ Text::Text(const char *t, Pos &pos, float _scale, const float *_color, bool _fac
   verso = _face;
   strcpy(textstr, t);
   scale = _scale;
-  for (int i=0; i<4; i++) color[i] = _color[i];
+  for (int i=0; i<4; i++) {
+    color[i] = _color[i];
+  }
   behavior();
   makeSolid();
   inits();
@@ -161,6 +166,22 @@ float Text::lenText(const char *_text)
   return (strlen(_text)+1) * GLYPHSIZ;
 }
 
+void Text::changePosition(float lasting)
+{
+  if (! localuser) return;
+
+  pos.x = shiftx;
+  pos.y = shifty;
+  pos.z = shiftz;
+  pos.az = shiftaz;
+  error("text: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
+}
+
+void Text::expire()
+{
+  toDelete();
+}
+
 void Text::render()
 {
   if (! havefont || (state == INACTIVE)) return;
@@ -177,6 +198,7 @@ void Text::render()
    glMaterialfv(GL_FRONT, GL_EMISSION, color);
    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
+   //if (shiftx < -1) error("text: %.1f %.1f %.1f, %.1f %.1f %.1f, %.1f %.1f %.1f", pos.x+shiftx, pos.y+shifty, pos.z+shiftz, pos.x,pos.y,pos.z, shiftx,shifty,shiftz);
    glTranslatef(pos.x + shiftx, pos.y + shifty, pos.z + shiftz);
    glRotatef(RAD2DEG(pos.az + shiftaz), 0, 0, 1);
    glRotatef(RAD2DEG(pos.ax + shiftax), 1, 0, 0);

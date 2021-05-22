@@ -540,6 +540,9 @@ void User::changePosition(float lasting)
   if (localuser->man) {
     localuser->man->pos = pos;
   }
+  if (localuser->bubble) {
+    localuser->bubble->setPosition();
+  }
 }
 
 /* equations system handling permanent motions */

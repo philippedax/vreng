@@ -36,7 +36,8 @@ private:
   Text *bubtext;	///< message inside bubble
   char *text;		///< text to display
   bool face;		///< face recto=0 verso=1
-  float scale;		///x scale
+  float scale;		///< scale
+  Pos postext;		///< text position
 
 public:
   /* properties */
@@ -74,8 +75,8 @@ public:
   virtual bool updateToNetwork(const Pos &oldpos);
   /**< Publishes to network. */
 
-  virtual void render();
-  /**< Renders bubble. */
+  virtual void setPosition();
+  /**< Sets position above the head. */
 
   virtual void quit();
   /**< Quits bubble. */
@@ -85,10 +86,7 @@ private:
   /**< Sets default values. */
 
   virtual void makeSolid();
-  /**< Builds translucid bubble. */
-
-  virtual void setPosition();
-  /**< Sets position above the head. */
+  /**< Builds transparent bubble. */
 
   virtual void behavior();
   /**< Sets behavior. */

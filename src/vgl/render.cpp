@@ -155,7 +155,7 @@ void Render::materials()
 }
 
 // DEBUG //
-#if 1 //dax0 set to 1 to debug
+#if 0 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
 

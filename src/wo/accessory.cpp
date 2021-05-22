@@ -24,6 +24,7 @@
 
 
 const OClass Accessory::oclass(ACCESSORY_TYPE, "Accessory", Accessory::creator);
+
 const float Accessory::LSPEED = 0.5; // 1/2 ms
 
 // local
@@ -95,10 +96,20 @@ void Accessory::changePermanent(float lasting)
   float dx = ABSF(distx / slowx);
   float dy = ABSF(disty / slowy);
   float dz = ABSF(distz / slowz);
+
   // progression
-  if (distx > 0) pos.x += dx; else pos.x -= dx;
-  if (disty > 0) pos.y += dy; else pos.y -= dy;
-  if (distz > 0) pos.z += dz; else pos.z -= dz;
+  if (distx > 0)
+    pos.x += dx;
+  else
+    pos.x -= dx;
+  if (disty > 0)
+    pos.y += dy;
+  else
+    pos.y -= dy;
+  if (distz > 0)
+    pos.z += dz;
+  else
+    pos.z -= dz;
 
   updatePosition();
 }

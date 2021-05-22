@@ -68,6 +68,12 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from fileline. */
 
+  virtual void changePosition(float lasting);
+  /**< Follows localuser */
+
+  virtual void expire();
+  /**< toDelete. */
+
   virtual void render();
   /**< Special rendering for text. */
 
