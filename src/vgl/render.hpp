@@ -60,7 +60,9 @@ public:
   list<Solid*> transparentList;	///< transparent solids list.
   list<Solid*> opaqueList;	///< opaque solids list.
   list<Solid*> flaryList;	///< flary solids list.
+  list<Solid*> groundList;	///< ground solids list.
   list<Solid*> modelList;	///< model solids list.
+  list<Solid*> userList;	///< user solids list.
 
   Render();
   /**< Constructor. */
@@ -242,6 +244,10 @@ private:
   void renderSolids();		///< general rendering.
   void renderOpaque();		///< opaque solids
   void renderTransparent();  	///< transparent solids
+  void renderGround();  	///< ground solids
+  void renderModel(); 	 	///< model solids
+  void renderUser(); 	 	///< user solids
+  void renderFlary(); 	 	///< flary solids
 
   static bool compDist(const void *t1, const void *t2);	///< compare distantes to eyes
   static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes

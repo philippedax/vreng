@@ -27,6 +27,9 @@
 #include "world.hpp"	// current
 #include "bgcolor.hpp"	// Bgcolor
 #include "user.hpp"	// USER_TYPE
+#include "ground.hpp"	// GROUND_TYPE
+#include "model.hpp"	// MODEL_TYPE
+#include "guide.hpp"	// GUIDE_TYPE
 #include "vicinity.hpp"	// Vicinity
 #include "pref.hpp"	// ::g.pref
 #include "grid.hpp"	// Grid
@@ -152,7 +155,7 @@ void Render::materials()
 }
 
 // DEBUG //
-#if 0 //dax0 set to 1 to debug
+#if 1 //dax0 set to 1 to debug
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -198,29 +201,7 @@ bool Render::compFrame(const void *t1, const void *t2)
 // Renders opaque solids
 void Render::renderOpaque()
 {
-  // build opaqueList from solidList
-  opaqueList.clear();
-  flaryList.clear();
-  modelList.clear();
-
-  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    if ( (*it)->isOpaque() &&
-         (*it)->isVisible() &&
-         ! (*it)->isRendered() &&
-         ! (*it)->object()->isRemoved()
-       ) {
-      if ( (*it)->isFlashy() || (*it)->isFlary() ) {
-        flaryList.push_back(*it);	// add to flary list
-      }
-      else if ( (*it)->object()->typeName() == "Model" ) {
-        modelList.push_back(*it);	// add to model list
-      }
-      else {
-        opaqueList.push_back(*it);	// add to opaque list
-      }
-    }
-  }
-
+  trace2(DBG_VGL, "\nopaque: ");
   // sort opaqueList
   opaqueList.sort(compDist);	// sort distances decreasingly : large surfaces overlap
   opaqueList.sort(compSize);	// sort surfaces decreasingly : fix overlaping
@@ -232,7 +213,7 @@ void Render::renderOpaque()
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
       (*it)->object()->render();
-      if ((*it)->object()->typeName() == "Guide") {	// exception: guide is both
+      if ( (*it)->object()->type == GUIDE_TYPE ) {	// exception: guide is both
         (*it)->displaySolid(Solid::OPAQUE);
       }
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
@@ -260,8 +241,8 @@ void Render::renderOpaque()
 // Renders transparent solids sorted from the furthest to the nearest
 void Render::renderTransparent()
 {
+  trace2(DBG_VGL, "\ntransparent: ");
   // build transparentList from solidList
-  transparentList.clear();
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() == false &&
          (*it)->isVisible() &&
@@ -303,39 +284,28 @@ void Render::renderTransparent()
   }
 }
 
-/*
- * General Rendering
- * 
- * Render all objects and their solids.
- * - renders solids in displaylists
- * - makes specific rendering for special objects
- */
-void Render::renderSolids()
+// Renders model solids sorted from the furthest to the nearest
+void Render::renderGround()
 {
-  uint32_t objectsnumber = WObject::getObjectsNumber();
-
-  // for all solids
-  // set setRendered=false updateDist and find the localuser solid
-  list<Solid*>::iterator su;
-  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
-    (*it)->setRendered(false);
-    (*it)->updateDist();
-    if ((*it)->object()->type == USER_TYPE) {
-      if ((*it)->object() == localuser) {
-        su = it;	// localuser
-      }
+  trace2(DBG_VGL, "\nground: ");
+  groundList.sort(compDist);		// sort distances decreasingly
+  for (list<Solid*>::iterator it = groundList.begin(); it != groundList.end() ; ++it) {
+    materials();
+    putSelbuf((*it)->object());		// records the name before displaying it
+    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->object()->render();
     }
+    else {
+      (*it)->displaySolid(Solid::OPAQUE);
+    }
+    (*it)->setRendered(true);
+    trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
   }
+}
 
-  // renders opaque solids
-  trace2(DBG_VGL, "\nopaque: ");
-  renderOpaque();
-
-  // renders transparent solids
-  trace2(DBG_VGL, "\ntransparent: ");
-  renderTransparent();
-
-  // renders model solids
+// Renders model solids sorted from the furthest to the nearest
+void Render::renderModel()
+{
   trace2(DBG_VGL, "\nmodel: ");
   modelList.sort(compDist);		// sort distances decreasingly
   for (list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
@@ -347,22 +317,31 @@ void Render::renderSolids()
     else {
       (*it)->displaySolid(Solid::OPAQUE);
     }
+    (*it)->setRendered(true);
     trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
   }
+}
 
-  // renders localuser last
+// Renders user
+void Render::renderUser()
+{
   trace2(DBG_VGL, "\nuser: ");
-  if (localuser) {
-    if ((*su)->object()->isBehavior(SPECIFIC_RENDER)) {
-      (*su)->object()->render();
+  for (list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
+    if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+      (*it)->object()->render();
     }
     else {
-      (*su)->displaySolid(Solid::USER);
+      (*it)->displaySolid(Solid::USER);
     }
-    trace2(DBG_VGL, " %s", (*su)->object()->getInstance());
+    (*it)->setRendered(true);
+    trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
+    break;	// only one
   }
+}
 
-  // renders flary solids
+// Renders flary solids
+void Render::renderFlary()
+{
   trace2(DBG_VGL, "\nflary: ");
   for (list<Solid*>::iterator it = flaryList.begin(); it != flaryList.end() ; ++it) {
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -371,8 +350,64 @@ void Render::renderSolids()
     else {
       (*it)->displaySolid(Solid::FLASH);
     }
+    (*it)->setRendered(true);
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
   }
+}
+
+/**
+ *
+ * General Rendering
+ * 
+ * Render all objects and their solids.
+ * - makes specific rendering for special objects (SPECIFIC_RENDER)
+ * - else renders solids in their own displaylists
+ */
+void Render::renderSolids()
+{
+  uint32_t objectsnumber = WObject::getObjectsNumber();
+
+  // build rendering lists from solidList
+  opaqueList.clear();
+  groundList.clear();
+  modelList.clear();
+  userList.clear();
+  flaryList.clear();
+  transparentList.clear();
+
+  // for all solids
+  // set setRendered=false updateDist and find the localuser solid
+  for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
+    (*it)->setRendered(false);
+    (*it)->updateDist();
+    if ( (*it)->isOpaque() && (*it)->isVisible() ) {
+      if ( (*it)->isFlashy() || (*it)->isFlary() ) {
+        flaryList.push_back(*it);	// add to flary list
+      }
+      else if ( (*it)->object()->type == GROUND_TYPE ) {
+        groundList.push_back(*it);	// add to ground list
+      }
+      else if ( (*it)->object()->type == MODEL_TYPE ) {
+        modelList.push_back(*it);	// add to model list
+      }
+      if ( (*it)->object()->type == USER_TYPE ) {
+        if ((*it)->object() == localuser) {
+          userList.push_back(*it);	// add to user list
+        }
+      }
+      else {
+        opaqueList.push_back(*it);	// add to opaque list
+      }
+    }
+  }
+
+  // order is important !!!
+  renderGround();	// renders ground solids first
+  renderOpaque();	// renders opaque solids
+  renderTransparent();	// renders transparent solids
+  renderModel();	// renders model solids
+  renderFlary();	// renders flary solids
+  renderUser();		// renders localuser last
 }
 
 
