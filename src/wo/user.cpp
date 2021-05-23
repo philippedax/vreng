@@ -581,7 +581,7 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
   switch (pcur->type) {
   case BULLET_TYPE:
   case DART_TYPE:
-    /* projectile intersects a stopped user: hit */
+    /* projectile intersects user: hit */
     if (hit == 0) {
       hit = 1;
       notice("%s:%s hits %s", pcur->names.type, pcur->getInstance(), getInstance());

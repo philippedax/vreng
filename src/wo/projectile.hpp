@@ -63,6 +63,8 @@ class Projectile: public WObject {
 
   virtual bool updateToNetwork(const Pos &oldpos);
 
+  virtual void quit() {};
+  /**< Quits. */
 };
 
 #endif

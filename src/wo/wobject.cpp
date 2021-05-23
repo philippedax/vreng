@@ -1178,20 +1178,41 @@ WObject * WObject::byNum(uint16_t num)
 /* Concatenates (with test of ispointed & object) pointers list on an object */
 OList * WObject::addListToList(OList *l1, OList *l2)
 {
-  if (! l1) {
-    if (! l2) return NULL;
-    //dax8 if (! l2->pobject) return NULL;
-    if (l2->pobject != this)
-      return l2;
-    else
+  if (! l1) {	// l1 is null
+    if (! l2) {
       return NULL;
+    }
+    if (! l2->pobject) {
+      return NULL;
+    }
+    if (l2->pobject != this) {
+      return l2;
+    }
+    else {
+      return NULL;
+    }
   }
   else {
     if (l1->pobject && !(l1->pobject->inlist) && (l1->pobject != this)) {
       l1->pobject->inlist = true;
-      return  addListToList(l1->next, l1->pobject->addToListOnce(l2));
+      if (l1->next) {
+        return  addListToList(l1->next, l1->pobject->addToListOnce(l2));
+      }
+      else {
+        return l1->pobject->addToListOnce(l2);
+      }
     }
-    else  return addListToList(l1->next, l2);
+    else {
+      //if (! l2) {
+        //return NULL;
+      //}
+      if (l1->next) {
+        return addListToList(l1->next, l2);
+      }
+      else {
+        return l2;
+      }
+    }
   }
 }
 

@@ -165,11 +165,13 @@ void Guy::httpReader(void *_guy, Http *http)
 
   fgets(line, sizeof(line), f);	 // skip mirror_flag
   for (int j=0; j < guy->numjoints; j++) {
+
     fgets(line, sizeof(line), f);
     line[strlen(line) - 1] = '\0';
     points = atoi(line);	// numpoints
     if (points < 4 || points > MAX_POINTS) goto abort;
     guy->curve[j].numpoints = points;
+
     fgets(line, sizeof(line), f);  // coords
     line[strlen(line) - 1] = '\0';
     l = strtok(line, " ");
@@ -177,6 +179,7 @@ void Guy::httpReader(void *_guy, Http *http)
       guy->curve[j].coords[p] = (float) atof(l);
       l = strtok(NULL, " ");
     }
+
     fgets(line, sizeof(line), f);  // angles
     line[strlen(line) - 1] = '\0';
     l = strtok(line, " ");
@@ -411,6 +414,7 @@ void Guy::display_brea(bool side)
 void Guy::display_head()
 {
   if (control && localuser->hasHead()) return;
+
   glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
   glPushMatrix();
   glCallList(dlist+HEAD);
@@ -426,20 +430,20 @@ void Guy::display_leg(bool side)
    else
      glTranslatef(-BUST_L * BUST_W/2., 0, 0);
 
-   // Upper leg: rotates about the x axis only
+   // Upper leg: rotates around the x axis only
    glRotatef(cycles[side][0][stp], 1, 0, 0);
    glPushMatrix();
    glCallList(dlist+ULEG);
    glPopMatrix();
 
-   // Lower leg: rotates about the x axis only
+   // Lower leg: rotates around the x axis only
    glTranslatef(0, -(ULEG_H + KNEE_R), 0);
    glRotatef(cycles[side][1][stp], 1, 0, 0);
    glPushMatrix();
    glCallList(dlist+LLEG);
    glPopMatrix();
 
-   // Foot: rotates about the x axis only
+   // Foot: rotates around the x axis only
    glMaterialfv(GL_FRONT, GL_AMBIENT, feet_color);
    glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0); //DAX
    glRotatef(cycles[side][2][stp], 1, 0, 0);
@@ -461,10 +465,9 @@ void Guy::display_arm(bool side)
      glTranslatef(-BUST_W + SHOULDER_R/2, 0, 0);
    }
 
-   // Upper arm: rotates about the x axis only
+   // Upper arm: rotates around the x axis only
    if (flying) {
      glRotatef(135, 1, 0, 0);	// x axis
-     glRotatef(135, 0, 1, 0);	// y axis
    }
    else if (showing && side == 0) {  // right arm
      glRotatef(90, 1, 0, 0);
@@ -476,7 +479,7 @@ void Guy::display_arm(bool side)
    glCallList(dlist+UARM);
    glPopMatrix();
 
-   // Lower arm: rotates about the x axis only
+   // Lower arm: rotates around the x axis only
    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
    glTranslatef(0, -(UARM_H + ELBOW_R), 0);
    if (flying || (showing && side == 0)) {

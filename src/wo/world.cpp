@@ -1030,7 +1030,7 @@ void World::deleteObjects()
         mobileList.remove(*it);
         stillList.remove(*it);
         //error("delete: %s", (*it)->getInstance());
-        if ((*it)->typeName() == "Text" || (*it)->typeName() == "Bubble") {	// Hack!
+        if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") {	// Hack!
           delete(*it);	//segfault FIXME!
         }
         //dax deleteList.erase(it);
