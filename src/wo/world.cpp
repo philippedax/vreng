@@ -1030,11 +1030,14 @@ void World::deleteObjects()
         mobileList.remove(*it);
         stillList.remove(*it);
         //error("delete: %s", (*it)->getInstance());
-        //dax8 delete(*it);	//segfault FIXME!
-        deleteList.erase(it);
+        if ((*it)->typeName() == "Text" || (*it)->typeName() == "Bubble") {	// Hack!
+          delete(*it);	//segfault FIXME!
+        }
+        //dax deleteList.erase(it);
       }
     }
   }
+  deleteList.clear();
 }
 
 /* clears all lists */

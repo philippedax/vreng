@@ -28,7 +28,7 @@
 
 
 /**
- * Projectilee class
+ * Projectile class
  */
 class Projectile: public WObject {
   friend class User; // access to member "hit"

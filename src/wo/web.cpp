@@ -167,8 +167,9 @@ void Web::pivot()
     }
 
     text = new Text(legend, postx, 0.5, Color::black);	// scale half
-    if (text)
+    if (text) {
       text->setPos(postx.x, postx.y, postx.z, postx.az + M_PI, postx.ax + M_PI_2);
+    }
   }
   else {	// front face
     if (text) {

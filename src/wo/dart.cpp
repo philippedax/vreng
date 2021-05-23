@@ -44,7 +44,8 @@ void Dart::defaults()
 void Dart::makeSolid()
 {
   char s[256];
-  sprintf(s,"solid shape=\"box\" dim=\"%s\" emi=\"%s\" />", DIM, COLOR);
+
+  sprintf(s,"solid shape=\"box\" dim=\"%s\" dif=\"%s\" />", DIM, COLOR);
   parse()->parseSolid(s, SEP, this);
 }
 
