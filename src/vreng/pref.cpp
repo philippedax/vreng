@@ -32,7 +32,7 @@
 static const char HELPSTRING[] = "\
 Usage: vreng [options]\n\
 where options are:\n\
--a, --avatar model		Avatar model (man | guy | android | box)\n\
+-a, --avatar model		Avatar model (human | guy | android | box)\n\
 -b, --bbox	 		Draw bounding-boxes\n\
 -d, --debug mask 		Debug mask\n\
 -f, --frames rate		Max frames per second [1..255]\n\

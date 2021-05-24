@@ -59,7 +59,8 @@ void Halo::defaults()
 /* solid geometry */
 void Halo::makeSolid()
 {
-  char s[256];
+  char s[128];
+
   sprintf(s, "solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", RI, RE, strcolor);
   parse()->parseSolid(s, SEP, this);
 }

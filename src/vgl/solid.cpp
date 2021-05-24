@@ -33,7 +33,8 @@
 #include "user.hpp"	// localuser
 #include "md2.hpp"	// Md2
 #include "obj.hpp"	// Obj
-#include "man.hpp"	// draw
+#include "human.hpp"	// Human::draw
+#include "man.hpp"	// Man::draw
 #include "car.hpp"	// draw
 #include "teapot.hpp"	// draw
 #include "format.hpp"	// getModelByUrl
@@ -175,9 +176,9 @@ static const struct sStokens stokens[] = {
   { "none", "fictif", STOK_NONE },
   { "shape", "shape", STOK_SHAPE },
   { "box", "cube", STOK_BOX },
-  { "man", "woman", STOK_MAN },
+  { "man", "human", STOK_MAN },
   { "guy", "boy", STOK_GUY },
-  { "android", "human", STOK_ANDROID },
+  { "android", "droid", STOK_ANDROID },
   { "car", "car", STOK_CAR },
   { "sphere", "ball", STOK_SPHERE },
   { "cone", "cylinder", STOK_CONE },
@@ -848,11 +849,11 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_MAN:
-      if (localuser->man) {
-        localuser->man->draw();
+      if (localuser->human) {
+        localuser->human->draw();
       }
       else {
-        Man *man = new Man(dim.v[0], dim.v[1], dim.v[2]);
+        Man *man = new Man();
         man->draw();
       }
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
@@ -1585,23 +1586,9 @@ int Solid::displayList(int display_mode = NORMAL)
        User *user = (User *) wobject;
        glPushMatrix();
        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
-       if (user->guy || user->android) {
-         glRotatef(RAD2DEG(-user->pos.ax), 1, 0, 0);
-         glRotatef(RAD2DEG(-user->pos.ay), 0, 1, 0);
-         glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
-       }
-       if (user->man) {
-         glRotatef(RAD2DEG(-user->man->pos.ax), 1, 0, 0);
-         glRotatef(RAD2DEG(-user->man->pos.ay), 0, 1, 0);
-         glRotatef(RAD2DEG(-user->man->pos.az), 0, 0, 1);
-         //glScalef(.5, .5, .5);
-       }
-       else {	// box
-         glRotatef(RAD2DEG(-user->pos.ax), 1, 0, 0);
-         glRotatef(RAD2DEG(-user->pos.ay), 0, 1, 0);
-         glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
-         //glScalef(.5, .5, .5);
-       }
+       glRotatef(RAD2DEG(-user->pos.ax), 1, 0, 0);
+       glRotatef(RAD2DEG(-user->pos.ay), 0, 1, 0);
+       glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
 
        glCallList(dlists[frame]);	// display the localuser here !!!
 
@@ -1753,7 +1740,7 @@ void Solid::displayMirroredScene()
    // Displays avatar
    if  (localuser->android) localuser->android->getSolid()->displayList(NORMAL);
    else if (localuser->guy) localuser->guy->getSolid()->displayList(NORMAL);
-   else if (localuser->man) localuser->getSolid()->displayList(NORMAL);
+   else if (localuser->human) localuser->getSolid()->displayList(NORMAL);
    else glCallList(localuser->getSolid()->displayList(NORMAL));
   glPopMatrix();
 

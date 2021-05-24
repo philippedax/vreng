@@ -32,7 +32,6 @@ public:
   Pos pos;		///< position and BB
 
   Man();		///< constructor
-  Man(float width, float depth, float height);		///< constructor
 
   virtual ~Man();	///< destructor
 
@@ -42,8 +41,8 @@ private:
   float width;
   float depth;
   float height;
-
-  virtual void draw(float width, float depth, float height);
+  bool usercontrol;
+  GLint dlist;
 
   static void myMaterial(GLenum mode, float *f, float alpha);
 

@@ -155,7 +155,7 @@ void Render::materials()
 }
 
 // DEBUG //
-#if 0 //dax0 set to 1 to debug
+#if 0 //dax0 set to 1 to force debug tracing
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -327,6 +327,7 @@ void Render::renderUser()
 {
   trace2(DBG_VGL, "\nuser: ");
   for (list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
+    putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
@@ -390,10 +391,8 @@ void Render::renderSolids()
       else if ( (*it)->object()->type == MODEL_TYPE ) {
         modelList.push_back(*it);	// add to model list
       }
-      if ( (*it)->object()->type == USER_TYPE ) {
-        if ((*it)->object() == localuser) {
-          userList.push_back(*it);	// add to user list
-        }
+      else if ( (*it)->object()->type == USER_TYPE ) {
+        userList.push_back(*it);	// add to user list
       }
       else {
         opaqueList.push_back(*it);	// add to opaque list

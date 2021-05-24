@@ -4,11 +4,12 @@ const char def_prefs[] = "\
 #\n\
 \n\
 # my body model\n\
-# 5 available models : guy, android, man, box, default=guy\n\
-# model=box\n\
-# model=man\n\
+# 5 available models : guy, android, human, box, bbox, default=guy\n\
 # model=guy\n\
+# model=human\n\
 # model=android\n\
+# model=box\n\
+# model=bbox\n\
 model=guy\n\
 \n\
 # my head model\n\

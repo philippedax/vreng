@@ -56,7 +56,7 @@ public:
   static const uint8_t MESS_LEN = 255;
   static const uint8_t MENSURATIONLEN = 64;
 
-  class Man *man;		///< Man avatar model.
+  class Human *human;		///< Man avatar model.
   class Guy *guy;		///< Guy avatar model.
   class Android *android;	///< Android avatar model.
   class Head *head;		///< Head avatar model.

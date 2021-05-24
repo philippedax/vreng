@@ -23,7 +23,8 @@
 // Auteurs de l'avatar initial : Thierry BLANDET - Magalie GROSS
 //-------------------------------------------------------------------
 #include "vreng.hpp"
-#include "man.hpp"
+#include "human.hpp"
+#include "wobject.hpp"
 #include "user.hpp"	// localuser
 #include "pref.hpp"	// Pref
 
@@ -35,18 +36,9 @@
 
 #define MAN_STATIC 1
 
+const OClass Human::oclass(HUMAN_TYPE, "Human", Human::creator);
 
-struct tMaterial {
-  float ambient[3];
-  float diffuse[3];
-  float specular[3];
-  float emission[3];
-  float alpha;
-  float shininess;
-  int texture;
-};
-
-static struct tMaterial materials[] = {
+static struct _tMaterial materials[] = {
   { {0,0,0}, {0.5,1.0,0.5}, {0,0,0}, {0,0,0}, 1, 20, -1 }, //bust green
   { {0,0,0}, {0.2,0.4,1.0}, {0,0,0}, {0,0,0}, 1, 20, -1 }, //legs blue
   { {0,0,0}, {0.1,0.1,0.1}, {0,0,0}, {0,0,0}, 1, 20, -1 }, //feet brown
@@ -56,48 +48,7 @@ static struct tMaterial materials[] = {
   { {0,0,0}, {1.0,1.0,0.1}, {0,0,0}, {0,0,0}, 1, 20, -1 }  //hairs yellow
 };
 
-struct tBody {
-  uint8_t part;		// part index
-  uint16_t offset;	// relative offset from faces
-  uint16_t vcount;	// vertices count
-  uint8_t mat;		// material index
-};
-
-enum {
-  MAN_FOREARM_R,
-  MAN_FOREARM_L,
-  MAN_THIGH_R,
-  MAN_THIGH_L,
-  MAN_ELBOW_R,
-  MAN_ARM_R,
-  MAN_ARM_L,
-  MAN_ELBOW_L,
-  MAN_SHOULDER_R,
-  MAN_HIP_R,
-  MAN_HIP_L,
-  MAN_SHOULDER_L,
-  MAN_FOOT_R,
-  MAN_FOOT_L,
-  MAN_ANKLE_R,
-  MAN_ANKLE_L,
-  MAN_SHIN_R,
-  MAN_SHIN_L,
-  MAN_KNEE_R,
-  MAN_KNEE_L,
-  MAN_BELT,
-  MAN_PELVIC,
-  MAN_HAIRS,
-  MAN_HEAD,
-  MAN_CHEST,
-  MAN_NECK,
-  MAN_HAND_R,
-  MAN_HAND_L,
-  MAN_WRIST_R,
-  MAN_WRIST_L,
-  BODYPARTS
-};
-
-static tBody manpart[] = {
+static _tBody manpart[] = {
  {MAN_FOREARM_R,    0, 16, 4},	// forearm_r
  {MAN_FOREARM_L,   16, 16, 4},	// forearm_l
  {MAN_THIGH_R,     32, 16, 1},	// thigh_r
@@ -131,8 +82,15 @@ static tBody manpart[] = {
 };
 
 
+/* Creation from a file */
+WObject * Human::creator(char *l)
+{ 
+  return new Human(l);
+} 
+
+
 /* Constructor */
-Man::Man()
+Human::Human()
 {
   Pref* pref = &::g.pref;
 
@@ -140,13 +98,59 @@ Man::Man()
   if (pref->my_depthstr)        depth = atof(pref->my_depthstr);
   if (pref->my_heightstr)       height = atof(pref->my_heightstr);
   usercontrol = true;
+  behavior();
   dlist = -1;
 }
 
-Man::~Man()
+/* constructor from xml file */
+Human::Human(char *l)
+{ 
+  parser(l);
+  usercontrol = false;
+  behavior();
+  dlist = -1;
+}
+
+Human::~Human()
 { }
 
-void Man::myMaterial(GLenum mode, float *rgb, float alpha)
+void Human::parser(char *l)
+{ 
+  //defaults();
+  l = tokenize(l);
+  begin_while_parse(l) {
+    l = parse()->parseAttributes(l, this);
+    if (!l) break;
+    //else if (! stringcmp(l, "skin=")) l = parse()->parseVector3f(l, skin_color, "skin");
+    //else if (! stringcmp(l, "bust=")) l = parse()->parseVector3f(l, bust_color, "bust");
+    //else if (! stringcmp(l, "legs=")) l = parse()->parseVector3f(l, legs_color, "legs");
+    //else if (! stringcmp(l, "feet=")) l = parse()->parseVector3f(l, feet_color, "feet");
+  }
+  end_while_parse(l);
+}
+
+void Human::behavior()
+{
+  enableBehavior(NO_ELEMENTARY_MOVE);
+  enableBehavior(COLLIDE_NEVER);
+  enableBehavior(SPECIFIC_RENDER);
+
+  initMobileObject(0);
+  enablePermanentMovement();
+}
+
+void Human::changePermanent(float lasting)
+{
+  if (usercontrol && localuser) {
+    pos.x = localuser->pos.x;
+    pos.y = localuser->pos.y;
+    pos.z = localuser->pos.z;
+    pos.az = localuser->pos.az - M_PI_2;
+    updatePosition();
+  }
+}
+
+void Human::myMaterial(GLenum mode, float *rgb, float alpha)
 {
   float color4[4];
 
@@ -158,7 +162,7 @@ void Man::myMaterial(GLenum mode, float *rgb, float alpha)
 }
 
 /* Sets the material properties of the 3D Object */
-void Man::setMaterial(int i)
+void Human::setMaterial(int i)
 {
   float alpha = materials[i].alpha;
 
@@ -170,14 +174,16 @@ void Man::setMaterial(int i)
 }
 
 /* Draws man */
-void Man::draw()
+void Human::draw()
 {
   int vcount = 0, part = 0;
 
-  glPushMatrix();
+  //glPushMatrix();
   glRotatef(90, 0,0,1);
   glRotatef(90, 1,0,0);	// stand up /x axis
 
+  dlist = glGenLists(1);
+  glNewList(dlist, GL_COMPILE);
   for (int i=0; i < (int)(sizeof(faces) / sizeof(faces[0])); i++) {
     glBegin(GL_TRIANGLES);
     if (vcount == 0) {
@@ -196,11 +202,24 @@ void Man::draw()
     }
     glEnd();
   }
+  glEndList();
+  //glPopMatrix();
+}
+
+void Human::render()
+{
+  glPushMatrix();
+   glTranslatef(pos.x, pos.y, pos.z);
+   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
+   glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);    // stand up
+
+   glCallList(dlist);
+
   glPopMatrix();
 }
 
 #if !defined(MAN_STATIC)
-void Man::pointing(int dir[3])
+void Human::pointing(int dir[3])
 {
   float posx, posy, posz, rotx, roty, rotz;
   float theta, psi;
@@ -240,3 +259,11 @@ void Man::pointing(int dir[3])
   glPopMatrix();
 }
 #endif
+
+void Human::funcs()
+{
+}
+
+void Human::quit()
+{
+}

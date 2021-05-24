@@ -106,6 +106,7 @@
 #include "head.hpp"	/* 81 */
 #include "firework.hpp"	/* 82 */
 #include "fractal.hpp"	/* 83 */
+#include "human.hpp"	/* 84 */
 
 
 const struct GeneralInitList generalInitList[] = {
@@ -193,6 +194,7 @@ const struct GeneralInitList generalInitList[] = {
 /* 81 */	{Head::funcs},
 /* 82 */	{Firework::funcs},
 /* 83 */	{Fractal::funcs},
+/* 84 */	{Human::funcs},
 
 /* END */	{NULL}
 };
@@ -202,6 +204,7 @@ const struct GeneralInitList generalInitList[] = {
 static struct PropertyFuncList putPropertyFuncList[OBJECTSNUMBER+1][PROPSNUMBER];
 static struct PropertyFuncList getPropertyFuncList[OBJECTSNUMBER+1][PROPSNUMBER];
 static struct GeneralActionList generalActionList[OBJECTSNUMBER+1][ACTIONSNUMBER];
+
 float maxlastings[OBJECTSNUMBER+1];
 uint8_t propertiesnumber[OBJECTSNUMBER+1];
 

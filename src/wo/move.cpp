@@ -26,7 +26,7 @@
 #include "carrier.hpp"	// keyEvent
 #include "netobj.hpp"	// isResponsible
 #include "guy.hpp"	// Guy
-#include "man.hpp"	// Man
+#include "human.hpp"	// Human
 
 #define MIN_MOVES	20	// orig: 20
 #define RATIO_GOTO	6	// orig: 4
@@ -223,8 +223,8 @@ void User::changePosition(const float lastings[])
   //dax float h = pos.z - ground;  // vertical distance
   float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
   if (pos.z > 2) {	// >2 m
-    if (man) {
-      man->pos.ay = -a;
+    if (human) {
+      human->pos.ay = -a;
     }
     if (guy) {
       guy->pos.ax = -a;	//orig ay
@@ -233,8 +233,8 @@ void User::changePosition(const float lastings[])
     }
   }
   else if (pos.z < 1) { // near the ground
-    if (man) {
-      man->pos.ay = 0;
+    if (human) {
+      human->pos.ay = 0;
     }
     if (guy) {
       guy->pos.ax = 0;  //orig ay

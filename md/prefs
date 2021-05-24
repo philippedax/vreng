@@ -3,11 +3,12 @@
 #
 
 # my body model
-# 5 available models : guy, android, man, box, default=guy
-# model=box
-# model=man
+# 5 available models : guy, android, human, box, bbox, default=guy
 # model=guy
+# model=human
 # model=android
+# model=box
+# model=bbox
 model=guy
 
 # my head model

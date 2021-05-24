@@ -42,7 +42,7 @@
 #include "rtp.hpp"	// RTPNAME_LEN
 #include "pref.hpp"	// user
 #include "color.hpp"	// Color
-#include "man.hpp"	// Man
+#include "human.hpp"	// Human
 #include "guy.hpp"	// Guy
 #include "entry.hpp"	// query
 #include "halo.hpp"	// Halo
@@ -87,7 +87,7 @@ void User::defaults()
   carrier = NULL;
   cart = NULL;
   bubble = NULL;
-  man = NULL;
+  human = NULL;
   guy = NULL;
   android = NULL;
   head = NULL;
@@ -151,6 +151,7 @@ void User::setView(uint8_t view)
 void User::makeSolid()
 {
   char s[256];
+
   memset(s, 0, sizeof(s));
   memset(mensuration, 0, sizeof(mensuration));
 
@@ -160,6 +161,7 @@ void User::makeSolid()
   if (pref->my_widthstr)	width = atof(pref->my_widthstr);
   if (pref->my_depthstr)	depth = atof(pref->my_depthstr);
   if (pref->my_heightstr)	height = atof(pref->my_heightstr);
+
   if (::g.skinf) {
     if (pref->my_mapfrontstr)	front = strdup(pref->my_mapfrontstr);
     else			front = strdup(::g.skinf);
@@ -191,13 +193,13 @@ void User::makeSolid()
   if (pref->my_bapsstr)		baps = strdup(pref->my_bapsstr);
 
   if (isalpha(*model)) {	// model is defined in ~./.vreng/prefs
-    // 5 available models : guy, man, android, box, bbox
+    // 5 available models : guy, human, android, box, bbox
     if (! strcmp(model, "guy")) {
       guy = new Guy();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
-    else if (! strcmp(model, "man")) {
-      man = new Man(width/2, depth/2, height/2);
+    else if (! strcmp(model, "human")) {
+      human = new Human();
       sprintf(mensuration, "shape=\"man\" size=\"%.2f %.2f %.2f\"", width/2, depth/2, height/2);
     }
     else if (! strcmp(model, "android")) {
@@ -359,7 +361,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   int idxvar = pp->tellPayload();	// note begin of var
   trace(DBG_WO, "idxvar=%d[%02x]", idxvar, idxvar);
   if (((idxgeom = pp->tellStrInPayload("shape=\"box\" size=")) > 0) ||
-      ((idxgeom = pp->tellStrInPayload("shape=\"man\" size=")) > 0) ||
+      ((idxgeom = pp->tellStrInPayload("shape=\"Human\" size=")) > 0) ||
       ((idxgeom = pp->tellStrInPayload("shape=\"guy\" size=")) > 0)
      ) {
     /* get replicated user characteristics from the network */
@@ -537,11 +539,14 @@ void User::changePosition(float lasting)
   pos.y += lasting * move.lspeed.v[1];
   pos.z += lasting * move.lspeed.v[2];
   pos.az += lasting * move.aspeed.v[0];
-  if (localuser->man) {
-    localuser->man->pos = pos;
+  updatePosition();
+  if (localuser->human) {
+    localuser->human->pos = pos;
+    localuser->human->updatePosition();
   }
   if (localuser->bubble) {
     localuser->bubble->setPosition();
+    localuser->bubble->updatePosition();
   }
 }
 
