@@ -188,7 +188,7 @@ void Mirror::mirroredScene()
        glRotatef(-RAD2DEG(pos.ay), 0,1,0);
        glTranslatef(-pos.x, -pos.y, -pos.z);
        glScalef(1, -1, 1);
-       (*o)->getSolid()->displayVirtual();
+       (*o)->getSolid()->displayNormual();
       glPopMatrix();
     }
   }
@@ -196,10 +196,10 @@ void Mirror::mirroredScene()
   n++;
   //dax glPushMatrix();
    // Displays avatar
-   //dax if (localuser->android)  localuser->android->getSolid()->displayVirtual();
-   //dax else if (localuser->guy) localuser->guy->getSolid()->displayVirtual();
-   //dax else if (localuser->man) localuser->getSolid()->displayVirtual();
-   //dax else glCallList(localuser->getSolid()->displayVirtual());
+   //dax if (localuser->android)  localuser->android->getSolid()->displayNormual();
+   //dax else if (localuser->guy) localuser->guy->getSolid()->displayNormual();
+   //dax else if (localuser->man) localuser->getSolid()->displayNormual();
+   //dax else glCallList(localuser->getSolid()->displayNormual());
   //dax glPopMatrix();
 }
 

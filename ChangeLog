@@ -15,6 +15,8 @@ The rules for this file:
 ++ 9
 == 9.2
 -- 9.2.0
+	- added new object #84 : human
+	(2021/05/24, Philippe Dax)
 	- rewrited model/bone* to bone.cpp and bone.hpp"
 	- fixed rendering guide both specific and normal
 	- added compFrame to sort solids by increasing order of frames

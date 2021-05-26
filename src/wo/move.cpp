@@ -222,24 +222,26 @@ void User::changePosition(const float lastings[])
   //dax float ground = World::current()->getGround();
   //dax float h = pos.z - ground;  // vertical distance
   float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
-  if (pos.z > 2) {	// >2 m
-    if (human) {
-      human->pos.ay = -a;
+  if (this == localuser) {
+    if (pos.z > 2) {	// >2 m
+      if (human) {
+        human->pos.ay = -a;
+      }
+      if (guy) {
+        guy->pos.ax = -a;	//orig ay
+        guy->setAniming(true);
+        guy->setFlying(true);
+      }
     }
-    if (guy) {
-      guy->pos.ax = -a;	//orig ay
-      guy->setAniming(true);
-      guy->setFlying(true);
-    }
-  }
-  else if (pos.z < 1) { // near the ground
-    if (human) {
-      human->pos.ay = 0;
-    }
-    if (guy) {
-      guy->pos.ax = 0;  //orig ay
-      guy->setAniming(false);
-      guy->setFlying(false);
+    else if (pos.z < 1) { // near the ground
+      if (human) {
+        human->pos.ay = 0;
+      }
+      if (guy) {
+        guy->pos.ax = 0;  //orig ay
+        guy->setAniming(false);
+        guy->setFlying(false);
+      }
     }
   }
 }
