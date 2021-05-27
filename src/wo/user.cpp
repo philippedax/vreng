@@ -198,20 +198,24 @@ void User::makeSolid()
       guy = new Guy();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
-    else if (! strcmp(model, "human")) {
-      human = new Human();
-      sprintf(mensuration, "shape=\"man\" size=\"%.2f %.2f %.2f\"", width/2, depth/2, height/2);
-    }
     else if (! strcmp(model, "android")) {
       android = new Android();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
+    }
+    else if (! strcmp(model, "human")) {
+      human = new Human();
+      sprintf(mensuration, "shape=\"human\" size=\"%.2f %.2f %.2f\"", width/2, depth/2, height/2);
     }
     else if (! strcmp(model, "box")) {
       sprintf(mensuration, "shape=\"box\" size=\"%.2f %.2f %.2f\" yp=\"%s\" xp=\"%s\"",
                             depth, width, height, front, back);
     }
-    else {
+    else if (! strcmp(model, "bbox")) {
       sprintf(mensuration, "shape=\"bbox\" size=\"%.2f %.2f %.2f\"", width, depth, height);
+    }
+    else {
+      guy = new Guy();
+      sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
   }
   else {	// take the default

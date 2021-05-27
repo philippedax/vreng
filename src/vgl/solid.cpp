@@ -1584,29 +1584,24 @@ int Solid::displayList(int display_mode = NORMAL)
 
      if (wobject->type == USER_TYPE) {	// if localuser
        User *user = (User *) wobject;
-       glPushMatrix();
        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
        glRotatef(RAD2DEG(-user->pos.ax), 1, 0, 0);
        glRotatef(RAD2DEG(-user->pos.ay), 0, 1, 0);
        glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
 
        glCallList(dlists[frame]);	// display the localuser here !!!
-
-       glPopMatrix();
      }
      else {			// normal solid
        glEnable(GL_DEPTH_TEST);
-       glDepthMask(GL_TRUE);
        glDepthFunc(GL_LESS);
+       glDepthMask(GL_TRUE);
 
-       glPushMatrix();
-        glTranslatef(pos[0], pos[1], pos[2]);     // x y z
-        glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
-        glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
-        if (scalex != 1 || scaley != 1 || scalez != 1) {
-          glScalef(scalex, scaley, scalez);
-        }
-       glPopMatrix();
+       glTranslatef(pos[0], pos[1], pos[2]);     // x y z
+       glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
+       glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
+       if (scalex != 1 || scaley != 1 || scalez != 1) {
+         glScalef(scalex, scaley, scalez);
+       }
 
        if (texid >= 0) {
          glEnable(GL_TEXTURE_2D);
