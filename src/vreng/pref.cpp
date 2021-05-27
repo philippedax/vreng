@@ -32,33 +32,33 @@
 static const char HELPSTRING[] = "\
 Usage: vreng [options]\n\
 where options are:\n\
--a, --avatar model		Avatar model (human | guy | android | box)\n\
+-a, --avatar model		Avatar model [guy | android | human | box]\n\
 -b, --bbox	 		Draw bounding-boxes\n\
--d, --debug mask 		Debug mask\n\
+-d, --debug mask 		Debug mask [1,3,7,15,31,63, ...]\n\
 -f, --frames rate		Max frames per second [1..255]\n\
 -g, --nogravity			Without gravity\n\
 -h, --help			Help message and exit\n\
--i, --infogl			Infos OpenGL (show)\n\
--k, --keepcache			Do not keep *.vre in cache\n\
+-i, --infogl			Infos OpenGL [show]\n\
+-k, --keepcache			Do not keep *.vre in cache, force to download\n\
 -l, --listcache			List the cache and exit\n\
--n, --number number		Number of simultaneous threads [1..7]\n\
+-n, --number number		Number of simultaneous http threads [1..7]\n\
 -p, --pseudo name		Your pseudoname\n\
--q, --quality			high 3D quality, if you have a 3D card\n\
+-q, --quality			high OpenGL quality, if you have a graphic 3D card\n\
 -r, --refresh			Refresh the cache\n\
 -s, --silent			No sounds effects\n\
 -t, --trace			Trace for debugging\n\
 -u, --universe url		Universe url of httpd server\n\
 -v, --version			Version number\n\
--w, --world url			World url (http://, file://)\n\
+-w, --world url			World url [http://, file://]\n\
 -2, --fullscreen		Screen double size\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
 -C, --clean			Clean cache\n\
 -E, --expand			Expand palettes (GUI)\n\
--F, --fast			Without persistency (MySql)\n\
+-F, --fast			Without persistency (MySql/Sqlite)\n\
 -M, --multicast			MBone IP Multicast mode\n\
--P, --progress			Progression indicators (show)\n\
+-P, --progress			Progression indicators [show]\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
--S, --stats			Stats when quiting (show)\n\
+-S, --stats			Stats when quiting [show]\n\
 -T, --timetolive days		Cache time in days\n\
 ";
 
