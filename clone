@@ -6,26 +6,31 @@
 #
 p=$(basename $0)
 
+usage()
+{
+  echo "usage: $p github | gitlab | bitbucket"
+}
+
 case $# in
 0)
-  echo "usage: $p github | gitlab | bitbucket"
+  usage
   ;;
 1)
   case $1 in
   github)
-    rm -rf github
-    git clone https://github.com/philippedax/vreng.git github
+    rm -rf $1
+    git clone https://github.com/philippedax/vreng.git $1
     ;;
   gitlab)
-    rm -rf gitlab
-    git clone https://gitlab.freedesktop.org/philippedax/vreng.git gitlab
+    rm -rf $1
+    git clone https://gitlab.freedesktop.org/philippedax/vreng.git $1
     ;;
   bitbucket)
-    rm -rf bitbucket
-    git clone https://bitbucket.org/philippedax/vreng/src/master/ bitbucket
+    rm -rf $1
+    git clone https://bitbucket.org/philippedax/vreng/src/master/ $1
     ;;
   *)
-    echo "usage: $p github | gitlab | bitbucket"
+    usage
     ;;
   esac
 esac
