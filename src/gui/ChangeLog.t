@@ -15,6 +15,9 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.2\n\
+-- 9.3.0\n\
+	(2021/05/28, Philippe Dax)\n\
+\n\
 -- 9.2.0\n\
 	- added new object #84 : human\n\
 	(2021/05/24, Philippe Dax)\n\
