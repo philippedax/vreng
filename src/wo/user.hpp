@@ -56,10 +56,10 @@ public:
   static const uint8_t MESS_LEN = 255;
   static const uint8_t MENSURATIONLEN = 64;
 
-  class Human *human;		///< Man avatar model.
-  class Guy *guy;		///< Guy avatar model.
-  class Android *android;	///< Android avatar model.
-  class Head *head;		///< Head avatar model.
+  class Human *human;		///< Human avatar
+  class Guy *guy;		///< Guy avatar
+  class Android *android;	///< Android avatar
+  class Head *head;		///< Head avatar
   
 protected:
   friend class WObject;
@@ -73,7 +73,7 @@ protected:
   char  *right;		///< url body right.
   char  *vre;		///< url vre.
   char  *host;		///< url host.
-  char  *model;		///< url model.
+  char  *avatar;	///< avatar str.
   char  *face;		///< url face.
   char  *sex;		///< sex.
   char  *headurl;	///< url head.
@@ -333,7 +333,7 @@ private:
   static void get_mapright(User *pu, Payload *pp);
   static void get_vre(User *pu, Payload *pp);
   static void get_web(User *pu, Payload *pp);
-  static void get_model(User *pu, Payload *pp);
+  static void get_avatar(User *pu, Payload *pp);
   static void get_face(User *pu, Payload *pp);
   static void get_sex(User *pu, Payload *pp);
   static void get_head(User *pu, Payload *pp);
@@ -354,7 +354,7 @@ private:
   static void put_mapright(User *pu, Payload *pp);
   static void put_vre(User *pu, Payload *pp);
   static void put_web(User *pu, Payload *pp);
-  static void put_model(User *pu, Payload *pp);
+  static void put_avatar(User *pu, Payload *pp);
   static void put_face(User *pu, Payload *pp);
   static void put_sex(User *pu, Payload *pp);
   static void put_head(User *pu, Payload *pp);

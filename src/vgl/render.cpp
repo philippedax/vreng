@@ -35,6 +35,7 @@
 #include "grid.hpp"	// Grid
 #include "axis.hpp"	// Axis
 #include "light.hpp"	// lights
+#include "human.hpp"	// human
 
 #include <vector>
 #include <list>
@@ -329,10 +330,18 @@ void Render::renderUser()
   for (list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
     putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
+      error("specific: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
       (*it)->object()->render();
     }
     else {
-      (*it)->displaySolid(Solid::USER);
+      //error("general: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
+      if ( localuser->human ) {	// exception
+        //(*it)->vr2gl();
+        localuser->human->render();
+      }
+      else {
+        (*it)->displaySolid(Solid::USER);
+      }
     }
     (*it)->setRendered(true);
     trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
@@ -392,7 +401,10 @@ void Render::renderSolids()
         modelList.push_back(*it);	// add to model list
       }
       else if ( (*it)->object()->type == USER_TYPE ) {
-        userList.push_back(*it);	// add to user list
+      //else if (! strcmp((*it)->object()->getInstance(), localuser->getInstance())) {
+        //if ( (*it)->object() == localuser ) {
+          userList.push_back(*it);	// add to user list
+        //}
       }
       else {
         opaqueList.push_back(*it);	// add to opaque list

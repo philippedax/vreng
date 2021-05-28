@@ -176,8 +176,8 @@ void User::makeSolid()
   else				{ vre = strdup(" "); *vre = 0; }
   if (pref->my_webstr)		web = strdup(pref->my_webstr);
   else				{ web = strdup(" "); *web = 0; }
-  if (pref->my_avatar)		model = strdup(pref->my_avatar);
-  else				{ model = strdup(" "); *model = 0; }
+  if (pref->my_avatar)		avatar = strdup(pref->my_avatar);
+  else				{ avatar = strdup(" "); *avatar = 0; }
   if (pref->my_facestr)		face = strdup(pref->my_facestr);
   else				{ face = strdup(" "); *face = 0; }
   if (pref->my_sexstr)		sex = strdup(pref->my_sexstr);
@@ -192,25 +192,25 @@ void User::makeSolid()
   else				{ color = strdup(" "); *color = 0; }
   if (pref->my_bapsstr)		baps = strdup(pref->my_bapsstr);
 
-  if (isalpha(*model)) {	// model is defined in ~./.vreng/prefs
-    // 5 available models : guy, human, android, box, bbox
-    if (! strcmp(model, "guy")) {
+  if (isalpha(*avatar)) {	// avatar is defined in ~./.vreng/prefs
+    // 5 available avatar : guy, human, android, box, bbox
+    if (! strcmp(avatar, "guy")) {
       guy = new Guy();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
-    else if (! strcmp(model, "android")) {
+    else if (! strcmp(avatar, "android")) {
       android = new Android();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
-    else if (! strcmp(model, "human")) {
+    else if (! strcmp(avatar, "human")) {
       human = new Human();
       sprintf(mensuration, "shape=\"human\" size=\"%.2f %.2f %.2f\"", width/2, depth/2, height/2);
     }
-    else if (! strcmp(model, "box")) {
+    else if (! strcmp(avatar, "box")) {
       sprintf(mensuration, "shape=\"box\" size=\"%.2f %.2f %.2f\" yp=\"%s\" xp=\"%s\"",
                             depth, width, height, front, back);
     }
-    else if (! strcmp(model, "bbox")) {
+    else if (! strcmp(avatar, "bbox")) {
       sprintf(mensuration, "shape=\"bbox\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
     else {
@@ -365,7 +365,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   int idxvar = pp->tellPayload();	// note begin of var
   trace(DBG_WO, "idxvar=%d[%02x]", idxvar, idxvar);
   if (((idxgeom = pp->tellStrInPayload("shape=\"box\" size=")) > 0) ||
-      ((idxgeom = pp->tellStrInPayload("shape=\"Human\" size=")) > 0) ||
+      ((idxgeom = pp->tellStrInPayload("shape=\"human\" size=")) > 0) ||
       ((idxgeom = pp->tellStrInPayload("shape=\"guy\" size=")) > 0)
      ) {
     /* get replicated user characteristics from the network */
@@ -387,7 +387,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
     noh->getProperty(/* 23 */ PROPRAY, pp);
     idxend = pp->tellPayload();	// note end of properties
 
-    if (isalpha(*model))
+    if (isalpha(*avatar))
       sprintf(s, "%s />", mensuration);
     else
       sprintf(s, "%s yp=\"%s\" xp=\"%s\" />", mensuration, front, back);
@@ -423,7 +423,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   addGui();
 
   trace(DBG_WO, "Replica: web=%s vre=%s", web, vre);
-  trace(DBG_WO, "Replica: model=%s face=%s", model, face);
+  trace(DBG_WO, "Replica: avatar=%s face=%s", avatar, face);
   trace(DBG_WO, "replica: type=%s given=%s name=%s ssrc=%x rtcpname=%s email=%s",
         names.type, names.given, getInstance(), ssrc, rtcpname, email);
 }
@@ -436,7 +436,7 @@ void User::getMemory()
   right    = new char[URL_LEN];
   vre      = new char[URL_LEN];
   web      = new char[URL_LEN];
-  model    = new char[URL_LEN];
+  avatar   = new char[URL_LEN];
   face     = new char[URL_LEN];
   headurl  = new char[URL_LEN];
   sex      = new char[8];
@@ -468,7 +468,7 @@ User::~User()
   if (right)   delete right;
   if (vre)     delete vre;
   if (web)     delete web;
-  if (model)   delete model;
+  if (avatar)  delete avatar;
   if (face)    delete face;
   if (sex)     delete sex;
   if (headurl) delete headurl;
@@ -1010,8 +1010,8 @@ void User::get_vre(User *pu, Payload *pp)
 void User::get_web(User *pu, Payload *pp)
 { if (pu) pp->getPayload("s", pu->web); }
 
-void User::get_model(User *pu, Payload *pp)
-{ if (pu) pp->getPayload("s", pu->model); }
+void User::get_avatar(User *pu, Payload *pp)
+{ if (pu) pp->getPayload("s", pu->avatar); }
 
 void User::get_face(User *pu, Payload *pp)
 { if (pu) pp->getPayload("s", pu->face); }
@@ -1089,8 +1089,8 @@ void User::put_vre(User *pu, Payload *pp)
 void User::put_web(User *pu, Payload *pp)
 { if (pu) pp->putPayload("s", pu->web); }
 
-void User::put_model(User *pu, Payload *pp)
-{ if (pu) pp->putPayload("s", pu->model); }
+void User::put_avatar(User *pu, Payload *pp)
+{ if (pu) pp->putPayload("s", pu->avatar); }
 
 void User::put_face(User *pu, Payload *pp)
 { if (pu) pp->putPayload("s", pu->face); }
@@ -1148,7 +1148,7 @@ void User::funcs()
   getPropertyFunc(USER_TYPE, PROPSSRC, WO_PAYLOAD get_ssrc);
   getPropertyFunc(USER_TYPE, PROPRTCPNAME, WO_PAYLOAD get_rtcpname);
   getPropertyFunc(USER_TYPE, PROPRTCPEMAIL, WO_PAYLOAD get_rtcpemail);
-  getPropertyFunc(USER_TYPE, PROPMODEL, WO_PAYLOAD get_model);
+  getPropertyFunc(USER_TYPE, PROPMODEL, WO_PAYLOAD get_avatar);
   getPropertyFunc(USER_TYPE, PROPFACE, WO_PAYLOAD get_face);
   getPropertyFunc(USER_TYPE, PROPSEX, WO_PAYLOAD get_sex);
   getPropertyFunc(USER_TYPE, PROPHEAD, WO_PAYLOAD get_head);
@@ -1173,7 +1173,7 @@ void User::funcs()
   putPropertyFunc(USER_TYPE, PROPSSRC, WO_PAYLOAD put_ssrc);
   putPropertyFunc(USER_TYPE, PROPRTCPNAME, WO_PAYLOAD put_rtcpname);
   putPropertyFunc(USER_TYPE, PROPRTCPEMAIL, WO_PAYLOAD put_rtcpemail);
-  putPropertyFunc(USER_TYPE, PROPMODEL, WO_PAYLOAD put_model);
+  putPropertyFunc(USER_TYPE, PROPMODEL, WO_PAYLOAD put_avatar);
   putPropertyFunc(USER_TYPE, PROPFACE, WO_PAYLOAD put_face);
   putPropertyFunc(USER_TYPE, PROPSEX, WO_PAYLOAD put_sex);
   putPropertyFunc(USER_TYPE, PROPHEAD, WO_PAYLOAD put_head);

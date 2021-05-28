@@ -33,6 +33,7 @@
 #include "user.hpp"	// localuser
 #include "md2.hpp"	// Md2
 #include "obj.hpp"	// Obj
+#include "guy.hpp"	// Guy
 #include "human.hpp"	// Human::draw
 #include "man.hpp"	// Man::draw
 #include "car.hpp"	// draw
@@ -43,7 +44,6 @@
 #include "pref.hpp"	// ::g.pref
 #include "android.hpp"	// render
 #include "body.hpp"	// render
-#include "guy.hpp"	// Guy
 #include "flare.hpp"	// render
 
 #include <list>
@@ -178,7 +178,7 @@ static const struct sStokens stokens[] = {
   { "box", "cube", STOK_BOX },
   { "man", "human", STOK_MAN },
   { "guy", "boy", STOK_GUY },
-  { "android", "droid", STOK_ANDROID },
+  { "android", "android", STOK_ANDROID },
   { "car", "car", STOK_CAR },
   { "sphere", "ball", STOK_SPHERE },
   { "cone", "cylinder", STOK_CONE },
@@ -318,7 +318,8 @@ Solid::Solid()
   userdist = 0;		// distance to localuser
   surfsize = 0;		// surface of solid
   ray_dlist = 0;	// ray display-list
-  rendered = false;	// flag if alredy rendered
+  rendered = false;	// flag if already rendered
+
   ::g.render.relsolidList.push_back(this);	// add solid to relsolidList
   nbsolids = ::g.render.relsolidList.size();	// number of solids
 
@@ -1584,24 +1585,25 @@ int Solid::displayList(int display_mode = NORMAL)
 
      if (wobject->type == USER_TYPE) {	// if localuser
        User *user = (User *) wobject;
+       glPushMatrix();
        glTranslatef(user->pos.x, user->pos.y, user->pos.z);     // x y z
-       glRotatef(RAD2DEG(-user->pos.ax), 1, 0, 0);
-       glRotatef(RAD2DEG(-user->pos.ay), 0, 1, 0);
-       glRotatef(RAD2DEG(-user->pos.az), 0, 0, 1);
 
        glCallList(dlists[frame]);	// display the localuser here !!!
+       glPopMatrix();
      }
      else {			// normal solid
        glEnable(GL_DEPTH_TEST);
        glDepthFunc(GL_LESS);
        glDepthMask(GL_TRUE);
 
-       glTranslatef(pos[0], pos[1], pos[2]);     // x y z
-       glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
-       glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
-       if (scalex != 1 || scaley != 1 || scalez != 1) {
-         glScalef(scalex, scaley, scalez);
-       }
+       glPushMatrix();
+        glTranslatef(pos[0], pos[1], pos[2]);     // x y z
+        glRotatef(RAD2DEG(pos[3]), 0, 0, 1);      // az
+        glRotatef(RAD2DEG(pos[4]), 1, 0, 0);      // ax
+        if (scalex != 1 || scaley != 1 || scalez != 1) {
+          glScalef(scalex, scaley, scalez);
+        }
+       glPopMatrix();
 
        if (texid >= 0) {
          glEnable(GL_TEXTURE_2D);
@@ -1621,7 +1623,6 @@ int Solid::displayList(int display_mode = NORMAL)
        }
 
        glCallList(dlists[frame]);	// display the object here !!!
-
      }
      glPopMatrix();
      break;

@@ -183,7 +183,7 @@ void Human::draw()
 
   dlist = glGenLists(1);
   glNewList(dlist, GL_COMPILE);
-  for (int i=0; i < (sizeof(faces) / sizeof(faces[0])); i++) {
+  for (int i=0; i < (sizeof(faces)/sizeof(faces[0])); i++) {
     glBegin(GL_TRIANGLES);
     if (vc == 0) {
       setMaterial(manpart[part].mat);
@@ -209,7 +209,7 @@ void Human::render()
   glPushMatrix();
    glTranslatef(pos.x, pos.y, pos.z);
    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-   glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);    // stand up
+   glRotatef(RAD2DEG(pos.ax) + 90, 1, 0, 0);    // stand up
 
    glCallList(dlist);	// draw human display list
 
