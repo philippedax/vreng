@@ -28,7 +28,7 @@
 #include "user.hpp"	// localuser
 #include "pref.hpp"	// Pref
 
-#include "man.data"	// vertices, texcoord, normals, triangles
+#include "man.data"	// vgl/man.data : vertices, texcoord, normals, triangles
 // 462 Verticies
 // 526 Texture Coordinates
 // 775 Normals
@@ -124,7 +124,6 @@ void Human::parser(char *l)
     //else if (! stringcmp(l, "skin=")) l = parse()->parseVector3f(l, skin_color, "skin");
     //else if (! stringcmp(l, "bust=")) l = parse()->parseVector3f(l, bust_color, "bust");
     //else if (! stringcmp(l, "legs=")) l = parse()->parseVector3f(l, legs_color, "legs");
-    //else if (! stringcmp(l, "feet=")) l = parse()->parseVector3f(l, feet_color, "feet");
   }
   end_while_parse(l);
 }
@@ -142,6 +141,7 @@ void Human::behavior()
 void Human::changePermanent(float lasting)
 {
   if (usercontrol && localuser) {
+    // follow localuser movement
     pos.x = localuser->pos.x;
     pos.y = localuser->pos.y;
     pos.z = localuser->pos.z;
@@ -152,13 +152,13 @@ void Human::changePermanent(float lasting)
 
 void Human::myMaterial(GLenum mode, float *rgb, float alpha)
 {
-  float color4[4];
+  float color[4];
 
-  color4[0] = rgb[0];
-  color4[1] = rgb[1];
-  color4[2] = rgb[2];
-  color4[3] = alpha;
-  glMaterialfv(GL_FRONT_AND_BACK, mode, color4);
+  color[0] = rgb[0];
+  color[1] = rgb[1];
+  color[2] = rgb[2];
+  color[3] = alpha;
+  glMaterialfv(GL_FRONT_AND_BACK, mode, color);
 }
 
 /* Sets the material properties of the 3D Object */
@@ -176,34 +176,32 @@ void Human::setMaterial(int i)
 /* Draws man */
 void Human::draw()
 {
-  int vcount = 0, part = 0;
+  int vc = 0, part = 0;
 
-  //glPushMatrix();
   glRotatef(90, 0,0,1);
   glRotatef(90, 1,0,0);	// stand up /x axis
 
   dlist = glGenLists(1);
   glNewList(dlist, GL_COMPILE);
-  for (int i=0; i < (int)(sizeof(faces) / sizeof(faces[0])); i++) {
+  for (int i=0; i < (sizeof(faces) / sizeof(faces[0])); i++) {
     glBegin(GL_TRIANGLES);
-    if (vcount == 0) {
+    if (vc == 0) {
       setMaterial(manpart[part].mat);
-      vcount = manpart[part].vcount;
+      vc = manpart[part].vcount;
       part++;
     }
-    vcount--;
+    vc--;
     for (int j=0; j<3 ; j++) {
       int vi = faces[i][j];	//Vertex index
       int ni = faces[i][j+3];	//Normal index
       int ti = faces[i][j+6];	//Texture index
+      glVertex3f(vertices[vi][0], vertices[vi][1], vertices[vi][2]);
       glNormal3f(normals[ni][0], normals[ni][1], normals[ni][2]);
       glTexCoord2f(texcoords[ti][0], texcoords[ti][1]);
-      glVertex3f(vertices[vi][0], vertices[vi][1], vertices[vi][2]);
     }
     glEnd();
   }
   glEndList();
-  //glPopMatrix();
 }
 
 void Human::render()
@@ -213,7 +211,7 @@ void Human::render()
    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
    glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);    // stand up
 
-   glCallList(dlist);
+   glCallList(dlist);	// draw human display list
 
   glPopMatrix();
 }
