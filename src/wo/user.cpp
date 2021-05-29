@@ -205,6 +205,7 @@ void User::makeSolid()
     else if (! strcmp(avatar, "human")) {
       human = new Human();
       sprintf(mensuration, "shape=\"human\" size=\"%.2f %.2f %.2f\"", width/2, depth/2, height/2);
+      enableBehavior(SPECIFIC_RENDER);
     }
     else if (! strcmp(avatar, "box")) {
       sprintf(mensuration, "shape=\"box\" size=\"%.2f %.2f %.2f\" yp=\"%s\" xp=\"%s\"",
@@ -628,6 +629,13 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
     pcur->updatePositionAndGrid(pold);
   }
   return true;
+}
+
+void User::render()
+{
+  if (human) {
+    human->render();
+  }
 }
 
 void User::setRayDirection(GLint wx, GLint wy)

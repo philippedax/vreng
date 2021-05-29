@@ -172,27 +172,28 @@ void Man::setMaterial(int i)
 /* Draws man */
 void Man::draw()
 {
-  int vcount = 0, part = 0;
+  int vc = 0, part = 0;
 
+  //error("man::draw");
   glPushMatrix();
   glRotatef(90, 0,0,1);
   glRotatef(90, 1,0,0);	// stand up /x axis
 
-  for (int i=0; i < (int)(sizeof(faces) / sizeof(faces[0])); i++) {
+  for (int i=0; i < (sizeof(faces)/sizeof(faces[0])); i++) {
     glBegin(GL_TRIANGLES);
-    if (vcount == 0) {
+    if (vc == 0) {
       setMaterial(manpart[part].mat);
-      vcount = manpart[part].vcount;
+      vc = manpart[part].vcount;
       part++;
     }
-    vcount--;
+    vc--;
     for (int j=0; j<3 ; j++) {
       int vi = faces[i][j];	//Vertex index
       int ni = faces[i][j+3];	//Normal index
       int ti = faces[i][j+6];	//Texture index
+      glVertex3f(vertices[vi][0], vertices[vi][1], vertices[vi][2]);
       glNormal3f(normals[ni][0], normals[ni][1], normals[ni][2]);
       glTexCoord2f(texcoords[ti][0], texcoords[ti][1]);
-      glVertex3f(vertices[vi][0], vertices[vi][1], vertices[vi][2]);
     }
     glEnd();
   }

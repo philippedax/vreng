@@ -250,6 +250,7 @@ public:
   virtual bool hasHead();
   /**< Returns boolean. */
 
+  virtual void render();
 
 private:
   virtual void setView(uint8_t view);
