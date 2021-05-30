@@ -122,6 +122,9 @@ private:
   
   virtual void behavior();
   /**< Sets behavior. */
+  
+  virtual void makeSolid();
+  /**< Makes solid. */
 
   static void myMaterial(GLenum mode, float *f, float alpha);
 

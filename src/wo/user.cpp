@@ -633,9 +633,14 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
 
 void User::render()
 {
+#if 0 //dax2
+  if (guy) {
+    guy->render();
+  }
   if (human) {
     human->render();
   }
+#endif
 }
 
 void User::setRayDirection(GLint wx, GLint wy)

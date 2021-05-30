@@ -99,6 +99,7 @@ Human::Human()
   if (pref->my_heightstr)       height = atof(pref->my_heightstr);
   usercontrol = true;
   behavior();
+  makeSolid();
   dlist = -1;
 }
 
@@ -136,6 +137,14 @@ void Human::behavior()
 
   initMobileObject(0);
   enablePermanentMovement();
+}
+
+void Human::makeSolid()
+{
+  char s[128];
+
+  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", width/2, depth/2, height/2);
+  parse()->parseSolid(s, SEP, this);
 }
 
 void Human::changePermanent(float lasting)
