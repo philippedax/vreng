@@ -187,11 +187,11 @@ void Human::draw()
 {
   int vc = 0, part = 0;
 
-  glRotatef(90, 0,0,1);
-  glRotatef(90, 1,0,0);	// stand up /x axis
+  //dax glRotatef(90, 0,0,1);
+  //dax glRotatef(90, 1,0,0);	// stand up /x axis
 
   dlist = glGenLists(1);
-  glNewList(dlist, GL_COMPILE);
+  //dax glNewList(dlist, GL_COMPILE);
   for (int i=0; i < (sizeof(faces)/sizeof(faces[0])); i++) {
     glBegin(GL_TRIANGLES);
     if (vc == 0) {
@@ -210,17 +210,18 @@ void Human::draw()
     }
     glEnd();
   }
-  glEndList();
+  //dax glEndList();
 }
 
 void Human::render()
 {
   glPushMatrix();
    glTranslatef(pos.x, pos.y, pos.z);
-   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
+   glRotatef(RAD2DEG(pos.az) + 180, 0, 0, 1);	// orientation forward
    glRotatef(RAD2DEG(pos.ax) + 90, 1, 0, 0);    // stand up
 
-   glCallList(dlist);	// draw human display list
+   //dax glCallList(dlist);	// draw human display list
+   draw();			//dax draw directly
 
   glPopMatrix();
 }

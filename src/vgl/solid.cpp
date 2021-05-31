@@ -851,7 +851,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
     case STOK_MAN:
       if (localuser->human) {
-        localuser->human->draw();
+        //dax localuser->human->draw();
       }
       else {
         Man *man = new Man();
