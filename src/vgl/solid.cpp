@@ -850,10 +850,13 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_MAN:
+#if 0 //dax2
       if (localuser->human) {
         //dax localuser->human->draw();
       }
       else {
+#endif
+      {
         Man *man = new Man();
         man->draw();
       }
