@@ -143,7 +143,7 @@ void Human::makeSolid()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", width/2, depth/2, height/2);
+  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", width, depth, height);
   parse()->parseSolid(s, SEP, this);
 }
 
@@ -219,6 +219,7 @@ void Human::render()
    glTranslatef(pos.x, pos.y, pos.z);
    glRotatef(RAD2DEG(pos.az) + 180, 0, 0, 1);	// orientation forward
    glRotatef(RAD2DEG(pos.ax) + 90, 1, 0, 0);    // stand up
+   glScalef(.9, .9, .9);
 
    //dax glCallList(dlist);	// draw human display list
    draw();			//dax draw directly
@@ -256,14 +257,13 @@ void Human::pointing(int dir[3])
   rotz = psi;
 
   glPushMatrix();
-  draw();
+   glTranslatef(posx, posy, posz);
+   glRotatef(rotx, 1,0,0);
+   glRotatef(roty, 0,1,0);
+   glRotatef(rotz, 0,0,1);
 
-  glTranslatef(posx, posy, posz);
-  glRotatef(rotx, 1,0,0);
-  glRotatef(roty, 0,1,0);
-  glRotatef(rotz, 0,0,1);
-
-  //handPointing();
+   draw();
+   //handPointing();
   glPopMatrix();
 }
 #endif

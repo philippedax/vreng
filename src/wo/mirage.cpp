@@ -86,7 +86,9 @@ void Mirage::parser(char *l)
       if (! stringcmp(modestr, "turn") || ! stringcmp(modestr, "self")) turn = true;
       if (! stringcmp(modestr, "roll")) roll = true;
       if (! stringcmp(modestr, "tilt")) tilt = true;
-      else if (! stringcmp(modestr, "refresh") || ! stringcmp(modestr, "volatile")) persist = false;
+      else if (! stringcmp(modestr, "refresh") || ! stringcmp(modestr, "volatile")) {
+        persist = false;
+      }
       else if (! stringcmp(modestr, "orbit")) {
         orbit = true;
         x0x0y0y0 = pos.x*pos.x + pos.y*pos.y;
@@ -120,8 +122,9 @@ void Mirage::behavior()
   enableBehavior(COLLIDE_NEVER);
 
   initMobileObject(1);
-  if (turn || roll || tilt || orbit || circular || flares)
+  if (turn || roll || tilt || orbit || circular || flares) {
     enablePermanentMovement();
+  }
 }
 
 /** Creation from xml file */

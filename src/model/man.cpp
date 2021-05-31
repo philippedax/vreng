@@ -178,6 +178,7 @@ void Man::draw()
   glPushMatrix();
   glRotatef(90, 0,0,1);
   glRotatef(90, 1,0,0);	// stand up /x axis
+  glScalef(.9, .9, .9);
 
   for (int i=0; i < (sizeof(faces)/sizeof(faces[0])); i++) {
     glBegin(GL_TRIANGLES);

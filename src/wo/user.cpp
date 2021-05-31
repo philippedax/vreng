@@ -204,7 +204,7 @@ void User::makeSolid()
     }
     else if (! strcmp(avatar, "human")) {
       human = new Human();
-      sprintf(mensuration, "shape=\"human\" size=\"%.2f %.2f %.2f\"", width/2, depth/2, height/2);
+      sprintf(mensuration, "shape=\"human\" size=\"%.2f %.2f %.2f\"", width, depth, height);
       enableBehavior(SPECIFIC_RENDER);
     }
     else if (! strcmp(avatar, "box")) {
