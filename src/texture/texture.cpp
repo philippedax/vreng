@@ -63,7 +63,8 @@ void Texture::update()
       }
       glBindTexture(GL_TEXTURE_2D, (*it)->id);
 
-      if (! (*it)->img->wellSized()) { /* image to resize */
+      if (! (*it)->img->wellSized()) {
+        /* image to resize */
         Img *img1 = NULL;
         if ((img1 = (*it)->img->resize(Img::SIZE, Img::SIZE)) == NULL) {
           //error("updateTextures: n=%d u=%s", (*it)->id, (*it)->url);
@@ -71,18 +72,20 @@ void Texture::update()
         }
         glTexImage2D(GL_TEXTURE_2D, 0, 3, img1->width, img1->height, 0,
                      GL_RGB, GL_UNSIGNED_BYTE, img1->pixmap);
-        if (img1) delete img1;
+        delete img1;
       }
       else {	/* image well sized */
         if (! (*it)->img->nummipmaps) {
+          /* no mipmap */
           glTexImage2D(GL_TEXTURE_2D, 0, 3, (*it)->img->width, (*it)->img->height, 0,
                        GL_RGB, GL_UNSIGNED_BYTE, (*it)->img->pixmap);
         }
         else {
-          GLsizei mipWidth = (*it)->img->width;
-          GLsizei mipHeight = (*it)->img->height;
-          int blockSize = ((*it)->img->channel == Img::RGB) ? 8 : 16;
-          int offset = 0;
+          /* have mipmap */
+          GLsizei mipw = (*it)->img->width;
+          GLsizei miph = (*it)->img->height;
+          int mipc = ((*it)->img->channel == Img::RGB) ? 8 : 16;
+          int off = 0;
 
           /* setup some parameters for texture filters and mipmapping */
           glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -90,14 +93,14 @@ void Texture::update()
 
           /* upload mipmaps to video memory */
           for (GLint mip = 0; mip < (*it)->img->nummipmaps; ++mip) {
-            GLsizei mipSize = ((mipWidth + 3) / 4) * ((mipHeight + 3) / 4) * blockSize;
+            GLsizei mips = ((mipw + 3) / 4) * ((miph + 3) / 4) * mipc;	// mip size
 
             glCompressedTexImage2D(GL_TEXTURE_2D, mip, (*it)->img->channel,
-                                   mipWidth, mipHeight, 0, mipSize,
-                                   (*it)->img->pixmap + offset);
-            mipWidth = MAX(mipWidth >> 1, 1);
-            mipHeight = MAX(mipHeight >> 1, 1);
-            offset += mipSize;
+                                   mipw, miph, 0, mips,
+                                   (*it)->img->pixmap + off);
+            mipw = MAX(mipw >> 1, 1);
+            miph = MAX(miph >> 1, 1);
+            off += mips;
           }
         }
       }
@@ -315,7 +318,6 @@ GLuint Texture::getIdByUrl(const char *url)
 
 GLuint Texture::getIdByObject(WObject *wo)
 {
-  //dax Texture::listTextures();
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->object == wo) {
       return (*it)->id;

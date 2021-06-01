@@ -25,11 +25,11 @@
 		accessory | android | animator | animx3d | aoi | area |
 		bgcolor | board | book | bumper | button | 
 		cauldron | clip | clock | cloud | cloth |
-		doc | door | dress |
+		doc | door | download | dress |
 		entry | escalator |
-		fire | firework | flag | fountain | fractal | ftp |
+		fire | firework | flag | fountain | fractal |
 		gate | ground | guide | guy | 
-		hairs | halo | hat | head | host |
+		hairs | halo | hat | head | host | human
 		lift | light | local |
 		mech | mirage | mirror | model | movie | music |
 		particle | plane |
@@ -170,6 +170,12 @@
 <!ATTLIST door		zclose	NMTOKEN #REQUIRED>
 <!ATTLIST door		speed	NMTOKEN "1">
 
+<!ELEMENT download	(solid)>
+<!ATTLIST download	pos	NMTOKENS #REQUIRED>
+<!ATTLIST download	name	NMTOKEN #IMPLIED>
+<!ATTLIST download	descr	NMTOKENS #IMPLIED>
+<!ATTLIST download	url	CDATA #REQUIRED>
+
 <!ELEMENT dress		(solid+)>
 <!ATTLIST dress		pos	NMTOKENS #REQUIRED>
 <!ATTLIST dress		name	NMTOKEN #IMPLIED>
@@ -228,12 +234,6 @@
 <!ATTLIST fractal	descr	NMTOKENS #IMPLIED>
 <!ATTLIST fractal	level	NMTOKEN #IMPLIED>
 <!ATTLIST fractal	color	NMTOKEN #IMPLIED>
-
-<!ELEMENT ftp		(solid)>
-<!ATTLIST ftp		pos	NMTOKENS #REQUIRED>
-<!ATTLIST ftp		name	NMTOKEN #IMPLIED>
-<!ATTLIST ftp		descr	NMTOKENS #IMPLIED>
-<!ATTLIST ftp		url	CDATA #REQUIRED>
 
 <!ELEMENT gate		(solid+)>
 <!ATTLIST gate		pos	NMTOKENS #REQUIRED>
@@ -299,6 +299,12 @@
 <!ATTLIST host		name	NMTOKEN #IMPLIED>
 <!ATTLIST host		descr	NMTOKENS #IMPLIED>
 <!ATTLIST host		host	NMTOKEN #REQUIRED>
+
+<!ELEMENT human		EMPTY>
+<!ATTLIST human		pos	NMTOKENS #REQUIRED>
+<!ATTLIST human		name	NMTOKEN #IMPLIED>
+<!ATTLIST human		descr	NMTOKENS #IMPLIED>
+<!ATTLIST human		skin	NMTOKEN #IMPLIED>
 
 <!ELEMENT lift		(solid+)>
 <!ATTLIST lift		pos	NMTOKENS #REQUIRED>
@@ -623,7 +629,7 @@
 <!ATTLIST solid		scalex	NMTOKEN "1">
 <!ATTLIST solid		scaley	NMTOKEN "1">
 <!ATTLIST solid		scalez	NMTOKEN "1">
-<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | man | guy | car | teapot | walls) "box">
+<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | human | man | guy | car | teapot | walls) "box">
 <!ATTLIST solid		shi	NMTOKEN "20">
 <!ATTLIST solid		shininess NMTOKEN "20">
 <!ATTLIST solid		side	NMTOKEN #IMPLIED>
