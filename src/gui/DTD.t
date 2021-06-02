@@ -26,11 +26,11 @@ const char DTD[] = "\
 		accessory | android | animator | animx3d | aoi | area |\n\
 		bgcolor | board | book | bumper | button | \n\
 		cauldron | clip | clock | cloud | cloth |\n\
-		doc | door | dress |\n\
+		doc | door | download | dress |\n\
 		entry | escalator |\n\
-		fire | firework | flag | fountain | fractal | ftp |\n\
+		fire | firework | flag | fountain | fractal |\n\
 		gate | ground | guide | guy | \n\
-		hairs | halo | hat | head | host |\n\
+		hairs | halo | hat | head | host | human\n\
 		lift | light | local |\n\
 		mech | mirage | mirror | model | movie | music |\n\
 		particle | plane |\n\
@@ -171,6 +171,12 @@ const char DTD[] = "\
 <!ATTLIST door		zclose	NMTOKEN #REQUIRED>\n\
 <!ATTLIST door		speed	NMTOKEN \"1\">\n\
 \n\
+<!ELEMENT download	(solid)>\n\
+<!ATTLIST download	pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST download	name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST download	descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST download	url	CDATA #REQUIRED>\n\
+\n\
 <!ELEMENT dress		(solid+)>\n\
 <!ATTLIST dress		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST dress		name	NMTOKEN #IMPLIED>\n\
@@ -229,12 +235,6 @@ const char DTD[] = "\
 <!ATTLIST fractal	descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST fractal	level	NMTOKEN #IMPLIED>\n\
 <!ATTLIST fractal	color	NMTOKEN #IMPLIED>\n\
-\n\
-<!ELEMENT ftp		(solid)>\n\
-<!ATTLIST ftp		pos	NMTOKENS #REQUIRED>\n\
-<!ATTLIST ftp		name	NMTOKEN #IMPLIED>\n\
-<!ATTLIST ftp		descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST ftp		url	CDATA #REQUIRED>\n\
 \n\
 <!ELEMENT gate		(solid+)>\n\
 <!ATTLIST gate		pos	NMTOKENS #REQUIRED>\n\
@@ -300,6 +300,12 @@ const char DTD[] = "\
 <!ATTLIST host		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST host		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST host		host	NMTOKEN #REQUIRED>\n\
+\n\
+<!ELEMENT human		EMPTY>\n\
+<!ATTLIST human		pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST human		name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST human		descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST human		skin	NMTOKEN #IMPLIED>\n\
 \n\
 <!ELEMENT lift		(solid+)>\n\
 <!ATTLIST lift		pos	NMTOKENS #REQUIRED>\n\
@@ -624,7 +630,7 @@ const char DTD[] = "\
 <!ATTLIST solid		scalex	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scaley	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scalez	NMTOKEN \"1\">\n\
-<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | man | guy | car | teapot | walls) \"box\">\n\
+<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | human | man | guy | car | teapot | walls) \"box\">\n\
 <!ATTLIST solid		shi	NMTOKEN \"20\">\n\
 <!ATTLIST solid		shininess NMTOKEN \"20\">\n\
 <!ATTLIST solid		side	NMTOKEN #IMPLIED>\n\

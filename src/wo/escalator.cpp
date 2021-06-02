@@ -37,7 +37,7 @@ WObject * Escalator::creator(char *l)
 
 void Escalator::defaults()
 {
-  dir = 1;
+  dir = 1;	// up by default
   height = 0;
   length = 0;
   speed = Step::LSPEED;
@@ -89,7 +89,6 @@ void Escalator::build()
     nextstep = new Step(newpos, pos, geometry, mobile, height, speed, dir);
   }
 
-  //dax1 disableBehavior(PERSISTENT);
   enablePermanentMovement(speed);
 }
 

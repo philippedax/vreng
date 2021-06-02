@@ -159,7 +159,6 @@ void Step::build()
   if (geom) delete[] geom;
 
   if (mobile) {
-    //dax1 disableBehavior(PERSISTENT);
     enablePermanentMovement(speed);
   }
 }
@@ -174,8 +173,9 @@ Step::Step(char *l)
 {
   parser(l);
   behavior();
-  if (stair || escalator || travelator || spiral)
+  if (stair || escalator || travelator || spiral) {
     build();
+  }
   //notused addList();
 }
 
@@ -200,7 +200,6 @@ Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, 
   //notused addList();
 
   if (mobile) {    // escalator or travelator
-    //dax1 disableBehavior(PERSISTENT);
     enablePermanentMovement(speed);
     state = ACTIVE;
   }
