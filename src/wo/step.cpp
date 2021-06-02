@@ -31,7 +31,6 @@ const OClass Step::oclass(STEP_TYPE, "Step", Step::creator);
 
 const float Step::JUMP = 0.10;
 const float Step::LSPEED = 0.5;	// 1/2 ms
-list<Step*> Step::stepList;
 
 // local
 static uint16_t oid = 0;
@@ -64,7 +63,7 @@ void Step::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "mode=")) {
+    if (! stringcmp(l, "mode=")) {
       char modestr[16];
       l = parse()->parseString(l, modestr, "mode");
       if      (! stringcmp(modestr, "escalator")) { escalator = true; mobile = true; }
@@ -72,7 +71,7 @@ void Step::parser(char *l)
       else if (! stringcmp(modestr, "stair")) stair = true;
       else if (! stringcmp(modestr, "spiral")) { stair = true; spiral = true; }
     }
-    if (!stringcmp(l, "dir=")) {
+    if (! stringcmp(l, "dir=")) {
       char modestr[16];
       l = parse()->parseString(l, modestr, "dir");
       if      (! stringcmp(modestr, "up"))   dir = 1;
@@ -90,19 +89,9 @@ void Step::parser(char *l)
   }
 }
 
-void Step::addList()
-{
-  stepList.push_back(this);
-}
-
-void Step::clearList()
-{
-  stepList.clear();
-}
-
 void Step::build()
 {
-  float size;
+  float size = 0;
   float sx = pos.bbsize.v[0];  // step width
   float sy = pos.bbsize.v[1];  // step depth
   float sz = pos.bbsize.v[2];  // step height
@@ -176,7 +165,6 @@ Step::Step(char *l)
   if (stair || escalator || travelator || spiral) {
     build();
   }
-  //notused addList();
 }
 
 Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, float _speed, int _dir)
@@ -190,14 +178,17 @@ Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, 
 
   mobile = _mobile;
   dir = _dir;
-  if (dir == 0) length = _size;  // travelator
-  else height = _size;  // stair, escalator
+  if (dir == 0) {
+    length = _size;  // travelator
+  }
+  else {
+    height = _size;  // stair, escalator
+  }
   speed = _speed;
   firstpos = _firstpos;
   stuck = false;
 
   initMobileObject(1);
-  //notused addList();
 
   if (mobile) {    // escalator or travelator
     enablePermanentMovement(speed);
@@ -357,8 +348,6 @@ bool Step::whenIntersectOut(WObject *pcur, WObject *pold)
 void Step::quit()
 {
   oid = 0;
-  clearList();
-  savePersistency();
 }
 
 void Step::pause_cb(Step *step, void *d, time_t s, time_t u)

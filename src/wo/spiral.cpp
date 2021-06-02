@@ -49,7 +49,7 @@ void Spiral::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
+    if (! stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
   }
   end_while_parse(l);
 }
@@ -97,8 +97,6 @@ Spiral::Spiral(char *l)
 void Spiral::quit()
 {
   oid = 0;
-  clearList();
-  savePersistency();
 }
 
 void Spiral::funcs()

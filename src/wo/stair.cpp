@@ -50,8 +50,8 @@ void Stair::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
-    else if (!stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
+    if      (! stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
+    else if (! stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
   }
   end_while_parse(l);
 }
@@ -98,8 +98,6 @@ Stair::Stair(char *l)
 void Stair::quit()
 {
   oid = 0;
-  clearList();
-  savePersistency();
 }
 
 void Stair::funcs()

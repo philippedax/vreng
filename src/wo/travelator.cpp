@@ -38,7 +38,7 @@ WObject * Travelator::creator(char *l)
 void Travelator::defaults()
 {
   length = 0;
-  dir = 0;
+  dir = 0;		// horizontal
   speed = Step::LSPEED;
   mobile = true;
 }
@@ -77,7 +77,6 @@ void Travelator::build()
     nextstep = new Step(newpos, pos, geometry, mobile, length, speed, dir);
   }
 
-  //dax1 disableBehavior(PERSISTENT);
   enablePermanentMovement(speed);
 }
 
@@ -97,8 +96,6 @@ Travelator::Travelator(char *l)
 void Travelator::quit()
 {
   oid = 0;
-  clearList();
-  savePersistency();
 }
 
 void Travelator::funcs()

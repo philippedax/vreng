@@ -108,8 +108,6 @@ Escalator::Escalator(char *l)
 void Escalator::quit()
 {
   oid = 0;
-  clearList();
-  savePersistency();
 }
 
 void Escalator::funcs()

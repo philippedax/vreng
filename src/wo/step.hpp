@@ -33,7 +33,6 @@
 class Step: public WObject {
 
  protected:
-  static std::list<Step*> stepList;	///< list
   static const float LSPEED;	///< linear speed
 
   bool mobile;		///< flag escalator or travelator
@@ -99,12 +98,6 @@ class Step: public WObject {
   /**< Quits */
 
 protected:
-  virtual void addList();
-  /**< Adds current step to list */
-
-  virtual void clearList();
-  /**< Cleans step list */
-
   // Gui callbacks
   static void pause_cb(Step *po, void *d, time_t s, time_t u);
   static void stop_cb(Step *po, void *d, time_t s, time_t u);
