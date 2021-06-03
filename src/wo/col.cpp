@@ -72,18 +72,21 @@ int WObject::interAABB(V3 center1, V3 size1, V3 center2, V3 size2)
   float sz1 = ABSF(size1.v[2]);
   float sz2 = ABSF(size2.v[2]);
 
-  if ((dcz >= sz1+sz2 - 1e-3) ||
-      (dcx >= sx1+sx2 - 1e-3) ||
-      (dcy >= sy1+sy2 - 1e-3))
+  if ( (dcz >= sz1+sz2 - 1e-3) || (dcx >= sx1+sx2 - 1e-3) || (dcy >= sy1+sy2 - 1e-3) ) {
     return NO_INTER;	// doesn't intersect == 0
-  if (dcz < sz1+sz2 + 1e-3)
+  }
+  if (dcz < sz1+sz2 + 1e-3) {
     return INTERSECT;	// intersects == 3
-  if ((dcx+sx1 <= sx2) && (dcy+sy1 <= sy2) && (dcz+sz1 <= sz2))
+  }
+  if ( (dcx+sx1 <= sx2) && (dcy+sy1 <= sy2) && (dcz+sz1 <= sz2) ) {
     return IN2;		// obj1 inside obj2 == 1
-  if ((dcx+sx2 <= sx1) && (dcy+sy2 <= sy1) && (dcz+sz2 <= sz1))
+  }
+  if ( (dcx+sx2 <= sx1) && (dcy+sy2 <= sy1) && (dcz+sz2 <= sz1) ) {
     return IN1;		// obj2 inside obj1 == 2
-  if ((dcy < sy1+sy2) || (dcx < sx1+sx2))
+  }
+  if ( (dcy < sy1+sy2) || (dcx < sx1+sx2) ) {
     return INTERSECT;	// == 3
+  }
   return NO_INTER;	// doesn't intersect == 0
 }
 
@@ -118,6 +121,7 @@ int WObject::interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2)
 void WObject::ingoingWalls(WObject *pold)
 {
   V3 normal;
+
   if (Walls::whenIntersect(pos.bbcent, pos.bbsize, normal)) {
     float nx = normal.v[0];
     float ny = normal.v[1];
@@ -172,8 +176,9 @@ bool WObject::outgoingNeighbor(WObject *pold, WObject *neighbor)
   if ((interAABB(pos.bbcent,           pos.bbsize,
                  neighbor->pos.bbcent, neighbor->pos.bbsize) == NO_INTER) &&
       (interAABB(pold->pos.bbcent,     pold->pos.bbsize,
-                 neighbor->pos.bbcent, neighbor->pos.bbsize) != NO_INTER))
+                 neighbor->pos.bbcent, neighbor->pos.bbsize) != NO_INTER)) {
     return true;
+  }
   return false;
 }
 
@@ -250,7 +255,6 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
           vl = vl->next;
           continue;
         }
-
         switch (neighbor->collideBehavior()) {
         case COLLIDE_ONCE: case COLLIDE_GHOST:
           vl = vl->next;
@@ -530,6 +534,7 @@ void WObject::updateGrid(const Pos& oldpos)
 OList * WObject::getVicinity(const WObject *obj)
 {
   float bbmin[3], bbmax[3];
+
   for (int i=0; i<3; i++) {
     bbmin[i] = MIN(pos.bbcent.v[i] - pos.bbsize.v[i],
                obj->pos.bbcent.v[i] - obj->pos.bbsize.v[i]);

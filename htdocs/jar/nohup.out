@@ -27,3 +27,48 @@ Header was: Message header (-21555, 0, -1587178458, 2, 2, 46)
 [<App drawing-board/> down]
 [<App tictactoe/> going down]
 [<App tictactoe/> down]
+Vjs listening on port 4151
+[Got an initiate message]
+[Got an initiated source]
+[Addind Vreng 857338626]
+fr.enst.vreng.VrengException: Class fr.enst.vreng.tester.TicTacToe not found. (Vreng Receiver for Vreng Server (4151))
+	at fr.enst.vreng.server.VrengApp.load(VrengApp.java:331)
+	at fr.enst.vreng.server.VrengApp.load(VrengApp.java:305)
+	at fr.enst.vreng.server.Server.registerObject(Server.java:199)
+	at fr.enst.vreng.server.Server.processControl(Server.java:127)
+	at fr.enst.vreng.server.Server.notify(Server.java:96)
+	at fr.enst.vreng.net.Receiver.run(Receiver.java:94)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+fr.enst.vreng.VrengException: Class fr.enst.vreng.tester.Board not found. (Vreng Receiver for Vreng Server (4151))
+	at fr.enst.vreng.server.VrengApp.load(VrengApp.java:331)
+	at fr.enst.vreng.server.VrengApp.load(VrengApp.java:305)
+	at fr.enst.vreng.server.Server.registerObject(Server.java:199)
+	at fr.enst.vreng.server.Server.processControl(Server.java:127)
+	at fr.enst.vreng.server.Server.notify(Server.java:96)
+	at fr.enst.vreng.net.Receiver.run(Receiver.java:94)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+[Discarding Vreng 857338626]
+[Update failed. 857338626 unknown.]
+Can't find client Message header (-21555, 0, -1572613977, 0, 3, 0)
+[Got an initiate message]
+[Got an initiated source]
+[Addind Vreng -1744446790]
+fr.enst.vreng.VrengException: Class fr.enst.vreng.tester.TicTacToe not found. (Vreng Receiver for Vreng Server (4151))
+	at fr.enst.vreng.server.VrengApp.load(VrengApp.java:331)
+	at fr.enst.vreng.server.VrengApp.load(VrengApp.java:305)
+	at fr.enst.vreng.server.Server.registerObject(Server.java:199)
+	at fr.enst.vreng.server.Server.processControl(Server.java:127)
+	at fr.enst.vreng.server.Server.notify(Server.java:96)
+	at fr.enst.vreng.net.Receiver.run(Receiver.java:94)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+fr.enst.vreng.VrengException: Class fr.enst.vreng.tester.Board not found. (Vreng Receiver for Vreng Server (4151))
+	at fr.enst.vreng.server.VrengApp.load(VrengApp.java:331)
+	at fr.enst.vreng.server.VrengApp.load(VrengApp.java:305)
+	at fr.enst.vreng.server.Server.registerObject(Server.java:199)
+	at fr.enst.vreng.server.Server.processControl(Server.java:127)
+	at fr.enst.vreng.server.Server.notify(Server.java:96)
+	at fr.enst.vreng.net.Receiver.run(Receiver.java:94)
+	at java.base/java.lang.Thread.run(Thread.java:832)
+[Discarding Vreng -1744446790]
+[Update failed. -1744446790 unknown.]
+Can't find client Message header (-21555, 0, 86112927, 0, 3, 0)
