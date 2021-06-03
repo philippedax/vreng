@@ -558,7 +558,7 @@ amplitude="1" freq="1" phase="1">
 </mirage>
 
 <!-- pyramid -->
-<mirage name="cristal" pos="4 -3.5 0"> <solid shape="pyramid" s="1" h="1" dif=".5 1 .9" a=".4" /> </mirage>
+<mirage name="cristal" pos="4 -3.5 0"> <solid shape="pyramid" s="1" h="1" dif=".5 1 .9" a="1" /> </mirage>
 
 <!-- fire -->
 <fire name="fire" pos="2.25 -2.25 1" number="1000"> </fire>
