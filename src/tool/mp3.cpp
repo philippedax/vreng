@@ -19,28 +19,29 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "midi.hpp"
-#include "app.hpp"
+#include "mp3.hpp"
+#include "tool.hpp"
 #include "url.hpp"	// abs
 #include "cache.hpp"	// download
+#include "pref.hpp"	// silent
 
 
 #if MACOSX
-int Midi::toolid = QUICKTIME_TOOL;
+int Mp3::toolid = QUICKTIME_TOOL;
 #else
-int Midi::toolid = TIMIDITY_TOOL;
+int Mp3::toolid = MPG123_TOOL;
 #endif
 
 // local
 static pid_t pid = -1;
 
 
-void Midi::init(int _toolid)
+void Mp3::init(int _toolid)
 {
   toolid = _toolid;
 }
 
-void Midi::launch(const char *tool, const char *url)
+void Mp3::launch(const char *tool, const char *url)
 {
   switch (pid = fork()) {
   case -1:
@@ -48,9 +49,14 @@ void Midi::launch(const char *tool, const char *url)
     break;
   case 0:
     switch (toolid) {
-    case TIMIDITY_TOOL:  execlp(tool, tool, "-idqq", "-j", url, (char*)NULL); break;
+    case MPG123_TOOL:    execlp(tool, tool, "-qy", url, (char*)NULL); break;
+    case XAUDIO_TOOL:    execlp(tool, tool, url, (char*)NULL); break;
+    case FREEAMP_TOOL:   execlp(tool, tool, url, (char*)NULL); break;
 #if MACOSX
     case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL); break;
+    case VLC_TOOL:       execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", (char*)NULL); break;
+#else
+    case VLC_TOOL:       execlp(tool, tool, "--quiet", url, (char*)NULL); break;
 #endif
     }
     error("%s %s", e_exec, tool);
@@ -61,29 +67,38 @@ void Midi::launch(const char *tool, const char *url)
   }
 }
 
-void Midi::start(const char *_url)
+void Mp3::start(const char *_url)
 {
+  if (::g.pref.silent)  return;
+
   char url[URL_LEN];
   Url::abs(_url, url);
 
   switch (toolid) {
-  case TIMIDITY_TOOL:  launch("timidity", url); break;
+  case MPG123_TOOL:    launch("mpg123", url); break;
+  case XAUDIO_TOOL:    launch("xaudio", url); break;
+  case FREEAMP_TOOL:   launch("freeamp", url); break;
+#if MACOSX
   case QUICKTIME_TOOL: launch("open", url); break;
-  default:             error("%s midi", e_tool);
+  case VLC_TOOL:       launch("open", url); break;
+#else
+  case VLC_TOOL:       launch("vlc", url); break;
+#endif
+  default:             error("%s mp3", e_tool);
   }
 }
 
-void Midi::stop()
+void Mp3::stop()
 {
   if (pid > 0) kill(pid, SIGKILL);
 }
 
-void Midi::pause()
+void Mp3::pause()
 {
   if (pid > 0) kill(pid, SIGSTOP);
 }
 
-void Midi::cont()
+void Mp3::cont()
 {
   if (pid > 0) kill(pid, SIGCONT);
 }

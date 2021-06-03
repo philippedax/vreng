@@ -39,7 +39,7 @@
 #include "solid.hpp"	// ~Solid
 #include "gui.hpp"	// ::g.gui
 #include "scene.hpp"	// GLSection
-#include "app.hpp"	// quitTools
+#include "tool.hpp"	// quitTools
 #include "channel.hpp"	// join
 #include "sandbox.hpp"	// sandbox world
 #include "grid.hpp"	// toggleGrid2d
@@ -900,7 +900,7 @@ void World::quit()
   if (islinked) return;
 
   WObject::resetObjectsNumber();
-  App::quitTools();		// quits all tools
+  Tool::quitTools();		// quits all tools
 }
 
 /* New World initialization - static */

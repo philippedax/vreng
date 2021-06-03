@@ -19,28 +19,28 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "mpeg.hpp"
-#include "app.hpp"
+#include "au.hpp"
+#include "tool.hpp"
 #include "url.hpp"	// abs
 #include "cache.hpp"	// download
 
 
 #if MACOSX
-int Mpeg::toolid = QUICKTIME_TOOL;
+int Au::toolid = QUICKTIME_TOOL;  // default tool
 #else
-int Mpeg::toolid = MTVP_TOOL;
+int Au::toolid = PLAY_TOOL;  // default tool
 #endif
 
 // local
 static pid_t pid = -1;
 
 
-void Mpeg::init(int _toolid)
+void Au::init(int _toolid)
 {
   toolid = _toolid;
 }
 
-void Mpeg::launch(const char *tool, const char *url, char *file)
+void Au::launch(const char *tool, const char *url, char *file)
 {
   switch (pid = fork()) {
   case -1:
@@ -48,13 +48,9 @@ void Mpeg::launch(const char *tool, const char *url, char *file)
     break;
   case 0:
     switch (toolid) {
-    case MPEGPLAY_TOOL:  execlp(tool, tool, file, (char*)NULL); break;
-    case MTVP_TOOL:      execlp(tool, tool, url, (char*)NULL); break;
+    case PLAY_TOOL:      execlp(tool, tool, file, (char*)NULL); break;
 #if MACOSX
-    case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL); break;
-    case VLC_TOOL:       execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", (char*)NULL); break;
-#else
-    case VLC_TOOL:       execlp(tool, tool, url, (char*)NULL); break;
+    case QUICKTIME_TOOL: execlp(tool, tool, QUICKTIME_PATH, url, (char*)NULL); break;
 #endif
     }
     error("%s %s", e_exec, tool);
@@ -65,7 +61,7 @@ void Mpeg::launch(const char *tool, const char *url, char *file)
   }
 }
 
-void Mpeg::start(const char *_url)
+void Au::start(const char *_url)
 {
   char url[URL_LEN];
   char *file = new char[PATH_LEN];
@@ -73,30 +69,24 @@ void Mpeg::start(const char *_url)
   Url::abs(_url, url);
 
   switch (toolid) {
-  case MPEGPLAY_TOOL:  if (Cache::download(url, file)) launch("mpeg_play", url, file); break;
-  case MTVP_TOOL:      launch("mtvp", url, file); break;
-#if MACOSX
-  case QUICKTIME_TOOL: launch("open", url, NULL); break;
-  case VLC_TOOL:       launch("open", url, NULL); break;
-#else
-  case VLC_TOOL:       launch("vlc", url, NULL); break;
-#endif
-  default:             error("%s mpeg", e_tool);
+  case PLAY_TOOL:      if (Cache::download(url, file)) launch("play", url, file); break;
+  case QUICKTIME_TOOL: launch("open", url, file); break;
+  default:             error("%s au", e_tool);
   }
   delete[] file;
 }
 
-void Mpeg::stop()
+void Au::stop()
 {
   if (pid > 0) kill(pid, SIGKILL);
 }
 
-void Mpeg::pause()
+void Au::pause()
 {
   if (pid > 0) kill(pid, SIGSTOP);
 }
 
-void Mpeg::cont()
+void Au::cont()
 {
   if (pid > 0) kill(pid, SIGCONT);
 }

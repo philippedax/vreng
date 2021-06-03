@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "browser.hpp"
-#include "app.hpp"
+#include "tool.hpp"
 #include "url.hpp"	// abs
 
 

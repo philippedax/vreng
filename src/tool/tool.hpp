@@ -18,8 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef APP_HPP
-#define APP_HPP
+#ifndef TOOL_HPP
+#define TOOL_HPP
 
 
 /** masks */
@@ -50,6 +50,7 @@
 #define OPERA_TOOL	0x00000500
 #define IEXPLORER_TOOL	0x00000600
 #define CHROME_TOOL	0x00000700
+#define EDGE_TOOL	0x00000800
 
 #define MODELER_MASK	0x00000e00
 #define VRED_TOOL	0x00000800
@@ -72,6 +73,7 @@
 #define STAROFFICE_TOOL	0x00020000
 #define OPENOFFICE_TOOL	0x00030000
 #define LIBROFFICE_TOOL	0x00040000
+#define ONLYOFFICE_TOOL	0x00050000
 
 #define MP3_MASK	0x00700000
 #define MPG123_TOOL	0x00100000
@@ -104,10 +106,10 @@
 
 
 /**
- * App class
+ * Tool class
  * External applications
  */
-class App {
+class Tool {
  public:
 
   static void quitTools();

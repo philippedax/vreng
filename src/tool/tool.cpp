@@ -19,40 +19,40 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
+#include "tool.hpp"
+#include "audio.hpp"
+#include "video.hpp"
+#include "wb.hpp"
+#include "browser.hpp"
+#include "ps.hpp"
+#include "pdf.hpp"
+#include "mp3.hpp"
+#include "wav.hpp"
+#include "mpeg.hpp"
+#include "midi.hpp"
+#include "office.hpp"
+#include "modeler.hpp"
 #include "xterm.hpp"
-#include "app.hpp"
 
-
-int Xterm::toolid = SSH_TOOL;
-
-static pid_t pid = -1;
-
-
-void Xterm::init(int _toolid)
+void Tool::quitTools()
 {
-  toolid = _toolid;
+  Audio::quit();
+  Video::quit();
+  Wb::quit();
+  Xterm::quit();
 }
 
-void Xterm::start(const char *host)
+void Tool::quitAllTools()
 {
-  switch (pid = fork()) {
-  case -1:
-    error("%s xterm", e_fork);
-    break;
-  case 0:
-    if (toolid == SSH_TOOL)
-      execlp("xterm", "xterm", "-title", host, "-e", "ssh", host, (char*)NULL);
-    if (toolid == TELNET_TOOL)
-      execlp("xterm", "xterm", "-title", host, "-e", "telnet", host, (char*)NULL);
-    error("%s xterm", e_exec);
-    signal(SIGCHLD, SIG_IGN);
-    exit(1);
-  default:
-    break;
-  }
-}
+  quitTools();
 
-void Xterm::quit()
-{
-  if (pid > 0) kill(pid, SIGKILL);
+  Browser::quit();
+  Ps::quit();
+  Pdf::quit();
+  Office::quit();
+  Modeler::quit();
+  Mp3::stop();
+  Wav::stop();
+  Mpeg::stop();
+  Midi::stop();
 }

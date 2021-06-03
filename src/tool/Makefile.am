@@ -21,12 +21,12 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-APP_SRCS = app.cpp audio.cpp xterm.cpp video.cpp wb.cpp browser.cpp ps.cpp pdf.cpp mp3.cpp wav.cpp au.cpp midi.cpp mpeg.cpp wget.cpp modeler.cpp office.cpp
+APP_SRCS = tool.cpp audio.cpp xterm.cpp video.cpp wb.cpp browser.cpp ps.cpp pdf.cpp mp3.cpp wav.cpp au.cpp midi.cpp mpeg.cpp wget.cpp modeler.cpp office.cpp
 
-APP_HDRS = app.hpp au.hpp audio.hpp video.hpp wb.hpp browser.hpp midi.hpp modeler.hpp mp3.hpp mpeg.hpp office.hpp pdf.hpp ps.hpp wav.hpp wget.hpp xterm.hpp
+APP_HDRS = tool.hpp au.hpp audio.hpp video.hpp wb.hpp browser.hpp midi.hpp modeler.hpp mp3.hpp mpeg.hpp office.hpp pdf.hpp ps.hpp wav.hpp wget.hpp xterm.hpp
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/wo -I$(SRCDIR)/net
 
-libapp_a_SOURCES = $(APP_SRCS) $(APP_HDRS)
-noinst_LIBRARIES = libapp.a
+libtool_a_SOURCES = $(APP_SRCS) $(APP_HDRS)
+noinst_LIBRARIES = libtool.a

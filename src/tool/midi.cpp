@@ -19,53 +19,71 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "modeler.hpp"
-#include "app.hpp"
+#include "midi.hpp"
+#include "tool.hpp"
+#include "url.hpp"	// abs
+#include "cache.hpp"	// download
 
 
-int Modeler::toolid = VRED_TOOL;
+#if MACOSX
+int Midi::toolid = QUICKTIME_TOOL;
+#else
+int Midi::toolid = TIMIDITY_TOOL;
+#endif
 
 // local
 static pid_t pid = -1;
 
 
-void Modeler::init(int _toolid)
+void Midi::init(int _toolid)
 {
   toolid = _toolid;
 }
 
-void Modeler::start()
+void Midi::launch(const char *tool, const char *url)
 {
-#if defined(WIN32) && !defined(CYGWIN32) // _spawn
-  if (toolid == VRED_TOOL)
-    pid = _spawnlp(_P_NOWAIT, "vred", "vred", NULL);
-  if (toolid == VREM_TOOL)
-    pid = _spawnlp(_P_NOWAIT, "vrem", "vrem", NULL);
-#else
   switch (pid = fork()) {
   case -1:
-    error("%s modeler", e_fork);
+    error("%s %s", e_fork, tool);
     break;
   case 0:
-    if (toolid == VRED_TOOL) {
-      execlp("./bin/vred", "vred", (char*)NULL);
-      error("%s vred", e_exec);
+    switch (toolid) {
+    case TIMIDITY_TOOL:  execlp(tool, tool, "-idqq", "-j", url, (char*)NULL); break;
+#if MACOSX
+    case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL); break;
+#endif
     }
-    if (toolid == VREM_TOOL) {
-      execlp("vrem", "vrem", (char*)NULL);
-      error("%s vrem", e_exec);
-    }
+    error("%s %s", e_exec, tool);
     signal(SIGCHLD, SIG_IGN);
     exit(1);
   default:
     break;
   }
-#endif
 }
 
-void Modeler::quit()
+void Midi::start(const char *_url)
 {
-#ifndef WIN32 // can't kill under windows
+  char url[URL_LEN];
+  Url::abs(_url, url);
+
+  switch (toolid) {
+  case TIMIDITY_TOOL:  launch("timidity", url); break;
+  case QUICKTIME_TOOL: launch("open", url); break;
+  default:             error("%s midi", e_tool);
+  }
+}
+
+void Midi::stop()
+{
   if (pid > 0) kill(pid, SIGKILL);
-#endif // !WIN32
+}
+
+void Midi::pause()
+{
+  if (pid > 0) kill(pid, SIGSTOP);
+}
+
+void Midi::cont()
+{
+  if (pid > 0) kill(pid, SIGCONT);
 }

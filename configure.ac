@@ -1815,7 +1815,7 @@ AC_CONFIG_FILES([
         src/texture/Makefile
         src/model/Makefile
         src/vgl/Makefile
-        src/app/Makefile
+        src/tool/Makefile
         src/vnc/Makefile
         src/ai/Makefile
         src/util/Makefile

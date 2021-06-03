@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "audio.hpp"
-#include "app.hpp"
+#include "tool.hpp"
 #include "channel.hpp"	// getGroup getPort
 #include "pref.hpp"	// ::g.pref.silent
 

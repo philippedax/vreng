@@ -90,7 +90,7 @@ vjs:
 endif
 
 # core includes
-CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/texture -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/app -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
+CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/texture -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 
 # ocaml includes
 if OCAML
@@ -141,7 +141,7 @@ NET_LIB    = -L$(SRCDIR)/net $(SRCDIR)/net/libnet.a
 TEX_LIB    = -L$(SRCDIR)/texture $(SRCDIR)/texture/libtexture.a
 MODEL_LIB  = -L$(SRCDIR)/model $(SRCDIR)/model/libmodel.a
 VGL_LIB    = -L$(SRCDIR)/vgl $(SRCDIR)/vgl/libvgl.a
-APP_LIB    = -L$(SRCDIR)/app $(SRCDIR)/app/libapp.a
+TOOL_LIB   = -L$(SRCDIR)/tool $(SRCDIR)/tool/libtool.a
 VNC_LIB    = -L$(SRCDIR)/vnc $(SRCDIR)/vnc/libvnc.a
 if UBIT
 UBIT_LIB=-L$(SRCDIR)/ubit $(SRCDIR)/ubit/libubit.a
@@ -153,7 +153,7 @@ AI_LIB=-L$(SRCDIR)/ai $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/li
 else
 AI_LIB=
 endif
-CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(NET_LIB) $(TEX_LIB) $(MODEL_LIB) $(VGL_LIB) $(APP_LIB) $(VNC_LIB) $(VRENG_LIB) $(SYS_LIB) $(UBIT_LIB) $(AI_LIB)
+CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(NET_LIB) $(TEX_LIB) $(MODEL_LIB) $(VGL_LIB) $(TOOL_LIB) $(VNC_LIB) $(VRENG_LIB) $(SYS_LIB) $(UBIT_LIB) $(AI_LIB)
 
 # bundle libs
 BUNDLE_LIBS = $(Z_LIB) $(GLPNG_LIB) $(MPEG_LIB) $(GL2PS_LIB) $(GLUI_LIB) $(FTGL_LIB) $(XML_LIB) $(PNG_LIB)

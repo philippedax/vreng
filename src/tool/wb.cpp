@@ -19,88 +19,80 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "video.hpp"
-#include "app.hpp"
+#include "wb.hpp"
+#include "tool.hpp"
 #include "channel.hpp"	// getGroup getPort
 
 
-#ifndef VIDEODEVICE
-#if SOLARIS
-#define VIDEODEVICE	"rtvc"
-#else
-#define VIDEODEVICE	"video"
-#endif
-#endif
+int Wb::toolid = WB_TOOL;
 
-
-#if MACOSX || LINUX
-int Video::toolid = VLCMC_TOOL;
-#else
-int Video::toolid = VIC_TOOL;
-#endif
-
-// local
 static pid_t pid = -1;
 
 
-void Video::init(int _toolid)
+void Wb::init(int _toolid)
 {
   toolid = _toolid;
 }
 
-void Video::getnewchan(const char *chan, char *newchan)
+void Wb::getnewchan(const char *chan, char *newchan)
 {
   char group[GROUP_LEN];
 
   uint16_t port = Channel::getPort(chan);
-  port += VIDEO_INCR_PORT;
-  if (port % 1) port++;	// even port for RTP
+  port += WHITEBOARD_INCR_PORT;
   Channel::getGroup(chan, group);
   sprintf(newchan, "%s/%u/%d", group, port, Channel::currentTtl());
 }
 
-void Video::start(const char *chan)
+void Wb::start(const char *chan)
 {
+  char *p, *ttl;
   char newchan[CHAN_LEN];
+
   getnewchan(chan, newchan);
+  p = strrchr(newchan, '/');
+  *p = '\0';	// addr/port
+  ttl = ++p;
 
 #if defined(WIN32) && !defined(CYGWIN32) // _spawn
-  pid = _spawnlp(_P_NOWAIT, "vic", "vic", "-A", "rtp", "-B", "20", "-D",
-                 VIDEODEVICE, "-f", "h261", "-C", "VREng-vic", newchan, NULL);
+  if (toolid == WB_TOOL) {
+    pid = _spawnlp(_P_NOWAIT, "wb", "wb", "-C", "VREng-wb", "-t", ttl, "-l", "+r", newchan, NULL);
+  }
+  if (toolid == WBD_TOOL) {
+    pid = _spawnlp(_P_NOWAIT, "wbd", "wbd", "-C", "VREng-wbd", "-t", ttl, "-l", "+r", newchan, NULL);
+  }
+  if (toolid == NTE_TOOL) {
+    pid = _spawnlp(_P_NOWAIT, "nte", "nte", "-C", "VREng-nte", "-t", ttl, newchan, NULL);
+  }
 #else
   switch (pid = fork()) {
   case -1:
-    error("%s video", e_fork);
+    error("%s whiteboard", e_fork);
     break;
   case 0:
-    switch (toolid) {
-    case VIC_TOOL:
-      execlp("vic", "vic", "-A", "rtp", "-B", "20", "-D", VIDEODEVICE,
-           "-f", "h261", "-C", "VREng-vic", newchan, (char*)NULL);
-      error("%s vic", e_exec);
-      break;
-    case VLCMC_TOOL:
-      char group[GROUP_LEN];
-      uint16_t port = Channel::getPort(chan);
-      port += VIDEO_INCR_PORT;
-      if (port % 1) port++;  // even port for RTP
-      Channel::getGroup(chan, group);
-      sprintf(newchan, "udp:@%s/%u", group, port);
-      execlp("vlc", "vlc", "--sout-rtp-name", "VREng-vlc", "--sout-rtp-ttl", Channel::currentTtl(), newchan, (char*)NULL);
-      error("%s vlc", e_exec);
-      break;
+    if (toolid == WB_TOOL) {
+      execlp("wb", "wb", "-C", "VREng-wb", "-t", ttl, "-l", "+r", newchan, (char*)NULL);
+      error("%s wb", e_exec);
+    }
+    if (toolid == WBD_TOOL) {
+      execlp("wbd", "wbd", "-C", "VREng-wbd", "-t", ttl, "-l", "+r", newchan, (char*)NULL);
+      error("%s wbd", e_exec);
+    }
+    if (toolid == NTE_TOOL) {
+      execlp("nte", "nte", "-C", "VREng-nte", "-t", ttl, newchan, (char*)NULL);
+      error("%s nte", e_exec);
     }
     signal(SIGCHLD, SIG_IGN);
-    exit(1);  // child death
+    exit(1);
   default:
-    break;  // parent
+    break;
   }
 #endif
 }
 
-void Video::quit()
+void Wb::quit()
 {
-#ifndef WIN32
+#ifndef WIN32 // can't kill under windows
   if (pid > 0) kill(pid, SIGKILL);
-#endif
+#endif // !WIN32
 }

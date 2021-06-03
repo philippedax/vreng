@@ -19,83 +19,53 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "ps.hpp"
-#include "app.hpp"
-#include "cache.hpp"	// download
+#include "modeler.hpp"
+#include "tool.hpp"
 
 
-int Ps::toolid = GV_TOOL;
+int Modeler::toolid = VRED_TOOL;
 
 // local
 static pid_t pid = -1;
 
 
-void Ps::init(int _toolid)
+void Modeler::init(int _toolid)
 {
   toolid = _toolid;
 }
 
-void Ps::launch(const char *tool, const char *file)
+void Modeler::start()
 {
+#if defined(WIN32) && !defined(CYGWIN32) // _spawn
+  if (toolid == VRED_TOOL)
+    pid = _spawnlp(_P_NOWAIT, "vred", "vred", NULL);
+  if (toolid == VREM_TOOL)
+    pid = _spawnlp(_P_NOWAIT, "vrem", "vrem", NULL);
+#else
   switch (pid = fork()) {
   case -1:
-    error("%s %s", e_fork, tool);
+    error("%s modeler", e_fork);
     break;
   case 0:
-    execlp(tool, tool, file, (char*)NULL);
-#if MACOSX
-    execlp("open", "open", "-a", PREVIEW_PATH, file, (char*)NULL);
-#endif
-    error("%s %s", e_exec, tool);
-    signal(SIGCHLD, SIG_IGN);
-    exit(1);
-  default:
-    break;
-  }
-}
-
-void Ps::view(const char *url)
-{
-  char *file = new char[PATH_LEN];
-
-  if (Cache::download(url, file) != 0) {
-    if (toolid == GV_TOOL)
-      launch("gv", file);
-    else if (toolid == GHOSTVIEW_TOOL)
-      launch("ghostscript", file);
-    else {
-      error("%s ps, toolid=%x", e_tool, toolid);
-      launch("preview", file);
+    if (toolid == VRED_TOOL) {
+      execlp("./bin/vred", "vred", (char*)NULL);
+      error("%s vred", e_exec);
     }
-  }
-  delete[] file;
-}
-
-void Ps::launcha2ps(const char *tool, const char *file)
-{
-  switch (pid = fork()) {
-  case -1:
-    error("%s %s", e_fork, tool);
-    break;
-  case 0:
-    execlp("a2ps", tool, "-d", file, (char*)NULL);
-    error("%s %s", e_exec, tool);
+    if (toolid == VREM_TOOL) {
+      execlp("vrem", "vrem", (char*)NULL);
+      error("%s vrem", e_exec);
+    }
     signal(SIGCHLD, SIG_IGN);
     exit(1);
   default:
     break;
   }
+#endif
 }
 
-void Ps::print(const char *url)
+void Modeler::quit()
 {
-  char *file = new char[PATH_LEN];
-
-  if (Cache::download(url, file)) launcha2ps("a2ps", file);
-  delete[] file;
-}
-
-void Ps::quit()
-{
+#ifndef WIN32 // can't kill under windows
   if (pid > 0) kill(pid, SIGKILL);
+#endif // !WIN32
 }

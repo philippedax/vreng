@@ -18,80 +18,70 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+/*
+ * PDF tool
+ */
+
 #include "vreng.hpp"
-#include "wav.hpp"
-#include "app.hpp"
-#include "url.hpp"	// abs
+#include "pdf.hpp"
+#include "tool.hpp"
+#include "cache.hpp"	// download
 
 
-int Wav::toolid = VLC_TOOL;
+int Pdf::toolid = ACROBAT_TOOL;
 
 // local
 static pid_t pid = -1;
 
 
-void Wav::init(int _toolid)
+void Pdf::init(int _toolid)
 {
   toolid = _toolid;
 }
 
-void Wav::launch(const char *tool, const char *url, bool loop)
+void Pdf::launch(const char *tool, const char *file)
 {
   switch (pid = fork()) {
   case -1:
     error("%s %s", e_fork, tool);
     break;
   case 0:
-    switch (toolid) {
-    case VLC_TOOL:
 #if MACOSX
-      execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", (char*)NULL);
+    execlp("open", "open", file, (char*)NULL);
+    execlp("open", "open", "-a", PREVIEW_PATH, file, (char*)NULL);
 #else
-      if (loop) execlp(tool, tool, "--quiet", "--repeat", url, (char*)NULL);
-      else      execlp(tool, tool, "--quiet", url, "vlc:quit", (char*)NULL);
+    execlp(tool, tool, file, (char*)NULL);
 #endif
-      break;
-    }
     error("%s %s", e_exec, tool);
     signal(SIGCHLD, SIG_IGN);
     exit(1);
-#if MACOSX
-    case QUICKTIME_TOOL:
-      execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL);
-      break;
-#endif
   default:
     break;
   }
 }
 
-void Wav::start(const char *_url, bool loop)
+void Pdf::start(const char *url)
 {
-  char url[URL_LEN];
-  Url::abs(_url, url);
+  char *file = new char[PATH_LEN];
 
-  switch (toolid) {
-#if MACOSX
-  case QUICKTIME_TOOL: launch("open", url, loop); break;
-  case VLC_TOOL:       launch("open", url, loop); break;
-#else
-  case VLC_TOOL:       launch("vlc", url, loop); break;
-#endif
-  default:             error("%s wav", e_tool);
+  if (Cache::download(url, file)) {
+    if (toolid == ACROBAT_TOOL)
+      launch("acroread", file);
+    else if (toolid == XPDF_TOOL)
+      launch("xpdf", file);
+    else if (toolid == EVINCE_TOOL)
+      launch("evince", file);
+    else {
+      error("%s pdf, toolid=%x", e_tool, toolid);
+      launch("preview", file);
+    }
   }
 }
 
-void Wav::stop()
+void Pdf::quit()
 {
-  if (pid > 0) kill(pid, SIGKILL);
-}
-
-void Wav::pause()
-{
-  if (pid > 0) kill(pid, SIGSTOP);
-}
-
-void Wav::cont()
-{
-  if (pid > 0) kill(pid, SIGCONT);
+  if (pid > 0) {
+    kill(pid, SIGKILL);
+    pid = -1;
+  }
 }

@@ -19,29 +19,23 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "mp3.hpp"
-#include "app.hpp"
+#include "wav.hpp"
+#include "tool.hpp"
 #include "url.hpp"	// abs
-#include "cache.hpp"	// download
-#include "pref.hpp"	// silent
 
 
-#if MACOSX
-int Mp3::toolid = QUICKTIME_TOOL;
-#else
-int Mp3::toolid = MPG123_TOOL;
-#endif
+int Wav::toolid = VLC_TOOL;
 
 // local
 static pid_t pid = -1;
 
 
-void Mp3::init(int _toolid)
+void Wav::init(int _toolid)
 {
   toolid = _toolid;
 }
 
-void Mp3::launch(const char *tool, const char *url)
+void Wav::launch(const char *tool, const char *url, bool loop)
 {
   switch (pid = fork()) {
   case -1:
@@ -49,56 +43,55 @@ void Mp3::launch(const char *tool, const char *url)
     break;
   case 0:
     switch (toolid) {
-    case MPG123_TOOL:    execlp(tool, tool, "-qy", url, (char*)NULL); break;
-    case XAUDIO_TOOL:    execlp(tool, tool, url, (char*)NULL); break;
-    case FREEAMP_TOOL:   execlp(tool, tool, url, (char*)NULL); break;
+    case VLC_TOOL:
 #if MACOSX
-    case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL); break;
-    case VLC_TOOL:       execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", (char*)NULL); break;
+      execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", (char*)NULL);
 #else
-    case VLC_TOOL:       execlp(tool, tool, "--quiet", url, (char*)NULL); break;
+      if (loop) execlp(tool, tool, "--quiet", "--repeat", url, (char*)NULL);
+      else      execlp(tool, tool, "--quiet", url, "vlc:quit", (char*)NULL);
 #endif
+      break;
     }
     error("%s %s", e_exec, tool);
     signal(SIGCHLD, SIG_IGN);
     exit(1);
+#if MACOSX
+    case QUICKTIME_TOOL:
+      execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL);
+      break;
+#endif
   default:
     break;
   }
 }
 
-void Mp3::start(const char *_url)
+void Wav::start(const char *_url, bool loop)
 {
-  if (::g.pref.silent)  return;
-
   char url[URL_LEN];
   Url::abs(_url, url);
 
   switch (toolid) {
-  case MPG123_TOOL:    launch("mpg123", url); break;
-  case XAUDIO_TOOL:    launch("xaudio", url); break;
-  case FREEAMP_TOOL:   launch("freeamp", url); break;
 #if MACOSX
-  case QUICKTIME_TOOL: launch("open", url); break;
-  case VLC_TOOL:       launch("open", url); break;
+  case QUICKTIME_TOOL: launch("open", url, loop); break;
+  case VLC_TOOL:       launch("open", url, loop); break;
 #else
-  case VLC_TOOL:       launch("vlc", url); break;
+  case VLC_TOOL:       launch("vlc", url, loop); break;
 #endif
-  default:             error("%s mp3", e_tool);
+  default:             error("%s wav", e_tool);
   }
 }
 
-void Mp3::stop()
+void Wav::stop()
 {
   if (pid > 0) kill(pid, SIGKILL);
 }
 
-void Mp3::pause()
+void Wav::pause()
 {
   if (pid > 0) kill(pid, SIGSTOP);
 }
 
-void Mp3::cont()
+void Wav::cont()
 {
   if (pid > 0) kill(pid, SIGCONT);
 }

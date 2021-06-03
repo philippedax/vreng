@@ -18,39 +18,33 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- * PDF tool
- */
-
 #include "vreng.hpp"
-#include "pdf.hpp"
-#include "app.hpp"
+#include "ps.hpp"
+#include "tool.hpp"
 #include "cache.hpp"	// download
 
 
-int Pdf::toolid = ACROBAT_TOOL;
+int Ps::toolid = GV_TOOL;
 
 // local
 static pid_t pid = -1;
 
 
-void Pdf::init(int _toolid)
+void Ps::init(int _toolid)
 {
   toolid = _toolid;
 }
 
-void Pdf::launch(const char *tool, const char *file)
+void Ps::launch(const char *tool, const char *file)
 {
   switch (pid = fork()) {
   case -1:
     error("%s %s", e_fork, tool);
     break;
   case 0:
-#if MACOSX
-    execlp("open", "open", file, (char*)NULL);
-    execlp("open", "open", "-a", PREVIEW_PATH, file, (char*)NULL);
-#else
     execlp(tool, tool, file, (char*)NULL);
+#if MACOSX
+    execlp("open", "open", "-a", PREVIEW_PATH, file, (char*)NULL);
 #endif
     error("%s %s", e_exec, tool);
     signal(SIGCHLD, SIG_IGN);
@@ -60,28 +54,48 @@ void Pdf::launch(const char *tool, const char *file)
   }
 }
 
-void Pdf::start(const char *url)
+void Ps::view(const char *url)
 {
   char *file = new char[PATH_LEN];
 
-  if (Cache::download(url, file)) {
-    if (toolid == ACROBAT_TOOL)
-      launch("acroread", file);
-    else if (toolid == XPDF_TOOL)
-      launch("xpdf", file);
-    else if (toolid == EVINCE_TOOL)
-      launch("evince", file);
+  if (Cache::download(url, file) != 0) {
+    if (toolid == GV_TOOL)
+      launch("gv", file);
+    else if (toolid == GHOSTVIEW_TOOL)
+      launch("ghostscript", file);
     else {
-      error("%s pdf, toolid=%x", e_tool, toolid);
+      error("%s ps, toolid=%x", e_tool, toolid);
       launch("preview", file);
     }
   }
+  delete[] file;
 }
 
-void Pdf::quit()
+void Ps::launcha2ps(const char *tool, const char *file)
 {
-  if (pid > 0) {
-    kill(pid, SIGKILL);
-    pid = -1;
+  switch (pid = fork()) {
+  case -1:
+    error("%s %s", e_fork, tool);
+    break;
+  case 0:
+    execlp("a2ps", tool, "-d", file, (char*)NULL);
+    error("%s %s", e_exec, tool);
+    signal(SIGCHLD, SIG_IGN);
+    exit(1);
+  default:
+    break;
   }
+}
+
+void Ps::print(const char *url)
+{
+  char *file = new char[PATH_LEN];
+
+  if (Cache::download(url, file)) launcha2ps("a2ps", file);
+  delete[] file;
+}
+
+void Ps::quit()
+{
+  if (pid > 0) kill(pid, SIGKILL);
 }
