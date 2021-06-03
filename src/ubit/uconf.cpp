@@ -29,36 +29,31 @@
 #include <ubit/uevent.hpp>
 #include <ubit/uima.hpp>
 #include <ubit/ubackground.hpp>
+
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
 
 
-// TRUETYPE font dirs (in /usr/X11R6/ /usr/include/ /usr/openwin/include )
+// TRUETYPE font dirs ( in /usr/X11/include /usr/include /usr/openwin/include )
 #define XFT_DIR "/usr/X11/share/fonts/Type1/" // macosx
 #if LINUX
-#  if HAVE_TTF_PFA
-#    define LFT_DIR TTFPATH
-#  else
-#    define LFT_DIR "./fonts/"
+# if HAVE_TTF_PFA
+#  define LFT_DIR TTFPATH
+# else
+#  define LFT_DIR "./fonts/"
 //DAX#    error Sorry, but the TTF font aith .pfa suffix must exist
-#  endif
-#else
+# endif
+#else // !LINUX
 #  define LFT_DIR ""
-#endif
-//#if UBUNTU | DEBIAN
-//#define LFT_DIR "/usr/share/fonts/X11/Type1/" //ubunto
-//#else
-//#define LFT_DIR "/usr/share/X11/fonts/Type1/" // fedora
-//#endif
+#endif // LINUX
 #define OFT_DIR "/usr/openwin/lib/X11/fonts/TrueType/" // solaris
-// /System/Library/Frameworks/JavaVM.framework/Versions/1.3.1/Home/lib/fonts/LucidaSansRegular.ttf";
   
 // these definitions MUST be HERE and in THIS order to avoid init incoherencies
 UFontFamily UFontFamily::defaults("defaults", UCONST);    // private constr!
-UFontFamily UFontFamily::sans_serif("sans_serif",UCONST);
-UFontFamily UFontFamily::serif("serif",UCONST);
-UFontFamily UFontFamily::monospace("monospace",UCONST);
+UFontFamily UFontFamily::sans_serif("sans_serif", UCONST);
+UFontFamily UFontFamily::serif("serif", UCONST);
+UFontFamily UFontFamily::monospace("monospace", UCONST);
   
 UConf UAppli::conf;   // configuration of the UAppli
 
@@ -70,45 +65,42 @@ UConf::~UConf() {
 }
 
 UConf::UConf() : 
-freeze_options(false),
+ freeze_options(false),
 
 #if UBIT_WITH_GLUT
-windowing_toolkit("GLUT"),
-is_using_gl(true),
-is_using_freetype(true),
-  
+ windowing_toolkit("GLUT"),
+ is_using_gl(true),
+ is_using_freetype(true),
 #elif UBIT_WITH_X11
-windowing_toolkit("X11"),
-#  if UBIT_WITH_GL    // X11 with GL
-is_using_gl(true),  // GL est le mode par defaut pour X11, si disponible
-is_using_freetype(true),  // FT idem
-#  else          // X11 without GL
-is_using_gl(false),
-is_using_freetype(false),
+ windowing_toolkit("X11"),
+#  if UBIT_WITH_GL	// X11 with GL
+ is_using_gl(true),	// GL est le mode par defaut pour X11, si disponible
+ is_using_freetype(true),// FT idem
+#  else			// X11 without GL
+ is_using_gl(false),
+ is_using_freetype(false),
 #  endif
-
 #elif UBIT_WITH_GDK
-windowing_toolkit("GDK"),
-is_using_gl(false),
-is_using_freetype(false),
-
+ windowing_toolkit("GDK"),
+ is_using_gl(false),
+ is_using_freetype(false),
 #else
-#  error "One of the UBIT_WITH_GLUT, UBIT_WITH_X11, UBIT_WITH_GDK macros must be defined and set to 1"
+#  error "One of the UBIT_WITH_GLUT, UBIT_WITH_X11, UBIT_WITH_GDK macros must be set to 1"
 #endif
 
-bpp(24),             // default=24 : use 24 bits whenever possible
-depth_size(0),       // openGL depth buffer
-stencil_size(0),     // openGL stencil buffer
-verbosity(false),
-scale(1.),	         // default=1. : no scaling factor
-filebox_width(400),
-filebox_height(230),
-filebox_line_count(10),
-mouse_select_button(UMouseEvent::LeftButton),
-mouse_menu_button(UMouseEvent::RightButton),
-mouse_alt_button(UMouseEvent::MidButton),
-locale(""),   // default="" : the locale is given by the environment (ex: "iso_8859_1")
-default_background(*new UBackground(UColor::lightgrey))
+ bpp(24),             // default=24 : use 24 bits whenever possible
+ depth_size(0),       // openGL depth buffer
+ stencil_size(0),     // openGL stencil buffer
+ verbosity(false),
+ scale(1.),	         // default=1. : no scaling factor
+ filebox_width(400),
+ filebox_height(230),
+ filebox_line_count(10),
+ mouse_select_button(UMouseEvent::LeftButton),
+ mouse_menu_button(UMouseEvent::RightButton),
+ mouse_alt_button(UMouseEvent::MidButton),
+ locale(""),   // default="" : the locale is given by the environment (ex: "iso_8859_1")
+ default_background(*new UBackground(UColor::lightgrey))
 {
   // - - - fonts - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   
