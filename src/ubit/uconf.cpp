@@ -45,7 +45,7 @@ NAMESPACE_UBIT
 //DAX#    error Sorry, but the TTF font aith .pfa suffix must exist
 # endif
 #else // !LINUX
-#  define LFT_DIR ""
+#  define LFT_DIR "./fonts/"
 #endif // LINUX
 #define OFT_DIR "/usr/openwin/lib/X11/fonts/TrueType/" // solaris
   
@@ -59,19 +59,10 @@ UConf UAppli::conf;   // configuration of the UAppli
 
 /* ==================================================== ===== ======= */
 
-UConf::~UConf() {
-  // on detruit rien car il peut y avoir des pointeurs partages
-  // tant pis pour la memoire (cout negligeable en pratique)
-}
-
 UConf::UConf() : 
  freeze_options(false),
 
-#if UBIT_WITH_GLUT
- windowing_toolkit("GLUT"),
- is_using_gl(true),
- is_using_freetype(true),
-#elif UBIT_WITH_X11
+#if UBIT_WITH_X11
  windowing_toolkit("X11"),
 #  if UBIT_WITH_GL	// X11 with GL
  is_using_gl(true),	// GL est le mode par defaut pour X11, si disponible
@@ -80,12 +71,19 @@ UConf::UConf() :
  is_using_gl(false),
  is_using_freetype(false),
 #  endif
+
 #elif UBIT_WITH_GDK
  windowing_toolkit("GDK"),
  is_using_gl(false),
  is_using_freetype(false),
+
+#elif UBIT_WITH_GLUT
+ windowing_toolkit("GLUT"),
+ is_using_gl(true),
+ is_using_freetype(true),
+
 #else
-#  error "One of the UBIT_WITH_GLUT, UBIT_WITH_X11, UBIT_WITH_GDK macros must be set to 1"
+# error "One of the UBIT_WITH_X11, UBIT_WITH_GDK, UBIT_WITH_GLUT macros must be set to 1"
 #endif
 
  bpp(24),             // default=24 : use 24 bits whenever possible
@@ -111,26 +109,20 @@ UConf::UConf() :
   UFontFamily::defaults.setCompression("normal");
   UFontFamily::defaults.setEncoding("1");
   UFontFamily::defaults.setPreferredSizes("2,6,7,8,9,10,11,12,14,16,18,20,24,34,48,72");
-  UFontFamily::defaults.setFreeType
+  //printf("fonts: %s %s\n", XFT_DIR, LFT_DIR);
+  UFontFamily::defaults.setFreeType(
 #if LINUX
-  //regular
-  (XFT_DIR"UTRG____.pfa,"LFT_DIR"UTRG____.pfa",   //-adobe-utopia-medium-r-normal--0-0-0-0-p-0-iso8859-1
-   //bold
+   XFT_DIR"UTRG____.pfa,"LFT_DIR"UTRG____.pfa",   //-adobe-utopia-medium-r-normal--0-0-0-0-p-0-iso8859-1
    XFT_DIR"UTB_____.pfa,"LFT_DIR"UTB_____.pfa",   //-adobe-utopia-bold-r-normal--0-0-0-0-p-0-iso8859-1
-   //italic
    XFT_DIR"UTI_____.pfa,"LFT_DIR"UTI_____.pfa",   //-adobe-utopia-medium-i-normal--0-0-0-0-p-0-iso8859-1
-   //bolditalic
-   XFT_DIR"UTBI____.pfa,"LFT_DIR"UTBI____.pfa");  //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
-#else
-  //regular
-  (XFT_DIR"l048013t.pfa,"LFT_DIR"l048013t.pfa",   //b&h-luxi sans-medium-r-**-iso8859-1
-   //bold
+   XFT_DIR"UTBI____.pfa,"LFT_DIR"UTBI____.pfa"    //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
+#else // !LINUX
+   XFT_DIR"l048013t.pfa,"LFT_DIR"l048013t.pfa",   //b&h-luxi sans-medium-r-**-iso8859-1
    XFT_DIR"l048016t.pfa,"LFT_DIR"l048016t.pfa",   //b&h-luxi sans-bold-r-**-iso8859-1
-   //italic
    XFT_DIR"l048033t.pfa,"LFT_DIR"l048033t.pfa",   //b&h-luxi sans-medium-o-**-iso8859-1
-   //bolditalic
-   XFT_DIR"l048036t.pfa,"LFT_DIR"l048036t.pfa");  //b&h-luxi sans-bold-o-**-iso8859-1
+   XFT_DIR"l048036t.pfa,"LFT_DIR"l048036t.pfa"    //b&h-luxi sans-bold-o-**-iso8859-1
 #endif
+  );
   
   UFontFamily::sans_serif = UFontFamily::defaults;
   UFontFamily::sans_serif.setFamily("helvetica,arial");
@@ -213,7 +205,13 @@ UConf::UConf() :
   auto_repeat_delay  = 150;	  // millisec
   open_tip_delay     = 500;	  // millisec
   open_submenu_delay = 300;	  // millisec
- }
+}
+
+UConf::~UConf()
+{
+  // on detruit rien car il peut y avoir des pointeurs partages
+  // tant pis pour la memoire (cout negligeable en pratique)
+}
 
 /* ==================================================== ===== ======= */
 
