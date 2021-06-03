@@ -27,7 +27,7 @@ ACLOCAL_AMFLAGS = -I support
 
 SUBDIRS = src man bin etc
 
-EXTRA_DIST = COPYRIGHT VERSION ANNOUNCE CONTRIBUTING support/* md/* fonts/* autogen.sh commit clone vr git-chk
+EXTRA_DIST = COPYRIGHT VERSION ANNOUNCE CONTRIBUTING support/* md/* autogen.sh commit clone vr
 
 ## maintainer's targets
 

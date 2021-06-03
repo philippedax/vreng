@@ -41,11 +41,11 @@ NAMESPACE_UBIT
 # if HAVE_TTF_PFA
 #  define LFT_DIR TTFPATH
 # else
-#  define LFT_DIR "./fonts/"
+#  define LFT_DIR "src/ubit/fonts/"
 //DAX#    error Sorry, but the TTF font aith .pfa suffix must exist
 # endif
 #else // !LINUX
-#  define LFT_DIR "./fonts/"
+#  define LFT_DIR "src/ubit/fonts/"
 #endif // LINUX
 #define OFT_DIR "/usr/openwin/lib/X11/fonts/TrueType/" // solaris
   

@@ -350,7 +350,7 @@ armv4l-*-linux*)
   if test -f $TTFPATH/UTRG____.pfa; then
     AC_DEFINE(HAVE_TTF_PFA)
   else
-    AC_MSG_WARN(Vreng requires TTF freetype fonts with the pfs format see ./fonts directory)
+    AC_MSG_WARN(Vreng requires TTF freetype fonts with the pfs format see src/ubit/fonts directory)
   fi
   ;;
 *-*-netbsd*)
@@ -1854,7 +1854,6 @@ AC_CONFIG_FILES([
         src/servers/vjs/app/fr/enst/Makefile
         src/servers/vjs/app/fr/enst/vreng/Makefile
         src/servers/vjs/app/fr/enst/vreng/tester/Makefile
-        fonts/Makefile
         man/Makefile
         bin/Makefile
         bin/vre

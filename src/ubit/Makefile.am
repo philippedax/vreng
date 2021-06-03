@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign
 
-EXTRA_DIST = COPYING COPYRIGHT AUTHORS ubit-doxygen.css
+EXTRA_DIST = COPYING COPYRIGHT AUTHORS fonts/* ubit-doxygen.css
 
 AM_CPPFLAGS = -I$(top_srcdir) -I$(top_srcdir)/src -I$(top_srcdir)/src/ubit -I. -I$(top_srcdir)/src/bundle
 
