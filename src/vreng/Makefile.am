@@ -28,7 +28,7 @@ VRENG_SRCS = vreng.cpp scene.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp ur
 VRENG_HDRS = vreng.hpp scene.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp reader.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp prof.hpp color.hpp stat.hpp sound.hpp sounds.hpp vector3.hpp universe.hpp xml.hpp openal.hpp
 
 SRCDIR = $(top_srcdir)/src
-CORE_INCL = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
+CORE_INCL = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 if OCAML
 AM_CPPFLAGS = @UBIT_CFLAGS@ @OCAML_CFLAGS@ @XML2_CFLAGS@ $(CORE_INCL) -I$(SRCDIR)/ai
 else

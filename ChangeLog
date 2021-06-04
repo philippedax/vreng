@@ -15,6 +15,7 @@ The rules for this file:
 ++ 9
 == 9.2
 -- 9.3.0
+	- renamed vgl/ to 3d/
 	- renamed texture/ to 2d/
 	- renamed app/ to tool/
 	- moved fonts into src/ubit

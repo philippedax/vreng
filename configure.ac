@@ -1813,8 +1813,8 @@ AC_CONFIG_FILES([
         src/wo/Makefile
         src/net/Makefile
         src/2d/Makefile
+        src/3d/Makefile
         src/model/Makefile
-        src/vgl/Makefile
         src/tool/Makefile
         src/vnc/Makefile
         src/ai/Makefile

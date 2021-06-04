@@ -28,5 +28,5 @@ VGL_HDRS = solid.hpp draw.hpp render.hpp ogl.hpp axis.hpp grid.hpp glu.hpp vicin
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model
 
-libvgl_a_SOURCES = $(VGL_SRCS) $(VGL_HDRS)
-noinst_LIBRARIES = libvgl.a
+lib3d_a_SOURCES = $(VGL_SRCS) $(VGL_HDRS)
+noinst_LIBRARIES = lib3d.a

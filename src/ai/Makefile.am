@@ -10,7 +10,7 @@ OCAML_HDRS = aiinit.hpp analyseur.mli requeteAffichage.mli stringParser.mli stri
 
 EXTRA_DIST = $(OCAML_SRCS) $(OCAML_HDRS)
 
-AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ -I$(top_srcdir)/src/sys -I$(top_srcdir)/src/vreng -I$(top_srcdir)/src/com -I$(top_srcdir)/src/net -I$(top_srcdir)/src/wo -I$(top_srcdir)/src/vgl -I$(top_srcdir)/src/gui
+AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ -I$(top_srcdir)/src/sys -I$(top_srcdir)/src/vreng -I$(top_srcdir)/src/com -I$(top_srcdir)/src/net -I$(top_srcdir)/src/wo -I$(top_srcdir)/src/3d -I$(top_srcdir)/src/gui
 
 libai_a_SOURCES = $(OCAML_INIT) aiinit.hpp
 noinst_LIBRARIES = libai.a

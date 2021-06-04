@@ -90,7 +90,7 @@ vjs:
 endif
 
 # core includes
-CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
+CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 
 # ocaml includes
 if OCAML
@@ -137,10 +137,10 @@ VRENG_LIB  = -L$(SRCDIR)/vreng $(SRCDIR)/vreng/libvreng.a
 SYS_LIB    = -L$(SRCDIR)/sys $(SRCDIR)/sys/libsys.a
 GUI_LIB    = -L$(SRCDIR)/gui $(SRCDIR)/gui/libgui.a
 WO_LIB     = -L$(SRCDIR)/wo  $(SRCDIR)/wo/libwo.a
-NET_LIB    = -L$(SRCDIR)/net $(SRCDIR)/net/libnet.a
-TEX_LIB    = -L$(SRCDIR)/2d $(SRCDIR)/2d/lib2d.a
 MODEL_LIB  = -L$(SRCDIR)/model $(SRCDIR)/model/libmodel.a
-VGL_LIB    = -L$(SRCDIR)/vgl $(SRCDIR)/vgl/libvgl.a
+2D_LIB     = -L$(SRCDIR)/2d $(SRCDIR)/2d/lib2d.a
+3D_LIB     = -L$(SRCDIR)/3d $(SRCDIR)/3d/lib3d.a
+NET_LIB    = -L$(SRCDIR)/net $(SRCDIR)/net/libnet.a
 TOOL_LIB   = -L$(SRCDIR)/tool $(SRCDIR)/tool/libtool.a
 VNC_LIB    = -L$(SRCDIR)/vnc $(SRCDIR)/vnc/libvnc.a
 if UBIT
@@ -153,7 +153,7 @@ AI_LIB=-L$(SRCDIR)/ai $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/li
 else
 AI_LIB=
 endif
-CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(NET_LIB) $(TEX_LIB) $(MODEL_LIB) $(VGL_LIB) $(TOOL_LIB) $(VNC_LIB) $(VRENG_LIB) $(SYS_LIB) $(UBIT_LIB) $(AI_LIB)
+CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(VRENG_LIB) $(SYS_LIB) $(UBIT_LIB) $(AI_LIB)
 
 # bundle libs
 BUNDLE_LIBS = $(Z_LIB) $(GLPNG_LIB) $(MPEG_LIB) $(GL2PS_LIB) $(GLUI_LIB) $(FTGL_LIB) $(XML_LIB) $(PNG_LIB)
