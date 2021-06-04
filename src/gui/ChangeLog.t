@@ -16,8 +16,10 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.2\n\
 -- 9.3.0\n\
+	- renamed texture/ to 2d/\n\
+	- renamed app/ to tool/\n\
 	- moved fonts into src/ubit\n\
-	(2021/06/03, Philippe Dax)\n\
+	(2021/06/04, Philippe Dax)\n\
 \n\
 -- 9.2.0\n\
 	- added new object #84 : human\n\

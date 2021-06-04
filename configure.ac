@@ -1812,7 +1812,7 @@ AC_CONFIG_FILES([
         src/gui/xpm/Makefile
         src/wo/Makefile
         src/net/Makefile
-        src/texture/Makefile
+        src/2d/Makefile
         src/model/Makefile
         src/vgl/Makefile
         src/tool/Makefile

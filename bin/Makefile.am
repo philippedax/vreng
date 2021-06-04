@@ -90,7 +90,7 @@ vjs:
 endif
 
 # core includes
-CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/texture -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
+CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/vgl -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 
 # ocaml includes
 if OCAML
@@ -138,7 +138,7 @@ SYS_LIB    = -L$(SRCDIR)/sys $(SRCDIR)/sys/libsys.a
 GUI_LIB    = -L$(SRCDIR)/gui $(SRCDIR)/gui/libgui.a
 WO_LIB     = -L$(SRCDIR)/wo  $(SRCDIR)/wo/libwo.a
 NET_LIB    = -L$(SRCDIR)/net $(SRCDIR)/net/libnet.a
-TEX_LIB    = -L$(SRCDIR)/texture $(SRCDIR)/texture/libtexture.a
+TEX_LIB    = -L$(SRCDIR)/2d $(SRCDIR)/2d/lib2d.a
 MODEL_LIB  = -L$(SRCDIR)/model $(SRCDIR)/model/libmodel.a
 VGL_LIB    = -L$(SRCDIR)/vgl $(SRCDIR)/vgl/libvgl.a
 TOOL_LIB   = -L$(SRCDIR)/tool $(SRCDIR)/tool/libtool.a
