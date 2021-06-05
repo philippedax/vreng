@@ -16,6 +16,8 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.2\n\
 -- 9.3.0\n\
+	- moved servers/* into src/\n\
+	- moved util/* into src/\n\
 	- renamed vgl/ to 3d/\n\
 	- renamed texture/ to 2d/\n\
 	- renamed app/ to tool/\n\

@@ -32,20 +32,19 @@ do
   n=$[ $n + 1 ]
 done
 
-echo "########## src/util/"
-for f in src/util/*/*.[lych] src/util/*/*.*p
-do
-  #echo $f
-  diff $f $dir/$f
-  n=$[ $n + 1 ]
-done
-
-echo "########## src/servers/"
-for f in src/servers/*/*.[ch]pp
-do
-  #echo $f
-  diff $f $dir/$f
-  n=$[ $n + 1 ]
-done
+#echo "########## src/util/"
+#for f in src/util/*/*.[lych] src/util/*/*.*p
+#do
+#  #echo $f
+#  diff $f $dir/$f
+#  n=$[ $n + 1 ]
+#done
+#echo "########## src/servers/"
+#for f in src/servers/*/*.[ch]pp
+#do
+#  #echo $f
+#  diff $f $dir/$f
+#  n=$[ $n + 1 ]
+#done
 
 echo "$n files"

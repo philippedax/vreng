@@ -40,50 +40,50 @@ noinst_SCRIPTS =
 
 # to copy into bin/
 if VRL
-vrl: ../src/util/vrl/src/vrl
-	-cp -p ../src/util/vrl/src/vrl .
+vrl: ../src/vrl/vrl
+	-cp -p ../src/vrl/vrl .
 else
 vrl:
 	@echo "" >/dev/null
 endif
 if VREL
-vrel: ../src/util/vrel/vrel
-	-cp -p ../src/util/vrel/vrel .
+vrel: ../src/vrel/vrel
+	-cp -p ../src/vrel/vrel .
 else
 vrel:
 	@echo "" >/dev/null
 endif
 if VRED
-vred: ../src/util/vred/vred
-	-cp -p ../src/util/vred/vred .
+vred: ../src/vred/vred
+	-cp -p ../src/vred/vred .
 else
 vred:
 	@echo "" >/dev/null
 endif
 if VMM
-vmm: ../src/util/vmm/vmm
-	-cp -p ../src/util/vmm/vmm .
+vmm: ../src/vmm/vmm
+	-cp -p ../src/vmm/vmm .
 else
 vmm:
 	@echo "" >/dev/null
 endif
 if ENABLE_VACS
-vacs: ../src/servers/vacs/vacs
-	-cp -p ../src/servers/vacs/vacs .
+vacs: ../src/vacs/vacs
+	-cp -p ../src/vacs/vacs .
 else
 vacs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VAPS
-vaps: ../src/servers/vaps/vaps
-	-cp -p ../src/servers/vaps/vaps .
+vaps: ../src/vaps/vaps
+	-cp -p ../src/vaps/vaps .
 else
 vaps:
 	@echo "" >/dev/null
 endif
 if ENABLE_VJS
-vjs: ../src/servers/vjs/vjs
-	-cp -p ../src/servers/vjs/vjs .
+vjs: ../src/vjs/vjs
+	-cp -p ../src/vjs/vjs .
 else
 vjs:
 	@echo "" >/dev/null

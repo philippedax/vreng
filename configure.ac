@@ -1818,13 +1818,11 @@ AC_CONFIG_FILES([
         src/tool/Makefile
         src/vnc/Makefile
         src/ai/Makefile
-        src/util/Makefile
-        src/util/vrl/Makefile
-        src/util/vrl/src/Makefile
-        src/util/vrel/Makefile
-        src/util/vred/Makefile
-        src/util/vmm/Makefile
-        src/util/tools/Makefile
+        src/vrl/Makefile
+        src/vrel/Makefile
+        src/vred/Makefile
+        src/vmm/Makefile
+        src/misc/Makefile
         src/ubit/Makefile
         src/bundle/Makefile
         src/bundle/zlib/Makefile
@@ -1834,26 +1832,25 @@ AC_CONFIG_FILES([
         src/bundle/mpeg_lib/Makefile
         src/bundle/glui/Makefile
         src/bundle/ftgl/Makefile
-        src/servers/Makefile
-        src/servers/vrum/Makefile
-        src/servers/vacs/Makefile
-        src/servers/vaps/Makefile
-        src/servers/vjs/Makefile
-        src/servers/vjs/vjs
-        src/servers/vjs/base/Makefile
-        src/servers/vjs/base/fr/Makefile
-        src/servers/vjs/base/fr/enst/Makefile
-        src/servers/vjs/base/fr/enst/vreng/Makefile
-        src/servers/vjs/base/fr/enst/vreng/server/Makefile
-        src/servers/vjs/base/fr/enst/vreng/net/Makefile
-        src/servers/vjs/base/fr/enst/vreng/data/Makefile
-        src/servers/vjs/base/fr/enst/vreng/data/types/Makefile
-        src/servers/vjs/base/fr/enst/vreng/data/messages/Makefile
-        src/servers/vjs/app/Makefile
-        src/servers/vjs/app/fr/Makefile
-        src/servers/vjs/app/fr/enst/Makefile
-        src/servers/vjs/app/fr/enst/vreng/Makefile
-        src/servers/vjs/app/fr/enst/vreng/tester/Makefile
+        src/vrum/Makefile
+        src/vacs/Makefile
+        src/vaps/Makefile
+        src/vjs/Makefile
+        src/vjs/vjs
+        src/vjs/base/Makefile
+        src/vjs/base/fr/Makefile
+        src/vjs/base/fr/enst/Makefile
+        src/vjs/base/fr/enst/vreng/Makefile
+        src/vjs/base/fr/enst/vreng/server/Makefile
+        src/vjs/base/fr/enst/vreng/net/Makefile
+        src/vjs/base/fr/enst/vreng/data/Makefile
+        src/vjs/base/fr/enst/vreng/data/types/Makefile
+        src/vjs/base/fr/enst/vreng/data/messages/Makefile
+        src/vjs/app/Makefile
+        src/vjs/app/fr/Makefile
+        src/vjs/app/fr/enst/Makefile
+        src/vjs/app/fr/enst/vreng/Makefile
+        src/vjs/app/fr/enst/vreng/tester/Makefile
         man/Makefile
         bin/Makefile
         bin/vre
