@@ -2,7 +2,7 @@
 ##
 ## Maintainer: Philippe Dax
 ##
-AUTOMAKE_OPTIONS = foreign no-dependencies
+AUTOMAKE_OPTIONS = foreign
 ACLOCAL_AMFLAGS = -I config
 
 VRL_SRCS = vrl.cpp vre.cpp
