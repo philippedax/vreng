@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "render.hpp"
-#include "scene.hpp"	// getScene
+#include "scene.hpp"	// Scene
 #include "solid.hpp"	// Solid
 #include "wobject.hpp"	// WObject
 #include "world.hpp"	// current
@@ -180,12 +180,12 @@ void Render::showMap()
     uint8_t bord = 1;	// 1 pixel
     GLint x, y, w, h;
 
-    ::g.gui.getScene()->getCoords(x, y, w, h);
+    ::g.gui.scene()->getCoords(x, y, w, h);
     
     glScissor(x + w-(w/3), y +h -h/3, w/3, (GLsizei) ((h-y)/3));  // top-right corner
     glEnable(GL_SCISSOR_TEST);
     
-    ::g.gui.getScene()->setViewport(w-(w/3)+bord, y+h-h/3-bord, (w/3)-2*bord, (GLsizei) ((h-y)/3));
+    ::g.gui.scene()->setViewport(w-(w/3)+bord, y+h-h/3-bord, (w/3)-2*bord, (GLsizei) ((h-y)/3));
     glMatrixMode(GL_MODELVIEW);
 
     // place the mini-map at a position depending on the world's dimensions
@@ -206,7 +206,7 @@ void Render::showMap()
 
     // reset initial state
     glDisable(GL_SCISSOR_TEST);
-    ::g.gui.getScene()->setViewport(x, y, w, h);
+    ::g.gui.scene()->setViewport(x, y, w, h);
   }
 }
 
@@ -218,11 +218,11 @@ void Render::showSat()
   int bord = 1;
   GLint x, y, w, h;
 
-  ::g.gui.getScene()->getCoords(x, y, w, h);
+  ::g.gui.scene()->getCoords(x, y, w, h);
 
   glScissor(x, y, w/5, (GLsizei)((h-y)/5));   // bottom-left corner
   glEnable(GL_SCISSOR_TEST);
-  ::g.gui.getScene()->setViewport(bord, bord, (w/5)-2*bord, (GLsizei) ((h-y)/5)-2*bord);
+  ::g.gui.scene()->setViewport(bord, bord, (w/5)-2*bord, (GLsizei) ((h-y)/5)-2*bord);
   glMatrixMode(GL_MODELVIEW);
 
   // scene position
@@ -240,7 +240,7 @@ void Render::showSat()
 
   // reset initial state
   glDisable(GL_SCISSOR_TEST);
-  ::g.gui.getScene()->setViewport(x, y, w, h);
+  ::g.gui.scene()->setViewport(x, y, w, h);
   mapPos.V_Z = 0;	//retire l'affichage de la position ds la map
 }
 
@@ -269,7 +269,7 @@ V3 Render::getVisiblePosition(WObject *po)
   GLint vp[4];
   GLdouble mview[16], mproj[16];
 
-  ::g.gui.getScene()->getCoords(vp[0], vp[1], vp[2], vp[3]);
+  ::g.gui.scene()->getCoords(vp[0], vp[1], vp[2], vp[3]);
   GLint w = vp[2];
   GLint h = vp[3];
 

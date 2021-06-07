@@ -126,7 +126,7 @@ void * Universe::runWheel(void * arg)
 {
   univ_progress = true;
   progression('[');
-  //CRASH ubit GLSection gls(::g.gui.getScene());
+  //CRASH ubit GLSection gls(::g.gui.scene());
 #if 0 //dax
   while (univ_progress) {
     //progression('.');

@@ -71,9 +71,9 @@ void Gui::showWidgets(bool state)
   if (widgets) widgets->show(state);
 }
 
-Scene* Gui::getScene()
+Scene* Gui::scene()
 {
-  return widgets ? &widgets->scene : null;
+  return (widgets) ? &widgets->scene : null;
 }
 
 int Gui::getCycles()

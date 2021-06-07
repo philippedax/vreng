@@ -25,7 +25,6 @@
 #include "solid.hpp"
 #include "draw.hpp"	// STYLE
 #include "render.hpp"	// ::g.render
-#include "scene.hpp"	// getScene
 #include "texture.hpp"	// Texture
 #include "wobject.hpp"	// WObject
 #include "netobj.hpp"	// declareObjDelta

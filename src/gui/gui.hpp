@@ -45,7 +45,7 @@ public:
   void createWidgets();
   void showWidgets(bool = true);
   
-  class Scene* getScene();
+  class Scene* scene();
   ///< returns a pointer to the scene.
   
   int getCycles();

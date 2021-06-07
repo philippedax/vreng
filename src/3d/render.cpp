@@ -20,8 +20,8 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "render.hpp"
-#include "scene.hpp"	// getScene
 #include "solid.hpp"	// Solid, object()
+#include "scene.hpp"	// setViewpoint
 #include "texture.hpp"	// initCache
 #include "wobject.hpp"	// WObject
 #include "world.hpp"	// current
@@ -155,7 +155,7 @@ void Render::materials()
 }
 
 // DEBUG //
-#if 0 //dax0 set to 1 to force debug tracing
+#if 0 // set to 1 to force debug tracing
 #define DBG_VGL DBG_FORCE
 #endif
 
@@ -440,16 +440,17 @@ void Render::minirender()
 void Render::clearBuffer()
 {
   if (flash) {
-    ::g.gui.getScene()->setBackground(UColor::white);
+    ::g.gui.scene()->setBackground(UColor::white);
     flash = false;	// flash done
     return;
   }
+  Bgcolor* bgcolor = World::current()->backgroundColor();
+  if (bgcolor) {
+    UColor bg(bgcolor->color[0], bgcolor->color[1], bgcolor->color[2]);
+    ::g.gui.scene()->setBackground(bg);
+  }
   else {
-    Bgcolor* bgcolor = World::current()->backgroundColor();
-    if (bgcolor) {
-      UColor bg(bgcolor->color[0], bgcolor->color[1], bgcolor->color[2]);
-      ::g.gui.getScene()->setBackground(bg);
-    }
+    ::g.gui.scene()->setBackground(UColor::black);
   }
   glClearDepth(1);	// depth of Z-buffer to clear
 
@@ -679,7 +680,7 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   GLint vp[4];
 
   //dax glGetIntegerv(GL_VIEWPORT, vp);
-  ::g.gui.getScene()->getCoords(vp[0], vp[1], vp[2], vp[3]);	// get viewport
+  ::g.gui.scene()->getCoords(vp[0], vp[1], vp[2], vp[3]);	// get viewport
 
   GLfloat ex = localuser->pos.x + User::NEAR;
   GLfloat ey = localuser->pos.y;

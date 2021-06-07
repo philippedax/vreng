@@ -48,7 +48,7 @@
 #include "message.hpp"
 #include "capture.hpp"
 
-static void toggleHudCB(Widgets*) { g.gui.getScene()->toggleHud(); }
+static void toggleHudCB(Widgets*) { g.gui.scene()->toggleHud(); }
 
 static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 

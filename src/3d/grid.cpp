@@ -85,7 +85,7 @@ void Grid::init(int _depth, int _width, int _height)
 
 void Grid::draw()
 {
-  Scene * scene = ::g.gui.getScene();
+  Scene *scene = ::g.gui.scene();
   if (!scene || !scene->isInitialized()) return;
 
   if (dlist != -1)
