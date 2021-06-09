@@ -33,8 +33,8 @@ class Solid;
  * OpenGL Graphic Context and Rendering
  */
 class Render {
- friend class User;		///< access to many members.
- friend class Solid;		///< access to many members.
+ friend class User;		///< access to some members.
+ friend class Solid;		///< access to some members.
 
 public:
 
@@ -57,15 +57,45 @@ public:
   //
   list<Solid*> solidList;	///< solids list.
   list<Solid*> relsolidList;	///< relative solids list.
-  list<Solid*> transparentList;	///< transparent solids list.
   list<Solid*> opaqueList;	///< opaque solids list.
-  list<Solid*> flaryList;	///< flary solids list.
+  list<Solid*> transparentList;	///< transparent solids list.
   list<Solid*> groundList;	///< ground solids list.
   list<Solid*> modelList;	///< model solids list.
   list<Solid*> userList;	///< user solids list.
+  list<Solid*> flaryList;	///< flary solids list.
+
+  list<Solid*> getSolidList() { return solidList; }
+  /**< Returns the rendering solid list. */
+
+  void showSolidList();
+  /**< Shows all solids of the solid list. */
+
+  /////////////
+  // Rendering
+  /////////////
 
   Render();
   /**< Constructor. */
+
+  void render();
+  /**< Renders the current scene in the current buffer. */
+
+  void minirender();
+  /**< Renders minimal. */
+
+  /////////////
+  // BB
+  /////////////
+
+  void getBB(V3& bbmax, V3& bbmin, bool _framed);
+  /**< Gets min/max BB. */
+
+  void setBB(GLfloat w, GLfloat d, GLfloat h);
+  void setBB(const GLfloat *v);
+  /**< Sets min/max BB. */
+
+  void updateBB(GLfloat az);
+  /**< Updates BB according to its orientation. */
 
   /////////////
   // Config
@@ -81,39 +111,6 @@ public:
   /**< Checks OpenGL buffers. */
 
   static void stat();
-
-  /////////////
-  // Rendering
-  /////////////
-
-  void render();
-  /**< Renders the current scene in the current buffer. */
-
-  void minirender();
-  /**< Renders minimal. */
-
-  /////////////
-  // Solid
-  /////////////
-
-  list<Solid*> getSolidList() { return solidList; }
-  /**< return the rendering solid list. */
-
-  void addToList(Solid* solid);
-  /**< add solid in rendering list. */
-
-  void delFromList(Solid* solid);
-  /**< remove solid from rendering list. */
-
-  void getBB(V3& bbmax, V3& bbmin, bool _framed);
-  /**< Gets min/max BB. */
-
-  void setBB(GLfloat w, GLfloat d, GLfloat h);
-  void setBB(const GLfloat *v);
-  /**< Sets min/max BB. */
-
-  void updateBB(GLfloat az);
-  /**< Updates BB according to its orientation. */
 
   /////////////
   // Views
@@ -204,14 +201,18 @@ public:
 
   void analyseScene(char* nameObj);
 
-
-  void quit();			///< Closes the 3d renderer.
+  /////////////
+  // Click
+  /////////////
 
   void clickDirection(GLint x, GLint y, V3 *dir);
   /**< Converts (x,y) screen coord into a direction from eyes to the click. */
 
-  void showSolidList();
-  /**< show all solid of the render list. */
+  /////////////
+  // Quit
+  /////////////
+
+  void quit();			///< Closes the 3d renderer.
 
 
 private:

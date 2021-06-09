@@ -27,22 +27,19 @@
 #include "render.hpp"	// ::g.render
 #include "texture.hpp"	// Texture
 #include "wobject.hpp"	// WObject
+#include "parse.hpp"	// printNumline
 #include "netobj.hpp"	// declareObjDelta
-#include "color.hpp"	// Color
 #include "user.hpp"	// localuser
+#include "color.hpp"	// Color
+#include "format.hpp"	// getModelByUrl
+#include "prof.hpp"	// new_solid
+#include "pref.hpp"	// ::g.pref
 #include "md2.hpp"	// Md2
 #include "obj.hpp"	// Obj
-#include "guy.hpp"	// Guy
 #include "human.hpp"	// Human::draw
 #include "man.hpp"	// Man::draw
 #include "car.hpp"	// draw
 #include "teapot.hpp"	// draw
-#include "format.hpp"	// getModelByUrl
-#include "parse.hpp"	// printNumline
-#include "prof.hpp"	// new_solid
-#include "pref.hpp"	// ::g.pref
-#include "android.hpp"	// render
-#include "body.hpp"	// render
 #include "flare.hpp"	// render
 
 #include <list>
@@ -329,7 +326,7 @@ Solid::Solid()
 /* Deletes solid from display-list. */
 Solid::~Solid()
 {
-  ::g.render.delFromList(this);
+  ::g.render.solidList.remove(this);
   ::g.render.relsolidList.clear();
   nbsolids = 0;
 
@@ -417,13 +414,14 @@ char * Solid::parser(char *l)
   }
   char *ll = strdup(l);	// copy origin line for debug
 
-  if (*l == '<') l++;	// skip open-tag
+  if (*l == '<')
+    l++;	// skip open-tag
   if (! stringcmp(l, "frames=")) {
     l = wobject->parse()->parseUInt8(l, &nbframes, "frames");
   }
   dlists = new GLint[nbframes];
 
-  ::g.render.addToList(this);	// add to solidList
+  ::g.render.solidList.push_back(this);	// add to solidList
   idM4(&matpos);	// init position to 0
 
   // axis aligned bounding boxes (AABB) are here

@@ -696,16 +696,6 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   //error("wx=%d wy=%d o1=%.2f %.2f %.2f o2=%.2f %.2f %.2f dir=%.2f %.2f %.2f", wx,wy,ex,ey,ez,tx,ty,tz,dir->v[0],dir->v[1],dir->v[2]);
 }
 
-void Render::addToList(Solid* solid)
-{
-  solidList.push_back(solid);
-}
-
-void Render::delFromList(Solid* solid)
-{
-  solidList.remove(solid);
-}
-
 /*
  * Get the object list where each object have a type present in the given list.
  */
