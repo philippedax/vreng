@@ -46,6 +46,7 @@ src/*/*.a
 src/*/*/Makefile
 src/*/*/Makefile.in
 src/*/*/.deps
+src/*/*/y.tab*
 src/*/*/*.o
 src/*/*/*.a
 src/*/*/*/Makefile
