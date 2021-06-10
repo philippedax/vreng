@@ -44,7 +44,6 @@ list<WObject*> fluidList;
 list<WObject*> invisList;
 list<WObject*> deleteList;
 list<WObject*> lightList;
-list<WObject*> renderList;
 
 // local
 static uint32_t objectNum = 0;
@@ -187,10 +186,8 @@ void WObject::initObject(uint8_t _mode)
       addToInvisible();
       break;
   }
-  if (isBehavior(NO_BBABLE))
+  if (isBehavior(NO_BBABLE)) {
     enableBehavior(COLLIDE_NEVER);
-  if (isBehavior(SPECIFIC_RENDER)) {
-    addToRender();	// add to renderList
   }
 
   update3D(pos);
@@ -913,6 +910,7 @@ void WObject::getObjectHumanName(char **classname, char **instancename, char **a
 void WObject::click(GLint x, GLint y)
 {
   V3 dir;
+
   //error("x=%d y=%d", x,y);
   ::g.render.clickDirection(x, y, &dir);
   click(dir);	// execute click method if exists
@@ -1031,11 +1029,6 @@ void WObject::addToFluid()
   addToListOnce(fluidList);
 }
 
-void WObject::addToRender()
-{
-  addToListOnce(renderList);
-}
-
 void WObject::delFromMobile()
 {
   delFromList(mobileList);
@@ -1087,9 +1080,9 @@ OList * WObject::addToListOnce(OList *olist)
 /* Deletes a pointer of this object in an olist */
 void WObject::delFromList(list<WObject*> &olist)
 {
-  for (list<WObject*>::iterator ol = olist.begin(); ol != olist.end(); ++ol) {
-    if (*ol == this)
-      olist.remove(*ol);
+  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
+    if (*it == this)
+      olist.remove(*it);
   }
   return;
 }
@@ -1117,32 +1110,32 @@ OList * WObject::delFromList(OList *olist)
 
 bool WObject::isStill()
 {
-  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
-    if (*o == this)  return true;
+  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    if (*it == this)  return true;
   }
   return false;
 }
 
 bool WObject::isMobile()
 {
-  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-    if (*o == this)  return true;
+  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    if (*it == this)  return true;
   }
   return false;
 }
 
 bool WObject::isFluid()
 {
-  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o) {
-    if (*o == this)  return true;
+  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+    if (*it == this)  return true;
   }
   return false;
 }
 
 bool WObject::isEphemeral()
 {
-  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-    if ((*o)->mode == EPHEMERAL)  return true;
+  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    if ((*it)->mode == EPHEMERAL)  return true;
   }
   return false;
 }
@@ -1150,28 +1143,36 @@ bool WObject::isEphemeral()
 // virtual
 WObject * WObject::byWObject(WObject *po)
 {
-  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o)
-    if ((*o) == po) return *o;
-  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o)
-    if ((*o) == po) return *o;
-  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o)
-    if ((*o) == po) return *o;
-  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end(); ++o)
-    if ((*o) == po) return *o;
+  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    if ((*it) == po) return *it;
+  }
+  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    if ((*it) == po) return *it;
+  }
+  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+    if ((*it) == po) return *it;
+  }
+  for (list<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+    if ((*it) == po) return *it;
+  }
   return (WObject *) NULL;
 } 
-    
+
 // static
 WObject * WObject::byNum(uint16_t num)
 {
-  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o)
-    if ((*o)->num == num) return *o;
-  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o)
-    if ((*o)->num == num) return *o;
-  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o)
-    if ((*o)->num == num) return *o;
-  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end(); ++o)
-    if ((*o)->num == num) return *o;
+  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    if ((*it)->num == num) return *it;
+  }
+  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    if ((*it)->num == num) return *it;
+  }
+  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+    if ((*it)->num == num) return *it;
+  }
+  for (list<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+    if ((*it)->num == num) return *it;
+  }
   return (WObject *) NULL;
 }
 
@@ -1312,22 +1313,34 @@ void WObject::get_hname(WObject *po, Payload *pp)
  * put_ functions
  */
 void WObject::put_xy(WObject *po, Payload *pp)
-{ pp->putPayload("ff", po->pos.x, po->pos.y); }
+{
+  pp->putPayload("ff", po->pos.x, po->pos.y);
+}
 
 void WObject::put_z(WObject *po, Payload *pp)
-{ pp->putPayload("f", po->pos.z); }
+{
+  pp->putPayload("f", po->pos.z);
+}
 
 void WObject::put_az(WObject *po, Payload *pp)
-{ pp->putPayload("f", po->pos.az); }
+{
+  pp->putPayload("f", po->pos.az);
+}
 
 void WObject::put_ay(WObject *po, Payload *pp)
-{ pp->putPayload("f", po->pos.ay); }
+{
+  pp->putPayload("f", po->pos.ay);
+}
 
 void WObject::put_ax(WObject *po, Payload *pp)
-{ pp->putPayload("f", po->pos.ax); }
+{
+  pp->putPayload("f", po->pos.ax);
+}
 
 void WObject::put_hname(WObject *po, Payload *pp)
-{ pp->putPayload("s", po->names.type); }
+{
+  pp->putPayload("s", po->names.type);
+}
 
 /** Gets property from Network */
 void WObject::getProperty(uint8_t prop_id, Payload *pp)
@@ -1356,8 +1369,9 @@ void WObject::deleteReplica()
     delFromMobile();
 
     // delete Solids
-    for (SolidList::iterator s = _solids.begin(); s != _solids.end(); s++)
+    for (SolidList::iterator s = _solids.begin(); s != _solids.end(); s++) {
       delete (*s);
+    }
     _solids.erase(_solids.begin(), _solids.end());
 
     if (noh) delete noh;

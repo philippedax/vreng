@@ -58,7 +58,6 @@ extern std::list<WObject*> invisList;
 extern std::list<WObject*> fluidList;
 extern std::list<WObject*> deleteList;
 extern std::list<WObject*> lightList;
-extern std::list<WObject*> renderList;
 
 
 /**
@@ -464,9 +463,6 @@ public:
 
   virtual void addToFluid();
   /**< Adds an object pointer into fluidList. */
-
-  virtual void addToRender();
-  /**< Adds an object pointer into renderList. */
 
   virtual void delFromMobile();
   /**< Deletes an object pointer from mobileList. */

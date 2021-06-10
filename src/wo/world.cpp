@@ -847,39 +847,39 @@ void World::quit()
    * Quits and deletes objects
    */
   // invisible objects
-  for (list<WObject*>::iterator o = invisList.begin(); o != invisList.end(); ++o) {
-    if (*o && (*o)->isValid()) {
-      (*o)->quit();
-      delete(*o);
+  for (list<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+    if (*it && (*it)->isValid()) {
+      (*it)->quit();
+      delete(*it);
     }
   }
   invisList.clear();
 
   // still objects
-  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
-    if (*o && (*o)->isValid()) {
-      (*o)->quit();
-      delete(*o);
+  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    if (*it && (*it)->isValid()) {
+      (*it)->quit();
+      delete(*it);
     }
   }
   stillList.clear();
 
   // mobile objects
-  for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-    if ((*o) == localuser) continue;
-    if (*o && (*o)->isValid() && ! (*o)->isEphemeral()) {
-      (*o)->clearObjectBar();	// segfault FIXME
-      (*o)->quit();
-      delete(*o);
+  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    if ((*it) == localuser) continue;
+    if (*it && (*it)->isValid() && ! (*it)->isEphemeral()) {
+      (*it)->clearObjectBar();	// segfault FIXME
+      (*it)->quit();
+      delete(*it);
     }
   }
   mobileList.clear();
 
   // fluid objects
-  for (list<WObject*>::iterator o = fluidList.begin(); o != fluidList.end(); ++o) {
-    if (*o && (*o)->isValid()) {
-      (*o)->quit();
-      delete(*o);
+  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+    if (*it && (*it)->isValid()) {
+      (*it)->quit();
+      delete(*it);
     }
   }
   fluidList.clear();
@@ -1050,7 +1050,6 @@ void World::clearLists()
   invisList.clear();
   deleteList.clear();
   lightList.clear();
-  renderList.clear();
 }
 
 #if 0 //debug
