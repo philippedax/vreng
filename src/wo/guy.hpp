@@ -36,7 +36,7 @@ class Http;
 // body parts
 #define HEAD_R		0.08	// d=16
 #define NECK_H		0.07	// 05
-#define NECK_R		0.04	//
+#define NECK_R		0.04	// d=08
 #define BUST_H		0.60	//
 #define BUST_W		0.22	//
 #define BUST_L		0.46	// 52
@@ -44,14 +44,14 @@ class Http;
 #define LLEG_H		0.37	//
 #define UARM_H		0.30	// 33
 #define LARM_H		0.33	//
-#define ANKLE_R		0.03	//
-#define FOOT_H		0.11	//
-#define HIP_R		0.09	// d=18
+#define ANKLE_R		0.02	//
+#define FOOT_H		0.12	//
+#define HIP_R		0.08	// d=16
 #define SHOULDER_R	0.04	// d=8
-#define KNEE_R		0.05	// d=10
+#define KNEE_R		0.03	// d=6
 #define ELBOW_R		0.03	// d=6
 #define WRIST_R		0.03	// d=6
-#define BREA_R		0.06	// d
+#define BREA_R		0.05	// d=10
 
 
 typedef struct {
