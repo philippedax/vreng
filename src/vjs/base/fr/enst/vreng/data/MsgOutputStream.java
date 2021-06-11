@@ -1,6 +1,7 @@
 package fr.enst.vreng.data;
 
 import fr.enst.vreng.IMessage;
+
 import java.io.ByteArrayOutputStream;
 
 /**

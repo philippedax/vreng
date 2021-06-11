@@ -31,7 +31,7 @@ lex.yy.cpp: vrel.l
 	flex vrel.l
 	mv lex.yy.c lex.yy.cpp
 y.tab.cpp y.tab.h: vrel.y
-	bison -d -y -v vrel.y
+	bison -d -y vrel.y
 	mv y.tab.c y.tab.cpp
 
 clean:

@@ -17,7 +17,7 @@ lex.yy.cpp: vred.l
 	sed -e "s%^int yylineno%//int yylineno%" </tmp/lex.yy.cpp >lex.yy.cpp
 	rm /tmp/lex.yy.cpp
 y.tab.cpp y.tab.h: vred.y
-	bison -d -y -v vred.y
+	bison -d -y vred.y
 	mv y.tab.c y.tab.cpp
 
 clean:

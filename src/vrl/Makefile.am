@@ -20,7 +20,7 @@ lex.yy.cpp: vrl.l
 	$(LEX) vrl.l
 	mv lex.yy.c lex.yy.cpp
 y.tab.cpp y.tab.h: vrl.y
-	$(YACC) -d -y -v vrl.y
+	$(YACC) -d -y vrl.y
 	mv y.tab.c y.tab.cpp
 
 clean:

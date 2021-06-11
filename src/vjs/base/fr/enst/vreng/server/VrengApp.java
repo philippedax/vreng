@@ -8,6 +8,7 @@ import fr.enst.vreng.MessageTypes;
 import fr.enst.vreng.VrengException;
 import fr.enst.vreng.data.Message;
 import fr.enst.vreng.data.messages.*;
+
 // Collections
 import java.util.HashSet;
 import java.util.Iterator;
