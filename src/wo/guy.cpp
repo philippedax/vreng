@@ -276,7 +276,7 @@ void Guy::draw_brea()
 {
   glPushMatrix();
   glTranslatef(0, BUST_H - NECK_H*4, BREA_R);
-  glRotatef(180, 0, 1, 0);
+  //dax glRotatef(180, 0, 1, 0);
   Draw::sphere(BREA_R, 16, 16, 0);
   glPopMatrix();
 }
