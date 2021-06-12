@@ -22,7 +22,7 @@
 #define DEFAULTS_HPP
 
 /* default servers */
-#if STANDALONE
+#if STANDALONE			// by ./configure --enable-standalone
 #define IPMC_ENABLED		0	// ipmulticast disabled
 #define DEF_HTTP_SERVER		"localhost"
 #define DEF_VJS_SERVER		"localhost"
@@ -30,6 +30,7 @@
 #define DEF_VACS_SERVER		"localhost"
 #define DEF_VRUM_SERVER		"localhost"
 #define DEF_MYSQL_SERVER	"localhost"
+
 #else	// by default
 
 #define IPMC_ENABLED		1	// ipmulticast enabled
@@ -53,8 +54,8 @@
 #define VRE_VERSION	8	// current stable version of vre files
 
 /* default URLs */
-#define GEN_URL(h, u, p) 	("http://" h u p) // don't change this macro
-#if !defined(DEF_URL_PFX)
+//#define GEN_URL(h, u, p) 	("http://" h u p) // notused
+#if !defined(DEF_URL_PFX)	// by ./configure --with-httpd-prefix
 // url prefix allowing access to the htdocs location
 // default url prefix: can be changed to be adapted to your site.
 
