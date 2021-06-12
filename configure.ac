@@ -569,7 +569,7 @@ if test "${enable_standalone}" = "yes"; then
   AH_TEMPLATE(DEF_URL_PFX)
   AC_MSG_CHECKING(if localhost httpd prefix is defined)
   AC_ARG_WITH(httpd_prefix,
-              AS_HELP_STRING([--with-httpd-prefix=[DIR]],[prefix relative to the localhost httpd root directory where are located vreng data (only in standalone mode)]))
+              AS_HELP_STRING([--with-httpd-prefix=[DIR]],[prefix relative to the localhost httpd root directory where are located vreng data]))
   if test "${with_httpd_prefix}" != ""; then
     AC_DEFINE_UNQUOTED(DEF_URL_PFX, ["${with_httpd_prefix}"]) 
     AC_MSG_RESULT(yes -> "${with_httpd_prefix}")
