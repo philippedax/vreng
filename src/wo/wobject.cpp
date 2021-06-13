@@ -111,8 +111,9 @@ WObject::WObject()
 /* WObject destructor */
 WObject::~WObject()
 {
-  if (! isBehavior(COLLIDE_NEVER))
+  if (! isBehavior(COLLIDE_NEVER)) {
     delFromGrid();
+  }
 
   deleteSolids();	// delete all solids
 

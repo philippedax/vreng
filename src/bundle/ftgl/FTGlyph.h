@@ -3,7 +3,7 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include FT_GLYPH_H
+//dax #include FT_GLYPH_H
 
 #include "FTBBox.h"
 #include "FTPoint.h"
