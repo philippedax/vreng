@@ -595,12 +595,14 @@ else
   ft_min_micro_version=`echo $min_ft_version | cut -d . -f 3`
   ft_config_version=`expr $ft_config_major_version \* 10000 + $ft_config_minor_version \* 100 + $ft_config_micro_version`
   ft_min_version=`expr $ft_min_major_version \* 10000 + $ft_min_minor_version \* 100 + $ft_min_micro_version`
-  if test $ft_config_version -lt $ft_min_version ; then
-    ifelse([$3], , :, [$3])
-  else
+  echo "* dax ***** ft_min_version = $ft_min_version"
+  echo "* dax ***** ft_config_version = $ft_config_version"
+  #dax if test $ft_config_version -lt $ft_min_version ; then
+  #dax   ifelse([$3], , :, [$3])
+  #dax else
     CPPFLAGS="$FREETYPE_CFLAGS $CPPFLAGS"
     LIBS="$FREETYPE_LIBS $LIBS"
-  fi             # test $ft_config_version -lt $ft_min_version
+  #dax fi             # test $ft_config_version -lt $ft_min_version
 fi               # test "$FREETYPE_CONFIG" = "no"
 if test "x$no_ft" = x ; then
    AC_MSG_RESULT(yes)
