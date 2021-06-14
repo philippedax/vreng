@@ -595,7 +595,10 @@ else
   ft_min_micro_version=`echo $min_ft_version | cut -d . -f 3`
   ft_config_version=`expr $ft_config_major_version \* 10000 + $ft_config_minor_version \* 100 + $ft_config_micro_version`
   ft_min_version=`expr $ft_min_major_version \* 10000 + $ft_min_minor_version \* 100 + $ft_min_micro_version`
+  echo "* dax ***** min_ft_version = $min_ft_version"
   echo "* dax ***** ft_min_version = $ft_min_version"
+  echo "* dax ***** ft_min_major_version = $ft_min_major_version"
+  echo "* dax ***** ft_min_minor_version = $ft_min_minor_version"
   echo "* dax ***** ft_config_version = $ft_config_version"
   #dax if test $ft_config_version -lt $ft_min_version ; then
   #dax   ifelse([$3], , :, [$3])
