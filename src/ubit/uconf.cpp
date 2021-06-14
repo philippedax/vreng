@@ -35,8 +35,10 @@ using namespace std;
 NAMESPACE_UBIT
 
 
-// TRUETYPE font dirs ( in /usr/X11/include /usr/include /usr/openwin/include )
+// TRUETYPE font dirs
+
 #define XFT_DIR "/usr/X11/share/fonts/Type1/" // macosx
+
 #if LINUX
 # if HAVE_TTF_PFA
 #  define LFT_DIR TTFPATH
@@ -388,7 +390,7 @@ void UConf::printHelp()
   << "\n  --[no-]sfd            : soft dialogs [default = disabled]"
   << "\n  --[no-]group          : groupware mode [default = disabled]"
   << "\n  --[no-]telep          : tele pointer mode [default = disabled]"
-  << endl << endl;
+  << endl;
 }
 
 /* ==================================================== [(C)Elc] ======= */

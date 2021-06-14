@@ -298,6 +298,7 @@ FTFont* UHardFont::loadFTGLFont(UDisp* nd, const UFontDesc& fd) {
   UStr fname;
   while ((getNext(fname, fnames))) {
     FTFont* f = (FTFont*)new FTGLTextureFont(fname.c_str());
+    //dax UAppli::warning("UHardFont::loadFTGLFont %s", fname.c_str()); //dax
     if (f->Error() != 0) delete f;
     else {
       f->FaceSize(fd.actual_size);
