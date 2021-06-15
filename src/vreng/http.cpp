@@ -38,8 +38,8 @@ static int32_t nbsimcon;		// Nb actual of simultaneous connections
 static Vpthread_mutex_t nbsimcon_mutex;	// lock on the global variable simcon
 static tWaitFifo *fifofirst, *fifolast;	// variables protected by nbsimcon_mutex
 
-static const char HTTP_PROXY[]="http_proxy";
-static const char NO_PROXY[]="no_proxy";
+static const char HTTP_PROXY[] = "http_proxy";
+static const char NO_PROXY[] = "no_proxy";
 
 
 HttpThread::HttpThread()
@@ -188,13 +188,16 @@ int HttpThread::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
 
   uint16_t port;
 
-  if (isdigit((int) *portstr))
+  if (isdigit((int) *portstr)) {
     port = htons(atoi(portstr));
+  }
   else {
-    if (! strcmp(portstr, "http"))
+    if (! strcmp(portstr, "http")) {
       port = htons(HTTP_PORT);
-    else
+    }
+    else {
       return -BADSERV;
+    }
   }
 
   sa->sin_family = hp->h_addrtype;
@@ -216,23 +219,29 @@ void HttpThread::checkProxy()
 
   char *p;
 
-  if (::g.pref.httpproxystr)
+  if (::g.pref.httpproxystr) {
     p = ::g.pref.httpproxystr;
-  else   
+  }
+  else {
     p = getenv(HTTP_PROXY);  // syntax: http://hostname:port/
+  }
   if (p && *p) {
     char envproxy[90];
 
     hostproxy = new char[strlen(p)];
-    if (p[strlen(p) - 1] == '/') p[strlen(p) - 1] = '\0';
+    if (p[strlen(p) - 1] == '/') {
+      p[strlen(p) - 1] = '\0';
+    }
     strcpy(envproxy, p);
     p = strrchr(envproxy, ':');
     *p = '\0';
     portproxy = atoi(++p);
-    if ((p = strrchr(envproxy, '/')) == NULL)
+    if ((p = strrchr(envproxy, '/')) == NULL) {
       sprintf(hostproxy, "http://%s", envproxy);
-    else
+    }
+    else {
       strcpy(hostproxy, ++p);
+    }
     proxy = 1;
     trace(DBG_HTTP, "proxy=%s:%d", hostproxy, portproxy);
   }
@@ -278,8 +287,9 @@ void * HttpThread::connection(void *_ht)
   switch (urltype) {
 
   case Url::URLFILE:	// file://
-    if ((http->fd = HttpThread::openFile(path)) < 0)
+    if ((http->fd = HttpThread::openFile(path)) < 0) {
       hterr = true;
+    }
     else {
       http->off = -1;
       ht->httpReader(ht->thrhdl, http);
@@ -420,16 +430,19 @@ htagain:
               break;
             }
           }
-          if (hterr)
+          if (hterr) {
             break;
+          }
 
           if (! strncmp(httpheader, "Content-Type: ", 14)) {
             char *p, *q;
 
             if ((p = strchr(httpheader, '/')) != NULL) {
               p++;
-              if ((q = strchr(p, ';')) != NULL) *q = '\0';
-              else p[MIME_LEN] = 0;
+              if ((q = strchr(p, ';')) != NULL)
+                *q = '\0';
+              else
+                p[MIME_LEN] = 0;
               trace(DBG_HTTP, "mime=%s %s", p, ht->url);
               /* only for textures */
               if (ht->thrhdl && strcmp(p, "plain")) {
@@ -453,8 +466,9 @@ htagain:
     break;
 
   default:	// scheme:// unknown
-    if (urltype)
+    if (urltype) {
       error("unknown scheme urltype=%d", urltype);
+    }
     hterr = true;
     break;
   }
@@ -536,8 +550,9 @@ Http::~Http()
   if (url) delete[] url;
   if (buf) delete[] buf;
   buf = NULL;
-  if (fd > 0)
+  if (fd > 0) {
     Socket::closeStream(fd);
+  }
 }
 
 int Http::httpRead(char *abuf, int maxl)
@@ -724,8 +739,9 @@ int Http::fread(char *pbuf, int size, int nitems)
 
   while (length > 0) {
     if (htbuf_pos >= htbuf_len) {
-      if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) < 0)
+      if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) < 0) {
         return (nitems - (length / size));
+      }
       htbuf_pos = 0;
     }
     toread = (length < (htbuf_len-htbuf_pos)) ? length : (htbuf_len-htbuf_pos);
@@ -767,8 +783,9 @@ uint32_t Http::skip(int32_t skiplen)
   else {
     skiplen -= ptr;
     while (skiplen > 0) {
-      if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0)
+      if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
         break;
+      }
       if (skiplen >= htbuf_len) {
         skiplen -= htbuf_len;
         htbuf_pos = htbuf_len;
