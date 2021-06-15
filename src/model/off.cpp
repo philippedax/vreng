@@ -89,32 +89,33 @@ void Off::httpReader(void *_off, Http *http)
   /* Get info header: vertices_number normals_number polygons_number */
   fgets(line, sizeof(line), f);
   getOff3i(line, &off->vn, &off->nn, &off->pn);
-  fgets(line, sizeof(line), f);  // empty line
+  fgets(line, sizeof(line), f);  // skip empty line
 
-  /* Get vertices */
+  /* Gets vertices */
   off->v = new float[3 * off->vn];
   for (int i=0; i < off->vn; i++) {
     fgets(line, sizeof(line), f);
     getOff3f(line, &off->v[i*3+0], &off->v[i*3+1], &off->v[i*3+2], off->scale);
   }
-  fgets(line, sizeof(line), f);  // empty line
+  fgets(line, sizeof(line), f);  // skip empty line
 
-  /* Get normals */
+  /* Gets normals */
   off->n = new float[3 * off->nn];
   for (int i=0; i < off->nn; i++) {
     fgets(line, sizeof(line), f);
     getOff3f(line, &off->n[i*3+0], &off->n[i*3+1], &off->n[i*3+2], off->scale);
   }
-  fgets(line, sizeof(line), f);  // empty line
+  fgets(line, sizeof(line), f);  // skip empty line
 
-  /* Get polygons */
+  /* Gets polygons */
   off->p = new int[6 * off->pn];
   for (int i=0; i < off->pn; i++) {
     fgets(line, sizeof(line), f);
     int k = strlen(line);
     for (int j=0; j < k; j++) {
       int a = 0;
-      if (line[j] == 'v') a = j+2;
+      if (line[j] == 'v')
+        a = j+2;
       if (line[j] == 'n') {
         line[j-1] = 0;
         getOff3i(&line[a+2], &off->p[i*6+0], &off->p[i*6+1], &off->p[i*6+2]);
@@ -197,8 +198,10 @@ void Off::getOff3i(char *s, int *a, int *b, int *c)
   for (int i=0; i < k; i++) {
     if ((s[i] == ' ') || (s[i] == '\n')) {
       s[i] = 0;
-      if (y == -1) y = i+1;
-      else if (z == -1) z = i+1;
+      if (y == -1)
+        y = i+1;
+      else if (z == -1)
+        z = i+1;
     }
   }
   *a = atoi(&s[x]);
@@ -215,8 +218,10 @@ void Off::getOff3f(char *s, float *a, float *b, float *c, float scale)
   for (int i=0; i < k; i++) {
     if ((s[i] == ' ') || (s[i] == '\n')) {
       s[i] = 0;
-      if (y == -1) y = i+1;
-      else if (z == -1) z = i+1;
+      if (y == -1)
+        y = i+1;
+      else if (z == -1)
+        z = i+1;
     }
   }
   *a = (float) atof(&s[x]) / scale;
