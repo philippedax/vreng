@@ -69,7 +69,7 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
       }
       else {
         // add url prefix before url
-        sprintf(path, "%s%s", Universe::current()->urlpfx, url);
+        sprintf(path, "%s/%s", Universe::current()->urlpfx, url);
       }
     }
     return URLHTTP;
@@ -95,17 +95,18 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
   return urltype;
 }
 
-void Url::abs(const char *oldurl, char *newurl)
+void Url::abs(const char *relurl, char *absurl)
 {
-  if ((! stringcmp(oldurl, "http://")) || (! stringcmp(oldurl, "ftp://"))) {
-    strncpy(newurl, oldurl, URL_LEN);
+  if ((! stringcmp(relurl, "http://")) || (! stringcmp(relurl, "ftp://"))) {
+    strncpy(absurl, relurl, URL_LEN);
   }
   else {
-    sprintf(newurl, "http://%s/%s%s", Universe::current()->server, Universe::current()->urlpfx, oldurl);
+    sprintf(absurl, "http://%s/%s%s",
+                    Universe::current()->server, Universe::current()->urlpfx, relurl);
   }
-  if (strlen(newurl) >= URL_LEN) {
-    newurl[URL_LEN -1] = '\0';
-    warning("url length too big %s", newurl);
+  if (strlen(absurl) >= URL_LEN) {
+    absurl[URL_LEN -1] = '\0';
+    warning("url length too big %s", absurl);
   }
-  //error("newurl: %s", newurl);
+  //error("absurl: %s", absurl);
 }
