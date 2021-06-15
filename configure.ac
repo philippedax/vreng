@@ -74,6 +74,8 @@ AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_SEARCH_LIBS([strerror],[cposix])
 AC_PROG_GCC_TRADITIONAL
+AC_PROG_LEX
+AC_PROG_YACC
 
 AH_TEMPLATE(GCC_VERSION, [gcc version])
 AH_TEMPLATE(GCC_MAJOR_VERSION, [gcc major version])
@@ -119,9 +121,7 @@ LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
   CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing"
-  #dax CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-macro-redefined -Wno-missing-declarations -Wno-int-conversion"
-  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-address -Wno-deprecated  -Wno-write-strings -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas" ### -Wno-literal-suffix -Wno-misleading-indentation
-  #dax CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-macro-redefined -Wno-invalid-offsetof -Wno-missing-declarations -Wno-address -Wno-deprecated  -Wno-write-strings -Wno-unused-const-variable -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -Wno-infinite-recursion" ### -Wno-literal-suffix -Wno-misleading-indentation
+  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-address -Wno-deprecated  -Wno-write-strings -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -Wno-infinite-recursion" ### -Wno-literal-suffix -Wno-misleading-indentation
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS="-Wl,-no_compact_unwind"
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`
@@ -456,7 +456,7 @@ AC_HEADER_STAT
 AC_HEADER_ASSERT
 AC_HEADER_SYS_WAIT
 
-AC_CHECK_HEADERS([unistd.h fcntl.h stdarg.h ctype.h utime.h sys/socket.h malloc.h signal.h math.h errno.h sys/select.h sys/resource.h getopt.h pwd.h pthread.h netinet/tcp.h arpa/inet.h sys/utsname.h sys/param.h floatingpoint.h ieeefp.h locale.h])
+AC_CHECK_HEADERS([unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h utime.h sys/socket.h malloc.h signal.h math.h errno.h sys/select.h sys/resource.h getopt.h pwd.h pthread.h netinet/tcp.h arpa/inet.h sys/utsname.h sys/param.h floatingpoint.h ieeefp.h locale.h wchar.h libintl.h sys/time.h sys/timeb.h])
 
 #AC_STRUCT_TM
 
@@ -474,7 +474,14 @@ AC_TYPE_MODE_T
 AC_TYPE_UID_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
-
+AC_TYPE_INT8_T
+AC_TYPE_INT16_T
+AC_TYPE_INT32_T
+AC_TYPE_UINT64_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT16_T
+AC_TYPE_UINT8_T
+AC_CHECK_TYPES(ptrdiff_t)
 
 AC_MSG_CHECKING(for socklen_t)
 AC_EGREP_HEADER([socklen_t], sys/socket.h, is_socklen=yes, is_socklen=no)
@@ -495,13 +502,15 @@ AC_FUNC_CLOSEDIR_VOID
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_FORK
 AC_FUNC_MALLOC
+AC_FUNC_ALLOCA
 AC_FUNC_REALLOC
 AC_FUNC_SELECT_ARGTYPES
 AC_FUNC_STAT
 AC_FUNC_UTIME_NULL
 AC_FUNC_VPRINTF
+AC_FUNC_STRTOD
 
-AC_CHECK_FUNCS([getuid getpid getcwd getpwuid gethostname gethostid gethostbyaddr gethostbyname gethostbyname_r getservbyname_r getipnodebyname getipnodebyaddr freehostent inet_pton inet_ntoa inet_ntop isascii gettimeofday memset mkdir pow sqrt strcasecmp strrchr strstr utime fcntl floor select socket setrlimit waitpid strchr strncasecmp strdup strerror memcpy readdir getopt getopt_long uname rand random drand48 lrand48 usleep fpsetmask nice getaddrinfo setlocale])
+AC_CHECK_FUNCS([getuid getpid getcwd getpwuid gethostname gethostid gethostbyaddr gethostbyname gethostbyname_r getservbyname_r getipnodebyname getipnodebyaddr freehostent inet_pton inet_ntoa inet_ntop isascii gettimeofday memset mkdir pow sqrt strcasecmp strrchr strstr utime fcntl floor select socket setrlimit waitpid strchr strncasecmp strdup strerror memcpy readdir getopt getopt_long uname rand random drand48 lrand48 usleep fpsetmask nice getaddrinfo setlocale alarm ftime strtol sysinfo memmove strpbrk ])
 
 AH_TEMPLATE(_REENTRANT)
 if test "$ac_cv_func_gethostbyname_r" = "yes" ; then

@@ -14,11 +14,19 @@ const char CONFIG_H[] = "\
 /* Define to 1 if the `closedir' function returns void instead of `int'. */\n\
 /* #undef CLOSEDIR_VOID */\n\
 \n\
+/* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP\n\
+   systems. This function is required for `alloca.c' support on those systems.\n\
+   */\n\
+/* #undef CRAY_STACKSEG_END */\n\
+\n\
 /* */\n\
 #define CURLPATH \"/usr/bin/curl\"\n\
 \n\
 /* */\n\
 /* #undef CYGWIN32 */\n\
+\n\
+/* Define to 1 if using `alloca.c'. */\n\
+/* #undef C_ALLOCA */\n\
 \n\
 /* */\n\
 /* #undef DEBIAN */\n\
@@ -37,6 +45,16 @@ const char CONFIG_H[] = "\
 \n\
 /* gcc version */\n\
 #define GCC_VERSION \"version\"\n\
+\n\
+/* Define to 1 if you have the `alarm' function. */\n\
+#define HAVE_ALARM 1\n\
+\n\
+/* Define to 1 if you have `alloca', as a function or macro. */\n\
+#define HAVE_ALLOCA 1\n\
+\n\
+/* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).\n\
+   */\n\
+#define HAVE_ALLOCA_H 1\n\
 \n\
 /* */\n\
 /* #undef HAVE_ALUT */\n\
@@ -90,6 +108,9 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the <floatingpoint.h> header file. */\n\
 /* #undef HAVE_FLOATINGPOINT_H */\n\
 \n\
+/* Define to 1 if you have the <float.h> header file. */\n\
+#define HAVE_FLOAT_H 1\n\
+\n\
 /* Define to 1 if you have the `floor' function. */\n\
 #define HAVE_FLOOR 1\n\
 \n\
@@ -104,6 +125,9 @@ const char CONFIG_H[] = "\
 \n\
 /* */\n\
 #define HAVE_FREETYPE 1\n\
+\n\
+/* Define to 1 if you have the `ftime' function. */\n\
+#define HAVE_FTIME 1\n\
 \n\
 /* Define to 1 if you have the `getaddrinfo' function. */\n\
 #define HAVE_GETADDRINFO 1\n\
@@ -219,6 +243,9 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the `iberty' library (-liberty). */\n\
 /* #undef HAVE_LIBIBERTY */\n\
 \n\
+/* Define to 1 if you have the <libintl.h> header file. */\n\
+#define HAVE_LIBINTL_H 1\n\
+\n\
 /* */\n\
 #define HAVE_LIBJPEG 1\n\
 \n\
@@ -285,6 +312,9 @@ const char CONFIG_H[] = "\
 /* */\n\
 #define HAVE_LIBZ 1\n\
 \n\
+/* Define to 1 if you have the <limits.h> header file. */\n\
+#define HAVE_LIMITS_H 1\n\
+\n\
 /* Define to 1 if you have the <locale.h> header file. */\n\
 #define HAVE_LOCALE_H 1\n\
 \n\
@@ -303,6 +333,9 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you have the `memcpy' function. */\n\
 #define HAVE_MEMCPY 1\n\
+\n\
+/* Define to 1 if you have the `memmove' function. */\n\
+#define HAVE_MEMMOVE 1\n\
 \n\
 /* Define to 1 if you have the <memory.h> header file. */\n\
 #define HAVE_MEMORY_H 1\n\
@@ -360,6 +393,9 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you have the <pthread.h> header file. */\n\
 #define HAVE_PTHREAD_H 1\n\
+\n\
+/* Define to 1 if the system has the type `ptrdiff_t'. */\n\
+#define HAVE_PTRDIFF_T 1\n\
 \n\
 /* Define to 1 if you have the <pwd.h> header file. */\n\
 #define HAVE_PWD_H 1\n\
@@ -429,6 +465,9 @@ const char CONFIG_H[] = "\
 /* Define to 1 if stdbool.h conforms to C99. */\n\
 /* #undef HAVE_STDBOOL_H */\n\
 \n\
+/* Define to 1 if you have the <stddef.h> header file. */\n\
+#define HAVE_STDDEF_H 1\n\
+\n\
 /* Define to 1 if you have the <stdint.h> header file. */\n\
 #define HAVE_STDINT_H 1\n\
 \n\
@@ -456,11 +495,20 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the `strncasecmp' function. */\n\
 #define HAVE_STRNCASECMP 1\n\
 \n\
+/* Define to 1 if you have the `strpbrk' function. */\n\
+#define HAVE_STRPBRK 1\n\
+\n\
 /* Define to 1 if you have the `strrchr' function. */\n\
 #define HAVE_STRRCHR 1\n\
 \n\
 /* Define to 1 if you have the `strstr' function. */\n\
 #define HAVE_STRSTR 1\n\
+\n\
+/* Define to 1 if you have the `strtol' function. */\n\
+#define HAVE_STRTOL 1\n\
+\n\
+/* Define to 1 if you have the `sysinfo' function. */\n\
+/* #undef HAVE_SYSINFO */\n\
 \n\
 /* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.\n\
    */\n\
@@ -484,6 +532,12 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you have the <sys/stat.h> header file. */\n\
 #define HAVE_SYS_STAT_H 1\n\
+\n\
+/* Define to 1 if you have the <sys/timeb.h> header file. */\n\
+#define HAVE_SYS_TIMEB_H 1\n\
+\n\
+/* Define to 1 if you have the <sys/time.h> header file. */\n\
+#define HAVE_SYS_TIME_H 1\n\
 \n\
 /* Define to 1 if you have the <sys/types.h> header file. */\n\
 #define HAVE_SYS_TYPES_H 1\n\
@@ -529,6 +583,9 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you have the `waitpid' function. */\n\
 #define HAVE_WAITPID 1\n\
+\n\
+/* Define to 1 if you have the <wchar.h> header file. */\n\
+#define HAVE_WCHAR_H 1\n\
 \n\
 /* */\n\
 #define HAVE_WGET 1\n\
@@ -627,6 +684,14 @@ const char CONFIG_H[] = "\
 /* */\n\
 /* #undef SOLARIS */\n\
 \n\
+/* If using the C implementation of alloca, define if you know the\n\
+   direction of stack growth for your system; otherwise it will be\n\
+   automatically deduced at runtime.\n\
+	STACK_DIRECTION > 0 => grows toward higher addresses\n\
+	STACK_DIRECTION < 0 => grows toward lower addresses\n\
+	STACK_DIRECTION = 0 => direction of growth unknown */\n\
+/* #undef STACK_DIRECTION */\n\
+\n\
 /* Define to 1 if the `S_IS*' macros in <sys/stat.h> do not work properly. */\n\
 /* #undef STAT_MACROS_BROKEN */\n\
 \n\
@@ -711,8 +776,27 @@ const char CONFIG_H[] = "\
 /* Define to 1 if the X Window System is missing or not being used. */\n\
 /* #undef X_DISPLAY_MISSING */\n\
 \n\
+/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a\n\
+   `char[]'. */\n\
+/* #undef YYTEXT_POINTER */\n\
+\n\
 /* */\n\
 /* #undef _REENTRANT */\n\
+\n\
+/* Define for Solaris 2.5.1 so the uint32_t typedef from <sys/synch.h>,\n\
+   <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the\n\
+   #define below would cause a syntax error. */\n\
+/* #undef _UINT32_T */\n\
+\n\
+/* Define for Solaris 2.5.1 so the uint64_t typedef from <sys/synch.h>,\n\
+   <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the\n\
+   #define below would cause a syntax error. */\n\
+/* #undef _UINT64_T */\n\
+\n\
+/* Define for Solaris 2.5.1 so the uint8_t typedef from <sys/synch.h>,\n\
+   <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the\n\
+   #define below would cause a syntax error. */\n\
+/* #undef _UINT8_T */\n\
 \n\
 /* Define to empty if `const' does not conform to ANSI C. */\n\
 /* #undef const */\n\
@@ -725,6 +809,18 @@ const char CONFIG_H[] = "\
 #ifndef __cplusplus\n\
 /* #undef inline */\n\
 #endif\n\
+\n\
+/* Define to the type of a signed integer type of width exactly 16 bits if\n\
+   such a type exists and the standard includes do not define it. */\n\
+/* #undef int16_t */\n\
+\n\
+/* Define to the type of a signed integer type of width exactly 32 bits if\n\
+   such a type exists and the standard includes do not define it. */\n\
+/* #undef int32_t */\n\
+\n\
+/* Define to the type of a signed integer type of width exactly 8 bits if such\n\
+   a type exists and the standard includes do not define it. */\n\
+/* #undef int8_t */\n\
 \n\
 /* Define to rpl_malloc if the replacement function should be used. */\n\
 /* #undef malloc */\n\
@@ -746,6 +842,22 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to `int' if <sys/types.h> doesn't define. */\n\
 /* #undef uid_t */\n\
+\n\
+/* Define to the type of an unsigned integer type of width exactly 16 bits if\n\
+   such a type exists and the standard includes do not define it. */\n\
+/* #undef uint16_t */\n\
+\n\
+/* Define to the type of an unsigned integer type of width exactly 32 bits if\n\
+   such a type exists and the standard includes do not define it. */\n\
+/* #undef uint32_t */\n\
+\n\
+/* Define to the type of an unsigned integer type of width exactly 64 bits if\n\
+   such a type exists and the standard includes do not define it. */\n\
+/* #undef uint64_t */\n\
+\n\
+/* Define to the type of an unsigned integer type of width exactly 8 bits if\n\
+   such a type exists and the standard includes do not define it. */\n\
+/* #undef uint8_t */\n\
 \n\
 /* Define as `fork' if `vfork' does not work. */\n\
 /* #undef vfork */\n\
