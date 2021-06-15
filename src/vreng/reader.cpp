@@ -38,37 +38,38 @@ FILE * Reader::getFileCache(void *_tex, bool flagclose)
   Texture *tex = (Texture *) _tex;
 
   fp = getFileCache(tex);
-  if (flagclose)
+  if (flagclose) {
     File::closeFile(fp);
+  }
   return fp;
 }
 
 FILE * Reader::getFileCache(Texture *tex)
 {
-  FILE *f = Cache::openCache(tex->url, tex->http);
-  if (! f) {
+  FILE *fp = Cache::openCache(tex->url, tex->http);
+  if (! fp) {
     error("Reader: can't open %s", tex->url);
     return NULL;
   }
-  return f;
+  return fp;
 }
 
 FILE * Reader::getFileCache(const char *url, char *filepath)
 {
-  FILE *f;
+  FILE *fp = NULL;
 
-  if ((f = File::openFile(filepath, "rb")) == NULL) {
-    if ((f = File::openFile(filepath, "wb")) == NULL) {
+  if ((fp = File::openFile(filepath, "rb")) == NULL) {
+    if ((fp = File::openFile(filepath, "wb")) == NULL) {
       error("getFileCache: can't create %s", filepath);
       return NULL;
     }
     int len;
     char buf[BUFSIZ];
     while ((len = this->read_func(img_hdl, buf, sizeof(buf))) > 0) {
-      fwrite(buf, 1, len, f);
+      fwrite(buf, 1, len, fp);
     }
   }
-  return f;
+  return fp;
 }
 
 char * Reader::getFilename(void *_tex)
@@ -84,8 +85,9 @@ uint8_t Reader::getChar()
 {
   uint8_t data;
 
-  if (this->read_func(img_hdl, (char *) &data, 1) < 1)
+  if (this->read_func(img_hdl, (char *) &data, 1) < 1) {
     data = 0;
+  }
   ch = data;
   return data;
 }
