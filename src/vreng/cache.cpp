@@ -63,17 +63,17 @@ char * Cache::getFilePath(const char *url)
 
 FILE * Cache::openCache(const char *url, Http *http)
 {
-  char filepath[PATH_LEN];
-  if (! setCacheName(url, filepath)) return NULL;
+  char filename[PATH_LEN];
+
+  if (! http) return NULL;
+  if (! setCacheName(url, filename)) return NULL;
 
   FILE *fp;
-  if ((fp = File::openFile(filepath, "r")) == NULL) {
-    if ((fp = File::openFile(filepath, "w")) == NULL) {
-      error("httpReader: can't create %s", filepath);
+  if ((fp = File::openFile(filename, "r")) == NULL) {
+    if ((fp = File::openFile(filename, "w")) == NULL) {
+      error("openCache: can't create %s", filename);
       return NULL;
     }
-
-    if (! http) return NULL;
 
     // writing the file into the cache
     int c;
@@ -93,25 +93,28 @@ FILE * Cache::openCache(const char *url, Http *http)
     progression('c');
   }
   // and open it for reading
-  fp = File::openFile(filepath, "r");
+  fp = File::openFile(filename, "r");
 
   return fp;  // file is opened
 }
 
 bool Cache::inCache(const char *url)
 {
-  char filepath[PATH_LEN];
-  if (! setCacheName(url, filepath)) return false;
+  char filename[PATH_LEN];
+  if (! setCacheName(url, filename)) return false;
 
   FILE *fp;
   struct stat bufstat;
-  if ((fp = File::openFile(filepath, "r")) != NULL) {
+  if ((fp = File::openFile(filename, "r")) != NULL) {
     File::closeFile(fp);
-    stat(filepath, &bufstat);
-    if (bufstat.st_size != 0)
+    stat(filename, &bufstat);
+    if (bufstat.st_size != 0) {
       return true;
-    else
-      error("file %s empty", filepath);
+    }
+    else {
+      error("inCache: file %s empty", filename);
+      unlink(filename); // remove empty file
+    }
   }
   return false;
 }
@@ -204,13 +207,15 @@ int Cache::download(const char *_url, char *filename, const char arg[])
   Url::abs(_url, url);
   
   if (filename && (! strcmp(arg, "cache"))) {        // use the cache
-    if (! Cache::setCacheName(_url, filename)) return 0;
+    if (! Cache::setCacheName(_url, filename))
+      return 0;
   
     struct stat bufstat;
     if (stat(filename, &bufstat) == 0) {
       trace(DBG_TOOL, "download: %s found in cache", filename);
-      if (bufstat.st_size != 0)
+      if (bufstat.st_size != 0) {
         return 1;  // file yet in the cache
+      }
       unlink(filename); // remove empty file
     }
     trace(DBG_TOOL, "download: download %s in %s", url, filename);
