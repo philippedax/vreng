@@ -198,7 +198,7 @@ class World {
   static void init(const char *urlvre);
   /**< General World initialization. */
 
-  static void httpReader(void *urlvre, class Http *http);
+  static void worldReader(void *urlvre, class Http *http);
   /**< World reader. */
 
   static void deleteObjects();

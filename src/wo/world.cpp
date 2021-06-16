@@ -22,37 +22,35 @@
 #include "world.hpp"
 #include "wobject.hpp"
 #include "http.hpp"	// httpOpen httpRead
-#include "url.hpp"	// setCacheName
 #include "user.hpp"	// USER_TYPE
+#include "url.hpp"	// setCacheName
+#include "cache.hpp"	// file2url
+#include "universe.hpp"	// Universe
+#include "netobj.hpp"	// NetObject
+#include "channel.hpp"	// join
+#include "solid.hpp"	// ~Solid
+#include "gui.hpp"	// ::g.gui
+#include "env.hpp"	// icons
+#include "pref.hpp"	// url
+#include "olist.hpp"	// OList
+#include "file.hpp"	// OpenFile
+#include "entry.hpp"	// Entry
 #include "clock.hpp"	// Clock
+#include "prof.hpp"	// new_world
+#include "color.hpp"	// Color
 #include "bgcolor.hpp"	// Bgcolor
 #include "icon.hpp"	// ICON_TYPE
 #include "ball.hpp"	// BALL_NAME
 #include "thing.hpp"	// THING_NAME
 #include "mirage.hpp"	// MIRAGE_NAME
 #include "vjc.hpp"	// Vjc
-#include "url.hpp"	// abs
-#include "cache.hpp"	// file2url
-#include "universe.hpp"	// Universe
 #include "vrsql.hpp"	// VRSql
-#include "netobj.hpp"	// NetObject
-#include "solid.hpp"	// ~Solid
-#include "gui.hpp"	// ::g.gui
-#include "scene.hpp"	// GLSection
 #include "tool.hpp"	// quitTools
-#include "channel.hpp"	// join
 #include "sandbox.hpp"	// sandbox world
-#include "grid.hpp"	// toggleGrid2d
 #include "wind.hpp"	// Wind
 #include "bubble.hpp"	// Bubble
-#include "env.hpp"	// icons
-#include "pref.hpp"	// url
-#include "olist.hpp"	// OList
 #include "axis.hpp"	// Axis
-#include "prof.hpp"	// new_world
-#include "entry.hpp"	// Entry
-#include "file.hpp"	// OpenFile
-#include "color.hpp"	// Color
+#include "grid.hpp"	// toggleGrid2d
 
 #include <list>
 using namespace std;
@@ -712,10 +710,10 @@ void World::checkPersist()
 }
 
 /* world reader - static */
-void World::httpReader(void *_url, Http *http)
+void World::worldReader(void *_url, Http *http)
 {
   char *url = (char *) _url;
-  trace(DBG_WO, "httpReader %s:", url);
+  trace(DBG_WO, "worldReader %s:", url);
   if (! http) {
     error("can't download %s, check access to the remote http server", url);
   }
@@ -763,7 +761,7 @@ httpread:
   parser->numline = 0;
   if (fp) File::closeFile(fp);
 
-  trace(DBG_WO, "httpReader: %s downloaded", url);
+  trace(DBG_WO, "worldReader: %s downloaded", url);
   return;
 }
 
@@ -808,7 +806,7 @@ void World::init(const char *url)
   //
   trace(DBG_WO, "download initial world");
   //world->universe->startWheel();
-  Http::httpOpen(world->getUrl(), httpReader, (void *)url, 0);
+  Http::httpOpen(world->getUrl(), worldReader, (void *)url, 0);
   //world->universe->stopWheel();
   endprogression();
 
@@ -971,8 +969,8 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   if (url) {
     trace(DBG_WO, "enter: downloading world url=%s", url);
     //world->universe->startWheel();
-    if (Http::httpOpen(url, httpReader, (void *)url, 0) < 0) {
-      error("bad download: url=%s", url);
+    if (Http::httpOpen(url, worldReader, (void *)url, 0) < 0) {
+      error("enter: bad download: url=%s", url);
       return NULL;
     }
     //world->universe->stopWheel();
