@@ -47,19 +47,31 @@ void Book::httpReader(void *_book, Http *http)
   if (! book) return;
 
   FILE *f = Cache::openCache(book->getUrl(), http);
-  if (! f) { error("can't open %s", book->getUrl()); return; }
+  if (! f) {
+    error("can't open %s", book->getUrl());
+    return;
+  }
 
   char line[BUFSIZ];
 
   // get the number of pages (first line)
-  if (! fgets(line, sizeof(line), f)) { error("can't get number of pages"); return; }
+  if (! fgets(line, sizeof(line), f)) {
+    error("can't get number of pages");
+    return;
+  }
   line[strlen(line) - 1] = '\0';
   book->nbs = atoi(line) / 2;
-  if (book->nbs <= 0) { error("number of pages is negative"); return; }
+  if (book->nbs <= 0) {
+    error("number of pages is negative");
+    return;
+  }
 
   book->tex = new char*[2*book->nbs+3]; // +3 for edge
   book->html = new char*[2*book->nbs];
-  if (! book->tex || ! book->html) { error("httpReader: can' alloc tex | html"); return; }
+  if (! book->tex || ! book->html) {
+    error("httpReader: can' alloc tex | html");
+    return;
+  }
 
   int i;
   char *p = NULL;
@@ -143,6 +155,7 @@ void Book::createSheet(char *s, uint8_t t, uint8_t side)
 {
   doAction(SHEET_TYPE, Sheet::CREATE, this, s, t, side);
 }
+
 /* creation from a file */
 WObject * Book::creator(char *l)
 {
@@ -297,7 +310,8 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state == CLOSED_L) return;
   char s[BUFSIZ];
-  if  (num == nbs-1) { // cas 1: it remains only one sheet on the right
+
+  if (num == nbs-1) {	// cas 1: it remains only one sheet on the right
     // increase the left heap minor edge size
     float depth = thick * nbs; // new left heap thick
     float depth2 = depth + 2.5*thick; // augmented
@@ -306,15 +320,14 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
     setTex(s, tex[0], tex[2*nbs-3], tex[2*nbs], tex[2*nbs+2], tex[2*nbs+1]);
     cancelSheet(left);
     createSheet(s, Sheet::LEFT, LEFT);
-    // destruction de la inter sheet
-    cancelSheet(inter);
+    cancelSheet(inter);	// destruction de la inter sheet
     inter = NULL;
     // rotation de la partie droite
     turnNext(right, d, sec, usec);
     state = CLOSED_L;
   }
   else {
-    if  (num == 0) { // cas 2: none sheet one the left, inter is NULL
+    if (num == 0) {	// cas 2: none sheet one the left, inter is NULL
       // on cree la inter mais on fait tourner la partie gauche (resumee a 1 feuille)
       // create inter sheet first
       setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
@@ -330,8 +343,13 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
       cancelSheet(right);
       createSheet(s, Sheet::RIGHT, RIGHT);
       // replace the left heap if too big (case of bookClose)
-      if (left) left->getDimBB(size);
-      else { error("no left sheet"); return; }
+      if (left) {
+        left->getDimBB(size);
+      }
+      else {
+        error("no left sheet");
+        return;
+      }
       if (size.v[1] > 0.7 * thick) {
 	setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
 	setDim(s, width, thick, height);
@@ -353,7 +371,10 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
       cancelSheet(left);
       createSheet(s, Sheet::LEFT, LEFT);
       // replacement of inter sheet if needed
-      if (! inter) { error("no inter sheet"); return; }
+      if (! inter) {
+        error("no inter sheet");
+        return;
+      }
       if (inter->state == Sheet::LEFT) {
 	setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
 	setDim(s, width, thick, height);
@@ -380,7 +401,8 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state == CLOSED_R) return;
   char s[BUFSIZ];
-  if  (num == 1) { // cas 1: it remains only one sheet on the left
+
+  if (num == 1) {	// cas 1: it remains only one sheet on the left
     // increase the right heap minor edge size
     float depth = thick * nbs; // right heap thick
     float depth2 = depth + 2.5*thick; // augmented
@@ -389,15 +411,14 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
     setTex(s, tex[2], tex[2*nbs-1], tex[2*nbs], tex[2*nbs+2], tex[2*nbs+1]);
     cancelSheet(right);
     createSheet(s, Sheet::RIGHT, RIGHT);
-    // destroy inter sheet
-    cancelSheet(inter);
+    cancelSheet(inter);	// destroy inter sheet
     inter = NULL;
     // rotation left sheet
     turnPrev(left, d, sec, usec);
     state = CLOSED_R;
   }
   else {
-    if  (num == nbs) { // cas 2: none sheet on the right
+    if (num == nbs) {	// cas 2: none sheet on the right
       // cree la inter mais on fait tourner la partie droite: 1 feuille
       // create the inter sheet
       setPos(s, pos.x, pos.y, pos.z, aleft, pos.ax);
@@ -413,8 +434,13 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
       cancelSheet(left);
       createSheet(s, Sheet::LEFT, LEFT);
       // replace the right heap if not too big
-      if (right) right->getDimBB(size);
-      else { error("no right sheet"); return; }
+      if (right) {
+        right->getDimBB(size);
+      }
+      else {
+        error("no right sheet");
+        return;
+      }
       if (size.v[1] > 0.7 * thick) {
 	setPos(s, pos.x, pos.y, pos.z, aright, pos.ax);
 	setDim(s, width, thick, height);
@@ -436,7 +462,10 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
       cancelSheet(right);
       createSheet(s, Sheet::RIGHT, RIGHT);
       // replacement of inter sheet if needed
-      if (! inter) { error("no inter sheet"); return; }
+      if (! inter) {
+        error("no inter sheet");
+        return;
+      }
       if (inter->state == Sheet::RIGHT) {
 	setPos(s, pos.x, pos.y, pos.z, aleft, pos.ax);
 	setDim(s, width, thick, height);
@@ -476,8 +505,10 @@ void Book::close(Book *book, void *d, time_t s, time_t u)
    cancelSheet(inter);
    inter = NULL;
    // we close always the book on its right side
-   if (left) pullPrev(left);
-   if (right) pushPrev(right, thick * num);
+   if (left)
+     pullPrev(left);
+   if (right)
+     pushPrev(right, thick * num);
    num = 0;
    state = CLOSED_R;
 }
@@ -510,6 +541,7 @@ void Book::backward(void *d, time_t sec, time_t usec)
 void Book::forwardSheet(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state != OPENED) return;
+
   if (num + 10 > nbs) {
     fwd = nbs - num - 1;
     forward(d, sec, usec);
@@ -524,6 +556,7 @@ void Book::forwardSheet(Book *book, void *d, time_t sec, time_t usec)
 void Book::backwardSheet(Book *book, void *d, time_t sec, time_t usec)
 {
   if (state != OPENED) return;
+
   if (num - 10 < 0) {
     bwd = num - 1;
     backward(d, sec, usec);
