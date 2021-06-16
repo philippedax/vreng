@@ -501,14 +501,17 @@ void Book::open(Book *book, void *d, time_t s, time_t u)
 void Book::close(Book *book, void *d, time_t s, time_t u)
 {
    if ( (state == CLOSED_R) || (state == CLOSED_L) ) return;
+
    // destruction de la inter
    cancelSheet(inter);
    inter = NULL;
    // we close always the book on its right side
-   if (left)
+   if (left) {
      pullPrev(left);
-   if (right)
+   }
+   if (right) {
      pushPrev(right, thick * num);
+   }
    num = 0;
    state = CLOSED_R;
 }
