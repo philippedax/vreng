@@ -552,7 +552,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_TIFFIO_H */\n\
 \n\
 /* */\n\
-/* #undef HAVE_TTF_PFA */\n\
+#define HAVE_TTF_PFA 1\n\
 \n\
 /* Define to 1 if you have the `uname' function. */\n\
 #define HAVE_UNAME 1\n\
@@ -705,7 +705,7 @@ const char CONFIG_H[] = "\
 #define TIME_WITH_SYS_TIME 1\n\
 \n\
 /* */\n\
-/* #undef TTFPATH */\n\
+#define TTFPATH \"/usr/X11/share/fonts/Type1/\"\n\
 \n\
 /* */\n\
 /* #undef UBUNTU */\n\

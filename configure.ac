@@ -324,36 +324,21 @@ armv4l-*-linux*)
     OSDEP_LIBS="-L/usr/lib"
   fi
   AC_DEFINE(LINUX)
-  # find ttf fonts
   distrib=`lsb_release -is`
   case $distrib in
   Fedora)
     AC_DEFINE(FEDORA)
-    TTFPATH="/usr/share/X11/fonts/Type1/"
     ;;
   Ubuntu)
     AC_DEFINE(UBUNTU)
-    TTFPATH="/usr/share/fonts/X11/Type1/"
     ;;
   Debian)
     AC_DEFINE(DEBIAN)
-    TTFPATH="/usr/share/fonts/X11/Type1/"
     ;;
   CentOS)
     AC_DEFINE(CENTOS)
-    TTFPATH="/usr/share/X11/fonts/Type1/"
     ;;
   esac
-  AH_TEMPLATE(TTFPATH)
-  if test x$TTFPATH != xno; then
-    AC_DEFINE_UNQUOTED(TTFPATH, ["$TTFPATH"])
-  fi
-  AH_TEMPLATE(HAVE_TTF_PFA)
-  if test -f $TTFPATH/UTRG____.pfa; then
-    AC_DEFINE(HAVE_TTF_PFA)
-  else
-    AC_MSG_WARN(Vreng requires TTF freetype fonts with the pfs format see src/ubit/fonts directory)
-  fi
   ;;
 *-*-netbsd*)
   OSDEP_LIBS="-L/usr/pkg/lib"
@@ -378,7 +363,7 @@ armv4l-*-linux*)
   AC_DEFINE(AIX)
   ;;
 *-*-osf*)
-  AC_DEFINE(OSF1)
+AC_DEFINE(OSF1)
   ;;
 *-*-irix*)
   AC_DEFINE(IRIX)
@@ -429,6 +414,32 @@ i*-pc-cygwin*|i*-pc-mingw*)
   AC_DEFINE(HAVE_MULTICAST)
   ;;
 esac
+
+#
+# Find TTF fonts (TrueType fonts)
+#
+AH_TEMPLATE(TTFPATH)
+AH_TEMPLATE(HAVE_TTF_PFA)
+TTFPATH=
+if test -f /usr/share/X11/fonts/Type1/UTRG____.pfa; then
+  TTFPATH=/usr/share/X11/fonts/Type1/
+  AC_DEFINE(HAVE_TTF_PFA)
+elif test -f /usr/share/fonts/X11/Type1/UTRG____.pfa; then
+  TTFPATH=/usr/share/fonts/X11/Type1/
+  AC_DEFINE(HAVE_TTF_PFA)
+elif test -f /usr/X11/share/fonts/Type1/UTRG____.pfa; then
+  TTFPATH=/usr/X11/share/fonts/Type1/
+  AC_DEFINE(HAVE_TTF_PFA)
+elif test -f /usr/X11/lib/fonts/Type1/UTRG____.pfa; then
+  TTFPATH=/usr/X11/lib/fonts/Type1/
+  AC_DEFINE(HAVE_TTF_PFA)
+else
+  AC_MSG_WARN(Vreng requires TTF freetype fonts with the pfs format see src/ubit/fonts directory)
+fi
+if test x$TTFPATH != x; then
+  AC_DEFINE_UNQUOTED(TTFPATH, ["$TTFPATH"])
+fi
+
 AC_SUBST(X_CFLAGS)
 AC_SUBST(X_LIBS)
 
