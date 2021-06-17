@@ -102,7 +102,7 @@ void Global::startCB()
   Universe::init();	// World manager initialisation
   Vac::init();	    	// Vac cache initialization
   VRSql::init();	// VRSql initialization
-  //dax Openal::init();	// Openal initialization
+  Openal::init();	// Openal initialization
   World::init(Universe::current()->url); // takes a significant amount of time to launch
   timer.init.stop();	// stops init timer
 }
