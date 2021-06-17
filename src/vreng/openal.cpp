@@ -21,7 +21,6 @@
 #include "vreng.hpp"
 #include "openal.hpp"
 
-#if HAVE_OPENAL
 
 // class member initialization
 Openal * Openal::openal = NULL;
@@ -40,13 +39,14 @@ Openal * Openal::current()
 void Openal::quit()
 {
   openal = NULL;
+#if HAVE_OPENAL
   ALCcontext *context = alcGetCurrentContext();
   ALCdevice *device  = alcGetContextsDevice(context);
   alcMakeContextCurrent(NULL);
   alcDestroyContext(context);
   alcCloseDevice(device);
+#endif
 }
-
 
 bool Openal::init()
 {
@@ -68,6 +68,7 @@ bool Openal::init()
 
 void Openal::getDevices(std::vector<std::string>& devices)
 {
+#if HAVE_OPENAL
   devices.clear();
   const ALchar* deviceList = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
   if (deviceList) {
@@ -76,17 +77,21 @@ void Openal::getDevices(std::vector<std::string>& devices)
       deviceList += strlen(deviceList) + 1;
     }
   }
+#endif
 }
 
-ALuint Openal::load(const char * filename)
+#if HAVE_OPENAL
+ALuint Openal::load(const char *filename)
 {
   SF_INFO fileinfos;
   SNDFILE *file = sf_open(filename, SFM_READ, &fileinfos);
   if (!file) return 0;
+
   ALsizei nbsamples  = static_cast<ALsizei>(fileinfos.channels *fileinfos.frames);
   ALsizei samplerate = static_cast<ALsizei>(fileinfos.samplerate);
   std::vector<ALshort> samples(nbsamples);
-  if (sf_read_short(file, &samples[0], nbsamples) < nbsamples)  return 0;
+  if (sf_read_short(file, &samples[0], nbsamples) < nbsamples)
+    return 0;
   sf_close(file);
 
   ALenum format;
@@ -99,8 +104,9 @@ ALuint Openal::load(const char * filename)
   ALuint buffer;
   alGenBuffers(1, &buffer);
   alBufferData(buffer, format, &samples[0], nbsamples * sizeof(ALushort), samplerate);
-  if (alGetError() != AL_NO_ERROR) return 0;
+  if (alGetError() != AL_NO_ERROR)
+    return 0;
   return buffer;
 }
-
 #endif
+

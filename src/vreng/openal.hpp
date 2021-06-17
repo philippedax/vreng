@@ -21,11 +21,11 @@
 #ifndef OPENAL_HPP
 #define OPENAL_HPP
 
-#if HAVE_OPENAL 
 
-#include <string>
+#if HAVE_OPENAL 
 #include <AL/al.h>
 #include <AL/alc.h>
+#endif
 #if HAVE_SNDFILE
 #include <sndfile.h>
 #endif
@@ -37,13 +37,16 @@
  * Openal class
  */
 class Openal {
-
 private:
   static Openal *openal;	///< The singelton instance of this class
 
 public:
+#if HAVE_OPENAL 
   ALCdevice *device;
   ALCcontext *context;
+
+  virtual ALuint load(const char * filename);
+#endif
 
   Openal();		///< Constructor from world
 
@@ -53,10 +56,6 @@ public:
   static bool init();	///< Init
   static void getDevices(std::vector<std::string>& devices);
   static void quit();	///< Quits
-
-  virtual ALuint load(const char * filename);
-
 };
 
-#endif
 #endif
