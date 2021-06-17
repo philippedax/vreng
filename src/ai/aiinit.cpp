@@ -29,6 +29,7 @@
 #include "render.hpp"	//setAllTypeFlashy
 #include "vicinity.hpp"	//show
 
+
 void initOcaml(char **argv)
 {
 #if HAVE_OCAML

@@ -47,6 +47,7 @@ using namespace ubit;
 // global variable that refers to the various modules
 Global g;
 
+// local
 jmp_buf sigctx;
 
 
@@ -72,26 +73,25 @@ int Global::start(int argc, char *argv[])
   timer.init.start();
   pref.init(argc, argv, g.env.prefs());	// Options & Preferences initialization
 
-  // UAppli::conf.setDepthBuffer(16);   // utile ???  
   UAppli::conf.soft_menus = true;	// attention: seulement en mode single window
-  
+ 
   UAppli* appli = new UAppli(argc, argv);
-  if (!appli) fatal("Vreng can't be launched");
+  if (!appli) {
+    fatal("Vreng can't be launched");
+  }
 
   theme.setTheme(0);
-
   gui.createWidgets();
   gui.showWidgets();
+  initOcaml(argv);	// Ocaml runtime initialization
 
-  // A REVOIR if (pref.infogl) Ogl::infosGL();
-  // startCB() is implicitely called, but postponed so that the window
-  // can appear immediately
-#if HAVE_OCAML
-  initOcaml(argv);		// Ocaml runtime initialization
-#endif
   return appli->start();
 }
 
+/*
+ * startCB() is implicitely called by Scene::init(),
+ * but postponed so that the window can appear immediately
+ */
 void Global::startCB()
 {
   initLimits();		// Change rlimit
@@ -101,31 +101,27 @@ void Global::startCB()
   Channel::init();	// Network initialization
   Universe::init();	// World manager initialisation
   Vac::init();	    	// Vac cache initialization
-#if HAVE_SQLITE | HAVE_MYSQL
-  VRSql::init();	// MySql initialization
-#endif
-#if HAVE_OPENAL
-  Openal::init();	// Openal initialization
-#endif
-  // NB: this function takes a significant amount of time to launch
-  World::init(Universe::current()->url);
-  timer.init.stop();
+  VRSql::init();	// VRSql initialization
+  //dax Openal::init();	// Openal initialization
+  World::init(Universe::current()->url); // takes a significant amount of time to launch
+  timer.init.stop();	// stops init timer
 }
 
-void Global::quitVreng(int signum)
+void Global::quitVreng(int sig)
 {
   static int inquit = 0;
 
-  if (signum > 0) {
-    cerr << "Got signal " << signum <<
+  if (sig > 0) {
+    cerr << "Got signal " << sig <<
     ", aborting VREng (pid=" << getpid() << " ppid=" << getppid() << ")" << endl;
-    signal(signum, SIG_DFL);
-    longjmp(sigctx, signum);
+    signal(sig, SIG_DFL);
+    longjmp(sigctx, sig);
   }
   if (inquit > 0) {
-    trace(DBG_FORCE, "quit: inquit=%d sig=%d", inquit, signum);
-    if (inquit > 3) exit(signum);  // force exit without quitting properly
-    else inquit++;
+    trace(DBG_FORCE, "quit: inquit=%d sig=%d", inquit, sig);
+    if (inquit > 2) {
+      exit(sig);  // force exit
+    }
   }
   inquit++;
 
@@ -133,12 +129,10 @@ void Global::quitVreng(int signum)
 
   // close modules properly
   ::g.render.quit();
-  if (World::current()) World::current()->quit();
-  delete Channel::current();
-  delete Channel::getManager();
+  World::current()->quit();
 
   // quit the application (and close the main window)
-  UAppli::quit(signum);
+  UAppli::quit(sig);
 }
 
 void Global::printStats()
@@ -169,9 +163,7 @@ void Global::initSignals()
   signal(SIGUSR1, SIG_IGN);
   signal(SIGUSR2, SIG_IGN);
   trace(DBG_INIT, "Signals initialized");
-#if 0
-  longjmp(sigctx, 0);
-#endif
+  //dax longjmp(sigctx, 0);
 }
 
 // increases resource limits

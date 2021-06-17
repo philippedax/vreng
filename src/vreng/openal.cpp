@@ -50,6 +50,7 @@ void Openal::quit()
 
 bool Openal::init()
 {
+#if HAVE_OPENAL
   // Ouverture du device
   ALCdevice *device = alcOpenDevice(NULL);
   if (!device) return false;
@@ -60,6 +61,9 @@ bool Openal::init()
   if (!alcMakeContextCurrent(context)) return false;
 
   return true;
+#else
+  return false;
+#endif
 }
 
 void Openal::getDevices(std::vector<std::string>& devices)

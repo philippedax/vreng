@@ -136,6 +136,7 @@ bool VRSql::connectDB()
 /** Allocates VRSql */
 VRSql * VRSql::init()
 {
+#if HAVE_SQLITE | HAVE_MYSQL
   if (World::current())
     return NULL;
 
@@ -156,6 +157,9 @@ VRSql * VRSql::init()
   }
   trace(DBG_INIT, "init: vrsql = %p", vrsql);
   return vrsql;
+#else
+  return NULL;
+#endif
 }
 
 /** Returns VRSql ptr */
