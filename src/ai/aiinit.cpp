@@ -30,10 +30,10 @@
 #include "vicinity.hpp"	//show
 
 
-void initOcaml(char **argv)
+void initOcaml()
 {
 #if HAVE_OCAML
-  caml_startup(argv);
+  caml_startup(NULL);
 #endif
 }
 

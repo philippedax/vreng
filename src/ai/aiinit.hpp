@@ -18,8 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef CAMLINIT_HH
-#define CAMLINIT_HH
+#ifndef AIINIT_HH
+#define AIINIT_HH
 
 #ifdef  __cplusplus
 extern "C" {
@@ -35,30 +35,30 @@ extern "C" {
 #endif
 
 
-/*fonctions de transformation et d'appels*/
+/* fonctions de transformation et d'appels */
 value recherche_Objet(value mot);
 value recherche_Type(value mot);
 value recherche_Typegen(value mot,value action);
 value recherche_Func(value mot, value act);
 
-/*fonction de deplacement*/
+/* fonction de deplacement */
 value deplacement_to_Objet(value px, value py, value pz, value orientation,value dcptType);
 value deplacement_to_Proximite(value mot,value pos);
 
-/*fonction de question de point de vue*/
+/* fonction de question de point de vue */
 void viewed_objects(value mot);
 
-/*fonctions pour envoyer des informations a l'ecran*/
+/* fonctions pour envoyer des informations a l'ecran */
 void msg_info(value mot);
 void msg_debug(value mot);
 
-/*fonction recevant la requete et */
+/* fonction recevant la requete et */
 int read_request(const char *req);
 
 #endif //HAVE_OCAML
 
-/*fonction d'initialisation de l'environnement de Ocaml*/
-void initOcaml(char **argv);
+/* fonction d'initialisation de l'environnement de Ocaml */
+void initOcaml();
 
 #ifdef  __cplusplus
 }

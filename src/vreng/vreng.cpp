@@ -83,7 +83,6 @@ int Global::start(int argc, char *argv[])
   theme.setTheme(0);
   gui.createWidgets();
   gui.showWidgets();
-  initOcaml(argv);	// Ocaml runtime initialization
 
   return appli->start();
 }
@@ -102,6 +101,7 @@ void Global::startCB()
   Universe::init();	// World manager initialisation
   Vac::init();	    	// Vac cache initialization
   VRSql::init();	// VRSql initialization
+  initOcaml();		// Ocaml runtime initialization
   Openal::init();	// Openal initialization
   World::init(Universe::current()->url); // takes a significant amount of time to launch
   timer.init.stop();	// stops init timer
