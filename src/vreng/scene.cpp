@@ -45,7 +45,7 @@ Scene::Scene(Widgets* _gw) :
   gw(*_gw), 
   is_visible(true),    // should be set to false when the window is iconified !!!!
   is_initialized(false),
-  is_startCB_launched(false),
+  is_initCB_launched(false),
   cycles(0),
   net_delay(500)
 {
@@ -133,26 +133,28 @@ void Scene::setViewport(GLint x, GLint y, GLsizei w, GLsizei h)
   }
 }
 
-// in UBox mode:
-// - GLSection sets the GL viewport, the clipping planes et calls push/popAttrib()
-// - paintGL performs GLSection, calls Render::camera() then paints the scene
-// - resizeGL just changes ::g.pref.width3D,/height3D
-// The main difference is that GLSection must be done each time we paint because
-// only one window (and one GL context) is used
-
+/* in UBox mode:
+ * - GLSection sets the GL viewport, the clipping planes and calls push/popAttrib()
+ * - paintGL performs GLSection, calls Render::camera() then paints the scene
+ * - resizeGL just changes ::g.pref.width3D,/height3D
+ * The main difference is that GLSection must be done each time we paint because
+ * only one window (and one GL context) is used
+ */
 GLSection::GLSection(Scene* s) 
 : UGraph::Glpaint(s->getView(), true)
 {}
 
+/* Paints scene CB */
 void Scene::paintCB(UPaintEvent& e)
 {
-  // client GL graphics can be performed until the current function returns
   GLSection gls(this);
-  if (is_initialized) ::g.render.camera();
-  paintScene();
+  if (is_initialized) {
+    ::g.render.camera();
+  }
+  loopScene();
 }
 
-/* Resizes scene */
+/* Resizes scene CB */
 void Scene::resizeCB(UResizeEvent& e)
 {
   resize(e, int(e.getView()->getWidth()), int(e.getView()->getHeight()));
@@ -165,6 +167,7 @@ void Scene::netTimeoutCB()
   ::netTimeout();  // checks if various updates are needed
 }
 
+/* Inits scene */
 void Scene::init()
 {
   GLSection gls(this);
@@ -187,24 +190,24 @@ void Scene::init()
   net_timer.onAction(ucall(this, &Scene::netTimeoutCB));
   net_timer.start(net_delay, -1);
   message.show(false);
-  is_initialized = true; // the scene is initialized and ready for rendering
+  is_initialized = true;	// the scene is initialized and ready for rendering
 }
 
 void Scene::resize(UResizeEvent& e, int width, int height)
 {
   ::g.pref.width3D  = width;
   ::g.pref.height3D = height;
-  UAppli::setFocus(e.getView());    // gives the input focus to this view
+  UAppli::setFocus(e.getView()); // gives the input focus to this view
 }
 
 /*
  * Main loop of the engine
  */
-void Scene::paintScene()
+void Scene::loopScene()
 {
-  if (! is_startCB_launched) {
-    is_startCB_launched = true;
+  if (! is_initCB_launched) {
     UAppli::addTimeout(500, 1, ucall(this, &Scene::init));
+    is_initCB_launched = true;
   }
   if (! is_visible || ! is_initialized) return;
 
@@ -216,8 +219,9 @@ void Scene::paintScene()
   // Computes current world
   ProfileTime& tsimul = ::g.timer.simul;
   tsimul.start();
-  if (World::current())
+  if (World::current()) {
     World::current()->compute(tsimul.start_time.tv_sec, tsimul.start_time.tv_usec);
+  }
   tsimul.stop();
   
   // General rendering

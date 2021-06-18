@@ -30,7 +30,10 @@
 #include "widgets.hpp"
 
 // the Scene is a standard UBox (transparent menus and windows are then possible)
-struct GLSection : public ubit::UGraph::Glpaint { GLSection(class Scene*); };
+struct GLSection : public ubit::UGraph::Glpaint {
+  GLSection(class Scene*);
+};
+
 
 class Scene : public ubit::UBox {
 public:
@@ -49,24 +52,24 @@ public:
 private:
   friend class Gui;		// cycles net_delay
 
-  class Widgets& gw;
+  class Widgets& gw;		///< gui widget
   bool is_visible;		///< true if visible (not iconified).
-  bool is_initialized;
-  bool is_startCB_launched;
-  bool is_hudvisible;
-  int  cycles;			///< scenes per sec
-  int  net_delay;		///< default is 500ms
+  bool is_initialized;		///< true if initialized
+  bool is_initCB_launched;	///< true if initCB launched
+  bool is_hudvisible;		///< true if hud is visible
+  uint32_t cycles;		///< scenes per sec
+  uint32_t net_delay;		///< default is 500ms
   UTimer render_timer, net_timer;
   ULabel message;
+  UBackground background;
   UBox hudbox;
   UStr hud_line1, hud_line2, hud_line3, hud_line4, hud_line5;
-  UBackground background;
   class Hud *hud;
 
   void init();
   /** Inits the scene */
 
-  void paintScene();
+  void loopScene();
   /** Paints the scene */
 
   void resize(UResizeEvent&, int width, int height);
