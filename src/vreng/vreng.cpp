@@ -70,7 +70,6 @@ int main(int argc, char *argv[])
 
 int Global::start(int argc, char *argv[])
 {
-  timer.init.start();
   pref.init(argc, argv, g.env.prefs());	// Options & Preferences initialization
 
   UAppli::conf.soft_menus = true;	// attention: seulement en mode single window
@@ -93,6 +92,7 @@ int Global::start(int argc, char *argv[])
  */
 void Global::initCB()
 {
+  timer.init.start();	// starts int timer
   initLimits();		// Change rlimit
   initTrigo();		// Trigo
   initSignals();	// Signals initialization

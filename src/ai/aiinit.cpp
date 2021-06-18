@@ -32,8 +32,12 @@
 
 void initOcaml()
 {
+  char *Argv[2];
+
+  Argv[0] = "";
+  Argv[1] = NULL;
 #if HAVE_OCAML
-  caml_startup(NULL);
+  caml_startup(Argv);
 #endif
 }
 
