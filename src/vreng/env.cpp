@@ -29,9 +29,6 @@ Env::Env()
   strcpy(machinename, "unknown");
 
   // Set some process attributes
-#ifdef DMALLOC_FUNC_CHECK
-  //dmalloc_verify(0L);
-#endif
 #if HAVE_NICE
   nice(10);
 #endif
@@ -135,17 +132,15 @@ void Env::init()
   char pathcache[PATH_LEN+32];
   char pathpasswd[PATH_LEN+32];
   struct stat bufstat;
-
-  char *home;
-  if ((home = getenv("HOME"))) {
-    strcpy(homedir, home);
-  }
-  else {
-    return;
-  }
+  char *home = NULL;
 
   if (getcwd(vrengcwd, sizeof(vrengcwd)) == NULL) {
     return;
+  }
+  strcpy(homedir, vrengcwd);
+
+  if ((home = getenv("HOME"))) {
+    strcpy(homedir, home);
   }
 
   if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local
@@ -176,14 +171,16 @@ void Env::init()
   }
 
   sprintf(pathenvdir, "%s/.vreng", homedir);
-  if (stat(pathenvdir, &bufstat) < 0)
+  if (stat(pathenvdir, &bufstat) < 0) {
     mkdir(pathenvdir, 0700);
+  }
   strcpy(vrengdir, pathenvdir);
   chdir(pathenvdir);
 
   sprintf(pathicons, "%s/icons", pathenvdir);
-  if (stat(pathicons, &bufstat) < 0)
+  if (stat(pathicons, &bufstat) < 0) {
     mkdir(pathicons, 0700);
+  }
   strcpy(vrengicons, pathicons);
 
   sprintf(pathprefs, "%s/prefs", pathenvdir);
@@ -199,8 +196,9 @@ void Env::init()
   strcpy(vrengpasswd, pathpasswd);
 
   sprintf(pathcache, "%s/cache", pathenvdir);
-  if (stat(pathcache, &bufstat) < 0)
+  if (stat(pathcache, &bufstat) < 0) {
     mkdir(pathcache, 0700);
+  }
   strcpy(vrengcache, pathcache);
   chdir(vrengcwd);
 }
@@ -247,6 +245,7 @@ void Env::cleanCacheByExt(const char *ext)
 void Env::cleanCacheByTime(time_t cachetime)
 {
   time_t now;
+
   time(&now);
   chdir(vrengcache);
 #if HAVE_READDIR
