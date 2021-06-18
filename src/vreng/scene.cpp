@@ -169,11 +169,11 @@ void Scene::init()
 {
   GLSection gls(this);
 
-  //NB: render.init() must be called before world.init() which is called in startCB())
+  //NB: render.init() must be called before world.init() which is called in initCB())
   ::g.render.init(::g.pref.quality3D); 
 
   // complete the initialization of VREng
-  ::g.startCB();
+  ::g.initCB();
 
   // timer qui lance le reaffichage de la scene (repaint) tous les delta t
   render_timer.onAction(ucall(this, &UBox::repaint));

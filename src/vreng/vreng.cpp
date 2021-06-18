@@ -88,10 +88,10 @@ int Global::start(int argc, char *argv[])
 }
 
 /*
- * startCB() is implicitely called by Scene::init(),
+ * initCB() is implicitely called by Scene::init(),
  * but postponed so that the window can appear immediately
  */
-void Global::startCB()
+void Global::initCB()
 {
   initLimits();		// Change rlimit
   initTrigo();		// Trigo

@@ -59,7 +59,7 @@ public:
 
   int start(int argc, char *argv[]);
 
-  void startCB();
+  void initCB();
   
   static void quitVreng(int status);
 
