@@ -105,11 +105,11 @@ void Water::inits()
   rotx = 0;
   roty = 90;
   rotz = 90;
-  trace(DBG_WO, "Water: bbsize=%.2f,%.2f,%.2f bbcent=%.2f,%.2f,%.2f",
-        pos.bbsize.v[0], pos.bbsize.v[1], pos.bbsize.v[2],
-        pos.bbcent.v[0], pos.bbcent.v[1], pos.bbcent.v[2]);
-  depth = pos.bbsize.v[0];
-  width = pos.bbsize.v[1];
+  trace(DBG_WO, "Water: bbs=%.2f,%.2f,%.2f bbc=%.2f,%.2f,%.2f",
+        pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2],
+        pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
+  depth = pos.bbs.v[0];
+  width = pos.bbs.v[1];
 
   this->getSolid()->setTransparent(tcolor[3]);
 }
@@ -191,9 +191,9 @@ bool Water::whenIntersect(WObject *pcur, WObject *pold)
 
   case CAULDRON_TYPE:
     if (first) {
-      trace(DBG_WO, "WaterC: bbsize=%.2f,%.2f,%.2f bbcent=%.2f,%.2f,%.2f",
-            pos.bbsize.v[0], pos.bbsize.v[1], pos.bbsize.v[2],
-            pos.bbcent.v[0], pos.bbcent.v[1], pos.bbcent.v[2]);
+      trace(DBG_WO, "WaterC: bbs=%.2f,%.2f,%.2f bbc=%.2f,%.2f,%.2f",
+            pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2],
+            pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
       first = false;
     }
     pcur->pos.z += 2 * Ball::DELTAZ;

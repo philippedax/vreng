@@ -368,16 +368,16 @@ void World::compute(time_t sec, time_t usec)
       if (! (*it)->isValid()) continue;
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
       for (int i=0; i<3 ; i++) {
-        bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbcent.v[i] - (*it)->pos.bbsize.v[i]);
-        bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbcent.v[i] + (*it)->pos.bbsize.v[i]);
+        bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
+        bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
       }
     }
     for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if (! (*it)->isValid()) continue;
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == USER_TYPE) continue;
       for (int i=0; i<3 ; i++) {
-        bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbcent.v[i] - (*it)->pos.bbsize.v[i]);
-        bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbcent.v[i] + (*it)->pos.bbsize.v[i]);
+        bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
+        bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
       }
     }
     for (int i=0; i<3 ; i++) {

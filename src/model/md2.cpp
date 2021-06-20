@@ -474,7 +474,7 @@ void Md2::render(Pos &pos)
 void Md2::render(Pos &pos, uint16_t frame)
 {
   glPushMatrix();
-  glTranslatef(pos.x, pos.y, pos.z + pos.bbsize.v[2]);
+  glTranslatef(pos.x, pos.y, pos.z + pos.bbs.v[2]);
   glRotatef(RAD2DEG(pos.ax), 1,0,0);
   glRotatef(RAD2DEG(pos.ay), 0,1,0);
   glRotatef(RAD2DEG(pos.az), 0,0,1);

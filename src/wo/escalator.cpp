@@ -66,9 +66,9 @@ void Escalator::parser(char *l)
 
 void Escalator::build()
 {
-  float sx = pos.bbsize.v[0];  // step width
-  float sy = pos.bbsize.v[1];  // step depth
-  float sz = pos.bbsize.v[2];  // step height
+  float sx = pos.bbs.v[0];  // step width
+  float sy = pos.bbs.v[1];  // step depth
+  float sz = pos.bbs.v[2];  // step height
 
   if (height && dir > 0) height += sz;  // add the top step
   else if (length && pos.ax) {  // escalator defined by its length and its angle

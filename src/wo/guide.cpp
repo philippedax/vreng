@@ -219,7 +219,7 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
     uinitial[3] = pold->pos.az;
     localuser->pos.x = pos.x;
     localuser->pos.y = pos.y;
-    localuser->pos.z += (pos.z + pos.bbsize.v[2]);  // jump on the skate
+    localuser->pos.z += (pos.z + pos.bbs.v[2]);  // jump on the skate
     localuser->pos.az = pos.az;
     if (path[pt][4]) {	// pause
       signal(SIGALRM, sigguide);

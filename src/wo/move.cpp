@@ -498,7 +498,7 @@ void WObject::moveUserToObject(float sgn, float lttl, float attl)
   if (! localuser) return;
 
   int sign = (sgn >= 0) ? 1 : -1;
-  float d = sign * MAX(pos.bbsize.v[0], pos.bbsize.v[1]) * RATIO_GOTO;
+  float d = sign * MAX(pos.bbs.v[0], pos.bbs.v[1]) * RATIO_GOTO;
   //float dx = pos.x - (d * sin(pos.az)) - localuser->pos.x;
   //float dy = pos.y + (d * cos(pos.az)) - localuser->pos.y;
   float dx = pos.x - localuser->pos.x;

@@ -56,9 +56,9 @@ void Spiral::parser(char *l)
 
 void Spiral::build()
 {
-  float sx = pos.bbsize.v[0];  // step width
-  float sy = pos.bbsize.v[1];  // step depth
-  float sz = pos.bbsize.v[2];  // step height
+  float sx = pos.bbs.v[0];  // step width
+  float sy = pos.bbs.v[1];  // step depth
+  float sz = pos.bbs.v[2];  // step height
 
   nsteps = (int) ceil(height / sz);
 

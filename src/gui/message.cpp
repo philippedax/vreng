@@ -148,9 +148,9 @@ void Message::performRequest(WObject* object)
     clicked[1]=object->pos.y;
     clicked[2]=object->pos.z;
     clicked[3]=object->pos.az;
-    clicked[4]=object->pos.bbsize.v[0];
-    clicked[5]=object->pos.bbsize.v[1];
-    clicked[6]=object->pos.bbsize.v[2];
+    clicked[4]=object->pos.bbs.v[0];
+    clicked[5]=object->pos.bbs.v[1];
+    clicked[6]=object->pos.bbs.v[2];
     nclicks--;
     if (!entry.empty()) performRequest(entry);
   }

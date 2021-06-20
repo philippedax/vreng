@@ -59,7 +59,7 @@ void Button::parser(char *l)
     if (!stringcmp(l, "use")) {
       l = parse()->parseQuotedString(l, use_names, "use");	// refers object to use
     }
-    else if (!stringcmp(l, "state"))   l = parse()->parseUInt8(l, &pos.state, "state");
+    else if (!stringcmp(l, "state"))   l = parse()->parseUInt8(l, &pos.st, "state");
     else if (!stringcmp(l, "method0")) l = parse()->parseString(l, str_action0, "method0");
     else if (!stringcmp(l, "method1")) l = parse()->parseString(l, str_action1, "method1");
   }
@@ -96,7 +96,7 @@ bool Button::updateToNetwork(const Pos &oldpos)
 {
   bool change = false;
 
-  if (pos.state != oldpos.state) {
+  if (pos.st != oldpos.st) {
     noh->declareObjDelta(PROPSTATE);
     change = true;
   }
@@ -106,8 +106,8 @@ bool Button::updateToNetwork(const Pos &oldpos)
 /** Action commut - static */
 void Button::commut(Button *button, void *d, time_t s, time_t us)
 {
-  int idxaction = (button->pos.state == 0) ? button->num_action0 : button->num_action1;
-  button->pos.state = 1 - button->pos.state;
+  int idxaction = (button->pos.st == 0) ? button->num_action0 : button->num_action1;
+  button->pos.st = 1 - button->pos.st;
 
   WObject *psel = NULL;
 
@@ -130,13 +130,13 @@ void Button::get_bstate(Button *button, Payload *pp)
 {
   Pos oldpos = button->pos;
 
-  pp->getPayload("d", &(button->pos.state));
+  pp->getPayload("d", &(button->pos.st));
   button->updatePositionAndGrid(oldpos);
 }
 
 void Button::put_bstate(Button *button, Payload *pp)
 {
-  pp->putPayload("d", button->pos.state);
+  pp->putPayload("d", button->pos.st);
 }
 
 void Button::quit()

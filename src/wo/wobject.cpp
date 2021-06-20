@@ -84,10 +84,10 @@ WObject::WObject()
   pos.ax = 0;
   pos.ay = 0;
   pos.az = 0;
-  pos.state = 0;
+  pos.st = 0;
   pos.moved = false;
-  pos.bbcent = setV3(0, 0, 0);
-  pos.bbsize = setV3(0, 0, 0);
+  pos.bbc = setV3(0, 0, 0);
+  pos.bbs = setV3(0, 0, 0);
 
   move.perm_sec = 0;
   move.perm_usec = 0;
@@ -152,7 +152,7 @@ void WObject::initObject(uint8_t _mode)
       if (isBehavior(PERSISTENT)) {
         getPersistency();	// calls persistency VRSql
         if (pos.x>1000 || pos.y>1000 || pos.z>1000 || pos.x<-1000 || pos.y<-1000 || pos.z<-1000) {
-          error("object %s discarded, bad position in MySql: %.2f,%.2f,%.2f", names.instance, pos.x, pos.y, pos.z);
+          error("object %s discarded, bad position in VRSql: %.2f,%.2f,%.2f", names.instance, pos.x, pos.y, pos.z);
           enableBehavior(NO_BBABLE);
           break;
         }
@@ -689,7 +689,7 @@ void WObject::updateBB()
 {
   if (! solid) return;
   solid->updateBB(pos.az);
-  solid->getAbsBB(pos.bbcent, pos.bbsize);
+  solid->getAbsBB(pos.bbc, pos.bbs);
 }
 
 /* Inits 3D and grid position */
@@ -805,7 +805,7 @@ void WObject::savePersistency()
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && isBehavior(PERSISTENT) && !removed && givenName()) {
     //trace(DBG_FORCE, "savePersistency: %s pos.moved=%d", names.instance, pos.moved);
-    // update MySql table only if object has moved
+    // update VRSql table only if object has moved
     if (pos.moved) psql->updatePos(this);
     if (isBehavior(DYNAMIC)) psql->updateOwner(this);
     psql->quit();
@@ -936,7 +936,7 @@ char * WObject::tokenize(char *l)
     if (p) *p = '\0';
   }
 
-  // save solid string into geometry for MySql purposes
+  // save solid string into geometry for VRSql purposes
   char *p = strstr(l, "<solid");
   if (p) {
     char *q, *s;
@@ -1227,8 +1227,8 @@ void WObject::show(const char *name)
             name,
             (*o)->pos.x, (*o)->pos.y, (*o)->pos.z,
             (*o)->pos.ax, (*o)->pos.az,
-            (*o)->pos.bbcent.v[0], (*o)->pos.bbcent.v[1], (*o)->pos.bbcent.v[2],
-            (*o)->pos.bbsize.v[0], (*o)->pos.bbsize.v[1], (*o)->pos.bbsize.v[2]
+            (*o)->pos.bbc.v[0], (*o)->pos.bbc.v[1], (*o)->pos.bbc.v[2],
+            (*o)->pos.bbs.v[0], (*o)->pos.bbs.v[1], (*o)->pos.bbs.v[2]
            );
       break;
     }

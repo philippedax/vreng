@@ -161,9 +161,9 @@ value recherche_Type(value ttype)
 	    listObj[found]->pos.y,
 	    listObj[found]->pos.z,
 	    listObj[found]->pos.az,
-	    listObj[found]->pos.bbsize.v[0],
-	    listObj[found]->pos.bbsize.v[1],
-	    listObj[found]->pos.bbsize.v[2]);
+	    listObj[found]->pos.bbs.v[0],
+	    listObj[found]->pos.bbs.v[1],
+	    listObj[found]->pos.bbs.v[2]);
   }
 
   ret = copy_string(foundpos);

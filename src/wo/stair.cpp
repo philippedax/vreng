@@ -58,8 +58,8 @@ void Stair::parser(char *l)
 
 void Stair::build()
 {
-  float sx = pos.bbsize.v[0];  // step width
-  float sy = pos.bbsize.v[1];  // step depth
+  float sx = pos.bbs.v[0];  // step width
+  float sy = pos.bbs.v[1];  // step depth
   float sz = MIN(sx, sy);
 
   if (height) height += sz;	// add the top step

@@ -58,8 +58,8 @@ void Travelator::parser(char *l)
 
 void Travelator::build()
 {
-  float sx = pos.bbsize.v[0];  // step width
-  float sy = pos.bbsize.v[1];  // step depth
+  float sx = pos.bbs.v[0];  // step width
+  float sy = pos.bbs.v[1];  // step depth
   float ss = MIN(sx, sy);
 
   nsteps = (int) ceil(length / ss);

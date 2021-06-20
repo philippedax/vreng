@@ -86,21 +86,21 @@ Vicinity::Vicinity(string objectName)
 // Evaluate size of the avatar
 void Vicinity::setSize(WObject *user)
 {
-  if      ((user->pos.bbsize.v[0] > 10) &&
-           (user->pos.bbsize.v[1] > 4) &&
-           (user->pos.bbsize.v[2] > 4))
+  if      ((user->pos.bbs.v[0] > 10) &&
+           (user->pos.bbs.v[1] > 4) &&
+           (user->pos.bbs.v[2] > 4))
     userSize = SIZE_HUGE;
-  else if ((user->pos.bbsize.v[0] > 5) &&
-           (user->pos.bbsize.v[1] > 2) &&
-           (user->pos.bbsize.v[2] > 2))
+  else if ((user->pos.bbs.v[0] > 5) &&
+           (user->pos.bbs.v[1] > 2) &&
+           (user->pos.bbs.v[2] > 2))
     userSize = SIZE_LARGE;
-  else if ((user->pos.bbsize.v[0] < 1) &&
-           (user->pos.bbsize.v[1] < 0.5) &&
-           (user->pos.bbsize.v[2] < 0.5))
+  else if ((user->pos.bbs.v[0] < 1) &&
+           (user->pos.bbs.v[1] < 0.5) &&
+           (user->pos.bbs.v[2] < 0.5))
     userSize = SIZE_SMALL;
-  else if ((user->pos.bbsize.v[0] < 0.5) &&
-           (user->pos.bbsize.v[1] < 0.2) &&
-           (user->pos.bbsize.v[2] < 0.2))
+  else if ((user->pos.bbs.v[0] < 0.5) &&
+           (user->pos.bbs.v[1] < 0.2) &&
+           (user->pos.bbs.v[2] < 0.2))
     userSize = SIZE_TINY;
   else
     userSize = SIZE_NORMAL;
@@ -122,15 +122,15 @@ Vicinity::Dist Vicinity::computeDistance(WObject *obj1, WObject *obj2)
   posobj1[0] = obj1->pos.x;
   posobj1[1] = obj1->pos.y;
   posobj1[2] = obj1->pos.z;
-  posobj1[3] = obj1->pos.bbsize.v[0];
-  posobj1[4] = obj1->pos.bbsize.v[1];
-  posobj1[5] = obj1->pos.bbsize.v[2];
+  posobj1[3] = obj1->pos.bbs.v[0];
+  posobj1[4] = obj1->pos.bbs.v[1];
+  posobj1[5] = obj1->pos.bbs.v[2];
   posobj2[0] = obj2->pos.x;
   posobj2[1] = obj2->pos.y;
   posobj2[2] = obj2->pos.z;
-  posobj2[3] = obj2->pos.bbsize.v[0];
-  posobj2[4] = obj2->pos.bbsize.v[1];
-  posobj2[5] = obj2->pos.bbsize.v[2];
+  posobj2[3] = obj2->pos.bbs.v[0];
+  posobj2[4] = obj2->pos.bbs.v[1];
+  posobj2[5] = obj2->pos.bbs.v[2];
 
   float obj1A[3], obj1B[3], obj2A[3], obj2B[3];
 
@@ -198,21 +198,21 @@ Vicinity::Size Vicinity::computeSize(WObject *obj)
 {
   Size objSize = SIZE_NORMAL;
 
-  if ((obj->pos.bbsize.v[0] > (10*localuser->pos.bbsize.v[0]))
-     && (obj->pos.bbsize.v[1] > (4*localuser->pos.bbsize.v[1]))
-     && (obj->pos.bbsize.v[2] > (4*localuser->pos.bbsize.v[2]))) {
+  if ((obj->pos.bbs.v[0] > (10*localuser->pos.bbs.v[0]))
+     && (obj->pos.bbs.v[1] > (4*localuser->pos.bbs.v[1]))
+     && (obj->pos.bbs.v[2] > (4*localuser->pos.bbs.v[2]))) {
     objSize = SIZE_HUGE;
-  } else if ((obj->pos.bbsize.v[0] > (5*localuser->pos.bbsize.v[0]))
-	   && (obj->pos.bbsize.v[1] > (2*localuser->pos.bbsize.v[1]))
-	   && (obj->pos.bbsize.v[2] > (2*localuser->pos.bbsize.v[2]))) {
+  } else if ((obj->pos.bbs.v[0] > (5*localuser->pos.bbs.v[0]))
+	   && (obj->pos.bbs.v[1] > (2*localuser->pos.bbs.v[1]))
+	   && (obj->pos.bbs.v[2] > (2*localuser->pos.bbs.v[2]))) {
     objSize = SIZE_LARGE;
-  } else if ((obj->pos.bbsize.v[0] < (1*localuser->pos.bbsize.v[0]))
-	   && (obj->pos.bbsize.v[1] < (0.5*localuser->pos.bbsize.v[1]))
-	   && (obj->pos.bbsize.v[2] < (0.5*localuser->pos.bbsize.v[2]))) {
+  } else if ((obj->pos.bbs.v[0] < (1*localuser->pos.bbs.v[0]))
+	   && (obj->pos.bbs.v[1] < (0.5*localuser->pos.bbs.v[1]))
+	   && (obj->pos.bbs.v[2] < (0.5*localuser->pos.bbs.v[2]))) {
     objSize = SIZE_SMALL;
-  } else if ((obj->pos.bbsize.v[0] < (0.5*localuser->pos.bbsize.v[0]))
-	   && (obj->pos.bbsize.v[1] < (0.2*localuser->pos.bbsize.v[1]))
-	   && (obj->pos.bbsize.v[2] < (0.2*localuser->pos.bbsize.v[2]))) {
+  } else if ((obj->pos.bbs.v[0] < (0.5*localuser->pos.bbs.v[0]))
+	   && (obj->pos.bbs.v[1] < (0.2*localuser->pos.bbs.v[1]))
+	   && (obj->pos.bbs.v[2] < (0.2*localuser->pos.bbs.v[2]))) {
     objSize = SIZE_TINY;
   } else
     objSize = SIZE_NORMAL;

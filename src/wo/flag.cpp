@@ -63,8 +63,8 @@ void Flag::behavior()
 
 void Flag::inits()
 {
-  width  = pos.bbsize.v[0];
-  height = pos.bbsize.v[2];
+  width  = pos.bbs.v[0];
+  height = pos.bbs.v[2];
 
   texid = Texture::current();
 

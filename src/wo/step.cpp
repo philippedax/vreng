@@ -92,9 +92,9 @@ void Step::parser(char *l)
 void Step::build()
 {
   float size = 0;
-  float sx = pos.bbsize.v[0];  // step width
-  float sy = pos.bbsize.v[1];  // step depth
-  float sz = pos.bbsize.v[2];  // step height
+  float sx = pos.bbs.v[0];  // step width
+  float sy = pos.bbs.v[1];  // step depth
+  float sz = pos.bbs.v[2];  // step height
 
   char *geom = new char[strlen(geometry) + 1];
   strcpy(geom, geometry);  // step geometry to duplicate
@@ -221,9 +221,9 @@ void Step::changePermanent(float lasting)
   if (! mobile) return;
   if (state == INACTIVE) return;
 
-  float sx = pos.bbsize.v[0];  // step width
-  float sy = pos.bbsize.v[1];  // step depth
-  float sz = pos.bbsize.v[2];  // step height
+  float sx = pos.bbs.v[0];  // step width
+  float sy = pos.bbs.v[1];  // step depth
+  float sz = pos.bbs.v[2];  // step height
 
   if (dir > 0) {  // escalator upwards
     pos.x += lasting * move.lspeed.v[0] * sin(pos.az);
@@ -313,7 +313,7 @@ bool Step::whenIntersect(WObject *pcur, WObject *pold)
           pold->copyPositionAndBB(pcur);
         }
         else {
-          if (pos.bbsize.v[2] < JUMP/8) pcur->pos.z += pos.bbsize.v[2];
+          if (pos.bbs.v[2] < JUMP/8) pcur->pos.z += pos.bbs.v[2];
           else pcur->pos.z += JUMP;  // up
           pcur->updatePositionAndGrid(pold);
         }

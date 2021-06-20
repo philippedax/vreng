@@ -276,9 +276,9 @@ V3 Render::getVisiblePosition(WObject *po)
   GLfloat xa  = po->pos.x;
   GLfloat ya  = po->pos.y;
   GLfloat za  = po->pos.z;
-  GLfloat dxa = po->pos.bbsize.v[0];
-  GLfloat dya = po->pos.bbsize.v[1];
-  GLfloat dza = po->pos.bbsize.v[2];
+  GLfloat dxa = po->pos.bbs.v[0];
+  GLfloat dya = po->pos.bbs.v[1];
+  GLfloat dza = po->pos.bbs.v[2];
 
   glGetDoublev(GL_MODELVIEW_MATRIX, mview);
   glGetDoublev(GL_PROJECTION_MATRIX, mproj);

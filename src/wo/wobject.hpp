@@ -102,10 +102,10 @@ struct Pos {
   float az;		///< angle plan xy axis z.
   float ay;		///< angle plan xz axis y.
   float ax;		///< angle plan yz axis x.
-  V3 bbcent;		///< Bounding Box's center.
-  V3 bbsize;		///< Bounding Box's dimension.
+  V3 bbc;		///< Bounding Box's center.
+  V3 bbs;		///< Bounding Box's dimension.
   bool moved;		///< has moved or not.
-  uint8_t state;	///< button state.
+  uint8_t st;		///< button state.
 };
 
 /**
@@ -212,7 +212,7 @@ public:
   // Methods of Instances of general object handlers
   //
   virtual bool isMoving() { return testMoving(); }
-  /**< Checks weither object is moving. */
+  /**< Checks whether object is moving. */
 
   virtual void changePosition(float lasting) {}
   /**< Changes the position after a triggered movement. */
@@ -279,7 +279,7 @@ public:
   // Set, Get, Have, Is
   //
   virtual bool haveAction();
-  /**< Checks weither have actions. */
+  /**< Checks whether have actions. */
 
   virtual uint8_t numberAction();
   /**< Number of actions. */
@@ -627,7 +627,7 @@ public:
   /**< Checks if the object is Rendered. */
 
   virtual bool isOpaque() const;
-  /**< Checks weither the object is opaque. */
+  /**< Checks whether the object is opaque. */
 
   virtual void setFlashy(float *color);
   /**< Sets flashy the 3D object. */
@@ -645,7 +645,7 @@ public:
   virtual void setReflexive(bool flag);
 
   virtual bool isSelectable() const;
-  /**< Checks weither 3D selectable behavior is on. */
+  /**< Checks whether 3D selectable behavior is on. */
 
   virtual bool isRemoved() const;
   /**< Returns if object has been removed or not. */
@@ -755,32 +755,34 @@ public:
 
   virtual void specialAction(int action, void *data, time_t sec, time_t usec);
   /**< Calls methods dedicated to each object.
-   * Called by GUI. */
+   * Called by GUI.
+   */
 
   void getObjectHumanName(char **classname, char **instancename, char **actionnames);
   /**< Gives object's class_name & action names.
-   * Called by GUI. */
+   * Called by GUI.
+   */
 
   //
   // VRSql
   //
   virtual void getPersistency();
-  /**< Checks if position is managed by MySql and get it. */
+  /**< Checks if position is managed by VRSql and get it. */
 
   virtual void getPersistency(int16_t state);
-  /**< Gets state from MySql. */
+  /**< Gets state from VRSql. */
 
   virtual void updatePersistency();
-  /**< Checks if position is managed by MySql and update it. */
+  /**< Checks if position is managed by VRSql and update it. */
 
   virtual void updatePersistency(int16_t state);
-  /**< Updates state for MySql. */
+  /**< Updates state for VRSql. */
 
   virtual void savePersistency();
-  /**< Flushes position for MySql. */
+  /**< Flushes position for VRSql. */
 
   virtual void quitPersistency();
-  /**< Quits MySql. */
+  /**< Quits VRSql. */
 
 protected:
   // GUI and network change callbacks

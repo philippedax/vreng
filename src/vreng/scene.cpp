@@ -266,7 +266,7 @@ void Scene::updateHud()
     hud_line3 = line;
     
     sprintf(line, "BBox:   %.1f %.1f %.1f",
-            obj->pos.bbsize.v[0], obj->pos.bbsize.v[1], obj->pos.bbsize.v[2]);
+            obj->pos.bbs.v[0], obj->pos.bbs.v[1], obj->pos.bbs.v[2]);
     hud_line4 = line;
     
     float dist = sqrt((localuser->pos.x-obj->pos.x)*(localuser->pos.x-obj->pos.x) +
