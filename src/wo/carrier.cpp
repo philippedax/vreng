@@ -93,7 +93,7 @@ void Carrier::leave()
 
   if (! carriedObject)  return;
 
-  carriedObject->pos.moved = true;  // mark it has moved
+  carriedObject->pos.alter = true;  // mark it has changed
   defaults();  // reset the carrier
 }
 

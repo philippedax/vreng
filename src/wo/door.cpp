@@ -225,7 +225,7 @@ void Door::open()
   }
   Sound::playSound(DOOROPENSND);
   state = OPENED;
-  pos.moved = true;	// has moved
+  pos.alter = true;	// has changed
   updatePersistency(state);
 }
 
@@ -250,7 +250,7 @@ void Door::close()
     break;
   }
   state = CLOSED;
-  pos.moved = true;	// has moved
+  pos.alter = true;	// has changed
   updatePersistency(state);
 }
 
@@ -262,7 +262,7 @@ void Door::lock()
   case Door::UNLOCKED:
   case Door::CLOSED:
     state = Door::LOCKED;
-    pos.moved = true;	// has moved
+    pos.alter = true;	// has changed
     updatePersistency(state);
   default:
     break;
@@ -276,7 +276,7 @@ void Door::unlock()
   switch (state) {
   case Door::LOCKED:
     state = Door::UNLOCKED;
-    pos.moved = true;	// has moved
+    pos.alter = true;	// has changed
     updatePersistency(state);
   default:
     break;

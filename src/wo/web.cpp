@@ -136,7 +136,7 @@ void Web::pivot()
   case 0: nexta = aback;  break;
   case 1: nexta = afront; break;
   }
-  pos.moved = false;
+  pos.alter = false;
   clearV3(move.aspeed);
   move.aspeed.v[0] = aspeed;
   initImposedMovement(TTL);
@@ -179,7 +179,7 @@ void Web::pivot()
   }
 
   face ^= 1;
-  pos.moved = true;     // has moved
+  pos.alter = true;     // has changed
 }
 
 /* Opens browser */

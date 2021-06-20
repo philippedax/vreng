@@ -104,7 +104,7 @@ struct Pos {
   float ax;		///< angle plan yz axis x.
   V3 bbc;		///< Bounding Box's center.
   V3 bbs;		///< Bounding Box's dimension.
-  bool moved;		///< has moved or not.
+  bool alter;		///< position has changed or not.
   uint8_t st;		///< button state.
 };
 

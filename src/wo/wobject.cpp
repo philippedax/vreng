@@ -85,7 +85,7 @@ WObject::WObject()
   pos.ay = 0;
   pos.az = 0;
   pos.st = 0;
-  pos.moved = false;
+  pos.alter = false;
   pos.bbc = setV3(0, 0, 0);
   pos.bbs = setV3(0, 0, 0);
 
@@ -708,7 +708,7 @@ void WObject::updatePosition()
   updateAll3D(pos);
   update3D(pos);
   if (bbBehavior()) updateBB();
-  pos.moved = true;	// has moved
+  pos.alter = true;	// has changed
   updateDist();
 }
 
@@ -804,9 +804,9 @@ void WObject::savePersistency()
 #if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && isBehavior(PERSISTENT) && !removed && givenName()) {
-    //trace(DBG_FORCE, "savePersistency: %s pos.moved=%d", names.instance, pos.moved);
-    // update VRSql table only if object has moved
-    if (pos.moved) psql->updatePos(this);
+    //trace(DBG_FORCE, "savePersistency: %s pos.alter=%d", names.instance, pos.alter);
+    // update VRSql table only if object has changed
+    if (pos.alter) psql->updatePos(this);
     if (isBehavior(DYNAMIC)) psql->updateOwner(this);
     psql->quit();
   }

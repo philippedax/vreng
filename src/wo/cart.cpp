@@ -144,8 +144,8 @@ void Cart::leave(WObject *po)
   // owner is user
   po->setOwner();
 
-  // declare that the object has moved for MySql update
-  po->pos.moved = true;
+  // declare that the object has moved for VRSql update
+  po->pos.alter = true;
 
 #if VRSQL
   psql = VRSql::getVRSql();     // first take the VRSql handle;
