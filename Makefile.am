@@ -37,18 +37,15 @@ HTTP_SVN = http://www.vreng.enst.fr/svn/vreng
 
 TARBALL_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 TARBALL_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.xz
-TARBALL_BZ2 = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.bz2
 TARBALL_ZIP = $(PACKAGE_NAME)-$(PACKAGE_VERSION).zip
-TARBALLS = $(TARBALL_GZ) $(TARBALL_BZ2) $(TARBALL_XZ) $(TARBALL_ZIP)
+TARBALLS = $(TARBALL_GZ) $(TARBALL_XZ) $(TARBALL_ZIP)
 
 TARLINK_GZ = $(PACKAGE_NAME).tar.gz
 TARLINK_XZ = $(PACKAGE_NAME).tar.xz
-TARLINK_BZ2 = $(PACKAGE_NAME).tar.bz2
 TARLINK_ZIP = $(PACKAGE_NAME).zip
 
 FINGERPRINT_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-gz.md5sum
 FINGERPRINT_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-xz.md5sum
-FINGERPRINT_BZ2 = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-bz2.md5sum
 FINGERPRINT_ZIP = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-zip.md5sum
 
 dist dist-all:
@@ -61,7 +58,6 @@ dist dist-all:
 fingerprint:
 	-md5sum < $(TARBALL_GZ) > $(FINGERPRINT_GZ)
 	-md5sum < $(TARBALL_XZ) > $(FINGERPRINT_XZ)
-#	-md5sum < $(TARBALL_BZ2) > $(FINGERPRINT_BZ2)
 #	-md5sum < $(TARBALL_ZIP) > $(FINGERPRINT_ZIP)
 
 clean-tar:
@@ -80,14 +76,11 @@ archive: dist fingerprint
 	-install -m 444 $(TARBALL_GZ) $(ARCHIVE)
 	-install -m 444 $(FINGERPRINT_XZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_XZ) $(ARCHIVE)
-#	-install -m 444 $(FINGERPRINT_BZ2) $(ARCHIVE)
-#	-install -m 444 $(TARBALL_BZ2) $(ARCHIVE)
 #	-install -m 444 $(FINGERPRINT_ZIP) $(ARCHIVE)
 #	-install -m 444 $(TARBALL_ZIP) $(ARCHIVE)
-	-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_BZ2); ln -s $(TARBALL_BZ2) $(TARLINK_BZ2); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ); rm -f $(TARLINK_ZIP); ln -s $(TARBALL_ZIP) $(TARLINK_ZIP))
+	-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ); rm -f $(TARLINK_ZIP); ln -s $(TARBALL_ZIP) $(TARLINK_ZIP))
 	@-rm $(FINGERPRINT_GZ)
 	@-rm $(FINGERPRINT_XZ)
-#	@-rm $(FINGERPRINT_BZ2)
 #	@-rm $(FINGERPRINT_ZIP)
 
 doxygen:
