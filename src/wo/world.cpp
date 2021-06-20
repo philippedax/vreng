@@ -33,7 +33,7 @@
 #include "env.hpp"	// icons
 #include "pref.hpp"	// url
 #include "olist.hpp"	// OList
-#include "file.hpp"	// OpenFile
+#include "file.hpp"	// openFile
 #include "entry.hpp"	// Entry
 #include "clock.hpp"	// Clock
 #include "prof.hpp"	// new_world
@@ -230,11 +230,11 @@ const char * World::getManagerChan() //static
 bool World::setChan(const char *chan_str)
 {
   if (! chan_str) {
-    //error("setChan: chan_str NULL");
+    error("setChan: chan_str NULL");
     return false;
   }
   if (*chan_str == '\0') {
-    //error("setChan: chan_str EMPTY");
+    error("setChan: chan_str EMPTY");
     return false;
   }
   if (strlen(chan_str) >= CHAN_LEN) {
@@ -251,7 +251,9 @@ bool World::setChan(const char *chan_str)
 /* Sets the channel name and Joins the new channel */
 void World::setChanAndJoin(char *chan_str)
 {
-  if (setChan(chan_str)) Channel::join(chan_str);
+  if (setChan(chan_str)) {
+    Channel::join(chan_str);
+  }
 }
 
 /* Gets the current channel string */
@@ -362,29 +364,28 @@ void World::compute(time_t sec, time_t usec)
     //
     // computes world's bb
     //
-    for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
-      if (! (*o)->isValid()) continue;
-      if (! (*o)->bbBehavior() || (*o)->isBehavior(COLLIDE_NEVER)) continue;
+    for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+      if (! (*it)->isValid()) continue;
+      if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
       for (int i=0; i<3 ; i++) {
-        bbmin.v[i] = MIN(bbmin.v[i], (*o)->pos.bbcent.v[i] - (*o)->pos.bbsize.v[i]);
-        bbmax.v[i] = MAX(bbmax.v[i], (*o)->pos.bbcent.v[i] + (*o)->pos.bbsize.v[i]);
+        bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbcent.v[i] - (*it)->pos.bbsize.v[i]);
+        bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbcent.v[i] + (*it)->pos.bbsize.v[i]);
       }
     }
-    for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-      if (! (*o)->isValid()) continue;
-      if (! (*o)->bbBehavior() || (*o)->isBehavior(COLLIDE_NEVER) || (*o)->type == USER_TYPE) continue;
+    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+      if (! (*it)->isValid()) continue;
+      if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == USER_TYPE) continue;
       for (int i=0; i<3 ; i++) {
-        bbmin.v[i] = MIN(bbmin.v[i], (*o)->pos.bbcent.v[i] - (*o)->pos.bbsize.v[i]);
-        bbmax.v[i] = MAX(bbmax.v[i], (*o)->pos.bbcent.v[i] + (*o)->pos.bbsize.v[i]);
+        bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbcent.v[i] - (*it)->pos.bbsize.v[i]);
+        bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbcent.v[i] + (*it)->pos.bbsize.v[i]);
       }
-      if (bbmax.v[0] > 1000 || bbmax.v[1] >1000 || bbmax.v[2] > 1000)
-        error("mobil: %d %s bbmin=%.1f,%.1f,%.1f bbmax=%.1f,%.1f,%.1f", (*o)->type, (*o)->getInstance(), bbmin.v[0], bbmin.v[1], bbmin.v[2], bbmax.v[0], bbmax.v[1], bbmax.v[2]);
     }
     for (int i=0; i<3 ; i++) {
       bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]);
-      bbsize.v[i]   = (bbmax.v[i] - bbmin.v[i]);
+      bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]);
     }
-    notice("bbsize=%.1f,%.1f,%.1f bbcent=%.1f,%.1f,%.1f", bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
+    notice("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f",
+           bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
 
     OList::clearIspointed(mobileList);
 
@@ -398,7 +399,6 @@ void World::compute(time_t sec, time_t usec)
     dimx = MIN(64, dimx);
     dimy = MIN(64, dimy);
     dimz = MIN(16, dimz);
-    //notice("dim: %d,%d,%d", dimx, dimy, dimz);
 
     Grid::grid()->init(dimx, dimy, dimz);
     Axis::axis()->init();
@@ -416,21 +416,21 @@ void World::compute(time_t sec, time_t usec)
     //
     // objects with imposed and permanent movements
     //
-    for (list<WObject*>::iterator o = mobileList.begin(); o != mobileList.end(); ++o) {
-      if (! (*o)->isValid()) {
+    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+      if (! (*it)->isValid()) {
         error("bad type=0");
-        mobileList.remove(*o);
+        mobileList.remove(*it);
         continue;
       }
-      if ((*o)->type > OBJECTSNUMBER) {
-        error("bad type out of range: t=%d", (*o)->type);
-        mobileList.remove(*o);
+      if ((*it)->type > OBJECTSNUMBER) {
+        error("bad type out of range: t=%d", (*it)->type);
+        mobileList.remove(*it);
         continue;
       }
-      //dax if (::g.pref.dbgtrace) error("obj: %s-%s", (*o)->typeName(), (*o)->getInstance());
+      //dax if (::g.pref.dbgtrace) error("obj: %s-%s", (*it)->typeName(), (*it)->getInstance());
 
-      (*o)->imposedMovement(sec, usec);		// object imposed movement
-      (*o)->permanentMovement(sec, usec);	// object permanent movement
+      (*it)->imposedMovement(sec, usec);	// object imposed movement
+      (*it)->permanentMovement(sec, usec);	// object permanent movement
     }
 
     //
@@ -721,16 +721,16 @@ void World::worldReader(void *_url, Http *http)
   FILE *fp = NULL;
   int len = 0;
   struct stat bufstat;
-  char file[URL_LEN];
+  char filename[URL_LEN];
   char buf[BUFSIZ];
 
-  Cache::setCacheName(url, file);
+  Cache::setCacheName(url, filename);
 
   Parse *parser = new Parse();		// create the parser instance
 
-  if (stat(file, &bufstat) < 0) {	// file is not in the cache
-    if ((fp = File::openFile(file, "w")) == NULL) {
-      error("can't create file %s", file);
+  if (stat(filename, &bufstat) < 0) {	// is not in the cache
+    if ((fp = File::openFile(filename, "w")) == NULL) {
+      error("can't create file %s", filename);
     }
 
     // download the vre file from the httpd server
@@ -745,16 +745,16 @@ httpread:
     }
 
 #if 0 //HAVE_LIBXML2
-    Xml::dtdValidation(file);        // check the DTD
+    Xml::dtdValidation(filename);        // check the DTD
 #endif //HAVE_LIBXML2
   }
-  else {        // file exists in the cache
-    if ((fp = File::openFile(file, "r")) == NULL) {
+  else {        // filename exists in the cache
+    if ((fp = File::openFile(filename, "r")) == NULL) {
       goto httpread;			// download it
     }
     while ((len = fread(buf, 1, sizeof(buf), fp)) > 0) {
-      if (parser->parseVreFile(buf, len) <= 0) {  // eof or parsing error
-        break;
+      if (parser->parseVreFile(buf, len) <= 0) {
+        break;		// eof or parsing error
       }
     }
   }
@@ -846,26 +846,22 @@ void World::quit()
    */
   // invisible objects
   for (list<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
-    if (*it && (*it)->isValid()) {
-      (*it)->quit();
-      delete(*it);
-    }
+    (*it)->quit();
+    delete(*it);
   }
   invisList.clear();
 
   // still objects
   for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-    if (*it && (*it)->isValid()) {
-      (*it)->quit();
-      delete(*it);
-    }
+    (*it)->quit();
+    delete(*it);
   }
   stillList.clear();
 
   // mobile objects
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it) == localuser) continue;
-    if (*it && (*it)->isValid() && ! (*it)->isEphemeral()) {
+    if (! (*it)->isEphemeral()) {
       (*it)->clearObjectBar();	// segfault FIXME
       (*it)->quit();
       delete(*it);
@@ -875,10 +871,8 @@ void World::quit()
 
   // fluid objects
   for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
-    if (*it && (*it)->isValid()) {
-      (*it)->quit();
-      delete(*it);
-    }
+    (*it)->quit();
+    delete(*it);
   }
   fluidList.clear();
 
@@ -908,8 +902,8 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // cleanup
   clearLists();
-  current()->initGrid();
   initNames();
+  current()->initGrid();
 
   World *world = NULL;
 
@@ -922,7 +916,9 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
       error("enter: url corrupted");	//FIXME
       strcpy(world->url, url);
     }
-    if (world->guip) ::g.gui.updateWorld(world, NEW);
+    if (world->guip) {
+      ::g.gui.updateWorld(world, NEW);
+    }
   }
   else if (isnew) { // new world must to be initialized
 
@@ -941,7 +937,9 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
       newworld->setName(newworld->url);
     }
     else if (! url) {	// sandbox world
-      if (newworld->guip) ::g.gui.updateWorld(newworld, NEW);
+      if (newworld->guip) {
+        ::g.gui.updateWorld(newworld, NEW);
+      }
     }
     else return NULL;	// bad world
     
@@ -955,7 +953,9 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   else {	// world already exists
     trace(DBG_WO, "enter: world=%s (%d) already exists", current()->getName(), isnew);
     world = current();
-    if (world->guip) ::g.gui.updateWorld(world, OLD);
+    if (world->guip) {
+      ::g.gui.updateWorld(world, OLD);
+    }
   }
 
   // default bgcolor
@@ -1019,20 +1019,18 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 void World::deleteObjects()
 {
   for (list<WObject*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
-    if (*it) {
-      if ((*it)->isValid() && ! (*it)->isBehavior(COLLIDE_NEVER)) {
-        (*it)->delFromGrid();
+    if (! (*it)->isBehavior(COLLIDE_NEVER)) {
+      (*it)->delFromGrid();
+    }
+    if ((*it)->removed) {
+      objectList.remove(*it);
+      stillList.remove(*it);
+      mobileList.remove(*it);
+      //error("delete: %s", (*it)->getInstance());
+      if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") {	// Hack!
+        delete(*it);	//segfault FIXME!
       }
-      if ((*it)->removed) {
-        objectList.remove(*it);
-        mobileList.remove(*it);
-        stillList.remove(*it);
-        //error("delete: %s", (*it)->getInstance());
-        if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") {	// Hack!
-          delete(*it);	//segfault FIXME!
-        }
-        //dax deleteList.erase(it);
-      }
+      //dax deleteList.erase(it);
     }
   }
   deleteList.clear();
