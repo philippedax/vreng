@@ -200,7 +200,7 @@ void User::changePositionOneDir(int move_type, float lasting)
   }
 }
 
-/* fill times's array for each user motion direction */
+/* fill times's array for each user movement direction */
 void User::updateTime(float lastings[])
 {
   for (int k=0; k < MAXKEYS; k++) {
@@ -209,7 +209,7 @@ void User::updateTime(float lastings[])
   }
 }
 
-/* do the motion for each direction */
+/* do the movement for each direction */
 void User::changePosition(const float lastings[])
 {
   for (int k=0; (k < MAXKEYS); k++) {
@@ -298,12 +298,6 @@ void WObject::enablePermanentMovement()
   move.perm_usec = t.tv_usec;
 }
 
-void WObject::disablePermanentMovement()
-{
-  move.perm_sec = 0;
-  move.perm_usec = 0;
-}
-
 void WObject::enablePermanentMovement(float speed)
 {
   enablePermanentMovement();
@@ -312,11 +306,17 @@ void WObject::enablePermanentMovement(float speed)
   move.lspeed.v[2] = speed;
 }
 
+void WObject::disablePermanentMovement()
+{
+  move.perm_sec = 0;
+  move.perm_usec = 0;
+}
+
 void WObject::checkVicinity(WObject *pold)
 {
   OList *vicinity = getVicinity(pold);
   if (vicinity) {
-    generalIntersect(pold, vicinity);
+    generalIntersect(pold, vicinity);	// handled by each object
     vicinity->remove();
   }
 }
@@ -324,14 +324,14 @@ void WObject::checkVicinity(WObject *pold)
 void User::elemUserMovement(const float tabdt[])
 {
   WObject *po = new WObject();
-  copyPositionAndBB(po);  // keep oldpos for intersection
+  copyPositionAndBB(po);	// keep oldpos for intersection
   changePosition(tabdt);
   updatePosition();
   checkVicinity(po);
   delete po;
 }
 
-/* user general motion */
+/* user general movement */
 void User::userMovement(time_t sec, time_t usec)
 {
   Pos oldpos = pos;
@@ -386,7 +386,7 @@ void WObject::elemImposedMovement(float dt)
   }
 }
 
-/* object imposed motion */
+/* object imposed movement */
 void WObject::imposedMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {
@@ -430,19 +430,19 @@ void WObject::imposedMovement(time_t sec, time_t usec)
 void WObject::elemPermanentMovement(float dt)
 {
   if (isBehavior(COLLIDE_NEVER)) {
-    changePermanent(dt);  // handled by each object
+    changePermanent(dt);	// handled by each object
     update3D(pos);
     return;
   }
   WObject *pold = new WObject();
-  copyPositionAndBB(pold);  // keep oldpos for intersection
-  changePermanent(dt);	// handled by each object
+  copyPositionAndBB(pold);	// keep oldpos for intersection
+  changePermanent(dt);		// handled by each object
   updatePosition();
   checkVicinity(pold);
   delete pold;
 }
 
-/* object permanent motion */
+/* object permanent movement */
 void WObject::permanentMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {

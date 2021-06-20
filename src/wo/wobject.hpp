@@ -482,11 +482,20 @@ public:
   virtual void delFromList();
   /**< Deletes an object pointer from a olist. */
 
-  virtual OList * getVicinity(const WObject *pold);
-  /**< Returns list of pointers on objects touching cell where is the object. */
+  virtual WObject * byWObject(WObject *po);
+  /**< Gets a WObject from the lists. */
+
+  static WObject * byNum(uint16_t num); // to become virtual !
+  /**< Gets an object by its num. */
 
   virtual OList * addListToList(OList * list1, OList * list2);
   /**< Concatenation (test of "ispointed") of list pointers on an object. */
+
+  virtual OList * getVicinity(const WObject *pold);
+  /**< Returns list of pointers on objects touching cell where is the object. */
+
+  virtual void checkVicinity(WObject *pold);
+  /**< Checks whether vicinity. */
 
   virtual bool isStill();
   /**< Checks an object exists in the stilllist. */
@@ -496,24 +505,9 @@ public:
   virtual bool isEphemeral();
   /**< Checks an object exists in the mobilelist. */
 
-  virtual WObject * byWObject(WObject *po);
-  /**< Gets a WObject from the lists. */
-
-  static WObject * byNum(uint16_t num); // to become virtual !
-  /**< Gets an object by its num. */
-
   //
   // Movements
   //
-  virtual void checkVicinity(WObject *pold);
-  /**< Checks weither vicinity. */
-
-  virtual void imposedMovement(time_t sec, time_t usec);
-  /**< Handles an object movement. */
-
-  virtual void elemImposedMovement(float lasting);
-  /**< Handles an elementary object movement. */
-
   virtual void enableImposedMovement();
   /**< Enables movement on an object. */
 
@@ -526,8 +520,14 @@ public:
   virtual void enablePermanentMovement(float speed);
   /**< Enables permanent movement on an object. */
 
+  virtual void imposedMovement(time_t sec, time_t usec);
+  /**< Handles an object movement. */
+
   virtual void initImposedMovement(float lasting);
   /**< Initializes movement on an object. */
+
+  virtual void elemImposedMovement(float lasting);
+  /**< Handles an elementary object movement. */
 
   virtual float diffTime(time_t sec, time_t usec);
   /**< Updates times on an object. */
