@@ -798,12 +798,6 @@ WObject** Render::getDrawedObjects(int *nbhit)
   return selectlist;
 }
 
-void Render::analyseScene(char* nameobj)
-{
-  Vicinity* vicin = new Vicinity(nameobj);
-  vicin->analyseScene();
-}
-
 void Render::setFlash()
 {
   flash = true;

@@ -199,8 +199,6 @@ public:
   WObject** getDrawedObjects(int* nbr);
   /**< get all drawed Objects on the screen. */
 
-  void analyseScene(char* nameObj);
-
   /////////////
   // Click
   /////////////
