@@ -30,7 +30,6 @@
 #include "ground.hpp"	// GROUND_TYPE
 #include "model.hpp"	// MODEL_TYPE
 #include "guide.hpp"	// GUIDE_TYPE
-#include "vicinity.hpp"	// Vicinity
 #include "pref.hpp"	// ::g.pref
 #include "grid.hpp"	// Grid
 #include "axis.hpp"	// Axis

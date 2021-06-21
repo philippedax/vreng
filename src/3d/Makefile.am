@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-VGL_SRCS = solid.cpp draw.cpp render.cpp camera.cpp ogl.cpp axis.cpp grid.cpp glu.cpp flare.cpp wheel.cpp vicinity.cpp
+VGL_SRCS = solid.cpp draw.cpp render.cpp camera.cpp ogl.cpp axis.cpp grid.cpp glu.cpp flare.cpp wheel.cpp
 
-VGL_HDRS = solid.hpp draw.hpp render.hpp ogl.hpp axis.hpp grid.hpp glu.hpp flare.hpp wheel.hpp vicinity.hpp
+VGL_HDRS = solid.hpp draw.hpp render.hpp ogl.hpp axis.hpp grid.hpp glu.hpp flare.hpp wheel.hpp
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/ai
