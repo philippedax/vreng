@@ -27,7 +27,7 @@
 #include "user.hpp"	//pos
 #include "move.hpp"
 #include "render.hpp"	//setAllTypeFlashy
-#include "vicinity.hpp"	//show
+#include "vicinity.hpp"	//analyseScene
 
 
 void initOcaml()
@@ -314,7 +314,6 @@ void msg_debug(value mot)
 void viewed_objects(value mot)
 {
   char *val = (char *) String_val(mot);
-  //dax g.render.analyseScene(val);
   Vicinity* vicin = new Vicinity(val);
   vicin->analyseScene();
 }
