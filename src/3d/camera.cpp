@@ -259,8 +259,9 @@ void Render::setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat 
     satPos.v[2] = posz;
     satRot.v[2] = rotz;
   }
-  else
+  else {
     view = VIEW_FIRST_PERSON;
+  }
 }
 
 V3 Render::getVisiblePosition(WObject *po)
@@ -290,8 +291,9 @@ V3 Render::getVisiblePosition(WObject *po)
   gluProject(xa+dxa, ya-dya, za-dza, mview, mproj, vp, &x[3],&y[3],&z[3]);
   gluProject(xa-dxa, ya-dya, za-dza, mview, mproj, vp, &x[4],&y[4],&z[4]);
 
-  for (int i=0; i<5; i++)
+  for (int i=0; i<5; i++) {
     y[i] = vp[3] - y[i];
+  }
 
   for (int i=0; i<5; i++) {
     if ((x[i] > w) || (x[i] < 0) || (y[i] > h) || (y[i] < 0)) continue;

@@ -101,7 +101,7 @@ value recherche_Typegen(value ttype, value actiondemande)
     return Val_int(1);
   }
 
-  //XXX demande désignation.
+  //XXX demande designation.
   return Val_int(0);
 }
 
@@ -236,7 +236,7 @@ value recherche_Func(value mot, value act)
     WObject **listObj = g.render.getVisibleObjects(typelist, nbtype, &nb);
 
     if (nb > 0 && strcasecmp(actiontype, "NA")) {
-      //on lance la méthode sur les objets visibles! faut-il la lancer sur tout?
+      //on lance la methode sur les objets visibles! faut-il la lancer sur tout?
       for (int l=0; l<nb; l++) {
 	if (!strcasecmp(listObj[l]->typeName(), actiontype))
 	  listObj[l]->runAction(val);
@@ -288,7 +288,7 @@ value deplacement_to_Proximite(value mot, value pos)
   char *val = (char *) String_val(mot);
   char filename[64];
   Cache::cache(World::current()->getUrl(), filename);
-  temp = Xml::selectProximity(filename,val,&posx,&posy,&posz,&orient);
+  temp = Xml::selectProximity(filename, val, &posx, &posy, &posz, &orient);
 #endif
 
   if (! temp)
