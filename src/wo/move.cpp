@@ -147,7 +147,7 @@ void User::changePositionOneDir(int move_type, float lasting)
 {
   if (carrier && carrier->isTaking()) {  // Manipulator
     carrier->mouseEvent(move_type, lasting);
-    //carrier->keyEvent(move_type, lasting); //arrow keys
+    carrier->keyEvent(move_type, lasting); //arrow keys
   }
   else {                                 // Navigator
     switch (move_type) {
@@ -300,10 +300,10 @@ void WObject::enablePermanentMovement()
 
 void WObject::enablePermanentMovement(float speed)
 {
-  enablePermanentMovement();
   move.lspeed.v[0] = speed;
   move.lspeed.v[1] = speed;
   move.lspeed.v[2] = speed;
+  enablePermanentMovement();
 }
 
 void WObject::disablePermanentMovement()
@@ -351,10 +351,10 @@ void User::userMovement(time_t sec, time_t usec)
   if (lasting > MIN_LASTING) {  // user is moving
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
-    int moves = (int) (lasting / maxlast);
+    int nbmoves = (int) (lasting / maxlast);
     float tabdt[MAXKEYS];
 
-    for (int m=0; m <= moves; m++) {
+    for (int m=0; m <= nbmoves; m++) {
       for (int k=0; k < MAXKEYS; k++) {
         if (keylastings[k] > maxlast) {
           tabdt[k] = maxlast;
@@ -380,7 +380,7 @@ void WObject::elemImposedMovement(float dt)
 
   if (! isBehavior(COLLIDE_NEVER)) {
     WObject *pold = new WObject();
-    copyPositionAndBB(pold);  // keep oldpos for intersection
+    copyPositionAndBB(pold);	// keep oldpos for intersection
     checkVicinity(pold);
     delete pold;
   }
@@ -394,10 +394,10 @@ void WObject::imposedMovement(time_t sec, time_t usec)
     return;
   }
   if (World::current()->isDead()) return;
-  if (! isMoving()) return;  // no moving
+  if (! isMoving()) return;	// no moving
 
   Pos oldpos = pos;
-  copyPosAndBB(oldpos);  // keep oldpos for network
+  copyPosAndBB(oldpos);		// keep oldpos for network
 
   float lasting = -1;
   updateTime(sec, usec, &lasting);  // handled by each object only for imposed movements
@@ -407,9 +407,9 @@ void WObject::imposedMovement(time_t sec, time_t usec)
     maxlast = maxlast ? maxlast : 1;
     // spliting movement in m elementary movements
     float tabdt = 0.;
-    int moves = (int) (lasting / maxlast);
+    int nbmoves = (int) (lasting / maxlast);
 
-    for (int m=0; m <= moves; m++) {
+    for (int m=0; m <= nbmoves; m++) {
       if (lasting > maxlast) {
         tabdt = maxlast;
         lasting -= maxlast;
@@ -419,11 +419,15 @@ void WObject::imposedMovement(time_t sec, time_t usec)
         lasting = 0;
       }
       elemImposedMovement(tabdt);
-      if (isBehavior(NO_ELEMENTARY_MOVE)) return;  // do movement only once
+      if (isBehavior(NO_ELEMENTARY_MOVE)) {
+        return;		// do movement only once
+      }
     }
   }
 
-  if (noh && noh->isResponsible()) updateToNetwork(oldpos);  // handled by each object
+  if (noh && noh->isResponsible()) {
+    updateToNetwork(oldpos);	// handled by each object
+  }
   updatePositionAndGrid(oldpos);
 }
 
@@ -451,7 +455,7 @@ void WObject::permanentMovement(time_t sec, time_t usec)
   }
   if (World::current()->isDead()) return;
 
-  if (move.perm_sec > 0) {  // is permanent movement activated ?
+  if (move.perm_sec > 0) {	// is permanent movement activated ?
     Pos oldpos = pos;
     copyPosAndBB(oldpos);
 
@@ -463,10 +467,10 @@ void WObject::permanentMovement(time_t sec, time_t usec)
       float maxlast = getLasting();
       maxlast = maxlast ? maxlast : 1;
       float tabdt = 0.;
-      int moves = (int) (lasting / maxlast);
-      moves = MIN(moves, MIN_MOVES);
+      int nbmoves = (int) (lasting / maxlast);
+      nbmoves = MIN(nbmoves, MIN_MOVES);
 
-      for (int m=0; m <= moves; m++) {
+      for (int m=0; m <= nbmoves; m++) {
         if (lasting > maxlast) {
           tabdt = maxlast;
           lasting -= maxlast;
@@ -476,7 +480,9 @@ void WObject::permanentMovement(time_t sec, time_t usec)
           lasting = 0;
         }
         elemPermanentMovement(tabdt);
-        if (isBehavior(NO_ELEMENTARY_MOVE)) return;  // do movement only once
+        if (isBehavior(NO_ELEMENTARY_MOVE)) {
+          return;	// do movement only once
+        }
       }
     }
     //dax8 updateTime(sec, usec, &lasting);	// see clock.cpp never called FIXME!
