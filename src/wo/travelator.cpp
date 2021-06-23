@@ -68,7 +68,8 @@ void Travelator::build()
   for (int n=0; n <= nsteps; n++) {
     Pos newpos;
     newpos.az = pos.az;
-    newpos.ax = newpos.ay = 0;
+    newpos.ax = pos.ax;
+    newpos.ay = pos.ay;
     //FIXME: wrong position
     newpos.x = pos.x - (sin(pos.az) * sx * n);
     newpos.y = pos.y - (cos(pos.az) * sy * n);

@@ -74,8 +74,8 @@ void Step::parser(char *l)
     if (! stringcmp(l, "dir=")) {
       char modestr[16];
       l = parse()->parseString(l, modestr, "dir");
-      if      (! stringcmp(modestr, "up"))   dir = 1;
-      else if (! stringcmp(modestr, "down")) dir = -1;
+      if      (! stringcmp(modestr, "up"))   dir = 1;	// up
+      else if (! stringcmp(modestr, "down")) dir = -1;	// down
     }
     else if (! stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
     else if (! stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
@@ -106,11 +106,13 @@ void Step::build()
   }
   else {  // escalator stair spiral
     if (height) {
-      if (escalator) height += sz;  // add the top step
+      if (escalator) {
+        height += sz;  // add the top step
+      }
     }
     else if (length && pos.ax) {
       height = length * tan(pos.ax);
-      pos.ax = 0;
+      //dax pos.ax = 0;
     }
     nsteps = (int) ceil(height / sz);
     size = height;
@@ -121,7 +123,8 @@ void Step::build()
   for (int n=0; n <= nsteps; n++) {
     Pos newpos;
     newpos.az = pos.az;
-    newpos.ax = newpos.ay = 0;
+    newpos.ax = pos.ax;
+    newpos.ay = pos.ay;
 
     if (spiral) {
       float deltaspiral = atan(sy / sx);
@@ -163,7 +166,7 @@ Step::Step(char *l)
   parser(l);
   behavior();
   if (stair || escalator || travelator || spiral) {
-    build();
+    build();	// build the structure
   }
 }
 
@@ -174,7 +177,7 @@ Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, 
   char *geom = new char[strlen(_geom)];
   strcpy(geom, _geom);
   parse()->parseSolid(geom, SEP, this);
-  if (geom) delete[] geom; //random crash in free
+  //dax if (geom) delete[] geom; //random crash in free
 
   mobile = _mobile;
   dir = _dir;
@@ -366,8 +369,9 @@ void Step::stop_cb(Step *step, void *d, time_t s, time_t u)
 
 void Step::destroy_cb(Step *step, void *d, time_t s, time_t u)
 {
-  if (step->isBehavior(DYNAMIC))
+  if (step->isBehavior(DYNAMIC)) {
     step->removeFromScene();
+  }
 }
 
 void Step::funcs()

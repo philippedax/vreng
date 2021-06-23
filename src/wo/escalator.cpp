@@ -70,10 +70,12 @@ void Escalator::build()
   float sy = pos.bbs.v[1];  // step depth
   float sz = pos.bbs.v[2];  // step height
 
-  if (height && dir > 0) height += sz;  // add the top step
+  if (height && dir > 0) {
+    height += sz;  // add the top step
+  }
   else if (length && pos.ax) {  // escalator defined by its length and its angle
     height = length * tan(pos.ax);
-    pos.ax = 0;
+    //dax pos.ax = 0;
   }
 
   nsteps = (int) ceil(height / sz);
@@ -81,7 +83,8 @@ void Escalator::build()
   for (int n=0; n <= nsteps; n++) {
     Pos newpos;
     newpos.az = pos.az;
-    newpos.ax = newpos.ay = 0;
+    newpos.ax = pos.ax;
+    newpos.ay = pos.ay;
     newpos.x = pos.x + dir*(sin(pos.az) * sx * n);
     newpos.y = pos.y + dir*(cos(pos.az) * sy * n);
     newpos.z = pos.z + dir*(sz * n);
