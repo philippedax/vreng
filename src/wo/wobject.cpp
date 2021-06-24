@@ -119,7 +119,9 @@ WObject::~WObject()
 
   // delete NetObject
   if (noh && (mode == MOBILE)) {
-    if (!isPermanent()) noh->declareDeletion();
+    if (! isPermanent()) {
+      noh->declareDeletion();
+    }
     delete noh;
     noh = NULL;
   }
@@ -151,11 +153,6 @@ void WObject::initObject(uint8_t _mode)
     case MOBILE:
       if (isBehavior(PERSISTENT)) {
         getPersistency();	// calls persistency VRSql
-        if (pos.x>1000 || pos.y>1000 || pos.z>1000 || pos.x<-1000 || pos.y<-1000 || pos.z<-1000) {
-          error("object %s discarded, bad position in VRSql: %.2f,%.2f,%.2f", names.instance, pos.x, pos.y, pos.z);
-          enableBehavior(NO_BBABLE);
-          break;
-        }
       }
       addToMobile();	// add to mobileList
       break;
@@ -208,21 +205,27 @@ void WObject::initStillObject()
 void WObject::initMobileObject(float last)
 {
   initObject(MOBILE);
-  if (last) setLasting(last);
+  if (last) {
+    setLasting(last);
+  }
 }
 
 /* Initializes fluid object */
 void WObject::initFluidObject(float last)
 {
   initObject(FLUID);
-  if (last) setLasting(last);
+  if (last) {
+    setLasting(last);
+  }
 }
 
 /* Initializes ephemeral object */
 void WObject::initEphemeralObject(float last)
 {
   initObject(MOBILE);
-  if (last) setLasting(last);
+  if (last) {
+    setLasting(last);
+  }
 }
 
 void WObject::enableBehavior(uint32_t flag)
@@ -325,8 +328,9 @@ uint32_t WObject::collideBehavior() const
 
 bool WObject::isOwner() const
 {
-  if (! strcmp(names.owner, localuser->names.instance))
+  if (! strcmp(names.owner, localuser->names.instance)) {
     return true;
+  }
   return false;
 }
 
@@ -481,8 +485,7 @@ void WObject::deleteSolids()
 {
   if (_solids.empty()) return;
   for (SolidList::iterator it = _solids.begin(); it != _solids.end(); ++it) {
-    if (*it)
-      delete(*it);
+    delete(*it);
   }
   _solids.erase(_solids.begin(), _solids.end());
 }
@@ -681,7 +684,9 @@ void WObject::updateNames()
   setObjName(names.instance);
   names.world = World::current()->getName();
 
-  if (*names.owner == 0) setOwner("public");  // public by default
+  if (*names.owner == 0) {
+    setOwner("public");  // public by default
+  }
 }
 
 /* Updates the Bounding Box */
@@ -1062,9 +1067,10 @@ OList * WObject::addToList(OList *olist)
 /* Adds a pointer of this object to an olist if it's not already there */
 void WObject::addToListOnce(list<WObject*> &olist)
 {
-  for (list<WObject*>::iterator ol = olist.begin(); ol != olist.end(); ++ol) {
-    if (*ol == this)
+  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
+    if (*it == this) {
       return;		// already in the list
+    }
   }
   addToList(olist);	// add it into the list
 }
@@ -1082,8 +1088,9 @@ OList * WObject::addToListOnce(OList *olist)
 void WObject::delFromList(list<WObject*> &olist)
 {
   for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
-    if (*it == this)
+    if (*it == this) {
       olist.remove(*it);
+    }
   }
   return;
 }
