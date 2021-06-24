@@ -25,13 +25,14 @@
 #include "gui.hpp"	// addCart, dialogCart
 #include "netobj.hpp"	// noh
 #include "vrsql.hpp"	// VRSql
-#include "render.hpp"	// showSolidList
 #include "pref.hpp"	// g.user
 #include <list>
+
 using namespace std;
 
 const OClass Cart::oclass(CART_TYPE, "Cart", NULL);
 
+// local
 list<WObject*> Cart::cartList;	// list of objects in Cart
 
 
@@ -92,10 +93,14 @@ void Cart::addToCart(WObject *po)
 
   // informs the GUI
   po->guip = ::g.gui.addCart(po);
-  if (! number) ::g.gui.showCartDialog(true);	// popup cartDialog
+  if (! number) {
+    ::g.gui.showCartDialog(true);	// popup cartDialog
+  }
 
   // net deletion declaration
-  if (! po->isPermanent() && po->noh) delete po->noh;
+  if (! po->isPermanent() && po->noh) {
+    delete po->noh;
+  }
   po->noh = NULL;
 
   cartList.push_back(po);
@@ -115,7 +120,7 @@ void Cart::leave(WObject *po)
   // remove object from the cartList
   for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it)
     if (*it == po) {
-      cartList.erase(it);	//dax1 remove(*it) ???
+      cartList.erase(it);
     }
 
   // set the object's new coordinates & state
@@ -130,7 +135,7 @@ void Cart::leave(WObject *po)
 
   // render visible the object coming back into the world
   po->setVisible(true);
-  //dax1 po->enableBehavior(PERSISTENT);
+  po->enableBehavior(PERSISTENT);
 
   // show the object
   po->updatePosition();
@@ -177,7 +182,7 @@ void Cart::removeFromCart(WObject *po)
   // remove from cartList
   for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
-      cartList.erase(it);	// dax1 remove(*it) ???
+      cartList.erase(it);
     }
   }
 
