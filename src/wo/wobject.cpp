@@ -1075,15 +1075,6 @@ void WObject::addToListOnce(list<WObject*> &olist)
   addToList(olist);	// add it into the list
 }
 
-OList * WObject::addToListOnce(OList *olist)
-{
-  for (OList *ol = olist; ol ; ol = ol->next) {
-    if (ol->pobject && ol->pobject == this)
-      return olist;		// already in the list
-  }
-  return addToList(olist);	// add it into the list
-}
-
 /* Deletes a pointer of this object in an olist */
 void WObject::delFromList(list<WObject*> &olist)
 {
@@ -1093,6 +1084,17 @@ void WObject::delFromList(list<WObject*> &olist)
     }
   }
   return;
+}
+
+#if 1 //dax0 confusing with list<WObject*> FIXME!
+
+OList * WObject::addToListOnce(OList *olist)
+{
+  for (OList *ol = olist; ol ; ol = ol->next) {
+    if (ol->pobject && ol->pobject == this)
+      return olist;		// already in the list
+  }
+  return addToList(olist);	// add it into the list
 }
 
 OList * WObject::delFromList(OList *olist)
@@ -1115,6 +1117,7 @@ OList * WObject::delFromList(OList *olist)
   }
   return front;
 }
+#endif
 
 bool WObject::isStill()
 {

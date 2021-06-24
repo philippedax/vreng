@@ -472,11 +472,11 @@ public:
   /**< Clears an olist. */
 
   virtual void    addToListOnce(std::list<WObject*> &olist);
-  virtual OList * addToListOnce(OList * olist);
+  virtual OList * addToListOnce(OList * olist); // confuse
   /**< Adds an object pointer into a list only once time. */
 
   virtual void    delFromList(std::list<WObject*> &olist);
-  virtual OList * delFromList(OList * olist);
+  virtual OList * delFromList(OList * olist); // confuse
   /**< Deletes an object pointer from a olist. */
 
   virtual void delFromList();
