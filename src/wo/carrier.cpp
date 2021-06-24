@@ -33,7 +33,7 @@ const float Carrier::ASPEED = 0.5;
 void Carrier::defaults()
 {
   taking = false;
-  carriedObject = NULL;
+  object = NULL;
   lspeed = LSPEED;
   aspeed = ASPEED;
 }
@@ -73,10 +73,10 @@ void Carrier::take(WObject *po)
   ::g.gui.showManipulator();
   notice("take control of %s", po->getInstance());
 
-  carriedObject = po;
-  carriedObject->move.lspeed.v[0] = 0;
-  carriedObject->move.aspeed.v[1] = 0;
-  carriedObject->initImposedMovement(0);
+  object = po;
+  object->move.lspeed.v[0] = 0;
+  object->move.aspeed.v[1] = 0;
+  object->initImposedMovement(0);
   taking = true;
 }
 
@@ -91,16 +91,16 @@ void Carrier::leave()
   ::g.gui.showNavigator();
   notice("leave control, enter in navigation mode");
 
-  if (! carriedObject)  return;
+  if (! object)  return;
 
-  carriedObject->pos.alter = true;  // mark it has changed
+  object->pos.alter = true;  // mark it has changed
   defaults();  // reset the carrier
 }
 
 void Carrier::set(WObject *po)
 {
   taking = true;
-  carriedObject = po;
+  object = po;
 }
 
 /** Mouse event
@@ -116,38 +116,36 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
  */
 void Carrier::mouseEvent(int8_t vkey, float last)
 {
-#if 0 //dax
   WObject *poldobj = new WObject();
-  carriedObject->copyPositionAndBB(poldobj);	// copy oldpos, oldangle
-#endif
+  object->copyPositionAndBB(poldobj);	// copy oldpos, oldangle
 
   switch (vkey) {
-    case KEY_AV: carriedObject->pos.x += last*lspeed; break; // ^
-    case KEY_AR: carriedObject->pos.x -= last*lspeed; break; // v
-    case KEY_SG: carriedObject->pos.y += last*lspeed; break; // <
-    case KEY_SD: carriedObject->pos.y -= last*lspeed; break; // >
-    case KEY_JU: carriedObject->pos.z += last*lspeed; break; // ^
-    case KEY_JD: carriedObject->pos.z -= last*lspeed; break; // V
-    case KEY_GA: carriedObject->pos.az += last*lspeed; break; // <-
-    case KEY_DR: carriedObject->pos.az -= last*lspeed; break; // ->
-    case KEY_TL: carriedObject->pos.ax += last*lspeed; break; // <,
-    case KEY_TR: carriedObject->pos.ax -= last*lspeed; break; // ,>
-    case KEY_MT: carriedObject->pos.ay += last*lspeed; break; // ^,
-    case KEY_DE: carriedObject->pos.ay -= last*lspeed; break; // ,^
+    case KEY_AV: object->pos.x += last*lspeed; break; // ^
+    case KEY_AR: object->pos.x -= last*lspeed; break; // v
+    case KEY_SG: object->pos.y += last*lspeed; break; // <
+    case KEY_SD: object->pos.y -= last*lspeed; break; // >
+    case KEY_JU: object->pos.z += last*lspeed; break; // ^
+    case KEY_JD: object->pos.z -= last*lspeed; break; // V
+    case KEY_GA: object->pos.az += last*lspeed; break; // <-
+    case KEY_DR: object->pos.az -= last*lspeed; break; // ->
+    case KEY_TL: object->pos.ax += last*lspeed; break; // <,
+    case KEY_TR: object->pos.ax -= last*lspeed; break; // ,>
+    case KEY_MT: object->pos.ay += last*lspeed; break; // ^,
+    case KEY_DE: object->pos.ay -= last*lspeed; break; // ,^
   }
 
-  carriedObject->updatePositionAndGrid(carriedObject->pos);
-  //dax carriedObject->updatePosition();
+  object->updatePositionAndGrid(object->pos);
+  object->updatePosition();
 
 #if 0 //dax
-  carriedObject->updateGrid(poldobj);
-  if (carriedObject->isBehavior(COLLIDE_NEVER)) {
+  object->updateGrid(poldobj);
+  if (object->isBehavior(COLLIDE_NEVER)) {
     delete poldobj;
     return;
   }
 
-  ObjectList *vicinitylist = carriedObject->getVicinityList(poldobj);
-  carriedObject->generalIntersect(poldobj, vicinitylist);
+  ObjectList *vicinitylist = object->getVicinityList(poldobj);
+  object->generalIntersect(poldobj, vicinitylist);
   if (*names.type)	//FIXME: segfault
     vicinitylist->remove();
   delete poldobj;

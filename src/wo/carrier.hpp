@@ -45,7 +45,7 @@
 class Carrier: public WObject {
 
 private:
-  class WObject *carriedObject;	///< object ptr
+  class WObject *object;	///< object ptr
   float lspeed;			///< linear speed
   float aspeed;			///< angular speed
   bool taking;			///< flag true/false
