@@ -66,11 +66,11 @@ void River::behavior()
   enableBehavior(NO_BBABLE);
   enableBehavior(LIQUID);
   enableBehavior(SPECIFIC_RENDER);
-  if (width * depth > 10)		// large surface
-    setRenderPrior(PRIOR_LOW); {	// FIXME!
-					// if LOW river is not visible,
-					// if NORMAL scene is dark
-					// if HIGH river position is over the other ovjects
+  if (width * depth > 10) {	// large surface
+    setRenderPrior(PRIOR_LOW);	// FIXME!
+				// if LOW river is not visible,
+				// if NORMAL scene is dark
+				// if HIGH river position is over the other objects
   }
 
   initFluidObject(0);		// fluid object
@@ -85,7 +85,7 @@ void River::inits()
   ampl  = new float[waves*sizeof(float)];
   srand(time(0));
 
-  for (int i=0; i<waves ; i++) {
+  for (int i=0; i < waves ; i++) {
     mesh[2*i]   = (float) (rand()%(int)ceil(width));
     mesh[2*i+1] = (float) (rand()%(int)ceil(depth));
     phase[i]    = (float) (rand()%10);
@@ -106,7 +106,11 @@ void River::draw(float a, float b)
   float x=0, y=0, z=0;
   float vx,vy;
 
-  for (int i=0; i<waves ; i++) {
+  for (int i=0; i < waves ; i++) {
+    phase[i] += speed[i];
+  }
+
+  for (int i=0; i < waves ; i++) {
     vx = mesh[2*i];
     vy = mesh[2*i+1];
     x += vx * width * sin(a*vx+b*vy + phase[i]) * ampl[i];
@@ -114,11 +118,12 @@ void River::draw(float a, float b)
   }
   glNormal3f(x, y, 1);
 
-  for (int i=0; i<waves ; i++) {
+  for (int i=0; i < waves ; i++) {
     vx = mesh[2*i];
     vy = mesh[2*i+1];
     z += cos(a*vx+b*vy + phase[i])*ampl[i];
   }
+
   glVertex3d(a, b, z);
 }
 
@@ -147,8 +152,6 @@ void River::render()
     }
   }
   glEnd();
-  for (int i=0; i<waves ; i++)
-    phase[i] += speed[i];
 
   glDisable(GL_LIGHTING);
   glDisable(GL_COLOR_MATERIAL);

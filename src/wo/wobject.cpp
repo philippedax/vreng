@@ -1143,6 +1143,7 @@ OList * WObject::addListToList(OList *l1, OList *l2)
   }
 }
 
+#if 0 //dax
 // static
 void WObject::show(const char *name)
 {
@@ -1159,6 +1160,7 @@ void WObject::show(const char *name)
     }
   }
 }
+#endif
 
 
 //

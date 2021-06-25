@@ -356,7 +356,7 @@ public:
   virtual void setOwner();
   /**< Initialize local user as owner. */
 
-  static void show(const char *name);
+  //dax static void show(const char *name);
   /**< Snaps position (debug). */
 
   virtual void click(GLint x, GLint y);
