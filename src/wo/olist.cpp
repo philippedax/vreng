@@ -38,16 +38,6 @@ OList::~OList()
 }
 
 /* Removes all objects from a olist */
-// static
-void OList::remove(list<WObject*> &olist)
-{
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
-    if (*it) {
-      delete *it;
-    }
-  }
-}
-
 // virtual
 void OList::remove()
 {
@@ -60,7 +50,17 @@ void OList::remove()
   }
 }
 
-/* Clears flags "ispointed" of all objects in an olist */
+// static - notused
+void OList::remove(list<WObject*> &olist)
+{
+  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
+    if (*it) {
+      delete *it;
+    }
+  }
+}
+
+/* Clears flags "inlist" of all objects in an olist */
 // virtual - called by col.cpp
 void OList::clearIspointed()
 {

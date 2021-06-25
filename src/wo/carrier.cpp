@@ -137,17 +137,18 @@ void Carrier::mouseEvent(int8_t vkey, float last)
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();
 
-#if 0 //dax
   object->updateGrid(poldobj);
   if (object->isBehavior(COLLIDE_NEVER)) {
     delete poldobj;
     return;
   }
 
+#if 0 //dax
   ObjectList *vicinitylist = object->getVicinityList(poldobj);
   object->generalIntersect(poldobj, vicinitylist);
-  if (*names.type)	//FIXME: segfault
+  if (*names.type) {	//FIXME: segfault
     vicinitylist->remove();
+  }
   delete poldobj;
 #endif
 }
