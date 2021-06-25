@@ -446,13 +446,6 @@ public:
   virtual OList * addToList(OList * olist);
   /**< Adds an object pointer into a olist. */
 
-  virtual void addToList();
-  /**< Adds an object pointer into lists. */
-
-  virtual void clearList(std::list<WObject*> &olist);
-  virtual void clearList();
-  /**< Clears an olist. */
-
   virtual void    addToListOnce(std::list<WObject*> &olist);
   virtual OList * addOListOnce(OList * olist); // confuse
   /**< Adds an object pointer into a list only once time. */
@@ -461,8 +454,8 @@ public:
   virtual OList * delOList(OList * olist); // confuse
   /**< Deletes an object pointer from a olist. */
 
-  virtual void delFromList();
-  /**< Deletes an object pointer from a olist. */
+  virtual void clearList(std::list<WObject*> &olist);
+  /**< Clears an olist. */
 
   virtual WObject * byWObject(WObject *po);
   /**< Gets a WObject from the lists. */

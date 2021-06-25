@@ -975,41 +975,6 @@ char * WObject::tokenize(char *l)
 // List
 //
 
-/* Adds a pointer of this object in an olist determinated by its mode */
-void WObject::addToList()
-{   
-  switch (mode) {
-    case STILL:     addToList(stillList); break;
-    case MOBILE:    addToList(mobileList); break;
-    case INVISIBLE: addToList(invisList); break;
-    case FLUID:     addToList(fluidList); break;
-  } 
-} 
-
-/* Deletes an object from an olist */
-void WObject::delFromList()
-{
-  delFromList(objectList);
-  switch (mode) {
-    case STILL:     delFromList(stillList); break;
-    case MOBILE:    delFromList(mobileList); break;
-    case INVISIBLE: delFromList(invisList); break;
-    case FLUID:     delFromList(fluidList); break;
-  }
-}
-
-/* Clears an olist */
-void WObject::clearList()
-{
-  clearList(objectList);
-  switch (mode) {
-    case STILL:     clearList(stillList); break;
-    case MOBILE:    clearList(mobileList); break;
-    case INVISIBLE: clearList(invisList); break;
-    case FLUID:     clearList(fluidList); break;
-  }
-}
-
 /* Clears an olist */
 void WObject::clearList(list<WObject*> &olist)
 {
@@ -1114,7 +1079,7 @@ bool WObject::isFluid()
 bool WObject::isEphemeral()
 {
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if ((*it)->mode == EPHEMERAL)  return true;
+    if (*it == this && (*it)->mode == EPHEMERAL)  return true;
   }
   return false;
 }
