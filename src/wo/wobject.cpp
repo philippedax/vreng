@@ -141,47 +141,47 @@ void WObject::initObject(uint8_t _mode)
 
   setWObjectId();
   updateNames();
-  addToObject();	// add to objectList
+  addToList(objectList);	// add to objectList
 
   //error("num=%d mode=%d type=%d", num, mode, type);
   switch (mode) {
 
     case STILL:
-      addToStill();	// add to stillList
+      addToList(stillList);	// add to stillList
       break;
 
     case MOBILE:
       if (isBehavior(PERSISTENT)) {
         getPersistency();	// calls persistency VRSql
       }
-      addToMobile();	// add to mobileList
+      addToList(mobileList);	// add to mobileList
       break;
 
     case FLUID:
       enableBehavior(NO_ELEMENTARY_MOVE);
-      addToFluid();	// add to fluidList
+      addToList(fluidList);	// add to fluidList
       break;
 
     case INVISIBLE:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
-      addToInvisible();	// add to invisList
+      addToList(invisList);	// add to invisList
       break;
 
     case EPHEMERAL:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
-      addToMobile();
+      addToList(mobileList);	// add to mobileList
       break;
 
     case MOBILEINVISIBLE:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
-      addToMobile();
-      addToInvisible();
+      addToList(mobileList);
+      addToList(invisList);	// add to invisList
       break;
   }
   if (isBehavior(NO_BBABLE)) {
@@ -1010,36 +1010,6 @@ void WObject::clearList()
   }
 }
 
-void WObject::addToObject()
-{
-  addToListOnce(objectList);
-}
-
-void WObject::addToMobile()
-{
-  addToListOnce(mobileList);
-}
-
-void WObject::addToStill()
-{
-  addToListOnce(stillList);
-}
-
-void WObject::addToInvisible()
-{
-  addToListOnce(invisList);
-}
-
-void WObject::addToFluid()
-{
-  addToListOnce(fluidList);
-}
-
-void WObject::delFromMobile()
-{
-  delFromList(mobileList);
-}
-
 /* Clears an olist */
 void WObject::clearList(list<WObject*> &olist)
 {
@@ -1049,19 +1019,7 @@ void WObject::clearList(list<WObject*> &olist)
 /* Adds a pointer of this object in an olist */
 void WObject::addToList(list<WObject*> &olist)
 {
-  if (isValid()) {
-    olist.push_back(this);
-  }
-}
-
-OList * WObject::addToList(OList *olist)
-{
-  if (! isValid()) return olist;
-
-  OList *ol = new OList();
-  ol->pobject = this;
-  ol->next = olist;
-  return ol;
+  olist.push_back(this);
 }
 
 /* Adds a pointer of this object to an olist if it's not already there */
@@ -1072,7 +1030,7 @@ void WObject::addToListOnce(list<WObject*> &olist)
       return;		// already in the list
     }
   }
-  addToList(olist);	// add it into the list
+  olist.push_back(this);	// add it into the list
 }
 
 /* Deletes a pointer of this object in an olist */
@@ -1087,6 +1045,16 @@ void WObject::delFromList(list<WObject*> &olist)
 }
 
 #if 1 //dax0 confusing with list<WObject*> FIXME!
+
+OList * WObject::addToList(OList *olist)
+{
+  if (! isValid()) return olist;
+
+  OList *ol = new OList();
+  ol->pobject = this;
+  ol->next = olist;
+  return ol;
+}
 
 OList * WObject::addOListOnce(OList *olist)
 {
@@ -1154,16 +1122,7 @@ bool WObject::isEphemeral()
 // virtual
 WObject * WObject::byWObject(WObject *po)
 {
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if ((*it) == po) return *it;
-  }
-  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-    if ((*it) == po) return *it;
-  }
-  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
-    if ((*it) == po) return *it;
-  }
-  for (list<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+  for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if ((*it) == po) return *it;
   }
   return (WObject *) NULL;
@@ -1172,16 +1131,7 @@ WObject * WObject::byWObject(WObject *po)
 // static
 WObject * WObject::byNum(uint16_t num)
 {
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if ((*it)->num == num) return *it;
-  }
-  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-    if ((*it)->num == num) return *it;
-  }
-  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
-    if ((*it)->num == num) return *it;
-  }
-  for (list<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+  for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if ((*it)->num == num) return *it;
   }
   return (WObject *) NULL;
@@ -1231,14 +1181,14 @@ OList * WObject::addListToList(OList *l1, OList *l2)
 // static
 void WObject::show(const char *name)
 {
-  for (list<WObject*>::iterator o = stillList.begin(); o != stillList.end(); ++o) {
-    if (! strcmp((*o)->names.instance, name)) {
-      trace(DBG_FORCE, "%s p=%.2f,%.2f,%.2f o=%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
+  for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+    if (! strcmp((*it)->names.instance, name)) {
+      trace(DBG_FORCE, "%s p=%.2f,%.2f,%.2f it=%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
             name,
-            (*o)->pos.x, (*o)->pos.y, (*o)->pos.z,
-            (*o)->pos.ax, (*o)->pos.az,
-            (*o)->pos.bbc.v[0], (*o)->pos.bbc.v[1], (*o)->pos.bbc.v[2],
-            (*o)->pos.bbs.v[0], (*o)->pos.bbs.v[1], (*o)->pos.bbs.v[2]
+            (*it)->pos.x, (*it)->pos.y, (*it)->pos.z,
+            (*it)->pos.ax, (*it)->pos.az,
+            (*it)->pos.bbc.v[0], (*it)->pos.bbc.v[1], (*it)->pos.bbc.v[2],
+            (*it)->pos.bbs.v[0], (*it)->pos.bbs.v[1], (*it)->pos.bbs.v[2]
            );
       break;
     }
@@ -1377,7 +1327,7 @@ void WObject::deleteReplica()
   if (this != localuser) {
     if (type == USER_TYPE) ::g.gui.removeUser((User *) this);
     delFromGrid();
-    delFromMobile();
+    delFromList(mobileList);
 
     // delete Solids
     for (SolidList::iterator s = _solids.begin(); s != _solids.end(); s++) {

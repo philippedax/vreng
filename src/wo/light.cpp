@@ -159,7 +159,6 @@ void Light::quit()
 {
   glDisable(GL_FOG);
   glDisable(GL_LIGHT2);
-  //BUG? delFromList();
 }
 
 void Light::funcs() {}

@@ -143,7 +143,7 @@ void Web::pivot()
 
 #if 0 //dax1
   if (text) {	// get rid of previous text
-    text->delFromList();
+    text->delFromList(mobileList);
   }
 #endif
 

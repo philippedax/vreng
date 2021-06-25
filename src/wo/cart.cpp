@@ -74,7 +74,7 @@ void Cart::addToCart(WObject *po)
   // find object's world list and remove object from it
   switch (po->mode) {
     case MOBILE:
-      po->delFromMobile();
+      po->delFromList(mobileList);
       po->setVisible(false);	// render invisible the object
 #if VRSQL
       psql = VRSql::getVRSql();	// first take the VRSql handle;
@@ -131,7 +131,7 @@ void Cart::leave(WObject *po)
   po->move.ttl = 0;
 
   // restore object into mobileList
-  po->addToMobile();
+  po->addToList(mobileList);
 
   // render visible the object coming back into the world
   po->setVisible(true);

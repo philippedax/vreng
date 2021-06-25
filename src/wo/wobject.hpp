@@ -449,24 +449,6 @@ public:
   virtual void addToList();
   /**< Adds an object pointer into lists. */
 
-  virtual void addToObject();
-  /**< Adds an object pointer into objectList. */
-
-  virtual void addToStill();
-  /**< Adds an object pointer into stillList. */
-
-  virtual void addToMobile();
-  /**< Adds an object pointer into mobileList. */
-
-  virtual void addToInvisible();
-  /**< Adds an object pointer into invisList. */
-
-  virtual void addToFluid();
-  /**< Adds an object pointer into fluidList. */
-
-  virtual void delFromMobile();
-  /**< Deletes an object pointer from mobileList. */
-
   virtual void clearList(std::list<WObject*> &olist);
   virtual void clearList();
   /**< Clears an olist. */
