@@ -444,7 +444,7 @@ void WObject::insertIntoGrid()
   for (int x=imin[0]; x <= imax[0]; x++) {
     for (int y=imin[1]; y <= imax[1]; y++) {
       for (int z=imin[2]; z <= imax[2]; z++) {
-	World::gridArray[x][y][z] = addToListOnce(World::gridArray[x][y][z]);
+	World::gridArray[x][y][z] = addOListOnce(World::gridArray[x][y][z]);
       }
     }
   }
@@ -469,7 +469,7 @@ void WObject::delFromGrid()
     for (int y=imin[1]; y <= imax[1]; y++) {
       for (int z=imin[2]; z <= imax[2]; z++) {
         if (World::gridArray[x][y][z]) {
-	  World::gridArray[x][y][z] = delFromList(World::gridArray[x][y][z]);
+	  World::gridArray[x][y][z] = delOList(World::gridArray[x][y][z]);
         }
       }
     }
@@ -496,7 +496,7 @@ void WObject::updateGrid(const float *bbminnew, const float *bbmaxnew, const flo
     for (int x=iminnew[0]; x <= imaxnew[0]; x++) {
       for (int y=iminnew[1]; y <= imaxnew[1]; y++) {
 	for (int z=iminnew[2]; z <= imaxnew[2]; z++) {
-	  World::gridArray[x][y][z] = addToListOnce(World::gridArray[x][y][z]);
+	  World::gridArray[x][y][z] = addOListOnce(World::gridArray[x][y][z]);
         }
       }
     }

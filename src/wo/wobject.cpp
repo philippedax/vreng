@@ -1088,7 +1088,7 @@ void WObject::delFromList(list<WObject*> &olist)
 
 #if 1 //dax0 confusing with list<WObject*> FIXME!
 
-OList * WObject::addToListOnce(OList *olist)
+OList * WObject::addOListOnce(OList *olist)
 {
   for (OList *ol = olist; ol ; ol = ol->next) {
     if (ol->pobject && ol->pobject == this)
@@ -1097,12 +1097,12 @@ OList * WObject::addToListOnce(OList *olist)
   return addToList(olist);	// add it into the list
 }
 
-OList * WObject::delFromList(OList *olist)
+OList * WObject::delOList(OList *olist)
 {
   OList *front = olist, *ol = NULL;
 
   if (! olist) {
-    error("delFromList: %s:%s NULL olist", names.type, getInstance());
+    error("delOList: %s:%s NULL olist", names.type, getInstance());
     return NULL;
   }
   for (ol = olist; ol ; ol = ol->next) {  // sometimes crashes
@@ -1208,10 +1208,10 @@ OList * WObject::addListToList(OList *l1, OList *l2)
     if (l1->pobject && !(l1->pobject->inlist) && (l1->pobject != this)) {
       l1->pobject->inlist = true;
       if (l1->next) {
-        return  addListToList(l1->next, l1->pobject->addToListOnce(l2));
+        return  addListToList(l1->next, l1->pobject->addOListOnce(l2));
       }
       else {
-        return l1->pobject->addToListOnce(l2);
+        return l1->pobject->addOListOnce(l2);
       }
     }
     else {
