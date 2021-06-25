@@ -4,9 +4,9 @@ if OCAML
 
 OCAML_INIT = aiinit.cpp dummy_.ml
 
-OCAML_SRCS = $(OCAML_INIT) vicinity.cpp stringParser.mly stringLexer.mll requeteParser.mly requeteLexer.mll requeteAffichage.ml requeteSemantique.ml analyseur.ml
+OCAML_SRCS = $(OCAML_INIT) stringParser.mly stringLexer.mll requeteParser.mly requeteLexer.mll requeteAffichage.ml requeteSemantique.ml analyseur.ml
 
-OCAML_HDRS = aiinit.hpp vicinity.hpp analyseur.mli requeteAffichage.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
+OCAML_HDRS = aiinit.hpp analyseur.mli requeteAffichage.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
 
 EXTRA_DIST = $(OCAML_SRCS) $(OCAML_HDRS)
 
