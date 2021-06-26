@@ -215,7 +215,7 @@ void Render::showSat()
 {
   if (view != VIEW_SCISSOR) return;
 
-  int bord = 1;
+  uint8_t bord = 1;	// 1 pixel
   GLint x, y, w, h;
 
   ::g.gui.scene()->getCoords(x, y, w, h);
