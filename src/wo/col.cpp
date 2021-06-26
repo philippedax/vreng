@@ -450,12 +450,14 @@ void WObject::insertIntoGrid()
   }
 }
 
-/** Deletes an object from the vicinity grid. */
+/** Deletes an object from the vicinity grid.
+ *  This estimation doesn't work 100%.
+ *  Doing the above reduces crash rate when sending a bunch of darts.
+ */
 void WObject::delFromGrid()
 {
-  // This estimation doesn't work 100%.
-  // Doing the above reduces crash rate when sending a bunch of darts.
   float bbmin[3], bbmax[3];
+
   for (int i=0; i<3; i++) {
     bbmin[i] = pos.bbc.v[i] - pos.bbs.v[i];
     bbmax[i] = pos.bbc.v[i] + pos.bbs.v[i];
@@ -480,6 +482,7 @@ void WObject::delFromGrid()
 void WObject::updateGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold)
 {
   int iminnew[3], imaxnew[3], iminold[3], imaxold[3];
+
   indiceGrid(bbminnew, iminnew);
   indiceGrid(bbmaxnew, imaxnew);
   indiceGrid(bbminold, iminold);
@@ -487,7 +490,7 @@ void WObject::updateGrid(const float *bbminnew, const float *bbmaxnew, const flo
 
   bool change = false;
   for (int i=0; i<3; i++) {
-    if ((iminnew[i] != iminold[i]) || (imaxnew[i] != imaxold[i]))
+    if ( (iminnew[i] != iminold[i]) || (imaxnew[i] != imaxold[i]) )
       change = true;
   }
 
@@ -506,6 +509,7 @@ void WObject::updateGrid(const float *bbminnew, const float *bbmaxnew, const flo
 void WObject::updateGrid(const WObject *obj)
 {
   float bbminnew[3], bbmaxnew[3], bbminold[3], bbmaxold[3];
+
   for (int i=0; i<3; i++) {
     bbminnew[i] = pos.bbc.v[i] - pos.bbs.v[i];
     bbmaxnew[i] = pos.bbc.v[i] + pos.bbs.v[i];
@@ -518,6 +522,7 @@ void WObject::updateGrid(const WObject *obj)
 void WObject::updateGrid(const Pos& oldpos)
 {
   float bbminnew[3], bbmaxnew[3], bbminold[3], bbmaxold[3];
+
   for (int i=0; i<3; i++) {
     bbminnew[i] = pos.bbc.v[i] - pos.bbs.v[i];
     bbmaxnew[i] = pos.bbc.v[i] + pos.bbs.v[i];
