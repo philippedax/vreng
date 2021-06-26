@@ -202,7 +202,7 @@ void Render::showMap()
     minirender();
 
     if (localuser) mapPos = getVisiblePosition(localuser);
-    mapPos.V_Z = 1;
+    mapPos.v[2] = 1;
 
     // reset initial state
     glDisable(GL_SCISSOR_TEST);
@@ -231,7 +231,7 @@ void Render::showSat()
   glRotatef(90,0,0,1);
 
   // camera position
-  glRotatef(-RAD2DEG(satRot.V_Z), 0, 0, 1);
+  glRotatef(-RAD2DEG(satRot.v[2]), 0, 0, 1);
   glTranslatef(-satPos.v[0], -satPos.v[1], -satPos.v[2]);
 
   // draw the scene inside the scissor
@@ -241,7 +241,6 @@ void Render::showSat()
   // reset initial state
   glDisable(GL_SCISSOR_TEST);
   ::g.gui.scene()->setViewport(x, y, w, h);
-  mapPos.V_Z = 0;	//retire l'affichage de la position ds la map
 }
 
 void Render::resetCamera()
