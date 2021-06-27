@@ -25,8 +25,11 @@
 #include "theme.hpp"	// Theme
 #include "file.hpp"	// openFile
 #include "str.hpp"	// stringcmp
+#include "ostream"	// cout
 
 #include "prefs.t"	// prefs config
+
+using namespace std;
 
 
 static const char HELPSTRING[] = "\
@@ -72,28 +75,34 @@ Pref::Pref()
   ::g.user = NULL;
   ::g.channel = NULL;
 
-  width3D  = DEF_WIDTH3D;
-  height3D = DEF_HEIGHT3D;
-  new_universe = false;
-  dbg = 0;
-  infogl = false;
-  quality3D = false;
-  refresh = false;
+  // options true by default
   gravity = true;
   cpulimit = true;
-  reflector = true;
-  fast = false;
   keep = true;
   silent = true;
+  reflector = true;
+
+  // options false by default
+  dbg = false;
+  infogl = false;
+  quality3D = false;
+  fast = false;
   stats = false;
   progress = false;
   expand = false;
   bbox = false;
   dbgtrace = false;
+  new_universe = false;
+  refresh = false;
+
+  // options with default values
+  width3D  = DEF_WIDTH3D;
+  height3D = DEF_HEIGHT3D;
   maxsimcon = DEF_MAXSIMCON;
   maxfps = DEF_RATE;
   frame_delay = 1000000 / DEF_RATE;	// 20 ms
   cachetime = 3600 * 24 * 3;	// 3 days
+
   my_avatar = NULL;
   my_vrestr = NULL;
   my_widthstr = NULL;
@@ -115,10 +124,6 @@ Pref::Pref()
   mcastproxystr = NULL;
   ::g.skinf = NULL;
   ::g.skinb = NULL;
-#if 0 //OBSOLETE
-  gui_theme = Theme::NEON;	// neon
-  gui_skin = Theme::GREY;	// grey
-#endif
 }
 
 void Pref::init(int argc, char **argv, const char* pref_file)
@@ -323,7 +328,7 @@ void Pref::parse(int argc, char **argv)
     }
     ::g.url = strdup(tmp1);
   }
-  error("url: %s", ::g.url);
+  cout << "url: " << ::g.url << "\n";
 
   if (new_universe == false) {
     sprintf(tmp1, "%s", DEF_HTTP_SERVER);
@@ -365,10 +370,12 @@ void Pref::parse(int argc, char **argv)
   // pseudoname
   if (::g.user == NULL) {
     struct passwd *pwd = getpwuid(getuid());
-    if (pwd)
+    if (pwd) {
       ::g.user = strdup(pwd->pw_name);
-    else
+    }
+    else {
       ::g.user = strdup("unknown");
+    }
   }
   if (helpx) {
     argc++;
