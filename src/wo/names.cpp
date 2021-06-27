@@ -57,12 +57,12 @@ static uint32_t hash_name(const char *s)
   return h;
 }
 
-void WObject::setObjName(const char *str)
+void WObject::setObjName(const char *name)
 {
-  if (! str) return;
+  if (! name) return;
 
   char fullname[OBJNAME_LEN];
-  sprintf(fullname, "%s@%s", str, World::current()->getName());
+  sprintf(fullname, "%s@%s", name, World::current()->getName());
   uint32_t hval = hash_name(fullname);
   while (hval) {
     if ((*(hashtable[hval].name) == '\0') ||
@@ -76,36 +76,38 @@ void WObject::setObjName(const char *str)
   }
 }
 
-WObject * WObject::getObjectByName(const char *str)
+WObject * WObject::getObjectByName(const char *name)
 {
-  if (! str) return (WObject *) NULL;
+  if (! name) return (WObject *) NULL;
 
   char fullname[OBJNAME_LEN];
-  sprintf(fullname, "%s@%s", str, World::current()->getName());
+  sprintf(fullname, "%s@%s", name, World::current()->getName());
   uint32_t hval = hash_name(fullname);
   trace(DBG_WO, "getObjectByName: hval=%d name=%s", hval, fullname);
   while (hval) {
-    if (*(hashtable[hval].name) == '\0')
-      return (WObject *) NULL;
-    if (! strcmp(hashtable[hval].name, fullname))
-      return hashtable[hval].po;
+    if (*(hashtable[hval].name) == '\0') {
+      return (WObject *) NULL;		// not found
+    }
+    if (! strcmp(hashtable[hval].name, fullname)) {
+      return hashtable[hval].po;	// found
+    }
     hval = (hval + 1) % NAME_HASH_SIZE;
   }
-  return (WObject *) NULL;
+  return (WObject *) NULL;		// not found
 }
 
 #if 0 //not used
-void delObjectName(const char *str)
+void delObjectName(const char *name)
 {
-  if (! str) return;
+  if (! name) return;
 
   char fullname[OBJNAME_LEN];
-  sprintf(fullname, "%s@%s", str, World::current()->getName());
+  sprintf(fullname, "%s@%s", name, World::current()->getName());
   uint32_t hval = hash_name(fullname);
   while (hval) {
     if (*(hashtable[hval].name) == '\0') return;
     if (! strcmp(hashtable[hval].name, fullname)) {
-      strcpy(hashtable[hval].name, NAME_DELETED);
+      strcpy(hashtable[hval].name, NAME_DELETED);	// found, mark deleted
       World::current()->namecnt--;
       return;
     }
