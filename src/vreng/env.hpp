@@ -29,18 +29,18 @@ class Env {
 public:
   Env();		///< constructor
   
-  char * home();
-  char * cwd();
-  char * dir();
-  char * prefs();
-  char * cache();
-  char * passwd();
-  char * icons();
-  char * menu();
-  char * worldmarks();
-  char * sysname();
-  char * relname();
-  char * machname();
+  const char * home() const;
+  const char * cwd() const;
+  const char * dir() const;
+  const char * prefs() const;
+  const char * cache() const;
+  const char * passwd() const;
+  const char * icons() const;
+  const char * menu() const;
+  const char * worldmarks() const;
+  const char * sysname() const;
+  const char * relname() const;
+  const char * machname() const;
   
   void listCache();
   void cleanCacheByExt(const char *ext);

@@ -43,62 +43,62 @@ Env::Env()
   init();
 }
 
-char * Env::home()
+const char * Env::home() const
 {
   return homedir;
 }
 
-char * Env::cwd()
+const char * Env::cwd() const
 {
   return vrengcwd;
 }
 
-char * Env::dir()
+const char * Env::dir() const
 {
   return vrengdir;
 }
 
-char * Env::cache()
+const char * Env::cache() const
 {
   return vrengcache;
 }
 
-char * Env::prefs()
+const char * Env::prefs() const
 {
   return vrengprefs;
 }
 
-char * Env::icons()
+const char * Env::icons() const
 {
   return vrengicons;
 }
 
-char * Env::menu()
+const char * Env::menu() const
 {
   return vrengmenu;
 }
 
-char * Env::worldmarks()
+const char * Env::worldmarks() const
 {
   return vrengworldmarks;
 }
 
-char * Env::passwd()
+const char * Env::passwd() const
 {
   return vrengpasswd;
 }
 
-char * Env::sysname()
+const char * Env::sysname() const
 {
   return systemname;
 }
 
-char * Env::relname()
+const char * Env::relname() const
 {
   return releasename;
 }
 
-char * Env::machname()
+const char * Env::machname() const
 {
   return machinename;
 }
@@ -112,9 +112,10 @@ void Env::sysinfo()
   strcpy(systemname, myutsname.sysname);
   strcpy(releasename, myutsname.release);
   strcpy(machinename, myutsname.machine);
-  for (uint32_t i=0; i < sizeof(machinename); i++) {
-    if (machinename[i] == ' ')
+  for (int i=0; i < sizeof(machinename); i++) {
+    if (machinename[i] == ' ') {
       machinename[i] = '_';
+    }
   }
 #endif
 }
@@ -134,11 +135,13 @@ void Env::init()
   struct stat bufstat;
   char *home = NULL;
 
+  // $HERE
   if (getcwd(vrengcwd, sizeof(vrengcwd)) == NULL) {
     return;
   }
   strcpy(homedir, vrengcwd);
 
+  // $HOME
   if ((home = getenv("HOME"))) {
     strcpy(homedir, home);
   }
@@ -152,12 +155,18 @@ void Env::init()
 #endif
     if (stat(pathweb, &bufstat) < 0) {
       error("sites does not exist: %s", pathweb);
+      // $HOME/public_html or $HOME/Sites
       mkdir(pathweb, 0755);
       sprintf(pathhtdocs, "%s/vreng", pathweb);
       if (stat(pathhtdocs, &bufstat) < 0) {
         int r;
         r = symlink(pathdata, pathhtdocs);
-        error("create link htdocs: %s (%d)", pathhtdocs, r);
+        if (r == 0) {
+          error("create link htdocs: %s", pathhtdocs);
+        }
+        else {
+          error("can't create link htdocs: %s (%d)", pathhtdocs, r);
+        }
       }
     }
     else {
@@ -165,11 +174,17 @@ void Env::init()
       if (stat(pathhtdocs, &bufstat) < 0) {
         int r;
         r = symlink(pathdata, pathhtdocs);
-        error("create link htdocs: %s (%d)", pathhtdocs, r);
+        if (r == 0) {
+          error("create link htdocs: %s", pathhtdocs);
+        }
+        else {
+          error("can't create link htdocs: %s (%d)", pathhtdocs, r);
+        }
       }
     }
   }
 
+  // $HOME/.vreng
   sprintf(pathenvdir, "%s/.vreng", homedir);
   if (stat(pathenvdir, &bufstat) < 0) {
     mkdir(pathenvdir, 0700);
@@ -177,29 +192,36 @@ void Env::init()
   strcpy(vrengdir, pathenvdir);
   chdir(pathenvdir);
 
+  // $HOME/.vreng/prefs
+  sprintf(pathprefs, "%s/prefs", pathenvdir);
+  strcpy(vrengprefs, pathprefs);
+
+  // $HOME/.vreng/cache
+  sprintf(pathcache, "%s/cache", pathenvdir);
+  if (stat(pathcache, &bufstat) < 0) {
+    mkdir(pathcache, 0700);
+  }
+  strcpy(vrengcache, pathcache);
+
+  // $HOME/.vreng/icons
   sprintf(pathicons, "%s/icons", pathenvdir);
   if (stat(pathicons, &bufstat) < 0) {
     mkdir(pathicons, 0700);
   }
   strcpy(vrengicons, pathicons);
 
-  sprintf(pathprefs, "%s/prefs", pathenvdir);
-  strcpy(vrengprefs, pathprefs);
-
+  // $HOME/.vreng/menu
   sprintf(pathmenu, "%s/menu", pathenvdir);
   strcpy(vrengmenu, pathmenu);
 
+  // $HOME/.vreng/worldmarks
   sprintf(pathworldmarks, "%s/worldmarks", pathenvdir);
   strcpy(vrengworldmarks, pathworldmarks);
 
+  // $HOME/.vreng/vncpasswd
   sprintf(pathpasswd, "%s/vncpasswd", pathenvdir);
   strcpy(vrengpasswd, pathpasswd);
 
-  sprintf(pathcache, "%s/cache", pathenvdir);
-  if (stat(pathcache, &bufstat) < 0) {
-    mkdir(pathcache, 0700);
-  }
-  strcpy(vrengcache, pathcache);
   chdir(vrengcwd);
 }
 
