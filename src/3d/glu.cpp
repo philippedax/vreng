@@ -257,7 +257,7 @@ invert_matrix(const GLdouble * m, GLdouble * out)
 #undef SWAP_ROWS
 }
 
-/* projection du point (objx,objy,obz) sur l'ecran (winx,winy,winz) */
+/* projection du point (objx,objy,objz) sur l'ecran (winx,winy,winz) */
 GLint
 gluProject(GLdouble objx, GLdouble objy, GLdouble objz,
 	   const GLdouble model[16], const GLdouble proj[16],
@@ -267,7 +267,7 @@ gluProject(GLdouble objx, GLdouble objy, GLdouble objz,
   /* matrice de transformation */
   GLdouble in[4], out[4];
 
-  /* initilise la matrice et le vecteur a transformer */
+  /* initialise la matrice et le vecteur a transformer */
   in[0] = objx;
   in[1] = objy;
   in[2] = objz;
