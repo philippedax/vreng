@@ -58,26 +58,31 @@ uint8_t * Ogl::copyPixels(GLint width, GLint height, GLenum mode)
 bool Ogl::isGLextension(const char *ext)
 {
   const GLubyte *extentions = NULL;
-  const GLubyte *start;
-  GLubyte *where, *terminator;
+  const GLubyte *beginext;
+  GLubyte *currext, *endext;
 
-  if (*ext == '\0')
+  if (*ext == '\0') {
     return false;
-  if ((where = (GLubyte *) strchr(ext, ' ')))
+  }
+  if ((currext = (GLubyte *) strchr(ext, ' '))) {
     return false;
+  }
 
 #if !defined(WITH_TINYGL)
   extentions = glGetString(GL_EXTENSIONS);
-  start = extentions;
+  beginext = extentions;
   for (;;) {
-    where = (GLubyte *) strstr((const char *) start, ext);
-    if (! where)
+    currext = (GLubyte *) strstr((const char *) beginext, ext);
+    if (! currext) {
       break;
-    terminator = where + strlen(ext);
-    if (where == start || *(where - 1) == ' ')
-      if (*terminator == ' ' || *terminator == '\0')
-      return true;
-    start = terminator;
+    }
+    endext = currext + strlen(ext);
+    if (currext == beginext || *(currext - 1) == ' ') {
+      if (*endext == ' ' || *endext == '\0') {
+        return true;	// found
+      }
+    }
+    beginext = endext;
   }
 #endif
   return false;
