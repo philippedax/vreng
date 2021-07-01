@@ -106,8 +106,8 @@ public:
   virtual char * parseAttributes(char *l, class WObject *po);
   /**< Parses attribute="value" */
 
-  virtual char * parsePath(char *ptok, float path[][5], uint16_t *segs);
-  /**< Returns an array of position describing the path */
+  virtual char * parseGuide(char *ptok, float path[][5], uint8_t *segs);
+  /**< Returns an array of position describing the guide */
 
   virtual void printNumline();
   /**< print parse error at */

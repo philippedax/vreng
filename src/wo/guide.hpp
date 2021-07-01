@@ -33,22 +33,18 @@
 class Guide: public WObject {
 
 private:
-  static const uint16_t PATH_SIZE;	///< max size of the path
-  static const float DELTAZ;		///< step in Z
-  static const float COLOR[3];		///< path's default color
+  static const uint8_t GUIDE_MAX;	///< max size of the path
+  static const float GUIDE_DELTAZ;	///< step in Z
+  static const float GUIDE_COLOR[3];	///< path's default color
 
   bool perpetual;	///< flag mode perpetual
   bool oneway;		///< flag mode one-way/round-trip
   bool show;		///< flag show path
-  bool inside;		///< flag inside/outside
+  bool stuck;		///< flag inside/outside
   bool restored;	///< flag restored
-  uint16_t pts;		///< max point number in this path
-  uint16_t pt;		///< current point number in this path
+  uint8_t segs;		///< max segment number in this path
+  uint8_t seg;		///< current segment number in this path
   GLint dlist;		///< display list
-  float color[3];	///< path's color
-  float initial[4];	///< initial position of guide
-  float uinitial[4];	///< initial position of user
-  float path[32][5];	///< array of positions-speed-pause in the path
 
 public:
   bool pause;		///< flag pause continue
@@ -103,9 +99,6 @@ private:
 
   virtual void defaults();
   /**< init default values */
-
-  virtual float norm();
-  /**< normalize */
 
   virtual void motion();
   /**< Returns current speed */

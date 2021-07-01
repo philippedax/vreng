@@ -627,24 +627,25 @@ char * Parse::parseColor(char *ptok, Pos &p)
   return nextToken();
 }
 
-/* parse a path */
-char * Parse::parsePath(char *ptok, float path[][5], uint16_t *segs)
+/* parse a guide */
+char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
 {
-  if (! stringcmp(ptok, "path=")) {
+  if ( (! stringcmp(ptok, "path=")) || (! stringcmp(ptok, "guide=")) ) {
     ptok = skipEqual(ptok);
   }
   ptok = skipQuotes(ptok, 0);	// don't check the second '"'
   if (ptok) {
-    if (*ptok == 0)
+    if (*ptok == 0) {
       ptok = nextToken();
+    }
   }
 
   for (int i=0; ptok && (*ptok != '"'); i++) {
-    path[i][0] = (float) atof(ptok); ptok = nextToken();
-    path[i][1] = (float) atof(ptok); ptok = nextToken();
-    path[i][2] = (float) atof(ptok); ptok = nextToken();
-    path[i][3] = (float) atof(ptok); ptok = nextToken();
-    path[i][4] = (float) atof(ptok);
+    path[i][0] = (float) atof(ptok); ptok = nextToken(); // x
+    path[i][1] = (float) atof(ptok); ptok = nextToken(); // y
+    path[i][2] = (float) atof(ptok); ptok = nextToken(); // z
+    path[i][3] = (float) atof(ptok); ptok = nextToken(); // speed
+    path[i][4] = (float) atof(ptok); // delay
     if (ptok[strlen(ptok) - 1] == '"') {
       *segs = i;
       return nextToken();

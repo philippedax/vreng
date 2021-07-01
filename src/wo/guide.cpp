@@ -25,13 +25,18 @@
 
 
 const OClass Guide::oclass(GUIDE_TYPE, "Guide", Guide::creator);
-const uint16_t Guide::PATH_SIZE = 32;
-const float Guide::DELTAZ = 0.02;
-const float Guide::COLOR[] = {0, 1, 0};
+
+const uint8_t Guide::GUIDE_MAX = 32;
+const float Guide::GUIDE_DELTAZ = 0.02;
+const float Guide::GUIDE_COLOR[] = {0, 1, 0};
 
 // local
 static uint16_t oid = 0;
 static Guide *guide = NULL;
+static float path[32][5];	///< array of positions-speed-pause in the path
+static float color[3];		///< path's color
+static float origin[4];		///< origin position of guide
+static float userpos[4];	///< initial position of user
 
 
 /* creation from a file */
@@ -42,18 +47,18 @@ WObject * Guide::creator(char *l)
 
 void Guide::defaults()
 {
-  pt = 0;
-  pts = 0;
+  seg = 0;
+  segs = 0;
   dlist = -1;
+  oneway = true;
   perpetual = false;
-  oneway = false;
-  inside = false;
+  stuck = false;
   restored = false;
   show = true;
   pause = false;
 
-  for (int i=0; i<PATH_SIZE; i++) for (int j=0; j<5; j++) path[i][j] = 0;
-  for (int i=0; i<3; i++) color[i] = COLOR[i];
+  for (int i=0; i < GUIDE_MAX; i++) for (int j=0; j<5; j++) path[i][j] = 0;
+  for (int i=0; i<3; i++) color[i] = GUIDE_COLOR[i];
 }
 
 void Guide::parser(char *l)
@@ -63,7 +68,7 @@ void Guide::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (! stringcmp(l, "path=")) l = parse()->parsePath(l, &path[1], &pts);
+    if      (! stringcmp(l, "path=")) l = parse()->parseGuide(l, &path[1], &segs);
     else if (! stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
     else if (! stringcmp(l, "mode=")) {
       char modestr[16];
@@ -74,25 +79,32 @@ void Guide::parser(char *l)
   }
   end_while_parse(l);
 
-  if (pts == 0) { warning("no path"); return; }
+  if (segs == 0) {
+    warning("no path");
+    return;
+  }
 
-  // start point = guide initial
+  // start segment path[0] = guide initial
   path[0][0] = pos.x;
   path[0][1] = pos.y;
   path[0][2] = pos.z;
   path[0][3] = path[1][3];
   path[0][4] = 1;	// tempo 1 sec
-  pts++;
+
+  segs++;	// end of path
+  if (perpetual) {
+    oneway = false;
+  }
   if (oneway) {
-    path[pts][3] = 0;
-    path[pts][4] = 0;
+    path[segs][3] = 0;
+    path[segs][4] = 0;
   }
   else {
-    // round-trip: end point = start point
-    for (int i=0; i<5 ; i++) path[pts+1][i] = path[0][i];
-    path[pts+1][3] = 0;  // speed = 0 for end point
-    path[pts+1][4] = 0;
-    pts++;
+    // round-trip: end segment = begin segment
+    for (int i=0; i<5 ; i++) path[segs+1][i] = path[0][i];
+    path[segs+1][3] = 0;  // speed = 0 for end segment
+    path[segs+1][4] = 0;
+    segs++;
   }
 }
 
@@ -106,13 +118,15 @@ Guide::Guide(char *l)
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
-  if (perpetual) enablePermanentMovement();
+  if (perpetual) {
+    enablePermanentMovement();
+  }
 
-  pos.az = atan((path[pt+1][1]-path[pt][1]) / (path[pt+1][0]-path[pt][0]));
-  initial[0] = pos.x;
-  initial[1] = pos.y;
-  initial[2] = pos.z;
-  initial[3] = pos.az;
+  pos.az = atan((path[seg+1][1]-path[seg][1]) / (path[seg+1][0]-path[seg][0]));
+  origin[0] = pos.x;
+  origin[1] = pos.y;
+  origin[2] = pos.z;
+  origin[3] = pos.az;
 
   draw(color);	// draw path
 }
@@ -122,7 +136,7 @@ void Guide::updateTime(time_t sec, time_t usec, float *lasting)
   updateLasting(sec, usec, lasting);
 }
 
-/** Imposed movements */
+/** Imposed movements  - notused */
 void Guide::changePosition(float lasting)
 {
   error("changePosition");
@@ -130,41 +144,38 @@ void Guide::changePosition(float lasting)
   updatePosition();
 
   localuser->pos.az = pos.az;
-  localuser->updatePosition();
-}
-
-float Guide::norm()
-{
-  return sqrt((path[pt+1][0]-path[pt][0]) * (path[pt+1][0]-path[pt][0]) +
-              (path[pt+1][1]-path[pt][1]) * (path[pt+1][1]-path[pt][1]) +
-              (path[pt+1][2]-path[pt][2]) * (path[pt+1][2]-path[pt][2]));
+  localuser->updatePositionAndGrid(localuser->pos);
 }
 
 void Guide::motion()
 {
-  float nn = norm();
+  float nn = sqrt((path[seg+1][0]-path[seg][0]) * (path[seg+1][0]-path[seg][0]) +
+                  (path[seg+1][1]-path[seg][1]) * (path[seg+1][1]-path[seg][1]) +
+                  (path[seg+1][2]-path[seg][2]) * (path[seg+1][2]-path[seg][2]));
 
   if (! pause) {
     updatePositionAndGrid(pos);
-    pos.x += ((path[pt+1][0] - path[pt][0]) * path[pt][3] / 100) / nn;
-    pos.y += ((path[pt+1][1] - path[pt][1]) * path[pt][3] / 100) / nn;
-    pos.z += ((path[pt+1][2] - path[pt][2]) * path[pt][3] / 100) / nn;
+    pos.x += ((path[seg+1][0] - path[seg][0]) * path[seg][3] / 100) / nn;
+    pos.y += ((path[seg+1][1] - path[seg][1]) * path[seg][3] / 100) / nn;
+    pos.z += ((path[seg+1][2] - path[seg][2]) * path[seg][3] / 100) / nn;
     updatePosition();
   }
 }
 
 void Guide::motion(float *dx, float *dy, float *dz)
 {
-  float nn = norm();
+  float nn = sqrt((path[seg+1][0]-path[seg][0]) * (path[seg+1][0]-path[seg][0]) +
+                  (path[seg+1][1]-path[seg][1]) * (path[seg+1][1]-path[seg][1]) +
+                  (path[seg+1][2]-path[seg][2]) * (path[seg+1][2]-path[seg][2]));
 
   if (pause) {
     *dx = *dy = *dz = 0;
   }
   else {
-    *dx = ((path[pt+1][0] - path[pt][0]) * path[pt][3] / 50) / nn;
-    *dy = ((path[pt+1][1] - path[pt][1]) * path[pt][3] / 50) / nn;
-    *dz = ((path[pt+1][2] - path[pt][2]) * path[pt][3] / 50) / nn;
     updatePositionAndGrid(pos);
+    *dx = ((path[seg+1][0] - path[seg][0]) * path[seg][3] / 50) / nn;
+    *dy = ((path[seg+1][1] - path[seg][1]) * path[seg][3] / 50) / nn;
+    *dz = ((path[seg+1][2] - path[seg][2]) * path[seg][3] / 50) / nn;
     pos.x += *dx;
     pos.y += *dy;
     pos.z += *dz;
@@ -175,13 +186,14 @@ void Guide::motion(float *dx, float *dy, float *dz)
 void Guide::changePermanent(float lasting)
 {
   if (perpetual) {
-    if (path[pt][3]) {
+    if (path[seg][3]) {
       motion();
-      if ((floor(pos.x) == path[pt+1][0]) &&
-          (floor(pos.y) == path[pt+1][1]))
-        pt++;
+      if ((floor(pos.x) == path[seg+1][0]) &&
+          (floor(pos.y) == path[seg+1][1])) {
+        seg++;
+      }
     }
-    if (pt == pts) pt = 0;
+    if (seg >= segs) seg = 0;
   }
 }
 
@@ -196,7 +208,7 @@ void sigguide(int s)
  */
 bool Guide::whenIntersect(WObject *pcur, WObject *pold)
 {
-  static bool first = true;
+  static bool once = true;
 
   if (perpetual) return true;
 
@@ -205,87 +217,92 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
     return true;
   }
   // user only
-  inside = true;
+  stuck = true;
   if (restored) {
+    once = true;
     restored = false;
-    first = true;
   }
 
-  if (first) {
+  if (once) {
     // save initial position of the user
-    uinitial[0] = pold->pos.x;
-    uinitial[1] = pold->pos.y;
-    uinitial[2] = pold->pos.z;
-    uinitial[3] = pold->pos.az;
+    userpos[0] = pold->pos.x;
+    userpos[1] = pold->pos.y;
+    userpos[2] = pold->pos.z;
+    userpos[3] = pold->pos.az;
     localuser->pos.x = pos.x;
     localuser->pos.y = pos.y;
     localuser->pos.z += (pos.z + pos.bbs.v[2]);  // jump on the skate
     localuser->pos.az = pos.az;
-    if (path[pt][4]) {	// pause
-      signal(SIGALRM, sigguide);
-      alarm((uint32_t) path[pt][4]);
+    localuser->updatePositionAndGrid(localuser->pos);
+    if (path[seg][4]) {	// pause
       pause = true;
+      signal(SIGALRM, sigguide);
+      alarm((uint32_t) path[seg][4]);	// set delay
     }
-    first = false;
+    once = false;
   }
 
-  if (path[pt][3]) {
-    /* user follows the guide */
+  if (path[seg][3]) {
     float dx, dy, dz;
     motion(&dx, &dy, &dz);
-    localuser->updatePositionAndGrid(localuser->pos);
+    // user follows the guide
     localuser->pos.x += dx;
     localuser->pos.y += dy;
     localuser->pos.z += dz + .05;  // + 1cm
+    localuser->updatePositionAndGrid(localuser->pos);
     //error("follow: %.2f %.2f %.2f, %.3f %.3f %.3f", localuser->pos.x,localuser->pos.y,localuser->pos.z,dx,dy,dz);
-    if (localuser->pos.x == pold->pos.x && localuser->pos.y == pold->pos.y)
+    if (localuser->pos.x == pold->pos.x && localuser->pos.y == pold->pos.y) {
       pold->copyPositionAndBB(localuser);
-    else localuser->pos.z += DELTAZ;
+    }
+    else {
+      localuser->pos.z += GUIDE_DELTAZ;
+    }
     updatePositionAndGrid(pold->pos);  //HACK! I don't know why!
     localuser->updatePositionAndGrid(localuser->pos);
 
-    if ((floor(pos.x) == path[pt+1][0]) &&
-        (floor(pos.y) == path[pt+1][1])) {  // new segment
-      pt++;  // next point
-
-      if (path[pt][3] == 0) goto endtour;  // null speed
-
-      if (path[pt][4]) {  // pause
-        signal(SIGALRM, sigguide);
-        alarm((uint32_t) path[pt][4]);  // set delay
+    if ((floor(pos.x) == path[seg+1][0]) &&
+        (floor(pos.y) == path[seg+1][1])) {  // new segment
+      seg++;  // next segment
+      if (path[seg][4]) {  // pause
         pause = true;
-        float azn =  atan((path[pt+1][1] - path[pt][1]) /
-                          (path[pt+1][0] - path[pt][0]));
-        if ((path[pt+1][0] - path[pt][0]) < 0)  azn += M_PI;
-        float azo =  atan((path[pt][1] - path[pt-1][1]) /
-                          (path[pt][0] - path[pt-1][0]));
-        if ((path[pt][0] - path[pt-1][0]) < 0)  azo += M_PI;
+        signal(SIGALRM, sigguide);
+        alarm((uint32_t) path[seg][4]);  // set delay
+        float azn =  atan((path[seg+1][1] - path[seg][1]) /
+                          (path[seg+1][0] - path[seg][0]));
+        if ((path[seg+1][0] - path[seg][0]) < 0) {
+          azn += M_PI;
+        }
+#if 0 //dax
+        float azo =  atan((path[seg][1] - path[seg-1][1]) /
+                          (path[seg][0] - path[seg-1][0]));
+        if ((path[seg][0] - path[seg-1][0]) < 0)  azo += M_PI;
+#endif
         float da = deltaAngle(azn, 0);
-        move.aspeed.v[0] = da / path[pt][4];
+        move.aspeed.v[0] = da / path[seg][4];
       }
       else {
         signal(SIGALRM, SIG_IGN);
         motion(&dx, &dy, &dz);
-        localuser->updatePositionAndGrid(localuser->pos);
         localuser->pos.x += dx;
         localuser->pos.y += dy;
         localuser->pos.z += dz;
-        localuser->updatePosition();
+        localuser->updatePositionAndGrid(localuser->pos);
       }
 
       // new orientation
-      float az = atan((path[pt+1][1] - path[pt][1]) /
-                      (path[pt+1][0] - path[pt][0]));
-      if ((path[pt+1][0] - path[pt][0]) < 0)  az += M_PI;
+      float az = atan((path[seg+1][1] - path[seg][1]) /
+                      (path[seg+1][0] - path[seg][0]));
+      if ((path[seg+1][0] - path[seg][0]) < 0) {
+        az += M_PI;
+      }
       pos.az = az;
       localuser->pos.az = pos.az;	// user takes same orientation than guide
     }
-    // update user
+    // update user position
     localuser->updatePositionAndGrid(localuser->pos);
   }
   else {
-endtour:
-    first = true;
+    once = true;
     restore((User *)localuser);
   }
   return true;
@@ -294,22 +311,22 @@ endtour:
 void Guide::restore(User *user)
 {
   restored = true;
-  pt = 0;
-  pos.x  = initial[0];
-  pos.y  = initial[1];
-  pos.z  = initial[2];
-  pos.az = initial[3];
+  seg = 0;
+  pos.x  = origin[0];
+  pos.y  = origin[1];
+  pos.z  = origin[2];
+  pos.az = origin[3];
   updatePositionAndGrid(pos);
 
   if (oneway)
-    notice("end of trip");
+    warning("end of trip");
   else {
-    user->pos.x = uinitial[0];
-    user->pos.y = uinitial[1];
-    user->pos.z = uinitial[2];
-    user->pos.az = uinitial[3];
+    user->pos.x = userpos[0];
+    user->pos.y = userpos[1];
+    user->pos.z = userpos[2];
+    user->pos.az = userpos[3];
     user->updatePositionAndGrid(user->pos);
-    notice("end of tour");
+    warning("end of tour");
   }
 }
 
@@ -317,7 +334,7 @@ bool Guide::whenIntersectOut(WObject *pcur, WObject *pold)
 {
   //error("out guide");
   if (pcur->type == USER_TYPE) {
-    inside = false;
+    stuck = false;
     return true;
   }
   return false;
@@ -336,7 +353,7 @@ void Guide::draw(float *color)
   glEnable(GL_LINE_STIPPLE);
   glLineStipple(1, 0x3333);
   glBegin(GL_LINE_LOOP);
-  for (int i=0; i < pts ; i++) {
+  for (int i=0; i < segs ; i++) {
     glColor3fv(color);
     glVertex3f(path[i][0], path[i][1], path[i][2]);
   }
