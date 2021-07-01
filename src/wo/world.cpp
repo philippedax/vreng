@@ -233,18 +233,21 @@ bool World::setChan(const char *chan_str)
     error("setChan: chan_str NULL");
     return false;
   }
-  if (*chan_str == '\0') {
-    error("setChan: chan_str EMPTY");
-    return false;
-  }
   if (strlen(chan_str) >= CHAN_LEN) {
     error("setChan: chan_str too long = %s", chan_str);
     return false;
   }
 
-  chan = new char[strlen(chan_str) + 1];
-  memset(chan, 0, strlen(chan_str)+1);
-  strncpy(chan, chan_str, strlen(chan_str));
+  if (*chan_str == '\0') {
+    chan = new char[strlen(::g.channel) + 1];
+    memset(chan, 0, strlen(::g.channel)+1);
+    strncpy(chan, ::g.channel, strlen(::g.channel));
+  }
+  else {
+    chan = new char[strlen(chan_str) + 1];
+    memset(chan, 0, strlen(chan_str)+1);
+    strncpy(chan, chan_str, strlen(chan_str));
+  }
   return true;
 }
 
