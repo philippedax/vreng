@@ -13,13 +13,13 @@
 <guide name="skate-board"
  pos="4 0 0.2 1.57"
  path="14 35 8.2 10 2, 80 33 0.2 15 1, 91 9 0.2 20 1, 88 -24 0.2 25 1, 70 -17 0.2 15 1, 50 -20 0.2 10 1, 23 -10 0.2 5 1"
- color="orange"
+ color="blue"
  mode="one-way">
-  <solid dim="1.2 .8 .02" dif="grey10" />
-  <solid shape="sphere" r="0.1" rel="0.4 0.4 -0.1 0 0"   tx="/gif/earth.gif" />
-  <solid shape="sphere" r="0.1" rel="0.4 -0.4 -0.1 0 0"  tx="/gif/earth.gif" />
-  <solid shape="sphere" r="0.1" rel="-0.4 0.4 -0.1 0 0"  tx="/gif/earth.gif" />
-  <solid shape="sphere" r="0.1" rel="-0.4 -0.4 -0.1 0 0" tx="/gif/earth.gif" />
+  <solid dim="1.2 .8 .1" dif="grey10" />
+  <solid shape="sphere" r="0.1" rel="0.4 0.4 -0.1 0 0"   dif="grey" />
+  <solid shape="sphere" r="0.1" rel="0.4 -0.4 -0.1 0 0"  dif="grey" />
+  <solid shape="sphere" r="0.1" rel="-0.4 0.4 -0.1 0 0"  dif="grey" />
+  <solid shape="sphere" r="0.1" rel="-0.4 -0.4 -0.1 0 0" dif="grey" />
 </guide>
 
 <!-- welcome text -->
