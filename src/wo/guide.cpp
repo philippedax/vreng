@@ -59,8 +59,19 @@ void Guide::defaults()
   show = true;
   pause = false;
 
+<<<<<<< HEAD
   for (int i=0; i < GUIDE_DIM; i++) for (int j=0; j<5; j++) path[i][j] = 0;
   for (int i=0; i<3; i++) color[i] = GUIDE_COLOR[i];
+=======
+  for (int i=0; i < GUIDE_MAX; i++) {
+    for (int j=0; j<5; j++) {
+      path[i][j] = 0;
+    }
+  }
+  for (int i=0; i<3; i++) {
+    color[i] = GUIDE_COLOR[i];
+  }
+>>>>>>> 476d182fcfb0ed95f536171ddd0bb4b0106446a8
 }
 
 void Guide::parser(char *l)
@@ -112,15 +123,14 @@ void Guide::parser(char *l)
 
 Guide::Guide(char *l)
 {
-  parser(l);
-
   guide = this;
 
-  //dax enableBehavior(COLLIDE_ONCE);
+  parser(l);
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
+
   if (perpetual) {
     enablePermanentMovement();
   }
@@ -155,7 +165,6 @@ void Guide::motion()
     pos.y += ((path[seg+1][1] - path[seg][1]) * path[seg][3] / 100) / nn;
     pos.z += ((path[seg+1][2] - path[seg][2]) * path[seg][3] / 100) / nn;
     updatePositionAndGrid(pos);
-    //dax updatePosition();
   }
 }
 
@@ -169,9 +178,6 @@ void Guide::motion(float *dx, float *dy, float *dz)
     *dx = *dy = *dz = 0;
   }
   else {
-#if 0 //dax
-    motion();
-#else
     *dx = ((path[seg+1][0] - path[seg][0]) * path[seg][3] / 50) / nn;
     *dy = ((path[seg+1][1] - path[seg][1]) * path[seg][3] / 50) / nn;
     *dz = ((path[seg+1][2] - path[seg][2]) * path[seg][3] / 50) / nn;
@@ -179,8 +185,6 @@ void Guide::motion(float *dx, float *dy, float *dz)
     pos.y += *dy;
     pos.z += *dz;
     updatePositionAndGrid(pos);
-    //dax updatePosition();
-#endif
   }
 }
 
@@ -196,6 +200,7 @@ void Guide::changePermanent(float lasting)
     }
     if (seg >= segs) seg = 0;
   }
+
 #if 0 //dax
   else if (stuck) {
      float dx, dy, dz;
@@ -245,6 +250,27 @@ void Guide::changePermanent(float lasting)
 #endif
 }
 
+/* Sets the user on the guide */
+void Guide::initUser()
+{
+  // save initial position of the user
+  userpos[0] = localuser->pos.x;
+  userpos[1] = localuser->pos.y;
+  userpos[2] = localuser->pos.z;
+  userpos[3] = localuser->pos.az;
+  updatePositionAndGrid(pos);
+
+  localuser->pos.x = pos.x;
+  localuser->pos.y = pos.y;
+  localuser->pos.z += (pos.z + pos.bbs.v[2]);  // jump on the skate
+  localuser->pos.az = pos.az;
+  localuser->updatePositionAndGrid(localuser->pos);
+
+  stuck = true;
+
+  enablePermanentMovement();	// ??? not usefull whenIntersect does the job
+}
+
 /**
  * user intersects: follow
  * by moving the guide first
@@ -253,7 +279,6 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
 {
   static bool once = true;
 
-  //dax if (stuck) return true;
   if (perpetual) return true;
 
   if (pcur->type != USER_TYPE) {
@@ -261,13 +286,13 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
     return true;
   }
   // user only
-  stuck = true;
   if (restored) {
     once = true;
     restored = false;
   }
 
   if (once) {
+<<<<<<< HEAD
     // save initial position of the user
     userpos[0] = pold->pos.x;
     userpos[1] = pold->pos.y;
@@ -279,19 +304,22 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
     localuser->pos.z += (pos.z + pos.bbs.v[2]);  // jump on the skate
     localuser->pos.az = pos.az;
     localuser->updatePositionAndGrid(localuser->pos);
+=======
+    once = false;
+    initUser();
+>>>>>>> 476d182fcfb0ed95f536171ddd0bb4b0106446a8
     if (path[seg][4]) {	// pause
       pause = true;
       signal(SIGALRM, sigguide);
       alarm((uint32_t) path[seg][4]);	// set delay
     }
-    once = false;
-    enablePermanentMovement();
   }
 
 #if 1 //dax
-  if (path[seg][3]) {
+  if (path[seg][3]) {	// speed present
     float dx, dy, dz;
     motion(&dx, &dy, &dz);
+
     // user follows the guide
     localuser->pos.x += dx;
     localuser->pos.y += dy;
@@ -319,11 +347,6 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
         if ((path[seg+1][0] - path[seg][0]) < 0) {
           azn += M_PI;
         }
-#if 0 //dax
-        float azo =  atan((path[seg][1] - path[seg-1][1]) /
-                          (path[seg][0] - path[seg-1][0]));
-        if ((path[seg][0] - path[seg-1][0]) < 0)  azo += M_PI;
-#endif
         float da = deltaAngle(azn, 0);
         move.aspeed.v[0] = da / path[seg][4];
       }
@@ -351,7 +374,7 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
   }
   else {
     once = true;
-    restore((User *)localuser);
+    restore((User *) localuser);
   }
 #endif
   return true;
@@ -427,6 +450,13 @@ void Guide::render()
   glPopAttrib();
 }
 
+void Guide::attach(Guide *o, void *d, time_t s, time_t u)
+{
+  if (! o->stuck) {
+    o->initUser();
+  }
+}
+
 void Guide::showhide(Guide *o, void *d, time_t s, time_t u)
 {
   o->show ^= 1;
@@ -435,6 +465,11 @@ void Guide::showhide(Guide *o, void *d, time_t s, time_t u)
 void Guide::pausecontinue(Guide *o, void *d, time_t s, time_t u)
 {
   o->pause ^= 1;
+}
+
+void Guide::loop(Guide *o, void *d, time_t s, time_t u)
+{
+  o->perpetual ^= 1;
 }
 
 void Guide::reset(Guide *o, void *d, time_t s, time_t u)
@@ -451,8 +486,10 @@ void Guide::quit()
 
 void Guide::funcs()
 {
-  setActionFunc(GUIDE_TYPE, 0, WO_ACTION gotoFront, "Approach");
+  setActionFunc(GUIDE_TYPE, 0, WO_ACTION attach, "Attach");
   setActionFunc(GUIDE_TYPE, 1, WO_ACTION showhide, "Show/Hide");
   setActionFunc(GUIDE_TYPE, 2, WO_ACTION pausecontinue, "Pause/Continue");
-  setActionFunc(GUIDE_TYPE, 3, WO_ACTION reset, "Reset");
+  setActionFunc(GUIDE_TYPE, 3, WO_ACTION loop, "Loop");
+  setActionFunc(GUIDE_TYPE, 4, WO_ACTION gotoFront, "Approach");
+  setActionFunc(GUIDE_TYPE, 5, WO_ACTION reset, "Reset");
 }

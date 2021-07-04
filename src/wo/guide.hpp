@@ -97,8 +97,11 @@ private:
   virtual void defaults();
   /**< init default values */
 
+  virtual void initUser();
+  /**< Sets User on the guide */
+
   virtual void motion();
-  /**< Returns current speed */
+  /**< Movement */
 
   virtual void motion(float *dx, float *dy, float *dz);
   /**< Returns deltas */
@@ -110,8 +113,10 @@ private:
   /**< Restores initial positions */
 
   /** Callbacks from GUI */
+  static void attach(Guide *o, void *d, time_t s, time_t u);
   static void showhide(Guide *o, void *d, time_t s, time_t u);
   static void pausecontinue(Guide *o, void *d, time_t s, time_t u);
+  static void loop(Guide *o, void *d, time_t s, time_t u);
   static void reset(Guide *o, void *d, time_t s, time_t u);
 };
 
