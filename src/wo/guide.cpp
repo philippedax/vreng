@@ -114,6 +114,7 @@ Guide::Guide(char *l)
 
   guide = this;
 
+  //dax enableBehavior(COLLIDE_ONCE);
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
@@ -136,15 +137,9 @@ void Guide::updateTime(time_t sec, time_t usec, float *lasting)
   updateLasting(sec, usec, lasting);
 }
 
-/** Imposed movements  - notused */
-void Guide::changePosition(float lasting)
+void sigguide(int s)
 {
-  error("changePosition");
-  pos.az += lasting * move.aspeed.v[0];
-  updatePosition();
-
-  localuser->pos.az = pos.az;
-  localuser->updatePositionAndGrid(localuser->pos);
+  guide->pause = false;
 }
 
 void Guide::motion()
@@ -154,11 +149,11 @@ void Guide::motion()
                   (path[seg+1][2]-path[seg][2]) * (path[seg+1][2]-path[seg][2]));
 
   if (! pause) {
-    updatePositionAndGrid(pos);
     pos.x += ((path[seg+1][0] - path[seg][0]) * path[seg][3] / 100) / nn;
     pos.y += ((path[seg+1][1] - path[seg][1]) * path[seg][3] / 100) / nn;
     pos.z += ((path[seg+1][2] - path[seg][2]) * path[seg][3] / 100) / nn;
-    updatePosition();
+    updatePositionAndGrid(pos);
+    //dax updatePosition();
   }
 }
 
@@ -172,14 +167,18 @@ void Guide::motion(float *dx, float *dy, float *dz)
     *dx = *dy = *dz = 0;
   }
   else {
-    updatePositionAndGrid(pos);
+#if 0 //dax
+    motion();
+#else
     *dx = ((path[seg+1][0] - path[seg][0]) * path[seg][3] / 50) / nn;
     *dy = ((path[seg+1][1] - path[seg][1]) * path[seg][3] / 50) / nn;
     *dz = ((path[seg+1][2] - path[seg][2]) * path[seg][3] / 50) / nn;
     pos.x += *dx;
     pos.y += *dy;
     pos.z += *dz;
-    updatePosition();
+    updatePositionAndGrid(pos);
+    //dax updatePosition();
+#endif
   }
 }
 
@@ -195,11 +194,53 @@ void Guide::changePermanent(float lasting)
     }
     if (seg >= segs) seg = 0;
   }
-}
+#if 0 //dax
+  else if (stuck) {
+     float dx, dy, dz;
+    motion(&dx, &dy, &dz);
+    localuser->pos.x += dx;
+    localuser->pos.y += dy;
+    localuser->pos.z += dz + .05;
+    localuser->pos.az = pos.az;
+    localuser->updatePositionAndGrid(localuser->pos);
 
-void sigguide(int s)
-{
-  guide->pause = false;
+    if ((floor(pos.x) == path[seg+1][0]) &&
+        (floor(pos.y) == path[seg+1][1])) {  // new segment
+      seg++;  // next segment
+      if (path[seg][4]) {  // pause
+        pause = true;
+        signal(SIGALRM, sigguide);
+        alarm((uint32_t) path[seg][4]);  // set delay
+        float azn =  atan((path[seg+1][1] - path[seg][1]) /
+                          (path[seg+1][0] - path[seg][0]));
+        if ((path[seg+1][0] - path[seg][0]) < 0) {
+          azn += M_PI;
+        }
+        float da = deltaAngle(azn, 0);
+        move.aspeed.v[0] = da / path[seg][4];
+      }
+    }
+    else {
+      signal(SIGALRM, SIG_IGN);
+      motion(&dx, &dy, &dz);
+      localuser->pos.x += dx;
+      localuser->pos.y += dy;
+      localuser->pos.z += dz;
+      localuser->updatePositionAndGrid(localuser->pos);
+    }
+
+    // new orientation
+    float az = atan((path[seg+1][1] - path[seg][1]) /
+                    (path[seg+1][0] - path[seg][0]));
+    if ((path[seg+1][0] - path[seg][0]) < 0) {
+      az += M_PI;
+    }
+    pos.az = az;
+    localuser->pos.az = pos.az;	// user takes same orientation than guide
+    updatePositionAndGrid(pos);
+    localuser->updatePositionAndGrid(localuser->pos);
+  }
+#endif
 }
 
 /**
@@ -210,6 +251,7 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
 {
   static bool once = true;
 
+  //dax if (stuck) return true;
   if (perpetual) return true;
 
   if (pcur->type != USER_TYPE) {
@@ -240,15 +282,17 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
       alarm((uint32_t) path[seg][4]);	// set delay
     }
     once = false;
+    enablePermanentMovement();
   }
 
+#if 1 //dax
   if (path[seg][3]) {
     float dx, dy, dz;
     motion(&dx, &dy, &dz);
     // user follows the guide
     localuser->pos.x += dx;
     localuser->pos.y += dy;
-    localuser->pos.z += dz + .05;  // + 1cm
+    localuser->pos.z += dz + .05;  // + 5cm
     localuser->updatePositionAndGrid(localuser->pos);
     //error("follow: %.2f %.2f %.2f, %.3f %.3f %.3f", localuser->pos.x,localuser->pos.y,localuser->pos.z,dx,dy,dz);
     if (localuser->pos.x == pold->pos.x && localuser->pos.y == pold->pos.y) {
@@ -298,13 +342,15 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
       pos.az = az;
       localuser->pos.az = pos.az;	// user takes same orientation than guide
     }
-    // update user position
+    // update position
+    updatePositionAndGrid(pos);
     localuser->updatePositionAndGrid(localuser->pos);
   }
   else {
     once = true;
     restore((User *)localuser);
   }
+#endif
   return true;
 }
 
@@ -319,24 +365,27 @@ void Guide::restore(User *user)
   updatePositionAndGrid(pos);
 
   if (oneway)
-    warning("end of trip");
+    notice("end of trip");
   else {
     user->pos.x = userpos[0];
     user->pos.y = userpos[1];
     user->pos.z = userpos[2];
     user->pos.az = userpos[3];
     user->updatePositionAndGrid(user->pos);
-    warning("end of tour");
+    notice("end of tour");
   }
+  stuck = false;
 }
 
 bool Guide::whenIntersectOut(WObject *pcur, WObject *pold)
 {
   //error("out guide");
+#if 0 //dax
   if (pcur->type == USER_TYPE) {
     stuck = false;
     return true;
   }
+#endif
   return false;
 }
 

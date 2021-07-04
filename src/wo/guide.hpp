@@ -72,9 +72,6 @@ public:
 
   virtual void updateTime(time_t sec, time_t usec, float *lasting);
 
-  virtual void changePosition(float lasting);
-  /**< Does any position changes */
-
   virtual void changePermanent(float lasting);
   /**< Perpetually movement */
 
