@@ -26,14 +26,16 @@
 
 const OClass Guide::oclass(GUIDE_TYPE, "Guide", Guide::creator);
 
-const uint8_t Guide::GUIDE_MAX = 32;
+#define GUIDE_MAX 32
+
+const uint8_t Guide::GUIDE_DIM = GUIDE_MAX;
 const float Guide::GUIDE_DELTAZ = 0.02;
 const float Guide::GUIDE_COLOR[] = {0, 1, 0};
 
 // local
 static uint16_t oid = 0;
 static Guide *guide = NULL;
-static float path[32][5];	///< array of positions-speed-pause in the path
+static float path[GUIDE_MAX][5]; ///< array of positions-speed-pause in the path
 static float color[3];		///< path's color
 static float origin[4];		///< origin position of guide
 static float userpos[4];	///< initial position of user
@@ -57,7 +59,7 @@ void Guide::defaults()
   show = true;
   pause = false;
 
-  for (int i=0; i < GUIDE_MAX; i++) for (int j=0; j<5; j++) path[i][j] = 0;
+  for (int i=0; i < GUIDE_DIM; i++) for (int j=0; j<5; j++) path[i][j] = 0;
   for (int i=0; i<3; i++) color[i] = GUIDE_COLOR[i];
 }
 

@@ -33,7 +33,7 @@
 class Guide: public WObject {
 
 private:
-  static const uint8_t GUIDE_MAX;	///< max size of the path
+  static const uint8_t GUIDE_DIM;	///< max size of the path
   static const float GUIDE_DELTAZ;	///< step in Z
   static const float GUIDE_COLOR[3];	///< path's default color
 
