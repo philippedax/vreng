@@ -271,6 +271,7 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
     userpos[1] = pold->pos.y;
     userpos[2] = pold->pos.z;
     userpos[3] = pold->pos.az;
+    updatePositionAndGrid(pos);
     localuser->pos.x = pos.x;
     localuser->pos.y = pos.y;
     localuser->pos.z += (pos.z + pos.bbs.v[2]);  // jump on the skate
