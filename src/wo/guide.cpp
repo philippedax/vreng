@@ -59,19 +59,8 @@ void Guide::defaults()
   show = true;
   pause = false;
 
-<<<<<<< HEAD
   for (int i=0; i < GUIDE_DIM; i++) for (int j=0; j<5; j++) path[i][j] = 0;
   for (int i=0; i<3; i++) color[i] = GUIDE_COLOR[i];
-=======
-  for (int i=0; i < GUIDE_MAX; i++) {
-    for (int j=0; j<5; j++) {
-      path[i][j] = 0;
-    }
-  }
-  for (int i=0; i<3; i++) {
-    color[i] = GUIDE_COLOR[i];
-  }
->>>>>>> 476d182fcfb0ed95f536171ddd0bb4b0106446a8
 }
 
 void Guide::parser(char *l)
@@ -292,22 +281,8 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
   }
 
   if (once) {
-<<<<<<< HEAD
-    // save initial position of the user
-    userpos[0] = pold->pos.x;
-    userpos[1] = pold->pos.y;
-    userpos[2] = pold->pos.z;
-    userpos[3] = pold->pos.az;
-    updatePositionAndGrid(pos);
-    localuser->pos.x = pos.x;
-    localuser->pos.y = pos.y;
-    localuser->pos.z += (pos.z + pos.bbs.v[2]);  // jump on the skate
-    localuser->pos.az = pos.az;
-    localuser->updatePositionAndGrid(localuser->pos);
-=======
     once = false;
     initUser();
->>>>>>> 476d182fcfb0ed95f536171ddd0bb4b0106446a8
     if (path[seg][4]) {	// pause
       pause = true;
       signal(SIGALRM, sigguide);
@@ -450,7 +425,7 @@ void Guide::render()
   glPopAttrib();
 }
 
-void Guide::attach(Guide *o, void *d, time_t s, time_t u)
+void Guide::visit(Guide *o, void *d, time_t s, time_t u)
 {
   if (! o->stuck) {
     o->initUser();
@@ -486,7 +461,7 @@ void Guide::quit()
 
 void Guide::funcs()
 {
-  setActionFunc(GUIDE_TYPE, 0, WO_ACTION attach, "Attach");
+  setActionFunc(GUIDE_TYPE, 0, WO_ACTION visit, "Visit");
   setActionFunc(GUIDE_TYPE, 1, WO_ACTION showhide, "Show/Hide");
   setActionFunc(GUIDE_TYPE, 2, WO_ACTION pausecontinue, "Pause/Continue");
   setActionFunc(GUIDE_TYPE, 3, WO_ACTION loop, "Loop");

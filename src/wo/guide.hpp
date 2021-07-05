@@ -113,7 +113,7 @@ private:
   /**< Restores initial positions */
 
   /** Callbacks from GUI */
-  static void attach(Guide *o, void *d, time_t s, time_t u);
+  static void visit(Guide *o, void *d, time_t s, time_t u);
   static void showhide(Guide *o, void *d, time_t s, time_t u);
   static void pausecontinue(Guide *o, void *d, time_t s, time_t u);
   static void loop(Guide *o, void *d, time_t s, time_t u);
