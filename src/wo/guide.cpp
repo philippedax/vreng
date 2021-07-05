@@ -59,8 +59,14 @@ void Guide::defaults()
   show = true;
   pause = false;
 
-  for (int i=0; i < GUIDE_DIM; i++) for (int j=0; j<5; j++) path[i][j] = 0;
-  for (int i=0; i<3; i++) color[i] = GUIDE_COLOR[i];
+  for (int i=0; i < GUIDE_DIM; i++) {
+    for (int j=0; j<5; j++) {
+      path[i][j] = 0;
+    }
+  }
+  for (int i=0; i<3; i++) {
+    color[i] = GUIDE_COLOR[i];
+  }
 }
 
 void Guide::parser(char *l)
