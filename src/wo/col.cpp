@@ -265,8 +265,8 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
             continue;
           }
           else {
-            if (rescans++ > 999) {
-              error("collide loop between %s and %s %d", getInstance(), neighbor->getInstance(), rescans);
+            if (rescans++ > 99) {
+              error("collide loop between %s & %s", getInstance(), neighbor->getInstance());
               scans = rescans = 0;
               vl = vl->next;
               continue;
