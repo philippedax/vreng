@@ -21,7 +21,6 @@
 #include "vreng.hpp"
 #include "guide.hpp"
 #include "user.hpp"	// USER_TYPE
-#include "move.hpp"	// gotoFront
 
 
 const OClass Guide::oclass(GUIDE_TYPE, "Guide", Guide::creator);
@@ -471,6 +470,5 @@ void Guide::funcs()
   setActionFunc(GUIDE_TYPE, 1, WO_ACTION showhide, "Show/Hide");
   setActionFunc(GUIDE_TYPE, 2, WO_ACTION pausecontinue, "Pause/Continue");
   setActionFunc(GUIDE_TYPE, 3, WO_ACTION loop, "Loop");
-  setActionFunc(GUIDE_TYPE, 4, WO_ACTION gotoFront, "Approach");
-  setActionFunc(GUIDE_TYPE, 5, WO_ACTION reset, "Reset");
+  setActionFunc(GUIDE_TYPE, 4, WO_ACTION reset, "Reset");
 }
