@@ -349,8 +349,6 @@ void World::setGroupAdr(uint32_t _group)
  */
 void World::compute(time_t sec, time_t usec)
 {
-  uint16_t dimx, dimy, dimz;
-
   switch (state = getState()) {
 
   case LOADING:
@@ -383,19 +381,26 @@ void World::compute(time_t sec, time_t usec)
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
       }
     }
+
     for (int i=0; i<3 ; i++) {
       bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]);
       bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]);
     }
+
     notice("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f",
            bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
 
     OList::clearIspointed(mobileList);
 
-    // compute Grid dimensions
-    dimx = (int) (bbsize.v[0] / DISTX);
-    dimy = (int) (bbsize.v[1] / DISTY);
-    dimz = (int) (bbsize.v[2] / DISTZ);
+    //
+    // computes Grid dimensions
+    //
+    {
+    uint8_t dimx, dimy, dimz;
+
+    dimx = (uint8_t) (bbsize.v[0] / DISTX);
+    dimy = (uint8_t) (bbsize.v[1] / DISTY);
+    dimz = (uint8_t) (bbsize.v[2] / DISTZ);
     dimx = (dimx % 2) ? dimx + 1 : dimx;
     dimy = (dimy % 2) ? dimy + 1 : dimy;
     dimz = (dimz % 2) ? dimz + 1 : dimz;
@@ -403,12 +408,13 @@ void World::compute(time_t sec, time_t usec)
     dimy = MIN(64, dimy);
     dimz = MIN(16, dimz);
 
-    Grid::grid()->init(dimx, dimy, dimz);
     Axis::axis()->init();
+    Grid::grid()->init(dimx, dimy, dimz);
+    }
     setState(SIMULATION);
     return;
 
-  case SIMULATION:
+  case SIMULATION:	// do movements
     //
     // user movement
     //
@@ -417,7 +423,7 @@ void World::compute(time_t sec, time_t usec)
     }
 
     //
-    // objects with imposed and permanent movements
+    // objects with imposed or permanent movements
     //
     for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if (! (*it)->isValid()) {
@@ -430,10 +436,9 @@ void World::compute(time_t sec, time_t usec)
         mobileList.remove(*it);
         continue;
       }
-      //dax if (::g.pref.dbgtrace) error("obj: %s-%s", (*it)->typeName(), (*it)->getInstance());
 
-      (*it)->imposedMovement(sec, usec);	// object imposed movement
-      (*it)->permanentMovement(sec, usec);	// object permanent movement
+      (*it)->imposedMovement(sec, usec);	// object with imposed movement
+      (*it)->permanentMovement(sec, usec);	// object with permanent movement
     }
 
     //
@@ -447,25 +452,25 @@ void World::compute(time_t sec, time_t usec)
   }
 }
 
-/* Calls worlds */
+/* Calls a world */
 // virtual private
-bool World::call(World *wpred)
+bool World::call(World *w)
 {
-  if (wpred->islinked) {
+  if (w->islinked) {
     enter(url, NULL, OLD);
-    setChan(wpred->chan);
+    setChan(w->chan);
   }
   else {
-    trace(DBG_IPMC, "call: leave chan=%s", wpred->chan);
+    trace(DBG_IPMC, "call: leave chan=%s", w->chan);
     if (Channel::current()) {
       delete Channel::current();	// leave current channel
     }
 
-    enter(url, NULL, OLD);
+    enter(url, NULL, OLD);		// enter in this world
 
-    char groupstr[GROUP_LEN];
-    Channel::getGroup(chan, groupstr);
-    group = inet_addr(groupstr);
+    char grpstr[GROUP_LEN];
+    Channel::getGroup(chan, grpstr);
+    group = inet_addr(grpstr);
 
     trace(DBG_IPMC, "call: join chan=%s", chan);
     if (Channel::join(chan) == 0) {	// join previous channel
@@ -480,7 +485,7 @@ bool World::call(World *wpred)
 
 /* Go to the previous World */
 // static
-World * World::goBack()
+World * World::goPrev()
 {
   World *worldback = worldList->next;
   if (! worldback) return NULL;	// no prev world
@@ -508,7 +513,7 @@ World * World::goBack()
 
 /* Go to the next World */
 // static
-World * World::goForward()
+World * World::goNext()
 {
   if (! worldList->next) return NULL;	// no forward world
 
@@ -567,7 +572,7 @@ void World::initGrid()
   bbslice.v[1] = DISTY;
   bbslice.v[2] = DISTZ;
   localGrid();
-        
+
   clearGrid();
 }
 

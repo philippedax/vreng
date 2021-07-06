@@ -134,8 +134,8 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
   UAppli::onMessage("put",    ucall(this, &Widgets::putMessage));
   UAppli::onMessage("get",    ucall(this, &Widgets::getMessage));
   UAppli::onMessage("move",   ucall(this, &Widgets::moveMessage));
-  UAppli::onMessage("back",   ucall(this, &Widgets::backCB));
-  UAppli::onMessage("forward",ucall(this, &Widgets::forwardCB));
+  UAppli::onMessage("back",   ucall(this, &Widgets::prevCB));
+  UAppli::onMessage("forward",ucall(this, &Widgets::nextCB));
   UAppli::onMessage("home",   ucall(this, &Widgets::homeCB));
 }
 
@@ -144,9 +144,9 @@ UBox& Widgets::createInfobar()
 {
   UBox& navigbox =
   uhbox(upadding(8,0) + uhspacing(8) + uleft() + UFont::bold
-        + uitem(USymbol::left + UBackground::green  + utip("Prev world") + ucall(this, &Widgets::backCB))
+        + uitem(USymbol::left + UBackground::green  + utip("Prev world") + ucall(this, &Widgets::prevCB))
         + uitem(USymbol::up   + UBackground::green  + utip("Home world") + ucall(this, &Widgets::homeCB))
-        + uitem(USymbol::right + UBackground::green + utip("Next world") + ucall(this, &Widgets::forwardCB))
+        + uitem(USymbol::right + UBackground::green + utip("Next world") + ucall(this, &Widgets::nextCB))
         + usepar()
         );
   // infos initially contains the welcome message,
@@ -185,8 +185,8 @@ UBox& Widgets::createMenubar()
 
   UMenu& history_menu =
   umenu(g.theme.menuStyle
-        + ubutton("Previous World"   + ucall(this, &Widgets::backCB))
-        + ubutton("Next World"       + ucall(this, &Widgets::forwardCB))
+        + ubutton("Previous World"   + ucall(this, &Widgets::prevCB))
+        + ubutton("Next World"       + ucall(this, &Widgets::nextCB))
         + ubutton("Home"             + ucall(this, &Widgets::homeCB))
         + ubutton("Visited Worlds >" + umenu(g.theme.menuStyle + worlds))
        );
@@ -471,14 +471,14 @@ void Widgets::homeCB()
   if (audioactive) Audio::start(chan_str);
 }
 
-void Widgets::backCB()
+void Widgets::prevCB()
 {
-  World::goBack();
+  World::goPrev();
 }
 
-void Widgets::forwardCB()
+void Widgets::nextCB()
 {
-  World::goForward();
+  World::goNext();
 }
 
 void Widgets::saveCB()

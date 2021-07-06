@@ -173,8 +173,8 @@ private:
   void moveMessage(UMessageEvent&);
 
   // Widgets internal methods
-  void backCB();
-  void forwardCB();
+  void prevCB();
+  void nextCB();
   void homeCB();
   void saveCB();
   void helpCB();

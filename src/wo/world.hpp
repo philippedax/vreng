@@ -25,7 +25,7 @@
 
 using namespace std;
 
-#define MAX_WORLDS	256	// uint8_t
+#define MAX_WORLDS 256
 
 
 /**
@@ -116,16 +116,16 @@ class World {
   virtual void checkPersist();
   /**< Checks whether objects are persistents. */
 
-  //
-  // Accessors
-  //
-
  public:
 
   enum {
     OLD,
     NEW
   };
+
+  //
+  // Accessors
+  //
 
   virtual const char* getName() const;		///< Gets current world name.
   virtual void setName(const char* name);	///< Builds world name from url.
@@ -182,15 +182,17 @@ class World {
   // World methods
   // static methods
   //
-  static World* current();		///< Return the current world.
+  static World* current();
+  /**< Return the current world. */
 
-  static World* goBack();		///< Go to the previous world and return it.
-  static World* goForward();		///< Go to the next world and return it.
+  static World* goPrev();
+  /**< Go to the previous world and return it. */
 
-  static World* swap(World *w);		///< Exchanges Worlds in the list.
+  static World* goNext();
+  /**< Go to the next world and return it. */
 
-  static World* worldByUrl(const char *_url);	///< Gets world by url.
-  static World* worldByGroup(uint32_t group);	///< Gets world by group addr.
+  static World* swap(World *w);
+  /**< Exchanges Worlds in the list. */
 
   static World* enter(const char* _url, const char* _chanstr, bool _new_one);
   /**< New World initialization. */
@@ -200,6 +202,12 @@ class World {
 
   static void worldReader(void *urlvre, class Http *http);
   /**< World reader. */
+
+  static World* worldByUrl(const char *_url);
+  /**< Gets world by url. */
+
+  static World* worldByGroup(uint32_t group);
+  /**< Gets world by group addr. */
 
   static void deleteObjects();
   /**< Deletes all objects dropped in the todeletelist. */
@@ -220,6 +228,5 @@ class World {
   /**< Clears all lists. */
 
 };
-
 
 #endif
