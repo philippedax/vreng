@@ -34,10 +34,20 @@ const float Guide::GUIDE_COLOR[] = {0, 1, 0};
 // local
 static uint16_t oid = 0;
 static Guide *guide = NULL;
-static float path[GUIDE_MAX][5]; ///< array of positions-speed-pause in the path
 static float color[3];		///< path's color
 static float origin[4];		///< origin position of guide
 static float userpos[4];	///< initial position of user
+
+/*
+ * path format:
+ *
+ * path="point1, point2, ..., pointn"
+ * pointi = xi yi zi speedi, delayi
+ * seg0 = point1 - origin (pos)
+ * segi = pointi+1 - pointi
+ * guide = origin---point1---point2--- ... ---pointn
+ */
+static float path[GUIDE_MAX][5]; ///< array of positions-speed-pause in the path
 
 
 /* creation from a file */
