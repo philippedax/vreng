@@ -207,7 +207,7 @@ void Guide::changePermanent(float lasting)
 
 #if 0 //dax
   else if (stuck) {
-     float dx, dy, dz;
+    float dx, dy, dz;
     motion(&dx, &dy, &dz);
     localuser->pos.x += dx;
     localuser->pos.y += dy;
@@ -391,17 +391,16 @@ void Guide::restore(User *user)
     notice("end of tour");
   }
   stuck = false;
+  perpetual = false;
 }
 
 bool Guide::whenIntersectOut(WObject *pcur, WObject *pold)
 {
   //error("out guide");
-#if 0 //dax
   if (pcur->type == USER_TYPE) {
     stuck = false;
     return true;
   }
-#endif
   return false;
 }
 
