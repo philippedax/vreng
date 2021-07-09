@@ -154,9 +154,15 @@ url="/vre/v8/mouret.vre" channel="224.255.0.14/52796/127">
 -->
 
 <!-- mythology 224.255.0.15 -->
-<gate name="mythology" pos="17.5 -2 1 1.57"
+<gate name="mythology" pos="17.5 -1 1 1.57"
 url="/vre/v8/mythology.vre" channel="224.255.0.15/52806/127">
 <solid dim="1.6 .2 2" xn="/gif/mythology2.gif" />
+</gate>
+
+<!-- guide 224.255.0.31 -->
+<gate name="guide" pos="18.5 -3 1 1.57"
+url="/vre/v8/guide.vre" channel="224.255.0.31/52966/127">
+<solid dim="1.6 .2 2" xn="/gif/bluebands.gif" />
 </gate>
 
 <!-- classroom 224.255.0.16 -->
