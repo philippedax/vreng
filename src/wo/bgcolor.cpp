@@ -40,8 +40,9 @@ void Bgcolor::parser(char *l)
 {
   l = tokenize(l);
   begin_while_parse(l) {
-    if (!stringcmp(l, "color="))
+    if (!stringcmp(l, "color=")) {
       l = parse()->parseVector3f(l, color, "color");
+    }
   }
   end_while_parse(l);
 }
@@ -56,10 +57,6 @@ Bgcolor::Bgcolor(char *l)
   wcolor->color[1] = color[1];
   wcolor->color[2] = color[2];
   wcolor->color[3] = 1;
-  wcolor->color_dec[0] = (int) (color[0] * 255);
-  wcolor->color_dec[1] = (int) (color[1] * 255);
-  wcolor->color_dec[2] = (int) (color[2] * 255);
-  wcolor->color_dec[3] = 255;
 
   initObject(INVISIBLE);
   bgcolor = this;
@@ -74,7 +71,6 @@ Bgcolor::Bgcolor()
 void Bgcolor::black()
 {
   color[0] = color[1] = color[2] = 0; color[3] = 1;
-  color_dec[0] = color_dec[1] = color_dec[2] = 0; color_dec[3] = 255;
 }
 
 void Bgcolor::quit()

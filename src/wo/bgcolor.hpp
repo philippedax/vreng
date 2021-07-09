@@ -37,7 +37,6 @@ private:
   static Bgcolor *bgcolor;	///< The singleton instance of this class
 
   float color[4];	/// buffer color
-  int color_dec[4];	/// buffer color in decimal
 
 public:
   static const OClass oclass;	///< class variable
