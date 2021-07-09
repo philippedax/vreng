@@ -254,8 +254,9 @@
 <!ATTLIST guide		name	NMTOKEN #IMPLIED>
 <!ATTLIST guide		descr	NMTOKENS #IMPLIED>
 <!ATTLIST guide		path	NMTOKENS #REQUIRED>
+<!ATTLIST guide		guide	NMTOKENS #REQUIRED>
 <!ATTLIST guide		color	NMTOKENS #IMPLIED>
-<!ATTLIST guide		mode	(one-way | round-trip | perpetual) "round-trip">
+<!ATTLIST guide		mode	(one-way | testing) "one-way">
 
 <!ELEMENT guy		EMPTY>
 <!ATTLIST guy		pos	NMTOKENS #REQUIRED>
