@@ -68,7 +68,7 @@ void Guide::defaults()
   seg = 0;
   segs = 0;
   dlist = -1;
-  oneway = true;
+  oneway = false;
   testing = false;
   stuck = false;
   restored = false;
@@ -272,6 +272,7 @@ void Guide::changePermanent(float lasting)
     if (seg >= segs) {
       seg = 0;
       testing = false;
+      restore();
     }
   }
 
@@ -319,13 +320,13 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
   }
   else {
     once = true;
-    restore((User *) localuser);
+    restore();
   }
 #endif
   return true;
 }
 
-void Guide::restore(User *user)
+void Guide::restore()
 {
   restored = true;
   seg = 0;
@@ -335,18 +336,15 @@ void Guide::restore(User *user)
   pos.az = origin[3];
   updatePositionAndGrid(pos);
 
-  if (oneway)
-    error("end of trip");
-  else {
-    user->pos.x = userpos[0];
-    user->pos.y = userpos[1];
-    user->pos.z = userpos[2];
-    user->pos.az = userpos[3];
-    user->updatePositionAndGrid(user->pos);
-    //dax error("end of tour");
+  if (! oneway) {
+    localuser->pos.x = userpos[0];
+    localuser->pos.y = userpos[1];
+    localuser->pos.z = userpos[2];
+    localuser->pos.az = userpos[3];
+    localuser->updatePositionAndGrid(localuser->pos);
+    //dax error("end of trip");
   }
   stuck = false;
-  testing = false;
 }
 
 bool Guide::whenIntersectOut(WObject *pcur, WObject *pold)
@@ -418,7 +416,7 @@ void Guide::test(Guide *o, void *d, time_t s, time_t u)
 
 void Guide::reset(Guide *o, void *d, time_t s, time_t u)
 {
-  o->restore(localuser);
+  o->restore();
 }
 
 void Guide::quit()

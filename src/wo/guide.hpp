@@ -109,7 +109,7 @@ private:
   virtual void draw(float *color);
   /**< Draws the trajectory */
 
-  virtual void restore(class User *pcur);
+  virtual void restore();
   /**< Restores initial positions */
 
   /** Callbacks from GUI */

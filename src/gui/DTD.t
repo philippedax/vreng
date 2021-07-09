@@ -255,8 +255,9 @@ const char DTD[] = "\
 <!ATTLIST guide		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST guide		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST guide		path	NMTOKENS #REQUIRED>\n\
+<!ATTLIST guide		guide	NMTOKENS #REQUIRED>\n\
 <!ATTLIST guide		color	NMTOKENS #IMPLIED>\n\
-<!ATTLIST guide		mode	(one-way | round-trip | perpetual) \"round-trip\">\n\
+<!ATTLIST guide		mode	(one-way | testing) \"one-way\">\n\
 \n\
 <!ELEMENT guy		EMPTY>\n\
 <!ATTLIST guy		pos	NMTOKENS #REQUIRED>\n\
