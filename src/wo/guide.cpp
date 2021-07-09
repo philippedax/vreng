@@ -69,7 +69,7 @@ void Guide::defaults()
   segs = 0;
   dlist = -1;
   oneway = true;
-  perpetual = false;
+  testing = false;
   stuck = false;
   restored = false;
   show = true;
@@ -98,7 +98,7 @@ void Guide::parser(char *l)
       char modestr[16];
       l = parse()->parseString(l, modestr, "mode");
       if      (! stringcmp(modestr, "one-way"))   oneway = true;
-      else if (! stringcmp(modestr, "perpetual")) perpetual = true;
+      else if (! stringcmp(modestr, "testing")) testing = true;
     }
   }
   end_while_parse(l);
@@ -116,7 +116,7 @@ void Guide::parser(char *l)
   path[0][4] = 1;
 
   segs++;	// end of path
-  if (perpetual) {
+  if (testing) {
     oneway = false;
   }
   if (oneway) {
@@ -145,7 +145,7 @@ Guide::Guide(char *l)
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 
-  if (perpetual) {
+  if (testing) {
     enablePermanentMovement();
   }
 
@@ -189,27 +189,13 @@ void sigguide(int s)
   guide->pause = false;
 }
 
-void Guide::motion()
-{
-  float nn = sqrt((path[seg+1][0]-path[seg][0]) * (path[seg+1][0]-path[seg][0]) +
-                  (path[seg+1][1]-path[seg][1]) * (path[seg+1][1]-path[seg][1]) +
-                  (path[seg+1][2]-path[seg][2]) * (path[seg+1][2]-path[seg][2]));
-
-  if (! pause) {
-    pos.x += ((path[seg+1][0] - path[seg][0]) * path[seg][3]) / nn;
-    pos.y += ((path[seg+1][1] - path[seg][1]) * path[seg][3]) / nn;
-    pos.z += ((path[seg+1][2] - path[seg][2]) * path[seg][3]) / nn;
-    updatePositionAndGrid(pos);
-  }
-}
-
+/* Do the elementary movement */
 void Guide::motion(float *dx, float *dy, float *dz)
 {
   float nn = sqrt((path[seg+1][0]-path[seg][0]) * (path[seg+1][0]-path[seg][0]) +
                   (path[seg+1][1]-path[seg][1]) * (path[seg+1][1]-path[seg][1]) +
                   (path[seg+1][2]-path[seg][2]) * (path[seg+1][2]-path[seg][2]));
 
-//dax nn = 1;
   if (pause) {
     *dx = *dy = *dz = 0;
   }
@@ -224,66 +210,75 @@ void Guide::motion(float *dx, float *dy, float *dz)
   }
 }
 
+void Guide::progress(WObject *po)
+{
+  float dx, dy, dz;
+
+  motion(&dx, &dy, &dz);
+
+  // user follows the guide
+  localuser->pos.x += dx;
+  localuser->pos.y += dy;
+  localuser->pos.z += dz + .06;  // + 5cm
+  //dax localuser->pos.z += (pos.z + pos.bbs.v[2]);
+  localuser->updatePositionAndGrid(localuser->pos);
+  //error("follow: %.2f %.2f %.2f, %.3f %.3f %.3f", localuser->pos.x,localuser->pos.y,localuser->pos.z,dx,dy,dz);
+  updatePositionAndGrid(po->pos);
+  localuser->updatePositionAndGrid(localuser->pos);
+
+  if ((floor(pos.x) == path[seg+1][0]) &&
+      (floor(pos.y) == path[seg+1][1])) {  // new segment
+    seg++;  // next segment
+    //error("seg=%d/%d", seg, segs);
+    if (path[seg][4]) {  // pause
+      pause = true;
+      signal(SIGALRM, sigguide);
+      alarm((uint32_t) path[seg][4]);  // set delay
+    }
+    else {	// no pause
+      pause = false;
+      signal(SIGALRM, SIG_IGN);
+    }
+    // new orientation
+    float az = atan((path[seg+1][1] - path[seg][1]) /
+                    (path[seg+1][0] - path[seg][0]));
+    if ((path[seg+1][0] - path[seg][0]) < 0) {
+      az += M_PI;
+    }
+    pos.az = az;
+    localuser->pos.az = pos.az;	// user takes same orientation than guide
+    float da = deltaAngle(az, 0);
+    move.aspeed.v[0] = da / path[seg][4];
+  }
+  else {	// same segment
+    updatePositionAndGrid(pos);	// update position
+    localuser->updatePositionAndGrid(localuser->pos);
+  }
+}
+
 void Guide::changePermanent(float lasting)
 {
-  if (perpetual) {
+  if (testing) {
     if (path[seg][3]) {	// speed present
-      motion();
+      float dx, dy, dz;
+
+      motion(&dx, &dy, &dz);
+
       if ((floor(pos.x) == path[seg+1][0]) &&
           (floor(pos.y) == path[seg+1][1])) {
         seg++;
       }
     }
-    if (seg >= segs) seg = 0;
+    if (seg >= segs) {
+      seg = 0;
+      testing = false;
+    }
   }
 
 #if 0 //GUIDE_ALTER
   else if (stuck) {
-    float dx, dy, dz;
-
     if (seg >= segs) return;
-
-    motion(&dx, &dy, &dz);
-
-    // user follows the guide
-    localuser->pos.x += dx;
-    localuser->pos.y += dy;
-    localuser->pos.z += (dz + .05);
-    //dax localuser->pos.z += (pos.z + pos.bbs.v[2]);
-    localuser->pos.az = pos.az;
-    updatePositionAndGrid(pos);
-    localuser->updatePositionAndGrid(localuser->pos);
-    //error("    : %.2f %.2f %.2f, %.3f %.3f %.3f", pos.x,pos.y,pos.z,dx,dy,dz);
-    //error("user: %.2f %.2f %.2f", localuser->pos.x,localuser->pos.y,localuser->pos.z);
-
-    if ((floor(pos.x) == path[seg+1][0]) &&
-        (floor(pos.y) == path[seg+1][1])) {  // new segment
-      seg++;  // next segment
-      //error("seg=%d/%d", seg, segs);
-      if (path[seg][4]) {  // pause
-        pause = true;
-        signal(SIGALRM, sigguide);
-        alarm((uint32_t) path[seg][4]);  // set delay
-      }
-      else {	// no pause
-        pause = false;
-        signal(SIGALRM, SIG_IGN);
-      }
-
-      // new orientation
-      float az = atan((path[seg+1][1] - path[seg][1]) /
-                      (path[seg+1][0] - path[seg][0]));
-      if ((path[seg+1][0] - path[seg][0]) < 0) {
-        az += M_PI;
-      }
-      float da = deltaAngle(az, 0);
-      move.aspeed.v[0] = da / path[seg][4];
-      pos.az = az;
-      localuser->pos.az = pos.az;	// user takes same orientation than guide
-    }
-    // update position
-    updatePositionAndGrid(pos);
-    localuser->updatePositionAndGrid(localuser->pos);
+    progress(this);
   }
 #endif
 }
@@ -296,7 +291,7 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
 {
   static bool once = true;
 
-  if (perpetual) return true;
+  if (testing) return true;
 
   if (pcur->type != USER_TYPE) {
     pold->copyPositionAndBB(pcur);
@@ -320,60 +315,7 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
 
 #if 1 //GUIDE_ALTER //dax
   if (path[seg][3]) {	// speed present
-    float dx, dy, dz;
-
-    motion(&dx, &dy, &dz);
-
-    // user follows the guide
-    localuser->pos.x += dx;
-    localuser->pos.y += dy;
-    localuser->pos.z += dz + .05;  // + 5cm
-    //dax localuser->pos.z += (pos.z + pos.bbs.v[2]);
-    localuser->updatePositionAndGrid(localuser->pos);
-    //error("follow: %.2f %.2f %.2f, %.3f %.3f %.3f", localuser->pos.x,localuser->pos.y,localuser->pos.z,dx,dy,dz);
-    updatePositionAndGrid(pold->pos);
-    localuser->updatePositionAndGrid(localuser->pos);
-
-    if ((floor(pos.x) == path[seg+1][0]) &&
-        (floor(pos.y) == path[seg+1][1])) {  // new segment
-      seg++;  // next segment
-      //error("segm=%d", seg);
-      if (path[seg][4]) {  // pause
-        pause = true;
-        signal(SIGALRM, sigguide);
-        alarm((uint32_t) path[seg][4]);  // set delay
-        //dax float azn =  atan((path[seg+1][1] - path[seg][1]) /
-        //dax                   (path[seg+1][0] - path[seg][0]));
-        //dax if ((path[seg+1][0] - path[seg][0]) < 0) {
-        //dax   azn += M_PI;
-        //dax }
-        //dax float da = deltaAngle(azn, 0);
-        //dax move.aspeed.v[0] = da / path[seg][4];
-      }
-      else {	// no pause
-        pause = false;
-        signal(SIGALRM, SIG_IGN);
-        //dax motion(&dx, &dy, &dz);
-        //dax localuser->pos.x += dx;
-        //dax localuser->pos.y += dy;
-        //dax localuser->pos.z += dz;
-        //dax localuser->updatePositionAndGrid(localuser->pos);
-      }
-
-      // new orientation
-      float az = atan((path[seg+1][1] - path[seg][1]) /
-                      (path[seg+1][0] - path[seg][0]));
-      if ((path[seg+1][0] - path[seg][0]) < 0) {
-        az += M_PI;
-      }
-      float da = deltaAngle(az, 0);
-      move.aspeed.v[0] = da / path[seg][4];
-      pos.az = az;
-      localuser->pos.az = pos.az;	// user takes same orientation than guide
-    }
-    // update position
-    updatePositionAndGrid(pos);
-    localuser->updatePositionAndGrid(localuser->pos);
+    progress(pold);
   }
   else {
     once = true;
@@ -404,7 +346,7 @@ void Guide::restore(User *user)
     //dax error("end of tour");
   }
   stuck = false;
-  perpetual = false;
+  testing = false;
 }
 
 bool Guide::whenIntersectOut(WObject *pcur, WObject *pold)
@@ -426,9 +368,9 @@ void Guide::draw(float *color)
 {
   dlist = glGenLists(1);
   glNewList(dlist, GL_COMPILE);
-  glLineWidth(8);
+  glLineWidth(5);
   glEnable(GL_LINE_STIPPLE);
-  glLineStipple(1, 0x3333);
+  glLineStipple(1, 0x5555);
   glBegin(GL_LINE_LOOP);
   for (int i=0; i < segs ; i++) {
     glColor3fv(color);
@@ -469,9 +411,9 @@ void Guide::pausecontinue(Guide *o, void *d, time_t s, time_t u)
   o->pause ^= 1;
 }
 
-void Guide::loop(Guide *o, void *d, time_t s, time_t u)
+void Guide::test(Guide *o, void *d, time_t s, time_t u)
 {
-  o->perpetual ^= 1;
+  o->testing ^= 1;
 }
 
 void Guide::reset(Guide *o, void *d, time_t s, time_t u)
@@ -489,8 +431,8 @@ void Guide::quit()
 void Guide::funcs()
 {
   setActionFunc(GUIDE_TYPE, 0, WO_ACTION visit, "Visit");
-  setActionFunc(GUIDE_TYPE, 1, WO_ACTION showhide, "Show/Hide");
-  setActionFunc(GUIDE_TYPE, 2, WO_ACTION pausecontinue, "Pause/Continue");
-  setActionFunc(GUIDE_TYPE, 3, WO_ACTION loop, "Loop");
+  setActionFunc(GUIDE_TYPE, 1, WO_ACTION showhide, "Show");
+  setActionFunc(GUIDE_TYPE, 2, WO_ACTION pausecontinue, "Pause");
+  setActionFunc(GUIDE_TYPE, 3, WO_ACTION test, "Test");
   setActionFunc(GUIDE_TYPE, 4, WO_ACTION reset, "Reset");
 }

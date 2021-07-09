@@ -37,7 +37,7 @@ private:
   static const float GUIDE_DELTAZ;	///< step in Z
   static const float GUIDE_COLOR[3];	///< path's default color
 
-  bool perpetual;	///< flag mode perpetual
+  bool testing;		///< flag mode testing
   bool oneway;		///< flag mode one-way/round-trip
   bool show;		///< flag show path
   bool stuck;		///< flag inside/outside
@@ -100,11 +100,11 @@ private:
   virtual void initUser();
   /**< Sets User on the guide */
 
-  virtual void motion();
-  /**< Movement */
-
   virtual void motion(float *dx, float *dy, float *dz);
   /**< Returns deltas */
+
+  virtual void progress(WObject *po);
+  /**< Progress along the guide */
 
   virtual void draw(float *color);
   /**< Draws the trajectory */
@@ -116,7 +116,7 @@ private:
   static void visit(Guide *o, void *d, time_t s, time_t u);
   static void showhide(Guide *o, void *d, time_t s, time_t u);
   static void pausecontinue(Guide *o, void *d, time_t s, time_t u);
-  static void loop(Guide *o, void *d, time_t s, time_t u);
+  static void test(Guide *o, void *d, time_t s, time_t u);
   static void reset(Guide *o, void *d, time_t s, time_t u);
 };
 
