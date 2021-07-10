@@ -363,7 +363,7 @@ XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag)
 #else
         printf("%s",message);
 #endif
-        exit(255);
+        //dax exit(255);
     }
     return xnode;
 }
