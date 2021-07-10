@@ -69,7 +69,7 @@ void Guide::defaults()
   seg = 0;
   segs = 0;
   dlist = -1;
-  oneway = false;
+  oneway = true;
   testing = false;
   stuck = false;
   restored = false;
@@ -98,7 +98,7 @@ void Guide::parser(char *l)
     else if (! stringcmp(l, "mode=")) {
       char modestr[16];
       l = parse()->parseString(l, modestr, "mode");
-      if      (! stringcmp(modestr, "one-way"))   oneway = true;
+      if      (! stringcmp(modestr, "one-way")) oneway = true;
       else if (! stringcmp(modestr, "testing")) testing = true;
     }
   }
@@ -229,10 +229,10 @@ void Guide::progress(WObject *po)
   localuser->updatePositionAndGrid(localuser->pos);
 
   if ((floor(pos.x) == path[seg+1][0]) &&
-      (floor(pos.y) == path[seg+1][1])) {  // new segment
-    seg++;  // next segment
+      (floor(pos.y) == path[seg+1][1])) {  // is next segment?
+    seg++;	// next segment
     //error("seg=%d/%d", seg, segs);
-    if (path[seg][4]) {  // pause
+    if (path[seg][4]) {		// is pause?
       signal(SIGALRM, sigguide);
       alarm((uint32_t) path[seg][4]);  // set delay
       pause = true;
@@ -241,7 +241,7 @@ void Guide::progress(WObject *po)
       signal(SIGALRM, SIG_IGN);
       pause = false;
     }
-    // new orientation
+    // orientation
     float az = atan((path[seg+1][1] - path[seg][1]) /
                     (path[seg+1][0] - path[seg][0]));
     if ((path[seg+1][0] - path[seg][0]) < 0) {
@@ -249,6 +249,7 @@ void Guide::progress(WObject *po)
     }
     pos.az = az;
     localuser->pos.az = pos.az;	// user takes same orientation than guide
+    // angular speed
     float da = deltaAngle(az, 0);
     move.aspeed.v[0] = da / path[seg][4];
   }

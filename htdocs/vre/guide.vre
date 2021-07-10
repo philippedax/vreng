@@ -13,8 +13,7 @@
 <guide name="skate-board"
  pos="4 0 .2 1.57"
  path="14 35 8.2 .2 1, 80 33 .2 .2 1, 91 9 .2 .2 1, 88 -24 .2 .2 1, 70 -17 .2 .2 1, 50 -20 .2 .1 1, 23 -10 .2 .1 1, 4 -4 .0 0 0"
- color="blue"
- mode="one-way">
+ color="blue">
   <solid dim="1.2 .8 .1" tx="/gif/bluebands.gif" />
   <solid shape="sphere" r="0.1" rel="0.4 0.4 -0.1 0 0"   dif="grey" />
   <solid shape="sphere" r="0.1" rel="0.4 -0.4 -0.1 0 0"  dif="grey" />
@@ -29,7 +28,7 @@
 </text>
 
 <!-- sky -->
-<bgcolor color=".4 .1 0"></bgcolor>
+<bgcolor color="skyblue"></bgcolor>
 <!-- sun -->
 <mirage name="sun" pos="200 50 80">
   <solid shape="sphere" r="5" emi="1 1 0" amb="1 1 1" dif="1 1 1" />
