@@ -40,7 +40,7 @@ X3d::X3d(const char *_url) : rootShape(0)
 {
   defaults(_url);
 
-  loadFromFile(url);
+  //dax loadFromFile(url);	// bad url != filename
   Http::httpOpen(url, httpReader, this, 0);
 }
 
@@ -64,6 +64,7 @@ void X3d::httpReader(void *_x3d, class Http *http)
   char filename[PATH_LEN];
   Cache::setCacheName(x3d->getUrl(), filename);
 
+  //error("X3d filename=%s", filename);
   if ((f = File::openFile(filename, "r")) == NULL) {
     if ((f = File::openFile(filename, "w")) == NULL) {
       error("x3dReader: can't create %s", filename);
@@ -97,8 +98,8 @@ bool X3d::loadFromFile(char *filename)
     interpolators[i].updateValue(0);
 
   //affichage de l'arbre xml - useless now
-  //XMLSTR result = xMainNode.createXMLString(1);
-  //printf("xml tree: %s", result);
+  //dax XMLSTR result = xMainNode.createXMLString(1);
+  //dax printf("xml tree: %s", result);
 
   return true;
 }
