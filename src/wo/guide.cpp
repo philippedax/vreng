@@ -21,6 +21,7 @@
 #include "vreng.hpp"
 #include "guide.hpp"
 #include "user.hpp"	// USER_TYPE
+#include "timer.hpp"	// delta()
 
 
 const OClass Guide::oclass(GUIDE_TYPE, "Guide", Guide::creator);
@@ -192,9 +193,10 @@ void sigguide(int s)
 /* Do the elementary movement */
 void Guide::motion(float *dx, float *dy, float *dz)
 {
-  float nn = sqrt((path[seg+1][0]-path[seg][0]) * (path[seg+1][0]-path[seg][0]) +
-                  (path[seg+1][1]-path[seg][1]) * (path[seg+1][1]-path[seg][1]) +
-                  (path[seg+1][2]-path[seg][2]) * (path[seg+1][2]-path[seg][2]));
+  float nn = sqrt( (path[seg+1][0]-path[seg][0]) * (path[seg+1][0]-path[seg][0]) +
+                   (path[seg+1][1]-path[seg][1]) * (path[seg+1][1]-path[seg][1]) +
+                   (path[seg+1][2]-path[seg][2]) * (path[seg+1][2]-path[seg][2])
+                 );
 
   if (pause) {
     *dx = *dy = *dz = 0;
@@ -219,7 +221,7 @@ void Guide::progress(WObject *po)
   // user follows the guide
   localuser->pos.x += dx;
   localuser->pos.y += dy;
-  localuser->pos.z += dz + .06;  // + 5cm
+  localuser->pos.z += dz + .06;  // + 6cm
   //dax localuser->pos.z += (pos.z + pos.bbs.v[2]);
   localuser->updatePositionAndGrid(localuser->pos);
   //error("follow: %.2f %.2f %.2f, %.3f %.3f %.3f", localuser->pos.x,localuser->pos.y,localuser->pos.z,dx,dy,dz);
@@ -231,13 +233,13 @@ void Guide::progress(WObject *po)
     seg++;  // next segment
     //error("seg=%d/%d", seg, segs);
     if (path[seg][4]) {  // pause
-      pause = true;
       signal(SIGALRM, sigguide);
       alarm((uint32_t) path[seg][4]);  // set delay
+      pause = true;
     }
     else {	// no pause
-      pause = false;
       signal(SIGALRM, SIG_IGN);
+      pause = false;
     }
     // new orientation
     float az = atan((path[seg+1][1] - path[seg][1]) /
@@ -278,7 +280,9 @@ void Guide::changePermanent(float lasting)
 
 #if 0 //GUIDE_ALTER
   else if (stuck) {
-    if (seg >= segs) return;
+    if (seg >= segs) {
+      return;	// end of trip
+    }
     progress(this);
   }
 #endif
@@ -292,7 +296,9 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
 {
   static bool once = true;
 
-  if (testing) return true;
+  if (testing) {
+    return true;
+  }
 
   if (pcur->type != USER_TYPE) {
     pold->copyPositionAndBB(pcur);
@@ -303,14 +309,19 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
     once = true;
     restored = false;
   }
+  //static struct timeval begin, end;
+  //float dt;
 
   if (once) {
+    //gettimeofday(&begin, NULL);
+    //dt = (float) Timer::delta();
+    //error("dt=%5.2f b=%5.2f", dt, begin.tv_sec);
     once = false;
     initUser();
     if (path[seg][4]) {	// pause
-      pause = true;
       signal(SIGALRM, sigguide);
       alarm((uint32_t) path[seg][4]);	// set delay
+      pause = true;
     }
   }
 
@@ -319,6 +330,10 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
     progress(pold);
   }
   else {
+    //gettimeofday(&end, NULL);
+    //dt = Timer::diffDates(begin, end);
+    //dt = (float) Timer::delta();
+    //error("dt=%5.2f b=%5.2f e=%5.2f", dt, begin.tv_sec, end.tv_sec);
     once = true;
     restore();
   }
