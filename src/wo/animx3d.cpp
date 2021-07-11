@@ -72,6 +72,7 @@ AnimX3d::AnimX3d(char *l)
   x3dmodel = new X3d(names.url);
   X3dModel = x3dmodel;
 
+  enableBehavior(SPECIFIC_RENDER);
   initMobileObject(0);
 }
 
@@ -83,8 +84,10 @@ X3d * AnimX3d::current()
 void AnimX3d::render()
 {
   glPushMatrix();
-  glTranslatef(pos.x, pos.y, pos.z);
-  x3dmodel->render();
+   glTranslatef(pos.x, pos.y, pos.z);
+
+   x3dmodel->render();
+
   glPopMatrix();
 }
 
