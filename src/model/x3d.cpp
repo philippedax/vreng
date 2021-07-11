@@ -40,14 +40,12 @@ X3d::X3d(const char *_url) : rootShape(0)
 {
   defaults(_url);
 
-  //dax loadFromFile(url);	// bad url != filename
   Http::httpOpen(url, httpReader, this, 0);
 }
 
 X3d::~X3d()
 {
   if (url) delete[] url;
-  //if (dlist > 0) glDeleteLists(dlist);
 }
 
 const char* X3d::getUrl() const
@@ -78,9 +76,6 @@ void X3d::httpReader(void *_x3d, class Http *http)
     File::closeFile(f);
   }
   x3d->loadFromFile(filename);
-#if 0
-  x3d->displaylist();
-#endif
 }
 
 bool X3d::loadFromFile(char *filename)
@@ -94,8 +89,9 @@ bool X3d::loadFromFile(char *filename)
   setupInterpolators();
 
   //error("initializing at time 0 animed fields");
-  for (uint32_t i=0; i< interpolators.size(); i++)
+  for (uint32_t i=0; i< interpolators.size(); i++) {
     interpolators[i].updateValue(0);
+  }
 
   //affichage de l'arbre xml - useless now
   //dax XMLSTR result = xMainNode.createXMLString(1);
@@ -441,8 +437,8 @@ GLuint X3d::drawPrimitive(X3dShapes Id)
     error("X3d - primitive %d not drawable", Id);
     dlist = 0; //on ne mettra pas dlist dans le vector des listes...
     break;
-    }
-    return dlist;
+  }
+  return dlist;
 }
 
 GLuint X3d::drawMesh(MeshInfos* meshInfos)
