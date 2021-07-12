@@ -62,6 +62,9 @@ private:
   virtual void parser(char *l);
   /**< Parses */
 
+  virtual void makeSolid();
+  /**< Makes a solid */
+
   // GUI callbacks
   static void start(AnimX3d *po, void *d, time_t s, time_t u);
   static void pause(AnimX3d *po, void *d, time_t s, time_t u);

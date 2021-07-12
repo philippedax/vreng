@@ -443,7 +443,7 @@ GLuint X3d::drawPrimitive(X3dShapes Id)
 
 GLuint X3d::drawMesh(MeshInfos* meshInfos)
 {
-#if 0 //DAXDEBUG
+#if 0 //dax debug
   //we display what we have in the temporary structure
   error("New mesh in creation:");
   printf("coordindex: ");
@@ -471,8 +471,8 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
   printf("\n");
 #endif
 
-  GLuint X3dDisplayList = glGenLists(1);;
-  glNewList(X3dDisplayList, GL_COMPILE);
+  GLuint dList = glGenLists(1);;
+  glNewList(dList, GL_COMPILE);
 
   //we browse the vectors containing a polygon each
   for (uint32_t polygonNum=0; polygonNum < meshInfos->coordIndex.size(); polygonNum++) {
@@ -511,6 +511,8 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
       //this is the vertex index we retrieve from the index list
       uint32_t tempRealVertex = (uint32_t)meshInfos->coordIndex[polygonNum][vertexNum];
       uint32_t realVertex = (uint32_t) tempRealVertex;
+
+      if (meshInfos->Coordinate.size() == 0) break;	//dax
 
       //if a vertex exists at that index
       if (realVertex < meshInfos->Coordinate.size()) {
@@ -565,12 +567,14 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
         }
         else error("coordonnees du sommet incorrectes");
       }
-      else error("index de sommet hors-limites");
+      else {
+        error("index de sommet hors-limites %d > %d", realVertex,meshInfos->Coordinate.size());
+      }
     }
     glEnd();
   }
   glEndList();
-  return X3dDisplayList;
+  return dList;
 }
 
 void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
@@ -586,7 +590,6 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
     ambient[1] = myShape->ambientIntensity * myShape->diffuse[1];
     ambient[2] = myShape->ambientIntensity * myShape->diffuse[2];
     ambient[3] = myShape->transparencyOn ? myShape->transparency : 1;
-
     glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
   }
   if (myShape->shininessOn)
@@ -611,7 +614,7 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
     glScalef(myShape->scale[0], myShape->scale[1], myShape->scale[2]);
 
   for (std::vector<GLuint>::iterator i = myShape->meshes.begin(); i!=myShape->meshes.end(); i++) {
-    //error("on affiche la dlist no %d", X3dDisplayList);
+    //error("on affiche la dlist %d", *i);
     glCallList(*i);
     if (selected) {  //selected mesh
       glPushMatrix();
@@ -619,10 +622,8 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
       glDisable(GL_POLYGON_OFFSET_FILL);
       glEnable(GL_COLOR_MATERIAL);
       glColor3f(1,1,0);
-
       glScalef(1.03, 1.03, 1.03);  // 3%100 more
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
       glEnable(GL_CULL_FACE);
       glEnable(GL_BLEND);
 
@@ -661,9 +662,10 @@ void X3d::render()
   glMaterialfv(GL_FRONT, GL_DIFFUSE, reset1);
   glMaterialfv(GL_FRONT, GL_EMISSION, reset1);
 
-  //We update the timers for animation//
-  for (std::vector<TimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++)
+  //We update the timers for animation
+  for (std::vector<TimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++) {
     t->updateFraction(animationOn);
+  }
 
   //list to make an iterative treatment of the tree
   std::vector<X3dShape*> nextShapes;

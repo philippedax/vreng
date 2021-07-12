@@ -59,15 +59,20 @@ void AnimX3d::parser(char *l)
   end_while_parse(l);
 }
 
+void AnimX3d::makeSolid()
+{
+  //On se debarrasse des Pbs dus a l'absence de solide en en creant un factice
+  char s[128];
+
+  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />",dimx,dimy,dimz);
+  parse()->parseSolid(s, SEP, this);
+}
+
 /** constructor */
 AnimX3d::AnimX3d(char *l)
 {
   parser(l);
-
-  //On se debarrasse des Pbs dus a l'absence de solide en en creant un factice
-  char s[128];
-  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />",dimx,dimy,dimz);
-  parse()->parseSolid(s, SEP, this);
+  makeSolid();
 
   x3dmodel = new X3d(names.url);
   X3dModel = x3dmodel;
