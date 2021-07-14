@@ -39,7 +39,9 @@ struct sObj {
 };
 
 static const struct sObj objs[] = {
+  //{ "oldname", "newname" },
   { "ftp", "download" },
+  { "animx3d", "carousel" },
   { NULL, NULL }
 };
 
