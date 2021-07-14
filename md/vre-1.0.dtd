@@ -22,9 +22,9 @@
 <!-- all possible objects we want at least one element -->
 <!-- SCENE -->
 <!ELEMENT scene (
-		accessory | android | animator | animx3d | aoi | area |
+		accessory | android | animator | aoi | area |
 		bgcolor | board | book | bumper | button | 
-		cauldron | clip | clock | cloud | cloth |
+		carousel | cauldron | clip | clock | cloud | cloth |
 		doc | door | download | dress |
 		entry | escalator |
 		fire | firework | flag | fountain | fractal |
@@ -72,12 +72,12 @@
 <!ATTLIST animator	begin	NMTOKEN "0">
 <!ATTLIST animator	ttl	NMTOKEN "0">
 
-<!ELEMENT animx3d	EMPTY>
-<!ATTLIST animx3d	pos	CDATA #REQUIRED>
-<!ATTLIST animx3d	name	NMTOKEN #IMPLIED>
-<!ATTLIST animx3d	descr	NMTOKENS #IMPLIED>
-<!ATTLIST animx3d	url	CDATA #REQUIRED>
-<!ATTLIST animx3d	dim	CDATA #IMPLIED>
+<!ELEMENT carousel	EMPTY>
+<!ATTLIST carousel	pos	CDATA #REQUIRED>
+<!ATTLIST carousel	name	NMTOKEN #IMPLIED>
+<!ATTLIST carousel	descr	NMTOKENS #IMPLIED>
+<!ATTLIST carousel	url	CDATA #REQUIRED>
+<!ATTLIST carousel	dim	CDATA #IMPLIED>
 
 <!ELEMENT aoi		(solid?)>
 <!ATTLIST aoi		pos	NMTOKENS #REQUIRED>
