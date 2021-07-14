@@ -701,12 +701,12 @@ amplitude="1" freq="1" phase="1">
 <model name="liberty" pos="-80 -60 0 2.4 0" scale="1" url="/ase/liberty.ase"> </model>
 -->
 
-<!-- x3d -->
-<animx3d pos="2 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></animx3d>
+<!-- carousel x3d -->
+<carousel pos="2 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></carousel>
 <!--
 -->
 <!--
-<animx3d pos="2 2 .5" dim="1 1 1" url="/x3d/lighting.x3d"></animx3d>
+<carousel pos="2 2 .5" dim="1 1 1" url="/x3d/lighting.x3d"></carousel>
 -->
 
 <!-- ellipse -->

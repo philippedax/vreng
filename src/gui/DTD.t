@@ -23,9 +23,9 @@ const char DTD[] = "\
 <!-- all possible objects we want at least one element -->\n\
 <!-- SCENE -->\n\
 <!ELEMENT scene (\n\
-		accessory | android | animator | animx3d | aoi | area |\n\
+		accessory | android | animator | aoi | area |\n\
 		bgcolor | board | book | bumper | button | \n\
-		cauldron | clip | clock | cloud | cloth |\n\
+		carousel | cauldron | clip | clock | cloud | cloth |\n\
 		doc | door | download | dress |\n\
 		entry | escalator |\n\
 		fire | firework | flag | fountain | fractal |\n\
@@ -73,12 +73,12 @@ const char DTD[] = "\
 <!ATTLIST animator	begin	NMTOKEN \"0\">\n\
 <!ATTLIST animator	ttl	NMTOKEN \"0\">\n\
 \n\
-<!ELEMENT animx3d	EMPTY>\n\
-<!ATTLIST animx3d	pos	CDATA #REQUIRED>\n\
-<!ATTLIST animx3d	name	NMTOKEN #IMPLIED>\n\
-<!ATTLIST animx3d	descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST animx3d	url	CDATA #REQUIRED>\n\
-<!ATTLIST animx3d	dim	CDATA #IMPLIED>\n\
+<!ELEMENT carousel	EMPTY>\n\
+<!ATTLIST carousel	pos	CDATA #REQUIRED>\n\
+<!ATTLIST carousel	name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST carousel	descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST carousel	url	CDATA #REQUIRED>\n\
+<!ATTLIST carousel	dim	CDATA #IMPLIED>\n\
 \n\
 <!ELEMENT aoi		(solid?)>\n\
 <!ATTLIST aoi		pos	NMTOKENS #REQUIRED>\n\
