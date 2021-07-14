@@ -75,7 +75,7 @@
 #include "lift.hpp" 	/* 50 */
 #include "transform.hpp"/* 51 */
 #include "aoi.hpp"	/* 52 */
-#include "animx3d.hpp"	/* 53 */
+#include "carousel.hpp"	/* 53 */
 #include "wind.hpp"	/* 54 */
 #include "widget.hpp"	/* 55 */
 #include "thunder.hpp"	/* 56 */
@@ -163,7 +163,7 @@ const struct GeneralInitList generalInitList[] = {
 /* 50 */	{Lift::funcs},
 /* 51 */	{Transform::funcs},
 /* 52 */	{Aoi::funcs},
-/* 53 */	{AnimX3d::funcs},
+/* 53 */	{Carousel::funcs},
 /* 54 */	{Wind::funcs},
 /* 55 */	{Widget::funcs},
 /* 56 */	{Thunder::funcs},

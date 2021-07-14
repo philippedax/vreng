@@ -18,20 +18,20 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef ANIMX3D_HPP
-#define ANIMX3D_HPP
+#ifndef CAROUSEL_HPP
+#define CAROUSEL_HPP
 
 #include "wobject.hpp"
 #include "x3d.hpp"
 
-#define ANIMX3D_TYPE	53
-#define ANIMX3D_NAME	"animx3d"
+#define CAROUSEL_TYPE	53
+#define CAROUSEL_NAME	"carousel"
 
 
 /**
- * AnimX3d class
+ * Carousel class
  */
-class AnimX3d: public WObject {
+class Carousel: public WObject {
 
 protected:
   X3d *x3dmodel;
@@ -43,7 +43,7 @@ public:
 
   virtual const OClass* getOClass() {return &oclass;}
 
-  AnimX3d(char *l);	///< Constructor
+  Carousel(char *l);	///< Constructor
 
   static void funcs(); //makes links with the GUI
 
@@ -66,11 +66,11 @@ private:
   /**< Makes a solid */
 
   // GUI callbacks
-  static void start(AnimX3d *po, void *d, time_t s, time_t u);
-  static void pause(AnimX3d *po, void *d, time_t s, time_t u);
-  static void stop(AnimX3d *po, void *d, time_t s, time_t u);
-  static void setFlashy(AnimX3d *po, void *d, time_t s, time_t u);
-  static void resetFlashy(AnimX3d *po, void *d, time_t s, time_t u);
+  static void start(Carousel *po, void *d, time_t s, time_t u);
+  static void pause(Carousel *po, void *d, time_t s, time_t u);
+  static void stop(Carousel *po, void *d, time_t s, time_t u);
+  static void setFlashy(Carousel *po, void *d, time_t s, time_t u);
+  static void resetFlashy(Carousel *po, void *d, time_t s, time_t u);
 };
 
 #endif

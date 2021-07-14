@@ -518,7 +518,7 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
       uint32_t tempRealVertex = (uint32_t)meshInfos->coordIndex[polygonNum][vertexNum];
       uint32_t realVertex = (uint32_t) tempRealVertex;
 
-      if (meshInfos->Coordinate.size() == 0) break;	//dax
+      //dax if (meshInfos->Coordinate.size() == 0) break;	//dax
 
       //if a vertex exists at that index
       if (realVertex < meshInfos->Coordinate.size()) {
