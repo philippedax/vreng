@@ -72,13 +72,6 @@
 <!ATTLIST animator	begin	NMTOKEN "0">
 <!ATTLIST animator	ttl	NMTOKEN "0">
 
-<!ELEMENT carousel	EMPTY>
-<!ATTLIST carousel	pos	CDATA #REQUIRED>
-<!ATTLIST carousel	name	NMTOKEN #IMPLIED>
-<!ATTLIST carousel	descr	NMTOKENS #IMPLIED>
-<!ATTLIST carousel	url	CDATA #REQUIRED>
-<!ATTLIST carousel	dim	CDATA #IMPLIED>
-
 <!ELEMENT aoi		(solid?)>
 <!ATTLIST aoi		pos	NMTOKENS #REQUIRED>
 <!ATTLIST aoi		name	NMTOKEN #IMPLIED>
@@ -120,6 +113,13 @@
 <!ATTLIST button	method0	NMTOKEN #REQUIRED>
 <!ATTLIST button	method1	NMTOKEN #IMPLIED>
 <!ATTLIST button	state	(0 | 1) "0">
+
+<!ELEMENT carousel	EMPTY>
+<!ATTLIST carousel	pos	CDATA #REQUIRED>
+<!ATTLIST carousel	name	NMTOKEN #IMPLIED>
+<!ATTLIST carousel	descr	NMTOKENS #IMPLIED>
+<!ATTLIST carousel	url	CDATA #REQUIRED>
+<!ATTLIST carousel	dim	CDATA #IMPLIED>
 
 <!ELEMENT cauldron	(solid)>
 <!ATTLIST cauldron	pos	NMTOKENS #REQUIRED>

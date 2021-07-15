@@ -73,13 +73,6 @@ const char DTD[] = "\
 <!ATTLIST animator	begin	NMTOKEN \"0\">\n\
 <!ATTLIST animator	ttl	NMTOKEN \"0\">\n\
 \n\
-<!ELEMENT carousel	EMPTY>\n\
-<!ATTLIST carousel	pos	CDATA #REQUIRED>\n\
-<!ATTLIST carousel	name	NMTOKEN #IMPLIED>\n\
-<!ATTLIST carousel	descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST carousel	url	CDATA #REQUIRED>\n\
-<!ATTLIST carousel	dim	CDATA #IMPLIED>\n\
-\n\
 <!ELEMENT aoi		(solid?)>\n\
 <!ATTLIST aoi		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST aoi		name	NMTOKEN #IMPLIED>\n\
@@ -121,6 +114,13 @@ const char DTD[] = "\
 <!ATTLIST button	method0	NMTOKEN #REQUIRED>\n\
 <!ATTLIST button	method1	NMTOKEN #IMPLIED>\n\
 <!ATTLIST button	state	(0 | 1) \"0\">\n\
+\n\
+<!ELEMENT carousel	EMPTY>\n\
+<!ATTLIST carousel	pos	CDATA #REQUIRED>\n\
+<!ATTLIST carousel	name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST carousel	descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST carousel	url	CDATA #REQUIRED>\n\
+<!ATTLIST carousel	dim	CDATA #IMPLIED>\n\
 \n\
 <!ELEMENT cauldron	(solid)>\n\
 <!ATTLIST cauldron	pos	NMTOKENS #REQUIRED>\n\
