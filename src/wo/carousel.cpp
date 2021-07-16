@@ -20,23 +20,26 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "carousel.hpp"
+#include "x3d.hpp"	// X3d
+#include "user.hpp"	// USER_TYPE
 
 
 const OClass Carousel::oclass(CAROUSEL_TYPE, CAROUSEL_NAME, Carousel::creator);
 
 //local
-static X3d *X3dModel = NULL;
+static X3d *x3dmodel = NULL;
 
 
 WObject * Carousel::creator(char *l)
 {
-  return new Carousel(l);
+return new Carousel(l);
 }
 
 void Carousel::defaults()
 {
-  x3dmodel = NULL;
-  dimx=dimy=dimz =0; //useless bouning box, if not one specified in the x3d file
+x3d = NULL;
+dimx = dimy = dimz = 0.2;	// minimum
+scale = .5;
 }
 
 /** parser */
@@ -47,10 +50,11 @@ void Carousel::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "url=")) l = parse()->parseUrl(l, names.url);
-    else if (!stringcmp(l, "dim=")) {
+    if (! stringcmp(l, "url=")) l = parse()->parseUrl(l, names.url);
+    else if (! stringcmp(l, "scale=")) l = parse()->parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "dim=")) {
       l = parse()->skipEqual(l);
-      l = parse()->skipQuotes(l);	// to get pos.x
+      l = parse()->skipQuotes(l);	// to get values
       l = parse()->parseFloat(l, &dimx);
       l = parse()->parseFloat(l, &dimy);
       l = parse()->parseFloat(l, &dimz);
@@ -61,10 +65,9 @@ void Carousel::parser(char *l)
 
 void Carousel::makeSolid()
 {
-  //On se debarrasse des Pbs dus a l'absence de solide en en creant un factice
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />",dimx,dimy,dimz);
+  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", dimx, dimy, dimz);
   parse()->parseSolid(s, SEP, this);
 }
 
@@ -74,59 +77,64 @@ Carousel::Carousel(char *l)
   parser(l);
   makeSolid();
 
-  x3dmodel = new X3d(names.url);
-  X3dModel = x3dmodel;
+  x3dmodel = x3d = new X3d(names.url);
 
   enableBehavior(SPECIFIC_RENDER);
   initMobileObject(0);
 }
 
-X3d * Carousel::current()
+X3d * Carousel::getx3d()
 {
-  return X3dModel;
+  return x3dmodel;
 }
 
 void Carousel::render()
 {
   glPushMatrix();
    glTranslatef(pos.x, pos.y, pos.z);
+   glScalef(scale, scale, scale);
 
-   x3dmodel->render();
+   x3d->render();
 
   glPopMatrix();
 }
 
 bool Carousel::whenIntersect(WObject *pcur, WObject *pold)
 {
-  pold->copyPositionAndBB(pcur);
-  return true;
+  switch (pcur->type) {
+  case USER_TYPE:
+    return false;	// no collide
+  default:
+    pold->copyPositionAndBB(pcur);
+    return true;	// collide
+  }
 }
 
 void Carousel::start(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  carousel->x3dmodel->animationOn = true;
+  carousel->x3d->animationOn = true;
 }
 
 void Carousel::pause(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  carousel->x3dmodel->animationOn = false;
+  carousel->x3d->animationOn = false;
 }
 
 void Carousel::stop(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  carousel->x3dmodel->animationOn = false;
-  carousel->x3dmodel->resetAnimations();
+  carousel->x3d->animationOn = false;
+  carousel->x3d->resetAnimations();
 }
 
 /**< Sets flashy the X3d object */
 void Carousel::setFlashy(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  current()->setFlashy();
+  getx3d()->setFlashy();
 }
 
 void Carousel::resetFlashy(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  current()->resetFlashy();
+  getx3d()->resetFlashy();
 }
 
 void Carousel::funcs()

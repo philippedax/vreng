@@ -33,9 +33,10 @@
  */
 class Carousel: public WObject {
 
-protected:
-  X3d *x3dmodel;
-  float dimx,dimy,dimz;
+private:
+  X3d * x3d;
+  float dimx, dimy, dimz;
+  float scale;
 
 public:
 
@@ -44,6 +45,7 @@ public:
   virtual const OClass* getOClass() {return &oclass;}
 
   Carousel(char *l);	///< Constructor
+  ~Carousel() {};	///< Destructor
 
   static void funcs(); //makes links with the GUI
 
@@ -53,7 +55,7 @@ public:
 
   bool whenIntersect(WObject *pcur, WObject *pold);
 
-  static X3d * current();
+  static X3d * getx3d();
 
 private:
 
