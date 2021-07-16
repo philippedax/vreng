@@ -370,24 +370,24 @@ GLuint X3d::drawPrimitive(X3dShapes Id)
   switch (Id) {
   case X3DCYLINDER:
     glNewList(dlist, GL_COMPILE);
-    Draw::disk(0, 0.5, 40, 2, Draw::STYLE_FILL);
-    Draw::cylinder(0.5, 0.5, 1, 40, 4, Draw::STYLE_FILL);
+    Draw::disk(0, 0.5, 16, 2, Draw::STYLE_FILL);
+    Draw::cylinder(0.5, 0.5, 1, 16, 4, Draw::STYLE_FILL);
     glTranslatef(0, 0, 1);
     glRotatef(180,0, 1, 0);
-    Draw::disk(0, 0.5,40,2, Draw::STYLE_FILL);
+    Draw::disk(0, 0.5, 16, 2, Draw::STYLE_FILL);
     glEndList();
     break;
 
   case X3DCONE:
     glNewList(dlist, GL_COMPILE);
-    Draw::disk(0, 0.5, 10,2, Draw::STYLE_FILL);
-    Draw::cylinder(0.5, 0, 1, 40, 4, Draw::STYLE_FILL);
+    Draw::disk(0, 0.5, 16, 2, Draw::STYLE_FILL);
+    Draw::cylinder(0.5, 0, 1, 16, 4, Draw::STYLE_FILL);
     glEndList();
     break;
 
   case X3DSPHERE:
     glNewList(dlist, GL_COMPILE);
-    Draw::sphere(0.5, 40, 40, Draw::STYLE_FILL);
+    Draw::sphere(0.5, 16, 16, Draw::STYLE_FILL);
     glEndList();
     break;
 
