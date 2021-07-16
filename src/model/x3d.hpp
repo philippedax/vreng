@@ -21,13 +21,13 @@
 #ifndef X3D_HPP
 #define X3D_HPP
 
-//using namespace std;
 #include <iostream>
 #include <string>
 #include <vector>	//pour les index de gllist
 
 #include "../bundle/xmlParser/xmlParser.h"
 
+using namespace std;
 
 //The classes we have below
 class X3d;
@@ -49,6 +49,11 @@ enum X3dShapes {
   X3DCYLINDER,
   X3DCONE,
   X3DBOX,
+  X3DDISK,
+  X3DRECT,
+  X3DTORUS,
+  X3DPYRAMID,
+  X3DLINE,
   KNOWNPRIMITIVESNUMBER
 };
 struct ShapeToId {XMLCSTR shape; X3dShapes id;};
@@ -60,7 +65,7 @@ struct ShapeToId {XMLCSTR shape; X3dShapes id;};
 struct MeshInfos
 {
   bool colorPerVertex;
-  std::vector<std::vector<float> > coordIndex,texCoordIndex,colorIndex,Coordinate,TextureCoordinate,Color;
+  vector<vector<float> > coordIndex,texCoordIndex,colorIndex,Coordinate,TextureCoordinate,Color;
 };
 
 
@@ -70,20 +75,20 @@ struct MeshInfos
 class VectorTools {
  public:
 
-  static bool parseFloats(const std::string str, float* outputs, uint32_t number);
+  static bool parseFloats(const string str, float* outputs, uint32_t number);
   /**< returns true if succeeded, false else */
 
-  static bool parseFloats(const std::string str, std::vector<float>* output);
+  static bool parseFloats(const string str, vector<float>* output);
 
-  static bool parseCertifiedVectors(const std::string str, std::vector<std::vector<float> >* outputs, uint32_t vectorLength=0, uint32_t numVector=0);
+  static bool parseCertifiedVectors(const string str, vector<vector<float> >* outputs, uint32_t vectorLength=0, uint32_t numVector=0);
 
-  static bool parseVectors(const std::string str, std::vector<std::vector<float> >* outputs);
+  static bool parseVectors(const string str, vector<vector<float> >* outputs);
   /**< extracts vectors of floats,
    *  spearated by commas. Detects only errors due to non-digit characters
    */
 
-  static void displayVector(std::vector<std::vector<float> >* outputs);
-  static void displayVector(std::vector<float>* outputs);
+  static void displayVector(vector<vector<float> >* outputs);
+  static void displayVector(vector<float>* outputs);
 };
 
 
@@ -94,13 +99,13 @@ class VectorTools {
 class X3dShape {
  public:
 
-  std::vector<X3dShape*> childrenShapes; ///< the sons of that node
+  vector<X3dShape*> childrenShapes; ///< the sons of that node
 
   int level;	///< niveau croissant dans l'arbre x3d, root->0
 
-  std::string name; ///< for the ROUTES
+  string name; ///< for the ROUTES
 
-  std::string getName() { return name; } //just in case
+  string getName() { return name; } //just in case
 
   float ambientIntensity; bool ambientIntensityOn;
   float shininess; bool shininessOn;
@@ -118,7 +123,7 @@ class X3dShape {
   bool scaleOn; float scale[4]; //last float unused
 
   MeshInfos meshInfos; //to store the data, in order to build indexFaceSets whenever possible
-  std::vector<GLuint> meshes; //index of the glCallLists of that mesh (for primitives and IndexedFaceSets)
+  vector<GLuint> meshes; //index of the glCallLists of that mesh (for primitives and IndexedFaceSets)
 
   X3dShape(int _level) {
     level=_level;
@@ -155,9 +160,9 @@ class TimeSensor {
 
   float cycleIntervalMs; ///< length of the loop (i.e speed of the animation)
   bool loop; 		///< if true : animation loops
-  std::string name;
+  string name;
 
-  std::vector<Interpolator*> targets;	///< targets of the time event
+  vector<Interpolator*> targets;	///< targets of the time event
 
  public:
   TimeSensor() {
@@ -181,7 +186,7 @@ class TimeSensor {
   void resetFraction();
   /**< resets animations to the initial state */
 
-  std::string getName() { return name; }
+  string getName() { return name; }
 };
 
 
@@ -228,15 +233,15 @@ enum X3DINField {
 class Interpolator {
  private:
 
-  std::string name;
+  string name;
 
   InterpolatorType type; ///< what kind of field does this animate ??
 
-  std::vector<float> keys; ///< key frames used, value in percentage of the loop
+  vector<float> keys; ///< key frames used, value in percentage of the loop
 
-  std::vector<std::vector<float> > keyValues; ///< values coresponding to these key frames
+  vector<vector<float> > keyValues; ///< values coresponding to these key frames
 
-  std::vector<float*> targets; ///< float targets (rotation, scale, shininess...)
+  vector<float*> targets; ///< float targets (rotation, scale, shininess...)
 
  public:
 
@@ -252,7 +257,7 @@ class Interpolator {
 
   virtual ~Interpolator() { }
 
-  std::string getName() { return name; }
+  string getName() { return name; }
 
   void updateValue(float newFraction);
   /**< called by the timeSensor to update the interpolated values */
@@ -267,7 +272,7 @@ class Interpolator {
 class Route {
  public:
 
-  std::string fromNode, toNode;
+  string fromNode, toNode;
   X3DOUTField fromField;
   X3DINField toField;
 
@@ -312,9 +317,9 @@ class X3d {
 
   X3dShape rootShape;	///< root of the X3D tree
 
-  std::vector<Interpolator> interpolators;
-  std::vector<TimeSensor> timeSensors;
-  std::vector<Route> routes; ///< temporary structures to create links
+  vector<Interpolator> interpolators;
+  vector<TimeSensor> timeSensors;
+  vector<Route> routes; ///< temporary structures to create links
 
   bool selected;	///< flashy or not
 
@@ -339,10 +344,10 @@ class X3d {
   GLuint drawMesh(MeshInfos* meshInfos);
   /**< draws the complex shape and returns the calllist number */
 
-  X3dShape* findShape(X3dShape* root, std::string name);
+  X3dShape* findShape(X3dShape* root, string name);
   /**< browses the X3d tree to find the name shape */
 
-  template <class T> T* findItem(std::vector<T>* tab, std::string name);
+  template <class T> T* findItem(vector<T>* tab, string name);
   /**< to find a named item in a vecto */
 
   X3dShapes isKnownPrimitive(XMLCSTR vredata);
