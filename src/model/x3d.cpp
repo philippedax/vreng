@@ -363,17 +363,17 @@ template <class T> T* X3d::findItem(vector<T>* tab, string name)
   return NULL;
 }
 
-GLuint X3d::drawPrimitive(X3dShapes Id)
+GLuint X3d::drawPrimitive(X3dShapes id)
 {
   GLuint dlist = glGenLists(1);
 
-  switch (Id) {
+  switch (id) {
   case X3DCYLINDER:
     glNewList(dlist, GL_COMPILE);
     Draw::disk(0, 0.5, 16, 2, Draw::STYLE_FILL);
     Draw::cylinder(0.5, 0.5, 1, 16, 4, Draw::STYLE_FILL);
     glTranslatef(0, 0, 1);
-    glRotatef(180,0, 1, 0);
+    glRotatef(180, 0, 1, 0);
     Draw::disk(0, 0.5, 16, 2, Draw::STYLE_FILL);
     glEndList();
     break;
@@ -388,6 +388,13 @@ GLuint X3d::drawPrimitive(X3dShapes Id)
   case X3DSPHERE:
     glNewList(dlist, GL_COMPILE);
     Draw::sphere(0.5, 16, 16, Draw::STYLE_FILL);
+    glEndList();
+    break;
+
+  case X3DDISK:
+    glNewList(dlist, GL_COMPILE);
+    Draw::disk(0, 0.5, 16, 2, Draw::STYLE_FILL);
+    glRotatef(90, 0, 1, 0);
     glEndList();
     break;
 
@@ -440,7 +447,7 @@ GLuint X3d::drawPrimitive(X3dShapes Id)
     break;
 
   default:
-    error("X3d - primitive %d not drawable", Id);
+    error("X3d - primitive %d not drawable", id);
     dlist = 0; //on ne mettra pas dlist dans le vector des listes...
     break;
   }
@@ -762,6 +769,11 @@ ShapeToId X3d::knownPrimitives[KNOWNPRIMITIVESNUMBER] = {
   {"Sphere", X3DSPHERE},
   {"Cylinder", X3DCYLINDER},
   {"Cone", X3DCONE},
+  {"Disk", X3DDISK},
+  {"Torus", X3DTORUS},
+  {"Pyramid", X3DPYRAMID},
+  {"Rect", X3DRECT},
+  {"Line", X3DLINE},
   {"Box", X3DBOX}
 };
 
@@ -1102,10 +1114,13 @@ void Interpolator::updateValue(float newFraction)
     return;
   }
 
-  for (uint32_t i=0; i < keys.size()-1; i++)
+  for (uint32_t i=0; i < keys.size()-1; i++) {
     if (keys[i] <= newFraction && keys[i+1] >= newFraction) index = i;
+  }
  
-  if (index < 0) error("Error while interpolating in %s: fraction unknown", name.c_str());
+  if (index < 0) {
+    error("Error while interpolating in %s: fraction unknown", name.c_str());
+  }
 
   percentage = (newFraction-keys[index]) / (keys[index+1]-keys[index]);
 
@@ -1120,8 +1135,9 @@ void Interpolator::updateValue(float newFraction)
       for (int i=0; i<3; i++) {
         t[i] = (1-percentage) * keyValues[index][i] + percentage*keyValues[index+1][i];
         //error("Vector: value %.2d between %.2f and %.2f", i,keyValues[index][i],keyValues[index+1][i]);
-        for (uint32_t j=0; j<targets.size(); j++)
+        for (uint32_t j=0; j<targets.size(); j++) {
           targets[j][i] = t[i];
+        }
       }
       //error("Vector interpolation: %.2f %.2f %.2f", t[0],t[1],t[2]);
     }
@@ -1133,8 +1149,9 @@ void Interpolator::updateValue(float newFraction)
 
       tempScalar = (1-percentage)*keyValues[index][0]+percentage*keyValues[index+1][0];
       //error("Scalar: Value between %.2f and %.2f", keyValues[index][0],keyValues[index+1][0]);
-      for (uint32_t j=0; j<targets.size(); j++)
+      for (uint32_t j=0; j<targets.size(); j++) {
         *targets[j] = tempScalar;
+      }
       //error("Scalar interpolation: %.2f", tempScalar);
       }
       break;
@@ -1146,8 +1163,9 @@ void Interpolator::updateValue(float newFraction)
       for (int i=0; i<3; i++) {
       tempVect[i] = (1-percentage)*keyValues[index][i]+percentage*keyValues[index+1][i];
         //error("Vector: Value %d between %.2f and %.2f", i,keyValues[index][i],keyValues[index+1][i]);
-        for (uint32_t j=0; j<targets.size(); j++)
+        for (uint32_t j=0; j<targets.size(); j++) {
           targets[j][i] = tempVect[i];
+        }
       }
 
       float targetAngle;
@@ -1161,8 +1179,9 @@ void Interpolator::updateValue(float newFraction)
 
       tempVect[3] = (1-percentage)*keyValues[index][3]+percentage*targetAngle;
 
-      for (uint32_t j=0; j<targets.size(); j++)
-          targets[j][3] = tempVect[3];
+      for (uint32_t j=0; j<targets.size(); j++) {
+        targets[j][3] = tempVect[3];
+      }
 
       //error("ROTATION: fraction=%.2f, pourcentage=%.2f, entre %.2f et %.2f",
       //newFraction,percentage,keyValues[index][3],targetAngle);
@@ -1174,8 +1193,9 @@ void Interpolator::updateValue(float newFraction)
 
       float q;
       for (int i=0; i<3; i++) {
-        for (uint32_t j=0; j<targets.size(); j++)
+        for (uint32_t j=0; j<targets.size(); j++) {
           targets[j][i] = tempRot[i];
+        }
       }
       //error("Scalar interpolation : %.2f", tempScalar);*/
 #endif //QUATERNION
@@ -1210,11 +1230,11 @@ bool TimeSensor::initSensor(XMLNode* xmlnode)
     if (X3d::isEqual(attrib, "DEF"))
       name = strdup(xmlnode->getAttributeValue(i));
     else if (X3d::isEqual(attrib, "cycleInterval")) {
-      VectorTools::parseFloats(xmlnode->getAttributeValue(i),&cycleIntervalMs,1);
+      VectorTools::parseFloats(xmlnode->getAttributeValue(i), &cycleIntervalMs,1);
       cycleIntervalMs *= 1000;
     }
     else if (X3d::isEqual(attrib, "loop")) {
-      if (X3d::isEqual(xmlnode->getAttributeValue(i),"false"))
+      if (X3d::isEqual(xmlnode->getAttributeValue(i), "false"))
         loop = false;
     }
   }
@@ -1264,14 +1284,16 @@ void TimeSensor::updateFraction(bool animationOn)
     int32_t tempDiffSec = currentTime.tv_sec - previousTime.tv_sec;
     int32_t tempDiffMilliSec = (currentTime.tv_usec - previousTime.tv_usec)/1000;
     int diffms = (int) (1000*tempDiffSec+tempDiffMilliSec);
-    //error("%s says: difference of %d ms",name.c_str(), diffms);
+    //error("%s says: difference of %d ms", name.c_str(), diffms);
 
-    float fractionIncrement = (float)diffms/cycleIntervalMs;
+    float fractionIncrement = (float) diffms/cycleIntervalMs;
 
     fraction += fractionIncrement;
     if (fraction > 1) {
-      if (loop) fraction = fraction-(int)fraction;
-      else fraction = 1;
+      if (loop)
+        fraction = fraction-(int)fraction;
+      else
+        fraction = 1;
     }
     //error("%s says: new increment is %.2f",name.c_str(), fraction);
 
@@ -1292,7 +1314,7 @@ bool Route::initRoute(XMLNode* xmlnode)
   int nattrib = xmlnode->nAttribute();
   const char* attrib = NULL;
 
-  if (!X3d::isEqual(nodeName, "Route")) {
+  if (! X3d::isEqual(nodeName, "Route")) {
     error("this node is not a route");
     return false;
   }
