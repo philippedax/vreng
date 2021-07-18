@@ -92,7 +92,7 @@ bool X3d::loadFromFile(char *filename)
   setupInterpolators();
 
   //error("initializing at time 0 animed fields");
-  for (uint32_t i=0; i< interpolators.size(); i++) {
+  for (int i=0; i < interpolators.size(); i++) {
     interpolators[i].updateValue(0);
   }
 
@@ -109,19 +109,19 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
 
   XMLCSTR nodeName = xmlnode->getName();
 
-  int nattrib = xmlnode->nAttribute();
-  const char* attrib = NULL;
+  int nattr = xmlnode->nAttribute();
+  const char* attr = NULL;
 
   if (isEqual(nodeName, "Shape")) {  //new shape
     //error("on ajoute un fils shape niveau %d", shape->level + 1);
     X3dShape* son = new X3dShape(shape->level + 1);
 
     shape->childrenShapes.push_back(son);
-    shape = son; //we change of node
+    shape = son; // we change of node
 
-    for (int i=0; i < nattrib; i++) {
-      attrib = xmlnode->getAttributeName(i);
-      if (isEqual(attrib, "DEF")) {
+    for (int i=0; i < nattr; i++) {
+      attr = xmlnode->getAttributeName(i);
+      if (isEqual(attr, "DEF")) {
         //error("we have an object DEF name: %s",xmlnode->getAttributeValue(i));
 	shape->name = xmlnode->getAttributeValue(i);
       }
@@ -134,91 +134,91 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
       X3dShape* son = new X3dShape(shape->level + 1);
 
       shape->childrenShapes.push_back(son);
-      shape = son; //we change of node
+      shape = son; // we change of node
     }
 
-    for (int i=0; i < nattrib; i++) {
-      attrib = xmlnode->getAttributeName(i);
-      if (isEqual(attrib, "translation")) {
+    for (int i=0; i < nattr; i++) {
+      attr = xmlnode->getAttributeName(i);
+      if (isEqual(attr, "translation")) {
         if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->translation,3))
           shape->translationOn = true;
         else error("Translation non correcte !");
       }
-      else if (isEqual(attrib, "rotation")) {
+      else if (isEqual(attr, "rotation")) {
         if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->rotation,4))
           shape->rotationOn = true;
         else error("Rotation non correcte !");
       }
-      else if (isEqual(attrib, "scale")) {
+      else if (isEqual(attr, "scale")) {
         if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->scale,3))
           shape->scaleOn = true;
         else error("Scale non correcte !");
       }
-      else if (isEqual(attrib, "DEF")) {
+      else if (isEqual(attr, "DEF")) {
         //error("we have an object DEF name: %s",xmlnode->getAttributeValue(i));
         shape->name = xmlnode->getAttributeValue(i);
       }
     }
   }
   else if (isEqual(nodeName, "Material")) {
-    for (int i=0; i < nattrib; i++) {
-      attrib = xmlnode->getAttributeName(i);
-      if (isEqual(attrib, "emissiveColor")) {
+    for (int i=0; i < nattr; i++) {
+      attr = xmlnode->getAttributeName(i);
+      if (isEqual(attr, "emissiveColor")) {
         if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->emissive,3))
           shape->emissiveOn = true;
       }
-      else if (isEqual(attrib, "diffuseColor")) {
+      else if (isEqual(attr, "diffuseColor")) {
         if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->diffuse,3))
           shape->diffuseOn = true;
       }
-      else if (isEqual(attrib, "specularColor")) {
+      else if (isEqual(attr, "specularColor")) {
         if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->specular,3))
           shape->specularOn = true;
       }
-      else if (isEqual(attrib, "ambientIntensity")) {
+      else if (isEqual(attr, "ambientIntensity")) {
         if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),&shape->ambientIntensity,1))
           shape->ambientIntensityOn = true;
       }
-      else if (isEqual(attrib, "shininess")) {
+      else if (isEqual(attr, "shininess")) {
         if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),&shape->shininess,1))
           shape->shininessOn = true;
       }
-      else if (isEqual(attrib, "transparency")) {
+      else if (isEqual(attr, "transparency")) {
         if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),&shape->transparency,1))
           shape->transparencyOn = true;
       }
-      else if (isEqual(attrib, "DEF")) {
+      else if (isEqual(attr, "DEF")) {
         //error("We have an object DEF name: %s", xmlnode->getAttributeValue(i));
         shape->name = xmlnode->getAttributeValue(i);
       }
     }
   }
   else if (isEqual(nodeName, "ImageTexture")) {
-    //on modifie la texture
-    for (int i=0; i < nattrib; i++) {
-      attrib = xmlnode->getAttributeName(i);
-      if (isEqual(attrib, "url"))
+    // on modifie la texture
+    for (int i=0; i < nattr; i++) {
+      attr = xmlnode->getAttributeName(i);
+      if (isEqual(attr, "url"))
         shape->texture = Texture::getFromCache(xmlnode->getAttributeValue(i));
     }
   }
   else if (isEqual(nodeName, "Coordinate")) {
-    for (int i=0; i < nattrib; i++) {
-      attrib = xmlnode->getAttributeName(i);
-      if (isEqual(attrib, "point"))
+    for (int i=0; i < nattr; i++) {
+      attr = xmlnode->getAttributeName(i);
+      if (isEqual(attr, "point"))
         VectorTools::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.Coordinate,3);
     }
   }
   else if (isEqual(nodeName, "TextureCoordinate")) {
-    for (int i=0; i < nattrib; i++) {
-      attrib = xmlnode->getAttributeName(i);
-      if (isEqual(attrib, "point"))
+    for (int i=0; i < nattr; i++) {
+      attr = xmlnode->getAttributeName(i);
+      if (isEqual(attr, "point"))
         VectorTools::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.TextureCoordinate,2);
     }
   }
   else if (isEqual(nodeName, "Color")) {
-    for (int i=0; i < nattrib; i++) {
-      attrib = xmlnode->getAttributeName(i);
-      if (isEqual(attrib, "color"))
+    for (int i=0; i < nattr; i++) {
+      attr = xmlnode->getAttributeName(i);
+      if (isEqual(attr, "color"))
         VectorTools::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.Color,3);
     }
   }
@@ -246,7 +246,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     if (temp.initRoute(xmlnode)) routes.push_back(temp);
     else error("route rejected !");
   }
-  else {        //is it a PRIMITIVE ???
+  else {        // is it a PRIMITIVE ???
     X3dShapes vrengPrimitiveIndex = X3DNONE;
 
     if (X3DNONE != (vrengPrimitiveIndex = isKnownPrimitive(xmlnode->getName()))) {
@@ -255,7 +255,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     }
   }
 
-  //we take care of the children nodes
+  // we take care of the children nodes
   int nchild = xmlnode->nChildNode();
   for (int i=0; i < nchild; i++) {
     XMLNode mynode = xmlnode->getChildNode(i);
@@ -264,13 +264,13 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
   if (isEqual(nodeName, "IndexedFaceSet")) {
     shape->meshInfos.colorPerVertex = false;
 
-    for (int i=0; i < nattrib; i++) {
-      attrib = xmlnode->getAttributeName(i);
-      if (isEqual(attrib, "colorPerVertex")) {
-        if (isEqual(xmlnode->getAttributeValue(i), "TRUE"))
+    for (int i=0; i < nattr; i++) {
+      attr = xmlnode->getAttributeName(i);
+      if (isEqual(attr, "colorPerVertex")) {
+        if (isEqual(xmlnode->getAttributeValue(i), "true"))
           shape->meshInfos.colorPerVertex = true;
       }
-      else if (isEqual(attrib, "coordIndex")) {
+      else if (isEqual(attr, "coordIndex")) {
         string temp(xmlnode->getAttributeValue(i));
         uint32_t offset = temp.find("-1");
         while (offset != (uint32_t) string::npos) {
@@ -279,7 +279,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
         }
         VectorTools::parseVectors(temp,&shape->meshInfos.coordIndex);
       }
-      else if (isEqual(attrib,"texCoordIndex")) {
+      else if (isEqual(attr,"texCoordIndex")) {
         string temp(xmlnode->getAttributeValue(i));
         uint32_t offset = temp.find("-1");
         while (offset != (uint32_t) string::npos) {
@@ -288,21 +288,21 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
         }
         VectorTools::parseVectors(temp,&shape->meshInfos.texCoordIndex);
       }
-      else if (isEqual(attrib,"colorIndex")) {
+      else if (isEqual(attr,"colorIndex")) {
         string temp(xmlnode->getAttributeValue(i));
         uint32_t offset = temp.find("-1");
         while (offset != (uint32_t) string::npos) {
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
-        VectorTools::parseVectors(temp,&shape->meshInfos.colorIndex);
+        VectorTools::parseVectors(temp, &shape->meshInfos.colorIndex);
       }
     }
-    //We draw the complex mesh with the stored data
-    GLuint newPrimitive = drawMesh(& shape->meshInfos);
+    // we draw the complex mesh with the stored data
+    GLuint newPrimitive = drawMesh(&shape->meshInfos);
     shape->meshes.push_back(newPrimitive);
 
-    //we reset everything for the next indexedFaceSet
+    // we reset everything for the next indexedFaceSet
     shape->meshInfos.coordIndex.clear();
     shape->meshInfos.texCoordIndex.clear();
     shape->meshInfos.colorIndex.clear();
@@ -315,23 +315,27 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
 void X3d::setupInterpolators()
 {
   for (vector<Route>::iterator route = routes.begin(); route != routes.end(); route++) {
-    X3DOUTField TempOutfield = route->fromField;
-    X3DINField TempInfield = route->toField;
+    X3DOUTField fromfield = route->fromField;
+    X3DINField tofield = route->toField;
 
-    //timer to interpolator route
-    if (TempOutfield == FRACTION_CHANGED && TempInfield == SET_FRACTION) {
+    // timer to interpolator route
+    if (fromfield == FRACTION_CHANGED && tofield == SET_FRACTION) {
       TimeSensor* sensor = findItem<TimeSensor>(&timeSensors, route->fromNode);
       Interpolator* interpolator = findItem<Interpolator>(&interpolators, route->toNode);
 
-      if (sensor && interpolator) sensor->initTarget(interpolator);
+      if (sensor && interpolator)
+        sensor->initTarget(interpolator);
       else error("route sensor->interpolator buggee: de %p a %p", sensor, interpolator);
     }
 
-    else if (TempOutfield == VALUE_CHANGED && TempInfield >= TRANSLATION && TempInfield <= TRANSPARENCY) {        //interpolator to shape field
+    else if (fromfield == VALUE_CHANGED && tofield >= TRANSLATION && tofield <= TRANSPARENCY) {
+      // interpolator to shape field
       Interpolator* interpolator = findItem<Interpolator>(&interpolators, route->fromNode);
       X3dShape* targetShape = findShape(&rootShape, route->toNode);
 
-      if (interpolator && targetShape) interpolator->initTarget(targetShape, TempInfield);
+      if (interpolator && targetShape) {
+        interpolator->initTarget(targetShape, tofield);
+      }
       else error("route interpolator->x3dshape buggee: de %p a %p", interpolator, targetShape);
     }
     else
@@ -348,7 +352,7 @@ X3dShape* X3d::findShape(X3dShape* root, string name)
 
   X3dShape* temp = NULL;
   //recursivity
-  for (uint32_t i=0; i < root->childrenShapes.size(); i++) {
+  for (int i=0; i < root->childrenShapes.size(); i++) {
     temp = findShape(root->childrenShapes[i], name);
     if (temp) return temp;
   }
@@ -448,7 +452,7 @@ GLuint X3d::drawPrimitive(X3dShapes id)
 
   default:
     error("X3d - primitive %d not drawable", id);
-    dlist = 0; //on ne mettra pas dlist dans le vector des listes...
+    dlist = 0;
     break;
   }
   return dlist;
@@ -457,7 +461,7 @@ GLuint X3d::drawPrimitive(X3dShapes id)
 GLuint X3d::drawMesh(MeshInfos* meshInfos)
 {
 #if 0 //dax debug
-  //we display what we have in the temporary structure
+  // we display what we have in the temporary structure
   error("New mesh in creation:");
   printf("coordindex: ");
   VectorTools::displayVector(& meshInfos->coordIndex);
@@ -487,92 +491,94 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
   GLuint dList = glGenLists(1);;
   glNewList(dList, GL_COMPILE);
 
-  //we browse the vectors containing a polygon each
-  for (uint32_t polygonNum=0; polygonNum < meshInfos->coordIndex.size(); polygonNum++) {
-    glBegin(GL_POLYGON); //create a polygon
+  // we browse the vectors containing a polygon each
+  for (int polygonNum=0; polygonNum < meshInfos->coordIndex.size(); polygonNum++) {
+    glBegin(GL_POLYGON);	// create a polygon
 
-    //one color per polygon
+    // one color per polygon
     if (meshInfos->colorPerVertex == false) {
 
-      //we really have at least a single list of colors
+      // we really have at least a single list of colors
       if (0 < meshInfos->colorIndex.size()) {
 
-        //if a color exists at that index
+        // if a color exists at that index
         if (polygonNum < meshInfos->colorIndex.front().size()) {
 
-          //this is the color index we retrieve from the index list
+          // this is the color index we retrieve from the index list
           uint32_t tempRealColor = (uint32_t)meshInfos->colorIndex.front()[polygonNum];
           if (tempRealColor>=(uint32_t)meshInfos->Color.size())
             error("index de couleur hors des limites !");
           else {
             uint32_t realColor = (uint32_t) tempRealColor;
 
-            //if the color is well formed
-            if (meshInfos->Color[realColor].size() == 3)
+            // if the color is well formed
+            if (meshInfos->Color[realColor].size() == 3) {
               glColor3f(
                 meshInfos->Color[realColor][0],
                 meshInfos->Color[realColor][1],
                 meshInfos->Color[realColor][2]);
+            }
           }
         }
       }
     }
 
-    //we browse the vertexes of one polygon
-    for (uint32_t vertexNum=0; vertexNum < meshInfos->coordIndex[polygonNum].size(); vertexNum++) {
+    // we browse the vertexes of one polygon
+    for (int vertexNum=0; vertexNum < meshInfos->coordIndex[polygonNum].size(); vertexNum++) {
 
-      //this is the vertex index we retrieve from the index list
+      // this is the vertex index we retrieve from the index list
       uint32_t tempRealVertex = (uint32_t)meshInfos->coordIndex[polygonNum][vertexNum];
       uint32_t realVertex = (uint32_t) tempRealVertex;
 
       //dax if (meshInfos->Coordinate.size() == 0) break;	//dax
 
-      //if a vertex exists at that index
+      // if a vertex exists at that index
       if (realVertex < meshInfos->Coordinate.size()) {
 
-        //if the vertex is well formed
+        // if the vertex is well formed
         if (meshInfos->Coordinate[realVertex].size() == 3) {
 
-          //one color per polygon
+          // one color per polygon
           if (meshInfos->colorPerVertex == true) {
 
-            //we really have a list of colors for that polygon
+            // we really have a list of colors for that polygon
             if (polygonNum < meshInfos->colorIndex.size()) {
 
-              //if a color index exists for that vertex in the polygon
+              // if a color index exists for that vertex in the polygon
               if (vertexNum < meshInfos->colorIndex[polygonNum].size()) {
 
-                //this is the color index we retrieve from the index list
+                // this is the color index we retrieve from the index list
                 uint32_t tempRealColor = (uint32_t)meshInfos->colorIndex[polygonNum][vertexNum];
                 if (tempRealColor>=(uint32_t)meshInfos->Color.size())
                   error("index de couleur hors des limites !");
                 else {
                   uint32_t realColor = (uint32_t) tempRealColor;
 
-                  //if the color is well formed
-                  if (meshInfos->Color[realColor].size() == 3)
+                  // if the color is well formed
+                  if (meshInfos->Color[realColor].size() == 3) {
                     glColor3f(
                       meshInfos->Color[realVertex][0],
                       meshInfos->Color[realVertex][1],
                       meshInfos->Color[realVertex][2]);
+                  }
                 }
               }
             }
           }
-          //texture coords to apply ?
+          // texture coords to apply ?
           if (polygonNum < meshInfos->texCoordIndex.size() &&
               vertexNum < meshInfos->texCoordIndex[polygonNum].size()) {
             uint32_t tempRealTex = (uint32_t)meshInfos->texCoordIndex[polygonNum][vertexNum];
             uint32_t realTex = (uint32_t) tempRealTex;
 
-            //if a texturecoord exists at that index
+            // if a texturecoord exists at that index
             if (realTex < meshInfos->TextureCoordinate.size()) {
-              //if the texcoord is well formed
+              // if the texcoord is well formed
               if (meshInfos->TextureCoordinate[realTex].size() == 2)
                 glTexCoord2f(meshInfos->TextureCoordinate[realTex][0], meshInfos->TextureCoordinate[realTex][1]);
             }
           }
-          //we put a vertex, after all that
+          // we put a vertex, after all that
           glVertex3f(
             meshInfos->Coordinate[realVertex][0],
             meshInfos->Coordinate[realVertex][1],
@@ -664,7 +670,7 @@ void X3d::render()
   glEnable(GL_LINE_SMOOTH);
   glEnable(GL_POLYGON_SMOOTH);
 
-  //default values for materials
+  // default values for materials
   float shin = 1;
   glColor4f(0,0,0,1); //must track the default ambient material wanted else problems with gl_color_material
   float reset1[4] = {0,0,0,1};
@@ -675,12 +681,12 @@ void X3d::render()
   glMaterialfv(GL_FRONT, GL_DIFFUSE, reset1);
   glMaterialfv(GL_FRONT, GL_EMISSION, reset1);
 
-  //We update the timers for animation
+  // we update the timers for animation
   for (vector<TimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++) {
     t->updateFraction(animationOn);
   }
 
-  //list to make an iterative treatment of the tree
+  // list to make an iterative treatment of the tree
   vector<X3dShape*> nextShapes;
   nextShapes.push_back(&rootShape);
 
@@ -689,18 +695,18 @@ void X3d::render()
   int npop=0, npush=0;
 
   while (! nextShapes.empty()) {
-    //we take the next node of the tree
+    // we take the next node of the tree
     currentShape = nextShapes.back();
     nextShapes.pop_back();
 
-    //we change the matrix stack according to the new change of level in the X3D tree
-    //and if we switch to a child, we don't touch the current (parent) matrix
+    // we change the matrix stack according to the new change of level in the X3D tree
+    // and if we switch to a child, we don't touch the current (parent) matrix
     if (currentShape->level<=previousLevel) {
-      glPopMatrix(); //we remove the matrix of the current shape
+      glPopMatrix(); // we remove the matrix of the current shape
       //dax1 glPopAttrib();
       npop++;
       if (currentShape->level<previousLevel) {
-        glPopMatrix(); //we aso remove the matrix of the previous shape because we went down
+        glPopMatrix(); // we aso remove the matrix of the previous shape because we went down
         //dax1 glPopAttrib();
         npop++;
       }
@@ -715,16 +721,16 @@ void X3d::render()
       glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
       glBindTexture(GL_TEXTURE_2D, currentShape->texture);
     }
-    else if (!currentShape->diffuseOn) {  //we'll use glColors instead of diffuse material
+    else if (!currentShape->diffuseOn) {  // we'll use glColors instead of diffuse material
       glEnable(GL_COLOR_MATERIAL);
       glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     }
     //else
     //error("materiaux actives *****");
 
-    displayShape(currentShape); //WE CALL THE DISPLAY OF THE SHAPE
+    displayShape(currentShape); // call the display of the shape
 
-    //Reset
+    // Reset
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_COLOR_MATERIAL);
 
@@ -732,7 +738,7 @@ void X3d::render()
       nextShapes.push_back(*j);
   }
 
-  //We remove the remaining matrixes after having browsed the complete tree
+  // we remove the remaining matrixes after having browsed the complete tree
   for (int k = -1; k < previousLevel; k++) {
     glPopMatrix();
     npop++;
@@ -770,10 +776,6 @@ ShapeToId X3d::knownPrimitives[KNOWNPRIMITIVESNUMBER] = {
   {"Cylinder", X3DCYLINDER},
   {"Cone", X3DCONE},
   {"Disk", X3DDISK},
-  {"Torus", X3DTORUS},
-  {"Pyramid", X3DPYRAMID},
-  {"Rect", X3DRECT},
-  {"Line", X3DLINE},
   {"Box", X3DBOX}
 };
 
@@ -808,7 +810,7 @@ bool VectorTools::parseFloats(const string str, float* outputs, uint32_t number)
 
   if (res) {
     vector<float> myVector = tempOutput.front();
-    for (uint32_t i=0; i<number; i++) {
+    for (int i=0; i<number; i++) {
       //outputs[i]=myVector.at(i);
       outputs[i] = myVector[i];
     }
@@ -858,56 +860,56 @@ bool VectorTools::parseCertifiedVectors(const string str, vector<vector<float> >
 bool VectorTools::parseVectors(const string str, vector<vector<float> > *outputs)
 {
   int limit = str.size();
-  int currentInput = 0;
-  int currentTempOutput = 0;
+  int in = 0;
+  int out = 0;
   float newFloat;
 
   char* temp = new char[limit+1]; //to store chars before conversion to float
 
   vector<float> tempOutput;
 
-  while (currentInput < limit) {
+  while (in < limit) {
 
-    while (currentInput < limit &&
-            (str[currentInput] == '\n' ||
-             str[currentInput] == '\r' ||
-             str[currentInput] == ' ' ||
-             str[currentInput] == ',')) {
-      currentInput++;  //we skip initial spaces and semicolons
+    while (in < limit &&
+           (str[in] == '\n' ||
+            str[in] == '\r' ||
+            str[in] == ' ' ||
+            str[in] == ',')) {
+      in++;  // we skip initial spaces and semicolons
 
-      if (str[currentInput] == ',') {  //end of a vector
+      if (str[in] == ',') {  //end of a vector
         if (!tempOutput.empty()) {
           outputs->push_back(tempOutput);
           tempOutput.clear();
         }
       }
     }
-    while (str[currentInput] != '\n' &&
-           str[currentInput] != '\r' &&
-           str[currentInput] != ' ' &&
-           str[currentInput] != ',' &&
-           currentInput < limit) {  //on recupere les symboles du float
-      if (!isdigit(str[currentInput]) &&
-                        str[currentInput] != '-' &&
-                        str[currentInput] != '+' &&
-                        str[currentInput] != '.') {
-        error("non digit character '%c' detected ! digit parsing aborted !",str[currentInput]);
+    while (str[in] != '\n' &&
+           str[in] != '\r' &&
+           str[in] != ' ' &&
+           str[in] != ',' &&
+           in < limit) {  //on recupere les symboles du float
+      if (!isdigit(str[in]) &&
+          str[in] != '-' &&
+          str[in] != '+' &&
+          str[in] != '.') {
+        error("non digit character '%c' detected ! digit parsing aborted !",str[in]);
         return false;
       }
 
-      temp[currentTempOutput] = str[currentInput];
-      currentInput++;
-      currentTempOutput++;
+      temp[out] = str[in];
+      in++;
+      out++;
     }
 
-    temp[currentTempOutput] = '\0';
-    currentTempOutput = 0;  //we begin again forming a float
+    temp[out] = '\0';
+    out = 0;  // we begin again forming a float
 
-    if (strlen(temp) != 0) {  //we have something to convert
-      sscanf(temp, "%f", &newFloat); //0.0 if conversion error
+    if (strlen(temp) != 0) {  // we have something to convert
+      sscanf(temp, "%f", &newFloat); // 0.0 if conversion error
       tempOutput.push_back(newFloat);
     }
-    if (str[currentInput] == ',' || currentInput>=limit) {  //end of a vector
+    if (str[in] == ',' || in >= limit) {  // end of a vector
       if (!tempOutput.empty()) {
         outputs->push_back(tempOutput);
         tempOutput.clear();
@@ -941,8 +943,8 @@ void VectorTools::displayVector(vector<float>* outputs)
 bool Interpolator::initArrays(XMLNode* xmlnode)
 {
   XMLCSTR nodeName = xmlnode->getName();
-  int nattrib = xmlnode->nAttribute();
-  const char* attrib=NULL;
+  int nattr = xmlnode->nAttribute();
+  const char* attr = NULL;
 
   int vectorSize = 0;
 
@@ -971,14 +973,14 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
     return false;
   }
 
-  for (int i=0; i < nattrib; i++) {
-    attrib = xmlnode->getAttributeName(i);
+  for (int i=0; i < nattr; i++) {
+    attr = xmlnode->getAttributeName(i);
 
-    if (X3d::isEqual(attrib, "DEF"))
+    if (X3d::isEqual(attr, "DEF"))
       name = xmlnode->getAttributeValue(i);
-    else if (X3d::isEqual(attrib, "key"))
+    else if (X3d::isEqual(attr, "key"))
       VectorTools::parseFloats(xmlnode->getAttributeValue(i), &keys);
-    else if (X3d::isEqual(attrib, "keyValue"))
+    else if (X3d::isEqual(attr, "keyValue"))
       VectorTools::parseCertifiedVectors(xmlnode->getAttributeValue(i), &keyValues, vectorSize);
   }
 
@@ -994,13 +996,13 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
     error("numbers of keys and values aren't the same in interpolator %s", name.c_str());
     return false;
   }
-  if (keys.front()!=0 || keys.back() != 1) {
+  if (keys.front() != 0 || keys.back() != 1) {
     VectorTools::displayVector(&keys);
     error("interpolator bounding keys must be 0 and 1, not %.2f and %.2f, in %s", keys.front(), keys.back(),name.c_str());
     return false;
   }
 
-  for (uint32_t i=0; i< keys.size()-1; i++) {
+  for (int i=0; i < keys.size()-1; i++) {
     if (keys[i] >= keys[i+1]) {
       error("interpolator keys must be inreasing in %s", name.c_str());
       return false;
@@ -1018,7 +1020,7 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
   return true;
 }
 
-bool Interpolator::initTarget(X3dShape* targetShape, X3DINField field)
+bool Interpolator::initTarget(X3dShape* target, X3DINField field)
 {
   float *temp = NULL;
 
@@ -1027,8 +1029,8 @@ bool Interpolator::initTarget(X3dShape* targetShape, X3DINField field)
   case SCALEINTERPOLATOR:
     switch (field) {
     case SCALE:
-      targetShape->scaleOn = true;
-      temp = targetShape->scale;
+      target->scaleOn = true;
+      temp = target->scale;
     default:
       break;
     }
@@ -1037,8 +1039,8 @@ bool Interpolator::initTarget(X3dShape* targetShape, X3DINField field)
   case POSITIONINTERPOLATOR:
     switch (field) {
     case TRANSLATION:
-      targetShape->translationOn = true;
-      temp = targetShape->translation;
+      target->translationOn = true;
+      temp = target->translation;
     default:
       break;
     }
@@ -1047,8 +1049,8 @@ bool Interpolator::initTarget(X3dShape* targetShape, X3DINField field)
   case ROTATIONINTERPOLATOR:
     switch (field) {
     case ROTATION:
-      targetShape->rotationOn = true;
-      temp = targetShape->rotation;
+      target->rotationOn = true;
+      temp = target->rotation;
     default:
       break;
     }
@@ -1057,16 +1059,16 @@ bool Interpolator::initTarget(X3dShape* targetShape, X3DINField field)
   case COLORINTERPOLATOR:
     switch (field) {
     case DIFFUSECOLOR:
-      targetShape->diffuseOn = true;
-      temp = targetShape->diffuse;
+      target->diffuseOn = true;
+      temp = target->diffuse;
       break;
     case SPECULARCOLOR:
-      targetShape->specularOn = true;
-      temp = targetShape->specular;
+      target->specularOn = true;
+      temp = target->specular;
       break;
     case EMISSIVECOLOR:
-      targetShape->emissiveOn = true;
-      temp = targetShape->emissive;
+      target->emissiveOn = true;
+      temp = target->emissive;
     default:
       break;
     }
@@ -1075,16 +1077,16 @@ bool Interpolator::initTarget(X3dShape* targetShape, X3DINField field)
   case SCALARINTERPOLATOR:
     switch (field) {
     case AMBIENTINTENSITY:
-      targetShape->ambientIntensityOn = true;
-      temp = &targetShape->ambientIntensity;
+      target->ambientIntensityOn = true;
+      temp = &target->ambientIntensity;
       break;
     case SHININESS:
-      targetShape->shininessOn = true;
-      temp = &targetShape->shininess;
+      target->shininessOn = true;
+      temp = &target->shininess;
       break;
     case TRANSPARENCY:
-      targetShape->transparencyOn = true;
-      temp = &targetShape->transparency;
+      target->transparencyOn = true;
+      temp = &target->transparency;
     default:
       break;
     }
@@ -1094,7 +1096,7 @@ bool Interpolator::initTarget(X3dShape* targetShape, X3DINField field)
 
   if (temp) {
     targets.push_back(temp);
-    //error("route ajoutee entre interpolator -%s- et X3dShape -%s- pour champ %d", name.c_str(), targetShape->name.c_str(), field);
+    //error("route ajoutee entre interpolator -%s- et X3dShape -%s- pour champ %d", name.c_str(), target->name.c_str(), field);
     return true;
   }
   else {
@@ -1106,21 +1108,19 @@ bool Interpolator::initTarget(X3dShape* targetShape, X3DINField field)
 /* updates the target values in the shapes according to the time raction we receive */
 void Interpolator::updateValue(float newFraction)
 {
-  int index = -1;	//left index of the interpolation key
-  float percentage = 0; //% of interpolation between keyValues index and index+1
+  int index = -1;	// left index of the interpolation key
+  float percentage = 0; // % of interpolation between keyValues index and index+1
 
   if (targets.size() == 0) {
     error("No targets for the updated Interpolator %s", name.c_str());
     return;
   }
 
-  for (uint32_t i=0; i < keys.size()-1; i++) {
+  for (int i=0; i < keys.size()-1; i++) {
     if (keys[i] <= newFraction && keys[i+1] >= newFraction) index = i;
   }
  
-  if (index < 0) {
-    error("Error while interpolating in %s: fraction unknown", name.c_str());
-  }
+  if (index < 0) error("Error while interpolating in %s: fraction unknown", name.c_str());
 
   percentage = (newFraction-keys[index]) / (keys[index+1]-keys[index]);
 
@@ -1135,9 +1135,8 @@ void Interpolator::updateValue(float newFraction)
       for (int i=0; i<3; i++) {
         t[i] = (1-percentage) * keyValues[index][i] + percentage*keyValues[index+1][i];
         //error("Vector: value %.2d between %.2f and %.2f", i,keyValues[index][i],keyValues[index+1][i]);
-        for (uint32_t j=0; j<targets.size(); j++) {
+        for (int j=0; j < targets.size(); j++)
           targets[j][i] = t[i];
-        }
       }
       //error("Vector interpolation: %.2f %.2f %.2f", t[0],t[1],t[2]);
     }
@@ -1147,9 +1146,9 @@ void Interpolator::updateValue(float newFraction)
       {
       float tempScalar;
 
-      tempScalar = (1-percentage)*keyValues[index][0]+percentage*keyValues[index+1][0];
+      tempScalar = (1-percentage)*keyValues[index][0] + percentage*keyValues[index+1][0];
       //error("Scalar: Value between %.2f and %.2f", keyValues[index][0],keyValues[index+1][0]);
-      for (uint32_t j=0; j<targets.size(); j++) {
+      for (int j=0; j < targets.size(); j++) {
         *targets[j] = tempScalar;
       }
       //error("Scalar interpolation: %.2f", tempScalar);
@@ -1161,9 +1160,9 @@ void Interpolator::updateValue(float newFraction)
       float tempVect[4];
 
       for (int i=0; i<3; i++) {
-      tempVect[i] = (1-percentage)*keyValues[index][i]+percentage*keyValues[index+1][i];
+      tempVect[i] = (1-percentage)*keyValues[index][i] + percentage*keyValues[index+1][i];
         //error("Vector: Value %d between %.2f and %.2f", i,keyValues[index][i],keyValues[index+1][i]);
-        for (uint32_t j=0; j<targets.size(); j++) {
+        for (int j=0; j < targets.size(); j++) {
           targets[j][i] = tempVect[i];
         }
       }
@@ -1177,10 +1176,10 @@ void Interpolator::updateValue(float newFraction)
       else
         targetAngle = keyValues[index+1][3];
 
-      tempVect[3] = (1-percentage)*keyValues[index][3]+percentage*targetAngle;
+      tempVect[3] = (1-percentage)*keyValues[index][3] + percentage*targetAngle;
 
-      for (uint32_t j=0; j<targets.size(); j++) {
-        targets[j][3] = tempVect[3];
+      for (int j=0; j < targets.size(); j++) {
+          targets[j][3] = tempVect[3];
       }
 
       //error("ROTATION: fraction=%.2f, pourcentage=%.2f, entre %.2f et %.2f",
@@ -1188,12 +1187,12 @@ void Interpolator::updateValue(float newFraction)
       //error("Vector 3 interpolation: %.2f %.2f %.2f",t[0],t[1],t[2]);
 
 #if 0 //QUATERNION
-      //QUATERNION INTERPOLATION HERE INSTEAD ????
+      // QUATERNION INTERPOLATION HERE INSTEAD ????
       /*float tempRot[4];
 
       float q;
       for (int i=0; i<3; i++) {
-        for (uint32_t j=0; j<targets.size(); j++) {
+        for (int j=0; j < targets.size(); j++) {
           targets[j][i] = tempRot[i];
         }
       }
@@ -1216,25 +1215,26 @@ void Interpolator::updateValue(float newFraction)
 bool TimeSensor::initSensor(XMLNode* xmlnode)
 {
   XMLCSTR nodeName = xmlnode->getName();
-  int nattrib = xmlnode->nAttribute();
-  const char* attrib = NULL;
+  int nattr = xmlnode->nAttribute();
+  const char* attr = NULL;
 
-  if (!X3d::isEqual(nodeName, "TimeSensor")) {
+  if (! X3d::isEqual(nodeName, "TimeSensor")) {
     error("this node is not a timeSensor");
     return false;
   }
 
-  for (int i=0; i < nattrib; i++) {
-    attrib = xmlnode->getAttributeName(i);
+  for (int i=0; i < nattr; i++) {
+    attr = xmlnode->getAttributeName(i);
 
-    if (X3d::isEqual(attrib, "DEF"))
+    if (X3d::isEqual(attr, "DEF")) {
       name = strdup(xmlnode->getAttributeValue(i));
-    else if (X3d::isEqual(attrib, "cycleInterval")) {
-      VectorTools::parseFloats(xmlnode->getAttributeValue(i), &cycleIntervalMs,1);
+    }
+    else if (X3d::isEqual(attr, "cycleInterval")) {
+      VectorTools::parseFloats(xmlnode->getAttributeValue(i), &cycleIntervalMs, 1);
       cycleIntervalMs *= 1000;
     }
-    else if (X3d::isEqual(attrib, "loop")) {
-      if (X3d::isEqual(xmlnode->getAttributeValue(i), "false"))
+    else if (X3d::isEqual(attr, "loop")) {
+      if (X3d::isEqual(xmlnode->getAttributeValue(i),"false"))
         loop = false;
     }
   }
@@ -1281,24 +1281,25 @@ void TimeSensor::updateFraction(bool animationOn)
   gettimeofday(&currentTime, NULL);
 
   if (animationOn) {
-    int32_t tempDiffSec = currentTime.tv_sec - previousTime.tv_sec;
-    int32_t tempDiffMilliSec = (currentTime.tv_usec - previousTime.tv_usec)/1000;
-    int diffms = (int) (1000*tempDiffSec+tempDiffMilliSec);
-    //error("%s says: difference of %d ms", name.c_str(), diffms);
+    int32_t diffSec = currentTime.tv_sec - previousTime.tv_sec;
+    int32_t diffMilliSec = (currentTime.tv_usec - previousTime.tv_usec)/1000;
+    int diffms = (int) (1000*diffSec + diffMilliSec);
+    //error("%s says: difference of %d ms",name.c_str(), diffms);
 
-    float fractionIncrement = (float) diffms/cycleIntervalMs;
+    float fractionIncrement = (float)diffms/cycleIntervalMs;
 
     fraction += fractionIncrement;
     if (fraction > 1) {
-      if (loop)
-        fraction = fraction-(int)fraction;
-      else
-        fraction = 1;
+      if (loop) {
+        fraction = fraction - (int)fraction;
+      }
+      else fraction = 1;
     }
     //error("%s says: new increment is %.2f",name.c_str(), fraction);
 
-    for (vector<Interpolator*>::iterator it = targets.begin(); it != targets.end(); it++)
+    for (vector<Interpolator*>::iterator it = targets.begin(); it != targets.end(); it++) {
       (*it)->updateValue(fraction);
+    }
   }
   previousTime = currentTime;
 }
@@ -1311,34 +1312,36 @@ void TimeSensor::updateFraction(bool animationOn)
 bool Route::initRoute(XMLNode* xmlnode)
 {
   XMLCSTR nodeName = xmlnode->getName();
-  int nattrib = xmlnode->nAttribute();
-  const char* attrib = NULL;
+  int nattr = xmlnode->nAttribute();
+  const char* attr = NULL;
 
-  if (! X3d::isEqual(nodeName, "Route")) {
+  if (!X3d::isEqual(nodeName, "Route")) {
     error("this node is not a route");
     return false;
   }
 
-  for (int i=0; i < nattrib; i++) {
-    attrib = xmlnode->getAttributeName(i);
+  for (int i=0; i < nattr; i++) {
+    attr = xmlnode->getAttributeName(i);
 
-    if (X3d::isEqual(attrib, "fromNode"))
+    if (X3d::isEqual(attr, "fromNode")) {
       fromNode = xmlnode->getAttributeValue(i);
-    else if (X3d::isEqual(attrib, "toNode"))
+    }
+    else if (X3d::isEqual(attr, "toNode")) {
       toNode = xmlnode->getAttributeValue(i);
-    else if (X3d::isEqual(attrib, "fromField")) {
+    }
+    else if (X3d::isEqual(attr, "fromField")) {
       string field = xmlnode->getAttributeValue(i);
       X3DOUTField tempField = NOOUTX3DFIELD;
 
-      if (X3d::isEqual(field.c_str(), "FRACTION_CHANGED")) tempField = FRACTION_CHANGED;
+      if      (X3d::isEqual(field.c_str(), "FRACTION_CHANGED")) tempField = FRACTION_CHANGED;
       else if (X3d::isEqual(field.c_str(), "VALUE_CHANGED")) tempField = VALUE_CHANGED;
       fromField = tempField;
     }
-    else if (X3d::isEqual(attrib, "toField")) {
+    else if (X3d::isEqual(attr, "toField")) {
       string field = xmlnode->getAttributeValue(i);
       X3DINField tempField = NOINX3DFIELD;
 
-      if (X3d::isEqual(field.c_str(), "SET_FRACTION")) tempField = SET_FRACTION;
+      if      (X3d::isEqual(field.c_str(), "SET_FRACTION")) tempField = SET_FRACTION;
       else if (X3d::isEqual(field.c_str(), "TRANSLATION")) tempField = TRANSLATION;
       else if (X3d::isEqual(field.c_str(), "ROTATION")) tempField = ROTATION;
       else if (X3d::isEqual(field.c_str(), "SCALE")) tempField = SCALE;
