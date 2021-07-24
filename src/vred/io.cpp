@@ -146,7 +146,6 @@ ostream& operator<<(ostream& out, const Solid& s)
     out << *d;
     return out;
   }
-  out << "solid : default case\n";
   return out;
 }
 

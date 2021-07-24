@@ -16,10 +16,10 @@ float UI::center[3] = {0., 0., 0.}, UI::centerXButton = 0;
 float UI::size[3];
 float UI::angleZ;
 float UI::radius;
-char UI::urlXp[128]="", UI::urlXn[128]="", UI::urlYp[128]="", UI::urlYn[128]="";
-char UI::urlZp[128]="", UI::urlZn[128]="";
+char UI::urlXp[128] = "", UI::urlXn[128] = "", UI::urlYp[128] = "", UI::urlYn[128] = "";
+char UI::urlZp[128] = "", UI::urlZn[128] = "";
 float UI::dif[3], UI::amb[3], UI::shi[3], UI::spe[3];
-char UI::url[128]="", UI::ipmc[32]="";
+char UI::url[128] = "", UI::ipmc[32] = "";
 int UI::collis = true;
 Camera *UI::camera;
 bool UI::motionEnabled = false;
@@ -27,7 +27,7 @@ int UI::mouseX, UI::mouseY;
 char *UI::dialStr = NULL;
 int UI::dialUsage;
 
-GLUI *UI::topWin, *UI::sideWin, *UI::botWin, *UI::dialGlui=NULL;
+GLUI *UI::topWin, *UI::sideWin, *UI::botWin, *UI::dialGlui = NULL;
 GLUI_EditText *UI::dialText;
 GLUI_EditText *UI::centerGlui[3];
 GLUI_EditText *UI::sizeGlui[3];
@@ -263,12 +263,13 @@ void UI::control( int event )
     case TEXTURE:
       item->setTexture(Tex(urlXp, urlXn, urlYp, urlYn, urlZp, urlZn));
       
-      if (urlXp[0]!=0 || urlXn[0]!=0 || urlYp[0]!=0 || urlYn[0]!=0 || urlZp[0]!=0 || urlZn[0]!=0 )
+      if ( urlXp[0] || urlXn[0] || urlYp[0] || urlYn[0] || urlZp[0] || urlZn[0] ) {
         item->setStyle(TEXTURED);
-      else
+      }
+      else {
 	item->setStyle(COLORED);
-
-      //printf("Tex modified\n");
+      }
+      //printf("texture modified\n");
       break;
 
     case APPEARANCE:
@@ -553,7 +554,6 @@ void UI::setupUI(int argc, char *argv[])
   glutInit(&argc, argv);
   glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
   glutInitWindowPosition( 50, 50 );
-  //dax glutInitWindowSize( 800, 700 );
   glutInitWindowSize( 800, 500 );
  
   mainWin = glutCreateWindow( "VRed" );
@@ -565,23 +565,23 @@ void UI::setupUI(int argc, char *argv[])
   glutMotionFunc( myGlutMotion );
   GLUI_Master.set_glutIdleFunc( myGlutIdle );
   
-  // setup de l'environnement GL
+  // setup lightings
   glLightfv(GL_LIGHT0, GL_AMBIENT, Color::white);
   glEnable(GL_LIGHT0);
   glLightfv(GL_LIGHT1, GL_DIFFUSE, Color::white);
   glEnable(GL_LIGHT1);
-  glLightfv(GL_LIGHT2, GL_SPECULAR, Color(0.2, 0.2, 0.2, 1.0));
+  glLightfv(GL_LIGHT2, GL_SPECULAR, Color(.2, .2, .2, 1));
   glEnable(GL_LIGHT2);
   glEnable(GL_LIGHTING);
 
-  glClearColor(0., 0., 0., 0.);
+  glClearColor(0, 0, 0, 0);	// black
   glShadeModel(GL_SMOOTH);
 
   glEnable(GL_DEPTH_TEST);	// enable z-buffering
 
   glMatrixMode(GL_PROJECTION);
-  gluPerspective(60.0, 1.0, 0.2, 100.0);
-  camera = new Camera("cam0", Vect(7.0, 6.0, 3.0), Vect(0.0, 20.0, -140.0));
+  gluPerspective(60, 1, 0.2, 100);
+  camera = new Camera("cam0", Vect(7, 6, 3), Vect(0, 20, -140));
   Vred::treeRoot = new Group("treeRoot", COLORED, Color::white);
 
   /****************************************/
@@ -597,8 +597,9 @@ void UI::setupUI(int argc, char *argv[])
   GLUI_Panel *objectPanel = topWin->add_panel("");
   GLUI_Listbox *objectTypeList = topWin->add_listbox_to_panel(objectPanel, "Object type:", &currentObject);
 
-  for (unsigned int i=0; i < sizeof(objectTypes) / sizeof(const char*); i++)
+  for (unsigned int i=0; i < sizeof(objectTypes) / sizeof(char*); i++) {
     objectTypeList->add_item(i, (char *) objectTypes[i]);
+  }
 
   topWin->add_column_to_panel(objectPanel, false);
   topWin->add_button_to_panel(objectPanel, "Add", ADD_OBJECT, control);
@@ -947,6 +948,7 @@ void UI::createObject()
 
 void UI::updateControls()
 {
+#if 0 //dax
   angleZGlui->disable();
   centerGlui[0]->disable();
   centerGlui[1]->disable();
@@ -970,11 +972,13 @@ void UI::updateControls()
   grpButton->disable();
   ungrpButton->disable();
   delButton->disable();
+#endif
 
   if (item) {
     //dax radiusGlui->Hide();
-    //dax radiusGlui->hide_internal(false);
-     
+    //radiusGlui->hide_internal(false);
+    //radiusGlui->hide();
+ 
     if (selected)
       grpButton->enable();
       topWin->refresh();
@@ -1006,16 +1010,22 @@ void UI::updateControls()
     texRollout->enable(); 
     //dax texSph->Hide();
     //dax texXp->Show();
+    //texXp->show();
     Safe::strcpy(urlXp, tex.getTex_xp() );
     //dax texXn->Show();
+    //texXn->show();
     Safe::strcpy(urlXn, tex.getTex_xn() );
     //dax texYp->Show();
+    //texYp->show();
     Safe::strcpy(urlYp, tex.getTex_yp() );
     //dax texYn->Show();
+    //texYn->show();
     Safe::strcpy(urlYn, tex.getTex_yn() );
     //dax texZp->Show();
+    //texZp->show();
     Safe::strcpy(urlZp, tex.getTex_zp() );
     //dax texZn->Show();
+    //texZn->show();
     Safe::strcpy(urlZn, tex.getTex_zn() );
     
     appRollout->enable();
@@ -1028,6 +1038,7 @@ void UI::updateControls()
   Sphere *sphere = dynamic_cast<Sphere*>(item);
   if (sphere) {
     //dax radiusGlui->Show();
+    //radiusGlui->show();
     sizeButton[2]->enable();
 
     texRollout->enable(); 
@@ -1140,11 +1151,13 @@ void UI::askFor( const char *_question, int _dlogUsage, const char *_answer )
   strcpy(dialStr, _answer);
   dialUsage = _dlogUsage;
   //dax dialGlui->Show();
+  dialGlui->show();
   dialGlui->sync_live();
 }
 
 void UI::stopAskingFor()
 {
   //dax dialGlui->Hide();
-  //dax dialGlui->hide_internal(0);
+  //dialGlui->hide_internal(false);
+  //dialGlui->hide();
 }
