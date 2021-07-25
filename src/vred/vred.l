@@ -44,16 +44,20 @@ extern enum ItemId curtype;
 		return TK_HOST;
 	} else if (strcasecmp(yytext,"<doc") == 0) {
 		return TK_DOC;
+	} else if (strcasecmp(yytext,"<mirage") == 0) {
+		return TK_MIRAGE;
+	} else if (strcasecmp(yytext,"<thing") == 0) {
+		return TK_THING;
 	} else if (strcasecmp(yytext,"</vre") == 0) {
 		return TK_END;
 	} else {
-		fprintf(stderr,"Bad type %s on line %d\n", yytext, yylineno);
+		fprintf(stderr,"Bad type %s at line %d\n", yytext, yylineno);
 		exit(1);
 	}
 }
 
 "box,size=" { return TK_BOX_SIZE; }
-"sphere,radius=" {return TK_SPHER_SIZE; }
+"sphere,radius=" { return TK_SPHER_SIZE; }
 "torus,radius=" { return TK_TOR_SIZE; }
 
 "," { return COMMA; }

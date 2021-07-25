@@ -8,7 +8,7 @@
 
 
 int UI::mainWin;
-const char *UI::objectTypes[] = { "Wall", "Gate", "Step", "Web", "Board", "Host", "Doc", "Earth" };
+const char *UI::objectTypes[] = { "Wall", "Gate", "Step", "Web", "Board", "Host", "Doc", "Mirage", "Thing", "Earth" };
 int UI::currentObject = 0;
 Solid *UI::item = NULL;
 struct objectChain *UI::selected = NULL;
@@ -16,7 +16,8 @@ float UI::center[3] = {0., 0., 0.}, UI::centerXButton = 0;
 float UI::size[3];
 float UI::angleZ;
 float UI::radius;
-char UI::urlXp[128] = "", UI::urlXn[128] = "", UI::urlYp[128] = "", UI::urlYn[128] = "";
+char UI::urlXp[128] = "", UI::urlXn[128] = "";
+char UI::urlYp[128] = "", UI::urlYn[128] = "";
 char UI::urlZp[128] = "", UI::urlZn[128] = "";
 float UI::dif[3], UI::amb[3], UI::shi[3], UI::spe[3];
 char UI::url[128] = "", UI::ipmc[32] = "";
@@ -41,11 +42,12 @@ GLUI_Translation *UI::transXYButton, *UI::transZButton;
 GLUI_Translation *UI::sizeButton[3];
 GLUI_Translation *UI::angleZButton;
 GLUI_Rollout *UI::texRollout;
+GLUI_Panel *UI::texPanel;
 GLUI_Rollout *UI::appRollout;
 GLUI_StaticText *UI::objectDescr;
 
 
-/**************************************** control_cb() *******************/
+/****************************** control_cb() *****************************/
 /* GLUI control callback                                                 */
 void UI::control( int event )
 {
@@ -476,8 +478,9 @@ void UI::myGlutDisplay( void )
     renderSolid(currentObjChain->current);
     currentObjChain = currentObjChain->next;
   }
-  if (item)
+  if (item) {
     renderSolid(item);
+  }
 
   glutSwapBuffers(); 
 }
@@ -561,7 +564,7 @@ void UI::setupUI(int argc, char *argv[])
   glutInit(&argc, argv);
   glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH );
   glutInitWindowPosition( 50, 50 );
-  glutInitWindowSize( 800, 660 );
+  glutInitWindowSize( 820, 580 );
  
   mainWin = glutCreateWindow( "VRed" );
   glutDisplayFunc( myGlutDisplay );
@@ -598,7 +601,6 @@ void UI::setupUI(int argc, char *argv[])
   /* Create the top subwindow */
   topWin = GLUI_Master.create_glui_subwindow(mainWin, GLUI_SUBWINDOW_TOP);
   topWin->set_main_gfx_window(mainWin);
-  //printf("subwin top\n");
 
   /* Boxtype */  
   GLUI_Panel *objectPanel = topWin->add_panel("");
@@ -608,6 +610,7 @@ void UI::setupUI(int argc, char *argv[])
     objectTypeList->add_item(i, (char *) objectTypes[i]);
   }
 
+  /* button Add */
   topWin->add_column_to_panel(objectPanel, false);
   topWin->add_button_to_panel(objectPanel, "Add", ADD_OBJECT, control);
   
@@ -615,7 +618,7 @@ void UI::setupUI(int argc, char *argv[])
   topWin->add_separator();
   topWin->add_checkbox("Prevent collision while moving objects", &collis);
 
-  /* placement */
+  /* position */
   topWin->add_column(true);
   GLUI_Panel *xyzPanel = topWin->add_panel("");
   (centerGlui[0] = topWin->add_edittext_to_panel(xyzPanel, "x",
@@ -633,24 +636,27 @@ void UI::setupUI(int argc, char *argv[])
                                                  &center[2], CENTER,
                                                  control))->set_w(25);
 
-  /* sizes */
-  GLUI_Panel *sizeXyzPanel = topWin->add_panel("");
-  (sizeGlui[0] = topWin->add_edittext_to_panel(sizeXyzPanel, "Dx",
+  /* dimensions */
+  GLUI_Panel *sizePanel = topWin->add_panel("");
+  (sizeGlui[0] = topWin->add_edittext_to_panel(sizePanel, "Dx",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[0], SIZE,
-                                               control ) )->set_w(25);
-  topWin->add_column_to_panel(sizeXyzPanel, false);
-  (sizeGlui[1] = topWin->add_edittext_to_panel(sizeXyzPanel, "Dy",
+                                               control)
+  )->set_w(25);
+  topWin->add_column_to_panel(sizePanel, false);
+  (sizeGlui[1] = topWin->add_edittext_to_panel(sizePanel, "Dy",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[1], SIZE,
-                                               control ) )->set_w(25);
-  topWin->add_column_to_panel(sizeXyzPanel, false);
-  (sizeGlui[2] = topWin->add_edittext_to_panel(sizeXyzPanel, "Dz",
+                                               control)
+  )->set_w(25);
+  topWin->add_column_to_panel(sizePanel, false);
+  (sizeGlui[2] = topWin->add_edittext_to_panel(sizePanel, "Dz",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[2], SIZE,
-                                               control ) )->set_w(25);
+                                               control)
+  )->set_w(25);
   topWin->add_column(false);
-  angleZGlui = topWin->add_edittext("Angle /Z",
+  angleZGlui = topWin->add_edittext("Angle/Z",
                                     GLUI_EDITTEXT_FLOAT, 
 				    &angleZ, ROT_Z,
                                     control);
@@ -661,184 +667,184 @@ void UI::setupUI(int argc, char *argv[])
 				    &radius, RADIUS,
                                     control);
 
-  /* Create the right subwindow */
+
+  /* Create the right side subwindow */
   sideWin = GLUI_Master.create_glui_subwindow(mainWin, GLUI_SUBWINDOW_RIGHT);
   sideWin->set_main_gfx_window(mainWin);
-  //printf("subwin right\n");
 
   /* texture */
-  texRollout = sideWin->add_rollout( "Texture" );
-  (texXp = sideWin->add_edittext_to_panel(texRollout, "Xp",
+  //texRollout = sideWin->add_rollout( "Tex");
+  texPanel = sideWin->add_panel( "Tex");
+  sideWin->add_column_to_panel(texPanel, true);
+  (texXp = sideWin->add_edittext_to_panel(texPanel, "Xp",
                                           GLUI_EDITTEXT_TEXT,
                                           urlXp, TEXTURE,
-                                          control))->set_w(128);
-  (texXn = sideWin->add_edittext_to_panel(texRollout, "Xn",
+                                          control)
+  )->set_w(100);
+  (texXn = sideWin->add_edittext_to_panel(texPanel, "Xn",
                                           GLUI_EDITTEXT_TEXT,
                                           urlXn, TEXTURE,
-                                          control))->set_w(128);
-  (texYp = sideWin->add_edittext_to_panel(texRollout, "Yp",
+                                          control)
+  )->set_w(100);
+  sideWin->add_column_to_panel(texPanel, false);
+  (texYp = sideWin->add_edittext_to_panel(texPanel, "Yp",
                                           GLUI_EDITTEXT_TEXT,
                                           urlYp, TEXTURE,
-                                          control))->set_w(128);
-  (texYn = sideWin->add_edittext_to_panel(texRollout, "Yn",
+                                          control)
+  )->set_w(100);
+  (texYn = sideWin->add_edittext_to_panel(texPanel, "Yn",
                                           GLUI_EDITTEXT_TEXT,
                                           urlYn, TEXTURE,
-                                          control))->set_w(128);
-  (texZp = sideWin->add_edittext_to_panel(texRollout, "Zp",
+                                          control)
+  )->set_w(100);
+  sideWin->add_column_to_panel(texPanel, false);
+  (texZp = sideWin->add_edittext_to_panel(texPanel, "Zp",
                                           GLUI_EDITTEXT_TEXT,
                                           urlZp, TEXTURE,
-                                          control))->set_w(128);
-  (texZn = sideWin->add_edittext_to_panel(texRollout, "Zn",
+                                          control)
+  )->set_w(100);
+  (texZn = sideWin->add_edittext_to_panel(texPanel, "Zn",
                                           GLUI_EDITTEXT_TEXT,
                                           urlZn, TEXTURE,
-                                          control))->set_w(128);
-  (texSph = sideWin->add_edittext_to_panel(texRollout, "Sp",
+                                          control)
+  )->set_w(100);
+  //sideWin->add_column_to_panel(texPanel, false);
+  (texSph = sideWin->add_edittext_to_panel(texPanel, "Sp",
                                            GLUI_EDITTEXT_TEXT,
                                            urlXp, TEXTURE,
-                                           control))->set_w(128);
-  
-  sideWin->add_button_to_panel(texRollout, "Load textures", TEXTURE, control);
+                                           control)
+  )->set_w(100);
+  sideWin->add_button_to_panel(texPanel, "Load textures", TEXTURE, control);
 
   /* Appearance */
-  appRollout = sideWin->add_rollout("Appearance" );
+  appRollout = sideWin->add_rollout("Appearance");
 
-  GLUI_Panel *diffusePanel = sideWin->add_panel_to_panel(appRollout, "Diffuse");
-  (difGlui[0] = sideWin->add_edittext_to_panel(diffusePanel, "R",
+  GLUI_Panel *difPanel = sideWin->add_panel_to_panel(appRollout, "Diffuse");
+  (difGlui[0] = sideWin->add_edittext_to_panel(difPanel, "R",
                                                GLUI_EDITTEXT_FLOAT,
 					       &dif[0], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   difGlui[0]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(diffusePanel, false);  
-  (difGlui[1] = sideWin->add_edittext_to_panel(diffusePanel, "G",
+  sideWin->add_column_to_panel(difPanel, false);  
+  (difGlui[1] = sideWin->add_edittext_to_panel(difPanel, "G",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &dif[1], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   difGlui[1]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(diffusePanel, false);
-  (difGlui[2] = sideWin->add_edittext_to_panel(diffusePanel, "B",
+  sideWin->add_column_to_panel(difPanel, false);
+  (difGlui[2] = sideWin->add_edittext_to_panel(difPanel, "B",
                                                GLUI_EDITTEXT_FLOAT,
 					       &dif[2], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   difGlui[2]->set_float_limits(0, 1);
 
-  GLUI_Panel *ambientPanel = sideWin->add_panel_to_panel(appRollout, "Ambient");
-  (ambGlui[0] = sideWin->add_edittext_to_panel(ambientPanel, "R",
+  GLUI_Panel *ambPanel = sideWin->add_panel_to_panel(appRollout, "Ambient");
+  (ambGlui[0] = sideWin->add_edittext_to_panel(ambPanel, "R",
                                                GLUI_EDITTEXT_FLOAT,
 					       &amb[0], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   ambGlui[0]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(ambientPanel, false);  
-  (ambGlui[1] = sideWin->add_edittext_to_panel(ambientPanel, "G",
+  sideWin->add_column_to_panel(ambPanel, false);  
+  (ambGlui[1] = sideWin->add_edittext_to_panel(ambPanel, "G",
                                                GLUI_EDITTEXT_FLOAT,
 					       &amb[1], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   ambGlui[1]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(ambientPanel, false);
-  (ambGlui[2] = sideWin->add_edittext_to_panel(ambientPanel, "B",
+  sideWin->add_column_to_panel(ambPanel, false);
+  (ambGlui[2] = sideWin->add_edittext_to_panel(ambPanel, "B",
                                                GLUI_EDITTEXT_FLOAT,
 					       &amb[2], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   ambGlui[2]->set_float_limits(0, 1);
 
-  GLUI_Panel *specularPanel = sideWin->add_panel_to_panel(appRollout, "Specular");
-  (speGlui[0] = sideWin->add_edittext_to_panel(specularPanel, "R",
+  GLUI_Panel *spePanel = sideWin->add_panel_to_panel(appRollout, "Specular");
+  (speGlui[0] = sideWin->add_edittext_to_panel(spePanel, "R",
                                                GLUI_EDITTEXT_FLOAT,
 					       &spe[0], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   speGlui[0]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(specularPanel, false);  
-  (speGlui[1] = sideWin->add_edittext_to_panel(specularPanel, "G",
+  sideWin->add_column_to_panel(spePanel, false);  
+  (speGlui[1] = sideWin->add_edittext_to_panel(spePanel, "G",
                                                GLUI_EDITTEXT_FLOAT,
 					       &spe[1], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   speGlui[1]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(specularPanel, false);
-  (speGlui[2] = sideWin->add_edittext_to_panel(specularPanel, "B",
+  sideWin->add_column_to_panel(spePanel, false);
+  (speGlui[2] = sideWin->add_edittext_to_panel(spePanel, "B",
                                                GLUI_EDITTEXT_FLOAT,
 					       &spe[2], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   speGlui[2]->set_float_limits(0, 1);
 
-  GLUI_Panel *shininessPanel = sideWin->add_panel_to_panel(appRollout, "Shininess");
-  (shiGlui[0] = sideWin->add_edittext_to_panel(shininessPanel, "V1",
+  GLUI_Panel *shiPanel = sideWin->add_panel_to_panel(appRollout, "Shininess");
+  (shiGlui[0] = sideWin->add_edittext_to_panel(shiPanel, "S",
                                                GLUI_EDITTEXT_FLOAT,
 					       &shi[0], APPEARANCE,
-                                               control ) )->set_w(20);
+                                               control)
+  )->set_w(20);
   shiGlui[0]->set_float_limits(0, 20);
-#if 0 //dax
-  sideWin->add_column_to_panel(shininessPanel, false);  
-  (shiGlui[1] = sideWin->add_edittext_to_panel(shininessPanel, "V2",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &shi[1], APPEARANCE,
-                                               control ) )->set_w(20);
-  shiGlui[1]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(shininessPanel, false);
-  (shiGlui[2] = sideWin->add_edittext_to_panel(shininessPanel, "V3",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &shi[2], APPEARANCE,
-                                               control ) )->set_w(20);
-  shiGlui[2]->set_float_limits(0, 1);
-#endif
 
-  (urlGlui = sideWin->add_edittext("To Where (URL)",
+  (urlGlui = sideWin->add_edittext("url",
                                     GLUI_EDITTEXT_TEXT,
-                                    url, 
-				    TARGET_URL,
-                                    control ) )->set_w(128);
+                                    url, TARGET_URL,
+                                    control )
+  )->set_w(128);
   (ipmcGlui = sideWin->add_edittext("IP Multicast",
                                     GLUI_EDITTEXT_TEXT,
-                                    ipmc, 
-				    TARGET_URL,
-                                    control ) )->set_w(32);
+                                    ipmc, TARGET_URL,
+                                    control )
+  )->set_w(32);
   
-  sideWin->add_separator();
-  objectDescr = sideWin->add_statictext("Object type :");
+  //sideWin->add_separator();
+  //objectDescr = sideWin->add_statictext("Object type:");
   
 
   /* Create the Bot subwindow */
   botWin = GLUI_Master.create_glui_subwindow(mainWin, GLUI_SUBWINDOW_BOTTOM);
   botWin->set_main_gfx_window(mainWin);
-  //printf("subwin bot\n");
 
-  transXYButton = botWin->add_translation("Object YZ",
+  transXYButton = botWin->add_translation("Trans YZ",
                                           GLUI_TRANSLATION_XY,
-                                          &center[1],
-                                          CENTER,
+                                          &center[1], CENTER,
                                           control);
   transXYButton->set_speed(0.1);
   botWin->add_column(false);
-  transZButton = botWin->add_translation("Object X",
+  transZButton = botWin->add_translation("Trans X",
                                          GLUI_TRANSLATION_Z,
-                                         &centerXButton,
-                                         CENTER_X_BTN,
+                                         &centerXButton, CENTER_X_BTN,
                                          control);
   transZButton->set_speed(0.1);
   botWin->add_column(false);
-  angleZButton = botWin->add_translation("Rot /Z",
+  angleZButton = botWin->add_translation("Rot/Z",
                                          GLUI_TRANSLATION_X,
-                                         &angleZ,
-                                         ROT_Z,
+                                         &angleZ, ROT_Z,
                                          control);
   botWin->add_column(true);
   sizeButton[0] = botWin->add_translation("Size X",
                                           GLUI_TRANSLATION_Z, 
-        				  &size[0],
-                                          SIZE,
+        				  &size[0], SIZE,
                                           control);
   sizeButton[0]->set_speed(0.1);
   botWin->add_column(false);
-  sizeButton[1] =  botWin->add_translation("Size Y",
-                                           GLUI_TRANSLATION_X, 
-					   &size[1],
-                                           SIZE,
-                                           control);
+  sizeButton[1] = botWin->add_translation("Size Y",
+                                          GLUI_TRANSLATION_X, 
+					  &size[1], SIZE,
+                                          control);
   sizeButton[1]->set_speed(0.1);
   botWin->add_column(false);
-  sizeButton[2] =  botWin->add_translation("Size Z",
-                                           GLUI_TRANSLATION_Y, 
-					   &size[2],
-                                           SIZE,
-                                           control);
+  sizeButton[2] = botWin->add_translation("Size Z",
+                                          GLUI_TRANSLATION_Y, 
+					  &size[2], SIZE,
+                                          control);
   sizeButton[2]->set_speed(0.1);
 
   botWin->add_column(true);
@@ -886,13 +892,23 @@ void UI::createObject()
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case DOC_TYPE:
-      item = new Board("unDoc",
+      item = new Doc("unDoc",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case STEP_TYPE:
-      item = new Board("unStep",
+      item = new Step("unStep",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
+#if 1 //dax
+    case MIRAGE_TYPE:
+      //item = new Mirage("unMirage",
+      //               Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
+      break;
+    case THING_TYPE:
+      //item = new Thing("unThing",
+      //               Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
+      break;
+#endif
     default:
       printf("object type unknown\n");
   }
@@ -907,32 +923,7 @@ void UI::createObject()
 
 void UI::updateControls()
 {
-#if 0 //dax
-  angleZGlui->disable();
-  centerGlui[0]->disable();
-  centerGlui[1]->disable();
-  centerGlui[2]->disable();
-  sizeGlui[0]->disable();
-  sizeGlui[1]->disable();
-  sizeGlui[2]->disable();
-  sizeButton[0]->disable();
-  sizeButton[1]->disable();
-  sizeButton[2]->disable();
-  texRollout->disable();
-  appRollout->disable();
-  urlGlui->disable();
-  ipmcGlui->disable();
-  angleZButton->disable();
-  transXYButton->disable();
-  transZButton->disable();
-  grpButton->disable();
-  ungrpButton->disable();
-  delButton->disable();
-#endif
-
   if (item) {
-    //radiusGlui->hide();
- 
     if (selected)
       grpButton->enable();
       topWin->refresh();
@@ -961,17 +952,11 @@ void UI::updateControls()
  
     Tex tex = item->getTexture();
     texRollout->enable(); 
-    //texXp->show();
     Safe::strcpy(urlXp, tex.getTex_xp() );
-    //texXn->show();
     Safe::strcpy(urlXn, tex.getTex_xn() );
-    //texYp->show();
     Safe::strcpy(urlYp, tex.getTex_yp() );
-    //texYn->show();
     Safe::strcpy(urlYn, tex.getTex_yn() );
-    //texZp->show();
     Safe::strcpy(urlZp, tex.getTex_zp() );
-    //texZn->show();
     Safe::strcpy(urlZn, tex.getTex_zn() );
     
     appRollout->enable();
@@ -983,7 +968,6 @@ void UI::updateControls()
 
   Sphere *sphere = dynamic_cast<Sphere*>(item);
   if (sphere) {
-    //radiusGlui->show();
     sizeButton[2]->enable();
 
     texRollout->enable(); 
@@ -1018,8 +1002,9 @@ void UI::updateControls()
     ipmcGlui->enable();
     Safe::strcpy( ipmc, ((Gate*)item)->getIpmc() );
   }
-  if (classId == WEB || classId == DOC || classId == HOST)
+  if (classId == WEB || classId == DOC || classId == HOST) {
     urlGlui->enable();
+  }
   if (classId == WEB)
     Safe::strcpy( url, ((Web*)item)->getUrl() );
   if (classId == DOC)
@@ -1043,7 +1028,7 @@ void UI::updateControls()
   angleZ = vect[2];
  
   char str[128];
-  sprintf( str, "Object type : %s", item->getClassName() );
+  sprintf( str, "Object type: %s", item->getClassName() );
   objectDescr->set_text(str);
   
   Color tempColor = item->getApp().getAmbient();
@@ -1076,12 +1061,11 @@ void UI::askFor( const char *_question, int _dlogUsage, const char *_answer )
     dialStr = (char*) malloc(128);
 
     dialGlui = GLUI_Master.create_glui("");
-    dialText = dialGlui->add_edittext( (char*)_question, GLUI_EDITTEXT_TEXT, dialStr, OK_BTN);
+    dialText = dialGlui->add_edittext((char*)_question, GLUI_EDITTEXT_TEXT, dialStr, OK_BTN);
     dialText->set_w(256);
     dialGlui->add_column(false);
     dialGlui->add_button("OK", OK_BTN, control);
     dialGlui->add_button("Cancel", CANCEL_BTN, control);
-      
     dialGlui->set_main_gfx_window(mainWin);
   }
   dialText->set_name((char*)_question);

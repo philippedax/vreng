@@ -77,24 +77,26 @@
      TK_STEP = 266,
      TK_HOST = 267,
      TK_DOC = 268,
-     TK_END = 269,
-     TK_BOX_SIZE = 270,
-     TK_SPHER_SIZE = 271,
-     TK_TOR_SIZE = 272,
-     TK_TOR_SIZE2 = 273,
-     TK_DIFFUSE = 274,
-     TK_AMBIENT = 275,
-     TK_SPECULAR = 276,
-     TK_EMISSION = 277,
-     TK_SHININESS = 278,
-     TEX_XP = 279,
-     TEX_YP = 280,
-     TEX_ZP = 281,
-     TEX_XN = 282,
-     TEX_YN = 283,
-     TEX_ZN = 284,
-     SPHER_TEX = 285,
-     TLNT = 286
+     TK_MIRAGE = 269,
+     TK_THING = 270,
+     TK_END = 271,
+     TK_BOX_SIZE = 272,
+     TK_SPHER_SIZE = 273,
+     TK_TOR_SIZE = 274,
+     TK_TOR_SIZE2 = 275,
+     TK_DIFFUSE = 276,
+     TK_AMBIENT = 277,
+     TK_SPECULAR = 278,
+     TK_EMISSION = 279,
+     TK_SHININESS = 280,
+     TEX_XP = 281,
+     TEX_YP = 282,
+     TEX_ZP = 283,
+     TEX_XN = 284,
+     TEX_YN = 285,
+     TEX_ZN = 286,
+     SPHER_TEX = 287,
+     TLNT = 288
    };
 #endif
 /* Tokens.  */
@@ -109,24 +111,26 @@
 #define TK_STEP 266
 #define TK_HOST 267
 #define TK_DOC 268
-#define TK_END 269
-#define TK_BOX_SIZE 270
-#define TK_SPHER_SIZE 271
-#define TK_TOR_SIZE 272
-#define TK_TOR_SIZE2 273
-#define TK_DIFFUSE 274
-#define TK_AMBIENT 275
-#define TK_SPECULAR 276
-#define TK_EMISSION 277
-#define TK_SHININESS 278
-#define TEX_XP 279
-#define TEX_YP 280
-#define TEX_ZP 281
-#define TEX_XN 282
-#define TEX_YN 283
-#define TEX_ZN 284
-#define SPHER_TEX 285
-#define TLNT 286
+#define TK_MIRAGE 269
+#define TK_THING 270
+#define TK_END 271
+#define TK_BOX_SIZE 272
+#define TK_SPHER_SIZE 273
+#define TK_TOR_SIZE 274
+#define TK_TOR_SIZE2 275
+#define TK_DIFFUSE 276
+#define TK_AMBIENT 277
+#define TK_SPECULAR 278
+#define TK_EMISSION 279
+#define TK_SHININESS 280
+#define TEX_XP 281
+#define TEX_YP 282
+#define TEX_ZP 283
+#define TEX_XN 284
+#define TEX_YN 285
+#define TEX_ZN 286
+#define SPHER_TEX 287
+#define TLNT 288
 
 
 
@@ -144,6 +148,7 @@
 //extern int yy_flex_debug;  // pour le debogage
 
 extern FILE* yyin;
+
 int yylineno;
 extern int yyerror(char*);
 extern int yylex();
@@ -151,7 +156,7 @@ extern int yylex();
 void mix_texture(Tex* t1, Tex* t2);
 void mix_app(App* a1, App* a2);
 void moveCenter(Vect& center, Vect& size);
-double deg(const double );
+float deg(const float);
 
 int curtype;
 
@@ -160,19 +165,17 @@ Group *gr;
 /* pour obtenir les valeurs par defaut */
 App *a;
 
-struct structBoxProps
-  {
-    Vect* bp_box_size;
-    Tex* bp_box_tex;
-    App* bp_app;
-  };
+struct structBoxProps {
+  Vect* bp_box_size;
+  Tex* bp_box_tex;
+  App* bp_app;
+};
 
-struct structSpherProps
-  {
-    double sp_spher_size;
-    char* sp_spher_tex;
-    App* sp_app;
-  };
+struct structSpherProps {
+  float sp_spher_size;
+  char* sp_spher_tex;
+  App* sp_app;
+};
 
 void free_box_props (struct structBoxProps *bp)
 {
@@ -211,11 +214,11 @@ void free_spher_props (struct structSpherProps *sp)
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 59 "vred.y"
+#line 58 "vred.y"
 {
-  double dval;
+  float dval;
   char*  sval;
-  double* dpval;
+  float* dpval;
   Vect* vectval;
   Tex*  texval;
   struct structBoxProps* bpval;
@@ -223,7 +226,7 @@ typedef union YYSTYPE
   App* appval;
 }
 /* Line 193 of yacc.c.  */
-#line 227 "y.tab.c"
+#line 230 "y.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -236,7 +239,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 240 "y.tab.c"
+#line 243 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -451,10 +454,10 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  45
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   110
+#define YYLAST   120
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  32
+#define YYNTOKENS  34
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  37
 /* YYNRULES -- Number of rules.  */
@@ -464,7 +467,7 @@ union yyalloc
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   286
+#define YYMAXUTOK   288
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -500,7 +503,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28,    29,    30,    31
+      25,    26,    27,    28,    29,    30,    31,    32,    33
 };
 
 #if YYDEBUG
@@ -520,40 +523,40 @@ static const yytype_uint8 yyprhs[] =
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      33,     0,    -1,    34,    14,    -1,    35,    -1,    34,    35,
-      -1,    36,    -1,    39,    -1,    42,    -1,    45,    -1,    48,
-      -1,    51,    -1,    54,    -1,    57,    -1,     6,    37,    -1,
-      38,    -1,    37,    38,    -1,    62,    60,    -1,     7,    40,
-      -1,    41,    -1,    40,    41,    -1,    62,     5,     5,    60,
-      -1,     8,    43,    -1,    44,    -1,    43,    44,    -1,    62,
-      61,    -1,     9,    46,    -1,    47,    -1,    46,    47,    -1,
-      62,     5,    60,    -1,    10,    49,    -1,    50,    -1,    49,
-      50,    -1,    62,    60,    -1,    11,    52,    -1,    53,    -1,
-      52,    53,    -1,    62,    60,    -1,    12,    55,    -1,    56,
-      -1,    55,    56,    -1,    62,    31,    60,    -1,    13,    58,
-      -1,    59,    -1,    58,    59,    -1,    62,     5,    60,    -1,
-      63,     3,    65,     3,    67,    -1,    63,     3,    65,    -1,
-      63,     3,    67,    -1,    63,    -1,    64,    -1,    64,     3,
-      30,    -1,    64,     3,    67,    -1,    64,     3,    30,     3,
-      67,    -1,     4,     4,     4,     4,     4,    -1,    15,     4,
-       3,     4,     3,     4,    -1,    16,     4,    -1,    66,    -1,
-      65,     3,    66,    -1,    24,    -1,    27,    -1,    25,    -1,
-      28,    -1,    26,    -1,    29,    -1,    68,    -1,    67,     3,
-      68,    -1,    20,     3,     4,     3,     4,    -1,    19,     3,
-       4,     3,     4,    -1,    23,     3,     4,     3,     4,    -1,
-      21,     3,     4,     3,     4,    -1
+      35,     0,    -1,    36,    16,    -1,    37,    -1,    36,    37,
+      -1,    38,    -1,    41,    -1,    44,    -1,    47,    -1,    50,
+      -1,    53,    -1,    56,    -1,    59,    -1,     6,    39,    -1,
+      40,    -1,    39,    40,    -1,    64,    62,    -1,     7,    42,
+      -1,    43,    -1,    42,    43,    -1,    64,     5,     5,    62,
+      -1,     8,    45,    -1,    46,    -1,    45,    46,    -1,    64,
+      63,    -1,     9,    48,    -1,    49,    -1,    48,    49,    -1,
+      64,     5,    62,    -1,    10,    51,    -1,    52,    -1,    51,
+      52,    -1,    64,    62,    -1,    11,    54,    -1,    55,    -1,
+      54,    55,    -1,    64,    62,    -1,    12,    57,    -1,    58,
+      -1,    57,    58,    -1,    64,    33,    62,    -1,    13,    60,
+      -1,    61,    -1,    60,    61,    -1,    64,     5,    62,    -1,
+      65,     3,    67,     3,    69,    -1,    65,     3,    67,    -1,
+      65,     3,    69,    -1,    65,    -1,    66,    -1,    66,     3,
+      32,    -1,    66,     3,    69,    -1,    66,     3,    32,     3,
+      69,    -1,     4,     4,     4,     4,     4,    -1,    17,     4,
+       3,     4,     3,     4,    -1,    18,     4,    -1,    68,    -1,
+      67,     3,    68,    -1,    26,    -1,    29,    -1,    27,    -1,
+      30,    -1,    28,    -1,    31,    -1,    70,    -1,    69,     3,
+      70,    -1,    22,     3,     4,     3,     4,    -1,    21,     3,
+       4,     3,     4,    -1,    25,     3,     4,     3,     4,    -1,
+      23,     3,     4,     3,     4,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    93,    93,    95,    95,    98,    99,   100,   101,   102,
-     103,   104,   105,   109,   110,   110,   111,   124,   125,   125,
-     126,   141,   142,   142,   143,   155,   156,   156,   157,   171,
-     172,   172,   173,   186,   187,   187,   188,   201,   202,   202,
-     203,   217,   218,   218,   219,   236,   245,   254,   263,   274,
-     283,   292,   301,   313,   325,   330,   336,   337,   344,   345,
-     346,   347,   348,   349,   352,   353,   360,   364,   370,   376
+       0,    91,    91,    93,    93,    96,    97,    98,    99,   100,
+     101,   102,   103,   111,   112,   112,   113,   126,   127,   127,
+     128,   143,   144,   144,   145,   157,   158,   158,   159,   173,
+     174,   174,   175,   188,   189,   189,   190,   203,   204,   204,
+     205,   219,   220,   220,   221,   268,   277,   286,   295,   306,
+     315,   324,   333,   345,   357,   362,   368,   369,   376,   377,
+     378,   379,   380,   381,   384,   385,   392,   396,   402,   408
 };
 #endif
 
@@ -564,17 +567,17 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "COMMA", "NUMBER", "STRING", "TK_WALL",
   "TK_GATE", "TK_EARTH", "TK_WEB", "TK_BOARD", "TK_STEP", "TK_HOST",
-  "TK_DOC", "TK_END", "TK_BOX_SIZE", "TK_SPHER_SIZE", "TK_TOR_SIZE",
-  "TK_TOR_SIZE2", "TK_DIFFUSE", "TK_AMBIENT", "TK_SPECULAR", "TK_EMISSION",
-  "TK_SHININESS", "TEX_XP", "TEX_YP", "TEX_ZP", "TEX_XN", "TEX_YN",
-  "TEX_ZN", "SPHER_TEX", "TLNT", "$accept", "start", "solid",
-  "solid_single", "wall_section", "wall", "wall_single", "gate_section",
-  "gate", "gate_single", "earth_section", "earth", "earth_single",
-  "web_section", "web", "web_single", "board_section", "board",
-  "board_single", "step_section", "step", "step_single", "host_section",
-  "host", "host_single", "doc_section", "doc", "doc_single", "box_props",
-  "spher_props", "pos_ang", "box_size", "spher_size", "box_tex",
-  "box_tex_single", "app", "app_single", 0
+  "TK_DOC", "TK_MIRAGE", "TK_THING", "TK_END", "TK_BOX_SIZE",
+  "TK_SPHER_SIZE", "TK_TOR_SIZE", "TK_TOR_SIZE2", "TK_DIFFUSE",
+  "TK_AMBIENT", "TK_SPECULAR", "TK_EMISSION", "TK_SHININESS", "TEX_XP",
+  "TEX_YP", "TEX_ZP", "TEX_XN", "TEX_YN", "TEX_ZN", "SPHER_TEX", "TLNT",
+  "$accept", "start", "solid", "solid_single", "wall_section", "wall",
+  "wall_single", "gate_section", "gate", "gate_single", "earth_section",
+  "earth", "earth_single", "web_section", "web", "web_single",
+  "board_section", "board", "board_single", "step_section", "step",
+  "step_single", "host_section", "host", "host_single", "doc_section",
+  "doc", "doc_single", "box_props", "spher_props", "pos_ang", "box_size",
+  "spher_size", "box_tex", "box_tex_single", "app", "app_single", 0
 };
 #endif
 
@@ -586,20 +589,20 @@ static const yytype_uint16 yytoknum[] =
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
-     285,   286
+     285,   286,   287,   288
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    32,    33,    34,    34,    35,    35,    35,    35,    35,
-      35,    35,    35,    36,    37,    37,    38,    39,    40,    40,
-      41,    42,    43,    43,    44,    45,    46,    46,    47,    48,
-      49,    49,    50,    51,    52,    52,    53,    54,    55,    55,
-      56,    57,    58,    58,    59,    60,    60,    60,    60,    61,
-      61,    61,    61,    62,    63,    64,    65,    65,    66,    66,
-      66,    66,    66,    66,    67,    67,    68,    68,    68,    68
+       0,    34,    35,    36,    36,    37,    37,    37,    37,    37,
+      37,    37,    37,    38,    39,    39,    40,    41,    42,    42,
+      43,    44,    45,    45,    46,    47,    48,    48,    49,    50,
+      51,    51,    52,    53,    54,    54,    55,    56,    57,    57,
+      58,    59,    60,    60,    61,    62,    62,    62,    62,    63,
+      63,    63,    63,    64,    65,    66,    67,    67,    68,    68,
+      68,    68,    68,    68,    69,    69,    70,    70,    70,    70
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -648,28 +651,28 @@ static const yytype_int8 yydefgoto[] =
 #define YYPACT_NINF -68
 static const yytype_int8 yypact[] =
 {
-      56,     5,     5,     5,     5,     5,     5,     5,     5,    10,
+      58,     5,     5,     5,     5,     5,     5,     5,     5,    10,
       47,   -68,   -68,   -68,   -68,   -68,   -68,   -68,   -68,   -68,
-      11,     5,   -68,     2,     5,   -68,    13,     5,   -68,     3,
-       5,   -68,    15,     5,   -68,     2,     5,   -68,     2,     5,
-     -68,   -10,     5,   -68,    19,   -68,   -68,   -68,    22,   -68,
-      25,   -68,    24,   -68,    27,   -68,    26,   -68,    32,   -68,
-       2,   -68,   -68,   -68,   -68,   -68,     2,   -68,     2,    69,
-      72,    23,     2,   -68,    -7,   -68,   -68,   -68,    73,    74,
-      76,    77,    78,    79,   -68,   -68,   -68,   -68,   -68,   -68,
-      80,   -68,    81,   -68,   -68,    82,    81,   -68,    83,    84,
-      85,    86,    87,    23,    51,    51,    88,    90,    91,    92,
-      93,   -68,    81,   -68,    81,   -68,    94,    95,    96,    97,
+      11,     5,   -68,     3,     5,   -68,    19,     5,   -68,     8,
+       5,   -68,    22,     5,   -68,     3,     5,   -68,     3,     5,
+     -68,    -3,     5,   -68,    24,   -68,   -68,   -68,    28,   -68,
+      31,   -68,    59,   -68,    56,   -68,    68,   -68,    70,   -68,
+       3,   -68,   -68,   -68,   -68,   -68,     3,   -68,     3,    71,
+      73,    21,     3,   -68,    -9,   -68,   -68,   -68,    74,    75,
+      77,    78,    79,    80,   -68,   -68,   -68,   -68,   -68,   -68,
+      81,   -68,    82,   -68,   -68,    83,    82,   -68,    84,    85,
+      86,    87,    88,    21,    -4,    -4,    89,    91,    92,    93,
+      94,   -68,    82,   -68,    82,   -68,    95,    96,    97,    98,
      -68,   -68,   -68,   -68
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -68,   -68,   -68,    66,   -68,   -68,    89,   -68,   -68,    63,
-     -68,   -68,    70,   -68,   -68,    75,   -68,   -68,    71,   -68,
-     -68,    67,   -68,   -68,    68,   -68,   -68,    60,   -27,   -68,
-      -2,   -68,   -68,   -68,     6,   -67,     4
+     -68,   -68,   -68,    64,   -68,   -68,    67,   -68,   -68,    53,
+     -68,   -68,    76,   -68,   -68,    90,   -68,   -68,    65,   -68,
+     -68,    69,   -68,   -68,    72,   -68,   -68,    62,   -27,   -68,
+      -2,   -68,   -68,   -68,     4,   -67,     2
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -680,51 +683,53 @@ static const yytype_int8 yypgoto[] =
 static const yytype_uint8 yytable[] =
 {
       26,    29,    32,    35,    38,    41,    44,    96,    62,    20,
-      45,    64,    80,    81,    82,    48,    83,    50,    54,    56,
-      60,    66,    26,    95,    68,    29,    69,    71,    32,    70,
-      73,    35,    72,    75,    38,    74,   112,    41,   114,    76,
+      45,    64,    80,    81,    82,    48,    83,    80,    81,    82,
+      50,    83,    26,    95,    54,    29,    56,    60,    32,    68,
+      66,    35,    69,    75,    38,    70,   112,    41,   114,    76,
       44,    77,    80,    81,    82,    94,    83,    84,    85,    86,
       87,    88,    89,     1,     2,     3,     4,     5,     6,     7,
-       8,    46,     1,     2,     3,     4,     5,     6,     7,     8,
-      80,    81,    82,    78,    83,    79,    47,    97,    98,    99,
-     100,   101,   102,   103,   104,   105,   106,    53,   107,   108,
-     109,   110,   115,   116,   117,   118,   119,    55,   120,   121,
-     122,   123,    67,    63,    61,    59,     0,    65,   113,   111,
-      49
+       8,    72,    71,    46,     1,     2,     3,     4,     5,     6,
+       7,     8,    73,    74,    47,    78,    79,    53,    97,    98,
+      99,   100,   101,   102,   103,   104,   105,   106,    49,   107,
+     108,   109,   110,   115,   116,   117,   118,   119,    61,   120,
+     121,   122,   123,    55,    67,    63,   113,   111,     0,     0,
+       0,    65,     0,     0,     0,     0,     0,     0,     0,     0,
+      59
 };
 
 static const yytype_int8 yycheck[] =
 {
        2,     3,     4,     5,     6,     7,     8,    74,    35,     4,
-       0,    38,    19,    20,    21,     4,    23,    15,     5,    16,
-       5,    31,    24,    30,     5,    27,     4,     3,    30,     4,
-       4,    33,     5,    60,    36,     3,   103,    39,   105,    66,
-      42,    68,    19,    20,    21,    72,    23,    24,    25,    26,
-      27,    28,    29,     6,     7,     8,     9,    10,    11,    12,
-      13,    14,     6,     7,     8,     9,    10,    11,    12,    13,
-      19,    20,    21,     4,    23,     3,    10,     4,     4,     3,
-       3,     3,     3,     3,     3,     3,     3,    24,     4,     4,
-       4,     4,     4,     3,     3,     3,     3,    27,     4,     4,
-       4,     4,    42,    36,    33,    30,    -1,    39,   104,   103,
-      21
+       0,    38,    21,    22,    23,     4,    25,    21,    22,    23,
+      17,    25,    24,    32,     5,    27,    18,     5,    30,     5,
+      33,    33,     4,    60,    36,     4,   103,    39,   105,    66,
+      42,    68,    21,    22,    23,    72,    25,    26,    27,    28,
+      29,    30,    31,     6,     7,     8,     9,    10,    11,    12,
+      13,     5,     3,    16,     6,     7,     8,     9,    10,    11,
+      12,    13,     4,     3,    10,     4,     3,    24,     4,     4,
+       3,     3,     3,     3,     3,     3,     3,     3,    21,     4,
+       4,     4,     4,     4,     3,     3,     3,     3,    33,     4,
+       4,     4,     4,    27,    42,    36,   104,   103,    -1,    -1,
+      -1,    39,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+      30
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     6,     7,     8,     9,    10,    11,    12,    13,    33,
-      34,    35,    36,    39,    42,    45,    48,    51,    54,    57,
-       4,    37,    38,    62,    40,    41,    62,    43,    44,    62,
-      46,    47,    62,    49,    50,    62,    52,    53,    62,    55,
-      56,    62,    58,    59,    62,     0,    14,    35,     4,    38,
-      15,    60,    63,    41,     5,    44,    16,    61,    64,    47,
-       5,    50,    60,    53,    60,    56,    31,    59,     5,     4,
-       4,     3,     5,     4,     3,    60,    60,    60,     4,     3,
-      19,    20,    21,    23,    24,    25,    26,    27,    28,    29,
-      65,    66,    67,    68,    60,    30,    67,     4,     4,     3,
+       0,     6,     7,     8,     9,    10,    11,    12,    13,    35,
+      36,    37,    38,    41,    44,    47,    50,    53,    56,    59,
+       4,    39,    40,    64,    42,    43,    64,    45,    46,    64,
+      48,    49,    64,    51,    52,    64,    54,    55,    64,    57,
+      58,    64,    60,    61,    64,     0,    16,    37,     4,    40,
+      17,    62,    65,    43,     5,    46,    18,    63,    66,    49,
+       5,    52,    62,    55,    62,    58,    33,    61,     5,     4,
+       4,     3,     5,     4,     3,    62,    62,    62,     4,     3,
+      21,    22,    23,    25,    26,    27,    28,    29,    30,    31,
+      67,    68,    69,    70,    62,    32,    69,     4,     4,     3,
        3,     3,     3,     3,     3,     3,     3,     4,     4,     4,
-       4,    66,    67,    68,    67,     4,     3,     3,     3,     3,
+       4,    68,    69,    70,    69,     4,     3,     3,     3,     3,
        4,     4,     4,     4
 };
 
@@ -1540,7 +1545,7 @@ yyreduce:
   switch (yyn)
     {
         case 16:
-#line 111 "vred.y"
+#line 113 "vred.y"
     {
   Vect center((yyvsp[(1) - (2)].dpval)[0], (yyvsp[(1) - (2)].dpval)[1], (yyvsp[(1) - (2)].dpval)[2]);
   Vect size(*((yyvsp[(2) - (2)].bpval)->bp_box_size));
@@ -1556,7 +1561,7 @@ yyreduce:
     break;
 
   case 20:
-#line 126 "vred.y"
+#line 128 "vred.y"
     {
   Vect center((yyvsp[(1) - (4)].dpval)[0], (yyvsp[(1) - (4)].dpval)[1], (yyvsp[(1) - (4)].dpval)[2]);
   Vect size(*((yyvsp[(4) - (4)].bpval)->bp_box_size));
@@ -1574,7 +1579,7 @@ yyreduce:
     break;
 
   case 24:
-#line 143 "vred.y"
+#line 145 "vred.y"
     {
   Vect center((yyvsp[(1) - (2)].dpval)[0], (yyvsp[(1) - (2)].dpval)[1], (yyvsp[(1) - (2)].dpval)[2]);
   Vect size((yyvsp[(2) - (2)].spval)->sp_spher_size,(yyvsp[(2) - (2)].spval)->sp_spher_size,(yyvsp[(2) - (2)].spval)->sp_spher_size);
@@ -1589,7 +1594,7 @@ yyreduce:
     break;
 
   case 28:
-#line 157 "vred.y"
+#line 159 "vred.y"
     {
   Vect center((yyvsp[(1) - (3)].dpval)[0], (yyvsp[(1) - (3)].dpval)[1], (yyvsp[(1) - (3)].dpval)[2]);
   Vect size(*((yyvsp[(3) - (3)].bpval)->bp_box_size));
@@ -1597,8 +1602,8 @@ yyreduce:
   Vect o(0,0,deg((yyvsp[(1) - (3)].dpval)[3]));
   Tex* t = (yyvsp[(3) - (3)].bpval)->bp_box_tex;
   App* a = (yyvsp[(3) - (3)].bpval)->bp_app;
-  Web *w = new Web("myWall", center, o, size, 
-		   TEXTURED, Color::white, *t, *a, (yyvsp[(2) - (3)].sval));
+  Web *w = new Web("myWall", center, o, size, TEXTURED, Color::white, *t, *a,
+                   (yyvsp[(2) - (3)].sval));
   gr->add(w);
   free_box_props((yyvsp[(3) - (3)].bpval));
   delete[]((yyvsp[(1) - (3)].dpval));
@@ -1606,7 +1611,7 @@ yyreduce:
     break;
 
   case 32:
-#line 173 "vred.y"
+#line 175 "vred.y"
     {
   Vect center((yyvsp[(1) - (2)].dpval)[0], (yyvsp[(1) - (2)].dpval)[1], (yyvsp[(1) - (2)].dpval)[2]);
   Vect size(*((yyvsp[(2) - (2)].bpval)->bp_box_size));
@@ -1622,7 +1627,7 @@ yyreduce:
     break;
 
   case 36:
-#line 188 "vred.y"
+#line 190 "vred.y"
     {
   Vect center((yyvsp[(1) - (2)].dpval)[0], (yyvsp[(1) - (2)].dpval)[1], (yyvsp[(1) - (2)].dpval)[2]);
   Vect size(*((yyvsp[(2) - (2)].bpval)->bp_box_size));
@@ -1638,7 +1643,7 @@ yyreduce:
     break;
 
   case 40:
-#line 203 "vred.y"
+#line 205 "vred.y"
     {
   Vect center((yyvsp[(1) - (3)].dpval)[0], (yyvsp[(1) - (3)].dpval)[1], (yyvsp[(1) - (3)].dpval)[2]);
   Vect size(*((yyvsp[(3) - (3)].bpval)->bp_box_size));
@@ -1646,8 +1651,8 @@ yyreduce:
   Vect o(0,0,deg((yyvsp[(1) - (3)].dpval)[3]));
   Tex* t = (yyvsp[(3) - (3)].bpval)->bp_box_tex == NULL ? new Tex() : new Tex(*((yyvsp[(3) - (3)].bpval)->bp_box_tex));
   App* a = (yyvsp[(3) - (3)].bpval)->bp_app == NULL ? new App() : new App(*((yyvsp[(3) - (3)].bpval)->bp_app));
-  Host *h = new Host("myWall", center, o, size, 
-		   TEXTURED, Color::white, *t, *a, (yyvsp[(2) - (3)].sval));
+  Host *h = new Host("myWall", center, o, size, TEXTURED, Color::white, *t, *a,
+                     (yyvsp[(2) - (3)].sval));
   gr->add(h);
   free_box_props((yyvsp[(3) - (3)].bpval));
   delete[]((yyvsp[(1) - (3)].dpval));
@@ -1655,7 +1660,7 @@ yyreduce:
     break;
 
   case 44:
-#line 219 "vred.y"
+#line 221 "vred.y"
     {
   Vect center((yyvsp[(1) - (3)].dpval)[0], (yyvsp[(1) - (3)].dpval)[1], (yyvsp[(1) - (3)].dpval)[2]);
   Vect size(*((yyvsp[(3) - (3)].bpval)->bp_box_size));
@@ -1663,8 +1668,8 @@ yyreduce:
   Vect o(0,0,deg((yyvsp[(1) - (3)].dpval)[3]));
   Tex* t = (yyvsp[(3) - (3)].bpval)->bp_box_tex;
   App* a = (yyvsp[(3) - (3)].bpval)->bp_app;
-  Doc *d = new Doc("myWall", center, o, size, 
-		   TEXTURED, Color::white, *t, *a, (yyvsp[(2) - (3)].sval));
+  Doc *d = new Doc("myWall", center, o, size, TEXTURED, Color::white, *t, *a,
+                   (yyvsp[(2) - (3)].sval));
   gr->add(d);
   free_box_props((yyvsp[(3) - (3)].bpval));
   delete[]((yyvsp[(1) - (3)].dpval));
@@ -1672,7 +1677,7 @@ yyreduce:
     break;
 
   case 45:
-#line 236 "vred.y"
+#line 268 "vred.y"
     {
       struct structBoxProps *res;
       res = (struct structBoxProps *)malloc(sizeof(struct structBoxProps));
@@ -1685,7 +1690,7 @@ yyreduce:
     break;
 
   case 46:
-#line 245 "vred.y"
+#line 277 "vred.y"
     {
       struct structBoxProps *res;
       res = (struct structBoxProps *)malloc(sizeof(struct structBoxProps));
@@ -1698,7 +1703,7 @@ yyreduce:
     break;
 
   case 47:
-#line 254 "vred.y"
+#line 286 "vred.y"
     {
       struct structBoxProps *res;
       res = (struct structBoxProps *)malloc(sizeof(struct structBoxProps));
@@ -1711,7 +1716,7 @@ yyreduce:
     break;
 
   case 48:
-#line 263 "vred.y"
+#line 295 "vred.y"
     { 
       struct structBoxProps *res;
       res = (struct structBoxProps *)malloc(sizeof(struct structBoxProps));
@@ -1724,7 +1729,7 @@ yyreduce:
     break;
 
   case 49:
-#line 274 "vred.y"
+#line 306 "vred.y"
     {
       struct structSpherProps *res;
       res = (struct structSpherProps *)malloc(sizeof(struct structSpherProps));
@@ -1737,7 +1742,7 @@ yyreduce:
     break;
 
   case 50:
-#line 283 "vred.y"
+#line 315 "vred.y"
     {
       struct structSpherProps *res;
       res = (struct structSpherProps *)malloc(sizeof(struct structSpherProps));
@@ -1750,7 +1755,7 @@ yyreduce:
     break;
 
   case 51:
-#line 292 "vred.y"
+#line 324 "vred.y"
     {
       struct structSpherProps *res;
       res = (struct structSpherProps *)malloc(sizeof(struct structSpherProps));
@@ -1763,7 +1768,7 @@ yyreduce:
     break;
 
   case 52:
-#line 301 "vred.y"
+#line 333 "vred.y"
     {
       struct structSpherProps *res;
       res = (struct structSpherProps *)malloc(sizeof(struct structSpherProps));
@@ -1776,93 +1781,93 @@ yyreduce:
     break;
 
   case 53:
-#line 314 "vred.y"
+#line 346 "vred.y"
     {
-     double *res = new double[5];
-     res[0]=(yyvsp[(1) - (5)].dval); 
-     res[1]=(yyvsp[(2) - (5)].dval); 
-     res[2]=(yyvsp[(3) - (5)].dval); 
-     res[3]=(yyvsp[(4) - (5)].dval); 
-     res[4]=(yyvsp[(5) - (5)].dval); 
+  float *res = new float[5];
+  res[0] = (yyvsp[(1) - (5)].dval); 
+  res[1] = (yyvsp[(2) - (5)].dval); 
+  res[2] = (yyvsp[(3) - (5)].dval); 
+  res[3] = (yyvsp[(4) - (5)].dval); 
+  res[4] = (yyvsp[(5) - (5)].dval); 
 
-     (yyval.dpval) = res;
-  }
+  (yyval.dpval) = res;
+}
     break;
 
   case 54:
-#line 326 "vred.y"
+#line 358 "vred.y"
     {
   (yyval.vectval) = new Vect((yyvsp[(2) - (6)].dval), (yyvsp[(4) - (6)].dval), (yyvsp[(6) - (6)].dval));
 }
     break;
 
   case 55:
-#line 331 "vred.y"
+#line 363 "vred.y"
     {
   (yyval.dval) = (yyvsp[(2) - (2)].dval);
 }
     break;
 
   case 56:
-#line 336 "vred.y"
+#line 368 "vred.y"
     { (yyval.texval) = (yyvsp[(1) - (1)].texval); }
     break;
 
   case 57:
-#line 337 "vred.y"
+#line 369 "vred.y"
     { 
     mix_texture((yyvsp[(3) - (3)].texval), (yyvsp[(1) - (3)].texval));
     delete((yyvsp[(3) - (3)].texval));
     (yyval.texval) = (yyvsp[(1) - (3)].texval);
-   }
+}
     break;
 
   case 58:
-#line 344 "vred.y"
+#line 376 "vred.y"
     { (yyval.texval) = new Tex((yyvsp[(1) - (1)].sval), NULL, NULL, NULL, NULL, NULL); }
     break;
 
   case 59:
-#line 345 "vred.y"
+#line 377 "vred.y"
     { (yyval.texval) = new Tex(NULL, (yyvsp[(1) - (1)].sval), NULL, NULL, NULL, NULL); }
     break;
 
   case 60:
-#line 346 "vred.y"
+#line 378 "vred.y"
     { (yyval.texval) = new Tex(NULL, NULL, (yyvsp[(1) - (1)].sval), NULL, NULL, NULL); }
     break;
 
   case 61:
-#line 347 "vred.y"
+#line 379 "vred.y"
     { (yyval.texval) = new Tex(NULL, NULL, NULL, (yyvsp[(1) - (1)].sval), NULL, NULL); }
     break;
 
   case 62:
-#line 348 "vred.y"
+#line 380 "vred.y"
     { (yyval.texval) = new Tex(NULL, NULL, NULL, NULL, (yyvsp[(1) - (1)].sval), NULL); }
     break;
 
   case 63:
-#line 349 "vred.y"
+#line 381 "vred.y"
     { (yyval.texval) = new Tex(NULL, NULL, NULL, NULL, NULL, (yyvsp[(1) - (1)].sval)); }
     break;
 
   case 64:
-#line 352 "vred.y"
+#line 384 "vred.y"
     { (yyval.appval) = (yyvsp[(1) - (1)].appval); }
     break;
 
   case 65:
-#line 353 "vred.y"
+#line 385 "vred.y"
     {
     mix_app((yyvsp[(3) - (3)].appval), (yyvsp[(1) - (3)].appval));
     delete((yyvsp[(3) - (3)].appval));
     (yyval.appval) = (yyvsp[(1) - (3)].appval);
-  }
+}
     break;
 
   case 66:
-#line 360 "vred.y"
+#line 392 "vred.y"
     {
     Color v((yyvsp[(1) - (5)].dval), (yyvsp[(3) - (5)].dval), (yyvsp[(5) - (5)].dval), 1.0);
     (yyval.appval) = new App(v);
@@ -1870,7 +1875,7 @@ yyreduce:
     break;
 
   case 67:
-#line 364 "vred.y"
+#line 396 "vred.y"
     {
     Color v((yyvsp[(1) - (5)].dval), (yyvsp[(3) - (5)].dval), (yyvsp[(5) - (5)].dval), 1.0);
     App *a = new App();
@@ -1880,7 +1885,7 @@ yyreduce:
     break;
 
   case 68:
-#line 370 "vred.y"
+#line 402 "vred.y"
     {
     Color v((yyvsp[(1) - (5)].dval), (yyvsp[(3) - (5)].dval), (yyvsp[(5) - (5)].dval), 1.0);
     App *a = new App();
@@ -1890,7 +1895,7 @@ yyreduce:
     break;
 
   case 69:
-#line 376 "vred.y"
+#line 408 "vred.y"
     {
     Color v((yyvsp[(1) - (5)].dval), (yyvsp[(3) - (5)].dval), (yyvsp[(5) - (5)].dval), 1.0);
     App *a = new App();
@@ -1901,7 +1906,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1905 "y.tab.c"
+#line 1910 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2115,7 +2120,7 @@ yyreturn:
 }
 
 
-#line 382 "vred.y"
+#line 415 "vred.y"
 
 
 /*
@@ -2172,7 +2177,7 @@ void mix_app(App* a1, App* a2)
   }
 }
 
-double deg(const double rad)
+float deg(const float rad)
 {
   return (rad * 180.0 / M_PI);
 }

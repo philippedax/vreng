@@ -50,24 +50,26 @@
      TK_STEP = 266,
      TK_HOST = 267,
      TK_DOC = 268,
-     TK_END = 269,
-     TK_BOX_SIZE = 270,
-     TK_SPHER_SIZE = 271,
-     TK_TOR_SIZE = 272,
-     TK_TOR_SIZE2 = 273,
-     TK_DIFFUSE = 274,
-     TK_AMBIENT = 275,
-     TK_SPECULAR = 276,
-     TK_EMISSION = 277,
-     TK_SHININESS = 278,
-     TEX_XP = 279,
-     TEX_YP = 280,
-     TEX_ZP = 281,
-     TEX_XN = 282,
-     TEX_YN = 283,
-     TEX_ZN = 284,
-     SPHER_TEX = 285,
-     TLNT = 286
+     TK_MIRAGE = 269,
+     TK_THING = 270,
+     TK_END = 271,
+     TK_BOX_SIZE = 272,
+     TK_SPHER_SIZE = 273,
+     TK_TOR_SIZE = 274,
+     TK_TOR_SIZE2 = 275,
+     TK_DIFFUSE = 276,
+     TK_AMBIENT = 277,
+     TK_SPECULAR = 278,
+     TK_EMISSION = 279,
+     TK_SHININESS = 280,
+     TEX_XP = 281,
+     TEX_YP = 282,
+     TEX_ZP = 283,
+     TEX_XN = 284,
+     TEX_YN = 285,
+     TEX_ZN = 286,
+     SPHER_TEX = 287,
+     TLNT = 288
    };
 #endif
 /* Tokens.  */
@@ -82,35 +84,37 @@
 #define TK_STEP 266
 #define TK_HOST 267
 #define TK_DOC 268
-#define TK_END 269
-#define TK_BOX_SIZE 270
-#define TK_SPHER_SIZE 271
-#define TK_TOR_SIZE 272
-#define TK_TOR_SIZE2 273
-#define TK_DIFFUSE 274
-#define TK_AMBIENT 275
-#define TK_SPECULAR 276
-#define TK_EMISSION 277
-#define TK_SHININESS 278
-#define TEX_XP 279
-#define TEX_YP 280
-#define TEX_ZP 281
-#define TEX_XN 282
-#define TEX_YN 283
-#define TEX_ZN 284
-#define SPHER_TEX 285
-#define TLNT 286
+#define TK_MIRAGE 269
+#define TK_THING 270
+#define TK_END 271
+#define TK_BOX_SIZE 272
+#define TK_SPHER_SIZE 273
+#define TK_TOR_SIZE 274
+#define TK_TOR_SIZE2 275
+#define TK_DIFFUSE 276
+#define TK_AMBIENT 277
+#define TK_SPECULAR 278
+#define TK_EMISSION 279
+#define TK_SHININESS 280
+#define TEX_XP 281
+#define TEX_YP 282
+#define TEX_ZP 283
+#define TEX_XN 284
+#define TEX_YN 285
+#define TEX_ZN 286
+#define SPHER_TEX 287
+#define TLNT 288
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 59 "vred.y"
+#line 58 "vred.y"
 {
-  double dval;
+  float dval;
   char*  sval;
-  double* dpval;
+  float* dpval;
   Vect* vectval;
   Tex*  texval;
   struct structBoxProps* bpval;
@@ -118,7 +122,7 @@ typedef union YYSTYPE
   App* appval;
 }
 /* Line 1529 of yacc.c.  */
-#line 122 "y.tab.h"
+#line 126 "y.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

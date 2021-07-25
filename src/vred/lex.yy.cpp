@@ -821,37 +821,41 @@ YY_RULE_SETUP
 		return TK_HOST;
 	} else if (strcasecmp(yytext,"<doc") == 0) {
 		return TK_DOC;
+	} else if (strcasecmp(yytext,"<mirage") == 0) {
+		return TK_MIRAGE;
+	} else if (strcasecmp(yytext,"<thing") == 0) {
+		return TK_THING;
 	} else if (strcasecmp(yytext,"</vre") == 0) {
 		return TK_END;
 	} else {
-		fprintf(stderr,"Bad type %s on line %d\n", yytext, yylineno);
+		fprintf(stderr,"Bad type %s at line %d\n", yytext, yylineno);
 		exit(1);
 	}
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 55 "vred.l"
+#line 59 "vred.l"
 { return TK_BOX_SIZE; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 56 "vred.l"
-{return TK_SPHER_SIZE; }
+#line 60 "vred.l"
+{ return TK_SPHER_SIZE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 57 "vred.l"
+#line 61 "vred.l"
 { return TK_TOR_SIZE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 59 "vred.l"
+#line 63 "vred.l"
 { return COMMA; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 61 "vred.l"
+#line 65 "vred.l"
 {
 	if (strncasecmp(yytext,"xp=",3) == 0) {
 		yylval.sval = strdup(yytext+3);
@@ -903,10 +907,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 110 "vred.l"
+#line 114 "vred.l"
 ECHO;
 	YY_BREAK
-#line 910 "lex.yy.c"
+#line 914 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1906,7 +1910,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 110 "vred.l"
+#line 114 "vred.l"
 
 
 

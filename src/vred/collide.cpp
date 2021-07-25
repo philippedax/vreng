@@ -12,31 +12,31 @@ const double epsilon = 1E-5;
 
 #define testHB(Y)   temp=y[j]-y[i]; \
 		    if (fabs(temp)>epsilon) { \
-     			temp=(Y-y[i])/temp; \
-			if (temp>=0&&temp<=1) { \
-			    temp=x[i]+temp*(x[j]-x[i]); \
-				if (fabs(temp)<w) { \
-				    return 1; \
-				} \
-				} \
-			    }
+     	 	      temp=(Y-y[i])/temp; \
+		      if (temp>=0&&temp<=1) { \
+		        temp=x[i]+temp*(x[j]-x[i]); \
+			if (fabs(temp)<w) { \
+			  return 1; \
+			} \
+		      } \
+		    }
 
 #define testDG(X) 	temp=x[j]-x[i]; \
-					if (fabs(temp)>epsilon) { \
-						temp=(X-x[i])/temp; \
-						if (temp>=0&&temp<=1) { \
-							temp=y[i]+temp*(y[j]-y[i]); \
-							if (fabs(temp)<d) { \
-  							    return 1; \
-							} \
-						} \
-					}
+			if (fabs(temp)>epsilon) { \
+			  temp=(X-x[i])/temp; \
+			  if (temp>=0&&temp<=1) { \
+			    temp=y[i]+temp*(y[j]-y[i]); \
+			    if (fabs(temp)<d) { \
+  			      return 1; \
+			    } \
+			  } \
+			}
 
 int Bbox::collide(const Bbox& box) const
 {
-    //separes trivialement en z ?
-    if (box.height/2+box.center[3]<=center[3]-height/2) return 0;
-    if (height/2+center[3]<=box.center[3]-box.height/2) return 0;
+    // separes trivialement en z ?
+    if (box.height/2+box.center[3] <= center[3]-height/2) return 0;
+    if (height/2+center[3] <= box.center[3]-box.height/2) return 0;
 
     //transformation   
     double x[4];
@@ -94,33 +94,28 @@ int Bbox::collide(const Bbox& box) const
 	//Calcul des intersections
 
 	for (i=0;i<4;i++) {
-
-		int j=(i+1)&3;
+		int j = (i+1)&3;
 #ifdef VERBOSE
 		printf("\n   Ligne %d->%d: ",i,j);
 #endif
-		
 		if ((mask[i]&mask[j])!=0) {
 #ifdef VERBOSE
 			printf("trivialement invisible");
 #endif
 			continue;
 		}
-
 		double temp;
 		
-		switch (mask[i])
-		{
-			case 1: testDG(d); break;
-			case 2:	testDG(-d); break;
-			case 4: testHB(-w); break;
-			case 8: testHB(w); break;
-			case 5: testDG(d); testHB(-w); break;
-			case 6: testDG(-d); testHB(-w); break;
-			case 9: testDG(d); testHB(w); break;
-			case 10:testDG(-d); testHB(w); break;
+		switch (mask[i]) {
+		case 1: testDG(d); break;
+		case 2:	testDG(-d); break;
+		case 4: testHB(-w); break;
+		case 8: testHB(w); break;
+		case 5: testDG(d); testHB(-w); break;
+		case 6: testDG(-d); testHB(-w); break;
+		case 9: testDG(d); testHB(w); break;
+		case 10:testDG(-d); testHB(w); break;
 		}
-		
 	}
 
     //Pas de problemes
@@ -153,9 +148,7 @@ void Bsphere::calcGroup(int n,Solid** table)
   center=table[0]->myBoundingSphere.center;
   
   for(int i=0;i<n;i++) {
-    
     for(int j=i+1;j<n;j++) {
-      
       temp=table[i]->myBoundingSphere.center;
       temp-=table[j]->myBoundingSphere.center;
       
@@ -163,7 +156,7 @@ void Bsphere::calcGroup(int n,Solid** table)
       if (d>radius) {
 	radius=d;
 	temp*=1/sqrt(temp.norm());
-	
+
 	bordi=temp;
 	bordi*=table[i]->myBoundingSphere.radius;
 	bordi+=table[i]->myBoundingSphere.center;
@@ -176,9 +169,7 @@ void Bsphere::calcGroup(int n,Solid** table)
 	center+=bordj;
 	center*=0.5;
       }
-      
     }   
-    
   }
   
 #ifdef VERBOSE
@@ -228,7 +219,6 @@ void Bbox::calcGroup(int n,Solid** table)
 
     minmax(xmin,xmax,+cosalphaD_+sinalphaW_+table[i]->myBoundingBox.center[0]);
     minmax(ymin,ymax,+sinalphaD_-cosalphaW_+table[i]->myBoundingBox.center[1]);
-
   }
 
   center[0]=(xmin+xmax)/2.0;
@@ -352,4 +342,3 @@ int Bbox::inner(Vect pt) const
 
   return 1;
 }
-

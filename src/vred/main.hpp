@@ -7,7 +7,6 @@ class Vred {
 
 public:
   static Group *treeRoot;
-
 };
 
 #endif

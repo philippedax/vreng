@@ -17,7 +17,8 @@ public:
        const Vect& _size = Vect::unit,
        int _renderStyle = WIRED, const Color& _color = Color::white,
        const Tex& _tex = Tex(), const App& _app = App(),
-       const char* _hostname = NULL) :
+       const char* _hostname = NULL
+      ) :
        Box(_name, _center, _orientation, _size, _renderStyle, _color, _tex, _app)
        {
          hostname = NULL;

@@ -1,6 +1,6 @@
-VRED_SRCS = main.cpp app.cpp bbox.cpp board.cpp box.cpp bsphere.cpp camera.cpp collide.cpp color.cpp doc.cpp earth.cpp gate.cpp gif.cpp group.cpp host.cpp io.cpp item.cpp map.cpp matrix.cpp output.cpp ray.cpp raycaster.cpp solid.cpp sphere.cpp step.cpp tex.cpp vect.cpp safe.cpp wall.cpp web.cpp ui.cpp
+VRED_SRCS = main.cpp app.cpp bbox.cpp board.cpp box.cpp bsphere.cpp camera.cpp collide.cpp color.cpp doc.cpp earth.cpp gate.cpp gif.cpp group.cpp host.cpp mirage.cpp thing.cpp io.cpp item.cpp map.cpp matrix.cpp output.cpp ray.cpp raycaster.cpp solid.cpp sphere.cpp step.cpp tex.cpp vect.cpp safe.cpp wall.cpp web.cpp ui.cpp
 
-VRED_HDRS = main.hpp vred.hpp vre.hpp app.hpp bbox.hpp board.hpp box.hpp bsphere.hpp camera.hpp color.hpp doc.hpp earth.hpp gate.hpp gif.hpp group.hpp host.hpp input.hpp item.hpp map.hpp matrix.hpp output.hpp ray.hpp raycaster.hpp solid.hpp sphere.hpp step.hpp tex.hpp ui.hpp vect.hpp safe.hpp wall.hpp web.hpp
+VRED_HDRS = main.hpp vred.hpp vre.hpp app.hpp bbox.hpp board.hpp box.hpp bsphere.hpp camera.hpp color.hpp doc.hpp earth.hpp gate.hpp gif.hpp group.hpp host.hpp mirage.hpp thing.hpp input.hpp item.hpp map.hpp matrix.hpp output.hpp ray.hpp raycaster.hpp solid.hpp sphere.hpp step.hpp tex.hpp ui.hpp vect.hpp safe.hpp wall.hpp web.hpp
 
 EXTRA_DIST = vred.l vred.y
 

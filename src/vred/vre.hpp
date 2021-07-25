@@ -26,6 +26,8 @@
 #include "step.hpp"
 #include "host.hpp"
 #include "doc.hpp"
+#include "mirage.hpp"
+#include "thing.hpp"
 
 #include "input.hpp"
 

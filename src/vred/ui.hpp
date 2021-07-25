@@ -14,6 +14,8 @@ enum UIObjectTypes {
   BOARD_TYPE,
   HOST_TYPE,
   DOC_TYPE,
+  MIRAGE_TYPE,
+  THING_TYPE,
   EARTH_TYPE
 };
 
@@ -86,6 +88,7 @@ private:
  static GLUI_Translation *sizeButton[3];
  static GLUI_Translation *angleZButton;
  static GLUI_Rollout *texRollout;
+ static GLUI_Panel *texPanel;
  static GLUI_Rollout *appRollout;
  static GLUI_Button *grpButton, *ungrpButton, *delButton;
  static GLUI_StaticText *objectDescr;

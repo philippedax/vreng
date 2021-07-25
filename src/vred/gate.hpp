@@ -12,7 +12,8 @@ public:
        const Vect& _size = Vect::unit,
        int _renderStyle = WIRED, const Color& _color = Color::white,
        const Tex& _tex = Tex(), const App& _app = App(),
-       char* _toWhere = NULL, char* _ip_multi = NULL);
+       char* _toWhere = NULL, char* _ip_multi = NULL
+      );
   virtual ~Gate();
 
   virtual int getClassId() const { return GATE; }

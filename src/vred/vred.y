@@ -9,6 +9,7 @@
 //extern int yy_flex_debug;  // pour le debogage
 
 extern FILE* yyin;
+
 int yylineno;
 extern int yyerror(char*);
 extern int yylex();
@@ -16,7 +17,7 @@ extern int yylex();
 void mix_texture(Tex* t1, Tex* t2);
 void mix_app(App* a1, App* a2);
 void moveCenter(Vect& center, Vect& size);
-double deg(const double );
+float deg(const float);
 
 int curtype;
 
@@ -25,19 +26,17 @@ Group *gr;
 /* pour obtenir les valeurs par defaut */
 App *a;
 
-struct structBoxProps
-  {
-    Vect* bp_box_size;
-    Tex* bp_box_tex;
-    App* bp_app;
-  };
+struct structBoxProps {
+  Vect* bp_box_size;
+  Tex* bp_box_tex;
+  App* bp_app;
+};
 
-struct structSpherProps
-  {
-    double sp_spher_size;
-    char* sp_spher_tex;
-    App* sp_app;
-  };
+struct structSpherProps {
+  float sp_spher_size;
+  char* sp_spher_tex;
+  App* sp_app;
+};
 
 void free_box_props (struct structBoxProps *bp)
 {
@@ -57,9 +56,9 @@ void free_spher_props (struct structSpherProps *sp)
 %}
 
 %union {
-  double dval;
+  float dval;
   char*  sval;
-  double* dpval;
+  float* dpval;
   Vect* vectval;
   Tex*  texval;
   struct structBoxProps* bpval;
@@ -71,12 +70,11 @@ void free_spher_props (struct structSpherProps *sp)
 %token <dval> NUMBER
 %token <sval> STRING
 /* type d'objets */
-%token TK_WALL TK_GATE TK_EARTH TK_WEB TK_BOARD TK_STEP TK_HOST TK_DOC
+%token TK_WALL TK_GATE TK_EARTH TK_WEB TK_BOARD TK_STEP TK_HOST TK_DOC TK_MIRAGE TK_THING
 %token TK_END
 
 %token TK_BOX_SIZE TK_SPHER_SIZE TK_TOR_SIZE TK_TOR_SIZE2
 %token <dval> TK_DIFFUSE TK_AMBIENT TK_SPECULAR TK_EMISSION TK_SHININESS
-
 %token <sval> TEX_XP TEX_YP TEX_ZP TEX_XN TEX_YN TEX_ZN SPHER_TEX
 %token <sval> TLNT
 
@@ -103,6 +101,10 @@ solid_single:
   step_section |
   host_section |
   doc_section
+/** |
+  mirage_section |
+  thing_section
+**/
 
 /*************** Niveau 1 : Types *****************/
 
@@ -161,8 +163,8 @@ web_single: pos_ang STRING box_props {
   Vect o(0,0,deg($1[3]));
   Tex* t = $3->bp_box_tex;
   App* a = $3->bp_app;
-  Web *w = new Web("myWall", center, o, size, 
-		   TEXTURED, Color::white, *t, *a, $2);
+  Web *w = new Web("myWall", center, o, size, TEXTURED, Color::white, *t, *a,
+                   $2);
   gr->add(w);
   free_box_props($3);
   delete[]($1);
@@ -207,8 +209,8 @@ host_single: pos_ang TLNT box_props {
   Vect o(0,0,deg($1[3]));
   Tex* t = $3->bp_box_tex == NULL ? new Tex() : new Tex(*($3->bp_box_tex));
   App* a = $3->bp_app == NULL ? new App() : new App(*($3->bp_app));
-  Host *h = new Host("myWall", center, o, size, 
-		   TEXTURED, Color::white, *t, *a, $2);
+  Host *h = new Host("myWall", center, o, size, TEXTURED, Color::white, *t, *a,
+                     $2);
   gr->add(h);
   free_box_props($3);
   delete[]($1);
@@ -223,10 +225,40 @@ doc_single: pos_ang STRING box_props {
   Vect o(0,0,deg($1[3]));
   Tex* t = $3->bp_box_tex;
   App* a = $3->bp_app;
-  Doc *d = new Doc("myWall", center, o, size, 
-		   TEXTURED, Color::white, *t, *a, $2);
+  Doc *d = new Doc("myWall", center, o, size, TEXTURED, Color::white, *t, *a,
+                   $2);
   gr->add(d);
   free_box_props($3);
+  delete[]($1);
+}
+
+mirage_section: TK_MIRAGE mirage
+mirage: mirage_single | mirage mirage_single
+mirage_single: pos_ang box_props {
+  Vect center($1[0], $1[1], $1[2]);
+  Vect size(*($2->bp_box_size));
+  size *= 2;
+  Vect o(0,0,deg($1[3]));
+  Tex* t = $2->bp_box_tex;
+  App* a = $2->bp_app;
+  Mirage *m = new Mirage("myWall", center, o, size, TEXTURED, Color::white, *t, *a);
+  gr->add(m);
+  free_box_props($2);
+  delete[]($1);
+}
+
+thing_section: TK_THING thing
+thing: thing_single | thing thing_single
+thing_single: pos_ang box_props {
+  Vect center($1[0], $1[1], $1[2]);
+  Vect size(*($2->bp_box_size));
+  size *= 2;
+  Vect o(0,0,deg($1[3]));
+  Tex* t = $2->bp_box_tex;
+  App* a = $2->bp_app;
+  Thing *th = new Thing("myWall", center, o, size, TEXTURED, Color::white, *t, *a);
+  gr->add(th);
+  free_box_props($2);
   delete[]($1);
 }
 
@@ -312,15 +344,15 @@ spher_props:
 
 pos_ang: NUMBER NUMBER NUMBER NUMBER NUMBER
 {
-     double *res = new double[5];
-     res[0]=$1; 
-     res[1]=$2; 
-     res[2]=$3; 
-     res[3]=$4; 
-     res[4]=$5; 
+  float *res = new float[5];
+  res[0] = $1; 
+  res[1] = $2; 
+  res[2] = $3; 
+  res[3] = $4; 
+  res[4] = $5; 
 
-     $$ = res;
-  }
+  $$ = res;
+}
 
 box_size: TK_BOX_SIZE NUMBER COMMA NUMBER COMMA NUMBER
 {
@@ -338,7 +370,7 @@ box_tex:
     mix_texture($3, $1);
     delete($3);
     $$ = $1;
-   }
+}
 
 box_tex_single:
   TEX_XP { $$ = new Tex($1, NULL, NULL, NULL, NULL, NULL); }
@@ -354,7 +386,7 @@ app:
     mix_app($3, $1);
     delete($3);
     $$ = $1;
-  }
+}
 
 app_single:
   TK_AMBIENT COMMA NUMBER COMMA NUMBER {
@@ -379,6 +411,7 @@ app_single:
     a->setSpecular(v);
     $$ = a;
   }
+
 %%
 
 /*
@@ -435,7 +468,7 @@ void mix_app(App* a1, App* a2)
   }
 }
 
-double deg(const double rad)
+float deg(const float rad)
 {
   return (rad * 180.0 / M_PI);
 }

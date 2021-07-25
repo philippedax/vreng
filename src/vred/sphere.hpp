@@ -12,7 +12,8 @@ public:
 	 const Vect& _size = Vect::unit,
 	 const int _renderStyle = WIRED, const Color& _color = Color::white,
 	 const Tex& _tex = Tex(), const App& _app = App(),
-	 const int _slices = 10, const int _stacks = 10);
+	 const int _slices = 10, const int _stacks = 10
+        );
   virtual ~Sphere();
 
   virtual int getClassId() const { return SPHERE; };

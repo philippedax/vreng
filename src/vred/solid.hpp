@@ -9,7 +9,7 @@
 #include "app.hpp"
 #include "tex.hpp"
 
-enum ItemId {SPHERE, BOX, CAMERA, GRP, WALL, GATE, EARTH, WEB, BOARD, STEP, HOST, DOC};
+enum ItemId { SPHERE, BOX, CAMERA, GRP, WALL, GATE, EARTH, WEB, BOARD, STEP, HOST, DOC, MIRAGE, THING };
 enum Style {WIRED, COLORED, TEXTURED};
 
 class Group;

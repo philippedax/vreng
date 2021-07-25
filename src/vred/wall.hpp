@@ -11,13 +11,13 @@ public:
        const Vect& _orientation = Vect::null,
        const Vect& _size = Vect::unit,
        int _renderStyle = WIRED, const Color& _color = Color::white,
-       const Tex& _tex = Tex(), const App& _app = App());
+       const Tex& _tex = Tex(), const App& _app = App()
+      );
 
   virtual int getClassId() const {return WALL;}
   virtual const char* getClassName() const {return "wall";}
 
   friend ostream& operator<<(ostream& out, const Wall& w);
-
 };
 
 #endif
