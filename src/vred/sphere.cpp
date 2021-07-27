@@ -10,7 +10,7 @@ Sphere::Sphere(char* _name,
 	       const Vect& _size,
 	       const int _renderStyle, const Color& _color,
 	       const Tex& _tex, const App& _app,
-	       const int _slices, const int _stacks):
+	       const int _slices, const int _stacks) :
   Solid(_name, _center, _orientation, _size, _renderStyle, _color, _tex, _app),
   slices(_slices), stacks(_stacks), vertices(NULL)
 {
@@ -164,6 +164,6 @@ void Sphere::render()
 void Sphere::setSize(const Vect& size)
 {
   // constraint the sphere to be a sphere...
-  double radius = (size[0]+size[1]+size[2])/3;
+  float radius = (size[0]+size[1]+size[2])/3;
   Solid::setSize(Vect(radius, radius, radius));
 }

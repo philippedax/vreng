@@ -114,12 +114,20 @@ enum GLUI_Glut_CB_Types
 #define GLUI_BUTTON_SIZE               20
 #define GLUI_STATICTEXT_SIZE           13
 #define GLUI_SEPARATOR_HEIGHT           8
+#if 1 //dax
+#define GLUI_DEFAULT_CONTROL_WIDTH    32
+#else
 #define GLUI_DEFAULT_CONTROL_WIDTH    100
+#endif
 #define GLUI_DEFAULT_CONTROL_HEIGHT    13 
 #define GLUI_EDITTEXT_BOXINNERMARGINX   3
 #define GLUI_EDITTEXT_HEIGHT           20
 #define GLUI_EDITTEXT_WIDTH           130
+#if 1 //dax
+#define GLUI_EDITTEXT_MIN_INT_WIDTH    17
+#else
 #define GLUI_EDITTEXT_MIN_INT_WIDTH    35
+#endif
 #define GLUI_EDITTEXT_MIN_TEXT_WIDTH   50
 #define GLUI_PANEL_NAME_DROP            8
 #define GLUI_PANEL_EMBOSS_TOP           4

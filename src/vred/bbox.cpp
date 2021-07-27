@@ -1,5 +1,5 @@
-#ifndef __BBOX_CPP
-#define __BBOX_CPP
+#ifndef BBOX_CPP
+#define BBOX_CPP
 
 #include "vred.hpp"
 #include "vect.hpp"

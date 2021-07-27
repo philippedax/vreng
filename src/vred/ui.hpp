@@ -29,8 +29,8 @@ enum UIenum {
   QUIT,
   OK_BTN,
   CANCEL_BTN,
-  CENTER,
-  CENTER_X_BTN,
+  CENTER_XY,
+  CENTER_Z,
   SIZE, 
   ROT_Z,
   RADIUS,
@@ -74,7 +74,7 @@ private:
  static char *dialStr;
  static int dialUsage;
 
- static GLUI *topWin, *sideWin, *botWin, *dialGlui;
+ static GLUI *topWin, *rightWin, *botWin, *dialGlui;
  static GLUI_EditText *centerGlui[3];
  static GLUI_EditText *sizeGlui[3];
  static GLUI_EditText *angleZGlui;
@@ -106,8 +106,8 @@ private:
  static void vertex(const Vect& v);
  static void createObject();
  static void updateControls();
- static void askFor(const char *_question, int _dlogUsage, const char *_defaultAnswer="");
- static void stopAskingFor();
+ static void openDial(const char *_question, int _dlogUsage, const char *_defaultAnswer="");
+ static void closeDial();
 
 public:
   static void setupUI(int argc, char *argv[]);

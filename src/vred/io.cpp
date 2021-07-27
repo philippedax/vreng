@@ -96,6 +96,28 @@ ostream& operator<<(ostream& out, const Doc& d)
   return out;
 }
 
+ostream& operator<<(ostream& out, const Mirage& m) 
+{
+  printHeader(m, out);
+
+  pos_ang(m, out);
+  box_props(m, out);
+  printTailer(m, out);
+
+  return out;
+}
+
+ostream& operator<<(ostream& out, const Thing& t) 
+{
+  printHeader(t, out);
+
+  pos_ang(t, out);
+  box_props(t, out);
+  printTailer(t, out);
+
+  return out;
+}
+
 ostream& operator<<(ostream& out, const Group& g) 
 {
   for (int i=0; i<g.card; ++i) {
@@ -144,6 +166,16 @@ ostream& operator<<(ostream& out, const Solid& s)
   const Doc *d = dynamic_cast<const Doc*>(&s);
   if (d != NULL) {
     out << *d;
+    return out;
+  }
+  const Mirage *m = dynamic_cast<const Mirage*>(&s);
+  if (m != NULL) {
+    out << *m;
+    return out;
+  }
+  const Thing *t = dynamic_cast<const Thing*>(&s);
+  if (t != NULL) {
+    out << *t;
     return out;
   }
   return out;

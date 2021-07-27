@@ -6,7 +6,7 @@
 Solid::Solid(const char* _name,
 	     const Vect& _center, const Vect& _orient, const Vect& _size,
 	     const int _renderStyle, const Color& _color, const Tex& _tex,
-	     const App& _app):
+	     const App& _app) :
   Item(_name), center(_center), orient(_orient), size(_size),
   modelView(Matrix(_center, _orient, _size)),
   renderStyle(_renderStyle), color(_color), father(NULL), tex(_tex), app(_app)
@@ -30,9 +30,9 @@ void Solid::setCenter(const Vect& center)
 Vect Solid::getOrient() const
 {
   Matrix m = getAbsoluteModelView();
-  double sx = sqrt(Vect(m[0], m[1], m[2]).norm());
-  double sy = sqrt(Vect(m[4], m[5], m[6]).norm());
-  double cos = m[0] / sx, sin = m[1] / sy, alpha = 0;
+  float sx = sqrt(Vect(m[0], m[1], m[2]).norm());
+  float sy = sqrt(Vect(m[4], m[5], m[6]).norm());
+  float cos = m[0] / sx, sin = m[1] / sy, alpha = 0;
   if (sin >= 0)
     alpha = ACOS(cos);
   else

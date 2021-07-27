@@ -2,11 +2,11 @@
 #include "vect.hpp"
 
 
-Vect::Vect(const double x, const double y, const double z):
+Vect::Vect(const float x, const float y, const float z):
   x(x), y(y), z(z) {
 }
 
-double Vect::operator[](const int n) const {
+float Vect::operator[](const int n) const {
   switch (n) {
   case 0:
     return x;
@@ -17,7 +17,7 @@ double Vect::operator[](const int n) const {
   }
 }
 
-double& Vect::operator[](const int n) {
+float& Vect::operator[](const int n) {
   switch (n) {
   case 0:
     return x;
@@ -46,7 +46,7 @@ Vect& Vect::operator-=(const Vect& v) {
   return *this;
 }
 
-double Vect::operator*(const Vect& v) const {
+float Vect::operator*(const Vect& v) const {
   return (x * v.x + y * v.y + z * v.z);
 }
 
@@ -58,11 +58,11 @@ void Vect::print() const {
   cout << "(" << x << ", " << y << ", " << z << ")" << endl;
 }
 
-Vect operator*(const double d, const Vect& v) {
+Vect operator*(const float d, const Vect& v) {
   return Vect(d * v.x, d * v.y, d * v.z);
 }    
 
-Vect& Vect::operator*=(double d) {
+Vect& Vect::operator*=(float d) {
   x *= d; y *= d; z *= d;
   return *this;
 }

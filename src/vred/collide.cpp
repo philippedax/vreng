@@ -8,7 +8,7 @@
 
 
 // _depth(x) _width(y) _height(z)
-const double epsilon = 1E-5;
+const float epsilon = 1e-5;
 
 #define testHB(Y)   temp=y[j]-y[i]; \
 		    if (fabs(temp)>epsilon) { \
@@ -21,16 +21,16 @@ const double epsilon = 1E-5;
 		      } \
 		    }
 
-#define testDG(X) 	temp=x[j]-x[i]; \
-			if (fabs(temp)>epsilon) { \
-			  temp=(X-x[i])/temp; \
-			  if (temp>=0&&temp<=1) { \
-			    temp=y[i]+temp*(y[j]-y[i]); \
-			    if (fabs(temp)<d) { \
-  			      return 1; \
-			    } \
-			  } \
-			}
+#define testDG(X) temp=x[j]-x[i]; \
+		  if (fabs(temp)>epsilon) { \
+		    temp=(X-x[i])/temp; \
+		    if (temp>=0&&temp<=1) { \
+		      temp=y[i]+temp*(y[j]-y[i]); \
+		      if (fabs(temp)<d) { \
+  		        return 1; \
+		      } \
+		    } \
+		  }
 
 int Bbox::collide(const Bbox& box) const
 {
@@ -39,17 +39,17 @@ int Bbox::collide(const Bbox& box) const
     if (height/2+center[3] <= box.center[3]-box.height/2) return 0;
 
     //transformation   
-    double x[4];
-    double y[4];
+    float x[4];
+    float y[4];
 	int mask[4];
-	double _x,_y;
+	float _x,_y;
 
-	double cosalpha=COS(alpha);
-	double sinalpha=SIN(alpha);
-	double cosalphaD_=COS(box.alpha)*(box.depth/2.0);
-	double sinalphaD_=SIN(box.alpha)*(box.depth/2.0);
-	double cosalphaW_=COS(box.alpha)*(box.width/2.0);
-	double sinalphaW_=SIN(box.alpha)*(box.width/2.0);
+	float cosalpha=COS(alpha);
+	float sinalpha=SIN(alpha);
+	float cosalphaD_=COS(box.alpha)*(box.depth/2.0);
+	float sinalphaD_=SIN(box.alpha)*(box.depth/2.0);
+	float cosalphaW_=COS(box.alpha)*(box.width/2.0);
+	float sinalphaW_=SIN(box.alpha)*(box.width/2.0);
 
 	_x=-cosalphaD_+sinalphaW_+box.center[0]-center[0];
 	_y=-sinalphaD_-cosalphaW_+box.center[1]-center[1];
@@ -69,7 +69,7 @@ int Bbox::collide(const Bbox& box) const
 
 	//calcul du masque
 
-	double d=depth/2.0,w=width/2.0;
+	float d=depth/2.0,w=width/2.0;
 	int i;
 
 	for(i=0;i<4;i++) {
@@ -104,7 +104,7 @@ int Bbox::collide(const Bbox& box) const
 #endif
 			continue;
 		}
-		double temp;
+		float temp;
 		
 		switch (mask[i]) {
 		case 1: testDG(d); break;
@@ -152,7 +152,7 @@ void Bsphere::calcGroup(int n,Solid** table)
       temp=table[i]->myBoundingSphere.center;
       temp-=table[j]->myBoundingSphere.center;
       
-      double d=(sqrt(temp.norm())+table[i]->myBoundingSphere.radius+table[j]->myBoundingSphere.radius)/2.0;
+      float d=(sqrt(temp.norm())+table[i]->myBoundingSphere.radius+table[j]->myBoundingSphere.radius)/2.0;
       if (d>radius) {
 	radius=d;
 	temp*=1/sqrt(temp.norm());
@@ -193,20 +193,20 @@ void Bbox::calcGroup(int n,Solid** table)
     return;
   }
 
-  double temp;
-  double xmin=table[0]->myBoundingBox.center[0],xmax=table[0]->myBoundingBox.center[0];
-  double ymin=table[0]->myBoundingBox.center[1],ymax=table[0]->myBoundingBox.center[1];
-  double zmin=table[0]->myBoundingBox.center[2],zmax=table[0]->myBoundingBox.center[2];
+  float temp;
+  float xmin=table[0]->myBoundingBox.center[0],xmax=table[0]->myBoundingBox.center[0];
+  float ymin=table[0]->myBoundingBox.center[1],ymax=table[0]->myBoundingBox.center[1];
+  float zmin=table[0]->myBoundingBox.center[2],zmax=table[0]->myBoundingBox.center[2];
   
   for(int i=0;i<n;i++) {
 
     min(zmin,table[i]->myBoundingBox.center[2]-table[i]->myBoundingBox.height/2.0);
     max(zmax,table[i]->myBoundingBox.center[2]+table[i]->myBoundingBox.height/2.0);
 
-    double cosalphaD_=COS(table[i]->myBoundingBox.alpha)*(table[i]->myBoundingBox.depth/2.0);
-    double sinalphaD_=SIN(table[i]->myBoundingBox.alpha)*(table[i]->myBoundingBox.depth/2.0);
-    double cosalphaW_=COS(table[i]->myBoundingBox.alpha)*(table[i]->myBoundingBox.width/2.0);
-    double sinalphaW_=SIN(table[i]->myBoundingBox.alpha)*(table[i]->myBoundingBox.width/2.0);
+    float cosalphaD_=COS(table[i]->myBoundingBox.alpha)*(table[i]->myBoundingBox.depth/2.0);
+    float sinalphaD_=SIN(table[i]->myBoundingBox.alpha)*(table[i]->myBoundingBox.depth/2.0);
+    float cosalphaW_=COS(table[i]->myBoundingBox.alpha)*(table[i]->myBoundingBox.width/2.0);
+    float sinalphaW_=SIN(table[i]->myBoundingBox.alpha)*(table[i]->myBoundingBox.width/2.0);
 
     minmax(xmin,xmax,-cosalphaD_+sinalphaW_+table[i]->myBoundingBox.center[0]);
     minmax(ymin,ymax,-sinalphaD_-cosalphaW_+table[i]->myBoundingBox.center[1]);
@@ -235,7 +235,7 @@ void Bbox::calcGroup(int n,Solid** table)
 #endif
 }
 
-void Bbox::set(const Vect& _center, double d, double w, double h, double a)
+void Bbox::set(const Vect& _center, float d, float w, float h, float a)
 {
   center=_center;
   depth=d;
@@ -244,7 +244,7 @@ void Bbox::set(const Vect& _center, double d, double w, double h, double a)
   alpha=a;
 }
 
-void Bsphere::set(const Vect& _center, double r)
+void Bsphere::set(const Vect& _center, float r)
 {
   center=_center;
   radius=r;
@@ -264,7 +264,7 @@ void Sphere::updateBB(int recalc)
 #ifdef VERBOSE
   printf("Sphere::updateBB()\n");
 #endif
-  double radius=getSize()[0];
+  float radius=getSize()[0];
   myBoundingBox.set(getCenter(),2.0*radius,2.0*radius,2.0*radius,0.0);
   myBoundingSphere.set(getCenter(),radius);
 
@@ -321,17 +321,17 @@ int Bbox::inner(Vect pt) const
   printf("\n");
 #endif
 
-  double x1=pt[0]-center[0];
-  double y1=pt[1]-center[1];
+  float x1=pt[0]-center[0];
+  float y1=pt[1]-center[1];
 
 #ifdef VERBOSE
   printf("pt1 %g %g\n",x1,y1);
 #endif
-  double _cos=COS(-alpha);
-  double _sin=SIN(-alpha);
+  float _cos=COS(-alpha);
+  float _sin=SIN(-alpha);
 
-  double x2=_cos*x1-_sin*y1;
-  double y2=_sin*x1+_cos*y1;
+  float x2=_cos*x1-_sin*y1;
+  float y2=_sin*x1+_cos*y1;
 
 #ifdef VERBOSE
   printf("pt2 %g %g\n",x2,y2);

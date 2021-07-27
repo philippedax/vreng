@@ -91,7 +91,7 @@ unsigned char *load_gif(unsigned char* adr, int filesize,
 
 #if 0
   int taille=fread(adr,1,filesize,in);
-  if (taille!=filesize) {
+  if (taille != filesize) {
     printf("Error while loading the file\n");
     free(adr);
     return NULL;

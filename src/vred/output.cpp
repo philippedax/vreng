@@ -1,7 +1,7 @@
 #include "vred.hpp"
 #include "output.hpp"
 
-double rad(double d);
+float rad(float d);
 
 
 void printHeader(const Item& i, ostream& out)
@@ -136,6 +136,7 @@ void spher_props (const Sphere &s, ostream& out)
 }
 
 // degre -> rad
-double rad(double d) {
+float rad(float d)
+{
   return d * M_PI / 180. ;
 }

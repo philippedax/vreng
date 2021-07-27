@@ -12,7 +12,8 @@ const char *UI::objectTypes[] = { "Wall", "Gate", "Step", "Web", "Board", "Host"
 int UI::currentObject = 0;
 Solid *UI::item = NULL;
 struct objectChain *UI::selected = NULL;
-float UI::center[3] = {0., 0., 0.}, UI::centerXButton = 0;
+float UI::center[3] = {0, 0, 0};
+float UI::centerXButton = 0;
 float UI::size[3];
 float UI::angleZ;
 float UI::radius;
@@ -28,7 +29,7 @@ int UI::mouseX, UI::mouseY;
 char *UI::dialStr = NULL;
 int UI::dialUsage;
 
-GLUI *UI::topWin, *UI::sideWin, *UI::botWin, *UI::dialGlui = NULL;
+GLUI *UI::topWin, *UI::rightWin, *UI::botWin, *UI::dialGlui = NULL;
 GLUI_EditText *UI::dialText;
 GLUI_EditText *UI::centerGlui[3];
 GLUI_EditText *UI::sizeGlui[3];
@@ -61,16 +62,13 @@ void UI::control( int event )
       {
 	Group *newGroup = new Group("newGroup", COLORED, Color::green);
 	Vred::treeRoot->add(newGroup);
-	int i=0;
 
-	while (selected) {
-	    newGroup->add(selected->current);
-	    i++;
-	    struct objectChain *next = selected->next;
-	    free(selected);
-	    selected = next;
+	for ( ; selected; ) {
+	  newGroup->add(selected->current);
+	  struct objectChain *next = selected->next;
+	  free(selected);
+	  selected = next;
 	}
-	printf("%d in new group\n", i);
 	item = newGroup;
 	updateControls();
       }
@@ -80,9 +78,9 @@ void UI::control( int event )
       {
 	Group *group = dynamic_cast<Group*>(item);
 	if (group) {
-	    group->explode();
-	    Vred::treeRoot->remove(group);
-	    delete group;
+	  group->explode();
+	  Vred::treeRoot->remove(group);
+	  delete group;
 	}
 	item = NULL;
 	updateControls();
@@ -94,16 +92,15 @@ void UI::control( int event )
 	Vred::treeRoot->remove(item);
 	item = NULL;
 	updateControls();
-	//printf("Object deleted from treeRoot\n");
       }
       break;
 
     case OPEN:
-      askFor("File to open :", OPEN_FILE);
+      openDial("File to open:", OPEN_FILE);
       break;
 
     case SAVE:
-      askFor("File to save :", SAVE_FILE, "output.vre");
+      openDial("File to save:", SAVE_FILE, "output.vre");
       break;
 
     case QUIT:
@@ -112,152 +109,148 @@ void UI::control( int event )
 
     case OK_BTN:
       switch (dialUsage) {
+
 	case OPEN_FILE:
 	  delete Vred::treeRoot;
 	  Vred::treeRoot = new Group("treeRoot", COLORED, Color::white);
 	  printf("loading file.................");
 	  if ( Vred::treeRoot->loadFile(dialStr) != 0 )
-	    printf( "FAILED TO LOAD FILE : %s\n", dialStr );
+	    printf("failed to load file: %s\n", dialStr);
 	  else
-	    printf("OK\n");
+	    printf("file loaded\n");
 	  break;
+
 	case SAVE_FILE:
 	  Vred::treeRoot->printFile(dialStr);
 	  break;
       }
-      stopAskingFor();
+      closeDial();
       item = NULL;
       updateControls();
       break;
 
     case CANCEL_BTN:
-      stopAskingFor();
+      closeDial();
       break;
 
-    case CENTER:
+    case CENTER_XY:
       if (item) {
-	Vect oldCenter = item->getCenter();
-
 	if (collis) {	      
+	  Vect oldcenter = item->getCenter();
 	  int wasColliding = Vred::treeRoot->collide(*item);
+
 	  item->setCenter( Vect(center[0], center[1], center[2]) );
-	  if (!wasColliding && Vred::treeRoot->collide(*item)) {
-	    // there's a true collision : it wasn't colliding but now it is
-	    // so we restore previous state
+	  if (! wasColliding && Vred::treeRoot->collide(*item)) {
 	    //printf( "COLLISION !!\n");
-	    item->setCenter(oldCenter);
-	    center[0] = oldCenter[0];
-	    center[1] = oldCenter[1];
-	    center[2] = oldCenter[2];  
+	    item->setCenter(oldcenter);
+	    center[0] = oldcenter[0];
+	    center[1] = oldcenter[1];
+	    center[2] = oldcenter[2];  
 	  }
 	}
-	else
+	else {
 	  item->setCenter( Vect(center[0], center[1], center[2]) );
-
-          centerGlui[0]->set_float_val(center[0]);
-	  centerGlui[1]->set_float_val(center[1]);
-	  centerGlui[2]->set_float_val(center[2]);
-	  centerXButton = -center[0];
 	}
+        centerGlui[0]->set_float_val(center[0]);
+	centerGlui[1]->set_float_val(center[1]);
+	centerGlui[2]->set_float_val(center[2]);
+	centerXButton = -center[0];
+      }
       break;
 
-    case CENTER_X_BTN:
+    case CENTER_Z:
       center[0] = -centerXButton;
-      control(CENTER);
+      control(CENTER_Z);
       break;
 
     case SIZE:
       if (item) {
-        if (size[0] <MIN_SOLID_SIZE)
+        if (size[0] < MIN_SOLID_SIZE) {
           size[0] = MIN_SOLID_SIZE;
-        if (size[1] <MIN_SOLID_SIZE)
+	}
+        if (size[1] < MIN_SOLID_SIZE) {
           size[1] = MIN_SOLID_SIZE;
-        if (size[2] <MIN_SOLID_SIZE)
+	}
+        if (size[2] < MIN_SOLID_SIZE) {
           size[2] = MIN_SOLID_SIZE;
-	  
+	}
+
 	if (dynamic_cast<Sphere*>(item)) {
-	  //printf("resizing sphere\n");
+	  // resizing sphere
 	  size[0] = size[1] = size[2];
 	  radiusGlui->set_float_val(size[2]);
 	}
-	  
-	Vect oldSize = item->getSize();
-
 	if (collis) {	      
+	  Vect oldsize = item->getSize();
 	  int wasColliding = Vred::treeRoot->collide(*item);
 
 	  item->setSize(Vect(size[0], size[1], size[2]));  
-	  if (!wasColliding && Vred::treeRoot->collide(*item)) {
-	    // there's a true collision : it wasn't colliding but now it is
-	    // so we restore previous state
+	  if (! wasColliding && Vred::treeRoot->collide(*item)) {
 	    //printf( "COLLISION !!\n");
-	    item->setSize(oldSize);
-	    size[0] = oldSize[0];
-	    size[1] = oldSize[1];
-	    size[2] = oldSize[2];  
+	    item->setSize(oldsize);
+	    size[0] = oldsize[0];
+	    size[1] = oldsize[1];
+	    size[2] = oldsize[2];  
 	    radius = size[2];
 	  }
 	}
 	else
 	  item->setSize(Vect(size[0], size[1], size[2]));  
-	  sizeGlui[0]->set_float_val(size[0]);
-	  sizeGlui[1]->set_float_val(size[1]);
-	  sizeGlui[2]->set_float_val(size[2]);
-	  sideWin->sync_live();
-	  botWin->sync_live();
 	}
+        sizeGlui[0]->set_float_val(size[0]);
+	sizeGlui[1]->set_float_val(size[1]);
+	sizeGlui[2]->set_float_val(size[2]);
+	rightWin->sync_live();
+	botWin->sync_live();
       break;
 
     case ROT_Z:
       if (item) {
-	while (angleZ > 180)
+	while (angleZ > 180) {
 	  angleZ -= 360;
-	while (angleZ < -180)
+        }
+	while (angleZ < -180) {
 	  angleZ += 360;
-
-	double oldAngle = item->getOrient()[2];
-
+        }
 	if (collis) {	      
+	  float oldangle = item->getOrient()[2];
 	  int wasColliding = Vred::treeRoot->collide(*item);
-	  item->setOrient( Vect(0, 0, angleZ) );
 
-	  if (!wasColliding && Vred::treeRoot->collide(*item)) {
-	    // there's a true collision : it wasn't colliding but now it is
-	    // so we restore previous state
+	  item->setOrient( Vect(0, 0, angleZ) );
+	  if (! wasColliding && Vred::treeRoot->collide(*item)) {
 	    //printf( "COLLISION !!\n");
-	    item->setOrient( Vect(0, 0, oldAngle) );
-	    angleZ = oldAngle;
+	    item->setOrient( Vect(0, 0, oldangle) );
+	    angleZ = oldangle;
 	  }
 	}
-	else
-	 item->setOrient( Vect(0, 0, angleZ) );
-	 angleZGlui->set_float_val(angleZ);
+	else {
+	  item->setOrient( Vect(0, 0, angleZ) );
+	}
+	angleZGlui->set_float_val(angleZ);
       }
       break;
 
     case RADIUS:
       if (item) {
-	if (radius <MIN_SOLID_SIZE)
+	if (radius < MIN_SOLID_SIZE) {
 	  radius = MIN_SOLID_SIZE;
-	  
-	double oldRadius = item->getSize()[0];
-
+        }
 	if (collis) {	      
+	  float oldradius = item->getSize()[0];
 	  int wasColliding = Vred::treeRoot->collide(*item);
 
 	  item->setSize( Vect(radius, radius, radius) );
-	  if (!wasColliding && Vred::treeRoot->collide(*item)) {
-	    // there's a true collision : it wasn't colliding but now it is
-	    // so we restore previous state
+	  if (! wasColliding && Vred::treeRoot->collide(*item)) {
 	    //printf( "COLLISION !!\n");
-	    item->setSize(Vect(oldRadius, oldRadius, oldRadius));
-	    radius = oldRadius;
+	    item->setSize(Vect(oldradius, oldradius, oldradius));
+	    radius = oldradius;
 	  }
 	}
-	else
+	else {
 	  item->setSize( Vect(radius, radius, radius) );            
-	  size[0] = size[1] = size[2] = radius;
-	  topWin->sync_live();
+	}
+	size[0] = size[1] = size[2] = radius;
+	topWin->sync_live();
       }
       break;
 
@@ -270,7 +263,6 @@ void UI::control( int event )
       else {
 	item->setStyle(COLORED);
       }
-      //printf("texture modified\n");
       break;
 
     case APPEARANCE:
@@ -281,7 +273,6 @@ void UI::control( int event )
 	Color speColor(spe[0], spe[1], spe[2], 1.0);
 	App newApp( ambColor, difColor, speColor, shiColor );
 	item->setApp( newApp );
-	//printf("appearance modified\n");
       }
       break;
 
@@ -293,34 +284,36 @@ void UI::control( int event )
 	    gate->setIpmc(ipmc);
         }
 	Web *web = dynamic_cast<Web*>(item);
-	if (web)
+	if (web) {
 	  web->setUrl(url);
+        }
 	Host *host = dynamic_cast<Host*>(item);
-	if (host)
+	if (host) {
 	  host->setHostname(url);
+        }
 	Doc *doc = dynamic_cast<Doc*>(item);
-	if (doc)
+	if (doc) {
 	  doc->setUrl(url);
-
-	printf("Target URL updated\n");
+        }
+	//printf("Target URL updated\n");
       }
       break;
 
     default:
-      printf("action sur un controle non gere\n");
+      printf("action unknown\n");
   }
 }
 
-/***************************************** myGlutIdle() ***********/
+/****************************** myGlutIdle() **********************/
 void UI::myGlutIdle(void)
 {
   /* According to the GLUT specification, the current window is 
-     undefined during an idle callback.  So we need to explicitly change
-     it if necessary */
-  if ( glutGetWindow() != mainWin ) 
+     undefined during an idle callback.  So we need to explicitly change it if necessary */
+  if ( glutGetWindow() != mainWin ) {
     glutSetWindow(mainWin);
+  }
 
-  /*  GLUI_Master.sync_live_all();  -- not needed - nothing to sync in this application  */
+  /* GLUI_Master.sync_live_all(); - not needed - nothing to sync in this application */
   glutPostRedisplay();
 }
 
@@ -336,7 +329,7 @@ void UI::myGlutMouse(int button, int button_state, int x, int y)
         		         x, glutGet((GLenum)GLUT_WINDOW_HEIGHT)-botWin->getH()-y,
 				 0,
 				 0,
-				 glutGet((GLenum)GLUT_WINDOW_WIDTH)-sideWin->getW(),
+				 glutGet((GLenum)GLUT_WINDOW_WIDTH)-rightWin->getW(),
 				 glutGet((GLenum)GLUT_WINDOW_HEIGHT)-topWin->getH()-botWin->getH()
                                   );
 #endif
@@ -382,34 +375,34 @@ void UI::myGlutMouse(int button, int button_state, int x, int y)
   glutPostRedisplay();
 }
 
-/***************************************** myGlutMotion() **********/
+/***************************** myGlutMotion() **********************/
 void UI::myGlutMotion(int x, int y)
 {
   if (motionEnabled) {
-    double dheading = 0.0, dpitch = 0.0;
+    float dheading = 0, dpitch = 0;
 
     if (x < mouseX - 1) {
-      dheading = 2.0;
+      dheading = 2;
       mouseX = x; 
     }
     else if (x > mouseX + 1) {
-      dheading = -2.0;
+      dheading = -2;
       mouseX = x; 
     }
     if (y < mouseY - 1) {
-      dpitch = -2.0;
+      dpitch = -2;
       mouseY = y;
     }
     else if (y > mouseY + 1) {
-      dpitch = 2.0;
+      dpitch = 2;
       mouseY = y;
     }
-    camera->move(Vect::null, Vect(0.0, dpitch, dheading));
+    camera->move(Vect::null, Vect(0, dpitch, dheading));
     glutPostRedisplay();
   }
 }
 
-/***************************************** myGlutKeyboard() **********/
+/***************************** myGlutKeyboard() **********************/
 void UI::myGlutKeyboard(unsigned char key, int x, int y) 
 {
   myGlutSpecialKeyboard(key, x, y);
@@ -419,34 +412,34 @@ void UI::myGlutSpecialKeyboard(int key, int x, int y)
 {
   switch (key) {
   case GLUT_KEY_UP:
-    camera->move(Vect(0.5, 0.0, 0.0), Vect::null);
+    camera->move(Vect(0.5, 0, 0), Vect::null);
     break;
   case GLUT_KEY_DOWN:
-    camera->move(Vect(-0.5, 0.0, 0.0), Vect::null);
+    camera->move(Vect(-0.5, 0, 0), Vect::null);
     break;
   case GLUT_KEY_LEFT:
-    camera->move(Vect(0.0, 0.5, 0.0), Vect::null);
+    camera->move(Vect(0, 0.5, 0), Vect::null);
     break;
   case GLUT_KEY_RIGHT:
-    camera->move(Vect(0.0, -0.5, 0.0), Vect::null);
+    camera->move(Vect(0, -0.5, 0), Vect::null);
     break;
   case GLUT_KEY_PAGE_UP:
-    camera->move(Vect(0.0, 0.0, 0.5), Vect::null);
+    camera->move(Vect(0, 0, 0.5), Vect::null);
     break;
   case GLUT_KEY_PAGE_DOWN:
-    camera->move(Vect(0.0, 0.0, -0.5), Vect::null);
+    camera->move(Vect(0, 0, -0.5), Vect::null);
     break;
   case '4':
-    camera->move(Vect::null, Vect(0.0, 0.0, 5.0));
+    camera->move(Vect::null, Vect(0, 0, 5.0));
     break;
   case '6':
-    camera->move(Vect::null, Vect(0.0, 0.0, -5.0));
+    camera->move(Vect::null, Vect(0, 0, -5.0));
     break;
   case '8':
-    camera->move(Vect::null, Vect(0.0, -5.0, 0.0));
+    camera->move(Vect::null, Vect(0, -5.0, 0));
     break;
   case '2':
-    camera->move(Vect::null, Vect(0.0, 5.0, 0.0));
+    camera->move(Vect::null, Vect(0, 5.0, 0));
     break;
   default:
     //cout << "key: \"" << key << "\"" << endl;
@@ -455,14 +448,14 @@ void UI::myGlutSpecialKeyboard(int key, int x, int y)
   glutPostRedisplay();
 }
 
-/**************************************** myGlutReshape() *************/
+/**************************** myGlutReshape() *************************/
 void UI::myGlutReshape( int x, int y )
 {
   GLUI_Master.auto_set_viewport();
   glutPostRedisplay();
 }
 
-/***************************************** myGlutDisplay() *****************/
+/**************************** myGlutDisplay() *************************/
 void UI::myGlutDisplay( void )
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -489,7 +482,6 @@ void UI::renderSolid(Solid *solid)
 {
   if (solid == NULL) return;
 
-  //printf("renderSolid: ");
   //solid->print();
   
   int oldStyle = solid->getStyle();
@@ -556,9 +548,11 @@ void UI::drawGrid()
   glEnd();
 }
 
-/****************************************/
-/*   Initialize GLUT and create window  */
-/****************************************/
+
+/********************************************/
+/*   Initializes GLUT and creates windows   */
+/********************************************/
+
 void UI::setupUI(int argc, char *argv[])
 {
   glutInit(&argc, argv);
@@ -584,15 +578,17 @@ void UI::setupUI(int argc, char *argv[])
   glEnable(GL_LIGHT2);
   glEnable(GL_LIGHTING);
 
-  glClearColor(0, 0, 0, 0);	// black
+  glClearColor(0, 0, 0, 0);	// black background
   glShadeModel(GL_SMOOTH);
 
-  glEnable(GL_DEPTH_TEST);	// enable z-buffering
+  glEnable(GL_DEPTH_TEST);	// enable depth-buffering
 
+  /* view */
   glMatrixMode(GL_PROJECTION);
   gluPerspective(60, 1, 0.2, 100);
   camera = new Camera("cam0", Vect(7, 6, 3), Vect(0, 20, -140));
   Vred::treeRoot = new Group("treeRoot", COLORED, Color::white);
+
 
   /****************************************/
   /*         Here's the GLUI code         */
@@ -602,11 +598,11 @@ void UI::setupUI(int argc, char *argv[])
   topWin = GLUI_Master.create_glui_subwindow(mainWin, GLUI_SUBWINDOW_TOP);
   topWin->set_main_gfx_window(mainWin);
 
-  /* Boxtype */  
+  /* Objtype */  
   GLUI_Panel *objectPanel = topWin->add_panel("");
   GLUI_Listbox *objectTypeList = topWin->add_listbox_to_panel(objectPanel, "Object type:", &currentObject);
 
-  for (unsigned int i=0; i < sizeof(objectTypes) / sizeof(char*); i++) {
+  for (int i=0; i < sizeof(objectTypes) / sizeof(char*); i++) {
     objectTypeList->add_item(i, (char *) objectTypes[i]);
   }
 
@@ -623,18 +619,21 @@ void UI::setupUI(int argc, char *argv[])
   GLUI_Panel *xyzPanel = topWin->add_panel("");
   (centerGlui[0] = topWin->add_edittext_to_panel(xyzPanel, "x",
                                                  GLUI_EDITTEXT_FLOAT,
-                                                 &center[0], CENTER,
-                                                 control))->set_w(25);
+                                                 &center[0], CENTER_XY,
+                                                 control)
+  )->set_w(10);
   topWin->add_column_to_panel(xyzPanel, false);
   (centerGlui[1] = topWin->add_edittext_to_panel(xyzPanel, "y",
                                                  GLUI_EDITTEXT_FLOAT,
-                                                 &center[1], CENTER,
-                                                 control))->set_w(25);
+                                                 &center[1], CENTER_XY,
+                                                 control)
+  )->set_w(10);
   topWin->add_column_to_panel(xyzPanel, false);
   (centerGlui[2] = topWin->add_edittext_to_panel(xyzPanel, "z",
                                                  GLUI_EDITTEXT_FLOAT,
-                                                 &center[2], CENTER,
-                                                 control))->set_w(25);
+                                                 &center[2], CENTER_XY,
+                                                 control)
+  )->set_w(10);
 
   /* dimensions */
   GLUI_Panel *sizePanel = topWin->add_panel("");
@@ -642,19 +641,19 @@ void UI::setupUI(int argc, char *argv[])
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[0], SIZE,
                                                control)
-  )->set_w(25);
+  )->set_w(10);
   topWin->add_column_to_panel(sizePanel, false);
   (sizeGlui[1] = topWin->add_edittext_to_panel(sizePanel, "Dy",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[1], SIZE,
                                                control)
-  )->set_w(25);
+  )->set_w(10);
   topWin->add_column_to_panel(sizePanel, false);
   (sizeGlui[2] = topWin->add_edittext_to_panel(sizePanel, "Dz",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[2], SIZE,
                                                control)
-  )->set_w(25);
+  )->set_w(10);
   topWin->add_column(false);
   angleZGlui = topWin->add_edittext("Angle/Z",
                                     GLUI_EDITTEXT_FLOAT, 
@@ -668,144 +667,143 @@ void UI::setupUI(int argc, char *argv[])
                                     control);
 
 
-  /* Create the right side subwindow */
-  sideWin = GLUI_Master.create_glui_subwindow(mainWin, GLUI_SUBWINDOW_RIGHT);
-  sideWin->set_main_gfx_window(mainWin);
+  /* Create the right subwindow */
+  rightWin = GLUI_Master.create_glui_subwindow(mainWin, GLUI_SUBWINDOW_RIGHT);
+  rightWin->set_main_gfx_window(mainWin);
 
   /* texture */
-  //texRollout = sideWin->add_rollout( "Tex");
-  texPanel = sideWin->add_panel( "Tex");
-  sideWin->add_column_to_panel(texPanel, true);
-  (texXp = sideWin->add_edittext_to_panel(texPanel, "Xp",
-                                          GLUI_EDITTEXT_TEXT,
-                                          urlXp, TEXTURE,
-                                          control)
-  )->set_w(100);
-  (texXn = sideWin->add_edittext_to_panel(texPanel, "Xn",
-                                          GLUI_EDITTEXT_TEXT,
-                                          urlXn, TEXTURE,
-                                          control)
-  )->set_w(100);
-  sideWin->add_column_to_panel(texPanel, false);
-  (texYp = sideWin->add_edittext_to_panel(texPanel, "Yp",
-                                          GLUI_EDITTEXT_TEXT,
-                                          urlYp, TEXTURE,
-                                          control)
-  )->set_w(100);
-  (texYn = sideWin->add_edittext_to_panel(texPanel, "Yn",
-                                          GLUI_EDITTEXT_TEXT,
-                                          urlYn, TEXTURE,
-                                          control)
-  )->set_w(100);
-  sideWin->add_column_to_panel(texPanel, false);
-  (texZp = sideWin->add_edittext_to_panel(texPanel, "Zp",
-                                          GLUI_EDITTEXT_TEXT,
-                                          urlZp, TEXTURE,
-                                          control)
-  )->set_w(100);
-  (texZn = sideWin->add_edittext_to_panel(texPanel, "Zn",
-                                          GLUI_EDITTEXT_TEXT,
-                                          urlZn, TEXTURE,
-                                          control)
-  )->set_w(100);
-  //sideWin->add_column_to_panel(texPanel, false);
-  (texSph = sideWin->add_edittext_to_panel(texPanel, "Sp",
+  //texRollout = rightWin->add_rollout( "Tex");
+  texPanel = rightWin->add_panel( "Tex");
+  rightWin->add_column_to_panel(texPanel, true);
+  (texXp = rightWin->add_edittext_to_panel(texPanel, "Xp",
                                            GLUI_EDITTEXT_TEXT,
                                            urlXp, TEXTURE,
                                            control)
   )->set_w(100);
-  sideWin->add_button_to_panel(texPanel, "Load textures", TEXTURE, control);
+  (texXn = rightWin->add_edittext_to_panel(texPanel, "Xn",
+                                           GLUI_EDITTEXT_TEXT,
+                                           urlXn, TEXTURE,
+                                           control)
+  )->set_w(100);
+  rightWin->add_column_to_panel(texPanel, false);
+  (texYp = rightWin->add_edittext_to_panel(texPanel, "Yp",
+                                           GLUI_EDITTEXT_TEXT,
+                                           urlYp, TEXTURE,
+                                           control)
+  )->set_w(100);
+  (texYn = rightWin->add_edittext_to_panel(texPanel, "Yn",
+                                           GLUI_EDITTEXT_TEXT,
+                                           urlYn, TEXTURE,
+                                           control)
+  )->set_w(100);
+  rightWin->add_column_to_panel(texPanel, false);
+  (texZp = rightWin->add_edittext_to_panel(texPanel, "Zp",
+                                           GLUI_EDITTEXT_TEXT,
+                                           urlZp, TEXTURE,
+                                           control)
+  )->set_w(100);
+  (texZn = rightWin->add_edittext_to_panel(texPanel, "Zn",
+                                           GLUI_EDITTEXT_TEXT,
+                                           urlZn, TEXTURE,
+                                           control)
+  )->set_w(100);
+  (texSph = rightWin->add_edittext_to_panel(texPanel, "Sp",
+                                            GLUI_EDITTEXT_TEXT,
+                                            urlXp, TEXTURE,
+                                            control)
+  )->set_w(100);
+  rightWin->add_button_to_panel(texPanel, "Load textures", TEXTURE, control);
 
   /* Appearance */
-  appRollout = sideWin->add_rollout("Appearance");
+  appRollout = rightWin->add_rollout("Appearance");
 
-  GLUI_Panel *difPanel = sideWin->add_panel_to_panel(appRollout, "Diffuse");
-  (difGlui[0] = sideWin->add_edittext_to_panel(difPanel, "R",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &dif[0], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  GLUI_Panel *difPanel = rightWin->add_panel_to_panel(appRollout, "Diffuse");
+  (difGlui[0] = rightWin->add_edittext_to_panel(difPanel, "R",
+                                                GLUI_EDITTEXT_FLOAT,
+					        &dif[0], APPEARANCE,
+                                                control)
+  )->set_w(10);
   difGlui[0]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(difPanel, false);  
-  (difGlui[1] = sideWin->add_edittext_to_panel(difPanel, "G",
-                                               GLUI_EDITTEXT_FLOAT, 
-					       &dif[1], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  rightWin->add_column_to_panel(difPanel, false);  
+  (difGlui[1] = rightWin->add_edittext_to_panel(difPanel, "G",
+                                                GLUI_EDITTEXT_FLOAT, 
+					        &dif[1], APPEARANCE,
+                                                control)
+  )->set_w(10);
   difGlui[1]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(difPanel, false);
-  (difGlui[2] = sideWin->add_edittext_to_panel(difPanel, "B",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &dif[2], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  rightWin->add_column_to_panel(difPanel, false);
+  (difGlui[2] = rightWin->add_edittext_to_panel(difPanel, "B",
+                                                GLUI_EDITTEXT_FLOAT,
+					        &dif[2], APPEARANCE,
+                                                control)
+  )->set_w(10);
   difGlui[2]->set_float_limits(0, 1);
 
-  GLUI_Panel *ambPanel = sideWin->add_panel_to_panel(appRollout, "Ambient");
-  (ambGlui[0] = sideWin->add_edittext_to_panel(ambPanel, "R",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &amb[0], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  GLUI_Panel *ambPanel = rightWin->add_panel_to_panel(appRollout, "Ambient");
+  (ambGlui[0] = rightWin->add_edittext_to_panel(ambPanel, "R",
+                                                GLUI_EDITTEXT_FLOAT,
+					        &amb[0], APPEARANCE,
+                                                control)
+  )->set_w(10);
   ambGlui[0]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(ambPanel, false);  
-  (ambGlui[1] = sideWin->add_edittext_to_panel(ambPanel, "G",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &amb[1], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  rightWin->add_column_to_panel(ambPanel, false);  
+  (ambGlui[1] = rightWin->add_edittext_to_panel(ambPanel, "G",
+                                                GLUI_EDITTEXT_FLOAT,
+					        &amb[1], APPEARANCE,
+                                                control)
+  )->set_w(10);
   ambGlui[1]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(ambPanel, false);
-  (ambGlui[2] = sideWin->add_edittext_to_panel(ambPanel, "B",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &amb[2], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  rightWin->add_column_to_panel(ambPanel, false);
+  (ambGlui[2] = rightWin->add_edittext_to_panel(ambPanel, "B",
+                                                GLUI_EDITTEXT_FLOAT,
+					        &amb[2], APPEARANCE,
+                                                control)
+  )->set_w(10);
   ambGlui[2]->set_float_limits(0, 1);
 
-  GLUI_Panel *spePanel = sideWin->add_panel_to_panel(appRollout, "Specular");
-  (speGlui[0] = sideWin->add_edittext_to_panel(spePanel, "R",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &spe[0], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  GLUI_Panel *spePanel = rightWin->add_panel_to_panel(appRollout, "Specular");
+  (speGlui[0] = rightWin->add_edittext_to_panel(spePanel, "R",
+                                                GLUI_EDITTEXT_FLOAT,
+					        &spe[0], APPEARANCE,
+                                                control)
+  )->set_w(10);
   speGlui[0]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(spePanel, false);  
-  (speGlui[1] = sideWin->add_edittext_to_panel(spePanel, "G",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &spe[1], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  rightWin->add_column_to_panel(spePanel, false);  
+  (speGlui[1] = rightWin->add_edittext_to_panel(spePanel, "G",
+                                                GLUI_EDITTEXT_FLOAT,
+					        &spe[1], APPEARANCE,
+                                                control)
+  )->set_w(10);
   speGlui[1]->set_float_limits(0, 1);
-  sideWin->add_column_to_panel(spePanel, false);
-  (speGlui[2] = sideWin->add_edittext_to_panel(spePanel, "B",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &spe[2], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  rightWin->add_column_to_panel(spePanel, false);
+  (speGlui[2] = rightWin->add_edittext_to_panel(spePanel, "B",
+                                                GLUI_EDITTEXT_FLOAT,
+					        &spe[2], APPEARANCE,
+                                                control)
+  )->set_w(10);
   speGlui[2]->set_float_limits(0, 1);
 
-  GLUI_Panel *shiPanel = sideWin->add_panel_to_panel(appRollout, "Shininess");
-  (shiGlui[0] = sideWin->add_edittext_to_panel(shiPanel, "S",
-                                               GLUI_EDITTEXT_FLOAT,
-					       &shi[0], APPEARANCE,
-                                               control)
-  )->set_w(20);
+  GLUI_Panel *shiPanel = rightWin->add_panel_to_panel(appRollout, "Shininess");
+  (shiGlui[0] = rightWin->add_edittext_to_panel(shiPanel, "S",
+                                                GLUI_EDITTEXT_FLOAT,
+					        &shi[0], APPEARANCE,
+                                                control)
+  )->set_w(10);
   shiGlui[0]->set_float_limits(0, 20);
 
-  (urlGlui = sideWin->add_edittext("url",
+  (urlGlui = rightWin->add_edittext("url",
                                     GLUI_EDITTEXT_TEXT,
                                     url, TARGET_URL,
-                                    control )
+                                    control)
   )->set_w(128);
-  (ipmcGlui = sideWin->add_edittext("IP Multicast",
-                                    GLUI_EDITTEXT_TEXT,
-                                    ipmc, TARGET_URL,
-                                    control )
-  )->set_w(32);
+  (ipmcGlui = rightWin->add_edittext("IP Multicast",
+                                     GLUI_EDITTEXT_TEXT,
+                                     ipmc, TARGET_URL,
+                                     control)
+  )->set_w(64);
   
-  //sideWin->add_separator();
-  //objectDescr = sideWin->add_statictext("Object type:");
+  //rightWin->add_separator();
+  //objectDescr = rightWin->add_statictext("Object type:");
   
 
   /* Create the Bot subwindow */
@@ -814,13 +812,13 @@ void UI::setupUI(int argc, char *argv[])
 
   transXYButton = botWin->add_translation("Trans YZ",
                                           GLUI_TRANSLATION_XY,
-                                          &center[1], CENTER,
+                                          &center[1], CENTER_XY,
                                           control);
   transXYButton->set_speed(0.1);
   botWin->add_column(false);
   transZButton = botWin->add_translation("Trans X",
                                          GLUI_TRANSLATION_Z,
-                                         &centerXButton, CENTER_X_BTN,
+                                         &centerXButton, CENTER_Z,
                                          control);
   transZButton->set_speed(0.1);
   botWin->add_column(false);
@@ -859,6 +857,9 @@ void UI::setupUI(int argc, char *argv[])
   botWin->add_button("Save", SAVE, control);
   botWin->add_separator();
   botWin->add_button("Quit", QUIT, control);
+
+  urlGlui->disable();
+  ipmcGlui->disable();
 
   updateControls();
 }
@@ -901,18 +902,18 @@ void UI::createObject()
       break;
 #if 1 //dax
     case MIRAGE_TYPE:
-      //item = new Mirage("unMirage",
-      //               Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
+      item = new Mirage("unMirage",
+                     Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case THING_TYPE:
-      //item = new Thing("unThing",
-      //               Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
+      item = new Thing("unThing",
+                     Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
 #endif
     default:
       printf("object type unknown\n");
   }
-  
+
   if (item) {
     Vred::treeRoot->add(item);
   }
@@ -951,7 +952,8 @@ void UI::updateControls()
     sizeButton[2]->enable();
  
     Tex tex = item->getTexture();
-    texRollout->enable(); 
+    texPanel->enable(); 
+    //texRollout->enable(); 
     Safe::strcpy(urlXp, tex.getTex_xp() );
     Safe::strcpy(urlXn, tex.getTex_xn() );
     Safe::strcpy(urlYp, tex.getTex_yp() );
@@ -961,23 +963,24 @@ void UI::updateControls()
     
     appRollout->enable();
     
-    sideWin->refresh();
+    rightWin->refresh();
     topWin->refresh();
-    sideWin->sync_live();
+    rightWin->sync_live();
   }
 
   Sphere *sphere = dynamic_cast<Sphere*>(item);
   if (sphere) {
     sizeButton[2]->enable();
 
-    texRollout->enable(); 
+    texPanel->enable(); 
+    //texRollout->enable(); 
 
     Tex tex = item->getTexture();
     Safe::strcpy(urlXp, tex.getTex_xp() );
     urlXn[0] = urlYp[0] = urlYn[0] = urlZp[0] = urlZn[0] = 0;
     appRollout->enable();
     topWin->refresh();
-    sideWin->refresh();
+    rightWin->refresh();
   }
 
   Group *group = dynamic_cast<Group*>(item);
@@ -996,21 +999,30 @@ void UI::updateControls()
     return;
   }
   int classId = item->getClassId();
-  if (classId == GATE) {
+  switch (classId) {
+  case GATE:
     urlGlui->enable();
+    //control(GATE);
     Safe::strcpy( url, ((Gate*)item)->getUrl() );
     ipmcGlui->enable();
     Safe::strcpy( ipmc, ((Gate*)item)->getIpmc() );
-  }
-  if (classId == WEB || classId == DOC || classId == HOST) {
+    break;
+  case WEB:
     urlGlui->enable();
-  }
-  if (classId == WEB)
+    //control(WEB);
     Safe::strcpy( url, ((Web*)item)->getUrl() );
-  if (classId == DOC)
+    break;
+  case DOC:
+    urlGlui->enable();
+    //control(DOC);
     Safe::strcpy( url, ((Doc*)item)->getUrl() );
-  if (classId == HOST)
+    break;
+  case HOST:
+    urlGlui->enable();
+    //control(HOST);
     Safe::strcpy( url, ((Host*)item)->getHostname() );
+    break;
+  }
   
   Vect vect;
   vect = item->getCenter();
@@ -1054,7 +1066,7 @@ void UI::updateControls()
   GLUI_Master.sync_live_all();
 }
 
-void UI::askFor( const char *_question, int _dlogUsage, const char *_answer )
+void UI::openDial( const char *_question, int _dlogUsage, const char *_answer )
 {
   if (dialGlui == NULL) {
     if (dialStr == NULL)
@@ -1075,7 +1087,7 @@ void UI::askFor( const char *_question, int _dlogUsage, const char *_answer )
   dialGlui->sync_live();
 }
 
-void UI::stopAskingFor()
+void UI::closeDial()
 {
   dialGlui->disable();
 }

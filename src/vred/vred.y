@@ -101,10 +101,10 @@ solid_single:
   step_section |
   host_section |
   doc_section
-/** |
+ |
   mirage_section |
   thing_section
-**/
+/**/
 
 /*************** Niveau 1 : Types *****************/
 
