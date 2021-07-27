@@ -12,7 +12,8 @@ public:
        const Vect& _size = Vect::unit,
        int _renderStyle = WIRED, const Color& _color = Color::white,
        const Tex& _tex = Tex(), const App& _app = App(),
-       char* _toWhere = NULL, char* _ip_multi = NULL
+       char* _url = NULL,
+       char* _ip_multi = NULL
       );
   virtual ~Gate();
 
@@ -21,13 +22,13 @@ public:
 
   friend ostream& operator<<(ostream& out, const Gate& gate);
 
-  void setUrl(const char *_toWhere);
+  void setUrl(const char *_url);
   void setIpmc(const char *_ip_multi);
-  const char* const getUrl() const { return toWhere; }
+  const char* const getUrl() const { return url; }
   const char* const getIpmc() const { return ip_multi; }
 
 private:
-  char* toWhere;
+  char* url;
   char* ip_multi;
 
 };

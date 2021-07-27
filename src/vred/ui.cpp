@@ -36,13 +36,14 @@ GLUI_EditText *UI::sizeGlui[3];
 GLUI_EditText *UI::angleZGlui;
 GLUI_EditText *UI::radiusGlui;
 GLUI_EditText *UI::difGlui[3], *UI::ambGlui[3], *UI::shiGlui[3], *UI::speGlui[3];
-GLUI_EditText *UI::texXp, *UI::texXn, *UI::texYp, *UI::texYn, *UI::texZp, *UI::texZn, *UI::texSph;
-GLUI_EditText *UI::urlGlui, *UI::ipmcGlui;
+GLUI_EditText *UI::texXp,*UI::texXn,*UI::texYp,*UI::texYn,*UI::texZp,*UI::texZn,*UI::texSph;
+GLUI_EditText *UI::urlGlui;
+GLUI_EditText *UI::ipmcGlui;
 GLUI_Button *UI::grpButton, *UI::ungrpButton, *UI::delButton;
 GLUI_Translation *UI::transXYButton, *UI::transZButton;
 GLUI_Translation *UI::sizeButton[3];
-GLUI_Translation *UI::angleZButton;
-GLUI_Rollout *UI::texRollout;
+GLUI_Translation *UI::rotZButton;
+//GLUI_Rollout *UI::texRollout;
 GLUI_Panel *UI::texPanel;
 GLUI_Rollout *UI::appRollout;
 GLUI_StaticText *UI::objectDescr;
@@ -200,6 +201,7 @@ void UI::control( int event )
         sizeGlui[0]->set_float_val(size[0]);
 	sizeGlui[1]->set_float_val(size[1]);
 	sizeGlui[2]->set_float_val(size[2]);
+
 	rightWin->sync_live();
 	botWin->sync_live();
       break;
@@ -304,11 +306,11 @@ void UI::control( int event )
   }
 }
 
-/****************************** myGlutIdle() **********************/
+/***************************** myGlutIdle() ***********************/
 void UI::myGlutIdle(void)
 {
   /* According to the GLUT specification, the current window is 
-     undefined during an idle callback.  So we need to explicitly change it if necessary */
+     undefined during an idle callback. So we need to explicitly change it if necessary */
   if ( glutGetWindow() != mainWin ) {
     glutSetWindow(mainWin);
   }
@@ -317,7 +319,7 @@ void UI::myGlutIdle(void)
   glutPostRedisplay();
 }
 
-/***************************************** myGlutMouse() **********/
+/***************************** myGlutMouse() **********************/
 void UI::myGlutMouse(int button, int button_state, int x, int y)
 {
   if ( button_state == GLUT_DOWN && button == GLUT_LEFT_BUTTON ) {      
@@ -338,14 +340,14 @@ void UI::myGlutMouse(int button, int button_state, int x, int y)
       if (item) {
 	struct objectChain *obj = (struct objectChain*) malloc(sizeof(struct objectChain));
 	obj->current = item;
-	obj->next = selected;
-	selected = obj;
+        obj->next = selected;
+        selected = obj;
       }
       if (formerSelectedItem) {
 	struct objectChain *obj = (struct objectChain*) malloc(sizeof(struct objectChain));
 	obj->current = formerSelectedItem;
-	obj->next = selected;
-	selected = obj;
+        obj->next = selected;
+        selected = obj;
       }
     }
     else {
@@ -822,10 +824,10 @@ void UI::setupUI(int argc, char *argv[])
                                          control);
   transZButton->set_speed(0.1);
   botWin->add_column(false);
-  angleZButton = botWin->add_translation("Rot/Z",
-                                         GLUI_TRANSLATION_X,
-                                         &angleZ, ROT_Z,
-                                         control);
+  rotZButton = botWin->add_translation("Rot/Z",
+                                       GLUI_TRANSLATION_X,
+                                       &angleZ, ROT_Z,
+                                       control);
   botWin->add_column(true);
   sizeButton[0] = botWin->add_translation("Size X",
                                           GLUI_TRANSLATION_Z, 
@@ -857,9 +859,6 @@ void UI::setupUI(int argc, char *argv[])
   botWin->add_button("Save", SAVE, control);
   botWin->add_separator();
   botWin->add_button("Quit", QUIT, control);
-
-  urlGlui->disable();
-  ipmcGlui->disable();
 
   updateControls();
 }
@@ -900,7 +899,6 @@ void UI::createObject()
       item = new Step("unStep",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
-#if 1 //dax
     case MIRAGE_TYPE:
       item = new Mirage("unMirage",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
@@ -909,7 +907,6 @@ void UI::createObject()
       item = new Thing("unThing",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
-#endif
     default:
       printf("object type unknown\n");
   }
@@ -924,7 +921,12 @@ void UI::createObject()
 
 void UI::updateControls()
 {
+  urlGlui->disable();
+  ipmcGlui->disable();
+
   if (item) {
+    radiusGlui->disable();
+
     if (selected)
       grpButton->enable();
       topWin->refresh();
@@ -936,9 +938,12 @@ void UI::updateControls()
   centerGlui[0]->enable();
   centerGlui[1]->enable();
   centerGlui[2]->enable();
-  angleZButton->enable();
+  rotZButton->enable();
   transXYButton->enable();
   transZButton->enable();
+  sizeButton[0]->enable();
+  sizeButton[1]->enable();
+  sizeButton[2]->enable();
   delButton->enable();
   
   // box
@@ -979,6 +984,7 @@ void UI::updateControls()
     Safe::strcpy(urlXp, tex.getTex_xp() );
     urlXn[0] = urlYp[0] = urlYn[0] = urlZp[0] = urlZn[0] = 0;
     appRollout->enable();
+
     topWin->refresh();
     rightWin->refresh();
   }
@@ -1002,24 +1008,20 @@ void UI::updateControls()
   switch (classId) {
   case GATE:
     urlGlui->enable();
-    //control(GATE);
     Safe::strcpy( url, ((Gate*)item)->getUrl() );
     ipmcGlui->enable();
     Safe::strcpy( ipmc, ((Gate*)item)->getIpmc() );
     break;
   case WEB:
     urlGlui->enable();
-    //control(WEB);
     Safe::strcpy( url, ((Web*)item)->getUrl() );
     break;
   case DOC:
     urlGlui->enable();
-    //control(DOC);
     Safe::strcpy( url, ((Doc*)item)->getUrl() );
     break;
   case HOST:
     urlGlui->enable();
-    //control(HOST);
     Safe::strcpy( url, ((Host*)item)->getHostname() );
     break;
   }
@@ -1070,7 +1072,7 @@ void UI::openDial( const char *_question, int _dlogUsage, const char *_answer )
 {
   if (dialGlui == NULL) {
     if (dialStr == NULL)
-    dialStr = (char*) malloc(128);
+      dialStr = (char*) malloc(128);
 
     dialGlui = GLUI_Master.create_glui("");
     dialText = dialGlui->add_edittext((char*)_question, GLUI_EDITTEXT_TEXT, dialStr, OK_BTN);

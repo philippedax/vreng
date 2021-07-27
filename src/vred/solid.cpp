@@ -102,7 +102,3 @@ void Solid::changeRef(const Matrix& m)
 {
   modelView = m * modelView;
 }
-
-
-
-

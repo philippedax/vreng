@@ -86,7 +86,7 @@ private:
  static GLUI_Translation *transXYButton;
  static GLUI_Translation *transZButton;
  static GLUI_Translation *sizeButton[3];
- static GLUI_Translation *angleZButton;
+ static GLUI_Translation *rotZButton;
  static GLUI_Rollout *texRollout;
  static GLUI_Panel *texPanel;
  static GLUI_Rollout *appRollout;

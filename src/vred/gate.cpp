@@ -5,21 +5,21 @@
 
 Gate::Gate(char* _name, const Vect& _center, const Vect& _orientation, const Vect& _size,
 	   int _renderStyle, const Color& _color,
-	   const Tex& _tex, const App& _appli, char* _toWhere, char* _ip_multi) :
+	   const Tex& _tex, const App& _appli, char* _url, char* _ip_multi) :
   Box(_name, _center, _orientation, _size, _renderStyle, _color, _tex, _appli)
 {
-  toWhere = NULL;
-  setUrl(_toWhere);
+  url = NULL;
+  setUrl(_url);
 }
 
 Gate::~Gate()
 {
-  free(toWhere);
+  free(url);
 }
 
-void Gate::setUrl(const char *_toWhere)
+void Gate::setUrl(const char *_url)
 {
-  Safe::safe_strdup(&toWhere, _toWhere);  
+  Safe::safe_strdup(&url, _url);  
 }
 
 void Gate::setIpmc(const char *_ip_multi)
