@@ -9,26 +9,26 @@ int Map::defaultTexSize = 128;
 
 Map::Map(const char* const _url)
 {
-  data=0;
-  length=0;
-  height=0;
-  error=false;
-  url= (char *) strdup((char *) _url);
+  data = NULL;
+  width = 0;
+  height = 0;
+  error = false;
+  url = (char *) strdup((char *) _url);
 }
 
 Map::~Map()
 {
-  if (data!=0&&!error) free(data);
-  if (url != NULL) free(url);
+  if (data && !error) free(data);
+  if (url) free(url);
 }
 
-char* HttpGet(char* serverName, char* chemin, int& pos)
+char* httpGet(char* serverName, char* chemin, int& pos)
 {
   struct hostent *hostptr;
   struct sockaddr_in serv_addr;
 
 #ifdef VERBOSE
-  printf("url server=%s path=%s\n",serverName,chemin);
+  printf("url server=%s path=%s\n", serverName, chemin);
 #endif
 
   if ((hostptr = gethostbyname(serverName)) == NULL) {
@@ -59,10 +59,10 @@ char* HttpGet(char* serverName, char* chemin, int& pos)
   } 
 
   int res = 0;
-  int taille = 512;
+  int size = 512;
   pos = 0;
 
-  char* temp = (char*) malloc(taille);
+  char* temp = (char*) malloc(size);
 
   sprintf(temp,"GET /%s HTTP/1.0\r\n\r\n", chemin);
   write(sockfd, temp, strlen(temp));
@@ -71,8 +71,7 @@ char* HttpGet(char* serverName, char* chemin, int& pos)
   printf("waiting for reply\n");
 #endif
 
-  //Premier coup
-  res = read(sockfd, temp, taille);
+  res = read(sockfd, temp, size);
   if (res == -1) {
 #ifdef VERBOSE
     printf("erreur !\n"); 
@@ -83,10 +82,10 @@ char* HttpGet(char* serverName, char* chemin, int& pos)
   }  
 
   int marker;
-  for (marker=0; marker < taille-1; marker++) {
+  for (marker=0; marker < size-1; marker++) {
     if (temp[marker] == '\n' && temp[marker+1] == '\r') break;
   }
-  if (marker == taille-1) {
+  if (marker == size-1) {
 #ifdef VERBOSE
     printf("erreur !\n"); 
 #endif
@@ -114,8 +113,8 @@ char* HttpGet(char* serverName, char* chemin, int& pos)
   //Voila la suite
   while (1) {   
 
-    taille += 512;
-    temp = (char*) realloc(temp, taille);
+    size += 512;
+    temp = (char*) realloc(temp, size);
     res = read(sockfd, temp+pos, 512);
     pos += res;
     
@@ -131,9 +130,8 @@ char* HttpGet(char* serverName, char* chemin, int& pos)
     free(temp);
     return NULL;
   }
-
 #ifdef VERBOSE
-  printf("Ok, fini, taille=%d\n", pos);
+  printf("Ok, fini, size=%d\n", pos);
 #endif
 
   close(sockfd);
@@ -146,14 +144,14 @@ const GLubyte* const Map::getData()
   if (data != 0) return data;
 
   unsigned char rgbpalette[3*256];
-  int tailleGif;
-  char* fromWeb;
+  int sizeGif;
+  char* fromWeb = NULL;
 
 #ifdef VERBOSE
   printf("url '%s'\n", url);
 #endif 
 
-  //parsing
+  // parsing
 
   if (strncmp(url, "file://", 7) == 0) {
 
@@ -164,37 +162,36 @@ const GLubyte* const Map::getData()
     if (in == NULL) {
       printf("file not found !\n");
       free(url);
-      url = 0;
+      url = NULL;
       error = true;
       data = 0;
       return 0;
     }
     fseek(in, 0, SEEK_END);
-    tailleGif = ftell(in);
+    sizeGif = ftell(in);
     fseek(in, 0, SEEK_SET);
-
 #ifdef VERBOSE
-    printf("filesize=%d\n", tailleGif);
+    printf("filesize=%d\n", sizeGif);
 #endif
-                                    
-    fromWeb = (char *) malloc(tailleGif);
+
+    fromWeb = (char *) malloc(sizeGif);
                                             
     if (fromWeb == NULL) {
       free(url);
-      url = 0;
+      url = NULL;
       error = true;
       data = 0;
       fclose(in);
       return 0;
     }
 
-    int taille = fread(fromWeb, 1, tailleGif, in);
-    if (taille != tailleGif) {
+    int size = fread(fromWeb, 1, sizeGif, in);
+    if (size != sizeGif) {
 	printf("Error while loading the file\n");
 	free(fromWeb);
 	fclose(in);
 	free(url);
-	url = 0;
+	url = NULL;
 	error = true;
 	data = 0;
 	return 0;
@@ -207,10 +204,9 @@ const GLubyte* const Map::getData()
       if (url[i] == '/') 
 	break;
     }
-    
     if (url[i] == 0) {
-      printf("Mauvaise http url %s\n", url);
-      free(url); url = 0;
+      printf("bad http url %s\n", url);
+      free(url); url = NULL;
       error = true;
       data = 0;
       return 0;    
@@ -218,23 +214,23 @@ const GLubyte* const Map::getData()
     url[i] = 0;
     
     //Get http
-    fromWeb = HttpGet(url+7, url+i+1, tailleGif);
+    fromWeb = httpGet(url+7, url+i+1, sizeGif);
     if (fromWeb == 0) {
-      free(url); url = 0;
+      free(url); url = NULL;
       error = true;
       data = 0;
       return 0;
     }
-  } else if (url[0] == '/') {
+  }
+  else if (url[0] == '/') {
     int i;
     for (i=1; url[i]!=0; i++) {
       if (url[i] == '/') 
 	break;
     }
-    
     if (url[i] == 0) {
-      printf("Mauvaise http url %s\n", url);
-      free(url); url = 0;
+      printf("bad http url %s\n", url);
+      free(url); url = NULL;
       error = true;
       data = 0;
       return 0;    
@@ -242,37 +238,36 @@ const GLubyte* const Map::getData()
     url[i] = 0;
     
     //Get http
-    fromWeb = HttpGet(url+1, url+i+1, tailleGif);
+    fromWeb = httpGet(url+1, url+i+1, sizeGif);
     if (fromWeb == 0) {
-      free(url); url = 0;
+      free(url); url = NULL;
       error = true;
       data = 0;
       return 0;
     }
-  } else {
-
+  }
+  else {
 #ifdef VERBOSE
-    printf("url non reconnue '%s'\n", url);
+    printf("url unknown '%s'\n", url);
 #endif
-    free(url); url = 0;
+    free(url); url = NULL;
     error = true;
     data = 0;
     return 0;
   }
-  
-  free(url); url = 0;
+  free(url); url = NULL;
 
-  //decompresse
-  int l, h;
+  // uncompress
+  int w, h;
 #ifdef VERBOSE
-  unsigned char* bob = load_gif((unsigned char*)fromWeb,tailleGif, rgbpalette, l, h, 1);
-  printf("taille x=%d, y=%d\n", l, h);
+  unsigned char* gif = load_gif((unsigned char*)fromWeb, sizeGif, rgbpalette, w, h, 1);
+  printf("size x=%d, y=%d\n", w, h);
 #else
-  unsigned char* bob = load_gif((unsigned char*)fromWeb, tailleGif, rgbpalette, l, h, 0);
+  unsigned char* gif = load_gif((unsigned char*)fromWeb, sizeGif, rgbpalette, w, h, 0);
 #endif
-  length = l;
+  width = w;
   height = h;
-  if (bob == 0) {
+  if (gif == 0) {
     printf("Gif: error\n"); 
     error = true;
     data = 0;
@@ -280,9 +275,9 @@ const GLubyte* const Map::getData()
   }
 
   if (data != 0) free(data);
-  data = (GLubyte*) malloc(length*height*3);
+  data = (GLubyte*) malloc(width*height*3);
   if (data == 0) { 
-    free(bob);
+    free(gif);
 #ifdef VERBOSE
     printf("Gif: error, not enough memory\n");
 #endif
@@ -291,38 +286,35 @@ const GLubyte* const Map::getData()
     return 0;
   }
 
-  //unpaletize
+  // unpaletize
   for (int j=0; j< height; j++) {
-    for(int i=0; i< length;i++) {
-
-      int car = int(bob[j*length+i]);
-      data[3*(j*length+i)]   = rgbpalette[car*3];
-      data[3*(j*length+i)+1] = rgbpalette[car*3+1];
-      data[3*(j*length+i)+2] = rgbpalette[car*3+2];
+    for (int i=0; i< width;i++) {
+      int car = int(gif[j*width+i]);
+      data[3*(j*width+i)]   = rgbpalette[car*3];
+      data[3*(j*width+i)+1] = rgbpalette[car*3+1];
+      data[3*(j*width+i)+2] = rgbpalette[car*3+2];
     }
   }
+  free(gif);
 
-  free(bob);
-
-  //scaling
+  // scaling
   void* finaltex = malloc(defaultTexSize*defaultTexSize*3);
-  gluScaleImage(GL_RGB, length, height, GL_UNSIGNED_BYTE , (void*) data,
+  gluScaleImage(GL_RGB, width, height, GL_UNSIGNED_BYTE , (void*) data,
 		defaultTexSize, defaultTexSize, GL_UNSIGNED_BYTE, finaltex);
-  length = defaultTexSize;
+  width = defaultTexSize;
   height = defaultTexSize;
   free(data);
   data = (GLubyte*) finaltex;
-
 #ifdef VERBOSE
-  printf("Gif: OK %d %d\n", length, height);
+  printf("Gif: OK %d %d\n", width, height);
 #endif
 
   return data;
 }
 
-int Map::getLength() const
+int Map::getWidth() const
 {
-  return length;
+  return width;
 }
 
 int Map::getHeight() const

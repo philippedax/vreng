@@ -54,8 +54,8 @@ void AddToPixel(unsigned char i);
 /* fonction de decompression et de chargement d'une image GIF */
 unsigned char *load_gif(unsigned char* adr, int filesize,
                         unsigned char rgbpalette[3*256],
-                        int& largeur,
-                        int& hauteur,
+                        int& width,
+                        int& height,
                         int Verbose)
 {       
   long nb;
@@ -157,8 +157,8 @@ unsigned char *load_gif(unsigned char* adr, int filesize,
   Interlace = ((NEXTBYTE & INTERLACEMASK) ? 1 : 0);
 
   if ((Verbose)&&(Interlace)) printf("Interlaced image\n");
-  largeur=Width;
-  hauteur=Height;
+  width = Width;
+  height = Height;
  
   /* Note that I ignore the possible existence of a local color map.
    * I'm told there aren't many files around that use them, and the spec
@@ -206,14 +206,14 @@ unsigned char *load_gif(unsigned char* adr, int filesize,
 
   /* We're done with the raw data now... */
   if (Verbose) printf("Decompressing...\n");
-  image=(unsigned char *)malloc(((long)Width)*Height);
-  if (image==NULL) {
+  image = (unsigned char *)malloc(((long)Width)*Height);
+  if (image == NULL) {
     if (Verbose) printf("not enough memory\n");
     free(adr);
     return NULL;
   }
   else
-    img=(unsigned char *)image;
+    img = (unsigned char *)image;
   BytesPerScanline = Width;
 
   /* Decompress the file, continuing until you see the GIF EOF code.
@@ -251,7 +251,7 @@ unsigned char *load_gif(unsigned char* adr, int filesize,
        if (Interlace)
          AddToPixel(FinChar);
        else
-         *(img++)=FinChar;
+         *(img++) = FinChar;
      }
      else {
        /* If not a clear code, then must be data: save same as CurCode and InCode */
@@ -292,7 +292,7 @@ unsigned char *load_gif(unsigned char* adr, int filesize,
            AddToPixel(OutCode[i]);
        else
          for (i = OutCount - 1; i >= 0; i--)
-           *(img++)=OutCode[i];
+           *(img++) = OutCode[i];
        OutCount = 0;
 
        /* Build the hash table on-the-fly. No table is stored in the file. */
@@ -342,7 +342,7 @@ unsigned char *load_gif(unsigned char* adr, int filesize,
 /* sous-fonction pour enregistrer le no du pixel suivant (image interlacee) */
 void AddToPixel(unsigned char i)
 {
-  *(img++)=i;
+  *(img++) = i;
 
   /* Update the X-coordinate, and if it overflows, update the Y-coordinate */
   if (++XC == Width) {
@@ -352,44 +352,43 @@ void AddToPixel(unsigned char i)
      * past the bottom of it
      */
     XC = 0;
-    img-=Width;
+    img -= Width;
 
     switch (Pass) {
     case 0:
       YC += 8;
-      img+=8*Width;
+      img += 8*Width;
       if (YC >= Height) {
         Pass++;
         YC = 4;
-        img=(unsigned char *)image;
-        img+=YC*Width;
+        img = (unsigned char *)image;
+        img += YC*Width;
       }
       break;
     case 1:
       YC += 8;
-      img+=8*Width;
+      img += 8*Width;
       if (YC >= Height) {
         Pass++;
         YC = 2;
-        img=(unsigned char *)image;
-        img+=YC*Width;
+        img = (unsigned char *)image;
+        img += YC*Width;
       }
       break;
     case 2:
       YC += 4;
-      img+=4*Width;
+      img += 4*Width;
       if (YC >= Height) {
         Pass++;
         YC = 1;
-        img=(unsigned char *)image;
-        img+=YC*Width;
+        img = (unsigned char *)image;
+        img += YC*Width;
       }
       break;
     case 3:
       YC += 2;
-      img+=2*Width;
+      img += 2*Width;
       break;
     }
   }
 }
-

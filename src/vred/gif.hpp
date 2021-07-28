@@ -4,8 +4,8 @@
 extern unsigned char *load_gif(unsigned char*,
                                int,
                                unsigned char rgbpalette[3*256],
-                               int& largeur,
-                               int& hauteur,
+                               int& width,
+                               int& height,
                                int Verbose
                               );
 
