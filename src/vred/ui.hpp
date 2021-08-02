@@ -93,7 +93,7 @@ private:
  static GLUI_Button *grpButton, *ungrpButton, *delButton;
  static GLUI_StaticText *objectDescr;
 
- static void control(int event);
+ static void control_cb(int event);
  static void myGlutIdle();
  static void myGlutMouse(int button, int button_state, int x, int y);
  static void myGlutMotion(int x, int y);

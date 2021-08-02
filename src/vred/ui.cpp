@@ -8,7 +8,17 @@
 
 
 int UI::mainWin;
-const char *UI::objectTypes[] = { "Wall", "Gate", "Step", "Web", "Board", "Host", "Doc", "Mirage", "Thing", "Earth" };
+const char *UI::objectTypes[] = { "Wall",
+                                  "Gate",
+                                  "Step",
+                                  "Web",
+                                  "Board",
+                                  "Host",
+                                  "Doc",
+                                  "Mirage",
+                                  "Thing",
+                                  "Earth"
+                                };
 int UI::currentObject = 0;
 Solid *UI::item = NULL;
 struct objectChain *UI::selected = NULL;
@@ -21,13 +31,14 @@ char UI::urlXp[128] = "", UI::urlXn[128] = "";
 char UI::urlYp[128] = "", UI::urlYn[128] = "";
 char UI::urlZp[128] = "", UI::urlZn[128] = "";
 float UI::dif[3], UI::amb[3], UI::shi[3], UI::spe[3];
-char UI::url[128] = "", UI::ipmc[32] = "";
-int UI::collis = true;
+char UI::url[128] = "";
+char UI::ipmc[32] = "";
+char *UI::dialStr = NULL;
 Camera *UI::camera;
 bool UI::motionEnabled = false;
 int UI::mouseX, UI::mouseY;
-char *UI::dialStr = NULL;
 int UI::dialUsage;
+int UI::collis = true;
 
 GLUI *UI::topWin, *UI::rightWin, *UI::botWin, *UI::dialGlui = NULL;
 GLUI_EditText *UI::dialText;
@@ -51,7 +62,7 @@ GLUI_StaticText *UI::objectDescr;
 
 /****************************** control_cb() *****************************/
 /* GLUI control callback                                                 */
-void UI::control( int event )
+void UI::control_cb( int event )
 {
   switch (event) {
 
@@ -161,7 +172,7 @@ void UI::control( int event )
 
     case CENTER_Z:
       center[0] = -centerXButton;
-      control(CENTER_Z);
+      //control_cb(CENTER_Z);
       break;
 
     case SIZE:
@@ -610,7 +621,7 @@ void UI::setupUI(int argc, char *argv[])
 
   /* button Add */
   topWin->add_column_to_panel(objectPanel, false);
-  topWin->add_button_to_panel(objectPanel, "Add", ADD_OBJECT, control);
+  topWin->add_button_to_panel(objectPanel, "Add", ADD_OBJECT, control_cb);
   
   /* collision */
   topWin->add_separator();
@@ -622,19 +633,19 @@ void UI::setupUI(int argc, char *argv[])
   (centerGlui[0] = topWin->add_edittext_to_panel(xyzPanel, "x",
                                                  GLUI_EDITTEXT_FLOAT,
                                                  &center[0], CENTER_XY,
-                                                 control)
+                                                 control_cb)
   )->set_w(10);
   topWin->add_column_to_panel(xyzPanel, false);
   (centerGlui[1] = topWin->add_edittext_to_panel(xyzPanel, "y",
                                                  GLUI_EDITTEXT_FLOAT,
                                                  &center[1], CENTER_XY,
-                                                 control)
+                                                 control_cb)
   )->set_w(10);
   topWin->add_column_to_panel(xyzPanel, false);
   (centerGlui[2] = topWin->add_edittext_to_panel(xyzPanel, "z",
                                                  GLUI_EDITTEXT_FLOAT,
                                                  &center[2], CENTER_XY,
-                                                 control)
+                                                 control_cb)
   )->set_w(10);
 
   /* dimensions */
@@ -642,31 +653,31 @@ void UI::setupUI(int argc, char *argv[])
   (sizeGlui[0] = topWin->add_edittext_to_panel(sizePanel, "Dx",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[0], SIZE,
-                                               control)
+                                               control_cb)
   )->set_w(10);
   topWin->add_column_to_panel(sizePanel, false);
   (sizeGlui[1] = topWin->add_edittext_to_panel(sizePanel, "Dy",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[1], SIZE,
-                                               control)
+                                               control_cb)
   )->set_w(10);
   topWin->add_column_to_panel(sizePanel, false);
   (sizeGlui[2] = topWin->add_edittext_to_panel(sizePanel, "Dz",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[2], SIZE,
-                                               control)
+                                               control_cb)
   )->set_w(10);
   topWin->add_column(false);
   angleZGlui = topWin->add_edittext("Angle/Z",
                                     GLUI_EDITTEXT_FLOAT, 
 				    &angleZ, ROT_Z,
-                                    control);
+                                    control_cb);
   angleZGlui->set_float_limits(-180, 180, GLUI_LIMIT_WRAP);
 
   radiusGlui = topWin->add_edittext("Radius",
                                     GLUI_EDITTEXT_FLOAT, 
 				    &radius, RADIUS,
-                                    control);
+                                    control_cb);
 
 
   /* Create the right subwindow */
@@ -680,41 +691,41 @@ void UI::setupUI(int argc, char *argv[])
   (texXp = rightWin->add_edittext_to_panel(texPanel, "Xp",
                                            GLUI_EDITTEXT_TEXT,
                                            urlXp, TEXTURE,
-                                           control)
+                                           control_cb)
   )->set_w(100);
   (texXn = rightWin->add_edittext_to_panel(texPanel, "Xn",
                                            GLUI_EDITTEXT_TEXT,
                                            urlXn, TEXTURE,
-                                           control)
+                                           control_cb)
   )->set_w(100);
   rightWin->add_column_to_panel(texPanel, false);
   (texYp = rightWin->add_edittext_to_panel(texPanel, "Yp",
                                            GLUI_EDITTEXT_TEXT,
                                            urlYp, TEXTURE,
-                                           control)
+                                           control_cb)
   )->set_w(100);
   (texYn = rightWin->add_edittext_to_panel(texPanel, "Yn",
                                            GLUI_EDITTEXT_TEXT,
                                            urlYn, TEXTURE,
-                                           control)
+                                           control_cb)
   )->set_w(100);
   rightWin->add_column_to_panel(texPanel, false);
   (texZp = rightWin->add_edittext_to_panel(texPanel, "Zp",
                                            GLUI_EDITTEXT_TEXT,
                                            urlZp, TEXTURE,
-                                           control)
+                                           control_cb)
   )->set_w(100);
   (texZn = rightWin->add_edittext_to_panel(texPanel, "Zn",
                                            GLUI_EDITTEXT_TEXT,
                                            urlZn, TEXTURE,
-                                           control)
+                                           control_cb)
   )->set_w(100);
   (texSph = rightWin->add_edittext_to_panel(texPanel, "Sp",
                                             GLUI_EDITTEXT_TEXT,
                                             urlXp, TEXTURE,
-                                            control)
+                                            control_cb)
   )->set_w(100);
-  rightWin->add_button_to_panel(texPanel, "Load textures", TEXTURE, control);
+  rightWin->add_button_to_panel(texPanel, "Load textures", TEXTURE, control_cb);
 
   /* Appearance */
   appRollout = rightWin->add_rollout("Appearance");
@@ -723,21 +734,21 @@ void UI::setupUI(int argc, char *argv[])
   (difGlui[0] = rightWin->add_edittext_to_panel(difPanel, "R",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &dif[0], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   difGlui[0]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(difPanel, false);  
   (difGlui[1] = rightWin->add_edittext_to_panel(difPanel, "G",
                                                 GLUI_EDITTEXT_FLOAT, 
 					        &dif[1], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   difGlui[1]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(difPanel, false);
   (difGlui[2] = rightWin->add_edittext_to_panel(difPanel, "B",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &dif[2], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   difGlui[2]->set_float_limits(0, 1);
 
@@ -745,21 +756,21 @@ void UI::setupUI(int argc, char *argv[])
   (ambGlui[0] = rightWin->add_edittext_to_panel(ambPanel, "R",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &amb[0], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   ambGlui[0]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(ambPanel, false);  
   (ambGlui[1] = rightWin->add_edittext_to_panel(ambPanel, "G",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &amb[1], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   ambGlui[1]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(ambPanel, false);
   (ambGlui[2] = rightWin->add_edittext_to_panel(ambPanel, "B",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &amb[2], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   ambGlui[2]->set_float_limits(0, 1);
 
@@ -767,21 +778,21 @@ void UI::setupUI(int argc, char *argv[])
   (speGlui[0] = rightWin->add_edittext_to_panel(spePanel, "R",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &spe[0], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   speGlui[0]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(spePanel, false);  
   (speGlui[1] = rightWin->add_edittext_to_panel(spePanel, "G",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &spe[1], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   speGlui[1]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(spePanel, false);
   (speGlui[2] = rightWin->add_edittext_to_panel(spePanel, "B",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &spe[2], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   speGlui[2]->set_float_limits(0, 1);
 
@@ -789,19 +800,19 @@ void UI::setupUI(int argc, char *argv[])
   (shiGlui[0] = rightWin->add_edittext_to_panel(shiPanel, "S",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &shi[0], APPEARANCE,
-                                                control)
+                                                control_cb)
   )->set_w(10);
   shiGlui[0]->set_float_limits(0, 20);
 
   (urlGlui = rightWin->add_edittext("url",
                                     GLUI_EDITTEXT_TEXT,
                                     url, TARGET_URL,
-                                    control)
+                                    control_cb)
   )->set_w(128);
   (ipmcGlui = rightWin->add_edittext("IP Multicast",
                                      GLUI_EDITTEXT_TEXT,
                                      ipmc, TARGET_URL,
-                                     control)
+                                     control_cb)
   )->set_w(64);
   
   //rightWin->add_separator();
@@ -815,50 +826,50 @@ void UI::setupUI(int argc, char *argv[])
   transXYButton = botWin->add_translation("Trans YZ",
                                           GLUI_TRANSLATION_XY,
                                           &center[1], CENTER_XY,
-                                          control);
+                                          control_cb);
   transXYButton->set_speed(0.1);
   botWin->add_column(false);
   transZButton = botWin->add_translation("Trans X",
                                          GLUI_TRANSLATION_Z,
                                          &centerXButton, CENTER_Z,
-                                         control);
+                                         control_cb);
   transZButton->set_speed(0.1);
   botWin->add_column(false);
   rotZButton = botWin->add_translation("Rot/Z",
                                        GLUI_TRANSLATION_X,
                                        &angleZ, ROT_Z,
-                                       control);
+                                       control_cb);
   botWin->add_column(true);
   sizeButton[0] = botWin->add_translation("Size X",
                                           GLUI_TRANSLATION_Z, 
         				  &size[0], SIZE,
-                                          control);
+                                          control_cb);
   sizeButton[0]->set_speed(0.1);
   botWin->add_column(false);
   sizeButton[1] = botWin->add_translation("Size Y",
                                           GLUI_TRANSLATION_X, 
 					  &size[1], SIZE,
-                                          control);
+                                          control_cb);
   sizeButton[1]->set_speed(0.1);
   botWin->add_column(false);
   sizeButton[2] = botWin->add_translation("Size Z",
                                           GLUI_TRANSLATION_Y, 
 					  &size[2], SIZE,
-                                          control);
+                                          control_cb);
   sizeButton[2]->set_speed(0.1);
 
   botWin->add_column(true);
-  grpButton = botWin->add_button("Group", GROUP, control);
-  ungrpButton = botWin->add_button("Ungroup", UNGROUP, control);
+  grpButton = botWin->add_button("Group", GROUP, control_cb);
+  ungrpButton = botWin->add_button("Ungroup", UNGROUP, control_cb);
   botWin->add_column(false);
-  delButton = botWin->add_button("Delete", DELETE, control);
+  delButton = botWin->add_button("Delete", DELETE, control_cb);
 
   /*  buttons open/save and quit */
   botWin->add_column(true);
-  botWin->add_button("Open", OPEN, control);
-  botWin->add_button("Save", SAVE, control);
+  botWin->add_button("Open", OPEN, control_cb);
+  botWin->add_button("Save", SAVE, control_cb);
   botWin->add_separator();
-  botWin->add_button("Quit", QUIT, control);
+  botWin->add_button("Quit", QUIT, control_cb);
 
   updateControls();
 }
@@ -916,7 +927,6 @@ void UI::createObject()
   }
 
   updateControls();
-  glutPostRedisplay();
 }
 
 void UI::updateControls()
@@ -925,11 +935,11 @@ void UI::updateControls()
   ipmcGlui->disable();
 
   if (item) {
-    radiusGlui->disable();
+    //radiusGlui->disable();
 
     if (selected)
       grpButton->enable();
-      topWin->refresh();
+      //topWin->refresh();
       return;
   }
 
@@ -959,16 +969,16 @@ void UI::updateControls()
     Tex tex = item->getTexture();
     texPanel->enable(); 
     //texRollout->enable(); 
-    Safe::strcpy(urlXp, tex.getTex_xp() );
-    Safe::strcpy(urlXn, tex.getTex_xn() );
-    Safe::strcpy(urlYp, tex.getTex_yp() );
-    Safe::strcpy(urlYn, tex.getTex_yn() );
-    Safe::strcpy(urlZp, tex.getTex_zp() );
-    Safe::strcpy(urlZn, tex.getTex_zn() );
+    Safe::strcpy(urlXp, tex.getTex_xp());
+    Safe::strcpy(urlXn, tex.getTex_xn());
+    Safe::strcpy(urlYp, tex.getTex_yp());
+    Safe::strcpy(urlYn, tex.getTex_yn());
+    Safe::strcpy(urlZp, tex.getTex_zp());
+    Safe::strcpy(urlZn, tex.getTex_zn());
     
     appRollout->enable();
     
-    rightWin->refresh();
+    //rightWin->refresh();
     topWin->refresh();
     rightWin->sync_live();
   }
@@ -981,12 +991,12 @@ void UI::updateControls()
     //texRollout->enable(); 
 
     Tex tex = item->getTexture();
-    Safe::strcpy(urlXp, tex.getTex_xp() );
+    Safe::strcpy(urlXp, tex.getTex_xp());
     urlXn[0] = urlYp[0] = urlYn[0] = urlZp[0] = urlZn[0] = 0;
     appRollout->enable();
 
-    topWin->refresh();
-    rightWin->refresh();
+    //topWin->refresh();
+    //rightWin->refresh();
   }
 
   Group *group = dynamic_cast<Group*>(item);
@@ -1045,46 +1055,50 @@ void UI::updateControls()
   sprintf( str, "Object type: %s", item->getClassName() );
   objectDescr->set_text(str);
   
-  Color tempColor = item->getApp().getAmbient();
-  amb[0] = tempColor[0];
-  amb[1] = tempColor[1];
-  amb[2] = tempColor[2];
+  Color color = item->getApp().getAmbient();
+  amb[0] = color[0];
+  amb[1] = color[1];
+  amb[2] = color[2];
 
-  tempColor = item->getApp().getDiffuse();
-  dif[0] = tempColor[0];
-  dif[1] = tempColor[1];
-  dif[2] = tempColor[2];
+  color = item->getApp().getDiffuse();
+  dif[0] = color[0];
+  dif[1] = color[1];
+  dif[2] = color[2];
 
-  tempColor = item->getApp().getSpecular();
-  spe[0] = tempColor[0];
-  spe[1] = tempColor[1];
-  spe[2] = tempColor[2];
+  color = item->getApp().getSpecular();
+  spe[0] = color[0];
+  spe[1] = color[1];
+  spe[2] = color[2];
 
-  tempColor = item->getApp().getShininess();
-  shi[0] = tempColor[0];
-  shi[1] = tempColor[1];
-  shi[2] = tempColor[2];
+  color = item->getApp().getShininess();
+  shi[0] = color[0];
+  shi[1] = color[1];
+  shi[2] = color[2];
 
   GLUI_Master.sync_live_all();
+
+  glutPostRedisplay();
 }
 
-void UI::openDial( const char *_question, int _dlogUsage, const char *_answer )
+void UI::openDial( const char *question, int action, const char *answer )
 {
   if (dialGlui == NULL) {
-    if (dialStr == NULL)
+    if (dialStr == NULL) {
       dialStr = (char*) malloc(128);
+    }
 
     dialGlui = GLUI_Master.create_glui("");
-    dialText = dialGlui->add_edittext((char*)_question, GLUI_EDITTEXT_TEXT, dialStr, OK_BTN);
+    dialText = dialGlui->add_edittext((char*)question, GLUI_EDITTEXT_TEXT, dialStr, OK_BTN);
     dialText->set_w(256);
     dialGlui->add_column(false);
-    dialGlui->add_button("OK", OK_BTN, control);
-    dialGlui->add_button("Cancel", CANCEL_BTN, control);
+    dialGlui->add_button("Ok", OK_BTN, control_cb);
+    dialGlui->add_button("Cancel", CANCEL_BTN, control_cb);
     dialGlui->set_main_gfx_window(mainWin);
   }
-  dialText->set_name((char*)_question);
-  strcpy(dialStr, _answer);
-  dialUsage = _dlogUsage;
+
+  dialText->set_name((char*) question);
+  strcpy(dialStr, answer);
+  dialUsage = action;
   dialGlui->show();
   dialGlui->sync_live();
 }
@@ -1092,4 +1106,5 @@ void UI::openDial( const char *_question, int _dlogUsage, const char *_answer )
 void UI::closeDial()
 {
   dialGlui->disable();
+  //dialGlui->hide();
 }
