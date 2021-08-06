@@ -19,7 +19,7 @@ const char *UI::objectTypes[] = { "Wall",
                                   "Thing",
                                   "Earth"
                                 };
-int UI::currentObject = 0;
+int UI::currObject = 0;
 Solid *UI::item = NULL;
 struct objectChain *UI::selected = NULL;
 float UI::center[3] = {0, 0, 0};
@@ -35,7 +35,7 @@ char UI::url[128] = "";
 char UI::ipmc[32] = "";
 char *UI::dialStr = NULL;
 Camera *UI::camera;
-bool UI::motionEnabled = false;
+bool UI::motion = false;
 int UI::mouseX, UI::mouseY;
 int UI::dialUsage;
 int UI::collis = true;
@@ -125,7 +125,7 @@ void UI::control_cb( int event )
 	case OPEN_FILE:
 	  delete Vred::treeRoot;
 	  Vred::treeRoot = new Group("treeRoot", COLORED, Color::white);
-	  printf("loading file.................");
+	  printf("loading file......");
 	  if ( Vred::treeRoot->loadFile(dialStr) != 0 )
 	    printf("failed to load file: %s\n", dialStr);
 	  else
@@ -147,7 +147,7 @@ void UI::control_cb( int event )
 
     case CENTER_XY:
       if (item) {
-	if (collis) {	      
+	if (collis) {
 	  Vect oldcenter = item->getCenter();
 	  int wasColliding = Vred::treeRoot->collide(*item);
 
@@ -326,7 +326,7 @@ void UI::myGlutIdle(void)
     glutSetWindow(mainWin);
   }
 
-  /* GLUI_Master.sync_live_all(); - not needed - nothing to sync in this application */
+  /* GLUI_Master.sync_live_all(); - not needed - nothing to sync */
   glutPostRedisplay();
 }
 
@@ -370,19 +370,17 @@ void UI::myGlutMouse(int button, int button_state, int x, int y)
 	selected = next;
       }
     }
-    if (selected)
-      item = NULL;
 
     updateControls();
   }
 
   if (button_state == GLUT_DOWN && button == GLUT_RIGHT_BUTTON) {
-    motionEnabled = true;
+    motion = true;
     mouseX = x;
     mouseY = y;
   }
   if (button_state == GLUT_UP && button == GLUT_RIGHT_BUTTON) {
-    motionEnabled = false;
+    motion = false;
   }
 
   glutPostRedisplay();
@@ -391,7 +389,7 @@ void UI::myGlutMouse(int button, int button_state, int x, int y)
 /***************************** myGlutMotion() **********************/
 void UI::myGlutMotion(int x, int y)
 {
-  if (motionEnabled) {
+  if (motion) {
     float dheading = 0, dpitch = 0;
 
     if (x < mouseX - 1) {
@@ -502,10 +500,10 @@ void UI::renderSolid(Solid *solid)
 
   App app = solid->getApp();
   Color color = app.getAmbient();
-  solid->setApp(App(Color::red, app.getDiffuse(), app.getSpecular(), app.getShininess()) );
+  solid->setApp( App(Color::red, app.getDiffuse(), app.getSpecular(), app.getShininess()) );
   solid->render();
   solid->setStyle(oldStyle);
-  solid->setApp(App(color, app.getDiffuse(), app.getSpecular(), app.getShininess()));
+  solid->setApp( App(color, app.getDiffuse(), app.getSpecular(), app.getShininess()) );
 }
 
 void UI::vertex(const Vect& v)
@@ -613,7 +611,7 @@ void UI::setupUI(int argc, char *argv[])
 
   /* Objtype */  
   GLUI_Panel *objectPanel = topWin->add_panel("");
-  GLUI_Listbox *objectTypeList = topWin->add_listbox_to_panel(objectPanel, "Object type:", &currentObject);
+  GLUI_Listbox *objectTypeList = topWin->add_listbox_to_panel(objectPanel, "Object type:", &currObject);
 
   for (int i=0; i < sizeof(objectTypes) / sizeof(char*); i++) {
     objectTypeList->add_item(i, (char *) objectTypes[i]);
@@ -877,45 +875,45 @@ void UI::setupUI(int argc, char *argv[])
 void UI::createObject()
 {
   item = NULL;
-  switch (currentObject) {
+  switch (currObject) {
     case WALL_TYPE:
-      item = new Wall("unMur",
+      item = new Wall("Box",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case GATE_TYPE:
-      item = new Gate("unMur",
+      item = new Gate("Box",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case EARTH_TYPE:
-      item = new Earth("uneSphere",
+      item = new Earth("Sphere",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App(),10,10);
       break;
     case WEB_TYPE:
-      item = new Web("unWeb",
+      item = new Web("Web",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case BOARD_TYPE:
-      item = new Board("unBoard",
+      item = new Board("Board",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case HOST_TYPE:
-      item = new Host("unHost",
+      item = new Host("Host",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case DOC_TYPE:
-      item = new Doc("unDoc",
+      item = new Doc("Doc",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case STEP_TYPE:
-      item = new Step("unStep",
+      item = new Step("Step",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case MIRAGE_TYPE:
-      item = new Mirage("unMirage",
+      item = new Mirage("Mirage",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     case THING_TYPE:
-      item = new Thing("unThing",
+      item = new Thing("Thing",
                      Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App());
       break;
     default:
@@ -935,8 +933,6 @@ void UI::updateControls()
   ipmcGlui->disable();
 
   if (item) {
-    //radiusGlui->disable();
-
     if (selected)
       grpButton->enable();
       //topWin->refresh();
@@ -1011,9 +1007,9 @@ void UI::updateControls()
   }
 
   if (! item) {
-    //printf("updateControls: item null\n");
     return;
   }
+
   int classId = item->getClassId();
   switch (classId) {
   case GATE:
@@ -1052,7 +1048,7 @@ void UI::updateControls()
   angleZ = vect[2];
  
   char str[128];
-  sprintf( str, "Object type: %s", item->getClassName() );
+  sprintf(str, "Object type: %s", item->getClassName());
   objectDescr->set_text(str);
   
   Color color = item->getApp().getAmbient();

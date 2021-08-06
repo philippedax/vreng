@@ -53,23 +53,26 @@ struct objectChain {
   struct objectChain *next;
 };
 
+
 class UI {
+
 private:
  static int mainWin;
  static Solid *item;
  static struct objectChain *selected;
  static const char *objectTypes[];
- static int currentObject;
+ static int currObject;
  static float center[3], centerXButton;
  static float size[3];
  static float angleZ;
  static float radius;
  static char urlXp[128], urlXn[128], urlYp[128], urlYn[128], urlZp[128], urlZn[128];
  static float dif[3], amb[3], shi[3], spe[3];
- static char url[128], ipmc[32];
+ static char url[128];
+ static char ipmc[32];
  static int collis;
  static Camera *camera;
- static bool motionEnabled;
+ static bool motion;
  static int mouseX, mouseY;
  static char *dialStr;
  static int dialUsage;
