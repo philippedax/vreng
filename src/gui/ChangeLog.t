@@ -15,6 +15,10 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.2\n\
+-- 9.3.1\n\
+	- added new object #85 : bird\n\
+	(2021/08/08, Philippe Dax)\n\
+\n\
 -- 9.3.0\n\
 	- moved servers/* into src/\n\
 	- moved util/* into src/\n\
