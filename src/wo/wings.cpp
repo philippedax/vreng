@@ -96,16 +96,17 @@ void Wings::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);	// <solid ... />
     if (!l) break;
-    if (! stringcmp(l, "model=")) {
+    if (! stringcmp(l, "scale=")) {
+      l = parse()->parseFloat(l, &scale, "scale");
+    }
+    else if (! stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
       else if (! stringcmp(modelname, "libellule"))  model = LIBELLULE;
       else if (! stringcmp(modelname, "angel"))      model = ANGEL;
       else if (! stringcmp(modelname, "eagle"))      model = EAGLE;
       else if (! stringcmp(modelname, "helicopter")) model = HELICOPTER;
-    }
-    else if (! stringcmp(l, "scale=")) {
-      l = parse()->parseFloat(l, &scale);
+      else model = BUTTERFLY;
     }
   }
   end_while_parse(l);
@@ -136,7 +137,7 @@ Wings::Wings()
   enableBehavior(SPECIFIC_RENDER);
   pos.az += M_PI_2;
   sign = 1;
-  scale = .2;
+  scale = .3;
 
   draw();
 }
@@ -428,7 +429,7 @@ void Wings::changePermanent(float lasting)
 
   switch (model) {
   case BUTTERFLY :
-    if (angle > 90) sign = -1;
+    if (angle > 60) sign = -1;
     if (angle <= 0) sign = 1;
     break;
   case LIBELLULE :
