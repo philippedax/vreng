@@ -37,6 +37,7 @@ void Bird::defaults()
   flying = false;
   model = Wings::BUTTERFLY;
   wings = NULL;
+  radius = 5;
 }
 
 /* Parser */
@@ -50,6 +51,9 @@ void Bird::parser(char *l)
     if (!stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
       if (! stringcmp(modelname, "butterfly"))  model = Wings::BUTTERFLY;
+    }
+    else if (! stringcmp(l, "radius")) {
+      l = parse()->parseFloat(l, &radius, "radius");
     }
   }
   end_while_parse(l);
@@ -84,20 +88,26 @@ Bird::Bird(char *l)
 /* Computes something at each loop */
 void Bird::changePermanent(float lasting)
 {
-  int sign;
-  srand((uint32_t) time(NULL));
-  sign = rand()%2 - 1;
-  pos.x -= sign * .001;
-  srand((uint32_t) time(NULL));
-  sign = rand()%2 - 1;
-  pos.y -= sign * .001;
-  pos.z += .01;
+  int sign = 1;
+  //srand((uint32_t) time(NULL));
+  //sign = rand()%2 - 1;
+  if (pos.x <= (posinit.x - radius)) sign = 1;
+  if (pos.x > (posinit.x + radius)) sign = -1;
+  pos.x -= (sign * .001);
+  if (pos.y <= (posinit.y - radius)) sign = 1;
+  if (pos.y > (posinit.y + radius)) sign = -1;
+  pos.y -= (sign * .001);
+  if (pos.z > (posinit.z + radius)) sign = -1;
+  if (pos.z <= posinit.z) sign = 1;
+  pos.z += (sign * .01);
+
+  updatePosition();
 }
 
 /* Renders at each loop */
 void Bird::render()
 {
-  if (! flying) return;
+  //if (! flying) return;
 
   updatePosition();
 

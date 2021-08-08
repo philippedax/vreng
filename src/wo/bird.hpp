@@ -35,6 +35,7 @@ class Bird : public WObject {
   bool flying;
   class Wings *wings;
   Pos posinit;
+  float radius;
   uint8_t model;
   char modelname[16];
 

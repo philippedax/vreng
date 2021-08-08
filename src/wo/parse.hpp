@@ -29,11 +29,11 @@
 // internal macros
 #define begin_while_parse(l) \
 next_attr: \
-  int cnt_attr; \
-  for (cnt_attr = 0; l && cnt_attr < 256 ; cnt_attr++)
+  uint8_t cnt_attr; \
+  for (cnt_attr = 0; l && cnt_attr <= 255 ; cnt_attr++)
 
 #define end_while_parse(l) \
-  if (cnt_attr >= 256) { \
+  if (cnt_attr >= 255) { \
     error("%s: bad attribute", l); \
     l = strtok(NULL, SEP); \
     goto next_attr; \
