@@ -34,6 +34,9 @@ class Bird : public WObject {
  private:
   bool flying;
   class Wings *wings;
+  Pos posinit;
+  uint8_t model;
+  char modelname[16];
 
  public:
   static const OClass oclass;   ///< class variable
@@ -70,9 +73,14 @@ class Bird : public WObject {
   virtual void inits();
   /**< Do specific inits */
 
+  virtual void fly();
+  virtual void pause();
+  virtual void reset();
+
   // GUI callbacks
-  static void fly(Bird *o, void *d, time_t s, time_t u);
-  static void pause(Bird *o, void *d, time_t s, time_t u);
+  static void fly_cb(Bird *o, void *d, time_t s, time_t u);
+  static void pause_cb(Bird *o, void *d, time_t s, time_t u);
+  static void reset_cb(Bird *o, void *d, time_t s, time_t u);
 
 };
 

@@ -63,6 +63,7 @@ void Wings::defaults()
   angle = 0;	// open
   sign = 1;
   model = NONE;
+  autonomous = false;
 }
 
 /* solid geometry */
@@ -114,8 +115,23 @@ Wings::Wings(char *l)
   parser(l);
   pos.ax -= M_PI_2;
   taken = false;
+  autonomous = false;
   behavior();
   enableBehavior(SPECIFIC_RENDER);
+
+  draw();
+}
+
+/* Called by bird */
+Wings::Wings()
+{
+  model = BUTTERFLY;
+  taken = false;
+  autonomous = true;
+  behavior();
+  enableBehavior(SPECIFIC_RENDER);
+  pos.az += M_PI_2;
+  sign = 1;
 
   draw();
 }
@@ -146,6 +162,16 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   inits();
 
   draw();
+}
+
+void Wings::start()
+{
+  enablePermanentMovement();
+}
+
+void Wings::stop()
+{
+  disablePermanentMovement();
 }
 
 void Wings::draw()
@@ -383,28 +409,30 @@ void Wings::draw()
 
 void Wings::changePermanent(float lasting)
 {
-  if (! taken) return;
+  if (! autonomous) return;
 
-  pos.x = localuser->pos.x + dx;
-  pos.y = localuser->pos.y + dy;
-  pos.z = localuser->pos.z + dz;
-  pos.ax = localuser->pos.ax + DEG2RAD(dax);
-  pos.ay = localuser->pos.ay + DEG2RAD(day);
-  pos.az = localuser->pos.az + DEG2RAD(daz);
+  if (taken) {
+    pos.x = localuser->pos.x + dx;
+    pos.y = localuser->pos.y + dy;
+    pos.z = localuser->pos.z + dz;
+    pos.ax = localuser->pos.ax + DEG2RAD(dax);
+    pos.ay = localuser->pos.ay + DEG2RAD(day);
+    pos.az = localuser->pos.az + DEG2RAD(daz);
+  }
   updatePosition();
 
   switch (model) {
   case BUTTERFLY :
     if (angle > 90) sign = -1;
-    if (angle < 0) sign = 1;
+    if (angle <= 0) sign = 1;
     break;
   case LIBELLULE :
     if (angle > 15) sign = -1;
-    if (angle < 0) sign = 1;
+    if (angle <= 0) sign = 1;
     break;
   case ANGEL :
     if (angle > 30) sign = -1;
-    if (angle < 0) sign = 1;
+    if (angle <= 0) sign = 1;
     break;
   case EAGLE :
     sign = 0;

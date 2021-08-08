@@ -38,6 +38,7 @@ private:
   GLint dlist_right;
   GLint dlist_left;
   int sign;		///< +1 | -1
+  bool autonomous;
 
 protected:
   uint8_t model;
@@ -75,9 +76,16 @@ public:
   Wings(char *l);		///< Constructor file.
   Wings(class User *user, void *d, time_t s, time_t u);
   /**< Constructor from User */
+  Wings();		///< Constructor from bird.
 
   virtual void changePermanent(float lasting);
   /**< Changes. */
+
+  virtual void start();
+  /**< Starts movement. */
+
+  virtual void stop();
+  /**< Stops movement. */
 
   virtual void render();
   /**< Renders. */

@@ -35,6 +35,7 @@ WObject * Bird::creator(char *l)
 void Bird::defaults()
 {
   flying = false;
+  model = Wings::BUTTERFLY;
   wings = NULL;
 }
 
@@ -46,6 +47,10 @@ void Bird::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
+    if (!stringcmp(l, "model=")) {
+      l = parse()->parseString(l, modelname, "model");
+      if (! stringcmp(modelname, "butterfly"))  model = Wings::BUTTERFLY;
+    }
   }
   end_while_parse(l);
 }
@@ -55,7 +60,7 @@ void Bird::behavior()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
-  enableBehavior(SPECIFIC_RENDER);
+  //enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
   updatePosition();
@@ -64,6 +69,8 @@ void Bird::behavior()
 /* Specific inits */
 void Bird::inits()
 {
+  posinit = pos;
+  wings = new Wings();
 }
 
 /* Constructor */
@@ -77,6 +84,14 @@ Bird::Bird(char *l)
 /* Computes something at each loop */
 void Bird::changePermanent(float lasting)
 {
+  int sign;
+  srand((uint32_t) time(NULL));
+  sign = rand()%2 - 1;
+  pos.x -= sign * .001;
+  srand((uint32_t) time(NULL));
+  sign = rand()%2 - 1;
+  pos.y -= sign * .001;
+  pos.z += .01;
 }
 
 /* Renders at each loop */
@@ -89,6 +104,7 @@ void Bird::render()
   // push
   glPushMatrix();
   glEnable(GL_CULL_FACE);
+  glTranslatef(pos.x, pos.y, pos.z);
 
   // render
   wings->render();
@@ -103,21 +119,45 @@ void Bird::quit()
 {
 }
 
-void Bird::fly(Bird *bird, void *d, time_t s, time_t u)
+void Bird::fly()
 {
-  if (! bird->wings) {
-  bird->wings = new Wings("model=\"butterfly\"");
-  }
-  bird->flying = true;
+  enableBehavior(SPECIFIC_RENDER);
+  enablePermanentMovement();
+  wings->start();
+  flying = true;
 }
 
-void Bird::pause(Bird *bird, void *d, time_t s, time_t u)
+void Bird::pause()
 {
-  bird->flying = false;
+  flying = false;
+  disablePermanentMovement();
+  wings->stop();
+}
+
+void Bird::reset()
+{
+  pause();
+  pos = posinit;
+}
+
+void Bird::fly_cb(Bird *bird, void *d, time_t s, time_t u)
+{
+  bird->fly();
+}
+
+void Bird::pause_cb(Bird *bird, void *d, time_t s, time_t u)
+{
+  bird->pause();
+}
+
+void Bird::reset_cb(Bird *bird, void *d, time_t s, time_t u)
+{
+  bird->reset();
 }
 
 void Bird::funcs()
 {
-  setActionFunc(BIRD_TYPE, 0, WO_ACTION fly, "fly");
-  setActionFunc(BIRD_TYPE, 1, WO_ACTION pause, "pause");
+  setActionFunc(BIRD_TYPE, 0, WO_ACTION fly_cb, "fly");
+  setActionFunc(BIRD_TYPE, 1, WO_ACTION pause_cb, "pause");
+  setActionFunc(BIRD_TYPE, 2, WO_ACTION reset_cb, "reset");
 }
