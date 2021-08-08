@@ -37,6 +37,7 @@ private:
   GLint dlist_middle;
   GLint dlist_right;
   GLint dlist_left;
+  GLfloat scale;
   int sign;		///< +1 | -1
   bool autonomous;
 

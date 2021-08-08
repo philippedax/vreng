@@ -62,6 +62,7 @@ void Wings::defaults()
   daz = 90;
   angle = 0;	// open
   sign = 1;
+  scale = 1;
   model = NONE;
   autonomous = false;
 }
@@ -95,13 +96,16 @@ void Wings::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);	// <solid ... />
     if (!l) break;
-    if (!stringcmp(l, "model=")) {
+    if (! stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
       else if (! stringcmp(modelname, "libellule"))  model = LIBELLULE;
       else if (! stringcmp(modelname, "angel"))      model = ANGEL;
       else if (! stringcmp(modelname, "eagle"))      model = EAGLE;
       else if (! stringcmp(modelname, "helicopter")) model = HELICOPTER;
+    }
+    else if (! stringcmp(l, "scale=")) {
+      l = parse()->parseFloat(l, &scale);
     }
   }
   end_while_parse(l);
@@ -132,6 +136,7 @@ Wings::Wings()
   enableBehavior(SPECIFIC_RENDER);
   pos.az += M_PI_2;
   sign = 1;
+  scale = .2;
 
   draw();
 }
@@ -462,7 +467,7 @@ void Wings::render()
     glPopMatrix();
     break;
   default:
-    glScalef(1, -1, 1);
+    glScalef(scale, -scale, scale);
     glPushMatrix();
      glRotatef(angle, 0, 1, 0);
      glCallList(dlist_left);
