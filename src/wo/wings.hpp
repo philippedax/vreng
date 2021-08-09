@@ -40,7 +40,6 @@ private:
   GLfloat scale;
   int sign;		///< +1 | -1
   bool active;
-  bool autonomous;
 
 protected:
   uint8_t model;

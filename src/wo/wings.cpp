@@ -65,7 +65,6 @@ void Wings::defaults()
   sign = 1;
   scale = 1;
   model = NONE;
-  autonomous = false;
 }
 
 /* solid geometry */
@@ -123,7 +122,6 @@ Wings::Wings(char *l)
   pos.ax -= M_PI_2;
   active = false;
   taken = false;
-  autonomous = false;
   behavior();
   enableBehavior(SPECIFIC_RENDER);
 
@@ -136,7 +134,6 @@ Wings::Wings()
   model = BIRD;
   active = true;
   taken = false;
-  autonomous = true;
   behavior();
   enableBehavior(SPECIFIC_RENDER);
   pos.az += M_PI_2;
@@ -451,7 +448,6 @@ void Wings::draw()
 void Wings::changePermanent(float lasting)
 {
   if (! active) return;
-  //dax if (! autonomous) return;
 
   if (taken) {
     pos.x = localuser->pos.x + dx;
