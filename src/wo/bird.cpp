@@ -35,7 +35,7 @@ WObject * Bird::creator(char *l)
 void Bird::defaults()
 {
   flying = false;
-  model = Wings::BUTTERFLY;
+  model = Wings::BIRD;
   wings = NULL;
   radius = 3;
 }
@@ -50,7 +50,7 @@ void Bird::parser(char *l)
     if (!l) break;
     if (!stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
-      if (! stringcmp(modelname, "butterfly"))  model = Wings::BUTTERFLY;
+      if (! stringcmp(modelname, "butterfly"))  model = Wings::BIRD;
     }
     else if (! stringcmp(l, "radius")) {
       l = parse()->parseFloat(l, &radius, "radius");

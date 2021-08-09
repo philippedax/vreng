@@ -36,6 +36,7 @@ struct sWings {
 };
   
 static struct sWings wingss[] = {
+  {Wings::BIRD,       "bbird"},
   {Wings::BUTTERFLY,  "butterfly"},
   {Wings::LIBELLULE,  "libellule"},
   {Wings::ANGEL,      "angel"}, 
@@ -102,6 +103,7 @@ void Wings::parser(char *l)
     else if (! stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
+      else if (! stringcmp(modelname, "bird"))       model = BIRD;
       else if (! stringcmp(modelname, "libellule"))  model = LIBELLULE;
       else if (! stringcmp(modelname, "angel"))      model = ANGEL;
       else if (! stringcmp(modelname, "eagle"))      model = EAGLE;
@@ -130,7 +132,7 @@ Wings::Wings(char *l)
 /* Called by bird */
 Wings::Wings()
 {
-  model = BUTTERFLY;
+  model = BIRD;
   taken = false;
   autonomous = true;
   behavior();
@@ -188,31 +190,32 @@ void Wings::draw()
   glBegin(GL_POLYGON);
   switch (model) {
   case BUTTERFLY :
+  case BIRD :
     glColor3f(.7, .7, .4);
-    Draw::sphere(0.02, 8, 8, 0); // head
-    glRectf(-0.01, -0.59, 0.01, 0); //body
+    Draw::sphere(0.03, 8, 8, 0); // head
+    glRectf(-0.02, -0.59, 0.02, 0); //body
     break;
   case HELICOPTER :
     glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    glColor3f(.2, .2, .2); glVertex2f(.5, .1);
-    glColor3f(.2, .2, .2); glVertex2f(1, .1);
-    glColor3f(.2, .2, .2); glVertex2f(1, -.1);
-    glColor3f(.2, .2, .2); glVertex2f(.5, -.1);
+    glColor3f(.4, .4, .4); glVertex2f(.5, .1);
+    glColor3f(.4, .4, .4); glVertex2f(1, .1);
+    glColor3f(.4, .4, .4); glVertex2f(1, -.1);
+    glColor3f(.4, .4, .4); glVertex2f(.5, -.1);
     glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    glColor3f(.2, .2, .2); glVertex2f(.1, .5);
-    glColor3f(.2, .2, .2); glVertex2f(.1, 1);
-    glColor3f(.2, .2, .2); glVertex2f(-.1, 1);
-    glColor3f(.2, .2, .2); glVertex2f(-.1, .5);
+    glColor3f(.4, .4, .4); glVertex2f(.1, .5);
+    glColor3f(.4, .4, .4); glVertex2f(.1, 1);
+    glColor3f(.4, .4, .4); glVertex2f(-.1, 1);
+    glColor3f(.4, .4, .4); glVertex2f(-.1, .5);
     glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    glColor3f(.2, .2, .2); glVertex2f(-.5, .1);
-    glColor3f(.2, .2, .2); glVertex2f(-1, .1);
-    glColor3f(.2, .2, .2); glVertex2f(-1, -.1);
-    glColor3f(.2, .2, .2); glVertex2f(-.5, -.1);
+    glColor3f(.4, .4, .4); glVertex2f(-.5, .1);
+    glColor3f(.4, .4, .4); glVertex2f(-1, .1);
+    glColor3f(.4, .4, .4); glVertex2f(-1, -.1);
+    glColor3f(.4, .4, .4); glVertex2f(-.5, -.1);
     glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    glColor3f(.2, .2, .2); glVertex2f(-.1, -.5);
-    glColor3f(.2, .2, .2); glVertex2f(-.1, -1);
-    glColor3f(.2, .2, .2); glVertex2f(.1, -1);
-    glColor3f(.2, .2, .2); glVertex2f(.1, -.5);
+    glColor3f(.4, .4, .4); glVertex2f(-.1, -.5);
+    glColor3f(.4, .4, .4); glVertex2f(-.1, -1);
+    glColor3f(.4, .4, .4); glVertex2f(.1, -1);
+    glColor3f(.4, .4, .4); glVertex2f(.1, -.5);
     glColor3f(.0, .0, .0); glVertex2f(0, 0);
     Draw::sphere(0.05, 8, 8, 0);
   default:
@@ -226,11 +229,25 @@ void Wings::draw()
   glNewList(dlist_right, GL_COMPILE);
   glBegin(GL_POLYGON);
   switch (model) {
+  case BIRD :
+    glColor3f(.9, .9, .9); glVertex2f(0, 0);
+    glColor3f(.6, .6, .6); glVertex2f(0.2, 0.1);
+    glColor3f(.0, .0, .9); glVertex2f(0.4, 0.25);
+    glColor3f(.6, .6, .6); glVertex2f(0.6, 0.15);
+    glColor3f(.6, .6, .6); glVertex2f(0.63, 0.1);
+    glColor3f(.6, .6, .6); glVertex2f(0.6, -0.4);
+    glColor3f(.6, .6, .6); glVertex2f(0.5, -0.5);
+    glColor3f(.6, .6, .9); glVertex2f(0, -0.6);
+    glColor3f(.6, .6, .6); glVertex2f(0.5, -0.5);
+    glColor3f(.6, .6, .6); glVertex2f(0.5, -0.57);
+    glColor3f(.6, .7, .7); glVertex2f(0.4, -0.8);
+    glColor3f(.6, .7, .7); glVertex2f(0.3, -0.8);
+    glColor3f(.6, .6, .9); glVertex2f(0, -0.6);
+    break;
   case BUTTERFLY :
     glColor3f(.2, .6, .7); glVertex2f(0, 0);
     glColor3f(.3, .6, .4); glVertex2f(0.2, 0.1);
     glColor3f(.4, .6, .5); glVertex2f(0.4, 0.25);
-    //glColor3f(.5, .6, .5); glVertex2f(0.46, 0.24);
     glColor3f(.5, .6, .5); glVertex2f(0.6, 0.15);
     glColor3f(.5, .6, .5); glVertex2f(0.63, 0.1);
     glColor3f(.5, .6, .5); glVertex2f(0.6, -0.4);
@@ -273,43 +290,43 @@ void Wings::draw()
     glColor3f(1, 1, 1); glVertex2f(0, -.3);
     break;
   case EAGLE :
-    glColor3f(1, 1, 0); glVertex2f(0, 0);
-    glColor3f(1, 1, 0); glVertex2f(.05, 0);
-    glColor3f(1, 1, 0); glVertex2f(.05, .05);
-    glColor3f(1, 1, 0); glVertex2f(.1, .1);
-    glColor3f(1, 1, 0); glVertex2f(.13, .2);
-    glColor3f(1, 1, 0); glVertex2f(.1, .27);
-    glColor3f(1, 1, 0); glVertex2f(0, .3);
-    glColor3f(1, 1, 0); glVertex2f(.1, 0);
-    glColor3f(1, 1, 0); glVertex2f(.2, -.1);
-    glColor3f(1, 1, 0); glVertex2f(.18, -.3);
-    glColor3f(1, 1, 0); glVertex2f(.17, -.5);
-    glColor3f(1, 1, 0); glVertex2f(.18, -.6);
-    glColor3f(1, 1, 0); glVertex2f(.20, -.7);
-    glColor3f(1, 1, 0); glVertex2f(.19, -.71);
-    glColor3f(1, 1, 0); glVertex2f(.18, -.66);
-    glColor3f(1, 1, 0); glVertex2f(.19, -.74);
-    glColor3f(1, 1, 0); glVertex2f(.18, -.75);
-    glColor3f(1, 1, 0); glVertex2f(.17, -.68);
-    glColor3f(1, 1, 0); glVertex2f(.16, -.75);
-    glColor3f(1, 1, 0); glVertex2f(.15, -.76);
-    glColor3f(1, 1, 0); glVertex2f(.15, -.68);
-    glColor3f(1, 1, 0); glVertex2f(.14, -.72);
-    glColor3f(1, 1, 0); glVertex2f(.14, -.73);
-    glColor3f(1, 1, 0); glVertex2f(.135, -.72);
-    glColor3f(1, 1, 0); glVertex2f(.130, -.72);
-    glColor3f(1, 1, 0); glVertex2f(.140, -.60);
-    glColor3f(1, 1, 0); glVertex2f(.1, -.20);
-    glColor3f(1, 1, 0); glVertex2f(.08, -.60);
-    glColor3f(1, 1, 0); glVertex2f(.12, -.80);
-    glColor3f(1, 1, 0); glVertex2f(.14, -1.10);
-    glColor3f(1, 1, 0); glVertex2f(.16, -1.60);
-    glColor3f(1, 1, 0); glVertex2f(.20, -1.63);
-    glColor3f(1, 1, 0); glVertex2f(.19, -1.65);
-    glColor3f(1, 1, 0); glVertex2f(.13, -1.63);
-    glColor3f(1, 1, 0); glVertex2f(.10, -1.60);
-    glColor3f(1, 1, 0); glVertex2f(.10, -1.60);
-    glColor3f(1, 1, 0); glVertex2f(.0, -.80);
+    glColor3f(1, 0, 1); glVertex2f(0, 0);
+    glColor3f(1, 0, 1); glVertex2f(.05, 0);
+    glColor3f(1, 0, 1); glVertex2f(.05, .05);
+    glColor3f(1, 0, 1); glVertex2f(.1, .1);
+    glColor3f(1, 0, 1); glVertex2f(.13, .2);
+    glColor3f(1, 0, 1); glVertex2f(.1, .27);
+    glColor3f(1, 0, 1); glVertex2f(0, .3);
+    glColor3f(1, 0, 1); glVertex2f(.1, 0);
+    glColor3f(1, 0, 1); glVertex2f(.2, -.1);
+    glColor3f(1, 0, 1); glVertex2f(.18, -.3);
+    glColor3f(1, 0, 1); glVertex2f(.17, -.5);
+    glColor3f(1, 0, 1); glVertex2f(.18, -.6);
+    glColor3f(1, 0, 1); glVertex2f(.20, -.7);
+    glColor3f(1, 0, 1); glVertex2f(.19, -.71);
+    glColor3f(1, 0, 1); glVertex2f(.18, -.66);
+    glColor3f(1, 0, 1); glVertex2f(.19, -.74);
+    glColor3f(1, 0, 1); glVertex2f(.18, -.75);
+    glColor3f(1, 0, 1); glVertex2f(.17, -.68);
+    glColor3f(1, 0, 1); glVertex2f(.16, -.75);
+    glColor3f(1, 0, 1); glVertex2f(.15, -.76);
+    glColor3f(1, 0, 1); glVertex2f(.15, -.68);
+    glColor3f(1, 0, 1); glVertex2f(.14, -.72);
+    glColor3f(1, 0, 1); glVertex2f(.14, -.73);
+    glColor3f(1, 0, 1); glVertex2f(.135, -.72);
+    glColor3f(1, 0, 1); glVertex2f(.130, -.72);
+    glColor3f(1, 0, 1); glVertex2f(.140, -.60);
+    glColor3f(1, 0, 1); glVertex2f(.1, -.20);
+    glColor3f(1, 0, 1); glVertex2f(.08, -.60);
+    glColor3f(1, 0, 1); glVertex2f(.12, -.80);
+    glColor3f(1, 0, 1); glVertex2f(.14, -1.10);
+    glColor3f(1, 0, 1); glVertex2f(.16, -1.60);
+    glColor3f(1, 0, 1); glVertex2f(.20, -1.63);
+    glColor3f(1, 0, 1); glVertex2f(.19, -1.65);
+    glColor3f(1, 0, 1); glVertex2f(.13, -1.63);
+    glColor3f(1, 0, 1); glVertex2f(.10, -1.60);
+    glColor3f(1, 0, 1); glVertex2f(.10, -1.60);
+    glColor3f(1, 0, 1); glVertex2f(.0, -.80);
     break;
   default:
     break;
@@ -322,6 +339,21 @@ void Wings::draw()
   glNewList(dlist_left, GL_COMPILE);
   glBegin(GL_POLYGON);
   switch (model) {
+  case BIRD :
+    glColor3f(.9, .9, .9); glVertex2f(0, 0);
+    glColor3f(.6, .6, .6); glVertex2f(-0.2, 0.1);
+    glColor3f(.0, .0, .9); glVertex2f(-0.4, 0.25);
+    glColor3f(.6, .6, .6); glVertex2f(-0.6, 0.15);
+    glColor3f(.6, .6, .6); glVertex2f(-0.63, 0.1);
+    glColor3f(.6, .6, .6); glVertex2f(-0.6, -0.4);
+    glColor3f(.6, .6, .6); glVertex2f(-0.5, -0.5);
+    glColor3f(.6, .6, .9); glVertex2f(0, -0.6);
+    glColor3f(.6, .6, .6); glVertex2f(-0.5, -0.5);
+    glColor3f(.6, .6, .6); glVertex2f(-0.5, -0.57);
+    glColor3f(.6, .7, .7); glVertex2f(-0.4, -0.8);
+    glColor3f(.6, .7, .7); glVertex2f(-0.3, -0.8);
+    glColor3f(.6, .6, .9); glVertex2f(0, -0.6);
+    break;
   case BUTTERFLY :
     glColor3f(.2, .6, .7); glVertex2f(0, 0);
     glColor3f(.3, .6, .4); glVertex2f(-0.2, 0.1);
@@ -368,43 +400,43 @@ void Wings::draw()
     glColor3f(1, 1, 1); glVertex2f(0, -.3);
     break;
   case EAGLE :
-    glColor3f(1, 1, 0); glVertex2f(0, 0);
-    glColor3f(1, 1, 0); glVertex2f(-.05, 0);
-    glColor3f(1, 1, 0); glVertex2f(-.05, .05);
-    glColor3f(1, 1, 0); glVertex2f(-.1, .1);
-    glColor3f(1, 1, 0); glVertex2f(-.13, .2);
-    glColor3f(1, 1, 0); glVertex2f(-.1, .27);
-    glColor3f(1, 1, 0); glVertex2f(-0, .3);
-    glColor3f(1, 1, 0); glVertex2f(-.1, 0);
-    glColor3f(1, 1, 0); glVertex2f(-.2, -.1);
-    glColor3f(1, 1, 0); glVertex2f(-.18, -.3);
-    glColor3f(1, 1, 0); glVertex2f(-.17, -.5);
-    glColor3f(1, 1, 0); glVertex2f(-.18, -.6);
-    glColor3f(1, 1, 0); glVertex2f(-.20, -.7);
-    glColor3f(1, 1, 0); glVertex2f(-.19, -.71);
-    glColor3f(1, 1, 0); glVertex2f(-.18, -.66);
-    glColor3f(1, 1, 0); glVertex2f(-.19, -.74);
-    glColor3f(1, 1, 0); glVertex2f(-.18, -.75);
-    glColor3f(1, 1, 0); glVertex2f(-.17, -.68);
-    glColor3f(1, 1, 0); glVertex2f(-.16, -.75);
-    glColor3f(1, 1, 0); glVertex2f(-.15, -.76);
-    glColor3f(1, 1, 0); glVertex2f(-.15, -.68);
-    glColor3f(1, 1, 0); glVertex2f(-.14, -.72);
-    glColor3f(1, 1, 0); glVertex2f(-.14, -.73);
-    glColor3f(1, 1, 0); glVertex2f(-.135, -.72);
-    glColor3f(1, 1, 0); glVertex2f(-.130, -.72);
-    glColor3f(1, 1, 0); glVertex2f(-.140, -.60);
-    glColor3f(1, 1, 0); glVertex2f(-.1, -.20);
-    glColor3f(1, 1, 0); glVertex2f(-.08, -.60);
-    glColor3f(1, 1, 0); glVertex2f(-.12, -.80);
-    glColor3f(1, 1, 0); glVertex2f(-.14, -1.10);
-    glColor3f(1, 1, 0); glVertex2f(-.16, -1.60);
-    glColor3f(1, 1, 0); glVertex2f(-.20, -1.63);
-    glColor3f(1, 1, 0); glVertex2f(-.19, -1.65);
-    glColor3f(1, 1, 0); glVertex2f(-.13, -1.63);
-    glColor3f(1, 1, 0); glVertex2f(-.10, -1.60);
-    glColor3f(1, 1, 0); glVertex2f(-.10, -1.60);
-    glColor3f(1, 1, 0); glVertex2f(-.0, -.80);
+    glColor3f(1, 0, 1); glVertex2f(0, 0);
+    glColor3f(1, 0, 1); glVertex2f(-.05, 0);
+    glColor3f(1, 0, 1); glVertex2f(-.05, .05);
+    glColor3f(1, 0, 1); glVertex2f(-.1, .1);
+    glColor3f(1, 0, 1); glVertex2f(-.13, .2);
+    glColor3f(1, 0, 1); glVertex2f(-.1, .27);
+    glColor3f(1, 0, 1); glVertex2f(-0, .3);
+    glColor3f(1, 0, 1); glVertex2f(-.1, 0);
+    glColor3f(1, 0, 1); glVertex2f(-.2, -.1);
+    glColor3f(1, 0, 1); glVertex2f(-.18, -.3);
+    glColor3f(1, 0, 1); glVertex2f(-.17, -.5);
+    glColor3f(1, 0, 1); glVertex2f(-.18, -.6);
+    glColor3f(1, 0, 1); glVertex2f(-.20, -.7);
+    glColor3f(1, 0, 1); glVertex2f(-.19, -.71);
+    glColor3f(1, 0, 1); glVertex2f(-.18, -.66);
+    glColor3f(1, 0, 1); glVertex2f(-.19, -.74);
+    glColor3f(1, 0, 1); glVertex2f(-.18, -.75);
+    glColor3f(1, 0, 1); glVertex2f(-.17, -.68);
+    glColor3f(1, 0, 1); glVertex2f(-.16, -.75);
+    glColor3f(1, 0, 1); glVertex2f(-.15, -.76);
+    glColor3f(1, 0, 1); glVertex2f(-.15, -.68);
+    glColor3f(1, 0, 1); glVertex2f(-.14, -.72);
+    glColor3f(1, 0, 1); glVertex2f(-.14, -.73);
+    glColor3f(1, 0, 1); glVertex2f(-.135, -.72);
+    glColor3f(1, 0, 1); glVertex2f(-.130, -.72);
+    glColor3f(1, 0, 1); glVertex2f(-.140, -.60);
+    glColor3f(1, 0, 1); glVertex2f(-.1, -.20);
+    glColor3f(1, 0, 1); glVertex2f(-.08, -.60);
+    glColor3f(1, 0, 1); glVertex2f(-.12, -.80);
+    glColor3f(1, 0, 1); glVertex2f(-.14, -1.10);
+    glColor3f(1, 0, 1); glVertex2f(-.16, -1.60);
+    glColor3f(1, 0, 1); glVertex2f(-.20, -1.63);
+    glColor3f(1, 0, 1); glVertex2f(-.19, -1.65);
+    glColor3f(1, 0, 1); glVertex2f(-.13, -1.63);
+    glColor3f(1, 0, 1); glVertex2f(-.10, -1.60);
+    glColor3f(1, 0, 1); glVertex2f(-.10, -1.60);
+    glColor3f(1, 0, 1); glVertex2f(-.0, -.80);
     break;
   default:
     break;
@@ -428,6 +460,7 @@ void Wings::changePermanent(float lasting)
   updatePosition();
 
   switch (model) {
+  case BIRD :
   case BUTTERFLY :
     if (angle > 60) sign = -1;
     if (angle <= 0) sign = 1;

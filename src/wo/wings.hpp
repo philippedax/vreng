@@ -48,6 +48,7 @@ protected:
 public:
   enum {
     NOWINGS,
+    BIRD,
     BUTTERFLY,
     LIBELLULE,
     ANGEL,
