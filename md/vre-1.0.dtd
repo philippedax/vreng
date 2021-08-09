@@ -23,7 +23,7 @@
 <!-- SCENE -->
 <!ELEMENT scene (
 		accessory | android | animator | aoi | area |
-		bgcolor | board | book | bumper | button | 
+		bgcolor | bird | board | book | bumper | button | 
 		carousel | cauldron | clip | clock | cloud | cloth |
 		doc | door | download | dress |
 		entry | escalator |
@@ -85,6 +85,13 @@
 
 <!ELEMENT bgcolor	EMPTY>
 <!ATTLIST bgcolor	color	NMTOKENS #REQUIRED>
+
+<!ELEMENT bird		(solid)>
+<!ATTLIST bird		pos	NMTOKENS #REQUIRED>
+<!ATTLIST bird		name	NMTOKEN #IMPLIED>
+<!ATTLIST bird		descr	NMTOKENS #IMPLIED>
+<!ATTLIST bird		scale	NMTOKEN "1">
+<!ATTLIST bird		model	(bird) #IMPLIED>
 
 <!ELEMENT board		(solid)>
 <!ATTLIST board		pos	NMTOKENS #REQUIRED>
@@ -586,6 +593,7 @@
 <!ATTLIST wings		pos	NMTOKENS #REQUIRED>
 <!ATTLIST wings		name	NMTOKEN #IMPLIED>
 <!ATTLIST wings		descr	NMTOKENS #IMPLIED>
+<!ATTLIST wings		scale	NMTOKEN "1">
 <!ATTLIST wings		model	(helicopter | butterfly | libellule | angel | eagle) #IMPLIED>
 
 
