@@ -121,6 +121,7 @@ Wings::Wings(char *l)
   strcpy(modelname, "butterfly");
   parser(l);
   pos.ax -= M_PI_2;
+  active = false;
   taken = false;
   autonomous = false;
   behavior();
@@ -133,6 +134,7 @@ Wings::Wings(char *l)
 Wings::Wings()
 {
   model = BIRD;
+  active = true;
   taken = false;
   autonomous = true;
   behavior();
@@ -159,6 +161,7 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
 
   pwings = this;
   defaults();
+  active = false;
   taken = true;
   model = getModel(modelname);
   makeSolid();
@@ -447,7 +450,8 @@ void Wings::draw()
 
 void Wings::changePermanent(float lasting)
 {
-  if (! autonomous) return;
+  if (! active) return;
+  //dax if (! autonomous) return;
 
   if (taken) {
     pos.x = localuser->pos.x + dx;
@@ -533,6 +537,7 @@ void Wings::wear()
 {
   if (taken) takeoff();
   defaults();
+  active = true;
   taken = true;
   model = getModel(modelname);
   setName(modelname);
@@ -551,6 +556,7 @@ void Wings::takeoff()
   restorePosition();
   delPersist();
   delFromWearList();
+  active = false;
   taken = false;
 }
 

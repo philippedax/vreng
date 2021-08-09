@@ -39,6 +39,7 @@ private:
   GLint dlist_left;
   GLfloat scale;
   int sign;		///< +1 | -1
+  bool active;
   bool autonomous;
 
 protected:
