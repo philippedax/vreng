@@ -90,6 +90,7 @@
 <!ATTLIST bird		pos	NMTOKENS #REQUIRED>
 <!ATTLIST bird		name	NMTOKEN #IMPLIED>
 <!ATTLIST bird		descr	NMTOKENS #IMPLIED>
+<!ATTLIST bird  	radius	NMTOKEN #IMPLIED>
 <!ATTLIST bird		scale	NMTOKEN "1">
 <!ATTLIST bird		model	(bird) #IMPLIED>
 
