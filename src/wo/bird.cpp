@@ -37,7 +37,7 @@ void Bird::defaults()
   flying = false;
   model = Wings::BUTTERFLY;
   wings = NULL;
-  radius = 5;
+  radius = 3;
 }
 
 /* Parser */
@@ -75,6 +75,10 @@ void Bird::inits()
 {
   posinit = pos;
   wings = new Wings();
+  pos.x -= .001;
+  pos.y -= .001;
+  pos.z += 0.1;
+  //enableBehavior(SPECIFIC_RENDER);
 }
 
 /* Constructor */
@@ -88,18 +92,60 @@ Bird::Bird(char *l)
 /* Computes something at each loop */
 void Bird::changePermanent(float lasting)
 {
+  static bool expansionx = true;
+  static bool expansiony = true;
+  static bool expansionz = true;
   int sign = 1;
-  //srand((uint32_t) time(NULL));
-  //sign = rand()%2 - 1;
-  if (pos.x <= (posinit.x - radius)) sign = 1;
-  if (pos.x > (posinit.x + radius)) sign = -1;
-  pos.x -= (sign * .001);
-  if (pos.y <= (posinit.y - radius)) sign = 1;
-  if (pos.y > (posinit.y + radius)) sign = -1;
-  pos.y -= (sign * .001);
-  if (pos.z > (posinit.z + radius)) sign = -1;
-  if (pos.z <= posinit.z) sign = 1;
+
+  if (expansionx) {
+    sign = 1;
+    if ( (pos.x <= (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
+      expansionx = false;
+      sign = -1;
+    }
+  }
+  else { // collapsex
+    sign = -1;
+    if (pos.x <= posinit.x) {
+      expansionx = true;
+      sign = 1;
+    }
+  }
+  pos.x -= (sign * .005);
+
+  if (expansiony) {
+    sign = 1;
+    if ( (pos.y <= (posinit.y - radius)) || (pos.y > (posinit.y + radius)) ) {
+      expansiony = false;
+      sign = -1;
+    }
+  }
+  else { // collapsey
+    sign = -1;
+    if (pos.y <= posinit.y) {
+      expansiony = true;
+      sign = 1;
+    }
+  }
+  pos.y -= (sign * .005);
+
+  if (expansionz) {
+    sign = 1;
+    if (pos.z > (posinit.z + radius)) {
+      expansionz = false;
+      sign = -1;
+    }
+  }
+  else { // collapsez
+    sign = -1;
+    if (pos.z <= posinit.z) {
+      expansionz = true;
+      sign = 1;
+    }
+  }
   pos.z += (sign * .01);
+
+  //error("%.1f %.1f %.1f %d",pos.x,pos.y,pos.z,sign);
 
   updatePosition();
 }
