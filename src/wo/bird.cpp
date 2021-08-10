@@ -25,6 +25,9 @@
 
 const OClass Bird::oclass(BIRD_TYPE, "Bird", Bird::creator);
 
+const float Bird::BIRD_SCALE = 0.3;
+const float Bird::BIRD_ZONE = 3;
+
 
 /* Creation from a file */
 WObject * Bird::creator(char *l)
@@ -37,7 +40,8 @@ void Bird::defaults()
   flying = false;
   model = Wings::BIRD;
   wings = NULL;
-  radius = 3;
+  radius = BIRD_ZONE;
+  scale = BIRD_SCALE;
 }
 
 /* Parser */
@@ -48,12 +52,16 @@ void Bird::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "model=")) {
+    if (! stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
-      if (! stringcmp(modelname, "butterfly"))  model = Wings::BIRD;
+      if      (! stringcmp(modelname, "bird"))  model = Wings::BIRD;
+      else if (! stringcmp(modelname, "butterfly"))  model = Wings::BUTTERFLY;
     }
     else if (! stringcmp(l, "radius")) {
       l = parse()->parseFloat(l, &radius, "radius");
+    }
+    else if (! stringcmp(l, "scale")) {
+      l = parse()->parseFloat(l, &scale, "scale");
     }
   }
   end_while_parse(l);
@@ -74,11 +82,10 @@ void Bird::behavior()
 void Bird::inits()
 {
   posinit = pos;
-  wings = new Wings();
+  wings = new Wings(scale);
   pos.x -= .001;
   pos.y -= .001;
   pos.z += 0.1;
-  //enableBehavior(SPECIFIC_RENDER);
 }
 
 /* Constructor */
@@ -153,10 +160,6 @@ void Bird::changePermanent(float lasting)
 /* Renders at each loop */
 void Bird::render()
 {
-  //if (! flying) return;
-
-  updatePosition();
-
   // push
   glPushMatrix();
   glEnable(GL_CULL_FACE);

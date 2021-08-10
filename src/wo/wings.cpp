@@ -36,7 +36,7 @@ struct sWings {
 };
   
 static struct sWings wingss[] = {
-  {Wings::BIRD,       "bbird"},
+  {Wings::BIRD,       "bird"},
   {Wings::BUTTERFLY,  "butterfly"},
   {Wings::LIBELLULE,  "libellule"},
   {Wings::ANGEL,      "angel"}, 
@@ -129,6 +129,21 @@ Wings::Wings(char *l)
 }
 
 /* Called by bird */
+Wings::Wings(float _scale)
+{
+  model = BIRD;
+  active = true;
+  taken = false;
+  behavior();
+  enableBehavior(SPECIFIC_RENDER);
+  pos.az += (3 * M_PI_2);
+  sign = 1;
+  scale = _scale;
+
+  draw();
+}
+
+/* Called by bird */
 Wings::Wings()
 {
   model = BIRD;
@@ -184,11 +199,16 @@ void Wings::stop()
 
 void Wings::draw()
 {
+  draw(model);
+}
+
+void Wings::draw(uint8_t _model)
+{
   //middle wing
   dlist_middle = glGenLists(1);
   glNewList(dlist_middle, GL_COMPILE);
   glBegin(GL_POLYGON);
-  switch (model) {
+  switch (_model) {
   case BUTTERFLY :
   case BIRD :
     glColor3f(.7, .7, .4);
@@ -228,7 +248,7 @@ void Wings::draw()
   dlist_right = glGenLists(1);
   glNewList(dlist_right, GL_COMPILE);
   glBegin(GL_POLYGON);
-  switch (model) {
+  switch (_model) {
   case BIRD :
     glColor3f(.9, .9, .9); glVertex2f(0, 0);
     glColor3f(.6, .6, .6); glVertex2f(0.2, 0.1);
@@ -338,7 +358,7 @@ void Wings::draw()
   dlist_left = glGenLists(1);
   glNewList(dlist_left, GL_COMPILE);
   glBegin(GL_POLYGON);
-  switch (model) {
+  switch (_model) {
   case BIRD :
     glColor3f(.9, .9, .9); glVertex2f(0, 0);
     glColor3f(.6, .6, .6); glVertex2f(-0.2, 0.1);
@@ -461,13 +481,16 @@ void Wings::changePermanent(float lasting)
 
   switch (model) {
   case BIRD :
+    if (angle > 60) sign = -1;
+    if (angle <= -30) sign = 1;
+    break;
   case BUTTERFLY :
     if (angle > 60) sign = -1;
     if (angle <= 0) sign = 1;
     break;
   case LIBELLULE :
     if (angle > 15) sign = -1;
-    if (angle <= 0) sign = 1;
+    if (angle <= -15) sign = 1;
     break;
   case ANGEL :
     if (angle > 30) sign = -1;
@@ -485,6 +508,11 @@ void Wings::changePermanent(float lasting)
 
 void Wings::render()
 {
+  render(model);
+}
+
+void Wings::render(uint8_t _model)
+{
   glPushMatrix();
   glDisable(GL_LIGHTING);
   glDisable(GL_CULL_FACE);
@@ -492,7 +520,7 @@ void Wings::render()
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-  switch (model) {
+  switch (_model) {
   case HELICOPTER:
     glRotatef(90, 1, 0, 0);
     glPushMatrix();

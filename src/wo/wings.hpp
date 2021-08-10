@@ -78,7 +78,8 @@ public:
   Wings(char *l);		///< Constructor file.
   Wings(class User *user, void *d, time_t s, time_t u);
   /**< Constructor from User */
-  Wings();		///< Constructor from bird.
+  Wings();			///< Constructor from bird.
+  Wings(float scale);		///< Constructor from bird.
 
   virtual void changePermanent(float lasting);
   /**< Changes. */
@@ -89,7 +90,12 @@ public:
   virtual void stop();
   /**< Stops movement. */
 
+  virtual void draw();
+  virtual void draw(uint8_t model);
+  /**< Draws. */
+
   virtual void render();
+  virtual void render(uint8_t model);
   /**< Renders. */
 
   virtual void quit();
@@ -107,9 +113,6 @@ private:
 
   virtual uint8_t getModel(const char *name);
   /**< Gets model id. */
-
-  virtual void draw();
-  /**< Draws. */
 
   virtual void wear();
   virtual void takeoff();

@@ -24,7 +24,7 @@ const char DTD[] = "\
 <!-- SCENE -->\n\
 <!ELEMENT scene (\n\
 		accessory | android | animator | aoi | area |\n\
-		bgcolor | board | book | bumper | button | \n\
+		bgcolor | bird | board | book | bumper | button | \n\
 		carousel | cauldron | clip | clock | cloud | cloth |\n\
 		doc | door | download | dress |\n\
 		entry | escalator |\n\
@@ -86,6 +86,14 @@ const char DTD[] = "\
 \n\
 <!ELEMENT bgcolor	EMPTY>\n\
 <!ATTLIST bgcolor	color	NMTOKENS #REQUIRED>\n\
+\n\
+<!ELEMENT bird		(solid)>\n\
+<!ATTLIST bird		pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST bird		name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST bird		descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST bird  	radius	NMTOKEN #IMPLIED>\n\
+<!ATTLIST bird		scale	NMTOKEN \"1\">\n\
+<!ATTLIST bird		model	(bird) #IMPLIED>\n\
 \n\
 <!ELEMENT board		(solid)>\n\
 <!ATTLIST board		pos	NMTOKENS #REQUIRED>\n\
@@ -587,6 +595,7 @@ const char DTD[] = "\
 <!ATTLIST wings		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST wings		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST wings		descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST wings		scale	NMTOKEN \"1\">\n\
 <!ATTLIST wings		model	(helicopter | butterfly | libellule | angel | eagle) #IMPLIED>\n\
 \n\
 \n\

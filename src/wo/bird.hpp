@@ -36,10 +36,14 @@ class Bird : public WObject {
   class Wings *wings;
   Pos posinit;
   float radius;
+  float scale;
   uint8_t model;
   char modelname[16];
 
  public:
+  static const float BIRD_ZONE;
+  static const float BIRD_SCALE;
+
   static const OClass oclass;   ///< class variable
 
   virtual const OClass* getOClass() {return &oclass;}
