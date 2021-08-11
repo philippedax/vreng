@@ -72,10 +72,9 @@ void Bird::behavior()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
-  //enableBehavior(SPECIFIC_RENDER);
+  enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
-  updatePosition();
 }
 
 /* Specific inits */
@@ -86,6 +85,8 @@ void Bird::inits()
   pos.x += .05;
   pos.y += .05;
   pos.z += 0.1;
+  pos.ay += M_PI_2;
+  updatePosition();
 }
 
 /* Constructor */

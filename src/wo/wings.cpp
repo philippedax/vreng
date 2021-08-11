@@ -136,6 +136,8 @@ Wings::Wings(float _scale)
   taken = false;
   behavior();
   enableBehavior(SPECIFIC_RENDER);
+  pos.ax -= M_PI;
+  //pos.ay -= M_PI_2;
   pos.az += (3 * M_PI_2);
   sign = 1;
   scale = _scale;
@@ -151,6 +153,8 @@ Wings::Wings()
   taken = false;
   behavior();
   enableBehavior(SPECIFIC_RENDER);
+  pos.ax -= M_PI;
+  pos.ay += M_PI_2;
   pos.az += M_PI_2;
   sign = 1;
   scale = .3;
