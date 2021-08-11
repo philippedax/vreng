@@ -209,8 +209,12 @@ void Wings::draw(uint8_t _model)
   glNewList(dlist_middle, GL_COMPILE);
   glBegin(GL_POLYGON);
   switch (_model) {
-  case BUTTERFLY :
   case BIRD :
+    glColor3f(.6, .6, .6);
+    Draw::sphere(0.03, 8, 8, 0); // head
+    glRectf(-0.04, -0.59, 0.04, 0); //body
+    break;
+  case BUTTERFLY :
     glColor3f(.7, .7, .4);
     Draw::sphere(0.03, 8, 8, 0); // head
     glRectf(-0.02, -0.59, 0.02, 0); //body
@@ -481,8 +485,8 @@ void Wings::changePermanent(float lasting)
 
   switch (model) {
   case BIRD :
-    if (angle > 60) sign = -1;
-    if (angle <= -30) sign = 1;
+    if (angle > 30) sign = -1;
+    if (angle <= -60) sign = 1;
     break;
   case BUTTERFLY :
     if (angle > 60) sign = -1;

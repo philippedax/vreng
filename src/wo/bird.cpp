@@ -83,8 +83,8 @@ void Bird::inits()
 {
   posinit = pos;
   wings = new Wings(scale);
-  pos.x -= .001;
-  pos.y -= .001;
+  pos.x += .05;
+  pos.y += .05;
   pos.z += 0.1;
 }
 

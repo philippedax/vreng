@@ -38,8 +38,9 @@
 #include "obj.hpp"	// Obj
 #include "human.hpp"	// Human::draw
 #include "man.hpp"	// Man::draw
-#include "car.hpp"	// draw
-#include "teapot.hpp"	// draw
+#include "car.hpp"	// Car::draw
+#include "wings.hpp"	// Wings::draw
+#include "teapot.hpp"	// Teapot::draw
 #include "flare.hpp"	// render
 
 #include <list>
@@ -79,6 +80,7 @@ enum {
   STOK_HELIX,
   STOK_TEAPOT,
   STOK_WALLS,
+  STOK_WINGS,
   /* dimensions */
   STOK_URL,
   STOK_SIZE,
@@ -198,6 +200,7 @@ static const struct sStokens stokens[] = {
   { "hel","helix", STOK_HELIX},
   { "teapot","teapot", STOK_TEAPOT},
   { "ws","walls", STOK_WALLS},
+  { "wings","wings", STOK_WINGS},
   { "url", "url", STOK_URL },
   { "dim", "size", STOK_SIZE },
   { "r", "radius", STOK_RADIUS },
@@ -463,6 +466,7 @@ char * Solid::parser(char *l)
       case STOK_GUY:
       case STOK_ANDROID:
       case STOK_CAR:
+      case STOK_WINGS:
         r = solidParser(l, bbmax, bbmin); break;
       case STOK_STATUE:
       case STOK_MODEL:
@@ -862,6 +866,14 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
     case STOK_GUY:
     case STOK_ANDROID:
+      setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
+      break;
+
+    case STOK_WINGS:
+      {
+        Wings *wings = new Wings();
+        wings->draw();
+      }
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
       break;
 
