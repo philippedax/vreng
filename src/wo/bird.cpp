@@ -85,7 +85,7 @@ void Bird::inits()
   pos.x += .05;
   pos.y += .05;
   pos.z += 0.1;
-  pos.ay += M_PI_2;
+  //pos.ay += M_PI_2;
   updatePosition();
 }
 
@@ -106,36 +106,36 @@ void Bird::changePermanent(float lasting)
   int sign = 1;
 
   if (expansionx) {
-    sign = 1;
-    if ( (pos.x <= (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
-      expansionx = false;
-      sign = -1;
-    }
-  }
-  else { // collapsex
     sign = -1;
-    if (pos.x <= posinit.x) {
-      expansionx = true;
+    if ( (pos.x < (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
+      expansionx = false;
       sign = 1;
     }
   }
-  pos.x -= (sign * .005);
+  else { // collapsex
+    sign = 1;
+    if (pos.x < posinit.x) {
+      expansionx = true;
+      sign = -1;
+    }
+  }
+  pos.x += (sign * .005);
 
   if (expansiony) {
     sign = 1;
-    if ( (pos.y <= (posinit.y - radius)) || (pos.y > (posinit.y + radius)) ) {
+    if ( (pos.y < (posinit.y - radius)) || (pos.y > (posinit.y + radius)) ) {
       expansiony = false;
       sign = -1;
     }
   }
   else { // collapsey
     sign = -1;
-    if (pos.y <= posinit.y) {
+    if (pos.y < posinit.y) {
       expansiony = true;
       sign = 1;
     }
   }
-  pos.y -= (sign * .005);
+  pos.y += (sign * .005);
 
   if (expansionz) {
     sign = 1;
@@ -146,7 +146,7 @@ void Bird::changePermanent(float lasting)
   }
   else { // collapsez
     sign = -1;
-    if (pos.z <= posinit.z) {
+    if (pos.z < posinit.z) {
       expansionz = true;
       sign = 1;
     }

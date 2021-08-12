@@ -101,13 +101,13 @@ void Wings::parser(char *l)
     }
     else if (! stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
-      if      (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
-      else if (! stringcmp(modelname, "bird"))       model = BIRD;
+      if      (! stringcmp(modelname, "bird"))       model = BIRD;
+      else if (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
       else if (! stringcmp(modelname, "libellule"))  model = LIBELLULE;
       else if (! stringcmp(modelname, "angel"))      model = ANGEL;
       else if (! stringcmp(modelname, "eagle"))      model = EAGLE;
       else if (! stringcmp(modelname, "helicopter")) model = HELICOPTER;
-      else model = BUTTERFLY;
+      else model = BIRD;
     }
   }
   end_while_parse(l);
@@ -116,8 +116,6 @@ void Wings::parser(char *l)
 /* Created from file */
 Wings::Wings(char *l)
 {
-  model = BUTTERFLY;
-  strcpy(modelname, "butterfly");
   parser(l);
   pos.ax -= M_PI_2;
   active = false;
@@ -136,16 +134,16 @@ Wings::Wings(float _scale)
   taken = false;
   behavior();
   enableBehavior(SPECIFIC_RENDER);
-  pos.ax -= M_PI_2;
+  //pos.ax -= M_PI_2;
   pos.ay -= M_PI_2;
   pos.az -= M_PI_2;
-  sign = 1;
   scale = _scale;
+  sign = 1;
 
   draw();
 }
 
-/* Called by bird */
+/* Called by solid shape=wings */
 Wings::Wings()
 {
   model = BIRD;
@@ -154,9 +152,8 @@ Wings::Wings()
   behavior();
   enableBehavior(SPECIFIC_RENDER);
   pos.ax -= M_PI_2;
-  pos.ay -= M_PI_2;
+  //pos.ay -= M_PI_2;
   pos.az -= M_PI_2;
-  sign = 1;
   scale = .3;
 
   draw();
@@ -215,13 +212,13 @@ void Wings::draw(uint8_t _model)
   switch (_model) {
   case BIRD :
     glColor3f(.5, .5, .5);
-    Draw::sphere(0.05, 8, 8, 0); // head
-    glRectf(-0.04, -0.5, 0.04, 0); //body
+    Draw::sphere(.05, 8, 8, 0); // head
+    glRectf(-.04, -.5, .04, 0); //body
     break;
   case BUTTERFLY :
     glColor3f(.7, .7, .4);
-    Draw::sphere(0.03, 8, 8, 0); // head
-    glRectf(-0.02, -0.59, 0.02, 0); //body
+    Draw::sphere(.03, 8, 8, 0); // head
+    glRectf(-.02, -.6, .02, 0); //body
     break;
   case HELICOPTER :
     glColor3f(.0, .0, .0); glVertex2f(0, 0);
@@ -245,7 +242,7 @@ void Wings::draw(uint8_t _model)
     glColor3f(.4, .4, .4); glVertex2f(.1, -1);
     glColor3f(.4, .4, .4); glVertex2f(.1, -.5);
     glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    Draw::sphere(0.05, 8, 8, 0);
+    Draw::sphere(.05, 8, 8, 0);
   default:
     break;
   }
@@ -475,20 +472,20 @@ void Wings::changePermanent(float lasting)
 
   switch (model) {
   case BIRD :
-    if (angle > 30) sign = -1;
-    if (angle <= -60) sign = 1;
+    if (angle > 30)  sign = -1;
+    if (angle < -45) sign = 1;
     break;
   case BUTTERFLY :
-    if (angle > 60) sign = -1;
-    if (angle <= 0) sign = 1;
+    if (angle > 60)  sign = -1;
+    if (angle < 0)   sign = 1;
     break;
   case LIBELLULE :
-    if (angle > 15) sign = -1;
-    if (angle <= -15) sign = 1;
+    if (angle > 15)  sign = -1;
+    if (angle < -15) sign = 1;
     break;
   case ANGEL :
-    if (angle > 30) sign = -1;
-    if (angle <= 0) sign = 1;
+    if (angle > 30)  sign = -1;
+    if (angle < 0)   sign = 1;
     break;
   case EAGLE :
     sign = 0;
@@ -513,6 +510,7 @@ void Wings::render(uint8_t _model)
 
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
+  //glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
   switch (_model) {
   case HELICOPTER:
