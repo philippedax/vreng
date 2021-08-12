@@ -565,6 +565,10 @@ amplitude="1" freq="1" phase="1">
 
 <!-- pyramid -->
 <mirage name="cristal" pos="4 -3.5 0"> <solid shape="pyramid" s="1" h="1" dif=".5 1 .9" a="1" /> </mirage>
+<!-- bird -->
+<bird name="bird1" pos="4 -3.5 1.5" model="bird" scale=".3"> <solid shape="wings" radius="3" dif="grey" /> </bird>
+<bird name="bird2" pos="4 -3.2 1.2" model="bird" scale=".4"> <solid shape="wings" radius="2" dif="grey" /> </bird>
+<bird name="bird3" pos="4 -3.8 1.3" model="bird" scale=".2"> <solid shape="wings" radius="2" dif="grey" /> </bird>
 
 <!-- fire -->
 <fire name="fire" pos="2.25 -2.25 1" number="1000"> </fire>
@@ -626,12 +630,12 @@ amplitude="1" freq="1" phase="1">
 </dress>
 
 <!-- wings -->
-<wings name="helicopter" pos="-2.2 -2.5 1.2 0 1.6" model="helicopter"> <solid shape="bbox" dim="1 .01 1" /> </wings>
-<wings name="butterfly"  pos="-2.2 -2.6 1.2 0 0.0" model="butterfly">  <solid shape="bbox" dim=".1 1 1.2" /> </wings>
-<wings name="libellule"  pos="-2.2 -2.7 1.2 0 0.0" model="libellule">  <solid shape="bbox" dim=".1 1 1.2" /> </wings>
+<wings name="helicopter" pos="-2.2 -2.5 1.2 0 1.6" model="helicopter" scale=".7"> <solid shape="bbox" dim="1 .01 1" /> </wings>
+<wings name="butterfly"  pos="-2.2 -2.6 1.2 0 0.0" model="butterfly" scale=".7">  <solid shape="bbox" dim=".1 1 1.2" /> </wings>
+<wings name="libellule"  pos="-2.2 -2.7 1.2 0 0.0" model="libellule" scale=".7">  <solid shape="bbox" dim=".1 1 1.2" /> </wings>
 <!--
+<wings name="eagle"      pos="-2.2 -2.9 1.2 0 0.0" model="eagle" scale=".7">      <solid shape="bbox" dim=".1 1 1.2" /> </wings>
 <wings name="angel"      pos="-2.2 -2.8 1.2 0 0.0" model="angel">      <solid shape="bbox" dim=".1 1 1.2" /> </wings>
-<wings name="eagle"      pos="-2.2 -2.9 1.2 0 0.0" model="eagle">      <solid shape="bbox" dim=".1 1 1.2" /> </wings>
 -->
 
 <!-- thunder -->
