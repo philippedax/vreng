@@ -473,7 +473,7 @@ void Wings::changePermanent(float lasting)
   switch (model) {
   case BIRD :
     if (angle > 30)  sign = -1;
-    if (angle < -45) sign = 1;
+    if (angle < -30) sign = 1;
     break;
   case BUTTERFLY :
     if (angle > 60)  sign = -1;

@@ -111,12 +111,20 @@ void Bird::changePermanent(float lasting)
       expansionx = false;
       sign = 1;
     }
+    if (pos.x < posinit.x) {
+      expansionx = true;
+      sign = -1;
+    }
   }
   else { // collapsex
     sign = 1;
     if (pos.x < posinit.x) {
       expansionx = true;
       sign = -1;
+    }
+    if ( (pos.x < (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
+      expansionx = false;
+      sign = 1;
     }
   }
   pos.x += (sign * .005);
@@ -151,7 +159,7 @@ void Bird::changePermanent(float lasting)
       sign = 1;
     }
   }
-  pos.z += (sign * .01);
+  pos.z += (sign * .005);
 
   //error("%.1f %.1f %.1f %d",pos.x,pos.y,pos.z,sign);
 
