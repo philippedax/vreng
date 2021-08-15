@@ -26,8 +26,8 @@
 const OClass Bird::oclass(BIRD_TYPE, "Bird", Bird::creator);
 
 const float Bird::BIRD_SCALE = 0.3;
-const float Bird::BIRD_ZONE = 3;
-const float Bird::BIRD_DELTA = .005;
+const float Bird::BIRD_ZONE = 3;	// flying zone
+const float Bird::BIRD_DELTA = .005;	// elem motion
 
 
 /* Creation from a file */
