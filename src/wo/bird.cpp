@@ -27,6 +27,7 @@ const OClass Bird::oclass(BIRD_TYPE, "Bird", Bird::creator);
 
 const float Bird::BIRD_SCALE = 0.3;
 const float Bird::BIRD_ZONE = 3;
+const float Bird::BIRD_DELTA = .005;
 
 
 /* Creation from a file */
@@ -82,9 +83,9 @@ void Bird::inits()
 {
   posinit = pos;
   wings = new Wings(scale);
-  pos.x += .05;
-  pos.y += .05;
-  pos.z += 0.1;
+  pos.x += BIRD_DELTA;
+  pos.y += BIRD_DELTA;
+  pos.z += BIRD_DELTA;
   //pos.ay += M_PI_2;
   updatePosition();
 }
@@ -103,63 +104,60 @@ void Bird::changePermanent(float lasting)
   static bool expansionx = true;
   static bool expansiony = true;
   static bool expansionz = true;
-  int sign = 1;
+  static int signx = -1;
+  static int signy = 1;
+  static int signz = 1;
 
+  // x
   if (expansionx) {
-    sign = -1;
+    signx = -1;
     if ( (pos.x < (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
       expansionx = false;
-      sign = 1;
-    }
-    if (pos.x < posinit.x) {
-      expansionx = true;
-      sign = -1;
+      signx = 1;
     }
   }
   else { // collapsex
-    sign = 1;
-    if (pos.x < posinit.x) {
-      expansionx = true;
-      sign = -1;
-    }
+    signx = 1;
     if ( (pos.x < (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
-      expansionx = false;
-      sign = 1;
+      expansionx = true;
+      signx = -1;
     }
   }
-  pos.x += (sign * .005);
+  pos.x += (signx * BIRD_DELTA);
 
+  // y
   if (expansiony) {
-    sign = 1;
+    signy = 1;
     if ( (pos.y < (posinit.y - radius)) || (pos.y > (posinit.y + radius)) ) {
       expansiony = false;
-      sign = -1;
+      signy = -1;
     }
   }
   else { // collapsey
-    sign = -1;
-    if (pos.y < posinit.y) {
+    signy = -1;
+    if ( (pos.y < (posinit.y - radius)) || (pos.y > (posinit.y + radius)) ) {
       expansiony = true;
-      sign = 1;
+      signy = 1;
     }
   }
-  pos.y += (sign * .005);
+  pos.y += (signy * BIRD_DELTA);
 
+  // z
   if (expansionz) {
-    sign = 1;
+    signz = 1;
     if (pos.z > (posinit.z + radius)) {
       expansionz = false;
-      sign = -1;
+      signz = -1;
     }
   }
   else { // collapsez
-    sign = -1;
+    signz = -1;
     if (pos.z < posinit.z) {
       expansionz = true;
-      sign = 1;
+      signz = 1;
     }
   }
-  pos.z += (sign * .005);
+  pos.z += (signz * BIRD_DELTA);
 
   //error("%.1f %.1f %.1f %d",pos.x,pos.y,pos.z,sign);
 

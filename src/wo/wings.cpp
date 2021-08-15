@@ -135,7 +135,7 @@ Wings::Wings(float _scale)
   behavior();
   enableBehavior(SPECIFIC_RENDER);
   //pos.ax -= M_PI_2;
-  pos.ay -= M_PI_2;
+  pos.ay += M_PI_2;
   pos.az -= M_PI_2;
   scale = _scale;
   sign = 1;
@@ -152,7 +152,7 @@ Wings::Wings()
   behavior();
   enableBehavior(SPECIFIC_RENDER);
   pos.ax -= M_PI_2;
-  //pos.ay -= M_PI_2;
+  pos.ay += M_PI_2;
   pos.az -= M_PI_2;
   scale = .3;
 

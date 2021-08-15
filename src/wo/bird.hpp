@@ -43,6 +43,7 @@ class Bird : public WObject {
  public:
   static const float BIRD_ZONE;
   static const float BIRD_SCALE;
+  static const float BIRD_DELTA;
 
   static const OClass oclass;   ///< class variable
 
