@@ -108,6 +108,7 @@
 #include "fractal.hpp"	/* 83 */
 #include "human.hpp"	/* 84 */
 #include "bird.hpp"	/* 85 */
+#include "drone.hpp"	/* 86 */
 
 
 const struct GeneralInitList generalInitList[] = {
@@ -196,7 +197,8 @@ const struct GeneralInitList generalInitList[] = {
 /* 82 */	{Firework::funcs},
 /* 83 */	{Fractal::funcs},
 /* 84 */	{Human::funcs},
-/* 84 */	{Bird::funcs},
+/* 85 */	{Bird::funcs},
+/* 86 */	{Drone::funcs},
 
 /* END */	{NULL}
 };

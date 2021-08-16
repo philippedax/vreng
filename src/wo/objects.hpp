@@ -25,6 +25,6 @@
  * If you define a new object
  * please, increment OBJECTSNUMBER below
  */
-#define OBJECTSNUMBER   85
+#define OBJECTSNUMBER   86
 
 #endif
