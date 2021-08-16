@@ -508,7 +508,7 @@ void Wings::render(uint8_t _model)
 
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
-  //glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
+  glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
   switch (_model) {
   case HELICOPTER:
