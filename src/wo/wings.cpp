@@ -62,7 +62,6 @@ void Wings::defaults()
   day = -45;	// -90
   daz = 90;
   angle = 0;	// open
-  sign = 1;
   scale = 1;
   model = NONE;
 }
@@ -126,19 +125,17 @@ Wings::Wings(char *l)
   draw();
 }
 
-/* Called by bird */
-Wings::Wings(float _scale)
+/* Called by bird and drone */
+Wings::Wings(uint8_t _model, float _scale)
 {
-  model = BIRD;
+  model = _model;
   active = true;
   taken = false;
   behavior();
   enableBehavior(SPECIFIC_RENDER);
   //pos.ax -= M_PI_2;
-  pos.ay += M_PI_2;
   pos.az -= M_PI_2;
   scale = _scale;
-  sign = 1;
 
   draw();
 }
@@ -152,7 +149,6 @@ Wings::Wings()
   behavior();
   enableBehavior(SPECIFIC_RENDER);
   pos.ax -= M_PI_2;
-  pos.ay += M_PI_2;
   pos.az -= M_PI_2;
   scale = .3;
 
@@ -459,6 +455,8 @@ void Wings::draw(uint8_t _model)
 void Wings::changePermanent(float lasting)
 {
   if (! active) return;
+
+  static int sign = 1;
 
   if (taken) {
     pos.x = localuser->pos.x + dx;

@@ -38,7 +38,6 @@ private:
   GLint dlist_right;
   GLint dlist_left;
   GLfloat scale;
-  int sign;		///< +1 | -1
   bool active;
 
 protected:
@@ -79,7 +78,7 @@ public:
   Wings(class User *user, void *d, time_t s, time_t u);
   /**< Constructor from User */
   Wings();			///< Constructor from bird.
-  Wings(float scale);		///< Constructor from bird.
+  Wings(uint8_t model, float scale);		///< Constructor from bird.
 
   virtual void changePermanent(float lasting);
   /**< Changes. */

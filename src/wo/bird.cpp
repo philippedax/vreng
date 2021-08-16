@@ -82,7 +82,7 @@ void Bird::behavior()
 void Bird::inits()
 {
   posinit = pos;
-  wings = new Wings(scale);
+  wings = new Wings(model, scale);
   pos.x += BIRD_DELTA;
   pos.y += BIRD_DELTA;
   pos.z += BIRD_DELTA;
@@ -171,6 +171,7 @@ void Bird::render()
   glPushMatrix();
   glEnable(GL_CULL_FACE);
   glTranslatef(pos.x, pos.y, pos.z);
+  glScalef(scale, scale, scale);
 
   // render
   wings->render();

@@ -25,9 +25,9 @@
 
 const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);
 
-const float Drone::DRONE_SCALE = 0.3;
+const float Drone::DRONE_SCALE = .4;
 const float Drone::DRONE_ZONE = 3;	// flying zone
-const float Drone::DRONE_DELTA = .005;	// elem motion
+const float Drone::DRONE_DELTA = .01;	// elem motion
 
 
 /* Creation from a file */
@@ -81,11 +81,11 @@ void Drone::behavior()
 void Drone::inits()
 {
   posinit = pos;
-  wings = new Wings(scale);
+  wings = new Wings(model, scale);
   pos.x += DRONE_DELTA;
   pos.y += DRONE_DELTA;
   pos.z += DRONE_DELTA;
-  //pos.ay += M_PI_2;
+  pos.ax -= M_PI_2;
   updatePosition();
 }
 
@@ -158,8 +158,6 @@ void Drone::changePermanent(float lasting)
   }
   pos.z += (signz * DRONE_DELTA);
 
-  //error("%.1f %.1f %.1f %d",pos.x,pos.y,pos.z,sign);
-
   updatePosition();
 }
 
@@ -170,6 +168,7 @@ void Drone::render()
   glPushMatrix();
   glEnable(GL_CULL_FACE);
   glTranslatef(pos.x, pos.y, pos.z);
+  glScalef(scale, scale, scale);
 
   // render
   wings->render();
