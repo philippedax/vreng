@@ -159,8 +159,6 @@ void Bird::changePermanent(float lasting)
   }
   pos.z += (signz * BIRD_DELTA);
 
-  //error("%.1f %.1f %.1f %d",pos.x,pos.y,pos.z,sign);
-
   updatePosition();
 }
 
@@ -173,12 +171,11 @@ void Bird::render()
   glTranslatef(pos.x, pos.y, pos.z);
   glScalef(scale, scale, scale);
 
-  // render
+  // render wings
   wings->render();
 
   // pop
   glDisable(GL_CULL_FACE);
-  glDisable(GL_TEXTURE_2D);
   glPopMatrix();
 }
 

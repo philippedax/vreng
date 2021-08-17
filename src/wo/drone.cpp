@@ -85,7 +85,6 @@ void Drone::inits()
   pos.x += DRONE_DELTA;
   pos.y += DRONE_DELTA;
   pos.z += DRONE_DELTA;
-  pos.ax -= M_PI_2;
   updatePosition();
 }
 
@@ -168,14 +167,16 @@ void Drone::render()
   glPushMatrix();
   glEnable(GL_CULL_FACE);
   glTranslatef(pos.x, pos.y, pos.z);
+  glRotatef(-90, 1, 0, 0);
+  //glRotatef(-90, 0, 1, 0);	// keep commented else bad orient
+  glRotatef(-90, 0, 0, 1);
   glScalef(scale, scale, scale);
 
-  // render
+  // render wings
   wings->render();
 
   // pop
   glDisable(GL_CULL_FACE);
-  glDisable(GL_TEXTURE_2D);
   glPopMatrix();
 }
 
