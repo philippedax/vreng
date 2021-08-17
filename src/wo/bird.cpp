@@ -165,17 +165,17 @@ void Bird::changePermanent(float lasting)
 /* Renders at each loop */
 void Bird::render()
 {
-  // push
   glPushMatrix();
-  glEnable(GL_CULL_FACE);
+  //glEnable(GL_CULL_FACE);
   glTranslatef(pos.x, pos.y, pos.z);
+  //glRotatef(-90, 1, 0, 0);
+  //glRotatef(-90, 0, 1, 0);
+  //glRotatef(-90, 0, 0, 1);
   glScalef(scale, scale, scale);
 
-  // render wings
-  wings->render();
+  wings->render();	// render wings
 
-  // pop
-  glDisable(GL_CULL_FACE);
+  //glDisable(GL_CULL_FACE);
   glPopMatrix();
 }
 
