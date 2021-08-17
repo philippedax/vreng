@@ -96,7 +96,7 @@ Drone::Drone(char *l)
   inits();
 }
 
-/* Computes something at each loop */
+/* Computes postion at each loop */
 void Drone::changePermanent(float lasting)
 {
   static bool expansionx = true;
@@ -222,7 +222,7 @@ void Drone::reset_cb(Drone *drone, void *d, time_t s, time_t u)
 
 void Drone::funcs()
 {
-  setActionFunc(DRONE_TYPE, 0, WO_ACTION fly_cb, "fly");
+  setActionFunc(DRONE_TYPE, 0, WO_ACTION fly_cb, "flying");
   setActionFunc(DRONE_TYPE, 1, WO_ACTION pause_cb, "pause");
   setActionFunc(DRONE_TYPE, 2, WO_ACTION reset_cb, "reset");
 }

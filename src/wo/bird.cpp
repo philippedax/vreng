@@ -98,7 +98,7 @@ Bird::Bird(char *l)
   inits();
 }
 
-/* Computes something at each loop */
+/* Computes position at each loop */
 void Bird::changePermanent(float lasting)
 {
   static bool expansionx = true;
@@ -170,7 +170,7 @@ void Bird::render()
   glTranslatef(pos.x, pos.y, pos.z);
   //glRotatef(-90, 1, 0, 0);
   //glRotatef(-90, 0, 1, 0);
-  //glRotatef(-90, 0, 0, 1);
+  //glRotatef(-90, 0, 0, 1);	// stand up but...
   glScalef(scale, scale, scale);
 
   wings->render();	// render wings
@@ -221,7 +221,7 @@ void Bird::reset_cb(Bird *bird, void *d, time_t s, time_t u)
 
 void Bird::funcs()
 {
-  setActionFunc(BIRD_TYPE, 0, WO_ACTION fly_cb, "fly");
+  setActionFunc(BIRD_TYPE, 0, WO_ACTION fly_cb, "flying");
   setActionFunc(BIRD_TYPE, 1, WO_ACTION pause_cb, "pause");
   setActionFunc(BIRD_TYPE, 2, WO_ACTION reset_cb, "reset");
 }
