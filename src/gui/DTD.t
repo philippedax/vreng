@@ -26,7 +26,7 @@ const char DTD[] = "\
 		accessory | android | animator | aoi | area |\n\
 		bgcolor | bird | board | book | bumper | button | \n\
 		carousel | cauldron | clip | clock | cloud | cloth |\n\
-		doc | door | download | dress |\n\
+		doc | door | download | dress | drone |\n\
 		entry | escalator |\n\
 		fire | firework | flag | fountain | fractal |\n\
 		gate | ground | guide | guy | \n\
@@ -190,6 +190,14 @@ const char DTD[] = "\
 <!ATTLIST dress		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST dress		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST dress		model	(spires | bands | roses) #IMPLIED>\n\
+\n\
+<!ELEMENT drone		(solid)>\n\
+<!ATTLIST drone		pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST drone		name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST drone		descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST drone  	radius	NMTOKEN #IMPLIED>\n\
+<!ATTLIST drone		scale	NMTOKEN \"1\">\n\
+<!ATTLIST drone		model	(helicopter) #IMPLIED>\n\
 \n\
 <!ELEMENT entry		EMPTY>\n\
 <!ATTLIST entry		pos	NMTOKENS #REQUIRED>\n\
