@@ -25,7 +25,7 @@
 		accessory | android | animator | aoi | area |
 		bgcolor | bird | board | book | bumper | button | 
 		carousel | cauldron | clip | clock | cloud | cloth |
-		doc | door | download | dress |
+		doc | door | download | dress | drone |
 		entry | escalator |
 		fire | firework | flag | fountain | fractal |
 		gate | ground | guide | guy | 
@@ -189,6 +189,14 @@
 <!ATTLIST dress		name	NMTOKEN #IMPLIED>
 <!ATTLIST dress		descr	NMTOKENS #IMPLIED>
 <!ATTLIST dress		model	(spires | bands | roses) #IMPLIED>
+
+<!ELEMENT drone		(solid)>
+<!ATTLIST drone		pos	NMTOKENS #REQUIRED>
+<!ATTLIST drone		name	NMTOKEN #IMPLIED>
+<!ATTLIST drone		descr	NMTOKENS #IMPLIED>
+<!ATTLIST drone  	radius	NMTOKEN #IMPLIED>
+<!ATTLIST drone		scale	NMTOKEN "1">
+<!ATTLIST drone		model	(helicopter) #IMPLIED>
 
 <!ELEMENT entry		EMPTY>
 <!ATTLIST entry		pos	NMTOKENS #REQUIRED>
