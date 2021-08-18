@@ -47,6 +47,7 @@ public:
     VIEW_VERTICAL_FAR,
     VIEW_GROUND_LEVEL,
     VIEW_TURN_AROUND,
+    VIEW_FROM_OBJECT,
     VIEW_WIRED,
     VIEW_SCISSOR,
     VIEW_NUMBER
@@ -168,7 +169,8 @@ public:
     GLfloat fovy, near, far;
   };
 
-  void cameraPosition();	///< Set camera position.
+  void cameraPosition();		///< Set camera position.
+  void cameraPosition(WObject *object);	///< Set camera position.
 
   void clearBuffer();		///< Clear everything.
 

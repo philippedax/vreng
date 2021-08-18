@@ -98,6 +98,11 @@ void Render::setPitch(GLfloat angle)
 
 void Render::cameraPosition()
 {
+  cameraPosition(localuser);
+}
+
+void Render::cameraPosition(WObject *object)
+{
   M4 vr_mat;	// vreng matrix
 
   glMatrixMode(GL_MODELVIEW);
@@ -136,6 +141,13 @@ void Render::cameraPosition()
                            mulM4(rotM4(thirdPerson_yRot + turnAround, UY),
                                  camera_pos)
                           )
+                    );
+      break;
+
+    case VIEW_FROM_OBJECT:
+      vr_mat = mulM4(rotM4(M_PI_2, UX),
+                     mulM4(transM4(object->pos.x, object->pos.y, object->pos.z),
+                           camera_pos)
                     );
       break;
 
