@@ -33,6 +33,7 @@ class Drone : public WObject {
 
  private:
   bool flying;
+  bool filming;
   class Wings *wings;
   Pos posinit;
   float radius;
@@ -81,11 +82,13 @@ class Drone : public WObject {
 
   virtual void fly();
   virtual void pause();
+  virtual void view();
   virtual void reset();
 
   // GUI callbacks
   static void fly_cb(Drone *o, void *d, time_t s, time_t u);
   static void pause_cb(Drone *o, void *d, time_t s, time_t u);
+  static void view_cb(Drone *o, void *d, time_t s, time_t u);
   static void reset_cb(Drone *o, void *d, time_t s, time_t u);
 
 };

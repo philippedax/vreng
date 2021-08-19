@@ -117,7 +117,7 @@ void Render::cameraPosition(WObject *object)
       break;
 
     case VIEW_THIRD_PERSON:
-      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-.8),
+      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-.8),	// 80cm back
                      mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
                            mulM4(rotM4(thirdPerson_yRot, UY),
                                  camera_pos)
@@ -126,7 +126,7 @@ void Render::cameraPosition(WObject *object)
       break;
 
     case VIEW_THIRD_PERSON_FAR:
-      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-2.4),
+      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-2.4),	// 2m40 back
                      mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
                            mulM4(rotM4(thirdPerson_yRot, UY),
                                  camera_pos)
@@ -136,7 +136,7 @@ void Render::cameraPosition(WObject *object)
 
     case VIEW_TURN_AROUND:
       turnAround += (M_PI/18) / MAX(::g.timer.rate() / 5, 1);
-      vr_mat = mulM4(transM4(0, localuser->height/4, -2),
+      vr_mat = mulM4(transM4(0, localuser->height/4, -2),	// -2m
                      mulM4(rotM4(M_PI_2/4, UX),
                            mulM4(rotM4(thirdPerson_yRot + turnAround, UY),
                                  camera_pos)
@@ -146,7 +146,7 @@ void Render::cameraPosition(WObject *object)
 
     case VIEW_FROM_OBJECT:
       vr_mat = mulM4(rotM4(M_PI_2, UX),
-                     mulM4(transM4(object->pos.x, object->pos.y, object->pos.z),
+                     mulM4(transM4(-object->pos.y, object->pos.z, -object->pos.x),
                            camera_pos)
                     );
       break;

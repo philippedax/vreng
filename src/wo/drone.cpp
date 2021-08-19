@@ -21,6 +21,8 @@
 #include "vreng.hpp"
 #include "drone.hpp"
 #include "wings.hpp"
+#include "user.hpp"	// setView
+#include "render.hpp"	// cameraPosition
 
 
 const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);
@@ -39,6 +41,7 @@ WObject * Drone::creator(char *l)
 void Drone::defaults()
 {
   flying = false;
+  filming = false;
   model = Wings::HELICOPTER;
   wings = NULL;
   radius = DRONE_ZONE;
@@ -163,21 +166,24 @@ void Drone::changePermanent(float lasting)
 /* Renders at each loop */
 void Drone::render()
 {
-  // push
-  glPushMatrix();
-  glEnable(GL_CULL_FACE);
-  glTranslatef(pos.x, pos.y, pos.z);
-  glRotatef(-90, 1, 0, 0);
-  //glRotatef(-90, 0, 1, 0);	// keep commented else bad orient
-  glRotatef(-90, 0, 0, 1);
-  glScalef(scale, scale, scale);
+  if (filming) {
+    //error("%.1f %.1f %.1f",pos.x,pos.y,pos.z);
+    ::g.render.cameraPosition(this);
+  }
+  else {
+    glPushMatrix();
+    glEnable(GL_CULL_FACE);
+    glTranslatef(pos.x, pos.y, pos.z);
+    glRotatef(-90, 1, 0, 0);
+    //glRotatef(-90, 0, 1, 0);	// keep commented else bad orient
+    glRotatef(-90, 0, 0, 1);
+    glScalef(scale, scale, scale);
 
-  // render wings
-  wings->render();
+    wings->render();	// render wings
 
-  // pop
-  glDisable(GL_CULL_FACE);
-  glPopMatrix();
+    glDisable(GL_CULL_FACE);
+    glPopMatrix();
+  }
 }
 
 void Drone::quit()
@@ -199,10 +205,28 @@ void Drone::pause()
   wings->stop();
 }
 
+void Drone::view()
+{
+  if (flying) {
+    if (filming) {
+      filming = false;
+      localuser->setView(Render::VIEW_FIRST_PERSON);
+    }
+    else {
+      filming = true;
+      localuser->setView(Render::VIEW_FROM_OBJECT);
+    }
+  }
+}
+
 void Drone::reset()
 {
   pause();
   pos = posinit;
+  if (filming) {
+    filming = false;
+    localuser->setView(Render::VIEW_FIRST_PERSON);
+  }
 }
 
 void Drone::fly_cb(Drone *drone, void *d, time_t s, time_t u)
@@ -215,6 +239,11 @@ void Drone::pause_cb(Drone *drone, void *d, time_t s, time_t u)
   drone->pause();
 }
 
+void Drone::view_cb(Drone *drone, void *d, time_t s, time_t u)
+{
+  drone->view();
+}
+
 void Drone::reset_cb(Drone *drone, void *d, time_t s, time_t u)
 {
   drone->reset();
@@ -224,5 +253,6 @@ void Drone::funcs()
 {
   setActionFunc(DRONE_TYPE, 0, WO_ACTION fly_cb, "flying");
   setActionFunc(DRONE_TYPE, 1, WO_ACTION pause_cb, "pause");
-  setActionFunc(DRONE_TYPE, 2, WO_ACTION reset_cb, "reset");
+  setActionFunc(DRONE_TYPE, 2, WO_ACTION view_cb, "view");
+  setActionFunc(DRONE_TYPE, 3, WO_ACTION reset_cb, "reset");
 }

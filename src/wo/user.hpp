@@ -252,10 +252,10 @@ public:
 
   virtual void render();
 
-private:
   virtual void setView(uint8_t view);
   /**< User View managment. */
 
+private:
   void getMemory();
   /**< Gets needed memory. */
 
