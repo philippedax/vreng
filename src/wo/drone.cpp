@@ -28,8 +28,8 @@
 const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);
 
 const float Drone::DRONE_SCALE = .4;
-const float Drone::DRONE_ZONE = 3;	// flying zone
-const float Drone::DRONE_DELTA = .01;	// elem motion
+const float Drone::DRONE_ZONE = 5;	// flying zone
+const float Drone::DRONE_DELTA = .04;	// elem motion
 
 
 /* Creation from a file */
