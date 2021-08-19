@@ -15,6 +15,8 @@ The rules for this file:
 ++ 9
 == 9.2
 -- 9.3.1
+	- added new object #86 : drone
+	(2021/08/18, Philippe Dax)
 	- added new object #85 : bird
 	(2021/08/08, Philippe Dax)
 
