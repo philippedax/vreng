@@ -124,7 +124,7 @@ void Drone::changePermanent(float lasting)
       signx = -1;
     }
   }
-  pos.x += (signx * DRONE_DELTA);
+  pos.x += (signx * rand()%3 * DRONE_DELTA);
 
   // y
   if (expansiony) {
@@ -141,7 +141,7 @@ void Drone::changePermanent(float lasting)
       signy = 1;
     }
   }
-  pos.y += (signy * DRONE_DELTA);
+  pos.y += (signy * rand()%3 * DRONE_DELTA);
 
   // z
   if (expansionz) {
@@ -158,7 +158,7 @@ void Drone::changePermanent(float lasting)
       signz = 1;
     }
   }
-  pos.z += (signz * DRONE_DELTA);
+  pos.z += (signz * rand()%3 * DRONE_DELTA);
 
   updatePosition();
 }
