@@ -856,6 +856,14 @@ char * Parse::parseBool(char *ptok, bool *value)
     if (ptok && isdigit((int) *ptok)) {
       *value = atoi(ptok) & 0xff;
     }
+    else {
+      if (! stringcmp(ptok, "true")) {
+        *value = 1;
+      }
+      if (! stringcmp(ptok, "false")) {
+        *value = 0;
+      }
+    }
   }
   return nextToken();
 }

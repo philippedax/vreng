@@ -148,7 +148,9 @@ void Render::cameraPosition(WObject *object)
       vr_mat = mulM4(rotM4(M_PI_2, UX),
                      //dax mulM4(transM4(-object->pos.y, -object->pos.z, -object->pos.x),
                      mulM4(transM4(0, -object->pos.z -1, 0),
-                           camera_pos)
+                           mulM4(rotM4(0, UY),
+                                 camera_pos)
+                          )
                     );
       break;
 

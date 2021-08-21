@@ -55,14 +55,17 @@ void Bird::parser(char *l)
     if (!l) break;
     if (! stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
-      if      (! stringcmp(modelname, "bird"))  model = Wings::BIRD;
-      else if (! stringcmp(modelname, "butterfly"))  model = Wings::BUTTERFLY;
+      if      (! stringcmp(modelname, "bird"))      model = Wings::BIRD;
+      else if (! stringcmp(modelname, "butterfly")) model = Wings::BUTTERFLY;
     }
     else if (! stringcmp(l, "radius")) {
       l = parse()->parseFloat(l, &radius, "radius");
     }
     else if (! stringcmp(l, "scale")) {
       l = parse()->parseFloat(l, &scale, "scale");
+    }
+    else if (! stringcmp(l, "flying")) {
+      l = parse()->parseBool(l, &flying, "flying");
     }
   }
   end_while_parse(l);
@@ -83,11 +86,15 @@ void Bird::inits()
 {
   posinit = pos;
   wings = new Wings(model, scale);
-  pos.x += BIRD_DELTA;
-  pos.y += BIRD_DELTA;
-  pos.z += BIRD_DELTA;
+  pos.x += rand()%3 * BIRD_DELTA;
+  pos.y += rand()%3 * BIRD_DELTA;
+  pos.z += rand()%3 * BIRD_DELTA;
   //pos.ay += M_PI_2;
   updatePosition();
+
+  if (flying) {
+    fly();
+  }
 }
 
 /* Constructor */
@@ -123,7 +130,7 @@ void Bird::changePermanent(float lasting)
       signx = -1;
     }
   }
-  pos.x += (signx * BIRD_DELTA);
+  pos.x += (signx * rand()%3 * BIRD_DELTA);
 
   // y
   if (expansiony) {
@@ -140,7 +147,7 @@ void Bird::changePermanent(float lasting)
       signy = 1;
     }
   }
-  pos.y += (signy * BIRD_DELTA);
+  pos.y += (signy * rand()%3 * BIRD_DELTA);
 
   // z
   if (expansionz) {
@@ -157,7 +164,7 @@ void Bird::changePermanent(float lasting)
       signz = 1;
     }
   }
-  pos.z += (signz * BIRD_DELTA);
+  pos.z += (signz * rand()%3 * BIRD_DELTA);
 
   updatePosition();
 }
@@ -166,7 +173,7 @@ void Bird::changePermanent(float lasting)
 void Bird::render()
 {
   glPushMatrix();
-  //glEnable(GL_CULL_FACE);
+  glEnable(GL_CULL_FACE);
   glTranslatef(pos.x, pos.y, pos.z);
   //glRotatef(-90, 1, 0, 0);
   //glRotatef(-90, 0, 1, 0);
@@ -175,7 +182,7 @@ void Bird::render()
 
   wings->render();	// render wings
 
-  //glDisable(GL_CULL_FACE);
+  glDisable(GL_CULL_FACE);
   glPopMatrix();
 }
 
