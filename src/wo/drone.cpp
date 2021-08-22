@@ -214,7 +214,7 @@ void Drone::view()
     }
     else {
       filming = true;
-      localuser->setView(Render::VIEW_FROM_OBJECT);
+      localuser->setView(Render::VIEW_VERTICAL_FROM_OBJECT);
     }
   }
 }

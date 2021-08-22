@@ -77,8 +77,9 @@ void Render::cameraProjection(GLfloat fovy, GLfloat near, GLfloat far)
 void Render::setViewMode(uint8_t mode)
 {
   view = mode;
-  if (view != VIEW_THIRD_PERSON)
+  if (view != VIEW_THIRD_PERSON) {
     thirdPerson_xRot = thirdPerson_yRot = thirdPerson_Near = 0;
+  }
 }
 
 uint8_t Render::getViewMode() const
@@ -103,6 +104,7 @@ void Render::cameraPosition()
 
 void Render::cameraPosition(WObject *object)
 {
+  // coordonates are opengl coordonates
   M4 vr_mat;	// vreng matrix
 
   glMatrixMode(GL_MODELVIEW);
@@ -144,7 +146,7 @@ void Render::cameraPosition(WObject *object)
                     );
       break;
 
-    case VIEW_FROM_OBJECT:
+    case VIEW_VERTICAL_FROM_OBJECT:
       vr_mat = mulM4(rotM4(M_PI_2, UX),
                      //dax mulM4(transM4(-object->pos.y, -object->pos.z, -object->pos.x),
                      mulM4(transM4(0, -object->pos.z -1, 0),
