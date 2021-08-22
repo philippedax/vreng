@@ -92,6 +92,7 @@
 <!ATTLIST bird		descr	NMTOKENS #IMPLIED>
 <!ATTLIST bird  	radius	NMTOKEN #IMPLIED>
 <!ATTLIST bird		scale	NMTOKEN "1">
+<!ATTLIST bird		flying	(0 | 1) "0">
 <!ATTLIST bird		model	(bird) #IMPLIED>
 
 <!ELEMENT board		(solid)>

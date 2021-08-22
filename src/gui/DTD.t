@@ -93,6 +93,7 @@ const char DTD[] = "\
 <!ATTLIST bird		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST bird  	radius	NMTOKEN #IMPLIED>\n\
 <!ATTLIST bird		scale	NMTOKEN \"1\">\n\
+<!ATTLIST bird		flying	(0 | 1) \"0\">\n\
 <!ATTLIST bird		model	(bird) #IMPLIED>\n\
 \n\
 <!ELEMENT board		(solid)>\n\
