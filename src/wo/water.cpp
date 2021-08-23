@@ -34,7 +34,6 @@ const uint16_t Water::RATE = 10;
 const float Water::MAX_OFF = 20.;
 const uint8_t Water::MESH = 64;
 const float Water::DEF_TRANSP = 0.8;
-const float Water::DEF_HEIGHT = 0.15;
 const float Water::DEF_AMPLITUDE = 0.05;	// original: 0.03
 const float Water::DEF_FREQ = 1.;		// 1 wave
 const float Water::DEF_PHASE = 0.0001;		// original: 0.00003
@@ -44,8 +43,7 @@ const float Water::INCR_PHASE = 0.00005;
 const float Water::INCR_TRANSP = 0.05;
 
 // local
-static float tcolor[] = {.4, .7, 1, Water::DEF_TRANSP}; // triangles light blue color
-static bool first = true;
+static float color[] = {.4, .7, 1, Water::DEF_TRANSP}; // triangles light blue color
 
 
 /* creation from a file */
@@ -59,9 +57,7 @@ void Water::defaults()
   amplitude = DEF_AMPLITUDE;
   freq = DEF_FREQ;
   phase = DEF_PHASE;
-  height = DEF_HEIGHT;
   transparency = DEF_TRANSP;
-  first = true;
   play = true;
 }
 
@@ -83,9 +79,6 @@ void Water::parser(char *l)
       l = parse()->parseFloat(l, &phase, "phase");
       phase *= DEF_PHASE;	// coef
     }
-    else if (! stringcmp(l, "height")) {
-      l = parse()->parseFloat(l, &height, "height");
-    }
   }
   end_while_parse(l);
 }
@@ -102,16 +95,9 @@ void Water::inits()
   initFluidObject(0);
   enablePermanentMovement();
 
-  rotx = 0;
-  roty = 90;
-  rotz = 90;
-  trace(DBG_WO, "Water: bbs=%.2f,%.2f,%.2f bbc=%.2f,%.2f,%.2f",
-        pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2],
-        pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
-  depth = pos.bbs.v[0];
-  width = pos.bbs.v[1];
+  //trace(DBG_WO, "Water: bbs=%.2f %.2f %.2f bbc=%.2f %.2f %.2f", pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2], pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
 
-  this->getSolid()->setTransparent(tcolor[3]);
+  getSolid()->setTransparent(color[3]);
 }
 
 Water::Water(char *l)
@@ -161,13 +147,13 @@ void Water::render()
   glPushMatrix();
    glEnable(GL_BLEND);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, tcolor);
+   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);
 
-   glTranslatef(pos.x, pos.y, pos.z + height);
-   glRotatef(rotx, 1, 0, 0);
-   glRotatef(roty, 0, 1, 0);
-   glRotatef(rotz, 0, 0, 1);
-   glScalef(width, 1, depth);
+   glTranslatef(pos.x, pos.y, pos.z /*+ height*/);
+   glRotatef(0, 1, 0, 0);
+   glRotatef(90, 0, 1, 0);
+   glRotatef(90, 0, 0, 1);
+   glScalef(pos.bbs.v[1], 1, pos.bbs.v[0]);
 
    draw();
 
@@ -190,6 +176,9 @@ bool Water::whenIntersect(WObject *pcur, WObject *pold)
     break;
 
   case CAULDRON_TYPE:
+    {
+    static bool first = true;
+
     if (first) {
       trace(DBG_WO, "WaterC: bbs=%.2f,%.2f,%.2f bbc=%.2f,%.2f,%.2f",
             pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2],
@@ -198,7 +187,9 @@ bool Water::whenIntersect(WObject *pcur, WObject *pold)
     }
     pcur->pos.z += 2 * Ball::DELTAZ;
     pcur->pos.ay = DEG2RAD((float) floor(3 * amplitude * freq * (off-MAX_OFF/2)));
+    }
     break;
+
   }
   pcur->updatePositionAndGrid(pcur->pos);
   return true;
@@ -262,16 +253,16 @@ void Water::moreTransp(Water *water, void *d, time_t s, time_t u)
 {
   water->transparency -= Water::INCR_TRANSP;
   water->transparency = MAX(water->transparency, 0);
-  tcolor[3] = water->transparency;
-  water->getSolid()->setTransparent(tcolor[3]);
+  color[3] = water->transparency;
+  water->getSolid()->setTransparent(color[3]);
 }
 
 void Water::lessTransp(Water *water, void *d, time_t s, time_t u)
 {
   water->transparency += Water::INCR_TRANSP;
   water->transparency = MIN(water->transparency, 1);
-  tcolor[3] = water->transparency;
-  water->getSolid()->setTransparent(tcolor[3]);
+  color[3] = water->transparency;
+  water->getSolid()->setTransparent(color[3]);
 }
 
 void Water::reset(Water *water, void *d, time_t s, time_t u)
@@ -280,8 +271,8 @@ void Water::reset(Water *water, void *d, time_t s, time_t u)
   water->freq = Water::DEF_FREQ;
   water->phase = Water::DEF_PHASE;
   water->transparency = Water::DEF_TRANSP;
-  tcolor[3] = water->transparency;
-  water->getSolid()->setTransparent(tcolor[3]);
+  color[3] = water->transparency;
+  water->getSolid()->setTransparent(color[3]);
 }
 
 void Water::funcs()

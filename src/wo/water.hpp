@@ -37,8 +37,6 @@ private:
   static const float MAX_OFF;
   static const uint8_t MESH;
 
-  float rotx, roty, rotz;	///< rotations x y z
-  float width, depth, height;	///< dimensions
   float off;			///< offset
   bool play;			///< flag play
 
