@@ -446,14 +446,14 @@ void WObject::elemPermanentMovement(float dt)
   delete pold;
 }
 
-/* object permanent movement */
+/* object permanent movement - called by world */
 void WObject::permanentMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {
     error("permanentMovement: type=%d invalid", type);
     return;
   }
-  if (World::current()->isDead()) return;
+  //if (World::current()->isDead()) return;
 
   if (move.perm_sec > 0) {	// is permanent movement activated ?
     Pos oldpos = pos;
@@ -463,7 +463,7 @@ void WObject::permanentMovement(time_t sec, time_t usec)
     move.perm_sec = sec;
     move.perm_usec = usec;
 
-    if (lasting > MIN_LASTING) {
+    if (lasting > 0 /* MIN_LASTING */) {
       float maxlast = getLasting();
       maxlast = maxlast ? maxlast : 1;
       float tabdt = 0.;
@@ -479,7 +479,9 @@ void WObject::permanentMovement(time_t sec, time_t usec)
           tabdt = lasting;
           lasting = 0;
         }
+
         elemPermanentMovement(tabdt);
+
         if (isBehavior(NO_ELEMENTARY_MOVE)) {
           return;	// do movement only once
         }

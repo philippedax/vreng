@@ -147,7 +147,7 @@ void Render::cameraPosition(WObject *object)
       break;
 
     case VIEW_VERTICAL_FROM_OBJECT:
-      vr_mat = mulM4(rotM4(M_PI_2, UX),
+      vr_mat = mulM4(rotM4(M_PI_4, UX),
                      //dax mulM4(transM4(-object->pos.y, -object->pos.z, -object->pos.x),
                      mulM4(transM4(0, -object->pos.z -1, 0),
                                  camera_pos)

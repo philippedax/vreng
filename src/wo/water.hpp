@@ -33,21 +33,18 @@
 class Water: public WObject {
 
 private:
-  static const uint16_t RATE;
+  //static const uint16_t RATE;
   static const float MAX_OFF;
   static const uint8_t MESH;
-
-  float off;			///< offset
-  bool play;			///< flag play
 
   float amplitude;	///< wave amplitude
   float freq;		///< number of waves
   float phase;		///< wave speed
   float transparency;	///< water transparency
+  float off;		///< offset
 
 public:
   static const float DEF_TRANSP;
-  static const float DEF_HEIGHT;
   static const float DEF_AMPLITUDE;
   static const float DEF_FREQ;
   static const float DEF_PHASE;
