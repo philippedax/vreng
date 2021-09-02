@@ -17,6 +17,9 @@
 #include <ubit/ubit_features.h>
 #include <iostream>
 #include <ubit/ubit.hpp>
+
+#if 0 //dax
+
 using namespace std;
 namespace ubit {
 
@@ -117,4 +120,4 @@ void UTreenode::removeNode(UTreenode& n) {
  
 }
 
-
+#endif //0 dax

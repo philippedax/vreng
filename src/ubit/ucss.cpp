@@ -20,6 +20,9 @@
 #include <ubit/uupdatecontext.hpp>
 #include <ubit/ucss.hpp>
 #include <ubit/udom.hpp>
+
+#if 0 //dax
+
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
@@ -598,3 +601,5 @@ UStyle* UCssStyles::create_a_style() {                  // A REVOIR  !!!@@@@
 }
 
 }
+
+#endif //0 dax

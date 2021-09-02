@@ -37,6 +37,9 @@
 #include <ubit/ufinder.hpp>
 #include <ubit/ufinderImpl.hpp>
 using namespace std;
+
+#if 0 //dax
+
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
 
@@ -532,4 +535,6 @@ UCtlmenu& UFinder::createContextMenu() {
 }
 
 }
+
+#endif //0 dax
 

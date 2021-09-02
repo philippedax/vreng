@@ -37,6 +37,9 @@
 #  define MotionNotify            6
 #endif
 using namespace std;
+
+#if 0 //dax
+
 namespace ubit {
 
 UMService::UMService(const UStr& _host, int _port, const char* _client_name)
@@ -285,3 +288,4 @@ bool UMService::sendMessage(const char* target, const char* message) {
 /* ==================================================== [TheEnd] ======= */
 /* ==================================================== [(c)Elc] ======= */
 
+#endif //0 dax

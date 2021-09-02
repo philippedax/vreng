@@ -19,6 +19,9 @@
 #include <ubit/uappli.hpp>
 #include <ubit/udom.hpp>
 #include <ubit/uxmlgrammar.hpp>
+
+#if 0 //dax
+
 using namespace std;
 namespace ubit {
 
@@ -268,4 +271,4 @@ void UXmlGrammar::createDefaultCharEntityRefs() {
 
 }
 
-
+#endif //0 dax

@@ -19,6 +19,7 @@
 #include <iostream>
 #include <cmath>
 #include <ubit/ubit.hpp>
+
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
@@ -764,6 +765,4 @@ void UPiemenu::closeMenus(UMouseEvent& e, bool close_submenus) {
 */
 
 }
-
-
 

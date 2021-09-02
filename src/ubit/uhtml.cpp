@@ -21,6 +21,9 @@
 #include <ubit/uhtml.hpp>
 #include <ubit/ucss.hpp>
 #include <ubit/uappliImpl.hpp>
+
+#if 0 //dax
+
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
@@ -461,3 +464,5 @@ UHtmlGrammar::UHtmlGrammar()
 }
 
 }
+
+#endif //0 dax

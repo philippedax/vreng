@@ -24,6 +24,9 @@
 #include <ubit/uxmlparser.hpp>
 #include <ubit/uhtml.hpp>
 #include <ubit/ucss.hpp>   // pour UCssAttachment
+
+#if 0 //dax
+
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
@@ -382,3 +385,4 @@ void UXmlDocument::print(UStr& buf) {
 
 }
 
+#endif //0 dax

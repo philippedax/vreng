@@ -20,6 +20,9 @@
 #include <ubit/ufile.hpp>
 #include <ubit/udoc.hpp>
 #include <ubit/udom.hpp>
+
+#if 0 //dax
+
 using namespace std;
 namespace ubit {
 
@@ -481,3 +484,4 @@ UDocCreator* UDocFactory::getDefaultCreator() {
 
 }
 
+#endif //0 dax

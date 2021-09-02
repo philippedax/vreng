@@ -28,6 +28,9 @@
 #include <ubit/uxmlparser.hpp>
 #include <ubit/uxmlgrammar.hpp>
 using namespace std;
+
+#if 0 //dax
+
 namespace ubit {
 
 /* ==================================================== ===== ======= */
@@ -811,3 +814,4 @@ class DOMConfiguration {
  };
 */
 
+#endif //0 dax

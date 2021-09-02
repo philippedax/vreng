@@ -41,6 +41,9 @@
 #include <ubit/ufinderImpl.hpp>
 #include <ubit/ucall.hpp>
 using namespace std;
+
+#if 0 //dax
+
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
  
@@ -946,3 +949,5 @@ UFrame* UFinder::createCloneFrame(const UStr& title) {
 }
 
 }
+
+#endif //0 dax
