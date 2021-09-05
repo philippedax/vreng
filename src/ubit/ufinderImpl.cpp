@@ -14,6 +14,8 @@
  * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
  * ***********************************************************************/
 
+#if 0 //dax
+
 #include <ubit/ubit_features.h>
 #include <iostream>
 #include <unistd.h>
@@ -41,8 +43,6 @@
 #include <ubit/ufinderImpl.hpp>
 #include <ubit/ucall.hpp>
 using namespace std;
-
-#if 0 //dax
 
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT

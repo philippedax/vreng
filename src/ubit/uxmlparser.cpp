@@ -14,6 +14,8 @@
 * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
 * ***********************************************************************/
 
+#if 0 //dax
+
 #include <ubit/ubit_features.h>
 #include <iostream>
 #include <stdexcept>
@@ -28,8 +30,6 @@
 #include <ubit/uxmlparser.hpp>
 #include <ubit/uxmlgrammar.hpp>
 using namespace std;
-
-#if 0 //dax
 
 namespace ubit {
 

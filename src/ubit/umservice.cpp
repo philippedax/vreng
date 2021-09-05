@@ -14,6 +14,8 @@
 * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
 * ***********************************************************************/
 
+#if 0 //dax
+
 #include <ubit/ubit_features.h>
 #include <iostream>
 #include <cstdlib>
@@ -37,8 +39,6 @@
 #  define MotionNotify            6
 #endif
 using namespace std;
-
-#if 0 //dax
 
 namespace ubit {
 

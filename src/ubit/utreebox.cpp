@@ -14,11 +14,11 @@
  * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
  * ***********************************************************************/
 
+#if 0 //dax
+
 #include <ubit/ubit_features.h>
 #include <iostream>
 #include <ubit/ubit.hpp>
-
-#if 0 //dax
 
 using namespace std;
 namespace ubit {

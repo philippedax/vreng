@@ -14,6 +14,8 @@
  * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
  * ***********************************************************************/
 
+#if 0 //dax
+
 #include <typeinfo>
 #include <iostream>
 #include <cstdio>
@@ -24,8 +26,6 @@
 #include <ubit/uxmlparser.hpp>
 #include <ubit/uhtml.hpp>
 #include <ubit/ucss.hpp>   // pour UCssAttachment
-
-#if 0 //dax
 
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {

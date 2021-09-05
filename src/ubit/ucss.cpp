@@ -14,14 +14,14 @@
  * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
  * ***********************************************************************/
 
+#if 0 //dax
+
 #include <iostream>
 #include <ubit/ubit_features.h>
 #include <ubit/ubit.hpp>
 #include <ubit/uupdatecontext.hpp>
 #include <ubit/ucss.hpp>
 #include <ubit/udom.hpp>
-
-#if 0 //dax
 
 using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
