@@ -21,8 +21,14 @@
 #ifndef INITOBJ_HPP
 #define INITOBJ_HPP
 
-#include "objects.hpp"	// OBJECTSNUMBER
 #include "wobject.hpp"	// WObject
+
+
+/*
+ * If you define a new object
+ * please, increment OBJECTSNUMBER below
+ */
+#define OBJECTSNUMBER   86
 
 #define UNKNOWN_TYPE	-1
 
