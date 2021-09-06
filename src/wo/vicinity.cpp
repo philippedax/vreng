@@ -336,7 +336,7 @@ void Vicinity::analyseTopo()
 	  vicinList[i].dist);
   }
 #endif
-  error("---");
+  //error("---");
   if (listSize < lenToread) lenToread = listSize;
 
   for (int i=0; i < lenToread; i++)
@@ -523,7 +523,7 @@ void Vicinity::actionList()
 		getActionMethod(i, j));
       }
     }
-    trace(DBG_FORCE, "-------------");
+    //trace(DBG_FORCE, "-------------");
   }
 }
 
@@ -547,7 +547,6 @@ int * Vicinity::getTypeFromAction(const char *actionName)
 char* Vicinity::translateNum2Type(int num)
 {
   char* ren = new char[OBJNAME_LEN];
-#if 1
   map<int,string> translate;
 
   translate[0]  = "World";
@@ -578,7 +577,7 @@ char* Vicinity::translateNum2Type(int num)
   translate[25] = "movie";
   translate[26] = "clip";
   translate[27] = "clock";
-  translate[28] = "ftp";
+  translate[28] = "download";
   translate[29] = "mirror";
   translate[30] = "stars";
   translate[31] = "particle";
@@ -605,22 +604,5 @@ char* Vicinity::translateNum2Type(int num)
   translate[52] = "aoi";
 
   strcpy(ren, translate[num].c_str());
-#else
-  char* translateNum[OBJECTSNUMBER+5] = {
-    "World", "user", "plane", "door", "thing",
-    "ball", "step", "mirage", "gate", "wall",
-    "ground", "web", "button", "cauldron", "missile",
-    "bullet", "dart", "host", "board", "doc",
-    "walls", "entry", "bgcolor", "light", "music",
-    "movie", "clip", "clock", "ftp", "mirror",
-    "stars", "particle", "water", "mech", "guy",
-    "vnc", "vrelet", "vjc", "anim",  "text",
-    "android", "carrier", "cart", "book", "sheet",
-    "icon", "model", "flag", "guide", "area",
-    "lift", "transform", "aoi"
-  };
-
-  strcpy(ren, translateNum[num]);
-#endif
   return ren;
 }
