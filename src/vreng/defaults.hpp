@@ -59,13 +59,13 @@
 // url prefix allowing access to the htdocs location
 // default url prefix: can be changed to be adapted to your site.
 
-#define DEF_URL_PFX	"~dax/vreng/"
+#define DEF_URL_PFX	"~dax/vreng"
 				// prefix to tune, should be "" (old prefix)
 				// it is the HTDOCS equivallent for your
 				// local httpd server (after http://httpserver/)
 				// for example :
-				//   ~/public_html/vreng/ or 
-				//   ~/Sites/vreng/ (Mac)
+				//   ~/public_html/vreng or 
+				//   ~/Sites/vreng (Mac)
 				// where vreng/ is the same as htdocs/ directory
 				// in this distribution.
 #endif

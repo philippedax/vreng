@@ -354,8 +354,8 @@ void Pref::parse(int argc, char **argv)
   char *tmpskinf = new char[URL_LEN];
   char *tmpskinb = new char[URL_LEN];
   if (new_universe == false) {
-    sprintf(tmpskinf, "http://%s%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_FRONT);
-    sprintf(tmpskinb, "http://%s%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_BACK);
+    sprintf(tmpskinf, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_FRONT);
+    sprintf(tmpskinb, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_BACK);
   }
   else {
     sprintf(tmpskinf, "%s%s%s", ::g.universe, "", DEF_URL_FRONT);
