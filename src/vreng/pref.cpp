@@ -189,8 +189,8 @@ void Pref::parse(int argc, char **argv)
         bbox = true;
         break;
       case 'd':
-         dbg = atoi(optarg);
-         ::g.debug = atoi(optarg);
+        dbg = atoi(optarg);
+        ::g.debug = atoi(optarg);
         break;
       case 'f':
         if (! optarg) {
@@ -310,73 +310,79 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'T':
         v = atoi(optarg);
-	if (v < 0 || v > 365)
-          v = 3;
+	if (v < 0 || v > 365) {
+          v = 3;	// 3 days
+        }
         cachetime = v * 3600 * 24;
         break;
     }
   }
 
-  char *tmp1 = new char[URL_LEN];
-  char *tmp2 = new char[URL_LEN];
+  // httpd server
+  char *url1 = new char[URL_LEN];
+  char *url2 = new char[URL_LEN];
+
   if (::g.url == NULL) {
     if (new_universe == false) {
-     sprintf(tmp1, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_WORLD);
+     sprintf(url1, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_WORLD);
     }
     else {
-      sprintf(tmp1, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
+      sprintf(url1, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
     }
-    ::g.url = strdup(tmp1);
+    ::g.url = strdup(url1);
   }
+
   cout << "url: " << ::g.url << "\n";
 
   if (new_universe == false) {
-    sprintf(tmp1, "%s", DEF_HTTP_SERVER);
-    ::g.server = strdup(tmp1);
+    sprintf(url1, "%s", DEF_HTTP_SERVER);
+    ::g.server = strdup(url1);
   }
   else {
     char *p1, *p2;
-    tmp1 = strdup(::g.universe);
-    p1 = strchr(tmp1, '/');
+    url1 = strdup(::g.universe);
+    p1 = strchr(url1, '/');
     p1++;
     p1 = strchr(p1, '/');
     p2 = ++p1;
     p1 = strchr(p1, '/');
     *p1 = 0;
-    strcpy(tmp2, p2); 
-    ::g.server = strdup(tmp2);
+    strcpy(url2, p2); 
+    ::g.server = strdup(url2);
   }
 
   trace(DBG_INIT, "server: %s", ::g.server);
   trace(DBG_INIT, "universe: %s", ::g.universe);
   trace(DBG_INIT, "url: %s", ::g.url);
 
-  char *tmpskinf = new char[URL_LEN];
-  char *tmpskinb = new char[URL_LEN];
+  char *urlskinf = new char[URL_LEN];
+  char *urlskinb = new char[URL_LEN];
   if (new_universe == false) {
-    sprintf(tmpskinf, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_FRONT);
-    sprintf(tmpskinb, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_BACK);
+    sprintf(urlskinf, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_FRONT);
+    sprintf(urlskinb, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_BACK);
   }
   else {
-    sprintf(tmpskinf, "%s%s%s", ::g.universe, "", DEF_URL_FRONT);
-    sprintf(tmpskinb, "%s%s%s", ::g.universe, "", DEF_URL_BACK);
+    sprintf(urlskinf, "%s%s%s", ::g.universe, "", DEF_URL_FRONT);
+    sprintf(urlskinb, "%s%s%s", ::g.universe, "", DEF_URL_BACK);
   }
-  ::g.skinf = strdup(tmpskinf);
-  ::g.skinb = strdup(tmpskinb);
+  ::g.skinf = strdup(urlskinf);
+  ::g.skinb = strdup(urlskinb);
 
-  if (::g.channel == NULL)
+  if (::g.channel == NULL) {
     ::g.channel = strdup(DEF_VRE_CHANNEL);
+  }
 
   // pseudoname
   if (::g.user == NULL) {
     struct passwd *pwd = getpwuid(getuid());
     if (pwd) {
-      ::g.user = strdup(pwd->pw_name);
+      ::g.user = strdup(pwd->pw_name);	// login name
     }
     else {
       ::g.user = strdup("unknown");
     }
   }
+
   if (helpx) {
     argc++;
     argv++;
@@ -397,13 +403,17 @@ void Pref::initPrefs(const char* pref_file)
     }
     fputs(def_prefs, fp);
     File::closeFile(fp);
-    if ((fp = File::openFile(pref_file, "r")) == NULL)
+    if ((fp = File::openFile(pref_file, "r")) == NULL) {
+      error("can't read prefs");
       return;
+    }
   }
 
+  // read prefs file
   while (fgets(buf, sizeof(buf), fp)) {
-    if (*buf == '#' || *buf == '\n')
+    if (*buf == '#' || *buf == '\n') {
       continue;
+    }
     buf[strlen(buf) - 1] = '\0';
     p1 = strtok(buf, " \t=");
     p2 = strtok(NULL, " \t#");
@@ -490,7 +500,7 @@ void Pref::initPrefs(const char* pref_file)
       mcastproxystr = new char[strlen(p2) + 1];
       strcpy(mcastproxystr, p2);
     }
-  }
+  } //eof
 
   File::closeFile(fp);
 }
