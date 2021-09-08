@@ -21,19 +21,19 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-EXTRA_DIST = vreng.cpp txt2str.c
-
 VRENG_SRCS = vreng.cpp scene.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp reader.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp prof.cpp stat.cpp sound.cpp sounds.cpp universe.cpp xml.cpp openal.cpp
 
 VRENG_HDRS = vreng.hpp scene.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp reader.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp prof.hpp color.hpp stat.hpp sound.hpp sounds.hpp vector3.hpp universe.hpp xml.hpp openal.hpp
 
 SRCDIR = $(top_srcdir)/src
-CORE_INCL = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
+CORE_INCL = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/vnc -I$(SRCDIR)/tool -I$(SRCDIR)/ai
 if OCAML
-AM_CPPFLAGS = @UBIT_CFLAGS@ @OCAML_CFLAGS@ @XML2_CFLAGS@ $(CORE_INCL) -I$(SRCDIR)/ai
+AM_CPPFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ $(CORE_INCL) @OCAML_CFLAGS@ -I$(SRCDIR)/ai
 else
 AM_CPPFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ $(CORE_INCL)
 endif
+
+EXTRA_DIST = txt2str.c
 
 noinst_PROGRAMS = txt2str
 txt2str_SOURCES = txt2str.c
