@@ -135,8 +135,8 @@ UGraph::UGraph(UPaintEvent& e) throw (UError) {
   rc = disp->getDefaultContext();
 #endif
   
-  glPushAttrib(GL_ALL_ATTRIB_BITS);    // a faire par le client ?????
-  //glPushAttrib(GL_LINE_BIT); suffirait   
+  //dax glPushAttrib(GL_ALL_ATTRIB_BITS);    // a faire par le client ?????
+  glPushAttrib(GL_LINE_BIT); 	// suffirait   
       
   UPaintEvent e2(UOn::paint, v->getWinView(), null/*flow*/);
   e2.setSourceAndProps(v);
@@ -192,7 +192,8 @@ UGraph::Glpaint:: ~ Glpaint() {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-void UGraph::Glpaint::begin(UView* v, bool _push_attrib) {
+void UGraph::Glpaint::begin(UView* v, bool _push_attrib)
+{
   no = ++count;
   push_attrib = _push_attrib;
   hardwin = null;
@@ -207,9 +208,10 @@ void UGraph::Glpaint::begin(UView* v, bool _push_attrib) {
   
   if (push_attrib) glPushAttrib(GL_ALL_ATTRIB_BITS);
   
-  if (hardwin->getWinType() != UWinImpl::SUBWIN) 
+  if (hardwin->getWinType() != UWinImpl::SUBWIN) {
     glViewport(int(v->x), int(winview->height - v->height - v->y), 
                int(v->width), int(v->height));  
+  }
   /*
    cerr << "> GLSection " << no << " " << v << " / "
    << " / glcoord: "<< int(v->x) << " "<< int(winview->height - v->height - v->y)
