@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,14 +32,14 @@ static X3d *x3dmodel = NULL;
 
 WObject * Carousel::creator(char *l)
 {
-return new Carousel(l);
+  return new Carousel(l);
 }
 
 void Carousel::defaults()
 {
-x3d = NULL;
-dimx = dimy = dimz = 0.2;	// minimum
-scale = .5;
+  x3d = NULL;
+  dimx = dimy = dimz = 0.2;	// minimum
+  scale = .5;
 }
 
 /** parser */
