@@ -34,8 +34,8 @@ using namespace std;
 /* local variables */
 static list<Texture*> textureList;
 static Img *default_img = NULL;
-static Vpthread_mutex_t texture_mutex, *tex_pmutex = &texture_mutex;
 static GLuint last_texid = 0;
+static Vpthread_mutex_t texture_mutex, *tex_pmutex = &texture_mutex;
 
 
 void Texture::initCache()
@@ -58,23 +58,24 @@ void Texture::update()
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->img) {
       if (! (*it)->img->pixmap) {
-        error("updateTextures pixmap=null: n=%d w=%d h=%d u=%s", (*it)->id, (*it)->img->width, (*it)->img->height, (*it)->url);
+        error("updateTextures pixmap=null: n=%d u=%s", (*it)->id, (*it)->url);
         continue;
       }
       glBindTexture(GL_TEXTURE_2D, (*it)->id);
 
-      if (! (*it)->img->wellSized()) {
+      if (! (*it)->img->sized()) {
         /* image to resize */
         Img *img1 = NULL;
         if ((img1 = (*it)->img->resize(Img::SIZE, Img::SIZE)) == NULL) {
-          //error("updateTextures: n=%d u=%s", (*it)->id, (*it)->url);
+          error("updateTextures: id=%d u=%s", (*it)->id, (*it)->url);
           continue;
         }
         glTexImage2D(GL_TEXTURE_2D, 0, 3, img1->width, img1->height, 0,
                      GL_RGB, GL_UNSIGNED_BYTE, img1->pixmap);
         delete img1;
       }
-      else {	/* image well sized */
+      else {
+        /* image well sized */
         if (! (*it)->img->nummipmaps) {
           /* no mipmap */
           glTexImage2D(GL_TEXTURE_2D, 0, 3, (*it)->img->width, (*it)->img->height, 0,
@@ -182,7 +183,7 @@ Texture::Texture(const char *url)
   textureList.push_back(this);
   id = getid();
   last_texid = id;
-  //error("%d %s", id, url);
+
   // load image
   switch (Format::getLoaderByUrl((char*) url)) {
     case IMG_GIF: Http::httpOpen(url, httpReader, this, 1); break; // multi-threaded
@@ -193,7 +194,6 @@ Texture::Texture(const char *url)
 
 Texture::Texture()
 {
-  new_texture++;
   id = 0;
   http = NULL;
   img = NULL;
@@ -201,6 +201,7 @@ Texture::Texture()
   *mime = '\0';
 
   textureList.push_back(this);
+  new_texture++;
 }
 
 Texture::~Texture()

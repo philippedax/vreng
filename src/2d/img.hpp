@@ -55,11 +55,6 @@ public:
   uint8_t *pixmap;	///< image data.
   bool anim;		///< flag still or anim.
 
-  enum {
-    FIX,
-    ANIM
-  };
-
   Img(uint16_t width, uint16_t height, uint8_t channel);
   Img(uint16_t width, uint16_t height, uint8_t channel, int32_t nummipmaps, uint32_t size);
   /**< Constructors. */
@@ -70,8 +65,8 @@ public:
   static Img * init();
   /**< set a default image. */
 
-  virtual bool wellSized();
-  /**< check if image is well sized or not. */
+  virtual bool sized();
+  /**< checks if image is well sized or not. */
 
   Img* resize(uint16_t width_new, uint16_t height_new);
   /**< Resizes image. */
@@ -93,31 +88,15 @@ public:
   static Img * loadPSD(void *tex, ImageReader rf);
 
   /** Image writers. */
-  static void saveJPG(const char *file, GLint width, GLint height, GLint quality, const GLubyte *buffer);
+  static void saveJPG(const char *file, GLint width, GLint height, GLint quality, const GLubyte *buf);
   static void savePNG(const char *file, GLint width, GLint height);
-  static void saveTGA(const char *file, GLint width, GLint height, const GLubyte *buffer);
+  static void saveTGA(const char *file, GLint width, GLint height, const GLubyte *buf);
   static void savePPM(const char *file, GLenum mode);
 
 private:
   void defaults();
   /**< Set defaults values */
 };
-
-
-#if 0	// TODO
-struct Anim_Img {
-  Img img;
-  struct Anim_Img *next;
-};
-
-class Img_Anim : public Img {
-  float delay;
-  uint16_t nb_img;
-  Anim_Img *imgs;
-
-  //void freeAnim();
-};
-#endif	// TODO
 
 
 #endif

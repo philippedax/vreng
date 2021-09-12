@@ -79,7 +79,8 @@ Img * Img::init()
 }
 
 
-bool Img::wellSized()
+/* checks if image id well sized */
+bool Img::sized()
 {
   if ( (width != SIZE   || height != SIZE)   &&
        (width != SIZE/2 || height != SIZE/2) &&
