@@ -24,7 +24,7 @@
 #include "http.hpp"	// httpOpen
 #include "format.hpp"	// getModelByMime
 #include "music.hpp"	// MUSIC_TYPE
-#include "texture.hpp"	// getFromCache
+#include "texture.hpp"	// getTex
 #include "user.hpp"	// localuser
 
 #include "lwo.hpp"      // Lwo
@@ -109,7 +109,7 @@ void Model::parser(char *l)
     else if (! stringcmp(l, "tex=")) {
       texurl = new char[URL_LEN];
       l = parse()->parseString(l, texurl, "tex");
-      texid = Texture::getFromCache(texurl);
+      texid = Texture::getTex(texurl);
     }
   }
   end_while_parse(l);

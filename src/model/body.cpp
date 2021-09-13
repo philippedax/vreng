@@ -23,7 +23,7 @@
 #include "face.hpp"
 #include "android.hpp"	// Android
 #include "http.hpp"	// Http
-#include "texture.hpp"	// getFromCache
+#include "texture.hpp"	// getTex
 #include "format.hpp"	// getModelByUrl
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// openCache
@@ -564,7 +564,7 @@ endparse:
         Http::httpOpen(bodyparts[i].url, Obj::httpReader, bodyparts[i].obj, 0);
         bodyparts[i].obj->setScale(bscale * bodyparts[i].scale);
         if (bodyparts[i].texurl[0])  // if url exist
-          bodyparts[i].texid = Texture::getFromCache(bodyparts[i].texurl);
+          bodyparts[i].texid = Texture::getTex(bodyparts[i].texurl);
         break;
       }
       bodyparts[i].loaded = true;

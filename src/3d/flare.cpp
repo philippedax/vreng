@@ -21,7 +21,7 @@
 /* Copyright (c) Mark J. Kilgard, 1997. */
 #include "vreng.hpp"
 #include "flare.hpp"
-#include "texture.hpp"
+#include "texture.hpp"	// getTex
 #include "img.hpp"	// Img
 #include "wobject.hpp"	// Pos
 #include "user.hpp"	// localuser
@@ -248,12 +248,12 @@ void Flare::loadTextures()
 
   for (int i=0; i<MAX_SHINE; i++) {
     sprintf(url, "/sgi/shine%d.bw", i);
-    shineTex[i] = Texture::getFromCache(url);
+    shineTex[i] = Texture::getTex(url);
     setTexture(shineTex[i]);
   }
   for (int i=0; i<MAX_FLARE; i++) {
     sprintf(url, "/sgi/flare%d.bw", i+1);
-    flareTex[i] = Texture::getFromCache(url);
+    flareTex[i] = Texture::getTex(url);
     setTexture(flareTex[i]);
   }
 }

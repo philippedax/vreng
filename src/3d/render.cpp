@@ -22,7 +22,7 @@
 #include "render.hpp"
 #include "solid.hpp"	// Solid, object()
 #include "scene.hpp"	// setViewpoint
-#include "texture.hpp"	// initCache
+#include "texture.hpp"	// init
 #include "wobject.hpp"	// WObject
 #include "world.hpp"	// current
 #include "bgcolor.hpp"	// Bgcolor
@@ -66,7 +66,7 @@ Render::Render()
   pitch = 0;
   
   // texture cache
-  Texture::initCache();
+  Texture::init();
 }
 
 GLint Render::haveDepth()
@@ -828,5 +828,5 @@ void Render::showSolidList()
 
 void Render::quit()
 {
-  Texture::closeCache();
+  Texture::close();
 }

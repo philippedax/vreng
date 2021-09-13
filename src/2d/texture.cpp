@@ -20,12 +20,13 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "texture.hpp"
-#include "http.hpp"	// httpOpen
 #include "img.hpp"	// Img
+#include "wobject.hpp"	// WObject
+#include "http.hpp"	// httpOpen
+#include "url.hpp"	// check
 #include "format.hpp"	// getLoaderByMime
 #include "thread.hpp"	// Vpthread_mutex_t
 #include "pref.hpp"	// quality3D
-#include "wobject.hpp"	// WObject
 
 #include <list>
 using namespace std;
@@ -38,13 +39,13 @@ static GLuint last_texid = 0;
 static Vpthread_mutex_t texture_mutex, *tex_pmutex = &texture_mutex;
 
 
-void Texture::initCache()
+void Texture::init()
 {
   default_img = Img::init();
   initMutex(tex_pmutex);
 }
 
-void Texture::closeCache()
+void Texture::close()
 {
   if (default_img) delete default_img;
 }
@@ -164,14 +165,16 @@ void Texture::httpReader(void *_tex, Http *_http)
   }
 
   lockMutex(tex_pmutex);
+  //-------------- lock
   tex->img = img;
   tex->loaded = true;
+  //-------------- unlock
   unlockMutex(tex_pmutex);
 }
 
 Texture::Texture(const char *url)
 {
-  if (! check(url)) return;
+  if (! Url::check(url)) return;
 
   id = 0;
   http = NULL;
@@ -209,22 +212,6 @@ Texture::~Texture()
   del_texture++;
 }
 
-bool Texture::check(const char *url)
-{
-  if (! url) {
-    error("getFromCache: url NULL");
-    return false;
-  }
-  if (! isprint(*url)) {
-    error("getFromCache: url not printable");
-    for (int i=0; i<16; i++)
-      fprintf(stderr, "%02x ", url[i]);
-    error("");
-    return false;
-  }
-  return true;
-}
-
 GLuint Texture::exist(const char *url)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
@@ -238,16 +225,16 @@ GLuint Texture::exist(const char *url)
 /* Returns texid */
 GLuint Texture::get(const char *url, WObject *wo)
 {
-  GLuint texid = getFromCache(url);
+  GLuint texid = getTex(url);
   if (texid) {
     this->object = wo;
   }
   return texid;
 }
 
-GLuint Texture::getFromCache(const char *url)
+GLuint Texture::getTex(const char *url)
 {
-  if (! check(url)) return 0;
+  if (! Url::check(url)) return 0;
 
   Texture * texture = new Texture();	// new entry in cache
   strcpy(texture->url, url);
@@ -308,7 +295,7 @@ Texture * Texture::getEntryById(GLuint texid)
 
 GLuint Texture::getIdByUrl(const char *url)
 {
-  getFromCache(url);
+  getTex(url);
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if (! strcmp((*it)->url, url)) {
       return (*it)->id;

@@ -41,6 +41,9 @@ class Url {
   static void abs(const char *oldurl, char *newurl);
   ///< Change relative url to absolute.
 
+  static bool check(const char *url);
+  ///< Check url integity */
+
 };
 
 #endif

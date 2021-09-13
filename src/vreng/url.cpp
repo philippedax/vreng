@@ -110,3 +110,19 @@ void Url::abs(const char *relurl, char *absurl)
   }
   //error("absurl: %s", absurl);
 }
+
+bool Url::check(const char *url)
+{   
+  if (! url) {      
+    error("url NULL");
+    return false;
+  } 
+  if (! isprint(*url)) {
+    error("url not printable");
+    for (int i=0; i<16; i++)
+      fprintf(stderr, "%02x ", url[i]);
+    error("");
+    return false;
+  }
+  return true;
+}

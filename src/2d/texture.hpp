@@ -39,15 +39,15 @@ class Texture {
 
  private:
   bool loaded;			///< load flag
+  char mime[MIME_LEN];		///< mime type of the texture
 
  public:
   GLuint id;			///< texture id
-  class Http *http;		///< http handle
   class Img *img;		///< img structure
+  class Http *http;		///< http handle
   class Solid *solid;
   class WObject *object;
   char url[URL_LEN];		///< url where is the texture
-  char mime[MIME_LEN];		///< mime type of the texture
 
   Texture(const char *url);
   Texture();
@@ -59,14 +59,11 @@ class Texture {
   static void httpReader(void *_tex, Http *_http);
   /**< Downloads a texture */
 
-  static void initCache();
+  static void init();
   /**< Initializes the texture cache */
 
-  static void closeCache();
+  static void close();
   /**< Close the texture cache */
-
-  static bool check(const char *url);
-  /**< Check url integity */
 
   static GLuint exist(const char *url);
   /**< Check existence of texture integity */
@@ -77,7 +74,7 @@ class Texture {
   GLuint get(const char *url, WObject *wo);
   /**< Gets a texture from the cache */
 
-  static GLuint getFromCache(const char *url);
+  static GLuint getTex(const char *url);
   /**< Gets a texture from the cache */
 
   static GLuint current();
@@ -104,6 +101,7 @@ class Texture {
   void setMime(char *p);
   /**< copy mime type */
 
+ private:
   static void listTextures();
   /**< List textureList */
 };
