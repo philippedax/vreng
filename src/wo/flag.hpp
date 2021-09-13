@@ -34,7 +34,6 @@
 class Flag: public WObject {
 
 private:
-  //GLfloat depth;	///< depth
   GLfloat width;	///< width
   GLfloat height;	///< height
   GLuint texid;		///< texture number

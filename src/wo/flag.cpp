@@ -26,7 +26,7 @@
 #include "flag.hpp"
 #include "world.hpp"	// current
 #include "wind.hpp"	// getOrient
-#include "texture.hpp"	// Texture::getCurrent
+#include "texture.hpp"	// Texture::current
 
 
 const OClass Flag::oclass(FLAG_TYPE, "Flag", Flag::creator);
@@ -85,7 +85,6 @@ void Flag::inits()
       mesh[x][y][0] = (GLfloat) (x - DIM_FLAG/2) / 5.;
       mesh[x][y][1] = (GLfloat) (y - DIM_FLAG/2) / 5.;
       mesh[x][y][2] = (GLfloat) (sin(((x * (180./DIM_FLAG))/180.) * M_PI));
-      //error("mesh: %d,%d %.2f %.2f %.2f",x,y, mesh[x][y][0], mesh[x][y][1], mesh[x][y][2]);
     }
   }
 }
@@ -102,7 +101,9 @@ void Flag::changePermanent(float dt)
   if (wiggle == 2) {
     for (int y=0; y < DIM_FLAG; y++) {
       GLfloat w = mesh[0][y][2];
-      for (int x=0; x < DIM_FLAG; x++) mesh[x][y][2] = mesh[x+1][y][2];	// next wave to the right
+      for (int x=0; x < DIM_FLAG; x++) {
+        mesh[x][y][2] = mesh[x+1][y][2];	// next wave to the right
+      }
       mesh[DIM_FLAG][y][2] = w;
     }
     wiggle = 0;
@@ -137,7 +138,6 @@ GLvoid Flag::render()
 {
   glPushMatrix();
   glDisable(GL_CULL_FACE);
-  //dax glPolygonMode(GL_BACK, GL_FILL); glPolygonMode(GL_FRONT, GL_LINE);
 
   if (texid) {
     glEnable(GL_TEXTURE_2D);
@@ -147,8 +147,8 @@ GLvoid Flag::render()
 
   glTranslatef(pos.x+((width/2)*cos(DEG2RAD(zrot))), pos.y+((width/2)*sin(DEG2RAD(zrot))), pos.z);
   glRotatef(RAD2DEG(pos.ax) + 90, 1,0,0);
-  glRotatef(zrot, 0,1,0);
-  glScalef(0.1*width, 0.1*height, 0.1*height);
+  glRotatef(180, 0,1,0);
+  glScalef(0.1*width, 0.1*height, 0.05*height);
 
   draw();
 
