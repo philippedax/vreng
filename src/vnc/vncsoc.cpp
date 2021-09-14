@@ -44,19 +44,19 @@
 
 // Constructors
 
-VNCSockets::VNCSockets(const char *_servername, uint16_t _port=5901)
+VNCSock::VNCSock(const char *_servername, uint16_t _port=5901)
 {
   strcpy(servername, _servername);
   port = _port;
   buffered = 0;
   bufoutptr = buf;
   rfbsock = -1;
-  if (! stringToIP()) error("VNCSockets: can't resolve %s", _servername);
+  if (! stringToIP()) error("VNCSock: can't resolve %s", _servername);
 }
 
-VNCSockets::VNCSockets(uint32_t _ipaddr, uint16_t _port=5901)
+VNCSock::VNCSock(uint32_t _ipaddr, uint16_t _port=5901)
 {
-  error("VNCSockets::VNCSockets: 3 not used, port=%d", _port);
+  error("VNCSock::VNCSock: 3 not used, port=%d", _port);
   port = _port;
   buffered = 0;
   bufoutptr = buf;
@@ -81,7 +81,7 @@ VNCSockets::VNCSockets(uint32_t _ipaddr, uint16_t _port=5901)
 /*
  * Read bytes from the server
  */
-bool VNCSockets::readRFB(char *out, uint32_t n)
+bool VNCSock::readRFB(char *out, uint32_t n)
 {
   if (n <= buffered) {
     memcpy(out, bufoutptr, n);
@@ -145,7 +145,7 @@ bool VNCSockets::readRFB(char *out, uint32_t n)
 /*
  * Write an exact number of bytes, and don't return until you've sent them.
  */
-bool VNCSockets::writeExact(char *buf, int n)
+bool VNCSock::writeExact(char *buf, int n)
 {
   for (int i=0; i < n; ) {
     int j = write(rfbsock, buf + i, (n - i));
@@ -178,7 +178,7 @@ bool VNCSockets::writeExact(char *buf, int n)
 /*
  * connectRFB connects to the given TCP port.
  */
-int VNCSockets::connectRFB()
+int VNCSock::connectRFB()
 {
   if ((rfbsock = Socket::openStream()) < 0) {
     error("connectRFB: open socket");
@@ -214,7 +214,7 @@ int VNCSockets::connectRFB()
 /*
  * setBlocking sets a socket into non-blocking mode.
  */
-bool VNCSockets::setBlocking()
+bool VNCSock::setBlocking()
 {
   if (Socket::setNoBlocking(rfbsock) < 0) return false;
   return true;
@@ -223,7 +223,7 @@ bool VNCSockets::setBlocking()
 /*
  * stringToIP - convert a host string to an IP address.
  */
-bool VNCSockets::stringToIP()
+bool VNCSock::stringToIP()
 {
   struct hostent *hp;
 
@@ -239,7 +239,7 @@ bool VNCSockets::stringToIP()
 /*
  * Test if the other end of a socket is on the same machine.
  */
-bool VNCSockets::sameMachine()
+bool VNCSock::sameMachine()
 {
   struct sockaddr_in peersa, mysa;
   socklen_t slen = sizeof(struct sockaddr_in);
@@ -253,7 +253,7 @@ bool VNCSockets::sameMachine()
 /*
  * Returns the socket used
  */
-int VNCSockets::getSock()
+int VNCSock::getSock()
 {
   return rfbsock;
 }
@@ -262,7 +262,7 @@ int VNCSockets::getSock()
 /*
  * Print out the contents of a packet for debugging.
  */
-void VNCSockets::PrintInHex(char *buf, int len)
+void VNCSock::PrintInHex(char *buf, int len)
 {
   int i;
   char c, str[17];

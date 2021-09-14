@@ -649,7 +649,7 @@ class VNCRFB {
 
  public:
 
-  VNCSockets vncsock;
+  VNCSock vncsock;
 
   VNCRFB(char *ServeurName, int Port, char *pswdFile);
 #if 0 //not used
