@@ -40,7 +40,6 @@
 
 #include "vncdes.hpp"
 
-#define MAXPWLEN 8
 #define CHALLENGESIZE 16
 
 extern int vncEncryptAndStorePasswd(char *passwd, char *fname);
