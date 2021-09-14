@@ -18,11 +18,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef CLIENT_HPP
-#define CLIENT_HPP
+#ifndef VNCCLI_HPP
+#define VNCCLI_HPP
 
 #include "vreng.hpp"
-#include "rfbproto.hpp"
+#include "vncrfb.hpp"
 
 #define RFB_BUF_SIZE	640*480
 

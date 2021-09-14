@@ -37,7 +37,7 @@
  *  USA.
  */
 #include "vreng.hpp"
-#include "sockets.hpp"
+#include "vncsoc.hpp"
 #include "socket.hpp"	// setNoBlocking
 #include "nsl.hpp"	// my_gethostbyname
 

@@ -40,7 +40,7 @@
  * vncauth.cpp - Functions for VNC password management and authentication.
  */
 #include "vreng.hpp"
-#include "auth.h"
+#include "vncauth.hpp"
 #include "file.hpp"	// openFile
 
 

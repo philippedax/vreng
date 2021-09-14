@@ -22,7 +22,7 @@
 #include <gui.hpp>
 
 #include <X11/Xlib.h>	//XStringToKeysym
-#include "client.hpp"
+#include "vnccli.hpp"
 
 /*
  * Constructors

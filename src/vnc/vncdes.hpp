@@ -17,8 +17,8 @@
  * Copyright (c) 1988,1989,1990,1991,1992 by Richard Outerbridge
  *	(GEnie : OUTER; CIS : [71755,204])
  */
-#ifndef D3DES_H
-#define D3DES_H
+#ifndef VNCDES_HPP
+#define VNCDES_HPP
 
 #define EN0	0	/* MODE == encrypt */
 #define DE1	1	/* MODE == decrypt */
@@ -50,4 +50,4 @@ extern void des(unsigned char *, unsigned char *);
 
 /* d3des.h V5.09 rwo 9208.04 15:06 Graven Imagery */
 
-#endif // D3DES_H
+#endif // VNCDES_HPP

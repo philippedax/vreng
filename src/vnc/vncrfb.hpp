@@ -39,8 +39,8 @@
  *      Sometimes this is defined by a single structure but the more complex
  *      messages have to be explained by comments.
  */
-#ifndef RFBPROTO_HPP
-#define RFBPROTO_HPP
+#ifndef VNCRFB_HPP
+#define VNCRFB_HPP
 
 
 extern int endianTest;
@@ -59,8 +59,8 @@ extern int endianTest;
 #define Boolean Fuck_Boolean_Mpeg
 #endif
 
-#include "sockets.hpp"
-#include "auth.h"
+#include "vncsoc.hpp"
+#include "vncauth.hpp"
 
 #define MAX_ENCODINGS 10
 

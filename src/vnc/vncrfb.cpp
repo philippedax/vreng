@@ -42,7 +42,7 @@
 #include "vreng.hpp"
 
 #include <gui.hpp>
-#include "rfbproto.hpp"
+#include "vncrfb.hpp"
 
 int endianTest = 1;
 char *serverCutText = NULL;

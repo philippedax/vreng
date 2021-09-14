@@ -35,10 +35,10 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
  *  USA.
  */
-#ifndef AUTH_H
-#define AUTH_H
+#ifndef VNCAUTH_HPP
+#define VNCAUTH_HPP
 
-#include "d3des.h"
+#include "vncdes.hpp"
 
 #define MAXPWLEN 8
 #define CHALLENGESIZE 16

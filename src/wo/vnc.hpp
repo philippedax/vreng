@@ -43,8 +43,8 @@
 #define VNC_NAME	"Vnc"
 
 #include "wobject.hpp"
-#include "client.hpp"
-#include "auth.h"
+#include "vnccli.hpp"
+#include "vncauth.hpp"
 #include "gui.hpp"	// needed for X11
 
 

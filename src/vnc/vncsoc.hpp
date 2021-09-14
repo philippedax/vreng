@@ -18,10 +18,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef SOCKETS_HPP
-#define SOCKETS_HPP
+#ifndef VNCSOC_HPP
+#define VNCSOC_HPP
 
 #define VNC_BUF_SIZE	8192
+
 
 /**
  * VNCSocket class
