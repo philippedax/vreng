@@ -28,7 +28,7 @@
 
 const OClass Vnc::oclass(VNC_TYPE, "Vnc", Vnc::creator);
 
-const uint16_t Vnc::DEF_PORT = 5901;
+const uint16_t Vnc::DEF_PORT = 5900;
 
 
 /* Creation from a file */
@@ -301,12 +301,12 @@ void Vnc::connectServer()
   if (! serverdefined) return;
 
   vncClient = new VNCClientTextured(servername, port, passwdfile);
-    warning("VNC try to connect to %s:%d", servername, port);
+    error("VNC try to connect to %s:%d", servername, port);
 
   // client initialization
   if (! vncClient->VNCInit()) {
     serverdefined = false;
-    warning("VNC connect failed to %s:%d", servername, port);
+    error("VNC connect failed to %s:%d", servername, port);
     delete vncClient;
     vncClient = NULL;
     return;
@@ -353,7 +353,7 @@ void Vnc::disconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
 void Vnc::reconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
 {
   if (vnc->connected || vnc->serverdefined)
-    warning("VNC: already connected, disconnect first!");
+    error("VNC: already connected, disconnect first!");
   else
     ::g.gui.launchVncConnect(vnc);
 }
@@ -362,7 +362,7 @@ void Vnc::reconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
 void Vnc::convert(const char *srvstr, const char *portstr, const char *passstr)
 {
   if (!srvstr || !portstr || !passstr) {
-    warning("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
+    error("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
     return;
   }
   notice("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);

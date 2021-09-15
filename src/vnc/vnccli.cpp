@@ -19,10 +19,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include <gui.hpp>
+#include "vnccli.hpp"
+#include "gui.hpp"
 
 #include <X11/Xlib.h>	//XStringToKeysym
-#include "vnccli.hpp"
 
 /*
  * Constructors
@@ -77,6 +77,7 @@ bool VNCClient::VNCInit()
     }
     fbWidth = rfbproto.si.framebufferWidth;
     fbHeight = rfbproto.si.framebufferHeight;
+    error("VNCInit: fbWidth=%d fbHeight=%d", fbWidth,fbHeight);
     framebuffer = new VNCRGB[fbWidth * fbHeight];
     if (!framebuffer) {
       error("VNCInit: unable to allocate memory for framebuffer");
@@ -105,17 +106,18 @@ bool VNCClientTextured::VNCInit()
     }
     realScreenWidth = rfbproto.si.framebufferWidth;
     realScreenHeight = rfbproto.si.framebufferHeight;
-    trace(DBG_VNC, "VNCInit: w=%d h=%d", realScreenWidth, realScreenHeight);
+    trace(DBG_FORCE, "VNCInit: w=%d h=%d", realScreenWidth, realScreenHeight);
 
     uint16_t powerof2;
     for (powerof2 = 1; powerof2 < realScreenWidth; powerof2 *= 2) ;
     fbWidth = powerof2;
     for (powerof2 = 1; powerof2 < realScreenHeight; powerof2 *= 2) ;
     fbHeight = powerof2;
-    trace(DBG_VNC, "VNCInit: fbw=%d fbh=%d", fbWidth, fbHeight);
+    trace(DBG_FORCE, "VNCInit: fbw=%d fbh=%d", fbWidth, fbHeight);
 
     framebuffer = new VNCRGB[fbWidth * fbHeight];
-    if (!framebuffer) {
+
+    if (! framebuffer) {
       error("VNCInit: unable to allocate memory for framebuffer");
       VNCClose();
       return false;
@@ -196,9 +198,9 @@ void VNCClient::sendRFBEvent(char **params, unsigned int *num_params)
     error("invalid event '%s' passed to sendRFBEvent", params[0]);
 }
 
-uint8_t VNCClient::rescalePixValue(uint32_t Pix, uint8_t Shift, uint16_t Max)
+uint8_t VNCClient::rescalePixValue(uint32_t pix, uint8_t shift, uint16_t max)
 {
-  return (uint8_t) (((Pix >> Shift)&Max) * (256 / (Max+1))) ;
+  return (uint8_t) (((pix >> shift)&max) * (256 / (max+1))) ;
 }
 
 // can be used with a uint8_t, uint16_t or uint32_t Pixel
@@ -219,7 +221,7 @@ bool VNCClient::handleRAW32(int rx, int ry, int rw, int rh)
 
   for (int h = 0; h < rh; h++) {
     for (int w = 0; w < rw; w++) {
-      *dest++ = cardToVNCRGB(swap32IfLE(*src)); //BUG! segfault under Linux
+      *dest++ = cardToVNCRGB(swap32IfLE(*src)); //BUG! segfault under Linux and MacOS
       src++;
     }
     dest += fbWidth-rw;
@@ -255,7 +257,7 @@ bool VNCClient::handleCR(int srcx, int srcy, int rx, int ry, int rw, int rh)
 void VNCClient::fillRect(int rx, int ry, int rw, int rh, VNCRGB pixel)
 {
   VNCRGB *dest = framebuffer + (ry * fbWidth + rx);
-  trace(DBG_VNC, "fillRect: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
+  trace(DBG_FORCE, "fillRect: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
 
   for (int h = 0; h < rh; h++) {
     for (int w = 0; w < rw; w++) {
@@ -272,7 +274,7 @@ bool VNCClient::handleRRE32(int rx, int ry, int rw, int rh)
   rfbRectangle subrect;
   VNCRGB pixel;
 
-  trace(DBG_VNC, "handleRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
+  trace(DBG_FORCE, "handleRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
 
   if (!rfbproto.vncsock.readRFB((char *)&hdr, sz_rfbRREHeader))
     return false;
@@ -310,7 +312,7 @@ bool VNCClient::handleCoRRE32(int rx, int ry, int rw, int rh)
   int x, y, ww, hh;
   VNCRGB pixel;
 
-  trace(DBG_VNC, "handleCoRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
+  trace(DBG_FORCE, "handleCoRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
 
   if (!rfbproto.vncsock.readRFB((char *)&hdr, sz_rfbRREHeader))
     return false;
@@ -358,7 +360,7 @@ bool VNCClient::handleHextile32(int rx, int ry, int rw, int rh)
   uint8_t nSubrects;
   VNCRGB pixel;
 
-  trace(DBG_VNC, "handleHextile32: rx=%d ry=%d rw=%d rh=%d",rx,ry,rw,rh);
+  trace(DBG_FORCE, "handleHextile32: rx=%d ry=%d rw=%d rh=%d",rx,ry,rw,rh);
 
   for (y = ry; y < ry+rh; y += 16) {
     for (x = rx; x < rx+rw; x += 16) {
@@ -464,7 +466,7 @@ bool VNCClient::handleRFBMessage()
 
   case rfbFramebufferUpdate:
   {
-    //trace(DBG_VNC, "handleRFBMessage: rfbFramebufferUpdate");
+    trace(DBG_FORCE, "handleRFBMessage: rfbFramebufferUpdate");
 
     rfbFramebufferUpdateRectHeader rect;
     int linestoread;
@@ -504,7 +506,7 @@ bool VNCClient::handleRFBMessage()
 	bytesPerLine = rect.r.w * rfbproto.pixFormat.bitsPerPixel / 8;
 	linestoread = sizeof(rfbbuffer) / bytesPerLine;
 
-        //trace(DBG_VNC, "handleRFBMessage: rfbFramebufferUpdate rfbEncodingRaw bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
+        trace(DBG_FORCE, "rfbEncodingRaw: bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
 
 	while (rect.r.h > 0) {
 	  if (linestoread > rect.r.h)
@@ -512,6 +514,7 @@ bool VNCClient::handleRFBMessage()
 	  if (!rfbproto.vncsock.readRFB(rfbbuffer,bytesPerLine * linestoread))
 	    return false;
 
+        trace(DBG_FORCE, "rfbEncodingRaw: rect.w=%d rect.h=%d", rect.r.w, rect.r.h);
           if (!handleRAW32(rect.r.x, rect.r.y, rect.r.w, rect.r.h))
 	    return false;
 	  rect.r.h -= linestoread;
@@ -521,6 +524,7 @@ bool VNCClient::handleRFBMessage()
 
       case rfbEncodingCopyRect:
       {
+        trace(DBG_FORCE, "rfbEncodingCopyRect:");
 	rfbCopyRect cr;
 	if (!rfbproto.vncsock.readRFB((char *) &cr, sz_rfbCopyRect))
 	  return false;
@@ -534,14 +538,17 @@ bool VNCClient::handleRFBMessage()
       }
 
       case rfbEncodingRRE:
+        trace(DBG_FORCE, "rfbEncodingRRE:");
 	if (!handleRRE32(rect.r.x,rect.r.y,rect.r.w,rect.r.h))
 	  return false;
 	break;
       case rfbEncodingCoRRE:
+        trace(DBG_FORCE, "rfbEncodingCoRRE:");
 	if (!handleCoRRE32(rect.r.x,rect.r.y,rect.r.w,rect.r.h))
 	  return false;
 	break;
       case rfbEncodingHextile:
+        trace(DBG_FORCE, "rfbEncodingHextile:");
         if (!handleHextile32(rect.r.x,rect.r.y,rect.r.w,rect.r.h))
 	  return false;
 	break;
