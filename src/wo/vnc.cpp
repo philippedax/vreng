@@ -104,7 +104,7 @@ Vnc::Vnc(char *l)
 
 void Vnc::buildScreen()
 {
-  if (_solids.empty()) return;	// no solid
+  //dax if (_solids.empty()) return;	// no solid
 
   V3 dim;
   getDimBB(dim);

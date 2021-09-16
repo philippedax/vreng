@@ -12,17 +12,15 @@
 
 <entry pos="0 0 0"></entry>
 
-<ground name="desk-ground" pos="0 0 -.5">
-  <solid dim="60 60 .5" zp="/gif/parquet.gif" />
-</ground>
+<ground name="desk-ground" pos="0 0 -.5"> <solid dim="60 60 .5" zp="/gif/parquet.gif" /> </ground>
 
 <!-- VNC servers -->
-<vnc name="macosx" pos="12 7 3 1.57"
-  server="localhost" port="5901" passwd="azerty">
-  <solid shape="box" dim="8 0.2 6" a="0.6"/>
+<vnc name="macosx" pos="12 0 3 1.57"
+  server="localhost" passwd="azerty">
+  <solid shape="box" dim="8 0.2 6" />
 </vnc>
 <!--
-<vnc name="solaris" pos="12 0 3 3.14"
+<vnc name="solaris" pos="12 7 3 1.57"
   server="horla.enst.fr"
   port="5901"
   passwd="qwerty">
@@ -44,13 +42,13 @@
 </vnc>
 -->
 
+<wall pos="29 0 1 0">	<solid dim="2 2 2" dif="green" /></wall>
 <wall pos="-29 29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
 <wall pos="29 29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
 <wall pos="29 -29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
 <wall pos="0 -29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
 <wall pos="0 29 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
 <wall pos="-29 0 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
-<wall pos="29 0 1 0">	<solid dim="2 2 2" dif=".7 .7 .7" /></wall>
 
 </scene>
 </vre>
