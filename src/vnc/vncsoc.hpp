@@ -25,9 +25,9 @@
 
 
 /**
- * VNCSock class
+ * VNCSoc class
  */
-class VNCSock {
+class VNCSoc {
 
  private:
   char servername[MAXHOSTNAMELEN];
@@ -51,9 +51,8 @@ class VNCSock {
   ///< stores the IP address of the server in ipaddr, returns false if unknown
 
  public:
-  VNCSock() {};
-  VNCSock(const char *_servername, uint16_t _port);
-  VNCSock(uint32_t ipaddr, uint16_t _port);
+  VNCSoc() {};
+  VNCSoc(const char *_servername, uint16_t _port);
   ///< constructors
 
 #if 0 //unused

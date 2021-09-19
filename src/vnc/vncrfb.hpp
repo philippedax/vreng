@@ -45,10 +45,10 @@
 
 extern int endianTest;
 
-#define swap16IfLE(s) \
+#define swap16(s) \
     (*(char *)&endianTest ? ((((s) & 0xff) << 8) | (((s) >> 8) & 0xff)) : (s))
 
-#define swap32IfLE(l) \
+#define swap32(l) \
     (*(char *)&endianTest ? ((((l) & 0xff000000) >> 24) | \
 			     (((l) & 0x00ff0000) >> 8)  | \
 			     (((l) & 0x0000ff00) << 8)  | \
@@ -63,12 +63,6 @@ extern int endianTest;
 #include "vncauth.hpp"
 
 #define MAX_ENCODINGS 10
-
-#if 0 //DAX
-typedef unsigned int   CARD32;
-typedef unsigned short CARD16;
-typedef unsigned char  CARD8;
-#endif
 
 /*****************************************************************************
  *
@@ -649,7 +643,7 @@ class VNCRFB {
 
  public:
 
-  VNCSock vncsock;
+  VNCSoc vncsock;
 
   VNCRFB(char *ServeurName, int Port, char *pswdFile);
 #if 0 //not used
@@ -671,7 +665,7 @@ class VNCRFB {
   void printPixelFormat(rfbPixelFormat *format);
   ///< Prints out the format for debugging
 
-  void setVisual32();
+  void setVisual();
   ///< default is 32 BPP
 
   bool connectRFB();

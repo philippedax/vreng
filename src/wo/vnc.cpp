@@ -155,6 +155,7 @@ void Vnc::setTexture(bool mipmap)
   glBindTexture(GL_TEXTURE_2D, texture);	// we use ours
 
   // put it into the video memory
+  error("tex: w=%d h=%d %d",tex_width,tex_height,mipmap);
   if (mipmap) {
 #if HAVE_GLU
     gluBuild2DMipmaps(GL_TEXTURE_2D, 3, tex_width, tex_height,
@@ -300,11 +301,11 @@ void Vnc::connectServer()
 {
   if (! serverdefined) return;
 
-  vncClient = new VNCClientTextured(servername, port, passwdfile);
-    error("VNC try to connect to %s:%d", servername, port);
+  vncClient = new VNCCliTextured(servername, port, passwdfile);
+  //error("VNC try to connect to %s:%d", servername, port);
 
   // client initialization
-  if (! vncClient->VNCInit()) {
+  if (! vncClient->initVNC()) {
     serverdefined = false;
     error("VNC connect failed to %s:%d", servername, port);
     delete vncClient;
@@ -313,7 +314,7 @@ void Vnc::connectServer()
   }
   else {
     connected = true;
-    notice("VNC connect successful on %s:%d", servername, port);
+    error("VNC connect successful on %s:%d", servername, port);
 
     vncClient->sendFramebufferUpdateRequest(0, 0,
                                             vncClient->realScreenWidth,
@@ -324,8 +325,11 @@ void Vnc::connectServer()
 
   // texture initialization from the framebuffer
   tex_pixmap = (GLubyte *) vncClient->framebuffer;
-  tex_width = vncClient->fbWidth;
-  tex_height = vncClient->fbHeight;
+  //dax tex_width = vncClient->fbWidth;
+  //dax tex_height = vncClient->fbHeight;
+  tex_width = vncClient->realScreenWidth;
+  tex_height = vncClient->realScreenHeight;
+  error("tex: w=%d h=%d",tex_width,tex_height);
 
   setTexture(0);	// without mipmaps
 
@@ -339,7 +343,7 @@ void Vnc::connectServer()
 void Vnc::disconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
 {
   if (vnc->connected) {
-    if (! vnc->vncClient->VNCClose())
+    if (! vnc->vncClient->closeVNC())
       error("disconnectServer: failed");
     else {
       vnc->connected = false;
@@ -365,7 +369,7 @@ void Vnc::convert(const char *srvstr, const char *portstr, const char *passstr)
     error("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
     return;
   }
-  notice("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
+  error("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
 
   strcpy(servername, srvstr);
   port = atoi(portstr);
@@ -426,7 +430,7 @@ void Vnc::quit()
     leaveFocus(this, NULL, 0L, 0L);
     connected = false;
     if (vncClient) {
-      vncClient->VNCClose();
+      vncClient->closeVNC();
       delete vncClient;
       vncClient = NULL;
     }
@@ -437,7 +441,7 @@ void Vnc::quit()
 void Vnc::takeFocus(Vnc *vnc, void *d, time_t s, time_t u)
 {
   if (! vnc->focus) {
-    notice("Take Focus");
+    error("Take Focus");
     ::g.gui.setToVnc(vnc);
     vnc->focus = true;
   }
@@ -447,7 +451,7 @@ void Vnc::takeFocus(Vnc *vnc, void *d, time_t s, time_t u)
 void Vnc::leaveFocus(Vnc *vnc, void *d, time_t s, time_t u)
 {
   if (vnc->focus) {
-    notice("Leave Focus");
+    error("Leave Focus");
     ::g.gui.setToVnc(NULL);
     vnc->focus = false;
   }

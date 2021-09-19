@@ -56,7 +56,7 @@ class Vnc : public WObject {
  private:
   static const uint16_t DEF_PORT;
 
-  VNCClientTextured *vncClient;	///< vnc client
+  VNCCliTextured *vncClient;	///< vnc client
   GLuint texture;		///< texture number
   uint16_t tex_width;		///< texture width
   uint16_t tex_height;		///< texture height

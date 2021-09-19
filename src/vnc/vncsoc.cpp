@@ -18,8 +18,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- *  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
+/*  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
  *
  *  This is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -33,8 +32,7 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this software; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
- *  USA.
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 #include "vreng.hpp"
 #include "vncsoc.hpp"
@@ -44,24 +42,14 @@
 
 // Constructors
 
-VNCSock::VNCSock(const char *_servername, uint16_t _port=5901)
+VNCSoc::VNCSoc(const char *_servername, uint16_t _port=5900)
 {
   strcpy(servername, _servername);
   port = _port;
   buffered = 0;
   bufoutptr = buf;
   rfbsock = -1;
-  if (! stringToIP()) error("VNCSock: can't resolve %s", _servername);
-}
-
-VNCSock::VNCSock(uint32_t _ipaddr, uint16_t _port=5901)
-{
-  error("VNCSock::VNCSock: 3 not used, port=%d", _port);
-  port = _port;
-  buffered = 0;
-  bufoutptr = buf;
-  rfbsock = -1;
-  ipaddr = _ipaddr;
+  if (! stringToIP()) error("VNCSoc: can't resolve %s", _servername);
 }
 
 /*
@@ -81,7 +69,7 @@ VNCSock::VNCSock(uint32_t _ipaddr, uint16_t _port=5901)
 /*
  * Read bytes from the server
  */
-bool VNCSock::readRFB(char *out, uint32_t n)
+bool VNCSoc::readRFB(char *out, uint32_t n)
 {
   if (n <= buffered) {
     memcpy(out, bufoutptr, n);
@@ -145,7 +133,7 @@ bool VNCSock::readRFB(char *out, uint32_t n)
 /*
  * Write an exact number of bytes, and don't return until you've sent them.
  */
-bool VNCSock::writeExact(char *buf, int n)
+bool VNCSoc::writeExact(char *buf, int n)
 {
   for (int i=0; i < n; ) {
     int j = write(rfbsock, buf + i, (n - i));
@@ -178,7 +166,7 @@ bool VNCSock::writeExact(char *buf, int n)
 /*
  * connectRFB connects to the given TCP port.
  */
-int VNCSock::connectRFB()
+int VNCSoc::connectRFB()
 {
   if ((rfbsock = Socket::openStream()) < 0) {
     error("connectRFB: open socket");
@@ -214,7 +202,7 @@ int VNCSock::connectRFB()
 /*
  * setBlocking sets a socket into non-blocking mode.
  */
-bool VNCSock::setBlocking()
+bool VNCSoc::setBlocking()
 {
   if (Socket::setNoBlocking(rfbsock) < 0) return false;
   return true;
@@ -223,7 +211,7 @@ bool VNCSock::setBlocking()
 /*
  * stringToIP - convert a host string to an IP address.
  */
-bool VNCSock::stringToIP()
+bool VNCSoc::stringToIP()
 {
   struct hostent *hp;
 
@@ -239,7 +227,7 @@ bool VNCSock::stringToIP()
 /*
  * Test if the other end of a socket is on the same machine.
  */
-bool VNCSock::sameMachine()
+bool VNCSoc::sameMachine()
 {
   struct sockaddr_in peersa, mysa;
   socklen_t slen = sizeof(struct sockaddr_in);
@@ -253,7 +241,7 @@ bool VNCSock::sameMachine()
 /*
  * Returns the socket used
  */
-int VNCSock::getSock()
+int VNCSoc::getSock()
 {
   return rfbsock;
 }
@@ -262,7 +250,7 @@ int VNCSock::getSock()
 /*
  * Print out the contents of a packet for debugging.
  */
-void VNCSock::PrintInHex(char *buf, int len)
+void VNCSoc::PrintInHex(char *buf, int len)
 {
   int i;
   char c, str[17];

@@ -24,21 +24,22 @@
 #include "vreng.hpp"
 #include "vncrfb.hpp"
 
-#define RFB_BUF_SIZE	640*480
+//dax #define RFB_BUF_SIZE	640*480
+#define RFB_BUF_SIZE	1280*960
 
 
 /**
- * class VNCRGB
+ * class VNCrgb
  * this is what our framebuffer is made of 24 bits per pixel
  * 8bits for Red, 8 for Green, 8 for Blue
  */
-class VNCRGB {
+class VNCrgb {
  public:
 
-  VNCRGB();
+  VNCrgb();
   ///< this constructor is only used to handle faster 32bits pixels we get from the server
-  VNCRGB(const uint32_t &pixel);
-  VNCRGB(uint8_t red, uint8_t green, uint8_t blue);
+  VNCrgb(const uint32_t &pixel);
+  VNCrgb(uint8_t red, uint8_t green, uint8_t blue);
 
   uint8_t red;
   uint8_t green;
@@ -47,27 +48,26 @@ class VNCRGB {
 
 
 /**
- * class VNCClient
+ * class VNCCli
  * object will be used in VReng:
  * - to connect to the VNC server
  * - to handle its messages
  * - to forward pointer and keyboard events to the server
  * framebuffer is public
  */
-class VNCClient {
-
+class VNCCli {
  private:
   char rfbbuffer[RFB_BUF_SIZE];
   ///< this buffer is used to get Server MSGs
 
-  bool viewonly;
+  //dax bool viewonly;
   ///< do we want to forward events? (no if true)
 
-  void fillRect(int rx, int ry, int rw, int rh, VNCRGB pixel);
+  void fillRect(int rx, int ry, int rw, int rh, VNCrgb pixel);
   ///< handling Rectangles we got from server
 
   uint8_t rescalePixValue(uint32_t Pix, uint8_t Shift, uint16_t Max);
-  VNCRGB cardToVNCRGB(uint32_t Pixel);
+  VNCrgb cardToVNCrgb(uint32_t pixel);
 
   bool handleRAW32(int rx, int ry, int rw, int rh);
   bool handleCR(int srcx, int srcy, int rx, int ry, int rw, int rh);
@@ -82,14 +82,14 @@ class VNCClient {
    */
 
  public:
-  VNCClient(char *server, int port, char *passFile);
+  VNCCli(char *server, int port, char *passFile);
   ///< constructor
 
   char *serverCutText;
   bool newCutText;
   ///< for now, public attributes we keep to handle server cut texts
 
-  VNCRGB *framebuffer;
+  VNCrgb *framebuffer;
   uint16_t fbWidth;
   uint16_t fbHeight;
   ///< here is our framebuffer
@@ -98,20 +98,15 @@ class VNCClient {
   ///< we might want to get the socket descriptor to listen to it
 
   // set of functions to initialize the connection
-  enum {BPP8, BPP16, BPP32};
 
-  bool VNCInit();
-#if 0 //not used
-  bool VNCInit(int flag);
-  ///< flag can be BPP8, BPP16 or BPP16 to indicate how many bits per pixel we want
-#endif
-  ///< VNCInit has to allocate memory for the framebuffer if everything goes fine
-  bool VNCClose();
-  ///< VNCClose has to free it
+  bool initVNC();
+  ///< initVNC has to allocate memory for the framebuffer if everything goes fine
+  bool closeVNC();
+  ///< closeVNC has to free it
 
   /* Remote Frame Buffer Protocol v3.3 */
 
-  void sendRFBEvent(char **params, unsigned int *num_params) ;
+  void sendRFBEvent(char **params, unsigned int *num_params);
   bool sendIncrementalFramebufferUpdateRequest();
   bool sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incremental);
   ///< messages from client to server
@@ -122,22 +117,22 @@ class VNCClient {
 
 
 /**
- * class VNCClientTextured
- * inherits everything from VNCClient
+ * class VNCCliTextured
+ * inherits everything from VNCCli
  * the framebuffer allocated is bigger than the real VNC server screen size
  * and has dimensions that are a power of 2
  * needed by OpenGL to map the texture
  */
-class VNCClientTextured : public VNCClient {
-
+class VNCCliTextured : public VNCCli {
  public:
-  VNCClientTextured(char *server, int port, char *pass);
+  VNCCliTextured(char *server, int port, char *pass);
 
   uint16_t realScreenWidth;
   uint16_t realScreenHeight;
   ///< here we keep what the real server screen size is
 
-  bool VNCInit();
+  bool initVNC();
+  ///< initVNC has to allocate memory for the framebuffer if everything goes fine
 };
 
 #endif

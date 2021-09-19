@@ -18,8 +18,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-/*
- *  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
+/*  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
  *
  *  This is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -33,16 +32,14 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this software; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307,
- *  USA.
+ *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 /*
  * rfbproto.cpp - functions to deal with client side of RFB protocol.
  */
 #include "vreng.hpp"
-
-#include <gui.hpp>
 #include "vncrfb.hpp"
+
 
 int endianTest = 1;
 char *serverCutText = NULL;
@@ -93,7 +90,7 @@ bool VNCRFB::initRFB()
   pv[sz_rfbProtocolVersionMsg] = 0;
 
   if (sscanf(pv, rfbProtocolVersionFormat, &major, &minor) != 2) {
-    error("initRFB: not a valid RFB");
+    error("initRFB: not a valid RFB version");
     return false;
   }
   trace(DBG_VNC, "initRFB: VNC server supports protocol version %d.%d (viewer %d.%d)",
@@ -108,13 +105,13 @@ bool VNCRFB::initRFB()
   if (!vncsock.readRFB((char *) &authScheme, 4))
     return false;
 
-  authScheme = (uint32_t) swap32IfLE(authScheme);
+  authScheme = (uint32_t) swap32(authScheme);
   switch (authScheme) {
 
   case rfbConnFailed:
     if (!vncsock.readRFB((char *) &reasonLen, 4))
       return false;
-    reasonLen = swap32IfLE(reasonLen);
+    reasonLen = swap32(reasonLen);
     reason = new char[reasonLen];
 
     if (!vncsock.readRFB(reason, reasonLen))
@@ -155,7 +152,7 @@ bool VNCRFB::initRFB()
     if (!vncsock.readRFB((char *) &authResult, 4))
       return false;
 
-    authResult = swap32IfLE(authResult);
+    authResult = swap32(authResult);
     switch (authResult) {
     case rfbVncAuthOK:
       trace(DBG_VNC, "initRFB: VNC authentication succeeded");
@@ -184,12 +181,12 @@ bool VNCRFB::initRFB()
   if (!vncsock.readRFB((char *)&si, sz_rfbServerInitMsg))
     return false;
 
-  si.framebufferWidth = swap16IfLE(si.framebufferWidth);
-  si.framebufferHeight = swap16IfLE(si.framebufferHeight);
-  si.format.redMax = swap16IfLE(si.format.redMax);
-  si.format.greenMax = swap16IfLE(si.format.greenMax);
-  si.format.blueMax = swap16IfLE(si.format.blueMax);
-  si.nameLength = swap32IfLE(si.nameLength);
+  si.framebufferWidth = swap16(si.framebufferWidth);
+  si.framebufferHeight = swap16(si.framebufferHeight);
+  si.format.redMax = swap16(si.format.redMax);
+  si.format.greenMax = swap16(si.format.greenMax);
+  si.format.blueMax = swap16(si.format.blueMax);
+  si.nameLength = swap32(si.nameLength);
 
   desktopName = new char[si.nameLength + 1];
   if (!vncsock.readRFB(desktopName, si.nameLength)) {
@@ -202,7 +199,7 @@ bool VNCRFB::initRFB()
   delete[] desktopName;
   desktopName = NULL;
 
-  trace(DBG_VNC, "initRFB: connected to VNC server, using protocol version %d.%d",
+  trace(DBG_FORCE, "initRFB: connected to VNC server, using protocol version %d.%d",
 	rfbProtocolMajorVersion, rfbProtocolMinorVersion);
   trace(DBG_VNC, "initRFB: VNC server default format:");
   printPixelFormat(&si.format);
@@ -220,9 +217,9 @@ bool VNCRFB::setFormatAndEncodings()
 
   spf.type = rfbSetPixelFormat;
   spf.format = pixFormat;
-  spf.format.redMax = swap16IfLE(spf.format.redMax);
-  spf.format.greenMax = swap16IfLE(spf.format.greenMax);
-  spf.format.blueMax = swap16IfLE(spf.format.blueMax);
+  spf.format.redMax = swap16(spf.format.redMax);
+  spf.format.greenMax = swap16(spf.format.greenMax);
+  spf.format.blueMax = swap16(spf.format.blueMax);
 
   if (!vncsock.writeExact((char *)&spf, sz_rfbSetPixelFormatMsg))
     return false;
@@ -232,15 +229,15 @@ bool VNCRFB::setFormatAndEncodings()
 
   if (vncsock.sameMachine()) {
     trace(DBG_VNC, "same machine: preferring raw encoding");
-    encs[se->nEncodings++] = swap32IfLE(rfbEncodingRaw);
+    encs[se->nEncodings++] = swap32(rfbEncodingRaw);
   }
-  encs[se->nEncodings++] = swap32IfLE(rfbEncodingCopyRect);
-  encs[se->nEncodings++] = swap32IfLE(rfbEncodingHextile);
-  encs[se->nEncodings++] = swap32IfLE(rfbEncodingCoRRE);
-  encs[se->nEncodings++] = swap32IfLE(rfbEncodingRRE);
+  encs[se->nEncodings++] = swap32(rfbEncodingCopyRect);
+  encs[se->nEncodings++] = swap32(rfbEncodingHextile);
+  encs[se->nEncodings++] = swap32(rfbEncodingCoRRE);
+  encs[se->nEncodings++] = swap32(rfbEncodingRRE);
 
   len = sz_rfbSetEncodingsMsg + se->nEncodings * 4;
-  se->nEncodings = swap16IfLE(se->nEncodings);
+  se->nEncodings = swap16(se->nEncodings);
 
   if (!vncsock.writeExact(buf, len))
     return false;
@@ -259,10 +256,10 @@ bool VNCRFB::sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incre
 
   fur.type = rfbFramebufferUpdateRequest;
   fur.incremental = incremental ? 1 : 0;
-  fur.x = swap16IfLE(x);
-  fur.y = swap16IfLE(y);
-  fur.w = swap16IfLE(w);
-  fur.h = swap16IfLE(h);
+  fur.x = swap16(x);
+  fur.y = swap16(y);
+  fur.w = swap16(w);
+  fur.h = swap16(h);
 
   if (!vncsock.writeExact((char *)&fur, sz_rfbFramebufferUpdateRequestMsg))
     return false;
@@ -277,8 +274,8 @@ bool VNCRFB::sendPointerEvent(int x, int y, int buttonMask)
   pe.buttonMask = buttonMask;
   if (x < 0) x = 0;
   if (y < 0) y = 0;
-  pe.x = swap16IfLE(x);
-  pe.y = swap16IfLE(y);
+  pe.x = swap16(x);
+  pe.y = swap16(y);
 
   return vncsock.writeExact((char *)&pe, sz_rfbPointerEventMsg);
 }
@@ -289,7 +286,7 @@ bool VNCRFB::sendKeyEvent(uint32_t key, bool down)
 
   ke.type = rfbKeyEvent;
   ke.down = down ? 1 : 0;
-  ke.key = swap32IfLE(key);
+  ke.key = swap32(key);
 
   return vncsock.writeExact((char *)&ke, sz_rfbKeyEventMsg);
 }
@@ -302,7 +299,7 @@ bool VNCRFB::sendClientCutText(char *str, int len)
   serverCutText = NULL;
 
   cct.type = rfbClientCutText;
-  cct.length = swap32IfLE(len);
+  cct.length = swap32(len);
 
   return  (vncsock.writeExact((char *)&cct, sz_rfbClientCutTextMsg) &&
 	   vncsock.writeExact(str, len));
@@ -315,9 +312,8 @@ bool VNCRFB::sendClientCutText(char *str, int len)
  * sur 3*8 bits = 24 bits
  * A APPELER DANS LE CONSTRUCTEUR (mto)
  */
-void VNCRFB::setVisual32()
+void VNCRFB::setVisual()
 {
-  trace(DBG_VNC, "SetVisual32");
   pixFormat.bitsPerPixel = 32;
   pixFormat.depth = 24;
   pixFormat.trueColour = 1;
