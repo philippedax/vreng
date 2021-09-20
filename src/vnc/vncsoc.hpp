@@ -55,7 +55,7 @@ class VNCSoc {
   VNCSoc(const char *_servername, uint16_t _port);
   ///< constructors
 
-#if 0 //unused
+#if 1 //unused
   void PrintInHex(char *buf, int len);
   ///< Print out the contents of a packet for debugging.
 #endif

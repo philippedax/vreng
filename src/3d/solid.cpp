@@ -1620,6 +1620,7 @@ int Solid::displayList(int display_mode = NORMAL)
        if (texid >= 0) {
          glEnable(GL_TEXTURE_2D);
          glBindTexture(GL_TEXTURE_2D, texid);
+         //glEnable(GL_LIGHTING);
        }
        if (alpha < 1) {		// transparent
          glDepthMask(GL_FALSE);
@@ -1703,6 +1704,7 @@ int Solid::displayList(int display_mode = NORMAL)
    }
    if (texid >= 0) {
      glDisable(GL_TEXTURE_2D);
+     //glDisable(GL_LIGHTING);
    }
    if (alpha < 1) {	// transparent
      glDisable(GL_BLEND);

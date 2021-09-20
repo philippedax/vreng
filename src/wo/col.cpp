@@ -251,7 +251,7 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
           vl = vl->next;
           continue;
         }
-        if (! neighbor->isValid()) {
+        if (! neighbor->num) {
           vl = vl->next;
           continue;
         }

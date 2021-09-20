@@ -505,7 +505,7 @@ bool VNCCli::handleRFBMessage()
 	bytesPerLine = rect.r.w * rfbproto.pixFormat.bitsPerPixel / 8;
 	linestoread = sizeof(rfbbuffer) / bytesPerLine;
 
-        //trace(DBG_FORCE, "rfbEncodingRaw: bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
+        trace(DBG_FORCE, "rfbEncodingRaw: bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
 
 	while (rect.r.h > 0) {
 	  if (linestoread > rect.r.h) {
@@ -521,6 +521,7 @@ bool VNCCli::handleRFBMessage()
           }
 	  rect.r.h -= linestoread;
 	  rect.r.y += linestoread;
+          rfbproto.vncsock.PrintInHex(rfbbuffer, 64);
 	}
 	break;
 

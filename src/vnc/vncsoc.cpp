@@ -246,7 +246,7 @@ int VNCSoc::getSock()
   return rfbsock;
 }
 
-#if 0 //unused
+#if 1 //unused
 /*
  * Print out the contents of a packet for debugging.
  */
