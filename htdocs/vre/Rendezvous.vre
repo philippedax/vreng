@@ -26,19 +26,23 @@
 <wind></wind>
 
 <!-- ground -->
-<ground name="parvis-c" pos="0 6.5 -.25">
-<solid dim="4.0 17 .25" zp="/gif/marble.gif" xp="/gif/marble.gif" xn="/gif/marble.gif" yp="/gif/marble.gif" yn="/gif/marble.gif" />
-</ground>
-<ground name="parvis-e" pos="0 -10.5 -.25"> <solid dim="4.0 9 .25" zp="/gif/marble.gif" /> </ground>
-<ground name="parvis-n" pos="12 0 -.25">  <solid dim="20.0 30 .25" zp="/gif/marble.gif" /> </ground>
-<ground name="parvis-s" pos="-12 0 -.25"> <solid dim="20.0 30 .25" zp="/gif/marble.gif" /> </ground>
 <!--
-<ground name="parvis" pos="0 6.5 -.25">
-<solid dim="4 17 .5"                         zp="/gif/marble.gif" dif="grey" />
-<solid dim="4 7 .5"     rel="0 -5 0 0 0"     zp="/gif/marble.gif" dif="grey" />
-<solid dim="19.9 30 .5" rel="12 -6.5 0 0 0"  zp="/gif/marble.gif" dif="grey" />
-<solid dim="19.9 30 .5" rel="-12 -6.5 0 0 0" zp="/gif/marble.gif" dif="grey" />
+<ground name="parvis-c" pos="0 6.5 -.25 0 0">
+<solid dim="4 17 .25" zp="/gif/marble.gif" xp="/gif/marble.gif" xn="/gif/marble.gif" yp="/gif/marble.gif" yn="/gif/marble.gif" />
 </ground>
+<ground name="parvis-e" pos="0 -10.5 -.25"> <solid dim="4 9 .25" zp="/gif/marble.gif" /> </ground>
+<ground name="parvis-n" pos="12 0 -.25">  <solid dim="20 30 .25" zp="/gif/marble.gif" /> </ground>
+<ground name="parvis-s" pos="-12 0 -.25"> <solid dim="20 30 .25" zp="/gif/marble.gif" /> </ground>
+-->
+<ground name="parvis" pos="0 6.5 -.25">
+<solid dim="4 17 .25"                       zp="/gif/marble.gif" dif="grey" />
+<solid dim="4 7 .25"   rel="0 -5 0 0 0"     zp="/gif/marble.gif" dif="grey" />
+<solid dim="40 30 .25" rel="12 -6.5 0 0 0"  zp="/gif/marble.gif" dif="grey" />
+<solid dim="40 30 .25" rel="-12 -6.5 0 0 0" zp="/gif/marble.gif" dif="grey" />
+</ground>
+<!--
+-->
+<!--
 <ground name="basement" pos="0 0 -6.25"> <solid dim="60 40 .5" zp="/gif/stuc.gif" /> </ground>
 -->
 
@@ -567,7 +571,7 @@ amplitude="1" freq="1" phase="1">
 <mirage name="cristal" pos="4 -3.5 0"> <solid shape="pyramid" s="1" h="1" dif=".5 1 .9" a="1" /> </mirage>
 
 <!-- bird -->
-<bird name="bird1" pos="4 -3.5 1.5" model="bird" scale=".3"> <solid shape="wings" radius="3" dif="grey" /> </bird>
+<bird name="bird1" pos="4 -3.5 1.5" flying="true" model="bird" scale=".3"> <solid shape="wings" radius="3" dif="grey" /> </bird>
 <bird name="bird2" pos="4 -3.2 1.2" model="bird" scale=".4"> <solid shape="wings" radius="2" dif="grey" /> </bird>
 <bird name="bird3" pos="4 -3.8 1.3" model="bird" scale=".3"> <solid shape="wings" radius="2" dif="grey" /> </bird>
 
