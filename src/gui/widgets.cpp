@@ -1637,7 +1637,7 @@ void VncDialog::create(Widgets* gw, Vnc* vnc)
 
 VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
 {
-  vnc_port = "5901";
+  vnc_port = "5900";
   setTitle("VNC Server");
   setMessage(uvbox(uhflex() + uvflex()
                    + uhbox(ulabel(14, UFont::bold + "Server name:")

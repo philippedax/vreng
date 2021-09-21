@@ -36,8 +36,6 @@ gluUnProject(GLdouble winx, GLdouble winy, GLdouble winz,
 
 void gluPerspective(GLfloat fovy, GLfloat ratio, GLfloat near, GLfloat far);
 
-void gluBuild2DMipmaps(GLint components, GLint width, GLint height, GLenum format, const unsigned char *data, int filter);
-
 #endif
 
 #endif
