@@ -250,7 +250,7 @@ void Gui::gotoWorld(const UStr& url_or_name)
   strcpy(chanstr, DEF_VRE_CHANNEL);
   if (strchr(urlorname, '/')) {	// url or path
     strcpy(urlvre, urlorname);
-    if (! Cache::check(urlvre))  return;	// bad url
+    //dax if (! Cache::check(urlvre))  return;	// bad url
     if (! vac->resolveWorldUrl(urlvre, chanstr)) {
       if (strcmp(chanstr, DEF_VRE_CHANNEL))  return;	// url not found
     }
