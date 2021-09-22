@@ -155,7 +155,7 @@ void Vnc::setTexture(bool mipmap)
   glBindTexture(GL_TEXTURE_2D, texture);	// we use ours
 
   // put it into the video memory
-  error("tex: w=%d h=%d %d",tex_width,tex_height,mipmap);
+  //error("tex: w=%d h=%d %d",tex_width,tex_height,mipmap);
   if (mipmap) {
 #if HAVE_GLU
     gluBuild2DMipmaps(GL_TEXTURE_2D, 3, tex_width, tex_height,
@@ -222,13 +222,13 @@ void Vnc::render()
   GLint renderMode;
   glGetIntegerv(GL_RENDER_MODE, &renderMode);
 
-  updatePosition();
+  //updatePosition();
 
   glPushMatrix();
   glEnable(GL_CULL_FACE);
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture);
-  glDisable(GL_LIGHTING);
+  //glDisable(GL_LIGHTING);
 
   M4 posmat;
   getPosition(posmat);
@@ -246,7 +246,7 @@ void Vnc::render()
     glGetDoublev(GL_PROJECTION_MATRIX, projmat);
   }
 
-  glEnable(GL_LIGHTING);
+  //glEnable(GL_LIGHTING);
   glDisable(GL_CULL_FACE);
   glDisable(GL_TEXTURE_2D);
   glPopMatrix();
@@ -325,11 +325,9 @@ void Vnc::connectServer()
 
   // texture initialization from the framebuffer
   tex_pixmap = (GLubyte *) vncClient->framebuffer;
-  //dax tex_width = vncClient->fbWidth;
-  //dax tex_height = vncClient->fbHeight;
-  tex_width = vncClient->realScreenWidth;
-  tex_height = vncClient->realScreenHeight;
-  error("tex: w=%d h=%d",tex_width,tex_height);
+  tex_width = vncClient->fbWidth;
+  tex_height = vncClient->fbHeight;
+  //error("tex: w=%d h=%d",tex_width,tex_height);
 
   setTexture(0);	// without mipmaps
 

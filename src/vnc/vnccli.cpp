@@ -68,14 +68,14 @@ bool VNCCli::initVNC()
 
     rfbproto.setVisual();
 
-    if (!rfbproto.setFormatAndEncodings()) {
+    if (! rfbproto.setFormatAndEncodings()) {
       error("initVNC: unable to set default PixelFormat");
       closeVNC();
       return false;
     }
     fbWidth = rfbproto.si.framebufferWidth;
     fbHeight = rfbproto.si.framebufferHeight;
-    error("initVNC: fbWidth=%d fbHeight=%d", fbWidth,fbHeight);
+    //error("initVNC: fbWidth=%d fbHeight=%d", fbWidth,fbHeight);
     framebuffer = new VNCrgb[fbWidth * fbHeight];
     if (! framebuffer) {
       error("initVNC: unable to allocate memory for framebuffer");
@@ -104,14 +104,14 @@ bool VNCCliTextured::initVNC()
     }
     realScreenWidth = rfbproto.si.framebufferWidth;
     realScreenHeight = rfbproto.si.framebufferHeight;
-    trace(DBG_FORCE, "initVNC: realscreen w=%d h=%d", realScreenWidth, realScreenHeight);
+    trace(DBG_VNC, "initVNC: realscreen w=%d h=%d", realScreenWidth, realScreenHeight);
 
     uint16_t powerof2;
     for (powerof2 = 1; powerof2 < realScreenWidth; powerof2 *= 2) ;
     fbWidth = powerof2;
     for (powerof2 = 1; powerof2 < realScreenHeight; powerof2 *= 2) ;
     fbHeight = powerof2;
-    trace(DBG_FORCE, "initVNC: fbw=%d fbh=%d", fbWidth, fbHeight);
+    trace(DBG_VNC, "initVNC: fbw=%d fbh=%d", fbWidth, fbHeight);
 
     framebuffer = new VNCrgb[fbWidth * fbHeight];
 
@@ -216,7 +216,7 @@ bool VNCCli::handleRAW32(int rx, int ry, int rw, int rh)
 {
   uint32_t *rfb = (uint32_t *) rfbbuffer;
   VNCrgb *fb = (framebuffer + ry * fbWidth + rx);
-  error("handleRAW: %dx%d", rw,rh);
+  //error("handleRAW: %dx%d", rw,rh);
 
   for (int h = 0; h < rh; h++) {
     for (int w = 0; w < rw; w++) {
@@ -505,7 +505,7 @@ bool VNCCli::handleRFBMessage()
 	bytesPerLine = rect.r.w * rfbproto.pixFormat.bitsPerPixel / 8;
 	linestoread = sizeof(rfbbuffer) / bytesPerLine;
 
-        trace(DBG_FORCE, "rfbEncodingRaw: bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
+        trace(DBG_VNC, "rfbEncodingRaw: bytesPerLine=%d linestoread=%d", bytesPerLine, linestoread);
 
 	while (rect.r.h > 0) {
 	  if (linestoread > rect.r.h) {
@@ -515,13 +515,13 @@ bool VNCCli::handleRFBMessage()
 	    return false;
           }
 
-          trace(DBG_FORCE, "rfbEncodingRaw: (%d,%d) w=%d h=%d", rect.r.x, rect.r.y, rect.r.w, rect.r.h);
+          trace(DBG_VNC, "rfbEncodingRaw: (%d,%d) w=%d h=%d", rect.r.x, rect.r.y, rect.r.w, rect.r.h);
           if (! handleRAW32(rect.r.x, rect.r.y, rect.r.w, rect.r.h)) {
 	    return false;
           }
 	  rect.r.h -= linestoread;
 	  rect.r.y += linestoread;
-          rfbproto.vncsock.PrintInHex(rfbbuffer, 64);
+          //rfbproto.vncsock.PrintInHex(rfbbuffer, 64);
 	}
 	break;
 
