@@ -246,7 +246,6 @@ int VNCSoc::getSock()
   return rfbsock;
 }
 
-#if 1 //unused
 /*
  * Print out the contents of a packet for debugging.
  */
@@ -256,8 +255,6 @@ void VNCSoc::PrintInHex(char *buf, int len)
   char c, str[17];
 
   str[16] = 0;
-
-  trace(DBG_VNC, "readExact: ");
 
   for (i = 0; i < len; i++) {
     if ((i % 16 == 0) && (i != 0))
@@ -280,4 +277,3 @@ void VNCSoc::PrintInHex(char *buf, int len)
   }
   fflush(stderr);
 }
-#endif //unused

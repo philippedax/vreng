@@ -222,13 +222,13 @@ void Vnc::render()
   GLint renderMode;
   glGetIntegerv(GL_RENDER_MODE, &renderMode);
 
-  //updatePosition();
+  updatePosition();
 
   glPushMatrix();
   glEnable(GL_CULL_FACE);
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture);
-  //glDisable(GL_LIGHTING);
+  glDisable(GL_LIGHTING);
 
   M4 posmat;
   getPosition(posmat);
@@ -246,7 +246,7 @@ void Vnc::render()
     glGetDoublev(GL_PROJECTION_MATRIX, projmat);
   }
 
-  //glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHTING);
   glDisable(GL_CULL_FACE);
   glDisable(GL_TEXTURE_2D);
   glPopMatrix();
@@ -403,7 +403,7 @@ bool Vnc::mouseEvent(int16_t x, int16_t y, uint8_t button)
   return true;
 }
 
-bool Vnc::keyEvent(const char *key, bool is_down)
+bool Vnc::keyEvent(const char *key, bool is_pressed)
 {
   if (! connected) return false;
 
@@ -411,7 +411,8 @@ bool Vnc::keyEvent(const char *key, bool is_down)
   const char *params[card];
   char *pk = strdup(key);
 
-  params[0] = (is_down) ? "keydown" : "keyup";
+  //error("ke: %2x", *pk);
+  params[0] = (is_pressed) ? "keydown" : "keyup";
   params[1] = pk;
 
   vncClient->sendRFBEvent((char **) params, (uint32_t *) &card); // send to VNC

@@ -185,6 +185,7 @@ void Navig::keyPressCB(UKeyEvent& e)
     char kstr[2];
     kstr[0] = e.getKeyChar();
     kstr[1] = 0;
+    //error("kp: %2x",kstr[0]);
     gw.gui.vnc->keyEvent(kstr, true);
   }
   else {  // normal behaviour
@@ -207,6 +208,7 @@ void Navig::keyReleaseCB(UKeyEvent& e)
     char kstr[2];
     kstr[0] = e.getKeyChar();
     kstr[1] = 0;
+    //error("kr: %2x",kstr[0]);
     gw.gui.vnc->keyEvent(kstr, false);
   }
   else {		// normal behaviour
