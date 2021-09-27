@@ -366,7 +366,6 @@ void World::compute(time_t sec, time_t usec)
     // computes world's bb
     //
     for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-      if (! (*it)->isValid()) continue;
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
@@ -374,7 +373,6 @@ void World::compute(time_t sec, time_t usec)
       }
     }
     for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-      if (! (*it)->isValid()) continue;
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == USER_TYPE) continue;
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
@@ -418,7 +416,7 @@ void World::compute(time_t sec, time_t usec)
     //
     // user movement
     //
-    if (localuser && localuser->isValid()) {
+    if (localuser) {
       localuser->userMovement(sec, usec);	// localuser movement
     }
 
@@ -426,17 +424,6 @@ void World::compute(time_t sec, time_t usec)
     // objects with imposed or permanent movements
     //
     for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-      if (! (*it)->isValid()) {
-        error("bad type=0");
-        mobileList.remove(*it);
-        continue;
-      }
-      if ((*it)->type > OBJECTSNUMBER) {
-        error("bad type out of range: t=%d", (*it)->type);
-        mobileList.remove(*it);
-        continue;
-      }
-
       (*it)->imposedMovement(sec, usec);	// object with imposed movement
       (*it)->permanentMovement(sec, usec);	// object with permanent movement
     }
@@ -491,7 +478,7 @@ World * World::goPrev()
   if (! worldback) return NULL;	// no prev world
 
   World *world = worldList;
-  world->quit();	// quit current world first
+  world->quit();		// quit current world first
 
   World *wp;
   for (wp = worldback; wp->next ; wp = wp->next) {
@@ -636,8 +623,7 @@ void World::checkIcons()
         if (diri) {
           // find icons in this world
           for (struct dirent *di = readdir(diri); di; di = readdir(diri)) {
-            if (stat(di->d_name, &bufstat) == 0 &&
-                S_ISREG(bufstat.st_mode)) {
+            if (stat(di->d_name, &bufstat) == 0 && S_ISREG(bufstat.st_mode)) {
 
               // open the icon and read it
               FILE *fp;
@@ -844,11 +830,6 @@ void World::quit()
   trace(DBG_WO, "quit %s", getName());
   state = STOPPED;
 
-  Parse *parser = Parse::getParse();
-  if (parser) delete parser;
-
-  //dax3 current()->freeGrid();
-
   /*
    * Quits and deletes objects
    */
@@ -1010,7 +991,6 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // check whether icons are locally presents
   world->checkIcons();
-
   // check whether other objects are persistents by VRSql
   world->checkPersist();
 
@@ -1038,7 +1018,6 @@ void World::deleteObjects()
       if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") {	// Hack!
         delete(*it);	//segfault FIXME!
       }
-      //dax deleteList.erase(it);
     }
   }
   deleteList.clear();
