@@ -127,17 +127,14 @@ void Light::lights()
 {
   //printf("\n*** light:");
   for (list<WObject*>::iterator il = lightList.begin(); il != lightList.end() ; ++il) {
-    if (*il && (*il)->isValid()) {
-      (*il)->lighting();
-      //printf(" %s", (*il)->typeName());
-    }
+    (*il)->lighting();
+    //printf(" %s", (*il)->typeName());
   }
   //printf("\n");
 }
 
 void Light::lighting()
 {
-  //printf("\n*** lighting\n");
   if (islight) {
     glPushAttrib(GL_LIGHTING_BIT);
     if (light_mode == POS) {
@@ -152,7 +149,6 @@ void Light::lighting()
     glPopAttrib();
   }
   if (fog) glEnable(GL_FOG);
-  //printf("\n");
 }
 
 void Light::quit()
