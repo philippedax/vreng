@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -33,7 +33,7 @@
 
 #include "vreng.hpp"
 #include "navig.hpp"
-#include "widgets.hpp"
+#include "widgets.hpp"	// gw
 #include "scene.hpp"	// scene.add
 #include "motion.hpp"	// Motion
 #include "message.hpp"	// message
@@ -42,7 +42,6 @@
 #include "vnc.hpp"	// Vnc
 #include "carrier.hpp"	// Carrier
 #include "board.hpp"	// Board
-#include "sound.hpp"	// playSound
 
 
 // local
@@ -132,9 +131,7 @@ void Navig::mouseReleaseCB(UMouseEvent& e)
 {
   stopMotion(); // sanity
   
-  opened_menu = null;
-  
-  if (gw.gui.vnc) {	// events are redirected to Vnc
+  if (gw.gui.vnc) {		// events are redirected to Vnc
     gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0);
   }
   else if (gw.gui.selected_object) {
@@ -143,12 +140,13 @@ void Navig::mouseReleaseCB(UMouseEvent& e)
   if (localuser) {
     localuser->resetRay();	//stop showing direction
   }
+  opened_menu = null;
 }
 
 // the mouse is dragged on the canvas
 void Navig::mouseDragCB(UMouseEvent& e)
 {
-  if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
+  if (gw.gui.selected_object) {
     gw.gui.selected_object->resetFlashy();	// stop flashing edges
     gw.gui.selected_object->resetRay();
   }
@@ -162,17 +160,15 @@ void Navig::mouseDragCB(UMouseEvent& e)
 // the mouse is moved on the canvas
 void Navig::mouseMoveCB(UMouseEvent& e)
 {
-  float x = e.getX(), y = e.getY();
-  
   if (gw.gui.vnc) {		// events are redirected to Vnc
-    gw.gui.vnc->mouseEvent((int) x, (int) y, 0);
+    gw.gui.vnc->mouseEvent((int) e.getX(), (int) e.getY(), 0);
   }
   else if (followMouse) {
     // mode followMouse continuously indicates object under pointer
-    WObject *object = gw.pointedObject((int) x, (int) y, objinfo, depthsel);
+    WObject *object = gw.pointedObject((int) e.getX(), (int) e.getY(), objinfo, depthsel);
     selectObject(object ? objinfo : null);
   }
-  else if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
+  else if (gw.gui.selected_object) {
     gw.gui.selected_object->resetFlashy();	// stop flashing edges
     gw.gui.selected_object->resetRay();
   }
@@ -185,10 +181,9 @@ void Navig::keyPressCB(UKeyEvent& e)
     char kstr[2];
     kstr[0] = e.getKeyChar();
     kstr[1] = 0;
-    //error("kp: %2x",kstr[0]);
     gw.gui.vnc->keyEvent(kstr, true);
   }
-  else {  // normal behaviour
+  else {		// normal behaviour
     if (! localuser)  return;
     struct timeval t;
     gettimeofday(&t, NULL);
@@ -208,7 +203,6 @@ void Navig::keyReleaseCB(UKeyEvent& e)
     char kstr[2];
     kstr[0] = e.getKeyChar();
     kstr[1] = 0;
-    //error("kr: %2x",kstr[0]);
     gw.gui.vnc->keyEvent(kstr, false);
   }
   else {		// normal behaviour
@@ -223,7 +217,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
 
   // desactivate previous object
   WObject* prev_object = gw.gui.getSelectedObject();
-  if (prev_object && prev_object->isValid()) {
+  if (prev_object) {
     prev_object->resetFlashy();
     prev_object->resetRay();
   }
@@ -232,7 +226,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
   depthsel = 0;
   WObject* object = gw.pointedObject(x, y, objinfo, depthsel);
 
-  if (object && object->isValid()) {
+  if (object) {
     gw.gui.selected_object = object;
     trace(DBG_GUI, "clic [%d %d] on %s", x, y, object->getInstance());
   
@@ -272,7 +266,7 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y)
 {
   depthsel++;
   WObject* object = gw.pointedObject(x, y, objinfo, depthsel);
-  if (object && object->isValid()) {
+  if (object) {
     gw.gui.selected_object = object;
     object->resetFlashy();
     object->setFlashy();	// flashes edges of the solid
