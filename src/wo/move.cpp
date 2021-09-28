@@ -507,10 +507,8 @@ void WObject::moveUserToObject(float sgn, float lttl, float attl)
 
   int sign = (sgn >= 0) ? 1 : -1;
   float d = sign * MAX(pos.bbs.v[0], pos.bbs.v[1]) * RATIO_GOTO;
-  //float dx = pos.x - (d * sin(pos.az)) - localuser->pos.x;
-  //float dy = pos.y + (d * cos(pos.az)) - localuser->pos.y;
-  float dx = pos.x - localuser->pos.x;
-  float dy = pos.y - localuser->pos.y;
+  float dx = pos.x - (d * sin(pos.az)) - localuser->pos.x;
+  float dy = pos.y + (d * cos(pos.az)) - localuser->pos.y;
   float dz = ABSF(pos.z - localuser->pos.z);
   float da = (deltaAngle(pos.az - 0, localuser->pos.az + M_PI_2));
   da = MIN(da, M_PI);
@@ -534,7 +532,7 @@ void WObject::moveUserToObject(float sgn, float lttl, float attl)
   localuser->move.next->lspeed.v[2] = dz / lttl;
   localuser->move.next->nocol = true;
   localuser->move.next->next = NULL;
-  //localuser->initImposedMovement(lttl);	// init translation
+  //dax localuser->initImposedMovement(lttl);	// init translation
   clearV3(localuser->move.aspeed);
 }
 
