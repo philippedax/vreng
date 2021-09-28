@@ -29,7 +29,7 @@
 #include "human.hpp"	// Human
 
 #define MIN_MOVES	20	// orig: 20
-#define RATIO_GOTO	6	// orig: 4
+#define RATIO_GOTO	4	// orig: 4
 
 
 /**
@@ -521,10 +521,10 @@ void WObject::moveUserToObject(float sgn, float lttl, float attl)
   clearV3(localuser->move.lspeed);
   clearV3(localuser->move.aspeed);
   localuser->move.aspeed.v[0] = da / attl;
-  localuser->initImposedMovement(attl);	// init orientation
+  localuser->initImposedMovement(attl);	// start movement
   localuser->move.nocol = true;
 
-  // second movement: user translates towards the object
+  // second movement: user translation towards the object
   localuser->move.next = new Move[1];
   localuser->move.next->ttl = lttl;
   localuser->move.next->lspeed.v[0] = dx / lttl;
@@ -532,7 +532,7 @@ void WObject::moveUserToObject(float sgn, float lttl, float attl)
   localuser->move.next->lspeed.v[2] = dz / lttl;
   localuser->move.next->nocol = true;
   localuser->move.next->next = NULL;
-  //dax localuser->initImposedMovement(lttl);	// init translation
+  //dax localuser->initImposedMovement(lttl);	// already done
   clearV3(localuser->move.aspeed);
 }
 
