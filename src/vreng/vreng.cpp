@@ -19,7 +19,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 
-//#include <ubit/ubit.hpp>
 #include "vreng.hpp"
 #include "gui.hpp"	// new Gui
 #include "env.hpp"	// new Env
@@ -42,7 +41,6 @@
 #include <setjmp.h>	// jmp_buf
 #include <sys/resource.h>	// rlimit
 
-//using namespace ubit;
 
 // global variable that refers to the various modules
 Global g;
@@ -114,8 +112,7 @@ void Global::quitVreng(int sig)
   static int inquit = 0;
 
   if (sig > 0) {
-    cerr << "Got signal " << sig <<
-    ", aborting VREng (pid=" << getpid() << " ppid=" << getppid() << ")" << endl;
+    cerr << "Got signal " << sig << ", aborting VREng (pid=" << getpid() << ")" << endl;
     signal(sig, SIG_DFL);
     longjmp(sigctx, sig);
   }
@@ -132,7 +129,6 @@ void Global::quitVreng(int sig)
   // close modules properly
   ::g.render.quit();
   World::current()->quit();
-
   // quit the application (and close the main window)
   UAppli::quit(sig);
 }
@@ -165,7 +161,6 @@ void Global::initSignals()
   signal(SIGUSR1, SIG_IGN);
   signal(SIGUSR2, SIG_IGN);
   trace(DBG_INIT, "Signals initialized");
-  //dax longjmp(sigctx, 0);
 }
 
 // increases resource limits
@@ -174,7 +169,6 @@ void Global::initLimits()
 #if HAVE_SETRLIMIT
   struct rlimit rl;
   getrlimit(RLIMIT_NOFILE, &rl);
-  //printf("default nofile: %d/%d\n", rl.rlim_cur, rl.rlim_max);
   rl.rlim_cur = 4096;
   setrlimit(RLIMIT_NOFILE, &rl);
   //printf("new nofile: %d/%d\n", rl.rlim_cur, rl.rlim_max);
