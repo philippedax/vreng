@@ -27,16 +27,16 @@
  *  http://vreng.enst.fr/  http://www.enst.fr/~elc/ubit
  */
 #ifndef WIDGETS_HPP
-#define WIDGETS_HPP  1
+#define WIDGETS_HPP
 
-#include <vector>
-#include <ubit/ubit.hpp>
+#include "ubit/ubit.hpp"
 #include "gui.hpp"
+
 using namespace ubit;
 
 #if (UBIT_VERSION_MAJOR < 6 || !defined(UBIT_WITH_GL))
-#   error "Vreng requires Ubit Version 6 compiled in OpenGL mode"
-# endif
+#  error "Vreng requires Ubit Version 6 compiled in OpenGL mode"
+#endif
 
 class Gui;
 class Widgets;
@@ -177,7 +177,7 @@ private:
   void nextCB();
   void homeCB();
   void saveCB();
-  void helpCB();
+  void siteCB();
   void prefCB(int tool);
   void audioCB(bool on);
   void videoCB(bool on);
@@ -189,14 +189,14 @@ private:
 };
 
 //---------------------------------------------------------------------------
-#include <ubit/ustr.hpp>
+#include "ubit/ustr.hpp"
 
 /**
  * VncDialog class
  */
 class VncDialog : public UOptionDialog {
 public:
-  static void create(Widgets*, class Vnc*);
+  static void vncDialog(Widgets*, class Vnc*);
  
 private:
   static VncDialog* vnc_dialog;
@@ -208,7 +208,7 @@ private:
   
   VncDialog(class Widgets*, class Vnc*);
 
-  virtual void convert();
+  virtual void vncConvert();
 };
 
 #endif

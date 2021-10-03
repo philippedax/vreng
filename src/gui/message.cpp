@@ -47,6 +47,7 @@
 #endif
 #include <iostream>
 
+
 /* ==================================================== ======== ======= */
 // MESSAGES and REQUESTS
 
@@ -159,7 +160,7 @@ void Message::performRequest(WObject* object)
 void Message::initClicked()
 {
   nclicks = 0;
-  for (uint32_t i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
+  for (int i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
     clicked[i] = MAXFLOAT;
   }
 }
@@ -167,7 +168,7 @@ void Message::initClicked()
 void Message::getClicked(int *_nclicks, float _clicked[])
 {
   *_nclicks = nclicks;
-  for (uint32_t i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
+  for (int i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
     _clicked[i] = clicked[i];
   }
 }
@@ -251,20 +252,18 @@ void Message::convertTextToLink(const std::string& text, char **listeObjets, int
 void Message::postRequest(const std::string& mess, std::string& result)
 {
   int sizeMax = 256;
-  int sizerecu = mess.length();
   float posx, posy, posz, posaz; //coordonnees trouvees
   int afficher = 0;
   int nbObj = 0;
+  int sizerecu = mess.length();
   char posbuf[sizerecu +1];
   char namebuf[sizerecu +1];
   char tmpbuf[sizerecu +1];
   char **listeObjets = new char*[sizeMax];
 
-  posbuf[0] = '\0';
-  namebuf[0] = '\0';
-  tmpbuf[0] = '\0';
+  posbuf[0] = namebuf[0] = tmpbuf[0] = '\0';
 
-  for (int i=0; i<sizerecu ; i++) {
+  for (int i=0; i < sizerecu ; i++) {
     if (mess[i] == '@') {
       if (nbObj > (sizeMax-2)) {
         cerr << "message has too many request" <<endl;
@@ -323,7 +322,7 @@ void Message::postRequest(const std::string& mess, std::string& result)
 
 void Message::writeMessage(const char* mode, const char* from, const char* msg)
 {
-  if (!msg) return;
+  if (! msg)  return;
 
   uptr<UStr> text = null;
   uptr<UStr> prefix = null;

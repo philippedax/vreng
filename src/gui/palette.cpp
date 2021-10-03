@@ -38,11 +38,11 @@
 
 
 Palette::Palette(UArgs a) :
-ppos(new UPos),
-ptitle(new ULabel(" ")),
-piconify(new UBox),
-ptitlebox(new UBox),
-pcontent(new UBox(a))
+ ppos(new UPos),
+ ptitle(new ULabel(" ")),
+ piconify(new UBox),
+ ptitlebox(new UBox),
+ pcontent(new UBox(a))
 {
   piconify->addAttr(UColor::red + UFont::bold + ucall(this, &Palette::titleCB));
   if (::g.pref.expand == true) {

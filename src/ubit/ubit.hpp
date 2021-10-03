@@ -43,6 +43,7 @@
 #include <ubit/usymbol.hpp>
 #include <ubit/uima.hpp>
 #include <ubit/upix.hpp>
+#include <ubit/uxpm.hpp>
 
 #include <ubit/uelem.hpp>
 #include <ubit/ubox.hpp>

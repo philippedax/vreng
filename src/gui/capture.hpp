@@ -25,8 +25,9 @@
  *
  *  WWW: http://www.enst.fr/~elc  http://vreng.enst.fr/
  */
-#ifndef CAPTURE_HPp
-#define CAPTURE_HPP  1
+#ifndef CAPTURE_HPP
+#define CAPTURE_HPP
+
 
 class Capture {
 public:

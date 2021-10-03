@@ -59,16 +59,8 @@ Navig::Navig(Widgets* _gw, Scene& scene) :
  opened_menu(null) 
 {  
   object_infos.addAttr(UBackground::green + UColor::white);
-  object_infos.add(  uelem(UFont::bold
-                           + " "
-                           + object_class
-                           + " "
-                          ) 
-                   + uelem(UFont::bold
-                           + UFont::italic
-                           + object_name
-                           + " "
-                          )
+  object_infos.add(  uelem(UFont::bold + " "           + object_class + " ") 
+                   + uelem(UFont::bold + UFont::italic + object_name + " ")
                   );
   object_menu.addAttr(ualpha(0.5) + UBackground::black);
   object_menu.add(object_infos);
@@ -286,7 +278,7 @@ void Navig::selectObject(ObjInfo* objinfo)
   gw.infos.removeAll();
   object_menu.removeAll();
   
-  if (!objinfo)  return;
+  if (! objinfo)  return;
 
   // add object class and name to the infos box and the contextual menu
   object_class = objinfo[0].name;
@@ -508,11 +500,4 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
 
 void Navig::mouseRefCB(UMouseEvent& e)
 { 
-#if 0 //dax btn not declared
-  int bid = e.getButton();
-  if      (bid == UMouseEvent::LeftButton)  btn = 1;
-  else if (bid == UMouseEvent::MidButton)   btn = 2;
-  else if (bid == UMouseEvent::RightButton) btn = 3;
-  else btn = 0;
-#endif
 }

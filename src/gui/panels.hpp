@@ -21,6 +21,7 @@
 #ifndef PANELS_HPP
 #define PANELS_HPP
 
+
 /**
  * Panels class
  */

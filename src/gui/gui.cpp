@@ -42,7 +42,6 @@
 #include "vnc.hpp"      // Vnc
 #include "cart.hpp"     // Cart
 #include "pref.hpp"	// width3D
-#include "cache.hpp"	// check
 #include "audio.hpp"	// start
 #include "event.hpp"	// netIncoming
 #include "channel.hpp"	// Channel
@@ -84,19 +83,6 @@ int Gui::getCycles()
 void Gui::writeMessage(const char *mode, const char *from, const char *mess)
 {
   if (widgets) widgets->message.writeMessage(mode, from, mess);
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Ocaml
-//
-void Gui::initClicked()
-{
-  if (widgets) widgets->message.initClicked();
-}
-
-void Gui::getClicked(int *click, float clicked[])
-{
-  if (widgets) widgets->message.getClicked(click, clicked);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -204,7 +190,7 @@ void Gui::updateCart(WObject* po)
 //
 GuiItem * Gui::addUser(User *user) 	// when a new user comes in
 {
-  if (!user) return NULL;
+  if (! user)  return NULL;
 
   notice("Avatar %s joins %s", NN(user->getInstance()), NN(user->worldName()));
   return widgets->addUser(user);
@@ -212,7 +198,7 @@ GuiItem * Gui::addUser(User *user) 	// when a new user comes in
 
 void Gui::removeUser(User *user)	// when an user quits
 {
-  if (!user) return;
+  if (! user)  return;
 
   notice("Avatar %s leaves %s", NN(user->getInstance()), NN(user->worldName()));
   if (user->isGui()) {
@@ -225,7 +211,7 @@ void Gui::removeUser(User *user)	// when an user quits
 
 void Gui::updateUser(User *user)
 {
-  if (!user) return;
+  if (! user)  return;
 
   notice("Avatar %s is in %s", NN(user->getInstance()), NN(user->worldName()));
   if (user->isGui()) widgets->updateUser(user->getGui(), user);
@@ -250,7 +236,6 @@ void Gui::gotoWorld(const UStr& url_or_name)
   strcpy(chanstr, DEF_VRE_CHANNEL);
   if (strchr(urlorname, '/')) {	// url or path
     strcpy(urlvre, urlorname);
-    //dax if (! Cache::check(urlvre))  return;	// bad url
     if (! vac->resolveWorldUrl(urlvre, chanstr)) {
       if (strcmp(chanstr, DEF_VRE_CHANNEL))  return;	// url not found
     }
@@ -290,19 +275,19 @@ void Gui::updateWorld(World *world, bool isCurrent)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Handling VNC
+
+// Handling Vnc
 //
 void Gui::setToVnc(Vnc* _vnc)
 {
   vnc = _vnc;
 }
 
-void Gui::launchVncConnect(Vnc* _vnc)
+void Gui::launchVnc(Vnc* _vnc)
 {
-  VncDialog::create(widgets, _vnc);
+  VncDialog::vncDialog(widgets, _vnc);
 }
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling Vrelet
 //
 void Gui::setToVrelet(Vrelet* _vrelet)
@@ -310,16 +295,33 @@ void Gui::setToVrelet(Vrelet* _vrelet)
   vrelet = _vrelet;
 }
 
+// Handling Board
+//
 void Gui::setToBoard(Board* _board)
 {
   board = _board;
 }
 
+// Handling Carrier
+//
 void Gui::setToCarrier(Carrier* _carrier)
 {
   carrier = _carrier;
-  Motion* motion = Motion::pointer();
+  Motion* motion = Motion::current();
   motion->setToCarrier(carrier);
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Ocaml
+//
+void Gui::initClicked()
+{
+  if (widgets) widgets->message.initClicked();
+}
+
+void Gui::getClicked(int *click, float clicked[])
+{
+  if (widgets) widgets->message.getClicked(click, clicked);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

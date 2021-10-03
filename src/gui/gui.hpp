@@ -26,41 +26,43 @@
  *  WWW: http://www.enst.fr/~elc  http://vreng.enst.fr/
  */
 #ifndef GUI_HPP
-#define GUI_HPP 1
+#define GUI_HPP
 
 #include "config.h"
+#include "ubit/ubit.hpp"
 #include <vector>
-#include <ubit/ubit.hpp>
+
 using namespace ubit;
+
 
 struct GuiItem;
 
 /**
- * Gui Class
+ * Gui class
  */
 class Gui {
 public:
   Gui();
-  
+ 
   void createWidgets();
   void showWidgets(bool = true);
-  
+ 
   class Scene* scene();
   ///< returns a pointer to the scene.
-  
+ 
   int getCycles();
   ///< returns the current number of frames.
 
   void gotoWorld(const UStr& url_or_name); 
   ///< go to this world.
-  
+ 
   void showNavigator();
   void showManipulator();
   void clearInfoBar(class WObject*);
-  
+ 
   void writeMessage(const char *mode, const char *from, const char *mess);
   ///< writes a message.
-  
+ 
   // Channel
   void addChannelSources(int canal, int table[], int table_size);
   void removeChannelSources(int canal);
@@ -81,14 +83,14 @@ public:
   void showCartDialog(bool flag);
   GuiItem* addCart(class WObject *po);
   void removeCart(class WObject *po, int target);
-  void updateCart(class WObject*);  ///< Updates the infoBar when a cart item is selected.
+  void updateCart(class WObject*);	///< Updates the infoBar when a cart item is selected.
   
   // Vnc, Vrelet, Carrier, Board
-  void launchVncConnect(class Vnc*);  ///< Lauches vnc dialog.
-  void setToVnc(class Vnc*);          ///< Redirects events to vnc object.
-  void setToVrelet(class Vrelet*);    ///< Redirects events to vrelet object.
-  void setToCarrier(class Carrier*);  ///< Redirects events to carrier object.
-  void setToBoard(class Board*);      ///< Redirects events to board object.
+  void launchVnc(class Vnc*);		///< Lauches vnc dialog.
+  void setToVnc(class Vnc*);		///< Redirects events to vnc object.
+  void setToVrelet(class Vrelet*);	///< Redirects events to vrelet object.
+  void setToCarrier(class Carrier*);	///< Redirects events to carrier object.
+  void setToBoard(class Board*);	///< Redirects events to board object.
   
   // Ocaml
   void initClicked();
@@ -105,7 +107,7 @@ private:
   std::vector<ChannelSources*> channel_sources;	///< table of network events
 
   class Widgets* widgets;		///< the widgets of the GUI
-  class WObject* selected_object;	///< the solid that is currently selected
+  class WObject* selected_object;	///< the object that is currently selected
   class Vnc* vnc;			///< vnc pointer
   class Carrier* carrier;		///< carrier pointer
   class Vrelet* vrelet;			///< vrelet pointer

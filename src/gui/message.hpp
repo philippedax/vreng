@@ -19,13 +19,20 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #ifndef MESSAGE_HPP
-#define MESSAGE_HPP 1
+#define MESSAGE_HPP
 
-#include <ubit/ubit.hpp>
+#include "ubit/ubit.hpp"
+#include <string>
+#include <vector>
+
 using namespace ubit;
+
 
 class WObject;
 
+/**
+ * Message class
+ */
 class Message {
 public:
   Message(class Widgets*);
@@ -58,7 +65,6 @@ protected:
   int nclicks;		///< Ocaml
 };
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 /**
  * Message2 class
  */

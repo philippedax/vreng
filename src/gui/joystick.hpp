@@ -21,12 +21,11 @@
 #ifndef JOYSTICK_HPP
 #define JOYSTICK_HPP
 
-#include <ubit/ubit.hpp>
 
 class Widgets;
- 
 
-/** GUI Joystick.
+/**
+ * Joystick classes
  */
 class Joystick1 : public UBox {
 public:

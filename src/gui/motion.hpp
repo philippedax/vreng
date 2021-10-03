@@ -27,19 +27,18 @@
  * Process movements
  */
 class Motion {
-
  private:
   static const bool PRESSED = true;	///< key pressed
   static const bool RELEASED = false;	///< key released
-  static const float LINEAR_ACCEL;
-  static const float ANGULAR_ACCEL;
+  static const float LINEAR_ACCEL;	///< linear acceleraton
+  static const float ANGULAR_ACCEL;	///< angular acceleraton
 
   int minuskey, pluskey, fun;
   float accel;			///< accelerator
 
  public:
-  static Motion xtrans, ytrans, ztrans, zrot;	///< user
-  static Motion trans_forw, trans_back, trans_left, trans_right, trans_down, trans_up, zrot_left, zrot_right, xrot_left, xrot_right, yrot_down, yrot_up; ///< object
+  static Motion xtrans, ytrans, ztrans, zrot;		///< user movement
+  static Motion trans_forw, trans_back, trans_left, trans_right, trans_down, trans_up, zrot_left, zrot_right, xrot_left, xrot_right, yrot_down, yrot_up;	///< object movement
 
   class Carrier *carrier;	///< Object carrier
 
@@ -55,7 +54,7 @@ class Motion {
   virtual void stop();
   /**< Stops motion == move(0) */
 
-  static Motion * pointer();
+  static Motion * current();
   /**< Returns current instance */
 
   void setToCarrier(class Carrier *_carrier);

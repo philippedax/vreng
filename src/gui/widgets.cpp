@@ -1,7 +1,7 @@
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
 //
-// Copyright (C) 1997-2011 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -29,7 +29,6 @@
  *  (C) 2002/2009 Eric Lecolinet - ENST Paris
  *  WWW: http://www.enst.fr/~elc/ubit
  */
-
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "scene.hpp"	// new Scene
@@ -38,31 +37,28 @@
 #include "panels.hpp"	// Panels
 #include "message.hpp"	// Message
 #include "theme.hpp"	// Theme
-#include "user.hpp"	// UserAction
+#include "user.hpp"	// UserAction localuser
 #include "move.hpp"	// changeKey
 #include "vnc.hpp"	// Vnc
-#include "capture.hpp"	// Capture
-#if (UBIT_VERSION_MAJOR < 6 || UBIT_VERSION_MAJOR >= 6 && UBIT_WITH_X11) //UBIT6
-#include <X11/keysym.h>	// XK_*
-#endif
 #include "pref.hpp"	// width3Dm height3D
 #include "env.hpp"	// menu
+#include "http.hpp"	// httpOpen
+#include "file.hpp"	// openFile
+#include "cache.hpp"	// openCache
 #include "universe.hpp" // Universe
 #include "world.hpp"	// World
-#include "user.hpp"	// localuser
-#include "cart.hpp"	// cart::DROP
-#include "mirage.hpp"	// Mirage
+#include "render.hpp"	// g.render.bufferSelection
+#include "channel.hpp"	// current
+#include "capture.hpp"	// Capture
 #include "wall.hpp"	// Wall
+#include "mirage.hpp"	// Mirage
 #include "ball.hpp"	// Ball
 #include "ground.hpp"	// Ground
 #include "model.hpp"	// Model
 #include "step.hpp"	// Step
 #include "thing.hpp"	// Thing
 #include "gate.hpp"	// Gate
-#include "http.hpp"	// httpOpen
 #include "grid.hpp"	// gridBox
-#include "file.hpp"	// openFile
-#include "cache.hpp"	// openCache
 #include "tool.hpp"	// TOOLS
 #include "browser.hpp"	// start
 #include "audio.hpp"	// start
@@ -75,24 +71,15 @@
 #include "ps.hpp"	// start
 #include "pdf.hpp"	// start
 #include "office.hpp"	// start
-#include "channel.hpp"	// current
-#include "cache.hpp"	// setCacheName
-#include "render.hpp"	// g.render.bufferSelection
-#include "move.hpp"	// changeKey
-#include "file.hpp"	// openFile
-#include "icon.hpp"	// user
 
 // Text files
 #include "README.t"
 #include "COPYRIGHT.t"
 #include "COPYING.t"
 #include "ChangeLog.t"
-#include "CONFIG_H.t"
 #include "TODO.t"
 #include "DTD.t"
-
-#include <ubit/ubit.hpp>
-using namespace ubit;
+#include "CONFIG_H.t"
 
 
 Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
@@ -114,6 +101,7 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  menubar(createMenubar()),
  postponedKRmask(0),
  postponedKRcount(0)
+
 {
   worlds.addAttr(UOrient::vertical + utop());
   carts.addAttr(UOrient::vertical + utop());
@@ -192,22 +180,12 @@ UBox& Widgets::createMenubar()
 {
   UMenu& file_menu = fileMenu();
   file_menu.addAttr(g.theme.menuStyle);
-
   UMenu& view_menu =
   umenu(g.theme.menuStyle
         + ubutton(g.theme.Edit  + "Source"      + ucall(this, &Widgets::sourceDialog))
         + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
        );
-
-  UMenu& tool_menu =
-  umenu(g.theme.menuStyle
-        + ubutton(g.theme.Prefs  + " Settings " + settings_dialog)
-        + ubutton(g.theme.Grid2D + " Grid "     + grid_dialog)
-        + ubutton(g.theme.Tools  + " Tools "    + tool_dialog)
-        + ubutton(g.theme.AddObj + " Addobj "   + addobj_dialog)
-       );
-
   UMenu& history_menu =
   umenu(g.theme.menuStyle
         + ubutton("Previous World"   + ucall(this, &Widgets::prevCB))
@@ -215,17 +193,23 @@ UBox& Widgets::createMenubar()
         + ubutton("Home"             + ucall(this, &Widgets::homeCB))
         + ubutton("Visited Worlds >" + umenu(g.theme.menuStyle + worlds))
        );
-
+  UMenu& tool_menu =
+  umenu(g.theme.menuStyle
+        + ubutton(g.theme.Prefs  + " Settings " + settings_dialog)
+        + ubutton(g.theme.Grid2D + " Grid "     + grid_dialog)
+        + ubutton(g.theme.Tools  + " Tools "    + tool_dialog)
+        + ubutton(g.theme.AddObj + " Addobj "   + addobj_dialog)
+       );
   UMenu& help_menu =
   umenu(g.theme.menuStyle
-        + ubutton("Home Page" + ucall(this, &Widgets::helpCB))
-        + ubutton("README"    + ucall("README", README, &Widgets::showInfoDialog))
+        //dax + ubutton("Home Page" + ucall(this, &Widgets::siteCB))
+        + ubutton("README"    + ucall("README",    README, &Widgets::showInfoDialog))
         + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &Widgets::showInfoDialog))
-        + ubutton("config.h"  + ucall("config.h", CONFIG_H, &Widgets::showInfoDialog))
-        + ubutton("DTD"       + ucall("DTD", DTD, &Widgets::showInfoDialog))
-        + ubutton("TODO"      + ucall("TODO", TODO, &Widgets::showInfoDialog))
+        + ubutton("DTD"       + ucall("DTD",       DTD, &Widgets::showInfoDialog))
+        + ubutton("TODO"      + ucall("TODO",      TODO, &Widgets::showInfoDialog))
         + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &Widgets::showInfoDialog))
-        + ubutton("LICENSE"   + ucall("LICENSE", COPYING, &Widgets::showInfoDialog))
+        + ubutton("LICENSE"   + ucall("LICENSE",   COPYING, &Widgets::showInfoDialog))
+        //dax + ubutton("config.h"  + ucall("config.h",  CONFIG_H, &Widgets::showInfoDialog))
        );
 
   // ===== Menubar ======
@@ -233,8 +217,8 @@ UBox& Widgets::createMenubar()
   umenubar(  ubutton("File"    + file_menu)
            + ubutton("View"    + view_menu)
            + ubutton("Go"      + ucall(this, &Widgets::goDialog))
-           + ubutton("Tools"   + tool_menu)
            + ubutton("History" + history_menu)
+           + ubutton("Tools"   + tool_menu)
           );
 
   menu_bar.add(ubutton("Marks" + markMenu()));
@@ -298,15 +282,12 @@ UMenu& Widgets::markMenu()
     while (fgets(buf, sizeof(buf), fp)) {
       char *p = strchr(buf, ' ');
       if (p) *p ='\0';
-      // Je ne comprends pas pourquoi le callback ci-dessous n'est jamais appele
       mark_box.add(uitem(buf) + ucall(&gui, (const UStr&)buf, &Gui::gotoWorld));
     }
     File::closeFile(fp);
   }
   return mark_menu;
 }
-
-//UMenu* Widgets::getOpenedMenu() {return navig.opened_menu;}
 
 void Widgets::showInfoDialog(const char* title, const char* message)
 {
@@ -427,12 +408,11 @@ static void objectActionCB(int numaction)
 /** returns info about the pointed object */
 WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 {
-  trace(DBG_GUI, "Pointed: clic=%d,%d %d", x, y, z);
   static char *classname = 0, *instancename = 0, *actionnames = 0;
 
   // Interaction GUI <--> 3D
   uint16_t num = g.render.bufferSelection(x, y);	// find object number in the Z-buffer
-  trace(DBG_GUI, "num=%d", num);
+  trace(DBG_GUI, "pointed: clic=%d,%d,%d num=%d", x, y, z, num);
 
   WObject* object = WObject::byNum(num);
 
@@ -453,7 +433,7 @@ WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   objinfo[0].name = classname;
   if (instancename == NULL) instancename = (char *)"";
   objinfo[1].name = instancename;   // TO BE COMPLETED
-  if (::g.pref.dbgtrace) trace(DBG_FORCE, "Pointed: %s", classname);
+  if (::g.pref.dbgtrace) trace(DBG_FORCE, "pointed: %s", classname);
 
   // get actions of this object
   int i = 0;
@@ -489,7 +469,7 @@ void Widgets::homeCB()
   char chan_str[CHAN_LEN];
 
   sprintf(chan_str, "%s/%u/%d", Universe::current()->group, Universe::current()->port, Channel::currentTtl());
-  trace(DBG_IPMC, "WO: goto %s at %s", Universe::current()->url, chan_str);
+  trace(DBG_IPMC, "home: goto %s at %s", Universe::current()->url, chan_str);
 
   World::current()->quit();
   delete Channel::current();  // delete Channel
@@ -529,7 +509,7 @@ void Widgets::saveCB()
   }
 }
 
-void Widgets::helpCB()
+void Widgets::siteCB()
 {
   UStr cmd = "IFS=' '; firefox -remote 'openURL(http://"
               & UStr(Universe::current()->server)
@@ -777,6 +757,7 @@ UDialog& Widgets::prefsDialog()
 static void sourceHttpReader(void *box, Http *http)
 {
   if (! http) return;
+
   UBox *source_box = (UBox *) box;
   char line[BUFSIZ];
 
@@ -794,6 +775,7 @@ static void sourceHttpReader(void *box, Http *http)
 static void goHttpReader(void *box, Http *http)
 {
   if (! http) return;
+
   UBox *univ_box = (UBox *) box;
   char line[URL_LEN + CHAN_LEN +2];
 
@@ -883,7 +865,6 @@ void Widgets::goDialog()
   sprintf(univ_url, fmt, Universe::current()->server,
                          Universe::current()->urlpfx,
                          Universe::current()->version);
-  //error("url: %s", univ_url);
 
   UBox& box = uvbox(g.theme.scrollpaneStyle);
   if (Http::httpOpen(univ_url, goHttpReader, &box, 0) < 0) {
@@ -1283,7 +1264,7 @@ void Widgets::newObjectCB()
     return;
   }
 
-  // Calls constructor of the selectioned object
+  // Calls constructor of the selected object
   if (! localuser) return;
 
   switch (objtype) {
@@ -1556,18 +1537,17 @@ UMenu& Widgets::fileMenu()
 
 //---------------------------------------------------------------------------
 
-void Widgets::putMessage(UMessageEvent& e)
+void Widgets::putMessage(UMessageEvent &e)
 {
   const UStr* arg = e.getMessage();
 
-  if (!arg || arg->empty())
-    return;
+  if (! arg || arg->empty())  return;
 
-  UStr file_name = arg->basename();
+  UStr fname = arg->basename();
   UStr val;
 
-  if (file_name.empty()) val = "<url=\"" & *arg & "\">";
-  else                   val = "<url=\"" & *arg & "\">&<name=\"" & file_name & "\">";
+  if (fname.empty()) val = "<url=\"" & *arg & "\">";
+  else               val = "<url=\"" & *arg & "\">&<name=\"" & fname & "\">";
   if (! Cache::check(arg->c_str()))
     return;    // bad url
   putinfo.putIcon(val);
@@ -1577,8 +1557,8 @@ void Widgets::openMessage(UMessageEvent &e)
 {
   const UStr* msg = e.getMessage();
 
-  if (!msg || msg->empty())
-    return;
+  if (! msg || msg->empty())  return;
+
   gui.gotoWorld(*msg);
 }
 
@@ -1586,8 +1566,8 @@ void Widgets::moveMessage(UMessageEvent &e)
 {
   const UStr* msg = e.getMessage();
 
-  if (!msg || msg->empty())
-    return;
+  if (! msg || msg->empty())  return;
+
   const UStr& arg = *msg;
 
   if (arg == "left 1")            setKey(KEY_SG, TRUE);
@@ -1612,8 +1592,7 @@ void Widgets::getMessage(UMessageEvent &e)
 {
   const UStr* msg = e.getMessage();
 
-  if (!msg || msg->empty())
-    return;
+  if (! msg || msg->empty())  return;
 
   // a completer
   //cerr << "get: " << *selected_object_url << endl;
@@ -1624,10 +1603,11 @@ void Widgets::getMessage(UMessageEvent &e)
 
 VncDialog* VncDialog::vnc_dialog = null;
 
-void VncDialog::create(Widgets* gw, Vnc* vnc)
+void VncDialog::vncDialog(Widgets* gw, Vnc* vnc)
 {
-  if (!gw) return;
-  if (!vnc_dialog) {
+  if (! gw)  return;
+
+  if (! vnc_dialog) {
     vnc_dialog = new VncDialog(gw, vnc);
     gw->add(vnc_dialog);
     vnc_dialog->centerOnScreen();
@@ -1640,21 +1620,18 @@ VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
   vnc_port = "5900";
   setTitle("VNC Server");
   setMessage(uvbox(uhflex() + uvflex()
-                   + uhbox(ulabel(14, UFont::bold + "Server name:")
-                           + utextfield(25, vnc_server))
-                   + uhbox(ulabel(14, UFont::bold + "Port number:")
-                           + utextfield(vnc_port))
-                   + uhbox(ulabel(14, UFont::bold + "Password:")
-                           + utextfield(vnc_passwd))
+                   + uhbox(ulabel(14, UFont::bold + "Server name:") + utextfield(25, vnc_server))
+                   + uhbox(ulabel(14, UFont::bold + "Port number:") + utextfield(vnc_port))
+                   + uhbox(ulabel(14, UFont::bold + "Password:")    + utextfield(vnc_passwd))
                   )
             );
-  setButtons(ubutton("Connect" + ucloseWin() + ucall(vnc_dialog, &VncDialog::convert))
+  setButtons(ubutton("Connect" + ucloseWin() + ucall(vnc_dialog, &VncDialog::vncConvert))
              + " "
              + ubutton("Cancel" + ucloseWin())
             );
-  }
+}
 
-void VncDialog::convert()
+void VncDialog::vncConvert()
 {
   if (vnc) {
     vnc->convert(vnc_server.c_str(), vnc_port.c_str(), vnc_passwd.c_str());

@@ -29,6 +29,9 @@ possible, and they will totally occypy
 14 entrys of the colormap.
 */
 
+#ifndef UXPM_HPP
+#define UXPM_HPP
+
 namespace ubit {
 
   struct UXpm {
@@ -88,3 +91,4 @@ namespace ubit {
      };
 }
 
+#endif

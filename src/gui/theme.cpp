@@ -30,12 +30,13 @@
  *  (C) 2002/2009 Philippe Dax and Eric Lecolinet - ENST Paris
  */
 #include "xpm.hpp"
-#include <ubit/uxpm.hpp>
 #include "theme.hpp"
+#include "ubit/uxpm.hpp"	// xpm files
+
 
 Theme::Theme() {}
 
-void Theme::setTheme(int type)
+void Theme::init()
 {
   controlPanelHeight = 120;
   paletteWidth = 100;
@@ -47,7 +48,6 @@ void Theme::setTheme(int type)
   paletteStyle += ualpha(0.5) + UBackground::black + UColor::white + UBorder::line;
   panelStyle += *new URoundBorder(UBorder::LINE, UColor::navy, UColor::white,5,5,15,15);
   scrollpaneStyle += ualpha(0.6) + UBackground::black + UColor::white + UFont::bold + UBorder::shadowIn + usize(100);
-  
   objectTypeStyle += UColor::navy + UFont::bold;
   objectNameStyle += UColor::red;
   

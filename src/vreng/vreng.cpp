@@ -19,7 +19,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 
-#include <ubit/ubit.hpp>
+//#include <ubit/ubit.hpp>
 #include "vreng.hpp"
 #include "gui.hpp"	// new Gui
 #include "env.hpp"	// new Env
@@ -42,7 +42,7 @@
 #include <setjmp.h>	// jmp_buf
 #include <sys/resource.h>	// rlimit
 
-using namespace ubit;
+//using namespace ubit;
 
 // global variable that refers to the various modules
 Global g;
@@ -75,11 +75,11 @@ int Global::start(int argc, char *argv[])
   UAppli::conf.soft_menus = true;	// attention: seulement en mode single window
  
   UAppli* appli = new UAppli(argc, argv);
-  if (!appli) {
+  if (! appli) {
     fatal("Vreng can't be launched");
   }
 
-  theme.setTheme(0);
+  theme.init();
   gui.createWidgets();
   gui.showWidgets();
 
@@ -92,7 +92,7 @@ int Global::start(int argc, char *argv[])
  */
 void Global::initCB()
 {
-  timer.init.start();	// starts int timer
+  timer.init.start();	// starts init timer
   initLimits();		// Change rlimit
   initTrigo();		// Trigo
   initSignals();	// Signals initialization
@@ -139,7 +139,7 @@ void Global::quitVreng(int sig)
 
 void Global::printStats()
 {
-  if (::g.pref.stats == false) return;
+  if (::g.pref.stats == false)  return;
 
   statLog();
   statTimings();

@@ -23,15 +23,17 @@
 
 #include "widgets.hpp"
 
-/** Theme class.
+
+/**
+ * Theme class
  */
-struct Theme {
-  // enum Type {BLACK, GREY, YELLOW, WHITE, WOOD};
+class Theme {
+public:
 
   Theme();
   
-  void setTheme(int type = 0);
-  ///< changes the theme; must be called before using the GUI.
+  void init();
+  ///< inits the theme; must be called before using the GUI.
   
   float paletteWidth, paletteHeight, messagePaletteWidth, controlPanelHeight;
   

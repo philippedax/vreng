@@ -49,7 +49,7 @@ public:
   class Pref& pref;	///< ::g.pref
   class Render& render;	///< ::g.render
   class Solid& solid;	///< ::g.solid
-  struct Theme& theme;	///< ::g.theme used to paramaterize the GUI.
+  class Theme& theme;	///< ::g.theme used to paramaterize the GUI.
   class Gui& gui;	///< ::g.gui
 
   // Methods

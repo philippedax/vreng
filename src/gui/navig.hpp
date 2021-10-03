@@ -21,10 +21,10 @@
 #ifndef NAVIG_HPP
 #define NAVIG_HPP
 
-#include <ubit/ubit.hpp>
 #include "widgets.hpp"
 
 class Widgets;
+
 
 /**
  * Navig class

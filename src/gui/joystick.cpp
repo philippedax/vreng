@@ -28,8 +28,6 @@
  *  (C) 1999-2009 Eric Lecolinet / ENST Paris
  *  WWW: http://www.enst.fr/~elc/ubit
  */
-#include <cmath>
-
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "joystick.hpp"
@@ -156,7 +154,7 @@ Joystick2::Joystick2(Widgets* _gw, GLint _radius)
 
 void Joystick2::doAction()
 {
-  if (! localuser) return;
+  if (! localuser)  return;
 
   struct timeval t;
   gettimeofday(&t, NULL);

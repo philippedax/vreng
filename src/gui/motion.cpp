@@ -32,17 +32,16 @@
  */
 #include "vreng.hpp"
 #include "motion.hpp"
-#include "wobject.hpp"
 #include "user.hpp"	// UserAction
-#include "user.hpp"	// User::LSPEED;  // !! incorrect !!
 #include "carrier.hpp"	// Carrier
 #include "move.hpp"	// changeKey
+
 
 const float Motion::LINEAR_ACCEL  = 0.055;
 const float Motion::ANGULAR_ACCEL = 0.0045;
 
 // local
-static Motion *motion;	///< pointer
+static Motion *motion;	///< current pointer
 
 
 Motion::Motion(int _minuskey, int _pluskey, int _fun, float _accel)
@@ -55,7 +54,7 @@ Motion::Motion(int _minuskey, int _pluskey, int _fun, float _accel)
   carrier  = NULL;
 }
 
-Motion * Motion::pointer()
+Motion * Motion::current()
 {
   return motion;
 }
@@ -82,10 +81,12 @@ void Motion::move(int mspeed)
       new_speed = accel * mspeed;
     }
     else {
-      if (carrier && carrier->isTaking())
+      if (carrier && carrier->isTaking()) {
         new_speed = Carrier::LSPEED;
-      else
-        new_speed = User::LSPEED;  // !! incorect !!
+      }
+      else {
+        new_speed = User::LSPEED;  // !! incorrect !!
+      }
     }
     if (minuskey == 0) {
       localuser->specialAction(fun, &new_speed, t.tv_sec, t.tv_usec);

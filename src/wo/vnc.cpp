@@ -22,7 +22,7 @@
 #include "vnc.hpp"
 #include "move.hpp"	// gotoFront
 #include "glu.hpp"	// glu alternative
-#include "gui.hpp"	// setToVnc launchVncConnect
+#include "gui.hpp"	// setToVnc launchVnc
 #include "env.hpp"	// passwd
 
 
@@ -357,7 +357,7 @@ void Vnc::reconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
   if (vnc->connected || vnc->serverdefined)
     error("VNC: already connected, disconnect first!");
   else
-    ::g.gui.launchVncConnect(vnc);
+    ::g.gui.launchVnc(vnc);
 }
 
 /* Update server parameters from the dialog window : called from gui */

@@ -30,7 +30,6 @@
  *  (C) 2002/2009 Eric Lecolinet - ENST Paris
  *  WWW: http://www.enst.fr/~elc/ubit
  */
-
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "panels.hpp"
@@ -48,8 +47,8 @@
 #include "message.hpp"
 #include "capture.hpp"
 
-static void toggleHudCB(Widgets*) { g.gui.scene()->toggleHud(); }
 
+static void toggleHudCB(Widgets*) { g.gui.scene()->toggleHud(); }
 static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
 
 static void toggleGridCB(Widgets*, int flag)
@@ -308,7 +307,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 void Panels::showCartDialog(bool state)
 {
 #if 0 //dax
-  // relies on carts_pane created by createPanes()
+  // relies on carts_pane created by createPanels()
   UDialog * cartDialog = &udialog(utitle("Basket")
                                   + uheight(150) + uwidth(100)
                                   + carts_pane

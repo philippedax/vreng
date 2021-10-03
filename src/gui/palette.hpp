@@ -18,9 +18,10 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef PANEL_HPP
-#define PANEL_HPP
-  
+#ifndef PALETTE_HPP
+#define PALETTE_HPP
+ 
+
 /**
  * Palette class
  */
@@ -36,7 +37,7 @@ public:
   virtual Palette& setPos(ULength x, ULength y);
   virtual Palette& setPos(UPoint&);
   virtual Palette& setPos(UPos&);
-  UPos& pos() {return *ppos;}
+  UPos& pos() { return *ppos; }
 
 protected:
   uptr<UPos> ppos;
