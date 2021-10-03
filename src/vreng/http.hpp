@@ -32,7 +32,6 @@
 #define HTTP_307        307     // temporarily redirect
 #define HTTP_404        404     // not found
 #define HTTP_503        503     // server unavailable
-#define HTTP_PORT       80
 
 /**
  * FIFO

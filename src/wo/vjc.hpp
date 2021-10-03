@@ -373,8 +373,8 @@ class Vjc: public WObject {
 
  private:
   static const uint16_t PING_WAIT;
-  static const uint16_t PORT;
-  static const uint16_t LOCAL_PORT;
+  static const uint16_t VJS_PORT;
+  static const uint16_t VJC_PORT;
 
  public:
 

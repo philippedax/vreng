@@ -32,8 +32,8 @@ const uint8_t VjcMessage::VERS = 0;		// V0
 const uint32_t VjcMessage::MAGIC = 0xABCD;	// magic header
 const uint16_t VjcMessage::MAX_PACKET = 512;	// packet size
 const uint16_t Vjc::PING_WAIT = 200;		// 200 ms
-const uint16_t Vjc::PORT = 4151;		// Vjs port
-const uint16_t Vjc::LOCAL_PORT = 4151;		// Vjc port
+const uint16_t Vjc::VJS_PORT = DEF_VJS_PORT;	// Vjs port
+const uint16_t Vjc::VJC_PORT = DEF_VJS_PORT;	// Vjc port
 
 // class member initialization
 Vjc *Vjc::server = NULL;
@@ -49,8 +49,8 @@ WObject * Vjc::creator(char *l)
 void Vjc::defaults()
 {
   strcpy(host, DEF_VJS_SERVER);
-  serverPort = PORT;
-  localPort = LOCAL_PORT;
+  serverPort = VJS_PORT;
+  localPort = VJC_PORT;
 }
 
 void Vjc::parser(char *l)

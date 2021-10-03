@@ -233,11 +233,11 @@ void Gui::gotoWorld(const UStr& url_or_name)
   char urlvre[URL_LEN], chanstr[CHAN_LEN];
   Vac *vac = Vac::current();
 
-  strcpy(chanstr, DEF_VRE_CHANNEL);
+  strcpy(chanstr, DEF_VRENG_CHANNEL);
   if (strchr(urlorname, '/')) {	// url or path
     strcpy(urlvre, urlorname);
     if (! vac->resolveWorldUrl(urlvre, chanstr)) {
-      if (strcmp(chanstr, DEF_VRE_CHANNEL))  return;	// url not found
+      if (strcmp(chanstr, DEF_VRENG_CHANNEL))  return;	// url not found
     }
   }
   else {	// worldname

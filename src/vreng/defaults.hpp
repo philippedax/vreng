@@ -30,6 +30,7 @@
 #define DEF_VACS_SERVER		"localhost"
 #define DEF_VRUM_SERVER		"localhost"
 #define DEF_MYSQL_SERVER	"localhost"
+#define DEF_VNC_SERVER		"localhost"
 
 #else	// by default
 
@@ -49,6 +50,7 @@
 #define DEF_VACS_SERVER		"localhost"
 #define DEF_VRUM_SERVER		"localhost"
 #define DEF_MYSQL_SERVER	"localhost"
+#define DEF_VNC_SERVER		"localhost"
 #endif	// def servers
 
 #define VRE_VERSION	8	// current stable version of vre files
@@ -56,17 +58,18 @@
 /* default URLs */
 //#define GEN_URL(h, u, p) 	("http://" h u p) // notused
 #if !defined(DEF_URL_PFX)	// by ./configure --with-httpd-prefix
-// url prefix allowing access to the htdocs location
-// default url prefix: can be changed to be adapted to your site.
 
-#define DEF_URL_PFX	"~dax/vreng"
+// Url prefix allowing access to the htdocs location
+// default url prefix: can be changed to be adapted to your site.
+#define DEF_URL_PFX	"~dax/vreng"	// <-- to customize !!!
 				// prefix to tune, should be "" (old prefix)
 				// it is the HTDOCS equivallent for your
 				// local httpd server (after http://httpserver/)
 				// for example :
-				//   ~/public_html/vreng or 
-				//   ~/Sites/vreng (Mac)
-				// where vreng/ is the same as htdocs/ directory
+				//   if http://httpserver/~login/vreng the location of data is
+				//     ~/public_html/vreng (for Linux) or 
+				//     ~/Sites/vreng (for MacOS)
+				// where "vreng" is the same as "htdocs/" directory
 				// in this distribution.
 #endif
 
@@ -82,16 +85,18 @@
 #define DEF_URL_JAR	"/jar/vrengapp.jar"	// for vjs server
 
 /* default IPmulticast addresses & ports */
-#define VRENG_MADDR_BASE	"224.255.0.0"
-#define VRENG_MPORT_BASE	52656
-#define DEF_VRE_MPORT		52666
-#define DEF_VRE_TTL		127
-#define DEF_VRE_MADDR		"224.255.0.1"
-#define DEF_VRE_CHANNEL		"224.255.0.1/52666/127"
+#define DEF_VRENG_MADDR		"224.255.0.0"
+#define DEF_VRENG_PORT		52656
+#define DEF_VRENG_TTL		127
+#define DEF_VRENG_CHANNEL	"224.255.0.1/52666/127"
 #define DEF_MANAGER_CHANNEL	"224.255.0.0/52656/127"
-#define VACS_PORT		4150 + VRE_VERSION	// port of vacs server
-#define SAP_ADDR		"224.2.127.254"		// address of Session Address Protocol
-#define SAP_PORT		9875			// port of Session Address Protocol
+#define DEF_VACS_PORT		4150 + VRE_VERSION	// port of vacs server
+#define DEF_SAP_ADDR		"224.2.127.254"		// address of Session Address Protocol
+#define DEF_SAP_PORT		9875			// port of Session Address Protocol
+#define DEF_HTTP_PORT		80			// port of http server
+#define DEF_VNC_PORT		5900			// port of Vnc server
+#define DEF_VAPS_PORT		4150			// port of Vaps server
+#define DEF_VJS_PORT		4151			// port of Vjs server
 
 #define DEF_RATE		50		// 50 frames/sec
 #define DEF_RATIO3D		(16./9.)	// screen ratio 16/9

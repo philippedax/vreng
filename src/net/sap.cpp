@@ -57,7 +57,7 @@ void * Sap::listener(void *arg)
 
   sasap.sin_family = AF_INET;
   sasap.sin_addr.s_addr = htonl(INADDR_ANY);
-  sasap.sin_port = htons(SAP_PORT);
+  sasap.sin_port = htons(DEF_SAP_PORT);
 
   if (Socket::reuseAddr(sd) < 0)
     finish(1);
@@ -68,7 +68,7 @@ void * Sap::listener(void *arg)
 
   struct ip_mreq mreq;
   memset(&mreq, 0, sizeof(mreq));
-  inet4_pton(SAP_ADDR, &(mreq.imr_multiaddr.s_addr));
+  inet4_pton(DEF_SAP_ADDR, &(mreq.imr_multiaddr.s_addr));
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
 
   if (Socket::addMembership(sd, &mreq) < 0) {

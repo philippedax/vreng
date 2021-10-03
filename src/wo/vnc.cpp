@@ -28,7 +28,7 @@
 
 const OClass Vnc::oclass(VNC_TYPE, "Vnc", Vnc::creator);
 
-const uint16_t Vnc::DEF_PORT = 5900;
+const uint16_t Vnc::VNC_PORT = DEF_VNC_PORT;
 
 
 /* Creation from a file */
@@ -44,7 +44,7 @@ void Vnc::defaults()
   focus = false;
   def_pixmap = NULL;
   tex_pixmap = NULL;
-  port = DEF_PORT;
+  port = VNC_PORT;
 
   strcpy(servername, "localhost");
   memset(passwdfile, 0, sizeof(passwdfile));
@@ -73,7 +73,7 @@ void Vnc::parser(char *l)
     }
     else if (!stringcmp(l, "port")) {
       l = parse()->parseUInt16(l, &port, "port");
-      if (port == 0) port = DEF_PORT;
+      if (port == 0) port = VNC_PORT;
     }
     else if (!stringcmp(l, "passwd")) {
       l = parse()->parseString(l, passwd, "passwd");

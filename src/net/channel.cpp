@@ -570,9 +570,9 @@ uint16_t Channel::getPort(const char *chan_str)
   const char *p;
 
   if (! chan_str)
-    port = (uint16_t) DEF_VRE_MPORT;
+    port = (uint16_t) DEF_VRENG_PORT;
   else if ((p = strchr(chan_str, '/')) == NULL)
-    port = (uint16_t) DEF_VRE_MPORT;
+    port = (uint16_t) DEF_VRENG_PORT;
   else
     port = (uint16_t) atoi(++p);
   trace(DBG_IPMC, "getPort: port=%u", port);
@@ -591,9 +591,9 @@ uint8_t Channel::getTtl(const char *chan_str)
   const char *p;
 
   if (! chan_str)
-    ttl = (uint8_t) DEF_VRE_TTL;
+    ttl = (uint8_t) DEF_VRENG_TTL;
   else if ((p = strrchr(chan_str, '/')) == NULL)
-    ttl = (uint8_t) DEF_VRE_TTL;
+    ttl = (uint8_t) DEF_VRENG_TTL;
   else
     ttl = (uint8_t) atoi(++p);
   trace(DBG_IPMC, "getTtl: ttl=%u", ttl);

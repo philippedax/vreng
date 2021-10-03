@@ -23,7 +23,7 @@
 #include "macros.hpp"
 
 
-#define VAPS_PORT	4150
+#define VAPS_PORT	DEF_VAPS_PORT
 #define VAPS_BUFSIZ	8192
 #define VAPS_HDRSIZ	80
 #define DEF_BAP_VERS	"3.1"
@@ -253,7 +253,7 @@ void waitingCommands(int sdtcp, const struct sockaddr_in *sa)
   int len, r;
   uint32_t vreng_addr;
   uint16_t vreng_port = VAPS_PORT;  // vreng side
-  uint8_t vreng_ttl = DEF_VRE_TTL;
+  uint8_t vreng_ttl = DEF_VRENG_TTL;
   fd_set set;
   struct timeval tv, *unblocking;
   FILE *fpbap = NULL;

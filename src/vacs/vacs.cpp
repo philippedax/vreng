@@ -21,7 +21,8 @@
 #include "sysdep.hpp"
 #include "defaults.hpp"
 
-#define VRENG_MPORT_INCR	10
+
+#define VRENG_PORT_INCR		10
 #define WORLD_LEN		32
 #define UNIVERSE_LEN		32
 #define VACS_FILE		"worlds"
@@ -163,7 +164,7 @@ uint16_t getPort(const char *channel)
 
 uint8_t getTtl(const char *channel)
 {
-  uint8_t ttl = DEF_VRE_TTL;
+  uint8_t ttl = DEF_VRENG_TTL;
 
   char *c = strdup(channel);
   char *p = strtok(c, "/");
@@ -172,7 +173,7 @@ uint8_t getTtl(const char *channel)
   if (p) {
     ttl = atoi(p);
     if (ttl == 0)
-      ttl = DEF_VRE_TTL;
+      ttl = DEF_VRENG_TTL;
   }
   free(c);
   return ttl;
@@ -226,7 +227,7 @@ bool resolveCache(const char *url, char *chanstr)
 #else
       strcpy(maddrstr, inet_ntoa((struct in_addr &)w->maddr));
 #endif
-      sprintf(chanstr, "%s/%d/%d", maddrstr, w->mport, DEF_VRE_TTL);
+      sprintf(chanstr, "%s/%d/%d", maddrstr, w->mport, DEF_VRENG_TTL);
       fprintf(flog, "resolveCache: chanstr=%s\n", chanstr); fflush(flog);
       return true;
     }
@@ -266,7 +267,7 @@ void addCache(const char *url, char *channel)
   strcpy(maddrstr, inet_ntoa((struct in_addr &)vacs->maddr));
 #endif
   memset(vacs->channel, 0, sizeof(vacs->channel));
-  sprintf(vacs->channel, "%s/%d/%d", maddrstr, vacs->mport, DEF_VRE_TTL); //vreng
+  sprintf(vacs->channel, "%s/%d/%d", maddrstr, vacs->mport, DEF_VRENG_TTL); //vreng
   strcpy(channel, vacs->channel);
   sprintf(vacs->channel, "%s/%d", maddrstr, vacs->mport);	// record
 
@@ -301,7 +302,7 @@ void addCache(const char *url, char *channel)
 
   // next values
   next_maddr = vacs->maddr + htonl(1);
-  next_mport = vacs->mport + VRENG_MPORT_INCR;
+  next_mport = vacs->mport + VRENG_PORT_INCR;
 }
 
 
@@ -323,20 +324,20 @@ int loadCache()
   vacsList = vacs;
   strcpy(vacs->world, "Manager");
   *vacs->url = 0;
-  sprintf(vacs->channel, "%s/%d/%d", VRENG_MADDR_BASE, VRENG_MPORT_BASE, DEF_VRE_TTL);
+  sprintf(vacs->channel, "%s/%d/%d", DEF_VRENG_MADDR, DEF_VRENG_PORT, DEF_VRENG_TTL);
 #if HAVE_INET_PTON
-  inet_pton(AF_INET, VRENG_MADDR_BASE, &vacs->maddr);
+  inet_pton(AF_INET, DEF_VRENG_MADDR, &vacs->maddr);
 #else
-  vacs->maddr = inet_addr(VRENG_MADDR_BASE);
+  vacs->maddr = inet_addr(DEF_VRENG_MADDR);
 #endif
-  vacs->mport = VRENG_MPORT_BASE;
-  vacs->ttl = DEF_VRE_TTL;
+  vacs->mport = DEF_VRENG_PORT;
+  vacs->ttl = DEF_VRENG_TTL;
   strcpy(vacs->universe, DEF_HTTP_SERVER);
   vacs->next = NULL;
   struct _vacs *prev = vacs;
 
   next_maddr = vacs->maddr + htonl(1);
-  next_mport = vacs->mport + VRENG_MPORT_INCR;
+  next_mport = vacs->mport + VRENG_PORT_INCR;
 
   // other records
   int r = 0;
@@ -367,11 +368,11 @@ int loadCache()
     vacs->mport = getPort(p);
     vacs->ttl = getTtl(p);
     if (vacs->ttl == 0)
-      vacs->ttl = DEF_VRE_TTL;
+      vacs->ttl = DEF_VRENG_TTL;
 
     // next values
     next_maddr = vacs->maddr + htonl(1);
-    next_mport = vacs->mport + VRENG_MPORT_INCR;
+    next_mport = vacs->mport + VRENG_PORT_INCR;
 
     prev->next = vacs;
     vacs->next = NULL;
@@ -390,12 +391,12 @@ void sendCache(int sdvre)
 
   for (struct _vacs *w = vacsList->next; w ; w = w->next) {
     memset(linevacs, 0, sizeof(linevacs));
-    sprintf(linevacs, "%s %s/%d ", w->url, w->channel, DEF_VRE_TTL);
+    sprintf(linevacs, "%s %s/%d ", w->url, w->channel, DEF_VRENG_TTL);
     write(sdvre, linevacs, strlen(linevacs));
 #if HAVE_USLEEP
     //usleep(20000);	// tempo 20 ms
 #endif
-    //fprintf(flog, "%s %s/%d [%x]\n", w->url, w->channel, DEF_VRE_TTL, w->maddr); fflush(flog);
+    //fprintf(flog, "%s %s/%d [%x]\n", w->url, w->channel, DEF_VRENG_TTL, w->maddr); fflush(flog);
   }
   close(sdvre);
 }
@@ -482,7 +483,7 @@ void initVacs()
   }
   memset(&sa, 0, sizeof(sa));
   sa.sin_family = AF_INET;
-  sa.sin_port = htons(VACS_PORT);
+  sa.sin_port = htons(DEF_VACS_PORT);
   sa.sin_addr.s_addr = htonl(INADDR_ANY);
   int one = 1;
   setsockopt(sdvacs, SOL_SOCKET, SO_REUSEADDR, (char *) &one, sizeof(one));

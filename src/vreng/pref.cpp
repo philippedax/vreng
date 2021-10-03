@@ -369,7 +369,7 @@ void Pref::parse(int argc, char **argv)
   ::g.skinb = strdup(urlskinb);
 
   if (::g.channel == NULL) {
-    ::g.channel = strdup(DEF_VRE_CHANNEL);
+    ::g.channel = strdup(DEF_VRENG_CHANNEL);
   }
 
   // pseudoname

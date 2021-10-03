@@ -37,7 +37,7 @@ World *manager = NULL;
 Universe::Universe()
 {
   localuser = NULL;
-  port = VRENG_MPORT_BASE;
+  port = DEF_VRENG_PORT;
   version = VRE_VERSION;
   worldcnt = 0;
 

@@ -97,7 +97,7 @@ void * Vac::connectThread(void *)
 
   memset(&savac, 0, sizeof(struct sockaddr_in));
   savac.sin_family = AF_INET;
-  savac.sin_port = htons(VACS_PORT);
+  savac.sin_port = htons(DEF_VACS_PORT);
   memcpy(&savac.sin_addr, hp->h_addr_list[0], hp->h_length);
   my_free_hostent(hp);
 
@@ -210,7 +210,7 @@ bool Vac::resolveWorldUrl(const char *url, char *chanstr)
   }
   else {
     error("resolveWorld: channel NULL");
-    strcpy(chanstr, DEF_VRE_CHANNEL);
+    strcpy(chanstr, DEF_VRENG_CHANNEL);
     Socket::closeStream(sdvac);
     return false;
   }

@@ -193,7 +193,7 @@ int HttpThread::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
   }
   else {
     if (! strcmp(portstr, "http")) {
-      port = htons(HTTP_PORT);
+      port = htons(DEF_HTTP_PORT);
     }
     else {
       return -BADSERV;

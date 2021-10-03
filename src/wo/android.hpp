@@ -35,7 +35,7 @@ class Android: public WObject {
  private:
   // VAPS values
   static const uint16_t VAPS_BUFSIZ = 8192;	///< buffer line.
-  static const uint16_t VAPS_PORT   = 4150;	///< vaps port.
+  static const uint16_t VAPS_PORT   = DEF_VAPS_PORT;	///< vaps port.
 
   float cloth[3];		///< cloth color.
   char *face_url;		///< face url.
