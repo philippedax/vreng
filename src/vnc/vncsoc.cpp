@@ -42,14 +42,22 @@
 
 // Constructors
 
-VNCSoc::VNCSoc(const char *_servername, uint16_t _port=5900)
+VNCSoc::VNCSoc(const char *_servername, uint16_t _port = DEF_VNC_PORT)
 {
   strcpy(servername, _servername);
   port = _port;
   buffered = 0;
-  bufoutptr = buf;
+  bufptr = buf;
   rfbsock = -1;
-  if (! stringToIP()) error("VNCSoc: can't resolve %s", _servername);
+  struct hostent *hp;
+
+  if ((hp = my_gethostbyname(_servername, AF_INET)) != NULL) {
+    memcpy(&ipaddr, hp->h_addr, hp->h_length);
+    ipaddr = ntohl(ipaddr);
+  }
+  else {
+    error("VNCSoc: can't resolve %s", _servername);
+  }
 }
 
 /*
@@ -72,16 +80,16 @@ VNCSoc::VNCSoc(const char *_servername, uint16_t _port=5900)
 bool VNCSoc::readRFB(char *out, uint32_t n)
 {
   if (n <= buffered) {
-    memcpy(out, bufoutptr, n);
-    bufoutptr += n;
+    memcpy(out, bufptr, n);
+    bufptr += n;
     buffered -= n;
     return true;
   }
-  memcpy(out, bufoutptr, buffered);
+  memcpy(out, bufptr, buffered);
 
   out += buffered;
   n -= buffered;
-  bufoutptr = buf;
+  bufptr = buf;
   buffered = 0;
 
   if (n <= sizeof(buf)) {
@@ -91,19 +99,21 @@ bool VNCSoc::readRFB(char *out, uint32_t n)
 	if (i < 0) {
 	  if (errno == EWOULDBLOCK || errno == EAGAIN) {
 	    i = 0;
-	  } else {
+	  }
+          else {
 	    error("VNC: read");
 	    return false;
 	  }
-	} else {
-	    error("VNC: VNC server closed connection");
+	}
+        else {
+          error("VNC: VNC server closed connection");
 	  return false;
 	}
       }
       buffered += i;
     }
-    memcpy(out, bufoutptr, n);
-    bufoutptr += n;
+    memcpy(out, bufptr, n);
+    bufptr += n;
     buffered -= n;
     return true;
   }
@@ -114,12 +124,14 @@ bool VNCSoc::readRFB(char *out, uint32_t n)
 	if (i < 0) {
 	  if (errno == EWOULDBLOCK || errno == EAGAIN) {
 	    i = 0;
-	  } else {
+	  }
+          else {
 	    error("VNC: read");
 	    return false;
 	  }
-	} else {
-	    error("VNC: VNC server closed connection");
+	}
+        else {
+	  error("VNC: VNC server closed connection");
 	  return false;
 	}
       }
@@ -149,11 +161,13 @@ bool VNCSoc::writeExact(char *buf, int n)
 	    return false;
 	  }
 	  j = 0;
-	} else {
+	}
+        else {
 	  error("VNC: write");
 	  return false;
 	}
-      } else {
+      }
+      else {
 	error("VNC: write failed");
 	return false;
       }
@@ -165,6 +179,7 @@ bool VNCSoc::writeExact(char *buf, int n)
 
 /*
  * connectRFB connects to the given TCP port.
+ * returns opened socket.
  */
 int VNCSoc::connectRFB()
 {
@@ -185,8 +200,9 @@ int VNCSoc::connectRFB()
   timeout.tv_sec = 10;
   timeout.tv_usec = 0;
 
-  if (setsockopt(rfbsock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+  if (setsockopt(rfbsock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0) {
     error("setsockopt failed\n");
+  }
 
   if (connect(rfbsock, (const struct sockaddr *) &sa, sizeof(sa)) < 0) {
     perror("VNC: connect");
@@ -194,8 +210,9 @@ int VNCSoc::connectRFB()
     Socket::closeStream(rfbsock);
     return -1;
   }
-  if (Socket::tcpNoDelay(rfbsock) < 0)
+  if (Socket::tcpNoDelay(rfbsock) < 0) {
     error("connectRFB: TCP_NODELAY %s (%d)", strerror(errno), errno);
+  }
   return rfbsock;
 }
 
@@ -206,22 +223,6 @@ bool VNCSoc::setBlocking()
 {
   if (Socket::setNoBlocking(rfbsock) < 0) return false;
   return true;
-}
-
-/*
- * stringToIP - convert a host string to an IP address.
- */
-bool VNCSoc::stringToIP()
-{
-  struct hostent *hp;
-
-  if ((hp = my_gethostbyname(servername, AF_INET)) != NULL) {
-    memcpy(&ipaddr, hp->h_addr, hp->h_length);
-    ipaddr = ntohl(ipaddr);
-    trace(DBG_VNC, "stringToIP: servername=%s (%x)", servername, ipaddr);
-    return true;
-  }
-  return false;
 }
 
 /*

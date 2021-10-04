@@ -28,7 +28,6 @@
  * VNCSoc class
  */
 class VNCSoc {
-
  private:
   char servername[MAXHOSTNAMELEN];
   ///< name of the server
@@ -43,12 +42,10 @@ class VNCSoc {
   ///< the used socket
 
   uint32_t buffered;
-  uint8_t buf[VNC_BUF_SIZE];
-  uint8_t *bufoutptr;
-  ///< buffer
+  uint8_t *bufptr;
+  ///< buffer pointer
 
-  bool stringToIP();
-  ///< stores the IP address of the server in ipaddr, returns false if unknown
+  uint8_t buf[VNC_BUF_SIZE];
 
  public:
   VNCSoc() {};
