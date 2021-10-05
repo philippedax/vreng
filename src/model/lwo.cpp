@@ -27,9 +27,10 @@
 #include "file.hpp"	// skip_byte
 #include "cache.hpp"	// openCache
 
-static char lwourl[256];
 
 // local
+static char lwourl[256];
+
 #if 1 //dax
 #define DAXALLOC 1
 #endif
@@ -257,9 +258,9 @@ Lwo::~Lwo()
 #if DAXALLOC
   if (face) {
     for (int i=0; i < nbf; i++)
-      //dax segfault - memory leak// if (face[i].index) free(face[i].index);
+      //dax segfault // if (face[i].index) free(face[i].index);
       //dax if (face->index) free(face->index);
-    //dax segfault - memory leak// free(face);
+    //dax segfault // free(face);
     face = NULL;
   }
   if (material) free(material);

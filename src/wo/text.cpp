@@ -187,7 +187,6 @@ void Text::render()
   if (! havefont || (state == INACTIVE)) return;
 
   glPushMatrix();
-  //dax glPushAttrib(GL_ALL_ATTRIB_BITS);	// FIXME! if commented, world is strumbled
    if (verso)
      glDisable(GL_CULL_FACE); // both faces visibles
    else
@@ -209,7 +208,6 @@ void Text::render()
 
    glEnable(GL_CULL_FACE);
    glDisable(GL_TEXTURE_2D);
-  //dax glPopAttrib();	// if commented world is bad
   glPopMatrix();
 }
 

@@ -208,7 +208,7 @@ Book::Book(char *l)
   if (Http::httpOpen(url, httpReader, this, 0) < 0) return;
   if (! nbs) return;	// no sheets
 
-  //dax1 enableBehavior(PERSISTENT);
+  //enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(TAKABLE);
 

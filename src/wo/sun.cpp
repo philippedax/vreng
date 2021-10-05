@@ -44,8 +44,8 @@ void Sun::defaults()
   scale = 1;
   radius = DEF_RADIUS;
   light_rot = 0;
-  state = ACTIVE;
   flares = NULL;
+  state = ACTIVE;
 }
 
 void Sun::parser(char *l)
@@ -84,9 +84,6 @@ void Sun::inits()
   oy = pos.y;
   oz = pos.z;
 
-#if 0
-  addToList(lightList);
-#endif
   light_dif[0] = 1;
   light_dif[1] = 0.7; //MAX(sina, 0); //0.5 + 0.5*sina;
   light_dif[2] = 0;
@@ -121,8 +118,9 @@ void Sun::changePermanent(float lasting)
   pos.x = ox * cosa;
   pos.y = oy * cosa;
   pos.z = ox * sina;
-  if (flares)
+  if (flares) {
     flares->setColor(light_dif);
+  }
 }
 
 void Sun::render()
@@ -158,18 +156,13 @@ void Sun::lighting()
   glPushMatrix();
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT3);
-   //glDisable(GL_LIGHT1);
-   //glDisable(GL_LIGHT0);
    glLightfv(GL_LIGHT3, GL_POSITION, light_pos);
    glLightfv(GL_LIGHT3, GL_DIFFUSE, light_dif);
    glLightfv(GL_LIGHT3, GL_SPECULAR, light_spe);
-   //dax glLightfv(GL_LIGHT2, GL_AMBIENT, light_amb);
    glMaterialfv(GL_FRONT, GL_EMISSION, light_dif);
 
    glRotatef(light_rot, -1, -1, -1);
 
-   //glEnable(GL_LIGHT0);
-   //glEnable(GL_LIGHT1);
    glDisable(GL_LIGHT3);
    glDisable(GL_LIGHTING);
   glPopMatrix();

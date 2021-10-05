@@ -159,11 +159,8 @@ void Door::changePosition(float lasting)
     pos.az += lasting * move.aspeed.v[0];
     pos.x = center.v[0] + size.v[0] * cos(pos.az);
     pos.y = center.v[1] + size.v[0] * sin(pos.az);
-    //pos.z = center.v[2];
     break;
   case SLIDING:
-    //pos.x = center.v[0] + size.v[0] * cos(pos.az);
-    //pos.y = center.v[1] + size.v[0] * sin(pos.az);
     pos.x += lasting * move.lspeed.v[0];
     break;
   case VERTICAL:
@@ -205,8 +202,8 @@ bool Door::whenIntersect(WObject *pcur, WObject *pold)
 
 void Door::open()
 {
-  if (state == Door::OPENED || state == Door::LOCKED)
-    return;
+  if (state == Door::OPENED || state == Door::LOCKED)  return;
+
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   switch (mecanism) {
@@ -231,8 +228,8 @@ void Door::open()
 
 void Door::close()
 {
-  if (state & Door::CLOSED)
-    return;
+  if (state & Door::CLOSED)  return;
+
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   switch (mecanism) {
@@ -256,8 +253,8 @@ void Door::close()
 
 void Door::lock()
 {
-  if (state == Door::LOCKED)
-    return;
+  if (state == Door::LOCKED)  return;
+
   switch (state) {
   case Door::UNLOCKED:
   case Door::CLOSED:
@@ -271,8 +268,8 @@ void Door::lock()
 
 void Door::unlock()
 {
-  if (state == Door::OPENED || state == Door::UNLOCKED)
-    return;
+  if (state == Door::OPENED || state == Door::UNLOCKED)  return;
+
   switch (state) {
   case Door::LOCKED:
     state = Door::UNLOCKED;

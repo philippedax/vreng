@@ -75,7 +75,6 @@ void Escalator::build()
   }
   else if (length && pos.ax) {  // escalator defined by its length and its angle
     height = length * tan(pos.ax);
-    //dax pos.ax = 0;
   }
 
   nsteps = (int) ceil(height / sz);

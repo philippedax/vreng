@@ -219,8 +219,6 @@ void User::changePosition(const float lastings[])
   }
 
   // Fly
-  //dax float ground = World::current()->getGround();
-  //dax float h = pos.z - ground;  // vertical distance
   float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
   if (this == localuser) {
     if (pos.z > 2) {	// >2 m
@@ -233,12 +231,22 @@ void User::changePosition(const float lastings[])
         guy->setFlying(true);
       }
     }
+    else if (pos.z > 1) {	// >1 m
+      if (human) {
+        human->pos.ay = -a/2;
+      }
+      if (guy) {
+        guy->pos.ax = -a/2;
+        guy->setAniming(true);
+        guy->setFlying(true);
+      }
+    }
     else if (pos.z < 1) { // near the ground
       if (human) {
         human->pos.ay = 0;
       }
       if (guy) {
-        guy->pos.ax = 0;  //orig ay
+        guy->pos.ax = 0;
         guy->setAniming(false);
         guy->setFlying(false);
       }
@@ -453,7 +461,6 @@ void WObject::permanentMovement(time_t sec, time_t usec)
     error("permanentMovement: type=%d invalid", type);
     return;
   }
-  //if (World::current()->isDead()) return;
 
   if (move.perm_sec > 0) {	// is permanent movement activated ?
     Pos oldpos = pos;
@@ -487,7 +494,7 @@ void WObject::permanentMovement(time_t sec, time_t usec)
         }
       }
     }
-    //dax8 updateTime(sec, usec, &lasting);	// see clock.cpp never called FIXME!
+    updateTime(sec, usec, &lasting);	// never called FIXME!
 
     if (noh && noh->isResponsible()) {
       updateToNetwork(oldpos);		// handled by each object
@@ -521,7 +528,7 @@ void WObject::moveUserToObject(float sgn, float lttl, float attl)
   clearV3(localuser->move.lspeed);
   clearV3(localuser->move.aspeed);
   localuser->move.aspeed.v[0] = da / attl;
-  localuser->initImposedMovement(attl);	// start movement
+  localuser->initImposedMovement(attl);		// start movement
   localuser->move.nocol = true;
 
   // second movement: user translation towards the object
@@ -532,7 +539,7 @@ void WObject::moveUserToObject(float sgn, float lttl, float attl)
   localuser->move.next->lspeed.v[2] = dz / lttl;
   localuser->move.next->nocol = true;
   localuser->move.next->next = NULL;
-  //dax localuser->initImposedMovement(lttl);	// already done
+  //localuser->initImposedMovement(lttl);	// already done below !
   clearV3(localuser->move.aspeed);
 }
 

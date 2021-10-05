@@ -520,7 +520,7 @@ void User::userWriting(const char *usermsg)
     localuser->bubble->toDelete();	// delete previous bubble
   }
   localuser->bubble = new Bubble(localuser, localuser->message, Color::black, Bubble::BUBBLEVERSO);
-  //daxwrong localuser->bubble->setPos(pos.x, pos.y+lenText(localuser->message /2, pos.z+0.2, pos.az, pos.ax);
+  //dax localuser->bubble->setPos(pos.x, pos.y+lenText(localuser->message /2, pos.z+0.2, pos.az, pos.ax);
 
   Sound::playSound(KEYBOARDSND);
 }

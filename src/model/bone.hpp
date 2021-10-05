@@ -38,6 +38,8 @@ class BoneLink;
 //---------------------------------------------------------------------------
 
 /**
+ * BoneNode class
+ *
  * La classe BoneNode represente un noeud de la liste chainee.
  * Elle contient:
  * - un pointeur sur l'element stocke dans ce noeud
@@ -91,6 +93,8 @@ template <class BoneElem> class BoneNode {
 
 
 /**
+ * BoneList class
+ *
  * Class BoneList:
  * la classe liste est la classe principale de gestion de la liste chainee.
  * Il stocke les noeuds contenant les pointeurs sur elements a la queu leu leu
@@ -131,8 +135,9 @@ template <class BoneElem> class BoneList {
     elements = count();
     FREE(element);
     element = (BoneElem **) malloc (elements * sizeof(BoneElem *));
-    for (int i=0; i<elements; i++, currentNode = currentNode->getNext())
+    for (int i=0; i<elements; i++, currentNode = currentNode->getNext()) {
       element[i] = currentNode->getElem();
+    }
     built = 1;
   }
 
@@ -165,10 +170,8 @@ template <class BoneElem> class BoneList {
     recursiveEmpty(listHead);
     listHead = NULL;
     listEnd  = NULL;
-
-    //dax segfault FREE(element);
-    element = NULL;
-    built = 0;
+    element  = NULL;
+    built    = 0;
   }
 
   // Comptage du nombre d'elements de la liste
@@ -432,8 +435,9 @@ class BoneVertex : public Bonename {
   // I/O functions
   void read(char *filename, float size = 1.);
   void readFromFile(FILE *file, float size = 1.);
-
 };
+
+//---------------------------------------------------------------------------
 
 // Reading part
 inline char readChar(FILE *in)
@@ -475,6 +479,8 @@ inline char *readString(FILE *in, char *str)
   while ((str[cpt++] = readChar(in)) != '\0');
   return str;
 }
+
+//---------------------------------------------------------------------------
 
 /**
  * Vertex class
@@ -624,6 +630,8 @@ class BoneMesh : public Bonename {
 //---------------------------------------------------------------------------
 
 /**
+ * Bone class
+ *
  * This is the main class that is to animate the bones
  * and the 3d mesh correctly... It creates the link
  * between the different vertices and bones and

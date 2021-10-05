@@ -52,7 +52,6 @@ Wall::Wall(char *l)
   parser(l);
 
   initMobileObject(0);
-  //dax initStillObject();
 }
 
 /* creation from gui addobject */

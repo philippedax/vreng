@@ -26,6 +26,7 @@
 #include "guy.hpp"	//
 #include "man.hpp"	//
 #include "render.hpp"	// minirender
+#include "icon.hpp"	// ICON_TYPE
 
 
 const OClass Mirror::oclass(MIRROR_TYPE, "Mirror", Mirror::creator);
@@ -77,6 +78,11 @@ bool Mirror::whenIntersect(WObject *pcur, WObject *pold)
   switch (pcur->type) {
   case USER_TYPE:
     projectPosition(pcur, pold);
+    break;
+  case ICON_TYPE:
+    // stick the icon on the wall
+    doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
+    pold->copyPosAndBB(pcur->pos);
     break;
   default:
     pold->copyPositionAndBB(pcur);

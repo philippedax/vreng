@@ -1009,8 +1009,6 @@ void WObject::delFromList(list<WObject*> &olist)
   return;
 }
 
-#if 1 //dax0 confusing with list<WObject*> FIXME!
-
 OList * WObject::addToList(OList *olist)
 {
   if (! isValid()) return olist;
@@ -1050,7 +1048,6 @@ OList * WObject::delOList(OList *olist)
   }
   return front;
 }
-#endif
 
 bool WObject::isStill()
 {
@@ -1143,7 +1140,7 @@ OList * WObject::addListToList(OList *l1, OList *l2)
   }
 }
 
-#if 0 //dax
+#if 0 // debug
 // static
 void WObject::show(const char *name)
 {

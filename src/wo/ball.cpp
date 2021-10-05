@@ -117,7 +117,7 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 
   //dax1 enableBehavior(PERSISTENT);	//dax1
   initMobileObject(TTL);
-  enablePermanentMovement(); // apply gravity
+  enablePermanentMovement();	// follow gravity force
 
   createVolatileNetObject(PROPS);
 }
@@ -139,7 +139,7 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
 
   //dax1 enableBehavior(PERSISTENT);
   initMobileObject(TTL);
-  enablePermanentMovement();
+  enablePermanentMovement();	// follow gravity force
 
   createVolatileNetObject(PROPS);
 }
@@ -159,6 +159,7 @@ Ball::Ball(WObject *user, char *solid)
 
   //dax1 enableBehavior(PERSISTENT);
   initMobileObject(TTL);
+  enablePermanentMovement();	// follow gravity force
 
   createVolatileNetObject(PROPS);
 }

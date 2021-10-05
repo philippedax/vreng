@@ -38,7 +38,7 @@ protected:
   static const GLfloat black[4];
 
   GLfloat radius;		///< sun radius
-  GLfloat scale;
+  GLfloat scale;		///< sun scale
   GLfloat light_dif[4];
   GLfloat light_spe[4];
   GLfloat light_rot;		///< angle sun position

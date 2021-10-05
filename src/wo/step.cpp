@@ -112,7 +112,6 @@ void Step::build()
     }
     else if (length && pos.ax) {
       height = length * tan(pos.ax);
-      //dax pos.ax = 0;
     }
     nsteps = (int) ceil(height / sz);
     size = height;
@@ -177,7 +176,6 @@ Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, 
   char *geom = new char[strlen(_geom)];
   strcpy(geom, _geom);
   parse()->parseSolid(geom, SEP, this);
-  //dax if (geom) delete[] geom; //random crash in free
 
   mobile = _mobile;
   dir = _dir;

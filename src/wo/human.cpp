@@ -88,7 +88,6 @@ WObject * Human::creator(char *l)
   return new Human(l);
 } 
 
-
 /* Constructor */
 Human::Human()
 {
@@ -117,14 +116,10 @@ Human::~Human()
 
 void Human::parser(char *l)
 { 
-  //defaults();
   l = tokenize(l);
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    //else if (! stringcmp(l, "skin=")) l = parse()->parseVector3f(l, skin_color, "skin");
-    //else if (! stringcmp(l, "bust=")) l = parse()->parseVector3f(l, bust_color, "bust");
-    //else if (! stringcmp(l, "legs=")) l = parse()->parseVector3f(l, legs_color, "legs");
   }
   end_while_parse(l);
 }
@@ -185,19 +180,15 @@ void Human::setMaterial(int i)
 /* Draws man */
 void Human::draw()
 {
-  int vc = 0, part = 0;
-
-  //dax glRotatef(90, 0,0,1);
-  //dax glRotatef(90, 1,0,0);	// stand up /x axis
+  int vc = 0;
 
   dlist = glGenLists(1);
   //dax glNewList(dlist, GL_COMPILE);
   for (int i=0; i < (sizeof(faces)/sizeof(faces[0])); i++) {
     glBegin(GL_TRIANGLES);
     if (vc == 0) {
-      setMaterial(manpart[part].mat);
-      vc = manpart[part].vcount;
-      part++;
+      setMaterial(manpart[i].mat);
+      vc = manpart[i].vcount;
     }
     vc--;
     for (int j=0; j<3 ; j++) {

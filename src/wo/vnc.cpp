@@ -104,8 +104,6 @@ Vnc::Vnc(char *l)
 
 void Vnc::buildScreen()
 {
-  //dax if (_solids.empty()) return;	// no solid
-
   V3 dim;
   getDimBB(dim);
 
@@ -113,7 +111,6 @@ void Vnc::buildScreen()
   float front = MIN(dim.v[0], dim.v[1]) + 0.02;
   float top   = dim.v[2];
   float bot   = -top;
-  //float depth = 0.9 * front;
   float height;
   float width;
   float rsol = left / top;

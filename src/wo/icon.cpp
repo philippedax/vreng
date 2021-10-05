@@ -242,24 +242,28 @@ Icon::Icon(User *user, void *d)
       else {
         // build local ofile in ~/public_html/vreng/
         ofile = new char[URL_LEN];
+#if MACOS
+        sprintf(ofile, "%s/Site", getenv("HOME"));
+#else
         sprintf(ofile, "%s/public_html", getenv("HOME"));
+#endif
         if (access(ofile, R_OK|W_OK|X_OK) == 0) {
           strcat(ofile, "/vreng/");
-          if (access(ofile, R_OK|W_OK|X_OK) == -1)
+          if (access(ofile, R_OK|W_OK|X_OK) == -1) {
             mkdir(ofile, 0755);
+          }
           strcat(ofile, ifile);
           FILE *fin, *fout;
           if ((fin = File::openFile(ifile, "r")) && (fout = File::openFile(ofile, "w"))) {
             char buf[2];
-            while (fread(buf, 1, 1, fin))
+            while (fread(buf, 1, 1, fin)) {
               fwrite(buf, 1, 1, fout);
+            }
             File::closeFile(fin);
             File::closeFile(fout);
             chmod(ofile, 0644);
 
-            //FIXME: define local http_server
-            //dax sprintf(names.url, "http://%s/~%s/vreng/%s", DEF_HTTP_SERVER, getenv("USER"), ifile);
-            sprintf(names.url, "http://%s%s/vreng/%s", Universe::current()->server, Universe::current()->urlpfx, ifile);
+            sprintf(names.url, "http://%s/%s/vreng/%s", Universe::current()->server, Universe::current()->urlpfx, ifile);
           }
           else {
             error("can't open %s or %s: %s (%d)", ifile, ofile, strerror(errno), errno);
@@ -316,7 +320,6 @@ Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
   noh->getAllProperties(pp);
   copyNoid(_noid);
 
-  //dax parse()->parseName(names.given, names.given);	// FIXME!
   makeSolid();
   defaults();
   initMobileObject(0);
@@ -366,7 +369,7 @@ void Icon::stick(Wall *pwall, void *_picon, time_t s, time_t u)
   GLfloat wallcolor[3] = {1, 1, 0};	// yellow
   pwall->setFlashy(wallcolor);		// flash the wall
 
-  //dax picon->updatePositionAndGrid(picon->pos);
+  picon->updatePositionAndGrid(picon->pos);
   picon->updatePosition();
   picon->enableBehavior(COLLIDE_ONCE);
   picon->taken = false;

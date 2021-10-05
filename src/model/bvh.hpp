@@ -519,6 +519,9 @@ public:
   vector<bvhPart*> child;
 };
 
+/**
+ * Bvh class
+ */
 class Bvh {
   bool verbose;
   enum mode {NONE,OFFSET,CHANNELS,JOINT,ROOT,End,Site,MOTION,Frames,Frame,Time,MOTIONDATA};

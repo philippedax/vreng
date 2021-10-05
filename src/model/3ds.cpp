@@ -96,7 +96,10 @@ bool _3ds::loadFromFile(FILE *f)
 {
   fp = f;
 
-  if (importModel(&_3dsModel) == false) { error("3ds file not loaded"); return false; }
+  if (importModel(&_3dsModel) == false) {
+    error("3ds file not loaded");
+    return false;
+  }
   if (importTextures() == false) warning("textures of 3ds file not loaded");
   return loaded = true; //success
 }
@@ -495,7 +498,7 @@ void _3ds::readChunk(tChunk *pChunk)
 
   // Then, we read the length of the chunk which is 4 bytes.
   pChunk->bytesRead += fread(&pChunk->length, 1, 4, fp);
-  File::localEndian(&pChunk->length,4);
+  File::localEndian(&pChunk->length, 4);
 }
 
 /** reads in a string of characters */
@@ -504,8 +507,9 @@ int _3ds::getString(char *pBuffer)
   int index = 0;
 
   fread(pBuffer, 1, 1, fp);
-  while (*(pBuffer + index++) != 0)
+  while (*(pBuffer + index++) != 0) {
     fread(pBuffer + index, 1, 1, fp);
+  }
 
   return strlen(pBuffer) + 1;
 }
@@ -631,14 +635,16 @@ void _3ds::readObjectMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPrev
 
       // Now that we found the material, check if it's a texture map.
       // If the strFile has a string length of 1 and over it's a texture
-      if (strlen(pModel->pMaterials[i].strFile) > 0)
+      if (strlen(pModel->pMaterials[i].strFile) > 0) {
         // Set the object's flag to say it has a texture map to bind.
         pObject->bHasTexture = true;
+      }
       break;
     }
-    else
+    else {
       // Set the ID to -1 to show there is no material for this object
       pObject->materialID = -1;
+    }
   }
   // Read past the rest of the chunk since we don't care about shared vertices
   pPreviousChunk->bytesRead += fread(buffer, 1, pPreviousChunk->length - pPreviousChunk->bytesRead, fp);

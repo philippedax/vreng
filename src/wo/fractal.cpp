@@ -65,12 +65,10 @@ void Fractal::behavior()
 
 void Fractal::makeSolid()
 {
-  //dax2 if (countOfSolids() == 0) {
-    char s[256];
-    //sprintf(s,"solid shape=\"bsphere\" radius=\"%f\" />",1.);
-    sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",1.,.25,1.);
-    parse()->parseSolid(s, SEP, this);
-  //dax2 }
+  char s[256];
+
+  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",1.,.25,1.);
+  parse()->parseSolid(s, SEP, this);
 }
 
 void Fractal::inits()
@@ -109,14 +107,14 @@ void Fractal::drawbranch(float w, float x0, float z0, float x1, float z1)
   if (w < 1.5) {
     glLineWidth(2.);
     glBegin(GL_LINES);
-      glVertex3f(x0, 0, z0);
-      glVertex3f(x1, 0, z1);
+     glVertex3f(x0, 0, z0);
+     glVertex3f(x1, 0, z1);
     glEnd();
   }
   glLineWidth(w);
   glBegin(GL_LINES);
-    glVertex3f(x0, 0, z0);
-    glVertex3f(x1, 0, z1);
+   glVertex3f(x0, 0, z0);
+   glVertex3f(x1, 0, z1);
   glEnd();
 }
   
@@ -131,7 +129,6 @@ void Fractal::generate(float x, float z, float w, float h, float a, uint16_t l)
   float z2 = turtle_z;
   l--;
   if (l < 3) {
-    //dax glColor3f(0.0, 1.0, 0.0);
     glColor3fv(color);
     drawbranch(w, x, z, x2, z2);
   }

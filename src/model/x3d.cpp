@@ -97,8 +97,8 @@ bool X3d::loadFromFile(char *filename)
   }
 
   //affichage de l'arbre xml - useless now
-  //dax XMLSTR result = xMainNode.createXMLString(1);
-  //dax printf("xml tree: %s", result);
+  //XMLSTR result = xMainNode.createXMLString(1);
+  //printf("xml tree: %s", result);
 
   return true;
 }
@@ -460,7 +460,7 @@ GLuint X3d::drawPrimitive(X3dShapes id)
 
 GLuint X3d::drawMesh(MeshInfos* meshInfos)
 {
-#if 0 //dax debug
+#if 0 // debug
   // we display what we have in the temporary structure
   error("New mesh in creation:");
   printf("coordindex: ");

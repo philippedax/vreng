@@ -48,9 +48,8 @@ Ground::Ground(char *l)
   parser(l);
 
   initStillObject();
-  //dax pos.z = 0;
   World::current()->setGround(pos.z + pos.bbs.v[2]);
-  //dax error("ground: z=%.2f bb=%.2f gr=%.2f",pos.z,pos.bbs.v[2],pos.z+pos.bbs.v[2]);
+  //error("ground: z=%.2f bb=%.2f gr=%.2f",pos.z,pos.bbs.v[2],pos.z+pos.bbs.v[2]);
 }
 
 Ground::Ground(WObject *user, char *geom)
@@ -69,31 +68,19 @@ Ground::Ground(WObject *user, char *geom)
 bool Ground::whenIntersect(WObject *pcur, WObject *pold)
 {
   switch (pcur->type) {
-
   case BALL_TYPE:
     pold->setLasting(0);
     pold->disablePermanentMovement();
     pold->copyPositionAndBB(pcur);
-#if 0
-    if (pcur->origz - pcur->pos.z > BALL_RADIUS * 2) {
-      pcur->pos.z = MAX((pcur->origz / 4), BALL_RADIUS * 2);
-      pcur->origz = pcur->pos.z;
-      pcur->ttl /= 4;
-      pcur->updatePositionAndGrid(pold);
-    }
-#endif
     break;
-
   case CAULDRON_TYPE:
     pold->setLasting(0);
     pold->disablePermanentMovement();
     pold->copyPosAndBB(pcur->pos);
     break;
-
   case STEP_TYPE:
   case GUIDE_TYPE:
     return false;
-
   default:
     pold->setLasting(0);
     pold->disablePermanentMovement();
@@ -104,12 +91,9 @@ bool Ground::whenIntersect(WObject *pcur, WObject *pold)
 
 void Ground::quit()
 {
-  savePersistency();
+  //savePersistency();
 }
 
 void Ground::funcs()
 {
-#if 0
-  setActionFunc(GROUND_TYPE, 0, WO_ACTION moveObject, "Move");
-#endif
 }
