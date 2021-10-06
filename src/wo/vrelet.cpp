@@ -187,8 +187,9 @@ void Vrelet::processClient()
       // create a new line
       trace(DBG_IFC, "vrelet get new line");
       o2 = newObject2D(o2, header.msg_id, tag, color);
-      while (msg->hasData(2*sizeof(int32_t)))
+      while (msg->hasData(2*sizeof(int32_t))) {
         addPoint(o2, msg->readPoint2D());
+      }
       processed = true;
     }
     else if (header.msg_id == VJC_MSGV_CIRCLE) {
@@ -238,8 +239,9 @@ void Vrelet::processClient()
       copyV3(&posDelta, msg->readDelta());
       copyV3(&angDelta, msg->readDelta());
 
-      if (who == this) // move myself (vrelet object)
+      if (who == this) {	// move myself (vrelet object)
         wantDelta = header.msg_id;
+      }
       else { // push someone else (vreng object)
         WObject *pold = new WObject();	// needed for collision
 
@@ -254,7 +256,7 @@ void Vrelet::processClient()
         if (who == localuser) who->updateCamera(pos);
 
         // propagate the changes
-#if 0 //dax
+#if 0
         OList *vicinityList = who->getVicinityList(pold);
         who->generalIntersect(pold, vicinityList);
         vicinityList->remove();

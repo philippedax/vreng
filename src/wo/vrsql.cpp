@@ -212,7 +212,7 @@ bool VRSql::query(const char *sqlcmd)
   int rc = sqlite3_exec(db, sqlcmd, 0, 0, &err_msg);	// without callback
   //rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
   if (rc != SQLITE_OK) {
-    //dax1 error("query: err %s", err_msg);
+    //error("query: err %s", err_msg);
     sqlite3_free(err_msg);
     sqlite3_close(db);
     return false;
@@ -289,7 +289,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   rc = sqlite3_step(res);
   if (rc == SQLITE_ROW) {
     val = sqlite3_column_int(res, 0);
-    //dax1 error("rc=%d val=%d", rc,val);
+    //error("rc=%d val=%d", rc,val);
   }
   else {
     error("%s %s %d err step %s", table,col,irow, sqlite3_errmsg(db));
@@ -397,7 +397,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(res, 0));
-      //dax1 error("rc=%d str=%s", rc,retstring);
+      //error("rc=%d str=%s", rc,retstring);
     }
   }
   else {
@@ -446,7 +446,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(res, 0));
-      //dax1 error("rc=%d str=%s", rc,retstring);
+      //error("rc=%d str=%s", rc,retstring);
     }
   }
   sqlite3_reset(res);
@@ -765,7 +765,7 @@ void VRSql::getColor(WObject *o, uint16_t irow)
 int VRSql::getCountCart()
 {
   char pattern[256];
-  //dax sprintf(pattern, "'^%s$'", ::g.user);
+  //sprintf(pattern, "'^%s$'", ::g.user);
   int val = getCount("Cart", COL_OWN, pattern);
   return (val != ERR_SQL) ? val : 0;
 }

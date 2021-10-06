@@ -287,7 +287,7 @@ void Particle::regenerate(float dt)
 
     // dead particle ?
     if (particles[n].pos[2] < (ground + 0.005)) {
-      //dax2 particles[n].alive = false;  // death
+      particles[n].alive = false;  // death
     }
     if (fequal(particles[n].vel[2], 0)) {
       particles[n].alive = false;  // death
@@ -333,7 +333,7 @@ void Particle::render()
     glBegin(GL_POINTS);	// points
     for (int n=0; n < number; n++) {
       if (! particles[n].alive) continue;  // dead
-      //dax if (particles[n].vel[2] > 0) continue;
+      if (particles[n].vel[2] > 0) continue;
       if (particles[n].pos[2] > pos.z && particles[n].pos[2] < ground) continue;
       glVertex3fv(particles[n].pos);
     }
@@ -346,7 +346,7 @@ void Particle::render()
     //glEnable(GL_LINE_STIPPLE);
     for (int n=0; n < number; n++) {
       if (! particles[n].alive) continue;  // dead
-      //dax if (particles[n].vel[2] > 0) continue;
+      if (particles[n].vel[2] > 0) continue;
       if (particles[n].pos[2] > pos.z && particles[n].pos[2] < ground) continue;
       glVertex3fv(particles[n].prev);
       glVertex3fv(particles[n].pos);

@@ -26,6 +26,7 @@
 
 const OClass Wind::oclass(WIND_TYPE, "Wind", Wind::creator);
 
+// local
 Wind * Wind::wind = NULL;	// singleton
 
 
@@ -110,8 +111,9 @@ Wind::Wind(char *l)
 
 #if HAVE_LIBPTHREAD
   int r = pthread_create(&tid, NULL, getHttp, (void *) NULL);
-  if (r)
+  if (r) {
     perror("wind: pthread_create");
+  }
   //dax pthread_join(tid, NULL);
 #else
   if (fork() == 0) {

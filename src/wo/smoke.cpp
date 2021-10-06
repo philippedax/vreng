@@ -26,7 +26,7 @@
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
 // local
-const float Smoke::S = 0.0025;	//dax 0.005
+const float Smoke::S = 0.0025;	//orig 0.005
 const float Smoke::PI = 3.141592;
 const float Smoke::A[NA] = { PI*1/4, PI*2/4, PI*3/4, PI, PI*5/4, PI*6/4, PI*7/4, 2*PI };
 const float Smoke::COS[NA] = { S*cos(A[0]), S*cos(A[1]), S*cos(A[2]), S*cos(A[3]), S*cos(A[4]), S*cos(A[5]), S*cos(A[6]), S*cos(A[7]) };
@@ -104,11 +104,11 @@ void Smoke::addParticle()
   tmp.add(emitter);
   //error("add: tmp=%.1f %.1f %.1f", tmp.x,tmp.y,tmp.z);
   Smoke p(tmp);
-#if 0 //dax1 bad no smoke
+#if 0 // bad no smoke
   p.loc.x = pos.x;
   p.loc.y = pos.y;
   p.loc.z = pos.z;
-#endif //dax1
+#endif
 
   particles.push_back(p);	// add p to particles
 }
@@ -160,8 +160,8 @@ void Smoke::animParticle()
 
 Vector3 Smoke::random()
 { 
-  float x = -0.01+(0.02*((float)rand())/(RAND_MAX));	//dax -0.02+(0.04 (more compact)
-  float y = -0.01+(0.02*((float)rand())/(RAND_MAX));	//dax -0.02+(0.04 (more compact)
+  float x = -0.01+(0.02*((float)rand())/(RAND_MAX));	// -0.02+(0.04 (more compact)
+  float y = -0.01+(0.02*((float)rand())/(RAND_MAX));	// -0.02+(0.04 (more compact)
   return Vector3(x, y, 0);
 }
 
@@ -171,13 +171,13 @@ void Smoke::render()
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);	// coord vreng
   //dax glTranslatef(-pos.y, pos.z, -pos.x);	// coord opengl
-  //dax glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-  //dax glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+  glEnable(GL_BLEND);
 
   drawParticle();
   //dax dlistParticle();
 
-  //dax glDisable(GL_BLEND);
+  glDisable(GL_BLEND);
   glPopMatrix();
 }
 
@@ -192,20 +192,20 @@ Smoke::Smoke(Vector3 l)
 
 void Smoke::update()
 {
-  float x_acc = 0.000034 * (1+(-2*((float)rand())/(RAND_MAX)));	//dax 0.000034
+  float x_acc = 0.000034 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000034
   float y_acc = 0.00001 *  (1+(-2*((float)rand())/(RAND_MAX)));
   float z_acc = y_acc;	//0
 
   acc = Vector3(x_acc, y_acc, z_acc);
   vel.add(acc);
   loc.add(vel);
-  life -= 0.5;	//dax -> 511, 0.2 -> 1277
+  life -= 0.5;	// -> 511, 0.2 -> 1277
   //error("update: %.2f %.2f %.2f %.2f", loc.x,loc.y,loc.z,life);
 }
 
 void Smoke::draw()
 {
-  float a = 1.2 - life/255;	//dax 1.2
+  float a = 1.2 - life/255;	// 1.2
 
   //dax dlist = glGenLists(1);
   //dax glNewList(dlist, GL_COMPILE);

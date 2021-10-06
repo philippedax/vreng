@@ -138,10 +138,10 @@ void Light::lighting()
   if (islight) {
     glPushAttrib(GL_LIGHTING_BIT);
     if (light_mode == POS) {
-      //dax glPushMatrix();
-      //dax glLoadIdentity();
+      glPushMatrix();
+      glLoadIdentity();
       glLightfv(GL_LIGHT2, GL_POSITION, light_position);
-      //dax glPopMatrix();
+      glPopMatrix();
     }
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, light_ambient);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
