@@ -14,7 +14,7 @@
 * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
 * ***********************************************************************/
 
-#if 0 //dax
+#if 0 //dax - noused in vreng
 
 #include <ubit/ubit_features.h>
 #include <iostream>
