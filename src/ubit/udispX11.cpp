@@ -674,8 +674,10 @@ void UDispX11::startLoop(bool main) {
       static XEvent e;  // !!static!!
       bool e_found = false;
       int e_count = 0;
+      int sz = displist.size();
+      //cerr << "startloop: sz " << sz <<endl;
       
-      for (unsigned int k = 0; k < displist.size(); ++k) {
+      for (int k = 0; k < sz; ++k) {
         UDispX11* nd = (UDispX11*)displist[k];
         
         if ((e_count = XPending(nd->sys_disp)) <= 0)    // fct non bloquante
@@ -686,14 +688,15 @@ void UDispX11::startLoop(bool main) {
         
         long t = UAppli::getTime();
         //cerr << "MainLoop: time " << t << " count " << e_count <<endl;
-        
-        if (e.type != MotionNotify || e_count <= 1
+ 
+        if (e.type != MotionNotify
+            || e_count <= 1
             || t - nd->app_motion_time < UAppli::impl.app_motion_lag
             || long(e.xmotion.time) - nd->nat_motion_time > UAppli::impl.nat_motion_lag) {
-          
+
           nd->app_motion_time = t;
           if (e.type == MotionNotify) nd->nat_motion_time = e.xmotion.time;
-          
+
           //cerr << "MainLoop: before dispatch " << e.type  << " "<< e_count << endl;
           nd->dispatchEvent(&e);
           // !!! ca devrait etre lie au disp !!!
@@ -703,7 +706,7 @@ void UDispX11::startLoop(bool main) {
         //  cerr << "trash event " << e.type  << " apptime " << t - nd->appli_time 
         //       << " xtime " << e.xmotion.time - nd->xmotion_time << endl;
       } //endfor(k)
-      
+
       // pour TOUS les disps
       if (UAppli::impl.request_mask) UAppli::impl.processPendingRequests();
       
@@ -722,17 +725,18 @@ void UDispX11::startLoop(bool main) {
     FD_ZERO(&read_set);
     
     int maxfd = 0;
-    for (unsigned int k = 0; k < displist.size(); ++k) {
+    for (int k = 0; k < displist.size(); ++k) {
       int xconnection = ((UDispX11*)displist[k])->xconnection;
       FD_SET(xconnection, &read_set);
       maxfd = std::max(maxfd, xconnection);
     }
+    //cerr << "maxfd " << maxfd <<endl;
     
     if (UAppli::impl.sources) a.resetSources(UAppli::impl.sources, read_set, maxfd);
     
 #if 1 //dax FIX startLloop
     if (maxfd > 128) {	// bad maxfd returned by resetSources FIXME!
-      //printf("maxfd=%d\n", maxfd);
+      //cerr << "maxfd " << maxfd <<endl;
       maxfd = 3;
     }
 #endif //dax
@@ -770,7 +774,7 @@ void UDispX11::startLoop(bool main) {
         if (a.request_mask) a.processPendingRequests();
       }
     }
-  }
+  } //endwhile(running)
 }
 
 // =============================================================================
