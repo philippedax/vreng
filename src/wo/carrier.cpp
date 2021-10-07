@@ -18,7 +18,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-
 #include "vreng.hpp"
 #include "carrier.hpp"
 #include "user.hpp"	// localuser
@@ -144,7 +143,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
   }
 
 #if 0 //dax
-  ObjectList *vicinitylist = object->getVicinityList(poldobj);
+  OList *vicinitylist = object->getVicinityList(poldobj);
   object->generalIntersect(poldobj, vicinitylist);
   if (*names.type) {	//FIXME: segfault
     vicinitylist->remove();

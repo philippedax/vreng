@@ -35,10 +35,10 @@
 <ground name="parvis-s" pos="-12 0 -.25"> <solid dim="20 30 .25" zp="/gif/marble.gif" /> </ground>
 -->
 <ground name="parvis" pos="0 6.5 -.25">
-<solid dim="4 17 .25"                       zp="/gif/marble.gif" dif="grey" />
-<solid dim="4 7 .25"   rel="0 -5 0 0 0"     zp="/gif/marble.gif" dif="grey" />
-<solid dim="40 30 .25" rel="12 -6.5 0 0 0"  zp="/gif/marble.gif" dif="grey" />
-<solid dim="40 30 .25" rel="-12 -6.5 0 0 0" zp="/gif/marble.gif" dif="grey" />
+<solid dim="4 17 .50"                       zp="/gif/marble.gif" dif="grey" />
+<solid dim="4 7 .50"   rel="0 -5 0 0 0"     zp="/gif/marble.gif" dif="grey" />
+<solid dim="40 60 .50" rel="12 -6.5 0 0 0"  zp="/gif/marble.gif" dif="grey" />
+<solid dim="40 60 .50" rel="-12 -6.5 0 0 0" zp="/gif/marble.gif" dif="grey" />
 </ground>
 <!--
 -->
@@ -48,12 +48,12 @@
 
 <!-- cardinal points -->
 <mirage name="cardinal" pos="0 0 0 0 1.57">
-<solid shape="cross" dim=".8 .04 .04" dif="red" />
+<solid shape="cross" dim=".8 .04 .01" dif="red" />
 </mirage>
-<text pos=".45 .1 .05 -1.57"   color="red"> N </text>
-<text pos="-.65 .1 .05 -1.57"  color="red"> S </text>
-<text pos="-.1 .70 .05 -1.57"  color="red"> W </text>
-<text pos="-.1 -.35 .05 -1.57" color="red"> E </text>
+<text pos=".45 .1 .01 -1.57"   color="red"> N </text>
+<text pos="-.65 .1 .01 -1.57"  color="red"> S </text>
+<text pos="-.1 .70 .01 -1.57"  color="red"> W </text>
+<text pos="-.1 -.35 .01 -1.57" color="red"> E </text>
 
 <!-- welcome text -->
 <text name="welcome" pos="9 -2 5.5 -1.57 1.57"> Welcome to VREng </text>
@@ -96,12 +96,6 @@ url="/vre/v8/checker.vre" channel="224.255.0.5/52706/127">
 url="/vre/v8/tarots.vre" channel="224.255.0.6/52716/127">
 <solid dim="2 .2 2" xn="/gif/tarots.gif" />
 </gate>
-<!--
-<gate name="tarots" pos="16.5 1.0 1 1.57"
-url="/vre/v8/tarots.vre" channel="224.255.0.6/52716/127">
-<solid dim="2 .2 2" xn="/gif/b_museum.gif" />
-</gate>
--->
 
 <!-- telecomparis 224.255.0.7 -->
 <!--
