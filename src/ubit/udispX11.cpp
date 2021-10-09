@@ -259,7 +259,8 @@ bool UDispX11::setVisual(XVisualInfo* vinfo, Colormap c) {
 #if UBIT_WITH_GL
 
 static XVisualInfo* _chooseGLVisual(Display* sys_disp, Screen* sys_screen,
-                                    int r, int g, int b, int a, int depth) {
+                                    int r, int g, int b, int a, int depth)
+{
   int gl_attr[] = {
     GLX_RGBA, 
     GLX_RED_SIZE,   r, 
@@ -276,24 +277,23 @@ static XVisualInfo* _chooseGLVisual(Display* sys_disp, Screen* sys_screen,
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-XVisualInfo* UDispX11::createGlvisual(int r, int g, int b, int a, int depth) {
+XVisualInfo* UDispX11::createGlvisual(int r, int g, int b, int a, int depth)
+{
   // cf aussi: GLXFBConfig *glconfig;
   XVisualInfo* vis = null;
   
   int dummy;
-  //r = g = b = 8;
-  //fprintf(stderr, "r=%d g=%d b=%d a=%d z=%d\n", r,g,b,a,depth);
-  if (!glXQueryExtension(sys_disp, &dummy, &dummy)) {
+  if (! glXQueryExtension(sys_disp, &dummy, &dummy)) {
     UAppli::error("UDispX11::createGLVisual","X11 server has no OpenGL extension");
     return (XVisualInfo*) null;
   }
   
   int glxmajor = 0, glxminor = 0;
   glXQueryVersion(sys_disp, &glxmajor, &glxminor);
-  //dax cerr << "OpenGL version: "<< glxmajor <<"."<<glxminor << endl;
+  //cerr << "OpenGL version: "<< glxmajor <<"."<<glxminor << endl;
   
   // find a Visual that match the requested bpp and OpenGL options
-  if (!(vis = _chooseGLVisual(sys_disp, sys_screen, r,g,b,a, depth))) {
+  if (! (vis = _chooseGLVisual(sys_disp, sys_screen, r,g,b,a, depth))) {
     UAppli::error("UDispX11::createGLVisual",
                   "could not get requested OpenGL visual with RGBA = %d %d %d %d / Depth = %d",
                   r,g,b,a,depth);
@@ -315,9 +315,9 @@ XVisualInfo* UDispX11::createGlvisual(int r, int g, int b, int a, int depth) {
   //                  vis->depth, bpp);
   
   if (UAppli::conf.getVerbosity() != 0) {
-    cout <<"OpenGL Visual: requested bpp: "<< bpp <<" / actual bpp: "<< vis->depth
-    // <<" / depth buffer= "<< 
-    <<" / visual id: "   <<vis->visualid <<" / visual class: "<<vis->c_class
+    cout << "OpenGL Visual: requested bpp: "<< bpp <<" / actual bpp: "<< vis->depth
+    << " / visual id: "   <<vis->visualid 
+    << " / visual class: "<<vis->c_class
     << (vis->c_class == PseudoColor ? 
         " (PseudoColor)" : vis->c_class==TrueColor ? " (TrueColor)" : " (Unknown)")
     << endl;
