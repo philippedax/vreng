@@ -885,27 +885,29 @@ void WObject::clearObjectBar()
 }
 
 /**
- * Gives instance or class and method names of an object if it exists
+ * Gives instance or class and action names of an object if it exists
  * called by GUI for infoBar
  */
 void WObject::getObjectHumanName(char **classname, char **instancename, char **actionnames)
 {
   int a;
-  static char methodname[ACTIONSNUMBER][ACTIONNAME_LEN];
+  static char actionname[ACTIONSNUMBER][ACTIONNAME_LEN];
 
   *classname    = (char *) typeName();
   *instancename = (char *) getInstance();
-  *actionnames  = (char *) methodname;
+  *actionnames  = (char *) actionname;
 
-  // clean methodname
-  for (a=0; a < ACTIONSNUMBER; a++) memset(methodname[a], 0, ACTIONNAME_LEN);
-
-  // copy method names
-  for (a=0; isActionName(type, a); a++) {
-    copyActionName(type, a, methodname[a]);
-    trace(DBG_WO, "getObjectHumanName: type=%d a=%d name=%s", type, a, methodname[a]);
+  // clean actionname
+  for (a=0; a < ACTIONSNUMBER; a++) {
+    memset(actionname[a], 0, ACTIONNAME_LEN);
   }
-  methodname[a][0] = '\0';
+
+  // copy actionname
+  for (a=0; isActionName(type, a); a++) {
+    copyActionName(type, a, actionname[a]);
+    trace(DBG_WO, "getObjectHumanName: type=%d a=%d name=%s", type, a, actionname[a]);
+  }
+  actionname[a][0] = '\0';
   objectbar = true;
 }
 
@@ -1272,7 +1274,8 @@ void WObject::getProperty(uint8_t prop_id, Payload *pp)
 {
   //debug error("getProperty: prop=%d type=%d", prop_id, type);
   if (! isGetPropertyFunc(type, prop_id)) {
-    error("getProperty: prop=%d doesn't match the object type=%d", prop_id, type); return;
+    error("getProperty: prop=%d doesn't match the object type=%d", prop_id, type);
+    return;
   }
   runGetPropertyFunc(type, prop_id, this, pp);
 }
@@ -1281,7 +1284,8 @@ void WObject::getProperty(uint8_t prop_id, Payload *pp)
 void WObject::putProperty(uint8_t prop_id, Payload *pp)
 {
   if (! isPutPropertyFunc(type, prop_id)) {
-    error("putProperty: prop=%d undefined for object=%d", prop_id, type); return;
+    error("putProperty: prop=%d undefined for object=%d", prop_id, type);
+    return;
   }
   runPutPropertyFunc(type, prop_id, this, pp);
 }

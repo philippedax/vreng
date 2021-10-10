@@ -111,7 +111,7 @@
 #include "drone.hpp"		/* 86 */
 
 
-const struct GeneralInitList generalInitList[] = {
+const struct InitFuncs initFuncs[] = {
 /* 00 */	{NULL},
 /* 01 */	{User::funcs},
 /* 02 */	{Plane::funcs},
@@ -205,29 +205,29 @@ const struct GeneralInitList generalInitList[] = {
 
 
 // local
-static struct PropertyFuncList putPropertyFuncList[OBJECTSNUMBER+1][PROPSNUMBER];
-static struct PropertyFuncList getPropertyFuncList[OBJECTSNUMBER+1][PROPSNUMBER];
-static struct GeneralActionList generalActionList[OBJECTSNUMBER+1][ACTIONSNUMBER];
+static struct ProperArray putPropertyArray[OBJECTSNUMBER+1][PROPSNUMBER];
+static struct ProperArray getPropertyArray[OBJECTSNUMBER+1][PROPSNUMBER];
+static struct ActionArray actionArray[OBJECTSNUMBER+1][ACTIONSNUMBER];
 
 float maxlastings[OBJECTSNUMBER+1];
 uint8_t propertiesnumber[OBJECTSNUMBER+1];
 
 
 /** initialization array of functions pointers */
-void World::initGeneralFuncList()
+void World::initFunc()
 {
   for (int i=0; i <= OBJECTSNUMBER; i++) {
 
     // action functions
     for (int j=0; j < ACTIONSNUMBER ; j++) {
-      generalActionList[i][j].name[0] = '\0';
-      generalActionList[i][j].method = NULL;
+      actionArray[i][j].name[0] = '\0';
+      actionArray[i][j].method = NULL;
     }
 
     // property functions
     for (int j=0; j < PROPSNUMBER ; j++) {
-      getPropertyFuncList[i][j].method = NULL;
-      putPropertyFuncList[i][j].method = NULL;
+      getPropertyArray[i][j].method = NULL;
+      putPropertyArray[i][j].method = NULL;
     }
 
     // property values
@@ -237,9 +237,9 @@ void World::initGeneralFuncList()
     maxlastings[i] = MAXFLOAT;
 
     // init functions
-    if (generalInitList[i].initfunc) {
-      trace(DBG_WO, "initfunc: i=%d f=%p", i, generalInitList[i].initfunc);
-      generalInitList[i].initfunc();
+    if (initFuncs[i].initfunc) {
+      trace(DBG_WO, "initfunc: i=%d", i);
+      initFuncs[i].initfunc();
     }
   }
 }
@@ -247,29 +247,29 @@ void World::initGeneralFuncList()
 /** Initializes table of action functions */
 void setActionFunc(int type, uint8_t action, void (*action_method)(WObject *o, void *d, time_t s, time_t u), const char *action_name)
 {
-  strcpy(generalActionList[type][action].name, action_name);
-  generalActionList[type][action].method = action_method;
+  strcpy(actionArray[type][action].name, action_name);
+  actionArray[type][action].method = action_method;
 }
 
 bool isAction(int type, uint8_t action)
 {
-  return generalActionList[type][action].method;
+  return actionArray[type][action].method;
 }
 
 void doAction(int type, uint8_t action, WObject *o, void *d, time_t s, time_t u)
 {
-  generalActionList[type][action].method(o, d, s, u);
+  actionArray[type][action].method(o, d, s, u);
 }
 
 bool isActionName(int type, uint8_t action)
 {
-  return generalActionList[type][action].name[0] != '\0';
+  return actionArray[type][action].name[0] != '\0';
 }
 
 int indexAction(int type, const char *name)
 {
   for (int i=0; isAction(type, i) ; i++) {
-    if (! strcasecmp(generalActionList[type][i].name, name))
+    if (! strcasecmp(actionArray[type][i].name, name))
       return i;
   }
   return -1;
@@ -277,17 +277,17 @@ int indexAction(int type, const char *name)
 
 void copyActionName(int type, uint8_t action, char *dest)
 {
-  strcpy(dest, generalActionList[type][action].name);
+  strcpy(dest, actionArray[type][action].name);
 }
 
 char * getActionName(int type, uint8_t action)
 {
-  return generalActionList[type][action].name;
+  return actionArray[type][action].name;
 }
 
 void * getActionMethod(int type, uint8_t action)
 {
-  return (void *) generalActionList[type][action].method;
+  return (void *) actionArray[type][action].method;
 }
 
 void setMaxLastings(int type, float maxlast)
@@ -313,30 +313,30 @@ uint8_t getPropertiesnumber(int type)
 /** Initializes table of property functions */
 void getPropertyFunc(int type, uint8_t prop, void (*getprop_method)(WObject *o, Payload *p))
 {
-  getPropertyFuncList[type][prop].method = getprop_method;
+  getPropertyArray[type][prop].method = getprop_method;
 }
 
 void putPropertyFunc(int type, uint8_t prop, void (*putprop_method)(WObject *o, Payload *p))
 {
-  putPropertyFuncList[type][prop].method = putprop_method;
+  putPropertyArray[type][prop].method = putprop_method;
 }
 
 bool isGetPropertyFunc(int type, uint8_t prop)
 {
-  return getPropertyFuncList[type][prop].method;
+  return getPropertyArray[type][prop].method;
 }
 
 bool isPutPropertyFunc(int type, uint8_t prop)
 {
-  return putPropertyFuncList[type][prop].method;
+  return putPropertyArray[type][prop].method;
 }
 
 void runGetPropertyFunc(int type, uint8_t prop, WObject *o, Payload *pp)
 {
-  getPropertyFuncList[type][prop].method(o, pp);
+  getPropertyArray[type][prop].method(o, pp);
 }
 
 void runPutPropertyFunc(int type, uint8_t prop, WObject *o, Payload *pp)
 {
-  putPropertyFuncList[type][prop].method(o, pp);
+  putPropertyArray[type][prop].method(o, pp);
 }

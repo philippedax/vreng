@@ -215,7 +215,7 @@ class World {
   static void initNames();
   /**< Initializes hashcode table of names. */
 
-  static void initGeneralFuncList();
+  static void initFunc();
   /**< Initializes table of general functions. */
 
   static void setManagerChanAndJoin(const char *chanstr);

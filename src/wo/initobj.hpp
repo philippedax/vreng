@@ -34,24 +34,24 @@
 
 
 /**
- * GeneralInitList struct
+ * InitFuncs struct
  */
-struct GeneralInitList {
+struct InitFuncs {
   void (*initfunc) (void);	///< init function
 };
 
 /**
- * PropertyFuncList struct
+ * ProperArray struct
  */
-struct PropertyFuncList {
+struct ProperArray {
   void (*method) (WObject *po, class Payload *pp);
 };
 #define WO_PAYLOAD  (void (*)(WObject *po, class Payload *pp))
 
 /**
- * GeneralActionList struct
+ * ActionArray struct
  */
-struct GeneralActionList {
+struct ActionArray {
   char name[ACTIONNAME_LEN];
   void (*method) (WObject *po, void *d, time_t s, time_t u);
 };
