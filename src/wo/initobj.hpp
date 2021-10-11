@@ -34,24 +34,24 @@
 
 
 /**
- * InitFuncs struct
+ * InitFunc struct
  */
-struct InitFuncs {
+struct InitFunc {
   void (*initfunc) (void);	///< init function
 };
 
 /**
- * ProperArray struct
+ * ProperFunc struct
  */
-struct ProperArray {
+struct ProperFunc {
   void (*method) (WObject *po, class Payload *pp);
 };
 #define WO_PAYLOAD  (void (*)(WObject *po, class Payload *pp))
 
 /**
- * ActionArray struct
+ * ActionFunc struct
  */
-struct ActionArray {
+struct ActionFunc {
   char name[ACTIONNAME_LEN];
   void (*method) (WObject *po, void *d, time_t s, time_t u);
 };

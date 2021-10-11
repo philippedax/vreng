@@ -111,7 +111,7 @@
 #include "drone.hpp"		/* 86 */
 
 
-const struct InitFuncs initFuncs[] = {
+const struct InitFunc initFuncs[] = {
 /* 00 */	{NULL},
 /* 01 */	{User::funcs},
 /* 02 */	{Plane::funcs},
@@ -205,9 +205,9 @@ const struct InitFuncs initFuncs[] = {
 
 
 // local
-static struct ProperArray putPropertyArray[OBJECTSNUMBER+1][PROPSNUMBER];
-static struct ProperArray getPropertyArray[OBJECTSNUMBER+1][PROPSNUMBER];
-static struct ActionArray actionArray[OBJECTSNUMBER+1][ACTIONSNUMBER];
+static struct ProperFunc putPropertyArray[OBJECTSNUMBER+1][PROPSNUMBER];
+static struct ProperFunc getPropertyArray[OBJECTSNUMBER+1][PROPSNUMBER];
+static struct ActionFunc actionArray[OBJECTSNUMBER+1][ACTIONSNUMBER];
 
 float maxlastings[OBJECTSNUMBER+1];
 uint8_t propertiesnumber[OBJECTSNUMBER+1];
