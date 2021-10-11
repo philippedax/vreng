@@ -293,19 +293,19 @@ void Door::unlock_cb(Door *door, void *d, time_t s, time_t u) { door->unlock(); 
 
 void Door::funcs()
 {
-  getPropertyFunc(DOOR_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(DOOR_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(DOOR_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(DOOR_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(DOOR_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(DOOR_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(DOOR_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(DOOR_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(DOOR_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(DOOR_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(DOOR_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(DOOR_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(DOOR_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(DOOR_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(DOOR_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(DOOR_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(DOOR_TYPE, 0, WO_ACTION open_cb, "Open");
-  setActionFunc(DOOR_TYPE, 1, WO_ACTION close_cb, "Close");
-  setActionFunc(DOOR_TYPE, 2, WO_ACTION unlock_cb, "Unlock");
-  setActionFunc(DOOR_TYPE, 3, WO_ACTION lock_cb, "Lock");
-  setActionFunc(DOOR_TYPE, 4, WO_ACTION gotoFront, "Approach");
+  setActionFunc(DOOR_TYPE, 0, _Action open_cb, "Open");
+  setActionFunc(DOOR_TYPE, 1, _Action close_cb, "Close");
+  setActionFunc(DOOR_TYPE, 2, _Action unlock_cb, "Unlock");
+  setActionFunc(DOOR_TYPE, 3, _Action lock_cb, "Lock");
+  setActionFunc(DOOR_TYPE, 4, _Action gotoFront, "Approach");
 }

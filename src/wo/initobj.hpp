@@ -46,7 +46,7 @@ struct InitFunc {
 struct ProperFunc {
   void (*method) (WObject *po, class Payload *pp);
 };
-#define WO_PAYLOAD  (void (*)(WObject *po, class Payload *pp))
+#define _Payload (void (*)(WObject *o, class Payload *p))
 
 /**
  * ActionFunc struct
@@ -55,7 +55,7 @@ struct ActionFunc {
   char name[ACTIONNAME_LEN];
   void (*method) (WObject *po, void *d, time_t s, time_t u);
 };
-#define WO_ACTION (void (*)(WObject *po, void *d, time_t s, time_t u))
+#define _Action (void (*)(WObject *o, void *d, time_t s, time_t u))
 
 
 /* external functions */

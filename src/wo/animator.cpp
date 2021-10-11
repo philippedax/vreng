@@ -164,15 +164,15 @@ void Animator::quit()
 
 void Animator::funcs()
 {
-  getPropertyFunc(ANIMATOR_TYPE, PROPFRAME, WO_PAYLOAD get_frame);
-  getPropertyFunc(ANIMATOR_TYPE, PROPNBFRAMES, WO_PAYLOAD get_nb_frames);
-  getPropertyFunc(ANIMATOR_TYPE, PROPTTL, WO_PAYLOAD get_ttl);
+  getPropertyFunc(ANIMATOR_TYPE, PROPFRAME, _Payload get_frame);
+  getPropertyFunc(ANIMATOR_TYPE, PROPNBFRAMES, _Payload get_nb_frames);
+  getPropertyFunc(ANIMATOR_TYPE, PROPTTL, _Payload get_ttl);
 
-  putPropertyFunc(ANIMATOR_TYPE, PROPFRAME, WO_PAYLOAD put_frame);
-  putPropertyFunc(ANIMATOR_TYPE, PROPNBFRAMES, WO_PAYLOAD put_nb_frames);
-  putPropertyFunc(ANIMATOR_TYPE, PROPTTL, WO_PAYLOAD put_ttl);
+  putPropertyFunc(ANIMATOR_TYPE, PROPFRAME, _Payload put_frame);
+  putPropertyFunc(ANIMATOR_TYPE, PROPNBFRAMES, _Payload put_nb_frames);
+  putPropertyFunc(ANIMATOR_TYPE, PROPTTL, _Payload put_ttl);
 
-  setActionFunc(ANIMATOR_TYPE, 0, WO_ACTION start, "Start");
-  setActionFunc(ANIMATOR_TYPE, 1, WO_ACTION stop, "Stop");
-  setActionFunc(ANIMATOR_TYPE, 2, WO_ACTION moveObject, "Move");
+  setActionFunc(ANIMATOR_TYPE, 0, _Action start, "Start");
+  setActionFunc(ANIMATOR_TYPE, 1, _Action stop, "Stop");
+  setActionFunc(ANIMATOR_TYPE, 2, _Action moveObject, "Move");
 }

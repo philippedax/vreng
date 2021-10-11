@@ -251,8 +251,8 @@ void Drone::reset_cb(Drone *drone, void *d, time_t s, time_t u)
 
 void Drone::funcs()
 {
-  setActionFunc(DRONE_TYPE, 0, WO_ACTION fly_cb, "flying");
-  setActionFunc(DRONE_TYPE, 1, WO_ACTION pause_cb, "pause");
-  setActionFunc(DRONE_TYPE, 2, WO_ACTION view_cb, "view");
-  setActionFunc(DRONE_TYPE, 3, WO_ACTION reset_cb, "reset");
+  setActionFunc(DRONE_TYPE, 0, _Action fly_cb, "flying");
+  setActionFunc(DRONE_TYPE, 1, _Action pause_cb, "pause");
+  setActionFunc(DRONE_TYPE, 2, _Action view_cb, "view");
+  setActionFunc(DRONE_TYPE, 3, _Action reset_cb, "reset");
 }

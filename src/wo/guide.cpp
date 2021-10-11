@@ -444,9 +444,9 @@ void Guide::quit()
 
 void Guide::funcs()
 {
-  setActionFunc(GUIDE_TYPE, 0, WO_ACTION visit, "Visit");
-  setActionFunc(GUIDE_TYPE, 1, WO_ACTION showhide, "Show");
-  setActionFunc(GUIDE_TYPE, 2, WO_ACTION pausecontinue, "Pause");
-  setActionFunc(GUIDE_TYPE, 3, WO_ACTION test, "Test");
-  setActionFunc(GUIDE_TYPE, 4, WO_ACTION reset, "Reset");
+  setActionFunc(GUIDE_TYPE, 0, _Action visit, "Visit");
+  setActionFunc(GUIDE_TYPE, 1, _Action showhide, "Show");
+  setActionFunc(GUIDE_TYPE, 2, _Action pausecontinue, "Pause");
+  setActionFunc(GUIDE_TYPE, 3, _Action test, "Test");
+  setActionFunc(GUIDE_TYPE, 4, _Action reset, "Reset");
 }

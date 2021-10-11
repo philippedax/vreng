@@ -260,8 +260,8 @@ void Mirage::destroy(Mirage *mirage, void *d, time_t s, time_t u)
 
 void Mirage::funcs()
 {
-  setActionFunc(MIRAGE_TYPE, APPROACH, WO_ACTION gotoFront, "Approach");
-  setActionFunc(MIRAGE_TYPE, MOVE, WO_ACTION moveObject, "Move");
-  setActionFunc(MIRAGE_TYPE, DESTROY, WO_ACTION destroy, "Destroy");
-  setActionFunc(MIRAGE_TYPE, RECREATE, WO_ACTION recreate, "");
+  setActionFunc(MIRAGE_TYPE, APPROACH, _Action gotoFront, "Approach");
+  setActionFunc(MIRAGE_TYPE, MOVE, _Action moveObject, "Move");
+  setActionFunc(MIRAGE_TYPE, DESTROY, _Action destroy, "Destroy");
+  setActionFunc(MIRAGE_TYPE, RECREATE, _Action recreate, "");
 }

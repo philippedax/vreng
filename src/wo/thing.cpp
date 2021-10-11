@@ -230,23 +230,23 @@ void Thing::quit()
 
 void Thing::funcs()
 {
-  getPropertyFunc(THING_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(THING_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(THING_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(THING_TYPE, PROPAX, WO_PAYLOAD get_ax);
-  getPropertyFunc(THING_TYPE, PROPAY, WO_PAYLOAD get_ay);
-  getPropertyFunc(THING_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(THING_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(THING_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(THING_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(THING_TYPE, PROPAX, _Payload get_ax);
+  getPropertyFunc(THING_TYPE, PROPAY, _Payload get_ay);
+  getPropertyFunc(THING_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(THING_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(THING_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(THING_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(THING_TYPE, PROPAX, WO_PAYLOAD put_ax);
-  putPropertyFunc(THING_TYPE, PROPAY, WO_PAYLOAD put_ay);
-  putPropertyFunc(THING_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(THING_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(THING_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(THING_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(THING_TYPE, PROPAX, _Payload put_ax);
+  putPropertyFunc(THING_TYPE, PROPAY, _Payload put_ay);
+  putPropertyFunc(THING_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(THING_TYPE, APPROACH, WO_ACTION gotoFront, "Approach");
-  setActionFunc(THING_TYPE, MOVE, WO_ACTION moveObject, "Move");
-  setActionFunc(THING_TYPE, BASKET, WO_ACTION dropIntoBasket, "Basket");
-  setActionFunc(THING_TYPE, DESTROY, WO_ACTION destroy, "Destroy");
-  setActionFunc(THING_TYPE, RECREATE, WO_ACTION recreate, "");
+  setActionFunc(THING_TYPE, APPROACH, _Action gotoFront, "Approach");
+  setActionFunc(THING_TYPE, MOVE, _Action moveObject, "Move");
+  setActionFunc(THING_TYPE, BASKET, _Action dropIntoBasket, "Basket");
+  setActionFunc(THING_TYPE, DESTROY, _Action destroy, "Destroy");
+  setActionFunc(THING_TYPE, RECREATE, _Action recreate, "");
 }

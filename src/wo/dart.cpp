@@ -119,13 +119,13 @@ void Dart::get_hit(Dart *pcur, Payload *pp)
 
 void Dart::funcs()
 {
-  getPropertyFunc(DART_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
-  getPropertyFunc(DART_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(DART_TYPE, PROPHIT, WO_PAYLOAD get_hit);
+  getPropertyFunc(DART_TYPE, PROPHNAME, _Payload get_hname);
+  getPropertyFunc(DART_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(DART_TYPE, PROPHIT, _Payload get_hit);
 
-  putPropertyFunc(DART_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
-  putPropertyFunc(DART_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(DART_TYPE, PROPHIT, WO_PAYLOAD User::dartPutHit);
+  putPropertyFunc(DART_TYPE, PROPHNAME, _Payload put_hname);
+  putPropertyFunc(DART_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(DART_TYPE, PROPHIT, _Payload User::dartPutHit);
 
-  setActionFunc(DART_TYPE, CREATE, WO_ACTION create, "");
+  setActionFunc(DART_TYPE, CREATE, _Action create, "");
 }

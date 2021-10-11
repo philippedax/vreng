@@ -120,6 +120,6 @@ void Slider::quit()
 
 void Slider::funcs()
 {
-  setActionFunc(SLIDER_TYPE, 0, WO_ACTION gotoFront, "Approach");
-  setActionFunc(SLIDER_TYPE, 1, WO_ACTION pause_cb, "Pause/Continue");
+  setActionFunc(SLIDER_TYPE, 0, _Action gotoFront, "Approach");
+  setActionFunc(SLIDER_TYPE, 1, _Action pause_cb, "Pause/Continue");
 }

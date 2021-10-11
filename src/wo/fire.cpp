@@ -306,6 +306,6 @@ void Fire::stop_cb(Fire *fire, void *d, time_t s, time_t u)
 
 void Fire::funcs()
 {
-  setActionFunc(FIRE_TYPE, 0, WO_ACTION sound_cb, "Sound");
-  setActionFunc(FIRE_TYPE, 1, WO_ACTION stop_cb, "On/Off");
+  setActionFunc(FIRE_TYPE, 0, _Action sound_cb, "Sound");
+  setActionFunc(FIRE_TYPE, 1, _Action stop_cb, "On/Off");
 }

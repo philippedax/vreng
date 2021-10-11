@@ -409,28 +409,28 @@ void Ball::recreate_cb(World *w, void *d, time_t s, time_t u)
 
 void Ball::funcs()
 {
-  getPropertyFunc(BALL_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(BALL_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(BALL_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(BALL_TYPE, PROPAX, WO_PAYLOAD get_ax);
-  getPropertyFunc(BALL_TYPE, PROPAY, WO_PAYLOAD get_ay);
-  getPropertyFunc(BALL_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(BALL_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(BALL_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(BALL_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(BALL_TYPE, PROPAX, _Payload get_ax);
+  getPropertyFunc(BALL_TYPE, PROPAY, _Payload get_ay);
+  getPropertyFunc(BALL_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(BALL_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(BALL_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(BALL_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(BALL_TYPE, PROPAX, WO_PAYLOAD put_ax);
-  putPropertyFunc(BALL_TYPE, PROPAY, WO_PAYLOAD put_ay);
-  putPropertyFunc(BALL_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(BALL_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(BALL_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(BALL_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(BALL_TYPE, PROPAX, _Payload put_ax);
+  putPropertyFunc(BALL_TYPE, PROPAY, _Payload put_ay);
+  putPropertyFunc(BALL_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(BALL_TYPE, PUSH,     WO_ACTION push_cb, "Push");
-  setActionFunc(BALL_TYPE, PULL,     WO_ACTION pull_cb, "Pull");
-  setActionFunc(BALL_TYPE, SHOOT,    WO_ACTION shoot_cb, "Shoot");
-  setActionFunc(BALL_TYPE, UP,       WO_ACTION up_cb, "Up");
-  setActionFunc(BALL_TYPE, TAKE,     WO_ACTION take_cb, "Take");
-  setActionFunc(BALL_TYPE, DROP,     WO_ACTION drop_cb, "Drop");
-  setActionFunc(BALL_TYPE, TURN,     WO_ACTION turn_cb, "Turn");
-  setActionFunc(BALL_TYPE, KILL,     WO_ACTION destroy_cb, "Destroy");
-  setActionFunc(BALL_TYPE, CREATE,   WO_ACTION create_cb, "");
-  setActionFunc(BALL_TYPE, RECREATE, WO_ACTION recreate_cb, "");
+  setActionFunc(BALL_TYPE, PUSH,     _Action push_cb, "Push");
+  setActionFunc(BALL_TYPE, PULL,     _Action pull_cb, "Pull");
+  setActionFunc(BALL_TYPE, SHOOT,    _Action shoot_cb, "Shoot");
+  setActionFunc(BALL_TYPE, UP,       _Action up_cb, "Up");
+  setActionFunc(BALL_TYPE, TAKE,     _Action take_cb, "Take");
+  setActionFunc(BALL_TYPE, DROP,     _Action drop_cb, "Drop");
+  setActionFunc(BALL_TYPE, TURN,     _Action turn_cb, "Turn");
+  setActionFunc(BALL_TYPE, KILL,     _Action destroy_cb, "Destroy");
+  setActionFunc(BALL_TYPE, CREATE,   _Action create_cb, "");
+  setActionFunc(BALL_TYPE, RECREATE, _Action recreate_cb, "");
 }

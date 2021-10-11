@@ -741,28 +741,28 @@ void Book::lookLeft_cb(Book *book, void *d, time_t s, time_t u)
 
 void Book::funcs()
 {
-  getPropertyFunc(BOOK_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(BOOK_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(BOOK_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(BOOK_TYPE, PROPAX, WO_PAYLOAD get_ax);
-  getPropertyFunc(BOOK_TYPE, PROPAY, WO_PAYLOAD get_ay);
-  getPropertyFunc(BOOK_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(BOOK_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(BOOK_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(BOOK_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(BOOK_TYPE, PROPAX, _Payload get_ax);
+  getPropertyFunc(BOOK_TYPE, PROPAY, _Payload get_ay);
+  getPropertyFunc(BOOK_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(BOOK_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(BOOK_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(BOOK_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(BOOK_TYPE, PROPAX, WO_PAYLOAD put_ax);
-  putPropertyFunc(BOOK_TYPE, PROPAY, WO_PAYLOAD put_ay);
-  putPropertyFunc(BOOK_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(BOOK_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(BOOK_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(BOOK_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(BOOK_TYPE, PROPAX, _Payload put_ax);
+  putPropertyFunc(BOOK_TYPE, PROPAY, _Payload put_ay);
+  putPropertyFunc(BOOK_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(BOOK_TYPE, PULL, WO_ACTION approach_cb, "Approach");
-  setActionFunc(BOOK_TYPE, OPEN, WO_ACTION open_cb, "Open");
-  setActionFunc(BOOK_TYPE, CLOSE, WO_ACTION close_cb, "Close");
-  setActionFunc(BOOK_TYPE, NEXT, WO_ACTION nextSheet_cb, ">");
-  setActionFunc(BOOK_TYPE, PREV, WO_ACTION prevSheet_cb, "<");
-  setActionFunc(BOOK_TYPE, FWD, WO_ACTION forwardSheet_cb, ">>");
-  setActionFunc(BOOK_TYPE, REW, WO_ACTION backwardSheet_cb, "<<");
-  setActionFunc(BOOK_TYPE, LOOKL, WO_ACTION lookLeft_cb, "LookLeft");
-  setActionFunc(BOOK_TYPE, LOOKR, WO_ACTION lookRight_cb, "LookRight");
-  setActionFunc(BOOK_TYPE, MOVE, WO_ACTION moveObject, "Move");
+  setActionFunc(BOOK_TYPE, PULL, _Action approach_cb, "Approach");
+  setActionFunc(BOOK_TYPE, OPEN, _Action open_cb, "Open");
+  setActionFunc(BOOK_TYPE, CLOSE, _Action close_cb, "Close");
+  setActionFunc(BOOK_TYPE, NEXT, _Action nextSheet_cb, ">");
+  setActionFunc(BOOK_TYPE, PREV, _Action prevSheet_cb, "<");
+  setActionFunc(BOOK_TYPE, FWD, _Action forwardSheet_cb, ">>");
+  setActionFunc(BOOK_TYPE, REW, _Action backwardSheet_cb, "<<");
+  setActionFunc(BOOK_TYPE, LOOKL, _Action lookLeft_cb, "LookLeft");
+  setActionFunc(BOOK_TYPE, LOOKR, _Action lookRight_cb, "LookRight");
+  setActionFunc(BOOK_TYPE, MOVE, _Action moveObject, "Move");
 }

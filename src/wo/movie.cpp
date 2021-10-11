@@ -389,13 +389,13 @@ void Movie::quit()
 void Movie::funcs()
 {
 #if 0
-  setActionFunc(MOVIE_TYPE, 0, WO_ACTION play, (const char *) uitem(ulabel(g.theme.Playvideo)));
+  setActionFunc(MOVIE_TYPE, 0, _Action play, (const char *) uitem(ulabel(g.theme.Playvideo)));
 #else
-  setActionFunc(MOVIE_TYPE, 0, WO_ACTION play, "Play");
+  setActionFunc(MOVIE_TYPE, 0, _Action play, "Play");
 #endif
-  setActionFunc(MOVIE_TYPE, 1, WO_ACTION stop, "Stop");
-  setActionFunc(MOVIE_TYPE, 2, WO_ACTION pause, "Pause");
-  setActionFunc(MOVIE_TYPE, 3, WO_ACTION loop, "Loop");
-  setActionFunc(MOVIE_TYPE, 4, WO_ACTION rewind, "Rewind");
-  setActionFunc(MOVIE_TYPE, 5, WO_ACTION moveObject, "Move");
+  setActionFunc(MOVIE_TYPE, 1, _Action stop, "Stop");
+  setActionFunc(MOVIE_TYPE, 2, _Action pause, "Pause");
+  setActionFunc(MOVIE_TYPE, 3, _Action loop, "Loop");
+  setActionFunc(MOVIE_TYPE, 4, _Action rewind, "Rewind");
+  setActionFunc(MOVIE_TYPE, 5, _Action moveObject, "Move");
 }

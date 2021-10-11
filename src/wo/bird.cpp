@@ -228,7 +228,7 @@ void Bird::reset_cb(Bird *bird, void *d, time_t s, time_t u)
 
 void Bird::funcs()
 {
-  setActionFunc(BIRD_TYPE, 0, WO_ACTION fly_cb, "flying");
-  setActionFunc(BIRD_TYPE, 1, WO_ACTION pause_cb, "pause");
-  setActionFunc(BIRD_TYPE, 2, WO_ACTION reset_cb, "reset");
+  setActionFunc(BIRD_TYPE, 0, _Action fly_cb, "flying");
+  setActionFunc(BIRD_TYPE, 1, _Action pause_cb, "pause");
+  setActionFunc(BIRD_TYPE, 2, _Action reset_cb, "reset");
 }

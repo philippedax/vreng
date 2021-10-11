@@ -93,22 +93,22 @@ void Doc::quit()
 
 void Doc::funcs()
 {
-  getPropertyFunc(DOC_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(DOC_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(DOC_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(DOC_TYPE, PROPAX, WO_PAYLOAD get_ax);
-  getPropertyFunc(DOC_TYPE, PROPAY, WO_PAYLOAD get_ay);
-  getPropertyFunc(DOC_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(DOC_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(DOC_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(DOC_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(DOC_TYPE, PROPAX, _Payload get_ax);
+  getPropertyFunc(DOC_TYPE, PROPAY, _Payload get_ay);
+  getPropertyFunc(DOC_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(DOC_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(DOC_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(DOC_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(DOC_TYPE, PROPAX, WO_PAYLOAD put_ax);
-  putPropertyFunc(DOC_TYPE, PROPAY, WO_PAYLOAD put_ay);
-  putPropertyFunc(DOC_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(DOC_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(DOC_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(DOC_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(DOC_TYPE, PROPAX, _Payload put_ax);
+  putPropertyFunc(DOC_TYPE, PROPAY, _Payload put_ay);
+  putPropertyFunc(DOC_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(DOC_TYPE, 0, WO_ACTION view_cb, "View");
-  setActionFunc(DOC_TYPE, 1, WO_ACTION print_cb, "Print");
-  setActionFunc(DOC_TYPE, 2, WO_ACTION cancel_cb, "Cancel");
-  setActionFunc(DOC_TYPE, 3, WO_ACTION moveObject, "Move");
+  setActionFunc(DOC_TYPE, 0, _Action view_cb, "View");
+  setActionFunc(DOC_TYPE, 1, _Action print_cb, "Print");
+  setActionFunc(DOC_TYPE, 2, _Action cancel_cb, "Cancel");
+  setActionFunc(DOC_TYPE, 3, _Action moveObject, "Move");
 }

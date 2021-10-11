@@ -277,13 +277,13 @@ void Water::reset(Water *water, void *d, time_t s, time_t u)
 
 void Water::funcs()
 {
-  setActionFunc(WATER_TYPE, 0, WO_ACTION moreAmpl, "Ampl+");
-  setActionFunc(WATER_TYPE, 1, WO_ACTION lessAmpl, "Ampl-");
-  setActionFunc(WATER_TYPE, 2, WO_ACTION moreFreq, "Freq+");
-  setActionFunc(WATER_TYPE, 3, WO_ACTION lessFreq, "Freq-");
-  setActionFunc(WATER_TYPE, 4, WO_ACTION morePhase, "Phase+");
-  setActionFunc(WATER_TYPE, 5, WO_ACTION lessPhase, "Phase-");
-  setActionFunc(WATER_TYPE, 6, WO_ACTION moreTransp, "Transp+");
-  setActionFunc(WATER_TYPE, 7, WO_ACTION lessTransp, "Transp-");
-  setActionFunc(WATER_TYPE, 8, WO_ACTION reset, "Defaults");
+  setActionFunc(WATER_TYPE, 0, _Action moreAmpl, "Ampl+");
+  setActionFunc(WATER_TYPE, 1, _Action lessAmpl, "Ampl-");
+  setActionFunc(WATER_TYPE, 2, _Action moreFreq, "Freq+");
+  setActionFunc(WATER_TYPE, 3, _Action lessFreq, "Freq-");
+  setActionFunc(WATER_TYPE, 4, _Action morePhase, "Phase+");
+  setActionFunc(WATER_TYPE, 5, _Action lessPhase, "Phase-");
+  setActionFunc(WATER_TYPE, 6, _Action moreTransp, "Transp+");
+  setActionFunc(WATER_TYPE, 7, _Action lessTransp, "Transp-");
+  setActionFunc(WATER_TYPE, 8, _Action reset, "Defaults");
 }

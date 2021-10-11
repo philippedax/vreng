@@ -212,22 +212,22 @@ void Web::quit()
 
 void Web::funcs()
 {
-  getPropertyFunc(WEB_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(WEB_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(WEB_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(WEB_TYPE, PROPAX, WO_PAYLOAD get_ax);
-  getPropertyFunc(WEB_TYPE, PROPAY, WO_PAYLOAD get_ay);
-  getPropertyFunc(WEB_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(WEB_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(WEB_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(WEB_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(WEB_TYPE, PROPAX, _Payload get_ax);
+  getPropertyFunc(WEB_TYPE, PROPAY, _Payload get_ay);
+  getPropertyFunc(WEB_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(WEB_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(WEB_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(WEB_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(WEB_TYPE, PROPAX, WO_PAYLOAD put_ax);
-  putPropertyFunc(WEB_TYPE, PROPAY, WO_PAYLOAD put_ay);
-  putPropertyFunc(WEB_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(WEB_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(WEB_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(WEB_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(WEB_TYPE, PROPAX, _Payload put_ax);
+  putPropertyFunc(WEB_TYPE, PROPAY, _Payload put_ay);
+  putPropertyFunc(WEB_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(WEB_TYPE, 0, WO_ACTION open_cb, "Open");
-  setActionFunc(WEB_TYPE, 1, WO_ACTION pivot_cb, "Pivot");
-  setActionFunc(WEB_TYPE, 2, WO_ACTION gotoFront, "Approach");
-  setActionFunc(WEB_TYPE, 3, WO_ACTION moveObject, "Move");
+  setActionFunc(WEB_TYPE, 0, _Action open_cb, "Open");
+  setActionFunc(WEB_TYPE, 1, _Action pivot_cb, "Pivot");
+  setActionFunc(WEB_TYPE, 2, _Action gotoFront, "Approach");
+  setActionFunc(WEB_TYPE, 3, _Action moveObject, "Move");
 }

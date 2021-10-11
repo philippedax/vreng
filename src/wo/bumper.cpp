@@ -140,6 +140,6 @@ void Bumper::quit()
 
 void Bumper::funcs()
 {
-  setActionFunc(BUMPER_TYPE, 0, WO_ACTION gotoFront, "Approach");
-  setActionFunc(BUMPER_TYPE, 1, WO_ACTION pause_cb, "Pause/Continue");
+  setActionFunc(BUMPER_TYPE, 0, _Action gotoFront, "Approach");
+  setActionFunc(BUMPER_TYPE, 1, _Action pause_cb, "Pause/Continue");
 }

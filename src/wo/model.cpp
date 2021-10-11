@@ -339,6 +339,6 @@ void Model::sound(Model *model, void *d, time_t s, time_t u)
 
 void Model::funcs()
 {
-  setActionFunc(MODEL_TYPE, 0, WO_ACTION moveObject, "Move");
-  setActionFunc(MODEL_TYPE, 1, WO_ACTION sound, "Sound");
+  setActionFunc(MODEL_TYPE, 0, _Action moveObject, "Move");
+  setActionFunc(MODEL_TYPE, 1, _Action sound, "Sound");
 }

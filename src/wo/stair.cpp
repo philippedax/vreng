@@ -102,5 +102,5 @@ void Stair::quit()
 
 void Stair::funcs()
 {
-  setActionFunc(STAIR_TYPE, 0, WO_ACTION gotoFront, "Approach");
+  setActionFunc(STAIR_TYPE, 0, _Action gotoFront, "Approach");
 }

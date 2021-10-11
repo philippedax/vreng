@@ -205,22 +205,22 @@ void Dress::recreate_cb(User *pu, void *d, time_t s, time_t u)
 
 void Dress::funcs()
 {
-  getPropertyFunc(DRESS_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(DRESS_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(DRESS_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(DRESS_TYPE, PROPAX, WO_PAYLOAD get_ax);
-  getPropertyFunc(DRESS_TYPE, PROPAY, WO_PAYLOAD get_ay);
-  getPropertyFunc(DRESS_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(DRESS_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(DRESS_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(DRESS_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(DRESS_TYPE, PROPAX, _Payload get_ax);
+  getPropertyFunc(DRESS_TYPE, PROPAY, _Payload get_ay);
+  getPropertyFunc(DRESS_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(DRESS_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(DRESS_TYPE, PROPZ, WO_PAYLOAD put_z); 
-  putPropertyFunc(DRESS_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(DRESS_TYPE, PROPAX, WO_PAYLOAD put_ax);
-  putPropertyFunc(DRESS_TYPE, PROPAY, WO_PAYLOAD put_ay);
-  putPropertyFunc(DRESS_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(DRESS_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(DRESS_TYPE, PROPZ, _Payload put_z); 
+  putPropertyFunc(DRESS_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(DRESS_TYPE, PROPAX, _Payload put_ax);
+  putPropertyFunc(DRESS_TYPE, PROPAY, _Payload put_ay);
+  putPropertyFunc(DRESS_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(DRESS_TYPE, WEAR, WO_ACTION wear_cb, "Wear");
-  setActionFunc(DRESS_TYPE, TAKEOFF, WO_ACTION takeoff_cb, "Takeoff");
+  setActionFunc(DRESS_TYPE, WEAR, _Action wear_cb, "Wear");
+  setActionFunc(DRESS_TYPE, TAKEOFF, _Action takeoff_cb, "Takeoff");
 
-  setActionFunc(DRESS_TYPE, RECREATE, WO_ACTION recreate_cb, "");
+  setActionFunc(DRESS_TYPE, RECREATE, _Action recreate_cb, "");
 }

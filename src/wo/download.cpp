@@ -64,5 +64,5 @@ void Download::quit()
 
 void Download::funcs()
 {
-  setActionFunc(DOWNLOAD_TYPE, 0, WO_ACTION get, "Download");
+  setActionFunc(DOWNLOAD_TYPE, 0, _Action get, "Download");
 }

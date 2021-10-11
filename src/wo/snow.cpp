@@ -87,6 +87,6 @@ void Snow::stop_cb(Cloud *cloud, void *d, time_t s, time_t u)
 void Snow::funcs()
 {
   // called by cloud
-  setActionFunc(SNOW_TYPE, START, WO_ACTION start_cb, "");
-  setActionFunc(SNOW_TYPE, STOP, WO_ACTION stop_cb, "");
+  setActionFunc(SNOW_TYPE, START, _Action start_cb, "");
+  setActionFunc(SNOW_TYPE, STOP, _Action stop_cb, "");
 }

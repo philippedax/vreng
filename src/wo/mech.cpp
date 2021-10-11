@@ -659,8 +659,8 @@ void Mech::walk(Mech *mech, void *d, time_t s, time_t u)
 
 void Mech::funcs()
 {
-  setActionFunc(MECH_TYPE, 0, WO_ACTION still, "Still");
-  setActionFunc(MECH_TYPE, 1, WO_ACTION animate, "Anim");
-  setActionFunc(MECH_TYPE, 2, WO_ACTION walk, "Walk");
-  setActionFunc(MECH_TYPE, 3, WO_ACTION moveObject, "Move");
+  setActionFunc(MECH_TYPE, 0, _Action still, "Still");
+  setActionFunc(MECH_TYPE, 1, _Action animate, "Anim");
+  setActionFunc(MECH_TYPE, 2, _Action walk, "Walk");
+  setActionFunc(MECH_TYPE, 3, _Action moveObject, "Move");
 }

@@ -222,16 +222,16 @@ void Sheet::quit()
 
 void Sheet::funcs()
 {
-  getPropertyFunc(SHEET_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(SHEET_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(SHEET_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(SHEET_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(SHEET_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(SHEET_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(SHEET_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(SHEET_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(SHEET_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(SHEET_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(SHEET_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(SHEET_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(SHEET_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(SHEET_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(SHEET_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(SHEET_TYPE, PROPHNAME, _Payload put_hname);
 
   // invisible method, called by Book
-  setActionFunc(SHEET_TYPE, CREATE, WO_ACTION sheetCreate, "");
+  setActionFunc(SHEET_TYPE, CREATE, _Action sheetCreate, "");
 }

@@ -117,13 +117,13 @@ void Bullet::get_hit(Bullet *pcur, Payload *pp)
 
 void Bullet::funcs()
 {
-  getPropertyFunc(BULLET_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
-  getPropertyFunc(BULLET_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(BULLET_TYPE, PROPHIT, WO_PAYLOAD get_hit);
+  getPropertyFunc(BULLET_TYPE, PROPHNAME, _Payload get_hname);
+  getPropertyFunc(BULLET_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(BULLET_TYPE, PROPHIT, _Payload get_hit);
 
-  putPropertyFunc(BULLET_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
-  putPropertyFunc(BULLET_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(BULLET_TYPE, PROPHIT, WO_PAYLOAD User::bulletPutHit); // user
+  putPropertyFunc(BULLET_TYPE, PROPHNAME, _Payload put_hname);
+  putPropertyFunc(BULLET_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(BULLET_TYPE, PROPHIT, _Payload User::bulletPutHit); // user
 
-  setActionFunc(BULLET_TYPE, CREATE, WO_ACTION create, "");
+  setActionFunc(BULLET_TYPE, CREATE, _Action create, "");
 }

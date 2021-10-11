@@ -139,9 +139,9 @@ void Carousel::resetFlashy(Carousel *carousel, void *d, time_t s, time_t u)
 
 void Carousel::funcs()
 {
-  setActionFunc(CAROUSEL_TYPE, 0, WO_ACTION start, "Start");
-  setActionFunc(CAROUSEL_TYPE, 1, WO_ACTION pause, "Pause");
-  setActionFunc(CAROUSEL_TYPE, 2, WO_ACTION stop, "Stop");
-  setActionFunc(CAROUSEL_TYPE, 3, WO_ACTION setFlashy, "Flash");
-  setActionFunc(CAROUSEL_TYPE, 4, WO_ACTION resetFlashy, "Reset");
+  setActionFunc(CAROUSEL_TYPE, 0, _Action start, "Start");
+  setActionFunc(CAROUSEL_TYPE, 1, _Action pause, "Pause");
+  setActionFunc(CAROUSEL_TYPE, 2, _Action stop, "Stop");
+  setActionFunc(CAROUSEL_TYPE, 3, _Action setFlashy, "Flash");
+  setActionFunc(CAROUSEL_TYPE, 4, _Action resetFlashy, "Reset");
 }

@@ -153,15 +153,15 @@ void Plane::quit()
 
 void Plane::funcs()
 {
-  getPropertyFunc(PLANE_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(PLANE_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(PLANE_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(PLANE_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(PLANE_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(PLANE_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(PLANE_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(PLANE_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(PLANE_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(PLANE_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(PLANE_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(PLANE_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(PLANE_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(PLANE_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(PLANE_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(PLANE_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(PLANE_TYPE, 0, WO_ACTION moveObject, "Move");
+  setActionFunc(PLANE_TYPE, 0, _Action moveObject, "Move");
 }

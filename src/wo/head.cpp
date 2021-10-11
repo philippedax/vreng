@@ -254,19 +254,19 @@ void Head::recreate_cb(User *user, void *d, time_t s, time_t u)
 
 void Head::funcs()
 {
-  getPropertyFunc(HEAD_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(HEAD_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(HEAD_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(HEAD_TYPE, PROPAX, WO_PAYLOAD get_ax);
-  getPropertyFunc(HEAD_TYPE, PROPAY, WO_PAYLOAD get_ay);
-  getPropertyFunc(HEAD_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(HEAD_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(HEAD_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(HEAD_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(HEAD_TYPE, PROPAX, _Payload get_ax);
+  getPropertyFunc(HEAD_TYPE, PROPAY, _Payload get_ay);
+  getPropertyFunc(HEAD_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(HEAD_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(HEAD_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(HEAD_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(HEAD_TYPE, PROPAX, WO_PAYLOAD put_ax);
-  putPropertyFunc(HEAD_TYPE, PROPAY, WO_PAYLOAD put_ay);
-  putPropertyFunc(HEAD_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(HEAD_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(HEAD_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(HEAD_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(HEAD_TYPE, PROPAX, _Payload put_ax);
+  putPropertyFunc(HEAD_TYPE, PROPAY, _Payload put_ay);
+  putPropertyFunc(HEAD_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(HEAD_TYPE, RECREATE, WO_ACTION recreate_cb, "");
+  setActionFunc(HEAD_TYPE, RECREATE, _Action recreate_cb, "");
 }

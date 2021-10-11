@@ -148,8 +148,8 @@ void Button::quit()
 
 void Button::funcs()
 {
-  getPropertyFunc(BUTTON_TYPE, PROPSTATE, WO_PAYLOAD get_bstate);
-  putPropertyFunc(BUTTON_TYPE, PROPSTATE, WO_PAYLOAD put_bstate);
+  getPropertyFunc(BUTTON_TYPE, PROPSTATE, _Payload get_bstate);
+  putPropertyFunc(BUTTON_TYPE, PROPSTATE, _Payload put_bstate);
 
-  setActionFunc(BUTTON_TYPE, 0, WO_ACTION commut, "Push");
+  setActionFunc(BUTTON_TYPE, 0, _Action commut, "Push");
 }

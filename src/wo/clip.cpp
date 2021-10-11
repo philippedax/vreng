@@ -251,9 +251,9 @@ void Clip::quit()
 
 void Clip::funcs()
 {
-  setActionFunc(CLIP_TYPE, 0, WO_ACTION play, "Play");
-  setActionFunc(CLIP_TYPE, 1, WO_ACTION stop, "Stop");
-  setActionFunc(CLIP_TYPE, 2, WO_ACTION pause, "Pause");
-  setActionFunc(CLIP_TYPE, 3, WO_ACTION cont, "Continue");
-  setActionFunc(CLIP_TYPE, 4, WO_ACTION moveObject, "Move");
+  setActionFunc(CLIP_TYPE, 0, _Action play, "Play");
+  setActionFunc(CLIP_TYPE, 1, _Action stop, "Stop");
+  setActionFunc(CLIP_TYPE, 2, _Action pause, "Pause");
+  setActionFunc(CLIP_TYPE, 3, _Action cont, "Continue");
+  setActionFunc(CLIP_TYPE, 4, _Action moveObject, "Move");
 }

@@ -93,21 +93,21 @@ void Host::quit()
 
 void Host::funcs()
 {
-  getPropertyFunc(HOST_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(HOST_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(HOST_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(HOST_TYPE, PROPAX, WO_PAYLOAD get_ax);
-  getPropertyFunc(HOST_TYPE, PROPAY, WO_PAYLOAD get_ay);
-  getPropertyFunc(HOST_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(HOST_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(HOST_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(HOST_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(HOST_TYPE, PROPAX, _Payload get_ax);
+  getPropertyFunc(HOST_TYPE, PROPAY, _Payload get_ay);
+  getPropertyFunc(HOST_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(HOST_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(HOST_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(HOST_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(HOST_TYPE, PROPAX, WO_PAYLOAD put_ax);
-  putPropertyFunc(HOST_TYPE, PROPAY, WO_PAYLOAD put_ay);
-  putPropertyFunc(HOST_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(HOST_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(HOST_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(HOST_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(HOST_TYPE, PROPAX, _Payload put_ax);
+  putPropertyFunc(HOST_TYPE, PROPAY, _Payload put_ay);
+  putPropertyFunc(HOST_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(HOST_TYPE, 0, WO_ACTION connect, "Connect");
-  setActionFunc(HOST_TYPE, 1, WO_ACTION disconnect, "Disconnect");
-  setActionFunc(HOST_TYPE, 2, WO_ACTION moveObject, "Move");
+  setActionFunc(HOST_TYPE, 0, _Action connect, "Connect");
+  setActionFunc(HOST_TYPE, 1, _Action disconnect, "Disconnect");
+  setActionFunc(HOST_TYPE, 2, _Action moveObject, "Move");
 }

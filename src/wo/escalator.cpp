@@ -114,7 +114,7 @@ void Escalator::quit()
 
 void Escalator::funcs()
 {
-  setActionFunc(ESCALATOR_TYPE, 0, WO_ACTION gotoFront, "Approach");
-  setActionFunc(ESCALATOR_TYPE, 1, WO_ACTION pause_cb, "Pause/Continue");
-  setActionFunc(ESCALATOR_TYPE, 2, WO_ACTION stop_cb, "Stop/Restart");
+  setActionFunc(ESCALATOR_TYPE, 0, _Action gotoFront, "Approach");
+  setActionFunc(ESCALATOR_TYPE, 1, _Action pause_cb, "Pause/Continue");
+  setActionFunc(ESCALATOR_TYPE, 2, _Action stop_cb, "Stop/Restart");
 }

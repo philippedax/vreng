@@ -188,24 +188,24 @@ void Music::quit()
 
 void Music::funcs()
 {
-  getPropertyFunc(MUSIC_TYPE, PROPXY, WO_PAYLOAD get_xy);
-  getPropertyFunc(MUSIC_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(MUSIC_TYPE, PROPAZ, WO_PAYLOAD get_az);
-  getPropertyFunc(MUSIC_TYPE, PROPAX, WO_PAYLOAD get_ax);
-  getPropertyFunc(MUSIC_TYPE, PROPAY, WO_PAYLOAD get_ay);
-  getPropertyFunc(MUSIC_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(MUSIC_TYPE, PROPXY, _Payload get_xy);
+  getPropertyFunc(MUSIC_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(MUSIC_TYPE, PROPAZ, _Payload get_az);
+  getPropertyFunc(MUSIC_TYPE, PROPAX, _Payload get_ax);
+  getPropertyFunc(MUSIC_TYPE, PROPAY, _Payload get_ay);
+  getPropertyFunc(MUSIC_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(MUSIC_TYPE, PROPXY, WO_PAYLOAD put_xy);
-  putPropertyFunc(MUSIC_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(MUSIC_TYPE, PROPAZ, WO_PAYLOAD put_az);
-  putPropertyFunc(MUSIC_TYPE, PROPAX, WO_PAYLOAD put_ax);
-  putPropertyFunc(MUSIC_TYPE, PROPAY, WO_PAYLOAD put_ay);
-  putPropertyFunc(MUSIC_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(MUSIC_TYPE, PROPXY, _Payload put_xy);
+  putPropertyFunc(MUSIC_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(MUSIC_TYPE, PROPAZ, _Payload put_az);
+  putPropertyFunc(MUSIC_TYPE, PROPAX, _Payload put_ax);
+  putPropertyFunc(MUSIC_TYPE, PROPAY, _Payload put_ay);
+  putPropertyFunc(MUSIC_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(MUSIC_TYPE, PLAY, WO_ACTION play, "Play");
-  setActionFunc(MUSIC_TYPE, STOP, WO_ACTION stop, "Stop");
-  setActionFunc(MUSIC_TYPE, PAUSE, WO_ACTION pause, "Pause");
-  setActionFunc(MUSIC_TYPE, CONT, WO_ACTION cont, "Continue");
-  setActionFunc(MUSIC_TYPE, LOOP, WO_ACTION loop, "Loop");
-  setActionFunc(MUSIC_TYPE, MOVE, WO_ACTION moveObject, "Move");
+  setActionFunc(MUSIC_TYPE, PLAY, _Action play, "Play");
+  setActionFunc(MUSIC_TYPE, STOP, _Action stop, "Stop");
+  setActionFunc(MUSIC_TYPE, PAUSE, _Action pause, "Pause");
+  setActionFunc(MUSIC_TYPE, CONT, _Action cont, "Continue");
+  setActionFunc(MUSIC_TYPE, LOOP, _Action loop, "Loop");
+  setActionFunc(MUSIC_TYPE, MOVE, _Action moveObject, "Move");
 }

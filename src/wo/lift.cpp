@@ -187,14 +187,14 @@ void Lift::quit()
 
 void Lift::funcs()
 {
-  getPropertyFunc(LIFT_TYPE, PROPZ, WO_PAYLOAD get_z);
-  getPropertyFunc(LIFT_TYPE, PROPHNAME, WO_PAYLOAD get_hname);
+  getPropertyFunc(LIFT_TYPE, PROPZ, _Payload get_z);
+  getPropertyFunc(LIFT_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(LIFT_TYPE, PROPZ, WO_PAYLOAD put_z);
-  putPropertyFunc(LIFT_TYPE, PROPHNAME, WO_PAYLOAD put_hname);
+  putPropertyFunc(LIFT_TYPE, PROPZ, _Payload put_z);
+  putPropertyFunc(LIFT_TYPE, PROPHNAME, _Payload put_hname);
 
-  setActionFunc(LIFT_TYPE, 0, WO_ACTION up_cb, "Up");
-  setActionFunc(LIFT_TYPE, 1, WO_ACTION down_cb, "Down");
-  setActionFunc(LIFT_TYPE, 2, WO_ACTION call_cb, "Call");
-  setActionFunc(LIFT_TYPE, 3, WO_ACTION gotoFront, "Approach");
+  setActionFunc(LIFT_TYPE, 0, _Action up_cb, "Up");
+  setActionFunc(LIFT_TYPE, 1, _Action down_cb, "Down");
+  setActionFunc(LIFT_TYPE, 2, _Action call_cb, "Call");
+  setActionFunc(LIFT_TYPE, 3, _Action gotoFront, "Approach");
 }

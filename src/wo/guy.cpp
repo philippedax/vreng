@@ -135,8 +135,8 @@ Guy::Guy()
   strcpy(names.url, DEF_URL_GUY);
   inits();
 
-  setActionFunc(GUY_TYPE, 1, WO_ACTION NULL, "");  // cancel
-  setActionFunc(GUY_TYPE, 2, WO_ACTION NULL, "");  // cancel
+  setActionFunc(GUY_TYPE, 1, _Action NULL, "");  // cancel
+  setActionFunc(GUY_TYPE, 2, _Action NULL, "");  // cancel
 }
 
 const char * Guy::getUrl() const
@@ -566,7 +566,7 @@ void Guy::walking_cb(Guy *po, void *d, time_t s, time_t u)
 
 void Guy::funcs()
 {
-  setActionFunc(GUY_TYPE, 0, WO_ACTION animate_cb, "Anim");
-  setActionFunc(GUY_TYPE, 1, WO_ACTION walking_cb, "Walk");
-  setActionFunc(GUY_TYPE, 2, WO_ACTION moveObject, "Move");
+  setActionFunc(GUY_TYPE, 0, _Action animate_cb, "Anim");
+  setActionFunc(GUY_TYPE, 1, _Action walking_cb, "Walk");
+  setActionFunc(GUY_TYPE, 2, _Action moveObject, "Move");
 }

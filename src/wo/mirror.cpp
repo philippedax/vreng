@@ -207,7 +207,7 @@ void Mirror::mirrorOff(Mirror *po, void *d, time_t s, time_t u)
 
 void Mirror::funcs()
 {
-  setActionFunc(MIRROR_TYPE, 0, WO_ACTION mirrorOn, "Switch-On");
-  setActionFunc(MIRROR_TYPE, 1, WO_ACTION mirrorOff, "Switch-Off");
-  setActionFunc(MIRROR_TYPE, 2, WO_ACTION gotoFront, "Approach");
+  setActionFunc(MIRROR_TYPE, 0, _Action mirrorOn, "Switch-On");
+  setActionFunc(MIRROR_TYPE, 1, _Action mirrorOff, "Switch-Off");
+  setActionFunc(MIRROR_TYPE, 2, _Action gotoFront, "Approach");
 }

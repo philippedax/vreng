@@ -101,5 +101,5 @@ void Spiral::quit()
 
 void Spiral::funcs()
 {
-  setActionFunc(SPIRAL_TYPE, 0, WO_ACTION gotoFront, "Approach");
+  setActionFunc(SPIRAL_TYPE, 0, _Action gotoFront, "Approach");
 }

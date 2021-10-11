@@ -79,5 +79,5 @@ void Fountain::pause(Fountain *fountain, void *d, time_t s, time_t u)
 
 void Fountain::funcs()
 {
-  setActionFunc(FOUNTAIN_TYPE, 0, WO_ACTION pause, "Switch");
+  setActionFunc(FOUNTAIN_TYPE, 0, _Action pause, "Switch");
 }
