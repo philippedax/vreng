@@ -7,11 +7,13 @@
 
 <scene>
 
-<entry pos="-6 -2 0 0"></entry>
+<entry pos="-6 0 0 0"></entry>
 
-<light fog=".005" color="blue"></light>
+<!--
+<light fog=".005" color="grey"></light>
+-->
 
-<ground name="floor" pos="0 0 -.5 0"> <solid dim="38 28 1" zp="/gif/marble.gif" /></ground>
+<ground name="floor" pos="0 0 -.5 0"> <solid dim="38 28 1" tx="/gif/marble.gif" /></ground>
 
 <wall pos="0 -14 1.5 0"> <solid dim="38 1 3" xn="/gif/stuc.gif" /></wall>
 <wall pos="0 14 2.5 0"> <solid dim="38 1 5" yn="/gif/stuc.gif" /></wall>
@@ -28,88 +30,64 @@
 <wall pos="-5 8.75 3.75 0.5"> <solid dim="6 1 2" /></wall>
 
 <!-- wood door -->
-<door name="door1" pos="10 -4.2 1 3.10 0"
-  open="3.0" close="1.57" speed="0.5">
+<door name="doorwood" pos="10 -4.2 1 3.14"
+  open="3.14" close="1.57" speed="0.5">
   <solid dim="5 0.04 2" yn="/gif/wood.gif" xn="/gif/wood.gif" yp="/gif/wood.gif" xp="/gif/wood.gif" />
 </door>
 <!-- green door -->
-<door name="door2" pos="18.4 1 1 3.14 0"
-  open="1.6" close="3.14" speed="-0.5">
+<door name="doorgreen" pos="18.4 1 1 3.14"
+  open="1.57" close="3.14" speed="-0.5">
   <solid dim="7.6 0.04 2" dif="0 1 0.5" />
 </door>
 <!-- yellow door -->
-<door name="door3" pos="10 -5.7 1 4.71 0"
-  open="3.4" close="4.71" speed="-1">
+<door name="dooryellow" pos="10 -5.7 1 4.71"
+  open="3.14" close="4.71" speed="-1">
   <solid dim="2.6 0.04 2" dif="0.5 1 0" />
 </door>
 
 <!-- stairs -->
-<!--
-<step pos="0 1.4 0.1 0"
-  mode="stair" height="3.5">
-  <solid dim="1 .2 .04" dif=".3 .3 .3" zp="/gif/wood.gif" zn="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yp="/gif/wood.gif" yn="/gif/wood.gif" />
-</step>
--->
 <stair pos="0 1.4 0.1 0"
   height="3.5">
   <solid dim="1 .2 .04" dif=".3 .3 .3" zp="/gif/wood.gif" zn="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yp="/gif/wood.gif" yn="/gif/wood.gif" />
 </stair>
 
 <!-- spiral stairs -->
-<!--
-<step pos="3 3 0.1 0"
-  mode="spiral" height="4">
-  <solid dim="1 .2 .04" dif=".2 .2 .2" />
-</step>
--->
-<spiral pos="3 3 0.1 0"
+<spiral name="spiral" pos="3 3 0.1 0"
   height="4">
   <solid dim="1 .2 .04" dif=".2 .2 .2" />
 </spiral>
 <!-- stairs case -->
-<mirage pos="2.5 3 2"> <solid shape="cone" h="2" rb="1" rt="1" t="0.05" dif="blue" a=".5" /></mirage>
+<mirage name="cage" pos="2.5 3 2">
+  <solid shape="cone" h="2" rb="1" rt="1" t="0.05" dif="grey" a=".2" />
+</mirage>
 
 <!-- escalators -->
-<!--
-<step pos="5.5 0 0 0"
-  mode="escalator" height="2" dir="up" speed=".2">
-  <solid dim=".8 .2 .04" dif="blue" a=".5"/>
-</step>
-<step pos="4.5 2 2 0"
-  mode="escalator" height="2" dir="down" speed=".2">
-  <solid dim=".8 .2 .04" dif="green" a=".5"/>
-</step>
-<escalator pos="5.5 0 0 0"
+<escalator name="escal-up" pos="5.5 0 0 0"
   height="2" dir="up" speed=".2">
-  <solid dim=".8 .2 .04" dif="blue" a=".5"/>
+  <solid dim=".8 .2 .04" dif="blue" a="1"/>
 </escalator>
--->
-<!--
-<escalator pos="4.5 2 2 0"
+<escalator name="escal-down" pos="4.5 2 2 0"
   height="2" dir="down" speed=".2">
-  <solid dim=".8 .2 .04" dif="green" a=".5"/>
+  <solid dim=".8 .2 .04" dif="green" a="1"/>
 </escalator>
--->
 <!-- 1st level -->
-<step pos="5.0 2.3 2 0"> <solid dim="2 1 .1" dif="grey20" /></step>
+<step name="paillasson" pos="5.0 2.3 1.90 0">
+  <solid dim="2 1 .1" dif="grey20" />
+</step>
 
 <!-- travelator -->
-<!--
-<step pos="-1 -2 0.01 4.80"
-  mode="travelator" length="6" speed=".5">
-  <solid dim=".8 .2 .02" dif="grey20" />
-</step>
--->
-<travelator pos="-1 -2 0.01 4.80"
-  length="6" speed=".5">
+<travelator name="conveyor-belt" pos="-1 -2 0.01 -1.57"
+  length="5" speed=".5">
   <solid dim=".8 .2 .02" dif="grey20" />
 </travelator>
-<mirage pos="-1 -2 0.3"> <solid dim=".02 .02 .6" dif="brown" /></mirage>
+<mirage name="stick" pos="-1 -2.5 0.3"> <solid dim=".02 .02 .6" dif="brown" /></mirage>
 
-<cauldron pos="13 -2 .1"> <solid shape="torus" r=".6" rt=".1" dif="yellow" /></cauldron>
+<cauldron name="canape" pos="13 -2 .1">
+ <solid shape="torus" r=".6" rt=".1" dif="yellow" />
+</cauldron>
 
 <mirage name="terre" pos="300 0 100" mode="turn">
-  <solid shape="sphere" r="50" tx="/gif/earth.gif" />
+  <solid shape="sphere" r="40" tx="/gif/earth.gif" />
 </mirage>
 
 <gate name="maze" pos="18.5 -11 1.2 1.57 0"
