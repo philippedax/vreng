@@ -115,8 +115,8 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
   }
   else {
     if (move.next) {
-      move = *(move.next);	// copy next motion into current
-      delete[] move.next;	// delete next, now obsoleted
+      move = *(move.next);	// copy next move into current - segfault occurs FIXME!
+      //delete[] move.next;	// delete next, now obsoleted
       move.next = NULL;
       move.sec = sec;
       move.usec = usec;
@@ -291,6 +291,7 @@ void WObject::stopImposedMovement()
   move.ttl = 0;
   move.sec = 0;
   move.usec = 0;
+  move.next = NULL;
   move.nocol = false;
   for (Move *pm = move.next; pm ; pm = pm->next) {
     delete[] pm;
@@ -304,6 +305,7 @@ void WObject::enablePermanentMovement()
   gettimeofday(&t, NULL);
   move.perm_sec = t.tv_sec;
   move.perm_usec = t.tv_usec;
+  move.next = NULL;
 }
 
 void WObject::enablePermanentMovement(float speed)
@@ -409,6 +411,7 @@ void WObject::imposedMovement(time_t sec, time_t usec)
 
   float lasting = -1;
   updateTime(sec, usec, &lasting);  // handled by each object only for imposed movements
+  move.next = NULL;
 
   if (lasting > MIN_LASTING) {
     float maxlast = getLasting();
@@ -469,6 +472,7 @@ void WObject::permanentMovement(time_t sec, time_t usec)
     float lasting = (float)(sec - move.perm_sec) + (float)(usec - move.perm_usec) / 1e6;
     move.perm_sec = sec;
     move.perm_usec = usec;
+    move.next = NULL;
 
     if (lasting > 0 /* MIN_LASTING */) {
       float maxlast = getLasting();
