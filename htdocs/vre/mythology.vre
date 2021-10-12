@@ -9,9 +9,9 @@
 
 <entry pos="0 0 0"></entry>
 
-<ground name="street"    pos="-3 0 -0.1"> <solid dim="6 20 .2" zp="/gif/stuc.gif" zpr="4" /> </ground>
+<ground name="street"    pos="-3 0 -0.1"> <solid dim="6 20 .2" tx="/gif/stuc.gif" zpr="4" /> </ground>
 <ground name="sidewalk"  pos="1 0 -0.1">  <solid dim="6 20 .1" dif=".3 .3 .3" /> </ground>
-<ground name="parquet"   pos="24 0 -0.1"> <solid dim="48 20 .1" emi="black" zp="/gif/parquet.gif" zpr="4" /> </ground>
+<ground name="parquet"   pos="24 0 -0.1"> <solid dim="48 20 .1" emi="black" tx="/gif/parquet.gif" zpr="4" /> </ground>
 
 <!--
 <wall name="ceiling"     pos="24 0 2.8"> <solid dim="40 20 .2" zn="/gif/stries.gif" xp="/gif/stuc.gif" xpr="8" /> </wall>

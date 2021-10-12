@@ -13,8 +13,8 @@
  <solid shape="sphere" r="20" dif="1 1 0" tx="/gif/fire.gif" />
 </mirage>
 
-<ground name="parquet" pos="0 0 -0.5">
-  <solid dim="80 20 1" zp="/gif/parquet.gif" />
+<ground name="parquet" pos="0 0 -0.05">
+  <solid dim="80 20 .1" tx="/gif/parquet.gif" />
 </ground>
 
 <web name="magicien"
