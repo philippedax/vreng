@@ -30,15 +30,15 @@
 <ground name="parvis-c" pos="0 6.5 -.25 0 0">
 <solid dim="4 17 .25" zp="/gif/marble.gif" xp="/gif/marble.gif" xn="/gif/marble.gif" yp="/gif/marble.gif" yn="/gif/marble.gif" />
 </ground>
-<ground name="parvis-e" pos="0 -10.5 -.25"> <solid dim="4 9 .25" zp="/gif/marble.gif" /> </ground>
-<ground name="parvis-n" pos="12 0 -.25">  <solid dim="20 30 .25" zp="/gif/marble.gif" /> </ground>
-<ground name="parvis-s" pos="-12 0 -.25"> <solid dim="20 30 .25" zp="/gif/marble.gif" /> </ground>
+<ground name="parvis-e" pos="0 -10.5 -.25"> <solid dim="4 9 .25" tx="/gif/marble.gif" /> </ground>
+<ground name="parvis-n" pos="12 0 -.25">  <solid dim="20 30 .25" tx="/gif/marble.gif" /> </ground>
+<ground name="parvis-s" pos="-12 0 -.25"> <solid dim="20 30 .25" tx="/gif/marble.gif" /> </ground>
 -->
 <ground name="parvis" pos="0 6.5 -.25">
-<solid dim="4 17 .50"                       zp="/gif/marble.gif" dif="grey" />
-<solid dim="4 7 .50"   rel="0 -5 0 0 0"     zp="/gif/marble.gif" dif="grey" />
-<solid dim="40 60 .50" rel="12 -6.5 0 0 0"  zp="/gif/marble.gif" dif="grey" />
-<solid dim="40 60 .50" rel="-12 -6.5 0 0 0" zp="/gif/marble.gif" dif="grey" />
+<solid dim="4 17 .50"                       tx="/gif/marble.gif" dif="grey" />
+<solid dim="4 7 .50"   rel="0 -5 0 0 0"     tx="/gif/marble.gif" dif="grey" />
+<solid dim="40 60 .50" rel="12 -6.5 0 0 0"  tx="/gif/marble.gif" dif="grey" />
+<solid dim="40 60 .50" rel="-12 -6.5 0 0 0" tx="/gif/marble.gif" dif="grey" />
 </ground>
 <!--
 -->
