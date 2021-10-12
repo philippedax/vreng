@@ -160,7 +160,7 @@ SERVER_FILES=\
 # -------------
 # Build targets
 # -------------
-all: $(TMPS) $(JARS) notice
+all: $(TMPS) $(JARS) # notice
 
 # Create the temporary directories
 $(TMPS):
