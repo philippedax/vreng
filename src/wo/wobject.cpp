@@ -1024,8 +1024,9 @@ OList * WObject::addToList(OList *olist)
 OList * WObject::addOListOnce(OList *olist)
 {
   for (OList *ol = olist; ol ; ol = ol->next) {
-    if (ol->pobject && ol->pobject == this)
+    if (ol->pobject && ol->pobject == this) {
       return olist;		// already in the list
+    }
   }
   return addToList(olist);	// add it into the list
 }
@@ -1272,7 +1273,6 @@ void WObject::put_hname(WObject *po, Payload *pp)
 /** Gets property from Network */
 void WObject::getProperty(uint8_t prop_id, Payload *pp)
 {
-  //debug error("getProperty: prop=%d type=%d", prop_id, type);
   if (! isGetPropertyFunc(type, prop_id)) {
     error("getProperty: prop=%d doesn't match the object type=%d", prop_id, type);
     return;
