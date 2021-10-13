@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "widget.hpp"
-#include "glu.hpp"	// glu alternative
 #include "move.hpp"     // gotoFront
 
 
@@ -73,7 +72,7 @@ void Widget::inits()
 {
   glGenTextures(1, &texture);	// texture number given by OpenGL
   defaultPixmap();
-  setTexture(1);	// without mipmaps
+  setTexture(0);	// without mipmaps
   buildScreen();
 }
 
