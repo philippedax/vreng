@@ -135,13 +135,13 @@ void Step::build()
     else {
       if (travelator) {
         //FIXME: wrong position
-        newpos.x = pos.x - (sin(pos.az) * sx * n);
-        newpos.y = pos.y - (cos(pos.az) * sy * n);
+        newpos.x = pos.x - (sx * n);
+        newpos.y = pos.y - (sy * n);
         newpos.z = pos.z;
       }
       else {  // escalator stair
-        newpos.x = pos.x + dir*(sin(pos.az) * sx * n);
-        newpos.y = pos.y + dir*(cos(pos.az) * sy * n);
+        newpos.x = pos.x + (sx * n);
+        newpos.y = pos.y + (sy * n);
         newpos.z = pos.z + dir*(sz * n);
       }
     }
