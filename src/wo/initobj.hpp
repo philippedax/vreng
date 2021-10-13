@@ -58,28 +58,31 @@ struct ActionFunc {
 #define _Action (void (*)(WObject *o, void *d, time_t s, time_t u))
 
 
-/* external functions */
+/** external functions **/
 
-void setActionFunc(int type, uint8_t action, void (*method)(WObject *o, void *d, time_t s, time_t u), const char *action_name);
-bool isAction(int type, uint8_t action);
-void doAction(int type, uint8_t action, WObject *o, void *d, time_t s, time_t u);
-bool isActionName(int type, uint8_t action);
-int indexAction(int type, const char *name);
-void copyActionName(int type, uint8_t action, char *dest);
-char * getActionName(int type, uint8_t action);
-void * getActionMethod(int type, uint8_t action);
+/* Action */
+void setActionFunc(uint8_t type, uint8_t action, void (*method)(WObject *o, void *d, time_t s, time_t u), const char *action_name);
+bool isAction(uint8_t type, uint8_t action);
+void doAction(uint8_t type, uint8_t action, WObject *o, void *d, time_t s, time_t u);
+bool isActionName(uint8_t type, uint8_t action);
+int indexAction(uint8_t type, const char *name);
+void copyActionName(uint8_t type, uint8_t action, char *dest);
+char * getActionName(uint8_t type, uint8_t action);
+void * getActionMethod(uint8_t type, uint8_t action);
 
-void setMaxLastings(int type, float maxlast);
-float getMaxLastings(int type);
+/* Lasting */
+void setMaxLastings(uint8_t type, float maxlast);
+float getMaxLastings(uint8_t type);
 
-void setPropertiesnumber(int type, uint8_t nbprop);
-uint8_t getPropertiesnumber(int type);
+/* Property */
+void setPropertiesnumber(uint8_t type, uint8_t nbprop);
+uint8_t getPropertiesnumber(uint8_t type);
 
-void getPropertyFunc(int type, uint8_t prop, void (*getprop_method)(WObject *o, Payload *p));
-void putPropertyFunc(int type, uint8_t prop, void (*putprop_method)(WObject *o, Payload *p));
-bool isGetPropertyFunc(int type, uint8_t prop);
-bool isPutPropertyFunc(int type, uint8_t prop);
-void runGetPropertyFunc(int type, uint8_t prop, WObject *o, Payload *pp);
-void runPutPropertyFunc(int type, uint8_t prop, WObject *o, Payload *pp);
+void getPropertyFunc(uint8_t type, uint8_t prop, void (*get_method)(WObject *o, Payload *p));
+void putPropertyFunc(uint8_t type, uint8_t prop, void (*put_method)(WObject *o, Payload *p));
+bool isGetPropertyFunc(uint8_t type, uint8_t prop);
+bool isPutPropertyFunc(uint8_t type, uint8_t prop);
+void runGetPropertyFunc(uint8_t type, uint8_t prop, WObject *o, Payload *p);
+void runPutPropertyFunc(uint8_t type, uint8_t prop, WObject *o, Payload *p);
 
 #endif
