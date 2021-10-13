@@ -80,15 +80,17 @@ void Escalator::build()
   nsteps = (int) ceil(height / sz);
 
   for (int n=0; n <= nsteps; n++) {
-    Pos newpos;
-    newpos.az = pos.az;
-    newpos.ax = pos.ax;
-    newpos.ay = pos.ay;
-    newpos.x = pos.x + dir*(sin(pos.az) * sx * n);
-    newpos.y = pos.y + dir*(cos(pos.az) * sy * n);
-    newpos.z = pos.z + dir*(sz * n);
+    Pos nextpos;
+    nextpos.az = pos.az;
+    nextpos.ax = pos.ax;
+    nextpos.ay = pos.ay;
+    //nextpos.x = pos.x + dir*(sin(pos.az) * sx * n);
+    //nextpos.y = pos.y + dir*(cos(pos.az) * sy * n);
+    nextpos.x = pos.x + (sx * n);
+    nextpos.y = pos.y + (sy * n);
+    nextpos.z = pos.z + dir*(sz * n);
 
-    nextstep = new Step(newpos, pos, geometry, mobile, height, speed, dir);
+    nextstep = new Step(nextpos, pos, geometry, mobile, height, speed, dir);
   }
 
   enablePermanentMovement(speed);
