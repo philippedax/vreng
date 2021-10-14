@@ -72,7 +72,7 @@ public:
   static void dumpTable();
   /**< Dump table */
 
-  static bool isValidType(int type_id);
+  static bool isValidType(uint8_t type_id);
   /**< Check if a type is valid, exists */
 };
 

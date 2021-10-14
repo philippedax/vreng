@@ -50,7 +50,7 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
     if (! (otable = (OClass**) realloc(otable, sizeof(OClass *) * (type_id+1)))) {
       fatal("can't realloc otable");
     }
-    for (int i = otable_size; i < (type_id + 1); i++) {
+    for (uint8_t i = otable_size; i < (type_id + 1); i++) {
       otable[i] = (OClass *) NULL;
     }
     otable_size = type_id + 1;
@@ -124,7 +124,7 @@ void OClass::dumpTable()
   }
 }
 
-bool OClass::isValidType(int type_id)
+bool OClass::isValidType(uint8_t type_id)
 {
   return (type_id > 0 && type_id <= OBJECTSNUMBER);
 }
