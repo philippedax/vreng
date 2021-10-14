@@ -211,7 +211,7 @@ public:
   virtual void updateKeys(time_t sec, time_t usec);
   /**< Updates the keydifftime arrays. */
 
-  virtual void changePositionOneDir(const int move_type, const float last);
+  virtual void changePositionOneDir(const uint8_t move_type, const float last);
   /**< Modifies user position in one direction. */
 
   virtual void updateTime(float lasting[]);

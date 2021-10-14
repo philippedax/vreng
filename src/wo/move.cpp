@@ -143,7 +143,7 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 }
 
 /* modify user position in one direction */
-void User::changePositionOneDir(int move_type, float lasting)
+void User::changePositionOneDir(uint8_t move_type, float lasting)
 {
   if (carrier && carrier->isTaking()) {  // Manipulator
     carrier->mouseEvent(move_type, lasting);
