@@ -289,7 +289,7 @@ bool WObject::isValid() const
   return OClass::isValidType(type);
 }
 
-void WObject::setType(int _type)
+void WObject::setType(uint8_t _type)
 {
   type = _type;
 }
@@ -348,11 +348,11 @@ void WObject::setOwner()
 }
 
 // Returns name
-void WObject::getObjectNameById(uint8_t type_id, char *name)
+void WObject::getObjectNameById(uint8_t type, char *name)
 {
-  const OClass *oclass = OClass::getOClass(type_id);
+  const OClass *oclass = OClass::getOClass(type);
   if (! oclass)
-    warning("getObjectNameById: no name found for type=%d", type_id);
+    warning("getObjectNameById: no name found for type=%d", type);
   else
     strcpy(name, oclass->type_name);
   return;

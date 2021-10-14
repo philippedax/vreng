@@ -287,7 +287,7 @@ public:
   virtual bool runAction(const char *action);
   /**< Runs action everwhere if available. */
 
-  virtual void setType(int type);
+  virtual void setType(uint8_t type);
   /**< Sets object type. */
 
   virtual int getType() {return type;}
@@ -546,7 +546,7 @@ public:
   virtual void updateNames();
   /**< Updates names. */
 
-  static void getObjectNameById(uint8_t type_id, char *name);
+  static void getObjectNameById(uint8_t type, char *name);
   /**< Gets a name by its id. */
 
   //
