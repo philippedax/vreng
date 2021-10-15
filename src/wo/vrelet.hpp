@@ -141,7 +141,7 @@ class Vrelet: public WObject {
    * (sending floats is not currently possible)
    */
 
-  virtual void sendPosError(int type, int ssrc, int port, int id);
+  virtual void sendPosError(uint8_t type, uint32_t ssrc, uint16_t port, uint16_t id);
   /**<
    * Same as sendPos, except that no position is sent.
    * This is to indicate to the controler application that

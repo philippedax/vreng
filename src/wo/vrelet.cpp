@@ -129,7 +129,7 @@ void Vrelet::sendPos(WObject *po)
 }
 
 /* Same as sendPos, except that no position is sent */
-void Vrelet::sendPosError(int type, int ssrc, int port, int id)
+void Vrelet::sendPosError(uint8_t type, uint32_t ssrc, uint16_t port, uint16_t id)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_POS, VJC_MSGV_ERROR);
 
