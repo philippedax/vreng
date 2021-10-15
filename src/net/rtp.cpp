@@ -307,7 +307,7 @@ int Rtp::sendPacket(int sd, const uint8_t *pkt, int pkt_len, const struct sockad
 int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
 {
   rtcp_common_t rtcp_hdr;
-  rtcp_t *end;
+  rtcp_t *end = NULL;
 #ifdef CHECK_RTCP_VALIDITY
   rtcp_t *r;
 #endif
@@ -319,14 +319,15 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
   for (int len = 0; len < pkt_len ; ) {
     memcpy(&rtcp_hdr, pkt+len, sizeof(rtcp_common_t));
     length = ntohs(rtcp_hdr.length);
-    //PD end = (rtcp_t *) ((uint32_t *) &rtcp_hdr + (length<<2) + sizeof(rtcp_common_t));
+    end = (rtcp_t *) ((uint32_t *) &rtcp_hdr + (length<<2) + sizeof(rtcp_common_t));
     len += sizeof(rtcp_common_t);
 
 #ifdef CHECK_RTCP_VALIDITY
     /* Check RTCP validity */
     r = (rtcp_t *) &rtcp_hdr;
-    do
+    do {
       r = (rtcp_t *) ((uint32_t *) r + ntohs(r->common.length + sizeof(rtcp_common_t)));
+    }
     while (r < end && r->common.version == RTP_VERSION);
     if (r != end) {
       error("RTCP wrong size: r=%x end=%x length=%d pkt_len=%d sizeof(rtcp_common_t)=%d", r, end, length<<2, pkt_len, sizeof(rtcp_common_t));
@@ -344,8 +345,9 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
 
         trace(DBG_RTP, "Got SR: length=%d len=%d", length<<2, len);
         memcpy(&sr, pkt+len, sizeof(rtcp_sr_t));
-        if ((pso = Source::getSource(ntohl(sr.ssrc))) != NULL)
+        if ((pso = Source::getSource(ntohl(sr.ssrc))) != NULL) {
           pso->sr = sr;
+        }
         len += (length << 2);
       }
       break;
