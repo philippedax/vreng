@@ -212,7 +212,7 @@ class VjcMessage {
   static const uint32_t MAGIC;
   static const uint16_t MAX_PACKET;
 
-  VjcMessage(WObject *sender, int type, int val);
+  VjcMessage(WObject *sender, uint8_t type, uint8_t id);
   /**<
    * Outgoing constructor
    * WObject *sender should be set to the object sending the data
@@ -220,7 +220,7 @@ class VjcMessage {
    * int val  is the message value (subtype) (VJC_MSGV_*)
    */
 
-  VjcMessage(WObject *sender, uint32_t ssrc, int type, int val);
+  VjcMessage(WObject *sender, uint32_t ssrc, uint8_t type, uint8_t id);
   /**<
    * This constructor is used by Vjc for special update
    * messages. The additional ssrc int is used to force
@@ -346,7 +346,7 @@ class VjcMessage {
   virtual void putHeader();
   /**< Writes the header */
 
-  virtual void setup(WObject *po, uint32_t ssrc, int type, int id);
+  virtual void setup(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id);
   /**< Creates the buffer and the header */
 
   void dumpHeader(tVjcHeader hdr);

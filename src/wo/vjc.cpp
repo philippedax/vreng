@@ -349,20 +349,20 @@ bool VjcSocket::isClosed()
  */
 
 /* Constructor for outgoing messages */
-VjcMessage::VjcMessage(WObject *po, uint32_t ssrc, int type, int id)
+VjcMessage::VjcMessage(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
   setup(po, ssrc, type, id);
 }
 
 /* Constructor for outgoing messages */
-VjcMessage::VjcMessage(WObject *po, int type, int id)
+VjcMessage::VjcMessage(WObject *po, uint8_t type, uint8_t id)
 {
   setup(po, (Vjc::getServer() == NULL ? NetObject::getMySsrcId() : Vjc::getServer()->ssrc), type, id);
 }
 
 /* Creates a new tVjcHeader */
 static
-tVjcHeader vjcNewHeader(uint32_t ssrc, int type, int id, int len)
+tVjcHeader vjcNewHeader(uint32_t ssrc, uint8_t type, uint8_t id, uint16_t len)
 {
   tVjcHeader hdr;
 
@@ -376,13 +376,12 @@ tVjcHeader vjcNewHeader(uint32_t ssrc, int type, int id, int len)
 }
 
 /* Setups the header */
-void VjcMessage::setup(WObject *po, uint32_t ssrc, int type, int id)
+void VjcMessage::setup(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
   cursor = 0;	// set the cursor to the start of the buffer
   header = vjcNewHeader(ssrc, type, id, 0);	// create the header
   sender = po;	// set the sender object
   if ((data = new uint8_t[VjcMessage::MAX_PACKET]) == NULL) {	// alloc our data array
-    //error("cannot new data buffer for outgoing VjcMessage");
     return;
   }
   putHeader(); // Write out the header
@@ -394,7 +393,6 @@ VjcMessage::VjcMessage(uint8_t *_data, int _datalen)
   cursor = 0;		// set the cursor to the start of the buffer
   sender = NULL;	// sender will always be null on incoming messages
   if ((data = new uint8_t[_datalen]) == NULL) {	// alloc the buffer
-    //error("VjcMessage::VjcMessage: can't new for incoming VjcMessage");
     return;
   }
   memcpy(data, _data, _datalen);	// copy the data
