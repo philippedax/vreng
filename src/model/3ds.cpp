@@ -34,7 +34,7 @@
 #include "vec3.hpp"	// Vec3
 #include "http.hpp"	// httpOpen
 #include "file.hpp"	// localEndian
-#include "texture.hpp"	// getTex
+#include "texture.hpp"	// open
 #include "cache.hpp"	// openCache
 
 using namespace std;
@@ -146,7 +146,7 @@ int _3ds::loadTexture(const char *imgFile)
   sprintf(&url_tex[i], "/%s", imgFile);
   trace(DBG_VGL, "loadTexture: URL=%s", url_tex);
 
-  return Texture::getTex(url_tex);
+  return Texture::open(url_tex);
 }
 
 float _3ds::getRadius()

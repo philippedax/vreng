@@ -31,7 +31,7 @@
 #include "vreng.hpp"
 #include "obj.hpp"
 #include "http.hpp"	// httpOpen
-#include "texture.hpp"	// getTex
+#include "texture.hpp"	// open
 #include "cache.hpp"	// openCache
 #include "file.hpp"	// closeFile
 
@@ -122,7 +122,7 @@ int Obj::loadTexture(const char *file)
   for (char *p = url; p != end; i++, p++) url_tex[i] = *p;
   sprintf(&url_tex[i], "/%s", file);
 
-  return Texture::getTex(url_tex);
+  return Texture::open(url_tex);
 }
 
 void Obj::bindTexture2D(int texid)

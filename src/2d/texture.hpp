@@ -74,8 +74,8 @@ class Texture {
   static void update();
   /**< Updates textures (resizing). */
 
-  static GLuint getTex(const char *url);
-  /**< Gets a texture from the cache. */
+  static GLuint open(const char *url);
+  /**< Opens a texture. */
 
   static GLuint current();
   /**< Gets current texture id. */
@@ -86,10 +86,10 @@ class Texture {
   static GLuint getIdByObject(WObject *wo);
   /**< Gets a texture id by its object. */
 
-  static Texture * getEntryByUrl(const char *url);
+  static Texture * getTexByUrl(const char *url);
   /**< Gets a texture by its url. */
 
-  static Texture * getEntryById(GLuint texid);
+  static Texture * getTexById(GLuint texid);
   /**< Gets a texture by its texture id. */
 
   static char * getUrlById(GLuint texid);

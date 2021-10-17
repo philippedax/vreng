@@ -22,7 +22,7 @@
 //--------------------------------------//
 #include "vreng.hpp"
 #include "flare.hpp"
-#include "texture.hpp"	// getTex
+#include "texture.hpp"	// open
 #include "img.hpp"	// Img
 #include "wobject.hpp"	// Pos
 #include "user.hpp"	// localuser
@@ -232,7 +232,7 @@ void Flare::setTexture(GLuint texid)
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-  Texture *tex = Texture::getEntryById(texid);
+  Texture *tex = Texture::getTexById(texid);
   if (tex && tex->img) {
     uint16_t w = tex->img->width;
     uint16_t h = tex->img->height;
@@ -250,12 +250,12 @@ void Flare::loadTextures()
 
   for (int i=0; i<MAX_SHINE; i++) {
     sprintf(url, "/sgi/shine%d.bw", i);
-    shineTex[i] = Texture::getTex(url);
+    shineTex[i] = Texture::open(url);
     setTexture(shineTex[i]);
   }
   for (int i=0; i<MAX_FLARE; i++) {
     sprintf(url, "/sgi/flare%d.bw", i+1);
-    flareTex[i] = Texture::getTex(url);
+    flareTex[i] = Texture::open(url);
     setTexture(flareTex[i]);
   }
 }

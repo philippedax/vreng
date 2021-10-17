@@ -22,7 +22,7 @@
 #include "x3d.hpp"
 #include "http.hpp"	// httpOpen
 #include "draw.hpp"	// Draw
-#include "texture.hpp"	// getTex
+#include "texture.hpp"	// open
 #include "cache.hpp"	// setCacheName
 #include "file.hpp"	// openFile
 
@@ -198,7 +198,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "url"))
-        shape->texture = Texture::getTex(xmlnode->getAttributeValue(i));
+        shape->texture = Texture::open(xmlnode->getAttributeValue(i));
     }
   }
   else if (isEqual(nodeName, "Coordinate")) {

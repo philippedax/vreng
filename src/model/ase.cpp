@@ -32,7 +32,7 @@
 #include "vreng.hpp"
 #include "ase.hpp"
 #include "http.hpp"	// httpOpen
-#include "texture.hpp"	// getTex
+#include "texture.hpp"	// open
 #include "cache.hpp"	// openCache
 #include "file.hpp"	// closeFile
 
@@ -129,7 +129,7 @@ int Ase::loadTexture(const char *imgFile)
   sprintf(&url_tex[i], "/%s", imgFile);
   trace(DBG_VGL, "Ase::loadTexture: url=%s", url_tex);
 
-  return Texture::getTex(url_tex);
+  return Texture::open(url_tex);
 }
 
 float Ase::getRadius()

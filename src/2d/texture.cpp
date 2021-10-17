@@ -208,7 +208,22 @@ Texture::~Texture()
   del_texture++;
 }
 
-GLuint Texture::getTex(const char *url)
+void Texture::setMime(char *p)
+{
+  if (strlen(p) < MIME_LEN) {
+    strcpy(mime, p);
+  }
+  else {
+    strncpy(mime, p, MIME_LEN-1);
+    mime[MIME_LEN-1] = 0;
+    error("mime type too long = %s", p);
+  }
+}
+
+/** static methods **/
+
+/* Opens a new texture and returns its id - public */
+GLuint Texture::open(const char *url)
 {
   if (! Url::check(url)) return 0;
 
@@ -226,7 +241,7 @@ GLuint Texture::getTex(const char *url)
   return texture->id;
 }
 
-/* Creates texid and returns it. */
+/* Creates texture and returns its id - private */
 GLuint Texture::create()
 {
   GLuint texid = 0;
@@ -248,7 +263,7 @@ GLuint Texture::current()
   return last_texid;
 }
 
-Texture * Texture::getEntryByUrl(const char *url)
+Texture * Texture::getTexByUrl(const char *url)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if (! strcmp((*it)->url, url)) {
@@ -259,7 +274,7 @@ Texture * Texture::getEntryByUrl(const char *url)
   return NULL;
 }
 
-Texture * Texture::getEntryById(GLuint texid)
+Texture * Texture::getTexById(GLuint texid)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->id == texid) {
@@ -271,7 +286,7 @@ Texture * Texture::getEntryById(GLuint texid)
 
 GLuint Texture::getIdByUrl(const char *url)
 {
-  getTex(url);
+  open(url);
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if (! strcmp((*it)->url, url)) {
       return (*it)->id;
@@ -298,18 +313,6 @@ char * Texture::getUrlById(GLuint texid)
     }
   }
   return NULL;
-}
-
-void Texture::setMime(char *p)
-{
-  if (strlen(p) < MIME_LEN) {
-    strcpy(mime, p);
-  }
-  else {
-    strncpy(mime, p, MIME_LEN-1);
-    mime[MIME_LEN-1] = 0;
-    error("mime type too long = %s", p);
-  }
 }
 
 void Texture::listTextures()

@@ -196,7 +196,7 @@ Icon::Icon(User *user, void *d)
 
     // get the last loaded texture
     int texid = Texture::getIdByUrl(names.url);
-    Texture *texlast = Texture::getEntryById(texid);
+    Texture *texlast = Texture::getTexById(texid);
     if (! texlast) {
       tex = new char[sizeof(ICO_DEF) + 1];
       strcpy(tex, ICO_DEF);	// default texture
