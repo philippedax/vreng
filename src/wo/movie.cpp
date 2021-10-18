@@ -79,16 +79,12 @@ void Movie::behavior()
   enableBehavior(COLLIDE_ONCE);
 }
 
-void Movie::init()
-{
-  initMobileObject(0);
-}
-
 Movie::Movie(char *l)
 {
   parser(l);
   behavior();
-  init();
+
+  initMobileObject(0);
 }
 
 int Movie::inits()
@@ -132,9 +128,12 @@ int Movie::aviInit()
   /* compute texsz */
   int i, power = 0;
   texsz = MAX(width, height);
-  while ((texsz = texsz/2) > 0) power++;
-  for (i=0, texsz=1; i <= power; i++) texsz *= 2;
-  //error("avi: texsz=%d", texsz);
+  while ((texsz = texsz/2) > 0) {
+    power++;
+  }
+  for (i=0, texsz=1; i <= power; i++) {
+    texsz *= 2;
+  }
 
   /* get memory for tex pixmap */
   pixtex = new GLubyte[3 * texsz * texsz];
@@ -173,9 +172,12 @@ int Movie::mpegInit()
   /* compute texsz */
   int i, power = 0;
   texsz = MAX(width, height);
-  while ((texsz = texsz/2) > 0) power++;
-  for (i=0, texsz=1; i <= power; i++)
+  while ((texsz = texsz/2) > 0) {
+    power++;
+  }
+  for (i=0, texsz=1; i <= power; i++) {
     texsz *= 2;
+  }
 
   /* get memory for tex pixmap */
   pixtex = new GLubyte[3 * texsz * texsz];
@@ -208,49 +210,46 @@ void Movie::changePermanent(float lasting)
 
   for (int f=0; f < (frame - inter); f++) {
     /* get video frame or not */
-    if (f >= (int) fps) break;
+    if (f >= (int) fps)
+      break;
 
     switch (video) {
 
     case PLAYER_AVI:
       {
-        if (avi) {
-          int r, l;
+        int r, l;
 
-          r = avi->read_data(pixmap, width * height * 3, &l); // get Avi frame
-          error("n=%d l=%d", n, l);
-          if (r == 0) {
-            error("end of avi video");
-            File::closeFile(fp);
-            state = INACTIVE;
-            fp = NULL;
-            delete avi;
-            avi = NULL;
-            begin = true;
-            return;
-          }
-          n++;
-          int wof = (texsz - width) / 2;
-          int hof = (texsz - height) / 2;
-          for (int h=0; h < height; h++) {
-            for (int w=0; w < width; w++) {
-              int u = 3 * (texsz * (h+hof) + (w+wof));
-              int v = 3 * (width * h + w);
-              if (File::littleEndian()) {
-                pixtex[u+0] = pixmap[v+0];
-                pixtex[u+1] = pixmap[v+1];
-                pixtex[u+2] = pixmap[v+2];
-              }
-              else { // RGB = BGR
-                pixtex[u+0] = pixmap[v+2];
-                pixtex[u+1] = pixmap[v+1];
-                pixtex[u+2] = pixmap[v+0];
-              }
+        r = avi->read_data(pixmap, width * height * 3, &l); // get Avi frame
+        error("n=%d l=%d", n, l);
+        if (r == 0) {
+          error("end of avi video");
+          File::closeFile(fp);
+          state = INACTIVE;
+          fp = NULL;
+          delete avi;
+          avi = NULL;
+          begin = true;
+          return;
+        }
+        n++;
+        int wof = (texsz - width) / 2;
+        int hof = (texsz - height) / 2;
+        for (int h=0; h < height; h++) {
+          for (int w=0; w < width; w++) {
+            int u = 3 * (texsz * (h+hof) + (w+wof));
+            int v = 3 * (width * h + w);
+            if (File::littleEndian()) {
+              pixtex[u+0] = pixmap[v+0];
+              pixtex[u+1] = pixmap[v+1];
+              pixtex[u+2] = pixmap[v+2];
+            }
+            else { // RGB = BGR
+              pixtex[u+0] = pixmap[v+2];
+              pixtex[u+1] = pixmap[v+1];
+              pixtex[u+2] = pixmap[v+0];
             }
           }
         }
-        else
-          return;
       }
       break;
 
@@ -383,7 +382,6 @@ bool Movie::whenIntersect(WObject *pcur, WObject *pold)
 void Movie::quit()
 {
   stop(this, NULL, 0L, 0L);
-  savePersistency();
 }
 
 void Movie::funcs()

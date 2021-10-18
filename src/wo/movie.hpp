@@ -88,38 +88,35 @@ public:
   Movie(char *l);	///< Constructor
 
   static WObject * (creator)(char *l);
-  /**< Creates from file line */
+  /**< Creates from file line. */
 
   virtual void changePermanent(float lasting);
   /**< Change permanent */
 
   virtual bool whenIntersect(WObject *pcur, WObject *pold);
-  /**< An other ovject intersects */
+  /**< An other object intersects. */
 
   virtual void quit();
-  /**< Quits */
+  /**< Quits. */
 
 private:
   virtual void parser(char *l);
-  /**< Parses */
+  /**< Parses. */
 
   virtual void defaults();
-  /**< Set default values */
+  /**< Sets default values. */
 
   virtual void behavior();
-  /**< Set behavior values */
-
-  virtual void init();
-  /**< Di init acttion */
+  /**< Sets behavior values. */
 
   virtual int inits();
-  /**< Inits */
+  /**< Inits. */
 
   virtual int aviInit();
-  /**< Inits Avi */
+  /**< Inits Avi. */
 
   virtual int mpegInit();
-  /**< Inits Mpeg */
+  /**< Inits Mpeg. */
 
   // GUI callbacks
   static void play(Movie *po, void *d, time_t s, time_t u);
