@@ -25,13 +25,13 @@
 #include "file.hpp"	// openFile
 #include "pref.hpp"	// quality
 #include "format.hpp"	// Format
-#include "theme.hpp"	// theme.playvideo
-#include "avi.hpp"	// Avi
 #if HAVE_LIBMPEG
 #include <mpeg.h>	// /usr/local/include
 #else
 #include "mpeg.h"	// local: src/bundle/mpeg_lib
 #endif
+#include "avi.hpp"	// Avi
+#include "theme.hpp"	// theme.playvideo
 
 
 const OClass Movie::oclass(MOVIE_TYPE, "Movie", Movie::creator);
@@ -73,16 +73,9 @@ void Movie::parser(char *l)
   end_while_parse(l);
 }
 
-void Movie::behavior()
-{
-  enableBehavior(NO_ELEMENTARY_MOVE);
-  enableBehavior(COLLIDE_ONCE);
-}
-
 Movie::Movie(char *l)
 {
   parser(l);
-  behavior();
 
   initMobileObject(0);
 }
@@ -90,24 +83,61 @@ Movie::Movie(char *l)
 int Movie::inits()
 {
   texid = Texture::getIdByObject(this);		// bad texid returned FIXME!
+  //dax texid = Texture::open(names.url);
+  //error("texid : %d", texid);
   trace(DBG_WO, "texid=%d (%s)", texid, Texture::getUrlById(texid));
 
   video = Format::getPlayerByUrl(names.url);
   switch (video) {
-    case PLAYER_MPG: return mpegInit();
-    case PLAYER_AVI: return aviInit();
+    case PLAYER_MPG: mpegInit(); break;
+    case PLAYER_AVI: aviInit(); break;
     default: return 0;
   }
+
+  int i, power = 0;
+  texsz = MAX(width, height);
+  while ((texsz = texsz/2) > 0) {
+    power++;
+  }
+  for (i=0, texsz=1; i <= power; i++) {
+    texsz *= 2;
+  }
+  //error("texsz: %d", texsz);
+  pixtex = new GLubyte[3 * texsz * texsz];
+  frame = 0;
+  begin = true;
+  return 1;
 }
 
-void mpegAbort(int sig)
+void Movie::mpegInit()
 {
-  CloseMPEG();
+  filempeg = new char[MAXHOSTNAMELEN];
+  if (Cache::download(names.url, filempeg) == 0) {	// download Mpeg file
+    error("can't download %s", filempeg);
+    delete[] filempeg;
+    return;
+  }
+  if ((fp = File::openFile(filempeg, "r")) == NULL) {
+    error("can't open mpeg");
+    delete[] filempeg;
+    return;
+  }
+
+  imgmpeg = new ImageDesc[1];
+
+  SetMPEGOption(MPEG_DITHER, FULL_COLOR_DITHER); //ORDERED_DITHER);
+  OpenMPEG(fp, imgmpeg);
+
+  width = imgmpeg->Width;
+  height = imgmpeg->Height;
+  fps = imgmpeg->PictureRate;
+  ColormapEntry *colormap = imgmpeg->Colormap;
+  pixmap = new uint8_t[imgmpeg->Size];
 }
 
-int Movie::aviInit()
+void Movie::aviInit()
 {
-  if (avi) return 0;
+  if (avi) return;		// an instance is already running
 
   avi = new Avi(names.url);	// downloads avi file
 
@@ -116,77 +146,12 @@ int Movie::aviInit()
     error("avi: no header err=%d", r);
     delete avi;
     avi = NULL;
-    return r;
+    return;
   }
   fp = avi->getFile();
   avi->getInfos(&width, &height, &fps);
   trace(DBG_WO, "avi: w=%d h=%d f=%.3f", width, height, fps);
   pixmap = new uint8_t[3 * width * height];
-  begin = true;
-  frame = 0;
-
-  /* compute texsz */
-  int i, power = 0;
-  texsz = MAX(width, height);
-  while ((texsz = texsz/2) > 0) {
-    power++;
-  }
-  for (i=0, texsz=1; i <= power; i++) {
-    texsz *= 2;
-  }
-
-  /* get memory for tex pixmap */
-  pixtex = new GLubyte[3 * texsz * texsz];
-
-  return r;
-}
-
-int Movie::mpegInit()
-{
-  /* download Mpeg file */
-  filempeg = new char[MAXHOSTNAMELEN];
-  if (Cache::download(names.url, filempeg) == 0) {
-    error("can't download %s", filempeg);
-    delete[] filempeg;
-    return 0;
-  }
-  if ((fp = File::openFile(filempeg, "r")) == NULL) {
-    error("can't open mpeg");
-    delete[] filempeg;
-    return 0;
-  }
-
-  /* init Mpeg */
-  imgmpeg = new ImageDesc[1];
-
-  SetMPEGOption(MPEG_DITHER, FULL_COLOR_DITHER); //ORDERED_DITHER);
-  OpenMPEG(fp, imgmpeg);
-
-  /* get Mpeg infos */
-  width = imgmpeg->Width;
-  height = imgmpeg->Height;
-  fps = imgmpeg->PictureRate;
-  ColormapEntry *colormap = imgmpeg->Colormap;
-  pixmap = new uint8_t[imgmpeg->Size];
-
-  /* compute texsz */
-  int i, power = 0;
-  texsz = MAX(width, height);
-  while ((texsz = texsz/2) > 0) {
-    power++;
-  }
-  for (i=0, texsz=1; i <= power; i++) {
-    texsz *= 2;
-  }
-
-  /* get memory for tex pixmap */
-  pixtex = new GLubyte[3 * texsz * texsz];
-
-  frame = 0;
-  begin = true;
-  signal(SIGABRT, mpegAbort);
-
-  return 1;
 }
 
 void Movie::changePermanent(float lasting)
@@ -210,11 +175,10 @@ void Movie::changePermanent(float lasting)
 
   for (int f=0; f < (frame - inter); f++) {
     /* get video frame or not */
-    if (f >= (int) fps)
+    if (f >= (int) fps) {
       break;
-
+    }
     switch (video) {
-
     case PLAYER_AVI:
       {
         int r, l;
@@ -252,7 +216,6 @@ void Movie::changePermanent(float lasting)
         }
       }
       break;
-
     case PLAYER_MPG:
       {
         if (GetMPEGFrame((char *)pixmap) == false) {	// get mpeg frame
@@ -302,9 +265,8 @@ void Movie::changePermanent(float lasting)
         }
       } //end mpeg
       break;
-    default: break;
     } //end switch
-  } //end for
+  } //end for frame
 
   // bind the frame texid
   GLint param = (::g.pref.quality3D) ? GL_LINEAR : GL_NEAREST;
@@ -322,7 +284,7 @@ void Movie::play(Movie *movie, void *d, time_t s, time_t u)
   if (movie->state == Movie::INACTIVE) {
     movie->state = Movie::PLAYING;
     movie->enablePermanentMovement();	// for get frames
-    if (! movie->inits()) return;
+    movie->inits();
   }
 }
 
@@ -330,10 +292,11 @@ void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
 {
   if (movie->state != Movie::INACTIVE) {
     movie->state = Movie::INACTIVE;
-    if (movie->video == PLAYER_MPG)
+    if (movie->video == PLAYER_MPG) {
       CloseMPEG();
-    if (movie->filempeg) delete[] movie->filempeg;
-    File::closeFile(movie->fp);
+      if (movie->filempeg) delete[] movie->filempeg;
+      File::closeFile(movie->fp);
+    }
   }
   movie->disablePermanentMovement();
   if (movie->imgmpeg) delete[] movie->imgmpeg;
@@ -369,19 +332,8 @@ void Movie::loop(Movie *movie, void *d, time_t s, time_t u)
   if (movie->state == Movie::INACTIVE) {
     movie->state = Movie::LOOP;
     movie->enablePermanentMovement();	// for get frames
-    if (! movie->inits()) return;
+    movie->inits();
   }
-}
-
-bool Movie::whenIntersect(WObject *pcur, WObject *pold)
-{
-  pold->copyPositionAndBB(pcur);
-  return true;
-}
-
-void Movie::quit()
-{
-  stop(this, NULL, 0L, 0L);
 }
 
 void Movie::funcs()

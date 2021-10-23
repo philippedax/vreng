@@ -28,7 +28,7 @@ const uint16_t Img::SIZE = 256;
 void Img::defaults()
 {
   new_image++;
-  nbmipmaps = 0;
+  nummipmaps = 0;
   pixmap = NULL;
 }
 
@@ -44,13 +44,13 @@ Img::Img(uint16_t _width, uint16_t _height, uint8_t _channel)
   }
 }
 
-Img::Img(uint16_t _width, uint16_t _height, uint8_t _channel, int32_t _nbmipmaps, uint32_t size)
+Img::Img(uint16_t _width, uint16_t _height, uint8_t _channel, int32_t _nummipmaps, uint32_t size)
 {
   defaults();
   width = _width;
   height = _height;
   channel = _channel;
-  nbmipmaps = _nbmipmaps;
+  nummipmaps = _nummipmaps;
   if ((pixmap = new GLubyte[size]) == NULL) {
     error("Img: can't new pixmap"); return;
   }

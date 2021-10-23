@@ -45,7 +45,7 @@ void Texture::init()
   initMutex(tex_pmutex);
 }
 
-void Texture::quit()
+void Texture::close()
 {
   if (default_img) delete default_img;
 }
@@ -64,7 +64,8 @@ void Texture::update()
       }
       glBindTexture(GL_TEXTURE_2D, (*it)->id);
 
-      if (! (*it)->img->sized()) {	/* image to resize */
+      if (! (*it)->img->sized()) {
+        /* image to resize */
         Img *img1 = NULL;
         if ((img1 = (*it)->img->resize(Img::SIZE, Img::SIZE)) == NULL) {
           error("updateTextures: id=%d u=%s", (*it)->id, (*it)->url);
@@ -74,12 +75,15 @@ void Texture::update()
                      GL_RGB, GL_UNSIGNED_BYTE, img1->pixmap);
         delete img1;
       }
-      else {	/* image well sized */
-        if (! (*it)->img->nbmipmaps) {	/* no mipmap */
+      else {
+        /* image well sized */
+        if (! (*it)->img->nummipmaps) {
+          /* no mipmap */
           glTexImage2D(GL_TEXTURE_2D, 0, 3, (*it)->img->width, (*it)->img->height, 0,
                        GL_RGB, GL_UNSIGNED_BYTE, (*it)->img->pixmap);
         }
-        else {	/* have mipmap */
+        else {
+          /* have mipmap */
           GLsizei mipw = (*it)->img->width;
           GLsizei miph = (*it)->img->height;
           int mipc = ((*it)->img->channel == Img::RGB) ? 8 : 16;
@@ -90,7 +94,7 @@ void Texture::update()
           glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
           /* upload mipmaps to video memory */
-          for (GLint mip = 0; mip < (*it)->img->nbmipmaps; ++mip) {
+          for (GLint mip = 0; mip < (*it)->img->nummipmaps; ++mip) {
             GLsizei mips = ((mipw + 3) / 4) * ((miph + 3) / 4) * mipc;	// mip size
 
             glCompressedTexImage2D(GL_TEXTURE_2D, mip, (*it)->img->channel,
@@ -103,7 +107,7 @@ void Texture::update()
         }
       }
       // once the texture resized we can delete its container img
-      if ((*it)->tex_loaded) {
+      if ((*it)->loaded) {
         if ((*it)->img) delete (*it)->img; // opengl has its own copy of pixels
         (*it)->img = NULL;
       }
@@ -163,7 +167,7 @@ void Texture::httpReader(void *_tex, Http *_http)
   lockMutex(tex_pmutex);
   //-------------- lock
   tex->img = img;
-  tex->tex_loaded = true;
+  tex->loaded = true;
   //-------------- unlock
   unlockMutex(tex_pmutex);
 }
@@ -175,12 +179,12 @@ Texture::Texture(const char *url)
   id = 0;
   http = NULL;
   img = NULL;
-  tex_loaded = false;
+  loaded = false;
   *mime = '\0';
 
   strcpy(this->url, url);
   textureList.push_back(this);
-  id = create();
+  id = getid();
   last_texid = id;
 
   // load image
@@ -196,7 +200,7 @@ Texture::Texture()
   id = 0;
   http = NULL;
   img = NULL;
-  tex_loaded = false;
+  loaded = false;
   *mime = '\0';
 
   textureList.push_back(this);
@@ -208,28 +212,13 @@ Texture::~Texture()
   del_texture++;
 }
 
-void Texture::setMime(char *p)
-{
-  if (strlen(p) < MIME_LEN) {
-    strcpy(mime, p);
-  }
-  else {
-    strncpy(mime, p, MIME_LEN-1);
-    mime[MIME_LEN-1] = 0;
-    error("mime type too long = %s", p);
-  }
-}
-
-/** static methods **/
-
-/* Opens a new texture and returns its id - public */
 GLuint Texture::open(const char *url)
 {
   if (! Url::check(url)) return 0;
 
   Texture * texture = new Texture();	// new entry in cache
   strcpy(texture->url, url);
-  texture->id = create();		// creates texture and return texid
+  texture->id = getid();		// creates texture and return texid
   last_texid = texture->id;
   //trace(DBG_IMG, "texture: id=%d %s", texture->id, url);
 
@@ -241,8 +230,8 @@ GLuint Texture::open(const char *url)
   return texture->id;
 }
 
-/* Creates texture and returns its id - private */
-GLuint Texture::create()
+/* Creates texid and returns it. */
+GLuint Texture::getid()
 {
   GLuint texid = 0;
 
@@ -313,6 +302,18 @@ char * Texture::getUrlById(GLuint texid)
     }
   }
   return NULL;
+}
+
+void Texture::setMime(char *p)
+{
+  if (strlen(p) < MIME_LEN) {
+    strcpy(mime, p);
+  }
+  else {
+    strncpy(mime, p, MIME_LEN-1);
+    mime[MIME_LEN-1] = 0;
+    error("mime type too long = %s", p);
+  }
 }
 
 void Texture::listTextures()

@@ -828,5 +828,5 @@ void Render::showSolidList()
 
 void Render::quit()
 {
-  Texture::quit();
+  //dax Texture::quit();
 }

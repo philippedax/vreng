@@ -30,73 +30,72 @@
 #define GL_CLAMP_TO_EDGE 0x812F
 #endif
 
-class Http;
 
 /**
  * Texture class
- * describes a texture entry in the memory cache
  */
 class Texture {
 
  private:
-  bool tex_loaded;		///< loaded flag
+  bool loaded;			///< load flag
   char mime[MIME_LEN];		///< mime type of the texture
-
-  static void httpReader(void *_tex, Http *_http);
-  /**< Downloads a texture. */
-
-  static GLuint create();
-  /**< Creates texture and returns texid. */
-
-  static void listTextures();
-  /**< List textureList. */
 
  public:
   GLuint id;			///< texture id
   class Img *img;		///< img structure
   class Http *http;		///< http handle
-  class WObject *object;	///< getIdByObject()
+  class WObject *object;
   char url[URL_LEN];		///< url where is the texture
 
   Texture(const char *url);
   Texture();
-  /**< Constructors. */
+  /**< Constructor */
 
   virtual ~Texture();
-  /**< Destructor. */
+  /**< Destructor */
+
+  static void httpReader(void *_tex, Http *_http);
+  /**< Downloads a texture */
 
   static void init();
-  /**< Initializes the texture cache. */
+  /**< Initializes the texture cache */
 
-  static void quit();
-  /**< Quits the texture cache. */
+  static void close();
+  /**< Close the texture cache */
 
-  static void update();
-  /**< Updates textures (resizing). */
+  static GLuint getid();
+  /**< Gets texture id */
 
   static GLuint open(const char *url);
-  /**< Opens a texture. */
+  /**< Gets a texture from the cache */
 
   static GLuint current();
-  /**< Gets current texture id. */
+  /**< Gets current texture id */
 
   static GLuint getIdByUrl(const char *url);
-  /**< Gets a texture id by its url. */
+  /**< Gets a texture id by its url */
 
   static GLuint getIdByObject(WObject *wo);
-  /**< Gets a texture id by its object. */
+  /**< Gets a texture id by its object */
 
   static Texture * getTexByUrl(const char *url);
-  /**< Gets a texture by its url. */
+  /**< Gets a tc by its url */
 
   static Texture * getTexById(GLuint texid);
-  /**< Gets a texture by its texture id. */
+  /**< Gets a texture by its texture id */
 
   static char * getUrlById(GLuint texid);
-  /**< Gets a texture url by its texture id. */
+  /**< Gets a texture url by its texture id */
+
+  static void update();
+  /**< Updates textures (resizing) */
 
   void setMime(char *p);
-  /**< Sets mime type. */
+  /**< copy mime type */
+
+ private:
+  static void listTextures();
+  /**< List textureList */
 };
 
 #endif
