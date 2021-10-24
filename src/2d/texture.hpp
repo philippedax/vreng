@@ -48,54 +48,53 @@ class Texture {
   char url[URL_LEN];		///< url where is the texture
 
   Texture(const char *url);
-  Texture();
-  /**< Constructor */
+  /**< Constructor. */
 
   virtual ~Texture();
-  /**< Destructor */
+  /**< Destructor. */
 
   static void httpReader(void *_tex, Http *_http);
-  /**< Downloads a texture */
+  /**< Downloads a texture. */
 
   static void init();
-  /**< Initializes the texture cache */
+  /**< Initializes the texture cache. */
 
-  static void close();
-  /**< Close the texture cache */
-
-  static GLuint getid();
-  /**< Gets texture id */
+  static void quit();
+  /**< Close the texture cache. */
 
   static GLuint open(const char *url);
-  /**< Gets a texture from the cache */
+  /**< Opens a texture. */
 
   static GLuint current();
-  /**< Gets current texture id */
+  /**< Gets current texture id. */
 
   static GLuint getIdByUrl(const char *url);
-  /**< Gets a texture id by its url */
+  /**< Gets a texture id by its url. */
 
   static GLuint getIdByObject(WObject *wo);
-  /**< Gets a texture id by its object */
+  /**< Gets a texture id by its object. */
 
   static Texture * getTexByUrl(const char *url);
-  /**< Gets a tc by its url */
+  /**< Gets a tc by its url. */
 
   static Texture * getTexById(GLuint texid);
-  /**< Gets a texture by its texture id */
+  /**< Gets a texture by its texture id. */
 
   static char * getUrlById(GLuint texid);
-  /**< Gets a texture url by its texture id */
+  /**< Gets a texture url by its texture id. */
 
   static void update();
-  /**< Updates textures (resizing) */
+  /**< Updates textures (resizing). */
 
   void setMime(char *p);
-  /**< copy mime type */
+  /**< copy mime type. */
 
  private:
+  static GLuint create();
+  /**< Creates texture id. */
+
   static void listTextures();
-  /**< List textureList */
+  /**< List textureList. */
 };
 
 #endif

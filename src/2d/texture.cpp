@@ -45,7 +45,7 @@ void Texture::init()
   initMutex(tex_pmutex);
 }
 
-void Texture::close()
+void Texture::quit()
 {
   if (default_img) delete default_img;
 }
@@ -176,7 +176,6 @@ Texture::Texture(const char *url)
 {
   if (! Url::check(url)) return;
 
-  id = 0;
   http = NULL;
   img = NULL;
   loaded = false;
@@ -184,7 +183,7 @@ Texture::Texture(const char *url)
 
   strcpy(this->url, url);
   textureList.push_back(this);
-  id = getid();
+  id = create();
   last_texid = id;
 
   // load image
@@ -192,18 +191,6 @@ Texture::Texture(const char *url)
     case IMG_GIF: Http::httpOpen(url, httpReader, this, 1); break; // multi-threaded
     default:      Http::httpOpen(url, httpReader, this, 0); break;
   }
-  new_texture++;
-}
-
-Texture::Texture()
-{
-  id = 0;
-  http = NULL;
-  img = NULL;
-  loaded = false;
-  *mime = '\0';
-
-  textureList.push_back(this);
   new_texture++;
 }
 
@@ -216,9 +203,9 @@ GLuint Texture::open(const char *url)
 {
   if (! Url::check(url)) return 0;
 
-  Texture * texture = new Texture();	// new entry in cache
+  Texture * texture = new Texture(url);	// new entry in cache
   strcpy(texture->url, url);
-  texture->id = getid();		// creates texture and return texid
+  texture->id = create();		// creates texture and return texid
   last_texid = texture->id;
   //trace(DBG_IMG, "texture: id=%d %s", texture->id, url);
 
@@ -231,7 +218,7 @@ GLuint Texture::open(const char *url)
 }
 
 /* Creates texid and returns it. */
-GLuint Texture::getid()
+GLuint Texture::create()
 {
   GLuint texid = 0;
 
