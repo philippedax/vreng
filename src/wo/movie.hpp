@@ -54,7 +54,6 @@ private:
   uint16_t frame;		///< the current frame being displayed
   uint8_t video;		///< video format (mpg avi)
   FILE *fp;			///< the corresponding file pointer
-  struct timeval start;		///< video starting time
   GLubyte *pixtex;		///< pixmap of the tex
   uint8_t *pixmap;		///< pixmap of the video
   class Avi *avi;		///< avi instance

@@ -158,6 +158,7 @@ void Movie::aviInit()
 void Movie::changePermanent(float lasting)
 {
   static int n = 0;
+  static struct timeval start;
 
   if (state == INACTIVE || state == PAUSE) return;
 
