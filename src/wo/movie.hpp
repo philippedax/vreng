@@ -38,17 +38,11 @@
 
 /**
  * Movie class
- * to play Mpeg movies
  */
 class Movie: public WObject {
 
 private:
   static const float FPS;	///< max number of frames decoded per rendering
-
-  //static const uint8_t FULL = 0;
-  /**< modify this value then recompile if you
-   * don't want your image to be resized to fill the tex
-   */
 
   bool begin;			///< first frame begin playing
   float rate;			///< asked avi/mpeg frames per second
@@ -88,26 +82,26 @@ public:
   Movie(char *l);	///< Constructor
 
   static WObject * (creator)(char *l);
-  /**< Creates from file line */
+  /**< Creates from file line. */
 
   virtual void changePermanent(float lasting);
-  /**< Change permanent */
+  /**< Change permanent (frames). */
 
 private:
   virtual void parser(char *l);
-  /**< Parses */
+  /**< Parses vre line. */
 
   virtual void defaults();
-  /**< Set default values */
+  /**< Sets default values. */
 
   virtual int inits();
-  /**< Inits */
+  /**< Inits. */
 
   virtual void aviInit();
-  /**< Inits Avi */
+  /**< Inits Avi. */
 
   virtual void mpegInit();
-  /**< Inits Mpeg */
+  /**< Inits Mpeg. */
 
   // GUI callbacks
   static void play(Movie *po, void *d, time_t s, time_t u);

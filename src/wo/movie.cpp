@@ -46,11 +46,10 @@ WObject * Movie::creator(char *l)
 
 void Movie::defaults()
 {
-  state = INACTIVE;
-  begin = false;
-  fp = NULL;
   texid = -1;
+  frame = 0;
   rate = FPS;
+  fp = NULL;
   pixmap = NULL;
   pixtex = NULL;
   avi = NULL;
@@ -58,6 +57,8 @@ void Movie::defaults()
   filempeg = NULL;
   imgmpeg = NULL;
   colormap = NULL;
+  state = INACTIVE;
+  begin = false;
 }
 
 void Movie::parser(char *l)
@@ -192,6 +193,7 @@ void Movie::changePermanent(float lasting)
           fp = NULL;
           delete avi;
           avi = NULL;
+          frame = 0;
           begin = true;
           return;
         }
@@ -221,11 +223,14 @@ void Movie::changePermanent(float lasting)
         if (GetMPEGFrame((char *)pixmap) == false) {	// get mpeg frame
           if (state == LOOP) {
             RewindMPEG(fp, imgmpeg);
+            frame = 0;
             begin = true;
             return;
           }
           CloseMPEG();
           state = INACTIVE;
+          frame = 0;
+          begin = true;
           return;
         }
         n++;
