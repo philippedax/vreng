@@ -1,6 +1,5 @@
-<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
-<vre profile="Interactive">
-
+<!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05 2002//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
+<vre version="8.0" profile="Interactive">
 <head>
 <meta name="filename" content="movies.vre"/>
 </head>
@@ -9,48 +8,55 @@
 
 <entry pos="0 0 1"></entry>
 
-<ground name="floor" pos="0 0 -.25"> <solid shape="box" dim="24 24 .5" zp="/gif/wood2.gif" /> </ground>
+<ground name="floor" pos="0 0 -.25">
+<solid dim="40 40 .5" dif="1 .5 .5" tx="/gif/redbands.gif" />
+</ground>
+<!--
+<solid dim="40 40 .5" dif="1 .5 .5" />
+-->
 
+<!-- room1 -->
 <movie name="wallace" pos="8 0 2 1.57"
-  url="http://localhost/mpg/wallace.mpg" rate="10">
+  url="http://localhost/~dax/mpg/wallace.mpg" rate="10">
   <solid dim="4 .02 4" xn="/gif/wallace.gif" />
 </movie>
-<!-- assert
--->
+<!-- room2 -->
+<!-- <movie name="mooglie" pos="-8 0 2 4.71" -->
+<movie name="mooglie" pos="0 -8 2 0.00"
+  url="http://localhost/~dax/mpg/mooglie.mpg" rate="10">
+  <solid dim="4 .02 4" xn="/gif/mooglie.gif" />
+</movie>
+<!-- room3 -->
+<movie name="michael-jackson" pos="-8 0 2 4.71"
+  url="http://localhost/~dax/mpg/mjackson.mpg" rate="10">
+  <solid dim="4 .02 4" xn="/gif/mjackson.gif" />
+</movie>
+<!-- room4 -->
+<!-- crash assert -->
 <movie name="rednightmare" pos="0 8 2 3.14"
-  url="http://localhost/mpg/rednightmare.mpg" rate="10">
+  url="http://localhost/~dax/mpg/rednightmare.mpg" rate="10">
   <solid dim="4 .02 4" xn="/gif/rednightmare.gif" />
 </movie>
+<!-- test avi -->
 <!--
--->
-<movie name="mjackson" pos="0 -8 2 0"
-  url="http://localhost/mpg/mjackson.mpg" rate="10">
-  <solid dim="4 .02 4" xn="/gif/mjackson.gif" />
-</movie>
-<!-- test avi
-<movie name="mjackson" pos="0 -8 2 0"
-  url="http://localhost/avi/sacre-coeur.avi" rate="10">
-  <solid dim="4 .02 4" xn="/gif/mjackson.gif" />
+<movie name="sacre-coeur" pos="0 8 2 3.14"
+  url="http://localhost/~dax/avi/sacre-coeur.avi" rate="10">
+  <solid dim="4 .02 4" />
 </movie>
 -->
-<movie name="mooglie" pos="-8 0 2 4.71"
-  url="http://localhost/mpg/mooglie.mpg" rate="10">
-  <solid dim="4 .02 4" xp="/gif/mooglie.gif" />
-</movie>
 
 <!--
-<movie pos="8 2.25 0 0" url="http://localhost/mpg/wallace.mpg" rate="10"> <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></movie>
-<movie pos="8 -2.25 0 0" url="http://localhost/mpg/mooglie.mpg" rate="10"> <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></movie>
-<mirage pos="8 2.25 0 0" <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></mirage>
-<mirage pos="8 -2.25 0 0" <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></mirage>
+<movie pos="8 2.25 0 0" url="http://localhost/~dax/mpg/wallace.mpg" rate="10"> <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></movie>
+<movie pos="8 -2.25 0 0" url="http://localhost/~dax/mpg/mooglie.mpg" rate="10"> <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></movie>
 -->
+<mirage pos="8 2.25 0 0" <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" tx="/gif/redstrips.gif" /></mirage>
+<mirage pos="8 -2.25 0 0" <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" tx="/gif/redstrips.gif" /></mirage>
 <mirage pos="8 0 4.25 1.57"> <solid shape="box" dim="5 .5 .5" amb="red" /></mirage>
-<!-- <solid shape="sphere" r="2" tx="/gif/wallace.gif" dif="white" /> -->
 
-<text pos="9 1.5 5.5 -1.57 1.57" font="/txf/courier-br-46.txf"> Room1 </text>
-<text pos="1.5 -9 4.5 -3.14 1.57" font="/txf/courier-br-46.txf"> Room2 </text>
-<text pos="-9 -1.5 4.5 -4.71 1.57" font="/txf/courier-br-46.txf"> Room3 </text>
-<text pos="-1.5 9 4.5 0 1.57" font="/txf/courier-br-46.txf"> Room4 </text>
+<text pos="9 1.5 5.5 -1.57 1.57"   font="/txf/courier-br-46.txf" color="red"> Room1 </text>
+<text pos="1.5 -9 4.5 -3.14 1.57"  font="/txf/courier-br-46.txf" color="red"> Room2 </text>
+<text pos="-9 -1.5 4.5 -4.71 1.57" font="/txf/courier-br-46.txf" color="red"> Room3 </text>
+<text pos="-1.5 9 4.5 0 1.57"      font="/txf/courier-br-46.txf" color="red"> Room4 </text>
 
 </scene>
 </vre>
