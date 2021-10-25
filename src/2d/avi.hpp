@@ -18,8 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef _AVI_H_
-#define _AVI_H_
+#ifndef AVI_HPP
+#define AVI_HPP
 
 
 #define DATASTART 2060 /* where first frame starts */
@@ -100,7 +100,6 @@ public:
   static void httpReader(void *_avi, class Http *http);
 
 private:
-
   FILE *fp;
   char *url;
   uint32_t frames;
