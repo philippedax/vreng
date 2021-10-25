@@ -215,12 +215,14 @@ int32_t Avi::read_header()
           vids_strf_seen = 1;
         }
         else if (lasttag == 2) {
+#if 0 //dax
           /* Check audio format (must be PCM) */
           if ((args[0]&0xffff) != 1) {
             error("avi: no PCM tag=%08x", tag);
             break;
             //return ERR_NO_PCM;
           }
+#endif
           a_chans = args[0]>>16;
           a_rate  = args[1];
           a_bits  = args[3]>>16;

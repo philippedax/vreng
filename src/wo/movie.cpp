@@ -81,6 +81,8 @@ Movie::Movie(char *l)
 int Movie::inits()
 {
   texid = Texture::getIdByObject(this);		// bad texid returned FIXME!
+  if (! texid)
+    texid = Texture::open(names.url);
   //dax texid = Texture::open(names.url);
   //error("texid : %d", texid);
   trace(DBG_WO, "texid=%d (%s)", texid, Texture::getUrlById(texid));
@@ -193,6 +195,7 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
+        trace(DBG_FORCE, "frame=%d id=%d sz=%d w=%d h=%d", frame, texid, texsz, width, height);
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
             int u = 3 * (texsz * (h+hof) + (w+wof));
@@ -295,8 +298,11 @@ void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
     }
   }
   movie->disablePermanentMovement();
+
   if (movie->mpeg) delete[] movie->mpeg;
   movie->mpeg = NULL;
+  //if (movie->avi) delete[] movie->avi;
+  //movie->avi = NULL;
   if (movie->pixvid) delete[] movie->pixvid;
   movie->pixvid = NULL;
   if (movie->pixtex) delete[] movie->pixtex;
