@@ -28,10 +28,8 @@
 
 
 #if HAVE_LIBMPEG
-/*
- * Warning! there is a typedef conflict with Boolean type
- * between mpeg.h and X11/Intrinsic.h
- */
+// Warning! there is a typedef conflict with Boolean type
+// between mpeg.h and X11/Intrinsic.h
 #define Boolean Fuck_Boolean_X11
 #include <mpeg.h>
 #endif
@@ -40,11 +38,9 @@
  * Movie class
  */
 class Movie: public WObject {
-
 private:
   static const float FPS;	///< max number of frames decoded per rendering
 
-  bool begin;			///< first frame begin playing
   float rate;			///< asked avi/mpeg frames per second
   float fps;			///< coded frames per sec
   GLuint texid;			///< texture id
@@ -53,16 +49,12 @@ private:
   uint16_t texsz;		///< tex width/height in pixels
   uint16_t frame;		///< the current frame being displayed
   uint8_t video;		///< video format (mpg avi)
+  bool begin;			///< first frame begin playing
   FILE *fp;			///< the corresponding file pointer
+  uint8_t *pixvid;		///< pixmap of the video
   GLubyte *pixtex;		///< pixmap of the tex
-  uint8_t *pixmap;		///< pixmap of the video
+  ImageDesc *mpeg;		///< this is a structure used by mpeg_lib to store infos
   class Avi *avi;		///< avi instance
-#if HAVE_LIBMPEG
-  char *filempeg;		///< name of the mpeg file in cache
-  ColormapEntry *colormap;	///< colorMap if exists
-  ImageDesc *imgmpeg;		///< this is a structure used by mpeg_lib to
-				///< store infos, see mpeg_lib for more info
-#endif
 
 public:
   enum {
