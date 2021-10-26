@@ -89,12 +89,12 @@ class Texture {
   void setMime(char *p);
   /**< copy mime type. */
 
+  static void listTextures();
+  /**< List textureList. */
+
  private:
   static GLuint create();
   /**< Creates texture id. */
-
-  static void listTextures();
-  /**< List textureList. */
 };
 
 #endif

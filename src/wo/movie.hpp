@@ -100,6 +100,7 @@ private:
   static void pause(Movie *po, void *d, time_t s, time_t u);
   static void rewind(Movie *po, void *d, time_t s, time_t u);
   static void loop(Movie *po, void *d, time_t s, time_t u);
+  static void debug(Movie *po, void *d, time_t s, time_t u);
 };
 
 #endif

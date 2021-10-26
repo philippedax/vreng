@@ -182,7 +182,7 @@ void Movie::changePermanent(float lasting)
         int r, l;
 
         r = avi->read_data(pixvid, width * height * 3, &l); // get Avi frame
-        //error("l=%d", l);
+        //error("f=%d l=%d", frame, l);
         if (r == 0) {
           error("end of avi video");
           File::closeFile(fp);
@@ -195,7 +195,7 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
-        trace(DBG_FORCE, "frame=%d id=%d sz=%d w=%d h=%d", frame, texid, texsz, width, height);
+        trace(DBG_WO, "f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
             int u = 3 * (texsz * (h+hof) + (w+wof));
@@ -231,7 +231,7 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
-        trace(DBG_WO, "frame=%d id=%d sz=%d w=%d h=%d", frame, texid, texsz, width, height);
+        trace(DBG_WO, "f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
 
         if (mpeg->Colormap) {	// case of Colormap Index
           for (int h=0; h < height; h++) {
@@ -338,6 +338,11 @@ void Movie::loop(Movie *movie, void *d, time_t s, time_t u)
   }
 }
 
+void Movie::debug(Movie *movie, void *d, time_t s, time_t u)
+{
+  Texture::listTextures();
+}
+
 void Movie::funcs()
 {
 #if 0
@@ -350,4 +355,5 @@ void Movie::funcs()
   setActionFunc(MOVIE_TYPE, 3, _Action loop, "Loop");
   setActionFunc(MOVIE_TYPE, 4, _Action rewind, "Rewind");
   setActionFunc(MOVIE_TYPE, 5, _Action moveObject, "Move");
+  setActionFunc(MOVIE_TYPE, 6, _Action debug, "Debug");
 }
