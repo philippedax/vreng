@@ -195,7 +195,7 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
-        trace(DBG_WO, "f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
+        error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
             int u = 3 * (texsz * (h+hof) + (w+wof));
@@ -231,8 +231,7 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
-        trace(DBG_WO, "f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
-
+        //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
         if (mpeg->Colormap) {	// case of Colormap Index
           for (int h=0; h < height; h++) {
             for (int w=0; w < width; w++) {

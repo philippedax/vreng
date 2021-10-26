@@ -155,7 +155,7 @@ int32_t Avi::read_header()
       if (fread(&name, 4, 1, fp) != 1) return 1;
       //error("avi: name=%08x", name);
       if (name == MAKEFOURCC('m','o','v','i')) {
-        error("avi: movi");
+        //error("avi: movi");
         return 0;
       }
       continue;
@@ -254,7 +254,7 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
     /* Read tag and length */
     if (fread(&tag, 4, 1, fp) != 1 ||
         fread(&n  , 4, 1, fp) != 1 ) {
-      error("avi: read error");
+      //error("avi: read error");
       fp = NULL;
       return 0;
     }
