@@ -54,9 +54,9 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
   uint8_t  rle, TgaInfo[18];
   int size;
 
-  Texture *_tex = (Texture *) tex;
+  Texture *texture = (Texture *) tex;
   FILE *f;
-  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   /* we read the header */
   fread(&TgaInfo, 1, 18, f);  // Read header
@@ -73,13 +73,13 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
     File::closeFile(f);
     return NULL;
   }
-  trace(DBG_IMG, "loadTGA: type=%d width=%d height=%d channel=%d desc=%x", TgaInfo[2], width, height, channel, TgaInfo[17]);
+  trace(DBG_IMG, "loadTGA: w=%d h=%d c=%d", width, height, channel);
   size = width * height * channel;
 
   Img *img = new Img(width, height, Img::RGB);
 
   // we read the data
-  uint8_t *data = new uint8_t[size];  // for RGB or RGBA image
+  uint8_t *data = new uint8_t[size];  //alloc pixmap
   if (!data) {
     File::closeFile(f);
     return NULL;
