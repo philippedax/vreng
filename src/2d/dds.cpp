@@ -130,13 +130,13 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   if (! dds) return NULL;
   memset(dds, 0, sizeof(dds_t));
 
-  Texture *_tex = (Texture *) tex;
-  if ((dds->fp = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  Texture *texture = (Texture *) tex;
+  if ((dds->fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   /* read magic number and check if valid .dds file */
   fread(&magic, sizeof(char), 4, dds->fp);
   if (strncmp (magic, "DDS ", 4) != 0) {
-    error("file \"%s\" is not a valid .dds file!", Cache::getFilePath(_tex->url));
+    error("file \"%s\" is not a valid .dds file!", Cache::getFilePath(texture->url));
     File::closeFile(dds->fp);
     return NULL;
   }
@@ -148,8 +148,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   dds->height = ddsd.height;
   dds->numMipmaps = ddsd.mipMapLevels;
 
-  trace(DBG_IMG, "dds: width=%d height=%d numMipmaps=%d",
-                  dds->width, dds->height, dds->numMipmaps);
+  trace(DBG_IMG, "dds: w=%d h=%d numMipmaps=%d", dds->width, dds->height, dds->numMipmaps);
 
   switch (ddsd.channel.fourCC) {
   case DXT1:
@@ -166,7 +165,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
     break;
   default:
     error("the file \"%s\" doesn't appear to be compressed using DXT1, DXT3, or DXT5! [%x]",
-          Cache::getFilePath(_tex->url), ddsd.channel.fourCC);
+          Cache::getFilePath(texture->url), ddsd.channel.fourCC);
     File::closeFile(dds->fp);
     if (dds) delete[] dds;
     return NULL;
