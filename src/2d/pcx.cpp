@@ -55,9 +55,9 @@ Img * Img::loadPCX(void *tex, ImageReader read_func)
   PcxInfo pcxInfo;
   struct { uint8_t r, g, b; } palette[256];
 
-  Texture *_tex = (Texture *) tex;
+  Texture *texture = (Texture *) tex;
   FILE *f;
-  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   /* loads the Header */
   fread((char *) &pcxInfo, 1, sizeof(pcxInfo), f);
