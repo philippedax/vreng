@@ -28,10 +28,10 @@
 
 Img * Img::loadPNG(void *tex, ImageReader read_func)
 {
-#if 0 //DAX
-  Texture *_tex = (Texture *) tex;
+#if 0 //dax
+  Texture *texture = (Texture *) tex;
   FILE *f;
-  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   pngRawInfo rawinfo;
 
@@ -45,8 +45,7 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
   return NULL;
 #endif //HAVE_PNG_H
   File::closeFile(f);
-  trace(DBG_FORCE, "loadPNG: width=%d height=%d depth=%d alpha=%d",
-                 rawinfo.Width, rawinfo.Height, rawinfo.Depth, rawinfo.Alpha);
+  trace(DBG_FORCE, "loadPNG: w=%d h=%d d=%d a=%d", rawinfo.Width, rawinfo.Height, rawinfo.Depth, rawinfo.Alpha);
 
   Img *img = new Img(rawinfo.Width, rawinfo.Height, Img::RGB);
 
@@ -54,12 +53,12 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
   return img;
 #else
   return NULL;
-#endif //DAX
+#endif //dax
 }
 
 void Img::savePNG(const char *filename, GLint width, GLint height) 
 {
-#if 0 //DAX
+#if 0 //dax
 #if HAVE_PNG_H
   int         rowStride    = (width * 3 + 3) & ~0x3;
   png_bytep*  row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * height);
@@ -111,5 +110,5 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
   free(image);
   File::closeFile(f);
 #endif
-#endif //DAX
+#endif //dax
 }
