@@ -114,8 +114,8 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
   SgiInfo *sgi = new SgiInfo[1];
   if (! sgi) return NULL;
 
-  Texture *_tex = (Texture *) tex;
-  if ((sgi->fp = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  Texture *texture = (Texture *) tex;
+  if ((sgi->fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   fread(sgi, 1, 12, sgi->fp); // header
 
@@ -139,8 +139,7 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
     }
   }
 
-  trace(DBG_IMG, "sgi: magic=%x type=%x width=%d height=%d channel=%d",
-                  sgi->imagic, sgi->type, sgi->width, sgi->height, sgi->channel);
+  trace(DBG_IMG, "sgi: w=%d h=%d c=%d", sgi->width, sgi->height, sgi->channel);
 
   /* alloc the data */
   Img *img = new Img(sgi->width, sgi->height, Img::RGB);
