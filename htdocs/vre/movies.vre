@@ -33,17 +33,17 @@
 </movie>
 <!-- room4 -->
 <!-- crash assert -->
+<!--
 <movie name="rednightmare" pos="0 8 2 3.14"
   url="http://localhost/~dax/mpg/rednightmare.mpg" rate="10">
   <solid dim="4 .02 4" xn="/gif/rednightmare.gif" />
 </movie>
+-->
 <!-- test avi -->
-<!--
 <movie name="sacre-coeur" pos="0 8 2 3.14"
   url="http://localhost/~dax/avi/sacre-coeur.avi" rate="10">
-  <solid dim="4 .02 4" />
+  <solid dim="4 .02 4" xn="/psd/montmartre.psd" />
 </movie>
--->
 
 <!--
 <movie pos="8 2.25 0 0" url="http://localhost/~dax/mpg/wallace.mpg" rate="10"> <solid shape="cone" rb=".5" rt=".5" h="4" amb="red" /></movie>
