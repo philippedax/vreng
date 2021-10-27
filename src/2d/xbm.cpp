@@ -39,14 +39,14 @@ static int hexval(char ch)
 Img * Img::loadXBM(void *tex, ImageReader read_func)
 {
   int x = 0;
-  uint16_t width=0, height=0;
+  uint16_t width = 0, height = 0;
   uint8_t colorfg = 0;	// black
   uint8_t colorbg = 255;// white
   char line[256];
   
-  Texture *_tex = (Texture *) tex;
+  Texture *texture = (Texture *) tex;
   FILE *f;
-  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   Img *img = NULL;
 
@@ -55,10 +55,12 @@ Img * Img::loadXBM(void *tex, ImageReader read_func)
     char *p;
     if (strlen(line) < 5) continue; /* ignore junk lines */
     if (line[0] == '#') {
-      if ((p = strstr(line, "width")) != NULL)
+      if ((p = strstr(line, "width")) != NULL) {
         width = atoi(p+5);
-      else if ((p = strstr(line, "height")) != NULL)
+      }
+      else if ((p = strstr(line, "height")) != NULL) {
         height = atoi(p+6);
+      }
     }
     else if ((p = strstr(line, "static")) != NULL) {
       img = new Img(width, height, Img::RGB);
