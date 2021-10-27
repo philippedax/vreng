@@ -59,7 +59,7 @@ void Texture::update()
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->img) {
       if (! (*it)->img->pixmap) {
-        error("updateTextures pixmap=null: id=%d url=%s", (*it)->id, (*it)->url);
+        //error("updateTextures pixmap=null: id=%d url=%s", (*it)->id, (*it)->url);
         continue;
       }
       glBindTexture(GL_TEXTURE_2D, (*it)->id);
