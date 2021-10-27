@@ -27,9 +27,9 @@
 
 Img * Img::loadPGM(void *tex, ImageReader read_func)
 {
-  Texture *_tex = (Texture *) tex;
+  Texture *texture = (Texture *) tex;
   FILE *f;
-  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   /* we read the header */
   int width, height;
@@ -51,8 +51,8 @@ Img * Img::loadPGM(void *tex, ImageReader read_func)
   Img *img = new Img(width, height, Img::RGB);
 
   /* we read the data */
-  for (int y=0; y<height; y++) {
-    for (int x=0; x<width; x++) {
+  for (int y=0; y < height; y++) {
+    for (int x=0; x < width; x++) {
       fread((char *) img->pixmap + (y*width+x) * Img::RGB, 1, 1, f);
       // convert Gray to R = G = B
       img->pixmap[((y*width+x)*Img::RGB)+1] = img->pixmap[(y*width+x)*Img::RGB];
