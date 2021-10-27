@@ -61,11 +61,12 @@ static int gifReadScreen(GifInfo *g);
 static int gifReadBlocks(GifInfo *g);
 
 
-Img * Img::loadGIF(void *_tex, ImageReader read_func)
+Img * Img::loadGIF(void *tex, ImageReader read_func)
 {
   GifInfo s, *g = &s;
-  Texture *tex = (Texture *) _tex;
-  if ((g->fp = Cache::openCache(tex->url, tex->http)) == NULL) return NULL;
+  Texture *texture = (Texture *) tex;
+  if ((g->fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+
   g->ir = 0;
   g->img = NULL;
 
@@ -133,6 +134,7 @@ static int gifReadImage(GifInfo *g)
   uint8_t localmap[256][3];
 
   if ((gifread(g, buf, 10)) != 10) return -6;
+
   int left		= buf[0] + (buf[1] << 8);
   int top		= buf[2] + (buf[3] << 8);
   int width		= buf[4] + (buf[5] << 8);
