@@ -32,13 +32,13 @@
 Img * Img::loadXPM(void *tex, ImageReader read_func)
 {
 #if HAVE_LIBXPM
-  Texture *_tex = (Texture *) tex;
+  Texture *texture = (Texture *) tex;
   FILE *f;
-  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
   File::closeFile(f);
 
   XpmImage xpmimage;
-  int r = XpmReadFileToXpmImage(Cache::getFilePath(_tex->url), &xpmimage, NULL);
+  int r = XpmReadFileToXpmImage(Cache::getFilePath(texture->url), &xpmimage, NULL);
   if (r != XpmSuccess) {
     if (r == XpmColorFailed) error("XpmReadFileToXpmImage: bad color");
     return NULL;
