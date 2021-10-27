@@ -57,7 +57,7 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
   if (channel <= Img::RGB) channel = Img::RGB;
   else channel = Img::RGBA;
 
-  trace(DBG_IMG, "loadTIF: width=%d height=%d channel=%d", width, height, channel);
+  trace(DBG_IMG, "loadTIF: w=%d h=%d c=%d", width, height, channel);
 
   // always 4 bytes per pixel for this
   uint32 * tmpImage = (uint32 *)_TIFFmalloc((tsize_t)(width * height * sizeof(uint32_t)));
@@ -82,8 +82,9 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
       *pixptr++ = (uint8)TIFFGetR(pixel);
       *pixptr++ = (uint8)TIFFGetG(pixel);
       *pixptr++ = (uint8)TIFFGetB(pixel);
-      if (channel == Img::RGBA)
+      if (channel == Img::RGBA) {
         *pixptr++ = (uint8)TIFFGetA(pixel);
+      }
     }
   }
   _TIFFfree(tmpImage);
