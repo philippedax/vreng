@@ -30,6 +30,7 @@
 
 
 #if defined(HAVE_JPEG) && defined(HAVE_JPEGLIB_H)
+
 extern "C" {  // stupid JPEG library
 #undef HAVE_STDLIB_H	// stupid jpeglib.h
 #undef HAVE_STDDEF_H	// stupid jpeglib.h
@@ -55,7 +56,7 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
   JSAMPARRAY buf;	// Output row buffer
   int row_stride;	// physical row width in output buffer
 
-  // Step 4: set parameters for decompression
+  // Step 4: set parameters for decompression - nothing
 
   // Step 5: Start decompressor
   jpeg_start_decompress(&cinfo);
@@ -66,8 +67,7 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
   buf = (*cinfo.mem->alloc_sarray) ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
 
   // Step 6: while (scan lines remain to be read)
-  trace(DBG_IMG, "readJpegData: width=%d height=%d channel=%d",
-                 cinfo.output_width, cinfo.output_height, cinfo.output_components);
+  trace(DBG_IMG, "readJpegData: w=%d h=%d c=%d", cinfo.output_width, cinfo.output_height, cinfo.output_components);
   int k = 0;
   int y = 0;
   while (cinfo.output_scanline < cinfo.output_height) {
@@ -116,11 +116,11 @@ static void my_error_exit(j_common_ptr cinfo)
 Img * Img::loadJPG(void *tex, ImageReader read_func)
 {
 #if HAVE_JPEG
-  Texture *_tex = (Texture *) tex;
-  FILE *fp;
-  if ((fp = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
-
   struct jpeg_decompress_struct cinfo;
+
+  Texture *texture = (Texture *) tex;
+  FILE *fp;
+  if ((fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   /* error handling */
   struct my_error_mgr jerr;
