@@ -127,24 +127,34 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
   uint8_t  compression, channel;
   uint16_t count, len;
   uint16_t w, h;
-  uint8_t  *data;
+  uint8_t  *data = NULL;
 
   // Check identifier
   if (get32(s) != 0x38425053) {	// "8BPS"
-    error("corrupt PSD image"); return NULL;
+    error("invalid PSD image");
+    return NULL;
   }
   // Check file type version.
-  if (get16(s) != 1) { error("unsupported version of PSD image"); return NULL; }
+  if (get16(s) != 1) {
+    error("unsupported version of PSD image");
+    return NULL;
+  }
   // Skip 6 reserved bytes.
   skip(s, 6);
-  // Read the number of channels (R, G, B, A, etc).
+  // Read the number of channels (R, G, B, A).
   nbchannels = get16(s);
-  if (nbchannels > 16) { error("unsupported number of channels in PSD image"); return NULL; }
+  if (nbchannels > 16) {
+    error("unsupported number of channels in PSD image");
+    return NULL;
+  }
   // Read the rows and columns of the image.
   h = get32(s);
   w = get32(s);
   // Make sure the depth is 8 bits.
-  if (get16(s) != 8) { error("PSD bit depth is not 8 bit"); return NULL; }
+  if (get16(s) != 8) {
+    error("PSD bit depth is not 8 bit");
+    return NULL;
+  }
   // Make sure the color mode is RGB.
   //   0: Bitmap
   //   1: Grayscale
@@ -154,18 +164,27 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
   //   7: Multichannel
   //   8: Duotone
   //   9: Lab color
-  if (get16(s) != 3) { error("PSD is not in RGB color format"); return NULL; }
+  if (get16(s) != 3) {
+    error("PSD is not in RGB color format");
+    return NULL;
+  }
   skip(s, get32(s));	// Skip the Mode Data. (It's the palette for indexed color)
   skip(s, get32(s));	// Skip the image resources. (resolution, pen tool paths, etc)
   skip(s, get32(s));	// Skip the reserved data.
   // Find out if the data is compressed.
   // Known values: 0: no compression 1: RLE compressed
   compression = get16(s);
-  if (compression > 1) { error("PSD has an unknown compression format"); return NULL; }
+  if (compression > 1) {
+    error("PSD has an unknown compression format");
+    return NULL;
+  }
 
   // Create the destination image.
   data = new uint8_t[4 * w*h];
-  if (!data) { error("PSD out of memory"); return NULL; }
+  if (!data) {
+    error("PSD out of memory");
+    return NULL;
+  }
   nbpixels = w * h;
 
   // Finally, the image data.
@@ -177,7 +196,6 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
     //     Else if n is between -127 and -1 inclusive, copy the next byte -n+1 times.
     //     Else if n is 128, noop.
     // Endloop
-
     // The RLE-compressed data is preceeded by a 2-byte data count for each row in the data,
     // which we're going to just skip.
     skip(s, h * nbchannels * 2);
@@ -187,15 +205,19 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
       uint8_t *p = data + channel;
       if (channel >= nbchannels) {
         // Fill this channel with default data.
-        for (int i=0; i < nbpixels; i++) *p = (channel == 3 ? 255 : 0), p += 4;
-      } else {
+        for (int i=0; i < nbpixels; i++) {
+          *p = (channel == 3 ? 255 : 0), p += 4;
+        }
+      }
+      else {
         // Read the RLE data.
         count = 0;
         while (count < nbpixels) {
           len = get8(s);
           if (len == 128) {
             ; // No-op.
-          } else if (len < 128) {
+          }
+          else if (len < 128) {
             // Copy next len+1 bytes literally.
             len++;
             count += len;
@@ -204,7 +226,8 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
               p += 4;
               len--;
             }
-          } else if (len > 128) {
+          }
+          else if (len > 128) {
             uint32_t  val;
             // Next -len+1 bytes in the dest are replicated from next source byte.
             // (Interpret len as a negative 8-bit int.)
@@ -221,7 +244,8 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
         }
       }
     }
-  } else {
+  } //end compression
+  else {
     // We're at the raw image data.  It's each channel in order (Red, Green, Blue, Alpha, ...)
     // where each channel consists of an 8-bit value for each pixel in the image.
 
@@ -231,7 +255,8 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
       if (channel > nbchannels) {
         // Fill this channel with default data.
         for (int i=0; i < nbpixels; i++) *p = (channel == 3) ? 255 : 0, p += 4;
-      } else {
+      }
+      else {
         // Read the data.
         count = 0;
         for (int i=0; i < nbpixels; i++) {
@@ -246,10 +271,13 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
     data = convert_format(data, 4, dstcomp, w, h);
     if (data == NULL) return NULL; // convert_format frees input on failure
   }
-  if (srccomp) *srccomp = nbchannels;
+  if (srccomp) {
+    *srccomp = nbchannels;
+  }
   *y = h;
   *x = w;
 
+  //error("psd_load data=%x",data);
   return data;
 }
 
@@ -259,9 +287,9 @@ Img * Img::loadPSD(void *tex, ImageReader read_func)
   uint16_t width, height;
   uint8_t channel, dstcomp = Img::RGB;
 
-  Texture *_tex = (Texture *) tex;
+  Texture *texture = (Texture *) tex;
   FILE *f;
-  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   s.img_file = f;
 
