@@ -54,9 +54,9 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
   int16_t compression, bit_count;
   int magic1, magic2;
 
-  Texture *_tex = (Texture *) tex;
+  Texture *texture = (Texture *) tex;
   FILE *f;
-  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   /* we read the header */
   Reader *ir = new Reader(tex, read_func);
@@ -90,13 +90,13 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
   image_size = ir->getUInt(f);
   fseek(f, 0L, 2);
   file_size = ftell(f);
-  if (image_size == 0)
+  if (image_size == 0) {
     image_size = file_size - data_offset;
+  }
 
   delete ir;
 
-  trace(DBG_IMG, "loadBMP: width=%d height=%d bpp=%d image_size=%d",
-        width, height, bit_count, image_size);
+  trace(DBG_IMG, "loadBMP: w=%d h=%d c=%d s=%d", width, height, bit_count, image_size);
 
   Img *img = new Img(width, height, Img::RGB);
 
