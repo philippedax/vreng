@@ -27,9 +27,9 @@
 
 Img * Img::loadPPM(void *tex, ImageReader read_func)
 {
-  Texture *_tex = (Texture *) tex;
+  Texture *texture = (Texture *) tex;
   FILE *f;
-  if ((f = Cache::openCache(_tex->url, _tex->http)) == NULL) return NULL;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   /* we read the header */
   int width, height;
@@ -51,8 +51,9 @@ Img * Img::loadPPM(void *tex, ImageReader read_func)
   Img *img = new Img(width, height, Img::RGB);
 
   /* we read the data */
-  for (int y=0; y < height; y++)
+  for (int y=0; y < height; y++) {
     fread((char *)img->pixmap + y*width*Img::RGB, 1, width*Img::RGB, f);
+  }
 
   File::closeFile(f);
   return img;
@@ -71,7 +72,7 @@ void Img::savePPM(const char *filename, GLenum mode)
   if ((fp = File::openFile(filename, "wb")) == NULL) {
     perror("open"); return;
   }
-  fprintf(fp, "P6\n#\n%d %d\n255\n", width, height);
+  fprintf(fp, "P6\n#\n%d %d\n255\n", width, height);	// magic number P6
 
   glReadBuffer(mode);
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -80,8 +81,9 @@ void Img::savePPM(const char *filename, GLenum mode)
 
   glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixmap);
 
-  for (int j=height; j-- ; ppix -= Img::RGB * width)
+  for (int j=height; j-- ; ppix -= Img::RGB * width) {
     fwrite(ppix, 1, Img::RGB * width, fp);
+  }
 
   delete[] pixmap;
   File::closeFile(fp);
