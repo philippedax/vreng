@@ -162,13 +162,13 @@ class _3ds {
   virtual void readChunk(tChunk *);
   /**< This reads the next chunk */
 
-  virtual void processNextChunk(t3dsModel *pModel, tChunk *);
+  virtual void nextChunk(t3dsModel *pModel, tChunk *);
   /**< This reads the next large chunk */
 
-  virtual void processNextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *);
+  virtual void nextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *);
   /**< This reads the object chunks */
 
-  virtual void processNextMaterialChunk(t3dsModel *pModel, tChunk *);
+  virtual void nextMaterialChunk(t3dsModel *pModel, tChunk *);
   /**< This reads the material chunks */
 
   virtual void readColorChunk(t3dsMaterialInfo *pMaterial, tChunk *pChunk);

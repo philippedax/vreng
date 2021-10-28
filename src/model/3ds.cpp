@@ -272,15 +272,15 @@ void _3ds::draw()
     }
 
     glBegin(GL_TRIANGLES);		// Begin drawing
-
     for (int j=0; j < pObject->numFaces; j++) {  // all faces
       for (int whichVertex=0; whichVertex < 3; whichVertex++) {
         int vi = pObject->pFaces[j].vertIndex[whichVertex];
         if (vi < 0) continue;	//DAX BUG: segfault
         glNormal3f(pObject->pNormals[vi].x, pObject->pNormals[vi].y, pObject->pNormals[vi].z);
         if (pObject->bHasTexture) {
-          if (pObject->pTexVerts)
+          if (pObject->pTexVerts) {
             glTexCoord2f(pObject->pTexVerts[vi].x, pObject->pTexVerts[vi].y);
+          }
         }
         else {
           // Make sure there is a valid material/color assigned to this object
@@ -314,8 +314,8 @@ bool _3ds::importModel(t3dsModel *pModel)
     return false;
   }
 
-  // Now we actually start reading in the data.  processNextChunk() is recursive
-  processNextChunk(pModel, &currentChunk);
+  // Now we actually start reading in the data.  nextChunk() is recursive
+  nextChunk(pModel, &currentChunk);
 
   // After we have read the whole 3DS file, we want to calculate our own vertex normals.
   computeNormals(pModel);
@@ -325,7 +325,7 @@ bool _3ds::importModel(t3dsModel *pModel)
 }
 
 /** reads the main sections of the .3DS file, then dives deeper with recursion */
-void _3ds::processNextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
+void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
 {
   tObject newObject = {0};	// This is used to add to our object list
   t3dsMaterialInfo newTexture;	// This is used to add to our material list
@@ -359,7 +359,7 @@ void _3ds::processNextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       currentChunk.bytesRead += tempChunk.bytesRead;
 
       // Go to the next chunk, which is the object has a texture, it should be MATERIAL, then OBJECT
-      processNextChunk(pModel, &currentChunk);
+      nextChunk(pModel, &currentChunk);
       break;
     case MATERIAL:			// This holds the material information
       // This chunk is the header for the material info chunks
@@ -369,7 +369,7 @@ void _3ds::processNextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       pModel->pMaterials.push_back(newTexture);
 
       // Proceed to the material loading function
-      processNextMaterialChunk(pModel, &currentChunk);
+      nextMaterialChunk(pModel, &currentChunk);
       break;
     case OBJECT:		// This holds the name of the object being read
       // This chunk is the header for the object info chunks.  It also
@@ -386,10 +386,10 @@ void _3ds::processNextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       currentChunk.bytesRead += getString(pModel->pObject[pModel->numObjects - 1].strName);
 
       // Now proceed to read in the rest of the object information
-      processNextObjectChunk(pModel, &(pModel->pObject[pModel->numObjects - 1]), &currentChunk);
+      nextObjectChunk(pModel, &(pModel->pObject[pModel->numObjects - 1]), &currentChunk);
       break;
     case EDITKEYFRAME:
-      //processNextKeyFrameChunk(pModel, currentChunk);
+      //nextKeyFrameChunk(pModel, currentChunk);
       // Read past this chunk and add the bytes read
       currentChunk.bytesRead += fread(buffer, 1, currentChunk.length - currentChunk.bytesRead, fp);
       break;
@@ -408,7 +408,7 @@ void _3ds::processNextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
 }
 
 /** handles all the information about the objects in the file */
-void _3ds::processNextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *pPreviousChunk)
+void _3ds::nextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *pPreviousChunk)
 {
   int buffer[50000] = {0};	// This is used to read past unwanted data
 
@@ -423,7 +423,7 @@ void _3ds::processNextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *p
 
     case OBJECT_MESH:	// This lets us know that we are reading a new object
       // We found a new object, so let's read in it's info using recursion
-      processNextObjectChunk(pModel, pObject, &currentChunk);
+      nextObjectChunk(pModel, pObject, &currentChunk);
       break;
     case OBJECT_VERTICES:	// This is the objects vertices
       readVertices(pObject, &currentChunk);
@@ -453,7 +453,7 @@ void _3ds::processNextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *p
 }
 
 /** handles all the information about the material (Texture) */
-void _3ds::processNextMaterialChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
+void _3ds::nextMaterialChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
 {
   int buffer[50000] = {0};	// This is used to read past unwanted data
   tChunk currentChunk = {0};
@@ -471,7 +471,7 @@ void _3ds::processNextMaterialChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       break;
     case MATMAP:		// This is the header for the texture info
       // Proceed to read in the material information
-      processNextMaterialChunk(pModel, &currentChunk);
+      nextMaterialChunk(pModel, &currentChunk);
       break;
     case MATMAPFILE:		// This stores the file name of the material
       // Here we read in the material's file name
