@@ -75,8 +75,13 @@ bool Ase::loadFromFile(FILE *f)
 {
   fp = f;
 
-  if (importModel(&ASEModel) == false) { error("ASE file not loaded"); return false; }
-  if (importTextures() == false) warning("textures of ASE file not loaded");
+  if (importModel(&ASEModel) == false) {
+    error("ASE file not loaded");
+    return false;
+  }
+  if (importTextures() == false) {
+    warning("textures of ASE file not loaded");
+  }
   return loaded = true; //success
 }
 
@@ -94,39 +99,40 @@ Ase::~Ase()
 
 bool Ase::importTextures()
 {
-  int id = 0;
+  int texid = 0;
 
   for (int i=0; i < ASEModel.numMaterials; i++) {
     if (strlen(ASEModel.pMaterials[i].strFile) > 0) {
-      id = loadTexture(ASEModel.pMaterials[i].strFile);
-      if (id < 0) {
+      texid = loadTexture(ASEModel.pMaterials[i].strFile);
+      if (texid < 0) {
         error("texture %s not loaded", ASEModel.pMaterials[i].strFile);
         return false;
       }
     }
-    ASEModel.pMaterials[i].texureId = id;
-    trace(DBG_VGL, "importTexture: id=%d", id);
+    ASEModel.pMaterials[i].texureId = texid;
   }
   return true;
 }
 
-void Ase::bindTexture2D(int textureId)
+void Ase::bindTexture2D(int texid)
 {
-  if (textureId > 0) {
+  if (texid > 0) {
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, textureId);
+    glBindTexture(GL_TEXTURE_2D, texid);
   }
 }
 
-int Ase::loadTexture(const char *imgFile)
+/* Returns the texid */
+int Ase::loadTexture(const char *file)
 {
   char *end = strrchr(url, '/');
-  int i=0;
+  int i = 0;
   char url_tex[255];
 
-  for (char *p = url; p != end; i++, p++)
+  for (char *p = url; p != end; i++, p++) {
     url_tex[i] = *p;
-  sprintf(&url_tex[i], "/%s", imgFile);
+  }
+  sprintf(&url_tex[i], "/%s", file);
   trace(DBG_VGL, "Ase::loadTexture: url=%s", url_tex);
 
   return Texture::open(url_tex);
@@ -139,7 +145,7 @@ float Ase::getRadius()
   for (int i=0; i < ASEModel.numObjects; i++) {
     if (ASEModel.pObject.size() <= 0) break;
     tASEObject *pObject = &ASEModel.pObject[i];
-    for (int j=0; j < pObject->numFaces; j++)
+    for (int j=0; j < pObject->numFaces; j++) {
       for (int whichVertex = 0; whichVertex < 3; whichVertex++) {
         int vertIndex = pObject->pFaces[j].vertIndex[whichVertex];
         double r= pObject->pVerts[vertIndex].x * pObject->pVerts[vertIndex].x +
@@ -147,15 +153,17 @@ float Ase::getRadius()
                   pObject->pVerts[vertIndex].z * pObject->pVerts[vertIndex].z ;
         if (r > max_radius) max_radius = r;
       }
+    }
   }
-  return sqrt(max_radius);
+  return (float) sqrt(max_radius);
 }
 
 void Ase::setScale(float scale)
 {
   if (scale != currentScale) {
-    if (! loaded)
+    if (! loaded) {
       desiredScale = scale;
+    }
     else {
       currentScale = desiredScale=scale;
       for (int i=0; i < ASEModel.numObjects; i++) {
@@ -209,8 +217,9 @@ void Ase::draw()
 {
   if (! loaded) return;
 
-  if (currentScale != desiredScale)
+  if (currentScale != desiredScale) {
     setScale(desiredScale);
+  }
 
   for (int i=0; i < ASEModel.numObjects; i++) {
     if (ASEModel.pObject.size() <= 0) break;
@@ -230,27 +239,20 @@ void Ase::draw()
     }
 
     glBegin(GL_TRIANGLES);  // Begin drawing with our selected mode
-
     for (int j=0; j < pObject->numFaces; j++) {
       for (int whichVertex=0; whichVertex < 3; whichVertex++) {
         int vi = pObject->pFaces[j].vertIndex[whichVertex];
-
-#if 1 //DAX
         if (vi < 0) continue;    //BUG: segfault
-#endif
         glNormal3f(pObject->pNormals[vi].x, pObject->pNormals[vi].y, pObject->pNormals[vi].z);
-
         if (pObject->bHasTexture) {
           if (pObject->pTexVerts) {
             int coordIndex = pObject->pFaces[j].coordIndex[whichVertex];
-
             glTexCoord2f(pObject->pTexVerts[coordIndex].x, pObject->pTexVerts[coordIndex].y);
           }
         }
         else {
           if (ASEModel.pMaterials.size() && pObject->materialID >= 0) {
             float *pColor = ASEModel.pMaterials[pObject->materialID].fColor;
-
             glColor3f(pColor[0], pColor[1], pColor[2]);
           }
         }
@@ -271,7 +273,6 @@ bool Ase::importModel(tASEModel *pModel)
 
   readFile(pModel);
   computeNormals(pModel);
-
   File::closeFile(fp);
   return true;
 }
@@ -285,7 +286,6 @@ void Ase::readFile(tASEModel *pModel)
   // This function is the head for reading in the .ase data and information.
   // We count the objects then we count the materials.
   // Then for each material and each object we read the data in.
-
   // This will return the number of objects stored in the .ase file
   pModel->numObjects   = getObjectCount();
 
@@ -332,10 +332,12 @@ int Ase::getObjectCount()
 
   // finds an OBJECT tag, it increases the object count.
   rewind(fp);
-  while (!feof(fp)) {
+  while (! feof(fp)) {
     fscanf(fp, "%s", line);
-    if (!strcmp(line, ASE_OBJECT)) cnt++;
-    else fgets(line, sizeof(line), fp);
+    if (! strcmp(line, ASE_OBJECT))
+      cnt++;
+    else
+      fgets(line, sizeof(line), fp);
   }
   return cnt;
 }
@@ -348,9 +350,9 @@ int Ase::getMaterialCount()
 
   // finds the ASE_MATERIAL_COUNT tag, it reads the material count.
   rewind(fp);
-  while (!feof(fp)) {
+  while (! feof(fp)) {
     fscanf(fp, "%s", line);
-    if (!strcmp(line, ASE_MATERIAL_COUNT)) {
+    if (! strcmp(line, ASE_MATERIAL_COUNT)) {
       fscanf(fp, "%d", &materialCount);
       return materialCount;
     }
@@ -368,9 +370,9 @@ void Ase::getTextureInfo(tASEMaterialInfo *pTexture, int desiredMaterial)
   // In this function we check for an MATERIAL tag, then see if it's the
   // material we want by the desiredMaterial number.  If so we start reading it in.
   rewind(fp);
-  while (!feof(fp)) {
+  while (! feof(fp)) {
     fscanf(fp, "%s", line);
-    if (!strcmp(line, ASE_MATERIAL)) {
+    if (! strcmp(line, ASE_MATERIAL)) {
       materialCount++;
       // Check if it's the one we want to stop at
       if (materialCount == desiredMaterial) break;
@@ -379,7 +381,7 @@ void Ase::getTextureInfo(tASEMaterialInfo *pTexture, int desiredMaterial)
   }
 
   // Go through the rest of the file until we hit the end
-  while (!feof(fp)) {
+  while (! feof(fp)) {
     fscanf(fp, "%s", line);
 
     // If we found a ASE_MATERIAL tag stop because we went to far
@@ -395,7 +397,7 @@ void Ase::getTextureInfo(tASEMaterialInfo *pTexture, int desiredMaterial)
                               &(pTexture->fColor[2]));
     }
     // If we hit a ASE_TEXTURE tag, we need to get the texture's name
-    else if (!strcmp(line, ASE_TEXTURE)) {
+    else if (! strcmp(line, ASE_TEXTURE)) {
       // Get the file name of the texture
       getTextureName(pTexture);
     }
@@ -431,13 +433,14 @@ void Ase::moveToObject(int desiredObject)
   // pointer can read the object data from that specific object
 
   rewind(fp);
-  while (!feof(fp)) {
+  while (! feof(fp)) {
     fscanf(fp, "%s", line);
     if (! strcmp(line, ASE_OBJECT)) {
       cnt++;
       // Check if it's the one we want to stop at, if so stop reading
-      if (cnt == desiredObject)
+      if (cnt == desiredObject) {
         return;
+      }
     }
     else fgets(line, sizeof(line), fp);
   }
@@ -446,7 +449,7 @@ void Ase::moveToObject(int desiredObject)
 /** reads in and returns a float from the .ase file */
 float Ase::readFloat()
 {
-  float v = 0.0;
+  float v = 0.;
 
   fscanf(fp, " %f", &v);
   return v;
@@ -463,7 +466,7 @@ void Ase::readObjectInfo(tASEObject *pObject, int desiredObject)
   // Go to the desired object to read from in the file
   moveToObject(desiredObject);
 
-  while (!feof(fp)) {
+  while (! feof(fp)) {
     fscanf(fp, "%s", line);
     if (! strcmp(line, ASE_NUM_VERTEX)) {
       fscanf(fp, "%d", &pObject->numVerts);
@@ -689,9 +692,9 @@ void Ase::computeNormals(tASEModel *pModel)
     }
 
     // Now Get The Vertex Normals //
-    Vec3 vSum = {0.0, 0.0, 0.0};
+    Vec3 vSum = {0., 0., 0.};
     Vec3 vZero = vSum;
-    int shared=0;
+    int shared = 0;
 
     for (i=0; i < pObject->numVerts; i++) {	// go through all of the vertices
       for (int j=0; j < pObject->numFaces; j++) {  // go through all of the triangles
