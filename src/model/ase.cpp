@@ -38,27 +38,27 @@
 
 
 // Below are a all the important tag defines for reading in a .Ase file.
-#define OBJECT		"*GEOMOBJECT"		// An object tag for new objects
-#define NUM_VERTEX	"*MESH_NUMVERTEX"	// The number of vertices tag
-#define NUM_FACES	"*MESH_NUMFACES"	// The number of faces tag
-#define NUM_TVERTEX	"*MESH_NUMTVERTEX"	// The number of texture coordinates
-#define VERTEX		"*MESH_VERTEX"		// The list of vertices tag
-#define FACE		"*MESH_FACE"		// The list of faces tag
-#define NORMALS		"*MESH_NORMALS"		// The list of normals tag (If you want)
-#define FACE_NORMAL	"*MESH_FACENORMAL"	// The face normal for the current index
-#define NVERTEX		"*MESH_VERTEXNORMAL"	// The list of vertex normals
-#define TVERTEX		"*MESH_TVERT"		// The texture coordinate index tag
-#define TFACE		"*MESH_TFACE"		// The vertex index tag
-#define TEXTURE		"*BITMAP"		// The file name for the object's texture map
-#define UTILE		"*UVW_U_TILING"		// The U tiling ratio tag
-#define VTILE		"*UVW_V_TILING"		// The V tiling ratio tag
-#define UOFFSET		"*UVW_U_OFFSET"		// The U tile offset tag
-#define VOFFSET		"*UVW_V_OFFSET"		// The V tile offset tag
-#define MATERIAL_ID	"*MATERIAL_REF"		// The material ID tag
-#define MATERIAL_COUNT	"*MATERIAL_COUNT"	// The material count tag
-#define MATERIAL	"*MATERIAL"		// The material tag
-#define MATERIAL_NAME	"*MATERIAL_NAME"	// The material name tag
-#define MATERIAL_COLOR	"*MATERIAL_DIFFUSE"	// The material color tag
+#define ASE_OBJECT		"*GEOMOBJECT"		// An object tag for new objects
+#define ASE_NUM_VERTEX		"*MESH_NUMVERTEX"	// The number of vertices tag
+#define ASE_NUM_FACES		"*MESH_NUMFACES"	// The number of faces tag
+#define ASE_NUM_TVERTEX		"*MESH_NUMTVERTEX"	// The number of texture coordinates
+#define ASE_VERTEX		"*MESH_VERTEX"		// The list of vertices tag
+#define ASE_FACE		"*MESH_FACE"		// The list of faces tag
+#define ASE_NORMALS		"*MESH_NORMALS"		// The list of normals tag (If you want)
+#define ASE_FACE_NORMAL		"*MESH_FACENORMAL"	// The face normal for the current index
+#define ASE_NVERTEX		"*MESH_VERTEXNORMAL"	// The list of vertex normals
+#define ASE_TVERTEX		"*MESH_TVERT"		// The texture coordinate index tag
+#define ASE_TFACE		"*MESH_TFACE"		// The vertex index tag
+#define ASE_TEXTURE		"*BITMAP"		// The filename for the object's texture map
+#define ASE_UTILE		"*UVW_U_TILING"		// The U tiling ratio tag
+#define ASE_VTILE		"*UVW_V_TILING"		// The V tiling ratio tag
+#define ASE_UOFFSET		"*UVW_U_OFFSET"		// The U tile offset tag
+#define ASE_VOFFSET		"*UVW_V_OFFSET"		// The V tile offset tag
+#define ASE_MATERIAL_ID		"*MATERIAL_REF"		// The material ID tag
+#define ASE_MATERIAL_COUNT	"*MATERIAL_COUNT"	// The material count tag
+#define ASE_MATERIAL		"*MATERIAL"		// The material tag
+#define ASE_MATERIAL_NAME	"*MATERIAL_NAME"	// The material name tag
+#define ASE_MATERIAL_COLOR	"*MATERIAL_DIFFUSE"	// The material color tag
 
 
 
@@ -334,7 +334,7 @@ int Ase::getObjectCount()
   rewind(fp);
   while (!feof(fp)) {
     fscanf(fp, "%s", line);
-    if (!strcmp(line, OBJECT)) cnt++;
+    if (!strcmp(line, ASE_OBJECT)) cnt++;
     else fgets(line, sizeof(line), fp);
   }
   return cnt;
@@ -346,11 +346,11 @@ int Ase::getMaterialCount()
   char line[255] = {0};
   int materialCount = 0;
 
-  // finds the MATERIAL_COUNT tag, it reads the material count.
+  // finds the ASE_MATERIAL_COUNT tag, it reads the material count.
   rewind(fp);
   while (!feof(fp)) {
     fscanf(fp, "%s", line);
-    if (!strcmp(line, MATERIAL_COUNT)) {
+    if (!strcmp(line, ASE_MATERIAL_COUNT)) {
       fscanf(fp, "%d", &materialCount);
       return materialCount;
     }
@@ -370,7 +370,7 @@ void Ase::getTextureInfo(tASEMaterialInfo *pTexture, int desiredMaterial)
   rewind(fp);
   while (!feof(fp)) {
     fscanf(fp, "%s", line);
-    if (!strcmp(line, MATERIAL)) {
+    if (!strcmp(line, ASE_MATERIAL)) {
       materialCount++;
       // Check if it's the one we want to stop at
       if (materialCount == desiredMaterial) break;
@@ -382,35 +382,35 @@ void Ase::getTextureInfo(tASEMaterialInfo *pTexture, int desiredMaterial)
   while (!feof(fp)) {
     fscanf(fp, "%s", line);
 
-    // If we found a MATERIAL tag stop because we went to far
-    if (! strcmp(line, MATERIAL)) {
+    // If we found a ASE_MATERIAL tag stop because we went to far
+    if (! strcmp(line, ASE_MATERIAL)) {
       // We hit a new material, so we need to stop
       return;
     }
-    // If we hit a MATERIAL_COLOR tag, we need to get the material's color
-    else if (! strcmp(line, MATERIAL_COLOR)) {
+    // If we hit a ASE_MATERIAL_COLOR tag, we need to get the material's color
+    else if (! strcmp(line, ASE_MATERIAL_COLOR)) {
       // Get the material RGB color of the object
       fscanf(fp, " %f %f %f", &(pTexture->fColor[0]),
                               &(pTexture->fColor[1]),
                               &(pTexture->fColor[2]));
     }
-    // If we hit a TEXTURE tag, we need to get the texture's name
-    else if (!strcmp(line, TEXTURE)) {
+    // If we hit a ASE_TEXTURE tag, we need to get the texture's name
+    else if (!strcmp(line, ASE_TEXTURE)) {
       // Get the file name of the texture
       getTextureName(pTexture);
     }
-    // If we hit a MATERIAL_NAME tag, we need to get the material's name
-    else if (! strcmp(line, MATERIAL_NAME)) {
+    // If we hit a ASE_MATERIAL_NAME tag, we need to get the material's name
+    else if (! strcmp(line, ASE_MATERIAL_NAME)) {
       // Get the material name of the object
       getMaterialName(pTexture);
     }
-    // If we hit a UTILE tag, we need to get the U tile ratio
-    else if (! strcmp(line, UTILE)) {
+    // If we hit a ASE_UTILE tag, we need to get the U tile ratio
+    else if (! strcmp(line, ASE_UTILE)) {
       // Read the U tiling for the U coordinates of the texture
       pTexture->uTile = readFloat();
     }
-    // If we hit a VTILE tag, we need to get the V tile ratio
-    else if (! strcmp(line, VTILE)) {
+    // If we hit a ASE_VTILE tag, we need to get the V tile ratio
+    else if (! strcmp(line, ASE_VTILE)) {
       // Read the V tiling for the V coordinates of the texture
       pTexture->vTile = readFloat();
     }
@@ -433,7 +433,7 @@ void Ase::moveToObject(int desiredObject)
   rewind(fp);
   while (!feof(fp)) {
     fscanf(fp, "%s", line);
-    if (! strcmp(line, OBJECT)) {
+    if (! strcmp(line, ASE_OBJECT)) {
       cnt++;
       // Check if it's the one we want to stop at, if so stop reading
       if (cnt == desiredObject)
@@ -465,22 +465,22 @@ void Ase::readObjectInfo(tASEObject *pObject, int desiredObject)
 
   while (!feof(fp)) {
     fscanf(fp, "%s", line);
-    if (! strcmp(line, NUM_VERTEX)) {
+    if (! strcmp(line, ASE_NUM_VERTEX)) {
       fscanf(fp, "%d", &pObject->numVerts);
       pObject->pVerts = new Vec3[pObject->numVerts];
     }
-    else if (! strcmp(line, NUM_FACES)) {
+    else if (! strcmp(line, ASE_NUM_FACES)) {
       // Read in the number of faces for this object
       fscanf(fp, "%d", &pObject->numFaces);
       pObject->pFaces = new tASEFace [pObject->numFaces];
     }
-    else if (! strcmp(line, NUM_TVERTEX)) {
+    else if (! strcmp(line, ASE_NUM_TVERTEX)) {
       // Read in the number of texture coordinates for this object
       fscanf(fp, "%d", &pObject->numTexVertex);
       pObject->pTexVerts = new Vec2[pObject->numTexVertex];
     }
     // If we hit the object tag we want to stop cause we went to far
-    else if (! strcmp(line, OBJECT)) {
+    else if (! strcmp(line, ASE_OBJECT)) {
       // Return if we get to the next object
       return;
     }
@@ -512,28 +512,28 @@ void Ase::readObjectData(tASEModel *pModel, tASEObject *pObject, int desiredObje
   // in the data for that tag. We pass in the desired object to read it from.
 
   // Load the material ID for this object
-  getData(pModel, pObject, (char*)MATERIAL_ID, desiredObject);
+  getData(pModel, pObject, (char*)ASE_MATERIAL_ID, desiredObject);
 
   // Load the vertices for this object
-  getData(pModel, pObject, (char*)VERTEX, desiredObject);
+  getData(pModel, pObject, (char*)ASE_VERTEX, desiredObject);
 
   // Load the texture coordinates for this object
-  getData(pModel, pObject, (char*)TVERTEX, desiredObject);
+  getData(pModel, pObject, (char*)ASE_TVERTEX, desiredObject);
 
   // Load the vertex faces list for this object
-  getData(pModel, pObject, (char*)FACE, desiredObject);
+  getData(pModel, pObject, (char*)ASE_FACE, desiredObject);
 
   // Load the texture face list for this object
-  getData(pModel, pObject, (char*)TFACE, desiredObject);
+  getData(pModel, pObject, (char*)ASE_TFACE, desiredObject);
 
   // Load the texture for this object
-  getData(pModel, pObject, (char*)TEXTURE, desiredObject);
+  getData(pModel, pObject, (char*)ASE_TEXTURE, desiredObject);
 
   // Load the U tile for this object
-  getData(pModel, pObject, (char*)UTILE, desiredObject);
+  getData(pModel, pObject, (char*)ASE_UTILE, desiredObject);
 
   // Load the V tile for this object
-  getData(pModel, pObject, (char*)VTILE, desiredObject);
+  getData(pModel, pObject, (char*)ASE_VTILE, desiredObject);
 }
 
 /** loop for reading in the object data */
@@ -552,34 +552,34 @@ void Ase::getData(tASEModel *pModel, tASEObject *pObject, char *strDesiredData, 
   while (! feof(fp)) {
     fscanf(fp, "%s", line);
 
-    if (! strcmp(line, OBJECT)) { return; }
+    if (! strcmp(line, ASE_OBJECT)) { return; }
     // If we hit a vertex tag
-    else if (! strcmp(line, VERTEX)) {
-      if (! strcmp(strDesiredData, VERTEX)) {
+    else if (! strcmp(line, ASE_VERTEX)) {
+      if (! strcmp(strDesiredData, ASE_VERTEX)) {
         readVertex(pObject);
       }
     }
     // If we hit a texture vertex
-    else if (! strcmp(line, TVERTEX)) {
-      if (! strcmp(strDesiredData, TVERTEX)) {
+    else if (! strcmp(line, ASE_TVERTEX)) {
+      if (! strcmp(strDesiredData, ASE_TVERTEX)) {
          readTextureVertex(pObject, pModel->pMaterials[pObject->materialID]);
       }
     }
     // If we hit a vertice index to a face
-    else if (! strcmp(line, FACE)) {
-      if (! strcmp(strDesiredData, FACE)) {
+    else if (! strcmp(line, ASE_FACE)) {
+      if (! strcmp(strDesiredData, ASE_FACE)) {
         readFace(pObject);
       }
     }
     // If we hit a texture index to a face
-    else if (! strcmp(line, TFACE)) {
-      if (! strcmp(strDesiredData, TFACE)) {
+    else if (! strcmp(line, ASE_TFACE)) {
+      if (! strcmp(strDesiredData, ASE_TFACE)) {
         readTextureFace(pObject);
       }
     }
     // If we hit the material ID to the object
-    else if (! strcmp(line, MATERIAL_ID)) {
-      if (! strcmp(strDesiredData, MATERIAL_ID)) {
+    else if (! strcmp(line, ASE_MATERIAL_ID)) {
+      if (! strcmp(strDesiredData, ASE_MATERIAL_ID)) {
         pObject->materialID = (int)readFloat();
         return;
       }
