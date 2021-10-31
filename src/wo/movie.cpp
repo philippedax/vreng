@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "movie.hpp"
-#include "texture.hpp"	// getCurrent
+#include "texture.hpp"	// current
 #include "cache.hpp"	// download
 #include "file.hpp"	// openFile
 #include "pref.hpp"	// quality
@@ -80,12 +80,17 @@ Movie::Movie(char *l)
 
 int Movie::inits()
 {
-  texid = Texture::getIdByObject(this);		// bad texid returned FIXME!
-  if (! texid)
+#if 0 //dax
+  //dax Texture *tex = new Texture(null);
+  texid = Texture::current();
+#else
+  texid = Texture::getIdByObject(this);		// works if texture exists
+  if (! texid) {
     texid = Texture::open(names.url);
-  //dax texid = Texture::open(names.url);
-  //error("texid : %d", texid);
+  }
   trace(DBG_WO, "texid=%d (%s)", texid, Texture::getUrlById(texid));
+#endif
+  //error("texid : %d", texid);
 
   video = Format::getPlayerByUrl(names.url);
   switch (video) {
@@ -179,11 +184,11 @@ void Movie::changePermanent(float lasting)
     switch (video) {
     case PLAYER_AVI:
       {
-        int r, l;
+        int ret, len;
 
-        r = avi->read_data(pixvid, width * height * 3, &l); // get Avi frame
-        //error("f=%d l=%d", frame, l);
-        if (r == 0) {
+        ret = avi->read_data(pixvid, width * height * 3, &len); // get Avi frame
+        //error("f=%d l=%d", frame, len);
+        if (ret == 0) {
           error("end of avi video");
           File::closeFile(fp);
           state = INACTIVE;
@@ -195,21 +200,22 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
+        int r,b;
+        if (File::littleEndian()) { // RGB
+          r = 0; b = 2;
+        }
+        else { // BGR
+          r = 2; b = 0;
+        }
         error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
-        for (int h=0; h < height; h++) {
-          for (int w=0; w < width; w++) {
-            int u = 3 * (texsz * (h+hof) + (w+wof));
-            int v = 3 * (width * h + w);
-            if (File::littleEndian()) {
-              pixtex[u+0] = pixvid[v+0];
-              pixtex[u+1] = pixvid[v+1];
-              pixtex[u+2] = pixvid[v+2];
-            }
-            else { // RGB = BGR
-              pixtex[u+0] = pixvid[v+2];
-              pixtex[u+1] = pixvid[v+1];
-              pixtex[u+2] = pixvid[v+0];
-            }
+        for (int y=0; y < height; y++) {
+          for (int x=0; x < width; x++) {
+            int u = 3 * (/* texsz * */ (y+hof) + (x+wof));
+            int v = 3 * (/* width * */ y + x);
+//error("x,y: %d,%d u,v: %d,%d", x,y,u,v);
+            pixtex[u+0] = pixvid[v+r];
+            pixtex[u+1] = pixvid[v+1];
+            pixtex[u+2] = pixvid[v+b];
           }
         }
       }
@@ -231,6 +237,13 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
+        int r,b;
+        if (File::littleEndian()) { // RGB
+          r = 0; b = 2;
+        }
+        else { // BGR
+          r = 2; b = 0;
+        }
         //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
         if (mpeg->Colormap) {	// case of Colormap Index
           for (int h=0; h < height; h++) {
@@ -249,16 +262,9 @@ void Movie::changePermanent(float lasting)
             for (int w=0; w < width; w++) {
               int u = 3 * (texsz * (h+hof) + (w+wof));
               int v = 4 * (width * h + w);
-              if (File::littleEndian()) {
-                pixtex[u+0] = pixvid[v+0];
-                pixtex[u+1] = pixvid[v+1];
-                pixtex[u+2] = pixvid[v+2];
-              }
-              else { // RGB = BGR
-                pixtex[u+0] = pixvid[v+2];
-                pixtex[u+1] = pixvid[v+1];
-                pixtex[u+2] = pixvid[v+0];
-              }
+              pixtex[u+0] = pixvid[v+r];
+              pixtex[u+1] = pixvid[v+1];
+              pixtex[u+2] = pixvid[v+b];
             }
           }
         }

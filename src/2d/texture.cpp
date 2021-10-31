@@ -136,6 +136,7 @@ void Texture::httpReader(void *_tex, Http *_http)
 
   // get the loader type by mime type or file extension
   uint8_t loader = Format::getLoaderByMime(tex->mime);
+
   switch (loader) {
   case IMG_NULL:
     loader = Format::getLoaderByUrl(tex->url);
@@ -174,22 +175,25 @@ void Texture::httpReader(void *_tex, Http *_http)
 
 Texture::Texture(const char *url)
 {
-  if (! Url::check(url)) return;
+  //dax if (! Url::check(url)) return;
 
   http = NULL;
   img = NULL;
   loaded = false;
   *mime = '\0';
 
-  strcpy(this->url, url);
   textureList.push_back(this);
+  //dax object = WObject::getSolid()->wobject;
   id = create();
   last_texid = id;
 
-  // load image
-  switch (Format::getLoaderByUrl((char*) url)) {
-    case IMG_GIF: Http::httpOpen(url, httpReader, this, 1); break; // multi-threaded
-    default:      Http::httpOpen(url, httpReader, this, 0); break;
+  if (url) {
+    strcpy(this->url, url);
+    // load image
+    switch (Format::getLoaderByUrl((char*) url)) {
+      case IMG_GIF: Http::httpOpen(url, httpReader, this, 1); break; // multi-threaded
+      default:      Http::httpOpen(url, httpReader, this, 0); break;
+    }
   }
   new_texture++;
 }
@@ -204,12 +208,13 @@ GLuint Texture::open(const char *url)
   if (! Url::check(url)) return 0;
 
   Texture * texture = new Texture(url);	// new entry in cache
-  strcpy(texture->url, url);
+
   texture->id = create();		// creates texture and return texid
   last_texid = texture->id;
   //trace(DBG_IMG, "texture: id=%d %s", texture->id, url);
 
   /* we must download the texture now */
+  strcpy(texture->url, url);
   switch (Format::getLoaderByUrl((char*) url)) {
   case IMG_GIF: Http::httpOpen(url, httpReader, texture, 1); break; // multi-threaded
   default:      Http::httpOpen(url, httpReader, texture, 0); break;
@@ -231,6 +236,7 @@ GLuint Texture::create()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
   return texid;
 }
 
