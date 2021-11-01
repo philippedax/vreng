@@ -176,6 +176,14 @@ void Movie::changePermanent(float lasting)
                      ) / 1000.) * (float) rate);
   //error("frame = %d inter = %d", frame, inter);
 
+  int r,b;
+  if (File::littleEndian()) {
+    r = 0; b = 2; // RGB
+  }
+  else {
+    r = 2; b = 0; // BGR
+  }
+
   for (int f=0; f < (frame-inter); f++) {
     /* get video frame or not */
     if (f >= (int) fps) {
@@ -184,12 +192,12 @@ void Movie::changePermanent(float lasting)
     switch (video) {
     case PLAYER_AVI:
       {
-        int ret, len;
+        int ret, retlen;
 
-        ret = avi->read_data(pixvid, width * height * 3, &len); // get Avi frame
-        //error("f=%d l=%d", frame, len);
+        ret = avi->read_data(pixvid, width * height * 4, &retlen); // get Avi frame
+        //error("f=%d s=%d l=%d", frame, width*height*4, retlen);
         if (ret == 0) {
-          error("end of avi video");
+          // end of avi video
           File::closeFile(fp);
           state = INACTIVE;
           delete avi;
@@ -200,18 +208,12 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
-        int r,b;
-        if (File::littleEndian()) { // RGB
-          r = 0; b = 2;
-        }
-        else { // BGR
-          r = 2; b = 0;
-        }
+wof = hof = 0;
         error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
         for (int y=0; y < height; y++) {
           for (int x=0; x < width; x++) {
-            int u = 3 * (/* texsz * */ (y+hof) + (x+wof));
-            int v = 3 * (/* width * */ y + x);
+            int u = 3 * (texsz * (y+hof) + (x+wof));
+            int v = 4 * (width * y + x);
 //error("x,y: %d,%d u,v: %d,%d", x,y,u,v);
             pixtex[u+0] = pixvid[v+r];
             pixtex[u+1] = pixvid[v+1];
@@ -237,13 +239,6 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
-        int r,b;
-        if (File::littleEndian()) { // RGB
-          r = 0; b = 2;
-        }
-        else { // BGR
-          r = 2; b = 0;
-        }
         //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
         if (mpeg->Colormap) {	// case of Colormap Index
           for (int h=0; h < height; h++) {
