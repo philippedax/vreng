@@ -51,7 +51,7 @@ private:
   uint8_t video;		///< video format (mpg avi)
   bool begin;			///< first frame begin playing
   FILE *fp;			///< the corresponding file pointer
-  uint8_t *pixvid;		///< pixmap of the video
+  uint8_t *vidbuf;		///< buffer of the video
   GLubyte *pixtex;		///< pixmap of the tex
   ImageDesc *mpeg;		///< this is a structure used by mpeg_lib to store infos
   class Avi *avi;		///< avi instance

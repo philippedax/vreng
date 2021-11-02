@@ -67,7 +67,7 @@ Movie::Movie(char *l)
   state = INACTIVE;
   texid = -1;
   frame = 0;
-  pixvid = NULL;
+  vidbuf = NULL;
   pixtex = NULL;
   mpeg = NULL;
   avi = NULL;
@@ -135,7 +135,7 @@ void Movie::mpegInit()
   width = mpeg->Width;
   height = mpeg->Height;
   fps = mpeg->PictureRate;
-  pixvid = new uint8_t[mpeg->Size];
+  vidbuf = new uint8_t[mpeg->Size];
 }
 
 void Movie::aviInit()
@@ -154,7 +154,7 @@ void Movie::aviInit()
   fp = avi->getFile();
   avi->getInfos(&width, &height, &fps);
   trace(DBG_WO, "avi: w=%d h=%d f=%.3f", width, height, fps);
-  pixvid = new uint8_t[3 * width * height];
+  vidbuf = new uint8_t[4 * width * height];
 }
 
 void Movie::changePermanent(float lasting)
@@ -194,7 +194,7 @@ void Movie::changePermanent(float lasting)
       {
         int ret, retlen;
 
-        ret = avi->read_data(pixvid, width * height * 4, &retlen); // get Avi frame
+        ret = avi->read_data(vidbuf, width * height * 4, &retlen); // get Avi frame
         //error("f=%d s=%d l=%d", frame, width*height*4, retlen);
         if (ret == 0) {
           // end of avi video
@@ -208,23 +208,23 @@ void Movie::changePermanent(float lasting)
         }
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
-wof = hof = 0;
+//wof = hof = 0;
         error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
-        for (int y=0; y < height; y++) {
-          for (int x=0; x < width; x++) {
-            int u = 3 * (texsz * (y+hof) + (x+wof));
-            int v = 4 * (width * y + x);
-//error("x,y: %d,%d u,v: %d,%d", x,y,u,v);
-            pixtex[u+0] = pixvid[v+r];
-            pixtex[u+1] = pixvid[v+1];
-            pixtex[u+2] = pixvid[v+b];
+        for (int h=0; h < height; h++) {
+          for (int w=0; w < width; w++) {
+            int u = 3 * (texsz * (h+hof) + (w+wof));
+            int v = 4 * (width * h + w);
+//error("w,h: %d,%d u,v: %d,%d", w,h,u,v);
+            pixtex[u+0] = vidbuf[v+r];
+            pixtex[u+1] = vidbuf[v+1];
+            pixtex[u+2] = vidbuf[v+b];
           }
         }
       }
       break;
     case PLAYER_MPG:
       {
-        if (GetMPEGFrame((char *)pixvid) == false) {	// get mpeg frame
+        if (GetMPEGFrame((char *)vidbuf) == false) {	// get mpeg frame
           if (state == LOOP) {
             RewindMPEG(fp, mpeg);
             frame = 0;
@@ -243,9 +243,9 @@ wof = hof = 0;
         if (mpeg->Colormap) {	// case of Colormap Index
           for (int h=0; h < height; h++) {
             for (int w=0; w < width; w++) {
-              int index = pixvid[h * width + w];
-              ColormapEntry *color = &mpeg->Colormap[index];
-              int u = 3 * ((h+hof) * texsz + (w+hof));
+              int idx = vidbuf[width * h + w];
+              ColormapEntry *color = &mpeg->Colormap[idx];
+              int u = 3 * (texsz * (h+hof) + (w+wof));
               pixtex[u+0] = color->red % 255;	
               pixtex[u+1] = color->green % 255;	
               pixtex[u+2] = color->blue % 255;
@@ -257,9 +257,9 @@ wof = hof = 0;
             for (int w=0; w < width; w++) {
               int u = 3 * (texsz * (h+hof) + (w+wof));
               int v = 4 * (width * h + w);
-              pixtex[u+0] = pixvid[v+r];
-              pixtex[u+1] = pixvid[v+1];
-              pixtex[u+2] = pixvid[v+b];
+              pixtex[u+0] = vidbuf[v+r];
+              pixtex[u+1] = vidbuf[v+1];
+              pixtex[u+2] = vidbuf[v+b];
             }
           }
         }
@@ -303,8 +303,8 @@ void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
   movie->mpeg = NULL;
   //if (movie->avi) delete[] movie->avi;
   //movie->avi = NULL;
-  if (movie->pixvid) delete[] movie->pixvid;
-  movie->pixvid = NULL;
+  if (movie->vidbuf) delete[] movie->vidbuf;
+  movie->vidbuf = NULL;
   if (movie->pixtex) delete[] movie->pixtex;
   movie->pixtex = NULL;
 }
