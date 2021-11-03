@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2021 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -99,6 +99,7 @@ int Movie::inits()
     default: return 0;
   }
 
+  // texsz must be a power of 2
   int i, power = 0;
   texsz = MAX(width, height);
   while ((texsz = texsz/2) > 0) {
@@ -107,6 +108,7 @@ int Movie::inits()
   for (i=0, texsz=1; i <= power; i++) {
     texsz *= 2;
   }
+
   pixtex = new GLubyte[3 * texsz * texsz];
   frame = 0;
   begin = true;
@@ -116,6 +118,7 @@ int Movie::inits()
 void Movie::mpegInit()
 {
   char *filempeg = new char[MAXHOSTNAMELEN];
+
   if (Cache::download(names.url, filempeg) == 0) {	// download Mpeg file
     error("can't download %s", filempeg);
     delete[] filempeg;
@@ -136,6 +139,7 @@ void Movie::mpegInit()
   height = mpeg->Height;
   fps = mpeg->PictureRate;
   vidbuf = new uint8_t[mpeg->Size];
+  trace(DBG_WO, "mpeg: w=%d h=%d f=%.3f", width, height, fps);
 }
 
 void Movie::aviInit()
@@ -144,17 +148,17 @@ void Movie::aviInit()
 
   avi = new Avi(names.url);	// downloads avi file
 
-  int r = avi->read_header();
-  if (r) {
-    error("avi: no header err=%d", r);
+  int ret = avi->read_header();
+  if (ret) {
+    error("avi: no header err=%d", ret);
     delete avi;
     avi = NULL;
     return;
   }
   fp = avi->getFile();
   avi->getInfos(&width, &height, &fps);
-  trace(DBG_WO, "avi: w=%d h=%d f=%.3f", width, height, fps);
   vidbuf = new uint8_t[4 * width * height];
+  trace(DBG_WO, "avi: w=%d h=%d f=%.3f", width, height, fps);
 }
 
 void Movie::changePermanent(float lasting)
@@ -176,13 +180,11 @@ void Movie::changePermanent(float lasting)
                      ) / 1000.) * (float) rate);
   //error("frame = %d inter = %d", frame, inter);
 
-  int r,b;
-  if (File::littleEndian()) {
-    r = 0; b = 2; // RGB
-  }
-  else {
-    r = 2; b = 0; // BGR
-  }
+  uint8_t r,g,b;
+  if (File::littleEndian())
+    r = 0, g = 1, b = 2; // RGB
+  else
+    r = 2, g = 1, b = 0; // BGR
 
   for (int f=0; f < (frame-inter); f++) {
     /* get video frame or not */
@@ -196,74 +198,71 @@ void Movie::changePermanent(float lasting)
 
         ret = avi->read_data(vidbuf, width * height * 4, &retlen); // get Avi frame
         //error("f=%d s=%d l=%d", frame, width*height*4, retlen);
-        if (ret == 0) {
-          // end of avi video
+        if (ret == 0) {	// end of avi video
           File::closeFile(fp);
           state = INACTIVE;
           delete avi;
           avi = NULL;
-          frame = 0;
           begin = true;
           return;
         }
+
+        // build pixmap texture
         int wof = (texsz - width) / 2;
         int hof = (texsz - height) / 2;
-//wof = hof = 0;
         error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
-            int u = 3 * (texsz * (h+hof) + (w+wof));
-            int v = 4 * (width * h + w);
-//error("w,h: %d,%d u,v: %d,%d", w,h,u,v);
+            int u = 3 * (texsz * (h+hof) + (w+wof));	// pixtex index
+            int v = 4 * (width * h + w);		// vidbuf index
+            //error("w,h: %d,%d u,v: %d,%d", w,h,u,v);
             pixtex[u+0] = vidbuf[v+r];
-            pixtex[u+1] = vidbuf[v+1];
+            pixtex[u+1] = vidbuf[v+g];
             pixtex[u+2] = vidbuf[v+b];
           }
         }
       }
       break;
     case PLAYER_MPG:
-      {
-        if (GetMPEGFrame((char *)vidbuf) == false) {	// get mpeg frame
-          if (state == LOOP) {
-            RewindMPEG(fp, mpeg);
-            frame = 0;
-            begin = true;
-            return;
-          }
-          CloseMPEG();
-          state = INACTIVE;
-          frame = 0;
+      if (GetMPEGFrame((char *)vidbuf) == false) {	// get mpeg frame
+        if (state == LOOP) {
+          RewindMPEG(fp, mpeg);
           begin = true;
           return;
         }
-        int wof = (texsz - width) / 2;
-        int hof = (texsz - height) / 2;
-        //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
-        if (mpeg->Colormap) {	// case of Colormap Index
-          for (int h=0; h < height; h++) {
-            for (int w=0; w < width; w++) {
-              int idx = vidbuf[width * h + w];
-              ColormapEntry *color = &mpeg->Colormap[idx];
-              int u = 3 * (texsz * (h+hof) + (w+wof));
-              pixtex[u+0] = color->red % 255;	
-              pixtex[u+1] = color->green % 255;	
-              pixtex[u+2] = color->blue % 255;
-            }
+        CloseMPEG();
+        state = INACTIVE;
+        begin = true;
+        return;
+      }
+
+      // build pixmap texture
+      int wof = (texsz - width) / 2;
+      int hof = (texsz - height) / 2;
+      //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
+      if (mpeg->Colormap) {	// case of Colormap Index
+        for (int h=0; h < height; h++) {
+          for (int w=0; w < width; w++) {
+            int idx = vidbuf[width * h + w];
+            ColormapEntry *color = &mpeg->Colormap[idx];
+            int u = 3 * (texsz * (h + hof) + w + wof);
+            pixtex[u+0] = color->red % 255;	
+            pixtex[u+1] = color->green % 255;	
+            pixtex[u+2] = color->blue % 255;
           }
         }
-        else {
-          for (int h=0; h < height; h++) {
-            for (int w=0; w < width; w++) {
-              int u = 3 * (texsz * (h+hof) + (w+wof));
-              int v = 4 * (width * h + w);
-              pixtex[u+0] = vidbuf[v+r];
-              pixtex[u+1] = vidbuf[v+1];
-              pixtex[u+2] = vidbuf[v+b];
-            }
+      }
+      else {
+        for (int h=0; h < height; h++) {
+          for (int w=0; w < width; w++) {
+            int u = 3 * (texsz * (h + hof) + w + wof);	// pixtex index
+            int v = 4 * (width * h + w);		// vidbuf index
+            pixtex[u+0] = vidbuf[v+r];
+            pixtex[u+1] = vidbuf[v+g];
+            pixtex[u+2] = vidbuf[v+b];
           }
         }
-      } //end mpeg
+      }
       break;
     } //end switch
   } //end for frame
