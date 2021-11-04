@@ -857,10 +857,10 @@ char * Parse::parseBool(char *ptok, bool *value)
       *value = atoi(ptok) & 0xff;
     }
     else {
-      if (! stringcmp(ptok, "true")) {
+      if (! stringcmp(ptok, "true") || ! stringcmp(ptok, "on")) {
         *value = 1;
       }
-      if (! stringcmp(ptok, "false")) {
+      if (! stringcmp(ptok, "false") || ! stringcmp(ptok, "off")) {
         *value = 0;
       }
     }
