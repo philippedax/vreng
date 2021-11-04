@@ -92,8 +92,8 @@ void Movie::inits()
 #endif
   //error("texid : %d", texid);
 
-  video = Format::getPlayerByUrl(names.url);
-  switch (video) {
+  vidfmt = Format::getPlayerByUrl(names.url);
+  switch (vidfmt) {
     case PLAYER_MPG: mpegInit(); break;
     case PLAYER_AVI: aviInit(); break;
     default: return;
@@ -162,40 +162,38 @@ void Movie::aviInit()
 
 void Movie::changePermanent(float lasting)
 {
-  static struct timeval tstart;
-
   if (state == INACTIVE || state == PAUSE) return;
 
-  if (begin) {
-    gettimeofday(&tstart, NULL);
-    begin = false;
-  }
-
-  uint16_t finter = frame;
+  static struct timeval tstart;
   struct timeval tcurr;
-  gettimeofday(&tcurr, NULL);
-  frame = (int16_t) floor(((((float) (tcurr.tv_sec - tstart.tv_sec) * 1000.) +
-	                  ((float) (tcurr.tv_usec - tstart.tv_usec) / 1000.)
-                           ) / 1000.) * (float) rate);
-  //error("frame = %d finter = %d", frame, finter);
+  uint8_t r, g, b;
 
-  uint8_t r,g,b;
   if (File::littleEndian())
     r = 0, g = 1, b = 2; // RGB
   else
     r = 2, g = 1, b = 0; // BGR
 
-  for (int fdelta=0; fdelta < (frame-finter); fdelta++) {
-    /* get video frame or not */
-    if (fdelta >= (int16_t) fps) {
-      break;
+  if (begin) {
+    gettimeofday(&tstart, NULL);
+    begin = false;
+  }
+  uint16_t finter = frame;	// previous frame
+
+  gettimeofday(&tcurr, NULL);
+  frame = (uint16_t) floor(((((float) (tcurr.tv_sec - tstart.tv_sec) * 1000.) +
+	                   ((float) (tcurr.tv_usec - tstart.tv_usec) / 1000.)
+                           ) / 1000.) * (float) rate);	// current frame
+
+  for (uint16_t fdelta=0; fdelta < (frame-finter); fdelta++) {
+    if (fdelta >= (uint16_t) fps) {
+      break;	// ignore this frame
     }
-    switch (video) {
+    switch (vidfmt) {
     case PLAYER_AVI:
       {
+        // get a frame from the avi video stream
         int ret, retlen;
-
-        ret = avi->read_data(vidbuf, width * height * 4, &retlen); // get Avi frame
+        ret = avi->read_data(vidbuf, width * height * 4, &retlen);
         //error("f=%d s=%d l=%d", frame, width*height*4, retlen);
         if (ret == 0) {	// end of avi video
           File::closeFile(fp);
@@ -205,28 +203,28 @@ void Movie::changePermanent(float lasting)
           begin = true;
           return;
         }
-
         // build pixmap texture : doesn't work !!!
         int wof = (texsiz - width) / 2;
         int hof = (texsiz - height) / 2;
         wof = hof = 0; //dax
-        //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsiz, width, height);
+        //error("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
-            int u = 3 * (texsiz * (h+hof) + w + wof);	// texmap index
             int v = 4 * (width * h + w);		// vidbuf index
-            //error("w,h: %d,%d u,v: %d,%d", w,h,u,v);
-            texmap[u+0] = vidbuf[v+r];
-            texmap[u+1] = vidbuf[v+g];
-            texmap[u+2] = vidbuf[v+b];
+            int t = 3 * (texsiz * (h+hof) + w + wof);	// texmap index
+            //error("w,h: %d,%d t,v: %d,%d", w,h,t,v);
+            texmap[t+0] = vidbuf[v+r];
+            texmap[t+1] = vidbuf[v+g];
+            texmap[t+2] = vidbuf[v+b];
           }
         }
       }
       break;
     case PLAYER_MPG:
-      if (GetMPEGFrame((char *)vidbuf) == false) {	// get mpeg frame
+      // get a frame from the mpeg video stream
+      if (GetMPEGFrame((char *)vidbuf) == false) { // end of mpeg video
         if (state == LOOP) {
-          RewindMPEG(fp, mpeg);
+          RewindMPEG(fp, mpeg);	// rewind mpeg video
           begin = true;
           return;
         }
@@ -235,31 +233,30 @@ void Movie::changePermanent(float lasting)
         begin = true;
         return;
       }
-
       // build pixmap texture
       int wof = (texsiz - width) / 2;
       int hof = (texsiz - height) / 2;
-      //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsiz, width, height);
+      //error("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
       if (mpeg->Colormap) {	// case of Colormap Index
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
-            int idx = vidbuf[width * h + w];
-            ColormapEntry *color = &mpeg->Colormap[idx];
-            int u = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
-            texmap[u+0] = color->red % 255;	
-            texmap[u+1] = color->green % 255;	
-            texmap[u+2] = color->blue % 255;
+            int v = vidbuf[width * h + w];
+            ColormapEntry *color = &mpeg->Colormap[v];
+            int t = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
+            texmap[t+0] = color->red % 255;	
+            texmap[t+1] = color->green % 255;	
+            texmap[t+2] = color->blue % 255;
           }
         }
       }
       else {
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
-            int u = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
             int v = 4 * (width * h + w);		// vidbuf index
-            texmap[u+0] = vidbuf[v+r];
-            texmap[u+1] = vidbuf[v+g];
-            texmap[u+2] = vidbuf[v+b];
+            int t = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
+            texmap[t+0] = vidbuf[v+r];
+            texmap[t+1] = vidbuf[v+g];
+            texmap[t+2] = vidbuf[v+b];
           }
         }
       }
@@ -291,7 +288,7 @@ void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
 {
   if (movie->state != Movie::INACTIVE) {
     movie->state = Movie::INACTIVE;
-    if (movie->video == PLAYER_MPG) {
+    if (movie->vidfmt == PLAYER_MPG) {
       CloseMPEG();
       File::closeFile(movie->fp);
     }
@@ -319,7 +316,7 @@ void Movie::pause(Movie *movie, void *d, time_t s, time_t u)
 void Movie::rewind(Movie *movie, void *d, time_t s, time_t u)
 {
   if (movie->state != Movie::PLAYING && movie->state != Movie::LOOP && movie->fp != NULL) {
-    if (movie->video == PLAYER_MPG) {
+    if (movie->vidfmt == PLAYER_MPG) {
       RewindMPEG(movie->fp, movie->mpeg);
     }
     movie->frame = 0;
