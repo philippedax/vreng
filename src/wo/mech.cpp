@@ -474,7 +474,7 @@ void Mech::changePermanent(float lasting)
   float angle;
   static int step;
 
-  if (!anim) return;
+  if (! anim) return;
 
   if (step == 0 || step == 2) {
     if (mframe >= 0 && mframe <= 21) {
@@ -574,7 +574,7 @@ WObject * Mech::creator(char *l)
 
 void Mech::defaults()
 {
-  anim = walking = 0;
+  anim = walking = false;
 }
 
 void Mech::parser(char *l)
@@ -584,8 +584,8 @@ void Mech::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (!stringcmp(l, "anim")) l = parse()->parseUInt8(l, &anim, "anim");
-    else if (!stringcmp(l, "walk")) l = parse()->parseUInt8(l, &walking, "walk");
+    if      (!stringcmp(l, "anim")) l = parse()->parseBool(l, &anim, "anim");
+    else if (!stringcmp(l, "walk")) l = parse()->parseBool(l, &walking, "walk");
   }
   end_while_parse(l);
 }
@@ -649,18 +649,18 @@ void Mech::quit()
 }
 
 void Mech::still(Mech *mech, void *d, time_t s, time_t u)
-{ mech->anim = 0; mech->walking = 0; }
+{ mech->anim = false; mech->walking = false; }
 
 void Mech::animate(Mech *mech, void *d, time_t s, time_t u)
-{ mech->anim = 1; }
+{ mech->anim = true; }
 
 void Mech::walk(Mech *mech, void *d, time_t s, time_t u)
-{ mech->walking = 1; }
+{ mech->walking = true; }
 
 void Mech::funcs()
 {
   setActionFunc(MECH_TYPE, 0, _Action still, "Still");
   setActionFunc(MECH_TYPE, 1, _Action animate, "Anim");
   setActionFunc(MECH_TYPE, 2, _Action walk, "Walk");
-  setActionFunc(MECH_TYPE, 3, _Action moveObject, "Move");
+  //setActionFunc(MECH_TYPE, 3, _Action moveObject, "Move");
 }

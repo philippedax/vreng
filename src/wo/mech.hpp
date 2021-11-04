@@ -50,8 +50,8 @@ class Mech: public WObject {
   float rotx;	///< angle /x
   float roty;	///< angle /y
   float rotz;	///< angle /z
-  uint8_t anim;	///< flag animation
-  uint8_t walking;	///< flag walking
+  bool anim;	///< flag animation
+  bool walking;	///< flag walking
 
  public:
   static const OClass oclass;	///< class variable

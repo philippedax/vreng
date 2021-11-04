@@ -384,6 +384,7 @@ const char DTD[] = "\
 <!ATTLIST movie		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST movie		url	CDATA #REQUIRED>\n\
 <!ATTLIST movie		rate	NMTOKEN \"10\">\n\
+<!ATTLIST movie		anim	(off | on) \"off\">\n\
 \n\
 <!ELEMENT music		(solid+)>\n\
 <!ATTLIST music		pos	NMTOKENS #REQUIRED>\n\
