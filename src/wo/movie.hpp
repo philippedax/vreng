@@ -49,6 +49,7 @@ private:
   uint16_t texsiz;		///< texture size in pixels
   uint16_t frame;		///< the current frame being displayed
   uint8_t vidfmt;		///< video format (mpg | avi)
+  bool anim;			///< animated or not
   bool begin;			///< first frame begin playing
   FILE *fp;			///< the corresponding file pointer
   uint8_t *vidbuf;		///< buffer of the video

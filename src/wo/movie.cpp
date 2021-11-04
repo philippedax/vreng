@@ -47,6 +47,7 @@ WObject * Movie::creator(char *l)
 void Movie::defaults()
 {
   rate = FPS;
+  anim = false;
 }
 
 void Movie::parser(char *l)
@@ -58,6 +59,7 @@ void Movie::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "url"))  l = parse()->parseUrl(l, names.url);
     else if (! stringcmp(l, "rate")) l = parse()->parseFloat(l, &rate, "rate");
+    else if (! stringcmp(l, "anim")) l = parse()->parseBool(l, &anim, "anim");
   }
   end_while_parse(l);
 }
@@ -76,6 +78,10 @@ Movie::Movie(char *l)
   parser(l);
 
   initMobileObject(0);
+
+  if (anim) {
+    loop(this, 0, 0, 0);
+  }
 }
 
 void Movie::inits()
