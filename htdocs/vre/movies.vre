@@ -18,6 +18,7 @@
 <!-- room1 -->
 <movie name="wallace" pos="8 0 2 1.57"
   url="http://localhost/~dax/mpg/wallace.mpg" rate="10">
+  anim="1"
   <solid dim="4 .02 4" xn="/gif/wallace.gif" />
 </movie>
 <!-- room2 -->
