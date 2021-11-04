@@ -383,6 +383,7 @@
 <!ATTLIST movie		descr	NMTOKENS #IMPLIED>
 <!ATTLIST movie		url	CDATA #REQUIRED>
 <!ATTLIST movie		rate	NMTOKEN "10">
+<!ATTLIST movie		anim	(off | on) "off">
 
 <!ELEMENT music		(solid+)>
 <!ATTLIST music		pos	NMTOKENS #REQUIRED>
