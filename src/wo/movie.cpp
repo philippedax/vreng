@@ -68,7 +68,7 @@ Movie::Movie(char *l)
   texid = -1;
   frame = 0;
   vidbuf = NULL;
-  pixtex = NULL;
+  texmap = NULL;
   mpeg = NULL;
   avi = NULL;
   begin = false;
@@ -78,7 +78,7 @@ Movie::Movie(char *l)
   initMobileObject(0);
 }
 
-int Movie::inits()
+void Movie::inits()
 {
 #if 0 //dax
   //dax Texture *tex = new Texture(null);
@@ -96,23 +96,22 @@ int Movie::inits()
   switch (video) {
     case PLAYER_MPG: mpegInit(); break;
     case PLAYER_AVI: aviInit(); break;
-    default: return 0;
+    default: return;
   }
 
-  // texsz must be a power of 2
+  // texsiz must be a power of 2
   int i, power = 0;
-  texsz = MAX(width, height);
-  while ((texsz = texsz/2) > 0) {
+  texsiz = MAX(width, height);
+  while ((texsiz = texsiz/2) > 0) {
     power++;
   }
-  for (i=0, texsz=1; i <= power; i++) {
-    texsz *= 2;
+  for (i=0, texsiz = 1; i <= power; i++) {
+    texsiz *= 2;
   }
 
-  pixtex = new GLubyte[3 * texsz * texsz];
+  texmap = new GLubyte[3 * texsiz * texsiz];
   frame = 0;
   begin = true;
-  return 1;
 }
 
 void Movie::mpegInit()
@@ -172,13 +171,13 @@ void Movie::changePermanent(float lasting)
     begin = false;
   }
 
-  uint16_t inter = frame;
-  struct timeval tnow;
-  gettimeofday(&tnow, NULL);
-  frame = (int) floor(((((float) (tnow.tv_sec - tstart.tv_sec) * 1000.) +
-	                ((float) (tnow.tv_usec - tstart.tv_usec) / 1000.)
-                     ) / 1000.) * (float) rate);
-  //error("frame = %d inter = %d", frame, inter);
+  uint16_t finter = frame;
+  struct timeval tcurr;
+  gettimeofday(&tcurr, NULL);
+  frame = (int16_t) floor(((((float) (tcurr.tv_sec - tstart.tv_sec) * 1000.) +
+	                  ((float) (tcurr.tv_usec - tstart.tv_usec) / 1000.)
+                           ) / 1000.) * (float) rate);
+  //error("frame = %d finter = %d", frame, finter);
 
   uint8_t r,g,b;
   if (File::littleEndian())
@@ -186,9 +185,9 @@ void Movie::changePermanent(float lasting)
   else
     r = 2, g = 1, b = 0; // BGR
 
-  for (int f=0; f < (frame-inter); f++) {
+  for (int fdelta=0; fdelta < (frame-finter); fdelta++) {
     /* get video frame or not */
-    if (f >= (int) fps) {
+    if (fdelta >= (int16_t) fps) {
       break;
     }
     switch (video) {
@@ -207,18 +206,19 @@ void Movie::changePermanent(float lasting)
           return;
         }
 
-        // build pixmap texture
-        int wof = (texsz - width) / 2;
-        int hof = (texsz - height) / 2;
-        error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
+        // build pixmap texture : doesn't work !!!
+        int wof = (texsiz - width) / 2;
+        int hof = (texsiz - height) / 2;
+        wof = hof = 0; //dax
+        //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsiz, width, height);
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
-            int u = 3 * (texsz * (h+hof) + (w+wof));	// pixtex index
+            int u = 3 * (texsiz * (h+hof) + w + wof);	// texmap index
             int v = 4 * (width * h + w);		// vidbuf index
             //error("w,h: %d,%d u,v: %d,%d", w,h,u,v);
-            pixtex[u+0] = vidbuf[v+r];
-            pixtex[u+1] = vidbuf[v+g];
-            pixtex[u+2] = vidbuf[v+b];
+            texmap[u+0] = vidbuf[v+r];
+            texmap[u+1] = vidbuf[v+g];
+            texmap[u+2] = vidbuf[v+b];
           }
         }
       }
@@ -237,29 +237,29 @@ void Movie::changePermanent(float lasting)
       }
 
       // build pixmap texture
-      int wof = (texsz - width) / 2;
-      int hof = (texsz - height) / 2;
-      //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsz, width, height);
+      int wof = (texsiz - width) / 2;
+      int hof = (texsiz - height) / 2;
+      //error("f=%d id=%d s=%d w=%d h=%d", frame, texid, texsiz, width, height);
       if (mpeg->Colormap) {	// case of Colormap Index
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
             int idx = vidbuf[width * h + w];
             ColormapEntry *color = &mpeg->Colormap[idx];
-            int u = 3 * (texsz * (h + hof) + w + wof);
-            pixtex[u+0] = color->red % 255;	
-            pixtex[u+1] = color->green % 255;	
-            pixtex[u+2] = color->blue % 255;
+            int u = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
+            texmap[u+0] = color->red % 255;	
+            texmap[u+1] = color->green % 255;	
+            texmap[u+2] = color->blue % 255;
           }
         }
       }
       else {
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
-            int u = 3 * (texsz * (h + hof) + w + wof);	// pixtex index
+            int u = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
             int v = 4 * (width * h + w);		// vidbuf index
-            pixtex[u+0] = vidbuf[v+r];
-            pixtex[u+1] = vidbuf[v+g];
-            pixtex[u+2] = vidbuf[v+b];
+            texmap[u+0] = vidbuf[v+r];
+            texmap[u+1] = vidbuf[v+g];
+            texmap[u+2] = vidbuf[v+b];
           }
         }
       }
@@ -275,7 +275,7 @@ void Movie::changePermanent(float lasting)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texid);
-  glTexImage2D(GL_TEXTURE_2D, 0, 3, texsz, texsz, 0, GL_RGB, GL_UNSIGNED_BYTE, pixtex);
+  glTexImage2D(GL_TEXTURE_2D, 0, 3, texsiz, texsiz, 0, GL_RGB, GL_UNSIGNED_BYTE, texmap);
 }
 
 void Movie::play(Movie *movie, void *d, time_t s, time_t u)
@@ -304,8 +304,8 @@ void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
   //movie->avi = NULL;
   if (movie->vidbuf) delete[] movie->vidbuf;
   movie->vidbuf = NULL;
-  if (movie->pixtex) delete[] movie->pixtex;
-  movie->pixtex = NULL;
+  if (movie->texmap) delete[] movie->texmap;
+  movie->texmap = NULL;
 }
 
 void Movie::pause(Movie *movie, void *d, time_t s, time_t u)

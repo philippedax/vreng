@@ -46,13 +46,13 @@ private:
   GLuint texid;			///< texture id
   uint16_t width;		///< mpeg width in pixels
   uint16_t height;		///< mpeg height in pixels
-  uint16_t texsz;		///< tex width/height in pixels
+  uint16_t texsiz;		///< texture size in pixels
   uint16_t frame;		///< the current frame being displayed
-  uint8_t video;		///< video format (mpg avi)
+  uint8_t video;		///< video format (mpg | avi)
   bool begin;			///< first frame begin playing
   FILE *fp;			///< the corresponding file pointer
   uint8_t *vidbuf;		///< buffer of the video
-  GLubyte *pixtex;		///< pixmap of the tex
+  GLubyte *texmap;		///< pixmap of the texture
   ImageDesc *mpeg;		///< this is a structure used by mpeg_lib to store infos
   class Avi *avi;		///< avi instance
 
@@ -85,7 +85,7 @@ private:
   virtual void defaults();
   /**< Sets default values. */
 
-  virtual int inits();
+  virtual void inits();
   /**< Inits. */
 
   virtual void aviInit();
