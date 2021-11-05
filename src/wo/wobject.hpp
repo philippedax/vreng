@@ -253,7 +253,7 @@ public:
   const SolidList& solids() const;
   /**< solidlist address. */
 
-  uint32_t countOfSolids() const;
+  //uint32_t countOfSolids() const;
   //*< Count of solids. */
 
   virtual class Solid* getSolid() const;
@@ -276,16 +276,25 @@ public:
   static int interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2);
 
   //
-  // Set, Get, Have, Is
+  // Actions
   //
-  virtual bool haveAction();
+  virtual void specialAction(int action, void *data, time_t sec, time_t usec);
+  /**< Calls methods dedicated to each object.
+   * Called by GUI.
+   */
+
+  //virtual bool haveAction();
   /**< Checks whether have actions. */
 
-  virtual uint8_t numberAction();
+  //virtual uint8_t numberAction();
   /**< Number of actions. */
 
   virtual bool runAction(const char *action);
   /**< Runs action everwhere if available. */
+
+  //
+  // Set, Get, Have, Is
+  //
 
   virtual void setType(uint8_t type);
   /**< Sets object type. */
@@ -727,11 +736,6 @@ public:
 
   virtual void clearObjectBar();
   /**< Clears the ObjectBar in the GUI. */
-
-  virtual void specialAction(int action, void *data, time_t sec, time_t usec);
-  /**< Calls methods dedicated to each object.
-   * Called by GUI.
-   */
 
   void getObjectHumanName(char **classname, char **instancename, char **actionnames);
   /**< Gives object's class_name & action names.

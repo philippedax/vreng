@@ -411,10 +411,12 @@ const WObject::SolidList& WObject::solids() const
   return _solids;
 }
 
+#if 0 //dax notused
 uint32_t WObject::countOfSolids() const
 {
   return _solids.size();
 }
+#endif
 
 /* returns the first solid of the object - accessor */
 Solid* WObject::getSolid() const
@@ -830,33 +832,6 @@ void WObject::quitPersistency()
 // Actions
 //
 
-/* Returns how many actions have this object */
-uint8_t WObject::numberAction()
-{
-  int i;
-  for (i=0; isAction(typeId(), i); i++) ;
-  return i;
-}
-
-/* Checks if this object have actions */
-bool WObject::haveAction()
-{
-  if (! isValid()) return false;
-  return isAction(typeId(), 0);
-}
-
-/* Adds an object into the deleteList */
-void WObject::toDelete()
-{
-  if (isValid()) {
-    deleteList.push_back(this); // add to deleteList
-    delFromGrid();
-    removed = true;		// mark as removed
-  }
-  //dax8 deleteSolids();
-  //dax8 if (solid) { delete solid; solid = NULL; }
-}
-
 /** Calls special methods for each object
  * called by GUI
  */
@@ -876,6 +851,35 @@ bool WObject::runAction(const char *action)
     }
   }
   return false;
+}
+
+#if 0 //dax notused
+/* Returns how many actions have this object */
+uint8_t WObject::numberAction()
+{
+  int i;
+  for (i=0; isAction(typeId(), i); i++) ;
+  return i;
+}
+
+/* Checks if this object have actions */
+bool WObject::haveAction()
+{
+  if (! isValid()) return false;
+  return isAction(typeId(), 0);
+}
+#endif
+
+/* Adds an object into the deleteList */
+void WObject::toDelete()
+{
+  if (isValid()) {
+    deleteList.push_back(this); // add to deleteList
+    delFromGrid();
+    removed = true;		// mark as removed
+  }
+  //dax8 deleteSolids();
+  //dax8 if (solid) { delete solid; solid = NULL; }
 }
 
 /* Informs the GUI that a (possibly selected) object has been destroyed */
