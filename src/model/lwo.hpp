@@ -37,7 +37,6 @@
 #define ID_COLR MK_ID('C','O','L','R')
 
 
-#if 1 //notused
 typedef struct sMaterial {
   char name[LW_MAX_NAME_LEN];
   float r,g,b,a;
@@ -51,7 +50,6 @@ typedef struct sFace {
   float *texcoord;	// u,v texture coordinates
   struct sFace *next;
 } tFace;
-#endif
 
 
 /**
