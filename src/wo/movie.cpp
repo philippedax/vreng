@@ -86,16 +86,13 @@ Movie::Movie(char *l)
 
 void Movie::inits()
 {
-#if 0 //dax
-  //dax Texture *tex = new Texture(null);
-  texid = Texture::current();
-#else
   texid = Texture::getIdByObject(this);		// works if texture exists
+  //dax Texture *tex = new Texture(null);
+  //dav texid = Texture::current();
   if (! texid) {
     texid = Texture::open(names.url);
   }
   trace(DBG_WO, "texid=%d (%s)", texid, Texture::getUrlById(texid));
-#endif
   //error("texid : %d", texid);
 
   vidfmt = Format::getPlayerByUrl(names.url);
@@ -115,6 +112,7 @@ void Movie::inits()
     texsiz *= 2;
   }
 
+  // alloc texture pixmap
   texmap = new GLubyte[3 * texsiz * texsiz];
   frame = 0;
   begin = true;
@@ -166,6 +164,7 @@ void Movie::aviInit()
   trace(DBG_WO, "avi: w=%d h=%d f=%.3f", width, height, fps);
 }
 
+/* Gets streamm video frames */
 void Movie::changePermanent(float lasting)
 {
   if (state == INACTIVE || state == PAUSE) return;
@@ -199,7 +198,6 @@ void Movie::changePermanent(float lasting)
       {
         // get a frame from the avi video stream
         int ret, retlen;
-        if (vidbuf == NULL) return;
         ret = avi->read_data(vidbuf, width * height * 4, &retlen);
         //error("f=%d s=%d l=%d", frame, width*height*4, retlen);
         if (ret == 0) {	// end of avi video
@@ -277,6 +275,7 @@ void Movie::changePermanent(float lasting)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, param);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texid);
   switch (vidfmt) {
@@ -293,7 +292,8 @@ void Movie::play(Movie *movie, void *d, time_t s, time_t u)
 {
   if (movie->state == Movie::INACTIVE) {
     movie->state = Movie::PLAYING;
-    movie->enablePermanentMovement();	// for get frames
+
+    movie->enablePermanentMovement();	// to get frames
     movie->inits();
   }
 }
@@ -325,12 +325,15 @@ void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
   movie->texmap = NULL;
 }
 
+/* Pause  / Continue */
 void Movie::pause(Movie *movie, void *d, time_t s, time_t u)
 {
-  if (movie->state == Movie::PLAYING || movie->state == Movie::LOOP)
+  if (movie->state == Movie::PLAYING || movie->state == Movie::LOOP) {
     movie->state = Movie::PAUSE;
-  else if (movie->state == Movie::PAUSE)
-    movie->state = Movie::PLAYING;
+  }
+  else if (movie->state == Movie::PAUSE) {
+    movie->state = Movie::PLAYING;	// leaves pause and continues
+  }
 }
 
 void Movie::rewind(Movie *movie, void *d, time_t s, time_t u)
@@ -345,6 +348,7 @@ void Movie::rewind(Movie *movie, void *d, time_t s, time_t u)
   }
 }
 
+/* Play for ever */
 void Movie::loop(Movie *movie, void *d, time_t s, time_t u)
 {
   if (movie->state == Movie::INACTIVE) {
