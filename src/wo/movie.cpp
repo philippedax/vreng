@@ -199,6 +199,7 @@ void Movie::changePermanent(float lasting)
       {
         // get a frame from the avi video stream
         int ret, retlen;
+        if (vidbuf == NULL) return;
         ret = avi->read_data(vidbuf, width * height * 4, &retlen);
         //error("f=%d s=%d l=%d", frame, width*height*4, retlen);
         if (ret == 0) {	// end of avi video
@@ -299,19 +300,25 @@ void Movie::play(Movie *movie, void *d, time_t s, time_t u)
 
 void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
 {
-  if (movie->state != Movie::INACTIVE) {
-    movie->state = Movie::INACTIVE;
-    if (movie->vidfmt == PLAYER_MPG) {
+  if (movie->state == Movie::INACTIVE) {
+    return;	// nothing to stop
+  }
+  movie->state = Movie::INACTIVE;
+  switch (movie->vidfmt) {
+    case PLAYER_MPG:
       CloseMPEG();
       File::closeFile(movie->fp);
-    }
+      if (movie->mpeg) delete[] movie->mpeg;
+      movie->mpeg = NULL;
+      break;
+    case PLAYER_AVI:
+      if (movie->avi) delete movie->avi;
+      movie->avi = NULL;
+      break;
   }
+
   movie->disablePermanentMovement();
 
-  if (movie->mpeg) delete[] movie->mpeg;
-  movie->mpeg = NULL;
-  //if (movie->avi) delete[] movie->avi;
-  //movie->avi = NULL;
   if (movie->vidbuf) delete[] movie->vidbuf;
   movie->vidbuf = NULL;
   if (movie->texmap) delete[] movie->texmap;
