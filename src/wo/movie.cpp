@@ -217,11 +217,11 @@ void Movie::changePermanent(float lasting)
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
             int v = 4 * (width * h + w);		// vidbuf index
-            int t = 3 * (texsiz * (h+hof) + w + wof);	// texmap index
+            int t = 3 * (256 * (h+hof) + w + wof);	// texmap index
             //error("w,h: %d,%d t,v: %d,%d", w,h,t,v);
             texmap[t+0] = vidbuf[v+r];
             texmap[t+1] = vidbuf[v+g];
-            texmap[t+2] = vidbuf[v+b];
+            texmap[t+2] = vidbuf[v+g];
           }
         }
       }
@@ -278,7 +278,14 @@ void Movie::changePermanent(float lasting)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texid);
-  glTexImage2D(GL_TEXTURE_2D, 0, 3, texsiz, texsiz, 0, GL_RGB, GL_UNSIGNED_BYTE, texmap);
+  switch (vidfmt) {
+  case PLAYER_MPG:
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, texsiz, texsiz, 0, GL_RGB, GL_UNSIGNED_BYTE, texmap);
+    break;
+  case PLAYER_AVI:
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 256, 256, GL_RGB, GL_UNSIGNED_BYTE, texmap);
+    break;
+  }
 }
 
 void Movie::play(Movie *movie, void *d, time_t s, time_t u)
