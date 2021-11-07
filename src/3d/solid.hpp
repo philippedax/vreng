@@ -32,6 +32,119 @@
 
 #include <list>
 
+/* Solid tokens. */
+enum {
+  STOK_ERR = 0,
+  /* shapes */
+  STOK_SHAPE,
+  STOK_NONE,
+  STOK_BOX,
+  STOK_MAN,
+  STOK_GUY,
+  STOK_ANDROID,
+  STOK_CAR,
+  STOK_SPHERE,
+  STOK_CONE,
+  STOK_TORUS,
+  STOK_RECT,
+  STOK_DISK,
+  STOK_LINE,
+  STOK_PYRAMID,
+  STOK_CIRCLE,
+  STOK_TRIANGLE,
+  STOK_ELLIPSE,
+  STOK_POINT,
+  STOK_STATUE,
+  STOK_BBOX,
+  STOK_BSPHERE,
+  STOK_CROSS,
+  STOK_SPHERE_TORUS,
+  STOK_SPHERE_DISK,
+  STOK_CONE_DISK,
+  STOK_WHEEL,
+  STOK_HELIX,
+  STOK_TEAPOT,
+  STOK_WALLS,
+  STOK_WINGS,
+  /* dimensions */
+  STOK_URL,
+  STOK_SIZE,
+  STOK_RADIUS,
+  STOK_RADIUS2,
+  STOK_RADIUS3,
+  STOK_PTSIZE,
+  STOK_WIDTH,
+  STOK_DEPTH,
+  STOK_HEIGHT,
+  STOK_LENGTH,
+  STOK_THICK,
+  STOK_SIDE,
+  /* position */
+  STOK_REL,
+  /* textures */
+  STOK_TEXTURE,
+  STOK_TEX_XP,
+  STOK_TEX_XN,
+  STOK_TEX_YP,
+  STOK_TEX_YN,
+  STOK_TEX_ZP,
+  STOK_TEX_ZN,
+  /* textures Repeat */
+  STOK_TEXTURE_R,
+  STOK_TEX_XP_R,
+  STOK_TEX_XN_R,
+  STOK_TEX_YP_R,
+  STOK_TEX_YN_R,
+  STOK_TEX_ZP_R,
+  STOK_TEX_ZN_R,
+  STOK_TEXTURE_RS,
+  STOK_TEX_XP_RS,
+  STOK_TEX_XN_RS,
+  STOK_TEX_YP_RS,
+  STOK_TEX_YN_RS,
+  STOK_TEX_ZP_RS,
+  STOK_TEX_ZN_RS,
+  STOK_TEXTURE_RT,
+  STOK_TEX_XP_RT,
+  STOK_TEX_XN_RT,
+  STOK_TEX_YP_RT,
+  STOK_TEX_YN_RT,
+  STOK_TEX_ZP_RT,
+ STOK_TEX_ZN_RT,
+  /* materials */
+  STOK_DIFFUSE,
+  STOK_AMBIENT,
+  STOK_SPECULAR,
+  STOK_EMISSION,
+  STOK_SHININESS,
+  STOK_ALPHA,
+  STOK_FOG,
+  /* drawing */
+  STOK_STYLE,
+  STOK_FACE,
+  STOK_SLICES,
+  STOK_STACKS,
+  STOK_CYLINDERS,
+  STOK_CIRCLES,
+  STOK_SPOKES,
+  STOK_BLINK,
+  /* frames */
+  STOK_FRAMES,
+  STOK_BEGINFRAME,
+  STOK_ENDFRAME,
+  STOK_MODEL,
+  STOK_SCALE,
+  STOK_SCALEX,
+  STOK_SCALEY,
+  STOK_SCALEZ,
+  STOK_SOLID,
+  /* lightings */
+  STOK_SPOT_DIRECTION,
+  STOK_SPOT_CUTOFF,
+  STOK_CONSTANT_ATTENUAT,
+  STOK_LINEAR_ATTENUAT,
+  STOK_QUADRATIC_ATTENUAT
+};
 
 
 /**
@@ -276,10 +389,7 @@ private:
   virtual char* getTok(char* l, uint16_t* tok);
   /** Gets current token. */
 
-  virtual void displayMirroredScene();
-  /**< Displays the mirrored scene */
-
-#if 0 //not used
+#if 0 //notused
   virtual void displayObject();
   /**< Displays a reflexive object. */
 
@@ -291,7 +401,7 @@ private:
   /**< parameters given the position of the display buffer in the display window
    * (at address 'buf').
    * note: 'xsize' and 'x0' must be even. */
-#endif //not used
+#endif //notused
 
 };
 

@@ -47,120 +47,6 @@
 using namespace std;
 
 
-/* Solid tokens. */
-enum {
-  STOK_ERR = 0,
-  /* shapes */
-  STOK_SHAPE,
-  STOK_NONE,
-  STOK_BOX,
-  STOK_MAN,
-  STOK_GUY,
-  STOK_ANDROID,
-  STOK_CAR,
-  STOK_SPHERE,
-  STOK_CONE,
-  STOK_TORUS,
-  STOK_RECT,
-  STOK_DISK,
-  STOK_LINE,
-  STOK_PYRAMID,
-  STOK_CIRCLE,
-  STOK_TRIANGLE,
-  STOK_ELLIPSE,
-  STOK_POINT,
-  STOK_STATUE,
-  STOK_BBOX,
-  STOK_BSPHERE,
-  STOK_CROSS,
-  STOK_SPHERE_TORUS,
-  STOK_SPHERE_DISK,
-  STOK_CONE_DISK,
-  STOK_WHEEL,
-  STOK_HELIX,
-  STOK_TEAPOT,
-  STOK_WALLS,
-  STOK_WINGS,
-  /* dimensions */
-  STOK_URL,
-  STOK_SIZE,
-  STOK_RADIUS,
-  STOK_RADIUS2,
-  STOK_RADIUS3,
-  STOK_PTSIZE,
-  STOK_WIDTH,
-  STOK_DEPTH,
-  STOK_HEIGHT,
-  STOK_LENGTH,
-  STOK_THICK,
-  STOK_SIDE,
-  /* position */
-  STOK_REL,
-  /* textures */
-  STOK_TEXTURE,
-  STOK_TEX_XP,
-  STOK_TEX_XN,
-  STOK_TEX_YP,
-  STOK_TEX_YN,
-  STOK_TEX_ZP,
-  STOK_TEX_ZN,
-  /* textures Repeat */
-  STOK_TEXTURE_R,
-  STOK_TEX_XP_R,
-  STOK_TEX_XN_R,
-  STOK_TEX_YP_R,
-  STOK_TEX_YN_R,
-  STOK_TEX_ZP_R,
-  STOK_TEX_ZN_R,
-  STOK_TEXTURE_RS,
-  STOK_TEX_XP_RS,
-  STOK_TEX_XN_RS,
-  STOK_TEX_YP_RS,
-  STOK_TEX_YN_RS,
-  STOK_TEX_ZP_RS,
-  STOK_TEX_ZN_RS,
-  STOK_TEXTURE_RT,
-  STOK_TEX_XP_RT,
-  STOK_TEX_XN_RT,
-  STOK_TEX_YP_RT,
-  STOK_TEX_YN_RT,
-  STOK_TEX_ZP_RT,
-  STOK_TEX_ZN_RT,
-  /* materials */
-  STOK_DIFFUSE,
-  STOK_AMBIENT,
-  STOK_SPECULAR,
-  STOK_EMISSION,
-  STOK_SHININESS,
-  STOK_ALPHA,
-  STOK_FOG,
-  /* drawing */
-  STOK_STYLE,
-  STOK_FACE,
-  STOK_SLICES,
-  STOK_STACKS,
-  STOK_CYLINDERS,
-  STOK_CIRCLES,
-  STOK_SPOKES,
-  STOK_BLINK,
-  /* frames */
-  STOK_FRAMES,
-  STOK_BEGINFRAME,
-  STOK_ENDFRAME,
-  STOK_MODEL,
-  STOK_SCALE,
-  STOK_SCALEX,
-  STOK_SCALEY,
-  STOK_SCALEZ,
-  STOK_SOLID,
-  /* lightings */
-  STOK_SPOT_DIRECTION,
-  STOK_SPOT_CUTOFF,
-  STOK_CONSTANT_ATTENUAT,
-  STOK_LINEAR_ATTENUAT,
-  STOK_QUADRATIC_ATTENUAT
-};
-
 // local
 
 struct sStokens {
@@ -353,7 +239,7 @@ char * Solid::getTok(char *l, uint16_t *tok)
   if (l) {
     *(l-1) = '\0';	// end of token '=',  replaced by null terminated
     for (ptab = stokens; ptab->tokstr ; ptab++) {
-      if ( (!strcmp(ptab->tokstr, t)) || (!strcmp(ptab->tokalias, t)) ) {
+      if ( (! strcmp(ptab->tokstr, t)) || (! strcmp(ptab->tokalias, t)) ) {
         *tok = ptab->tokid;
         return l;
       }
@@ -494,7 +380,7 @@ char * Solid::parser(char *l)
 
   // computes max surface of this solid
   surfsize = MAX( bbsize.v[0]*bbsize.v[1], bbsize.v[0]*bbsize.v[2] );
-  surfsize = MAX (surfsize, bbsize.v[1]*bbsize.v[2] );	// surface max
+  surfsize = MAX( surfsize, bbsize.v[1]*bbsize.v[2] );	// surface max
 
   /* next token */
   l = wobject->parse()->nextToken();
@@ -735,7 +621,6 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
             }
             texid = texture->id;
             texture->object = wobject;
-            //dax1 texture->solid = this;
           }
           delete[] urltex;
         }
@@ -753,7 +638,6 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
             box_tex[tok - STOK_TEX_XP] = texture->id;
             texid = texture->id;
             texture->object = wobject;
-            //dax1 texture->solid = this;
           }
           delete[] urltex;
         }
@@ -802,8 +686,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   /*
    * draws solid in displaylist
    */
-  // display list generation
-  int dlist = glGenLists(1);
+  int dlist = glGenLists(1);	// display list generation
   glNewList(dlist, GL_COMPILE);
 
   glCullFace(GL_BACK);		// don't draw back face
@@ -851,15 +734,9 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_MAN:
-#if 0 //dax2
-      if (localuser->human) {
-        //dax localuser->human->draw();
-      }
-      else {
-#endif
       {
-        Man *man = new Man();
-        man->draw();
+       Man *man = new Man();
+       man->draw();
       }
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
       break;
@@ -871,8 +748,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
     case STOK_WINGS:
       {
-        Wings *wings = new Wings();
-        wings->draw();
+       Wings *wings = new Wings();
+       wings->draw();
       }
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
       break;
@@ -1716,43 +1593,3 @@ int Solid::displayList(int display_mode = NORMAL)
   return dlists[frame];		// displaylist number
 }
 
-/* Display mirrored scene */
-void Solid::displayMirroredScene()
-{
-#if 0 //dax done by mirror object
-
-  // 1) faire une translation pour amener le plan de reflexion à la position miroir
-  glTranslatef(-object()->pos.x, 0, 0);
-  // 2) le miroir est dans le plan YZ; faire une reflexion par -1 en X
-  glScalef(-1, 1, 1);
-  // 3) mettre un plan de clipping a la position du miroir afin d'eliminer
-  //    les reflexions des objets qui sont à l'arriere du miroir
-  // 4) faire la translation inverse
-  glTranslatef(object()->pos.x, 0, 0);
-  // D) displays scene (opaque solids only)
-  for (list<WObject*>::iterator o = objectList.begin(); o != objectList.end(); o++) {
-    if ((*o) && (*o)->isVisible() && (*o)->isOpaque()) {
-      glPushMatrix();
-       // rotation inverse lorsque que le miroir tourne parallelement a notre vision.
-       glRotatef(RAD2DEG(object()->pos.az), 0,0,1);
-       glRotatef(-RAD2DEG(object()->pos.ay), 0,1,0);
-       glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
-       glScalef(1, -1, 1);
-       (*o)->getSolid()->displayList(NORMAL);
-      glPopMatrix();
-    }
-  }
-  glPushMatrix();
-   glRotatef(RAD2DEG(object()->pos.az), 0,0,1);
-   glRotatef(-RAD2DEG(object()->pos.ay), 0,1,0);
-   glTranslatef(-object()->pos.x, object()->pos.y, -object()->pos.z);
-
-   // Displays avatar
-   if  (localuser->android) localuser->android->getSolid()->displayList(NORMAL);
-   else if (localuser->guy) localuser->guy->getSolid()->displayList(NORMAL);
-   else if (localuser->human) localuser->getSolid()->displayList(NORMAL);
-   else glCallList(localuser->getSolid()->displayList(NORMAL));
-  glPopMatrix();
-
-#endif //dax
-}
