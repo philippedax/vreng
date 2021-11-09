@@ -82,7 +82,7 @@ Movie::Movie(char *l)
   vidfmt = Format::getPlayerByUrl(names.url);
 
   if (anim) {
-    loop();
+    play();
   }
 }
 
@@ -409,8 +409,8 @@ void Movie::funcs()
   //setActionFunc(MOVIE_TYPE, 0, _Action play_cb, (const char *) uitem(ulabel(g.theme.Playvideo)));
   setActionFunc(MOVIE_TYPE, 0, _Action play_cb, "Play");
   setActionFunc(MOVIE_TYPE, 1, _Action stop_cb, "Stop");
-  setActionFunc(MOVIE_TYPE, 2, _Action pause_cb, "Pause");
+  setActionFunc(MOVIE_TYPE, 2, _Action pause_cb, "Pause");	// side effect if pending
   setActionFunc(MOVIE_TYPE, 3, _Action loop_cb, "Loop");
-  setActionFunc(MOVIE_TYPE, 4, _Action rewind_cb, "Rewind");
-  setActionFunc(MOVIE_TYPE, 5, _Action debug_cb, "Debug");
+  //dax setActionFunc(MOVIE_TYPE, 4, _Action rewind_cb, "Rewind");	// crash in mpeglib
+  setActionFunc(MOVIE_TYPE, 4, _Action debug_cb, "Debug");
 }
