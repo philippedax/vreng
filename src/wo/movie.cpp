@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "movie.hpp"
-#include "texture.hpp"	// current
+#include "texture.hpp"	// Texture
 #include "cache.hpp"	// download
 #include "file.hpp"	// openFile
 #include "pref.hpp"	// quality
@@ -79,30 +79,67 @@ Movie::Movie(char *l)
 
   initMobileObject(0);
 
+  vidfmt = Format::getPlayerByUrl(names.url);
+
   if (anim) {
-    loop(this, 0, 0, 0);
+    loop();
   }
 }
 
 void Movie::inits()
 {
-  texid = Texture::getIdByObject(this);		// works if texture exists
-  //dax Texture *tex = new Texture(null);
-  //dav texid = Texture::current();
-  if (! texid) {
-    texid = Texture::open(names.url);
-  }
-  trace(DBG_WO, "texid=%d (%s)", texid, Texture::getUrlById(texid));
-  //error("texid : %d", texid);
-
-  vidfmt = Format::getPlayerByUrl(names.url);
   switch (vidfmt) {
-    case PLAYER_MPG: mpegInit(); break;
-    case PLAYER_AVI: aviInit(); break;
+    case PLAYER_MPG:
+      {
+        if (mpeg) return;		// an instance is already running
+
+        char *filempeg = new char[MAXHOSTNAMELEN];
+
+        if (Cache::download(names.url, filempeg) == 0) {	// download Mpeg file
+          error("can't download %s", filempeg);
+          delete[] filempeg;
+          return;
+        }
+        if ((fp = File::openFile(filempeg, "r")) == NULL) {
+          error("can't open mpeg");
+          delete[] filempeg;
+          return;
+        }
+
+        mpeg = new ImageDesc[1];
+
+        SetMPEGOption(MPEG_DITHER, FULL_COLOR_DITHER); //ORDERED_DITHER);
+        OpenMPEG(fp, mpeg);
+        width = mpeg->Width;
+        height = mpeg->Height;
+        fps = mpeg->PictureRate;
+        vidbuf = new uint8_t[mpeg->Size];
+        trace(DBG_WO, "mpeg: w=%d h=%d f=%.3f", width, height, fps);
+      }
+      break;
+    case PLAYER_AVI:
+      {
+        if (avi) return;		// an instance is already running
+
+        avi = new Avi(names.url);	// downloads avi file
+
+        int ret = avi->read_header();
+        if (ret) {
+          error("avi: no header err=%d", ret);
+          delete avi;
+          avi = NULL;
+          return;
+        }
+        fp = avi->getFile();
+        avi->getInfos(&width, &height, &fps);
+        vidbuf = new uint8_t[4 * width * height];
+        trace(DBG_WO, "avi: w=%d h=%d f=%.3f", width, height, fps);
+      }
+      break;
     default: return;
   }
 
-  // texsiz must be a power of 2
+  // computes texsiz which must be a power of 2
   int i, power = 0;
   texsiz = MAX(width, height);
   while ((texsiz = texsiz/2) > 0) {
@@ -112,59 +149,22 @@ void Movie::inits()
     texsiz *= 2;
   }
 
-  // alloc texture pixmap
+  // allocates texture pixmap
   texmap = new GLubyte[3 * texsiz * texsiz];
   frame = 0;
   begin = true;
+
+  // gets texid
+  texid = Texture::getIdByObject(this);		// works if texture exists
+  //dax Texture *tex = new Texture(null);
+  //dav texid = Texture::current();
+  if (! texid) {
+    texid = Texture::open(names.url);
+  }
+  trace(DBG_WO, "texid=%d (%s)", texid, Texture::getUrlById(texid));
 }
 
-void Movie::mpegInit()
-{
-  char *filempeg = new char[MAXHOSTNAMELEN];
-
-  if (Cache::download(names.url, filempeg) == 0) {	// download Mpeg file
-    error("can't download %s", filempeg);
-    delete[] filempeg;
-    return;
-  }
-  if ((fp = File::openFile(filempeg, "r")) == NULL) {
-    error("can't open mpeg");
-    delete[] filempeg;
-    return;
-  }
-
-  mpeg = new ImageDesc[1];
-
-  SetMPEGOption(MPEG_DITHER, FULL_COLOR_DITHER); //ORDERED_DITHER);
-  OpenMPEG(fp, mpeg);
-
-  width = mpeg->Width;
-  height = mpeg->Height;
-  fps = mpeg->PictureRate;
-  vidbuf = new uint8_t[mpeg->Size];
-  trace(DBG_WO, "mpeg: w=%d h=%d f=%.3f", width, height, fps);
-}
-
-void Movie::aviInit()
-{
-  if (avi) return;		// an instance is already running
-
-  avi = new Avi(names.url);	// downloads avi file
-
-  int ret = avi->read_header();
-  if (ret) {
-    error("avi: no header err=%d", ret);
-    delete avi;
-    avi = NULL;
-    return;
-  }
-  fp = avi->getFile();
-  avi->getInfos(&width, &height, &fps);
-  vidbuf = new uint8_t[4 * width * height];
-  trace(DBG_WO, "avi: w=%d h=%d f=%.3f", width, height, fps);
-}
-
-/* Gets streamm video frames */
+/* Gets stream video frames */
 void Movie::changePermanent(float lasting)
 {
   if (state == INACTIVE || state == PAUSE) return;
@@ -194,6 +194,52 @@ void Movie::changePermanent(float lasting)
       break;	// ignore this frame
     }
     switch (vidfmt) {
+    case PLAYER_MPG:
+      {
+        // get a frame from the mpeg video stream
+        if (GetMPEGFrame((char *)vidbuf) == false) { // end of mpeg video
+          if (state == LOOP) {
+            RewindMPEG(fp, mpeg);	// rewind mpeg video
+            begin = true;
+            return;
+          }
+          CloseMPEG();
+          delete[] mpeg;
+          mpeg = NULL;
+          state = INACTIVE;
+          begin = true;
+          return;
+        }
+        // build pixmap texture
+        int wof = (texsiz - width) / 2;
+        int hof = (texsiz - height) / 2;
+        //error("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
+        if (mpeg->Colormap) {	// case of Colormap Index
+          for (int h=0; h < height; h++) {
+            for (int w=0; w < width; w++) {
+              int v = vidbuf[width * h + w];
+              ColormapEntry *color = &mpeg->Colormap[v];
+              int t = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
+              texmap[t+0] = color->red % 255;	
+              texmap[t+1] = color->green % 255;	
+              texmap[t+2] = color->blue % 255;
+            }
+          }
+        }
+        else {
+          for (int h=0; h < height; h++) {
+            for (int w=0; w < width; w++) {
+              int v = 4 * (width * h + w);		// vidbuf index
+              int t = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
+              texmap[t+0] = vidbuf[v+r];
+              texmap[t+1] = vidbuf[v+g];
+              texmap[t+2] = vidbuf[v+b];
+            }
+          }
+        }
+      }
+      break;
+
     case PLAYER_AVI:
       {
         // get a frame from the avi video stream
@@ -225,47 +271,6 @@ void Movie::changePermanent(float lasting)
         }
       }
       break;
-    case PLAYER_MPG:
-      // get a frame from the mpeg video stream
-      if (GetMPEGFrame((char *)vidbuf) == false) { // end of mpeg video
-        if (state == LOOP) {
-          RewindMPEG(fp, mpeg);	// rewind mpeg video
-          begin = true;
-          return;
-        }
-        CloseMPEG();
-        state = INACTIVE;
-        begin = true;
-        return;
-      }
-      // build pixmap texture
-      int wof = (texsiz - width) / 2;
-      int hof = (texsiz - height) / 2;
-      //error("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
-      if (mpeg->Colormap) {	// case of Colormap Index
-        for (int h=0; h < height; h++) {
-          for (int w=0; w < width; w++) {
-            int v = vidbuf[width * h + w];
-            ColormapEntry *color = &mpeg->Colormap[v];
-            int t = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
-            texmap[t+0] = color->red % 255;	
-            texmap[t+1] = color->green % 255;	
-            texmap[t+2] = color->blue % 255;
-          }
-        }
-      }
-      else {
-        for (int h=0; h < height; h++) {
-          for (int w=0; w < width; w++) {
-            int v = 4 * (width * h + w);		// vidbuf index
-            int t = 3 * (texsiz * (h + hof) + w + wof);	// texmap index
-            texmap[t+0] = vidbuf[v+r];
-            texmap[t+1] = vidbuf[v+g];
-            texmap[t+2] = vidbuf[v+b];
-          }
-        }
-      }
-      break;
     } //end switch
   } //end for frame
 
@@ -288,92 +293,124 @@ void Movie::changePermanent(float lasting)
   }
 }
 
-void Movie::play(Movie *movie, void *d, time_t s, time_t u)
-{
-  if (movie->state == Movie::INACTIVE) {
-    movie->state = Movie::PLAYING;
+/* Actions */
 
-    movie->enablePermanentMovement();	// to get frames
-    movie->inits();
+void Movie::play()
+{
+  if (state == INACTIVE) {
+    state = PLAYING;
+
+    enablePermanentMovement();	// to get frames
+    inits();
   }
 }
 
-void Movie::stop(Movie *movie, void *d, time_t s, time_t u)
+void Movie::stop()
 {
-  if (movie->state == Movie::INACTIVE) {
+  if (state == INACTIVE) {
     return;	// nothing to stop
   }
-  movie->state = Movie::INACTIVE;
-  switch (movie->vidfmt) {
+  state = INACTIVE;
+  switch (vidfmt) {
     case PLAYER_MPG:
       CloseMPEG();
-      File::closeFile(movie->fp);
-      if (movie->mpeg) delete[] movie->mpeg;
-      movie->mpeg = NULL;
+      File::closeFile(fp);
+      if (mpeg) delete[] mpeg;
+      mpeg = NULL;
       break;
     case PLAYER_AVI:
-      if (movie->avi) delete movie->avi;
-      movie->avi = NULL;
+      if (avi) delete avi;
+      avi = NULL;
       break;
   }
 
-  movie->disablePermanentMovement();
+  disablePermanentMovement();
 
-  if (movie->vidbuf) delete[] movie->vidbuf;
-  movie->vidbuf = NULL;
-  if (movie->texmap) delete[] movie->texmap;
-  movie->texmap = NULL;
+  if (vidbuf) delete[] vidbuf;
+  vidbuf = NULL;
+  if (texmap) delete[] texmap;
+  texmap = NULL;
 }
 
 /* Pause  / Continue */
-void Movie::pause(Movie *movie, void *d, time_t s, time_t u)
+void Movie::pause()
 {
-  if (movie->state == Movie::PLAYING || movie->state == Movie::LOOP) {
-    movie->state = Movie::PAUSE;
+  if (state == PLAYING || state == LOOP) {
+    state = PAUSE;
   }
-  else if (movie->state == Movie::PAUSE) {
-    movie->state = Movie::PLAYING;	// leaves pause and continues
+  else if (state == PAUSE) {
+    state = PLAYING;	// leaves pause and continues
   }
 }
 
-void Movie::rewind(Movie *movie, void *d, time_t s, time_t u)
+void Movie::rewind()
 {
-  if (movie->state != Movie::PLAYING && movie->state != Movie::LOOP && movie->fp != NULL) {
-    if (movie->vidfmt == PLAYER_MPG) {
-      RewindMPEG(movie->fp, movie->mpeg);
+  if (state != PLAYING && state != LOOP && fp != NULL) {
+    if (vidfmt == PLAYER_MPG) {
+      RewindMPEG(fp, mpeg);
+      frame = 0;
+      begin = true;
+      state = PLAYING;
     }
-    movie->frame = 0;
-    movie->begin = true;
-    movie->state = Movie::PLAYING;
   }
 }
 
 /* Play for ever */
-void Movie::loop(Movie *movie, void *d, time_t s, time_t u)
+void Movie::loop()
 {
-  if (movie->state == Movie::INACTIVE) {
-    movie->state = Movie::LOOP;
-    movie->enablePermanentMovement();	// for get frames
-    movie->inits();
+  if (state == INACTIVE) {
+    if (vidfmt == PLAYER_MPG) {
+      state = LOOP;
+      enablePermanentMovement();	// for get frames
+      inits();
+    }
   }
 }
 
-void Movie::debug(Movie *movie, void *d, time_t s, time_t u)
+void Movie::debug()
 {
   Texture::listTextures();
 }
 
+/* callbacks */
+
+void Movie::play_cb(Movie *movie, void *d, time_t s, time_t u)
+{
+  movie->play();
+}
+
+void Movie::stop_cb(Movie *movie, void *d, time_t s, time_t u)
+{
+  movie->stop();
+}
+
+void Movie::pause_cb(Movie *movie, void *d, time_t s, time_t u)
+{
+  movie->pause();
+}
+
+void Movie::rewind_cb(Movie *movie, void *d, time_t s, time_t u)
+{
+  movie->rewind();
+}
+
+void Movie::loop_cb(Movie *movie, void *d, time_t s, time_t u)
+{
+  movie->loop();
+}
+
+void Movie::debug_cb(Movie *movie, void *d, time_t s, time_t u)
+{
+  movie->debug();
+}
+
 void Movie::funcs()
 {
-#if 0
-  setActionFunc(MOVIE_TYPE, 0, _Action play, (const char *) uitem(ulabel(g.theme.Playvideo)));
-#else
-  setActionFunc(MOVIE_TYPE, 0, _Action play, "Play");
-#endif
-  setActionFunc(MOVIE_TYPE, 1, _Action stop, "Stop");
-  setActionFunc(MOVIE_TYPE, 2, _Action pause, "Pause");
-  setActionFunc(MOVIE_TYPE, 3, _Action loop, "Loop");
-  setActionFunc(MOVIE_TYPE, 4, _Action rewind, "Rewind");
-  setActionFunc(MOVIE_TYPE, 5, _Action moveObject, "Move");
-  setActionFunc(MOVIE_TYPE, 6, _Action debug, "Debug");
+  //setActionFunc(MOVIE_TYPE, 0, _Action play_cb, (const char *) uitem(ulabel(g.theme.Playvideo)));
+  setActionFunc(MOVIE_TYPE, 0, _Action play_cb, "Play");
+  setActionFunc(MOVIE_TYPE, 1, _Action stop_cb, "Stop");
+  setActionFunc(MOVIE_TYPE, 2, _Action pause_cb, "Pause");
+  setActionFunc(MOVIE_TYPE, 3, _Action loop_cb, "Loop");
+  setActionFunc(MOVIE_TYPE, 4, _Action rewind_cb, "Rewind");
+  setActionFunc(MOVIE_TYPE, 5, _Action debug_cb, "Debug");
 }

@@ -89,19 +89,21 @@ private:
   virtual void inits();
   /**< Inits. */
 
-  virtual void aviInit();
-  /**< Inits Avi. */
-
-  virtual void mpegInit();
-  /**< Inits Mpeg. */
+  // Actions
+  void play();
+  void stop();
+  void pause();
+  void rewind();
+  void loop();
+  void debug();
 
   // GUI callbacks
-  static void play(Movie *po, void *d, time_t s, time_t u);
-  static void stop(Movie *po, void *d, time_t s, time_t u);
-  static void pause(Movie *po, void *d, time_t s, time_t u);
-  static void rewind(Movie *po, void *d, time_t s, time_t u);
-  static void loop(Movie *po, void *d, time_t s, time_t u);
-  static void debug(Movie *po, void *d, time_t s, time_t u);
+  static void play_cb(Movie *po, void *d, time_t s, time_t u);
+  static void stop_cb(Movie *po, void *d, time_t s, time_t u);
+  static void pause_cb(Movie *po, void *d, time_t s, time_t u);
+  static void rewind_cb(Movie *po, void *d, time_t s, time_t u);
+  static void loop_cb(Movie *po, void *d, time_t s, time_t u);
+  static void debug_cb(Movie *po, void *d, time_t s, time_t u);
 };
 
 #endif
