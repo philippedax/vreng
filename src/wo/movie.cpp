@@ -197,6 +197,7 @@ void Movie::changePermanent(float lasting)
     case PLAYER_MPG:
       {
         // get a frame from the mpeg video stream
+        if (! mpeg) return;
         if (GetMPEGFrame((char *)vidbuf) == false) { // end of mpeg video
           if (state == LOOP) {
             RewindMPEG(fp, mpeg);	// rewind mpeg video
