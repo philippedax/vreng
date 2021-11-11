@@ -181,7 +181,6 @@ int HttpThread::connect(const struct sockaddr_in *sa)
 int HttpThread::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
 {
   struct hostent *hp = NULL;
-  bool hack = false;
 
   // hostname
   if ((hp = my_gethostbyname_r(hoststr, AF_INET)) == NULL) return -BADNAME;
@@ -203,7 +202,7 @@ int HttpThread::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
   sa->sin_family = hp->h_addrtype;
   memcpy(&sa->sin_addr, hp->h_addr_list[0], hp->h_length);
   sa->sin_port = port;
-  if (! hack) my_free_hostent(hp);
+  my_free_hostent(hp);
   return 0;
 }
 
@@ -513,15 +512,15 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
     ht->httpReader(ht->thrhdl, ht->http);  // call the appropiated httpReader
     if (ht->http) delete ht->http;	// segfault
     ht->http = NULL;
-    progression('c');	// c as cache
+    progression('c');	// 'c' as cache
     delete ht;
     ht = NULL;
     return 0;
   }
-  else {		// it's a thread
-    progression('i');	// i as image
-    if (_threaded > 0) {
-      return ht->putfifo();
+  else {		// not in cache
+    progression('i');	// 'i' as image
+    if (_threaded > 0) {	// if threaded
+      return ht->putfifo();	// put it into fifo
     }
     else {
       HttpThread::connection((void *) ht);	// it's not a thread
