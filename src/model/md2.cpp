@@ -80,18 +80,19 @@ void Md2::httpReader(void *_md2, Http *http)
   if (! md2) return;
 
   FILE *f = Cache::openCache(md2->getUrl(), http);
-  md2->readFile(f);	// from cache
+  if (f) {
+    md2->readFile(f);	// from cache
+  }
 }
 
 /** Md2 model file-reader */
 bool Md2::readFile(FILE *f)
 {
-  if (! f) return false;
-
-  /* Read the header */
+  /* Read the header first */
   tHeader md2_hdr;
   int32_t o = 0;	// offset in file
 
+  // read in little endian format (read_long_le)
   File::read_buf(f, md2_hdr.ident, 4); o+=4;
   md2_hdr.version = File::read_long_le(f); o+=4;
   md2_hdr.skinwidth = File::read_long_le(f); o+=4;
