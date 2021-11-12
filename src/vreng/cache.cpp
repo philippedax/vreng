@@ -83,7 +83,16 @@ FILE * Cache::openCache(const char *url, Http *http)
       putc(c, fp);
     }
     File::closeFile(fp);
-    progression('h');	// 'h' as http
+    struct stat bufstat;
+    if (stat(cachepath, &bufstat) == 0) {
+      if (bufstat.st_size == 0) {
+        error("openCache: %s is empty", cachepath);
+        unlink(cachepath);
+      }
+      else {
+        progression('h');	// 'h' as http
+      }
+    }
   }
   // and opens it for reading
   fp = File::openFile(cachepath, "r");
