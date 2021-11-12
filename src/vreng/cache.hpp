@@ -42,8 +42,8 @@ class Cache {
   static int check(const char *url);
   ///< Checks url existence.
 
-  static int setCacheName(const char *url, char *cachefile);
-  ///< Changes url name to cache filename.
+  static int setCachePath(const char *url, char *cachepath);
+  ///< Sets cache path from url.
 
   static FILE * openCache(const char *url, Http *http);
   ///< Saves file into cache and opens it.

@@ -286,6 +286,7 @@ void * HttpThread::connection(void *_ht)
   switch (urltype) {
 
   case Url::URLFILE:	// file://
+    trace(DBG_HTTP, "HTTP: %s://%s/%s", scheme, host, path);
     if ((http->fd = HttpThread::openFile(path)) < 0) {
       hterr = true;
     }
@@ -297,7 +298,7 @@ void * HttpThread::connection(void *_ht)
     break;
 
   case Url::URLHTTP:	// http://
-    trace(DBG_HTTP, "HTTP: %s://%s%s", scheme, host, path);
+    trace(DBG_HTTP, "HTTP: %s://%s/%s", scheme, host, path);
 htagain:
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
       struct hostent *hp;
@@ -335,6 +336,7 @@ htagain:
     /*
      * send the GET request to the http server with adding useful infos
      */
+#if 0 //dax
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
       sprintf(req,
               "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
@@ -346,8 +348,11 @@ htagain:
               "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
               path, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
               ::g.env.relname(), ::g.user, host);
-
     } 
+#else
+      sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
+      //error("req: %s", req);
+#endif
     if (HttpThread::send(http->fd, req, strlen(req)) < 0) {
       error("can't send req=%s", req);
       hterr = true;
@@ -415,11 +420,15 @@ htagain:
                 }
               }
               break;
-            case 404:	// not found
+            case 400:		// bad request
               warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, ht->url, host);
               hterr = true;
               break;
-            case HTTP_503:
+            case 404:		// not found
+              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, ht->url, host);
+              hterr = true;
+              break;
+            case HTTP_503:	// server unavailable
               warning("HTTP-err: %d - server %s unavailable", httperr, host);
               hterr = true;
               break;

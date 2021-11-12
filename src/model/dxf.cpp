@@ -78,7 +78,7 @@ void Dxf::httpReader(void *_dxf, Http *http)
 
   FILE *f;
   char filename[PATH_LEN];
-  Cache::setCacheName(dxf->getUrl(), filename);
+  Cache::setCachePath(dxf->getUrl(), filename);
   dxf->dxffile = newDXF(filename);
 
   f = Cache::openCache(dxf->getUrl(), http);

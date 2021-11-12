@@ -34,7 +34,7 @@
 #include "fap.hpp"
 #include "body.hpp"	// body
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// setCacheName, openCache
+#include "cache.hpp"	// setCachePath, openCache
 #include "file.hpp"	// closeFile
 #include "bone.hpp"	// V3d
 
@@ -156,7 +156,7 @@ void Face::load(const char *url)
   BoneMesh   *newMesh = new BoneMesh();
   BoneVertex *newRoot = new BoneVertex();
 
-  if (Cache::setCacheName(url, cachefile) == 0) {
+  if (Cache::setCachePath(url, cachefile) == 0) {
     error("Face: file=%s url=%s", cachefile, url);
     return;
   }

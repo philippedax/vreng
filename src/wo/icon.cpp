@@ -24,7 +24,7 @@
 #include "move.hpp"	// GRAVITY
 #include "wall.hpp"	// Wall
 #include "format.hpp"	// icons
-#include "cache.hpp"	// file download
+#include "cache.hpp"	// setCachePath download
 #include "texture.hpp"	// Texture
 #include "netobj.hpp"	// NetObject
 #include "payload.hpp"	// Payload
@@ -499,7 +499,7 @@ void Icon::destroy(Icon *icon, void *d, time_t s, time_t u)
     // remove file
     char ficon[URL_LEN];
 
-    Cache::file(icon->names.url, ficon);
+    Cache::setCachePath(icon->names.url, ficon);
     chdir(::g.env.icons());
     chdir(icon->worldName());
     unlink(ficon);
@@ -553,7 +553,7 @@ void Icon::quit()
   if ((! taken) && (! remove) && *names.url) {
     char ficon[URL_LEN];
 
-    Cache::file(names.url, ficon);
+    Cache::setCachePath(names.url, ficon);
 
     if (chdir(::g.env.icons()) != -1 ) {
       struct stat bufstat;

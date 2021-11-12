@@ -23,7 +23,7 @@
 #include "wobject.hpp"
 #include "http.hpp"	// httpOpen httpRead
 #include "user.hpp"	// USER_TYPE
-#include "url.hpp"	// setCacheName
+#include "url.hpp"	// setCachePath
 #include "cache.hpp"	// file2url
 #include "universe.hpp"	// Universe
 #include "netobj.hpp"	// NetObject
@@ -718,7 +718,7 @@ void World::worldReader(void *_url, Http *http)
   char filename[URL_LEN];
   char buf[BUFSIZ];
 
-  Cache::setCacheName(url, filename);
+  Cache::setCachePath(url, filename);
 
   Parse *parser = new Parse();		// create the parser instance
 

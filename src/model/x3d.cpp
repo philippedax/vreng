@@ -23,7 +23,7 @@
 #include "http.hpp"	// httpOpen
 #include "draw.hpp"	// Draw
 #include "texture.hpp"	// open
-#include "cache.hpp"	// setCacheName
+#include "cache.hpp"	// setCachePath
 #include "file.hpp"	// openFile
 
 using namespace std;
@@ -62,7 +62,7 @@ void X3d::httpReader(void *_x3d, class Http *http)
 
   FILE *f;
   char filename[PATH_LEN];
-  Cache::setCacheName(x3d->getUrl(), filename);
+  Cache::setCachePath(x3d->getUrl(), filename);
 
   //error("X3d filename=%s", filename);
   if ((f = File::openFile(filename, "r")) == NULL) {

@@ -30,7 +30,8 @@
 #include "wget.hpp"	// start
 
 
-int Cache::setCacheName(const char *url, char *cachepath)
+/* Fills cachepath from url */
+int Cache::setCachePath(const char *url, char *cachepath)
 {
   if (! url) return 0;
   const char *pfile = strrchr(url, '/');
@@ -61,64 +62,58 @@ char * Cache::getFilePath(const char *url)
   return filepath;
 }
 
+/* Opens an url and writes it into the cache and returns le file opened (fp) */
 FILE * Cache::openCache(const char *url, Http *http)
 {
-  char filename[PATH_LEN];
+  char cachepath[PATH_LEN];
 
   if (! http) return NULL;
-  if (! setCacheName(url, filename)) return NULL;
+  if (! setCachePath(url, cachepath)) return NULL;
 
   FILE *fp;
-  if ((fp = File::openFile(filename, "r")) == NULL) {
-    if ((fp = File::openFile(filename, "w")) == NULL) {
-      error("openCache: can't create %s", filename);
+  if ((fp = File::openFile(cachepath, "r")) == NULL) {
+    if ((fp = File::openFile(cachepath, "w")) == NULL) {
+      error("openCache: can't create %s", cachepath);
       return NULL;
     }
 
-    // writing the file into the cache
+    // writes the file into the cache
     int c;
     while ((c = http->getChar()) >= 0) {
       putc(c, fp);
     }
     File::closeFile(fp);
-    progression('c');	// c as cache
+    progression('h');	// 'h' as http
   }
-  if (::g.pref.refresh) {  // force reload
-    int c;
-    progression('h');	// h as http
-    while ((c = http->getChar()) >= 0) {
-      putc(c, fp);
-    }
-    File::closeFile(fp);
-    progression('c');
-  }
-  // and open it for reading
-  fp = File::openFile(filename, "r");
+  // and opens it for reading
+  fp = File::openFile(cachepath, "r");
 
   return fp;  // file is opened
 }
 
+/* Checks if file is in the cache */
 bool Cache::inCache(const char *url)
 {
-  char filename[PATH_LEN];
-  if (! setCacheName(url, filename)) return false;
+  char cachepath[PATH_LEN];
 
-  FILE *fp;
+  if (! setCachePath(url, cachepath)) {
+    return false;
+  }
+
   struct stat bufstat;
-  if ((fp = File::openFile(filename, "r")) != NULL) {
-    File::closeFile(fp);
-    stat(filename, &bufstat);
+  if (stat(cachepath, &bufstat) == 0) {
     if (bufstat.st_size != 0) {
-      return true;
+      return true;	// file is in the cache
     }
     else {
-      error("inCache: file %s empty", filename);
-      unlink(filename); // remove empty file
+      error("inCache: file %s empty", cachepath);
+      unlink(cachepath); // remove empty file
     }
   }
   return false;
 }
 
+/* same as setCachePath (notused) */
 void Cache::file(const char *_url, char *filename)
 {
   int i = 0;
@@ -207,20 +202,19 @@ int Cache::download(const char *_url, char *filename, const char arg[])
   Url::abs(_url, url);
   
   if (filename && (! strcmp(arg, "cache"))) {        // use the cache
-    if (! Cache::setCacheName(_url, filename))
+    if (! Cache::setCachePath(url, filename)) {
       return 0;
-  
+    }
+
     struct stat bufstat;
     if (stat(filename, &bufstat) == 0) {
-      trace(DBG_TOOL, "download: %s found in cache", filename);
       if (bufstat.st_size != 0) {
-        return 1;  // file yet in the cache
+        return 1;	// file yet in the cache
       }
       unlink(filename); // remove empty file
     }
     trace(DBG_TOOL, "download: download %s in %s", url, filename);
   }
-
 #if HAVE_CURL
   return curl(url, filename, arg);
 #else
