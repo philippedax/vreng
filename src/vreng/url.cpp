@@ -32,8 +32,8 @@
 int Url::parser(char *url, char *host, char *scheme, char *path)
 {
   int urltype;
-  char *p;
-  static char prev_host[MAXHOSTNAMELEN] = "";	// first one is undefined
+  //dax char *p;
+  //dax static char prev_host[MAXHOSTNAMELEN] = "";	// first one is undefined
 
   /* parse scheme */
   if (! url || ! strlen(url)) {
@@ -60,16 +60,19 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
         error("Bad Url: %02x%02x%02x host=%s", url[0], url[1], url[2], host);
         return URLBAD;
       }
-      sprintf(path, "%s/%s", Universe::current()->urlpfx, url);
+      sprintf(path, "%s%s", Universe::current()->urlpfx, url);
+      //error("rel path: %s", path);
     }
     else {	// /path
       if (! stringcmp(url, "http://") || ! stringcmp(url, "/~")) {
         // full qualified url
         sprintf(path, "%s", url);
+        //error("abs path: %s", path);
       }
       else {
         // add url prefix before url
-        sprintf(path, "%s/%s", Universe::current()->urlpfx, url);
+        sprintf(path, "/%s%s", Universe::current()->urlpfx, url);
+        //error("pfx path: %s", path);
       }
     }
     return URLHTTP;
@@ -77,14 +80,14 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
 
   /* then parse host's name */
   if (urltype != URLFILE) {
-    p = prev_host;
+    //dax p = prev_host;
     while ((*url != ':') && (*url != '/') && (*url != '\0')) {
       *host++ = *url;
-      *p++ = *url;	// keep current host
+      //dax *p++ = *url;	// keep current host
       url++;
     }
     *host = '\0';
-    *p = '\0';
+    //dax *p = '\0';
   }
 
   /* then parse pathname */
