@@ -71,9 +71,9 @@ FILE * Cache::openCache(const char *url, Http *http)
   if (! http) return NULL;
   if (! setCachePath(url, cachepath)) return NULL;
 
-  FILE *fp;
-  if ((fp = File::openFile(cachepath, "r")) == NULL) {
-    if ((fp = File::openFile(cachepath, "w")) == NULL) {
+  FILE *fpcache;
+  if ((fpcache = File::openFile(cachepath, "r")) == NULL) {
+    if ((fpcache = File::openFile(cachepath, "w")) == NULL) {
       error("openCache: can't create %s", cachepath);
       return NULL;
     }
@@ -81,9 +81,9 @@ FILE * Cache::openCache(const char *url, Http *http)
     // writes the file into the cache
     int c;
     while ((c = http->getChar()) >= 0) {
-      putc(c, fp);
+      putc(c, fpcache);
     }
-    File::closeFile(fp);
+    File::closeFile(fpcache);
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
       if (bufstat.st_size == 0) {
@@ -96,9 +96,9 @@ FILE * Cache::openCache(const char *url, Http *http)
     }
   }
   // and opens it for reading
-  fp = File::openFile(cachepath, "r");
+  fpcache = File::openFile(cachepath, "r");
 
-  return fp;  // file is opened
+  return fpcache;  // file is opened
 }
 
 /* Checks if file is in the cache */
@@ -156,7 +156,7 @@ int Cache::curl(const char *url, char *filename, const char arg[])
 #if HAVE_LIBCURL
   CURL *hcurl;
   CURLcode res;
-  FILE *fp = NULL;
+  FILE *fpcache = NULL;
   size_t size;
 
   hcurl = curl_easy_init();
@@ -167,13 +167,13 @@ int Cache::curl(const char *url, char *filename, const char arg[])
     curl_easy_setopt(hcurl, CURLOPT_TIMEOUT, 60L);
     curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 1);
     if (filename) {
-      if ((fp = File::openFile(filename, "wb")) == NULL) {
+      if ((fpcache = File::openFile(filename, "wb")) == NULL) {
         perror("open wb");
         return 0;
       }
       curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 0);
       curl_easy_setopt(hcurl, CURLOPT_WRITEFUNCTION, NULL);
-      curl_easy_setopt(hcurl, CURLOPT_WRITEDATA, fp);
+      curl_easy_setopt(hcurl, CURLOPT_WRITEDATA, fpcache);
       if (stringcmp(arg, "anon") == 0) {
         curl_easy_setopt(hcurl, CURLOPT_USERPWD, "ftp:vreng@");
       }
@@ -192,7 +192,7 @@ int Cache::curl(const char *url, char *filename, const char arg[])
     else {
       curl_easy_getinfo(hcurl, CURLINFO_SIZE_DOWNLOAD, &size);
     }
-    if (fp) File::closeFile(fp);
+    if (fpcache) File::closeFile(fpcache);
     curl_easy_cleanup(hcurl);
     return 1;
   }

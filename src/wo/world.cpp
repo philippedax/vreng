@@ -725,7 +725,7 @@ void World::worldReader(void *_url, Http *http)
   if (stat(cachename, &bufstat) < 0) {	// is not in the cache
     //error("file %s not in cache", cachename);
     if ((fpcache = File::openFile(cachename, "w")) == NULL) {
-      error("can't create file %s", cachename);
+      error("worldReader: can't create file %s from url %s", cachename, url);
     }
 
     // download the vre file from the httpd server
@@ -801,7 +801,7 @@ void World::init(const char *url)
   //
   trace(DBG_WO, "download initial world");
   //world->universe->startWheel();
-  Http::httpOpen(world->getUrl(), worldReader, (void *)NULL, 0);
+  Http::httpOpen(world->getUrl(), worldReader, (void *)url, 0);
   //world->universe->stopWheel();
   endprogression();
 
@@ -959,7 +959,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   if (url) {
     trace(DBG_WO, "enter: downloading world url=%s", url);
     //world->universe->startWheel();
-    if (Http::httpOpen(url, worldReader, (void *)NULL, 0) < 0) {
+    if (Http::httpOpen(url, worldReader, (void *)url, 0) < 0) {
       error("enter: bad download: url=%s", url);
       return NULL;
     }

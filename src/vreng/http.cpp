@@ -612,10 +612,13 @@ int Http::getChar()
 {
   if (htbuf_pos >= htbuf_len) {	// eob
     htbuf_pos = 0;
-    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0)
+    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
       return -1;	// eof
-    if (htbuf_len < 0)
+    }
+    if (htbuf_len < 0) {
+      error("getChar: len=%d", htbuf_len);
       return -2;	// err
+    }
   }
   return htbuf[htbuf_pos++];
 }
