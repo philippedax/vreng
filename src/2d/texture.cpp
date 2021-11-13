@@ -216,8 +216,8 @@ GLuint Texture::open(const char *url)
   /* we must download the texture now */
   strcpy(texture->url, url);
   switch (Format::getLoaderByUrl((char*) url)) {
-  case IMG_GIF: Http::httpOpen(url, httpReader, texture, 1); break; // multi-threaded
-  default:      Http::httpOpen(url, httpReader, texture, 0); break;
+    case IMG_GIF: Http::httpOpen(url, httpReader, texture, 1); break; // multi-threaded
+    default:      Http::httpOpen(url, httpReader, texture, 0); break;
   }
   return texture->id;
 }

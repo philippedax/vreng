@@ -49,9 +49,9 @@ class Cache {
   ///< Saves file into cache and opens it.
 
   static bool inCache(const char *url);
-  ///< Checks weither url is cached.
+  ///< Checks whether url is cached.
 
-  static void file(const char *url, char *filename);
+  static void url2file(const char *url, char *filename);
   ///< Changes url name to filename.
 
   static void file2url(const char *filename, char *url);

@@ -24,7 +24,7 @@
 #include "http.hpp"	// httpOpen httpRead
 #include "user.hpp"	// USER_TYPE
 #include "url.hpp"	// setCachePath
-#include "cache.hpp"	// file2url
+#include "cache.hpp"	// url2file file2url
 #include "universe.hpp"	// Universe
 #include "netobj.hpp"	// NetObject
 #include "channel.hpp"	// join
@@ -712,26 +712,27 @@ void World::worldReader(void *_url, Http *http)
     error("can't download %s, check access to the remote http server", url);
   }
 
-  FILE *fp = NULL;
+  FILE *fpcache = NULL;
   int len = 0;
-  struct stat bufstat;
-  char filename[URL_LEN];
+  char cachename[PATH_LEN];
   char buf[BUFSIZ];
 
-  Cache::setCachePath(url, filename);
+  Cache::setCachePath(url, cachename);
 
-  Parse *parser = new Parse();		// create the parser instance
+  Parse *parser = new Parse();	// create the parser instance
 
-  if (stat(filename, &bufstat) < 0) {	// is not in the cache
-    if ((fp = File::openFile(filename, "w")) == NULL) {
-      error("can't create file %s", filename);
+  struct stat bufstat;
+  if (stat(cachename, &bufstat) < 0) {	// is not in the cache
+    //error("file %s not in cache", cachename);
+    if ((fpcache = File::openFile(cachename, "w")) == NULL) {
+      error("can't create file %s", cachename);
     }
 
     // download the vre file from the httpd server
 httpread:
     while ((len = http->httpRead(buf, sizeof(buf))) > 0) {
-      if (fp) {
-        fwrite(buf, 1, len, fp);	// save into the cache
+      if (fpcache) {
+        fwrite(buf, 1, len, fpcache);	// save into the cache
       }
       if (parser->parseVreFile(buf, len) <= 0) {  // eof or parsing error
         break;
@@ -739,21 +740,21 @@ httpread:
     }
 
 #if 0 //HAVE_LIBXML2
-    Xml::dtdValidation(filename);        // check the DTD
+    Xml::dtdValidation(cachename);        // check the DTD
 #endif //HAVE_LIBXML2
   }
-  else {        // filename exists in the cache
-    if ((fp = File::openFile(filename, "r")) == NULL) {
+  else {        // cachename exists in the cache
+    if ((fpcache = File::openFile(cachename, "r")) == NULL) {
       goto httpread;			// download it
     }
-    while ((len = fread(buf, 1, sizeof(buf), fp)) > 0) {
+    while ((len = fread(buf, 1, sizeof(buf), fpcache)) > 0) {
       if (parser->parseVreFile(buf, len) <= 0) {
         break;		// eof or parsing error
       }
     }
   }
   parser->numline = 0;
-  if (fp) File::closeFile(fp);
+  if (fpcache) File::closeFile(fpcache);
 
   trace(DBG_WO, "worldReader: %s downloaded", url);
   return;
@@ -800,7 +801,7 @@ void World::init(const char *url)
   //
   trace(DBG_WO, "download initial world");
   //world->universe->startWheel();
-  Http::httpOpen(world->getUrl(), worldReader, (void *)url, 0);
+  Http::httpOpen(world->getUrl(), worldReader, (void *)NULL, 0);
   //world->universe->stopWheel();
   endprogression();
 
@@ -958,7 +959,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   if (url) {
     trace(DBG_WO, "enter: downloading world url=%s", url);
     //world->universe->startWheel();
-    if (Http::httpOpen(url, worldReader, (void *)url, 0) < 0) {
+    if (Http::httpOpen(url, worldReader, (void *)NULL, 0) < 0) {
       error("enter: bad download: url=%s", url);
       return NULL;
     }

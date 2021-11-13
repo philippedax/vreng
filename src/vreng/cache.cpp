@@ -41,6 +41,7 @@ int Cache::setCachePath(const char *url, char *cachepath)
     return 0;
   }
   sprintf(cachepath, "%s/%s", ::g.env.cache(), ++pfile);
+  //error("cachepath: %s", cachepath);
   return 1;
 }
 
@@ -58,7 +59,7 @@ char * Cache::getFilePath(const char *url)
   static char filepath[PATH_LEN];
   const char *pfile = strrchr(url, '/');
 
-  sprintf(filepath, "%s",  ++pfile);
+  sprintf(filepath, "%s", ++pfile);
   return filepath;
 }
 
@@ -86,7 +87,7 @@ FILE * Cache::openCache(const char *url, Http *http)
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
       if (bufstat.st_size == 0) {
-        error("openCache: %s is empty", cachepath);
+        //error("openCache: %s is empty", cachepath);
         unlink(cachepath);
       }
       else {
@@ -115,15 +116,15 @@ bool Cache::inCache(const char *url)
       return true;	// file is in the cache
     }
     else {
-      error("inCache: file %s empty", cachepath);
+      //error("inCache: file %s empty", cachepath);
       unlink(cachepath); // remove empty file
     }
   }
   return false;
 }
 
-/* same as setCachePath (notused) */
-void Cache::file(const char *_url, char *filename)
+/* (specific icon) */
+void Cache::url2file(const char *_url, char *filename)
 {
   int i = 0;
   char *url = strdup(_url);
