@@ -84,6 +84,7 @@ Face::Face(const char *urlindex)
   Http::httpOpen(urlindex, facesHttpReader, this, 0);
   currentUrl = rand() % urlList.count();
   index = true;
+  cachefile[0] = '\0';
 }
 
 Face::~Face()

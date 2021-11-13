@@ -714,7 +714,7 @@ void World::worldReader(void *_url, Http *http)
 
   FILE *fpcache = NULL;
   int len = 0;
-  char cachename[PATH_LEN];
+  char cachename[PATH_LEN] = {0};
   char buf[BUFSIZ];
 
   Cache::setCachePath(url, cachename);

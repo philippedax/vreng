@@ -66,7 +66,7 @@ char * Cache::getFilePath(const char *url)
 /* Opens an url and writes it into the cache and returns le file opened (fp) */
 FILE * Cache::openCache(const char *url, Http *http)
 {
-  char cachepath[PATH_LEN];
+  char cachepath[PATH_LEN] = {0};
 
   if (! http) return NULL;
   if (! setCachePath(url, cachepath)) return NULL;
@@ -104,7 +104,7 @@ FILE * Cache::openCache(const char *url, Http *http)
 /* Checks if file is in the cache */
 bool Cache::inCache(const char *url)
 {
-  char cachepath[PATH_LEN];
+  char cachepath[PATH_LEN] = {0};
 
   if (! setCachePath(url, cachepath)) {
     return false;

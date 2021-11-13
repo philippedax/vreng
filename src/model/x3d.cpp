@@ -61,7 +61,7 @@ void X3d::httpReader(void *_x3d, class Http *http)
   if (! x3d) { x3d = NULL; return; }
 
   FILE *f;
-  char filename[PATH_LEN];
+  char filename[PATH_LEN] = {0};
   Cache::setCachePath(x3d->getUrl(), filename);
 
   //error("X3d filename=%s", filename);

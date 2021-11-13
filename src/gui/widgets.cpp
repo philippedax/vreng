@@ -491,7 +491,7 @@ void Widgets::nextCB()
 
 void Widgets::saveCB()
 {
-  char vrein[PATH_LEN], vreout[PATH_LEN], buf[BUFSIZ];
+  char vrein[PATH_LEN] = {0}, vreout[PATH_LEN], buf[BUFSIZ];
   World *world = World::current();
   if (! world) return;
 

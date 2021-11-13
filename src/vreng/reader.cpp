@@ -74,7 +74,7 @@ FILE * Reader::getFileCache(const char *url, char *filepath)
 
 char * Reader::getFilename(void *_tex)
 {
-  static char filepath[PATH_LEN];
+  static char filepath[PATH_LEN] = {0};
   Texture *tex = (Texture *) _tex;
 
   Cache::setCachePath(tex->url, filepath);
