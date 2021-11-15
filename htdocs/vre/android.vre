@@ -1,7 +1,7 @@
 <!DOCTYPE vre PUBLIC "-//ENST//DTD VREng scene description - April 05//FR" "http://vreng.enst.fr/dtd/vre-1.0.dtd" >
 <vre profile="Interactive">
 <head>
-<meta name="filename" content="android.vre" />
+<meta name="filename" content="humanoid.vre" />
 </head>
 
 <scene>
@@ -12,38 +12,38 @@
 <plane name="ceil" pos="0 0 5 0">  <solid dim="28 14 .001" zn="/gif/stries.gif" /></plane>
 <step name="corridor" pos="0 -5 -.02 0"> <solid dim="28 02 .04" dif="red" /></step>
 
-<!-- android syntax
-#<android name="name"
+<!-- humanoid syntax
+#<humanoid name="name"
 #  pos="x y z az ax"
 #  body="url-jointpoints"
 #  face="url"
 #  server="server"
 #  color="r g b">
-#</android>
+#</humanoid>
 -->
-<!-- androids -->
-<android name="masque" pos="10.3 0 0 1.57"
+<!-- humanoids -->
+<humanoid name="masque" pos="10.3 0 0 1.57"
   body="/avatars/android/android.parts" face="/v3d/mask.v3d" color="gold">
-</android>
-<android name="girl" pos="9.6 1.7 0 3.14"
+</humanoid>
+<humanoid name="girl" pos="9.6 1.7 0 3.14"
   body="/avatars/android/android.parts" face="/v3d/girl.v3d" color="lightblue">
-</android>
-<android name="kangaroo" pos="9.7 -1.7 0 0"
+</humanoid>
+<humanoid name="kangaroo" pos="9.7 -1.7 0 0"
   body="/avatars/android/android.parts" face="/v3d/kangaroo.v3d" color="lightgreen">
-</android>
-<android name="wolf" pos="7.6 1.7 0 3.14"
+</humanoid>
+<humanoid name="wolf" pos="7.6 1.7 0 3.14"
   body="/avatars/android/android.parts" face="/v3d/wolf.v3d" color="darkred">
-</android>
-<android name="female" pos="6.7 -1.7 0 0"
+</humanoid>
+<humanoid name="female" pos="6.7 -1.7 0 0"
   body="/avatars/avatar/avatar.parts">
-</android>
-<android name="human" pos="6.6 1.7 0 3.14"
+</humanoid>
+<humanoid name="human" pos="6.6 1.7 0 3.14"
   body="/avatars/android/android.parts">
-</android>
+</humanoid>
 <!--
-<android name="dino" pos="5.7 -1.7 0 0"
+<humanoid name="dino" pos="5.7 -1.7 0 0"
   body="/avatars/android/android.parts" face="/v3d/dino.v3d" server="vaps.enst.fr">
-</android>
+</humanoid>
 -->
 
 <mirage pos="10.3 0 .01 1.57 1.57"><solid shape="cross" dim=".8 .04 .04" dif="red"/></mirage>
