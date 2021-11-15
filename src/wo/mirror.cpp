@@ -22,9 +22,6 @@
 #include "mirror.hpp"
 #include "user.hpp"	// USER_TYPE
 #include "solid.hpp"	// getSolid
-#include "android.hpp"	//
-#include "guy.hpp"	//
-#include "man.hpp"	//
 #include "render.hpp"	// minirender
 #include "icon.hpp"	// ICON_TYPE
 

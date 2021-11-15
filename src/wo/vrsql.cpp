@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "vrsql.hpp"
 #include "world.hpp"	// current
-#include "android.hpp"	// Android bap
+#include "humanoid.hpp"	// Humanoid bap
 #include "pref.hpp"	// g.user
 #include "env.hpp"	// home
 
@@ -938,7 +938,7 @@ void VRSql::updateOwner(WObject *o)
   updateString(o, COL_OWN, o->ownerName());
 }
 
-void VRSql::updateBap(Android *o)
+void VRSql::updateBap(Humanoid *o)
 {
   updateString(o, COL_BAP, o->bapline);
 }

@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "body.hpp"
 #include "face.hpp"
-#include "android.hpp"	// Android
+#include "humanoid.hpp"	// Humanoid
 #include "http.hpp"	// Http
 #include "texture.hpp"	// open
 #include "format.hpp"	// getModelByUrl
@@ -600,7 +600,7 @@ void Body::draw()
   }
 }
 
-/* called from android */
+/* called from humanoid */
 void Body::setColors(float *_skin, float *_cloth)
 {
   for (int i=0; i<3; i++) {

@@ -40,8 +40,8 @@ class Http;
  * Face class
  */
 class Face {
-  friend class Body;	///< SCALE
-  friend class Android;	///< actions
+  friend class Body;		///< SCALE
+  friend class Humanoid;	///< actions
 
 protected:
   static const float SCALE;
@@ -98,15 +98,15 @@ private:
   static void facesHttpReader(void *_o, Http *http);
 
   // GUI callbacks
-  static void changeMoveYes(class Android *o, void *d, time_t s, time_t u);
-  static void changeMoveNo(class Android *o, void *d, time_t s, time_t u);
-  static void changeMoveMouth(class Android *o, void *d, time_t s, time_t u);
-  static void changeMoveSmile(class Android *o, void *d, time_t s, time_t u);
-  static void changeMoveSulk(class Android *o, void *d, time_t s, time_t u);
-  static void changeMoveEyeR(class Android *o, void *d, time_t s, time_t u);
-  static void changeMoveEyeL(class Android *o, void *d, time_t s, time_t u);
-  static void changeMoveNose(class Android *o, void *d, time_t s, time_t u);
-  static void changeFace(class Android *o, void *d, time_t s, time_t u);
+  static void changeMoveYes(class Humanoid *o, void *d, time_t s, time_t u);
+  static void changeMoveNo(class Humanoid *o, void *d, time_t s, time_t u);
+  static void changeMoveMouth(class Humanoid *o, void *d, time_t s, time_t u);
+  static void changeMoveSmile(class Humanoid *o, void *d, time_t s, time_t u);
+  static void changeMoveSulk(class Humanoid *o, void *d, time_t s, time_t u);
+  static void changeMoveEyeR(class Humanoid *o, void *d, time_t s, time_t u);
+  static void changeMoveEyeL(class Humanoid *o, void *d, time_t s, time_t u);
+  static void changeMoveNose(class Humanoid *o, void *d, time_t s, time_t u);
+  static void changeFace(class Humanoid *o, void *d, time_t s, time_t u);
 };
 
 

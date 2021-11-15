@@ -50,7 +50,7 @@
 #include "dress.hpp"	// Dress
 #include "wings.hpp"	// Wings
 #include "head.hpp"	// Head
-#include "android.hpp"	// Android
+#include "humanoid.hpp"	// Humanoid
 
 
 const OClass User::oclass(USER_TYPE, "User", NULL, User::replicator);
@@ -89,7 +89,7 @@ void User::defaults()
   bubble = NULL;
   human = NULL;
   guy = NULL;
-  android = NULL;
+  humanoid = NULL;
   head = NULL;
   current_view = Render::VIEW_FIRST_PERSON;
   ray = setV3(0, 0, 0);
@@ -193,13 +193,13 @@ void User::makeSolid()
   if (pref->my_bapsstr)		baps = strdup(pref->my_bapsstr);
 
   if (isalpha(*avatar)) {	// avatar is defined in ~./.vreng/prefs
-    // 5 available avatar : guy, human, android, box, bbox
+    // 5 available avatar : guy, human, humanoid, box, bbox
     if (! strcmp(avatar, "guy")) {
       guy = new Guy();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
-    else if (! strcmp(avatar, "android")) {
-      android = new Android();
+    else if (! strcmp(avatar, "humanoid")) {
+      humanoid = new Humanoid();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
     }
     else if (! strcmp(avatar, "human")) {

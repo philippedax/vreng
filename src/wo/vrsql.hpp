@@ -232,7 +232,7 @@ class VRSql {
   virtual void updateGeom(WObject *o, const char *table, char *geom);
   virtual void updateUrl(WObject *o);
   virtual void updateOwner(WObject *o);
-  virtual void updateBap(class Android *o);
+  virtual void updateBap(class Humanoid *o);
 
   virtual void updatePosX(WObject *o);
   virtual void updatePosY(WObject *o);

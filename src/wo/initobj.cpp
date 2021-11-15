@@ -62,7 +62,7 @@
 #include "vjc.hpp"		/* 37 */
 #include "animator.hpp"		/* 38 */
 #include "text.hpp"		/* 39 */
-#include "android.hpp"		/* 40 */
+#include "humanoid.hpp"		/* 40 */
 #include "carrier.hpp" 		/* 41 */
 #include "cart.hpp" 		/* 42 */
 #include "book.hpp" 		/* 43 */
@@ -152,7 +152,7 @@ const struct InitFunc initFuncs[] = {
 /* 37 */	{Vjc::funcs},
 /* 38 */	{Animator::funcs},
 /* 39 */	{Text::funcs},
-/* 40 */	{Android::funcs},
+/* 40 */	{Humanoid::funcs},
 /* 41 */	{Carrier::funcs},
 /* 42 */	{Cart::funcs},
 /* 43 */	{Book::funcs},

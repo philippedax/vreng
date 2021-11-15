@@ -589,7 +589,7 @@ char* Vicinity::translateNum2Type(int num)
   translate[37] = "vjc";
   translate[38] = "anim";
   translate[39] = "text";
-  translate[40] = "android";
+  translate[40] = "humanoid";
   translate[41] = "carrier";
   translate[42] = "cart";
   translate[43] = "book";

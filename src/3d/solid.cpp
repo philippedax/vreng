@@ -62,7 +62,7 @@ static const struct sStokens stokens[] = {
   { "box", "cube", STOK_BOX },
   { "man", "human", STOK_MAN },
   { "guy", "boy", STOK_GUY },
-  { "android", "android", STOK_ANDROID },
+  { "humanoid", "android", STOK_HUMANOID },
   { "car", "car", STOK_CAR },
   { "sphere", "ball", STOK_SPHERE },
   { "cone", "cylinder", STOK_CONE },
@@ -350,7 +350,7 @@ char * Solid::parser(char *l)
       case STOK_WALLS:
       case STOK_MAN:
       case STOK_GUY:
-      case STOK_ANDROID:
+      case STOK_HUMANOID:
       case STOK_CAR:
       case STOK_WINGS:
         r = solidParser(l, bbmax, bbmin); break;
@@ -742,7 +742,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_GUY:
-    case STOK_ANDROID:
+    case STOK_HUMANOID:
       setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
       break;
 

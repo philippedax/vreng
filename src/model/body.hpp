@@ -424,7 +424,7 @@ struct sJP {
  */
 class Body {
   friend class Bap;
-  friend class Android;
+  friend class Humanoid;
   friend class Man;
 
  protected:

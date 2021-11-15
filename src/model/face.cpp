@@ -30,7 +30,7 @@
 // ------------------------------------------------------------ //
 #include "vreng.hpp"
 #include "face.hpp"
-#include "android.hpp"
+#include "humanoid.hpp"
 #include "fap.hpp"
 #include "body.hpp"	// body
 #include "http.hpp"	// httpOpen
@@ -702,55 +702,55 @@ void Face::animate()
 #endif
 }
 
-void Face::changeMoveYes(Android *o, void *d, time_t s, time_t u)
+void Face::changeMoveYes(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveYes = ! o->body->face->moveYes;
 }
 
-void Face::changeMoveNo(Android *o, void *d, time_t s, time_t u)
+void Face::changeMoveNo(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveNo = ! o->body->face->moveNo;
 }
 
-void Face::changeMoveMouth(Android *o, void *d, time_t s, time_t u)
+void Face::changeMoveMouth(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveMouth = ! o->body->face->moveMouth;
 }
 
-void Face::changeMoveSmile(Android *o, void *d, time_t s, time_t u)
+void Face::changeMoveSmile(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveSmile = ! o->body->face->moveSmile;
 }
 
-void Face::changeMoveSulk(Android *o, void *d, time_t s, time_t u)
+void Face::changeMoveSulk(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveSulk = ! o->body->face->moveSulk;
 }
 
-void Face::changeMoveEyeR(Android *o, void *d, time_t s, time_t u)
+void Face::changeMoveEyeR(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveEyeR = ! o->body->face->moveEyeR;
 }
 
-void Face::changeMoveEyeL(Android *o, void *d, time_t s, time_t u)
+void Face::changeMoveEyeL(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveEyeL = ! o->body->face->moveEyeL;
 }
 
-void Face::changeMoveNose(Android *o, void *d, time_t s, time_t u)
+void Face::changeMoveNose(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->moveNose = ! o->body->face->moveNose;
 }
 
-void Face::changeFace(Android *o, void *d, time_t s, time_t u)
+void Face::changeFace(Humanoid *o, void *d, time_t s, time_t u)
 {
   if (o->body->face)
     o->body->face->change();

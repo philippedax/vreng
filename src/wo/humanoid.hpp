@@ -18,19 +18,19 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef ANDROID_HPP
-#define ANDROID_HPP
+#ifndef HUMANOID_HPP
+#define HUMANOID_HPP
 
 #include "wobject.hpp"
 
-#define ANDROID_TYPE 40
-#define ANDROID_NAME "Android"
+#define HUMANOID_TYPE 40
+#define HUMANOID_NAME "Humanoid"
 
 
 /**
- * Android class
+ * Humanoid class
  */
-class Android: public WObject {
+class Humanoid: public WObject {
 
  private:
   // VAPS values
@@ -74,8 +74,8 @@ class Android: public WObject {
 
   static void funcs();		///< init funclist.
 
-  Android(char *l);
-  Android();
+  Humanoid(char *l);
+  Humanoid();
   /**< Constructor. */
 
   static WObject * (creator)(char *l);
@@ -127,21 +127,21 @@ private:
   virtual void reset();
 
   // GUI callbacks
-  static void pause_cb(Android *android, void *d, time_t s, time_t u);
-  static void hi_cb(Android *android, void *d, time_t s, time_t u);
-  static void bye_cb(Android *android, void *d, time_t s, time_t u);
-  static void ask_cb(Android *android, void *d, time_t s, time_t u);
-  static void sit_cb(Android *android, void *d, time_t s, time_t u);
-  static void show_cb(Android *android, void *d, time_t s, time_t u);
-  static void clap_cb(Android *android, void *d, time_t s, time_t u);
-  static void nak_cb(Android *android, void *d, time_t s, time_t u);
-  static void test_cb(Android *android, void *d, time_t s, time_t u);
-  static void eyes_cb(Android *android, void *d, time_t s, time_t u);
-  static void joy_cb(Android *android, void *d, time_t s, time_t u);
-  static void sad_cb(Android *android, void *d, time_t s, time_t u);
-  static void surp_cb(Android *android, void *d, time_t s, time_t u);
-  static void jag_cb(Android *android, void *d, time_t s, time_t u);
-  static void reset_cb(Android *android, void *d, time_t s, time_t u);
+  static void pause_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void hi_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void bye_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void ask_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void sit_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void show_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void clap_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void nak_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void test_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void eyes_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void joy_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void sad_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void surp_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void jag_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
+  static void reset_cb(Humanoid *humanoid, void *d, time_t s, time_t u);
 };
 
 #endif

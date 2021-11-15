@@ -19,7 +19,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "android.hpp"
+#include "humanoid.hpp"
 #include "world.hpp"	// current
 #include "body.hpp"	// Body
 #include "face.hpp"	// Face
@@ -31,9 +31,9 @@
 #include "user.hpp"	// localuser
 
 
-const OClass Android::oclass(ANDROID_TYPE, "Android", Android::creator);
+const OClass Humanoid::oclass(HUMANOID_TYPE, "Humanoid", Humanoid::creator);
 
-static uint8_t vaps_offset_port = Android::VAPS_OFFSET_PORT;
+static uint8_t vaps_offset_port = Humanoid::VAPS_OFFSET_PORT;
 
 //local
 static float skin[] = {1, .75, .7}; // skin color
@@ -41,12 +41,12 @@ const char DEF_BODY_URL[] = "/avatars/android/android.parts";
 
 
 /** create from a fileline */
-WObject * Android::creator(char *l)
+WObject * Humanoid::creator(char *l)
 {
-  return new Android(l);
+  return new Humanoid(l);
 }
 
-void Android::defaults()
+void Humanoid::defaults()
 {
   face_url = new char[URL_LEN];
   memset(face_url, 0, URL_LEN);
@@ -58,7 +58,7 @@ void Android::defaults()
   state = INACTIVE;
 }
 
-void Android::parser(char *l)
+void Humanoid::parser(char *l)
 {
   defaults();
   l = tokenize(l);
@@ -73,7 +73,7 @@ void Android::parser(char *l)
   end_while_parse(l);
 }
 
-void Android::makeSolid()
+void Humanoid::makeSolid()
 {
   char s[256];
 
@@ -81,7 +81,7 @@ void Android::makeSolid()
   parse()->parseSolid(s, SEP, this);
 }
 
-void Android::behaviour()
+void Humanoid::behaviour()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
@@ -91,7 +91,7 @@ void Android::behaviour()
   enablePermanentMovement();  // bap/fap frames
 }
 
-void Android::inits()
+void Humanoid::inits()
 {
   body = new Body();
   body->wobject = this;
@@ -114,7 +114,7 @@ void Android::inits()
 }
 
 /* Comes from file */
-Android::Android(char *l)
+Humanoid::Humanoid(char *l)
 {
   parser(l);
   makeSolid();
@@ -124,7 +124,7 @@ Android::Android(char *l)
 }
 
 /* Called from User */
-Android::Android()
+Humanoid::Humanoid()
 {
   defaults();
   makeSolid();
@@ -133,13 +133,13 @@ Android::Android()
   usercontrol = true;
 }
 
-void Android::render()
+void Humanoid::render()
 {
   body->render(pos);
 }
 
 /** init receiver in UDP mode : returns 1 if OK else 0 if fails */
-int Android::initReceiver()
+int Humanoid::initReceiver()
 {
   if (sdudp > 0) disconnectFromBapServer();
 
@@ -171,7 +171,7 @@ int Android::initReceiver()
 }
 
 /** Establishes a TCP connection and send the setup packet */
-int Android::connectToBapServer(int _ipmode)
+int Humanoid::connectToBapServer(int _ipmode)
 {
   char setup_cmd[128];
   struct hostent *hp;
@@ -211,7 +211,7 @@ int Android::connectToBapServer(int _ipmode)
   return sdtcp;
 }
 
-void Android::disconnectFromBapServer()
+void Humanoid::disconnectFromBapServer()
 {
   if (sdtcp > 0) {
     write(sdtcp, "stop", 4); Socket::closeStream(sdtcp);
@@ -224,7 +224,7 @@ void Android::disconnectFromBapServer()
 }
 
 /** get a frame from the vaps server */
-int Android::readBapFrame()
+int Humanoid::readBapFrame()
 {
   fd_set set;
   FD_ZERO(&set);
@@ -257,7 +257,7 @@ int Android::readBapFrame()
 }
 
 /** system of equations handling permanent motion */
-void Android::changePermanent(float lasting)
+void Humanoid::changePermanent(float lasting)
 {
   if (usercontrol && localuser) {
     pos.x = localuser->pos.x;
@@ -291,7 +291,7 @@ void Android::changePermanent(float lasting)
 }
 
 /** send a play command to the vaps server */
-void Android::sendPlayToBapServer(const char *bap_name)
+void Humanoid::sendPlayToBapServer(const char *bap_name)
 {
   char play_cmd[128];
 
@@ -306,7 +306,7 @@ void Android::sendPlayToBapServer(const char *bap_name)
   state = PLAYING;
 }
 
-void Android::quit()
+void Humanoid::quit()
 {
   disconnectFromBapServer();
   if (bap) delete bap;
@@ -314,7 +314,7 @@ void Android::quit()
   if (body) delete body;
 }
 
-void Android::reset()
+void Humanoid::reset()
 {
   disconnectFromBapServer();  // first disconnect
   if (! initReceiver()) return;
@@ -324,74 +324,74 @@ void Android::reset()
 #endif
 }
 
-void Android::reset_cb(Android *android, void *d, time_t s, time_t u)
+void Humanoid::reset_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
 {
-  android->reset();
+  humanoid->reset();
 }
 
-void Android::pause_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("pause.bap"); }
+void Humanoid::pause_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("pause.bap"); }
 
-void Android::hi_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("hi.bap"); }
+void Humanoid::hi_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("hi.bap"); }
 
-void Android::bye_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("bye.bap"); }
+void Humanoid::bye_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("bye.bap"); }
 
-void Android::ask_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("ask.bap"); }
+void Humanoid::ask_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("ask.bap"); }
 
-void Android::sit_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("sit.bap"); }
+void Humanoid::sit_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("sit.bap"); }
 
-void Android::show_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("show.bap"); }
+void Humanoid::show_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("show.bap"); }
 
-void Android::clap_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("clap.bap"); }
+void Humanoid::clap_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("clap.bap"); }
 
-void Android::nak_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("nak.bap"); }
+void Humanoid::nak_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("nak.bap"); }
 
-void Android::test_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("test.bap"); }
+void Humanoid::test_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("test.bap"); }
 
-void Android::eyes_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("eyes.fap"); }
+void Humanoid::eyes_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("eyes.fap"); }
 
-void Android::joy_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("joy.fap"); }
+void Humanoid::joy_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("joy.fap"); }
 
-void Android::sad_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("sad.fap"); }
+void Humanoid::sad_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("sad.fap"); }
 
-void Android::surp_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("surp.fap"); }
+void Humanoid::surp_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("surp.fap"); }
 
-void Android::jag_cb(Android *android, void *d, time_t s, time_t u)
-{ android->sendPlayToBapServer("jag.fap"); }
+void Humanoid::jag_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{ humanoid->sendPlayToBapServer("jag.fap"); }
 
 /** functions initialization */
-void Android::funcs()
+void Humanoid::funcs()
 {
-  setActionFunc(ANDROID_TYPE, 0, _Action pause_cb, "Pause");
-  setActionFunc(ANDROID_TYPE, 1, _Action hi_cb, "Hi");
-  setActionFunc(ANDROID_TYPE, 2, _Action bye_cb, "Bye");
-  setActionFunc(ANDROID_TYPE, 3, _Action ask_cb, "Ask");
-  setActionFunc(ANDROID_TYPE, 4, _Action sit_cb, "Sit");
-  setActionFunc(ANDROID_TYPE, 5, _Action show_cb, "Show");
-  setActionFunc(ANDROID_TYPE, 6, _Action clap_cb, "Clap");
-  setActionFunc(ANDROID_TYPE, 7, _Action nak_cb, "Nak");
-  setActionFunc(ANDROID_TYPE, 8, _Action test_cb, "Test");
-  setActionFunc(ANDROID_TYPE, 9, _Action eyes_cb, "Eyes");
-  setActionFunc(ANDROID_TYPE, 10, _Action joy_cb, "Joy");
-  setActionFunc(ANDROID_TYPE, 11, _Action sad_cb, "Sad");
-  setActionFunc(ANDROID_TYPE, 12, _Action surp_cb, "Surp");
-  setActionFunc(ANDROID_TYPE, 13, _Action jag_cb, "Jag");
-  setActionFunc(ANDROID_TYPE, 14, _Action reset_cb, "Reset");
-  setActionFunc(ANDROID_TYPE, 15, _Action Face::changeFace, "New");
-  setActionFunc(ANDROID_TYPE, 16, _Action Face::changeMoveYes, "Yes");
-  setActionFunc(ANDROID_TYPE, 17, _Action Face::changeMoveNo, "No");
-  setActionFunc(ANDROID_TYPE, 18, _Action Face::changeMoveEyeL, "EyeL");
-  setActionFunc(ANDROID_TYPE, 19, _Action Face::changeMoveMouth, "Mouth");
+  setActionFunc(HUMANOID_TYPE, 0, _Action pause_cb, "Pause");
+  setActionFunc(HUMANOID_TYPE, 1, _Action hi_cb, "Hi");
+  setActionFunc(HUMANOID_TYPE, 2, _Action bye_cb, "Bye");
+  setActionFunc(HUMANOID_TYPE, 3, _Action ask_cb, "Ask");
+  setActionFunc(HUMANOID_TYPE, 4, _Action sit_cb, "Sit");
+  setActionFunc(HUMANOID_TYPE, 5, _Action show_cb, "Show");
+  setActionFunc(HUMANOID_TYPE, 6, _Action clap_cb, "Clap");
+  setActionFunc(HUMANOID_TYPE, 7, _Action nak_cb, "Nak");
+  setActionFunc(HUMANOID_TYPE, 8, _Action test_cb, "Test");
+  setActionFunc(HUMANOID_TYPE, 9, _Action eyes_cb, "Eyes");
+  setActionFunc(HUMANOID_TYPE, 10, _Action joy_cb, "Joy");
+  setActionFunc(HUMANOID_TYPE, 11, _Action sad_cb, "Sad");
+  setActionFunc(HUMANOID_TYPE, 12, _Action surp_cb, "Surp");
+  setActionFunc(HUMANOID_TYPE, 13, _Action jag_cb, "Jag");
+  setActionFunc(HUMANOID_TYPE, 14, _Action reset_cb, "Reset");
+  setActionFunc(HUMANOID_TYPE, 15, _Action Face::changeFace, "New");
+  setActionFunc(HUMANOID_TYPE, 16, _Action Face::changeMoveYes, "Yes");
+  setActionFunc(HUMANOID_TYPE, 17, _Action Face::changeMoveNo, "No");
+  setActionFunc(HUMANOID_TYPE, 18, _Action Face::changeMoveEyeL, "EyeL");
+  setActionFunc(HUMANOID_TYPE, 19, _Action Face::changeMoveMouth, "Mouth");
 }

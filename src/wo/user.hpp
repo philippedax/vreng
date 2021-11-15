@@ -58,7 +58,7 @@ public:
 
   class Human *human;		///< Human avatar
   class Guy *guy;		///< Guy avatar
-  class Android *android;	///< Android avatar
+  class Humanoid *humanoid;	///< Humanoid avatar
   class Head *head;		///< Head avatar
   
 protected:
