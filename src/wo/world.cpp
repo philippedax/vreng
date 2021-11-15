@@ -175,7 +175,7 @@ World * World::worldByUrl(const char *url)
 {
   if (! url) return NULL;	// sandbox world
 
-  char urla[URL_LEN];
+  char urla[URL_LEN] = {0};
   Url::abs(url, urla);
 
   for (World *w = worldList; w ; w = w->next) {
@@ -287,7 +287,7 @@ const char* World::getUrl() const
 
 void World::setUrl(const char* _url)
 {
-  if (url) delete[] url;
+  //if (url) delete[] url;
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
 }
@@ -707,7 +707,8 @@ void World::checkPersist()
 void World::worldReader(void *_url, Http *http)
 {
   char *url = (char *) _url;
-  trace(DBG_WO, "worldReader %s:", url);
+  url = World::current()->url;	// url is corrupted HACK!!!
+  //error("worldReader: %s %s", _url, url);
   if (! http) {
     error("can't download %s, check access to the remote http server", url);
   }
@@ -724,7 +725,7 @@ void World::worldReader(void *_url, Http *http)
 
   struct stat bufstat;
   if (stat(cachename, &bufstat) < 0) {	// is not in the cache
-    error("file %s not in cache url=%s", cachename, url);
+    //error("worldReader: file %s not in cache url=%s", cachename, url);
     if ((fpcache = File::openFile(cachename, "w")) == NULL) {
       error("worldReader: can't create file %s from url %s", cachename, url);
     }
@@ -771,11 +772,14 @@ void World::init(const char *url)
   World *world = new World();
 
   world->setState(LOADING);
+  world->setUrl(url);
+  world->setName(url);
   world->setChanAndJoin(::g.channel);      // join initial channel
   world->setName(Universe::current()->url);
   Channel::getGroup(world->getChan(), Universe::current()->group);
   Universe::current()->port = Channel::getPort(world->getChan());
 
+  world->guip = ::g.gui.addWorld(world, NEW);
   world->initGrid();
   clearLists();
   initNames();
@@ -785,9 +789,6 @@ void World::init(const char *url)
     ::g.env.cleanCacheByExt("vre");	// remove *.vre in the cache
   }
 
-  world->setUrl(url);
-  world->setName(url);
-  world->guip = ::g.gui.addWorld(world, NEW);
   world->clock = new Clock();
   world->bgcolor = new Bgcolor();
 
@@ -802,8 +803,9 @@ void World::init(const char *url)
   // Download initial world (Rendezvous.vre by default)
   //
   trace(DBG_WO, "download initial world");
+  //error("download initial world url=%s", url);
   //world->universe->startWheel();
-  Http::httpOpen(world->getUrl(), worldReader, (void *)url, 0);
+  Http::httpOpen(url, worldReader, (void *)url, 0);
   //world->universe->stopWheel();
   endprogression();
 
