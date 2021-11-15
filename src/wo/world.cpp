@@ -714,16 +714,17 @@ void World::worldReader(void *_url, Http *http)
 
   FILE *fpcache = NULL;
   int len = 0;
-  char cachename[PATH_LEN] = {0};
+  char *cachename = new char[PATH_LEN];
   char buf[BUFSIZ];
 
+  *cachename = 0;
   Cache::setCachePath(url, cachename);
 
   Parse *parser = new Parse();	// create the parser instance
 
   struct stat bufstat;
   if (stat(cachename, &bufstat) < 0) {	// is not in the cache
-    //error("file %s not in cache", cachename);
+    error("file %s not in cache url=%s", cachename, url);
     if ((fpcache = File::openFile(cachename, "w")) == NULL) {
       error("worldReader: can't create file %s from url %s", cachename, url);
     }
@@ -745,11 +746,11 @@ httpread:
   }
   else {        // cachename exists in the cache
     if ((fpcache = File::openFile(cachename, "r")) == NULL) {
-      goto httpread;			// download it
+      goto httpread;		// if can't open download it by http
     }
     while ((len = fread(buf, 1, sizeof(buf), fpcache)) > 0) {
       if (parser->parseVreFile(buf, len) <= 0) {
-        break;		// eof or parsing error
+        break;			// eof or parsing error
       }
     }
   }
@@ -757,6 +758,7 @@ httpread:
   if (fpcache) File::closeFile(fpcache);
 
   trace(DBG_WO, "worldReader: %s downloaded", url);
+  delete[] cachename;
   return;
 }
 
@@ -797,7 +799,7 @@ void World::init(const char *url)
   Universe::current()->localuser = user;	// keep user in this universe
 
   //
-  // Download initial world (Rendezvous.vre)
+  // Download initial world (Rendezvous.vre by default)
   //
   trace(DBG_WO, "download initial world");
   //world->universe->startWheel();

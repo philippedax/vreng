@@ -34,7 +34,7 @@
 int Cache::setCachePath(const char *url, char *cachepath)
 {
   if (! url) return 0;
-  const char *pfile = strrchr(url, '/');
+  const char *pfile = strrchr(url, '/');	// only the file
 
   if (pfile == NULL) {
     *cachepath = '\0';
@@ -66,7 +66,8 @@ char * Cache::getFilePath(const char *url)
 /* Opens an url and writes it into the cache and returns le file opened (fp) */
 FILE * Cache::openCache(const char *url, Http *http)
 {
-  char cachepath[PATH_LEN] = {0};
+  char *cachepath = new char[PATH_LEN];
+  *cachepath = 0;
 
   if (! http) return NULL;
   if (! setCachePath(url, cachepath)) return NULL;
@@ -75,6 +76,7 @@ FILE * Cache::openCache(const char *url, Http *http)
   if ((fpcache = File::openFile(cachepath, "r")) == NULL) {
     if ((fpcache = File::openFile(cachepath, "w")) == NULL) {
       error("openCache: can't create %s", cachepath);
+      delete[] cachepath;
       return NULL;
     }
 
@@ -98,21 +100,25 @@ FILE * Cache::openCache(const char *url, Http *http)
   // and opens it for reading
   fpcache = File::openFile(cachepath, "r");
 
+  delete[] cachepath;
   return fpcache;  // file is opened
 }
 
 /* Checks if file is in the cache */
 bool Cache::inCache(const char *url)
 {
-  char cachepath[PATH_LEN] = {0};
+  char *cachepath = new char[PATH_LEN];
+  *cachepath = 0;
 
   if (! setCachePath(url, cachepath)) {
+    delete[] cachepath;
     return false;
   }
 
   struct stat bufstat;
   if (stat(cachepath, &bufstat) == 0) {
     if (bufstat.st_size != 0) {
+      delete[] cachepath;
       return true;	// file is in the cache
     }
     else {
@@ -120,6 +126,7 @@ bool Cache::inCache(const char *url)
       unlink(cachepath); // remove empty file
     }
   }
+  delete[] cachepath;
   return false;
 }
 

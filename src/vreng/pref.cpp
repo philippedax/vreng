@@ -379,7 +379,7 @@ void Pref::parse(int argc, char **argv)
       ::g.user = strdup(pwd->pw_name);	// login name
     }
     else {
-      ::g.user = strdup("unknown");
+      ::g.user = strdup("nobody");
     }
   }
 
