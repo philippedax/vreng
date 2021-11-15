@@ -22,14 +22,14 @@
 <!-- all possible objects we want at least one element -->
 <!-- SCENE -->
 <!ELEMENT scene (
-		accessory | android | animator | aoi | area |
+		accessory | animator | aoi | area |
 		bgcolor | bird | board | book | bumper | button | 
 		carousel | cauldron | clip | clock | cloud | cloth |
 		doc | door | download | dress | drone |
 		entry | escalator |
 		fire | firework | flag | fountain | fractal |
 		gate | ground | guide | guy | 
-		hairs | halo | hat | head | host | human
+		hairs | halo | hat | head | host | human | humanoid
 		lift | light | local |
 		mech | mirage | mirror | model | movie | music |
 		particle | plane |
@@ -54,15 +54,6 @@
 <!ATTLIST accessory	shiftx	NMTOKEN "0">
 <!ATTLIST accessory	shifty	NMTOKEN "0">
 <!ATTLIST accessory	shiftz	NMTOKEN "0">
-
-<!ELEMENT android	EMPTY>
-<!ATTLIST android	pos	NMTOKENS #REQUIRED>
-<!ATTLIST android	name	NMTOKEN #IMPLIED>
-<!ATTLIST android	descr	NMTOKENS #IMPLIED>
-<!ATTLIST android	body	CDATA #REQUIRED>
-<!ATTLIST android	face	CDATA #IMPLIED>
-<!ATTLIST android	color	NMTOKENS #IMPLIED>
-<!ATTLIST android	server	NMTOKEN #IMPLIED>
 
 <!ELEMENT animator	(solid+)>
 <!ATTLIST animator	pos	NMTOKENS #REQUIRED>
@@ -323,6 +314,15 @@
 <!ATTLIST human		name	NMTOKEN #IMPLIED>
 <!ATTLIST human		descr	NMTOKENS #IMPLIED>
 <!ATTLIST human		skin	NMTOKEN #IMPLIED>
+
+<!ELEMENT humanoid	EMPTY>
+<!ATTLIST humanoid	pos	NMTOKENS #REQUIRED>
+<!ATTLIST humanoid	name	NMTOKEN #IMPLIED>
+<!ATTLIST humanoid	descr	NMTOKENS #IMPLIED>
+<!ATTLIST humanoid	body	CDATA #REQUIRED>
+<!ATTLIST humanoid	face	CDATA #IMPLIED>
+<!ATTLIST humanoid	color	NMTOKENS #IMPLIED>
+<!ATTLIST humanoid	server	NMTOKEN #IMPLIED>
 
 <!ELEMENT lift		(solid+)>
 <!ATTLIST lift		pos	NMTOKENS #REQUIRED>
