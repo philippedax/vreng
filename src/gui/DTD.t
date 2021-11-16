@@ -23,14 +23,14 @@ const char DTD[] = "\
 <!-- all possible objects we want at least one element -->\n\
 <!-- SCENE -->\n\
 <!ELEMENT scene (\n\
-		accessory | android | animator | aoi | area |\n\
+		accessory | animator | aoi | area |\n\
 		bgcolor | bird | board | book | bumper | button | \n\
 		carousel | cauldron | clip | clock | cloud | cloth |\n\
 		doc | door | download | dress | drone |\n\
 		entry | escalator |\n\
 		fire | firework | flag | fountain | fractal |\n\
 		gate | ground | guide | guy | \n\
-		hairs | halo | hat | head | host | human\n\
+		hairs | halo | hat | head | host | human | humanoid\n\
 		lift | light | local |\n\
 		mech | mirage | mirror | model | movie | music |\n\
 		particle | plane |\n\
@@ -55,15 +55,6 @@ const char DTD[] = "\
 <!ATTLIST accessory	shiftx	NMTOKEN \"0\">\n\
 <!ATTLIST accessory	shifty	NMTOKEN \"0\">\n\
 <!ATTLIST accessory	shiftz	NMTOKEN \"0\">\n\
-\n\
-<!ELEMENT android	EMPTY>\n\
-<!ATTLIST android	pos	NMTOKENS #REQUIRED>\n\
-<!ATTLIST android	name	NMTOKEN #IMPLIED>\n\
-<!ATTLIST android	descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST android	body	CDATA #REQUIRED>\n\
-<!ATTLIST android	face	CDATA #IMPLIED>\n\
-<!ATTLIST android	color	NMTOKENS #IMPLIED>\n\
-<!ATTLIST android	server	NMTOKEN #IMPLIED>\n\
 \n\
 <!ELEMENT animator	(solid+)>\n\
 <!ATTLIST animator	pos	NMTOKENS #REQUIRED>\n\
@@ -324,6 +315,15 @@ const char DTD[] = "\
 <!ATTLIST human		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST human		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST human		skin	NMTOKEN #IMPLIED>\n\
+\n\
+<!ELEMENT humanoid	EMPTY>\n\
+<!ATTLIST humanoid	pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST humanoid	name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST humanoid	descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST humanoid	body	CDATA #REQUIRED>\n\
+<!ATTLIST humanoid	face	CDATA #IMPLIED>\n\
+<!ATTLIST humanoid	color	NMTOKENS #IMPLIED>\n\
+<!ATTLIST humanoid	server	NMTOKEN #IMPLIED>\n\
 \n\
 <!ELEMENT lift		(solid+)>\n\
 <!ATTLIST lift		pos	NMTOKENS #REQUIRED>\n\

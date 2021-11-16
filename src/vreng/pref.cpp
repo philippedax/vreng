@@ -35,7 +35,7 @@ using namespace std;
 static const char HELPSTRING[] = "\
 Usage: vreng [options]\n\
 where options are:\n\
--a, --avatar model		Avatar model [guy | android | human | box]\n\
+-a, --avatar model		Avatar model [guy | humanoid | human | box]\n\
 -b, --bbox	 		Draw bounding-boxes\n\
 -d, --debug mask 		Debug mask [1,3,7,15,31,63, ...]\n\
 -f, --frames rate		Max frames per second [1..255]\n\

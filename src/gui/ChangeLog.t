@@ -16,6 +16,8 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.2\n\
 -- 9.3.1\n\
+	- fixed bug http bad request in url.cpp\n\
+	(2021/11/13, Philippe Dax)\n\
 	- added new object #86 : drone\n\
 	(2021/08/18, Philippe Dax)\n\
 	- added new object #85 : bird\n\

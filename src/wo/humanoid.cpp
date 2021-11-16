@@ -37,7 +37,7 @@ static uint8_t vaps_offset_port = Humanoid::VAPS_OFFSET_PORT;
 
 //local
 static float skin[] = {1, .75, .7}; // skin color
-const char DEF_BODY_URL[] = "/avatars/android/android.parts";
+const char DEF_BODY_URL[] = "/avatars/humanoid/humanoid.parts";
 
 
 /** create from a fileline */
