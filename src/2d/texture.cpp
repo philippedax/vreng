@@ -107,7 +107,7 @@ void Texture::update()
         }
       }
       // once the texture resized we can delete its container img
-#if 0 //dax
+#if 1 //dax
       if ((*it)->loaded) {
         if ((*it)->img) delete (*it)->img; // opengl has its own copy of pixels
         (*it)->img = NULL;
