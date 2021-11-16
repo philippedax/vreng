@@ -20,8 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "body.hpp"
-#include "face.hpp"
-#include "humanoid.hpp"	// Humanoid
+#include "face.hpp"	// Face::SCALE
 #include "http.hpp"	// Http
 #include "texture.hpp"	// open
 #include "format.hpp"	// getModelByUrl
@@ -308,7 +307,9 @@ void Chest::twist(GLfloat a)
 
 /** Body */
 Body::Body()
-{ init(); }
+{
+  init();
+}
 
 Body::Body(const char *_url)
 {
@@ -425,6 +426,7 @@ char * Body::getTok(char *l, int *tok)
 
 void Body::load(const char *_url)
 {
+  error("Body: url=%s", _url);
   url = new char[strlen(_url)];
   strcpy(url, _url);
   Http::httpOpen(url, httpReader, this, 0);
@@ -442,7 +444,10 @@ void Body::httpReader(void *_body, Http *http)
   if (! body) return;
 
   FILE *f = Cache::openCache(body->getUrl(), http);
-  if (! f) { error("Body: can't open %s", body->getUrl()); return; }
+  if (! f) {
+    error("Body: can't open %s", body->getUrl());
+    return;
+  }
   body->loadBodyParts(f);
 }
 
