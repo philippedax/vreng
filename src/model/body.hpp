@@ -583,7 +583,7 @@ protected:
 
   virtual char * getTok(char *l, int *tok);
   virtual char * skipEqual(char *l);
-  virtual const char * getUrl() const;
+  virtual char * getUrl() const;
 
 };
 

@@ -67,6 +67,7 @@ char * Cache::getFilePath(const char *url)
 FILE * Cache::openCache(const char *url, Http *http)
 {
   char *cachepath = new char[PATH_LEN];
+  memset(cachepath, 0, PATH_LEN);
   *cachepath = 0;
 
   if (! http) return NULL;

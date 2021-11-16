@@ -322,6 +322,7 @@ void Body::init()
 {
   drawparts = 0;
   bodyparts = NULL;
+  url = NULL;
   face = NULL;
   jp.x = NULL;
   jp.y = NULL;
@@ -426,15 +427,15 @@ char * Body::getTok(char *l, int *tok)
 
 void Body::load(const char *_url)
 {
-  error("Body: url=%s", _url);
-  url = new char[strlen(_url)];
+  //error("Body load: url=%s", _url);
+  url = new char[URL_LEN];
   strcpy(url, _url);
   Http::httpOpen(url, httpReader, this, 0);
 }
 
-const char * Body::getUrl() const
+char * Body::getUrl() const
 {
-  return (const char *) url;
+  return (char *) url;
 }
 
 /** load joint points (static) */
@@ -442,10 +443,14 @@ void Body::httpReader(void *_body, Http *http)
 {
   Body *body = (Body *) _body;
   if (! body) return;
+  char *u = new char[URL_LEN];
+  *u = 0;
+  strcpy(u, body->getUrl());
+  //error("BodyhttpReader: u=%s", u);
 
-  FILE *f = Cache::openCache(body->getUrl(), http);
+  FILE *f = Cache::openCache(u, http);
   if (! f) {
-    error("Body: can't open %s", body->getUrl());
+    error("Body: can't open %s", u);
     return;
   }
   body->loadBodyParts(f);
