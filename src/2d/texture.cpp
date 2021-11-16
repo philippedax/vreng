@@ -29,6 +29,7 @@
 #include "pref.hpp"	// quality3D
 
 #include <list>
+
 using namespace std;
 
 
@@ -107,12 +108,10 @@ void Texture::update()
         }
       }
       // once the texture resized we can delete its container img
-#if 1 //dax
       if ((*it)->loaded) {
-        if ((*it)->img) delete (*it)->img; // opengl has its own copy of pixels
+        delete (*it)->img;	// sometimes opengl crashes FIXME
         (*it)->img = NULL;
       }
-#endif
     }
   }
   //-------------- unlock
@@ -138,7 +137,6 @@ void Texture::httpReader(void *_tex, Http *_http)
 
   // get the loader type by mime type or file extension
   uint8_t loader = Format::getLoaderByMime(tex->mime);
-
   switch (loader) {
   case IMG_NULL:
     loader = Format::getLoaderByUrl(tex->url);
@@ -147,24 +145,24 @@ void Texture::httpReader(void *_tex, Http *_http)
 
   // call the appropriated loader
   switch (loader) {
-  case IMG_GIF: img = Img::loadGIF(tex, readImg); break;
-  case IMG_PNG: img = Img::loadPNG(tex, readImg); break;
-  case IMG_JPG: img = Img::loadJPG(tex, readImg); break;
-  case IMG_PPM: img = Img::loadPPM(tex, readImg); break;
-  case IMG_PGM: img = Img::loadPGM(tex, readImg); break;
-  case IMG_BMP: img = Img::loadBMP(tex, readImg); break;
-  case IMG_TGA: img = Img::loadTGA(tex, readImg); break;
-  case IMG_SGI: img = Img::loadSGI(tex, readImg); break;
-  case IMG_PCX: img = Img::loadPCX(tex, readImg); break;
-  case IMG_DDS: img = Img::loadDDS(tex, readImg); break;
-  case IMG_TIF: img = Img::loadTIF(tex, readImg); break;
-  case IMG_XPM: img = Img::loadXPM(tex, readImg); break;
-  case IMG_XBM: img = Img::loadXBM(tex, readImg); break;
-  case IMG_PSD: img = Img::loadPSD(tex, readImg); break;
-  case IMG_NULL: return;
-  default:
-    warning("texture: unrecognized image format");
-    return;
+    case IMG_GIF: img = Img::loadGIF(tex, readImg); break;
+    case IMG_PNG: img = Img::loadPNG(tex, readImg); break;
+    case IMG_JPG: img = Img::loadJPG(tex, readImg); break;
+    case IMG_PPM: img = Img::loadPPM(tex, readImg); break;
+    case IMG_PGM: img = Img::loadPGM(tex, readImg); break;
+    case IMG_BMP: img = Img::loadBMP(tex, readImg); break;
+    case IMG_TGA: img = Img::loadTGA(tex, readImg); break;
+    case IMG_SGI: img = Img::loadSGI(tex, readImg); break;
+    case IMG_PCX: img = Img::loadPCX(tex, readImg); break;
+    case IMG_DDS: img = Img::loadDDS(tex, readImg); break;
+    case IMG_TIF: img = Img::loadTIF(tex, readImg); break;
+    case IMG_XPM: img = Img::loadXPM(tex, readImg); break;
+    case IMG_XBM: img = Img::loadXBM(tex, readImg); break;
+    case IMG_PSD: img = Img::loadPSD(tex, readImg); break;
+    case IMG_NULL: return;
+    default:
+      warning("texture: unrecognized image format");
+      return;
   }
 
   lockMutex(tex_pmutex);
@@ -177,8 +175,6 @@ void Texture::httpReader(void *_tex, Http *_http)
 
 Texture::Texture(const char *url)
 {
-  //dax if (! Url::check(url)) return;
-
   http = NULL;
   img = NULL;
   loaded = false;
