@@ -500,6 +500,7 @@ private:
 // how should the animation info fit in?
 // per part, or globally?
 class bvhPart {
+
 public: 
   enum channelTypes {Xpos,Ypos,Zpos,Zrot,Xrot,Yrot};
   
@@ -567,7 +568,7 @@ public:
 
 private:
   virtual void download(const char *url);
-  virtual const char * getUrl() const;
+  virtual char * getUrl() const;
 };
 
 

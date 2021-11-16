@@ -34,15 +34,9 @@
 #include "cache.hpp"	// openCache
 #include "file.hpp"	// closeFile
 #include "obj.hpp"	// class Obj
-//dax #include "vector3.hpp"	// Vector3
 
 using namespace std;
 
-
-bvhPart::bvhPart()
-{
-  objPart = NULL;
-}
 
 Bvh::Bvh(const char *url)
 {
@@ -53,6 +47,11 @@ Bvh::Bvh(const char *url)
   init(bvhfile);
 }
 
+bvhPart::bvhPart()
+{
+  objPart = NULL;
+}
+
 void Bvh::download(const char *_url)
 {
   url = new char[strlen(_url) + 1];
@@ -60,9 +59,9 @@ void Bvh::download(const char *_url)
   Http::httpOpen(url, httpReader, this, 0);
 }
 
-const char * Bvh::getUrl() const
+char * Bvh::getUrl() const
 {
-  return (const char *) url;
+  return (char *) url;
 }
 
 void Bvh::httpReader(void *_bvh, Http *http)
@@ -343,8 +342,8 @@ void Bvh::init(string bvhFile)
 
   vector<string> lines(bvhIt,sentinel);
   
-  //  for_each(lines.begin(),lines.end(),&bvh::process);
-  for (uint32_t i=0; i< lines.size(); i++) {
+  // for_each(lines.begin(),lines.end(),&bvh::process);
+  for (uint32_t i=0; i < lines.size(); i++) {
     try { process(lines[i]); }
     catch (fileNotFound) { throw fileNotFound(); return; }
   }
