@@ -545,7 +545,7 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
 Http::Http()
 {
   new_http++;
-  fd = -1;
+  fd = -1;		// socket descriptor
   len = off = 0;
   url = new char[URL_LEN];
   buf = new char[HTTP_BUFSIZ];
@@ -585,7 +585,10 @@ int Http::httpRead(char *abuf, int maxl)
       error("%s (%d) l=%d maxl=%d off=%d len=%d", strerror(errno), errno, l, maxl, off, len);
       return r;
     }
-    if (r == 0)	break;  // eof
+    //dax if (r == 0)	break;  // eof
+    if (r == 0)	{
+      return 0;  // eof
+    }
     l += r;
     maxl -= r;
   }
@@ -595,10 +598,18 @@ int Http::httpRead(char *abuf, int maxl)
 static uint8_t htbuf[BUFSIZ];
 static int32_t htbuf_pos = 0;
 static int32_t htbuf_len = 0;
+static bool    htbuf_eof = false;
 
 void Http::reset()
 {
   htbuf_pos = htbuf_len = 0;
+  htbuf_eof = false;
+}
+
+/** returns if eof */
+bool Http::heof()
+{
+  return htbuf_eof;
 }
 
 /** returns current position */
@@ -613,10 +624,12 @@ int Http::getChar()
   if (htbuf_pos >= htbuf_len) {	// eob
     htbuf_pos = 0;
     if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
+      htbuf_eof = true;
       return -1;	// eof
     }
     if (htbuf_len < 0) {
       error("getChar: len=%d", htbuf_len);
+      htbuf_eof = true;
       return -2;	// err
     }
   }
@@ -628,7 +641,10 @@ uint8_t Http::read_char()
 {
   if (htbuf_pos >= htbuf_len) {
     htbuf_pos = 0;
-    htbuf_len = httpRead((char *) htbuf, sizeof(htbuf));
+    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
+      htbuf_eof = true;
+      return -1;	// eof
+    }
   }
   return htbuf[htbuf_pos++];
 }
@@ -639,22 +655,34 @@ int32_t Http::read_int()
   int32_t val;
 
   if (htbuf_pos >= htbuf_len) {
-    htbuf_len = httpRead((char *) htbuf, sizeof(htbuf));
+    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
+      htbuf_eof = true;
+      return -1;	// eof
+    }
     htbuf_pos = 0;
   }
   val = htbuf[htbuf_pos++];
   if (htbuf_pos >= htbuf_len) {
-    htbuf_len = httpRead((char *) htbuf, sizeof(htbuf));
+    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
+      htbuf_eof = true;
+      return -1;	// eof
+    }
     htbuf_pos = 0;
   }
   val |= (htbuf[htbuf_pos++] << 8);
   if (htbuf_pos >= htbuf_len) {
-    htbuf_len = httpRead((char *) htbuf, sizeof(htbuf));
+    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
+      htbuf_eof = true;
+      return -1;	// eof
+    }
     htbuf_pos = 0;
   }
   val |= (htbuf[htbuf_pos++] << 16);
   if (htbuf_pos >= htbuf_len) {
-    htbuf_len = httpRead((char *) htbuf, sizeof(htbuf));
+    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
+      htbuf_eof = true;
+      return -1;	// eof
+    }
     htbuf_pos = 0;
   }
   val |= (htbuf[htbuf_pos++] << 24);
@@ -737,8 +765,9 @@ bool isEmptyLine(char *line)
 bool Http::getLine(char *line)
 {
   do {
-    if (! nextLine(line))
+    if (! nextLine(line)) {
       return false;
+    }
   } while (isEmptyLine(line)) ;
   return true;
 }
@@ -751,6 +780,7 @@ int Http::fread(char *pbuf, int size, int nitems)
   while (length > 0) {
     if (htbuf_pos >= htbuf_len) {
       if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) < 0) {
+        htbuf_eof = true;
         return (nitems - (length / size));
       }
       htbuf_pos = 0;
@@ -777,7 +807,12 @@ uint32_t Http::read_buf(char *buffer, int maxlen)
   else {
     memcpy(buffer, htbuf, siz);
     htbuf_pos = htbuf_len;
-    int size = siz + httpRead((char *) buffer+siz, maxlen-siz);
+    int r = httpRead((char *) buffer+siz, maxlen-siz);
+    if (r == 0) {
+      htbuf_eof = true;
+      return -1;	// eof
+    }
+    int size = siz + r;
     return (uint32_t) size;
   }
 }

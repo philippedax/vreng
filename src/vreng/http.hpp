@@ -132,6 +132,9 @@ class Http {
   virtual int httpRead(char *buf, int size);
   /**< Reads a block */
 
+  virtual bool heof();
+  /**< Returns if eof */
+
   virtual int tell();
   /**< Returns current position */
 

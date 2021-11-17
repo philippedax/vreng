@@ -81,12 +81,15 @@ FILE * Cache::openCache(const char *url, Http *http)
       return NULL;
     }
 
-    // writes the file into the cache
-    int c;
-    while ((c = http->getChar()) >= 0) {
-      putc(c, fpcache);
+    // writes the file into the cache FIXED!!!
+    char buf[1024];
+    while (! http->heof()) {
+      http->read_buf(buf, 1024);
+      fwrite(buf, 1024, 1, fpcache);
     }
+    fflush(fpcache);
     File::closeFile(fpcache);
+
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
       if (bufstat.st_size == 0) {
