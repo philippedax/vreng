@@ -14,7 +14,13 @@ The rules for this file:\n\
 ------------------------------------------\n\
 \n\
 ++ 9\n\
-== 9.2\n\
+-- 9.3\n\
+-- 9.3.2\n\
+	- fixed writing binary files into the cache in cache.cpp\n\
+	(2021/11/17, Philippe Dax)\n\
+	- renamed android to humanoid object\n\
+	(2021/11/15, Philippe Dax)\n\
+\n\
 -- 9.3.1\n\
 	- fixed bug http bad request in url.cpp\n\
 	(2021/11/13, Philippe Dax)\n\
@@ -32,6 +38,7 @@ The rules for this file:\n\
 	- moved fonts into src/ubit\n\
 	(2021/06/04, Philippe Dax)\n\
 \n\
+== 9.2\n\
 -- 9.2.0\n\
 	- added new object #84 : human\n\
 	(2021/05/24, Philippe Dax)\n\
