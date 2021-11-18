@@ -82,10 +82,10 @@ FILE * Cache::openCache(const char *url, Http *http)
     }
 
     // writes the file into the cache FIXED!!!
-    char buf[1024];
+    char buf[4];
     while (! http->heof()) {
-      http->read_buf(buf, 1024);
-      fwrite(buf, 1024, 1, fpcache);
+      http->read_buf(buf, 4);
+      fwrite(buf, 4, 1, fpcache);
     }
     fflush(fpcache);
     File::closeFile(fpcache);
