@@ -8,6 +8,6 @@
 #
 VRENG_HOME=/Users/dax/vreng
 
-PATH=$VRENG_HOME/bin:/usr/local/bin:$PATH export PATH
+PATH=$VRENG_HOME/bin:$PATH export PATH
 
 vjs &
