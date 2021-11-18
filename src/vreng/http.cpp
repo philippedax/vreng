@@ -585,9 +585,9 @@ int Http::httpRead(char *abuf, int maxl)
       error("%s (%d) l=%d maxl=%d off=%d len=%d", strerror(errno), errno, l, maxl, off, len);
       return r;
     }
-    //dax if (r == 0)	break;  // eof
+    //dax if (r == 0)	break;  // http eof
     if (r == 0)	{
-      return 0;  // eof
+      return 0;  // http eof
     }
     l += r;
     maxl -= r;
@@ -595,58 +595,58 @@ int Http::httpRead(char *abuf, int maxl)
   return l;
 }
 
-static uint8_t htbuf[BUFSIZ];
-static int32_t htbuf_pos = 0;
-static int32_t htbuf_len = 0;
-static bool    htbuf_eof = false;
+static uint8_t ht_buf[BUFSIZ];
+static int32_t ht_pos = 0;
+static int32_t ht_len = 0;
+static bool    ht_eof = false;
 
 void Http::reset()
 {
-  htbuf_pos = htbuf_len = 0;
-  htbuf_eof = false;
+  ht_pos = ht_len = 0;
+  ht_eof = false;
 }
 
-/** returns if eof */
+/** returns if http eof */
 bool Http::heof()
 {
-  return htbuf_eof;
+  return ht_eof;
 }
 
 /** returns current position */
 int Http::tell()
 {
-  return htbuf_pos;
+  return ht_pos;
 }
 
 /** returns a byte or an error */
 int Http::getChar()
 {
-  if (htbuf_pos >= htbuf_len) {	// eob
-    htbuf_pos = 0;
-    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
-      htbuf_eof = true;
-      return -1;	// eof
+  if (ht_pos >= ht_len) {	// eob
+    ht_pos = 0;
+    if ((ht_len = httpRead((char *) ht_buf, sizeof(ht_buf))) == 0) {
+      ht_eof = true;
+      return -1;	// http eof
     }
-    if (htbuf_len < 0) {
-      error("getChar: len=%d", htbuf_len);
-      htbuf_eof = true;
+    if (ht_len < 0) {
+      error("getChar: len=%d", ht_len);
+      ht_eof = true;
       return -2;	// err
     }
   }
-  return htbuf[htbuf_pos++];
+  return ht_buf[ht_pos++];
 }
 
 /** returns a byte */
 uint8_t Http::read_char()
 {
-  if (htbuf_pos >= htbuf_len) {
-    htbuf_pos = 0;
-    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
-      htbuf_eof = true;
-      return -1;	// eof
+  if (ht_pos >= ht_len) {
+    ht_pos = 0;
+    if ((ht_len = httpRead((char *) ht_buf, sizeof(ht_buf))) == 0) {
+      ht_eof = true;
+      return -1;	// http eof
     }
   }
-  return htbuf[htbuf_pos++];
+  return ht_buf[ht_pos++];
 }
 
 /** returns an int */
@@ -654,38 +654,38 @@ int32_t Http::read_int()
 {
   int32_t val;
 
-  if (htbuf_pos >= htbuf_len) {
-    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
-      htbuf_eof = true;
-      return -1;	// eof
+  if (ht_pos >= ht_len) {
+    if ((ht_len = httpRead((char *) ht_buf, sizeof(ht_buf))) == 0) {
+      ht_eof = true;
+      return -1;	// http eof
     }
-    htbuf_pos = 0;
+    ht_pos = 0;
   }
-  val = htbuf[htbuf_pos++];
-  if (htbuf_pos >= htbuf_len) {
-    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
-      htbuf_eof = true;
-      return -1;	// eof
+  val = ht_buf[ht_pos++];
+  if (ht_pos >= ht_len) {
+    if ((ht_len = httpRead((char *) ht_buf, sizeof(ht_buf))) == 0) {
+      ht_eof = true;
+      return -1;	// http eof
     }
-    htbuf_pos = 0;
+    ht_pos = 0;
   }
-  val |= (htbuf[htbuf_pos++] << 8);
-  if (htbuf_pos >= htbuf_len) {
-    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
-      htbuf_eof = true;
-      return -1;	// eof
+  val |= (ht_buf[ht_pos++] << 8);
+  if (ht_pos >= ht_len) {
+    if ((ht_len = httpRead((char *) ht_buf, sizeof(ht_buf))) == 0) {
+      ht_eof = true;
+      return -1;	// http eof
     }
-    htbuf_pos = 0;
+    ht_pos = 0;
   }
-  val |= (htbuf[htbuf_pos++] << 16);
-  if (htbuf_pos >= htbuf_len) {
-    if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
-      htbuf_eof = true;
-      return -1;	// eof
+  val |= (ht_buf[ht_pos++] << 16);
+  if (ht_pos >= ht_len) {
+    if ((ht_len = httpRead((char *) ht_buf, sizeof(ht_buf))) == 0) {
+      ht_eof = true;
+      return -1;	// http eof
     }
-    htbuf_pos = 0;
+    ht_pos = 0;
   }
-  val |= (htbuf[htbuf_pos++] << 24);
+  val |= (ht_buf[ht_pos++] << 24);
   return val;
 }
 
@@ -719,14 +719,16 @@ int Http::read_string(char *str, int maxlen)
 
   do {
     c = read_char();
-    if (cnt < maxlen)
+    if (cnt < maxlen) {
       str[cnt] = c;
-    else
+    }
+    else {
       str[maxlen-1] = '\0';
+    }
     cnt++;
   } while (c != 0) ;
   /* if length of string (including \0) is odded skip another byte */
-  if (cnt%2) {
+  if (cnt % 2) {
     read_char();
     cnt++;
   }
@@ -742,7 +744,7 @@ bool Http::nextLine(char *line)
     int c = getChar();
 
     if (c == '\n') break;  // eol
-    if (c < 0) { // eof
+    if (c < 0) { // http eof
       line[i] = '\0';
       return false;
     }
@@ -755,9 +757,12 @@ bool Http::nextLine(char *line)
 static
 bool isEmptyLine(char *line)
 {
-  if (*line == '#') return true;  // commented line
-  if (strlen(line) == 0) return true;  // empty line
-  if (isprint(*line)) return false;
+  if (*line == '#')
+    return true;	// commented line
+  if (strlen(line) == 0)
+    return true;	// empty line
+  if (isprint(*line))
+    return false;	// non empty
   return true;
 }
 
@@ -775,21 +780,21 @@ bool Http::getLine(char *line)
 /** returns an item */
 int Http::fread(char *pbuf, int size, int nitems)
 {
-  int toread, length = nitems * size;
+  int toread, len = nitems * size;
 
-  while (length > 0) {
-    if (htbuf_pos >= htbuf_len) {
-      if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) < 0) {
-        htbuf_eof = true;
-        return (nitems - (length / size));
+  while (len > 0) {
+    if (ht_pos >= ht_len) {
+      if ((ht_len = httpRead((char *) ht_buf, sizeof(ht_buf))) < 0) {
+        ht_eof = true;
+        return (nitems - (len / size));
       }
-      htbuf_pos = 0;
+      ht_pos = 0;
     }
-    toread = (length < (htbuf_len-htbuf_pos)) ? length : (htbuf_len-htbuf_pos);
-    memcpy(pbuf, htbuf + htbuf_pos, toread);
-    htbuf_pos += toread;
+    toread = (len < (ht_len-ht_pos)) ? len : (ht_len-ht_pos);
+    memcpy(pbuf, ht_buf + ht_pos, toread);
+    ht_pos += toread;
     pbuf += toread;
-    length -= toread;
+    len -= toread;
   }
   return nitems;
 }
@@ -797,20 +802,20 @@ int Http::fread(char *pbuf, int size, int nitems)
 /** returns a block and its size */
 uint32_t Http::read_buf(char *buffer, int maxlen)
 {
-  int32_t siz = htbuf_len - htbuf_pos;
+  int32_t siz = ht_len - ht_pos;
 
   if (siz >= maxlen) {
-    memcpy(buffer, htbuf, maxlen);
-    htbuf_pos += maxlen;
+    memcpy(buffer, ht_buf, maxlen);
+    ht_pos += maxlen;
     return (uint32_t) maxlen;
   }
   else {
-    memcpy(buffer, htbuf, siz);
-    htbuf_pos = htbuf_len;
+    memcpy(buffer, ht_buf, siz);
+    ht_pos = ht_len;
     int r = httpRead((char *) buffer+siz, maxlen-siz);
     if (r == 0) {
-      htbuf_eof = true;
-      return -1;	// eof
+      ht_eof = true;
+      return -1;	// http eof
     }
     int size = siz + r;
     return (uint32_t) size;
@@ -820,24 +825,24 @@ uint32_t Http::read_buf(char *buffer, int maxlen)
 /** skips an offset */
 uint32_t Http::skip(int32_t skiplen)
 {
-  int32_t ptr = htbuf_len - htbuf_pos;
+  int32_t ptr = ht_len - ht_pos;
 
   if (ptr >= skiplen) {
-    htbuf_pos += skiplen;
+    ht_pos += skiplen;
     return 0;
   }
   else {
     skiplen -= ptr;
     while (skiplen > 0) {
-      if ((htbuf_len = httpRead((char *) htbuf, sizeof(htbuf))) == 0) {
+      if ((ht_len = httpRead((char *) ht_buf, sizeof(ht_buf))) == 0) {
         break;
       }
-      if (skiplen >= htbuf_len) {
-        skiplen -= htbuf_len;
-        htbuf_pos = htbuf_len;
+      if (skiplen >= ht_len) {
+        skiplen -= ht_len;
+        ht_pos = ht_len;
       }
       else {
-        htbuf_pos = skiplen;
+        ht_pos = skiplen;
         skiplen = 0;
       }
     }
