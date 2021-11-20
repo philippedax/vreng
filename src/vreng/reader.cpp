@@ -44,6 +44,7 @@ FILE * Reader::getFileCache(void *_tex, bool flagclose)
   return fp;
 }
 
+/* Opens a file in the cache */
 FILE * Reader::getFileCache(Texture *tex)
 {
   FILE *fp = Cache::openCache(tex->url, tex->http);
@@ -54,22 +55,27 @@ FILE * Reader::getFileCache(Texture *tex)
   return fp;
 }
 
+/* Opens a file given by its url and puts it in the cache - notused */
 FILE * Reader::getFileCache(const char *url, char *filepath)
 {
-  FILE *fp = NULL;
+  FILE *fpi = NULL, *fpo = NULL;
 
-  if ((fp = File::openFile(filepath, "rb")) == NULL) {
-    if ((fp = File::openFile(filepath, "wb")) == NULL) {
+  if ((fpi = File::openFile(filepath, "rb")) == NULL) {
+    if ((fpo = File::openFile(filepath, "wb")) == NULL) {
       error("getFileCache: can't create %s", filepath);
       return NULL;
     }
     int len;
     char buf[BUFSIZ];
     while ((len = this->read_func(img_hdl, buf, sizeof(buf))) > 0) {
-      fwrite(buf, 1, len, fp);
+      fwrite(buf, 1, len, fpo);
+    }
+    File::closeFile(fpo);
+    if ((fpi = File::openFile(filepath, "rb")) == NULL) {
+      return NULL;
     }
   }
-  return fp;
+  return fpi;
 }
 
 char * Reader::getFilename(void *_tex)
