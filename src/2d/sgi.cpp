@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "reader.hpp"	// Reader
 #include "cache.hpp"	// openCache
 #include "file.hpp"	// littleEndian, convertLong
 #include "texture.hpp"	// Texture
