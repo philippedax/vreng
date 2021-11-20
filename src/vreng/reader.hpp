@@ -75,16 +75,15 @@ class Reader {
   virtual int32_t getInt();
   /**< Gets next integer. */
 
-  virtual void skipSpaces(FILE *fp);
-  virtual void skipSpaces();
+  //virtual void skipSpaces(FILE *fp);
+  //virtual void skipSpaces();
   /**< Skips spaces. */
 
-  virtual void reset();
+  //virtual void reset();
   /**< Resets buffer. */
 
-  virtual uint8_t getByte(void *texhdl, ImageReader read_func);
+  //virtual uint8_t getByte(void *texhdl, ImageReader read_func);
   /**< Reads and returns a byte. */
-
 };
 
 

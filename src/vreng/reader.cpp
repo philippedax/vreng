@@ -128,16 +128,6 @@ uint8_t Reader::getChar1(FILE *fp)
   return ch;
 }
 
-void Reader::skipSpaces()
-{
-  while (isspace(ch)) getChar1();
-}
-
-void Reader::skipSpaces(FILE *fp)
-{
-  while (isspace(ch)) getChar1(fp);
-}
-
 int16_t Reader::getShort(FILE *fp)
 {
   int c1, c2;
@@ -182,6 +172,7 @@ int32_t Reader::getInt(FILE *fp)
   return n;
 }
 
+#if 0 //notused
 
 static uint8_t buf[BUFSIZ];
 static int32_t pos = 0;
@@ -200,3 +191,14 @@ uint8_t Reader::getByte(void *texhdl, ImageReader read_func)
   }
   return buf[pos++];
 }
+
+void Reader::skipSpaces()
+{
+  while (isspace(ch)) getChar1();
+}
+
+void Reader::skipSpaces(FILE *fp)
+{
+  while (isspace(ch)) getChar1(fp);
+}
+#endif
