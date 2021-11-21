@@ -44,12 +44,13 @@ typedef struct sWaitfifo {
 
 
 /**
- * HttpThread Class
+ * HttpThread class
  */
 class HttpThread {
-friend class Http;
+ friend class Http;
 
  private:
+
   /* errors */
   enum {
     TCPEOF,
@@ -60,58 +61,57 @@ friend class Http;
     BADSERV
   };
 
-  tWaitFifo *waitfifo;	///< fifo
+  tWaitFifo *waitfifo;	///< wait fifo
 
-  void *thrhdl;		///< thread handle
+  void *handle;		///< thread handle
   bool modethr;		///< thread or not
   class Http *http;	///< http handle
   char url[URL_LEN];	///< url
 
-  void begin();		///< Begins a thread
-  void end();		///< Ends a thread
+  void begin();		///< begins a thread
+  void end();		///< ends a thread
 
   virtual int putfifo();
-  /**< Puts thread into a wait fifo */
+  /**< Puts thread into a wait fifo. */
 
   static int send(int fd, const char *buf, int size);
-  /**< Send a http request */
+  /**< Sends a http request. */
 
   static int answer(int s, char *rep, int max);
-  /**< Receives a response from the http server */
-
-  static void checkProxy();
-  /**< Checks proxy environment variables */
+  /**< Receives a response from the http server. */
 
   static int connect(const struct sockaddr_in *sa);
-  /**< Establishes a connection to the http server */
+  /**< Establishes a connection to the http server. */
+
+  static void checkProxy();
+  /**< Checks proxy environment variables. */
 
  public:
 
   HttpThread();
-  /**< Constructor */
+  /**< Constructor. */
 
   virtual ~HttpThread();
-  /**< Destructor */
+  /**< Destructor. */
 
-  void (*httpReader) (void *thrhdl, class Http *http);
-  /**< Http reader */
+  void (*httpReader) (void *handle, class Http *http);
+  /**< Http reader. */
 
   static void init();
-  /**< Initializes Http thread */
+  /**< Initializes Http thread. */
 
   static void * connection(void *_ht);
-  /**< Makes an http connection */
+  /**< Makes an http connection. */
 
   static int resolver(char *hoststr, char *portstr, struct sockaddr_in *sa);
-  /**< Resolves a hostname */
+  /**< Resolves a hostname. */
 
   static int openFile(const char *path);
-  /**< Opens a local file */
 };
 
 
 /**
- * Http Class
+ * Http class
  * I/O methods
  */
 class Http {

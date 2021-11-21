@@ -27,14 +27,14 @@
 #include "url.hpp"	// parser
 #include "env.hpp"	// sysname
 #include "pref.hpp"	// maxsimcon
-#include "prof.hpp"	// new_http new_htppthread
 #include "timer.hpp"	// timer
 #include "cache.hpp"	// inCache
 #include "universe.hpp"	// universe_name
+#include "prof.hpp"	// new_http new_htppthread
 
 
 // local
-static int32_t nbsimcon;		// Nb actual of simultaneous connections
+static int32_t nbsimcon;		// current number of simultaneous connections
 static Vpthread_mutex_t nbsimcon_mutex;	// lock on the global variable simcon
 static tWaitFifo *fifofirst, *fifolast;	// variables protected by nbsimcon_mutex
 
@@ -71,7 +71,7 @@ void HttpThread::begin()
       lockMutex(&nbsimcon_mutex);
       //------------ lock
         pthread_cond_wait(&waitfifo->cond, &nbsimcon_mutex);
-        nbsimcon++; // increments nbsimcon
+        nbsimcon++;	// increments nbsimcon
 
         /* remove element from fifo */
         fifofirst = waitfifo->next;
@@ -88,11 +88,11 @@ void HttpThread::end()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
   if (modethr > 0) {
-    lockMutex(&nbsimcon_mutex); // lock access to global variable nbsimcon
+    lockMutex(&nbsimcon_mutex);	// lock access to global variable nbsimcon
     //------------ lock
-      nbsimcon--;	// decrements nbsimcon
+      nbsimcon--;		// decrements nbsimcon
       if (nbsimcon < 0) nbsimcon = 0;
-      if (fifofirst) {	// if something in fifo, awake it
+      if (fifofirst) {		// if something in fifo, awake it
         trace(DBG_HTTP, "thread awake (%d) %s", nbsimcon, url);
         pthread_cond_signal(&fifofirst->cond);
       }
@@ -183,7 +183,9 @@ int HttpThread::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
   struct hostent *hp = NULL;
 
   // hostname
-  if ((hp = my_gethostbyname_r(hoststr, AF_INET)) == NULL) return -BADNAME;
+  if ((hp = my_gethostbyname_r(hoststr, AF_INET)) == NULL) {
+    return -BADNAME;
+  }
 
   uint16_t port;
 
@@ -253,6 +255,7 @@ void HttpThread::checkProxy()
   done = true;
 }
 
+/** Opens a local file and returns its file descriptor */
 int HttpThread::openFile(const char *path)
 {
   return open(path, O_RDONLY);
@@ -292,7 +295,7 @@ void * HttpThread::connection(void *_ht)
     }
     else {
       http->off = -1;
-      ht->httpReader(ht->thrhdl, http);
+      ht->httpReader(ht->handle, http);
       hterr = false;
     }
     break;
@@ -336,7 +339,7 @@ htagain:
     /*
      * send the GET request to the http server with adding useful infos
      */
-#if 0 //dax
+#if 1 //dax
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
       sprintf(req,
               "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
@@ -350,9 +353,9 @@ htagain:
               ::g.env.relname(), ::g.user, host);
     } 
 #else
-      sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
-      //error("req: %s", req);
+    sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
 #endif
+    //error("req: %s", req);
     if (HttpThread::send(http->fd, req, strlen(req)) < 0) {
       error("can't send req=%s", req);
       hterr = true;
@@ -442,19 +445,21 @@ htagain:
             break;
           }
 
+          // mime type
           if (! strncmp(httpheader, "Content-Type: ", 14)) {
             char *p, *q;
-
             if ((p = strchr(httpheader, '/')) != NULL) {
               p++;
-              if ((q = strchr(p, ';')) != NULL)
+              if ((q = strchr(p, ';')) != NULL) {
                 *q = '\0';
-              else
+              }
+              else {
                 p[MIME_LEN] = 0;
+              }
               trace(DBG_HTTP, "mime=%s %s", p, ht->url);
-              /* only for textures */
-              if (ht->thrhdl && strcmp(p, "plain")) {
-                Texture *tex = (Texture *) ht->thrhdl;
+              // only for textures
+              if (ht->handle && strcmp(p, "plain")) {
+                Texture *tex = (Texture *) ht->handle;
 		tex->setMime(p);
               }
             }
@@ -469,7 +474,7 @@ htagain:
     /*
      * Call here the appropriated httpReader
      */
-    ht->httpReader(ht->thrhdl, http);
+    ht->httpReader(ht->handle, http);
     hterr = false;
     break;
 
@@ -482,7 +487,7 @@ htagain:
   }
 
   if (hterr && ht) {
-    ht->httpReader(ht->thrhdl, http);
+    ht->httpReader(ht->handle, http);
   }
 
   // free memory
@@ -495,7 +500,7 @@ htagain:
 }
 
 /** Opens a HTTP transaction, returns -1 if error */
-int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), void *_thrhdl, int _threaded)
+int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), void *handle, int _threaded)
 {
   if (! isprint(*_url)) {
     error("httpOpen: url not printable");
@@ -510,7 +515,7 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
   ht->http = new Http();	// create a http IO
 
   // fill the ht structure
-  ht->thrhdl = _thrhdl;
+  ht->handle = handle;
   ht->httpReader = _httpReader;
   ht->modethr = _threaded;
   strcpy(ht->url, _url);
@@ -518,7 +523,7 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
 
   // Checks if url is in the cache (_threaded < 0 : don't use the cache)
   if (_threaded >= 0 && Cache::inCache(_url)) { // in cache
-    ht->httpReader(ht->thrhdl, ht->http);  // call the appropiated httpReader
+    ht->httpReader(ht->handle, ht->http);  // call the appropiated httpReader
     if (ht->http) delete ht->http;	// segfault
     ht->http = NULL;
     progression('c');	// 'c' as cache
