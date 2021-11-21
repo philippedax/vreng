@@ -25,21 +25,22 @@
 #include "texture.hpp"	// Texture
 
 
+// used by bmp, tif
+
 Reader::Reader(void *tex, ImageReader _read_func)
 {
   new_imgreader++;
-  img_hdl = tex;
+  img_handle = tex;
   read_func = _read_func;
 }
 
 FILE * Reader::getFileCache(void *_tex, bool flagclose)
 {
-  FILE *fp = NULL;
   Texture *tex = (Texture *) _tex;
 
-  fp = getFileCache(tex);
+  FILE *fp = getFileCache(tex);
   if (flagclose) {
-    File::closeFile(fp);
+    File::closeFile(fp);	// file not opened, libtiff does the job
   }
   return fp;
 }
@@ -67,7 +68,7 @@ FILE * Reader::getFileCache(const char *url, char *filepath)
     }
     int len;
     char buf[BUFSIZ];
-    while ((len = this->read_func(img_hdl, buf, sizeof(buf))) > 0) {
+    while ((len = this->read_func(img_handle, buf, sizeof(buf))) > 0) {
       fwrite(buf, 1, len, fpo);
     }
     File::closeFile(fpo);
@@ -87,20 +88,40 @@ char * Reader::getFilename(void *_tex)
   return filepath;
 }
 
+uint32_t Reader::getUInt(FILE *f)
+{
+  int c1, c2, c3, c4;
+
+  c1 = getc(f);  c2 = getc(f);  c3 = getc(f);  c4 = getc(f);
+  return ((uint32_t) c1) +
+         (((uint32_t) c2) << 8) +
+         (((uint32_t) c3) << 16) +
+         (((uint32_t) c4) << 24);
+}
+
+int16_t Reader::getShort(FILE *f)
+{
+  int c1 = getc(f);
+  int c2 = getc(f);
+  return ((int16_t) c1) + (((int16_t) c2) << 8);
+}
+
+#if 0 //notused
+
 uint8_t Reader::getChar()
 {
   uint8_t data;
 
-  if (this->read_func(img_hdl, (char *) &data, 1) < 1) {
+  if (this->read_func(img_handle, (char *) &data, 1) < 1) {
     data = 0;
   }
   ch = data;
   return data;
 }
 
-uint8_t Reader::getChar(FILE *fp)
+uint8_t Reader::getChar(FILE *f)
 {
-  ch = getc(fp);
+  ch = getc(f);
   return ch;
 }
 
@@ -116,25 +137,16 @@ uint8_t Reader::getChar1()
   return ch;
 }
 
-uint8_t Reader::getChar1(FILE *fp)
+uint8_t Reader::getChar1(FILE *f)
 {
-  getChar(fp);
+  getChar(f);
   while (ch == '#') {
     do {
-      getChar(fp);
+      getChar(f);
     } while (ch != 0 && ch != '\n' && ch != '\r');
-    getChar(fp);
+    getChar(f);
   }
   return ch;
-}
-
-int16_t Reader::getShort(FILE *fp)
-{
-  int c1, c2;
-
-  c1 = getc(fp);
-  c2 = getc(fp);
-  return ((int16_t) c1) + (((int16_t) c2) << 8);
 }
 
 int32_t Reader::getInt()
@@ -149,30 +161,17 @@ int32_t Reader::getInt()
   return n;
 }
 
-uint32_t Reader::getUInt(FILE *fp)
-{
-  int c1, c2, c3, c4;
-
-  c1 = getc(fp);  c2 = getc(fp);  c3 = getc(fp);  c4 = getc(fp);
-  return ((uint32_t) c1) +
-         (((uint32_t) c2) << 8) +
-         (((uint32_t) c3) << 16) +
-         (((uint32_t) c4) << 24);
-}
-
-int32_t Reader::getInt(FILE *fp)
+int32_t Reader::getInt(FILE *f)
 {
   int n = 0;
 
   if (!isdigit(ch)) return -1; // returns -1 if error
   do {
     n = n*10 + ch-'0';
-    getChar1(fp);
+    getChar1(f);
   } while (isdigit(ch));
   return n;
 }
-
-#if 0 //notused
 
 static uint8_t buf[BUFSIZ];
 static int32_t pos = 0;
@@ -197,8 +196,8 @@ void Reader::skipSpaces()
   while (isspace(ch)) getChar1();
 }
 
-void Reader::skipSpaces(FILE *fp)
+void Reader::skipSpaces(FILE *f)
 {
-  while (isspace(ch)) getChar1(fp);
+  while (isspace(ch)) getChar1(f);
 }
 #endif

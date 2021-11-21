@@ -38,7 +38,7 @@ class Reader {
     KEEP_CLOSE
   };
 
-  void *img_hdl;		///< handle (tex).
+  void *img_handle;		///< handle (tex).
   ImageReader read_func;	///< http read function.
   int ch;			///< current char.
 
@@ -57,6 +57,15 @@ class Reader {
   virtual char * getFilename(void *tex);
   /**< Gets filename. */
 
+  virtual uint32_t getUInt(FILE *fp);
+  /**< Gets unsigned integer. */
+
+  virtual int16_t getShort(FILE *fp);
+  /**< Gets short integer. */
+
+private:
+
+#if 0 //notused
   virtual uint8_t getChar(FILE *fp);
   virtual uint8_t getChar();
   /**< Gets next char. */
@@ -65,14 +74,11 @@ class Reader {
   virtual uint8_t getChar1();
   /**< Gets next usable char. */
 
-  virtual int16_t getShort(FILE *fp);
-  /**< Gets short integer. */
+  //virtual uint8_t getByte(void *texhdl, ImageReader read_func);
+  /**< Reads and returns a byte. */
 
-  virtual uint32_t getUInt(FILE *fp);
-  /**< Gets unsigned integer. */
-
-  virtual int32_t getInt(FILE *fp);
-  virtual int32_t getInt();
+  //virtual int32_t getInt(FILE *fp);
+  //virtual int32_t getInt();
   /**< Gets next integer. */
 
   //virtual void skipSpaces(FILE *fp);
@@ -81,9 +87,7 @@ class Reader {
 
   //virtual void reset();
   /**< Resets buffer. */
-
-  //virtual uint8_t getByte(void *texhdl, ImageReader read_func);
-  /**< Reads and returns a byte. */
+#endif
 };
 
 

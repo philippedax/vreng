@@ -22,6 +22,7 @@
 #include "img.hpp"
 #include "reader.hpp"	// Reader
 #include "cache.hpp"	// openCache
+#include "file.hpp"	// closeFile
 #include "texture.hpp"	// Texture
 
 #if HAVE_TIFFIO_H
@@ -30,23 +31,28 @@
 
 
 /** Load a TIFF image */
-Img * Img::loadTIF(void *tex, ImageReader read_func)
+Img * Img::loadTIF(void *_tex, ImageReader read_func)
 {
 #if HAVE_LIBTIFF
-  // download the tiff file and put it into the cache
-  Reader *ir = new Reader(tex, read_func);
+  // downloads the tiff file and put it into the cache
+  Reader *ir = new Reader(_tex, read_func);
 
-  if (ir->getFileCache(tex, Reader::KEEP_CLOSE) == NULL) {	// not opened
+  FILE *f;
+  Texture *tex = (Texture *) _tex;
+  char cachepath[PATH_LEN] = {0};
+  Cache::setCachePath(tex->url, cachepath);
+  if ((f = Cache::openCache(cachepath, tex->http)) == NULL) {
     delete ir;
     return NULL;
   }
+  File::closeFile(f);
   delete ir;
 
-  // open the tiff file
+  // opens the tiff file
   TIFF *fp;
   if (! (fp = TIFFOpen(ir->getFilename(tex), "r"))) return NULL;
 
-  /* read the header */
+  /* reads the header */
   uint16_t width, height;
   uint8_t channel;
 
@@ -62,19 +68,19 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
   // always 4 bytes per pixel for this
   uint32 * tmpImage = (uint32 *)_TIFFmalloc((tsize_t)(width * height * sizeof(uint32_t)));
 
-  // read the data with the library
+  // reads the data with the library
   if (! TIFFReadRGBAImage(fp, width, height, tmpImage, 0)) {
     error("loadTIF: error reading file %s", ir->getFilename(tex));
     return NULL;
   }
 
-  // alloc img
+  // allocs img
   Img *img = new Img(width, height, channel);
 
-  // convert component format
+  // converts component format
   uint8_t *pixptr = img->pixmap;
 
-  // fill the pixmap
+  // fills the pixmap
   for (int i=0; i < height ; i++) {
     for (int j=0; j < width ; j++) {
       uint32_t pixel = tmpImage[(i*width) + j];

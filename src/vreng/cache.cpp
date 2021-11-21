@@ -23,7 +23,7 @@
 #include "cache.hpp"
 #include "file.hpp"	// openFile, closeFile
 #include "url.hpp"	// abs
-#include "http.hpp"	// getChar
+#include "http.hpp"	// read_buf
 #include "env.hpp"	// ::g.env.cache
 #include "pref.hpp"	// ::g.pref.refresh
 #include "str.hpp"	// stringcmp
