@@ -568,35 +568,34 @@ Http::~Http()
   }
 }
 
-int Http::httpRead(char *abuf, int maxl)
+int Http::httpRead(char *pbuf, int maxl)
 {
-  int l = 0, length;
+  int lread = 0;
 
-  /* Modifie par Fabrice, l= longueur lue, maxl= longueur restante a recevoir */
-  length = (off < 0) ? 0 : len - off;
+  /* Modifie par Fabrice, lread= longueur lue, maxl= longueur restante a recevoir */
+  int length = (off < 0) ? 0 : len - off;
 
   if (length > 0) {
     if (length > maxl) length = maxl;
-    memcpy(abuf, buf + off, length);
-    l += length;
+    memcpy(pbuf, buf + off, length);
+    lread += length;
     maxl -= length;
     off += length;
   }
 
   while (maxl > 0) {
-    int r = read(fd, abuf+l, maxl);
+    int r = read(fd, pbuf+lread, maxl);
     if (r < 0) {
-      error("%s (%d) l=%d maxl=%d off=%d len=%d", strerror(errno), errno, l, maxl, off, len);
+      error("%s (%d) maxl=%d off=%d len=%d", strerror(errno), errno, maxl, off, len);
       return r;
     }
     if (r == 0)	{
-      break;	// http eof
-      //dax return 0;	// http eof
+      return lread;	// http eof
     }
-    l += r;
+    lread += r;
     maxl -= r;
   }
-  return l;
+  return lread;
 }
 
 static uint8_t ht_buf[BUFSIZ];
