@@ -584,15 +584,14 @@ int Http::httpRead(char *abuf, int maxl)
   }
 
   while (maxl > 0) {
-    int r;
-    r = read(fd, abuf+l, maxl);
+    int r = read(fd, abuf+l, maxl);
     if (r < 0) {
       error("%s (%d) l=%d maxl=%d off=%d len=%d", strerror(errno), errno, l, maxl, off, len);
       return r;
     }
-    //dax if (r == 0)	break;  // http eof
     if (r == 0)	{
-      return 0;  // http eof
+      break;	// http eof
+      //dax return 0;	// http eof
     }
     l += r;
     maxl -= r;
