@@ -95,12 +95,17 @@ FILE * Cache::openCache(const char *url, Http *http)
       if (bufstat.st_size == 0) {
         //error("openCache: %s is empty", cachepath);
         unlink(cachepath);
+        progression('-');	// '-' as failed
       }
       else {
         progression('h');	// 'h' as http
       }
     }
   }
+  else {
+    progression('c');	// 'c' as cache
+  }
+
   // and opens it for reading
   fpcache = File::openFile(cachepath, "r");
 
