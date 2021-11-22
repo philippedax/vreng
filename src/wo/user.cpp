@@ -367,6 +367,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   trace(DBG_WO, "idxvar=%d[%02x]", idxvar, idxvar);
   if (((idxgeom = pp->tellStrInPayload("shape=\"box\" size=")) > 0) ||
       ((idxgeom = pp->tellStrInPayload("shape=\"human\" size=")) > 0) ||
+      ((idxgeom = pp->tellStrInPayload("shape=\"humanoid\" size=")) > 0) ||
       ((idxgeom = pp->tellStrInPayload("shape=\"guy\" size=")) > 0)
      ) {
     /* get replicated user characteristics from the network */
@@ -423,8 +424,8 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   initMobileObject(0);
   addGui();
 
-  trace(DBG_WO, "Replica: web=%s vre=%s", web, vre);
-  trace(DBG_WO, "Replica: avatar=%s face=%s", avatar, face);
+  trace(DBG_WO, "replica: web=%s vre=%s", web, vre);
+  trace(DBG_WO, "replica: avatar=%s face=%s", avatar, face);
   trace(DBG_WO, "replica: type=%s given=%s name=%s ssrc=%x rtcpname=%s email=%s",
         names.type, names.given, getInstance(), ssrc, rtcpname, email);
 }
