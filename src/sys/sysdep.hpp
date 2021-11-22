@@ -21,6 +21,7 @@
 #ifndef SYSDEP_HPP
 #define SYSDEP_HPP
 
+
 #if HAVE_CONFIG_H
 # include "../../config.h"
 #endif
@@ -29,6 +30,10 @@
 
 #if HAVE_SYS_TYPES_H
 # include <sys/types.h>
+#endif
+
+#if HAVE_UNISTD_H
+# include <unistd.h>
 #endif
 
 #if HAVE_SYS_STAT_H
@@ -58,10 +63,6 @@
 
 #if HAVE_STDINT_H
 # include <stdint.h>
-#endif
-
-#if HAVE_UNISTD_H
-# include <unistd.h>
 #endif
 
 #if HAVE_CTYPE_H
