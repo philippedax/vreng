@@ -22,23 +22,17 @@
 #define SYSDEP_HPP
 
 #if HAVE_CONFIG_H
-#include "../../config.h"
+# include "../../config.h"
 #endif
 
 #include <stdio.h>
 
-#if 0
-#if HAVE_PYTHON_H
-#include <Python.h>
-#endif
-#endif
-
 #if HAVE_SYS_TYPES_H
-#include <sys/types.h>
+# include <sys/types.h>
 #endif
 
 #if HAVE_SYS_STAT_H
-#include <sys/stat.h>
+# include <sys/stat.h>
 #endif
 
 #if STDC_HEADERS
@@ -51,53 +45,53 @@
 #endif
 
 #if HAVE_STRING_H
-#include <string.h>
+# include <string.h>
 #endif
 
 #if HAVE_STRINGS_H
-#include <strings.h>
+# include <strings.h>
 #endif
 
 #if HAVE_INTTYPES_H
-#include <inttypes.h>
+# include <inttypes.h>
 #endif
 
 #if HAVE_STDINT_H
-#include <stdint.h>
+# include <stdint.h>
 #endif
 
 #if HAVE_UNISTD_H
-#include <unistd.h>
+# include <unistd.h>
 #endif
 
 #if HAVE_CTYPE_H
-#include <ctype.h>
+# include <ctype.h>
 #endif
 
 #if HAVE_STDARG_H
-#include <stdarg.h>
+# include <stdarg.h>
 #else
-#include <varargs.h>
+# include <varargs.h>
 #endif
 
 #if HAVE_FCNTL_H
-#include <fcntl.h>
+# include <fcntl.h>
 #endif
 
 #if HAVE_SIGNAL_H
-#include <signal.h>
+# include <signal.h>
 #endif
 
 #if HAVE_MATH_H
-#include <math.h>
+# include <math.h>
 #endif
 
 #if HAVE_ERRNO_H
-#include <errno.h>
+# include <errno.h>
 #endif
 
 #if HAVE_LOCALE_H
-#include <locale.h>
+# include <locale.h>
 #endif
 
 #if HAVE_DIRENT_H
@@ -129,156 +123,160 @@
 #endif
 
 #if HAVE_UTIME_H
-#include <utime.h>
+# include <utime.h>
 #endif
 
 #if HAVE_SYS_WAIT_H
-#include <sys/wait.h>
+# include <sys/wait.h>
 #endif
 
 #if HAVE_SYS_SELECT_H
 # include <sys/select.h>
 #else
-#if HAVE_SELECT_H
-# include <select.h>
-#endif
+# if HAVE_SELECT_H
+#  include <select.h>
+# endif
 #endif
 
 #if HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
+# include <sys/socket.h>
 #endif
 
 #if HAVE_NETDB_H
-#include <netdb.h>
+# include <netdb.h>
 #endif
 
 #if HAVE_NETINET_IN_H
-#include <netinet/in.h>
+# include <netinet/in.h>
 #endif
 
 #if HAVE_ARPA_INET_H
-#include <arpa/inet.h>
+# include <arpa/inet.h>
 #endif
 
 #if HAVE_NETINET_TCP_H
-#include <netinet/tcp.h>
+# include <netinet/tcp.h>
 #else
-#define TCP_NODELAY 1
+# define TCP_NODELAY 1
 #endif
 
 #if HAVE_INET_PTON
-#ifndef HAVE_INET_NTOP
-#define HAVE_INET_NTOP 1
-#endif
+# ifndef HAVE_INET_NTOP
+#  define HAVE_INET_NTOP 1
+# endif
 #endif
 
 #if HAVE_NO_SOCKLEN_T
-#define socklen_t int
+# define socklen_t int
 #endif
 
 #if HAVE_SYS_PARAM_H
-#include <sys/param.h>
+# include <sys/param.h>
 #endif
 
 #if HAVE_PWD_H
-#include <pwd.h>
+# include <pwd.h>
 #endif
 
 #if defined(HAVE_GETOPT_H) && defined(HAVE_GETOPT_LONG)
-#include <getopt.h>
+# include <getopt.h>
 #endif
 
 #if HAVE_SYS_RESOURCE_H
-#include <sys/resource.h>
+# include <sys/resource.h>
 #endif
 
 #if HAVE_SYS_UTSNAME_H
-#include <sys/utsname.h>
+# include <sys/utsname.h>
 #endif
 
 #if HAVE_PTHREAD_H
-#include <pthread.h>
+# include <pthread.h>
 #endif
 
 #include <GL/gl.h>
 
 #if HAVE_GL_GLU_H
-#include <GL/glu.h>
+# include <GL/glu.h>
 #endif
 #if defined(HAVE_LIBGLU) && defined(HAVE_GL_GLU_H)
-#define HAVE_GLU 1
+# define HAVE_GLU 1
 #endif
 #if MACOSX
-#include <GL/glu.h>
-#define HAVE_GLU 1
+# include <GL/glu.h>
+# define HAVE_GLU 1
 #endif
 
 #if HAVE_GLUT_GLUT_H
-#include <glut/glut.h>
+# include <glut/glut.h>
 #endif
 #if HAVE_GL_GLUT_H
-#include <GL/glut.h>
+# include <GL/glut.h>
 #endif
 
 #if HAVE_CURL_CURL_H
-#include <curl/curl.h>
+# include <curl/curl.h>
 #endif
 
 #if defined(HAVE_DMALLOC_H) && defined(DMALLOC_FUNC_CHECK)
-#include <dmalloc.h>
+# include <dmalloc.h>
 #else
-#if HAVE_MALLOC_H
-#include <malloc.h>
-#endif
+# if HAVE_MALLOC_H
+#  include <malloc.h>
+# endif
 #endif
 
 #if HAVE_IEEEFP_H
-#include <ieeefp.h>
+# include <ieeefp.h>
 #endif
 
 #if defined(WITH_MYSQL) && defined(HAVE_MYSQL_H) && defined(HAVE_LIBMYSQLCLIENT)
-#include <mysql.h>
+# include <mysql.h>
 #endif
 #if defined(WITH_MYSQL) && defined(HAVE_MYSQL_MYSQL_H) && defined(HAVE_LIBMYSQLCLIENT)
-#include <mysql/mysql.h>
+# include <mysql/mysql.h>
 #endif
 
 #if (HAVE_SDL_SDL_MIXER_H && HAVE_LIBSDLMIXER)
-#include <SDL_mixer.h>
+# include <SDL_mixer.h>
+#endif
+
+#if HAVE_PYTHON_H
+# include <Python.h>
 #endif
 
 #if HAVE_FLOATINGPOINT_H
-#ifdef FREEBSD
-#include <floatingpoint.h>
-#define HAVE_FPSETMASK 1
-#endif
+# ifdef FREEBSD
+#  include <floatingpoint.h>
+# define HAVE_FPSETMASK 1
+# endif
 #endif
 
 #ifndef MAXHOSTNAMELEN
-#define MAXHOSTNAMELEN 64
+# define MAXHOSTNAMELEN 64
 #endif
 
 #ifndef MAXFLOAT
-#ifdef WIN32
-#include <float.h>
-#define MAXFLOAT FLT_MAX
-#else
-#define MAXFLOAT 1E100
-#endif
+# ifdef WIN32
+#  include <float.h>
+#  define MAXFLOAT FLT_MAX
+# else
+#  define MAXFLOAT 1E100
+# endif
 #endif
 
 #ifdef SUNOS
-#define FORMATPTR	"%x"
+# define FORMATPTR	"%x"
 #else
-#define FORMATPTR	"%p"
+# define FORMATPTR	"%p"
 #endif
 
 #if !defined(HAVE_DRAND48)
-#define drand48() ((float)rand()/RAND_MAX)
+# define drand48() ((float)rand()/RAND_MAX)
 #endif
 
 #if defined(WIN32) && !defined(CYGWIN32)
-#include "windoze.h"
+# include "windoze.h"
 #endif
 
 #endif
