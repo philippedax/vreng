@@ -427,7 +427,6 @@ char * Body::getTok(char *l, int *tok)
 
 void Body::load(const char *_url)
 {
-  //error("Body load: url=%s", _url);
   url = new char[URL_LEN];
   strcpy(url, _url);
   Http::httpOpen(url, httpReader, this, 0);
@@ -442,18 +441,20 @@ char * Body::getUrl() const
 void Body::httpReader(void *_body, Http *http)
 {
   Body *body = (Body *) _body;
+
   if (! body) return;
+
   char *u = new char[URL_LEN];
-  *u = 0;
   strcpy(u, body->getUrl());
-  //error("BodyhttpReader: u=%s", u);
 
   FILE *f = Cache::openCache(u, http);
   if (! f) {
     error("Body: can't open %s", u);
-    return;
   }
-  body->loadBodyParts(f);
+  else {
+    body->loadBodyParts(f);
+  }
+  delete[] u;
 }
 
 /** load body's parts */
@@ -494,17 +495,20 @@ void Body::loadBodyParts(FILE *f)
   if (! fgets(jpline, sizeof(jpline), f)) return;
   jpline[strlen(jpline) - 1] = '\0';
   if (! stringcmp(jpline, "<body")) {
-    l = strtok(jpline, SEP);  // tokenize jpline
-    l = strtok(NULL, SEP);  // next token
+    l = strtok(jpline, SEP);	// tokenize jpline
+    l = strtok(NULL, SEP);	// next token
     while (l) {
-      if      (! stringcmp(l, "scale=")) l = wobject->parse()->parseFloat(l, &bscale, "scale");
-      else if (! stringcmp(l, "tex="))   l = wobject->parse()->parseString(l, tex, "tex");
+      if      (! stringcmp(l, "scale="))
+        l = wobject->parse()->parseFloat(l, &bscale, "scale");
+      else if (! stringcmp(l, "tex="))
+        l = wobject->parse()->parseString(l, tex, "tex");
     }
   }
 
   if (*tex) {
-    for (int i=0; i < MAX_PARTS; i++)
+    for (int i=0; i < MAX_PARTS; i++) {
       strcpy(bodyparts[i].texurl, tex);
+    }
   }
 
   // get body joint points and urls
@@ -520,7 +524,8 @@ void Body::loadBodyParts(FILE *f)
     else if ((p = strchr(jpline, '<'))) {
       l = strtok(p, SEP);
       l = getTok(l, &bpindex);
-      if (bpindex < 0) goto endparse;  // eof
+      if (bpindex < 0)
+        goto endparse;  // eof
       l = strtok(NULL, SEP);
 
       // parse others lines of <body ...> ... </body>
@@ -573,8 +578,9 @@ endparse:
         bodyparts[i].obj = new Obj(bodyparts[i].url, 1);
         Http::httpOpen(bodyparts[i].url, Obj::httpReader, bodyparts[i].obj, 0);
         bodyparts[i].obj->setScale(bscale * bodyparts[i].scale);
-        if (bodyparts[i].texurl[0])  // if url exist
+        if (bodyparts[i].texurl[0]) { // if url exist
           bodyparts[i].texid = Texture::open(bodyparts[i].texurl);
+        }
         break;
       }
       bodyparts[i].loaded = true;
@@ -939,7 +945,7 @@ void Body::display()
        bap->jpRZ(R_WRIST_TWIST, model_t);
        jpBack(R_WRIST);
 
-#if 0 //dax
+#if 0 //dax fingers
        glPushMatrix();	//  Right fingers
        glPushMatrix();	//  Right thumb
         jpGo(R_THUMB);
