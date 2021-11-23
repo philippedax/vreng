@@ -16,6 +16,8 @@ The rules for this file:\n\
 ++ 9\n\
 -- 9.3\n\
 -- 9.3.2\n\
+	- fixed returned size read by httpRead\n\
+	(2021/11/21, Philippe Dax)\n\
 	- fixed writing binary files into the cache in cache.cpp\n\
 	(2021/11/17, Philippe Dax)\n\
 	- renamed android to humanoid object\n\
