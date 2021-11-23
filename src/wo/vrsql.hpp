@@ -129,6 +129,9 @@ class VRSql {
 
   // create
 
+  virtual void createDatabase(const char *database);
+  /**< creates a database */
+
   virtual void createTable(const char *table);
   /**< creates a table */
 

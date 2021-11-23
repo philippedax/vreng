@@ -148,6 +148,7 @@ VRSql * VRSql::init()
     r = vrsql->openDB();	// open database
 #elif HAVE_MYSQL
     r = vrsql->connectDB();	// connect to database server
+    createDabase(DB);
 #endif
     if (! r) {
       trace(DBG_INIT, "init: can't reach database");
@@ -509,6 +510,13 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
 
 
 // create
+
+/** Creates database */
+void VRSql::createDatabase(const char *database)
+{
+  sprintf(sqlcmd, "create database if not exists %s", database);
+  query(sqlcmd);
+}
 
 /** Creates table */
 void VRSql::createTable(const char *table)
