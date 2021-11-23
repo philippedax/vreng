@@ -37,7 +37,7 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
 
   /* we read the data */
 #if HAVE_PNG_H
-  if (!pngLoadF(f, PNG_NOMIPMAP, PNG_SOLID, &rawinfo)) {
+  if (! pngLoadF(f, PNG_NOMIPMAP, PNG_SOLID, &rawinfo)) {
     error("can't load png file");
     return NULL;
   }

@@ -19,7 +19,7 @@
  * 3. This notice must not be removed or altered from any source distribution.
  */ 
 
-#if 0 //DAX
+#if 0 //DAX the entire file !!!
 
 #ifdef _WIN32 /* Stupid Windows needs to include windows.h before gl.h */
 #undef FAR
@@ -572,7 +572,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo) {
 #define ALPHA *q
 
       switch (trans) {
-        case PNG_CALLBACK:
+        case PNG_CALL_BACK:
           FORSTART
             ALPHA = AlphaCallback((unsigned char) r, (unsigned char) g, (unsigned char) b);
           FOREND
