@@ -23,7 +23,7 @@
 #ifndef GLPNG_HPP
 #define GLPNG_HPP
 
-#include <stdio.h>
+#include <stdio.h>	// FILE
 
 #ifdef __cplusplus
 extern "C" {

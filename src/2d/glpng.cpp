@@ -19,7 +19,7 @@
  * 3. This notice must not be removed or altered from any source distribution.
  */ 
 
-#if 0 //DAX the entire file !!!
+#if 1 //DAX the entire file !!!
 
 #ifdef _WIN32 /* Stupid Windows needs to include windows.h before gl.h */
 #undef FAR
@@ -365,7 +365,7 @@ int APIENTRY pngLoad(const char *filename, int mipmap, int trans, pngInfo *pinfo
 }
 #endif //not used
 
-#if HAVE_PNG_H
+//#if HAVE_PNG_H
 int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo) {
   GLint pack, unpack;
   unsigned char header[8];
@@ -425,7 +425,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo) {
       }
     }
 #endif
-#endif
+//dax #endif
 
   if (PalettedTextures == -1)
     PalettedTextures = 0;
@@ -438,9 +438,11 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo) {
     color &= ~PNG_COLOR_MASK_ALPHA;
   }
 
+#if 0 //dax
   if (!(PalettedTextures && mipmap >= 0 && trans == PNG_SOLID))
     if (color == PNG_COLOR_TYPE_PALET
       png_set_expand(png);
+#endif
 
   /*--GAMMA--*/
   checkForGammaEnv();

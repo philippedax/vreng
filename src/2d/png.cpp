@@ -28,7 +28,6 @@
 
 Img * Img::loadPNG(void *tex, ImageReader read_func)
 {
-#if 0 //dax
   Texture *texture = (Texture *) tex;
   FILE *f;
   if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
@@ -36,24 +35,17 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
   pngRawInfo rawinfo;
 
   /* we read the data */
-#if HAVE_PNG_H
   if (! pngLoadF(f, PNG_NOMIPMAP, PNG_SOLID, &rawinfo)) {
     error("can't load png file");
     return NULL;
   }
-#else
-  return NULL;
-#endif //HAVE_PNG_H
   File::closeFile(f);
-  trace(DBG_FORCE, "loadPNG: w=%d h=%d d=%d a=%d", rawinfo.Width, rawinfo.Height, rawinfo.Depth, rawinfo.Alpha);
+  trace(DBG_VGL, "loadPNG: w=%d h=%d d=%d a=%d", rawinfo.Width, rawinfo.Height, rawinfo.Depth, rawinfo.Alpha);
 
   Img *img = new Img(rawinfo.Width, rawinfo.Height, Img::RGB);
 
   img->pixmap = rawinfo.Data;
   return img;
-#else
-  return NULL;
-#endif //dax
 }
 
 void Img::savePNG(const char *filename, GLint width, GLint height) 
