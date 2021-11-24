@@ -99,14 +99,15 @@ else
 AM_CPPFLAGS = @UBIT_CFLAGS@ $(CORE_INCL)
 endif
 
+Z_LIB= -lz
 PNG_LIB= -lpng
 
 # bundle libraries
-if BUNDLE_LIBZ
-Z_LIB=-L$(SRCDIR)/bundle/zlib $(SRCDIR)/bundle/zlib/libz.a
-else
-Z_LIB= -lz
-endif
+#if BUNDLE_LIBZ
+#Z_LIB=-L$(SRCDIR)/bundle/zlib $(SRCDIR)/bundle/zlib/libz.a
+#else
+#Z_LIB= -lz
+#endif
 if BUNDLE_LIBMPEG
 MPEG_LIB=-L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
 else

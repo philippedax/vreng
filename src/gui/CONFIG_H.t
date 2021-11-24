@@ -309,9 +309,6 @@ const char CONFIG_H[] = "\
 /* */\n\
 #define HAVE_LIBXPM 1\n\
 \n\
-/* */\n\
-#define HAVE_LIBZ 1\n\
-\n\
 /* Define to 1 if you have the <limits.h> header file. */\n\
 #define HAVE_LIMITS_H 1\n\
 \n\

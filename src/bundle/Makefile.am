@@ -1,3 +1,3 @@
 AUTOMAKE_OPTIONS = gnu no-dependencies
 
-SUBDIRS = zlib gl2ps mpeg_lib glui ftgl xmlParser 
+SUBDIRS = mpeg_lib glui ftgl xmlParser gl2ps

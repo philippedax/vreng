@@ -978,25 +978,25 @@ fi
 #
 # check Z library
 #
-AC_ARG_WITH([libz-builtin],
-    AS_HELP_STRING([--with-libz-builtin],[use builtin libz [[default=no]]]),
-    [ac_cv_use_libz_builtin=$withval], [ac_cv_use_libz_builtin=no])
-
-if test "$ac_cv_use_libz_builtin" = "no"; then
-  bundle_libz="yes"
-  AH_TEMPLATE(HAVE_LIBZ)
-  AC_CHECK_LIB([z], [inflate],
-     [VRELIBS="-lz $VRELIBS"],
-     [AC_MSG_WARN([z library not found, check config.log!])],
-     [])
-  if test "$ac_cv_lib_z_inflate" = "yes" ; then
-    AC_DEFINE(HAVE_LIBZ)
-    bundle_libz="no"
-  fi
-else
-  AC_DEFINE(HAVE_LIBZ)
-  bundle_libz="yes"
-fi
+#AC_ARG_WITH([libz-builtin],
+#    AS_HELP_STRING([--with-libz-builtin],[use builtin libz [[default=no]]]),
+#    [ac_cv_use_libz_builtin=$withval], [ac_cv_use_libz_builtin=no])
+#
+#if test "$ac_cv_use_libz_builtin" = "no"; then
+#  bundle_libz="yes"
+#  AH_TEMPLATE(HAVE_LIBZ)
+#  AC_CHECK_LIB([z], [inflate],
+#     [VRELIBS="-lz $VRELIBS"],
+#     [AC_MSG_WARN([z library not found, check config.log!])],
+#     [])
+#  if test "$ac_cv_lib_z_inflate" = "yes" ; then
+#    AC_DEFINE(HAVE_LIBZ)
+#    bundle_libz="no"
+#  fi
+#else
+#  AC_DEFINE(HAVE_LIBZ)
+#  bundle_libz="yes"
+#fi
 
 
 # --------------------------------------------------------------------------
@@ -1800,7 +1800,6 @@ AM_CONDITIONAL(ENABLE_VAPS, test "$vaps" = "yes")
 AM_CONDITIONAL(ENABLE_VJS, test "$vjs" = "yes")
 AM_CONDITIONAL(ENABLE_VACS, test "$vacs" = "yes")
 AM_CONDITIONAL(BUNDLE_GL2PS, test "$gl2ps" = "yes")
-AM_CONDITIONAL(BUNDLE_LIBZ, test "$bundle_libz" = "yes")
 AM_CONDITIONAL(BUNDLE_LIBMPEG, test "$bundle_libmpeg" = "yes")
 AM_CONDITIONAL(BUNDLE_FTGL, test "$bundle_ftgl" = "yes")
 AM_CONDITIONAL(BUNDLE_GLUI, test "$bundle_glui" = "yes")
@@ -1832,12 +1831,11 @@ AC_CONFIG_FILES([
         src/misc/Makefile
         src/ubit/Makefile
         src/bundle/Makefile
-        src/bundle/zlib/Makefile
-        src/bundle/gl2ps/Makefile
         src/bundle/xmlParser/Makefile
         src/bundle/mpeg_lib/Makefile
         src/bundle/glui/Makefile
         src/bundle/ftgl/Makefile
+        src/bundle/gl2ps/Makefile
         src/vrum/Makefile
         src/vacs/Makefile
         src/vaps/Makefile
