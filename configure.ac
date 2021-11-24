@@ -1003,32 +1003,18 @@ fi
 #
 # check png library
 #
-AC_ARG_WITH([png-builtin],
-    AS_HELP_STRING([--with-png-builtin],[use builtin libpng [[default=no]]]),
-    [ac_cv_use_png_builtin=$withval], [ac_cv_use_png_builtin=no])
-
-if test "$ac_cv_use_png_builtin" = "no"; then
-  bundle_libpng="no"
-  AH_TEMPLATE(HAVE_LIBPNG)
-  LDFLAGS="$LDFLAGS $OSDEP_LIBS"
-  AC_CHECK_LIB([png], [png_error],
-     [VRELIBS="$OSDEP_LIBS -lpng $VRELIBS"],
-     [AC_MSG_WARN([png library not found, check config.log, or try apt|dnf|yum|brew install libpng-devel or apt-get install libpng-dev])],
-     [$OSDEP_LIBS -lz])
-  if test "$ac_cv_lib_png_png_error" = "yes" ; then
-    AC_DEFINE(HAVE_LIBPNG)
-    bundle_libpng="no"
-  fi
-  AH_TEMPLATE(HAVE_PNG_H)
-  AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
-  	AC_MSG_WARN([unable to find png header]))
-else
-  AH_TEMPLATE(HAVE_PNG_H)
-  AC_CHECK_HEADER([mypng.h], [AC_DEFINE([HAVE_PNG_H])],
-  	AC_MSG_WARN([unable to find mypng header]))
+AH_TEMPLATE(HAVE_LIBPNG)
+LDFLAGS="$LDFLAGS $OSDEP_LIBS"
+AC_CHECK_LIB([png], [png_error],
+  [VRELIBS="$OSDEP_LIBS -lpng $VRELIBS"],
+  [AC_MSG_WARN([png library not found, check config.log, or try apt|dnf|yum|brew install libpng-devel or apt-get install libpng-dev])],
+  [$OSDEP_LIBS -lz])
+if test "$ac_cv_lib_png_png_error" = "yes" ; then
   AC_DEFINE(HAVE_LIBPNG)
-  bundle_libpng="yes"
 fi
+AH_TEMPLATE(HAVE_PNG_H)
+AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
+  AC_MSG_WARN([unable to find png header]))
 
 
 # --------------------------------------------------------------------------
@@ -1815,7 +1801,6 @@ AM_CONDITIONAL(ENABLE_VJS, test "$vjs" = "yes")
 AM_CONDITIONAL(ENABLE_VACS, test "$vacs" = "yes")
 AM_CONDITIONAL(BUNDLE_GL2PS, test "$gl2ps" = "yes")
 AM_CONDITIONAL(BUNDLE_LIBZ, test "$bundle_libz" = "yes")
-AM_CONDITIONAL(BUNDLE_LIBPNG, test "$bundle_libpng" = "yes")
 AM_CONDITIONAL(BUNDLE_LIBMPEG, test "$bundle_libmpeg" = "yes")
 AM_CONDITIONAL(BUNDLE_FTGL, test "$bundle_ftgl" = "yes")
 AM_CONDITIONAL(BUNDLE_GLUI, test "$bundle_glui" = "yes")
@@ -1848,7 +1833,6 @@ AC_CONFIG_FILES([
         src/ubit/Makefile
         src/bundle/Makefile
         src/bundle/zlib/Makefile
-        src/bundle/mypng/Makefile
         src/bundle/gl2ps/Makefile
         src/bundle/xmlParser/Makefile
         src/bundle/mpeg_lib/Makefile
