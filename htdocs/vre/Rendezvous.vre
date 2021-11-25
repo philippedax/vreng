@@ -160,7 +160,7 @@ url="/vre/v8/mythology.vre" channel="224.255.0.15/52806/127">
 <!-- guide 224.255.0.31 -->
 <gate name="guide" pos="18.5 -3 1 1.57"
 url="/vre/v8/guide.vre" channel="224.255.0.31/52966/127">
-<solid dim="1.6 .2 2" xn="/gif/bluebands.gif" />
+<solid dim="1.6 .2 2" xn="/gif/guide.gif" />
 </gate>
 
 <!-- classroom 224.255.0.16 -->
