@@ -29,15 +29,13 @@
 #include "texture.hpp"	// Texture
 
 
-#if defined(HAVE_JPEG) && defined(HAVE_JPEGLIB_H)
-
+#if defined(HAVE_LIBJPEG) && defined(HAVE_JPEGLIB_H)
 extern "C" {  // stupid JPEG library
 #undef HAVE_STDLIB_H	// stupid jpeglib.h
 #undef HAVE_STDDEF_H	// stupid jpeglib.h
 #include <jpeglib.h>
 }
 #include <setjmp.h>
-
 
 static void readJpegHeader(FILE* fp, struct jpeg_decompress_struct& cinfo)
 {
@@ -110,12 +108,12 @@ static void my_error_exit(j_common_ptr cinfo)
   my_error_mgr* myerr = (my_error_mgr*) cinfo->err;
   longjmp(myerr->setjmp_buf, 1);
 }
-#endif //!HAVE_JPEG
+#endif //!HAVE_LIBJPEG
 
 
 Img * Img::loadJPG(void *tex, ImageReader read_func)
 {
-#if HAVE_JPEG
+#if HAVE_LIBJPEG
   struct jpeg_decompress_struct cinfo;
 
   Texture *texture = (Texture *) tex;
@@ -160,12 +158,12 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
   return img;
 #else
   return NULL;
-#endif //!HAVE_JPEG
+#endif //!HAVE_LIBJPEG
 }
 
 void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality, const GLubyte *buf)
 {
-#if HAVE_JPEG
+#if HAVE_LIBJPEG
   JSAMPLE *image_buf = (JSAMPLE *) buf;
 
   struct jpeg_compress_struct cinfo;
@@ -182,6 +180,7 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
   if ((outfile = File::openFile(filename, "wb")) == NULL) {
     fprintf(stderr, "can't open %s\n", filename); return;
   }
+  //error("jpg: write file %s", filename);
   jpeg_stdio_dest(&cinfo, outfile);
 
   /* Step 3: set parameters for compression */
@@ -208,5 +207,5 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
 
   /* Step 7: release JPEG compression object */
   jpeg_destroy_compress(&cinfo);
-#endif //!HAVE_JPEG
+#endif //!HAVE_LIBJPEG
 }
