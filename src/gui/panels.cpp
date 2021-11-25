@@ -279,10 +279,12 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + g.theme.Camera
                + ucall(&gw.capture, &Capture::writeJPGImage)
               )
+#if 0 //dax
        + uitem(utip("Capture screenshot in PNG")
                + g.theme.Camera
                + ucall(&gw.capture, &Capture::writePNGImage)
               )
+#endif
 #if WANT_GL2PS
        + uitem(utip("Capture screenshot in SVG")
                + g.theme.Camera
