@@ -70,6 +70,8 @@ extern "C" {
 #define PNG_BLEND7     7 /* a = (r*r+g*g+b*b)/4                            */
 #define PNG_BLEND8     8 /* a = sqrt(r*r+g*g+b*b)                          */
 
+typedef unsigned char * png_bytep;
+
 typedef struct {
 	unsigned int Width;
 	unsigned int Height;

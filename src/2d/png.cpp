@@ -50,7 +50,7 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
 
 void Img::savePNG(const char *filename, GLint width, GLint height) 
 {
-#if 0 //dax
+#if 0 //dax old png version 1.2 uncompatible
 #if HAVE_PNG_H
   int         rowStride    = (width * 3 + 3) & ~0x3;
   png_bytep*  row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * height);
