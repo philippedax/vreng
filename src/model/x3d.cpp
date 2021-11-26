@@ -58,7 +58,7 @@ const char* X3d::getUrl() const
 void X3d::httpReader(void *_x3d, class Http *http)
 {
   X3d* x3d = (X3d *) _x3d;
-  if (! x3d) { x3d = NULL; return; }
+  if (! x3d) return;
 
   FILE *f;
   char filename[PATH_LEN] = {0};
@@ -245,7 +245,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     if (temp.initRoute(xmlnode)) routes.push_back(temp);
     else error("route rejected !");
   }
-  else {        // is it a PRIMITIVE ???
+  else {        // is it a PRIMITIVE ?
     X3dShapes vrengPrimitiveIndex = X3DNONE;
 
     if (X3DNONE != (vrengPrimitiveIndex = isKnownPrimitive(xmlnode->getName()))) {
@@ -278,7 +278,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
         }
         VectorTools::parseVectors(temp,&shape->meshInfos.coordIndex);
       }
-      else if (isEqual(attr,"texCoordIndex")) {
+      else if (isEqual(attr, "texCoordIndex")) {
         string temp(xmlnode->getAttributeValue(i));
         uint32_t offset = temp.find("-1");
         while (offset != (uint32_t) string::npos) {
@@ -287,7 +287,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
         }
         VectorTools::parseVectors(temp,&shape->meshInfos.texCoordIndex);
       }
-      else if (isEqual(attr,"colorIndex")) {
+      else if (isEqual(attr, "colorIndex")) {
         string temp(xmlnode->getAttributeValue(i));
         uint32_t offset = temp.find("-1");
         while (offset != (uint32_t) string::npos) {
@@ -324,7 +324,8 @@ void X3d::setupInterpolators()
 
       if (sensor && interpolator)
         sensor->initTarget(interpolator);
-      else error("route sensor->interpolator buggee: de %p a %p", sensor, interpolator);
+      else
+        error("route sensor->interpolator buggee: de %p a %p", sensor, interpolator);
     }
 
     else if (fromfield == VALUE_CHANGED && tofield >= TRANSLATION && tofield <= TRANSPARENCY) {
@@ -335,13 +336,14 @@ void X3d::setupInterpolators()
       if (interpolator && targetShape) {
         interpolator->initTarget(targetShape, tofield);
       }
-      else error("route interpolator->x3dshape buggee: de %p a %p", interpolator, targetShape);
+      else
+        error("route interpolator->x3dshape buggee: de %p a %p", interpolator, targetShape);
     }
     else
       error("bugged route with improper fields from %s to %s", route->fromNode.c_str(), route->toNode.c_str());
   } //end loop on routes
 
-  //error("initialisation des liens d'animation done");
+  // initialisation des liens d'animation done
   routes.clear();
 }
 
@@ -350,9 +352,8 @@ X3dShape* X3d::findShape(X3dShape* root, string name)
   if (root->getName() == name) return root;
 
   X3dShape* temp = NULL;
-  //recursivity
   for (int i=0; i < root->childrenShapes.size(); i++) {
-    temp = findShape(root->childrenShapes[i], name);
+    temp = findShape(root->childrenShapes[i], name); //recursivity
     if (temp) return temp;
   }
   return NULL;
@@ -403,7 +404,7 @@ GLuint X3d::drawPrimitive(X3dShapes id)
 
   case X3DBOX:
     {
-    GLfloat x = .5, y = .5, z = 1; //For the box drawing;
+    GLfloat x = .5, y = .5, z = 1;
 
     glNewList(dlist, GL_COMPILE);
     glBegin(GL_QUADS);
@@ -598,9 +599,8 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
 void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
 {
   //error("On display la shape: %d au niveau %d",(int) myShape, myShape->level);
-
-  float reset[4] = {0,0,0,1};
-  glMaterialfv(GL_FRONT, GL_AMBIENT, reset);
+  float amb[4] = { 0,0,0,1 };
+  glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
 
   if (myShape->ambientIntensityOn) {
     float ambient[4];
@@ -670,14 +670,14 @@ void X3d::render()
 
   // default values for materials
   float shin = 1;
-  glColor4f(0,0,0,1); //must track the default ambient material wanted else problems with gl_color_material
-  float reset1[4] = {0,0,0,1};
-  float reset2[4] = {1,1,1,1};
-  glMaterialfv(GL_FRONT, GL_AMBIENT, reset1);
-  glMaterialfv(GL_FRONT, GL_SPECULAR, reset2);
+  glColor4f(0,0,0,1); // track the default ambient wanted else problems with gl_color_material
+  float black[4] = {0,0,0,1};
+  float white[4] = {1,1,1,1};
+  glMaterialfv(GL_FRONT, GL_AMBIENT, black);
+  glMaterialfv(GL_FRONT, GL_SPECULAR, white);
   glMaterialfv(GL_FRONT, GL_SHININESS, &shin);
-  glMaterialfv(GL_FRONT, GL_DIFFUSE, reset1);
-  glMaterialfv(GL_FRONT, GL_EMISSION, reset1);
+  glMaterialfv(GL_FRONT, GL_DIFFUSE, black);
+  glMaterialfv(GL_FRONT, GL_EMISSION, white);
 
   // we update the timers for animation
   for (vector<TimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++) {
@@ -723,8 +723,6 @@ void X3d::render()
       glEnable(GL_COLOR_MATERIAL);
       glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     }
-    //else
-    //error("materiaux actives *****");
 
     displayShape(currentShape); // call the display of the shape
 
@@ -840,14 +838,13 @@ bool VectorTools::parseCertifiedVectors(const string str, vector<vector<float> >
   bool res = parseVectors(str, outputs);
 
   if (numVector > 0 && outputs->size() != numVector) {
-    error("Trop de vecteurs ont ete parses");
+    error("too many vectors have been parsed");
     return false;
   }
-
   if (vectorLength > 0) {
     for (vector<vector<float> >::iterator i=outputs->begin(); i!=outputs->end();i++) {
       if (i->size() != vectorLength) {
-        error("des vecteurs trop longs ont ete parses");
+        error("vectors too longs have been parsed");
         return false;
       }
     }
@@ -891,15 +888,13 @@ bool VectorTools::parseVectors(const string str, vector<vector<float> > *outputs
           str[in] != '-' &&
           str[in] != '+' &&
           str[in] != '.') {
-        error("non digit character '%c' detected ! digit parsing aborted !",str[in]);
+        error("non digit character '%c' detected ! digit parsing aborted !", str[in]);
         return false;
       }
-
       temp[out] = str[in];
       in++;
       out++;
     }
-
     temp[out] = '\0';
     out = 0;  // we begin again forming a float
 
@@ -1004,7 +999,7 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
 
   for (int i=0; i < keys.size()-1; i++) {
     if (keys[i] >= keys[i+1]) {
-      error("interpolator keys must be inreasing in %s", name.c_str());
+      error("interpolator keys must be increasing in %s", name.c_str());
       return false;
     }
   }
@@ -1134,7 +1129,6 @@ void Interpolator::updateValue(float newFraction)
 
       for (int i=0; i<3; i++) {
         t[i] = (1-percentage) * keyValues[index][i] + percentage*keyValues[index+1][i];
-        //error("Vector: value %.2d between %.2f and %.2f", i,keyValues[index][i],keyValues[index+1][i]);
         for (int j=0; j < targets.size(); j++) {
           targets[j][i] = t[i];
         }
@@ -1148,7 +1142,6 @@ void Interpolator::updateValue(float newFraction)
       float tempScalar;
 
       tempScalar = (1-percentage)*keyValues[index][0] + percentage*keyValues[index+1][0];
-      //error("Scalar: Value between %.2f and %.2f", keyValues[index][0],keyValues[index+1][0]);
       for (int j=0; j < targets.size(); j++) {
         *targets[j] = tempScalar;
       }
@@ -1162,7 +1155,6 @@ void Interpolator::updateValue(float newFraction)
 
       for (int i=0; i<3; i++) {
       tempVect[i] = (1-percentage)*keyValues[index][i] + percentage*keyValues[index+1][i];
-        //error("Vector: Value %d between %.2f and %.2f", i,keyValues[index][i],keyValues[index+1][i]);
         for (int j=0; j < targets.size(); j++) {
           targets[j][i] = tempVect[i];
         }
@@ -1189,7 +1181,7 @@ void Interpolator::updateValue(float newFraction)
 
 #if 0 //QUATERNION
       // QUATERNION INTERPOLATION HERE INSTEAD ????
-      /*float tempRot[4];
+      float tempRot[4];
 
       float q;
       for (int i=0; i<3; i++) {
@@ -1197,7 +1189,7 @@ void Interpolator::updateValue(float newFraction)
           targets[j][i] = tempRot[i];
         }
       }
-      //error("Scalar interpolation : %.2f", tempScalar);*/
+      //error("Scalar interpolation : %.2f", tempScalar);
 #endif //QUATERNION
     }
     break;
