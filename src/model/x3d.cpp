@@ -74,7 +74,7 @@ void X3d::httpReader(void *_x3d, class Http *http)
     char buf[BUFSIZ];
     int len;
     while ((len = http->httpRead(buf, sizeof(buf))) > 0) {
-      fwrite(buf, 1, len, f);
+      fwrite(buf, 1, len, f);	// into cache
     }
     File::closeFile(f);
   }
@@ -88,10 +88,9 @@ bool X3d::loadFromFile(char *filename)
 
   browseX3dTree(&xMainNode, &rootShape);
 
-  //error("setup routes for animations");
   setupInterpolators();
 
-  //error("initializing at time 0 animed fields");
+  // initializing at time 0 animed fields
   for (int i=0; i < interpolators.size(); i++) {
     interpolators[i].updateValue(0);
   }
@@ -633,7 +632,6 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
     glScalef(myShape->scale[0], myShape->scale[1], myShape->scale[2]);
 
   for (vector<GLuint>::iterator i = myShape->meshes.begin(); i != myShape->meshes.end(); i++) {
-    //error("on affiche la dlist %d", *i);
     glCallList(*i);
     if (selected) {  //selected mesh
       glPushMatrix();
@@ -734,8 +732,9 @@ void X3d::render()
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_COLOR_MATERIAL);
 
-    for (vector<X3dShape*>::iterator j = currentShape->childrenShapes.begin(); j!=currentShape->childrenShapes.end(); j++)
+    for (vector<X3dShape*>::iterator j = currentShape->childrenShapes.begin(); j!=currentShape->childrenShapes.end(); j++) {
       nextShapes.push_back(*j);
+    }
   }
 
   // we remove the remaining matrixes after having browsed the complete tree
@@ -839,7 +838,6 @@ bool VectorTools::parseFloats(const string str, vector<float>* output)
 bool VectorTools::parseCertifiedVectors(const string str, vector<vector<float> >* outputs, uint32_t vectorLength, uint32_t numVector)
 {
   bool res = parseVectors(str, outputs);
-  //error("parsevectors return %d", res);
 
   if (numVector > 0 && outputs->size() != numVector) {
     error("Trop de vecteurs ont ete parses");
@@ -924,15 +922,17 @@ bool VectorTools::parseVectors(const string str, vector<vector<float> > *outputs
 void VectorTools::displayVector(vector<vector<float> >* outputs)
 {
   for (vector<vector<float> >::iterator i = outputs->begin(); i != outputs->end(); i++) {
-    for (vector<float>::iterator j = i->begin(); j != i->end(); j++)
+    for (vector<float>::iterator j = i->begin(); j != i->end(); j++) {
       printf("%.3f ", *j);
+    }
   }
 }
 
 void VectorTools::displayVector(vector<float>* outputs)
 {
-  for (vector<float>::iterator i = outputs->begin(); i != outputs->end(); i++)
+  for (vector<float>::iterator i = outputs->begin(); i != outputs->end(); i++) {
     printf("%.3f ", *i);
+  }
 }
 
 
@@ -1135,8 +1135,9 @@ void Interpolator::updateValue(float newFraction)
       for (int i=0; i<3; i++) {
         t[i] = (1-percentage) * keyValues[index][i] + percentage*keyValues[index+1][i];
         //error("Vector: value %.2d between %.2f and %.2f", i,keyValues[index][i],keyValues[index+1][i]);
-        for (int j=0; j < targets.size(); j++)
+        for (int j=0; j < targets.size(); j++) {
           targets[j][i] = t[i];
+        }
       }
       //error("Vector interpolation: %.2f %.2f %.2f", t[0],t[1],t[2]);
     }
@@ -1179,7 +1180,7 @@ void Interpolator::updateValue(float newFraction)
       tempVect[3] = (1-percentage)*keyValues[index][3] + percentage*targetAngle;
 
       for (int j=0; j < targets.size(); j++) {
-          targets[j][3] = tempVect[3];
+        targets[j][3] = tempVect[3];
       }
 
       //error("ROTATION: fraction=%.2f, pourcentage=%.2f, entre %.2f et %.2f",
