@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wobject.hpp"
-#include "world.hpp"	// namecnt
+#include "world.hpp"	// getName()
 
 
 #define NAME_HASH_SIZE	5423
@@ -41,7 +41,6 @@ static struct hash_elt hashtable[NAME_HASH_SIZE];
 
 void World::initNames()
 {
-  World::current()->namecnt = 0;
   for (int i=0; i < NAME_HASH_SIZE; i++) {
     memset(hashtable[i].name, 0, OBJNAME_LEN);
   }
@@ -69,7 +68,6 @@ void WObject::setObjName(const char *name)
 	(! strcmp(hashtable[hval].name, NAME_DELETED))) {
       strcpy(hashtable[hval].name, fullname);
       hashtable[hval].po = this;
-      World::current()->namecnt++;
       return;
     }
     hval = (hval + 1) % NAME_HASH_SIZE;
@@ -108,7 +106,6 @@ void delObjectName(const char *name)
     if (*(hashtable[hval].name) == '\0') return;
     if (! strcmp(hashtable[hval].name, fullname)) {
       strcpy(hashtable[hval].name, NAME_DELETED);	// found, mark deleted
-      World::current()->namecnt--;
       return;
     }
     hval = (hval + 1) % NAME_HASH_SIZE;

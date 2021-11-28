@@ -77,7 +77,6 @@ World::World()
   new_world++;
   state = TOLOAD;
   num = 0;
-  namecnt = 0;
   group = 0;
   islinked = false;
   persistent = true;
