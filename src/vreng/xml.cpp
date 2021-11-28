@@ -69,7 +69,7 @@ int Xml::string2Coord(char *strpos, float *tmpx, float *tmpy, float *tmpz, float
 }
 
 
-int Xml::returnXmlDocument(char* filename, xmlDocPtr* doc)
+int Xml::getXmlDocument(char* filename, xmlDocPtr* doc)
 {
   /* charge le document XML */
   *doc = xmlParseFile(filename);
@@ -119,7 +119,7 @@ int Xml::selectXpathPoint(char *filename, float *position, char *type, char *res
     return XML_ERROR;
   }
 
-  int detecterror = returnXpathPoint(xpathObj->nodesetval, position, result);
+  int detecterror = getXpathPoint(xpathObj->nodesetval, position, result);
 
   free(xpathExpr_);
   xmlXPathFreeObject(xpathObj);
@@ -130,7 +130,7 @@ int Xml::selectXpathPoint(char *filename, float *position, char *type, char *res
 }
 
 
-int Xml::returnXpathPoint(xmlNodeSetPtr nodes, float *position, char *result)
+int Xml::getXpathPoint(xmlNodeSetPtr nodes, float *position, char *result)
 {
   return ALL_OK;
 }
@@ -169,7 +169,7 @@ int Xml::selectProximity(char *filename,char *type, float *posx,float *posy,floa
     return XML_ERROR;
   }
 
-  int detecterror = returnProximity(xpathObj->nodesetval, &(*posx),&(*posy),&(*posz),&(*ori));
+  int detecterror = getProximity(xpathObj->nodesetval, &(*posx),&(*posy),&(*posz),&(*ori));
 
   free(xpathExpr_);
   xmlXPathFreeObject(xpathObj);
@@ -180,7 +180,7 @@ int Xml::selectProximity(char *filename,char *type, float *posx,float *posy,floa
 }
 
 
-int Xml::returnProximity(xmlNodeSetPtr nodes, float *posx, float *posy, float *posz, float *ori)
+int Xml::getProximity(xmlNodeSetPtr nodes, float *posx, float *posy, float *posz, float *ori)
 {
   xmlNodePtr cur;
   // xmlNodePtr tmp, soliddim;
@@ -293,10 +293,10 @@ int Xml::selectXpathExpr(char *filename, const char *xpathExpr_, char *phrase, c
   /* Lancement de l'analyse sur les resultats */
   int detecterror;
   if (! strcmp(xpathExpr_, "//*/@name") && (xpathObj) && (xpathObj->nodesetval->nodeNr == 1)) {
-    detecterror = returnXpathName(xpathObj->nodesetval, result);
+    detecterror = getXpathName(xpathObj->nodesetval, result);
   }
   else {
-    detecterror = returnXpathExpr(xpathObj->nodesetval, phrase, result);
+    detecterror = getXpathExpr(xpathObj->nodesetval, phrase, result);
   }
 
   xmlXPathFreeObject(xpathObj);
@@ -307,7 +307,7 @@ int Xml::selectXpathExpr(char *filename, const char *xpathExpr_, char *phrase, c
 }
 
 
-int Xml::returnXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result)
+int Xml::getXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result)
 {
   xmlNodePtr cur, tmp, soliddim;
   xmlAttrPtr tmpattr;
@@ -413,7 +413,7 @@ int Xml::returnXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result)
 }
 
 
-int Xml::returnXpathName(xmlNodeSetPtr nodes, char *result)
+int Xml::getXpathName(xmlNodeSetPtr nodes, char *result)
 {
   xmlNodePtr cur, tmp, soliddim;
   xmlAttrPtr tmpattr,tmpattr2;

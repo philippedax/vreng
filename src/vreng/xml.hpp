@@ -43,35 +43,35 @@ class Xml {
   virtual ~Xml();
   /**< Destructor */
 
-  static int returnXmlDocument(char* filename,xmlDocPtr* doc);
-  /**< return the scene described in xml type **/
+  static int getXmlDocument(char* filename,xmlDocPtr* doc);
+  /**< return the scene described in xml type */
 
   static int selectXpathPoint(char *filename, float * position_, char *phrase, char *result);
-  /**< search object with the position of mouse and the type **/
+  /**< search object with the position of mouse and the type */
 
   static int selectProximity(char *filename,char *type, float *posx,float *posy,float *posz,float *ori);
-  /**< search l'objet du type le plus proche **/
+  /**< search l'objet du type le plus proche */
 
-  static int selectXpathExpr(char *filename, const char *xpathExpr_, char *phrase, char *result);
-  /**< search object with the name or something else **/
+  static int selectXpathExpr(char *filename, const char *xpathExpr, char *phrase, char *res);
+  /**< search object with the name or something else */
 
   static void dtdValidation(const char *pathname);
-  /**< Checks DTD **/
+  /**< Checks DTD */
 
  private:
-  static int returnXpathPoint(xmlNodeSetPtr nodes,float * position, char *result);
+  static int getXpathPoint(xmlNodeSetPtr nodes,float * position, char *result);
 
-  static int returnProximity(xmlNodeSetPtr nodes, float *posx,float *posy,float *posz,float *ori);
-  /**< Calculate the promity object */
+  static int getProximity(xmlNodeSetPtr nodes,float *posx,float *posy,float *posz,float *ori);
+  /**< Calculate the promimity object */
 
-  static int returnXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result);
+  static int getXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result);
   /**< explorer main attributs of the selected object */
 
-  static int returnXpathName(xmlNodeSetPtr nodes, char *result);
+  static int getXpathName(xmlNodeSetPtr nodes, char *result);
   /**< explorer name attributs of the selected object */
 
   static int string2Coord(char *stringposition,float *tmpx,float *tmpy,float *tmpz,float *tmporiz);
-  /**< Convert string position to 4 floats **/
+  /**< Convert string position to 4 floats */
 };
 
 #endif //HAVE_LIBXML2
