@@ -117,7 +117,7 @@ Vicinity::Dist Vicinity::computeDistance(WObject *obj1, WObject *obj2)
   float posobj1[6];
   float posobj2[6];
   float mindist[3];
-  int typeInclusion[3];
+  int inclusion[3];
 
   posobj1[0] = obj1->pos.x;
   posobj1[1] = obj1->pos.y;
@@ -141,11 +141,12 @@ Vicinity::Dist Vicinity::computeDistance(WObject *obj1, WObject *obj2)
     obj2B[i] = (posobj2[i]+posobj2[i+3]);
   }
 
-  //on calcul la distance suivant les 3 axes
-  for (int i=0; i<3; i++)
+  // calcul de la distance suivant les 3 axes
+  for (int i=0; i<3; i++) {
     mindist[i] = MIN(ABSF(obj2B[i]-obj1A[i]), ABSF(obj2A[i]-obj1B[i]));
+  }
 
-  //on calcul les inclusions d'objets
+  // calcul des inclusions d'objets
   for (int i=0; i<3; i++) {
     //pour diminuer les tests on inverse en cas de besoin les 2 objets
     if (obj2A[i] < obj1A[i]) {
@@ -159,64 +160,63 @@ Vicinity::Dist Vicinity::computeDistance(WObject *obj1, WObject *obj2)
 	obj1B[i] = objtmp;
       }
     }
-
     if ((obj1A[i] < obj2A[i]) && (obj2A[i] < obj1B[i])) {
-      if (obj2B[i] < obj1B[i]) typeInclusion[i] = DIST_INCL;
-      else typeInclusion[i] = DIST_INTER;
+      if (obj2B[i] < obj1B[i]) inclusion[i] = DIST_INCL;
+      else inclusion[i] = DIST_INTER;
     } else {
-      if (mindist[i] < 0.5) typeInclusion[i] = DIST_STUCK;
-      else if (mindist[i] > 15) typeInclusion[i] = DIST_FAR;
-      else typeInclusion[i] = DIST_NEAR;
+      if (mindist[i] < 0.5) inclusion[i] = DIST_STUCK;
+      else if (mindist[i] > 15) inclusion[i] = DIST_FAR;
+      else inclusion[i] = DIST_NEAR;
     }
   }
-
-  if ((typeInclusion[0] == DIST_INCL) &&
-      (typeInclusion[1] == DIST_INCL) &&
-      (typeInclusion[2] == DIST_INCL))
+  if ((inclusion[0] == DIST_INCL) &&
+      (inclusion[1] == DIST_INCL) &&
+      (inclusion[2] == DIST_INCL))
     return DIST_INCL;
-  if ((typeInclusion[0] == DIST_FAR) ||
-      (typeInclusion[1] == DIST_FAR) ||
-      (typeInclusion[2] == DIST_FAR))
+  if ((inclusion[0] == DIST_FAR) ||
+      (inclusion[1] == DIST_FAR) ||
+      (inclusion[2] == DIST_FAR))
     return DIST_FAR;
-  if ((typeInclusion[0] == DIST_NEAR) ||
-      (typeInclusion[1] == DIST_NEAR) ||
-      (typeInclusion[2] == DIST_NEAR))
+  if ((inclusion[0] == DIST_NEAR) ||
+      (inclusion[1] == DIST_NEAR) ||
+      (inclusion[2] == DIST_NEAR))
     return DIST_NEAR;
-  if ((typeInclusion[0] == DIST_STUCK) ||
-      (typeInclusion[1] == DIST_STUCK) ||
-      (typeInclusion[2] == DIST_STUCK))
+  if ((inclusion[0] == DIST_STUCK) ||
+      (inclusion[1] == DIST_STUCK) ||
+      (inclusion[2] == DIST_STUCK))
     return DIST_STUCK;
-  if ((typeInclusion[0] == DIST_INTER) ||
-      (typeInclusion[1] == DIST_INTER) ||
-      (typeInclusion[2] == DIST_INTER))
+  if ((inclusion[0] == DIST_INTER) ||
+      (inclusion[1] == DIST_INTER) ||
+      (inclusion[2] == DIST_INTER))
     return DIST_INTER;
-  warning("computeDistance:: default distance value");
+  warning("computeDistance: default distance value");
   return DIST_INTER;
 }
 
 Vicinity::Size Vicinity::computeSize(WObject *obj)
 {
-  Size objSize = SIZE_NORMAL;
+  Size objsize = SIZE_NORMAL;
 
   if ((obj->pos.bbs.v[0] > (10*localuser->pos.bbs.v[0]))
      && (obj->pos.bbs.v[1] > (4*localuser->pos.bbs.v[1]))
      && (obj->pos.bbs.v[2] > (4*localuser->pos.bbs.v[2]))) {
-    objSize = SIZE_HUGE;
+    objsize = SIZE_HUGE;
   } else if ((obj->pos.bbs.v[0] > (5*localuser->pos.bbs.v[0]))
 	   && (obj->pos.bbs.v[1] > (2*localuser->pos.bbs.v[1]))
 	   && (obj->pos.bbs.v[2] > (2*localuser->pos.bbs.v[2]))) {
-    objSize = SIZE_LARGE;
+    objsize = SIZE_LARGE;
   } else if ((obj->pos.bbs.v[0] < (1*localuser->pos.bbs.v[0]))
 	   && (obj->pos.bbs.v[1] < (0.5*localuser->pos.bbs.v[1]))
 	   && (obj->pos.bbs.v[2] < (0.5*localuser->pos.bbs.v[2]))) {
-    objSize = SIZE_SMALL;
+    objsize = SIZE_SMALL;
   } else if ((obj->pos.bbs.v[0] < (0.5*localuser->pos.bbs.v[0]))
 	   && (obj->pos.bbs.v[1] < (0.2*localuser->pos.bbs.v[1]))
 	   && (obj->pos.bbs.v[2] < (0.2*localuser->pos.bbs.v[2]))) {
-    objSize = SIZE_TINY;
-  } else
-    objSize = SIZE_NORMAL;
-  return objSize;
+    objsize = SIZE_TINY;
+  } else {
+    objsize = SIZE_NORMAL;
+  }
+  return objsize;
 }
 
 int Vicinity::compDistance(const void *t1, const void *t2)
@@ -224,7 +224,7 @@ int Vicinity::compDistance(const void *t1, const void *t2)
   Vicin s1 = *((Vicin*) t1);
   Vicin s2 = *((Vicin*) t2);
 
-  //increasing order
+  // increasing order
   if (s1.dist > s2.dist) return 1;
   if (s1.dist < s2.dist) return -1;
   if (s1.size > s2.size) return -1;
@@ -326,7 +326,7 @@ void Vicinity::analyseScene()
 
 void Vicinity::analyseTopo()
 {
-  int lenToread = 3;
+  int toread = 3;
 
 #if _DEBUG_TOPO_
   for (int i=0; i < listSize; i++) {
@@ -335,20 +335,23 @@ void Vicinity::analyseTopo()
 	  vicinList[i].size,
 	  vicinList[i].dist);
   }
-#endif
   //error("---");
-  if (listSize < lenToread) lenToread = listSize;
+#endif
+  if (listSize < toread) toread = listSize;
 
-  for (int i=0; i < lenToread; i++)
+  for (int i=0; i < toread; i++) {
     describeTopo(vicinList[i]);
+  }
 }
 
 bool Vicinity::uselessType(WObject *obj)
 {
-  if (!obj) return true;
+  if (! obj) return true;
+
   if (!strcasecmp(obj->typeName(), "ground")) return true;
   if (!strcasecmp(obj->typeName(), "wall")) return true;
   if (!strcasecmp(obj->typeName(), "user")) return true;
+
   return false;
 }
 
@@ -357,7 +360,7 @@ int Vicinity::compVisual(const void *t1, const void *t2)
   VisualPosition s1 = *((VisualPosition*) t1);
   VisualPosition s2 = *((VisualPosition*) t2);
 
-  //decreasing order
+  // decreasing order
   if (s1.nbPixels > s2.nbPixels) return -1;
   if (s1.nbPixels < s2.nbPixels) return 1;
   return 0;
@@ -416,7 +419,8 @@ void Vicinity::analyseVisual(int details)
 	  transp = false;
 	  break;  //end while
 	}
-	if (uselessType(po)) continue;
+	if (uselessType(po))
+          continue;
 
 	//3 boucles for je sais c pas bien ! mais j'y suis oblige
 	bool found = false;
@@ -452,7 +456,7 @@ void Vicinity::analyseVisual(int details)
 void Vicinity::describeVisual()
 {
   V3 coord = ::g.render.getVisiblePosition(refObject);
-  //error("coord de l'objet %s, x:%.2f y:%.2f", refObjectName.c_str(), coord.v[0], coord.v[1]);
+  //error("coord de objet %s, x:%.2f y:%.2f", refObjectName.c_str(), coord.v[0], coord.v[1]);
 
   char* msg = NULL;
   char msgprecis[100];
@@ -478,12 +482,12 @@ void Vicinity::describeVisual()
 void Vicinity::analyseVicinity()
 {
   int hits = 0;
-  bool *listSeen = NULL;
+  bool *listseen = NULL;
   WObject **drawedObj;
 
   if (refObject) {
     drawedObj = ::g.render.getDrawedObjects(&hits);
-    listSeen = new bool[hits];
+    listseen = new bool[hits];
 
     for (int i=0; i < hits ; i++) {
       if (drawedObj[i]->isSeen() && !uselessType(drawedObj[i]))
@@ -492,7 +496,7 @@ void Vicinity::analyseVicinity()
 	error("I can't see: i=%d name=%s", i, drawedObj[i]->getInstance());
     }
   }
-  if (listSeen) delete[] listSeen;
+  if (listseen) delete[] listseen;
 }
 
 /* Debugging Methods */
@@ -505,6 +509,7 @@ void Vicinity::show(const char *str)
 {
   trace(DBG_FORCE, "\n%s", str);
   int i=0;
+
   OList *vicinityList = localuser->getVicinity(localuser);
   for (OList *ol = vicinityList; ol && ol->pobject ; ol = ol->next, i++) {
     trace(DBG_FORCE, "%2d: %s", i, (ol->pobject)->getInstance());
@@ -514,8 +519,7 @@ void Vicinity::show(const char *str)
 void Vicinity::actionList()
 {
   for (int i=0; i <= OBJECTSNUMBER; i++) {
-    // action functions
-    for (int j=0; j < ACTIONSNUMBER; j++) {
+    for (int j=0; j < ACTIONSNUMBER; j++) { // action functions
       if (isActionName(i, j)) {
 	trace(DBG_FORCE, "actionList[%d,%d]= %s %s %p", j, i,
 		translateNum2Type(i),
@@ -529,19 +533,19 @@ void Vicinity::actionList()
 
 int * Vicinity::getTypeFromAction(const char *actionName)
 {
-  int* actType = new int[OBJECTSNUMBER+1];
-  int nbType = 1;
+  int* acttype = new int[OBJECTSNUMBER+1];
+  int nbtype = 1;
 
   for (int i=0; i <= OBJECTSNUMBER; i++) {
     for (int j=0; j < ACTIONSNUMBER; j++) {
-      if ((isActionName(i, j)) && (!strcasecmp(getActionName(i, j), actionName))) {
-	actType[nbType] = i;
-	nbType++;
+      if ((isActionName(i, j)) && (! strcasecmp(getActionName(i, j), actionName))) {
+	acttype[nbtype] = i;
+	nbtype++;
       }
     }
   }
-  actType[0] = nbType - 1;
-  return actType;
+  acttype[0] = nbtype - 1;
+  return acttype;
 }
 
 char* Vicinity::translateNum2Type(int num)
