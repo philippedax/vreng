@@ -25,7 +25,6 @@
 /** Copies 3D buffer into a RGB pixmap and returns this pixmap */
 uint8_t * Ogl::copyPixels(GLint width, GLint height, GLenum mode)
 {
-#if !defined(WITH_TINYGL)
   // Alloc pixel bytes
   int nbbytes = 3 * width * height;
   uint8_t *pixogl = new uint8_t[nbbytes];
@@ -49,9 +48,6 @@ uint8_t * Ogl::copyPixels(GLint width, GLint height, GLenum mode)
 
   delete[] pixogl;
   return pixmap;
-#else
-  return NULL;
-#endif
 }
 
 /** Check if an OpenGL extension is supported */
@@ -68,7 +64,6 @@ bool Ogl::isGLextension(const char *ext)
     return false;
   }
 
-#if !defined(WITH_TINYGL)
   extentions = glGetString(GL_EXTENSIONS);
   beginext = extentions;
   for (;;) {
@@ -84,7 +79,6 @@ bool Ogl::isGLextension(const char *ext)
     }
     beginext = endext;
   }
-#endif
   return false;
 }
 
