@@ -212,7 +212,7 @@ int Humanoid::connectToBapServer(int _ipmode)
 void Humanoid::disconnectFromBapServer()
 {
   if (sdtcp > 0) {
-    //dax write(sdtcp, "stop", 4);
+    //dax write(sdtcp, "stop", 4);	// not usefull because we close
     Socket::closeStream(sdtcp);
     if (ipmode == MULTICAST)
       Socket::dropMembership(sdudp, &mreq);
