@@ -274,8 +274,7 @@ void Guy::draw_bust()
 void Guy::draw_brea()
 {
   glPushMatrix();
-   glTranslatef(0, BUST_H - NECK_H*4, BREA_R);
-   //dax glRotatef(180, 0, 1, 0);
+   glTranslatef(0, BUST_H - NECK_H*3, BREA_R);
    Draw::sphere(BREA_R, 16, 16, 0);
   glPopMatrix();
 }
@@ -306,10 +305,10 @@ void Guy::draw_uleg()
   glPopMatrix();
 
   // hip
-  //dax1 glPushMatrix();
+  glPushMatrix();
    glTranslatef(0, -HIP_R, 0);
    Draw::sphere(HIP_R, 16, 16, 0);
-  //dax1 glPopMatrix();
+  glPopMatrix();
 
   // thig
   glPushMatrix();
