@@ -22,12 +22,13 @@
 #include "aiinit.hpp"
 #include "wobject.hpp"
 #include "gui.hpp"	// getClicked
-#include "world.hpp"
-#include "cache.hpp"	//cache2url
-#include "user.hpp"	//pos
-#include "move.hpp"
-#include "render.hpp"	//setAllTypeFlashy
-#include "vicinity.hpp"	//analyseScene
+#include "world.hpp"	// current()
+#include "cache.hpp"	// setCachePath
+#include "user.hpp"	// pos
+#include "move.hpp"	// gotoXYZ
+#include "render.hpp"	// setAllTypeFlashy
+#include "vicinity.hpp"	// analyseScene
+#include "xml.hpp"	// selectProximity
 
 
 void initOcaml()
@@ -54,10 +55,10 @@ value recherche_Typegen(value ttype, value actiondemande)
 
   char *foundpos = new char[100];
   sprintf(foundpos, "N/A");
-  error("ICI");
+  //error("ICI");
   int nbelem = 0;
   WObject** listObj = g.render.getDrawedObjects(&nbelem);
-  error("ICI3 %s >> %s >> %d", listObj[1]->typeName(), typechercher, nbelem);
+  //error("ICI3 %s >> %s >> %d", listObj[1]->typeName(), typechercher, nbelem);
 
   int found = 0;
   int foundelem = 0;
@@ -84,11 +85,8 @@ value recherche_Typegen(value ttype, value actiondemande)
   if (found == -1 || found == 0) {
     g.gui.getClicked(&oclick, oclicked);
     if (oclicked[0] != MAXFLOAT && oclick == 0) {
-
-      //notice("Attendez, j'analyse votre selection sur %s.",
-      //        (g.gui.getSelectedObject())->name); 
+      //notice("j'analyse votre selection sur %s.", (g.gui.getSelectedObject())->name); 
       g.gui.getSelectedObject()->runAction(action);
-
       g.gui.initClicked();
       return Val_int(0);
     }
@@ -121,7 +119,6 @@ value recherche_Type(value ttype)
   int found = 0;
   for (int i=0; i < nbelem; i++) {
     if (! strcasecmp(listObj[i]->typeName(), typechercher) && listObj[i]->isVisible()) {
-      //error("found a type !");
       if (found) {
 	found = 0;
 	break;
@@ -143,7 +140,6 @@ value recherche_Type(value ttype)
 	      oclicked[4],
 	      oclicked[5],
 	      oclicked[6]);
-
       g.gui.initClicked();
 
       /* enlever les highlights des objets de meme type */
@@ -177,10 +173,10 @@ value recherche_Objet(value mot)
   value ret;
   sprintf(foundpos, "N/A");
 
-#if 0 //HAVE_LIBXML2
+#if HAVE_LIBXML2
   char *val = (char *) String_val(mot);
   char filename[64];
-  Cache::cache(World::current()->getUrl(), filename);
+  Cache::setCachePath(World::current()->getUrl(), filename);
   Xml::selectXpathExpr(filename, "//*/@name", val, foundpos);
 #endif
 
@@ -193,13 +189,12 @@ value recherche_Objet(value mot)
 /************ fontions de deplacement de l'utilisateur ******************/
 value deplacement_to_Objet(value px, value py, value pz, value ori, value depl)
 {
-  float posx, posy, posz, orient;
   int deplacement;
 
-  posx = (float) Double_val(px);
-  posy = (float) Double_val(py);
-  posz = (float) Double_val(pz);
-  orient = (float) Double_val(ori);
+  float posx = (float) Double_val(px);
+  float posy = (float) Double_val(py);
+  float posz = (float) Double_val(pz);
+  float orient = (float) Double_val(ori);
   deplacement = (int) Int_val(depl);
 
   // Deplacement
@@ -276,23 +271,22 @@ value recherche_Func(value mot, value act)
 
 value deplacement_to_Proximite(value mot, value pos)
 {
-  float posx, posy, posz, orient;
-  int temp = 0;
+  int res = 0;
+  float posx = localuser->pos.x;
+  float posy = localuser->pos.y;
+  float posz = localuser->pos.z;
+  float orient = localuser->pos.az;
 
-  posx = localuser->pos.x;
-  posy = localuser->pos.y;
-  posz = localuser->pos.z;
-  orient = localuser->pos.az;
-
-#if 0 //HAVE_LIBXML2
+#if HAVE_LIBXML2
   char *val = (char *) String_val(mot);
   char filename[64];
-  Cache::cache(World::current()->getUrl(), filename);
-  temp = Xml::selectProximity(filename, val, &posx, &posy, &posz, &orient);
+  Cache::setCachePath(World::current()->getUrl(), filename);
+  res = Xml::selectProximity(filename, val, &posx, &posy, &posz, &orient);
 #endif
 
-  if (! temp)
+  if (! res) {
     gotoXYZ(posx, posy, posz, orient);
+  }
 
   return Val_int(0);
 }
@@ -322,24 +316,24 @@ void viewed_objects(value mot)
 /** fonctions de lecture des requetes **/
 int read_request(const char *requete)
 {
-  if (requete && (requete[0]=='@')) {
-    printf("RECUPERATION \n");
+  if (requete && (requete[0] == '@')) {
+    printf("RECUPERATION\n");
   }
-  if (!strcmp(requete,"TEST")) {
-    printf("TESTONS \n");
+  if (! strcmp(requete, "TEST")) {
+    printf("TESTONS\n");
     g.render.calculateFov(0,0,0,0, (char*)"TEST.jpg");
     return 0;
   }
-  if (!strcmp(requete,"C")) {
+  if (! strcmp(requete, "C")) {
     g.render.computeCameraProjection();
-    error("caculate user visualisation");
+    error("calculate user visualisation");
     return 0;
   }
-  if (!strcmp(requete,"V")) {
+  if (! strcmp(requete, "V")) {
     Vicinity::show("I look at vicinity");
     return 0;
   }
-  if (!strcmp(requete,"L")) {
+  if (! strcmp(requete, "L")) {
     g.render.showSolidList();
     return 0;
   }
