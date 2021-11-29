@@ -114,7 +114,7 @@ Wind::Wind(char *l)
   if (r) {
     perror("wind: pthread_create");
   }
-  //dax pthread_join(tid, NULL);
+  pthread_join(tid, NULL);
 #else
   if (fork() == 0) {
     getHttp((void *) NULL);
