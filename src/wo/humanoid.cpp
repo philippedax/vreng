@@ -143,16 +143,16 @@ int Humanoid::initReceiver()
 {
   if (sdudp > 0) disconnectFromBapServer();
 
-  if ((sdudp = Socket::openDatagram()) < 0) { error("open UDP failed"); return 0; }
+  if ((sdudp = Socket::openDatagram()) < 0) {
+    error("open UDP failed");
+    return 0;
+  }
   Socket::bindSocket(sdudp, INADDR_ANY, vaps_port);
-#if 0 //dax
+#if 1 //dax
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
     Channel::getGroup(World::current()->getChan(), group);
     inet4_pton(group, &(udpsa.sin_addr.s_addr));
-  }
-  switch (ipmode) {
-  case MULTICAST:
     memset(&mreq, 0, sizeof(mreq));
     inet4_pton(group, &(mreq.imr_multiaddr.s_addr));
     mreq.imr_interface.s_addr = htonl(INADDR_ANY);
@@ -160,10 +160,9 @@ int Humanoid::initReceiver()
       error("initReceiver: cannot join multicast group %s", group); return 0;
     }
     //error("initReceiver: waiting for Multicast on %x:%d", udpsa.sin_addr.s_addr, udpsa.sin_port);
-    break;
-  default:  // Unicast
+  }
+  else {  // Unicast
     //error("initReceiver: waiting for Unicast on port %d", vaps_port);
-    break;
   }
 #endif
   error("initReceiver: waiting on port %d, sdudp=%d", vaps_port, sdudp);
@@ -195,14 +194,13 @@ int Humanoid::connectToBapServer(int _ipmode)
     return 0;
   }
   //error("Connection established with vaps server: %s(%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
-#if 0 //dax
+#if 1 //dax
   ipmode = _ipmode;
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
     Channel::getGroup(World::current()->getChan(), group);
     sprintf(setup_cmd, "setup a=%s p=%d t=%d r=%.2f ",
-            group, vaps_port, Channel::getTtl(World::current()->getChan()), 
-            ::g.timer.rate());
+            group, vaps_port, Channel::getTtl(World::current()->getChan()), ::g.timer.rate());
   }
   else
 #endif
@@ -214,8 +212,10 @@ int Humanoid::connectToBapServer(int _ipmode)
 void Humanoid::disconnectFromBapServer()
 {
   if (sdtcp > 0) {
-    write(sdtcp, "stop", 4); Socket::closeStream(sdtcp);
-    if (ipmode == MULTICAST) Socket::dropMembership(sdudp, &mreq);
+    //dax write(sdtcp, "stop", 4);
+    Socket::closeStream(sdtcp);
+    if (ipmode == MULTICAST)
+      Socket::dropMembership(sdudp, &mreq);
   }
   if (sdudp > 0) Socket::closeDatagram(sdudp);
   //error("Connection closed with the vaps server");
@@ -240,8 +240,8 @@ int Humanoid::readBapFrame()
   memset(bapline, 0, VAPS_BUFSIZ);
   socklen_t slen = sizeof(struct sockaddr_in);
   int len;
-  if ((len = recvfrom(sdudp, bapline, VAPS_BUFSIZ, 0,
-                      (struct sockaddr *) &udpsa, &slen)) < 0) { // receive Bap line
+  // receive Bap line
+  if ((len = recvfrom(sdudp, bapline, VAPS_BUFSIZ, 0, (struct sockaddr *)&udpsa, &slen)) < 0) {
     error("error recvfrom");
     return 0;
   }
@@ -319,7 +319,7 @@ void Humanoid::reset()
   disconnectFromBapServer();  // first disconnect
   if (! initReceiver()) return;
   state = LISTENING;
-#if 0 //dax
+#if 1 //dax
   if (! connectToBapServer(MULTICAST)) return;
 #endif
 }
