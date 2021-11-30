@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "gate.hpp"
 #include "world.hpp"	// enter
-#include "universe.hpp"	// universe
+#include "universe.hpp"	// Universe
 #include "move.hpp"	// gotoFront
 #include "user.hpp"	// USER_TYPE, localuser
 #include "ball.hpp"	// BALL_TYPE
@@ -89,17 +89,19 @@ void Gate::behavior()
   createPermanentNetObject(PROPS, ++oid);
 }
 
+/** Created fron vre file */
 Gate::Gate(char *l)
 {
   parser(l);
   behavior();
 }
 
+/** Created by user (Gui) */
 Gate::Gate(WObject *user, char *geom)
 {
   defaults();
 
-  // user position
+  // takes position from user position
   pos.x = user->pos.x + 0.5;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
@@ -117,59 +119,60 @@ bool Gate::updateToNetwork(const Pos &oldpos)
 /* action: enter */
 void Gate::enter()
 {
-  /* save url because World::quit frees gate */
+  /* saves url because World::quit frees gate */
   char *new_url = strdup(names.url);
 
   if (link) {	// without channel
     World::current()->quit();
     World::enter(new_url, NULL, World::NEW);
     World::current()->linked();	// linked world
+    return;
   }
-  else {	// with channel
-    if (strcmp(names.url, Universe::current()->url) == 0) {
-      sprintf(chan, "%s/%u/%d",
-              Universe::current()->group, Universe::current()->port, Channel::currentTtl());
-      trace(DBG_IPMC, "initial channel = %s", chan);
-    }
 
+  // with channel
+  if (! strcmp(names.url, Universe::current()->url)) {
+    sprintf(chan, "%s/%u/%d",
+            Universe::current()->group, Universe::current()->port, Channel::currentTtl());
+    trace(DBG_IPMC, "initial channel = %s", chan);
+  }
 #if 1 //dax
 #define USE_VACS 0
+#else
+#define USE_VACS 1
 #endif
 #if USE_VACS
-    // call here the VACS (VREng Address Cache Server) to get the channel string
-    Vac *vac = Vac::current();
-    if (! vac->getChannel(names.url, chan)) {
-      // this url is not in the cache, we need to ask to the vacs to resolve it
-      if (vac->resolveWorldUrl(names.url, chan)) {
-        trace(DBG_FORCE, "enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
-      }
-      else {
-        warning("enter: warning resolveWorldUrl failed from Vac: url=%s", names.url);
-        if (! *chan)
-          strcpy(chan, DEF_VRE_CHANNEL);  // no given channel, forced to the default
-      }
-      trace(DBG_IPMC, "enter: getChannel=%s url=%s", chan, new_url);
+  // call here the VACS (VREng Address Cache Server) to get the channel string
+  Vac *vac = Vac::current();
+  if (! vac->getChannel(names.url, chan)) {
+    // this url is not in the cache, we need to ask to the vacs to resolve it
+    if (vac->resolveWorldUrl(names.url, chan)) {
+      trace(DBG_FORCE, "enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
     }
+    else {
+      warning("enter: warning resolveWorldUrl failed from Vac: url=%s", names.url);
+      if (! *chan)
+        strcpy(chan, DEF_VRE_CHANNEL);  // no given channel, forced to the default
+    }
+    trace(DBG_IPMC, "enter: getChannel=%s url=%s", chan, new_url);
+  }
 #endif //USE_VACS
 
-    char *new_chan = NULL;
-    new_chan = strdup(chan);
+  char *new_chan = NULL;
+  new_chan = strdup(chan);
 
-    World::current()->quit();		// quit the current world
-    delete Channel::current();		// delete Channel
-    Sound::playSound(GATESND);
+  World::current()->quit();		// quit the current world
+  delete Channel::current();		// delete Channel
+  Sound::playSound(GATESND);
 
-    World::enter(new_url, new_chan, World::NEW);	// enter in this world
+  World::enter(new_url, new_chan, World::NEW);	// enter in this world
 
-    Channel::join(new_chan);
-    trace(DBG_IPMC, "enter: join channel=%s url=%s", new_chan, new_url);
+  Channel::join(new_chan);
+  trace(DBG_IPMC, "enter: join channel=%s url=%s", new_chan, new_url);
+  //TODO declareJoinWorldToManager(new_url, new_chan, worlds->plocaluser->getInstance());
 
-    //TODO declareJoinWorldToManager(new_url, new_chan, worlds->plocaluser->getInstance());
-
-    if (audioactive) Audio::start(new_chan);
-    if (new_chan)
-      free(new_chan);
-  }
+  if (audioactive) Audio::start(new_chan);
+  if (new_chan)
+    free(new_chan);
   if (new_url)
     free(new_url);
 }
@@ -272,5 +275,5 @@ void Gate::funcs()
 
   setActionFunc(GATE_TYPE, 0, _Action enter_cb, "Enter");
   setActionFunc(GATE_TYPE, 1, _Action gotoFront, "Approach");
-  setActionFunc(GATE_TYPE, 2, _Action moveObject, "Move");
+  //setActionFunc(GATE_TYPE, 2, _Action moveObject, "Move");
 }
