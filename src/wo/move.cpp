@@ -107,39 +107,40 @@ void * endMovement(void *arg)
 bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 {
   *lasting = diffTime(sec, usec);
+  if (move.next) {
+    //error("next1: ttl=%.1f nocol=%d", move.ttl, move.nocol);
+    move = *(move.next);	// copy next move into current - segfault occurs FIXME!
+    //error("next2: ttl=%.1f nocol=%d", move.ttl, move.nocol);
+    //delete[] move.next;	// delete next, now obsoleted
+    move.next = NULL;
+    move.sec = sec;
+    move.usec = usec;
+    move.perm_sec = sec;
+    move.perm_usec = usec;
+    if (move.nocol) {
+#if HAVE_LIBPTHREAD
+      pthread_t tid;
+      pthread_create(&tid, NULL, endMovement, (void *) NULL);
+#else
+      if (! fork()) {
+        endMovement(NULL);
+        exit(0);
+      }
+#endif
+      move.nocol = false;
+    }
+    return true;
+  }
   if (*lasting < move.ttl) {
     move.ttl -= *lasting;
     move.sec = sec;
     move.usec = usec;
     return true;
   }
-  else {
-    if (move.next) {
-      move = *(move.next);	// copy next move into current - segfault occurs FIXME!
-      //delete[] move.next;	// delete next, now obsoleted
-      move.next = NULL;
-      move.sec = sec;
-      move.usec = usec;
-      move.perm_sec = sec;
-      move.perm_usec = usec;
-      if (move.nocol) {
-#if HAVE_LIBPTHREAD
-        pthread_t tid;
-        pthread_create(&tid, NULL, endMovement, (void *) NULL);
-#else
-        if (! fork()) {
-          endMovement(NULL);
-          exit(0);
-        }
-#endif
-        move.nocol = false;
-      }
-      return true;
-    }
-    *lasting = 0;
-    stopImposedMovement();
-    return false;
-  }
+
+  *lasting = 0;
+  stopImposedMovement();
+  return false;
 }
 
 /* modify user position in one direction */
