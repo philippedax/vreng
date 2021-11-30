@@ -68,56 +68,56 @@ public:
   Guide(char *l);	///< Constructor
 
   static WObject * (creator)(char *l);
-  /**< Create from fileline */
+  /**< Create from fileline. */
 
   virtual void updateTime(time_t sec, time_t usec, float *lasting);
 
   virtual void changePermanent(float lasting);
-  /**< Perpetually movement */
+  /**< Perpetually movement. */
 
   virtual bool whenIntersect(WObject *pcur, WObject *pold);
-  /**< When an other object intersects */
+  /**< When an other object intersects. */
 
   virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
-  /**< When an object leaves intersection */
+  /**< When an object leaves intersection. */
 
   virtual bool updateToNetwork(const Pos &oldpos);
-  /**< Publishes new position */
+  /**< Publishes new position. */
 
   virtual void render();
-  /**< Renders the trajectory */
+  /**< Renders the trajectory. */
 
   virtual void quit();
-  /**< Quits */
+  /**< Quits. */
 
 private:
   virtual void parser(char *l);
-  /**< Parses */
+  /**< Parses. */
 
   virtual void defaults();
-  /**< init default values */
+  /**< Sets default values. */
 
-  virtual void initUser();
-  /**< Sets User on the guide */
+  virtual void setUser();
+  /**< Sets User on the guide. */
 
   virtual void motion(float *dx, float *dy, float *dz);
-  /**< Returns deltas */
+  /**< Returns deltas. */
 
   virtual void progress(WObject *po);
-  /**< Progress along the guide */
+  /**< Progress along the guide. */
 
   virtual void draw(float *color);
-  /**< Draws the trajectory */
+  /**< Draws the trajectory. */
 
   virtual void restore();
-  /**< Restores initial positions */
+  /**< Restores initial positions. */
 
   /** Callbacks from GUI */
-  static void visit(Guide *o, void *d, time_t s, time_t u);
-  static void showhide(Guide *o, void *d, time_t s, time_t u);
-  static void pausecontinue(Guide *o, void *d, time_t s, time_t u);
-  static void test(Guide *o, void *d, time_t s, time_t u);
-  static void reset(Guide *o, void *d, time_t s, time_t u);
+  static void visit_cb(Guide *o, void *d, time_t s, time_t u);
+  static void showhide_cb(Guide *o, void *d, time_t s, time_t u);
+  static void pausecontinue_cb(Guide *o, void *d, time_t s, time_t u);
+  static void test_cb(Guide *o, void *d, time_t s, time_t u);
+  static void reset_cb(Guide *o, void *d, time_t s, time_t u);
 };
 
 #endif

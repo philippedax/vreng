@@ -21,18 +21,12 @@
 #include "vreng.hpp"
 #include "guide.hpp"
 #include "user.hpp"	// USER_TYPE
-#include "timer.hpp"	// delta()
 
 
 const OClass Guide::oclass(GUIDE_TYPE, "Guide", Guide::creator);
 
 #define GUIDE_MAX 32
 
-#if 0 //dax
-#define GUIDE_ALTER 1	// changePermanent
-#else
-#define GUIDE_ALTER 0	// whenIntersect
-#endif
 
 const uint8_t Guide::GUIDE_DIM = GUIDE_MAX;
 const float Guide::GUIDE_DELTAZ = 0.02;
@@ -105,7 +99,7 @@ void Guide::parser(char *l)
   end_while_parse(l);
 
   if (segs == 0) {
-    error("no guide path");
+    error("no guide path defined");
     return;
   }
 
@@ -118,7 +112,7 @@ void Guide::parser(char *l)
 
   segs++;	// end of path
   if (testing) {
-    oneway = false;
+    oneway = false;	// without localuser
   }
   if (oneway) {
     path[segs][3] = 0;
@@ -140,7 +134,6 @@ Guide::Guide(char *l)
   guide = this;
 
   parser(l);
-  //dax enableBehavior(COLLIDE_ONCE);
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
@@ -165,7 +158,7 @@ void Guide::updateTime(time_t sec, time_t usec, float *lasting)
 }
 
 /* Sets the user on the guide */
-void Guide::initUser()
+void Guide::setUser()
 {
   // save initial position of the user
   userpos[0] = localuser->pos.x;
@@ -278,15 +271,6 @@ void Guide::changePermanent(float lasting)
       restore();
     }
   }
-
-#if 0 //GUIDE_ALTER
-  else if (stuck) {
-    if (seg >= segs) {
-      return;	// end of trip
-    }
-    progress(this);
-  }
-#endif
 }
 
 /**
@@ -298,27 +282,22 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
   static bool once = true;
 
   if (testing) {
-    return true;
+    return false;	// guide only
   }
 
   if (pcur->type != USER_TYPE) {
     pold->copyPositionAndBB(pcur);
     return true;
   }
+
   // user only
   if (restored) {
     once = true;
     restored = false;
   }
-  //static struct timeval begin, end;
-  //float dt;
-
   if (once) {
-    //gettimeofday(&begin, NULL);
-    //dt = (float) Timer::delta();
-    //error("dt=%5.2f b=%5.2f", dt, begin.tv_sec);
     once = false;
-    initUser();
+    setUser();
     if (path[seg][4]) {	// pause
       signal(SIGALRM, sigguide);
       alarm((uint32_t) path[seg][4]);	// set delay
@@ -326,19 +305,13 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
     }
   }
 
-#if 1 //GUIDE_ALTER //dax
   if (path[seg][3]) {	// speed present
     progress(pold);
   }
   else {
-    //gettimeofday(&end, NULL);
-    //dt = Timer::diffDates(begin, end);
-    //dt = (float) Timer::delta();
-    //error("dt=%5.2f b=%5.2f e=%5.2f", dt, begin.tv_sec, end.tv_sec);
     once = true;
     restore();
   }
-#endif
   return true;
 }
 
@@ -358,7 +331,7 @@ void Guide::restore()
     localuser->pos.z = userpos[2];
     localuser->pos.az = userpos[3];
     localuser->updatePositionAndGrid(localuser->pos);
-    //dax error("end of trip");
+    //error("end of trip");
   }
   stuck = false;
 }
@@ -408,33 +381,6 @@ void Guide::render()
   glPopAttrib();
 }
 
-void Guide::visit(Guide *o, void *d, time_t s, time_t u)
-{
-  if (! o->stuck) {
-    o->initUser();
-  }
-}
-
-void Guide::showhide(Guide *o, void *d, time_t s, time_t u)
-{
-  o->show ^= 1;
-}
-
-void Guide::pausecontinue(Guide *o, void *d, time_t s, time_t u)
-{
-  o->pause ^= 1;
-}
-
-void Guide::test(Guide *o, void *d, time_t s, time_t u)
-{
-  o->testing ^= 1;
-}
-
-void Guide::reset(Guide *o, void *d, time_t s, time_t u)
-{
-  o->restore();
-}
-
 void Guide::quit()
 {
   glDeleteLists(dlist, 1);
@@ -442,11 +388,38 @@ void Guide::quit()
   signal(SIGALRM, SIG_IGN);
 }
 
+void Guide::visit_cb(Guide *o, void *d, time_t s, time_t u)
+{
+  if (! o->stuck) {
+    o->setUser();
+  }
+}
+
+void Guide::showhide_cb(Guide *o, void *d, time_t s, time_t u)
+{
+  o->show ^= 1;
+}
+
+void Guide::pausecontinue_cb(Guide *o, void *d, time_t s, time_t u)
+{
+  o->pause ^= 1;
+}
+
+void Guide::test_cb(Guide *o, void *d, time_t s, time_t u)
+{
+  o->testing ^= 1;
+}
+
+void Guide::reset_cb(Guide *o, void *d, time_t s, time_t u)
+{
+  o->restore();
+}
+
 void Guide::funcs()
 {
-  setActionFunc(GUIDE_TYPE, 0, _Action visit, "Visit");
-  setActionFunc(GUIDE_TYPE, 1, _Action showhide, "Show");
-  setActionFunc(GUIDE_TYPE, 2, _Action pausecontinue, "Pause");
-  setActionFunc(GUIDE_TYPE, 3, _Action test, "Test");
-  setActionFunc(GUIDE_TYPE, 4, _Action reset, "Reset");
+  setActionFunc(GUIDE_TYPE, 0, _Action visit_cb, "Visit");
+  setActionFunc(GUIDE_TYPE, 1, _Action showhide_cb, "Show");
+  setActionFunc(GUIDE_TYPE, 2, _Action pausecontinue_cb, "Pause");
+  setActionFunc(GUIDE_TYPE, 3, _Action test_cb, "Test");
+  setActionFunc(GUIDE_TYPE, 4, _Action reset_cb, "Reset");
 }
