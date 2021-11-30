@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "doc.hpp"
-#include "browser.hpp"	// start
 #include "ps.hpp"	// view, print
 
 
@@ -42,7 +41,7 @@ void Doc::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "url")) l = parse()->parseUrl(l, names.url);
+    if (! stringcmp(l, "url")) l = parse()->parseUrl(l, names.url);
   }
   end_while_parse(l);
 }
@@ -51,7 +50,6 @@ Doc::Doc(char *l)
 {
   parser(l);
 
-  //dax1 enableBehavior(PERSISTENT);
   enableBehavior(TAKABLE);
 
   initMobileObject(0);
@@ -69,6 +67,12 @@ bool Doc::whenIntersect(WObject *pcur, WObject *pold)
   return true;
 }
 
+void Doc::quit()
+{
+  Ps::quit();
+  savePersistency();
+}
+
 void Doc::view_cb(Doc *doc, void *d, time_t s, time_t u)
 {
   Ps::view(doc->names.url);
@@ -82,13 +86,6 @@ void Doc::print_cb(Doc *doc, void *d, time_t s, time_t u)
 void Doc::cancel_cb(Doc *doc, void *d, time_t s, time_t u)
 {
   Ps::quit();
-}
-
-void Doc::quit()
-{
-  Ps::quit();
-  oid = 0;
-  savePersistency();
 }
 
 void Doc::funcs()
@@ -110,5 +107,5 @@ void Doc::funcs()
   setActionFunc(DOC_TYPE, 0, _Action view_cb, "View");
   setActionFunc(DOC_TYPE, 1, _Action print_cb, "Print");
   setActionFunc(DOC_TYPE, 2, _Action cancel_cb, "Cancel");
-  setActionFunc(DOC_TYPE, 3, _Action moveObject, "Move");
+  //setActionFunc(DOC_TYPE, 3, _Action moveObject, "Move");
 }
