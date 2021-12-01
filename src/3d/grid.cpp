@@ -223,13 +223,13 @@ UBox * Grid::gridBox()
   UBox& grid1 =
   uvbox(usize(160, 400)
         + uvbox(UBorder::etchedIn
-                + uhbox(UColor::blue + UFont::bold + "View")
+                + uhbox(UColor::navy + UFont::bold + "View")
                 + ucheckbox("2D Grid" + ucall(this, &Grid::toggleGrid2d))
                 + ucheckbox("3D Grid" + ucall(this, &Grid::toggleGrid3d))
                 + ucheckbox("Overlap" + ucall(this, &Grid::toggleOverlap))
                )
         + uvbox(UBorder::etchedIn
-                + uhbox(UColor::blue + UFont::bold + "Behavior")
+                + uhbox(UColor::navy + UFont::bold + "Behavior")
                 + ucheckbox(behavior
                             + "Stick to the world"
                             + UOn::select / ucall(this, (int) STICK, &Grid::toggleBehavior)
@@ -248,25 +248,25 @@ UBox * Grid::gridBox()
   UBox& grid2 = 
   uvbox(usize(160, 400)
         + uvbox(UBorder::etchedIn
-                + uhbox(UColor::blue + UFont::bold + "Slice ")
+                + uhbox(UColor::navy + UFont::bold + "Slice ")
                 + uhbox("Width:  " + uhflex() + s_width)
                 + uhbox("Height: " + uhflex() + s_height)
                 + uhbox("Depth:  " + uhflex() + s_depth)
                )
         + uvbox(UBorder::etchedIn
-                + uhbox(UColor::blue + UFont::bold + "Orientation")
+                + uhbox(UColor::navy + UFont::bold + "Orientation")
                 + uhbox("Rot X: " + uhflex() + s_rotx)
                 + uhbox("Rot Y: " + uhflex() + s_roty)
                 + uhbox("Rot Z: " + uhflex() + s_rotz)
                )
         + uvbox(UBorder::etchedIn
-                + uhbox(UColor::blue + UFont::bold + "Position")
+                + uhbox(UColor::navy + UFont::bold + "Position")
                 + uhbox("Pos X: " + uhflex() + s_x)
                 + uhbox("Pos Y: " + uhflex() + s_y)
                 + uhbox("Pos Z: " + uhflex() + s_z)
                )
         + uvbox(UBorder::etchedIn
-                + uhbox(UColor::blue + UFont::bold + "Color ")
+                + uhbox(UColor::navy + UFont::bold + "Color ")
                 + uhbox("R: " + uhflex() + *s_red)
                 + uhbox("G: " + uhflex() + *s_green)
                 + uhbox("B: " + uhflex() + *s_blue)
