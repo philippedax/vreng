@@ -29,7 +29,7 @@ class Axis {
 
 private:
   static const GLfloat DEF_GLYPH;
-  static const GLbyte DEF_WIDTH;
+  static const GLfloat DEF_WIDTH;
 
   bool visible;		///< flag visible or not
   GLint dlist;		///< gl display list
