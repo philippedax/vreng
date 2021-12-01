@@ -221,7 +221,7 @@ UBox * Grid::gridBox()
   genValues();	// if commented : ubit crashes UArgs::operator+()
   
   UBox& grid1 =
-  uvbox(usize(160,400)
+  uvbox(usize(160, 400)
         + uvbox(UBorder::etchedIn
                 + uhbox(UColor::blue + UFont::bold + "View")
                 + ucheckbox("2D Grid" + ucall(this, &Grid::toggleGrid2d))
@@ -246,7 +246,7 @@ UBox * Grid::gridBox()
    );
 
   UBox& grid2 = 
-  uvbox(usize(160,400)
+  uvbox(usize(160, 400)
         + uvbox(UBorder::etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Slice ")
                 + uhbox("Width:  " + uhflex() + s_width)
@@ -273,7 +273,7 @@ UBox * Grid::gridBox()
                )
        );
   
-  return &udialog(ulabel("Grid")
+  return &ubox(ulabel("Grid settings")
                   + UBackground::white
                   + uhbox(upadding(8,8) + grid1 + " " + uhflex() + grid2)
                   + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())

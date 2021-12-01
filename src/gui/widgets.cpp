@@ -1027,11 +1027,7 @@ UDialog& Widgets::settingsDialog()
 
 UDialog& Widgets::gridDialog()
 {
-  //dax return udialog(Grid::grid()->gridBox());
-  UDialog &griddial = udialog(Grid::grid()->gridBox());
-  griddial.show(true);
-  return griddial;
-  //dax return udialog(Grid::grid()->gridBox());
+  return udialog(Grid::grid()->gridBox());
 }
 
 UDialog& Widgets::toolDialog()
