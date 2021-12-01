@@ -234,7 +234,7 @@ void Fire::changePermanent(float dt)
     p->dy = height * p->s.z/v.y;
   }
 
-#if 0 //dax
+#if 1 //dax
   for (int n=0; n<4; n++) {
     Quad fground;
     Vector3 vg = src;

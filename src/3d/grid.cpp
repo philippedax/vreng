@@ -221,14 +221,14 @@ UBox * Grid::gridBox()
   genValues();	// if commented : ubit crashes UArgs::operator+()
   
   UBox& grid1 =
-  uvbox(	//usize(160,400)
-          uvbox(UBorder::none	//etchedIn
+  uvbox(usize(160,400)
+        + uvbox(UBorder::etchedIn
                 + uhbox(UColor::blue + UFont::bold + "View")
                 + ucheckbox("2D Grid" + ucall(this, &Grid::toggleGrid2d))
                 + ucheckbox("3D Grid" + ucall(this, &Grid::toggleGrid3d))
                 + ucheckbox("Overlap" + ucall(this, &Grid::toggleOverlap))
                )
-        + uvbox(UBorder::none	//etchedIn
+        + uvbox(UBorder::etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Behavior")
                 + ucheckbox(behavior
                             + "Stick to the world"
@@ -241,42 +241,43 @@ UBox * Grid::gridBox()
                             + "Strict follow"
                             + UOn::select / ucall(this, (int) SFOLLOW, &Grid::toggleBehavior))
                )
-        + uvbox(UBorder::none	//etchedIn
+        + uvbox(UBorder::etchedIn
                 + ubutton("Reset" + ucall(this, &Grid::defaults)))
    );
+
   UBox& grid2 = 
   uvbox(usize(160,400)
-        + uvbox(UBorder::none	//etchedIn
+        + uvbox(UBorder::etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Slice ")
                 + uhbox("Width:  " + uhflex() + s_width)
                 + uhbox("Height: " + uhflex() + s_height)
                 + uhbox("Depth:  " + uhflex() + s_depth)
-                )
-        + uvbox(UBorder::none	//etchedIn
+               )
+        + uvbox(UBorder::etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Orientation")
                 + uhbox("Rot X: " + uhflex() + s_rotx)
                 + uhbox("Rot Y: " + uhflex() + s_roty)
                 + uhbox("Rot Z: " + uhflex() + s_rotz)
-                )
-        + uvbox(UBorder::none	//etchedIn
+               )
+        + uvbox(UBorder::etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Position")
                 + uhbox("Pos X: " + uhflex() + s_x)
                 + uhbox("Pos Y: " + uhflex() + s_y)
                 + uhbox("Pos Z: " + uhflex() + s_z)
-                )
-        + uvbox(UBorder::none	//etchedIn
+               )
+        + uvbox(UBorder::etchedIn
                 + uhbox(UColor::blue + UFont::bold + "Color ")
                 + uhbox("R: " + uhflex() + *s_red)
                 + uhbox("G: " + uhflex() + *s_green)
                 + uhbox("B: " + uhflex() + *s_blue)
-                )
-        );
+               )
+       );
   
-  return &udialog (ulabel("Grid")
-                   + UBackground::white
-                   + uhbox(upadding(8,8) + grid1 + " " + uhflex() + grid2)
-                   + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
-                  );
+  return &udialog(ulabel("Grid")
+                  + UBackground::white
+                  + uhbox(upadding(8,8) + grid1 + " " + uhflex() + grid2)
+                  + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
+                 );
 }
 
 /*
@@ -284,16 +285,23 @@ UBox * Grid::gridBox()
  */
 
 void Grid::toggleBehavior(int _behavior)
-{ behavior = _behavior; }
+{
+  behavior = _behavior;
+}
 
 void Grid::toggleOverlap()
-{ overlap ^= 1; }
+{
+  overlap ^= 1;
+}
 
 void Grid::toggleGrid2d()
-{ visible ^= 1; }
+{
+  visible ^= 1;
+}
 
 void Grid::toggleGrid3d()
 {
+  visible ^= 1;
   grid3d ^= 1;
   draw();
 }
@@ -312,6 +320,7 @@ void Grid::setWidth(UEvent &e)
     i_width = 1;
   draw();
 }
+
 void Grid::setHeight(UEvent &e)
 {
   i_height = (int)((UScrollbar *)e.getSource())->getValue();
@@ -319,6 +328,7 @@ void Grid::setHeight(UEvent &e)
     i_height = 1;
   draw();
 }
+
 void Grid::setDepth(UEvent &e)
 {
   i_depth = (int)((UScrollbar *)e.getSource())->getValue();
@@ -326,16 +336,19 @@ void Grid::setDepth(UEvent &e)
     i_depth = 1;
   draw();
 }
+
 void Grid::setRed(UEvent &e)
 {
   red = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
   draw();
 }
+
 void Grid::setGreen(UEvent &e)
 {
   green = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
   draw();
 }
+
 void Grid::setBlue(UEvent &e)
 {
   blue = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
@@ -346,10 +359,12 @@ void Grid::setPosX(UEvent &e)
 {
   posx = ((UScrollbar *)e.getSource())->getValue() - 50;
 }
+
 void Grid::setPosY(UEvent &e)
 {
   posy = ((UScrollbar *)e.getSource())->getValue() - 50;
 }
+
 void Grid::setPosZ(UEvent &e)
 {
   posz = ((UScrollbar *)e.getSource())->getValue() - 50;
@@ -359,10 +374,12 @@ void Grid::setRotX(UEvent &e)
 {
   rotx = ((UScrollbar *)e.getSource())->getValue();
 }
+
 void Grid::setRotY(UEvent &e)
 {
   roty = ((UScrollbar *)e.getSource())->getValue();
 }
+
 void Grid::setRotZ(UEvent &e)
 {
   rotz = ((UScrollbar *)e.getSource())->getValue();
