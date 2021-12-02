@@ -220,8 +220,8 @@ UBox * Grid::gridBox()
   
   genValues();	// if commented : ubit crashes UArgs::operator+()
   
-  UBox& grid1 =
-  uvbox(usize(160, 400)
+  UBox& grid_left =
+  uvbox(usize(120, 400)
         + uvbox(UBorder::etchedIn
                 + uhbox(UColor::navy + UFont::bold + "View")
                 + ucheckbox("2D Grid" + ucall(this, &Grid::toggleGrid2d))
@@ -242,11 +242,13 @@ UBox * Grid::gridBox()
                             + UOn::select / ucall(this, (int) SFOLLOW, &Grid::toggleBehavior))
                )
         + uvbox(UBorder::etchedIn
-                + ubutton("Reset" + ucall(this, &Grid::defaults)))
+                + ubutton(UColor::navy + UFont::bold
+                + "Reset"
+                + ucall(this, &Grid::defaults))
+               )
    );
-
-  UBox& grid2 = 
-  uvbox(usize(160, 400)
+  UBox& grid_right = 
+  uvbox(usize(180, 400)
         + uvbox(UBorder::etchedIn
                 + uhbox(UColor::navy + UFont::bold + "Slice ")
                 + uhbox("Width:  " + uhflex() + s_width)
@@ -273,11 +275,11 @@ UBox * Grid::gridBox()
                )
        );
   
-  return &ubox(ulabel("Grid settings")
-                  + UBackground::white
-                  + uhbox(upadding(8,8) + grid1 + " " + uhflex() + grid2)
-                  + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
-                 );
+  return &ubox(ulabel(UColor::navy + UFont::bold + uhcenter() + "Grid settings")
+               + UBackground::white
+               + uhbox(upadding(8,8) + grid_left + " " + uhflex() + grid_right)
+               + ubutton(UFont::bold + uhcenter() + " Close " + ucloseWin())
+              );
 }
 
 /*
