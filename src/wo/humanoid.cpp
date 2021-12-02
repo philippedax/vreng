@@ -148,7 +148,7 @@ int Humanoid::initReceiver()
     return 0;
   }
   Socket::bindSocket(sdudp, INADDR_ANY, vaps_port);
-#if 1 //dax
+#if 0 //dax
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
     Channel::getGroup(World::current()->getChan(), group);
@@ -194,7 +194,7 @@ int Humanoid::connectToBapServer(int _ipmode)
     return 0;
   }
   //error("Connection established with vaps server: %s(%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
-#if 1 //dax
+#if 0 //dax
   ipmode = _ipmode;
   if (ipmode == MULTICAST) {
     char group[GROUP_LEN];
@@ -212,7 +212,6 @@ int Humanoid::connectToBapServer(int _ipmode)
 void Humanoid::disconnectFromBapServer()
 {
   if (sdtcp > 0) {
-    //dax write(sdtcp, "stop", 4);	// not usefull because we close
     Socket::closeStream(sdtcp);
     if (ipmode == MULTICAST)
       Socket::dropMembership(sdudp, &mreq);
@@ -319,9 +318,7 @@ void Humanoid::reset()
   disconnectFromBapServer();  // first disconnect
   if (! initReceiver()) return;
   state = LISTENING;
-#if 1 //dax
   if (! connectToBapServer(MULTICAST)) return;
-#endif
 }
 
 void Humanoid::reset_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
