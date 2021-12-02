@@ -105,11 +105,9 @@ static void Resize(int components, const png_bytep d1, int w1, int h1, png_bytep
 
   for (y = 0; y < h2; y++) {
     yy = (int) (y*sy)*w1;
-
     for (x = 0; x < w2; x++) {
       xx = (int) (x*sx);
       d = d1 + (yy+xx)*components;
-
       for (c = 0; c < components; c++) {
         *d2++ = *d++;
       }
@@ -412,7 +410,6 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
     pinfo->Height = height;
     pinfo->Depth  = depth;
   }
-
   if (MaxTextureSize == 0)
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &MaxTextureSize);
 
@@ -432,6 +429,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
 
   if (PalettedTextures == -1)
     PalettedTextures = 0;
+#endif //SUPPORTS_PALETTE_EXT
 
   if (color == PNG_COLOR_TYPE_GRAY || color == PNG_COLOR_TYPE_GRAY_ALPHA)
     png_set_gray_to_rgb(png);
@@ -444,7 +442,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
   if (!(PalettedTextures && mipmap >= 0 && trans == PNG_SOLID))
     if (color == PNG_COLOR_TYPE_PALET
       png_set_expand(png);
-#endif
+#endif //dax
   /*--GAMMA--*/
   checkForGammaEnv();
   if (png_get_gAMA(png, info, &fileGamma))
@@ -513,11 +511,12 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
       }
 #ifdef _WIN32
       glColorTableEXT(GL_TEXTURE_2D, GL_RGB8, cols, GL_RGB, GL_UNSIGNED_BYTE, pal);
-#endif
+#endif //_WIN32
       glTexImage2D(GL_TEXTURE_2D, mipmap, intf, width, height, 0, GL_COLOR_INDEX, GL_UNSIGNED_BYTE, data);
     }
     else
 #endif //SUPPORTS_PALETTE_EXT
+
     if (trans == PNG_SOLID || trans == PNG_ALPHA || color == PNG_COLOR_TYPE_RGB_ALPHA || color == PNG_COLOR_TYPE_GRAY_ALPHA) {
       GLenum glformat;
       GLint glcomponent;
@@ -564,11 +563,9 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
     *q++ = r; \
     *q++ = g; \
     *q++ = b;
-
 #define FOREND \
   q++; \
 } while (p != endp);
-
 #define ALPHA *q
 
       switch (trans) {
@@ -639,7 +636,6 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
 
       free(data2);
     }
-
     glPixelStorei(GL_PACK_ALIGNMENT, pack);
     glPixelStorei(GL_UNPACK_ALIGNMENT, unpack);
   } /* OpenGL end */
@@ -713,5 +709,3 @@ void APIENTRY pngSetStandardOrientation(int standardorientation)
   StandardOrientation = standardorientation;
 }
 #endif //not used
-
-#endif //DAX
