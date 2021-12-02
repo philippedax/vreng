@@ -156,8 +156,6 @@ void Movie::inits()
 
   // gets texid
   texid = Texture::getIdByObject(this);		// works if texture exists
-  //dax Texture *tex = new Texture(null);
-  //dav texid = Texture::current();
   if (! texid) {
     texid = Texture::open(names.url);
   }
@@ -258,7 +256,7 @@ void Movie::changePermanent(float lasting)
         // build pixmap texture : doesn't work !!!
         int wof = (texsiz - width) / 2;
         int hof = (texsiz - height) / 2;
-        wof = hof = 0; //dax
+        wof = hof = 0; //dax ??
         //error("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
@@ -412,6 +410,6 @@ void Movie::funcs()
   setActionFunc(MOVIE_TYPE, 1, _Action stop_cb, "Stop");
   setActionFunc(MOVIE_TYPE, 2, _Action pause_cb, "Pause");	// side effect if pending
   setActionFunc(MOVIE_TYPE, 3, _Action loop_cb, "Loop");
-  //dax setActionFunc(MOVIE_TYPE, 4, _Action rewind_cb, "Rewind");	// crash in mpeglib
+  //setActionFunc(MOVIE_TYPE, 4, _Action rewind_cb, "Rewind");	// crash in mpeglib
   setActionFunc(MOVIE_TYPE, 4, _Action debug_cb, "Debug");
 }
