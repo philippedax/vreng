@@ -406,7 +406,7 @@ void World::compute(time_t sec, time_t usec)
     dimz = MIN(16, dimz);
 
     Axis::axis()->init();
-    Grid::grid()->init(dimx, dimy, dimz);
+    Grid::grid()->init(bbsize.v[0], bbsize.v[1], bbsize.v[2]);
     }
     setState(SIMULATION);
     return;
@@ -546,7 +546,7 @@ World * World::swap(World *w)
 }
 
 //
-// GRID
+// Vicinity Grid
 //
 
 void World::initGrid()
