@@ -42,8 +42,6 @@ class Grid {
   float posx, posy, posz;	///< grid position
   float rotx, roty, rotz;	///< grid orientation
   int width, depth, height;	///< grid dimensions
-  int i_width, i_depth, i_height; ///< size increments
-  GLfloat red, green, blue, alpha;///< color
   int behavior;			///< grid behavior
   bool overlap;			///< overlapped grid
   bool grid3d;			///< grid 3D
@@ -57,29 +55,37 @@ class Grid {
   };
 
  public:
+  GLfloat color[4];		///< color
+  uint8_t i_width, i_depth, i_height; ///< size increments
+
   Grid();
-  /**< Constructor */
+  /**< Constructor. */
 
   virtual ~Grid() {};
-  /**< Destructor */
+  /**< Destructor. */
 
   virtual void render();
-  /**< Renders grid */
+  /**< Renders grid. */
 
-  virtual void init(int depth, int width, int height);
-  /**< Intilialization */
+  virtual void init(uint16_t depth, uint16_t width, uint16_t height);
+  /**< Intilialization. */
 
   virtual class UBox * gridBox();
-  /**< Builds a dialog box */
+  /**< Builds a dialog box. */
 
   static Grid * grid();
-  /**< Returns grid instance */
+  /**< Returns grid instance. */
 
   virtual void reset();
   virtual void toggleGrid2d();
   virtual void toggleGrid3d();
   virtual void toggleOverlap();
-  virtual void toggleBehavior(int _behavior);
+  virtual void toggleBehavior(int behavior);
+
+  virtual void setColor(const float *color);
+  virtual void setWidthIncr(uint8_t val);
+  virtual void setHeightIncr(uint8_t val);
+  virtual void setDepthIncr(uint8_t val);
 
  private:
   UScrollbar *s_width, *s_height, *s_depth, *s_red, *s_green, *s_blue,

@@ -22,15 +22,14 @@
 // Author: Mario Trentini (2002)
 //
 #include "vreng.hpp"
-#include "pref.hpp"
 #include "grid.hpp"
-#include "scene.hpp"
+
 
 // local
 static Grid _grid;	// grid instance
 
-const uint8_t Grid::GRID_HEIGHT = 10;
-const uint8_t Grid::GRID_SLICE = 5;
+const uint8_t Grid::GRID_HEIGHT = 8;
+const uint8_t Grid::GRID_SLICE = 8;
 const uint8_t Grid::SCROLL_MAX = 100;
 const uint8_t Grid::SCROLL_INCR = 1;
 
@@ -49,6 +48,11 @@ Grid::Grid()
   overlap = false;
   grid3d = false;
   behavior = STICK;
+  height = GRID_HEIGHT;
+  i_width = i_depth = i_height = GRID_SLICE;
+  for (int i=0; i<4; i++) {
+    color[i] = 1;
+  }
 }
 
 void Grid::defaults()
@@ -56,19 +60,17 @@ void Grid::defaults()
   rotx = roty = rotz = 0;
   posx = posy = 0;
   posz = 0;	//FIXME: user->pos.z - user->pos.bbsize.v[2] + epsilon
-  height = GRID_HEIGHT;
-  i_width = i_depth = i_height = GRID_SLICE;
-  red = green = blue = alpha = 1;
 }
 
 /* Called by world.cpp: Grid::grid()->init */
-void Grid::init(int _depth, int _width, int _height)
+void Grid::init(uint16_t _depth, uint16_t _width, uint16_t _height)
 {
   defaults();
 
   // bbsize of the current world
   depth = _depth;
   width = _width;
+  height = _height;
 
   // fills the matrix transformation
   glmat[0]=0;  glmat[4]=-1; glmat[8] =0; glmat[12]=0;		// Xogl = -Yvre
@@ -85,19 +87,16 @@ void Grid::init(int _depth, int _width, int _height)
 
 void Grid::draw()
 {
-  Scene *scene = ::g.gui.scene();
-  if (!scene || !scene->isInitialized()) return;
-
   if (dlist != -1)
     glDeleteLists(dlist, 1);
 
-  int grid_height = (grid3d) ? i_height : 0;
+  uint16_t grid_height = (grid3d) ? i_height : 0;
 
   /* draw grid in displaylist */
   dlist = glGenLists(1);
   glNewList(dlist, GL_COMPILE);
 
-  glColor4f(red, green, blue, alpha);
+  glColor4fv(color);
   glBegin(GL_LINES);
   for (int j = -grid_height; j <= grid_height; j++) {
     float x, y, z;
@@ -131,8 +130,7 @@ void Grid::draw()
 
 void Grid::render()
 {
-  if (! visible)
-    return;
+  if (! visible) return;
 
   glPushMatrix();
   glDisable(GL_LIGHTING);
@@ -142,8 +140,9 @@ void Grid::render()
   glGetFloatv(GL_MODELVIEW_MATRIX, gl_proj);
   gl_proj[12] = gl_proj[13] = gl_proj[14] = 0;
   glLoadMatrixf(gl_proj);
-  if (behavior == SFOLLOW) // load default view matrix
-    glLoadMatrixf(glmat);
+  if (behavior == SFOLLOW) {
+    glLoadMatrixf(glmat);	// load default view matrix
+  }
   else if (behavior == STICK) {
     glPopMatrix();
     glPushMatrix();
@@ -153,11 +152,39 @@ void Grid::render()
   glRotatef(rotz, 0, 0, 1);
   glRotatef(rotx, 0, 1, 0);
   glRotatef(roty, 1, 0, 0);
+
   glCallList(dlist);
+
   if (overlap)
     glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHTING);
   glPopMatrix();
+}
+
+void Grid::setColor(const float *_color)
+{
+  for (int i=0; i<4; i++) {
+    color[i] = _color[i];
+  }
+  draw();
+}
+
+void Grid::setWidthIncr(uint8_t val)
+{
+  i_width = val;
+  draw();
+}
+
+void Grid::setHeightIncr(uint8_t val)
+{
+  i_height = val;
+  draw();
+}
+
+void Grid::setDepthIncr(uint8_t val)
+{
+  i_depth = val;
+  draw();
 }
 
 /*
@@ -246,7 +273,7 @@ UBox * Grid::gridBox()
                 + "Reset"
                 + ucall(this, &Grid::defaults))
                )
-   );
+       );
   UBox& grid_right = 
   uvbox(usize(180, 400)
         + uvbox(UBorder::etchedIn
@@ -299,6 +326,7 @@ void Grid::toggleOverlap()
 void Grid::toggleGrid2d()
 {
   visible ^= 1;
+  grid3d = false;
 }
 
 void Grid::toggleGrid3d()
@@ -316,44 +344,38 @@ void Grid::reset()
 /* changing width and depth of the grid */
 void Grid::setWidth(UEvent &e)
 {
-  i_width = (int)((UScrollbar *)e.getSource())->getValue();
+  i_width = (uint8_t)((UScrollbar *)e.getSource())->getValue();
   // TODO: don't use getValue: find another way to read the value (argument ?)
-  if (i_width <= 0)
-    i_width = 1;
   draw();
 }
 
 void Grid::setHeight(UEvent &e)
 {
-  i_height = (int)((UScrollbar *)e.getSource())->getValue();
-  if (i_height <= 0)
-    i_height = 1;
+  i_height = (uint8_t)((UScrollbar *)e.getSource())->getValue();
   draw();
 }
 
 void Grid::setDepth(UEvent &e)
 {
-  i_depth = (int)((UScrollbar *)e.getSource())->getValue();
-  if (i_depth <= 0)
-    i_depth = 1;
+  i_depth = (uint8_t)((UScrollbar *)e.getSource())->getValue();
   draw();
 }
 
 void Grid::setRed(UEvent &e)
 {
-  red = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
+  color[0] = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
   draw();
 }
 
 void Grid::setGreen(UEvent &e)
 {
-  green = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
+  color[1] = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
   draw();
 }
 
 void Grid::setBlue(UEvent &e)
 {
-  blue = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
+  color[2] = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
   draw();
 }
 

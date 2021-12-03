@@ -980,7 +980,12 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     Parse *parser = Parse::getParse();
     parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));
     sandbox->islinked = true;
+
+    float gridcolor[4] = { 0, 1, 0, 1 };	// green
     Grid::grid()->toggleGrid2d();
+    Grid::grid()->setColor(gridcolor);
+    Grid::grid()->setWidthIncr(16);
+    Grid::grid()->setDepthIncr(16);
     Axis::axis()->toggle();
   }
   localuser->inits();
