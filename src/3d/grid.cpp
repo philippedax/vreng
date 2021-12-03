@@ -218,6 +218,10 @@ void Grid::genValues()
   s_blue->setValue(SCROLL_MAX);
   s_blue->setUnitIncrement(10);
   s_blue->setBlockIncrement(10);
+  s_alpha = &uhscrollbar(UOn::change / ucall(this, &Grid::setAlpha));
+  s_alpha->setValue(SCROLL_MAX);
+  s_alpha->setUnitIncrement(10);
+  s_alpha->setBlockIncrement(10);
 
   s_x = &uhscrollbar(UOn::change / ucall(this, &Grid::setPosX));
   s_x->setUnitIncrement(1);
@@ -299,6 +303,7 @@ UBox * Grid::gridBox()
                 + uhbox("R: " + uhflex() + *s_red)
                 + uhbox("G: " + uhflex() + *s_green)
                 + uhbox("B: " + uhflex() + *s_blue)
+                + uhbox("A: " + uhflex() + *s_alpha)
                )
        );
   
@@ -376,6 +381,12 @@ void Grid::setGreen(UEvent &e)
 void Grid::setBlue(UEvent &e)
 {
   color[2] = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
+  draw();
+}
+
+void Grid::setAlpha(UEvent &e)
+{
+  color[3] = ((UScrollbar *)e.getSource())->getValue() / SCROLL_MAX;
   draw();
 }
 

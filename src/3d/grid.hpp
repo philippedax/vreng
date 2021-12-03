@@ -88,7 +88,7 @@ class Grid {
   virtual void setDepthIncr(uint8_t val);
 
  private:
-  UScrollbar *s_width, *s_height, *s_depth, *s_red, *s_green, *s_blue,
+  UScrollbar *s_width, *s_height, *s_depth, *s_red, *s_green, *s_blue, *s_alpha,
              *s_x, *s_y, *s_z, *s_rotx, *s_roty, *s_rotz;
   virtual void setWidth(UEvent &v);
   virtual void setHeight(UEvent &v);
@@ -96,6 +96,7 @@ class Grid {
   virtual void setRed(UEvent &v);
   virtual void setGreen(UEvent &v);
   virtual void setBlue(UEvent &v);
+  virtual void setAlpha(UEvent &v);
 
   virtual void setPosX(UEvent &v);
   virtual void setPosY(UEvent &v);
