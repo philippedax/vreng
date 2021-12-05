@@ -383,12 +383,12 @@ void World::compute(time_t sec, time_t usec)
       bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]);
       bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]);
     }
+    OList::clearIspointed(mobileList);
 
     notice("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f",
            bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
 
-    OList::clearIspointed(mobileList);
-
+#if 0 //dax notused
     //
     // computes Grid dimensions
     //
@@ -404,11 +404,12 @@ void World::compute(time_t sec, time_t usec)
     dimx = MIN(64, dimx);
     dimy = MIN(64, dimy);
     dimz = MIN(16, dimz);
+    }
+#endif
 
+    setState(SIMULATION);
     Axis::axis()->init();
     Grid::grid()->init(bbsize.v[0], bbsize.v[1], bbsize.v[2]);
-    }
-    setState(SIMULATION);
     return;
 
   case SIMULATION:	// do movements
