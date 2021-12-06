@@ -558,20 +558,20 @@ void World::initGrid()
   bbslice.v[0] = DISTX;
   bbslice.v[1] = DISTY;
   bbslice.v[2] = DISTZ;
-  localGrid();
 
+  localGrid();
   clearGrid();
 }
 
-// notused
+#if 0 // notused
 void World::initGrid(const uint8_t _dim[3], const V3 &slice)
 {
   for (int i=0; i<3 ; i++) {
     dimgrid[i] = _dim[i];
     bbslice.v[i] = slice.v[i];
   }
-  localGrid();
 
+  localGrid();
   clearGrid();
 }
 
@@ -579,6 +579,7 @@ OList **** World::allocGrid()
 {
   return NULL;
 }
+#endif
   
 /** clear all pointers in the grid */
 void World::clearGrid()
@@ -767,7 +768,7 @@ httpread:
 void World::init(const char *url)
 {
   //
-  // Create initial world
+  // Create initial world (Rendezvous)
   //
   World *world = new World();
 
@@ -892,7 +893,7 @@ void World::quit()
 /* New World initialization - static */
 World * World::enter(const char *url, const char *chanstr, bool isnew)
 {
-  trace(DBG_WO, "world enter: ");
+  trace(DBG_WO, "world enter");
 
   // cleanup
   clearLists();
@@ -902,7 +903,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   World *world = NULL;
 
   // check whether this world is already in memory
-  if (worldByUrl(url) != NULL && isnew) {
+  if (worldByUrl(url) && isnew) {
     world = worldByUrl(url);	// existing world
     worldList = swap(world);
     if (::g.pref.dbgtrace) error("enter: world=%s (%d)", world->name, isnew);
@@ -974,15 +975,16 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     Axis::axis()->reset();
   }
   else {	// world sandbox
-    trace(DBG_WO, "enter: world sandbox: ");
+    trace(DBG_WO, "enter: world sandbox");
     World *sandbox = world;
 
+    //sandbox->addToList();
     sandbox->setName("sandbox");
     Parse *parser = Parse::getParse();
     parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));
     sandbox->islinked = true;
 
-    float gridcolor[4] = { 0, 1, 0, 1 };	// green
+    float gridcolor[4] = { 0, 1, 0, .5 };	// green grid
     Grid::grid()->toggleGrid2d();
     Grid::grid()->setColor(gridcolor);
     Grid::grid()->setWidthIncr(16);

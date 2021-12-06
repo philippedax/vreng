@@ -159,17 +159,14 @@ class World {
   virtual void setGroupAdr(uint32_t _group);
   virtual void setSsrc(uint32_t _ssrc);
 
+  //
+  // Grid
+  //
   void localGrid();
   /**< Sets locals for the current world. */
 
   void initGrid();
   /**< Inits the grid by default. */
-
-  void initGrid(const uint8_t dim[3], const V3 &sl);
-  /**< Inits the grid. */
-
-  class OList **** allocGrid();
-  /**< Allocs memory for the grid. */
 
   void clearGrid();
   /**< Clears the grid. */
@@ -177,12 +174,24 @@ class World {
   void freeGrid();
   /**< Frees the grid. */
 
+  //notused void initGrid(const uint8_t dim[3], const V3 &sl);
+  /**< Inits the grid. */
+
+  //notused class OList **** allocGrid();
+  /**< Allocs memory for the grid. */
+
   //
   // World methods
   // static methods
   //
   static World* current();
   /**< Return the current world. */
+
+  static void init(const char *urlvre);
+  /**< General World initialization. */
+
+  static World* enter(const char* _url, const char* _chanstr, bool _new_one);
+  /**< New World initialization. */
 
   static World* goPrev();
   /**< Go to the previous world and return it. */
@@ -192,12 +201,6 @@ class World {
 
   static World* swap(World *w);
   /**< Exchanges Worlds in the list. */
-
-  static World* enter(const char* _url, const char* _chanstr, bool _new_one);
-  /**< New World initialization. */
-
-  static void init(const char *urlvre);
-  /**< General World initialization. */
 
   static void worldReader(void *urlvre, class Http *http);
   /**< World reader. */
