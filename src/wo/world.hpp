@@ -45,7 +45,7 @@ class World {
     STOPPED
   };
 
- protected:
+ public:
   static const uint8_t GRIDX;
   static const uint8_t GRIDY;
   static const uint8_t GRIDZ;
@@ -69,9 +69,9 @@ class World {
   uint8_t dimgrid[3];		///< grid dimensions.
   class Universe *universe;	///< universe pointer.
   class Bgcolor *bgcolor;	///< background color.
+  class User *user;		///< localuser.
   World *prev;			///< prev world.
   World *next;			///< next world.
-  class User *user;		///< localuser.
 
  public:
   static const uint8_t WORLD_LEN;
@@ -229,6 +229,7 @@ class World {
   static void clearLists();
   /**< Clears all lists. */
 
+  static void dumpworldList(const char *note);
 };
 
 #endif

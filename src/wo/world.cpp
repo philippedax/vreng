@@ -474,6 +474,7 @@ bool World::call(World *w)
 // static
 World * World::goPrev()
 {
+  //dumpworldList("debug");
   World *worldback = worldList->next;
   if (! worldback) return NULL;	// no prev world
 
@@ -1047,13 +1048,13 @@ void World::clearLists()
   lightList.clear();
 }
 
-#if 0 //debug
-void dumpworldlist(const char *note)
+#if 1 //debug
+void World::dumpworldList(const char *note)
 {
   int i=0;
   printf("%s: ", note);
-  for (World *wp = current(); wp && i<10; wp = wp->next, i++) {
-    printf("%s -> ", wp->_name);
+  for (World *wp = World::current(); wp && i<10; wp = wp->next, i++) {
+    printf("%s -> ", wp->name);
     if (wp == wp->next) {
       printf("loop\n");
       return;
