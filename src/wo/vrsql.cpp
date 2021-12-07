@@ -143,7 +143,7 @@ bool VRSql::connectDB()
   PGconn *db = PQconnectdb("user=vreng dbname=vreng_db");
   if (PQstatus(db) == CONNECTION_BAD) {
     warning("VRSql: %s can't connect %s", USER, DEF_PGSQL_SERVER);
-    PQerrorMessage(conn);
+    PQerrorMessage(db);
     PQfinish(db);
     return false;
   }
@@ -166,10 +166,10 @@ VRSql * VRSql::init()
     r = vrsql->openDB();	// open database
 #elif HAVE_MYSQL
     r = vrsql->connectDB();	// connect to database server
-    createDabase(DB);
+    createDatabase(DB);
 #elif HAVE_PGSQL
     r = vrsql->connectDB();	// connect to database server
-    createDabase(DB);
+    //dax createDatabase(DB);
 #endif
     if (! r) {
       trace(DBG_INIT, "init: can't reach database");

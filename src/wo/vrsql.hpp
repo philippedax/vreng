@@ -61,6 +61,8 @@ class VRSql {
 #elif HAVE_MYSQL
   MYSQL_RES *res;	///< MySqsl result
   MYSQL_ROW row;	///< MySql row
+#elif HAVE_PGSQL
+  PGresult *res;	///< PGSqsl result
 #endif
 
  public:

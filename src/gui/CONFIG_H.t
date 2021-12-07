@@ -383,7 +383,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_OPENAL */\n\
 \n\
 /* */\n\
-/* #undef HAVE_PGSQL */\n\
+#define HAVE_PGSQL 1\n\
 \n\
 /* */\n\
 #define HAVE_PGSQL_H 1\n\
