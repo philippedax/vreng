@@ -1373,8 +1373,8 @@ if test "${with_pgsql:=no}" = "yes"; then
   AC_SUBST(PGSQL_CFLAGS)
   CPPFLAGS="${PGSQL_I} ${CPPFLAGS}"
   AC_CHECK_HEADER([libpq-fe.h], [AC_DEFINE([HAVE_PGSQL_H])],)
-  AC_CHECK_LIB([libpq], [PQconnectdb], [VRELIBS="${PGSQL_L} -lpq ${VRELIBS}"],,)
-  if test "$ac_cv_lib_libpq_PQconnectdb" = "yes" ; then
+  AC_CHECK_LIB([pq], [PQstatus], [VRELIBS="${PGSQL_L} -lpq ${VRELIBS}"],,)
+  if test "$ac_cv_lib_pq_PQstatus" = "yes" ; then
     AC_DEFINE(HAVE_PGSQL)
   fi
 fi

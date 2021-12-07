@@ -144,7 +144,7 @@ bool VRSql::connectDB()
   if (PQstatus(db) == CONNECTION_BAD) {
     warning("VRSql: %s can't connect %s", USER, DEF_PGSQL_SERVER);
     PQerrorMessage(conn);
-    do_exit(db);
+    PQfinish(db);
     return false;
   }
   return true;
@@ -201,7 +201,7 @@ void VRSql::quit()
     if (db) mysql_close(db);
     db = NULL;
 #elif HAVE_PGSQL
-    
+    if (db) PQfinish(db);
 #endif
   }
 }
@@ -261,6 +261,18 @@ bool VRSql::query(const char *sqlcmd)
     error("query: %s", sqlcmd);
 #endif
     return false;
+  }
+  return true;
+
+#elif HAVE_PGSQL
+  if (! db) {
+    connectDB();	// we need to reconnect to the MySql server
+  }
+
+  PGresult *res = PQexec(db, sqlcmd);
+  if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+    PQclear(res);
+    //PQfinish(db);
   }
   return true;
 

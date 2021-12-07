@@ -38,7 +38,7 @@
 #elif HAVE_MYSQL
 #include <mysql/mysql.h>
 #elif HAVE_PGSQL
-#include <libpq-ef.h>
+#include <libpq-fe.h>
 #endif
 
 #include "wobject.hpp"	// typeName (table)
