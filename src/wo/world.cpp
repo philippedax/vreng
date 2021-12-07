@@ -121,6 +121,7 @@ void World::addToList()
     prev = NULL;
   }
   worldList = this;
+  //dumpworldList("debug");
 }
 
 /* Gets current world */
@@ -474,7 +475,6 @@ bool World::call(World *w)
 // static
 World * World::goPrev()
 {
-  //dumpworldList("debug");
   World *worldback = worldList->next;
   if (! worldback) return NULL;	// no prev world
 
@@ -509,17 +509,17 @@ World * World::goNext()
   world->quit();	// quit current world first
 
   World *wp;
-  World *worldforw;
-  for (wp = world; (worldforw = wp->next)->next; wp = wp->next) {
+  World *worldnext;
+  for (wp = world; (worldnext = wp->next)->next; wp = wp->next) {
     ;
   }
-  worldforw->next = world;
-  worldforw->prev = NULL;
-  world->prev = worldforw;
+  worldnext->next = world;
+  worldnext->prev = NULL;
+  world->prev = worldnext;
   wp->next = NULL;
-  worldList = worldforw;
+  worldList = worldnext;
 
-  if (worldforw->call(world)) {
+  if (worldnext->call(world)) {
     return worldList;
   }
   return NULL;
@@ -916,7 +916,8 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
       ::g.gui.updateWorld(world, NEW);
     }
   }
-  else if (isnew) { // new world must to be initialized
+  else if (isnew) {
+    // new world must to be initialized
 
     World *newworld = new World();
 
@@ -963,6 +964,9 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   //
   world->setState(LOADING);	// to download
   if (url) {
+    //
+    // world to downloaded
+    //
     trace(DBG_WO, "enter: downloading world url=%s", url);
     //world->universe->startWheel();
     if (Http::httpOpen(url, worldReader, (void *)url, 0) < 0) {
@@ -976,11 +980,16 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     Axis::axis()->reset();
   }
   else {	// world sandbox
+    //
+    // sandbox world
+    //
     trace(DBG_WO, "enter: world sandbox");
     World *sandbox = world;
+    //dax World *sandbox = new World();
 
-    //sandbox->addToList();
     sandbox->setName("sandbox");
+    //dax sandbox->addToList();
+
     Parse *parser = Parse::getParse();
     parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));
     sandbox->islinked = true;
@@ -1048,19 +1057,17 @@ void World::clearLists()
   lightList.clear();
 }
 
-#if 1 //debug
 void World::dumpworldList(const char *note)
 {
   int i=0;
   printf("%s: ", note);
-  for (World *wp = World::current(); wp && i<10; wp = wp->next, i++) {
+  for (World *wp = worldList; wp && i<32; wp = wp->next, i++) {
     printf("%s -> ", wp->name);
     if (wp == wp->next) {
       printf("loop\n");
       return;
     }
   }
-  if (i==10) printf("LOOP\n");
-  else printf("null\n");
+  if (i==32) printf("LOOP\n");
+  else printf("\n");
 }
-#endif
