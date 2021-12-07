@@ -383,6 +383,12 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_OPENAL */\n\
 \n\
 /* */\n\
+/* #undef HAVE_PGSQL */\n\
+\n\
+/* */\n\
+/* #undef HAVE_PGSQL_H */\n\
+\n\
+/* */\n\
 #define HAVE_PNG_H 1\n\
 \n\
 /* Define to 1 if you have the `pow' function. */\n\
@@ -745,6 +751,9 @@ const char CONFIG_H[] = "\
 \n\
 /* */\n\
 /* #undef WITH_MYSQL */\n\
+\n\
+/* */\n\
+/* #undef WITH_PGSQL */\n\
 \n\
 /* */\n\
 #define WITH_PTHREAD 1\n\

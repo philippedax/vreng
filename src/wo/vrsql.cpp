@@ -29,10 +29,8 @@
 // local
 static VRSql *vrsql = NULL;		// vrsql handle, only one by universe
 
-#if HAVE_SQLITE
-static const char * DB = "db";		///< database name
-#elif HAVE_MYSQL
-static const char * DB = "vreng";	///< database name
+#if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
+static const char * DB = "vreng_db";	///< database name
 static const char * USER = "vreng";	///< user name
 static const char * PASSWD = NULL;	///< no password
 #else
@@ -59,7 +57,7 @@ static const char * COL_BAP = "bap";	///< column bap
 /** Constructor */
 VRSql::VRSql()
 {
-#if HAVE_SQLITE | HAVE_MYSQL
+#if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
   db = NULL;
   res = NULL;
 #endif
@@ -133,10 +131,30 @@ bool VRSql::connectDB()
 }
 #endif
 
+#if HAVE_PGSQL
+/**
+ * Establishes a link with the pgsql server
+ */
+bool VRSql::connectDB()
+{
+  if (::g.pref.fast == true)
+    return false;
+
+  PGconn *db = PQconnectdb("user=vreng dbname=vreng_db");
+  if (PQstatus(db) == CONNECTION_BAD) {
+    warning("VRSql: %s can't connect %s", USER, DEF_PGSQL_SERVER);
+    PQerrorMessage(conn);
+    do_exit(db);
+    return false;
+  }
+  return true;
+}
+#endif
+
 /** Allocates VRSql */
 VRSql * VRSql::init()
 {
-#if HAVE_SQLITE | HAVE_MYSQL
+#if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
   if (World::current())
     return NULL;
 
@@ -147,6 +165,9 @@ VRSql * VRSql::init()
 #if HAVE_SQLITE
     r = vrsql->openDB();	// open database
 #elif HAVE_MYSQL
+    r = vrsql->connectDB();	// connect to database server
+    createDabase(DB);
+#elif HAVE_PGSQL
     r = vrsql->connectDB();	// connect to database server
     createDabase(DB);
 #endif
@@ -179,6 +200,8 @@ void VRSql::quit()
 #elif HAVE_MYSQL
     if (db) mysql_close(db);
     db = NULL;
+#elif HAVE_PGSQL
+    
 #endif
   }
 }

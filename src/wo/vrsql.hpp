@@ -21,7 +21,7 @@
 #ifndef VRSQL_HPP
 #define VRSQL_HPP
 
-#if HAVE_SQLITE | HAVE_MYSQL
+#if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
 #define VRSQL 1
 #else
 #define VRSQL 0
@@ -37,6 +37,8 @@
 #include <sqlite3.h>
 #elif HAVE_MYSQL
 #include <mysql/mysql.h>
+#elif HAVE_PGSQL
+#include <libpq-ef.h>
 #endif
 
 #include "wobject.hpp"	// typeName (table)
@@ -66,6 +68,8 @@ class VRSql {
   sqlite3 *db;		///< Sqlite handle
 #elif HAVE_MYSQL
   MYSQL *db;		///< MySql handle
+#elif HAVE_PGSQL
+  PGconn *db;		///< PgSql handle
 #endif
 
   VRSql();		///< constructor
@@ -88,6 +92,9 @@ class VRSql {
   virtual bool openDB();
   /**< opens to the Sqlite database */
 #elif HAVE_MYSQL
+  virtual bool connectDB();
+  /**< connects to the MySql server */
+#elif HAVE_PGSQL
   virtual bool connectDB();
   /**< connects to the MySql server */
 #endif

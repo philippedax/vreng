@@ -30,6 +30,7 @@
 #define DEF_VACS_SERVER		"localhost"
 #define DEF_VRUM_SERVER		"localhost"
 #define DEF_MYSQL_SERVER	"localhost"
+#define DEF_PGSQL_SERVER	"localhost"
 #define DEF_VNC_SERVER		"localhost"
 
 #else	// by default
@@ -50,6 +51,7 @@
 #define DEF_VACS_SERVER		"localhost"
 #define DEF_VRUM_SERVER		"localhost"
 #define DEF_MYSQL_SERVER	"localhost"
+#define DEF_PGSQL_SERVER	"localhost"
 #define DEF_VNC_SERVER		"localhost"
 #endif	// def servers
 
