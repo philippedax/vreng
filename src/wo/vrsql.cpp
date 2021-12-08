@@ -31,11 +31,11 @@ static VRSql *vrsql = NULL;		// vrsql handle, only one by universe
 
 #if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
 static const char * DB = "vreng_db";	///< database name
-static const char * USER = "vreng";	///< user name
-static const char * PASSWD = NULL;	///< no password
 #else
 static const char * DB = NULL;		///< no database
 #endif
+static const char * USER = "vreng";	///< user name
+static const char * PASSWD = NULL;	///< no password
 static const char * COL_NAME = "name";	///< column name
 static const char * COL_ST = "state";	///< column state
 static const char * COL_X = "x";	///< column x
@@ -140,9 +140,11 @@ bool VRSql::connectDB()
   if (::g.pref.fast == true)
     return false;
 
-  PGconn *db = PQconnectdb("user=vreng dbname=vreng_db");
+  char args[32];
+  sprintf(args, "user=%s dbname=%s", ::g.user, DB);
+  PGconn *db = PQconnectdb(args);
   if (PQstatus(db) == CONNECTION_BAD) {
-    warning("VRSql: %s can't connect %s", USER, DEF_PGSQL_SERVER);
+    warning("VRSql: %s can't connect %s", ::g.user, DEF_PGSQL_SERVER);
     PQerrorMessage(db);
     PQfinish(db);
     return false;
@@ -166,10 +168,10 @@ VRSql * VRSql::init()
     r = vrsql->openDB();	// open database
 #elif HAVE_MYSQL
     r = vrsql->connectDB();	// connect to database server
-    createDatabase(DB);
+    vrsql->createDatabase(DB);
 #elif HAVE_PGSQL
     r = vrsql->connectDB();	// connect to database server
-    //dax createDatabase(DB);
+    vrsql->createDatabase(DB);
 #endif
     if (! r) {
       trace(DBG_INIT, "init: can't reach database");
