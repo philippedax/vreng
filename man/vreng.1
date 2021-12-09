@@ -117,7 +117,10 @@ To clean the personnal cache located in ~/.vreng/cache/.
 Expands palettes (GUI) witch are expanded by default.
 .TP
 .BR  " -F, --fast"
-Mode fast without persistency, e.g. without MySql requests to a server.
+Mode fast without persistency, e.g. without MySql or Sqlite or Postgres requests to a server.
+.TP
+.BR  " -L, --loghttpd"
+Logs additionl client infos as version, os, user in the httpd access.log.
 .TP
 .BR  " -M, --multicast"
 To use directly the MBone IP Multicast infrastructure,
