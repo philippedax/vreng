@@ -57,7 +57,8 @@ where options are:\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
 -C, --clean			Clean cache\n\
 -E, --expand			Expand palettes (GUI)\n\
--F, --fast			Without persistency (MySql/Sqlite)\n\
+-F, --fast			Without persistency (MySql|Sqlite|Postgres)\n\
+-L, --loghttpd			Logging httpd infos\n\
 -M, --multicast			MBone IP Multicast mode\n\
 -P, --progress			Progression indicators [show]\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
@@ -94,6 +95,7 @@ Pref::Pref()
   dbgtrace = false;
   new_universe = false;
   refresh = false;
+  loghttpd = false;
 
   // options with default values
   width3D  = DEF_WIDTH3D;
@@ -165,6 +167,7 @@ void Pref::parse(int argc, char **argv)
     {"clean",      0, 0, 'C'},
     {"expand",     0, 0, 'E'},
     {"fast",       0, 0, 'F'},
+    {"loghttpd",   0, 0, 'L'},
     {"multicast",  0, 0, 'M'},
     {"progress",   0, 0, 'P'},
     {"stats",      0, 0, 'S'},
@@ -172,9 +175,9 @@ void Pref::parse(int argc, char **argv)
     {"timetolive", 1, 0, 'T'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiklqrstv2CEFMPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv2CEFLMPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiklqrstvx2CEFMPRSa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx2CEFLMPRSa:d:f:n:p:u:w:A:T:"))
 #endif
    != -1) {
 
@@ -295,6 +298,9 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'F':
         fast = true;
+        break;
+      case 'L':
+        loghttpd = true;
         break;
       case 'M':
         reflector = false;

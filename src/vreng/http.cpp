@@ -339,22 +339,23 @@ htagain:
     /*
      * send the GET request to the http server with adding useful infos
      */
-#if 1 //dax
-    if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
-      sprintf(req,
-              "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
-              ht->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
-              ::g.env.relname(), ::g.user, host);
-    }
-    else {
-      sprintf(req,
-              "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
-              path, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
-              ::g.env.relname(), ::g.user, host);
+    if (::g.pref.loghttpd) {
+      if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
+        sprintf(req,
+                "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
+                ht->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
+                ::g.env.relname(), ::g.user, host);
+      }
+      else {
+        sprintf(req,
+                "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
+                path, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
+                ::g.env.relname(), ::g.user, host);
+      } 
     } 
-#else
-    sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
-#endif
+    else {
+      sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
+    } 
     //error("req: %s", req);
     if (HttpThread::send(http->fd, req, strlen(req)) < 0) {
       error("can't send req=%s", req);

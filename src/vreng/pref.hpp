@@ -57,6 +57,7 @@ public:
   bool progress;	///< show progression
   bool stats;		///< show stats
   bool dbgtrace;	///< show trace
+  bool loghttpd;	///< show loghttpd
 
   /* preferences */
   char *my_avatar;	///< avatar model
