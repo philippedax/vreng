@@ -256,7 +256,7 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBMPEG 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_LIBMYSQLCLIENT */\n\
+#define HAVE_LIBMYSQLCLIENT 1\n\
 \n\
 /* Define to 1 if you have the `nsl' library (-lnsl). */\n\
 /* #undef HAVE_LIBNSL */\n\
@@ -347,13 +347,13 @@ const char CONFIG_H[] = "\
 #define HAVE_MULTICAST 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_MYSQL */\n\
+#define HAVE_MYSQL 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_MYSQL_ERROR */\n\
+#define HAVE_MYSQL_ERROR 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_MYSQL_H */\n\
+#define HAVE_MYSQL_H 1\n\
 \n\
 /* */\n\
 /* #undef HAVE_MYSQL_MYSQL_H */\n\
@@ -383,10 +383,10 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_OPENAL */\n\
 \n\
 /* */\n\
-#define HAVE_PGSQL 1\n\
+/* #undef HAVE_PGSQL */\n\
 \n\
 /* */\n\
-#define HAVE_PGSQL_H 1\n\
+/* #undef HAVE_PGSQL_H */\n\
 \n\
 /* */\n\
 #define HAVE_PNG_H 1\n\
@@ -750,10 +750,10 @@ const char CONFIG_H[] = "\
 /* #undef WITH_FREETYPE */\n\
 \n\
 /* */\n\
-/* #undef WITH_MYSQL */\n\
+#define WITH_MYSQL 1\n\
 \n\
 /* */\n\
-#define WITH_PGSQL 1\n\
+/* #undef WITH_PGSQL */\n\
 \n\
 /* */\n\
 #define WITH_PTHREAD 1\n\

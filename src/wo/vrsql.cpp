@@ -338,7 +338,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
     mysql_free_result(res);
     return ERR_SQL;	// no row
   }
-  val = atoi(row[0]));
+  val = atoi(row[0]);
   mysql_free_result(res);
 #endif
 
@@ -402,7 +402,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
     mysql_free_result(res);
     return ERR_SQL;	// no row
   }
-  val = atof(row[0]));
+  val = atof(row[0]);
   mysql_free_result(res);
 #endif
 
