@@ -57,8 +57,8 @@ where options are:\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
 -C, --clean			Clean cache\n\
 -E, --expand			Expand palettes (GUI)\n\
--F, --fast			Without persistency (MySql|Sqlite|Postgres)\n\
--L, --loghttpd			Logging httpd infos\n\
+-F, --fast			Without persistency (without MySql | Sqlite | Postgres)\n\
+-L, --loghttpd			Logging more httpd client infos\n\
 -M, --multicast			MBone IP Multicast mode\n\
 -P, --progress			Progression indicators [show]\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
