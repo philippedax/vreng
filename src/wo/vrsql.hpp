@@ -26,11 +26,6 @@
 #else
 #define VRSQL 0
 #endif
-//dax1 #define VRSQL 0	//debug forced to 0
-//#define HAVE_SQLITE 0 //debug try without SQLITE !!!
-//#if !HAVE_SQLITE
-//#define HAVE_MYSQL 1 // mysql forced if sqlite not present
-//#endif
 
 // includes system
 #if HAVE_SQLITE

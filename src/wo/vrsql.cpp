@@ -29,7 +29,7 @@
 // local
 static VRSql *vrsql = NULL;		// vrsql handle, only one by universe
 
-#if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
+#if VRSQL
 static const char * DB = "vreng_db";	///< database name
 #else
 static const char * DB = NULL;		///< no database
@@ -57,7 +57,7 @@ static const char * COL_BAP = "bap";	///< column bap
 /** Constructor */
 VRSql::VRSql()
 {
-#if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
+#if VRSQL
   db = NULL;
   res = NULL;
 #endif
@@ -70,7 +70,7 @@ bool VRSql::openDB()
     return false;
 
   char pathDB[128];
-  char *err_msg = 0;
+  char *err_msg = NULL;
 
   sprintf(pathDB, "%s/.vreng/%s", Env::home(), DB);
   int rc = sqlite3_open(pathDB, &db);
@@ -105,10 +105,8 @@ bool VRSql::connectDB()
   if ((db = mysql_init(db)) != NULL) {
     if (! mysql_real_connect(db, DEF_MYSQL_SERVER, USER, PASSWD, DB, 0, NULL, 0)) {
       warning("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
-#if HAVE_MYSQL_ERROR
       if (mysql_errno(db))
         error("mysql_error: %s", mysql_error(db));
-#endif
       return false;
     }
   }
@@ -156,7 +154,7 @@ bool VRSql::connectDB()
 /** Allocates VRSql */
 VRSql * VRSql::init()
 {
-#if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
+#if VRSQL
   if (World::current())
     return NULL;
 
@@ -165,12 +163,12 @@ VRSql * VRSql::init()
   int r = 0;
   if (vrsql) {
 #if HAVE_SQLITE
-    r = vrsql->openDB();	// open database
+    r = vrsql->openDB();	// open sqlite database
 #elif HAVE_MYSQL
-    r = vrsql->connectDB();	// connect to database server
+    r = vrsql->connectDB();	// connect to database mysql server
     vrsql->createDatabase(DB);
 #elif HAVE_PGSQL
-    r = vrsql->connectDB();	// connect to database server
+    r = vrsql->connectDB();	// connect to database postgres server
     vrsql->createDatabase(DB);
 #endif
     if (! r) {
@@ -179,7 +177,7 @@ VRSql * VRSql::init()
       vrsql = NULL;
     }
   }
-  trace(DBG_INIT, "init: vrsql = %p", vrsql);
+  trace(DBG_INIT, "init: vrsql");
   return vrsql;
 #else
   return NULL;
@@ -195,16 +193,15 @@ VRSql * VRSql::getVRSql()
 /** Closes the sql link */
 void VRSql::quit()
 {
-  if (vrsql) {
+  if (vrsql && db) {
 #if HAVE_SQLITE
-    if (db) sqlite3_close(db);
-    db = NULL;
+    sqlite3_close(db);
 #elif HAVE_MYSQL
-    if (db) mysql_close(db);
-    db = NULL;
+    mysql_close(db);
 #elif HAVE_PGSQL
-    if (db) PQfinish(db);
+    PQfinish(db);
 #endif
+    db = NULL;
   }
 }
 
@@ -227,9 +224,8 @@ bool VRSql::query(const char *sqlcmd)
   trace(DBG_SQL, "query: %s", sqlcmd);
 
 #if HAVE_SQLITE
-  char *err_msg = 0;
+  char *err_msg = NULL;
 
-  //trace(DBG_FORCE, "query: %s", sqlcmd);
   if (! db) {
     openDB();	// we need to reopen database
   }
@@ -258,28 +254,28 @@ bool VRSql::query(const char *sqlcmd)
   }
 
   if (mysql_query(db, sqlcmd) != 0) {
-#if HAVE_MYSQL_ERROR
     if (mysql_errno(db)) error("mysql_error: %s", mysql_error(db));
     error("query: %s", sqlcmd);
-#endif
     return false;
   }
   return true;
 
 #elif HAVE_PGSQL
   if (! db) {
-    connectDB();	// we need to reconnect to the MySql server
+    connectDB();	// we need to reconnect to the Postgres server
   }
 
-  PGresult *res = PQexec(db, sqlcmd);
-  if (PQresultStatus(res) != PGRES_TUPLES_OK) {
-    PQclear(res);
+  PGresult *rc = PQexec(db, sqlcmd);
+  if (PQresultStatus(rc) != PGRES_TUPLES_OK) {
+    PQclear(rc);
+    error("query: %s", sqlcmd);
+    return false;
     //PQfinish(db);
   }
   return true;
 
 #else // NO DBMS
-  return false;		// SQLite and MySql not presents
+  return false;		// neither SQLite MySql PgSql are presents
 #endif
 }
 
@@ -289,9 +285,8 @@ MYSQL_RES * VRSql::result()
 {
   MYSQL_RES *res = mysql_store_result(db);
 
-#if HAVE_MYSQL_ERROR
-  if (! res) error("mysql_error: %s", mysql_error(db));
-#endif
+  if (! res)
+    error("mysql_error: %s", mysql_error(db));
   return res;
 }
 #endif
