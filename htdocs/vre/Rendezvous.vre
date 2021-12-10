@@ -337,11 +337,11 @@ url="http://www.stud.enst.fr/~bellard/">
 
 <!-- rays -->
 <mirage name="rays" pos="20.8 3 6 1.57 0" mode="turn">
-<solid shape="line" rel="0 0 0 0 0"     l="300" dif="red" />
-<solid shape="line" rel="0 0 0 0 0.02"  l="300" dif="yellow" />
-<solid shape="line" rel="0 0 0 -0.02 0" l="300" dif="green" />
-<solid shape="line" rel="0 0 0 0 -0.02" l="300" dif="cyan" />
-<solid shape="line" rel="0 0 0 0.02 0"  l="300" dif="blue" />
+<solid shape="line" rel="0 0 0 0 0"     l="400" t="3" dif="red" />
+<solid shape="line" rel="0 0 0 0 0.02"  l="400" t="3" dif="yellow" />
+<solid shape="line" rel="0 0 0 -0.02 0" l="400" t="3" dif="green" />
+<solid shape="line" rel="0 0 0 0 -0.02" l="400" t="3" dif="cyan" />
+<solid shape="line" rel="0 0 0 0.02 0"  l="400" t="3" dif="blue" />
 </mirage>
 
 <!-- clock -->
