@@ -58,6 +58,8 @@ class VRSql {
   MYSQL_ROW row;	///< MySql row
 #elif HAVE_PGSQL
   PGresult *res;	///< PGSqsl result
+#else
+  void *res;		///< no dbms
 #endif
 
  public:
@@ -67,6 +69,8 @@ class VRSql {
   MYSQL *db;		///< MySql handle
 #elif HAVE_PGSQL
   PGconn *db;		///< PgSql handle
+#else
+  void *db;		///< no dbms
 #endif
 
   VRSql();		///< constructor
