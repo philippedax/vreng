@@ -129,7 +129,7 @@ Vincent Haverlant <haverlan@aist.enst.fr>: RTP mechanisms\n\
 Adrien Felon <felon@inf.enst.fr>: AOI objects and Tcl/Tk GUI\n\
 Patrick Bellot <bellot@enst.fr>: languages VREL, VREML and editors\n\
 Adrien Felon : AOI\n\
-Ankit Jalote : Android\n\
+Ankit Jalote : Humanoid\n\
 Yann Renard : Face\n\
 Mathieu Seigneurin <seigneur@enst.fr>: vfs, vfc, vrelet\n\
 Guillaume Brule : Bap\n\
@@ -157,7 +157,7 @@ Have fun!\n\
 \n\
 -----\n\
 \n\
-Copyright (C) 1994, 1995, 1996, 1997, 1998, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012\n\
+Copyright (C) 1996 - 2021\n\
   Free Software Foundation, Inc.\n\
 \n\
 This file is part of GNU VREng.\n\

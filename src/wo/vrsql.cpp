@@ -193,7 +193,7 @@ VRSql * VRSql::getVRSql()
 /** Closes the sql link */
 void VRSql::quit()
 {
-  if (vrsql && db) {
+  if (vrsql) {
 #if HAVE_SQLITE
     sqlite3_close(db);
 #elif HAVE_MYSQL
@@ -201,7 +201,6 @@ void VRSql::quit()
 #elif HAVE_PGSQL
     PQfinish(db);
 #endif
-    db = NULL;
   }
 }
 
