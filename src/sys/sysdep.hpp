@@ -231,21 +231,6 @@
 # include <ieeefp.h>
 #endif
 
-#if defined(WITH_MYSQL) && defined(HAVE_MYSQL_H) && defined(HAVE_LIBMYSQLCLIENT)
-# include <mysql.h>
-#endif
-#if defined(WITH_MYSQL) && defined(HAVE_MYSQL_MYSQL_H) && defined(HAVE_LIBMYSQLCLIENT)
-# include <mysql/mysql.h>
-#endif
-
-#if (HAVE_SDL_SDL_MIXER_H && HAVE_LIBSDLMIXER)
-# include <SDL_mixer.h>
-#endif
-
-#if HAVE_PYTHON_H
-# include <Python.h>
-#endif
-
 #if HAVE_FLOATINGPOINT_H
 # ifdef FREEBSD
 #  include <floatingpoint.h>
