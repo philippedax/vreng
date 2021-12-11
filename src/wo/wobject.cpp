@@ -47,6 +47,7 @@ list<WObject*> lightList;
 
 // local
 static uint32_t objectNum = 0;
+static struct hash_elt hashtable[NAME_HASH_SIZE];
 
 
 /* WObject constructor */
@@ -664,6 +665,61 @@ bool WObject::removeFromScene()
   }
 }
 
+void WObject::initNames()  
+{ 
+  for (int i=0; i < NAME_HASH_SIZE; i++) {
+    memset(hashtable[i].name, 0, OBJNAME_LEN);
+  }
+}
+
+static uint32_t hash_name(const char *s)
+{ 
+  uint32_t h;
+
+  for (h=0; *s ; s++) {
+    h = ((h << 8) + *s) % NAME_HASH_SIZE;
+  }
+  return h;
+} 
+
+void WObject::setObjectName(const char *name)
+{ 
+  if (! name) return;
+
+  char fullname[OBJNAME_LEN];
+  sprintf(fullname, "%s@%s", name, World::current()->getName());
+  uint32_t hval = hash_name(fullname);
+  while (hval) {
+    if ((*(hashtable[hval].name) == '\0') ||
+        (! strcmp(hashtable[hval].name, NAME_DELETED))) {
+      strcpy(hashtable[hval].name, fullname);
+      hashtable[hval].po = this;
+      return;
+    }
+    hval = (hval + 1) % NAME_HASH_SIZE;
+  }
+}
+
+WObject * WObject::getObjectByName(const char *name)
+{
+  if (! name) return (WObject *) NULL;
+
+  char fullname[OBJNAME_LEN];
+  sprintf(fullname, "%s@%s", name, World::current()->getName());
+  uint32_t hval = hash_name(fullname);
+  trace(DBG_WO, "getObjectByName: hval=%d name=%s", hval, fullname);
+  while (hval) {
+    if (*(hashtable[hval].name) == '\0') {
+      return (WObject *) NULL;          // not found
+    }
+    if (! strcmp(hashtable[hval].name, fullname)) {
+      return hashtable[hval].po;        // found
+    }
+    hval = (hval + 1) % NAME_HASH_SIZE;
+  }
+  return (WObject *) NULL;              // not found
+}
+
 /* Updates Object names */
 void WObject::updateNames()
 {
@@ -683,7 +739,7 @@ void WObject::updateNames()
     names.instance = names.given;
   }
 
-  setObjName(names.instance);
+  setObjectName(names.instance);
   names.world = World::current()->getName();
 
   if (*names.owner == 0) {

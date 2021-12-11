@@ -784,7 +784,7 @@ void World::init(const char *url)
   world->guip = ::g.gui.addWorld(world, NEW);
   world->initGrid();
   clearLists();
-  initNames();
+  WObject::initNames();
   initFunc();		// init funcs (initobj.cpp)
 
   if (::g.pref.keep == false) {
@@ -898,7 +898,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // cleanup
   clearLists();
-  initNames();
+  WObject::initNames();
   current()->initGrid();
 
   World *world = NULL;

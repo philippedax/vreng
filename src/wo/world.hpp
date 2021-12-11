@@ -214,9 +214,6 @@ class World {
   static void deleteObjects();
   /**< Deletes all objects dropped in the todeletelist. */
 
-  static void initNames();
-  /**< Initializes hashcode table of names. */
-
   static void initFunc();
   /**< Initializes table of general functions. */
 

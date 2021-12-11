@@ -40,6 +40,7 @@
 #define REMOVABLE		256	// bit 8
 #define PARTICLE		512	// bit 9
 #define LIQUID			1024	// bit 10
+
 /* collide behaviors */
 #define COLLIDE_EVER		0	// bits 29,30,31
 #define COLLIDE_MASK		3<<29	// bits 29,30,31
@@ -48,7 +49,6 @@
 #define COLLIDE_GHOST		1<<31	// bit 31
 
 /**
- * external variables
  * objects lists
  */
 extern std::list<WObject*> objectList;
@@ -61,9 +61,9 @@ extern std::list<WObject*> lightList;
 
 
 /**
- * WObjectId Class
+ * WObjectId class
  *
- * WObjectId identifies a distributed object.
+ * identifies a distributed object.
  */
 class WObjectId {
  public:
@@ -72,10 +72,22 @@ class WObjectId {
   uint16_t obj_id;	///< object id -- network format
 };
 
+
+#define NAME_HASH_SIZE  5423    
+#define NAME_DELETED    "XXXXXXX"
+
+/**
+ * hash entry
+ */
+struct hash_elt {
+  WObject *po;                  ///< object ptr
+  char name[OBJNAME_LEN];       ///< object name
+};
+
 /**
  * Names struct
  *
- * Container for all names.
+ * container for object's names.
  */
 struct Names {
   char type[HNAME_LEN];		///< name of an object class.
@@ -92,7 +104,7 @@ struct Names {
 /**
  * Pos struct
  *
- * Spatial position and bounding-box.
+ * spatial position and bounding-box.
  */
 struct Pos {
  public:
@@ -102,16 +114,16 @@ struct Pos {
   float az;		///< angle plan xy axis z.
   float ay;		///< angle plan xz axis y.
   float ax;		///< angle plan yz axis x.
-  V3 bbc;		///< Bounding Box's center.
-  V3 bbs;		///< Bounding Box's dimension.
+  V3 bbc;		///< bounding-box's center.
+  V3 bbs;		///< bounding-box's dimension.
   bool alter;		///< position has changed or not.
-  uint8_t st;		///< button state.
+  uint8_t st;		///< state.
 };
 
 /**
  * Move struct
  *
- * Motion parameters of the object.
+ * motion parameters of the object.
  */
 struct Move {
   float ttl;		///< time to live.
@@ -126,17 +138,13 @@ struct Move {
 };
 
 /**
- * WObject Class
+ * WObject class
  *
- * Common class for all the objects.
+ * common class for all the objects.
  */
 class WObject {
-public:
-  typedef std::list<class Solid*> SolidList;
-  SolidList _solids;		///< list of solids.
 
-protected:
-  bool objectbar;		///< true if object bar is active.
+typedef std::list<class Solid*> SolidList;
 
 public:
   class NetObject *noh;		///< reserved field for network.
@@ -148,15 +156,17 @@ public:
   Names names;			///< names.
   Pos pos;			///< position in the space.
   Move move;			///< movement specific.
+  class Solid *solid;		///< solid pointer
+  SolidList _solids;		///< list of solids.
   class WObjectId noid;		///< WObject Id.
   bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
+  bool objectbar;		///< true if object bar is active.
   int16_t state;		///< current state.
-  int8_t prior;			///< render priority.
+  uint8_t prior;		///< render priority (notused).
   char *geometry;		///< geometry string.
-  class Solid *solid;		///< solid pointer
   char chan[CHAN_LEN];		///< channel.
-#if VRSQL 			///< HAVE_SQLITE | HAVE_MYSQL
+#if VRSQL 			///< HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
   class VRSql *psql;		///< VRSql pointer.
 #endif
   class Flare *flare;		///< flare instance.
@@ -169,7 +179,7 @@ public:
     INVISIBLE,
     FLUID,
     MOBILEINVISIBLE,
-    MODE_MAX
+    ENDMODE
   };
 
   /* object's states */
@@ -187,12 +197,16 @@ public:
     ENDSTATE
   };
 
-  /* render priorities */
+  /* render priorities (notused) */
   enum object_prior {
     PRIOR_LOW,
     PRIOR_MEDIUM,
     PRIOR_HIGH
   };
+
+  //
+  // Methods
+  //
 
   WObject();
   /**< Constructor. */
@@ -200,13 +214,13 @@ public:
   virtual ~WObject();
   /**< Destructor. */
 
-  virtual const OClass* getOClass()	{return NULL;};
-  /**< Abstrct class. */
+  virtual const OClass* getOClass()	{ return NULL; }
+  /**< Abstract class. */
 
-  virtual uint8_t typeId()		{return getOClass()->type_id;};
-  virtual const char* typeName()	{return getOClass()->type_name;};
-  WCreator* getCreator()		{return getOClass()->creator;};
-  WReplicator* getReplicator()  	{return getOClass()->replicator;};
+  virtual uint8_t typeId()		{ return getOClass()->type_id; }
+  virtual const char* typeName()	{ return getOClass()->type_name; }
+  WCreator* getCreator()		{ return getOClass()->creator; }
+  WReplicator* getReplicator()  	{ return getOClass()->replicator; }
 
   //
   // Methods of Instances of general object handlers
@@ -546,17 +560,20 @@ public:
   //
   // Names
   //
-  virtual void setObjName(const char *str);
+  static void initNames();
+  /**< inits hash_table of names. */
+
+  virtual void setObjectName(const char *str);
   /**< Sets an object name. */
 
   virtual WObject *getObjectByName(const char *str);
   /**< Gets an object by its name. */
 
-  virtual void updateNames();
-  /**< Updates names. */
-
   static void getObjectNameById(uint8_t type, char *name);
   /**< Gets a name by its id. */
+
+  virtual void updateNames();
+  /**< Updates names. */
 
   //
   // Initializations
