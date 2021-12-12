@@ -31,7 +31,6 @@
 //***************************************//
 #include "vreng.hpp"
 #include "3ds.hpp"
-#include "vec3.hpp"	// Vec3
 #include "http.hpp"	// httpOpen
 #include "file.hpp"	// localEndian
 #include "texture.hpp"	// open
@@ -684,11 +683,11 @@ void _3ds::computeNormals(t3dsModel *pModel)
       vPoly[2] = pObject->pVerts[pObject->pFaces[i].vertIndex[2]];
 
       // Now calculate the face normals (Get 2 vectors and find the cross product of those 2)
-      v1 = Vector(vPoly[0], vPoly[2]); // Get the vector of the polygon (we just need 2 sides for the normal)
-      v2 = Vector(vPoly[2], vPoly[1]); // Get a second r of the polygon
-      vNormal  = Cross(v1, v2); // Return the cross product of the 2 vectors (normalize vector, but not a unit vector)
+      v1 = Vec3::subVect(vPoly[0], vPoly[2]); // Get the vector of the polygon (we just need 2 sides for the normal)
+      v2 = Vec3::subVect(vPoly[2], vPoly[1]); // Get a second r of the polygon
+      vNormal  = Vec3::crossVect(v1, v2); // Return the cross product of the 2 vectors (normalize vector, but not a unit vector)
       pTempNormals[i] = vNormal;   // Save the un-normalized normal for the vertex normals
-      vNormal  = Normalize(vNormal); // Normalize the cross product to give us the polygons normal
+      vNormal  = Vec3::normVect(vNormal); // Normalize the cross product to give us the polygons normal
       pNormals[i] = vNormal;	// Assign the normal to the list of normals
     }
 
@@ -703,14 +702,14 @@ void _3ds::computeNormals(t3dsModel *pModel)
         if (pObject->pFaces[j].vertIndex[0] == i ||
             pObject->pFaces[j].vertIndex[1] == i ||
             pObject->pFaces[j].vertIndex[2] == i) {
-          vSum = AddVector(vSum, pTempNormals[j]);// Add the un-normalized normal of the shared face
+          vSum = Vec3::addVect(vSum, pTempNormals[j]);// Add the un-normalized normal of the shared face
           shared++;		// Increase the number of shared triangles
         }
       }
 
       // Get the normal by dividing the sum by the shared.  We negate the shared so it has the normals pointing out.
-      pObject->pNormals[i] = DivideVectorByScaler(vSum, float(-shared));
-      pObject->pNormals[i] = Normalize(pObject->pNormals[i]);
+      pObject->pNormals[i] = Vec3::divVect(vSum, float(-shared));
+      pObject->pNormals[i] = Vec3::normVect(pObject->pNormals[i]);
       vSum = vZero;		// Reset the sum
       shared = 0;		// Reset the shared
     }

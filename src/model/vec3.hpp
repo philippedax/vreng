@@ -27,39 +27,43 @@
 #ifndef VEC3_HPP
 #define VEC3_HPP
 
-/**
- * used to store the vertices
- */
-class Vec3 {
-public:
-  float x, y, z;
-};
 
 /**
+ * Vec2 class
  * used to store the UV coordinates
  */
 class Vec2 {
-public:
+ public:
   float x, y;
 };
 
-// computes the magnitude of a normal. (magnitude = sqrt(x^2 + y^2 + z^2)
-#define Mag(v) (sqrt(v.x*v.x + v.y*v.y + v.z*v.z))
 
-Vec3 Vector(Vec3 p1, Vec3 p2);
-/**< calculates a vector between 2 points and returns the result */
+/**
+ * Vec3 class
+ * used to store the vertices
+ */
+class Vec3 {
+ public:
+  float x, y, z;
 
-Vec3 AddVector(Vec3 v1, Vec3 v2);
-/**< adds 2 vectors together and returns the result */
+  // computes the magnitude of a normal. (magnitude = sqrt(x^2 + y^2 + z^2)
+# define Mag(v) (sqrt(v.x*v.x + v.y*v.y + v.z*v.z))
 
-Vec3 DivideVectorByScaler(Vec3 v1, float val);
-/**< divides a vector by a single number (scalar) and returns the result */
+  static Vec3 subVect(Vec3 p1, Vec3 p2);
+  /**< calculates a vector between 2 points and returns the result */
 
-Vec3 Cross(Vec3 v1, Vec3 v2);
-/**< returns the cross product between 2 vectors */
+  static Vec3 addVect(Vec3 v1, Vec3 v2);
+  /**< adds 2 vectors together and returns the result */
 
-Vec3 Normalize(Vec3 v);
-/**< returns the normal of a vector */
+  static Vec3 divVect(Vec3 v1, float val);
+  /**< divides a vector by a single number (scalar) and returns the result */
+
+  static Vec3 crossVect(Vec3 v1, Vec3 v2);
+  /**< returns the cross product between 2 vectors */
+
+  static Vec3 normVect(Vec3 v);
+  /**< returns the normal of a vector */
+};
 
 
 /**
@@ -67,7 +71,7 @@ Vec3 Normalize(Vec3 v);
  */
 class Vect3D {
  public:
-  float x,y,z;
+  float x, y, z;
 
   // Constructeurs / destructeur
   inline Vect3D(float ox=0, float oy=0, float oz=0) {

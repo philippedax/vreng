@@ -29,7 +29,7 @@
 
 
 // calculates a vector between 2 points and returns the result
-Vec3 Vector(Vec3 p1, Vec3 p2)
+Vec3 Vec3::subVect(Vec3 p1, Vec3 p2)
 {
   Vec3 v;
 
@@ -40,7 +40,7 @@ Vec3 Vector(Vec3 p1, Vec3 p2)
 }
 
 // adds 2 vectors together and returns the result
-Vec3 AddVector(Vec3 v1, Vec3 v2)
+Vec3 Vec3::addVect(Vec3 v1, Vec3 v2)
 {
   Vec3 v;
 
@@ -51,7 +51,7 @@ Vec3 AddVector(Vec3 v1, Vec3 v2)
 }
 
 // divides a vector by a single number (scalar) and returns the result
-Vec3 DivideVectorByScaler(Vec3 v1, float val)
+Vec3 Vec3::divVect(Vec3 v1, float val)
 {
   Vec3 v;
 
@@ -62,7 +62,7 @@ Vec3 DivideVectorByScaler(Vec3 v1, float val)
 }
 
 // returns the cross product between 2 vectors
-Vec3 Cross(Vec3 v1, Vec3 v2)
+Vec3 Vec3::crossVect(Vec3 v1, Vec3 v2)
 {
   Vec3 v;
 
@@ -73,12 +73,12 @@ Vec3 Cross(Vec3 v1, Vec3 v2)
 }
 
 // returns the normal of a vector
-Vec3 Normalize(Vec3 v)
+Vec3 Vec3::normVect(Vec3 v)
 {
-  double Magnitude = Mag(v);  // Get the magnitude
+  float magnitude = (float) Mag(v);  // Get the magnitude
 
-  v.x /= (float)Magnitude;
-  v.y /= (float)Magnitude;
-  v.z /= (float)Magnitude;
+  v.x /= magnitude;
+  v.y /= magnitude;
+  v.z /= magnitude;
   return v;
 }

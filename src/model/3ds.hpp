@@ -31,6 +31,7 @@
 #define _3DS_HPP
 
 #include "wobject.hpp"	// Pos
+#include "vec3.hpp"	// Vec3
 #include <vector>
 
 
@@ -52,9 +53,9 @@ struct tObject {
   int  materialID;	///< The texture ID to use, which is the index into our texture array
   bool bHasTexture;	///< This is TRUE if there is a texture map for this object
   char strName[255];	///< The name of the object
-  class Vec3 *pVerts;	///< The object's vertices
-  class Vec3 *pNormals;	///< The object's normals
-  class Vec2 *pTexVerts;///< The texture's UV coordinates
+  Vec3 *pVerts;		///< The object's vertices
+  Vec3 *pNormals;	///< The object's normals
+  Vec2 *pTexVerts;	///< The texture's UV coordinates
   t3dsFace *pFaces;	///< The faces information of the object
 };
 

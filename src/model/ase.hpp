@@ -34,7 +34,7 @@
 #include <string>
 #include <vector>
 
-#include "vec3.hpp"
+#include "vec3.hpp"	// Vec3
 
 
 /**

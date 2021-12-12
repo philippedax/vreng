@@ -489,11 +489,11 @@ void Obj::computeNormals(tOBJModel *pmodel)
       vPoly[2] = pobject->pVerts[pobject->pFaces[i].vertIndex[2]];
 
       // let's calculate the face normals (get 2 vectors and find the cross product of those 2)
-      vVector1 = Vector(vPoly[0], vPoly[2]); // get the vector of the polygon (we just need 2 sides)
-      vVector2 = Vector(vPoly[2], vPoly[1]); // get a second vector of the polygon
-      vNormal  = Cross(vVector1, vVector2);  // return the cross product of the 2 vectors
+      vVector1 = Vec3::subVect(vPoly[0], vPoly[2]); // get the vector of the polygon (we just need 2 sides)
+      vVector2 = Vec3::subVect(vPoly[2], vPoly[1]); // get a second vector of the polygon
+      vNormal  = Vec3::crossVect(vVector1, vVector2);  // return the cross product of the 2 vectors
       pTempNormals[i] = vNormal;     // save the un-normalized normal for the vertex normals
-      vNormal = Normalize(vNormal);  // normalize the cross product to give us the polygons normal
+      vNormal = Vec3::normVect(vNormal);  // normalize the cross product to give us the polygons normal
       pNormals[i] = vNormal;         // assign the normal to the list of normals
     }
 
@@ -508,15 +508,15 @@ void Obj::computeNormals(tOBJModel *pmodel)
         if (pobject->pFaces[j].vertIndex[0] == i ||
             pobject->pFaces[j].vertIndex[1] == i ||
             pobject->pFaces[j].vertIndex[2] == i) {
-          vSum = AddVector(vSum, pTempNormals[j]); // add the unnormalized normal of the shared face
+          vSum = Vec3::addVect(vSum, pTempNormals[j]); // add the unnormalized normal of the shared face
           shared++;                // increase the number of shared triangles
         }
       }
       // get the normal by dividing the sum by the shared. we negate so normals pointing out.
-      pobject->pNormals[i] = DivideVectorByScaler(vSum, float(-shared));
+      pobject->pNormals[i] = Vec3::divVect(vSum, float(-shared));
 
       // normalize the normal for the final vertex normal
-      pobject->pNormals[i] = Normalize(pobject->pNormals[i]);
+      pobject->pNormals[i] = Vec3::normVect(pobject->pNormals[i]);
       vSum = vZero;                  // reset the sum
       shared = 0;                    // reset the shared
     }
