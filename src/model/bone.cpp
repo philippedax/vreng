@@ -33,9 +33,6 @@
 
 
 // TODO : remove next lines !
-int plainRendering = 1;
-int boneEditing = 0;
-int axisRendering = 0;
 char *selectedNodeName = NULL;
 
 
@@ -50,11 +47,9 @@ Bone::Bone()
 
 Bone::~Bone()
 {
-#if 0 //crash
-  //PD this line is correct, but temporally commented because
-  //PD a segfault occurs later in the removeLink destructor
-  emptyLinkList();
-#endif
+  //dax this line is correct, but temporally commented because
+  //dax a segfault occurs later in the removeLink destructor
+  //dax crash// emptyLinkList();
 }
 
 //-----------------
@@ -95,7 +90,9 @@ void Bone::emptyLinkList()
 {
   if (! linkListCompiled) compileLinkList();
 
-  for (int i=0; i<links; i++) delete link[i];
+  for (int i=0; i<links; i++) {
+    delete link[i];
+  }
 
   linkList.empty();
   compileLinkList();
@@ -211,22 +208,8 @@ void Bone::generateLinkList()
   BoneLink **temporaryLink;
   BoneLink *temp;
   int  temporaryLinks;
-#ifdef DEBUG_FACE
-  int progress = -1;
-  int progressold = -1;
-#endif
 
   for (int i=0; i<meshToMove->vertices; i++) {
-#ifdef DEBUG_FACE
-    // Prints info on progress...
-    progressold = progress;
-    progress = (i * 10) / (meshToMove->vertices - 1);
-    if (progress != progressold) {
-      fprintf(stderr, "%i%%... ", progress * 10);
-      fflush(stderr);
-    }
-#endif
-
     temporaryLinkList.empty();
     for (int j=0; j<nodes; j++) {
       // And create a link between the vertex and the node with an influence
@@ -265,13 +248,11 @@ void Bone::generateLinkList()
   // Now that we have all the links, we may compile the link list in here
   compileLinkList();
 
-  for (int i=0; i<links; i++) link[i]->notifyTarget();
+  for (int i=0; i<links; i++) {
+    link[i]->notifyTarget();
+  }
   for (int i=0; i<meshToMove->vertices; i++) meshToMove->vertex[i]->compileLinkList();
 
-#ifdef DEBUG_FACE
-  fprintf(stderr, "\n");
-  fflush(stderr);
-#endif
   trace(DBG_MAN, "selected links: [%2.2f%%]", (links * 100.) / (meshToMove->vertices * nodes));
 }
 
@@ -333,13 +314,15 @@ void renderOneBone(BoneVertex *node)
     glVertex3f(fPos.x, fPos.y, fPos.z);
     glVertex3f(tPos.x, tPos.y, tPos.z);
   }
-  for (int i=0; i < node->children; i++)
+  for (int i=0; i < node->children; i++) {
     renderOneBone(node->child[i]);
+  }
 }
 
 // Main rendering method, will draw the skeleton and the mesh
 void Bone::render()
 {
+#if 0 //dax
   // First we draw the skeleton with local coordinates
   if (axisRendering) {
     glPointSize(5.0);
@@ -352,9 +335,12 @@ void Bone::render()
      renderOneBone(skeleton);
     glEnd();
   }
+#endif
 
   // Now, we'll render the 3d mesh on the screen
-  if (! meshToMove->triangleListCompiled) meshToMove->compileTriangleList();
+  if (! meshToMove->triangleListCompiled) {
+    meshToMove->compileTriangleList();
+  }
 
   BoneTriangle *triangle;
   Vect3D *v1, *v2, *v3;
@@ -364,70 +350,45 @@ void Bone::render()
   glColor3f(0.7, 0.7, 0.8);
   // glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-  if (plainRendering) {
-    glEnable(GL_LIGHTING);
-    glEnable(GL_COLOR_MATERIAL);
-    glColorMaterial(GL_FRONT, GL_DIFFUSE);
-#ifdef __GL_TEXTURE__
-    glEnable(GL_TEXTURE_2D);
-    glDisable(GL_COLOR_MATERIAL);
-#endif
-    glBegin(GL_TRIANGLES);
-  }
-  else {
-    glDisable(GL_LIGHTING);
-    glDisable(GL_COLOR_MATERIAL);
-    glDisable(GL_TEXTURE_2D);
-  }
+  glEnable(GL_LIGHTING);
+  glEnable(GL_COLOR_MATERIAL);
+  glColorMaterial(GL_FRONT, GL_DIFFUSE);
+  //tex glEnable(GL_TEXTURE_2D);
+  //tex glDisable(GL_COLOR_MATERIAL);
+  glBegin(GL_TRIANGLES);
 
   for (int j=0; j < meshToMove->triangles; j++) {
     triangle = meshToMove->triangle[j];
     v1 = &triangle->vertex1->currentPosition;
     v2 = &triangle->vertex2->currentPosition;
     v3 = &triangle->vertex3->currentPosition;
-#ifndef __GL_TEXTURE__
-    if (plainRendering)
-      glColor3f(triangle->finalRed, triangle->finalGreen, triangle->finalBlue);
-    else if (! boneEditing)
-      glColor3f(triangle->colorRed, triangle->colorGreen, triangle->colorBlue);
-    else
-      glColor3f(0.2,0.2,0.6);
-#endif
+    glColor3f(triangle->finalRed, triangle->finalGreen, triangle->finalBlue);
+    glColor3f(triangle->colorRed, triangle->colorGreen, triangle->colorBlue);
     normal = &triangle->initialNormal;
 
     n1 = &triangle->vertex1->currentNormal;
     n2 = &triangle->vertex2->currentNormal;
     n3 = &triangle->vertex3->currentNormal;
 
-    if (! plainRendering)
-      glBegin(GL_LINE_LOOP);
     glNormal3f(normal->x, normal->y, normal->z);
-#ifdef __GL_TEXTURE__
-    glTexCoord2f(triangle->u1, triangle->v1);
-#endif
+    //tex glTexCoord2f(triangle->u1, triangle->v1);
     glNormal3f(n1->x, n1->y, n1->z);
     glVertex3f(v1->x, v1->y, v1->z);
-#ifdef __GL_TEXTURE__
-    glTexCoord2f(triangle->u2, triangle->v2);
-#endif
+    //tex glTexCoord2f(triangle->u2, triangle->v2);
     glNormal3f(n2->x, n2->y, n2->z);
     glVertex3f(v2->x, v2->y, v2->z);
-#ifdef __GL_TEXTURE__
-    glTexCoord2f(triangle->u3, triangle->v3);
-#endif
+    //tex glTexCoord2f(triangle->u3, triangle->v3);
     glNormal3f(n3->x, n3->y, n3->z);
     glVertex3f(v3->x, v3->y, v3->z);
-    if (! plainRendering)
-      glEnd();
   }
-  if (plainRendering)
-    glEnd();
+  glEnd();
   glDisable(GL_TEXTURE_2D);
 }
 
 // Recursive part of rendering the skeleton
 void Bone::renderSkeletonNode(BoneVertex *node)
 {
+#if 0 //dax
   if (selectedNodeName == NULL) return;
 
   glPushMatrix();
@@ -438,15 +399,18 @@ void Bone::renderSkeletonNode(BoneVertex *node)
   else                                        renderLocalCoordinate1();
 
   // Look at the children of this node
-  for (int i=0; i < node->children; i++)
+  for (int i=0; i < node->children; i++) {
     renderSkeletonNode(node->child[i]);
+  }
   glPopMatrix();
+#endif
 }
 
 // Here comes the morphing part of this code
 // This will animate the object
 void Bone::animate()
 {
+#if 0 //dax
   if (! boneEditing) {
     // First we reset to 0,0,0 all the vertices of the mesh
     for (int i=0; i < meshToMove->vertices; i++) {
@@ -471,10 +435,11 @@ void Bone::animate()
     animateSkeletonNode(skeleton);
   }
   else
-    for (int i=0; i < meshToMove->vertices; i++) {
-      meshToMove->vertex[i]->currentPosition = meshToMove->vertex[i]->initialPosition;
-      meshToMove->vertex[i]->currentNormal   = meshToMove->vertex[i]->initialNormal;
-    }
+#endif
+  for (int i=0; i < meshToMove->vertices; i++) {
+    meshToMove->vertex[i]->currentPosition = meshToMove->vertex[i]->initialPosition;
+    meshToMove->vertex[i]->currentNormal   = meshToMove->vertex[i]->initialNormal;
+  }
 }
 
 // Recursive part of the animating
@@ -510,8 +475,9 @@ inline void Bone::animateSkeletonNode(BoneVertex *node)
   }
 
   // And now, we'll add the other links actions
-  for (int i=0; i < node->children; i++)
+  for (int i=0; i < node->children; i++) {
     animateSkeletonNode(node->child[i]);
+  }
 }
 
 //-----------------
@@ -522,8 +488,9 @@ void Bone::addNodeAndChildren(BoneVertex *boneVertex, BoneList < BoneVertex > *l
 
   list->addElement(boneVertex);
 
-  for (int i=0; i < boneVertex->children; i++)
+  for (int i=0; i < boneVertex->children; i++) {
     addNodeAndChildren(boneVertex->child[i], list);
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -639,7 +606,9 @@ void BoneMesh::rebuildNormals()
   if (! vertexListCompiled) compileVertexList();
   if (! triangleListCompiled) compileTriangleList();
 
-  for (int i=0; i < vertices; i++) vertex[i]->initialNormal.reset();
+  for (int i=0; i < vertices; i++) {
+    vertex[i]->initialNormal.reset();
+  }
 
   for (int i=0; i < triangles; i++) {
     triangle[i]->rebuildNormal();
@@ -648,7 +617,9 @@ void BoneMesh::rebuildNormals()
     triangle[i]->vertex3->initialNormal += triangle[i]->initialNormal;
   }
 
-  for (int i=0; i < vertices; i++) vertex[i]->initialNormal.normalize();
+  for (int i=0; i < vertices; i++) {
+    vertex[i]->initialNormal.normalize();
+  }
 
   projectLight();
 }
@@ -966,8 +937,9 @@ void BoneVertex::scale(float sx, float sy, float sz)
   currentPosition.y *= sy;
   currentPosition.z *= sz;
 
-  for (int i=0; i<children; i++)
+  for (int i=0; i<children; i++) {
     child[i]->scale(sx, sy, sz);
+  }
 }
 
 // Updating the father of this boneVertex
@@ -1092,8 +1064,9 @@ void BoneVertex::generateInitialMatrix()
   }
 
   // Now, let's do the same for children :)
-  for (int i=0; i < children; i++)
+  for (int i=0; i < children; i++) {
     child[i]->generateInitialMatrix();
+  }
 
   glPopMatrix();
 }
@@ -1131,8 +1104,9 @@ void BoneVertex::generateCurrentMatrix()
   currentRotMatrix[15] = 1;
 
   // And now, just generate the childrem matrices
-  for (int i=0; i<children; i++)
+  for (int i=0; i<children; i++) {
     child[i]->generateCurrentMatrix();
+  }
 
   glPopMatrix();
 }
