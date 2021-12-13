@@ -30,10 +30,10 @@
 
 #define FIREMAX		2000 // 1024
 #define FIRENB		1000
-#define FIRELIFE	1.5   // 1.5 sec
-#define FIREDELTA	.005  // interval
+#define FIRELIFE	1.5  // 1.5 sec
+#define FIREDELTA	.005 // interval
 #define FIRESIZE	.2   // 20cm
-#define FIREALPHA	.35
+#define FIREALPHA	.65  // .35
 #define FIRECYL		.1   // 10 cm
 
 #define projx(p)	(2*(p).x/(p).y)

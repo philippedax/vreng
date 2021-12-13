@@ -185,13 +185,13 @@ void Fire::changePermanent(float dt)
   time += dt;
 
   if (anim) {
-    Vector3 a(0,0,1);
+    Vector3 a(0, 0, 1);
     float da = pow(0.2, dt);
     
     p = particles;
     for (int n=0; n < np; n++, p++) {
-      if ((p->t -= dt) <= 0)  // kill it
-        *p = particles[--np];
+      if ((p->t -= dt) <= 0)
+        *p = particles[--np];  // kill it
       else {  // animate it
         p->v += a * dt;
         p->p += p->v * dt;
@@ -201,13 +201,13 @@ void Fire::changePermanent(float dt)
       }
     }
     while (np < FIREMAX && (time - lasttime >= FIREDELTA)) {
-      Vector3 dir(0,0,.25);
+      Vector3 speed(0, 0, .25);
       float f;
       lasttime += FIREDELTA;
       p = particles + np++;
       do { f = nrnd(.2); } while (ABSF(f) > .45);
       p->p = src + cyl[rand()%5].d * f;
-      p->v = dir;
+      p->v = speed;
       p->t = lasttime + FIRELIFE - time;
       p->a = FIREALPHA;
       p->s.y = FIRESIZE;
@@ -227,14 +227,13 @@ void Fire::changePermanent(float dt)
   for (int n=0; n < np; n++, p++) {
     m.apply(p->p, &v);
     v += o;
-    p->ex = width * projx(v);  //0.25
+    p->ex = width  * projx(v); //0.25
     p->ey = height * projy(v); //0.75
     projz(p->ez, v);
-    p->dx = width * p->s.x/v.y;
+    p->dx = width  * p->s.x/v.y;
     p->dy = height * p->s.z/v.y;
   }
 
-#if 1 //dax
   for (int n=0; n<4; n++) {
     Quad fground;
     Vector3 vg = src;
@@ -247,7 +246,6 @@ void Fire::changePermanent(float dt)
     fground.v[n].ey = projy(v);
     projz(fground.v[n].ez, v);
   }
-#endif
 }
 
 void Fire::render()
