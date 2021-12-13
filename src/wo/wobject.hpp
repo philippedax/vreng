@@ -798,7 +798,7 @@ protected:
 };
 
 
-#include "initobj.hpp"
+#include "objects.hpp"
 
 
 #endif

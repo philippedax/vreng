@@ -3,7 +3,7 @@
 use strict;
 
 sub usage () {
-  print "Usage: gen.pl vjc.hpp initobj.cpp package messtype objtype gendir\n";
+  print "Usage: gen.pl vjc.hpp objects.cpp package messtype objtype gendir\n";
 }
 
 sub gen ($$$$$$\@\%) {
@@ -68,7 +68,7 @@ sub gen ($$$$$$\@\%) {
 }
 
 my $vjc = shift(@ARGV);
-my $initobj = shift(@ARGV);
+my $objects = shift(@ARGV);
 my $package = shift(@ARGV);
 my $mestype = shift(@ARGV);
 my $objtype = shift(@ARGV);
@@ -102,7 +102,7 @@ gen($vjc, $gendir, $package, $mestype, "", "int", @consts, %strings);
 @consts = ();
 %strings = ();
 
-die "Can't open initobj file: $!" unless open F, $initobj;
+die "Can't open objects file: $!" unless open F, $objects;
 while ($line = <F>) {
   if ($line =~ /\/\*\s*(\d+)\s*\*\/\s*\{\s*(\S+?)_NAME/) {
     push @consts, $2, $1;
@@ -110,4 +110,4 @@ while ($line = <F>) {
 }
 close F;
 
-gen($initobj, $gendir, $package, $objtype, "OBJ_", "int", @consts, %strings);
+gen($objects, $gendir, $package, $objtype, "OBJ_", "int", @consts, %strings);

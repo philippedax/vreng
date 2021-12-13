@@ -785,7 +785,7 @@ void World::init(const char *url)
   world->initGrid();
   clearLists();
   WObject::initNames();
-  initFunc();		// init funcs (initobj.cpp)
+  initFunc();		// init funcs (objects.cpp)
 
   if (::g.pref.keep == false) {
     ::g.env.cleanCacheByExt("vre");	// remove *.vre in the cache

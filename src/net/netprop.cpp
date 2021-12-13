@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "netprop.hpp"
-#include "initobj.hpp"	// getPropertiesnumber
+#include "objects.hpp"	// getPropertiesnumber
 #include "prof.hpp"	// new_netproperty
 
 

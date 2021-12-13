@@ -22,7 +22,7 @@
 #include "oclass.hpp"
 #include "str.hpp"	// mystrcasecmp
 #include "netobj.hpp"	// Noid
-#include "initobj.hpp"	// OBJECTSNUMBER
+#include "objects.hpp"	// OBJECTSNUMBER
 
 using namespace std;
 
