@@ -46,6 +46,9 @@ class Vec3 {
  public:
   float x, y, z;
 
+  //Vec3() {}
+  //Vec3(float tx, float ty, float tz) : x(tx), y(ty), z(tz) {}
+
   // computes the magnitude of a normal. (magnitude = sqrt(x^2 + y^2 + z^2)
 # define Mag(v) (sqrt(v.x*v.x + v.y*v.y + v.z*v.z))
 

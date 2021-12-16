@@ -86,7 +86,6 @@ struct t3dsModel {
   std::vector<tObject> pObject;	///< The object list for our model
 };
 
-#if 0 //dax
 /**
  * Here is our structure for our 3DS indicies
  * (since .3DS stores 4 unsigned shorts)
@@ -94,7 +93,6 @@ struct t3dsModel {
 struct tIndices {
   unsigned short a, b, c, bVisible;	///< This will hold point1, 2, and 3 index's into the vertex array plus a visible flag
 };
-#endif
 
 /**
  * This holds the chunk info

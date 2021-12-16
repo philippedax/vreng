@@ -398,7 +398,6 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       currentChunk.bytesRead += fread(buffer, 1, currentChunk.length - currentChunk.bytesRead, fp);
       break;
     }
-
     pPreviousChunk->bytesRead += currentChunk.bytesRead;
   }
   // Free the current chunk
@@ -480,7 +479,6 @@ void _3ds::nextMaterialChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       currentChunk.bytesRead += fread(buffer, 1, currentChunk.length - currentChunk.bytesRead, fp);
       break;
     }
-
     pPreviousChunk->bytesRead += currentChunk.bytesRead;
   }
   // Free the current chunk

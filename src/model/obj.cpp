@@ -262,7 +262,7 @@ bool Obj::importModel(tOBJModel *pmodel)
 {
   if (!pmodel || !fp) return false;
 
-  readFile(pmodel); // let's read in the info!
+  readFile(pmodel);	// let's read in the info!
   computeNormals(pmodel); // compute the vertex normals for lighting
 
   return true;
@@ -439,8 +439,6 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
       // will have a offset of 0 for both since it starts at 1.
       pobject->pFaces[i].vertIndex[j]  -= 1 + vertexOffset;
       pobject->pFaces[i].coordIndex[j] -= 1 + textureOffset;
-      //int vi = pobject->pFaces[i].vertIndex[j];
-      //if (vi < 0) error("vi=%d vo=%d face=%d c=%d", vi, vertexOffset, i, j);
     }
   }
   for (i=0; i < pobject->numOfVerts; i++)  // go through all the vertices in the object
@@ -463,7 +461,7 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
 /** computes the normals and vertex normals of the objects */
 void Obj::computeNormals(tOBJModel *pmodel)
 {
-  Vec3 vVector1, vVector2, vNormal, vPoly[3];
+  Vec3 v1, v2, vNormal, vPoly[3];
 
   if (pmodel->numOfObjects <= 0) return; // if there are no objects, we can skip
 
@@ -489,15 +487,15 @@ void Obj::computeNormals(tOBJModel *pmodel)
       vPoly[2] = pobject->pVerts[pobject->pFaces[i].vertIndex[2]];
 
       // let's calculate the face normals (get 2 vectors and find the cross product of those 2)
-      vVector1 = Vec3::subVect(vPoly[0], vPoly[2]); // get the vector of the polygon (we just need 2 sides)
-      vVector2 = Vec3::subVect(vPoly[2], vPoly[1]); // get a second vector of the polygon
-      vNormal  = Vec3::crossVect(vVector1, vVector2);  // return the cross product of the 2 vectors
+      v1 = Vec3::subVect(vPoly[0], vPoly[2]); // get the vector of the polygon (we just need 2 sides)
+      v2 = Vec3::subVect(vPoly[2], vPoly[1]); // get a second vector of the polygon
+      vNormal  = Vec3::crossVect(v1, v2);  // return the cross product of the 2 vectors
       pTempNormals[i] = vNormal;     // save the un-normalized normal for the vertex normals
       vNormal = Vec3::normVect(vNormal);  // normalize the cross product to give us the polygons normal
       pNormals[i] = vNormal;         // assign the normal to the list of normals
     }
 
-    Vec3 vSum = {0.0, 0.0, 0.0};
+    Vec3 vSum = {0., 0., 0.};
     Vec3 vZero = vSum;
     int shared=0;
 
