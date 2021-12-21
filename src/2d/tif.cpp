@@ -85,11 +85,11 @@ Img * Img::loadTIF(void *_tex, ImageReader read_func)
     for (int j=0; j < width ; j++) {
       uint32_t pixel = tmpImage[(i*width) + j];
 
-      *pixptr++ = (uint8)TIFFGetR(pixel);
-      *pixptr++ = (uint8)TIFFGetG(pixel);
-      *pixptr++ = (uint8)TIFFGetB(pixel);
+      *pixptr++ = (uint8_t)TIFFGetR(pixel);
+      *pixptr++ = (uint8_t)TIFFGetG(pixel);
+      *pixptr++ = (uint8_t)TIFFGetB(pixel);
       if (channel == Img::RGBA) {
-        *pixptr++ = (uint8)TIFFGetA(pixel);
+        *pixptr++ = (uint8_t)TIFFGetA(pixel);
       }
     }
   }
