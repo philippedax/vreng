@@ -101,8 +101,8 @@ void Guy::behavior()
 
 void Guy::inits()
 {
-  stp = CYCLES/2;
-  incstp = 1.;
+  step = CYCLES/2;
+  incstep = 1.;
   dlist = -1;
 
   draw();
@@ -148,7 +148,7 @@ void Guy::httpReader(void *_guy, Http *http)
 {
   Guy *guy = (Guy *) _guy;
   if (! guy) return;
-  int points = 0;
+  int pts = 0;
 
   FILE *f = Cache::openCache(guy->getUrl(), http);
   if (! f) {
@@ -165,25 +165,24 @@ void Guy::httpReader(void *_guy, Http *http)
 
   fgets(line, sizeof(line), f);	 // skip mirror_flag
   for (int j=0; j < guy->numjoints; j++) {
-
-    fgets(line, sizeof(line), f);
+    fgets(line, sizeof(line), f);	// numpoints
     line[strlen(line) - 1] = '\0';
-    points = atoi(line);	// numpoints
-    if (points < 4 || points > MAX_POINTS) goto abort;
-    guy->curve[j].numpoints = points;
+    pts = atoi(line);
+    if (pts < 4 || pts > MAX_POINTS) goto abort;
+    guy->curve[j].numpoints = pts;
 
-    fgets(line, sizeof(line), f);  // coords
+    fgets(line, sizeof(line), f);	// coords
     line[strlen(line) - 1] = '\0';
     l = strtok(line, " ");
-    for (int p=0; p < points; p++) {
+    for (int p=0; p < pts; p++) {
       guy->curve[j].coords[p] = (float) atof(l);
       l = strtok(NULL, " ");
     }
 
-    fgets(line, sizeof(line), f);  // angles
+    fgets(line, sizeof(line), f);	// angles
     line[strlen(line) - 1] = '\0';
     l = strtok(line, " ");
-    for (int p=0; p < points; p++) {
+    for (int p=0; p < pts; p++) {
       guy->curve[j].angles[p] = (float) atof(l);
       l = strtok(NULL, " ");
     }
@@ -192,7 +191,7 @@ void Guy::httpReader(void *_guy, Http *http)
   return;
 
 abort:
-  error("wrong while reading CSet file, numjoints=%d, points=%d", guy->numjoints, points);
+  error("wrong CSet file, numjoints=%d, pts=%d", guy->numjoints, pts);
   guy->setPose();
   File::closeFile(f);
   return;
@@ -201,12 +200,13 @@ abort:
 void Guy::computeCurve(uint8_t join)
 {
   float pointset[3][4];
-  float prod[3][4], tm[4], vec[3];
+  float vprod[3][4], tm[4], vec[3];
   float tinc = 1./CYCLES/OVERSAMPLE;
-  float basis[4][4] = {{-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3,  0, 0}, {1,  0, 0, 0}};
+  float basis[4][4] = { {-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3,  0, 0}, {1,  0, 0, 0} };
 
-  for (int i=0; i<4; i++)  // z's are always zero, only 2D
+  for (int i=0; i<4; i++) {
     pointset[2][i] = 0;
+  }
 
   int newindex, lastindex = -1;
   for (int p=0; p < curve[join].numpoints; p += 3) {
@@ -215,14 +215,14 @@ void Guy::computeCurve(uint8_t join)
       pointset[0][i] = curve[join].coords[p + i];
       pointset[1][i] = curve[join].angles[p + i];
     }
-    mulM3M4(pointset, basis, prod);
+    mulM3M4(pointset, basis, vprod);
 
     while (t <= 1) {
       tm[0] = t*t*t;
       tm[1] = t*t;
       tm[2] = t;
       tm[3] = 1;
-      mulM3V4(prod, tm, vec);
+      mulM3V4(vprod, tm, vec);
       newindex = (int) (vec[0] * (CYCLES-1));
       if (newindex > lastindex) {  // go at least one
         newindex %= CYCLES;  // avoid out of bounds
@@ -241,17 +241,17 @@ void Guy::setPose()
 {
   for (int j=0; j < numjoints; j++) {
     curve[j].numpoints = 4;
-    curve[j].coords[0] = 0.0; curve[j].angles[0]  = 0;
-    curve[j].coords[1] = 0.2; curve[j].angles[1]  = 0;
-    curve[j].coords[2] = 0.8; curve[j].angles[2]  = 0;
-    curve[j].coords[3] = 1.0; curve[j].angles[3]  = 0;
+    curve[j].coords[0] = 0.0; curve[j].angles[0] = 0;
+    curve[j].coords[1] = 0.2; curve[j].angles[1] = 0;
+    curve[j].coords[2] = 0.8; curve[j].angles[2] = 0;
+    curve[j].coords[3] = 1.0; curve[j].angles[3] = 0;
   }
 }
 
 void Guy::changePermanent(float lasting)
 {
   if (animing) {
-    stp = (int) fmod((double) stp + incstp, CYCLES);
+    step = (int) fmod((double) step + incstep, CYCLES);
   }
   if (control && localuser) {
     pos.x = localuser->pos.x;
@@ -370,8 +370,8 @@ void Guy::draw()
     glDeleteLists(dlist, GUY_PARTS);
   dlist = glGenLists(GUY_PARTS);
   glNewList(dlist+BUST, GL_COMPILE); draw_bust(); glEndList();
-  glNewList(dlist+NECK, GL_COMPILE); draw_neck(); glEndList();
   glNewList(dlist+BREA, GL_COMPILE); draw_brea(); glEndList();
+  glNewList(dlist+NECK, GL_COMPILE); draw_neck(); glEndList();
   glNewList(dlist+HEAD, GL_COMPILE); draw_head(); glEndList();
   glNewList(dlist+ULEG, GL_COMPILE); draw_uleg(); glEndList();
   glNewList(dlist+LLEG, GL_COMPILE); draw_lleg(); glEndList();
@@ -432,14 +432,14 @@ void Guy::display_leg(bool side)
    }
 
     // Upper leg: rotates around the x axis only
-    glRotatef(cycles[side][0][stp], 1, 0, 0);
+    glRotatef(cycles[side][0][step], 1, 0, 0);
     glPushMatrix();
      glCallList(dlist+ULEG);
     glPopMatrix();
 
     // Lower leg: rotates around the x axis only
     glTranslatef(0, -(ULEG_H + KNEE_R), 0);
-    glRotatef(cycles[side][1][stp], 1, 0, 0);
+    glRotatef(cycles[side][1][step], 1, 0, 0);
     glPushMatrix();
      glCallList(dlist+LLEG);
     glPopMatrix();
@@ -447,7 +447,7 @@ void Guy::display_leg(bool side)
     // Foot: rotates around the x axis only
     glMaterialfv(GL_FRONT, GL_AMBIENT, feet_color);
     glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0);
-    glRotatef(cycles[side][2][stp], 1, 0, 0);
+    glRotatef(cycles[side][2][step], 1, 0, 0);
     glPushMatrix();
      glCallList(dlist+FOOT);
     glPopMatrix();
@@ -474,7 +474,7 @@ void Guy::display_arm(bool side)
      glRotatef(90, 1, 0, 0);
    }
    else {
-     glRotatef(cycles[side][3][stp], 1, 0, 0);
+     glRotatef(cycles[side][3][step], 1, 0, 0);
    }
    glPushMatrix();
     glCallList(dlist+UARM);
@@ -487,7 +487,7 @@ void Guy::display_arm(bool side)
      glRotatef(0, 1, 0, 0);
    }
    else {
-     glRotatef(cycles[side][4][stp], 1, 0, 0);
+     glRotatef(cycles[side][4][step], 1, 0, 0);
    }
    glPushMatrix();
     glCallList(dlist+LARM);
@@ -512,7 +512,7 @@ void Guy::render()
 {
   float dx, dz;
   static       float guy_rot = 3 * M_PI/2;	// radian
-  static const float guy_stp = 72;		// number of steps
+  static const float guy_step = 72;		// number of steps
   static const float guy_radius = 1.5;		// space unit
 
   glPushMatrix();
@@ -521,7 +521,7 @@ void Guy::render()
    glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
 
    if (::g.timer.isRate(RATE))
-     guy_rot -= M_2PI / guy_stp;
+     guy_rot -= M_2PI / guy_step;
    if (guy_rot <= 0)
      guy_rot = M_2PI;
    if (walking) {
@@ -557,11 +557,15 @@ void Guy::quit()
   savePersistency();
 }
 
-void Guy::animate_cb(Guy *po, void *d, time_t s, time_t u)
-{ po->animing = 1 - po->animing; }
+void Guy::animate_cb(Guy *guy, void *d, time_t s, time_t u)
+{
+  guy->animing = 1 - guy->animing;
+}
 
-void Guy::walking_cb(Guy *po, void *d, time_t s, time_t u)
-{ po->walking = 1 - po->walking; }
+void Guy::walking_cb(Guy *guy, void *d, time_t s, time_t u)
+{
+  guy->walking = 1 - guy->walking;
+}
 
 void Guy::funcs()
 {

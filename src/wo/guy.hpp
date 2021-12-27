@@ -88,8 +88,8 @@ private:
   static const float SKIN_COLOR[];
   static const float FEET_COLOR[];
 
-  uint8_t stp;		///< position in cycle, start in middle
-  float incstp;		///< step increment
+  uint8_t step;		///< position in cycle, start in middle
+  float incstep;	///< step increment
   GLint dlist;		///< guy displaylist
   bool sex;		///< sex toggle 0=male 1=female
   bool walking;		///< walk toggle
