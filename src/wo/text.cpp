@@ -194,7 +194,9 @@ void Text::render()
 
    txf->bindTexture();
    glEnable(GL_TEXTURE_2D);
-   glMaterialfv(GL_FRONT, GL_EMISSION, color);
+   //dax glMaterialfv(GL_FRONT, GL_EMISSION, color);
+   glMaterialfv(GL_FRONT, GL_AMBIENT, color);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
    //if (shiftx < -1) error("text: %.1f %.1f %.1f, %.1f %.1f %.1f, %.1f %.1f %.1f", pos.x+shiftx, pos.y+shifty, pos.z+shiftz, pos.x,pos.y,pos.z, shiftx,shifty,shiftz);

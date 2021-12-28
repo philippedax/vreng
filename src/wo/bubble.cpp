@@ -128,7 +128,7 @@ void Bubble::changePosition(float lasting)
 void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
 {
   if (! updateLasting(sec, usec, lasting)) {
-    /* the text has spent its live time, it must be destroyed */
+    /* the text has elapsed its live time, it must be destroyed */
     if (bubtext) {
       //error("bubble: delet text %s", text);
       bubtext->expire();	// delete text inside Bubble
@@ -148,6 +148,9 @@ bool Bubble::updateToNetwork(const Pos &oldpos)
 void Bubble::quit()
 {
   oid = 0;
+  if (bubtext) {
+    delete bubtext;
+  }
   if (text) {
     free(text);
   }

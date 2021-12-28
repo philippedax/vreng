@@ -27,11 +27,12 @@
 #include "file.hpp"	// closeFile
 
 #include <list>
+
 using namespace std;
 
+// local
 list<Txf*> Txf::txfList;
 
-// local
 static const char *lastError;
 static uint16_t txf_number = 0;
 
@@ -44,14 +45,6 @@ Txf::Txf(const char *_url)
 
 Txf::~Txf()
 {
-#if 0 //texfnts are kept in memory
-  if (! texfont) return;
-  delete[] texfont->tgi;
-  delete[] texfont->tgvi;
-  delete[] texfont->lut;
-  delete[] texfont->teximage;
-  delete[] texfont;
-#endif
   txfList.remove(this);
 }
 
@@ -81,7 +74,10 @@ void Txf::httpReader(void *_txf, Http *http)
   if (! txf) return;
 
   FILE *f = Cache::openCache(txf->getUrl(), http);
-  if (! f) { error("can't open %s", txf->getUrl()); return; }
+  if (! f) {
+    error("can't open %s", txf->getUrl());
+    return;
+  }
 
   txf->texfont = new struct TexFont[1];
   txf->texfont->tgi = NULL;
@@ -102,9 +98,12 @@ void Txf::httpReader(void *_txf, Http *http)
   got = fread((char *) &endianness, sizeof(int), 1, f);
   if (got == 1 && endianness == 0x12345678)      swap = 0;
   else if (got == 1 && endianness == 0x78563412) swap = 1;
-  else { lastError = "not a texture font file."; goto error; }
+  else {
+    lastError = "not a texture font file.";
+    goto error;
+  }
 
-#define EXPECT(v) if (got != (int)v) {lastError="premature end of file"; goto error;}
+#define EXPECT(v) if (got != (int)v) { lastError="premature end of file"; goto error; }
   got = fread((char *) &format, sizeof(int), 1, f); EXPECT(1);
   got = fread((char *) &txf->texfont->tex_width, sizeof(int), 1, f); EXPECT(1);
   got = fread((char *) &txf->texfont->tex_height, sizeof(int), 1, f); EXPECT(1);
