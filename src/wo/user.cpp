@@ -994,7 +994,7 @@ void User::get_msg(User *pu, Payload *pp)
       pu->lastmess = mess;
       pu->bubble = pu->getBubble();
       if (pu->bubble)
-        pu->bubble->toDelete();	// delete previous text
+        pu->bubble->toDelete();	// delete previous bubble
       pu->bubble = new Bubble(pu, msg, blue, Bubble::BUBBLERECTO);
     }
   }

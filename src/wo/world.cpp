@@ -828,7 +828,7 @@ void World::init(const char *url)
   // Attach bubble welcome text to localuser
   char welcome[32];
   sprintf(welcome, "Hi! I am %s", user->getInstance());
-  user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEVERSO);
+  user->bubble = new Bubble(user, welcome, Color::black, Bubble::BUBBLEVERSO);
 }
 
 /* Quits the current World */

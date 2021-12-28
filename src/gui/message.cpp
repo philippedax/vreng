@@ -43,7 +43,7 @@
 #include "pref.hpp"	// user
 #include "icon.hpp"	// user
 #if HAVE_OCAML
-#include "aiinit.hpp"	// inputRequest
+#include "aiinit.hpp"	// read_request
 #endif
 #include <iostream>
 
@@ -65,27 +65,33 @@ UBox& Message::createMessagePanel(bool transparent)
   scrollpane.showVScrollButtons(false);
   scrollpane.getHScrollbar()->show(false);
 
-  UTextfield& tf = utextfield(usize(250) + entry + ucall(this, &Message::actionCB));
+  UTextfield& input = utextfield(usize(250) + entry + ucall(this, &Message::actionCB));
 
   UBox& panel =
   ubox(UOrient::vertical  + uhflex()
        + uvflex()
        + scrollpane
        + ubottom()
-       + uhbox(ulabel(UFont::bold + "Message: ")
+       + uhbox(ulabel(UFont::bold + "input: ")
                + uhflex()
-               + tf
+               + input
                + uright()
-               + uitem(utip("Clear") + uassign(entry, "")
-                       + UFont::bold + "C")
-               + uitem(utip("Previous message") + ucall(this,-1,&Message::getHistoryCB)
-                       + USymbol::up)
-               + uitem(utip("Next message") + ucall(this,+1,&Message::getHistoryCB)
-                       + USymbol::down)
+               + uitem(utip("Clear")
+                       + UFont::bold + "C"
+                       + uassign(entry, "")
+                      )
+               + uitem(utip("Previous message")
+                       + USymbol::up
+                       + ucall(this,-1,&Message::getHistoryCB)
+                      )
+               + uitem(utip("Next message")
+                       + USymbol::down
+                       + ucall(this,+1,&Message::getHistoryCB)
+                      )
               )
       );
   if (transparent) {
-    tf.addAttr(UBackground::none + UColor::white);
+    input.addAttr(UBackground::none + UColor::white);
     panel.addAttr(UColor::white);
   }
   return panel;
@@ -102,7 +108,7 @@ void Message::actionCB()
   }
   else {
     writeMessage("chat", g.user, entry.c_str());  // display in message zone
-    User::userWriting(entry.c_str());		  // send to World Management
+    User::userWriting(entry.c_str());		  // send to localuser
   }
   entry = "";	// clear textfield
 }
@@ -124,7 +130,9 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
 
   if (r > 0) {
     nclicks = r;
-    for (int i=0; i<7 ;i++) {clicked[i] = MAXFLOAT;}
+    for (int i=0; i<7 ;i++) {
+      clicked[i] = MAXFLOAT;
+    }
 
     char *phrase = strdup(req_chars);
     char *brkt = null;
@@ -196,11 +204,11 @@ ERROR:
 }
 
 // move the satellite camera at wanted position
-static void moveSatCamera(char* posbuf)
+static void moveSatCamera(char* pos)
 {
   float x, y, z, az;
 
-  string2Coord(posbuf, x, y, z, az);
+  string2Coord(pos, x, y, z, az);
   g.render.setCameraScissor(x, y, z, az);
 }
 
@@ -251,66 +259,64 @@ void Message::convertTextToLink(const std::string& text, char **listeObjets, int
 
 void Message::postRequest(const std::string& mess, std::string& result)
 {
-  int sizeMax = 256;
+  int sizemax = 256;
   float posx, posy, posz, posaz; //coordonnees trouvees
   int afficher = 0;
-  int nbObj = 0;
+  int nbobjs = 0;
   int sizerecu = mess.length();
-  char posbuf[sizerecu +1];
-  char namebuf[sizerecu +1];
-  char tmpbuf[sizerecu +1];
-  char **listeObjets = new char*[sizeMax];
+  char pos[sizerecu +1];
+  char name[sizerecu +1];
+  char tmp[sizerecu +1];
+  char **listeObjets = new char*[sizemax];
 
-  posbuf[0] = namebuf[0] = tmpbuf[0] = '\0';
+  pos[0] = name[0] = tmp[0] = '\0';
 
   for (int i=0; i < sizerecu ; i++) {
     if (mess[i] == '@') {
-      if (nbObj > (sizeMax-2)) {
+      if (nbobjs > (sizemax-2)) {
         cerr << "message has too many request" <<endl;
         break;
       }
       if (afficher == 0) {
-        posbuf[0] = '\0';
-        namebuf[0] = '\0';
+        pos[0] = '\0';
+        name[0] = '\0';
       }
       else if (afficher == 1) {
-        listeObjets[nbObj] = strdup(namebuf);
-        nbObj++;
+        listeObjets[nbobjs] = strdup(name);
+        nbobjs++;
       }
       else if (afficher == 2) {
         //on enregistre l'image ds un fichier.
-        listeObjets[nbObj] =  strdup("request.jpg");
-        listeObjets[nbObj+1] = strdup(posbuf);
+        listeObjets[nbobjs] =  strdup("request.jpg");
+        listeObjets[nbobjs+1] = strdup(pos);
 
         //on convertit le string en coords.
-        string2Coord(posbuf, posx, posy, posz, posaz);
+        string2Coord(pos, posx, posy, posz, posaz);
 
-        //recupere la position et fait un snapshot de la position demandée	
-        ::g.render.calculateFov(posx,posy,posz,posaz, listeObjets[nbObj]);
-        nbObj += 2;
+        //recupere la position et fait un snapshot de la position demandee	
+        ::g.render.calculateFov(posx,posy,posz,posaz, listeObjets[nbobjs]);
+        nbobjs += 2;
       }
       afficher = (afficher+1) % 3;
       continue;
     }
     else { //not @
       if (afficher == 0) {
-        //sprintf(msgAffiche, "%s%c", msgAffiche, mess[i]);
         result += mess[i];
       }
       else if (afficher == 1) {
-        //sprintf(msgAffiche, "%s%c", msgAffiche, mess[i]);
         result += mess[i];
-	strcpy(tmpbuf, namebuf);
-        sprintf(namebuf, "%s%c", tmpbuf, mess[i]);
+	strcpy(tmp, name);
+        sprintf(name, "%s%c", tmp, mess[i]);
       }
       else if (afficher == 2) {
-	strcpy(tmpbuf, posbuf);
-        sprintf(posbuf, "%s%c", tmpbuf, mess[i]);
+	strcpy(tmp, pos);
+        sprintf(pos, "%s%c", tmp, mess[i]);
       }
     }
   }
 
-  if (nbObj > 0) convertTextToLink(result, listeObjets, nbObj);
+  if (nbobjs > 0) convertTextToLink(result, listeObjets, nbobjs);
   //TODO ev : traiter le message non augmente
 
   if (listeObjets) delete[] listeObjets;

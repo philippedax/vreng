@@ -44,7 +44,7 @@ public:
     
   void performRequest(WObject*);
   void initClicked();
-  
+
   void getClicked(int *click, float clicked[]);
   ///< get clicked object for the request.
 
