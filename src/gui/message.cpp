@@ -329,6 +329,7 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
   uptr<UColor> prefix_color = null;
 
   if (from) {
+    // chat
     std::string result;
     postRequest(msg, result);
     text = new UStr(result);
@@ -340,30 +341,37 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
   }
 
   else if (mode) {
+    // internal
     text = new UStr(msg);
 
     if (! strcmp(mode, "notice")) {
+      // notice
       prefix = new UStr(mode);
       prefix->append("> ");
       prefix_color = ::g.theme.noticeColor;
     }
     else if (! strcmp(mode, "progress")) {
+      // progress
       prefix = new UStr("");
       prefix_color = ::g.theme.noticeColor;
       messbox.add(uhbox(ugroup(UFont::bold + prefix_color) + text));
     }
     else if (! strcmp(mode, "request")) {
+      // requext
       prefix = new UStr(mode);
       prefix->append("> ");
       prefix_color = ::g.theme.requestColor;
     }
     else {
+      // warning
       prefix = new UStr(mode);
       prefix->append("> ");
       prefix_color = ::g.theme.warningColor;
     }
   }
   else {
+    // chat to
+    error("msg: %s", msg);
     text = new UStr(msg);
     prefix = new UStr("> ");
     prefix_color = ::g.theme.messColor;
