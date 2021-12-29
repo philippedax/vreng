@@ -828,7 +828,7 @@ void World::init(const char *url)
   // Attach bubble welcome text to localuser
   char welcome[32];
   sprintf(welcome, "Hi! I am %s", user->getInstance());
-  user->bubble = new Bubble(user, welcome, Color::black, Bubble::BUBBLEVERSO);
+  user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEVERSO);
 }
 
 /* Quits the current World */
@@ -857,6 +857,7 @@ void World::quit()
   // mobile objects
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it) == localuser) continue;
+    //error("%s", (*it)->getInstance());
     if (! (*it)->isEphemeral()) {
       (*it)->clearObjectBar();	// segfault FIXME
       (*it)->quit();

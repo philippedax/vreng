@@ -148,9 +148,11 @@ bool Bubble::updateToNetwork(const Pos &oldpos)
 void Bubble::quit()
 {
   oid = 0;
+#if 0 //dax
   if (bubtext) {
     delete bubtext;
   }
+#endif
   if (text) {
     free(text);
   }
