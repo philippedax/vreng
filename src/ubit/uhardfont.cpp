@@ -22,14 +22,11 @@
 #include <ubit/ufontImpl.hpp>
 #include <ubit/uappliImpl.hpp>
 #include <ubit/udispX11.hpp>
-//#include <ubit/udispGDK.hpp>
 #include <ubit/uhardfont.hpp>
 
 #if UBIT_WITH_GL && UBIT_WITH_FREETYPE
 #    include <ftgl/FTFont.h>  // FTGL
 #    include <ftgl/FTGLTextureFont.h>
-#    include <ftgl/FTGLPolygonFont.h>
-#    include <ftgl/FTGLPixmapFont.h>
 #endif
 
 #define NAMESPACE_UBIT namespace ubit {
@@ -222,7 +219,7 @@ static bool getNext(UStr& item, UStr& list)
   else {
     item = ""; item.append(list, pos);
     list.remove(0, pos+1);
-    }
+  }
   item.trim();
   return !item.empty();
 }
@@ -237,12 +234,10 @@ XFontStruct* UHardFont::loadSysFont(UDisp* nd, const UFontDesc& fd)
   UStr family, families = ff->defs.families;
   
   while ((getNext(family, families))) {
-    
     UStr weight, weights = 
     (fd.styles & UFont::BOLD) ? ff->defs.bold_weight : ff->defs.normal_weight;
 
     while ((getNext(weight, weights))) {
-
       UStr style, styles =
       (fd.styles & UFont::ITALIC) ? ff->defs.italic_style : ff->defs.normal_style;
       
@@ -315,15 +310,14 @@ FTFont* UHardFont::loadFTGLFont(UDisp* nd, const UFontDesc& fd)
       return f;
     }
   }
-  
   // not found!
   const char* font_name = fd.family->name.empty() ? "[Unknown]" : fd.family->name.c_str();
   UAppli::warning("UHardFont","Can't find FreeType font: %s", font_name);
   return null;
 #endif
 }
-
 #endif
+
 /* ==================================================== [Elc] ======= */
 
 void UHardFont::drawString(const char* s, int len, float x, float y) const
@@ -332,33 +326,27 @@ void UHardFont::drawString(const char* s, int len, float x, float y) const
 #if UBIT_WITH_GL
   if (status == FTGL_FONT) {
 #ifdef UBIT_WITH_FREETYPE
-    // dans le cas de FTGL le glPushAttrib pourrait etre compacte
-    //glPushAttrib(GL_ENABLE_BIT | GL_LIST_BIT | GL_CURRENT_BIT);  // GL_LINE_STIPPLE
-    glEnable(GL_TEXTURE_2D); //indispensable ici!
+    glPushAttrib(GL_ENABLE_BIT | GL_LIST_BIT | GL_CURRENT_BIT);  // GL_LINE_STIPPLE
+    glEnable(GL_TEXTURE_2D);
     
-    //glPushMatrix();    
     //EX: we cannot use glTranslate() because glClipPlane was called before
     //    => pen now contains absolute (x,y) coordinates
     //EX: glTranslatef(x, y, 0);
+
     ftf->Render(s, len, x, y); // Note that this FTGL fct has been modified by ELC
-    //glPopMatrix();
     
     glDisable(GL_TEXTURE_2D);
-    //glPopAttrib();
+    glPopAttrib();
     return;
 #endif
   }
   
   // Freetype not available: use X11 Fonts
   if (status == GLX_FONT) {
-    //glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT);
     glPushAttrib(GL_LIST_BIT);
-    //if (alpha_graph) glEnable(GL_BLEND);
     glRasterPos2f(x, y);
     glListBase(glf);
     glCallLists(len, GL_UNSIGNED_BYTE, s);
-    //glDisable(GL_BLEND);
-    glPopAttrib();
     return;
   }
 #endif // UBIT_WITH_GL
