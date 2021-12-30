@@ -83,7 +83,7 @@ void Bubble::behavior()
   enableBehavior(DYNAMIC);      // dynamicaly introduced
   enableBehavior(NO_BBABLE);
 
-  initMobileObject(BUBBLETTL);
+  initEphemeralObject(BUBBLETTL);
   initImposedMovement(BUBBLETTL);		// alive delay
   createPermanentNetObject(PROPS, ++oid);
 }
@@ -130,7 +130,7 @@ void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
   if (! updateLasting(sec, usec, lasting)) {
     /* the text has elapsed its live time, it must be destroyed */
     if (bubtext) {
-      //error("bubble: delet text %s", text);
+      //error("bubble: delete text %s", text);
       bubtext->expire();	// delete text inside Bubble
     }
     toDelete(); 	// delete Bubble
@@ -148,11 +148,12 @@ bool Bubble::updateToNetwork(const Pos &oldpos)
 void Bubble::quit()
 {
   oid = 0;
-#if 0 //dax
   if (bubtext) {
-    delete bubtext;
-  }
+    //dax error("delete bubtext");
+#if 0 //dax
+    bubtext->quit();
 #endif
+  }
   if (text) {
     free(text);
   }
