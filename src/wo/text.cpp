@@ -51,8 +51,9 @@ void Text::defaults()
   txf = NULL;
   textstr = new char[MAXLEN];
   strcpy(names.url, DEF_URL_FONT);	// font's url
-  for (int i=0; i<4; i++)
+  for (int i=0; i<4; i++) {
     color[i] = DEF_COLOR[i];	// color
+  }
 }
 
 void Text::parser(char *l)
@@ -199,7 +200,6 @@ void Text::render()
    glMaterialfv(GL_FRONT, GL_DIFFUSE, color);
    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-   //if (shiftx < -1) error("text: %.1f %.1f %.1f, %.1f %.1f %.1f, %.1f %.1f %.1f", pos.x+shiftx, pos.y+shifty, pos.z+shiftz, pos.x,pos.y,pos.z, shiftx,shifty,shiftz);
    glTranslatef(pos.x + shiftx, pos.y + shifty, pos.z + shiftz);
    glRotatef(RAD2DEG(pos.az + shiftaz), 0, 0, 1);
    glRotatef(RAD2DEG(pos.ax + shiftax), 1, 0, 0);
