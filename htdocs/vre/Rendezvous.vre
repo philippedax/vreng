@@ -56,7 +56,7 @@
 <text pos="-.1 -.35 .01 -1.57" color="red"> E </text>
 
 <!-- welcome text -->
-<text name="welcome" pos="9 -2 5.5 -1.57 1.57"> Welcome to VREng </text>
+<text name="welcome" pos="9 -2 5.5 -1.57 1.57" font="/txf/courier-br-46.txf"> Welcome to Rendezvous </text>
 <!--
 <text name="rendezvous" pos="9 -2 5 -1.57 1.57" font="/txf/helvetica-br-24.txf"> Rendezvous </text>
 -->
@@ -337,11 +337,11 @@ url="http://www.stud.enst.fr/~bellard/">
 
 <!-- rays -->
 <mirage name="rays" pos="20.8 3 6 1.57 0" mode="turn">
-<solid shape="line" rel="0 0 0 0 0"     l="400" t="3" dif="red" />
-<solid shape="line" rel="0 0 0 0 0.02"  l="400" t="3" dif="yellow" />
-<solid shape="line" rel="0 0 0 -0.02 0" l="400" t="3" dif="green" />
-<solid shape="line" rel="0 0 0 0 -0.02" l="400" t="3" dif="cyan" />
-<solid shape="line" rel="0 0 0 0.02 0"  l="400" t="3" dif="blue" />
+<solid shape="line" rel="0 0 0 0 0"     l="400" t="1" dif="red" />
+<solid shape="line" rel="0 0 0 0 0.02"  l="400" t="1" dif="yellow" />
+<solid shape="line" rel="0 0 0 -0.02 0" l="400" t="1" dif="green" />
+<solid shape="line" rel="0 0 0 0 -0.02" l="400" t="1" dif="cyan" />
+<solid shape="line" rel="0 0 0 0.02 0"  l="400" t="1" dif="blue" />
 </mirage>
 
 <!-- clock -->
