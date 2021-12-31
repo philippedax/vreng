@@ -68,10 +68,8 @@ private:
   static const float ASPEED;
 
   float aspeed;		///< angular speed.
-  float afront;		///< normal angle.
-  float aback;		///< back angle.
-  float acurr;		///< current still angle.
-  float atemp;		///< current mobile angle.
+  float angle;		///< current angle.
+  float rot;		///< temp angle.
   uint8_t face;		///< face front or back
   char *legend;		///< legend text.
   class Text *text;	///< Text instance.

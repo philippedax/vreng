@@ -46,7 +46,6 @@ void Web::defaults()
 {
   face = 0;	// front face
   aspeed = ASPEED;
-  atemp = 0;
   text = NULL;
   legend = NULL;
 }
@@ -87,9 +86,8 @@ Web::Web(char *l)
 {
   parser(l);
 
-  afront = pos.az;
-  acurr = afront;
-  aback = afront + M_PI;
+  rot = 0;
+  angle = pos.az;
 
   initMobileObject(TTL);
   createPermanentNetObject(PROPS, ++oid);
@@ -102,12 +100,12 @@ void Web::updateTime(time_t sec, time_t usec, float *lasting)
 
 void Web::changePosition(float lasting)
 { 
-  if (atemp < M_PI) {
+  if (rot < M_PI) {
     pos.az += lasting * move.aspeed.v[0];
-    atemp += lasting * move.aspeed.v[0];
+    rot += lasting * move.aspeed.v[0];
   }
   else {
-    pos.az = acurr + M_PI;
+    rot = angle + M_PI;
     stopImposedMovement();
   }
 }
@@ -128,58 +126,33 @@ bool Web::whenIntersect(WObject *pcur, WObject *pold)
 
 void Web::pivot()
 {
-  float nexta;
-
-  acurr = pos.az;
-  atemp = 0;
-  switch (face) {
-  case 0: nexta = aback;  break;
-  case 1: nexta = afront; break;
-  }
-  pos.alter = false;
   clearV3(move.aspeed);
   move.aspeed.v[0] = aspeed;
   initImposedMovement(TTL);
 
-#if 0 //dax1
-  if (text) {	// get rid of previous text
-    text->delFromList(mobileList);
-  }
-#endif
-
-  if (legend && nexta == aback) {	// back face
-    Pos postx = pos;
-
+  if (face == 0) {	// go to back face
+    Pos postext = pos;
     V3 dim;
+
     getDimBB(dim);			// get dim of the surface
-    postx.z += (dim.v[2] - 0.20);	// 20cm under the top
-    postx.ax = pos.ax;
-    postx.az = afront;
-    pos.az = afront;
+    postext.z += (dim.v[2] - 0.20);	// 20cm under the top
+    postext.ax = M_PI_2;
+    postext.az = pos.az + M_PI;
+    postext.x += (dim.v[0] + 0.001) * sin(pos.az);	// 1mm near front face
+    postext.y -= (dim.v[1] - 0.01) * cos(pos.az);	// 1cm from the left margin
 
-    if (dim.v[0] > dim.v[1]) {
-      postx.x += (dim.v[0] + 0.001) * sin(afront);	// 1mm near front face
-      postx.y -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
-    }
-    else {
-      postx.y += (dim.v[0] + 0.001) * sin(afront);	// 1mm near front face
-      postx.x -= (dim.v[1] - 0.05) * cos(afront);	// 5cm from the left margin
-    }
-
-    text = new Text(legend, postx, 0.5, Color::black);	// scale half
-    if (text) {
-      text->setPos(postx.x, postx.y, postx.z, postx.az + M_PI, postx.ax + M_PI_2);
+    if (legend) {
+      text = new Text(legend, postext, 0.5, Color::green);	// scale half
+      text->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
     }
   }
-  else {	// front face
+  else {	// return to front face
     if (text) {
       text->toDelete();
       text = NULL;
     }
   }
-
-  face ^= 1;
-  pos.alter = true;     // has changed
+  face ^= 1;	// switch face
 }
 
 /* Opens browser */
