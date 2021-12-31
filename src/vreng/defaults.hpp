@@ -76,15 +76,15 @@
 #endif
 
 // these paths are relative to the htdocs directory
-#define DEF_URL_WORLD	"/vre/Rendezvous.vre"   // location: /vre/Rendezvous.vre
-#define DEF_URL_WORLD_BAK "/vre/v8/Rendezvous.vre" // alt location: /vre/v8/Rendezvous.vre
-#define DEF_URL_FRONT	"/gif/default.gif"	// for user box
-#define DEF_URL_BACK	"/gif/default.1.gif"	// for user box
-#define DEF_URL_BALL	"/gif/ball.gif"		// ball by default
-#define DEF_URL_FONT	"/txf/arial-br-18.txf"	// txf font by default
-#define DEF_URL_PAPER	"/jpg/paper.jpg"	// paper for book
-#define DEF_URL_NOISE	"/mp3/sheet.mp3"	// noise for sheet
-#define DEF_URL_JAR	"/jar/vrengapp.jar"	// for vjs server
+#define DEF_URL_WORLD	"/vre/Rendezvous.vre"		// location: /vre/Rendezvous.vre
+#define DEF_URL_WORLD_BAK "/vre/v8/Rendezvous.vre"	// alt location: /vre/v8/Rendezvous.vre
+#define DEF_URL_FRONT	"/gif/default.gif"		// for user box
+#define DEF_URL_BACK	"/gif/default.1.gif"		// for user box
+#define DEF_URL_BALL	"/gif/ball.gif"			// ball by default
+#define DEF_URL_TXF	"/txf/helvetica-br-24.txf"	// txf font by default
+#define DEF_URL_PAPER	"/jpg/paper.jpg"		// paper for book
+#define DEF_URL_NOISE	"/mp3/sheet.mp3"		// noise for sheet
+#define DEF_URL_JAR	"/jar/vrengapp.jar"		// jar vjs server
 
 /* default IPmulticast addresses & ports */
 #define DEF_VRENG_MADDR		"224.255.0.0"

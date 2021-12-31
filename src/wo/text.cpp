@@ -50,7 +50,7 @@ void Text::defaults()
   shiftx = shifty = shiftz = shiftaz = shiftax = 0.;
   txf = NULL;
   textstr = new char[MAXLEN];
-  strcpy(names.url, DEF_URL_FONT);	// font's url
+  strcpy(names.url, DEF_URL_TXF);	// font's url
   for (int i=0; i<4; i++) {
     color[i] = DEF_COLOR[i];	// color
   }
