@@ -19,112 +19,112 @@
 
 <web name="magicien"
   pos="6 4 1.5 2"
-  url="/~dax/elsa/paintings/tarots/magicien.html">
+  url="/~dax/elsa/paintings/tarots/magicien.html" legend="magicien">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/magicien.gif" />
 </web>
 <web name="papesse"
   pos="6 -4 1.5 1"
-  url="/~dax/elsa/paintings/tarots/papesse.html">
+  url="/~dax/elsa/paintings/tarots/papesse.html" legend="papesse">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/papesse.gif" />
 </web>
 <web name="imperatrice"
   pos="9 3.8 1.5 2"
-  url="/~dax/elsa/paintings/tarots/imperatrice.html">
+  url="/~dax/elsa/paintings/tarots/imperatrice.html" legend="imperatrice">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/imperatrice.gif" />
 </web>
 <web name="empereur"
   pos="9 -3.8 1.5 1"
-  url="/~dax/elsa/paintings/tarots/empereur.html">
+  url="/~dax/elsa/paintings/tarots/empereur.html" legend="empereur">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/empereur.gif" />
 </web>
 <web name="pape"
   pos="12 3.6 1.5 2"
-  url="/~dax/elsa/paintings/tarots/pape.html">
+  url="/~dax/elsa/paintings/tarots/pape.html" legend="pape">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/pape.gif" />
 </web>
 <web name="amoureux"
   pos="12 -3.6 1.5 1"
-  url="/~dax/elsa/paintings/tarots/amoureaux.html">
+  url="/~dax/elsa/paintings/tarots/amoureux.html" legend="amoureux">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/amoureux.gif" />
 </web>
 <web name="chariot"
   pos="15 3.4 1.5 2"
-  url="/~dax/elsa/paintings/tarots/chariot.html">
+  url="/~dax/elsa/paintings/tarots/chariot.html" legend="chariot">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/chariot.gif" />
 </web>
 <web name="justice"
   pos="15 -3.4 1.5 1"
-  url="/~dax/elsa/paintings/tarots/justice.html">
+  url="/~dax/elsa/paintings/tarots/justice.html" legend="justice">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/justice.gif" />
 </web>
 <web name="ermite"
   pos="18 3.2 1.5 2"
-  url="/~dax/elsa/paintings/tarots/ermite.html">
+  url="/~dax/elsa/paintings/tarots/ermite.html" legend="ermite">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/ermite.gif" />
 </web>
 <web name="fortune"
   pos="18 -3.2 1.5 1"
-  url="/~dax/elsa/paintings/tarots/fortune.html">
+  url="/~dax/elsa/paintings/tarots/fortune.html" legend="fortune">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/fortune.gif" />
 </web>
 <web name="force"
   pos="21 3 1.5 2"
-  url="/~dax/elsa/paintings/tarots/force.html">
+  url="/~dax/elsa/paintings/tarots/force.html" legend="force">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/force.gif" />
 </web>
 <web name="pendu"
   pos="21 -3 1.5 1"
-  url="/~dax/elsa/paintings/tarots/pendu.html">
+  url="/~dax/elsa/paintings/tarots/pendu.html" legend="pendu">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/pendu.gif" />
 </web>
 <web name="mort"
   pos="24 2.8 1.5 2"
-  url="/~dax/elsa/paintings/tarots/mort.html">
+  url="/~dax/elsa/paintings/tarots/mort.html" legend="mort">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/mort.gif" />
 </web>
 <web name="temperance"
   pos="24 -2.8 1.5 1"
-  url="/~dax/elsa/paintings/tarots/temperance.html">
+  url="/~dax/elsa/paintings/tarots/temperance.html" legend="temperance">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/temperance.gif" />
 </web>
 <web name="diable"
   pos="27 2.6 1.5 2"
-  url="/~dax/elsa/paintings/tarots/diable.html">
+  url="/~dax/elsa/paintings/tarots/diable.html" legend="diable">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/diable.gif" />
 </web>
 <web name="tour"
   pos="27 -2.6 1.5 1"
-  url="/~dax/elsa/paintings/tarots/tour.html">
+  url="/~dax/elsa/paintings/tarots/tour.html" legend="tour">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/tour.gif" />
 </web>
 <web name="etoile"
   pos="30 2.4 1.5 2"
-  url="/~dax/elsa/paintings/tarots/etoile.html">
+  url="/~dax/elsa/paintings/tarots/etoile.html" legend="etoile">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/etoile.gif" />
 </web>
 <web name="lune"
   pos="30 -2.4 1.5 1"
-  url="/~dax/elsa/paintings/tarots/lune.html">
+  url="/~dax/elsa/paintings/tarots/lune.html" legend="lune">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/lune.gif" />
 </web>
 <web name="soleil"
   pos="33 2.2 1.5 2"
-  url="/~dax/elsa/paintings/tarots/soleil.html">
+  url="/~dax/elsa/paintings/tarots/soleil.html" legend="soleil">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/soleil.gif" />
 </web>
 <web name="jugement"
   pos="33 -2.2 1.5 1"
-  url="/~dax/elsa/paintings/tarots/jugement.html">
+  url="/~dax/elsa/paintings/tarots/jugement.html" legend="jugement">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/jugement.gif" />
 </web>
 <web name="monde"
   pos="36 2.0 1.5 2"
-  url="/~dax/elsa/paintings/tarots/monde.html">
+  url="/~dax/elsa/paintings/tarots/monde.html" legend="monde">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/monde.gif" />
 </web>
 <web name="fou"
   pos="36 -2. 1.5 1"
-  url="/~dax/elsa/paintings/tarots/fou.html">
+  url="/~dax/elsa/paintings/tarots/fou.html" legend="fou">
   <solid dim="1.6 .1 2.4" xn="/elsa/tarots/fou.gif" />
 </web>
 
