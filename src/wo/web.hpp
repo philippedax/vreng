@@ -68,8 +68,6 @@ private:
   static const float ASPEED;
 
   float aspeed;		///< angular speed.
-  float angle;		///< current angle.
-  float rot;		///< temp angle.
   uint8_t face;		///< face front or back
   char *legend;		///< legend text.
   class Text *text;	///< Text instance.
@@ -83,12 +81,16 @@ private:
   virtual void defaults();
   /**< Sets default values. */
 
+  virtual void writeLegend();
+  /**x Writes legend. */
+
   virtual void pivot();
   /** Pivots of PI. */
 
   // GUI callbacks.
   static void open_cb(Web *o, void *d, time_t s, time_t u);
   static void pivot_cb(Web *o, void *d, time_t s, time_t u);
+  static void legend_cb(Web *o, void *d, time_t s, time_t u);
 };
 
 #endif

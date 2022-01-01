@@ -29,12 +29,16 @@
 
 const OClass Web::oclass(WEB_TYPE, "Web", Web::creator);
 
-const float Web::TTL = 4.;       // 4 sec max
-const float Web::ASPEED = M_PI;  // 180deg/sec
+const float Web::TTL = 4.;       	// 4 sec max
+const float Web::ASPEED = M_PI_2;	// 90deg/sec
 
 // local
 static uint16_t oid = 0;
 
+enum {
+  RECTO,
+  VERSO
+};
 
 /* creation from a file */
 WObject * Web::creator(char *l)
@@ -44,7 +48,7 @@ WObject * Web::creator(char *l)
 
 void Web::defaults()
 {
-  face = 0;	// front face
+  face = RECTO;	// recto face
   aspeed = ASPEED;
   text = NULL;
   legend = NULL;
@@ -86,9 +90,6 @@ Web::Web(char *l)
 {
   parser(l);
 
-  rot = 0;
-  angle = pos.az;
-
   initMobileObject(TTL);
   createPermanentNetObject(PROPS, ++oid);
 }
@@ -100,14 +101,60 @@ void Web::updateTime(time_t sec, time_t usec, float *lasting)
 
 void Web::changePosition(float lasting)
 { 
+  static float rot = 0;
+  static float angori = pos.az;
+
+  //error("rot: %.1f %.1f %.2f", rot, pos.az, lasting);
   if (rot < M_PI) {
     pos.az += lasting * move.aspeed.v[0];
     rot += lasting * move.aspeed.v[0];
   }
   else {
-    rot = angle + M_PI;
+    rot = 0;
+    switch (face) {
+    case RECTO: pos.az = angori; break;
+    case VERSO: pos.az = angori + M_PI; break;
+    }
     stopImposedMovement();
+    if (legend) {
+      //writeLegend();
+    }
   }
+}
+
+void Web::writeLegend()
+{
+  if (! legend) return;
+
+  if (! text) {	// text not writed
+    Pos postext = pos;
+    V3 dim;
+
+    getDimBB(dim);			// get dim of the surface
+    postext.z += (dim.v[2] - 0.20);	// 20cm under the top
+    postext.ax = M_PI_2;
+    postext.az = pos.az + M_PI;
+    postext.x += (dim.v[0] + 0.001) * sin(postext.az);	// 1mm near the surface
+    postext.y -= (dim.v[1] - 0.01) * cos(postext.az);	// 1cm from the left margin
+
+    text = new Text(legend, postext, 0.5, Color::green);	// scale half
+    text->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
+  }
+  else {	// remove the text
+    text->toDelete();
+    text = NULL;
+  }
+}
+
+void Web::pivot()
+{
+  clearV3(move.aspeed);
+  move.aspeed.v[0] = aspeed;
+  initImposedMovement(TTL);
+  if (legend) {
+    writeLegend();
+  }
+  face ^= 1;	// switch face
 }
 
 /* object intersects: projection */
@@ -122,37 +169,6 @@ bool Web::whenIntersect(WObject *pcur, WObject *pold)
     return false;
     break;
   }
-}
-
-void Web::pivot()
-{
-  clearV3(move.aspeed);
-  move.aspeed.v[0] = aspeed;
-  initImposedMovement(TTL);
-
-  if (face == 0) {	// go to back face
-    Pos postext = pos;
-    V3 dim;
-
-    getDimBB(dim);			// get dim of the surface
-    postext.z += (dim.v[2] - 0.20);	// 20cm under the top
-    postext.ax = M_PI_2;
-    postext.az = pos.az + M_PI;
-    postext.x += (dim.v[0] + 0.001) * sin(pos.az);	// 1mm near front face
-    postext.y -= (dim.v[1] - 0.01) * cos(pos.az);	// 1cm from the left margin
-
-    if (legend) {
-      text = new Text(legend, postext, 0.5, Color::green);	// scale half
-      text->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
-    }
-  }
-  else {	// return to front face
-    if (text) {
-      text->toDelete();
-      text = NULL;
-    }
-  }
-  face ^= 1;	// switch face
 }
 
 /* Opens browser */
@@ -171,6 +187,12 @@ void Web::open_cb(Web *web, void *d, time_t s, time_t u)
 void Web::pivot_cb(Web *web, void *d, time_t s, time_t u)
 {
   web->pivot();
+}
+
+/* Legend */
+void Web::legend_cb(Web *web, void *d, time_t s, time_t u)
+{
+  web->writeLegend();
 }
 
 void Web::quit()
@@ -201,6 +223,7 @@ void Web::funcs()
 
   setActionFunc(WEB_TYPE, 0, _Action open_cb, "Open");
   setActionFunc(WEB_TYPE, 1, _Action pivot_cb, "Pivot");
-  setActionFunc(WEB_TYPE, 2, _Action gotoFront, "Approach");
-  setActionFunc(WEB_TYPE, 3, _Action moveObject, "Move");
+  setActionFunc(WEB_TYPE, 2, _Action legend_cb, "Legend");
+  setActionFunc(WEB_TYPE, 3, _Action gotoFront, "Approach");
+  setActionFunc(WEB_TYPE, 4, _Action moveObject, "Move");
 }
