@@ -20,11 +20,10 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "web.hpp"
-#include "move.hpp"	// gotoFront
-#include "browser.hpp"	// start
 #include "user.hpp"	// USER_TYPE
 #include "text.hpp"	// Text
 #include "color.hpp"	// Color
+#include "browser.hpp"	// start
 
 
 const OClass Web::oclass(WEB_TYPE, "Web", Web::creator);
@@ -48,9 +47,6 @@ WObject * Web::creator(char *l)
 
 void Web::defaults()
 {
-  face = RECTO;	// recto face
-  aspeed = ASPEED;
-  text = NULL;
   legend = NULL;
 }
 
@@ -88,6 +84,10 @@ void Web::parser(char *l)
 
 Web::Web(char *l)
 {
+  face = RECTO;	// recto face
+  aspeed = ASPEED;
+  text = NULL;
+
   parser(l);
 
   initMobileObject(TTL);
@@ -117,12 +117,12 @@ void Web::changePosition(float lasting)
     }
     stopImposedMovement();
     if (legend) {
-      //writeLegend();
+      //showLegend();
     }
   }
 }
 
-void Web::writeLegend()
+void Web::showLegend()
 {
   if (! legend) return;
 
@@ -152,7 +152,7 @@ void Web::pivot()
   move.aspeed.v[0] = aspeed;
   initImposedMovement(TTL);
   if (legend) {
-    writeLegend();
+    showLegend();
   }
   face ^= 1;	// switch face
 }
@@ -192,7 +192,7 @@ void Web::pivot_cb(Web *web, void *d, time_t s, time_t u)
 /* Legend */
 void Web::legend_cb(Web *web, void *d, time_t s, time_t u)
 {
-  web->writeLegend();
+  web->showLegend();
 }
 
 void Web::quit()
@@ -224,6 +224,4 @@ void Web::funcs()
   setActionFunc(WEB_TYPE, 0, _Action open_cb, "Open");
   setActionFunc(WEB_TYPE, 1, _Action pivot_cb, "Pivot");
   setActionFunc(WEB_TYPE, 2, _Action legend_cb, "Legend");
-  setActionFunc(WEB_TYPE, 3, _Action gotoFront, "Approach");
-  setActionFunc(WEB_TYPE, 4, _Action moveObject, "Move");
 }

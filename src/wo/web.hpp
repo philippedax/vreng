@@ -68,7 +68,7 @@ private:
   static const float ASPEED;
 
   float aspeed;		///< angular speed.
-  uint8_t face;		///< face front or back
+  uint8_t face;		///< face recto or verso
   char *legend;		///< legend text.
   class Text *text;	///< Text instance.
 
@@ -81,8 +81,8 @@ private:
   virtual void defaults();
   /**< Sets default values. */
 
-  virtual void writeLegend();
-  /**x Writes legend. */
+  virtual void showLegend();
+  /**< Displays legend. */
 
   virtual void pivot();
   /** Pivots of PI. */
