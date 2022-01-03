@@ -47,10 +47,11 @@ WObject * Web::creator(char *l)
 
 void Web::defaults()
 {
-  legend = NULL;
+  *legend = '\0';
 }
 
-void Web::parselegend(char *l)
+#if 0 //dax (without tokenization is OK)
+char * Web::parselegend(char *l)
 {
   char line[256];	// must be >128 else segfault !!!
 
@@ -60,24 +61,26 @@ void Web::parselegend(char *l)
     p += 8;
     char *q = strchr(p, '"');
     if (q) *q = '\0';
-    legend = new char[128];
+    //legend = new char[128];
     strcpy(legend, p);
+    return legend;
   }
+  else return NULL;
 }
+#endif
 
 void Web::parser(char *l)
 {
   defaults();
-  parselegend(l);
+  //parselegend(l);
   l = tokenize(l);
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if      (! stringcmp(l, "url")) l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "legend")) {
-      l += 7; // skip legend=
-      l = parse()->skipAttribute(l);
-    }
+    if      (! stringcmp(l, "url"))
+      l = parse()->parseUrl(l, names.url);
+    else if (! stringcmp(l, "legend"))
+      l = parse()->parseString(l, legend, "legend");	//WARNING!!! without spaces else loop
   }
   end_while_parse(l);
 }
@@ -201,8 +204,8 @@ void Web::quit()
   savePersistency();
   if (text)
     text->toDelete();
-  if (legend)
-    delete[] legend;
+  //if (legend)
+    //delete[] legend;
 }
 
 void Web::funcs()

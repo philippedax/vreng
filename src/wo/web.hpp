@@ -69,13 +69,13 @@ private:
 
   float aspeed;		///< angular speed.
   uint8_t face;		///< face recto or verso
-  char *legend;		///< legend text.
+  char legend[128];	///< legend text.
   class Text *text;	///< Text instance.
 
   virtual void parser(char *l);
   /**< Parses file line. */
 
-  virtual void parselegend(char *l);
+  //virtual char * parselegend(char *l);
   /**< Parses legend field. */
 
   virtual void defaults();
