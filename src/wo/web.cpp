@@ -204,8 +204,6 @@ void Web::quit()
   savePersistency();
   if (text)
     text->toDelete();
-  //if (legend)
-    //delete[] legend;
 }
 
 void Web::funcs()
