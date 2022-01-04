@@ -47,7 +47,7 @@ WObject * Web::creator(char *l)
 
 void Web::defaults()
 {
-  *legend = '\0';
+  *caption = '\0';
 }
 
 void Web::parser(char *l)
@@ -59,10 +59,10 @@ void Web::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "url"))
       l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "legend"))
-      l = parse()->parseLegend(l, legend, "legend");
+    else if (! stringcmp(l, "caption"))
+      l = parse()->parseCaption(l, caption, "caption");
     else if (! stringcmp(l, "text"))
-      l = parse()->parseLegend(l, legend, "text");
+      l = parse()->parseCaption(l, caption, "text");
   }
   end_while_parse(l);
 }
@@ -101,15 +101,15 @@ void Web::changePosition(float lasting)
     case VERSO: pos.az = angori + M_PI; break;
     }
     stopImposedMovement();
-    if (legend) {
-      //showLegend();
+    if (caption) {
+      //showCaption();
     }
   }
 }
 
-void Web::showLegend()
+void Web::showCaption()
 {
-  if (! legend) return;
+  if (! caption) return;
 
   if (! text) {	// text not writed
     Pos postext = pos;
@@ -122,7 +122,7 @@ void Web::showLegend()
     postext.x += (dim.v[0] + 0.001) * sin(postext.az);	// 1mm near the surface
     postext.y -= (dim.v[1] - 0.01) * cos(postext.az);	// 1cm from the left margin
 
-    text = new Text(legend, postext, 0.5, Color::green);	// scale half
+    text = new Text(caption, postext, 0.5, Color::green);	// scale half
     text->setPos(postext.x, postext.y, postext.z, postext.az, postext.ax);
   }
   else {	// remove the text
@@ -136,8 +136,8 @@ void Web::pivot()
   clearV3(move.aspeed);
   move.aspeed.v[0] = aspeed;
   initImposedMovement(TTL);
-  if (legend) {
-    showLegend();
+  if (caption) {
+    showCaption();
   }
   face ^= 1;	// switch face
 }
@@ -174,10 +174,10 @@ void Web::pivot_cb(Web *web, void *d, time_t s, time_t u)
   web->pivot();
 }
 
-/* Legend */
-void Web::legend_cb(Web *web, void *d, time_t s, time_t u)
+/* Caption */
+void Web::caption_cb(Web *web, void *d, time_t s, time_t u)
 {
-  web->showLegend();
+  web->showCaption();
 }
 
 void Web::quit()
@@ -206,5 +206,5 @@ void Web::funcs()
 
   setActionFunc(WEB_TYPE, 0, _Action open_cb, "Open");
   setActionFunc(WEB_TYPE, 1, _Action pivot_cb, "Pivot");
-  setActionFunc(WEB_TYPE, 2, _Action legend_cb, "Legend");
+  setActionFunc(WEB_TYPE, 2, _Action caption_cb, "Caption");
 }

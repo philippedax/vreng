@@ -520,15 +520,15 @@ char * Parse::parseName(char *l, char *name)
   return parseQuotedString(l, name, "name");
 }
 
-/* parse legend text */
-char * Parse::parseLegend(char *l, char *legend)
+/* parse caption text */
+char * Parse::parseCaption(char *l, char *caption)
 {
-  return parseQuotedString(l, legend, "legend");
+  return parseQuotedString(l, caption, "caption");
 }
 
-char * Parse::parseLegend(char *l, char *legend, const char *keystr)
+char * Parse::parseCaption(char *l, char *caption, const char *keystr)
 {
-  return parseQuotedString(l, legend, keystr);
+  return parseQuotedString(l, caption, keystr);
 }
 
 /* parse spacial position and orientation : x y z az ax ay */

@@ -69,7 +69,7 @@ private:
 
   float aspeed;		///< angular speed.
   uint8_t face;		///< face recto or verso
-  char legend[128];	///< legend text.
+  char caption[128];	///< caption text.
   class Text *text;	///< Text instance.
 
   virtual void parser(char *l);
@@ -78,8 +78,8 @@ private:
   virtual void defaults();
   /**< Sets default values. */
 
-  virtual void showLegend();
-  /**< Displays legend. */
+  virtual void showCaption();
+  /**< Displays caption. */
 
   virtual void pivot();
   /** Pivots of PI. */
@@ -87,7 +87,7 @@ private:
   // GUI callbacks.
   static void open_cb(Web *o, void *d, time_t s, time_t u);
   static void pivot_cb(Web *o, void *d, time_t s, time_t u);
-  static void legend_cb(Web *o, void *d, time_t s, time_t u);
+  static void caption_cb(Web *o, void *d, time_t s, time_t u);
 };
 
 #endif
