@@ -50,39 +50,19 @@ void Web::defaults()
   *legend = '\0';
 }
 
-#if 0 //dax (without tokenization is OK)
-char * Web::parselegend(char *l)
-{
-  char line[256];	// must be >128 else segfault !!!
-
-  strcpy(line, l);
-  char *p = strstr(line, "legend=");
-  if (p) {
-    p += 8;
-    char *q = strchr(p, '"');
-    if (q) *q = '\0';
-    //legend = new char[128];
-    strcpy(legend, p);
-    return legend;
-  }
-  else return NULL;
-}
-#endif
-
 void Web::parser(char *l)
 {
   defaults();
-  //parselegend(l);
   l = tokenize(l);
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
     if      (! stringcmp(l, "url"))
       l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "legend")) {
-      //l = parse()->parseString(l, legend, "legend");	//WARNING!!! without spaces else loop
-      l = parse()->parseLegend(l, legend);
-    }
+    else if (! stringcmp(l, "legend"))
+      l = parse()->parseLegend(l, legend, "legend");
+    else if (! stringcmp(l, "text"))
+      l = parse()->parseLegend(l, legend, "text");
   }
   end_while_parse(l);
 }

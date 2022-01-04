@@ -520,10 +520,15 @@ char * Parse::parseName(char *l, char *name)
   return parseQuotedString(l, name, "name");
 }
 
-/* parse legend string */
+/* parse legend text */
 char * Parse::parseLegend(char *l, char *legend)
 {
   return parseQuotedString(l, legend, "legend");
+}
+
+char * Parse::parseLegend(char *l, char *legend, const char *keystr)
+{
+  return parseQuotedString(l, legend, keystr);
 }
 
 /* parse spacial position and orientation : x y z az ax ay */
@@ -812,24 +817,26 @@ char * Parse::parseString(char *ptok, char *str, const char *keystr)
   return nextToken();
 }
 
-/* parse a quoted string */
+/* parse a quoted text */
 char * Parse::parseQuotedString(char *ptok, char *str)
 {
   char *p, *s = str;
 
   if (*ptok == '"') ptok++;
   for (p = ptok; p && *p != '"' ; ) {
-    if (*p) *s++ = *p++;
+    if (*p) {
+      *s++ = *p++;
+    }
     else {
       *s++ = ' ';	// force space
-      p = nextToken();
+      p = nextToken();	// rest of text
     }
   }
   *s = '\0';
   return nextToken();
 }
 
-/* parse a quoted string */
+/* parse a quoted text */
 char * Parse::parseQuotedString(char *ptok, char *str, const char *keystr)
 {
   if (ptok && !stringcmp(ptok, keystr)) {

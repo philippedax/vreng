@@ -191,7 +191,10 @@ public:
   /**< Returns a named name */
 
   virtual char * parseLegend(char *l, char *legend);
-  /**< Returns a legend string */
+  /**< Returns a legend text */
+
+  virtual char * parseLegend(char *l, char *legend, const char *keystr);
+  /**< Returns a legend text */
 
   virtual char * skipEqual(char *p) const;
   /**< Skip equal character */
