@@ -75,9 +75,6 @@ private:
   virtual void parser(char *l);
   /**< Parses file line. */
 
-  //virtual char * parselegend(char *l);
-  /**< Parses legend field. */
-
   virtual void defaults();
   /**< Sets default values. */
 
