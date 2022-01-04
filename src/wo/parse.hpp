@@ -190,6 +190,9 @@ public:
   virtual char * parseName(char *l, char *name);
   /**< Returns a named name */
 
+  virtual char * parseLegend(char *l, char *legend);
+  /**< Returns a legend string */
+
   virtual char * skipEqual(char *p) const;
   /**< Skip equal character */
 

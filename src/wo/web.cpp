@@ -79,8 +79,10 @@ void Web::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "url"))
       l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "legend"))
-      l = parse()->parseString(l, legend, "legend");	//WARNING!!! without spaces else loop
+    else if (! stringcmp(l, "legend")) {
+      //l = parse()->parseString(l, legend, "legend");	//WARNING!!! without spaces else loop
+      l = parse()->parseLegend(l, legend);
+    }
   }
   end_while_parse(l);
 }

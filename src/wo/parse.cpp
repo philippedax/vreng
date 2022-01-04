@@ -480,7 +480,7 @@ char * Parse::parseAttributes(char *l, WObject *wobject)
       l = parseDescr(l, wobject->names.category);
     }
     else if (! stringcmp(l, "descr=") || ! stringcmp(l, "description=")) {
-      l = parseDescr(l,wobject->names.infos);
+      l = parseDescr(l, wobject->names.infos);
     }
     else if (! strcmp(l, "/")) {
       l = nextToken();
@@ -518,6 +518,12 @@ char * Parse::parseDescr(char *l, char *strdst)
 char * Parse::parseName(char *l, char *name)
 {
   return parseQuotedString(l, name, "name");
+}
+
+/* parse legend string */
+char * Parse::parseLegend(char *l, char *legend)
+{
+  return parseQuotedString(l, legend, "legend");
 }
 
 /* parse spacial position and orientation : x y z az ax ay */
@@ -784,6 +790,7 @@ char * Parse::parseChannel(char *ptok, char *channel)
 }
 
 /* parse a string */
+// we assume that there is no space in the string, else loop bug for thr caller
 char * Parse::parseString(char *ptok, char *str)
 {
   if (ptok) {
