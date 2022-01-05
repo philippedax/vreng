@@ -589,7 +589,8 @@ const char DTD[] = "\
 <!ATTLIST web		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST web		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST web		descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST web		legend	NMTOKENS #IMPLIED>\n\
+<!ATTLIST web		caption	NMTOKENS #IMPLIED>\n\
+<!ATTLIST web		text	NMTOKENS #IMPLIED>\n\
 <!ATTLIST web		url	CDATA #REQUIRED>\n\
 \n\
 <!ELEMENT widget	(solid+)>\n\

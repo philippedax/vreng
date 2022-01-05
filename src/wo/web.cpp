@@ -206,5 +206,5 @@ void Web::funcs()
 
   setActionFunc(WEB_TYPE, 0, _Action open_cb, "Open");
   setActionFunc(WEB_TYPE, 1, _Action pivot_cb, "Pivot");
-  setActionFunc(WEB_TYPE, 2, _Action caption_cb, "Caption");
+  setActionFunc(WEB_TYPE, 2, _Action caption_cb, "Text");
 }
