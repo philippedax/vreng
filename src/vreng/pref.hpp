@@ -58,6 +58,7 @@ public:
   bool stats;		///< show stats
   bool dbgtrace;	///< show trace
   bool loghttpd;	///< show loghttpd
+  bool tview;		///< thirdpersonn view
 
   /* preferences */
   char *my_avatar;	///< avatar model

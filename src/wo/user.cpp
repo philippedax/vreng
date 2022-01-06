@@ -91,7 +91,10 @@ void User::defaults()
   guy = NULL;
   humanoid = NULL;
   head = NULL;
-  current_view = Render::VIEW_FIRST_PERSON;
+  if (::g.pref.tview)
+    current_view = Render::VIEW_THIRD_PERSON_FAR;
+  else
+    current_view = Render::VIEW_FIRST_PERSON;
   ray = setV3(0, 0, 0);
   hit = 0;
 }

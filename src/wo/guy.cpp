@@ -541,6 +541,11 @@ void Guy::setAniming(bool flag)
   animing = flag;
 }
 
+bool Guy::isAnim() const
+{
+  return (animing);
+}
+
 void Guy::setFlying(bool flag)
 {
   flying = flag;

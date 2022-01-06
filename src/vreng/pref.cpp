@@ -54,6 +54,7 @@ where options are:\n\
 -v, --version			Version number\n\
 -w, --world url			World url [http://, file://]\n\
 -2, --fullscreen		Screen double size\n\
+-3, --thirdview			Thirdperson view\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
 -C, --clean			Clean cache\n\
 -E, --expand			Expand palettes (GUI)\n\
@@ -96,6 +97,7 @@ Pref::Pref()
   new_universe = false;
   refresh = false;
   loghttpd = false;
+  tview = false;
 
   // options with default values
   width3D  = DEF_WIDTH3D;
@@ -163,6 +165,7 @@ void Pref::parse(int argc, char **argv)
     {"version",    0, 0, 'v'},
     {"world",      1, 0, 'w'},
     {"fullscreen", 0, 0, '2'},
+    {"thirdview",  0, 0, '3'},
     {"address",    1, 0, 'A'},
     {"clean",      0, 0, 'C'},
     {"expand",     0, 0, 'E'},
@@ -175,9 +178,9 @@ void Pref::parse(int argc, char **argv)
     {"timetolive", 1, 0, 'T'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiklqrstv2CEFLMPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv23CEFLMPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiklqrstvx2CEFLMPRSa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx23CEFLMPRSa:d:f:n:p:u:w:A:T:"))
 #endif
    != -1) {
 
@@ -274,6 +277,9 @@ void Pref::parse(int argc, char **argv)
       case '2':
         width3D = 1180;
         height3D = 656;
+        break;
+      case '3':
+        tview = true;
         break;
       case 'A':
         ::g.channel = strdup(optarg);

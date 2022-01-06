@@ -129,6 +129,9 @@ public:
   virtual void setAniming(bool flag);
   /**< Set animing flag. */
 
+  virtual bool isAnim() const;
+  /**< Test animing. */
+
   virtual void setFlying(bool flag);
   /**< Set flying flag. */
 
