@@ -847,7 +847,7 @@ void User::firstPersonView(User *user, void *d, time_t s, time_t u)
   user->setView(Render::VIEW_FIRST_PERSON);
 }
 
-void User::thirdPersonViewFar(User *user, void *d, time_t s, time_t u)
+void User::thirdPersonView(User *user, void *d, time_t s, time_t u)
 {
   user->setView(Render::VIEW_THIRD_PERSON_FAR);
 }
@@ -1215,7 +1215,7 @@ void User::funcs()
   setActionFunc(USER_TYPE, UserAction::UA_SWITCHVIEW, _Action switchView, "");
   setActionFunc(USER_TYPE, UserAction::UA_MAPVIEW, _Action mapView, "");
   setActionFunc(USER_TYPE, UserAction::UA_FIRSTVIEW, _Action firstPersonView, "");
-  setActionFunc(USER_TYPE, UserAction::UA_THIRDVIEWFAR, _Action thirdPersonViewFar, "");
+  setActionFunc(USER_TYPE, UserAction::UA_THIRDVIEWFAR, _Action thirdPersonView, "");
   setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTL, _Action thirdPersonView_RotL, "");
   setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTR, _Action thirdPersonView_RotR, "");
   setActionFunc(USER_TYPE, UserAction::UA_TPVIEWROTU, _Action thirdPersonView_RotU, "");

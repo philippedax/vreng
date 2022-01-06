@@ -298,7 +298,7 @@ private:
   static void switchView(User *pu, void *d, time_t s, time_t u);
   static void papView(User *pu, void *d, time_t s, time_t u);
   static void firstPersonView(User *pu, void *d, time_t s, time_t u);
-  static void thirdPersonViewFar(User *pu, void *d, time_t s, time_t u);
+  static void thirdPersonView(User *pu, void *d, time_t s, time_t u);
   static void thirdPersonView_RotL(User *pu, void *d, time_t s, time_t u);
   static void thirdPersonView_RotR(User *pu, void *d, time_t s, time_t u);
   static void thirdPersonView_RotU(User *pu, void *d, time_t s, time_t u);
