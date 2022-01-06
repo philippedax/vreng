@@ -551,6 +551,11 @@ void Guy::setFlying(bool flag)
   flying = flag;
 }
 
+bool Guy::isFlying() const
+{
+  return (flying);
+}
+
 void Guy::setShowing(bool flag)
 {
   showing = flag;

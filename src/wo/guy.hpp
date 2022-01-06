@@ -135,6 +135,9 @@ public:
   virtual void setFlying(bool flag);
   /**< Set flying flag. */
 
+  virtual bool isFlying() const;
+  /**< Test flying. */
+
   virtual void setShowing(bool flag);
   /**< Set showing flag. */
 
