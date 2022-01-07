@@ -247,9 +247,17 @@ void User::changePosition(const float lastings[])
         human->pos.ay = 0;
       }
       if (guy) {
-        guy->pos.ax = 0;
-        guy->setAniming(false);
-        guy->setFlying(false);
+        if (guy->isFlying()) {
+          guy->pos.ax = 0;
+          guy->setFlying(false);
+          guy->setAniming(false);
+        }
+        else if (guy->isAnim()) {
+          guy->setAniming(false);
+        }
+        else {
+          guy->setAniming(true);
+        }
       }
     }
   }
