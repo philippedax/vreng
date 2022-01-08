@@ -393,7 +393,7 @@ class Chest {
  * Body-Parts structure
  */
 struct sBodyParts {
-  uint8_t model_t;	///< model type used
+  uint8_t model;	///< model type used
   bool loaded;		///< flag loaded or not
   float scale;		///< scale
   float scales[3];	///< scales
@@ -452,7 +452,7 @@ class Body {
   };
 
   uint8_t drawparts;		///< number of drawable parts
-  uint8_t model_t;		///< model type used (Off, Obj,...)
+  uint8_t model;		///< model type used (Off, Obj,...)
   GLint dlist;			///< body display-list
   GLfloat tx, ty, tz;		///< body translations
   GLfloat rx, ry, rz;		///< body rotations

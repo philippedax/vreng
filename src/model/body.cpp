@@ -313,7 +313,6 @@ Body::Body()
 
 Body::Body(const char *_url)
 {
-  //error("body url: %s", _url);
   init();
   load(_url);
 }
@@ -327,7 +326,7 @@ void Body::init()
   jp.x = NULL;
   jp.y = NULL;
   jp.z = NULL;
-  model_t = 0;
+  model = 0;
 
   tx = ty = tz = rx = ry = rz = 0;
   bscale = B_SCALE;
@@ -566,9 +565,9 @@ endparse:
   // now we can download all parts
   for (int i=0; i < MAX_PARTS; i++) {
     if (bodyparts[i].url[0]) {  // if url exist
-      bodyparts[i].model_t = Format::getModelByUrl(bodyparts[i].url);
+      bodyparts[i].model = Format::getModelByUrl(bodyparts[i].url);
 
-      switch (bodyparts[i].model_t) {
+      switch (bodyparts[i].model) {
       case MODEL_OFF:
         bodyparts[i].off = new Off(bodyparts[i].url);
         Http::httpOpen(bodyparts[i].url, Off::httpReader, bodyparts[i].off, 0);
@@ -585,7 +584,7 @@ endparse:
       bodyparts[i].loaded = true;
     }
   }
-  model_t = bodyparts[0].model_t;  // keep model used
+  model = bodyparts[0].model;  // keep model used
   if (f) File::closeFile(f);
 }
 
@@ -604,7 +603,7 @@ void Body::draw()
   dlist = glGenLists(drawparts);
   for (int i=0; i < drawparts && bodyparts[i].loaded ; i++) {
     glNewList(dlist + i, GL_COMPILE);
-    switch (bodyparts[i].model_t) {
+    switch (bodyparts[i].model) {
       case MODEL_OFF: bodyparts[i].off->draw(); break;
       case MODEL_OBJ: bodyparts[i].obj->draw(); break;
     }
@@ -648,7 +647,7 @@ void Body::animate()
   if (bap->is(L_ANKLE_TWIST))      foot_l->twist(bap->get(L_ANKLE_TWIST));
   if (bap->is(R_ANKLE_TWIST))      foot_r->twist(bap->get(R_ANKLE_TWIST));
 
-  switch (model_t) {
+  switch (model) {
   case MODEL_OFF:
     if (bap->is(L_SHOULDER_FLEXION)) arm_l->bend(bap->get(L_SHOULDER_FLEXION));
     if (bap->is(R_SHOULDER_FLEXION)) arm_r->bend(bap->get(R_SHOULDER_FLEXION));
@@ -783,16 +782,16 @@ bool Body::isLoaded(uint8_t part)
 void Body::jpGo(uint8_t part)
 {
   if (part < MAX_PARTS) {
-    if (model_t == MODEL_OBJ) glTranslatef(jp.y[part], jp.x[part], jp.z[part]);
-    else                      glTranslatef(jp.x[part], jp.y[part], jp.z[part]);
+    if (model == MODEL_OBJ) glTranslatef(jp.y[part], jp.x[part], jp.z[part]);
+    else                    glTranslatef(jp.x[part], jp.y[part], jp.z[part]);
   }
 }
 
 void Body::jpBack(uint8_t part)
 {
   if (part < MAX_PARTS) {
-    if (model_t == MODEL_OBJ) glTranslatef(-jp.y[part], -jp.x[part], -jp.z[part]);
-    else                      glTranslatef(-jp.x[part], -jp.y[part], -jp.z[part]);
+    if (model == MODEL_OBJ) glTranslatef(-jp.y[part], -jp.x[part], -jp.z[part]);
+    else                    glTranslatef(-jp.x[part], -jp.y[part], -jp.z[part]);
   }
 }
 
@@ -818,9 +817,9 @@ void Body::display()
 {
   glPushMatrix();	//  Pelvic (Body Bottom)
    jpGo(PELVIC);
-   bap->jpRX(PELVIC_TILT, model_t);
-   bap->jpRY(PELVIC_ROLL, model_t);
-   bap->jpRZ(PELVIC_TORSION, model_t);
+   bap->jpRX(PELVIC_TILT, model);
+   bap->jpRY(PELVIC_ROLL, model);
+   bap->jpRZ(PELVIC_TORSION, model);
    jpBack(PELVIC);
    display(HIPS);
 
@@ -843,9 +842,9 @@ void Body::display()
 
    glPushMatrix();	//  Spinal -> Chest (thoracic level 5)
     jpGo(SPINAL);
-    bap->jpRX(T5_TILT, model_t);
-    bap->jpRY(T5_ROLL, model_t);
-    bap->jpRZ(T5_TORSION, model_t);
+    bap->jpRX(T5_TILT, model);
+    bap->jpRY(T5_ROLL, model);
+    bap->jpRZ(T5_TORSION, model);
     jpBack(SPINAL);
     display(CHEST);
 
@@ -862,9 +861,9 @@ void Body::display()
 
     glPushMatrix();	//  Lower Neck (cervical level 4)
      jpGo(LOWER_NECK);
-     bap->jpRX(C4_TILT, model_t);
-     bap->jpRY(C4_ROLL, model_t);
-     bap->jpRZ(C4_TORSION, model_t);
+     bap->jpRX(C4_TILT, model);
+     bap->jpRY(C4_ROLL, model);
+     bap->jpRZ(C4_TORSION, model);
      jpBack(LOWER_NECK);
      display(NECK);
 
@@ -872,9 +871,9 @@ void Body::display()
 
      glPushMatrix();	//  Upper Neck -> Head (cervical level 1)
       jpGo(UPPER_NECK);
-      bap->jpRX(C1_TILT, model_t);
-      bap->jpRY(C1_ROLL, model_t);
-      bap->jpRZ(C1_TORSION, model_t);
+      bap->jpRX(C1_TILT, model);
+      bap->jpRY(C1_ROLL, model);
+      bap->jpRZ(C1_TORSION, model);
       if (face) {
         glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
         glTranslatef(0, 0.9, -0.9);
@@ -882,35 +881,35 @@ void Body::display()
         face->render();	// YR
       }
       jpGo(UPPER_NECK);
-      bap->jpRX(C1_TILT, model_t);
-      bap->jpRY(C1_ROLL, model_t);
-      bap->jpRZ(C1_TORSION, model_t);
+      bap->jpRX(C1_TILT, model);
+      bap->jpRY(C1_ROLL, model);
+      bap->jpRZ(C1_TORSION, model);
       jpBack(UPPER_NECK);
      glPopMatrix(); 	// head
     glPopMatrix(); 	// neck
 
     glPushMatrix();	//  Left Shoulder -> Left Arm
      jpGo(L_SHOULDER);
-     if (model_t == MODEL_OFF)
+     if (model == MODEL_OFF)
        glRotatef(-90, 0,0,1);  //FIXME
-     bap->jpRX(L_SHOULDER_ABDUCT, model_t);
-     bap->jpRY(-L_SHOULDER_FLEXION, model_t);
-     bap->jpRZ(-L_SHOULDER_TWIST, model_t);
+     bap->jpRX(L_SHOULDER_ABDUCT, model);
+     bap->jpRY(-L_SHOULDER_FLEXION, model);
+     bap->jpRZ(-L_SHOULDER_TWIST, model);
      jpBack(L_SHOULDER);
      display(L_ARM);
 
      glPushMatrix();	//  Left Elbow -> Left Forearm
       jpGo(L_ELBOW);
-      bap->jpRY(-L_ELBOW_FLEXION, model_t);
-      bap->jpRZ(-L_ELBOW_TWIST, model_t);
+      bap->jpRY(-L_ELBOW_FLEXION, model);
+      bap->jpRZ(-L_ELBOW_TWIST, model);
       jpBack(L_ELBOW);
       display(L_FOREARM);
 
       glPushMatrix();	//  Left Wrist -> Left Hand
        jpGo(L_WRIST);
-       bap->jpRX(L_WRIST_FLEXION, model_t);
-       bap->jpRY(L_WRIST_PIVOT, model_t);
-       bap->jpRZ(L_WRIST_TWIST, model_t);
+       bap->jpRX(L_WRIST_FLEXION, model);
+       bap->jpRY(L_WRIST_PIVOT, model);
+       bap->jpRZ(L_WRIST_TWIST, model);
        jpBack(L_WRIST);
        display(L_HAND);
       glPopMatrix();
@@ -919,57 +918,57 @@ void Body::display()
 
     glPushMatrix();	//  Right Shoulder -> Right Arm
      jpGo(R_SHOULDER);
-     if (model_t == MODEL_OFF)
+     if (model == MODEL_OFF)
        glRotatef(90, 0,0,1);	//OK but FIXME
-     bap->jpRX(-R_SHOULDER_ABDUCT, model_t);
-     bap->jpRY(R_SHOULDER_FLEXION, model_t);
-     bap->jpRZ(-R_SHOULDER_TWIST, model_t);
+     bap->jpRX(-R_SHOULDER_ABDUCT, model);
+     bap->jpRY(R_SHOULDER_FLEXION, model);
+     bap->jpRZ(-R_SHOULDER_TWIST, model);
      jpBack(R_SHOULDER);
      display(R_ARM);
 
      glPushMatrix();	//  Right Elbow -> Right Forearm
       jpGo(R_ELBOW);
-      bap->jpRY(R_ELBOW_FLEXION, model_t);
-      bap->jpRZ(-R_ELBOW_TWIST, model_t);
+      bap->jpRY(R_ELBOW_FLEXION, model);
+      bap->jpRZ(-R_ELBOW_TWIST, model);
       jpBack(R_ELBOW);
       display(R_FOREARM);
 
       glPushMatrix();	//  Right Wrist -> Right Hand
        jpGo(R_WRIST);
-       bap->jpRX(R_WRIST_FLEXION, model_t);
-       bap->jpRY(R_WRIST_PIVOT, model_t);
-       bap->jpRZ(R_WRIST_TWIST, model_t);
+       bap->jpRX(R_WRIST_FLEXION, model);
+       bap->jpRY(R_WRIST_PIVOT, model);
+       bap->jpRZ(R_WRIST_TWIST, model);
        jpBack(R_WRIST);
 
 #if 0 //dax fingers
        glPushMatrix();	//  Right fingers
        glPushMatrix();	//  Right thumb
         jpGo(R_THUMB);
-        bap->jpRX(R_THUMB_FLEXION1, model_t);
+        bap->jpRX(R_THUMB_FLEXION1, model);
         jpBack(R_THUMB);
         //display(R_THUMB);
        glPopMatrix();
        glPushMatrix();	//  Right index
         jpGo(R_INDEX);
-        bap->jpRX(R_INDEX_FLEXION1, model_t);
+        bap->jpRX(R_INDEX_FLEXION1, model);
         jpBack(R_INDEX);
         //display(R_INDEX);
        glPopMatrix();
        glPushMatrix();	//  Right middle
         jpGo(R_MIDDLE);
-        bap->jpRX(R_MIDDLE_FLEXION1, model_t);
+        bap->jpRX(R_MIDDLE_FLEXION1, model);
         jpBack(R_MIDDLE);
         //display(R_MIDDLE);
        glPopMatrix();
        glPushMatrix();	//  Right ring
         jpGo(R_RING);
-        bap->jpRX(R_RING_FLEXION1, model_t);
+        bap->jpRX(R_RING_FLEXION1, model);
         jpBack(R_RING);
         //display(R_RING);
        glPopMatrix();
        glPushMatrix();	//  Right pinky
         jpGo(R_PINKY);
-        bap->jpRX(R_PINKY_FLEXION1, model_t);
+        bap->jpRX(R_PINKY_FLEXION1, model);
         jpBack(R_PINKY);
         //display(R_PINKY);
         display(R_HAND);
@@ -986,23 +985,23 @@ void Body::display()
 
   glPushMatrix();	//  Left Hip -> Left Thigh
    jpGo(L_HIP);
-   bap->jpRX(L_HIP_FLEXION, model_t);
-   bap->jpRY(L_HIP_ABDUCT, model_t);
-   bap->jpRZ(L_HIP_TWIST, model_t);
+   bap->jpRX(L_HIP_FLEXION, model);
+   bap->jpRY(L_HIP_ABDUCT, model);
+   bap->jpRZ(L_HIP_TWIST, model);
    jpBack(L_HIP);
    display(L_THIGH);
 
    glPushMatrix();	//  Left Knee -> Left Shin
     jpGo(L_KNEE);
-    bap->jpRX(L_KNEE_FLEXION, model_t);
-    bap->jpRZ(L_KNEE_TWIST, model_t);
+    bap->jpRX(L_KNEE_FLEXION, model);
+    bap->jpRZ(L_KNEE_TWIST, model);
     jpBack(L_KNEE);
     display(L_SHIN);
 
     glPushMatrix();	//  Left Ankle -> Left Foot
      jpGo(L_ANKLE);
-     bap->jpRX(L_ANKLE_FLEXION, model_t);
-     bap->jpRZ(L_ANKLE_TWIST, model_t);
+     bap->jpRX(L_ANKLE_FLEXION, model);
+     bap->jpRZ(L_ANKLE_TWIST, model);
      jpBack(L_ANKLE);
      display(L_FOOT);
     glPopMatrix();
@@ -1011,23 +1010,23 @@ void Body::display()
 
   glPushMatrix();	//  Right Hip -> Right Thigh
    jpGo(R_HIP);
-   bap->jpRX(R_HIP_FLEXION, model_t);
-   bap->jpRY(R_HIP_ABDUCT, model_t);
-   bap->jpRZ(R_HIP_TWIST, model_t);
+   bap->jpRX(R_HIP_FLEXION, model);
+   bap->jpRY(R_HIP_ABDUCT, model);
+   bap->jpRZ(R_HIP_TWIST, model);
    jpBack(R_HIP);
    display(R_THIGH);
 
    glPushMatrix();	//  Right Knee -> Right Shin
     jpGo(R_KNEE);
-    bap->jpRX(R_KNEE_FLEXION, model_t);
-    bap->jpRZ(R_KNEE_TWIST, model_t);
+    bap->jpRX(R_KNEE_FLEXION, model);
+    bap->jpRZ(R_KNEE_TWIST, model);
     jpBack(R_KNEE);
     display(R_SHIN);
 
     glPushMatrix();	//  Right Ankle -> Right Foot
      jpGo(R_ANKLE);
-     bap->jpRX(R_ANKLE_FLEXION, model_t);
-     bap->jpRZ(R_ANKLE_TWIST, model_t);
+     bap->jpRX(R_ANKLE_FLEXION, model);
+     bap->jpRZ(R_ANKLE_TWIST, model);
      jpBack(R_ANKLE);
      display(R_FOOT);
     glPopMatrix();
@@ -1044,7 +1043,7 @@ void Body::render(Pos& pos)
 
   glPushMatrix();
    glTranslatef(pos.x + tx, pos.y + ty, pos.z + tz + dtz);
-   switch (model_t) {
+   switch (model) {
    case MODEL_OBJ:
      glRotatef(ry, 1,0,0);
      glRotatef(rx, 0,1,0);
