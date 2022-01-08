@@ -313,7 +313,7 @@ Body::Body()
 
 Body::Body(const char *_url)
 {
-  error("body url: %s", _url);
+  //error("body url: %s", _url);
   init();
   load(_url);
 }
@@ -444,17 +444,17 @@ void Body::httpReader(void *_body, Http *http)
 
   if (! body) return;
 
-  char *u = new char[URL_LEN];
-  strcpy(u, body->getUrl());
+  char *tmpurl = new char[URL_LEN];
+  strcpy(tmpurl, body->getUrl());
 
-  FILE *f = Cache::openCache(u, http);
+  FILE *f = Cache::openCache(tmpurl, http);
   if (! f) {
-    error("Body: can't open %s", u);
+    error("Body: can't open %s", tmpurl);
   }
   else {
     body->loadBodyParts(f);
   }
-  delete[] u;
+  delete[] tmpurl;
 }
 
 /** load body's parts */
@@ -566,7 +566,6 @@ endparse:
   // now we can download all parts
   for (int i=0; i < MAX_PARTS; i++) {
     if (bodyparts[i].url[0]) {  // if url exist
-      //error("body_url=%s", bodyparts[i].url);
       bodyparts[i].model_t = Format::getModelByUrl(bodyparts[i].url);
 
       switch (bodyparts[i].model_t) {
@@ -590,14 +589,11 @@ endparse:
   if (f) File::closeFile(f);
 }
 
-void Body::setJointPoint(int ind, float *_jp)
+void Body::setJointPoint(uint8_t ind, float *_jp)
 {
-  if (ind < MAX_PARTS) {
-    jp.x[ind] = _jp[0];
-    jp.y[ind] = _jp[1];
-    jp.z[ind] = _jp[2];
-  }
-  else warning("bad jointpoint %d", ind);
+  jp.x[ind] = _jp[0];
+  jp.y[ind] = _jp[1];
+  jp.z[ind] = _jp[2];
 }
 
 void Body::draw()
@@ -777,32 +773,32 @@ void Body::anim(int param)
 }
 #endif
 
-bool Body::isLoaded(int part)
+bool Body::isLoaded(uint8_t part)
 {
-  if (part >= 0 && part < MAX_PARTS)
+  if (part < MAX_PARTS)
     return bodyparts[part].loaded;
   return false;
 }
 
-void Body::jpGo(int part)
+void Body::jpGo(uint8_t part)
 {
-  if (part >= 0 && part < MAX_PARTS) {
+  if (part < MAX_PARTS) {
     if (model_t == MODEL_OBJ) glTranslatef(jp.y[part], jp.x[part], jp.z[part]);
     else                      glTranslatef(jp.x[part], jp.y[part], jp.z[part]);
   }
 }
 
-void Body::jpBack(int part)
+void Body::jpBack(uint8_t part)
 {
-  if (part >= 0 && part < MAX_PARTS) {
+  if (part < MAX_PARTS) {
     if (model_t == MODEL_OBJ) glTranslatef(-jp.y[part], -jp.x[part], -jp.z[part]);
     else                      glTranslatef(-jp.x[part], -jp.y[part], -jp.z[part]);
   }
 }
 
-void Body::display(int part)
+void Body::display(uint8_t part)
 {
-  if (part >= 0 && part < MAX_PARTS) {
+  if (part < MAX_PARTS) {
     glMaterialfv(GL_FRONT, GL_DIFFUSE, bodyparts[part].color);
     if (bodyparts[part].texid) {
       glEnable(GL_TEXTURE_2D);

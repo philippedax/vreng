@@ -29,7 +29,7 @@
 
 // Body
 #define B_HEIGHT	1.70
-#ifdef OFF_SCALING	//see off.hh
+#ifdef OFF_SCALING	//see off.hpp
 #define B_SCALE		40.41	//0.02476  // 1/40.41
 #else
 #define B_SCALE		1
@@ -425,6 +425,7 @@ struct sJP {
 class Body {
   friend class Bap;
   friend class Humanoid;
+  friend class Human;
   friend class Man;
 
  protected:
@@ -489,7 +490,7 @@ class Body {
 public:
 
   /* body drawable parts */
-  enum {
+  enum body_parts {
     HEAD,	// 00
     NECK,	// 01
     CHEST,	// 02
@@ -509,19 +510,19 @@ public:
     ABDOMEN,	// 16
     L_COLLAR,	// 17
     R_COLLAR,	// 18
-    BELT,	// 20
-    L_THUMB,	//
-    L_INDEX,	//
-    L_MIDDLE,	//
-    L_RING,	//
-    L_PINKY,	//
-    R_THUMB,	//
-    R_INDEX,	//
-    R_MIDDLE,	//
-    R_RING,	//
-    R_PINKY,	//
-    SKIRT,	// 19
-    MAX_PARTS
+    BELT,	// 19
+    L_THUMB,	// 20
+    L_INDEX,	// 21
+    L_MIDDLE,	// 22
+    L_RING,	// 23
+    L_PINKY,	// 24
+    R_THUMB,	// 25
+    R_INDEX,	// 26
+    R_MIDDLE,	// 27
+    R_RING,	// 28
+    R_PINKY,	// 29
+    SKIRT,	// 30
+    MAX_PARTS	// 31
   };
 
   struct sJP jp;		///< jointpoints.
@@ -550,7 +551,7 @@ public:
 #endif
   /**< Loads body's drawable parts. */
 
-  virtual void setJointPoint(int indice, float *_jp);
+  virtual void setJointPoint(uint8_t indice, float *_jp);
   /**< Sets one joint point for this indice. */
 
   virtual void setColors(float *_skin, float *_cloth);
@@ -569,16 +570,16 @@ protected:
   virtual void display();
   /**< Displays body and face. */
 
-  virtual void display(int part);
+  virtual void display(uint8_t part);
   /**< Displays a part of the body. */
 
-  virtual bool isLoaded(int part);
+  virtual bool isLoaded(uint8_t part);
   /**< Returns true if body part exists. */
 
-  virtual void jpGo(int part);
+  virtual void jpGo(uint8_t part);
   /**< Translates to the Joint Point. */
 
-  virtual void jpBack(int part);
+  virtual void jpBack(uint8_t part);
   /**< Translates reverse from the Joint Point. */
 
   virtual char * getTok(char *l, int *tok);
