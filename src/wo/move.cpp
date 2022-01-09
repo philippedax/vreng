@@ -223,6 +223,9 @@ void User::changePosition(const float lastings[])
   float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
   if (this == localuser) {
     if (pos.z > 2) {	// >2 m
+      if (humanoid) {
+        localuser->pos.ay = -a;
+      }
       if (human) {
         human->pos.ay = -a;
       }
@@ -233,6 +236,9 @@ void User::changePosition(const float lastings[])
       }
     }
     else if (pos.z > 1) {	// >1 m
+      if (humanoid) {
+        localuser->pos.ay = -a/2;
+      }
       if (human) {
         human->pos.ay = -a/2;
       }
@@ -243,6 +249,9 @@ void User::changePosition(const float lastings[])
       }
     }
     else if (pos.z < 1) { // near the ground
+      if (humanoid) {
+        localuser->pos.ay = 0;
+      }
       if (human) {
         human->pos.ay = 0;
       }
