@@ -290,19 +290,22 @@ void Humanoid::changePermanent(float lasting)
 }
 
 /** send a play command to the vaps server */
-void Humanoid::sendPlayToBapServer(const char *bap_name)
+bool Humanoid::sendPlayToBapServer(const char *bap_name)
 {
   char play_cmd[128];
 
   if (! initReceiver()) { // UDP reception
-    error("sendPlayToBapServer: receiver fails"); return;
+    error("sendPlayToBapServer: receiver fails");
+    return false;
   }
   if (! connectToBapServer(UNICAST)) { // TCP connection
-    error("sendPlayToBapServer: connect fails"); return;
+    error("sendPlayToBapServer: connect fails");
+    return false;
   }
   sprintf(play_cmd, "play f=%s", bap_name);
   write(sdtcp, play_cmd, strlen(play_cmd));  // TCP play packet
   state = PLAYING;
+  return true;
 }
 
 void Humanoid::quit()
@@ -322,52 +325,150 @@ void Humanoid::reset()
   if (! connectToBapServer(MULTICAST)) return;
 }
 
+void Humanoid::pause()
+{
+  sendPlayToBapServer("pause.bap");
+}
+
+void Humanoid::hi()
+{
+  sendPlayToBapServer("hi.bap");
+}
+
+void Humanoid::bye()
+{
+  sendPlayToBapServer("bye.bap");
+}
+
+void Humanoid::ask()
+{
+  sendPlayToBapServer("ask.bap");
+}
+
+void Humanoid::sit()
+{
+  sendPlayToBapServer("sit.bap");
+}
+
+void Humanoid::show()
+{
+  sendPlayToBapServer("show.bap");
+}
+
+void Humanoid::clap()
+{
+  sendPlayToBapServer("clap.bap");
+}
+
+void Humanoid::nak()
+{
+  sendPlayToBapServer("nak.bap");
+}
+
+void Humanoid::test()
+{
+  sendPlayToBapServer("test.bap");
+}
+
+void Humanoid::eyes()
+{
+  sendPlayToBapServer("eyes.fap");
+}
+
+void Humanoid::joy()
+{
+  sendPlayToBapServer("joy.fap");
+}
+
+void Humanoid::sad()
+{
+  sendPlayToBapServer("sad.fap");
+}
+
+void Humanoid::surp()
+{
+  sendPlayToBapServer("surp.fap");
+}
+
+void Humanoid::jag()
+{
+  sendPlayToBapServer("jag.fap");
+}
+
+void Humanoid::pause_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->pause();
+}
+
+void Humanoid::hi_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->hi();
+}
+
+void Humanoid::bye_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->bye();
+}
+
+void Humanoid::ask_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->ask();
+}
+
+void Humanoid::sit_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->sit();
+}
+
+void Humanoid::show_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->show();
+}
+
+void Humanoid::clap_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->clap();
+}
+
+void Humanoid::nak_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->nak();
+}
+
+void Humanoid::test_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
+{
+  humanoid->test();
+}
+
 void Humanoid::reset_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
 {
   humanoid->reset();
 }
 
-void Humanoid::pause_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("pause.bap"); }
-
-void Humanoid::hi_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("hi.bap"); }
-
-void Humanoid::bye_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("bye.bap"); }
-
-void Humanoid::ask_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("ask.bap"); }
-
-void Humanoid::sit_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("sit.bap"); }
-
-void Humanoid::show_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("show.bap"); }
-
-void Humanoid::clap_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("clap.bap"); }
-
-void Humanoid::nak_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("nak.bap"); }
-
-void Humanoid::test_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("test.bap"); }
-
 void Humanoid::eyes_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("eyes.fap"); }
+{
+  humanoid->eyes();
+}
 
 void Humanoid::joy_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("joy.fap"); }
+{
+  humanoid->joy();
+}
 
 void Humanoid::sad_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("sad.fap"); }
+{
+  humanoid->sad();
+}
 
 void Humanoid::surp_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("surp.fap"); }
+{
+  humanoid->surp();
+}
 
 void Humanoid::jag_cb(Humanoid *humanoid, void *d, time_t s, time_t u)
-{ humanoid->sendPlayToBapServer("jag.fap"); }
+{
+  humanoid->jag();
+}
 
 /** functions initialization */
 void Humanoid::funcs()

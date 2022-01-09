@@ -99,7 +99,7 @@ class Humanoid: public WObject {
   virtual int initReceiver();
   /**< Inits UDP listening. */
 
-  virtual void sendPlayToBapServer(const char *bap_name);
+  virtual bool sendPlayToBapServer(const char *bap_name);
   /**< Sends a play command to the vaps server. */
 
   virtual void disconnectFromBapServer();
@@ -124,6 +124,20 @@ private:
   virtual int readBapFrame();
   /**< Gets a frame from the vaps server. */
 
+  virtual void pause();
+  virtual void hi();
+  virtual void bye();
+  virtual void ask();
+  virtual void sit();
+  virtual void show();
+  virtual void clap();
+  virtual void nak();
+  virtual void test();
+  virtual void eyes();
+  virtual void joy();
+  virtual void sad();
+  virtual void surp();
+  virtual void jag();
   virtual void reset();
 
   // GUI callbacks
