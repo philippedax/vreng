@@ -144,7 +144,7 @@ int Humanoid::initReceiver()
   if (sdudp > 0) disconnectFromBapServer();
 
   if ((sdudp = Socket::openDatagram()) < 0) {
-    error("open UDP failed");
+    //error("initReceiver: open UDP failed");
     return 0;
   }
   Socket::bindSocket(sdudp, INADDR_ANY, vaps_port);
@@ -165,7 +165,7 @@ int Humanoid::initReceiver()
     //error("initReceiver: waiting for Unicast on port %d", vaps_port);
   }
 #endif
-  error("initReceiver: waiting on port %d, sdudp=%d", vaps_port, sdudp);
+  //error("initReceiver: waiting on port %d, sdudp=%d", vaps_port, sdudp);
   return 1;
 }
 
@@ -311,6 +311,7 @@ void Humanoid::quit()
   if (bap) delete bap;
   bap = NULL;
   if (body) delete body;
+  body = NULL;
 }
 
 void Humanoid::reset()
