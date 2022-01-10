@@ -21,7 +21,7 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-EXTRA_DIST = bap.t man.data
+EXTRA_DIST = gestures.txt man.data
 
 MODEL_SRCS = md2.cpp lwo.cpp off.cpp 3ds.cpp ase.cpp man.cpp obj.cpp dxf.cpp x3d.cpp vec3.cpp body.cpp face.cpp bap.cpp bvh.cpp bone.cpp car.cpp teapot.cpp
 

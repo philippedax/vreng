@@ -163,6 +163,22 @@
 #define	RT_BODY_ROLL		174
 #define	RT_BODY_TILT		175
 
+/* externs */
+extern const char pause_bap[];
+extern const char hi_bap[];
+extern const char bye_bap[];
+extern const char ask_bap[];
+extern const char show_bap[];
+extern const char sit_bap[];
+extern const char clap_bap[];
+extern const char nak_bap[];
+extern const char test_bap[];
+extern const char reset_bap[];
+extern const char eyes_fap[];
+extern const char joy_fap[];
+extern const char sad_fap[];
+extern const char surp_fap[];
+
 
 /**
  * Bap class
@@ -184,13 +200,13 @@ public:
   virtual uint8_t parse(char *bapline);
   /**< Parses and reads header and data of a frame */
 
-  virtual bool is(int param) const;
+  virtual bool is(uint8_t param) const;
   /**< Checks bit indexed by param */
 
-  virtual GLfloat get(int param) const;
+  virtual GLfloat get(uint8_t param) const;
   /**< Gets a Bap angle indexed by param */
 
-  virtual GLfloat getFap(int param) const;
+  virtual GLfloat getFap(uint8_t param) const;
   /**< Gets a Fap angle indexed by param */
 
   virtual void jpRX(int param, uint8_t model);
@@ -208,13 +224,13 @@ protected:
   int balast[NUM_BAPS_V32 + 1]; ///< last baps angles
   int fa[NUM_FAPS + 1];         ///< faps angles
 
-  virtual void resetMask(int num);
+  virtual void resetMask(uint8_t num);
   /**< Resets bit mask */
 
-  virtual bool equalLast(int param);
+  virtual bool equalLast(uint8_t param);
   /**< Checks whether same bap value */
 
-  virtual void copyLast(int param);
+  virtual void copyLast(uint8_t param);
   /**< Saves last bap */
 };
 

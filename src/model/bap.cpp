@@ -24,7 +24,7 @@
 #include "format.hpp"	// MODEL_*
 #include "str.hpp"	// stringcmp
 
-#include "bap.t"	// gestures
+#include "gestures.txt"	// gestures bap + fap
 
 
 Bap::Bap()
@@ -43,7 +43,7 @@ Bap::Bap()
   }
 }
 
-void Bap::resetMask(int num)
+void Bap::resetMask(uint8_t num)
 {
   for (int i=0; i <= num; i++) {
     bit[i] = 0;
@@ -55,27 +55,27 @@ uint8_t Bap::getType() const
   return baptype;
 }
 
-bool Bap::is(int param) const
+bool Bap::is(uint8_t param) const
 {
   return bit[param];
 }
 
-GLfloat Bap::get(int param) const
+GLfloat Bap::get(uint8_t param) const
 {
   return ba[param];
 }
 
-GLfloat Bap::getFap(int param) const
+GLfloat Bap::getFap(uint8_t param) const
 {
   return fa[param];
 }
 
-bool Bap::equalLast(int param)
+bool Bap::equalLast(uint8_t param)
 {
   return (ba[param] == balast[param]);
 }
 
-void Bap::copyLast(int param)
+void Bap::copyLast(uint8_t param)
 {
   balast[param] = ba[param];
 }
