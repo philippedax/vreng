@@ -24,7 +24,7 @@
 #include "format.hpp"	// MODEL_*
 #include "str.hpp"	// stringcmp
 
-#include "gestures.txt"	// gestures bap + fap
+#include "gestures.hpp"	// gestures bap + fap
 
 
 Bap::Bap()
