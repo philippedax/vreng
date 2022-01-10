@@ -172,7 +172,7 @@ class Bap {
 
 private:
   int num_baps;		///< number of bap
-  uint8_t bfflag;	///< stream type bap-3.1, bap-3.2, fap
+  uint8_t baptype;	///< stream type bap-3.1, bap-3.2, fap
 
 public:
   Bap();		///< constructor
@@ -181,7 +181,7 @@ public:
   virtual uint8_t getType() const;
   /**< Returns stream type */
 
-  virtual int readFrame(char *line);
+  virtual uint8_t parse(char *bapline);
   /**< Parses and reads header and data of a frame */
 
   virtual bool is(int param) const;

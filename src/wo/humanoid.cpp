@@ -258,6 +258,8 @@ int Humanoid::readBapFrame()
 /** system of equations handling permanent motion */
 void Humanoid::changePermanent(float lasting)
 {
+  if (state != PLAYING) return;  // not connected
+
   if (usercontrol && localuser) {
     pos.x = localuser->pos.x;
     pos.y = localuser->pos.y;
@@ -268,25 +270,27 @@ void Humanoid::changePermanent(float lasting)
     updatePosition();
   }
 
-  if (state != PLAYING) return;  // not connected
-
-  if (readBapFrame()) {
+  if (readBapFrame()) {		// from vaps server
     // bap is ready to be played
-    bap->readFrame(bapline);  // get it
+    uint8_t baptype = bap->parse(bapline);	// parse it
 
-    switch (bap->getType()) {
+    switch (baptype) {
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
-      body->animate();  // play bap
+      body->animate();		// play bap
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++)
         if (bap->is(i) && bap->getFap(i) && body->face)
           body->face->animate(i, (int) bap->getFap(i)); // play fap
       break;
+    default:
+      break;
     //TODO: predictive interpollation
     }
   }
-  else if (body->face) body->face->animate(); // local animation
+  else if (body->face) {
+    body->face->animate();	// local animation
+  }
 }
 
 /** send a play command to the vaps server */

@@ -29,7 +29,7 @@
 
 Bap::Bap()
 {
-  bfflag = 0;
+  baptype = 0;
   num_baps = 0;
 
   //set all values to 0
@@ -38,17 +38,21 @@ Bap::Bap()
     balast[i] = 0;
     bit[i] = 0;
   }
-  for (int i=0; i <= NUM_FAPS; i++) fa[i] = 0;
+  for (int i=0; i <= NUM_FAPS; i++) {
+    fa[i] = 0;
+  }
 }
 
 void Bap::resetMask(int num)
 {
-  for (int i=0; i <= num; i++) bit[i] = 0;
+  for (int i=0; i <= num; i++) {
+    bit[i] = 0;
+  }
 }
 
 uint8_t Bap::getType() const
 {
-  return bfflag;
+  return baptype;
 }
 
 bool Bap::is(int param) const
@@ -84,7 +88,6 @@ void Bap::jpRX(int param, uint8_t model)
   switch (model) {
   case MODEL_OFF: glRotatef(+sign * ba[abs(param)], 1,0,0); break;
   case MODEL_OBJ: glRotatef(-sign * ba[abs(param)], 0,1,0); break;
-  //dax case MODEL_OBJ: glRotatef(-sign * ba[abs(param)], 1,0,0); break;
   }
   copyLast(param);
 }
@@ -97,7 +100,6 @@ void Bap::jpRY(int param, uint8_t model)
   switch (model) {
   case MODEL_OFF: glRotatef(sign * ba[abs(param)], 0,1,0); break;
   case MODEL_OBJ: glRotatef(sign * ba[abs(param)], 1,0,0); break;
-  //dax case MODEL_OBJ: glRotatef(sign * ba[abs(param)], 0,1,0); break;
   }
   copyLast(param);
 }
@@ -114,17 +116,15 @@ void Bap::jpRZ(int param, uint8_t model)
   copyLast(param);
 }
 
-int Bap::readFrame(char *bapline)
+/* parses bapline and returns baptype */
+uint8_t Bap::parse(char *bapline)
 {
   if (! strcmp(bapline, ""))  return 0;  // discard empty bapline
   else if (bapline[0] == '#') return 0;  // discard comment bapline
 
-  // Header or Data are below
-
   // TODO: mix bap and fap
   // needs header: HBAP, HFAP, B3.1, B3.2, F2.1 F2.0 inserted by vaps server
   // num_faps to be added
-  //
   char *l;
 
   //debug error("%s", bapline);
@@ -132,70 +132,70 @@ int Bap::readFrame(char *bapline)
   if (! stringcmp(l, HEAD_BAP_V31)) {		// Bap3.1 Header
     num_baps = NUM_BAPS_V31;
     resetMask(num_baps);
-    bfflag = TYPE_BAP_V31;
+    baptype = TYPE_BAP_V31;
     l = strtok(NULL, " \t"); l = strtok(NULL, " \t");
-    //debug error("readFrame bap3.1: num_baps=%d", num_baps);
   }
   else if (! stringcmp(l, HEAD_BAP_V32)) {	// Bap3.2 Header
     num_baps = NUM_BAPS_V32;
     resetMask(num_baps);
-    bfflag = TYPE_BAP_V32;
+    baptype = TYPE_BAP_V32;
     l = strtok(NULL, " \t"); l = strtok(NULL, " \t");
   }
   else if (! stringcmp(l, HEAD_FAP_V20)) {	// Fap2.0 Header
     num_baps = NUM_FAPS;
     resetMask(num_baps);
-    bfflag = TYPE_FAP_V20;
+    baptype = TYPE_FAP_V20;
     l = strtok(NULL, " \t"); l = strtok(NULL, " \t");
-    //debug error("readFrame fap2.0: num_baps=%d", num_baps);
   }
   else if (! stringcmp(l, HEAD_FAP_V21)) {	// Fap2.1 Header
     num_baps = NUM_FAPS;
     resetMask(num_baps);
-    bfflag = TYPE_FAP_V21;
+    baptype = TYPE_FAP_V21;
     l = strtok(NULL, " \t"); l = strtok(NULL, " \t");
-    //debug error("readFrame fap2.1: num_baps=%d", num_baps);
   }
 
   // Datas = Masks and Values
   else {
-    if (bfflag == TYPE_BAP_V31 || bfflag == TYPE_BAP_V32) {
+    if (baptype == TYPE_BAP_V31 || baptype == TYPE_BAP_V32) {
       for (int i=1; i <= num_baps; i++) {
         if (l) {
           bit[i] = atoi(l);  //extract all the mask values
           l = strtok(NULL, " \t");
         }
       }
-      //debug error("readFrame: num_frame=%s", l);
+      //debug error("parse: num_frame=%s", l);
       for (int i=1; i <= num_baps; i++) {
         if (bit[i] == 0) continue;
         if ((l = strtok(NULL, " \t")) == NULL) break;
 
         if (i >= TR_VERTICAL && i <= TR_FRONTAL)  // translations
-          ba[i] = atoi(l);  // millimeters ?
-        else {  // rotations
+          ba[i] = atoi(l);	// millimeters ?
+        else {	// rotations
           if (num_baps == NUM_BAPS_V32) ba[i] = atoi(l) / BAPV32_DIV; //magic formula (555) //GB
           else                          ba[i] = atoi(l) / BAPV31_DIV; //magic formula (1745)
         }
-        trace(DBG_MAN, "readFrame bap: l=%s ba[%d]=%d", l, i, ba[i]);
+        trace(DBG_MAN, "parse bap: l=%s ba[%d]=%d", l, i, ba[i]);
       }
     }
-    else if (bfflag == TYPE_FAP_V20 || bfflag == TYPE_FAP_V21) {
+    else if (baptype == TYPE_FAP_V20 || baptype == TYPE_FAP_V21) {
       for (int i=1; i <= num_baps; i++) {
         if (l) {
           bit[i] = atoi(l);  //extract all the mask values
           l = strtok(NULL, " \t");
         }
       }
-      trace(DBG_MAN, "readFrame fap: num_frame=%s", l);
+      trace(DBG_MAN, "parse fap: num_frame=%s", l);
       for (int i=1; i <= num_baps; i++) {
         if (bit[i] == 0) continue;
         if ((l = strtok(NULL, " \t")) == NULL) break;
-        if (bfflag == TYPE_FAP_V20) fa[i] = atoi(l) / FAPV20_DIV; //unknown formula
-        else                        fa[i] = atoi(l) / FAPV21_DIV; //unknown formula
+        if (baptype == TYPE_FAP_V20) fa[i] = atoi(l) / FAPV20_DIV; //unknown formula
+        else                         fa[i] = atoi(l) / FAPV21_DIV; //unknown formula
       }
     }
-    else { error("readFrame: unknown type=%d", bfflag); return 0; }
+    else {
+      error("parse: unknown type=%d", baptype);
+      return 0;
+    }
   }
-  return 1;  // frame ready to play
+  return baptype;  // frame ready to play
 }
