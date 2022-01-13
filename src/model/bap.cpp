@@ -127,7 +127,7 @@ uint8_t Bap::parse(char *bapline)
   // num_faps to be added
   char *l;
 
-  //debug error("%s", bapline);
+  //error("parse: %s", bapline);
   l = strtok(bapline, " \t");
   if (! stringcmp(l, HEAD_BAP_V31)) {		// Bap3.1 Header
     num_baps = NUM_BAPS_V31;
@@ -157,13 +157,14 @@ uint8_t Bap::parse(char *bapline)
   // Datas = Masks and Values
   else {
     if (baptype == TYPE_BAP_V31 || baptype == TYPE_BAP_V32) {
+      // bap
       for (int i=1; i <= num_baps; i++) {
         if (l) {
           bit[i] = atoi(l);  //extract all the mask values
           l = strtok(NULL, " \t");
         }
       }
-      //debug error("parse: num_frame=%s", l);
+      //error("parse: num_frame=%s", l);
       for (int i=1; i <= num_baps; i++) {
         if (bit[i] == 0) continue;
         if ((l = strtok(NULL, " \t")) == NULL) break;
@@ -178,6 +179,7 @@ uint8_t Bap::parse(char *bapline)
       }
     }
     else if (baptype == TYPE_FAP_V20 || baptype == TYPE_FAP_V21) {
+      // fap
       for (int i=1; i <= num_baps; i++) {
         if (l) {
           bit[i] = atoi(l);  //extract all the mask values

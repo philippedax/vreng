@@ -90,6 +90,7 @@ class Humanoid: public WObject {
   virtual void quit();
   /**< Quits. */
 
+private:
   virtual int connectToBapServer(int _ipmode);
   /**< Establishes a TCP connection to the vaps server
    * and send the setup packet.
@@ -105,7 +106,6 @@ class Humanoid: public WObject {
   virtual void disconnectFromBapServer();
   /**< Closes connection with the vaps server. */
 
-private:
   virtual void parser(char *l);
   /**< Parses. */
 
@@ -123,6 +123,8 @@ private:
 
   virtual int readBapFrame();
   /**< Gets a frame from the vaps server. */
+
+  virtual char * toPlay(const char *str);
 
   virtual void pause();
   virtual void hi();

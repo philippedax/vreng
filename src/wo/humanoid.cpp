@@ -33,11 +33,10 @@
 
 const OClass Humanoid::oclass(HUMANOID_TYPE, "Humanoid", Humanoid::creator);
 
-static uint8_t vaps_offset_port = Humanoid::VAPS_OFFSET_PORT;
-
 //local
+static const char DEF_BODY_URL[] = "/avatars/humanoid/humanoid.parts";
 static float skin[] = {1, .75, .7}; // skin color
-const char DEF_BODY_URL[] = "/avatars/humanoid/humanoid.parts";
+static uint8_t vaps_offset_port = Humanoid::VAPS_OFFSET_PORT;
 
 
 /** create from a fileline */
@@ -54,8 +53,6 @@ void Humanoid::defaults()
   strcpy(names.url, DEF_BODY_URL); // default body
 
   for (int i=0; i<3; i++) cloth[i] = skin[i];
-  sdudp = -1;
-  state = INACTIVE;
 }
 
 void Humanoid::parser(char *l)
@@ -93,6 +90,9 @@ void Humanoid::behaviour()
 
 void Humanoid::inits()
 {
+  sdudp = -1;
+  sdtcp = -1;
+
   body = new Body();
   body->wobject = this;
 
@@ -111,6 +111,7 @@ void Humanoid::inits()
   vaps_offset_port += 2;
   vaps_port = Channel::getPort(World::current()->getChan()) + vaps_offset_port;
   if (! ::g.pref.reflector) reset();
+  state = INACTIVE;
 }
 
 /* Comes from file */
@@ -175,8 +176,15 @@ int Humanoid::connectToBapServer(int _ipmode)
   char setup_cmd[128];
   struct hostent *hp;
 
-  if ((sdtcp = Socket::openStream()) < 0) { error("socket vaps failed"); return 0; }
-  if ((hp = my_gethostbyname(vaps, AF_INET)) == NULL) { error("can't resolve name"); return 0; }
+  if ((sdtcp = Socket::openStream()) < 0) {
+    error("socket vaps failed");
+    return 0;
+  }
+  if ((hp = my_gethostbyname(vaps, AF_INET)) == NULL) {
+    error("can't resolve name");
+    //sdtcp = -1;
+    return 0;
+  }
   memset(&tcpsa, 0, sizeof(struct sockaddr_in));
   tcpsa.sin_family = AF_INET;
   tcpsa.sin_port = htons(VAPS_PORT);
@@ -191,6 +199,7 @@ int Humanoid::connectToBapServer(int _ipmode)
     error("setsockopt failed\n");
   if (connect(sdtcp, (const struct sockaddr *) &tcpsa, sizeof(tcpsa)) < 0) {
     error("Connection failed with the vaps server: %s (%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
+    sdtcp = -1;
     return 0;
   }
   //error("Connection established with vaps server: %s(%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
@@ -258,7 +267,7 @@ int Humanoid::readBapFrame()
 /** system of equations handling permanent motion */
 void Humanoid::changePermanent(float lasting)
 {
-  if (state != PLAYING) return;  // not connected
+  if (state != PLAYING) return;  // not playing
 
   if (usercontrol && localuser) {
     pos.x = localuser->pos.x;
@@ -270,8 +279,9 @@ void Humanoid::changePermanent(float lasting)
     updatePosition();
   }
 
-  if (readBapFrame()) {		// from vaps server
+  if ((sdtcp > 0) && readBapFrame()) {		// from vaps server
     // bap is ready to be played
+    //error("bapline: %s", bapline);
     uint8_t baptype = bap->parse(bapline);	// parse it
 
     switch (baptype) {
@@ -279,17 +289,35 @@ void Humanoid::changePermanent(float lasting)
       body->animate();		// play bap
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
-      for (int i=1; i <= NUM_FAPS; i++)
+      for (int i=1; i <= NUM_FAPS; i++) {
         if (bap->is(i) && bap->getFap(i) && body->face)
           body->face->animate(i, (int) bap->getFap(i)); // play fap
+      }
       break;
     default:
       break;
     //TODO: predictive interpollation
     }
   }
-  else if (body->face) {
+  else if ((sdtcp > 0) && body->face) {
     body->face->animate();	// local animation
+  }
+  else {
+    uint8_t baptype = bap->parse(bapline);	// parse it
+    //error("bapline: %s", bapline);
+    switch (baptype) {
+    case TYPE_BAP_V31: case TYPE_BAP_V32: 
+      body->animate();		// play bap
+      break;
+    case TYPE_FAP_V20: case TYPE_FAP_V21:
+      for (int i=1; i <= NUM_FAPS; i++) {
+        if (bap->is(i) && bap->getFap(i) && body->face)
+          body->face->animate(i, (int) bap->getFap(i)); // play fap
+      }
+      break;
+    default:
+      break;
+    }
   }
 }
 
@@ -298,13 +326,15 @@ bool Humanoid::sendPlayToBapServer(const char *bap_name)
 {
   char play_cmd[128];
 
-  if (! initReceiver()) { // UDP reception
-    error("sendPlayToBapServer: receiver fails");
-    return false;
-  }
-  if (! connectToBapServer(UNICAST)) { // TCP connection
-    error("sendPlayToBapServer: connect fails");
-    return false;
+  if (sdtcp <= 0) {
+    if (! initReceiver()) { // UDP reception
+      error("sendPlayToBapServer: receiver fails");
+      return false;
+    }
+    if (! connectToBapServer(UNICAST)) { // opens a TCP connection
+      error("sendPlayToBapServer: connect fails");
+      return false;
+    }
   }
   sprintf(play_cmd, "play f=%s", bap_name);
   write(sdtcp, play_cmd, strlen(play_cmd));  // TCP play packet
@@ -321,6 +351,25 @@ void Humanoid::quit()
   body = NULL;
 }
 
+char * Humanoid::toPlay(const char *str)
+{
+  if (connectToBapServer(UNICAST)) { // opens a TCP connection
+    sendPlayToBapServer(str);
+    return NULL;
+  }
+  else {
+    char *newstr = strdup(str);
+    char *p = newstr;
+    p = strchr(newstr, '.');
+    if (p)
+      *p = '_';
+    strcpy(bapline, newstr);
+    free(newstr);
+    state = PLAYING;
+    return bapline;
+  }
+}
+
 void Humanoid::reset()
 {
   disconnectFromBapServer();  // first disconnect
@@ -332,66 +381,79 @@ void Humanoid::reset()
 void Humanoid::pause()
 {
   sendPlayToBapServer("pause.bap");
+  strcpy(bapline, pause_bap);
 }
 
 void Humanoid::hi()
 {
   sendPlayToBapServer("hi.bap");
+  strcpy(bapline, hi_bap);
 }
 
 void Humanoid::bye()
 {
   sendPlayToBapServer("bye.bap");
+  strcpy(bapline, bye_bap);
 }
 
 void Humanoid::ask()
 {
   sendPlayToBapServer("ask.bap");
+  strcpy(bapline, ask_bap);
 }
 
 void Humanoid::sit()
 {
   sendPlayToBapServer("sit.bap");
+  strcpy(bapline, sit_bap);
 }
 
 void Humanoid::show()
 {
   sendPlayToBapServer("show.bap");
+  strcpy(bapline, show_bap);
 }
 
 void Humanoid::clap()
 {
   sendPlayToBapServer("clap.bap");
+  strcpy(bapline, clap_bap);
 }
 
 void Humanoid::nak()
 {
   sendPlayToBapServer("nak.bap");
+  strcpy(bapline, nak_bap);
 }
 
 void Humanoid::test()
 {
   sendPlayToBapServer("test.bap");
+  strcpy(bapline, test_bap);
 }
 
 void Humanoid::eyes()
 {
   sendPlayToBapServer("eyes.fap");
+  strcpy(bapline, eyes_fap);
 }
 
 void Humanoid::joy()
 {
   sendPlayToBapServer("joy.fap");
+  strcpy(bapline, joy_fap);
 }
 
 void Humanoid::sad()
 {
   sendPlayToBapServer("sad.fap");
+  strcpy(bapline, sad_fap);
 }
 
 void Humanoid::surp()
 {
   sendPlayToBapServer("surp.fap");
+  strcpy(bapline, surp_fap);
 }
 
 void Humanoid::jag()
