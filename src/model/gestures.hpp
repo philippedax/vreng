@@ -25,6 +25,8 @@
 #<frame number> <pelvic_tilt><pelvic_torsion>...<l5tilt>\n\
 #Header description\n\
 *************************************************************/
+#ifndef GESTURES_HPP
+#define GESTURES_HPP
 
 const char ask_bap[] = "\
 3.1 ask.bap 10 19\n\
@@ -1262,3 +1264,5 @@ const char test_bap[] = "\
 36 0\n\
 \n\
 ";
+
+#endif
