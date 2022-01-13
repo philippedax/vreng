@@ -655,10 +655,10 @@ void Body::animate()
     if (bap->is(R_SHOULDER_ABDUCT))  arm_r->raise(bap->get(R_SHOULDER_ABDUCT));
     break;
   case MODEL_OBJ:
-    if (bap->is(L_SHOULDER_FLEXION)) arm_l->raise(bap->get(L_SHOULDER_FLEXION));
-    if (bap->is(R_SHOULDER_FLEXION)) arm_r->raise(bap->get(R_SHOULDER_FLEXION));
-    if (bap->is(L_SHOULDER_ABDUCT))  arm_l->bend(bap->get(L_SHOULDER_ABDUCT));
-    if (bap->is(R_SHOULDER_ABDUCT))  arm_r->bend(bap->get(R_SHOULDER_ABDUCT));
+    if (bap->is(L_SHOULDER_FLEXION)) arm_l->bend(bap->get(L_SHOULDER_FLEXION));
+    if (bap->is(R_SHOULDER_FLEXION)) arm_r->bend(bap->get(R_SHOULDER_FLEXION));
+    if (bap->is(L_SHOULDER_ABDUCT))  arm_l->raise(bap->get(L_SHOULDER_ABDUCT));
+    if (bap->is(R_SHOULDER_ABDUCT))  arm_r->raise(bap->get(R_SHOULDER_ABDUCT));
     break;
   }
   if (bap->is(L_SHOULDER_TWIST))   arm_l->twist(bap->get(L_SHOULDER_TWIST));
@@ -1045,8 +1045,8 @@ void Body::render(Pos& pos)
    glTranslatef(pos.x + tx, pos.y + ty, pos.z + tz + dtz);
    switch (model) {
    case MODEL_OBJ:
-     glRotatef(ry, 1,0,0);
      glRotatef(rx, 0,1,0);
+     glRotatef(ry, 1,0,0);
      glRotatef(RAD2DEG(pos.az) + rz - 90, 0,0,1);
      break;
    case MODEL_OFF:

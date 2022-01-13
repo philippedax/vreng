@@ -87,7 +87,7 @@ void Bap::jpRX(int param, uint8_t model)
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef(+sign * ba[abs(param)], 1,0,0); break;
-  case MODEL_OBJ: glRotatef(-sign * ba[abs(param)], 0,1,0); break;
+  case MODEL_OBJ: glRotatef(-sign * ba[abs(param)], 1,0,0); break;
   }
   copyLast(param);
 }
@@ -99,7 +99,7 @@ void Bap::jpRY(int param, uint8_t model)
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef(sign * ba[abs(param)], 0,1,0); break;
-  case MODEL_OBJ: glRotatef(sign * ba[abs(param)], 1,0,0); break;
+  case MODEL_OBJ: glRotatef(sign * ba[abs(param)], 0,1,0); break;
   }
   copyLast(param);
 }
