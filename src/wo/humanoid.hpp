@@ -48,6 +48,7 @@ class Humanoid: public WObject {
   bool usercontrol;		///< control by user.
   uint16_t vaps_port;		///< vaps server port.
   char vaps[64];		///< vaps server name.
+  char *bapfile;		///< content of bap file
 
  public:
   static const uint8_t VAPS_OFFSET_PORT = 10;	///< offset port.
@@ -124,7 +125,7 @@ private:
   virtual int readBapFrame();
   /**< Gets a frame from the vaps server. */
 
-  virtual char * toPlay(const char *str);
+  //virtual char * toPlay(const char *str);
 
   virtual void pause();
   virtual void hi();

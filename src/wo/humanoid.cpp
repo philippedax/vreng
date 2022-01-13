@@ -92,6 +92,7 @@ void Humanoid::inits()
 {
   sdudp = -1;
   sdtcp = -1;
+  bapfile = NULL;
 
   body = new Body();
   body->wobject = this;
@@ -248,17 +249,14 @@ int Humanoid::readBapFrame()
   memset(bapline, 0, VAPS_BUFSIZ);
   socklen_t slen = sizeof(struct sockaddr_in);
   int len;
-  // receive Bap line
+  // receive bap line
   if ((len = recvfrom(sdudp, bapline, VAPS_BUFSIZ, 0, (struct sockaddr *)&udpsa, &slen)) < 0) {
-    error("error recvfrom");
+    error("readBapFrame: error recvfrom");
     return 0;
   }
   if (! len) {
-    disconnectFromBapServer();  // send stop
-#if 0 //pdlastbap: memorize last-bapline for persistency
-    char last-bapline[BUFSIZ];
-    strcpy(last-bapline, bapline);
-#endif
+    // end of stream
+    disconnectFromBapServer();
     return 0; // eof
   }
   return 1; // bap is present
@@ -351,6 +349,7 @@ void Humanoid::quit()
   body = NULL;
 }
 
+#if 0 //dax wrong!!!
 char * Humanoid::toPlay(const char *str)
 {
   if (connectToBapServer(UNICAST)) { // opens a TCP connection
@@ -369,6 +368,7 @@ char * Humanoid::toPlay(const char *str)
     return bapline;
   }
 }
+#endif
 
 void Humanoid::reset()
 {
@@ -381,79 +381,79 @@ void Humanoid::reset()
 void Humanoid::pause()
 {
   sendPlayToBapServer("pause.bap");
-  strcpy(bapline, pause_bap);
+  bapfile = (char *) pause_bap;
 }
 
 void Humanoid::hi()
 {
   sendPlayToBapServer("hi.bap");
-  strcpy(bapline, hi_bap);
+  bapfile = (char *) hi_bap;
 }
 
 void Humanoid::bye()
 {
   sendPlayToBapServer("bye.bap");
-  strcpy(bapline, bye_bap);
+  bapfile = (char *) bye_bap;
 }
 
 void Humanoid::ask()
 {
   sendPlayToBapServer("ask.bap");
-  strcpy(bapline, ask_bap);
+  bapfile = (char *) ask_bap;
 }
 
 void Humanoid::sit()
 {
   sendPlayToBapServer("sit.bap");
-  strcpy(bapline, sit_bap);
+  bapfile = (char *) sit_bap;
 }
 
 void Humanoid::show()
 {
   sendPlayToBapServer("show.bap");
-  strcpy(bapline, show_bap);
+  bapfile = (char *) show_bap;
 }
 
 void Humanoid::clap()
 {
   sendPlayToBapServer("clap.bap");
-  strcpy(bapline, clap_bap);
+  bapfile = (char *) clap_bap;
 }
 
 void Humanoid::nak()
 {
   sendPlayToBapServer("nak.bap");
-  strcpy(bapline, nak_bap);
+  bapfile = (char *) nak_bap;
 }
 
 void Humanoid::test()
 {
   sendPlayToBapServer("test.bap");
-  strcpy(bapline, test_bap);
+  bapfile = (char *) test_bap;
 }
 
 void Humanoid::eyes()
 {
   sendPlayToBapServer("eyes.fap");
-  strcpy(bapline, eyes_fap);
+  bapfile = (char *) eyes_fap;
 }
 
 void Humanoid::joy()
 {
   sendPlayToBapServer("joy.fap");
-  strcpy(bapline, joy_fap);
+  bapfile = (char *) joy_fap;
 }
 
 void Humanoid::sad()
 {
   sendPlayToBapServer("sad.fap");
-  strcpy(bapline, sad_fap);
+  bapfile = (char *) sad_fap;
 }
 
 void Humanoid::surp()
 {
   sendPlayToBapServer("surp.fap");
-  strcpy(bapline, surp_fap);
+  bapfile = (char *) surp_fap;
 }
 
 void Humanoid::jag()
