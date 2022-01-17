@@ -21,7 +21,7 @@
 #ifndef BAP_HPP
 #define BAP_HPP
 
-#include "fap.hpp"	// NUM_FAPS
+#include "fap.hpp"	// NUM_FAPS = 68
 
 
 #define NUM_BAPS_V31	186	// number of baps (Mpeg4 BAP-V3.1 specif)
@@ -33,7 +33,7 @@
 #define TYPE_BAP_V31    31      // 3.1
 #define TYPE_BAP_V32    32      // 3.2
 
-#define TR_DIV		300.f   // I can explain why
+#define TR_DIV		300.	// I can explain why
 #define BAPV32_DIV	555     // 180/1e5
 #define BAPV31_DIV	1745    // 180/PI*1e5
 

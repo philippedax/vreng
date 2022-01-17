@@ -306,9 +306,9 @@ void Humanoid::changePermanent(float lasting)
     // get frame from local string bapfile (see gestures.hpp)
     error("get local frame");
     static bool hdr_frame = true;
-    char c;
+    char ch;
     char *p = NULL;
-    int i = 0;
+    int c = 0;
     uint8_t baptype = 0;
     int nbr_frames = 0;
     int num_frame = 0;
@@ -318,11 +318,9 @@ void Humanoid::changePermanent(float lasting)
     if (hdr_frame) {
       //baphdr
       memset(bapline, 0, sizeof(bapline));
-      for (i = 0; (c = bapfile[i]) != '\n'; i++) {
-        bapline[i] = c;
-      }
-      bapfile += (i + 1);	// + eol
-      error("hdr_frame: %s (%d)", bapline, i);
+      for (c = 0; (ch = bapfile[c]) != '\n'; c++) { bapline[c] = ch; }
+      bapfile += (c + 1);	// + eol
+      error("hdr_frame: %s (%d)", bapline, c);
       p = strrchr(bapline, ' ');
       if (p)
         nbr_frames = atoi(++p);
@@ -341,26 +339,27 @@ void Humanoid::changePermanent(float lasting)
       hdr_frame = false;
     }
 
+    // data
     do {
       //bapmask
       memset(bapline, 0, sizeof(bapline));
-      for (i = 0; (c = bapfile[i]) != '\n'; i++) { bapline[i] = c; }
-      bapfile += (i + 1);
-      //error("mask: %s (%d)", bapline, i);
+      for (c = 0; (ch = bapfile[c]) != '\n'; c++) { bapline[c] = ch; }
+      bapfile += (c + 1);
+      //error("mask: %s (%d)", bapline, c);
       //bap->parse(bapline);	// parse masks
       // masks
       p = bapline;
-      for (int b=1; b <= num_baps; b++) {
+      for (int i=1; i <= num_baps; i++) {
         if (p) {
-          bap->setMask(b, atoi(p++));
+          bap->setMask(i, atoi(p++));
           p++;	// skip space
         } 
       } 
 
       //bapvalues
       memset(bapline, 0, sizeof(bapline));
-      for (i = 0; (c = bapfile[i]) != '\n'; i++) { bapline[i] = c; }
-      bapfile += (i + 1);
+      for (c = 0; (ch = bapfile[c]) != '\n'; c++) { bapline[c] = ch; }
+      bapfile += (c + 1);
 
       // num_frame
       p = bapline;
@@ -372,21 +371,21 @@ void Humanoid::changePermanent(float lasting)
       if (! p) break;	// no values
       p++;		// first value
       error("values: %s", p);
-      for (int b=1; b <= num_baps; b++) {
-        if (! bap->is(b)) continue;
-        //error("bit: %d", b);
-        if (b >= TR_VERTICAL && b <= TR_FRONTAL) {  // translations
-          bap->setBap(b, atoi(p));      // millimeters ?
+      for (int i=1; i <= num_baps; i++) {
+        if (! bap->is(i)) continue;
+        if (i >= TR_VERTICAL && i <= TR_FRONTAL) {  // 170..172 translations
+          bap->setBap(i, atoi(p));      // millimeters ?
         }
         else {  // rotations
           if (num_baps == NUM_BAPS_V31) {
-            bap->setBap(b, atoi(p) / BAPV31_DIV); //magic formula (1745)
-            trace(DBG_MAN, "bap: p=%s ba[%d]=%d", p, b, bap->get(b));
+            bap->setBap(i, atoi(p) / BAPV31_DIV); //magic formula (1745)
+            trace(DBG_MAN, "bap: p=%s ba[%d]=%.2f", p, i, bap->get(i));
           }
           else {
-            bap->setBap(b, atoi(p) / BAPV32_DIV); //magic formula (555) //GB
+            bap->setBap(i, atoi(p) / BAPV32_DIV); //magic formula (555) //GB
           }
         }
+        error("bit: %d (%.2f)", i, bap->get(i));
         p = strchr(p, ' ');	// skip space
         if (! p) break;		// end of frame
         p++;			// next value
@@ -395,12 +394,16 @@ void Humanoid::changePermanent(float lasting)
       // play frame
       switch (baptype) {
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
+        for (int i=1; i <= num_baps; i++) {
+          if (! bap->is(i)) continue;
+          error("play: %d", i);
+        }
         body->animate();	// play bap frame
         break;
       case TYPE_FAP_V20: case TYPE_FAP_V21:
-        for (int f=1; f <= NUM_FAPS; f++) {
-          if (bap->is(f) && bap->getFap(f) && body->face) {
-            body->face->animate(f, bap->getFap(f)); // play fap frame
+        for (int i=1; i <= NUM_FAPS; i++) {
+          if (bap->is(i) && bap->getFap(i) && body->face) {
+            body->face->animate(i, bap->getFap(i)); // play fap frame
           }
         }
         break;
