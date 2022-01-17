@@ -29,6 +29,7 @@
 #include "pref.hpp"	// reflector
 #include "timer.hpp"	// rate
 #include "user.hpp"	// localuser
+#include "bap.hpp"	// setMask, setBap
 
 
 const OClass Humanoid::oclass(HUMANOID_TYPE, "Humanoid", Humanoid::creator);
@@ -199,7 +200,7 @@ int Humanoid::connectToBapServer(int _ipmode)
   if (setsockopt(sdtcp, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
     error("setsockopt failed\n");
   if (connect(sdtcp, (const struct sockaddr *) &tcpsa, sizeof(tcpsa)) < 0) {
-    error("Connection failed with the vaps server: %s (%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
+    //error("Connection failed with the vaps server: %s (%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
     sdtcp = -1;
     return 0;
   }
@@ -284,12 +285,13 @@ void Humanoid::changePermanent(float lasting)
 
     switch (baptype) {
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
-      body->animate();		// play bap
+      body->animate();		// play bap frame
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
-        if (bap->is(i) && bap->getFap(i) && body->face)
-          body->face->animate(i, (int) bap->getFap(i)); // play fap
+        if (bap->is(i) && bap->getFap(i) && body->face) {
+          body->face->animate(i, bap->getFap(i)); // play fap frame
+        }
       }
       break;
     default:
@@ -300,22 +302,118 @@ void Humanoid::changePermanent(float lasting)
   else if ((sdtcp > 0) && body->face) {
     body->face->animate();	// local animation
   }
-  else {
-    uint8_t baptype = bap->parse(bapline);	// parse it
-    //error("bapline: %s", bapline);
-    switch (baptype) {
-    case TYPE_BAP_V31: case TYPE_BAP_V32: 
-      body->animate();		// play bap
-      break;
-    case TYPE_FAP_V20: case TYPE_FAP_V21:
-      for (int i=1; i <= NUM_FAPS; i++) {
-        if (bap->is(i) && bap->getFap(i) && body->face)
-          body->face->animate(i, (int) bap->getFap(i)); // play fap
+  else if (sdtcp <= 0) {
+    // get frame from local string bapfile (see gestures.hpp)
+    error("get local frame");
+    static bool hdr_frame = true;
+    char c;
+    char *p = NULL;
+    int i = 0;
+    uint8_t baptype = 0;
+    int nbr_frames = 0;
+    int num_frame = 0;
+    int num_baps = NUM_BAPS_V31;
+    //error("bapfile: %s", bapfile);
+
+    if (hdr_frame) {
+      //baphdr
+      memset(bapline, 0, sizeof(bapline));
+      for (i = 0; (c = bapfile[i]) != '\n'; i++) {
+        bapline[i] = c;
       }
-      break;
-    default:
-      break;
+      bapfile += (i + 1);	// + eol
+      error("hdr_frame: %s (%d)", bapline, i);
+      p = strrchr(bapline, ' ');
+      if (p)
+        nbr_frames = atoi(++p);
+      baptype = bap->parse(bapline);	// parse hdr_frame
+      switch (baptype) {
+      case TYPE_BAP_V31:
+        num_baps = NUM_BAPS_V31; break;
+      case TYPE_BAP_V32: 
+        num_baps = NUM_BAPS_V32; break;
+      case TYPE_FAP_V20: 
+      case TYPE_FAP_V21: 
+        num_baps = NUM_FAPS; break;
+      }
+      //error("baptype: %d", baptype);
+      //error("nbr_frames: %d", nbr_frames);
+      hdr_frame = false;
     }
+
+    do {
+      //bapmask
+      memset(bapline, 0, sizeof(bapline));
+      for (i = 0; (c = bapfile[i]) != '\n'; i++) { bapline[i] = c; }
+      bapfile += (i + 1);
+      //error("mask: %s (%d)", bapline, i);
+      //bap->parse(bapline);	// parse masks
+      // masks
+      p = bapline;
+      for (int b=1; b <= num_baps; b++) {
+        if (p) {
+          bap->setMask(b, atoi(p++));
+          p++;	// skip space
+        } 
+      } 
+
+      //bapvalues
+      memset(bapline, 0, sizeof(bapline));
+      for (i = 0; (c = bapfile[i]) != '\n'; i++) { bapline[i] = c; }
+      bapfile += (i + 1);
+
+      // num_frame
+      p = bapline;
+      num_frame = atoi(p);
+      error("num_frame: %d", num_frame);
+
+      // values
+      p = strchr(bapline, ' ');
+      if (! p) break;	// no values
+      p++;		// first value
+      error("values: %s", p);
+      for (int b=1; b <= num_baps; b++) {
+        if (! bap->is(b)) continue;
+        //error("bit: %d", b);
+        if (b >= TR_VERTICAL && b <= TR_FRONTAL) {  // translations
+          bap->setBap(b, atoi(p));      // millimeters ?
+        }
+        else {  // rotations
+          if (num_baps == NUM_BAPS_V31) {
+            bap->setBap(b, atoi(p) / BAPV31_DIV); //magic formula (1745)
+            trace(DBG_MAN, "bap: p=%s ba[%d]=%d", p, b, bap->get(b));
+          }
+          else {
+            bap->setBap(b, atoi(p) / BAPV32_DIV); //magic formula (555) //GB
+          }
+        }
+        p = strchr(p, ' ');	// skip space
+        if (! p) break;		// end of frame
+        p++;			// next value
+      }
+
+      // play frame
+      switch (baptype) {
+      case TYPE_BAP_V31: case TYPE_BAP_V32: 
+        body->animate();	// play bap frame
+        break;
+      case TYPE_FAP_V20: case TYPE_FAP_V21:
+        for (int f=1; f <= NUM_FAPS; f++) {
+          if (bap->is(f) && bap->getFap(f) && body->face) {
+            body->face->animate(f, bap->getFap(f)); // play fap frame
+          }
+        }
+        break;
+      default:
+        error("baptype: %d", baptype);
+        break;
+      }
+      usleep(200000);	// 2/10 sec
+    } while ((num_frame + 1) < nbr_frames) ;
+
+    hdr_frame = true;
+    state = INACTIVE;
+    error("end frames");
   }
 }
 
@@ -330,7 +428,8 @@ bool Humanoid::sendPlayToBapServer(const char *bap_name)
       return false;
     }
     if (! connectToBapServer(UNICAST)) { // opens a TCP connection
-      error("sendPlayToBapServer: connect fails");
+      //error("sendPlayToBapServer: connect fails");
+      state = PLAYING;	// local playing
       return false;
     }
   }

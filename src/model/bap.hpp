@@ -209,6 +209,11 @@ public:
   virtual GLfloat getFap(uint8_t param) const;
   /**< Gets a Fap angle indexed by param */
 
+  virtual void setMask(uint8_t index, uint8_t val);
+  virtual void setBap(uint8_t index, int val);
+  virtual void setFap(uint8_t index, uint8_t val);
+  /**< Sets mask bap fap */
+
   virtual void jpRX(int param, uint8_t model);
   /**< Rotates around X axis at this Joint Point */
 
@@ -218,7 +223,7 @@ public:
   virtual void jpRZ(int param, uint8_t model);
   /**< Rotates around Z axis at this Joint Point */
 
-protected:
+public:
   int bit[NUM_BAPS_V32 + 1];    ///< bap/fap bit mask
   int ba[NUM_BAPS_V32 + 1];     ///< baps angles
   int balast[NUM_BAPS_V32 + 1]; ///< last baps angles
