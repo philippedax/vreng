@@ -289,7 +289,7 @@ void Humanoid::changePermanent(float lasting)
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
-        if (bap->is(i) && bap->getFap(i) && body->face) {
+        if (bap->isMask(i) && bap->getFap(i) && body->face) {
           body->face->animate(i, bap->getFap(i)); // play fap frame
         }
       }
@@ -372,20 +372,20 @@ void Humanoid::changePermanent(float lasting)
       p++;		// first value
       error("values: %s", p);
       for (int i=1; i <= num_baps; i++) {
-        if (! bap->is(i)) continue;
+        if (! bap->isMask(i)) continue;
         if (i >= TR_VERTICAL && i <= TR_FRONTAL) {  // 170..172 translations
           bap->setBap(i, atoi(p) / TR_DIV);      // millimeters ?
         }
         else {  // rotations
           if (num_baps == NUM_BAPS_V31) {
             bap->setBap(i, atoi(p) / BAPV31_DIV); //magic formula (1745)
-            trace(DBG_MAN, "bap: p=%s ba[%d]=%.2f", p, i, bap->get(i));
+            trace(DBG_MAN, "bap: p=%s ba[%d]=%.2f", p, i, bap->getBap(i));
           }
           else {
             bap->setBap(i, atoi(p) / BAPV32_DIV); //magic formula (555) //GB
           }
         }
-        error("bit: %d (%.2f)", i, bap->get(i));
+        error("bit: %d (%.2f)", i, bap->getBap(i));
         p = strchr(p, ' ');	// skip space
         if (! p) break;		// end of frame
         p++;			// next value
@@ -395,14 +395,14 @@ void Humanoid::changePermanent(float lasting)
       switch (baptype) {
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
         for (int i=1; i <= num_baps; i++) {
-          if (! bap->is(i)) continue;
+          if (! bap->isMask(i)) continue;
           error("play: %d", i);
         }
         body->animate();	// play bap frame
         break;
       case TYPE_FAP_V20: case TYPE_FAP_V21:
         for (int i=1; i <= NUM_FAPS; i++) {
-          if (bap->is(i) && bap->getFap(i) && body->face) {
+          if (bap->isMask(i) && bap->getFap(i) && body->face) {
             body->face->animate(i, bap->getFap(i)); // play fap frame
           }
         }

@@ -200,10 +200,10 @@ public:
   virtual uint8_t parse(char *bapline);
   /**< Parses and reads header and data of a frame */
 
-  virtual bool is(uint8_t param) const;
-  /**< Checks bit indexed by param */
+  virtual bool isMask(uint8_t param) const;
+  /**< Checks mask indexed by param */
 
-  virtual GLfloat get(uint8_t param) const;
+  virtual GLfloat getBap(uint8_t param) const;
   /**< Gets a Bap angle indexed by param */
 
   virtual GLfloat getFap(uint8_t param) const;

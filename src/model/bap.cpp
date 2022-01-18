@@ -55,7 +55,7 @@ uint8_t Bap::getType() const
   return baptype;
 }
 
-bool Bap::is(uint8_t param) const
+bool Bap::isMask(uint8_t param) const
 {
   return bit[param];
 }
@@ -65,7 +65,7 @@ void Bap::setMask(uint8_t param, uint8_t val)
   bit[param] = val;
 }
 
-GLfloat Bap::get(uint8_t param) const
+GLfloat Bap::getBap(uint8_t param) const
 {
   return ba[param];
 }
@@ -97,7 +97,7 @@ void Bap::copyLast(uint8_t param)
 
 void Bap::jpRX(int param, uint8_t model)
 {
-  //if (! is(param)) return;
+  //if (! isMask(param)) return;
   //if (equalLast(param)) return;
   int sign = (param >= 0) ?1:-1;
   switch (model) {
@@ -109,7 +109,7 @@ void Bap::jpRX(int param, uint8_t model)
 
 void Bap::jpRY(int param, uint8_t model)
 {
-  //if (! is(param)) return;
+  //if (! isMask(param)) return;
   //if (equalLast(param)) return;
   int sign = (param >= 0) ?1:-1;
   switch (model) {
@@ -121,7 +121,7 @@ void Bap::jpRY(int param, uint8_t model)
 
 void Bap::jpRZ(int param, uint8_t model)
 {
-  //if (! is(param)) return;
+  //if (! isMask(param)) return;
   //if (equalLast(param)) return;
   int sign = (param >= 0) ?1:-1;
   switch (model) {
