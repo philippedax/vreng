@@ -374,7 +374,7 @@ void Humanoid::changePermanent(float lasting)
       for (int i=1; i <= num_baps; i++) {
         if (! bap->is(i)) continue;
         if (i >= TR_VERTICAL && i <= TR_FRONTAL) {  // 170..172 translations
-          bap->setBap(i, atoi(p));      // millimeters ?
+          bap->setBap(i, atoi(p) / TR_DIV);      // millimeters ?
         }
         else {  // rotations
           if (num_baps == NUM_BAPS_V31) {

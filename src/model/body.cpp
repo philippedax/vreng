@@ -676,9 +676,9 @@ void Body::animate()
   if (bap->is(T1_ROLL))            neck->raise(bap->get(T1_ROLL));
   if (bap->is(T1_TORSION))         neck->twist(bap->get(T1_TORSION));
   if (bap->is(T1_TILT))            neck->bend(bap->get(T1_TILT));
-  if (bap->is(TR_VERTICAL))        tz = bap->get(TR_VERTICAL) / TR_DIV;
-  if (bap->is(TR_LATERAL))         ty = bap->get(TR_LATERAL) / TR_DIV;
-  if (bap->is(TR_FRONTAL))         tx = bap->get(TR_FRONTAL) / TR_DIV;
+  if (bap->is(TR_VERTICAL))        tz = bap->get(TR_VERTICAL);
+  if (bap->is(TR_LATERAL))         ty = bap->get(TR_LATERAL);
+  if (bap->is(TR_FRONTAL))         tx = bap->get(TR_FRONTAL);
   if (bap->is(RT_BODY_TURN))       rz = bap->get(RT_BODY_TURN);
   if (bap->is(RT_BODY_ROLL))       rx = bap->get(RT_BODY_ROLL);
   if (bap->is(RT_BODY_TILT))       ry = bap->get(RT_BODY_TILT);
@@ -739,9 +739,9 @@ void Body::anim(int param)
   case T1_TORSION: neck->twist(bap->get(T1_TORSION)); break;
   case T1_TILT:    neck->bend(bap->get(T1_TILT)); break;
 
-  case TR_VERTICAL:  tz = bap->get(TR_VERTICAL) / TR_DIV; break;
-  case TR_LATERAL:   ty = bap->get(TR_LATERAL) / TR_DIV; break;
-  case TR_FRONTAL:   tx = bap->get(TR_FRONTAL) / TR_DIV; break;
+  case TR_VERTICAL:  tz = bap->get(TR_VERTICAL); break;
+  case TR_LATERAL:   ty = bap->get(TR_LATERAL); break;
+  case TR_FRONTAL:   tx = bap->get(TR_FRONTAL); break;
 
   case RT_BODY_TURN: rz = bap->get(RT_BODY_TURN); break;
   case RT_BODY_ROLL: rx = bap->get(RT_BODY_ROLL); break;
