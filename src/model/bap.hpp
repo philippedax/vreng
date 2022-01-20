@@ -203,15 +203,15 @@ public:
   virtual bool isMask(uint8_t param) const;
   /**< Checks mask indexed by param */
 
-  virtual GLfloat getBap(uint8_t param) const;
+  virtual float getBap(uint8_t param) const;
   /**< Gets a Bap angle indexed by param */
 
-  virtual GLfloat getFap(uint8_t param) const;
+  virtual float getFap(uint8_t param) const;
   /**< Gets a Fap angle indexed by param */
 
   virtual void setMask(uint8_t index, uint8_t val);
-  virtual void setBap(uint8_t index, int val);
-  virtual void setFap(uint8_t index, uint8_t val);
+  virtual void setBap(uint8_t index, float val);
+  virtual void setFap(uint8_t index, float val);
   /**< Sets mask bap fap */
 
   virtual void jpRX(int param, uint8_t model);

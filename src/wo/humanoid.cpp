@@ -184,7 +184,6 @@ int Humanoid::connectToBapServer(int _ipmode)
   }
   if ((hp = my_gethostbyname(vaps, AF_INET)) == NULL) {
     error("can't resolve name");
-    //sdtcp = -1;
     return 0;
   }
   memset(&tcpsa, 0, sizeof(struct sockaddr_in));
@@ -285,6 +284,10 @@ void Humanoid::changePermanent(float lasting)
 
     switch (baptype) {
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
+      for (int i=1; i <= NUM_BAPS_V32; i++) {
+        if (! bap->isMask(i)) continue;
+        //error("play: %d (%.2f)", i, bap->getBap(i));
+      }
       body->animate();		// play bap frame
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
@@ -294,6 +297,9 @@ void Humanoid::changePermanent(float lasting)
         }
       }
       break;
+    case 0:	// end of frames
+       state = INACTIVE;
+      break;
     default:
       break;
     //TODO: predictive interpollation
@@ -302,6 +308,8 @@ void Humanoid::changePermanent(float lasting)
   else if ((sdtcp > 0) && body->face) {
     body->face->animate();	// local animation
   }
+
+#if 0 //dax
   else if (sdtcp <= 0) {
     // get frame from local string bapfile (see gestures.hpp)
     error("get local frame");
@@ -312,7 +320,7 @@ void Humanoid::changePermanent(float lasting)
     uint8_t baptype = 0;
     int nbr_frames = 0;
     int num_frame = 0;
-    int num_baps = NUM_BAPS_V31;
+    int num_baps = 0;
     //error("bapfile: %s", bapfile);
 
     if (hdr_frame) {
@@ -351,7 +359,12 @@ void Humanoid::changePermanent(float lasting)
       p = bapline;
       for (int i=1; i <= num_baps; i++) {
         if (p) {
-          bap->setMask(i, atoi(p++));
+          switch (*p) {
+          case '0': bap->setMask(i, 0); break;
+          case '1': bap->setMask(i, 1); break;
+          }
+          p = strchr(p, ' ');
+          if (! p) break;	// no mask
           p++;	// skip space
         } 
       } 
@@ -374,18 +387,20 @@ void Humanoid::changePermanent(float lasting)
       for (int i=1; i <= num_baps; i++) {
         if (! bap->isMask(i)) continue;
         if (i >= TR_VERTICAL && i <= TR_FRONTAL) {  // 170..172 translations
-          bap->setBap(i, atoi(p) / TR_DIV);      // millimeters ?
+          bap->setBap(i, atof(p) / TR_DIV);      // magic formula (300)
         }
         else {  // rotations
-          if (num_baps == NUM_BAPS_V31) {
-            bap->setBap(i, atoi(p) / BAPV31_DIV); //magic formula (1745)
-            trace(DBG_MAN, "bap: p=%s ba[%d]=%.2f", p, i, bap->getBap(i));
+          switch (baptype) {
+          case TYPE_BAP_V31:
+            bap->setBap(i, atof(p) / BAPV31_DIV); // magic formula (1745)
+            break;
+          case TYPE_BAP_V32:
+            bap->setBap(i, atof(p) / BAPV32_DIV); // magic formula (555)
+            break;
           }
-          else {
-            bap->setBap(i, atoi(p) / BAPV32_DIV); //magic formula (555) //GB
-          }
+          trace(DBG_MAN, "bap: p=%s ba[%d]=%.2f", p, i, bap->getBap(i));
         }
-        error("bit: %d (%.2f)", i, bap->getBap(i));
+        error("mask: %d (%.2f)", i, bap->getBap(i));
         p = strchr(p, ' ');	// skip space
         if (! p) break;		// end of frame
         p++;			// next value
@@ -396,7 +411,7 @@ void Humanoid::changePermanent(float lasting)
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
         for (int i=1; i <= num_baps; i++) {
           if (! bap->isMask(i)) continue;
-          error("play: %d", i);
+          error("play: %d (%.2f)", i, bap->getBap(i));
         }
         body->animate();	// play bap frame
         break;
@@ -411,13 +426,18 @@ void Humanoid::changePermanent(float lasting)
         error("baptype: %d", baptype);
         break;
       }
-      usleep(200000);	// 2/10 sec
+      //usleep(200000);	// 2/10 sec
+      struct timeval to;
+      to.tv_sec = 0;
+      to.tv_usec = 200000; //::g.pref.frame_delay;     // 20ms -> 50 fps
+      select(0, 0, 0, 0, &to);
     } while ((num_frame + 1) < nbr_frames) ;
 
     hdr_frame = true;
     state = INACTIVE;
     error("end frames");
   }
+#endif //dax
 }
 
 /** send a play command to the vaps server */
