@@ -102,7 +102,7 @@ void Bap::jpRX(int param, uint8_t model)
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef(+sign * ba[abs(param)], 1,0,0); break;
-  case MODEL_OBJ: glRotatef(-sign * ba[abs(param)], 1,0,0); break;
+  case MODEL_OBJ: glRotatef(+sign * ba[abs(param)], 1,0,0); break;
   }
   copyLast(param);
 }
@@ -192,7 +192,7 @@ uint8_t Bap::parse(char *bapline)
     return baptype;
   }
 
-  // Masks and Values
+  // masks and values
   else {
     if (baptype == TYPE_BAP_V31 || baptype == TYPE_BAP_V32) {
       if (baptype == TYPE_BAP_V31) num_baps = NUM_BAPS_V31;
@@ -217,20 +217,25 @@ uint8_t Bap::parse(char *bapline)
         if (! l) break;		// no values
         if (! isMask(i)) continue;
         //error("val: %s", l);
-        if (i >= TR_VERTICAL && i <= TR_FRONTAL) {  // 170..172 translations
-          setBap(i, atof(l) / TR_DIV);		// magic formula (300)
+        if (i >= TR_VERTICAL && i <= TR_FRONTAL) {	// 170..172 translations
+          setBap(i, (float) (atof(l) / TR_DIV));	// magic formula (300)
         }
-        else {	// rotations
-          if (num_baps == NUM_BAPS_V31)
-            setBap(i, atof(l) / BAPV31_DIV);	// magic formula (1745)
-          else if (num_baps == NUM_BAPS_V32)
-            setBap(i, atof(l) / BAPV32_DIV);	// magic formula (555)
+        else {		// angles
+          switch (baptype) {
+          case TYPE_BAP_V31:
+            setBap(i, (float) (atof(l) / BAPV31_DIV));	// magic formula (1745)
+            //error("bap: %.2f", getBap(i));
+            break;
+          case TYPE_BAP_V32:
+            setBap(i, (float) (atof(l) / BAPV32_DIV));	// magic formula (555)
+            error("bap: %.2f %.2f (%d) %d", atof(l), getBap(i), i, num_frame);
+            break;
+          }
         }
-        trace(DBG_MAN, "parse bap: l=%s ba[%d]=%.2f", l, i, getBap(i));
-        if ((l = strtok(NULL, " \t\"\n")) == NULL) break;	// no more values
+        if (! (l = strtok(NULL, " \t\"\n"))) break;	// no more values
       }
       if (num_frame + 1 == nbr_frames) {
-        //error("end of frames");
+        //error("end of bap frames");
         return 0;
       }
     }
@@ -254,14 +259,19 @@ uint8_t Bap::parse(char *bapline)
       for (int i=1; i <= num_baps; i++) {
         if (! l) break;		// no values
         if (! isMask(i)) continue;
-        if (baptype == TYPE_FAP_V20)
-          setFap(i, atof(l) / FAPV20_DIV); //unknown formula
-        else
-          setFap(i, atof(l) / FAPV21_DIV); //unknown formula
-        if ((l = strtok(NULL, " \t\"\n")) == NULL) break;
+        switch (baptype) {
+        case TYPE_FAP_V20:
+          setFap(i, (float) (atof(l) / FAPV20_DIV));	// fap formula
+          break;
+        case TYPE_FAP_V21:
+          setFap(i, (float) (atof(l) / FAPV21_DIV));	// fap formula
+          //error("fap: %.2f", getFap(i));
+          break;
+        }
+        if (! (l = strtok(NULL, " \t\"\n"))) break;	// no more values
       }
       if (num_frame + 1 == nbr_frames) {
-        //error("end of frames");
+        //error("end of fap frames");
         return 0;
       }
     }
