@@ -21,7 +21,7 @@
 #ifndef BAP_HPP
 #define BAP_HPP
 
-#include "fap.hpp"	// NUM_FAPS = 68
+#include "fap.hpp"	// NUM_FAPS
 
 
 #define NUM_BAPS_V31	186	// number of baps (Mpeg4 BAP-V3.1 specif)
@@ -33,7 +33,7 @@
 #define TYPE_BAP_V31    31      // 3.1
 #define TYPE_BAP_V32    32      // 3.2
 
-#define TR_DIV		300.	// I can explain why
+#define TR_DIV		300.f   // I can explain why
 #define BAPV32_DIV	555     // 180/1e5
 #define BAPV31_DIV	1745    // 180/PI*1e5
 
@@ -179,7 +179,6 @@ extern const char joy_fap[];
 extern const char sad_fap[];
 extern const char surp_fap[];
 
-
 /**
  * Bap class
  * Body Animator Parameter
@@ -187,7 +186,7 @@ extern const char surp_fap[];
 class Bap {
 
 private:
-  int num_baps;		///< number of bap
+  uint16_t num_params;	///< number of params
   uint8_t baptype;	///< stream type bap-3.1, bap-3.2, fap
 
 public:
@@ -197,22 +196,23 @@ public:
   virtual uint8_t getType() const;
   /**< Returns stream type */
 
-  virtual uint8_t parse(char *bapline);
+  virtual uint8_t parse(char *line);
   /**< Parses and reads header and data of a frame */
 
-  virtual bool isMask(uint8_t param) const;
-  /**< Checks mask indexed by param */
+  virtual bool isMask(int param) const;
+  /**< Checks bit indexed by param */
 
-  virtual float getBap(uint8_t param) const;
+  virtual void setMask(int param, uint8_t val);
+
+  virtual float getBap(int param) const;
   /**< Gets a Bap angle indexed by param */
 
-  virtual float getFap(uint8_t param) const;
+  virtual void setBap(int param, float val);
+
+  virtual float getFap(int param) const;
   /**< Gets a Fap angle indexed by param */
 
-  virtual void setMask(uint8_t index, uint8_t val);
-  virtual void setBap(uint8_t index, float val);
-  virtual void setFap(uint8_t index, float val);
-  /**< Sets mask bap fap */
+  virtual void setFap(int param, float val);
 
   virtual void jpRX(int param, uint8_t model);
   /**< Rotates around X axis at this Joint Point */
@@ -223,19 +223,19 @@ public:
   virtual void jpRZ(int param, uint8_t model);
   /**< Rotates around Z axis at this Joint Point */
 
-public:
-  int bit[NUM_BAPS_V32 + 1];    ///< bap/fap bit mask
-  int ba[NUM_BAPS_V32 + 1];     ///< baps angles
-  int balast[NUM_BAPS_V32 + 1]; ///< last baps angles
-  int fa[NUM_FAPS + 1];         ///< faps angles
+protected:
+  uint8_t bit[NUM_BAPS_V32 + 1];	///< bap/fap bit mask
+  float ba[NUM_BAPS_V32 + 1];		///< baps angles
+  float fa[NUM_FAPS + 1];		///< faps angles
+  //float balast[NUM_BAPS_V32 + 1];	///< last baps angles
 
-  virtual void resetMask(uint8_t num);
+  virtual void resetMask(int num);
   /**< Resets bit mask */
 
-  virtual bool equalLast(uint8_t param);
+  //virtual bool equalLast(int param);
   /**< Checks whether same bap value */
 
-  virtual void copyLast(uint8_t param);
+  //virtual void copyLast(int param);
   /**< Saves last bap */
 };
 

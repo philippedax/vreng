@@ -676,9 +676,9 @@ void Body::animate()
   if (bap->isMask(T1_ROLL))            neck->raise(bap->getBap(T1_ROLL));
   if (bap->isMask(T1_TORSION))         neck->twist(bap->getBap(T1_TORSION));
   if (bap->isMask(T1_TILT))            neck->bend(bap->getBap(T1_TILT));
-  if (bap->isMask(TR_VERTICAL))        tz = bap->getBap(TR_VERTICAL);
-  if (bap->isMask(TR_LATERAL))         ty = bap->getBap(TR_LATERAL);
-  if (bap->isMask(TR_FRONTAL))         tx = bap->getBap(TR_FRONTAL);
+  if (bap->isMask(TR_VERTICAL))        tz = bap->getBap(TR_VERTICAL) / TR_DIV;
+  if (bap->isMask(TR_LATERAL))         ty = bap->getBap(TR_LATERAL) / TR_DIV;
+  if (bap->isMask(TR_FRONTAL))         tx = bap->getBap(TR_FRONTAL) / TR_DIV;
   if (bap->isMask(RT_BODY_TURN))       rz = bap->getBap(RT_BODY_TURN);
   if (bap->isMask(RT_BODY_ROLL))       rx = bap->getBap(RT_BODY_ROLL);
   if (bap->isMask(RT_BODY_TILT))       ry = bap->getBap(RT_BODY_TILT);
@@ -739,9 +739,9 @@ void Body::anim(int param)
   case T1_TORSION: neck->twist(bap->getBap(T1_TORSION)); break;
   case T1_TILT:    neck->bend(bap->getBap(T1_TILT)); break;
 
-  case TR_VERTICAL:  tz = bap->getBap(TR_VERTICAL); break;
-  case TR_LATERAL:   ty = bap->getBap(TR_LATERAL); break;
-  case TR_FRONTAL:   tx = bap->getBap(TR_FRONTAL); break;
+  case TR_VERTICAL:  tz = bap->getBap(TR_VERTICAL) / TR_DIV; break;
+  case TR_LATERAL:   ty = bap->getBap(TR_LATERAL) / TR_DIV; break;
+  case TR_FRONTAL:   tx = bap->getBap(TR_FRONTAL) / TR_DIV; break;
 
   case RT_BODY_TURN: rz = bap->getBap(RT_BODY_TURN); break;
   case RT_BODY_ROLL: rx = bap->getBap(RT_BODY_ROLL); break;
@@ -871,15 +871,15 @@ void Body::display()
      if (model == MODEL_OFF)
        glRotatef(-90, 0,0,1);  //FIXME
      bap->jpRX(L_SHOULDER_ABDUCT, model);
-     bap->jpRY(-L_SHOULDER_FLEXION, model);
-     bap->jpRZ(-L_SHOULDER_TWIST, model);
+     bap->jpRY(-L_SHOULDER_FLEXION, model);	// -
+     bap->jpRZ(-L_SHOULDER_TWIST, model);	// -
      jpBack(L_SHOULDER);
      display(L_ARM);
 
      glPushMatrix();	//  Left Elbow -> Left Forearm
       jpGo(L_ELBOW);
-      bap->jpRY(-L_ELBOW_FLEXION, model);
-      bap->jpRZ(-L_ELBOW_TWIST, model);
+      bap->jpRY(-L_ELBOW_FLEXION, model);	// -
+      bap->jpRZ(-L_ELBOW_TWIST, model);		// -
       jpBack(L_ELBOW);
       display(L_FOREARM);
 
@@ -898,16 +898,16 @@ void Body::display()
      jpGo(R_SHOULDER);
      if (model == MODEL_OFF)
        glRotatef(90, 0,0,1);	//OK but FIXME
-     bap->jpRX(-R_SHOULDER_ABDUCT, model);
+     bap->jpRX(-R_SHOULDER_ABDUCT, model);	// -
      bap->jpRY(R_SHOULDER_FLEXION, model);
-     bap->jpRZ(-R_SHOULDER_TWIST, model);
+     bap->jpRZ(-R_SHOULDER_TWIST, model);	// -
      jpBack(R_SHOULDER);
      display(R_ARM);
 
      glPushMatrix();	//  Right Elbow -> Right Forearm
       jpGo(R_ELBOW);
       bap->jpRY(R_ELBOW_FLEXION, model);
-      bap->jpRZ(-R_ELBOW_TWIST, model);
+      bap->jpRZ(-R_ELBOW_TWIST, model);		// -
       jpBack(R_ELBOW);
       display(R_FOREARM);
 
