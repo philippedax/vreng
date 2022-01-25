@@ -98,6 +98,7 @@ void Bap::copyLast(int param)
 
 void Bap::jpRX(int param, uint8_t model)
 {
+  //if (param == 0) return;
   //if (! isMask(param)) return;
   //if (equalLast(param)) return;
   int sign = (param >= 0) ?1:-1;
@@ -110,8 +111,10 @@ void Bap::jpRX(int param, uint8_t model)
 
 void Bap::jpRY(int param, uint8_t model)
 {
-  //if (! isMask(param)) return;
+  //if (param == 0) return;
+  //if (! isMask(abs(param))) return;
   //if (equalLast(param)) return;
+  //error("ry: %d (%1.f)", param, ba[abs(param)]);
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef(sign * ba[abs(param)], 0,1,0); break;
@@ -122,6 +125,7 @@ void Bap::jpRY(int param, uint8_t model)
 
 void Bap::jpRZ(int param, uint8_t model)
 {
+  //if (param == 0) return;
   //if (! isMask(param)) return;
   //if (equalLast(param)) return;
   int sign = (param >= 0) ?1:-1;
@@ -218,6 +222,10 @@ uint8_t Bap::parse(char *bapline)
         }
         trace(DBG_MAN, "bap: l=%s ba[%d]=%.1f", l, i, ba[i]);
       }
+      if (num_frame + 1 == nbr_frames) {
+        //error("end of bap frames");
+        return 0;
+      }
     }
 
     else if (baptype == TYPE_FAP_V20 || baptype == TYPE_FAP_V21) {
@@ -238,6 +246,10 @@ uint8_t Bap::parse(char *bapline)
           fa[i] = (float) atof(l) / FAPV20_DIV;		// fap formula
         else
           fa[i] = (float) atof(l) / FAPV21_DIV;		// fap formula
+      }
+      if (num_frame + 1 == nbr_frames) {
+        //error("end of fap frames");
+        return 0;
       }
     }
     else {

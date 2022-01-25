@@ -300,7 +300,7 @@ void Humanoid::changePermanent(float lasting)
       break;
     case 0:	// end of frames
        //disconnectFromBapServer();
-       //state = INACTIVE;
+       state = INACTIVE;
        //error("disconnect");
       break;
     default:
