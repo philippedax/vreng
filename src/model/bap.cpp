@@ -101,6 +101,8 @@ void Bap::jpRX(int param, uint8_t model)
   //if (param == 0) return;
   //if (! isMask(param)) return;
   //if (equalLast(param)) return;
+  //if (param < 0)
+  //  error("rx: %d (%1.f)", param, ba[abs(param)]);
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef( sign * ba[abs(param)], 1,0,0); break;
@@ -114,7 +116,8 @@ void Bap::jpRY(int param, uint8_t model)
   //if (param == 0) return;
   //if (! isMask(abs(param))) return;
   //if (equalLast(param)) return;
-  //error("ry: %d (%1.f)", param, ba[abs(param)]);
+  if (param < 0)
+    error("ry: %d (%1.f)", param, ba[abs(param)]);
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef(sign * ba[abs(param)], 0,1,0); break;
@@ -128,6 +131,8 @@ void Bap::jpRZ(int param, uint8_t model)
   //if (param == 0) return;
   //if (! isMask(param)) return;
   //if (equalLast(param)) return;
+  //if (param < 0)
+  //  error("rz: %d (%1.f)", param, ba[abs(param)]);
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef(sign * ba[abs(param)], 0,0,1); break;
