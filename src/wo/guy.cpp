@@ -161,7 +161,7 @@ void Guy::httpReader(void *_guy, Http *http)
   fgets(line, sizeof(line), f);	 // numjoints
   line[strlen(line) - 1] = '\0';
   guy->numjoints = atoi(line);
-  guy->curve = new tGuyCtrlPts[guy->numjoints];
+  guy->curve = new tCsetCtrl[guy->numjoints];
 
   fgets(line, sizeof(line), f);	 // skip mirror_flag
   for (int j=0; j < guy->numjoints; j++) {
@@ -202,7 +202,7 @@ void Guy::computeCurve(uint8_t join)
   float pointset[3][4];
   float vprod[3][4], tm[4], vec[3];
   float tinc = 1./CYCLES/OVERSAMPLE;
-  float basis[4][4] = { {-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3,  0, 0}, {1,  0, 0, 0} };
+  float basis[4][4] = { {-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0} };
 
   for (int i=0; i<4; i++) {
     pointset[2][i] = 0;
@@ -232,8 +232,8 @@ void Guy::computeCurve(uint8_t join)
       t += tinc;
     }
   }
-  for (int c=0; c < CYCLES; c++) {  // copy to other leg, out-o-phase
-    cycles[1][join][c] = cycles[0][join][(c+(CYCLES/2))%CYCLES];
+  for (int i=0; i < CYCLES; i++) {  // copy to other leg, out-o-phase
+    cycles[1][join][i] = cycles[0][join][(i+(CYCLES/2))%CYCLES];
   }
 }
 
@@ -432,14 +432,14 @@ void Guy::display_leg(bool side)
    }
 
     // Upper leg: rotates around the x axis only
-    glRotatef(cycles[side][0][step], 1, 0, 0);
+    glRotatef(cycles[side][CSET_ULEG][step], 1, 0, 0);
     glPushMatrix();
      glCallList(dlist+ULEG);
     glPopMatrix();
 
     // Lower leg: rotates around the x axis only
     glTranslatef(0, -(ULEG_H + KNEE_R), 0);
-    glRotatef(cycles[side][1][step], 1, 0, 0);
+    glRotatef(cycles[side][CSET_LLEG][step], 1, 0, 0);
     glPushMatrix();
      glCallList(dlist+LLEG);
     glPopMatrix();
@@ -447,7 +447,7 @@ void Guy::display_leg(bool side)
     // Foot: rotates around the x axis only
     glMaterialfv(GL_FRONT, GL_AMBIENT, feet_color);
     glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0);
-    glRotatef(cycles[side][2][step], 1, 0, 0);
+    glRotatef(cycles[side][CSET_FOOT][step], 1, 0, 0);
     glPushMatrix();
      glCallList(dlist+FOOT);
     glPopMatrix();
@@ -474,7 +474,7 @@ void Guy::display_arm(bool side)
      glRotatef(90, 1, 0, 0);
    }
    else {
-     glRotatef(cycles[side][3][step], 1, 0, 0);
+     glRotatef(cycles[side][CSET_UARM][step], 1, 0, 0);
    }
    glPushMatrix();
     glCallList(dlist+UARM);
@@ -487,7 +487,7 @@ void Guy::display_arm(bool side)
      glRotatef(0, 1, 0, 0);
    }
    else {
-     glRotatef(cycles[side][4][step], 1, 0, 0);
+     glRotatef(cycles[side][CSET_LARM][step], 1, 0, 0);
    }
    glPushMatrix();
     glCallList(dlist+LARM);

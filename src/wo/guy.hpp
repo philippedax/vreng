@@ -58,7 +58,7 @@ typedef struct {
   int numpoints;
   float coords[MAX_POINTS];
   float angles[MAX_POINTS];
-} tGuyCtrlPts;
+} tCsetCtrl;
 
 
 /**
@@ -77,6 +77,14 @@ private:
     UARM,
     LARM,
     BREA
+  };
+
+  enum {
+    CSET_ULEG,
+    CSET_LLEG,
+    CSET_FOOT,
+    CSET_UARM,
+    CSET_LARM
   };
 
   static uint16_t RATE;
@@ -98,7 +106,7 @@ private:
   bool flying;		///< flying flag
   bool control;		///< control by user
   uint8_t numjoints;	///< joinpoint number
-  tGuyCtrlPts *curve;	///< series of ctrl points for a joint
+  tCsetCtrl *curve;	///< series of ctrl points for a joint
   float skin_color[4];  ///< skin color
   float bust_color[4];  ///< bust color
   float legs_color[4];  ///< legs color
