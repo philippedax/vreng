@@ -174,16 +174,16 @@ void Guy::httpReader(void *_guy, Http *http)
     fgets(line, sizeof(line), f);	// coords
     line[strlen(line) - 1] = '\0';
     l = strtok(line, " ");
-    for (int p=0; p < pts; p++) {
-      guy->curve[j].coords[p] = (float) atof(l);
+    for (int i=0; i < pts; i++) {
+      guy->curve[j].coords[i] = (float) atof(l);
       l = strtok(NULL, " ");
     }
 
     fgets(line, sizeof(line), f);	// angles
     line[strlen(line) - 1] = '\0';
     l = strtok(line, " ");
-    for (int p=0; p < pts; p++) {
-      guy->curve[j].angles[p] = (float) atof(l);
+    for (int i=0; i < pts; i++) {
+      guy->curve[j].angles[i] = (float) atof(l);
       l = strtok(NULL, " ");
     }
   }
@@ -239,12 +239,12 @@ void Guy::computeCurve(uint8_t join)
 
 void Guy::setPose()
 {
-  for (int j=0; j < numjoints; j++) {
-    curve[j].numpoints = 4;
-    curve[j].coords[0] = 0.0; curve[j].angles[0] = 0;
-    curve[j].coords[1] = 0.2; curve[j].angles[1] = 0;
-    curve[j].coords[2] = 0.8; curve[j].angles[2] = 0;
-    curve[j].coords[3] = 1.0; curve[j].angles[3] = 0;
+  for (int i=0; i < numjoints; i++) {
+    curve[i].numpoints = 4;
+    curve[i].coords[0] = 0.0; curve[i].angles[0] = 0;
+    curve[i].coords[1] = 0.2; curve[i].angles[1] = 0;
+    curve[i].coords[2] = 0.8; curve[i].angles[2] = 0;
+    curve[i].coords[3] = 1.0; curve[i].angles[3] = 0;
   }
 }
 
