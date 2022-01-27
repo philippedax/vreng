@@ -30,7 +30,7 @@ class Http;
 
 
 #define CYCLES		50
-#define MAX_JOINTS	5
+#define MAX_JOINTS	5	// uleg + lleg + foot + uarm + larm
 #define MAX_POINTS	34	// 2 end point ones and 10 in the middle
 
 // body parts
@@ -85,6 +85,11 @@ private:
     CSET_FOOT,
     CSET_UARM,
     CSET_LARM
+  };
+
+  enum {
+    L_SIDE,
+    R_SIDE
   };
 
   static uint16_t RATE;
@@ -176,7 +181,7 @@ private:
   static void httpReader(void *oa, Http *http);
   /**< Reads cset files. */
 
-  virtual void computeCurve(uint8_t joint);
+  virtual void computeCurve();
   /**< Computes cset curves. */
 
   virtual void draw_bust();
@@ -188,9 +193,6 @@ private:
   virtual void draw_foot();
   virtual void draw_uarm();
   virtual void draw_larm();
-
-  virtual void display_body();
-  /**< Displays the body. */
 
   virtual void display_bust();
   virtual void display_neck();

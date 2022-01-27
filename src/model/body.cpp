@@ -674,12 +674,14 @@ endparse:
   if (f) File::closeFile(f);
 }
 
+#if 0 //dax notused
 void Body::setJointPoint(uint8_t ind, float *_jp)
 {
   jp.x[ind] = _jp[0];
   jp.y[ind] = _jp[1];
   jp.z[ind] = _jp[2];
 }
+#endif
 
 void Body::draw()
 {

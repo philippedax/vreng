@@ -554,7 +554,7 @@ public:
 #endif
   /**< Loads body's drawable parts. */
 
-  virtual void setJointPoint(uint8_t indice, float *_jp);
+  //virtual void setJointPoint(uint8_t indice, float *_jp);
   /**< Sets one joint point for this indice. */
 
   virtual void setColors(float *_skin, float *_cloth);

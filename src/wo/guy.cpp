@@ -52,7 +52,6 @@ void Guy::defaults()
   sex = 0; //male
   showing = false;
   flying = false;
-  control = false;
   for (int i=0; i<4; i++) {
     skin_color[i] = SKIN_COLOR[i];
     bust_color[i] = BUST_COLOR[i];
@@ -109,9 +108,7 @@ void Guy::inits()
 
   Http::httpOpen(names.url, httpReader, this, 0);
 
-  for (int j=0; j < numjoints; j++) {
-    computeCurve(j);
-  }
+  computeCurve();
 }
 
 /* constructor from xml file */
@@ -197,43 +194,46 @@ abort:
   return;
 }
 
-void Guy::computeCurve(uint8_t join)
+void Guy::computeCurve()
 {
   float pointset[3][4];
   float vprod[3][4], tm[4], vec[3];
   float tinc = 1./CYCLES/OVERSAMPLE;
   float basis[4][4] = { {-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0} };
 
-  for (int i=0; i<4; i++) {
-    pointset[2][i] = 0;
-  }
+  for (int join=0; join < numjoints; join++) {
 
-  int newindex, lastindex = -1;
-  for (int p=0; p < curve[join].numpoints; p += 3) {
-    float t = 0.;
     for (int i=0; i<4; i++) {
-      pointset[0][i] = curve[join].coords[p + i];
-      pointset[1][i] = curve[join].angles[p + i];
+      pointset[2][i] = 0;
     }
-    mulM3M4(pointset, basis, vprod);
 
-    while (t <= 1) {
-      tm[0] = t*t*t;
-      tm[1] = t*t;
-      tm[2] = t;
-      tm[3] = 1;
-      mulM3V4(vprod, tm, vec);
-      newindex = (int) (vec[0] * (CYCLES-1));
-      if (newindex > lastindex) {  // go at least one
-        newindex %= CYCLES;  // avoid out of bounds
-        cycles[0][join][newindex] = vec[1];
-        lastindex++;
+    int newindex, lastindex = -1;
+    for (int p=0; p < curve[join].numpoints; p += 3) {
+      float t = 0.;
+      for (int i=0; i<4; i++) {
+        pointset[0][i] = curve[join].coords[p + i];
+        pointset[1][i] = curve[join].angles[p + i];
       }
-      t += tinc;
+      mulM3M4(pointset, basis, vprod);
+
+      while (t <= 1) {
+        tm[0] = t*t*t;
+        tm[1] = t*t;
+        tm[2] = t;
+        tm[3] = 1;
+        mulM3V4(vprod, tm, vec);
+        newindex = (int) (vec[0] * (CYCLES-1));
+        if (newindex > lastindex) {  // go at least one
+          newindex %= CYCLES;  // avoid out of bounds
+          cycles[L_SIDE][join][newindex] = vec[1];
+          lastindex++;
+        }
+        t += tinc;
+      }
     }
-  }
-  for (int i=0; i < CYCLES; i++) {  // copy to other leg, out-o-phase
-    cycles[1][join][i] = cycles[0][join][(i+(CYCLES/2))%CYCLES];
+    for (int i=0; i < CYCLES; i++) {  // copy to other leg, out-o-phase
+      cycles[R_SIDE][join][i] = cycles[L_SIDE][join][(i+(CYCLES/2))%CYCLES];
+    }
   }
 }
 
@@ -401,7 +401,7 @@ void Guy::display_brea(bool side)
   if (sex) {
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, bust_color);
     glPushMatrix();
-     if (side == 0)
+     if (side == L_SIDE)
       glTranslatef(BREA_R*1.5, 0, 0);
      else
       glTranslatef(-BREA_R*1.5, 0, 0);
@@ -424,7 +424,7 @@ void Guy::display_leg(bool side)
 {
   glMaterialfv(GL_FRONT, GL_AMBIENT, legs_color);
   glPushMatrix();
-   if (side == 0) {
+   if (side == L_SIDE) {
      glTranslatef(BUST_L * BUST_W/2., HIP_R/2, 0);
    }
    else {
@@ -459,7 +459,7 @@ void Guy::display_arm(bool side)
   glMaterialfv(GL_FRONT, GL_AMBIENT, bust_color);
   glPushMatrix();
    glTranslatef(0, BUST_H, 0);
-   if (side == 0) {
+   if (side == L_SIDE) {
      glTranslatef(BUST_W - SHOULDER_R/2 -0.03, 0, 0);
    }
    else {
@@ -470,7 +470,7 @@ void Guy::display_arm(bool side)
    if (flying) {
      glRotatef(135, 1, 0, 0);	// x axis
    }
-   else if (showing && side == 0) {  // right arm
+   else if (showing && side == R_SIDE) {  // right arm
      glRotatef(90, 1, 0, 0);
    }
    else {
@@ -483,7 +483,7 @@ void Guy::display_arm(bool side)
    // Lower arm: rotates around the x axis only
    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
    glTranslatef(0, -(UARM_H + ELBOW_R), 0);
-   if (flying || (showing && side == 0)) {
+   if (flying || (showing && side == R_SIDE)) {
      glRotatef(0, 1, 0, 0);
    }
    else {
@@ -495,30 +495,18 @@ void Guy::display_arm(bool side)
   glPopMatrix();
 }
 
-void Guy::display_body()
-{
-  display_bust();
-  display_neck();
-  display_brea(0);
-  display_brea(1);
-  display_head();
-  display_leg(0);
-  display_leg(1);
-  display_arm(0);
-  display_arm(1);
-}
-
 void Guy::render()
 {
-  float dx, dz;
-  static       float guy_rot = 3 * M_PI/2;	// radian
-  static const float guy_step = 72;		// number of steps
-  static const float guy_radius = 1.5;		// space unit
-
   glPushMatrix();
    glTranslatef(pos.x, pos.y, pos.z);
    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
    glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
+
+#if 0 //dax - unused
+   float dx, dz;
+   static       float guy_rot = 3 * M_PI/2;	// radian
+   static const float guy_step = 72;		// number of steps
+   static const float guy_radius = 1.5;		// space unit
 
    if (::g.timer.isRate(RATE))
      guy_rot -= M_2PI / guy_step;
@@ -527,12 +515,20 @@ void Guy::render()
    if (walking) {
      dx =  guy_radius * cos(guy_rot);
      dz = -guy_radius * sin(guy_rot);
-     glTranslatef(-dx, 0, -dz);
+     glTranslatef(-dx, -dz, 0);
      glRotatef(RAD2DEG(guy_rot), 0, 1, 0);
    }
+#endif
 
-   display_body();
-
+   display_bust();
+   display_neck();
+   display_brea(0);
+   display_brea(1);
+   display_head();
+   display_leg(0);
+   display_leg(1);
+   display_arm(0);
+   display_arm(1);
   glPopMatrix();
 }
 
