@@ -770,6 +770,8 @@ void Body::animate()
   if (bap->isMask(RT_BODY_TURN))       rz = bap->getBap(RT_BODY_TURN);
   if (bap->isMask(RT_BODY_ROLL))       rx = bap->getBap(RT_BODY_ROLL);
   if (bap->isMask(RT_BODY_TILT))       ry = bap->getBap(RT_BODY_TILT);
+
+  //if (tx || ty || tz) error("t: %.1f %.1f %.1f", tx,ty,tz);
 }
 
 #if 1 //dax

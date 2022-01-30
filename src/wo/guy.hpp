@@ -31,7 +31,7 @@ class Http;
 
 #define CYCLES		50
 #define MAX_JOINTS	5	// uleg + lleg + foot + uarm + larm
-#define MAX_POINTS	34	// 2 end point ones and 10 in the middle
+#define MAX_POINTS	34	// 2 end point and 10 in the middle
 
 // body parts
 #define HEAD_R		0.08	// d=16

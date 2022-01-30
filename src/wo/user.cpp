@@ -84,13 +84,6 @@ void User::defaults()
   height = DEF_HEIGHT;
   lspeed = LSPEED;
   aspeed = ASPEED;
-  carrier = NULL;
-  cart = NULL;
-  bubble = NULL;
-  human = NULL;
-  guy = NULL;
-  humanoid = NULL;
-  head = NULL;
   if (::g.pref.tview)
     current_view = Render::VIEW_THIRD_PERSON_FAR;
   else
@@ -204,6 +197,8 @@ void User::makeSolid()
     else if (! strcmp(avatar, "humanoid")) {
       humanoid = new Humanoid();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
+      pos.az -= M_PI_2;
+      updatePosition();
     }
     else if (! strcmp(avatar, "human")) {
       human = new Human();
@@ -338,6 +333,13 @@ void User::inits()
 User::User()
 {
   localuser = this;	// global
+  carrier = NULL;
+  cart = NULL;
+  bubble = NULL;
+  human = NULL;
+  humanoid = NULL;
+  guy = NULL;
+  head = NULL;
   defaults();
   inits();
 }
@@ -351,6 +353,13 @@ WObject * User::replicator(uint8_t type_id, Noid _noid, Payload *pp)
 User::User(uint8_t type_id, Noid _noid, Payload *pp)
 {
   type = type_id;
+  carrier = NULL;
+  cart = NULL;
+  bubble = NULL;
+  human = NULL;
+  humanoid = NULL;
+  guy = NULL;
+  head = NULL;
   defaults();
   getMemory();		// alloc geometries
 
@@ -549,9 +558,15 @@ void User::changePosition(float lasting)
   pos.z += lasting * move.lspeed.v[2];
   pos.az += lasting * move.aspeed.v[0];
   updatePosition();
+
   if (localuser->human) {
     localuser->human->pos = pos;
     localuser->human->updatePosition();
+  }
+  if (localuser->humanoid) {
+    //pos.az += -M_PI_2;
+    localuser->humanoid->pos = pos;
+    localuser->humanoid->updatePosition();
   }
   if (localuser->bubble) {
     localuser->bubble->setPosition();
