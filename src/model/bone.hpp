@@ -88,7 +88,7 @@ template <class BoneElem> class BoneNode {
   // Methodes de lecture des champs d'un noeud
   inline BoneNode *getNext (void) { return nextNode; }
   inline BoneNode *getPrev (void) { return prevNode; }
-  inline BoneElem *getElem (void) { return element; }
+  inline BoneElem *getElem (void) { return element;  } // FIXME! segfault
  };
 
 
@@ -113,7 +113,7 @@ template <class BoneElem> class BoneList {
  private:
   BoneNode <BoneElem> *listHead;	///< Tete de la liste chainee
   BoneNode <BoneElem> *listEnd;		///< Queue de la liste chainee
-  BoneElem            **element;	///< Table contenant les pointeur sur element lors de la compilation de la liste en tableau
+  BoneElem            **element;	///< Table contenant les pointeurs sur element lors de la compilation de la liste en tableau
   int                  elements;	///< Nombre d'elements dans la table lors de la compilation de la liste en tableau
   int                  built;	///< Masque disant si la liste est compilee ou non
 
@@ -142,7 +142,7 @@ template <class BoneElem> class BoneList {
   }
 
   /** Fonction recursive de vidage de la liste, il
-   * s'agit de d'appeler le vidage du fils puis de liberer le fils
+   * s'agit d'appeler le vidage du fils puis de liberer le fils
    */
   inline void recursiveEmpty(BoneNode <BoneElem> *currentNode) {
     if (currentNode) {
@@ -177,12 +177,12 @@ template <class BoneElem> class BoneList {
   // Comptage du nombre d'elements de la liste
   inline int count() {
     BoneNode <BoneElem> *currentNode = listHead;
-    int result = 0;
+    int n = 0;
     while (currentNode) {
       currentNode = currentNode->getNext();
-      result++;
+      n++;
     }
-    return result;
+    return n;
   }
 
   // Fonction d'acces a un element de la liste retourne NULL si

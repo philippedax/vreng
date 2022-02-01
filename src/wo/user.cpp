@@ -105,7 +105,7 @@ void User::resetPosition()
   pos.x = 0;
   pos.y = 0;
   pos.z = height/2;	// + 0.15;
-  pos.az = 0;
+  pos.az = -M_PI_2;
   pos.ax = 0;
   pos.ay = 0;
 }
@@ -130,6 +130,7 @@ void User::setView(uint8_t view)
   switch (view) {
     case Render::VIEW_THIRD_PERSON :
     case Render::VIEW_THIRD_PERSON_FAR :
+    case Render::VIEW_THIRD_PERSON_FRONT :
     case Render::VIEW_VERTICAL :
     case Render::VIEW_VERTICAL_FAR :
     case Render::VIEW_TURN_AROUND :
@@ -197,8 +198,8 @@ void User::makeSolid()
     else if (! strcmp(avatar, "humanoid")) {
       humanoid = new Humanoid();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
-      pos.az -= M_PI_2;
-      updatePosition();
+      //pos.az -= M_PI_2;
+      //dax updatePosition();
     }
     else if (! strcmp(avatar, "human")) {
       human = new Human();
@@ -341,6 +342,7 @@ User::User()
   guy = NULL;
   head = NULL;
   defaults();
+  pos.az = -M_PI_2;
   inits();
 }
 
@@ -564,9 +566,8 @@ void User::changePosition(float lasting)
     localuser->human->updatePosition();
   }
   if (localuser->humanoid) {
-    //pos.az += -M_PI_2;
     localuser->humanoid->pos = pos;
-    localuser->humanoid->updatePosition();
+    //dax localuser->humanoid->updatePosition();
   }
   if (localuser->bubble) {
     localuser->bubble->setPosition();

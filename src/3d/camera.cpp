@@ -114,12 +114,12 @@ void Render::cameraPosition(WObject *object)
   switch (view) {
 
     case VIEW_FIRST_PERSON:
-      vr_mat = mulM4(transM4(0, 0, 0.15),
+      vr_mat = mulM4(transM4(0, 0, 0.05),
                      mulM4(rotM4(pitch, UX), camera_pos));
       break;
 
     case VIEW_THIRD_PERSON:
-      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-.8),	// 80cm back
+      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near -.8),	// 80cm back
                      mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
                            mulM4(rotM4(thirdPerson_yRot, UY),
                                  camera_pos)
@@ -128,12 +128,16 @@ void Render::cameraPosition(WObject *object)
       break;
 
     case VIEW_THIRD_PERSON_FAR:
-      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-2.4),	// 2m40 back
+      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near -2.4),	// 2m40 back
                      mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
                            mulM4(rotM4(thirdPerson_yRot, UY),
                                  camera_pos)
                           )
                     );
+      break;
+
+    case VIEW_THIRD_PERSON_FRONT:
+      vr_mat = mulM4(transM4(0, 0, -3), mulM4(rotM4(M_PI, UY), camera_pos));		// -3m
       break;
 
     case VIEW_TURN_AROUND:
@@ -148,9 +152,8 @@ void Render::cameraPosition(WObject *object)
 
     case VIEW_VERTICAL_FROM_OBJECT:
       vr_mat = mulM4(rotM4(M_PI_4, UX),
-                     //dax mulM4(transM4(-object->pos.y, -object->pos.z, -object->pos.x),
                      mulM4(transM4(0, -object->pos.z -1, 0),
-                                 camera_pos)
+                           camera_pos)
                     );
       break;
 
@@ -169,7 +172,7 @@ void Render::cameraPosition(WObject *object)
       break;
 
     case VIEW_GROUND_LEVEL:
-      vr_mat = mulM4(transM4(0, localuser->height - 0.10, 0), camera_pos);
+      vr_mat = mulM4(transM4(0, localuser->height - 0.02, 0), camera_pos);
       break;
 
     case VIEW_WIRED:
