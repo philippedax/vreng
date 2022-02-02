@@ -96,6 +96,7 @@ void Bap::copyLast(int param)
 }
 #endif
 
+#if 0 //dax - notused - see body.cpp
 void Bap::jpRX(int param, uint8_t model)
 {
   //if (param == 0) return;
@@ -140,6 +141,7 @@ void Bap::jpRZ(int param, uint8_t model)
   }
   //copyLast(param);
 }
+#endif
 
 uint8_t Bap::parse(char *bapline)
 {

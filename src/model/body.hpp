@@ -585,6 +585,11 @@ protected:
   virtual void jpTN(uint8_t part);
   /**< Translates reverse from the Joint Point. */
 
+  virtual void jpRX(int param, uint8_t model);
+  virtual void jpRY(int param, uint8_t model);
+  virtual void jpRZ(int param, uint8_t model);
+  /**< Rotates on the Joint Point. */
+
   virtual char * getTok(char *l, int *tok);
   virtual char * skipEqual(char *l);
   virtual char * getUrl() const;
