@@ -105,7 +105,7 @@ void User::resetPosition()
   pos.x = 0;
   pos.y = 0;
   pos.z = height/2;	// + 0.15;
-  pos.az = -M_PI_2;
+  pos.az = 0; //-M_PI_2;
   pos.ax = 0;
   pos.ay = 0;
 }
@@ -342,7 +342,7 @@ User::User()
   guy = NULL;
   head = NULL;
   defaults();
-  pos.az = -M_PI_2;
+  pos.az = 0; //-M_PI_2;
   inits();
 }
 
