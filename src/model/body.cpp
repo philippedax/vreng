@@ -847,7 +847,7 @@ bool Body::isLoaded(uint8_t part)
   return false;
 }
 
-void Body::jpTrans(uint8_t part)
+void Body::jpTP(uint8_t part)
 {
   if (part < MAX_PARTS) {
     if (model == MODEL_OBJ) glTranslatef(jp.y[part], jp.x[part], jp.z[part]);
@@ -855,7 +855,7 @@ void Body::jpTrans(uint8_t part)
   }
 }
 
-void Body::jpUntrans(uint8_t part)
+void Body::jpTN(uint8_t part)
 {
   if (part < MAX_PARTS) {
     if (model == MODEL_OBJ) glTranslatef(-jp.y[part], -jp.x[part], -jp.z[part]);
@@ -883,39 +883,42 @@ void Body::display(uint8_t part)
 /** display body and face */
 void Body::display()
 {
+  // Hips
   glPushMatrix();	//  Pelvic (Body Bottom)
-   jpTrans(PELVIC);
+   jpTP(PELVIC);
    bap->jpRX(PELVIC_TILT, model);
    bap->jpRY(PELVIC_ROLL, model);
    bap->jpRZ(PELVIC_TORSION, model);
-   jpUntrans(PELVIC);
+   jpTN(PELVIC);
    display(HIPS);
 
+   // Abdomen
    if (isLoaded(ABDOMEN)) {
      glPushMatrix();
      display(ABDOMEN);
      glPopMatrix();
    }
-
+   // Skirt
    if (isLoaded(SKIRT)) {
      glPushMatrix();
      display(SKIRT);
      glPopMatrix();
    }
+   // Belt
    if (isLoaded(BELT)) {
      glPushMatrix();
      display(BELT);
      glPopMatrix();
    }
-
+   // Chest
    glPushMatrix();	//  Spinal -> Chest (thoracic level 5)
-    jpTrans(SPINAL);
+    jpTP(SPINAL);
     bap->jpRX(T5_TILT, model);
     bap->jpRY(T5_ROLL, model);
     bap->jpRZ(T5_TORSION, model);
-    jpUntrans(SPINAL);
+    jpTN(SPINAL);
     display(CHEST);
-
+    // Collar
     if (isLoaded(L_COLLAR)) {
       glPushMatrix();
       display(L_COLLAR);
@@ -926,19 +929,21 @@ void Body::display()
       display(R_COLLAR);
       glPopMatrix();
     }
-
+    // Lower Neck
     glPushMatrix();	//  Lower Neck (cervical level 4)
-     jpTrans(LOWER_NECK);
+     jpTP(LOWER_NECK);
      bap->jpRX(C4_TILT, model);
      bap->jpRY(C4_ROLL, model);
      bap->jpRZ(C4_TORSION, model);
-     jpUntrans(LOWER_NECK);
+     jpTN(LOWER_NECK);
      display(NECK);
+     // Head
+     if (! face)
+       display(HEAD);
 
-     if (! face) display(HEAD);
-
+     // Upper Neck
      glPushMatrix();	//  Upper Neck -> Head (cervical level 1)
-      jpTrans(UPPER_NECK);
+      jpTP(UPPER_NECK);
       bap->jpRX(C1_TILT, model);
       bap->jpRY(C1_ROLL, model);
       bap->jpRZ(C1_TORSION, model);
@@ -948,102 +953,108 @@ void Body::display()
         glRotatef(90, 1,0,0);
         face->render();	// YR
       }
-      jpTrans(UPPER_NECK);
+      jpTP(UPPER_NECK);
       bap->jpRX(C1_TILT, model);
       bap->jpRY(C1_ROLL, model);
       bap->jpRZ(C1_TORSION, model);
-      jpUntrans(UPPER_NECK);
+      jpTN(UPPER_NECK);
      glPopMatrix(); 	// head
     glPopMatrix(); 	// neck
 
+    // Left arm
     glPushMatrix();	//  Left Shoulder -> Left Arm
-     jpTrans(L_SHOULDER);
+     jpTP(L_SHOULDER);
      if (model == MODEL_OFF)
        glRotatef(-90, 0,0,1);  //FIXME
      bap->jpRX(L_SHOULDER_ABDUCT, model);
      bap->jpRY(-L_SHOULDER_FLEXION, model);	// -
      bap->jpRZ(-L_SHOULDER_TORSION, model);	// -
-     jpUntrans(L_SHOULDER);
+     jpTN(L_SHOULDER);
      display(L_ARM);
 
+     // Left forearm
      glPushMatrix();	//  Left Elbow -> Left Forearm
-      jpTrans(L_ELBOW);
+      jpTP(L_ELBOW);
       bap->jpRY(-L_ELBOW_FLEXION, model);	// -
       bap->jpRZ(+L_ELBOW_TORSION, model);	// -
-      jpUntrans(L_ELBOW);
+      jpTN(L_ELBOW);
       display(L_FOREARM);
 
+      // Left hand
       glPushMatrix();	//  Left Wrist -> Left Hand
-       jpTrans(L_WRIST);
+       jpTP(L_WRIST);
        bap->jpRX(L_WRIST_FLEXION, model);
        bap->jpRY(L_WRIST_PIVOT, model);
        bap->jpRZ(L_WRIST_TORSION, model);
-       jpUntrans(L_WRIST);
+       jpTN(L_WRIST);
        display(L_HAND);
+
       glPopMatrix();
      glPopMatrix();
     glPopMatrix();	// l_shoulder
 
+    // Right arm
     glPushMatrix();	//  Right Shoulder -> Right Arm
-     jpTrans(R_SHOULDER);
+     jpTP(R_SHOULDER);
      if (model == MODEL_OFF)
        glRotatef(90, 0,0,1);	//OK but FIXME
      bap->jpRX(-R_SHOULDER_ABDUCT, model);	// -
      bap->jpRY(R_SHOULDER_FLEXION, model);
      bap->jpRZ(-R_SHOULDER_TORSION, model);	// -
-     jpUntrans(R_SHOULDER);
+     jpTN(R_SHOULDER);
      display(R_ARM);
 
+     // Right forearm
      glPushMatrix();	//  Right Elbow -> Right Forearm
-      jpTrans(R_ELBOW);
+      jpTP(R_ELBOW);
       bap->jpRY(R_ELBOW_FLEXION, model);
       bap->jpRZ(+R_ELBOW_TORSION, model);	// -
-      jpUntrans(R_ELBOW);
+      jpTN(R_ELBOW);
       display(R_FOREARM);
 
+      // Right hand
       glPushMatrix();	//  Right Wrist -> Right Hand
-       jpTrans(R_WRIST);
+       jpTP(R_WRIST);
        bap->jpRX(R_WRIST_FLEXION, model);
        bap->jpRY(R_WRIST_PIVOT, model);
        bap->jpRZ(R_WRIST_TORSION, model);
-       jpUntrans(R_WRIST);
+       jpTN(R_WRIST);
+       display(R_HAND);
 
 #if 0 //dax fingers
        glPushMatrix();	//  Right fingers
        glPushMatrix();	//  Right thumb
-        jpTrans(R_THUMB);
+        jpTP(R_THUMB);
         bap->jpRX(R_THUMB_FLEXION1, model);
-        jpUntrans(R_THUMB);
+        jpTN(R_THUMB);
         //display(R_THUMB);
        glPopMatrix();
        glPushMatrix();	//  Right index
-        jpTrans(R_INDEX);
+        jpTP(R_INDEX);
         bap->jpRX(R_INDEX_FLEXION1, model);
-        jpUntrans(R_INDEX);
+        jpTN(R_INDEX);
         //display(R_INDEX);
        glPopMatrix();
        glPushMatrix();	//  Right middle
-        jpTrans(R_MIDDLE);
+        jpTP(R_MIDDLE);
         bap->jpRX(R_MIDDLE_FLEXION1, model);
-        jpUntrans(R_MIDDLE);
+        jpTN(R_MIDDLE);
         //display(R_MIDDLE);
        glPopMatrix();
        glPushMatrix();	//  Right ring
-        jpTrans(R_RING);
+        jpTP(R_RING);
         bap->jpRX(R_RING_FLEXION1, model);
-        jpUntrans(R_RING);
+        jpTN(R_RING);
         //display(R_RING);
        glPopMatrix();
        glPushMatrix();	//  Right pinky
-        jpTrans(R_PINKY);
+        jpTP(R_PINKY);
         bap->jpRX(R_PINKY_FLEXION1, model);
-        jpUntrans(R_PINKY);
-        //display(R_PINKY);
-        display(R_HAND);
+        jpTN(R_PINKY);
+        //ddisplay(R_PINKY);
        glPopMatrix();
        glPopMatrix();
 #endif
-       display(R_HAND);
 
       glPopMatrix();
      glPopMatrix();
@@ -1051,51 +1062,57 @@ void Body::display()
    glPopMatrix();	// spinal
   glPopMatrix();	// pelvic
 
+  // Left thigh
   glPushMatrix();	//  Left Hip -> Left Thigh
-   jpTrans(L_HIP);
+   jpTP(L_HIP);
    bap->jpRX(L_HIP_FLEXION, model);
    bap->jpRY(L_HIP_ABDUCT, model);
    bap->jpRZ(L_HIP_TORSION, model);
-   jpUntrans(L_HIP);
+   jpTN(L_HIP);
    display(L_THIGH);
 
+   // Left shin
    glPushMatrix();	//  Left Knee -> Left Shin
-    jpTrans(L_KNEE);
+    jpTP(L_KNEE);
     bap->jpRX(L_KNEE_FLEXION, model);
     bap->jpRZ(L_KNEE_TORSION, model);
-    jpUntrans(L_KNEE);
+    jpTN(L_KNEE);
     display(L_SHIN);
 
+    // Left foot
     glPushMatrix();	//  Left Ankle -> Left Foot
-     jpTrans(L_ANKLE);
+     jpTP(L_ANKLE);
      bap->jpRX(L_ANKLE_FLEXION, model);
      bap->jpRZ(L_ANKLE_TORSION, model);
-     jpUntrans(L_ANKLE);
+     jpTN(L_ANKLE);
      display(L_FOOT);
     glPopMatrix();
    glPopMatrix();
   glPopMatrix();	// l_thigh
 
+  // Right thigh
   glPushMatrix();	//  Right Hip -> Right Thigh
-   jpTrans(R_HIP);
+   jpTP(R_HIP);
    bap->jpRX(R_HIP_FLEXION, model);
    bap->jpRY(R_HIP_ABDUCT, model);
    bap->jpRZ(R_HIP_TORSION, model);
-   jpUntrans(R_HIP);
+   jpTN(R_HIP);
    display(R_THIGH);
 
+   // Right shin
    glPushMatrix();	//  Right Knee -> Right Shin
-    jpTrans(R_KNEE);
+    jpTP(R_KNEE);
     bap->jpRX(R_KNEE_FLEXION, model);
     bap->jpRZ(R_KNEE_TORSION, model);
-    jpUntrans(R_KNEE);
+    jpTN(R_KNEE);
     display(R_SHIN);
 
+    // Right foot
     glPushMatrix();	//  Right Ankle -> Right Foot
-     jpTrans(R_ANKLE);
+     jpTP(R_ANKLE);
      bap->jpRX(R_ANKLE_FLEXION, model);
      bap->jpRZ(R_ANKLE_TORSION, model);
-     jpUntrans(R_ANKLE);
+     jpTN(R_ANKLE);
      display(R_FOOT);
     glPopMatrix();
    glPopMatrix();

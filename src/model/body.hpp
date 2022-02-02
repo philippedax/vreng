@@ -579,10 +579,10 @@ protected:
   virtual bool isLoaded(uint8_t part);
   /**< Returns true if body part exists. */
 
-  virtual void jpTrans(uint8_t part);
+  virtual void jpTP(uint8_t part);
   /**< Translates to the Joint Point. */
 
-  virtual void jpUntrans(uint8_t part);
+  virtual void jpTN(uint8_t part);
   /**< Translates reverse from the Joint Point. */
 
   virtual char * getTok(char *l, int *tok);
