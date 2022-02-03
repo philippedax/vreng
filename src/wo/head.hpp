@@ -36,12 +36,11 @@ class Head: public WObject {
 
 protected:
   bool taken;				///< bool taken by avatar
-  float ttl;				///< time to live with avatar
-  float scale;
   bool visible;
-  float dx, dy, dz, dax, day, daz;	///< difference with avatar positions
   uint8_t model_e;			///< types of model
   uint8_t model_t;			///< types of 3D model
+  float scale;
+  float dx, dy, dz, dax, day, daz;	///< difference with avatar positions
   char modelname[16];
   class Model *model;			///< model instance
   float color[3];
