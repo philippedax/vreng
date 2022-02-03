@@ -190,7 +190,7 @@
 <mirage pos="19.3 -34.8 1"> <solid shape="cone" rb="0.34" rt="0.0" h="2.9" amb="0 0.27 0" /></mirage>
 <mirage pos="19.3 -34.8 0"> <solid shape="cone" rb="0.11" rt="0.11" h="1.4" dif="0.26 0.15 0" /></mirage>
 <mirage pos="31 -37.8 1"> <solid shape="cone" rb="0.35" rt="0.0" h="3.7" amb="0 0.27 0" /></mirage>
-<mirage pos="31 -37.8 9"> <solid shape="cone" rb="0.11" rt="0.11" h="1.8" dif="0.26 0.15 0" /></mirage>
+<mirage pos="31 -37.8 0"> <solid shape="cone" rb="0.11" rt="0.11" h="1.8" dif="0.26 0.15 0" /></mirage>
 <mirage pos="18 -34.7 1"> <solid shape="cone" rb="0.35" rt="0.0" h="3." amb="0 0.27 0" /></mirage>
 <mirage pos="18 -34.7 0"> <solid shape="cone" rb="0.11" rt="0.11" h="1." dif="0.26 0.15 0" /></mirage>
 <mirage pos="18.5 -33.15 1"> <solid shape="cone" rb="0.28" rt="0.0" h="1.9" amb="0 0.27 0" /></mirage>
