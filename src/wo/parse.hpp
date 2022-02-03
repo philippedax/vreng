@@ -54,18 +54,19 @@ private:
    */
   enum {
     TAG_DOCTYPE,	///< <!DOCTYPE ... >
-    TAG_BEGINFILE,	///< <vre ... >
+    TAG_BEGINVRE,	///< <vre ... >
     TAG_HEAD,		///< <head> ... </head>
     TAG_META,		///< <meta ... />
     TAG_COMMENT,	///< <!-- ... -->
     TAG_SCENE,		///< <scene> ... </scene>
     TAG_OBJECT,		///< <object ... </object>
     TAG_LOCAL,		///< <local> ... </local>
-    TAG_ENDFILE		///< </vre>
+    TAG_ENDVRE		///< </vre>
   } tags;
 
   int tag_type;		///< tag type
   bool commented;	///< flag commented or not
+  bool inscene;		///< between <scene> ... </scene>
 
 public:
   static const int TAG_LEN = 16;	// tag length

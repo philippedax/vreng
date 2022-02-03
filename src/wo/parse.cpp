@@ -53,6 +53,7 @@ Parse::Parse()
   numline = 0;
   tag_type = 0;
   commented = false;
+  inscene = false;
 }
 
 Parse::~Parse()
@@ -171,20 +172,20 @@ int Parse::parseLine(char *_line, int *ptag_type)
     // check <vre ... > </vre>
     else if (! stringcmp(ptok, "vre>") || (! stringcmp(ptok, "vre") && isspace(ptok[3]))) {
       FREE(line);
-      return TAG_BEGINFILE;
+      return TAG_BEGINVRE;
     }
     else if (! stringcmp(ptok, "/vre>")) {
       FREE(line);
-      return TAG_ENDFILE;
+      return TAG_ENDVRE;
     }
     // check <head> </head>
     else if ((! stringcmp(ptok, "head>"))) {
       FREE(line);
-      return TAG_HEAD;
+      if (! inscene) return TAG_HEAD;
     }
     else if ((! stringcmp(ptok, "/head>"))) {
       FREE(line);
-      return TAG_HEAD;
+      if (! inscene) return TAG_HEAD;
     }
     // check <meta ... />
     else if ((! stringcmp(ptok, "meta"))) {
@@ -331,10 +332,17 @@ int Parse::parseVreFile(char *buf, int bufsiz)
 
       switch (tag) {
 
-        case TAG_BEGINFILE:
-        case TAG_HEAD:
-        case TAG_SCENE:
         case TAG_DOCTYPE:
+        case TAG_BEGINVRE:
+          DELETE2(line);
+          bol = eol + 1;	// begin of next line
+          continue;
+        case TAG_HEAD:
+          DELETE2(line);
+          bol = eol + 1;	// begin of next line
+          continue;
+        case TAG_SCENE:
+          inscene = true;
           DELETE2(line);
           bol = eol + 1;	// begin of next line
           continue;	// or break
@@ -355,7 +363,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
           }
           break;
 
-        case TAG_ENDFILE:
+        case TAG_ENDVRE:
           DELETE2(line);
           return 0;		// end of parsing
 
