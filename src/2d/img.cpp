@@ -67,7 +67,7 @@ Img::~Img()
 Img * Img::init()
 {
   uint8_t channel = RGB;
-  Img * default_img = new Img(SIZE, SIZE, RGB);
+  Img * default_img = new Img(SIZE*2, SIZE*2, RGB);	//dax *2 avoids segfault !
 
   GLubyte *pixmap = default_img->pixmap;
   for (int i=0; i < SIZE*SIZE; i++) {
@@ -138,16 +138,16 @@ Img * Img::resize(uint16_t width_new, uint16_t height_new)
       if (xi < (width-1) && yi < (height-1)) {
         for (int k=0; k<channel; k++) {
           //DAX segfault
-          pix_new[k] = interpol(pixmap[(yi     * width+xi)   * channel+k],
-                                pixmap[(yi     * width+xi+1) * channel+k],
-                                pixmap[((yi+1) * width+xi)   * channel+k],
-                                pixmap[((yi+1) * width+xi+1) * channel+k],
+          pix_new[k] = interpol(pixmap[(yi     * width+xi)   * channel +k],
+                                pixmap[(yi     * width+xi+1) * channel +k],
+                                pixmap[((yi+1) * width+xi)   * channel +k],
+                                pixmap[((yi+1) * width+xi+1) * channel +k],
                                 xf, yf);
         }
       }
       else {
         for (int k=0; k<channel; k++) {
-          pix_new[k] = pixmap[(yi * width + xi) * channel+k];
+          pix_new[k] = pixmap[(yi * width + xi) * channel +k];		// segfault FIXME!
         }
       }
       pix_new += channel;
