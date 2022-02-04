@@ -195,7 +195,7 @@
 <mirage pos="18 -34.7 0"> <solid shape="cone" rb="0.11" rt="0.11" h="1." dif="0.26 0.15 0" /></mirage>
 <mirage pos="18.5 -33.15 1"> <solid shape="cone" rb="0.28" rt="0.0" h="1.9" amb="0 0.27 0" /></mirage>
 <mirage pos="18.5 -33.15 0"> <solid shape="cone" rb="0.09" rt="0.09" h="0.9" dif="0.26 0.15 0" /></mirage>
-<mirage pos="18.9 -33.5 1"> <solid shape="cone" rb="0." rt="0.0" h="1.7" amb="0 0.27 0" /></mirage>
+<mirage pos="18.9 -33.5 1"> <solid shape="cone" rb="0.3" rt="0.0" h="1.7" amb="0 0.27 0" /></mirage>
 <mirage pos="18.9 -33.5 0"> <solid shape="cone" rb="0.08" rt="0.08" h="0.8" dif="0.26 0.15 0" /></mirage>
 <mirage pos="17.1 -27.5 1"> <solid shape="cone" rb="0.2" rt="0.0" h="2." amb="0 0.27 0" /></mirage>
 <mirage pos="17.1 -27.5 0"> <solid shape="cone" rb="0.09" rt="0.09" h="1." dif="0.26 0.15 0" /></mirage>
@@ -219,7 +219,7 @@
 <mirage pos="17.1 -32 0"> <solid shape="cone" rb="0.08" rt="0.08" h="1." dif="0.26 0.15 0" /></mirage>
 <mirage pos="14.5 -31.1 1"> <solid shape="cone" rb="0.41" rt="0.0" h="2." amb="0 0.27 0" /></mirage>
 <mirage pos="14.5 -31.1 0"> <solid shape="cone" rb="0.13" rt="0.13" h="1.3" dif="0.26 0.15 0" /></mirage>
-<mirage pos="23.13 -28.8 1"> <solid shape="cone" rb="0." rt="0.0" h="3." amb="0 0.27 0" /></mirage>
+<mirage pos="23.13 -28.8 1"> <solid shape="cone" rb="0.3" rt="0.0" h="3." amb="0 0.27 0" /></mirage>
 <mirage pos="23.13 -28.8 0"> <solid shape="cone" rb="0.10" rt="0.10" h="1.6" dif="0.26 0.15 0" /></mirage>
 <mirage pos="25.1 -27.4 1"> <solid shape="cone" rb="0.32" rt="0.0" h="2.3" amb="0 0.27 0" /></mirage>
 <mirage pos="25.1 -27.4 0"> <solid shape="cone" rb="0.10" rt="0.10" h="1.1" dif="0.26 0.15 0" /></mirage>
