@@ -41,9 +41,6 @@ WObject * Hairs::creator(char *l)
 
 void Hairs::defaults()
 {
-  affobj = true;
-  objchanged = true; // rebuild list
-  angle = 150.;
   scale = 1;
 }
 
@@ -63,6 +60,10 @@ void Hairs::parser(char *l)
 Hairs::Hairs(char *l)
 {
   hairs = this;
+  affobj = true;
+  objchanged = true; // rebuild list
+  angle = 150.;
+
   hair = new Hair();
   parser(l);
 
@@ -90,7 +91,10 @@ bool Hairs::loader(const char *url, float scale)
   Http::httpOpen(url, httpReader, obj, 0);	// get model
 
   Surface *s_hair = obj->findSurface("hair");
-  if (s_hair == NULL) { error("no surface hair"); return false; }
+  if (s_hair == NULL) {
+    error("no surface hair");
+    return false;
+  }
   hair->init(obj, s_hair, scale);
   Surface *s_skin = obj->findSurface("hair");
   if (s_skin != NULL) *(Material*)s_hair = *(Material*)s_skin;
@@ -401,10 +405,18 @@ void Hairs::httpReader(void *_lwo, Http *http)
       //if (! lwo->nbs) { error("no SURF"); return; }
       getSTRING(fp, str, &l);
       //error("SURF=%s", str);
-      if (l<0) { error("bad SURF size"); return; }
-      for (j=0; j<lwo->nbs ; ++j)
-        if (!strcasecmp(str, lwo->sf[j].name)) break;
-      if (j == lwo->nbs) { error("unknown SURF:%s",str); return; }
+      if (l<0) {
+        error("bad SURF size");
+        return;
+      }
+      for (j=0; j<lwo->nbs ; ++j) {
+        if (! strcasecmp(str, lwo->sf[j].name))
+          break;
+      }
+      if (j == lwo->nbs) {
+        error("unknown SURF:%s", str);
+        return;
+      }
       ss = &lwo->sf[j];
       ss->flag = 0;
       int ll;
