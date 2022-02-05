@@ -91,8 +91,6 @@ public:
   virtual void animHead(float angle, int x, int y, int z);
 
 private:
-  virtual void defaults();
-  /**< Sets default values */
 
   static void httpReader(void *_url, Http *http);
   static void facesHttpReader(void *_o, Http *http);

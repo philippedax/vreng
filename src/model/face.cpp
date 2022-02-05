@@ -73,29 +73,20 @@ const float Face::SCALE = 0.075;	///< 3/400
 
 Face::Face()
 {
-  defaults();
+  mesh = NULL;
+  root = NULL;
+  moveYes = false;
+  moveNo = false;
+  moveMouth = false;
+  moveSmile = false;
+  moveSulk = false;
+  moveEyeL = false;
+  moveEyeR = false;
+  moveNose = false;
   index = false;
 }
 
 Face::Face(const char *urlindex)
-{
-  defaults();
-  urlList.empty();
-  Http::httpOpen(urlindex, facesHttpReader, this, 0);
-  currentUrl = rand() % urlList.count();
-  index = true;
-  cachefile[0] = '\0';
-}
-
-Face::~Face()
-{
-  if (mesh) delete mesh;
-  mesh = NULL;
-  if (root) delete root;
-  root = NULL;
-}
-
-void Face::defaults()
 {
   mesh = NULL;
   root = NULL;
@@ -107,13 +98,29 @@ void Face::defaults()
   moveEyeL = false;
   moveEyeR = false;
   moveNose = false;
+  index = true;
+  urlList.empty();
+  Http::httpOpen(urlindex, facesHttpReader, this, 0);
+  currentUrl = rand() % urlList.count();
+  cachefile[0] = '\0';
+}
+
+Face::~Face()
+{
+  if (mesh) delete mesh;
+  mesh = NULL;
+  if (root) delete root;
+  root = NULL;
 }
 
 /** Caching file */
 void Face::httpReader(void *_url, Http *http)
 {
   char *url = (char *) _url;
-  if (! http) { error("httpReader: unable to open http connection"); return; }
+  if (! http) {
+    error("httpReader: unable to open http connection");
+    return;
+  }
 
   FILE *f = Cache::openCache(url, http);
   File::closeFile(f);
@@ -123,7 +130,10 @@ void Face::httpReader(void *_url, Http *http)
 void Face::facesHttpReader(void *_face, Http *http)
 {
   Face *face = (Face *) _face;
-  if (! http) { error("facesHttpReader: unable to open http connection"); return; }
+  if (! http) {
+    error("facesHttpReader: unable to open http connection");
+    return;
+  }
 
   char line[URL_LEN];
 
@@ -141,7 +151,6 @@ void Face::change()
   if (! index) return;
 
   currentUrl++;
-  trace(DBG_MAN, "change: currentUrl=%d count=%d", currentUrl, urlList.count());
   currentUrl %= urlList.count();
   char *urlface = urlList.getElemAt(currentUrl);
   trace(DBG_MAN, "change: urlface=%s urlface=%p urlface[0]=%02x", urlface, urlface, urlface[0]);
@@ -193,8 +202,8 @@ void Face::animHead(float angle, int x, int y, int z)
   BoneVertex *bone;
 
   // 0,1,0 pitch (yes)
-  // 1,0,0 yaw  (no)
-  // 0,0,1 roll (maybe)
+  // 1,0,0 yaw   (no)
+  // 0,0,1 roll  (maybe)
   trace(DBG_MAN, "animHead: angle=%.2f", angle);
   if ((bone = root->findChild(headRoot)) != NULL)
     bone->setCurrentRotation(sin(angle/50.0) *10 , x, y, z);
@@ -241,7 +250,6 @@ void Face::animEyeLid(float angle, const char *root1, const char *lid, const cha
 {
   BoneVertex *bone;
   float scale = (1 - cos(angle / 10.)) /* / 2 */;
-  //float scale = (1 - cos(angle / 20.)) /* / 2 */;
 
   if ((bone = root->findChild(root1)) != NULL) {
     if ((bone = root->findChild(lid)) != NULL) {
