@@ -43,6 +43,8 @@ src/*/Makefile.in
 src/*/.deps
 src/*/*.o
 src/*/*.a
+src/*/y.tab*
+src/*/lex.yy.*
 src/*/*/Makefile
 src/*/*/Makefile.in
 src/*/*/.deps

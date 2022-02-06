@@ -35,7 +35,7 @@ y.tab.cpp y.tab.h: vrel.y
 	mv y.tab.c y.tab.cpp
 
 clean:
-	@-rm vrel *.o y.output y.tab.h # y.tab.cpp lex.yy.cpp
+	@-rm vrel *.o y.output y.tab.h y.tab.cpp lex.yy.cpp
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR)/sys
