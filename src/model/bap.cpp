@@ -243,7 +243,7 @@ uint8_t Bap::parse(char *bapline)
         }
       }
 
-      error("parse fap: num_frame=%s", l);
+      //error("parse fap: num_frame=%s", l);
       num_frame = atoi(l);
 
       for (int i=1; i <= num_params; i++) {

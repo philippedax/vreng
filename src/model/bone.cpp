@@ -556,13 +556,13 @@ BoneMesh::~BoneMesh()
   for (int j=0; j < triangles; j++) delete triangle[j];
 }
 
-void BoneMesh::addVertex(Vect3D & zePosition)
+void BoneMesh::addVertex(Vect3D &zePosition)
 {
   vertexList.addElement(new Vertex(zePosition));
   vertexListCompiled = 0;
 }
 
-void BoneMesh::addVertex(Vect3D * zePosition)
+void BoneMesh::addVertex(Vect3D *zePosition)
 {
   vertexList.addElement(new Vertex(zePosition));
   vertexListCompiled = 0;
@@ -578,7 +578,7 @@ void BoneMesh::addTriangle(int index1, int index2, int index3)
 {
   if (! vertexListCompiled) compileVertexList();
 
-  BoneTriangle * tri = new BoneTriangle();
+  BoneTriangle *tri = new BoneTriangle();
   tri->addVertex(vertex[index1], index1, -1, -1);
   tri->addVertex(vertex[index2], index2, -1, -1);
   tri->addVertex(vertex[index3], index3, -1, -1);
@@ -979,8 +979,9 @@ BoneVertex *BoneVertex::findChild(const char *zeName)
     result = this;
   else {
     int i=0;
-    while ((result == NULL) && (i < children))
+    while ((result == NULL) && (i < children)) {
       result = child[i++]->findChild(zeName);
+    }
   }
   return result;
 }
@@ -1450,7 +1451,7 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
   if (!feof(fp))
     fscanf(fp, "%s", skippedText);
   if (!feof(fp) && strcmp(skippedText, "NULL")) {
-    BoneTriangle * triangle;
+    BoneTriangle *triangle;
     float r,g,b;
     int cpt=0;
 

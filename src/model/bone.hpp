@@ -62,7 +62,7 @@ template <class BoneElem> class BoneNode {
   }
   /**< Constructeur de noeud, initialise tous les pointeurs a NULL */
 
-  BoneNode(BoneNode & node) {
+  BoneNode(BoneNode &node) {
     nextNode = node.nextNode;
     prevNode = node.prevNode;
     element  = node.element;
@@ -72,7 +72,7 @@ template <class BoneElem> class BoneNode {
    * du noeud passe en parametre
    */
 
-  virtual ~BoneNode() {}
+  virtual ~BoneNode() {};
   ///< destructor
 
   // Methodes de remplissage des champs d'un noeud
@@ -281,8 +281,9 @@ template <class BoneElem> class BoneList {
     }
     else { // Autre cas
       currentNode = listHead;
-      while ((currentNode) && (currentNode->getElem() != ptr))
+      while ((currentNode) && (currentNode->getElem() != ptr)) {
         currentNode = currentNode->getNext();
+      }
       if (currentNode) {
         nextNode = currentNode->getNext();
         prevNode = currentNode->getPrev();
@@ -382,32 +383,32 @@ class BoneVertex : public Bonename {
 
   // Construct / destruct
   BoneVertex();
-  BoneVertex(Vect3D & zePosition, float zeAngle, Vect3D & zeAxis);
-  BoneVertex(Vect3D * zePosition, float zeAngle, Vect3D * zeAxis);
+  BoneVertex(Vect3D &zePosition, float zeAngle, Vect3D &zeAxis);
+  BoneVertex(Vect3D *zePosition, float zeAngle, Vect3D *zeAxis);
   virtual ~BoneVertex();
 
   // Accessing initial position datas
-  void setInitialPosition(Vect3D & zePosition);
-  void setInitialPosition(Vect3D * zePosition);
+  void setInitialPosition(Vect3D &zePosition);
+  void setInitialPosition(Vect3D *zePosition);
   void setInitialPosition(float ox, float oy, float oz);
-  void setInitialRotation(float zeAngle, Vect3D & zeAxis);
-  void setInitialRotation(float zeAngle, Vect3D * zeAxis);
+  void setInitialRotation(float zeAngle, Vect3D &zeAxis);
+  void setInitialRotation(float zeAngle, Vect3D *zeAxis);
   void setInitialRotation(float zeAngle, float axisx, float axisy, float axisz);
 
   // Accessing current position datas ( during animation)
-  void setCurrentPosition(Vect3D & zePosition);
-  void setCurrentPosition(Vect3D * zePosition);
+  void setCurrentPosition(Vect3D &zePosition);
+  void setCurrentPosition(Vect3D *zePosition);
   void setCurrentPosition(float ox, float oy, float oz);
-  void setCurrentRotation(float zeAngle, Vect3D & zeAxis);
-  void setCurrentRotation(float zeAngle, Vect3D * zeAxis);
+  void setCurrentRotation(float zeAngle, Vect3D &zeAxis);
+  void setCurrentRotation(float zeAngle, Vect3D *zeAxis);
   void setCurrentRotation(float zeAngle, float axisx, float axisy, float axisz);
 
   // Accessing current position datas ( during animation)
   // with relative values (realtive to initial position)
   void resetCurrentPosition(void);
   void resetCurrentRotation(void);
-  void translateCurrentPosition(Vect3D & delta);
-  void translateCurrentPosition(Vect3D * delta);
+  void translateCurrentPosition(Vect3D &delta);
+  void translateCurrentPosition(Vect3D *delta);
   void translateCurrentPosition(float dx, float dy, float dz);
   void scaleCurrentPosition(float scalex, float scaley, float scalez);
   void scaleCurrentPosition(float scale);
@@ -504,14 +505,14 @@ class Vertex {
 
   // Constructeurs / destructeur
   Vertex();
-  Vertex(Vect3D & zePosition);
-  Vertex(Vect3D * zePosition);
+  Vertex(Vect3D &zePosition);
+  Vertex(Vect3D *zePosition);
   Vertex(float ox, float oy, float oz);
-  virtual ~Vertex() {}
+  virtual ~Vertex() {};
 
   // Acces aux champs
-  void setPosition(Vect3D & zePosition);
-  void setPosition(Vect3D * zePosition);
+  void setPosition(Vect3D &zePosition);
+  void setPosition(Vect3D *zePosition);
 
   // Gestion des liens
   void addLink(BoneLink *zeLink);
@@ -611,8 +612,8 @@ class BoneMesh : public Bonename {
   virtual ~BoneMesh();
 
   // Actions sur les champs
-  virtual void addVertex(Vect3D & zePosition);
-  virtual void addVertex(Vect3D * zePosition);
+  virtual void addVertex(Vect3D &zePosition);
+  virtual void addVertex(Vect3D *zePosition);
   virtual void addVertex(float ox, float oy, float oz);
   virtual void addTriangle(int index1, int index2, int index3);
 
