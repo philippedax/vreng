@@ -54,16 +54,16 @@ Bone::~Bone()
 
 //-----------------
 // Accessing datas
-void Bone::registerMesh(BoneMesh *zeMesh)
+void Bone::registerMesh(BoneMesh *mesh)
 {
-  meshToMove = zeMesh;
-  trace(DBG_MAN, " Registered as movable mesh: [%s]", zeMesh->getName());
+  meshToMove = mesh;
+  trace(DBG_MAN, " Registered as movable mesh: [%s]", mesh->getName());
 }
 
-void Bone::registerSkeleton(BoneVertex *zeRoot)
+void Bone::registerSkeleton(BoneVertex *root)
 {
-  skeleton = zeRoot;
-  trace(DBG_MAN, " Registered as skeleton: [%s]", zeRoot->getName());
+  skeleton = root;
+  trace(DBG_MAN, " Registered as skeleton: [%s]", root->getName());
 }
 
 //--------------------------------------
@@ -93,32 +93,31 @@ void Bone::emptyLinkList()
   for (int i=0; i<links; i++) {
     delete link[i];
   }
-
   linkList.empty();
   compileLinkList();
 }
 
 inline float Bone::getLength(Vertex *vertex, BoneVertex *node)
 {
-  Vect3D nullVector(0., 0., 0.);
+  Vect3D nullVector(0, 0, 0);
   Vect3D nodePosition;
   Vect3D distance;
 
   // First calculate the node's absolute position
   nodePosition = node->initialMatrix * nullVector;
 
-  // Then for eache vertex, try to find the distance to the node
+  // Then for each vertex, find the distance to the node
   distance = nodePosition - vertex->initialPosition;
   return distance.length();
 }
 
 inline void getDistanceFromAndOnBone(Vertex *vertex, BoneVertex *a, BoneVertex *b, float *time, float *dist)
 {
-  Vect3D nullVector(0., 0., 0.);
-  Vect3D aPosition; aPosition = a->initialMatrix * nullVector;
-  Vect3D bPosition; bPosition = b->initialMatrix * nullVector;
-  Vect3D abVector; abVector = bPosition - aPosition;
-  Vect3D paVector; paVector = aPosition - vertex->initialPosition;
+  Vect3D nullvect(0, 0, 0);
+  Vect3D aPosition = a->initialMatrix * nullvect;
+  Vect3D bPosition = b->initialMatrix * nullvect;
+  Vect3D abVector = bPosition - aPosition;
+  Vect3D paVector = aPosition - vertex->initialPosition;
 
   *time = -Vect3D::dotProduct(paVector, abVector) / Vect3D::dotProduct(abVector, abVector);
   *time = CROP(0.0001, *time, 0.9999);
@@ -151,17 +150,17 @@ inline float Bone::getWeight(Vertex *vertex, BoneVertex *node)
   return result;
 }
 
-void normalize(BoneLink **temporaryLink, int temporaryLinks)
+void normalize(BoneLink **tempLink, int tempLinks)
 {
   float totalWeight = 0;
 
-  for (int i=0; i<temporaryLinks; i++)
-    if (temporaryLink[i] != NULL) totalWeight += temporaryLink[i]->weight;
-  for (int i=0; i<temporaryLinks; i++)
-    if (temporaryLink[i] != NULL) temporaryLink[i]->weight /= totalWeight;
+  for (int i=0; i<tempLinks; i++)
+    if (tempLink[i] != NULL) totalWeight += tempLink[i]->weight;
+  for (int i=0; i<tempLinks; i++)
+    if (tempLink[i] != NULL) tempLink[i]->weight /= totalWeight;
 }
 
-// -> Will call the method to generate links and then update the weight
+// Will call the method to generate links and then update the weight
 // and optionally remove unsignificant links (that would speed down the cpu)
 void Bone::generateLinkList()
 {
@@ -202,65 +201,65 @@ void Bone::generateLinkList()
 
   //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
   // Now we'll go throw each vertex of the mesh calculating the weight of this node
-  BoneList <BoneLink> temporaryLinkList;
-  BoneLink **temporaryLink;
+  BoneList <BoneLink> tempLinkList;
+  BoneLink **tempLink;
   BoneLink *temp;
-  int  temporaryLinks;
+  int  tempLinks;
 
-  for (int i=0; i<meshToMove->vertices; i++) {
-    temporaryLinkList.empty();
-    for (int j=0; j<nodes; j++) {
+  for (int i=0; i < meshToMove->vertices; i++) {
+    tempLinkList.empty();
+    for (int j=0; j < nodes; j++) {
       // And create a link between the vertex and the node with an influence
       // proportional to the inverse of the distance ( so far vertices
       // will be less influenced by the node than near vertices )
       temp = new BoneLink(meshToMove->vertex[i], node[j], getWeight(meshToMove->vertex[i], node[j]));
       // We now save this new link in our list
-      temporaryLinkList.addElement(temp);
+      tempLinkList.addElement(temp);
     }
-    temporaryLink = temporaryLinkList.getNiceTable(&temporaryLinks);
+    tempLink = tempLinkList.getNiceTable(&tempLinks);
 
     // Now sorting the links per weight
-    for (int j=1; j<temporaryLinks; j++) {
-      temp = temporaryLink[j];
+    for (int j=1; j < tempLinks; j++) {
+      temp = tempLink[j];
       int k = j;
-      while ((k > 0) && (temporaryLink[k-1]->weight < temp->weight)) {
-	temporaryLink[k] = temporaryLink[k-1];
+      while ((k > 0) && (tempLink[k-1]->weight < temp->weight)) {
+	tempLink[k] = tempLink[k-1];
 	k--;
       }
-      temporaryLink[k] = temp;
+      tempLink[k] = temp;
     }
 
     // Now removing unsignificant links
-    float seuil = 0.3 * temporaryLink[0]->weight;
-    for (int j=0; j<temporaryLinks; j++) {
-      if (temporaryLink[j]->weight < seuil) {
-        delete temporaryLink[j];
-        temporaryLink[j] = NULL;
+    float seuil = 0.3 * tempLink[0]->weight;
+    for (int j=0; j < tempLinks; j++) {
+      if (tempLink[j]->weight < seuil) {
+        delete tempLink[j];
+        tempLink[j] = NULL;
       }
     }
 
     // Record the selected links in the list
-    normalize (temporaryLink, temporaryLinks);
-    for (int j=0; j<temporaryLinks; j++) {
-      if (temporaryLink[j] != NULL)
-        linkList.addElement(temporaryLink[j]);
+    normalize(tempLink, tempLinks);
+    for (int j=0; j < tempLinks; j++) {
+      if (tempLink[j] != NULL)
+        linkList.addElement(tempLink[j]);
     }
   }
 
   // Now that we have all the links, we may compile the link list in here
   compileLinkList();
 
-  for (int i=0; i<links; i++) {
+  for (int i=0; i < links; i++) {
     link[i]->notifyTarget();
   }
-  for (int i=0; i<meshToMove->vertices; i++) {
+  for (int i=0; i < meshToMove->vertices; i++) {
     meshToMove->vertex[i]->compileLinkList();
   }
-  trace(DBG_MAN, "selected links: [%2.2f%%]", (links * 100.) / (meshToMove->vertices * nodes));
+  trace(DBG_MAN, "selected links: [%2.2f%%]", (links*100.) / (meshToMove->vertices * nodes));
 }
 
 // The render part of this file has been written very quickly, for tests only !
-#define __AXIS_SIZE__ 0.5f
+#define __AXIS_SIZE__ 0.15f
 
 // Local coordinate system rendering
 // Origin is white
@@ -454,14 +453,14 @@ inline void Bone::animateSkeletonNode(BoneVertex *node)
   // so we'll dot it
   if (! node->linkListCompiled) node->compileLinkList();
 
-  BoneLink *zeLink;
-  Vertex *zeVertex;
+  BoneLink *link;
+  Vertex *vertex;
   Vect3D tempPos, normal;
 
   // We now look at each link in this node and find the related vertex
   for (int i=0; i < node->links; i++) {
-    zeLink = node->link[i];
-    zeVertex = zeLink->vertex;
+    link = node->link[i];
+    vertex = link->vertex;
 
     // Now that we have M1 ( Initial matrix for this node )
     //                  M2 ( Current matrix for this node )
@@ -472,11 +471,11 @@ inline void Bone::animateSkeletonNode(BoneVertex *node)
     // should have a normalized result (means no scaling here) for all
     // the vertices
 
-    tempPos  = zeVertex->initialPosition;
+    tempPos  = vertex->initialPosition;
     tempPos *= node->initialMatrixInverted;
     tempPos *= node->currentMatrix;
-    tempPos *= zeLink-> weight;
-    zeVertex->currentPosition += tempPos;
+    tempPos *= link-> weight;
+    vertex->currentPosition += tempPos;
   }
 
   // And now, we'll add the other links actions
@@ -500,13 +499,13 @@ void Bone::addNodeAndChildren(BoneVertex *boneVertex, BoneList <BoneVertex> *lis
 
 //---------------------------------------------------------------------------
 
-BoneLink::BoneLink(Vertex *zeVertex, BoneVertex *zeBoneVertex = NULL, float zeWeight = 0.)
+BoneLink::BoneLink(Vertex *_vertex, BoneVertex *_boneVertex = NULL, float _weight = 0.)
 {
   vertex        = NULL;
   boneVertex    = NULL;
-  setVertex(zeVertex);
-  setBoneVertex(zeBoneVertex);
-  setWeight(zeWeight);
+  setVertex(_vertex);
+  setBoneVertex(_boneVertex);
+  setWeight(_weight);
 }
 
 BoneLink::~BoneLink()
@@ -515,16 +514,16 @@ BoneLink::~BoneLink()
   if (boneVertex) boneVertex->removeLink(this);
 }
 
-void BoneLink::setVertex(Vertex *zeVertex)
+void BoneLink::setVertex(Vertex *_vertex)
 {
   if (vertex) vertex->removeLink(this);
-  vertex = zeVertex;
+  vertex = _vertex;
 }
 
-void BoneLink::setBoneVertex(BoneVertex *zeBoneVertex)
+void BoneLink::setBoneVertex(BoneVertex *_boneVertex)
 {
   if (boneVertex) boneVertex->removeLink(this);
-  boneVertex = zeBoneVertex;
+  boneVertex = _boneVertex;
 }
 
 void BoneLink::notifyTarget()
@@ -533,9 +532,9 @@ void BoneLink::notifyTarget()
   if (boneVertex) boneVertex->addLink(this);
 }
 
-void BoneLink::setWeight(float zeWeight)
+void BoneLink::setWeight(float _weight)
 {
-  weight = zeWeight;
+  weight = _weight;
 }
 
 //---------------------------------------------------------------------------
@@ -561,15 +560,15 @@ BoneMesh::~BoneMesh()
   for (int j=0; j < triangles; j++) delete triangle[j];
 }
 
-void BoneMesh::addVertex(Vect3D &zePosition)
+void BoneMesh::addVertex(Vect3D &position)
 {
-  vertexList.addElement(new Vertex(zePosition));
+  vertexList.addElement(new Vertex(position));
   vertexListCompiled = 0;
 }
 
-void BoneMesh::addVertex(Vect3D *zePosition)
+void BoneMesh::addVertex(Vect3D *position)
 {
-  vertexList.addElement(new Vertex(zePosition));
+  vertexList.addElement(new Vertex(position));
   vertexListCompiled = 0;
 }
 
@@ -721,11 +720,11 @@ Bonename::~Bonename()
   name = NULL;
 }
 
-void Bonename::setName(char *zeName)
+void Bonename::setName(char *_name)
 {
   if (name) delete[] name;
-  name = new char[strlen(zeName) + 1];
-  strcpy(name, zeName);
+  name = new char[strlen(_name) + 1];
+  strcpy(name, _name);
 }
 
 char * Bonename::getName()
@@ -756,14 +755,14 @@ BoneVertex::BoneVertex()
   animated = 0;
 }
 
-BoneVertex::BoneVertex(Vect3D & zePosition, float zeAngle, Vect3D & zeAxis)
+BoneVertex::BoneVertex(Vect3D &position, float angle, Vect3D &axis)
 {
-  initialPosition = zePosition;
-  initialAngle    = zeAngle;
-  initialAxis     = zeAxis;
-  currentPosition = zePosition;
-  currentAngle    = zeAngle;
-  currentAxis     = zeAxis;
+  initialPosition = position;
+  initialAngle    = angle;
+  initialAxis     = axis;
+  currentPosition = position;
+  currentAngle    = angle;
+  currentAxis     = axis;
 
   child    = NULL;
   father   = NULL;
@@ -775,14 +774,14 @@ BoneVertex::BoneVertex(Vect3D & zePosition, float zeAngle, Vect3D & zeAxis)
   animated = 0;
 }
 
-BoneVertex::BoneVertex(Vect3D *zePosition, float zeAngle, Vect3D *zeAxis)
+BoneVertex::BoneVertex(Vect3D *position, float angle, Vect3D *axis)
 {
-  initialPosition = *zePosition;
-  initialAngle    =  zeAngle;
-  initialAxis     = *zeAxis;
-  currentPosition = *zePosition;
-  currentAngle    =  zeAngle;
-  currentAxis     = *zeAxis;
+  initialPosition = *position;
+  initialAngle    =  angle;
+  initialAxis     = *axis;
+  currentPosition = *position;
+  currentAngle    =  angle;
+  currentAxis     = *axis;
 
   child    = NULL;
   father   = NULL;
@@ -808,16 +807,16 @@ BoneVertex::~BoneVertex()
 }
 
 // Accessing initial position datas
-void BoneVertex::setInitialPosition(Vect3D &zePosition)
+void BoneVertex::setInitialPosition(Vect3D &position)
 {
-  initialPosition =  zePosition;
-  currentPosition =  zePosition;
+  initialPosition =  position;
+  currentPosition =  position;
 }
 
-void BoneVertex::setInitialPosition(Vect3D *zePosition)
+void BoneVertex::setInitialPosition(Vect3D *position)
 {
-  initialPosition = *zePosition;
-  currentPosition = *zePosition;
+  initialPosition = *position;
+  currentPosition = *position;
 }
 
 void BoneVertex::setInitialPosition(float ox, float oy, float oz)
@@ -826,39 +825,39 @@ void BoneVertex::setInitialPosition(float ox, float oy, float oz)
   currentPosition = Vect3D(ox, oy, oz);
 }
 
-void BoneVertex::setInitialRotation(float zeAngle, Vect3D &zeAxis)
+void BoneVertex::setInitialRotation(float angle, Vect3D &axis)
 {
-  initialAngle    =  zeAngle;
-  initialAxis     =  zeAxis;
-  currentAngle    =  zeAngle;
-  currentAxis     =  zeAxis;
+  initialAngle    =  angle;
+  initialAxis     =  axis;
+  currentAngle    =  angle;
+  currentAxis     =  axis;
 }
 
-void BoneVertex::setInitialRotation(float zeAngle, Vect3D *zeAxis)
+void BoneVertex::setInitialRotation(float angle, Vect3D *axis)
 {
-  initialAngle    =  zeAngle;
-  initialAxis     = *zeAxis;
-  currentAngle    =  zeAngle;
-  currentAxis     = *zeAxis;
+  initialAngle    =  angle;
+  initialAxis     = *axis;
+  currentAngle    =  angle;
+  currentAxis     = *axis;
 }
 
-void BoneVertex::setInitialRotation(float zeAngle, float axisx, float axisy, float axisz)
+void BoneVertex::setInitialRotation(float angle, float axisx, float axisy, float axisz)
 {
-  initialAngle    =  zeAngle;
+  initialAngle    =  angle;
   initialAxis     =  Vect3D(axisx, axisy, axisz);
-  currentAngle    =  zeAngle;
+  currentAngle    =  angle;
   currentAxis     =  Vect3D(axisx, axisy, axisz);
 }
 
 // And... Accessing animation position datas
-void BoneVertex::setCurrentPosition(Vect3D & zePosition)
+void BoneVertex::setCurrentPosition(Vect3D &aosition)
 {
-  currentPosition =  zePosition;
+  currentPosition =  aosition;
 }
 
-void BoneVertex::setCurrentPosition(Vect3D *zePosition)
+void BoneVertex::setCurrentPosition(Vect3D *position)
 {
-  currentPosition = *zePosition;
+  currentPosition = *position;
 }
 
 void BoneVertex::setCurrentPosition(float ox, float oy, float oz)
@@ -866,21 +865,21 @@ void BoneVertex::setCurrentPosition(float ox, float oy, float oz)
   currentPosition =  Vect3D(ox, oy, oz);
 }
 
-void BoneVertex::setCurrentRotation(float zeAngle, Vect3D &zeAxis)
+void BoneVertex::setCurrentRotation(float angle, Vect3D &axis)
 {
-  currentAngle    =  zeAngle;
-  currentAxis     =  zeAxis;
+  currentAngle    =  angle;
+  currentAxis     =  axis;
 }
 
-void BoneVertex::setCurrentRotation(float zeAngle, Vect3D *zeAxis)
+void BoneVertex::setCurrentRotation(float angle, Vect3D *axis)
 {
-  currentAngle    =  zeAngle;
-  currentAxis     = *zeAxis;
+  currentAngle    =  angle;
+  currentAxis     = *axis;
 }
 
-void BoneVertex::setCurrentRotation(float zeAngle, float axisx, float axisy, float axisz)
+void BoneVertex::setCurrentRotation(float angle, float axisx, float axisy, float axisz)
 {
-  currentAngle    =  zeAngle;
+  currentAngle    =  angle;
   currentAxis     =  Vect3D(axisx, axisy, axisz);
 }
 
@@ -944,9 +943,9 @@ void BoneVertex::scale(float sx, float sy, float sz)
 }
 
 // Updating the father of this boneVertex
-void BoneVertex::setFather(BoneVertex *zeFather)
+void BoneVertex::setFather(BoneVertex *_father)
 {
-  father = zeFather;
+  father = _father;
 }
 
 // Adding children
@@ -958,9 +957,9 @@ void BoneVertex::addChild(BoneVertex *newChild)
 }
 
 // Removing a child and its children
-void BoneVertex::removeChild(const char *zeName)
+void BoneVertex::removeChild(const char *name)
 {
-  BoneVertex *tmp = findChild(zeName);
+  BoneVertex *tmp = findChild(name);
   if (tmp == NULL) return;
   if (tmp == this) return;
 
@@ -970,34 +969,34 @@ void BoneVertex::removeChild(const char *zeName)
 }
 
 // Finding a boneVertex in the tree using its name
-BoneVertex *BoneVertex::findChild(const char *zeName)
+BoneVertex *BoneVertex::findChild(const char *name)
 {
   BoneVertex *result = NULL;
 
   if (! childListCompiled) compileChildList();
 
-  if (strcmp(zeName, getName()) == 0)
+  if (strcmp(name, getName()) == 0)
     result = this;
   else {
     int i=0;
     while ((result == NULL) && (i < children)) {
-      result = child[i++]->findChild(zeName);
+      result = child[i++]->findChild(name);
     }
   }
   return result;
 }
 
 // Adding a link
-void BoneVertex::addLink(BoneLink *zeLink)
+void BoneVertex::addLink(BoneLink *link)
 {
-  linkList.addElement(zeLink);
+  linkList.addElement(link);
   linkListCompiled = 0;
 }
 
 // Removing a link
-void BoneVertex::removeLink(BoneLink *zeLink)
+void BoneVertex::removeLink(BoneLink *link)
 {
-  linkList.removeElement(zeLink);
+  linkList.removeElement(link);
   linkListCompiled = 0;
 }
 
@@ -1162,17 +1161,17 @@ Vertex::Vertex()
   defaults();
 }
 
-Vertex::Vertex(Vect3D &zePosition)
+Vertex::Vertex(Vect3D &position)
 {
-  initialPosition = zePosition;
-  currentPosition = zePosition;
+  initialPosition = position;
+  currentPosition = position;
   defaults();
 }
 
-Vertex::Vertex(Vect3D *zePosition)
+Vertex::Vertex(Vect3D *position)
 {
-  initialPosition = *zePosition;
-  currentPosition = *zePosition;
+  initialPosition = *position;
+  currentPosition = *position;
   defaults();
 }
 
@@ -1194,27 +1193,27 @@ void Vertex::defaults()
   v = -1.;
 }
 
-void Vertex::setPosition(Vect3D &zePosition)
+void Vertex::setPosition(Vect3D &position)
 {
-  initialPosition =  zePosition;
-  currentPosition =  zePosition;
+  initialPosition =  position;
+  currentPosition =  position;
 }
 
-void Vertex::setPosition(Vect3D *zePosition)
+void Vertex::setPosition(Vect3D *position)
 {
-  initialPosition = *zePosition;
-  currentPosition = *zePosition;
+  initialPosition = *position;
+  currentPosition = *position;
 }
 
-void Vertex::addLink(BoneLink *zeLink)
+void Vertex::addLink(BoneLink *link)
 {
-  linkList.addElement(zeLink);
+  linkList.addElement(link);
   linkListCompiled = 0;
 }
 
-void Vertex::removeLink(BoneLink *zeLink)
+void Vertex::removeLink(BoneLink *link)
 {
-  linkList.removeElement(zeLink);
+  linkList.removeElement(link);
   linkListCompiled = 0;
 }
 
