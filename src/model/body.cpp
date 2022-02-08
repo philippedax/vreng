@@ -972,8 +972,10 @@ void Body::display()
      jpTN(LOWER_NECK);
      display(NECK);
      // Head
-     if (! face)
+     if (! face) {
+       //error("head render");
        display(HEAD);
+     }
 
      // Upper Neck
      glPushMatrix();	//  Upper Neck -> Head (cervical level 1)
@@ -985,6 +987,7 @@ void Body::display()
         glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
         glTranslatef(0, 0.9, -0.9);
         glRotatef(90, 1,0,0);
+        //error("face render");
         face->render();	// YR
       }
       jpTP(UPPER_NECK);

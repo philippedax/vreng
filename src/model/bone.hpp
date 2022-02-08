@@ -564,21 +564,18 @@ class BoneTriangle {
   Vertex * vertex3; float u3, v3; int index3;
   Vect3D initialNormal;
   Vect3D currentNormal;
-  float colorRed, colorGreen, colorBlue, colorAlpha; // Initial colors
-  float finalRed, finalGreen, finalBlue, finalAlpha; // Projected colors
+  float r, g, b, a; // Initial colors
+  float R, G, B, A; // Projected colors
 
   // Construct / destruct
   BoneTriangle();
-
   virtual ~BoneTriangle();
 
   // Accessing datas
-  //void addVertex(Vertex *zeVertex, int index, float u=-1, float v=-1);
-  virtual void addVertex(Vertex *zeVertex, int index, float u, float v);
+  virtual void addVertex(Vertex *vertex, int index, float u, float v);
 
   void rebuildNormal();
 
-  //virtual void setColor(float r=0.5, float g=0.5, float b=0.5, float a=1);
   virtual void setColor(float r, float g, float b, float a);
 };
 

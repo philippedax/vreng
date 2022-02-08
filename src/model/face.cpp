@@ -304,14 +304,15 @@ void Face::animLip(float angle, const char *_side)
   BoneVertex *bone;
 
   if ((bone = root->findChild(lipsRoot)) != NULL) {
-    Vect3D smileDelta(0, cos(angle/ 10.0) / 4., 0);
+    Vect3D delta(0, cos(angle/ 10.0) / 4., 0);
     float smile = cos(angle / 10.0) * 20;
 
-    trace(DBG_MAN, "animLip: angle=%.2f smile=%.2f", angle, smile);
     if ((bone = root->findChild(_side)) != NULL) {
+    trace(DBG_FORCE, "animLip: angle=%.1f delta=%.1f smile=%.1f", angle, delta.y, smile);
       bone->resetCurrentPosition();
-      bone->translateCurrentPosition(smileDelta);
-      bone->setCurrentRotation(smile, 0,0,1);
+      bone->translateCurrentPosition(delta);
+      //dax bone->setCurrentRotation(smile, 0,0,1);
+      bone->setCurrentRotation(angle, 0,0,1);
     }
   }
   else
@@ -320,6 +321,9 @@ void Face::animLip(float angle, const char *_side)
 
 void Face::animate(int fapn, int a)
 {
+  //render(); return; //dax to cancel!!!
+
+  //error("fap: %d %d", fapn, a);
   switch (fapn) {
 
   case VISEME:			// 1

@@ -186,15 +186,14 @@ void Bone::generateLinkList()
   // If the mesh has not compiled hos vertices list, we'll do it
   if (! meshToMove->vertexListCompiled) meshToMove->compileVertexList();
 
-  // First, we need to generate the initial matrices for
-  // all the nodes of the skeleton
+  // First, we need to generate the initial matrices for all the nodes of the skeleton
   glPushMatrix();
    glLoadIdentity();
    skeleton->generateInitialMatrix();
   glPopMatrix();
 
   //--- We'll store the skeleton nodes into a list
-  BoneList < BoneVertex > nodeList;
+  BoneList <BoneVertex> nodeList;
   BoneVertex **node;
   int nodes;
 
@@ -202,9 +201,8 @@ void Bone::generateLinkList()
   node = nodeList.getNiceTable(&nodes);
 
   //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  // Now we'll go throw each vertex of the mesh calculating
-  // the weight of this node
-  BoneList < BoneLink > temporaryLinkList;
+  // Now we'll go throw each vertex of the mesh calculating the weight of this node
+  BoneList <BoneLink> temporaryLinkList;
   BoneLink **temporaryLink;
   BoneLink *temp;
   int  temporaryLinks;
@@ -235,14 +233,18 @@ void Bone::generateLinkList()
     // Now removing unsignificant links
     float seuil = 0.3 * temporaryLink[0]->weight;
     for (int j=0; j<temporaryLinks; j++) {
-      if (temporaryLink[j]->weight < seuil)
-        { delete temporaryLink[j]; temporaryLink[j] = NULL; }
+      if (temporaryLink[j]->weight < seuil) {
+        delete temporaryLink[j];
+        temporaryLink[j] = NULL;
+      }
     }
 
     // Record the selected links in the list
     normalize (temporaryLink, temporaryLinks);
-    for (int j=0; j<temporaryLinks; j++)
-      if (temporaryLink[j] != NULL) linkList.addElement(temporaryLink[j]);
+    for (int j=0; j<temporaryLinks; j++) {
+      if (temporaryLink[j] != NULL)
+        linkList.addElement(temporaryLink[j]);
+    }
   }
 
   // Now that we have all the links, we may compile the link list in here
@@ -251,8 +253,9 @@ void Bone::generateLinkList()
   for (int i=0; i<links; i++) {
     link[i]->notifyTarget();
   }
-  for (int i=0; i<meshToMove->vertices; i++) meshToMove->vertex[i]->compileLinkList();
-
+  for (int i=0; i<meshToMove->vertices; i++) {
+    meshToMove->vertex[i]->compileLinkList();
+  }
   trace(DBG_MAN, "selected links: [%2.2f%%]", (links * 100.) / (meshToMove->vertices * nodes));
 }
 
@@ -268,19 +271,18 @@ void renderLocalCoordinate1() // This is for unselected node
 {
   glColor3f(1, 1, 1);
   glBegin(GL_POINTS);
-   glVertex3f(0,0,0);
+   glVertex3f(0,0,0);			// O
   glEnd();
-
   glBegin(GL_LINES);
-   glColor3f(1, 0, 0);
+   glColor3f(1, 0, 0);			// red
    glVertex3f(0, 0, 0);
-   glVertex3f(__AXIS_SIZE__, 0, 0);
-   glColor3f(0, 1, 0);
+   glVertex3f(__AXIS_SIZE__, 0, 0);	// X
+   glColor3f(0, 1, 0);			// green
    glVertex3f(0, 0, 0);
-   glVertex3f(0, __AXIS_SIZE__, 0);
-   glColor3f(0, 0, 1);
+   glVertex3f(0, __AXIS_SIZE__, 0);	// Y
+   glColor3f(0, 0, 1);			// blue
    glVertex3f(0, 0, 0);
-   glVertex3f(0, 0, __AXIS_SIZE__);
+   glVertex3f(0, 0, __AXIS_SIZE__);	// Z
   glEnd();
 }
 
@@ -288,28 +290,27 @@ void renderLocalCoordinate2() // This is for selected node
 {
   glColor3f(1, 1, 1);
   glBegin(GL_POINTS);
-   glVertex3f(0,0,0);
+   glVertex3f(0,0,0);			// O
   glEnd();
-
   glBegin(GL_LINES);
-   glColor3f(1, 1, 0);
+   glColor3f(1, 1, 0);			// yellow
    glVertex3f(0, 0, 0);
-   glVertex3f(__AXIS_SIZE__, 0, 0);
-   glColor3f(0, 1, 1);
+   glVertex3f(__AXIS_SIZE__, 0, 0);	// X
+   glColor3f(0, 1, 1);			// cyan
    glVertex3f(0, 0, 0);
-   glVertex3f(0, __AXIS_SIZE__, 0);
-   glColor3f(1, 0, 1);
+   glVertex3f(0, __AXIS_SIZE__, 0);	// Y
+   glColor3f(1, 0, 1);			// magenta
    glVertex3f(0, 0, 0);
-   glVertex3f(0, 0, __AXIS_SIZE__);
+   glVertex3f(0, 0, __AXIS_SIZE__);	// Z
   glEnd();
 }
 
 void renderOneBone(BoneVertex *node)
 {
   if (node->father != NULL) {
-    Vect3D nullVector(0,0,0);
-    Vect3D fPos; fPos = node->father->currentMatrix * nullVector;
-    Vect3D tPos; tPos = node->        currentMatrix * nullVector;
+    Vect3D nullvect(0,0,0);
+    Vect3D fPos = node->father->currentMatrix * nullvect;
+    Vect3D tPos = node->currentMatrix * nullvect;
 
     glVertex3f(fPos.x, fPos.y, fPos.z);
     glVertex3f(tPos.x, tPos.y, tPos.z);
@@ -322,9 +323,10 @@ void renderOneBone(BoneVertex *node)
 // Main rendering method, will draw the skeleton and the mesh
 void Bone::render()
 {
-#if 0 //dax
+#if 1 //dax
   // First we draw the skeleton with local coordinates
-  if (axisRendering) {
+  //dax if (axisRendering) {
+  if (0) {
     glPointSize(5.0);
     glDisable(GL_LIGHTING);
     glDisable(GL_COLOR_MATERIAL);
@@ -336,6 +338,7 @@ void Bone::render()
     glEnd();
   }
 #endif
+  //error("bone render");
 
   // Now, we'll render the 3d mesh on the screen
   if (! meshToMove->triangleListCompiled) {
@@ -348,13 +351,13 @@ void Bone::render()
   Vect3D *normal;
 
   glColor3f(0.7, 0.7, 0.8);
-  // glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+  //dax glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
   glEnable(GL_LIGHTING);
   glEnable(GL_COLOR_MATERIAL);
   glColorMaterial(GL_FRONT, GL_DIFFUSE);
-  //tex glEnable(GL_TEXTURE_2D);
-  //tex glDisable(GL_COLOR_MATERIAL);
+  glEnable(GL_TEXTURE_2D);
+  //dax glDisable(GL_COLOR_MATERIAL);	// bad effect members disappeared
   glBegin(GL_TRIANGLES);
 
   for (int j=0; j < meshToMove->triangles; j++) {
@@ -362,8 +365,8 @@ void Bone::render()
     v1 = &triangle->vertex1->currentPosition;
     v2 = &triangle->vertex2->currentPosition;
     v3 = &triangle->vertex3->currentPosition;
-    glColor3f(triangle->finalRed, triangle->finalGreen, triangle->finalBlue);
-    glColor3f(triangle->colorRed, triangle->colorGreen, triangle->colorBlue);
+    glColor3f(triangle->R, triangle->G, triangle->B);
+    glColor3f(triangle->r, triangle->g, triangle->b);
     normal = &triangle->initialNormal;
 
     n1 = &triangle->vertex1->currentNormal;
@@ -371,13 +374,13 @@ void Bone::render()
     n3 = &triangle->vertex3->currentNormal;
 
     glNormal3f(normal->x, normal->y, normal->z);
-    //tex glTexCoord2f(triangle->u1, triangle->v1);
+    glTexCoord2f(triangle->u1, triangle->v1);
     glNormal3f(n1->x, n1->y, n1->z);
     glVertex3f(v1->x, v1->y, v1->z);
-    //tex glTexCoord2f(triangle->u2, triangle->v2);
+    glTexCoord2f(triangle->u2, triangle->v2);
     glNormal3f(n2->x, n2->y, n2->z);
     glVertex3f(v2->x, v2->y, v2->z);
-    //tex glTexCoord2f(triangle->u3, triangle->v3);
+    glTexCoord2f(triangle->u3, triangle->v3);
     glNormal3f(n3->x, n3->y, n3->z);
     glVertex3f(v3->x, v3->y, v3->z);
   }
@@ -388,15 +391,17 @@ void Bone::render()
 // Recursive part of rendering the skeleton
 void Bone::renderSkeletonNode(BoneVertex *node)
 {
-#if 0 //dax
+#if 1 //dax
   if (selectedNodeName == NULL) return;
 
   glPushMatrix();
   glTranslatef(node->currentPosition.x, node->currentPosition.y, node->currentPosition.z);
   glRotatef(node->currentAngle, node->currentAxis.x, node->currentAxis.y, node->currentAxis.z);
 
-  if (! strcmp(selectedNodeName, node->name)) renderLocalCoordinate2();
-  else                                        renderLocalCoordinate1();
+  if (! strcmp(selectedNodeName, node->name))
+    renderLocalCoordinate2();
+  else
+    renderLocalCoordinate1();
 
   // Look at the children of this node
   for (int i=0; i < node->children; i++) {
@@ -461,7 +466,7 @@ inline void Bone::animateSkeletonNode(BoneVertex *node)
     // Now that we have M1 ( Initial matrix for this node )
     //                  M2 ( Current matrix for this node )
     //              and  w ( Weight of this link for the vertex )
-    // We increase newPosition as follozs :
+    // We increase newPosition as follows :
     //    newPosition += w . M2 . M1-1 . initialPosition
     // Since the weight are normalized to 100% [0.0f .. 1.0f], we
     // should have a normalized result (means no scaling here) for all
@@ -482,7 +487,7 @@ inline void Bone::animateSkeletonNode(BoneVertex *node)
 
 //-----------------
 // Private methods
-void Bone::addNodeAndChildren(BoneVertex *boneVertex, BoneList < BoneVertex > *list)
+void Bone::addNodeAndChildren(BoneVertex *boneVertex, BoneList <BoneVertex> *list)
 {
   if (! boneVertex->childListCompiled) boneVertex->compileChildList();
 
@@ -609,18 +614,15 @@ void BoneMesh::rebuildNormals()
   for (int i=0; i < vertices; i++) {
     vertex[i]->initialNormal.reset();
   }
-
   for (int i=0; i < triangles; i++) {
     triangle[i]->rebuildNormal();
     triangle[i]->vertex1->initialNormal += triangle[i]->initialNormal;
     triangle[i]->vertex2->initialNormal += triangle[i]->initialNormal;
     triangle[i]->vertex3->initialNormal += triangle[i]->initialNormal;
   }
-
   for (int i=0; i < vertices; i++) {
     vertex[i]->initialNormal.normalize();
   }
-
   projectLight();
 }
 
@@ -628,29 +630,28 @@ void BoneMesh::projectLight()
 {
   if (! triangleListCompiled) compileTriangleList();
 
-  Vect3D lightDirection(0,0,1);
-  Vect3D lightDiffuse(1,1,1);
-  Vect3D lightSpecular(1,1,1);
+  Vect3D lightdir(0,0,1);
+  Vect3D lightdiff(1,1,1);
+  Vect3D lightspec(1,1,1);
 
   for (int i=0; i < triangles; i++) {
-    Vect3D mat(triangle[i]->colorRed, triangle[i]->colorGreen, triangle[i]->colorBlue);
-    float cosine = Vect3D::dotProduct(lightDirection, triangle[i]->initialNormal);
+    Vect3D mat(triangle[i]->r, triangle[i]->g, triangle[i]->b);
+    float cosine = Vect3D::dotProduct(lightdir, triangle[i]->initialNormal);
     cosine = CROP(-1, cosine, 1);
     if (cosine > 0) {
-      float cosPower = 64;
-      float cosinePower = pow(cosine, cosPower);
-      mat.x *= lightDiffuse.x * cosine + lightSpecular.x * cosinePower;
-      mat.y *= lightDiffuse.y * cosine + lightSpecular.y * cosinePower;
-      mat.z *= lightDiffuse.z * cosine + lightSpecular.z * cosinePower;
+      float power = pow(cosine, 64);
+      mat.x *= lightdiff.x * cosine + lightspec.x * power;
+      mat.y *= lightdiff.y * cosine + lightspec.y * power;
+      mat.z *= lightdiff.z * cosine + lightspec.z * power;
       if (mat.x > 1) mat.x = 1;
       if (mat.y > 1) mat.y = 1;
       if (mat.z > 1) mat.z = 1;
     }
     else mat.reset();
 
-    triangle[i]->finalRed   = mat.x;
-    triangle[i]->finalGreen = mat.y;
-    triangle[i]->finalBlue  = mat.z;
+    triangle[i]->R = mat.x;
+    triangle[i]->G = mat.y;
+    triangle[i]->B = mat.z;
   }
 }
 
@@ -1239,40 +1240,44 @@ BoneTriangle::BoneTriangle()
 BoneTriangle::~BoneTriangle() {}
 
 // Accessing datas
-void BoneTriangle::addVertex(Vertex *zeVertex, int index, float u=-1, float v=-1)
+void BoneTriangle::addVertex(Vertex *vertex, int index, float u, float v)
 {
   if (( u == -1 ) && ( v == -1 )) {
-     u = zeVertex -> initialPosition.x / 3.0f;
-     v = zeVertex -> initialPosition.y / 3.0f;
+     u = vertex->initialPosition.x / 3.0;
+     v = vertex->initialPosition.y / 3.0;
   }
   if (vertex1 == NULL) {
-    vertex1 = zeVertex; index1 = index; u1 = u; v1 = v;
+    vertex1 = vertex;
+    index1 = index;
+    u1 = u; v1 = v;
   }
   else if (vertex2 == NULL) {
-    vertex2 = zeVertex; index2 = index; u2 = u; v2 = v;
+    vertex2 = vertex;
+    index2 = index;
+    u2 = u; v2 = v;
   }
   else if (vertex3 == NULL) {
-    vertex3 = zeVertex; index3 = index; u3 = u; v3 = v;
+    vertex3 = vertex;
+    index3 = index;
+    u3 = u; v3 = v;
   }
 }
 
 void BoneTriangle::rebuildNormal()
 {
-  Vect3D edge1;
-  Vect3D edge2;
-  edge1 = vertex1->initialPosition - vertex2->initialPosition;
-  edge2 = vertex1->initialPosition - vertex3->initialPosition;
+  Vect3D edge1 = vertex1->initialPosition - vertex2->initialPosition;
+  Vect3D edge2 = vertex1->initialPosition - vertex3->initialPosition;
   initialNormal.crossProduct(edge1, edge2);
   initialNormal.normalize();
   currentNormal = initialNormal;
 }
 
-void BoneTriangle::setColor(float r=0.5, float g=0.5, float b=0.5, float a=1)
+void BoneTriangle::setColor(float _r, float _g, float _b, float _a)
 {
-  colorRed   = finalRed   = r;
-  colorGreen = finalGreen = g;
-  colorBlue  = finalBlue  = b;
-  colorAlpha = finalAlpha = a;
+  r = R = _r;
+  g = G = _g;
+  b = B = _b;
+  a = A = _a;
 }
 
 //---------------------------------------------------------------------------
@@ -1373,10 +1378,10 @@ void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filena
     writeInt(fp, index2);
     writeInt(fp, index3);
     // Writing triangle color
-    writeFloat(fp, outMesh->triangle[i]->colorRed);
-    writeFloat(fp, outMesh->triangle[i]->colorGreen);
-    writeFloat(fp, outMesh->triangle[i]->colorBlue);
-    writeFloat(fp, outMesh->triangle[i]->colorAlpha);
+    writeFloat(fp, outMesh->triangle[i]->r);
+    writeFloat(fp, outMesh->triangle[i]->g);
+    writeFloat(fp, outMesh->triangle[i]->b);
+    writeFloat(fp, outMesh->triangle[i]->a);
     // Writing triangle texture coordinates
     writeFloat(fp, outMesh->triangle[i]->u1);
     writeFloat(fp, outMesh->triangle[i]->v1);
