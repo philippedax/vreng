@@ -396,32 +396,32 @@ class BoneVertex : public Bonename {
   void setInitialRotation(float zeAngle, float axisx, float axisy, float axisz);
 
   // Accessing current position datas ( during animation)
-  void setCurrentPosition(Vect3D &zePosition);
-  void setCurrentPosition(Vect3D *zePosition);
-  void setCurrentPosition(float ox, float oy, float oz);
-  void setCurrentRotation(float zeAngle, Vect3D &zeAxis);
-  void setCurrentRotation(float zeAngle, Vect3D *zeAxis);
-  void setCurrentRotation(float zeAngle, float axisx, float axisy, float axisz);
+  void setPos(Vect3D &zePosition);
+  void setPos(Vect3D *zePosition);
+  void setPos(float ox, float oy, float oz);
+  void setRot(float zeAngle, Vect3D &zeAxis);
+  void setRot(float zeAngle, Vect3D *zeAxis);
+  void setRot(float zeAngle, float axisx, float axisy, float axisz);
 
   // Accessing current position datas ( during animation)
   // with relative values (realtive to initial position)
-  void resetCurrentPosition(void);
-  void resetCurrentRotation(void);
-  void translateCurrentPosition(Vect3D &delta);
-  void translateCurrentPosition(Vect3D *delta);
-  void translateCurrentPosition(float dx, float dy, float dz);
-  void scaleCurrentPosition(float scalex, float scaley, float scalez);
-  void scaleCurrentPosition(float scale);
+  void resetPos(void);
+  void resetRot(void);
+  void setTrans(Vect3D &delta);
+  void setTrans(Vect3D *delta);
+  void setTrans(float dx, float dy, float dz);
+  void setScale(float scalex, float scaley, float scalez);
+  void setScale(float scale);
 
   // Actions on this node and its children
   // Those actions are definitives
   void scale(float sx, float sy, float sz);
 
   // Children list managing
-  void setFather(BoneVertex *zeFather);
-  void addChild(BoneVertex *newChild);
-  void removeChild(const char *zeName);
-  BoneVertex *findChild(const char *zeName);
+  void setBone(BoneVertex *father);
+  void addBone(BoneVertex *newChild);
+  void removeBone(const char *name);
+  BoneVertex *findBone(const char *name);
 
   // Link list managing
   void addLink(BoneLink *zeLink);

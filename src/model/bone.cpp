@@ -99,15 +99,15 @@ void Bone::emptyLinkList()
 
 inline float Bone::getLength(Vertex *vertex, BoneVertex *node)
 {
-  Vect3D nullVector(0, 0, 0);
-  Vect3D nodePosition;
+  Vect3D nullvect(0, 0, 0);
+  Vect3D nodepos;
   Vect3D distance;
 
   // First calculate the node's absolute position
-  nodePosition = node->initialMatrix * nullVector;
+  nodepos = node->initialMatrix * nullvect;
 
   // Then for each vertex, find the distance to the node
-  distance = nodePosition - vertex->initialPosition;
+  distance = nodepos - vertex->initialPosition;
   return distance.length();
 }
 
@@ -169,13 +169,13 @@ void Bone::generateLinkList()
   if ( skeleton  == NULL) return; // To avoid NULL pointer exception
 
   BoneVertex *tempNode;
-  tempNode = skeleton->findChild("root");
+  tempNode = skeleton->findBone("root");
   if (tempNode != NULL)
     tempNode->influenceScaleFactor = 10.;
-  tempNode = skeleton->findChild("lipsRoot");
+  tempNode = skeleton->findBone("lipsRoot");
   if (tempNode != NULL)
     tempNode->influenceScaleFactor = 10.;
-  tempNode = skeleton->findChild("frontRoot");
+  tempNode = skeleton->findBone("frontRoot");
   if (tempNode != NULL)
     tempNode->influenceScaleFactor = 10.;
 
@@ -850,34 +850,34 @@ void BoneVertex::setInitialRotation(float angle, float axisx, float axisy, float
 }
 
 // And... Accessing animation position datas
-void BoneVertex::setCurrentPosition(Vect3D &aosition)
+void BoneVertex::setPos(Vect3D &position)
 {
-  currentPosition =  aosition;
+  currentPosition =  position;
 }
 
-void BoneVertex::setCurrentPosition(Vect3D *position)
+void BoneVertex::setPos(Vect3D *position)
 {
   currentPosition = *position;
 }
 
-void BoneVertex::setCurrentPosition(float ox, float oy, float oz)
+void BoneVertex::setPos(float ox, float oy, float oz)
 {
-  currentPosition =  Vect3D(ox, oy, oz);
+  currentPosition = Vect3D(ox, oy, oz);
 }
 
-void BoneVertex::setCurrentRotation(float angle, Vect3D &axis)
+void BoneVertex::setRot(float angle, Vect3D &axis)
 {
   currentAngle    =  angle;
   currentAxis     =  axis;
 }
 
-void BoneVertex::setCurrentRotation(float angle, Vect3D *axis)
+void BoneVertex::setRot(float angle, Vect3D *axis)
 {
   currentAngle    =  angle;
   currentAxis     = *axis;
 }
 
-void BoneVertex::setCurrentRotation(float angle, float axisx, float axisy, float axisz)
+void BoneVertex::setRot(float angle, float axisx, float axisy, float axisz)
 {
   currentAngle    =  angle;
   currentAxis     =  Vect3D(axisx, axisy, axisz);
@@ -885,42 +885,42 @@ void BoneVertex::setCurrentRotation(float angle, float axisx, float axisy, float
 
 // Accessing current position datas (during animation)
 // with relative values (realtive to initial position)
-void BoneVertex::resetCurrentPosition()
+void BoneVertex::resetPos()
 {
   currentPosition = initialPosition;
 }
 
-void BoneVertex::resetCurrentRotation()
+void BoneVertex::resetRot()
 {
   currentAngle = initialAngle;
   currentAxis  = initialAxis;
 }
 
-void BoneVertex::translateCurrentPosition(Vect3D &delta)
+void BoneVertex::setTrans(Vect3D &delta)
 {
   currentPosition = currentPosition + delta;
 }
 
-void BoneVertex::translateCurrentPosition(Vect3D *delta)
+void BoneVertex::setTrans(Vect3D *delta)
 {
   currentPosition = currentPosition + *delta;
 }
 
-void BoneVertex::translateCurrentPosition(float dx, float dy, float dz)
+void BoneVertex::setTrans(float dx, float dy, float dz)
 {
   currentPosition.x += dx;
   currentPosition.y += dy;
   currentPosition.z += dz;
 }
 
-void BoneVertex::scaleCurrentPosition(float scalex, float scaley, float scalez)
+void BoneVertex::setScale(float scalex, float scaley, float scalez)
 {
   currentPosition.x *= scalex;
   currentPosition.y *= scaley;
   currentPosition.z *= scalez;
 }
 
-void BoneVertex::scaleCurrentPosition(float scale)
+void BoneVertex::setScale(float scale)
 {
   currentPosition = currentPosition * scale;
 }
@@ -943,23 +943,23 @@ void BoneVertex::scale(float sx, float sy, float sz)
 }
 
 // Updating the father of this boneVertex
-void BoneVertex::setFather(BoneVertex *_father)
+void BoneVertex::setBone(BoneVertex *_father)
 {
   father = _father;
 }
 
 // Adding children
-void BoneVertex::addChild(BoneVertex *newChild)
+void BoneVertex::addBone(BoneVertex *child)
 {
-  childList.addElement(newChild);
-  newChild->setFather(this);
+  childList.addElement(child);
+  child->setBone(this);
   childListCompiled = 0;
 }
 
 // Removing a child and its children
-void BoneVertex::removeChild(const char *name)
+void BoneVertex::removeBone(const char *name)
 {
-  BoneVertex *tmp = findChild(name);
+  BoneVertex *tmp = findBone(name);
   if (tmp == NULL) return;
   if (tmp == this) return;
 
@@ -969,7 +969,7 @@ void BoneVertex::removeChild(const char *name)
 }
 
 // Finding a boneVertex in the tree using its name
-BoneVertex *BoneVertex::findChild(const char *name)
+BoneVertex *BoneVertex::findBone(const char *name)
 {
   BoneVertex *result = NULL;
 
@@ -980,7 +980,7 @@ BoneVertex *BoneVertex::findChild(const char *name)
   else {
     int i=0;
     while ((result == NULL) && (i < children)) {
-      result = child[i++]->findChild(name);
+      result = child[i++]->findBone(name);
     }
   }
   return result;
@@ -1149,7 +1149,7 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
   int cpt = readInt(fp); // Number of children
   for (int i=0; i<cpt; i++) {
     BoneVertex *tmp = new BoneVertex();
-    addChild(tmp);
+    addBone(tmp);
     tmp->readFromFile(fp);
   }
 
