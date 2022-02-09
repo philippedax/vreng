@@ -89,15 +89,15 @@ template <class BoneElem> class BoneNode {
   inline BoneNode *getNext (void) { return nextNode; }
   inline BoneNode *getPrev (void) { return prevNode; }
   inline BoneElem *getElem (void) { return element;  } // FIXME! segfault
- };
+};
 
 
 /**
  * BoneList class
  *
  * Class BoneList:
- * la classe liste est la classe principale de gestion de la liste chainee.
- * Il stocke les noeuds contenant les pointeurs sur elements a la queu leu leu
+ * classe principale de gestion de la liste chainee.
+ * Stocke les noeuds contenant les pointeurs sur elements a la queu leu leu
  * en commencant par 'listHead'
  * Methodes : void  empty (void)
  *            int   count (void)
@@ -320,7 +320,7 @@ class Bonename {
 
   virtual ~Bonename();
 
-  virtual void setName(char *zeName);
+  virtual void setName(char *name);
 
   virtual char *getName();
 };
@@ -353,7 +353,7 @@ class BoneVertex : public Bonename {
   Vect3D currentAxis;
 
   // -> Children management
-  BoneList < BoneVertex > childList;
+  BoneList <BoneVertex> childList;
   BoneVertex **child;
   BoneVertex *father;
   int children;
@@ -361,7 +361,7 @@ class BoneVertex : public Bonename {
 
   // -> Links management
   // (a link is defined by a bone vertex, a vertex of the mesh and a weight)
-  BoneList < BoneLink > linkList;
+  BoneList <BoneLink> linkList;
   BoneLink **link;
   int links;
   int linkListCompiled;
@@ -439,8 +439,8 @@ class BoneVertex : public Bonename {
 };
 
 //---------------------------------------------------------------------------
-
 // Reading part
+
 inline char readChar(FILE *in)
 {
   return fgetc(in);
@@ -523,7 +523,6 @@ class Vertex {
 
 private:
   void defaults();
-
 };
 
 //---------------------------------------------------------------------------
@@ -547,7 +546,6 @@ public:
   virtual void setBoneVertex(BoneVertex *zeBoneVertex);
   virtual void notifyTarget();
   virtual void setWeight(float zeWeight);
-
 };
 
 //---------------------------------------------------------------------------
@@ -559,9 +557,9 @@ class BoneTriangle {
  public:
 
   // Datas for the triangle class
-  Vertex * vertex1; float u1, v1; int index1;
-  Vertex * vertex2; float u2, v2; int index2;
-  Vertex * vertex3; float u3, v3; int index3;
+  Vertex *vertex1; float u1, v1; int index1;
+  Vertex *vertex2; float u2, v2; int index2;
+  Vertex *vertex3; float u3, v3; int index3;
   Vect3D initialNormal;
   Vect3D currentNormal;
   float r, g, b, a; // Initial colors
@@ -622,7 +620,6 @@ class BoneMesh : public Bonename {
   virtual void rebuildNormals();
   virtual void scale (float sx, float sy, float sz);
   virtual void projectLight();
-
 };
 
 //---------------------------------------------------------------------------

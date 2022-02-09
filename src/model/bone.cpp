@@ -154,10 +154,14 @@ void normalize(BoneLink **tempLink, int tempLinks)
 {
   float totalWeight = 0;
 
-  for (int i=0; i<tempLinks; i++)
-    if (tempLink[i] != NULL) totalWeight += tempLink[i]->weight;
-  for (int i=0; i<tempLinks; i++)
-    if (tempLink[i] != NULL) tempLink[i]->weight /= totalWeight;
+  for (int i=0; i < tempLinks; i++) {
+    if (tempLink[i] != NULL)
+      totalWeight += tempLink[i]->weight;
+  }
+  for (int i=0; i < tempLinks; i++) {
+    if (tempLink[i] != NULL)
+      tempLink[i]->weight /= totalWeight;
+  }
 }
 
 // Will call the method to generate links and then update the weight
@@ -1025,7 +1029,7 @@ void BoneVertex::generateInitialMatrix()
   glTranslatef(initialPosition.x, initialPosition.y, initialPosition.z);
   glRotatef   (initialAngle, initialAxis.x , initialAxis.y, initialAxis.z);
   // I save it
-  glGetFloatv (GL_MODELVIEW_MATRIX, initialMatrix);
+  glGetFloatv(GL_MODELVIEW_MATRIX, initialMatrix);
 
   // Here is a nice matrix inversion
   // 1. tmp gets the transposed rotation part of the matrix
@@ -1043,7 +1047,9 @@ void BoneVertex::generateInitialMatrix()
   tmp[13] = tmpVect.y;
   tmp[14] = tmpVect.z;
   // 5. Stores it !
-  for (int j=0; j<16 ; j++) initialMatrixInverted[j] = tmp[j];
+  for (int j=0; j<16 ; j++) {
+    initialMatrixInverted[j] = tmp[j];
+  }
 
   // Now, store the rotation matrices (for normals computation)
   int off=0;
@@ -1117,32 +1123,28 @@ void BoneVertex::read(char *filename, float scale)
 {
   FILE *fp = File::openFile(filename, "rb");
   if (fp == NULL) {
-    error("BoneVertex::read unable to open: [%s] for read", filename); return;
+    error("BoneVertex::read unable to open: [%s]", filename);
+    return;
   }
-
   readFromFile(fp, scale);
   File::closeFile(fp);
 }
 
 void BoneVertex::readFromFile(FILE *fp, float scale)
 {
-  char nameCurrent[512];
-  float posx, posy, posz;
-  float angle;
-  float axisx, axisy, axisz;
+  char name[512];
 
-  readString(fp, nameCurrent);
+  readString(fp, name);
 
-  posx = readFloat(fp) * scale;
-  posy = readFloat(fp) * scale;
-  posz = readFloat(fp) * scale;
+  float posx = readFloat(fp) * scale;
+  float posy = readFloat(fp) * scale;
+  float posz = readFloat(fp) * scale;
+  float angle = readFloat(fp);
+  float axisx = readFloat(fp);
+  float axisy = readFloat(fp);
+  float axisz = readFloat(fp);
 
-  angle = readFloat(fp);
-  axisx = readFloat(fp);
-  axisy = readFloat(fp);
-  axisz = readFloat(fp);
-
-  setName(nameCurrent);
+  setName(name);
   setInitialPosition(posx, posy, posz);
   setInitialRotation(angle, axisx, axisy, axisz);
 
