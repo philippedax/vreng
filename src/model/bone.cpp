@@ -54,16 +54,16 @@ Bone::~Bone()
 
 //-----------------
 // Accessing datas
-void Bone::registerMesh(BoneMesh *mesh)
+void Bone::registerMesh(BoneMesh *_mesh)
 {
-  meshToMove = mesh;
-  trace(DBG_MAN, " Registered as movable mesh: [%s]", mesh->getName());
+  meshToMove = _mesh;
+  trace(DBG_MAN, " Registered as movable mesh: [%s]", _mesh->getName());
 }
 
-void Bone::registerSkeleton(BoneVertex *root)
+void Bone::registerSkeleton(BoneVertex *_skel)
 {
-  skeleton = root;
-  trace(DBG_MAN, " Registered as skeleton: [%s]", root->getName());
+  skeleton = _skel;
+  trace(DBG_MAN, " Registered as skeleton: [%s]", _skel->getName());
 }
 
 //--------------------------------------
@@ -90,9 +90,10 @@ void Bone::emptyLinkList()
 {
   if (! linkListCompiled) compileLinkList();
 
-  for (int i=0; i<links; i++) {
+  for (int i=0; i < links; i++) {
     delete link[i];
   }
+
   linkList.empty();
   compileLinkList();
 }
@@ -100,14 +101,12 @@ void Bone::emptyLinkList()
 inline float Bone::getLength(Vertex *vertex, BoneVertex *node)
 {
   Vect3D nullvect(0, 0, 0);
-  Vect3D nodepos;
-  Vect3D distance;
 
   // First calculate the node's absolute position
-  nodepos = node->initialMatrix * nullvect;
+  Vect3D nodePosition = node->initialMatrix * nullvect;
 
-  // Then for each vertex, find the distance to the node
-  distance = nodepos - vertex->initialPosition;
+  // Then for each vertex, try to find the distance to the node
+  Vect3D distance = nodePosition - vertex->initialPosition;
   return distance.length();
 }
 
@@ -140,7 +139,7 @@ inline float Bone::getWeight(Vertex *vertex, BoneVertex *node)
     result += (time) / (dist * dist);
   }
 
-  for (int i=0; i<node->children; i++) {
+  for (int i=0; i < node->children; i++) {
     getDistanceFromAndOnBone(vertex, node->child[i], node, &time, &dist);
     result += (time) / (dist * dist);
   }
@@ -164,7 +163,7 @@ void normalize(BoneLink **tempLink, int tempLinks)
   }
 }
 
-// Will call the method to generate links and then update the weight
+// -> Will call the method to generate links and then update the weight
 // and optionally remove unsignificant links (that would speed down the cpu)
 void Bone::generateLinkList()
 {
@@ -189,7 +188,8 @@ void Bone::generateLinkList()
   // If the mesh has not compiled hos vertices list, we'll do it
   if (! meshToMove->vertexListCompiled) meshToMove->compileVertexList();
 
-  // First, we need to generate the initial matrices for all the nodes of the skeleton
+  // First, we need to generate the initial matrices for
+  // all the nodes of the skeleton
   glPushMatrix();
    glLoadIdentity();
    skeleton->generateInitialMatrix();
@@ -204,7 +204,8 @@ void Bone::generateLinkList()
   node = nodeList.getNiceTable(&nodes);
 
   //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-  // Now we'll go throw each vertex of the mesh calculating the weight of this node
+  // Now we'll go throw each vertex of the mesh calculating
+  // the weight of this node
   BoneList <BoneLink> tempLinkList;
   BoneLink **tempLink;
   BoneLink *temp;
@@ -259,11 +260,12 @@ void Bone::generateLinkList()
   for (int i=0; i < meshToMove->vertices; i++) {
     meshToMove->vertex[i]->compileLinkList();
   }
+
   trace(DBG_MAN, "selected links: [%2.2f%%]", (links*100.) / (meshToMove->vertices * nodes));
 }
 
 // The render part of this file has been written very quickly, for tests only !
-#define __AXIS_SIZE__ 0.15f
+#define __AXIS_SIZE__ 0.5f
 
 // Local coordinate system rendering
 // Origin is white
@@ -276,14 +278,15 @@ void renderLocalCoordinate1() // This is for unselected node
   glBegin(GL_POINTS);
    glVertex3f(0,0,0);			// O
   glEnd();
+
   glBegin(GL_LINES);
-   glColor3f(1, 0, 0);			// red
+   glColor3f(1, 0, 0);
    glVertex3f(0, 0, 0);
    glVertex3f(__AXIS_SIZE__, 0, 0);	// X
-   glColor3f(0, 1, 0);			// green
+   glColor3f(0, 1, 0);
    glVertex3f(0, 0, 0);
    glVertex3f(0, __AXIS_SIZE__, 0);	// Y
-   glColor3f(0, 0, 1);			// blue
+   glColor3f(0, 0, 1);
    glVertex3f(0, 0, 0);
    glVertex3f(0, 0, __AXIS_SIZE__);	// Z
   glEnd();
@@ -295,14 +298,15 @@ void renderLocalCoordinate2() // This is for selected node
   glBegin(GL_POINTS);
    glVertex3f(0,0,0);			// O
   glEnd();
+
   glBegin(GL_LINES);
-   glColor3f(1, 1, 0);			// yellow
+   glColor3f(1, 1, 0);
    glVertex3f(0, 0, 0);
    glVertex3f(__AXIS_SIZE__, 0, 0);	// X
-   glColor3f(0, 1, 1);			// cyan
+   glColor3f(0, 1, 1);
    glVertex3f(0, 0, 0);
    glVertex3f(0, __AXIS_SIZE__, 0);	// Y
-   glColor3f(1, 0, 1);			// magenta
+   glColor3f(1, 0, 1);
    glVertex3f(0, 0, 0);
    glVertex3f(0, 0, __AXIS_SIZE__);	// Z
   glEnd();
@@ -311,7 +315,7 @@ void renderLocalCoordinate2() // This is for selected node
 void renderOneBone(BoneVertex *node)
 {
   if (node->father != NULL) {
-    Vect3D nullvect(0,0,0);
+    Vect3D nullvect(0, 0, 0);
     Vect3D fPos = node->father->currentMatrix * nullvect;
     Vect3D tPos = node->currentMatrix * nullvect;
 
@@ -328,7 +332,7 @@ void Bone::render()
 {
 #if 1 //dax
   // First we draw the skeleton with local coordinates
-  //dax if (axisRendering) {
+  //if (axisRendering) {
   if (0) {
     glPointSize(5.0);
     glDisable(GL_LIGHTING);
@@ -341,7 +345,6 @@ void Bone::render()
     glEnd();
   }
 #endif
-  //error("bone render");
 
   // Now, we'll render the 3d mesh on the screen
   if (! meshToMove->triangleListCompiled) {
@@ -354,13 +357,13 @@ void Bone::render()
   Vect3D *normal;
 
   glColor3f(0.7, 0.7, 0.8);
-  //dax glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+  // glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
   glEnable(GL_LIGHTING);
   glEnable(GL_COLOR_MATERIAL);
   glColorMaterial(GL_FRONT, GL_DIFFUSE);
-  glEnable(GL_TEXTURE_2D);
-  //dax glDisable(GL_COLOR_MATERIAL);	// bad effect members disappeared
+  //tex glEnable(GL_TEXTURE_2D);
+  //tex glDisable(GL_COLOR_MATERIAL);
   glBegin(GL_TRIANGLES);
 
   for (int j=0; j < meshToMove->triangles; j++) {
@@ -377,13 +380,13 @@ void Bone::render()
     n3 = &triangle->vertex3->currentNormal;
 
     glNormal3f(normal->x, normal->y, normal->z);
-    glTexCoord2f(triangle->u1, triangle->v1);
+    //tex glTexCoord2f(triangle->u1, triangle->v1);
     glNormal3f(n1->x, n1->y, n1->z);
     glVertex3f(v1->x, v1->y, v1->z);
-    glTexCoord2f(triangle->u2, triangle->v2);
+    //tex glTexCoord2f(triangle->u2, triangle->v2);
     glNormal3f(n2->x, n2->y, n2->z);
     glVertex3f(v2->x, v2->y, v2->z);
-    glTexCoord2f(triangle->u3, triangle->v3);
+    //tex glTexCoord2f(triangle->u3, triangle->v3);
     glNormal3f(n3->x, n3->y, n3->z);
     glVertex3f(v3->x, v3->y, v3->z);
   }
@@ -394,7 +397,7 @@ void Bone::render()
 // Recursive part of rendering the skeleton
 void Bone::renderSkeletonNode(BoneVertex *node)
 {
-#if 1 //dax
+#if 0 //dax
   if (selectedNodeName == NULL) return;
 
   glPushMatrix();
@@ -453,33 +456,32 @@ void Bone::animate()
 // Recursive part of the animating
 inline void Bone::animateSkeletonNode(BoneVertex *node)
 {
-  // The first time, the link list won't be compiled for this node
-  // so we'll dot it
+  // The first time, the link list won't be compiled for this node so we'll dot it
   if (! node->linkListCompiled) node->compileLinkList();
 
-  BoneLink *link;
-  Vertex *vertex;
+  BoneLink *zeLink;
+  Vertex *zeVertex;
   Vect3D tempPos, normal;
 
   // We now look at each link in this node and find the related vertex
   for (int i=0; i < node->links; i++) {
-    link = node->link[i];
-    vertex = link->vertex;
+    zeLink = node->link[i];
+    zeVertex = zeLink->vertex;
 
     // Now that we have M1 ( Initial matrix for this node )
     //                  M2 ( Current matrix for this node )
     //              and  w ( Weight of this link for the vertex )
-    // We increase newPosition as follows :
+    // We increase newPosition as follozs :
     //    newPosition += w . M2 . M1-1 . initialPosition
     // Since the weight are normalized to 100% [0.0f .. 1.0f], we
     // should have a normalized result (means no scaling here) for all
     // the vertices
 
-    tempPos  = vertex->initialPosition;
+    tempPos  = zeVertex->initialPosition;
     tempPos *= node->initialMatrixInverted;
     tempPos *= node->currentMatrix;
-    tempPos *= link-> weight;
-    vertex->currentPosition += tempPos;
+    tempPos *= zeLink->weight;
+    zeVertex->currentPosition += tempPos;
   }
 
   // And now, we'll add the other links actions
@@ -586,7 +588,7 @@ void BoneMesh::addTriangle(int index1, int index2, int index3)
 {
   if (! vertexListCompiled) compileVertexList();
 
-  BoneTriangle *tri = new BoneTriangle();
+  BoneTriangle * tri = new BoneTriangle();
   tri->addVertex(vertex[index1], index1, -1, -1);
   tri->addVertex(vertex[index2], index2, -1, -1);
   tri->addVertex(vertex[index3], index3, -1, -1);
@@ -626,6 +628,7 @@ void BoneMesh::rebuildNormals()
   for (int i=0; i < vertices; i++) {
     vertex[i]->initialNormal.normalize();
   }
+
   projectLight();
 }
 
@@ -801,12 +804,14 @@ BoneVertex::~BoneVertex()
 {
   // first delete all the children
   if (! childListCompiled) compileChildList();
-  for (int i=0; i < children; i++) delete child[i];
+  for (int i=0; i < children; i++)
+    delete child[i];
   childList.empty();
 
   // Now, delete the selected links for this node
   if (! linkListCompiled) compileLinkList();
-  for (int i=0; i < links; i++) delete link[i];
+  for (int i=0; i < links; i++)
+    delete link[i];
   linkList.empty();
 }
 
@@ -866,7 +871,7 @@ void BoneVertex::setPos(Vect3D *position)
 
 void BoneVertex::setPos(float ox, float oy, float oz)
 {
-  currentPosition = Vect3D(ox, oy, oz);
+  currentPosition =  Vect3D(ox, oy, oz);
 }
 
 void BoneVertex::setRot(float angle, Vect3D &axis)
@@ -941,7 +946,7 @@ void BoneVertex::scale(float sx, float sy, float sz)
   currentPosition.y *= sy;
   currentPosition.z *= sz;
 
-  for (int i=0; i<children; i++) {
+  for (int i=0; i < children; i++) {
     child[i]->scale(sx, sy, sz);
   }
 }
@@ -953,10 +958,10 @@ void BoneVertex::setBone(BoneVertex *_father)
 }
 
 // Adding children
-void BoneVertex::addBone(BoneVertex *child)
+void BoneVertex::addBone(BoneVertex *newChild)
 {
-  childList.addElement(child);
-  child->setBone(this);
+  childList.addElement(newChild);
+  newChild->setBone(this);
   childListCompiled = 0;
 }
 
@@ -979,8 +984,9 @@ BoneVertex *BoneVertex::findBone(const char *name)
 
   if (! childListCompiled) compileChildList();
 
-  if (strcmp(name, getName()) == 0)
+  if (strcmp(name, getName()) == 0) {
     result = this;
+  }
   else {
     int i=0;
     while ((result == NULL) && (i < children)) {
@@ -1027,7 +1033,7 @@ void BoneVertex::generateInitialMatrix()
 
   // Now I let OpenGL calculate the matrix
   glTranslatef(initialPosition.x, initialPosition.y, initialPosition.z);
-  glRotatef   (initialAngle, initialAxis.x , initialAxis.y, initialAxis.z);
+  glRotatef(initialAngle, initialAxis.x, initialAxis.y, initialAxis.z);
   // I save it
   glGetFloatv(GL_MODELVIEW_MATRIX, initialMatrix);
 
@@ -1111,7 +1117,7 @@ void BoneVertex::generateCurrentMatrix()
   currentRotMatrix[15] = 1;
 
   // And now, just generate the childrem matrices
-  for (int i=0; i<children; i++) {
+  for (int i=0; i < children; i++) {
     child[i]->generateCurrentMatrix();
   }
 
@@ -1126,15 +1132,16 @@ void BoneVertex::read(char *filename, float scale)
     error("BoneVertex::read unable to open: [%s]", filename);
     return;
   }
+
   readFromFile(fp, scale);
   File::closeFile(fp);
 }
 
 void BoneVertex::readFromFile(FILE *fp, float scale)
 {
-  char name[512];
+  char nameCurrent[512];
 
-  readString(fp, name);
+  readString(fp, nameCurrent);
 
   float posx = readFloat(fp) * scale;
   float posy = readFloat(fp) * scale;
@@ -1144,12 +1151,12 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
   float axisy = readFloat(fp);
   float axisz = readFloat(fp);
 
-  setName(name);
+  setName(nameCurrent);
   setInitialPosition(posx, posy, posz);
   setInitialRotation(angle, axisx, axisy, axisz);
 
   int cpt = readInt(fp); // Number of children
-  for (int i=0; i<cpt; i++) {
+  for (int i=0; i < cpt; i++) {
     BoneVertex *tmp = new BoneVertex();
     addBone(tmp);
     tmp->readFromFile(fp);
@@ -1241,24 +1248,24 @@ BoneTriangle::BoneTriangle()
 BoneTriangle::~BoneTriangle() {}
 
 // Accessing datas
-void BoneTriangle::addVertex(Vertex *vertex, int index, float u, float v)
+void BoneTriangle::addVertex(Vertex *_vertex, int index, float u=-1, float v=-1)
 {
   if (( u == -1 ) && ( v == -1 )) {
-     u = vertex->initialPosition.x / 3.0;
-     v = vertex->initialPosition.y / 3.0;
+     u = _vertex->initialPosition.x / 3.0;
+     v = _vertex->initialPosition.y / 3.0;
   }
   if (vertex1 == NULL) {
-    vertex1 = vertex;
+    vertex1 = _vertex;
     index1 = index;
     u1 = u; v1 = v;
   }
   else if (vertex2 == NULL) {
-    vertex2 = vertex;
+    vertex2 = _vertex;
     index2 = index;
     u2 = u; v2 = v;
   }
   else if (vertex3 == NULL) {
-    vertex3 = vertex;
+    vertex3 = _vertex;
     index3 = index;
     u3 = u; v3 = v;
   }
@@ -1273,7 +1280,7 @@ void BoneTriangle::rebuildNormal()
   currentNormal = initialNormal;
 }
 
-void BoneTriangle::setColor(float _r, float _g, float _b, float _a)
+void BoneTriangle::setColor(float _r=0.5, float _g=0.5, float _b=0.5, float _a=1)
 {
   r = R = _r;
   g = G = _g;
@@ -1283,8 +1290,8 @@ void BoneTriangle::setColor(float _r, float _g, float _b, float _a)
 
 //---------------------------------------------------------------------------
 
-//-- VRENG 3D intern format
-void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename, float scale)
+//-- V3D internal format parser
+void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float scale)
 {
   FILE *fp = File::openFile(filename, "rb");
   if (fp == NULL) return;
@@ -1302,12 +1309,12 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename
     float x = readFloat(fp) * scale;
     float y = readFloat(fp) * scale;
     float z = readFloat(fp) * scale;
-    result->addVertex(x,y,z);
+    result->addVertex(x, y, z);
   }
-  trace(DBG_MAN, "Vertices added: %i", vertices);
+  trace(DBG_MAN, "v3d: Vertices added: %i", vertices);
 
   int facets = readInt(fp);
-  for (int i=0; i<facets; i++) {
+  for (int i=0; i < facets; i++) {
     // Reading indices
     int index1 = readInt(fp);
     int index2 = readInt(fp);
@@ -1319,7 +1326,7 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename
     float g = readFloat(fp);
     float b = readFloat(fp);
     float a = readFloat(fp);
-    triangle->setColor(r,g,b,a);
+    triangle->setColor(r, g, b, a);
     // Reading texture coordinantes
     triangle->u1 = readFloat(fp);
     triangle->v1 = readFloat(fp);
@@ -1328,13 +1335,13 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename
     triangle->u3 = readFloat(fp);
     triangle->v3 = readFloat(fp);
   }
-  trace(DBG_MAN, "Faces added   : %i", facets);
+  trace(DBG_MAN, "v3d: Faces added   : %i", facets);
 
   // Reading skeleton
-  skeletonRoot->readFromFile(fp, scale);
-  trace(DBG_MAN, "Skeleton added!");
-  File::closeFile(fp);
+  skel->readFromFile(fp, scale);
   result->rebuildNormals();
+  File::closeFile(fp);
+  trace(DBG_MAN, "skeleton added");
 }
 
 
@@ -1358,7 +1365,7 @@ void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filena
 
   // Writing vertices coordinates
   writeInt(fp, outMesh->vertices);
-  for (i=0; i<outMesh->vertices; i++) {
+  for (i=0; i < outMesh->vertices; i++) {
     writeFloat(fp, outMesh->vertex[i]->initialPosition.x);
     writeFloat(fp, outMesh->vertex[i]->initialPosition.y);
     writeFloat(fp, outMesh->vertex[i]->initialPosition.z);
@@ -1367,7 +1374,7 @@ void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filena
 
   // Writing triangles
   writeInt(fp, outMesh->triangles);
-  for (i=0; i<outMesh->triangles; i++) {
+  for (i=0; i < outMesh->triangles; i++) {
     index1 = 0;
     index2 = 0;
     index3 = 0;

@@ -122,7 +122,6 @@ void Face::httpReader(void *_url, Http *http)
     error("httpReader: unable to open http connection");
     return;
   }
-
   FILE *f = Cache::openCache(url, http);
   File::closeFile(f);
 }
@@ -187,14 +186,10 @@ void Face::load(const char *url)
 
 void Face::render()
 {
-  if (! mesh) {
-    return;
-  }
-  if (bone.meshToMove) {
-    if (bone.skeleton) {
-      bone.animate();
-      bone.render();
-    }
+  if (! mesh) return;
+  if (bone.meshToMove && bone.skeleton) {
+    bone.animate();
+    bone.render();
   }
 }
 
@@ -308,8 +303,8 @@ void Face::animLip(float angle, const char *_side)
     Vect3D delta(0, cos(angle/ 10.0) / 4., 0);
     float smile = cos(angle / 10.0) * 20;
 
+    trace(DBG_FORCE, "animLip: angle=%.2f smile=%.2f", angle, smile);
     if ((bone = root->findBone(_side)) != NULL) {
-    trace(DBG_FORCE, "animLip: angle=%.1f delta=%.1f smile=%.1f", angle, delta.y, smile);
       bone->resetPos();
       bone->setTrans(delta);
       //dax bone->setRot(smile, 0,0,1);
@@ -322,8 +317,6 @@ void Face::animLip(float angle, const char *_side)
 
 void Face::animate(int fapn, int a)
 {
-  //animate(); return; //dax to cancel!!!
-
   //error("fap: %d %d", fapn, a);
   switch (fapn) {
 
