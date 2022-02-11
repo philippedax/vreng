@@ -130,13 +130,13 @@ template <class BoneElem> class BoneList {
   void rebuild() {
     if (built) return;
 
-    BoneNode <BoneElem> *currentNode = listHead;
+    BoneNode <BoneElem> *curNode = listHead;
 
     elements = count();
     FREE(element);
     element = (BoneElem **) malloc (elements * sizeof(BoneElem *));
-    for (int i=0; i<elements; i++, currentNode = currentNode->getNext()) {
-      element[i] = currentNode->getElem();
+    for (int i=0; i<elements; i++, curNode = curNode->getNext()) {
+      element[i] = curNode->getElem();
     }
     built = 1;
   }
@@ -144,10 +144,10 @@ template <class BoneElem> class BoneList {
   /** Fonction recursive de vidage de la liste, il
    * s'agit d'appeler le vidage du fils puis de liberer le fils
    */
-  void recursiveEmpty(BoneNode <BoneElem> *currentNode) {
-    if (currentNode) {
-      recursiveEmpty(currentNode->getNext());
-      delete currentNode;
+  void recursiveEmpty(BoneNode <BoneElem> *curNode) {
+    if (curNode) {
+      recursiveEmpty(curNode->getNext());
+      delete curNode;
     }
   }
 
@@ -176,10 +176,10 @@ template <class BoneElem> class BoneList {
 
   // Comptage du nombre d'elements de la liste
   int count() {
-    BoneNode <BoneElem> *currentNode = listHead;
+    BoneNode <BoneElem> *curNode = listHead;
     int n = 0;
-    while (currentNode) {
-      currentNode = currentNode->getNext();
+    while (curNode) {
+      curNode = curNode->getNext();
       n++;
     }
     return n;
@@ -188,14 +188,14 @@ template <class BoneElem> class BoneList {
   // Fonction d'acces a un element de la liste retourne NULL si
   // l'index est inferieur a 0 ou superieur au nombre d'elements
   BoneElem *getElemAt(int index) {
-    BoneNode<BoneElem> *currentNode = listHead;
+    BoneNode<BoneElem> *curNode = listHead;
     BoneElem *result = NULL;
-    while (currentNode && index > 0) {
-      currentNode = currentNode->getNext();
+    while (curNode && index > 0) {
+      curNode = curNode->getNext();
       index--;
     }
-    if (currentNode && index == 0)
-      result = currentNode->getElem();
+    if (curNode && index == 0)
+      result = curNode->getElem();
     return result;
   }
 
@@ -238,7 +238,7 @@ template <class BoneElem> class BoneList {
     if (listHead == NULL) return;
 
     BoneNode<BoneElem> *prevNode;
-    BoneNode<BoneElem> *currentNode;
+    BoneNode<BoneElem> *curNode;
     BoneNode<BoneElem> *nextNode;
 
     if (index == 0) { // Cas particulier de la tete
@@ -248,15 +248,15 @@ template <class BoneElem> class BoneList {
       listHead = nextNode;
     }
     else { // Autre cas
-      currentNode = listHead;
-      while ((index > 0) && currentNode) {
-        currentNode = currentNode->getNext();
+      curNode = listHead;
+      while ((index > 0) && curNode) {
+        curNode = curNode->getNext();
         index--;
       }
-      if (currentNode) {
-        nextNode = currentNode->getNext();
-        prevNode = currentNode->getPrev();
-        delete currentNode;
+      if (curNode) {
+        nextNode = curNode->getNext();
+        prevNode = curNode->getPrev();
+        delete curNode;
         if (nextNode) nextNode->setPrev(prevNode);
         if (prevNode) prevNode->setNext(nextNode);
       }
@@ -270,7 +270,7 @@ template <class BoneElem> class BoneList {
     if (listHead == NULL) return;
 
     BoneNode<BoneElem> *prevNode;
-    BoneNode<BoneElem> *currentNode;
+    BoneNode<BoneElem> *curNode;
     BoneNode<BoneElem> *nextNode;
 
     if (ptr == listHead->getElem()) { // Cas particulier de la tete
@@ -280,13 +280,13 @@ template <class BoneElem> class BoneList {
       listHead = nextNode;
     }
     else { // Autre cas
-      currentNode = listHead;
-      while ((currentNode) && (currentNode->getElem() != ptr))
-        currentNode = currentNode->getNext();
-      if (currentNode) {
-        nextNode = currentNode->getNext();
-        prevNode = currentNode->getPrev();
-        delete currentNode;
+      curNode = listHead;
+      while ((curNode) && (curNode->getElem() != ptr))
+        curNode = curNode->getNext();
+      if (curNode) {
+        nextNode = curNode->getNext();
+        prevNode = curNode->getPrev();
+        delete curNode;
         if (nextNode) nextNode->setPrev(prevNode);
         if (prevNode) prevNode->setNext(nextNode);
       }
@@ -342,14 +342,14 @@ class BoneVertex : public Bonename {
   // Datas in the bone vertex class
 
   // -> Position at the begining
-  Vect3D initialPosition;
-  float  initialAngle;
-  Vect3D initialAxis;
+  Vect3D iniPosition;
+  float  iniAngle;
+  Vect3D iniAxis;
 
   // -> Position during the animation
-  Vect3D currentPosition;
-  float  currentAngle;
-  Vect3D currentAxis;
+  Vect3D curPosition;
+  float  curAngle;
+  Vect3D curAxis;
 
   // -> Children management
   BoneList <BoneVertex> childList;
@@ -366,13 +366,13 @@ class BoneVertex : public Bonename {
   int linkListCompiled;
 
   // -> Saves of the matrices
-  float initialMatrix[16];
-  float initialMatrixInverted[16];
-  float currentMatrix[16];
+  float iniMatrix[16];
+  float iniMatrixInverted[16];
+  float curMatrix[16];
   // -> Same for rotation matrices (may be used for normal computations)
-  float initialRotMatrix[16];
-  float initialRotMatrixInverted[16];
-  float currentRotMatrix[16];
+  float iniRotMatrix[16];
+  float iniRotMatrixInverted[16];
+  float curRotMatrix[16];
 
   // -> a field to scale the influence of this boneVertex
   float influenceScaleFactor;
@@ -382,17 +382,17 @@ class BoneVertex : public Bonename {
 
   // Construct / destruct
   BoneVertex();
-  BoneVertex(Vect3D & zePosition, float zeAngle, Vect3D & zeAxis);
-  BoneVertex(Vect3D * zePosition, float zeAngle, Vect3D * zeAxis);
+  BoneVertex(Vect3D &Position, float Angle, Vect3D &Axis);
+  BoneVertex(Vect3D *Position, float Angle, Vect3D *Axis);
   virtual ~BoneVertex();
 
   // Accessing initial position datas
-  void setInitialPosition(Vect3D & zePosition);
-  void setInitialPosition(Vect3D * zePosition);
-  void setInitialPosition(float ox, float oy, float oz);
-  void setInitialRotation(float zeAngle, Vect3D & zeAxis);
-  void setInitialRotation(float zeAngle, Vect3D * zeAxis);
-  void setInitialRotation(float zeAngle, float axisx, float axisy, float axisz);
+  void setIniPos(Vect3D &Position);
+  void setIniPos(Vect3D *Position);
+  void setIniPos(float ox, float oy, float oz);
+  void setIniRot(float Angle, Vect3D &Axis);
+  void setIniRot(float Angle, Vect3D *Axis);
+  void setIniRot(float Angle, float axisx, float axisy, float axisz);
 
   // Accessing current position datas (during animation)
   void setPos(Vect3D &position);
@@ -417,19 +417,19 @@ class BoneVertex : public Bonename {
   void scale(float sx, float sy, float sz);
 
   // Children list managing
-  void setBone(BoneVertex *zeFather);
+  void setBone(BoneVertex *Father);
   void addBone(BoneVertex *newChild);
-  void removeBone(const char *zeName);
-  BoneVertex *findBone(const char *zeName);
+  void removeBone(const char *Name);
+  BoneVertex *findBone(const char *Name);
 
   // Link list managing
-  void addLink(BoneLink *zeLink);
-  void removeLink(BoneLink *zeLink);
+  void addLink(BoneLink *Link);
+  void removeLink(BoneLink *Link);
 
   // Intern functions to compile the lists... should be private maybe ?
   void compileChildList();
   void compileLinkList();
-  void generateInitialMatrix(); // needs glPush / glPop and glLoadIdentity at the begining
+  void generateIniMatrix(); // needs glPush / glPop and glLoadIdentity at the begining
   void generateCurrentMatrix(); // needs glPush / glPop and glLoadIdentity at the begining
 
   // I/O functions
@@ -486,10 +486,10 @@ class BoneVertex : public Bonename {
 class Vertex {
  public:
   // Champs de la classe vertex
-  Vect3D initialPosition;
-  Vect3D currentPosition;
-  Vect3D initialNormal;
-  Vect3D currentNormal;
+  Vect3D iniPosition;
+  Vect3D curPosition;
+  Vect3D iniNormal;
+  Vect3D curNormal;
 
   // -> Liens
   BoneList <BoneLink> linkList;
@@ -502,18 +502,18 @@ class Vertex {
 
   // Constructeurs / destructeur
   Vertex();
-  Vertex(Vect3D &zePosition);
-  Vertex(Vect3D *zePosition);
+  Vertex(Vect3D &Position);
+  Vertex(Vect3D *Position);
   Vertex(float ox, float oy, float oz);
   virtual ~Vertex() {}
 
   // Acces aux champs
-  void setPosition(Vect3D &zePosition);
-  void setPosition(Vect3D *zePosition);
+  void setPosition(Vect3D &Position);
+  void setPosition(Vect3D *Position);
 
   // Gestion des liens
-  void addLink(BoneLink *zeLink);
-  void removeLink(BoneLink *zeLink);
+  void addLink(BoneLink *Link);
+  void removeLink(BoneLink *Link);
 
   // Acces aux champs de transformation initiaux
   void compileLinkList();
@@ -557,8 +557,8 @@ class BoneTriangle {
   Vertex *vertex1; float u1, v1; int index1;
   Vertex *vertex2; float u2, v2; int index2;
   Vertex *vertex3; float u3, v3; int index3;
-  Vect3D initialNormal;
-  Vect3D currentNormal;
+  Vect3D iniNormal;
+  Vect3D curNormal;
   float r, g, b, a; // Initial colors
   float R, G, B, A; // Projected colors
 

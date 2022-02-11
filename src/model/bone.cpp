@@ -103,20 +103,20 @@ float Bone::getLength(Vertex *vertex, BoneVertex *node)
   Vect3D nullvect(0, 0, 0);
 
   // First calculate the node's absolute position
-  Vect3D nodePosition = node->initialMatrix * nullvect;
+  Vect3D nodePosition = node->iniMatrix * nullvect;
 
   // Then for each vertex, try to find the distance to the node
-  Vect3D distance = nodePosition - vertex->initialPosition;
+  Vect3D distance = nodePosition - vertex->iniPosition;
   return distance.length();
 }
 
 void getDistanceFromAndOnBone(Vertex *vertex, BoneVertex *a, BoneVertex *b, float *time, float *dist)
 {
   Vect3D nullvect(0, 0, 0);
-  Vect3D aPosition = a->initialMatrix * nullvect;
-  Vect3D bPosition = b->initialMatrix * nullvect;
+  Vect3D aPosition = a->iniMatrix * nullvect;
+  Vect3D bPosition = b->iniMatrix * nullvect;
   Vect3D abVector = bPosition - aPosition;
-  Vect3D paVector = aPosition - vertex->initialPosition;
+  Vect3D paVector = aPosition - vertex->iniPosition;
 
   *time = -Vect3D::dotProduct(paVector, abVector) / Vect3D::dotProduct(abVector, abVector);
   *time = CROP(0.0001, *time, 0.9999);
@@ -192,7 +192,7 @@ void Bone::generateLinkList()
   // all the nodes of the skeleton
   glPushMatrix();
    glLoadIdentity();
-   skeleton->generateInitialMatrix();
+   skeleton->generateIniMatrix();
   glPopMatrix();
 
   //--- We'll store the skeleton nodes into a list
@@ -316,8 +316,8 @@ void renderOneBone(BoneVertex *node)
 {
   if (node->father != NULL) {
     Vect3D nullvect(0, 0, 0);
-    Vect3D fPos = node->father->currentMatrix * nullvect;
-    Vect3D tPos = node->currentMatrix * nullvect;
+    Vect3D fPos = node->father->curMatrix * nullvect;
+    Vect3D tPos = node->curMatrix * nullvect;
 
     glVertex3f(fPos.x, fPos.y, fPos.z);
     glVertex3f(tPos.x, tPos.y, tPos.z);
@@ -368,16 +368,16 @@ void Bone::render()
 
   for (int j=0; j < meshToMove->triangles; j++) {
     triangle = meshToMove->triangle[j];
-    v1 = &triangle->vertex1->currentPosition;
-    v2 = &triangle->vertex2->currentPosition;
-    v3 = &triangle->vertex3->currentPosition;
+    v1 = &triangle->vertex1->curPosition;
+    v2 = &triangle->vertex2->curPosition;
+    v3 = &triangle->vertex3->curPosition;
     glColor3f(triangle->R, triangle->G, triangle->B);
     glColor3f(triangle->r, triangle->g, triangle->b);
-    normal = &triangle->initialNormal;
+    normal = &triangle->iniNormal;
 
-    n1 = &triangle->vertex1->currentNormal;
-    n2 = &triangle->vertex2->currentNormal;
-    n3 = &triangle->vertex3->currentNormal;
+    n1 = &triangle->vertex1->curNormal;
+    n2 = &triangle->vertex2->curNormal;
+    n3 = &triangle->vertex3->curNormal;
 
     glNormal3f(normal->x, normal->y, normal->z);
     //tex glTexCoord2f(triangle->u1, triangle->v1);
@@ -401,8 +401,8 @@ void Bone::renderSkeletonNode(BoneVertex *node)
   if (selectedNodeName == NULL) return;
 
   glPushMatrix();
-  glTranslatef(node->currentPosition.x, node->currentPosition.y, node->currentPosition.z);
-  glRotatef(node->currentAngle, node->currentAxis.x, node->currentAxis.y, node->currentAxis.z);
+  glTranslatef(node->curPosition.x, node->curPosition.y, node->curPosition.z);
+  glRotatef(node->curAngle, node->curAxis.x, node->curAxis.y, node->curAxis.z);
 
   if (! strcmp(selectedNodeName, node->name))
     renderLocalCoordinate2();
@@ -425,14 +425,14 @@ void Bone::animate()
   if (! boneEditing) {
     // First we reset to 0,0,0 all the vertices of the mesh
     for (int i=0; i < meshToMove->vertices; i++) {
-      Vertex *currentVertex = meshToMove->vertex[i];
-      if (currentVertex->links != 0) {
-        currentVertex->currentPosition.reset();
-        currentVertex->currentNormal.reset();
+      Vertex *curVertex = meshToMove->vertex[i];
+      if (curVertex->links != 0) {
+        curVertex->curPosition.reset();
+        curVertex->curNormal.reset();
       }
       else {
-        currentVertex->currentPosition = currentVertex->initialPosition;
-        currentVertex->currentNormal   = currentVertex->initialNormal;
+        curVertex->curPosition = curVertex->iniPosition;
+        curVertex->curNormal   = curVertex->iniNormal;
       }
     }
 
@@ -448,8 +448,8 @@ void Bone::animate()
   else
 #endif
   for (int i=0; i < meshToMove->vertices; i++) {
-    meshToMove->vertex[i]->currentPosition = meshToMove->vertex[i]->initialPosition;
-    meshToMove->vertex[i]->currentNormal   = meshToMove->vertex[i]->initialNormal;
+    meshToMove->vertex[i]->curPosition = meshToMove->vertex[i]->iniPosition;
+    meshToMove->vertex[i]->curNormal   = meshToMove->vertex[i]->iniNormal;
   }
 }
 
@@ -472,16 +472,16 @@ inline void Bone::animateSkeletonNode(BoneVertex *node)
     //                  M2 ( Current matrix for this node )
     //              and  w ( Weight of this link for the vertex )
     // We increase newPosition as follozs :
-    //    newPosition += w . M2 . M1-1 . initialPosition
+    //    newPosition += w . M2 . M1-1 . iniPosition
     // Since the weight are normalized to 100% [0.0f .. 1.0f], we
     // should have a normalized result (means no scaling here) for all
     // the vertices
 
-    tempPos  = zeVertex->initialPosition;
-    tempPos *= node->initialMatrixInverted;
-    tempPos *= node->currentMatrix;
+    tempPos  = zeVertex->iniPosition;
+    tempPos *= node->iniMatrixInverted;
+    tempPos *= node->curMatrix;
     tempPos *= zeLink->weight;
-    zeVertex->currentPosition += tempPos;
+    zeVertex->curPosition += tempPos;
   }
 
   // And now, we'll add the other links actions
@@ -602,12 +602,12 @@ void BoneMesh::scale(float sx, float sy, float sz)
   if (! vertexListCompiled) compileVertexList();
 
   for (int i=0; i < vertices; i++) {
-    vertex[i]->initialPosition.x *= sx;
-    vertex[i]->initialPosition.y *= sy;
-    vertex[i]->initialPosition.z *= sz;
-    vertex[i]->currentPosition.x *= sx;
-    vertex[i]->currentPosition.y *= sy;
-    vertex[i]->currentPosition.z *= sz;
+    vertex[i]->iniPosition.x *= sx;
+    vertex[i]->iniPosition.y *= sy;
+    vertex[i]->iniPosition.z *= sz;
+    vertex[i]->curPosition.x *= sx;
+    vertex[i]->curPosition.y *= sy;
+    vertex[i]->curPosition.z *= sz;
   }
 }
 
@@ -617,16 +617,16 @@ void BoneMesh::rebuildNormals()
   if (! triangleListCompiled) compileTriangleList();
 
   for (int i=0; i < vertices; i++) {
-    vertex[i]->initialNormal.reset();
+    vertex[i]->iniNormal.reset();
   }
   for (int i=0; i < triangles; i++) {
     triangle[i]->rebuildNormal();
-    triangle[i]->vertex1->initialNormal += triangle[i]->initialNormal;
-    triangle[i]->vertex2->initialNormal += triangle[i]->initialNormal;
-    triangle[i]->vertex3->initialNormal += triangle[i]->initialNormal;
+    triangle[i]->vertex1->iniNormal += triangle[i]->iniNormal;
+    triangle[i]->vertex2->iniNormal += triangle[i]->iniNormal;
+    triangle[i]->vertex3->iniNormal += triangle[i]->iniNormal;
   }
   for (int i=0; i < vertices; i++) {
-    vertex[i]->initialNormal.normalize();
+    vertex[i]->iniNormal.normalize();
   }
 
   projectLight();
@@ -642,7 +642,7 @@ void BoneMesh::projectLight()
 
   for (int i=0; i < triangles; i++) {
     Vect3D mat(triangle[i]->r, triangle[i]->g, triangle[i]->b);
-    float cosine = Vect3D::dotProduct(lightdir, triangle[i]->initialNormal);
+    float cosine = Vect3D::dotProduct(lightdir, triangle[i]->iniNormal);
     cosine = CROP(-1, cosine, 1);
     if (cosine > 0) {
       float power = pow(cosine, 64);
@@ -743,12 +743,12 @@ char * Bonename::getName()
 
 BoneVertex::BoneVertex()
 {
-  initialPosition.set(0,0,0);
-  initialAngle    = 0;
-  initialAxis.    set(0,1,0);
-  currentPosition.set(0,0,0);
-  currentAngle    = 0;
-  currentAxis.    set(0,1,0);
+  iniPosition.set(0,0,0);
+  iniAngle    = 0;
+  iniAxis.    set(0,1,0);
+  curPosition.set(0,0,0);
+  curAngle    = 0;
+  curAxis.    set(0,1,0);
 
   child    = NULL;
   father   = NULL;
@@ -764,12 +764,12 @@ BoneVertex::BoneVertex()
 
 BoneVertex::BoneVertex(Vect3D &position, float angle, Vect3D &axis)
 {
-  initialPosition = position;
-  initialAngle    = angle;
-  initialAxis     = axis;
-  currentPosition = position;
-  currentAngle    = angle;
-  currentAxis     = axis;
+  iniPosition = position;
+  iniAngle    = angle;
+  iniAxis     = axis;
+  curPosition = position;
+  curAngle    = angle;
+  curAxis     = axis;
 
   child    = NULL;
   father   = NULL;
@@ -783,12 +783,12 @@ BoneVertex::BoneVertex(Vect3D &position, float angle, Vect3D &axis)
 
 BoneVertex::BoneVertex(Vect3D *position, float angle, Vect3D *axis)
 {
-  initialPosition = *position;
-  initialAngle    =  angle;
-  initialAxis     = *axis;
-  currentPosition = *position;
-  currentAngle    =  angle;
-  currentAxis     = *axis;
+  iniPosition = *position;
+  iniAngle    =  angle;
+  iniAxis     = *axis;
+  curPosition = *position;
+  curAngle    =  angle;
+  curAxis     = *axis;
 
   child    = NULL;
   father   = NULL;
@@ -816,122 +816,122 @@ BoneVertex::~BoneVertex()
 }
 
 // Accessing initial position datas
-void BoneVertex::setInitialPosition(Vect3D &position)
+void BoneVertex::setIniPos(Vect3D &position)
 {
-  initialPosition =  position;
-  currentPosition =  position;
+  iniPosition =  position;
+  curPosition =  position;
 }
 
-void BoneVertex::setInitialPosition(Vect3D *position)
+void BoneVertex::setIniPos(Vect3D *position)
 {
-  initialPosition = *position;
-  currentPosition = *position;
+  iniPosition = *position;
+  curPosition = *position;
 }
 
-void BoneVertex::setInitialPosition(float ox, float oy, float oz)
+void BoneVertex::setIniPos(float ox, float oy, float oz)
 {
-  initialPosition = Vect3D(ox, oy, oz);
-  currentPosition = Vect3D(ox, oy, oz);
+  iniPosition = Vect3D(ox, oy, oz);
+  curPosition = Vect3D(ox, oy, oz);
 }
 
-void BoneVertex::setInitialRotation(float angle, Vect3D &axis)
+void BoneVertex::setIniRot(float angle, Vect3D &axis)
 {
-  initialAngle    =  angle;
-  initialAxis     =  axis;
-  currentAngle    =  angle;
-  currentAxis     =  axis;
+  iniAngle    =  angle;
+  iniAxis     =  axis;
+  curAngle    =  angle;
+  curAxis     =  axis;
 }
 
-void BoneVertex::setInitialRotation(float angle, Vect3D *axis)
+void BoneVertex::setIniRot(float angle, Vect3D *axis)
 {
-  initialAngle    =  angle;
-  initialAxis     = *axis;
-  currentAngle    =  angle;
-  currentAxis     = *axis;
+  iniAngle    =  angle;
+  iniAxis     = *axis;
+  curAngle    =  angle;
+  curAxis     = *axis;
 }
 
-void BoneVertex::setInitialRotation(float angle, float axisx, float axisy, float axisz)
+void BoneVertex::setIniRot(float angle, float axisx, float axisy, float axisz)
 {
-  initialAngle    =  angle;
-  initialAxis     =  Vect3D(axisx, axisy, axisz);
-  currentAngle    =  angle;
-  currentAxis     =  Vect3D(axisx, axisy, axisz);
+  iniAngle    =  angle;
+  iniAxis     =  Vect3D(axisx, axisy, axisz);
+  curAngle    =  angle;
+  curAxis     =  Vect3D(axisx, axisy, axisz);
 }
 
 // And... Accessing animation position datas
 void BoneVertex::setPos(Vect3D &position)
 {
-  currentPosition =  position;
+  curPosition =  position;
 }
 
 void BoneVertex::setPos(Vect3D *position)
 {
-  currentPosition = *position;
+  curPosition = *position;
 }
 
 void BoneVertex::setPos(float ox, float oy, float oz)
 {
-  currentPosition =  Vect3D(ox, oy, oz);
+  curPosition =  Vect3D(ox, oy, oz);
 }
 
 void BoneVertex::setRot(float angle, Vect3D &axis)
 {
-  currentAngle    =  angle;
-  currentAxis     =  axis;
+  curAngle    =  angle;
+  curAxis     =  axis;
 }
 
 void BoneVertex::setRot(float angle, Vect3D *axis)
 {
-  currentAngle    =  angle;
-  currentAxis     = *axis;
+  curAngle    =  angle;
+  curAxis     = *axis;
 }
 
 void BoneVertex::setRot(float angle, float axisx, float axisy, float axisz)
 {
-  currentAngle    =  angle;
-  currentAxis     =  Vect3D(axisx, axisy, axisz);
+  curAngle    =  angle;
+  curAxis     =  Vect3D(axisx, axisy, axisz);
 }
 
 // Accessing current position datas (during animation)
 // with relative values (realtive to initial position)
 void BoneVertex::resetPos()
 {
-  currentPosition = initialPosition;
+  curPosition = iniPosition;
 }
 
 void BoneVertex::resetRot()
 {
-  currentAngle = initialAngle;
-  currentAxis  = initialAxis;
+  curAngle = iniAngle;
+  curAxis  = iniAxis;
 }
 
 void BoneVertex::setTrans(Vect3D &delta)
 {
-  currentPosition = currentPosition + delta;
+  curPosition = curPosition + delta;
 }
 
 void BoneVertex::setTrans(Vect3D *delta)
 {
-  currentPosition = currentPosition + *delta;
+  curPosition = curPosition + *delta;
 }
 
 void BoneVertex::setTrans(float dx, float dy, float dz)
 {
-  currentPosition.x += dx;
-  currentPosition.y += dy;
-  currentPosition.z += dz;
+  curPosition.x += dx;
+  curPosition.y += dy;
+  curPosition.z += dz;
 }
 
 void BoneVertex::setScale(float scalex, float scaley, float scalez)
 {
-  currentPosition.x *= scalex;
-  currentPosition.y *= scaley;
-  currentPosition.z *= scalez;
+  curPosition.x *= scalex;
+  curPosition.y *= scaley;
+  curPosition.z *= scalez;
 }
 
 void BoneVertex::setScale(float scale)
 {
-  currentPosition = currentPosition * scale;
+  curPosition = curPosition * scale;
 }
 
 // Modifying the node and its children (definitive)
@@ -939,12 +939,12 @@ void BoneVertex::scale(float sx, float sy, float sz)
 {
   if (! childListCompiled) compileChildList();
 
-  initialPosition.x *= sx;
-  initialPosition.y *= sy;
-  initialPosition.z *= sz;
-  currentPosition.x *= sx;
-  currentPosition.y *= sy;
-  currentPosition.z *= sz;
+  iniPosition.x *= sx;
+  iniPosition.y *= sy;
+  iniPosition.z *= sz;
+  curPosition.x *= sx;
+  curPosition.y *= sy;
+  curPosition.z *= sz;
 
   for (int i=0; i < children; i++) {
     child[i]->scale(sx, sy, sz);
@@ -1024,7 +1024,7 @@ void BoneVertex::compileLinkList()
 }
 
 // Generating the initial matrix for this node
-void BoneVertex::generateInitialMatrix()
+void BoneVertex::generateIniMatrix()
 {
   // First, we'll need to know all the childs
   if (! childListCompiled) compileChildList();
@@ -1032,20 +1032,20 @@ void BoneVertex::generateInitialMatrix()
   glPushMatrix();
 
   // Now I let OpenGL calculate the matrix
-  glTranslatef(initialPosition.x, initialPosition.y, initialPosition.z);
-  glRotatef(initialAngle, initialAxis.x, initialAxis.y, initialAxis.z);
+  glTranslatef(iniPosition.x, iniPosition.y, iniPosition.z);
+  glRotatef(iniAngle, iniAxis.x, iniAxis.y, iniAxis.z);
   // I save it
-  glGetFloatv(GL_MODELVIEW_MATRIX, initialMatrix);
+  glGetFloatv(GL_MODELVIEW_MATRIX, iniMatrix);
 
   // Here is a nice matrix inversion
   // 1. tmp gets the transposed rotation part of the matrix
   float tmp[16];
-  tmp[0] = initialMatrix[ 0]; tmp[4] = initialMatrix[ 1]; tmp[ 8] = initialMatrix[ 2]; tmp[12] = 0;
-  tmp[1] = initialMatrix[ 4]; tmp[5] = initialMatrix[ 5]; tmp[ 9] = initialMatrix[ 6]; tmp[13] = 0;
-  tmp[2] = initialMatrix[ 8]; tmp[6] = initialMatrix[ 9]; tmp[10] = initialMatrix[10]; tmp[14] = 0;
+  tmp[0] = iniMatrix[ 0]; tmp[4] = iniMatrix[ 1]; tmp[ 8] = iniMatrix[ 2]; tmp[12] = 0;
+  tmp[1] = iniMatrix[ 4]; tmp[5] = iniMatrix[ 5]; tmp[ 9] = iniMatrix[ 6]; tmp[13] = 0;
+  tmp[2] = iniMatrix[ 8]; tmp[6] = iniMatrix[ 9]; tmp[10] = iniMatrix[10]; tmp[14] = 0;
   tmp[3] = 0;                 tmp[7] = 0;                 tmp[11] = 0;                 tmp[15] = 1;
   // 2. tmpVect gets an inverted translation from the matrix
-  Vect3D tmpVect(-initialMatrix[12], -initialMatrix[13], -initialMatrix[14]);
+  Vect3D tmpVect(-iniMatrix[12], -iniMatrix[13], -iniMatrix[14]);
   // 3. tmpVect is to be done in the inverted coordinate system so multiply
   tmpVect = tmp * tmpVect;
   // 4. now we have the nice inverted matrix :)
@@ -1054,7 +1054,7 @@ void BoneVertex::generateInitialMatrix()
   tmp[14] = tmpVect.z;
   // 5. Stores it !
   for (int j=0; j<16 ; j++) {
-    initialMatrixInverted[j] = tmp[j];
+    iniMatrixInverted[j] = tmp[j];
   }
 
   // Now, store the rotation matrices (for normals computation)
@@ -1062,23 +1062,23 @@ void BoneVertex::generateInitialMatrix()
   for (int i=0; i<4; i++) {
     for (int j=0; j<4; j++, off++) {
       if ((i<3) && (j<3)) {
-	initialRotMatrix        [off] = initialMatrix        [off];
-	initialRotMatrixInverted[off] = initialMatrixInverted[off];
+	iniRotMatrix        [off] = iniMatrix        [off];
+	iniRotMatrixInverted[off] = iniMatrixInverted[off];
       }
       else if (i==j) {
-	initialRotMatrix        [off] = 1;
-	initialRotMatrixInverted[off] = 1;
+	iniRotMatrix        [off] = 1;
+	iniRotMatrixInverted[off] = 1;
       }
       else {
-	initialRotMatrix        [off] = 0;
-	initialRotMatrixInverted[off] = 0;
+	iniRotMatrix        [off] = 0;
+	iniRotMatrixInverted[off] = 0;
       }
     }
   }
 
   // Now, let's do the same for children :)
   for (int i=0; i < children; i++) {
-    child[i]->generateInitialMatrix();
+    child[i]->generateIniMatrix();
   }
 
   glPopMatrix();
@@ -1091,30 +1091,30 @@ void BoneVertex::generateCurrentMatrix()
 
   glPushMatrix();
 
-  glTranslatef(currentPosition.x, currentPosition.y, currentPosition.z);
-  glRotatef(currentAngle, currentAxis.x , currentAxis.y, currentAxis.z);
-  glGetFloatv(GL_MODELVIEW_MATRIX, currentMatrix);
+  glTranslatef(curPosition.x, curPosition.y, curPosition.z);
+  glRotatef(curAngle, curAxis.x , curAxis.y, curAxis.z);
+  glGetFloatv(GL_MODELVIEW_MATRIX, curMatrix);
 
   // Now we have the current transformation matrix,
   // we'll extract the rotation part so we can
   // move the normals of the mesh correctly to
   // update the lighting !
-  currentRotMatrix[ 0] = currentMatrix[ 0];
-  currentRotMatrix[ 1] = currentMatrix[ 1];
-  currentRotMatrix[ 2] = currentMatrix[ 2];
-  currentRotMatrix[ 3] = 0;
-  currentRotMatrix[ 4] = currentMatrix[ 4];
-  currentRotMatrix[ 5] = currentMatrix[ 5];
-  currentRotMatrix[ 6] = currentMatrix[ 6];
-  currentRotMatrix[ 7] = 0;
-  currentRotMatrix[ 8] = currentMatrix[ 8];
-  currentRotMatrix[ 9] = currentMatrix[ 9];
-  currentRotMatrix[10] = currentMatrix[10];
-  currentRotMatrix[11] = 0;
-  currentRotMatrix[12] = 0;
-  currentRotMatrix[13] = 0;
-  currentRotMatrix[14] = 0;
-  currentRotMatrix[15] = 1;
+  curRotMatrix[ 0] = curMatrix[ 0];
+  curRotMatrix[ 1] = curMatrix[ 1];
+  curRotMatrix[ 2] = curMatrix[ 2];
+  curRotMatrix[ 3] = 0;
+  curRotMatrix[ 4] = curMatrix[ 4];
+  curRotMatrix[ 5] = curMatrix[ 5];
+  curRotMatrix[ 6] = curMatrix[ 6];
+  curRotMatrix[ 7] = 0;
+  curRotMatrix[ 8] = curMatrix[ 8];
+  curRotMatrix[ 9] = curMatrix[ 9];
+  curRotMatrix[10] = curMatrix[10];
+  curRotMatrix[11] = 0;
+  curRotMatrix[12] = 0;
+  curRotMatrix[13] = 0;
+  curRotMatrix[14] = 0;
+  curRotMatrix[15] = 1;
 
   // And now, just generate the childrem matrices
   for (int i=0; i < children; i++) {
@@ -1152,8 +1152,8 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
   float axisz = readFloat(fp);
 
   setName(nameCurrent);
-  setInitialPosition(posx, posy, posz);
-  setInitialRotation(angle, axisx, axisy, axisz);
+  setIniPos(posx, posy, posz);
+  setIniRot(angle, axisx, axisy, axisz);
 
   int n = readInt(fp); // number of children
   for (int i=0; i < n; i++) {
@@ -1172,22 +1172,22 @@ Vertex::Vertex()
 
 Vertex::Vertex(Vect3D &position)
 {
-  initialPosition = position;
-  currentPosition = position;
+  iniPosition = position;
+  curPosition = position;
   defaults();
 }
 
 Vertex::Vertex(Vect3D *position)
 {
-  initialPosition = *position;
-  currentPosition = *position;
+  iniPosition = *position;
+  curPosition = *position;
   defaults();
 }
 
 Vertex::Vertex(float ox, float oy, float oz)
 {
-  initialPosition.set(ox, oy, oz);
-  currentPosition.set(ox, oy, oz);
+  iniPosition.set(ox, oy, oz);
+  curPosition.set(ox, oy, oz);
   defaults();
 }
 
@@ -1196,22 +1196,22 @@ void Vertex::defaults()
   link  = NULL;
   links = 0;
   linkListCompiled = 0;
-  initialNormal.reset();
-  currentNormal.reset();
+  iniNormal.reset();
+  curNormal.reset();
   u = -1.;
   v = -1.;
 }
 
 void Vertex::setPosition(Vect3D &position)
 {
-  initialPosition =  position;
-  currentPosition =  position;
+  iniPosition =  position;
+  curPosition =  position;
 }
 
 void Vertex::setPosition(Vect3D *position)
 {
-  initialPosition = *position;
-  currentPosition = *position;
+  iniPosition = *position;
+  curPosition = *position;
 }
 
 void Vertex::addLink(BoneLink *link)
@@ -1240,8 +1240,8 @@ BoneTriangle::BoneTriangle()
   vertex1 = NULL;
   vertex2 = NULL;
   vertex3 = NULL;
-  initialNormal.reset();
-  currentNormal.reset();
+  iniNormal.reset();
+  curNormal.reset();
   setColor(0.5, 0.5, 0.5, 1);
 }
 
@@ -1251,8 +1251,8 @@ BoneTriangle::~BoneTriangle() {}
 void BoneTriangle::addVertex(Vertex *_vertex, int index, float u=-1, float v=-1)
 {
   if (( u == -1 ) && ( v == -1 )) {
-     u = _vertex->initialPosition.x / 3.0;
-     v = _vertex->initialPosition.y / 3.0;
+     u = _vertex->iniPosition.x / 3.0;
+     v = _vertex->iniPosition.y / 3.0;
   }
   if (vertex1 == NULL) {
     vertex1 = _vertex;
@@ -1273,11 +1273,11 @@ void BoneTriangle::addVertex(Vertex *_vertex, int index, float u=-1, float v=-1)
 
 void BoneTriangle::rebuildNormal()
 {
-  Vect3D edge1 = vertex1->initialPosition - vertex2->initialPosition;
-  Vect3D edge2 = vertex1->initialPosition - vertex3->initialPosition;
-  initialNormal.crossProduct(edge1, edge2);
-  initialNormal.normalize();
-  currentNormal = initialNormal;
+  Vect3D edge1 = vertex1->iniPosition - vertex2->iniPosition;
+  Vect3D edge2 = vertex1->iniPosition - vertex3->iniPosition;
+  iniNormal.crossProduct(edge1, edge2);
+  iniNormal.normalize();
+  curNormal = iniNormal;
 }
 
 void BoneTriangle::setColor(float _r=0.5, float _g=0.5, float _b=0.5, float _a=1)
@@ -1366,9 +1366,9 @@ void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filena
   // Writing vertices coordinates
   writeInt(fp, outMesh->vertices);
   for (i=0; i < outMesh->vertices; i++) {
-    writeFloat(fp, outMesh->vertex[i]->initialPosition.x);
-    writeFloat(fp, outMesh->vertex[i]->initialPosition.y);
-    writeFloat(fp, outMesh->vertex[i]->initialPosition.z);
+    writeFloat(fp, outMesh->vertex[i]->iniPosition.x);
+    writeFloat(fp, outMesh->vertex[i]->iniPosition.y);
+    writeFloat(fp, outMesh->vertex[i]->iniPosition.z);
   }
   trace(DBG_FORCE, "           Vertices added: %i", outMesh->vertices);
 
@@ -1479,9 +1479,9 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
       triangle = result->triangleList.getElemAt(cpt++);
 
       if ((r==g) && (g==b) && (colorMask != 0)) {
-        r = (triangle->vertex1->initialPosition.x + 1) / 2;
-        g = (triangle->vertex1->initialPosition.y + 1) / 2;
-        b = (triangle->vertex1->initialPosition.z + 1) / 2;
+        r = (triangle->vertex1->iniPosition.x + 1) / 2;
+        g = (triangle->vertex1->iniPosition.y + 1) / 2;
+        b = (triangle->vertex1->iniPosition.z + 1) / 2;
       }
       triangle->setColor(r,g,b,1);
     }
