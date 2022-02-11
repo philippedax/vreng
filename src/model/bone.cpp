@@ -98,7 +98,7 @@ void Bone::emptyLinkList()
   compileLinkList();
 }
 
-inline float Bone::getLength(Vertex *vertex, BoneVertex *node)
+float Bone::getLength(Vertex *vertex, BoneVertex *node)
 {
   Vect3D nullvect(0, 0, 0);
 
@@ -110,7 +110,7 @@ inline float Bone::getLength(Vertex *vertex, BoneVertex *node)
   return distance.length();
 }
 
-inline void getDistanceFromAndOnBone(Vertex *vertex, BoneVertex *a, BoneVertex *b, float *time, float *dist)
+void getDistanceFromAndOnBone(Vertex *vertex, BoneVertex *a, BoneVertex *b, float *time, float *dist)
 {
   Vect3D nullvect(0, 0, 0);
   Vect3D aPosition = a->initialMatrix * nullvect;
@@ -1141,7 +1141,7 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
 {
   char nameCurrent[512];
 
-  readString(fp, nameCurrent);
+  readStr(fp, nameCurrent);
 
   float posx = readFloat(fp) * scale;
   float posy = readFloat(fp) * scale;
@@ -1300,7 +1300,7 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
 
   // Reading name
   char name[512];
-  readString(fp, name);
+  readStr(fp, name);
   result->setName(name);
 
   // Reading vertices
