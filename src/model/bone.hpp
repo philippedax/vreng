@@ -434,51 +434,49 @@ class BoneVertex : public Bonename {
 
   // I/O functions
   void read(char *filename, float size = 1.);
-  void readFromFile(FILE *file, float size = 1.);
+  void readFromFile(FILE *file, float scale = 1.);
 };
 
-//---------------------------------------------------------------------------
+  // Reading part
+  inline char readChar(FILE *in)
+  {
+    return fgetc(in);
+  }
 
-// Reading part
-inline char readChar(FILE *in)
-{
-  return fgetc(in);
-}
+  inline short readShort(FILE *in)
+  {
+    char b1 = fgetc(in);
+    char b2 = fgetc(in);
+    return (b1<<8) + b2;
+  }
 
-inline short readShort(FILE *in)
-{
-  char b1 = fgetc(in);
-  char b2 = fgetc(in);
-  return (b1<<8) + b2;
-}
+  inline int readInt(FILE *in)
+  {
+    unsigned char b1 = fgetc(in);
+    unsigned char b2 = fgetc(in);
+    unsigned char b3 = fgetc(in);
+    unsigned char b4 = fgetc(in);
+    unsigned int val;
+    val = b1;
+    val <<= 8; val += b2;
+    val <<= 8; val += b3;
+    val <<= 8; val += b4;
+    return val;
+  }
 
-inline int readInt(FILE *in)
-{
-  unsigned char b1 = fgetc(in);
-  unsigned char b2 = fgetc(in);
-  unsigned char b3 = fgetc(in);
-  unsigned char b4 = fgetc(in);
-  unsigned int result;
-  result = b1;
-  result <<= 8; result += b2;
-  result <<= 8; result += b3;
-  result <<= 8; result += b4;
-  return result;
-}
+  inline float readFloat(FILE *in)
+  {
+    int val = readInt(in);
+    float *valptr = (float *) &val;
+    return *valptr;
+  }
 
-inline float readFloat(FILE *in)
-{
-  int value = readInt(in);
-  float *valuePtr = (float *) &value;
-  return *valuePtr;
-}
-
-inline char *readStr(FILE *in, char *str)
-{
-  int cpt=0;
-  while ((str[cpt++] = readChar(in)) != '\0');
-  return str;
-}
+  inline char *readStr(FILE *in, char *str)
+  {
+    int i=0;
+    while ((str[i++] = readChar(in)) != '\0');
+    return str;
+  }
 
 //---------------------------------------------------------------------------
 

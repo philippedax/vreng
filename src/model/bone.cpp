@@ -1155,11 +1155,11 @@ void BoneVertex::readFromFile(FILE *fp, float scale)
   setInitialPosition(posx, posy, posz);
   setInitialRotation(angle, axisx, axisy, axisz);
 
-  int cpt = readInt(fp); // Number of children
-  for (int i=0; i < cpt; i++) {
+  int n = readInt(fp); // number of children
+  for (int i=0; i < n; i++) {
     BoneVertex *tmp = new BoneVertex();
     addBone(tmp);
-    tmp->readFromFile(fp);
+    tmp->readFromFile(fp, scale);
   }
 
   compileChildList();
