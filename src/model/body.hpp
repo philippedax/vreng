@@ -41,10 +41,10 @@
  */
 class Phalanx2 {
  private:
-  static const GLfloat PHALANX2_LEN;
+  static const float PHALANX2_LEN;
 
  public:
-  GLfloat length;		///< phalanx length
+  float length;		///< phalanx length
 
   Phalanx2();			///< constructor
   virtual ~Phalanx2() {}	///< destructor
@@ -58,11 +58,11 @@ class Phalanx2 {
  */
 class Phalanx {
  private:
-  static const GLfloat PHALANX_LEN;
+  static const float PHALANX_LEN;
 
  public:
-  GLfloat length;		///< phalanx length
-  GLfloat aflexion;		///< phalanx flexion angle
+  float length;		///< phalanx length
+  float aflexion;		///< phalanx flexion angle
   class Phalanx2 *phalanx2;	///< phalanx2 ptr
 
   Phalanx(Phalanx2 *phalanx2);	///< constructor
@@ -71,7 +71,7 @@ class Phalanx {
   virtual int init();
   /**< Init phalanx */
 
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Bend phalanx */
 };
 
@@ -80,12 +80,12 @@ class Phalanx {
  */
 class Finger {
  private:
-  static const GLfloat FINGER_LEN;
+  static const float FINGER_LEN;
 
  public:
-  GLfloat length;		///< finger lenght
-  GLfloat aflexion;		///< finger flexion angle
-  GLfloat aabduct;		///< finger abduct angle
+  float length;		///< finger lenght
+  float aflexion;		///< finger flexion angle
+  float aabduct;		///< finger abduct angle
   class Phalanx *phalanx;	///< phalanx ptr
 
   Finger(Phalanx *phalanx);	///< constructor
@@ -94,10 +94,10 @@ class Finger {
   virtual int init();
   /**< Init finger */
 
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Bend finger */
 
-  virtual void abduct(GLfloat a);
+  virtual void abduct(float a);
   /**< Tilt finger */
 };
 
@@ -106,13 +106,13 @@ class Finger {
  */
 class Hand {
  private:
-  static const GLfloat HAND_LEN;
+  static const float HAND_LEN;
 
  public:
-  GLfloat length;		///< hand length
-  GLfloat aflexion;		///< hand flexion angle
-  GLfloat aabduct;		///< hand abduct angle
-  GLfloat atorsion;		///< hand torsion angle
+  float length;		///< hand length
+  float aflexion;		///< hand flexion angle
+  float aabduct;		///< hand abduct angle
+  float atorsion;		///< hand torsion angle
   class Finger *fingers[5];	///< five fingers
 
   Hand(Finger **finger);	///< constructor
@@ -121,14 +121,18 @@ class Hand {
   virtual int init();
   /**< Init hand */
 
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Bend hand */
 
-  virtual void abduct(GLfloat a);
+  virtual void abduct(float a);
   /**< Tilt hand */
 
-  virtual void torsion(GLfloat a);
+  virtual void torsion(float a);
   /**< Turn hand */
+
+  virtual float a_flexion() const;
+  virtual float a_abduct() const;
+  virtual float a_torsion() const;
 };
 
 /**
@@ -136,13 +140,13 @@ class Hand {
  */
 class Forearm {
  private:
-  static const GLfloat FOREARM_LEN;
-  static const GLfloat ELBOW_RAD;
+  static const float FOREARM_LEN;
+  static const float ELBOW_RAD;
 
  public:
-  GLfloat length;		///< forearm length
-  GLfloat aflexion;		///< elbow flexion angle
-  GLfloat atorsion;		///< elbow torsion angle
+  float length;		///< forearm length
+  float aflexion;		///< elbow flexion angle
+  float atorsion;		///< elbow torsion angle
   class Hand *hand;		///< hand ptr
 
   Forearm(Hand *hand);		///< constructor
@@ -151,11 +155,14 @@ class Forearm {
   virtual int init();
   /**< Init forearm */
 
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Bend elbow */
 
-  virtual void torsion(GLfloat a);
+  virtual void torsion(float a);
   /**< Turn elbow */
+
+  virtual float a_flexion() const;
+  virtual float a_torsion() const;
 };
 
 /**
@@ -163,13 +170,13 @@ class Forearm {
  */
 class Arm {
  private:
-  static const GLfloat ARM_LEN;
+  static const float ARM_LEN;
 
  public:
-  GLfloat length;		///< arm length
-  GLfloat aflexion;		///< arm flexion angle
-  GLfloat aabduct;		///< arm abduct angle
-  GLfloat atorsion;		///< arm torsion angle
+  float length;		///< arm length
+  float aflexion;		///< arm flexion angle
+  float aabduct;		///< arm abduct angle
+  float atorsion;		///< arm torsion angle
   class Forearm *forearm;	///< forearm ptr
 
   Arm(Forearm *forearm);	///< constructor
@@ -178,14 +185,18 @@ class Arm {
   virtual int init();
   /**< Init arm */
 
-  virtual void abduct(GLfloat a);
-  /**< Raise arm */
-
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Rote arm */
 
-  virtual void torsion(GLfloat a);
+  virtual void abduct(float a);
+  /**< Raise arm */
+
+  virtual void torsion(float a);
   /**< Turn arm */
+
+  virtual float a_flexion() const;
+  virtual float a_abduct() const;
+  virtual float a_torsion() const;
 };
 
 /**
@@ -193,12 +204,12 @@ class Arm {
  */
 class Shoulder {
  private:
-  static const GLfloat SHOULDER_RAD;
+  static const float SHOULDER_RAD;
 
  public:
-  GLfloat radius;		///< shoulder radius
-  GLfloat aflexion;		///< shoulder flexion angle
-  GLfloat aabduct;		///< shoulder abduct angle
+  float radius;		///< shoulder radius
+  float aflexion;		///< shoulder flexion angle
+  float aabduct;		///< shoulder abduct angle
   class Arm *arm;		///< arm ptr
 
   Shoulder(Arm *arm);		///< constructor
@@ -207,11 +218,14 @@ class Shoulder {
   virtual int init();
   /**< Init shoulder */
 
-  virtual void flexion(GLfloat distance);
+  virtual void flexion(float distance);
   /**< Avance shoulder */
 
-  virtual void abduct(GLfloat distance);
+  virtual void abduct(float distance);
   /**< Raise shoulder */
+
+  virtual float a_flexion() const;
+  virtual float a_abduct() const;
 };
 
 /**
@@ -219,13 +233,13 @@ class Shoulder {
  */
 class HeadBody {
  private:
-  static const GLfloat HEAD_RAD;
+  static const float HEAD_RAD;
 
  public:
-  GLfloat radius;		///< head radius
-  GLfloat aflexion;		///< head flexion angle
-  GLfloat aabduct;		///< head abduct angle
-  GLfloat atorsion;		///< head torsion angle
+  float radius;		///< head radius
+  float aflexion;		///< head flexion angle
+  float aabduct;		///< head abduct angle
+  float atorsion;		///< head torsion angle
 
   HeadBody();			///< constructor
   virtual ~HeadBody() {}	///< destructor
@@ -233,14 +247,18 @@ class HeadBody {
   virtual int init();
   /**< Init head */
 
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Bend head */
 
-  virtual void abduct(GLfloat a);
+  virtual void abduct(float a);
   /**< Tilt head */
 
-  virtual void torsion(GLfloat a);
+  virtual void torsion(float a);
   /**< Turn head */
+
+  virtual float a_flexion() const;
+  virtual float a_abduct() const;
+  virtual float a_torsion() const;
 };
 
 /**
@@ -248,13 +266,13 @@ class HeadBody {
  */
 class Neck {
  private:
-  static const GLfloat NECK_LEN;
+  static const float NECK_LEN;
 
  public:
-  GLfloat length;		///< neck length
-  GLfloat aflexion;		///< neck flexion angle
-  GLfloat aabduct;		///< neck abduct angle
-  GLfloat atorsion;		///< neck torsion angle
+  float length;		///< neck length
+  float aflexion;		///< neck flexion angle
+  float aabduct;		///< neck abduct angle
+  float atorsion;		///< neck torsion angle
   class HeadBody *head;		///< head ptr
 
   Neck(HeadBody *head);		///< constructor
@@ -263,14 +281,18 @@ class Neck {
   virtual int init();
   /**< Init neck */
 
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Bend neck */
 
-  virtual void abduct(GLfloat a);
+  virtual void abduct(float a);
   /**< Tilt neck */
 
-  virtual void torsion(GLfloat a);
+  virtual void torsion(float a);
   /**< Turn neck */
+
+  virtual float a_flexion() const;
+  virtual float a_abduct() const;
+  virtual float a_torsion() const;
 };
 
 /**
@@ -278,13 +300,13 @@ class Neck {
  */
 class Foot {
  private:
-  static const GLfloat FOOT_LEN;
+  static const float FOOT_LEN;
 
  public:
-  GLfloat length;		///< foot length
-  GLfloat aflexion;		///< foot flexion angle
-  GLfloat aabduct;		///< foot abduct angle
-  GLfloat atorsion;		///< foot torsion angle
+  float length;		///< foot length
+  float aflexion;		///< foot flexion angle
+  float aabduct;		///< foot abduct angle
+  float atorsion;		///< foot torsion angle
 
   Foot();			///< constructor
   virtual ~Foot() {}		///< destructor
@@ -292,14 +314,18 @@ class Foot {
   virtual int init();
   /**< Init foot */
 
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Bend foot */
 
-  virtual void abduct(GLfloat a);
+  virtual void abduct(float a);
   /**< Tilt foot */
 
-  virtual void torsion(GLfloat a);
+  virtual void torsion(float a);
   /**< Turn foot */
+
+  virtual float a_flexion() const;
+  virtual float a_abduct() const;
+  virtual float a_torsion() const;
 };
 
 /**
@@ -307,12 +333,12 @@ class Foot {
  */
 class Shin {
  private:
-  static const GLfloat SHIN_LEN;
+  static const float SHIN_LEN;
 
  public:
-  GLfloat length;		///< shin length
-  GLfloat aflexion;		///< knee flexion angle
-  GLfloat atorsion;		///< knee torsion angle
+  float length;		///< shin length
+  float aflexion;		///< knee flexion angle
+  float atorsion;		///< knee torsion angle
   class Foot *foot;		///< foot ptr
 
   Shin(Foot *foot);		///< constructor
@@ -321,11 +347,14 @@ class Shin {
   virtual int init();
   /**< Init shin */
 
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Bend knee */
 
-  virtual void torsion(GLfloat a);
+  virtual void torsion(float a);
   /**< Turn knee */
+
+  virtual float a_flexion() const;
+  virtual float a_torsion() const;
 };
 
 /**
@@ -333,13 +362,13 @@ class Shin {
  */
 class Thigh {
  private:
-  static const GLfloat THIGH_LEN;
+  static const float THIGH_LEN;
 
  public:
-  GLfloat length;		///< thigh length
-  GLfloat aflexion;		///< thigh flexion angle
-  GLfloat aabduct;		///< thigh abduct angle
-  GLfloat atorsion;		///< thigh torsion angle
+  float length;		///< thigh length
+  float aflexion;		///< thigh flexion angle
+  float aabduct;		///< thigh abduct angle
+  float atorsion;		///< thigh torsion angle
   class Shin *shin;		///< shin ptr
 
   Thigh(Shin *shin);		///< constructor
@@ -348,14 +377,18 @@ class Thigh {
   virtual int init();
   /**< Init thigh */
 
-  virtual void abduct(GLfloat a);
-  /**< Raise thigh */
-
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Rote thigh */
 
-  virtual void torsion(GLfloat a);
+  virtual void abduct(float a);
+  /**< Raise thigh */
+
+  virtual void torsion(float a);
   /**< Turn thigh */
+
+  virtual float a_flexion() const;
+  virtual float a_abduct() const;
+  virtual float a_torsion() const;
 };
 
 /**
@@ -363,13 +396,13 @@ class Thigh {
  */
 class Chest {
  private:
-  static const GLfloat CHEST_LEN;
+  static const float CHEST_LEN;
 
  public:
-  GLfloat length;		///< chest length
-  GLfloat aflexion;		///< chest flexion angle
-  GLfloat aabduct;		///< chest abduct angle
-  GLfloat atorsion;		///< chest torsion angle
+  float length;		///< chest length
+  float aflexion;		///< chest flexion angle
+  float aabduct;		///< chest abduct angle
+  float atorsion;		///< chest torsion angle
 
   Chest();			///< constructor
   //Chest(Thigh **thighs, Shoulder **shoulders, Neck *neck);
@@ -378,14 +411,18 @@ class Chest {
   //virtual int init(class Body *body);
   /**< Init chest */
 
-  virtual void flexion(GLfloat a);
+  virtual void flexion(float a);
   /**< Roll chest */
 
-  virtual void abduct(GLfloat a);
+  virtual void abduct(float a);
   /**< Tilt chest */
 
-  virtual void torsion(GLfloat a);
+  virtual void torsion(float a);
   /**< Turn chest */
+
+  virtual float a_flexion() const;
+  virtual float a_abduct() const;
+  virtual float a_torsion() const;
 };
 
 
@@ -454,12 +491,12 @@ class Body {
   uint8_t drawparts;		///< number of drawable parts
   uint8_t model;		///< model type used (Off, Obj,...)
   GLint dlist;			///< body display-list
-  GLfloat tx, ty, tz;		///< body translations
-  GLfloat rx, ry, rz;		///< body rotations
-  GLfloat bscale;		///< body scale factor
-  GLfloat skin[3];		///< skin color
-  GLfloat cloth[3];		///< cloth color
-  GLfloat color[3];		///< color
+  float tx, ty, tz;		///< body translations
+  float rx, ry, rz;		///< body rotations
+  float bscale;		///< body scale factor
+  float skin[3];		///< skin color
+  float cloth[3];		///< cloth color
+  float color[3];		///< color
   char *url;
 
   // body parts
@@ -541,6 +578,17 @@ public:
   virtual void animate();
   /**< Animates body. */
 
+  virtual void animHead(float deg, uint8_t axis);
+  virtual void animNeck(float deg, uint8_t axis);
+  virtual void animChest(float deg, uint8_t axis);
+  virtual void animLeg(float deg, uint8_t side, uint8_t axis);
+  virtual void animShin(float deg, uint8_t side, uint8_t axis);
+  virtual void animFoot(float deg, uint8_t side, uint8_t axis);
+  virtual void animArm(float deg, uint8_t side, uint8_t axis);
+  virtual void animForearm(float deg, uint8_t side, uint8_t axis);
+  virtual void animHand(float deg, uint8_t side, uint8_t axis);
+  /**x Animates members. */
+
   virtual void anim(int param);
   /**< Animates body. */
 
@@ -579,22 +627,24 @@ protected:
   virtual bool isLoaded(uint8_t part);
   /**< Returns true if body part exists. */
 
-  virtual void jpTP(uint8_t part);
+  virtual void transP(uint8_t part);
   /**< Translates to the Joint Point. */
 
-  virtual void jpTN(uint8_t part);
+  virtual void transN(uint8_t part);
   /**< Translates reverse from the Joint Point. */
 
-  virtual void jpRX(int param, uint8_t model);
-  virtual void jpRY(int param, uint8_t model);
-  virtual void jpRZ(int param, uint8_t model);
-  /**< Rotates on the Joint Point. */
+  virtual void rotX(int param, uint8_t model);
+  virtual void rotY(int param, uint8_t model);
+  virtual void rotZ(int param, uint8_t model);
+  virtual void rotX(int param, float angle);
+  virtual void rotY(int param, float angle);
+  virtual void rotZ(int param, float angle);
+  /**< Rotates around the Joint Point. */
 
   virtual char * getTok(char *l, int *tok);
   virtual char * skipEqual(char *l);
   virtual char * getUrl() const;
 
 };
-
 
 #endif
