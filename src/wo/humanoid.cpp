@@ -299,22 +299,25 @@ void Humanoid::changePermanent(float lasting)
       }
       break;
     case 0:	// end of frames
-      //body->animHead(+30, 0);	// head flexion front OK
-      //body->animHead(+30, 1);	// head abduct
-      //body->animHead(+30, 2);	// head torsion right OK
-      //body->animNeck(+30, 0);	// neck flexion front OK
-      //body->animNeck(-30, 1);	// neck abduct right OK
-      //body->animNeck(-30, 2);	// neck torsion NO
-      //body->animChest(-30, 0);	// chest flexion NO
-      //body->animChest(-30, 2);	// chest torsion NO
-      body->animArm(-30, 0, 0);	// arm left flexion OK
-      body->animArm(+30, 1, 0);	// arm right flexion OK
-      //body->animForearm(-30, 0, 0);	// forearm left flexion OK
-      //body->animForearm(+30, 1, 0);	// forearm right flexion OK
-      //body->animLeg(-30, 0, 0);	// leg left front flexion
-      //body->animLeg(+30, 0, 1);	// leg left abduct back OK
-      //body->animLeg(-30, 1, 2);	// leg right torsion ext OK
-      //body->animFoot(-30, 1, 2);	// foot right torsion ext NO
+      // for tests only !!!
+      //body->animHead(+30, 0);		// head flexion front : OK
+      //body->animHead(+30, 1);		// head abduct
+      //body->animHead(+30, 2);		// head torsion right : OK
+      //body->animNeck(+30, 0);		// neck flexion front : OK
+      //body->animNeck(-30, 1);		// neck abduct right : OK
+      //body->animNeck(-30, 2);		// neck torsion : NO
+      //body->animChest(-30, 0);	// chest flexion back : OK
+      //body->animChest(+30, 0);	// chest flexion front : OK
+      //body->animChest(-30, 1);	// chest abduct right : OK
+      //body->animChest(-30, 2);	// chest torsion left : OK
+      body->animArm(-30, 0, 0);		// arm left flexion : OK
+      body->animArm(+30, 1, 0);		// arm right flexion : OK
+      body->animForearm(-60, 0, 0);	// forearm left flexion front : OK
+      body->animForearm(+60, 1, 0);	// forearm right flexion front : OK
+      //body->animLeg(-30, 0, 0);	// leg left front flexion : OK
+      //body->animLeg(+30, 0, 1);	// leg left abduct back : OK
+      //body->animLeg(-30, 1, 2);	// leg right torsion ext : OK
+      //body->animFoot(-30, 1, 2);	// foot right torsion ext : NO
       render();
        //disconnectFromBapServer();
        state = INACTIVE;

@@ -939,9 +939,9 @@ void Body::animChest(float deg, uint8_t axis)
 {
   error("Chest: %d %.0f", axis, deg);
   switch (axis) {
-  case 0: neck->flexion(deg); break;
-  case 1: neck->abduct(deg); break;
-  case 2: neck->torsion(deg); break;
+  case 0: chest->flexion(deg); break;
+  case 1: chest->abduct(deg); break;
+  case 2: chest->torsion(deg); break;
   }
 }
 
@@ -951,9 +951,7 @@ void Body::animLeg(float deg, uint8_t side, uint8_t axis)
   switch (side) {
   case 0:
     switch (axis) {
-    case 0:
-      //bap->setBap(L_HIP_FLEXION, deg);
-      thigh_l->flexion(deg); break;
+    case 0: thigh_l->flexion(deg); break; //bap->setBap(L_HIP_FLEXION, deg);
     case 1: thigh_l->abduct(deg); break;
     case 2: thigh_l->torsion(deg); break;
     }
@@ -972,13 +970,13 @@ void Body::animShin(float deg, uint8_t side, uint8_t axis)
   switch (side) {
   case 0:
     switch (axis) {
-    case 0: case 1: arm_l->flexion(deg); break;
-    case 2: arm_l->torsion(deg); break;
+    case 1: shin_l->flexion(deg); break;
+    case 2: shin_l->torsion(deg); break;
     }
   case 1:
     switch (axis) {
-    case 0: case 1: arm_r->flexion(deg); break;
-    case 2: arm_r->torsion(deg); break;
+    case 1: shin_r->flexion(deg); break;
+    case 2: shin_r->torsion(deg); break;
     }
   }
 }
@@ -989,13 +987,13 @@ void Body::animFoot(float deg, uint8_t side, uint8_t axis)
   switch (side) {
   case 0:
     switch (axis) {
-    case 0: case 1: arm_l->flexion(deg); break;
-    case 2: arm_l->torsion(deg); break;
+    case 0: foot_l->flexion(deg); break;
+    case 2: foot_l->torsion(deg); break;
     }
   case 1:
     switch (axis) {
-    case 0: case 1: arm_r->flexion(deg); break;
-    case 2: arm_r->torsion(deg); break;
+    case 0: foot_r->flexion(deg); break;
+    case 2: foot_r->torsion(deg); break;
     }
   }
 }
@@ -1025,13 +1023,13 @@ void Body::animForearm(float deg, uint8_t side, uint8_t axis)
   switch (side) {
   case 0:
     switch (axis) {
-    case 0: arm_l->flexion(deg); break;
-    case 1: case 2: arm_l->torsion(deg); break;
+    case 0: forearm_l->flexion(deg); break;
+    case 2: forearm_l->torsion(deg); break;
     }
   case 1:
     switch (axis) {
-    case 0: arm_r->flexion(deg); break;
-    case 1: case 2: arm_r->torsion(deg); break;
+    case 0: forearm_r->flexion(deg); break;
+    case 2: forearm_r->torsion(deg); break;
     }
   }
 }
@@ -1221,9 +1219,9 @@ void Body::display()
    //rotX(PELVIC_TILT, model);
    //rotY(PELVIC_ROLL, model);
    //rotZ(PELVIC_TORSION, model);
-   //rotX(PELVIC_TILT, hips->a_flexion());
-   //rotY(PELVIC_ROLL, hips->a_abduct());
-   //rotZ(PELVIC_TORSION, hips->a_torsion());
+   //rotX(PELVIC_TILT, chest->a_flexion());
+   //rotY(PELVIC_ROLL, chest->a_abduct());
+   //rotZ(PELVIC_TORSION, chest->a_torsion());
    transN(PELVIC);
    display(HIPS);
 
