@@ -1150,8 +1150,8 @@ void Body::rotX(int param, uint8_t model)
 {
   int sign = (param >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef( sign * bap->getBap(abs(param)) + rx, 1,0,0); break;
-  case MODEL_OBJ: glRotatef(-sign * bap->getBap(abs(param)) + rx, 0,1,0); break;
+  case MODEL_OFF: glRotatef( sign * bap->getBap(abs(param)), 1,0,0); break;
+  case MODEL_OBJ: glRotatef(-sign * bap->getBap(abs(param)), 0,1,0); break;
   }
 }
 
@@ -1159,8 +1159,8 @@ void Body::rotY(int param, uint8_t model)
 {
   int sign = (param >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(param)) + ry, 0,1,0); break;
-  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(param)) + ry, 1,0,0); break;
+  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(param)), 0,1,0); break;
+  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(param)), 1,0,0); break;
   }
 }
 
@@ -1168,27 +1168,27 @@ void Body::rotZ(int param, uint8_t model)
 {
   int sign = (param >= 0) ?1:-1;
   switch (model) {
-  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(param)) + rz, 0,0,1); break;
-  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(param)) + rz, 0,0,1); break;
+  case MODEL_OFF: glRotatef(sign * bap->getBap(abs(param)), 0,0,1); break;
+  case MODEL_OBJ: glRotatef(sign * bap->getBap(abs(param)), 0,0,1); break;
   }
 }
 
 void Body::rotX(int param, float angle)
 {
   int sign = (param >= 0) ?1:-1;
-  glRotatef(sign * angle + rx, 1,0,0);
+  glRotatef(sign * angle, 1,0,0);
 }
 
 void Body::rotY(int param, float angle)
 {
   int sign = (param >= 0) ?1:-1;
-  glRotatef(sign * angle + ry, 0,1,0);
+  glRotatef(sign * angle, 0,1,0);
 }
 
 void Body::rotZ(int param, float angle)
 {
   int sign = (param >= 0) ?1:-1;
-  glRotatef(sign * angle + rz, 0,0,1);
+  glRotatef(sign * angle, 0,0,1);
 }
 
 /** display a part of the body */
