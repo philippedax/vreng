@@ -567,7 +567,7 @@ void User::changePosition(float lasting)
   }
   if (localuser->humanoid) {
     localuser->humanoid->pos = pos;
-    //dax localuser->humanoid->updatePosition();
+    //dax1 localuser->humanoid->updatePosition();
   }
   if (localuser->bubble) {
     localuser->bubble->setPosition();

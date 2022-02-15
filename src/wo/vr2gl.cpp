@@ -26,7 +26,7 @@
 #include <list>
 
 
-/* Updates an object in 3D */
+/* Updates objects in 3D */
 void WObject::updateAll3D(Pos &pos)
 {
   if (! solid) return;

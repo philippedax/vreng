@@ -576,6 +576,6 @@ void Guy::walking_cb(Guy *guy, void *d, time_t s, time_t u)
 void Guy::funcs()
 {
   setActionFunc(GUY_TYPE, 0, _Action animate_cb, "Anim");
-  setActionFunc(GUY_TYPE, 1, _Action walking_cb, "Walk");
-  setActionFunc(GUY_TYPE, 2, _Action moveObject, "Move");
+  //dax setActionFunc(GUY_TYPE, 1, _Action walking_cb, "Walk");
+  //dax setActionFunc(GUY_TYPE, 2, _Action moveObject, "Move");
 }

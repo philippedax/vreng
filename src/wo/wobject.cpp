@@ -769,7 +769,7 @@ void WObject::initPosition()
 void WObject::updatePosition()
 {
   updateAll3D(pos);
-  update3D(pos);
+  //dax1 update3D(pos);
   if (bbBehavior()) updateBB();
   pos.alter = true;	// has changed
   updateDist();
