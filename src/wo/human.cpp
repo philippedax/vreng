@@ -34,7 +34,7 @@
 // 775 Normals
 // 940 Triangles
 
-#define MAN_STATIC 1
+#define MAN_STATIC 0
 
 const OClass Human::oclass(HUMAN_TYPE, "Human", Human::creator);
 
@@ -219,7 +219,7 @@ void Human::render()
 }
 
 #if !defined(MAN_STATIC)
-void Human::pointing(int dir[3])
+void Human::pointing(int dir[])
 {
   float posx, posy, posz, rotx, roty, rotz;
   float theta, psi;

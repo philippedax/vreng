@@ -37,7 +37,7 @@ struct _tMaterial {
 };
 
 struct _tBody {
-  uint8_t part;         // part index
+  uint8_t part;         // part number
   uint16_t offset;      // relative offset from faces
   uint16_t vcount;      // vertices count
   uint8_t mat;          // material index
@@ -110,12 +110,14 @@ public:
   virtual void quit();  
   /**< Quits properly. */
 
+  void pointing(int *dir);
+
 private:
   float width;
   float depth;
   float height;
-  bool usercontrol;
-  GLint dlist;
+  bool usercontrol;	///< control by localuser
+  GLint dlist;		///< display list
 
   virtual void parser(char *l);
   /**< Parses file line. */
@@ -129,7 +131,6 @@ private:
   static void myMaterial(GLenum mode, float *f, float alpha);
 
   static void setMaterial(int i);
-
 };
 
 #endif
