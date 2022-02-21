@@ -24,7 +24,7 @@
 #include "wobject.hpp"	// Pos
 
 /**
- * Man model
+ * Man class
  */
 class Man {
 
@@ -47,7 +47,6 @@ private:
   static void myMaterial(GLenum mode, float *f, float alpha);
 
   static void setMaterial(int i);
-
 };
 
 #endif

@@ -33,8 +33,6 @@
 // 775 Normals
 // 940 Triangles
 
-#define MAN_STATIC 1
-
 
 struct tMaterial {
   float ambient[3];
@@ -200,45 +198,3 @@ void Man::draw()
   }
   glPopMatrix();
 }
-
-#if !defined(MAN_STATIC)
-void Man::pointing(int dir[3])
-{
-  float posx, posy, posz, rotx, roty, rotz;
-  float theta, psi;
-
-  //valeurs a adapter
-  posx = 0.2;
-  posy = 0;   //centre de l'epaule
-  posz = 1.6; //niveau de l'epaule
-
-  // soit px,py,pz les coordonnees de l'utilisateur
-  // sachant que la translation est faite juste avant
-  // nous supposons que l'on ait p%xyz+pos%xyz, etc.
-  // la transformation entre les coord OpenGL et VREng est:
-  // OpenGL(x,y,z) = VREng(-y,z,-x)
-  // VReng(x,y,z) = OpenGL(-z,-x,y)
-
-  theta = asin((sqrt(pow(dir[0]-posx,2)+pow(dir[2]+posy,2))) / (abs(dir[0]-posx)));
-
-  if (dir[2] >= posz)
-    psi = asin((sqrt(pow(dir[0]-posx,2)+pow(dir[1]-posz,2))) / (abs(dir[1]-posz)));
-  else
-    psi = asin((sqrt(pow(dir[0]-posx,2)+pow(dir[1]-posz,2))) / (abs(dir[0]-posx)));
-
-  rotx = theta;
-  roty = 0;
-  rotz = psi;
-
-  glPushMatrix();
-  draw();
-
-  glTranslatef(posx, posy, posz);
-  glRotatef(rotx, 1,0,0);
-  glRotatef(roty, 0,1,0);
-  glRotatef(rotz, 0,0,1);
-
-  //handPointing();
-  glPopMatrix();
-}
-#endif
