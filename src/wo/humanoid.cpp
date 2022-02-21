@@ -266,6 +266,8 @@ int Humanoid::readBapFrame()
 /** system of equations handling permanent motion */
 void Humanoid::changePermanent(float lasting)
 {
+  static float angle = 0;
+
   if (state != PLAYING) return;  // not playing
 
   if (usercontrol && localuser) {
@@ -310,10 +312,12 @@ void Humanoid::changePermanent(float lasting)
       //body->animChest(+30, 0);	// chest flexion front : OK
       //body->animChest(-30, 1);	// chest abduct right : OK
       //body->animChest(-30, 2);	// chest torsion left : OK
-      body->animArm(-30, 0, 0);		// arm left flexion : OK
-      body->animArm(+30, 1, 0);		// arm right flexion : OK
-      body->animForearm(-60, 0, 0);	// forearm left flexion front : OK
-      body->animForearm(+60, 1, 0);	// forearm right flexion front : OK
+      //for (int i=0; i<30; i++) {
+      //body->animArm(-i, 0, 0);		// arm left flexion : OK
+      //body->animArm(+i, 1, 0);		// arm right flexion : OK
+      //body->animForearm(-2*i, 0, 0);	// forearm left flexion front : OK
+      //body->animForearm(+2*i, 1, 0);	// forearm right flexion front : OK
+      //}
       //body->animLeg(-30, 0, 0);	// leg left front flexion : OK
       //body->animLeg(+30, 0, 1);	// leg left abduct back : OK
       //body->animLeg(-30, 1, 2);	// leg right torsion ext : OK
@@ -321,6 +325,7 @@ void Humanoid::changePermanent(float lasting)
       render();
        //disconnectFromBapServer();
        state = INACTIVE;
+       angle = 0;
        //error("disconnect");
       break;
     default:
@@ -331,6 +336,13 @@ void Humanoid::changePermanent(float lasting)
   else if ((sdtcp > 0) && body->face) {
     body->face->animate();	// local animation
   }
+      //for (int i=0; i<30; i++) {
+      angle += 10;
+      body->animArm(-angle, 0, 0);		// arm left flexion : OK
+      body->animArm(+angle, 1, 0);		// arm right flexion : OK
+      body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
+      body->animForearm(+2*angle, 1, 0);	// forearm right flexion front : OK
+      //}
 
 #if 0 //dax
   else if (sdtcp <= 0) {

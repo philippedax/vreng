@@ -444,11 +444,11 @@ struct sBodyParts {
 
 struct sBodyToken {
   char name[16];  	///< name of this part
-  int num;		///< part number
+  uint8_t num;		///< part number
 };
 
 /**
- * Joint-Points structure
+ * Join-points structure
  */
 struct sJP {
   float *x;
@@ -493,11 +493,11 @@ class Body {
   GLint dlist;			///< body display-list
   float tx, ty, tz;		///< body translations
   float rx, ry, rz;		///< body rotations
-  float bscale;		///< body scale factor
+  float bscale;			///< body scale factor
   float skin[3];		///< skin color
   float cloth[3];		///< cloth color
   float color[3];		///< color
-  char *url;
+  char *url;			///< body url
 
   // body parts
   HeadBody *head;		///< 1 head
