@@ -110,7 +110,7 @@ public:
   virtual void quit();  
   /**< Quits properly. */
 
-  void pointing(int *dir);
+  void armShowing(int *dir);
 
 private:
   float width;

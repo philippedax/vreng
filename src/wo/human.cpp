@@ -34,7 +34,6 @@
 // 775 Normals
 // 940 Triangles
 
-#define MAN_STATIC 0
 
 const OClass Human::oclass(HUMAN_TYPE, "Human", Human::creator);
 
@@ -218,23 +217,14 @@ void Human::render()
   glPopMatrix();
 }
 
-#if !defined(MAN_STATIC)
-void Human::pointing(int dir[])
+void Human::armShowing(int dir[3])
 {
-  float posx, posy, posz, rotx, roty, rotz;
+  // shoulder join point
+  float posx = 0.20;	// distance a l'epaule
+  float posy = 0;	// centre de l'epaule
+  float posz = 1.6;	// shoulder height
+
   float theta, psi;
-
-  //valeurs a adapter
-  posx = 0.2;
-  posy = 0;   //centre de l'epaule
-  posz = 1.6; //niveau de l'epaule
-
-  // soit px,py,pz les coordonnees de l'utilisateur
-  // sachant que la translation est faite juste avant
-  // nous supposons que l'on ait p%xyz+pos%xyz, etc.
-  // la transformation entre les coord OpenGL et VREng est:
-  // OpenGL(x,y,z) = VREng(-y,z,-x)
-  // VReng(x,y,z) = OpenGL(-z,-x,y)
 
   theta = asin((sqrt(pow(dir[0]-posx,2)+pow(dir[2]+posy,2))) / (abs(dir[0]-posx)));
 
@@ -243,9 +233,9 @@ void Human::pointing(int dir[])
   else
     psi = asin((sqrt(pow(dir[0]-posx,2)+pow(dir[1]-posz,2))) / (abs(dir[0]-posx)));
 
-  rotx = theta;
-  roty = 0;
-  rotz = psi;
+  float rotx = theta;
+  float roty = 0;
+  float rotz = psi;
 
   glPushMatrix();
    glTranslatef(posx, posy, posz);
@@ -257,7 +247,6 @@ void Human::pointing(int dir[])
    //handPointing();
   glPopMatrix();
 }
-#endif
 
 void Human::funcs()
 {
