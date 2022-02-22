@@ -578,6 +578,7 @@ public:
   virtual void animate();
   /**< Animates body. */
 
+  virtual void animReset();
   virtual void animHead(float deg, uint8_t axis);
   virtual void animNeck(float deg, uint8_t axis);
   virtual void animChest(float deg, uint8_t axis);

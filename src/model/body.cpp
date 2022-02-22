@@ -915,6 +915,49 @@ void Body::animate()
   //error("a: %.1f", bap->getBap(R_SHOULDER_FLEXION));
 }
 
+void Body::animReset()
+{
+  animHead(0, 0);
+  animHead(0, 1);
+  animHead(0, 2);
+  animNeck(0, 0);
+  animNeck(0, 1);
+  animNeck(0, 2);
+  animChest(0, 0);
+  animChest(0, 1);
+  animChest(0, 2);
+  animLeg(0, 0, 0);
+  animLeg(0, 1, 0);
+  animLeg(0, 0, 1);
+  animLeg(0, 1, 1);
+  animLeg(0, 0, 2);
+  animLeg(0, 1, 2);
+  animShin(0, 0, 1);
+  animShin(0, 1, 1);
+  animShin(0, 0, 2);
+  animShin(0, 1, 2);
+  animFoot(0, 0, 0);
+  animFoot(0, 1, 0);
+  animFoot(0, 0, 2);
+  animFoot(0, 1, 2);
+  animArm(0, 0, 0);
+  animArm(0, 1, 0);
+  animArm(0, 0, 1);
+  animArm(0, 1, 1);
+  animArm(0, 0, 2);
+  animArm(0, 1, 2);
+  animForearm(0, 0, 0);
+  animForearm(0, 1, 0);
+  animForearm(0, 0, 2);
+  animForearm(0, 1, 2);
+  animHand(0, 0, 0);
+  animHand(0, 1, 0);
+  animHand(0, 0, 1);
+  animHand(0, 1, 1);
+  animHand(0, 0, 2);
+  animHand(0, 1, 2);
+}
+
 void Body::animHead(float deg, uint8_t axis)
 {
   error("Head: %d %.0f", axis, deg);
