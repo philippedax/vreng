@@ -219,10 +219,11 @@ void User::changePosition(const float lastings[])
     }
   }
 
-  // Fly
-  float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
   if (this == localuser) {
-    if (pos.z > 2) {	// >2 m
+    float a = MIN((pos.z - 1) * (M_PI/18), (M_PI_4+M_PI_4/2));
+
+    if (pos.z > 2) {		// hight >2 m
+      // Fly
       if (humanoid) {
         localuser->pos.ay = -a;
       }
@@ -230,7 +231,7 @@ void User::changePosition(const float lastings[])
         human->pos.ay = -a;
       }
       if (guy) {
-        guy->pos.ax = -a;	//orig ay
+        guy->pos.ax = -a;	//
         guy->setAniming(true);
         guy->setFlying(true);
       }
@@ -248,7 +249,7 @@ void User::changePosition(const float lastings[])
         guy->setFlying(true);
       }
     }
-    else if (pos.z < 1) { // near the ground
+    else if (pos.z < 1) {	// near the ground
       if (humanoid) {
         localuser->pos.ay = 0;
       }
@@ -262,10 +263,10 @@ void User::changePosition(const float lastings[])
           guy->setAniming(false);
         }
         else if (guy->isAnim()) {
-          guy->setAniming(false);
+          guy->setAniming(false);	// stop anim
         }
         else {
-          guy->setAniming(true);
+          guy->setAniming(true);	// anim a little bit
         }
       }
     }
