@@ -74,7 +74,7 @@ Web::Web(char *l)
   text = NULL;
 
   parser(l);
-  angori = pos.az;
+  angori = pos.az;	// keep initial angle
 
   initMobileObject(TTL);
   createPermanentNetObject(PROPS, ++oid);
@@ -87,20 +87,19 @@ void Web::updateTime(time_t sec, time_t usec, float *lasting)
 
 void Web::changePosition(float lasting)
 { 
-  static float rot = 0;
+  static float roting = 0;
 
-  //error("rot: %.1f %.1f %.2f", rot, pos.az, lasting);
-  if (rot < M_PI) {
+  if (roting < M_PI) {
     pos.az += lasting * move.aspeed.v[0];
-    rot += lasting * move.aspeed.v[0];
+    roting += lasting * move.aspeed.v[0];
   }
   else {
-    rot = 0;
+    roting = 0;
     switch (face) {
     case RECTO: pos.az = angori; break;
     case VERSO: pos.az = angori + M_PI; break;
     }
-    stopImposedMovement();
+    stopImposedMovement();	// stop roting
     if (caption) {
       //showCaption();
     }
