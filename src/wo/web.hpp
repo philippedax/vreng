@@ -68,7 +68,8 @@ private:
   static const float ASPEED;
 
   float aspeed;		///< angular speed.
-  uint8_t face;		///< face recto or verso
+  float angori;		///< initial angle.
+  uint8_t face;		///< face recto or verso.
   char caption[128];	///< caption text.
   class Text *text;	///< Text instance.
 

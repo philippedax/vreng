@@ -74,6 +74,7 @@ Web::Web(char *l)
   text = NULL;
 
   parser(l);
+  angori = pos.az;
 
   initMobileObject(TTL);
   createPermanentNetObject(PROPS, ++oid);
@@ -87,7 +88,6 @@ void Web::updateTime(time_t sec, time_t usec, float *lasting)
 void Web::changePosition(float lasting)
 { 
   static float rot = 0;
-  static float angori = pos.az;
 
   //error("rot: %.1f %.1f %.2f", rot, pos.az, lasting);
   if (rot < M_PI) {
