@@ -18,18 +18,18 @@ case $# in
 1)
   case $1 in
   github)
-    cp -r $1 old
-    rm -rf $1
+    rm -rf old/$1
+    mv $1 old
     git clone https://github.com/philippedax/vreng.git $1
     ;;
   gitlab)
-    cp -r $1 old
-    rm -rf $1
+    rm -rf old/$1
+    mv $1 old
     git clone https://gitlab.freedesktop.org/philippedax/vreng.git $1
     ;;
   bitbucket)
-    cp -r $1 old
-    rm -rf $1
+    rm -rf old/$1
+    mv $1 old
     git clone https://bitbucket.org/philippedax/vreng/src/master/ $1
     ;;
   *)

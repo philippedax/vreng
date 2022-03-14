@@ -336,13 +336,11 @@ void Humanoid::changePermanent(float lasting)
   else if ((sdtcp > 0) && body->face) {
     body->face->animate();	// local animation
   }
-      //for (int i=0; i<30; i++) {
-      angle += 10;
-      body->animArm(-angle, 0, 0);		// arm left flexion : OK
-      body->animArm(+angle, 1, 0);		// arm right flexion : OK
-      body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
-      body->animForearm(+2*angle, 1, 0);	// forearm right flexion front : OK
-      //}
+      //angle = 10;
+      //body->animArm(-angle, 0, 0);		// arm left flexion : OK
+      //body->animArm(+angle, 1, 0);		// arm right flexion : OK
+      //body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
+      //body->animForearm(+2*angle, 1, 0);	// forearm right flexion front : OK
 
 #if 0 //dax
   else if (sdtcp <= 0) {
