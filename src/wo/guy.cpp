@@ -431,26 +431,26 @@ void Guy::display_leg(bool side)
      glTranslatef(-BUST_L * BUST_W/2., HIP_R/2, 0);
    }
 
-    // Upper leg: rotates around the x axis only
-    glRotatef(cycles[side][CSET_ULEG][step], 1, 0, 0);
-    glPushMatrix();
-     glCallList(dlist+ULEG);
-    glPopMatrix();
+   // upper leg: rotates around the x axis only
+   glRotatef(cycles[side][CSET_ULEG][step], 1, 0, 0);
+   glPushMatrix();
+    glCallList(dlist+ULEG);
+   glPopMatrix();
 
-    // Lower leg: rotates around the x axis only
-    glTranslatef(0, -(ULEG_H + KNEE_R), 0);
-    glRotatef(cycles[side][CSET_LLEG][step], 1, 0, 0);
-    glPushMatrix();
-     glCallList(dlist+LLEG);
-    glPopMatrix();
+   // jower leg: rotates around the x axis only
+   glTranslatef(0, -(ULEG_H + KNEE_R), 0);
+   glRotatef(cycles[side][CSET_LLEG][step], 1, 0, 0);
+   glPushMatrix();
+    glCallList(dlist+LLEG);
+   glPopMatrix();
 
-    // Foot: rotates around the x axis only
-    glMaterialfv(GL_FRONT, GL_AMBIENT, feet_color);
-    glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0);
-    glRotatef(cycles[side][CSET_FOOT][step], 1, 0, 0);
-    glPushMatrix();
-     glCallList(dlist+FOOT);
-    glPopMatrix();
+   // foot: rotates around the x axis only
+   glMaterialfv(GL_FRONT, GL_AMBIENT, feet_color);
+   glTranslatef(0, -(ULEG_H + LLEG_H + ANKLE_R)/2, 0);
+   glRotatef(cycles[side][CSET_FOOT][step], 1, 0, 0);
+   glPushMatrix();
+    glCallList(dlist+FOOT);
+   glPopMatrix();
   glPopMatrix();
 }
 
@@ -466,7 +466,7 @@ void Guy::display_arm(bool side)
      glTranslatef(-BUST_W + SHOULDER_R/2 +0.03, 0, 0);
    }
 
-   // Upper arm: rotates around the x axis only
+   // upper arm: rotates around the x axis only
    if (flying) {
      glRotatef(135, 1, 0, 0);	// x axis
    }
@@ -480,7 +480,7 @@ void Guy::display_arm(bool side)
     glCallList(dlist+UARM);
    glPopMatrix();
 
-   // Lower arm: rotates around the x axis only
+   // lower arm: rotates around the x axis only
    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, skin_color);
    glTranslatef(0, -(UARM_H + ELBOW_R), 0);
    if (flying || (showing && side == R_SIDE)) {
@@ -504,19 +504,19 @@ void Guy::render()
 
 #if 0 //dax - unused
    float dx, dz;
-   static       float guy_rot = 3 * M_PI/2;	// radian
-   static const float guy_step = 72;		// number of steps
-   static const float guy_radius = 1.5;		// space unit
+   static       float rot = M_PI/2;
+   static const float da = 72;
+   static const float rad = 1.5;
 
    if (::g.timer.isRate(RATE))
-     guy_rot -= M_2PI / guy_step;
-   if (guy_rot <= 0)
-     guy_rot = M_2PI;
+     rot -= M_2PI / da;
+   if (rot <= 0)
+     rot = M_2PI;
    if (walking) {
-     dx =  guy_radius * cos(guy_rot);
-     dz = -guy_radius * sin(guy_rot);
+     dx =  rad * cos(rot);
+     dz = -rad * sin(rot);
      glTranslatef(-dx, -dz, 0);
-     glRotatef(RAD2DEG(guy_rot), 0, 1, 0);
+     glRotatef(RAD2DEG(rot), 0, 1, 0);
    }
 #endif
 
