@@ -63,7 +63,7 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
 
   magic1 = getc(f); magic2 = getc(f);
   if (magic1 != 'B' || magic2 != 'M') {
-    error("LoadBMP: % not a bmp file magic=%c%c", ir->getFilename(tex), magic1, magic2);
+    error("LoadBMP: %s not a bmp file magic=%c%c", ir->getFilename(tex), magic1, magic2);
     File::closeFile(f);
     return NULL;
   }
