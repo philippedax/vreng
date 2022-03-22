@@ -530,12 +530,12 @@ void rigid::makeList()
     if (translucent)
       glColor4f(1,1,1,mtls[m]->opacity);
     for (uint32_t i=0; i < mtls[m]->faces.size(); i++) {
-      glNormal3fv(  normals[mtls[m]->faces[i].vertIndices[0]-1].vertex);
-      glVertex3fv(  vertices[mtls[m]->faces[i].vertIndices[0]-1].vertex);
-      glNormal3fv(  normals[mtls[m]->faces[i].vertIndices[1]-1].vertex);
-      glVertex3fv(  vertices[mtls[m]->faces[i].vertIndices[1]-1].vertex);
-      glNormal3fv(  normals[mtls[m]->faces[i].vertIndices[2]-1].vertex);
-      glVertex3fv(  vertices[mtls[m]->faces[i].vertIndices[2]-1].vertex);
+      glNormal3fv(normals[mtls[m]->faces[i].vertIndices[0]-1].vertex);
+      glVertex3fv(vertices[mtls[m]->faces[i].vertIndices[0]-1].vertex);
+      glNormal3fv(normals[mtls[m]->faces[i].vertIndices[1]-1].vertex);
+      glVertex3fv(vertices[mtls[m]->faces[i].vertIndices[1]-1].vertex);
+      glNormal3fv(normals[mtls[m]->faces[i].vertIndices[2]-1].vertex);
+      glVertex3fv(vertices[mtls[m]->faces[i].vertIndices[2]-1].vertex);
     }
   }
   glEnd();
@@ -544,7 +544,7 @@ void rigid::makeList()
 
 void rigid::getBoundingBox()
 {
-  error("rigid::getBB");
+  //error("rigid::getBB");
   /*  
   for (int j=0; j<3;j++) {
     boundingBox[0].vertex[j] = test[0]->location.vertex[j]; // lower right bound
@@ -630,7 +630,6 @@ void movable::setName(string name)
   this->name = name;
   for (int i=0; name[i] !=0; i++)
     this->name[i] = name[i];
-  //this->name[i] = name[i];
   //movableFrame->setText(name);
 }
 
@@ -647,7 +646,7 @@ void movable::move(int pitch, int turn, int roll, float x, float y, float z)
 
 void movable::getAABB()
 {
-  error("movable::getAABB");
+  //error("movable::getAABB");
 #if 0 //notused
   oldCenterAABB = centerAABB;
 #endif
@@ -763,10 +762,10 @@ void movable::drawBoundingBox()
 #if 0 //notused
 void Normal(vector3f* v1, vector3f* v2, vector3f* v3)
 {
-  error("Normal");
+  //error("Normal");
   vector3f a(0, 0, 0);
   vector3f b(0, 0, 0);
-  vector3f result(0, 0, 0);
+  vector3f res(0, 0, 0);
   float len;
 
   a.vertex[0] = v1->vertex[0] - v2->vertex[0];
@@ -776,14 +775,14 @@ void Normal(vector3f* v1, vector3f* v2, vector3f* v3)
   b.vertex[1] = v1->vertex[1] - v3->vertex[1];
   b.vertex[2] = v1->vertex[2] - v3->vertex[2];
 
-  result.vertex[0] = (a.vertex[1]*b.vertex[2]) - (b.vertex[1]*a.vertex[2]);
-  result.vertex[1] = (b.vertex[0]*a.vertex[2]) - (a.vertex[0]*b.vertex[2]);
-  result.vertex[2] = (a.vertex[0]*b.vertex[1]) - (b.vertex[0]*a.vertex[1]);
+  res.vertex[0] = (a.vertex[1]*b.vertex[2]) - (b.vertex[1]*a.vertex[2]);
+  res.vertex[1] = (b.vertex[0]*a.vertex[2]) - (a.vertex[0]*b.vertex[2]);
+  res.vertex[2] = (a.vertex[0]*b.vertex[1]) - (b.vertex[0]*a.vertex[1]);
 
   // calculate the length of the normal
-  len = (float)sqrt(sqr(result.vertex[0]) + sqr(result.vertex[1]) + sqr(result.vertex[2]));
+  len = (float)sqrt(sqr(res.vertex[0]) + sqr(res.vertex[1]) + sqr(res.vertex[2]));
   // normalize and specify the normal
-  glNormal3f(result.vertex[0]/len, result.vertex[1]/len, result.vertex[2]/len);
+  glNormal3f(res.vertex[0]/len, res.vertex[1]/len, res.vertex[2]/len);
 }
 #endif
 
@@ -810,12 +809,12 @@ float dotProduct(const vector3f &v1,const vector3f &v2)
 
 vector3f crossProduct(const vector3f &v1, const vector3f &v2)
 {
-  vector3f result(0, 0, 0);
+  vector3f res(0, 0, 0);
 
-  result.vertex[0]= (v1.vertex[1]*v2.vertex[2]) - (v1.vertex[2]*v2.vertex[1]);
-  result.vertex[1]= (v1.vertex[2]*v2.vertex[0]) - (v1.vertex[0]*v2.vertex[2]);
-  result.vertex[2]= (v1.vertex[0]*v2.vertex[1]) - (v1.vertex[1]*v2.vertex[0]);
-  return result;
+  res.vertex[0]= (v1.vertex[1]*v2.vertex[2]) - (v1.vertex[2]*v2.vertex[1]);
+  res.vertex[1]= (v1.vertex[2]*v2.vertex[0]) - (v1.vertex[0]*v2.vertex[2]);
+  res.vertex[2]= (v1.vertex[0]*v2.vertex[1]) - (v1.vertex[1]*v2.vertex[0]);
+  return res;
 }
 
 vector3f vector3f::abs()
@@ -880,82 +879,82 @@ bool operator> (const vector3f &v1, const vector3f &v2)
 
 vector3f operator+ (const vector3f &v1, const vector3f &v2)
 {
-  vector3f result(0.0f, 0.0f, 0.0f);
+  vector3f res(0.0f, 0.0f, 0.0f);
 
-  result.vertex[0] = v1.vertex[0] + v2.vertex[0];
-  result.vertex[1] = v1.vertex[1] + v2.vertex[1];
-  result.vertex[2] = v1.vertex[2] + v2.vertex[2];
-  return result;
+  res.vertex[0] = v1.vertex[0] + v2.vertex[0];
+  res.vertex[1] = v1.vertex[1] + v2.vertex[1];
+  res.vertex[2] = v1.vertex[2] + v2.vertex[2];
+  return res;
 }
 
 vector3f operator+ (const vector3f &v1, const float scalar)
 {
-  vector3f result(0.0f, 0.0f, 0.0f);
+  vector3f res(0.0f, 0.0f, 0.0f);
 
-  result.vertex[0] = v1.vertex[0] + scalar;
-  result.vertex[1] = v1.vertex[1] + scalar;
-  result.vertex[2] = v1.vertex[2] + scalar;
-  return result;
+  res.vertex[0] = v1.vertex[0] + scalar;
+  res.vertex[1] = v1.vertex[1] + scalar;
+  res.vertex[2] = v1.vertex[2] + scalar;
+  return res;
 }
 
 vector3f operator- (const vector3f &v1, const vector3f &v2)
 {
-  vector3f result(0.0f, 0.0f, 0.0f);
+  vector3f res(0.0f, 0.0f, 0.0f);
 
-  result.vertex[0] = v1.vertex[0] - v2.vertex[0];
-  result.vertex[1] = v1.vertex[1] - v2.vertex[1];
-  result.vertex[2] = v1.vertex[2] - v2.vertex[2];
-  return result;
+  res.vertex[0] = v1.vertex[0] - v2.vertex[0];
+  res.vertex[1] = v1.vertex[1] - v2.vertex[1];
+  res.vertex[2] = v1.vertex[2] - v2.vertex[2];
+  return res;
 }
 
 vector3f operator- (const vector3f &v1, const float scalar)
 {
-  vector3f result(0.0f, 0.0f, 0.0f);
+  vector3f res(0.0f, 0.0f, 0.0f);
 
-  result.vertex[0]= v1.vertex[0] - scalar;
-  result.vertex[1]= v1.vertex[1] - scalar;
-  result.vertex[2]= v1.vertex[2] - scalar;
-  return result;
+  res.vertex[0]= v1.vertex[0] - scalar;
+  res.vertex[1]= v1.vertex[1] - scalar;
+  res.vertex[2]= v1.vertex[2] - scalar;
+  return res;
 }
 
 vector3f operator* (const vector3f &v1, const float scalar)
 {
-  vector3f result(0.0f, 0.0f, 0.0f);
+  vector3f res(0.0f, 0.0f, 0.0f);
 
-  result.vertex[0]= v1.vertex[0] * scalar;
-  result.vertex[1]= v1.vertex[1] * scalar;
-  result.vertex[2]= v1.vertex[2] * scalar;
-  return result;
+  res.vertex[0]= v1.vertex[0] * scalar;
+  res.vertex[1]= v1.vertex[1] * scalar;
+  res.vertex[2]= v1.vertex[2] * scalar;
+  return res;
 }
 
 vector3f operator* (const vector3f &v1, const vector3f &v2)
 {
-  vector3f result(0.0f, 0.0f, 0.0f);
+  vector3f res(0.0f, 0.0f, 0.0f);
 
-  result.vertex[0]= v1.vertex[0] * v2.vertex[0];
-  result.vertex[1]= v1.vertex[1] * v2.vertex[1];
-  result.vertex[2]= v1.vertex[2] * v2.vertex[2];
-  return result;
+  res.vertex[0]= v1.vertex[0] * v2.vertex[0];
+  res.vertex[1]= v1.vertex[1] * v2.vertex[1];
+  res.vertex[2]= v1.vertex[2] * v2.vertex[2];
+  return res;
 }
 
 vector3f operator/ (const vector3f &v1, const vector3f &v2)
 {
-  vector3f result(0.0f, 0.0f, 0.0f);
+  vector3f res(0.0f, 0.0f, 0.0f);
 
-  result.vertex[0]= v1.vertex[0] / v2.vertex[0];
-  result.vertex[1]= v1.vertex[1] / v2.vertex[1];
-  result.vertex[2]= v1.vertex[2] / v2.vertex[2];
-  return result;
+  res.vertex[0]= v1.vertex[0] / v2.vertex[0];
+  res.vertex[1]= v1.vertex[1] / v2.vertex[1];
+  res.vertex[2]= v1.vertex[2] / v2.vertex[2];
+  return res;
 }
 
 vector3f operator/ (const vector3f &v1, const float scalar)
 {
-  vector3f result(0.0f, 0.0f, 0.0f);
+  vector3f res(0.0f, 0.0f, 0.0f);
 
-  result.vertex[0]= v1.vertex[0] / scalar;
-  result.vertex[1]= v1.vertex[1] / scalar;
-  result.vertex[2]= v1.vertex[2] / scalar;
-  return result;
+  res.vertex[0]= v1.vertex[0] / scalar;
+  res.vertex[1]= v1.vertex[1] / scalar;
+  res.vertex[2]= v1.vertex[2] / scalar;
+  return res;
 }
 
 ///////////////////////////
@@ -1006,30 +1005,30 @@ void matrix16f::scale(float x, float y, float z)
 // current uses only 3x3 orientation portion, not location triple
 vector3f matrix16f::transform(vector3f point)
 {
-  vector3f result;
+  vector3f res;
 
-  result.vertex[0] = (this->matrix[0]*point.vertex[0])+(this->matrix[4]*point.vertex[1])+(this->matrix[8] *point.vertex[2]) +(this->matrix[12]);
-  result.vertex[1] = (this->matrix[1]*point.vertex[0])+(this->matrix[5]*point.vertex[1])+(this->matrix[9] *point.vertex[2]) +(this->matrix[13]);
-  result.vertex[2] = (this->matrix[2]*point.vertex[0])+(this->matrix[6]*point.vertex[1])+(this->matrix[10]*point.vertex[2]) +(this->matrix[14]);
-  return result;
+  res.vertex[0] = (this->matrix[0]*point.vertex[0])+(this->matrix[4]*point.vertex[1])+(this->matrix[8] *point.vertex[2]) +(this->matrix[12]);
+  res.vertex[1] = (this->matrix[1]*point.vertex[0])+(this->matrix[5]*point.vertex[1])+(this->matrix[9] *point.vertex[2]) +(this->matrix[13]);
+  res.vertex[2] = (this->matrix[2]*point.vertex[0])+(this->matrix[6]*point.vertex[1])+(this->matrix[10]*point.vertex[2]) +(this->matrix[14]);
+  return res;
 }
 
 matrix16f matrix16f::FlipOrientation()
 {
-  matrix16f result;
+  matrix16f res;
 
-  result.matrix[0] = matrix[0]; result.matrix[4] = matrix[1]; result.matrix[8] = matrix[2]; result.matrix[12] = matrix[12];
-  result.matrix[1] = matrix[4]; result.matrix[5] = matrix[5]; result.matrix[9] = matrix[6]; result.matrix[13] = matrix[13];
-  result.matrix[2] = matrix[8]; result.matrix[6] = matrix[9]; result.matrix[10]= matrix[10];result.matrix[14] = matrix[14];
-  result.matrix[3] = matrix[3]; result.matrix[7] = matrix[7]; result.matrix[11]= matrix[11];result.matrix[15] = matrix[15];
-  return result;
+  res.matrix[0] = matrix[0]; res.matrix[4] = matrix[1]; res.matrix[8] = matrix[2]; res.matrix[12] = matrix[12];
+  res.matrix[1] = matrix[4]; res.matrix[5] = matrix[5]; res.matrix[9] = matrix[6]; res.matrix[13] = matrix[13];
+  res.matrix[2] = matrix[8]; res.matrix[6] = matrix[9]; res.matrix[10]= matrix[10];res.matrix[14] = matrix[14];
+  res.matrix[3] = matrix[3]; res.matrix[7] = matrix[7]; res.matrix[11]= matrix[11];res.matrix[15] = matrix[15];
+  return res;
 }
 
 void matrix16f::normalize()
 {
-  vector3f right(  matrix[0],matrix[1],matrix[2]);
-  vector3f up(  matrix[4],matrix[5],matrix[6]);
-  vector3f out(  matrix[8],matrix[9],matrix[10]);
+  vector3f right(matrix[0],matrix[1],matrix[2]);
+  vector3f up(matrix[4],matrix[5],matrix[6]);
+  vector3f out(matrix[8],matrix[9],matrix[10]);
 
   // make all axes orthogonal
   out   = crossProduct(up,right);
@@ -1275,86 +1274,86 @@ matrix16f& matrix16f::operator= (const matrix16f &m1)
 
 matrix16f operator+ (const matrix16f &m1, const matrix16f &m2)
 {
-  matrix16f result;
+  matrix16f res;
 
   for (int i = 0; i<16; i++)
-    result.matrix[i]= m1.matrix[i]+m2.matrix[i];
-  return result;
+    res.matrix[i]= m1.matrix[i]+m2.matrix[i];
+  return res;
 }
 
 // for adding location vectors to orientation-location matrices
 matrix16f operator+ (const matrix16f &m1, const vector3f  &v2)
 {
-  matrix16f result;
-  result = m1;
+  matrix16f res;
+  res = m1;
 
-  result.matrix[12] += v2.vertex[0];
-  result.matrix[13] += v2.vertex[1];
-  result.matrix[14] += v2.vertex[2];
-  return result;
+  res.matrix[12] += v2.vertex[0];
+  res.matrix[13] += v2.vertex[1];
+  res.matrix[14] += v2.vertex[2];
+  return res;
 }
 
 matrix16f operator- (const matrix16f &m1, const matrix16f &m2)
 {
-  matrix16f result;
+  matrix16f res;
 
   for (int i = 0; i<16; i++)
-    result.matrix[i]= m1.matrix[i]-m2.matrix[i];
-  return result;
+    res.matrix[i]= m1.matrix[i]-m2.matrix[i];
+  return res;
 }
 
 matrix16f operator* (const matrix16f &m1, const float scalar)
 {
-  matrix16f result;
+  matrix16f res;
 
   for (int i = 0; i<16; i++)
-    result.matrix[i]= m1.matrix[i]*scalar;
-  return result;
+    res.matrix[i]= m1.matrix[i]*scalar;
+  return res;
 }
 
 matrix16f operator* (const matrix16f &m1, const matrix16f &m2)
 {
-  matrix16f result;
+  matrix16f res;
 
   // row 0
-  result.matrix[0] = (m1.matrix[0]*m2.matrix[0]) + (m1.matrix[4]*m2.matrix[1]) +(m1.matrix[8]*m2.matrix[2]) +(m1.matrix[12]*m2.matrix[3]);
-  result.matrix[4] = (m1.matrix[0]*m2.matrix[4]) + (m1.matrix[4]*m2.matrix[5]) +(m1.matrix[8]*m2.matrix[6]) +(m1.matrix[12]*m2.matrix[7]);
-  result.matrix[8] = (m1.matrix[0]*m2.matrix[8]) + (m1.matrix[4]*m2.matrix[9]) +(m1.matrix[8]*m2.matrix[10])+(m1.matrix[12]*m2.matrix[11]);
-  result.matrix[12]= (m1.matrix[0]*m2.matrix[12])+ (m1.matrix[4]*m2.matrix[13])+(m1.matrix[8]*m2.matrix[14])+(m1.matrix[12]*m2.matrix[15]);
+  res.matrix[0] = (m1.matrix[0]*m2.matrix[0]) + (m1.matrix[4]*m2.matrix[1]) +(m1.matrix[8]*m2.matrix[2]) +(m1.matrix[12]*m2.matrix[3]);
+  res.matrix[4] = (m1.matrix[0]*m2.matrix[4]) + (m1.matrix[4]*m2.matrix[5]) +(m1.matrix[8]*m2.matrix[6]) +(m1.matrix[12]*m2.matrix[7]);
+  res.matrix[8] = (m1.matrix[0]*m2.matrix[8]) + (m1.matrix[4]*m2.matrix[9]) +(m1.matrix[8]*m2.matrix[10])+(m1.matrix[12]*m2.matrix[11]);
+  res.matrix[12]= (m1.matrix[0]*m2.matrix[12])+ (m1.matrix[4]*m2.matrix[13])+(m1.matrix[8]*m2.matrix[14])+(m1.matrix[12]*m2.matrix[15]);
   // row 1
-  result.matrix[1] = (m1.matrix[1]*m2.matrix[0]) +(m1.matrix[5]*m2.matrix[1]) +(m1.matrix[9]*m2.matrix[2]) +(m1.matrix[13]*m2.matrix[3]);
-  result.matrix[5] = (m1.matrix[1]*m2.matrix[4]) +(m1.matrix[5]*m2.matrix[5]) +(m1.matrix[9]*m2.matrix[6]) +(m1.matrix[13]*m2.matrix[7]);
-  result.matrix[9] = (m1.matrix[1]*m2.matrix[8]) +(m1.matrix[5]*m2.matrix[9]) +(m1.matrix[9]*m2.matrix[10])+(m1.matrix[13]*m2.matrix[11]);
-  result.matrix[13]= (m1.matrix[1]*m2.matrix[12])+(m1.matrix[5]*m2.matrix[13])+(m1.matrix[9]*m2.matrix[14])+(m1.matrix[13]*m2.matrix[15]);
+  res.matrix[1] = (m1.matrix[1]*m2.matrix[0]) +(m1.matrix[5]*m2.matrix[1]) +(m1.matrix[9]*m2.matrix[2]) +(m1.matrix[13]*m2.matrix[3]);
+  res.matrix[5] = (m1.matrix[1]*m2.matrix[4]) +(m1.matrix[5]*m2.matrix[5]) +(m1.matrix[9]*m2.matrix[6]) +(m1.matrix[13]*m2.matrix[7]);
+  res.matrix[9] = (m1.matrix[1]*m2.matrix[8]) +(m1.matrix[5]*m2.matrix[9]) +(m1.matrix[9]*m2.matrix[10])+(m1.matrix[13]*m2.matrix[11]);
+  res.matrix[13]= (m1.matrix[1]*m2.matrix[12])+(m1.matrix[5]*m2.matrix[13])+(m1.matrix[9]*m2.matrix[14])+(m1.matrix[13]*m2.matrix[15]);
   // row 2
-  result.matrix[2] = (m1.matrix[2]*m2.matrix[0]) +(m1.matrix[6]*m2.matrix[1]) +(m1.matrix[10]*m2.matrix[2]) +(m1.matrix[14]*m2.matrix[3]);
-  result.matrix[6] = (m1.matrix[2]*m2.matrix[4]) +(m1.matrix[6]*m2.matrix[5]) +(m1.matrix[10]*m2.matrix[6]) +(m1.matrix[14]*m2.matrix[7]);
-  result.matrix[10]= (m1.matrix[2]*m2.matrix[8]) +(m1.matrix[6]*m2.matrix[9]) +(m1.matrix[10]*m2.matrix[10])+(m1.matrix[14]*m2.matrix[11]);
-  result.matrix[14]= (m1.matrix[2]*m2.matrix[12])+(m1.matrix[6]*m2.matrix[13])+(m1.matrix[10]*m2.matrix[14])+(m1.matrix[14]*m2.matrix[15]);
+  res.matrix[2] = (m1.matrix[2]*m2.matrix[0]) +(m1.matrix[6]*m2.matrix[1]) +(m1.matrix[10]*m2.matrix[2]) +(m1.matrix[14]*m2.matrix[3]);
+  res.matrix[6] = (m1.matrix[2]*m2.matrix[4]) +(m1.matrix[6]*m2.matrix[5]) +(m1.matrix[10]*m2.matrix[6]) +(m1.matrix[14]*m2.matrix[7]);
+  res.matrix[10]= (m1.matrix[2]*m2.matrix[8]) +(m1.matrix[6]*m2.matrix[9]) +(m1.matrix[10]*m2.matrix[10])+(m1.matrix[14]*m2.matrix[11]);
+  res.matrix[14]= (m1.matrix[2]*m2.matrix[12])+(m1.matrix[6]*m2.matrix[13])+(m1.matrix[10]*m2.matrix[14])+(m1.matrix[14]*m2.matrix[15]);
   // row 3
-  result.matrix[3] = (m1.matrix[3]*m2.matrix[0]) +(m1.matrix[7]*m2.matrix[1]) +(m1.matrix[11]*m2.matrix[2]) +(m1.matrix[15]*m2.matrix[3]);
-  result.matrix[7] = (m1.matrix[3]*m2.matrix[4]) +(m1.matrix[7]*m2.matrix[5]) +(m1.matrix[11]*m2.matrix[6]) +(m1.matrix[15]*m2.matrix[7]);
-  result.matrix[11]= (m1.matrix[3]*m2.matrix[8]) +(m1.matrix[7]*m2.matrix[9]) +(m1.matrix[11]*m2.matrix[10])+(m1.matrix[15]*m2.matrix[11]);
-  result.matrix[15]= (m1.matrix[3]*m2.matrix[12])+(m1.matrix[7]*m2.matrix[13])+(m1.matrix[11]*m2.matrix[14])+(m1.matrix[15]*m2.matrix[15]);
+  res.matrix[3] = (m1.matrix[3]*m2.matrix[0]) +(m1.matrix[7]*m2.matrix[1]) +(m1.matrix[11]*m2.matrix[2]) +(m1.matrix[15]*m2.matrix[3]);
+  res.matrix[7] = (m1.matrix[3]*m2.matrix[4]) +(m1.matrix[7]*m2.matrix[5]) +(m1.matrix[11]*m2.matrix[6]) +(m1.matrix[15]*m2.matrix[7]);
+  res.matrix[11]= (m1.matrix[3]*m2.matrix[8]) +(m1.matrix[7]*m2.matrix[9]) +(m1.matrix[11]*m2.matrix[10])+(m1.matrix[15]*m2.matrix[11]);
+  res.matrix[15]= (m1.matrix[3]*m2.matrix[12])+(m1.matrix[7]*m2.matrix[13])+(m1.matrix[11]*m2.matrix[14])+(m1.matrix[15]*m2.matrix[15]);
 
-  return result;
+  return res;
 }
 
 matrix16f operator/ (const matrix16f &m1, const float scalar)
 {  
-  matrix16f result;
+  matrix16f res;
 
   for (int i=0; i<16; i++)
-    result.matrix[i]= m1.matrix[i]/scalar;
-  return result;
+    res.matrix[i]= m1.matrix[i]/scalar;
+  return res;
 }
 
 bool operator== (const matrix16f &m1, const matrix16f &m2)
 {
-  bool result = true;
+  bool res = true;
   for (int i=0; i< 16; i++)
-    if (m1.matrix[i] != m2.matrix[i]) result = false;
-  return result;
+    if (m1.matrix[i] != m2.matrix[i]) res = false;
+  return res;
 }
 
 // | f0 f2 |
@@ -1372,27 +1371,27 @@ void matrix9f::reset()
 
 matrix9f matrix9f::inverse()
 {
-  matrix9f result;
+  matrix9f res;
 
   float detThis = this->matrix[0]*det(this->matrix[4],this->matrix[5],this->matrix[7],this->matrix[8]) -
           this->matrix[3]*det(this->matrix[1],this->matrix[2],this->matrix[7],this->matrix[8]) +
           this->matrix[6]*det(this->matrix[1],this->matrix[2],this->matrix[4],this->matrix[5]);
         
-  result.matrix[0] =  det(this->matrix[4],this->matrix[5],this->matrix[7],this->matrix[8]); 
-  result.matrix[3] = -det(this->matrix[1],this->matrix[2],this->matrix[7],this->matrix[8]); 
-  result.matrix[6] =  det(this->matrix[1],this->matrix[2],this->matrix[4],this->matrix[5]); 
+  res.matrix[0] =  det(this->matrix[4],this->matrix[5],this->matrix[7],this->matrix[8]); 
+  res.matrix[3] = -det(this->matrix[1],this->matrix[2],this->matrix[7],this->matrix[8]); 
+  res.matrix[6] =  det(this->matrix[1],this->matrix[2],this->matrix[4],this->matrix[5]); 
 
-  result.matrix[1] = -det(this->matrix[3],this->matrix[5],this->matrix[6],this->matrix[8]); 
-  result.matrix[4] =  det(this->matrix[0],this->matrix[2],this->matrix[6],this->matrix[8]); 
-  result.matrix[7] = -det(this->matrix[1],this->matrix[2],this->matrix[4],this->matrix[5]);
+  res.matrix[1] = -det(this->matrix[3],this->matrix[5],this->matrix[6],this->matrix[8]); 
+  res.matrix[4] =  det(this->matrix[0],this->matrix[2],this->matrix[6],this->matrix[8]); 
+  res.matrix[7] = -det(this->matrix[1],this->matrix[2],this->matrix[4],this->matrix[5]);
       
-  result.matrix[2] =  det(this->matrix[3],this->matrix[4],this->matrix[6],this->matrix[7]); 
-  result.matrix[5] = -det(this->matrix[0],this->matrix[1],this->matrix[6],this->matrix[7]);
-  result.matrix[8] =  det(this->matrix[0],this->matrix[1],this->matrix[3],this->matrix[4]);
+  res.matrix[2] =  det(this->matrix[3],this->matrix[4],this->matrix[6],this->matrix[7]); 
+  res.matrix[5] = -det(this->matrix[0],this->matrix[1],this->matrix[6],this->matrix[7]);
+  res.matrix[8] =  det(this->matrix[0],this->matrix[1],this->matrix[3],this->matrix[4]);
 
-  result = result.transpose();
-  result = result/detThis;
-  return result;
+  res = res.transpose();
+  res = res/detThis;
+  return res;
 }
 
 void matrix9f::identity()
@@ -1404,23 +1403,22 @@ void matrix9f::identity()
 
 matrix9f matrix9f::transpose()
 {
-  matrix9f result;
+  matrix9f res;
 
-  result.matrix[0] = matrix[0]; result.matrix[3] = matrix[1]; result.matrix[6] = matrix[2]; 
-  result.matrix[1] = matrix[3]; result.matrix[4] = matrix[4]; result.matrix[7] = matrix[5]; 
-  result.matrix[2] = matrix[6]; result.matrix[5] = matrix[7]; result.matrix[8] = matrix[8];
-  return result;
+  res.matrix[0] = matrix[0]; res.matrix[3] = matrix[1]; res.matrix[6] = matrix[2]; 
+  res.matrix[1] = matrix[3]; res.matrix[4] = matrix[4]; res.matrix[7] = matrix[5]; 
+  res.matrix[2] = matrix[6]; res.matrix[5] = matrix[7]; res.matrix[8] = matrix[8];
+  return res;
 }
 
 matrix9f Star(vector3f a)
 {
-  matrix9f result;
+  matrix9f res;
 
-  result.matrix[0] =  0;       result.matrix[3] = -a.vertex[2]; result.matrix[6] =  a.vertex[1]; 
-  result.matrix[1] =  a.vertex[2]; result.matrix[4] =  0;        result.matrix[7] = -a.vertex[0]; 
-  result.matrix[2] = -a.vertex[1]; result.matrix[5] =  a.vertex[0]; result.matrix[8] =  0;
-
-  return result;
+  res.matrix[0] =  0;           res.matrix[3] = -a.vertex[2]; res.matrix[6] =  a.vertex[1]; 
+  res.matrix[1] =  a.vertex[2]; res.matrix[4] =  0;           res.matrix[7] = -a.vertex[0]; 
+  res.matrix[2] = -a.vertex[1]; res.matrix[5] =  a.vertex[0]; res.matrix[8] =  0;
+  return res;
 }
 
 // rotate about x-axis about center of this, not origin
@@ -1477,137 +1475,137 @@ matrix9f& matrix9f::operator= (const matrix9f &m1)
 
 matrix9f operator+ (const matrix9f &m1, const matrix9f &m2)
 {
-  matrix9f result;
+  matrix9f res;
 
   for (int i = 0; i<9; i++)
-    result.matrix[i]= m1.matrix[i]+m2.matrix[i];
-  return result;
+    res.matrix[i]= m1.matrix[i]+m2.matrix[i];
+  return res;
 }
 
 matrix16f operator+ (const matrix16f &m1, const matrix9f &m2)
 {
-  matrix16f result;
-  result = m1;
+  matrix16f res;
+  res = m1;
 
   // row 0
-  result.matrix[0] += m2.matrix[0];
-  result.matrix[4] += m2.matrix[3];
-  result.matrix[8] += m2.matrix[6];
+  res.matrix[0] += m2.matrix[0];
+  res.matrix[4] += m2.matrix[3];
+  res.matrix[8] += m2.matrix[6];
   // row 1
-  result.matrix[1] += m2.matrix[1];
-  result.matrix[5] += m2.matrix[4];
-  result.matrix[9] += m2.matrix[7];
+  res.matrix[1] += m2.matrix[1];
+  res.matrix[5] += m2.matrix[4];
+  res.matrix[9] += m2.matrix[7];
   // row 2
-  result.matrix[2] += m2.matrix[2];
-  result.matrix[6] += m2.matrix[5];
-  result.matrix[10] += m2.matrix[8];
+  res.matrix[2] += m2.matrix[2];
+  res.matrix[6] += m2.matrix[5];
+  res.matrix[10] += m2.matrix[8];
 
-  return result;
+  return res;
 }
 
 matrix9f operator- (const matrix9f &m1, const matrix9f &m2)
 {
-  matrix9f result;
+  matrix9f res;
 
   for (int i = 0; i<9; i++)
-    result.matrix[i]= m1.matrix[i]-m2.matrix[i];
-  return result;
+    res.matrix[i]= m1.matrix[i]-m2.matrix[i];
+  return res;
 }
 
 matrix9f operator* (const matrix9f &m1, const float scalar)
 {
-  matrix9f result;
+  matrix9f res;
 
   for (int i = 0; i<9; i++)
-    result.matrix[i]= m1.matrix[i]*scalar;
-  return result;
+    res.matrix[i]= m1.matrix[i]*scalar;
+  return res;
 }
 
 vector3f operator* (const matrix9f &m1, const vector3f &v2)
 {
-  vector3f result;
+  vector3f res;
 
-  result.vertex[0] = (m1.matrix[0]*v2.vertex[0]) + (m1.matrix[3]*v2.vertex[1]) + (m1.matrix[6]*v2.vertex[2]);
-  result.vertex[1] = (m1.matrix[1]*v2.vertex[0]) + (m1.matrix[4]*v2.vertex[1]) + (m1.matrix[7]*v2.vertex[2]);
-  result.vertex[2] = (m1.matrix[2]*v2.vertex[0]) + (m1.matrix[5]*v2.vertex[1]) + (m1.matrix[8]*v2.vertex[2]);
-  return result;
+  res.vertex[0] = (m1.matrix[0]*v2.vertex[0]) + (m1.matrix[3]*v2.vertex[1]) + (m1.matrix[6]*v2.vertex[2]);
+  res.vertex[1] = (m1.matrix[1]*v2.vertex[0]) + (m1.matrix[4]*v2.vertex[1]) + (m1.matrix[7]*v2.vertex[2]);
+  res.vertex[2] = (m1.matrix[2]*v2.vertex[0]) + (m1.matrix[5]*v2.vertex[1]) + (m1.matrix[8]*v2.vertex[2]);
+  return res;
 }
 
 matrix9f operator* (const matrix9f &m1, const matrix9f &m2)
 {
-  matrix9f result;
+  matrix9f res;
 
   // row 0
-  result.matrix[0] = (m1.matrix[0]*m2.matrix[0]) + (m1.matrix[3]*m2.matrix[1]) + (m1.matrix[6]*m2.matrix[2]);
-  result.matrix[3] = (m1.matrix[0]*m2.matrix[3]) + (m1.matrix[3]*m2.matrix[4]) + (m1.matrix[6]*m2.matrix[5]);
-  result.matrix[6] = (m1.matrix[0]*m2.matrix[6]) + (m1.matrix[3]*m2.matrix[7]) + (m1.matrix[6]*m2.matrix[8]);
+  res.matrix[0] = (m1.matrix[0]*m2.matrix[0]) + (m1.matrix[3]*m2.matrix[1]) + (m1.matrix[6]*m2.matrix[2]);
+  res.matrix[3] = (m1.matrix[0]*m2.matrix[3]) + (m1.matrix[3]*m2.matrix[4]) + (m1.matrix[6]*m2.matrix[5]);
+  res.matrix[6] = (m1.matrix[0]*m2.matrix[6]) + (m1.matrix[3]*m2.matrix[7]) + (m1.matrix[6]*m2.matrix[8]);
   // row 1
-  result.matrix[1] = (m1.matrix[1]*m2.matrix[0]) + (m1.matrix[4]*m2.matrix[1]) + (m1.matrix[7]*m2.matrix[2]);
-  result.matrix[4] = (m1.matrix[1]*m2.matrix[3]) + (m1.matrix[4]*m2.matrix[4]) + (m1.matrix[7]*m2.matrix[5]);
-  result.matrix[7] = (m1.matrix[1]*m2.matrix[6]) + (m1.matrix[4]*m2.matrix[7]) + (m1.matrix[7]*m2.matrix[8]);
+  res.matrix[1] = (m1.matrix[1]*m2.matrix[0]) + (m1.matrix[4]*m2.matrix[1]) + (m1.matrix[7]*m2.matrix[2]);
+  res.matrix[4] = (m1.matrix[1]*m2.matrix[3]) + (m1.matrix[4]*m2.matrix[4]) + (m1.matrix[7]*m2.matrix[5]);
+  res.matrix[7] = (m1.matrix[1]*m2.matrix[6]) + (m1.matrix[4]*m2.matrix[7]) + (m1.matrix[7]*m2.matrix[8]);
   // row 2
-  result.matrix[2] = (m1.matrix[2]*m2.matrix[0]) + (m1.matrix[5]*m2.matrix[1]) + (m1.matrix[8]*m2.matrix[2]);
-  result.matrix[5] = (m1.matrix[2]*m2.matrix[3]) + (m1.matrix[5]*m2.matrix[4]) + (m1.matrix[8]*m2.matrix[5]);
-  result.matrix[8] = (m1.matrix[2]*m2.matrix[6]) + (m1.matrix[5]*m2.matrix[7]) + (m1.matrix[8]*m2.matrix[8]);
+  res.matrix[2] = (m1.matrix[2]*m2.matrix[0]) + (m1.matrix[5]*m2.matrix[1]) + (m1.matrix[8]*m2.matrix[2]);
+  res.matrix[5] = (m1.matrix[2]*m2.matrix[3]) + (m1.matrix[5]*m2.matrix[4]) + (m1.matrix[8]*m2.matrix[5]);
+  res.matrix[8] = (m1.matrix[2]*m2.matrix[6]) + (m1.matrix[5]*m2.matrix[7]) + (m1.matrix[8]*m2.matrix[8]);
 
-  return result;
+  return res;
 }
 
 matrix9f operator* (const matrix9f &m1, const matrix16f &m2)
 {
-  matrix9f result;
+  matrix9f res;
 
   // row 0
-  result.matrix[0] = (m1.matrix[0]*m2.matrix[0]) + (m1.matrix[3]*m2.matrix[1]) + (m1.matrix[6]*m2.matrix[2]);
-  result.matrix[3] = (m1.matrix[0]*m2.matrix[4]) + (m1.matrix[3]*m2.matrix[5]) + (m1.matrix[6]*m2.matrix[6]);
-  result.matrix[6] = (m1.matrix[0]*m2.matrix[8]) + (m1.matrix[3]*m2.matrix[9]) + (m1.matrix[6]*m2.matrix[10]);
+  res.matrix[0] = (m1.matrix[0]*m2.matrix[0]) + (m1.matrix[3]*m2.matrix[1]) + (m1.matrix[6]*m2.matrix[2]);
+  res.matrix[3] = (m1.matrix[0]*m2.matrix[4]) + (m1.matrix[3]*m2.matrix[5]) + (m1.matrix[6]*m2.matrix[6]);
+  res.matrix[6] = (m1.matrix[0]*m2.matrix[8]) + (m1.matrix[3]*m2.matrix[9]) + (m1.matrix[6]*m2.matrix[10]);
   // row 1
-  result.matrix[1] = (m1.matrix[1]*m2.matrix[0]) + (m1.matrix[4]*m2.matrix[1]) + (m1.matrix[7]*m2.matrix[2]);
-  result.matrix[4] = (m1.matrix[1]*m2.matrix[4]) + (m1.matrix[4]*m2.matrix[5]) + (m1.matrix[7]*m2.matrix[6]);
-  result.matrix[7] = (m1.matrix[1]*m2.matrix[8]) + (m1.matrix[4]*m2.matrix[9]) + (m1.matrix[7]*m2.matrix[10]);
+  res.matrix[1] = (m1.matrix[1]*m2.matrix[0]) + (m1.matrix[4]*m2.matrix[1]) + (m1.matrix[7]*m2.matrix[2]);
+  res.matrix[4] = (m1.matrix[1]*m2.matrix[4]) + (m1.matrix[4]*m2.matrix[5]) + (m1.matrix[7]*m2.matrix[6]);
+  res.matrix[7] = (m1.matrix[1]*m2.matrix[8]) + (m1.matrix[4]*m2.matrix[9]) + (m1.matrix[7]*m2.matrix[10]);
   // row 2
-  result.matrix[2] = (m1.matrix[2]*m2.matrix[0]) + (m1.matrix[5]*m2.matrix[1]) + (m1.matrix[8]*m2.matrix[2]);
-  result.matrix[5] = (m1.matrix[2]*m2.matrix[4]) + (m1.matrix[5]*m2.matrix[5]) + (m1.matrix[8]*m2.matrix[6]);
-  result.matrix[8] = (m1.matrix[2]*m2.matrix[8]) + (m1.matrix[5]*m2.matrix[9]) + (m1.matrix[8]*m2.matrix[10]);
+  res.matrix[2] = (m1.matrix[2]*m2.matrix[0]) + (m1.matrix[5]*m2.matrix[1]) + (m1.matrix[8]*m2.matrix[2]);
+  res.matrix[5] = (m1.matrix[2]*m2.matrix[4]) + (m1.matrix[5]*m2.matrix[5]) + (m1.matrix[8]*m2.matrix[6]);
+  res.matrix[8] = (m1.matrix[2]*m2.matrix[8]) + (m1.matrix[5]*m2.matrix[9]) + (m1.matrix[8]*m2.matrix[10]);
 
-  return result;
+  return res;
 }
 
 matrix9f operator* (const matrix16f &m1, const matrix9f &m2)
 {
-  matrix9f result;
+  matrix9f res;
 
   // row 0
-  result.matrix[0] = (m1.matrix[0]*m2.matrix[0]) + (m1.matrix[4]*m2.matrix[1]) + (m1.matrix[8]*m2.matrix[2]);
-  result.matrix[3] = (m1.matrix[0]*m2.matrix[3]) + (m1.matrix[4]*m2.matrix[4]) + (m1.matrix[8]*m2.matrix[5]);
-  result.matrix[6] = (m1.matrix[0]*m2.matrix[6]) + (m1.matrix[4]*m2.matrix[7]) + (m1.matrix[8]*m2.matrix[8]);
+  res.matrix[0] = (m1.matrix[0]*m2.matrix[0]) + (m1.matrix[4]*m2.matrix[1]) + (m1.matrix[8]*m2.matrix[2]);
+  res.matrix[3] = (m1.matrix[0]*m2.matrix[3]) + (m1.matrix[4]*m2.matrix[4]) + (m1.matrix[8]*m2.matrix[5]);
+  res.matrix[6] = (m1.matrix[0]*m2.matrix[6]) + (m1.matrix[4]*m2.matrix[7]) + (m1.matrix[8]*m2.matrix[8]);
   // row 1
-  result.matrix[1] = (m1.matrix[1]*m2.matrix[0]) + (m1.matrix[5]*m2.matrix[1]) + (m1.matrix[9]*m2.matrix[2]);
-  result.matrix[4] = (m1.matrix[1]*m2.matrix[3]) + (m1.matrix[5]*m2.matrix[4]) + (m1.matrix[9]*m2.matrix[5]);
-  result.matrix[7] = (m1.matrix[1]*m2.matrix[6]) + (m1.matrix[5]*m2.matrix[7]) + (m1.matrix[9]*m2.matrix[8]);
+  res.matrix[1] = (m1.matrix[1]*m2.matrix[0]) + (m1.matrix[5]*m2.matrix[1]) + (m1.matrix[9]*m2.matrix[2]);
+  res.matrix[4] = (m1.matrix[1]*m2.matrix[3]) + (m1.matrix[5]*m2.matrix[4]) + (m1.matrix[9]*m2.matrix[5]);
+  res.matrix[7] = (m1.matrix[1]*m2.matrix[6]) + (m1.matrix[5]*m2.matrix[7]) + (m1.matrix[9]*m2.matrix[8]);
   // row 2
-  result.matrix[2] = (m1.matrix[2]*m2.matrix[0]) + (m1.matrix[6]*m2.matrix[1]) + (m1.matrix[10]*m2.matrix[2]);
-  result.matrix[5] = (m1.matrix[2]*m2.matrix[3]) + (m1.matrix[6]*m2.matrix[4]) + (m1.matrix[10]*m2.matrix[5]);
-  result.matrix[8] = (m1.matrix[2]*m2.matrix[6]) + (m1.matrix[6]*m2.matrix[7]) + (m1.matrix[10]*m2.matrix[8]);
+  res.matrix[2] = (m1.matrix[2]*m2.matrix[0]) + (m1.matrix[6]*m2.matrix[1]) + (m1.matrix[10]*m2.matrix[2]);
+  res.matrix[5] = (m1.matrix[2]*m2.matrix[3]) + (m1.matrix[6]*m2.matrix[4]) + (m1.matrix[10]*m2.matrix[5]);
+  res.matrix[8] = (m1.matrix[2]*m2.matrix[6]) + (m1.matrix[6]*m2.matrix[7]) + (m1.matrix[10]*m2.matrix[8]);
 
-  return result;
+  return res;
 }
 
 matrix9f operator/ (const matrix9f &m1, const float scalar)
 {  
-  matrix9f result;
+  matrix9f res;
 
   for (int i = 0; i<9; i++)
-    result.matrix[i]= m1.matrix[i]/scalar;
-  return result;
+    res.matrix[i]= m1.matrix[i]/scalar;
+  return res;
 }
 
 bool operator== (const matrix9f &m1, const matrix9f &m2)
 {
-  bool result = true;
+  bool res = true;
   for (int i = 0; i< 9; i++)
-    if (m1.matrix[i] != m2.matrix[i]) result = false;
-  return result;
+    if (m1.matrix[i] != m2.matrix[i]) res = false;
+  return res;
 }
 
 #if 0 //notused
