@@ -303,7 +303,7 @@ void Bvh::process(string line)
 
 void Bvh::recurs(bvhPart* some)
 {
-  cout << "Bvh::recurs " << some->name << endl;
+  //cout << "Bvh::recurs " << some->name << endl;
   matrix16f motion0;
   motion0.identity();
    
@@ -311,7 +311,7 @@ void Bvh::recurs(bvhPart* some)
   some->motion.push_back(motion0);
   if (some->child.size() != 0) bvhPartsLinear.push_back(some);
     cout << some->name << ": "<<
-    some->offset.vertex[0] << " " << some->offset.vertex[1] << " " << some->offset.vertex[2] << "\n";
+    some->offset.vertex[0] << " " << some->offset.vertex[1] << " " << some->offset.vertex[2] << endl;
   for (uint32_t i=0; i < some->child.size(); i++) {
     cout << "recurs-child " << some->child[i]->name << " (" << i << ")" << endl;
     recurs(some->child[i]);
@@ -320,7 +320,7 @@ void Bvh::recurs(bvhPart* some)
  
 void Bvh::init(string bvhFile)
 {
-  error("Bvh::init");
+  //error("Bvh::init");
   data = 0;
   partIndex = 0;
   channelIndex = 0;  
@@ -375,7 +375,6 @@ rigid::rigid(const char *url)
   //mtls = theObj->mtls;
   //translucent  = theObj->translucent;
   //centerOfMass = theObj->centerOfMass;
-  
   //drawSurface = true;
 }
 
@@ -389,7 +388,6 @@ void rigid::download(const char *_url)
 
 const char * rigid::getUrl() const
 {
-  //error("rigid::getUrl");
   return (const char *) url;
 }
 
