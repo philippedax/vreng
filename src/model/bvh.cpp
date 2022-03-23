@@ -79,49 +79,60 @@ void Bvh::process(string line)
   if (line == "OFFSET") {
     vertIndex = 0;  
     theMode = OFFSET;
-  } else if (line == "ROOT") {
+  }
+  else if (line == "ROOT") {
     root = new bvhPart;
     root->parent = NULL;
     current = root;
     theMode = ROOT;
-  } else if (line == "{") {
+  }
+  else if (line == "{") {
     ;  
-  } else if (line == "}") {
+  }
+  else if (line == "}") {
     if (current != root) { 
       current = current->parent;
       theMode = NONE;
     }
-  } else if (line == "JOINT") {
+  }
+  else if (line == "JOINT") {
     bvhPart *temp = new bvhPart;
     temp->parent = current;
     current->child.push_back(temp);
     current = temp;
     theMode = JOINT; 
-  } else if (line == "CHANNELS") {
+  }
+  else if (line == "CHANNELS") {
     theMode = CHANNELS;
-  } else if (line == "End") {  
+  }
+  else if (line == "End") {  
     theMode = End;
-  } else if (line == "Site") {
+  }
+  else if (line == "Site") {
     bvhPart *temp = new bvhPart;
     temp->parent = current;
     current->child.push_back(temp);
     current = temp;
     theMode = NONE; //Site;
-  } else if (line == "MOTION") {
+  }
+  else if (line == "MOTION") {
     theMode = MOTION;
-  } else if (line == "Frames:") {
+  }
+  else if (line == "Frames:") {
     theMode = Frames;
-  } else if (line == "Frame") {
+  }
+  else if (line == "Frame") {
     theMode = Frame;
-  } else if (line == "Time:") {
+  }
+  else if (line == "Time:") {
     theMode = Time;    
-  } else {
+  }
+  else {
     switch (theMode) {
       case (ROOT):
         root->name = line;
         theMode = NONE;
-      break;
-    
+        break;
       case (JOINT):
         current->name = line;
         
@@ -129,68 +140,82 @@ void Bvh::process(string line)
           try { current->objPart = new rigid("/obj/shin_l.obj"); }
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "RightKnee") {
+        }
+        else if (line == "RightKnee") {
           try { current->objPart = new rigid("/obj/shin_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "LeftHip") {
+        }
+        else if (line == "LeftHip") {
           try { current->objPart = new rigid("/obj/thigh_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "RightHip") {
+        }
+        else if (line == "RightHip") {
           try { current->objPart = new rigid("/obj/thigh_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "LeftAnkle") {
+        }
+        else if (line == "LeftAnkle") {
           try { current->objPart = new rigid("/obj/foot_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "RightAnkle") {
+        }
+        else if (line == "RightAnkle") {
           try { current->objPart = new rigid("/obj/foot_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "Chest") {
+        }
+        else if (line == "Chest") {
           //current->objPart = new objloader("obj/torso.obj",0,subdir);
-        } else if (line == "Chest2") {
+        }
+        else if (line == "Chest2") {
           try { current->objPart = new rigid("/obj/chest.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "LeftShoulder") {
+        }
+        else if (line == "LeftShoulder") {
           try { current->objPart = new rigid("/obj/shoulder_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "RightShoulder") {
+        }
+        else if (line == "RightShoulder") {
           try { current->objPart = new rigid("/obj/shoulder_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "LeftElbow") {
+        }
+        else if (line == "LeftElbow") {
           try { current->objPart = new rigid("/obj/forearm_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "RightElbow") {
+        }
+        else if (line == "RightElbow") {
           try { current->objPart = new rigid("/obj/forearm_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "LeftWrist") {
+        }
+        else if (line == "LeftWrist") {
           try { current->objPart = new rigid("/obj/hand_l.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "RightWrist") {
+        }
+        else if (line == "RightWrist") {
           try { current->objPart = new rigid("/obj/hand_r.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "Neck") {
+        }
+        else if (line == "Neck") {
           try { current->objPart = new rigid("/obj/neck.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
-        } else if (line == "Head") {
+        }
+        else if (line == "Head") {
           try { current->objPart = new rigid("/obj/head.obj");}
           catch (fileNotFound) { throw fileNotFound(); return; }
           current->objPart->location.matrix[10]=1.0f;
         }
         theMode = NONE;
-      break;
-      
+        break;
       case (OFFSET):
         current->offset.vertex[vertIndex] = atof(line.c_str());
         vertIndex++;
@@ -198,23 +223,28 @@ void Bvh::process(string line)
           vertIndex = 0;
           theMode = NONE;
         }
-      break;
-
+        break;
       case (CHANNELS):
         // assume channelsNum == 0 in the .bvh .is impossible
         if (channelsNum == 0) {
           channelsNum = atoi(line.c_str());
-        } else if (line == "Xposition") {    
+        }
+        else if (line == "Xposition") {    
           current->channels.push_back(bvhPart::Xpos);  
-        } else if (line == "Yposition") {          
+        }
+        else if (line == "Yposition") {          
           current->channels.push_back(bvhPart::Ypos);  
-        } else if (line == "Zposition") {        
+        }
+        else if (line == "Zposition") {        
           current->channels.push_back(bvhPart::Zpos);  
-        } else if (line == "Zrotation") {
+        }
+        else if (line == "Zrotation") {
           current->channels.push_back(bvhPart::Zrot);        
-        } else if (line == "Yrotation") {
+        }
+        else if (line == "Yrotation") {
           current->channels.push_back(bvhPart::Yrot);        
-        } else if (line == "Xrotation") {
+        }
+        else if (line == "Xrotation") {
           current->channels.push_back(bvhPart::Xrot);        
         }
         // if there are additional channel types in error, they'll be ignored(?)
@@ -223,22 +253,18 @@ void Bvh::process(string line)
           channelsNum = 0;
         }
         break;
-
       case (Frames):
         framesNum = atoi(line.c_str());
         theMode = NONE;
         break;
-
       case (Frame):
         break;
-
       case (Time):
         frameTime = atof(line.c_str());
         theMode = MOTIONDATA;
         current = root;
         recurs(root);
         break;
-
       case (MOTIONDATA):
         data++;
         //error("%d: %s", data, line.c_str());
@@ -289,7 +315,7 @@ void Bvh::process(string line)
           // this should be the end of one line of motion data
           partIndex = 0;
         }  
-        
+        break;
       case (NONE):
       case (End):
       case (Site):
@@ -307,11 +333,16 @@ void Bvh::recurs(bvhPart* some)
   matrix16f motion0;
   motion0.identity();
    
-  motion0.translate(some->offset.vertex[0],some->offset.vertex[1],some->offset.vertex[2]);
+  motion0.translate(some->offset.vertex[0], some->offset.vertex[1], some->offset.vertex[2]);
   some->motion.push_back(motion0);
   if (some->child.size() != 0) bvhPartsLinear.push_back(some);
-    cout << some->name << ": "<<
-    some->offset.vertex[0] << " " << some->offset.vertex[1] << " " << some->offset.vertex[2] << endl;
+    cout << some->name << ": "
+         << some->offset.vertex[0]
+         << " "
+         << some->offset.vertex[1]
+         << " "
+         << some->offset.vertex[2]
+         << endl;
   for (uint32_t i=0; i < some->child.size(); i++) {
     cout << "recurs-child " << some->child[i]->name << " (" << i << ")" << endl;
     recurs(some->child[i]);
@@ -412,7 +443,7 @@ void rigid::draw()
   glEnable(GL_LIGHTING);
   
   if (drawSurface) makeList();
-  // glCallList(listNum);
+   glCallList(listNum);
   
   glDisable(GL_LIGHTING);
 
@@ -422,7 +453,7 @@ void rigid::draw()
   for (int m=0; m < mtls.size(); m++) {      
     for (int i=0; i <mtls[m]->faces.size(); i++) {
       glVertex3fv(vertices[mtls[m]->faces[i].vertIndices[0]-1].vertex);
-      glVertex3fv(((vertices[mtls[m]->faces[i].vertIndices[0]-1] + mtls[m]->faces[i].normal)).vertex );
+      glVertex3fv(((vertices[mtls[m]->faces[i].vertIndices[0]-1] + mtls[m]->faces[i].normal)).vertex);
     }
   }  
   glEnd();  
@@ -1892,7 +1923,7 @@ objloader::objloader(string objFile)
 }
 
 objloader::~objloader()
-{ }
+{}
 
 objloader& objloader::operator= (const objloader &obj1)
 {
@@ -1919,9 +1950,9 @@ bool objloader::load(string objFile)
   istream_iterator<string> objIt(objStream);
   istream_iterator<string> sentinel;
 
-  vector<string> lines(objIt,sentinel);
+  vector<string> lines(objIt, sentinel);
   theMode = NONE;
-  
+ 
   //  for_each(lines.begin(),lines.end(),&bvh::process);
   uint32_t i;
   for (i=0; i < lines.size(); i++) {
@@ -1941,7 +1972,7 @@ bool objloader::load(string objFile)
       int ind1 = mtls[i]->faces[j].vertIndices[1]-1;
       int ind2 = mtls[i]->faces[j].vertIndices[2]-1;
 
-      normal = crossProduct( vertices[ind1] - vertices[ind0], vertices[ind2] - vertices[ind0] );
+      normal = crossProduct(vertices[ind1] - vertices[ind0], vertices[ind2] - vertices[ind0]);
       normal = normal/(normal.length());
       mtls[i]->faces[j].normal = normal;
     }
@@ -1959,17 +1990,20 @@ void objloader::process(string line)
   if ((line.size()) && (line.substr(0,1) != "#")) {
     if (line == "mtllib") {
       theMode = MTLLIB;
-    } else if (line == "v") {
+    }
+    else if (line == "v") {
       theMode = VERTEX;
       tempVectorIndex = 0;
-    } else if (line == "vn") {
+    }
+    else if (line == "vn") {
       theMode = NORMAL; 
       tempVectorIndex = 0;
-    } else if (line == "f") {
+    }
+    else if (line == "f") {
       theMode = FACE;
       tempVectorIndex = 0;
-    } else switch (theMode) {
-    
+    }
+    else switch (theMode) {
       case (MTLLIB):
 #if 1 //dax
         mtlIndex = 0;
@@ -1986,8 +2020,7 @@ void objloader::process(string line)
         if (verbose) cout << ".mtl " << mtlIndex << " done\n";
         theMode = NONE;
 #endif
-      break;
-      
+        break;
       case (VERTEX):
         tempVector.vertex[tempVectorIndex] = atof(line.c_str());
         //cout << tempVector.vertex[tempVectorIndex] << "\n";
@@ -1996,8 +2029,7 @@ void objloader::process(string line)
           theMode = NONE;
           vertices.push_back(tempVector);  
         }
-      break;
-      
+        break;
       case (NORMAL):
         tempVector.vertex[tempVectorIndex] = atof(line.c_str());
         tempVectorIndex++;
@@ -2005,8 +2037,7 @@ void objloader::process(string line)
           theMode = NONE;
           normals.push_back(tempVector);
         }
-      break;
-      
+        break;
       case (FACE):
         /// face indices are denoted index//index (redundantly) in the .obj format
         slashes = line.find("//");
@@ -2018,8 +2049,7 @@ void objloader::process(string line)
           theMode = NONE;
           //dax mtls[mtlIndex]->faces.push_back(tempTriangle);  
         }
-      break;
-      
+        break;
       case (NONE):
         break;
     }
@@ -2120,12 +2150,12 @@ bool objloader::matchMtl(uint32_t &index, string name)
   return false;
 }
 
-#if 0 //notused
+#if 1 //notused
 void objloader::setMass(float newMass)
 {
-  error("objloader::setMass");
+  //error("objloader::setMass");
   if (step != 0) {
-    Ibody = (Ibody*newMass)/mass;
+    Ibody = (Ibody*newMass) / mass;
     IbodyInv = Ibody.inverse();
   }
   mass = newMass;
@@ -2133,7 +2163,7 @@ void objloader::setMass(float newMass)
 
 void objloader::update(float seconds)
 {
-  error("objloader::update");
+  //error("objloader::update");
   getAABB();
 }
 
