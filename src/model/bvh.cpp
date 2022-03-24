@@ -268,7 +268,6 @@ void Bvh::process(string line)
       case (MOTIONDATA):
         data++;
         //error("%d: %s", data, line.c_str());
-        //cerr << line << endl;
         switch (bvhPartsLinear[partIndex]->channels[channelIndex]) {
           case (bvhPart::Xpos):  
             tempMotion.translate(atof(line.c_str()),0,0);  
@@ -299,7 +298,7 @@ void Bvh::process(string line)
             channelIndex++;
             break;
         }
-        //error("chabbelIndex=%d partIndex=%d",channelIndex, partIndex);
+        //error("channelIndex=%d partIndex=%d", channelIndex, partIndex);
         if (channelIndex >= bvhPartsLinear[partIndex]->channels.size()) {
           // store tempMotion and move to next part
           tempMotion = tempMotion * (tempMotionZ *tempMotionX * tempMotionY );
@@ -313,8 +312,9 @@ void Bvh::process(string line)
         }  
         if (partIndex >= bvhPartsLinear.size()) {
           // this should be the end of one line of motion data
+          //error("end motion line");
           partIndex = 0;
-        }  
+        }
         break;
       case (NONE):
       case (End):
@@ -450,20 +450,20 @@ void rigid::draw()
 #ifdef SHOW_TRI_NORMS
   glColor3f(0, 0.6, 0.9);
   glBegin(GL_LINES);
-  for (int m=0; m < mtls.size(); m++) {      
+  for (int m=0; m < mtls.size(); m++) {
     for (int i=0; i <mtls[m]->faces.size(); i++) {
       glVertex3fv(vertices[mtls[m]->faces[i].vertIndices[0]-1].vertex);
       glVertex3fv(((vertices[mtls[m]->faces[i].vertIndices[0]-1] + mtls[m]->faces[i].normal)).vertex);
     }
-  }  
+  }
   glEnd();  
 #endif
-      
+
 #ifdef SHOW_INT_POINTS
     glBegin (GL_POINTS);
     glColor3f(0.3, 0.6, 0.9);
     for (int i=0; i < theObj->iStack.size(); i++) {    
-      glVertex3fv(theObj->iStack[i].vertex);  
+      glVertex3fv(theObj->iStack[i].vertex);
     }
     glColor3f(0.9, 0.6, 0.3);
     for (int i=0; i < theObj->upperI.size(); i++) {    
@@ -476,7 +476,7 @@ void rigid::draw()
     glEnd ();
 #endif
   //makeList();
-  if (drawBB) {  
+  if (drawBB) {
     drawBoundingBox();
 
     // draw Center of Mass
@@ -505,7 +505,7 @@ void rigid::drawDim(vector<light*> lights)
   glPushMatrix();
   //glMultMatrixf(location.matrix);
   glEnable(GL_LIGHTING);
-        
+
   for (uint32_t m=0; m < mtls.size(); m++) {
       glMaterialfv(GL_FRONT,GL_AMBIENT, mtls[m]->Ka);
       glMaterialfv(GL_FRONT,GL_DIFFUSE, mtls[m]->Kd);
