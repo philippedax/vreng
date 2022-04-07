@@ -13,16 +13,16 @@ uappli.hpp uappliImpl.hpp uargs.hpp uargsImpl.hpp uattr.hpp \
 ubackground.hpp uborder.hpp ubox.hpp uboxgeom.hpp uboxes.hpp \
 ucall.hpp uchild.hpp uchoice.hpp uclass.hpp uclassImpl.hpp \
 ucolor.hpp ucond.hpp uconf.hpp uctlmenu.hpp ucursor.hpp \
-udata.hpp udefs.hpp udialogs.hpp udisp.hpp udoc.hpp udom.hpp \
+udata.hpp udefs.hpp udialogs.hpp udisp.hpp \
 uedit.hpp uelem.hpp uevent.hpp ueventflow.hpp \
 ufile.hpp ufilebox.hpp ufont.hpp ufontImpl.hpp ufontmetrics.hpp \
-ufinder.hpp ufinderImpl.hpp uflag.hpp \
+uflag.hpp \
 ugeom.hpp ugl.hpp uglcanvas.hpp ugraph.hpp \
 uhtml.hpp \
 uicon.hpp uima.hpp uinteractors.hpp \
 ukey.hpp \
 ulength.hpp ulistbox.hpp \
-umenu.hpp umenuImpl.hpp umessage.hpp umservice.hpp umsproto.hpp \
+umenu.hpp umenuImpl.hpp umessage.hpp umsproto.hpp \
 unode.hpp unumber.hpp \
 uobject.hpp uon.hpp \
 upalette.hpp \
@@ -30,30 +30,29 @@ uupdate.hpp uupdatecontext.hpp uparent.hpp upiemenu.hpp upix.hpp \
 uselection.hpp uslider.hpp uscrollbar.hpp uscrollpane.hpp \
 ustr.hpp ustyle.hpp ustyleparser.hpp usymbol.hpp usubwin.hpp \
 usocket.hpp usource.hpp \
-utable.hpp utimer.hpp utreebox.hpp \
+utable.hpp utimer.hpp \
 uview.hpp uviewImpl.hpp \
 uwin.hpp uwinImpl.hpp \
-uxpm.hpp uxmlgrammar.hpp uxmlparser.hpp ucss.hpp \
-uzoom.hpp \
+uxpm.hpp \
 u3d.hpp u3dicon.hpp \
 udispX11.hpp udispGLUT.hpp \
 urendercontext.hpp uglcontext.hpp ux11context.hpp \
 uhardfont.hpp uhardima.hpp \
-uhardwinX11.hpp uhardwinGLUT.hpp 
+uhardwinX11.hpp uhardwinGLUT.hpp
+EXTRA_DIST += ucss.hpp udoc.hpp udom.hpp ufinder.hpp ufinderImpl.hpp uhtml.hpp umservice.hpp utreebox.hpp uxmlgrammer.hpp uxmlparser.hpp uzoom.hpp
 
 UBIT_SRCS = \
 uattr.cpp uappli.cpp uargs.cpp \
 ubackground.cpp uborder.cpp ubox.cpp uboxgeom.cpp uboxes.cpp \
 ucall.cpp uclass.cpp uchoice.cpp \
 ucolor.cpp ucond.cpp uconf.cpp uctlmenu.cpp ucursor.cpp \
-udisp.cpp udialogs.cpp udoc.cpp udom.cpp \
+udisp.cpp udialogs.cpp \
 uedit.cpp uelem.cpp uevent.cpp ueventflow.cpp \
-ufile.cpp ufilebox.cpp ufont.cpp ufontmetrics.cpp ufinder.cpp ufinderImpl.cpp uflag.cpp \
+ufile.cpp ufilebox.cpp ufont.cpp ufontmetrics.cpp uflag.cpp \
 ugeom.cpp ugraph.cpp uglcanvas.cpp \
-uhtml.cpp \
 uicon.cpp uima.cpp uinteractors.cpp \
 ulength.cpp ulistbox.cpp \
-umenu.cpp umessage.cpp umservice.cpp \
+umenu.cpp umessage.cpp \
 unode.cpp unumber.cpp \
 uobject.cpp uon.cpp \
 upalette.cpp \
@@ -61,11 +60,10 @@ uupdate.cpp uupdatecontext.cpp upiemenu.cpp upix.cpp \
 uselection.cpp ustr.cpp uslider.cpp uscrollbar.cpp uscrollpane.cpp \
 usocket.cpp usource.cpp \
 ustyle.cpp ustyleparser.cpp usymbol.cpp usubwin.cpp \
-utable.cpp utimer.cpp utreebox.cpp \
+utable.cpp utimer.cpp \
 uview.cpp uviewlayout.cpp uviewupdate.cpp uviewflow.cpp \
 uwin.cpp uwinImpl.cpp \
-uxpm.cpp uxmlgrammar.cpp uxmlparser.cpp ucss.cpp \
-uzoom.cpp \
+uxpm.cpp \
 u3d.cpp u3dicon.cpp \
 udispX11.cpp udispGLUT.cpp \
 uglcontext.cpp ux11context.cpp \
@@ -73,6 +71,7 @@ uhardfont.cpp uhardima.cpp \
 uhardwinX11.cpp uhardwinGLUT.cpp \
 uimaJPEG.cpp uimaGIF.cpp uimaXPM.cpp \
 ukeyX11.cpp ukeyGLUT.cpp
+EXTRA_DIST += ucss.cpp udoc.cpp udom.cpp ufinder.cpp ufinderImpl.cpp uhtml.cpp umservice.cpp utreebox.cpp uxmlgrammer.cpp uxmlparser.cpp uzoom.cpp
 
 
 #nobase_pkginclude_HEADERS = $(UBIT_HDRS) ubit_features.h
