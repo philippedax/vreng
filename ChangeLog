@@ -13,7 +13,11 @@ The rules for this file:
 ------------------------------------------
 
 ++ 9
--- 9.3
+== 9.3
+-- 9.3.3
+	- basic motions of body
+	(2022/04/07, Philippe Dax)
+
 -- 9.3.2
 	- removed bundle/mypng bundle/zlib
 	(2021/11/24, Philippe Dax)
