@@ -39,7 +39,7 @@ udispX11.hpp udispGLUT.hpp \
 urendercontext.hpp uglcontext.hpp ux11context.hpp \
 uhardfont.hpp uhardima.hpp \
 uhardwinX11.hpp uhardwinGLUT.hpp
-EXTRA_DIST += ucss.hpp udoc.hpp udom.hpp ufinder.hpp ufinderImpl.hpp uhtml.hpp umservice.hpp utreebox.hpp uxmlgrammer.hpp uxmlparser.hpp uzoom.hpp
+EXTRA_DIST += ucss.hpp udoc.hpp udom.hpp ufinder.hpp ufinderImpl.hpp uhtml.hpp umservice.hpp utreebox.hpp uxmlgrammar.hpp uxmlparser.hpp uzoom.hpp
 
 UBIT_SRCS = \
 uattr.cpp uappli.cpp uargs.cpp \
@@ -71,7 +71,7 @@ uhardfont.cpp uhardima.cpp \
 uhardwinX11.cpp uhardwinGLUT.cpp \
 uimaJPEG.cpp uimaGIF.cpp uimaXPM.cpp \
 ukeyX11.cpp ukeyGLUT.cpp
-EXTRA_DIST += ucss.cpp udoc.cpp udom.cpp ufinder.cpp ufinderImpl.cpp uhtml.cpp umservice.cpp utreebox.cpp uxmlgrammer.cpp uxmlparser.cpp uzoom.cpp
+EXTRA_DIST += ucss.cpp udoc.cpp udom.cpp ufinder.cpp ufinderImpl.cpp uhtml.cpp umservice.cpp utreebox.cpp uxmlgrammar.cpp uxmlparser.cpp uzoom.cpp
 
 
 #nobase_pkginclude_HEADERS = $(UBIT_HDRS) ubit_features.h
