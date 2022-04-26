@@ -156,9 +156,6 @@ class Http {
   virtual float read_float();
   /**< Gets a float */
 
-  virtual GLfloat read_GLfloat();
-  /**< Gets a GLfloat */
-
   virtual int read_string(char *s, int maxlen);
   /**< Gets a string */
 

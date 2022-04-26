@@ -710,12 +710,6 @@ float Http::read_float()
   return (float) *((float *) &n);
 }
 
-GLfloat Http::read_GLfloat()
-{
-  int32_t n = read_long();
-  return (GLfloat) *(GLfloat *) &n;
-}
-
 int Http::read_string(char *str, int maxlen)
 {
   int c;
