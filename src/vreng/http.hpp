@@ -100,7 +100,7 @@ class HttpThread {
   static void init();
   /**< Initializes Http thread. */
 
-  static void * connection(void *_ht);
+  static void * connection(void *_hthr);
   /**< Makes an http connection. */
 
   static int resolver(char *hoststr, char *portstr, struct sockaddr_in *sa);

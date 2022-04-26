@@ -262,16 +262,16 @@ int HttpThread::openFile(const char *path)
 }
 
 /** make an http connection */
-void * HttpThread::connection(void *_ht)
+void * HttpThread::connection(void *_hthr)
 {
-  HttpThread *ht = (HttpThread *) _ht;
+  HttpThread *hthr = (HttpThread *) _hthr;
 
-  Http *http = ht->http;
+  Http *http = hthr->http;
 
   HttpThread::checkProxy();
 
   struct sockaddr_in sa;
-  bool hterr = false;
+  bool httperr = false;
   bool eoheader = false;
   bool answerline = true;	// position first line
 
@@ -280,8 +280,8 @@ void * HttpThread::connection(void *_ht)
   memset(scheme, 0, sizeof(scheme));
   memset(path, 0, sizeof(path));
 
-  int urltype = Url::parser(ht->url, host, scheme, path);
-  trace(DBG_HTTP, "connection: url=%s", ht->url);
+  int urltype = Url::parser(hthr->url, host, scheme, path);
+  trace(DBG_HTTP, "connection: url=%s", hthr->url);
   trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
                   ::g.url, ::g.universe, scheme, host, path, urltype);
 
@@ -291,12 +291,12 @@ void * HttpThread::connection(void *_ht)
   case Url::URLFILE:	// file://
     trace(DBG_HTTP, "HTTP: %s://%s/%s", scheme, host, path);
     if ((http->fd = HttpThread::openFile(path)) < 0) {
-      hterr = true;
+      httperr = true;
     }
     else {
       http->off = -1;
-      ht->httpReader(ht->handle, http);
-      hterr = false;
+      hthr->httpReader(hthr->handle, http);
+      httperr = false;
     }
     break;
 
@@ -321,18 +321,18 @@ htagain:
       int r;
       if ((r = HttpThread::resolver(host, scheme, &sa)) != 0) {
         if (! strncmp(host, "localhost", 9)) {
-          hterr = false;
+          httperr = false;
         }
         else {
           error("can't resolve %s err=%d", host, r);
-          hterr = true;
+          httperr = true;
         }
         break;
       }
     }
     if ((http->fd = HttpThread::connect(&sa)) < 0) {
       error("can't connect %s", host);
-      hterr = true;
+      httperr = true;
       break;
     }
 
@@ -343,7 +343,7 @@ htagain:
       if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
         sprintf(req,
                 "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
-                ht->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
+                hthr->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
                 ::g.env.relname(), ::g.user, host);
       }
       else {
@@ -359,7 +359,7 @@ htagain:
     //error("req: %s", req);
     if (HttpThread::send(http->fd, req, strlen(req)) < 0) {
       error("can't send req=%s", req);
-      hterr = true;
+      httperr = true;
       break;
     }
 
@@ -372,7 +372,7 @@ htagain:
     do {
       if ((http->len = HttpThread::answer(http->fd, http->buf, HTTP_BUFSIZ)) <= 0) {
         eoheader = true;
-        hterr = true;
+        httperr = true;
         break;
       }
       //trace(DBG_FORCE, "http answer = %d %p", http->len, http->buf);
@@ -389,7 +389,7 @@ htagain:
           if (httpheader[0] == '\r') { // test end of header
             http->off++;
             eoheader = true;
-            hterr = true;
+            httperr = true;
             break;
           }
           httpheader[i-1] = '\0';	// replace '\r' by '\0'
@@ -402,7 +402,7 @@ htagain:
 
             sscanf(httpheader, "HTTP/%d.%d %d", &major, &minor, &httperr);
             trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
-                  httperr, major, minor, httpheader+12, ht->url);
+                  httperr, major, minor, httpheader+12, hthr->url);
 
             switch (httperr) {
             case HTTP_200:
@@ -425,24 +425,24 @@ htagain:
               }
               break;
             case 400:		// bad request
-              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, ht->url, host);
-              hterr = true;
+              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, hthr->url, host);
+              httperr = true;
               break;
             case 404:		// not found
-              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, ht->url, host);
-              hterr = true;
+              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, hthr->url, host);
+              httperr = true;
               break;
             case HTTP_503:	// server unavailable
               warning("HTTP-err: %d - server %s unavailable", httperr, host);
-              hterr = true;
+              httperr = true;
               break;
             default:
-              error("HTTP-err: %d - %s %s", httperr, httpheader+12, ht->url);
-              hterr = true;
+              error("HTTP-err: %d - %s %s", httperr, httpheader+12, hthr->url);
+              httperr = true;
               break;
             }
           }
-          if (hterr) {
+          if (httperr) {
             break;
           }
 
@@ -457,10 +457,10 @@ htagain:
               else {
                 p[MIME_LEN] = 0;
               }
-              trace(DBG_HTTP, "mime=%s %s", p, ht->url);
+              trace(DBG_HTTP, "mime=%s %s", p, hthr->url);
               // only for textures
-              if (ht->handle && strcmp(p, "plain")) {
-                Texture *tex = (Texture *) ht->handle;
+              if (hthr->handle && strcmp(p, "plain")) {
+                Texture *tex = (Texture *) hthr->handle;
 		tex->setMime(p);
               }
             }
@@ -475,25 +475,25 @@ htagain:
     /*
      * Call here the appropriated httpReader
      */
-    ht->httpReader(ht->handle, http);
-    hterr = false;
+    hthr->httpReader(hthr->handle, http);
+    httperr = false;
     break;
 
   default:	// scheme:// unknown
     if (urltype) {
       error("unknown scheme urltype=%d", urltype);
     }
-    hterr = true;
+    httperr = true;
     break;
   }
 
-  if (hterr && ht) {
-    ht->httpReader(ht->handle, http);
+  if (httperr && hthr) {
+    hthr->httpReader(hthr->handle, http);
   }
 
   // free memory
-  if (ht) delete ht;
-  ht = NULL;
+  if (hthr) delete hthr;
+  hthr = NULL;
   if (http) delete http;
   http = NULL;
 
@@ -508,37 +508,37 @@ int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), v
     return -1;
   }
 
-  HttpThread *ht = new HttpThread();
+  HttpThread *hthr = new HttpThread();
 
   trace(DBG_HTTP, "httpOpen: %s", _url);
   ::g.timer.image.start();
 
-  ht->http = new Http();	// create a http IO
+  hthr->http = new Http();	// create a http IO
 
-  // fill the ht structure
-  ht->handle = handle;
-  ht->httpReader = _httpReader;
-  ht->modethr = _threaded;
-  strcpy(ht->url, _url);
-  strcpy(ht->http->url, _url);
+  // fill the hthr structure
+  hthr->handle = handle;
+  hthr->httpReader = _httpReader;
+  hthr->modethr = _threaded;
+  strcpy(hthr->url, _url);
+  strcpy(hthr->http->url, _url);
 
   // Checks if url is in the cache (_threaded < 0 : don't use the cache)
   if (_threaded >= 0 && Cache::inCache(_url)) { // in cache
-    ht->httpReader(ht->handle, ht->http);  // call the appropiated httpReader
-    if (ht->http) delete ht->http;	// segfault
-    ht->http = NULL;
+    hthr->httpReader(hthr->handle, hthr->http);  // call the appropiated httpReader
+    if (hthr->http) delete hthr->http;	// segfault
+    hthr->http = NULL;
     progression('c');	// 'c' as cache
-    delete ht;
-    ht = NULL;
+    delete hthr;
+    hthr = NULL;
     return 0;
   }
   else {		// not in cache
     progression('i');	// 'i' as image
     if (_threaded > 0) {	// if threaded
-      return ht->putfifo();	// put it into fifo
+      return hthr->putfifo();	// put it into fifo
     }
     else {
-      HttpThread::connection((void *) ht);	// it's not a thread
+      HttpThread::connection((void *) hthr);	// it's not a thread
       ::g.timer.image.stop();
       return 0;
     }
@@ -798,19 +798,19 @@ int Http::fread(char *pbuf, int size, int nitems)
 }
 
 /** returns a block and its size */
-uint32_t Http::read_buf(char *buffer, int maxlen)
+uint32_t Http::read_buf(char *buf, int maxlen)
 {
   int32_t siz = http_len - http_pos;
 
   if (siz >= maxlen) {
-    memcpy(buffer, http_buf, maxlen);
+    memcpy(buf, http_buf, maxlen);
     http_pos += maxlen;
     return (uint32_t) maxlen;
   }
   else {
-    memcpy(buffer, http_buf, siz);
+    memcpy(buf, http_buf, siz);
     http_pos = http_len;
-    int r = httpRead((char *) buffer+siz, maxlen-siz);
+    int r = httpRead((char *) buf+siz, maxlen-siz);
     if (r == 0) {
       http_eof = true;
       return -1;	// http eof
