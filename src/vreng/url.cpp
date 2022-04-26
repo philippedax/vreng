@@ -32,8 +32,6 @@
 int Url::parser(char *url, char *host, char *scheme, char *path)
 {
   int urltype;
-  //dax char *p;
-  //dax static char prev_host[MAXHOSTNAMELEN] = "";	// first one is undefined
 
   /* parse scheme */
   if (! url || ! strlen(url)) {
@@ -80,14 +78,11 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
 
   /* then parse host's name */
   if (urltype != URLFILE) {
-    //dax p = prev_host;
     while ((*url != ':') && (*url != '/') && (*url != '\0')) {
       *host++ = *url;
-      //dax *p++ = *url;	// keep current host
       url++;
     }
     *host = '\0';
-    //dax *p = '\0';
   }
 
   /* then parse pathname */
