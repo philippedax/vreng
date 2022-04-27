@@ -217,13 +217,13 @@ bool World::isDead() const
 
 void World::setManagerChanAndJoin(const char *chan_str)
 {
-  manager->chan = new char[strlen(chan_str) + 1];
-  Channel::joinManager(manager->chan, chan_str);
+  world_manager->chan = new char[strlen(chan_str) + 1];
+  Channel::joinManager(world_manager->chan, chan_str);
 }
 
 const char * World::getManagerChan() //static
 {
-  return manager->chan;
+  return world_manager->chan;
 }
 
 /* Sets the channel name */

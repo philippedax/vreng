@@ -31,7 +31,7 @@
 
 
 // global
-World *manager = NULL;
+World *world_manager = NULL;
 
 
 Universe::Universe()
@@ -104,9 +104,9 @@ void Universe::getUrl(char *_url)
 /** Initialization from vreng.cc - static */
 void Universe::init()
 {
-  manager = new World();
-  manager->setManagerChanAndJoin(DEF_MANAGER_CHANNEL); // join manager chan
-  manager->setName(MANAGER_NAME);
+  world_manager = new World();
+  world_manager->setManagerChanAndJoin(DEF_MANAGER_CHANNEL); // join world_manager chan
+  world_manager->setName(MANAGER_NAME);
 }
 
 static bool univ_progress = false;

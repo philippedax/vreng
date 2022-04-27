@@ -50,7 +50,7 @@ class Universe {
 
   static Universe * current();	///< pointer
 
-  static void init();    ///< create the "manager"
+  static void init();    ///< create the "world_manager"
 
   virtual void getUrl(char *_url);	///< gets url string
 
@@ -67,6 +67,6 @@ class Universe {
   /**< Stops the wheel progression indicator */
 };
 
-extern World *manager;
+extern World *world_manager;
 
 #endif
