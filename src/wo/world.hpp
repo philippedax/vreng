@@ -220,7 +220,7 @@ class World {
   static void setManagerChanAndJoin(const char *chanstr);
   /**< Sets the manager channel name and joins it. */
 
-  static const char * getManagerChan();
+  //dax static const char * getManagerChan();
   /**< Gets the channel name of the manager. */
 
   static void clearLists();

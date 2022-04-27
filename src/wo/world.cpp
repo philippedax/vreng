@@ -221,10 +221,12 @@ void World::setManagerChanAndJoin(const char *chan_str)
   Channel::joinManager(world_manager->chan, chan_str);
 }
 
+#if 0 //dax notused
 const char * World::getManagerChan() //static
 {
   return world_manager->chan;
 }
+#endif
 
 /* Sets the channel name */
 bool World::setChan(const char *chan_str)
