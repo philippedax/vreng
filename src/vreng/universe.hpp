@@ -52,8 +52,6 @@ class Universe {
 
   static void init();    ///< create the "world_manager"
 
-  virtual void getUrl(char *_url);	///< gets url string
-
   virtual void startWheel();
   /**< Starts the wheel progression indicator */
 

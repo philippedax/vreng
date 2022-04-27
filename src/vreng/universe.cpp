@@ -96,12 +96,7 @@ Universe* Universe::current()
   return defUniverse;
 }
 
-void Universe::getUrl(char *_url)
-{
-  strncpy(_url, url, URL_LEN);
-}
-
-/** Initialization from vreng.cc - static */
+/** Initialization from vreng.cpp - static */
 void Universe::init()
 {
   world_manager = new World();
