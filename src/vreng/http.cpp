@@ -262,17 +262,17 @@ int HttpThread::openFile(const char *path)
 }
 
 /** make an http connection */
-void * HttpThread::connection(void *_hthr)
+void * HttpThread::connection(void *_hthread)
 {
-  HttpThread *hthr = (HttpThread *) _hthr;
+  HttpThread *hthread = (HttpThread *) _hthread;
 
-  Http *http = hthr->http;
+  Http *http = hthread->http;
 
   HttpThread::checkProxy();
 
   struct sockaddr_in sa;
   bool httperr = false;
-  bool eoheader = false;
+  bool httpeoheader = false;
   bool answerline = true;	// position first line
 
   char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[BUFSIZ];
@@ -280,8 +280,8 @@ void * HttpThread::connection(void *_hthr)
   memset(scheme, 0, sizeof(scheme));
   memset(path, 0, sizeof(path));
 
-  int urltype = Url::parser(hthr->url, host, scheme, path);
-  trace(DBG_HTTP, "connection: url=%s", hthr->url);
+  int urltype = Url::parser(hthread->url, host, scheme, path);
+  trace(DBG_HTTP, "connection: url=%s", hthread->url);
   trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
                   ::g.url, ::g.universe, scheme, host, path, urltype);
 
@@ -295,7 +295,7 @@ void * HttpThread::connection(void *_hthr)
     }
     else {
       http->off = -1;
-      hthr->httpReader(hthr->handle, http);
+      hthread->httpReader(hthread->handle, http);
       httperr = false;
     }
     break;
@@ -343,7 +343,7 @@ htagain:
       if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
         sprintf(req,
                 "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
-                hthr->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
+                hthread->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
                 ::g.env.relname(), ::g.user, host);
       }
       else {
@@ -364,18 +364,18 @@ htagain:
     }
 
     /*
-     * parse HTTP/1.1 headers received from the server
+     * parses HTTP/1.1 headers received from the server
      */
 
     http->reset();
 
     do {
       if ((http->len = HttpThread::answer(http->fd, http->buf, HTTP_BUFSIZ)) <= 0) {
-        eoheader = true;
+        httpeoheader = true;
         httperr = true;
         break;
       }
-      //trace(DBG_FORCE, "http answer = %d %p", http->len, http->buf);
+      //trace(DBG_FORCE, "http answer: (%d) %p", http->len, http->buf);
 
       for (http->off = 0; 1; ) {
         int i = 0;
@@ -388,7 +388,7 @@ htagain:
         if (http->off < http->len) {
           if (httpheader[0] == '\r') { // test end of header
             http->off++;
-            eoheader = true;
+            httpeoheader = true;
             httperr = true;
             break;
           }
@@ -402,7 +402,7 @@ htagain:
 
             sscanf(httpheader, "HTTP/%d.%d %d", &major, &minor, &httperr);
             trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
-                  httperr, major, minor, httpheader+12, hthr->url);
+                  httperr, major, minor, httpheader+12, hthread->url);
 
             switch (httperr) {
             case HTTP_200:
@@ -425,11 +425,11 @@ htagain:
               }
               break;
             case 400:		// bad request
-              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, hthr->url, host);
+              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, hthread->url, host);
               httperr = true;
               break;
             case 404:		// not found
-              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, hthr->url, host);
+              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, hthread->url, host);
               httperr = true;
               break;
             case HTTP_503:	// server unavailable
@@ -437,7 +437,7 @@ htagain:
               httperr = true;
               break;
             default:
-              error("HTTP-err: %d - %s %s", httperr, httpheader+12, hthr->url);
+              error("HTTP-err: %d - %s %s", httperr, httpheader+12, hthread->url);
               httperr = true;
               break;
             }
@@ -457,10 +457,10 @@ htagain:
               else {
                 p[MIME_LEN] = 0;
               }
-              trace(DBG_HTTP, "mime=%s %s", p, hthr->url);
+              trace(DBG_HTTP, "mime=%s %s", p, hthread->url);
               // only for textures
-              if (hthr->handle && strcmp(p, "plain")) {
-                Texture *tex = (Texture *) hthr->handle;
+              if (hthread->handle && strcmp(p, "plain")) {
+                Texture *tex = (Texture *) hthread->handle;
 		tex->setMime(p);
               }
             }
@@ -470,12 +470,12 @@ htagain:
           break;
         }
       } // end for
-    } while (!eoheader);
+    } while (!httpeoheader);
 
     /*
      * Call here the appropriated httpReader
      */
-    hthr->httpReader(hthr->handle, http);
+    hthread->httpReader(hthread->handle, http);
     httperr = false;
     break;
 
@@ -487,67 +487,24 @@ htagain:
     break;
   }
 
-  if (httperr && hthr) {
-    hthr->httpReader(hthr->handle, http);
+  if (httperr && hthread) {
+    hthread->httpReader(hthread->handle, http);
   }
 
   // free memory
-  if (hthr) delete hthr;
-  hthr = NULL;
+  if (hthread) delete hthread;
+  hthread = NULL;
   if (http) delete http;
   http = NULL;
 
   return NULL;
 }
 
-/** Opens a HTTP transaction, returns -1 if error */
-int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), void *handle, int _threaded)
-{
-  if (! isprint(*_url)) {
-    error("httpOpen: url not printable");
-    return -1;
-  }
-
-  HttpThread *hthr = new HttpThread();
-
-  trace(DBG_HTTP, "httpOpen: %s", _url);
-  ::g.timer.image.start();
-
-  hthr->http = new Http();	// create a http IO
-
-  // fill the hthr structure
-  hthr->handle = handle;
-  hthr->httpReader = _httpReader;
-  hthr->modethr = _threaded;
-  strcpy(hthr->url, _url);
-  strcpy(hthr->http->url, _url);
-
-  // Checks if url is in the cache (_threaded < 0 : don't use the cache)
-  if (_threaded >= 0 && Cache::inCache(_url)) { // in cache
-    hthr->httpReader(hthr->handle, hthr->http);  // call the appropiated httpReader
-    if (hthr->http) delete hthr->http;	// segfault
-    hthr->http = NULL;
-    progression('c');	// 'c' as cache
-    delete hthr;
-    hthr = NULL;
-    return 0;
-  }
-  else {		// not in cache
-    progression('i');	// 'i' as image
-    if (_threaded > 0) {	// if threaded
-      return hthr->putfifo();	// put it into fifo
-    }
-    else {
-      HttpThread::connection((void *) hthr);	// it's not a thread
-      ::g.timer.image.stop();
-      return 0;
-    }
-  }
-}
-
+//////////////////////////////////////////////////////////////////////////////////
 //
 // Http class
 //
+
 Http::Http()
 {
   new_http++;
@@ -566,6 +523,51 @@ Http::~Http()
   buf = NULL;
   if (fd > 0) {
     Socket::closeStream(fd);
+  }
+}
+
+/** Opens a HTTP transaction, returns -1 if error */
+int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), void *handle, int _threaded)
+{
+  if (! isprint(*_url)) {
+    error("httpOpen: url not printable");
+    return -1;
+  }
+
+  HttpThread *hthread = new HttpThread();
+
+  trace(DBG_HTTP, "httpOpen: %s", _url);
+  ::g.timer.image.start();
+
+  hthread->http = new Http();	// create a http IO
+
+  // fill the hthread structure
+  hthread->handle = handle;
+  hthread->httpReader = _httpReader;
+  hthread->modethr = _threaded;
+  strcpy(hthread->url, _url);
+  strcpy(hthread->http->url, _url);
+
+  // Checks if url is in the cache (_threaded < 0 : don't use the cache)
+  if (_threaded >= 0 && Cache::inCache(_url)) { // in cache
+    hthread->httpReader(hthread->handle, hthread->http);  // call the appropiated httpReader
+    if (hthread->http) delete hthread->http;	// segfault
+    hthread->http = NULL;
+    progression('c');	// 'c' as cache
+    delete hthread;
+    hthread = NULL;
+    return 0;
+  }
+  else {		// not in cache
+    progression('i');	// 'i' as image
+    if (_threaded > 0) {	// if threaded
+      return hthread->putfifo();	// put it into fifo
+    }
+    else {
+      HttpThread::connection((void *) hthread);	// it's not a thread
+      ::g.timer.image.stop();
+      return 0;
+    }
   }
 }
 
