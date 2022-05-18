@@ -34,9 +34,9 @@
 
 using namespace ubit;
 
-#if (UBIT_VERSION_MAJOR < 6 || !defined(UBIT_WITH_GL))
-#  error "Vreng requires Ubit Version 6 compiled in OpenGL mode"
-#endif
+//#if (UBIT_VERSION_MAJOR < 6 || !defined(UBIT_WITH_GL))
+//#  error "Vreng requires Ubit Version 6 compiled in OpenGL mode"
+//#endif
 
 class Gui;
 class Widgets;
@@ -47,14 +47,6 @@ class WObject;
 class User;
 class World;
 class Vnc;
-
-
-/**
- * GuiItem Class
- */
-struct GuiItem : public UButton {
-  GuiItem(UArgs args = UArgs::none);
-};
 
 /** struct for updating the ObjectBar and the ObjectMenu in the GUI */
 struct ObjInfo {
@@ -72,9 +64,18 @@ struct KRKey {
 
 
 /**
+ * GuiItem class
+ */
+struct GuiItem : public UButton {
+  GuiItem(UArgs args = UArgs::none);
+};
+
+
+/**
  * Widgets class
  */
 class Widgets : public ubit::UFrame {
+
 public:
   static const int MESSAGES_BOX_WIDTH = 320;
   static const int MESSAGES_BOX_HEIGHT = 150;
@@ -95,24 +96,24 @@ public:
 
   // Users - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  GuiItem* addUser(User*);
+  GuiItem * addUser(User *username);
   ///< Adds an avatar name.
 
-  void updateUser(GuiItem*, User*);
+  void updateUser(GuiItem *gp, User *username);
   ///< Updates an avatar.
 
-  void removeUser(GuiItem*);
+  void removeUser(GuiItem *gp);
   ///< Removes an avatar name.
 
   // Worlds - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  GuiItem* addWorld(World*, bool isCurrentWorld);
+  GuiItem * addWorld(World *worldname, bool isCurrentWorld);
   ///< Adds a world name.
 
-  void updateWorld(World*, bool isCurrentWorld);
+  void updateWorld(World *, bool isCurrentWorld);
   ///< Updates a world name.
 
-  void removeWorld(World*);
+  void removeWorld(World *);
   ///< Removes a world name.
 
   // Callback functions
@@ -133,17 +134,17 @@ private:
   friend class Panels;
   
   // ! BEWARE: order matters !
-  Gui& gui;            		///< reference to the GUI object
-  class Message2& putinfo;
-  class Capture& capture;
+  Gui &gui;            		///< reference to the GUI object
+  class Message2 &putinfo;
+  class Capture &capture;
   UBox infos;
   UElem worlds, carts, avatars;
-  class Scene& scene;		///< OpenGL Drawing Zone
-  class Navig& navig;		///< navigation
+  class Scene &scene;		///< OpenGL Drawing Zone
+  class Navig &navig;		///< navigation
   UOptionDialog &source_dialog, &worlds_dialog;
   UDialog &prefs_dialog, &settings_dialog, &grid_dialog, &tool_dialog, &addobj_dialog;
-  class Message& message;
-  class Panels& panels;
+  class Message &message;
+  class Panels &panels;
   UBox &infobar, &menubar;
   long postponedKRmask;		///< mask of all postponed Key Release events
   long postponedKRcount;	///< count in the KRbuf

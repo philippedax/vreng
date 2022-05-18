@@ -365,7 +365,7 @@ GuiItem *Widgets::addWorld(World *world, bool isCurrent)
 
 void Widgets::updateWorld(World *world, bool isCurrent)
 {
-  if (! world || ! world->isGui())  return;
+  if (! world)  return;
 
   GuiItem *gw = world->getGui();
   if (! gw)  return;
@@ -394,7 +394,7 @@ void Widgets::callAction(int numaction)
   localuser->specialAction(numaction, NULL, t.tv_sec, t.tv_usec);	// do action
 }
 
-/** do an action on current object */
+/** do an action on selected object */
 static void objectActionCB(int numaction)
 {
   WObject* object = g.gui.getSelectedObject();
