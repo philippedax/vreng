@@ -42,7 +42,7 @@ struct GuiItem;
  */
 class Gui {
 public:
-  Gui();
+  Gui();	// constructor.
  
   void createWidgets();
   void showWidgets(bool = true);

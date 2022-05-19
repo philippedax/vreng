@@ -30,12 +30,12 @@
  */
 #include "vreng.hpp"
 #include "gui.hpp"
-#include "widgets.hpp"
-#include "panels.hpp"
-#include "navig.hpp"
-#include "message.hpp"
-#include "scene.hpp"
-#include "motion.hpp"
+#include "widgets.hpp"	// widgets
+#include "panels.hpp"	// panels
+#include "navig.hpp"	// navig
+#include "message.hpp"	// message
+#include "scene.hpp"	// scene
+#include "motion.hpp"	// Motion
 #include "world.hpp"    // current
 #include "wobject.hpp"  // WObject
 #include "user.hpp"	// localuser
@@ -51,11 +51,11 @@
 
 // Constructor
 Gui::Gui() :
-  widgets(null),
-  selected_object(null),  // the object that is currently selected
-  vnc(null),
-  carrier(null),
-  vrelet(null)
+ widgets(null),
+ selected_object(null),  // the object that is currently selected
+ vnc(null),
+ carrier(null),
+ vrelet(null)
 {
 }
 
@@ -129,7 +129,7 @@ void Gui::showCartDialog(bool flag)
 
 GuiItem* Gui::addCart(WObject *cart)
 {
-  if (!cart) return NULL;
+  if (! cart) return NULL;
 
   notice("Item %s added to cart", NN(cart->getInstance()));
   
@@ -143,7 +143,7 @@ GuiItem* Gui::addCart(WObject *cart)
 
 void Gui::removeCart(WObject *cart, int action)
 {
-  if (!cart) return;
+  if (! cart) return;
 
   if (cart->isGui()) {
     widgets->setInfobar(null);
