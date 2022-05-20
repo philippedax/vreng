@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2022 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -32,6 +32,7 @@ const char *e_not_implemented = "not implemented";
 const char *e_bad_type = "bad type";
 
 static bool infatal = false;
+
 
 void fatal(const char *s, ...)
 {
@@ -99,6 +100,16 @@ void trace2(int dbgmask, const char *s, ...)	// without cr
 }
 
 void error(const char *s, ...)
+{
+  va_list ap;
+
+  va_start(ap, s);
+  vfprintf(stderr, s, ap);
+  va_end(ap);
+  fprintf(stderr, "\n");
+}
+
+void echo(const char *s, ...)
 {
   va_list ap;
 

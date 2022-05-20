@@ -57,6 +57,7 @@ void notice(const char *s, ...);
 void trace(int mask, const char *s, ...);
 void trace2(int mask, const char *s, ...);
 void error(const char *s, ...);
+void echo(const char *s, ...);
 void progression(char c);
 void endprogression();
 
