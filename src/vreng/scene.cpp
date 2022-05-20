@@ -42,12 +42,12 @@
 
 /* constructor */
 Scene::Scene(Widgets* _gw) :
-  gw(*_gw), 
-  is_visible(true),    // should be set to false when the window is iconified !!!!
-  is_initialized(false),
-  is_initCB_launched(false),
-  cycles(0),
-  net_delay(500)
+ gw(*_gw), 
+ is_visible(true),    // should be set to false when the window is iconified !!!!
+ is_initialized(false),
+ is_initCB_launched(false),
+ cycles(0),
+ net_delay(500)
 {
   background = UBackground::blue;
   addAttr(background);
@@ -56,7 +56,7 @@ Scene::Scene(Widgets* _gw) :
   hudbox.addAttr(upos(1, 1)  // position relatively to the canvas : up left corner
                  + UOrient::vertical + UHalign::left
                  + UFont::small + UColor::yellow   // size & color of the text
-                 );
+                );
   hudbox.add(hud_line1 + hud_line2 + hud_line3 + hud_line4 + hud_line5);
   add(hudbox);	// add the hudbox to the scene
   is_hudvisible = true;
@@ -140,8 +140,8 @@ void Scene::setViewport(GLint x, GLint y, GLsizei w, GLsizei h)
  * The main difference is that GLSection must be done each time we paint because
  * only one window (and one GL context) is used
  */
-GLSection::GLSection(Scene* s) 
-: UGraph::Glpaint(s->getView(), true)
+GLSection::GLSection(Scene* s) :
+ UGraph::Glpaint(s->getView(), true)
 {}
 
 /* Paints scene CB */
@@ -249,7 +249,7 @@ void Scene::loopScene()
 
 void Scene::updateHud()
 {
-  char line[1000];
+  char line[128];
   
   sprintf(line, "Rate:   %.1f fps", ::g.timer.rate());
   hud_line1 = line;
@@ -271,7 +271,8 @@ void Scene::updateHud()
     
     float dist = sqrt((localuser->pos.x-obj->pos.x)*(localuser->pos.x-obj->pos.x) +
                       (localuser->pos.y-obj->pos.y)*(localuser->pos.y-obj->pos.y) +
-                      (localuser->pos.z-obj->pos.z)*(localuser->pos.z-obj->pos.z));
+                      (localuser->pos.z-obj->pos.z)*(localuser->pos.z-obj->pos.z)
+                     );
     sprintf(line, "Dist:   %.1f", dist);
     hud_line5 = line;
   }
