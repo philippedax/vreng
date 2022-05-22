@@ -32,9 +32,7 @@
  */
 #include "vreng.hpp"
 #include "message.hpp"
-#include "widgets.hpp"
-//#include "scene.hpp"
-//#include "navig.hpp"
+#include "widgets.hpp"	// Widgets gw
 #include "theme.hpp"	// theme
 #include "wobject.hpp"	// WObject
 #include "user.hpp"	// userWriting
@@ -51,7 +49,8 @@
 /* ==================================================== ======== ======= */
 // MESSAGES and REQUESTS
 
-Message::Message(Widgets* _gw) : gw(*_gw)
+Message::Message(Widgets* _gw) :
+ gw(*_gw)
 {
   messbox.addAttr(UOrient::vertical + UFont::small + utop());
   messbox.add(uhbox(UFont::bold + UColor::orange + "Have fun with VREng ;-)"));
