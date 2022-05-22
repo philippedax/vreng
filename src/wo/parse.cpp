@@ -199,7 +199,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
     }
     else if ((! stringcmp(ptok, "/scene>"))) {
       FREE(line);
-      inscene = false;
+      inscene = false;	// fix ambigous <head> tag
       return TAG_SCENE;
     }
     // check <local> </local>
