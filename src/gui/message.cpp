@@ -33,8 +33,8 @@
 #include "vreng.hpp"
 #include "message.hpp"
 #include "widgets.hpp"
-#include "scene.hpp"
-#include "navig.hpp"
+//#include "scene.hpp"
+//#include "navig.hpp"
 #include "theme.hpp"	// theme
 #include "wobject.hpp"	// WObject
 #include "user.hpp"	// userWriting

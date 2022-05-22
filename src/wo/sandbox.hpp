@@ -23,10 +23,11 @@
 
 static char sandbox_vre[] = "\
 <vre version=\"8.0\" profile=\"Interactive\">\n\
+<!--\n\
 <head>\n\
 <meta name=\"buildin\" content=\"sandbox_vre\"/>\n\
 </head>\n\
-\n\
+-->\n\
 <scene>\n\
 \n\
 <!-- the following line is not parsed after tag <scene> : to fix parse.cpp -->\n\

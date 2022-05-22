@@ -74,11 +74,12 @@ static void sandboxCB(Widgets*)
   World::enter(NULL, NULL, false);
 }
 
+/** Constructor */
 Panels::Panels(Widgets* _gw, Scene& scene) :
-  gw(*_gw),
-  joystick1(new Joystick1(_gw, (int) g.theme.controlPanelHeight/2 - 20)),
-  joystick2(new Joystick2(_gw, 25)),
-  manipulator(_gw->navig.manipulator())
+ gw(*_gw),
+ joystick1(new Joystick1(_gw, (int) g.theme.controlPanelHeight/2 - 20)),
+ joystick2(new Joystick2(_gw, 25)),
+ manipulator(_gw->navig.manipulator())
 {
   // WORLDS
   UScrollpane& worlds_spane = uscrollpane(true, false, uvbox(gw.worlds));
@@ -149,24 +150,24 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   navig_palette.setTitle(UColor::orange + UFont::bold + "Navigator");
   scene.add(navig_palette);
 
-  Palette& messages_palette = *new Palette(g.theme.paletteStyle
+  Palette& notif_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
                + gw.message.createMessagePanel(true));
-  messages_palette.setPos(50|UPERCENT_CTR, 5|UPos::BOTTOM);
-  messages_palette.setTitle(UColor::orange + UFont::bold + "Notifications & Messages");
-  scene.add(messages_palette);
+  notif_palette.setPos(50|UPERCENT_CTR, 5|UPos::BOTTOM);
+  notif_palette.setTitle(UColor::orange + UFont::bold + "Notifications & Messages");
+  scene.add(notif_palette);
 
-  Palette& avatars_palette = *new Palette(g.theme.paletteStyle
+  Palette& avatar_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.paletteWidth, g.theme.paletteHeight)
                + avatars_spane);
-  avatars_palette.setPos(5|UPos::RIGHT, 5|UPos::BOTTOM);
-  avatars_palette.setTitle(UColor::orange + UFont::bold + "Avatars");
-  scene.add(avatars_palette);
+  avatar_palette.setPos(5|UPos::RIGHT, 5|UPos::BOTTOM);
+  avatar_palette.setTitle(UColor::orange + UFont::bold + "Avatars");
+  scene.add(avatar_palette);
 
   if (::g.pref.expand == false) {
     navig_palette.collapse();
-    messages_palette.collapse();
-    avatars_palette.collapse();
+    notif_palette.collapse();
+    avatar_palette.collapse();
   }
 
   // control panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -182,8 +183,6 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
       );
   control_panel.show(false);
 
-  // more button  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   UBox& expand_collapse = ubutton
   (utip("Expand/Collapse Panels")
    + UOn::select   / ustr("Collapse")
@@ -193,11 +192,11 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
    + UOn::deselect / ushow(control_panel, false)
    + UOn::deselect / ushow(right_panel, false)
    + UOn::select   / ushow(navig_palette, false)
-   + UOn::select   / ushow(messages_palette, false)
-   + UOn::select   / ushow(avatars_palette, false)
+   + UOn::select   / ushow(notif_palette, false)
+   + UOn::select   / ushow(avatar_palette, false)
    + UOn::deselect / ushow(navig_palette, true)
-   + UOn::deselect / ushow(messages_palette, true)
-   + UOn::deselect / ushow(avatars_palette, true)
+   + UOn::deselect / ushow(notif_palette, true)
+   + UOn::deselect / ushow(avatar_palette, true)
   );
   expand_collapse.setSelected(false);
 
@@ -228,8 +227,8 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
        + upadding(8,0).setBottom(14)
        + "View:"
        + viewlist
-       + usepar()
-       + "Show:"
+       //+ usepar()
+       + " Show:"
        + uitem(utip("Show axis")
                + g.theme.Axis
                + ucall(_gw, toggleAxisCB)
@@ -250,8 +249,8 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + g.theme.World
                + ucall(int(UserAction::UA_MAPVIEW), Widgets::callAction)
               )
-       + usepar()
-       + "Objects:"
+       //+ usepar()
+       + " Objects:"
        + uitem(utip("Show object cart")
                // + ushow(*gw.cartDialog, true)         !! A COMPLETER
                + g.theme.Cart)
@@ -263,8 +262,8 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + UPix::question
                + ucall(_gw, sandboxCB)
               )
-       + usepar()
-       + "Throw:"
+       //+ usepar()
+       + " Throw:"
        + uitem(utip("Throw dart")
                + UPix::ray
                + ucall(int(UserAction::UA_DART), Widgets::callAction)
@@ -273,18 +272,12 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + UFont::bold + UFont::xx_large + UColor::red + "."
                + ucall(int(UserAction::UA_BULLET), Widgets::callAction)
               )
-       + usepar()
-       + "Snap:"
+       //+ usepar()
+       + " Snap:"
        + uitem(utip("Capture screenshot in JPG")
                + g.theme.Camera
                + ucall(&gw.capture, &Capture::writeJPGImage)
               )
-#if 0 //dax
-       + uitem(utip("Capture screenshot in PNG")
-               + g.theme.Camera
-               + ucall(&gw.capture, &Capture::writePNGImage)
-              )
-#endif
 #if WANT_GL2PS
        + uitem(utip("Capture screenshot in SVG")
                + g.theme.Camera
