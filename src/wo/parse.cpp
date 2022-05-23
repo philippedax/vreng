@@ -195,6 +195,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
     // check <scene> </scene>
     else if (! stringcmp(ptok, "scene>")) {
       FREE(line);
+      inscene = true;	// fix ambigous <head> tag
       return TAG_SCENE;
     }
     else if ((! stringcmp(ptok, "/scene>"))) {
@@ -343,7 +344,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
           bol = eol + 1;	// begin of next line
           continue;
         case TAG_SCENE:
-          inscene = true;
+          //inscene = true;
           DELETE2(line);
           bol = eol + 1;	// begin of next line
           continue;	// or break
