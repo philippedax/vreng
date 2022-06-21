@@ -75,7 +75,7 @@ bool VNCCli::initVNC()
     }
     fbWidth = rfbproto.si.framebufferWidth;
     fbHeight = rfbproto.si.framebufferHeight;
-    //error("initVNC: fbWidth=%d fbHeight=%d", fbWidth,fbHeight);
+    //echo("initVNC: fbWidth=%d fbHeight=%d", fbWidth,fbHeight);
     framebuffer = new VNCrgb[fbWidth * fbHeight];
     if (! framebuffer) {
       error("initVNC: unable to allocate memory for framebuffer");
@@ -161,27 +161,27 @@ void VNCCli::sendRFBEvent(char **params, unsigned int *num_params)
       return;
     }
     ks = XStringToKeysym(params[1]);
-    //error("ks = %02x",ks);
-    //if (ks == 0) ks = '\r';
-    if (ks == NoSymbol) {
-      error("Invalid keysym '%s' passed to sendRFBEvent", params[1]);
-      return;
-    }
+    //echo("ks = %02x",ks);
+    if (ks == 0) ks = '\r';
+    //if (ks == NoSymbol) {
+     // error("invalid keysym '%s' passed to sendRFBEvent (ks=%02x)", params[1], ks);
+     // return;
+    //}
     if (strcasecmp(params[0], "keydown") == 0) {
-      //error("keydown ks=%2x p1=%2x", ks, params[1][0]);
+      echo("keydown ks=%02x", ks);
       rfbproto.sendKeyEvent(ks, 1);
     }
     else if (strcasecmp(params[0], "keyup") == 0) {
-      //error("keyup");
+      //echo("keyup ks=%02x", ks);
       rfbproto.sendKeyEvent(ks, 0);
     }
     else if (strcasecmp(params[0], "key") == 0) {
-      //error("key");
+      //echo("key ks=%02x", ks);
       rfbproto.sendKeyEvent(ks, 1);
       rfbproto.sendKeyEvent(ks, 0);
     }
     else {
-      error("invalid event '%s' passed to sendRFBEvent", params[0]);
+      error("invalid event '%02x' passed to sendRFBEvent (key)", params[0]);
       return;
     }
   }
@@ -193,12 +193,12 @@ void VNCCli::sendRFBEvent(char **params, unsigned int *num_params)
       rfbproto.sendPointerEvent(x, y, buttonMask);
     }
     else {
-      error("invalid params: sendRFBEvent(ptr, x, y, buttonMask)");
+      error("invalid params: sendRFBEvent(ptr, x, y, buttonMask) (ptr)");
       return;
     }
   }
   else {
-    error("invalid event '%s' passed to sendRFBEvent", params[0]);
+    error("invalid event '%s' passed to sendRFBEvent (!key | !ptr)", params[0]);
   }
 }
 
@@ -222,7 +222,7 @@ bool VNCCli::handleRAW32(int rx, int ry, int rw, int rh)
 {
   uint32_t *rfb = (uint32_t *) rfbbuffer;
   VNCrgb *fb = (framebuffer + ry * fbWidth + rx);
-  //error("handleRAW: %dx%d", rw,rh);
+  //echo("handleRAW: %dx%d", rw,rh);
 
   for (int h = 0; h < rh; h++) {
     for (int w = 0; w < rw; w++) {
@@ -263,7 +263,7 @@ void VNCCli::fillRect(int rx, int ry, int rw, int rh, VNCrgb pixel)
 {
   VNCrgb *dst = framebuffer + (ry * fbWidth + rx);
 
-  error("fillRect: %dx%d", rw,rh);
+  echo("fillRect: %dx%d", rw,rh);
   for (int h = 0; h < rh; h++) {
     for (int w = 0; w < rw; w++) {
       *dst++ = pixel;

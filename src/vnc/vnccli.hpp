@@ -24,7 +24,7 @@
 #include "vreng.hpp"
 #include "vncrfb.hpp"
 
-#define RFB_BUF_SIZE	1280*960	// dax orig: 640*480
+#define RFB_BUF_SIZE	2*1280*960	// dax orig: 640*480
 
 
 /**
