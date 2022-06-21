@@ -151,7 +151,7 @@ bool VNCCli::closeVNC()
 void VNCCli::sendRFBEvent(char **params, unsigned int *num_params)
 {
   KeySym ks;
-  int buttonMask, x, y;
+  int button, x, y;
 
   if (! framebuffer) return;
 
@@ -161,11 +161,10 @@ void VNCCli::sendRFBEvent(char **params, unsigned int *num_params)
       return;
     }
     ks = XStringToKeysym(params[1]);
-    //echo("ks = %02x",ks);
     if (ks == 0) ks = '\r';
     //if (ks == NoSymbol) {
-     // error("invalid keysym '%s' passed to sendRFBEvent (ks=%02x)", params[1], ks);
-     // return;
+    //  error("invalid keysym '%s' passed to sendRFBEvent (ks=%02x)", params[1], ks);
+    //  return;
     //}
     if (strcasecmp(params[0], "keydown") == 0) {
       echo("keydown ks=%02x", ks);
@@ -189,8 +188,8 @@ void VNCCli::sendRFBEvent(char **params, unsigned int *num_params)
     if (*num_params == 4) {
       x = atoi(params[1]);
       y = atoi(params[2]);
-      buttonMask = atoi(params[3]);
-      rfbproto.sendPointerEvent(x, y, buttonMask);
+      button = atoi(params[3]);
+      rfbproto.sendPointerEvent(x, y, button);
     }
     else {
       error("invalid params: sendRFBEvent(ptr, x, y, buttonMask) (ptr)");
