@@ -148,36 +148,36 @@ bool VNCCli::closeVNC()
  * just X, Y and the button mask (0 for all up, 1 for button1 down, 2 for
  * button2 down, 3 for both, etc).
  */
-void VNCCli::sendRFBEvent(char **params, unsigned int *num_params)
+void VNCCli::sendRFBEvent(char **params, unsigned int *nparams)
 {
-  KeySym ks;
-  int button, x, y;
+  KeySym k;
+  int b, x, y;
 
   if (! framebuffer) return;
 
   if (strncasecmp(params[0], "key", 3) == 0) {
-    if (*num_params != 2) {
-      error("invalid params: sendRFBEvent(key|keydown|keyup, <keysym>)");
+    if (*nparams != 2) {
+      error("invalid params: sendRFBEvent(key|keydown|keyup, <keystr>)");
       return;
     }
-    ks = XStringToKeysym(params[1]);
-    if (ks == 0) ks = '\r';
-    //if (ks == NoSymbol) {
-    //  error("invalid keysym '%s' passed to sendRFBEvent (ks=%02x)", params[1], ks);
+    k = XStringToKeysym(params[1]);
+    //if (k == 0) k = 0xff0d; //'\r';
+    //if (k == NoSymbol) {
+    //  error("invalid keysym '%s' passed to sendRFBEvent (k=%02x)", params[1], k);
     //  return;
     //}
     if (strcasecmp(params[0], "keydown") == 0) {
-      echo("keydown ks=%02x", ks);
-      rfbproto.sendKeyEvent(ks, 1);
+      echo("keydown k=%02x", k);
+      rfbproto.sendKeyEvent(k, 1);
     }
     else if (strcasecmp(params[0], "keyup") == 0) {
-      //echo("keyup ks=%02x", ks);
-      rfbproto.sendKeyEvent(ks, 0);
+      //echo("keyup k=%02x", k);
+      rfbproto.sendKeyEvent(k, 0);
     }
     else if (strcasecmp(params[0], "key") == 0) {
-      //echo("key ks=%02x", ks);
-      rfbproto.sendKeyEvent(ks, 1);
-      rfbproto.sendKeyEvent(ks, 0);
+      //echo("key k=%02x", k);
+      rfbproto.sendKeyEvent(k, 1);
+      rfbproto.sendKeyEvent(k, 0);
     }
     else {
       error("invalid event '%02x' passed to sendRFBEvent (key)", params[0]);
@@ -185,14 +185,14 @@ void VNCCli::sendRFBEvent(char **params, unsigned int *num_params)
     }
   }
   else if (strcasecmp(params[0], "ptr") == 0) {
-    if (*num_params == 4) {
+    if (*nparams == 4) {
       x = atoi(params[1]);
       y = atoi(params[2]);
-      button = atoi(params[3]);
-      rfbproto.sendPointerEvent(x, y, button);
+      b = atoi(params[3]);
+      rfbproto.sendPointerEvent(x, y, b);
     }
     else {
-      error("invalid params: sendRFBEvent(ptr, x, y, buttonMask) (ptr)");
+      error("invalid params: sendRFBEvent(ptr, x, y, b) (ptr)");
       return;
     }
   }
