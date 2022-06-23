@@ -176,7 +176,10 @@ void Navig::keyPressCB(UKeyEvent& e)
     gw.gui.vnc->keyEvent(kstr, true);
   }
   else {		// normal behaviour
+    gw.processKey(e.getKeyCode(), e.getKeyChar(), true);
+
     if (! localuser)  return;
+
     struct timeval t;
     gettimeofday(&t, NULL);
     
@@ -184,7 +187,6 @@ void Navig::keyPressCB(UKeyEvent& e)
     localuser->specialAction(UserAction::UA_SETLSPEED, &user_lspeed, t.tv_sec, t.tv_usec);
     float user_aspeed = User::ASPEED;	// reset aspeed
     localuser->specialAction(UserAction::UA_SETASPEED, &user_aspeed, t.tv_sec, t.tv_usec);
-    gw.processKey(e.getKeyCode(), e.getKeyChar(), true);
   }
 }
 
