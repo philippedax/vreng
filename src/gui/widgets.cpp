@@ -673,7 +673,7 @@ void Widgets::processKey(long keysym, int keychar, bool press)
   if (keymask == 0) return;    // return if null (undefined or not a vrkey)
 
   if (postponedKRcount < 0) {
-    fprintf(stderr, "!negative KRcount => reset\n"); // should never happen!
+    echo("!negative KRcount => reset"); // should never happen!
     postponedKRmask = 0;
     postponedKRcount = 0;
   }
@@ -684,8 +684,8 @@ void Widgets::processKey(long keysym, int keychar, bool press)
       postponedKRmask &= ~keymask;	// remove keymask from KRmask
       postponedKRcount--;		// une touche en moins dans KRlist
     }
-    else {  // traitement normal d'un Press
-      //fprintf(stderr, "KPress change or activate Key( %d )\n", vrkey);
+    else {	// Press
+      //echo("KPress change or activate Key (%d)", vrkey);
       if (vrkey >= MAXKEYS || vrkey < 0)
         return;
 
@@ -694,10 +694,9 @@ void Widgets::processKey(long keysym, int keychar, bool press)
       changeKey(vrkey, press, time.tv_sec, time.tv_usec);
     }
   }
-  else { // release
-    // too many keys stored ==> flush the KRlist
+  else {	// Release
     if (postponedKRcount > KRKey::KRBUF_MAX) {
-      fprintf(stderr, "too many keys stored => flush: KRmask=%lx\n", postponedKRmask);
+      echo("too many keys stored => flush: KRmask=%lx", postponedKRmask);
       flushPostponedKRs();
     }
     else { // normal case: postpone until we come back to the mainLoop
@@ -1183,7 +1182,7 @@ static void setVal(int item) {
   }
 }
 
-/* callbach witch build <solid ... \> */
+/* callback witch builds <solid ... \> */
 void Widgets::newObjectCB()
 {
   char solid[BUFSIZ], url[128];
