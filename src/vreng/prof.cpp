@@ -64,30 +64,30 @@ uint32_t cnt_close_socket;
 /** stat memory usage (new, delete) */
 void statMemory()
 {
-  fprintf(stderr, "### Memory (new/delete) ###\n");
+  echo("### Memory (new/delete) ###");
 
-  fprintf(stderr, "WObject    : n=%8d d=%8d\n", new_wobject, del_wobject);
-  fprintf(stderr, "World      : n=%8d d=%8d\n", new_world, del_world);
-  fprintf(stderr, "Channel    : n=%8d d=%8d\n", new_channel, del_channel);
-  fprintf(stderr, "Session    : n=%8d d=%8d\n", new_session, del_session);
-  fprintf(stderr, "Source     : n=%8d d=%8d\n", new_source, del_source);
-  fprintf(stderr, "Solid      : n=%8d d=%8d\n", new_solid, del_solid);
-  fprintf(stderr, "Texture    : n=%8d d=%8d\n", new_texture, del_texture);
-  fprintf(stderr, "Image      : n=%8d d=%8d\n", new_image, del_image);
-  fprintf(stderr, "NetObject  : n=%8d d=%8d\n", new_netobject, del_netobject);
-  fprintf(stderr, "Payload    : n=%8d d=%8d\n", new_payload, del_payload);
-  fprintf(stderr, "NetProperty: n=%8d d=%8d\n", new_netproperty, del_netproperty);
-  fprintf(stderr, "ObjectList : n=%8d d=%8d\n", new_objectlist, del_objectlist);
-  fprintf(stderr, "HttpThread : n=%8d d=%8d\n", new_httpthread, del_httpthread);
-  fprintf(stderr, "Http       : n=%8d d=%8d\n", new_http, del_http);
-  //fprintf(stderr, "ImgReader  : n=%8d d=%8d\n", new_imgreader, del_imgreader);
+  echo("WObject    : n=%8d d=%8d", new_wobject, del_wobject);
+  echo("World      : n=%8d d=%8d", new_world, del_world);
+  echo("Channel    : n=%8d d=%8d", new_channel, del_channel);
+  echo("Session    : n=%8d d=%8d", new_session, del_session);
+  echo("Source     : n=%8d d=%8d", new_source, del_source);
+  echo("Solid      : n=%8d d=%8d", new_solid, del_solid);
+  echo("Texture    : n=%8d d=%8d", new_texture, del_texture);
+  echo("Image      : n=%8d d=%8d", new_image, del_image);
+  echo("NetObject  : n=%8d d=%8d", new_netobject, del_netobject);
+  echo("Payload    : n=%8d d=%8d", new_payload, del_payload);
+  echo("NetProperty: n=%8d d=%8d", new_netproperty, del_netproperty);
+  echo("ObjectList : n=%8d d=%8d", new_objectlist, del_objectlist);
+  echo("HttpThread : n=%8d d=%8d", new_httpthread, del_httpthread);
+  echo("Http       : n=%8d d=%8d", new_http, del_http);
+  echo("ImgReader  : n=%8d d=%8d", new_imgreader, del_imgreader);
 }
 
 /** stat io usage (open, close) */
 void statIO()
 {
-  fprintf(stderr, "### IO (open/close) ###\n");
+  echo("### IO (open/close) ###");
 
-  fprintf(stderr, "File       : o=%8d c=%8d\n", cnt_open, cnt_close);
-  fprintf(stderr, "Socket     : o=%8d c=%8d\n", cnt_open_socket, cnt_close_socket);
+  echo("File       : o=%8d c=%8d", cnt_open, cnt_close);
+  echo("Socket     : o=%8d c=%8d", cnt_open_socket, cnt_close_socket);
 }
