@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "stat.hpp"
-#include "netobj.hpp"
 #include "session.hpp"	// Session
 #include "gui.hpp"	// getCycles
 #include "timer.hpp"	// rate diffDates
@@ -105,17 +104,16 @@ void statReceivePacket(int pkt_len)
 /* compute kbps_sent & co */
 void statAdjust()
 {
-  static struct timeval then;
+  static struct timeval top;
   struct timeval now;
 
   gettimeofday(&now, NULL);
-  float d = Timer::diffDates(then, now);
+  float d = Timer::diffDates(top, now);
   if (fabs(d) > 0.1) {
     kbps_sent = bytes_sent/d/1000*8;
     kbps_recvd = bytes_recvd/d/1000*8;
-    trace(DBG_NET, "kbps sent: %5.2f recvd: %5.2f",
-	   bytes_sent/d/1000*8, bytes_recvd/d/1000*8);
-    then = now;
+    trace(DBG_NET, "kbps sent: %5.2f recvd: %5.2f", bytes_sent/d/1000*8, bytes_recvd/d/1000*8);
+    top = now;
     bytes_sent = bytes_recvd = 0;
   }
 }
@@ -128,66 +126,66 @@ void statSessionRTP(Session *session)
 
 void statTimings()
 {
-  fprintf(stderr, "\n### Timings ###\n");
+  echo("\n### Timings ###");
 
   Timer& timer = ::g.timer;
   d = timer.net.stop();
 
-  fprintf(stderr, "elapsed time    : %5.2fs\n", d);
-  fprintf(stderr, "init time       : %5.2fs, %4.2f%%\n", 
-          (float) timer.init.cumul_time, (float) 100*timer.init.cumul_time/d);
-  fprintf(stderr, "simul time      : %5.2fs, %4.2f%%\n", 
-          (float) timer.simul.cumul_time, (float) 100*timer.simul.cumul_time/d);
-  fprintf(stderr, "render time     : %5.2fs, %4.2f%%\n", 
-          (float) timer.render.cumul_time, (float) 100*timer.render.cumul_time/d);
-  fprintf(stderr, "object time     : %5.2fs, %4.2f%%\n", 
-          (float) timer.object.cumul_time, (float) 100*timer.object.cumul_time/d);
-  fprintf(stderr, "image time      : %5.2fs, %4.2f%%\n", 
-          (float) timer.image.cumul_time, (float) 100*timer.image.cumul_time/d);
-  fprintf(stderr, "mysql time      : %5.2fs, %4.2f%%\n", 
-          (float) timer.mysql.cumul_time, (float) 100*timer.mysql.cumul_time/d);
-  fprintf(stderr, "idle time       : %5.2fs, %4.2f%%\n", 
-          (float) timer.idle.cumul_time, (float) 100*timer.idle.cumul_time/d);
-  fprintf(stderr, "cycles          : %d\n", ::g.gui.getCycles());
-  fprintf(stderr, "cycles/s        : %5.2f/s\n", timer.rate());
+  echo("elapsed time    : %5.2fs", d);
+  echo("init time       : %5.2fs, %4.2f%%", 
+       (float) timer.init.cumul_time, (float) 100*timer.init.cumul_time/d);
+  echo("simul time      : %5.2fs, %4.2f%%", 
+       (float) timer.simul.cumul_time, (float) 100*timer.simul.cumul_time/d);
+  echo("render time     : %5.2fs, %4.2f%%", 
+       (float) timer.render.cumul_time, (float) 100*timer.render.cumul_time/d);
+  echo("object time     : %5.2fs, %4.2f%%", 
+       (float) timer.object.cumul_time, (float) 100*timer.object.cumul_time/d);
+  echo("image time      : %5.2fs, %4.2f%%", 
+       (float) timer.image.cumul_time, (float) 100*timer.image.cumul_time/d);
+  echo("mysql time      : %5.2fs, %4.2f%%", 
+       (float) timer.mysql.cumul_time, (float) 100*timer.mysql.cumul_time/d);
+  echo("idle time       : %5.2fs, %4.2f%%", 
+       (float) timer.idle.cumul_time, (float) 100*timer.idle.cumul_time/d);
+  echo("cycles          : %d", ::g.gui.getCycles());
+  echo("cycles/s        : %5.2f/s", timer.rate());
 }
 
 void statNetwork()
 {
-  fprintf(stderr, "### Network ###\n");
+  echo("### Network ###");
 
   if (!d) d = ::g.timer.net.stop();
   float bw = (float)((sum_bytes_sent + sum_bytes_recvd + 2 * (8 + 20)) * 8) / d;
 
   if (sum_pkts_sent) {
-    fprintf(stderr, "pkts sent       : %d\n", sum_pkts_sent);
-    fprintf(stderr, "pkts_rtp sent   : %d\n", sum_pkts_rtp_sent);
-    fprintf(stderr, "pkts_rtcp sent  : %d\n", sum_pkts_rtcp_sent);
-    fprintf(stderr, "pkts sent/s     : %.0f/s\n", sum_pkts_sent/d);
+    echo("pkts sent       : %d", sum_pkts_sent);
+    echo("pkts_rtp sent   : %d", sum_pkts_rtp_sent);
+    echo("pkts_rtcp sent  : %d", sum_pkts_rtcp_sent);
+    echo("pkts sent/s     : %.0f/s", sum_pkts_sent/d);
   }
   if (sum_pkts_recvd) {
-    fprintf(stderr, "pkts received   : %d\n", sum_pkts_recvd);
-    fprintf(stderr, "pkts received/s : %.0f/s\n", sum_pkts_recvd/d);
-    fprintf(stderr, "pkts lost       : %d\n", sum_pkts_lost);
-    fprintf(stderr, "pkts lost %%     : %2.2f%%\n", ((double) 100*sum_pkts_lost)/(double) sum_pkts_recvd);
+    echo("pkts received   : %d", sum_pkts_recvd);
+    echo("pkts received/s : %.0f/s", sum_pkts_recvd/d);
+    echo("pkts lost       : %d", sum_pkts_lost);
+    echo("pkts lost %%     : %2.2f%%", ((double) 100*sum_pkts_lost)/(double) sum_pkts_recvd);
   }
-  fprintf(stderr, "bytes sent      : %d\n", sum_bytes_sent);
-  fprintf(stderr, "bytes_rtp sent  : %d\n", sum_bytes_rtp_sent);
-  fprintf(stderr, "bytes_rtcp sent : %d\n", sum_bytes_rtcp_sent);
-  fprintf(stderr, "bytes sent/s    : %.0f/s\n", sum_bytes_sent/d);
+  echo("bytes sent      : %d", sum_bytes_sent);
+  echo("bytes_rtp sent  : %d", sum_bytes_rtp_sent);
+  echo("bytes_rtcp sent : %d", sum_bytes_rtcp_sent);
+  echo("bytes sent/s    : %.0f/s", sum_bytes_sent/d);
   if (sum_bytes_recvd) {
-    fprintf(stderr, "bytes received  : %d\n", sum_bytes_recvd);
-    fprintf(stderr, "bytes received/s: %.0f/s\n", sum_bytes_recvd/d);
+    echo("bytes received  : %d", sum_bytes_recvd);
+    echo("bytes received/s: %.0f/s", sum_bytes_recvd/d);
   }
-  fprintf(stderr, "pkt max         : %d\n", pkt_max);
-  fprintf(stderr, "pkt min         : %d\n", pkt_min);
+  echo("pkt max         : %d", pkt_max);
+  echo("pkt min         : %d", pkt_min);
   if (sum_pkts_sent)
-    fprintf(stderr, "bytes/pkt sent  : %d\n", sum_bytes_sent / sum_pkts_sent);
+    echo("bytes/pkt sent  : %d", sum_bytes_sent / sum_pkts_sent);
   if (sum_pkts_recvd)
-    fprintf(stderr, "bytes/pkt recvd : %d\n", sum_bytes_recvd / sum_pkts_recvd);
-  fprintf(stderr, "bw IP+UDP+RTP+PL: %.0f bps\n", bw);
+    echo("bytes/pkt recvd : %d", sum_bytes_recvd / sum_pkts_recvd);
+  echo("bw IP+UDP+RTP+PL: %.0f bps", bw);
 #if 0
-  fprintf(stderr, "### Sources ###\n");
+  echo("### Sources ###");
   Source::dumpAll();
 #endif
 }
