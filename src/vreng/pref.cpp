@@ -186,7 +186,7 @@ void Pref::parse(int argc, char **argv)
 
     switch (c) {
       case '-':
-        fprintf(stderr, "-- long options not available, use - short options\n");
+        echo("-- long options not available, use - short options");
         break;
       case 'a':
         my_avatar = strdup(optarg);
