@@ -178,7 +178,7 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
 
   /* Step 2: specify data destination (eg, a file) */
   if ((outfile = File::openFile(filename, "wb")) == NULL) {
-    fprintf(stderr, "can't open %s\n", filename); return;
+    error("can't open %s", filename); return;
   }
   //error("jpg: write file %s", filename);
   jpeg_stdio_dest(&cinfo, outfile);
