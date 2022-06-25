@@ -300,13 +300,11 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
 void Panels::showCartDialog(bool state)
 {
-#if 1 //dax
   UScrollpane& carts_spane = uscrollpane(true, false, uvbox(gw.carts));
   carts_spane.showVScrollButtons(false);
 
-  // relies on carts_pane created by createPanels()
+  // relies on carts_spane created by createPanels()
   UDialog * cartDialog = &udialog(utitle("Basket")
-                                  //+ uheight(150) + uwidth(100)
                                   + uscrollpane(usize(150, 100))
                                   + carts_spane
                                   + ubottom()
@@ -314,7 +312,4 @@ void Panels::showCartDialog(bool state)
                                   + " Close "
                                   + ucloseWin())
                                  );
-#else
-  cerr << "TO BE DONE!" << endl;
-#endif
 }
