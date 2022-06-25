@@ -125,12 +125,12 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
              + ubox(g.theme.scrollpaneStyle
              + avatars_spane)
             )
-      );
+    );
     right_panel.show(false); // not shown by default
 
   // navigator - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  manipulator.show(false);  // joystick shown by default
+  manipulator.show(false);  // joystick not shown by default
   joystick1->show(true);
   joystick2->show(true);
 
@@ -172,32 +172,33 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   // control panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  control_panel
-  .add(UOrient::horizontal + usize().setHeight(g.theme.controlPanelHeight)
-       + UBackground::velin
-       + upadding(2,0) + uhspacing(10)
-       + uleft()
-       + navig_box + " "
-       + uhflex()
-       + ubox(g.theme.panelStyle + gw.message.createMessagePanel(false))
-      );
+  control_panel.add(UOrient::horizontal
+                    + usize().setHeight(g.theme.controlPanelHeight)
+                    + UBackground::velin
+                    + upadding(2,0) + uhspacing(10)
+                    + uleft()
+                    + navig_box
+                    + " "
+                    + uhflex()
+                    + ubox(g.theme.panelStyle
+                    + gw.message.createMessagePanel(false))
+                   );
   control_panel.show(false);
 
-  UBox& expand_collapse = ubutton
-  (utip("Expand/Collapse Palettes")
-   + UOn::select   / ustr("Collapse")
-   + UOn::deselect / ustr("Expand")
-   + UOn::select   / ushow(control_panel, true)
-   + UOn::select   / ushow(right_panel, true)
-   + UOn::deselect / ushow(control_panel, false)
-   + UOn::deselect / ushow(right_panel, false)
-   + UOn::select   / ushow(navig_palette, false)
-   + UOn::select   / ushow(notif_palette, false)
-   + UOn::select   / ushow(avatar_palette, false)
-   + UOn::deselect / ushow(navig_palette, true)
-   + UOn::deselect / ushow(notif_palette, true)
-   + UOn::deselect / ushow(avatar_palette, true)
-  );
+  UBox& expand_collapse = ubutton(utip("Expand/Collapse Panels")
+                                  + UOn::select   / ustr("Collapse")
+                                  + UOn::deselect / ustr("Expand")
+                                  + UOn::select   / ushow(control_panel, true)
+                                  + UOn::select   / ushow(right_panel, true)
+                                  + UOn::deselect / ushow(control_panel, false)
+                                  + UOn::deselect / ushow(right_panel, false)
+                                  + UOn::select   / ushow(navig_palette, false)
+                                  + UOn::select   / ushow(notif_palette, false)
+                                  + UOn::select   / ushow(avatar_palette, false)
+                                  + UOn::deselect / ushow(navig_palette, true)
+                                  + UOn::deselect / ushow(notif_palette, true)
+                                  + UOn::deselect / ushow(avatar_palette, true)
+                                 );
   expand_collapse.setSelected(false);
 
   // control bar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -210,7 +211,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
            + g.theme.BigEye
            + ucall(int(UserAction::UA_FIRSTVIEW), Widgets::callAction)
           )
-   + uitem(utip("Third person viewpoints")
+   + uitem(utip("Third person viewpoint")
            + g.theme.Eyes
            + ucall(int(UserAction::UA_THIRDVIEWFAR), Widgets::callAction)
           )
@@ -252,8 +253,9 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
        //+ usepar()
        + " Objects:"
        + uitem(utip("Show object cart")
+               + g.theme.Cart
                // + ushow(*gw.cartDialog, true)         !! A COMPLETER
-               + g.theme.Cart)
+              )
        + uitem(utip("Add object to the world")
                + g.theme.AddObj
                + ushow(gw.addobj_dialog, true)
@@ -273,7 +275,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + ucall(int(UserAction::UA_BULLET), Widgets::callAction)
               )
        //+ usepar()
-       + " Snap:"
+       + " Capture:"
        + uitem(utip("Capture screenshot in JPG")
                + g.theme.Camera
                + ucall(&gw.capture, &Capture::writeJPGImage)
@@ -290,7 +292,6 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + UOn::select   / g.theme.Exit
                + UOn::deselect / g.theme.Movie
               )
-
        + uhflex() + ubox() + uright() + expand_collapse
       );
 
@@ -299,11 +300,15 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
 void Panels::showCartDialog(bool state)
 {
-#if 0 //dax
+#if 1 //dax
+  UScrollpane& carts_spane = uscrollpane(true, false, uvbox(gw.carts));
+  carts_spane.showVScrollButtons(false);
+
   // relies on carts_pane created by createPanels()
   UDialog * cartDialog = &udialog(utitle("Basket")
-                                  + uheight(150) + uwidth(100)
-                                  + carts_pane
+                                  //+ uheight(150) + uwidth(100)
+                                  + uscrollpane(usize(150, 100))
+                                  + carts_spane
                                   + ubottom()
                                   + ubutton(UFont::bold + uhcenter()
                                   + " Close "
@@ -313,4 +318,3 @@ void Panels::showCartDialog(bool state)
   cerr << "TO BE DONE!" << endl;
 #endif
 }
-
