@@ -103,10 +103,6 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  postponedKRcount(0)
 
 {
-  worlds.addAttr(UOrient::vertical + utop());
-  carts.addAttr(UOrient::vertical + utop());
-  avatars.addAttr(UOrient::vertical + utop());
-
   // main box
   addAttr(g.theme.mainStyle);
   add(utop()
@@ -114,11 +110,18 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
       + infobar
       + uvflex()
       + uhbox(uvflex() + uhflex() + uhspacing(0)
-              + uvbox(uhflex() + uvflex() + scene + ubottom() + panels.main_panel)
+              + uvbox(uhflex() + uvflex()
+                      + scene
+                      + ubottom()
+                      + panels.main_panel)
               + uright()
               + panels.right_panel
              )
      );
+
+  worlds.addAttr(UOrient::vertical + utop());
+  carts.addAttr(UOrient::vertical + utop());
+  avatars.addAttr(UOrient::vertical + utop());
 
   // process ubit messages coming from other applications
   UAppli::onMessage("file",   ucall(this, &Widgets::openMessage));

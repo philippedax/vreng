@@ -81,6 +81,8 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
  joystick2(new Joystick2(_gw, 25)),
  manipulator(_gw->navig.manipulator())
 {
+  // right panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   // WORLDS
   UScrollpane& worlds_spane = uscrollpane(true, false, uvbox(gw.worlds));
   worlds_spane.showVScrollButtons(false);
@@ -92,8 +94,6 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   // AVATARS
   UScrollpane& avatars_spane = uscrollpane(true, false, uvbox(gw.avatars));
   avatars_spane.showVScrollButtons(false);
-
-  // right panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   right_panel
   .addAttr(UOrient::vertical //+ usize(g.theme.rightPanelWidth)
@@ -184,7 +184,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   control_panel.show(false);
 
   UBox& expand_collapse = ubutton
-  (utip("Expand/Collapse Panels")
+  (utip("Expand/Collapse Palettes")
    + UOn::select   / ustr("Collapse")
    + UOn::deselect / ustr("Expand")
    + UOn::select   / ushow(control_panel, true)
@@ -202,7 +202,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   // control bar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  UListbox& viewlist = ulistbox
+  UListbox& viewbar = ulistbox
   (UOrient::horizontal
    + UBackground::none
    + upadding(1,1)
@@ -219,14 +219,14 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
            + ucall(int(UserAction::UA_SWITCHVIEW), Widgets::callAction)
           )
    );
-  viewlist.select(0);
+  viewbar.select(0);
 
   control_bar
   .addAttr(UOrient::horizontal + uhcenter() + uhspacing(6))
   .add(uhcenter()
        + upadding(8,0).setBottom(14)
        + "View:"
-       + viewlist
+       + viewbar
        //+ usepar()
        + " Show:"
        + uitem(utip("Show axis")
@@ -293,8 +293,6 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
        + uhflex() + ubox() + uright() + expand_collapse
       );
-
-  // main panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   main_panel.addAttr(UOrient::vertical).add(control_bar + control_panel);
 }
