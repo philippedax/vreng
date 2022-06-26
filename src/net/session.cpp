@@ -32,21 +32,22 @@
 
 
 // local
-static Session *sessionList;		// RTP sessions
-static Session *currentSession = NULL;	// RTP sessions
+static Session *sessionList;		// RTP sessions list
+static Session *currentSession = NULL;	// RTP current session
 
-static char Name[Rtp::RTPNAME_LEN];     // rtp name
-static char Email[Rtp::EMAIL_LEN];      // rtp email
-static char Tool[Rtp::TOOL_LEN];        // tool name
+static char rtcp_name[Rtp::RTPNAME_LEN]; // rtcp name
+static char rtcp_email[Rtp::EMAIL_LEN];  // rtcp email
+static char rtcp_tool[Rtp::TOOL_LEN];    // tool name
 
 
+// Macro for debug
 #define CHECK_SESSION_LIST \
-  { Session *tmp = sessionList; \
-    while (tmp != NULL) { \
-      if (tmp->next == tmp) \
+  { Session *sess = sessionList; \
+    while (sess != NULL) { \
+      if (sess->next == sess) \
         warning("RtpSession list invalid at %s:%d", __FILE__, __LINE__); \
         break; \
-      tmp = tmp->next; \
+      sess = sess->next; \
     } \
   }
 
@@ -212,7 +213,6 @@ void Session::deleteSourceBySsrc(uint32_t _ssrc)
 Session::~Session()
 {
   del_session++;
-  trace(DBG_RTP, "~Session");
   freeMySdes();
   deleteSourceBySsrc(NetObject::getMySsrcId());
 }
@@ -224,28 +224,28 @@ void Session::createMySdes()
 {
   SdesItem *scname, *sname, *semail, *stool, *sloc;
 
-  Rtp::getRtcpName(Name);	// fill rtp Name
-  Rtp::getRtcpEmail(Email);	// fill rtp Email
-  Rtp::getRtcpTool(Tool);	// fill rtp Tool
-  trace(DBG_RTP, "createMySdes: Name=%s, Email=%s, pse=%p", Name, Email, this);
+  Rtp::getRtcpName(rtcp_name);		// fill rtcp Name
+  Rtp::getRtcpEmail(rtcp_email);	// fill rtcp Email
+  Rtp::getRtcpTool(rtcp_tool);		// fill rtcp Tool
+  trace(DBG_RTP, "createMySdes: name=%s, email=%s, pse=%p", rtcp_name, rtcp_email, this);
 
   if ((scname = Rtp::allocSdesItem()) == NULL) return;
   mysdes = scname;
   scname->si_type = RTCP_SDES_CNAME;
-  scname->si_len = strlen(Email);
-  scname->si_str = (uint8_t *) Email;
+  scname->si_len = strlen(rtcp_email);
+  scname->si_str = (uint8_t *) rtcp_email;
 
   if ((sname = Rtp::allocSdesItem()) == NULL) return;
   scname->si_next = sname;
   sname->si_type = RTCP_SDES_NAME;
-  sname->si_len = strlen(Name);
-  sname->si_str = (uint8_t *) Name;
+  sname->si_len = strlen(rtcp_name);
+  sname->si_str = (uint8_t *) rtcp_name;
 
   if ((semail = Rtp::allocSdesItem()) == NULL) return;
   sname->si_next = semail;
   semail->si_type = RTCP_SDES_EMAIL;
-  semail->si_len = strlen(Email);
-  semail->si_str = (uint8_t *) Email;
+  semail->si_len = strlen(rtcp_email);
+  semail->si_str = (uint8_t *) rtcp_email;
 
   if ((sloc = Rtp::allocSdesItem()) == NULL) return;
   semail->si_next = sloc;
@@ -262,8 +262,8 @@ void Session::createMySdes()
   if ((stool = Rtp::allocSdesItem()) == NULL) return;
   sloc->si_next = stool;
   stool->si_type = RTCP_SDES_TOOL;
-  stool->si_len = strlen(Tool);
-  stool->si_str = (uint8_t *) Tool;
+  stool->si_len = strlen(rtcp_tool);
+  stool->si_str = (uint8_t *) rtcp_tool;
 
   stool->si_next = NULL;
 }
@@ -460,21 +460,22 @@ int Session::sendSRSDES(const struct sockaddr_in *to)
 
 void Session::dump()
 {
-  fprintf(stderr, "group/port/ttl=%x/%x/%x\n", group, rtp_port, ttl);
+  echo("group/port/ttl=%x/%x/%x", group, rtp_port, ttl);
 
   SdesItem *sitem;
   int i;
   for (i=0, sitem = mysdes; sitem ; sitem = sitem->si_next, i++) {
     if (sitem->si_type > RTCP_SDES_END && sitem->si_type <= RTCP_SDES_SOURCE && sitem->si_len > 0 && sitem->si_len < 128 && sitem->si_str)
-      fprintf(stderr, "  sdes[%d]=%s\n", i, sitem->si_str);
+      echo("  sdes[%d]=%s", i, sitem->si_str);
   }
   fflush(stderr);
 }
 
 void Session::dumpAll()
 {
-  for (Session *pse = sessionList; pse ; pse = pse->next)
+  for (Session *pse = sessionList; pse ; pse = pse->next) {
     pse->dump();
+  }
 }
 
 void Session::stat()
