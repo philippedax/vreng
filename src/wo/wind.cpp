@@ -110,11 +110,14 @@ Wind::Wind(char *l)
   wind = this;
 
 #if HAVE_LIBPTHREAD
+  tid = 0;
   int r = pthread_create(&tid, NULL, getHttp, (void *) NULL);
   if (r) {
     perror("wind: pthread_create");
   }
-  pthread_join(tid, NULL);
+  else {
+    //dax pthread_join(tid, NULL);	// sometimes hangs FIXME!
+  }
 #else
   if (fork() == 0) {
     getHttp((void *) NULL);

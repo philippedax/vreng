@@ -228,7 +228,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
        + upadding(8,0).setBottom(14)
        + "View:"
        + viewbar
-       //+ usepar()
+       + usepar()
        + " Show:"
        + uitem(utip("Show axis")
                + g.theme.Axis
@@ -250,7 +250,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + g.theme.World
                + ucall(int(UserAction::UA_MAPVIEW), Widgets::callAction)
               )
-       //+ usepar()
+       + usepar()
        + " Objects:"
        + uitem(utip("Show object cart")
                + g.theme.Cart
@@ -264,7 +264,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + UPix::question
                + ucall(_gw, sandboxCB)
               )
-       //+ usepar()
+       + usepar()
        + " Throw:"
        + uitem(utip("Throw dart")
                + UPix::ray
@@ -274,7 +274,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + UFont::bold + UFont::xx_large + UColor::red + "."
                + ucall(int(UserAction::UA_BULLET), Widgets::callAction)
               )
-       //+ usepar()
+       + usepar()
        + " Capture:"
        + uitem(utip("Capture screenshot in JPG")
                + g.theme.Camera
@@ -292,6 +292,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + UOn::select   / g.theme.Exit
                + UOn::deselect / g.theme.Movie
               )
+       + usepar()
        + uhflex() + ubox() + uright() + expand_collapse
       );
 
