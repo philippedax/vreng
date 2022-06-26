@@ -114,8 +114,9 @@ uint16_t Source::getMembersNumber()
   uint16_t members = 0;
 
   for (Session *pse = Session::getList(); pse && pse->mode; pse = pse->next) {
-    for (Source *pso = pse->source; pso ; pso = pso->next)
+    for (Source *pso = pse->source; pso ; pso = pso->next) {
       members++;
+    }
   }
   return members;
 }
@@ -124,18 +125,19 @@ void Source::dump()
 {
   // if (&sdes == NULL) return;  // BUG! segfault
 
-  fprintf(stderr, "this=%p\n", this);
-  fprintf(stderr, "ssrc=%x\n", ssrc);
-  fprintf(stderr, "lost=%d\n", lost);
-  fprintf(stderr, "next=%p\n", next);
+  //echo("this=%p", this);
+  echo("ssrc=%x", ssrc);
+  echo("lost=%d", lost);
+  //echo("next=%p", next);
 
   SdesItem *sitem;
   int i;
   for (i=0, sitem = &sdes; sitem ; sitem = sitem->si_next, i++) {
-    if (sitem->si_type > RTCP_SDES_END && sitem->si_type <= RTCP_SDES_SOURCE && sitem->si_len >0 && sitem->si_len < 128 && sitem->si_str)
-      fprintf(stderr, "  sdes[%d]=%s\n", i, sitem->si_str);
+    if (sitem->si_type > RTCP_SDES_END && sitem->si_type <= RTCP_SDES_SOURCE && sitem->si_len >0 && sitem->si_len < 128 && sitem->si_str) {
+      echo("  sdes[%d]=%s", i, sitem->si_str);
+    }
   }
-  fflush(stderr);
+  echo("");
 }
 
 void Source::dumpAll()
