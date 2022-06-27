@@ -669,13 +669,13 @@ void X3d::render()
   glEnable(GL_POLYGON_SMOOTH);
 
   // default values for materials
-  float shin = 1;
-  glColor4f(0,0,0,1); // track the default ambient wanted else problems with gl_color_material
+  float shiny = 1;
   float black[4] = {0,0,0,1};
   float white[4] = {1,1,1,1};
+  //dax2 glColor4f(0,0,0,1); // track the default ambient wanted else problems with gl_color_material
   glMaterialfv(GL_FRONT, GL_AMBIENT, black);
   glMaterialfv(GL_FRONT, GL_SPECULAR, white);
-  glMaterialfv(GL_FRONT, GL_SHININESS, &shin);
+  glMaterialfv(GL_FRONT, GL_SHININESS, &shiny);
   glMaterialfv(GL_FRONT, GL_DIFFUSE, black);
   glMaterialfv(GL_FRONT, GL_EMISSION, white);
 
@@ -690,7 +690,7 @@ void X3d::render()
 
   X3dShape* currentShape;
   int previousLevel = -1;
-  int npop=0, npush=0;
+  //int npop=0, npush=0;
 
   while (! nextShapes.empty()) {
     // we take the next node of the tree
@@ -699,20 +699,21 @@ void X3d::render()
 
     // we change the matrix stack according to the new change of level in the X3D tree
     // and if we switch to a child, we don't touch the current (parent) matrix
-    if (currentShape->level<=previousLevel) {
+    if (currentShape->level <= previousLevel) {
       glPopMatrix(); // we remove the matrix of the current shape
       //dax1 glPopAttrib();
-      npop++;
-      if (currentShape->level<previousLevel) {
+      //npop++;
+      if (currentShape->level < previousLevel) {
         glPopMatrix(); // we aso remove the matrix of the previous shape because we went down
         //dax1 glPopAttrib();
-        npop++;
+        //npop++;
       }
     }
     previousLevel = currentShape->level;
 
     glPushMatrix();
-    npush++;
+    //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
+    //npush++;
 
     if (currentShape->texture) {  //texture is there in priority
       glEnable(GL_TEXTURE_2D);
@@ -738,7 +739,7 @@ void X3d::render()
   // we remove the remaining matrixes after having browsed the complete tree
   for (int k = -1; k < previousLevel; k++) {
     glPopMatrix();
-    npop++;
+    //npop++;
   }
 }
 
