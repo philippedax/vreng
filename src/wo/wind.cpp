@@ -75,22 +75,22 @@ void * Wind::getHttp(void * arg)
     perror("popen wind");
     return NULL;
   }
+  Wind *wind = current();
 
-  int orientation=0, speed=0;
+  int degrees=0, kmh=0;
   char buf[128];
   fgets(buf, sizeof(buf), pp);
   if (isdigit(*buf)) {
-    orientation = -atoi(buf);
+    degrees = -atoi(buf);
     char *p = strrchr(buf, ' ');
-    if (p) speed = atoi(++p);
+    if (p) kmh = atoi(++p);
+    wind->orient = DEG2RAD(degrees);
+    wind->speed = kmh;
+    pthread_exit(NULL);
   }
   pclose(pp);
+  //echo("wind: degrees=(%d°) (%.2frd) speed=%dkm/h", degrees, wind->orient, kmh);
 
-  Wind *wind = current();
-  wind->orient = DEG2RAD(orientation);
-  wind->speed = speed;
-  notice("wind: orientation=%d (%.2frd) speed=%dkm/h", orientation, wind->orient, speed);
-  pthread_exit(NULL);
   return NULL;
 }
 
