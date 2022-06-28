@@ -183,7 +183,7 @@ World * World::worldByUrl(const char *url)
       return w;	// world found
     }
     if (w == w->next) {
-      //error("getWorldByUrl: %s", w->url);
+      //echo("getWorldByUrl: %s", w->url);
       break;	//FIXME: bug inside the list
     }
   }
@@ -712,7 +712,7 @@ void World::worldReader(void *_url, Http *http)
 {
   char *url = (char *) _url;
   url = World::current()->url;	// url is corrupted HACK!!!
-  //error("worldReader: %s %s", _url, url);
+  //echo("worldReader: %s %s", _url, url);
   if (! http) {
     error("can't download %s, check access to the remote http server", url);
   }
@@ -729,7 +729,7 @@ void World::worldReader(void *_url, Http *http)
 
   struct stat bufstat;
   if (stat(cachename, &bufstat) < 0) {	// is not in the cache
-    //error("worldReader: file %s not in cache url=%s", cachename, url);
+    //echo("worldReader: file %s not in cache url=%s", cachename, url);
     if ((fpcache = File::openFile(cachename, "w")) == NULL) {
       error("worldReader: can't create file %s from url %s", cachename, url);
     }
@@ -807,7 +807,7 @@ void World::init(const char *url)
   // Download initial world (Rendezvous.vre by default)
   //
   trace(DBG_WO, "download initial world");
-  //error("download initial world url=%s", url);
+  //echo("download initial world url=%s", url);
   //world->universe->startWheel();
   Http::httpOpen(url, worldReader, (void *)url, 0);
   //world->universe->stopWheel();
@@ -859,7 +859,7 @@ void World::quit()
   // mobile objects
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it) == localuser) continue;
-    //error("%s", (*it)->getInstance());
+    //echo("%s", (*it)->getInstance());
     if (! (*it)->isEphemeral()) {
       (*it)->clearObjectBar();	// segfault FIXME
       (*it)->quit();
@@ -910,7 +910,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   if (worldByUrl(url) && isnew) {
     world = worldByUrl(url);	// existing world
     worldList = swap(world);
-    if (::g.pref.dbgtrace) error("enter: world=%s (%d)", world->name, isnew);
+    if (::g.pref.dbgtrace) echo("enter: world=%s (%d)", world->name, isnew);
     if (! isprint(*world->url)) {
       error("enter: url corrupted");	//FIXME
       strcpy(world->url, url);
@@ -1039,7 +1039,7 @@ void World::deleteObjects()
       objectList.remove(*it);
       stillList.remove(*it);
       mobileList.remove(*it);
-      //error("delete: %s", (*it)->getInstance());
+      //echo("delete: %s", (*it)->getInstance());
       if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") { // Hack! FIXME!
         delete(*it);	//segfault FIXME!
       }
@@ -1048,7 +1048,7 @@ void World::deleteObjects()
   deleteList.clear();
 }
 
-/* clears all lists */
+/* Clears all lists */
 void World::clearLists()
 {
   objectList.clear();

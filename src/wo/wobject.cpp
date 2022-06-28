@@ -483,7 +483,7 @@ void WObject::addSolid(Solid* psolid)
   solid = psolid;		// keep solid pointer in WObject
 }
 
-/* deletes all solids of this object */
+/* Deletes all solids of this object */
 void WObject::deleteSolids()
 {
   if (_solids.empty()) return;
@@ -937,13 +937,14 @@ void WObject::toDelete()
     removed = true;		// mark as removed
   }
   //dax8 deleteSolids();
-  //dax8 if (solid) { delete solid; solid = NULL; }
+  //dax8 if (solid) delete solid;
+  solid = NULL;
 }
 
 /* Informs the GUI that a (possibly selected) object has been destroyed */
 void WObject::clearObjectBar()
 {
-  if (objectbar) ::g.gui.clearInfoBar(this);
+  ::g.gui.clearInfoBar(this);
 }
 
 /**
@@ -974,14 +975,14 @@ void WObject::getObjectHumanName(char **classname, char **instancename, char **a
 }
 
 /**
- * Execute an object's click method if it's defined.
+ * Executes an object's click method if it's defined.
  * By Mathieu Seigneurin
  */
 void WObject::click(GLint x, GLint y)
 {
   V3 dir;
 
-  //error("x=%d y=%d", x,y);
+  //echo("x=%d y=%d", x,y);
   ::g.render.clickDirection(x, y, &dir);
   click(dir);	// execute click method if exists
 }
@@ -1147,10 +1148,10 @@ bool WObject::isEphemeral()
 }
 
 // virtual
-WObject * WObject::byWObject(WObject *po)
+WObject * WObject::byWObject(WObject *wobject)
 {
   for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
-    if ((*it) == po) return *it;
+    if ((*it) == wobject) return *it;
   }
   return (WObject *) NULL;
 } 
