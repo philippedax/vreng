@@ -488,9 +488,11 @@ void WObject::deleteSolids()
 {
   if (_solids.empty()) return;
   for (SolidList::iterator it = _solids.begin(); it != _solids.end(); ++it) {
-    delete(*it);
+    if ((*it)->wobject == this) {
+      delete(*it);
+    }
   }
-  _solids.erase(_solids.begin(), _solids.end());
+  //dax8 _solids.erase(_solids.begin(), _solids.end());
 }
 
 void WObject::getPosition(M4& mpos)
@@ -750,7 +752,7 @@ void WObject::updateNames()
 /* Updates the Bounding Box */
 void WObject::updateBB()
 {
-  if (! solid) return;
+  if (! solid || removed) return;
   solid->updateBB(pos.az);
   solid->getAbsBB(pos.bbc, pos.bbs);
 }
@@ -791,7 +793,7 @@ void WObject::updatePositionAndGrid(WObject *pold)
 /* accessor */
 void WObject::updateDist()
 {
-  if (! solid) return;
+  if (! solid || removed) return;
   solid->updateDist();
 }
 

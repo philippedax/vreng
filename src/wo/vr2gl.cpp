@@ -29,7 +29,7 @@
 /* Updates objects in 3D */
 void WObject::updateAll3D(Pos &pos)
 {
-  if (! solid) return;
+  if (! solid || removed) return;
 
   for (list<Solid*>::iterator s = _solids.begin(); s != _solids.end(); s++) {
     M4 matobj = mulM4(transM4(pos.x, pos.y, pos.z),
@@ -45,7 +45,7 @@ void WObject::updateAll3D(Pos &pos)
 
 void WObject::update3D(Pos &pos)
 {
-  if (! solid) return;
+  if (! solid || removed) return;
 
   if (! typeName()) {	//FIXME: zombie object
     error("update3D: zombie");

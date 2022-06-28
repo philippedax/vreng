@@ -1040,7 +1040,7 @@ void World::deleteObjects()
       stillList.remove(*it);
       mobileList.remove(*it);
       //error("delete: %s", (*it)->getInstance());
-      if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") {	// Hack!
+      if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") { // Hack! FIXME!
         delete(*it);	//segfault FIXME!
       }
     }
