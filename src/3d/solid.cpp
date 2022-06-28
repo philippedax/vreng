@@ -219,6 +219,7 @@ Solid::~Solid()
   ::g.render.relsolidList.clear();
   nbsolids = 0;
 
+  echo("del solid: %s", object()->getInstance());
   if (dlists) delete[] dlists;
   del_solid++;
 }

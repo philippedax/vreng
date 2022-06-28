@@ -489,7 +489,7 @@ void WObject::deleteSolids()
   if (_solids.empty()) return;
   for (SolidList::iterator it = _solids.begin(); it != _solids.end(); ++it) {
     if ((*it)->wobject == this) {
-      delete(*it);
+      delete *it;
     }
   }
   //dax8 _solids.erase(_solids.begin(), _solids.end());

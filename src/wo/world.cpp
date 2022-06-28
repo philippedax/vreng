@@ -845,14 +845,14 @@ void World::quit()
   // invisible objects
   for (list<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
     (*it)->quit();
-    delete(*it);
+    delete *it;
   }
   invisList.clear();
 
   // still objects
   for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     (*it)->quit();
-    delete(*it);
+    delete *it;
   }
   stillList.clear();
 
@@ -863,7 +863,7 @@ void World::quit()
     if (! (*it)->isEphemeral()) {
       (*it)->clearObjectBar();	// segfault FIXME
       (*it)->quit();
-      delete(*it);
+      delete *it;
     }
   }
   mobileList.clear();
@@ -871,7 +871,7 @@ void World::quit()
   // fluid objects
   for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
     (*it)->quit();
-    delete(*it);
+    delete *it;
   }
   fluidList.clear();
 
@@ -1041,7 +1041,7 @@ void World::deleteObjects()
       mobileList.remove(*it);
       //echo("delete: %s", (*it)->getInstance());
       if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") { // Hack! FIXME!
-        delete(*it);	//segfault FIXME!
+        delete *it;	//segfault FIXME!
       }
     }
   }
