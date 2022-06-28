@@ -113,7 +113,7 @@ void Gui::removeChannelSources(int channel)
   if (! cs)  return;
 
   for (int k=0; k < cs->size(); k++) {
-    delete(*cs)[k];
+    delete (*cs)[k];
   }
   delete cs;
   channel_sources[channel] = null;
