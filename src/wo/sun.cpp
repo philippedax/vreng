@@ -63,6 +63,7 @@ void Sun::parser(char *l)
 
 void Sun::behavior()
 {
+  enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(1);

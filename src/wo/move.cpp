@@ -345,19 +345,23 @@ void WObject::checkVicinity(WObject *pold)
 {
   OList *vicinity = getVicinity(pold);
   if (vicinity) {
+
     generalIntersect(pold, vicinity);	// handled by each object
+
     vicinity->remove();
   }
 }
 
 void User::elemUserMovement(const float tabdt[])
 {
-  WObject *po = new WObject();
-  copyPositionAndBB(po);	// keep oldpos for intersection
+  WObject *o = new WObject();
+  copyPositionAndBB(o);	// keep oldpos for intersection
+
   changePosition(tabdt);
+
   updatePosition();
-  checkVicinity(po);
-  delete po;
+  checkVicinity(o);
+  delete o;
 }
 
 /* user general movement */
@@ -405,6 +409,7 @@ void User::userMovement(time_t sec, time_t usec)
 void WObject::elemImposedMovement(float dt)
 {
   changePosition(dt);  // handled by each object
+
   updatePosition();
 
   if (! isBehavior(COLLIDE_NEVER)) {
@@ -464,13 +469,18 @@ void WObject::imposedMovement(time_t sec, time_t usec)
 void WObject::elemPermanentMovement(float dt)
 {
   if (isBehavior(COLLIDE_NEVER)) {
+
     changePermanent(dt);	// handled by each object
+
     update3D(pos);
     return;
   }
   WObject *pold = new WObject();
   copyPositionAndBB(pold);	// keep oldpos for intersection
+  //echo("ch perm: %s", getInstance()); //dax8
+
   changePermanent(dt);		// handled by each object
+
   updatePosition();
   checkVicinity(pold);
   delete pold;

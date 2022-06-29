@@ -424,17 +424,17 @@ void World::compute(time_t sec, time_t usec)
     }
 
     //
+    //  removes objects scheduled to be deleted
+    //
+    deleteObjects();
+
+    //
     // objects with imposed or permanent movements
     //
     for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       (*it)->imposedMovement(sec, usec);	// object with imposed movement
       (*it)->permanentMovement(sec, usec);	// object with permanent movement
     }
-
-    //
-    //  removes objects scheduled to be deleted
-    //
-    deleteObjects();
 
     break;
 
@@ -1039,10 +1039,9 @@ void World::deleteObjects()
       objectList.remove(*it);
       stillList.remove(*it);
       mobileList.remove(*it);
-      //echo("delete: %s", (*it)->getInstance());
-      if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") { // Hack! FIXME!
-        delete *it;	//segfault FIXME!
-      }
+      //dax8 echo("delete object: %s", (*it)->getInstance());
+      if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") //dax8 Hack! FIXME!
+        delete (*it);	//segfault FIXME!
     }
   }
   deleteList.clear();

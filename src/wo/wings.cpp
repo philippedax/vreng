@@ -120,6 +120,7 @@ Wings::Wings(char *l)
   active = false;
   taken = false;
   behavior();
+  enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 
   draw();
@@ -132,6 +133,7 @@ Wings::Wings(uint8_t _model, float _scale)
   active = true;
   taken = false;
   behavior();
+  enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
   //pos.ax -= M_PI_2;
   pos.az -= M_PI_2;
@@ -147,6 +149,7 @@ Wings::Wings()
   active = true;
   taken = false;
   behavior();
+  enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
   pos.ax -= M_PI_2;
   pos.az -= M_PI_2;
@@ -178,6 +181,7 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   setOwner();
   getPersist();
   behavior();
+  enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
   inits();
 

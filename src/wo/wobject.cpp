@@ -144,7 +144,7 @@ void WObject::initObject(uint8_t _mode)
   updateNames();
   addToList(objectList);	// add to objectList
 
-  //error("num=%d mode=%d type=%d", num, mode, type);
+  //echo("num=%d mode=%d type=%d", num, mode, type);
   switch (mode) {
 
     case STILL:
@@ -938,7 +938,7 @@ void WObject::toDelete()
   }
   //dax8 deleteSolids();
   //dax8 if (solid) delete solid;
-  solid = NULL;
+  //dax8 solid = NULL;
 }
 
 /* Informs the GUI that a (possibly selected) object has been destroyed */
