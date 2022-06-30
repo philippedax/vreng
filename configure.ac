@@ -1503,9 +1503,9 @@ if test "${with_xml2:=yes}" = "yes"; then
   #
   AH_TEMPLATE(XML2_CFLAGS)
   XML2_CFLAGS=
-  AC_PATH_PROG(XML2, xml2-config)
-  if test "${ac_cv_path_XML2}" != "" ; then
-    XML2_CFLAGS=`${XML2} --cflags`
+  AC_PATH_PROG(XML2CONFIG, xml2-config)
+  if test "${ac_cv_path_XML2CONFIG}" != "" ; then
+    XML2_CFLAGS=`${XML2CONFIG} --cflags`
     AC_SUBST(XML2_CFLAGS)
   fi
   saved_cppflags=$CPPFLAGS
@@ -1520,7 +1520,7 @@ if test "${with_xml2:=yes}" = "yes"; then
   AC_CHECK_LIB([xml2], [xmlReaderForFile],
        [VRELIBS="${OSDEP_LIBS} -lxml2 ${VRELIBS}"],
        [AC_MSG_RESULT([	--> libxml2: http://xmlsoft.org/downloads.html])],
-       [`${XML2} --libs`])
+       [`${XML2CONFIG} --libs`])
   CPPFLAGS=$saved_cppflags
   if test "$ac_cv_lib_xml2_xmlReaderForFile" = "yes" ; then
     AC_DEFINE(HAVE_LIBXML2)
@@ -1706,7 +1706,7 @@ fi
 
 # --------------------------------------------------------------------------
 #
-# check opeal library
+# check openal library
 #
 openal="no"
 AC_ARG_WITH([openal],
@@ -1754,13 +1754,13 @@ fi
 
 # --------------------------------------------------------------------------
 #
-# SDL configuration //after AC_CHECK_HEADERS
+# SDL configuration
 #
 sdl="no"
-AC_ARG_WITH([SDL],
-    AS_HELP_STRING([--with-sdl],[allow use of SDL toolkit if available [[default=no]]]),
-    [ac_cv_use_sdl=$withval], [ac_cv_sdl=no])
-if test "$ac_cv_use_sdl" = "yes" ; then
+AC_ARG_WITH([sdl2],
+    AS_HELP_STRING([--with-sdl2],[allow use of sdl2 toolkit if available [[default=no]]]),
+    [ac_cv_use_sdl2=$withval], [ac_cv_sdl2=no])
+if test "$ac_cv_use_SDL" = "yes" ; then
   SDL_VERSION_MIN=1.2.11
   AM_PATH_SDL($SDL_VERSION_MIN,
       [sdl="yes"],
@@ -1768,10 +1768,12 @@ if test "$ac_cv_use_sdl" = "yes" ; then
   AH_TEMPLATE(HAVE_LIBSDL)
   if test "$sdl" = "yes"; then
     AC_DEFINE(HAVE_LIBSDL)
+    SDL2LIBS=`sdl2-config --libs`
     #SDL_LIBS=`echo $SDL_LIBS | sed -e 's/-Wl,-framework,Cocoa//'`
-    [VRELIBS="${OSDEP_LIBS} $SDL_LIBS ${VRELIBS}"]
+    [VRELIBS="${OSDEP_LIBS} $SDL2LIBS ${VRELIBS}"]
     AC_CHECK_HEADERS([SDL/SDL.h])
-    CPPFLAGS="$CPPFLAGS $SDL_CFLAGS"
+    SDL2CFLADS=`sdl2-config --cflags`
+    CPPFLAGS="$CPPFLAGS $SDL2CFLAGS"
   fi
   #
   # check SDL_mixer library
