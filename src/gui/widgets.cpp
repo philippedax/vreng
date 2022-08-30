@@ -1322,7 +1322,7 @@ UDialog& Widgets::addobjDialog()
             )
      + uhbox(UBorder::shadowOut)
      + uhbox("Shape :  " + UFont::plain
-             + ucheckbox("Cube" + sel_shape
+             + ucheckbox("Box" + sel_shape
                          + UOn::select / ucall((int)BOX, setVal)).setSelected()
              + ucheckbox("Sphere" + sel_shape
                          + UOn::select / ucall((int)SPHERE, setVal))

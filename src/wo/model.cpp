@@ -84,7 +84,7 @@ void Model::makeSolid()
 
 void Model::setName()
 {
-  sprintf(names.given, "%s%d", MODEL_NAME, ++oid);
+  sprintf(names.given, "%s-%s.%d", MODEL_NAME, localuser->getInstance(), getNum());
 }
 
 void Model::parser(char *l)

@@ -65,12 +65,12 @@ void Carrier::leaveControl(WObject *po, void *d, time_t s, time_t us)
 void Carrier::take(WObject *po)
 {
   if (po->mode != MOBILE) {
-    notice("%s is not mobile", po->getInstance());
+    warning("%s is not mobile", po->getInstance());
     return;
   }
 
   ::g.gui.showManipulator();
-  notice("take control of %s", po->getInstance());
+  echo("take control of %s", po->getInstance());
 
   object = po;
   object->move.lspeed.v[0] = 0;
@@ -88,7 +88,7 @@ void Carrier::leave(WObject *po)
 void Carrier::leave()
 {
   ::g.gui.showNavigator();
-  notice("leave control, enter in navigation mode");
+  echo("leave control, enter in navigation mode");
 
   if (! object)  return;
 
@@ -132,6 +132,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     case KEY_MT: object->pos.ay += last*lspeed; break; // ^,
     case KEY_DE: object->pos.ay -= last*lspeed; break; // ,^
   }
+  echo("pos: %.1f %.1f %.1f", object->pos.x,object->pos.y,object->pos.z);
 
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();
