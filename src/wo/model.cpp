@@ -118,8 +118,6 @@ void Model::behavior()
 {
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(1);
 }
 
 /** Constructor : creation from vre file */
@@ -132,6 +130,8 @@ Model::Model(char *l)
   loader();
   scaler();
   drawer();
+
+  initMobileObject(1);
 
   //error("initial model: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
   if (bvhurl) bvh = new Bvh(bvhurl);
@@ -159,6 +159,8 @@ Model::Model(WObject *user, char *url, float _scale)
   pos.y = localuser->pos.y;
   pos.z = localuser->pos.z;
   updatePosition();
+
+  initMobileObject(1);
 
   if (bvhurl) bvh = new Bvh(bvhurl);
 }
