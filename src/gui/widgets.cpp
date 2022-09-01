@@ -1322,7 +1322,7 @@ UDialog& Widgets::addobjDialog()
             )
      + uhbox(UBorder::shadowOut)
      + uhbox("Shape :  " + UFont::plain
-             + ucheckbox("Box" + sel_shape
+             + ucheckbox("Cube" + sel_shape
                          + UOn::select / ucall((int)BOX, setVal)).setSelected()
              + ucheckbox("Sphere" + sel_shape
                          + UOn::select / ucall((int)SPHERE, setVal))
@@ -1440,13 +1440,15 @@ UDialog& Widgets::addobjDialog()
     + uhbox(UBorder::shadowOut)
     + uhcenter()
     + uhbox(uhflex()
-    + ubutton(UFont::bold + uhcenter()
-              + " Add " 
-              + ucall(this, &Widgets::newObjectCB))
-    + ubutton(UFont::bold + uhcenter()
-              + " Cancel "
-              + ucloseWin()))
-    );
+            + ubutton(UFont::bold + uhcenter()
+                      + " Add " 
+                      + ucall(this, &Widgets::newObjectCB)
+                      + ucloseWin())
+            + ubutton(UFont::bold + uhcenter()
+                      + " Cancel "
+                      + ucloseWin())
+           )
+    );	// end addobjBox
 
   return udialog(addobjBox);
 }
