@@ -147,6 +147,7 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 void User::changePositionOneDir(uint8_t move_type, float lasting)
 {
   if (carrier && carrier->isTaking()) {  // Manipulator
+    echo("carr:%d", move_type);
     carrier->mouseEvent(move_type, lasting);
     carrier->keyEvent(move_type, lasting); //arrow keys
   }

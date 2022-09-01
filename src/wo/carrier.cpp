@@ -143,8 +143,8 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     return;
   }
 
-#if 0 //dax
-  OList *vicinitylist = object->getVicinityList(poldobj);
+#if 1 //dax
+  OList *vicinitylist = object->getVicinity(poldobj);
   object->generalIntersect(poldobj, vicinitylist);
   if (*names.type) {	//FIXME: segfault
     vicinitylist->remove();

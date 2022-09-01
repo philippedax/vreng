@@ -44,10 +44,6 @@ void Vrelet::defaults()
 {
   incrx = 0; incry = 0;
   fx = fy = 1.;
-  o2 = NULL;
-  wantDelta = false;
-  needRedraw = false;
-  dlist = 0;
 }
 
 /* Vrelet parser */
@@ -95,9 +91,14 @@ void Vrelet::parser(char *l)
 
 Vrelet::Vrelet(char *l)
 {
+  o2 = NULL;
+  wantDelta = false;
+  needRedraw = false;
+  dlist = 0;
+
   parser(l);
 
-  //Vrelet objects can't currently collide with anything, they move through them
+  // Vrelet objects can't currently collide with anything, they move through them
   enableBehavior(COLLIDE_GHOST);
   enableBehavior(SPECIFIC_RENDER);
 
@@ -148,11 +149,13 @@ void Vrelet::answerTypeQuery(int _type)
 
   if (_type > 0) {
     int cnt = 0;
-    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it)
+    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if ((*it)->type == _type) cnt++;
+    }
     msg->put32(cnt);
-    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it)
+    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if ((*it)->type == _type) msg->putOID(*it);
+    }
   }
   else {
     msg->put32(1);
@@ -233,8 +236,8 @@ void Vrelet::processClient()
       sendPos(who);
       processed = true;
     }
-    else if ((header.msg_id == VJC_MSGV_SET)
-          || (header.msg_id == VJC_MSGV_UPD)) {
+    else if ( (header.msg_id == VJC_MSGV_SET)
+           || (header.msg_id == VJC_MSGV_UPD) ) {
       // message was a move, get the movement information
       copyV3(&posDelta, msg->readDelta());
       copyV3(&angDelta, msg->readDelta());
@@ -242,7 +245,7 @@ void Vrelet::processClient()
       if (who == this) {	// move myself (vrelet object)
         wantDelta = header.msg_id;
       }
-      else { // push someone else (vreng object)
+      else {			// push someone else (vreng object)
         WObject *pold = new WObject();	// needed for collision
 
         // make the changes
@@ -256,11 +259,9 @@ void Vrelet::processClient()
         if (who == localuser) who->updateCamera(pos);
 
         // propagate the changes
-#if 0
-        OList *vicinityList = who->getVicinityList(pold);
+        OList *vicinityList = who->getVicinity(pold);
         who->generalIntersect(pold, vicinityList);
         vicinityList->remove();
-#endif
         delete pold;
       }
       processed = true;
@@ -369,7 +370,7 @@ void Vrelet::sendIntersect(WObject *pcur, WObject *pold, int inOrOut)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_ISEC, inOrOut);
 
-  //printf("sendIntersect: %d name=%s\n", inOrOut, pcur->getInstance());
+  //echo("sendIntersect: %d name=%s", inOrOut, pcur->getInstance());
   msg->putOID(pcur);
   msg->putPos(pcur);
   msg->putPos(pold);
@@ -513,8 +514,9 @@ void Vrelet::draw()
         else
           glBegin(GL_POLYGON);
 
-        for ( ; pts ; pts = pts->next)
+        for ( ; pts ; pts = pts->next) {
           glVertex2f(pts->point.v[0]/rx, pts->point.v[1]/ry);
+        }
         glEnd();
         }
         break;
