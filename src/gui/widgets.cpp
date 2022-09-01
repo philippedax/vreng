@@ -1450,6 +1450,7 @@ UDialog& Widgets::addobjDialog()
            )
     );	// end addobjBox
 
+  defaultAddobj();
   return udialog(addobjBox);
 }
 
