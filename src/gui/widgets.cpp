@@ -868,14 +868,17 @@ void Widgets::goDialog()
   char fmt[64];
 
   if (! strncmp(Universe::current()->server, "http://", 7))
-    sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
+    //dax sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
+    sprintf(fmt, "%s", "%s/%s%s");
   else
-    sprintf(fmt, "%s%s", "http://", "%s/%s/vacs/v%d/worlds");
+    //dax sprintf(fmt, "%s%s", "http://", "%s/%s/vacs/v%d/worlds");
+    sprintf(fmt, "%s%s", "http://", "%s/%s%s");
 
   sprintf(univ_url, fmt, Universe::current()->server,
                          Universe::current()->urlpfx,
-                         Universe::current()->version);
-  //echo("univ_url: %s", univ_url);
+                         //dax Universe::current()->version);
+                         DEF_URL_WORLDS);
+  echo("univ_url: %s", univ_url);
 
   UBox& box = uvbox(g.theme.scrollpaneStyle);
   if (Http::httpOpen(univ_url, goHttpReader, &box, 0) < 0) {
@@ -893,12 +896,16 @@ void Widgets::worldsDialog()
   char fmt[64];
 
   if (! strncmp(Universe::current()->server, "http://", 7))
-    sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
+    //dax sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
+    sprintf(fmt, "%s", "%s/%s%s");
   else
-    sprintf(fmt, "%s%s", "http://", "%s/%s/vacs/v%d/worlds");
+    //dax sprintf(fmt, "%s%s", "http://", "%s/%s/vacs/v%d/worlds");
+    sprintf(fmt, "%s%s", "http://", "%s/%s%s");
+
   sprintf(univ_url, fmt, Universe::current()->server,
                          Universe::current()->urlpfx,
-                         Universe::current()->version);
+                         //dax Universe::current()->version);
+                         DEF_URL_WORLDS);
 
   UBox* box = new UTextarea;
   if (Http::httpOpen(univ_url, universeHttpReader, box, 0) < 0) {

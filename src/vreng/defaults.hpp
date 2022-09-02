@@ -78,6 +78,7 @@
 // these paths are relative to the htdocs directory
 #define DEF_URL_WORLD	"/vre/Rendezvous.vre"		// location: /vre/Rendezvous.vre
 #define DEF_URL_WORLD_BAK "/vre/v8/Rendezvous.vre"	// alt location: /vre/v8/Rendezvous.vre
+#define DEF_URL_WORLDS	"/vre/worlds"			// list of worlds
 #define DEF_URL_FRONT	"/gif/default.gif"		// for user box
 #define DEF_URL_BACK	"/gif/default.1.gif"		// for user box
 #define DEF_URL_BALL	"/gif/ball.gif"			// ball by default
