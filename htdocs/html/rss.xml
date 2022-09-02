@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rss version="2.0">
+<channel>
+ <title>VREng</title>
+ <link>http://vreng.enst.fr</link>
+ <description>RSS feeds from vreng.enst.fr</description>
+ <ttl>60</ttl>
+ <language>en-us</language>
+ <item>
+  <title>Updated,  to 8.7.3</title>
+  <link>http://vreng.enst.fr</link>
+  <description>Updated,  to 8.7.3</description>
+  <creator>dax@enst.fr</creator>
+  <pubDate>2018-12-14T21:01:57+02:00</pubDate>
+ </item>
+==> /infres/projets/vreng/html/rss.xml <==
+ </item>
+ <item>
+  <title>New package, vreng-6.6.2</title>
+  <link>http://vreng.enst.fr</link>
+  <description>New package, vreng-6.6.2</description>
+  <creator>dax@enst.fr</creator>
+  <date>2006-06-08T10:20:30+02:00</date>
+ </item>
+</channel>
+</rss>

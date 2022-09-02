@@ -1,0 +1,498 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+<title>VREng Download</title>
+<style type="text/css">
+<!--
+a.banner:link {text-decoration: none}
+a.banner:visited {text-decoration:none}
+a.banner:active{ text-decoration:none}
+-->
+pre { border: 0pt solid #ee0000; color: black; font-family: "Courier New", Courier, mono; white-space: pre; background-color: #bbbbbb }
+</style>
+</head>
+
+<body bgcolor="#eeeeff">
+
+<center>
+<table width=100% cellspacing=0 cellpadding=0 border=0 marginheight=0 
+marginwidth=0>
+
+<tr valign="top">
+<td bgcolor="#222266" align="center" valign="middle" width="20%" nowrap>
+<font face="arial, helvetica, sans-serif" color="#cceeff">
+<img src="images/vreng.jpg" alt="http://www.vreng.enst.fr/html/images/vreng.jpg">
+<br>
+<img src="images/vre2.jpg" alt="http://www.vreng.enst.fr/html/images/vre2.jpg">
+<br>
+<!--
+Current Release: 8.0.0
+-->
+<b>
+Current Release: 
+
+<!--8.7.3
+-->
+&nbsp;&nbsp;<a href="rss.xml"> <img src="http://vreng.enst.fr/html/rss.png" align=middle></a>
+</b>
+<br>
+</font>
+</td>
+
+<td nowrap>
+&nbsp;&nbsp;&nbsp;&nbsp;   <!-- separateur vertical -->
+</td>
+<td nowrap>
+<table cellspacing=1 cellpadding=5 border=0>
+
+<tr>
+<td bgcolor="#222266" nowrap>
+<font size=7 face="arial, helvetica, sans-serif" color="#cceeff">
+<b>VREng</b>
+</font>&nbsp;&nbsp;
+<font size=5 face="arial, helvetica, sans-serif" color="#cceeff">
+<i>Virtual Reality Engine</i>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font>
+</td>
+</tr>
+
+<tr>
+<td bgcolor="#5555bb" nowrap>
+<font face="arial, helvetica, sans-serif" color="#cceeff">
+<b>
+
+Download
+</b></font>
+</td></tr>
+</table>
+<br></td>
+</tr>
+
+
+<tr valign="top">
+<td width="20%">
+
+<table cellspacing=1 cellpadding=4 border=0 width="100%">
+
+<tr bgcolor="#5555bb">
+<td align=left nowrap><a class="banner" href="index.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Home Page
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left nowrap><a class="banner" href="gallery.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Screenshots Gallery
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left nowrap><a class="banner" href="animation.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Animations
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left nowrap><a class="banner" href="requirements.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Requirements
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="platforms.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Supported Platforms
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="download.shtml">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Download
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="compile.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Build
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="install.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Install
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="customize.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Customize
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="launching.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Launching VREng
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="navigate.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Navigation
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="worlds.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Virtual Worlds
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="worldlist.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+World list
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="objects.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Objects and Actions
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="multimedia.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Multimedia formats
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="chat.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Chatting between players
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="web.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+VREng on the Web
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="status.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Work status
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="software.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Third-party Software
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left nowrap><a class="banner" href="slides.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Slides
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="reports.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Technical Reports
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="man.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Man pages
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="doxygen/html/index.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Code Documentation
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="related.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Related works
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="authors.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Authors &amp; Contributors
+</b></font></a></td></tr>
+
+<tr bgcolor="#5555bb">
+<td align=left><a class="banner" href="contact.html">
+<font size=3 face="arial, helvetica, sans-serif" color="#cceeff"><b>
+Mailing-list & Contact
+</b></font></a></td></tr>
+
+<tr><td>
+<script type='text/javascript' id='clustrmaps' src='http://cdn.clustrmaps.com/map_v2.js?cl=ffffff&amp;w=a&amp;t=n&amp;d=Bbn3yyLU0ciZ1M1RtOvY652qQFhsqSucoGvMh206wJI'></script>
+<!--
+<script type="text/javascript" id="clstr_globe" src="//cdn.clustrmaps.com/globe.js?d=SwF7Jnb7UXrelEMBht9qlxOPQKjtA8DOTFpI_d6beCo"></script>
+-->
+<!--
+<script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?u=BZWW&d=Bbn3yyLU0ciZ1M1RtOvY652qQFhsqSucoGvMh206wJI"></script>
+-->
+<!--
+<a href="http://www4.clustrmaps.com/counter/maps.php?url=http://www.vreng.enst.fr/" id="clustrMapsLink"><img src="http://www4.clustrmaps.com/counter/index2.php?url=http://www.vreng.enst.fr/" style="border:0px;" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onerror="this.onerror=null; this.src='http://www2.clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://www2.clustrmaps.com';" />
+-->
+</a>
+</td></tr>
+
+</table>
+</td>
+
+<td>
+&nbsp;&nbsp;&nbsp;   <!-- separateur vertical -->
+</td>
+<td>
+<table cellspacing=0 cellpadding=5 border=0>
+
+
+
+<h2>Open Source and Free Software</h2>
+
+<li> VREng is under <a href="COPYING">GPL (GNU Public License)</a>
+of FSF (Free Software Foundation).
+<p>
+<li> Only VREng sources are available, not binaries.
+<p>
+<li> <b>VREng</b> sources are available as
+<p>
+<li> <b>Tarballs</b>
+<table border=1>
+<tr><th align=left>tarball</th> <th align=right>release</th> <th align=right>size</th>  <th align=right>md5sum</th> </tr>
+
+<tr bgcolor="#cceeff">
+<td align=left>
+     <!-- <a href=ftp://ftp.enst.fr/pub/vreng/vreng.tar.gz>
+     ftp://ftp.enst.fr/pub/vreng/vreng.tar.gz </a> -->
+     <a href="../ftp/pub/vreng/vreng.tar.gz">
+     http://www.vreng.enst.fr/ftp/pub/vreng/vreng.tar.gz </a>
+</td>
+<td align=right>
+  8.7.3
+
+</td>
+<td align=right>
+  2748460
+
+</td>
+<td align=right>
+  68a40ff7234b08a4ec9cf93d669c54ad
+
+</td>
+</tr>
+
+<tr bgcolor="#cceeff">
+<td align=left>
+     <!-- <a href=ftp://ftp.enst.fr/pub/vreng/vreng.tar.bz2>
+     ftp://ftp.enst.fr/pub/vreng/vreng.tar.bz2 </a>  -->
+     <a href="../ftp/pub/vreng/vreng.tar.bz2">
+     http://www.vreng.enst.fr/ftp/pub/vreng/vreng.tar.bz2 </a>
+</td>
+<td align=right>
+  8.7.3
+
+</td>
+<td align=right>
+  2238278
+
+</td>
+<td align=right>
+  b948b9c8c8e450e94910589607bedff0
+
+</td>
+</tr>
+
+<tr bgcolor="#cceeff">
+<td align=left>
+     <!-- <a href=ftp://ftp.enst.fr/pub/vreng/vreng.tar.xz>
+     ftp://ftp.enst.fr/pub/vreng/vreng.tar.xz </a>  -->
+     <a href="../ftp/pub/vreng/vreng.tar.xz">
+     http://www.vreng.enst.fr/ftp/pub/vreng/vreng.tar.xz </a>
+</td>
+<td align=right>
+  8.7.3
+
+</td>
+<td align=right>
+  1875348
+
+</td>
+<td align=right>
+  c2bbed12d244ae868ede93ee7f529100
+
+</td>
+</tr>
+
+<tr bgcolor="#cceeff">
+<td align=left>
+     <!-- <a href=ftp://ftp.enst.fr/pub/vreng/vreng.zip>
+     ftp://ftp.enst.fr/pub/vreng/vreng.zip </a> -->
+     <a href="../ftp/pub/vreng/vreng.zip">
+     http://www.vreng.enst.fr/ftp/pub/vreng/vreng.zip </a>
+</td>
+<td align=right>
+  8.7.3
+
+</td>
+<td align=right>
+  3649382
+
+</td>
+<td align=right>
+  834cf0d1066b8568cc71686d0f799cba
+
+</td>
+</tr>
+</table>
+<br>
+
+<li> <b>Git</b>
+<p>
+VREng Git repository can be cloned to get the current sources by the command :
+<p>
+<pre>
+    git clone <a href="https:/github.com/philippedax/vreng.git/"> https://github.com/philippedax/vreng.git/ </a>
+</pre>
+
+<li> <b>Subversion</b>
+<p>
+VREng Subversion repository can be checked out to get the current sources by the command :
+<p>
+<pre>
+    svn co <a href="../svn/vreng/trunk/index.html"> http://www.vreng.enst.fr/svn/vreng/trunk/ </a> vreng-dev
+</pre>
+</ul>
+<!--
+or
+<pre>
+    svn co svn://vreng.enst.fr/vreng/trunk/ vreng-dev
+</pre>
+<p>
+-->
+
+<p>
+Browse the Subversion Web repository site at <a href="../svn/vreng/index.html"> http://www.vreng.enst.fr/svn/vreng/ </a>.
+<li> <b>VREng</b> ftp repository for previous releases is available at
+<!-- <a href=ftp://ftp.enst.fr/pub/vreng/>
+ftp://ftp.enst.fr/pub/vreng/</a>. -->
+<a href="../ftp/pub/vreng/index.html">
+http://www.vreng.enst.fr/ftp/pub/vreng/</a>.
+<p>
+The <a href="CHANGES">CHANGES</a> and recent improvements can be consulted <a href="ChangeLog">here</a>.
+<!--
+<a href=http://vreng.enst.fr/html/FIXES>Bug Fixes</a> for previous releases can be obtained <a href=http://vreng.enst.fr/html/FIXESt>here</a>.
+-->
+<p>
+
+
+<!--
+<h2>Required Software</h2>
+
+<li> <a href=http://www.infres.enst.fr/~elc/ubit>
+<b>Ubit</b> (Ubiquitous Brick Interaction ToolKit)</a> designed and written by <a href=mailto:elc@enst.fr>
+Eric Lecolinet</a> under GPL2, with which we have developped a
+new Graphical User Interface for VREng.
+Ubit library is available at
+
+<table border=1>
+<tr><th align=left>tarball</th> <th align=right>release</th> <th align=right>size</th> <th align=right>md5sum</th> </tr>
+
+<tr bgcolor="#cceeff">
+<td align=left>
+   <a href=http://www.infres.enst.fr/ftp/pub/ubit/ubit.tar.gz>
+   http://www.infres.enst.fr/ftp/pub/ubit/ubit.tar.gz</a>
+</td>
+<td align=right>
+   7.0.0
+
+</td>
+<td align=right>
+   1940020
+
+</td>
+<td align=right>
+  9236cc4d34d6e46c346ddb9b8f5f3dbc
+
+</td>
+</tr>
+</table>
+-->
+
+<p>
+<li> <b>Ubit</b> Subversion repository can be checked out to get the current sources by the command :
+<p>
+<pre>
+    svn co http://www.enfres.enst.fr/svn/ubit/ 
+</pre>
+
+
+<h2>Related and Optional Software</h2>
+
+<li> The Vrel translator is free and available at
+<!-- <a href=ftp://ftp.enst.fr/pub/vreng/vrel//vrel-2.5.tar.gz>
+ftp://ftp.enst.fr/pub/vreng/vrel/vrel-2.5.tar.gz</a> -->
+/vrel<a href="../ftp/pub/vreng/vrel/vrel-2.5.tar.gz">
+http://www.vreng.enst.fr/ftp/pub/vreng/vrel/vrel-2.5.tar.gz</a>
+<p>
+<li> The Vred editor/modeler is free and available at
+<!-- <a href=ftp://ftp.enst.fr/pub/vreng/vred/vred-1.3.tar.gz>
+ftp://ftp.enst.fr/pub/vreng/vred/vred-1.3.tar.gz</a> -->
+<a href="../ftp/pub/vreng/vred/vred-1.3.tar.gz">
+http://www.vreng.enst.fr/ftp/pub/vreng/vred/vred-1.3.tar.gz</a>
+
+
+<h2>Deprecated and Obsoleted Software</h2>
+
+<li> The Tiny-GL library, under license of <a href=http://fabrice.bellard.free.fr>
+Fabrice Bellard</a> is free and available at URL
+<strike>
+<!-- <a href=ftp://ftp.enst.fr/pub/vreng/TinyGL/TinyGL-0.3.tar.gz>
+</strike> <a href=ftp://ftp.enst.fr/pub/vreng/TinyGL/TinyGL-0.3.tar.gz> </strike> -->
+http://www.vreng.enst.fr/ftp/pub/vreng/TinyGL/TinyGL-0.3.tar.gz</a>
+<strike> <a href="../ftp/pub/vreng/TinyGL/TinyGL-0.3.tar.gz"> </strike>
+<!--
+<li> The binary of the uncompleted port on Windows95
+<strike>
+<a href=ftp://ftp.enst.fr/pub/vreng/obsolete/vrexe.zip>vrexe.zip</a>
+</strike>
+and its dll
+<a href=ftp://ftp.enst.fr/pub/vreng/obsolete/dll_vreng.zip>dll_vreng.zip</a>
+are available as-is without any guarantees and no work is planed to achieve this
+implementation, so we discourage to use it and sources will be not available.
+<p>
+-->
+
+
+</td></tr>
+</table>
+</table>
+<br>
+</center>
+
+<table bgcolor="#222266" cellspacing=0 cellpadding=4 border=0 width="100%">
+<td align=center nowrap>
+<font face="Arial, Helvetica, sans-serif" color="#cceeff" size=2>
+
+<b>VREng</b> (Virtual Reality Engine) - 
+<b>Web: </b> www.vreng.enst.fr - 
+<b>ENST</b> / Dpt. <b>INFRES</b>
+<br>
+<b>Contact</b>:
+<a href="http://www.infres.enst.fr/~dax/">
+<font color="#cceeff">Philippe Dax's Site</font></a>
+<a href="mailto:dax@enst.fr">
+<font color="#cceeff">(dax at enst dot fr)</font></a> 
+</font>
+&nbsp;&nbsp&nbsp;&nbsp;<img src="http://www.infres.enst.fr/cgi-bin/Count.cgi?ft=2|md=6|dd=D|sh=1|df=wwwinf_vreng.cnt" alt="cnt">
+</table>
+
+</body>
+</html>
