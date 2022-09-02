@@ -782,10 +782,12 @@ static void goHttpReader(void *box, Http *http)
   char line[URL_LEN + CHAN_LEN +2];
 
   for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
+    if (strncmp(line, "http://", 7)) continue;
+
     UStr& url = ustr();
 
     char tmpline[URL_LEN + CHAN_LEN +2];
-    char tmpname[URL_LEN + 2];
+    //echo("go: line=%s", line);
     strcpy(tmpline, line);
     char *p = strchr(tmpline, ' ');
     if (p) *p = '\0';
@@ -793,18 +795,21 @@ static void goHttpReader(void *box, Http *http)
       p = strchr(tmpline, '\t');
       if (p) *p = '\0';
     }
+    char tmpname[URL_LEN + 2];
     strcpy(tmpname, tmpline);
     char *name = strrchr(tmpname, '/');
-    if (name) *name++ = '\0';
-    p = strchr(name, '.');
-    if (p) *p = '\0';
-    url = tmpline;
+    if (name) {
+      *name++ = '\0';
+      p = strchr(name, '.');
+      if (p) *p = '\0';
+      url = tmpline;
 
-    univ_box->add(UBackground::black //+ ualpha(0.5)
+      univ_box->add(UBackground::black + ualpha(0.5)
                   + uitem(UBackground::none + UColor::green + UFont::bold + UFont::large
                   + name
                   + ucall(&g.gui, (const UStr&) url, &Gui::gotoWorld))
                  );
+    }
   }
 }
 
@@ -816,6 +821,8 @@ static void universeHttpReader(void *box, Http *http)
   char line[URL_LEN + CHAN_LEN +2];
 
   for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
+    if (strncmp(line, "http://", 7)) continue;
+
     UStr& url = ustr();
     UStr& chan = ustr();
 
@@ -864,9 +871,11 @@ void Widgets::goDialog()
     sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
   else
     sprintf(fmt, "%s%s", "http://", "%s/%s/vacs/v%d/worlds");
+
   sprintf(univ_url, fmt, Universe::current()->server,
                          Universe::current()->urlpfx,
                          Universe::current()->version);
+  //echo("univ_url: %s", univ_url);
 
   UBox& box = uvbox(g.theme.scrollpaneStyle);
   if (Http::httpOpen(univ_url, goHttpReader, &box, 0) < 0) {
