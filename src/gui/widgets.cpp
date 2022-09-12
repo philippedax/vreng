@@ -878,7 +878,7 @@ void Widgets::goDialog()
                          Universe::current()->urlpfx,
                          //dax Universe::current()->version);
                          DEF_URL_WORLDS);
-  echo("univ_url: %s", univ_url);
+  //echo("univ_url: %s", univ_url);
 
   UBox& box = uvbox(g.theme.scrollpaneStyle);
   if (Http::httpOpen(univ_url, goHttpReader, &box, 0) < 0) {
