@@ -132,7 +132,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
     case KEY_MT: object->pos.ay += last*lspeed; break; // ^,
     case KEY_DE: object->pos.ay -= last*lspeed; break; // ,^
   }
-  echo("pos: %.1f %.1f %.1f", object->pos.x,object->pos.y,object->pos.z);
+  //echo("pos: %.1f %.1f %.1f", object->pos.x,object->pos.y,object->pos.z);
 
   object->updatePositionAndGrid(object->pos);
   object->updatePosition();

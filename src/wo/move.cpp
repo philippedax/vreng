@@ -147,7 +147,7 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 void User::changePositionOneDir(uint8_t move_type, float lasting)
 {
   if (carrier && carrier->isTaking()) {  // Manipulator
-    echo("carr:%d", move_type);
+    //echo("carr:%d", move_type);
     carrier->mouseEvent(move_type, lasting);
     carrier->keyEvent(move_type, lasting); //arrow keys
   }
@@ -430,6 +430,14 @@ void WObject::imposedMovement(time_t sec, time_t usec)
   }
   if (World::current()->isDead()) return;
   if (! isMoving()) return;	// no moving
+
+#if 0 //dax
+  if (carrier && carrier->isTaking()) {  // Manipulator
+    echo("manip:%d", type);
+    carrier->mouseEvent(type, 1);
+    carrier->keyEvent(type, 1); //arrow keys
+  }
+#endif
 
   Pos oldpos = pos;
   copyPosAndBB(oldpos);		// keep oldpos for network
