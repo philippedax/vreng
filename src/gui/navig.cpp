@@ -97,7 +97,7 @@ void Navig::mousePressCB(UMouseEvent& e)
   // GL graphics can be performed until the current function returns
   GLSection gls(&gw.scene); 
 
-  if (gw.gui.carrier && gw.gui.carrier->isTaking()) {	// events are sent to Carrier
+  if (gw.gui.carrier && gw.gui.carrier->underControl()) {	// events are sent to Carrier
     gw.gui.carrier->mouseEvent(x, y, btn);
   }
 #if 0 //dax
@@ -307,7 +307,7 @@ void Navig::selectObject(ObjInfo* objinfo)
 // MOTION 
 /////////
 
-void Navig::startMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
+void Navig::userMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
 {
   xref = e.getX();
   yref = e.getY();
@@ -317,10 +317,11 @@ void Navig::startMotion(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
   motiony = _motiony;
 }
 
-void Navig::startMove(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
+void Navig::objectMove(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
 {
   xref = e.getX();
   yref = e.getY();
+  echo("xyref: %.0f %.0f", xref,yref);
   if (motionx)  motionx->stop();
   if (motiony)  motiony->stop();
   motionx = _motionx;
@@ -350,54 +351,54 @@ void Navig::stopMotion()
 void Navig::initNavigMenu()
 {
   navig_menu.addAttr(UBackground::black);
-  // Z rotation on x-mouse and Y translation on y-mouse
-  UCall& startYZMotion = ucall(this, &Motion::zrot, &Motion::ytrans, &Navig::startMotion);
   // X translation on x-mouse
-  UCall& startXTranslation = ucall(this, &Motion::xtrans, (Motion*)0, &Navig::startMotion);
+  UCall& XMotion = ucall(this, &Motion::xtrans, (Motion*)0, &Navig::userMotion);
+  // Z rotation on x-mouse and Y translation on y-mouse
+  UCall& YMotion = ucall(this, &Motion::zrot, &Motion::ytrans, &Navig::userMotion);
   // Z translation on y-mouse
-  UCall& startZTranslation = ucall(this, (Motion*)0, &Motion::ztrans, &Navig::startMotion);
+  UCall& ZMotion = ucall(this, (Motion*)0, &Motion::ztrans, &Navig::userMotion);
   UCall& move = ucall(this, &Navig::doMotion);
   UCall& stop = ucall(this, &Navig::stopMotion);
 
   // RIGHT
   navig_menu.item(0).add(g.theme.Right
-                         + UOn::arm / startYZMotion
+                         + UOn::arm / YMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                         );
   // FORWARD
   navig_menu.item(1).add(g.theme.Forward
-                         + UOn::arm / startYZMotion
+                         + UOn::arm / YMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                         );
   // VERTICAL
   navig_menu.item(2).add(g.theme.UpDown
-                         + UOn::arm / startZTranslation
+                         + UOn::arm / ZMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                         );
   // LEFT
   navig_menu.item(3).add(g.theme.Left
-                         + UOn::arm / startYZMotion
+                         + UOn::arm / YMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                         );
   // HORIZONTAL
   navig_menu.item(4).add(g.theme.LeftTrans
-                         + UOn::arm / startXTranslation
+                         + UOn::arm / XMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                         );
   // BACKWARD
   navig_menu.item(5).add(g.theme.Backward
-                         + UOn::arm / startYZMotion
+                         + UOn::arm / YMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                         );
   // HORIZONTAL
   navig_menu.item(6).add(g.theme.RightTrans
-                         + UOn::arm / startXTranslation
+                         + UOn::arm / XMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
                         );
@@ -427,21 +428,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_forw, &Navig::startMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_forw, &Navig::objectMove)
 	  )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzleft	 // TURN LEFT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::zrot_left, &Navig::startMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::zrot_left, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzright // TURN RIGHT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::zrot_right, &Navig::startMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::zrot_right, &Navig::objectMove)
           )
   );
   UTrow& row2 = utrow
@@ -450,21 +451,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_left, &Navig::startMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_left, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l+ g.theme.Rotxleft	 // ROLL LEFT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_left, &Navig::startMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_left, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotxright // ROLL RIGHT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_right, &Navig::startMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_right, &Navig::objectMove)
           )
   );
   UTrow& row3 = utrow
@@ -473,21 +474,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_up, &Navig::startMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_up, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotyup	 // TILT UP
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_up, &Navig::startMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_up, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotydown	 // TILT DOWN
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_down, &Navig::startMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_down, &Navig::objectMove)
           )
   );
 

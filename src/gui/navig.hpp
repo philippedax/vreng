@@ -35,8 +35,8 @@ public:
   UBox& manipulator();
   
   void selectObject(ObjInfo* objinfo);
-  void startMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
-  void startMove(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
+  void userMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
+  void objectMove(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
   void doMotion(UMouseEvent& e);
   void stopMotion();
   

@@ -46,7 +46,7 @@ Carrier::Carrier()
 }
 
 /** Accessor */
-bool Carrier::isTaking() const
+bool Carrier::underControl() const
 {
   return taking;
 }

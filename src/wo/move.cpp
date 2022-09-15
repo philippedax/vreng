@@ -146,7 +146,7 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 /* modify user position in one direction */
 void User::changePositionOneDir(uint8_t move_type, float lasting)
 {
-  if (carrier && carrier->isTaking()) {  // Manipulator
+  if (carrier && carrier->underControl()) {  // Manipulator
     //echo("carr:%d", move_type);
     carrier->mouseEvent(move_type, lasting);
     carrier->keyEvent(move_type, lasting); //arrow keys
@@ -432,7 +432,7 @@ void WObject::imposedMovement(time_t sec, time_t usec)
   if (! isMoving()) return;	// no moving
 
 #if 0 //dax
-  if (carrier && carrier->isTaking()) {  // Manipulator
+  if (carrier && carrier->underControl()) {  // Manipulator
     echo("manip:%d", type);
     carrier->mouseEvent(type, 1);
     carrier->keyEvent(type, 1); //arrow keys

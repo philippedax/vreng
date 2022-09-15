@@ -70,7 +70,7 @@ public:
 
   static void funcs();		///< init funclist
 
-  virtual bool isTaking() const;
+  virtual bool underControl() const;
   /**< Accessor: is something taking ? */
 
   virtual void take(WObject *po);
