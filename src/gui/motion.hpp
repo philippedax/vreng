@@ -37,8 +37,8 @@ class Motion {
   float accel;			///< accelerator
 
  public:
-  static Motion xtrans, ytrans, ztrans, zrot;		///< user movement
-  static Motion trans_forw, trans_back, trans_left, trans_right, trans_down, trans_up, zrot_left, zrot_right, xrot_left, xrot_right, yrot_down, yrot_up;	///< object movement
+  static Motion u_trans_x, u_trans_y, u_trans_z, u_rot_z;	///< user movement
+  static Motion o_trans_f, o_trans_b, o_trans_l, o_trans_r, o_trans_d, o_trans_u, o_rot_l_z, o_rot_r_z, o_rot_l_x, o_rot_r_x, o_rot_d_y, o_rot_u_y;	///< object movement
 
   class Carrier *carrier;	///< Object carrier
 

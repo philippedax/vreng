@@ -63,7 +63,7 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
                      ).setSelectable()
               + uitem(g.theme.JoystickUpDown
                       + utip("Drag on the Y axis to move verticaly")
-                      + UOn::arm / ucall(navig, (Motion*)0, &Motion::ztrans, &Navig::userMotion)
+                      + UOn::arm / ucall(navig, (Motion*)0, &Motion::u_trans_z, &Navig::userMotion)
                       + UOn::mdrag / ucall(navig, &Navig::doMotion)
                       + UOn::mrelease / ucall(navig, &Navig::stopMotion)
                      )
@@ -73,7 +73,7 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
               + uright()
               + uitem(g.theme.JoystickLeftRight
                       + utip("Drag on the X axis to move lateraly")
-                      + UOn::arm / ucall(navig, &Motion::xtrans, (Motion*)0, &Navig::userMotion)
+                      + UOn::arm / ucall(navig, &Motion::u_trans_x, (Motion*)0, &Navig::userMotion)
                       + UOn::mdrag / ucall(navig, &Navig::doMotion)
                       + UOn::mrelease / ucall(navig, &Navig::stopMotion)
                      )
@@ -83,7 +83,7 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
 
 void Joystick1::pressCanvasCB(UMouseEvent& e)
 {
-  gw.getNavig()->userMotion(e, &Motion::zrot, &Motion::ytrans);
+  gw.getNavig()->userMotion(e, &Motion::u_rot_z, &Motion::u_trans_y);
   current_point.set(e.getX(), e.getY());
   is_drawing = true;
   repaint();	// uwin

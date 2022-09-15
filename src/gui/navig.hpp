@@ -35,6 +35,7 @@ public:
   UBox& manipulator();
   
   void selectObject(ObjInfo* objinfo);
+
   void userMotion(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
   void objectMove(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
   void doMotion(UMouseEvent& e);
@@ -42,6 +43,7 @@ public:
   
 private:
   friend class Widgets;
+
   Widgets& gw;
   float xref, yref;
   bool followMouse;		///< flag to follow mouse.

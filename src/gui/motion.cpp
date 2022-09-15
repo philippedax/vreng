@@ -113,32 +113,32 @@ void Motion::setToCarrier(class Carrier *_carrier)
   carrier = _carrier;
 }
 
-// User
+// User movements
 
 // Move forward, backward
-Motion Motion::ytrans(0 /*KEY_AV*/, KEY_AR, UserAction::UA_SETLSPEED, LINEAR_ACCEL);
+Motion Motion::u_trans_y(0 /*KEY_AV*/, KEY_AR, UserAction::UA_SETLSPEED, LINEAR_ACCEL);
 // Turn left, right
-Motion Motion::zrot(0   /*KEY_GA*/, KEY_DR, UserAction::UA_SETASPEED, ANGULAR_ACCEL);
+Motion Motion::u_rot_z(0   /*KEY_GA*/, KEY_DR, UserAction::UA_SETASPEED, ANGULAR_ACCEL);
 // Move left, right
-Motion Motion::xtrans(0 /*KEY_SG*/, KEY_SD, UserAction::UA_SETLSPEED, LINEAR_ACCEL);
+Motion Motion::u_trans_x(0 /*KEY_SG*/, KEY_SD, UserAction::UA_SETLSPEED, LINEAR_ACCEL);
 // Move down, up
-Motion Motion::ztrans(0 /*KEY_JU*/, KEY_JD, UserAction::UA_SETLSPEED, LINEAR_ACCEL);
+Motion Motion::u_trans_z(0 /*KEY_JU*/, KEY_JD, UserAction::UA_SETLSPEED, LINEAR_ACCEL);
 
-// Object
+// Object movements
 
 // Move forward, backward
-Motion Motion::trans_forw(0 /*KEY_AV*/, KEY_AR, Carrier::SETLSPEED, LINEAR_ACCEL);
+Motion Motion::o_trans_f(0 /*KEY_AV*/, KEY_AR, Carrier::SETLSPEED, LINEAR_ACCEL);
 // Move left, right
-Motion Motion::trans_left(0 /*KEY_SG*/, KEY_SD, Carrier::SETLSPEED, LINEAR_ACCEL);
+Motion Motion::o_trans_l(0 /*KEY_SG*/, KEY_SD, Carrier::SETLSPEED, LINEAR_ACCEL);
 // Move down, up
-Motion Motion::trans_up(0 /*KEY_JU*/, KEY_JD, Carrier::SETLSPEED, LINEAR_ACCEL);
+Motion Motion::o_trans_u(0 /*KEY_JU*/, KEY_JD, Carrier::SETLSPEED, LINEAR_ACCEL);
 
 // Turn left, right (Yaw)
-Motion Motion::zrot_left(0,   KEY_GA, Carrier::SETASPEED, 0);
-Motion Motion::zrot_right(0,  KEY_DR, Carrier::SETASPEED, 0);
+Motion Motion::o_rot_l_z(0,  KEY_GA, Carrier::SETASPEED, 0);
+Motion Motion::o_rot_r_z(0,  KEY_DR, Carrier::SETASPEED, 0);
 // Roll left, right
-Motion Motion::xrot_left(0,   KEY_TL, Carrier::SETASPEED, 0);
-Motion Motion::xrot_right(0,  KEY_TR, Carrier::SETASPEED, 0);
+Motion Motion::o_rot_l_x(0,  KEY_TL, Carrier::SETASPEED, 0);
+Motion Motion::o_rot_r_x(0,  KEY_TR, Carrier::SETASPEED, 0);
 // Tilt down, up
-Motion Motion::yrot_down(0,   KEY_DE, Carrier::SETASPEED, 0);
-Motion Motion::yrot_up(0,     KEY_MT, Carrier::SETASPEED, 0);
+Motion Motion::o_rot_d_y(0,  KEY_DE, Carrier::SETASPEED, 0);
+Motion Motion::o_rot_u_y(0,  KEY_MT, Carrier::SETASPEED, 0);

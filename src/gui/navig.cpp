@@ -352,11 +352,11 @@ void Navig::initNavigMenu()
 {
   navig_menu.addAttr(UBackground::black);
   // X translation on x-mouse
-  UCall& XMotion = ucall(this, &Motion::xtrans, (Motion*)0, &Navig::userMotion);
+  UCall& XMotion = ucall(this, &Motion::u_trans_x, (Motion*)0, &Navig::userMotion);
   // Z rotation on x-mouse and Y translation on y-mouse
-  UCall& YMotion = ucall(this, &Motion::zrot, &Motion::ytrans, &Navig::userMotion);
+  UCall& YMotion = ucall(this, &Motion::u_rot_z, &Motion::u_trans_y, &Navig::userMotion);
   // Z translation on y-mouse
-  UCall& ZMotion = ucall(this, (Motion*)0, &Motion::ztrans, &Navig::userMotion);
+  UCall& ZMotion = ucall(this, (Motion*)0, &Motion::u_trans_z, &Navig::userMotion);
   UCall& move = ucall(this, &Navig::doMotion);
   UCall& stop = ucall(this, &Navig::stopMotion);
 
@@ -428,21 +428,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_forw, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_trans_f, &Navig::objectMove)
 	  )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzleft	 // TURN LEFT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::zrot_left, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_l_z, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotzright // TURN RIGHT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::zrot_right, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_r_z, &Navig::objectMove)
           )
   );
   UTrow& row2 = utrow
@@ -451,21 +451,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_left, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_trans_l, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l+ g.theme.Rotxleft	 // ROLL LEFT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_left, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_l_z, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotxright // ROLL RIGHT
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::xrot_right, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_r_z, &Navig::objectMove)
           )
   );
   UTrow& row3 = utrow
@@ -474,21 +474,21 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::trans_up, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_trans_u, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotyup	 // TILT UP
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_up, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_u_y, &Navig::objectMove)
           )
    + uitem(l + " ")
    + uitem(l + g.theme.Rotydown	 // TILT DOWN
            + UOn::mpress   / ucall(this, &Navig::mouseRefCB)
            + UOn::mdrag    / ucall(this, &Navig::mouseDragCB)
            + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
-           + UOn::arm      / ucall(this, (Motion*)0, &Motion::yrot_down, &Navig::objectMove)
+           + UOn::arm      / ucall(this, (Motion*)0, &Motion::o_rot_d_y, &Navig::objectMove)
           )
   );
 
