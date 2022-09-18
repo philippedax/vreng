@@ -144,15 +144,15 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 }
 
 /* modify user position in one direction */
-void User::changePositionOneDir(uint8_t move_type, float lasting)
+void User::changePositionOneDir(uint8_t move_key, float lasting)
 {
   if (carrier && carrier->underControl()) {  // Manipulator
-    //echo("carr:%d", move_type);
-    carrier->mouseEvent(move_type, lasting);
-    carrier->keyEvent(move_type, lasting); //arrow keys
+    //echo("carr:%d", move_key);
+    carrier->mouseEvent(move_key, lasting);
+    carrier->keyEvent(move_key, lasting); //arrow keys
   }
   else {                                 // Navigator
-    switch (move_type) {
+    switch (move_key) {
       case KEY_AV:  // move forward left
         pos.x += lasting * lspeed * cos(pos.az);
         pos.y += lasting * lspeed * sin(pos.az);
