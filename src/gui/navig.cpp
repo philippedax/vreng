@@ -321,7 +321,7 @@ void Navig::objectMove(UMouseEvent& e, Motion* _motionx, Motion *_motiony)
 {
   xref = e.getX();
   yref = e.getY();
-  echo("xyref: %.0f %.0f", xref,yref);
+  //echo("xyref: %.0f %.0f", xref,yref);
   if (motionx)  motionx->stop();
   if (motiony)  motiony->stop();
   motionx = _motionx;
