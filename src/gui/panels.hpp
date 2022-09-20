@@ -37,7 +37,7 @@ public:
     MESSAGE_PALETTE_WIDTH,
     MESSAGE_PALETTE_HEIGHT;
 
-  Palette *pnavig = NULL;
+  Palette *pnavig ;
 
   Panels(class Widgets*, class Scene&);
 

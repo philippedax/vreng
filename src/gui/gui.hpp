@@ -58,6 +58,8 @@ public:
  
   void showNavigator();
   void showManipulator();
+  void expandNavig();
+  void collapseNavig();
   void clearInfoBar(class WObject*);
  
   void writeMessage(const char *mode, const char *from, const char *mess);

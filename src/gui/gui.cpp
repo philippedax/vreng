@@ -341,6 +341,16 @@ void Gui::showManipulator()
   widgets->panels.showManipulator(true);
 }
 
+void Gui::expandNavig()
+{
+  widgets->panels.expandNavig();
+}
+
+void Gui::collapseNavig()
+{
+  widgets->panels.collapseNavig();
+}
+
 // clears the info bar.
 void Gui::clearInfoBar(WObject *obj)
 {

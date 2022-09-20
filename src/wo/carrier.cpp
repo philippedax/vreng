@@ -70,6 +70,7 @@ void Carrier::take(WObject *po)
   }
 
   ::g.gui.showManipulator();
+  ::g.gui.expandNavig();
   echo("take control of %s", po->getInstance());
 
   object = po;
@@ -87,6 +88,7 @@ void Carrier::leave(WObject *po)
 
 void Carrier::leave()
 {
+  ::g.gui.collapseNavig();
   ::g.gui.showNavigator();
   echo("leave control, enter in navigation mode");
 
