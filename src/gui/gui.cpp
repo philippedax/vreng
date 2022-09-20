@@ -351,6 +351,26 @@ void Gui::collapseNavig()
   widgets->panels.collapseNavig();
 }
 
+void Gui::expandNotif()
+{
+  widgets->panels.expandNotif();
+}
+
+void Gui::collapseNotif()
+{
+  widgets->panels.collapseNotif();
+}
+
+void Gui::expandAvatar()
+{
+  widgets->panels.expandAvatar();
+}
+
+void Gui::collapseAvatar()
+{
+  widgets->panels.collapseAvatar();
+}
+
 // clears the info bar.
 void Gui::clearInfoBar(WObject *obj)
 {

@@ -60,6 +60,10 @@ public:
   void showManipulator();
   void expandNavig();
   void collapseNavig();
+  void expandNotif();
+  void collapseNotif();
+  void expandAvatar();
+  void collapseAvatar();
   void clearInfoBar(class WObject*);
  
   void writeMessage(const char *mode, const char *from, const char *mess);
