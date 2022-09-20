@@ -37,7 +37,9 @@ public:
     MESSAGE_PALETTE_WIDTH,
     MESSAGE_PALETTE_HEIGHT;
 
-  Palette *pnavig ;
+  Palette *pnavig;
+  Palette *pnotif;
+  Palette *pavatar;
 
   Panels(class Widgets*, class Scene&);
 
@@ -46,6 +48,10 @@ public:
 
   void expandNavig();
   void collapseNavig();
+  void expandNotif();
+  void collapseNotif();
+  void expandAvatar();
+  void collapseAvatar();
 
 private:
   friend class Widgets;

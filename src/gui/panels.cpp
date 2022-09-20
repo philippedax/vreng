@@ -154,6 +154,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   Palette& notif_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
                + gw.message.createMessagePanel(true));
+  pnotif = &notif_palette;
   notif_palette.setPos(50|UPERCENT_CTR, 5|UPos::BOTTOM);
   notif_palette.setTitle(UColor::orange + UFont::bold + "Notifications & Messages");
   scene.add(notif_palette);
@@ -161,6 +162,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   Palette& avatar_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.paletteWidth, g.theme.paletteHeight)
                + avatars_spane);
+  pavatar = &avatar_palette;
   avatar_palette.setPos(5|UPos::RIGHT, 5|UPos::BOTTOM);
   avatar_palette.setTitle(UColor::orange + UFont::bold + "Avatars");
   scene.add(avatar_palette);
@@ -316,7 +318,6 @@ void Panels::showCartDialog(bool state)
                                  );
 }
 
-#if 1 //dax
 void Panels::expandNavig()
 {
   pnavig->expand();
@@ -326,4 +327,23 @@ void Panels::collapseNavig()
 {
   pnavig->collapse();
 }
-#endif
+
+void Panels::expandNotif()
+{
+  pnotif->expand();
+}
+
+void Panels::collapseNotif()
+{
+  pnotif->collapse();
+}
+
+void Panels::expandAvatar()
+{
+  pavatar->expand();
+}
+
+void Panels::collapseAvatar()
+{
+  pavatar->collapse();
+}
