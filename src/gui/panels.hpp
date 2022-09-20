@@ -44,6 +44,9 @@ public:
   void showManipulator(bool state);
   void showCartDialog(bool state);
 
+  void expandNavig();
+  void collapseNavig();
+
 private:
   friend class Widgets;
 

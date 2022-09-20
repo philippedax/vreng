@@ -316,14 +316,14 @@ void Panels::showCartDialog(bool state)
                                  );
 }
 
-#if 0 //dax
+#if 1 //dax
 void Panels::expandNavig()
 {
-  navig_palette.expand();
+  pnavig->expand();
 }
 
 void Panels::collapseNavig()
 {
-  navig_palette.collapse();
+  pnavig->collapse();
 }
 #endif
