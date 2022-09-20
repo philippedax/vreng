@@ -146,6 +146,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   Palette& navig_palette = *new Palette(g.theme.paletteStyle
                + navig_box);
+  //dax pnavig = navig_palette;
   navig_palette.setPos(5|UPos::LEFT, 5|UPos::BOTTOM);
   navig_palette.setTitle(UColor::orange + UFont::bold + "Navigator");
   scene.add(navig_palette);
@@ -314,3 +315,15 @@ void Panels::showCartDialog(bool state)
                                   + ucloseWin())
                                  );
 }
+
+#if 0 //dax
+void Panels::expandNavig()
+{
+  navig_palette.expand();
+}
+
+void Panels::collapseNavig()
+{
+  navig_palette.collapse();
+}
+#endif

@@ -21,6 +21,8 @@
 #ifndef PANELS_HPP
 #define PANELS_HPP
 
+#include "palette.hpp"
+
 
 /**
  * Panels class
@@ -35,12 +37,16 @@ public:
     MESSAGE_PALETTE_WIDTH,
     MESSAGE_PALETTE_HEIGHT;
 
+  Palette *pnavig = NULL;
+
   Panels(class Widgets*, class Scene&);
+
   void showManipulator(bool state);
   void showCartDialog(bool state);
 
 private:
   friend class Widgets;
+
   Widgets& gw;
   class Joystick1* joystick1;
   class Joystick2* joystick2;

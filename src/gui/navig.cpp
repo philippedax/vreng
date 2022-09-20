@@ -34,6 +34,7 @@
 #include "vreng.hpp"
 #include "navig.hpp"
 #include "widgets.hpp"	// gw
+#include "palette.hpp"	// Palette
 #include "scene.hpp"	// scene.add
 #include "motion.hpp"	// Motion
 #include "message.hpp"	// message

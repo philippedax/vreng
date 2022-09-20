@@ -30,6 +30,7 @@ class Widgets;
  * Navig class
  */
 class Navig {
+
 public:
   Navig(Widgets*, class Scene&);
   UBox& manipulator();
@@ -40,7 +41,7 @@ public:
   void objectMove(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
   void doMotion(UMouseEvent& e);
   void stopMotion();
-  
+
 private:
   friend class Widgets;
 
