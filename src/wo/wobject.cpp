@@ -93,6 +93,7 @@ WObject::WObject()
   move.perm_sec = 0;
   move.perm_usec = 0;
   move.ttl = 0.;
+  move.manip = false;
 
   noid.src_id = 0;
   noid.port_id = 0;
@@ -107,6 +108,7 @@ WObject::WObject()
   psql = NULL;
 #endif
   flare = NULL;
+  carrier = NULL;
 }
 
 /* WObject destructor */
@@ -799,6 +801,11 @@ void WObject::updateDist()
 
 void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
 {
+  if (! po->carrier) {
+    po->carrier = new Carrier();
+    po->carrier->take(po);
+    po->move.manip = true;
+  }
   localuser->carrier->take(po);
 }
 

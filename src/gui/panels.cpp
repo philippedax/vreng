@@ -153,7 +153,9 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   Palette& notif_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
-               + gw.message.createMessagePanel(true));
+               + gw.message.createMessagePanel(true)
+               //dax + gw.message.createQuery()
+                                       );
   pnotif = &notif_palette;
   notif_palette.setPos(50|UPERCENT_CTR, 5|UPos::BOTTOM);
   notif_palette.setTitle(UColor::orange + UFont::bold + "Notifications & Messages");
@@ -184,7 +186,9 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                     + " "
                     + uhflex()
                     + ubox(g.theme.panelStyle
-                    + gw.message.createMessagePanel(false))
+                           + gw.message.createMessagePanel(false)
+                           //dax + gw.message.createQuery()
+                          )
                    );
   control_panel.show(false);
 

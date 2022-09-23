@@ -37,6 +37,7 @@ class Message {
 public:
   Message(class Widgets*);
   
+  UBox& createQuery();
   UBox& createMessagePanel(bool transparent);
 
   void writeMessage(const char* mode, const char* from, const char* mess);
@@ -49,7 +50,7 @@ public:
   ///< get clicked object for the request.
 
 protected:
-  void actionCB();
+  void inputCB();
   void getHistoryCB(int go);
   void performRequest(const UStr& req);  // req starts with a '!'
   void postRequest(const std::string& mess, std::string& result);

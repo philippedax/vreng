@@ -134,6 +134,7 @@ struct Move {
   time_t perm_sec;	///< time in sec of last permanent movement.
   time_t perm_usec;	///< time in usec of last permanent movement.
   bool nocol;		///< flag without collision.
+  bool manip;		///< flag manipulated.
   struct Move *next;	///< next movement.
 };
 
@@ -170,6 +171,7 @@ public:
   class VRSql *psql;		///< VRSql pointer.
 #endif
   class Flare *flare;		///< flare instance.
+  class Carrier *carrier;	///< move via carrier.
 
   /* object's list modes */
   enum object_mode {

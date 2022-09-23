@@ -108,9 +108,9 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 {
   *lasting = diffTime(sec, usec);
   if (move.next) {
-    //error("next1: ttl=%.1f nocol=%d", move.ttl, move.nocol);
+    //echo("next1: ttl=%.1f nocol=%d", move.ttl, move.nocol);
     move = *(move.next);	// copy next move into current - segfault occurs FIXME!
-    //error("next2: ttl=%.1f nocol=%d", move.ttl, move.nocol);
+    //echo("next2: ttl=%.1f nocol=%d", move.ttl, move.nocol);
     //delete[] move.next;	// delete next, now obsoleted
     move.next = NULL;
     move.sec = sec;
@@ -562,8 +562,8 @@ void WObject::moveUserToObject(float sgn, float lttl, float attl)
   float da = (deltaAngle(pos.az - 0, localuser->pos.az + M_PI_2));
   da = MIN(da, M_PI);
   da = MAX(da, -M_PI);
-  //error("a=%.2f o=%.2f u=%.2f", da, pos.az, localuser->pos.az);
-  //error("d=%.1f %.1f,%.1f,%.1f %.2f", d,dx,dy,dz,da);
+  //echo("a=%.2f o=%.2f u=%.2f", da, pos.az, localuser->pos.az);
+  //echo("d=%.1f %.1f,%.1f,%.1f %.2f", d,dx,dy,dz,da);
 
   // first movement: user turns in direction of the object
   localuser->move.ttl = attl;

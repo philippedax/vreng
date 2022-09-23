@@ -70,10 +70,11 @@ void Carrier::take(WObject *po)
   }
 
   ::g.gui.showManipulator();
-  ::g.gui.expandNavig();
+  ::g.gui.expandNavig();	// shows Manipulator palette
   echo("take control of %s", po->getInstance());
 
   object = po;
+  object->move.manip = true;
   object->move.lspeed.v[0] = 0;
   object->move.aspeed.v[1] = 0;
   object->initImposedMovement(0);
@@ -88,13 +89,14 @@ void Carrier::leave(WObject *po)
 
 void Carrier::leave()
 {
-  ::g.gui.collapseNavig();
+  ::g.gui.collapseNavig();	// hints Manipulator palette
   ::g.gui.showNavigator();
   echo("leave control, enter in navigation mode");
 
   if (! object)  return;
 
   object->pos.alter = true;  // mark it has changed
+  object->move.manip = false;
   defaults();  // reset the carrier
 }
 

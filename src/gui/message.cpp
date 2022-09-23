@@ -58,20 +58,10 @@ Message::Message(Widgets* _gw) :
   history_pos = 0;
 }
 
-UBox& Message::createMessagePanel(bool transparent)
+UBox& Message::createQuery()
 {
-  scrollpane.add(messbox);
-  scrollpane.showVScrollButtons(false);
-  scrollpane.getHScrollbar()->show(false);
-
-  UTextfield& input = utextfield(usize(250) + entry + ucall(this, &Message::actionCB));
-
-  UBox& panel =
-  ubox(UOrient::vertical  + uhflex()
-       + uvflex()
-       + scrollpane
-       + ubottom()
-       + uhbox(ulabel(UFont::bold + "input: ")
+  UTextfield& input = utextfield(usize(250) + entry + ucall(this, &Message::inputCB));
+  UBox& query = uhbox(ulabel(UFont::bold + "input: ")
                + uhflex()
                + input
                + uright()
@@ -87,16 +77,51 @@ UBox& Message::createMessagePanel(bool transparent)
                        + USymbol::down
                        + ucall(this,+1,&Message::getHistoryCB)
                       )
-              )
-      );
-  if (transparent) {
-    input.addAttr(UBackground::none + UColor::white);
-    panel.addAttr(UColor::white);
-  }
-  return panel;
+              );
+  input.addAttr(UBackground::none + UColor::white);
+  return query;
 }
 
-void Message::actionCB()
+UBox& Message::createMessagePanel(bool transparent)
+{
+  scrollpane.add(messbox);
+  scrollpane.showVScrollButtons(false);
+  scrollpane.getHScrollbar()->show(false);
+
+  UTextfield& input = utextfield(usize(250) + entry + ucall(this, &Message::inputCB));
+  UBox& query = uhbox(ulabel(UFont::bold + "input: ")
+               + uhflex()
+               + input
+               + uright()
+               + uitem(utip("Clear")
+                       + UFont::bold + "C"
+                       + uassign(entry, "")
+                      )
+               + uitem(utip("Previous message")
+                       + USymbol::up
+                       + ucall(this,-1,&Message::getHistoryCB)
+                      )
+               + uitem(utip("Next message")
+                       + USymbol::down
+                       + ucall(this,+1,&Message::getHistoryCB)
+                      )
+              );
+
+  UBox& notif = ubox(UOrient::vertical
+                     + uhflex()
+                     + uvflex()
+                     + scrollpane
+                     + ubottom()
+                     + query
+                    );
+  if (transparent) {
+    input.addAttr(UBackground::none + UColor::white);
+    notif.addAttr(UColor::white);
+  }
+  return notif;
+}
+
+void Message::inputCB()
 {
   if (entry.empty()) return;
 
