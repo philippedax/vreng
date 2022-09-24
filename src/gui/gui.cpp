@@ -137,7 +137,7 @@ GuiItem* Gui::addCart(WObject *cart)
   gu->add(ustr(cart->getInstance()) + ucall(this, cart, &Gui::updateCart));
 
   widgets->setInfobar(null);
-  widgets->carts.add(gu);
+  widgets->basket.add(gu);
   return gu;
 }
 
@@ -147,7 +147,7 @@ void Gui::removeCart(WObject *cart, int action)
 
   if (cart->isGui()) {
     widgets->setInfobar(null);
-    widgets->carts.remove(*cart->getGui()); // remove item's box
+    widgets->basket.remove(*cart->getGui()); // remove item's box
     cart->resetGui();
   }
   if (! localuser)  return;

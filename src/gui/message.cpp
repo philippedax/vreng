@@ -112,7 +112,7 @@ UBox& Message::createMessagePanel(bool transparent)
                      + uvflex()
                      + scrollpane
                      + ubottom()
-                     + query
+                     //dax + query
                     );
   if (transparent) {
     input.addAttr(UBackground::none + UColor::white);

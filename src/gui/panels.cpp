@@ -87,9 +87,9 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   UScrollpane& worlds_spane = uscrollpane(true, false, uvbox(gw.worlds));
   worlds_spane.showVScrollButtons(false);
 
-  // CARTS
-  UScrollpane& carts_spane = uscrollpane(true, false, uvbox(gw.carts));
-  carts_spane.showVScrollButtons(false);
+  // BASKET
+  UScrollpane& basket_spane = uscrollpane(true, false, uvbox(gw.basket));
+  basket_spane.showVScrollButtons(false);
 
   // AVATARS
   UScrollpane& avatars_spane = uscrollpane(true, false, uvbox(gw.avatars));
@@ -114,7 +114,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
              + utip("Basket content"))
              + uvflex()
              + ubox(g.theme.scrollpaneStyle
-             + carts_spane)
+             + basket_spane)
             )
      + uvbox(g.theme.panelStyle
              + utop()
@@ -147,31 +147,33 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   Palette& navig_palette = *new Palette(g.theme.paletteStyle
                + navig_box);
   pnavig = &navig_palette;
-  navig_palette.setPos(5|UPos::LEFT, 5|UPos::BOTTOM);
-  navig_palette.setTitle(UColor::orange + UFont::bold + "Navigator");
+  navig_palette.setPos(2|UPos::LEFT, 2|UPos::BOTTOM);
+  navig_palette.setTitle(UColor::black + UFont::bold + "Navigator");
   scene.add(navig_palette);
 
   Palette& notif_palette = *new Palette(g.theme.paletteStyle
-               + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
-               + gw.message.createMessagePanel(true)
-               //dax + gw.message.createQuery()
+               //dax + usize(g.theme.messagePaletteWidth, g.theme.paletteHeight)
+               + usize(g.theme.messagePaletteWidth, 20)
+               //dax + gw.message.createMessagePanel(true)
+               + gw.message.createQuery()
                                        );
   pnotif = &notif_palette;
-  notif_palette.setPos(50|UPERCENT_CTR, 5|UPos::BOTTOM);
-  notif_palette.setTitle(UColor::orange + UFont::bold + "Notifications & Messages");
+  notif_palette.setPos(50|UPERCENT_CTR, 2|UPos::BOTTOM);
+  notif_palette.setTitle(UColor::black + UFont::bold + "Notifications & Messages");
   scene.add(notif_palette);
 
   Palette& avatar_palette = *new Palette(g.theme.paletteStyle
                + usize(g.theme.paletteWidth, g.theme.paletteHeight)
                + avatars_spane);
   pavatar = &avatar_palette;
-  avatar_palette.setPos(5|UPos::RIGHT, 5|UPos::BOTTOM);
-  avatar_palette.setTitle(UColor::orange + UFont::bold + "Avatars");
+  avatar_palette.setPos(2|UPos::RIGHT, 2|UPos::BOTTOM);
+  avatar_palette.setTitle(UColor::black + UFont::bold + "Avatars");
   scene.add(avatar_palette);
 
   if (::g.pref.expand == false) {
     navig_palette.collapse();
-    notif_palette.collapse();
+    //dax notif_palette.collapse();
+    notif_palette.expand();
     avatar_palette.collapse();
   }
 
@@ -180,14 +182,14 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   control_panel.add(UOrient::horizontal
                     + usize().setHeight(g.theme.controlPanelHeight)
                     + UBackground::velin
-                    + upadding(2,0) + uhspacing(10)
+                    + upadding(1,0) + uhspacing(10)
                     + uleft()
                     + navig_box
                     + " "
                     + uhflex()
                     + ubox(g.theme.panelStyle
                            + gw.message.createMessagePanel(false)
-                           //dax + gw.message.createQuery()
+                           + gw.message.createQuery()
                           )
                    );
   control_panel.show(false);
@@ -308,13 +310,13 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
 void Panels::showCartDialog(bool state)
 {
-  UScrollpane& carts_spane = uscrollpane(true, false, uvbox(gw.carts));
-  carts_spane.showVScrollButtons(false);
+  UScrollpane& basket_spane = uscrollpane(true, false, uvbox(gw.basket));
+  basket_spane.showVScrollButtons(false);
 
-  // relies on carts_spane created by createPanels()
+  // relies on basket_spane created by createPanels()
   UDialog * cartDialog = &udialog(utitle("Basket")
                                   + uscrollpane(usize(150, 100))
-                                  + carts_spane
+                                  + basket_spane
                                   + ubottom()
                                   + ubutton(UFont::bold + uhcenter()
                                   + " Close "

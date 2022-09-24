@@ -44,7 +44,7 @@ Palette::Palette(UArgs a) :
  ptitlebox(new UBox),
  pcontent(new UBox(a))
 {
-  piconify->addAttr(UColor::red + UFont::bold + ucall(this, &Palette::titleCB));
+  piconify->addAttr(UColor::black + UFont::bold + ucall(this, &Palette::titleCB));
   if (::g.pref.expand == true) {
     piconify->add(UOn::select / ustr(" + ") + UOn::deselect / ustr(" x "));
   }

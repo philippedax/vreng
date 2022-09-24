@@ -120,7 +120,7 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
      );
 
   worlds.addAttr(UOrient::vertical + utop());
-  carts.addAttr(UOrient::vertical + utop());
+  basket.addAttr(UOrient::vertical + utop());
   avatars.addAttr(UOrient::vertical + utop());
 
   // process ubit messages coming from other applications

@@ -138,7 +138,7 @@ private:
   class Message2 &putinfo;
   class Capture &capture;
   UBox infos;
-  UElem worlds, carts, avatars;
+  UElem worlds, basket, avatars;
   class Scene &scene;		///< OpenGL Drawing Zone
   class Navig &navig;		///< navigation
   UOptionDialog &source_dialog, &worlds_dialog;
