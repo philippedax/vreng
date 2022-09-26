@@ -33,19 +33,19 @@
 #include "vreng.hpp"
 #include "widgets.hpp"
 #include "panels.hpp"
-#include "theme.hpp"
-#include "palette.hpp"
-#include "navig.hpp"
-#include "scene.hpp"
-#include "joystick.hpp"		// Joystick1 Joystick2
-#include "pref.hpp"		// ::g.pref.expand
-#include "user.hpp"		// UserAction
-#include "axis.hpp"		// toggle
-#include "grid.hpp"		// toggle
-#include "world.hpp"
-#include "channel.hpp"
-#include "message.hpp"
-#include "capture.hpp"
+#include "theme.hpp"	// g.theme
+#include "palette.hpp"	// Palette
+#include "navig.hpp"	// navig.manipulator
+#include "scene.hpp"	// Scene
+#include "joystick.hpp"	// Joystick1 Joystick2
+#include "pref.hpp"	// ::g.pref.expand
+#include "user.hpp"	// UserAction
+#include "world.hpp"	// World
+#include "message.hpp"	// createMessagePanel
+#include "channel.hpp"	// Channel
+#include "capture.hpp"	// Capture
+#include "axis.hpp"	// toggle
+#include "grid.hpp"	// toggle
 
 
 static void toggleHudCB(Widgets*) { g.gui.scene()->toggleHud(); }
@@ -97,33 +97,41 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   right_panel
   .addAttr(UOrient::vertical //+ usize(g.theme.rightPanelWidth)
-           + uvspacing(8) + upadding(4,2))
+           + uvspacing(8)
+           + upadding(4,2)
+          )
   .add(uvbox(g.theme.panelStyle
              + utop()
              + ulabel(g.theme.World
-             + " Worlds"
-             + utip("Visited worlds"))
+                      + " Worlds"
+                      + utip("Visited worlds")
+                     )
              + uvflex()
              + ubox(g.theme.scrollpaneStyle
-             + worlds_spane)
+                    + worlds_spane
+                   )
             )
      + uvbox(g.theme.panelStyle
              + utop()
              + ulabel(g.theme.Folder
-             + " Basket"
-             + utip("Basket content"))
+                      + " Basket"
+                      + utip("Basket content")
+                     )
              + uvflex()
              + ubox(g.theme.scrollpaneStyle
-             + basket_spane)
+                    + basket_spane
+                   )
             )
      + uvbox(g.theme.panelStyle
              + utop()
              + ulabel(g.theme.Person
-             + " Avatars"
-             + utip("Current avatars"))
+                      + " Avatars"
+                      + utip("Current avatars")
+                     )
              + uvflex()
              + ubox(g.theme.scrollpaneStyle
-             + avatars_spane)
+                    + avatars_spane
+                   )
             )
     );
     right_panel.show(false); // not shown by default
@@ -144,8 +152,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   // palettes - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  Palette& navig_palette = *new Palette(g.theme.paletteStyle
-               + navig_box);
+  Palette& navig_palette = *new Palette(g.theme.paletteStyle + navig_box);
   pnavig = &navig_palette;
   navig_palette.setPos(2|UPos::LEFT, 2|UPos::BOTTOM);
   navig_palette.setTitle(UColor::black + UFont::bold + "Navigator");
@@ -260,10 +267,11 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + ucall(int(UserAction::UA_MAPVIEW), Widgets::callAction)
               )
        + usepar()
+
        + " Objects:"
        + uitem(utip("Show object cart")
                + g.theme.Cart
-               // + ushow(*gw.cartDialog, true)         !! A COMPLETER
+               //+ ushow(*gw.cartDialog, true)         !! A COMPLETER
               )
        + uitem(utip("Add object to the world")
                + g.theme.AddObj
@@ -274,6 +282,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + ucall(_gw, sandboxCB)
               )
        + usepar()
+
        + " Throw:"
        + uitem(utip("Throw dart")
                + UPix::ray
@@ -284,6 +293,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + ucall(int(UserAction::UA_BULLET), Widgets::callAction)
               )
        + usepar()
+
        + " Capture:"
        + uitem(utip("Capture screenshot in JPG")
                + g.theme.Camera
@@ -302,7 +312,10 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + UOn::deselect / g.theme.Movie
               )
        + usepar()
-       + uhflex() + ubox() + uright() + expand_collapse
+       + uhflex()
+       + ubox()
+       + uright()
+       + expand_collapse
       );
 
   main_panel.addAttr(UOrient::vertical).add(control_bar + control_panel);

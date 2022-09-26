@@ -118,10 +118,11 @@ bool Cart::isSomethingInCart(WObject *po)
 void Cart::leave(WObject *po)
 {
   // remove object from the cartList
-  for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it)
+  for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
       cartList.erase(it);
     }
+  }
 
   // set the object's new coordinates & state
   float near = 0.5;
