@@ -152,7 +152,7 @@ void User::makeSolid()
   memset(s, 0, sizeof(s));
   memset(mensuration, 0, sizeof(mensuration));
 
-  // fill mapping fields
+  // fill mapping pref fields
   Pref* pref = &::g.pref;
   
   if (pref->my_widthstr)	width = atof(pref->my_widthstr);
@@ -243,7 +243,6 @@ void User::setRtcp()
   Rtp::getRtcpEmail(email);
   Rtp::getRtcpTool(tool);
   ssrc = NetObject::getMySsrcId();
-  //trace(DBG_WO, "User: name=%s ssrc=%x rtcpname=%s email=%s", getInstance(), ssrc, rtcpname, email);
 }
 
 void User::setCamera()
@@ -378,14 +377,14 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   memset(s, 0, sizeof(s));
 
   int idxvar = pp->tellPayload();	// note begin of var
-  trace(DBG_WO, "idxvar=%d[%02x]", idxvar, idxvar);
+  //trace(DBG_WO, "idxvar=%d[%02x]", idxvar, idxvar);
   if (((idxgeom = pp->tellStrInPayload("shape=\"box\" size=")) > 0) ||
       ((idxgeom = pp->tellStrInPayload("shape=\"human\" size=")) > 0) ||
       ((idxgeom = pp->tellStrInPayload("shape=\"humanoid\" size=")) > 0) ||
       ((idxgeom = pp->tellStrInPayload("shape=\"guy\" size=")) > 0)
      ) {
     /* get replicated user characteristics from the network */
-    trace(DBG_WO, "idxgeom=%d[%02x]", idxgeom, idxgeom);
+    //trace(DBG_WO, "idxgeom=%d[%02x]", idxgeom, idxgeom);
     noh->getProperty(/* 09 */ PROPMENSURATION, pp);
     noh->getProperty(/* 10 */ PROPMAPLEFT, pp);
     noh->getProperty(/* 11 */ PROPMAPRIGHT, pp);
@@ -418,7 +417,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
 
   // get the variable properties
   if (idxend > 0) {
-    trace(DBG_WO, "Replica: read var props, idxend=%d", idxend);
+    //trace(DBG_WO, "Replica: read var props, idxend=%d", idxend);
     pp->seekPayload(idxvar);	// begin prop var
     for (int np = PROPBEGINVAR; np <= PROPENDVAR; np++) {
       noh->getProperty(np, pp);
@@ -428,12 +427,11 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   else {	// never executed
     error("never executed idxend=%d", idxend);
     uint8_t _nbprop = noh->getPropertiesNumber();
-    trace(DBG_WO, "Replica: read all props");
     for (int np = PROPBEGINVAR; np < _nbprop; np++) {
       noh->getProperty(np, pp);
     }
   }
-  notice("Avatar: rctpname=%s", rtcpname);
+  echo("Avatar: rctpname=%s", rtcpname);
 
   initMobileObject(0);
   addGui();
@@ -442,7 +440,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   trace(DBG_WO, "replica: web=%s vre=%s", web, vre);
   trace(DBG_WO, "replica: avatar=%s face=%s", avatar, face);
   trace(DBG_WO, "replica: type=%s given=%s name=%s ssrc=%x rtcpname=%s email=%s",
-        names.type, names.given, getInstance(), ssrc, rtcpname, email);
+                 names.type, names.given, getInstance(), ssrc, rtcpname, email);
 }
 
 void User::getMemory()
@@ -468,7 +466,7 @@ void User::getMemory()
 
 User::~User()
 {
-  notice("User %s quits", getInstance());
+  echo("User %s quits", getInstance());
   ::g.gui.removeUser(this);
 
   // MS. if this destructor is called for a remote user,
@@ -615,7 +613,7 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
     /* projectile intersects user: hit */
     if (hit == 0) {
       hit = 1;
-      notice("%s:%s hits %s", pcur->names.type, pcur->getInstance(), getInstance());
+      echo("%s:%s hits %s", pcur->names.type, pcur->getInstance(), getInstance());
       if (pcur->type == DART_TYPE) {
         ((Dart *)pcur)->hit = 1;
         noh->sendDelta(Dart::PROPHIT);
@@ -959,7 +957,7 @@ void User::u_get_xy(WObject *po, Payload *pp)
 {
   get_xy(po, pp);
   if (po == localuser) {
-    notice("Something's pushing me!");
+    echo("Something's pushing me!");
     po->updateCamera(po->pos);
   }
 }
@@ -968,7 +966,7 @@ void User::u_get_z(WObject *po, Payload *pp)
 {
   get_z(po, pp);
   if (po == localuser) {
-    notice("Something's lifting me!");
+    echo("Something's lifting me!");
     po->updateCamera(po->pos);
   }
 }
@@ -977,7 +975,7 @@ void User::u_get_ax(WObject *po, Payload *pp)
 {
   get_ax(po, pp);
   if (po == localuser) {
-    notice("Something's twisting me!");
+    echo("Something's twisting me!");
     po->updateCamera(po->pos);
   }
 }
@@ -986,7 +984,7 @@ void User::u_get_ay(WObject *po, Payload *pp)
 {
   get_ay(po, pp);
   if (po == localuser) {
-    notice("Something's twisting me!");
+    echo("Something's twisting me!");
     po->updateCamera(po->pos);
   }
 }
@@ -995,7 +993,7 @@ void User::u_get_az(WObject *po, Payload *pp)
 {
   get_az(po, pp);
   if (po == localuser) {
-    notice("Something's twisting me!");
+    echo("Something's twisting me!");
     po->updateCamera(po->pos);
   }
 }
