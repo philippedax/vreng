@@ -163,7 +163,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   scene.add(notif_palette);
 
   Palette& avatar_palette = *new Palette(g.theme.paletteStyle
-               + usize(g.theme.paletteWidth, g.theme.paletteHeight)
+               + usize(g.theme.paletteWidth/2, g.theme.paletteHeight/2)
                + avatars_spane);
   pavatar = &avatar_palette;
   avatar_palette.setPos(2|UPos::RIGHT, 2|UPos::BOTTOM);

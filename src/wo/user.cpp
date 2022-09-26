@@ -117,7 +117,7 @@ void User::setPosition()
   if (entry) {
     entry->query(this);
     trace(DBG_INIT, "new entry: %.2f %.2f %.2f", pos.x, pos.y, pos.z);
-    //error("entry: %.2f %.2f %.2f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
+    //echo("entry: %.2f %.2f %.2f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
   } 
 }
 
@@ -437,6 +437,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
 
   initMobileObject(0);
   addGui();
+  ::g.gui.expandAvatar();	// shows new avatar coming on
 
   trace(DBG_WO, "replica: web=%s vre=%s", web, vre);
   trace(DBG_WO, "replica: avatar=%s face=%s", avatar, face);
@@ -678,7 +679,7 @@ void User::setRayDirection(GLint wx, GLint wy)
   GLfloat tz = vp[3]/2 - (GLfloat) wy;
   if (ty < 0) ty = MAX(ty, -FAR); else ty = MIN(ty, FAR);
   if (tz < 0) tz = MAX(tz, -FAR); else tz = MIN(tz, FAR);
-  //error("eye: %.1f %.1f %.1f, target: %.1f %.1f %.1f", ex,ey,ez,tx,ty,tz);
+  //echo("eye: %.1f %.1f %.1f, target: %.1f %.1f %.1f", ex,ey,ez,tx,ty,tz);
  
   Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
 
