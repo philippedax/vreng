@@ -212,9 +212,9 @@ url="/vre/v8/tests.vre" channel="224.255.0.22/52876/127">
 <solid dim="1 .2 1.0" xn="/gif/travaux.gif" dif="pink" />
 </gate>
 
-<!-- sea 224.255.0.23 -->
-<gate name="sea" pos="12.8 6 .8 2.3"
-url="/vre/v8/sea.vre" channel="224.255.0.23/52886/127">
+<!-- beach 224.255.0.23 -->
+<gate name="beach" pos="12.8 6 .8 2.3"
+url="/vre/v8/beach.vre" channel="224.255.0.23/52886/127">
 <solid dim="1.6 .2 1.6" xn="/pgm/girl.pgm" dif="lightblue" />
 </gate>
 

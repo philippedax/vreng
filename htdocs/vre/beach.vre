@@ -3,7 +3,7 @@
 <vre version="7.2" profile="Interactive">
 
 <head>
-<meta name="filename" content="sea.vre"/>
+<meta name="filename" content="beach.vre"/>
 <meta name="author" content="Philippe Dax"/>
 </head>
 
@@ -16,22 +16,20 @@
 
 <!-- light from sun - syntax: x y z direction spot_cutoff> -->
 <!--
-<light pos="-1 0 -1 0 30"></light>
 <light pos="200 50 80 1"></light>
+<light pos="-1 0 -1 0 30"></light>
 -->
 <!--
 <light pos="-50 80 -200 1"></light>
 -->
 
 <!-- sun -->
-<mirage name="sun" pos="200 50 80" flare="1">
-  <solid shape="sphere" r="10" emi="1 1 .2" dif="black" amb="black" spe="black" shi="255" />
+<mirage name="sun" pos="200 50 80">
+  <solid shape="sphere" r="10" emi="yellow" dif="white" />
 </mirage>
 
 <!-- beach -->
-<ground name="beach" pos="0 0 -.5">
-  <solid dim="20 100 1" dif=".6 .6 .1" />
-</ground>
+<ground name="beach" pos="0 0 -.5"> <solid dim="20 100 1" dif=".6 .6 .1" /> </ground>
 
 <!-- ocean -->
 <water name="ocean" pos="30 0 0 1.57" amplitude="2" freq="8" phase="2">
@@ -39,38 +37,29 @@
 </water>
 
 <!-- models -->
+<model name="liberty" pos="50 -10 6 2.4 0" scale="1"    url="/ase/liberty.ase"> </model>
+<model name="shrub"   pos="3.0 -2 0 0"     scale=".05"  url="/3ds/tree_1.3ds"> </model>
+<model name="tree"    pos="3.0 4.5 0 0"    scale=".07"  url="/3ds/tree_2.3ds"> </model>
 <model name="bridget" pos="2.5 3 -.35 0"   scale="2.3"  url="/lwo/bridget.lwo"> </model>
 <model name="monica"  pos="4.5 4 .7 -1.57" scale="2.6"  url="/lwo/monica.lwo"> </model>
 <model name="noma"    pos="5.5 3 .15 -1.6" scale=".022" url="/lwo/noma.lwo"> </model>
 <model name="gidget"  pos="5.6 -2.2 -.5"   scale="3.5"  url="/lwo/gidget.lwo"> </model>
 <model name="penguin" pos="7.0 3 .4 1.57"  scale=".3"   url="/lwo/penguin.lwo"> </model>
-<!--
--->
-<model name="shrub"   pos="3.0 -2 0 0"     scale=".05"  url="/3ds/tree_1.3ds"> </model>
-<model name="tree"    pos="3.0 4.5 0 0"    scale=".07"  url="/3ds/tree_2.3ds"> </model>
-<model name="liberty" pos="50 -10 6 2.4 0" scale="1"    url="/ase/liberty.ase"> </model>
-<model name="sl"      pos="2.0 1 0 -1.57"   scale="3.2"  url="/obj/avatar.obj" color="pink" bvh="/bvh/cmu_walk.bvh"> </model>
-<model name="dxf"     pos="4.0 3 0 0"      scale=".001" url="/dxf/man.dxf" color="brown"> </model>
 <model name="male"    pos="2.0 -1 0 1.57"  scale="3.2"  url="/obj/male.obj" color="chocolate"> </model>
 <model name="female"  pos="2.0 -0 0 1.57"  scale="2.9"  url="/obj/female.obj" color="salmon"> </model>
 <!--
+<model name="slbvh"   pos="2.0 1 0 -1.57"  scale="3.2"  url="/obj/avatar.obj" color="pink" bvh="/bvh/cmu_walk.bvh"> </model>
+<model name="dxf"     pos="4.0 3 0 0"      scale=".001" url="/dxf/man.dxf" color="brown"> </model>
 -->
 <!--
 <model name="maggie"  pos="3.5 3 0 -1.57"  scale="1"    url="/lwo/maggie.lwo"> </model>
-<model name="tris"    pos="1.5 1.5 0 0"    scale=".035" url="/md2/tris.md2" tex="/pcx/skin1.pcx"> </model>
 <model name="cow"     pos="0.0 -4 0 2.35"  scale="1"    url="/3ds/vache.3ds" sound="/wav/cow.wav"> </model>
+<model name="tris"    pos="1.5 1.5 0 0"    scale=".035" url="/md2/tris.md2" tex="/pcx/skin1.pcx"> </model>
+-->
 <model name="demon"   pos="1.0 3 0 -1.57"  scale=".9"   url="/lwo/demon.lwo"> </model>
+<!--
 <model name="weapon"  pos="2.0  2 0 0"     scale=".035" url="/md2/weapon.md2"></model>
--->
-<!--
 <model name="tricera" pos="2.0 -2 0 0"     scale="1"    url="/obj/triceratops.obj"> </model>
--->
-
-<!-- girl -->
-<!--
-<mirage name="baigneuse" pos="11 1.5 .6 1.57" mode="turn">
-  <solid dim=".3 .2 .9" xn="/gif/girl.gif" yn="/gif/girlback.gif" />
-</mirage>
 -->
 
 <!-- parasol -->
@@ -94,10 +83,19 @@
   <solid shape="torus" r=".4" rt=".1" dif=".2 .2 .8" />
 </cauldron>
 
+<!-- girl -->
+<!--
+<mirage name="baigneuse" pos="11 1.5 .6 1.57" mode="turn">
+  <solid dim=".3 .2 .9" xn="/gif/girl.gif" yn="/gif/girlback.gif" />
+</mirage>
+-->
+
 <!-- dunes -->
+<!--
 <plane name="dune1" pos="-25 0 2 1.57 .44">
   <solid dim="100 12 4" dif=".8 .8 0" zp="/gif/grass.gif" />
 </plane>
+-->
 <!--
 <plane name="dune2" pos="-45 0 1.5 1.57 -.22">
   <solid dim="100 30 1" dif="green" zp="/gif/desert.gif" />
@@ -105,7 +103,7 @@
 -->
 
 <!-- underwater -->
-<step pos="11 0 -0.5 1.57"> <solid dim="100 4 1.02" zp="/gif/ecume.gif" a=".0" /></step>
+<step name="ecume" pos="11 0 -0.5 1.57"> <solid dim="100 4 1.02" zp="/gif/ecume.gif" a=".5" /></step>
 <step pos="16 0 -1.0 1.57"> <solid dim="100 10 1" dif="grey90" a=".0" /></step>
 <step pos="21 0 -1.5 1.57"> <solid dim="100 10 1" dif="grey80" a=".0" /></step>
 <step pos="26 0 -2.0 1.57"> <solid dim="100 10 1" dif="grey70" a=".0" /></step>
@@ -115,12 +113,19 @@
 <step pos="46 0 -4.0 1.57"> <solid dim="100 10 1" dif="grey30" a=".0" /></step>
 <step pos="51 0 -4.5 1.57"> <solid dim="100 10 1" dif="grey20" a=".0" /></step>
 
+<!-- thunder -->
+<!--
 <thunder pos="40 0 20" number="1"></thunder>
+-->
 
+<!-- mirage -->
+<!--
 <mirage pos="11 1. .15 0" mode="turn">
   <solid shape="model" url="/obj/avatar.obj" scale="3.2" dif="chocolate" />
 </mirage>
+-->
 
+<!-- music -->
 <!--
 <music name="sea-noise" pos="35 10 0"
   url="/wav/ocean.wav" state="play">
@@ -140,7 +145,6 @@
     <transform rotation="90 0 1 0"></transform>
     <model name="gidget" scale="3.5"> /lwo/gidget.lwo </model>
 </local>
-
 <local>
   <transform translation="8 3 .5"></transform>
   <transform rotation="90 1 0 0"></transform>
