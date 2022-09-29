@@ -184,8 +184,10 @@ void Movie::changePermanent(float lasting)
 
   gettimeofday(&tcurr, NULL);
   frame = (uint16_t) floor(((((float) (tcurr.tv_sec - tstart.tv_sec) * 1000.) +
-	                   ((float) (tcurr.tv_usec - tstart.tv_usec) / 1000.)
-                           ) / 1000.) * (float) rate);	// current frame
+	                     ((float) (tcurr.tv_usec - tstart.tv_usec) / 1000.)
+                            ) / 1000.
+                           ) * (float) rate
+                          );	// current frame
 
   for (uint16_t fdelta=0; fdelta < (frame-finter); fdelta++) {
     if (fdelta >= (uint16_t) fps) {
@@ -194,8 +196,8 @@ void Movie::changePermanent(float lasting)
     switch (vidfmt) {
     case PLAYER_MPG:
       {
-        // get a frame from the mpeg video stream
         if (! mpeg) return;
+        // get a frame from the mpeg video stream
         if (GetMPEGFrame((char *)vidbuf) == false) { // end of mpeg video
           if (state == LOOP) {
             RewindMPEG(fp, mpeg);	// rewind mpeg video
@@ -212,7 +214,7 @@ void Movie::changePermanent(float lasting)
         // build pixmap texture
         int wof = (texsiz - width) / 2;
         int hof = (texsiz - height) / 2;
-        //error("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
+        //echo("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
         if (mpeg->Colormap) {	// case of Colormap Index
           for (int h=0; h < height; h++) {
             for (int w=0; w < width; w++) {
@@ -241,10 +243,10 @@ void Movie::changePermanent(float lasting)
 
     case PLAYER_AVI:
       {
-        // get a frame from the avi video stream
         int ret, retlen;
+        // get a frame from the avi video stream
         ret = avi->read_data(vidbuf, width * height * 4, &retlen);
-        //error("f=%d s=%d l=%d", frame, width*height*4, retlen);
+        //echo("f=%d s=%d l=%d", frame, width*height*4, retlen);
         if (ret == 0) {	// end of avi video
           File::closeFile(fp);
           state = INACTIVE;
@@ -257,12 +259,12 @@ void Movie::changePermanent(float lasting)
         int wof = (texsiz - width) / 2;
         int hof = (texsiz - height) / 2;
         wof = hof = 0; //dax ??
-        //error("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
+        //echo("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
         for (int h=0; h < height; h++) {
           for (int w=0; w < width; w++) {
             int v = 4 * (width * h + w);		// vidbuf index
             int t = 3 * (256 * (h+hof) + w + wof);	// texmap index
-            //error("w,h: %d,%d t,v: %d,%d", w,h,t,v);
+            //echo("w,h: %d,%d t,v: %d,%d", w,h,t,v);
             texmap[t+0] = vidbuf[v+r];
             texmap[t+1] = vidbuf[v+g];
             texmap[t+2] = vidbuf[v+g];
@@ -298,7 +300,6 @@ void Movie::play()
 {
   if (state == INACTIVE) {
     state = PLAYING;
-
     enablePermanentMovement();	// to get frames
     inits();
   }
@@ -342,6 +343,7 @@ void Movie::pause()
   }
 }
 
+/* Replay one time */
 void Movie::rewind()
 {
   if (state != PLAYING && state != LOOP && fp != NULL) {
@@ -354,13 +356,13 @@ void Movie::rewind()
   }
 }
 
-/* Play for ever */
+/* Play continuesly */
 void Movie::loop()
 {
   if (state == INACTIVE) {
     if (vidfmt == PLAYER_MPG) {
       state = LOOP;
-      enablePermanentMovement();	// for get frames
+      enablePermanentMovement();	// to get frames
       inits();
     }
   }
