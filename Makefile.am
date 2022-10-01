@@ -68,6 +68,9 @@ clean-tar:
 data-tar:
 	tar zcf vreng-data.tar.gz htdocs
 
+html-tar:
+	tar zcf vreng-html.tar.gz htdocs/html
+
 svntags:
 	su -c "svn copy $(HTTP_SVN)/trunk $(HTTP_SVN)/tags/$(PACKAGE_NAME)-$(PACKAGE_VERSION) -m \"Distribution: $(PACKAGE_NAME)-$(PACKAGE_VERSION)\"" dax
 
