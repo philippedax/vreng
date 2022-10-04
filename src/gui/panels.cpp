@@ -95,11 +95,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   UScrollpane& avatars_spane = uscrollpane(true, false, uvbox(gw.avatars));
   avatars_spane.showVScrollButtons(false);
 
-  right_panel
-  .addAttr(UOrient::vertical //+ usize(g.theme.rightPanelWidth)
-           + uvspacing(8)
-           + upadding(4,2)
-          )
+  right_panel.addAttr(UOrient::vertical + uvspacing(8) + upadding(4,2))
   .add(uvbox(g.theme.panelStyle
              + utop()
              + ulabel(g.theme.World
@@ -259,8 +255,8 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                + ucall(_gw, 1, toggleGridCB)
               )
        + uitem(utip("Show hud")
-               + ucall(_gw, toggleHudCB)
                + g.theme.Counter
+               + ucall(_gw, toggleHudCB)
               )
        + uitem(utip("Show map")
                + g.theme.World

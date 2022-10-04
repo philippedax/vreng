@@ -150,22 +150,23 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
 
   const char* req_chars = req.c_str() + 1;	// skip the initial '!'
   entry = "";
-  int r = read_request(req_chars);
+  int rr = read_request(req_chars);
 
-  if (r > 0) {
-    nclicks = r;
+  if (rr > 0) {
+    nclicks = rr;
     for (int i=0; i<7 ;i++) {
       clicked[i] = MAXFLOAT;
     }
 
-    char *phrase = strdup(req_chars);
+    char *sentence = strdup(req_chars);
     char *brkt = null;
-    char *p = strtok_r(phrase, " ", &brkt);
+    char *p = strtok_r(sentence, " ", &brkt);
     while (p) {
-      entry.append(p); entry.append(" ");	// should be with red color
+      entry.append(p);
+      entry.append(" ");	// should be with red color
       p = strtok_r(NULL, " ", &brkt);
     }
-    free(phrase);
+    free(sentence);
   }
   else {
     g.gui.writeMessage("request", null, req_chars); // display in request history

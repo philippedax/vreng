@@ -109,7 +109,9 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
       + menubar
       + infobar
       + uvflex()
-      + uhbox(uvflex() + uhflex() + uhspacing(0)
+      + uhbox(uvflex()
+              + uhflex()
+              + uhspacing(0)
               + uvbox(uhflex() + uvflex()
                       + scene
                       + ubottom()
@@ -138,7 +140,8 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
 UBox& Widgets::createInfobar()
 {
   UBox& navigbox =
-  uhbox(upadding(8,0) + uhspacing(8)
+  uhbox(  upadding(8,0)
+        + uhspacing(8)
         + uleft()
         + UFont::bold
         + uitem(USymbol::left
@@ -156,7 +159,7 @@ UBox& Widgets::createInfobar()
                 + utip("Next world")
                 + ucall(this, &Widgets::nextCB))
                 + usepar()
-               );
+       );
 
   // infos initially contains the welcome message,
   // its changed dynamically when objects are selected
@@ -741,7 +744,8 @@ UDialog& Widgets::prefsDialog()
                     uvbox(ulabel("Preferences: " + UColor::red + ::g.env.prefs())
                           + uvflex()
                           + uscrollpane(usize(400,300) + settings_box)),
-                    UArgs::none, UArgs::none);
+                    UArgs::none, UArgs::none
+                  );
 
   FILE *fp;
   char buf[128];
@@ -805,10 +809,14 @@ static void goHttpReader(void *box, Http *http)
       url = tmpline;
 
       univ_box->add(UBackground::black + ualpha(0.5)
-                  + uitem(UBackground::none + UColor::green + UFont::bold + UFont::large
-                  + name
-                  + ucall(&g.gui, (const UStr&) url, &Gui::gotoWorld))
-                 );
+                    + uitem(UBackground::none
+                            + UColor::green
+                            + UFont::bold
+                            + UFont::large
+                            + name
+                            + ucall(&g.gui, (const UStr&) url, &Gui::gotoWorld)
+                           )
+                   );
     }
   }
 }
@@ -1481,8 +1489,8 @@ UMenu& Widgets::fileMenu()
   UDialog* openvre_dialog =  // args are: title, content, icon, buttons
   new UOptionDialog("Open Vreng URL",
                      ulabel(UFont::bold + "URL or name: ")
-                     // space for 80 chars, shows and edits string 'url_or_name'
-                     + uhflex() + utextfield(80, url_or_name),
+                     + uhflex()
+                     + utextfield(80, url_or_name),
                      UArgs::none,
                      uhbox(ubutton("  Open  "
                            + ucall(&gui, (const UStr&)url_or_name, &Gui::gotoWorld))
