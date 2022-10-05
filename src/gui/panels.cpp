@@ -48,8 +48,15 @@
 #include "grid.hpp"	// toggle
 
 
-static void toggleHudCB(Widgets*) { g.gui.scene()->toggleHud(); }
-static void toggleAxisCB(Widgets*) { Axis::axis()->toggle(); }
+static void toggleHudCB(Widgets*)
+{
+  g.gui.scene()->toggleHud();
+}
+
+static void toggleAxisCB(Widgets*)
+{
+  Axis::axis()->toggle();
+}
 
 static void toggleGridCB(Widgets*, int flag)
 {
@@ -96,40 +103,40 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   avatars_spane.showVScrollButtons(false);
 
   right_panel.addAttr(UOrient::vertical + uvspacing(8) + upadding(4,2))
-  .add(uvbox(g.theme.panelStyle
-             + utop()
-             + ulabel(g.theme.World
-                      + " Worlds"
-                      + utip("Visited worlds")
-                     )
-             + uvflex()
-             + ubox(g.theme.scrollpaneStyle
-                    + worlds_spane
-                   )
-            )
-     + uvbox(g.theme.panelStyle
-             + utop()
-             + ulabel(g.theme.Folder
-                      + " Basket"
-                      + utip("Basket content")
-                     )
-             + uvflex()
-             + ubox(g.theme.scrollpaneStyle
-                    + basket_spane
-                   )
-            )
-     + uvbox(g.theme.panelStyle
-             + utop()
-             + ulabel(g.theme.Person
-                      + " Avatars"
-                      + utip("Current avatars")
-                     )
-             + uvflex()
-             + ubox(g.theme.scrollpaneStyle
-                    + avatars_spane
-                   )
-            )
-    );
+             .add(uvbox(g.theme.panelStyle
+                        + utop()
+                        + ulabel(g.theme.World
+                                 + " Worlds"
+                                 + utip("Visited worlds")
+                                )
+                        + uvflex()
+                        + ubox(g.theme.scrollpaneStyle
+                               + worlds_spane
+                              )
+                       )
+                + uvbox(g.theme.panelStyle
+                        + utop()
+                        + ulabel(g.theme.Folder
+                                 + " Basket"
+                                 + utip("Basket content")
+                                )
+                        + uvflex()
+                        + ubox(g.theme.scrollpaneStyle
+                               + basket_spane
+                              )
+                       )
+                + uvbox(g.theme.panelStyle
+                        + utop()
+                        + ulabel(g.theme.Person
+                                 + " Avatars"
+                                 + utip("Current avatars")
+                                )
+                        + uvflex()
+                        + ubox(g.theme.scrollpaneStyle
+                               + avatars_spane
+                              )
+                       )
+               );
     right_panel.show(false); // not shown by default
 
   // navigator - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -182,7 +189,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   // control panel - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  control_panel.add(UOrient::horizontal
+  control_panel.add(  UOrient::horizontal
                     + usize().setHeight(g.theme.controlPanelHeight)
                     + UBackground::velin
                     + upadding(1,0) + uhspacing(10)
@@ -197,7 +204,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                    );
   control_panel.show(false);
 
-  UBox& expand_collapse = ubutton(utip("Expand/Collapse Panels")
+  UBox& expand_collapse = ubutton(  utip("Expand/Collapse Panels")
                                   + UOn::select   / ustr("Collapse")
                                   + UOn::deselect / ustr("Expand")
                                   + UOn::select   / ushow(control_panel, true)
@@ -215,104 +222,102 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
 
   // control bar  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  UListbox& viewbar = ulistbox
-  (UOrient::horizontal
-   + UBackground::none
-   + upadding(1,1)
-   + uitem(utip("Main viewpoint first person")
-           + g.theme.BigEye
-           + ucall(int(UserAction::UA_FIRSTVIEW), Widgets::callAction)
-          )
-   + uitem(utip("Third person viewpoint")
-           + g.theme.Eyes
-           + ucall(int(UserAction::UA_THIRDVIEWFAR), Widgets::callAction)
-          )
-   + uitem(utip("Alternate viewpoints")
-           + g.theme.Jumelles
-           + ucall(int(UserAction::UA_SWITCHVIEW), Widgets::callAction)
-          )
-   );
+  UListbox& viewbar = ulistbox(  UOrient::horizontal
+                               + UBackground::none
+                               + upadding(1,1)
+                               + uitem(utip("Main viewpoint first person")
+                                       + g.theme.BigEye
+                                       + ucall(int(UserAction::UA_FIRSTVIEW), Widgets::callAction)
+                                      )
+                               + uitem(utip("Third person viewpoint")
+                                       + g.theme.Eyes
+                                       + ucall(int(UserAction::UA_THIRDVIEWFAR), Widgets::callAction)
+                                      )
+                               + uitem(utip("Alternate viewpoints")
+                                       + g.theme.Jumelles
+                                       + ucall(int(UserAction::UA_SWITCHVIEW), Widgets::callAction)
+                                      )
+                              );
   viewbar.select(0);
 
-  control_bar
-  .addAttr(UOrient::horizontal + uhcenter() + uhspacing(6))
-  .add(uhcenter()
-       + upadding(8,0).setBottom(14)
-       + "View:"
-       + viewbar
-       + usepar()
-       + " Show:"
-       + uitem(utip("Show axis")
-               + g.theme.Axis
-               + ucall(_gw, toggleAxisCB)
-              )
-       + uitem(utip("Show 2D grid")
-               + g.theme.Grid2D
-               + ucall(_gw, 0, toggleGridCB)
-              )
-       + uitem(utip("Show 3D grid")
-               + g.theme.Grid3D
-               + ucall(_gw, 1, toggleGridCB)
-              )
-       + uitem(utip("Show hud")
-               + g.theme.Counter
-               + ucall(_gw, toggleHudCB)
-              )
-       + uitem(utip("Show map")
-               + g.theme.World
-               + ucall(int(UserAction::UA_MAPVIEW), Widgets::callAction)
-              )
-       + usepar()
+  control_bar.addAttr(UOrient::horizontal + uhcenter() + uhspacing(6))
+             .add(  uhcenter()
+                  + upadding(8,0).setBottom(14)
+                  + "View:"
+                  + viewbar
+                  + usepar()
+                  + " Show:"
+                  + uitem(utip("Show axis")
+                          + g.theme.Axis
+                          + ucall(_gw, toggleAxisCB)
+                         )
+                  + uitem(utip("Show 2D grid")
+                          + g.theme.Grid2D
+                          + ucall(_gw, 0, toggleGridCB)
+                         )
+                  + uitem(utip("Show 3D grid")
+                          + g.theme.Grid3D
+                          + ucall(_gw, 1, toggleGridCB)
+                         )
+                  + uitem(utip("Show hud")
+                          + g.theme.Counter
+                          + ucall(_gw, toggleHudCB)
+                         )
+                  + uitem(utip("Show map")
+                          + g.theme.World
+                          + ucall(int(UserAction::UA_MAPVIEW), Widgets::callAction)
+                         )
+                  + usepar()
 
-       + " Objects:"
-       + uitem(utip("Show object cart")
-               + g.theme.Cart
-               //+ ushow(*gw.cartDialog, true)         !! A COMPLETER
-              )
-       + uitem(utip("Add object to the world")
-               + g.theme.AddObj
-               + ushow(gw.addobj_dialog, true)
-              )
-       + uitem(utip("Test: sandbox world !")
-               + UPix::question
-               + ucall(_gw, sandboxCB)
-              )
-       + usepar()
+                  + " Objects:"
+                  + uitem(utip("Show object cart")
+                          + g.theme.Cart
+                          //+ ushow(*gw.cartDialog, true)         !! A COMPLETER
+                         )
+                  + uitem(utip("Add object to the world")
+                          + g.theme.AddObj
+                          + ushow(gw.addobj_dialog, true)
+                         )
+                  + uitem(utip("Test: sandbox world !")
+                          + UPix::question
+                          + ucall(_gw, sandboxCB)
+                         )
+                  + usepar()
 
-       + " Throw:"
-       + uitem(utip("Throw dart")
-               + UPix::ray
-               + ucall(int(UserAction::UA_DART), Widgets::callAction)
-              )
-       + uitem(utip("Throw bullet")
-               + UFont::bold + UFont::xx_large + UColor::red + "."
-               + ucall(int(UserAction::UA_BULLET), Widgets::callAction)
-              )
-       + usepar()
+                  + " Throw:"
+                  + uitem(utip("Throw dart")
+                          + UPix::ray
+                          + ucall(int(UserAction::UA_DART), Widgets::callAction)
+                         )
+                  + uitem(utip("Throw bullet")
+                          + UFont::bold + UFont::xx_large + UColor::red + "."
+                          + ucall(int(UserAction::UA_BULLET), Widgets::callAction)
+                         )
+                  + usepar()
 
-       + " Capture:"
-       + uitem(utip("Capture screenshot in JPG")
-               + g.theme.Camera
-               + ucall(&gw.capture, &Capture::writeJPGImage)
-              )
+                  + " Capture:"
+                  + uitem(utip("Capture screenshot in JPG")
+                          + g.theme.Camera
+                          + ucall(&gw.capture, &Capture::writeJPGImage)
+                         )
 #if WANT_GL2PS
-       + uitem(utip("Capture screenshot in SVG")
-               + g.theme.Camera
-               + ucall(&gw.capture, &Capture::writeSVGImage)
-              )
+                  + uitem(utip("Capture screenshot in SVG")
+                          + g.theme.Camera
+                          + ucall(&gw.capture, &Capture::writeSVGImage)
+                         )
 #endif
-       + uitem(utip("Capture video (start/stop)")
-               + UOn::select   / ucall(&gw.capture, &Capture::startVideo)
-               + UOn::deselect / ucall(&gw.capture, &Capture::stopVideo)
-               + UOn::select   / g.theme.Exit
-               + UOn::deselect / g.theme.Movie
-              )
-       + usepar()
-       + uhflex()
-       + ubox()
-       + uright()
-       + expand_collapse
-      );
+                  + uitem(utip("Capture video (start/stop)")
+                          + UOn::select   / ucall(&gw.capture, &Capture::startVideo)
+                          + UOn::deselect / ucall(&gw.capture, &Capture::stopVideo)
+                          + UOn::select   / g.theme.Exit
+                          + UOn::deselect / g.theme.Movie
+                         )
+                  + usepar()
+                  + uhflex()
+                  + ubox()
+                  + uright()
+                  + expand_collapse
+                 );
 
   main_panel.addAttr(UOrient::vertical).add(control_bar + control_panel);
 }
