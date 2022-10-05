@@ -1222,7 +1222,7 @@ void Vertex::addLink(BoneLink *link)
 
 void Vertex::removeLink(BoneLink *link)
 {
-  linkList.removeElement(link);
+  //dax linkList.removeElement(link);
   linkListCompiled = 0;
 }
 
