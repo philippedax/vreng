@@ -39,7 +39,7 @@
 #include "scene.hpp"	// Scene
 #include "joystick.hpp"	// Joystick1 Joystick2
 #include "pref.hpp"	// ::g.pref.expand
-#include "user.hpp"	// UserAction
+#include "user.hpp"	// User
 #include "world.hpp"	// World
 #include "message.hpp"	// createMessagePanel
 #include "channel.hpp"	// Channel
@@ -227,15 +227,15 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                                + upadding(1,1)
                                + uitem(utip("Main viewpoint first person")
                                        + g.theme.BigEye
-                                       + ucall(int(UserAction::UA_FIRSTVIEW), Widgets::callAction)
+                                       + ucall(int(User::UA_FIRSTVIEW), Widgets::callAction)
                                       )
                                + uitem(utip("Third person viewpoint")
                                        + g.theme.Eyes
-                                       + ucall(int(UserAction::UA_THIRDVIEWFAR), Widgets::callAction)
+                                       + ucall(int(User::UA_THIRDVIEWFAR), Widgets::callAction)
                                       )
                                + uitem(utip("Alternate viewpoints")
                                        + g.theme.Jumelles
-                                       + ucall(int(UserAction::UA_SWITCHVIEW), Widgets::callAction)
+                                       + ucall(int(User::UA_SWITCHVIEW), Widgets::callAction)
                                       )
                               );
   viewbar.select(0);
@@ -265,7 +265,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                          )
                   + uitem(utip("Show map")
                           + g.theme.World
-                          + ucall(int(UserAction::UA_MAPVIEW), Widgets::callAction)
+                          + ucall(int(User::UA_MAPVIEW), Widgets::callAction)
                          )
                   + usepar()
 
@@ -287,11 +287,11 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                   + " Throw:"
                   + uitem(utip("Throw dart")
                           + UPix::ray
-                          + ucall(int(UserAction::UA_DART), Widgets::callAction)
+                          + ucall(int(User::UA_DART), Widgets::callAction)
                          )
                   + uitem(utip("Throw bullet")
                           + UFont::bold + UFont::xx_large + UColor::red + "."
-                          + ucall(int(UserAction::UA_BULLET), Widgets::callAction)
+                          + ucall(int(User::UA_BULLET), Widgets::callAction)
                          )
                   + usepar()
 

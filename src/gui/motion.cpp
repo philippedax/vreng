@@ -32,7 +32,7 @@
  */
 #include "vreng.hpp"
 #include "motion.hpp"
-#include "user.hpp"	// UserAction
+#include "user.hpp"	// User
 #include "carrier.hpp"	// Carrier
 #include "move.hpp"	// changeKey
 
@@ -116,13 +116,13 @@ void Motion::setToCarrier(class Carrier *_carrier)
 // User movements
 
 // Move forward, backward
-Motion Motion::u_trans_y(0 /*KEY_AV*/, KEY_AR, UserAction::UA_SETLSPEED, LINEAR_ACCEL);
+Motion Motion::u_trans_y(0 /*KEY_AV*/, KEY_AR, User::UA_SETLSPEED, LINEAR_ACCEL);
 // Turn left, right
-Motion Motion::u_rot_z(0   /*KEY_GA*/, KEY_DR, UserAction::UA_SETASPEED, ANGULAR_ACCEL);
+Motion Motion::u_rot_z(0   /*KEY_GA*/, KEY_DR, User::UA_SETASPEED, ANGULAR_ACCEL);
 // Move left, right
-Motion Motion::u_trans_x(0 /*KEY_SG*/, KEY_SD, UserAction::UA_SETLSPEED, LINEAR_ACCEL);
+Motion Motion::u_trans_x(0 /*KEY_SG*/, KEY_SD, User::UA_SETLSPEED, LINEAR_ACCEL);
 // Move down, up
-Motion Motion::u_trans_z(0 /*KEY_JU*/, KEY_JD, UserAction::UA_SETLSPEED, LINEAR_ACCEL);
+Motion Motion::u_trans_z(0 /*KEY_JU*/, KEY_JD, User::UA_SETLSPEED, LINEAR_ACCEL);
 
 // Object movements
 

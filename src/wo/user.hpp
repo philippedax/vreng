@@ -366,11 +366,10 @@ private:
   static void put_rtcpname(User *pu, Payload *pp);
   static void put_rtcpemail(User *pu, Payload *pp);
   static void put_ray(User *pu, Payload *pp);
-};
 
 //---------------------------------------------------------------------------
-struct UserAction {
-  enum Type {
+public:
+  enum UserAction {
     UA_BULLET,
     UA_DART,
     UA_FOVYDEF,
@@ -406,8 +405,9 @@ struct UserAction {
     UA_ROLLLESS,
     UA_FLYAWAY,
     UA_TOLAND,
-    NONE
+    UA_NONE
   };
+
 };
 
 #endif

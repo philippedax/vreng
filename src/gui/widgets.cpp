@@ -37,7 +37,7 @@
 #include "panels.hpp"	// Panels
 #include "message.hpp"	// Message
 #include "theme.hpp"	// Theme
-#include "user.hpp"	// UserAction localuser
+#include "user.hpp"	// User localuser
 #include "move.hpp"	// changeKey
 #include "vnc.hpp"	// Vnc
 #include "pref.hpp"	// width3Dm height3D
@@ -625,10 +625,10 @@ static long convertKey(long keycode, int keychar, int& vrkey)
   else if (keycode == UKey::Home)     { keymask = 1<<8;  vrkey = KEY_HZ; }  // stand up
   else if (keycode == UKey::End)      { keymask = 1<<13; vrkey = KEY_VI; }  // accelerator
   else if (keycode == UKey::BackSpace) {
-    Widgets::callAction(UserAction::UA_ASPEEDLESS); return 0; 		    // decrease aspeed
+    Widgets::callAction(User::UA_ASPEEDLESS); return 0; 		    // decrease aspeed
   }
   else if (keycode == UKey::Tab) {
-    Widgets::callAction(UserAction::UA_ASPEEDMORE); return 0; 		    // increase aspeed
+    Widgets::callAction(User::UA_ASPEEDMORE); return 0; 		    // increase aspeed
   }
   else {
     switch (keychar) {
@@ -638,28 +638,28 @@ static long convertKey(long keycode, int keychar, int& vrkey)
       case 'r': keymask = 1<<10;         vrkey = KEY_TR;	break; 	  // tilt right
       case 'u': keymask = 1<<11 | 1<<13; vrkey = KEY_JU;	break;    // up translation
       case ' ': keymask = 1<<13;         vrkey = KEY_VI;	break;    // accelerator
-      case '=': Widgets::callAction(UserAction::UA_FOVYDEF);    return 0; // original fovy
-      case '-': Widgets::callAction(UserAction::UA_FOVYLESS);   return 0; // decrease fovy
-      case '+': Widgets::callAction(UserAction::UA_FOVYMORE);   return 0; // increase fovy
-      case '.': Widgets::callAction(UserAction::UA_LSPEEDDEF);  return 0; // original lspeed
-      case 's': Widgets::callAction(UserAction::UA_LSPEEDLESS); return 0; // decrease lspeed
-      case 'f': Widgets::callAction(UserAction::UA_LSPEEDMORE); return 0; // increase lspeed
-      case ',': Widgets::callAction(UserAction::UA_ASPEEDDEF);  return 0; // original aspeed
-      case 'b': Widgets::callAction(UserAction::UA_BULLET);     return 0; // launche bullet
-      case 'd': Widgets::callAction(UserAction::UA_DART);       return 0; // launche dart
-      case 'v': Widgets::callAction(UserAction::UA_SWITCHVIEW); return 0; // switch view
-      case 'x': Widgets::callAction(UserAction::UA_TPVIEWROTL); return 0; // rot left
-      case 'c': Widgets::callAction(UserAction::UA_TPVIEWROTR); return 0; // rot right
-      case 'q': Widgets::callAction(UserAction::UA_TPVIEWROTU); return 0; // rot up
-      case 'w': Widgets::callAction(UserAction::UA_TPVIEWROTD); return 0; // rot down
-      case 'p': Widgets::callAction(UserAction::UA_TPVIEWROTN); return 0; // rot near
-      case 'm': Widgets::callAction(UserAction::UA_TPVIEWROTF); return 0; // rot far
-      case 'D': Widgets::callAction(UserAction::UA_PITCHMORE);  return 0; // increase pitch
-      case 'U': Widgets::callAction(UserAction::UA_PITCHLESS);  return 0; // decrease pitch
-      case 'R': Widgets::callAction(UserAction::UA_ROLLMORE);   return 0; // increase roll
-      case 'L': Widgets::callAction(UserAction::UA_ROLLLESS);   return 0; // decrease roll
-      case '^': Widgets::callAction(UserAction::UA_FLYAWAY);    return 0; // flyaway
-      case '$': Widgets::callAction(UserAction::UA_TOLAND);     return 0; // toland
+      case '=': Widgets::callAction(User::UA_FOVYDEF);    return 0; // original fovy
+      case '-': Widgets::callAction(User::UA_FOVYLESS);   return 0; // decrease fovy
+      case '+': Widgets::callAction(User::UA_FOVYMORE);   return 0; // increase fovy
+      case '.': Widgets::callAction(User::UA_LSPEEDDEF);  return 0; // original lspeed
+      case 's': Widgets::callAction(User::UA_LSPEEDLESS); return 0; // decrease lspeed
+      case 'f': Widgets::callAction(User::UA_LSPEEDMORE); return 0; // increase lspeed
+      case ',': Widgets::callAction(User::UA_ASPEEDDEF);  return 0; // original aspeed
+      case 'b': Widgets::callAction(User::UA_BULLET);     return 0; // launche bullet
+      case 'd': Widgets::callAction(User::UA_DART);       return 0; // launche dart
+      case 'v': Widgets::callAction(User::UA_SWITCHVIEW); return 0; // switch view
+      case 'x': Widgets::callAction(User::UA_TPVIEWROTL); return 0; // rot left
+      case 'c': Widgets::callAction(User::UA_TPVIEWROTR); return 0; // rot right
+      case 'q': Widgets::callAction(User::UA_TPVIEWROTU); return 0; // rot up
+      case 'w': Widgets::callAction(User::UA_TPVIEWROTD); return 0; // rot down
+      case 'p': Widgets::callAction(User::UA_TPVIEWROTN); return 0; // rot near
+      case 'm': Widgets::callAction(User::UA_TPVIEWROTF); return 0; // rot far
+      case 'D': Widgets::callAction(User::UA_PITCHMORE);  return 0; // increase pitch
+      case 'U': Widgets::callAction(User::UA_PITCHLESS);  return 0; // decrease pitch
+      case 'R': Widgets::callAction(User::UA_ROLLMORE);   return 0; // increase roll
+      case 'L': Widgets::callAction(User::UA_ROLLLESS);   return 0; // decrease roll
+      case '^': Widgets::callAction(User::UA_FLYAWAY);    return 0; // flyaway
+      case '$': Widgets::callAction(User::UA_TOLAND);     return 0; // toland
       default: return 0; 						  // undefined key
     }
   }

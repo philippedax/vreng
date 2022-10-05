@@ -34,7 +34,7 @@
 #include "navig.hpp"
 #include "motion.hpp"
 #include "theme.hpp"
-#include "user.hpp"	// UserAction
+#include "user.hpp"	// User
 
 
 Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
@@ -59,7 +59,7 @@ Joystick1::Joystick1(Widgets* _gw, GLint _radius) :
                       + UOn::select / g.theme.joystickArmColor
                       + "Lock"
                       + utip("Set gravity on/off")
-                      + ucall(int(UserAction::UA_PAUSE), Widgets::callAction)
+                      + ucall(int(User::UA_PAUSE), Widgets::callAction)
                      ).setSelectable()
               + uitem(g.theme.JoystickUpDown
                       + utip("Drag on the Y axis to move verticaly")
@@ -160,7 +160,7 @@ void Joystick2::doAction()
   gettimeofday(&t, NULL);
   GLfloat val[1];
   val[0] = angle;
-  localuser->specialAction(UserAction::UA_SETPITCH, (void *)val, t.tv_sec, t.tv_usec);
+  localuser->specialAction(User::UA_SETPITCH, (void *)val, t.tv_sec, t.tv_usec);
 }
 
 void Joystick2::dragCB(UMouseEvent &e)

@@ -185,9 +185,9 @@ void Navig::keyPressCB(UKeyEvent& e)
     gettimeofday(&t, NULL);
     
     float user_lspeed = User::LSPEED;	// reset lspeed
-    localuser->specialAction(UserAction::UA_SETLSPEED, &user_lspeed, t.tv_sec, t.tv_usec);
+    localuser->specialAction(User::UA_SETLSPEED, &user_lspeed, t.tv_sec, t.tv_usec);
     float user_aspeed = User::ASPEED;	// reset aspeed
-    localuser->specialAction(UserAction::UA_SETASPEED, &user_aspeed, t.tv_sec, t.tv_usec);
+    localuser->specialAction(User::UA_SETASPEED, &user_aspeed, t.tv_sec, t.tv_usec);
   }
 }
 
