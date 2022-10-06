@@ -804,14 +804,16 @@ BoneVertex::~BoneVertex()
 {
   // first delete all the children
   if (! childListCompiled) compileChildList();
-  for (int i=0; i < children; i++)
+  for (int i=0; i < children; i++) {
     delete child[i];
+  }
   childList.empty();
 
   // Now, delete the selected links for this node
   if (! linkListCompiled) compileLinkList();
-  for (int i=0; i < links; i++)
-    delete link[i];
+  for (int i=0; i < links; i++) {
+    //dax-segfault delete link[i];
+  }
   linkList.empty();
 }
 

@@ -76,19 +76,19 @@ template <class BoneElem> class BoneNode {
   ///< destructor
 
   // Methodes de remplissage des champs d'un noeud
-  inline void setPrev(BoneNode *zePrev) { prevNode = zePrev; }
-  inline void setNext(BoneNode *zeNext) { nextNode = zeNext; }
-  inline void setElement(BoneElem *zeElement) { element = zeElement; }
-  inline void setValue(BoneNode *zePrev, BoneNode *zeNext, BoneElem *zeElement) {
-    setNext(zeNext);
-    setPrev(zePrev);
-    setElement(zeElement);
+  void setPrev(BoneNode *prev) { prevNode = prev; }
+  void setNext(BoneNode *next) { nextNode = next; }
+  void setElement(BoneElem *elem) { element = elem; }
+  void setValue(BoneNode *prev, BoneNode *next, BoneElem *elem) {
+    setNext(next);
+    setPrev(prev);
+    setElement(elem);
   }
 
   // Methodes de lecture des champs d'un noeud
-  inline BoneNode *getNext(void) { return nextNode; }
-  inline BoneNode *getPrev(void) { return prevNode; }
-  inline BoneElem *getElem(void) { return element;  } // FIXME! segfault
+  BoneNode *getNext(void) { return nextNode; }
+  BoneNode *getPrev(void) { return prevNode; }
+  BoneElem *getElem(void) { return element;  } // FIXME! segfault
 };
 
 
@@ -101,8 +101,8 @@ template <class BoneElem> class BoneNode {
  * en commencant par 'listHead'
  * Methodes : void  empty (void)
  *            int   count (void)
- *            void  addElement (BoneElem * zeElement)
- *            void  addList (BoneList * zeList)
+ *            void  addElement (BoneElem *elem)
+ *            void  addList (BoneList * list)
  *            void  removeElement (int index)
  *            void  removeElement (BoneElem * ptr)
  *            BoneElem * getElemAt (int index)
@@ -117,10 +117,10 @@ template <class BoneElem> class BoneList {
   int                  elements;	///< Nombre d'elements dans la table lors de la compilation de la liste en tableau
   int                  built;	///< Masque disant si la liste est compilee ou non
 
-  inline BoneNode <BoneElem> *getFirstNode() { return listHead; }
+  BoneNode <BoneElem> *getFirstNode() { return listHead; }
   /**< Recherche du premier noeud de la liste */
 
-  inline BoneNode <BoneElem> *getLastNode() { return listEnd; }
+  BoneNode <BoneElem> *getLastNode() { return listEnd; }
   /**< Recherche du dernier noeud de la liste */
 
   /** Compilation de la liste chainee en tableau
@@ -200,9 +200,9 @@ template <class BoneElem> class BoneList {
   }
 
   // Ajouter un element dans la liste, cet element est ajoute en queue de liste
-  void addElement(BoneElem *zeElement) {
+  void addElement(BoneElem *elem) {
     BoneNode<BoneElem> *newNode = new BoneNode<BoneElem>();
-    newNode->setElement(zeElement);
+    newNode->setElement(elem);
 
     if (listHead == NULL) {
       listHead = newNode;
@@ -217,8 +217,8 @@ template <class BoneElem> class BoneList {
   }
 
   // Ajouter une liste dans cette liste
-  void addList(BoneList *zeList) {
-    BoneNode<BoneElem> *newNode = zeList->getFirstNode();
+  void addList(BoneList *list) {
+    BoneNode<BoneElem> *newNode = list->getFirstNode();
 
     if (listHead == NULL) {
       listHead = newNode;
@@ -281,8 +281,9 @@ template <class BoneElem> class BoneList {
     }
     else { // Autre cas
       curNode = listHead;
-      while ((curNode) && (curNode->getElem() != ptr))
+      while ((curNode) && (curNode->getElem() != ptr)) {
         curNode = curNode->getNext();
+      }
       if (curNode) {
         nextNode = curNode->getNext();
         prevNode = curNode->getPrev();
@@ -319,7 +320,7 @@ class Bonename {
 
   virtual ~Bonename();
 
-  virtual void setName(char *zeName);
+  virtual void setName(char *Name);
 
   virtual char *getName();
 };
@@ -377,22 +378,22 @@ class BoneVertex : public Bonename {
   // -> a field to scale the influence of this boneVertex
   float influenceScaleFactor;
 
-  // -> a field to tell if this boneVertex should animated or not
+  // -> a field to tell if this boneVertex should be animated or not
   int animated;
 
   // Construct / destruct
   BoneVertex();
-  BoneVertex(Vect3D &Position, float Angle, Vect3D &Axis);
-  BoneVertex(Vect3D *Position, float Angle, Vect3D *Axis);
+  BoneVertex(Vect3D &position, float angle, Vect3D &axis);
+  BoneVertex(Vect3D *position, float angle, Vect3D *axis);
   virtual ~BoneVertex();
 
   // Accessing initial position datas
-  void setIniPos(Vect3D &Position);
-  void setIniPos(Vect3D *Position);
+  void setIniPos(Vect3D &position);
+  void setIniPos(Vect3D *position);
   void setIniPos(float ox, float oy, float oz);
-  void setIniRot(float Angle, Vect3D &Axis);
-  void setIniRot(float Angle, Vect3D *Axis);
-  void setIniRot(float Angle, float axisx, float axisy, float axisz);
+  void setIniRot(float angle, Vect3D &axis);
+  void setIniRot(float angle, Vect3D *axis);
+  void setIniRot(float angle, float axisx, float axisy, float axisz);
 
   // Accessing current position datas (during animation)
   void setPos(Vect3D &position);
@@ -404,8 +405,8 @@ class BoneVertex : public Bonename {
 
   // Accessing current position datas (during animation)
   // with relative values (realtive to initial position)
-  void resetPos(void);
-  void resetRot(void);
+  void resetPos();
+  void resetRot();
   void setTrans(Vect3D &delta);
   void setTrans(Vect3D *delta);
   void setTrans(float dx, float dy, float dz);
@@ -423,8 +424,8 @@ class BoneVertex : public Bonename {
   BoneVertex *findBone(const char *Name);
 
   // Link list managing
-  void addLink(BoneLink *Link);
-  void removeLink(BoneLink *Link);
+  void addLink(BoneLink *link);
+  void removeLink(BoneLink *link);
 
   // Intern functions to compile the lists... should be private maybe ?
   void compileChildList();
@@ -474,7 +475,7 @@ class BoneVertex : public Bonename {
   inline char *readStr(FILE *in, char *str)
   {
     int i=0;
-    while ((str[i++] = readChar(in)) != '\0');
+    while ( (str[i++] = readChar(in)) != '\0' );
     return str;
   }
 
@@ -502,18 +503,18 @@ class Vertex {
 
   // Constructeurs / destructeur
   Vertex();
-  Vertex(Vect3D &Position);
-  Vertex(Vect3D *Position);
+  Vertex(Vect3D &position);
+  Vertex(Vect3D *position);
   Vertex(float ox, float oy, float oz);
   virtual ~Vertex() {}
 
   // Acces aux champs
-  void setPosition(Vect3D &Position);
-  void setPosition(Vect3D *Position);
+  void setPosition(Vect3D &position);
+  void setPosition(Vect3D *position);
 
   // Gestion des liens
-  void addLink(BoneLink *Link);
-  void removeLink(BoneLink *Link);
+  void addLink(BoneLink *link);
+  void removeLink(BoneLink *link);
 
   // Acces aux champs de transformation initiaux
   void compileLinkList();
@@ -533,16 +534,16 @@ public:
   BoneVertex *boneVertex;	///< BoneVertex.
   float weight;			///< weight.
 
-  BoneLink(Vertex *zeVertex, BoneVertex *zeBoneVertex, float zeWeight);
+  BoneLink(Vertex *Vertex, BoneVertex *BoneVertex, float weight);
   /**< Constructor. */
 
   virtual ~BoneLink();
   /**< Destructor. */
 
-  virtual void setVertex(Vertex *zeVertex);
-  virtual void setBoneVertex(BoneVertex *zeBoneVertex);
+  virtual void setVertex(Vertex *Vertex);
+  virtual void setBoneVertex(BoneVertex *BoneVertex);
   virtual void notifyTarget();
-  virtual void setWeight(float zeWeight);
+  virtual void setWeight(float weight);
 };
 
 //---------------------------------------------------------------------------
@@ -568,8 +569,7 @@ class BoneTriangle {
   virtual ~BoneTriangle();
 
   // Accessing datas
-  //void addVertex(Vertex *zeVertex, int index, float u=-1, float v=-1);
-  virtual void addVertex(Vertex *zeVertex, int index, float u, float v);
+  virtual void addVertex(Vertex *vertex, int index, float u, float v);
 
   void rebuildNormal();
 
@@ -607,8 +607,8 @@ class BoneMesh : public Bonename {
   virtual ~BoneMesh();
 
   // Actions sur les champs
-  virtual void addVertex(Vect3D & zePosition);
-  virtual void addVertex(Vect3D * zePosition);
+  virtual void addVertex(Vect3D & position);
+  virtual void addVertex(Vect3D * position);
   virtual void addVertex(float ox, float oy, float oz);
   virtual void addTriangle(int index1, int index2, int index3);
 
@@ -661,8 +661,8 @@ class Bone {
   virtual ~Bone();	///< Destructor
 
   // Accessing datas
-  virtual void registerMesh(BoneMesh *zeMesh);
-  virtual void registerSkeleton(BoneVertex *zeRoot);
+  virtual void registerMesh(BoneMesh *mesh);
+  virtual void registerSkeleton(BoneVertex *root);
 
   // Operations on both mesh and skeleton
   virtual void scale(float sx, float sy, float sz);
