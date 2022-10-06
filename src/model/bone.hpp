@@ -379,7 +379,7 @@ class BoneVertex : public Bonename {
   float influenceScaleFactor;
 
   // -> a field to tell if this boneVertex should be animated or not
-  int animated;
+  //dax int animated;
 
   // Construct / destruct
   BoneVertex();

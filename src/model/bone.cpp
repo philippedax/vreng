@@ -330,7 +330,6 @@ void renderOneBone(BoneVertex *node)
 // Main rendering method, will draw the skeleton and the mesh
 void Bone::render()
 {
-#if 1 //dax
   // First we draw the skeleton with local coordinates
   //if (axisRendering) {
   if (0) {
@@ -344,7 +343,6 @@ void Bone::render()
      renderOneBone(skeleton);
     glEnd();
   }
-#endif
 
   // Now, we'll render the 3d mesh on the screen
   if (! meshToMove->triangleListCompiled) {
@@ -507,8 +505,8 @@ void Bone::addNodeAndChildren(BoneVertex *boneVertex, BoneList <BoneVertex> *lis
 
 BoneLink::BoneLink(Vertex *_vertex, BoneVertex *_boneVertex = NULL, float _weight = 0.)
 {
-  vertex        = NULL;
-  boneVertex    = NULL;
+  vertex     = NULL;
+  boneVertex = NULL;
   setVertex(_vertex);
   setBoneVertex(_boneVertex);
   setWeight(_weight);
@@ -759,7 +757,6 @@ BoneVertex::BoneVertex()
   linkListCompiled = 0;
 
   influenceScaleFactor = 1;
-  animated = 0;
 }
 
 BoneVertex::BoneVertex(Vect3D &position, float angle, Vect3D &axis)
@@ -778,7 +775,6 @@ BoneVertex::BoneVertex(Vect3D &position, float angle, Vect3D &axis)
   link     = NULL;
   links    = 0;
   linkListCompiled = 0;
-  animated = 0;
 }
 
 BoneVertex::BoneVertex(Vect3D *position, float angle, Vect3D *axis)
@@ -797,7 +793,6 @@ BoneVertex::BoneVertex(Vect3D *position, float angle, Vect3D *axis)
   link     = NULL;
   links    = 0;
   linkListCompiled = 0;
-  animated = 0;
 }
 
 BoneVertex::~BoneVertex()
@@ -1224,7 +1219,7 @@ void Vertex::addLink(BoneLink *link)
 
 void Vertex::removeLink(BoneLink *link)
 {
-  //dax linkList.removeElement(link);
+  //dax-segfault linkList.removeElement(link);
   linkListCompiled = 0;
 }
 
