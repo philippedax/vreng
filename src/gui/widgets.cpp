@@ -144,18 +144,23 @@ UBox& Widgets::createInfobar()
         + uhspacing(8)
         + uleft()
         + UFont::bold
-        + uitem(USymbol::left
-                + UBackground::green
+        + uitem(  USymbol::left
+                //+ UColor::red
+                //+ UBackground::green
                 + utip("Prev world")
                 + ucall(this, &Widgets::prevCB)
                )
-        + uitem(USymbol::up
-                + UBackground::green
+        + "   "
+        + uitem(  USymbol::up
+                //+ UColor::red
+                //+ UBackground::green
                 + utip("Home world")
                 + ucall(this, &Widgets::homeCB)
                )
-        + uitem(USymbol::right
-                + UBackground::green
+        + "   "
+        + uitem(  USymbol::right
+                //+ UColor::red
+                //+ UBackground::green
                 + utip("Next world")
                 + ucall(this, &Widgets::nextCB))
                 + usepar()

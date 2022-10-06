@@ -59,7 +59,7 @@ void Capture::captureGl2jpg(const char *filename)
   Img::saveJPG(filename, w, h, jpegquality, pixels);
 
   if (pixels) delete[] pixels;
-  notice("capture %dx%d done in file %s", w, h, filename);
+  echo("capture %dx%d done in file %s", w, h, filename);
 }
 
 /** capture PNG (only 3D) */
@@ -74,7 +74,7 @@ void Capture::captureGl2png(const char *filename)
   // save in a png file
   Img::savePNG(filename, w, h);
 
-  notice("capture %dx%d done in file %s", w, h, filename);
+  echo("capture %dx%d done in file %s", w, h, filename);
 }
 
 /** capture XWD (whole window) */
@@ -84,7 +84,7 @@ void Capture::captureXwd(const char *ext)
 
   const char *name = World::current()->getName();
   sprintf(cmd, "IFS=' '; xwd -name vreng >/tmp/%s.xwd; convert /tmp/%s.xwd %s.%s; rm -f /tmp/%s.xwd", name, name, name, ext, name);
-  notice("capture done in file %s.%s", name, ext);
+  echo("capture done in file %s.%s", name, ext);
   system(cmd);
 }
 
@@ -125,7 +125,7 @@ void Capture::captureGl2ps(const char *ext)
     state = gl2psEndPage();
   }
   File::closeFile(fp);
-  notice("capture done in file %s", worldname);
+  echo("capture done in file %s", worldname);
 }
 
 /** callback capture PS */
@@ -187,7 +187,7 @@ void Capture::startVideo()
 {
   is_capturing = true;
   capture_no = 0;
-  notice("sequence capture starts");
+  echo("sequence capture starts");
   ::g.timer.capture.start();
 }
 
@@ -200,12 +200,12 @@ void Capture::stopVideo()
   
   int rate = int(ceil( float(MAX_CAPTURE_COUNT) / (time_t) ::g.timer.capture.stop()));
   
-  notice("sequence capture stops at %d images, rate=%d", capture_no + 1, rate);
+  echo("sequence capture stops at %d images, rate=%d", capture_no + 1, rate);
   sprintf(jpegbase, "/tmp/vreng-");
   sprintf(swfname, "%s.swf", World::current()->getName());
   sprintf(cmd, "IFS=' '; jpeg2swf -v -q 50 -r %d -o %s %s*.jpg; rm -f %s*.jpg", rate, swfname, jpegbase, jpegbase);
   system(cmd);
-  notice("file %s created", swfname);
+  echo("file %s created", swfname);
   is_capturing = false;
   capture_no = 0;
 }
