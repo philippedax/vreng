@@ -24,15 +24,14 @@
  *  Author: Philippe Dax - Telecom-ParisTech Paris
  */
 #include "vreng.hpp"
-#include "widgets.hpp"
 #include "capture.hpp"
-#include "sound.hpp"	// playSound
 #include "world.hpp"	// current
 #include "ogl.hpp"	// copyPixels
 #include "img.hpp"	// saveJPG
 #include "render.hpp"	// sharedRender
 #include "timer.hpp"	// ::g.timer
 #include "file.hpp"	// openFile
+#include "sound.hpp"	// playSound
 #if WANT_GL2PS
 # include "gl2ps.h"	// GL2PS_*
 #endif
