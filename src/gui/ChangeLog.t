@@ -16,6 +16,9 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.3\n\
 -- 9.3.3\n\
+	- moved gui/capture.*pp to 2d/\n\
+	- show only input text in message panel\n\
+	(2022/10/07, Philippe Dax)\n\
 	- basic motions of body\n\
 	(2022/04/07, Philippe Dax)\n\
 \n\
