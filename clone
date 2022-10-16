@@ -8,7 +8,7 @@ p=$(basename $0)
 
 usage()
 {
-  echo "usage: $p github | gitlab | bitbucket"
+  echo "usage: $p github | gitlab | freedesktop | bitbucket"
 }
 
 case $# in
@@ -22,7 +22,7 @@ case $# in
     mv $1 old
     git clone https://github.com/philippedax/vreng.git $1
     ;;
-  gitlab)
+  gitlab | freedesktop )
     rm -rf old/$1
     mv $1 old
     git clone https://gitlab.freedesktop.org/philippedax/vreng.git $1
