@@ -1,11 +1,11 @@
 Customize yourself
 ------------------
 
-Place the file prefs in ~/.vreng and edit it to customize yourself.
+Copy the file prefs into ~/.vreng/ and edit it to customize yourself.
 
 
 VREng by Sdr
------------
+------------
 
 Copy the present sdr plugins in your ~/.sdr/plugins directory.
 
