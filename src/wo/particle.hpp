@@ -69,7 +69,7 @@ protected:
   float speed;		///< speed
   float ground;		///< ground position
   bool points;		///< flag points or not
-  bool mycolor;		///< prefered color
+  bool onecolor;	///< mono color
 
 public:
   static const OClass oclass;   ///< class variable

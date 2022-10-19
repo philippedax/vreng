@@ -58,7 +58,7 @@ Rain::Rain(Cloud *cloud, void *d, time_t s, time_t u)
   points = false;
   pcloud = cloud;
   prain = this;
-  mycolor = true;
+  onecolor = true;
   state = ACTIVE;
   //sound_continue();
 }

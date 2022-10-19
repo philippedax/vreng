@@ -57,7 +57,10 @@ void Firework::parser(char *l)
     else if (! stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
     else if (! stringcmp(l, "ttl"))    l = parse()->parseFloat(l, &ttl, "ttl");
     else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
-    else if (! stringcmp(l, "color")) { l = parse()->parseVector3f(l, color, "color"); mycolor = 1; }
+    else if (! stringcmp(l, "color")) {
+      l = parse()->parseVector3f(l, color, "color");
+      onecolor = true;
+    }
     else if (! stringcmp(l, "size"))   l = parse()->parseUInt8(l, &pt_size, "size");
   }
   end_while_parse(l);
@@ -121,7 +124,7 @@ void Firework::changePosition(float dt)
         fabs(particles[i].vel[2]) < 10e-3)
       particles[i].alive = false;
 
-    if (mycolor) {
+    if (onecolor) {
       particles[i].rgb[0] = color[0];
       particles[i].rgb[1] = color[1];
       particles[i].rgb[2] = color[2];

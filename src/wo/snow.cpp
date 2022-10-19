@@ -54,7 +54,7 @@ Snow::Snow(Cloud *cloud, void *d, time_t s, time_t u)
   makeSolid();
   inits();
   pcloud = cloud;
-  mycolor = true;
+  onecolor = true;
   psnow = this;
   pt_size = 2;
   state = ACTIVE;

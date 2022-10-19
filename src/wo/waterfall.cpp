@@ -38,8 +38,8 @@ void Waterfall::defaults()
   number = DEF_NUM;
   flow = DEF_FLOW;
   speed = DEF_SPEED;
-  points = true;
   pt_size = DEF_PTSIZE;
+  points = true;
   ground = World::current()->getGround();
   for (int i=0; i<3; i++) color[i] = 1;	// white
 }
@@ -52,11 +52,11 @@ void Waterfall::parser(char *l)
     l = parse()->parseAttributes(l, this);
     if (!l) break;
     else if (!stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
-    else if (!stringcmp(l, "flow")) l = parse()->parseFloat(l, &flow, "flow");
-    else if (!stringcmp(l, "speed")) l = parse()->parseFloat(l, &speed, "speed");
+    else if (!stringcmp(l, "flow"))   l = parse()->parseFloat(l, &flow, "flow");
+    else if (!stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
     else if (!stringcmp(l, "ground")) l = parse()->parseFloat(l, &ground, "ground");
-    else if (!stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
-    else if (!stringcmp(l, "size")) l = parse()->parseUInt8(l, &pt_size, "size");
+    else if (!stringcmp(l, "color"))  l = parse()->parseVector3f(l, color, "color");
+    else if (!stringcmp(l, "size"))   l = parse()->parseUInt8(l, &pt_size, "size");
   }
   end_while_parse(l);
 }

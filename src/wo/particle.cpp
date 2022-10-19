@@ -55,7 +55,7 @@ void Particle::defaults()
   system = WATERFALL;
   speed = DEF_SPEED;
   pt_size = DEF_PTSIZE;
-  mycolor = false;
+  onecolor = false;
   living = 0;
   ground = World::current()->getGround();
   for (int i=0; i<3; i++) color[i] = 1;	// default white
@@ -75,14 +75,17 @@ void Particle::parser(char *l)
       else if (! stringcmp(systemstr, "firework")) system = FIREWORK;
       else if (! stringcmp(systemstr, "rain"))     system = RAIN;
       else if (! stringcmp(systemstr, "snow"))     system = SNOW;
-      else                                          system = WATERFALL;
+      else                                         system = WATERFALL;
     }
     else if (!stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
     else if (!stringcmp(l, "flow"))   l = parse()->parseFloat(l, &flow, "flow");
     else if (!stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
     else if (!stringcmp(l, "ground")) l = parse()->parseFloat(l, &ground, "ground");
     else if (!stringcmp(l, "size"))   l = parse()->parseUInt8(l, &pt_size, "size");
-    else if (!stringcmp(l, "color")) {l = parse()->parseVector3f(l, color, "color"); mycolor = 1; }
+    else if (!stringcmp(l, "color")) {
+      l = parse()->parseVector3f(l, color, "color");
+      onecolor = true;
+    }
   }
   end_while_parse(l);
 }
@@ -182,23 +185,23 @@ void Particle::generate(tParticle *p, float dt)
     break;
   case FIREWORK:
     points = true;
-    p->vel[0] = 5*((float) drand48()-.5);
-    p->vel[1] = 5*((float) drand48()-.5);
-    p->vel[2] = 5*((float) drand48()-.5);
+    p->vel[0] = 8*((float) drand48()-.5);
+    p->vel[1] = 8*((float) drand48()-.5);
+    p->vel[2] = 8*((float) drand48()-.5);
     p->damp = .35*(float) drand48();
     break;
   case SNOW:
     points = true;
-    p->vel[0] = 3*((float) drand48()-.5);
-    p->vel[1] = 3*((float) drand48()-.5);
+    p->vel[0] = 12*((float) drand48()-.5);
+    p->vel[1] = 12*((float) drand48()-.5);
     p->vel[2] = .2*speed;
     p->damp = .25*(float) drand48();
     break;
   case RAIN:
     points = false;
-    p->vel[0] = 4*((float) drand48()-.5);
-    p->vel[1] = 4*((float) drand48()-.5);
-    p->vel[2] = 2*speed;
+    p->vel[0] = 10*((float) drand48()-.5);
+    p->vel[1] = 10*((float) drand48()-.5);
+    p->vel[2] = 3*speed;
     p->damp = .15*(float) drand48();
     break;
   }
@@ -319,15 +322,14 @@ void Particle::render()
   glEnable(GL_COLOR_MATERIAL);
   glDisable(GL_LIGHTING);
 
-  if (mycolor) {
-    glColor3fv(color);
-  }
-  else {
+  if (! onecolor) {
     color[0] = (rand()%2) ? (float) drand48() : 1;
     color[1] = .5 + (float) drand48()*.5;
     color[2] = 1;
     glColor3fv(color);
   }
+  glColor3fv(color);
+
   if (points) {
     glPointSize(pt_size);
     glBegin(GL_POINTS);	// points
