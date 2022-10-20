@@ -45,12 +45,17 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from file line */
 
+  //dax virtual void render();	///< rendering
+
 private:
   virtual void parser(char *l);
   /**< Parses file line. */
 
   virtual void defaults();
   /**< Sets default values. */
+
+  virtual void makeSolid();
+  /**< Make a pseudo solid. */
 
   static void pause(Fountain *fountain, void* d, time_t s, time_t u);
   /** Action on fountain. */

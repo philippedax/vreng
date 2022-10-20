@@ -52,6 +52,9 @@ private:
   virtual void defaults();
   /**< Sets default values. */
 
+  virtual void makeSolid();
+  /**< Makes a pseudo solid. */
+
   static void pause(Waterfall *waterfall, void* d, time_t s, time_t u);
   /** Action on waterfall. */
 

@@ -64,12 +64,53 @@ void Fountain::parser(char *l)
   end_while_parse(l);
 }
 
+void Fountain::makeSolid()
+{
+  char s[128];
+  sprintf(s, "solid shape=\"none\" />");
+  parse()->parseSolid(s, SEP, this);
+}
+
 Fountain::Fountain(char *l)
 {
   parser(l);
   behavior();
+  makeSolid();
   inits();
 }
+
+#if 0 //dax done by Particle::render()
+void Fountain::render()
+{
+  if (state == INACTIVE) return;
+
+  glPushMatrix();
+  glEnable(GL_COLOR_MATERIAL);
+  glDisable(GL_LIGHTING);
+
+  if (! onecolor) {
+    color[0] = (rand()%2) ? (float) drand48() : 1;
+    color[1] = .5 + (float) drand48()*.5;
+    color[2] = 1;
+  }
+  glColor3fv(color);
+
+  if (points) {
+    glPointSize(pt_size);
+    glBegin(GL_POINTS); // points
+    for (int n=0; n < number; n++) {
+      if (! particles[n].alive) continue;  // dead
+      if (particles[n].vel[2] > 0) continue;
+      if (particles[n].pos[2] > pos.z && particles[n].pos[2] < ground) continue;
+      glVertex3fv(particles[n].pos);
+    }
+    glEnd();
+  }
+  glEnable(GL_LIGHTING);
+  glDisable(GL_COLOR_MATERIAL);
+  glPopMatrix();
+}
+#endif
 
 void Fountain::pause(Fountain *fountain, void *d, time_t s, time_t u)
 {

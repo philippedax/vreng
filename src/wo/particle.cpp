@@ -183,7 +183,6 @@ void Particle::generate(tParticle *p, float dt)
     p->vel[1] = 2*((float) drand48()-.5);
     p->vel[2] = .75*speed;
     p->damp = .35*(float) drand48();
-    //echo("fontain: %.1f %.1f %.1f %.1f", p->vel[0],p->vel[1],p->vel[2],p->damp);
     break;
   case FIREWORK:
     points = true;
@@ -309,7 +308,6 @@ void Particle::changePermanent(float dt)
 
 void Particle::render()
 {
-  if (system == FOUNTAIN) echo("fountain render");
   if (state == INACTIVE) return;
 
   glPushMatrix();
@@ -327,12 +325,9 @@ void Particle::render()
     glPointSize(pt_size);
     glBegin(GL_POINTS);	// points
     for (int n=0; n < number; n++) {
-      switch (system) {
-      case FOUNTAIN: echo("fountain: %d %d", particles[n].alive, n);
-      }
       if (! particles[n].alive) continue;  // dead
-      //dax if (particles[n].vel[2] > 0) continue;
-      //dax if (particles[n].pos[2] > pos.z && particles[n].pos[2] < ground) continue;
+      if (particles[n].vel[2] > 0) continue;
+      if (particles[n].pos[2] > pos.z && particles[n].pos[2] < ground) continue;
       glVertex3fv(particles[n].pos);
     }
     glEnd();
