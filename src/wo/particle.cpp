@@ -120,6 +120,7 @@ Particle::Particle(char *l)
   parser(l);
   behavior();
   inits();
+  state = ACTIVE;
 
   char s[128];
   sprintf(s, "solid shape=\"none\" />");
@@ -182,6 +183,7 @@ void Particle::generate(tParticle *p, float dt)
     p->vel[1] = 2*((float) drand48()-.5);
     p->vel[2] = .75*speed;
     p->damp = .35*(float) drand48();
+    //echo("fontain: %.1f %.1f %.1f %.1f", p->vel[0],p->vel[1],p->vel[2],p->damp);
     break;
   case FIREWORK:
     points = true;
@@ -285,7 +287,7 @@ void Particle::regenerate(float dt)
 
     // collision with ground ?
     if (particles[n].pos[2] <= ground) {
-      bounce(&particles[n], dt);
+      //dax bounce(&particles[n], dt);
     }
 
     // dead particle ?
@@ -307,18 +309,10 @@ void Particle::changePermanent(float dt)
 
 void Particle::render()
 {
+  if (system == FOUNTAIN) echo("fountain render");
   if (state == INACTIVE) return;
 
   glPushMatrix();
-#if 0 //FOG
-  float black[] = { 0, 0, 0, 1 };
-  glFogfv(GL_FOG_COLOR, black);
-  glFogf(GL_FOG_START, 2.5);
-  glFogf(GL_FOG_END, 4);
-  glFogi(GL_FOG_MODE, GL_LINEAR);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glEnable(GL_FOG);
-#endif
   glEnable(GL_COLOR_MATERIAL);
   glDisable(GL_LIGHTING);
 
@@ -326,7 +320,6 @@ void Particle::render()
     color[0] = (rand()%2) ? (float) drand48() : 1;
     color[1] = .5 + (float) drand48()*.5;
     color[2] = 1;
-    glColor3fv(color);
   }
   glColor3fv(color);
 
@@ -334,9 +327,12 @@ void Particle::render()
     glPointSize(pt_size);
     glBegin(GL_POINTS);	// points
     for (int n=0; n < number; n++) {
+      switch (system) {
+      case FOUNTAIN: echo("fountain: %d %d", particles[n].alive, n);
+      }
       if (! particles[n].alive) continue;  // dead
-      if (particles[n].vel[2] > 0) continue;
-      if (particles[n].pos[2] > pos.z && particles[n].pos[2] < ground) continue;
+      //dax if (particles[n].vel[2] > 0) continue;
+      //dax if (particles[n].pos[2] > pos.z && particles[n].pos[2] < ground) continue;
       glVertex3fv(particles[n].pos);
     }
     glEnd();

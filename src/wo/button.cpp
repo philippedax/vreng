@@ -117,10 +117,10 @@ void Button::commut(Button *button, void *d, time_t s, time_t us)
       if ((idxaction <= OBJECTSNUMBER) && isAction(psel->type, idxaction))
         doAction(psel->type, idxaction, psel, d, s, us);
       else
-        warning("commut: object named %s has an unknown action name %d", puse, idxaction);
+        echo("commut: object named %s has an unknown action name %d", puse, idxaction);
     }
     else {
-      warning("button: no object named %s", puse);
+      echo("button: no object named %s", puse);
     }
     puse = strtok(NULL, " \t");	// next name
   }

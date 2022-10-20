@@ -141,12 +141,14 @@ void Firework::render()
 {
   if (state == INACTIVE) return;
 
+  float sqr_dist = w*w + d*d + h*h;
+
   for (int i=0; i < number; i++) {
     if (! particles[i].alive) continue; // dead
     // check distance
     if (sqr(particles[i].pos[0] - pos.x) +
         sqr(particles[i].pos[1] - pos.y) +
-        sqr(particles[i].pos[2] - pos.z) < w*w + d*d + h*h) {
+        sqr(particles[i].pos[2] - pos.z) < sqr_dist) {
       glPushMatrix();
        glEnable(GL_COLOR_MATERIAL);
        glPointSize(pt_size);
