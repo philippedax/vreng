@@ -39,7 +39,7 @@ void Fountain::defaults()
   flow = DEF_FLOW;
   speed = DEF_SPEED;
   pt_size = DEF_PTSIZE;
-  points = true;
+  points = false;	// lines
   ground = World::current()->getGround();
   for (int i=0; i<3; i++) color[i] = 1;	// white
 }

@@ -171,14 +171,14 @@ void Particle::generate(tParticle *p, float dt)
 
   switch (system) {
   case WATERFALL:
-    points = false;	// true
+    //dax points = false;	// true
     p->vel[0] = 2*((float) drand48()-.5);
     p->vel[1] = 2*((float) drand48()-.5);
     p->vel[2] = 0;
     p->damp = .45*(float) drand48();
     break;
   case FOUNTAIN:
-    points = false;	// true
+    //dax points = false;	// true
     p->vel[0] = 2*((float) drand48()-.5);
     p->vel[1] = 2*((float) drand48()-.5);
     p->vel[2] = .75*speed;
@@ -199,7 +199,7 @@ void Particle::generate(tParticle *p, float dt)
     p->damp = .25*(float) drand48();
     break;
   case RAIN:
-    points = false;
+    //dax points = false;
     p->vel[0] = 10*((float) drand48()-.5);
     p->vel[1] = 10*((float) drand48()-.5);
     p->vel[2] = 3*speed;
