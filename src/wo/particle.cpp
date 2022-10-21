@@ -171,7 +171,7 @@ void Particle::generate(tParticle *p, float dt)
 
   switch (system) {
   case WATERFALL:
-    points = true;
+    points = false;	// true
     p->vel[0] = 2*((float) drand48()-.5);
     p->vel[1] = 2*((float) drand48()-.5);
     p->vel[2] = 0;

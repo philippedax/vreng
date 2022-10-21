@@ -55,8 +55,11 @@ void Waterfall::parser(char *l)
     else if (!stringcmp(l, "flow"))   l = parse()->parseFloat(l, &flow, "flow");
     else if (!stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
     else if (!stringcmp(l, "ground")) l = parse()->parseFloat(l, &ground, "ground");
-    else if (!stringcmp(l, "color"))  l = parse()->parseVector3f(l, color, "color");
     else if (!stringcmp(l, "size"))   l = parse()->parseUInt8(l, &pt_size, "size");
+    else if (!stringcmp(l, "color")) {
+      l = parse()->parseVector3f(l, color, "color");
+      onecolor = true;
+    }
   }
   end_while_parse(l);
 }
