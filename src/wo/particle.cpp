@@ -178,7 +178,7 @@ void Particle::generate(tParticle *p, float dt)
     p->damp = .45*(float) drand48();
     break;
   case FOUNTAIN:
-    points = true;
+    points = false;	// true
     p->vel[0] = 2*((float) drand48()-.5);
     p->vel[1] = 2*((float) drand48()-.5);
     p->vel[2] = .75*speed;
