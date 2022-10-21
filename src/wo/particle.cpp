@@ -334,9 +334,9 @@ void Particle::render()
   }
   else { // lines
     glLineWidth(pt_size);
-    //glLineStipple(1, 0xF0F0);
+    glLineStipple(1, 0xF0F0);
     glBegin(GL_LINES);	// segments
-    //glEnable(GL_LINE_STIPPLE);
+    glEnable(GL_LINE_STIPPLE);
     for (int n=0; n < number; n++) {
       if (! particles[n].alive) continue;  // dead
       if (particles[n].vel[2] > 0) continue;
@@ -344,12 +344,11 @@ void Particle::render()
       glVertex3fv(particles[n].prev);
       glVertex3fv(particles[n].pos);
     }
-    //glDisable(GL_LINE_STIPPLE);
+    glDisable(GL_LINE_STIPPLE);
     glEnd();
   }
   glEnable(GL_LIGHTING);
   glDisable(GL_COLOR_MATERIAL);
-  glDisable(GL_FOG);
   glPopMatrix();
 }
 
