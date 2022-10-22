@@ -367,6 +367,11 @@ url="http://www.stud.enst.fr/~bellard/">
 <solid rel="-.16 0 0 0 1.57" dim=".04 .01 .02" dif="grey" />
 </mirage>
 
+<!-- swiming-pool -->
+<step name="solarium-w" pos="0 -2.25 -.5 0"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
+<step name="solarium-e" pos="0 -6.25 -.5 0"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
+<step name="solarium-n" pos="2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
+<step name="solarium-s" pos="-2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
 <!--
 <step name="solarium" pos="0 0 -.5 0">
 <solid rel="0 -2.25 0 0 0"        dim="4.5 .5 2" dif="indianred" />
@@ -375,10 +380,6 @@ url="http://www.stud.enst.fr/~bellard/">
 <solid rel="-2.25 -4.25 0 1.57 0" dim="4.5 .5 2" dif="magenta" />
 </step>
 -->
-<step name="solarium-w" pos="0 -2.25 -.5 0"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
-<step name="solarium-e" pos="0 -6.25 -.5 0"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
-<step name="solarium-n" pos="2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
-<step name="solarium-s" pos="-2.25 -4.25 -.5 1.57"> <solid dim="4.5 .5 2" amb="indianred" /> </step>
 
 <!-- new stairs -->
 <stair pos="-4.8 -4 .2 1.57" height="2.7"> <solid dim="1 .2 .02" dif=".8 .4 0" /> </stair>
@@ -429,15 +430,14 @@ amplitude="1" freq="1" phase="1">
 -->
 
 <!-- fountain -->
-<fountain name="fountain"   pos="-1 -4 1.2" number="3000" flow="500" color="white"> </fountain>
 <!--
+<fountain name="fountain"   pos="-1 -4 1.2" number="3000" flow="500" color="white"> </fountain>
 -->
 
 <!-- waterfall -->
 <waterfall name="waterfall" pos="2 -4.25 1.05" number="3000" flow="500" size="4" color="lightblue" > </waterfall>
 <!--
 -->
-
 <button name="tap"    pos="2.05 -4.25 0.5" use="waterfall fountain" method0="Switch">
 <solid shape="cone"   rb=".05" rt=".05" h=".45" dif="indianred" />
 <solid shape="sphere" rel="0 0 .5 0 0" r=".05" dif="indianred" />
@@ -617,18 +617,18 @@ amplitude="1" freq="1" phase="1">
 </mirage>
 -->
 
-<!-- dress -->
+<!-- dresses -->
 <dress name="dress-blue" pos="-1 -2.2 .95" model="spires">
- <solid shape="cone" rb=".10" rt=".30" h="-.45" tx="/gif/pyjama-spires.gif" />
- <solid shape="cone" rb=".10" rt=".15" h=".25"  tx="/gif/pyjama-spires.gif" />
+ <solid shape="cone" rb=".08" rt=".25" h="-.45" tx="/gif/pyjama-spires.gif" />
+ <solid shape="cone" rb=".08" rt=".15" h=".25"  tx="/gif/pyjama-spires.gif" />
 </dress>
 <dress name="dress-red" pos="-1.5 -2.2 .95" model="bands">
- <solid shape="cone" rb=".10" rt=".25" h="-.45" tx="/gif/redbands.gif" />
- <solid shape="cone" rb=".10" rt=".15" h=".25"  tx="/gif/redbands.gif" />
+ <solid shape="cone" rb=".08" rt=".25" h="-.45" tx="/gif/redbands.gif" />
+ <solid shape="cone" rb=".08" rt=".15" h=".25"  tx="/gif/redbands.gif" />
 </dress>
 <dress name="dress-roses" pos="-2.0 -2.2 .95" model="roses">
- <solid shape="cone" rb=".10" rt=".20" h="-.45" tx="/gif/roses.gif" />
- <solid shape="cone" rb=".10" rt=".15" h=".25"  tx="/gif/roses.gif" />
+ <solid shape="cone" rb=".08" rt=".20" h="-.45" tx="/gif/roses.gif" />
+ <solid shape="cone" rb=".08" rt=".15" h=".25"  tx="/gif/roses.gif" />
 </dress>
 
 <!-- wings -->
@@ -709,8 +709,6 @@ amplitude="1" freq="1" phase="1">
 
 <!-- carousel x3d -->
 <carousel pos="2 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></carousel>
-<!--
--->
 <!--
 <carousel pos="2 2 .5" dim="1 1 1" url="/x3d/lighting.x3d"></carousel>
 -->
