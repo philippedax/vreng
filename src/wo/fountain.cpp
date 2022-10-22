@@ -51,10 +51,11 @@ void Fountain::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    else if (! stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
+    if      (! stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
     else if (! stringcmp(l, "flow"))   l = parse()->parseFloat(l, &flow, "flow");
     else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
     else if (! stringcmp(l, "ground")) l = parse()->parseFloat(l, &ground, "ground");
+    else if (! stringcmp(l, "points")) l = parse()->parseBool(l, &points, "points");
     else if (! stringcmp(l, "color")) {
       l = parse()->parseVector3f(l, color, "color");
       onecolor = true;
