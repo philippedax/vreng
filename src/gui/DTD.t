@@ -236,6 +236,7 @@ const char DTD[] = "\
 <!ATTLIST fountain	speed	NMTOKEN \"5\">\n\
 <!ATTLIST fountain	flow	NMTOKEN \"500\">\n\
 <!ATTLIST fountain	number	NMTOKEN \"5000\">\n\
+<!ATTLIST fountain	points	(0 | 1) \"0\">\n\
 \n\
 <!ELEMENT fractal	EMPTY>\n\
 <!ATTLIST fractal	pos	NMTOKENS #REQUIRED>\n\
@@ -584,6 +585,7 @@ const char DTD[] = "\
 <!ATTLIST waterfall	speed	NMTOKEN \"5\">\n\
 <!ATTLIST waterfall	flow	NMTOKEN \"500\">\n\
 <!ATTLIST waterfall	number	NMTOKEN \"5000\">\n\
+<!ATTLIST waterfall	points	(0 | 1) \"0\">\n\
 \n\
 <!ELEMENT web		(solid+)>\n\
 <!ATTLIST web		pos	NMTOKENS #REQUIRED>\n\
