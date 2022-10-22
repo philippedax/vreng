@@ -235,6 +235,7 @@
 <!ATTLIST fountain	speed	NMTOKEN "5">
 <!ATTLIST fountain	flow	NMTOKEN "500">
 <!ATTLIST fountain	number	NMTOKEN "5000">
+<!ATTLIST fountain	points	(0 | 1) "0">
 
 <!ELEMENT fractal	EMPTY>
 <!ATTLIST fractal	pos	NMTOKENS #REQUIRED>
@@ -583,6 +584,7 @@
 <!ATTLIST waterfall	speed	NMTOKEN "5">
 <!ATTLIST waterfall	flow	NMTOKEN "500">
 <!ATTLIST waterfall	number	NMTOKEN "5000">
+<!ATTLIST waterfall	points	(0 | 1) "0">
 
 <!ELEMENT web		(solid+)>
 <!ATTLIST web		pos	NMTOKENS #REQUIRED>
