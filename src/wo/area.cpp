@@ -32,11 +32,6 @@ WObject * Area::creator(char *l)
   return new Area(l);
 }
 
-void Area::defaults()
-{
-  inside = false;
-}
-
 void Area::parser(char *l)
 {
   defaults();
@@ -51,13 +46,17 @@ Area::Area(char *l)
   enableBehavior(COLLIDE_ONCE);
   enableBehavior(UNVISIBLE);
   initObject(INVISIBLE);
+
+  inside = false;
 }
 
 /** Intersection with an object */
 bool Area::whenIntersect(WObject *pcur, WObject *pold)
 {
-  if (pcur->type == USER_TYPE) inside = true;
-  //TODO: alarm sound
+  if (pcur->type == USER_TYPE) {
+    inside = true;
+    //TODO: alarm sound
+  }
   return true;
 }
 

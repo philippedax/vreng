@@ -43,7 +43,7 @@ public:
   virtual const OClass* getOClass() {return &oclass;}
 
   Area(char *l);
-  /**< Contructor */
+  /**< Constructor */
 
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
@@ -57,9 +57,6 @@ public:
 private:
   virtual void parser(char *l);
   /**< Parses */
-
-  virtual void defaults();
-  /**< Sets default values */
 };
 
 #endif
