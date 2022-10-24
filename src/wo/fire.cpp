@@ -250,7 +250,7 @@ void Fire::changePermanent(float dt)
 
 void Fire::render()
 {
-  static uint32_t nf = 0;
+  static int nf = 0;
 
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
@@ -263,6 +263,7 @@ void Fire::render()
   draw();
 
   glDisable(GL_BLEND);
+  glEnable(GL_CULL_FACE);
   glPopMatrix();
 
   nf++;
