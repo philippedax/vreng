@@ -40,15 +40,8 @@ WObject * Flag::creator(char *l)
 
 void Flag::parser(char *l)
 {
-  defaults();
   l = tokenize(l);
   l = parse()->parseAttributes(l, this);
-}
-
-void Flag::defaults()
-{
-  texid = 0;
-  wiggle = 0;
 }
 
 void Flag::behavior()
@@ -63,10 +56,10 @@ void Flag::behavior()
 
 void Flag::inits()
 {
-  width  = pos.bbs.v[0];
+  width = pos.bbs.v[0];
   height = pos.bbs.v[2];
-
   texid = Texture::current();
+  wiggle = 0;
 
   Wind *wind = World::current()->wind;
   if (wind) {  // get orientation and speed of the wind from meteo server
@@ -78,7 +71,7 @@ void Flag::inits()
     zrot  = RAD2DEG(pos.az);
     force = 1;
   }
-  //error("w=%.2f h=%.2f r=%.2f f=%d", width, height, zrot, force);
+  //echo("w=%.2f h=%.2f r=%.2f f=%d", width, height, zrot, force);
 
   for (int x=0; x < DIM_FLAG + 1; x++) {
     for (int y=0; y < DIM_FLAG + 1; y++) {

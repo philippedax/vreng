@@ -64,9 +64,6 @@ public:
   /**< Specific rendering */
 
 private:
-  virtual void defaults();
-  /**< Sets default values */
-
   virtual void behavior();
   /**< Sets behaviors */
 

@@ -86,7 +86,7 @@ void Smoke::makeSolid()
 void Smoke::inits()
 {
   //dax Vector3 emitter(pos.x, pos.y, pos.z);
-  //error("smoke: inits emitter=%.2f %.2f %.2f", emitter.x,emitter.y,emitter.z);
+  //echo("smoke: inits emitter=%.2f %.2f %.2f", emitter.x,emitter.y,emitter.z);
 }
 
 void Smoke::changePermanent(float dt)
@@ -99,10 +99,10 @@ void Smoke::changePermanent(float dt)
 void Smoke::addParticle()
 {   
   //dax Vector3 emitter(pos.x, pos.y, pos.z);
-  //error("add: emitter=%.1f %.1f %.1f", emitter.x,emitter.y,emitter.z);
+  //echo("add: emitter=%.1f %.1f %.1f", emitter.x,emitter.y,emitter.z);
   Vector3 tmp = random();
   tmp.add(emitter);
-  //error("add: tmp=%.1f %.1f %.1f", tmp.x,tmp.y,tmp.z);
+  //echo("add: tmp=%.1f %.1f %.1f", tmp.x,tmp.y,tmp.z);
   Smoke p(tmp);
 #if 0 // bad no smoke
   p.loc.x = pos.x;
@@ -132,7 +132,7 @@ void Smoke::drawParticle()
       (*it).draw();
     }
   }
-  //error("(%d)", particles.size());
+  //echo("(%d)", particles.size());
 } 
 
 void Smoke::dlistParticle()
@@ -142,7 +142,7 @@ void Smoke::dlistParticle()
       glCallList((*it).dlist);
     }
   }
-  //error("[%d]", particles.size());
+  //echo("[%d]", particles.size());
 } 
 
 void Smoke::animParticle()
@@ -167,7 +167,7 @@ Vector3 Smoke::random()
 
 void Smoke::render()
 {
-  //error("render: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
+  //echo("render: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);	// coord vreng
   //dax glTranslatef(-pos.y, pos.z, -pos.x);	// coord opengl
@@ -187,7 +187,7 @@ Smoke::Smoke(Vector3 l)
   vel = Vector3(0, 0.0005, 0);
   life = 255;
   dlist = -1;
-  //error("new: loc=%.2f,%.2f,%.2f", loc.x,loc.y,loc.z);
+  //echo("new: loc=%.2f,%.2f,%.2f", loc.x,loc.y,loc.z);
 }
 
 void Smoke::update()
@@ -200,7 +200,7 @@ void Smoke::update()
   vel.add(acc);
   loc.add(vel);
   life -= 0.5;	// -> 511, 0.2 -> 1277
-  //error("update: %.2f %.2f %.2f %.2f", loc.x,loc.y,loc.z,life);
+  //echo("update: %.2f %.2f %.2f %.2f", loc.x,loc.y,loc.z,life);
 }
 
 void Smoke::draw()
@@ -212,7 +212,7 @@ void Smoke::draw()
   glColor4f(.9,.9,.9, a);
   //glTranslatef(pos.x, pos.y, pos.z);
   glBegin(GL_POLYGON);
-  for (int i=0; i < NA; ++i) {
+  for (int i=0; i < NA; i++) {
     glVertex3f(loc.x+COS[i], loc.y+SIN[i], loc.z);
   }
   glEnd();
