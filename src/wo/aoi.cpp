@@ -35,7 +35,8 @@ using namespace std;
 const OClass Aoi::oclass(AOI_TYPE, "Aoi", Aoi::creator);
 
 // global
-Aoi *currentAoi;  ///< points to current AoI where local user is in
+Aoi *currentAoi = NULL;  ///< points to current AoI where localuser is in
+
 /**
  * Intersection with AoI object must be manage by VREng general intersection
  * procedure (see col.c).  That's why AoI does not need any
@@ -54,12 +55,10 @@ WObject * Aoi::creator(char *l)
 
 void Aoi::defaults()
 {
-  currentAoi = NULL;
 }
 
 void Aoi::parser(char *l)
 {
-  defaults();
   l = tokenize(l);
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
