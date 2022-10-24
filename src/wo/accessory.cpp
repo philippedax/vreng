@@ -40,12 +40,8 @@ WObject * Accessory::creator(char *l)
 void Accessory::defaults()
 {
   speed = LSPEED;
-  ttl = MAXFLOAT;
-  dx = dy = dz = 0;
-  dax = day = daz = 0;
   slowx = slowy = slowz = 50;
   shiftx = shifty = shiftz = 0;
-  following = false;
 }
 
 void Accessory::parser(char *l)
@@ -73,6 +69,11 @@ void Accessory::behavior()
 
 void Accessory::init()
 {
+  dx = dy = dz = 0;
+  dax = day = daz = 0;
+  ttl = MAXFLOAT;
+  following = false;
+
   initMobileObject(1);
   enablePermanentMovement(speed);
   createPermanentNetObject(PROPS, ++oid);
