@@ -23,14 +23,16 @@
 
 #ifndef MIN
 #define MIN(a,b)	((a)<(b)?(a):(b))
+#endif
+#ifndef MAX
 #define MAX(a,b)	((a)<(b)?(b):(a))
 #endif
-#define ABSF(f)		((f) > 0 ? (f) : (-(f)))
-#define sqr(x)		((x) * (x))	// Square
-#define sgn(a)		((a)<0?-1:((a)?1:0)) // Force sign clamping to (-1;0;1)
-#define NN(s)		((s) ? (s) : "")
+#define ABSF(f)		((f)>0?(f):(-(f)))
+#define SQR(x)		((x)*(x))	// Square
+#define SGN(a)		((a)<0?-1:((a)?1:0)) // Force sign clamping to (-1;0;1)
+#define NN(s)		((s)?(s):"")
 #define CROP(a,x,b)	MIN(MAX(a,x),b)
-#define SWAP(a,b,t)	{ t=a; a=b; b=t; }
+#define SWAP(a,b,t)	{t=a;a=b;b=t;}
 
 /* byte swap a 32-bit value */
 #define SWAPL(x, n) { \

@@ -158,19 +158,19 @@ void Vector3::crossProduct(const Vector3 &a, const Vector3 &b)
 // Returns the length of this vector.
 float Vector3::length()
 {
-  return (float) sqrt(sqr(x) + sqr(y) + sqr(z));
+  return (float) sqrt(SQR(x) + SQR(y) + SQR(z));
 }
 
 // Returns the squared length of this vector.
 float Vector3::length2()
 {
-  return (float) (sqr(x) + sqr(y) + sqr(z));
+  return (float) (SQR(x) + SQR(y) + SQR(z));
 }
 
 // Normalizes this vector, and returns the scalar value used to normalize the vector.
 float Vector3::normalize()
 {
-  float nn = sqr(x) + sqr(y) + sqr(z);
+  float nn = SQR(x) + SQR(y) + SQR(z);
   if (nn < EPSILON) return 0.;
   nn = (float) sqrt(nn);
 

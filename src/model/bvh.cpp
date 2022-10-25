@@ -809,7 +809,7 @@ void Normal(vector3f* v1, vector3f* v2, vector3f* v3)
   res.vertex[2] = (a.vertex[0]*b.vertex[1]) - (b.vertex[0]*a.vertex[1]);
 
   // calculate the length of the normal
-  len = (float)sqrt(sqr(res.vertex[0]) + sqr(res.vertex[1]) + sqr(res.vertex[2]));
+  len = (float)sqrt(SQR(res.vertex[0]) + SQR(res.vertex[1]) + SQR(res.vertex[2]));
   // normalize and specify the normal
   glNormal3f(res.vertex[0]/len, res.vertex[1]/len, res.vertex[2]/len);
 }
@@ -818,12 +818,12 @@ void Normal(vector3f* v1, vector3f* v2, vector3f* v3)
 // calculate the length of the normal
 float vector3f::length()
 {
-  return (float)sqrt(sqr(vertex[0]) + sqr(vertex[1]) + sqr(vertex[2]));
+  return (float)sqrt(SQR(vertex[0]) + SQR(vertex[1]) + SQR(vertex[2]));
 }
 
 float vector3f::length2()
 {
-  return (float)(sqr(vertex[0]) + sqr(vertex[1]) + sqr(vertex[2]));
+  return (float)(SQR(vertex[0]) + SQR(vertex[1]) + SQR(vertex[2]));
 }
 
 void vector3f::reset()
