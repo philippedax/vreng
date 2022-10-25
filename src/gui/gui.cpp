@@ -131,7 +131,7 @@ GuiItem* Gui::addCart(WObject *cart)
 {
   if (! cart) return NULL;
 
-  notice("Item %s added to cart", NN(cart->getInstance()));
+  echo("Item %s added to cart", cart->getInstance());
   
   GuiItem* gu = new GuiItem();
   gu->add(ustr(cart->getInstance()) + ucall(this, cart, &Gui::updateCart));
@@ -154,11 +154,11 @@ void Gui::removeCart(WObject *cart, int action)
 
   switch (action) {
   case Cart::LEAVE:
-    notice("%s left in %s world", NN(cart->getInstance()),NN(World::current()->getName()));
+    echo("%s left in %s world", cart->getInstance(), World::current()->getName());
     localuser->cart->leave(cart);
     break;
   case Cart::REMOVE:
-    notice("%s removed from cart", NN(cart->getInstance()));
+    echo("%s removed from cart", cart->getInstance());
     localuser->cart->removeFromCart(cart);
     break;
   }
@@ -192,7 +192,7 @@ GuiItem * Gui::addUser(User *user) 	// when a new user comes in
 {
   if (! user)  return NULL;
 
-  notice("Avatar %s joins %s", NN(user->getInstance()), NN(user->worldName()));
+  echo("Avatar %s joins %s", user->getInstance(), user->worldName());
   return widgets->addUser(user);
 }
 
@@ -200,7 +200,7 @@ void Gui::removeUser(User *user)	// when an user quits
 {
   if (! user)  return;
 
-  notice("Avatar %s leaves %s", NN(user->getInstance()), NN(user->worldName()));
+  echo("Avatar %s leaves %s", user->getInstance(), user->worldName());
   if (user->isGui()) {
     widgets->removeUser(user->getGui());
     // MS : for Ubit at least, removeUser does a delete on the guiItem structure.
@@ -213,7 +213,7 @@ void Gui::updateUser(User *user)
 {
   if (! user)  return;
 
-  notice("Avatar %s is in %s", NN(user->getInstance()), NN(user->worldName()));
+  echo("Avatar %s is in %s", user->getInstance(), user->worldName());
   if (user->isGui()) widgets->updateUser(user->getGui(), user);
 }
 
@@ -243,7 +243,7 @@ void Gui::gotoWorld(const UStr& url_or_name)
   else {	// worldname
     if (! vac->getUrlAndChannel(urlorname, urlvre, chanstr))  return;  // world not found
   }
-  notice("goto %s at %s", urlvre, chanstr);
+  echo("goto %s at %s", urlvre, chanstr);
 
   World::current()->quit();
   delete Channel::current();			// delete old Channel
