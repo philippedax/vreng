@@ -34,7 +34,6 @@ WObject * Area::creator(char *l)
 
 void Area::parser(char *l)
 {
-  defaults();
   l = tokenize(l);
   l = parse()->parseAttributes(l, this);
 }
