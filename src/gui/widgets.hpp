@@ -141,7 +141,7 @@ private:
   UElem worlds, basket, avatars;
   class Scene &scene;		///< OpenGL Drawing Zone
   class Navig &navig;		///< navigation
-  UOptionDialog &source_dialog, &worlds_dialog;
+  UOptionDialog &source_dialog, &objects_dialog, &worlds_dialog;
   UDialog &prefs_dialog, &settings_dialog, &grid_dialog, &tool_dialog, &addobj_dialog;
   class Message &message;
   class Panels &panels;
@@ -154,6 +154,7 @@ private:
 
   // Dialog
   void sourceDialog();
+  void objectsDialog();
   void goDialog();
   void worldsDialog();
   UDialog& prefsDialog();

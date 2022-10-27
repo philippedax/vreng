@@ -89,6 +89,7 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  scene(*new Scene(this)),
  navig(*new Navig(this, scene)),
  source_dialog(*new UOptionDialog("World source")),
+ objects_dialog(*new UOptionDialog("World objects")),
  worlds_dialog(*new UOptionDialog("World list")),
  prefs_dialog(prefsDialog()),
  settings_dialog(settingsDialog()),
@@ -194,6 +195,7 @@ UBox& Widgets::createMenubar()
   UMenu& view_menu =
   umenu(g.theme.menuStyle
         + ubutton(g.theme.Edit  + "Source"      + ucall(this, &Widgets::sourceDialog))
+        + ubutton(g.theme.List  + "Objects"     + ucall(this, &Widgets::objectsDialog))
         + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
        );
@@ -872,6 +874,20 @@ void Widgets::sourceDialog()
   }
   source_dialog.setMessage(uscrollpane(usize(450,350) + UBackground::white + box));
   source_dialog.show();
+}
+
+/** Dialog box for present objects in current world */
+void Widgets::objectsDialog()
+{
+  char line[64];
+
+  UBox& box = uvbox(UBackground::white);
+  for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+    sprintf(line, "%s:%s", (*it)->names.type, (*it)->names.instance);
+    box.add(uitem(UColor::black + line));
+  }
+  objects_dialog.setMessage(uscrollpane(usize(450,350) + UBackground::white + box));
+  objects_dialog.show();
 }
 
 /** Dialog box for worlds list */
