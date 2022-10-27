@@ -28,7 +28,7 @@ const char DTD[] = "\
 		carousel | cauldron | clip | clock | cloud | cloth |\n\
 		doc | door | download | dress | drone |\n\
 		entry | escalator |\n\
-		fire | firework | flag | fountain | fractal |\n\
+		fire | firework | flag | fog | fountain | fractal |\n\
 		gate | ground | guide | guy | \n\
 		hairs | halo | hat | head | host | human | humanoid\n\
 		lift | light | local |\n\
@@ -226,6 +226,13 @@ const char DTD[] = "\
 <!ATTLIST flag		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST flag		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST flag		descr	NMTOKENS #IMPLIED>\n\
+\n\
+<!ELEMENT fog		EMPTY>\n\
+<!ATTLIST fog		pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST fog		name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST fog		descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST fog		density	NMTOKEN #IMPLIED>\n\
+<!ATTLIST fog		color	NMTOKEN #IMPLIED>\n\
 \n\
 <!ELEMENT fountain	EMPTY>\n\
 <!ATTLIST fountain	pos	NMTOKENS #REQUIRED>\n\

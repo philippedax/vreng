@@ -27,7 +27,7 @@
 		carousel | cauldron | clip | clock | cloud | cloth |
 		doc | door | download | dress | drone |
 		entry | escalator |
-		fire | firework | flag | fountain | fractal |
+		fire | firework | flag | fog | fountain | fractal |
 		gate | ground | guide | guy | 
 		hairs | halo | hat | head | host | human | humanoid
 		lift | light | local |
@@ -225,6 +225,13 @@
 <!ATTLIST flag		pos	NMTOKENS #REQUIRED>
 <!ATTLIST flag		name	NMTOKEN #IMPLIED>
 <!ATTLIST flag		descr	NMTOKENS #IMPLIED>
+
+<!ELEMENT fog		EMPTY>
+<!ATTLIST fog		pos	NMTOKENS #REQUIRED>
+<!ATTLIST fog		name	NMTOKEN #IMPLIED>
+<!ATTLIST fog		descr	NMTOKENS #IMPLIED>
+<!ATTLIST fog		density	NMTOKEN #IMPLIED>
+<!ATTLIST fog		color	NMTOKEN #IMPLIED>
 
 <!ELEMENT fountain	EMPTY>
 <!ATTLIST fountain	pos	NMTOKENS #REQUIRED>
