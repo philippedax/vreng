@@ -15,6 +15,8 @@ The rules for this file:
 ++ 9
 == 9.3
 -- 9.3.3
+	- added object #87 : fog
+	(2022/10/26, Philippe Dax)
 	- moved gui/capture.*pp to 2d/
 	- show only input text in message panel
 	(2022/10/07, Philippe Dax)
