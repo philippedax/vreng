@@ -1498,19 +1498,18 @@ int Solid::displayList(int display_mode = NORMAL)
        if (texid >= 0) {
          glEnable(GL_TEXTURE_2D);
          glBindTexture(GL_TEXTURE_2D, texid);
-         //glEnable(GL_LIGHTING);
        }
        if (alpha < 1) {		// transparent
          glDepthMask(GL_FALSE);
          glEnable(GL_BLEND);
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
        }
-       if (*fog > 0) {
-         error("fog=%f %s", *fog, object()->getInstance());
+       if (fog[0] > 0) {
+         echo("fog=%f %s", fog[0], object()->getInstance());
          glEnable(GL_FOG);
          glFogi(GL_FOG_MODE, GL_EXP);
-         glFogf(GL_FOG_DENSITY, *fog);
-         glFogfv(GL_FOG_COLOR, fog+1);
+         glFogf(GL_FOG_DENSITY, fog[0]);
+         glFogfv(GL_FOG_COLOR, &fog[1]);
        }
 
        glCallList(dlists[frame]);	// display the object here !!!

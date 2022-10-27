@@ -28,7 +28,7 @@
  * If you define a new object
  * please, increment OBJECTSNUMBER below
  */
-#define OBJECTSNUMBER   86
+#define OBJECTSNUMBER   87
 
 #define UNKNOWN_TYPE	-1
 
