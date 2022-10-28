@@ -274,11 +274,11 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y)
   }
 }
 
-// Updates object infos (infoBox in the infoBar and contextual info menu)
+// Updates object infos (info_box in the infobar and contextual info menu)
 void Navig::selectObject(ObjInfo* objinfo)
 {
   // clears infos bar
-  gw.infos.removeAll();
+  gw.infos_box.removeAll();
   object_menu.removeAll();
   
   if (! objinfo)  return;
@@ -286,8 +286,8 @@ void Navig::selectObject(ObjInfo* objinfo)
   // add object class and name to the infos box and the contextual menu
   object_class = objinfo[0].name;
   object_name  = objinfo[1].name;
-  gw.infos.add(object_infos);
-  gw.infos.addAttr(UBackground::white + UColor::navy + UFont::bold);
+  gw.infos_box.add(object_infos);
+  gw.infos_box.addAttr(UBackground::white + UColor::navy + UFont::bold);
 
   object_menu.add(object_infos);
   object_menu.add(UColor::white);
@@ -298,10 +298,10 @@ void Navig::selectObject(ObjInfo* objinfo)
     if (oi->fun) {
       b.add(ucall(oi->farg, oi->fun));	// add action button to infobox
     }
-    gw.infos.add(b);
+    gw.infos_box.add(b);
     object_menu.add(b);			// add action button to contextual menu
   }
-  gw.infos.addAttr(UBackground::none);
+  gw.infos_box.addAttr(UBackground::none);
 }
 
 /////////

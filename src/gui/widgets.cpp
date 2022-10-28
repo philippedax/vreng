@@ -102,26 +102,28 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  menubar(createMenubar()),
  postponedKRmask(0),
  postponedKRcount(0)
-
 {
   // main box
   addAttr(g.theme.mainStyle);
-  add(utop()
+  add(  utop()
       + menubar
       + infobar
       + uvflex()
-      + uhbox(uvflex()
+      + uhbox(  uvflex()
               + uhflex()
               + uhspacing(0)
-              + uvbox(uhflex() + uvflex()
+              + uvbox(  uhflex()
+                      + uvflex()
                       + scene
                       + ubottom()
-                      + panels.main_panel)
+                      + panels.main_panel
+                     )
               + uright()
               + panels.right_panel
              )
      );
 
+  // right panel init
   worlds.addAttr(UOrient::vertical + utop());
   basket.addAttr(UOrient::vertical + utop());
   avatars.addAttr(UOrient::vertical + utop());
@@ -138,60 +140,60 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
 }
 
 
+/** infobar = navig_box + infos_box */
 UBox& Widgets::createInfobar()
 {
-  UBox& navigbox =
+  UBox& navig_box =
   uhbox(  upadding(8,0)
         + uhspacing(8)
         + uleft()
         + UFont::bold
         + uitem(  USymbol::left
-                //+ UColor::red
-                //+ UBackground::green
                 + utip("Prev world")
                 + ucall(this, &Widgets::prevCB)
                )
         + "   "
         + uitem(  USymbol::up
-                //+ UColor::red
-                //+ UBackground::green
                 + utip("Home world")
                 + ucall(this, &Widgets::homeCB)
                )
         + "   "
         + uitem(  USymbol::right
-                //+ UColor::red
-                //+ UBackground::green
                 + utip("Next world")
-                + ucall(this, &Widgets::nextCB))
-                + usepar()
+                + ucall(this, &Widgets::nextCB)
+               )
+        + usepar()
        );
 
-  // infos initially contains the welcome message,
+  // infos_box initially contains the welcome message,
   // its changed dynamically when objects are selected
-  infos.addAttr(UOrient::horizontal + uleft());
-  infos.add(uleft()
-            + UPix::ray
-            + UColor::red
-            + UFont::bold
-            + " Welcome to VREng "
-            + UPix::ray
-           );
+  infos_box.addAttr(UOrient::horizontal + uleft());
+  infos_box.add(  uleft()
+                + UPix::ray
+                + " "
+                + UColor::red
+                + UFont::bold
+                + "Welcome to VREng"
+                + " "
+                + UPix::ray
+               );
 
-  return uhbox(uvspacing(2) + navigbox + infos);
+  return uhbox(uvspacing(2) + navig_box + infos_box);
 }
 
 void Widgets::setInfobar(UBox* content)
 {
-  infos.removeAll();
-  if (content) infos.add(content);
+  infos_box.removeAll();
+  if (content) infos_box.add(content);
 }
 
 
+/** menubar on top of the window : file view go history tools mark help */
 UBox& Widgets::createMenubar()
 {
   UMenu& file_menu = fileMenu();
   file_menu.addAttr(g.theme.menuStyle);
+
   UMenu& view_menu =
   umenu(g.theme.menuStyle
         + ubutton(g.theme.Edit  + "Source"      + ucall(this, &Widgets::sourceDialog))
@@ -199,13 +201,15 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
        );
-  UMenu& history_menu =
+
+  UMenu& hist_menu =
   umenu(g.theme.menuStyle
         + ubutton("Previous World"   + ucall(this, &Widgets::prevCB))
         + ubutton("Next World"       + ucall(this, &Widgets::nextCB))
         + ubutton("Home"             + ucall(this, &Widgets::homeCB))
         + ubutton("Visited Worlds >" + umenu(g.theme.menuStyle + worlds))
        );
+
   UMenu& tool_menu =
   umenu(g.theme.menuStyle
         + ubutton(g.theme.Prefs  + " Settings " + settings_dialog)
@@ -213,15 +217,16 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.Tools  + " Tools "    + tool_dialog)
         + ubutton(g.theme.AddObj + " Addobj "   + addobj_dialog)
        );
+
   UMenu& help_menu =
   umenu(g.theme.menuStyle
-        //dax + ubutton("Home Page" + ucall(this, &Widgets::siteCB))
         + ubutton("README"    + ucall("README",    README, &Widgets::showInfoDialog))
         + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &Widgets::showInfoDialog))
         + ubutton("DTD"       + ucall("DTD",       DTD, &Widgets::showInfoDialog))
         + ubutton("TODO"      + ucall("TODO",      TODO, &Widgets::showInfoDialog))
         + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &Widgets::showInfoDialog))
         + ubutton("LICENSE"   + ucall("LICENSE",   COPYING, &Widgets::showInfoDialog))
+        //dax + ubutton("Home Page" + ucall(this, &Widgets::siteCB))
         //dax + ubutton("config.h"  + ucall("config.h",  CONFIG_H, &Widgets::showInfoDialog))
        );
 
@@ -230,12 +235,13 @@ UBox& Widgets::createMenubar()
   umenubar(  ubutton("File"    + file_menu)
            + ubutton("View"    + view_menu)
            + ubutton("Go"      + ucall(this, &Widgets::goDialog))
-           + ubutton("History" + history_menu)
+           + ubutton("History" + hist_menu)
            + ubutton("Tools"   + tool_menu)
           );
 
   menu_bar.add(ubutton("Marks" + markMenu()));
   dynamicMenus(menu_bar, ::g.env.menu());
+
   menu_bar.add(ubutton("Help" + help_menu));
 
   return menu_bar;
@@ -250,7 +256,7 @@ static void functionMenu(Widgets*)
 void Widgets::dynamicMenus(UMenubar& menu_bar, const char* filename)
 {
   FILE* menufp = null;
-  UMenu* dynMenu = null;
+  UMenu* dynamic_menu = null;
   char attr[100], val[100];
 
   if ((menufp = File::openFile(filename, "r"))) {
@@ -258,13 +264,13 @@ void Widgets::dynamicMenus(UMenubar& menu_bar, const char* filename)
     //cerr << "dynmenu: " << attr << " " <<val << endl;
     while (! feof(menufp)) {
       if (strcmp(attr, "Menu") == 0) {
-        dynMenu = new UMenu();
-        dynMenu->addAttr(g.theme.menuStyle);
-        menu_bar.add(ubutton(ustr(val) + dynMenu));
+        dynamic_menu = new UMenu();
+        dynamic_menu->addAttr(g.theme.menuStyle);
+        menu_bar.add(ubutton(ustr(val) + dynamic_menu));
       }
-      else if (! strcmp(attr, "MenuItem") && dynMenu) {
+      else if (! strcmp(attr, "MenuItem") && dynamic_menu) {
         UButton& btn = ubutton(val);
-        dynMenu->add(btn);
+        dynamic_menu->add(btn);
         if (! strcmp(val, "functionMenu")) {
           btn.add(ucall(this, functionMenu));
         }
@@ -279,11 +285,11 @@ void Widgets::dynamicMenus(UMenubar& menu_bar, const char* filename)
 UMenu& Widgets::markMenu()
 {
   UBox& mark_box = uvbox();
-  mark_box.add(ubutton(UBackground::none
+  mark_box.add(ubutton(  UBackground::none
                        + "Add Worldmark"
                        + ucall(this, &Widgets::markCB))
                       );
-  UMenu& mark_menu = umenu(g.theme.menuStyle
+  UMenu& mark_menu = umenu(  g.theme.menuStyle
                            + uscrollpane(usize().setHeight(80)
                            + UBackground::none
                            + mark_box)
@@ -316,8 +322,9 @@ GuiItem::GuiItem(UArgs a) : UButton(a)
 static void setUser(UBox *gu, User *user)
 {
   if (! user)  return;
-  gu->add(ustr(user->getInstance())
-          + umenu(UFont::bold + UColor::navy
+
+  gu->add(  ustr(user->getInstance())
+          + umenu(  UFont::bold + UColor::navy
                   + uhbox(" Name: "  + UFont::plain + user->getInstance())
                   + uhbox(" World: " + UFont::plain + user->names.world)
                   + uhbox(" Email: " + UFont::plain + user->email)
@@ -772,7 +779,7 @@ static void sourceHttpReader(void *box, Http *http)
   if (! http) return;
 
   UBox *source_box = (UBox *) box;
-  char line[BUFSIZ];
+  char line[256];
 
   source_box->setAutoUpdate(false);
 
@@ -867,12 +874,12 @@ void Widgets::sourceDialog()
   World *world = World::current();
   if (! world) return;
 
-  UBox& box = uvbox(UBackground::white);
-  if (Http::httpOpen(world->getUrl(), sourceHttpReader, &box, -1) < 0) { // -1 = no cache
-    delete &box;
+  UBox& source_box = uvbox(UBackground::white);
+  if (Http::httpOpen(world->getUrl(), sourceHttpReader, &source_box, -1) < 0) { // -1 = no cache
+    delete &source_box;
     return;
   }
-  source_dialog.setMessage(uscrollpane(usize(450,350) + UBackground::white + box));
+  source_dialog.setMessage(uscrollpane(usize(450,350) + UBackground::white + source_box));
   source_dialog.show();
 }
 
@@ -881,12 +888,12 @@ void Widgets::objectsDialog()
 {
   char line[64];
 
-  UBox& box = uvbox(UBackground::white);
+  UBox& objects_box = uvbox(UBackground::white);
   for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     sprintf(line, "%s:%s", (*it)->names.type, (*it)->names.instance);
-    box.add(uitem(UColor::black + line));
+    objects_box.add(uitem(UColor::black + line));
   }
-  objects_dialog.setMessage(uscrollpane(usize(450,350) + UBackground::white + box));
+  objects_dialog.setMessage(uscrollpane(usize(150,350) + UBackground::white + objects_box));
   objects_dialog.show();
 }
 
@@ -909,12 +916,12 @@ void Widgets::goDialog()
                          DEF_URL_WORLDS);
   //echo("univ_url: %s", univ_url);
 
-  UBox& box = uvbox(g.theme.scrollpaneStyle);
-  if (Http::httpOpen(univ_url, goHttpReader, &box, 0) < 0) {
-    delete &box;
+  UBox& go_box = uvbox(g.theme.scrollpaneStyle);
+  if (Http::httpOpen(univ_url, goHttpReader, &go_box, 0) < 0) {
+    delete &go_box;
     return;
   }
-  worlds_dialog.setMessage(uscrollpane(usize(120,400) + box));
+  worlds_dialog.setMessage(uscrollpane(usize(120,400) + go_box));
   worlds_dialog.show();
 }
 
@@ -936,12 +943,12 @@ void Widgets::worldsDialog()
                          //dax Universe::current()->version);
                          DEF_URL_WORLDS);
 
-  UBox* box = new UTextarea;
-  if (Http::httpOpen(univ_url, universeHttpReader, box, 0) < 0) {
-    delete box;
+  UBox* worlds_box = new UTextarea;
+  if (Http::httpOpen(univ_url, universeHttpReader, worlds_box, 0) < 0) {
+    delete worlds_box;
     return;
   }
-  worlds_dialog.setMessage(uscrollpane(usize(450,350) + box));
+  worlds_dialog.setMessage(uscrollpane(usize(450,350) + worlds_box));
   worlds_dialog.show();
 }
 

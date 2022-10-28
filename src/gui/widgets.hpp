@@ -137,7 +137,7 @@ private:
   Gui &gui;            		///< reference to the GUI object
   class Message2 &putinfo;
   class Capture &capture;
-  UBox infos;
+  UBox infos_box;
   UElem worlds, basket, avatars;
   class Scene &scene;		///< OpenGL Drawing Zone
   class Navig &navig;		///< navigation
