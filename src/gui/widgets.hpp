@@ -135,8 +135,6 @@ private:
   
   // ! BEWARE: order matters !
   Gui &gui;            		///< reference to the GUI object
-  class Message2 &putinfo;
-  class Capture &capture;
   UBox infos_box;
   UElem worlds, basket, avatars;
   class Scene &scene;		///< OpenGL Drawing Zone
@@ -144,8 +142,10 @@ private:
   UOptionDialog &source_dialog, &objects_dialog, &worlds_dialog;
   UDialog &prefs_dialog, &settings_dialog, &grid_dialog, &tool_dialog, &addobj_dialog;
   class Message &message;
+  class Message2 &putinfo;
   class Panels &panels;
   UBox &infobar, &menubar;
+  class Capture &capture;
   long postponedKRmask;		///< mask of all postponed Key Release events
   long postponedKRcount;	///< count in the KRbuf
   KRKey postponedKRbuf[KRKey::KRBUF_MAX]; ///< kbd bufs
@@ -155,7 +155,7 @@ private:
   // Dialog
   void sourceDialog();
   void objectsDialog();
-  void goDialog();
+  void gotoDialog();
   void worldsDialog();
   UDialog& prefsDialog();
   UDialog& settingsDialog();

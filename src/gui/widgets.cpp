@@ -82,10 +82,9 @@
 #include "CONFIG_H.t"
 
 
+/** Constructor : creates all widgets needed for the GUI */
 Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  gui(*_gui),
- putinfo(*new Message2),
- capture(*new Capture),
  scene(*new Scene(this)),
  navig(*new Navig(this, scene)),
  source_dialog(*new UOptionDialog("World source")),
@@ -97,9 +96,11 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  tool_dialog(toolDialog()),
  addobj_dialog(addobjDialog()),
  message(*new Message(this)),
+ putinfo(*new Message2),
  panels(*new Panels(this, scene)),
  infobar(createInfobar()),
  menubar(createMenubar()),
+ capture(*new Capture),
  postponedKRmask(0),
  postponedKRcount(0)
 {
@@ -188,7 +189,7 @@ void Widgets::setInfobar(UBox* content)
 }
 
 
-/** menubar on top of the window : file view go history tools mark help */
+/** menubar on top of the window : file view goto history tools mark help */
 UBox& Widgets::createMenubar()
 {
   UMenu& file_menu = fileMenu();
@@ -221,11 +222,11 @@ UBox& Widgets::createMenubar()
   UMenu& help_menu =
   umenu(g.theme.menuStyle
         + ubutton("README"    + ucall("README",    README, &Widgets::showInfoDialog))
-        + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &Widgets::showInfoDialog))
-        + ubutton("DTD"       + ucall("DTD",       DTD, &Widgets::showInfoDialog))
-        + ubutton("TODO"      + ucall("TODO",      TODO, &Widgets::showInfoDialog))
         + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &Widgets::showInfoDialog))
         + ubutton("LICENSE"   + ucall("LICENSE",   COPYING, &Widgets::showInfoDialog))
+        + ubutton("DTD"       + ucall("DTD",       DTD, &Widgets::showInfoDialog))
+        + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &Widgets::showInfoDialog))
+        + ubutton("TODO"      + ucall("TODO",      TODO, &Widgets::showInfoDialog))
         //dax + ubutton("Home Page" + ucall(this, &Widgets::siteCB))
         //dax + ubutton("config.h"  + ucall("config.h",  CONFIG_H, &Widgets::showInfoDialog))
        );
@@ -234,7 +235,7 @@ UBox& Widgets::createMenubar()
   UMenubar& menu_bar =
   umenubar(  ubutton("File"    + file_menu)
            + ubutton("View"    + view_menu)
-           + ubutton("Go"      + ucall(this, &Widgets::goDialog))
+           + ubutton("Goto"    + ucall(this, &Widgets::gotoDialog))
            + ubutton("History" + hist_menu)
            + ubutton("Tools"   + tool_menu)
           );
@@ -287,21 +288,23 @@ UMenu& Widgets::markMenu()
   UBox& mark_box = uvbox();
   mark_box.add(ubutton(  UBackground::none
                        + "Add Worldmark"
-                       + ucall(this, &Widgets::markCB))
-                      );
+                       + ucall(this, &Widgets::markCB)
+                      )
+              );
   UMenu& mark_menu = umenu(  g.theme.menuStyle
                            + uscrollpane(usize().setHeight(80)
-                           + UBackground::none
-                           + mark_box)
+                                         + UBackground::none
+                                         + mark_box
+                                        )
                           );
 
   FILE *fp = null;
-  char buf[URL_LEN + CHAN_LEN + 2];
+  char line[URL_LEN + CHAN_LEN + 2];
   if ((fp = File::openFile(::g.env.worldmarks(), "r"))) {
-    while (fgets(buf, sizeof(buf), fp)) {
-      char *p = strchr(buf, ' ');
+    while (fgets(line, sizeof(line), fp)) {
+      char *p = strchr(line, ' ');
       if (p) *p ='\0';
-      mark_box.add(uitem(buf) + ucall(&gui, (const UStr&)buf, &Gui::gotoWorld));
+      mark_box.add(uitem(line) + ucall(&gui, (const UStr&)line, &Gui::gotoWorld));
     }
     File::closeFile(fp);
   }
@@ -586,12 +589,12 @@ void Widgets::markCB()
 {
   FILE *fp;
   char mark[URL_LEN + CHAN_LEN + 2];
-  char buf[URL_LEN + CHAN_LEN + 2];
+  char line[URL_LEN + CHAN_LEN + 2];
 
   sprintf(mark, "%s %s\n", World::current()->getUrl(), World::current()->getChan());
   if ((fp = File::openFile(::g.env.worldmarks(), "r")) != NULL) {
-    while (fgets(buf, sizeof(buf), fp)) {
-      if (! strcmp(buf, mark)) {
+    while (fgets(line, sizeof(line), fp)) {
+      if (! strcmp(line, mark)) {
         File::closeFile(fp);
         return;
       }
@@ -762,11 +765,11 @@ UDialog& Widgets::prefsDialog()
                   );
 
   FILE *fp;
-  char buf[128];
+  char line[128];
   if ((fp = File::openFile(::g.env.prefs(), "r"))) {
-    while (fgets(buf, sizeof(buf), fp)) {
-      if (isalpha(*buf)) settings_box.add(uitem(UColor::red + UFont::bold + buf));
-      else               settings_box.add(uitem(UColor::black + buf));
+    while (fgets(line, sizeof(line), fp)) {
+      if (isalpha(*line)) settings_box.add(uitem(UColor::red + UFont::bold + line));
+      else               settings_box.add(uitem(UColor::black + line));
     }
     File::closeFile(fp);
   }
@@ -792,7 +795,7 @@ static void sourceHttpReader(void *box, Http *http)
 }
 
 /** Displays list of worlds */
-static void goHttpReader(void *box, Http *http)
+static void gotoHttpReader(void *box, Http *http)
 {
   if (! http) return;
 
@@ -802,10 +805,9 @@ static void goHttpReader(void *box, Http *http)
   for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
     if (strncmp(line, "http://", 7)) continue;
 
-    UStr& url = ustr();
+    UStr& worldurl = ustr();
 
     char tmpline[URL_LEN + CHAN_LEN +2];
-    //echo("go: line=%s", line);
     strcpy(tmpline, line);
     char *p = strchr(tmpline, ' ');
     if (p) *p = '\0';
@@ -815,20 +817,21 @@ static void goHttpReader(void *box, Http *http)
     }
     char tmpname[URL_LEN + 2];
     strcpy(tmpname, tmpline);
-    char *name = strrchr(tmpname, '/');
-    if (name) {
-      *name++ = '\0';
-      p = strchr(name, '.');
+    char *worldname = strrchr(tmpname, '/');
+    if (worldname) {
+      *worldname++ = '\0';
+      p = strchr(worldname, '.');
       if (p) *p = '\0';
-      url = tmpline;
+      worldurl = tmpline;
 
-      univ_box->add(UBackground::black + ualpha(0.5)
-                    + uitem(UBackground::none
+      univ_box->add(  UBackground::black
+                    + ualpha(0.5)
+                    + uitem(  UBackground::none
                             + UColor::green
                             + UFont::bold
                             + UFont::large
-                            + name
-                            + ucall(&g.gui, (const UStr&) url, &Gui::gotoWorld)
+                            + worldname
+                            + ucall(&g.gui, (const UStr&) worldurl, &Gui::gotoWorld)
                            )
                    );
     }
@@ -859,7 +862,8 @@ static void universeHttpReader(void *box, Http *http)
     if (p) chan = ++p;
     url = tmpline;
 
-    univ_box->add(uitem(UColor::navy + UFont::bold
+    univ_box->add(uitem(  UColor::navy
+                        + UFont::bold
                         + url
                         + " " + UFont::plain
                         + chan
@@ -879,7 +883,11 @@ void Widgets::sourceDialog()
     delete &source_box;
     return;
   }
-  source_dialog.setMessage(uscrollpane(usize(450,350) + UBackground::white + source_box));
+  source_dialog.setMessage(uscrollpane(usize(450,350)
+                                       + UBackground::white
+                                       + source_box
+                                      )
+                          );
   source_dialog.show();
 }
 
@@ -888,40 +896,42 @@ void Widgets::objectsDialog()
 {
   char line[64];
 
-  UBox& objects_box = uvbox(UBackground::white);
+  UBox& objects_box = uvbox(UBackground::none);
   for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     sprintf(line, "%s:%s", (*it)->names.type, (*it)->names.instance);
     objects_box.add(uitem(UColor::black + line));
   }
-  objects_dialog.setMessage(uscrollpane(usize(150,350) + UBackground::white + objects_box));
+  objects_dialog.setMessage(uscrollpane(usize(150,350)
+                                        + UBackground::none
+                                        + objects_box
+                                       )
+                           );
   objects_dialog.show();
 }
 
 /** Dialog box for worlds list */
-void Widgets::goDialog()
+void Widgets::gotoDialog()
 {
   char univ_url[URL_LEN];
   char fmt[64];
 
   if (! strncmp(Universe::current()->server, "http://", 7))
-    //dax sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
     sprintf(fmt, "%s", "%s/%s%s");
   else
-    //dax sprintf(fmt, "%s%s", "http://", "%s/%s/vacs/v%d/worlds");
     sprintf(fmt, "%s%s", "http://", "%s/%s%s");
 
   sprintf(univ_url, fmt, Universe::current()->server,
                          Universe::current()->urlpfx,
-                         //dax Universe::current()->version);
                          DEF_URL_WORLDS);
   //echo("univ_url: %s", univ_url);
 
-  UBox& go_box = uvbox(g.theme.scrollpaneStyle);
-  if (Http::httpOpen(univ_url, goHttpReader, &go_box, 0) < 0) {
-    delete &go_box;
+  UBox& goto_box = uvbox(g.theme.scrollpaneStyle);
+  if (Http::httpOpen(univ_url, gotoHttpReader, &goto_box, 0) < 0) {
+    delete &goto_box;
     return;
   }
-  worlds_dialog.setMessage(uscrollpane(usize(120,400) + go_box));
+
+  worlds_dialog.setMessage(uscrollpane(usize(120,400) + goto_box));
   worlds_dialog.show();
 }
 
@@ -932,15 +942,12 @@ void Widgets::worldsDialog()
   char fmt[64];
 
   if (! strncmp(Universe::current()->server, "http://", 7))
-    //dax sprintf(fmt, "%s", "%s%s/vacs/v%d/worlds");
     sprintf(fmt, "%s", "%s/%s%s");
   else
-    //dax sprintf(fmt, "%s%s", "http://", "%s/%s/vacs/v%d/worlds");
     sprintf(fmt, "%s%s", "http://", "%s/%s%s");
 
   sprintf(univ_url, fmt, Universe::current()->server,
                          Universe::current()->urlpfx,
-                         //dax Universe::current()->version);
                          DEF_URL_WORLDS);
 
   UBox* worlds_box = new UTextarea;
@@ -948,6 +955,7 @@ void Widgets::worldsDialog()
     delete worlds_box;
     return;
   }
+
   worlds_dialog.setMessage(uscrollpane(usize(450,350) + worlds_box));
   worlds_dialog.show();
 }
