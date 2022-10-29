@@ -56,7 +56,7 @@
 <text pos="-.1 -.35 .01 -1.57" color="red"> E </text>
 
 <!-- welcome text -->
-<text name="welcome" pos="9 -2 5.5 -1.57 1.57" font="/txf/courier-br-46.txf"> Welcome to Rendezvous </text>
+<text name="welcome" pos="12 -2 5.5 -2.35 1.57" font="/txf/courier-br-46.txf"> Welcome to Rendezvous </text>
 <!--
 <text name="rendezvous" pos="9 -2 5 -1.57 1.57" font="/txf/helvetica-br-24.txf"> Rendezvous </text>
 -->
@@ -175,10 +175,12 @@ url="/vre/v8/house.vre" channel="224.255.0.17/52826/127">
 <solid dim="3 1 2" xn="/gif/house.gif" />
 </gate>
 
+<!--
 <download name="download" pos="15 7 2.5 1.57"
 url="http://localhost/~dax/ftp/pub/vreng/vreng.tar.gz">
 <solid dim="3 .08 .4" xn="/php/download.php" />
 </download>
+-->
 
 <!-- labyrinthe 224.255.0.18 -->
 <gate name="labyrinthe" pos="11.5 10 .7 2.3"
@@ -435,7 +437,7 @@ amplitude="1" freq="1" phase="1">
 -->
 
 <!-- waterfall -->
-<waterfall name="waterfall" pos="2 -4.25 1.05" number="3000" flow="500" size="4" color="lightblue" > </waterfall>
+<waterfall name="waterfall" pos="2 -4.25 1.05" points="false" number="3000" flow="500" size="4" color="lightblue" > </waterfall>
 <!--
 -->
 <button name="tap"    pos="2.05 -4.25 0.5" use="waterfall fountain" method0="Switch">
