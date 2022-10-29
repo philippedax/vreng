@@ -22,7 +22,7 @@ http://localhost/~dax/vre/v8/forest.vre       224.255.0.21/52866
 http://localhost/~dax/vre/v8/tests.vre        224.255.0.22/52876
 http://localhost/~dax/vre/v8/beach.vre        224.255.0.23/52886
 http://localhost/~dax/vre/v8/movies.vre       224.255.0.24/52896
-http://localhost/~dax/vre/v8/android.vre      224.255.0.25/52906
+http://localhost/~dax/vre/v8/humanoid.vre     224.255.0.25/52906
 http://localhost/~dax/vre/v8/desktops.vre     224.255.0.26/52916
 http://localhost/~dax/vre/v8/entree.vre       224.255.0.27/52926
 http://localhost/~dax/vre/v8/fan.vre          224.255.0.28/52936
@@ -38,5 +38,5 @@ http://www.vreng.enst.fr/vre/v8/mondetest.vre    224.255.0.37/53026
 http://www.vreng.enst.fr/vre/v8/campus.vre       224.255.0.38/53036
 http://www.vreng.enst.fr/vmm/vre_v8/infres4.vre	224.255.0.41/53066
 http://www.vreng.enst.fr/vmm/vre_v8/horla.vre	224.255.0.44/53096
-http://localhost/~dax/vre/v8/test.vre	224.255.0.49/53146
+http://localhost/~dax/vre/v8/test.vre		224.255.0.49/53146
 http://localhost/~dax/vre/v8/sandbox.vre	224.255.0.50/53156
