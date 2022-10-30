@@ -69,7 +69,7 @@ Navig::Navig(Widgets* _gw, Scene& scene) :
   
   initNavigMenu();
   
-  scene.add(object_menu
+  scene.add(  object_menu
             + navig_menu
             + UOn::mpress   / ucall(this, &Navig::mousePressCB)
             + UOn::mrelease / ucall(this, &Navig::mouseReleaseCB)
@@ -294,7 +294,7 @@ void Navig::selectObject(ObjInfo* objinfo)
 
   // add buttons (actions) to the infos box and the contextual menu
   for (ObjInfo* oi = objinfo + 2; oi->name ; oi++) {
-    UBox& b = ubutton(oi->name);
+    UBox& b = ubutton(oi->name + UBackground::white);
     if (oi->fun) {
       b.add(ucall(oi->farg, oi->fun));	// add action button to infobox
     }

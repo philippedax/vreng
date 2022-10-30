@@ -163,20 +163,20 @@ UBox& Widgets::createInfobar()
                 + utip("Next world")
                 + ucall(this, &Widgets::nextCB)
                )
-        + usepar()
+        //+ usepar()
        );
 
   // infos_box initially contains the welcome message,
   // its changed dynamically when objects are selected
   infos_box.addAttr(UOrient::horizontal + uleft());
   infos_box.add(  uleft()
-                + UPix::ray
-                + " "
-                + UColor::red
+                //+ UPix::ray
+                //+ " "
+                + UColor::white
                 + UFont::bold
                 + "Welcome to VREng"
-                + " "
-                + UPix::ray
+                //+ " "
+                //+ UPix::ray
                );
 
   return uhbox(uvspacing(2) + navig_box + infos_box);
