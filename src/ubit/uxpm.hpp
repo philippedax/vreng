@@ -88,6 +88,7 @@ namespace ubit {
     static const char * bigPlus[];
     static const char * bigMinus[];
     static const char * bigQuestion[];
+    //dax static const char * up[];
      };
 }
 

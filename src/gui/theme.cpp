@@ -61,8 +61,11 @@ void Theme::init()
   
   Forward.loadFromData(UXpm::bigUp);
   Backward.loadFromData(UXpm::bigDown);
-  Left.loadFromData(UXpm::bigLeft);
-  Right.loadFromData(UXpm::bigRight);
+  BigLeft.loadFromData(UXpm::bigLeft);
+  BigRight.loadFromData(UXpm::bigRight);
+  Left.loadFromData(UXpm::leftarrow);
+  Right.loadFromData(UXpm::rightarrow);
+  Up.loadFromData(UXpm::uparrow);
   LeftTrans.loadFromData(UXpm::leftarrow);
   RightTrans.loadFromData(UXpm::rightarrow);
   UpDown.loadFromData(updown_xpm);   // UXpm::uparrow

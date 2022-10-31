@@ -363,7 +363,7 @@ void Navig::initNavigMenu()
   UCall& stop = ucall(this, &Navig::stopMotion);
 
   // RIGHT
-  navig_menu.item(0).add(g.theme.Right
+  navig_menu.item(0).add(g.theme.BigRight
                          + UOn::arm / YMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop
@@ -381,7 +381,7 @@ void Navig::initNavigMenu()
                          + UOn::disarm / stop
                         );
   // LEFT
-  navig_menu.item(3).add(g.theme.Left
+  navig_menu.item(3).add(g.theme.BigLeft
                          + UOn::arm / YMotion
                          + UOn::mdrag / move
                          + UOn::disarm / stop

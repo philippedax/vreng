@@ -41,7 +41,7 @@ public:
  
   UColor joystickColor, joystickArmColor, chatColor, noticeColor, requestColor, warningColor, messColor;
 
-  UIma Forward, Backward, Left, Right, LeftTrans, RightTrans, UpDown, JoystickUpDown, JoystickLeftRight;
+  UIma Forward, Backward, BigLeft, BigRight, Left, Right, Up, LeftTrans, RightTrans, UpDown, JoystickUpDown, JoystickLeftRight;
   
   UIma Transx, Transy, Transz, Rotxleft, Rotxright, Rotzleft, Rotzright, Rotyup, Rotydown;
   

@@ -149,17 +149,17 @@ UBox& Widgets::createInfobar()
         + uhspacing(8)
         + uleft()
         + UFont::bold
-        + uitem(  USymbol::left
+        + uitem(  g.theme.Left //USymbol::left
                 + utip("Prev world")
                 + ucall(this, &Widgets::prevCB)
                )
         + "   "
-        + uitem(  USymbol::up
+        + uitem(  g.theme.Up //USymbol::up
                 + utip("Home world")
                 + ucall(this, &Widgets::homeCB)
                )
         + "   "
-        + uitem(  USymbol::right
+        + uitem(  g.theme.Right //USymbol::right
                 + utip("Next world")
                 + ucall(this, &Widgets::nextCB)
                )
