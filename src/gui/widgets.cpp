@@ -220,7 +220,7 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.AddObj + " Addobj "   + addobj_dialog)
        );
 
-  UMenu& help_menu =
+  UMenu& about_menu =
   umenu(g.theme.menuStyle
         + ubutton("README"    + ucall("README",    README, &Widgets::showInfoDialog))
         + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &Widgets::showInfoDialog))
@@ -238,13 +238,13 @@ UBox& Widgets::createMenubar()
            + ubutton("View"    + view_menu)
            + ubutton("Goto"    + ucall(this, &Widgets::gotoDialog))
            + ubutton("History" + hist_menu)
-           + ubutton("Tools"   + tool_menu)
+           + ubutton("Tool"    + tool_menu)
           );
 
-  menu_bar.add(ubutton("Marks" + markMenu()));
+  menu_bar.add(ubutton("Mark" + markMenu()));
   dynamicMenus(menu_bar, ::g.env.menu());
 
-  menu_bar.add(ubutton("Help" + help_menu));
+  menu_bar.add(ubutton("About" + about_menu));
 
   return menu_bar;
 }
