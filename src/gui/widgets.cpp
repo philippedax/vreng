@@ -174,6 +174,7 @@ UBox& Widgets::createInfobar()
                 //+ " "
                 + UColor::white
                 + UFont::bold
+                + UFont::large
                 + "Welcome to VREng"
                 //+ " "
                 //+ UPix::ray

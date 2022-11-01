@@ -45,7 +45,7 @@ public:
   
   UIma Transx, Transy, Transz, Rotxleft, Rotxright, Rotzleft, Rotzright, Rotyup, Rotydown;
   
-  UIma Save, Folder, Exit, Edit, List, Prefs, Tools, World, Doc, Book, Movie, Axis, Grid2D, Grid3D, Cart, AddObj, Camera, BigEye, Eyes, Person, Counter, View, Playvideo, Jumelles;
+  UIma Save, Folder, Exit, Edit, List, Prefs, Tools, World, Doc, Book, Movie, Axis, Grid2D, Grid3D, Cart, AddObj, Camera, BigEye, Eyes, Person, Counter, View, Playvideo, Jumelles, Sandbox;
 
 };
 

@@ -49,6 +49,7 @@
 #include "playvideo.xpm"
 #include "view.xpm"
 #include "jumelles.xpm"
+#include "sandbox.xpm"
 
 #if 0 //OBSOLETE
 #include "file.xpm"

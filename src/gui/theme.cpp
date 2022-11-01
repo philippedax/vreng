@@ -106,4 +106,5 @@ void Theme::init()
   Counter.loadFromData(count_xpm);
   Playvideo.loadFromData(playvideo_xpm);
   Jumelles.loadFromData(jumelles_xpm);
+  Sandbox.loadFromData(sandbox_xpm);
 }

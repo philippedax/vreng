@@ -279,7 +279,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                           + ushow(gw.addobj_dialog, true)
                          )
                   + uitem(utip("Test: sandbox world !")
-                          + UPix::question
+                          + g.theme.Sandbox //UPix::question
                           + ucall(_gw, sandboxCB)
                          )
                   + usepar()
@@ -290,7 +290,10 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                           + ucall(int(User::UA_DART), Widgets::callAction)
                          )
                   + uitem(utip("Throw bullet")
-                          + UFont::bold + UFont::xx_large + UColor::red + "."
+                          + UFont::bold
+                          + UFont::xx_large
+                          + UColor::red
+                          + "."
                           + ucall(int(User::UA_BULLET), Widgets::callAction)
                          )
                   + usepar()
