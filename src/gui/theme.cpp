@@ -90,7 +90,6 @@ void Theme::init()
   Prefs.loadFromData(preferences_xpm); 
   Tools.loadFromData(toolbox_xpm); 
   World.loadFromData(world_xpm); 
-  Doc.loadFromData(doc_xpm); 
   Book.loadFromData(UXpm::book);
   Movie.loadFromData(movie_xpm);
   Axis.loadFromData(axis_xpm); 
@@ -101,10 +100,8 @@ void Theme::init()
   Camera.loadFromData(camera_xpm);
   BigEye.loadFromData(bigeye_xpm); 
   Eyes.loadFromData(eyes_xpm); 
-  View.loadFromData(view_xpm); 
   Person.loadFromData(person_xpm);
   Counter.loadFromData(count_xpm);
-  Playvideo.loadFromData(playvideo_xpm);
   Jumelles.loadFromData(jumelles_xpm);
   Sandbox.loadFromData(sandbox_xpm);
 }

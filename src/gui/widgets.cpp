@@ -198,7 +198,7 @@ UBox& Widgets::createMenubar()
 
   UMenu& view_menu =
   umenu(g.theme.menuStyle
-        + ubutton(g.theme.Edit  + "Source"      + ucall(this, &Widgets::sourceDialog))
+        + ubutton(g.theme.List  + "Source"      + ucall(this, &Widgets::sourceDialog))
         + ubutton(g.theme.List  + "Objects"     + ucall(this, &Widgets::objectsDialog))
         + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
