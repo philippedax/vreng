@@ -222,14 +222,14 @@ UBox& Widgets::createMenubar()
 
   UMenu& about_menu =
   umenu(g.theme.menuStyle
-        + ubutton("README"    + ucall("README",    README, &Widgets::showInfoDialog))
-        + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &Widgets::showInfoDialog))
-        + ubutton("LICENSE"   + ucall("LICENSE",   COPYING, &Widgets::showInfoDialog))
-        + ubutton("DTD"       + ucall("DTD",       DTD, &Widgets::showInfoDialog))
-        + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &Widgets::showInfoDialog))
-        + ubutton("TODO"      + ucall("TODO",      TODO, &Widgets::showInfoDialog))
-        //dax + ubutton("Home Page" + ucall(this, &Widgets::siteCB))
-        //dax + ubutton("config.h"  + ucall("config.h",  CONFIG_H, &Widgets::showInfoDialog))
+        + ubutton("README"    + ucall("README",    README, &showInfoDialog))
+        + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &showInfoDialog))
+        + ubutton("LICENSE"   + ucall("LICENSE",   COPYING, &showInfoDialog))
+        + ubutton("DTD"       + ucall("DTD",       DTD, &showInfoDialog))
+        + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &showInfoDialog))
+        + ubutton("TODO"      + ucall("TODO",      TODO, &showInfoDialog))
+        + ubutton("config.h"  + ucall("config.h",  CONFIG_H, &showInfoDialog))
+        //dax + ubutton("Home Page" + ucall(this, &siteCB))
        );
 
   // ===== Menubar ======
@@ -650,12 +650,12 @@ static long convertKey(long keycode, int keychar, int& vrkey)
   }
   else {
     switch (keychar) {
-      case '<': keymask = 1<<4;          vrkey = KEY_SG;	break;	  // left translation
-      case '>': keymask = 1<<5;          vrkey = KEY_SD;	break;    // right translation
-      case 'l': keymask = 1<<9;          vrkey = KEY_TL;	break;    // tilt left
-      case 'r': keymask = 1<<10;         vrkey = KEY_TR;	break; 	  // tilt right
-      case 'u': keymask = 1<<11 | 1<<13; vrkey = KEY_JU;	break;    // up translation
-      case ' ': keymask = 1<<13;         vrkey = KEY_VI;	break;    // accelerator
+      case '<': keymask = 1<<4;          vrkey = KEY_SG;  break;    // left translation
+      case '>': keymask = 1<<5;          vrkey = KEY_SD;  break;    // right translation
+      case 'l': keymask = 1<<9;          vrkey = KEY_TL;  break;    // tilt left
+      case 'r': keymask = 1<<10;         vrkey = KEY_TR;  break;    // tilt right
+      case 'u': keymask = 1<<11 | 1<<13; vrkey = KEY_JU;  break;    // up translation
+      case ' ': keymask = 1<<13;         vrkey = KEY_VI;  break;    // accelerator
       case '=': Widgets::callAction(User::UA_FOVYDEF);    return 0; // original fovy
       case '-': Widgets::callAction(User::UA_FOVYLESS);   return 0; // decrease fovy
       case '+': Widgets::callAction(User::UA_FOVYMORE);   return 0; // increase fovy
@@ -678,7 +678,7 @@ static long convertKey(long keycode, int keychar, int& vrkey)
       case 'L': Widgets::callAction(User::UA_ROLLLESS);   return 0; // decrease roll
       case '^': Widgets::callAction(User::UA_FLYAWAY);    return 0; // flyaway
       case '$': Widgets::callAction(User::UA_TOLAND);     return 0; // toland
-      default: return 0; 						  // undefined key
+      default: return 0; 					    // undefined key
     }
   }
   return keymask;
@@ -748,9 +748,9 @@ void Widgets::flushPostponedKRs()
 
 
 //---------------------------------------------------------------------------
-/*
- *  dialog.cpp : Ubit dialogs for the VREng GUI
- */
+//
+//  Dialogs
+//
 
 /** Displays preferences */
 UDialog& Widgets::prefsDialog()
@@ -770,7 +770,7 @@ UDialog& Widgets::prefsDialog()
   if ((fp = File::openFile(::g.env.prefs(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
       if (isalpha(*line)) settings_box.add(uitem(UColor::red + UFont::bold + line));
-      else               settings_box.add(uitem(UColor::black + line));
+      else                settings_box.add(uitem(UColor::black + line));
     }
     File::closeFile(fp);
   }
@@ -890,7 +890,7 @@ void Widgets::sourceDialog()
   source_dialog.show();
 }
 
-/** Dialog box for present objects in current world */
+/** Dialog box for present objects in the current world */
 void Widgets::objectsDialog()
 {
   char line[64];
@@ -983,7 +983,7 @@ UDialog& Widgets::settingsDialog()
                      + UOn::select / ucall(this, VAT_TOOL, &Widgets::prefCB))
          + ucheckbox("Fphone" + sel_audio_live
                      + UOn::select / ucall(this, FPHONE_TOOL, &Widgets::prefCB))
-       )
+        )
    + uhbox(UBorder::shadowOut)
    + uhbox("Video live      : " + UFont::plain
            + ucheckbox("Vic" + sel_video_live
@@ -1020,7 +1020,7 @@ UDialog& Widgets::settingsDialog()
    + uhbox("Audio streaming : " + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
                        + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB)
-                       ).setSelected()
+                      ).setSelected()
            + ucheckbox("Mpg123" + sel_audio_streaming
                        + UOn::select / ucall(this, MPG123_TOOL, &Widgets::prefCB))
            + ucheckbox("Freeamp" + sel_audio_streaming
@@ -1031,8 +1031,8 @@ UDialog& Widgets::settingsDialog()
    + uhbox(UBorder::shadowOut)
    + uhbox("Video streaming : " + UFont::plain
            + ucheckbox("Vlc" + sel_video_streaming
-                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB))
-                       .setSelected()
+                       + UOn::select / ucall( this, VLC_TOOL, &Widgets::prefCB)
+                      ).setSelected()
            + ucheckbox("Mpegplay" + sel_video_streaming
                        + UOn::select / ucall(this, MPEGPLAY_TOOL, &Widgets::prefCB))
            + ucheckbox("Quicktime" + sel_video_streaming
@@ -1041,16 +1041,16 @@ UDialog& Widgets::settingsDialog()
    + uhbox(UBorder::shadowOut)
    + uhbox("Modeler         : " + UFont::plain
            + ucheckbox("Vred" + sel_modeler
-                       + UOn::select / ucall(this, VRED_TOOL, &Widgets::prefCB))
-                       .setSelected()
+                       + UOn::select / ucall(this, VRED_TOOL, &Widgets::prefCB)
+                      ).setSelected()
            + ucheckbox("Vrem" + sel_modeler
                        + UOn::select / ucall(this, VREM_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
    + uhbox("PsPdf           : " + UFont::plain
            + ucheckbox("Evince" + sel_pspdf
-                       + UOn::select / ucall(this, EVINCE_TOOL, &Widgets::prefCB))
-                       .setSelected()
+                       + UOn::select / ucall(this, EVINCE_TOOL, &Widgets::prefCB)
+                      ).setSelected()
            + ucheckbox("Gv" + sel_pspdf
                        + UOn::select / ucall(this, GV_TOOL, &Widgets::prefCB))
            + ucheckbox("Ghostscript" + sel_pspdf
@@ -1063,8 +1063,8 @@ UDialog& Widgets::settingsDialog()
    + uhbox(UBorder::shadowOut)
    + uhbox("Office          : " + UFont::plain
            + ucheckbox("LibreOffice" + sel_office
-                       + UOn::select / ucall(this, LIBROFFICE_TOOL, &Widgets::prefCB))
-                       .setSelected()
+                       + UOn::select / ucall(this, LIBROFFICE_TOOL, &Widgets::prefCB)
+                      ).setSelected()
            + ucheckbox("MsOffice" + sel_office
                        + UOn::select / ucall(this, MSOFFICE_TOOL, &Widgets::prefCB))
            + ucheckbox("OpenOffice" + sel_office
@@ -1105,6 +1105,47 @@ UDialog& Widgets::toolDialog()
 
 
 //---------------------------------------------------------------------------
+
+VncDialog* VncDialog::vnc_dialog = null;
+
+void VncDialog::vncDialog(Widgets* gw, Vnc* vnc)
+{
+  if (! gw)  return;
+
+  if (! vnc_dialog) {
+    vnc_dialog = new VncDialog(gw, vnc);
+    gw->add(vnc_dialog);
+    vnc_dialog->centerOnScreen();
+  }
+  vnc_dialog->show(true);
+}
+
+VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
+{
+  vnc_server = DEF_VNC_SERVER;
+  vnc_port = "5900";
+  setTitle("VNC Server");
+  setMessage(uvbox(uhflex() + uvflex()
+                   + uhbox(ulabel(14, UFont::bold + "Server name:") + utextfield(25, vnc_server))
+                   + uhbox(ulabel(14, UFont::bold + "Port number:") + utextfield(vnc_port))
+                   + uhbox(ulabel(14, UFont::bold + "Password:")    + utextfield(vnc_passwd))
+                  )
+            );
+  setButtons(ubutton("Connect" + ucloseWin() + ucall(vnc_dialog, &VncDialog::vncConvert))
+             + " "
+             + ubutton("Cancel" + ucloseWin())
+            );
+}
+
+void VncDialog::vncConvert()
+{
+  if (vnc) {
+    vnc->convert(vnc_server.c_str(), vnc_port.c_str(), vnc_passwd.c_str());
+  }
+}
+
+
+//---------------------------------------------------------------------------
 /*
  * Addobj
  *
@@ -1122,7 +1163,7 @@ enum {
   WOOD, MARBLE, BRICK, STUC, GRASS, PAPER, WATER, CLOUD,
   MODEL, MAN, CAR, SHRUB, TREE, PENGUIN,
   CHAIR_WOOD, TABLE_WOOD, TABLE_METAL, TABLE_GLASS,
-  END
+  ENDOBJ
 };
 
 // Local
@@ -1163,7 +1204,7 @@ static const char table_glass[] = "\
 /* default values */
 static void defaultAddobj()
 {
-  objtype = THING;	// thing (default for muliple solids)
+  objtype = THING;	// thing (default for multiple solids)
   strcpy(shape, "box");	// box
   *texture = '\0';	// no textures
   alpha = 1;		// opaque
@@ -1498,11 +1539,9 @@ UDialog& Widgets::addobjDialog()
     + uhbox(uhflex()
             + ubutton(UFont::bold + uhcenter()
                       + " Add " 
-                      + ucall(this, &Widgets::newObjectCB)
-                      + ucloseWin())
+                      + ucall(this, &Widgets::newObjectCB) + ucloseWin())
             + ubutton(UFont::bold + uhcenter()
-                      + " Cancel "
-                      + ucloseWin())
+                      + " Cancel " + ucloseWin())
            )
     );	// end addobjBox
 
@@ -1526,8 +1565,7 @@ UMenu& Widgets::fileMenu()
                      UArgs::none,
                      uhbox(ubutton("  Open  "
                            + ucall(&gui, (const UStr&)url_or_name, &Gui::gotoWorld))
-                           + ubutton("  Cancel  "
-                           + ucloseWin())
+                           + ubutton("  Cancel  " + ucloseWin())
                           )
                    );
 
@@ -1653,46 +1691,5 @@ void Widgets::getMessage(UMessageEvent &e)
 
   // a completer
   //cerr << "get: " << *selected_object_url << endl;
-}
-
-
-//---------------------------------------------------------------------------
-
-VncDialog* VncDialog::vnc_dialog = null;
-
-void VncDialog::vncDialog(Widgets* gw, Vnc* vnc)
-{
-  if (! gw)  return;
-
-  if (! vnc_dialog) {
-    vnc_dialog = new VncDialog(gw, vnc);
-    gw->add(vnc_dialog);
-    vnc_dialog->centerOnScreen();
-  }
-  vnc_dialog->show(true);
-}
-
-VncDialog::VncDialog(Widgets* _gw, Vnc* _vnc) : vnc(_vnc)
-{
-  vnc_server = DEF_VNC_SERVER;
-  vnc_port = "5900";
-  setTitle("VNC Server");
-  setMessage(uvbox(uhflex() + uvflex()
-                   + uhbox(ulabel(14, UFont::bold + "Server name:") + utextfield(25, vnc_server))
-                   + uhbox(ulabel(14, UFont::bold + "Port number:") + utextfield(vnc_port))
-                   + uhbox(ulabel(14, UFont::bold + "Password:")    + utextfield(vnc_passwd))
-                  )
-            );
-  setButtons(ubutton("Connect" + ucloseWin() + ucall(vnc_dialog, &VncDialog::vncConvert))
-             + " "
-             + ubutton("Cancel" + ucloseWin())
-            );
-}
-
-void VncDialog::vncConvert()
-{
-  if (vnc) {
-    vnc->convert(vnc_server.c_str(), vnc_port.c_str(), vnc_passwd.c_str());
-  }
 }
 
