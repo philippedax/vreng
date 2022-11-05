@@ -190,7 +190,7 @@ void Widgets::setInfobar(UBox* content)
 }
 
 
-/** menubar on top of the window : file view goto history tools mark help */
+/** menubar on top of the window : file view goto history tool mark about */
 UBox& Widgets::createMenubar()
 {
   UMenu& file_menu = fileMenu();
@@ -825,10 +825,8 @@ static void gotoHttpReader(void *box, Http *http)
       if (p) *p = '\0';
       worldurl = tmpline;
 
-      univ_box->add(  UBackground::black
-                    + ualpha(0.5)
-                    + uitem(  UBackground::none
-                            + UColor::green
+      univ_box->add(  UBackground::white
+                    + uitem( UColor::green
                             + UFont::bold
                             + UFont::large
                             + worldname
@@ -1214,7 +1212,6 @@ static void setVal(int item) {
     case PAPER :  sprintf(texture, "/gif/paper.gif"); break;
     case WATER :  sprintf(texture, "/gif/water.gif"); break;
     case CLOUD :  sprintf(texture, "/gif/clouds.gif"); break;
-    //dax case CHECK :  sprintf(texture, "/gif/check.gif"); break;
 
     // alpha
     case OPAQUE  : alpha = 1.; break;
@@ -1435,8 +1432,6 @@ UDialog& Widgets::addobjDialog()
                          + UOn::select / ucall((int)WATER, setVal))
              + ucheckbox("Cloud" + sel_tex
                          + UOn::select / ucall((int)CLOUD, setVal))
-             //dax + ucheckbox("Check" + sel_tex
-             //dax             + UOn::select / ucall((int)CHECK, setVal))
             )
     + uhbox(UBorder::shadowOut)
     + uhbox("Alpha :  " + UFont::plain

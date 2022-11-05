@@ -676,6 +676,7 @@ void UDispX11::startLoop(bool main) {
       int e_count = 0;
       int sz = displist.size();
       //cerr << "startloop: sz " << sz <<endl;
+      //dax sz = (sz>1) ? 1:sz; //dax avoid segfault
       
       for (int k = 0; k < sz; ++k) {
         UDispX11* nd = (UDispX11*)displist[k];
