@@ -197,7 +197,7 @@ UBox& Widgets::createMenubar()
   file_menu.addAttr(g.theme.menuStyle);
 
   UMenu& view_menu =
-  umenu(g.theme.menuStyle
+  umenu(  g.theme.menuStyle
         + ubutton(g.theme.List  + "Source"      + ucall(this, &Widgets::sourceDialog))
         + ubutton(g.theme.List  + "Objects"     + ucall(this, &Widgets::objectsDialog))
         + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
@@ -205,7 +205,7 @@ UBox& Widgets::createMenubar()
        );
 
   UMenu& hist_menu =
-  umenu(g.theme.menuStyle
+  umenu(  g.theme.menuStyle
         + ubutton("Previous World"   + ucall(this, &Widgets::prevCB))
         + ubutton("Next World"       + ucall(this, &Widgets::nextCB))
         + ubutton("Home"             + ucall(this, &Widgets::homeCB))
@@ -213,15 +213,15 @@ UBox& Widgets::createMenubar()
        );
 
   UMenu& tool_menu =
-  umenu(g.theme.menuStyle
-        + ubutton(g.theme.Prefs  + " Settings " + settings_dialog)
-        + ubutton(g.theme.Grid2D + " Grid "     + grid_dialog)
-        + ubutton(g.theme.Tools  + " Tools "    + tool_dialog)
-        + ubutton(g.theme.AddObj + " Addobj "   + addobj_dialog)
+  umenu(  g.theme.menuStyle
+        + ubutton(g.theme.Prefs  + " Settings "      + settings_dialog)
+        + ubutton(g.theme.Grid2D + " Grid "          + grid_dialog)
+        + ubutton(g.theme.Tools  + " Tools "         + tool_dialog)
+        + ubutton(g.theme.AddObj + " Add objects "   + addobj_dialog)
        );
 
   UMenu& about_menu =
-  umenu(g.theme.menuStyle
+  umenu(  g.theme.menuStyle
         + ubutton("README"    + ucall("README",    README, &showInfoDialog))
         + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &showInfoDialog))
         + ubutton("LICENSE"   + ucall("LICENSE",   COPYING, &showInfoDialog))
