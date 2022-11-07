@@ -243,9 +243,11 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   control_bar.addAttr(UOrient::horizontal + uhcenter() + uhspacing(6))
              .add(  uhcenter()
                   + upadding(8,0).setBottom(14)
+
                   + "View:"
                   + viewbar
                   + usepar()
+
                   + " Show:"
                   + uitem(utip("Show axis")
                           + g.theme.Axis
@@ -270,9 +272,9 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                   + usepar()
 
                   + " Objects:"
-                  + uitem(utip("Show object cart")
+                  + uitem(utip("Show basket")
                           + g.theme.Cart
-                          //+ ushow(*gw.cartDialog, true)         !! A COMPLETER
+                          //+ ushow(*gw.basket_dialog, true) !! A COMPLETER
                          )
                   + uitem(utip("Add object to the world")
                           + g.theme.AddObj
@@ -325,20 +327,21 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
   main_panel.addAttr(UOrient::vertical).add(control_bar + control_panel);
 }
 
-void Panels::showCartDialog(bool state)
+void Panels::showBasket(bool state)
 {
   UScrollpane& basket_spane = uscrollpane(true, false, uvbox(gw.basket));
   basket_spane.showVScrollButtons(false);
 
   // relies on basket_spane created by createPanels()
-  UDialog * cartDialog = &udialog(utitle("Basket")
-                                  + uscrollpane(usize(150, 100))
-                                  + basket_spane
-                                  + ubottom()
-                                  + ubutton(UFont::bold + uhcenter()
-                                  + " Close "
-                                  + ucloseWin())
-                                 );
+  UDialog * basket_dialog = &udialog(utitle("Basket")
+                                     + uscrollpane(usize(150, 100))
+                                     + basket_spane
+                                     + ubottom()
+                                     + ubutton(UFont::bold + uhcenter()
+                                               + " Close "
+                                               + ucloseWin()
+                                              )
+                                    );
 }
 
 void Panels::expandNavig()

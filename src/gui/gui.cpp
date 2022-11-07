@@ -124,14 +124,14 @@ void Gui::removeChannelSources(int channel)
 //
 void Gui::showCartDialog(bool flag)
 {
-  widgets->panels.showCartDialog(flag);
+  widgets->panels.showBasket(flag);
 }
 
 GuiItem* Gui::addCart(WObject *cart)
 {
   if (! cart) return NULL;
 
-  echo("Item %s added to cart", cart->getInstance());
+  echo("Item %s added to basket", cart->getInstance());
   
   GuiItem* gu = new GuiItem();
   gu->add(ustr(cart->getInstance()) + ucall(this, cart, &Gui::updateCart));
@@ -158,7 +158,7 @@ void Gui::removeCart(WObject *cart, int action)
     localuser->cart->leave(cart);
     break;
   case Cart::REMOVE:
-    echo("%s removed from cart", cart->getInstance());
+    echo("%s removed from basket", cart->getInstance());
     localuser->cart->removeFromCart(cart);
     break;
   }

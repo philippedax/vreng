@@ -44,7 +44,7 @@ public:
   Panels(class Widgets*, class Scene&);
 
   void showManipulator(bool state);
-  void showCartDialog(bool state);
+  void showBasket(bool state);
 
   void expandNavig();
   void collapseNavig();
