@@ -242,9 +242,10 @@ UBox& Widgets::createMenubar()
           );
 
   menu_bar.add(ubutton("Mark" + markMenu()));
-  dynamicMenus(menu_bar, ::g.env.menu());
 
   menu_bar.add(ubutton("About" + about_menu));
+
+  //dax dynamicMenus(menu_bar, ::g.env.menu());
 
   return menu_bar;
 }
@@ -255,24 +256,24 @@ static void functionMenu(Widgets*)
 }
 
 /** Adds dynamic menus */
-void Widgets::dynamicMenus(UMenubar& menu_bar, const char* filename)
+void Widgets::dynamicMenus(UMenubar& menubar, const char* filename)
 {
   FILE* menufp = null;
-  UMenu* dynamic_menu = null;
+  UMenu* dyna_menu = null;
   char attr[100], val[100];
 
   if ((menufp = File::openFile(filename, "r"))) {
     fscanf(menufp, "%s %s", attr, val);
     //cerr << "dynmenu: " << attr << " " <<val << endl;
     while (! feof(menufp)) {
-      if (strcmp(attr, "Menu") == 0) {
-        dynamic_menu = new UMenu();
-        dynamic_menu->addAttr(g.theme.menuStyle);
-        menu_bar.add(ubutton(ustr(val) + dynamic_menu));
+      if (! strcmp(attr, "Menu")) {
+        dyna_menu = new UMenu();
+        dyna_menu->addAttr(g.theme.menuStyle);
+        menubar.add(ubutton(ustr(val) + dyna_menu));
       }
-      else if (! strcmp(attr, "MenuItem") && dynamic_menu) {
+      else if (! strcmp(attr, "MenuItem") && dyna_menu) {
         UButton& btn = ubutton(val);
-        dynamic_menu->add(btn);
+        dyna_menu->add(btn);
         if (! strcmp(val, "functionMenu")) {
           btn.add(ucall(this, functionMenu));
         }
