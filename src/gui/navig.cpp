@@ -420,9 +420,9 @@ UBox& Navig::manipulator()    // !!!!!!! TO REVIEW !!!!!!!!!
   UHspacing &hs = uhspacing(4);
 
   UArgs l = uhcenter() + uvcenter()
-         + UOn::enter / UBackground::orange
-         + UOn::arm   / UBackground::green
-         + utip("Drag mouse to manipulate");
+            + UOn::enter / UBackground::orange
+            + UOn::arm   / UBackground::green
+            + utip("Drag mouse to manipulate");
 
   UTrow& row1 = utrow
   (pad + vs + hs
