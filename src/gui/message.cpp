@@ -65,17 +65,17 @@ UBox& Message::createQuery()
                + uhflex()
                + input
                + uright()
-               + uitem(utip("Clear")
+               + uitem(  utip("Clear input")
                        + UFont::bold + "C"
                        + uassign(entry, "")
                       )
-               + uitem(utip("Previous message")
+               + uitem(  utip("Previous message")
                        + USymbol::up
-                       + ucall(this,-1,&Message::getHistoryCB)
+                       + ucall(this, -1, &Message::getHistoryCB)
                       )
-               + uitem(utip("Next message")
+               + uitem(  utip("Next message")
                        + USymbol::down
-                       + ucall(this,+1,&Message::getHistoryCB)
+                       + ucall(this, +1, &Message::getHistoryCB)
                       )
               );
   input.addAttr(UBackground::none + UColor::white);
@@ -93,17 +93,17 @@ UBox& Message::createMessagePanel(bool transparent)
                + uhflex()
                + input
                + uright()
-               + uitem(utip("Clear")
+               + uitem(  utip("Clear input")
                        + UFont::bold + "C"
                        + uassign(entry, "")
                       )
-               + uitem(utip("Previous message")
+               + uitem(  utip("Previous message")
                        + USymbol::up
-                       + ucall(this,-1,&Message::getHistoryCB)
+                       + ucall(this, -1, &Message::getHistoryCB)
                       )
-               + uitem(utip("Next message")
+               + uitem(  utip("Next message")
                        + USymbol::down
-                       + ucall(this,+1,&Message::getHistoryCB)
+                       + ucall(this, +1, &Message::getHistoryCB)
                       )
               );
 
@@ -260,7 +260,7 @@ void Message::convertTextToLink(const std::string& text, char **listeObjets, int
         UIma& uimg = uima(listeObjets[i+1]);	// loads image
         uimg.rescale(0.25);
         ULinkbutton& ulinkb =
-        ulinkbutton(listeObjets[i]
+        ulinkbutton(  listeObjets[i]
                     + UColor::green + UFont::bold
                     + umenu(ulabel(uimg))
                     + UOn::doubleClick / ucall((char*)listeObjets[i+2], moveSatCamera)
