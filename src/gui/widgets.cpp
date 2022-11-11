@@ -234,7 +234,8 @@ UBox& Widgets::createMenubar()
 
   // ===== Menubar ======
   UMenubar& menu_bar =
-  umenubar(  ubutton("File"    + file_menu)
+  umenubar(  UFont::bold + UFont::large
+           + ubutton("File"    + file_menu)
            + ubutton("View"    + view_menu)
            + ubutton("Goto"    + ucall(this, &Widgets::gotoDialog))
            + ubutton("History" + hist_menu)
