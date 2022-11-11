@@ -240,7 +240,7 @@ Panels::Panels(Widgets* _gw, Scene& scene) :
                               );
   viewbar.select(0);
 
-  control_bar.addAttr(UOrient::horizontal + uhcenter() + uhspacing(6) + UFont::bold + UFont::large)
+  control_bar.addAttr(UOrient::horizontal + uhcenter() + uhspacing(6) + UFont::bold)
              .add(  uhcenter()
                   + upadding(8,0).setBottom(14)
 
