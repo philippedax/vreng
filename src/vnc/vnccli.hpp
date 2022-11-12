@@ -105,7 +105,7 @@ class VNCCli {
 
   /* Remote Frame Buffer Protocol v3.3 */
 
-  void sendRFBEvent(char **params, unsigned int *num_params);
+  void sendRFBEvent(char **params, uint32_t *num_params);
   bool sendIncrementalFramebufferUpdateRequest();
   bool sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incremental);
   ///< messages from client to server

@@ -130,12 +130,8 @@ bool VNCRFB::initRFB()
 
     //look for a password stored in passwordFile
     passwd = vncDecryptPasswdFromFile(passwordFile);
-    if (!passwd) {
-      error("initRFB: cannot read valid password from file \"%s\"", passwordFile);
-      return false;
-    }
     if (! passwd || (! strlen(passwd))) {
-      error("initRFB: reading password failed");
+      error("initRFB: cannot read valid password from file \"%s\"", passwordFile);
       return false;
     }
     if (strlen(passwd) > 8)
@@ -239,7 +235,7 @@ bool VNCRFB::setFormatAndEncodings()
   len = sz_rfbSetEncodingsMsg + se->nEncodings * 4;
   se->nEncodings = swap16(se->nEncodings);
 
-  if (!vncsock.writeExact(buf, len))
+  if (! vncsock.writeExact(buf, len))
     return false;
   return true;
 }
