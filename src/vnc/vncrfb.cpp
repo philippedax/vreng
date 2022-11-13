@@ -284,7 +284,7 @@ bool VNCRFB::sendKeyEvent(uint32_t key, bool down)
   ke.down = down ? 1 : 0;
   ke.key = swap32(key);
 
-  //echo("sendKey: %02x %d", (char *)&ke, sz_rfbKeyEventMsg);
+  //echo("sendKey: %02x %d", ke.key, sz_rfbKeyEventMsg);
   return vncsock.writeExact((char *)&ke, sz_rfbKeyEventMsg);
 }
 
