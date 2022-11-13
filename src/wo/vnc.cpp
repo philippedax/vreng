@@ -299,6 +299,7 @@ void Vnc::connectServer()
   if (! serverdefined) return;
 
   vncClient = new VNCCliTextured(servername, port, passwdfile);
+
   //echo("VNC try to connect to %s:%d", servername, port);
 
   // client initialization
@@ -330,16 +331,17 @@ void Vnc::connectServer()
 
   u = (float) vncClient->realScreenWidth / tex_width;
   v = (float) vncClient->realScreenHeight / tex_height;
-  trace(DBG_VNC, "real_width=%d tex_width=%d u=%.2f", vncClient->realScreenWidth, tex_width, u);
-  trace(DBG_VNC, "real_height=%d tex_height=%d v=%.2f", vncClient->realScreenHeight, tex_height, v);
+  //echo("real_width=%d tex_width=%d u=%.2f", vncClient->realScreenWidth, tex_width, u);
+  //echo("real_height=%d tex_height=%d v=%.2f", vncClient->realScreenHeight, tex_height, v);
 }
 
 /* Disconnect from Vnc server */
 void Vnc::disconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
 {
   if (vnc->connected) {
-    if (! vnc->vncClient->closeVNC())
+    if (! vnc->vncClient->closeVNC()) {
       echo("disconnectServer: failed");
+    }
     else {
       vnc->connected = false;
       vnc->serverdefined = false;
@@ -364,7 +366,7 @@ void Vnc::convert(const char *srvstr, const char *portstr, const char *passstr)
     error("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
     return;
   }
-  echo("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
+  //echo("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
 
   strcpy(servername, srvstr);
   port = atoi(portstr);
@@ -395,7 +397,7 @@ bool Vnc::mouseEvent(int16_t x, int16_t y, uint8_t button)
   params[2] = p2;
   params[3] = p3;
 
-  vncClient->sendRFBEvent((char **) params, (uint32_t *) &card); // send
+  vncClient->sendRFBEvent((char **) params, (uint32_t *) &card); // send ptr
 
   delete[] p1;
   delete[] p2;
@@ -414,7 +416,7 @@ bool Vnc::keyEvent(const char *key, bool is_pressed)
   params[0] = (is_pressed) ? "keydown" : "keyup";
   params[1] = pk;
 
-  vncClient->sendRFBEvent((char **) params, (uint32_t *) &card); // send
+  vncClient->sendRFBEvent((char **) params, (uint32_t *) &card); // send key
 
   free(pk);
   return true;
