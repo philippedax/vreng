@@ -257,7 +257,7 @@ bool VNCRFB::sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incre
   fur.w = swap16(w);
   fur.h = swap16(h);
 
-  if (!vncsock.writeExact((char *)&fur, sz_rfbFramebufferUpdateRequestMsg))
+  if (! vncsock.writeExact((char *)&fur, sz_rfbFramebufferUpdateRequestMsg))
     return false;
   return true;
 }
@@ -284,6 +284,7 @@ bool VNCRFB::sendKeyEvent(uint32_t key, bool down)
   ke.down = down ? 1 : 0;
   ke.key = swap32(key);
 
+  //echo("sendKey: %02x %d", (char *)&ke, sz_rfbKeyEventMsg);
   return vncsock.writeExact((char *)&ke, sz_rfbKeyEventMsg);
 }
 
