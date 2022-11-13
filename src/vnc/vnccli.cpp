@@ -164,7 +164,7 @@ void VNCCli::sendRFBEvent(char **params, uint32_t *nparams)
       return;
     }
     k = XStringToKeysym(params[1]);
-    if (k == 0) k = 0xff0d; //'\r';
+    if (k == 0) k = 0xff0d; //'\r';	// carriage return case
     if (k == NoSymbol) {
       error("invalid keysym '%s' passed to sendRFBEvent (k=%02x)", params[1], k);
       return;
