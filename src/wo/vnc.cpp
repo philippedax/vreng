@@ -311,7 +311,7 @@ void Vnc::connectServer()
   }
   else {
     connected = true;
-    echo("VNC connect successful on %s:%d", servername, port);
+    //echo("VNC connect successful on %s:%d", servername, port);
 
     vncClient->sendFramebufferUpdateRequest(0, 0,
                                             vncClient->realScreenWidth,
