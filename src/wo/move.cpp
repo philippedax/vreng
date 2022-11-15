@@ -146,60 +146,61 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 /* modify user position in one direction */
 void User::changePositionOneDir(uint8_t move_key, float lasting)
 {
+#if 0 //dax
   if (carrier && carrier->underControl()) {  // Manipulator
-    //echo("carr:%d", move_key);
     carrier->mouseEvent(move_key, lasting);
     carrier->keyEvent(move_key, lasting); //arrow keys
+    return;
   }
-  else {                                 // Navigator
-    switch (move_key) {
-      case KEY_AV:  // move forward left
-        pos.x += lasting * lspeed * cos(pos.az);
-        pos.y += lasting * lspeed * sin(pos.az);
-        break;
-      case KEY_AR:  // move backward right
-        pos.x -= lasting * lspeed * cos(pos.az);
-        pos.y -= lasting * lspeed * sin(pos.az);
-        break;
-      case KEY_SD:  // move forward right
-        pos.x += lasting * lspeed * sin(pos.az);
-        pos.y -= lasting * lspeed * cos(pos.az);
-        break;
-      case KEY_SG:  // move backward left
-        pos.x -= lasting * lspeed * sin(pos.az);
-        pos.y += lasting * lspeed * cos(pos.az);
-        break;
-      case KEY_DR:  // turn right
-        pos.az -= lasting * aspeed;
-        pos.az -= M_2PI * (float) floor(pos.az / M_2PI);
-        break;
-      case KEY_GA:  // turn left
-        pos.az += lasting * aspeed;
-        pos.az -= M_2PI * (float) floor(pos.az / M_2PI);
-        break;
-       case KEY_MT:  // roll backward
-         pos.ay = MIN(pos.ay + lasting * aspeed, M_2PI_5);
-         break;
-       case KEY_DE:  // roll forward
-         pos.ay = MAX(pos.ay - lasting * aspeed, -M_2PI_5);
-         break;
-       case KEY_HZ:  // stand up
-         pos.ay = pos.ax = 0;
-         break;
-       case KEY_JU:  // move up
-         pos.z += lasting * lspeed;
-         break;
-       case KEY_JD:  // move down
-         pos.z -= lasting * lspeed;
-         break;
-       case KEY_TL:  // tilt left
-         pos.ax = pos.ax + lasting * aspeed;
-         break;
-       case KEY_TR:  // tilt right
-         pos.ax = pos.ax - lasting * aspeed;
-         break;
+#endif
+  // Navigator
+  switch (move_key) {
+    case KEY_AV:  // move forward left
+      pos.x += lasting * lspeed * cos(pos.az);
+      pos.y += lasting * lspeed * sin(pos.az);
+      break;
+    case KEY_AR:  // move backward right
+      pos.x -= lasting * lspeed * cos(pos.az);
+      pos.y -= lasting * lspeed * sin(pos.az);
+      break;
+    case KEY_SD:  // move forward right
+      pos.x += lasting * lspeed * sin(pos.az);
+      pos.y -= lasting * lspeed * cos(pos.az);
+      break;
+    case KEY_SG:  // move backward left
+      pos.x -= lasting * lspeed * sin(pos.az);
+      pos.y += lasting * lspeed * cos(pos.az);
+      break;
+    case KEY_DR:  // turn right
+      pos.az -= lasting * aspeed;
+      pos.az -= M_2PI * (float) floor(pos.az / M_2PI);
+      break;
+    case KEY_GA:  // turn left
+      pos.az += lasting * aspeed;
+      pos.az -= M_2PI * (float) floor(pos.az / M_2PI);
+      break;
+    case KEY_MT:  // roll backward
+       pos.ay = MIN(pos.ay + lasting * aspeed, M_2PI_5);
+       break;
+    case KEY_DE:  // roll forward
+      pos.ay = MAX(pos.ay - lasting * aspeed, -M_2PI_5);
+      break;
+    case KEY_HZ:  // stand up
+      pos.ay = pos.ax = 0;
+      break;
+    case KEY_JU:  // move up
+      pos.z += lasting * lspeed;
+      break;
+    case KEY_JD:  // move down
+      pos.z -= lasting * lspeed;
+      break;
+    case KEY_TL:  // tilt left
+      pos.ax = pos.ax + lasting * aspeed;
+      break;
+    case KEY_TR:  // tilt right
+      pos.ax = pos.ax - lasting * aspeed;
+      break;
     }
-  }
 }
 
 /* fill times's array for each user movement direction */
@@ -429,21 +430,24 @@ void WObject::imposedMovement(time_t sec, time_t usec)
     return;
   }
   if (World::current()->isDead()) return;
-  if (! isMoving()) return;	// no moving
-
-#if 0 //dax
-  if (carrier && carrier->underControl()) {  // Manipulator
-    echo("manip:%d", type);
-    carrier->mouseEvent(type, 1);
-    carrier->keyEvent(type, 1); //arrow keys
-  }
-#endif
+  if (! isMoving() && ! move.manip) return;	// no moving
 
   Pos oldpos = pos;
   copyPosAndBB(oldpos);		// keep oldpos for network
 
   float lasting = -1;
   updateTime(sec, usec, &lasting);  // handled by each object only for imposed movements
+
+#if 1 //dax
+  if (carrier && carrier->underControl()) {  // Manipulator
+    lasting = 5;
+    //echo("manip:%.2f", lasting);
+    for (int k = 0; k < MAXKEYS ; k++) {
+      carrier->mouseEvent(k, lasting);
+      carrier->keyEvent(k, lasting); //arrow keys
+    }
+  }
+#endif
   move.next = NULL;
 
   if (lasting > MIN_LASTING) {

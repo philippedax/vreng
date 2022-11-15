@@ -806,6 +806,7 @@ void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
     po->carrier->take(po);
     po->move.manip = true;
   }
+  po->initImposedMovement(5); //dax carrier
   localuser->carrier->take(po);
 }
 

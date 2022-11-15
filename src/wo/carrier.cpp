@@ -122,6 +122,7 @@ void Carrier::mouseEvent(int8_t vkey, float last)
   WObject *poldobj = new WObject();
   object->copyPositionAndBB(poldobj);	// copy oldpos, oldangle
 
+  echo("carrier: k=%d", vkey);
   switch (vkey) {
     case KEY_AV: object->pos.x += last*lspeed; break; // ^
     case KEY_AR: object->pos.x -= last*lspeed; break; // v
