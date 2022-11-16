@@ -113,26 +113,33 @@ void Motion::setToCarrier(class Carrier *_carrier)
   carrier = _carrier;
 }
 
+/////////////////
 // User movements
 
+// Translation movements
 // Move forward, backward
-Motion Motion::u_trans_y(0 /*KEY_AV*/, KEY_AR, User::UA_SETLSPEED, LINEAR_ACCEL);
-// Turn left, right
-Motion Motion::u_rot_z(0   /*KEY_GA*/, KEY_DR, User::UA_SETASPEED, ANGULAR_ACCEL);
+Motion Motion::u_trans_y(0, KEY_AR /*KEY_AV*/, User::UA_SETLSPEED, LINEAR_ACCEL);
 // Move left, right
-Motion Motion::u_trans_x(0 /*KEY_SG*/, KEY_SD, User::UA_SETLSPEED, LINEAR_ACCEL);
-// Move down, up
-Motion Motion::u_trans_z(0 /*KEY_JU*/, KEY_JD, User::UA_SETLSPEED, LINEAR_ACCEL);
+Motion Motion::u_trans_x(0, KEY_SD /*KEY_SG*/, User::UA_SETLSPEED, LINEAR_ACCEL);
+// Move up, down
+Motion Motion::u_trans_z(0, KEY_JD /*KEY_JU*/, User::UA_SETLSPEED, LINEAR_ACCEL);
 
+// Rotation movements
+// Turn left, right
+Motion Motion::u_rot_z(0,   KEY_DR /*KEY_GA*/, User::UA_SETASPEED, ANGULAR_ACCEL);
+
+///////////////////
 // Object movements
 
+// Translation movements
 // Move forward, backward
-Motion Motion::o_trans_f(0 /*KEY_AV*/, KEY_AR, Carrier::SETLSPEED, LINEAR_ACCEL);
+Motion Motion::o_trans_f(0, KEY_AR /*KEY_AV*/, Carrier::SETLSPEED, LINEAR_ACCEL);
 // Move left, right
-Motion Motion::o_trans_l(0 /*KEY_SG*/, KEY_SD, Carrier::SETLSPEED, LINEAR_ACCEL);
-// Move down, up
-Motion Motion::o_trans_u(0 /*KEY_JU*/, KEY_JD, Carrier::SETLSPEED, LINEAR_ACCEL);
+Motion Motion::o_trans_l(0, KEY_SD /*KEY_SG*/, Carrier::SETLSPEED, LINEAR_ACCEL);
+// Move up, down
+Motion Motion::o_trans_u(0, KEY_JD /*KEY_JU*/, Carrier::SETLSPEED, LINEAR_ACCEL);
 
+// Rotation movements
 // Turn left, right (Yaw)
 Motion Motion::o_rot_l_z(0,  KEY_GA, Carrier::SETASPEED, 0);
 Motion Motion::o_rot_r_z(0,  KEY_DR, Carrier::SETASPEED, 0);
