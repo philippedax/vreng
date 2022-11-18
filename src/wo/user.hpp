@@ -63,8 +63,10 @@ public:
   
 protected:
   friend class WObject;
+#if 0 //dax
   float lspeed;		///< linear speed.
   float aspeed;		///< angular speed.
+#endif
 
   uint32_t ssrc;	///< ssrc id.
   char  *front;		///< url body front.
@@ -114,11 +116,13 @@ public:
   Bubble *bubble;	///< bubble text.
   uint8_t current_view;	///< current_view.
 
+#if 0 //dax
   bool   kpressed[MAXKEYS];	///< is the key pressed ?
   time_t kpstart_s[MAXKEYS];	///< key press starting time (sec).
   time_t kpstart_u[MAXKEYS];	///< key press starting time (usec).
   time_t kpdur_s[MAXKEYS];	///< key press duration from starting time sec.
   time_t kpdur_u[MAXKEYS];	///< key press duration from starting time usec.
+#endif
 
   /* props */
   enum {
@@ -205,6 +209,7 @@ public:
   static void userRequesting(const char *usermsg);
   /**< Signals a message sent by an user. */
 
+#if 0 //dax
   virtual void clearKeyTab();
   /**< Clears keys times array. */
 
@@ -213,6 +218,7 @@ public:
 
   virtual void changePositionOneDir(const uint8_t move_type, const float last);
   /**< Modifies user position in one direction. */
+#endif
 
   virtual void updateTime(float lasting[]);
   /**< Fills delays's array for each user motion direction. */

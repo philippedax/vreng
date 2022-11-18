@@ -60,7 +60,7 @@ void changeKey(int k_id, bool pressed, time_t sec, time_t usec)
 }
 
 /* clear keys times array */
-void User::clearKeyTab()
+void WObject::clearKeyTab()
 {
   for (int k=0; k < MAXKEYS; k++) {
     kpressed[k] = false;
@@ -70,7 +70,7 @@ void User::clearKeyTab()
 }
 
 /* update the keydifftime arrays */
-void User::updateKeys(time_t sec, time_t usec)
+void WObject::updateKeys(time_t sec, time_t usec)
 {
   for (int k=0; k < MAXKEYS; k++) {
     if (kpressed[k]) {
@@ -79,6 +79,15 @@ void User::updateKeys(time_t sec, time_t usec)
       kpstart_s[k] = sec;
       kpstart_u[k] = usec;
     }
+  }
+}
+
+/* fill times's array for each user movement direction */
+void User::updateTime(float lastings[])
+{
+  for (int k=0; k < MAXKEYS; k++) {
+    lastings[k] = (float) kpdur_s[k] + (float) kpdur_u[k] / 1e6;
+    kpdur_s[k] = kpdur_u[k] = 0;
   }
 }
 
@@ -144,10 +153,11 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 }
 
 /* modify user position in one direction */
-void User::changePositionOneDir(uint8_t move_key, float lasting)
+void WObject::changePositionOneDir(uint8_t move_key, float lasting)
 {
-#if 0 //dax
+#if 1 //dax
   if (carrier && carrier->underControl()) {  // Manipulator
+    echo("onedir: k=%d", move_key);
     carrier->mouseEvent(move_key, lasting);
     carrier->keyEvent(move_key, lasting); //arrow keys
     return;
@@ -201,15 +211,6 @@ void User::changePositionOneDir(uint8_t move_key, float lasting)
       pos.ax = pos.ax - lasting * aspeed;
       break;
     }
-}
-
-/* fill times's array for each user movement direction */
-void User::updateTime(float lastings[])
-{
-  for (int k=0; k < MAXKEYS; k++) {
-    lastings[k] = (float) kpdur_s[k] + (float) kpdur_u[k] / 1e6;
-    kpdur_s[k] = kpdur_u[k] = 0;
-  }
 }
 
 /* do the movement for each direction */
@@ -438,7 +439,7 @@ void WObject::imposedMovement(time_t sec, time_t usec)
   float lasting = -1;
   updateTime(sec, usec, &lasting);  // handled by each object only for imposed movements
 
-#if 1 //dax
+#if 0 //dax
   if (carrier && carrier->underControl()) {  // Manipulator
     lasting = 5;
     //echo("manip:%.2f", lasting);

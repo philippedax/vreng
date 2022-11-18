@@ -24,6 +24,7 @@
 #include "oclass.hpp"	// OClass
 #include "olist.hpp"	// OList
 #include "parse.hpp"	// Parse
+#include "move.hpp"	// MAXKEYS
 #include "vrsql.hpp"	// VRSql
 
 
@@ -173,6 +174,11 @@ public:
   class Flare *flare;		///< flare instance.
   class Carrier *carrier;	///< move via carrier.
 
+#if 1 //dax
+  float lspeed;         ///< linear speed.
+  float aspeed;         ///< angular speed.
+#endif
+
   /* object's list modes */
   enum object_mode {
     STILL,
@@ -206,6 +212,15 @@ public:
     PRIOR_HIGH
   };
 
+#if 1 //dax
+  bool   kpressed[MAXKEYS];     ///< is the key pressed ?
+  time_t kpstart_s[MAXKEYS];    ///< key press starting time (sec).
+  time_t kpstart_u[MAXKEYS];    ///< key press starting time (usec).
+  time_t kpdur_s[MAXKEYS];      ///< key press duration from starting time sec.
+  time_t kpdur_u[MAXKEYS];      ///< key press duration from starting time usec.
+#endif
+
+  //////////////////////////////////////////////////////////////////////////////
   //
   // Methods
   //
@@ -238,6 +253,17 @@ public:
 
   virtual void updateTime(time_t sec, time_t usec, float *lasting) {}
   /**< Updates remaining times of the movement. */
+
+#if 1 //dax
+  virtual void clearKeyTab();
+  /**< Clears keys times array. */
+
+  virtual void updateKeys(time_t sec, time_t usec);
+  /**< Updates the keydifftime arrays. */
+
+  virtual void changePositionOneDir(const uint8_t move_type, const float last);
+  /**< Modifies user position in one direction. */
+#endif
 
   virtual bool updateToNetwork(const Pos &oldpos) { return false; }
   /**< Publishes changes to the network. */
