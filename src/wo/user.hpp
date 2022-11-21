@@ -63,10 +63,6 @@ public:
   
 protected:
   friend class WObject;
-#if 0 //dax
-  float lspeed;		///< linear speed.
-  float aspeed;		///< angular speed.
-#endif
 
   uint32_t ssrc;	///< ssrc id.
   char  *front;		///< url body front.
@@ -115,14 +111,6 @@ public:
   Cart *cart;		///< Cart.
   Bubble *bubble;	///< bubble text.
   uint8_t current_view;	///< current_view.
-
-#if 0 //dax
-  bool   kpressed[MAXKEYS];	///< is the key pressed ?
-  time_t kpstart_s[MAXKEYS];	///< key press starting time (sec).
-  time_t kpstart_u[MAXKEYS];	///< key press starting time (usec).
-  time_t kpdur_s[MAXKEYS];	///< key press duration from starting time sec.
-  time_t kpdur_u[MAXKEYS];	///< key press duration from starting time usec.
-#endif
 
   /* props */
   enum {

@@ -174,10 +174,8 @@ public:
   class Flare *flare;		///< flare instance.
   class Carrier *carrier;	///< move via carrier.
 
-#if 1 //dax
   float lspeed;         ///< linear speed.
   float aspeed;         ///< angular speed.
-#endif
 
   /* object's list modes */
   enum object_mode {
@@ -212,13 +210,12 @@ public:
     PRIOR_HIGH
   };
 
-#if 1 //dax
+  /* keys */
   bool   kpressed[MAXKEYS];     ///< is the key pressed ?
   time_t kpstart_s[MAXKEYS];    ///< key press starting time (sec).
   time_t kpstart_u[MAXKEYS];    ///< key press starting time (usec).
   time_t kpdur_s[MAXKEYS];      ///< key press duration from starting time sec.
   time_t kpdur_u[MAXKEYS];      ///< key press duration from starting time usec.
-#endif
 
   //////////////////////////////////////////////////////////////////////////////
   //
