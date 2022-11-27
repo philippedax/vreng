@@ -11,7 +11,7 @@ VRL_HDRS = vrl.hpp vre.hpp
 EXTRA_DIST = sysdep.h global.hpp vrl.l vrl.y
 
 
-if VRL
+if ENABLE_VRL
 
 lex.yy.o: lex.yy.cpp y.tab.h
 y.tab.o: y.tab.cpp y.tab.h

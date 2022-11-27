@@ -7,7 +7,7 @@ EXTRA_DIST = vred.l vred.y
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/bundle/glui $(GL_CFLAGS) $(X_CFLAGS)
 
-if VRED
+if ENABLE_VRED
 lex.yy.o: lex.yy.cpp y.tab.h
 y.tab.o: y.tab.cpp y.tab.h
 

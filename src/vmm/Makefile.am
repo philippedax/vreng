@@ -7,7 +7,7 @@ WORLD_FILES= Disk.java Machine.java MulticastAddress.java Pair.java Quadruplet.j
 
 EXTRA_DIST = vmm vmm.conf $(WORLD_FILES) $(COLLECTOR_FILES) README AUTHORS VERSION 
 
-if VMM
+if ENABLE_VMM
 
 # Javadoc output directory
 DOC_DIR=$(srcdir)/doc
@@ -32,7 +32,7 @@ vmm: $(JARS)
 $(DIRS):
 	@-mkdir -p $@
 
-if JAVA
+if ENABLE_JAVA
 # Compile the world classes
 $(WORLD_JAR): $(WORLD_FILES)
 	@echo -- Compiling world files...

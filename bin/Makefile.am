@@ -29,7 +29,7 @@ VRENG_SRCS = $(SRCDIR)/vreng/vreng.cpp
 vreng_SOURCES = $(VRENG_SRCS)
 
 # targets
-all: all-am vrl vrel vred vacs vaps vjs
+all: all-am vrl vrel vred vacs vaps vjs vmm
 
 # to install
 bin_PROGRAMS = vreng
@@ -39,36 +39,55 @@ bin_SCRIPTS = vre
 noinst_SCRIPTS =
 
 # to copy into bin/
-if VRL
+if ENABLE_VRL
 vrl: ../src/vrl/vrl
 	@-cp -p ../src/vrl/vrl .
+else
+	@echo "" >/dev/null
 endif
-if VREL
+if ENABLE_VREL
 vrel: ../src/vrel/vrel
 	@-cp -p ../src/vrel/vrel .
+else
+	@echo "" >/dev/null
 endif
-if VRED
+if ENABLE_VRED
 vred: ../src/vred/vred
 	@-cp -p ../src/vred/vred .
+else
+	@echo "" >/dev/null
 endif
 if ENABLE_VACS
 vacs: ../src/vacs/vacs
 	@-cp -p ../src/vacs/vacs .
+else
+	@echo "" >/dev/null
 endif
 if ENABLE_VAPS
 vaps: ../src/vaps/vaps
 	@-cp -p ../src/vaps/vaps .
+else
+	@echo "" >/dev/null
 endif
 if ENABLE_VJS
 vjs: ../src/vjs/vjs
 	@-cp -p ../src/vjs/vjs .
+else
+	@echo "" >/dev/null
 endif
+## if ENABLE_VMM
+vmm: ../src/vmm/vmm
+	@-cp -p ../src/vmm/vmm .
+	chmod 755 vmm
+## else
+## 	@echo "" >/dev/null
+## endif
 
 # core includes
 CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 
 # ocaml includes
-if OCAML
+if ENABLE_OCAML
 AM_CPPFLAGS = @UBIT_CFLAGS@ @OCAML_CFLAGS@ @XML2_CFLAGS@ $(CORE_INCL)
 else
 AM_CPPFLAGS = @UBIT_CFLAGS@ $(CORE_INCL)
@@ -80,16 +99,16 @@ EXT_LIB = $(PNG_LIB) $(Z_LIB)
 
 # bundle libraries
 XML_LIB   = -L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
-if BUNDLE_LIBMPEG
+if ENABLE_LIBMPEG
 MPEG_LIB  = -L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
 endif
-if BUNDLE_FTGL
+if ENABLE_FTGL
 FTGL_LIB  = -L$(SRCDIR)/bundle/ftgl $(SRCDIR)/bundle/ftgl/libftgl.a
 endif
-if BUNDLE_GLUI
+if ENABLE_GLUI
 GLUI_LIB  = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a
 endif
-if BUNDLE_GL2PS
+if ENABLE_GL2PS
 GL2PS_LIB = -L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
 endif
 
@@ -105,7 +124,7 @@ SYS_LIB   = -L$(SRCDIR)/sys   $(SRCDIR)/sys/libsys.a
 TOOL_LIB  = -L$(SRCDIR)/tool  $(SRCDIR)/tool/libtool.a
 VNC_LIB   = -L$(SRCDIR)/vnc   $(SRCDIR)/vnc/libvnc.a
 UBIT_LIB  = -L$(SRCDIR)/ubit  $(SRCDIR)/ubit/libubit.a
-if OCAML
+if ENABLE_OCAML
 AI_LIB    = -L$(SRCDIR)/ai    $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
 endif
 

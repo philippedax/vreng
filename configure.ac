@@ -552,14 +552,14 @@ fi
 #
 # Check IPv6 support
 #
-ipv6="no"
+enable_ipv6="no"
 AC_ARG_ENABLE(ipv6,
               AS_HELP_STRING([--enable-ipv6],[allow use of ipv6 if available (experimental) [[default=no]]]))
 
 AH_TEMPLATE(WANT_IPV6)
 AH_TEMPLATE(HAVE_IPV6)
 if test "${enable_ipv6:=no}" = "yes"; then
-  ipv6="yes"
+  enable_ipv6="yes"
   AC_DEFINE(WANT_IPV6)
   AC_MSG_CHECKING(IPv6 support)
   AC_EGREP_HEADER(sockaddr_in6, netinet/in.h,
@@ -606,13 +606,13 @@ fi
 #
 # vrl configuration
 #
-vrl="no"
+enable_vrl="no"
 AC_MSG_CHECKING(if vrl is enabled)
 AC_ARG_ENABLE(vrl,
               AS_HELP_STRING([--enable-vrl],[allow use of vrl [[default=no]]]))
 
 if test "${enable_vrl:=no}" = "yes"; then
-  vrl="yes"
+  enable_vrl="yes"
   CFLAGS="${CFLAGS} -DVRL"
   CXXFLAGS="${CXXFLAGS} -DVRL"
   AC_MSG_RESULT(yes)
@@ -625,13 +625,13 @@ fi
 #
 # vrel configuration
 #
-vrel="no"
+enable_vrel="no"
 AC_MSG_CHECKING(if vrel is enabled)
 AC_ARG_ENABLE(vrel,
               AS_HELP_STRING([--enable-vrel],[allow use of vrel [[default=no]]]))
 
 if test "${enable_vrel:=no}" = "yes"; then
-  vrel="yes"
+  enable_vrel="yes"
   CFLAGS="${CFLAGS} -DVREL"
   CXXFLAGS="${CXXFLAGS} -DVREL"
   AC_MSG_RESULT(yes)
@@ -644,13 +644,13 @@ fi
 #
 # vred configuration
 #
-vred="no"
+enable_vred="no"
 AC_MSG_CHECKING(if vred is enabled)
 AC_ARG_ENABLE(vred,
               AS_HELP_STRING([--enable-vred],[allow use of vred [[default=no]]]))
 
 if test "${enable_vred:=no}" = "yes"; then
-  vred="yes"
+  enable_vred="yes"
   enable_glui="yes"
   CFLAGS="${CFLAGS} -DVRED"
   CXXFLAGS="${CXXFLAGS} -DVRED"
@@ -664,13 +664,13 @@ fi
 #
 # vmm configuration
 #
-vmm="no"
+enable_vmm="no"
 AC_MSG_CHECKING(if vmm is enabled)
 AC_ARG_ENABLE(vmm,
               AS_HELP_STRING([--enable-vmm],[allow use of vmm [[default=no]]]))
 
 if test "${enable_vmm:=no}" = "yes"; then
-  vmm="yes"
+  enable_vmm="yes"
   CFLAGS="${CFLAGS} -DVMM"
   CXXFLAGS="${CXXFLAGS} -DVMM"
   #
@@ -686,7 +686,7 @@ if test "${enable_vmm:=no}" = "yes"; then
   if test "$ac_cv_prog_java_works" = "yes" ; then
     AC_DEFINE(HAVE_JAVA)
   else
-    java="no"
+    enable_java="no"
   fi
   AC_MSG_RESULT(yes)
 else
@@ -698,13 +698,13 @@ fi
 #
 # vaps server configuration
 #
-vaps="no"
+enable_vaps="no"
 AC_MSG_CHECKING(if vaps is enabled)
 AC_ARG_ENABLE(vaps,
               AS_HELP_STRING([--enable-vaps],[allow use of vaps server [[default=no]]]))
 
 if test "${enable_vaps:=no}" = "yes"; then
-  vaps="yes"
+  enable_vaps="yes"
   CFLAGS="${CFLAGS} -DVAPS"
   CXXFLAGS="${CXXFLAGS} -DVAPS"
   AC_MSG_RESULT(yes)
@@ -717,14 +717,14 @@ fi
 #
 # vjs server configuration
 #
-vjs="no"
-java="yes"
+enable_vjs="no"
+enable_java="yes"
 AC_MSG_CHECKING(if vjs is enabled)
 AC_ARG_ENABLE(vjs,
               AS_HELP_STRING([--enable-vjs],[allow use of vjs server [[default=no]]]))
 
 if test "${enable_vjs:=no}" = "yes"; then
-  vjs="yes"
+  enable_vjs="yes"
   CFLAGS="${CFLAGS} -DVJS"
   CXXFLAGS="${CXXFLAGS} -DVJS"
   AC_MSG_RESULT(yes)
@@ -741,11 +741,11 @@ if test "${enable_vjs:=no}" = "yes"; then
   if test "$ac_cv_prog_java_works" = "yes" ; then
     AC_DEFINE(HAVE_JAVA)
   else
-    java="no"
+    enable_java="no"
   fi
 else
   AC_MSG_RESULT(no)
-  java="no"
+  enable_java="no"
 fi
 
 
@@ -753,13 +753,13 @@ fi
 #
 # vacs server configuration
 #
-vacs="no"
+enable_vacs="no"
 AC_MSG_CHECKING(if vacs is enabled)
 AC_ARG_ENABLE(vacs,
               AS_HELP_STRING([--enable-vacs],[allow use of vacs server [[default=no]]]))
 
 if test "${enable_vacs:=no}" = "yes"; then
-  vacs="yes"
+  enable_vacs="yes"
   CFLAGS="$CFLAGS -DVACS"
   CXXFLAGS="$CXXFLAGS -DVACS"
   AC_MSG_RESULT(yes)
@@ -825,7 +825,7 @@ AC_DEFUN([AC_X11_CHECK],
 #
 AC_DEFUN([AC_GLUT_CHECK],
 [ 
-have_glut="no"
+enable_glut="no"
 AH_TEMPLATE(HAVE_LIBGLUT)
 
 case "`$ac_config_sub $build`" in
@@ -878,7 +878,7 @@ case "`$ac_config_sub $build`" in
   ;;
 esac
 AC_DEFINE(HAVE_LIBGLUT)
-have_glut="yes"
+enable_glut="yes"
 
 CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
 ])
@@ -983,7 +983,7 @@ fi
 #    [ac_cv_use_libz_builtin=$withval], [ac_cv_use_libz_builtin=no])
 #
 #if test "$ac_cv_use_libz_builtin" = "no"; then
-#  bundle_libz="yes"
+#  enable_libz="yes"
 #  AH_TEMPLATE(HAVE_LIBZ)
 #  AC_CHECK_LIB([z], [inflate],
 #     [VRELIBS="-lz $VRELIBS"],
@@ -991,11 +991,11 @@ fi
 #     [])
 #  if test "$ac_cv_lib_z_inflate" = "yes" ; then
 #    AC_DEFINE(HAVE_LIBZ)
-#    bundle_libz="no"
+#    enable_libz="no"
 #  fi
 #else
 #  AC_DEFINE(HAVE_LIBZ)
-#  bundle_libz="yes"
+#  enable_libz="yes"
 #fi
 
 
@@ -1103,8 +1103,8 @@ if test "$ac_cv_use_ubit_builtin" = "no"; then
      [$UBIT_L $X_LIBS -lXpm $x_libs])
 
   UBIT_CFLAGS=$UBIT_I
-  ubit="no"
-  bundle_ftgl="no"
+  enable_ubit="no"
+  enable_ftgl="no"
   toolkit="ubit-$UBIT_VERSION"
 else
   # Use builtin ubit
@@ -1112,8 +1112,8 @@ else
   UBIT_I="-I../../src"
   UBIT_CFLAGS=$UBIT_I
   VRELIBS="$X_LIBS -lXpm -lICE -lSM -lXext -lXmu -lX11 $VRELIBS"
-  ubit="yes"
-  bundle_ftgl="yes"
+  enable_ubit="yes"
+  enable_ftgl="yes"
   min_ubit_version=7.0.0
   toolkit=7.0.0
 fi
@@ -1276,14 +1276,14 @@ fi
 #  if test "$ac_cv_lib_ftgl_main" = "yes" ; then
 #    AC_DEFINE(WITH_FTGL)
 #    AC_DEFINE(HAVE_FTGL)
-#    bundle_ftgl="no"
+#    enable_ftgl="no"
 #    AC_CHECK_HEADER([FTGL/ftgl.h], [AC_DEFINE([HAVE_FTGL_H])],
 #	    AC_MSG_WARN([unable to find ftgl header]))
 #  else
-#    bundle_ftgl="yes"
+#    enable_ftgl="yes"
 #  fi
 #else
-#  bundle_ftgl="yes"
+#  enable_ftgl="yes"
 #fi
 
 
@@ -1294,7 +1294,7 @@ fi
 AC_ARG_WITH([mpeg],
     AS_HELP_STRING([--with-mpeg],[allow use of libmpeg if available [[default=yes]]]))
 
-bundle_libmpeg="no"
+enable_libmpeg="no"
 AH_TEMPLATE(HAVE_LIBMPEG)
 if test "${with_mpeg:=yes}" = "yes"; then
   #
@@ -1307,7 +1307,7 @@ if test "${with_mpeg:=yes}" = "yes"; then
   if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
     AC_DEFINE(HAVE_LIBMPEG)
   else
-    bundle_libmpeg="yes"
+    enable_libmpeg="yes"
     AC_DEFINE(HAVE_LIBMPEG)
   fi
 fi
@@ -1599,13 +1599,13 @@ fi
 #
 # Check gl2ps support
 #
-gl2ps="no"
+enable_gl2ps="no"
 AC_ARG_ENABLE([gl2ps],
       AS_HELP_STRING([--enable-gl2ps],[allow use of gl2ps if available (experimental) [[default=no]]]))
 
 AH_TEMPLATE(WANT_GL2PS)
 if test "${enable_gl2ps:=no}" = "yes"; then
-  gl2ps="yes"
+  enable_gl2ps="yes"
   AC_DEFINE(WANT_GL2PS)
 fi
 
@@ -1614,13 +1614,13 @@ fi
 #
 # Check glui support
 #
-bundle_glui="no"
+enable_glui="no"
 AC_ARG_ENABLE([glui],
       AS_HELP_STRING([--enable-glui],[allow use of glui if available (experimental) [[default=no]]]))
 
 AH_TEMPLATE(WANT_GLUI)
 if test "${enable_glui:=no}" = "yes"; then
-  bundle_glui="yes"
+  enable_glui="yes"
   AC_DEFINE(WANT_GLUI)
 fi
 
@@ -1663,7 +1663,7 @@ AH_TEMPLATE(WANT_OCAML)
 AH_TEMPLATE(OCAML_PATH)
 AH_TEMPLATE(HAVE_CAML_CALLBACK_H)
 
-ocaml="no"
+enable_ocaml="no"
 AC_ARG_WITH([ocaml],
      AS_HELP_STRING([--with-ocaml],[allow use of ocaml if available (experimental) [[default=no]]]))
 if test "${with_ocaml:=no}" = "yes"; then
@@ -1695,7 +1695,7 @@ ${OCAMLOPT} -output-obj conftestml.ml -o conftest_ml.o
        [conftest_ml.o ${OCAML_LIBS} -lasmrun -ldl])
   if test "$ac_cv_lib_asmrun_caml_startup" = "yes" ; then
     AC_DEFINE(HAVE_OCAML)
-    ocaml="yes"
+    enable_ocaml="yes"
   else
     AC_MSG_RESULT([	--> try apt|dnf|yum|brew install ocaml or http://caml.inria.fr/download_en.html])
   fi
@@ -1708,7 +1708,7 @@ fi
 #
 # check openal library
 #
-openal="no"
+enable_openal="no"
 AC_ARG_WITH([openal],
     AS_HELP_STRING([--with-openal],[allow use of openal if available  [[default=no]]]),
     [ac_cv_use_openal=$withval], [ac_cv_use_openal=no])
@@ -1723,7 +1723,7 @@ if test "$ac_cv_use_openal" = "yes"; then
     AH_TEMPLATE(HAVE_AL_H)
     AC_CHECK_HEADER([AL/al.h], [AC_DEFINE([HAVE_AL_H])],
 	    AC_MSG_WARN([unable to find openal header AL/al.h]))
-    openal="yes"
+    enable_openal="yes"
     # check alut
     AH_TEMPLATE(HAVE_ALUT)
     AC_CHECK_LIB([freealut], [alutLoadWAVFile],
@@ -1756,17 +1756,17 @@ fi
 #
 # SDL configuration
 #
-sdl="no"
+enable_sdl="no"
 AC_ARG_WITH([sdl2],
     AS_HELP_STRING([--with-sdl2],[allow use of sdl2 toolkit if available [[default=no]]]),
     [ac_cv_use_sdl2=$withval], [ac_cv_sdl2=no])
 if test "$ac_cv_use_SDL" = "yes" ; then
   SDL_VERSION_MIN=1.2.11
   AM_PATH_SDL($SDL_VERSION_MIN,
-      [sdl="yes"],
+      [enable_sdl="yes"],
       AC_MSG_WARN([*** SDL version $SDL_VERSION_MIN not found!]))
   AH_TEMPLATE(HAVE_LIBSDL)
-  if test "$sdl" = "yes"; then
+  if test "$enable_sdl" = "yes"; then
     AC_DEFINE(HAVE_LIBSDL)
     SDL2LIBS=`sdl2-config --libs`
     #SDL_LIBS=`echo $SDL_LIBS | sed -e 's/-Wl,-framework,Cocoa//'`
@@ -1819,24 +1819,24 @@ fi
 # 
 # Automake conditions
 # 
-AM_CONDITIONAL(UBIT, test "$ubit" = "yes")
-AM_CONDITIONAL(IPV6, test "$ipv6" = "yes")
-AM_CONDITIONAL(JAVA, test "$java" = "yes")
-AM_CONDITIONAL(OCAML, test "$ocaml" = "yes")
-AM_CONDITIONAL(VRL, test "$vrl" = "yes")
-AM_CONDITIONAL(VREL, test "$vrel" = "yes")
-AM_CONDITIONAL(VRED, test "$vred" = "yes")
-AM_CONDITIONAL(VMM, test "$vmm" = "yes")
-AM_CONDITIONAL(GLUT, test "$have_glut" = "yes")
-AM_CONDITIONAL(OPENAL, test "$openal" = "yes")
-AM_CONDITIONAL(SDL, test "$sdl" = "yes")
-AM_CONDITIONAL(ENABLE_VAPS, test "$vaps" = "yes")
-AM_CONDITIONAL(ENABLE_VJS, test "$vjs" = "yes")
-AM_CONDITIONAL(ENABLE_VACS, test "$vacs" = "yes")
-AM_CONDITIONAL(BUNDLE_GL2PS, test "$gl2ps" = "yes")
-AM_CONDITIONAL(BUNDLE_LIBMPEG, test "$bundle_libmpeg" = "yes")
-AM_CONDITIONAL(BUNDLE_FTGL, test "$bundle_ftgl" = "yes")
-AM_CONDITIONAL(BUNDLE_GLUI, test "$bundle_glui" = "yes")
+AM_CONDITIONAL(ENABLE_UBIT, test "$enable_ubit" = "yes")
+AM_CONDITIONAL(ENABLE_IPV6, test "$enable_ipv6" = "yes")
+AM_CONDITIONAL(ENABLE_JAVA, test "$enable_java" = "yes")
+AM_CONDITIONAL(ENABLE_OCAML, test "$enable_ocaml" = "yes")
+AM_CONDITIONAL(ENABLE_VRL, test "$enable_vrl" = "yes")
+AM_CONDITIONAL(ENABLE_VREL, test "$enable_vrel" = "yes")
+AM_CONDITIONAL(ENABLE_VRED, test "$enable_vred" = "yes")
+AM_CONDITIONAL(ENABLE_VMM, test "$enable_vmm" = "yes")
+AM_CONDITIONAL(ENABLE_GLUT, test "$enable_glut" = "yes")
+AM_CONDITIONAL(ENABLE_OPENAL, test "$enable_openal" = "yes")
+AM_CONDITIONAL(ENABLE_SDL, test "$enable_sdl" = "yes")
+AM_CONDITIONAL(ENABLE_VACS, test "$enable_vacs" = "yes")
+AM_CONDITIONAL(ENABLE_VAPS, test "$enable_vaps" = "yes")
+AM_CONDITIONAL(ENABLE_VJS, test "$enable_vjs" = "yes")
+AM_CONDITIONAL(ENABLE_GL2PS, test "$enable_gl2ps" = "yes")
+AM_CONDITIONAL(ENABLE_LIBMPEG, test "$enable_libmpeg" = "yes")
+AM_CONDITIONAL(ENABLE_FTGL, test "$enable_ftgl" = "yes")
+AM_CONDITIONAL(ENABLE_GLUI, test "$enable_glui" = "yes")
 
 
 # --------------------------------------------------------------------------

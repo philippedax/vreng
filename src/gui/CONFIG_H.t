@@ -214,7 +214,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ISASCII 1\n\
 \n\
 /* */\n\
-#define HAVE_JAVA 1\n\
+/* #undef HAVE_JAVA */\n\
 \n\
 /* */\n\
 #define HAVE_JPEGLIB_H 1\n\
@@ -729,7 +729,7 @@ const char CONFIG_H[] = "\
 /* #undef WANT_GL2PS */\n\
 \n\
 /* */\n\
-#define WANT_GLUI 1\n\
+/* #undef WANT_GLUI */\n\
 \n\
 /* */\n\
 /* #undef WANT_IPV6 */\n\
