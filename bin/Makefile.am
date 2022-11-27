@@ -29,7 +29,7 @@ VRENG_SRCS = $(SRCDIR)/vreng/vreng.cpp
 vreng_SOURCES = $(VRENG_SRCS)
 
 # targets
-all: all-am vrl vrel vred vacs vaps vjs vmm
+all: all-am vrl vrel vred vacs vaps vjs
 
 # to install
 bin_PROGRAMS = vreng
@@ -41,52 +41,27 @@ noinst_SCRIPTS =
 # to copy into bin/
 if VRL
 vrl: ../src/vrl/vrl
-	-cp -p ../src/vrl/vrl .
-else
-vrl:
-	@echo "" >/dev/null
+	@-cp -p ../src/vrl/vrl .
 endif
 if VREL
 vrel: ../src/vrel/vrel
-	-cp -p ../src/vrel/vrel .
-else
-vrel:
-	@echo "" >/dev/null
+	@-cp -p ../src/vrel/vrel .
 endif
 if VRED
 vred: ../src/vred/vred
-	-cp -p ../src/vred/vred .
-else
-vred:
-	@echo "" >/dev/null
-endif
-if VMM
-vmm: ../src/vmm/vmm
-	-cp -p ../src/vmm/vmm .
-else
-vmm:
-	@echo "" >/dev/null
+	@-cp -p ../src/vred/vred .
 endif
 if ENABLE_VACS
 vacs: ../src/vacs/vacs
-	-cp -p ../src/vacs/vacs .
-else
-vacs:
-	@echo "" >/dev/null
+	@-cp -p ../src/vacs/vacs .
 endif
 if ENABLE_VAPS
 vaps: ../src/vaps/vaps
-	-cp -p ../src/vaps/vaps .
-else
-vaps:
-	@echo "" >/dev/null
+	@-cp -p ../src/vaps/vaps .
 endif
 if ENABLE_VJS
 vjs: ../src/vjs/vjs
-	-cp -p ../src/vjs/vjs .
-else
-vjs:
-	@echo "" >/dev/null
+	@-cp -p ../src/vjs/vjs .
 endif
 
 # core includes
@@ -99,62 +74,45 @@ else
 AM_CPPFLAGS = @UBIT_CFLAGS@ $(CORE_INCL)
 endif
 
-Z_LIB= -lz
 PNG_LIB= -lpng
+Z_LIB= -lz
+EXT_LIB = $(PNG_LIB) $(Z_LIB)
 
 # bundle libraries
-#if BUNDLE_LIBZ
-#Z_LIB=-L$(SRCDIR)/bundle/zlib $(SRCDIR)/bundle/zlib/libz.a
-#else
-#Z_LIB= -lz
-#endif
+XML_LIB   = -L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
 if BUNDLE_LIBMPEG
-MPEG_LIB=-L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
-else
-MPEG_LIB=
-endif
-XML_LIB=-L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
-if BUNDLE_GL2PS
-GL2PS_LIB=-L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
-else
-GL2PS_LIB=
-endif
-if BUNDLE_GLUI
-GLUI_LIB=-L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a
-else
-GLUI_LIB= 
+MPEG_LIB  = -L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
 endif
 if BUNDLE_FTGL
-FTGL_LIB=-L$(SRCDIR)/bundle/ftgl $(SRCDIR)/bundle/ftgl/libftgl.a
-else
-FTGL_LIB= 
+FTGL_LIB  = -L$(SRCDIR)/bundle/ftgl $(SRCDIR)/bundle/ftgl/libftgl.a
+endif
+if BUNDLE_GLUI
+GLUI_LIB  = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a
+endif
+if BUNDLE_GL2PS
+GL2PS_LIB = -L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
 endif
 
 # core libs
-VRENG_LIB  = -L$(SRCDIR)/vreng $(SRCDIR)/vreng/libvreng.a
-SYS_LIB    = -L$(SRCDIR)/sys $(SRCDIR)/sys/libsys.a
-GUI_LIB    = -L$(SRCDIR)/gui $(SRCDIR)/gui/libgui.a
-WO_LIB     = -L$(SRCDIR)/wo  $(SRCDIR)/wo/libwo.a
-MODEL_LIB  = -L$(SRCDIR)/model $(SRCDIR)/model/libmodel.a
-2D_LIB     = -L$(SRCDIR)/2d $(SRCDIR)/2d/lib2d.a
-3D_LIB     = -L$(SRCDIR)/3d $(SRCDIR)/3d/lib3d.a
-NET_LIB    = -L$(SRCDIR)/net $(SRCDIR)/net/libnet.a
-TOOL_LIB   = -L$(SRCDIR)/tool $(SRCDIR)/tool/libtool.a
-VNC_LIB    = -L$(SRCDIR)/vnc $(SRCDIR)/vnc/libvnc.a
-if UBIT
-UBIT_LIB=-L$(SRCDIR)/ubit $(SRCDIR)/ubit/libubit.a
-else
-UBIT_LIB= -lubit
-endif
+VRENG_LIB = -L$(SRCDIR)/vreng $(SRCDIR)/vreng/libvreng.a
+GUI_LIB   = -L$(SRCDIR)/gui   $(SRCDIR)/gui/libgui.a
+WO_LIB    = -L$(SRCDIR)/wo    $(SRCDIR)/wo/libwo.a
+2D_LIB    = -L$(SRCDIR)/2d    $(SRCDIR)/2d/lib2d.a
+3D_LIB    = -L$(SRCDIR)/3d    $(SRCDIR)/3d/lib3d.a
+NET_LIB   = -L$(SRCDIR)/net   $(SRCDIR)/net/libnet.a
+MODEL_LIB = -L$(SRCDIR)/model $(SRCDIR)/model/libmodel.a
+SYS_LIB   = -L$(SRCDIR)/sys   $(SRCDIR)/sys/libsys.a
+TOOL_LIB  = -L$(SRCDIR)/tool  $(SRCDIR)/tool/libtool.a
+VNC_LIB   = -L$(SRCDIR)/vnc   $(SRCDIR)/vnc/libvnc.a
+UBIT_LIB  = -L$(SRCDIR)/ubit  $(SRCDIR)/ubit/libubit.a
 if OCAML
-AI_LIB=-L$(SRCDIR)/ai $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
-else
-AI_LIB=
+AI_LIB    = -L$(SRCDIR)/ai    $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
 endif
+
 CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(VRENG_LIB) $(SYS_LIB) $(UBIT_LIB) $(AI_LIB)
 
 # bundle libs
-BUNDLE_LIBS = $(Z_LIB) $(GLPNG_LIB) $(MPEG_LIB) $(GL2PS_LIB) $(GLUI_LIB) $(FTGL_LIB) $(XML_LIB) $(PNG_LIB)
+BUNDLE_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB)
 
 # executable
 vreng_LDADD = $(CORE_LIBS) $(BUNDLE_LIBS) $(VRELIBS) $(XLIBS)
