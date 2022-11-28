@@ -75,13 +75,13 @@ vjs: ../src/vjs/vjs
 else
 	@echo "" >/dev/null
 endif
-## if ENABLE_VMM
+if ENABLE_VMM
 vmm: ../src/vmm/vmm
 	@-cp -p ../src/vmm/vmm .
 	chmod 755 vmm
-## else
-## 	@echo "" >/dev/null
-## endif
+else
+	@echo "" >/dev/null
+endif
 
 # core includes
 CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
