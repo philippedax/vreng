@@ -1,6 +1,6 @@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
-XMLPARSER_SRCS = xmlParser.cpp xmlParser.h
+XMLPARSER_SRCS = xmlParser.cpp xmlParser.hpp
 
 
 noinst_LIBRARIES = libxmlparser.a

@@ -25,7 +25,7 @@
 #include <string>
 #include <vector>	//pour les index de gllist
 
-#include "../bundle/xmlParser/xmlParser.h"
+#include "../bundle/xmlParser/xmlParser.hpp"
 
 using namespace std;
 
