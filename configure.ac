@@ -467,9 +467,8 @@ AC_HEADER_STAT
 AC_HEADER_ASSERT
 AC_HEADER_SYS_WAIT
 
-AC_CHECK_HEADERS([unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h utime.h sys/socket.h malloc.h signal.h math.h errno.h sys/select.h sys/resource.h getopt.h pwd.h pthread.h netinet/tcp.h arpa/inet.h sys/utsname.h sys/param.h floatingpoint.h ieeefp.h locale.h wchar.h libintl.h sys/time.h sys/timeb.h])
+AC_CHECK_HEADERS([unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h utime.h malloc.h signal.h math.h errno.h getopt.h pwd.h pthread.h ieeefp.h locale.h wchar.h libintl.h floatingpoint.h sys/param.h sys/time.h sys/timeb.h sys/socket.h sys/select.h sys/resource.h sys/utsname.h netinet/tcp.h arpa/inet.h])
 
-#AC_STRUCT_TM
 
 # --------------------------------------------------------------------------
 #
@@ -554,7 +553,7 @@ fi
 #
 am_ipv6="no"
 AC_ARG_ENABLE(ipv6,
-              AS_HELP_STRING([--enable-ipv6],[allow use of ipv6 if available (experimental) [[default=no]]]))
+              AS_HELP_STRING([--enable-ipv6],[allow use of ipv6 if available [[default=no]]]))
 
 AH_TEMPLATE(WANT_IPV6)
 AH_TEMPLATE(HAVE_IPV6)
@@ -921,18 +920,18 @@ LDFLAGS="$LDFLAGS $OSDEP_LIBS"
 #
 AH_TEMPLATE(HAVE_LIBGIF)
 AC_CHECK_LIB([ungif], [DGifOpenFileName],
-     [VRELIBS="$OSDEP_LIBS -lungif $VRELIBS"],
-     [],
-     [$OSDEP_LIBS])
+             [VRELIBS="$OSDEP_LIBS -lungif $VRELIBS"],
+             [],
+             [$OSDEP_LIBS])
 if test "$ac_cv_lib_ungif_DGifOpenFileName" = "yes"; then
   AC_DEFINE(HAVE_LIBGIF)
   ubit_features="$ubit_features UBIT_WITH_GIF"
 else
   AC_CHECK_LIB([gif], [DGifOpenFileName],
-       [VRELIBS="$OSDEP_LIBS -lgif $VRELIBS"],
-       [AC_MSG_WARN([gif library not found, check config.log!,
-	get ftp://prtr-13.ucsc.edu/pub/libungif/ or try apt|dnf|yum|brew install giflib-devel | apt-get install libgif-dev giflib-tools])],
-       [$OSDEP_LIBS])
+               [VRELIBS="$OSDEP_LIBS -lgif $VRELIBS"],
+               [AC_MSG_WARN([gif library not found, check config.log!,
+	       get ftp://prtr-13.ucsc.edu/pub/libungif/ or try apt|dnf|yum|brew install giflib-devel | apt-get install libgif-dev giflib-tools])],
+               [$OSDEP_LIBS])
   if test "$ac_cv_lib_gif_DGifOpenFileName" = "yes"; then
     AC_DEFINE(HAVE_LIBGIF)
     ubit_features="$ubit_features UBIT_WITH_GIF"
@@ -946,16 +945,16 @@ fi
 #
 AH_TEMPLATE(HAVE_LIBJPEG)
 AC_CHECK_LIB([jpeg], [jpeg_read_scanlines],
-     [VRELIBS="$OSDEP_LIBS -ljpeg $VRELIBS"],
-     [AC_MSG_WARN([jpeg library not found, check config.log!, or try apt|dnf|yum|brew install libjpeg-turbo-devel | apt-get install libjpeg8-dev])],
-     [$OSDEP_LIBS])
+             [VRELIBS="$OSDEP_LIBS -ljpeg $VRELIBS"],
+             [AC_MSG_WARN([jpeg library not found, check config.log!, or try apt|dnf|yum|brew install libjpeg-turbo-devel | apt-get install libjpeg8-dev])],
+             [$OSDEP_LIBS])
 if test "$ac_cv_lib_jpeg_jpeg_read_scanlines" = "yes"; then
   AC_DEFINE([HAVE_LIBJPEG])
   ubit_features="$ubit_features UBIT_WITH_JPEG"
 fi
 AH_TEMPLATE(HAVE_JPEGLIB_H)
 AC_CHECK_HEADER([jpeglib.h], [AC_DEFINE([HAVE_JPEGLIB_H])],
-	AC_MSG_WARN([unable to find jpeg header]))
+	        AC_MSG_WARN([unable to find jpeg header]))
 
 # --------------------------------------------------------------------------
 #
@@ -963,14 +962,14 @@ AC_CHECK_HEADER([jpeglib.h], [AC_DEFINE([HAVE_JPEGLIB_H])],
 #
 AH_TEMPLATE(HAVE_LIBTIFF)
 AC_CHECK_LIB([tiff], [TIFFOpen],
-     [VRELIBS="$OSDEP_LIBS -ltiff $VRELIBS"],
-     [AC_MSG_WARN([tiff library not found, check config.log!, try apt|dnf|yum|brew install libtiff-devel | apt-get install libtiff4-dev])],
-     [$OSDEP_LIBS])
+             [VRELIBS="$OSDEP_LIBS -ltiff $VRELIBS"],
+             [AC_MSG_WARN([tiff library not found, check config.log!, try apt|dnf|yum|brew install libtiff-devel | apt-get install libtiff4-dev])],
+             [$OSDEP_LIBS])
 if test "$ac_cv_lib_tiff_TIFFOpen" = "yes"; then
   AC_DEFINE([HAVE_LIBTIFF])
   AH_TEMPLATE(HAVE_TIFFIO_H)
   AC_CHECK_HEADER([tiffio.h], [AC_DEFINE([HAVE_TIFFIO_H])],
-	  AC_MSG_WARN([unable to find tiff header]))
+	          AC_MSG_WARN([unable to find tiff header]))
 fi
 
 
@@ -1006,15 +1005,15 @@ fi
 AH_TEMPLATE(HAVE_LIBPNG)
 LDFLAGS="$LDFLAGS $OSDEP_LIBS"
 AC_CHECK_LIB([png], [png_error],
-  [VRELIBS="$OSDEP_LIBS -lpng $VRELIBS"],
-  [AC_MSG_WARN([png library not found, check config.log, or try apt|dnf|yum|brew install libpng-devel or apt-get install libpng-dev])],
-  [$OSDEP_LIBS -lz])
+             [VRELIBS="$OSDEP_LIBS -lpng $VRELIBS"],
+             [AC_MSG_WARN([png library not found, check config.log, or try apt|dnf|yum|brew install libpng-devel or apt-get install libpng-dev])],
+             [$OSDEP_LIBS -lz])
 if test "$ac_cv_lib_png_png_error" = "yes" ; then
   AC_DEFINE(HAVE_LIBPNG)
 fi
 AH_TEMPLATE(HAVE_PNG_H)
 AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
-  AC_MSG_WARN([unable to find png header]))
+                AC_MSG_WARN([unable to find png header]))
 
 
 # --------------------------------------------------------------------------
@@ -1023,14 +1022,14 @@ AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
 #
 AH_TEMPLATE(HAVE_LIBCURL)
 AC_CHECK_LIB([curl], [curl_easy_init],
-     [VRELIBS="$OSDEP_LIBS -lcurl $VRELIBS"],
-     [AC_MSG_WARN([curl library not found, check config.log, or try apt|dnf|yum|brew install libcurl-devel or apt-get install libcurl4-openssl-dev])],
-     [$OSDEP_LIBS])
+             [VRELIBS="$OSDEP_LIBS -lcurl $VRELIBS"],
+             [AC_MSG_WARN([curl library not found, check config.log, or try apt|dnf|yum|brew install libcurl-devel or apt-get install libcurl4-openssl-dev])],
+             [$OSDEP_LIBS])
 if test "$ac_cv_lib_curl_curl_easy_init" = "yes"; then
   AC_DEFINE([HAVE_LIBCURL])
   AH_TEMPLATE(HAVE_CURL_CURL_H)
   AC_CHECK_HEADER([curl/curl.h], [AC_DEFINE([HAVE_CURL_CURL_H])],
-	  AC_MSG_WARN([unable to find curl header]))
+	          AC_MSG_WARN([unable to find curl header]))
 fi
 
 
@@ -1097,10 +1096,10 @@ if test "$ac_cv_use_ubit_builtin" = "no"; then
   fi
 
   AC_CHECK_LIB([ubit], [main],
-     [VRELIBS="$UBIT_L -lubit $VRELIBS"],
-     [AC_MSG_ERROR([ubit library not found, check config.log!,
-      get http://www.infres.enst.fr/ftp/pub/unix/gui/ubit/ubit.tar.gz])],
-     [$UBIT_L $X_LIBS -lXpm $x_libs])
+               [VRELIBS="$UBIT_L -lubit $VRELIBS"],
+               [AC_MSG_ERROR([ubit library not found, check config.log!,
+               get http://www.infres.enst.fr/ftp/pub/unix/gui/ubit/ubit.tar.gz])],
+               [$UBIT_L $X_LIBS -lXpm $x_libs])
 
   UBIT_CFLAGS=$UBIT_I
   am_ubit="no"
@@ -1157,9 +1156,9 @@ if test "$LDFLAGS_EXT" = "" ; then
 else
   GL_L=""
   AC_CHECK_LIB([GL], [glBegin],
-      [have_lib_OpenGL="yes" VRELIBS="-lGL $LDFLAGS_EXT $VRELIBS"],
-      ,
-      [-lGL $LDFLAGS_EXT])
+               [have_lib_OpenGL="yes" VRELIBS="-lGL $LDFLAGS_EXT $VRELIBS"],
+               ,
+               [-lGL $LDFLAGS_EXT])
 fi
 
 # now build the path for the OpenGL librairies
@@ -1173,16 +1172,16 @@ else
 fi
 AH_TEMPLATE(HAVE_GL_GL_H)
 AC_CHECK_HEADER([GL/gl.h], [AC_DEFINE([HAVE_GL_GL_H])],
-	AC_MSG_WARN([unable to find gl header]))
+	        AC_MSG_WARN([unable to find gl header]))
 
 #
 # check glu
 #
 AH_TEMPLATE(HAVE_LIBGLU)
 AC_CHECK_LIB([GLU], [gluPerspective],
-     [VRELIBS="$GL_L -lGLU -l$GL_lib $VRELIBS"],
-     [VRELIBS="$GL_L -l$GL_lib $VRELIBS"],
-     [$GL_L -l$GL_lib])
+             [VRELIBS="$GL_L -lGLU -l$GL_lib $VRELIBS"],
+             [VRELIBS="$GL_L -l$GL_lib $VRELIBS"],
+             [$GL_L -l$GL_lib])
 if test "$ac_cv_lib_GLU_gluPerspective" = "yes"; then
   AC_DEFINE(HAVE_LIBGLU)
 else
@@ -1191,7 +1190,7 @@ else
 fi
 AH_TEMPLATE(HAVE_GL_GLU_H)
 AC_CHECK_HEADER([GL/glu.h], [AC_DEFINE([HAVE_GL_GLU_H])],
-	AC_MSG_WARN([unable to find glu header]))
+	        AC_MSG_WARN([unable to find glu header]))
 
 if test "$glerror" != no; then
   AC_MSG_ERROR([Some necessary libraries / headers for OpenGL are missing])
@@ -1245,8 +1244,8 @@ if test "${enable_pthread:=yes}" = "yes"; then
   # check pthread
   #
   AC_CHECK_LIB([pthread], [pthread_create], 
-       [VRELIBS="-lpthread -L/usr/lib -ldl ${VRELIBS}"],
-       [AC_MSG_WARN([pthreads library not found, check config.log!])])
+               [VRELIBS="-lpthread -L/usr/lib -ldl ${VRELIBS}"],
+               [AC_MSG_WARN([pthreads library not found, check config.log!])])
   if test "$ac_cv_lib_pthread_pthread_create" = "yes" ; then
     CXXFLAGS="${CXXFLAGS} -D_REENTRANT"
     AC_DEFINE(WITH_PTHREAD)
@@ -1271,14 +1270,14 @@ fi
 #  # check ftgl
 #  #
 #  AC_CHECK_LIB([ftgl], [main], 
-#       [VRELIBS="-lftgl ${VRELIBS}"],
-#       [AC_MSG_WARN([ftgl library not found, use bundle ftgl])])
+#               [VRELIBS="-lftgl ${VRELIBS}"],
+#               [AC_MSG_WARN([ftgl library not found, use bundle ftgl])])
 #  if test "$ac_cv_lib_ftgl_main" = "yes" ; then
 #    AC_DEFINE(WITH_FTGL)
 #    AC_DEFINE(HAVE_FTGL)
 #    am_ftgl="no"
 #    AC_CHECK_HEADER([FTGL/ftgl.h], [AC_DEFINE([HAVE_FTGL_H])],
-#	    AC_MSG_WARN([unable to find ftgl header]))
+#	             AC_MSG_WARN([unable to find ftgl header]))
 #  else
 #    am_ftgl="yes"
 #  fi
@@ -1301,9 +1300,9 @@ if test "${with_mpeg:=yes}" = "yes"; then
   # check mpeg
   #
   AC_CHECK_LIB([mpeg], [OpenMPEG],
-       [VRELIBS="${OSDEP_LIBS} -l${libmpeg} ${VRELIBS}"],
-       [AC_MSG_RESULT([	use bundle mpeg_lib ])],
-       [${OSDEP_LIBS}])
+               [VRELIBS="${OSDEP_LIBS} -l${libmpeg} ${VRELIBS}"],
+               [AC_MSG_RESULT([	use bundle mpeg_lib ])],
+               [${OSDEP_LIBS}])
   if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
     AC_DEFINE(HAVE_LIBMPEG)
   else
@@ -1449,35 +1448,35 @@ if test "${with_mysql:=no}" = "yes"; then
   AC_SUBST(MYSQL_CFLAGS)
   CPPFLAGS="${MYSQL_I} ${CPPFLAGS}"
   AC_CHECK_HEADER([mysql.h],
-	  [AC_DEFINE([HAVE_MYSQL_H])],
-	  [AC_CHECK_HEADER([mysql/mysql.h],
-			   [AC_DEFINE([HAVE_MYSQL_MYSQL_H])],
-			   AC_MSG_WARN([unable to find mysql header])]
-			  )
-	 )
+	          [AC_DEFINE([HAVE_MYSQL_H])],
+	          [AC_CHECK_HEADER([mysql/mysql.h],
+			           [AC_DEFINE([HAVE_MYSQL_MYSQL_H])],
+			           AC_MSG_WARN([unable to find mysql header])]
+			          )
+	         )
   #
   # check libmysqlclient
   #
   if test "$ac_cv_lib_z_inflate" = "yes" ; then
     AC_CHECK_LIB([mysqlclient], [mysql_real_connect],
-	 [VRELIBS="${MYSQL_L} -lmysqlclient ${VRELIBS}"],,
-	 [${MYSQL_L} -lz])
+	         [VRELIBS="${MYSQL_L} -lmysqlclient ${VRELIBS}"],,
+	         [${MYSQL_L} -lz])
   else
     AC_CHECK_LIB([mysqlclient], [mysql_real_connect],
-	 [VRELIBS="${MYSQL_L} -lmysqlclient ${VRELIBS}"],,
-	 [${MYSQL_L}])
+	         [VRELIBS="${MYSQL_L} -lmysqlclient ${VRELIBS}"],,
+	         [${MYSQL_L}])
   fi
   if test "$ac_cv_lib_mysqlclient_mysql_real_connect" = "yes" ; then
     AC_DEFINE(WITH_MYSQL)
     AC_DEFINE(HAVE_LIBMYSQLCLIENT)
     if test "$ac_cv_lib_z_inflate" = "yes" ; then
       AC_CHECK_LIB([mysqlclient], [mysql_error],
-	   [VRELIBS="${VRELIBS}"],,
-	   [${MYSQL_L} -lz])
+	           [VRELIBS="${VRELIBS}"],,
+	           [${MYSQL_L} -lz])
     else
       AC_CHECK_LIB([mysqlclient], [mysql_error],
-	   [VRELIBS="${VRELIBS}"],,
-	   [${MYSQL_L}])
+	           [VRELIBS="${VRELIBS}"],,
+	           [${MYSQL_L}])
     fi
     if test "$ac_cv_lib_mysqlclient_mysql_error" = "yes" ; then
       AC_DEFINE(HAVE_MYSQL_ERROR)
@@ -1518,9 +1517,9 @@ if test "${with_xml2:=yes}" = "yes"; then
   AC_CHECK_HEADERS([libxml/xpathInternals.h])
 
   AC_CHECK_LIB([xml2], [xmlReaderForFile],
-       [VRELIBS="${OSDEP_LIBS} -lxml2 ${VRELIBS}"],
-       [AC_MSG_RESULT([	--> libxml2: http://xmlsoft.org/downloads.html])],
-       [`${XML2CONFIG} --libs`])
+               [VRELIBS="${OSDEP_LIBS} -lxml2 ${VRELIBS}"],
+               [AC_MSG_RESULT([	--> libxml2: http://xmlsoft.org/downloads.html])],
+               [`${XML2CONFIG} --libs`])
   CPPFLAGS=$saved_cppflags
   if test "$ac_cv_lib_xml2_xmlReaderForFile" = "yes" ; then
     AC_DEFINE(HAVE_LIBXML2)
@@ -1533,7 +1532,7 @@ fi
 # Python configuration
 #
 AC_ARG_WITH([python],
-    AS_HELP_STRING([--with-python],[allow use of python if available [[default=no]]]))
+    AS_HELP_STRING([--with-python],[allow use of python (experimental) [[default=no]]]))
 AH_TEMPLATE(WITH_PYTHON)
 AH_TEMPLATE(HAVE_LIBPYTHON)
 AH_TEMPLATE(HAVE_PYTHON_H)
@@ -1575,18 +1574,18 @@ if test "${with_python:=no}" = "yes"; then
   AC_SUBST(PYTHON_CFLAGS)
   CPPFLAGS="${PYTHON_I} ${CPPFLAGS}"
   AC_CHECK_HEADER([Python.h],
-	  [AC_DEFINE([HAVE_PYTHON_H])],
-	  [AC_CHECK_HEADER([python2.5/Python.h],
-			   [AC_DEFINE([HAVE_PYTHON_H])],
-			   AC_MSG_WARN([unable to find python header])]
-			  )
-	 )
+	          [AC_DEFINE([HAVE_PYTHON_H])],
+	          [AC_CHECK_HEADER([python2.5/Python.h],
+			           [AC_DEFINE([HAVE_PYTHON_H])],
+			           AC_MSG_WARN([unable to find python header])]
+			          )
+	         )
   #
   # check libpython2.5
   #
   AC_CHECK_LIB([python2.5], [Py_Initialize],
-	 [VRELIBS="${PYTHON_L} -lpython2.5 ${VRELIBS}"],,
-	 [${PYTHON_L}])
+	       [VRELIBS="${PYTHON_L} -lpython2.5 ${VRELIBS}"],,
+	       [${PYTHON_L}])
   if test "$ac_cv_lib_python2_5_Py_Initialize" = "yes" ; then
     AC_DEFINE(HAVE_LIBPYTHON)
   else
@@ -1601,7 +1600,7 @@ fi
 #
 am_gl2ps="no"
 AC_ARG_ENABLE([gl2ps],
-      AS_HELP_STRING([--enable-gl2ps],[allow use of gl2ps if available (experimental) [[default=no]]]))
+      AS_HELP_STRING([--enable-gl2ps],[allow use of gl2ps if available [[default=no]]]))
 
 AH_TEMPLATE(WANT_GL2PS)
 if test "${enable_gl2ps:=no}" = "yes"; then
@@ -1616,7 +1615,7 @@ fi
 #
 am_glui="no"
 AC_ARG_ENABLE([glui],
-      AS_HELP_STRING([--enable-glui],[allow use of glui if available (experimental) [[default=no]]]))
+      AS_HELP_STRING([--enable-glui],[allow use of glui if available [[default=no]]]))
 
 AH_TEMPLATE(WANT_GLUI)
 if test "${enable_glui:=no}" = "yes"; then
@@ -1633,7 +1632,6 @@ AC_ARG_ENABLE([efence],
       AS_HELP_STRING([--enable-efence],[enable efence debugging [[default=no]]]))
 
 if test "${enable_efence:=no}" = "yes"; then
-  #AC_CHECK_LIB([posix4], [sem_init])
   AC_CHECK_LIB([efence], [malloc])
 fi
 
@@ -1665,7 +1663,7 @@ AH_TEMPLATE(HAVE_CAML_CALLBACK_H)
 
 am_ocaml="no"
 AC_ARG_WITH([ocaml],
-     AS_HELP_STRING([--with-ocaml],[allow use of ocaml if available (experimental) [[default=no]]]))
+     AS_HELP_STRING([--with-ocaml],[allow use of ocaml if available [[default=no]]]))
 if test "${with_ocaml:=no}" = "yes"; then
   AC_DEFINE(WANT_OCAML)
   OCAML_PATH=
@@ -1680,9 +1678,9 @@ if test "${with_ocaml:=no}" = "yes"; then
   AC_SUBST(OCAML_LIBS)
   CPPFLAGS="${OCAML_CFLAGS} ${CPPFLAGS}"
   AC_CHECK_HEADER([caml/callback.h],
-	  [AC_DEFINE([HAVE_CAML_CALLBACK_H])],
-	  AC_MSG_WARN([unable to find ocaml header])
-	 )
+	          [AC_DEFINE([HAVE_CAML_CALLBACK_H])],
+	          AC_MSG_WARN([unable to find ocaml header])
+	         )
   #
   # check libasmrun
   #
@@ -1692,7 +1690,7 @@ if test "${with_ocaml:=no}" = "yes"; then
 !EOL
 ${OCAMLOPT} -output-obj conftestml.ml -o conftest_ml.o
   AC_CHECK_LIB([asmrun], [caml_startup], [VRELIBS="${VRELIBS}"],,
-       [conftest_ml.o ${OCAML_LIBS} -lasmrun -ldl])
+               [conftest_ml.o ${OCAML_LIBS} -lasmrun -ldl])
   if test "$ac_cv_lib_asmrun_caml_startup" = "yes" ; then
     AC_DEFINE(HAVE_OCAML)
     am_ocaml="yes"
@@ -1715,38 +1713,38 @@ AC_ARG_WITH([openal],
 if test "$ac_cv_use_openal" = "yes"; then
   AH_TEMPLATE(HAVE_OPENAL)
   AC_CHECK_LIB([openal], [alGetError],
-       [VRELIBS="$OSDEP_LIBS -lopenal $VRELIBS"],
-       [AC_MSG_WARN([openal library not found, check config.log!, try apt|dnf|yum|brew install openal-soft])],
-       [$OSDEP_LIBS])
+               [VRELIBS="$OSDEP_LIBS -lopenal $VRELIBS"],
+               [AC_MSG_WARN([openal library not found, check config.log!, try apt|dnf|yum|brew install openal-soft])],
+               [$OSDEP_LIBS])
   if test "$ac_cv_lib_openal_alGetError" = "yes"; then
     AC_DEFINE([HAVE_OPENAL])
     AH_TEMPLATE(HAVE_AL_H)
     AC_CHECK_HEADER([AL/al.h], [AC_DEFINE([HAVE_AL_H])],
-	    AC_MSG_WARN([unable to find openal header AL/al.h]))
+	            AC_MSG_WARN([unable to find openal header AL/al.h]))
     am_openal="yes"
     # check alut
     AH_TEMPLATE(HAVE_ALUT)
     AC_CHECK_LIB([freealut], [alutLoadWAVFile],
-	 [VRELIBS="$OSDEP_LIBS -lfreealut $VRELIBS"],
-	 [AC_MSG_WARN([freealut library not found, check config.log!, try apt|dnf|yum|brew install freealut])],
-	 [$OSDEP_LIBS])
+	         [VRELIBS="$OSDEP_LIBS -lfreealut $VRELIBS"],
+	         [AC_MSG_WARN([freealut library not found, check config.log!, try apt|dnf|yum|brew install freealut])],
+	         [$OSDEP_LIBS])
   #if test "$ac_cv_lib_freealut_alutLoadWAVFile" = "yes"; then
     VRELIBS="$OSDEP_LIBS -lfreealut $VRELIBS"
     AC_DEFINE([HAVE_ALUT])
     AH_TEMPLATE(HAVE_ALUT_H)
     AC_CHECK_HEADER([AL/alut.h], [AC_DEFINE([HAVE_ALUT_H])],
-	      AC_MSG_WARN([unable to find alut header]))
+	            AC_MSG_WARN([unable to find alut header]))
     # check libsndfile
     AH_TEMPLATE(HAVE_SNDFILE)
     AC_CHECK_LIB([sndfile], [sf_open],
-	 [VRELIBS="$OSDEP_LIBS -lsndfile $VRELIBS"],
-	 [AC_MSG_WARN([sndfile library not found, check config.log!, try apt|dnf|yum|brew  install libsndfile])],
-	 [$OSDEP_LIBS])
+	         [VRELIBS="$OSDEP_LIBS -lsndfile $VRELIBS"],
+	         [AC_MSG_WARN([sndfile library not found, check config.log!, try apt|dnf|yum|brew  install libsndfile])],
+	         [$OSDEP_LIBS])
     if test "$ac_cv_lib_sndfile_sf_open" = "yes"; then
       AC_DEFINE([HAVE_SNDFILE])
       AH_TEMPLATE(HAVE_SNDFILE_H)
       AC_CHECK_HEADER([sndfile.h], [AC_DEFINE([HAVE_SNDFILE_H])],
-	      AC_MSG_WARN([unable to find sndfile header]))
+	              AC_MSG_WARN([unable to find sndfile header]))
     fi
   fi
 fi
@@ -1780,9 +1778,9 @@ if test "$ac_cv_use_SDL" = "yes" ; then
   #
   AH_TEMPLATE(HAVE_LIBSDLMIXER)
   AC_CHECK_LIB([SDL_mixer], [Mix_OpenAudio],
-       [VRELIBS="${OSDEP_LIBS} -lSDL_mixer ${VRELIBS}"],
-       [AC_MSG_RESULT([	--> libSDL_mixer: http://www.libsdl.org/projects/SDL_Mixer:])],
-       [${OSDEP_LIBS}])
+               [VRELIBS="${OSDEP_LIBS} -lSDL_mixer ${VRELIBS}"],
+               [AC_MSG_RESULT([	--> libSDL_mixer: http://www.libsdl.org/projects/SDL_Mixer:])],
+               [${OSDEP_LIBS}])
   if test "$ac_cv_lib_SDL_mixer_Mix_OpenAudio" = "yes" ; then
     AC_DEFINE(HAVE_LIBSDLMIXER)
     AC_CHECK_HEADERS([SDL/SDL_mixer.h])
@@ -1794,6 +1792,7 @@ fi
 #
 # Checks for external tools
 #
+# check for wget
 AH_TEMPLATE(HAVE_WGET)
 AH_TEMPLATE(WGETPATH)
 AC_PATH_PROG(WGETPATH, wget, no)
@@ -1801,6 +1800,7 @@ if test x$WGETPATH != xno; then
   AC_DEFINE(HAVE_WGET)
   AC_DEFINE_UNQUOTED(WGETPATH, ["$WGETPATH"])
 fi
+# check for curl
 AH_TEMPLATE(HAVE_CURL)
 AH_TEMPLATE(CURLPATH)
 AC_PATH_PROG(CURLPATH, curl, no)
@@ -1808,6 +1808,7 @@ if test x$CURLPATH != xno; then
   AC_DEFINE(HAVE_CURL)
   AC_DEFINE_UNQUOTED(CURLPATH, ["$CURLPATH"])
 fi
+# check for perl
 AH_TEMPLATE(PERLPATH)
 AC_PATH_PROG(PERLPATH, perl, no)
 if test x$PERLPATH != xno; then
@@ -1817,7 +1818,7 @@ fi
 
 # --------------------------------------------------------------------------
 # 
-# Automake conditions
+# Automake conditions (used in Makefile.am)
 # 
 AM_CONDITIONAL(ENABLE_UBIT,    test "$am_ubit" = "yes")
 AM_CONDITIONAL(ENABLE_IPV6,    test "$am_ipv6" = "yes")
