@@ -173,14 +173,17 @@ Teapot::Teapot()
   level = 1; 
 
   /* put teapot data into single array for subdivision */
-  for (int i=0; i<32 ; i++)
-    for (int j=0; j<4 ; j++)
-      for (int k=0; k<4 ; k++)
+  for (int i=0; i<32 ; i++) {
+    for (int j=0; j<4 ; j++) {
+      for (int k=0; k<4 ; k++) {
         for (int n=0; n<3 ; n++) {
           int m = indices[i][j][k];
           for (n=0; n<3 ; n++)
             data[i][j][k][n] = vertices[m-1][n];
         }
+      }
+    }
+  }
 }
 
 void Teapot::normal(point n, point p, point q, point r)

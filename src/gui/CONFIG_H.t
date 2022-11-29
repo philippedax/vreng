@@ -123,9 +123,6 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the `freehostent' function. */\n\
 #define HAVE_FREEHOSTENT 1\n\
 \n\
-/* */\n\
-#define HAVE_FREETYPE 1\n\
-\n\
 /* Define to 1 if you have the `ftime' function. */\n\
 #define HAVE_FTIME 1\n\
 \n\
@@ -227,9 +224,6 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you have the `efence' library (-lefence). */\n\
 /* #undef HAVE_LIBEFENCE */\n\
-\n\
-/* */\n\
-#define HAVE_LIBFREETYPE 1\n\
 \n\
 /* */\n\
 #define HAVE_LIBGIF 1\n\

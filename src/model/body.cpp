@@ -76,7 +76,7 @@ static const struct sBodyToken btokens[] = {
   { "rRing",    Body::R_RING },
   { "rPinky",   Body::R_PINKY },
   { "skirt",    Body::SKIRT },
-  { "/body", -1 }
+  { "/body",    Body::MAX_PARTS /* -1 */ } // James Addison C++14 compatible
 };
 
 

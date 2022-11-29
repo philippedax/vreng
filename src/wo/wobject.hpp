@@ -47,7 +47,7 @@
 #define COLLIDE_MASK		3<<29	// bits 29,30,31
 #define COLLIDE_ONCE		1<<29	// bit 29
 #define COLLIDE_NEVER		1<<30	// bit 30
-#define COLLIDE_GHOST		1<<31	// bit 31
+#define COLLIDE_GHOST		1U<<31	// bit 31	// James Addison C++14 compatible
 
 /**
  * objects lists

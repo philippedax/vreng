@@ -25,7 +25,7 @@ typedef GLfloat point[3];
 
 
 /**
- * Teapot model
+ * Teapot class
  */
 class Teapot {
 
@@ -40,7 +40,7 @@ public:
   Teapot();		///< constructor
   virtual ~Teapot() {}	///< destructor
 
-  virtual void draw(GLfloat width, GLfloat depth, GLfloat height, const int textures[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
+  void draw(GLfloat width, GLfloat depth, GLfloat height, const int textures[], GLfloat rtex[6][2], uint8_t slices, uint8_t style);
   /**< Draws a teapot */
 
 private:

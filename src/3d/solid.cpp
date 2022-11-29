@@ -36,11 +36,11 @@
 #include "pref.hpp"	// ::g.pref
 #include "md2.hpp"	// Md2
 #include "obj.hpp"	// Obj
-#include "human.hpp"	// Human::draw
-#include "man.hpp"	// Man::draw
-#include "car.hpp"	// Car::draw
-#include "wings.hpp"	// Wings::draw
-#include "teapot.hpp"	// Teapot::draw
+#include "human.hpp"	// draw
+#include "man.hpp"	// draw
+#include "wings.hpp"	// draw
+#include "car.hpp"	// draw
+#include "teapot.hpp"	// draw
 #include "flare.hpp"	// render
 
 #include <list>
@@ -442,6 +442,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   GLfloat tex_r_s = 1, tex_r_t = 1;
 
   Teapot *teapot = NULL;
+  Car *car = NULL;
 
   V3 dim = setV3(.1, .1, .1);	// default dimension : box 10x10x10 cm
 
@@ -871,7 +872,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
     case STOK_CAR:
       preDraw(texid, alpha, fog, true);
-      Car::draw(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, slices, style);
+      car = new Car();
+      car->draw(dim.v[0], dim.v[1], dim.v[2], box_tex, box_texrep, slices, style);
       setBB(dim.v[0], dim.v[1], dim.v[2]/2);
       //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]/2);
       postDraw(texid, alpha, fog);

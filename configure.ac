@@ -123,7 +123,6 @@ if test "${GCC}" = "yes"; then
   CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing"
   CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-address -Wno-deprecated  -Wno-write-strings -Wno-unused-function -Wno-unused-variable -Wno-unknown-pragmas -Wno-infinite-recursion [-Wno-c++11-extensions]" ### -Wno-literal-suffix -Wno-misleading-indentation
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
-  LDFLAGS="-Wl,-no_compact_unwind"
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`
 fi
 
@@ -369,6 +368,8 @@ AC_DEFINE(OSF1)
   AC_DEFINE(IRIX)
   ;;
 *-*-darwin*|*-*-macosx*)
+  # needed by ocaml linking
+  LDFLAGS="-Wl,-no_compact_unwind"
   # search in MacPorts and Fink installs
   if test -d /usr/X11/include ; then
     OSDEP_CFLAGS="-I/usr/X11/include"
@@ -1040,7 +1041,15 @@ fi
 have_freetype="no"
 have_freetype_and_gl="no"
 AH_TEMPLATE(WITH_FREETYPE)
-AC_CHECK_FREETYPE([23.0.0],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try apt|dnf|yum|brew install freetype-devel or apt-get install libfreetype6-dev])])
+AC_CHECK_LIB([freetype],[FT_Library_Version],[have_freetype="yes"
+             [VRELIBS="-lfreetype $VRELIBS"]],
+             [AC_MSG_WARN([could not find FreeType2!, try apt|dnf|yum|brew install freetype-devel or apt-get install libfreetype6-dev])])
+#dax AC_CHECK_FREETYPE([23.0.0],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try apt|dnf|yum|brew install freetype-devel or apt-get install libfreetype6-dev])])
+AC_PATH_PROG(FREETYPE_CONFIG,freetype-config)
+freetype_cflags=`$FREETYPE_CONFIG --cflags`
+freetype_libs=`$FREETYPE_CONFIG --libs`
+CPPFLAGS="$freetype_cflags $CPPFLAGS"
+LDFLAGS="$LDFLAGS $freetype_libs"
 if test "$have_freetype" = "yes"; then
   ubit_features="$ubit_features UBIT_WITH_FREETYPE"
   if test "$have_gl" = "yes"; then
