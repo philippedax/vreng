@@ -165,8 +165,8 @@ void Env::init()
     sprintf(pathweb, "%s/public_html", homedir);
 #endif
     if (stat(pathweb, &bufstat) < 0) {
-      error("sites does not exist: %s", pathweb);
-      // $HOME/public_html or $HOME/Sites
+      echo("website does not exist: %s", pathweb);
+      // create $HOME/public_html or $HOME/Sites
       mkdir(pathweb, 0755);
       sprintf(pathhtdocs, "%s/vreng", pathweb);
       if (stat(pathhtdocs, &bufstat) < 0) {
