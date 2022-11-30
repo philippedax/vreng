@@ -63,7 +63,7 @@
 
 // Url prefix allowing access to the htdocs location
 // default url prefix: can be changed to be adapted to your site.
-#define DEF_URL_PFX	"~dax/vreng"	// <-- to customize !!!
+#define DEF_URL_PFX	"~%s/vreng"	// <-- s is the loginname : to customize !!!
 				// prefix to tune, should be "" (old prefix)
 				// it is the HTDOCS equivallent for your
 				// local httpd server (after http://httpserver/)

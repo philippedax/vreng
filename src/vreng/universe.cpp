@@ -48,7 +48,7 @@ Universe::Universe()
     server = new char[sizeof(DEF_HTTP_SERVER) + 1];
     strcpy(server, DEF_HTTP_SERVER);
     urlpfx = new char[sizeof(DEF_URL_PFX) + 1];
-    strcpy(urlpfx, DEF_URL_PFX);
+    strcpy(urlpfx, ::g.urlpfx);
   }
   else {  // universe given by -u
     char tmp[64];
@@ -72,9 +72,9 @@ Universe::Universe()
   group = new char[GROUP_LEN + 1];
   Channel::getGroup(DEF_MANAGER_CHANNEL, group);
   ttl = Channel::getTtl(::g.channel);
-  wheel = new Wheel();
-  trace(DBG_INIT,"Universe: universe=%s server=%s pfx=%s", ::g.universe, server, urlpfx);
-  notice("universe=%s server=%s pfx=%s", ::g.universe, server, urlpfx);
+  //dax wheel = new Wheel();
+  trace(DBG_INIT,"Universe: universe=%s server=%s pfx=%s", ::g.universe, server, ::g.urlpfx);
+  //echo("universe=%s server=%s pfx=%s", ::g.universe, server, ::g.urlpfx);
 }
 
 Universe::~Universe()

@@ -330,13 +330,36 @@ void Pref::parse(int argc, char **argv)
     }
   }
 
+  // username
+  if (::g.user == NULL) {
+    struct passwd *pwd = getpwuid(getuid());
+    if (pwd) {
+      ::g.user = strdup(pwd->pw_name);	// login name
+    }
+    else {
+      ::g.user = strdup("nobody");
+    }
+  }
+
   // httpd server
   char *url1 = new char[URL_LEN];
   char *url2 = new char[URL_LEN];
+  char *urlpfx = new char[URL_LEN];
+
+  // compute urlpfx
+  strcpy(urlpfx, DEF_URL_PFX);
+  ::g.urlpfx = strdup(urlpfx);
+  if (*urlpfx == '~' && urlpfx[1] == '%') {
+    sprintf(::g.urlpfx, urlpfx, ::g.user);
+    //dax echo("::g.urlpfx: %s", ::g.urlpfx);
+  }
+  else {
+    ::g.urlpfx = strdup(urlpfx);
+  }
 
   if (::g.url == NULL) {
     if (new_universe == false) {
-     sprintf(url1, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_WORLD);
+     sprintf(url1, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_WORLD);
     }
     else {
       sprintf(url1, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
@@ -369,9 +392,11 @@ void Pref::parse(int argc, char **argv)
 
   char *urlskinf = new char[URL_LEN];
   char *urlskinb = new char[URL_LEN];
+
+  // skins
   if (new_universe == false) {
-    sprintf(urlskinf, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_FRONT);
-    sprintf(urlskinb, "http://%s/%s%s", DEF_HTTP_SERVER, DEF_URL_PFX, DEF_URL_BACK);
+    sprintf(urlskinf, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_FRONT);
+    sprintf(urlskinb, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_BACK);
   }
   else {
     sprintf(urlskinf, "%s%s%s", ::g.universe, "", DEF_URL_FRONT);
@@ -384,17 +409,7 @@ void Pref::parse(int argc, char **argv)
     ::g.channel = strdup(DEF_VRENG_CHANNEL);
   }
 
-  // pseudoname
-  if (::g.user == NULL) {
-    struct passwd *pwd = getpwuid(getuid());
-    if (pwd) {
-      ::g.user = strdup(pwd->pw_name);	// login name
-    }
-    else {
-      ::g.user = strdup("nobody");
-    }
-  }
-
+  // checks ubit options
   if (helpx) {
     argc++;
     argv++;

@@ -48,6 +48,11 @@ const char * Env::home() const
   return homedir;
 }
 
+const char * Env::login() const
+{
+  return logname;
+}
+
 const char * Env::cwd() const
 {
   return vrengcwd;
@@ -134,8 +139,9 @@ void Env::init()
   char pathpasswd[PATH_LEN+32];
   struct stat bufstat;
   char *home = NULL;
+  char *loguser = NULL;
 
-  // $HERE
+  // $CWD
   if (getcwd(vrengcwd, sizeof(vrengcwd)) == NULL) {
     return;
   }
@@ -144,6 +150,11 @@ void Env::init()
   // $HOME
   if ((home = getenv("HOME"))) {
     strcpy(homedir, home);
+  }
+
+  // $LOGNAME
+  if ((loguser = getenv("LOGNAME"))) {
+    strcpy(logname, loguser);
   }
 
   if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local

@@ -34,6 +34,7 @@ public:
   const char * dir() const;
   const char * prefs() const;
   const char * cache() const;
+  const char * login() const;
   const char * passwd() const;
   const char * icons() const;
   const char * menu() const;
@@ -57,6 +58,7 @@ private:
   char vrengpasswd[PATH_LEN];
   char vrengcache[PATH_LEN];
   
+  char logname[9];
   char systemname[9];
   char releasename[9];
   char machinename[32];

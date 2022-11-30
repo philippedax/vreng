@@ -32,12 +32,14 @@
 class Global {
 
 public:
+  // global variables reachable by ::g.variable
   char *version;        ///< VREng version.
   char *universe;       ///< universe httpd server url.
   char *server;         ///< server httpd.
   char *url;            ///< initial world url.
   char *channel;        ///< initial Multicast channel.
   char *user;           ///< user name.
+  char *urlpfx;         ///< urlpfx.
   char *skinf;          ///< front face url.
   char *skinb;          ///< back face url.
   uint32_t debug;	///< debug flags.
