@@ -53,7 +53,7 @@
 #define DEF_MYSQL_SERVER	"localhost"
 #define DEF_PGSQL_SERVER	"localhost"
 #define DEF_VNC_SERVER		"localhost"
-#endif	// def servers
+#endif // def servers
 
 #define VRE_VERSION	8	// current stable version of vre files
 
@@ -63,29 +63,30 @@
 
 // Url prefix allowing access to the htdocs location
 // default url prefix: can be changed to be adapted to your site.
-#define DEF_URL_PFX	"~%s/vreng"	// <-- s is the loginname : to customize !!!
+#define DEF_URL_PFX "~%s/vreng"	// <-- %s is the current loginname of the vreng user
 				// prefix to tune, should be "" (old prefix)
 				// it is the HTDOCS equivallent for your
 				// local httpd server (after http://httpserver/)
-				// for example :
-				//   if http://httpserver/~login/vreng the location of data is
-				//     ~/public_html/vreng (for Linux) or 
-				//     ~/Sites/vreng (for MacOS)
-				// where "vreng" is the same as "htdocs/" directory
+				// for example:
+				// if url = http://httpserver/~login/vreng
+                                //   the location of data is
+				//     ~/public_html/vreng/ (for Linux) or 
+				//     ~/Sites/vreng/ (for MacOS)
+				// where "vreng/" is the same as "htdocs/" directory
 				// in this distribution.
 #endif
 
 // these paths are relative to the htdocs directory
-#define DEF_URL_WORLD	"/vre/Rendezvous.vre"		// location: /vre/Rendezvous.vre
+#define DEF_URL_WORLD     "/vre/Rendezvous.vre"		// location: /vre/Rendezvous.vre
 #define DEF_URL_WORLD_BAK "/vre/v8/Rendezvous.vre"	// alt location: /vre/v8/Rendezvous.vre
-#define DEF_URL_WORLDS	"/vre/worlds"			// list of worlds
-#define DEF_URL_FRONT	"/gif/default.gif"		// for user box
-#define DEF_URL_BACK	"/gif/default.1.gif"		// for user box
-#define DEF_URL_BALL	"/gif/ball.gif"			// ball by default
-#define DEF_URL_TXF	"/txf/helvetica-br-24.txf"	// txf font by default
-#define DEF_URL_PAPER	"/jpg/paper.jpg"		// paper for book
-#define DEF_URL_NOISE	"/mp3/sheet.mp3"		// noise for sheet
-#define DEF_URL_JAR	"/jar/vrengapp.jar"		// jar vjs server
+#define DEF_URL_WORLDS    "/vre/worlds"			// list of worlds
+#define DEF_URL_FRONT     "/gif/default.gif"		// for user box
+#define DEF_URL_BACK      "/gif/default.1.gif"		// for user box
+#define DEF_URL_BALL      "/gif/ball.gif"		// ball by default
+#define DEF_URL_TXF       "/txf/helvetica-br-24.txf"	// txf font by default
+#define DEF_URL_PAPER     "/jpg/paper.jpg"		// paper for book
+#define DEF_URL_NOISE     "/mp3/sheet.mp3"		// noise for sheet
+#define DEF_URL_JAR       "/jar/vrengapp.jar"		// jar vjs server
 
 /* default IPmulticast addresses & ports */
 #define DEF_VRENG_MADDR		"224.255.0.0"
@@ -126,7 +127,7 @@
 #define FALSE 0
 #endif
 #ifndef RAND_MAX
-#define RAND_MAX	32767
+#define RAND_MAX 32767
 #endif
 
 #endif

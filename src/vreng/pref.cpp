@@ -341,21 +341,22 @@ void Pref::parse(int argc, char **argv)
     }
   }
 
-  // httpd server
-  char *url1 = new char[URL_LEN];
-  char *url2 = new char[URL_LEN];
+  // compute urlpfx
   char *urlpfx = new char[URL_LEN];
 
-  // compute urlpfx
   strcpy(urlpfx, DEF_URL_PFX);
   ::g.urlpfx = strdup(urlpfx);
   if (*urlpfx == '~' && urlpfx[1] == '%') {
-    sprintf(::g.urlpfx, urlpfx, ::g.user);
+    sprintf(::g.urlpfx, urlpfx, ::g.user);	// format *s inside urlpfx
     //dax echo("::g.urlpfx: %s", ::g.urlpfx);
   }
   else {
     ::g.urlpfx = strdup(urlpfx);
   }
+
+  // url server
+  char *url1 = new char[URL_LEN];
+  char *url2 = new char[URL_LEN];
 
   if (::g.url == NULL) {
     if (new_universe == false) {
@@ -390,10 +391,10 @@ void Pref::parse(int argc, char **argv)
   trace(DBG_INIT, "universe: %s", ::g.universe);
   trace(DBG_INIT, "url: %s", ::g.url);
 
+  // skins
   char *urlskinf = new char[URL_LEN];
   char *urlskinb = new char[URL_LEN];
 
-  // skins
   if (new_universe == false) {
     sprintf(urlskinf, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_FRONT);
     sprintf(urlskinb, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_BACK);
