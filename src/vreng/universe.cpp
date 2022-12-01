@@ -45,9 +45,9 @@ Universe::Universe()
   strcpy(url, ::g.url);
 
   if (! ::g.pref.new_universe) { // by default
-    server = new char[sizeof(DEF_HTTP_SERVER) + 1];
+    server = new char[128];
     strcpy(server, DEF_HTTP_SERVER);
-    urlpfx = new char[sizeof(DEF_URL_PFX) + 1];
+    urlpfx = new char[128];
     strcpy(urlpfx, ::g.urlpfx);
   }
   else {  // universe given by -u
@@ -64,7 +64,7 @@ Universe::Universe()
     strcpy(server, pserv);
   
     ++p;
-    urlpfx = new char[1];
+    urlpfx = new char[32];
     ptmp = strrchr(p, '/');
     if (ptmp) *ptmp = '\0';
     sprintf(urlpfx, "/%s", p);
