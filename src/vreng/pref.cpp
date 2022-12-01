@@ -347,7 +347,7 @@ void Pref::parse(int argc, char **argv)
   strcpy(urlpfx, DEF_URL_PFX);
   ::g.urlpfx = strdup(urlpfx);
   if (*urlpfx == '~' && urlpfx[1] == '%') {
-    sprintf(::g.urlpfx, urlpfx, ::g.user);	// format *s inside urlpfx
+    sprintf(::g.urlpfx, urlpfx, ::g.user);	// format %s inside urlpfx
     //dax echo("::g.urlpfx: %s", ::g.urlpfx);
   }
   else {
@@ -355,36 +355,36 @@ void Pref::parse(int argc, char **argv)
   }
 
   // url server
-  char *url1 = new char[URL_LEN];
-  char *url2 = new char[URL_LEN];
+  char *url = new char[URL_LEN];
+  char *srv = new char[URL_LEN];
 
   if (::g.url == NULL) {
     if (new_universe == false) {
-     sprintf(url1, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_WORLD);
+      sprintf(url, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_WORLD);
     }
     else {
-      sprintf(url1, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
+      sprintf(url, "%s%s%s", ::g.universe, "", DEF_URL_WORLD);
     }
-    ::g.url = strdup(url1);
+    ::g.url = strdup(url);
   }
 
   cout << "url: " << ::g.url << "\n";
 
   if (new_universe == false) {
-    sprintf(url1, "%s", DEF_HTTP_SERVER);
-    ::g.server = strdup(url1);
+    sprintf(srv, "%s", DEF_HTTP_SERVER);
+    ::g.server = strdup(srv);
   }
   else {
     char *p1, *p2;
-    url1 = strdup(::g.universe);
-    p1 = strchr(url1, '/');
+    url = strdup(::g.universe);
+    p1 = strchr(url, '/');
     p1++;
     p1 = strchr(p1, '/');
     p2 = ++p1;
     p1 = strchr(p1, '/');
     *p1 = 0;
-    strcpy(url2, p2); 
-    ::g.server = strdup(url2);
+    strcpy(srv, p2); 
+    ::g.server = strdup(srv);
   }
 
   trace(DBG_INIT, "server: %s", ::g.server);
