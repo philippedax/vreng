@@ -29,8 +29,9 @@ VRENG_SRCS = $(SRCDIR)/vreng/vreng.cpp
 vreng_SOURCES = $(VRENG_SRCS)
 
 # targets
-others: vrl vrel vred vacs vaps vjs vmm
-all: all-am $(others)
+MAIN_TARGET = all-am
+OTHERS_TARGETS = vrl vrel vred vacs vaps vjs vmm
+all: $(MAIN_TARGET) $(OTHERS_TARGETS)
 
 # to install
 bin_PROGRAMS = vreng
