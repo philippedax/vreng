@@ -29,7 +29,8 @@ VRENG_SRCS = $(SRCDIR)/vreng/vreng.cpp
 vreng_SOURCES = $(VRENG_SRCS)
 
 # targets
-all: all-am vrl vrel vred vacs vaps vjs vmm
+others: vrl vrel vred vacs vaps vjs vmm
+all: all-am $(others)
 
 # to install
 bin_PROGRAMS = vreng
@@ -40,50 +41,50 @@ noinst_SCRIPTS =
 
 # to copy into bin/
 if ENABLE_VRL
-vrl: ../src/vrl/vrl
-	@-cp -p ../src/vrl/vrl .
+vrl: $(SRCDIR)/vrl/vrl
+	@-cp -p $(SRCDIR)/vrl/vrl .
 else
 vrl:
 	@echo "" >/dev/null
 endif
 if ENABLE_VREL
-vrel: ../src/vrel/vrel
-	@-cp -p ../src/vrel/vrel .
+vrel: $(SRCDIR)/vrel/vrel
+	@-cp -p $(SRCDIR)/vrel/vrel .
 else
 vrel:
 	@echo "" >/dev/null
 endif
 if ENABLE_VRED
-vred: ../src/vred/vred
-	@-cp -p ../src/vred/vred .
+vred: $(SRCDIR)/vred/vred
+	@-cp -p $(SRCDIR)/vred/vred .
 else
 vred:
 	@echo "" >/dev/null
 endif
 if ENABLE_VACS
-vacs: ../src/vacs/vacs
-	@-cp -p ../src/vacs/vacs .
+vacs: $(SRCDIR)/vacs/vacs
+	@-cp -p $(SRCDIR)/vacs/vacs .
 else
 vacs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VAPS
-vaps: ../src/vaps/vaps
-	@-cp -p ../src/vaps/vaps .
+vaps: $(SRCDIR)/vaps/vaps
+	@-cp -p $(SRCDIR)/vaps/vaps .
 else
 vaps:
 	@echo "" >/dev/null
 endif
 if ENABLE_VJS
-vjs: ../src/vjs/vjs
-	@-cp -p ../src/vjs/vjs .
+vjs: $(SRCDIR)/vjs/vjs
+	@-cp -p $(SRCDIR)/vjs/vjs .
 else
 vjs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VMM
-vmm: ../src/vmm/vmm
-	@-cp -p ../src/vmm/vmm .
+vmm: $(SRCDIR)/vmm/vmm
+	@-cp -p $(SRCDIR)/vmm/vmm .
 	chmod 755 vmm
 else
 vmm:
@@ -141,4 +142,4 @@ CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(T
 BUNDLE_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB)
 
 # executable
-vreng_LDADD = $(CORE_LIBS) $(BUNDLE_LIBS) $(VRELIBS) $(XLIBS)
+vreng_LDADD = $(CORE_LIBS) $(BUNDLE_LIBS) $(VRELIBS)
