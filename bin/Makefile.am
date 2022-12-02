@@ -43,36 +43,42 @@ if ENABLE_VRL
 vrl: ../src/vrl/vrl
 	@-cp -p ../src/vrl/vrl .
 else
+vrl:
 	@echo "" >/dev/null
 endif
 if ENABLE_VREL
 vrel: ../src/vrel/vrel
 	@-cp -p ../src/vrel/vrel .
 else
+vrel:
 	@echo "" >/dev/null
 endif
 if ENABLE_VRED
 vred: ../src/vred/vred
 	@-cp -p ../src/vred/vred .
 else
+vred:
 	@echo "" >/dev/null
 endif
 if ENABLE_VACS
 vacs: ../src/vacs/vacs
 	@-cp -p ../src/vacs/vacs .
 else
+vacs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VAPS
 vaps: ../src/vaps/vaps
 	@-cp -p ../src/vaps/vaps .
 else
+vaps:
 	@echo "" >/dev/null
 endif
 if ENABLE_VJS
 vjs: ../src/vjs/vjs
 	@-cp -p ../src/vjs/vjs .
 else
+vjs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VMM
@@ -80,6 +86,7 @@ vmm: ../src/vmm/vmm
 	@-cp -p ../src/vmm/vmm .
 	chmod 755 vmm
 else
+vmm:
 	@echo "" >/dev/null
 endif
 
