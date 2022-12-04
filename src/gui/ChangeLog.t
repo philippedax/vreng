@@ -16,6 +16,10 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.3\n\
 -- 9.3.3\n\
+	- compute urlpfx, no more hardcoded string \"dax\"\n\
+	(2022/11/30, Philippe Dax)\n\
+	- fixed sendKeyEvent in vnccli.cpp\n\
+	(2022/11/13, Philippe Dax)\n\
 	- added object #87 : fog\n\
 	(2022/10/26, Philippe Dax)\n\
 	- moved gui/capture.*pp to 2d/\n\
