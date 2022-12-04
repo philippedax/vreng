@@ -42,14 +42,14 @@
 #include <sys/resource.h>	// rlimit
 
 
-// global variable that refers to the various modules
-Global g;
+// global
+Vreng g;	// variable that refers to various modules
 
 // local
 jmp_buf sigctx;
 
 
-Global::Global() :
+Vreng::Vreng() :
   debug(0),
   options(0),
   timer(*new Timer),
@@ -66,11 +66,11 @@ int main(int argc, char *argv[])
   return g.start(argc, argv);
 }
 
-int Global::start(int argc, char *argv[])
+int Vreng::start(int argc, char *argv[])
 {
   pref.init(argc, argv, g.env.prefs());	// Options & Preferences initialization
 
-  UAppli::conf.soft_menus = true;	// attention: seulement en mode single window
+  UAppli::conf.soft_menus = true;	// beware: only in single window mode
  
   UAppli* appli = new UAppli(argc, argv);
   if (! appli) {
@@ -88,7 +88,7 @@ int Global::start(int argc, char *argv[])
  * initCB() is implicitely called by Scene::init(),
  * but postponed so that the window can appear immediately
  */
-void Global::initCB()
+void Vreng::initCB()
 {
   timer.init.start();	// starts init timer
   initLimits();		// Change rlimit
@@ -107,7 +107,7 @@ void Global::initCB()
   timer.init.stop();	// stops init timer
 }
 
-void Global::quitVreng(int sig)
+void Vreng::quit(int sig)
 {
   static int inquit = 0;
 
@@ -129,11 +129,12 @@ void Global::quitVreng(int sig)
   // close modules properly
   ::g.render.quit();
   World::current()->quit();
+
   // quit the application (and close the main window)
   UAppli::quit(sig);
 }
 
-void Global::printStats()
+void Vreng::printStats()
 {
   if (::g.pref.stats == false)  return;
 
@@ -151,12 +152,12 @@ static void reapchild(int sig)
   my_wait(-1);
 }
 
-void Global::initSignals()
+void Vreng::initSignals()
 {
-  signal(SIGTRAP,quitVreng);
-  signal(SIGFPE, quitVreng);
-  signal(SIGBUS, quitVreng);
-  signal(SIGSEGV,quitVreng);
+  signal(SIGTRAP,quit);
+  signal(SIGFPE, quit);
+  signal(SIGBUS, quit);
+  signal(SIGSEGV,quit);
   signal(SIGCHLD, reapchild);
   signal(SIGUSR1, SIG_IGN);
   signal(SIGUSR2, SIG_IGN);
@@ -164,13 +165,13 @@ void Global::initSignals()
 }
 
 // increases resource limits
-void Global::initLimits()
+void Vreng::initLimits()
 {
 #if HAVE_SETRLIMIT
   struct rlimit rl;
   getrlimit(RLIMIT_NOFILE, &rl);
   rl.rlim_cur = 4096;
   setrlimit(RLIMIT_NOFILE, &rl);
-  //printf("new nofile: %d/%d\n", rl.rlim_cur, rl.rlim_max);
+  //echo("nb. ofile: %d/%d", rl.rlim_cur, rl.rlim_max);
 #endif
 }

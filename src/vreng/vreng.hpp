@@ -29,7 +29,10 @@
 #include "trigo.hpp"	// my_trigo
 
 
-class Global {
+/**
+ * Vreng class
+ */
+class Vreng {
 
 public:
   // global variables reachable by ::g.variable
@@ -45,7 +48,7 @@ public:
   uint32_t debug;	///< debug flags.
   uint32_t options;	///x command line options.
 
-  // ::g instances
+  // global methods usable by ::g.method
   class Timer& timer;	///< ::g.timer
   class Env& env;	///< ::g.env
   class Pref& pref;	///< ::g.pref
@@ -56,14 +59,16 @@ public:
 
   // Methods
 
-  Global();		///< constructor.
-  ~Global() {}		///< destructor.
+  Vreng();		///< constructor.
+  ~Vreng() {}		///< destructor.
+  
+  static void quit(int status);
 
   int start(int argc, char *argv[]);
 
   void initCB();
-  
-  static void quitVreng(int status);
+
+private:
 
   static void printStats();
 
@@ -72,6 +77,6 @@ public:
   void initLimits();
 };
 
-extern Global g;
+extern Vreng g;
 
 #endif

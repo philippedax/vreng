@@ -44,7 +44,7 @@ void fatal(const char *s, ...)
   fprintf(stderr, "\n");
   if (! infatal) {
     infatal = true;
-    Global::quitVreng(-1);
+    Vreng::quit(-1);
   }
 }
 

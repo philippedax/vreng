@@ -1627,7 +1627,7 @@ UMenu& Widgets::fileMenu()
                + ubutton(g.theme.Doc  + " Put & Publish URL..." + puturl_dialog)
                + ubutton(g.theme.Book + " Put & Publish File..." + putfile_dialog)
                + usepar()
-               + ubutton(g.theme.Exit + " Quit" + ucall(0/*status*/, Global::quitVreng))
+               + ubutton(g.theme.Exit + " Quit" + ucall(0/*status*/, Vreng::quit))
               );
 }
 
