@@ -468,7 +468,7 @@ AC_HEADER_STAT
 AC_HEADER_ASSERT
 AC_HEADER_SYS_WAIT
 
-AC_CHECK_HEADERS([unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h utime.h malloc.h signal.h math.h errno.h getopt.h pwd.h pthread.h ieeefp.h locale.h wchar.h libintl.h floatingpoint.h sys/param.h sys/time.h sys/timeb.h sys/socket.h sys/select.h sys/resource.h sys/utsname.h netinet/tcp.h arpa/inet.h])
+AC_CHECK_HEADERS([unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h utime.h malloc.h signal.h math.h errno.h getopt.h pwd.h pthread.h ieeefp.h locale.h wchar.h libintl.h floatingpoint.h sys/param.h sys/time.h sys/timeb.h sys/socket.h sys/select.h sys/poll.h sys/resource.h sys/utsname.h netinet/tcp.h arpa/inet.h])
 
 
 # --------------------------------------------------------------------------
@@ -521,7 +521,7 @@ AC_FUNC_UTIME_NULL
 AC_FUNC_VPRINTF
 AC_FUNC_STRTOD
 
-AC_CHECK_FUNCS([getuid getpid getcwd getpwuid gethostname gethostid gethostbyaddr gethostbyname gethostbyname_r getservbyname_r getipnodebyname getipnodebyaddr freehostent inet_pton inet_ntoa inet_ntop isascii gettimeofday memset mkdir pow sqrt strcasecmp strrchr strstr utime fcntl floor select socket setrlimit waitpid strchr strncasecmp strdup strerror memcpy readdir getopt getopt_long uname rand random drand48 lrand48 usleep fpsetmask nice getaddrinfo setlocale alarm ftime strtol sysinfo memmove strpbrk ])
+AC_CHECK_FUNCS([getuid getpid getcwd getpwuid gethostname gethostid gethostbyaddr gethostbyname gethostbyname_r getservbyname_r getipnodebyname getipnodebyaddr freehostent inet_pton inet_ntoa inet_ntop isascii gettimeofday memset mkdir pow sqrt strcasecmp strrchr strstr utime fcntl floor select poll socket setrlimit waitpid strchr strncasecmp strdup strerror memcpy readdir getopt getopt_long uname rand random drand48 lrand48 usleep fpsetmask nice getaddrinfo setlocale alarm ftime strtol sysinfo memmove strpbrk ])
 
 AH_TEMPLATE(_REENTRANT)
 if test "$ac_cv_func_gethostbyname_r" = "yes" ; then
