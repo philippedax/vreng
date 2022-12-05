@@ -62,23 +62,24 @@ UDisp* UDisp::create(const UStr& dname) {
 // ==================================================== [Ubit Toolkit] =========
 
 UDisp::UDisp(const UStr& dname) :
-id(UAppli::impl.displist.size()), 
-conf(UAppli::conf), 
-display_name(dname),
-bpp(UAppli::conf.bpp),
-depth_size(UAppli::conf.depth_size),
-stencil_size(UAppli::conf.stencil_size),
-screen_width(0), screen_height(0),
-screen_width_mm(0), screen_height_mm(0),
-is_opened(false), 
-default_context(null), current_glcontext(null), 
-app_motion_time(0), nat_motion_time(0),
-red_mask(0), green_mask(0), blue_mask(0),
-red_shift(0), green_shift(0), blue_shift(0), 
-red_bits(0), green_bits(0), blue_bits(0),
-IN_TO_PX(0.), CM_TO_PX(0.), MM_TO_PX(0.), PT_TO_PX(0.), PC_TO_PX(0.),
-paste_str(null),
-paste_pos(0) {
+ id(UAppli::impl.displist.size()), 
+ conf(UAppli::conf), 
+ display_name(dname),
+ bpp(UAppli::conf.bpp),
+ depth_size(UAppli::conf.depth_size),
+ stencil_size(UAppli::conf.stencil_size),
+ screen_width(0), screen_height(0),
+ screen_width_mm(0), screen_height_mm(0),
+ is_opened(false), 
+ default_context(null), current_glcontext(null), 
+ app_motion_time(0), nat_motion_time(0),
+ red_mask(0), green_mask(0), blue_mask(0),
+ red_shift(0), green_shift(0), blue_shift(0), 
+ red_bits(0), green_bits(0), blue_bits(0),
+ IN_TO_PX(0.), CM_TO_PX(0.), MM_TO_PX(0.), PT_TO_PX(0.), PC_TO_PX(0.),
+ paste_str(null),
+ paste_pos(0)
+{
   // if :screen not found add ":0" (except if display_name is empty)
   if (!display_name.empty() && display_name.rfind(':') < 0) display_name &= ":0";
   
@@ -101,7 +102,7 @@ UDisp::~UDisp() {
  return false;
  #endif
  }
- */
+*/
 // ==================================================== [Ubit Toolkit] =========
 
 URenderContext* UDisp::getDefaultContext() {
@@ -450,7 +451,7 @@ void UDisp::onResizeCB(UView* winview) {
     
     UWin* win = winview->getWin();
     UHardwinImpl* hw = win->getHardwin(this);
-    //cerr << "onResizeCB " <<win->hardImpl() << " "<< hw << endl;
+    //cerr << "onResizeCB " << win->hardImpl() << " "<< hw << endl;
     hw->doUpdateImpl(UUpdate::LAYOUT, win, winview, &size);
     win->repaint();
   }

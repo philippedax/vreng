@@ -19,12 +19,14 @@
 
 #include <iostream>
 #include <errno.h>
+#include <unistd.h>
 #include <ubit/udispX11.hpp>  // includes X11 headers
 #include <X11/keysym.h> 
 #include <X11/cursorfont.h>
 #if HAVE_XMU_WINUTIL_H
-#  include <X11/Xmu/WinUtil.h>  //XmuClientWindow
+#include <X11/Xmu/WinUtil.h>  //XmuClientWindow
 #endif
+
 #include <ubit/uconf.hpp>
 #include <ubit/uappli.hpp>
 #include <ubit/uappliImpl.hpp>
@@ -42,10 +44,11 @@
 #include <ubit/ux11context.hpp>
 #include <ubit/uglcontext.hpp>
 using namespace std;
+
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
 
-#define GetAtom(D,Name) XInternAtom(D,Name,False)
+#define GetAtom(D, Name) XInternAtom(D, Name, False)
   
 UCursor UCursor::pointer(XC_left_ptr, UCONST);
 UCursor UCursor::crosshair(XC_tcross, UCONST);
@@ -62,22 +65,24 @@ UCursor UCursor::dnd(XC_gumby, UCONST);
 
 // ==================================================== [Ubit Toolkit] =========
 
-UDispX11::UDispX11(const UStr& _dname) : UDisp(_dname),
-  sys_disp(null),
-  sys_screen(null),
-  sys_visual(null),
-  sys_cmap(None),
-  xconnection(-1),
-  xsync(UAppli::getConf().xsync),
-  default_pixmap(None)
+UDispX11::UDispX11(const UStr& _dname) :
+ UDisp(_dname),
+ sys_disp(null),
+ sys_screen(null),
+ sys_visual(null),
+ sys_cmap(None),
+ xconnection(-1),
+ xsync(UAppli::getConf().xsync),
+ default_pixmap(None)
 # if UBIT_WITH_GL
-  ,glvisual(null)   // null or equal to sys_visual
+ ,glvisual(null)   // null or equal to sys_visual
 # endif
 {
   sys_disp = XOpenDisplay(getDisplayName().c_str());
   const char* dname = getDisplayName().empty() ? "''" : getDisplayName().c_str();
+
   if (!sys_disp || !(sys_screen = DefaultScreenOfDisplay(sys_disp))) {
-    UAppli::error("UDispX11","could not open display %s (is the X11 server running ?)",dname);
+    UAppli::error("UDispX11", "could not open display %s (is the X11 server running ?)",dname);
     return;
   }
   if (xsync) XSynchronize(sys_disp, True);
@@ -94,7 +99,7 @@ UDispX11::UDispX11(const UStr& _dname) : UDisp(_dname),
   // !PBM taille rendue par XWidthMMOfScreen generalement incorrecte!
   
   if (screen_width_mm == 0 || screen_height_mm == 0) {
-    UAppli::warning("UDispX11","the resolution of the diplay is unknow (display %s)",dname);
+    UAppli::warning("UDispX11", "the resolution of the diplay is unknow (display %s)",dname);
     setPixelPerInch(72);   // default
   }
   else setPixelPerMM(double(screen_width)/screen_width_mm);
@@ -114,8 +119,8 @@ UDispX11::UDispX11(const UStr& _dname) : UDisp(_dname),
   // default Pixmap with same bpp as UDisp: necessaire pour createXWindow!
   default_pixmap = XCreatePixmap(sys_disp, RootWindowOfScreen(sys_screen), 10,10,bpp);
   
-  if (!setVisual(bpp, None)) {
-    UAppli::error("UDispX11","could not find appropriate visual or colormap on display '%s' \n(the requested RGB configuration is not supported)", dname);
+  if (! setVisual(bpp, None)) {
+    UAppli::error("UDispX11", "could not find appropriate visual or colormap on display '%s'\n(the requested RGB configuration is not supported)", dname);
     return;
   }
 
@@ -129,8 +134,8 @@ UDispX11::UDispX11(const UStr& _dname) : UDisp(_dname),
   if (!default_context) default_context = new UX11context(this);
 #endif
   
-  if (!default_context) {
-    UAppli::error("UDispX11","could not create a rendering context on display '%s'",dname);
+  if (! default_context) {
+    UAppli::error("UDispX11", "could not create a rendering context on display '%s'",dname);
     return;
   }
   
@@ -174,7 +179,8 @@ UDispX11::UDispX11(const UStr& _dname) : UDisp(_dname),
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-UDispX11::~UDispX11() {
+UDispX11::~UDispX11()
+{
   if (sys_disp && default_pixmap != None) XFreePixmap(sys_disp, default_pixmap);
   if (sys_disp) XCloseDisplay(sys_disp);
   sys_disp = null;
@@ -185,24 +191,26 @@ UDispX11::~UDispX11() {
 
 // GLXContext UDispX11::getCurrentGLContext() {return glXGetCurrentContext();}
 
-GLXContext UDispX11::createGlcontext(UGlcontext* shareList) {
+GLXContext UDispX11::createGlcontext(UGlcontext* shareList)
+{
   // NB: cree glvisual mais sans initialiser sys_visual contrairement a setVisual()
   // lequel doit donc etre appele en premier em mode GL
   if (!glvisual) glvisual = createGlvisual(bpp/3, bpp/3, bpp/3, 0/*alpha*/, depth_size);
   
-  if (!glvisual) {
-    UAppli::error("UDispX11::createGLContext","Couldn't create OpenGL visual");
+  if (! glvisual) {
+    UAppli::error("UDispX11::createGLContext", "Couldn't create OpenGL visual");
     return null;
   }
   GLXContext glc = glXCreateContext(sys_disp, glvisual, 
                                     // ressources shared with this context if not null
                                     (shareList ? shareList->glxcontext : null),
                                     True); // direct rendering allowed if available
-  if (!glc) UAppli::error("UDispX11::createGLContext","Couldn't create OpenGL Context");
+  if (! glc) UAppli::error("UDispX11::createGLContext", "Couldn't create OpenGL Context");
   return glc;
 }
 
-void UDispX11::destroyGlcontext(GLXContext glctx) {
+void UDispX11::destroyGlcontext(GLXContext glctx)
+{
   glXDestroyContext(sys_disp, glctx);
 }
 
@@ -221,7 +229,7 @@ bool UDispX11::setVisual(int bpp, Colormap c) {
       return true;
     }
     else {
-      UAppli::error("UDispX11::setVisual","could not get OpenGL Visual with BPP = %d", bpp);
+      UAppli::error("UDispX11::setVisual", "could not get OpenGL Visual with BPP=%d", bpp);
       return false;
     }
   }
@@ -229,7 +237,7 @@ bool UDispX11::setVisual(int bpp, Colormap c) {
   XVisualInfo* v = null;
   if ((v = _chooseX11Visual(sys_disp, sys_screen, bpp))) return setVisual(v, c);
   else {
-    UAppli::error("UDispX11::setVisual","could not get X11 visual with BPP = %d", bpp);
+    UAppli::error("UDispX11::setVisual", "could not get X11 visual with BPP=%d", bpp);
     return false;
   }
 }
@@ -237,8 +245,8 @@ bool UDispX11::setVisual(int bpp, Colormap c) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 bool UDispX11::setVisual(XVisualInfo* vinfo, Colormap c) {
-  if (!vinfo || vinfo->screen >= ScreenCount(sys_disp)) {
-    UAppli::error("UDispX11::setVisual","Null or invalid visual argument");
+  if (! vinfo || vinfo->screen >= ScreenCount(sys_disp)) {
+    UAppli::error("UDispX11::setVisual", "Null or invalid visual argument");
     return false;
   }
   bpp = vinfo->depth;
@@ -247,9 +255,9 @@ bool UDispX11::setVisual(XVisualInfo* vinfo, Colormap c) {
   if (sys_cmap != 0) XFreeColormap(sys_disp, sys_cmap);
   if (c != 0) sys_cmap = c;
   else sys_cmap = XCreateColormap(sys_disp, RootWindow(sys_disp, vinfo->screen),
-                                  vinfo->visual, AllocNone);  // A quoi la Colormap en mode GL ???
+                                  vinfo->visual, AllocNone);  // A quoi la Colormap en mode GL?
   if (sys_cmap == 0) {
-    UAppli::error("UDispX11::setVisual","Can't create colormap");
+    UAppli::error("UDispX11::setVisual", "Can't create colormap");
     return false;
   }
   return true;
@@ -304,7 +312,7 @@ XVisualInfo* UDispX11::createGlvisual(int r, int g, int b, int a, int depth)
                       "using OpenGL visual with RGBA = %d %d %d %d / Depth = %d",
                       r,g,b,a,depth);
     else {
-      UAppli::error("UDispX11::createGLVisual","could not get any OpenGL visual");
+      UAppli::error("UDispX11::createGLVisual", "could not get any OpenGL visual");
       return (XVisualInfo*) null;
     }
   }
@@ -316,11 +324,11 @@ XVisualInfo* UDispX11::createGlvisual(int r, int g, int b, int a, int depth)
   
   if (UAppli::conf.getVerbosity() != 0) {
     cout << "OpenGL Visual: requested bpp: "<< bpp <<" / actual bpp: "<< vis->depth
-    << " / visual id: "   <<vis->visualid 
-    << " / visual class: "<<vis->c_class
-    << (vis->c_class == PseudoColor ? 
-        " (PseudoColor)" : vis->c_class==TrueColor ? " (TrueColor)" : " (Unknown)")
-    << endl;
+         << " / visual id: "   <<vis->visualid 
+         << " / visual class: "<<vis->c_class
+         << (vis->c_class == PseudoColor ? 
+            " (PseudoColor)" : vis->c_class==TrueColor ? " (TrueColor)" : " (Unknown)")
+         << endl;
   }
   
   return vis;
@@ -349,7 +357,7 @@ static bool _findX11Visual(Display* sys_disp, Screen* sys_screen,
     //else
     linear_gamma = false;
     //endif
-    if (!found) { // on prend le premier
+    if (! found) { // on prend le premier
       found = true;
       *vinfo = tab[k];
       if (!linear_gamma) break;
@@ -372,7 +380,7 @@ static XVisualInfo* _chooseX11Visual(Display* sys_disp, Screen* sys_screen, int 
   
   int scr_no = XScreenNumberOfScreen(sys_screen);
   if (scr_no >= ScreenCount(sys_disp)) {
-    UAppli::error("UDispX11::setVisual","Invalid screen number %n", scr_no);
+    UAppli::error("UDispX11::setVisual", "Invalid screen number %n", scr_no);
     return 0;
   }
   
@@ -420,7 +428,7 @@ unsigned long UDispX11::createColorPixel(const URgba& rgba) {
     return xc.pixel;    // the color was allocated in the colormap
   }
   else { // the appropriate color could be allocated => warning + use black or white
-    UAppli::warning("UDispX11::createColor","can't allocate color (colormap is full?)");
+    UAppli::warning("UDispX11::createColor", "can't allocate color (colormap is full?)");
     // white if color > 65535, black otherwise
     if (xc.red + xc.blue + xc.green > 65535*2) return getWhitePixel();
     else return getBlackPixel();
@@ -512,7 +520,7 @@ void UDispX11::ungrabPointer() {
 // =============================================================================
 
 namespace udisp {
-#if HAVE_XMU_WINUTIL_H //DAX
+#if HAVE_XMU_WINUTIL_H //dax
   struct PickTarget {
     Display* disp;
     Window root, win;
@@ -533,7 +541,7 @@ namespace udisp {
 
 bool UDispX11::pickWindow(int& x, int& y, UHardwinImpl* hw, 
                           UCursor* curs, UCall* call) {
-#if HAVE_XMU_WINUTIL_H //DAX
+#if HAVE_XMU_WINUTIL_H //dax
   Cursor xc = (!curs) ? None : curs->getCursorImpl(this)->cursor;
   UEventFlow* flow = obtainChannelFlow(0);
   udisp::PickTarget t;
@@ -687,13 +695,13 @@ void UDispX11::startLoop(bool main) {
         e_found = true;
         XNextEvent(nd->sys_disp, &e);   // fct bloquante
         
-        long t = UAppli::getTime();
+        time_t t = UAppli::getTime();
         //cerr << "MainLoop: time " << t << " count " << e_count <<endl;
  
         if (e.type != MotionNotify
             || e_count <= 1
             || t - nd->app_motion_time < UAppli::impl.app_motion_lag
-            || long(e.xmotion.time) - nd->nat_motion_time > UAppli::impl.nat_motion_lag) {
+            || time_t(e.xmotion.time) - nd->nat_motion_time > UAppli::impl.nat_motion_lag) {
 
           nd->app_motion_time = t;
           if (e.type == MotionNotify) nd->nat_motion_time = e.xmotion.time;
@@ -732,13 +740,14 @@ void UDispX11::startLoop(bool main) {
       maxfd = std::max(maxfd, xconnection);
     }
     //cerr << "maxfd " << maxfd <<endl;
-    
-    if (UAppli::impl.sources) a.resetSources(UAppli::impl.sources, read_set, maxfd);
-    
+
+    if (UAppli::impl.sources)
+      a.resetSources(UAppli::impl.sources, read_set, maxfd);
+
 #if 1 //dax FIX startLloop
-    if (maxfd > 128) {	// bad maxfd returned by resetSources FIXME!
-      //cerr << "maxfd " << maxfd <<endl;
-      maxfd = 3;
+    if (maxfd > 1024) {	// bad maxfd returned by resetSources FIXME!
+      cerr << "maxfd " << maxfd <<endl;
+      maxfd = 1023;	// UGLY !!!
     }
 #endif //dax
     struct timeval delay;
@@ -746,7 +755,8 @@ void UDispX11::startLoop(bool main) {
     UTimerImpl::Timers& timers = UAppli::impl.timer_impl.timers;
 
     // NB: delay can be (0,0)
-    if (timers.size() > 0) has_timeout = UAppli::impl.timer_impl.resetTimers(delay);
+    if (timers.size() > 0)
+      has_timeout = UAppli::impl.timer_impl.resetTimers(delay);
     
     // bloquer tant que: 
     // rien sur xconnection, rien sur sources, timeouts pas atteints
@@ -756,14 +766,21 @@ void UDispX11::startLoop(bool main) {
                              null,      //except
                              (has_timeout ? &delay : null));
     if (has_input < 0) {
-      //dax UAppli::warning("UDispX11::startLoop (%d)","error in select()", errno);
-      printf("UDispX11::startLoop error in select() (%d) main=%d to=%d sec=%ld usec=%d maxfd=%d\n", errno, main, has_timeout, delay.tv_sec, delay.tv_usec, maxfd);
+      printf("UDispX11::startLoop error in select() (%d) main=%d to=%d s=%ld u=%d maxfd=%d\n", errno, main, has_timeout, delay.tv_sec, delay.tv_usec, maxfd);
+    int ofile = 0;
+    for (int i=0; i<4000; i++) {
+      int f = dup(i);
+      if (f<0) continue;
+      ofile++;
+      close(f);
+    }
+    printf("ofile = %d\n", ofile);
+    //dax exit(2); // debug
 
-      if (errno == EINTR || errno == EAGAIN) errno = 0;
-      if (errno == EINVAL ) errno = 0;
+
+      if ( errno == EINTR || errno == EAGAIN || errno == EINVAL ) errno = 0;
       a.cleanSources(a.sources); // remove invalid sources
     }
-    
     else {
       if (has_input > 0) {	// source event
         if (a.sources) a.fireSources(a.sources, read_set);
@@ -824,7 +841,7 @@ static void onSelection(UDisp* nd, UWin* win, UView* winview, XEvent* sev) {
   UEventFlow* f = nd->obtainFlow(0,0);   // ????
   switch (sev->type) {
     case SelectionClear: {      // effacer la selection
-      if(f->getSelection()) f->getSelection()->clear();
+      if (f->getSelection()) f->getSelection()->clear();
     } break;
     case SelectionRequest: {
       // une autre application demande a obtenir la valeur de la
@@ -1258,7 +1275,7 @@ void UDispX11::pasteSelectionCB(void* xev) {
     // recuperer les messages de longue taille qui excedent les limites
     // du serveur X (ie. MaxSelRequestSize). Dans ce cas il faudrait
     // alors appeler XGetWindowProperty() avec delete_property == FALSE
-    // puis appeler XDeleteProperty() qunad tout a ete recupere
+    // puis appeler XDeleteProperty() quand tout a ete recupere
 
     // XGetWindowProperty always allocates one extra byte in prop_return
     // (even if the property is zero length) and sets it to zero so that
@@ -1294,5 +1311,3 @@ void UDispX11::pasteSelectionCB(void* xev) {
 
 }
 #endif  // UBIT_WITH_X11
-
-

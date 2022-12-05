@@ -255,8 +255,8 @@ bool UElem::removeImpl1(UChildIter pos, int auto_delete, UChildren& list) {
       chnode->getSubGroup()->deleteViewsInside(objviews);
   }
   
-  /*DAX UChildIter next =*/ list.erase(pos);
-  //DAX UNode* res = null;
+  /*dax UChildIter next =*/ list.erase(pos);
+  //dax UNode* res = null;
   
   // si plus que des pseudo-parents, il faut les detacher 
   // (sauf si appel depuis removeFromParents sinon bouclage)
@@ -275,11 +275,11 @@ bool UElem::removeImpl1(UChildIter pos, int auto_delete, UChildren& list) {
       || chnode->hasSceneGraphParent()
       || chnode->getPtrCount() > 0
       || !chnode->omodes.IS_DYNAMIC) {
-    //DAX res = chnode;    // child pas detruit => le retourner
+    //dax res = chnode;    // child pas detruit => le retourner
   }
   else {
     delete chnode;  // NB: delete est redefini
-    //DAX res = null;
+    //dax res = null;
   }
   
   if (hasCallback(UOn::CONTAINER_CB)) {  //deplace apres
@@ -1166,7 +1166,7 @@ void UElem::disarmBehavior(UInputEvent& e, bool is_browsing) {
     if (emodes.IS_ARMABLE && !is_browsing) actionBehavior(e);
     
     // deplace et relatif a beingClicked et non lastArmed (sinon pas effectue si objet par armable)
-    //DAX bool multiclick = false;
+    //dax bool multiclick = false;
     
     //if (bp.intype != UBehavior::BROWSE && f.beingClicked == this) {
     if (!is_browsing && f.beingClicked == this) {
@@ -1192,7 +1192,7 @@ void UElem::disarmBehavior(UInputEvent& e, bool is_browsing) {
                  && me->getWhen() < f.click_time + UAppli::conf.multi_click_delay) {
           me->click_count = ++f.click_count;
           f.click_time = me->getWhen();
-          //DAX multiclick = true;
+          //dax multiclick = true;
           e.setCond(UOn::click);
           fire(e); // always fired
           if (f.click_count == 2) {

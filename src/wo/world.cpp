@@ -221,13 +221,6 @@ void World::setManagerChanAndJoin(const char *chan_str)
   Channel::joinManager(world_manager->chan, chan_str);
 }
 
-#if 0 //dax notused
-const char * World::getManagerChan() //static
-{
-  return world_manager->chan;
-}
-#endif
-
 /* Sets the channel name */
 bool World::setChan(const char *chan_str)
 {
@@ -897,6 +890,16 @@ void World::quit()
 /* New World initialization - static */
 World * World::enter(const char *url, const char *chanstr, bool isnew)
 {
+#if 0 //dax debug
+    int ofile = 0;
+    for (int i=0; i<4000; i++) {
+      int f = dup(i);
+      if (f<0) continue;
+      ofile++;
+      close(f);
+    }
+    printf("ofile = %d world = %d \n", ofile, new_world);
+#endif
   trace(DBG_WO, "world enter");
 
   // cleanup

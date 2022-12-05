@@ -298,13 +298,15 @@ void UAppliImpl::processPendingRequests() {
 void UAppliImpl::processDeleteRequests() {
   // views
   for (unsigned int k = 0; k < del_view_list.size(); ++k) {
-    ::operator delete(del_view_list[k]);    // enforces deletion
+    if (del_view_list[k])
+      ::operator delete(del_view_list[k]);    // enforces deletion
   }
   del_view_list.clear();
   
   // bricks
   for (unsigned int k = 0; k < del_obj_list.size(); ++k) {
-    ::operator delete(del_obj_list[k]);    // enforces deletion
+    if (del_obj_list[k])
+      ::operator delete(del_obj_list[k]);    // enforces deletion
   }
   del_obj_list.clear();
   

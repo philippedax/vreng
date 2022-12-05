@@ -173,22 +173,30 @@ void UTimer::stop() {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 UTimer::UTimer(bool _auto_delete) :
-auto_delete(_auto_delete), is_running(false), is_looping(true),
-timer_no(-1), ntimes(0), delay(0)
+ auto_delete(_auto_delete),
+ is_running(false),
+ is_looping(true),
+ timer_no(-1),
+ ntimes(0),
+ delay(0)
 #if UBIT_WITH_X11
-, timeout(*new timeval)
+ , timeout(*new timeval)
 #elif UBIT_WITH_GDK
-, gid(0)
+ , gid(0)
 #endif
 {}
 
 UTimer::UTimer(unsigned long d, int _ntimes, bool _auto_delete) : 
-auto_delete(_auto_delete), is_running(false), is_looping(_ntimes <= 0),
-timer_no(-1), ntimes(_ntimes), delay(d)
+ auto_delete(_auto_delete),
+ is_running(false),
+ is_looping(_ntimes <= 0),
+ timer_no(-1),
+ ntimes(_ntimes),
+ delay(d)
 #if UBIT_WITH_X11
-, timeout(*new timeval)
+ , timeout(*new timeval)
 #elif UBIT_WITH_GDK
-, gid(0)
+ , gid(0)
 #endif
 {}
 
@@ -273,8 +281,8 @@ bool UTimerImpl::resetTimers(struct timeval& delay) {
   mintime.tv_sec  = LONG_MAX;
   mintime.tv_usec = LONG_MAX;
 #else
-  mintime.tv_sec  = -1; //DAX LONG_MAX;
-  mintime.tv_usec = -1; //DAX LONG_MAX;
+  mintime.tv_sec  = -1; //dax LONG_MAX;
+  mintime.tv_usec = -1; //dax LONG_MAX;
 #endif
   bool timeout_found = false;
   

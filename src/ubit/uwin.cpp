@@ -336,14 +336,14 @@ UView* UWin::realizeSoftwin(UWin* hardwin, UView* hardwin_view,
   UWinList* softwins = hardi->obtainSoftwins();
   // est-ce que this est deja dans la softlist ?
   UChildIter i = softwins->children().find(*this);
-  //DAX UChild* child = null;
-  if (i != softwins->cend()) /*DAX child = &*/i.child();
+  //dax UChild* child = null;
+  if (i != softwins->cend()) /*dax child = &*/i.child();
   else {
     bool auto_up = softwins->isAutoUpdate();
     softwins->setAutoUpdate(false);
     softwins->add(this);
     softwins->setAutoUpdate(auto_up);
-    /*DAX child = &*/ (softwins->children().back());
+    /*dax child = &*/ (softwins->children().back());
   }
   
   if (!disp) disp = hardwin_view->getDisp();
@@ -911,10 +911,10 @@ void UWin::setPos(const UWin& win, const UPoint& p, UDisp* disp) {
     // verifie si current_winview toujours dans la liste
     UView* v = softw ? softw->getActualView(views) : null;
     UWin* current_hardwin = null;
-    //DAX UView* current_hardwin_view = null;
+    //dax UView* current_hardwin_view = null;
     if (v) {
       current_hardwin = v->getWin();
-      /*DAX current_hardwin_view = */v->getWinView();
+      /*dax current_hardwin_view = */v->getWinView();
     }
 
     if (current_hardwin == win_hardwin) {
