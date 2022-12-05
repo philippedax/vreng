@@ -20,6 +20,8 @@
 #include <iostream>
 #include <errno.h>
 #include <unistd.h>
+#include <sys/select.h>
+#include <sys/poll.h>
 #include <ubit/udispX11.hpp>  // includes X11 headers
 #include <X11/keysym.h> 
 #include <X11/cursorfont.h>

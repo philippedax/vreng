@@ -385,6 +385,9 @@ const char CONFIG_H[] = "\
 /* */\n\
 #define HAVE_PNG_H 1\n\
 \n\
+/* Define to 1 if you have the `poll' function. */\n\
+#define HAVE_POLL 1\n\
+\n\
 /* Define to 1 if you have the `pow' function. */\n\
 #define HAVE_POW 1\n\
 \n\
@@ -517,6 +520,9 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you have the <sys/param.h> header file. */\n\
 #define HAVE_SYS_PARAM_H 1\n\
+\n\
+/* Define to 1 if you have the <sys/poll.h> header file. */\n\
+#define HAVE_SYS_POLL_H 1\n\
 \n\
 /* Define to 1 if you have the <sys/resource.h> header file. */\n\
 #define HAVE_SYS_RESOURCE_H 1\n\
