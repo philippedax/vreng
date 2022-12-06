@@ -51,6 +51,7 @@ static void inputCB(gpointer input, gint source, GdkInputCondition) {
 # endif
 
 void USource::open(int _source) {
+  //dax printf("open source: %d\n", _source); //dax debug
   source = _source;
   is_opened = true;
   UElem* sources = UAppli::impl.sources;
@@ -110,6 +111,7 @@ void UAppliImpl::resetSources(UElem* sources, fd_set& read_set, int& maxfd) {
     if (i && ((fd = i->source) >= 0)) {
       FD_SET(fd, &read_set);
       maxfd = std::max(maxfd, fd);
+      //dax printf("resetSources: fd=%d\n", fd); //dax debug
     }
   }
 }
@@ -142,12 +144,10 @@ void UAppliImpl::fireSources(UElem* sources, fd_set& read_set) {
     }
     
     int fd = 0;
-    if (i->is_opened && ((fd=i->source) >= 0) && FD_ISSET(fd,&read_set)) {
+    if (i->is_opened && ((fd=i->source) >= 0) && FD_ISSET(fd, &read_set)) {
       i->fireInput();
     }
   }
 }
 
-
 }
-
