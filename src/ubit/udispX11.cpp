@@ -743,14 +743,66 @@ void UDispX11::startLoop(bool main)
       has_timeout = UAppli::impl.timer_impl.resetTimers(delay);
     }
 
-    // sources
-    fd_set read_set;
-    FD_ZERO(&read_set);
-    
     int maxfd = 0;
     int xconnection = 0;
     int ofile = 0;
 
+#if 1 //dax poll
+    int const nfds = 4096;
+    struct pollfd fds[4096];
+
+    //dax fds = ::calloc(nfds, sizeof(struct pollfd));
+    for (int k = 0; k < displist.size(); ++k) {
+      xconnection = ((UDispX11*)displist[k])->xconnection;
+    }
+    for (int i = 0; i < nfds; i++) {
+      fds[i].fd = 0;
+      fds[i].events = 0;
+      fds[i].revents = 0;
+    }
+    fds[0].fd = xconnection;
+    fds[0].events = POLLIN;
+    if (UAppli::impl.sources) {
+      // set read_set maxfd
+      //dax a.resetSources(UAppli::impl.sources, &fds[1].fd, maxfd);
+    }
+    fds[1].events = POLLIN;
+
+    // poll -
+    int has_input = poll(fds, 2, delay.tv_sec);
+
+    if (has_input < 0) {
+      printf("UDispX11:: error in poll() (%d) main=%d to=%d s=%ld maxfd=%d xcon=%d\n", errno, main, has_timeout, delay.tv_sec, maxfd, xconnection);
+      a.cleanSources(a.sources); // remove invalid sources
+    }
+    else {
+      for (int i = 0; i < nfds ; i++) {
+        if (fds[i].revents == POLLIN) {
+          //dax if (a.sources) a.fireSources(a.sources, &fds[i].fd);
+          if (a.request_mask) a.processPendingRequests();
+        }
+      }
+    }
+      
+    if (has_timeout) {	// timeout event
+      if (timers.size() > 0) UAppli::impl.timer_impl.fireTimers();
+      if (a.request_mask) a.processPendingRequests();
+    }
+#if 0 //dax debug
+      for (int i=0; i<4000; i++) {
+        int f = dup(i);
+        if (f<0) continue;
+        ofile++;
+        close(f);
+      }
+      printf("ofile = %d\n", ofile);
+#endif //dax
+
+#else // select
+    // sources
+    fd_set read_set;
+    FD_ZERO(&read_set);
+    
     for (int k = 0; k < displist.size(); ++k) {
       xconnection = ((UDispX11*)displist[k])->xconnection;
       FD_SET(xconnection, &read_set);
@@ -787,7 +839,7 @@ void UDispX11::startLoop(bool main)
                              null,      //except
                              (has_timeout ? &delay : null));
     if (has_input < 0) {
-      printf("UDispX11::startLoop error in select() (%d) main=%d to=%d s=%ld maxfd=%d xcon=%d\n", errno, main, has_timeout, delay.tv_sec, maxfd, xconnection);
+      printf("UDispX11:: error in select() (%d) main=%d to=%d s=%ld maxfd=%d xcon=%d\n", errno, main, has_timeout, delay.tv_sec, maxfd, xconnection);
 #if 0 //dax debug
       // number of open files
       for (int i=0; i<4000; i++) {
@@ -814,6 +866,7 @@ void UDispX11::startLoop(bool main)
         if (a.request_mask) a.processPendingRequests();
       }
     }
+#endif //poll | select
   } //endwhile(running)
 }
 
