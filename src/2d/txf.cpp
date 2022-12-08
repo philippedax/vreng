@@ -23,7 +23,7 @@
 #include "vreng.hpp"
 #include "txf.hpp"
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// openCache, closeCache
 #include "file.hpp"	// closeFile
 
 #include <list>
@@ -225,7 +225,7 @@ error:
     delete[] txf->texfont->teximage;
     delete[] txf->texfont; txf->texfont = NULL;
   }
-  File::closeFile(f);
+  Cache::closeCache(f);
   return;
 }
 

@@ -35,7 +35,6 @@
 #include "body.hpp"	// body
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// setCachePath, openCache
-#include "file.hpp"	// closeFile
 #include "bone.hpp"	// V3d
 
 
@@ -123,7 +122,7 @@ void Face::httpReader(void *_url, Http *http)
     return;
   }
   FILE *f = Cache::openCache(url, http);
-  File::closeFile(f);
+  Cache::closeCache(f);
 }
 
 /** Download list of faces url */

@@ -33,8 +33,7 @@
 #include "ase.hpp"
 #include "http.hpp"	// httpOpen
 #include "texture.hpp"	// open
-#include "cache.hpp"	// openCache
-#include "file.hpp"	// closeFile
+#include "cache.hpp"	// openCache, closeCache
 
 
 // Below are a all the important tag defines for reading in a .Ase file.
@@ -273,7 +272,7 @@ bool Ase::importModel(tASEModel *pModel)
 
   readFile(pModel);
   computeNormals(pModel);
-  File::closeFile(fp);
+  Cache::closeCache(fp);
   return true;
 }
 

@@ -20,8 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"    // openCache
-#include "file.hpp"     // closeFile
+#include "cache.hpp"    // openCache, closeCache
 #include "texture.hpp"  // Texture
 #include "reader.hpp"	// Reader
 
@@ -64,7 +63,7 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
   magic1 = getc(f); magic2 = getc(f);
   if (magic1 != 'B' || magic2 != 'M') {
     error("LoadBMP: %s not a bmp file magic=%c%c", ir->getFilename(tex), magic1, magic2);
-    File::closeFile(f);
+    Cache::closeCache(f);
     return NULL;
   }
 
@@ -78,13 +77,13 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
   bit_count = ir->getShort(f);
   if (bit_count != 24) {
     error("loadBMP: don't support %d bpp", bit_count);
-    File::closeFile(f);
+    Cache::closeCache(f);
     return NULL;
   }
   compression = ir->getUInt(f);
   if (compression != 0) {
     error("loadBMP: compression not supported");
-    File::closeFile(f);
+    Cache::closeCache(f);
     return NULL;
   }
   image_size = ir->getUInt(f);
@@ -104,7 +103,7 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
   fseek(f, (long) data_offset, 0);
   fread((char *) img->pixmap, 1, image_size, f);
 
-  File::closeFile(f);
+  Cache::closeCache(f);
 
   //Inverse R et B
   for (int i=0; i < width*height ; i++) {

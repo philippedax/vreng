@@ -34,7 +34,7 @@
 #include "http.hpp"	// httpOpen
 #include "file.hpp"	// localEndian
 #include "texture.hpp"	// open
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// openCache, closeCache
 
 using namespace std;
 
@@ -319,7 +319,7 @@ bool _3ds::importModel(t3dsModel *pModel)
   // After we have read the whole 3DS file, we want to calculate our own vertex normals.
   computeNormals(pModel);
 
-  File::closeFile(fp);
+  Cache::closeCache(fp);
   return true;
 }
 
@@ -342,7 +342,7 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
     case VERSION_3DS:			// This holds the version of the file
       // This chunk has an unsigned short that holds the file version.
       currentChunk.bytesRead += fread(&version, 1, currentChunk.length - currentChunk.bytesRead,fp);
-      File::localEndian(&version,sizeof(unsigned int));
+      File::localEndian(&version, sizeof(unsigned int));
 
       if (version > 0x03) error("This 3DS file is over version 3 so it may load incorrectly");
       break;
@@ -353,7 +353,7 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
 
       // Get the version of the mesh
       tempChunk.bytesRead += fread(&version, 1, tempChunk.length - tempChunk.bytesRead, fp);
-      File::localEndian(&version,sizeof(unsigned int));
+      File::localEndian(&version, sizeof(unsigned int));
 
       currentChunk.bytesRead += tempChunk.bytesRead;
 
@@ -491,7 +491,7 @@ void _3ds::readChunk(tChunk *pChunk)
 {
   // The chunk ID is like OBJECT or MATERIAL.
   pChunk->bytesRead = fread(&pChunk->ID, 1, 2, fp);
-  File::localEndian(&pChunk->ID,2);
+  File::localEndian(&pChunk->ID, 2);
 
   // Then, we read the length of the chunk which is 4 bytes.
   pChunk->bytesRead += fread(&pChunk->length, 1, 4, fp);
@@ -531,7 +531,7 @@ void _3ds::readVertexIndices(tObject *pObject, tChunk *pPreviousChunk)
 
   // Read in the number of faces that are in this object (int)
   pPreviousChunk->bytesRead += fread(&pObject->numFaces, 1, 2, fp);
-  File::localEndian(&pObject->numFaces,sizeof(int));
+  File::localEndian(&pObject->numFaces, sizeof(int));
 
   // Alloc enough memory for the faces and initialize the structure
   pObject->pFaces = new t3dsFace [pObject->numFaces];
@@ -555,7 +555,7 @@ void _3ds::readUVCoordinates(tObject *pObject, tChunk *pPreviousChunk)
 {
   // Read in the number of UV coordinates there are (int)
   pPreviousChunk->bytesRead += fread(&pObject->numTexVertex, 1, 2, fp);
-  File::localEndian(&pObject->numTexVertex,sizeof(int));
+  File::localEndian(&pObject->numTexVertex, sizeof(int));
 
   // Allocate memory to hold the UV coordinates
   pObject->pTexVerts = new Vec2 [pObject->numTexVertex];
@@ -563,8 +563,8 @@ void _3ds::readUVCoordinates(tObject *pObject, tChunk *pPreviousChunk)
   // Read in the texture coodinates (an array 2 float)
   pPreviousChunk->bytesRead += fread(pObject->pTexVerts, 1, pPreviousChunk->length - pPreviousChunk->bytesRead, fp);
   for (int i=0; i < pObject->numTexVertex; i++) {
-    File::localEndian(&pObject->pTexVerts[i].x,sizeof(float));
-    File::localEndian(&pObject->pTexVerts[i].y,sizeof(float));
+    File::localEndian(&pObject->pTexVerts[i].x, sizeof(float));
+    File::localEndian(&pObject->pTexVerts[i].y, sizeof(float));
   }
 }
 
@@ -573,7 +573,7 @@ void _3ds::readVertices(tObject *pObject, tChunk *pPreviousChunk)
 {
   // Read in the number of vertices (int)
   pPreviousChunk->bytesRead += fread(&(pObject->numVerts), 1, 2, fp);
-  File::localEndian(&pObject->numVerts,sizeof(int));
+  File::localEndian(&pObject->numVerts, sizeof(int));
 
   //error("readVertices: numVerts=%d", pObject->numVerts);
 
@@ -593,9 +593,9 @@ void _3ds::readVertices(tObject *pObject, tChunk *pPreviousChunk)
 
   // Go through all of the vertices that we just read and swap the Y and Z values
   for (int i=0; i < pObject->numVerts; i++) {
-    File::localEndian(&pObject->pVerts[i].x,sizeof(float));
-    File::localEndian(&pObject->pVerts[i].y,sizeof(float));
-    File::localEndian(&pObject->pVerts[i].z,sizeof(float));
+    File::localEndian(&pObject->pVerts[i].x, sizeof(float));
+    File::localEndian(&pObject->pVerts[i].y, sizeof(float));
+    File::localEndian(&pObject->pVerts[i].z, sizeof(float));
 
     float fTempY = pObject->pVerts[i].y;
 

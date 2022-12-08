@@ -113,6 +113,11 @@ FILE * Cache::openCache(const char *url, Http *http)
   return fpcache;  // file is opened
 }
 
+void Cache::closeCache(FILE *fp)
+{
+  File::closeFile(fp);
+}
+
 /* Checks if file is in the cache */
 bool Cache::inCache(const char *url)
 {

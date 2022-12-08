@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// openCache, closeCache
 #include "file.hpp"	// closeFile
 #include "texture.hpp"	// Texture
 
@@ -41,6 +41,7 @@ Img * Img::loadXPM(void *tex, ImageReader read_func)
   int r = XpmReadFileToXpmImage(Cache::getFilePath(texture->url), &xpmimage, NULL);
   if (r != XpmSuccess) {
     if (r == XpmColorFailed) error("XpmReadFileToXpmImage: bad color");
+    Cache::closeCache(f);
     return NULL;
   }
 
@@ -58,6 +59,7 @@ Img * Img::loadXPM(void *tex, ImageReader read_func)
 
   img->pixmap = (uint8_t *) xpmimage.data;
   if (data) delete[] data;
+  Cache::closeCache(f);
   return img;
 #else
   return NULL;

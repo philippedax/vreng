@@ -20,8 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
-#include "file.hpp"	// closeFile
+#include "cache.hpp"	// openCache, closeCache
 #include "texture.hpp"	// Texture
 
 
@@ -92,6 +91,6 @@ Img * Img::loadXBM(void *tex, ImageReader read_func)
       }
     }  
   }
-  File::closeFile(f);
+  Cache::closeCache(f);
   return img;
 }

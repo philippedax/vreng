@@ -25,7 +25,7 @@
 #include "lwo.hpp"
 #include "http.hpp"	// httpOpen
 #include "file.hpp"	// skip_byte
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// openCache, closeCache
 
 
 // local
@@ -216,10 +216,18 @@ void Lwo::httpReader(void *alwo, Http *http)
   if (! f) { error("lwo: can't open %s", lwourl); return; }
 
   /* check for headers */
-  if (File::read_long(f) != ID_FORM) { error("lwoReader: error ID_FORM"); return; }
+  if (File::read_long(f) != ID_FORM) {
+    error("lwoReader: error ID_FORM");
+    Cache::closeCache(f);
+    return;
+  }
   int32_t form_bytes = File::read_long(f);
   int32_t read_bytes = 4;
-  if (File::read_long(f) != ID_LWOB) { error("lwoReader: not a LWOB file"); return; }
+  if (File::read_long(f) != ID_LWOB) {
+    error("lwoReader: not a LWOB file");
+    Cache::closeCache(f);
+    return;
+  }
 
   /* read chunks */
   while (read_bytes < form_bytes) {
@@ -234,7 +242,7 @@ void Lwo::httpReader(void *alwo, Http *http)
       default: File::skip_byte(f, nbytes + nbytes%2);
     }
   }
-  File::closeFile(f);
+  Cache::closeCache(f);
   return;
 }
 

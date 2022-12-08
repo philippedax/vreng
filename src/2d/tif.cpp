@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "img.hpp"
 #include "reader.hpp"	// Reader
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// openCache, closeCache
 #include "file.hpp"	// closeFile
 #include "texture.hpp"	// Texture
 
@@ -45,7 +45,7 @@ Img * Img::loadTIF(void *_tex, ImageReader read_func)
     delete ir;
     return NULL;
   }
-  File::closeFile(f);
+  Cache::closeCache(f);
   delete ir;
 
   // opens the tiff file

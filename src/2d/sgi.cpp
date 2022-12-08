@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// openCache, closeCache
 #include "file.hpp"	// littleEndian, convertLong
 #include "texture.hpp"	// Texture
 
@@ -34,7 +34,7 @@ typedef struct {
   uint32_t wasteBytes;
   char name[80];
   uint32_t colorMap;
-  FILE *fp;
+  FILE *f;
   uint8_t *tmp, *tmpR, *tmpG, *tmpB;
   uint32_t rleEnd;
   uint32_t *rowStart;
@@ -82,8 +82,8 @@ static
 void getRow(SgiInfo *sgi, uint8_t *buf, int y, int z)
 {
   if ((sgi->type & 0xFF00) == 0x0100) { // storage = RLE (run length encoding)
-    fseek(sgi->fp, (uint32_t) sgi->rowStart[y + z*sgi->height], SEEK_SET);
-    fread(sgi->tmp, 1, (uint32_t) sgi->rowSize[y + z*sgi->height], sgi->fp);
+    fseek(sgi->f, (uint32_t) sgi->rowStart[y + z*sgi->height], SEEK_SET);
+    fread(sgi->tmp, 1, (uint32_t) sgi->rowSize[y + z*sgi->height], sgi->f);
 
     uint8_t *iPtr = sgi->tmp;
     uint8_t *oPtr = buf;
@@ -102,8 +102,8 @@ void getRow(SgiInfo *sgi, uint8_t *buf, int y, int z)
     }
   }
   else {	// storage = VERBATIM
-    fseek(sgi->fp, 512 + (y*sgi->width) + (z*sgi->width*sgi->height), SEEK_SET);
-    fread(buf, 1, sgi->width, sgi->fp);
+    fseek(sgi->f, 512 + (y*sgi->width) + (z*sgi->width*sgi->height), SEEK_SET);
+    fread(buf, 1, sgi->width, sgi->f);
   }
 }
 
@@ -114,9 +114,9 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
   if (! sgi) return NULL;
 
   Texture *texture = (Texture *) tex;
-  if ((sgi->fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  if ((sgi->f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
-  fread(sgi, 1, 12, sgi->fp); // header
+  fread(sgi, 1, 12, sgi->f); // header
 
   if (File::littleEndian())
     File::convertShort(&sgi->imagic, 6);
@@ -129,9 +129,9 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
     sgi->rowSize  = new uint32_t[x];
     if (!sgi->rowStart || !sgi->rowSize) return NULL;
     sgi->rleEnd = 512 + (2 * x);
-    fseek(sgi->fp, 512, SEEK_SET);
-    fread(sgi->rowStart, 1, x, sgi->fp);
-    fread(sgi->rowSize, 1, x, sgi->fp);
+    fseek(sgi->f, 512, SEEK_SET);
+    fread(sgi->rowStart, 1, x, sgi->f);
+    fread(sgi->rowSize, 1, x, sgi->f);
     if (File::littleEndian()) {
       File::convertLong(sgi->rowStart, x/(int)sizeof(uint32_t));
       File::convertLong((uint32_t *)sgi->rowSize, x/(int)sizeof(uint32_t));
@@ -177,7 +177,7 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
     lptr += (sgi->width * Img::RGB);
   }
 
-  File::closeFile(sgi->fp);
+  Cache::closeCache(sgi->f);
   delete[] sgi->tmp;
   delete[] sgi;
   delete[] rbuf;

@@ -21,8 +21,7 @@
 /* GIF Decoder (c) 1997 Fabrice BELLARD */
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
-#include "file.hpp"	// closeFile
+#include "cache.hpp"	// openCache, openCache
 #include "texture.hpp"	// Texture
 
 
@@ -70,11 +69,20 @@ Img * Img::loadGIF(void *tex, ImageReader read_func)
   g->ir = 0;
   g->img = NULL;
 
-  if (gifReadSignature(g)) return NULL;
-  if (gifReadScreen(g)) return NULL;
-  if (gifReadBlocks(g)) return NULL;
+  if (gifReadSignature(g)) {
+    Cache::closeCache(g->fp);
+    return NULL;
+  }
+  if (gifReadScreen(g)) {
+    Cache::closeCache(g->fp);
+    return NULL;
+  }
+  if (gifReadBlocks(g)) {
+    Cache::closeCache(g->fp);
+    return NULL;
+  }
 
-  File::closeFile(g->fp);
+  Cache::closeCache(g->fp);
   return g->img;
 }
 

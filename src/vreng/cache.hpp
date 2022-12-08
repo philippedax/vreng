@@ -48,6 +48,9 @@ class Cache {
   static FILE * openCache(const char *url, Http *http);
   ///< Saves file into cache and opens it.
 
+  static void closeCache(FILE *fp);
+  ///< Closes file into cache.
+
   static bool inCache(const char *url);
   ///< Checks whether url is cached.
 

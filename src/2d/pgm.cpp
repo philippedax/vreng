@@ -20,8 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
-#include "file.hpp"	// closeFile
+#include "cache.hpp"	// openCache, closeCache
 #include "texture.hpp"	// Texture
 
 
@@ -38,7 +37,10 @@ Img * Img::loadPGM(void *tex, ImageReader read_func)
 
   magic[0] = getc(f);
   magic[1] = getc(f);
-  if (magic[0] != 'P' || magic[1] != '5') return NULL;
+  if (magic[0] != 'P' || magic[1] != '5') {
+    Cache::closeCache(f);
+    return NULL;
+  }
   fgets(buf, 256, f);
   fgets(buf, 256, f);
   fgets(buf, 256, f);
@@ -59,7 +61,7 @@ Img * Img::loadPGM(void *tex, ImageReader read_func)
       img->pixmap[((y*width+x)*Img::RGB)+2] = img->pixmap[(y*width+x)*Img::RGB];
     }
   }
-  File::closeFile(f);
+  Cache::closeCache(f);
 
   return img;
 }

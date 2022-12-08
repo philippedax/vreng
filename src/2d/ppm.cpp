@@ -20,8 +20,8 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
-#include "file.hpp"	// openFile
+#include "cache.hpp"	// openCache, closeCache
+#include "file.hpp"	// openFile, closeFile
 #include "texture.hpp"	// Texture
 
 
@@ -55,7 +55,7 @@ Img * Img::loadPPM(void *tex, ImageReader read_func)
     fread((char *)img->pixmap + y*width*Img::RGB, 1, width*Img::RGB, f);
   }
 
-  File::closeFile(f);
+  Cache::closeCache(f);
   return img;
 }
 
@@ -68,11 +68,11 @@ void Img::savePPM(const char *filename, GLenum mode)
   int width = viewport[2]; if (width & 1) ++width;	//even values
   int height = viewport[3]; if (height & 1) ++height;
 
-  FILE *fp;
-  if ((fp = File::openFile(filename, "wb")) == NULL) {
+  FILE *f;
+  if ((f = File::openFile(filename, "wb")) == NULL) {
     perror("open"); return;
   }
-  fprintf(fp, "P6\n#\n%d %d\n255\n", width, height);	// magic number P6
+  fprintf(f, "P6\n#\n%d %d\n255\n", width, height);	// magic number P6
 
   glReadBuffer(mode);
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -82,9 +82,9 @@ void Img::savePPM(const char *filename, GLenum mode)
   glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixmap);
 
   for (int j=height; j-- ; ppix -= Img::RGB * width) {
-    fwrite(ppix, 1, Img::RGB * width, fp);
+    fwrite(ppix, 1, Img::RGB * width, f);
   }
 
   delete[] pixmap;
-  File::closeFile(fp);
+  File::closeFile(f);
 }

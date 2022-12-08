@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"	// Img
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// openCache, closeCache
 #include "file.hpp"	// openFile
 #include "texture.hpp"	// Texture
 #include "glpng.hpp"	// pngLoadF
@@ -37,9 +37,10 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
   /* we read the data */
   if (! pngLoadF(f, PNG_NOMIPMAP, PNG_SOLID, &rawinfo)) {
     error("can't load png file");
+    Cache::closeCache(f);
     return NULL;
   }
-  File::closeFile(f);
+  Cache::closeCache(f);
   trace(DBG_VGL, "loadPNG: w=%d h=%d d=%d a=%d", rawinfo.Width, rawinfo.Height, rawinfo.Depth, rawinfo.Alpha);
 
   Img *img = new Img(rawinfo.Width, rawinfo.Height, Img::RGB);
@@ -77,11 +78,15 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
 
   pngWrite = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
   if (!pngWrite) {
-    error("savePNG: png_create_write_struct failed"); return;
+    error("savePNG: png_create_write_struct failed");
+    Cache::closeCache(f);
+    return;
   }
   pngInfo = png_create_info_struct(pngWrite);
   if (!pngInfo) {
-    error("savePNG: png_create_info_struct failed"); return;
+    error("savePNG: png_create_info_struct failed");
+    Cache::closeCache(f);
+    return;
   }
 
   png_init_io(pngWrite, f);
@@ -100,7 +105,7 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
   png_destroy_write_struct(&pngWrite, NULL);
   free( row_pointers );
   free(image);
-  File::closeFile(f);
+  Cache::closeCache(f);
 #endif
 #endif //dax
 }

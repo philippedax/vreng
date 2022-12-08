@@ -24,7 +24,6 @@
 #include "vreng.hpp"
 #include "img.hpp"
 #include "cache.hpp"	// openCache
-#include "file.hpp"	// closeFile
 #include "texture.hpp"	// Texture
 
 
@@ -137,7 +136,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   fread(&magic, sizeof(char), 4, dds->fp);
   if (strncmp (magic, "DDS ", 4) != 0) {
     error("file \"%s\" is not a valid .dds file!", Cache::getFilePath(texture->url));
-    File::closeFile(dds->fp);
+    Cache::closeCache(dds->fp);
     return NULL;
   }
 
@@ -166,7 +165,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   default:
     error("the file \"%s\" doesn't appear to be compressed using DXT1, DXT3, or DXT5! [%x]",
           Cache::getFilePath(texture->url), ddsd.channel.fourCC);
-    File::closeFile(dds->fp);
+    Cache::closeCache(dds->fp);
     if (dds) delete[] dds;
     return NULL;
   }
@@ -185,7 +184,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   /* read pixel data with mipmaps */
   fread(dds->texels, sizeof (GLubyte), size, dds->fp);
 
-  File::closeFile(dds->fp);
+  Cache::closeCache(dds->fp);
   if (dds) delete[] dds;
 
   return img;

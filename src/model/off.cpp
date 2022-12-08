@@ -22,8 +22,7 @@
 #include "off.hpp"
 #include "http.hpp"	// Http::httpOpen
 #include "wobject.hpp"	// Pos
-#include "cache.hpp"	// openCache
-#include "file.hpp"	// openFile
+#include "cache.hpp"	// openCache, closeCache
 
 
 void Off::defaults()
@@ -124,7 +123,7 @@ void Off::httpReader(void *_off, Http *http)
       }
     }
   }
-  File::closeFile(f);
+  Cache::closeCache(f);
 }
 
 // Draws in the display list

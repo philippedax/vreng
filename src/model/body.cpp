@@ -25,8 +25,7 @@
 #include "texture.hpp"	// open
 #include "format.hpp"	// getModelByUrl
 #include "user.hpp"	// localuser
-#include "cache.hpp"	// openCache
-#include "file.hpp"	// closeFile
+#include "cache.hpp"	// openCache, closeCache
 
 
 const float Phalanx2::PHALANX2_LEN = 0.012;	// default phalanx2 length
@@ -811,7 +810,7 @@ endparse:
     }
   }
   model = bodyparts[0].model;  // keep model used
-  if (f) File::closeFile(f);
+  if (f) Cache::closeCache(f);
 }
 
 #if 0 //dax notused

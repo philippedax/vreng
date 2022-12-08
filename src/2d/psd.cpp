@@ -297,6 +297,6 @@ Img * Img::loadPSD(void *tex, ImageReader read_func)
   Img *img = new Img(width, height, Img::RGB);
   img->pixmap = data;
 
-  File::closeFile(f);
+  Cache::closeCache(f);
   return img;
 }

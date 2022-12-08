@@ -24,7 +24,7 @@
  */
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// openCache, openCache
 #include "file.hpp"	// openFile
 #include "texture.hpp"	// Texture
 
@@ -37,13 +37,13 @@ extern "C" {  // stupid JPEG library
 }
 #include <setjmp.h>
 
-static void readJpegHeader(FILE* fp, struct jpeg_decompress_struct& cinfo)
+static void readJpegHeader(FILE* f, struct jpeg_decompress_struct& cinfo)
 {
   // Step 1: allocate and initialize JPEG decompression object
   jpeg_create_decompress(&cinfo);
 
   // Step 2: specify data source (eg, a file)
-  jpeg_stdio_src(&cinfo, fp);
+  jpeg_stdio_src(&cinfo, f);
 
   // Step 3: read file parameters with jpeg_read_header()
   jpeg_read_header(&cinfo, TRUE);
@@ -117,8 +117,8 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
   struct jpeg_decompress_struct cinfo;
 
   Texture *texture = (Texture *) tex;
-  FILE *fp;
-  if ((fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  FILE *f;
+  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   /* error handling */
   struct my_error_mgr jerr;
@@ -127,12 +127,12 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
   if (setjmp(jerr.setjmp_buf)) {
     error("loadJPG: invalidData");
     jpeg_destroy_decompress(&cinfo);
-    File::closeFile(fp);
+    Cache::closeCache(f);
     return NULL;
   }
 
   /* we read the header */
-  readJpegHeader(fp, cinfo);
+  readJpegHeader(f, cinfo);
 
   /* we read the data */
   // we can only decode RGB (num=3) or greayscale (num=1)
@@ -140,7 +140,7 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
       || (cinfo.num_components != 3 && cinfo.num_components != 1)) {
     error("loadJPG: num_components=%d", cinfo.num_components);
     jpeg_destroy_decompress(&cinfo);
-    File::closeFile(fp);
+    Cache::closeCache(f);
     return NULL;
   }
 
@@ -148,12 +148,12 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
   if (!img) {
     error("loadJPG: can't new image");
     jpeg_destroy_decompress(&cinfo);
-    File::closeFile(fp);
+    Cache::closeCache(f);
     return NULL;
   }
 
   readJpegData(img, cinfo);
-  File::closeFile(fp);
+  Cache::closeCache(f);
 
   return img;
 #else

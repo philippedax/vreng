@@ -24,7 +24,7 @@
  */
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// openCache, closeCache
 #include "file.hpp"	// openFile
 #include "texture.hpp"	// Texture
 
@@ -70,7 +70,7 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
     channel = 3; // 24 bit per pixel (RGB)
     break;
   default:
-    File::closeFile(f);
+    Cache::closeCache(f);
     return NULL;
   }
   trace(DBG_IMG, "loadTGA: w=%d h=%d c=%d", width, height, channel);
@@ -81,7 +81,7 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
   // we read the data
   uint8_t *data = new uint8_t[size];  //alloc pixmap
   if (!data) {
-    File::closeFile(f);
+    Cache::closeCache(f);
     return NULL;
   }
 
@@ -115,7 +115,7 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
       }
       break;
    default:
-     File::closeFile(f);
+     Cache::closeCache(f);
      delete[] data;
      return NULL;
   }
@@ -124,7 +124,7 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
     img->pixmap[j+1] = data[i+1];
     img->pixmap[j+2] = data[i];
   }
-  File::closeFile(f);
+  Cache::closeCache(f);
   delete[] data;
   return img;
 }

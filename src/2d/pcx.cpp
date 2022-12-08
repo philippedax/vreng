@@ -65,12 +65,13 @@ Img * Img::loadPCX(void *tex, ImageReader read_func)
   /* test if this is really a PCX file */
   if (pcxInfo.Manufacturer != 0x0A) {
     error("loadPCX: not a PCX format: %x", pcxInfo.Manufacturer);
+    Cache::closeCache(f);
     return NULL;
   }
 
   /* only decode one type of PCX */
-  if ((pcxInfo.Version != 0x05) || (pcxInfo.BitsPerPixel != 8) ||
-      (pcxInfo.NPlanes != 0x01))
+  if ((pcxInfo.Version != 0x05) || (pcxInfo.BitsPerPixel != 8) || (pcxInfo.NPlanes != 0x01))
+    Cache::closeCache(f);
     return NULL;
 
   /* gets the image dimensions */
@@ -110,6 +111,7 @@ Img * Img::loadPCX(void *tex, ImageReader read_func)
   /* decodes the palette */
   if (getc(f) != 0x0C) {
     delete[] pix;
+    Cache::closeCache(f);
     return NULL;
   }
   for (int i=0; i < 256; i++) {
@@ -131,7 +133,7 @@ Img * Img::loadPCX(void *tex, ImageReader read_func)
     tmp++;
   }
   delete[] pix;
-  File::closeFile(f);
+  Cache::closeCache(f);
 
   return img;
 }

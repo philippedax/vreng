@@ -32,7 +32,6 @@
 #include "bvh.hpp"
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// openCache
-#include "file.hpp"	// closeFile
 #include "obj.hpp"	// class Obj
 
 using namespace std;
@@ -71,7 +70,7 @@ void Bvh::httpReader(void *_bvh, Http *http)
 
   FILE *f = NULL;
   f = Cache::openCache(bvh->getUrl(), http);
-  if (f) File::closeFile(f);
+  if (f) Cache::closeCache(f);
 }
 
 void Bvh::process(string line)
@@ -429,7 +428,7 @@ void rigid::httpReader(void *_rigid, Http *http)
 
   FILE *f = NULL;
   f = Cache::openCache(rigi->getUrl(), http);
-  if (f) File::closeFile(f);
+  if (f) Cache::closeCache(f);
 }
 
 #if 0 //notused
