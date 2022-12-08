@@ -118,7 +118,7 @@ void Texture::update()
   unlockMutex(tex_pmutex);
 }
 
-int loaderImg(void *_tex, char *buf, int len)
+int imageReader(void *_tex, char *buf, int len)
 {
   Texture *tex = (Texture *) _tex;
 
@@ -145,20 +145,20 @@ void Texture::httpReader(void *_tex, Http *_http)
 
   // call the appropriated loader
   switch (format) {
-    case IMG_GIF: img = Img::loadGIF(tex, loaderImg); break;
-    case IMG_PNG: img = Img::loadPNG(tex, loaderImg); break;
-    case IMG_JPG: img = Img::loadJPG(tex, loaderImg); break;
-    case IMG_PPM: img = Img::loadPPM(tex, loaderImg); break;
-    case IMG_PGM: img = Img::loadPGM(tex, loaderImg); break;
-    case IMG_BMP: img = Img::loadBMP(tex, loaderImg); break;
-    case IMG_TGA: img = Img::loadTGA(tex, loaderImg); break;
-    case IMG_SGI: img = Img::loadSGI(tex, loaderImg); break;
-    case IMG_PCX: img = Img::loadPCX(tex, loaderImg); break;
-    case IMG_DDS: img = Img::loadDDS(tex, loaderImg); break;
-    case IMG_TIF: img = Img::loadTIF(tex, loaderImg); break;
-    case IMG_XPM: img = Img::loadXPM(tex, loaderImg); break;
-    case IMG_XBM: img = Img::loadXBM(tex, loaderImg); break;
-    case IMG_PSD: img = Img::loadPSD(tex, loaderImg); break;
+    case IMG_GIF: img = Img::loadGIF(tex, imageReader); break;
+    case IMG_PNG: img = Img::loadPNG(tex, imageReader); break;
+    case IMG_JPG: img = Img::loadJPG(tex, imageReader); break;
+    case IMG_PPM: img = Img::loadPPM(tex, imageReader); break;
+    case IMG_PGM: img = Img::loadPGM(tex, imageReader); break;
+    case IMG_BMP: img = Img::loadBMP(tex, imageReader); break;
+    case IMG_TGA: img = Img::loadTGA(tex, imageReader); break;
+    case IMG_SGI: img = Img::loadSGI(tex, imageReader); break;
+    case IMG_PCX: img = Img::loadPCX(tex, imageReader); break;
+    case IMG_DDS: img = Img::loadDDS(tex, imageReader); break;
+    case IMG_TIF: img = Img::loadTIF(tex, imageReader); break;
+    case IMG_XPM: img = Img::loadXPM(tex, imageReader); break;
+    case IMG_XBM: img = Img::loadXBM(tex, imageReader); break;
+    case IMG_PSD: img = Img::loadPSD(tex, imageReader); break;
     case IMG_NULL: return;
     default:
       warning("texture: unrecognized image format");
