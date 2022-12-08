@@ -177,3 +177,16 @@ void endprogression()
     //::g.gui.writeMessage("progress", NULL, "\n");
   }
 }
+
+void fopenlog(FILE *f, const char *name)
+{
+  fprintf(stderr, "open: %lu %s\n", f, name);
+  fflush(stderr);
+}
+
+void fcloselog(FILE *f)
+{
+  fprintf(stderr, "clos: %lu\n", f);
+  fflush(stderr);
+}
+

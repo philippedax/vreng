@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "file.hpp"
-#include "prof.hpp"	// cnt_open cnt_close
+#include "prof.hpp"	// opn_file cls_file
 
 
 /* Open a file */
@@ -28,6 +28,7 @@ FILE * File::openFile(const char *filename, const char *param)
 {
   FILE *fp = fopen(filename, param);
   if (fp) opn_file++;
+  //fopenlog(fp, filename);
   return fp; 
 }
 
@@ -36,6 +37,7 @@ void File::closeFile(FILE *fp)
 {
   fclose(fp);
   cls_file++;
+  //fcloselog(fp);
 }
 
 /**
