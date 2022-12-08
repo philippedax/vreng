@@ -31,7 +31,7 @@ int Socket::openDatagram()
   if ((sd = socket(PF_INET, SOCK_DGRAM, 0)) < 0)
     error("socket: %s (%d)", strerror(errno), errno);
   if (sd > 0)
-    cnt_open_socket++;
+    opn_sock++;
   return sd;
 }
 
@@ -43,7 +43,7 @@ int Socket::openStream()
   if ((sd = socket(PF_INET, SOCK_STREAM, 0)) < 0)
     error("socket: %s (%d)", strerror(errno), errno);
   if (sd > 0)
-    cnt_open_socket++;
+    opn_sock++;
   return sd;
 }
 
@@ -52,7 +52,7 @@ void Socket::closeDatagram(int sd)
 {
   if (sd > 0) {
     close(sd);
-    cnt_close_socket++;
+    cls_sock++;
   }
 }
 
@@ -61,7 +61,7 @@ void Socket::closeStream(int sd)
 {
   if (sd > 0) {
     close(sd);
-    cnt_close_socket++;
+    cls_sock++;
   }
 }
 
@@ -70,7 +70,7 @@ int Socket::connection(int sd, const sockaddr_in *sa)
   if (connect(sd, (struct sockaddr *) sa, sizeof(struct sockaddr_in)) < 0) {
     error("connect: %s (%d)", strerror(errno), errno);
     close(sd);
-    cnt_close_socket++;
+    cls_sock++;
     return -1;
   }
   return sd;

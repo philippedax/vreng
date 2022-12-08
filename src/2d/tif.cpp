@@ -31,17 +31,17 @@
 
 
 /** Load a TIFF image */
-Img * Img::loadTIF(void *_tex, ImageReader read_func)
+Img * Img::loadTIF(void *tex, ImageReader read_func)
 {
 #if HAVE_LIBTIFF
   // downloads the tiff file and put it into the cache
-  Reader *ir = new Reader(_tex, read_func);
+  Reader *ir = new Reader(tex, read_func);
 
   FILE *f;
-  Texture *tex = (Texture *) _tex;
+  Texture *_tex = (Texture *) tex;
   char cachepath[PATH_LEN] = {0};
-  Cache::setCachePath(tex->url, cachepath);
-  if ((f = Cache::openCache(cachepath, tex->http)) == NULL) {
+  Cache::setCachePath(_tex->url, cachepath);
+  if ((f = Cache::openCache(cachepath, _tex->http)) == NULL) {
     delete ir;
     return NULL;
   }

@@ -51,14 +51,12 @@ extern uint32_t new_httpthread;
 extern uint32_t del_httpthread;
 extern uint32_t new_http;
 extern uint32_t del_http;
-extern uint32_t new_imgreader;
-extern uint32_t del_imgreader;
 
 /*** io ***/
-extern uint32_t cnt_open;
-extern uint32_t cnt_close;
-extern uint32_t cnt_open_socket;
-extern uint32_t cnt_close_socket;
+extern uint32_t opn_file;
+extern uint32_t cls_file;
+extern uint32_t opn_sock;
+extern uint32_t cls_sock;
 
 void statMemory();
 void statIO();

@@ -45,7 +45,7 @@ class Reader {
   Reader(void *tex, ImageReader read_func);
   /**< Constructor. */
 
-  virtual ~Reader() { del_imgreader++; };
+  virtual ~Reader() {};
   /**< Destructor */
 
   virtual FILE * getFileCache(class Texture *tex);

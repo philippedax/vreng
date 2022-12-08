@@ -29,7 +29,6 @@
 
 Reader::Reader(void *tex, ImageReader _read_func)
 {
-  new_imgreader++;
   img_handle = tex;
   read_func = _read_func;
 }

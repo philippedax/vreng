@@ -27,7 +27,7 @@
 FILE * File::openFile(const char *filename, const char *param)
 {
   FILE *fp = fopen(filename, param);
-  if (fp) cnt_open++;
+  if (fp) opn_file++;
   return fp; 
 }
 
@@ -35,7 +35,7 @@ FILE * File::openFile(const char *filename, const char *param)
 void File::closeFile(FILE *fp)
 {
   fclose(fp);
-  cnt_close++;
+  cls_file++;
 }
 
 /**

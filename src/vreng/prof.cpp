@@ -51,14 +51,12 @@ uint32_t new_httpthread;
 uint32_t del_httpthread;
 uint32_t new_http;
 uint32_t del_http;
-uint32_t new_imgreader;
-uint32_t del_imgreader;
 
 /*** io ***/
-uint32_t cnt_open;
-uint32_t cnt_close;
-uint32_t cnt_open_socket;
-uint32_t cnt_close_socket;
+uint32_t opn_file;
+uint32_t cls_file;
+uint32_t opn_sock;
+uint32_t cls_sock;
 
 
 /** stat memory usage (new, delete) */
@@ -80,7 +78,6 @@ void statMemory()
   echo("ObjectList : n=%8d d=%8d", new_objectlist, del_objectlist);
   echo("HttpThread : n=%8d d=%8d", new_httpthread, del_httpthread);
   echo("Http       : n=%8d d=%8d", new_http, del_http);
-  echo("ImgReader  : n=%8d d=%8d", new_imgreader, del_imgreader);
 }
 
 /** stat io usage (open, close) */
@@ -88,6 +85,6 @@ void statIO()
 {
   echo("### IO (open/close) ###");
 
-  echo("File       : o=%8d c=%8d", cnt_open, cnt_close);
-  echo("Socket     : o=%8d c=%8d", cnt_open_socket, cnt_close_socket);
+  echo("File       : o=%8d c=%8d", opn_file, cls_file);
+  echo("Socket     : o=%8d c=%8d", opn_sock, cls_sock);
 }
