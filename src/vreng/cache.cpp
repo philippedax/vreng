@@ -103,6 +103,7 @@ FILE * Cache::openCache(const char *url, Http *http)
     }
   }
   else {
+    File::closeFile(fpcache); //dax
     progression('c');	// 'c' as cache
   }
 

@@ -65,6 +65,7 @@ Img * Img::loadGIF(void *tex, ImageReader read_func)
   GifInfo s, *g = &s;
   Texture *texture = (Texture *) tex;
   if ((g->fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  //echo("gifo: %lu %s", g->fp, texture->url);
 
   g->ir = 0;
   g->img = NULL;
@@ -83,6 +84,7 @@ Img * Img::loadGIF(void *tex, ImageReader read_func)
   }
 
   Cache::closeCache(g->fp);
+  //echo("gifc: %lu", g->fp);
   return g->img;
 }
 
