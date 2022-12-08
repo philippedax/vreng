@@ -118,7 +118,7 @@ void Texture::update()
   unlockMutex(tex_pmutex);
 }
 
-int readImg(void *_tex, char *buf, int len)
+int loaderImg(void *_tex, char *buf, int len)
 {
   Texture *tex = (Texture *) _tex;
 
@@ -135,30 +135,30 @@ void Texture::httpReader(void *_tex, Http *_http)
 
   Img *img = NULL;
 
-  // get the loader type by mime type or file extension
-  uint8_t loader = Format::getLoaderByMime(tex->mime);
-  switch (loader) {
+  // get the format type by mime type or file extension
+  uint8_t format = Format::getLoaderByMime(tex->mime);
+  switch (format) {
   case IMG_NULL:
-    loader = Format::getLoaderByUrl(tex->url);
+    format = Format::getLoaderByUrl(tex->url);
     break;
   }
 
   // call the appropriated loader
-  switch (loader) {
-    case IMG_GIF: img = Img::loadGIF(tex, readImg); break;
-    case IMG_PNG: img = Img::loadPNG(tex, readImg); break;
-    case IMG_JPG: img = Img::loadJPG(tex, readImg); break;
-    case IMG_PPM: img = Img::loadPPM(tex, readImg); break;
-    case IMG_PGM: img = Img::loadPGM(tex, readImg); break;
-    case IMG_BMP: img = Img::loadBMP(tex, readImg); break;
-    case IMG_TGA: img = Img::loadTGA(tex, readImg); break;
-    case IMG_SGI: img = Img::loadSGI(tex, readImg); break;
-    case IMG_PCX: img = Img::loadPCX(tex, readImg); break;
-    case IMG_DDS: img = Img::loadDDS(tex, readImg); break;
-    case IMG_TIF: img = Img::loadTIF(tex, readImg); break;
-    case IMG_XPM: img = Img::loadXPM(tex, readImg); break;
-    case IMG_XBM: img = Img::loadXBM(tex, readImg); break;
-    case IMG_PSD: img = Img::loadPSD(tex, readImg); break;
+  switch (format) {
+    case IMG_GIF: img = Img::loadGIF(tex, loaderImg); break;
+    case IMG_PNG: img = Img::loadPNG(tex, loaderImg); break;
+    case IMG_JPG: img = Img::loadJPG(tex, loaderImg); break;
+    case IMG_PPM: img = Img::loadPPM(tex, loaderImg); break;
+    case IMG_PGM: img = Img::loadPGM(tex, loaderImg); break;
+    case IMG_BMP: img = Img::loadBMP(tex, loaderImg); break;
+    case IMG_TGA: img = Img::loadTGA(tex, loaderImg); break;
+    case IMG_SGI: img = Img::loadSGI(tex, loaderImg); break;
+    case IMG_PCX: img = Img::loadPCX(tex, loaderImg); break;
+    case IMG_DDS: img = Img::loadDDS(tex, loaderImg); break;
+    case IMG_TIF: img = Img::loadTIF(tex, loaderImg); break;
+    case IMG_XPM: img = Img::loadXPM(tex, loaderImg); break;
+    case IMG_XBM: img = Img::loadXBM(tex, loaderImg); break;
+    case IMG_PSD: img = Img::loadPSD(tex, loaderImg); break;
     case IMG_NULL: return;
     default:
       warning("texture: unrecognized image format");
