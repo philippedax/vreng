@@ -16,6 +16,9 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.3\n\
 -- 9.3.3\n\
+	- fix bug \"too many opened files\" in cache.cpp\n\
+	- replace select() by poll() in udispX11.cpp\n\
+	(2022/12/08, Philippe Dax)\n\
 	- compute urlpfx, no more hardcoded string \"dax\"\n\
 	(2022/11/30, Philippe Dax)\n\
 	- fixed sendKeyEvent in vnccli.cpp\n\
