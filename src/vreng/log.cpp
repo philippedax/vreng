@@ -180,13 +180,11 @@ void endprogression()
 
 void fopenlog(FILE *f, const char *name)
 {
-  fprintf(stderr, "open: %lu %s\n", f, name);
-  fflush(stderr);
+  fprintf(stderr, "open: %p %s\n", f, name);
 }
 
 void fcloselog(FILE *f)
 {
-  fprintf(stderr, "clos: %lu\n", f);
-  fflush(stderr);
+  fprintf(stderr, "clos: %p\n", f);
 }
 

@@ -103,12 +103,12 @@ FILE * Cache::openCache(const char *url, Http *http)
     }
   }
   else {
-    File::closeFile(fpcache); //dax
+    //dax File::closeFile(fpcache); //dax
     progression('c');	// 'c' as cache
   }
 
   // and opens it for reading
-  fpcache = File::openFile(cachepath, "r");
+  //dax fpcache = File::openFile(cachepath, "r");
 
   delete[] cachepath;
   return fpcache;  // file is opened

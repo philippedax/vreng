@@ -28,7 +28,7 @@ FILE * File::openFile(const char *filename, const char *param)
 {
   FILE *fp = fopen(filename, param);
   if (fp) opn_file++;
-  //fopenlog(fp, filename);
+  //debug fopenlog(fp, filename);
   return fp; 
 }
 
@@ -37,7 +37,7 @@ void File::closeFile(FILE *fp)
 {
   fclose(fp);
   cls_file++;
-  //fcloselog(fp);
+  //debug fcloselog(fp);
 }
 
 /**
