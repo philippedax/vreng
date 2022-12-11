@@ -19,7 +19,6 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include <string>
 #include "cache.hpp"
 #include "file.hpp"	// openFile, closeFile
 #include "url.hpp"	// abs
@@ -28,6 +27,7 @@
 #include "pref.hpp"	// ::g.pref.refresh
 #include "str.hpp"	// stringcmp
 #include "wget.hpp"	// start
+#include <string>
 
 
 /* Fills cachepath from url */
@@ -75,7 +75,7 @@ FILE * Cache::openCache(const char *url, Http *http)
 
   FILE *fpcache;
   if ((fpcache = File::openFile(cachepath, "r")) == NULL) {
-    if ((fpcache = File::openFile(cachepath, "w")) == NULL) {
+    if ((fpcache = File::openFile(cachepath, "w")) == NULL) {	// not in the cache, write it
       error("openCache: can't create %s", cachepath);
       delete[] cachepath;
       return NULL;
@@ -102,16 +102,13 @@ FILE * Cache::openCache(const char *url, Http *http)
       }
     }
   }
-  else {
-    //dax File::closeFile(fpcache); //dax
+  else {	// found in the cache
     progression('c');	// 'c' as cache
   }
 
-  // and opens it for reading
-  //dax fpcache = File::openFile(cachepath, "r");
-
+  // ready for reading
   delete[] cachepath;
-  return fpcache;  // file is opened
+  return fpcache;  // file is now opened
 }
 
 void Cache::closeCache(FILE *fp)
@@ -136,8 +133,7 @@ bool Cache::inCache(const char *url)
       delete[] cachepath;
       return true;	// file is in the cache
     }
-    else {
-      //error("inCache: file %s empty", cachepath);
+    else {	// file is empty
       unlink(cachepath); // remove empty file
     }
   }
