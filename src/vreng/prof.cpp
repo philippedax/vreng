@@ -77,7 +77,6 @@ void statMemory()
   echo("NetProperty: n=%8d d=%8d", new_netproperty, del_netproperty);
   echo("ObjectList : n=%8d d=%8d", new_objectlist, del_objectlist);
   echo("HttpThread : n=%8d d=%8d", new_httpthread, del_httpthread);
-  echo("Http       : n=%8d d=%8d", new_http, del_http);
 }
 
 /** stat io usage (open, close) */
