@@ -245,6 +245,7 @@ bool writeStats(const char * statsfile)
   f = fopen(statsfile, "w");
   if (f) {
     printStats(f);
+    fclose(f);
   }
   else {
     perror("create stats");
@@ -263,11 +264,12 @@ FILE * openStats(const char * statsfile)
 }
 
 /* returns current line os stats */
-bool getStats(FILE* fin, char *line)
+bool getStats(FILE* f, char *line)
 {
-  if (fgets(line, 128, fin)) {
+  if (fgets(line, 128, f)) {
     return 1;
   }
+  fclose(f);
   return 0;
 }
 

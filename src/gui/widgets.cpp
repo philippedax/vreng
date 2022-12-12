@@ -48,6 +48,8 @@
 #include "universe.hpp" // Universe
 #include "world.hpp"	// World
 #include "render.hpp"	// g.render.bufferSelection
+#include "env.hpp"	// vrengStats
+#include "stat.hpp"	// openStats, getStats
 #include "channel.hpp"	// current
 #include "capture.hpp"	// Capture
 #include "wall.hpp"	// Wall
@@ -914,16 +916,21 @@ void Widgets::objectsDialog()
 
 void Widgets::statsDialog()
 {
+  FILE *fin = NULL;
   char line[64];
 
+  writeStats(::g.env.stats());
   UBox& stats_box = uvbox(UBackground::none);
-  //todo call printStats
+  fin = openStats(::g.env.stats());
+  while (getStats(fin, line)) {
     stats_box.add(uitem(UColor::black + line));
+  }
   stats_dialog.setMessage(uscrollpane(usize(250,350)
                                       + UBackground::none
                                       + stats_box
                                      )
                          );
+  stats_dialog.show();
 }
 
 /** Dialog box for worlds list */
