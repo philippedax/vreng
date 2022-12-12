@@ -69,7 +69,7 @@ void HttpThread::begin()
     //trace(DBG_HTTP, "-> begin %s", url);
     if (waitfifo) {	// Wait authorization to begin
       lockMutex(&nbsimcon_mutex);
-      //------------ lock
+      //[[[[[[[[[[ lock
         pthread_cond_wait(&waitfifo->cond, &nbsimcon_mutex);
         nbsimcon++;	// increments nbsimcon
 
@@ -77,7 +77,7 @@ void HttpThread::begin()
         fifofirst = waitfifo->next;
         if (waitfifo) delete[] waitfifo;
         waitfifo = NULL;
-      //------------ unlock
+      //]]]]]]]]]] unlock
       unlockMutex(&nbsimcon_mutex); // free fifo handling
     }
   }
@@ -89,14 +89,14 @@ void HttpThread::end()
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
   if (modethr > 0) {
     lockMutex(&nbsimcon_mutex);	// lock access to global variable nbsimcon
-    //------------ lock
+    //[[[[[[[[[[ lock
       nbsimcon--;		// decrements nbsimcon
       if (nbsimcon < 0) nbsimcon = 0;
       if (fifofirst) {		// if something in fifo, awake it
         trace(DBG_HTTP, "thread awake (%d) %s", nbsimcon, url);
         pthread_cond_signal(&fifofirst->cond);
       }
-    //------------ unlock
+    //]]]]]]]]]] unlock
     unlockMutex(&nbsimcon_mutex);
   }
 #endif
@@ -106,7 +106,7 @@ int HttpThread::putfifo()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
   lockMutex(&nbsimcon_mutex);	// lock access to global variable nbsimcon
-  //------------ lock
+  //[[[[[[[[[[ lock
   if (nbsimcon >= ::g.pref.maxsimcon) {	// test number of active connections
     trace(DBG_HTTP, "too many threads=%d, waiting for %s", nbsimcon, url);
 
@@ -118,7 +118,7 @@ int HttpThread::putfifo()
     if (fifolast)   fifolast->next = wf;
     fifolast = wf;
 
-    //------------ unlock
+    //]]]]]]]]]] unlock
     unlockMutex(&nbsimcon_mutex);	// unlock the global variable
     waitfifo = wf;			// block the thread
   }
@@ -126,7 +126,7 @@ int HttpThread::putfifo()
     /* add a connection */
     nbsimcon++;
     trace(DBG_HTTP, "thread going now (%d) %s", nbsimcon, url);
-    //------------ unlock
+    //]]]]]]]]]] unlock
     unlockMutex(&nbsimcon_mutex);
     waitfifo = NULL;			// thread not blocked
   }
@@ -205,6 +205,7 @@ int HttpThread::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
   memcpy(&sa->sin_addr, hp->h_addr_list[0], hp->h_length);
   sa->sin_port = port;
   my_free_hostent(hp);
+
   return 0;
 }
 
@@ -275,13 +276,14 @@ void * HttpThread::connection(void *_hthread)
   bool httpeoheader = false;
   bool answerline = true;	// position first line
 
-  char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[BUFSIZ];
+  char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[256];
+
   memset(host, 0, sizeof(host));
   memset(scheme, 0, sizeof(scheme));
   memset(path, 0, sizeof(path));
 
   int urltype = Url::parser(hthread->url, host, scheme, path);
-  trace(DBG_HTTP, "connection: url=%s", hthread->url);
+  //echo("connection: url=%s", hthread->url);
   trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
                   ::g.url, ::g.universe, scheme, host, path, urltype);
 
@@ -293,7 +295,7 @@ void * HttpThread::connection(void *_hthread)
     if ((http->fd = HttpThread::openFile(path)) < 0) {
       httperr = true;
     }
-    else {
+    else {	// file not found
       http->off = -1;
       hthread->httpReader(hthread->handle, http);
       httperr = false;
@@ -302,6 +304,7 @@ void * HttpThread::connection(void *_hthread)
 
   case Url::URLHTTP:	// http://
     trace(DBG_HTTP, "HTTP: %s://%s/%s", scheme, host, path);
+
 htagain:
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
       struct hostent *hp;
@@ -339,7 +342,7 @@ htagain:
     /*
      * send the GET request to the http server with adding useful infos
      */
-    if (::g.pref.loghttpd) {
+    if (::g.pref.loghttpd) {	// more infos
       if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
         sprintf(req,
                 "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
@@ -353,10 +356,10 @@ htagain:
                 ::g.env.relname(), ::g.user, host);
       } 
     } 
-    else {
+    else {	// classic
       sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
     } 
-    //error("req: %s", req);
+    //echo("req: %s", req);
     if (HttpThread::send(http->fd, req, strlen(req)) < 0) {
       error("can't send req=%s", req);
       httperr = true;
@@ -375,13 +378,13 @@ htagain:
         httperr = true;
         break;
       }
-      //trace(DBG_FORCE, "http answer: (%d) %p", http->len, http->buf);
+      //echo("http answer: (%d) %p", http->len, http->buf);
 
       for (http->off = 0; 1; ) {
         int i = 0;
         char httpheader[HTTP_BUFSIZ];
 
-        while ((http->off < http->len) && (http->buf[http->off] != '\n')) {
+        while ( (http->off < http->len) && (http->buf[http->off] != '\n') ) {
           httpheader[i++] = http->buf[http->off++];
         }
 
@@ -405,25 +408,28 @@ htagain:
                   httperr, major, minor, httpheader+12, hthread->url);
 
             switch (httperr) {
-            case HTTP_200:
+
+            case HTTP_200:	// good
             case HTTP_202:
               answerline = false; // answerline done
               break;
-            case HTTP_301:
+
+            case HTTP_301:	// transcient
             case HTTP_302:
             case HTTP_307:
               {
                 char *p, *q;
-                if ((p = strstr(httpheader, "Location:")) != 0) {
-                  if ((q = strchr(p+17, '/')) !=0) {
+                if ( (p = strstr(httpheader, "Location:")) != 0 ) {
+                  if ( (q = strchr(p+17, '/')) != 0 ) {
                     *q = '\0';
                     strcpy(host, p+17);	// redirect host
-                    trace(DBG_HTTP, "redirect host = %s", host);
+                    warning("redirect host = %s", host);
                     goto htagain;
                   }
                 }
               }
               break;
+
             case 400:		// bad request
               warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, hthread->url, host);
               httperr = true;
@@ -436,6 +442,7 @@ htagain:
               warning("HTTP-err: %d - server %s unavailable", httperr, host);
               httperr = true;
               break;
+
             default:
               error("HTTP-err: %d - %s %s", httperr, httpheader+12, hthread->url);
               httperr = true;
@@ -470,7 +477,7 @@ htagain:
           break;
         }
       } // end for
-    } while (!httpeoheader);
+    } while (! httpeoheader);
 
     /*
      * Call here the appropriated httpReader
@@ -500,7 +507,7 @@ htagain:
   return NULL;
 }
 
-//////////////////////////////////////////////////////////////////////////////////
+/////////////
 //
 // Http class
 //
