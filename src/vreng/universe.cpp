@@ -27,7 +27,7 @@
 #include "pref.hpp"	// url
 #include "wheel.hpp"	// Wheel
 #include "scene.hpp"	// GLSection
-#include "prof.hpp"	// new_world
+#include "stat.hpp"	// new_world
 
 
 // global

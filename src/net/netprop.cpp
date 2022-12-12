@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "netprop.hpp"
 #include "objects.hpp"	// getPropertiesnumber
-#include "prof.hpp"	// new_netproperty
+#include "stat.hpp"	// new_netproperty
 
 
 NetProperty::NetProperty()

@@ -28,7 +28,6 @@
 #include "source.hpp"	// Source
 #include "netprop.hpp"	// NetProperty
 #include "stat.hpp"	// statSendRTP getSentPackets
-#include "prof.hpp"	// new_payload
 
 
 Payload::Payload()

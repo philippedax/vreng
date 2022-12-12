@@ -28,7 +28,6 @@
 #include "universe.hpp"	// MANAGER_NAME
 #include "world.hpp"	// current
 #include "stat.hpp"	// statSendRTCP setLostPackets
-#include "prof.hpp"	// new_session
 
 
 // local

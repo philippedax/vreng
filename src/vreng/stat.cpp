@@ -24,8 +24,9 @@
 #include "gui.hpp"	// getCycles
 #include "timer.hpp"	// rate diffDates
 #include "render.hpp"	// stats
-#include "prof.hpp"	// statMemory, statIO
 
+
+// global
 
 /*** network counters ***/
 uint32_t pkts_sent = 0;
@@ -51,6 +52,41 @@ static uint32_t sum_bytes_recvd = 0;
 static float kbps_sent = 0.0;
 static float kbps_recvd = 0.0;
 
+/*** memory ***/
+uint32_t new_wobject;
+uint32_t del_wobject;
+uint32_t new_world;
+uint32_t del_world;
+uint32_t new_solid;
+uint32_t del_solid;
+uint32_t new_texture;
+uint32_t del_texture;
+uint32_t new_image;
+uint32_t del_image;
+uint32_t new_channel;
+uint32_t del_channel;
+uint32_t new_session;
+uint32_t del_session;
+uint32_t new_source;
+uint32_t del_source;
+uint32_t new_payload;
+uint32_t del_payload;
+uint32_t new_netobject;
+uint32_t del_netobject;
+uint32_t new_objectlist;
+uint32_t del_objectlist;
+uint32_t new_netproperty;
+uint32_t del_netproperty;
+uint32_t new_httpthread;
+uint32_t del_httpthread;
+uint32_t new_http;
+uint32_t del_http;
+
+/*** io ***/
+uint32_t opn_file;
+uint32_t cls_file;
+uint32_t opn_sock;
+uint32_t cls_sock;
 
 // local
 static FILE *flog;

@@ -30,7 +30,7 @@
 #include "payload.hpp"	// Payload
 #include "carrier.hpp"	// carrier->take
 #include "render.hpp"	// getVisiblePosition
-#include "prof.hpp"	// new_wobject
+#include "stat.hpp"	// new_wobject
 #include "timer.hpp"	// ::g.timer
 
 #include <list>

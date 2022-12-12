@@ -21,7 +21,7 @@
 #ifndef READER_HPP
 #define READER_HPP
 
-#include "prof.hpp"	// new_
+#include "stat.hpp"	// new_
 
 
 typedef int (*ImageReader) (void *tex, char *buf, int len);

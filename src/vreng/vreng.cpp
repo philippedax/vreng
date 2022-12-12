@@ -34,7 +34,6 @@
 #include "http.hpp"	// HttpThread::init
 #include "vrsql.hpp"	// VRSql::init
 #include "stat.hpp"	// printStats
-#include "prof.hpp"	// statMemory
 #include "aiinit.hpp"	// initOcaml
 #include "openal.hpp"	// Openal::init
 

@@ -27,7 +27,7 @@
 #include "channel.hpp"	// Channel
 #include "oclass.hpp"	// isValidType
 #include "wobject.hpp"	// WObject
-#include "prof.hpp"	// new_netobject
+#include "stat.hpp"	// new_netobject
 
 #include <list>
 using namespace std;

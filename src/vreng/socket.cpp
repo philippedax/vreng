@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "socket.hpp"
-#include "prof.hpp"
+#include "stat.hpp"	// opn_sock, cls_sock
 
 
 /** Open a datagram socket */

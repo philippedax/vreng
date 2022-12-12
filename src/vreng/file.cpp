@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "file.hpp"
-#include "prof.hpp"	// opn_file cls_file
+#include "stat.hpp"	// opn_file cls_file
 
 
 /* Open a file */

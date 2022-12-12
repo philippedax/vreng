@@ -32,7 +32,7 @@
 #include "pref.hpp"	// reflector
 #include "sap.hpp"	// init
 #include "timer.hpp"	// :g.timer
-#include "prof.hpp"	// new_channel
+#include "stat.hpp"	// new_channel
 
 #include <list>
 using namespace std;

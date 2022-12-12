@@ -30,7 +30,7 @@
 #include "timer.hpp"	// timer
 #include "cache.hpp"	// inCache
 #include "universe.hpp"	// universe_name
-#include "prof.hpp"	// new_http new_htppthread
+#include "stat.hpp"	// new_http new_htppthread
 
 
 // local

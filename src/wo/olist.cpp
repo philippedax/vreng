@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "olist.hpp"
 #include "wobject.hpp"
-#include "prof.hpp"	// new_objectlist
+#include "stat.hpp"	// new_objectlist
 
 #include <list>
 using namespace std;

@@ -21,7 +21,7 @@
 #ifndef IMG_HPP
 #define IMG_HPP
 
-#include "prof.hpp"	// new_
+#include "stat.hpp"	// new_
 
 #define NORM8_BITS	8
 #define NORM16_BITS	16

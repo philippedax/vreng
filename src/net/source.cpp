@@ -22,7 +22,7 @@
 #include "source.hpp"
 #include "session.hpp"	// Session
 #include "channel.hpp"	// Channel
-#include "prof.hpp"	// new_source
+#include "stat.hpp"	// new_source
 
 
 // local
