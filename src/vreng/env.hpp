@@ -33,6 +33,7 @@ public:
   const char * cwd() const;
   const char * dir() const;
   const char * prefs() const;
+  const char * stats() const;
   const char * cache() const;
   const char * login() const;
   const char * passwd() const;
@@ -52,6 +53,7 @@ private:
   char vrengdir[PATH_LEN];
   char vrengcwd[PATH_LEN];
   char vrengprefs[PATH_LEN];
+  char vrengstats[PATH_LEN];
   char vrengmenu[PATH_LEN];
   char vrengicons[PATH_LEN];
   char vrengworldmarks[PATH_LEN];

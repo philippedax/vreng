@@ -73,6 +73,11 @@ const char * Env::prefs() const
   return vrengprefs;
 }
 
+const char * Env::stats() const
+{
+  return vrengstats;
+}
+
 const char * Env::icons() const
 {
   return vrengicons;
@@ -132,6 +137,7 @@ void Env::init()
   char pathhtdocs[PATH_LEN+8];
   char pathdata[PATH_LEN+8];
   char pathprefs[PATH_LEN+16];
+  char pathstats[PATH_LEN+16];
   char pathmenu[PATH_LEN+16];
   char pathicons[PATH_LEN+16];
   char pathworldmarks[PATH_LEN+32];
@@ -206,6 +212,10 @@ void Env::init()
   // $HOME/.vreng/prefs
   sprintf(pathprefs, "%s/prefs", pathenvdir);
   strcpy(vrengprefs, pathprefs);
+
+  // $HOME/.vreng/stats
+  sprintf(pathstats, "%s/stats", pathenvdir);
+  strcpy(vrengstats, pathstats);
 
   // $HOME/.vreng/cache
   sprintf(pathcache, "%s/cache", pathenvdir);
