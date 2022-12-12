@@ -68,9 +68,11 @@ public:
 
   void initCB();
 
+  static void printStats();
+
 private:
 
-  static void printStats();
+  static void stats();
 
   void initSignals();
 

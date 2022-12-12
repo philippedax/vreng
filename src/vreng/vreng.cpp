@@ -124,7 +124,7 @@ void Vreng::quit(int sig)
   }
   inquit++;
 
-  printStats();
+  stats();
 
   // close modules properly
   ::g.render.quit();
@@ -136,14 +136,19 @@ void Vreng::quit(int sig)
 
 void Vreng::printStats()
 {
-  if (::g.pref.stats == false)  return;
-
   statLog();
   statTimings();
   statNetwork();
   Render::stat();
   statMemory();
   statIO();
+}
+
+void Vreng::stats()
+{
+  if (::g.pref.stats == false)  return;
+  printStats();
+
 }
 
 extern int my_wait(pid_t);

@@ -64,19 +64,19 @@ void statMemory()
 {
   echo("### Memory (new/delete) ###");
 
-  echo("WObject    : n=%8d d=%8d", new_wobject, del_wobject);
-  echo("World      : n=%8d d=%8d", new_world, del_world);
-  echo("Channel    : n=%8d d=%8d", new_channel, del_channel);
-  echo("Session    : n=%8d d=%8d", new_session, del_session);
-  echo("Source     : n=%8d d=%8d", new_source, del_source);
-  echo("Solid      : n=%8d d=%8d", new_solid, del_solid);
-  echo("Texture    : n=%8d d=%8d", new_texture, del_texture);
-  echo("Image      : n=%8d d=%8d", new_image, del_image);
-  echo("NetObject  : n=%8d d=%8d", new_netobject, del_netobject);
-  echo("Payload    : n=%8d d=%8d", new_payload, del_payload);
-  echo("NetProperty: n=%8d d=%8d", new_netproperty, del_netproperty);
-  echo("ObjectList : n=%8d d=%8d", new_objectlist, del_objectlist);
-  echo("HttpThread : n=%8d d=%8d", new_httpthread, del_httpthread);
+  echo("WObject         : n=%8d d=%8d", new_wobject, del_wobject);
+  echo("World           : n=%8d d=%8d", new_world, del_world);
+  echo("Channel         : n=%8d d=%8d", new_channel, del_channel);
+  echo("Session         : n=%8d d=%8d", new_session, del_session);
+  echo("Source          : n=%8d d=%8d", new_source, del_source);
+  echo("Solid           : n=%8d d=%8d", new_solid, del_solid);
+  echo("Texture         : n=%8d d=%8d", new_texture, del_texture);
+  echo("Image           : n=%8d d=%8d", new_image, del_image);
+  echo("NetObject       : n=%8d d=%8d", new_netobject, del_netobject);
+  echo("Payload         : n=%8d d=%8d", new_payload, del_payload);
+  //echo("NetProperty   : n=%8d d=%8d", new_netproperty, del_netproperty);
+  echo("ObjectList      : n=%8d d=%8d", new_objectlist, del_objectlist);
+  echo("HttpThread      : n=%8d d=%8d", new_httpthread, del_httpthread);
 }
 
 /** stat io usage (open, close) */
@@ -84,6 +84,6 @@ void statIO()
 {
   echo("### IO (open/close) ###");
 
-  echo("File       : o=%8d c=%8d", opn_file, cls_file);
-  echo("Socket     : o=%8d c=%8d", opn_sock, cls_sock);
+  echo("File            : o=%8d c=%8d", opn_file, cls_file);
+  echo("Socket          : o=%8d c=%8d", opn_sock, cls_sock);
 }

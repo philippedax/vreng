@@ -805,7 +805,7 @@ void Render::setFlash()
 void Render::stat()
 {
   GLint dlist = glGenLists(1);
-  trace(DBG_FORCE, "### Graphic ###\ndisplay-lists : %d", --dlist);
+  trace(DBG_FORCE, "### Graphic ###\ndisplay-lists   : %d", --dlist);
 }
 
 /* Debug */
