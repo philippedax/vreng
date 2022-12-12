@@ -37,6 +37,7 @@ void statSendRTCP(int len);
 void statReceivePacket(int len);
 void statSessionRTP(class Session *session);
 void statAdjust();
+void printStats();
 
 
 #endif

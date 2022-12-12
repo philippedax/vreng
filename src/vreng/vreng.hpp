@@ -68,8 +68,6 @@ public:
 
   void initCB();
 
-  static void printStats();
-
 private:
 
   static void stats();

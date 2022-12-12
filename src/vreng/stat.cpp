@@ -23,6 +23,8 @@
 #include "session.hpp"	// Session
 #include "gui.hpp"	// getCycles
 #include "timer.hpp"	// rate diffDates
+#include "render.hpp"	// stats
+#include "prof.hpp"	// statMemory, statIO
 
 
 /*** network counters ***/
@@ -197,3 +199,14 @@ void statLog()
     printlog();
   }
 }
+
+void printStats()
+{
+  statLog();
+  statTimings();
+  statNetwork();
+  Render::stat();
+  statMemory();
+  statIO();
+}
+

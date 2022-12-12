@@ -33,7 +33,7 @@
 #include "channel.hpp"	// Channel::init
 #include "http.hpp"	// HttpThread::init
 #include "vrsql.hpp"	// VRSql::init
-#include "stat.hpp"	// statNetwork
+#include "stat.hpp"	// printStats
 #include "prof.hpp"	// statMemory
 #include "aiinit.hpp"	// initOcaml
 #include "openal.hpp"	// Openal::init
@@ -132,16 +132,6 @@ void Vreng::quit(int sig)
 
   // quit the application (and close the main window)
   UAppli::quit(sig);
-}
-
-void Vreng::printStats()
-{
-  statLog();
-  statTimings();
-  statNetwork();
-  Render::stat();
-  statMemory();
-  statIO();
 }
 
 void Vreng::stats()
