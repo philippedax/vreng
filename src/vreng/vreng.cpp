@@ -137,7 +137,7 @@ void Vreng::quit(int sig)
 void Vreng::stats()
 {
   if (::g.pref.stats == false)  return;
-  printStats();
+  printStats(stderr);
 
 }
 

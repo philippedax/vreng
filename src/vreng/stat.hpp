@@ -27,8 +27,16 @@ extern uint32_t pkts_sent;
 extern uint32_t sum_pkts_lost;
 
 void statLog();
-void statTimings();
-void statNetwork();
+void statTimings(FILE *fout);
+void statNetwork(FILE *fout);
+void statRender(FILE *fout);
+void statMemory(FILE *fout);
+void statIO(FILE *fout);
+void printStats(FILE *fout);
+bool writeStats(const char * statsfile);
+FILE * openStats(const char * statsfile);
+bool getStats(FILE* fin, char *line);
+
 void statSendPacket(int len);
 uint32_t getSentPackets();
 void setLostPackets(int lost);
@@ -37,7 +45,6 @@ void statSendRTCP(int len);
 void statReceivePacket(int len);
 void statSessionRTP(class Session *session);
 void statAdjust();
-void printStats();
 
 
 #endif

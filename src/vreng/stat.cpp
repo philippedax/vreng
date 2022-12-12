@@ -126,70 +126,149 @@ void statSessionRTP(Session *session)
   session->stat();
 }
 
-void statTimings()
+void statTimings(FILE *fout)
 {
-  echo("\n### Timings ###");
+  fprintf(fout,"\n### Timings ###\n");
 
   Timer& timer = ::g.timer;
   d = timer.net.stop();
 
-  echo("elapsed time    : %5.2fs", d);
-  echo("init time       : %5.2fs, %4.2f%%", 
+  fprintf(fout,"elapsed time    : %5.2fs\n", d);
+  fprintf(fout,"init time       : %5.2fs, %4.2f%%\n", 
        (float) timer.init.cumul_time, (float) 100*timer.init.cumul_time/d);
-  echo("simul time      : %5.2fs, %4.2f%%", 
+  fprintf(fout,"simul time      : %5.2fs, %4.2f%%\n", 
        (float) timer.simul.cumul_time, (float) 100*timer.simul.cumul_time/d);
-  echo("render time     : %5.2fs, %4.2f%%", 
+  fprintf(fout,"render time     : %5.2fs, %4.2f%%\n", 
        (float) timer.render.cumul_time, (float) 100*timer.render.cumul_time/d);
-  echo("object time     : %5.2fs, %4.2f%%", 
+  fprintf(fout,"object time     : %5.2fs, %4.2f%%\n", 
        (float) timer.object.cumul_time, (float) 100*timer.object.cumul_time/d);
-  echo("image time      : %5.2fs, %4.2f%%", 
+  fprintf(fout,"image time      : %5.2fs, %4.2f%%\n", 
        (float) timer.image.cumul_time, (float) 100*timer.image.cumul_time/d);
-  echo("mysql time      : %5.2fs, %4.2f%%", 
+  fprintf(fout,"mysql time      : %5.2fs, %4.2f%%\n", 
        (float) timer.mysql.cumul_time, (float) 100*timer.mysql.cumul_time/d);
-  echo("idle time       : %5.2fs, %4.2f%%", 
+  fprintf(fout,"idle time       : %5.2fs, %4.2f%%\n", 
        (float) timer.idle.cumul_time, (float) 100*timer.idle.cumul_time/d);
-  echo("cycles          : %d", ::g.gui.getCycles());
-  echo("cycles/s        : %5.2f/s", timer.rate());
+  fprintf(fout,"cycles          : %d\n", ::g.gui.getCycles());
+  fprintf(fout,"cycles/s        : %5.2f/s\n", timer.rate());
 }
 
-void statNetwork()
+void statNetwork(FILE *fout)
 {
-  echo("### Network ###");
+  fprintf(fout, "### Network ###\n");
 
   if (!d) d = ::g.timer.net.stop();
   float bw = (float)((sum_bytes_sent + sum_bytes_recvd + 2 * (8 + 20)) * 8) / d;
 
   if (sum_pkts_sent) {
-    echo("pkts sent       : %d", sum_pkts_sent);
-    echo("pkts_rtp sent   : %d", sum_pkts_rtp_sent);
-    echo("pkts_rtcp sent  : %d", sum_pkts_rtcp_sent);
-    echo("pkts sent/s     : %.0f/s", sum_pkts_sent/d);
+    fprintf(fout, "pkts sent       : %d\n", sum_pkts_sent);
+    fprintf(fout, "pkts_rtp sent   : %d\n", sum_pkts_rtp_sent);
+    fprintf(fout, "pkts_rtcp sent  : %d\n", sum_pkts_rtcp_sent);
+    fprintf(fout, "pkts sent/s     : %.0f/s\n", sum_pkts_sent/d);
   }
   if (sum_pkts_recvd) {
-    echo("pkts received   : %d", sum_pkts_recvd);
-    echo("pkts received/s : %.0f/s", sum_pkts_recvd/d);
-    echo("pkts lost       : %d", sum_pkts_lost);
-    echo("pkts lost %%     : %2.2f%%", ((double) 100*sum_pkts_lost)/(double) sum_pkts_recvd);
+    fprintf(fout, "pkts received   : %d\n", sum_pkts_recvd);
+    fprintf(fout, "pkts received/s : %.0f/s\n", sum_pkts_recvd/d);
+    fprintf(fout, "pkts lost       : %d\n", sum_pkts_lost);
+    fprintf(fout, "pkts lost %%     : %2.2f%%\n", ((double) 100*sum_pkts_lost)/(double) sum_pkts_recvd);
   }
-  echo("bytes sent      : %d", sum_bytes_sent);
-  echo("bytes_rtp sent  : %d", sum_bytes_rtp_sent);
-  echo("bytes_rtcp sent : %d", sum_bytes_rtcp_sent);
-  echo("bytes sent/s    : %.0f/s", sum_bytes_sent/d);
+  fprintf(fout, "bytes sent      : %d\n", sum_bytes_sent);
+  fprintf(fout, "bytes_rtp sent  : %d\n", sum_bytes_rtp_sent);
+  fprintf(fout, "bytes_rtcp sent : %d\n", sum_bytes_rtcp_sent);
+  fprintf(fout, "bytes sent/s    : %.0f/s\n", sum_bytes_sent/d);
   if (sum_bytes_recvd) {
-    echo("bytes received  : %d", sum_bytes_recvd);
-    echo("bytes received/s: %.0f/s", sum_bytes_recvd/d);
+    fprintf(fout, "bytes received  : %d\n", sum_bytes_recvd);
+    fprintf(fout, "bytes received/s: %.0f/s\n", sum_bytes_recvd/d);
   }
-  echo("pkt max         : %d", pkt_max);
-  echo("pkt min         : %d", pkt_min);
+  fprintf(fout, "pkt max         : %d\n", pkt_max);
+  fprintf(fout, "pkt min         : %d\n", pkt_min);
   if (sum_pkts_sent)
-    echo("bytes/pkt sent  : %d", sum_bytes_sent / sum_pkts_sent);
+    fprintf(fout, "bytes/pkt sent  : %d\n", sum_bytes_sent / sum_pkts_sent);
   if (sum_pkts_recvd)
-    echo("bytes/pkt recvd : %d", sum_bytes_recvd / sum_pkts_recvd);
-  echo("bw IP+UDP+RTP+PL: %.0f bps", bw);
+    fprintf(fout, "bytes/pkt recvd : %d\n", sum_bytes_recvd / sum_pkts_recvd);
+  fprintf(fout, "bw IP+UDP+RTP+PL: %.0f bps\n", bw);
 #if 0
-  echo("### Sources ###");
+  fprintf(fout, "### Sources ###\n");
   Source::dumpAll();
 #endif
+}
+
+/** stat memory usage (new, delete) */
+void statMemory(FILE *fout)
+{
+  fprintf(fout, "### Memory (new/delete) ###\n");
+
+  fprintf(fout, "WObject         : n=%8d d=%8d\n", new_wobject, del_wobject);
+  fprintf(fout, "World           : n=%8d d=%8d\n", new_world, del_world);
+  fprintf(fout, "Channel         : n=%8d d=%8d\n", new_channel, del_channel);
+  fprintf(fout, "Session         : n=%8d d=%8d\n", new_session, del_session);
+  fprintf(fout, "Source          : n=%8d d=%8d\n", new_source, del_source);
+  fprintf(fout, "Solid           : n=%8d d=%8d\n", new_solid, del_solid);
+  fprintf(fout, "Texture         : n=%8d d=%8d\n", new_texture, del_texture);
+  fprintf(fout, "Image           : n=%8d d=%8d\n", new_image, del_image);
+  fprintf(fout, "NetObject       : n=%8d d=%8d\n", new_netobject, del_netobject);
+  fprintf(fout, "Payload         : n=%8d d=%8d\n", new_payload, del_payload);
+  //fprintf(fout, "NetProperty   : n=%8d d=%8d\n", new_netproperty, del_netproperty);
+  fprintf(fout, "ObjectList      : n=%8d d=%8d\n", new_objectlist, del_objectlist);
+  fprintf(fout, "HttpThread      : n=%8d d=%8d\n", new_httpthread, del_httpthread);
+}
+
+/** stat io usage (open, close) */
+void statIO(FILE *fout)
+{
+  fprintf(fout, "### IO (open/close) ###\n");
+
+  fprintf(fout, "File            : o=%8d c=%8d\n", opn_file, cls_file);
+  fprintf(fout, "Socket          : o=%8d c=%8d\n", opn_sock, cls_sock);
+}
+
+/** stat rendering */
+void statRender(FILE *fout)
+{
+  int dlist = glGenLists(1);
+  fprintf(fout, "### Graphic ###\n");
+  fprintf(fout, "display-lists   : %d\n", --dlist);
+}
+
+void printStats(FILE *fout)
+{
+  statLog();
+  statTimings(fout);
+  statNetwork(fout);
+  statRender(fout);
+  statMemory(fout);
+  statIO(fout);
+}
+
+bool writeStats(const char * statsfile)
+{
+  FILE *f;
+  f = fopen(statsfile, "w");
+  if (f) {
+    printStats(f);
+  }
+  else {
+    perror("create stats");
+    return false;
+  }
+  return true;
+}
+
+FILE * openStats(const char * statsfile)
+{
+  FILE *f;
+  if ((f = fopen(statsfile, "r")) != NULL) {
+    return f;
+  }
+  return NULL;
+}
+
+/* returns current line os stats */
+bool getStats(FILE* fin, char *line)
+{
+  if (fgets(line, 128, fin)) {
+    return 1;
+  }
+  return 0;
 }
 
 void statLog()
@@ -198,15 +277,5 @@ void statLog()
     closelog(flog);
     printlog();
   }
-}
-
-void printStats()
-{
-  statLog();
-  statTimings();
-  statNetwork();
-  Render::stat();
-  statMemory();
-  statIO();
 }
 

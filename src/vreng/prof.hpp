@@ -58,7 +58,5 @@ extern uint32_t cls_file;
 extern uint32_t opn_sock;
 extern uint32_t cls_sock;
 
-void statMemory();
-void statIO();
 
 #endif
