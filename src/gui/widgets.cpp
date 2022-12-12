@@ -90,6 +90,7 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  source_dialog(*new UOptionDialog("World source")),
  objects_dialog(*new UOptionDialog("World objects")),
  worlds_dialog(*new UOptionDialog("World list")),
+ stats_dialog(*new UOptionDialog("Stats")),
  prefs_dialog(prefsDialog()),
  settings_dialog(settingsDialog()),
  grid_dialog(gridDialog()),
@@ -201,6 +202,7 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.List  + "Source"      + ucall(this, &Widgets::sourceDialog))
         + ubutton(g.theme.List  + "Objects"     + ucall(this, &Widgets::objectsDialog))
         + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
+        + ubutton(g.theme.List  + "Stats"       + ucall(this, &Widgets::statsDialog))
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
        );
 
@@ -908,6 +910,20 @@ void Widgets::objectsDialog()
                                        )
                            );
   objects_dialog.show();
+}
+
+void Widgets::statsDialog()
+{
+  char line[64];
+
+  UBox& stats_box = uvbox(UBackground::none);
+  //todo call printStats
+    stats_box.add(uitem(UColor::black + line));
+  stats_dialog.setMessage(uscrollpane(usize(250,350)
+                                      + UBackground::none
+                                      + stats_box
+                                     )
+                         );
 }
 
 /** Dialog box for worlds list */
