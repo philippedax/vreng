@@ -26,6 +26,7 @@
 #include <vector>
 
 using namespace ubit;
+using namespace std;
 
 
 class WObject;
@@ -37,6 +38,8 @@ class Message {
 friend class Widgets;
 
 public:
+  vector<UStr> mess_history;	///< history log
+
   Message(class Widgets*);
   
   UBox& createQuery();
@@ -56,13 +59,12 @@ public:
 
 protected:
   class Widgets& gw;
-  UBox mess_box;
-  UScrollpane mess_scrollpane;
-  UStr mess_text; 			///< input text
-  std::vector<UStr> mess_history;	///< history log
-  int mess_history_pos;			///< position in history
-  float clicked[7];			///< Ocaml
-  uint8_t nclicks;			///< Ocaml
+  UBox mess_box;		///< message box
+  UScrollpane mess_scrollpane;	///< message panel
+  UStr mess_text; 		///< input text
+  int mess_history_pos;		///< position in history
+  float clicked[7];		///< Ocaml
+  uint8_t nclicks;		///< Ocaml
 
   void inputCB();
   void getHistoryCB(int go);

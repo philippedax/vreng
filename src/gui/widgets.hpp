@@ -75,6 +75,7 @@ struct GuiItem : public UButton {
  * Widgets class
  */
 class Widgets : public ubit::UFrame {
+friend class Message;
 
 public:
   static const int MESSAGES_BOX_WIDTH = 320;
@@ -139,8 +140,12 @@ private:
   UElem worlds, basket, avatars;
   class Scene &scene;		///< OpenGL Drawing Zone
   class Navig &navig;		///< navigation
-  UOptionDialog &source_dialog, &objects_dialog, &worlds_dialog, &stats_dialog;
-  UDialog &prefs_dialog, &settings_dialog, &grid_dialog, &tool_dialog, &addobj_dialog;
+  UOptionDialog &source_dialog, &objects_dialog, &worlds_dialog, &stats_dialog, &mess_dialog;
+  UDialog &prefs_dialog;
+  UDialog &settings_dialog;
+  UDialog &grid_dialog;
+  UDialog &tool_dialog;
+  UDialog &addobj_dialog;
   class Message &message;
   class Message2 &putinfo;
   class Panels &panels;
@@ -158,6 +163,7 @@ private:
   void gotoDialog();
   void worldsDialog();
   void statsDialog();
+  void messDialog();
   UDialog& prefsDialog();
   UDialog& settingsDialog();
   UDialog& gridDialog();

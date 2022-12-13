@@ -83,6 +83,7 @@
 #include "DTD.t"
 #include "CONFIG_H.t"
 
+#include <vector>
 
 /** Constructor : creates all widgets needed for the GUI */
 Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
@@ -93,6 +94,7 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
  objects_dialog(*new UOptionDialog("World objects")),
  worlds_dialog(*new UOptionDialog("World list")),
  stats_dialog(*new UOptionDialog("Stats")),
+ mess_dialog(*new UOptionDialog("Messages")),
  prefs_dialog(prefsDialog()),
  settings_dialog(settingsDialog()),
  grid_dialog(gridDialog()),
@@ -207,6 +209,7 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.List  + "Objects"     + ucall(this, &Widgets::objectsDialog))
         + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
         + ubutton(g.theme.List  + "Stats"       + ucall(this, &Widgets::statsDialog))
+        + ubutton(g.theme.List  + "Messges"     + ucall(this, &Widgets::messDialog))
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
        );
 
@@ -933,6 +936,26 @@ void Widgets::statsDialog()
                                      )
                          );
   stats_dialog.show();
+}
+
+void Widgets::messDialog()
+{
+  char line[128];
+
+  UBox& mess_box = uvbox(UBackground::none);
+#if 0 //dax TODO
+  for (vector<UStr>::iterator it = Message::mess_history.begin(); it != Message::mess_history.end(); ++it) {
+    strcpy(line, (*it).c_str());
+    echo("mess: %s", line);
+    mess_box.add(uitem(UColor::black + line));
+  }
+#endif
+  mess_dialog.setMessage(uscrollpane(usize(300,200)
+                                     + UBackground::none
+                                     + mess_box
+                                    )
+                        );
+  mess_dialog.show();
 }
 
 /** Dialog box for worlds list */
