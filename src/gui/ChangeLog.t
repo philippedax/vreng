@@ -16,6 +16,9 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.3\n\
 -- 9.3.3\n\
+	- removed prof*pp see stat*pp\n\
+	- added button view stats in the GUI\n\
+	(2022/12/12, Philippe Dax)\n\
 	- fix bug \"too many opened files\" in cache.cpp\n\
 	- replace select() by poll() in udispX11.cpp\n\
 	(2022/12/08, Philippe Dax)\n\
