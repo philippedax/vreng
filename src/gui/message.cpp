@@ -52,22 +52,23 @@
 Message::Message(Widgets* _gw) :
  gw(*_gw)
 {
-  messbox.addAttr(UOrient::vertical + UFont::small + utop());
-  messbox.add(uhbox(UFont::bold + UColor::orange + "Have fun with VREng ;-)"));
-  history.push_back(ustr(""));
-  history_pos = 0;
+  mess_box.addAttr(UOrient::vertical + UFont::small + utop());
+  mess_box.add(uhbox(UFont::bold + UColor::orange + "Have fun with VREng ;-)"));
+  mess_history.push_back(ustr(""));
+  mess_history_pos = 0;
 }
 
+/** Creates the input query box */
 UBox& Message::createQuery()
 {
-  UTextfield& input = utextfield(usize(250) + text + ucall(this, &Message::inputCB));
+  UTextfield& input = utextfield(usize(250) + mess_text + ucall(this, &Message::inputCB));
   UBox& query = uhbox(ulabel(UFont::bold + "input: ")
                + uhflex()
                + input
                + uright()
                + uitem(  utip("Clear input")
                        + UFont::bold + "C"
-                       + uassign(text, "")
+                       + uassign(mess_text, "")
                       )
                + uitem(  utip("Previous message")
                        + USymbol::up
@@ -82,20 +83,21 @@ UBox& Message::createQuery()
   return query;
 }
 
+/** Creates the message panel */
 UBox& Message::createMessagePanel(bool transparent)
 {
-  scrollpane.add(messbox);
-  scrollpane.showVScrollButtons(false);
-  scrollpane.getHScrollbar()->show(false);
+  mess_scrollpane.add(mess_box);
+  mess_scrollpane.showVScrollButtons(false);
+  mess_scrollpane.getHScrollbar()->show(false);
 
-  UTextfield& input = utextfield(usize(250) + text + ucall(this, &Message::inputCB));
+  UTextfield& input = utextfield(usize(250) + mess_text + ucall(this, &Message::inputCB));
   UBox& query = uhbox(ulabel(UFont::bold + "input: ")
                + uhflex()
                + input
                + uright()
                + uitem(  utip("Clear input")
                        + UFont::bold + "C"
-                       + uassign(text, "")
+                       + uassign(mess_text, "")
                       )
                + uitem(  utip("Previous message")
                        + USymbol::up
@@ -110,7 +112,7 @@ UBox& Message::createMessagePanel(bool transparent)
   UBox& notif = ubox(UOrient::vertical
                      + uhflex()
                      + uvflex()
-                     + scrollpane
+                     + mess_scrollpane
                      + ubottom()
                      //dax + query
                     );
@@ -123,24 +125,24 @@ UBox& Message::createMessagePanel(bool transparent)
 
 void Message::inputCB()
 {
-  if (text.empty()) return;
+  if (mess_text.empty()) return;
 
-  history.push_back(text);	// save text into history
+  mess_history.push_back(mess_text);	// save text into history
 
-  if (text[0] == '!') {	// starts with a '!'
-    performRequest(text);
+  if (mess_text[0] == '!') {	// starts with a '!'
+    performRequest(mess_text);
   }
   else {
-    writeMessage("chat", g.user, text.c_str());	// display in message zone
-    User::userWriting(text.c_str());		// send to localuser
+    writeMessage("chat", g.user, mess_text.c_str());	// display in message zone
+    User::userWriting(mess_text.c_str());		// send to localuser
   }
-  text = "";	// clear textfield
+  mess_text = "";	// clear textfield
 }
 
 void Message::getHistoryCB(int go)
 {
-  history_pos = (history.size() + history_pos + go) % history.size();
-  text = history[history_pos];
+  mess_history_pos = (mess_history.size() + mess_history_pos + go) % mess_history.size();
+  mess_text = mess_history[mess_history_pos];
 }
 
 void Message::performRequest(const UStr& req)	// req starts with a '!'
@@ -149,7 +151,7 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
   if (req.empty() || !isalpha(req[1])) return;
 
   const char* req_chars = req.c_str() + 1;	// skip the initial '!'
-  text = "";
+  mess_text = "";
   uint8_t rr = read_request(req_chars);
 
   if (rr > 0) {
@@ -162,15 +164,15 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
     char *brkt = null;
     char *p = strtok_r(sentence, " ", &brkt);
     while (p) {
-      text.append(p);
-      text.append(" ");	// should be with red color
+      mess_text.append(p);
+      mess_text.append(" ");	// should be with red color
       p = strtok_r(NULL, " ", &brkt);
     }
     free(sentence);
   }
   else {
     g.gui.writeMessage("request", null, req_chars); // display in request history
-    text.append(req);
+    mess_text.append(req);
   }
 #endif //HAVE_OCAML
 }
@@ -186,7 +188,7 @@ void Message::performRequest(WObject* object)
     clicked[5]=object->pos.bbs.v[1];
     clicked[6]=object->pos.bbs.v[2];
     nclicks--;
-    if (! text.empty()) performRequest(text);
+    if (! mess_text.empty()) performRequest(mess_text);
   }
 }
 
@@ -246,7 +248,7 @@ void Message::convertTextToLink(const std::string& text, char **listeObjets, int
 
   if (size < 1) {
     cerr << "convertTextToLink not implemented" << endl;
-    messbox.add(uhbox(ugroup(mess)));
+    mess_box.add(uhbox(ugroup(mess)));
   }
   char *brkt = null;
   char *tempmess = strtok_r(mess, " ", &brkt);
@@ -279,7 +281,7 @@ void Message::convertTextToLink(const std::string& text, char **listeObjets, int
     }
     tempmess = strtok_r(NULL, " ", &brkt);
   }
-  messbox.add(uhbox(ustr("augmented msg>") + allmsgs));
+  mess_box.add(uhbox(ustr("augmented msg>") + allmsgs));
   free(mess);
 }
 
@@ -356,7 +358,7 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
 {
   if (! msg)  return;
 
-  uptr<UStr> text = null;
+  uptr<UStr> mess_text = null;
   uptr<UStr> prefix = null;
   uptr<UColor> prefix_color = null;
 
@@ -364,7 +366,7 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
     // chat
     std::string result;
     postRequest(msg, result);
-    text = new UStr(result);
+    mess_text = new UStr(result);
 
     prefix = new UStr("from ");
     prefix->append(from);
@@ -374,7 +376,7 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
 
   else if (mode) {
     // internal
-    text = new UStr(msg);
+    mess_text = new UStr(msg);
 
     if (! strcmp(mode, "notice")) {
       // notice
@@ -386,7 +388,7 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
       // progress
       prefix = new UStr("");
       prefix_color = ::g.theme.noticeColor;
-      messbox.add(uhbox(ugroup(UFont::bold + prefix_color) + text));
+      mess_box.add(uhbox(ugroup(UFont::bold + prefix_color) + mess_text));
     }
     else if (! strcmp(mode, "request")) {
       // requext
@@ -404,12 +406,12 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
   else {
     // chat to
     error("msg: %s", msg);
-    text = new UStr(msg);
+    mess_text = new UStr(msg);
     prefix = new UStr("> ");
     prefix_color = ::g.theme.messColor;
   }
 
-  messbox.add(uhbox(ugroup(UFont::bold + prefix_color + prefix) + text));
+  mess_box.add(uhbox(ugroup(UFont::bold + prefix_color + prefix) + mess_text));
   return;
 }
 

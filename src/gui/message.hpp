@@ -34,11 +34,16 @@ class WObject;
  * Message class
  */
 class Message {
+friend class Widgets;
+
 public:
   Message(class Widgets*);
   
   UBox& createQuery();
+  ///< creates the query box
+
   UBox& createMessagePanel(bool transparent);
+  ///< creates the message panel
 
   void writeMessage(const char* mode, const char* from, const char* mess);
   ///< adds a new message to the messages box.
@@ -51,13 +56,13 @@ public:
 
 protected:
   class Widgets& gw;
-  UBox messbox;
-  UScrollpane scrollpane;
-  UStr text; 			///< input text
-  std::vector<UStr> history;	///< history log
-  int history_pos;		///< position in history
-  float clicked[7];		///< Ocaml
-  uint8_t nclicks;		///< Ocaml
+  UBox mess_box;
+  UScrollpane mess_scrollpane;
+  UStr mess_text; 			///< input text
+  std::vector<UStr> mess_history;	///< history log
+  int mess_history_pos;			///< position in history
+  float clicked[7];			///< Ocaml
+  uint8_t nclicks;			///< Ocaml
 
   void inputCB();
   void getHistoryCB(int go);
