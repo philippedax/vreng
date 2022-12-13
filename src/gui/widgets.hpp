@@ -136,11 +136,17 @@ private:
   
   // ! BEWARE: order matters !
   Gui &gui;            		///< reference to the GUI object
-  UBox infos_box;
-  UElem worlds, basket, avatars;
+  UBox infos_box;		///< infos box horizontal under menubar
+  UElem worlds;			///< optional worlds palette
+  UElem basket;			///< optional basket palette
+  UElem avatars;		///< optional avatars palette
   class Scene &scene;		///< OpenGL Drawing Zone
   class Navig &navig;		///< navigation
-  UOptionDialog &source_dialog, &objects_dialog, &worlds_dialog, &stats_dialog, &mess_dialog;
+  UOptionDialog &source_dialog;
+  UOptionDialog &objects_dialog;
+  UOptionDialog &worlds_dialog;
+  UOptionDialog &stats_dialog;
+  UOptionDialog &mess_dialog;
   UDialog &prefs_dialog;
   UDialog &settings_dialog;
   UDialog &grid_dialog;
