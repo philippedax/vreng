@@ -50,7 +50,7 @@ value recherche_Typegen(value ttype, value actiondemande)
   char *typechercher = (char *) String_val(ttype);
   char *action = (char *) String_val(actiondemande);
 
-  int oclick = 0;
+  uint8_t oclick = 0;
   float oclicked[7];
 
   char *foundpos = new char[100];
@@ -107,7 +107,7 @@ value recherche_Type(value ttype)
 {
   value ret;
   char *typechercher = (char *) String_val(ttype);
-  int oclick = 0;
+  uint8_t oclick = 0;
   float oclicked[7];
 
   char *foundpos = new char[100];

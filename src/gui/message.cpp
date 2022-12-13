@@ -60,14 +60,14 @@ Message::Message(Widgets* _gw) :
 
 UBox& Message::createQuery()
 {
-  UTextfield& input = utextfield(usize(250) + entry + ucall(this, &Message::inputCB));
+  UTextfield& input = utextfield(usize(250) + text + ucall(this, &Message::inputCB));
   UBox& query = uhbox(ulabel(UFont::bold + "input: ")
                + uhflex()
                + input
                + uright()
                + uitem(  utip("Clear input")
                        + UFont::bold + "C"
-                       + uassign(entry, "")
+                       + uassign(text, "")
                       )
                + uitem(  utip("Previous message")
                        + USymbol::up
@@ -88,14 +88,14 @@ UBox& Message::createMessagePanel(bool transparent)
   scrollpane.showVScrollButtons(false);
   scrollpane.getHScrollbar()->show(false);
 
-  UTextfield& input = utextfield(usize(250) + entry + ucall(this, &Message::inputCB));
+  UTextfield& input = utextfield(usize(250) + text + ucall(this, &Message::inputCB));
   UBox& query = uhbox(ulabel(UFont::bold + "input: ")
                + uhflex()
                + input
                + uright()
                + uitem(  utip("Clear input")
                        + UFont::bold + "C"
-                       + uassign(entry, "")
+                       + uassign(text, "")
                       )
                + uitem(  utip("Previous message")
                        + USymbol::up
@@ -123,24 +123,24 @@ UBox& Message::createMessagePanel(bool transparent)
 
 void Message::inputCB()
 {
-  if (entry.empty()) return;
+  if (text.empty()) return;
 
-  history.push_back(entry);	// save in history
+  history.push_back(text);	// save text into history
 
-  if (entry[0] == '!') {	// starts with a '!'
-    performRequest(entry);
+  if (text[0] == '!') {	// starts with a '!'
+    performRequest(text);
   }
   else {
-    writeMessage("chat", g.user, entry.c_str());  // display in message zone
-    User::userWriting(entry.c_str());		  // send to localuser
+    writeMessage("chat", g.user, text.c_str());	// display in message zone
+    User::userWriting(text.c_str());		// send to localuser
   }
-  entry = "";	// clear textfield
+  text = "";	// clear textfield
 }
 
 void Message::getHistoryCB(int go)
 {
   history_pos = (history.size() + history_pos + go) % history.size();
-  entry = history[history_pos];
+  text = history[history_pos];
 }
 
 void Message::performRequest(const UStr& req)	// req starts with a '!'
@@ -149,8 +149,8 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
   if (req.empty() || !isalpha(req[1])) return;
 
   const char* req_chars = req.c_str() + 1;	// skip the initial '!'
-  entry = "";
-  int rr = read_request(req_chars);
+  text = "";
+  uint8_t rr = read_request(req_chars);
 
   if (rr > 0) {
     nclicks = rr;
@@ -162,15 +162,15 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
     char *brkt = null;
     char *p = strtok_r(sentence, " ", &brkt);
     while (p) {
-      entry.append(p);
-      entry.append(" ");	// should be with red color
+      text.append(p);
+      text.append(" ");	// should be with red color
       p = strtok_r(NULL, " ", &brkt);
     }
     free(sentence);
   }
   else {
     g.gui.writeMessage("request", null, req_chars); // display in request history
-    entry.append(req);
+    text.append(req);
   }
 #endif //HAVE_OCAML
 }
@@ -186,7 +186,7 @@ void Message::performRequest(WObject* object)
     clicked[5]=object->pos.bbs.v[1];
     clicked[6]=object->pos.bbs.v[2];
     nclicks--;
-    if (!entry.empty()) performRequest(entry);
+    if (! text.empty()) performRequest(text);
   }
 }
 
@@ -198,7 +198,7 @@ void Message::initClicked()
   }
 }
 
-void Message::getClicked(int *_nclicks, float _clicked[])
+void Message::getClicked(uint8_t *_nclicks, float _clicked[])
 {
   *_nclicks = nclicks;
   for (int i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
@@ -223,6 +223,7 @@ static bool string2Coord(const char* positions, float& x, float& y, float& z, fl
 
   free(positions_copy);
   return true;
+
 ERROR:
   free(positions_copy);
   return false;

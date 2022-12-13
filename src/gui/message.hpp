@@ -46,24 +46,24 @@ public:
   void performRequest(WObject*);
   void initClicked();
 
-  void getClicked(int *click, float clicked[]);
+  void getClicked(uint8_t *nclick, float clicked[]);
   ///< get clicked object for the request.
 
 protected:
+  class Widgets& gw;
+  UBox messbox;
+  UScrollpane scrollpane;
+  UStr text; 			///< input text
+  std::vector<UStr> history;	///< history log
+  int history_pos;		///< position in history
+  float clicked[7];		///< Ocaml
+  uint8_t nclicks;		///< Ocaml
+
   void inputCB();
   void getHistoryCB(int go);
   void performRequest(const UStr& req);  // req starts with a '!'
   void postRequest(const std::string& mess, std::string& result);
   void convertTextToLink(const std::string& text, char **listeObjets, int size);
-
-  class Widgets& gw;
-  UBox messbox;
-  UScrollpane scrollpane;
-  UStr entry; 
-  std::vector<UStr> history; ///< history log
-  int history_pos;
-  float clicked[7];	///< Ocaml
-  int nclicks;		///< Ocaml
 };
 
 /**

@@ -100,7 +100,7 @@ public:
   
   // Ocaml
   void initClicked();
-  void getClicked(int *click, float clicked[]);
+  void getClicked(uint8_t *click, float clicked[]);
   WObject* getSelectedObject();
   
 private:

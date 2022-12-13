@@ -319,9 +319,9 @@ void Gui::initClicked()
   if (widgets) widgets->message.initClicked();
 }
 
-void Gui::getClicked(int *click, float clicked[])
+void Gui::getClicked(uint8_t *nclick, float clicked[])
 {
-  if (widgets) widgets->message.getClicked(click, clicked);
+  if (widgets) widgets->message.getClicked(nclick, clicked);
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -193,7 +193,9 @@ void Widgets::setInfobar(UBox* content)
 }
 
 
-/** menubar on top of the window : file view goto history tool mark about */
+/** menubar on top of the window :
+ * [File] [View] [Goto] [History] [Tool] [Mark] [About]
+ */
 UBox& Widgets::createMenubar()
 {
   UMenu& file_menu = fileMenu();
