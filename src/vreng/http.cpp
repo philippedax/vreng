@@ -72,9 +72,7 @@ void HttpThread::begin_thread()
       //[[[ lock
         pthread_cond_wait(&httpfifo->cond, &nbsimcon_mutex);
         nbsimcon++;	// increments nbsimcon
-
-        /* remove element from fifo */
-        fifofirst = httpfifo->next;
+        fifofirst = httpfifo->next;	// removes one element from the fifo
         if (httpfifo) delete[] httpfifo;
         httpfifo = NULL;
       //]]] unlock
@@ -105,26 +103,22 @@ void HttpThread::end_thread()
 int HttpThread::putfifo()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-  lockMutex(&nbsimcon_mutex);	// lock access to global variable nbsimcon
+  lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
   //[[[ lock
-  if (nbsimcon >= ::g.pref.maxsimcon) {	// test number of active connections
+  if (nbsimcon >= ::g.pref.maxsimcon) {		// test number of active connections
     trace(DBG_HTTP, "too many threads=%d, waiting for %s", nbsimcon, url);
-
-    tWaitFifo *wf = new tWaitFifo[1];		// new fifo
-
-    pthread_cond_init(&(wf->cond), NULL);	// put thread into fifo
-    wf->next = NULL;
-    if (!fifofirst) fifofirst = wf;
-    if (fifolast)   fifolast->next = wf;
-    fifolast = wf;
-
+    tWaitFifo *waitfifo = new tWaitFifo[1];	// new element in the fifo
+    pthread_cond_init(&(waitfifo->cond), NULL);	// put thread into fifo
+    waitfifo->next = NULL;
+    if (! fifofirst) fifofirst = waitfifo;
+    if (fifolast) fifolast->next = waitfifo;
+    fifolast = waitfifo;
     //]]] unlock
     unlockMutex(&nbsimcon_mutex);	// unlock the global variable
-    httpfifo = wf;			// block the thread
+    httpfifo = waitfifo;		// block the thread
   }
   else {
-    /* add a connection */
-    nbsimcon++;
+    nbsimcon++;				// add a connection
     trace(DBG_HTTP, "thread going now (%d) %s", nbsimcon, url);
     //]]] unlock
     unlockMutex(&nbsimcon_mutex);
@@ -141,13 +135,13 @@ int HttpThread::putfifo()
 #endif
 }
 
-/** Fill buffer rep */
+/** Fills buffer rep */
 int HttpThread::answerHttpd(int s, char *rep, int max)
 {
   return recv(s, rep, max, 0);
 }
 
-/** Send request to the http server */
+/** Sends request to the http server */
 int HttpThread::sendHttpd(int fd, const char *buf, int size)
 {
   int sent, r=0;
@@ -161,7 +155,7 @@ int HttpThread::sendHttpd(int fd, const char *buf, int size)
   return 0;
 }
 
-/** Connect to server defined by sa */
+/** Connects to server defined by sa */
 int HttpThread::connectHttpd(const struct sockaddr_in *sa)
 {
   int sdhttp;
@@ -213,7 +207,7 @@ static uint8_t proxy=0, noproxy=0;
 static uint16_t portproxy;
 static char *domnoproxy, *hostproxy;
 
-/** Check if http proxy */
+/** Checks if http proxy */
 void HttpThread::checkHttpProxy()
 {
   static bool done = false;
@@ -262,7 +256,7 @@ int HttpThread::openPath(const char *path)
   return open(path, O_RDONLY);
 }
 
-/** make an http connection */
+/** Makes an http connection */
 void * HttpThread::connectionHttpd(void *_httpthread)
 {
   HttpThread *httpthread = (HttpThread *) _httpthread;
@@ -702,11 +696,13 @@ int32_t Http::read_int()
   return val;
 }
 
+/** returns a short */
 int32_t Http::read_short()
 {
   return (read_char()<<8) | read_char();
 }
 
+/** returns a long */
 int32_t Http::read_long()
 {
   return (read_char()<<24) | (read_char()<<16) | (read_char()<<8) | read_char();
@@ -719,6 +715,7 @@ float Http::read_float()
   return (float) *((float *) &n);
 }
 
+/** returns a string */
 int Http::read_string(char *str, int maxlen)
 {
   int c;
@@ -773,7 +770,7 @@ bool isEmptyLine(char *line)
   return true;
 }
 
-/** return a line non empty without comments */
+/** returns a line non empty without comments */
 bool Http::getLine(char *line)
 {
   do {
