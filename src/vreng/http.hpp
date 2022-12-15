@@ -61,15 +61,15 @@ class HttpThread {
     BADSERV
   };
 
-  tWaitFifo *waitfifo;	///< wait fifo
+  tWaitFifo *httpfifo;	///< wait http fifo
 
   void *handle;		///< thread handle
   bool modethr;		///< thread or not
   class Http *httpio;	///< http handle for I/O
   char url[URL_LEN];	///< url
 
-  void begin();		///< begins a thread
-  void end();		///< ends a thread
+  void begin_thread();	///< begins a thread
+  void end_thread();	///< ends a thread
 
   virtual int putfifo();
   /**< Puts thread into a wait fifo. */
@@ -97,9 +97,6 @@ class HttpThread {
   void (*httpReader) (void *handle, class Http *http);
   /**< Http reader. */
 
-  static void init();
-  /**< Initializes Http thread. */
-
   static void * connectionHttpd(void *_hthr);
   /**< Makes an http connection to the httpd server. */
 
@@ -126,58 +123,61 @@ class Http {
 
   virtual ~Http();	///< destructor
 
+  static void init();
+  /**< Initializes Httpd. */
+
   virtual void reset();
-  /**< Reset read buffer */
+  /**< Reset read buffer. */
 
   virtual int httpRead(char *buf, int size);
-  /**< Reads a block */
+  /**< Reads a block. */
 
   virtual bool heof();
-  /**< Returns if eof */
+  /**< Returns if eof. */
 
   virtual int tell();
-  /**< Returns current position */
+  /**< Returns current position. */
 
   virtual int getChar();
-  /**< Gets a char */
+  /**< Gets a char. */
 
   virtual uint8_t read_char();
-  /**< Gets a byte */
+  /**< Gets a byte. */
 
   virtual int32_t read_short();
-  /**< Gets a short */
+  /**< Gets a short. */
 
   virtual int32_t read_int();
-  /**< Gets an integer */
+  /**< Gets an integer. */
 
   virtual int32_t read_long();
-  /**< Gets a short */
+  /**< Gets a short. */
 
   virtual float read_float();
-  /**< Gets a float */
+  /**< Gets a float. */
 
   virtual int read_string(char *s, int maxlen);
-  /**< Gets a string */
+  /**< Gets a string. */
 
   virtual bool nextLine(char *line);
-  /**< Gets nextline */
+  /**< Gets nextline. */
 
   virtual bool getLine(char *line);
-  /**< Gets a line */
+  /**< Gets a line. */
 
   virtual int fread(char *ptr, int size, int nitems);
-  /**< Emulates fread */
+  /**< Emulates fread. */
 
   virtual uint32_t read_buf(char *buf, int maxlen);
-  /**< Gets a block */
+  /**< Gets a block. */
 
   virtual uint32_t skip(int32_t skiplen);
-  /**< Skips a length */
+  /**< Skips a length. */
 
   static int httpOpen(const char *url, void (*httpReader)(void *h, Http *httpio), void *hdl, int _thread);
   /**< Opens an url
    *   and gives which reader to use
-   *   and tells whether the connection is threaded or not */
+   *   and tells whether the connection is threaded or not. */
 };
 
 

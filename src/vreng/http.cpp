@@ -45,58 +45,58 @@ static const char NO_PROXY[] = "no_proxy";
 HttpThread::HttpThread()
 {
   new_httpthread++;
-  waitfifo = NULL;
-  begin();
+  httpfifo = NULL;
+  begin_thread();
 }
 
 HttpThread::~HttpThread()
 {
   del_httpthread++;
-  end();
+  end_thread();
 }
 
-void HttpThread::init()
+void Http::init()
 {
   initMutex(&nbsimcon_mutex);
   nbsimcon = 0;
   trace(DBG_INIT, "HttpThread initialized");
 }
 
-void HttpThread::begin()
+void HttpThread::begin_thread()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
   if (modethr > 0) {
-    //trace(DBG_HTTP, "-> begin %s", url);
-    if (waitfifo) {	// Wait authorization to begin
+    //trace(DBG_HTTP, "-> begin_thread %s", url);
+    if (httpfifo) {	// Wait authorization to begin_thread
       lockMutex(&nbsimcon_mutex);
-      //[[[[[[[[[[ lock
-        pthread_cond_wait(&waitfifo->cond, &nbsimcon_mutex);
+      //[[[ lock
+        pthread_cond_wait(&httpfifo->cond, &nbsimcon_mutex);
         nbsimcon++;	// increments nbsimcon
 
         /* remove element from fifo */
-        fifofirst = waitfifo->next;
-        if (waitfifo) delete[] waitfifo;
-        waitfifo = NULL;
-      //]]]]]]]]]] unlock
+        fifofirst = httpfifo->next;
+        if (httpfifo) delete[] httpfifo;
+        httpfifo = NULL;
+      //]]] unlock
       unlockMutex(&nbsimcon_mutex); // free fifo handling
     }
   }
 #endif
 }
 
-void HttpThread::end()
+void HttpThread::end_thread()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
   if (modethr > 0) {
     lockMutex(&nbsimcon_mutex);	// lock access to global variable nbsimcon
-    //[[[[[[[[[[ lock
+    //[[[ lock
       nbsimcon--;		// decrements nbsimcon
       if (nbsimcon < 0) nbsimcon = 0;
       if (fifofirst) {		// if something in fifo, awake it
         trace(DBG_HTTP, "thread awake (%d) %s", nbsimcon, url);
         pthread_cond_signal(&fifofirst->cond);
       }
-    //]]]]]]]]]] unlock
+    //]]] unlock
     unlockMutex(&nbsimcon_mutex);
   }
 #endif
@@ -106,7 +106,7 @@ int HttpThread::putfifo()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
   lockMutex(&nbsimcon_mutex);	// lock access to global variable nbsimcon
-  //[[[[[[[[[[ lock
+  //[[[ lock
   if (nbsimcon >= ::g.pref.maxsimcon) {	// test number of active connections
     trace(DBG_HTTP, "too many threads=%d, waiting for %s", nbsimcon, url);
 
@@ -118,17 +118,17 @@ int HttpThread::putfifo()
     if (fifolast)   fifolast->next = wf;
     fifolast = wf;
 
-    //]]]]]]]]]] unlock
+    //]]] unlock
     unlockMutex(&nbsimcon_mutex);	// unlock the global variable
-    waitfifo = wf;			// block the thread
+    httpfifo = wf;			// block the thread
   }
   else {
     /* add a connection */
     nbsimcon++;
     trace(DBG_HTTP, "thread going now (%d) %s", nbsimcon, url);
-    //]]]]]]]]]] unlock
+    //]]] unlock
     unlockMutex(&nbsimcon_mutex);
-    waitfifo = NULL;			// thread not blocked
+    httpfifo = NULL;			// thread not blocked
   }
 
   /* start new thread */

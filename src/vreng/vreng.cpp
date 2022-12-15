@@ -31,7 +31,7 @@
 #include "world.hpp"	// World::init
 #include "vac.hpp"	// Vac::init
 #include "channel.hpp"	// Channel::init
-#include "http.hpp"	// HttpThread::init
+#include "http.hpp"	// HttpT::init
 #include "vrsql.hpp"	// VRSql::init
 #include "stat.hpp"	// printStats
 #include "aiinit.hpp"	// initOcaml
@@ -93,7 +93,7 @@ void Vreng::initCB()
   initLimits();		// Change rlimit
   initTrigo();		// Trigo
   initSignals();	// Signals initialization
-  HttpThread::init();	// Simultaneous http connections initialization
+  Http::init();		// Simultaneous http connections initialization
   Channel::init();	// Network initialization
   Universe::init();	// World manager initialisation
   Vac::init();	    	// Vac cache initialization
