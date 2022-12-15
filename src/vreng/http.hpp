@@ -65,7 +65,7 @@ class HttpThread {
 
   void *handle;		///< thread handle
   bool modethr;		///< thread or not
-  class Http *http;	///< http handle
+  class Http *httpio;	///< http handle for I/O
   char url[URL_LEN];	///< url
 
   void begin();		///< begins a thread
@@ -74,16 +74,16 @@ class HttpThread {
   virtual int putfifo();
   /**< Puts thread into a wait fifo. */
 
-  static int send(int fd, const char *buf, int size);
+  static int sendHttpd(int fd, const char *buf, int size);
   /**< Sends a http request. */
 
-  static int answer(int s, char *rep, int max);
+  static int answerHttpd(int s, char *rep, int max);
   /**< Receives a response from the http server. */
 
-  static int connect(const struct sockaddr_in *sa);
+  static int connectHttpd(const struct sockaddr_in *sa);
   /**< Establishes a connection to the http server. */
 
-  static void checkProxy();
+  static void checkHttpProxy();
   /**< Checks proxy environment variables. */
 
  public:
@@ -100,13 +100,13 @@ class HttpThread {
   static void init();
   /**< Initializes Http thread. */
 
-  static void * connection(void *_hthr);
-  /**< Makes an http connection. */
+  static void * connectionHttpd(void *_hthr);
+  /**< Makes an http connection to the httpd server. */
 
   static int resolver(char *hoststr, char *portstr, struct sockaddr_in *sa);
   /**< Resolves a hostname. */
 
-  static int openFile(const char *path);
+  static int openPath(const char *path);
 };
 
 

@@ -133,22 +133,22 @@ int HttpThread::putfifo()
 
   /* start new thread */
   Vpthread_t tid;
-  return pthread_create(&tid, NULL, HttpThread::connection, (void *) this);
+  return pthread_create(&tid, NULL, HttpThread::connectionHttpd, (void *) this);
 
 #else
-  HttpThread::connection((void *) this);
+  HttpThread::connectionHttpd((void *) this);
   return 0;
 #endif
 }
 
 /** Fill buffer rep */
-int HttpThread::answer(int s, char *rep, int max)
+int HttpThread::answerHttpd(int s, char *rep, int max)
 {
   return recv(s, rep, max, 0);
 }
 
 /** Send request to the http server */
-int HttpThread::send(int fd, const char *buf, int size)
+int HttpThread::sendHttpd(int fd, const char *buf, int size)
 {
   int sent, r=0;
 
@@ -162,16 +162,16 @@ int HttpThread::send(int fd, const char *buf, int size)
 }
 
 /** Connect to server defined by sa */
-int HttpThread::connect(const struct sockaddr_in *sa)
+int HttpThread::connectHttpd(const struct sockaddr_in *sa)
 {
   int sdhttp;
 
   if ((sdhttp = Socket::openStream()) < 0) {
-    perror("httpConnect: socket");
+    perror("httpConnectHttpd: socket");
     return -BADSOCKET;
   }
   if (Socket::connection(sdhttp, sa) < 0) {
-    perror("httpConnect: connect");
+    perror("httpConnectHttpd: connect");
     return -BADCONNECT;
   }
   return sdhttp;
@@ -214,7 +214,7 @@ static uint16_t portproxy;
 static char *domnoproxy, *hostproxy;
 
 /** Check if http proxy */
-void HttpThread::checkProxy()
+void HttpThread::checkHttpProxy()
 {
   static bool done = false;
   if (done) return;
@@ -257,19 +257,19 @@ void HttpThread::checkProxy()
 }
 
 /** Opens a local file and returns its file descriptor */
-int HttpThread::openFile(const char *path)
+int HttpThread::openPath(const char *path)
 {
   return open(path, O_RDONLY);
 }
 
 /** make an http connection */
-void * HttpThread::connection(void *_hthread)
+void * HttpThread::connectionHttpd(void *_httpthread)
 {
-  HttpThread *hthread = (HttpThread *) _hthread;
+  HttpThread *httpthread = (HttpThread *) _httpthread;
 
-  Http *http = hthread->http;
+  Http *httpio = httpthread->httpio;
 
-  HttpThread::checkProxy();
+  HttpThread::checkHttpProxy();
 
   struct sockaddr_in sa;
   bool httperr = false;
@@ -282,8 +282,8 @@ void * HttpThread::connection(void *_hthread)
   memset(scheme, 0, sizeof(scheme));
   memset(path, 0, sizeof(path));
 
-  int urltype = Url::parser(hthread->url, host, scheme, path);
-  //echo("connection: url=%s", hthread->url);
+  int urltype = Url::parser(httpthread->url, host, scheme, path);
+  //echo("connectionHttpd: url=%s", httpthread->url);
   trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
                   ::g.url, ::g.universe, scheme, host, path, urltype);
 
@@ -292,12 +292,12 @@ void * HttpThread::connection(void *_hthread)
 
   case Url::URLFILE:	// file://
     trace(DBG_HTTP, "HTTP: %s://%s/%s", scheme, host, path);
-    if ((http->fd = HttpThread::openFile(path)) < 0) {
+    if ((httpio->fd = HttpThread::openPath(path)) < 0) {
       httperr = true;
     }
     else {	// file not found
-      http->off = -1;
-      hthread->httpReader(hthread->handle, http);
+      httpio->off = -1;
+      httpthread->httpReader(httpthread->handle, httpio);
       httperr = false;
     }
     break;
@@ -333,8 +333,8 @@ htagain:
         break;
       }
     }
-    if ((http->fd = HttpThread::connect(&sa)) < 0) {
-      error("can't connect %s", host);
+    if ((httpio->fd = HttpThread::connectHttpd(&sa)) < 0) {
+      error("can't connectHttpd %s", host);
       httperr = true;
       break;
     }
@@ -346,7 +346,7 @@ htagain:
       if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
         sprintf(req,
                 "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
-                hthread->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
+                httpthread->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
                 ::g.env.relname(), ::g.user, host);
       }
       else {
@@ -360,8 +360,8 @@ htagain:
       sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
     } 
     //echo("req: %s", req);
-    if (HttpThread::send(http->fd, req, strlen(req)) < 0) {
-      error("can't send req=%s", req);
+    if (HttpThread::sendHttpd(httpio->fd, req, strlen(req)) < 0) {
+      error("can't sendHttpd req=%s", req);
       httperr = true;
       break;
     }
@@ -370,33 +370,33 @@ htagain:
      * parses HTTP/1.1 headers received from the server
      */
 
-    http->reset();
+    httpio->reset();
 
     do {
-      if ((http->len = HttpThread::answer(http->fd, http->buf, HTTP_BUFSIZ)) <= 0) {
+      if ((httpio->len = HttpThread::answerHttpd(httpio->fd, httpio->buf, HTTP_BUFSIZ)) <= 0) {
         httpeoheader = true;
         httperr = true;
         break;
       }
-      //echo("http answer: (%d) %p", http->len, http->buf);
+      //echo("http answerHttpd: (%d) %p", httpio->len, httpio->buf);
 
-      for (http->off = 0; 1; ) {
+      for (httpio->off = 0; 1; ) {
         int i = 0;
         char httpheader[HTTP_BUFSIZ];
 
-        while ( (http->off < http->len) && (http->buf[http->off] != '\n') ) {
-          httpheader[i++] = http->buf[http->off++];
+        while ( (httpio->off < httpio->len) && (httpio->buf[httpio->off] != '\n') ) {
+          httpheader[i++] = httpio->buf[httpio->off++];
         }
 
-        if (http->off < http->len) {
+        if (httpio->off < httpio->len) {
           if (httpheader[0] == '\r') { // test end of header
-            http->off++;
+            httpio->off++;
             httpeoheader = true;
             httperr = true;
             break;
           }
           httpheader[i-1] = '\0';	// replace '\r' by '\0'
-          http->off++;			// skip '\0'
+          httpio->off++;		// skip '\0'
           trace(DBG_HTTP, "->%s", httpheader);
 
           if (answerline) {
@@ -405,7 +405,7 @@ htagain:
 
             sscanf(httpheader, "HTTP/%d.%d %d", &major, &minor, &httperr);
             trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
-                  httperr, major, minor, httpheader+12, hthread->url);
+                  httperr, major, minor, httpheader+12, httpthread->url);
 
             switch (httperr) {
 
@@ -431,11 +431,11 @@ htagain:
               break;
 
             case 400:		// bad request
-              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, hthread->url, host);
+              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
               httperr = true;
               break;
             case 404:		// not found
-              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, hthread->url, host);
+              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
               httperr = true;
               break;
             case HTTP_503:	// server unavailable
@@ -444,7 +444,7 @@ htagain:
               break;
 
             default:
-              error("HTTP-err: %d - %s %s", httperr, httpheader+12, hthread->url);
+              error("HTTP-err: %d - %s %s", httperr, httpheader+12, httpthread->url);
               httperr = true;
               break;
             }
@@ -464,10 +464,10 @@ htagain:
               else {
                 p[MIME_LEN] = 0;
               }
-              trace(DBG_HTTP, "mime=%s %s", p, hthread->url);
+              trace(DBG_HTTP, "mime=%s %s", p, httpthread->url);
               // only for textures
-              if (hthread->handle && strcmp(p, "plain")) {
-                Texture *tex = (Texture *) hthread->handle;
+              if (httpthread->handle && strcmp(p, "plain")) {
+                Texture *tex = (Texture *) httpthread->handle;
 		tex->setMime(p);
               }
             }
@@ -482,7 +482,7 @@ htagain:
     /*
      * Call here the appropriated httpReader
      */
-    hthread->httpReader(hthread->handle, http);
+    httpthread->httpReader(httpthread->handle, httpio);
     httperr = false;
     break;
 
@@ -494,15 +494,15 @@ htagain:
     break;
   }
 
-  if (httperr && hthread) {
-    hthread->httpReader(hthread->handle, http);
+  if (httperr && httpthread) {
+    httpthread->httpReader(httpthread->handle, httpio);
   }
 
   // free memory
-  if (hthread) delete hthread;
-  hthread = NULL;
-  if (http) delete http;
-  http = NULL;
+  if (httpthread) delete httpthread;
+  httpthread = NULL;
+  if (httpio) delete httpio;
+  httpio = NULL;
 
   return NULL;
 }
@@ -534,44 +534,44 @@ Http::~Http()
 }
 
 /** Opens a HTTP transaction, returns -1 if error */
-int Http::httpOpen(const char *_url, void (*_httpReader)(void *h, Http *http), void *handle, int _threaded)
+int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), void *handle, int threaded)
 {
-  if (! isprint(*_url)) {
+  if (! isprint(*url)) {
     error("httpOpen: url not printable");
     return -1;
   }
 
-  HttpThread *hthread = new HttpThread();
+  HttpThread *httpthread = new HttpThread();
 
-  trace(DBG_HTTP, "httpOpen: %s", _url);
+  trace(DBG_HTTP, "httpOpen: %s", url);
   ::g.timer.image.start();
 
-  hthread->http = new Http();	// create a http IO
+  httpthread->httpio = new Http();	// create a http IO instance
 
-  // fill the hthread structure
-  hthread->handle = handle;
-  hthread->httpReader = _httpReader;
-  hthread->modethr = _threaded;
-  strcpy(hthread->url, _url);
-  strcpy(hthread->http->url, _url);
+  // Fills the httpthread structure
+  httpthread->handle = handle;
+  httpthread->httpReader = httpReader;
+  httpthread->modethr = threaded;
+  strcpy(httpthread->url, url);
+  strcpy(httpthread->httpio->url, url);
 
-  // Checks if url is in the cache (_threaded < 0 : don't use the cache)
-  if (_threaded >= 0 && Cache::inCache(_url)) { // in cache
-    hthread->httpReader(hthread->handle, hthread->http);  // call the appropiated httpReader
-    if (hthread->http) delete hthread->http;	// segfault
-    hthread->http = NULL;
+  // Checks if url is in the cache (threaded < 0 : don't use the cache)
+  if (threaded >= 0 && Cache::inCache(url)) { // in cache
+    httpthread->httpReader(httpthread->handle, httpthread->httpio);  // call the appropiated httpReader
+    if (httpthread->httpio) delete httpthread->httpio;	// segfault
+    httpthread->httpio = NULL;
     progression('c');	// 'c' as cache
-    delete hthread;
-    hthread = NULL;
+    delete httpthread;
+    httpthread = NULL;
     return 0;
   }
   else {		// not in cache
     progression('i');	// 'i' as image
-    if (_threaded > 0) {	// if threaded
-      return hthread->putfifo();	// put it into fifo
+    if (threaded > 0) {	// is it a thread ?
+      return httpthread->putfifo();	// yes, put it into fifo
     }
     else {
-      HttpThread::connection((void *) hthread);	// it's not a thread
+      HttpThread::connectionHttpd((void *) httpthread);	// it's not a thread
       ::g.timer.image.stop();
       return 0;
     }
