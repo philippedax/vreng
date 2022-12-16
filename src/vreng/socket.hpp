@@ -28,6 +28,9 @@
 class Socket {
 
 public:
+  Socket() {};
+  virtual ~Socket() {};
+
   static int openDatagram();
   static int openStream();
   static void closeDatagram(int sock);
