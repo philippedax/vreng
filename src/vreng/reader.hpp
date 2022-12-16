@@ -48,44 +48,44 @@ class Reader {
   virtual ~Reader() {};
   /**< Destructor */
 
-  virtual FILE * getFileCache(class Texture *tex);
-  virtual FILE * getFileCache(void *tex, bool flagclo);
-  /**< Gets a file into the cache. */
-  virtual FILE * getFileCache(const char *url, char *filename);
+  FILE * getFileCache(class Texture *tex);
+  FILE * getFileCache(void *tex, bool flagclo);
+  /**< Gets a file from the cache. */
+  FILE * getFileCache(const char *url, char *filename);
   /**< Downloads a file into the cache. */
 
-  virtual char * getFilename(void *tex);
+  char * getFilename(void *tex);
   /**< Gets filename. */
 
-  virtual uint32_t getUInt(FILE *fp);
+  uint32_t getUInt(FILE *fp);
   /**< Gets unsigned integer. */
 
-  virtual int16_t getShort(FILE *fp);
+  int16_t getShort(FILE *fp);
   /**< Gets short integer. */
 
 private:
 
 #if 0 //notused
-  virtual uint8_t getChar(FILE *fp);
-  virtual uint8_t getChar();
+  uint8_t getChar(FILE *fp);
+  uint8_t getChar();
   /**< Gets next char. */
 
-  virtual uint8_t getChar1(FILE *fp);
-  virtual uint8_t getChar1();
+  uint8_t getChar1(FILE *fp);
+  uint8_t getChar1();
   /**< Gets next usable char. */
 
-  //virtual uint8_t getByte(void *texhdl, ImageReader read_func);
+  //uint8_t getByte(void *texhdl, ImageReader read_func);
   /**< Reads and returns a byte. */
 
-  //virtual int32_t getInt(FILE *fp);
-  //virtual int32_t getInt();
+  //int32_t getInt(FILE *fp);
+  //int32_t getInt();
   /**< Gets next integer. */
 
-  //virtual void skipSpaces(FILE *fp);
-  //virtual void skipSpaces();
+  //void skipSpaces(FILE *fp);
+  //void skipSpaces();
   /**< Skips spaces. */
 
-  //virtual void reset();
+  //void reset();
   /**< Resets buffer. */
 #endif
 };

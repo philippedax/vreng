@@ -199,4 +199,5 @@ void Reader::skipSpaces(FILE *f)
 {
   while (isspace(ch)) getChar1(f);
 }
-#endif
+
+#endif // not-used
