@@ -63,7 +63,7 @@ FILE * Cache::openCache(const char *url, Http *http)
 
   FILE *fpcache = NULL;
 #if 0 //dax
-  File *file = new File();
+  file = new File();
   if ((file->f = file->open(cachepath, "r")) == NULL) {
     fpcache = file->f;
 #else

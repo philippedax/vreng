@@ -28,19 +28,16 @@
  */
 
 class Http;
+class File;
 
 class Cache {
 
+ private:
+  File *file;	///< file instance
+
  public:
-
-  static int curl(const char *url, char *filename, const char opts[] = (char *)"cache");
-  ///< Launchs curl on this url.
-
-  static int download(const char *url, char *filename, const char opts[] = (char *)"cache");
-  ///< Launchs curl or wget on this url.
-
-  static int check(const char *url);
-  ///< Checks url existence.
+  Cache() { file = NULL; };
+  virtual ~Cache() {};
 
   static int setCachePath(const char *url, char *cachepath);
   ///< Sets cache path from url.
@@ -65,6 +62,15 @@ class Cache {
 
   static char * getFilePath(const char *url);
   ///< Gets relative file name.
+
+  static int curl(const char *url, char *filename, const char opts[] = (char *)"cache");
+  ///< Launchs curl on this url.
+
+  static int download(const char *url, char *filename, const char opts[] = (char *)"cache");
+  ///< Launchs curl or wget on this url.
+
+  static int check(const char *url);
+  ///< Checks url existence.
 
 };
 
