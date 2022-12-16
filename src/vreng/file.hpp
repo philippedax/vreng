@@ -28,6 +28,15 @@
 class File {
 
 public:
+
+  FILE *f;	///< file handle
+
+  File() { f = NULL; };
+  virtual ~File() {};
+
+  FILE * open(const char *filename, const char *param);
+  void close();
+
   static FILE * openFile(const char *filename, const char *param);
   static void closeFile(FILE * f);
 

@@ -23,7 +23,15 @@
 #include "stat.hpp"	// opn_file cls_file
 
 
-/* Open a file */
+/* Open a file - after a new File() */
+FILE * File::open(const char *filename, const char *param)
+{
+  f = fopen(filename, param);
+  if (f) opn_file++;
+  return f; 
+}
+
+/* Open a file - static */
 FILE * File::openFile(const char *filename, const char *param)
 {
   FILE *fp = fopen(filename, param);
@@ -33,6 +41,13 @@ FILE * File::openFile(const char *filename, const char *param)
 }
 
 /* Close a file */
+void File::close()
+{
+  fclose(f);
+  cls_file++;
+}
+
+/* Close a file - static */
 void File::closeFile(FILE *fp)
 {
   fclose(fp);

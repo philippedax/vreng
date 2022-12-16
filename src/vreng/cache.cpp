@@ -1,15 +1,3 @@
-//---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
-//
-// Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
-//
-// VREng is a free software; you can redistribute it and/or modify it
-// under the terms of the GNU General Public Licence as published by
-// the Free Software Foundation; either version 2, or (at your option)
-// any later version.
-//
-// VREng is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -63,7 +51,7 @@ char * Cache::getFilePath(const char *url)
   return filepath;
 }
 
-/* Opens an url and writes it into the cache and returns le file opened (fp) */
+/* Opens an url and writes it into the cache and returns the file opened */
 FILE * Cache::openCache(const char *url, Http *http)
 {
   char *cachepath = new char[PATH_LEN];
@@ -73,8 +61,14 @@ FILE * Cache::openCache(const char *url, Http *http)
   if (! http) return NULL;
   if (! setCachePath(url, cachepath)) return NULL;
 
-  FILE *fpcache;
+  FILE *fpcache = NULL;
+#if 0 //dax
+  File *file = new File();
+  if ((file->f = file->open(cachepath, "r")) == NULL) {
+    fpcache = file->f;
+#else
   if ((fpcache = File::openFile(cachepath, "r")) == NULL) {
+#endif
     if ((fpcache = File::openFile(cachepath, "w")) == NULL) {	// not in the cache, write it
       error("openCache: can't create %s", cachepath);
       delete[] cachepath;
@@ -113,7 +107,11 @@ FILE * Cache::openCache(const char *url, Http *http)
 
 void Cache::closeCache(FILE *fp)
 {
+#if 0 //dax
+  file->close();
+#else
   File::closeFile(fp);
+#endif
 }
 
 /* Checks if file is in the cache */
