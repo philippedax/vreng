@@ -620,7 +620,7 @@ bool Http::heof()
 }
 
 /** returns current position */
-int Http::tell()
+int Http::htell()
 {
   return http_pos;
 }

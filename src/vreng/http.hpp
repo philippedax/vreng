@@ -71,7 +71,7 @@ class HttpThread {
   void begin_thread();	///< begins a thread
   void end_thread();	///< ends a thread
 
-  virtual int putfifo();
+  int putfifo();
   /**< Puts thread into a wait fifo. */
 
   static int sendHttpd(int fd, const char *buf, int size);
@@ -124,54 +124,54 @@ class Http {
   virtual ~Http();	///< destructor
 
   static void init();
-  /**< Initializes Httpd. */
+  /**< Initializes Http. */
 
-  virtual void reset();
+  void reset();
   /**< Reset read buffer. */
 
-  virtual int httpRead(char *buf, int size);
+  int httpRead(char *buf, int size);
   /**< Reads a block. */
 
-  virtual bool heof();
+  bool heof();
   /**< Returns if eof. */
 
-  virtual int tell();
+  int htell();
   /**< Returns current position. */
 
-  virtual int getChar();
+  int getChar();
   /**< Gets a char. */
 
-  virtual uint8_t read_char();
+  uint8_t read_char();
   /**< Gets a byte. */
 
-  virtual int32_t read_short();
+  int32_t read_short();
   /**< Gets a short. */
 
-  virtual int32_t read_int();
+  int32_t read_int();
   /**< Gets an integer. */
 
-  virtual int32_t read_long();
+  int32_t read_long();
   /**< Gets a short. */
 
-  virtual float read_float();
+  float read_float();
   /**< Gets a float. */
 
-  virtual int read_string(char *s, int maxlen);
+  int read_string(char *s, int maxlen);
   /**< Gets a string. */
 
-  virtual bool nextLine(char *line);
+  bool nextLine(char *line);
   /**< Gets nextline. */
 
-  virtual bool getLine(char *line);
+  bool getLine(char *line);
   /**< Gets a line. */
 
-  virtual int fread(char *ptr, int size, int nitems);
+  int fread(char *ptr, int size, int nitems);
   /**< Emulates fread. */
 
-  virtual uint32_t read_buf(char *buf, int maxlen);
+  uint32_t read_buf(char *buf, int maxlen);
   /**< Gets a block. */
 
-  virtual uint32_t skip(int32_t skiplen);
+  uint32_t skip(int32_t skiplen);
   /**< Skips a length. */
 
   static int httpOpen(const char *url, void (*httpReader)(void *h, Http *httpio), void *hdl, int _thread);
