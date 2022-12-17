@@ -146,6 +146,7 @@ Widgets::Widgets(Gui* _gui) :    // !BEWARE: order matters!
 }
 
 
+//---------------------------------------------------------------------------
 /** infobar = navig_box + infos_box */
 UBox& Widgets::createInfobar()
 {
@@ -195,6 +196,7 @@ void Widgets::setInfobar(UBox* content)
 }
 
 
+//---------------------------------------------------------------------------
 /** menubar on top of the window :
  * [File] [View] [Goto] [History] [Tool] [Mark] [About]
  */
@@ -329,6 +331,7 @@ void Widgets::showInfoDialog(const char* title, const char* message)
 }
 
 
+//---------------------------------------------------------------------------
 GuiItem::GuiItem(UArgs a) : UButton(a)
 {
   addAttr(UBorder::none + UOn::enter / UBackground::blue + UOn::arm / UBackground::blue);
@@ -495,6 +498,7 @@ void Widgets::setRayDirection(int x, int y)
   }
 }
 
+//---------------------------------------------------------------------------
 //
 // CALLBACKS
 //
@@ -536,7 +540,9 @@ void Widgets::saveCB()
   sprintf(vreout, "%s.vre", world->getName());
   if ((fo = File::openFile(vreout, "w"))) {
     if ((fi = File::openFile(vrein, "r"))) {
-      while (fgets(buf, sizeof(buf), fi)) fputs(buf, fo);
+      while (fgets(buf, sizeof(buf), fi)) {
+        fputs(buf, fo);
+      }
       File::closeFile(fo);
       File::closeFile(fi);
       notice("world %s saved", vreout);
@@ -623,7 +629,7 @@ void Widgets::markCB()
 
 //---------------------------------------------------------------------------
 /*
- *  Key management and correspondance with VREng
+ *  Key management and correspondance with VREng keys
  */
 
 void Widgets::setKey(int key, int ispressed)
@@ -770,7 +776,9 @@ UDialog& Widgets::prefsDialog()
 
   UDialog* prefs_dialog =
   new UOptionDialog("Preferences",
-                    uvbox(ulabel("Preferences: " + UColor::red + ::g.env.prefs())
+                    uvbox(ulabel("Preferences: "
+                          + UColor::red
+                          + ::g.env.prefs())
                           + uvflex()
                           + uscrollpane(usize(400,300) + settings_box)),
                     UArgs::none, UArgs::none
@@ -798,10 +806,11 @@ static void sourceHttpReader(void *box, Http *http)
 
   source_box->setAutoUpdate(false);
 
-  FILE *fpcache = Cache::openCache(http->url, http);
-  while (fgets(line, sizeof(line), fpcache)) {
+  FILE *fp = Cache::openCache(http->url, http);
+  while (fgets(line, sizeof(line), fp)) {
     source_box->add(uitem(UColor::black + line));
   }
+  Cache::closeCache(fp);
   source_box->setAutoUpdate(true);
   source_box->update();
 }
@@ -837,7 +846,7 @@ static void gotoHttpReader(void *box, Http *http)
       worldurl = tmpline;
 
       univ_box->add(  UBackground::white
-                    + uitem( UColor::green
+                    + uitem(  UColor::green
                             + UFont::bold
                             + UFont::large
                             + worldname
@@ -852,6 +861,7 @@ static void gotoHttpReader(void *box, Http *http)
 static void universeHttpReader(void *box, Http *http)
 {
   if (! http) return;
+
   UBox *univ_box = (UBox *) box;
   char line[URL_LEN + CHAN_LEN +2];
 
@@ -889,11 +899,11 @@ void Widgets::sourceDialog()
   if (! world) return;
 
   UBox& source_box = uvbox(UBackground::white);
-  if (Http::httpOpen(world->getUrl(), sourceHttpReader, &source_box, -1) < 0) { // -1 = no cache
+  if (Http::httpOpen(world->getUrl(), sourceHttpReader, &source_box, -1) < 0) { // -1: no cache
     delete &source_box;
     return;
   }
-  source_dialog.setMessage(uscrollpane(usize(450,350)
+  source_dialog.setMessage(uscrollpane(  usize(450,350)
                                        + UBackground::white
                                        + source_box
                                       )
@@ -911,7 +921,7 @@ void Widgets::objectsDialog()
     sprintf(line, "%s:%s", (*it)->names.type, (*it)->names.instance);
     objects_box.add(uitem(UColor::black + line));
   }
-  objects_dialog.setMessage(uscrollpane(usize(150,350)
+  objects_dialog.setMessage(uscrollpane(  usize(150,350)
                                         + UBackground::none
                                         + objects_box
                                        )
@@ -930,7 +940,7 @@ void Widgets::statsDialog()
   while (getStats(fin, line)) {
     stats_box.add(uitem(UColor::black + line));
   }
-  stats_dialog.setMessage(uscrollpane(usize(250,350)
+  stats_dialog.setMessage(uscrollpane(  usize(250,350)
                                       + UBackground::none
                                       + stats_box
                                      )
@@ -950,7 +960,7 @@ void Widgets::messDialog()
     mess_box.add(uitem(UColor::black + line));
   }
 #endif
-  mess_dialog.setMessage(uscrollpane(usize(300,200)
+  mess_dialog.setMessage(uscrollpane(  usize(300,200)
                                      + UBackground::none
                                      + mess_box
                                     )
@@ -972,7 +982,6 @@ void Widgets::gotoDialog()
   sprintf(univ_url, fmt, Universe::current()->server,
                          Universe::current()->urlpfx,
                          DEF_URL_WORLDS);
-  //echo("univ_url: %s", univ_url);
 
   UBox& goto_box = uvbox(g.theme.scrollpaneStyle);
   if (Http::httpOpen(univ_url, gotoHttpReader, &goto_box, 0) < 0) {
@@ -1053,7 +1062,7 @@ UDialog& Widgets::settingsDialog()
                        + UOn::select / ucall(this, NTE_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
-   + uhbox("Browser         : " + UFont::plain
+   + uhbox("Web browser     : " + UFont::plain
            + ucheckbox("Firefox" + sel_browser
                        + UOn::select / ucall(this, FIREFOX_TOOL, &Widgets::prefCB))
                        .setSelected()
