@@ -42,8 +42,14 @@ class Cache {
   static int setCachePath(const char *url, char *cachepath);
   ///< Sets cache path from url.
 
+  FILE * open(const char *url, Http *http);
+  ///< Saves file into cache and opens it.
+
   static FILE * openCache(const char *url, Http *http);
   ///< Saves file into cache and opens it.
+
+  void close();
+  ///< Closes file into cache.
 
   static void closeCache(FILE *fp);
   ///< Closes file into cache.

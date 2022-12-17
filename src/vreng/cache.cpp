@@ -52,23 +52,67 @@ char * Cache::getFilePath(const char *url)
 }
 
 /* Opens an url and writes it into the cache and returns the file opened */
-FILE * Cache::openCache(const char *url, Http *http)
+FILE * Cache::open(const char *url, Http *http)
 {
+  if (! http) return NULL;
+
   char *cachepath = new char[PATH_LEN];
   memset(cachepath, 0, PATH_LEN);
   *cachepath = 0;
+  if (! setCachePath(url, cachepath)) return NULL;
 
+  FILE *fpr = NULL;
+  FILE *fpw = NULL;
+  file = new File();
+  if ((fpr = file->open(cachepath, "r")) == NULL) {
+    if ((fpw = file->open(cachepath, "w")) == NULL) {	// not in the cache, write it
+      error("openCache: can't create %s", cachepath);
+      delete[] cachepath;
+      return NULL;
+    }
+
+    // writes the file into the cache
+    char buf[4];
+    while (! http->heof()) {
+      http->read_buf(buf, 4);
+      fwrite(buf, 4, 1, fpw);
+    }
+    fflush(fpw);
+    file->close();
+
+    struct stat bufstat;
+    if (stat(cachepath, &bufstat) == 0) {
+      if (bufstat.st_size == 0) {
+        //error("openCache: %s is empty", cachepath);
+        unlink(cachepath);
+        progression('-');	// '-' as failed
+      }
+      else {
+        progression('h');	// 'h' as http
+      }
+    }
+  }
+  else {	// found in the cache
+    progression('c');	// 'c' as cache
+  }
+
+  // ready for reading
+  delete[] cachepath;
+  return fpr;  // file is now opened
+}
+
+/* Opens an url and writes it into the cache and returns the file opened - static */
+FILE * Cache::openCache(const char *url, Http *http)
+{
   if (! http) return NULL;
+
+  char *cachepath = new char[PATH_LEN];
+  memset(cachepath, 0, PATH_LEN);
+  *cachepath = 0;
   if (! setCachePath(url, cachepath)) return NULL;
 
   FILE *fpcache = NULL;
-#if 0 //dax
-  file = new File();
-  if ((file->f = file->open(cachepath, "r")) == NULL) {
-    fpcache = file->f;
-#else
   if ((fpcache = File::openFile(cachepath, "r")) == NULL) {
-#endif
     if ((fpcache = File::openFile(cachepath, "w")) == NULL) {	// not in the cache, write it
       error("openCache: can't create %s", cachepath);
       delete[] cachepath;
@@ -105,13 +149,16 @@ FILE * Cache::openCache(const char *url, Http *http)
   return fpcache;  // file is now opened
 }
 
+/* Closes cache */
+void Cache::close()
+{
+  file->close();
+}
+
+/* Closes cache - static */
 void Cache::closeCache(FILE *fp)
 {
-#if 0 //dax
-  file->close();
-#else
   File::closeFile(fp);
-#endif
 }
 
 /* Checks if file is in the cache */
