@@ -58,16 +58,17 @@ FILE * Cache::open(const char *url, Http *http)
 
   char *cachepath = new char[PATH_LEN];
   memset(cachepath, 0, PATH_LEN);
-  *cachepath = 0;
   if (! setCachePath(url, cachepath)) return NULL;
 
   FILE *fpr = NULL;
   FILE *fpw = NULL;
-  file = new File();
-  if ((fpr = file->open(cachepath, "r")) == NULL) {
-    if ((fpw = file->open(cachepath, "w")) == NULL) {	// not in the cache, write it
+  filein = new File();
+  if ((fpr = filein->open(cachepath, "r")) == NULL) {
+    fileout = new File();
+    if ((fpw = fileout->open(cachepath, "w")) == NULL) {	// not in the cache, write it
       error("openCache: can't create %s", cachepath);
       delete[] cachepath;
+      delete fileout;
       return NULL;
     }
 
@@ -78,7 +79,8 @@ FILE * Cache::open(const char *url, Http *http)
       fwrite(buf, 4, 1, fpw);
     }
     fflush(fpw);
-    file->close();
+    fileout->close();
+    delete fileout;
 
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
@@ -108,7 +110,6 @@ FILE * Cache::openCache(const char *url, Http *http)
 
   char *cachepath = new char[PATH_LEN];
   memset(cachepath, 0, PATH_LEN);
-  *cachepath = 0;
   if (! setCachePath(url, cachepath)) return NULL;
 
   FILE *fpcache = NULL;
@@ -152,7 +153,7 @@ FILE * Cache::openCache(const char *url, Http *http)
 /* Closes cache */
 void Cache::close()
 {
-  file->close();
+  filein->close();
 }
 
 /* Closes cache - static */

@@ -33,10 +33,11 @@ class File;
 class Cache {
 
  private:
-  File *file;	///< file instance
+  File *filein;		///< filein instance
+  File *fileout;	///< fileout instance
 
  public:
-  Cache() { file = NULL; };
+  Cache() { filein = NULL; fileout = NULL; };
   virtual ~Cache() {};
 
   static int setCachePath(const char *url, char *cachepath);
