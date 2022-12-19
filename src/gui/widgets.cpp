@@ -211,7 +211,7 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.List  + "Objects"     + ucall(this, &Widgets::objectsDialog))
         + ubutton(g.theme.List  + "Worlds"      + ucall(this, &Widgets::worldsDialog))
         + ubutton(g.theme.List  + "Stats"       + ucall(this, &Widgets::statsDialog))
-        + ubutton(g.theme.List  + "Messges"     + ucall(this, &Widgets::messDialog))
+        + ubutton(g.theme.List  + "Messages"    + ucall(this, &Widgets::messDialog))
         + ubutton(g.theme.Prefs + "Preferences" + prefs_dialog)
        );
 
