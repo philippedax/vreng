@@ -73,7 +73,9 @@ void Txf::httpReader(void *_txf, Http *http)
   Txf *txf = (Txf *) _txf;
   if (! txf) return;
 
-  FILE *f = Cache::openCache(txf->getUrl(), http);
+  Cache *cache = new Cache();
+  //dax FILE *f = Cache::openCache(txf->getUrl(), http);
+  FILE *f = cache->open(txf->getUrl(), http);
   if (! f) {
     error("can't open %s", txf->getUrl());
     return;
@@ -213,7 +215,8 @@ void Txf::httpReader(void *_txf, Http *http)
     texbitmap = NULL;
     break;
   }
-  File::closeFile(f);
+  //dax Cache::closeCache(f);
+  cache->close();
   return;
 
 error:
@@ -225,7 +228,8 @@ error:
     delete[] txf->texfont->teximage;
     delete[] txf->texfont; txf->texfont = NULL;
   }
-  Cache::closeCache(f);
+  //dax Cache::closeCache(f);
+  cache->close();
   return;
 }
 
