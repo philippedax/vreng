@@ -31,8 +31,8 @@ public:
 
   FILE *f;	///< file handle
 
-  File() { f = NULL; };
-  virtual ~File() {};
+  File();
+  virtual ~File();
 
   FILE * open(const char *filename, const char *param);
   void close();

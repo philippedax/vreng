@@ -23,6 +23,20 @@
 #include "stat.hpp"	// opn_file cls_file
 
 
+/* Constructor */
+File::File()
+{
+  new_file++;
+  f = NULL;
+}
+
+/* Deestructor */
+File::~File()
+{
+  del_file--;
+}
+
+
 /* Open a file - after a new File() */
 FILE * File::open(const char *filename, const char *param)
 {
