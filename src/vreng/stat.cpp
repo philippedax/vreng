@@ -81,6 +81,10 @@ uint32_t new_httpthread;
 uint32_t del_httpthread;
 uint32_t new_http;
 uint32_t del_http;
+uint32_t new_cache;
+uint32_t del_cache;
+uint32_t new_file;
+uint32_t del_file;
 
 /*** io ***/
 uint32_t opn_file;
@@ -246,6 +250,8 @@ void statMemory(FILE *fout)
   //fprintf(fout, "NetProperty   : n=%8d d=%8d\n", new_netproperty, del_netproperty);
   fprintf(fout, "ObjectList      : n=%8d d=%8d\n", new_objectlist, del_objectlist);
   fprintf(fout, "HttpThread      : n=%8d d=%8d\n", new_httpthread, del_httpthread);
+  fprintf(fout, "Cache           : n=%8d d=%8d\n", new_cache, del_cache);
+  fprintf(fout, "File            : n=%8d d=%8d\n", new_file, del_file);
 }
 
 /** stat io usage (open, close) */

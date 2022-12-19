@@ -75,6 +75,10 @@ extern uint32_t new_httpthread;
 extern uint32_t del_httpthread;
 extern uint32_t new_http;
 extern uint32_t del_http;
+extern uint32_t new_cache;
+extern uint32_t del_cache;
+extern uint32_t new_file;
+extern uint32_t del_file;
 
 /*** io ***/
 extern uint32_t opn_file;

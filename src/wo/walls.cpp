@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "walls.hpp"
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// closeFile
 
 
@@ -49,7 +49,9 @@ void Walls::httpReader(void *_walls, Http *http)
   float xs, xe, ys, ye, zs, ze, r, g, b;
   char line[BUFSIZ];
 
-  FILE *f = Cache::openCache(walls->getUrl(), http);
+  Cache *cache = new Cache();
+  //dax FILE *f = Cache::openCache(walls->getUrl(), http);
+  FILE *f = cache->open(walls->getUrl(), http);
   if (! f) { error("can't open %s", walls->getUrl()); return; }
 
   while (fgets(line, sizeof(line), f)) {
@@ -68,7 +70,8 @@ void Walls::httpReader(void *_walls, Http *http)
     prev = pw;
   }
   if (pw) pw->next = NULL;
-  File::closeFile(f);
+  //dax File::closeFile(f);
+  cache->close();
 }
 
 void Walls::defaults()
@@ -89,7 +92,7 @@ void Walls::parser(char *l)
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
     if (!l) break;
-    if (!stringcmp(l, "url")) l = parse()->parseUrl(l, names.url);
+    if (! stringcmp(l, "url")) l = parse()->parseUrl(l, names.url);
   }
   end_while_parse(l);
 }
