@@ -64,26 +64,33 @@ Img * Img::loadGIF(void *tex, ImageReader read_func)
 {
   GifInfo s, *g = &s;
   Texture *texture = (Texture *) tex;
-  if ((g->fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  Cache *cache = new Cache();
+
+  //dax if ((g->fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  if ((g->fp = cache->open(texture->url, texture->http)) == NULL) return NULL;
   //echo("gifo: %lu %s", g->fp, texture->url);
 
   g->ir = 0;
   g->img = NULL;
 
   if (gifReadSignature(g)) {
-    Cache::closeCache(g->fp);
+    //dax Cache::closeCache(g->fp);
+    cache->close();
     return NULL;
   }
   if (gifReadScreen(g)) {
-    Cache::closeCache(g->fp);
+    //dax Cache::closeCache(g->fp);
+    cache->close();
     return NULL;
   }
   if (gifReadBlocks(g)) {
-    Cache::closeCache(g->fp);
+    //dax Cache::closeCache(g->fp);
+    cache->close();
     return NULL;
   }
 
-  Cache::closeCache(g->fp);
+  //dax Cache::closeCache(g->fp);
+  cache->close();
   //echo("gifc: %lu", g->fp);
   return g->img;
 }
