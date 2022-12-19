@@ -15,8 +15,23 @@
 #include "pref.hpp"	// ::g.pref.refresh
 #include "str.hpp"	// stringcmp
 #include "wget.hpp"	// start
+#include "stat.hpp"	// new_cache, del_cache
 #include <string>
 
+
+/* Constructor */
+Cache::Cache()
+{
+  new_cache++;
+  filein = NULL;
+  fileout = NULL;
+}
+
+/* Destructor */
+Cache::~Cache()
+{
+  del_cache--;
+}
 
 /* Fills cachepath from url */
 int Cache::setCachePath(const char *url, char *cachepath)

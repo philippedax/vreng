@@ -37,8 +37,8 @@ class Cache {
   File *fileout;	///< fileout instance
 
  public:
-  Cache() { filein = NULL; fileout = NULL; };
-  virtual ~Cache() {};
+  Cache();
+  virtual ~Cache();
 
   static int setCachePath(const char *url, char *cachepath);
   ///< Sets cache path from url.
