@@ -54,10 +54,10 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
   int magic1, magic2;
 
   Texture *texture = (Texture *) tex;
-  FILE *f;
+
   Cache *cache = new Cache();
+  FILE *f;
   if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
-  //dax if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
 
   /* we read the header */
   Reader *ir = new Reader(tex, read_func);
@@ -65,8 +65,8 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
   magic1 = getc(f); magic2 = getc(f);
   if (magic1 != 'B' || magic2 != 'M') {
     error("LoadBMP: %s not a bmp file magic=%c%c", ir->getFilename(tex), magic1, magic2);
-    //dax Cache::closeCache(f);
     cache->close();
+    delete cache;
     return NULL;
   }
 
@@ -80,15 +80,15 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
   bit_count = ir->getShort(f);
   if (bit_count != 24) {
     error("loadBMP: don't support %d bpp", bit_count);
-    //dax Cache::closeCache(f);
     cache->close();
+    delete cache;
     return NULL;
   }
   compression = ir->getUInt(f);
   if (compression != 0) {
     error("loadBMP: compression not supported");
-    //dax Cache::closeCache(f);
     cache->close();
+    delete cache;
     return NULL;
   }
   image_size = ir->getUInt(f);
@@ -108,8 +108,8 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
   fseek(f, (long) data_offset, 0);
   fread((char *) img->pixmap, 1, image_size, f);
 
-  //dax Cache::closeCache(f);
   cache->close();
+  delete cache;
 
   //Inverse R et B
   for (int i=0; i < width*height ; i++) {
