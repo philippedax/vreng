@@ -30,7 +30,7 @@ Cache::Cache()
 /* Destructor */
 Cache::~Cache()
 {
-  del_cache--;
+  del_cache++;
 }
 
 /* Fills cachepath from url */
