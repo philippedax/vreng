@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 #include "texture.hpp"	// Texture
 
 
@@ -44,8 +44,10 @@ Img * Img::loadXBM(void *tex, ImageReader read_func)
   char line[256];
   
   Texture *texture = (Texture *) tex;
+
+  Cache *cache = new Cache();
   FILE *f;
-  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
 
   Img *img = NULL;
 
@@ -91,6 +93,7 @@ Img * Img::loadXBM(void *tex, ImageReader read_func)
       }
     }  
   }
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
   return img;
 }
