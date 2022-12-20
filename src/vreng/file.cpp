@@ -33,7 +33,7 @@ File::File()
 /* Deestructor */
 File::~File()
 {
-  del_file--;
+  del_file++;
 }
 
 

@@ -97,6 +97,14 @@ FILE * Cache::open(const char *url, Http *http)
     fileout->close();
     delete fileout;
 
+    // open the file for reading
+    filein = new File();
+    if ((fpr = filein->open(cachepath, "r")) == NULL) {
+      error("openCache: can't open %s", cachepath);
+      return NULL;
+    }
+
+    // verify
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
       if (bufstat.st_size == 0) {
@@ -144,6 +152,13 @@ FILE * Cache::openCache(const char *url, Http *http)
     fflush(fpcache);
     File::closeFile(fpcache);
 
+    // open the file for reading
+    if ((fpcache = File::openFile(cachepath, "r")) == NULL) {
+      error("openCache: can't open %s", cachepath);
+      return NULL;
+    }
+
+    // verify
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
       if (bufstat.st_size == 0) {
@@ -168,13 +183,18 @@ FILE * Cache::openCache(const char *url, Http *http)
 /* Closes cache */
 void Cache::close()
 {
-  filein->close();
+  if (filein) {
+    filein->close();
+    delete filein;
+  }
 }
 
 /* Closes cache - static */
 void Cache::closeCache(FILE *fp)
 {
-  File::closeFile(fp);
+  if (fp) {
+    File::closeFile(fp);
+  }
 }
 
 /* Checks if file is in the cache */
