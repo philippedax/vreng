@@ -147,7 +147,8 @@ void Guy::httpReader(void *_guy, Http *http)
   if (! guy) return;
   int pts = 0;
 
-  FILE *f = Cache::openCache(guy->getUrl(), http);
+  Cache *cache = new Cache();
+  FILE *f = cache->open(guy->getUrl(), http);
   if (! f) {
     error("can't open %s", guy->getUrl());
     return;
@@ -184,13 +185,15 @@ void Guy::httpReader(void *_guy, Http *http)
       l = strtok(NULL, " ");
     }
   }
-  File::closeFile(f);
+  cache->close();
+  delete cache;
   return;
 
 abort:
   error("wrong CSet file, numjoints=%d, pts=%d", guy->numjoints, pts);
   guy->setPose();
-  File::closeFile(f);
+  cache->close();
+  delete cache;
   return;
 }
 
