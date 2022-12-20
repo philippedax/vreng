@@ -24,7 +24,7 @@
  */
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// openFile
 #include "texture.hpp"	// Texture
 
@@ -55,8 +55,10 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
   int size;
 
   Texture *texture = (Texture *) tex;
+
+  Cache *cache = new Cache();
   FILE *f;
-  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
 
   /* we read the header */
   fread(&TgaInfo, 1, 18, f);  // Read header
@@ -70,7 +72,8 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
     channel = 3; // 24 bit per pixel (RGB)
     break;
   default:
-    Cache::closeCache(f);
+    cache->close();
+    delete cache;
     return NULL;
   }
   trace(DBG_IMG, "loadTGA: w=%d h=%d c=%d", width, height, channel);
@@ -81,7 +84,8 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
   // we read the data
   uint8_t *data = new uint8_t[size];  //alloc pixmap
   if (!data) {
-    Cache::closeCache(f);
+    cache->close();
+    delete cache;
     return NULL;
   }
 
@@ -115,7 +119,8 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
       }
       break;
    default:
-     Cache::closeCache(f);
+     cache->close();
+     delete cache;
      delete[] data;
      return NULL;
   }
@@ -124,7 +129,8 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
     img->pixmap[j+1] = data[i+1];
     img->pixmap[j+2] = data[i];
   }
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
   delete[] data;
   return img;
 }
