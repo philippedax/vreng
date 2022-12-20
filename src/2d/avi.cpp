@@ -44,7 +44,7 @@
 #include "vreng.hpp"
 #include "avi.hpp"
 #include "http.hpp"	// Http
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// openFile
 
 
@@ -78,7 +78,10 @@ Avi::Avi(const char *_url)
 Avi::~Avi()
 {
   if (url) delete[] url;
-  if (fp) File::closeFile(fp);
+  if (fp) {
+    //dax cache->close();
+    //dax delete cache;
+  }
 }
 
 /*******************************************************************
@@ -101,7 +104,8 @@ void Avi::httpReader(void *_avi, Http *http)
   Avi *avi = (Avi *) _avi;
   if (! avi) return;
         
-  avi->fp = Cache::openCache(avi->getUrl(), http);
+  Cache *cache = new Cache();
+  avi->fp = cache->open(avi->getUrl(), http);
   //avi->read_header();
 }
 
@@ -577,7 +581,8 @@ void Avi::write_header(int width, int height, int norm, int audio, int stereo, i
   njunk = DATASTART - pos - 8 - 12;
   out4cc("JUNK");
   outlong(njunk);
-  File::closeFile(fp);
+  //dax cache->close();
+  //dax delete cache;
   fp = NULL;
 }
 
