@@ -23,7 +23,7 @@
 #include "vreng.hpp"
 #include "txf.hpp"
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// closeFile
 
 #include <list>
@@ -74,7 +74,6 @@ void Txf::httpReader(void *_txf, Http *http)
   if (! txf) return;
 
   Cache *cache = new Cache();
-  //dax FILE *f = Cache::openCache(txf->getUrl(), http);
   FILE *f = cache->open(txf->getUrl(), http);
   if (! f) {
     error("can't open %s", txf->getUrl());
@@ -215,8 +214,8 @@ void Txf::httpReader(void *_txf, Http *http)
     texbitmap = NULL;
     break;
   }
-  //dax Cache::closeCache(f);
   cache->close();
+  delete cache;
   return;
 
 error:
@@ -228,8 +227,8 @@ error:
     delete[] txf->texfont->teximage;
     delete[] txf->texfont; txf->texfont = NULL;
   }
-  //dax Cache::closeCache(f);
   cache->close();
+  delete cache;
   return;
 }
 
