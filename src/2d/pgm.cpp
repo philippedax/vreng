@@ -20,15 +20,17 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 #include "texture.hpp"	// Texture
 
 
 Img * Img::loadPGM(void *tex, ImageReader read_func)
 {
   Texture *texture = (Texture *) tex;
+
+  Cache *cache = new Cache();
   FILE *f;
-  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
 
   /* we read the header */
   int width, height;
@@ -38,7 +40,8 @@ Img * Img::loadPGM(void *tex, ImageReader read_func)
   magic[0] = getc(f);
   magic[1] = getc(f);
   if (magic[0] != 'P' || magic[1] != '5') {
-    Cache::closeCache(f);
+    cache->close();
+    delete cache;
     return NULL;
   }
   fgets(buf, 256, f);
@@ -61,7 +64,8 @@ Img * Img::loadPGM(void *tex, ImageReader read_func)
       img->pixmap[((y*width+x)*Img::RGB)+2] = img->pixmap[(y*width+x)*Img::RGB];
     }
   }
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
 
   return img;
 }
