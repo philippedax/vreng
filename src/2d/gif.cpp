@@ -21,7 +21,7 @@
 /* GIF Decoder (c) 1997 Fabrice BELLARD */
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache, openCache
+#include "cache.hpp"	// open, open
 #include "texture.hpp"	// Texture
 
 
@@ -50,6 +50,7 @@ typedef struct {
   uint8_t *sp;
 } GifInfo;
 
+// local
 
 static int offset = 0;
 static void LZWDecodeInit(GifInfo *g, int csize);
@@ -64,9 +65,8 @@ Img * Img::loadGIF(void *tex, ImageReader read_func)
 {
   GifInfo s, *g = &s;
   Texture *texture = (Texture *) tex;
-  Cache *cache = new Cache();
 
-  //dax if ((g->fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  Cache *cache = new Cache();
   if ((g->fp = cache->open(texture->url, texture->http)) == NULL) return NULL;
   //echo("gifo: %lu %s", g->fp, texture->url);
 
@@ -74,23 +74,24 @@ Img * Img::loadGIF(void *tex, ImageReader read_func)
   g->img = NULL;
 
   if (gifReadSignature(g)) {
-    //dax Cache::closeCache(g->fp);
     cache->close();
+    if (cache) delete cache;
     return NULL;
   }
   if (gifReadScreen(g)) {
-    //dax Cache::closeCache(g->fp);
     cache->close();
+    if (cache) delete cache;
     return NULL;
   }
   if (gifReadBlocks(g)) {
-    //dax Cache::closeCache(g->fp);
     cache->close();
+    if (cache) delete cache;
     return NULL;
   }
 
   //dax Cache::closeCache(g->fp);
   cache->close();
+  if (cache) delete cache;
   //echo("gifc: %lu", g->fp);
   return g->img;
 }
