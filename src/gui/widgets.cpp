@@ -44,7 +44,7 @@
 #include "env.hpp"	// menu
 #include "http.hpp"	// httpOpen
 #include "file.hpp"	// openFile
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open, close
 #include "universe.hpp" // Universe
 #include "world.hpp"	// World
 #include "render.hpp"	// g.render.bufferSelection
@@ -274,7 +274,8 @@ void Widgets::dynamicMenus(UMenubar& menubar, const char* filename)
   UMenu* dyna_menu = null;
   char attr[100], val[100];
 
-  if ((menufp = File::openFile(filename, "r"))) {
+  File *file = new File();
+  if ((menufp = file->open(filename, "r"))) {
     fscanf(menufp, "%s %s", attr, val);
     //cerr << "dynmenu: " << attr << " " <<val << endl;
     while (! feof(menufp)) {
@@ -292,7 +293,8 @@ void Widgets::dynamicMenus(UMenubar& menubar, const char* filename)
       }
       fscanf(menufp, "%s %s", attr, val);
     }
-    File::closeFile(menufp);
+    file->close();
+    delete file;
   }
 }
 
@@ -314,13 +316,15 @@ UMenu& Widgets::markMenu()
 
   FILE *fp = null;
   char line[URL_LEN + CHAN_LEN + 2];
-  if ((fp = File::openFile(::g.env.worldmarks(), "r"))) {
+  File *file = new File();
+  if ((fp = file->open(::g.env.worldmarks(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
       char *p = strchr(line, ' ');
       if (p) *p ='\0';
       mark_box.add(uitem(line) + ucall(&gui, (const UStr&)line, &Gui::gotoWorld));
     }
-    File::closeFile(fp);
+    file->close();
+    delete file;
   }
   return mark_menu;
 }
@@ -538,13 +542,17 @@ void Widgets::saveCB()
 
   FILE *fi, *fo;
   sprintf(vreout, "%s.vre", world->getName());
-  if ((fo = File::openFile(vreout, "w"))) {
-    if ((fi = File::openFile(vrein, "r"))) {
+  File *filein = new File();
+  File *fileout = new File();
+  if ((fo = fileout->open(vreout, "w"))) {
+    if ((fi = filein->open(vrein, "r"))) {
       while (fgets(buf, sizeof(buf), fi)) {
         fputs(buf, fo);
       }
-      File::closeFile(fo);
-      File::closeFile(fi);
+      fileout->close();
+      filein->close();
+      delete fileout;
+      delete filein;
       notice("world %s saved", vreout);
     }
   }
@@ -610,18 +618,22 @@ void Widgets::markCB()
   char line[URL_LEN + CHAN_LEN + 2];
 
   sprintf(mark, "%s %s\n", World::current()->getUrl(), World::current()->getChan());
-  if ((fp = File::openFile(::g.env.worldmarks(), "r")) != NULL) {
+  File *file = new File();
+  if ((fp = file->open(::g.env.worldmarks(), "r")) != NULL) {
     while (fgets(line, sizeof(line), fp)) {
       if (! strcmp(line, mark)) {
-        File::closeFile(fp);
+        file->close();
+        delete file;
         return;
       }
     }
-    File::closeFile(fp);
+    file->close();
+    delete file;
   }
-  if ((fp = File::openFile(::g.env.worldmarks(), "a")) != NULL) {
+  if ((fp = file->open(::g.env.worldmarks(), "a")) != NULL) {
     fputs(mark, fp);
-    File::closeFile(fp);
+    file->close();
+    delete file;
     markMenu();
   }
 }
@@ -786,12 +798,14 @@ UDialog& Widgets::prefsDialog()
 
   FILE *fp;
   char line[128];
-  if ((fp = File::openFile(::g.env.prefs(), "r"))) {
+  File *file = new File();
+  if ((fp = file->open(::g.env.prefs(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
       if (isalpha(*line)) settings_box.add(uitem(UColor::red + UFont::bold + line));
       else                settings_box.add(uitem(UColor::black + line));
     }
-    File::closeFile(fp);
+    file->close();
+    delete file;
   }
   return *prefs_dialog;
 }
@@ -806,11 +820,13 @@ static void sourceHttpReader(void *box, Http *http)
 
   source_box->setAutoUpdate(false);
 
-  FILE *fp = Cache::openCache(http->url, http);
+  Cache *cache = new Cache();
+  FILE *fp = cache->open(http->url, http);
   while (fgets(line, sizeof(line), fp)) {
     source_box->add(uitem(UColor::black + line));
   }
-  Cache::closeCache(fp);
+  cache->close();
+  delete cache;
   source_box->setAutoUpdate(true);
   source_box->update();
 }
