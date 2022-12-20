@@ -24,7 +24,7 @@
  */
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache, openCache
+#include "cache.hpp"	// open, open
 #include "file.hpp"	// openFile
 #include "texture.hpp"	// Texture
 
@@ -117,8 +117,10 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
   struct jpeg_decompress_struct cinfo;
 
   Texture *texture = (Texture *) tex;
+
+  Cache *cache = new Cache();
   FILE *f;
-  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
 
   /* error handling */
   struct my_error_mgr jerr;
@@ -127,7 +129,8 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
   if (setjmp(jerr.setjmp_buf)) {
     error("loadJPG: invalidData");
     jpeg_destroy_decompress(&cinfo);
-    Cache::closeCache(f);
+    cache->close();
+    delete cache;
     return NULL;
   }
 
@@ -140,7 +143,8 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
       || (cinfo.num_components != 3 && cinfo.num_components != 1)) {
     error("loadJPG: num_components=%d", cinfo.num_components);
     jpeg_destroy_decompress(&cinfo);
-    Cache::closeCache(f);
+    cache->close();
+    delete cache;
     return NULL;
   }
 
@@ -148,12 +152,14 @@ Img * Img::loadJPG(void *tex, ImageReader read_func)
   if (!img) {
     error("loadJPG: can't new image");
     jpeg_destroy_decompress(&cinfo);
-    Cache::closeCache(f);
+    cache->close();
+    delete cache;
     return NULL;
   }
 
   readJpegData(img, cinfo);
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
 
   return img;
 #else
@@ -177,10 +183,11 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
   jpeg_create_compress(&cinfo);
 
   /* Step 2: specify data destination (eg, a file) */
-  if ((outfile = File::openFile(filename, "wb")) == NULL) {
+  File *file = new File();
+  if ((outfile = file->open(filename, "wb")) == NULL) {
     error("can't open %s", filename); return;
   }
-  //error("jpg: write file %s", filename);
+  //echo("jpg: write file %s", filename);
   jpeg_stdio_dest(&cinfo, outfile);
 
   /* Step 3: set parameters for compression */
@@ -203,7 +210,7 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
 
   /* Step 6: Finish compression */
   jpeg_finish_compress(&cinfo);
-  File::closeFile(outfile);
+  file->close();
 
   /* Step 7: release JPEG compression object */
   jpeg_destroy_compress(&cinfo);
