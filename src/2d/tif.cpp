@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "img.hpp"
 #include "reader.hpp"	// Reader
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// closeFile
 #include "texture.hpp"	// Texture
 
@@ -37,15 +37,17 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
   // downloads the tiff file and put it into the cache
   Reader *ir = new Reader(tex, read_func);
 
-  FILE *f;
   Texture *_tex = (Texture *) tex;
   char cachepath[PATH_LEN] = {0};
   Cache::setCachePath(_tex->url, cachepath);
-  if ((f = Cache::openCache(cachepath, _tex->http)) == NULL) {
+  Cache *cache = new Cache();
+  FILE *f;
+  if ((f = cache->open(cachepath, _tex->http)) == NULL) {
     delete ir;
     return NULL;
   }
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
   delete ir;
 
   // opens the tiff file
