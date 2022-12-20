@@ -25,7 +25,7 @@
 #include "browser.hpp"	// start
 #include "user.hpp"	// User
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// closeFile
 
 
@@ -46,7 +46,8 @@ void Book::httpReader(void *_book, Http *http)
   Book *book = (Book *) _book;
   if (! book) return;
 
-  FILE *f = Cache::openCache(book->getUrl(), http);
+  Cache *cache = new Cache();
+  FILE *f = cache->open(book->getUrl(), http);
   if (! f) {
     error("can't open %s", book->getUrl());
     return;
@@ -113,7 +114,9 @@ void Book::httpReader(void *_book, Http *http)
   if ((p = strtok(NULL, " \t"))) book->tex[i] = strdup(p);
   else                           book->tex[i] = strdup(tranche);
   free(tranche);
-  File::closeFile(f);
+
+  cache->close();
+  delete cache;
 }
 
 const char * Book::getUrl() const
