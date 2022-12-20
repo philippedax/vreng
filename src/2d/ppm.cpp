@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// openFile, closeFile
 #include "texture.hpp"	// Texture
 
@@ -28,8 +28,10 @@
 Img * Img::loadPPM(void *tex, ImageReader read_func)
 {
   Texture *texture = (Texture *) tex;
+
+  Cache *cache = new Cache();
   FILE *f;
-  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
 
   /* we read the header */
   int width, height;
@@ -55,7 +57,8 @@ Img * Img::loadPPM(void *tex, ImageReader read_func)
     fread((char *)img->pixmap + y*width*Img::RGB, 1, width*Img::RGB, f);
   }
 
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
   return img;
 }
 
@@ -68,8 +71,9 @@ void Img::savePPM(const char *filename, GLenum mode)
   int width = viewport[2]; if (width & 1) ++width;	//even values
   int height = viewport[3]; if (height & 1) ++height;
 
+  File *file = new File();
   FILE *f;
-  if ((f = File::openFile(filename, "wb")) == NULL) {
+  if ((f = file->open(filename, "wb")) == NULL) {
     perror("open"); return;
   }
   fprintf(f, "P6\n#\n%d %d\n255\n", width, height);	// magic number P6
@@ -86,5 +90,6 @@ void Img::savePPM(const char *filename, GLenum mode)
   }
 
   delete[] pixmap;
-  File::closeFile(f);
+  file->close();
+  delete file;
 }
