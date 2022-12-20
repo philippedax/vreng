@@ -22,7 +22,7 @@
 #include "hairs.hpp"
 #include "timer.hpp"    // fTime, delta
 #include "http.hpp"	// Http
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// closeFile
 #include "lwo.hpp"	// Lwo
 
@@ -361,7 +361,8 @@ void Hairs::httpReader(void *_lwo, Http *http)
   char tmp; //SWAPL
   char str[BUFSIZ];
 
-  FILE *fp = Cache::openCache(hairs->urlName(), http);
+  Cache *cache = new Cache();
+  FILE *fp = cache->open(hairs->urlName(), http);
 
   /* check for headers */
   littleendian = File::littleEndian();
@@ -630,7 +631,8 @@ void Hairs::httpReader(void *_lwo, Http *http)
     for (j=0; j < lwo->nbp ; ++j,++pv)
       pv->n.normalize();
   }
-  File::closeFile(fp);
+  cache->close();
+  delete cache;
   return;
 }
 
