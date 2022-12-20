@@ -50,7 +50,6 @@ void Walls::httpReader(void *_walls, Http *http)
   char line[BUFSIZ];
 
   Cache *cache = new Cache();
-  //dax FILE *f = Cache::openCache(walls->getUrl(), http);
   FILE *f = cache->open(walls->getUrl(), http);
   if (! f) { error("can't open %s", walls->getUrl()); return; }
 
@@ -70,8 +69,8 @@ void Walls::httpReader(void *_walls, Http *http)
     prev = pw;
   }
   if (pw) pw->next = NULL;
-  //dax File::closeFile(f);
   cache->close();
+  delete cache;
 }
 
 void Walls::defaults()
