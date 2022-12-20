@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open, close
 #include "texture.hpp"	// Texture
 
 
@@ -130,13 +130,16 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   memset(dds, 0, sizeof(dds_t));
 
   Texture *texture = (Texture *) tex;
-  if ((dds->fp = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+
+  Cache *cache = new Cache();
+  if ((dds->fp = cache->open(texture->url, texture->http)) == NULL) return NULL;
 
   /* read magic number and check if valid .dds file */
   fread(&magic, sizeof(char), 4, dds->fp);
   if (strncmp (magic, "DDS ", 4) != 0) {
     error("file \"%s\" is not a valid .dds file!", Cache::getFilePath(texture->url));
-    Cache::closeCache(dds->fp);
+    cache->close();
+    delete cache;
     return NULL;
   }
 
@@ -165,7 +168,8 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   default:
     error("the file \"%s\" doesn't appear to be compressed using DXT1, DXT3, or DXT5! [%x]",
           Cache::getFilePath(texture->url), ddsd.channel.fourCC);
-    Cache::closeCache(dds->fp);
+    cache->close();
+    delete cache;
     if (dds) delete[] dds;
     return NULL;
   }
@@ -184,7 +188,8 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   /* read pixel data with mipmaps */
   fread(dds->texels, sizeof (GLubyte), size, dds->fp);
 
-  Cache::closeCache(dds->fp);
+  cache->close();
+  delete cache;
   if (dds) delete[] dds;
 
   return img;
