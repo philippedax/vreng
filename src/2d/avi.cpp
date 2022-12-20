@@ -79,6 +79,7 @@ Avi::~Avi()
 {
   if (url) delete[] url;
   if (fp) {
+    File::closeFile(fp);
     //dax cache->close();
     //dax delete cache;
   }
@@ -581,6 +582,7 @@ void Avi::write_header(int width, int height, int norm, int audio, int stereo, i
   njunk = DATASTART - pos - 8 - 12;
   out4cc("JUNK");
   outlong(njunk);
+  File::closeFile(fp);
   //dax cache->close();
   //dax delete cache;
   fp = NULL;
