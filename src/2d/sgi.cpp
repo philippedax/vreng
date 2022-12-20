@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// littleEndian, convertLong
 #include "texture.hpp"	// Texture
 
@@ -114,7 +114,8 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
   if (! sgi) return NULL;
 
   Texture *texture = (Texture *) tex;
-  if ((sgi->f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  Cache *cache = new Cache();
+  if ((sgi->f = cache->open(texture->url, texture->http)) == NULL) return NULL;
 
   fread(sgi, 1, 12, sgi->f); // header
 
@@ -177,7 +178,8 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
     lptr += (sgi->width * Img::RGB);
   }
 
-  Cache::closeCache(sgi->f);
+  cache->close();
+  delete cache;
   delete[] sgi->tmp;
   delete[] sgi;
   delete[] rbuf;
