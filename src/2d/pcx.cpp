@@ -23,7 +23,7 @@
  */
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// closeFile
 #include "texture.hpp"	// Texture
 
@@ -56,8 +56,10 @@ Img * Img::loadPCX(void *tex, ImageReader read_func)
   struct { uint8_t r, g, b; } palette[256];
 
   Texture *texture = (Texture *) tex;
+
+  Cache *cache = new Cache();
   FILE *f;
-  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
 
   /* loads the Header */
   fread((char *) &pcxInfo, 1, sizeof(pcxInfo), f);
@@ -65,13 +67,15 @@ Img * Img::loadPCX(void *tex, ImageReader read_func)
   /* test if this is really a PCX file */
   if (pcxInfo.Manufacturer != 0x0A) {
     error("loadPCX: not a PCX format: %x", pcxInfo.Manufacturer);
-    Cache::closeCache(f);
+    cache->close();
+    delete cache;
     return NULL;
   }
 
   /* only decode one type of PCX */
   if ((pcxInfo.Version != 0x05) || (pcxInfo.BitsPerPixel != 8) || (pcxInfo.NPlanes != 0x01))
-    Cache::closeCache(f);
+    cache->close();
+    delete cache;
     return NULL;
 
   /* gets the image dimensions */
@@ -111,7 +115,8 @@ Img * Img::loadPCX(void *tex, ImageReader read_func)
   /* decodes the palette */
   if (getc(f) != 0x0C) {
     delete[] pix;
-    Cache::closeCache(f);
+    cache->close();
+    delete cache;
     return NULL;
   }
   for (int i=0; i < 256; i++) {
@@ -133,7 +138,8 @@ Img * Img::loadPCX(void *tex, ImageReader read_func)
     tmp++;
   }
   delete[] pix;
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
 
   return img;
 }
