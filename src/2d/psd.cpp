@@ -22,7 +22,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open, close
 #include "file.hpp"	// closeFile
 #include "texture.hpp"	// Texture
 
@@ -288,8 +288,10 @@ Img * Img::loadPSD(void *tex, ImageReader read_func)
   uint8_t channel, dstcomp = Img::RGB;
 
   Texture *texture = (Texture *) tex;
+
+  Cache *cache = new Cache();
   FILE *f;
-  if ((f = Cache::openCache(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
 
   s.img_file = f;
 
@@ -297,6 +299,7 @@ Img * Img::loadPSD(void *tex, ImageReader read_func)
   Img *img = new Img(width, height, Img::RGB);
   img->pixmap = data;
 
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
   return img;
 }
