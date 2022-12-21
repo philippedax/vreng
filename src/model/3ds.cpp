@@ -199,8 +199,11 @@ void _3ds::httpReader(void *__3ds, Http *http)
   _3ds *_3d = (_3ds *) __3ds;
   if (! _3d) return;
 
-  FILE *f = Cache::openCache(_3d->getUrl(), http);
+  Cache *cache = new Cache();
+  FILE *f = cache->open(_3d->getUrl(), http);
   _3d->loadFromFile(f);
+  cache->close();
+  delete cache;
 }
 
 void _3ds::render(float *color)
@@ -319,7 +322,6 @@ bool _3ds::importModel(t3dsModel *pModel)
   // After we have read the whole 3DS file, we want to calculate our own vertex normals.
   computeNormals(pModel);
 
-  Cache::closeCache(fp);
   return true;
 }
 
