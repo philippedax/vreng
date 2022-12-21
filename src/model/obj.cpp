@@ -32,7 +32,7 @@
 #include "obj.hpp"
 #include "http.hpp"	// httpOpen
 #include "texture.hpp"	// open
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 
 
 Obj::Obj(const char *_url, int _flgpart)
@@ -74,10 +74,12 @@ void Obj::httpReader(void *_obj, Http *http)
   Obj *obj = (Obj *) _obj;
   if (! obj) return;
 
-  FILE *f = Cache::openCache(obj->getUrl(), http);
+  Cache *cache = new Cache();
+  FILE *f = cache->open(obj->getUrl(), http);
   obj->loadFromFile(f);
   if (! obj->flgpart) obj->displaylist();
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
 }
 
 bool Obj::loadFromFile(FILE *f)
