@@ -33,7 +33,7 @@
 #include "ase.hpp"
 #include "http.hpp"	// httpOpen
 #include "texture.hpp"	// open
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 
 
 // Below are a all the important tag defines for reading in a .Ase file.
@@ -188,8 +188,11 @@ void Ase::httpReader(void *aase, Http *http)
   Ase *ase = (Ase *) aase;
   if (! ase) return;
 
-  FILE *f = Cache::openCache(ase->getUrl(), http);
+  Cache *cache = new Cache();
+  FILE *f = cache->open(ase->getUrl(), http);
   ase->loadFromFile(f);
+  cache->close();
+  delete cache;
 }
 
 void Ase::render()
@@ -272,7 +275,6 @@ bool Ase::importModel(tASEModel *pModel)
 
   readFile(pModel);
   computeNormals(pModel);
-  Cache::closeCache(fp);
   return true;
 }
 
