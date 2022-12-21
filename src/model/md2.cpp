@@ -28,7 +28,7 @@
 #include "wobject.hpp"	// Pos
 #include "http.hpp"	// httpOpen
 #include "file.hpp"	// read_*
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 #include "draw.hpp"	// vertex3f
 
 
@@ -79,11 +79,13 @@ void Md2::httpReader(void *_md2, Http *http)
   Md2 *md2 = (Md2 *) _md2;
   if (! md2) return;
 
-  FILE *f = Cache::openCache(md2->getUrl(), http);
+  Cache *cache = new Cache();
+  FILE *f = cache->open(md2->getUrl(), http);
   if (f) {
     md2->readFile(f);	// from cache
   }
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
 }
 
 /** Md2 model file-reader */
