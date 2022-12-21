@@ -20,8 +20,8 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "reader.hpp"
-#include "cache.hpp"	// openCache
-#include "file.hpp"	// openFile
+#include "cache.hpp"	// open
+#include "file.hpp"	// open
 #include "texture.hpp"	// Texture
 
 
@@ -47,9 +47,11 @@ FILE * Reader::getFileCache(void *_tex, bool flagclose)
 /* Opens a file in the cache */
 FILE * Reader::getFileCache(Texture *tex)
 {
-  FILE *fp = Cache::openCache(tex->url, tex->http);
+  Cache *cache = new Cache();
+  FILE *fp = cache->open(tex->url, tex->http);
   if (! fp) {
     error("Reader: can't open %s", tex->url);
+    delete cache;
     return NULL;
   }
   return fp;
@@ -60,9 +62,12 @@ FILE * Reader::getFileCache(const char *url, char *filepath)
 {
   FILE *fpi = NULL, *fpo = NULL;
 
-  if ((fpi = File::openFile(filepath, "rb")) == NULL) {
-    if ((fpo = File::openFile(filepath, "wb")) == NULL) {
+  File *filein = new File();
+  File *fileout = new File();
+  if ((fpi = filein->open(filepath, "rb")) == NULL) {
+    if ((fpo = fileout->open(filepath, "wb")) == NULL) {
       error("getFileCache: can't create %s", filepath);
+      delete fileout;
       return NULL;
     }
     int len;
@@ -70,8 +75,9 @@ FILE * Reader::getFileCache(const char *url, char *filepath)
     while ((len = this->read_func(img_handle, buf, sizeof(buf))) > 0) {
       fwrite(buf, 1, len, fpo);
     }
-    File::closeFile(fpo);
-    if ((fpi = File::openFile(filepath, "rb")) == NULL) {
+    fileout->close();
+    delete fileout;
+    if ((fpi = filein->open(filepath, "rb")) == NULL) {
       return NULL;
     }
   }
