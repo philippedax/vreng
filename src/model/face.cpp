@@ -34,7 +34,7 @@
 #include "fap.hpp"
 #include "body.hpp"	// body
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// setCachePath, openCache
+#include "cache.hpp"	// setCachePath, open
 #include "bone.hpp"	// V3d
 
 
@@ -121,8 +121,9 @@ void Face::httpReader(void *_url, Http *http)
     error("httpReader: unable to open http connection");
     return;
   }
-  FILE *f = Cache::openCache(url, http);
-  Cache::closeCache(f);
+  Cache *cache = new Cache();
+  FILE *f = cache->open(url, http);
+  //dax Cache::closeCache(f);
 }
 
 /** Download list of faces url */
