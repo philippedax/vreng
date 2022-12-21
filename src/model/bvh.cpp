@@ -69,8 +69,9 @@ void Bvh::httpReader(void *_bvh, Http *http)
   if (! bvh) return;
 
   FILE *f = NULL;
-  f = Cache::openCache(bvh->getUrl(), http);
-  if (f) Cache::closeCache(f);
+  Cache *cache = new Cache();
+  f = cache->open(bvh->getUrl(), http);
+  //dax if (f) Cache::closeCache(f);
 }
 
 void Bvh::process(string line)
