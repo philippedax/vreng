@@ -39,7 +39,7 @@
 #include "vreng.hpp"
 #include "dxf.hpp"
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open
 #include "file.hpp"	// openFile
 
 
@@ -76,13 +76,16 @@ void Dxf::httpReader(void *_dxf, Http *http)
   Dxf *dxf = (Dxf *) _dxf;
   if (! dxf) return;
 
-  FILE *f;
   char filename[PATH_LEN] = {0};
   Cache::setCachePath(dxf->getUrl(), filename);
   dxf->dxffile = newDXF(filename);
 
-  f = Cache::openCache(dxf->getUrl(), http);
-  if (! f) { error("dxf: can't open %s", dxf->getUrl()); return; }
+  Cache *cache = new Cache();
+  FILE *f = cache->open(dxf->getUrl(), http);
+  if (! f) {
+    error("dxf: can't open %s", dxf->getUrl());
+    return;
+  }
   dxf->dxffile->fp = f;
   readDXF(dxf->dxffile);
   dxf->loaded = true;
@@ -927,18 +930,6 @@ DXF_file * newDXF(char *filename)
   return dxffile;
 }
 
-DXF_file * deleteDXF(DXF_file *dxffile)
-{
-  if (! dxffile) return NULL;
-
-  free(dxffile->filename);
-  if (dxffile->fp) File::closeFile(dxffile->fp);
-  dxffile->fp = NULL;
-  deleteScene(dxffile->objects);
-  delete[] dxffile;
-  return (dxffile = NULL);
-}
-
 DXF_file * openDXF(DXF_file *dxffile)
 {
   if (! dxffile) return NULL;
@@ -966,6 +957,20 @@ DXF_file * readDXF(DXF_file *dxffile)
     return NULL;
   }
   return dxffile;
+}
+
+DXF_file * deleteDXF(DXF_file *dxffile)
+{
+  if (! dxffile) return NULL;
+
+  free(dxffile->filename);
+  if (dxffile->fp) {
+    File::closeFile(dxffile->fp);
+  }
+  dxffile->fp = NULL;
+  deleteScene(dxffile->objects);
+  delete[] dxffile;
+  return (dxffile = NULL);
 }
 
 /*------------------ Object DXF_rule -----------------------------------*/
