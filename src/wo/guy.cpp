@@ -24,7 +24,7 @@
 #include "draw.hpp"	// Draw
 #include "timer.hpp"	// isRate
 #include "user.hpp"	// localuser
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open
 #include "file.hpp"	// closeFile
 
 
@@ -580,5 +580,4 @@ void Guy::funcs()
 {
   setActionFunc(GUY_TYPE, 0, _Action animate_cb, "Anim");
   //dax setActionFunc(GUY_TYPE, 1, _Action walking_cb, "Walk");
-  //dax setActionFunc(GUY_TYPE, 2, _Action moveObject, "Move");
 }
