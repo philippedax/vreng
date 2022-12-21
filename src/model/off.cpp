@@ -22,7 +22,7 @@
 #include "off.hpp"
 #include "http.hpp"	// Http::httpOpen
 #include "wobject.hpp"	// Pos
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 
 
 void Off::defaults()
@@ -82,7 +82,8 @@ void Off::httpReader(void *_off, Http *http)
   Off *off = (class Off *) _off;
   if (! off) return;
 
-  FILE *f = Cache::openCache(off->getUrl(), http);
+  Cache *cache = new Cache();
+  FILE *f = cache->open(off->getUrl(), http);
 
   char line[80];
   /* Get info header: vertices_number normals_number polygons_number */
@@ -123,7 +124,8 @@ void Off::httpReader(void *_off, Http *http)
       }
     }
   }
-  Cache::closeCache(f);
+  cache->close();
+  delete cache;
 }
 
 // Draws in the display list
