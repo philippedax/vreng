@@ -123,69 +123,69 @@ private:
  private:
   static void httpReader(void *aase, class Http *http);
 
-  virtual void draw();
+  void draw();
   /**< Model drawing */
 
-  virtual bool loadFromFile(FILE *f);
+  bool loadFromFile(FILE *f);
   /**< File loader */
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
   /**< get an Url */
 
-  virtual bool importModel(tASEModel *pModel);
+  bool importModel(tASEModel *pModel);
 
-  virtual bool importTextures();
+  bool importTextures();
 
-  virtual int loadTexture(const char *imgFile);
+  int loadTexture(const char *imgFile);
 
-  virtual void bindTexture2D(int textureId);
+  void bindTexture2D(int textureId);
 
-  virtual void readFile(tASEModel *pModel);
+  void readFile(tASEModel *pModel);
   /**< This is the main loop that parses the .ase file */
 
-  virtual int getObjectCount();
+  int getObjectCount();
   /**< This returns the number of objects in the .ase file */
 
-  virtual int getMaterialCount();
+  int getMaterialCount();
   /**< This returns the number of materials in the .ase file */
 
-  virtual void getTextureInfo (tASEMaterialInfo *pTexture, int desiredMaterial);
+  void getTextureInfo (tASEMaterialInfo *pTexture, int desiredMaterial);
   /**< This fills in the texture information for a desired texture */
 
-  virtual void moveToObject (int desiredObject);
+  void moveToObject (int desiredObject);
   /**< This moves our file pointer to the desired object */
 
-  virtual float readFloat();
+  float readFloat();
   /**< This reads in a float from the file */
 
-  virtual void readObjectInfo(tASEObject *pObject, int desiredObject);
+  void readObjectInfo(tASEObject *pObject, int desiredObject);
   /**< This reads a desired object's information (face, vertex and texture coord counts) */
 
-  virtual void getTextureName (tASEMaterialInfo  *pTexture);
+  void getTextureName (tASEMaterialInfo  *pTexture);
   /**< This gets the name of the texture */
 
-  virtual void getMaterialName(tASEMaterialInfo *pTexture);
+  void getMaterialName(tASEMaterialInfo *pTexture);
   /**< This gets the name of the material */
 
-  virtual void readObjectData(tASEModel *pModel, tASEObject *pObject, int desiredObject);
+  void readObjectData(tASEModel *pModel, tASEObject *pObject, int desiredObject);
   /**< This loads all the data for the desired object */
 
-  virtual void getData(tASEModel *pModel, tASEObject *pObject, char *strDesiredData, int desiredObject);
+  void getData(tASEModel *pModel, tASEObject *pObject, char *strDesiredData, int desiredObject);
   /**< This is the main load loop inside of readObjectData() that calls smaller load functions */
 
-  virtual void readVertex(tASEObject *pObject);
+  void readVertex(tASEObject *pObject);
   /**< This reads in a vertice from the file */
 
-  virtual void readTextureVertex(tASEObject *pObject, tASEMaterialInfo texture);
+  void readTextureVertex(tASEObject *pObject, tASEMaterialInfo texture);
   /**< This reads in a texture coordinate from the file */
 
-  virtual void readFace(tASEObject *pObject);
+  void readFace(tASEObject *pObject);
   /**< This reads in the vertex indices for a face */
 
-  virtual void readTextureFace(tASEObject *pObject);
+  void readTextureFace(tASEObject *pObject);
   /**< This reads in texture coordinate indices for a face */
 
-  virtual void computeNormals(tASEModel *pModel);
+  void computeNormals(tASEModel *pModel);
   /**< This computes the vertex normals for our objects */
 
 };
