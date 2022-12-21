@@ -25,7 +25,7 @@
 #include "texture.hpp"	// open
 #include "format.hpp"	// getModelByUrl
 #include "user.hpp"	// localuser
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 
 
 const float Phalanx2::PHALANX2_LEN = 0.012;	// default phalanx2 length
@@ -672,7 +672,8 @@ void Body::httpReader(void *_body, Http *http)
   char *tmpurl = new char[URL_LEN];
   strcpy(tmpurl, body->getUrl());
 
-  FILE *f = Cache::openCache(tmpurl, http);
+  Cache *cache = new Cache();
+  FILE *f = cache->open(tmpurl, http);
   if (! f) {
     error("Body: can't open %s", tmpurl);
   }
@@ -680,6 +681,10 @@ void Body::httpReader(void *_body, Http *http)
     body->loadBodyParts(f);
   }
   delete[] tmpurl;
+  if (f) {
+    cache->close();
+    delete cache;
+  }
 }
 
 /** load body's parts */
@@ -810,7 +815,6 @@ endparse:
     }
   }
   model = bodyparts[0].model;  // keep model used
-  if (f) Cache::closeCache(f);
 }
 
 #if 0 //dax notused
