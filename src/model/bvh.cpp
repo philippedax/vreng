@@ -31,7 +31,7 @@
 #include "vreng.hpp"
 #include "bvh.hpp"
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// openCache
+#include "cache.hpp"	// open
 #include "obj.hpp"	// class Obj
 
 using namespace std;
