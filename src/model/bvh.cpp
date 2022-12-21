@@ -71,7 +71,10 @@ void Bvh::httpReader(void *_bvh, Http *http)
   FILE *f = NULL;
   Cache *cache = new Cache();
   f = cache->open(bvh->getUrl(), http);
-  //dax if (f) Cache::closeCache(f);
+  if (f) {
+    cache->close();
+    delete cache;
+  }
 }
 
 void Bvh::process(string line)
@@ -267,7 +270,7 @@ void Bvh::process(string line)
         break;
       case (MOTIONDATA):
         data++;
-        //error("%d: %s", data, line.c_str());
+        //echo("%d: %s", data, line.c_str());
         switch (bvhPartsLinear[partIndex]->channels[channelIndex]) {
           case (bvhPart::Xpos):  
             tempMotion.translate(atof(line.c_str()),0,0);  
@@ -298,7 +301,7 @@ void Bvh::process(string line)
             channelIndex++;
             break;
         }
-        //error("channelIndex=%d partIndex=%d", channelIndex, partIndex);
+        //echo("channelIndex=%d partIndex=%d", channelIndex, partIndex);
         if (channelIndex >= bvhPartsLinear[partIndex]->channels.size()) {
           // store tempMotion and move to next part
           tempMotion = tempMotion * (tempMotionZ *tempMotionX * tempMotionY );
@@ -312,7 +315,7 @@ void Bvh::process(string line)
         }  
         if (partIndex >= bvhPartsLinear.size()) {
           // this should be the end of one line of motion data
-          //error("end motion line");
+          //echo("end motion line");
           partIndex = 0;
         }
         break;
@@ -321,7 +324,7 @@ void Bvh::process(string line)
       case (Site):
         break;
       case (MOTION):
-        error("MOTION");
+        echo("MOTION");
         break;
     }
   }
@@ -351,7 +354,7 @@ void Bvh::recurs(bvhPart* some)
  
 void Bvh::init(string bvhFile)
 {
-  //error("Bvh::init");
+  //echo("Bvh::init");
   data = 0;
   partIndex = 0;
   channelIndex = 0;  
@@ -390,7 +393,7 @@ void Bvh::init(string bvhFile)
 
 rigid::rigid(const char *url)
 {
-  error("rigid::rigid url=%s", url);
+  echo("rigid::rigid url=%s", url);
 #if 0 //dax
   string objfile;
   download(url);
@@ -411,7 +414,7 @@ rigid::rigid(const char *url)
 
 void rigid::download(const char *_url)
 {
-  //error("rigid::download");
+  //echo("rigid::download");
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
   Http::httpOpen(url, httpReader, this, 0);
@@ -427,15 +430,19 @@ void rigid::httpReader(void *_rigid, Http *http)
   rigid *rigi = (rigid *) _rigid;
   if (! _rigid) return;
 
+  Cache *cache = new Cache();
   FILE *f = NULL;
-  f = Cache::openCache(rigi->getUrl(), http);
-  if (f) Cache::closeCache(f);
+  f = cache->open(rigi->getUrl(), http);
+  if (f) {
+    cache->close();
+    delete cache;
+  }
 }
 
 #if 0 //notused
 void rigid::draw()
 {
-  error("rigid::draw");
+  echo("rigid::draw");
   glPushMatrix();
   //notused if (drawBB) drawAABB();
   glMultMatrixf(location.matrix);
@@ -501,7 +508,7 @@ void rigid::draw()
 #if 0 //notused
 void rigid::drawDim(vector<light*> lights)
 {
-  error("rigid::drawDim");
+  echo("rigid::drawDim");
   glPushMatrix();
   //glMultMatrixf(location.matrix);
   glEnable(GL_LIGHTING);
@@ -546,7 +553,7 @@ void rigid::drawDim(vector<light*> lights)
 
 void rigid::makeList()
 {
-  error("rigid::makeList");
+  echo("rigid::makeList");
   //listNum = glGenLists(1);
   //glNewList(listNum, GL_COMPILE);
   glBegin(GL_TRIANGLES);
@@ -573,7 +580,7 @@ void rigid::makeList()
 
 void rigid::getBoundingBox()
 {
-  //error("rigid::getBB");
+  //echo("rigid::getBB");
   /*  
   for (int j=0; j<3;j++) {
     boundingBox[0].vertex[j] = test[0]->location.vertex[j]; // lower right bound
@@ -625,14 +632,14 @@ movable::movable()
 
 movable::movable(string name)
 {
-  error("movable::movable");
+  echo("movable::movable");
   setName(name);
   init();
 }
 
 void movable::init()
 {
-  error("movable::init");
+  echo("movable::init");
   location.identity();
   location.matrix[10] = -1.0f;  
 
@@ -653,7 +660,7 @@ movable& movable::operator= (const movable& other)
 
 void movable::setName(string name)
 {
-  error("movable::setName");
+  echo("movable::setName");
   location.identity();
   location.matrix[10] = -1.0f; 
   this->name = name;
@@ -664,7 +671,7 @@ void movable::setName(string name)
 
 void movable::move(int pitch, int turn, int roll, float x, float y, float z)
 {
-  error("movable::move");
+  echo("movable::move");
   if (pitch != 0) location.RotateX(-pitch/ROTATE_SLOWNESS);
   if (turn != 0)  location.RotateY(-turn/ROTATE_SLOWNESS);
   if (roll != 0)  location.RotateZ(roll/ROTATE_SLOWNESS);
@@ -675,7 +682,7 @@ void movable::move(int pitch, int turn, int roll, float x, float y, float z)
 
 void movable::getAABB()
 {
-  //error("movable::getAABB");
+  //echo("movable::getAABB");
 #if 0 //notused
   oldCenterAABB = centerAABB;
 #endif
@@ -723,7 +730,7 @@ void movable::getAABB()
 
 void movable::drawAABB()
 {
-  error("movable::drawAABB");
+  echo("movable::drawAABB");
   //getAABB();
   glPushMatrix();
 
@@ -758,7 +765,7 @@ void movable::drawAABB()
 
 void movable::drawBoundingBox()
 {
-  error("movable::drawBB");
+  echo("movable::drawBB");
   glDisable(GL_LIGHTING);
 
   if (BBcollided) glColor3f(0.9, 0.3, 0.2);
@@ -791,7 +798,7 @@ void movable::drawBoundingBox()
 #if 0 //notused
 void Normal(vector3f* v1, vector3f* v2, vector3f* v3)
 {
-  //error("Normal");
+  //echo("Normal");
   vector3f a(0, 0, 0);
   vector3f b(0, 0, 0);
   vector3f res(0, 0, 0);
@@ -1661,7 +1668,7 @@ vector3f findNorm(vector3f &matchVertex, int numSurfTriangles, triangleV **surfT
 #if 0 //notused
 light::light(camera *viewer, int GL_LIGHTX, float maxFade, float minFade, float scale)
 {
-  error("light::light %d sc=%.2f", GL_LIGHTX, scale);
+  echo("light::light %d sc=%.2f", GL_LIGHTX, scale);
   //verbose = true;
   
   //if (verbose) cout << "light " << GL_LIGHTX << " init..." << endl;
@@ -1697,7 +1704,7 @@ light::~light()
 
 void light::draw()
 {
-  error("light::draw");
+  echo("light::draw");
   glPushMatrix();
   glEnable(GL_LIGHTING);  
   GLfloat pos[] = {location.matrix[12],location.matrix[13],location.matrix[14],1.0f};
@@ -1715,7 +1722,7 @@ void light::draw()
 
 void light::drawDim(vector3f distant)
 {
-  error("light::drawDim");
+  echo("light::drawDim");
   glPushMatrix();  
 
   vector3f lightPos(location.matrix[12],location.matrix[13],location.matrix[14]);
@@ -1748,7 +1755,7 @@ void light::drawDim(vector3f distant)
 
 void light::getBoundingBox()
 {
-  error("light::getBB");
+  echo("light::getBB");
 #if 0
   centerBB = lightobj->centerBB;
   edgesBB = lightobj->edgesBB;
@@ -1768,7 +1775,7 @@ camera::camera()
 
 camera::camera(string name, mode lookMode)
 {
-  error("camera::camera");
+  echo("camera::camera");
   this->name = name;
   this->lookMode = lookMode;
   cout << lookMode << "\n";
@@ -1777,7 +1784,7 @@ camera::camera(string name, mode lookMode)
 
 void camera::init()
 {
-  error("camera::init");
+  echo("camera::init");
   radius = 10.;
 
   //location.identity();
@@ -1800,7 +1807,7 @@ void camera::init()
 
 void camera::move(int pitch, int turn, int roll, float x, float y, float z)
 {
-  error("camera::move");
+  echo("camera::move");
   vector3f temp;
   
   switch (lookMode) {
@@ -1858,7 +1865,7 @@ void camera::move(int pitch, int turn, int roll, float x, float y, float z)
 
 void camera::look()
 {
-  error("camera::look");
+  echo("camera::look");
   gluLookAt( 
         //eye
         location.matrix[12], location.matrix[13], location.matrix[14], 
@@ -2058,7 +2065,7 @@ void objloader::process(string line)
 
 void objloader::processMtl(string line, material *mtl)
 {  
-  error("objloader::processMtl");
+  echo("objloader::processMtl");
 #if 0 //dax
   if ((line.size()) && (line.substr(0,1) != "#")) {
     if (line == "newmtl") theMtlMode = NEWMTL;
@@ -2109,7 +2116,7 @@ void objloader::processMtl(string line, material *mtl)
 
 void objloader::loadMtl(string mtlFile)
 {  
-  error("objloader::loadMtl");
+  echo("objloader::loadMtl");
 #if 0 //dax
   ifstream objStream((subdir + mtlFile).c_str());
   if (!objStream) { 
@@ -2137,7 +2144,7 @@ void objloader::loadMtl(string mtlFile)
 
 bool objloader::matchMtl(uint32_t &index, string name)
 {
-  error("objloader::matchMtl");
+  echo("objloader::matchMtl");
 #if 0 //dax
   for (uint32_t m=0; m < (mtls.size()); m++) {
     if (name == mtls[m]->name) {
@@ -2153,7 +2160,7 @@ bool objloader::matchMtl(uint32_t &index, string name)
 #if 1 //notused
 void objloader::setMass(float newMass)
 {
-  //error("objloader::setMass");
+  //echo("objloader::setMass");
   if (step != 0) {
     Ibody = (Ibody*newMass) / mass;
     IbodyInv = Ibody.inverse();
@@ -2163,7 +2170,7 @@ void objloader::setMass(float newMass)
 
 void objloader::update(float seconds)
 {
-  //error("objloader::update");
+  //echo("objloader::update");
   getAABB();
 }
 
@@ -2174,7 +2181,7 @@ void objloader::draw()
 
 void objloader::getBoundingBox()
 {
-  error("objloader::getBB");
+  echo("objloader::getBB");
   /*  for (int j = 0; j<3;j++) {
     boundingBox[0].vertex[j] = test[0]->location.vertex[j]; // lower right bound
     boundingBox[6].vertex[j] = test[0]->location.vertex[j]; // upper right bound
