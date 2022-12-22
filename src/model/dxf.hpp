@@ -375,7 +375,7 @@ class Dxf {
   int texture;			///<
 
  private:
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
   /**< get an Url */
 
  public:
@@ -383,25 +383,25 @@ class Dxf {
 
   virtual ~Dxf();
 
-  virtual void setScale(float scale);
+  void setScale(float scale);
   /**< Sets the scale */
 
-  virtual void setColor(int type, float *color);
+  void setColor(int type, float *color);
   /**< Sets the color */
 
-  virtual float getRadius();
+  float getRadius();
   /**< Gets the radius */
 
-  virtual void bindTexture2D(int textureId);
+  void bindTexture2D(int textureId);
   /**< Binds texture number */
 
-  virtual GLint displaylist();
+  GLint displaylist();
   /**< Draws in displaylist */
 
-  virtual bool draw(DXF_file *dxffile);
+  bool draw(DXF_file *dxffile);
   /**< Draws */
 
-  virtual void render();
+  void render();
   /**< Renders */
 
   static void httpReader(void *adxf, class Http *http);

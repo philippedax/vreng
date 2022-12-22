@@ -40,13 +40,18 @@
 #include "dxf.hpp"
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// open
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
+
+
+// local
+File *filein;
 
 
 Dxf::Dxf(const char *_url)
  : loaded(false), currentScale(1.0), desiredScale(1.0)
 {
   flgcolor = false;
+  filein = NULL;
   for (int i=0; i<4 ; i++) {
     mat_diffuse[i] = 1;
     mat_ambient[i] = 1;
@@ -934,7 +939,8 @@ DXF_file * openDXF(DXF_file *dxffile)
 {
   if (! dxffile) return NULL;
 
-  if ((dxffile->fp = File::openFile(dxffile->filename, "r+")) == NULL) return NULL;
+  filein = new File();
+  if ((dxffile->fp = filein->open(dxffile->filename, "r+")) == NULL) return NULL;
   return dxffile;
 }
 
@@ -942,7 +948,10 @@ DXF_file * closeDXF(DXF_file *dxffile)
 {
   if (! dxffile) return NULL;
 
-  File::closeFile(dxffile->fp);
+  if (filein) {
+    filein->close();
+    delete filein;
+  }
   return dxffile;
 }
 
