@@ -168,7 +168,7 @@ void statSessionRTP(Session *session)
 
 void statTimings(FILE *fout)
 {
-  fprintf(fout,"\n### Timings ###\n");
+  fprintf(fout,"### Timings ###\n");
 
   Timer& timer = ::g.timer;
   d = timer.net.stop();
