@@ -29,7 +29,7 @@
 // ------------------------------------------------------------ //
 #include "vreng.hpp"
 #include "bone.hpp"
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
 
 
 // TODO : remove next lines !
@@ -1124,14 +1124,16 @@ void BoneVertex::generateCurrentMatrix()
 // I/O functions
 void BoneVertex::read(char *filename, float scale)
 {
-  FILE *fp = File::openFile(filename, "rb");
+  File *file = new File();
+  FILE *fp = file->open(filename, "rb");
   if (fp == NULL) {
     error("BoneVertex::read unable to open: [%s]", filename);
     return;
   }
 
   readFromFile(fp, scale);
-  File::closeFile(fp);
+  file->close();
+  delete file;
 }
 
 void BoneVertex::readFromFile(FILE *fp, float scale)
@@ -1290,7 +1292,8 @@ void BoneTriangle::setColor(float _r=0.5, float _g=0.5, float _b=0.5, float _a=1
 //-- V3D internal format parser
 void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float scale)
 {
-  FILE *fp = File::openFile(filename, "rb");
+  File *file = new File();
+  FILE *fp = file->open(filename, "rb");
   if (fp == NULL) return;
 
   trace(DBG_MAN, "readV3Dfile: reading mesh and skeleton from V3D file %s", filename);
@@ -1337,7 +1340,8 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
   // Reading skeleton
   skel->readFromFile(fp, scale);
   result->rebuildNormals();
-  File::closeFile(fp);
+  file->close();
+  delete file;
   trace(DBG_MAN, "skeleton added");
 }
 
@@ -1347,7 +1351,8 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
 
 void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
 {
-  FILE *fp = File::openFile(filename, "wb");
+  File *file = new File();
+  FILE *fp = file->open(filename, "wb");
   if (fp == NULL) return;
 
   if (! outMesh->vertexListCompiled) outMesh->compileVertexList();
@@ -1400,7 +1405,8 @@ void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filena
   // Writing skeleton
   skeletonRoot->writeToFile(fp);
   trace(DBG_FORCE, "           Skeleton added!");
-  File::closeFile(fp);
+  file->close();
+  delete file;
 }
 
 void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float centerx, float centery, float centerz, int colorMask)
@@ -1415,12 +1421,15 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
   int vertices=0, facets=0;
 
   // First look if the file exists
-  FILE *fp = File::openFile(filename, "rt");
+  File *file = new File();
+  FILE *fp = file->open(filename, "rt");
   if (fp == NULL) return;
-  File::closeFile(fp);
+  file->close();
+  delete file;
 
   // Now that we know it exists, we'll look after the vertices part
-  fp = File::openFile(filename, "rt");
+  File *file2 = new File();
+  fp = file2->open(filename, "rt");
   strcpy(skippedText, "");
   while ((strcmp(skippedText, "point") != 0) && (!feof(fp)))
     fscanf(fp, "%s", skippedText);
@@ -1434,10 +1443,12 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
     }
     trace(DBG_MAN, "           Vertices added: %i", vertices);
   }
-  File::closeFile(fp);
+  file2->close();
+  delete file2;
 
   // We'll look after the facets part
-  fp = File::openFile(filename, "rt");
+  File *file3 = new File();
+  fp = file3->open(filename, "rt");
   strcpy(skippedText, "");
   while ((strcmp(skippedText, "coordIndex") != 0) && (!feof(fp)))
     fscanf(fp, "%s", skippedText);
@@ -1451,10 +1462,12 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
     }
     trace(DBG_MAN, "           Faces added   : %i", facets);
   }
-  File::closeFile(fp);
+  file3->close();
+  delete file3;
 
   // We'll now go on color part
-  fp = File::openFile(filename, "rt");
+  File *file4 = new File();
+  fp = file4->open(filename, "rt");
   strcpy(skippedText, "");
   while ((strcmp(skippedText, "color") != 0) && (!feof(fp)))
     fscanf(fp, "%s", skippedText);
@@ -1483,10 +1496,12 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
       triangle->setColor(r,g,b,1);
     }
   }
-  File::closeFile(fp);
+  file4->close();
+  delete file4;
 
   // And finaly come on texture mapping coordinates
-  fp = File::openFile(filename, "rt");
+  File *file5 = new File();
+  fp = file5->open(filename, "rt");
   strcpy(skippedText, "");
   while ((strcmp(skippedText, "texCoord") != 0) && (!feof(fp)))
     fscanf(fp, "%s", skippedText);
@@ -1508,7 +1523,8 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
       vertex->v = v;
     }
   }
-  File::closeFile(fp);
+  file5->close();
+  delete file5;
   result->rebuildNormals();
   result->setName(filename);
 }
