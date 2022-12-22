@@ -22,7 +22,6 @@
 #include "img.hpp"
 #include "reader.hpp"	// Reader
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// closeFile
 #include "texture.hpp"	// Texture
 
 #if HAVE_TIFFIO_H
