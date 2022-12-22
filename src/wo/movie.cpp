@@ -74,6 +74,7 @@ Movie::Movie(char *l)
   mpeg = NULL;
   avi = NULL;
   begin = false;
+  file = NULL;
 
   parser(l);
 
