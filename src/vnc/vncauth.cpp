@@ -40,7 +40,7 @@
  * vncauth.cpp - Functions for VNC password management and authentication.
  */
 #include "vreng.hpp"
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
 #include "vncauth.hpp"
 
 
@@ -60,7 +60,8 @@ int vncEncryptAndStorePasswd(char *passwd, char *fname)
   FILE *fp;
   uint8_t encryptedPasswd[8];
 
-  if ((fp = File::openFile(fname, "w")) == NULL) return 1;
+  File *file = new File();
+  if ((fp = file->open(fname, "w")) == NULL) return 1;
 
   chmod(fname, S_IRUSR|S_IWUSR);
 
@@ -76,7 +77,8 @@ int vncEncryptAndStorePasswd(char *passwd, char *fname)
 
   for (int i=0; i < 8; i++)
     putc(encryptedPasswd[i], fp);
-  File::closeFile(fp);
+  file->close();
+  delete file;
   return 0;
 }
 
@@ -87,20 +89,23 @@ int vncEncryptAndStorePasswd(char *passwd, char *fname)
  */
 char * vncDecryptPasswdFromFile(char *fname)
 {
-  FILE *fp;
   uint8_t *passwd = new uint8_t[9];
 
-  if ((fp = File::openFile(fname, "r")) == NULL) return NULL;
+  File *file = new File();
+  FILE *fp;
+  if ((fp = file->open(fname, "r")) == NULL) return NULL;
 
   for (int i=0; i < 8; i++) {
     int ch = getc(fp);
     if (ch == EOF) {
-      File::closeFile(fp);
+      file->close();
+      delete file;
       return NULL;
     }
     passwd[i] = ch;
   }
-  File::closeFile(fp);
+  file->close();
+  delete file;
   deskey(fixedkey, DE1);
   des(passwd, passwd);
   passwd[8] = '\0';
