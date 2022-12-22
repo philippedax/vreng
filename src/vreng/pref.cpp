@@ -23,7 +23,7 @@
 #include "env.hpp"	// prefs file
 #include "vac.hpp"	// Vac
 #include "theme.hpp"	// Theme
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
 #include "str.hpp"	// stringcmp
 #include "ostream"	// cout
 
@@ -424,14 +424,17 @@ void Pref::initPrefs(const char* pref_file)
   FILE *fp;
   char *p1, *p2, buf[BUFSIZ];
 
-  if ((fp = File::openFile(pref_file, "r")) == NULL) {
-    if ((fp = File::openFile(pref_file, "w")) == NULL) {
+  File *filein = new File();
+  File *fileout = new File();
+  if ((fp = filein->open(pref_file, "r")) == NULL) {
+    if ((fp = fileout->open(pref_file, "w")) == NULL) {
       perror("can't create prefs");
       return;
     }
     fputs(def_prefs, fp);
-    File::closeFile(fp);
-    if ((fp = File::openFile(pref_file, "r")) == NULL) {
+    fileout->close();
+    delete fileout;
+    if ((fp = filein->open(pref_file, "r")) == NULL) {
       error("can't read prefs");
       return;
     }
@@ -530,5 +533,6 @@ void Pref::initPrefs(const char* pref_file)
     }
   } //eof
 
-  File::closeFile(fp);
+  filein->close();
+  delete filein;
 }
