@@ -414,7 +414,8 @@ void Avi::open_output_file(const char *filename)
   int i;
   char c[DATASTART-12];
 
-  fp = File::openFile(filename, "wb+");//O_RDWR|O_CREAT|O_TRUNC,0600);
+  File *file = new File();
+  fp = file->open(filename, "wb+");//O_RDWR|O_CREAT|O_TRUNC,0600);
   if (fp == NULL) { error("open"); return; }
 
   /* Set it nonblocking */
