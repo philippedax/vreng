@@ -974,7 +974,8 @@ DXF_file * deleteDXF(DXF_file *dxffile)
 
   free(dxffile->filename);
   if (dxffile->fp) {
-    File::closeFile(dxffile->fp);
+    filein->close();
+    delete filein;
   }
   dxffile->fp = NULL;
   deleteScene(dxffile->objects);
