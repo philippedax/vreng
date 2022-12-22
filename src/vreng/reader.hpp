@@ -48,24 +48,25 @@ class Reader {
   virtual ~Reader() {};
   /**< Destructor */
 
-  FILE * getFileCache(class Texture *tex);
-  FILE * getFileCache(void *tex, bool flagclo);
-  /**< Gets a file from the cache. */
-  FILE * getFileCache(const char *url, char *filename);
-  /**< Downloads a file into the cache. */
-
-  char * getFilename(void *tex);
-  /**< Gets filename. */
-
   uint32_t getUInt(FILE *fp);
   /**< Gets unsigned integer. */
 
   int16_t getShort(FILE *fp);
   /**< Gets short integer. */
 
-private:
+  char * getFilename(void *tex);
+  /**< Gets filename. */
 
 #if 0 //notused
+
+  FILE * getFileCache(class Texture *tex);
+  FILE * getFileCache(void *tex, bool flagclo);
+  /**< Gets a file from the cache. */
+  FILE * getFileCache(const char *url, char *filename);
+  /**< Downloads a file into the cache. */
+
+private:
+
   uint8_t getChar(FILE *fp);
   uint8_t getChar();
   /**< Gets next char. */

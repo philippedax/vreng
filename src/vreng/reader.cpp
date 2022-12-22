@@ -33,6 +33,35 @@ Reader::Reader(void *tex, ImageReader _read_func)
   read_func = _read_func;
 }
 
+uint32_t Reader::getUInt(FILE *f)
+{
+  int c1, c2, c3, c4;
+
+  c1 = getc(f);  c2 = getc(f);  c3 = getc(f);  c4 = getc(f);
+  return ((uint32_t) c1) +
+         (((uint32_t) c2) << 8) +
+         (((uint32_t) c3) << 16) +
+         (((uint32_t) c4) << 24);
+}
+
+int16_t Reader::getShort(FILE *f)
+{
+  int c1 = getc(f);
+  int c2 = getc(f);
+  return ((int16_t) c1) + (((int16_t) c2) << 8);
+}
+
+char * Reader::getFilename(void *_tex)
+{
+  static char filepath[PATH_LEN] = {0};
+  Texture *tex = (Texture *) _tex;
+
+  Cache::setCachePath(tex->url, filepath);
+  return filepath;
+}
+
+#if 0 //notused
+
 FILE * Reader::getFileCache(void *_tex, bool flagclose)
 {
   Texture *tex = (Texture *) _tex;
@@ -83,35 +112,6 @@ FILE * Reader::getFileCache(const char *url, char *filepath)
   }
   return fpi;
 }
-
-char * Reader::getFilename(void *_tex)
-{
-  static char filepath[PATH_LEN] = {0};
-  Texture *tex = (Texture *) _tex;
-
-  Cache::setCachePath(tex->url, filepath);
-  return filepath;
-}
-
-uint32_t Reader::getUInt(FILE *f)
-{
-  int c1, c2, c3, c4;
-
-  c1 = getc(f);  c2 = getc(f);  c3 = getc(f);  c4 = getc(f);
-  return ((uint32_t) c1) +
-         (((uint32_t) c2) << 8) +
-         (((uint32_t) c3) << 16) +
-         (((uint32_t) c4) << 24);
-}
-
-int16_t Reader::getShort(FILE *f)
-{
-  int c1 = getc(f);
-  int c2 = getc(f);
-  return ((int16_t) c1) + (((int16_t) c2) << 8);
-}
-
-#if 0 //notused
 
 uint8_t Reader::getChar()
 {
