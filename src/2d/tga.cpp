@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "img.hpp"
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
 #include "texture.hpp"	// Texture
 
 
@@ -137,7 +137,8 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
 
 void Img::saveTGA(const char *filename, GLint width, GLint height, const GLubyte *data)
 {
-  FILE *f = File::openFile(filename, "w");
+  File *file = new File();
+  FILE *f = file->open(filename, "w");
   if (f) {
     const GLubyte *pdata = data;
 
@@ -159,9 +160,11 @@ void Img::saveTGA(const char *filename, GLint width, GLint height, const GLubyte
     fputc((height>>8) & 0xff, f);
     fputc(24, f);  /* Pixel Depth, 0x18 => 24 Bits */
     fputc(0x20, f); /* Image Descriptor */
-    File::closeFile(f);
+    file->close();
+    delete file;
 
-    f = File::openFile(filename, "ab");  /* reopen in binary append mode */
+    File *fileout = new File();
+    f = fileout->open(filename, "ab");  /* reopen in binary append mode */
     for (int y=height-1 ; y>=0; y--) {
       for (int x=0; x<width; x++) {
         int i = (y*width + x) * 4;
@@ -170,6 +173,7 @@ void Img::saveTGA(const char *filename, GLint width, GLint height, const GLubyte
         fputc(pdata[i], f);   /* write red */
       }
     }
-    File::closeFile(f);
+    fileout->close();
+    delete fileout;
   }
 }
