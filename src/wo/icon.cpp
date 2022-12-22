@@ -36,7 +36,7 @@
 #include "office.hpp"	// start
 #include "env.hpp"	// icons
 #include "timer.hpp"	// rate
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
 #include "universe.hpp"	// current
 
 
@@ -254,13 +254,17 @@ Icon::Icon(User *user, void *d)
           }
           strcat(ofile, ifile);
           FILE *fin, *fout;
-          if ((fin = File::openFile(ifile, "r")) && (fout = File::openFile(ofile, "w"))) {
+          File *filein = new File();
+          File *fileout = new File();
+          if ((fin = filein->open(ifile, "r")) && (fout = fileout->open(ofile, "w"))) {
             char buf[2];
             while (fread(buf, 1, 1, fin)) {
               fwrite(buf, 1, 1, fout);
             }
-            File::closeFile(fin);
-            File::closeFile(fout);
+            filein->close();
+            fileout->close();
+            delete filein;
+            delete fileout;
             chmod(ofile, 0644);
 
             sprintf(names.url, "http://%s/%s/vreng/%s", Universe::current()->server, Universe::current()->urlpfx, ifile);
@@ -561,12 +565,15 @@ void Icon::quit()
       chdir(worldName());
 
       FILE *fp;
-      if ((fp = File::openFile(ficon, "r")) != NULL) {
-        File::closeFile(fp);
+      File *filein = new File();
+      if ((fp = filein->open(ficon, "r")) != NULL) {
+        filein->close();
+        delete filein;
         unlink(ficon);
       }
-      if ((fp = File::openFile(ficon, "w")) != NULL) {
-        char buf[BUFSIZ];
+      File *fileout = new File();
+      if ((fp = fileout->open(ficon, "w")) != NULL) {
+        char buf[128];
         memset(buf, 0, sizeof(buf));
         sprintf(buf, "name=\"%s\" pos=\"%.2f %.2f %.2f %.2f %.2f\" owner=\"%s\" solid dim=\"%.2f %.2f %.2f\" dif=\"%s\" xn=\"%s\" ",
                 getInstance(),
@@ -575,7 +582,8 @@ void Icon::quit()
                 WIDTH, DEPTH, HEIGHT, COLOR, tex);
         strcat(buf, "\n");
         fputs(buf, fp);
-        File::closeFile(fp);
+        fileout->close();
+        delete fileout;
       }
       chdir(::g.env.cwd());
     }
