@@ -33,7 +33,7 @@
 #include "env.hpp"	// icons
 #include "pref.hpp"	// url
 #include "olist.hpp"	// OList
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
 #include "entry.hpp"	// Entry
 #include "clock.hpp"	// Clock
 #include "stat.hpp"	// new_world
@@ -624,13 +624,14 @@ void World::checkIcons()
 
               // open the icon and read it
               FILE *fp;
-              if ((fp = File::openFile(di->d_name, "r")) == NULL) {
+              File *file = new File();
+              if ((fp = file->open(di->d_name, "r")) == NULL) {
                 error("can't open %s/%s/%s", ::g.env.icons(), getName(), di->d_name);
                 continue;
               }
               char vref[BUFSIZ], infos[BUFSIZ *2], url[URL_LEN];
               fgets(vref, sizeof(vref), fp);
-              File::closeFile(fp);
+              file->close();
               Cache::file2url(di->d_name, url);
               // create the icon
               sprintf(infos, "<url=\"%s\">&<vref=%s>", url, vref);
@@ -710,7 +711,6 @@ void World::worldReader(void *_url, Http *http)
     error("can't download %s, check access to the remote http server", url);
   }
 
-  FILE *fpcache = NULL;
   int len = 0;
   char *cachename = new char[PATH_LEN];
   char buf[BUFSIZ];
@@ -720,10 +720,13 @@ void World::worldReader(void *_url, Http *http)
 
   Parse *parser = new Parse();	// create the parser instance
 
+  File *fileout = new File();
+  File *filein = new File();
+  FILE *fpcache = NULL;
   struct stat bufstat;
   if (stat(cachename, &bufstat) < 0) {	// is not in the cache
     //echo("worldReader: file %s not in cache url=%s", cachename, url);
-    if ((fpcache = File::openFile(cachename, "w")) == NULL) {
+    if ((fpcache = fileout->open(cachename, "w")) == NULL) {
       error("worldReader: can't create file %s from url %s", cachename, url);
     }
 
@@ -743,7 +746,7 @@ httpread:
 #endif //HAVE_LIBXML2
   }
   else {        // cachename exists in the cache
-    if ((fpcache = File::openFile(cachename, "r")) == NULL) {
+    if ((fpcache = filein->open(cachename, "r")) == NULL) {
       goto httpread;		// if can't open download it by http
     }
     while ((len = fread(buf, 1, sizeof(buf), fpcache)) > 0) {
@@ -753,7 +756,10 @@ httpread:
     }
   }
   parser->numline = 0;
-  if (fpcache) File::closeFile(fpcache);
+  if (fpcache) {
+    filein->close();
+    delete filein;
+  }
 
   trace(DBG_WO, "worldReader: %s downloaded", url);
   delete[] cachename;
