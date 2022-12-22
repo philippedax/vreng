@@ -64,14 +64,9 @@ void X3d::httpReader(void *_x3d, class Http *http)
   char filename[PATH_LEN] = {0};
   Cache::setCachePath(x3d->getUrl(), filename);
 
-  //error("X3d filename=%s", filename);
+  //echo("X3d filename=%s", filename);
   Cache *cache = new Cache();
   if ((f = cache->open(filename, http)) == NULL) {
-    //dax if ((f = File::openFile(filename, "w")) == NULL) {
-    //dax   error("x3dReader: can't create %s", filename);
-    //dax   return;
-    //dax }
-
     char buf[BUFSIZ];
     int len;
     while ((len = http->httpRead(buf, sizeof(buf))) > 0) {
