@@ -30,7 +30,7 @@
 #include "img.hpp"	// saveJPG
 #include "render.hpp"	// sharedRender
 #include "timer.hpp"	// ::g.timer
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
 #include "sound.hpp"	// playSound
 #if WANT_GL2PS
 # include "gl2ps.h"	// GL2PS_*
@@ -91,7 +91,6 @@ void Capture::captureXwd(const char *ext)
 /** capture and save 3D area using gl2ps API */
 void Capture::captureGl2ps(const char *ext)
 {
-  FILE *fp;
   GLint bufsize = 0, state = GL2PS_OVERFLOW;
   GLuint form;
   char worldname[World::WORLD_LEN];
@@ -103,7 +102,10 @@ void Capture::captureGl2ps(const char *ext)
   else return;
 
   sprintf(worldname, "%s.%s", World::current()->getName(), ext);
-  if ((fp = File::openFile(worldname, "wb")) == 0) {
+
+  FILE *fp;
+  File *file = new File();
+  if ((fp = file->open(worldname, "wb")) == 0) {
     perror("open");
     return;
   }
@@ -123,7 +125,8 @@ void Capture::captureGl2ps(const char *ext)
     Render::sharedRender()->rendering();
     state = gl2psEndPage();
   }
-  File::closeFile(fp);
+  file->close();
+  delete file;
   echo("capture done in file %s", worldname);
 }
 
