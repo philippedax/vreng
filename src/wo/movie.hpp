@@ -56,6 +56,7 @@ private:
   GLubyte *texmap;		///< pixmap of the texture
   ImageDesc *mpeg;		///< this is a structure used by mpeg_lib to store infos
   class Avi *avi;		///< avi instance
+  class File *file;		///< file mpeg instance
 
 public:
   enum {

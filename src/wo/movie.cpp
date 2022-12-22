@@ -94,13 +94,14 @@ void Movie::inits()
         if (mpeg) return;		// an instance is already running
 
         char *filempeg = new char[MAXHOSTNAMELEN];
+        file = new File();
 
         if (Cache::download(names.url, filempeg) == 0) {	// download Mpeg file
           error("can't download %s", filempeg);
           delete[] filempeg;
           return;
         }
-        if ((fp = File::openFile(filempeg, "r")) == NULL) {
+        if ((fp = file->open(filempeg, "r")) == NULL) {
           error("can't open mpeg");
           delete[] filempeg;
           return;
@@ -314,7 +315,8 @@ void Movie::stop()
   switch (vidfmt) {
     case PLAYER_MPG:
       CloseMPEG();
-      File::closeFile(fp);
+      file->close();
+      delete file;
       if (mpeg) delete[] mpeg;
       mpeg = NULL;
       break;
