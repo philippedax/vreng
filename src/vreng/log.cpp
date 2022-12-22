@@ -22,7 +22,7 @@
 #include "gui.hpp" 	// writeMessage
 #include "env.hpp" 	// dir
 #include "pref.hpp" 	// ::g.pref
-#include "file.hpp" 	// openFile
+#include "file.hpp" 	// open
 #include <iostream>
 
 const char *e_fork = "can't fork for";
@@ -124,11 +124,12 @@ FILE * writelog(const char *s, ...)
   static FILE *fl = NULL;
   va_list ap;
   char logfile[PATH_LEN];
+  File *file = new File();
 
   if (fl == NULL) {
     sprintf(logfile, "%s/log", ::g.env.dir());
     unlink(logfile);
-    if ((fl = File::openFile(logfile, "w")) == NULL) {
+    if ((fl = file->open(logfile, "w")) == NULL) {
       perror("open log");
       return (FILE *) NULL;
     }
