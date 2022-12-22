@@ -24,7 +24,7 @@
 #include "draw.hpp"	// Draw
 #include "texture.hpp"	// open
 #include "cache.hpp"	// setCachePath
-#include "file.hpp"	// openFile
+#include "cache.hpp"	// open, close
 
 using namespace std;
 
@@ -65,18 +65,20 @@ void X3d::httpReader(void *_x3d, class Http *http)
   Cache::setCachePath(x3d->getUrl(), filename);
 
   //error("X3d filename=%s", filename);
-  if ((f = File::openFile(filename, "r")) == NULL) {
-    if ((f = File::openFile(filename, "w")) == NULL) {
-      error("x3dReader: can't create %s", filename);
-      return;
-    }
+  Cache *cache = new Cache();
+  if ((f = cache->open(filename, http)) == NULL) {
+    //dax if ((f = File::openFile(filename, "w")) == NULL) {
+    //dax   error("x3dReader: can't create %s", filename);
+    //dax   return;
+    //dax }
 
     char buf[BUFSIZ];
     int len;
     while ((len = http->httpRead(buf, sizeof(buf))) > 0) {
       fwrite(buf, 1, len, f);	// into cache
     }
-    File::closeFile(f);
+    cache->close();
+    delete cache;
   }
   x3d->loadFromFile(filename);
 }
