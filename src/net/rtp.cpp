@@ -25,7 +25,7 @@
 #include "session.hpp"	// Session
 #include "source.hpp"	// Source
 #include "stat.hpp"	// statSendPacket
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
 
 extern uint32_t random32(int type);
 
@@ -150,18 +150,21 @@ const char * Rtp::getRtpName(char *name)
   p = getenv("HOME");
   if (p == NULL || *p == '\0') return NULL;
   sprintf(buf, "%s/.RTPdefaults", p);
-  if ((fp = File::openFile(buf, "r"))) {
+  File *file = new File();
+  if ((fp = file->open(buf, "r"))) {
     while (fgets(buf, sizeof(buf), fp)) {
       buf[strlen(buf) -1] = '\0';
       if (strncmp(buf, "*Name:", 9) == 0) {
         p = strchr(buf, ':');
         p += 2;
         strcpy(name, p);
-        File::closeFile(fp);
+        file->close();
+        delete file;
         return name;
       }
     }
-    File::closeFile(fp);
+    file->close();
+    delete file;
   }
   return NULL;
 }
