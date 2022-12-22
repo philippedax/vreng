@@ -140,26 +140,23 @@ FILE * writelog(const char *s, ...)
   return fl;
 }
 
-void closelog(FILE *fl)
-{
-  File::closeFile(fl);
-}
-
 void printlog()
 {
   FILE *fl;
   char logfile[PATH_LEN];
   char buf[256];
 
+  File *file = new File();
   sprintf(logfile, "%s/log", ::g.env.dir());
-  if ((fl = File::openFile(logfile, "r")) == NULL) {
+  if ((fl = file->open(logfile, "r")) == NULL) {
     perror("open log");
     return;
   }
   while (fgets(buf, sizeof(buf), fl) != NULL) {
     fputs(buf, stderr);
   }
-  closelog(fl);
+  file->close();
+  delete file;
 }
 
 void progression(char c)
@@ -188,3 +185,9 @@ void fcloselog(FILE *f)
   fprintf(stderr, "clos: %p\n", f);
 }
 
+#if 0 //dax
+void closelog(FILE *fl)
+{
+  File::closeFile(fl);
+}
+#endif

@@ -318,7 +318,7 @@ bool getStats(FILE* f, char *line)
 void statLog()
 {
   if (flog != (FILE *) NULL) {
-    closelog(flog);
+    fcloselog(flog);
     printlog();
   }
 }

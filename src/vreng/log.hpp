@@ -62,7 +62,7 @@ void progression(char c);
 void endprogression();
 
 FILE * writelog(const char *s, ...);
-void closelog(FILE *fl);
+//void closelog(FILE *fl);
 void printlog();
 
 void fopenlog(FILE *f, const char *name);
