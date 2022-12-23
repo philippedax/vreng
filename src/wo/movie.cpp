@@ -250,7 +250,7 @@ void Movie::changePermanent(float lasting)
         ret = avi->read_data(vidbuf, width * height * 4, &retlen);
         //echo("f=%d s=%d l=%d", frame, width*height*4, retlen);
         if (ret == 0) {	// end of avi video
-          //dax File::closeFile(fp);
+          File::closeFile(fp);
           state = INACTIVE;
           delete avi;
           avi = NULL;
