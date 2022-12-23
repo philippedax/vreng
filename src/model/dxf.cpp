@@ -974,7 +974,7 @@ DXF_file * deleteDXF(DXF_file *dxffile)
 
   free(dxffile->filename);
   if (dxffile->fp) {
-    filein->close();
+    filein->close(dxffile->fp);
     delete filein;
   }
   dxffile->fp = NULL;

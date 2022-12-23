@@ -36,9 +36,10 @@ public:
 
   FILE * open(const char *filename, const char *param);
   void close();
+  void close(FILE *fp);
 
   static FILE * openFile(const char *filename, const char *param);
-  static void closeFile(FILE * f);
+  static void closeFile(FILE *f);
 
   // Endians
   static bool bigEndian();

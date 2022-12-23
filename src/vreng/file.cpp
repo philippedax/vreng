@@ -57,8 +57,18 @@ FILE * File::openFile(const char *filename, const char *param)
 /* Close a file */
 void File::close()
 {
-  fclose(f);
-  cls_file++;
+  if (f) {
+    fclose(f);
+    cls_file++;
+  }
+}
+
+void File::close(FILE *fp)
+{
+  if (fp) {
+    fclose(fp);
+    cls_file++;
+  }
 }
 
 /* Close a file - static */
