@@ -45,13 +45,14 @@
 #include "avi.hpp"
 #include "http.hpp"	// Http
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open
 
 
 void Avi::defaults()
 {
   fp = NULL;
   url = NULL;
+  cache = NULL;
   audio_samples = 0;
   frames = 0;
   n_idx = 0;
@@ -79,7 +80,6 @@ Avi::~Avi()
 {
   if (url) delete[] url;
   if (fp) {
-    File::closeFile(fp);
     //dax cache->close();
     //dax delete cache;
   }
@@ -107,7 +107,6 @@ void Avi::httpReader(void *_avi, Http *http)
         
   Cache *cache = new Cache();
   avi->fp = cache->open(avi->getUrl(), http);
-  //avi->read_header();
 }
 
 FILE * Avi::getFile() const
@@ -583,7 +582,6 @@ void Avi::write_header(int width, int height, int norm, int audio, int stereo, i
   njunk = DATASTART - pos - 8 - 12;
   out4cc("JUNK");
   outlong(njunk);
-  File::closeFile(fp);
   //dax cache->close();
   //dax delete cache;
   fp = NULL;

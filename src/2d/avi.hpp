@@ -102,6 +102,7 @@ public:
 private:
   FILE *fp;
   char *url;
+  class Cache *cache;
   uint32_t frames;
   uint32_t audio_samples;
   uint32_t n_idx;
