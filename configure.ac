@@ -29,7 +29,7 @@
 AC_INIT([vreng],[9.3.3],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
-#AC_PREREQ(2.63)
+#AC_PREREQ([2.69])
 
 AC_CONFIG_SRCDIR([src/vreng/vreng.cpp])
 
@@ -44,7 +44,7 @@ AC_CANONICAL_HOST([])
 AM_INIT_AUTOMAKE([subdir-objects])
 
 # version
-echo $PACKAGE_VERSION > VERSION
+echo $PACKAGE_VERSION > VERSION.md
 set x `echo $PACKAGE_VERSION | tr '.' ' '`
 major=$2
 minor=$3
