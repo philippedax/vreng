@@ -342,17 +342,18 @@ void Pref::parse(int argc, char **argv)
   }
 
   // compute urlpfx
-  char *urlpfx = new char[URL_LEN];
+  char *pfx = new char[URL_LEN];
 
-  strcpy(urlpfx, DEF_URL_PFX);
-  ::g.urlpfx = strdup(urlpfx);
-  if (*urlpfx == '~' && urlpfx[1] == '%') {
-    sprintf(::g.urlpfx, urlpfx, ::g.user);	// format %s inside urlpfx
-    //dax echo("::g.urlpfx: %s", ::g.urlpfx);
+  strcpy(pfx, DEF_URL_PFX);
+  ::g.urlpfx = strdup(pfx);
+  if (*pfx == '~' && pfx[1] == '%') {
+    sprintf(::g.urlpfx, pfx, ::g.user);	// format %s inside urlpfx
+    echo("::g.urlpfx: %s", ::g.urlpfx);
   }
   else {
-    ::g.urlpfx = strdup(urlpfx);
+    ::g.urlpfx = strdup(pfx);
   }
+  strcpy(pfx, ::g.urlpfx);		// developped
 
   // url server
   char *url = new char[URL_LEN];
@@ -368,7 +369,7 @@ void Pref::parse(int argc, char **argv)
     ::g.url = strdup(url);
   }
 
-  cout << "url: " << ::g.url << "\n";
+  echo("url: %s", url);
 
   if (new_universe == false) {
     sprintf(srv, "%s", DEF_HTTP_SERVER);

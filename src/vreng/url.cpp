@@ -59,18 +59,18 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
         return URLBAD;
       }
       sprintf(path, "%s%s", Universe::current()->urlpfx, url);
-      //error("rel path: %s", path);
+      //echo("rel path: %s", path);
     }
     else {	// /path
       if (! stringcmp(url, "http://") || ! stringcmp(url, "/~")) {
         // full qualified url
         sprintf(path, "%s", url);
-        //error("abs path: %s", path);
+        //echo("abs path: %s", path);
       }
       else {
         // add url prefix before url
         sprintf(path, "/%s%s", Universe::current()->urlpfx, url);
-        //error("pfx path: %s", path);
+        //echo("pfx path: %s", path);
       }
     }
     return URLHTTP;
