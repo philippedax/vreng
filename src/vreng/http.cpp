@@ -353,7 +353,7 @@ htagain:
     else {	// classic
       sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
     } 
-    //echo("req: %s", req);
+    //echo("reqHttpd: %s", req);
     if (HttpThread::sendHttpd(httpio->fd, req, strlen(req)) < 0) {
       error("can't sendHttpd req=%s", req);
       httperr = true;

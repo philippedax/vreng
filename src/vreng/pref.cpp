@@ -348,7 +348,7 @@ void Pref::parse(int argc, char **argv)
   ::g.urlpfx = strdup(pfx);
   if (*pfx == '~' && pfx[1] == '%') {
     sprintf(::g.urlpfx, pfx, ::g.user);	// format %s inside urlpfx
-    echo("::g.urlpfx: %s", ::g.urlpfx);
+    //echo("::g.urlpfx: %s", ::g.urlpfx);
   }
   else {
     ::g.urlpfx = strdup(pfx);
