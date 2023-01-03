@@ -54,7 +54,7 @@ protected:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -70,34 +70,34 @@ public:
   /**< Quits */
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets defaults values */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void inits();
+  void inits();
   /**< Do specific inits */
 
-  virtual void heights(int it, int x, int y, float h, float f);
+  void heights(int it, int x, int y, float h, float f);
   /**< Computes heights */
 
-  virtual void aux_heights(int x1, int y1, int x2, int y2, float f);
+  void aux_heights(int x1, int y1, int x2, int y2, float f);
   /**< Computes aux heights */
 
-  virtual void draw();
+  void draw();
   /**< Draws the terrain */
 
-  virtual void setNormales();
+  void setNormales();
   /**< Inits normales */
 
-  virtual void setColor(float z);
+  void setColor(float z);
   /**< Sets color */
 
-  virtual void prodvect(float x1, float y1, float z1, float x2, float y2, float z2, float *px, float *py, float *pz);
+  void prodvect(float x1, float y1, float z1, float x2, float y2, float z2, float *px, float *py, float *pz);
   /**< Cross product */
 };
 

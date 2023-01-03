@@ -35,7 +35,7 @@ class Accessory: public Cloth {
 public:
   static const OClass oclass;	///< class variable.
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
@@ -62,21 +62,21 @@ private:
   float shifty;
   float shiftz;
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses fileline. */
 
-  virtual void defaults();
+  void defaults();
   /**< Default values. */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior. */
 
-  virtual void init();
+  void init();
   /**< Initializes object. */
 
-  virtual void follow();
-  virtual void takeoff();
-  virtual void drop();
+  void follow();
+  void takeoff();
+  void drop();
 
   // callbacks
   static void follow_cb(Accessory *accessory, void *d, time_t s, time_t u);

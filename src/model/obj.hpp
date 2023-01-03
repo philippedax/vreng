@@ -118,22 +118,22 @@ public:
 
   virtual ~Obj();	///< Destructor
 
-  virtual void setScale(float scale);
+  void setScale(float scale);
   /**< Sets the scale */
 
-  virtual void setColor(int type, float *color);
+  void setColor(int type, float *color);
   /**< Sets the color */
 
-  virtual float getRadius();
+  float getRadius();
   /**< Gets the radius */
 
-  virtual void bindTexture2D(int textureId);
+  void bindTexture2D(int textureId);
   /**< Binds texture number */
 
-  virtual GLint displaylist();
+  GLint displaylist();
   /**< Draws in displaylist */
 
-  virtual void draw();
+  void draw();
   /**< Model drawing */
 
   virtual void render(float *color);
@@ -160,32 +160,32 @@ private:
   /**< This tells us if we just read in face data so we can keep track of multiple objects */
 
 
-  virtual bool importModel(tOBJModel *pModel);
+  bool importModel(tOBJModel *pModel);
   /**< Just pass in your model that will hold the information */
 
-  virtual bool importTextures();
+  bool importTextures();
 
-  virtual int loadTexture(const char *imgFile);
+  int loadTexture(const char *imgFile);
 
-  virtual void readFile(tOBJModel *pModel);
+  void readFile(tOBJModel *pModel);
   /**< This is the main loading loop that gets called in importModel() */
 
-  virtual void readVertexInfo();
+  void readVertexInfo();
   /**< This is called in ReadObjFile() if we find a line starting with 'v' */
 
-  virtual void readFaceInfo();
+  void readFaceInfo();
   /**< This is called in ReadObjFile() if we find a line starting with 'f' */
 
-  virtual void fillInObjectInfo(tOBJModel *pModel);
+  void fillInObjectInfo(tOBJModel *pModel);
   /**< This is called when we are finished loading in the face information */
 
-  virtual void computeNormals(tOBJModel *pModel);
+  void computeNormals(tOBJModel *pModel);
   /**< it's nice to have vertex normals for lighting */
 
-  virtual bool loadFromFile(FILE *f);
+  bool loadFromFile(FILE *f);
   /**< File loader */
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
   /**< get an Url */
 
 };

@@ -49,7 +49,7 @@ private:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -68,19 +68,19 @@ public:
   /**< Quits properly */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void inits();
+  void inits();
   /**< Sets specific inits */
 
-  virtual void draw();
+  void draw();
 };
 
 #endif

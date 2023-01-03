@@ -46,20 +46,20 @@ public:
 
   static void funcs();	///< init funclist
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Equations to move permanently */
 
 private:
   class Cloud *pcloud;
   bool sound;
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void makeSolid();
+  void makeSolid();
 
   static void sound_continue(int sig);
-  virtual void sound_continue();
+  void sound_continue();
 
   // Callbacks
   static void start_cb(class Cloud *cloud, void *d, time_t s, time_t u);

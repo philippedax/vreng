@@ -45,52 +45,52 @@ class Payload {
   virtual ~Payload();
   /**< Destructor */
 
-  virtual int putPayload(const char *format,...);
+  int putPayload(const char *format,...);
   /**<
    * Fills the payload in sprintf style
    * Returns 0 if OK, else -1 if err
    */
 
-  virtual int getPayload(const char *format,...);
+  int getPayload(const char *format,...);
   /**<
    * Gets the payload in scanf style
    * Returns 0 if OK, else -1 if err
    */
 
-  virtual bool isValidPayload();
+  bool isValidPayload();
   /**< Checks payload validity */
 
-  virtual Payload * resetPayload();
+  Payload * resetPayload();
   /**<
    * Resets the payload, sets offset at the begining of the payload
    * to call before using
    */
 
-  virtual void dumpPayload(FILE *fp);
+  void dumpPayload(FILE *fp);
   /**< Dumps payload in a file pointed by fp */
 
-  virtual void seekPayload(const uint16_t idx);
+  void seekPayload(const uint16_t idx);
   /**< Seeks pos inside the payload */
 
-  virtual uint16_t tellPayload();
+  uint16_t tellPayload();
   /**< Returns current offset inside the payload */
 
-  virtual int tellStrInPayload(const char *str);
+  int tellStrInPayload(const char *str);
   /**< Returns current offset of string "str" inside the payload */
 
   //
   // Packets
   //
-  virtual int sendPayload(const struct sockaddr_in *to);
+  int sendPayload(const struct sockaddr_in *to);
   /**< Sends a payload packet to the network */
 
-  virtual int recvPayload(const int fd, struct sockaddr_in *sender);
+  int recvPayload(const int fd, struct sockaddr_in *sender);
   /**< Receives a payload packet from the network */
 
   //
   // Incomings
   //
-  virtual void incomingDelta(const struct sockaddr_in *sender);
+  void incomingDelta(const struct sockaddr_in *sender);
   /**<
    * Incoming Delta:
    *   format (3 bytes)
@@ -100,7 +100,7 @@ class Payload {
    *   total (14 bytes)
    */
 
-  virtual void incomingCreate(const struct sockaddr_in *sender);
+  void incomingCreate(const struct sockaddr_in *sender);
   /**<
    * Incoming Create:
    *   format (3 bytes)
@@ -111,7 +111,7 @@ class Payload {
    * Create the object's local copy if it doesn't exist
    */
 
-  virtual void incomingQuery(const struct sockaddr_in *sender);
+  void incomingQuery(const struct sockaddr_in *sender);
   /**<
    * Incoming Query:
    *   format (1 byte)
@@ -119,7 +119,7 @@ class Payload {
    *   total (9 bytes)
    */
 
-  virtual void incomingDelete(const struct sockaddr_in *sender);
+  void incomingDelete(const struct sockaddr_in *sender);
   /**<
    * Incoming Delete:
    *   format (1 byte)
@@ -127,14 +127,14 @@ class Payload {
    *   total (9 bytes)
    */
 
-  virtual void incomingOther(const struct sockaddr_in *sender, const int len);
+  void incomingOther(const struct sockaddr_in *sender, const int len);
   /**<
    * Incoming not identified
    */
 
 #if 0 //notused
-  virtual void incomingPersist(const struct sockaddr_in *sender);
-  virtual void incomingWorld(const struct sockaddr_in *sender);
+  void incomingPersist(const struct sockaddr_in *sender);
+  void incomingWorld(const struct sockaddr_in *sender);
 #endif //notused
 
 };

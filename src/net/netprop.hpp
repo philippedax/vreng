@@ -36,13 +36,13 @@ class NetProperty {
   NetProperty();		///< Constructor
   virtual ~NetProperty();	///< Destructor
 
-  virtual void resetDates();
+  void resetDates();
   /**<
    * Computes a new date for the assume_at of the property
    * and sets the last_seen at "now"
    */
 
-  virtual void setResponsible(bool flag);
+  void setResponsible(bool flag);
 
   static uint8_t getPropertiesNumber(uint8_t _type_id);
 

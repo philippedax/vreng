@@ -42,7 +42,7 @@ private:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -57,10 +57,10 @@ public:
   static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
 
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds solid geometry */
 
   // callbacks

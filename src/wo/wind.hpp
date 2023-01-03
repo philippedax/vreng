@@ -42,7 +42,7 @@ private:
 public:
   static const OClass oclass;	///< class variable.
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
@@ -54,18 +54,18 @@ public:
 
   static void * getHttp(void *url);	///< Gets wind data.
 
-  virtual uint16_t getSpeed() const;	///< Gets speed.
+  uint16_t getSpeed() const;	///< Gets speed.
 
-  virtual float getOrient() const;	///< Gets orientation.
+  float getOrient() const;	///< Gets orientation.
 
   virtual void quit();		///< Quits.
 
 
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses. */
 
 };

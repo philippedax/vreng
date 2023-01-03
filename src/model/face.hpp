@@ -73,22 +73,22 @@ public:
   virtual void render();
   /**< Render the face */
 
-  virtual void animate();
-  virtual void animate(int fapn, int value);
+  void animate();
+  void animate(int fapn, int value);
   /**< Animate the face */
 
-  virtual void change();
+  void change();
   /**< Change the face */
 
-  virtual void load(const char *url);
+  void load(const char *url);
   /**< Load the face */
 
-  virtual void animEyeBall(float angle, const char *_side, int dir);
-  virtual void animEyeLid(float angle, const char *root1, const char *root2, const char *left, const char *right);
-  virtual void animEyeBrow(float angle, const char *_root, const char *_side);
-  virtual void animLip(float angle, const char *_side);
-  virtual void animNose(float angle, const char *_side);
-  virtual void animHead(float angle, int x, int y, int z);
+  void animEyeBall(float angle, const char *_side, int dir);
+  void animEyeLid(float angle, const char *root1, const char *root2, const char *left, const char *right);
+  void animEyeBrow(float angle, const char *_root, const char *_side);
+  void animLip(float angle, const char *_side);
+  void animNose(float angle, const char *_side);
+  void animHead(float angle, int x, int y, int z);
 
 private:
 

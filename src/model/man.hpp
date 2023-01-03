@@ -35,7 +35,7 @@ public:
 
   virtual ~Man();	///< destructor
 
-  virtual void draw();
+  void draw();
 
 private:
   float width;

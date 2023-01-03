@@ -92,11 +92,11 @@ public:
 
   virtual ~Human();	///< destructor
 
-  virtual void draw();
+  void draw();
 
   static const OClass oclass;   ///< class variable.
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();  ///< init funclist.
 
@@ -119,13 +119,13 @@ private:
   bool usercontrol;	///< control by localuser
   GLint dlist;		///< display list
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line. */
   
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior. */
   
-  virtual void makeSolid();
+  void makeSolid();
   /**< Makes solid. */
 
   static void myMaterial(GLenum mode, float *f, float alpha);

@@ -78,7 +78,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}	///<virtual inst. method
+  const OClass* getOClass() {return &oclass;}	///<inst. method
 
   static void funcs();	///< init funclist
 
@@ -97,13 +97,13 @@ public:
   /**< Quits properly */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses line */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual int format();
+  int format();
   /**< Gets audio format */
 
   // GUI callbacks

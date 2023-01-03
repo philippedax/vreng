@@ -149,7 +149,7 @@ public:
 
   static void funcs();		///< init funclist.
 
-  virtual const OClass* getOClass() {return &oclass;};
+  const OClass* getOClass() {return &oclass;};
   /**< Returns instance of this class. */
 
   User();
@@ -161,7 +161,7 @@ public:
   virtual ~User();
   /**< Destructor. */
 
-  virtual void inits();
+  void inits();
   /**< Does needed initializations. */
 
   static void updateTime2(WObject *pu, time_t sec, time_t usec, float *lasting);
@@ -170,10 +170,10 @@ public:
   static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a remote avatar. */
 
-  virtual void resetBubble();
+  void resetBubble();
   /**< Resets bubble text. */
 
-  virtual Bubble * getBubble() const;
+  Bubble * getBubble() const;
   /**< Gets bubble text. */
 
   virtual void changePosition(float lasting);
@@ -198,13 +198,13 @@ public:
   /**< Signals a message sent by an user. */
 
 #if 0 //dax
-  virtual void clearKeyTab();
+  void clearKeyTab();
   /**< Clears keys times array. */
 
-  virtual void updateKeys(time_t sec, time_t usec);
+  void updateKeys(time_t sec, time_t usec);
   /**< Updates the keydifftime arrays. */
 
-  virtual void changePositionOneDir(const uint8_t move_type, const float last);
+  void changePositionOneDir(const uint8_t move_type, const float last);
   /**< Modifies user position in one direction. */
 #endif
 
@@ -226,52 +226,52 @@ public:
   virtual void specialAction(int act_id, void *data, time_t sec, time_t usec);
   /**< Special action to do. */
 
-  virtual void enableGravity();
+  void enableGravity();
   /**< enables gravity. */
 
-  virtual void disableGravity();
+  void disableGravity();
   /**< disables gravity. */
 
-  virtual void resetPosition();
+  void resetPosition();
   /**< Resets user position. */
 
-  virtual void setPosition();
+  void setPosition();
   /**< Sets user position. */
 
   static void bulletPutHit(class Bullet *po, Payload *pp);
   static void dartPutHit(class Dart *po, Payload *pp);
 
-  virtual bool hasHead();
+  bool hasHead();
   /**< Returns boolean. */
 
   virtual void render();
 
-  virtual void setView(uint8_t view);
+  void setView(uint8_t view);
   /**< User View managment. */
 
 private:
   void getMemory();
   /**< Gets needed memory. */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< User geometry. */
 
-  virtual void setName();
+  void setName();
   /**< Sets user name. */
 
-  virtual void checkPersist();
+  void checkPersist();
   /**< Checks Persist objects. */
 
-  virtual void setCamera();
+  void setCamera();
   /**< Sets user camera. */
 
-  virtual void setRtcp();
+  void setRtcp();
   /**< Sets RTCP parameters. */
 
-  virtual void addGui();
+  void addGui();
   /**< Adds user to GUI. */
 
   // GUI callbacks

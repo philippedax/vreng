@@ -69,7 +69,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -89,33 +89,33 @@ public:
   virtual void quit();
   /**< Quits */
 
-  virtual void visibility(bool flag);
+  void visibility(bool flag);
   /**< Handle visibility */
 
 protected:
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void setName(const char *modelname);
+  void setName(const char *modelname);
   /**< Sets qualified name */
 
-  virtual void setName();
+  void setName();
   /**< Sets qualified name */
 
-  virtual void inits();
+  void inits();
   /**< Do specific inits */
 
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses xml */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds solid geometry */
 
-  virtual uint8_t getModel(const char *name);
+  uint8_t getModel(const char *name);
   /**< Gets model id */
 
   /** callbacks */

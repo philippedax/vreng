@@ -42,7 +42,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Carousel(char *l);	///< Constructor
   ~Carousel() {};	///< Destructor
@@ -61,10 +61,10 @@ private:
 
   void defaults(); //default values for the object
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Makes a solid */
 
   // GUI callbacks

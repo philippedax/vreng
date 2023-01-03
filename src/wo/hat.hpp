@@ -60,7 +60,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -73,21 +73,21 @@ public:
   virtual void quit();	///< Quits
   
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds solid geometry */
 
-  virtual uint8_t getModel(const char *name);
+  uint8_t getModel(const char *name);
   /**< Gets model id */
 
-  virtual void wear();
-  virtual void takeoff();
-  virtual void destroy();
+  void wear();
+  void takeoff();
+  void destroy();
 
   // callbacks
   static void wear_cb(Hat *hat, void *d, time_t s, time_t u);

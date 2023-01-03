@@ -60,7 +60,7 @@ public:
 
   static const OClass oclass;	///< class variable.
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
@@ -82,13 +82,13 @@ public:
   /**< Quits bubble. */
 
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds transparent bubble. */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior. */
 
 };

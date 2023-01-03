@@ -52,7 +52,7 @@ public:
 
   static const OClass oclass;	///< class variable.
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
@@ -71,39 +71,39 @@ public:
   virtual void changePosition(float lasting);
   /**< Follows localuser */
 
-  virtual void expire();
+  void expire();
   /**< toDelete. */
 
   virtual void render();
   /**< Special rendering for text. */
 
-  virtual void setPos(float x, float y, float z, float az, float ax);
+  void setPos(float x, float y, float z, float az, float ax);
   /**< Sets positional shifts. */
 
-  virtual float lenText(const char *text);
+  float lenText(const char *text);
   ///< Returns lenght en glyphs.
 
   virtual void quit();
   /**< Quits text. */
 
 protected:
-  virtual bool loadFont();
+  bool loadFont();
   /**< Loads font */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line.*/
 
-  virtual void defaults();
+  void defaults();
   /**< Sets defaults. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Makes a solid. */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behaviors. */
 
-  virtual void inits();
+  void inits();
   /**< Makes initializations. */
 };
 

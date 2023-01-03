@@ -58,13 +58,13 @@ public:
 
   virtual ~Flare();	///< destructor
 
-  virtual void setNumber(uint8_t number);
+  void setNumber(uint8_t number);
   /**< Sets number of flares */
 
-  virtual void setScale(float scale);
+  void setScale(float scale);
   /**< Sets new scale for flares */
 
-  virtual void setColor(GLfloat *color);
+  void setColor(GLfloat *color);
   /**< Sets unique color for all flares */
 
   virtual void render();
@@ -75,28 +75,28 @@ public:
   /**< Renders flare + shine */
 
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual tFlare set(int type, float location, float scale, const GLfloat *color, float colorScale);
+  tFlare set(int type, float location, float scale, const GLfloat *color, float colorScale);
   /**< Sets each flare */
 
-  virtual void inits();
+  void inits();
   /**< Initializes flares */
 
-  virtual void setTexture(GLuint texid);
+  void setTexture(GLuint texid);
   /**< Sets textures */
 
-  virtual void loadTextures();
+  void loadTextures();
   /**< Load needed textures */
 
-  virtual void vnorm(float *vec);
-  virtual float vdot(float *a, float *b);
-  virtual void vdiff(float *dst, float *a, float *b);
-  virtual void vadd(float *dst, float *a, float *b);
-  virtual void vcopy(float *dst, float *src);
-  virtual void vscale(float *dst, float *src, float scale);
-  virtual void vcross(float *cross, const float *v1, const float *v2);
+  void vnorm(float *vec);
+  float vdot(float *a, float *b);
+  void vdiff(float *dst, float *a, float *b);
+  void vadd(float *dst, float *a, float *b);
+  void vcopy(float *dst, float *src);
+  void vscale(float *dst, float *src, float scale);
+  void vcross(float *cross, const float *v1, const float *v2);
 
 };
 

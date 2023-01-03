@@ -128,64 +128,64 @@ class _3ds {
   virtual void render(const Pos &pos, float *color);
   /**< Model rendering */
 
-  virtual void setScale(float scale);
+  void setScale(float scale);
   /**< Changes scale */
 
-  virtual float getRadius();
+  float getRadius();
   /**< Gets spheric BB */
 
-  virtual GLint displaylist();
+  GLint displaylist();
   /**< Draws in display list */
 
  private:
   static void httpReader(void *_3ds, class Http *http);
 
-  virtual void draw();
+  void draw();
   /**< Model drawing */
 
-  virtual bool importModel(t3dsModel *pModel);
+  bool importModel(t3dsModel *pModel);
 
-  virtual bool importTextures();
+  bool importTextures();
 
-  virtual int loadTexture(const char *imgFile);
+  int loadTexture(const char *imgFile);
 
-  virtual void bindTexture2D(int textureId);
+  void bindTexture2D(int textureId);
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
 
-  virtual bool loadFromFile(FILE *f);
+  bool loadFromFile(FILE *f);
 
-  virtual int getString(char *);
+  int getString(char *);
   /**< This reads in a string and saves it in the char array passed in */
 
-  virtual void readChunk(tChunk *);
+  void readChunk(tChunk *);
   /**< This reads the next chunk */
 
-  virtual void nextChunk(t3dsModel *pModel, tChunk *);
+  void nextChunk(t3dsModel *pModel, tChunk *);
   /**< This reads the next large chunk */
 
-  virtual void nextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *);
+  void nextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *);
   /**< This reads the object chunks */
 
-  virtual void nextMaterialChunk(t3dsModel *pModel, tChunk *);
+  void nextMaterialChunk(t3dsModel *pModel, tChunk *);
   /**< This reads the material chunks */
 
-  virtual void readColorChunk(t3dsMaterialInfo *pMaterial, tChunk *pChunk);
+  void readColorChunk(t3dsMaterialInfo *pMaterial, tChunk *pChunk);
   /**< This reads the RGB value for the object's color */
 
-  virtual void readVertices(tObject *pObject, tChunk *);
+  void readVertices(tObject *pObject, tChunk *);
   /**< This reads the objects vertices */
 
-  virtual void readVertexIndices(tObject *pObject, tChunk *);
+  void readVertexIndices(tObject *pObject, tChunk *);
   /**< This reads the objects face information */
 
-  virtual void readUVCoordinates(tObject *pObject, tChunk *);
+  void readUVCoordinates(tObject *pObject, tChunk *);
   /**< This reads the texture coodinates of the object */
 
-  virtual void readObjectMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPreviousChunk);
+  void readObjectMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPreviousChunk);
   /**< This reads in the material name assigned to the object and sets the materialID */
 
-  virtual void computeNormals(t3dsModel *pModel);
+  void computeNormals(t3dsModel *pModel);
   /**< This computes the vertex normals for the object (used for lighting) */
 
 };

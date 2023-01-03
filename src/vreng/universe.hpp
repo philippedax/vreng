@@ -52,7 +52,7 @@ class Universe {
 
   static void init();    ///< create the "world_manager"
 
-  virtual void startWheel();
+  void startWheel();
   /**< Starts the wheel progression indicator */
 
   static void sigWheel(int sig);
@@ -61,7 +61,7 @@ class Universe {
   static void * runWheel(void *arg);
   /**< Runs the wheel progression indicator */
 
-  virtual void stopWheel();
+  void stopWheel();
   /**< Stops the wheel progression indicator */
 };
 

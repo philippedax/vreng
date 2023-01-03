@@ -49,42 +49,42 @@ public:
 
   virtual ~Session();		///< Destructor
 
-  virtual uint32_t create(uint32_t group, uint16_t port, uint8_t ttl, uint32_t ssrc);
+  uint32_t create(uint32_t group, uint16_t port, uint8_t ttl, uint32_t ssrc);
   /**< creates a new session, called by channel */
 
-  virtual void buildRtpHeader(rtp_hdr_t *pkt, uint32_t ssrc);
+  void buildRtpHeader(rtp_hdr_t *pkt, uint32_t ssrc);
   /**< builds a RTP header */
 
-  virtual void buildRTCPcommon(rtcp_common_t *prtcp_hdr, uint8_t pt);
+  void buildRTCPcommon(rtcp_common_t *prtcp_hdr, uint8_t pt);
   /**< Builds RTCP commun header */
 
-  virtual int buildSR(rtcp_common_t *prtcp_hdr, uint8_t *pkt);
+  int buildSR(rtcp_common_t *prtcp_hdr, uint8_t *pkt);
   /**< Builds a SR RTCP packet */
 
-  virtual int buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt);
+  int buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt);
   /**<
    * Builds a SDES packet.
    * Fills rtcp buffer and return length.
    */
 
-  virtual int buildBYE(rtcp_common_t *prtcp_hdr, uint8_t *pkt);
+  int buildBYE(rtcp_common_t *prtcp_hdr, uint8_t *pkt);
   /**< Builds a BYE packet */
 
-  virtual int sendRTCPPacket(const struct sockaddr_in *to, uint8_t pt);
+  int sendRTCPPacket(const struct sockaddr_in *to, uint8_t pt);
   /**< Sends a RTCP packet */
 
-  virtual int sendSRSDES(const struct sockaddr_in *to);
+  int sendSRSDES(const struct sockaddr_in *to);
   /**<  Sends a RTCP compound packet (SR + SDES) */
 
-  virtual void deleteSourceBySsrc(uint32_t ssrc);
+  void deleteSourceBySsrc(uint32_t ssrc);
 
-  virtual void incrSources();
+  void incrSources();
 
-  virtual void createMySdes();
-  virtual void refreshMySdes();
-  virtual void freeMySdes();
-  virtual void dump();
-  virtual void stat();
+  void createMySdes();
+  void refreshMySdes();
+  void freeMySdes();
+  void dump();
+  void stat();
 
   static Session * current();
   /**< Gets the current session */

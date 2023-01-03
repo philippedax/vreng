@@ -64,7 +64,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -86,16 +86,16 @@ public:
   /**< Quits */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void setName();
+  void setName();
   /**< Sets name */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior flags */
 
   //GUI callbacks

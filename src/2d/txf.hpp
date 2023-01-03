@@ -85,13 +85,13 @@ public:
   static Txf * load(const char *url);
   /**< get Txf from cache or downloading. */
 
-  virtual void bindTexture();
+  void bindTexture();
   /**< bind font texture. */
 
-  virtual GLuint buildTexture(GLuint texobj, GLboolean setupMipmaps);
+  GLuint buildTexture(GLuint texobj, GLboolean setupMipmaps);
   /**< build texture. */
 
-  virtual void render(const char *string, int len);
+  void render(const char *string, int len);
   /**< render string. */
 
   virtual void render(int c);
@@ -108,20 +108,20 @@ private:
   static void httpReader(void *atexfont, class Http *http);
   /**< http texfont loader */
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
   /**< Gets url name */
 
-  virtual TexGlyphVertexInfo * getGlyph(int c);
+  TexGlyphVertexInfo * getGlyph(int c);
 
-  virtual uint16_t getCurrentNumber() const;
+  uint16_t getCurrentNumber() const;
   /**< get Txf current font number  */
 
   static const char *errorString();
 
-  virtual Txf * getByUrl(const char *url);
+  Txf * getByUrl(const char *url);
   /**< get Txf by its url  */
 
-  virtual Txf * getByNumber(uint16_t num);
+  Txf * getByNumber(uint16_t num);
   /**< get Txf by its number  */
 
 };

@@ -76,7 +76,7 @@ public:
   uint16_t np;		// notused
 
   static const OClass oclass;	///< class variable.
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
@@ -101,18 +101,18 @@ private:
   static const float COS[NA];
   static const float SIN[NA];
 
-  virtual void defaults();
+  void defaults();
 
   /**< Sets defaults values. */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses. */
 
-  virtual void behavior();
+  void behavior();
 
-  virtual void makeSolid();
+  void makeSolid();
 
-  virtual void inits();	// notused
+  void inits();	// notused
   /**< Initializations. */
 
   void addParticle();   

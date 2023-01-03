@@ -36,7 +36,7 @@ class Fractal: public WObject {
 public:
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Fractal(char *l);	///< Constructor
 
@@ -68,19 +68,19 @@ private:
   float color[3];
   bool mycolor;
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line. */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior values. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Make a default solid */
 
-  virtual void inits();
+  void inits();
   /**< Initializations. */
 
   void drawbranch(float w, float x0, float z0, float x1, float z1);

@@ -108,13 +108,13 @@ private:
 
   virtual ~Ase();		///< Destructor
 
-  virtual void setScale(float scale);
+  void setScale(float scale);
   /**< Sets the scale */
 
-  virtual float getRadius();
+  float getRadius();
   /**< Gets the radius */
 
-  virtual GLint displaylist();
+  GLint displaylist();
   /**< Draws in displaylist */
 
   virtual void render();

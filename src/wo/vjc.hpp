@@ -128,7 +128,7 @@ class VjcSocket {
    * The handle is invalidated by this call.
    */
 
-  virtual int openSocket();
+  int openSocket();
   /**<
    * Opens an VjcSocket. This call is 'non-blocking' : if the connect
    * does not work because the client is not ready yet, this function
@@ -138,20 +138,20 @@ class VjcSocket {
    * If an error occured, it returns -1.
    */
 
-  virtual int openRecv();
+  int openRecv();
   /**<
    * Open the receiver socket for this socket pair.
    * The socket is bound to the local port passed in when it was initialized.
    */
 
-  virtual int openSend();
+  int openSend();
   /**<
    * Opens the sender socket. IO is set to non-blocking on this one
    * so that the connect (done in the next step) does not lock up
    * the whole VRENG app.
    */
 
-  virtual int connectSend();
+  int connectSend();
   /**<
    * Tries a connect to the client app. Since the IO mode is NONBLOCK,
    * two types of errors can happen:
@@ -160,16 +160,16 @@ class VjcSocket {
    * - Other : the child app is not in a good state. Not worth retrying.
    */
 
-  virtual bool isConnected();
+  bool isConnected();
   /**<
    * Check if the non-blocking connect call on the send socket
    * finished or not.
    */
 
-  virtual bool isOpen();
+  bool isOpen();
   ///< Is socket opened ?.
 
-  virtual bool isClosed();
+  bool isClosed();
   ///< Is socket closed ?.
 
 };
@@ -241,25 +241,25 @@ class VjcMessage {
    * Destructor: frees the internal buffer
    */
 
-  virtual tVjcHeader getHeader();
+  tVjcHeader getHeader();
   /**<
    * Returns this message's header.
    * For outgoing messages, the header's data_len field is not set.
    */
 
-  virtual bool isForObject(WObject *po);
+  bool isForObject(WObject *po);
   /**< Checks wether this message is for the object *po */
 
-  virtual void put8(int val);
+  void put8(int val);
   /**< Add a 8bit int to the message */
 
-  virtual void put16(int val);
+  void put16(int val);
   /**< Add a 16bit int to the message */
 
-  virtual void put32(int val);
+  void put32(int val);
   /**< Add a 32bit int to the message */
 
-  virtual void putOID(WObject *po);
+  void putOID(WObject *po);
   /**<
    * Puts an object's net id.
    * 8bit type, 32bit src id, 16bit port id, 16bit obj id.
@@ -269,7 +269,7 @@ class VjcMessage {
    *               We set all the fields to 0.
    */
 
-  virtual void putPos(WObject *po);
+  void putPos(WObject *po);
   /**<
    * Puts an object position.
    * 6*32bit ((x,y,z),(az,ax,0)).
@@ -279,7 +279,7 @@ class VjcMessage {
    * so as not to have to worry about marshalling floating point values.
    */
 
-  virtual void putStr(const char *str);
+  void putStr(const char *str);
   /**<
    * Adds a string to the message.
    * A 16b length field is set, followed by the caracters.
@@ -289,7 +289,7 @@ class VjcMessage {
    * is completly out of control.
    */
 
-  virtual uint8_t *toBytes(int *len);
+  uint8_t *toBytes(int *len);
   /**<
    * Packs this message into an uint8_t array.
    * The total length of the array is stored in the len parameter.
@@ -300,37 +300,37 @@ class VjcMessage {
    * and the total length of that array is stored in *len
    */
 
-  virtual int sendData();
+  int sendData();
   /**<
    * Sends data over to the server.
    * The message is not deleted.
    */
 
-  virtual int8_t  read8();
+  int8_t  read8();
   /**< Reads an 8 bit signed int */
 
-  virtual int16_t read16();
+  int16_t read16();
   /**< Reads an 16 bit signed int */
 
-  virtual int32_t read32();
+  int32_t read32();
   /**< Reads an 32 bit signed int */
 
-  virtual V3 readPoint2D();
+  V3 readPoint2D();
   /**< 2D point (2*32bit) */
 
-  virtual V3 readPoint3D();
+  V3 readPoint3D();
   /**< 3D point (3*32bit) */
 
-  virtual V3 readDelta();
+  V3 readDelta();
   /**<
    * Reads three 32bit ints, converted to floats by division by 1000,
    * and returns them in a V3.
    */
 
-  virtual tVjcHeader readHeader();
+  tVjcHeader readHeader();
   /**< Reads a message header */
 
-  virtual bool hasData(int size);	
+  bool hasData(int size);	
   /**<
    * Data availability.
    * Returns true if there are at least size bytes left
@@ -343,10 +343,10 @@ class VjcMessage {
   int cursor;			// current position within the buffer
   int maxlen;			// length of the buffer
 
-  virtual void putHeader();
+  void putHeader();
   /**< Writes the header */
 
-  virtual void setup(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id);
+  void setup(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id);
   /**< Creates the buffer and the header */
 
   void dumpHeader(tVjcHeader hdr);
@@ -384,7 +384,7 @@ class Vjc: public WObject {
   uint16_t localPort;		///< Local listen port
 
   static const OClass oclass;   ///< class variable
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Vjc(char *l);
   /**<
@@ -462,16 +462,16 @@ class Vjc: public WObject {
   int lastping;
   ///< 'Time' since last ping
 
-  virtual void start();
+  void start();
   /**< Opens the sockets */
 
-  virtual void ping();
+  void ping();
   /**< Sends a ping to the server */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   ///< Sets defaults
 
 };

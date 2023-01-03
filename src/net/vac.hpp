@@ -37,19 +37,19 @@ class Vac {
 
   virtual ~Vac() {};	///< Destructor
 
-  virtual bool getList();
+  bool getList();
   /**< Gets the whole cache and put it into an internal list */
 
-  virtual bool resolveWorldUrl(const char *_url, char *chanstr);
+  bool resolveWorldUrl(const char *_url, char *chanstr);
   /**< Resolves an Url and retrieves a channel string */
 
-  virtual bool getChannel(const char *_url, char *chanstr);
+  bool getChannel(const char *_url, char *chanstr);
   /**< Gets a channel by its url from the list */
 
-  virtual bool getUrlAndChannel(const char *name, char *_url, char *chanstr);
+  bool getUrlAndChannel(const char *name, char *_url, char *chanstr);
   /**< Gets an url and its channel by its world name from the list */
 
-  virtual bool isConnected();
+  bool isConnected();
   /**< Returns true if connected else false */
 
   static  Vac * current();
@@ -60,7 +60,7 @@ class Vac {
 
  private:
 
-  virtual bool connectVac();
+  bool connectVac();
   /**< Establishes a connection with the Vacs server */
 
   static void * connectThread(void *);

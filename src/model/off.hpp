@@ -36,13 +36,13 @@ public:
   static void httpReader(void *aoff, class Http *http);
   /**< Off reader */
 
-  virtual GLint displaylist();
+  GLint displaylist();
   /**< Draws model Off into display list*/
 
-  virtual void draw();
+  void draw();
   /**< Draws model Off */
 
-  virtual void setScale(float _scale);
+  void setScale(float _scale);
   /**< Sets scale */
 
   virtual void render(float *color);
@@ -63,7 +63,7 @@ private:
   static void getOff3i(char *s, int *a, int *b, int *c);
   static void getOff3f(char *s, float *a, float *b, float *c, float scale);
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
 
   void defaults();
   /** sets default values */

@@ -40,7 +40,7 @@ public:
 
   static void funcs();	///< init funclist
 
-  virtual const OClass* getOClass() {return &oclass;} ///< virtual inst. method
+  const OClass* getOClass() {return &oclass;} ///< inst. method
 
   Cauldron(char *l);	///< Constructor
 
@@ -54,7 +54,7 @@ public:
   /**< Change permanent */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
   // Callbacks

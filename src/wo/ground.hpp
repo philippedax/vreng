@@ -37,7 +37,7 @@ public:
 
   static void funcs();	///< init funclist
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
@@ -61,7 +61,7 @@ public:
 #endif
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
 };

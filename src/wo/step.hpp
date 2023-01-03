@@ -65,7 +65,7 @@ class Step: public WObject {
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -112,7 +112,7 @@ private:
   virtual void behavior();
   /**< Sets behavior */
 
-  virtual void build();
+  void build();
   /**< Builds stair or escalator */
 
   // Gui callbacks

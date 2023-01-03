@@ -55,7 +55,7 @@ protected:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -76,32 +76,32 @@ public:
 private:
   Pos origpos;
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void inits();
+  void inits();
   /**< Sets specific inits */
 
-  virtual void build();
-  virtual void rebuild();
+  void build();
+  void rebuild();
   /** Builds obloids */
 
-  virtual void draw(int n);
+  void draw(int n);
   /** Draws an obloid */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds geometry */
 
   // Callbacks
-  virtual void snow(Cloud *cloud, void* d, time_t s, time_t u);
-  virtual void rain(Cloud *cloud, void* d, time_t s, time_t u);
-  virtual void sound(Cloud *cloud, void* d, time_t s, time_t u);
+  void snow(Cloud *cloud, void* d, time_t s, time_t u);
+  void rain(Cloud *cloud, void* d, time_t s, time_t u);
+  void sound(Cloud *cloud, void* d, time_t s, time_t u);
   static void snow_cb(Cloud *cloud, void* d, time_t s, time_t u);
   static void rain_cb(Cloud *cloud, void* d, time_t s, time_t u);
   static void sound_cb(Cloud *cloud, void* d, time_t s, time_t u);

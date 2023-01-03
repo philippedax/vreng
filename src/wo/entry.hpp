@@ -38,7 +38,7 @@ private:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -51,13 +51,13 @@ public:
   static Entry * current();
   /**< Returns the current entry */
 
-  virtual void query(class User *user);
+  void query(class User *user);
   /**< Answers the entry positions */
 
   virtual void quit();	///< Quits
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
 };

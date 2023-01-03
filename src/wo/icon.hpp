@@ -93,7 +93,7 @@ private:
 
   static void funcs();		///< init funclist
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Icon(class User *pu, void *data);
   /**< constructor: called by GUI */
@@ -126,16 +126,16 @@ private:
   /**< Quits */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< icon defaults */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds solid geometry */
 
-  virtual char * getParam(char *ptok);
+  char * getParam(char *ptok);
   /**< gets parameter */
 
   // GUI and network change callbacks

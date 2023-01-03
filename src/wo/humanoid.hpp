@@ -71,7 +71,7 @@ class Humanoid: public WObject {
 
   static const OClass oclass;	///< class variable.
 
-  virtual const OClass* getOClass() {return &oclass;} ///< instance method.
+  const OClass* getOClass() {return &oclass;} ///< instance method.
 
   static void funcs();		///< init funclist.
 
@@ -92,56 +92,56 @@ class Humanoid: public WObject {
   /**< Quits. */
 
 private:
-  virtual int connectToBapServer(int _ipmode);
+  int connectToBapServer(int _ipmode);
   /**< Establishes a TCP connection to the vaps server
    * and send the setup packet.
    * Sets sdtcp; return 1 if OK else return 0 if failed.
    */
 
-  virtual int initReceiver();
+  int initReceiver();
   /**< Inits UDP listening. */
 
-  virtual bool sendPlayToBapServer(const char *bap_name);
+  bool sendPlayToBapServer(const char *bap_name);
   /**< Sends a play command to the vaps server. */
 
-  virtual void disconnectFromBapServer();
+  void disconnectFromBapServer();
   /**< Closes connection with the vaps server. */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Build geometry. */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets defaults. */
 
-  virtual void behaviour();
+  void behaviour();
   /**< Sets behaviour. */
 
-  virtual void inits();
+  void inits();
   /**< Makes some initializations. */
 
-  virtual int readBapFrame();
+  int readBapFrame();
   /**< Gets a frame from the vaps server. */
 
-  //virtual char * toPlay(const char *str);
+  //char * toPlay(const char *str);
 
-  virtual void pause();
-  virtual void hi();
-  virtual void bye();
-  virtual void ask();
-  virtual void sit();
-  virtual void show();
-  virtual void clap();
-  virtual void nak();
-  virtual void test();
-  virtual void eyes();
-  virtual void joy();
-  virtual void sad();
-  virtual void surp();
-  virtual void jag();
-  virtual void reset();
+  void pause();
+  void hi();
+  void bye();
+  void ask();
+  void sit();
+  void show();
+  void clap();
+  void nak();
+  void test();
+  void eyes();
+  void joy();
+  void sad();
+  void surp();
+  void jag();
+  void reset();
 
   // GUI callbacks
   static void pause_cb(Humanoid *humanoid, void *d, time_t s, time_t u);

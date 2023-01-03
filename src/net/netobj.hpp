@@ -72,13 +72,13 @@ class NetObject {
   virtual ~NetObject();
   /**< Destructor */
 
-  virtual void defaults();
+  void defaults();
   /**< Common to constructors */
 
-  virtual void addToList();
+  void addToList();
   /**< Inserts netobject in head of NetObject list */
 
-  virtual void deleteFromList();
+  void deleteFromList();
   /**<
    * Removes the NetObject from the list.
    * To do necessarly before the final delete.
@@ -87,14 +87,14 @@ class NetObject {
   //
   // exports to WO
   //
-  virtual void create(bool netbehave);
+  void create(bool netbehave);
   /**<
    * Creates a new local netobject.
    * Then we can do getNetObject, declareObjDelta.
    * One declareObjCreation is wish latter, when props are set.
    */
 
-  virtual void setNoid();
+  void setNoid();
   /**<
    * Initializes a new NetObject.
    * Assigns a unique identifier to each Vreng local netobject
@@ -104,14 +104,14 @@ class NetObject {
    * when all the properties are initialized.
    */
 
-  virtual void setNetName(const char *str, bool netbehave);
+  void setNetName(const char *str, bool netbehave);
   /**<
    * Build a NetObject name from a string "scene_id/obj_id", both uint16_t > 0
    * Used by getNetObject and declareObjDelta.
    * A declareObjCreation on such netobject produces a fatal.
    */
 
-  virtual void declareObjCreation();
+  void declareObjCreation();
   /**<
    * We assume the header yet initialized,
    * should (perfs) be called after the NetObject naming create()
@@ -119,25 +119,25 @@ class NetObject {
    * To call for each new objects.
    */
 
-  virtual void declareObjDelta(uint8_t prop_id);
+  void declareObjDelta(uint8_t prop_id);
   /**<
    * Update netobject version.
    * To call at each modification, eg. after a property value changes.
    */
 
-  virtual void declareDeletion();
+  void declareDeletion();
   /**<
    * Destroy the netobject (local copy), netobject must be valid (name).
    * To call when we want destroy the object before a deleteNetObject.
    */
 
   // Accessors
-  virtual void setSrcId(uint32_t src_id);
-  virtual void setPortId(uint16_t port_id);
-  virtual void setObjId(uint16_t obj_id);
-  virtual uint32_t getSrcId() const;
-  virtual uint16_t getPortId() const;
-  virtual uint16_t getObjId() const;
+  void setSrcId(uint32_t src_id);
+  void setPortId(uint16_t port_id);
+  void setObjId(uint16_t obj_id);
+  uint32_t getSrcId() const;
+  uint16_t getPortId() const;
+  uint16_t getObjId() const;
   static void setMySsrcId(uint32_t ssrc_id);
   static void setMyMgrSsrcId(uint32_t ssrc_id);
   static void setMyHostId(uint32_t host_id);
@@ -150,7 +150,7 @@ class NetObject {
   static uint16_t getMyObjId();
 
   // Send
-  virtual void sendCreate(const struct sockaddr_in *to);
+  void sendCreate(const struct sockaddr_in *to);
   /**<
    * Send a '0x01' packet to mentionned unicast address for the current object
    * we don't touch version and dates
@@ -159,7 +159,7 @@ class NetObject {
    *         then the version vector (nprop *pn).
    */
 
-  virtual void sendDelta(uint8_t prop_id);
+  void sendDelta(uint8_t prop_id);
   /**<
    * Send a multicast packet of type '0x02' = Delta,
    * on the property prop_id of the netobject.
@@ -168,19 +168,19 @@ class NetObject {
    *         netobject's properties.
    */
 
-  virtual void sendDelete(const struct sockaddr_in *to);
+  void sendDelete(const struct sockaddr_in *to);
   /**<
    * Send a Delete '0x04' packet to the unicast sender.
    * Format: '0x04' (c), netobject name (n).
    */
 
-  virtual void initProperties(bool responsible);
+  void initProperties(bool responsible);
   /**<
    * Initializes responsibilities (false=no, true=yes).
    * Dates handled by resetDates.
    */
 
-  virtual uint8_t getPropertiesNumber() const;
+  uint8_t getPropertiesNumber() const;
 
   static uint8_t getPropertiesNumber(uint8_t type_id);
   /**<
@@ -189,14 +189,14 @@ class NetObject {
    * Typically called after an incomingCreate.
    */
 
-  virtual void setPropertiesNumber(uint8_t _nbprop);
+  void setPropertiesNumber(uint8_t _nbprop);
 
   static void setPropertiesNumber(uint8_t type_id, uint8_t _nbprop);
   /**<
    * Sets the number of properties for this type
    */
 
-  virtual void getProperty(uint8_t prop, class Payload *pp) const;
+  void getProperty(uint8_t prop, class Payload *pp) const;
   /**<
    * Modifies the property (its local copy) get from Network.
    * The new value is in the payload.
@@ -204,26 +204,26 @@ class NetObject {
    * Typically called after an incomingDelta.
    */
 
-  virtual void putProperty(uint8_t prop, class Payload *pp);
+  void putProperty(uint8_t prop, class Payload *pp);
   /**<
    * Puts the property (its local copy) to be sent to Network.
    * Then we must write the payload which return the written length.
    * Typically called to fill a payload before a sendDelta.
    */
 
-  virtual void getAllProperties(class Payload *pp) const;
+  void getAllProperties(class Payload *pp) const;
   /**<
    * Gets all properties from the network.
    */
 
-  virtual void putAllProperties(class Payload *pp);
+  void putAllProperties(class Payload *pp);
   /**<
    * Puts all properties of this netobject.
    * The payload is initialized before, and filled here.
    * Called to known the Payload after one declareObjCreation.
    */
 
-  virtual void requestDeletionFromNetwork();
+  void requestDeletionFromNetwork();
   /**<
    * Supprime object du monde, si object n'est pas le local user
    * The sequence must include deleteNetObject.
@@ -234,12 +234,12 @@ class NetObject {
    *  4) faire le delete object final
    */
 
-  virtual WObject * getWObjectByNoid() const;
+  WObject * getWObjectByNoid() const;
   /**< Finds a WObject pointer by its noid */
 
-  virtual bool isResponsible() const;
+  bool isResponsible() const;
 
-  virtual bool isPermanent() const;
+  bool isPermanent() const;
 
   static std::list<NetObject*> netobjectList;
   /**< netobject list. */

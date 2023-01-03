@@ -50,7 +50,7 @@ class Button: public WObject {
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   virtual bool updateToNetwork(const Pos &oldpos);
 
@@ -63,10 +63,10 @@ class Button: public WObject {
   virtual void quit();	///< when leaving
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();	///< set default values
+  void defaults();	///< set default values
 
   // GUI and network change callbacks
   static void get_bstate(Button *po, Payload *pp);

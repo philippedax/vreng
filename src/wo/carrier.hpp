@@ -63,46 +63,46 @@ public:
 
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;} ///< virtual inst. method
+  const OClass* getOClass() {return &oclass;} ///< inst. method
 
   Carrier();
   /**< Constructor */
 
   static void funcs();		///< init funclist
 
-  virtual bool underControl() const;
+  bool underControl() const;
   /**< Accessor: is something taking ? */
 
-  virtual void take(WObject *po);
+  void take(WObject *po);
   /**< handle position changes
    * Takes control of the object to manipulate it.
    * The position/orientation of the object will be changed by changePosition
    * and the object will be updated in the 3D */
 
-  virtual void set(WObject *po);
+  void set(WObject *po);
   /**< Sets taking */
 
-  virtual void leave(WObject *po);
-  virtual void leave();
+  void leave(WObject *po);
+  void leave();
   /**< called when we release an object
    * Releases the carried object, put it into the mobile-list
    * and desactivates the carrier */
 
-  virtual void mouseEvent(int8_t vkey, float last);
+  void mouseEvent(int8_t vkey, float last);
 
-  virtual void mouseEvent(uint16_t x, uint16_t y, uint8_t button);
+  void mouseEvent(uint16_t x, uint16_t y, uint8_t button);
   /**< called by mpress in navig.cpp to redirect mouse clics
    * when we move the object
    * left button leaves the object
    * rigth button changes the motion mode */
 
-  virtual void keyEvent(uint8_t vkey, float last);
+  void keyEvent(uint8_t vkey, float last);
   /**< called by userChangePositionOneType from move.cc to redirect
    * arrow keys to move the object
    * and handle intersects of this object */
 
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
   // GUI and callbacks

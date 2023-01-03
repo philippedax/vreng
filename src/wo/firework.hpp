@@ -36,7 +36,7 @@ class Firework: public Particle {
 public:
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Firework(char *l);	///< Constructor
 
@@ -58,13 +58,13 @@ private:
   float ttl;		///< time to live
   float w, d, h;	///< dim
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line. */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Makes a default solid. */
 
   void generate();

@@ -35,7 +35,7 @@ class Slider: public Step {
 public:
   static const OClass oclass;	///< class variable.
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
@@ -65,13 +65,13 @@ private:
   float incrz;
   WObject *capted;	///< captured object.
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses fileline. */
 
-  virtual void defaults();
+  void defaults();
   /**< Default values. */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior. */
 };
 

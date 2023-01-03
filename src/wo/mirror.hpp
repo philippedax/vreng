@@ -47,7 +47,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -68,13 +68,13 @@ public:
   /**< Quits properly */
 
 private:
-  virtual void defaults();
-  virtual void behavior();
+  void defaults();
+  void behavior();
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line */
 
-  virtual void mirroredScene();
+  void mirroredScene();
 
   // GUI callbacks
   static void mirrorOn(Mirror *po, void *d, time_t s, time_t u);

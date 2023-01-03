@@ -52,7 +52,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -67,20 +67,20 @@ public:
   virtual void quit();
   /**< Quits */
 
-  virtual void stopRtp();
+  void stopRtp();
   /**< Stops Rtp streams */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void startRtp();
+  void startRtp();
   /**< Starts Rtp streams */
 
-  virtual void pauseRtp();
+  void pauseRtp();
   /**< Suspends Rtp streams */
 
-  virtual void contRtp();
+  void contRtp();
   /**< Resumes Rtp streams */
 
   // GUI callbacks

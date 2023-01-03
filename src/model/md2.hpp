@@ -110,52 +110,52 @@ public:
   Md2(const char *url);	///< Constructor
   virtual ~Md2();	///< Destructor
 
-  virtual int32_t displaylist(int frame, int texture);
+  int32_t displaylist(int frame, int texture);
   /**< Get display-lists from Md2 model */
 
-  virtual void setScale(float scale);
+  void setScale(float scale);
   /**< Sets scale of model */
 
-  virtual float getRadius();
+  float getRadius();
   /**< Gets radius of model */
 
-  virtual void render(struct Pos &pos);
+  void render(struct Pos &pos);
   /**< Renders the model */
 
-  virtual void render(struct Pos &pos, uint16_t frame);
+  void render(struct Pos &pos, uint16_t frame);
   /**< Renders one frame of the model */
 
   static void httpReader(void *_md2, class Http *http);
   /**< Md2 http reader */
 
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual bool readHttp(Http *http);
+  bool readHttp(Http *http);
   /**< Loads from http */
 
-  virtual bool readFile(FILE *f);
+  bool readFile(FILE *f);
   /**< Loads from file */
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
   /**< get an Url */
 
-  virtual int32_t getFrames(tHeader *md2_hdr, FILE *f);
-  virtual int32_t getFrames(tHeader *md2_hdr, class Http *http);
+  int32_t getFrames(tHeader *md2_hdr, FILE *f);
+  int32_t getFrames(tHeader *md2_hdr, class Http *http);
   /**< Get frames from Md2 model */
 
-  virtual int32_t getGLCmds(tHeader *md2_hdr, FILE *f);
-  virtual int32_t getGLCmds(tHeader *md2_hdr, class Http *http);
+  int32_t getGLCmds(tHeader *md2_hdr, FILE *f);
+  int32_t getGLCmds(tHeader *md2_hdr, class Http *http);
   /**< Get GL commands from Md2 model */
 
-  virtual void updBbox(float x, float y, float z);
+  void updBbox(float x, float y, float z);
   /**< Updates BB */
 
-  virtual void draw(int32_t frame, int32_t nextfrm, float ratio, float scale);
+  void draw(int32_t frame, int32_t nextfrm, float ratio, float scale);
   /**< Draw frames of Md2 Model */
 
-  virtual int32_t displaylist(int frame, int nextfrm, float inter, float scale, int texture);
+  int32_t displaylist(int frame, int nextfrm, float inter, float scale, int texture);
   /**< Get display-lists from Md2 model */
 };
 

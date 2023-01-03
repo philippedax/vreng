@@ -83,156 +83,156 @@ public:
   static Parse * getParse();
   /**< Gets the parse instance */
 
-  virtual int parseVreFile(char *buf, int bufsiz);
+  int parseVreFile(char *buf, int bufsiz);
   /**< parse vre data, called by vreHttpReader */
 
-  virtual char * parseSolid(char *ptok, class WObject *po);
+  char * parseSolid(char *ptok, class WObject *po);
   /**<
    * Creates a new solid.
    * string 'solid' gives the solid's geometry
    */
 
-  virtual char * parseSolid(char *geom, const char *separ, class WObject *po);
+  char * parseSolid(char *geom, const char *separ, class WObject *po);
   /**< Parses a builtin solid */
 
-  virtual char * parseUrl(char *ptok, char *url);
+  char * parseUrl(char *ptok, char *url);
   /**< Returns an url */
 
-  virtual char * parseColor(char *ptok, Pos &p);
+  char * parseColor(char *ptok, Pos &p);
   /**< Returns a color under r,g,b,a format */
 
-  virtual void parseSolids(char *geom, const char *separ, class WObject *po);
+  void parseSolids(char *geom, const char *separ, class WObject *po);
   /**< Parses several solids */
 
-  virtual char * parseAttributes(char *l, class WObject *po);
+  char * parseAttributes(char *l, class WObject *po);
   /**< Parses attribute="value" */
 
-  virtual char * parseGuide(char *ptok, float path[][5], uint8_t *segs);
+  char * parseGuide(char *ptok, float path[][5], uint8_t *segs);
   /**< Returns an array of position describing the guide */
 
-  virtual void printNumline();
+  void printNumline();
   /**< print parse error at */
 
-  virtual char * parseWorldAndChannel(char *ptok, char *url, char *chan);
+  char * parseWorldAndChannel(char *ptok, char *url, char *chan);
   /**< Returns a world url and a numeric string */
 
-  virtual char * parseChannel(char *ptok, char *channel);
+  char * parseChannel(char *ptok, char *channel);
   /**< Returns a channel under addr/port/ttl format */
 
-  virtual char * parseString(char *ptok, char *str);
+  char * parseString(char *ptok, char *str);
   /**< Returns a string */
 
-  virtual char * parseString(char *ptok, char *str, const char *attrstr);
+  char * parseString(char *ptok, char *str, const char *attrstr);
   /**< Returns a string under attr=string format */
 
-  virtual char * parseQuotedString(char *ptok, char *str);
+  char * parseQuotedString(char *ptok, char *str);
   /**< Returns a string under "string ..." format */
 
-  virtual char * parseQuotedString(char *ptok, char *str, const char *attrstr);
+  char * parseQuotedString(char *ptok, char *str, const char *attrstr);
   /**< Returns a string under attr="string ..." format */
 
-  virtual char * parseInt(char *ptok, int *value);
+  char * parseInt(char *ptok, int *value);
   /**< Returns an integer */
 
-  virtual char * parseInt(char *ptok, int *value, const char *attrstr);
+  char * parseInt(char *ptok, int *value, const char *attrstr);
   /**< Returns an integer under attr=value format */
 
-  virtual char * parseBool(char *ptok, bool *value);
+  char * parseBool(char *ptok, bool *value);
   /**< Returns an 8 bits integer */
 
-  virtual char * parseBool(char *ptok, bool *value, const char *attrstr);
+  char * parseBool(char *ptok, bool *value, const char *attrstr);
   /**< Returns an 8 bits integer under attr=value format */
 
-  virtual char * parseUInt8(char *ptok, uint8_t *value);
+  char * parseUInt8(char *ptok, uint8_t *value);
   /**< Returns an 8 bits integer */
 
-  virtual char * parseUInt8(char *ptok, uint8_t *value, const char *attrstr);
+  char * parseUInt8(char *ptok, uint8_t *value, const char *attrstr);
   /**< Returns an 8 bits integer under attr=value format */
 
-  virtual char * parseUInt16(char *ptok, uint16_t *value);
+  char * parseUInt16(char *ptok, uint16_t *value);
   /**< Returns an 16 bits integer */
 
-  virtual char * parseUInt16(char *ptok, uint16_t *value, const char *attrstr);
+  char * parseUInt16(char *ptok, uint16_t *value, const char *attrstr);
   /**< Returns an 16 bits integer under attr=value format */
 
-  virtual char * parseFloat(char *ptok, float *value);
+  char * parseFloat(char *ptok, float *value);
   /**< Returns a float */
 
-  virtual char * parseFloat(char *ptok, float *value, const char *attrstr);
+  char * parseFloat(char *ptok, float *value, const char *attrstr);
   /**< Returns a float under attr=value format */
 
-  virtual char * parseVector3f(char *ptok, float *vector);
+  char * parseVector3f(char *ptok, float *vector);
   /**< Returns a vector under vx,vy,vz format */
 
-  virtual char * parseVector3f(char *ptok, float *vector, const char *attrstr);
+  char * parseVector3f(char *ptok, float *vector, const char *attrstr);
   /**< Returns a vector under attr=vx,vy,vz format */
 
-  virtual char * parseVector3fv(char *ptok, V3 *vector);
+  char * parseVector3fv(char *ptok, V3 *vector);
   /**< Returns a vector under vx,vy,vz format */
 
-  virtual char * parseVector3fv(char *ptok, V3 *vector, const char *attrstr);
+  char * parseVector3fv(char *ptok, V3 *vector, const char *attrstr);
   /**< Returns a vector under attr=vx,vy,vz format */
 
-  virtual char * parseVector5f(char *ptok, float *vector);
+  char * parseVector5f(char *ptok, float *vector);
   /**< Returns a vector under vx,vy,vz,vaz,vax format */
 
-  virtual char * skipAttribute(char *l);
+  char * skipAttribute(char *l);
   /**< Skip the following attribute="value" */
 
-  virtual char * parsePosition(char *ptok, Pos &p);
+  char * parsePosition(char *ptok, Pos &p);
   /**< Returns the spacial positions x y z az ax */
 
-  virtual char * parseRotation(char *ptok, Pos &p);
+  char * parseRotation(char *ptok, Pos &p);
   /**< Returns a rotation under r,X,Y,Z format */
 
-  virtual char * parseTranslation(char *ptok, Pos &p);
+  char * parseTranslation(char *ptok, Pos &p);
   /**< Returns a translation under tx,ty,tz format */
 
-  virtual char * parseName(char *l, char *name);
+  char * parseName(char *l, char *name);
   /**< Returns a named name */
 
-  virtual char * parseCaption(char *l, char *caption);
+  char * parseCaption(char *l, char *caption);
   /**< Returns a caption text */
 
-  virtual char * parseCaption(char *l, char *caption, const char *keystr);
+  char * parseCaption(char *l, char *caption, const char *keystr);
   /**< Returns a caption text */
 
-  virtual char * skipEqual(char *p) const;
+  char * skipEqual(char *p) const;
   /**< Skip equal character */
 
-  virtual char * skipQuotes(char *p, bool flag=true) const;
+  char * skipQuotes(char *p, bool flag=true) const;
   /**< Skip double quotes or single quote */
 
-  virtual char * nextToken() const;
+  char * nextToken() const;
   /**< Gets the next token */
 
 
 private:
-  virtual char * nextSpace(char *p) const;
+  char * nextSpace(char *p) const;
   /**< find next space or next endtag */
 
-  virtual char * skipChar(char *p, char c, bool flag) const;
+  char * skipChar(char *p, char c, bool flag) const;
   /**< Skip this character */
 
-  virtual char * skipOpenBracket(char *p) const;
+  char * skipOpenBracket(char *p) const;
   /**< Skip open-bracket character */
 
-  virtual char * skipOpenParenthesis(char *p) const;
+  char * skipOpenParenthesis(char *p) const;
   /**< Skip open-parenthesis character */
 
-  virtual char * skipCloseParenthesis(char *p) const;
+  char * skipCloseParenthesis(char *p) const;
   /**< Skip close-parenthesis character */
 
-  virtual char * skipSpace(char *p) const;
+  char * skipSpace(char *p) const;
   /**< Skip space character */
 
-  virtual char * skipSepar(char *p) const;
+  char * skipSepar(char *p) const;
   /**< Skip separator character */
 
-  virtual char * parseDescr(char *l, char *infos);
+  char * parseDescr(char *l, char *infos);
   /**< Returns a description in infos */
 
-  virtual int parseLine(char *_line, int *ptag_type);
+  int parseLine(char *_line, int *ptag_type);
   /**< parse begin of line */
 
   inline bool isFloat(const char *p) const;
@@ -241,7 +241,7 @@ private:
   inline bool isInt(const char *p) const;
   /**< Check if string begins with an integer */
 
-  virtual char * parseVectorf(char *ptok, float *vector, int n);
+  char * parseVectorf(char *ptok, float *vector, int n);
   /**< Returns a vector of dimension n */
 
 };

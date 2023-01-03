@@ -50,30 +50,30 @@ public:
 
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;};
+  const OClass* getOClass() {return &oclass;};
 
   static void funcs();	///< init funclist
 
-  virtual void addToCart(WObject *po);
+  void addToCart(WObject *po);
   /**< called by thingAddToCart */
 
-  virtual void removeFromCart(WObject *po);
+  void removeFromCart(WObject *po);
   /**< called by GuiRemoveCart (target = "REMOVE") */
 
-  virtual void leave(WObject *po);
+  void leave(WObject *po);
   /**< called by GuiRemoveCart (target = "LEAVE") */
 
-  virtual bool isSomethingInCart(WObject *po);
+  bool isSomethingInCart(WObject *po);
   /**< checks if something is inside cart */
 
   virtual void quit();
   /**< Quits properly */
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 };
 

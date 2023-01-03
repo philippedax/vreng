@@ -82,7 +82,7 @@ class Ball: public WObject {
 
   static void funcs();	///< init funclist
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Ball(class WObject *o, void *d, time_t s, time_t u);
   /**< constructor: called by cauldron. */
@@ -130,27 +130,27 @@ class Ball: public WObject {
   /**< Quits. */
 
  private:
-  virtual void defaults();
+  void defaults();
   /**< Sets defaults values. */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses fileline. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds solid geometry. */
 
-  virtual void setName();
+  void setName();
   /**< Sets an implicited name. */
 
   // Actions
-  virtual void push();
-  virtual void pull();
-  virtual void shoot();
-  virtual void up();
-  virtual void take();
-  virtual void drop();
-  virtual void turn();
-  virtual void destroy();
+  void push();
+  void pull();
+  void shoot();
+  void up();
+  void take();
+  void drop();
+  void turn();
+  void destroy();
 
   // GUI callbacks
   static void push_cb(Ball *o, void *d, time_t s, time_t u);

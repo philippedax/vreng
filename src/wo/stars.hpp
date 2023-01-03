@@ -62,7 +62,7 @@ private:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -81,18 +81,18 @@ public:
   /**< Quits properly */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void create(int n, int d);
-  virtual void move();
-  virtual void update();
-  virtual bool pointed(int n);
-  virtual void show(int n);
-  virtual void rotate(float *x, float *y, float rot);
+  void create(int n, int d);
+  void move();
+  void update();
+  bool pointed(int n);
+  void show(int n);
+  void rotate(float *x, float *y, float rot);
 };
 
 #endif

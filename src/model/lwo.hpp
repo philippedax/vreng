@@ -70,19 +70,19 @@ public:
   Lwo(const char *url);	///< constructor.
   virtual ~Lwo();	///< destructor.
 
-  virtual void displaylist();
-  virtual void render();
-  virtual void render(const struct Pos &pos);
-  virtual float getRadius();
-  virtual void setScale(float scale);
+  void displaylist();
+  void render();
+  void render(const struct Pos &pos);
+  float getRadius();
+  void setScale(float scale);
 
 private:
   static void httpReader(void *_lwo, class Http *http);
 
-  virtual void readSrfs(FILE *f, int nbytes);
-  virtual void readSurf(FILE *f, int nbytes);
-  virtual void readPols(FILE *f, int nbytes);
-  virtual void readPnts(FILE *f, int nbytes);
+  void readSrfs(FILE *f, int nbytes);
+  void readSurf(FILE *f, int nbytes);
+  void readPols(FILE *f, int nbytes);
+  void readPnts(FILE *f, int nbytes);
   
 };
 

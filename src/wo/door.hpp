@@ -74,7 +74,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Door(char *l);	///< Constructor
 
@@ -99,13 +99,13 @@ public:
   /**< Quits properly */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line */
 
-  virtual void open();
-  virtual void close();
-  virtual void lock();
-  virtual void unlock();
+  void open();
+  void close();
+  void lock();
+  void unlock();
 
   // GUI callbacks
   static void open_cb(Door *o, void *d, time_t s, time_t u);

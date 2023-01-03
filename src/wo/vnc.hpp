@@ -77,7 +77,7 @@ class Vnc : public WObject {
  public:
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();		///< init funclist
 
@@ -96,38 +96,38 @@ class Vnc : public WObject {
   virtual void quit();
   /**< Called when the object is destroy */
 
-  virtual bool mouseEvent(int16_t x, int16_t y, uint8_t button);
+  bool mouseEvent(int16_t x, int16_t y, uint8_t button);
   /**< Redirect mouse  events to VNC Server */
 
-  virtual bool keyEvent(const char *key, bool is_down);
+  bool keyEvent(const char *key, bool is_down);
   /**< Redirect keyboard  events to VNC Server */
 
-  virtual void convert(const char *server, const char *port, const char *passwd);
+  void convert(const char *server, const char *port, const char *passwd);
   /**< updates server parameters from UStr from the dialog window */
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Set the defaults */
 
-  virtual void getVncCoords(int16_t &x, int16_t &y);
+  void getVncCoords(int16_t &x, int16_t &y);
   /**< Convert VReng screen coordinates to VNC screen coordinates */
 
-  virtual void setTexture(bool mipmap);
+  void setTexture(bool mipmap);
   /**< Build a texture */
 
-  virtual void defaultPixmap();
+  void defaultPixmap();
   /**< Build the default pixmap */
 
-  virtual void displayScreen();
+  void displayScreen();
   /**< Draw the screen */
 
-  virtual void buildScreen();
+  void buildScreen();
   /**< Build the screen */
 
-  virtual void connectServer();
+  void connectServer();
 
   // GUI callbacks
   static void takeFocus(Vnc *o, void *d, time_t s, time_t u);

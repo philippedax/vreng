@@ -37,11 +37,11 @@ public:
   virtual ~OList();	///< destructor.
 
   static void  remove(std::list<WObject*> &olist);
-  virtual void remove();
+  void remove();
   /**< Frees an object list. */
 
   static void  clearIspointed(std::list<WObject*> &olist);
-  virtual void clearIspointed();
+  void clearIspointed();
   /**< Clears flags "ispointed" of all objects in a list. */
 
   static WObject * findMobile(uint8_t type_id, uint32_t src_id, uint16_t port_id, uint16_t obj_id);

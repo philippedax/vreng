@@ -94,22 +94,22 @@ private:
   static Size computeSize(WObject *obj);
 
   static int compDistance(const void *t1, const void *t2);
-  virtual void sortDistance();
+  void sortDistance();
 
   static int compInterest(const void *t1, const void *t2);
-  virtual void sortInterest();
+  void sortInterest();
 
   static int compVisual(const void *t1, const void *t2);
-  virtual void sortVisual();
+  void sortVisual();
 
-  virtual bool uselessType(WObject *obj);
+  bool uselessType(WObject *obj);
 
-  virtual void describeTopo(Vicin tmp);
-  virtual void describeVisual();
+  void describeTopo(Vicin tmp);
+  void describeVisual();
 
-  virtual void actionList();
+  void actionList();
 
-  virtual void setSize(WObject *user);
+  void setSize(WObject *user);
 
 public:
 
@@ -118,15 +118,15 @@ public:
 
   virtual ~Vicinity();
 
-  virtual std::string getObjectName() { return refObjectName; }
-  virtual WObject* getObject() { return refObject; }
+  std::string getObjectName() { return refObjectName; }
+  WObject* getObject() { return refObject; }
 
-  virtual void analyseTopo();
-  virtual void analyseVisual(int details);
-  virtual void analyseVicinity();
-  virtual WObject* searchProximityObject(char **typeObj, int nbre);
+  void analyseTopo();
+  void analyseVisual(int details);
+  void analyseVicinity();
+  WObject* searchProximityObject(char **typeObj, int nbre);
 
-  virtual void analyseScene();
+  void analyseScene();
   /**<
    * describe the scene viewed by the user and use the vicinity list for the AOI
    */

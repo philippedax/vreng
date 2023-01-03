@@ -77,7 +77,7 @@ class Fire: public WObject {
 
 public:
   static const OClass oclass;	///< class variable.
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
@@ -107,30 +107,30 @@ protected:
   bool anim;
   uint8_t sound;
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Makes a solid if no one. */
 
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets defaults values. */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line. */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behaviors. */
 
-  virtual void inits();
+  void inits();
   /**< Initializations. */
 
-  virtual void draw();
+  void draw();
   /**< Draws fire particules. */
 
-  virtual void draw(float ex,float ey,float dx,float dy,float a);
+  void draw(float ex,float ey,float dx,float dy,float a);
   /**< Draws one particule. */
 
   static void sound_continue(int sig);
-  virtual void sound_continue();
+  void sound_continue();
 
   // Callbacks
   static void sound_cb(Fire *fire, void *d, time_t s, time_t u);

@@ -193,35 +193,35 @@ public:
   Bap();		///< constructor
   virtual ~Bap(){}	///< destructor
 
-  virtual uint8_t getType() const;
+  uint8_t getType() const;
   /**< Returns stream type */
 
-  virtual uint8_t parse(char *line);
+  uint8_t parse(char *line);
   /**< Parses and reads header and data of a frame */
 
-  virtual bool isMask(int param) const;
+  bool isMask(int param) const;
   /**< Checks bit indexed by param */
 
-  virtual void setMask(int param, uint8_t val);
+  void setMask(int param, uint8_t val);
 
-  virtual float getBap(int param) const;
+  float getBap(int param) const;
   /**< Gets a Bap angle indexed by param */
 
-  virtual void setBap(int param, float val);
+  void setBap(int param, float val);
 
-  virtual float getFap(int param) const;
+  float getFap(int param) const;
   /**< Gets a Fap angle indexed by param */
 
-  virtual void setFap(int param, float val);
+  void setFap(int param, float val);
 
 #if 0 //dax - notused - see body.hpp
-  virtual void jpRX(int param, uint8_t model);
+  void jpRX(int param, uint8_t model);
   /**< Rotates around X axis at this Joint Point */
 
-  virtual void jpRY(int param, uint8_t model);
+  void jpRY(int param, uint8_t model);
   /**< Rotates around Y axis at this Joint Point */
 
-  virtual void jpRZ(int param, uint8_t model);
+  void jpRZ(int param, uint8_t model);
   /**< Rotates around Z axis at this Joint Point */
 #endif
 
@@ -231,13 +231,13 @@ protected:
   float fa[NUM_FAPS + 1];		///< faps angles
   //float balast[NUM_BAPS_V32 + 1];	///< last baps angles
 
-  virtual void resetMask(int num);
+  void resetMask(int num);
   /**< Resets bit mask */
 
-  //virtual bool equalLast(int param);
+  //bool equalLast(int param);
   /**< Checks whether same bap value */
 
-  //virtual void copyLast(int param);
+  //void copyLast(int param);
   /**< Saves last bap */
 };
 

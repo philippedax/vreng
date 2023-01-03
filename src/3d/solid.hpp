@@ -230,170 +230,170 @@ public:
   virtual ~Solid();		///< destructor.
 
   // Accessors
-  virtual WObject* object() const;
+  WObject* object() const;
   /**< Returns the associated WObject. */
 
-  virtual void getAbsBB(V3& bbcent, V3& bbsize);
+  void getAbsBB(V3& bbcent, V3& bbsize);
   /**< Returns a bounding box for this solid.
    * The bounding box is aligned with the world reference. */
 
-  virtual void getRelBB(V3& bbcent, V3& bbsize) const;
-  virtual void getDimBB(V3& bbsize) const;
-  virtual void getCentBB(V3& bbcent) const;
+  void getRelBB(V3& bbcent, V3& bbsize) const;
+  void getDimBB(V3& bbsize) const;
+  void getCentBB(V3& bbcent) const;
   /**< Returns relative bounding-box. */
 
-  virtual void updateBB(GLfloat az);
+  void updateBB(GLfloat az);
   /**< Updates BB according to its orientation. */
 
-  virtual void getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *opa);
+  void getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *opa);
   /* Returns materials. */
 
-  virtual void setPosition(const M4& mpos);
+  void setPosition(const M4& mpos);
   /**< Updates the solid position.
    * The position is defined by the matrix 4x4 'mpos'
    * which gives the transformation todo on local coords towards world coords.
    */
 
-  virtual void getPosition(M4& mpos);
+  void getPosition(M4& mpos);
   /**< Gives solid's position. */
 
-  virtual void updateDist();
+  void updateDist();
   /**< Updates distance to localuser */
 
-  virtual void setVisible(bool v);
+  void setVisible(bool v);
   /**< Sets the solid visible (true) or invisible (false). */
 
-  virtual bool isVisible() const;
+  bool isVisible() const;
   /**< Return if the solid should be drawn or not. */
 
-  virtual void setRendered(bool v);
+  void setRendered(bool v);
   /**< Sets the solid rendered (true) or not (false). */
 
-  virtual bool isRendered() const;
+  bool isRendered() const;
   /**< Return if the solid should be rendered or not. */
 
-  virtual bool isOpaque() const;
+  bool isOpaque() const;
   /**< Return if the solid is opaque or not. */
 
-  virtual void setTransparent(float _alpha);
+  void setTransparent(float _alpha);
   /**< Sets transparent. */
 
-  virtual bool isFlashy() const;
+  bool isFlashy() const;
   /**< Return if the solid is flashy or not. */
 
-  virtual void setFlashyEdges(bool flag);
+  void setFlashyEdges(bool flag);
   /**< Sets the solid edges flashy. */
 
-  virtual bool isFlary() const;
+  bool isFlary() const;
   /**< Return if the solid is flary or not. */
 
-  virtual void setFlary(bool flag);
+  void setFlary(bool flag);
   /**< Sets the solid flary. */
 
-  virtual bool isReflexive() const;
+  bool isReflexive() const;
   /**< Return if the solid is reflexive or not. */
 
-  virtual void setReflexive(bool flag);
+  void setReflexive(bool flag);
   /**< Sets the solid reflexive. */
 
   // File parsing
-  virtual char* parser(char *l);	///< Parser commun.
+  char* parser(char *l);	///< Parser commun.
 
-  virtual char* parseFrame(char* l);
-  virtual char* parseShape(char* l, uint8_t *shape);
-  virtual int statueParser(char* l, V3& bbmax, V3& bbmin);
-  virtual int solidParser(char* l, V3& bbmax, V3& bbmin);
+  char* parseFrame(char* l);
+  char* parseShape(char* l, uint8_t *shape);
+  int statueParser(char* l, V3& bbmax, V3& bbmin);
+  int solidParser(char* l, V3& bbmax, V3& bbmin);
 
-  virtual uint8_t getFrames() const;
+  uint8_t getFrames() const;
   /**< Gets the number of frames. */
 
-  virtual uint8_t getFrame() const;
+  uint8_t getFrame() const;
   /**< Gets the index of current frames. */
 
-  virtual void setFrame(uint8_t frame);
+  void setFrame(uint8_t frame);
   /**< Changes the "frame" of the solid (ie its geometry). */
 
-  virtual bool isBlinking() const;
+  bool isBlinking() const;
   /**< Checks if blinking. */
 
-  virtual bool toggleBlinking();
+  bool toggleBlinking();
   /**< Checks if rendering of a blinking solid must be done. */
 
-  virtual void setRay(GLint x, GLint y);
+  void setRay(GLint x, GLint y);
   /**< Makes a ray between user'eyes and the center of the object. */
 
-  virtual void resetRay();
+  void resetRay();
   /**< Resets ray. */
 
-  virtual void setFlashyEdges(const GLfloat *_flashcol);
+  void setFlashyEdges(const GLfloat *_flashcol);
   /**< Sets the solid edges flashy with this color. */
 
-  virtual void resetFlashyEdges();
+  void resetFlashyEdges();
   /**< Resets the solid edges flashy. */
 
-  virtual void vr2gl();
+  void vr2gl();
   /**< Transposes vreng coordinates in opengl coordinates. */
 
-  virtual GLint getDlist() const;
+  GLint getDlist() const;
   /**< Gets current displaylist number. */
 
-  virtual GLint getTexid() const;
+  GLint getTexid() const;
   /**< Gets current texid. */
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Displaying 3D displaylists
-  virtual void displaySolid(render_type layer);
+  void displaySolid(render_type layer);
   /**< Issue the OpenGL commands to draw the solid in the given mode.
        It is called with "layer" to allow drawing at different layers. */
 
-  virtual int displayList(int layer);
+  int displayList(int layer);
   /**< Renders a solid in display-list. */
 
-  virtual void displayFlary();
+  void displayFlary();
   /**< Renders attached flare to a solid. */
 
-  virtual void displayRay();
+  void displayRay();
   /**< Displays ray. */
 
 private:
   uint8_t	idxframe;	///< frame index.
   bool		isframed;	///< flag framed.
 
-  virtual char * skipEqual(char *p);
+  char * skipEqual(char *p);
   /** Skips '=' character. */
 
-  virtual void setBlinking(bool flag);
+  void setBlinking(bool flag);
   /**< Sets the solid blinking. */
 
-  virtual void preDraw(int texid, GLfloat alpha, GLfloat *fog, bool cull = false);
+  void preDraw(int texid, GLfloat alpha, GLfloat *fog, bool cull = false);
   /**< Begins transforms before drawing. */
 
-  virtual void postDraw(int texid, GLfloat alpha, GLfloat *fog);
+  void postDraw(int texid, GLfloat alpha, GLfloat *fog);
   /**< Ends transforms after drawing. */
 
-  virtual void getBB(V3 &max, V3 &min, bool framed);
+  void getBB(V3 &max, V3 &min, bool framed);
   /**< Gets BB. */
 
-  virtual void setBB(GLfloat w, GLfloat d, GLfloat h);
+  void setBB(GLfloat w, GLfloat d, GLfloat h);
   /**< Sets BB. */
 
-  virtual void doTransform(bool flag);
+  void doTransform(bool flag);
   /**< Makes transforms rotations and translations. */
 
-  virtual void doBlend(bool flag, GLfloat alpha);
+  void doBlend(bool flag, GLfloat alpha);
   /**< Makes blending operations if alpha. */
 
-  virtual void doTexture(bool flag, int texid);
+  void doTexture(bool flag, int texid);
   /**< Makes texture binding */
 
-  virtual char* getTok(char* l, uint16_t* tok);
+  char* getTok(char* l, uint16_t* tok);
   /** Gets current token. */
 
 #if 0 //notused
-  virtual void displayObject();
+  void displayObject();
   /**< Displays a reflexive object. */
 
-  virtual int solidIntersect(Solid *s2);
+  int solidIntersect(Solid *s2);
   /**< Returns True if both solids 's1' et 's2' intersect themself
    * not implemented for the moment: return 'true'. */
 

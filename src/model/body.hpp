@@ -49,7 +49,7 @@ class Phalanx2 {
   Phalanx2();			///< constructor
   virtual ~Phalanx2() {}	///< destructor
 
-  virtual int init();
+  int init();
   /**< Init Phalanx2 */
 };
 
@@ -68,10 +68,10 @@ class Phalanx {
   Phalanx(Phalanx2 *phalanx2);	///< constructor
   virtual ~Phalanx() {}		///< destructor
 
-  virtual int init();
+  int init();
   /**< Init phalanx */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Bend phalanx */
 };
 
@@ -91,13 +91,13 @@ class Finger {
   Finger(Phalanx *phalanx);	///< constructor
   virtual ~Finger() {}		///< destructor
 
-  virtual int init();
+  int init();
   /**< Init finger */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Bend finger */
 
-  virtual void abduct(float a);
+  void abduct(float a);
   /**< Tilt finger */
 };
 
@@ -118,21 +118,21 @@ class Hand {
   Hand(Finger **finger);	///< constructor
   virtual ~Hand() {}		///< destructor
 
-  virtual int init();
+  int init();
   /**< Init hand */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Bend hand */
 
-  virtual void abduct(float a);
+  void abduct(float a);
   /**< Tilt hand */
 
-  virtual void torsion(float a);
+  void torsion(float a);
   /**< Turn hand */
 
-  virtual float a_flexion() const;
-  virtual float a_abduct() const;
-  virtual float a_torsion() const;
+  float a_flexion() const;
+  float a_abduct() const;
+  float a_torsion() const;
 };
 
 /**
@@ -152,17 +152,17 @@ class Forearm {
   Forearm(Hand *hand);		///< constructor
   virtual ~Forearm() {}		///< destructor
 
-  virtual int init();
+  int init();
   /**< Init forearm */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Bend elbow */
 
-  virtual void torsion(float a);
+  void torsion(float a);
   /**< Turn elbow */
 
-  virtual float a_flexion() const;
-  virtual float a_torsion() const;
+  float a_flexion() const;
+  float a_torsion() const;
 };
 
 /**
@@ -182,21 +182,21 @@ class Arm {
   Arm(Forearm *forearm);	///< constructor
   virtual ~Arm() {}		///< destructor
 
-  virtual int init();
+  int init();
   /**< Init arm */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Rote arm */
 
-  virtual void abduct(float a);
+  void abduct(float a);
   /**< Raise arm */
 
-  virtual void torsion(float a);
+  void torsion(float a);
   /**< Turn arm */
 
-  virtual float a_flexion() const;
-  virtual float a_abduct() const;
-  virtual float a_torsion() const;
+  float a_flexion() const;
+  float a_abduct() const;
+  float a_torsion() const;
 };
 
 /**
@@ -215,17 +215,17 @@ class Shoulder {
   Shoulder(Arm *arm);		///< constructor
   virtual ~Shoulder() {}	///< destructor
 
-  virtual int init();
+  int init();
   /**< Init shoulder */
 
-  virtual void flexion(float distance);
+  void flexion(float distance);
   /**< Avance shoulder */
 
-  virtual void abduct(float distance);
+  void abduct(float distance);
   /**< Raise shoulder */
 
-  virtual float a_flexion() const;
-  virtual float a_abduct() const;
+  float a_flexion() const;
+  float a_abduct() const;
 };
 
 /**
@@ -244,21 +244,21 @@ class HeadBody {
   HeadBody();			///< constructor
   virtual ~HeadBody() {}	///< destructor
 
-  virtual int init();
+  int init();
   /**< Init head */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Bend head */
 
-  virtual void abduct(float a);
+  void abduct(float a);
   /**< Tilt head */
 
-  virtual void torsion(float a);
+  void torsion(float a);
   /**< Turn head */
 
-  virtual float a_flexion() const;
-  virtual float a_abduct() const;
-  virtual float a_torsion() const;
+  float a_flexion() const;
+  float a_abduct() const;
+  float a_torsion() const;
 };
 
 /**
@@ -278,21 +278,21 @@ class Neck {
   Neck(HeadBody *head);		///< constructor
   virtual ~Neck() {}		///< destructor
 
-  virtual int init();
+  int init();
   /**< Init neck */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Bend neck */
 
-  virtual void abduct(float a);
+  void abduct(float a);
   /**< Tilt neck */
 
-  virtual void torsion(float a);
+  void torsion(float a);
   /**< Turn neck */
 
-  virtual float a_flexion() const;
-  virtual float a_abduct() const;
-  virtual float a_torsion() const;
+  float a_flexion() const;
+  float a_abduct() const;
+  float a_torsion() const;
 };
 
 /**
@@ -311,21 +311,21 @@ class Foot {
   Foot();			///< constructor
   virtual ~Foot() {}		///< destructor
 
-  virtual int init();
+  int init();
   /**< Init foot */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Bend foot */
 
-  virtual void abduct(float a);
+  void abduct(float a);
   /**< Tilt foot */
 
-  virtual void torsion(float a);
+  void torsion(float a);
   /**< Turn foot */
 
-  virtual float a_flexion() const;
-  virtual float a_abduct() const;
-  virtual float a_torsion() const;
+  float a_flexion() const;
+  float a_abduct() const;
+  float a_torsion() const;
 };
 
 /**
@@ -344,17 +344,17 @@ class Shin {
   Shin(Foot *foot);		///< constructor
   virtual ~Shin() {}		///< destructor
 
-  virtual int init();
+  int init();
   /**< Init shin */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Bend knee */
 
-  virtual void torsion(float a);
+  void torsion(float a);
   /**< Turn knee */
 
-  virtual float a_flexion() const;
-  virtual float a_torsion() const;
+  float a_flexion() const;
+  float a_torsion() const;
 };
 
 /**
@@ -374,21 +374,21 @@ class Thigh {
   Thigh(Shin *shin);		///< constructor
   virtual ~Thigh() {}		///< destructor
 
-  virtual int init();
+  int init();
   /**< Init thigh */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Rote thigh */
 
-  virtual void abduct(float a);
+  void abduct(float a);
   /**< Raise thigh */
 
-  virtual void torsion(float a);
+  void torsion(float a);
   /**< Turn thigh */
 
-  virtual float a_flexion() const;
-  virtual float a_abduct() const;
-  virtual float a_torsion() const;
+  float a_flexion() const;
+  float a_abduct() const;
+  float a_torsion() const;
 };
 
 /**
@@ -408,21 +408,21 @@ class Chest {
   //Chest(Thigh **thighs, Shoulder **shoulders, Neck *neck);
   virtual ~Chest() {}		///< destructor
 
-  //virtual int init(class Body *body);
+  //int init(class Body *body);
   /**< Init chest */
 
-  virtual void flexion(float a);
+  void flexion(float a);
   /**< Roll chest */
 
-  virtual void abduct(float a);
+  void abduct(float a);
   /**< Tilt chest */
 
-  virtual void torsion(float a);
+  void torsion(float a);
   /**< Turn chest */
 
-  virtual float a_flexion() const;
-  virtual float a_abduct() const;
-  virtual float a_torsion() const;
+  float a_flexion() const;
+  float a_abduct() const;
+  float a_torsion() const;
 };
 
 
@@ -572,79 +572,79 @@ public:
 
   virtual ~Body();		///< destructor.
 
-  virtual void init();
+  void init();
   /**< Inits body. */
 
-  virtual void animate();
+  void animate();
   /**< Animates body. */
 
-  virtual void animReset();
-  virtual void animHead(float deg, uint8_t axis);
-  virtual void animNeck(float deg, uint8_t axis);
-  virtual void animChest(float deg, uint8_t axis);
-  virtual void animLeg(float deg, uint8_t side, uint8_t axis);
-  virtual void animShin(float deg, uint8_t side, uint8_t axis);
-  virtual void animFoot(float deg, uint8_t side, uint8_t axis);
-  virtual void animArm(float deg, uint8_t side, uint8_t axis);
-  virtual void animForearm(float deg, uint8_t side, uint8_t axis);
-  virtual void animHand(float deg, uint8_t side, uint8_t axis);
+  void animReset();
+  void animHead(float deg, uint8_t axis);
+  void animNeck(float deg, uint8_t axis);
+  void animChest(float deg, uint8_t axis);
+  void animLeg(float deg, uint8_t side, uint8_t axis);
+  void animShin(float deg, uint8_t side, uint8_t axis);
+  void animFoot(float deg, uint8_t side, uint8_t axis);
+  void animArm(float deg, uint8_t side, uint8_t axis);
+  void animForearm(float deg, uint8_t side, uint8_t axis);
+  void animHand(float deg, uint8_t side, uint8_t axis);
   /**x Animates members. */
 
-  virtual void anim(int param);
+  void anim(int param);
   /**< Animates body. */
 
   virtual void render(Pos& pos);
   /**< Renders body and face. */
 
 #if 0 //dax OK
-  virtual void loadBodyParts(class Http *http);
+  void loadBodyParts(class Http *http);
 #else
-  virtual void loadBodyParts(FILE *f);
+  void loadBodyParts(FILE *f);
 #endif
   /**< Loads body's drawable parts. */
 
-  //virtual void setJointPoint(uint8_t indice, float *_jp);
+  //void setJointPoint(uint8_t indice, float *_jp);
   /**< Sets one joint point for this indice. */
 
-  virtual void setColors(float *_skin, float *_cloth);
+  void setColors(float *_skin, float *_cloth);
   /**< Sets colors for skin and cloth. */
 
 protected:
-  virtual void load(const char *url);
+  void load(const char *url);
   /**< Loads body joint points. */
 
   static void httpReader(void *o, class Http *http);
   /**< Reads joint points par Http. */
 
-  virtual void draw();
+  void draw();
   /**< Draws body's drawable parts in displaylists. */
 
-  virtual void display();
+  void display();
   /**< Displays body and face. */
 
-  virtual void display(uint8_t part);
+  void display(uint8_t part);
   /**< Displays a part of the body. */
 
-  virtual bool isLoaded(uint8_t part);
+  bool isLoaded(uint8_t part);
   /**< Returns true if body part exists. */
 
-  virtual void transP(uint8_t part);
+  void transP(uint8_t part);
   /**< Translates to the Joint Point. */
 
-  virtual void transN(uint8_t part);
+  void transN(uint8_t part);
   /**< Translates reverse from the Joint Point. */
 
-  virtual void rotX(int param, uint8_t model);
-  virtual void rotY(int param, uint8_t model);
-  virtual void rotZ(int param, uint8_t model);
-  virtual void rotX(int param, float angle);
-  virtual void rotY(int param, float angle);
-  virtual void rotZ(int param, float angle);
+  void rotX(int param, uint8_t model);
+  void rotY(int param, uint8_t model);
+  void rotZ(int param, uint8_t model);
+  void rotX(int param, float angle);
+  void rotY(int param, float angle);
+  void rotZ(int param, float angle);
   /**< Rotates around the Joint Point. */
 
-  virtual char * getTok(char *l, int *tok);
-  virtual char * skipEqual(char *l);
-  virtual char * getUrl() const;
+  char * getTok(char *l, int *tok);
+  char * skipEqual(char *l);
+  char * getUrl() const;
 
 };
 

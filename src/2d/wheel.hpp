@@ -43,17 +43,17 @@ public:
   /**< Renders wheel */
 
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void draw(uint8_t teeth, GLfloat r, const GLfloat *color);
+  void draw(uint8_t teeth, GLfloat r, const GLfloat *color);
   /**< Draws wheel */
 
-  virtual void spoke(GLfloat r);
-  virtual void dial(GLfloat a, GLfloat r, const GLfloat *color);
-  virtual void needle(uint8_t teeth, GLfloat r);
-  virtual void needle_displaylist(uint8_t teeth, GLfloat r);
-  virtual void displaylist(uint8_t teeth, GLfloat r, const GLfloat *color);
+  void spoke(GLfloat r);
+  void dial(GLfloat a, GLfloat r, const GLfloat *color);
+  void needle(uint8_t teeth, GLfloat r);
+  void needle_displaylist(uint8_t teeth, GLfloat r);
+  void displaylist(uint8_t teeth, GLfloat r, const GLfloat *color);
 
 };
 

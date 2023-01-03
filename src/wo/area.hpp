@@ -40,7 +40,7 @@ public:
 
   static void funcs();	///< init funclist
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Area(char *l);
   /**< Constructor */
@@ -55,7 +55,7 @@ public:
   /**< When an other object doesn't intersect */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 };
 

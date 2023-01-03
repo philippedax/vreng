@@ -87,15 +87,15 @@ public:
   Avi(const char *url);
   virtual ~Avi();
 
-  virtual void write_header(int width, int height, int norm, int audio, int stereo, int size, int rate);
-  virtual void add_frame(const char *jpeg_data, int32_t length);
-  virtual void add_audio(const char *audio_data, int32_t length);
+  void write_header(int width, int height, int norm, int audio, int stereo, int size, int rate);
+  void add_frame(const char *jpeg_data, int32_t length);
+  void add_audio(const char *audio_data, int32_t length);
 
-  virtual void getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const;
-  virtual FILE * getFile() const;
-  virtual int32_t read_header();
-  virtual int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen);
-  virtual int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t max_aud, int32_t *retlen);
+  void getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const;
+  FILE * getFile() const;
+  int32_t read_header();
+  int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen);
+  int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t max_aud, int32_t *retlen);
 
   static void httpReader(void *_avi, class Http *http);
 
@@ -122,17 +122,17 @@ private:
   uint16_t a_rate;
   uint16_t a_bits;
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
 
-  virtual void defaults();
-  virtual void download(const char *url);
-  virtual int32_t tell(int fd);
-  virtual void out4cc(const char *s);
-  virtual void outlong(int32_t n);
-  virtual void outshrt(int32_t n);
-  virtual void start_list(const char * name);
-  virtual void finish_list(const char * name);  
-  virtual void open_output_file(const char * filename);
+  void defaults();
+  void download(const char *url);
+  int32_t tell(int fd);
+  void out4cc(const char *s);
+  void outlong(int32_t n);
+  void outshrt(int32_t n);
+  void start_list(const char * name);
+  void finish_list(const char * name);  
+  void open_output_file(const char * filename);
 
 };
 

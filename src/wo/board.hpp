@@ -52,7 +52,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;};
+  const OClass* getOClass() {return &oclass;};
 
   static void funcs();	///< init funclist
 
@@ -70,10 +70,10 @@ public:
   virtual void render();
   /**< Renders the drawing */
 
-  virtual bool isDrawing() const;
+  bool isDrawing() const;
   /**< Accessor: is drawing ? */
 
-  virtual void click(V3 dir);
+  void click(V3 dir);
   /**< React to a user click on our surface */
 
   virtual void quit();
@@ -83,15 +83,15 @@ private:
   GLint dlist;
   bool drawing;
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void draw();
-  virtual void import();
-  virtual void leave();
+  void draw();
+  void import();
+  void leave();
 
   // GUI callbacks
   static void wb_cb(Board *o, void *d, time_t s, time_t u);

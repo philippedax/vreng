@@ -107,7 +107,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -131,41 +131,41 @@ public:
   virtual void quit();
   /**< Quits properly */
 
-  virtual void forward(void *d, time_t s, time_t u);
+  void forward(void *d, time_t s, time_t u);
   /**< Next sheet */
 
-  virtual void backward(void *d, time_t s, time_t u);
+  void backward(void *d, time_t s, time_t u);
   /**< Prev sheet */
 
-  virtual void setPos(char *s, float x, float y, float z, float az, float ax);
+  void setPos(char *s, float x, float y, float z, float az, float ax);
   /**< Sheet position */
 
-  virtual void setDim(char *s, float x, float y, float z);
+  void setDim(char *s, float x, float y, float z);
   /**< Sheet dimension */
 
-  virtual void setCov(char *s, char *yn, char *yp, char *xp, char *xn, char *zp);
+  void setCov(char *s, char *yn, char *yp, char *xp, char *xn, char *zp);
   /**< Sheet cover texture */
 
-  virtual void setCov(char *s, char *yn, char *yp);
+  void setCov(char *s, char *yn, char *yp);
   /**< Sheet cover texture */
 
-  virtual void setTex(char *s, char *yn, char *xn, char *yp, char *xp, char *zp);
+  void setTex(char *s, char *yn, char *xn, char *yp, char *xp, char *zp);
   /**< Sheet texture */
 
-  virtual void setTex(char *s, char *yn, char *xn);
+  void setTex(char *s, char *yn, char *xn);
   /**< Sheet texture */
 
-  virtual void createSheet(char *s, uint8_t t, uint8_t side);
+  void createSheet(char *s, uint8_t t, uint8_t side);
   ///< Create sheet
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< sets default values */
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
 
   void turnPrev(Sheet *sheet, void *d, time_t s, time_t u);
   void turnNext(Sheet *sheet, void *d, time_t s, time_t u);

@@ -42,7 +42,7 @@ class Walls: public WObject {
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -53,7 +53,7 @@ class Walls: public WObject {
 
   static WObject * (creator)(char *l);	///< Creates from fileline
 
-  virtual void draw();	///< Draws walls
+  void draw();	///< Draws walls
 
   virtual void render(); ///< Renders the walls
 
@@ -62,19 +62,19 @@ class Walls: public WObject {
   static int whenIntersect(const V3& center, const V3& size, V3& norm);
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Sets solid values */
 
   static void httpReader(void *va, class Http *http);
   /**< download walls */
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
 
 };
 

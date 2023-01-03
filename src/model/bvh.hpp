@@ -201,7 +201,7 @@ public:
   string name;
   
   //bounding box
-  virtual void getBoundingBox() {}
+  void getBoundingBox() {}
   void getAABB();
   void drawAABB();
   void drawBoundingBox();
@@ -493,8 +493,8 @@ private:
   /// This is likely obsolete and should be gotten rid of
   bool translucent;
 
-  virtual void download(const char *url);
-  virtual const char * getUrl() const;
+  void download(const char *url);
+  const char * getUrl() const;
 };
 
 // how should the animation info fit in?
@@ -567,8 +567,8 @@ public:
   static void httpReader(void *_bvh, class Http *http);
 
 private:
-  virtual void download(const char *url);
-  virtual char * getUrl() const;
+  void download(const char *url);
+  char * getUrl() const;
 };
 
 

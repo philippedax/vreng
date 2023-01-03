@@ -47,7 +47,7 @@ class Widget : public WObject {
  public:
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();		///< init funclist
 
@@ -66,38 +66,38 @@ class Widget : public WObject {
   virtual void quit();
   /**< Called when the object is destroy */
 
-  virtual bool mouseEvent(int16_t x, int16_t y, uint8_t button);
+  bool mouseEvent(int16_t x, int16_t y, uint8_t button);
   /**< Redirect mouse events */
 
-  virtual bool keyEvent(const char *key, bool is_down);
+  bool keyEvent(const char *key, bool is_down);
   /**< Redirect keyboard events */
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets defaults values */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void inits();
+  void inits();
   /**< Do specific inits */
 
-  virtual void getCoords(int16_t &x, int16_t &y);
+  void getCoords(int16_t &x, int16_t &y);
   /**< Convert VReng screen coordinates to VNC screen coordinates */
 
-  virtual void setTexture(bool mipmap);
+  void setTexture(bool mipmap);
   /**< Build a texture */
 
-  virtual void defaultPixmap();
+  void defaultPixmap();
   /**< Build the default pixmap */
 
-  virtual void drawScreen();
+  void drawScreen();
   /**< Draw the screen */
 
-  virtual void buildScreen();
+  void buildScreen();
   /**< Build the screen */
 
   // GUI callbacks

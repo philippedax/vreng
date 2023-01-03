@@ -67,48 +67,48 @@ class Grid {
   virtual void render();
   /**< Renders grid. */
 
-  virtual void init(uint16_t depth, uint16_t width, uint16_t height);
+  void init(uint16_t depth, uint16_t width, uint16_t height);
   /**< Intilialization. */
 
-  virtual class UBox * gridBox();
+  class UBox * gridBox();
   /**< Builds a dialog box. */
 
   static Grid * grid();
   /**< Returns grid instance. */
 
-  virtual void reset();
-  virtual void toggleGrid2d();
-  virtual void toggleGrid3d();
-  virtual void toggleOverlap();
-  virtual void toggleBehavior(int behavior);
+  void reset();
+  void toggleGrid2d();
+  void toggleGrid3d();
+  void toggleOverlap();
+  void toggleBehavior(int behavior);
 
-  virtual void setColor(const float *color);
-  virtual void setWidthIncr(uint8_t val);
-  virtual void setHeightIncr(uint8_t val);
-  virtual void setDepthIncr(uint8_t val);
+  void setColor(const float *color);
+  void setWidthIncr(uint8_t val);
+  void setHeightIncr(uint8_t val);
+  void setDepthIncr(uint8_t val);
 
  private:
   UScrollbar *s_width, *s_height, *s_depth, *s_red, *s_green, *s_blue, *s_alpha,
              *s_x, *s_y, *s_z, *s_rotx, *s_roty, *s_rotz;
-  virtual void setWidth(UEvent &v);
-  virtual void setHeight(UEvent &v);
-  virtual void setDepth(UEvent &v);
-  virtual void setRed(UEvent &v);
-  virtual void setGreen(UEvent &v);
-  virtual void setBlue(UEvent &v);
-  virtual void setAlpha(UEvent &v);
+  void setWidth(UEvent &v);
+  void setHeight(UEvent &v);
+  void setDepth(UEvent &v);
+  void setRed(UEvent &v);
+  void setGreen(UEvent &v);
+  void setBlue(UEvent &v);
+  void setAlpha(UEvent &v);
 
-  virtual void setPosX(UEvent &v);
-  virtual void setPosY(UEvent &v);
-  virtual void setPosZ(UEvent &v);
-  virtual void setRotX(UEvent &v);
-  virtual void setRotY(UEvent &v);
-  virtual void setRotZ(UEvent &v);
+  void setPosX(UEvent &v);
+  void setPosY(UEvent &v);
+  void setPosZ(UEvent &v);
+  void setRotX(UEvent &v);
+  void setRotY(UEvent &v);
+  void setRotZ(UEvent &v);
 
-  virtual void draw();		///< draws grids
+  void draw();		///< draws grids
 
-  virtual void defaults();	///< default values
-  virtual void genValues();
+  void defaults();	///< default values
+  void genValues();
 };
 
 #endif

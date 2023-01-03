@@ -75,7 +75,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -94,16 +94,16 @@ public:
   virtual bool whenIntersect(WObject *pcur, WObject *pold);
   virtual void quit();
 
-  virtual void turnPrev();
-  virtual void turnNext();
-  virtual void pullPrev();
-  virtual void pullNext();
-  virtual void pushPrev(float dist);
-  virtual void pushNext(float dist);
-  virtual void destroy();
+  void turnPrev();
+  void turnNext();
+  void pullPrev();
+  void pullNext();
+  void pushPrev(float dist);
+  void pushNext(float dist);
+  void destroy();
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
   static void sheetCreate(Book* book, char* l, uint8_t side, int heap);

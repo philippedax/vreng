@@ -56,7 +56,7 @@ class Mech: public WObject {
  public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -75,27 +75,27 @@ class Mech: public WObject {
   /**< Quits properly */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Default values */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds geometry */
 
-  virtual void draw();
-  virtual void display();
-  virtual void drawTorso();
-  virtual void drawHip();
-  virtual void drawShoulder();
-  virtual void drawRocketPod();
-  virtual void drawUpperArm();
-  virtual void drawForeArm();
-  virtual void drawUpperLeg();
-  virtual void drawLowerLeg();
-  virtual void drawFoot();
-  virtual void drawVulcanGun();
+  void draw();
+  void display();
+  void drawTorso();
+  void drawHip();
+  void drawShoulder();
+  void drawRocketPod();
+  void drawUpperArm();
+  void drawForeArm();
+  void drawUpperLeg();
+  void drawLowerLeg();
+  void drawFoot();
+  void drawVulcanGun();
 
   static void setMaterial(GLfloat spec[], GLfloat amb[], GLfloat diff[], GLfloat shin[]);
 

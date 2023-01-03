@@ -45,7 +45,7 @@ public:
   ALCdevice *device;
   ALCcontext *context;
 
-  virtual ALuint load(const char * filename);
+  ALuint load(const char * filename);
 #endif
 
   Openal();		///< Constructor from world

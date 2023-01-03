@@ -108,22 +108,22 @@ protected:
 
 private:
 
-  virtual void timestep(tParticle *p, float dt);
+  void timestep(tParticle *p, float dt);
   /**< Motion in delta t */
 
-  virtual void bounce(tParticle *p, float dt);
+  void bounce(tParticle *p, float dt);
   /**< When bouncing the ground */
 
-  virtual float timedelta();
+  float timedelta();
   /**< Diff time in sec */
 
-  virtual bool fequal(float a, float b);
+  bool fequal(float a, float b);
   /**< Compare floats */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
 };

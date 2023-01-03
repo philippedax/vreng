@@ -121,7 +121,7 @@ private:
 public:
   static const OClass oclass;	///< class variable.
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
@@ -139,67 +139,67 @@ public:
   virtual void quit();
   /**< Quits properly. */
 
-  virtual void setAniming(bool flag);
+  void setAniming(bool flag);
   /**< Set animing flag. */
 
-  virtual bool isAnim() const;
+  bool isAnim() const;
   /**< Test animing. */
 
-  virtual void setFlying(bool flag);
+  void setFlying(bool flag);
   /**< Set flying flag. */
 
-  virtual bool isFlying() const;
+  bool isFlying() const;
   /**< Test flying. */
 
-  virtual void setShowing(bool flag);
+  void setShowing(bool flag);
   /**< Set showing flag. */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line. */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds geometry. */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior. */
 
-  virtual void inits();
+  void inits();
   /**< Do specific initializations. */
 
-  virtual void draw();
+  void draw();
   /**< Draws the body. */
 
-  virtual void setPose();
+  void setPose();
   /**< unused */
 
-  virtual const char * getUrl() const;
+  const char * getUrl() const;
 
   static void httpReader(void *oa, Http *http);
   /**< Reads cset files. */
 
-  virtual void computeCurve();
+  void computeCurve();
   /**< Computes cset curves. */
 
-  virtual void draw_bust();
-  virtual void draw_neck();
-  virtual void draw_brea();
-  virtual void draw_head();
-  virtual void draw_uleg();
-  virtual void draw_lleg();
-  virtual void draw_foot();
-  virtual void draw_uarm();
-  virtual void draw_larm();
+  void draw_bust();
+  void draw_neck();
+  void draw_brea();
+  void draw_head();
+  void draw_uleg();
+  void draw_lleg();
+  void draw_foot();
+  void draw_uarm();
+  void draw_larm();
 
-  virtual void display_bust();
-  virtual void display_neck();
-  virtual void display_brea(bool side);
-  virtual void display_head();
-  virtual void display_leg(bool side);
-  virtual void display_arm(bool side);
+  void display_bust();
+  void display_neck();
+  void display_brea(bool side);
+  void display_head();
+  void display_leg(bool side);
+  void display_arm(bool side);
 
   // GUI callbacks
   static void animate_cb(Guy *o, void *d, time_t s, time_t u);

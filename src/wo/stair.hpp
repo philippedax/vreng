@@ -35,7 +35,7 @@ class Stair: public Step {
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -48,16 +48,16 @@ public:
   /**< Quits */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Default values */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void build();
+  void build();
   /**< Builds stair */
 };
 

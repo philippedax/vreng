@@ -320,9 +320,9 @@ class Bonename {
 
   virtual ~Bonename();
 
-  virtual void setName(char *Name);
+  void setName(char *Name);
 
-  virtual char *getName();
+  char *getName();
 };
 
 //---------------------------------------------------------------------------

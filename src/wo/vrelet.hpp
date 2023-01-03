@@ -62,7 +62,7 @@ class Vrelet: public WObject {
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;} ///< virtual inst. method
+  const OClass* getOClass() {return &oclass;} ///< inst. method
 
   Vrelet(char *l);	///< Constructor
 
@@ -88,7 +88,7 @@ class Vrelet: public WObject {
   virtual void render();
   /**< Displays */
 
-  virtual void click(V3 dir);
+  void click(V3 dir);
   /**< React to a user click on our surface */
 
   virtual void quit();
@@ -100,10 +100,10 @@ class Vrelet: public WObject {
   bool needRedraw;	///< true if a new shape has been added/removed to the list of 2D objects
   GLint dlist;		///< OpenGL displaylist constructed from the above list
 
-  virtual void defaults();
+  void defaults();
   /**< Default values */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**<
    * Vrelet parser.
    * Configuration line structure:
@@ -117,7 +117,7 @@ class Vrelet: public WObject {
    * - codebase URL for that class (optional)
    */
 
-  virtual void draw();
+  void draw();
   /**<
    * Make sure our asynch sockets are open if they need to be.
    * If they are, see if the client said something between now
@@ -125,7 +125,7 @@ class Vrelet: public WObject {
    * Finally, draw this Vrelet's 2D object list.
    */
 
-  virtual void sendPos(WObject *po);
+  void sendPos(WObject *po);
   /**<
    * Send some object's position to the child.
    * If the position is that of the current object,
@@ -141,20 +141,20 @@ class Vrelet: public WObject {
    * (sending floats is not currently possible)
    */
 
-  virtual void sendPosError(uint8_t type, uint32_t ssrc, uint16_t port, uint16_t id);
+  void sendPosError(uint8_t type, uint32_t ssrc, uint16_t port, uint16_t id);
   /**<
    * Same as sendPos, except that no position is sent.
    * This is to indicate to the controler application that
    * the object it's working on no longer exists.
    */
 
-  virtual void sendIntersect(WObject *po, WObject *old, int inOrOut);
+  void sendIntersect(WObject *po, WObject *old, int inOrOut);
   /**<
    * Send the client a notification that a thing just entered/exited
    * its bounding box
    */
 
-  virtual void answerTypeQuery(int type);
+  void answerTypeQuery(int type);
   /**<
    * Answer a child's query.
    * Right now, the only query available is a query
@@ -162,7 +162,7 @@ class Vrelet: public WObject {
    * of WObject. A list of all the object ids is returned to the child.
    */
 
-  virtual void processClient();
+  void processClient();
   /**<
    * Deal with input from the client app.
    * This function is called at every render phase.
@@ -180,13 +180,13 @@ class Vrelet: public WObject {
    * - MSGT_QUERY: Answers to type queries (returns a list of mobile objects)
    */
 
-  virtual void setPos(WObject *po);
+  void setPos(WObject *po);
   /**< Set initial position of this object */
 
-  virtual void deltaPos(WObject *po);
+  void deltaPos(WObject *po);
   /**< Update position of this object */
 
-  virtual void sendClick(int x, int y);
+  void sendClick(int x, int y);
   /**<
    * Send a notification to the child saying a click occured.
    * The coordinates sent are relative to the object's main surface

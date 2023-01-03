@@ -49,7 +49,7 @@ private:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -58,7 +58,7 @@ public:
 
   static WObject * (creator)(char *l);
 
-  virtual void lighting();
+  void lighting();
   /**< Renders light. */
 
   static void lights();
@@ -68,10 +68,10 @@ public:
   /**< Quits properly. */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line. */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
 };

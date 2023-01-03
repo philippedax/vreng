@@ -36,7 +36,7 @@ class Template : public WObject {
  public:
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();		///< init funclist
 
@@ -46,26 +46,26 @@ class Template : public WObject {
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Called each frame - check if ths texture has to be updated */
 
-  virtual void render();
+  void render();
   /**< Render the object */
 
-  virtual void quit();
+  void quit();
   /**< Called when the object is destroy */
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets defaults values */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void inits();
+  void inits();
   /**< Do specific inits */
 
   // GUI callbacks

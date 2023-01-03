@@ -64,7 +64,7 @@ public:
   static Img * init();
   /**< set a default image. */
 
-  virtual bool sized();
+  bool sized();
   /**< checks if image is well sized or not. */
 
   Img* resize(uint16_t width_new, uint16_t height_new);

@@ -39,7 +39,7 @@ class Wall: public WObject {
 
   static void funcs();	///< init funclist
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
@@ -57,7 +57,7 @@ class Wall: public WObject {
   /**< When an other object intersects */
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses fileline */
 
   // GUI callbacks

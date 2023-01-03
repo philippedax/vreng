@@ -49,15 +49,15 @@ public:
   static Axis * axis();
   /**< Returns axis instance */
 
-  virtual void toggle();
+  void toggle();
 
-  virtual void reset();
+  void reset();
 
-  virtual void init();
+  void init();
 
 private:
-  virtual void draw();		///< draws axis
-  virtual void defaults();	///< sets default values
+  void draw();		///< draws axis
+  void defaults();	///< sets default values
 };
 
 #endif

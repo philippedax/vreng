@@ -45,7 +45,7 @@ private:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -54,7 +54,7 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual void aoiEnter();
+  void aoiEnter();
   /**<
    * Performs action to be done while entering a new Area of Interest:
    *  - leaving previous one with aoiQuit() call
@@ -75,10 +75,10 @@ public:
    */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets defauts values */
 
 };

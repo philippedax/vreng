@@ -40,7 +40,7 @@ public:
 
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Fog(char *l);	///< Constructor
 
@@ -56,16 +56,16 @@ public:
   /**< Quits properly */
 
 private:
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Makes a pseudo solid */
 
 };

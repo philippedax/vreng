@@ -67,7 +67,7 @@ public:
 
   static const OClass oclass;	///< class variable.
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist.
 
@@ -83,14 +83,14 @@ public:
   virtual void changePermanent(float lasting);
   /**< Changes. */
 
-  virtual void start();
+  void start();
   /**< Starts movement. */
 
-  virtual void stop();
+  void stop();
   /**< Stops movement. */
 
-  virtual void draw();
-  virtual void draw(uint8_t model);
+  void draw();
+  void draw(uint8_t model);
   /**< Draws. */
 
   virtual void render();
@@ -101,20 +101,20 @@ public:
   /**< Quits. */
   
 private:
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds solid geometry. */
 
-  virtual uint8_t getModel(const char *name);
+  uint8_t getModel(const char *name);
   /**< Gets model id. */
 
-  virtual void wear();
-  virtual void takeoff();
+  void wear();
+  void takeoff();
 
   // callbacks
   static void wear_cb(Wings *wings, void *d, time_t s, time_t u);

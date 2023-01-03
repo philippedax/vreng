@@ -215,7 +215,7 @@ private:
 
 public:
   static const OClass oclass;  ///< class variable.
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();  ///< init funclist.
 
@@ -229,15 +229,15 @@ public:
   virtual void quit();
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses. */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
   static void httpReader(void *alwo, class Http *http);
 
-  virtual bool loader(const char *url, float scale);
+  bool loader(const char *url, float scale);
   /**< Loader LWO model. */
 
   void draw();

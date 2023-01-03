@@ -93,26 +93,26 @@ class World {
   virtual ~World() {};
   /**< Destructor. */
 
-  virtual void compute(time_t sec, time_t usec);
+  void compute(time_t sec, time_t usec);
   /**< Processes the world. */
 
-  virtual void quit();
+  void quit();
   /**< Quits current world. */
 
  private:
-  virtual void addToList();
+  void addToList();
   /**< Adds world into world list. */
 
-  virtual bool call(World *wprev);
+  bool call(World *wprev);
   /**<
    * Switches channels.
    * deleteChannel -> enter() -> join()
    */
 
-  virtual void checkIcons();
+  void checkIcons();
   /**< Checks whether Icon objects are locally presents. */
 
-  virtual void checkPersist();
+  void checkPersist();
   /**< Checks whether objects are persistents. */
 
  public:
@@ -126,38 +126,38 @@ class World {
   // Accessors
   //
 
-  virtual const char* getName() const;		///< Gets current world name.
-  virtual void setName(const char* name);	///< Builds world name from url.
+  const char* getName() const;		///< Gets current world name.
+  void setName(const char* name);	///< Builds world name from url.
 
-  virtual uint8_t getState() const;		///< Gets the world state.
-  virtual void setState(int _state);		///< Sets a world state.
-  virtual bool isDead() const;			///< Checks if world is dead.
+  uint8_t getState() const;		///< Gets the world state.
+  void setState(int _state);		///< Sets a world state.
+  bool isDead() const;			///< Checks if world is dead.
 
-  virtual const char* getChan() const;		///< Current channel string.
-  virtual bool setChan(const char *chanstr);	///< Sets the channel name.
-  virtual void setChanAndJoin(char *chanstr);	///< Sets and joins the channel.
+  const char* getChan() const;		///< Current channel string.
+  bool setChan(const char *chanstr);	///< Sets the channel name.
+  void setChanAndJoin(char *chanstr);	///< Sets and joins the channel.
 
-  virtual const char* getUrl() const;		///< Gets the world url.
-  virtual void setUrl(const char* _url);	///< Sets the world url.
+  const char* getUrl() const;		///< Gets the world url.
+  void setUrl(const char* _url);	///< Sets the world url.
 
-  virtual void setGround(float level);		///< Sets the world level.
-  virtual float getGround() const;		///< Gets the world level.
+  void setGround(float level);		///< Sets the world level.
+  float getGround() const;		///< Gets the world level.
 
   // Accessors
-  virtual bool isPersistent() const;
-  virtual void setPersistent(bool persistent);
-  virtual bool isLinked() const;
-  virtual void linked();
-  virtual struct GuiItem * getGui() const;
-  virtual bool isGui() const;
-  virtual void resetGui();
-  virtual uint16_t number() const;
-  virtual User* localUser() const;
-  virtual Bgcolor* backgroundColor() const;
-  virtual uint32_t getGroupAdr() const;
-  virtual uint32_t getSsrc() const;
-  virtual void setGroupAdr(uint32_t _group);
-  virtual void setSsrc(uint32_t _ssrc);
+  bool isPersistent() const;
+  void setPersistent(bool persistent);
+  bool isLinked() const;
+  void linked();
+  struct GuiItem * getGui() const;
+  bool isGui() const;
+  void resetGui();
+  uint16_t number() const;
+  User* localUser() const;
+  Bgcolor* backgroundColor() const;
+  uint32_t getGroupAdr() const;
+  uint32_t getSsrc() const;
+  void setGroupAdr(uint32_t _group);
+  void setSsrc(uint32_t _ssrc);
 
   //
   // Grid

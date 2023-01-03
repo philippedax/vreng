@@ -45,16 +45,16 @@ public:
 
   static void funcs();	///< init funclist
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Equations to move permanetly */
 
 private:
   class Cloud *pcloud;
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values */
 
-  virtual void makeSolid();
+  void makeSolid();
 
   // Callbacks
   static void start_cb(class Cloud *cloud, void *d, time_t s, time_t u);

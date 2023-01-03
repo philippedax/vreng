@@ -68,7 +68,7 @@ class Transform: public WObject {
  public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Transform(char *l);	///< Constructor
 
@@ -81,7 +81,7 @@ class Transform: public WObject {
   virtual void quit();		///< quits
 
  private:
-  virtual void addList(uint8_t op, GLfloat x, GLfloat y, GLfloat z, GLfloat a);
+  void addList(uint8_t op, GLfloat x, GLfloat y, GLfloat z, GLfloat a);
   ///< add to list
 };
 

@@ -61,7 +61,7 @@ public:
 
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -91,25 +91,25 @@ public:
   /**< Quits. */
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses. */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
-  virtual void setUser();
+  void setUser();
   /**< Sets User on the guide. */
 
-  virtual void motion(float *dx, float *dy, float *dz);
+  void motion(float *dx, float *dy, float *dz);
   /**< Returns deltas. */
 
-  virtual void progress(WObject *po);
+  void progress(WObject *po);
   /**< Progress along the guide. */
 
-  virtual void draw(float *color);
+  void draw(float *color);
   /**< Draws the trajectory. */
 
-  virtual void restore();
+  void restore();
   /**< Restores initial positions. */
 
   /** Callbacks from GUI */

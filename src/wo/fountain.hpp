@@ -36,7 +36,7 @@ class Fountain: public Particle {
 public:
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Fountain(char *l);	///< Constructor
 
@@ -48,13 +48,13 @@ public:
   //dax virtual void render();	///< rendering
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line. */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets default values. */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Make a pseudo solid. */
 
   static void pause(Fountain *fountain, void* d, time_t s, time_t u);

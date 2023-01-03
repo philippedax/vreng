@@ -55,7 +55,7 @@ private:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Clock(char *l);	///< Constructor
   Clock();		///< Constructor internal
@@ -73,7 +73,7 @@ public:
 private:
   void init();		///< init time
 
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
 };

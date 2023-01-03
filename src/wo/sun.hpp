@@ -50,7 +50,7 @@ protected:
 public:
   static const OClass oclass;	///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();	///< init funclist
 
@@ -62,7 +62,7 @@ public:
   virtual void changePermanent(float lasting);
   /**< Permanent movement. */
 
-  virtual void lighting();
+  void lighting();
   /**< Renders light. */
 
   virtual void render();
@@ -72,19 +72,19 @@ public:
   /**< Quits. */
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses file line.*/
 
-  virtual void defaults();
+  void defaults();
   /**< Sets defaults. */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behaviors. */
 
-  virtual void inits();
+  void inits();
   /**< Inits specific */
 
-  virtual void makeSolid();
+  void makeSolid();
   /**< Builds solid geometry. */
 };
 

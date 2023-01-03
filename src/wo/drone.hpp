@@ -48,7 +48,7 @@ class Drone : public WObject {
 
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   static void funcs();		///< init funclist
 
@@ -68,22 +68,22 @@ class Drone : public WObject {
   /**< Called when the object is destroy */
 
  private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Sets defaults values */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void inits();
+  void inits();
   /**< Do specific inits */
 
-  virtual void fly();
-  virtual void pause();
-  virtual void view();
-  virtual void reset();
+  void fly();
+  void pause();
+  void view();
+  void reset();
 
   // GUI callbacks
   static void fly_cb(Drone *o, void *d, time_t s, time_t u);

@@ -59,7 +59,7 @@ class Channel {
   virtual ~Channel();
   /**< Destructor */
 
-  virtual int create(const char *chanstr, int **fds);
+  int create(const char *chanstr, int **fds);
   /**<
    * Create a Channel
    * channel string is given by decode
@@ -76,44 +76,44 @@ class Channel {
    *        sockets mcast_recv_rtcp and mcast_send_rtcp
    */
 
-  virtual void naming();
+  void naming();
   /**<
    * Channel naming
    * init my_host_id, my_port_id, my_obj_id
    */
 
-  virtual void addToList();
+  void addToList();
   /**< Adds a channel into a list */
 
-  virtual void deleteFromList();
+  void deleteFromList();
   /**< Deletes a channel from a list */
 
   virtual void quit();
   /**< Quits a channel */
 
-  virtual int createMcastRecvSocket(struct sockaddr_in *sa);
+  int createMcastRecvSocket(struct sockaddr_in *sa);
   /**<
    * Creates a Multicast listen socket on the channel defined by group/port.
    * Returns sock else -1 if problem.
    */
 
-  virtual void closeMcastSocket();
+  void closeMcastSocket();
   /**< Closes Multicast sockets */
 
-  virtual void closeUcastSocket();
+  void closeUcastSocket();
   /**< Closes Unicast sockets */
 
-  virtual void sendBYE();
+  void sendBYE();
   /**< Sends a BYE RTCP */
 
-  virtual int joinGroup(int sock);
+  int joinGroup(int sock);
   /**<
    * Joins group (IP_ADD_MEMBERSHIP).
    * "group" in network format,
    * returns sock if OK, else -1.
    */
 
-  virtual int leaveGroup(int sock);
+  int leaveGroup(int sock);
   /**<
    * Leaves group (IP_DROP_MEMBERSHIP).
    * Returns sock if OK, else -1.
