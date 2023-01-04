@@ -30,16 +30,16 @@ AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @OCAML_CFLAGS@ @XML2_CFLAGS@ 
 
 widgets.cpp: README.t TODO.t DTD.t COPYRIGHT.t COPYING.t ChangeLog.t CONFIG_H.t
 
-README.t: $(top_srcdir)/README.md
-	../vreng/txt2str README < $(top_srcdir)/README.md > $@
-COPYRIGHT.t: $(top_srcdir)/COPYRIGHT.md
-	../vreng/txt2str COPYRIGHT < $(top_srcdir)/COPYRIGHT.md > $@
-COPYING.t: $(top_srcdir)/COPYING.md
-	../vreng/txt2str COPYING < $(top_srcdir)/COPYING.md > $@
+README.t: $(top_srcdir)/md/README.md
+	../vreng/txt2str README < $(top_srcdir)/md/README.md > $@
+COPYRIGHT.t: $(top_srcdir)/md/COPYRIGHT.md
+	../vreng/txt2str COPYRIGHT < $(top_srcdir)/md/COPYRIGHT.md > $@
+COPYING.t: $(top_srcdir)/md/COPYING.md
+	../vreng/txt2str COPYING < $(top_srcdir)/md/COPYING.md > $@
 ChangeLog.t: $(top_srcdir)/ChangeLog
 	../vreng/txt2str ChangeLog < $(top_srcdir)/ChangeLog > $@
-TODO.t: $(top_srcdir)/TODO.md
-	../vreng/txt2str TODO < $(top_srcdir)/TODO.md > $@
+TODO.t: $(top_srcdir)/md/TODO.md
+	../vreng/txt2str TODO < $(top_srcdir)/md/TODO.md > $@
 DTD.t: $(top_srcdir)/md/vre-1.0.dtd
 	../vreng/txt2str DTD < $(top_srcdir)/md/vre-1.0.dtd > $@
 CONFIG_H.t: $(top_srcdir)/config.h

@@ -23,7 +23,7 @@
 
 #include <iostream>
 #include <string>
-#include <vector>	//pour les index de gllist
+#include <vector>	// index of gllist
 
 #include "../bundle/xmlParser/xmlParser.hpp"
 

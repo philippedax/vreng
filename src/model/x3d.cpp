@@ -23,7 +23,6 @@
 #include "http.hpp"	// httpOpen
 #include "draw.hpp"	// Draw
 #include "texture.hpp"	// open
-#include "cache.hpp"	// setCachePath
 #include "cache.hpp"	// open, close
 
 using namespace std;

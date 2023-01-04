@@ -124,19 +124,19 @@ Philippe Dax <philippe.dax@gmail.com>: project supervisor\n\
 \n\
 CONTRIBUTORS\n\
 ------------\n\
-Francois Karr <karr@email.enst.fr>: Windows95 port\n\
-Vincent Haverlant <haverlan@aist.enst.fr>: RTP mechanisms\n\
-Adrien Felon <felon@inf.enst.fr>: AOI objects and Tcl/Tk GUI\n\
-Patrick Bellot <bellot@enst.fr>: languages VREL, VREML and editors\n\
-Adrien Felon : AOI\n\
-Ankit Jalote : Humanoid\n\
-Yann Renard : Face\n\
-Mathieu Seigneurin <seigneur@enst.fr>: vfs, vfc, vrelet\n\
-Guillaume Brule : Bap\n\
-Pierre Gros <gros@limsi.fr> : transform, lwo, mysql\n\
-Mario Trentini <trentini@enst.fr> : landmarks\n\
-Julien Desreumaux <desreuma@enst.fr> - Sebastien Piraud <piraud@enst.fr> : book\n\
-Romain Piegay <piegay@enst.fr> : views, 3ds, ase, repeat textures\n\
+Francois Karr : Windows95 port\n\
+Vincent Haverlant : RTP protocol\n\
+Adrien Felon : aoi objects\n\
+Patrick Bellot <bellot@enst.fr>: language vrel\n\
+Ankit Jalote : humanoid\n\
+Yann Renard : face, bone, v3d\n\
+Mathieu Seigneurin : vfs, vfc, vrelet\n\
+Guillaume Brule : bap\n\
+Pierre Gros : transform, lwo, mysql\n\
+Mario Trentini : landmarks, axis\n\
+Julien Desreumaux - Sebastien Piraud : book, sheet\n\
+Romain Piegay : views, 3ds, ase, repeat textures\n\
+Pascal Chambon : x3d, carousel\n\
 Eric Varadaradjou <varadara@enst.fr> : communication agent, ocaml\n\
 \n\
 MAINTAINER\n\
