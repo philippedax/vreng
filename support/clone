@@ -1,0 +1,41 @@
+#! /bin/sh
+#
+# clone
+#
+# Philippe Dax - jan 2021
+#
+p=$(basename $0)
+
+usage()
+{
+  echo "usage: $p github | gitlab | freedesktop | bitbucket"
+}
+
+case $# in
+0)
+  usage
+  ;;
+1)
+  case $1 in
+  git | github)
+    if test -d github ; then
+      rm -rf old/github
+      mv github old
+      git clone https://github.com/philippedax/vreng.git github
+    fi
+    ;;
+  gitlab | freedesktop )
+    rm -rf old/$1
+    mv $1 old
+    git clone https://gitlab.freedesktop.org/philippedax/vreng.git $1
+    ;;
+  bitbucket)
+    rm -rf old/$1
+    mv $1 old
+    git clone https://bitbucket.org/philippedax/vreng/src/master/ $1
+    ;;
+  *)
+    usage
+    ;;
+  esac
+esac
