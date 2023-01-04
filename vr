@@ -1,2 +1,6 @@
 #! /bin/sh
-bin/vreng $*
+if [ $1 = "-D" ]; then
+  lldb bin/vreng
+else
+  bin/vreng $*
+fi
