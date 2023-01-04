@@ -1,6 +1,11 @@
 #! /bin/sh
-if [ $1 = "-D" ]; then
-  lldb bin/vreng
-else
+case $# in
+0)
   bin/vreng $*
-fi
+  ;;
+1)
+  if [ "$1" .eq "-D" ]; then
+    lldb bin/vreng
+  fi
+  ;;
+esac
