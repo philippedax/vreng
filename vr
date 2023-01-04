@@ -4,7 +4,7 @@ case $# in
   bin/vreng $*
   ;;
 1)
-  if [ "$1" .eq "-D" ]; then
+  if test "$1" = "-D"; then
     lldb bin/vreng
   fi
   ;;
