@@ -13,6 +13,16 @@ The rules for this file:
 ------------------------------------------
 
 ++ 9
+== 9.4
+-- 9.4.0
+	- moved VERSION to VERSION.md avoid conflicts with #include <version>
+	- files md moved into md directory
+	- build script replace autogen.sh
+	- renamed object head to humanhead
+	- added option -K to fill the cache
+	- fix cache when an http-err occurs
+	(2023/01/05, Philippe Dax)
+
 == 9.3
 -- 9.3.3
 	- removed prof*pp see stat*pp
