@@ -493,7 +493,7 @@ amplitude="1" freq="1" phase="1">
 <!--
 -->
 
-<!-- heads -->
+<!-- humanheads -->
 <model name="head1" pos="11.0 4.0 1.52 1.5 1.57"  url="/lwo/head.lwo" scale=".0028"></model>
 <model name="head2" pos="10.5 4.5 -.10 1.0 -1.57" url="/obj/head.obj" scale=".96"></model>
 <model name="head3" pos="10.5 3.5 -.03 -1.5 0.00" url="/off/head.off" color="pink"></model>
@@ -533,18 +533,18 @@ amplitude="1" freq="1" phase="1">
 <hairs pos="5 2 1.60" scale=".0028" url="/lwo/head.lwo"> <solid shape="bbox" dim=".2 .2 .2" /></hairs>
 -->
 
-<!-- head -->
+<!-- humanhead -->
 <!-- lwo
-<head pos="5 2 1.55" url="/lwo/head.lwo"> <solid shape="bbox" dim=".1 .1 .2" /></head>
+<humanhead pos="5 2 1.55" url="/lwo/head.lwo"> <solid shape="bbox" dim=".1 .1 .2" /></humanhead>
 -->
 <!-- 3ds
-<head pos="5 2 1.55" url="/3ds/head.3ds"> <solid shape="bbox" dim=".1 .1 .2" /></head>
+<humanhead pos="5 2 1.55" url="/3ds/head.3ds"> <solid shape="bbox" dim=".1 .1 .2" /></humanhead>
 -->
 <!-- obj
-<head pos="5 2 1.55" url="/obj/head.obj" color="lightblue"> <solid shape="bbox" dim=".1 .1 .2" /></head>
+<humanhead pos="5 2 1.55" url="/obj/head.obj" color="lightblue"> <solid shape="bbox" dim=".1 .1 .2" /></humanhead>
 -->
 <!-- off
-<head pos="5 2 1.55" url="/off/head.off" color="chocolate"> <solid shape="bbox" dim=".1 .1 .2" /></head>
+<humanhead pos="5 2 1.55" url="/off/head.off" color="chocolate"> <solid shape="bbox" dim=".1 .1 .2" /></humanhead>
 -->
 
 <!-- toupie -->

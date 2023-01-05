@@ -59,7 +59,7 @@ public:
   class Human *human;		///< Human avatar
   class Guy *guy;		///< Guy avatar
   class Humanoid *humanoid;	///< Humanoid avatar
-  class Head *head;		///< Head avatar
+  class Humanhead *humanhead;	///< Head avatar
   
 protected:
   friend class WObject;

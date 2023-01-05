@@ -103,7 +103,7 @@
 #include "slider.hpp"		/* 78 */
 #include "bumper.hpp"		/* 79 */
 #include "accessory.hpp"	/* 80 */
-#include "head.hpp"		/* 81 */
+#include "humanhead.hpp"	/* 81 */
 #include "firework.hpp"		/* 82 */
 #include "fractal.hpp"		/* 83 */
 #include "human.hpp"		/* 84 */
@@ -194,7 +194,7 @@ const struct InitFunc initFuncs[] = {
 /* 78 */	{Slider::funcs},
 /* 79 */	{Bumper::funcs},
 /* 80 */	{Accessory::funcs},
-/* 81 */	{Head::funcs},
+/* 81 */	{Humanhead::funcs},
 /* 82 */	{Firework::funcs},
 /* 83 */	{Fractal::funcs},
 /* 84 */	{Human::funcs},

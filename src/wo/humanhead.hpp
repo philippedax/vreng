@@ -18,21 +18,21 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef HEAD_HPP
-#define HEAD_HPP
+#ifndef HUMANHEAD_HPP
+#define HUMANHEAD_HPP
 
 #include "wobject.hpp"
 
-#define HEAD_TYPE	81
-#define HEAD_NAME	"Head"
+#define HUMANHEAD_TYPE	81
+#define HUMANHEAD_NAME	"Humanhead"
 
 #define LWO_SCALE	0.0028
 #define _3DS_SCALE	0.0220
 
 /**
- * Head class
+ * Humanhead class
  */
-class Head: public WObject {
+class Humanhead: public WObject {
 
 protected:
   bool taken;				///< bool taken by avatar
@@ -73,9 +73,9 @@ public:
 
   static void funcs();	///< init funclist
 
-  Head(char *l);		///< Constructor.
-  Head(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
-  Head(class User *user, const char *url, const float *skin); ///< Constructor from User.
+  Humanhead(char *l);		///< Constructor.
+  Humanhead(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
+  Humanhead(class User *user, const char *url, const float *skin); ///< Constructor from User.
 
   static WObject * (creator)(char *l);
   /**< Creation from a file */

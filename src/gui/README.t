@@ -49,7 +49,7 @@ COMPILING\n\
 ---------\n\
 \n\
 If the script \"configure\" is not present, you need to build it first by:\n\
-	./autogen.sh\n\
+	./build or ./autogen.sh\n\
 \n\
 VREng uses an OpenGL library. The configure script will usually figure out\n\
 which one is installed on your system. There are basically two possibilities:\n\

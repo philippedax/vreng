@@ -49,7 +49,7 @@
 #include "hat.hpp"	// Hat
 #include "dress.hpp"	// Dress
 #include "wings.hpp"	// Wings
-#include "head.hpp"	// Head
+#include "humanhead.hpp"// Humanhead
 #include "humanoid.hpp"	// Humanoid
 
 
@@ -135,12 +135,12 @@ void User::setView(uint8_t view)
     case Render::VIEW_VERTICAL_FAR :
     case Render::VIEW_TURN_AROUND :
       disableBehavior(UNVISIBLE);	// visible by myself
-      if (head) head->visibility(true);
+      if (humanhead) humanhead->visibility(true);
       break;
     case Render::VIEW_FIRST_PERSON :
     default :
       enableBehavior(UNVISIBLE);	// not visible by myself
-      if (head) head->visibility(false);
+      if (humanhead) humanhead->visibility(false);
       break;
   }
 }
@@ -230,7 +230,7 @@ void User::makeSolid()
   if (*headurl) {
     float color[3];
     Color::getRGB(skin, color);
-    head = new Head(this, headurl, color);
+    humanhead = new Humanhead(this, headurl, color);
   }
 }
 
@@ -339,7 +339,7 @@ User::User()
   human = NULL;
   humanoid = NULL;
   guy = NULL;
-  head = NULL;
+  humanhead = NULL;
   defaults();
   pos.az = 0; //-M_PI_2;
   inits();
@@ -360,7 +360,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   human = NULL;
   humanoid = NULL;
   guy = NULL;
-  head = NULL;
+  humanhead = NULL;
   defaults();
   getMemory();		// alloc geometries
 
@@ -687,7 +687,7 @@ void User::setRayDirection(GLint wx, GLint wy)
 
 bool User::hasHead()
 {
-  return (bool) head;
+  return (bool) humanhead;
 }
 
 void User::specialAction(int action_id, void *d, time_t s, time_t u)
@@ -1052,7 +1052,7 @@ void User::get_sex(User *pu, Payload *pp)
 { if (pu) pp->getPayload("s", pu->sex); }
 
 void User::get_head(User *pu, Payload *pp)
-{ if (pu) pp->getPayload("s", pu->head); }
+{ if (pu) pp->getPayload("s", pu->humanhead); }
 
 void User::get_skin(User *pu, Payload *pp)
 { if (pu) pp->getPayload("s", pu->skin); }
@@ -1131,7 +1131,7 @@ void User::put_sex(User *pu, Payload *pp)
 { if (pu) pp->putPayload("s", pu->sex); }
 
 void User::put_head(User *pu, Payload *pp)
-{ if (pu) pp->putPayload("s", pu->head); }
+{ if (pu) pp->putPayload("s", pu->humanhead); }
 
 void User::put_skin(User *pu, Payload *pp)
 { if (pu) pp->putPayload("s", pu->skin); }
