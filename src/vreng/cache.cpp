@@ -88,10 +88,18 @@ FILE * Cache::open(const char *url, Http *http)
     }
 
     // writes the file into the cache
-    char buf[4];
+    char buf[16];
     while (! http->heof()) {
-      http->read_buf(buf, 4);
-      fwrite(buf, 4, 1, fpw);
+      http->read_buf(buf, 16);
+      if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {
+        // Httpd-err occured
+        fileout->close();
+        delete fileout;
+        unlink(cachepath);
+        progression('-');	// '-' as failed
+        return NULL;
+      }
+      fwrite(buf, 16, 1, fpw);
     }
     fflush(fpw);
     fileout->close();
