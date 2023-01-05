@@ -59,6 +59,7 @@ where options are:\n\
 -C, --clean			Clean cache\n\
 -E, --expand			Expand palettes (GUI)\n\
 -F, --fast			Without persistency (without MySql | Sqlite | Postgres)\n\
+-K, --fillcache			Fill the cache artificialy\n\
 -L, --loghttpd			Logging more httpd client infos\n\
 -M, --multicast			MBone IP Multicast mode\n\
 -P, --progress			Progression indicators [show]\n\
@@ -170,6 +171,7 @@ void Pref::parse(int argc, char **argv)
     {"clean",      0, 0, 'C'},
     {"expand",     0, 0, 'E'},
     {"fast",       0, 0, 'F'},
+    {"fillcache",  0, 0, 'K'},
     {"loghttpd",   0, 0, 'L'},
     {"multicast",  0, 0, 'M'},
     {"progress",   0, 0, 'P'},
@@ -178,9 +180,9 @@ void Pref::parse(int argc, char **argv)
     {"timetolive", 1, 0, 'T'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiklqrstv23CEFLMPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv23CEFKLMPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiklqrstvx23CEFLMPRSa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx23CEFKLMPRSa:d:f:n:p:u:w:A:T:"))
 #endif
    != -1) {
 
@@ -304,6 +306,9 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'F':
         fast = true;
+        break;
+      case 'K':
+        ::g.env.fillCache();
         break;
       case 'L':
         loghttpd = true;

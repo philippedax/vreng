@@ -45,6 +45,7 @@ public:
   const char * machname() const;
   
   void listCache();
+  void fillCache();
   void cleanCacheByExt(const char *ext);
   void cleanCacheByTime(time_t cachetime);
   

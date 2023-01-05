@@ -22,6 +22,10 @@
 #include "env.hpp"
 
 
+// local
+char pathhtdocs[PATH_LEN+8];
+
+
 Env::Env()
 {
   strcpy(systemname, "unknown");
@@ -134,7 +138,6 @@ void Env::init()
 {
   char pathenvdir[PATH_LEN+8];
   char pathweb[PATH_LEN+8];
-  char pathhtdocs[PATH_LEN+8];
   char pathdata[PATH_LEN+8];
   char pathprefs[PATH_LEN+16];
   char pathstats[PATH_LEN+16];
@@ -252,6 +255,63 @@ void Env::listCache()
 
   chdir(vrengcache);
   sprintf(cmd, "IFS=' '; /bin/ls -l");
+  system(cmd);
+}
+
+void Env::fillCache()
+{
+  char cmd[128];
+
+  chdir(vrengcache);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/vre/*.vre .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/gif/*.gif .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/txf/*.txf .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/cset/*.cset .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/obj/*.obj .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/off/*.off .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/3ds/*.3ds .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/ase/*.ase .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/dxf/*.dxf .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/lwo/*.lwo .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/md2/*.md2 .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/pcx/*.pcx .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/png/*.png .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/jpg/*.jpg .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/tga/*.tga .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/sgi/*.bw .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/xbm/*.xbm .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/v3d/*.v3d .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/x3d/*.x3d .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/mpg/*.mpg .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/walls/*.pts .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/elsa/tarots/*.gif .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/elsa/mythology/*.gif .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/elsa/misc/*.gif .", pathhtdocs);
+  system(cmd);
+  sprintf(cmd, "IFS=' '; /bin/cp %s/book/*.url .", pathhtdocs);
   system(cmd);
 }
 
