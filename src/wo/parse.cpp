@@ -39,10 +39,11 @@ struct sObj {
 };
 
 static const struct sObj objs[] = {
-  //{ "oldname", "newname" },
+  //{ "old_name", "new_name" },
   { "ftp", "download" },
   { "animx3d", "carousel" },
   { "android", "humanoid" },
+  { "head", "humanhead" },
   { NULL, NULL }
 };
 
