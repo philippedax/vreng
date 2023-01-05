@@ -30,7 +30,7 @@ const char DTD[] = "\
 		entry | escalator |\n\
 		fire | firework | flag | fog | fountain | fractal |\n\
 		gate | ground | guide | guy | \n\
-		hairs | halo | hat | head | host | human | humanoid\n\
+		hairs | halo | hat | host | human | humanhead | humanoid\n\
 		lift | light | local |\n\
 		mech | mirage | mirror | model | movie | music |\n\
 		particle | plane |\n\
@@ -304,14 +304,6 @@ const char DTD[] = "\
 <!ATTLIST hat		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST hat		model	(tophat | boiler | redhat | chinese | country | clown) #IMPLIED>\n\
 \n\
-<!ELEMENT head		EMPTY>\n\
-<!ATTLIST head		pos	NMTOKENS #REQUIRED>\n\
-<!ATTLIST head		name	NMTOKEN #IMPLIED>\n\
-<!ATTLIST head		descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST head		url	CDATA #REQUIRED>\n\
-<!ATTLIST head		scale	NMTOKEN \"1\">\n\
-<!ATTLIST head		color	NMTOKENS \"1 .75 .7\">\n\
-\n\
 <!ELEMENT host		(solid+)>\n\
 <!ATTLIST host		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST host		name	NMTOKEN #IMPLIED>\n\
@@ -323,6 +315,14 @@ const char DTD[] = "\
 <!ATTLIST human		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST human		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST human		skin	NMTOKEN #IMPLIED>\n\
+\n\
+<!ELEMENT humanhead	EMPTY>\n\
+<!ATTLIST humanhead	pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST humanhead	name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST humanhead	descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST humanhead	url	CDATA #REQUIRED>\n\
+<!ATTLIST humanhead	scale	NMTOKEN \"1\">\n\
+<!ATTLIST humanhead	color	NMTOKENS \"1 .75 .7\">\n\
 \n\
 <!ELEMENT humanoid	EMPTY>\n\
 <!ATTLIST humanoid	pos	NMTOKENS #REQUIRED>\n\
