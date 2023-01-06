@@ -53,7 +53,7 @@ dist dist-all:
 	-make dist-xz
 #	-make dist-bzip2
 #	-make dist-zip
-	-cp -p ChangeLog VERSION $(HTML)
+	-cp -p ChangeLog VERSION.md $(HTML)
 
 fingerprint:
 	-md5sum < $(TARBALL_GZ) > $(FINGERPRINT_GZ)
