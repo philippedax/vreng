@@ -81,7 +81,7 @@ archive: dist fingerprint
 	-install -m 444 $(TARBALL_XZ) $(ARCHIVE)
 #	-install -m 444 $(FINGERPRINT_ZIP) $(ARCHIVE)
 #	-install -m 444 $(TARBALL_ZIP) $(ARCHIVE)
-	-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ); rm -f $(TARLINK_ZIP); ln -s $(TARBALL_ZIP) $(TARLINK_ZIP))
+	-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ))
 	@-rm $(FINGERPRINT_GZ)
 	@-rm $(FINGERPRINT_XZ)
 #	@-rm $(FINGERPRINT_ZIP)
