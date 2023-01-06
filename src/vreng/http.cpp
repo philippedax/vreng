@@ -444,6 +444,7 @@ htagain:
             }
           }
           if (httperr) {
+            echo("url: %s", ::g.url);
             break;
           }
 
