@@ -27,7 +27,7 @@ ACLOCAL_AMFLAGS = -I support
 
 SUBDIRS = src man bin etc
 
-EXTRA_DIST = LICENSE README VERSION.md support/* md/* autogen.sh vr
+EXTRA_DIST = LICENSE README VERSION.md support/* md/* build vr
 
 ## maintainer's targets
 
