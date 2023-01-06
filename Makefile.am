@@ -38,7 +38,7 @@ HTTP_SVN = http://www.vreng.enst.fr/svn/vreng
 TARBALL_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 TARBALL_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.xz
 TARBALL_ZIP = $(PACKAGE_NAME)-$(PACKAGE_VERSION).zip
-TARBALLS = $(TARBALL_GZ) $(TARBALL_XZ) $(TARBALL_ZIP)
+TARBALLS = $(TARBALL_GZ) $(TARBALL_XZ)
 
 TARLINK_GZ = $(PACKAGE_NAME).tar.gz
 TARLINK_XZ = $(PACKAGE_NAME).tar.xz
@@ -63,7 +63,7 @@ fingerprint:
 clean-tar:
 	tar xpf $(TARBALL_GZ)
 	cp $(TARBALL_GZ) vreng.tar.gz
-	rm $(TARBALLS)
+	-rm $(TARBALLS)
 
 data-tar:
 	tar zcf vreng-data.tar.gz htdocs
