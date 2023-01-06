@@ -179,26 +179,22 @@ void Env::init()
       mkdir(pathweb, 0755);
       sprintf(pathhtdocs, "%s/vreng", pathweb);
       if (stat(pathhtdocs, &bufstat) < 0) {
-        int r;
-        r = symlink(pathdata, pathhtdocs);
-        if (r == 0) {
-          error("create link htdocs: %s", pathhtdocs);
+        if (! symlink(pathdata, pathhtdocs)) {
+          echo("create symlink htdocs: %s", pathhtdocs);
         }
         else {
-          error("can't create link htdocs: %s (%d)", pathhtdocs, r);
+          error("can't create symlink htdocs: %s", pathhtdocs);
         }
       }
     }
     else {
       sprintf(pathhtdocs, "%s/vreng", pathweb);
       if (stat(pathhtdocs, &bufstat) < 0) {
-        int r;
-        r = symlink(pathdata, pathhtdocs);
-        if (r == 0) {
-          error("create link htdocs: %s", pathhtdocs);
+        if (! symlink(pathdata, pathhtdocs)) {
+          echo("create symlink htdocs: %s", pathhtdocs);
         }
         else {
-          error("can't create link htdocs: %s (%d)", pathhtdocs, r);
+          error("can't create symlink htdocs: %s", pathhtdocs);
         }
       }
     }
@@ -225,7 +221,13 @@ void Env::init()
   if (stat(pathcache, &bufstat) < 0) {
     mkdir(pathcache, 0700);
   }
+  // $SRCDIR/cache@
   strcpy(vrengcache, pathcache);
+  if (stat("cache", &bufstat) < 0) {
+    if (! symlink("cache", pathcache)) {
+      echo("create symlink cache: %s", pathcache);
+    }
+  }
 
   // $HOME/.vreng/icons
   sprintf(pathicons, "%s/icons", pathenvdir);
