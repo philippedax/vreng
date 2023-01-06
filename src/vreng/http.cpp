@@ -428,6 +428,7 @@ htagain:
               warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
               httperr = true;
               break;
+            case 403:		// forbidden
             case 404:		// not found
               warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
               httperr = true;
