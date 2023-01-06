@@ -150,22 +150,23 @@ void Env::init()
   char *home = NULL;
   char *loguser = NULL;
 
-  // $CWD
-  if (getcwd(vrengcwd, sizeof(vrengcwd)) == NULL) {
-    return;
-  }
-  strcpy(homedir, vrengcwd);
-
-  // $HOME
-  if ((home = getenv("HOME"))) {
-    strcpy(homedir, home);
-  }
-
   // $LOGNAME
   if ((loguser = getenv("LOGNAME"))) {
     strcpy(logname, loguser);
   }
 
+  // dir $CWD
+  if (getcwd(vrengcwd, sizeof(vrengcwd)) == NULL) {
+    return;
+  }
+  strcpy(homedir, vrengcwd);
+
+  // dir $HOME
+  if ((home = getenv("HOME"))) {
+    strcpy(homedir, home);
+  }
+
+  // dir WEB
   if (! strcmp(DEF_HTTP_SERVER, "localhost") && strlen(DEF_URL_PFX) > 0) { // if local
     sprintf(pathdata, "%s/htdocs", vrengcwd);	// htdocs location
 #if MACOSX
@@ -200,7 +201,7 @@ void Env::init()
     }
   }
 
-  // $HOME/.vreng
+  // dir $HOME/.vreng
   sprintf(pathenvdir, "%s/.vreng", homedir);
   if (stat(pathenvdir, &bufstat) < 0) {
     mkdir(pathenvdir, 0700);
@@ -208,47 +209,51 @@ void Env::init()
   strcpy(vrengdir, pathenvdir);
   chdir(pathenvdir);
 
-  // $HOME/.vreng/prefs
-  sprintf(pathprefs, "%s/prefs", pathenvdir);
-  strcpy(vrengprefs, pathprefs);
-
-  // $HOME/.vreng/stats
-  sprintf(pathstats, "%s/stats", pathenvdir);
-  strcpy(vrengstats, pathstats);
-
-  // $HOME/.vreng/cache
+  // dir $HOME/.vreng/cache
   sprintf(pathcache, "%s/cache", pathenvdir);
   if (stat(pathcache, &bufstat) < 0) {
     mkdir(pathcache, 0700);
   }
-  // $SRCDIR/cache@
   strcpy(vrengcache, pathcache);
-  if (stat("cache", &bufstat) < 0) {
-    if (! symlink("cache", pathcache)) {
-      echo("create symlink cache: %s", pathcache);
-    }
-  }
 
-  // $HOME/.vreng/icons
+  // dir $HOME/.vreng/icons
   sprintf(pathicons, "%s/icons", pathenvdir);
   if (stat(pathicons, &bufstat) < 0) {
     mkdir(pathicons, 0700);
   }
   strcpy(vrengicons, pathicons);
 
-  // $HOME/.vreng/menu
+  // file $HOME/.vreng/prefs
+  sprintf(pathprefs, "%s/prefs", pathenvdir);
+  strcpy(vrengprefs, pathprefs);
+
+  // file $HOME/.vreng/stats
+  sprintf(pathstats, "%s/stats", pathenvdir);
+  strcpy(vrengstats, pathstats);
+
+  // file $HOME/.vreng/menu
   sprintf(pathmenu, "%s/menu", pathenvdir);
   strcpy(vrengmenu, pathmenu);
 
-  // $HOME/.vreng/worldmarks
+  // file $HOME/.vreng/worldmarks
   sprintf(pathworldmarks, "%s/worldmarks", pathenvdir);
   strcpy(vrengworldmarks, pathworldmarks);
 
-  // $HOME/.vreng/vncpasswd
+  // file $HOME/.vreng/vncpasswd
   sprintf(pathpasswd, "%s/vncpasswd", pathenvdir);
   strcpy(vrengpasswd, pathpasswd);
 
   chdir(vrengcwd);
+
+  // link $SRCDIR/cache@
+  if (lstat("cache", &bufstat) < 0) {
+    if (symlink(pathcache, "cache") == 0) {
+      echo("create symlink cache: %s", pathcache);
+    }
+    else {
+      error("can't create symlink cache: %s", pathcache);
+    }
+  }
 }
 
 void Env::listCache()
