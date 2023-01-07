@@ -231,6 +231,9 @@ UBox& Widgets::createMenubar()
         + ubutton(g.theme.AddObj + " Add objects "   + addobj_dialog)
        );
 
+  UMenu& mark_menu = markMenu();
+  mark_menu.addAttr(g.theme.menuStyle);
+
   UMenu& about_menu =
   umenu(  g.theme.menuStyle
         + ubutton("README"    + ucall("README",    README, &showInfoDialog))
@@ -251,13 +254,13 @@ UBox& Widgets::createMenubar()
            + ubutton("Goto"    + ucall(this, &Widgets::gotoDialog))
            + ubutton("History" + hist_menu)
            + ubutton("Tool"    + tool_menu)
+           + ubutton("Mark"    + mark_menu)
+           + ubutton("About"   + about_menu)
           );
 
-  menu_bar.add(ubutton("Mark" + markMenu()));
-
-  menu_bar.add(ubutton("About" + about_menu));
-
-  //dax dynamicMenus(menu_bar, ::g.env.menu());
+  //dax menu_bar.add(ubutton("Mark" + markMenu()));
+  //dax menu_bar.add(ubutton("About" + about_menu));
+  //dynamicMenus(menu_bar, ::g.env.menu());
 
   return menu_bar;
 }
@@ -314,9 +317,9 @@ UMenu& Widgets::markMenu()
                                         )
                           );
 
+  File *file = new File();
   FILE *fp = null;
   char line[URL_LEN + CHAN_LEN + 2];
-  File *file = new File();
   if ((fp = file->open(::g.env.worldmarks(), "r"))) {
     while (fgets(line, sizeof(line), fp)) {
       char *p = strchr(line, ' ');
@@ -1638,7 +1641,7 @@ UMenu& Widgets::fileMenu()
                      + uhflex()
                      + utextfield(80, url_or_name),
                      UArgs::none,
-                     uhbox(ubutton("  Open  "
+                     uhbox(  ubutton("  Open  "
                            + ucall(&gui, (const UStr&)url_or_name, &Gui::gotoWorld))
                            + ubutton("  Cancel  " + ucloseWin())
                           )
@@ -1647,16 +1650,16 @@ UMenu& Widgets::fileMenu()
   // Put & Publish URL
   UBox& puturl_box =
   uvbox(uvspacing(5)
-        + uhbox(ulabel(20, UFont::bold + "Url" + UFont::plain + " (required)" )
+        + uhbox(ulabel(20, UFont::bold + "Url" + UFont::plain + " (required)")
                 + uhflex()
                 + utextfield(65, putinfo.url)
                )
-        + uhbox(ulabel(20, UFont::bold + "Alias" + UFont::plain + " (short name)" )
+        + uhbox(ulabel(20, UFont::bold + "Alias" + UFont::plain + " (short name)")
                 + uhflex()
                 + utextfield(65,
                 putinfo.name)
                )
-        + uhbox(ulabel(20, UFont::bold + "Icon" + UFont::plain + " (optional)" )
+        + uhbox(ulabel(20, UFont::bold + "Icon" + UFont::plain + " (optional)")
                 + uhflex()
                 + utextfield(65, putinfo.icon)
                )
@@ -1667,20 +1670,20 @@ UMenu& Widgets::fileMenu()
                     puturl_box,		// message
                     UArgs::none,	// no icon
                     ubutton("  Put & Publish URL  "
-                            + ucall(&putinfo,&Message2::putIconCB))); //buttons
+                             + ucall(&putinfo,&Message2::putIconCB))); //buttons
 
   // Put & Publish File
   UBox& putfile_box =
   uvbox(uvspacing(5)
-        + uhbox(ulabel(25, UFont::bold + "Input File" + UFont::plain + " (required)" )
+        + uhbox(ulabel(25, UFont::bold + "Input File" + UFont::plain + " (required)")
                 + uhflex()
                 + utextfield(65, putinfo.file)
                )
-        + uhbox(ulabel(25, UFont::bold +"Output File" + UFont::plain + " (public location)" )
+        + uhbox(ulabel(25, UFont::bold +"Output File" + UFont::plain + " (public location)")
                 + uhflex()
                 + utextfield(65, putinfo.ofile)
                )
-        + uhbox(ulabel(25, UFont::bold + "Alias" + UFont::plain + " (short name)" )
+        + uhbox(ulabel(25, UFont::bold + "Alias" + UFont::plain + " (short name)")
                 + uhflex()
                 + utextfield(65, putinfo.name)
                )
@@ -1688,19 +1691,19 @@ UMenu& Widgets::fileMenu()
 
   UDialog* putfile_dialog =
   new UOptionDialog("Put new File document",  // title
-                    putfile_box,  // message
-                    UArgs::none,  // no icon
+                    putfile_box,	// message
+                    UArgs::none,	// no icon
                     ubutton("  Put & Publish File  "
-                            + ucall(&putinfo, &Message2::putIconCB)));
+                             + ucall(&putinfo, &Message2::putIconCB)));
 
   // Create File menu
-  return umenu(ubutton(g.theme.World  + " Open Vreng URL..." + openvre_dialog)
-               + ubutton(g.theme.Save + " Save Vreng File" + ucall(this, &Widgets::saveCB))
+  return umenu(  ubutton(g.theme.World + " Open Vreng URL..." + openvre_dialog)
+               + ubutton(g.theme.Save  + " Save Vreng File" + ucall(this, &Widgets::saveCB))
                + usepar()
-               + ubutton(g.theme.Doc  + " Put & Publish URL..." + puturl_dialog)
-               + ubutton(g.theme.Book + " Put & Publish File..." + putfile_dialog)
+               + ubutton(g.theme.Doc   + " Put & Publish URL..." + puturl_dialog)
+               + ubutton(g.theme.Book  + " Put & Publish File..." + putfile_dialog)
                + usepar()
-               + ubutton(g.theme.Exit + " Quit" + ucall(0/*status*/, Vreng::quit))
+               + ubutton(g.theme.Exit  + " Quit" + ucall(0/*status*/, Vreng::quit))
               );
 }
 

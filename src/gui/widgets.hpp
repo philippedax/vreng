@@ -163,7 +163,7 @@ private:
 
   // private methods - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  // Dialog
+  // Dialogs
   void sourceDialog();
   void objectsDialog();
   void gotoDialog();
@@ -175,13 +175,15 @@ private:
   UDialog& gridDialog();
   UDialog& toolDialog();
   UDialog& addobjDialog();
+
+  // Menus
   UMenu& fileMenu();
   UMenu& markMenu();
   UBox& createInfobar();
   UBox& createMenubar();
   void dynamicMenus(UMenubar&, const char* filename);
 
-  // Message
+  // Messages
   void openMessage(UMessageEvent&);
   void putMessage(UMessageEvent&);
   void getMessage(UMessageEvent&);
