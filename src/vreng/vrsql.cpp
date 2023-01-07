@@ -66,7 +66,7 @@ VRSql::VRSql()
 #if HAVE_SQLITE
 bool VRSql::openDB()
 {
-  if (::g.pref.fast == true)
+  if (::g.pref.nopersist == true)
     return false;
 
   char pathDB[128];
@@ -98,7 +98,7 @@ int VRSql::callback(void *NotUsed, int argc, char **argv, char **azColName)
  */
 bool VRSql::connectDB()
 {
-  if (::g.pref.fast == true)
+  if (::g.pref.nopersist == true)
     return false;
 
 #ifdef HAVE_MYSQL_REAL_CONNECT
@@ -135,7 +135,7 @@ bool VRSql::connectDB()
  */
 bool VRSql::connectDB()
 {
-  if (::g.pref.fast == true)
+  if (::g.pref.nopersist == true)
     return false;
 
   char args[32];
