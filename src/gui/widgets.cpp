@@ -225,10 +225,10 @@ UBox& Widgets::createMenubar()
 
   UMenu& tool_menu =
   umenu(  g.theme.menuStyle
-        + ubutton(g.theme.Prefs  + " Settings "      + settings_dialog)
-        + ubutton(g.theme.Grid2D + " Grid "          + grid_dialog)
-        + ubutton(g.theme.Tools  + " Tools "         + tool_dialog)
-        + ubutton(g.theme.AddObj + " Add objects "   + addobj_dialog)
+        + ubutton(g.theme.Prefs  + " Settings "    + settings_dialog)
+        + ubutton(g.theme.Grid2D + " Grid "        + grid_dialog)
+        + ubutton(g.theme.Tools  + " Tools "       + tool_dialog)
+        + ubutton(g.theme.AddObj + " Add objects " + addobj_dialog)
        );
 
   UMenu& mark_menu = markMenu();
@@ -236,13 +236,13 @@ UBox& Widgets::createMenubar()
 
   UMenu& about_menu =
   umenu(  g.theme.menuStyle
-        + ubutton("README"    + ucall("README",    README, &showInfoDialog))
+        + ubutton("README"    + ucall("README",    README,    &showInfoDialog))
         + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &showInfoDialog))
-        + ubutton("LICENSE"   + ucall("LICENSE",   COPYING, &showInfoDialog))
-        + ubutton("DTD"       + ucall("DTD",       DTD, &showInfoDialog))
+        + ubutton("LICENSE"   + ucall("LICENSE",   COPYING,   &showInfoDialog))
+        + ubutton("DTD"       + ucall("DTD",       DTD,       &showInfoDialog))
         + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &showInfoDialog))
-        + ubutton("TODO"      + ucall("TODO",      TODO, &showInfoDialog))
-        + ubutton("config.h"  + ucall("config.h",  CONFIG_H, &showInfoDialog))
+        + ubutton("TODO"      + ucall("TODO",      TODO,      &showInfoDialog))
+        + ubutton("config.h"  + ucall("config.h",  CONFIG_H,  &showInfoDialog))
         //dax + ubutton("Home Page" + ucall(this, &siteCB))
        );
 
@@ -789,7 +789,7 @@ UDialog& Widgets::prefsDialog()
 {
   UBox& settings_box = uvbox(UBackground::white + upadding(2,2));
 
-  UDialog* prefs_dialog =
+  UDialog* prefs_dial =
   new UOptionDialog("Preferences",
                     uvbox(ulabel("Preferences: "
                           + UColor::red
@@ -810,7 +810,7 @@ UDialog& Widgets::prefsDialog()
     file->close();
     delete file;
   }
-  return *prefs_dialog;
+  return *prefs_dial;
 }
 
 /** Displays vre source */
