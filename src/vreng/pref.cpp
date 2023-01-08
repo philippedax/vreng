@@ -221,7 +221,7 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'h':
         printf("%s\n", HELPSTRING);
-        UConf::printHelp();
+        //UConf::printHelp();
         exit(0);
       case 'i':
         infogl = true;
