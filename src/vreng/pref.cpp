@@ -66,6 +66,7 @@ where options are:\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
 -S, --stats			Stats when quiting [show]\n\
 -T, --timetolive days		Cache time in days\n\
+-U, --ubit			Show ubit help\n\
 ";
 
 
@@ -178,11 +179,12 @@ void Pref::parse(int argc, char **argv)
     {"stats",      0, 0, 'S'},
     {"reflector",  0, 0, 'R'},
     {"timetolive", 1, 0, 'T'},
+    {"ubit",       0, 0, 'U'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiklqrstv23CEFLMNPRSa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv23CEFLMNPRSUa:d:f:n:p:u:w:A:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiklqrstvx23CEFLMNPRSa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx23CEFLMNPRSUa:d:f:n:p:u:w:A:T:"))
 #endif
    != -1) {
 
@@ -221,7 +223,6 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'h':
         printf("%s\n", HELPSTRING);
-        //UConf::printHelp();
         exit(0);
       case 'i':
         infogl = true;
@@ -331,6 +332,10 @@ void Pref::parse(int argc, char **argv)
           v = 3;	// 3 days
         }
         cachetime = v * 3600 * 24;
+        break;
+      case 'U':
+        UConf::printHelp();
+        exit(0);
         break;
     }
   }
