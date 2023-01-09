@@ -379,7 +379,7 @@ void Pref::parse(int argc, char **argv)
     ::g.url = strdup(url);
   }
 
-  echo("url: %s", url);
+  //echo("url: %s", url);
 
   if (new_universe == false) {
     sprintf(srv, "%s", DEF_HTTP_SERVER);
