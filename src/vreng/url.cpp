@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "url.hpp"
-#include "universe.hpp"	// Universe
 #include "str.hpp"	// stringcmp
 
 
@@ -51,14 +50,14 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
   else {	// incomplete URL
     trace(DBG_HTTP, "relative URL: %s", url);
     strcpy(scheme, "http");
-    strcpy(host, Universe::current()->server);
+    strcpy(host, ::g.server);
     if (*url != '/') {
       // relative url
       if (! isprint(*url)) {
         error("Bad Url: %02x%02x%02x host=%s", url[0], url[1], url[2], host);
         return URLBAD;
       }
-      sprintf(path, "%s%s", Universe::current()->urlpfx, url);
+      sprintf(path, "%s%s", ::g.urlpfx, url);
       //echo("rel path: %s", path);
     }
     else {	// /path
@@ -69,7 +68,7 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
       }
       else {
         // add url prefix before url
-        sprintf(path, "/%s%s", Universe::current()->urlpfx, url);
+        sprintf(path, "/%s%s", ::g.urlpfx, url);
         //echo("pfx path: %s", path);
       }
     }
@@ -99,14 +98,13 @@ void Url::abs(const char *relurl, char *absurl)
     strncpy(absurl, relurl, URL_LEN);
   }
   else {
-    sprintf(absurl, "http://%s/%s%s",
-                    Universe::current()->server, Universe::current()->urlpfx, relurl);
+    sprintf(absurl, "http://%s/%s%s", ::g.server, ::g.urlpfx, relurl);
   }
   if (strlen(absurl) >= URL_LEN) {
     absurl[URL_LEN -1] = '\0';
     warning("url length too big %s", absurl);
   }
-  //error("absurl: %s", absurl);
+  //echo("absurl: %s", absurl);
 }
 
 bool Url::check(const char *url)
