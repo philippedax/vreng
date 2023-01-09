@@ -112,7 +112,7 @@ void Channel::addToList()
 /** Join group */
 int Channel::joinGroup(int sd)
 {
-  if (strcmp(Universe::current()->server, "localhost")) {
+  if (strcmp(::g.server, "localhost")) {
     memset(&mreq, 0, sizeof(struct ip_mreq));
     mreq.imr_multiaddr.s_addr = group;
     mreq.imr_interface.s_addr = htonl(INADDR_ANY);
@@ -127,7 +127,7 @@ int Channel::joinGroup(int sd)
 /** Leave group */
 int Channel::leaveGroup(int sd)
 {
-  if (strcmp(Universe::current()->server, "localhost")) {
+  if (strcmp(::g.server, "localhost")) {
     if (Socket::dropMembership(sd, (void *) &mreq) < 0)
       return -1;
   }
