@@ -93,16 +93,16 @@ void Vreng::initCB()
   initLimits();		// Change rlimit
   initTrigo();		// Trigo
   initSignals();	// Signals initialization
+  Universe::init();	// World manager initialisation
   Http::init();		// Simultaneous http connections initialization
   Channel::init();	// Network initialization
-  Universe::init();	// World manager initialisation
   Vac::init();	    	// Vac cache initialization
   VRSql::init();	// VRSql initialization
 #if HAVE_OCAML
   initOcaml();		// Ocaml runtime initialization
 #endif
   Openal::init();	// Openal initialization
-  World::init(Universe::current()->url); // takes a significant amount of time to launch
+  World::init(::g.url); // takes a significant amount of time to launch
   timer.init.stop();	// stops init timer
 }
 
