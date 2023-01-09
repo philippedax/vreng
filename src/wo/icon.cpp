@@ -37,7 +37,6 @@
 #include "env.hpp"	// icons
 #include "timer.hpp"	// rate
 #include "file.hpp"	// open, close
-#include "universe.hpp"	// current
 
 
 const OClass Icon::oclass(ICON_TYPE, "Icon", NULL, Icon::replicator);
@@ -267,7 +266,7 @@ Icon::Icon(User *user, void *d)
             delete fileout;
             chmod(ofile, 0644);
 
-            sprintf(names.url, "http://%s/%s/vreng/%s", Universe::current()->server, Universe::current()->urlpfx, ifile);
+            sprintf(names.url, "http://%s/%s/vreng/%s", ::g.server, ::g.urlpfx, ifile);
           }
           else {
             error("can't open %s or %s: %s (%d)", ifile, ofile, strerror(errno), errno);
