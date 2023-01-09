@@ -243,7 +243,7 @@ void Gui::gotoWorld(const UStr& url_or_name)
   else {	// worldname
     if (! vac->getUrlAndChannel(urlorname, urlvre, chanstr))  return;  // world not found
   }
-  echo("goto %s at %s", urlvre, chanstr);
+  //echo("goto %s at %s", urlvre, chanstr);
 
   World::current()->quit();
   delete Channel::current();			// delete old Channel
