@@ -515,11 +515,11 @@ void Widgets::homeCB()
   char chan_str[CHAN_LEN];
 
   sprintf(chan_str, "%s/%u/%d", Universe::current()->group, Universe::current()->port, Channel::currentTtl());
-  trace(DBG_IPMC, "home: goto %s at %s", Universe::current()->url, chan_str);
+  trace(DBG_IPMC, "home: goto %s at %s", ::g.url, chan_str);
 
   World::current()->quit();
   delete Channel::current();  // delete Channel
-  World::enter(Universe::current()->url, chan_str, true);
+  World::enter(::g.url, chan_str, true);
   World::current()->setChanAndJoin(chan_str);  // join new channel
 
   if (audioactive) Audio::start(chan_str);
@@ -564,7 +564,7 @@ void Widgets::saveCB()
 void Widgets::siteCB()
 {
   UStr cmd = "IFS=' '; firefox -remote 'openURL(http://"
-              & UStr(Universe::current()->server)
+              & UStr(::g.server)
               & "/)' &";
   system(cmd.c_str());
 }
@@ -993,13 +993,13 @@ void Widgets::gotoDialog()
   char univ_url[URL_LEN];
   char fmt[64];
 
-  if (! strncmp(Universe::current()->server, "http://", 7))
+  if (! strncmp(::g.server, "http://", 7))
     sprintf(fmt, "%s", "%s/%s%s");
   else
     sprintf(fmt, "%s%s", "http://", "%s/%s%s");
 
-  sprintf(univ_url, fmt, Universe::current()->server,
-                         Universe::current()->urlpfx,
+  sprintf(univ_url, fmt, ::g.server,
+                         ::g.urlpfx,
                          DEF_URL_WORLDS);
 
   UBox& goto_box = uvbox(g.theme.scrollpaneStyle);
@@ -1018,13 +1018,13 @@ void Widgets::worldsDialog()
   char univ_url[URL_LEN];
   char fmt[64];
 
-  if (! strncmp(Universe::current()->server, "http://", 7))
+  if (! strncmp(::g.server, "http://", 7))
     sprintf(fmt, "%s", "%s/%s%s");
   else
     sprintf(fmt, "%s%s", "http://", "%s/%s%s");
 
-  sprintf(univ_url, fmt, Universe::current()->server,
-                         Universe::current()->urlpfx,
+  sprintf(univ_url, fmt, ::g.server,
+                         ::g.urlpfx,
                          DEF_URL_WORLDS);
 
   UBox* worlds_box = new UTextarea;
