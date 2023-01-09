@@ -778,7 +778,7 @@ void World::init(const char *url)
   world->setUrl(url);
   world->setName(url);
   world->setChanAndJoin(::g.channel);      // join initial channel
-  world->setName(Universe::current()->url);
+  world->setName(::g.url);
   Channel::getGroup(world->getChan(), Universe::current()->group);
   Universe::current()->port = Channel::getPort(world->getChan());
 
