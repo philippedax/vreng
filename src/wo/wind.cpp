@@ -21,7 +21,6 @@
 #include "vreng.hpp"
 #include "wind.hpp"
 #include "world.hpp"	// current
-#include "universe.hpp"	// current
 
 
 const OClass Wind::oclass(WIND_TYPE, "Wind", Wind::creator);
@@ -59,7 +58,7 @@ void * Wind::getHttp(void * arg)
 {
   char url[URL_LEN];
 
-  sprintf(url, "http://%s/%s/cgi/wind.cgi", Universe::current()->server, Universe::current()->urlpfx);
+  sprintf(url, "http://%s/%s/cgi/wind.cgi", ::g.server, ::g.urlpfx);
 
   char cmd[128];
   *cmd ='\0';
