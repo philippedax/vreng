@@ -779,7 +779,7 @@ void World::init(const char *url)
   world->setName(url);
   world->setChanAndJoin(::g.channel);      // join initial channel
   world->setName(::g.url);
-  Channel::getGroup(world->getChan(), Universe::current()->group);
+  Channel::getGroup(world->getChan(), Universe::current()->grpstr);
   Universe::current()->port = Channel::getPort(world->getChan());
 
   world->guip = ::g.gui.addWorld(world, NEW);

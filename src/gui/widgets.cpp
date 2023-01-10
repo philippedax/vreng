@@ -514,7 +514,7 @@ void Widgets::homeCB()
 {
   char chan_str[CHAN_LEN];
 
-  sprintf(chan_str, "%s/%u/%d", Universe::current()->group, Universe::current()->port, Channel::currentTtl());
+  sprintf(chan_str, "%s/%u/%d", Universe::current()->grpstr, Universe::current()->port, Channel::currentTtl());
   trace(DBG_IPMC, "home: goto %s at %s", ::g.url, chan_str);
 
   World::current()->quit();

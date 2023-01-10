@@ -70,8 +70,8 @@ Universe::Universe()
     sprintf(urlpfx, "/%s", p);	// urlpfx given by -u pref
   }
 
-  group = new char[GROUP_LEN + 1];
-  Channel::getGroup(DEF_MANAGER_CHANNEL, group);
+  grpstr = new char[GROUP_LEN + 1];
+  Channel::getGroup(DEF_MANAGER_CHANNEL, grpstr);
   ttl = Channel::getTtl(::g.channel);
   //dax wheel = new Wheel();
   trace(DBG_INIT,"Universe: universe=%s server=%s pfx=%s", ::g.universe, server, ::g.urlpfx);
@@ -83,7 +83,7 @@ Universe::~Universe()
   if (server) delete server;
   if (url) delete url;
   if (urlpfx) delete urlpfx;
-  if (group) delete group;
+  if (grpstr) delete grpstr;
   if (wheel) delete wheel;
 }
 

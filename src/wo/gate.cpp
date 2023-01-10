@@ -132,7 +132,7 @@ void Gate::enter()
   // with channel
   if (! strcmp(names.url, ::g.url)) {
     sprintf(chan, "%s/%u/%d",
-            Universe::current()->group, Universe::current()->port, Channel::currentTtl());
+            Universe::current()->grpstr, Universe::current()->port, Channel::currentTtl());
     trace(DBG_IPMC, "initial channel = %s", chan);
   }
 #if 1 //dax

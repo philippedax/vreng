@@ -34,8 +34,8 @@ class Universe {
  public:
   char *server;		///< http server name
   char *url;		///< url
-  char *group;		///< group addr
   char *urlpfx;		///< url prefix
+  char *grpstr;		///< group str
   uint16_t port;	///< port
   uint8_t ttl;		///< scope
   uint8_t version;	///< vre version
