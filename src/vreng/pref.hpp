@@ -42,7 +42,6 @@ public:
   uint32_t dbg;		///< debug mask
   uint32_t cachetime;	///< live time of the cache
   time_t frame_delay;	///< inter frame delay
-  bool new_universe;    ///< if new universe asked
   bool quality3D;	///< 3D quality or not
   bool refresh;		///< refresh cache
   bool gravity;		///< with/without gravity

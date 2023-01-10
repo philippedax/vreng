@@ -45,7 +45,7 @@ Universe::Universe()
   strcpy(url, ::g.url);
   server = new char[128];
 
-  if (! ::g.pref.new_universe) { // by default
+  if (! ::g.universe) { // by default
     char *univ = new char[URL_LEN];
     sprintf(univ, "http://%s/%s", DEF_HTTP_SERVER, ::g.urlpfx);
     ::g.universe = strdup(univ);

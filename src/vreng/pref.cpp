@@ -76,6 +76,7 @@ Pref::Pref()
   ::g.universe = NULL;
   ::g.server = NULL;
   ::g.url = NULL;
+  ::g.urlpfx = NULL;
   ::g.user = NULL;
   ::g.channel = NULL;
 
@@ -96,7 +97,6 @@ Pref::Pref()
   expand = false;
   bbox = false;
   dbgtrace = false;
-  new_universe = false;
   refresh = false;
   loghttpd = false;
   tview = false;
@@ -259,7 +259,6 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'u':
         ::g.universe = strdup(optarg);
-        new_universe = true;
         break;
       case 'v':
         printf("%s\n", PACKAGE_VERSION);
@@ -370,7 +369,7 @@ void Pref::parse(int argc, char **argv)
   char *srv = new char[URL_LEN];
 
   if (::g.url == NULL) {
-    if (new_universe == false) {
+    if (::g.universe == NULL) {
       sprintf(url, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_WORLD);
     }
     else {
@@ -381,7 +380,7 @@ void Pref::parse(int argc, char **argv)
 
   //echo("url: %s", url);
 
-  if (new_universe == false) {
+  if (::g.universe == NULL) {
     sprintf(srv, "%s", DEF_HTTP_SERVER);
     ::g.server = strdup(srv);
   }
@@ -406,7 +405,7 @@ void Pref::parse(int argc, char **argv)
   char *urlskinf = new char[URL_LEN];
   char *urlskinb = new char[URL_LEN];
 
-  if (new_universe == false) {
+  if (::g.universe == NULL) {
     sprintf(urlskinf, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_FRONT);
     sprintf(urlskinb, "http://%s/%s%s", DEF_HTTP_SERVER, ::g.urlpfx, DEF_URL_BACK);
   }
