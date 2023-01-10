@@ -46,11 +46,14 @@ Universe::Universe()
   server = new char[128];
 
   if (! ::g.pref.new_universe) { // by default
+    char *univ = new char[URL_LEN];
+    sprintf(univ, "http://%s/%s", DEF_HTTP_SERVER, ::g.urlpfx);
+    ::g.universe = strdup(univ);
     strcpy(server, DEF_HTTP_SERVER);
     urlpfx = new char[128];
     strcpy(urlpfx, ::g.urlpfx);
   }
-  else {			// universe given by -u pref
+  else {			// universe given by -u universe_url
     char tmp[64];
     char *p, *ptmp, *pserv;
 
@@ -61,20 +64,22 @@ Universe::Universe()
     pserv = ++p;
     p = strchr(p, '/');
     *p = '\0';
-    strcpy(server, pserv);	// server given by -u pref
+    strcpy(server, pserv);	// server given by -u universe_url
+    ::g.server = strdup(server);
   
     ++p;
+    ::g.urlpfx = strdup(p);
     urlpfx = new char[32];
     ptmp = strrchr(p, '/');
     if (ptmp) *ptmp = '\0';
-    sprintf(urlpfx, "/%s", p);	// urlpfx given by -u pref
+    sprintf(urlpfx, "/%s", p);	// urlpfx given by -u universe_url
   }
 
   grpstr = new char[GROUP_LEN + 1];
   Channel::getGroup(DEF_MANAGER_CHANNEL, grpstr);
   ttl = Channel::getTtl(::g.channel);
   //dax wheel = new Wheel();
-  trace(DBG_INIT,"Universe: universe=%s server=%s pfx=%s", ::g.universe, server, ::g.urlpfx);
+  trace(DBG_INIT,"Universe: universe=%s server=%s pfx=%s", ::g.universe, ::g.server, ::g.urlpfx);
   //echo("universe=%s server=%s pfx=%s", ::g.universe, ::g.server, ::g.urlpfx);
 }
 
