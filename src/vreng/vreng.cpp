@@ -48,9 +48,7 @@ Vreng g;	// variable that refers to various modules
 jmp_buf sigctx;
 
 
-Vreng::Vreng() :
-  debug(0),
-  options(0),
+Vreng::Vreng() :	// beware: don't change order !!!
   timer(*new Timer),
   env(*new Env),
   pref(*new Pref),
@@ -58,7 +56,10 @@ Vreng::Vreng() :
   solid(*new Solid),
   theme(*new Theme),
   gui(*new Gui)
-{} 
+{
+  options = 0;
+  debug = 0;
+} 
 
 int main(int argc, char *argv[])
 {

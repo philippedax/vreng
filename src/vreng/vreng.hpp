@@ -35,26 +35,27 @@
 class Vreng {
 
 public:
-  // global variables reachable by ::g.variable
-  char *version;        ///< VREng version.
-  char *universe;       ///< universe httpd server url.
+  // global variables reachable by ::g.<variable>
   char *server;         ///< server httpd.
-  char *url;            ///< initial world url.
-  char *channel;        ///< initial Multicast channel.
+  char *universe;       ///< universe httpd url.
+  char *url;            ///< world url.
+  char *urlpfx;         ///< base path urlpfx.
+  char *channel;        ///< Multicast channel.
+  char *grpstr;         ///< Multicast group.
   char *user;           ///< user name.
-  char *urlpfx;         ///< urlpfx.
   char *skinf;          ///< front face url.
   char *skinb;          ///< back face url.
-  uint32_t debug;	///< debug flags.
+  char *version;        ///< VREng version.
   uint32_t options;	///x command line options.
+  uint32_t debug;	///< debug flags.
 
-  // global methods usable by ::g.method
+  // global methods usable by ::g.<method> : beware don't change order !!!
   class Timer& timer;	///< ::g.timer
   class Env& env;	///< ::g.env
   class Pref& pref;	///< ::g.pref
   class Render& render;	///< ::g.render
   class Solid& solid;	///< ::g.solid
-  class Theme& theme;	///< ::g.theme used to paramaterize the GUI.
+  class Theme& theme;	///< ::g.theme
   class Gui& gui;	///< ::g.gui
 
   // Methods
@@ -62,18 +63,15 @@ public:
   Vreng();		///< constructor.
   ~Vreng() {}		///< destructor.
   
-  static void quit(int status);
+  static void quit(int status);		///< quits
 
-  int start(int argc, char *argv[]);
-
-  void initCB();
+  int start(int argc, char *argv[]);	///< starts
+  void initCB();			///< init call-back
 
 private:
-
   static void stats();
 
   void initSignals();
-
   void initLimits();
 };
 
