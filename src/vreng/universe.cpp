@@ -69,7 +69,7 @@ Universe::Universe()
   
     ++p;
     ::g.urlpfx = strdup(p);
-    urlpfx = new char[32];
+    urlpfx = new char[128];
     ptmp = strrchr(p, '/');
     if (ptmp) *ptmp = '\0';
     sprintf(urlpfx, "/%s", p);	// urlpfx given by -u universe_url
