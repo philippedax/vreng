@@ -350,7 +350,8 @@ void Pref::parse(int argc, char **argv)
     }
   }
 
-  // compute urlpfx
+  /////////
+  // urlpfx
   char *pfx = new char[URL_LEN];
 
   strcpy(pfx, DEF_URL_PFX);
@@ -363,10 +364,11 @@ void Pref::parse(int argc, char **argv)
     ::g.urlpfx = strdup(pfx);
   }
   strcpy(pfx, ::g.urlpfx);		// developped
+  //echo("::g.urlpfx: %s", ::g.urlpfx);
 
-  // url server
+  /////////
+  // url
   char *url = new char[URL_LEN];
-  char *srv = new char[URL_LEN];
 
   if (::g.url == NULL) {
     if (::g.universe == NULL) {
@@ -377,29 +379,33 @@ void Pref::parse(int argc, char **argv)
     }
     ::g.url = strdup(url);
   }
+  //echo("::g.url: %s", ::g.url);
 
-  //echo("url: %s", url);
+  /////////
+  // server
+  char *srv = new char[URL_LEN];
 
   if (::g.universe == NULL) {
     sprintf(srv, "%s", DEF_HTTP_SERVER);
-    ::g.server = strdup(srv);
   }
   else {
     char *p1, *p2;
-    url = strdup(::g.universe);
-    p1 = strchr(url, '/');
+    strcpy(srv, ::g.universe);
+    p1 = strchr(srv, '/');
     p1++;
     p1 = strchr(p1, '/');
     p2 = ++p1;
     p1 = strchr(p1, '/');
-    *p1 = 0;
+    *p1 = '\0';
     strcpy(srv, p2); 
-    ::g.server = strdup(srv);
   }
+  ::g.server = strdup(srv);
+  //echo("::g.server: %s", ::g.server);
 
-  trace(DBG_INIT, "server: %s", ::g.server);
-  trace(DBG_INIT, "universe: %s", ::g.universe);
-  trace(DBG_INIT, "url: %s", ::g.url);
+  echo("url: %s", ::g.url);
+  echo("server: %s", ::g.server);
+  echo("universe: %s", ::g.universe);
+  echo("pfx: %s", ::g.urlpfx);
 
   // skins
   char *urlskinf = new char[URL_LEN];
