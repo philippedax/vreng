@@ -43,8 +43,6 @@ public:
   char *channel;        ///< Multicast channel.
   char *grpstr;         ///< Multicast group.
   char *user;           ///< user name.
-  char *skinf;          ///< front face url.
-  char *skinb;          ///< back face url.
   char *version;        ///< VREng version.
   uint32_t options;	///x command line options.
   uint32_t debug;	///< debug flags.

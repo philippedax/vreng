@@ -123,11 +123,11 @@ Pref::Pref()
   my_buststr = NULL;
   my_colorstr = NULL;
   my_bapsstr = NULL;
+  my_skinf = NULL;
+  my_skinb = NULL;
   httpproxystr = NULL;
   noproxystr = NULL;
   mcastproxystr = NULL;
-  ::g.skinf = NULL;
-  ::g.skinb = NULL;
 }
 
 void Pref::init(int argc, char **argv, const char* pref_file)
@@ -420,8 +420,8 @@ void Pref::parse(int argc, char **argv)
     sprintf(urlskinf, "%s%s%s", ::g.universe, "", DEF_URL_FRONT);
     sprintf(urlskinb, "%s%s%s", ::g.universe, "", DEF_URL_BACK);
   }
-  ::g.skinf = strdup(urlskinf);
-  ::g.skinb = strdup(urlskinb);
+  my_skinf = strdup(urlskinf);
+  my_skinb = strdup(urlskinb);
 
   if (::g.channel == NULL) {
     ::g.channel = strdup(DEF_VRENG_CHANNEL);

@@ -159,13 +159,13 @@ void User::makeSolid()
   if (pref->my_depthstr)	depth = atof(pref->my_depthstr);
   if (pref->my_heightstr)	height = atof(pref->my_heightstr);
 
-  if (::g.skinf) {
+  if (pref->my_skinf) {
     if (pref->my_mapfrontstr)	front = strdup(pref->my_mapfrontstr);
-    else			front = strdup(::g.skinf);
+    else			front = strdup(pref->my_skinf);
   }
-  if (::g.skinb) {
+  if (pref->my_skinb) {
     if (pref->my_mapbackstr)	back = strdup(pref->my_mapbackstr);
-    else			back = strdup(::g.skinb);
+    else			back = strdup(pref->my_skinb);
   }
   left = strdup(" "); 		*left = 0;
   right = strdup(" "); 		*right = 0;

@@ -76,6 +76,8 @@ public:
   char *my_skinstr;
   char *my_buststr;
   char *my_colorstr;
+  char *my_skinf;
+  char *my_skinb;
   char *httpproxystr;
   char *noproxystr;
   char *mcastproxystr;
