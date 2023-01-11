@@ -352,6 +352,7 @@ void Pref::parse(int argc, char **argv)
 
   /////////
   // urlpfx
+  //
   char *pfx = new char[URL_LEN];
 
   strcpy(pfx, DEF_URL_PFX);
@@ -368,6 +369,7 @@ void Pref::parse(int argc, char **argv)
 
   /////////
   // url
+  //
   char *url = new char[URL_LEN];
 
   if (::g.url == NULL) {
@@ -383,6 +385,7 @@ void Pref::parse(int argc, char **argv)
 
   /////////
   // server
+  //
   char *srv = new char[URL_LEN];
 
   if (::g.universe == NULL) {
@@ -402,10 +405,10 @@ void Pref::parse(int argc, char **argv)
   ::g.server = strdup(srv);
   //echo("::g.server: %s", ::g.server);
 
-  echo("url: %s", ::g.url);
-  echo("server: %s", ::g.server);
-  echo("universe: %s", ::g.universe);
-  echo("pfx: %s", ::g.urlpfx);
+  //echo("url: %s", ::g.url);
+  //echo("server: %s", ::g.server);
+  //echo("universe: %s", ::g.universe);
+  //echo("pfx: %s", ::g.urlpfx);
 
   // skins
   char *urlskinf = new char[URL_LEN];
