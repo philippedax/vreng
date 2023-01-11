@@ -61,7 +61,7 @@ private:
   char vrengpasswd[PATH_LEN];
   char vrengcache[PATH_LEN];
   
-  char logname[9];
+  char logname[USER_LEN];
   char systemname[9];
   char releasename[9];
   char machinename[32];

@@ -114,7 +114,7 @@
 #define CHAN_LEN		32		// max length of a channel
 #define GROUP_LEN		16		// max length of a group
 #define URL_LEN			256		// max length of an url
-#define USER_LEN		9		// max lenght of user name
+#define USER_LEN		17		// max lenght of user name
 #define OBJNAME_LEN		64		// max lenght of object name
 #define HNAME_LEN		11		// max length of understandable name
 #define ACTIONNAME_LEN		16		// max length of action name
