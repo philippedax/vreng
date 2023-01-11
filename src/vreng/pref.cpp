@@ -20,16 +20,14 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "pref.hpp"
-#include "env.hpp"	// prefs file
+#include "env.hpp"	// ::g.env
 #include "vac.hpp"	// Vac
 #include "theme.hpp"	// Theme
 #include "file.hpp"	// open, close
 #include "str.hpp"	// stringcmp
-#include "ostream"	// cout
+#include "ubit/uconf.hpp" // Uconf::
 
 #include "prefs.t"	// prefs config
-
-using namespace std;
 
 
 static const char HELPSTRING[] = "\
