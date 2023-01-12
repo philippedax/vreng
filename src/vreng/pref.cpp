@@ -71,12 +71,14 @@ where options are:\n\
 Pref::Pref()
 {
   ::g.version = strdup(PACKAGE_VERSION);
-  ::g.universe = NULL;
-  ::g.server = NULL;
   ::g.url = NULL;
   ::g.urlpfx = NULL;
+  ::g.server = NULL;
+  ::g.universe = NULL;
   ::g.user = NULL;
   ::g.channel = NULL;
+
+  debug = 0;
 
   // options true by default
   gravity = true;
@@ -198,7 +200,7 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'd':
         dbg = atoi(optarg);
-        ::g.debug = atoi(optarg);
+        debug = atoi(optarg);
         break;
       case 'f':
         if (! optarg) {

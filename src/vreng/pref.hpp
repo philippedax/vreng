@@ -35,6 +35,7 @@ public:
   void init(int argc, char **argv, const char* pref_file);
   /**< Init preferences */
   
+  uint32_t debug;       ///< debug flags.
   uint16_t width3D;	///< 3D width
   uint16_t height3D;	///< 3D height
   uint8_t maxsimcon;	///< max simultaneous connections

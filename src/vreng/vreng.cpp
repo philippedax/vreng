@@ -57,8 +57,6 @@ Vreng::Vreng() :	// beware: don't change order !!!
   theme(*new Theme),
   gui(*new Gui)
 {
-  options = 0;
-  debug = 0;
 } 
 
 int main(int argc, char *argv[])

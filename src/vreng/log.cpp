@@ -80,7 +80,7 @@ void trace(int dbgmask, const char *s, ...)
 {
   va_list ap;
 
-  if (::g.debug & (1 << dbgmask) || dbgmask == DBG_FORCE) {
+  if (::g.pref.debug & (1 << dbgmask) || dbgmask == DBG_FORCE) {
     va_start(ap, s);
     vfprintf(stderr, s, ap);
     va_end(ap);
@@ -92,7 +92,7 @@ void trace2(int dbgmask, const char *s, ...)	// without cr
 {
   va_list ap;
 
-  if (::g.debug & (1 << dbgmask) || dbgmask == DBG_FORCE) {
+  if (::g.pref.debug & (1 << dbgmask) || dbgmask == DBG_FORCE) {
     va_start(ap, s);
     vfprintf(stderr, s, ap);
     va_end(ap);

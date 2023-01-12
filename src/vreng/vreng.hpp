@@ -24,7 +24,7 @@
 #include "sysdep.hpp"	// system includes
 #include "macros.hpp"	// builtin defines
 #include "defaults.hpp"	// DEF_*
-#include "log.hpp"	// notice, warning, fatal, trace
+#include "log.hpp"	// echo, notice, warning, error, fatal, trace
 #include "matvec.hpp"	// matrix M4 vector V3
 #include "trigo.hpp"	// my_trigo
 
@@ -36,18 +36,16 @@ class Vreng {
 
 public:
   // global variables reachable by ::g.<variable>
-  char *server;         ///< server httpd.
-  char *universe;       ///< universe httpd url.
   char *url;            ///< world url.
   char *urlpfx;         ///< base path urlpfx.
+  char *server;         ///< server httpd.
+  char *universe;       ///< universe httpd url.
   char *channel;        ///< Multicast channel.
   char *grpstr;         ///< Multicast group.
   char *user;           ///< user name.
   char *version;        ///< VREng version.
-  uint32_t options;	///x command line options.
-  uint32_t debug;	///< debug flags.
 
-  // global methods usable by ::g.<method> : beware don't change order !!!
+  // global methods usable by ::g.<method> : beware don't change order below !!!
   class Timer& timer;	///< ::g.timer
   class Env& env;	///< ::g.env
   class Pref& pref;	///< ::g.pref
