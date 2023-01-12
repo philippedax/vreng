@@ -355,16 +355,15 @@ void Pref::parse(int argc, char **argv)
   //
   char *pfx = new char[URL_LEN];
 
-  strcpy(pfx, DEF_URL_PFX);
-  ::g.urlpfx = strdup(pfx);
-  if (*pfx == '~' && pfx[1] == '%') {
-    sprintf(::g.urlpfx, pfx, ::g.user);	// format %s inside urlpfx
-    //echo("::g.urlpfx: %s", ::g.urlpfx);
+  if (strncmp(DEF_URL_PFX, "~%s", 3) == 0) {
+    strcat(pfx, "~");			// ~/public_html/ or ~/Sites/
+    strcat(pfx, ::g.user);		// loginname
+    strcat(pfx, DEF_URL_PFX + 3);	// path (htdoc)
   }
   else {
-    ::g.urlpfx = strdup(pfx);
+    strcpy(pfx, DEF_URL_PFX);
   }
-  strcpy(pfx, ::g.urlpfx);		// developped
+  ::g.urlpfx = strdup(pfx);
   //echo("::g.urlpfx: %s", ::g.urlpfx);
 
   /////////
