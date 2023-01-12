@@ -358,7 +358,7 @@ void Pref::parse(int argc, char **argv)
   if (strncmp(DEF_URL_PFX, "~%s", 3) == 0) {
     strcat(pfx, "~");			// ~/public_html/ or ~/Sites/
     strcat(pfx, ::g.user);		// loginname
-    strcat(pfx, DEF_URL_PFX + 3);	// path (htdoc)
+    strcat(pfx, &DEF_URL_PFX[3]);	// path (htdoc)
   }
   else {
     strcpy(pfx, DEF_URL_PFX);
