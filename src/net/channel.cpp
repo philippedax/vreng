@@ -37,6 +37,7 @@
 #include <list>
 using namespace std;
 
+// local: list
 list<Channel*> Channel::channelList;
 
 /* local: fds */
@@ -418,7 +419,7 @@ Channel::~Channel()
   quit();
   ::g.gui.removeChannelSources(WORLD_MODE);
 
-  for (int i=0; i < cntfds && channelCount > 0; i++)	{ // debugged by efence
+  for (int i=0; i < cntfds && channelCount > 0; i++) { // debugged by efence
     if (tabFd[i] > 0) {
       Socket::closeDatagram(tabFd[i]);
       tabFd[i] = -1;
@@ -471,7 +472,10 @@ int Channel::getfdbysa(const struct sockaddr_in *sa, int i_fd)
 {
   int ret = -2;
 
-  if (! sa) { error("getfdbysa: sa NULL"); return -1; }
+  if (! sa) {
+    error("getfdbysa: sa NULL");
+    return -1;
+  }
 
   if (channelList.empty()) return -1;
   for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
@@ -483,7 +487,7 @@ int Channel::getfdbysa(const struct sockaddr_in *sa, int i_fd)
       return((*it)->sd[i_fd]);
     }
   }
-  ret = channelList.front()->sd[i_fd]; //octobre
+  ret = channelList.front()->sd[i_fd];
   trace(DBG_NET, "getfdbysa: sa=%x not in table, force fd=%d", sa, ret);
   return ret;
 }
@@ -501,11 +505,16 @@ int Channel::getFdSendRTCP(const struct sockaddr_in *sa)
 /** get a socket address by sockaddr_in */
 struct sockaddr_in * Channel::getsabysa(const struct sockaddr_in *sa, int i_sa)
 {
-  if (! sa) { error("getsabysa: sa NULL"); return NULL; }
+  if (! sa) {
+    error("getsabysa: sa NULL");
+    return NULL;
+  }
 
   if (channelList.empty()) return NULL;
-  for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it)
-    if ((*it)->sa[SA_RTP] == sa || (*it)->sa[SA_RTCP] == sa) return (*it)->sa[i_sa];
+  for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
+    if ((*it)->sa[SA_RTP] == sa || (*it)->sa[SA_RTCP] == sa)
+      return (*it)->sa[i_sa];
+  }
   return NULL;
 }
 
@@ -517,7 +526,10 @@ struct sockaddr_in * Channel::getSaRTCP(const struct sockaddr_in *sa)
 /** get a channel by sockaddr_in */
 Channel * Channel::getbysa(const struct sockaddr_in *sa)
 {
-  if (! sa) { error("getbysa: sa NULL"); return NULL; }
+  if (! sa) {
+    error("getbysa: sa NULL");
+    return NULL;
+  }
   if (channelList.empty()) return NULL;
   for (list<Channel*>::iterator it = channelList.begin(); it != channelList.end(); ++it) {
     if ((*it)->sa[SA_RTP] == sa)  return *it;
