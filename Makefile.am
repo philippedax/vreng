@@ -27,38 +27,32 @@ ACLOCAL_AMFLAGS = -I support
 
 SUBDIRS = src man bin etc
 
-EXTRA_DIST = LICENSE README VERSION.md support/* md/* build vr
-
-## maintainer's targets
+EXTRA_DIST = LICENSE README VERSION.md support/* md/* autogen.sh build vr
 
 ARCHIVE  = /Users/dax/vreng/archive
 HTML     = /Users/dax/vreng/html
-HTTP_SVN = http://www.vreng.enst.fr/svn/vreng
+#HTTP_SVN = http://www.vreng.enst.fr/svn/vreng
 
 TARBALL_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 TARBALL_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.xz
-TARBALL_ZIP = $(PACKAGE_NAME)-$(PACKAGE_VERSION).zip
 TARBALLS = $(TARBALL_GZ) $(TARBALL_XZ)
 
 TARLINK_GZ = $(PACKAGE_NAME).tar.gz
 TARLINK_XZ = $(PACKAGE_NAME).tar.xz
-TARLINK_ZIP = $(PACKAGE_NAME).zip
 
 FINGERPRINT_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-gz.md5sum
 FINGERPRINT_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-xz.md5sum
-FINGERPRINT_ZIP = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-zip.md5sum
+
+## maintainer's targets
 
 dist dist-all:
 	-make dist-gzip
 	-make dist-xz
-#	-make dist-bzip2
-#	-make dist-zip
 	-cp -p ChangeLog VERSION.md $(HTML)
 
 fingerprint:
 	-md5sum < $(TARBALL_GZ) > $(FINGERPRINT_GZ)
 	-md5sum < $(TARBALL_XZ) > $(FINGERPRINT_XZ)
-#	-md5sum < $(TARBALL_ZIP) > $(FINGERPRINT_ZIP)
 
 clean-tar:
 	tar xpf $(TARBALL_GZ)
@@ -71,20 +65,14 @@ data-tar:
 html-tar:
 	tar zcf vreng-html.tar.gz htdocs/html
 
-svntags:
-	su -c "svn copy $(HTTP_SVN)/trunk $(HTTP_SVN)/tags/$(PACKAGE_NAME)-$(PACKAGE_VERSION) -m \"Distribution: $(PACKAGE_NAME)-$(PACKAGE_VERSION)\"" dax
-
 archive: dist fingerprint
 	-install -m 444 $(FINGERPRINT_GZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_GZ) $(ARCHIVE)
 	-install -m 444 $(FINGERPRINT_XZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_XZ) $(ARCHIVE)
-#	-install -m 444 $(FINGERPRINT_ZIP) $(ARCHIVE)
-#	-install -m 444 $(TARBALL_ZIP) $(ARCHIVE)
 	-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ))
 	@-rm $(FINGERPRINT_GZ)
 	@-rm $(FINGERPRINT_XZ)
-#	@-rm $(FINGERPRINT_ZIP)
 
 doxygen:
 	@-rm -f $(HTML)/doxygen/html/*
@@ -99,4 +87,4 @@ history:
 rss:
 	support/vreng-rss
 
-.PHONY: dist fingerprint doxygen snapshot history rss svntags data-tar
+.PHONY: dist fingerprint doxygen snapshot history rss data-tar
