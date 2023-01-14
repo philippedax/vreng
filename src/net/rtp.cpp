@@ -50,29 +50,6 @@ uint32_t Rtp::createSsrc(int value)
   return (uint32_t) random32(value);
 }
 
-#if 0
-void Rtp::buildRtpHeader(rtp_hdr_t *rtp_hdr, uint32_t _ssrc)
-{
-  struct timeval ts;
-
-  rtp_hdr->version = RTP_VERSION;
-  rtp_hdr->p = 0;
-  rtp_hdr->x = 0;
-  rtp_hdr->cc = 0;
-  rtp_hdr->m = 0;
-  rtp_hdr->pt = RTP_VREP_TYPE;
-  rtp_hdr->seq = htons(++(rtp_seq));
-  gettimeofday(&ts, NULL);
-  rtp_hdr->ts = htonl(ts.tv_sec*1000 + ts.tv_usec/1000);
-  rtp_hdr->ssrc = htonl(_ssrc);
-
-#ifdef DEBUG
-  trace(DBG_RTP, "RTP: %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
-        hdr[0], hdr[1], hdr[2], hdr[3], hdr[4], hdr[5], hdr[6], hdr[7], hdr[8], hdr[9], hdr[10], hdr[11]);
-#endif
-}
-#endif
-
 void Rtp::initSource(sourceInfos *s, uint16_t seq)
 {
   s->base_seq = seq - 1;
