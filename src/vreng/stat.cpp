@@ -23,33 +23,8 @@
 #include "session.hpp"	// Session
 #include "gui.hpp"	// getCycles
 #include "timer.hpp"	// rate diffDates
-#include "render.hpp"	// stats
 
-
-// local
-
-/*** network counters ***/
-static uint32_t pkts_sent = 0;
-static uint32_t pkts_recvd = 0;
-static uint32_t bytes_sent = 0;
-static uint32_t bytes_recvd = 0;
-static uint32_t pkts_rtp_sent = 0;
-static uint32_t bytes_rtp_sent = 0;
-static uint32_t pkts_rtcp_sent = 0;
-static uint32_t bytes_rtcp_sent = 0;
-static uint32_t pkt_max = 0;
-static uint32_t pkt_min = 512;
-static uint32_t sum_pkts_sent = 0;
-static uint32_t sum_pkts_recvd = 0;
-static uint32_t sum_pkts_rtp_sent = 0;
-static uint32_t sum_pkts_rtcp_sent = 0;
-static uint32_t sum_bytes_sent = 0;
-static uint32_t sum_bytes_rtp_sent = 0;
-static uint32_t sum_bytes_rtcp_sent = 0;
-static uint32_t sum_bytes_recvd = 0;
-static uint32_t sum_pkts_lost = 0;
-static float kbps_sent = 0.0;
-static float kbps_recvd = 0.0;
+// global
 
 /*** memory ***/
 uint32_t new_wobject;
@@ -92,6 +67,30 @@ uint32_t opn_sock;
 uint32_t cls_sock;
 
 // local
+
+/*** network counters ***/
+static uint32_t pkts_sent = 0;
+static uint32_t pkts_recvd = 0;
+static uint32_t bytes_sent = 0;
+static uint32_t bytes_recvd = 0;
+static uint32_t pkts_rtp_sent = 0;
+static uint32_t bytes_rtp_sent = 0;
+static uint32_t pkts_rtcp_sent = 0;
+static uint32_t bytes_rtcp_sent = 0;
+static uint32_t pkt_max = 0;
+static uint32_t pkt_min = 512;
+static uint32_t sum_pkts_sent = 0;
+static uint32_t sum_pkts_recvd = 0;
+static uint32_t sum_pkts_rtp_sent = 0;
+static uint32_t sum_pkts_rtcp_sent = 0;
+static uint32_t sum_bytes_sent = 0;
+static uint32_t sum_bytes_rtp_sent = 0;
+static uint32_t sum_bytes_rtcp_sent = 0;
+static uint32_t sum_bytes_recvd = 0;
+static uint32_t sum_pkts_lost = 0;
+static float kbps_sent = 0.0;
+static float kbps_recvd = 0.0;
+
 static FILE *flog;
 static float d;
 
