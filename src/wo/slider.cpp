@@ -89,12 +89,12 @@ void Slider::changePosition(float lasting)
 
   // check if user out
   if (interAABB(capted, this) == 0) {
-    //error("user out %s", names.instance);
+    //echo("user out %s", names.instance);
     capted = NULL;
     state = INACTIVE;
     return;
   }
-  //error("user in %s", names.instance);
+  //echo("user in %s", names.instance);
   // progression
   capted->pos.x += incrx * cos(pos.az);
   capted->pos.y += incry * sin(pos.az);
@@ -105,7 +105,6 @@ void Slider::changePosition(float lasting)
 
 bool Slider::whenIntersect(WObject *pcur, WObject *pold)
 {
-  //error("in %s", names.instance);
   capted = pcur;
   enableImposedMovement();
   state = ACTIVE;
