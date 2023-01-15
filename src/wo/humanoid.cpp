@@ -162,13 +162,13 @@ int Humanoid::initReceiver()
     if (Socket::addMembership(sdudp, &mreq) < 0) {
       error("initReceiver: cannot join multicast group %s", group); return 0;
     }
-    //error("initReceiver: waiting for Multicast on %x:%d", udpsa.sin_addr.s_addr, udpsa.sin_port);
+    //echo("initReceiver: waiting for Multicast on %x:%d", udpsa.sin_addr.s_addr, udpsa.sin_port);
   }
   else {  // Unicast
-    //error("initReceiver: waiting for Unicast on port %d", vaps_port);
+    //echo("initReceiver: waiting for Unicast on port %d", vaps_port);
   }
 #endif
-  //error("initReceiver: waiting on port %d, sdudp=%d", vaps_port, sdudp);
+  //echo("initReceiver: waiting on port %d, sdudp=%d", vaps_port, sdudp);
   return 1;
 }
 
@@ -203,7 +203,7 @@ int Humanoid::connectToBapServer(int _ipmode)
     sdtcp = -1;
     return 0;
   }
-  //error("Connection established with vaps server: %s(%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
+  //echo("Connection established with vaps server: %s(%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
 #if 0 //dax
   ipmode = _ipmode;
   if (ipmode == MULTICAST) {
@@ -227,7 +227,7 @@ void Humanoid::disconnectFromBapServer()
       Socket::dropMembership(sdudp, &mreq);
   }
   if (sdudp > 0) Socket::closeDatagram(sdudp);
-  //error("Connection closed with the vaps server");
+  //echo("Connection closed with the vaps server");
   sdtcp = sdudp = -1;
   state = INACTIVE;
 }
@@ -242,7 +242,7 @@ int Humanoid::readBapFrame()
   delay.tv_sec = delay.tv_usec = 0;  // set select passing
 
   if (select(FD_SETSIZE, &set, NULL, NULL, &delay) == 0) {
-    //error("select=0 sdudp=%d", sdudp);
+    //echo("select=0 sdudp=%d", sdudp);
     return 0;  // nothing to read
   }
 
@@ -282,14 +282,14 @@ void Humanoid::changePermanent(float lasting)
 
   if ((sdtcp > 0) && readBapFrame()) {		// from vaps server
     // bap is ready to be played
-    //error("bapline: %s", bapline);
+    //echo("bapline: %s", bapline);
     uint8_t baptype = bap->parse(bapline);	// parse it
 
     switch (baptype) {
     case TYPE_BAP_V31: case TYPE_BAP_V32: 
       for (int i=1; i <= NUM_BAPS_V32; i++) {
         if (! bap->isMask(i)) continue;
-        //error("play: %d (%.2f)", i, bap->getBap(i));
+        //echo("play: %d (%.2f)", i, bap->getBap(i));
       }
       body->animate();		// play bap frame
       break;
@@ -326,7 +326,7 @@ void Humanoid::changePermanent(float lasting)
        //disconnectFromBapServer();
        state = INACTIVE;
        angle = 0;
-       //error("disconnect");
+       //echo("disconnect");
       break;
     default:
       break;
@@ -345,7 +345,7 @@ void Humanoid::changePermanent(float lasting)
 #if 0 //dax
   else if (sdtcp <= 0) {
     // get frame from local string bapfile (see gestures.hpp)
-    error("get local frame");
+    echo("get local frame");
     static bool hdr_frame = true;
     char ch;
     char *p = NULL;
@@ -354,14 +354,14 @@ void Humanoid::changePermanent(float lasting)
     int nbr_frames = 0;
     int num_frame = 0;
     int num_params = 0;
-    //error("bapfile: %s", bapfile);
+    //echo("bapfile: %s", bapfile);
 
     if (hdr_frame) {
       //baphdr
       memset(bapline, 0, sizeof(bapline));
       for (c = 0; (ch = bapfile[c]) != '\n'; c++) { bapline[c] = ch; }
       bapfile += (c + 1);	// + eol
-      error("hdr_frame: %s (%d)", bapline, c);
+      echo("hdr_frame: %s (%d)", bapline, c);
       p = strrchr(bapline, ' ');
       if (p)
         nbr_frames = atoi(++p);
@@ -375,8 +375,8 @@ void Humanoid::changePermanent(float lasting)
       case TYPE_FAP_V21: 
         num_params = NUM_FAPS; break;
       }
-      //error("baptype: %d", baptype);
-      //error("nbr_frames: %d", nbr_frames);
+      //echo("baptype: %d", baptype);
+      //echo("nbr_frames: %d", nbr_frames);
       hdr_frame = false;
     }
 
@@ -386,7 +386,7 @@ void Humanoid::changePermanent(float lasting)
       memset(bapline, 0, sizeof(bapline));
       for (c = 0; (ch = bapfile[c]) != '\n'; c++) { bapline[c] = ch; }
       bapfile += (c + 1);
-      //error("mask: %s (%d)", bapline, c);
+      //echo("mask: %s (%d)", bapline, c);
       // masks
       p = bapline;
       for (int i=1; i <= num_params; i++) {
@@ -411,13 +411,13 @@ void Humanoid::changePermanent(float lasting)
       // num_frame
       p = bapline;
       num_frame = atoi(p);
-      error("num_frame: %d", num_frame);
+      echo("num_frame: %d", num_frame);
 
       // values
       p = strchr(bapline, ' ');
       if (! p) break;	// no values
       p++;		// first value
-      error("values: %s", p);
+      echo("values: %s", p);
       for (int i=1; i <= num_params; i++) {
         if (! bap->isMask(i)) continue;
         if (i >= TR_VERTICAL && i <= TR_FRONTAL) {	// 170..172 translations
@@ -434,7 +434,7 @@ void Humanoid::changePermanent(float lasting)
           }
           trace(DBG_MAN, "bap: p=%s ba[%d]=%.2f", p, i, bap->getBap(i));
         }
-        error("mask: %d (%.2f)", i, bap->getBap(i));
+        echo("mask: %d (%.2f)", i, bap->getBap(i));
         p = strchr(p, ' ');	// skip space
         if (! p) break;		// end of frame
         p++;			// next value
@@ -445,21 +445,21 @@ void Humanoid::changePermanent(float lasting)
       case TYPE_BAP_V31: case TYPE_BAP_V32: 
         for (int i=1; i <= num_params; i++) {
           if (! bap->isMask(i)) continue;
-          error("play bap: %d (%.2f)", i, bap->getBap(i));
+          echo("play bap: %d (%.2f)", i, bap->getBap(i));
         }
         body->animate();	// play bap frame
         break;
       case TYPE_FAP_V20: case TYPE_FAP_V21:
         for (int i=1; i <= NUM_FAPS; i++) {
           if (! bap->isMask(i)) continue;
-          error("play fap: %d (%.2f)", i, bap->getFap(i));
+          echo("play fap: %d (%.2f)", i, bap->getFap(i));
           if (body->face) {
             body->face->animate(i, bap->getFap(i)); // play fap frame
           }
         }
         break;
       default:
-        error("baptype: %d", baptype);
+        echo("baptype: %d", baptype);
         break;
       }
       //usleep(200000);	// 2/10 sec
@@ -471,7 +471,7 @@ void Humanoid::changePermanent(float lasting)
 
     hdr_frame = true;
     state = INACTIVE;
-    error("end frames");
+    echo("end frames");
   }
 #endif //dax
 }
