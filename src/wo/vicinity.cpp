@@ -63,7 +63,7 @@ Vicinity::Vicinity(string objectName)
   // On cherche l'objet dans la liste
   refObject = NULL;
   refObject->getObjectByName(refObjectName.c_str());
-  //error("J'ai trouve l'objet %s dans la liste des objets",refObject->getInstance());
+  //echo("J'ai trouve l'objet %s dans la liste des objets",refObject->getInstance());
 
   setSize(localuser);
   userDist = computeDistance(user, refObject);
@@ -307,7 +307,7 @@ void Vicinity::describeTopo(Vicin vicin)
   case DIST_NEAR:  msg = "is near of"; break;
   case DIST_FAR:   msg = "is very far of"; break;
   }
-  error("object %s %s %s", refObjectName.c_str(), msg.c_str(), (vicin.object)->getInstance());
+  echo("object %s %s %s", refObjectName.c_str(), msg.c_str(), (vicin.object)->getInstance());
 }
 
 void Vicinity::analyseScene()
@@ -330,12 +330,12 @@ void Vicinity::analyseTopo()
 
 #if _DEBUG_TOPO_
   for (int i=0; i < listSize; i++) {
-    error(" OBJET (%s) size :%d dist:%d",
+    echo(" OBJET (%s) size :%d dist:%d",
 	  (vicinList[i].object)->getInstance(),
 	  vicinList[i].size,
 	  vicinList[i].dist);
   }
-  //error("---");
+  //echo("---");
 #endif
   if (listSize < toread) toread = listSize;
 
@@ -456,7 +456,7 @@ void Vicinity::analyseVisual(int details)
 void Vicinity::describeVisual()
 {
   V3 coord = ::g.render.getVisiblePosition(refObject);
-  //error("coord de objet %s, x:%.2f y:%.2f", refObjectName.c_str(), coord.v[0], coord.v[1]);
+  //echo("coord de objet %s, x:%.2f y:%.2f", refObjectName.c_str(), coord.v[0], coord.v[1]);
 
   char* msg = NULL;
   char msgprecis[100];
@@ -474,7 +474,7 @@ void Vicinity::describeVisual()
     sprintf(msgprecis,"et a droite de %s", (visualList[0].object)->getInstance());
   else
     sprintf(msgprecis,"et pres de %s", (visualList[0].object)->getInstance());
-  error("-> %s %s %s ! ok ?", refObjectName.c_str(), msg, msgprecis);
+  echo("-> %s %s %s ! ok ?", refObjectName.c_str(), msg, msgprecis);
   free(msg);
 }
 
@@ -491,9 +491,9 @@ void Vicinity::analyseVicinity()
 
     for (int i=0; i < hits ; i++) {
       if (drawedObj[i]->isSeen() && !uselessType(drawedObj[i]))
-	error("I see: i=%d name=%s", i, drawedObj[i]->getInstance());
+	echo("I see: i=%d name=%s", i, drawedObj[i]->getInstance());
       else
-	error("I can't see: i=%d name=%s", i, drawedObj[i]->getInstance());
+	echo("I can't see: i=%d name=%s", i, drawedObj[i]->getInstance());
     }
   }
   if (listseen) delete[] listseen;
