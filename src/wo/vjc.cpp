@@ -273,7 +273,6 @@ int VjcSocket::connectSend()
       return 1;
     }
     else {
-      //error("connectSend: %s", strerror(errno));
       return 0;
     }
   }
@@ -423,7 +422,7 @@ tVjcHeader VjcMessage::getHeader()
 /* Read a header struct for the raw packet data */
 void VjcMessage::dumpHeader(tVjcHeader hdr)
 {
-  //error("%x %d %d %d %d %d",
+  //echo("%x %d %d %d %d %d",
   //hdr.proto, hdr.version, hdr.app_ssrc, hdr.msg_type, hdr.msg_id, hdr.data_len);
 }
 
@@ -550,7 +549,7 @@ int VjcMessage::sendData()
           && (getHeader().msg_id  == VJC_MSGV_REGISTER))) {
 
         VjcMessage *msg = new VjcMessage(srv, srv->ssrc, VJC_MSGT_CTRL, VJC_MSGV_UPDATE);
-        //error("Vjc: updating SSRC for Vjc (old:%d, new:%d)", srv->ssrc, NetObject::getMySsrcId());
+        //echo("Vjc: updating SSRC for Vjc (old:%d, new:%d)", srv->ssrc, NetObject::getMySsrcId());
         msg->put32(NetObject::getMySsrcId());
         pkt = msg->toBytes(&pktlen);
         send(srv->sock->sdw, pkt, pktlen, 0);
@@ -562,7 +561,7 @@ int VjcMessage::sendData()
     /* send the message */
     pkt = toBytes(&pktlen);
     send(srv->sock->sdw, pkt, pktlen, 0);
-    //error("Vjc: sending %d bytes with '%02x%02x' %d %08x (%d %d)",
+    //echo("Vjc: sending %d bytes with '%02x%02x' %d %08x (%d %d)",
     //	  sent, pkt[0], pkt[1], pkt[2], NetObject::getMySsrcId(),
     //	  getHeader().msg_type,
     //	  getHeader().msg_id);
@@ -602,7 +601,6 @@ VjcMessage * Vjc::getData(WObject *po)
     int r;
 
     if ((pkt = new uint8_t[VjcMessage::MAX_PACKET]) == NULL) {
-      //error("Vjc::getData: can't new reception buffer");
       return NULL;
     }
 
