@@ -26,12 +26,10 @@
 #include "render.hpp"	// stats
 
 
-// global
+// local
 
 /*** network counters ***/
-uint32_t pkts_sent = 0;
-uint32_t sum_pkts_lost = 0;
-
+static uint32_t pkts_sent = 0;
 static uint32_t pkts_recvd = 0;
 static uint32_t bytes_sent = 0;
 static uint32_t bytes_recvd = 0;
@@ -49,6 +47,7 @@ static uint32_t sum_bytes_sent = 0;
 static uint32_t sum_bytes_rtp_sent = 0;
 static uint32_t sum_bytes_rtcp_sent = 0;
 static uint32_t sum_bytes_recvd = 0;
+static uint32_t sum_pkts_lost = 0;
 static float kbps_sent = 0.0;
 static float kbps_recvd = 0.0;
 

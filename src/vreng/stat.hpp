@@ -22,10 +22,6 @@
 #define STAT_HPP
 
 
-/*** network counters ***/
-extern uint32_t pkts_sent;
-extern uint32_t sum_pkts_lost;
-
 void statLog();
 void statTimings(FILE *fout);
 void statNetwork(FILE *fout);
