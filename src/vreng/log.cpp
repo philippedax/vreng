@@ -114,9 +114,9 @@ void echo(const char *s, ...)
   va_list ap;
 
   va_start(ap, s);
-  vfprintf(stderr, s, ap);
+  vfprintf(stdout, s, ap);
   va_end(ap);
-  fprintf(stderr, "\n");
+  fprintf(stdout, "\n");
 }
 
 FILE * writelog(const char *s, ...)
