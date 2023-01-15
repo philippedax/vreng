@@ -175,7 +175,7 @@ void Text::changePosition(float lasting)
   pos.y = shifty;
   pos.z = shiftz;
   pos.az = shiftaz;
-  error("text: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
+  echo("text: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
 }
 
 void Text::expire()
