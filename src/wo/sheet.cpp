@@ -42,7 +42,6 @@ void Sheet::parser(char *l)
 
 Sheet::Sheet(Book* _book, char* l, uint8_t _side)
 {
-  //error("l=%s s=%d", l,_side);
   parser(l);
 
   /* adapt sheet position from book position */
@@ -59,12 +58,8 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   getDimBB(size);
   pos.x = center.v[0] + (size.v[0] * cos(pos.az));
   pos.y = center.v[1] + (size.v[0] * sin(pos.az));
-  //pos.z = center.v[2];
   clearV3(move.lspeed);
   clearV3(move.aspeed);
-  //error("cen: %.2f %.2f %.2f", center.v[0],center.v[1],center.v[2]);
-  //error("siz: %.2f %.2f %.2f", size.v[0],size.v[1],size.v[2]);
-  //error("pos: %.2f %.2f %.2f %.2f", pos.x,pos.y,pos.z,pos.az);
 
   enableBehavior(COLLIDE_NEVER);
 
@@ -84,8 +79,6 @@ void Sheet::changePosition(float lasting)
   // (sinon, pb car x et y sont remis par defaut au centre de la box)
   pos.x = center.v[0] + size.v[0] * cos(pos.az);
   pos.y = center.v[1] + size.v[0] * sin(pos.az);
-  //pos.z = center.v[2];
-  //error("%.2f %.2f %.2f %.2f dt=%.2f", pos.x,pos.y,pos.z,pos.az,lasting);
 }
 
 void Sheet::updateTime(time_t s, time_t us, float *lasting)
