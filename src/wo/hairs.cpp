@@ -126,7 +126,7 @@ void Hair::init(Object *_o, Surface *_s, float scale)
     Vector3 dir = fc->v[0]->n + a*(fc->v[1]->n - fc->v[0]->n) + b*(fc->v[2]->n - fc->v[0]->n);
     //O dir.Scale(HAIRLENGTH / dir.len());
     dir.scale(0.1);
-    //error("init: f=%d a,b %.2f,%.2f sc=%.3f posh=%.2f %.2f %.2f",f,a,b,HAIRLENGTH/dir.len(),posh.x,posh.y,posh.z);
+    //echo("init: f=%d a,b %.2f,%.2f sc=%.3f posh=%.2f %.2f %.2f",f,a,b,HAIRLENGTH/dir.len(),posh.x,posh.y,posh.z);
     ln[i].init(posh, dir);
   }
 
@@ -158,7 +158,7 @@ void Line::init(Vector3 p0, Vector3 dp)
 void Node::put(int pdata)
 {
   glVertex3f(p.x, p.y, p.z);
-  //error("p: %d %.2f %.2f %.2f", pdata, p.x,p.y,p.z);
+  //echo("p: %d %.2f %.2f %.2f", pdata, p.x,p.y,p.z);
 }
 
 void Line::draw(int pdata)
@@ -256,7 +256,7 @@ void Hairs::render()
   glRotatef(90, 1, 0, 0);
   glPushMatrix();
    glRotatef(angle, 0, 0, 1);
-   //error("%.2f %.2f %.2f", pos.x+posh.x, pos.y+posh.y, pos.z+posh.z);
+   //echo("%.2f %.2f %.2f", pos.x+posh.x, pos.y+posh.y, pos.z+posh.z);
    glTranslatef(pos.x+posh.x, pos.y+posh.y, pos.z+posh.z);
    if (affobj) {
      if (objchanged) {	// rebuild list
@@ -376,16 +376,16 @@ void Hairs::httpReader(void *_lwo, Http *http)
 
   while (len > 0) {
     fread(&id, 4, 1, fp);
-    //error("%d %s", len, sid);
+    //echo("%d %s", len, sid);
     len -= 4;
     fread(&l, 4, 1, fp); len -= 4;
     SWAPL(&l, tmp);
     if (l > len) { trace(DBG_MOD, "bad size: end after EOF (id=%s),l=%d len=%d",sid,l,len); /*return;*/ }
-    //error("chunk: %x(%s) size=%d",id,sid,l);
+    //echo("chunk: %x(%s) size=%d",id,sid,l);
     len -= l;
 
     if (! stringcmp(sid, "SRFS")) { // SRFS
-      if (lwo->nbs) { error("SRFS"); return; }
+      if (lwo->nbs) { echo("SRFS"); return; }
       lwo->nbs++;
       sp = ftell(fp);
       while (l > 0) {
@@ -398,14 +398,14 @@ void Hairs::httpReader(void *_lwo, Http *http)
         lwo->sf = new Surface[lwo->nbs];
         for (j=0; j<lwo->nbs; ++j) {
           getSTRING(fp, lwo->sf[j].name, NULL);
-          //error("Surface: %s", lwo->sf[j].name);
+          //echo("Surface: %s", lwo->sf[j].name);
         }
       }
     }
     else if (! stringcmp(sid, "SURF")) { // SURF
       //if (! lwo->nbs) { error("no SURF"); return; }
       getSTRING(fp, str, &l);
-      //error("SURF=%s", str);
+      //echo("SURF=%s", str);
       if (l<0) {
         error("bad SURF size");
         return;
@@ -436,7 +436,7 @@ void Hairs::httpReader(void *_lwo, Http *http)
         SWAPL(&ll, tmp);
         if (ll > l) { error("bad chunk: after EOF (id=%s),ll=%d l=%d%x",sid,ll,l); /*return;*/ }
         l -= ll;
-        //error("sid=%s l=%d ll=%s", sid, l, ll);
+        //echo("sid=%s l=%d ll=%s", sid, l, ll);
         if (! stringcmp(sid, "FLAG")) { //FLAG
           if (ll != 2) { error("invalid FLAG size"); return; }
           fread(&w,2,1,fp); SWAPS(&w, tmp); ll -= sizeof(w);
@@ -514,7 +514,7 @@ void Hairs::httpReader(void *_lwo, Http *http)
       else ss->flag &= ~Material::Smooth;
     }
     else if (! stringcmp(sid, "PNTS")) { // PNTS
-      if (lwo->nbp) { error("PNTS"); return; }
+      if (lwo->nbp) { echo("PNTS"); return; }
       if (l % (3*sizeof(float))) { error("bad PNTS size"); return; }
       lwo->nbp = l/(3*sizeof(float));
       if (lwo->nbp) {
@@ -533,7 +533,7 @@ void Hairs::httpReader(void *_lwo, Http *http)
       }
     }
     else if (! stringcmp(sid, "POLS")) { // POLS
-      if (lwo->nbf) { error("POLS"); return; }
+      if (lwo->nbf) { echo("POLS"); return; }
       sp = ftell(fp);
       j = 0; lwo->nbf = 0;
       while (j<l) {
@@ -546,7 +546,7 @@ void Hairs::httpReader(void *_lwo, Http *http)
           lwo->nbf += w-2;
       }
       if (j>l) { error("bad POLS %d!=%d",l,j); return; }
-      //error("nbf=%d",lwo->nbf);
+      //echo("nbf=%d",lwo->nbf);
       fseek(fp, sp, 0);
       if (lwo->nbf) {
         lwo->fc = new TriFace[lwo->nbf];
@@ -612,7 +612,7 @@ void Hairs::httpReader(void *_lwo, Http *http)
     }
     else //cout << "unknown "<<(char*)&id<<" chunk\n";
       fseek(fp, l, 1);
-      //error("end chunk ------------ sid=%s len=%d l=%d", sid, len, l);
+      //echo("end chunk ------------ sid=%s len=%d l=%d", sid, len, l);
   } //end while
   trace(DBG_MOD, "end obj file: nbs=%d nbf=%d nbp=%d pt=%d len=%d", lwo->nbs, lwo->nbf, lwo->nbp, lwo->pt, len);
 
