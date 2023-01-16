@@ -89,7 +89,6 @@ void Plane::makeSolid()
       else {
         sprintf(s, "solid rel=\"%.2f %.2f %.2f 0 0\" dim=\"%.2f %.2f %.2f\" %s />", rel.v[0], rel.v[1], rel.v[2], 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
       }
-      //error("s%d: rel=\"%.2f %.2f %.2f 0 0\" dim=\"%.2f %.2f %.2f\"", i, rel.v[0], rel.v[1], rel.v[2], 2*dim.v[0], 2*dim.v[1], 2*zsec);
       parse()->parseSolid(s, SEP, this);
     }
   }
