@@ -167,7 +167,7 @@ void Drone::changePermanent(float lasting)
 void Drone::render()
 {
   if (filming) {
-    //error("%.1f %.1f %.1f",pos.x,pos.y,pos.z);
+    //echo("%.1f %.1f %.1f",pos.x,pos.y,pos.z);
     ::g.render.cameraPosition(this);
   }
   else {
