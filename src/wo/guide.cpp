@@ -217,14 +217,13 @@ void Guide::progress(WObject *po)
   localuser->pos.z += dz + .06;  // + 6cm
   //dax localuser->pos.z += (pos.z + pos.bbs.v[2]);
   localuser->updatePositionAndGrid(localuser->pos);
-  //error("follow: %.2f %.2f %.2f, %.3f %.3f %.3f", localuser->pos.x,localuser->pos.y,localuser->pos.z,dx,dy,dz);
   updatePositionAndGrid(po->pos);
   localuser->updatePositionAndGrid(localuser->pos);
 
   if ((floor(pos.x) == path[seg+1][0]) &&
       (floor(pos.y) == path[seg+1][1])) {  // is next segment?
     seg++;	// next segment
-    //error("seg=%d/%d", seg, segs);
+    //echo("seg=%d/%d", seg, segs);
     if (path[seg][4]) {		// is pause?
       signal(SIGALRM, sigguide);
       alarm((uint32_t) path[seg][4]);  // set delay
@@ -331,14 +330,14 @@ void Guide::restore()
     localuser->pos.z = userpos[2];
     localuser->pos.az = userpos[3];
     localuser->updatePositionAndGrid(localuser->pos);
-    //error("end of trip");
+    //echo("end of trip");
   }
   stuck = false;
 }
 
 bool Guide::whenIntersectOut(WObject *pcur, WObject *pold)
 {
-  //error("out guide");
+  //echo("out guide");
   if (pcur->type == USER_TYPE) {
     stuck = false;
     return true;
