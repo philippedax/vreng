@@ -188,7 +188,7 @@ void Fractal::render()
   x2 = x;
   z2 = z + height;
 
-//error("w=%.2f x=%.2f z=%.2f x2=%.2f z2=%.2f",width,x,z,x2,z2);
+  //echo("w=%.2f x=%.2f z=%.2f x2=%.2f z2=%.2f",width,x,z,x2,z2);
   glScalef(.4, .4, .4);
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
