@@ -231,7 +231,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
     for (ptab = objs; ptab->objalias; ptab++) {
       if (! strcmp(ptok, ptab->objalias)) {
         strcpy(tagobj, ptab->objreal);	// memorize object tag
-        //error("parse: %d %s", numline, tagobj);
+        //echo("parse: %d %s", numline, tagobj);
         break;
       }
     }
@@ -402,7 +402,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
           char closetag[TAG_LEN + 4];
           sprintf(closetag, "</%s>", tagobj);
 	  if ((p = strstr(line, closetag)) == NULL) {
-            //error("closetag: %s", closetag);
+            //echo("closetag: %s", closetag);
             continue;	// end of object not already reached parses next lines
           }
           // here, we must have reached the end of the object description
@@ -699,7 +699,7 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
     wobject->addSolid(solid);	// add solid to solidList
   }
   else {
-    error("no wobject");
+    error("parseSolid: no wobject");
   }
 
   ptok = solid->parser(ptok);	// calls its parser
