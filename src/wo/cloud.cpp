@@ -132,7 +132,7 @@ void Cloud::inits()
     uint8_t windspeed = wind->getSpeed();
     speed = (((float) windspeed * 1000.)/3600.);      // km/h -> m/s
     speed /= 1000;	// slower
-    //error("orient=%.2frd %ddg, speed=%.2fm/s %dkm/h", pos.az, (int) RAD2DEG(pos.az), speed*1000, windspeed);
+    //echo("orient=%.2frd %ddg, speed=%.2fm/s %dkm/h", pos.az, (int) RAD2DEG(pos.az), speed*1000, windspeed);
   }
 }
 
@@ -180,7 +180,7 @@ void Cloud::changePermanent(float lasting)
   pos.x /= (float) number;
   pos.y /= (float) number;
   pos.z /= (float) number;
-  //error("cloud: pos=%.2f %.2f %.2f", pos.x, pos.y, pos.z);
+  //echo("cloud: pos=%.2f %.2f %.2f", pos.x, pos.y, pos.z);
 }
 
 void Cloud::render()
