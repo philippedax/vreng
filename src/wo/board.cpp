@@ -103,7 +103,7 @@ void Board::click(V3 d)
   float vary = calcVar(c, e, d, v) / det;
   int x = (int) (varx);
   int y = (int) (vary);
-  //error("click: x=%d y=%d d=%.2f %.2f v=%.2f %.2f w=%.2f %.2f n=%.2f %.2f e=%.2f %.2f", x, y, d.v[0],d.v[1],v.v[0],v.v[1],w.v[0],w.v[1],n.v[0],n.v[1],e.v[0],e.v[1]);
+  //echo("click: x=%d y=%d d=%.2f %.2f v=%.2f %.2f w=%.2f %.2f n=%.2f %.2f e=%.2f %.2f", x, y, d.v[0],d.v[1],v.v[0],v.v[1],w.v[0],w.v[1],n.v[0],n.v[1],e.v[0],e.v[1]);
 #endif
 }
 
@@ -119,7 +119,6 @@ void Board::render()
 {
   if (dlist) {		// note: dlist is always null (not used) !!!
     GLint texid = getSolid()->getTexid();
-    //error("board: texid=%d", texid);
     glPushMatrix();
     glLoadName(dlist);
     float gl_mat[16];
