@@ -56,7 +56,7 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
     otable_size = type_id + 1;
     otable[type_id] = this;
   }
-  //error("otable[%d] %s size=%d", type_id, type_name, otable_size);
+  //echo("otable[%d] %s size=%d", type_id, type_name, otable_size);
 }
 
 const OClass * OClass::getOClass(const char *type_name)
@@ -71,7 +71,7 @@ const OClass * OClass::getOClass(const char *type_name)
         }
       }
       else {
-        error("otable[%d]->type_name=%s", i, otable[i]->type_name);
+        echo("otable[%d]->type_name=%s", i, otable[i]->type_name);
       }
     }
   }
