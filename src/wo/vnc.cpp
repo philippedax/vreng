@@ -363,7 +363,6 @@ void Vnc::reconnectServer(Vnc *vnc, void *d, time_t s, time_t u)
 void Vnc::convert(const char *srvstr, const char *portstr, const char *passstr)
 {
   if (!srvstr || !portstr || !passstr) {
-    error("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
     return;
   }
   //echo("VNC: server=%s port=%s passwd=%s", srvstr, portstr, passstr);
