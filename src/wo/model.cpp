@@ -133,7 +133,6 @@ Model::Model(char *l)
 
   initMobileObject(1);
 
-  //error("initial model: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
   if (bvhurl) bvh = new Bvh(bvhurl);
 }
 
