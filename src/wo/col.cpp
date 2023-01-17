@@ -217,7 +217,7 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
 
     // Hack-1! Skip scanning if neighbor has already been seen
     if ((neighbor == wofirst) && (scans > 1)) {
-      //error("first=%s scans=%d", wofirst->getInstance(), scans);
+      //echo("first=%s scans=%d", wofirst->getInstance(), scans);
       vl = vl->next;
       continue;
     }
@@ -266,7 +266,7 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
           }
           else {
             if (rescans++ > 99) {
-              error("collide loop between %s & %s", getInstance(), neighbor->getInstance());
+              echo("collide loop between %s & %s", getInstance(), neighbor->getInstance());
               scans = rescans = 0;
               vl = vl->next;
               continue;
