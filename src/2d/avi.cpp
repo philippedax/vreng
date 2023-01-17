@@ -153,13 +153,13 @@ int32_t Avi::read_header()
     SWAPL(&n, tmp);
 #endif
     if (n&1) n++; /* Odd values are padded */
-    //error("avi: tag=%08x n=%d", tag, n);
+    //echo("avi: tag=%08x n=%d", tag, n);
     /* Unless a LIST tag hasn't name movi, it is ignored */
     if (tag == LISTtag) {
       if (fread(&name, 4, 1, fp) != 1) return 1;
-      //error("avi: name=%08x", name);
+      //echo("avi: name=%08x", name);
       if (name == MAKEFOURCC('m','o','v','i')) {
-        //error("avi: movi");
+        //echo("avi: movi");
         return 0;
       }
       continue;
@@ -177,13 +177,13 @@ int32_t Avi::read_header()
     /* Interpret the tag and its args */
     switch (tag) {
       case strhtag:
-        //error("avi: strhtag n=%d", n);
+        //echo("avi: strhtag n=%d", n);
         if (args[0] == MAKEFOURCC('v','i','d','s')) {
           if (args[1] != MAKEFOURCC('M','J','P','G') &&
               args[1] != MAKEFOURCC('m','j','p','g') &&
               args[1] != MAKEFOURCC('M','S','V','C') &&
               args[1] != MAKEFOURCC('m','s','v','c')) {
-            error("avi: args1 no mjpg %08x", args[1]);
+            echo("avi: args1 no mjpg %08x", args[1]);
             return ERR_NO_MJPG;
           }
 #if WORDS_BIGENDIAN
@@ -191,14 +191,14 @@ int32_t Avi::read_header()
           SWAPL(&args[6], tmp);
 #endif
           if (args[5] != 0) fps = (double)args[6] / (double)args[5];
-          //error("avi: fps=%.2f", fps);
+          //echo("avi: fps=%.2f", fps);
           vids_strh_seen = 1;
           lasttag = 1; /* vids */
         }
         else if (args[0] == MAKEFOURCC('a','u','d','s')) lasttag = 2; /* auds */
         break;
       case strftag:
-        //error("avi: strftag n=%d", n);
+        //echo("avi: strftag n=%d", n);
         if (lasttag == 1) {
 #if WORDS_BIGENDIAN
           SWAPL(&args[1], tmp);
@@ -206,14 +206,14 @@ int32_t Avi::read_header()
 #endif
           width  = args[1];
           height = args[2];
-          //error("avi: width=%d height=%d", width, height);
+          //echo("avi: width=%d height=%d", width, height);
           if (args[4] != MAKEFOURCC('M','J','P','G') &&
               args[4] != MAKEFOURCC('m','j','p','g') &&
               args[4] != MAKEFOURCC('C','R','A','M') &&
               args[4] != MAKEFOURCC('c','r','a','m') &&
               args[4] != MAKEFOURCC('M','S','V','C') &&
               args[4] != MAKEFOURCC('m','s','v','c')) {
-            error("avi: args4 no mjpg %08x", args[4]);
+            echo("avi: args4 no mjpg %08x", args[4]);
             return ERR_NO_MJPG;
           }
           vids_strf_seen = 1;
@@ -222,7 +222,7 @@ int32_t Avi::read_header()
 #if 0 //dax
           /* Check audio format (must be PCM) */
           if ((args[0]&0xffff) != 1) {
-            error("avi: no PCM tag=%08x", tag);
+            echo("avi: no PCM tag=%08x", tag);
             break;
             //return ERR_NO_PCM;
           }
@@ -233,7 +233,7 @@ int32_t Avi::read_header()
         }
         break;
       default:
-        //error("avi: default tag=%08x n=%d", tag, n);
+        //echo("avi: default tag=%08x n=%d", tag, n);
         lasttag = 0;
         break;
     }
@@ -268,7 +268,7 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
 #endif
     if (n&1) n++; /* Odd values are padded */
 
-    //error("avi: read tag=%08x n=%d", tag, n);
+    //echo("avi: read tag=%08x n=%d", tag, n);
     switch (tag) {
       case MAKEFOURCC('0','0','d','b'):
       case MAKEFOURCC('0','0','d','c'):
@@ -287,7 +287,7 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
         break;
       default:
         if (fseek(fp, n, SEEK_CUR)) {
-          error("avi: ignore tag=%08x n=%d", tag, n);
+          echo("avi: ignore tag=%08x n=%d", tag, n);
           fp = NULL;
           return 0;
         }
@@ -590,7 +590,7 @@ void Avi::write_header(int width, int height, int norm, int audio, int stereo, i
 void Avi::add_frame(const char *jpeg_data, int length)
 {
   fseek(fp, 0, SEEK_END);
-  if (n_idx >= MAXIDX) {error("IDX"); return;}
+  if (n_idx >= MAXIDX) {echo("IDX"); return;}
   idx[n_idx  ] = MAKEFOURCC('0','0','d','b');
   idx[n_idx+1] = 0x10; /* RJ: No idea what that means */
   idx[n_idx+2] = ftell(fp);
@@ -606,7 +606,7 @@ void Avi::add_frame(const char *jpeg_data, int length)
 
 void Avi::add_audio(const char *audio_data, int length)
 {
-  if (n_idx >= MAXIDX) {error("IDX"); return;}
+  if (n_idx >= MAXIDX) {echo("IDX"); return;}
   idx[n_idx  ] = MAKEFOURCC('0','1','w','b');
   idx[n_idx+1] = 0x00; /* RJ: No idea what that means */
   idx[n_idx+2] = ftell(fp);
