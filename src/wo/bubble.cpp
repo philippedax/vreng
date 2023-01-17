@@ -58,7 +58,6 @@ void Bubble::setPosition()
     pos.az = localuser->pos.az - M_PI_2;
   else
     pos.az = localuser->pos.az + M_PI_2;
-  //error("bubble: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
 }
 
 /** Make transparent bubble */
@@ -104,7 +103,6 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   postext = pos;
   postext.y += (strlen(text)+2) * Text::GLYPHSIZ / 2;
   postext.z += -0.02;	// -2 cm
-  //error("text : %.2f %.2f %.2f",postext.x,postext.y,postext.z);
 
   bubtext = new Text(text, postext, scale, _color, _face);
   if (bubtext) {
@@ -130,7 +128,6 @@ void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
   if (! updateLasting(sec, usec, lasting)) {
     /* the text has elapsed its live time, it must be destroyed */
     if (bubtext) {
-      //error("bubble: delete text %s", text);
       bubtext->expire();	// delete text inside Bubble
     }
     toDelete(); 	// delete Bubble
@@ -149,10 +146,7 @@ void Bubble::quit()
 {
   oid = 0;
   if (bubtext) {
-    //dax error("delete bubtext");
-#if 0 //dax
-    bubtext->quit();
-#endif
+    //dax bubtext->quit();
   }
   if (text) {
     free(text);
