@@ -182,7 +182,6 @@ bool Dxf::draw(DXF_file *dxffile)
               glVertex3d(pol->points.refs[k]->x,
                          pol->points.refs[k]->y,
                          pol->points.refs[k]->z);
-              //error("i=%d j=%d k=%d %.2f %.2f %.2f", i,j,k,pol->points.refs[k]->x,pol->points.refs[k]->y,pol->points.refs[k]->z);
             }
             glTexCoord3d(pol->points.refs[k]->x,
                          pol->points.refs[k]->y,
@@ -667,7 +666,7 @@ int addPolyMeshObjPoint(PolyMeshObj *pmesh, Point3D *p)
     pnts[pmesh->num_points-1] = p;
     pmesh->points = pnts;
   }
-  else pmesh->num_points--; //error("not adding polygon");
+  else pmesh->num_points--; // not adding polygon
   return pmesh->num_points;
 }
 
@@ -1276,7 +1275,7 @@ char parseDXFfile(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
     else if (rule->act_rule == -1) {
       for (resp=FALSE, rule->act_rule=0; rule->act_rule < rule->num_rules && !resp ; rule->act_rule++) {
         rule->lrules[rule->act_rule]->act_rule = -1;
-        //error("section: %s", rule->lrules[rule->act_rule]->tok->data);
+        //echo("section: %s", rule->lrules[rule->act_rule]->tok->data);
         resp = (*(rule->lrules[rule->act_rule]->parse))(dxffile,rule->lrules[rule->act_rule],tok);
       }
       if (rule->act_rule == rule->num_rules) rule->act_rule = -1;
@@ -1388,7 +1387,7 @@ char parseDXF3DFACE(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
                           newPolygon(POL_CLOSED, POL_POINT_REFS,newPoint3D(1,1,1)));
   }
   else if (rule->act_rule != -1) {
-    //error("en 3d face making points data %s", tok->data);
+    //echo("making points data %s", tok->data);
     for (rule->act_rule=0; rule->act_rule<rule->num_rules &&
         !((*(rule->lrules[rule->act_rule]->parse))(dxffile,rule->lrules[rule->act_rule],tok)); rule->act_rule++)
       ;
