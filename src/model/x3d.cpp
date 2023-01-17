@@ -63,7 +63,6 @@ void X3d::httpReader(void *_x3d, class Http *http)
   char filename[PATH_LEN] = {0};
   Cache::setCachePath(x3d->getUrl(), filename);
 
-  //echo("X3d filename=%s", filename);
   Cache *cache = new Cache();
   if ((f = cache->open(filename, http)) == NULL) {
     char buf[BUFSIZ];
@@ -108,7 +107,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
   const char* attr = NULL;
 
   if (isEqual(nodeName, "Shape")) {  //new shape
-    //error("on ajoute un fils shape niveau %d", shape->level + 1);
+    //echo("on ajoute un fils shape niveau %d", shape->level + 1);
     X3dShape* son = new X3dShape(shape->level + 1);
 
     shape->childrenShapes.push_back(son);
@@ -117,14 +116,14 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "DEF")) {
-        //error("we have an object DEF name: %s",xmlnode->getAttributeValue(i));
+        //echo("we have an object DEF name: %s",xmlnode->getAttributeValue(i));
 	shape->name = xmlnode->getAttributeValue(i);
       }
     }
   }
   else if (isEqual(nodeName, "Transform")) {
     if (xmlnode->nChildNode() != 0) {
-      //error("on ajoute un fils transform niveau %d", shape->level + 1);
+      //echo("on ajoute un fils transform niveau %d", shape->level + 1);
 
       X3dShape* son = new X3dShape(shape->level + 1);
 
@@ -150,7 +149,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
         else error("Scale non correcte !");
       }
       else if (isEqual(attr, "DEF")) {
-        //error("we have an object DEF name: %s",xmlnode->getAttributeValue(i));
+        //echo("we have an object DEF name: %s",xmlnode->getAttributeValue(i));
         shape->name = xmlnode->getAttributeValue(i);
       }
     }
@@ -183,7 +182,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
           shape->transparencyOn = true;
       }
       else if (isEqual(attr, "DEF")) {
-        //error("We have an object DEF name: %s", xmlnode->getAttributeValue(i));
+        //echo("We have an object DEF name: %s", xmlnode->getAttributeValue(i));
         shape->name = xmlnode->getAttributeValue(i);
       }
     }
@@ -458,7 +457,7 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
 {
 #if 0 // debug
   // we display what we have in the temporary structure
-  error("New mesh in creation:");
+  echo("New mesh in creation:");
   printf("coordindex: ");
   VectorTools::displayVector(& meshInfos->coordIndex);
   printf("\n");
@@ -594,7 +593,7 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
 
 void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
 {
-  //error("On display la shape: %d au niveau %d",(int) myShape, myShape->level);
+  //echo("On display la shape: %d au niveau %d",(int) myShape, myShape->level);
   float amb[4] = { 0,0,0,1 };
   glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
 
@@ -1001,7 +1000,7 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
     }
   }
 
-  //error("interpolator added: %s of type %d", name.c_str(), type);
+  //echo("interpolator added: %s of type %d", name.c_str(), type);
   //printf("Valeurs Key: ");
   //VectorTools::displayVector(&keys);
   //printf("\n");
@@ -1088,7 +1087,7 @@ bool Interpolator::initTarget(X3dShape* target, X3DINField field)
 
   if (temp) {
     targets.push_back(temp);
-    //error("route ajoutee entre interpolator -%s- et X3dShape -%s- pour champ %d", name.c_str(), target->name.c_str(), field);
+    //echo("route ajoutee entre interpolator -%s- et X3dShape -%s- pour champ %d", name.c_str(), target->name.c_str(), field);
     return true;
   }
   else {
@@ -1130,7 +1129,7 @@ void Interpolator::updateValue(float newFraction)
           targets[j][i] = t[i];
         }
       }
-      //error("Vector interpolation: %.2f %.2f %.2f", t[0],t[1],t[2]);
+      //echo("Vector interpolation: %.2f %.2f %.2f", t[0],t[1],t[2]);
     }
     break;
 
@@ -1142,7 +1141,7 @@ void Interpolator::updateValue(float newFraction)
       for (int j=0; j < targets.size(); j++) {
         *targets[j] = tempScalar;
       }
-      //error("Scalar interpolation: %.2f", tempScalar);
+      //echo("Scalar interpolation: %.2f", tempScalar);
       }
       break;
 
@@ -1172,9 +1171,9 @@ void Interpolator::updateValue(float newFraction)
         targets[j][3] = tempVect[3];
       }
 
-      //error("ROTATION: fraction=%.2f, pourcentage=%.2f, entre %.2f et %.2f",
+      //echo("ROTATION: fraction=%.2f, pourcentage=%.2f, entre %.2f et %.2f",
       //newFraction,percentage,keyValues[index][3],targetAngle);
-      //error("Vector 3 interpolation: %.2f %.2f %.2f",t[0],t[1],t[2]);
+      //echo("Vector 3 interpolation: %.2f %.2f %.2f",t[0],t[1],t[2]);
 
 #if 0 //QUATERNION
       // QUATERNION INTERPOLATION HERE INSTEAD ????
@@ -1186,7 +1185,7 @@ void Interpolator::updateValue(float newFraction)
           targets[j][i] = tempRot[i];
         }
       }
-      //error("Scalar interpolation : %.2f", tempScalar);
+      //echo("Scalar interpolation : %.2f", tempScalar);
 #endif //QUATERNION
     }
     break;
@@ -1238,9 +1237,9 @@ bool TimeSensor::initSensor(XMLNode* xmlnode)
     return false;
   }
 
-  //error("TimeSensor ajoute: %s", name.c_str());
-  //error("cycleIntervalMs: %.2f", cycleIntervalMs);
-  //error("loop: %d", loop);
+  //echo("TimeSensor ajoute: %s", name.c_str());
+  //echo("cycleIntervalMs: %.2f", cycleIntervalMs);
+  //echo("loop: %d", loop);
 
   return true;
 }
@@ -1248,7 +1247,7 @@ bool TimeSensor::initSensor(XMLNode* xmlnode)
 void TimeSensor::initTarget(Interpolator* interpolator)
 {
   targets.push_back(interpolator);
-  //error("route ajoutee entre initSensor -%s- et interpolator -%s-", name.c_str(), interpolator->getName().c_str());
+  //echo("route ajoutee entre initSensor -%s- et interpolator -%s-", name.c_str(), interpolator->getName().c_str());
 }
 
 void TimeSensor::resetFraction()
@@ -1351,11 +1350,11 @@ bool Route::initRoute(XMLNode* xmlnode)
       toField == NOINX3DFIELD)
     return false;
 
-  //error("structure route temporaire ajoutee");
-  //error("fromNode: %s", fromNode.c_str());
-  //error("fromField: %d", fromField);
-  //error("toNode: %s", toNode.c_str());
-  //error("toField  %d", toField);
+  //echo("structure route temporaire ajoutee");
+  //echo("fromNode: %s", fromNode.c_str());
+  //echo("fromField: %d", fromField);
+  //echo("toNode: %s", toNode.c_str());
+  //echo("toField  %d", toField);
 
   return true;
 }
