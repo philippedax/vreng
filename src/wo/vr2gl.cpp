@@ -47,10 +47,6 @@ void WObject::update3D(Pos &pos)
 {
   if (! solid || removed) return;
 
-  if (! typeName()) {	//FIXME: zombie object
-    error("update3D: zombie");
-    return;
-  }
   for (list<Solid*>::iterator s = _solids.begin(); s != _solids.end(); s++) {
     M4 matobj = mulM4(transM4(pos.x, pos.y, pos.z),
 			      mulM4(rotM4(pos.az, UZ),
