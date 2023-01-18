@@ -913,9 +913,6 @@ void Body::animate()
   if (bap->isMask(RT_BODY_TURN))	rz = bap->getBap(RT_BODY_TURN);
   if (bap->isMask(RT_BODY_ROLL))	rx = bap->getBap(RT_BODY_ROLL);
   if (bap->isMask(RT_BODY_TILT))	ry = bap->getBap(RT_BODY_TILT);
-
-  //if (tx || ty || tz) error("t: %.1f %.1f %.1f", tx,ty,tz);
-  //error("a: %.1f", bap->getBap(R_SHOULDER_FLEXION));
 }
 
 void Body::animReset()
@@ -963,7 +960,7 @@ void Body::animReset()
 
 void Body::animHead(float deg, uint8_t axis)
 {
-  error("Head: %d %.0f", axis, deg);
+  echo("Head: %d %.0f", axis, deg);
   switch (axis) {
   case 0: head->flexion(deg); break;
   case 1: head->abduct(deg); break;
@@ -973,7 +970,7 @@ void Body::animHead(float deg, uint8_t axis)
 
 void Body::animNeck(float deg, uint8_t axis)
 {
-  error("Neck: %d %.0f", axis, deg);
+  echo("Neck: %d %.0f", axis, deg);
   switch (axis) {
   case 0: neck->flexion(deg); break;
   case 1: neck->abduct(deg); break;
@@ -983,7 +980,7 @@ void Body::animNeck(float deg, uint8_t axis)
 
 void Body::animChest(float deg, uint8_t axis)
 {
-  error("Chest: %d %.0f", axis, deg);
+  echo("Chest: %d %.0f", axis, deg);
   switch (axis) {
   case 0: chest->flexion(deg); break;
   case 1: chest->abduct(deg); break;
@@ -993,7 +990,7 @@ void Body::animChest(float deg, uint8_t axis)
 
 void Body::animLeg(float deg, uint8_t side, uint8_t axis)
 {
-  error("Leg: %d %d %.0f", side, axis, deg);
+  echo("Leg: %d %d %.0f", side, axis, deg);
   switch (side) {
   case 0:
     switch (axis) {
@@ -1012,7 +1009,7 @@ void Body::animLeg(float deg, uint8_t side, uint8_t axis)
 
 void Body::animShin(float deg, uint8_t side, uint8_t axis)
 {
-  error("Shin: %d %d %.0f", side, axis, deg);
+  echo("Shin: %d %d %.0f", side, axis, deg);
   switch (side) {
   case 0:
     switch (axis) {
@@ -1029,7 +1026,7 @@ void Body::animShin(float deg, uint8_t side, uint8_t axis)
 
 void Body::animFoot(float deg, uint8_t side, uint8_t axis)
 {
-  error("Foot: %d %d %.0f", side, axis, deg);
+  echo("Foot: %d %d %.0f", side, axis, deg);
   switch (side) {
   case 0:
     switch (axis) {
@@ -1046,7 +1043,7 @@ void Body::animFoot(float deg, uint8_t side, uint8_t axis)
 
 void Body::animArm(float deg, uint8_t side, uint8_t axis)
 {
-  error("Arm: %d %d %.0f", side, axis, deg);
+  echo("Arm: %d %d %.0f", side, axis, deg);
   switch (side) {
   case 0:
     switch (axis) {
@@ -1065,7 +1062,7 @@ void Body::animArm(float deg, uint8_t side, uint8_t axis)
 
 void Body::animForearm(float deg, uint8_t side, uint8_t axis)
 {
-  error("Forearm: %d %d %.0f", side, axis, deg);
+  echo("Forearm: %d %d %.0f", side, axis, deg);
   switch (side) {
   case 0:
     switch (axis) {
@@ -1082,7 +1079,7 @@ void Body::animForearm(float deg, uint8_t side, uint8_t axis)
 
 void Body::animHand(float deg, uint8_t side, uint8_t axis)
 {
-  error("Hand: %d %d %.0f", side, axis, deg);
+  echo("Hand: %d %d %.0f", side, axis, deg);
   switch (side) {
   case 0:
     switch (axis) {
@@ -1324,7 +1321,7 @@ void Body::display()
      display(NECK);
      // Head
      if (! face) {
-       //error("head render");
+       //echo("head render");
        display(HEAD);
      }
 
@@ -1341,7 +1338,7 @@ void Body::display()
         glScalef(Face::SCALE, Face::SCALE, Face::SCALE);
         glTranslatef(0, 0.9, -0.9);
         glRotatef(90, 1,0,0);
-        //error("face render");
+        //echo("face render");
         face->render();	// YR
       }
       transP(UPPER_NECK);
@@ -1363,7 +1360,7 @@ void Body::display()
      //rotX(L_SHOULDER_ABDUCT, model);
      //rotY(-L_SHOULDER_FLEXION, model);	// -
      //rotZ(-L_SHOULDER_TORSION, model);	// -
-     //error("L f:%.0f a:%.0f t:%.0f",arm_l->a_flexion(),arm_l->a_abduct(),arm_l->a_torsion());
+     //echo("L f:%.0f a:%.0f t:%.0f",arm_l->a_flexion(),arm_l->a_abduct(),arm_l->a_torsion());
      rotX(L_SHOULDER_ABDUCT, arm_l->a_abduct());
      rotY(+L_SHOULDER_FLEXION,  arm_l->a_flexion());	// -
      rotZ(+L_SHOULDER_TORSION, arm_l->a_torsion());	// -
@@ -1404,7 +1401,7 @@ void Body::display()
      //rotX(+R_SHOULDER_ABDUCT, model);	// -
      //rotY(R_SHOULDER_FLEXION, model);
      //rotZ(+R_SHOULDER_TORSION, model);	// -
-     //error("R f:%.0f a:%.0f t:%.0f",arm_r->a_flexion(),arm_r->a_abduct(),arm_r->a_torsion());
+     //echo("R f:%.0f a:%.0f t:%.0f",arm_r->a_flexion(),arm_r->a_abduct(),arm_r->a_torsion());
      rotX(+R_SHOULDER_ABDUCT,  arm_r->a_abduct());	// -
      rotY(R_SHOULDER_FLEXION, arm_r->a_flexion());
      rotZ(+R_SHOULDER_TORSION, arm_r->a_torsion());	// -
