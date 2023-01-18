@@ -127,7 +127,7 @@ int imageReader(void *_tex, char *buf, int len)
 
 void Texture::httpReader(void *_tex, Http *_http)
 {
-  if (! _http) return; // error while opening
+  if (! _http) return;
   Texture *tex = (Texture *) _tex;
 
   tex->http = _http;
@@ -310,7 +310,7 @@ void Texture::setMime(char *p)
 void Texture::listTextures()
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
-    error("%d %s", (*it)->id, (*it)->url);
+    echo("%d %s", (*it)->id, (*it)->url);
   }
   return;
 }
