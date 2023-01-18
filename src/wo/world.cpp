@@ -225,11 +225,9 @@ void World::setManagerChanAndJoin(const char *chan_str)
 bool World::setChan(const char *chan_str)
 {
   if (! chan_str) {
-    error("setChan: chan_str NULL");
     return false;
   }
   if (strlen(chan_str) >= CHAN_LEN) {
-    error("setChan: chan_str too long = %s", chan_str);
     return false;
   }
 
@@ -358,7 +356,7 @@ void World::compute(time_t sec, time_t usec)
     }
 
     //
-    // computes world's bb
+    // computes world's bounding box
     //
     for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
@@ -621,7 +619,6 @@ void World::checkIcons()
           // find icons in this world
           for (struct dirent *di = readdir(diri); di; di = readdir(diri)) {
             if (stat(di->d_name, &bufstat) == 0 && S_ISREG(bufstat.st_mode)) {
-
               // open the icon and read it
               FILE *fp;
               File *file = new File();
@@ -736,7 +733,7 @@ httpread:
       if (fpcache) {
         fwrite(buf, 1, len, fpcache);	// save into the cache
       }
-      if (parser->parseVreFile(buf, len) <= 0) {  // eof or parsing error
+      if (parser->parseVreFile(buf, len) <= 0) {  // eof
         break;
       }
     }
@@ -751,7 +748,7 @@ httpread:
     }
     while ((len = fread(buf, 1, sizeof(buf), fpcache)) > 0) {
       if (parser->parseVreFile(buf, len) <= 0) {
-        break;			// eof or parsing error
+        break;			// eof
       }
     }
   }
