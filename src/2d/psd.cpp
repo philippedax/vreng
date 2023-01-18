@@ -74,13 +74,7 @@ static uint8_t *convert_format(uint8_t *data, uint8_t srccomp, uint8_t dstcomp, 
   if (dstcomp == srccomp) return data;
 
   uint8_t *good = new uint8_t[dstcomp * x * y];
-  if (good == NULL) {
-    delete[] data;
-    error("PSD out of memory");
-    return NULL;
-  }
 
-  //error("srccomp=%d dstcomp=%d x=%d y=%d", srccomp,dstcomp,x,y);
   for (int j=0; j < y; j++) {
     uint8_t *src = data + j * x * srccomp;
     uint8_t *dst = good + j * x * dstcomp;
@@ -277,7 +271,7 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
   *y = h;
   *x = w;
 
-  //error("psd_load data=%x",data);
+  //echo("psd_load data=%x",data);
   return data;
 }
 
