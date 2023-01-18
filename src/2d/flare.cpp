@@ -168,7 +168,7 @@ void Flare::render(float *from, float delta)
   light[0] = sin(delta * 0.73) + 2.;
   light[1] = sin(delta * 0.678) * 0.5 + 2.;
   light[2] = sin(delta * 0.895) * 0.5 + 2.;
-  //error("flare: %.2f %.2f %.2f", light[0],light[1],light[2]);
+  //echo("flare: %.1f %.1f %.1f", light[0], light[1], light[2]);
 
   vdiff(view_dir, at, from);
   vnorm(view_dir);			// view_dir = normalize(at-from)
@@ -186,11 +186,11 @@ void Flare::render(float *from, float delta)
 
   glPushMatrix();
   glDisable(GL_LIGHTING);
-  //dax glDisable(GL_DITHER);
+  glDisable(GL_DITHER);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE);
-  //dax glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   for (int i=0; i < num_flares; i++) {
     vscale(sx, dx, flares[i].scale * scale);
@@ -203,7 +203,7 @@ void Flare::render(float *from, float delta)
       glBindTexture(GL_TEXTURE_2D, shineTex[num_shine]);
       num_shine = (num_shine + 1) % MAX_SHINE;	// [0..9]
     }
-    else {	// flares
+    else {			// flares
       glBindTexture(GL_TEXTURE_2D, flareTex[flares[i].type]);
     }
 
@@ -211,15 +211,15 @@ void Flare::render(float *from, float delta)
     vadd(pos, center, tmp);	// pos = center + flares[i].loc * axis
 
     glBegin(GL_QUADS);
-     glTexCoord2f(0, 0); vadd(tmp, pos, sx);  vadd(tmp, tmp, sy); glVertex3fv(tmp);  // pos+sx+sy
-     glTexCoord2f(1, 0); vdiff(tmp, pos, sx); vadd(tmp, tmp, sy); glVertex3fv(tmp);  // pos-sx+sy
-     glTexCoord2f(1, 1); vdiff(tmp, pos, sx); vdiff(tmp, tmp, sy); glVertex3fv(tmp); // pos-sx-sy
-     glTexCoord2f(0, 1); vadd(tmp, pos, sx);  vdiff(tmp, tmp, sy); glVertex3fv(tmp); // pos+sx-sy
+     glTexCoord2f(0, 0); vadd(tmp, pos, sx); vadd(tmp, tmp, sy); glVertex3fv(tmp);  // pos+sx+sy
+     glTexCoord2f(1, 0); vdiff(tmp, pos, sx);vadd(tmp, tmp, sy); glVertex3fv(tmp);  // pos-sx+sy
+     glTexCoord2f(1, 1); vdiff(tmp, pos, sx);vdiff(tmp, tmp, sy); glVertex3fv(tmp); // pos-sx-sy
+     glTexCoord2f(0, 1); vadd(tmp, pos, sx); vdiff(tmp, tmp, sy); glVertex3fv(tmp); // pos+sx-sy
     glEnd();
   }
   glDisable(GL_BLEND);
   glDisable(GL_TEXTURE_2D);
-  //dax glEnable(GL_DITHER);
+  glEnable(GL_DITHER);
   glEnable(GL_LIGHTING);
   glPopMatrix();
 }
