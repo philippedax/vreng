@@ -197,7 +197,7 @@ int Humanoid::connectToBapServer(int _ipmode)
   timeout.tv_usec = 0;
 
   if (setsockopt(sdtcp, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
-    error("setsockopt failed\n");
+    error("setsockopt failed");
   if (connect(sdtcp, (const struct sockaddr *) &tcpsa, sizeof(tcpsa)) < 0) {
     //error("Connection failed with the vaps server: %s (%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
     sdtcp = -1;
