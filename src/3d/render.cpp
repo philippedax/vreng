@@ -328,11 +328,11 @@ void Render::renderUser()
   for (list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
     putSelbuf((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      //error("specific: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
+      //echo("specific: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
       (*it)->object()->render();
     }
     else {
-      //error("general: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
+      //echo("general: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
       (*it)->displaySolid(Solid::USER);
     }
     (*it)->setRendered(true);
@@ -537,7 +537,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   int max, cur = 0;
   glGetIntegerv(GL_NAME_STACK_DEPTH, &cur);
   glGetIntegerv(GL_MAX_NAME_STACK_DEPTH, &max);
-  //error("bufselect: x=%d y=%d names:%d/%d", x, y, cur, max);
+  //echo("bufselect: x=%d y=%d names:%d/%d", x, y, cur, max);
 
   // set selection mode
   memset(selbuf, 0, sizeof(selbuf));
@@ -582,7 +582,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   GLuint *psel = selbuf;
   for (int i=0; i < hits; i++) {
     if (::g.pref.dbgtrace) {
-      error("hit=%d/%d num=%d min=%ud name=%s/%s",
+      echo("hit=%d/%d num=%d min=%ud name=%s/%s",
             i, hits, psel[3], psel[1],
             WObject::byNum(psel[3])->typeName(),WObject::byNum(psel[3])->getInstance());
     }
@@ -597,7 +597,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     int n = depth % hits;
     nearest = hitlist[n][3];
     if (::g.pref.dbgtrace)
-      error("n=%d num=%d name=%s", n, nearest, WObject::byNum(nearest)->getInstance());
+      echo("n=%d num=%d name=%s", n, nearest, WObject::byNum(nearest)->getInstance());
   }
   if (hitlist) delete[] hitlist;
 
@@ -692,7 +692,7 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   dir->v[0] = (GLfloat) (tx - ex);
   dir->v[1] = (GLfloat) (ty - ey);
   dir->v[2] = (GLfloat) (tz - ez);
-  //error("wx=%d wy=%d o1=%.2f %.2f %.2f o2=%.2f %.2f %.2f dir=%.2f %.2f %.2f", wx,wy,ex,ey,ez,tx,ty,tz,dir->v[0],dir->v[1],dir->v[2]);
+  //echo("wx=%d wy=%d o1=%.2f %.2f %.2f o2=%.2f %.2f %.2f dir=%.2f %.2f %.2f", wx,wy,ex,ey,ez,tx,ty,tz,dir->v[0],dir->v[1],dir->v[2]);
 }
 
 /*
@@ -814,14 +814,14 @@ void Render::showSolidList()
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
     trace(DBG_FORCE, "solidList: %s->%s", (*s)->object()->typeName(),(*s)->object()->getInstance());
     if (! strcasecmp((*s)->object()->typeName(), "User")) {
-      error("User: %.2f,%.2f,%.2f %.2f,%.2f %d",
-	    (*s)->object()->pos.x,
-	    (*s)->object()->pos.y,
-	    (*s)->object()->pos.z,
-	    (*s)->object()->pos.ax,
-	    (*s)->object()->pos.az,
-	    (*s)->isVisible()
-	    );
+      echo("User: %.2f,%.2f,%.2f %.2f,%.2f %d",
+	   (*s)->object()->pos.x,
+	   (*s)->object()->pos.y,
+	   (*s)->object()->pos.z,
+	   (*s)->object()->pos.ax,
+	   (*s)->object()->pos.az,
+	   (*s)->isVisible()
+	  );
     }
   }
 }
