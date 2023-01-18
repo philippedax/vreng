@@ -24,8 +24,8 @@
 #include "user.hpp"	// localuser
 #include "url.hpp"	// abs
 #include "gui.hpp"	// setToVrelet
-
 #include <list>
+
 using namespace std;
 
 const OClass Vrelet::oclass(VRELET_TYPE, "Vrelet", Vrelet::creator);
@@ -54,13 +54,13 @@ void Vrelet::parser(char *l)
   l = tokenize(l);
   begin_while_parse(l) {
     l = parse()->parseAttributes(l, this);
-    if (!l) break;
-    if (!stringcmp(l, "class=")) l = parse()->parseString(l, app, "class");	// java class
-    else if (!stringcmp(l, "incrx")) l = parse()->parseInt(l, &incrx, "incrx");
-    else if (!stringcmp(l, "incry")) l = parse()->parseInt(l, &incry, "incry");
-    else if (!stringcmp(l, "fx")) l = parse()->parseFloat(l, &fx, "fx");
-    else if (!stringcmp(l, "fy")) l = parse()->parseFloat(l, &fy, "fy");
-    else if (!stringcmp(l, "base")) {
+    if (! l) break;
+    if (! stringcmp(l, "class=")) l = parse()->parseString(l, app, "class");	// java class
+    else if (! stringcmp(l, "incrx")) l = parse()->parseInt(l, &incrx, "incrx");
+    else if (! stringcmp(l, "incry")) l = parse()->parseInt(l, &incry, "incry");
+    else if (! stringcmp(l, "fx")) l = parse()->parseFloat(l, &fx, "fx");
+    else if (! stringcmp(l, "fy")) l = parse()->parseFloat(l, &fy, "fy");
+    else if (! stringcmp(l, "base")) {
       // url in the .vre file, try to find out the codebase URL
       l = parse()->parseString(l, url, "base");
       goturl = true;
@@ -71,7 +71,7 @@ void Vrelet::parser(char *l)
   if (! goturl) { // there's none in the .vre file.
     char l2[URL_LEN];
     char *last = NULL;
-    // if the world's url is like [...]/vre/v6/world.vre
+    // if the world's url is like [...]/vre/world.vre
     // try to build an url like [...]/jar/vrengapp.jar
     strcpy(l2, World::current()->getUrl());
     if ((last = strrchr(l2, '/'))) *last = '\0';
@@ -79,11 +79,9 @@ void Vrelet::parser(char *l)
       *last = '\0';
       Url::abs(l2, url);
       strcat(url, DEF_URL_JAR);
-      //echo("Vrelet: computed codebase=%s", url);
     }
     else { // neither of the above methods worked, just put a default url
       sprintf(url, "http://%s/%s%s", ::g.server, ::g.urlpfx, DEF_URL_JAR);
-      //error("Vrelet: default codebase=%s", url);
     }
   }
 }
@@ -277,7 +275,7 @@ void Vrelet::processClient()
     break;
   }
 
-  if (! processed) { //error("message ignore %d %d", header.msg_type, header.msg_id);
+  if (! processed) { // ignore header.msg_type
     if (msg) delete msg;
     msg = NULL;
   }
