@@ -69,10 +69,6 @@ void Book::httpReader(void *_book, Http *http)
 
   book->tex = new char*[2*book->nbs+3]; // +3 for edge
   book->html = new char*[2*book->nbs];
-  if (! book->tex || ! book->html) {
-    error("httpReader: can' alloc tex | html");
-    return;
-  }
 
   int i;
   char *p = NULL;
@@ -350,7 +346,7 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
         left->getDimBB(size);
       }
       else {
-        error("no left sheet");
+        echo("no left sheet");
         return;
       }
       if (size.v[1] > 0.7 * thick) {
@@ -375,7 +371,7 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
       createSheet(s, Sheet::LEFT, LEFT);
       // replacement of inter sheet if needed
       if (! inter) {
-        error("no inter sheet");
+        echo("no inter sheet");
         return;
       }
       if (inter->state == Sheet::LEFT) {
@@ -441,7 +437,7 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
         right->getDimBB(size);
       }
       else {
-        error("no right sheet");
+        echo("no right sheet");
         return;
       }
       if (size.v[1] > 0.7 * thick) {
@@ -466,7 +462,7 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
       createSheet(s, Sheet::RIGHT, RIGHT);
       // replacement of inter sheet if needed
       if (! inter) {
-        error("no inter sheet");
+        echo("no inter sheet");
         return;
       }
       if (inter->state == Sheet::RIGHT) {
