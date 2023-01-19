@@ -55,19 +55,19 @@ value recherche_Typegen(value ttype, value actiondemande)
 
   char *foundpos = new char[100];
   sprintf(foundpos, "N/A");
-  //error("ICI");
+  //echo("ICI");
   int nbelem = 0;
   WObject** listObj = g.render.getDrawedObjects(&nbelem);
-  //error("ICI3 %s >> %s >> %d", listObj[1]->typeName(), typechercher, nbelem);
+  //echo("ICI3 %s >> %s >> %d", listObj[1]->typeName(), typechercher, nbelem);
 
   int found = 0;
   int foundelem = 0;
 
   for (int i=1; i < nbelem; i++) {
-    error("ICI2 %d %s", i, listObj[i]->typeName());
+    echo("ICI2 %d %s", i, listObj[i]->typeName());
 
     if (! strcasecmp(listObj[i]->typeName(), typechercher) && listObj[i]->isVisible()) {
-      //error("found a type !");
+      //echo("found a type !");
       if (found == 0) {
 	foundelem = i;
 	found = 1;
@@ -129,7 +129,7 @@ value recherche_Type(value ttype)
   }
 
   if (found == 0) {
-    //error("found a type by click");
+    //echo("found a type by click");
     g.gui.getClicked(&oclick, oclicked);
     if (oclicked[0] != MAXFLOAT && oclick == 0) {
       sprintf(foundpos,"%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
@@ -151,7 +151,7 @@ value recherche_Type(value ttype)
     }
   }
   else {
-    //error("found a type auto");
+    //echo("found a type auto");
     sprintf(foundpos,"%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
 	    listObj[found]->pos.x,
 	    listObj[found]->pos.y,
@@ -302,7 +302,7 @@ void msg_info(value mot)
 void msg_debug(value mot)
 {
   char *val = (char *) String_val(mot);
-  error("msg_debug::%s", val);
+  echo("msg_debug::%s", val);
 }
 
 void viewed_objects(value mot)
@@ -326,7 +326,7 @@ int read_request(const char *requete)
   }
   if (! strcmp(requete, "C")) {
     g.render.computeCameraProjection();
-    error("calculate user visualisation");
+    echo("calculate user visualisation");
     return 0;
   }
   if (! strcmp(requete, "V")) {
