@@ -82,12 +82,13 @@ void * Sap::listener(void *arg)
   memset(bufsap, 0, BUFSIZ);
 
   recvfrom(sd, bufsap, sizeof(bufsap), 0, (struct sockaddr *) &sasrc, &len);
-  for (int i=8; i<12; i++)
+  for (int i=8; i<12; i++) {
     printf("%c", bufsap[i]);	// print SDP version v=
+  }
 
 #if HAVE_LIBPTHREAD
   ::g.pref.reflector = false;	// no reflector needed, we are on the MBone
-  //pd Channel::switchChannel();
+  //dax Channel::switchChannel();
 #else
   kill(getppid(), SIGUSR1);
 #endif
@@ -102,7 +103,7 @@ void Sap::here(int sig)
   //trace(DBG_FORCE, "sapHere: sig=%d", sig);
   signal(SIGUSR1, SIG_DFL);
   ::g.pref.reflector = false;	// no reflector needed, we are on the MBone
-  //pd Channel::switchChannel();
+  //dax Channel::switchChannel();
 }
 #endif
 
