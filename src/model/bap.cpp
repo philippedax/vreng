@@ -103,7 +103,7 @@ void Bap::jpRX(int param, uint8_t model)
   //if (! isMask(param)) return;
   //if (equalLast(param)) return;
   //if (param < 0)
-  //  error("rx: %d (%1.f)", param, ba[abs(param)]);
+  //  echo("rx: %d (%1.f)", param, ba[abs(param)]);
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef( sign * ba[abs(param)], 1,0,0); break;
@@ -118,7 +118,7 @@ void Bap::jpRY(int param, uint8_t model)
   //if (! isMask(abs(param))) return;
   //if (equalLast(param)) return;
   //if (param < 0)
-  //  error("ry: %d (%1.f)", param, ba[abs(param)]);
+  //  echo("ry: %d (%1.f)", param, ba[abs(param)]);
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef(sign * ba[abs(param)], 0,1,0); break;
@@ -133,7 +133,7 @@ void Bap::jpRZ(int param, uint8_t model)
   //if (! isMask(param)) return;
   //if (equalLast(param)) return;
   //if (param < 0)
-  //  error("rz: %d (%1.f)", param, ba[abs(param)]);
+  //  echo("rz: %d (%1.f)", param, ba[abs(param)]);
   int sign = (param >= 0) ?1:-1;
   switch (model) {
   case MODEL_OFF: glRotatef(sign * ba[abs(param)], 0,0,1); break;
@@ -155,7 +155,7 @@ uint8_t Bap::parse(char *bapline)
   //float bap_rate;
   //float ratio_rate;
 
-  //error("parse: %s", bapline);
+  //echo("parse: %s", bapline);
   l = strtok(bapline, " ");
   if (! stringcmp(l, HEAD_BAP_V31)) {		// Bap3.1 Header
     num_params = NUM_BAPS_V31;
@@ -178,7 +178,7 @@ uint8_t Bap::parse(char *bapline)
     //bap_rate = (float) atof(l);
     //vreng_rate = ::g.times.getRate();
     //ratio_rate = vreng_rate / bap_rate;
-    //error("parse bap3.2: num_params=%d vreng_rate=%.2f bap_rate=%.2f ratio_rate=%.2f", num_params, vreng_rate, bap_rate, ratio_rate);
+    //echo("parse bap3.2: num_params=%d vreng_rate=%.2f bap_rate=%.2f ratio_rate=%.2f", num_params, vreng_rate, bap_rate, ratio_rate);
     return baptype;
   }
   else if (! stringcmp(l, HEAD_FAP_V20)) {	// Fap2.0 Header
@@ -212,7 +212,7 @@ uint8_t Bap::parse(char *bapline)
         }
       }
 
-      //error("parse: num_frame=%s", l);
+      //echo("parse: num_frame=%s", l);
       num_frame = atoi(l);
 
       for (int i=1; i <= num_params; i++) {
@@ -230,7 +230,7 @@ uint8_t Bap::parse(char *bapline)
         trace(DBG_MAN, "bap: l=%s ba[%d]=%.1f", l, i, ba[i]);
       }
       if (num_frame + 1 == nbr_frames) {
-        //error("end of bap frames");
+        //echo("end of bap frames");
         return 0;
       }
     }
@@ -243,7 +243,7 @@ uint8_t Bap::parse(char *bapline)
         }
       }
 
-      //error("parse fap: num_frame=%s", l);
+      //echo("parse fap: num_frame=%s", l);
       num_frame = atoi(l);
 
       for (int i=1; i <= num_params; i++) {
@@ -255,12 +255,12 @@ uint8_t Bap::parse(char *bapline)
           fa[i] = (float) atof(l) / FAPV21_DIV;		// fap formula
       }
       if (num_frame + 1 == nbr_frames) {
-        //error("end of fap frames");
+        //echo("end of fap frames");
         return 0;
       }
     }
     else {
-      error("parse: unknown type=%d", baptype);
+      echo("parse: unknown type=%d", baptype);
       return 0;
     }
   }
