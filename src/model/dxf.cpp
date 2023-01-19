@@ -367,7 +367,7 @@ int addPolygonPoint(Polygon *pol, Point3D *p)
     pol->num_points++;
     Point3D **refs = (Point3D **) realloc(pol->points.refs, sizeof(Point3D*)*(pol->num_points));
     if (refs) {
-       //error(" adding point to polygon");
+       //echo("dxf adding point to polygon");
        refs[pol->num_points-1]=p;
        pol->points.refs=refs;
     }
@@ -960,7 +960,7 @@ DXF_file * readDXF(DXF_file *dxffile)
 
   DXF_rule *rule = initParserRulesDXF();
   if (!rule || parseDXF(dxffile, rule) == NULL) {
-    error("parsing null");
+    error("dxf parsing null");
     if (rule) deleteRuleDXF(rule);
     return NULL;
   }
@@ -1275,7 +1275,7 @@ char parseDXFfile(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
     else if (rule->act_rule == -1) {
       for (resp=FALSE, rule->act_rule=0; rule->act_rule < rule->num_rules && !resp ; rule->act_rule++) {
         rule->lrules[rule->act_rule]->act_rule = -1;
-        //echo("section: %s", rule->lrules[rule->act_rule]->tok->data);
+        //echo("dxf section: %s", rule->lrules[rule->act_rule]->tok->data);
         resp = (*(rule->lrules[rule->act_rule]->parse))(dxffile,rule->lrules[rule->act_rule],tok);
       }
       if (rule->act_rule == rule->num_rules) rule->act_rule = -1;
@@ -1387,7 +1387,7 @@ char parseDXF3DFACE(DXF_file *dxffile, DXF_rule *rule, DXF_token *tok)
                           newPolygon(POL_CLOSED, POL_POINT_REFS,newPoint3D(1,1,1)));
   }
   else if (rule->act_rule != -1) {
-    //echo("making points data %s", tok->data);
+    //echo("dxf making points data %s", tok->data);
     for (rule->act_rule=0; rule->act_rule<rule->num_rules &&
         !((*(rule->lrules[rule->act_rule]->parse))(dxffile,rule->lrules[rule->act_rule],tok)); rule->act_rule++)
       ;
