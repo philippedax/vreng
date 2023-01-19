@@ -44,7 +44,7 @@ void netIncoming(int fd)
     }
     
     /*
-     * read the packet
+     * read the incoming packet
      */
     struct sockaddr_in from;	// sender unicast address
     int r;
@@ -52,9 +52,9 @@ void netIncoming(int fd)
     Payload *pp = new Payload();	// create the payload to get the data
     
     if ((r = pp->recvPayload(fd, &from)) <= 0) {
-      //error("netIncoming: from %lx", ntohl(from.sin_addr.s_addr));
+      echo("netIncoming: from %lx", ntohl(from.sin_addr.s_addr));
       delete pp;
-      return;	// read error <0 or ignore == 0
+      return;	// read err <0 or ignore == 0
     }
     
     /*
@@ -62,9 +62,9 @@ void netIncoming(int fd)
      */
     uint8_t cmd;
     if (pp->len > 0 && pp->getPayload("c", &cmd) >= 0) {
-      trace(DBG_FORCE, "Incoming from %lx/%x len=%d cmd=%02x",
-            ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
-            pp->len, cmd);
+      echo("Incoming from %lx/%x len=%d cmd=%02x",
+           ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
+           pp->len, cmd);
       //
       // parse VREP
       //
@@ -86,9 +86,9 @@ void netIncoming(int fd)
           delete pp;
           return;
         default:
-          error("Incoming unknown: X'%02x' fd=%d from %lx/%x (mine is %lx/%x)",
-                cmd, fd, ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
-                NetObject::getMyHostId(), NetObject::getMyPortId());
+          echo("Incoming unknown: X'%02x' fd=%d from %lx/%x (mine is %lx/%x)",
+               cmd, fd, ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
+               NetObject::getMyHostId(), NetObject::getMyPortId());
           delete pp;
           return;
       }
@@ -96,11 +96,11 @@ void netIncoming(int fd)
     else {
       // empty or invalid payload
       pp->incomingOther(&from, r);
-      error("netIncoming other= %lx (%x)", ntohl(from.sin_addr.s_addr), r);
+      echo("netIncoming other= %lx (%x)", ntohl(from.sin_addr.s_addr), r);
       delete pp;
       return;
     }
-  } //end infinite loop
+  } //end event loop
 }
 
 
@@ -118,7 +118,7 @@ int netTimeout()
   nsrc = Source::getSourcesNumber() - 1;
   nsrc = (nsrc <= 1) ? 1 : nsrc;
   refresh = DEF_REFRESH_TIMEOUT * ((1.0 + (float) log((double) nsrc)) / 2);
-  error("refresh=%.2f nsrc=%d", refresh, nsrc);
+  echo("refresh=%.2f nsrc=%d", refresh, nsrc);
 #endif
   
   /*
@@ -126,7 +126,8 @@ int netTimeout()
    */
   for (list<NetObject*>::iterator it = NetObject::netobjectList.begin(); it != NetObject::netobjectList.end(); ++it) {
     if (! OClass::isValidType((*it)->type)) {
-      error("netTimout: invalid type (%d)", (*it)->type); return -1;
+      error("netTimout: invalid type (%d)", (*it)->type);
+      return -1;
     }
     
     /*
@@ -137,7 +138,7 @@ int netTimeout()
       switch ((*it)->type) {
         case USER_TYPE:
           if (i < User::PROPBEGINVAR || i > User::PROPENDVAR)
-            //trace(DBG_NET, "skip property %d", i); // skip static properties
+            echo("skip property %d", i);	// skip static properties
             continue;
       }
       NetProperty *pprop = (*it)->netprop + i;
@@ -148,34 +149,32 @@ int netTimeout()
       if (pprop->responsible 
           && Timer::diffDates(pprop->last_seen, now) > refresh) {
         // now - last_seen > refresh: we are responsible, we must refresh
-        
         (*it)->sendDelta(i);	// publish a heartbeat
       }
       if (Timer::diffDates(pprop->assume_at, now) > 0) {
         // now > assume_at: assume's timeout on this property
-        if ((*it)->permanent) { // permanent object (door, lift, anim, button, thing, book)
+        if ((*it)->permanent) { // permanent object (door, lift, button, thing, ...)
           if (pprop->version != 0) {
             // if permanent prop hasn't its initial value,
             // somebody must assume responsibility
-            trace(DBG_FORCE, "netTimeout: (permanent) Assuming responsibility for %s prop=%d unseen for %5.2fs",
-                  (*it)->noid.getNetNameById(), i,Timer::diffDates(pprop->last_seen, now));
+            echo("netTimeout: (permanent) assuming responsibility for %s prop=%d unseen for %5.2fs", (*it)->noid.getNetNameById(), i, Timer::diffDates(pprop->last_seen, now));
             if (pprop->responsible) {
-              trace(DBG_FORCE, "netTimeout: (permanent) should assume responsibility "
-                    "of something I am responsible for");
+              echo("netTimeout: (permanent) should assume responsibility "
+                   "of something I am responsible for");
               return -1;
             }
             /* heartbeat */
-            (*it)->declareObjDelta(i);	// assume responsibility: publish
+            (*it)->declareObjDelta(i);	// assume responsibility: publish my existence
           }
         }
         else { // volatile object (user, ball, dart, bullet, sheet, icon)
           if (pprop->responsible) {
-            trace(DBG_FORCE, "netTimeout: (volatile) should assume death of %s I am responsible for", (*it)->pobject->getInstance());
+            echo("netTimeout: (volatile) should assume death of %s I am responsible for", (*it)->pobject->getInstance());
             return -1;
           }
-          trace(DBG_NET, "netTimeout: (volatile) Assuming death of %s [%s] (unseen for %.2fs)",
-                (*it)->pobject->getInstance(), (*it)->noid.getNetNameById(), 
-                Timer::diffDates(pprop->last_seen, now));
+          echo("netTimeout: (volatile) assuming death of %s [%s] (unseen for %.2fs)",
+               (*it)->pobject->getInstance(), (*it)->noid.getNetNameById(), 
+               Timer::diffDates(pprop->last_seen, now));
           (*it)->declareDeletion();
           (*it)->requestDeletionFromNetwork();	// discard the dead
           // no reason to continue after a requestDeletion
