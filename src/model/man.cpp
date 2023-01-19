@@ -172,7 +172,7 @@ void Man::draw()
 {
   int vc = 0, part = 0;
 
-  //error("man::draw");
+  //echo("man::draw");
   glPushMatrix();
   glRotatef(90, 0,0,1);
   glRotatef(90, 1,0,0);	// stand up /x axis
