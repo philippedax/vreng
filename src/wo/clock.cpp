@@ -120,7 +120,6 @@ void Clock::changePermanent(float lasting)
   switch (needle % 3) {
     case SECOND:	// secondes
       pos.ax = ((float) sec * M_PI / 30) + M_PI_2;
-      //error("sec=%d", sec);
       break;
     case MINUTE:	// minutes
       if (min != min_last) {
