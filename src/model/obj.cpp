@@ -86,7 +86,10 @@ bool Obj::loadFromFile(FILE *f)
 {
   fp = f;
 
-  if (importModel(&OBJModel) == false) { error("OBJ file not loaded"); return false; }
+  if (importModel(&OBJModel) == false) {
+    error("OBJ file not loaded");
+    return false;
+  }
   if (importTextures() == false) warning("textures of OBJ file not loaded");
   return loaded = true; //success
 }
@@ -393,7 +396,7 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
   pobject->numOfVerts   = pVertices.size();
   pobject->numTexVertex = pTextureCoords.size();
 
-  trace(DBG_MAN, "numOfObjects=%d numOfFaces=%d numOfVerts=%d numTexVertex=%d", pmodel->numOfObjects, pobject->numOfFaces, pobject->numOfVerts, pobject->numTexVertex);
+  //echo("numOfObjects=%d numOfFaces=%d numOfVerts=%d numTexVertex=%d", pmodel->numOfObjects, pobject->numOfFaces, pobject->numOfVerts, pobject->numTexVertex);
 
   // if we read in any faces for this object (required)
   if (pobject->numOfFaces)
@@ -480,7 +483,7 @@ void Obj::computeNormals(tOBJModel *pmodel)
       int vz = pobject->pFaces[i].vertIndex[2];
       int vc = pobject->numOfVerts;
       if (vx > vc || vy > vc || vz > vc) {
-        error("Obj: vx=%d vy=%d vz=%d vc=%d", vx, vy, vz, vc);
+        echo("Obj: vx=%d vy=%d vz=%d vc=%d", vx, vy, vz, vc);
         continue;	//dax BUG: segfault
       }
       vPoly[0] = pobject->pVerts[pobject->pFaces[i].vertIndex[0]];
