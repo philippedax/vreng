@@ -174,7 +174,7 @@ void Session::deleteSessionBySsrc(uint32_t _ssrc)
       }
     }
   }
-  error("deleteSessionBySsrc: ssrc=%x not found", _ssrc);
+  echo("deleteSessionBySsrc: ssrc=%x not found", _ssrc);
 }
 
 void Session::deleteSourceBySsrc(uint32_t _ssrc)
@@ -416,10 +416,10 @@ int Session::sendRTCPPacket(const struct sockaddr_in *to, uint8_t pt)
     break;
   }
   if ((sin_rtcp = Channel::getSaRTCP(to)) == NULL) {
-    error("sendRTCPPacket: sin_rtcp NULL"); return -1;
+    echo("sendRTCPPacket: sin_rtcp NULL"); return -1;
   }
   if ((sd = Channel::getFdSendRTCP(sin_rtcp)) < 0) {
-    error("sendRTCPPacket: sd <0"); return -1;
+    echo("sendRTCPPacket: sd <0"); return -1;
   }
 
   r = Rtp::sendPacket(sd, pkt, pkt_len, sin_rtcp);
@@ -443,11 +443,11 @@ int Session::sendSRSDES(const struct sockaddr_in *to)
   pkt_len += len;
 
   if ((sin_rtcp = Channel::getSaRTCP(to)) == NULL) {
-    error("sendSRSDES: sin_rtcp NULL");
+    echo("sendSRSDES: sin_rtcp NULL");
     return -1;
   }
   if ((sd = Channel::getFdSendRTCP(sin_rtcp)) < 0) {
-    error("sendSRSDES: sd <0");
+    echo("sendSRSDES: sd <0");
     return -1;
   }
 
