@@ -368,7 +368,6 @@ void Lwo::displaylist()
 
     /* draw polygon/triangle/quad */
     for (int j=0; j < lface->index_count; j++) {
-      //error("i=%d j=%d %.2f %.2f %.2f", i,j, vertex[lface->index[j]*3+0], vertex[lface->index[j]*3+1], vertex[lface->index[j]*3+2]);
       glVertex3f(vertex[lface->index[j]*3+0], vertex[lface->index[j]*3+1], vertex[lface->index[j]*3+2]);
     }
   }
