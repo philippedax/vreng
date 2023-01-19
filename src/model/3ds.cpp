@@ -577,7 +577,7 @@ void _3ds::readVertices(tObject *pObject, tChunk *pPreviousChunk)
   pPreviousChunk->bytesRead += fread(&(pObject->numVerts), 1, 2, fp);
   File::localEndian(&pObject->numVerts, sizeof(int));
 
-  //error("readVertices: numVerts=%d", pObject->numVerts);
+  //echo("readVertices: numVerts=%d", pObject->numVerts);
 
   // Allocate the memory for the verts and initialize the structure
   pObject->pVerts = new Vec3 [pObject->numVerts];
@@ -674,7 +674,7 @@ void _3ds::computeNormals(t3dsModel *pModel)
     Vec3 *pNormals     = new Vec3 [pObject->numFaces];
     Vec3 *pTempNormals = new Vec3 [pObject->numFaces];
     pObject->pNormals  = new Vec3 [pObject->numVerts];
-    //error("Debug: numFaces=%d",pObject->numFaces);
+    //echo("numFaces=%d", pObject->numFaces);
 
     for (i=0; i < pObject->numFaces; i++) { // all of the faces
       // To cut down LARGE code, we extract the 3 points of this face
