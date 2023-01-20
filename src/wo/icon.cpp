@@ -24,6 +24,7 @@
 #include "move.hpp"	// GRAVITY
 #include "wall.hpp"	// Wall
 #include "format.hpp"	// icons
+#include "file.hpp"	// open, close
 #include "cache.hpp"	// file download
 #include "texture.hpp"	// Texture
 #include "netobj.hpp"	// NetObject
@@ -36,7 +37,6 @@
 #include "office.hpp"	// start
 #include "env.hpp"	// icons
 #include "timer.hpp"	// rate
-#include "file.hpp"	// open, close
 
 
 const OClass Icon::oclass(ICON_TYPE, "Icon", NULL, Icon::replicator);
@@ -207,7 +207,7 @@ Icon::Icon(User *user, void *d)
     taken = false;
   }
   else {	// new document named interactively by hand
-    /* position */
+    /* icon position */
     float off = 0.4;		// 40cm in front of avatar
     pos.x = user->pos.x + off * cos(user->pos.az);
     pos.y = user->pos.y + off * sin(user->pos.az);
@@ -252,9 +252,9 @@ Icon::Icon(User *user, void *d)
             mkdir(ofile, 0755);
           }
           strcat(ofile, ifile);
-          FILE *fin, *fout;
           File *filein = new File();
           File *fileout = new File();
+          FILE *fin, *fout;
           if ((fin = filein->open(ifile, "r")) && (fout = fileout->open(ofile, "w"))) {
             char buf[2];
             while (fread(buf, 1, 1, fin)) {
@@ -304,8 +304,8 @@ Icon::Icon(User *user, void *d)
   trace(DBG_WO, "Icon: url=%s icon=%s name=%s owner=%s", urlName(), tex, getInstance(), ownerName());
 
   if (action) {
-    if      (! stringcmp(action, "pin")) pin(this, NULL, 0L, 0L);
-    else if (! stringcmp(action, "push")) push(this, NULL, 0L, 0L);
+    if      (! stringcmp(action, "pin"))   pin(this, NULL, 0L, 0L);
+    else if (! stringcmp(action, "push"))  push(this, NULL, 0L, 0L);
     else if (! stringcmp(action, "carry")) carry(this, NULL, 0L, 0L);
   }
 }
@@ -473,17 +473,18 @@ void Icon::open(Icon *icon, void *d, time_t s, time_t u)
 
 void Icon::save(Icon *icon, void *d, time_t s, time_t u)
 {
-  chdir(::g.env.cwd());
   char *pfile;
+
+  chdir(::g.env.cwd());
   if (icon->names.url[strlen(icon->names.url) - 1] == '/') {
     Cache::download(icon->names.url, NULL, "");
-    trace(DBG_FORCE, "web %s saved", icon->names.url);
+    echo("icon: web %s saved", icon->names.url);
   }
   else if ((pfile = strrchr(icon->names.url, '/'))) {
     Cache::download(icon->names.url, ++pfile, "");
-    trace(DBG_FORCE, "file %s saved", pfile);
+    echo("icon: file %s saved", pfile);
   }
-  else notice("nothing to save");
+  else echo("icon: nothing to save");
 }
 
 void Icon::turn(Icon *icon, void *d, time_t s, time_t u)
@@ -617,17 +618,17 @@ void Icon::funcs()
   putPropertyFunc(ICON_TYPE, PROPTEX, _Payload put_tex);
   putPropertyFunc(ICON_TYPE, PROPGNAME, _Payload put_gname);
 
-  setActionFunc(ICON_TYPE, OPEN, _Action open, "Open");
-  setActionFunc(ICON_TYPE, SAVE, _Action save, "Save");
-  setActionFunc(ICON_TYPE, PIN, _Action pin, "Pin");
-  setActionFunc(ICON_TYPE, LEAVE, _Action leave, "Leave");
-  setActionFunc(ICON_TYPE, CARRY, _Action carry, "Carry");
-  setActionFunc(ICON_TYPE, KILL, _Action destroy, "Destroy");
-  setActionFunc(ICON_TYPE, PUSH, _Action push, "Push");
-  setActionFunc(ICON_TYPE, PULL, _Action pull, "Pull");
-  setActionFunc(ICON_TYPE, DROP, _Action drop, "Drop");
-  setActionFunc(ICON_TYPE, TURN, _Action turn, "Turn");
-  setActionFunc(ICON_TYPE, MOVE, _Action moveObject, "Move");
+  setActionFunc(ICON_TYPE, OPEN,   _Action open, "Open");
+  setActionFunc(ICON_TYPE, SAVE,   _Action save, "Save");
+  setActionFunc(ICON_TYPE, PIN,    _Action pin, "Pin");
+  setActionFunc(ICON_TYPE, LEAVE,  _Action leave, "Leave");
+  setActionFunc(ICON_TYPE, CARRY,  _Action carry, "Carry");
+  setActionFunc(ICON_TYPE, KILL,   _Action destroy, "Destroy");
+  setActionFunc(ICON_TYPE, PUSH,   _Action push, "Push");
+  setActionFunc(ICON_TYPE, PULL,   _Action pull, "Pull");
+  setActionFunc(ICON_TYPE, DROP,   _Action drop, "Drop");
+  setActionFunc(ICON_TYPE, TURN,   _Action turn, "Turn");
+  setActionFunc(ICON_TYPE, MOVE,   _Action moveObject, "Move");
   setActionFunc(ICON_TYPE, CREATE, _Action create, "");
-  setActionFunc(ICON_TYPE, STICK, _Action stick, "");
+  setActionFunc(ICON_TYPE, STICK,  _Action stick, "");
 }
