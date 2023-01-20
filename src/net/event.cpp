@@ -138,7 +138,7 @@ int netTimeout()
       switch ((*it)->type) {
         case USER_TYPE:
           if (i < User::PROPBEGINVAR || i > User::PROPENDVAR)
-            echo("skip property %d", i);	// skip static properties
+            //echo("skip property %d", i);	// skip static properties
             continue;
       }
       NetProperty *pprop = (*it)->netprop + i;
