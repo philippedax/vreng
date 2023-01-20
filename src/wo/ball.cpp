@@ -273,7 +273,7 @@ void Ball::push()
   move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
   move.lspeed.v[1] = lspeed * sin(localuser->pos.az);
   move.lspeed.v[2] = 0;
-  move.aspeed.v[0] = 0; //aspeed;
+  move.aspeed.v[0] = 0;
   ttl = Ball::TTL;
   ttl /= ratio();
   initImposedMovement(ttl);
@@ -285,7 +285,7 @@ void Ball::pull()
   move.lspeed.v[0] = -lspeed * cos(localuser->pos.az);
   move.lspeed.v[1] = -lspeed * sin(localuser->pos.az);
   move.lspeed.v[2] = 0;
-  move.aspeed.v[0] = 0; //aspeed;
+  move.aspeed.v[0] = 0;
   ttl = Ball::TTL;
   ttl /= ratio();
   initImposedMovement(ttl);
@@ -308,8 +308,8 @@ void Ball::up()
 {
   move.lspeed.v[0] = 0;
   move.lspeed.v[1] = 0;
-  move.lspeed.v[2] = zspeed;
-  move.aspeed.v[0] = 0; //aspeed;
+  move.lspeed.v[2] = zspeed / 2;
+  move.aspeed.v[0] = aspeed;
   ttl = 1;	// 1 sec
   initImposedMovement(ttl);
 }
