@@ -47,6 +47,12 @@ void WObject::update3D(Pos &pos)
 {
   if (! solid || removed) return;
 
+  // checks if pos is out of bounds : FIXME!
+  if ( pos.x>100 || pos.x<-100 || pos.y>100 || pos.y<-100 || pos.z>100 || pos.z<-100 ) {
+    echo("reset localuser pos");
+    localuser->pos.x = localuser->pos.y = localuser->pos.z = 0;
+  }
+
   for (list<Solid*>::iterator s = _solids.begin(); s != _solids.end(); s++) {
     M4 matobj = mulM4(transM4(pos.x, pos.y, pos.z),
 			      mulM4(rotM4(pos.az, UZ),
