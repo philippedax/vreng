@@ -715,6 +715,9 @@ public:
   virtual void initPosition();
   /**< Init 3D and grid position. */
 
+  virtual void checkPosition();
+  /**< Checks position. */
+
   virtual void updatePosition();
   /**< Updating 3D. */
 

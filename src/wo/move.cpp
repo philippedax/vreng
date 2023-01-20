@@ -362,6 +362,7 @@ void User::elemUserMovement(const float tabdt[])
 
   changePosition(tabdt);
 
+  checkPosition();	// dax
   updatePosition();
   checkVicinity(o);
   delete o;

@@ -769,6 +769,16 @@ void WObject::initPosition()
   }
 }
 
+/* Checks localuser position if out of bounds */
+void WObject::checkPosition()
+{
+  if ( localuser->pos.x>100 || localuser->pos.x<-100 || localuser->pos.y>100 || localuser->pos.y<-100 || localuser->pos.z>100 || localuser->pos.z<-100 ) {
+    echo("localuser->pos: %.1f %.1f %.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
+    echo("reset localuser pos");
+    localuser->pos.x = localuser->pos.y = localuser->pos.z = 0;
+  }
+}
+
 /* Updates 3D position */
 void WObject::updatePosition()
 {
