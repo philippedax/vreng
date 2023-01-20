@@ -235,6 +235,9 @@ public:
   void resetPosition();
   /**< Resets user position. */
 
+  void checkPosition();
+  /**< RChecks user position. */
+
   void setPosition();
   /**< Sets user position. */
 

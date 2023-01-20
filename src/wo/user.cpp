@@ -82,14 +82,13 @@ void User::defaults()
   width = DEF_WIDTH;
   depth = DEF_DEPTH;
   height = DEF_HEIGHT;
-  lspeed = LSPEED;
-  aspeed = ASPEED;
+  //dax lspeed = LSPEED;
+  //dax aspeed = ASPEED;
   if (::g.pref.tview)
     current_view = Render::VIEW_THIRD_PERSON_FAR;
   else
     current_view = Render::VIEW_FIRST_PERSON;
   ray = setV3(0, 0, 0);
-  hit = 0;
 }
 
 void User::setName()
@@ -119,6 +118,16 @@ void User::setPosition()
     trace(DBG_INIT, "new entry: %.2f %.2f %.2f", pos.x, pos.y, pos.z);
     //echo("entry: %.2f %.2f %.2f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
   } 
+}
+
+/* Checks localuser position if out of bounds */
+void User::checkPosition()
+{
+  if ( localuser->pos.x>100 || localuser->pos.x<-100 || localuser->pos.y>100 || localuser->pos.y<-100 || localuser->pos.z>100 || localuser->pos.z<-100 ) {
+    echo("localuser->pos: %.1f %.1f %.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
+    echo("reset localuser pos");
+    localuser->pos.x = localuser->pos.y = localuser->pos.z = 0;
+  }
 }
 
 /* Sets view mode */
@@ -341,7 +350,10 @@ User::User()
   guy = NULL;
   humanhead = NULL;
   defaults();
+  move.lspeed.v[0] = move.lspeed.v[1] = move.lspeed.v[2] = 0;
+  move.aspeed.v[0] = move.aspeed.v[1] = move.aspeed.v[2] = 0;
   pos.az = 0; //-M_PI_2;
+  hit = 0;
   inits();
 }
 
