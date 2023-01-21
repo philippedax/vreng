@@ -142,7 +142,7 @@ void statReceivePacket(int pkt_len)
 }
 
 /* compute kbps_sent & co */
-void statAdjust()
+void statKbps()
 {
   static struct timeval top;
   struct timeval now;
@@ -152,7 +152,7 @@ void statAdjust()
   if (fabs(d) > 0.1) {
     kbps_sent = bytes_sent/d/1000*8;
     kbps_recvd = bytes_recvd/d/1000*8;
-    trace(DBG_NET, "kbps sent: %5.2f recvd: %5.2f", bytes_sent/d/1000*8, bytes_recvd/d/1000*8);
+    //echo("kbps sent: %5.2f recvd: %5.2f", bytes_sent/d/1000*8, bytes_recvd/d/1000*8);
     top = now;
     bytes_sent = bytes_recvd = 0;
   }

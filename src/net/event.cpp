@@ -106,7 +106,7 @@ int netTimeout()
 {
   float refresh = DEF_REFRESH_TIMEOUT;
   
-  //statAdjust();
+  //statKbps();
   struct timeval now;
   gettimeofday(&now, NULL);
   

@@ -40,7 +40,7 @@ void statSendRTP(int len);
 void statSendRTCP(int len);
 void statReceivePacket(int len);
 void statSessionRTP(class Session *session);
-void statAdjust();
+void statKbps();
 
 /*** memory ***/
 extern uint32_t new_wobject;
