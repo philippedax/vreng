@@ -71,32 +71,29 @@ void netIncoming(int fd)
       switch (cmd) {
         case VREP_CREATE: case VREP_CREATE_V1:
           pp->incomingCreate(&from);
-          delete pp;
-          return;
+          break;
         case VREP_DELTA: case VREP_DELTA_V1:
           pp->incomingDelta(&from);
-          delete pp;
-          return;
+          break;
         case VREP_QUERY: case VREP_QUERY_V1:
           pp->incomingQuery(&from);
-          delete pp;
-          return;
+          break;
         case VREP_DELETE: case VREP_DELETE_V1:
           pp->incomingDelete(&from);
-          delete pp;
-          return;
+          break;
         default:
-          echo("Incoming unknown: X'%02x' fd=%d from %lx/%x (mine is %lx/%x)",
+          echo("netincoming unknown: X'%02x' fd=%d from %lx/%x (mine is %lx/%x)",
                cmd, fd, ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
                NetObject::getMyHostId(), NetObject::getMyPortId());
-          delete pp;
-          return;
+          break;
       }
+      delete pp;
+      return;
     }
     else {
       // empty or invalid payload
       pp->incomingOther(&from, r);
-      echo("netIncoming other= %lx (%x)", ntohl(from.sin_addr.s_addr), r);
+      echo("netincoming other: from %lx (%x)", ntohl(from.sin_addr.s_addr), r);
       delete pp;
       return;
     }
@@ -118,7 +115,7 @@ int netTimeout()
   nsrc = Source::getSourcesNumber() - 1;
   nsrc = (nsrc <= 1) ? 1 : nsrc;
   refresh = DEF_REFRESH_TIMEOUT * ((1.0 + (float) log((double) nsrc)) / 2);
-  echo("refresh=%.2f nsrc=%d", refresh, nsrc);
+  //echo("refresh=%.2f nsrc=%d", refresh, nsrc);
 #endif
   
   /*
@@ -138,16 +135,14 @@ int netTimeout()
       switch ((*it)->type) {
         case USER_TYPE:
           if (i < User::PROPBEGINVAR || i > User::PROPENDVAR)
-            //echo("skip property %d", i);	// skip static properties
-            continue;
+            continue;	// skip static properties
       }
       NetProperty *pprop = (*it)->netprop + i;
       
       /*
        * test if refresh timeout reached
        */
-      if (pprop->responsible 
-          && Timer::diffDates(pprop->last_seen, now) > refresh) {
+      if (pprop->responsible && Timer::diffDates(pprop->last_seen, now) > refresh) {
         // now - last_seen > refresh: we are responsible, we must refresh
         (*it)->sendDelta(i);	// publish a heartbeat
       }
@@ -163,7 +158,7 @@ int netTimeout()
                    "of something I am responsible for");
               return -1;
             }
-            /* heartbeat */
+            // heartbeat
             (*it)->declareObjDelta(i);	// assume responsibility: publish my existence
           }
         }
