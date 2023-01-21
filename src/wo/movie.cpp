@@ -100,23 +100,35 @@ void Movie::inits()
         if (Cache::download(names.url, filempeg) == 0) {	// download Mpeg file
           error("can't download %s", filempeg);
           delete[] filempeg;
+          delete file;
           return;
         }
         if ((fp = file->open(filempeg, "r")) == NULL) {
           error("can't open mpeg");
           delete[] filempeg;
+          delete file;
           return;
         }
 
         mpeg = new ImageDesc[1];
 
         SetMPEGOption(MPEG_DITHER, FULL_COLOR_DITHER); //ORDERED_DITHER);
-        OpenMPEG(fp, mpeg);
-        width = mpeg->Width;
-        height = mpeg->Height;
-        fps = mpeg->PictureRate;
-        vidbuf = new uint8_t[mpeg->Size];
-        trace(DBG_WO, "mpeg: w=%d h=%d f=%.3f", width, height, fps);
+        if (OpenMPEG(fp, mpeg)) {
+          width = mpeg->Width;
+          height = mpeg->Height;
+          fps = mpeg->PictureRate;
+          vidbuf = new uint8_t[mpeg->Size];
+          //echo("mpeg: w=%d h=%d f=%.3f", width, height, fps);
+        }
+        else {
+          error("can't OpenMPEG");
+          delete[] filempeg;
+          delete[] mpeg;
+          mpeg = NULL;
+          file->close();
+          delete file;
+          return;
+        }
       }
       break;
     case PLAYER_AVI:
