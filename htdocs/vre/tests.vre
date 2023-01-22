@@ -56,13 +56,13 @@
 <lift name="elevator"
   pos="-11 0 0 0"
   height="4" speed="1" bot="-3" top="2">
-  <solid dim="1.9 1.9 .1" dif=".5 0 0" />
+  <solid dim="1.9 1.9 .1" dif="white" />
 </lift>
 
-<wall name="cage1" pos="-12 0 0 1.57"> <solid dim="2 0.08 24" dif="0 0 0.5" a="0.6" /></wall>
-<wall name="cage2" pos="-11 1 0 0"> <solid dim="2 0.08 24" dif="0 0 0.5" a="0.6" /></wall>
-<wall name="cage3" pos="-11 -1 0 0"> <solid dim="2 0.08 24" dif="0 0 0.5" a="0.6" /></wall>
-<mirage name="cage" pos="-10 0 0 1.57"> <solid dim="2 0.02 24" a="0.3" /></mirage>
+<wall name="cage1" pos="-12 0 0 1.57"> <solid dim="2 0.08 24" dif="blue" a="0.6" /></wall>
+<wall name="cage2" pos="-11 1 0 0"> <solid dim="2 0.08 24" dif="blue" a="0.6" /></wall>
+<wall name="cage3" pos="-11 -1 0 0"> <solid dim="2 0.08 24" dif="blue" a="0.6" /></wall>
+<mirage name="cage" pos="-10 0 0 1.57"> <solid dim="1.9 0.02 24" a="0.3" /></mirage>
 
 <button name="level:1" pos="-10 0.95 1.55 3.14"
   use="elevator" method0="Up">

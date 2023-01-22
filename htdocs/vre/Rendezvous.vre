@@ -665,7 +665,7 @@ amplitude="1" freq="1" phase="1">
 <!-- lift -->
 <lift name="lift" pos="-21 0 0 0"
   height="3" speed="1" bot="0" top="1">
-  <solid dim="1.9 1.9 1" dif="black" />
+  <solid dim="1.9 1.9 .1" dif="black" />
 </lift>
 <wall name="cage" pos="-22 0 3 1.57">
   <solid                    dim="2 .08 6" dif="lightblue" a=".4" />
