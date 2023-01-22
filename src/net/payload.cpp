@@ -438,8 +438,8 @@ int Payload::sendPayload(const struct sockaddr_in *to)
    * initial checks
    */
   if (! isValidPayload()) { error("sendPayload: invalid"); return -1; }
-  if (! len) { error("sendPayload: empty"); return -1; }
   if (! to) { error("sendPayload: to NULL"); return -1; }
+  //dax if (! len) { return -1; }
 
   /*
    * build the RTP Header
