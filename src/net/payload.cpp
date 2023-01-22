@@ -62,7 +62,7 @@ int Payload::putPayload(const char *format, ...)
 {
   va_list ap;
 
-  if (! isValidPayload()) { error("putPayload: invalid Payload %s", this); return -1; }
+  if (! isValidPayload()) { error("putPayload: invalid payload %s", this); return -1; }
   if (format == NULL) { error("putPayload: NULL format"); return -1; }
 
   va_start(ap, format);
@@ -163,7 +163,7 @@ int Payload::putPayload(const char *format, ...)
 
     /* check the length */
     if (len >= PAYLOAD_LEN) {
-      error("putPayload: Payload too long (%d > %d)", len, PAYLOAD_LEN);
+      error("putPayload: payload too long (%d > %d)", len, PAYLOAD_LEN);
       dumpPayload(stderr);
       len = idx = 0; // just in case
       va_end(ap);
@@ -178,10 +178,8 @@ int Payload::putPayload(const char *format, ...)
 int Payload::getPayload(const char *format, ...)
 {
   va_list ap;
-  const char *pformat = format;
 
   if (! isValidPayload()) {
-    //pd char *pp = (char *) this;	// hack
     error("getPayload: invalid len=%d idx=%d %02x%02x%02x%02x", len, idx,
            data[idx], data[idx+1], data[idx+2], data[idx+3]);
     return -1;
@@ -201,31 +199,30 @@ int Payload::getPayload(const char *format, ...)
 #if 0 //debug
     switch (*format) {
     case 'c':
-      trace(DBG_FORCE, "format=%c idx=%d len=%d data=[%c %02x]", *format, idx, len, data[idx+0], data[idx+1]);
+      echo("format=%c idx=%d len=%d data=[%c %02x]", *format, idx, len, data[idx+0], data[idx+1]);
       break;
     case 'h':
-      trace(DBG_FORCE, "format=%c idx=%d len=%d data=[%c %02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2]);
+      echo("format=%c idx=%d len=%d data=[%c %02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2]);
       break;
     case 'd':
     case 'f':
-      trace(DBG_FORCE, "format=%c idx=%d len=%d data=[%c %02x%02x%02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2], data[idx+3], data[idx+4]);
+      echo("format=%c idx=%d len=%d data=[%c %02x%02x%02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2], data[idx+3], data[idx+4]);
       break;
     case 'n':
-      trace(DBG_FORCE, "format=%c idx=%d len=%d data=[%c %02x%02x%02x%02x %02x%02x %02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2], data[idx+3], data[idx+4], data[idx+5], data[idx+6], data[idx+7], data[idx+8]);
+      echo("format=%c idx=%d len=%d data=[%c %02x%02x%02x%02x %02x%02x %02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2], data[idx+3], data[idx+4], data[idx+5], data[idx+6], data[idx+7], data[idx+8]);
       break;
     case 's':
-      trace(DBG_FORCE, "format=%c idx=%d len=%d data=[%c %02x %02x%02x%02x%02x%02x%02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2], data[idx+3], data[idx+4], data[idx+5], data[idx+6], data[idx+7], data[idx+8]);
+      echo("format=%c idx=%d len=%d data=[%c %02x %02x%02x%02x%02x%02x%02x%02x]", *format, idx, len, data[idx+0], data[idx+1], data[idx+2], data[idx+3], data[idx+4], data[idx+5], data[idx+6], data[idx+7], data[idx+8]);
       break;
     }
 #endif //debug
 
     /* test matching Payload - format */
     if (data[idx] != *format) {
-      error("getPayload: mismatch '%c'[x'%02x'], format='%s' [%s], len=%d, idx=%d[x'%02x']",
-	    data[idx], data[idx], format, pformat, len, idx, idx);
+      error("getPayload: mismatch '%c'[x'%02x'], format='%s', len=%d, idx=%d[x'%02x']",
+	    data[idx], data[idx], format, len, idx, idx);
       dumpPayload(stderr);
       //pd format++;
-      //pd continue;
       return -1;
     }
     idx++;	// points on following data
@@ -315,7 +312,7 @@ int Payload::getPayload(const char *format, ...)
 
     /* verify if not too far */
     if (idx > len) {
-      error("getPayload: past end of Payload: idx=%d len=%d", idx, len);
+      error("getPayload: past end of payload: idx=%d len=%d", idx, len);
       dumpPayload(stderr);
       idx = len = 0;
       va_end(ap);
@@ -389,7 +386,7 @@ int Payload::tellStrInPayload(const char *str)
 	return -1;
     }
   }
-  error("tellStrInPayload: past end of Payload: idx=%d len=%d", idx, len);
+  error("tellStrInPayload: past end of payload: idx=%d len=%d", idx, len);
   dumpPayload(stderr);
   idx = save_idx;
   return -1;
@@ -440,9 +437,9 @@ int Payload::sendPayload(const struct sockaddr_in *to)
   /*
    * initial checks
    */
-  if (!isValidPayload()) { error("sendPayload: invalid"); return -1; }
-  if (!len) { trace(DBG_NET, "sendPayload: empty"); return -1; }
-  if (!to) { trace(DBG_NET, "sendPayload: to NULL"); return -1; }
+  if (! isValidPayload()) { error("sendPayload: invalid"); return -1; }
+  if (! len) { error("sendPayload: empty"); return -1; }
+  if (! to) { error("sendPayload: to NULL"); return -1; }
 
   /*
    * build the RTP Header
@@ -477,11 +474,12 @@ int Payload::sendPayload(const struct sockaddr_in *to)
     hdrpl[VREP_HDR_SIZE_V2 + len] = 0;	// end of payload chunk
     break;
   default:
-    error("bad vrep_version=%d", vrep); return -1;
+    error("sendpayload: bad vrep_version=%d", vrep);
+    return -1;
   }
 
   trace(DBG_NET, "S: %02x%02x%02x%02x/%02x",
-                     hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
+                 hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
 
   /*
    * find the file descriptor
@@ -531,7 +529,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
 #endif
     return pkt_len;	// here pkt_len < 0 -> error
   }
-  //trace(DBG_FORCE, "recvPayload: %lx (%x)", ntohl(from->sin_addr.s_addr), pkt_len);
+  //echo("recvPayload: %lx (%x)", ntohl(from->sin_addr.s_addr), pkt_len);
 
   /*
    * test if the packet was sent by myself
@@ -546,7 +544,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
       return 0; // Loopback from same app : ignore it
   }
 
-  statReceivePacket(pkt_len);	//FIXME! is not a the good place, do statDroppedPacket
+  statReceivePacket(pkt_len);	//FIXME! is not a the good place
 
   /*
    * test if it is a valid RTP header
@@ -595,7 +593,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
   }
 
   uint8_t *hdrpl = pkt + RTP_HDR_SIZE;
-  //trace(DBG_14, "R: %02x%02x%02x%02x/%02x",hdrpl[0],hdrpl[1],hdrpl[2],hdrpl[3],hdrpl[4]);
+  //echo("R: %02x%02x%02x%02x/%02x",hdrpl[0],hdrpl[1],hdrpl[2],hdrpl[3],hdrpl[4]);
 
   /*
    * compatibility with older VREP Protocol
@@ -621,7 +619,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
       vrep_len = hdrpl[VREP_HDR_PLLEN];		// length in bytes
     break;
   default:
-    /* old version <= 1.5.8 VREP1 */
+    // old version <= 1.5.8 VREP1
     vrep_hdr_size = VREP_HDR_SIZE_V1;
     vrep_len = hdrpl[VREP_HDR_PLLEN_V1]; // length in bytes <= 1.5.8 VREP1
     memcpy(&from->sin_addr.s_addr, hdrpl+VREP_HDR_SRCID_V1, 4);
@@ -633,11 +631,11 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
    */
   if (pkt_len != rtp_hdr_size + vrep_hdr_size + vrep_len || vrep_len < vrep_hdr_size) {
     trace(DBG_NET, "R: %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
-                         pkt[0], pkt[1], pkt[2], pkt[3],
-                         pkt[4], pkt[5], pkt[6], pkt[7],
-                         pkt[8], pkt[9], pkt[10], pkt[11]);
+                    pkt[0], pkt[1], pkt[2], pkt[3],
+                    pkt[4], pkt[5], pkt[6], pkt[7],
+                    pkt[8], pkt[9], pkt[10], pkt[11]);
     trace(DBG_NET, "R: %02x%02x%02x%02x/%02x",
-                         hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
+                    hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
     trace(DBG_NET, "wrong packet size, pkt_len=%d vrep_len=%d",
                    pkt_len, vrep_len);
     return -2;	// unknown packet type
@@ -657,7 +655,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
 /* Incoming Delta */
 void Payload::incomingDelta(const struct sockaddr_in *from)
 {
-  Noid noid;	// name received
+  Noid noid;		// name received
   uint8_t prop_id;	// property number received
   int16_t vers_id;	// version received
 
@@ -665,7 +663,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
 
   NetObject *pn;
   if ((pn = noid.getNetObject()) == NULL) {
-    /* delta on an unknown object */
+    // delta on an unknown object
     trace(DBG_NET, "incomingDelta sendQuery on: %s, from=%s, p=%d, v=%d",
                    noid.getNetNameById(), inet4_ntop(&from->sin_addr), prop_id, vers_id);
     // send a Query to the sender in unicast
@@ -683,18 +681,18 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
   NetProperty *pprop = pn->netprop + prop_id;
 
   /*
-   * depends on version
+   * depends on prop version
    */
   // in complement to 2: d gives the distance, same throught the boundary
   int16_t d = pprop->version - vers_id;	// versions difference
   if (abs(d) > 5000) {	// very far
-    warning("incomingDelta: very different versions: mine is %d, received %d",
-             pprop->version, vers_id);
+    echo("incomingDelta: very different versions: mine is %d, received %d",
+         pprop->version, vers_id);
   }
-  if (d > 0) return;  // mine is more recent
+  if (d > 0) return;	// mine is more recent
 
   pprop->resetDates();
-  if (d < 0) {  // mine is less recent, its own is more recent
+  if (d < 0) {  	// mine is less recent, its own is more recent
     pn->getProperty(prop_id, this);
     pprop->setResponsible(false); // leave responsibility to the other one
     pprop->version = vers_id;
@@ -721,13 +719,13 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   if (noid.getNetObject()) return;  // local copy already exists -> ignore this request
 
   trace(DBG_NET, "incomingCreate: nobj=%s (type=%d), _permanent=%d",
-	           noid.getNetNameById(), type_id, _permanent);
+	         noid.getNetNameById(), type_id, _permanent);
   //dumpPayload(stderr);
 
   //
   // creates the replicated object
   // glue with WObject
-  // Very very important !!!
+  // very important !!!
   //
   NetObject *pn = NetObject::replicateObject(type_id, noid, this);
   if (!pn) {
@@ -756,6 +754,7 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
 void Payload::incomingQuery(const struct sockaddr_in *from)
 {
   Noid noid;
+
   if (getPayload("n", &noid) < 0) return;
   if (noid.port_id == 0) {	//HACK!
     error("incomingQuery: port_id null"); return;
@@ -767,8 +766,8 @@ void Payload::incomingQuery(const struct sockaddr_in *from)
   NetObject *pn;
   if ((pn = noid.getNetObject()) == NULL) {
     // unknown object: may be we have deleted it, we advertize the requester
-    warning("incomingQuery: sendDelete nobj=%s from=%s",
-             noid.getNetNameById(), inet4_ntop(&from->sin_addr));
+    echo("incomingQuery: sendDelete nobj=%s from=%s",
+         noid.getNetNameById(), inet4_ntop(&from->sin_addr));
     noid.sendDeleteNoid(from);
   }
   else {
@@ -783,6 +782,7 @@ void Payload::incomingQuery(const struct sockaddr_in *from)
 void Payload::incomingDelete(const struct sockaddr_in *from)
 {
   Noid noid;
+
   if (getPayload("n", &noid) < 0) return;
 
   trace(DBG_NET, "incomingDelete: nobj=%s from=%s",
