@@ -70,6 +70,7 @@ Lift::Lift(char *l)
 {
   parser(l);
 
+  state = NONE;		// lift is empty
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 
