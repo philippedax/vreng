@@ -663,16 +663,16 @@ amplitude="1" freq="1" phase="1">
 <sun name="sun" pos="200 -100 0"></sun>
 
 <!-- lift -->
-<lift name="lift" pos="-21 0 0 0"
+<lift name="lift" pos="-21 0 -.15 0"
   height="3" speed="1" bot="0" top="1">
-  <solid dim="1.9 1.9 .1" dif="black" />
+  <solid dim="1.95 1.95 .1" dif="black" />
 </lift>
 <wall name="cage" pos="-22 0 3 1.57">
-  <solid                    dim="2 .08 6" dif="lightblue" a=".4" />
-  <solid rel="1 1 0 -1.57"  dim="2 .08 6" dif="lightblue" a=".4" />
-  <solid rel="1 -1 0 -1.57" dim="2 .08 6" dif="lightblue" a=".4" />
+  <solid                    dim="2 .04 6" dif="lightblue" a=".4" />
+  <solid rel="1 1 0 -1.57"  dim="2 .04 6" dif="lightblue" a=".4" />
+  <solid rel="1 -1 0 -1.57" dim="2 .04 6" dif="lightblue" a=".4" />
 </wall>
-<wall pos="-21 0 6.04"> <solid dim="2 2 .08" dif="red" /></wall>
+<wall pos="-21 0 6.04"> <solid dim="2 2 .04" dif="grey" /></wall>
 <mirage pos="-20 0 3 1.57"> <solid dim="2 .02 6" a=".3" /></mirage>
 <button name="level1" pos="-20 .95 1.55 3.14"
   use="lift" method0="Up">
