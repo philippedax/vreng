@@ -37,8 +37,8 @@ bust=grey
 # width=value
 # depth=value
 height=1.75
-width=0.30
-depth=0.15
+width=0.25
+depth=0.10
 
 # my front side
 # syntax: mapface=urlimage

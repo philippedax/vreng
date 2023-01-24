@@ -38,8 +38,8 @@ bust=grey\n\
 # width=value\n\
 # depth=value\n\
 height=1.75\n\
-width=0.30\n\
-depth=0.15\n\
+width=0.25\n\
+depth=0.10\n\
 \n\
 # my front side\n\
 # syntax: mapface=urlimage\n\
