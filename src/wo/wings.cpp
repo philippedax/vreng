@@ -205,9 +205,9 @@ void Wings::draw()
 
 void Wings::draw(uint8_t _model)
 {
-  //middle wing
-  dlist_middle = glGenLists(1);
-  glNewList(dlist_middle, GL_COMPILE);
+  //center wing
+  dlist_center = glGenLists(1);
+  glNewList(dlist_center, GL_COMPILE);
   glBegin(GL_POLYGON);
   switch (_model) {
   case BIRD :
@@ -493,7 +493,7 @@ void Wings::changePermanent(float lasting)
     sign = 0;
   case HELICOPTER :
     sign = 1;
-    angle += sign * 12;
+    //dax angle += sign * 12;
     break;
   }
   angle += sign * 6;
@@ -519,13 +519,13 @@ void Wings::render(uint8_t _model)
     glRotatef(90, 1, 0, 0);
     glPushMatrix();
      glRotatef(angle, 0, 0, 1);
-     glCallList(dlist_middle);
+     glCallList(dlist_center);
     glPopMatrix();
     break;
   default:
     glScalef(scale, -scale, scale);
     glPushMatrix();
-     glCallList(dlist_middle);
+     glCallList(dlist_center);
     glPopMatrix();
     glPushMatrix();
      glRotatef(angle, 0, 1, 0);
@@ -548,7 +548,7 @@ void Wings::quit()
   pwings = NULL;
   oid = 0;
   savePersistency();
-  if (dlist_middle > 0) glDeleteLists(dlist_middle, 1);
+  if (dlist_center > 0) glDeleteLists(dlist_center, 1);
   if (dlist_right > 0) glDeleteLists(dlist_right, 1);
   if (dlist_left > 0) glDeleteLists(dlist_left, 1);
 }

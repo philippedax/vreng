@@ -34,11 +34,11 @@ class Wings: public Cloth {
 
 private:
   GLfloat angle;	///< angle
-  GLint dlist_middle;
-  GLint dlist_right;
-  GLint dlist_left;
-  GLfloat scale;
-  bool active;
+  GLint dlist_center;	///< display-list center
+  GLint dlist_right;	///< display-list right wing
+  GLint dlist_left;	///< display-list left wing
+  GLfloat scale;	///< scale
+  bool active;		///< is in movement ?
 
 protected:
   uint8_t model;
