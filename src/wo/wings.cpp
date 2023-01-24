@@ -221,28 +221,28 @@ void Wings::draw(uint8_t _model)
     glRectf(-.02, -.6, .02, 0); //body
     break;
   case HELICOPTER :
-    glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    glColor3f(.4, .4, .4); glVertex2f(.5, .1);
-    glColor3f(.4, .4, .4); glVertex2f(1, .1);
-    glColor3f(.4, .4, .4); glVertex2f(1, -.1);
-    glColor3f(.4, .4, .4); glVertex2f(.5, -.1);
-    glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    glColor3f(.4, .4, .4); glVertex2f(.1, .5);
-    glColor3f(.4, .4, .4); glVertex2f(.1, 1);
-    glColor3f(.4, .4, .4); glVertex2f(-.1, 1);
-    glColor3f(.4, .4, .4); glVertex2f(-.1, .5);
-    glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    glColor3f(.4, .4, .4); glVertex2f(-.5, .1);
-    glColor3f(.4, .4, .4); glVertex2f(-1, .1);
-    glColor3f(.4, .4, .4); glVertex2f(-1, -.1);
-    glColor3f(.4, .4, .4); glVertex2f(-.5, -.1);
-    glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    glColor3f(.4, .4, .4); glVertex2f(-.1, -.5);
-    glColor3f(.4, .4, .4); glVertex2f(-.1, -1);
-    glColor3f(.4, .4, .4); glVertex2f(.1, -1);
-    glColor3f(.4, .4, .4); glVertex2f(.1, -.5);
-    glColor3f(.0, .0, .0); glVertex2f(0, 0);
-    Draw::sphere(.05, 8, 8, 0);
+    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    glColor3f(.7, .7, .7); glVertex2f(.5, .1);
+    glColor3f(.7, .7, .7); glVertex2f(1, .1);
+    glColor3f(.7, .7, .7); glVertex2f(1, -.1);
+    glColor3f(.7, .7, .7); glVertex2f(.5, -.1);
+    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    glColor3f(.7, .7, .7); glVertex2f(.1, .5);
+    glColor3f(.7, .7, .7); glVertex2f(.1, 1);
+    glColor3f(.7, .7, .7); glVertex2f(-.1, 1);
+    glColor3f(.7, .7, .7); glVertex2f(-.1, .5);
+    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    glColor3f(.7, .7, .7); glVertex2f(-.5, .1);
+    glColor3f(.7, .7, .7); glVertex2f(-1, .1);
+    glColor3f(.7, .7, .7); glVertex2f(-1, -.1);
+    glColor3f(.7, .7, .7); glVertex2f(-.5, -.1);
+    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    glColor3f(.7, .7, .7); glVertex2f(-.1, -.5);
+    glColor3f(.7, .7, .7); glVertex2f(-.1, -1);
+    glColor3f(.7, .7, .7); glVertex2f(.1, -1);
+    glColor3f(.7, .7, .7); glVertex2f(.1, -.5);
+    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    Draw::sphere(.1, 8, 8, 0);
   default:
     break;
   }

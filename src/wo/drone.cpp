@@ -28,8 +28,8 @@
 const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);
 
 const float Drone::DRONE_SCALE = .4;
-const float Drone::DRONE_ZONE = 5;	// flying zone
-const float Drone::DRONE_DELTA = .04;	// elem motion
+const float Drone::DRONE_ZONE = 10;	// flying zone
+const float Drone::DRONE_DELTA = .05;	// elem motion
 
 
 /* Creation from a file */
@@ -89,6 +89,8 @@ void Drone::inits()
   pos.y += DRONE_DELTA;
   pos.z += DRONE_DELTA;
   updatePosition();
+  if (flying)
+    fly();
 }
 
 /* Constructor */
@@ -146,7 +148,7 @@ void Drone::changePermanent(float lasting)
   // z
   if (expansionz) {
     signz = 1;
-    if (pos.z > (posinit.z + radius)) {
+    if (pos.z > (posinit.z + radius) / 2) {
       expansionz = false;
       signz = -1;
     }
