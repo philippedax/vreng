@@ -149,8 +149,8 @@ void Drone::changePermanent(float lasting)
   if (expansionz) {
     signz = 1;
     if (pos.z > (posinit.z + radius) / 2) {
-      expansionz = false;
-      signz = -1;
+      //dax expansionz = false;
+      signz = -0;
     }
   }
   else { // collapsez
@@ -174,7 +174,6 @@ void Drone::render()
     ::g.render.cameraPosition(this);
     glPopMatrix();
   }
-  else {
     glPushMatrix();
     glEnable(GL_CULL_FACE);
     glTranslatef(pos.x, pos.y, pos.z);
@@ -187,7 +186,6 @@ void Drone::render()
 
     glDisable(GL_CULL_FACE);
     glPopMatrix();
-  }
 }
 
 void Drone::quit()
