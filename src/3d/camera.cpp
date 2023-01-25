@@ -133,14 +133,18 @@ void Render::cameraPosition(WObject *o)
                    );
       break;
 
-    case VIEW_THIRD_PERSON_FRONT:	// -3m
+    case VIEW_THIRD_PERSON_FRONT:	// -3m front
       vrmat = mulM4(transM4(0, 0, -3), mulM4(rotM4(M_PI, UY), camera_pos));
       break;
 
     case VIEW_VERTICAL_FROM_OBJECT:
+      {
+      if (o == localuser) return;
+      //echo("xz: %.1f %.1f", o->pos.x, o->pos.z);
       vrmat = mulM4(transM4(-o->pos.y, -o->pos.z, -o->pos.x),
-                    mulM4(rotM4(M_PI_4, UY), camera_pos)
+                    mulM4(rotM4(M_PI_2, UX), camera_pos)
                    );
+      }
       break;
 
     case VIEW_VERTICAL:			// 50cm top

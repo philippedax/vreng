@@ -174,10 +174,10 @@ void Drone::changePermanent(float lasting)
 void Drone::render()
 {
   if (filming) {
-    //echo("drone: %.1f %.1f %.1f",pos.x,pos.y,pos.z);
-    glPushMatrix();
+    //static int c=0;
+    //c++;
+    //echo("drone: %d %.1f %.1f %.1f", c, pos.x,pos.y,pos.z);
     ::g.render.cameraPosition(this);
-    glPopMatrix();
   }
     glPushMatrix();
     glEnable(GL_CULL_FACE);
