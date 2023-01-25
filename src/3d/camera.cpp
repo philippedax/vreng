@@ -42,9 +42,9 @@ void Render::camera()
 }
 
 /* Observer view, called by updateCamera: vr2gl.cpp. */
-void Render::setCameraPosition(M4 *vr_mat)
+void Render::setCameraPosition(M4 *vrmat)
 {
-  camera_pos = *vr_mat;
+  camera_pos = *vrmat;
 }
 
 /*
@@ -74,9 +74,9 @@ void Render::cameraProjection(GLfloat fovy, GLfloat near, GLfloat far)
   glMatrixMode(GL_MODELVIEW);
 }
 
-void Render::setViewMode(uint8_t mode)
+void Render::setViewMode(uint8_t _view)
 {
-  view = mode;
+  view = _view;
   if (view != VIEW_THIRD_PERSON) {
     thirdPerson_xRot = thirdPerson_yRot = thirdPerson_Near = 0;
   }
@@ -102,10 +102,10 @@ void Render::cameraPosition()
   cameraPosition(localuser);
 }
 
-void Render::cameraPosition(WObject *object)
+void Render::cameraPosition(WObject *o)
 {
   // coordonates are opengl coordonates
-  M4 vr_mat;	// vreng matrix
+  M4 vrmat;	// vreng matrix
 
   glMatrixMode(GL_MODELVIEW);
   glDisable(GL_SCISSOR_TEST);
@@ -113,82 +113,71 @@ void Render::cameraPosition(WObject *object)
 
   switch (view) {
 
-    case VIEW_FIRST_PERSON:
-      vr_mat = mulM4(transM4(0, 0, 0.05),
-                     mulM4(rotM4(pitch, UX), camera_pos));
+    case VIEW_FIRST_PERSON:		// 5cm front
+      vrmat = mulM4(transM4(0, 0, 0.05), mulM4(rotM4(pitch, UX), camera_pos));
       break;
 
-    case VIEW_THIRD_PERSON:
-      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near -.8),	// 80cm back
-                     mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
-                           mulM4(rotM4(thirdPerson_yRot, UY),
-                                 camera_pos)
-                          )
-                    );
+    case VIEW_THIRD_PERSON:		// 80cm back
+      vrmat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-.80),
+                    mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
+                          mulM4(rotM4(thirdPerson_yRot, UY), camera_pos)
+                         )
+                   );
       break;
 
-    case VIEW_THIRD_PERSON_FAR:
-      vr_mat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near -2.4),	// 2m40 back
-                     mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
-                           mulM4(rotM4(thirdPerson_yRot, UY),
-                                 camera_pos)
-                          )
-                    );
+    case VIEW_THIRD_PERSON_FAR: 	// 2m40 back
+      vrmat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-2.4),
+                    mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
+                          mulM4(rotM4(thirdPerson_yRot, UY), camera_pos)
+                         )
+                   );
       break;
 
-    case VIEW_THIRD_PERSON_FRONT:
-      vr_mat = mulM4(transM4(0, 0, -3), mulM4(rotM4(M_PI, UY), camera_pos));		// -3m
-      break;
-
-    case VIEW_TURN_AROUND:
-      turnAround += (M_PI/18) / MAX(::g.timer.rate() / 5, 1);
-      vr_mat = mulM4(transM4(0, localuser->height/4, -2),	// -2m
-                     mulM4(rotM4(M_PI_2/4, UX),
-                           mulM4(rotM4(thirdPerson_yRot + turnAround, UY),
-                                 camera_pos)
-                          )
-                    );
+    case VIEW_THIRD_PERSON_FRONT:	// -3m
+      vrmat = mulM4(transM4(0, 0, -3), mulM4(rotM4(M_PI, UY), camera_pos));
       break;
 
     case VIEW_VERTICAL_FROM_OBJECT:
-      vr_mat = mulM4(rotM4(M_PI_4, UX),
-                     mulM4(transM4(0, -object->pos.z -1, 0),
-                           camera_pos)
+      vrmat = mulM4(transM4(-o->pos.y, -o->pos.z, -o->pos.x),
+                    mulM4(rotM4(M_PI_4, UY), camera_pos)
+                   );
+      break;
+
+    case VIEW_VERTICAL:			// 50cm top
+      vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -.5, 0), camera_pos));
+      break;
+
+    case VIEW_VERTICAL_FAR: 		// 3m top
+      vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -3, 0), camera_pos));
+      break;
+
+    case VIEW_TURN_AROUND:		// -2m
+      turnAround += (M_PI/18) / MAX(::g.timer.rate() / 5, 1);
+      vrmat = mulM4(transM4(0, localuser->height/4, -2),
+                     mulM4(rotM4(M_PI_2/4, UX),
+                           mulM4(rotM4(thirdPerson_yRot + turnAround, UY), camera_pos)
+                          )
                     );
       break;
 
-    case VIEW_VERTICAL:
-      vr_mat = mulM4(rotM4(M_PI_2, UX),
-                     mulM4(transM4(0, -0.5, 0),	// 50cm top
-                           camera_pos)
-                    );
-      break;
-
-    case VIEW_VERTICAL_FAR:
-      vr_mat = mulM4(rotM4(M_PI_2, UX),
-                     mulM4(transM4(0, -3, 0),	// 3m top
-                           camera_pos)
-                    );
-      break;
-
-    case VIEW_GROUND_LEVEL:
-      vr_mat = mulM4(transM4(0, localuser->height - 0.02, 0), camera_pos);
+    case VIEW_GROUND_LEVEL:		// 2cm top
+      vrmat = mulM4(transM4(0, localuser->height - 0.02, 0), camera_pos);
       break;
 
     case VIEW_WIRED:
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-      vr_mat = mulM4(rotM4(pitch, UX), camera_pos);
+      vrmat = mulM4(rotM4(pitch, UX), camera_pos);
       break;
 
     case VIEW_SCISSOR:
-      vr_mat = camera_pos;
+      vrmat = camera_pos;
       break;
   }
 
   // transpose Vreng to OpenGl coordinates
-  GLfloat ogl_mat[16];		// opengl matrix
-  M4toV16(&vr_mat, ogl_mat);
-  glLoadMatrixf(ogl_mat);
+  GLfloat oglmat[16];		// opengl matrix
+  M4toV16(&vrmat, oglmat);
+  glLoadMatrixf(oglmat);
 }
 
 /* Displays the map on the top-right corner of the canvas */
@@ -209,12 +198,12 @@ void Render::showMap()
     // place the mini-map at a position depending on the world's dimensions
     World *world = World::current();
     GLfloat d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1]) / tan(DEG2RAD(User::FOVY)) - 5);
-    M4 vr_mat = mulM4(rotM4(M_PI_2, UZ), transM4(0, 0, -d)); // dm top
+    M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(0, 0, -d)); // dm top
 
     // transpose vreng to opengl
-    GLfloat gl_mat[16];	// opengl matrix
-    M4toV16(&vr_mat, gl_mat);
-    glLoadMatrixf(gl_mat);
+    GLfloat glmat[16];	// opengl matrix
+    M4toV16(&vrmat, glmat);
+    glLoadMatrixf(glmat);
 
     // redraw the scene inside the scissor
     minirender();

@@ -169,8 +169,10 @@ void Drone::changePermanent(float lasting)
 void Drone::render()
 {
   if (filming) {
-    //echo("%.1f %.1f %.1f",pos.x,pos.y,pos.z);
+    //echo("drone: %.1f %.1f %.1f",pos.x,pos.y,pos.z);
+    glPushMatrix();
     ::g.render.cameraPosition(this);
+    glPopMatrix();
   }
   else {
     glPushMatrix();
@@ -211,7 +213,7 @@ void Drone::view()
 {
   if (flying) {
     if (filming) {
-      filming = false;
+      //dax filming = false;
       localuser->setView(Render::VIEW_FIRST_PERSON);
     }
     else {
