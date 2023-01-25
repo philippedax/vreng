@@ -44,6 +44,8 @@ void Drone::defaults()
   wings = NULL;
   radius = DRONE_ZONE;
   scale = DRONE_SCALE;
+  flying = false;
+  filming = false;
 }
 
 /* Parser */
@@ -56,7 +58,7 @@ void Drone::parser(char *l)
     if (!l) break;
     if (! stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");
-      if      (! stringcmp(modelname, "helicopter"))  model = Wings::HELICOPTER;
+      if (! stringcmp(modelname, "helicopter"))  model = Wings::HELICOPTER;
     }
     else if (! stringcmp(l, "radius")) {
       l = parse()->parseFloat(l, &radius, "radius");
@@ -99,8 +101,6 @@ void Drone::inits()
 /* Constructor */
 Drone::Drone(char *l)
 {
-  flying = false;
-  filming = false;
   parser(l);
   behavior();
   inits();
@@ -155,7 +155,7 @@ void Drone::changePermanent(float lasting)
     signz = 1;
     if (pos.z > (posinit.z + radius) / 2) {
       //dax expansionz = false;
-      signz = -0;
+      signz = -0;	// asymptote
     }
   }
   else { // collapsez
@@ -174,23 +174,20 @@ void Drone::changePermanent(float lasting)
 void Drone::render()
 {
   if (filming) {
-    //static int c=0;
-    //c++;
-    //echo("drone: %d %.1f %.1f %.1f", c, pos.x,pos.y,pos.z);
+    //echo("drone: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
     ::g.render.cameraPosition(this);
   }
-    glPushMatrix();
-    glEnable(GL_CULL_FACE);
-    glTranslatef(pos.x, pos.y, pos.z);
-    glRotatef(-90, 1, 0, 0);
-    //glRotatef(-90, 0, 1, 0);	// keep commented else bad orient
-    glRotatef(-90, 0, 0, 1);
-    glScalef(scale, scale, scale);
+  glPushMatrix();
+  glEnable(GL_CULL_FACE);
+  glTranslatef(pos.x, pos.y, pos.z);
+  glRotatef(-90, 1, 0, 0);
+  glRotatef(-90, 0, 0, 1);
+  glScalef(scale, scale, scale);
 
-    wings->render();	// render wings
+  wings->render();	// render wings
 
-    glDisable(GL_CULL_FACE);
-    glPopMatrix();
+  glDisable(GL_CULL_FACE);
+  glPopMatrix();
 }
 
 void Drone::quit()
