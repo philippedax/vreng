@@ -40,8 +40,6 @@ WObject * Drone::creator(char *l)
 
 void Drone::defaults()
 {
-  flying = false;
-  filming = false;
   model = Wings::HELICOPTER;
   wings = NULL;
   radius = DRONE_ZONE;
@@ -66,6 +64,9 @@ void Drone::parser(char *l)
     else if (! stringcmp(l, "scale")) {
       l = parse()->parseFloat(l, &scale, "scale");
     }
+    else if (! stringcmp(l, "flying")) {
+      l = parse()->parseBool(l, &flying, "flying");
+    }
   }
   end_while_parse(l);
 }
@@ -83,12 +84,14 @@ void Drone::behavior()
 /* Specific inits */
 void Drone::inits()
 {
+  vieworig = ::g.render.getViewMode();
   posinit = pos;
   wings = new Wings(model, scale);
   pos.x += DRONE_DELTA;
   pos.y += DRONE_DELTA;
   pos.z += DRONE_DELTA;
   updatePosition();
+
   if (flying)
     fly();
 }
@@ -96,6 +99,8 @@ void Drone::inits()
 /* Constructor */
 Drone::Drone(char *l)
 {
+  flying = false;
+  filming = false;
   parser(l);
   behavior();
   inits();
@@ -207,12 +212,13 @@ void Drone::pause()
   wings->stop();
 }
 
+/** toggle view */
 void Drone::view()
 {
   if (flying) {
     if (filming) {
-      //dax filming = false;
-      localuser->setView(Render::VIEW_FIRST_PERSON);
+      filming = false;
+      localuser->setView(vieworig);
     }
     else {
       filming = true;
@@ -227,7 +233,7 @@ void Drone::reset()
   pos = posinit;
   if (filming) {
     filming = false;
-    localuser->setView(Render::VIEW_FIRST_PERSON);
+    localuser->setView(vieworig);
   }
 }
 

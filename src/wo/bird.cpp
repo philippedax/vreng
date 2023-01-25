@@ -38,7 +38,6 @@ WObject * Bird::creator(char *l)
 
 void Bird::defaults()
 {
-  flying = false;
   model = Wings::BIRD;
   wings = NULL;
   radius = BIRD_ZONE;
@@ -100,6 +99,7 @@ void Bird::inits()
 /* Constructor */
 Bird::Bird(char *l)
 {
+  flying = false;
   parser(l);
   behavior();
   inits();

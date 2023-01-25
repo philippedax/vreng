@@ -39,6 +39,7 @@ class Drone : public WObject {
   float radius;
   float scale;
   uint8_t model;
+  uint8_t vieworig;
   char modelname[16];
 
  public:
