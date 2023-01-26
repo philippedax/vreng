@@ -493,7 +493,7 @@ void Wings::changePermanent(float lasting)
     sign = 0;
   case HELICOPTER :
     sign = 1;
-    //dax angle += sign * 12;
+    angle += sign * 6;
     break;
   }
   angle += sign * 6;
