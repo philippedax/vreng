@@ -274,26 +274,26 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y)
   }
 }
 
-// Updates object infos (info_box in the infobar and contextual info menu)
-void Navig::selectObject(ObjInfo* objinfo)
+// Updates object infos (infosbox in the infobar and in the contextual menu)
+void Navig::selectObject(ObjInfo* objinfos)
 {
-  // clears infos in infobar
-  gw.infos_box.removeAll();
-  object_menu.removeAll();
-  
-  if (! objinfo)  return;
+  if (! objinfos)  return;
 
-  // adds object class and name to the infosbox and the contextual menu
-  object_class = objinfo[0].name;
-  object_name  = objinfo[1].name;
+  gw.infos_box.removeAll();	// clears infos in infobar
+  object_menu.removeAll();	// clears contextual menu
+  
+  // adds object class and name to the infosbox
+  object_class = objinfos[0].name;
+  object_name  = objinfos[1].name;
   gw.infos_box.add(object_infos);
   gw.infos_box.addAttr(UColor::navy + UFont::bold);
 
+  // adds object class and name to the contextual menu
   object_menu.add(object_infos);
   object_menu.add(UColor::white);
 
-  // adds buttons (actions) to the infosbox and the contextual menu
-  for (ObjInfo* oi = objinfo + 2; oi->name ; oi++) {
+  // adds buttons (actions)
+  for (ObjInfo* oi = objinfos + 2; oi->name ; oi++) {
     UBox& b = ubutton(oi->name);
     if (oi->fun && strlen(oi->name)) {
       b.addAttr(UBackground::white);
