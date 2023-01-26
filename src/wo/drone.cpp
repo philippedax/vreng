@@ -131,7 +131,7 @@ void Drone::changePermanent(float lasting)
       signx = -1;
     }
   }
-  pos.x += (signx * rand()%3 * DRONE_DELTA);
+  pos.x += (signx * rand()%1 * DRONE_DELTA);
 
   // y
   if (expansiony) {

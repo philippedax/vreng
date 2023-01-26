@@ -141,7 +141,7 @@ void Render::cameraPosition(WObject *o)
       {
       if (o == localuser) return;
       //echo("xz: %.1f %.1f", o->pos.x, o->pos.z);
-      vrmat = mulM4(transM4(-o->pos.y, -o->pos.z, -o->pos.x),
+      vrmat = mulM4(transM4(-o->pos.y, 0*o->pos.z, -o->pos.x),
                     mulM4(rotM4(M_PI_2, UX), camera_pos)
                    );
       }
