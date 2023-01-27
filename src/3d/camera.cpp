@@ -102,9 +102,21 @@ void Render::cameraPosition()
   cameraPosition(localuser);
 }
 
+/**
+ *
+ * coordinates opengl XYZ vs coordinates vreng xyz :
+ *
+ *    Y=z
+ *     |
+ *     |
+ *     .____ X=-y
+ *    /
+ *   /
+ * Z=-x
+ */
 void Render::cameraPosition(WObject *o)
 {
-  // coordonates are opengl coordonates
+  // coordinates are opengl coordinates
   M4 vrmat;	// vreng matrix
 
   glMatrixMode(GL_MODELVIEW);
@@ -118,7 +130,7 @@ void Render::cameraPosition(WObject *o)
       break;
 
     case VIEW_THIRD_PERSON:		// 80cm back
-      vrmat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-.80),
+      vrmat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near - 0.80),
                     mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
                           mulM4(rotM4(thirdPerson_yRot, UY), camera_pos)
                          )
@@ -126,7 +138,7 @@ void Render::cameraPosition(WObject *o)
       break;
 
     case VIEW_THIRD_PERSON_FAR: 	// 2m40 back
-      vrmat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near-2.4),
+      vrmat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near - 2.40),
                     mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
                           mulM4(rotM4(thirdPerson_yRot, UY), camera_pos)
                          )
@@ -140,8 +152,8 @@ void Render::cameraPosition(WObject *o)
     case VIEW_VERTICAL_FROM_OBJECT:
       {
       if (o == localuser) return;
-      //echo("xz: %.1f %.1f", o->pos.x, o->pos.z);
-      vrmat = mulM4(transM4(-o->pos.y, 0*o->pos.z, -o->pos.x),
+      //echo("xyz: %.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
+      vrmat = mulM4(transM4(-o->pos.x, -o->pos.y, -o->pos.z),	// FIXME!
                     mulM4(rotM4(M_PI_2, UX), camera_pos)
                    );
       }
@@ -155,7 +167,7 @@ void Render::cameraPosition(WObject *o)
       vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -3, 0), camera_pos));
       break;
 
-    case VIEW_TURN_AROUND:		// -2m
+    case VIEW_TURN_AROUND:		// -2m side
       turnAround += (M_PI/18) / MAX(::g.timer.rate() / 5, 1);
       vrmat = mulM4(transM4(0, localuser->height/4, -2),
                      mulM4(rotM4(M_PI_2/4, UX),
