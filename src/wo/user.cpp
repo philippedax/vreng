@@ -885,14 +885,14 @@ void User::thirdPersonView(User *user, void *d, time_t s, time_t u)
 void User::thirdPersonView_RotL(User *user, void *d, time_t s, time_t u)
 {
   if (::g.render.getViewMode() == Render::VIEW_THIRD_PERSON) {
-    ::g.render.thirdPerson_xRot += M_PI/18;
+    ::g.render.third_xRot += M_PI/18;
   }
 }
 
 void User::thirdPersonView_RotR(User *user, void *d, time_t s, time_t u)
 {
   if (::g.render.getViewMode() == Render::VIEW_THIRD_PERSON) {
-    ::g.render.thirdPerson_xRot -= M_PI/18;
+    ::g.render.third_xRot -= M_PI/18;
   }
 }
 
@@ -900,8 +900,8 @@ void User::thirdPersonView_RotU(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
   if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
-    if (render->thirdPerson_xRot + M_PI_2/4 < M_PI_2) {
-      render->thirdPerson_yRot += M_PI/18;
+    if (render->third_xRot + M_PI_2/4 < M_PI_2) {
+      render->third_yRot += M_PI/18;
     }
   }
 }
@@ -910,8 +910,8 @@ void User::thirdPersonView_RotD(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
   if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
-    if (render->thirdPerson_xRot + M_PI_2/4 > -M_PI_2/4) {
-      render->thirdPerson_yRot -= M_PI/18;
+    if (render->third_xRot + M_PI_2/4 > -M_PI_2/4) {
+      render->third_yRot -= M_PI/18;
     }
   }
 }
@@ -920,8 +920,8 @@ void User::thirdPersonView_Near(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
   if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
-    if (render->thirdPerson_Near > -1.5) {
-      render->thirdPerson_Near -= 0.1;
+    if (render->third_Near > -1.5) {
+      render->third_Near -= 0.1;
     }
   }
 }
@@ -930,7 +930,7 @@ void User::thirdPersonView_Far(User *user, void *d, time_t s, time_t u)
 {
   Render* render = &::g.render;
   if (render->getViewMode() == Render::VIEW_THIRD_PERSON) {
-    render->thirdPerson_Near += 0.1;
+    render->third_Near += 0.1;
   }
 }
 

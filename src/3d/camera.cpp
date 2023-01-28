@@ -78,7 +78,7 @@ void Render::setViewMode(uint8_t _view)
 {
   view = _view;
   if (view != VIEW_THIRD_PERSON) {
-    thirdPerson_xRot = thirdPerson_yRot = thirdPerson_Near = 0;
+    third_xRot = third_yRot = third_Near = 0;
   }
 }
 
@@ -130,17 +130,17 @@ void Render::cameraPosition(WObject *o)
       break;
 
     case VIEW_THIRD_PERSON:		// 80cm back
-      vrmat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near - 0.80),
-                    mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
-                          mulM4(rotM4(thirdPerson_yRot, UY), camera_pos)
+      vrmat = mulM4(transM4(0, localuser->height/6, third_Near - 0.80),
+                    mulM4(rotM4(M_PI_2/6 + third_xRot + pitch, UX),
+                          mulM4(rotM4(third_yRot, UY), camera_pos)
                          )
                    );
       break;
 
     case VIEW_THIRD_PERSON_FAR: 	// 2m40 back
-      vrmat = mulM4(transM4(0, localuser->height/6, thirdPerson_Near - 2.40),
-                    mulM4(rotM4(M_PI_2/6 + thirdPerson_xRot + pitch, UX),
-                          mulM4(rotM4(thirdPerson_yRot, UY), camera_pos)
+      vrmat = mulM4(transM4(0, localuser->height/6, third_Near - 2.40),
+                    mulM4(rotM4(M_PI_2/6 + third_xRot + pitch, UX),
+                          mulM4(rotM4(third_yRot, UY), camera_pos)
                          )
                    );
       break;
@@ -170,10 +170,10 @@ void Render::cameraPosition(WObject *o)
       break;
 
     case VIEW_TURN_AROUND:		// -2m side
-      turnAround += (M_PI/18) / MAX(::g.timer.rate() / 5, 1);
+      turna += (M_PI/18) / MAX(::g.timer.rate() / 5, 1);
       vrmat = mulM4(transM4(0, localuser->height/4, -2),
                      mulM4(rotM4(M_PI_2/4, UX),
-                           mulM4(rotM4(thirdPerson_yRot + turnAround, UY), camera_pos)
+                           mulM4(rotM4(third_yRot + turna, UY), camera_pos)
                           )
                     );
       break;
@@ -201,38 +201,39 @@ void Render::cameraPosition(WObject *o)
 /* Displays the map on the top-right corner of the canvas */
 void Render::showMap()
 {
-  if (viewMap) {
-    uint8_t bord = 1;	// 1 pixel
-    GLint x, y, w, h;
+  if (! viewMap) return;
 
-    ::g.gui.scene()->getCoords(x, y, w, h);
-    
-    glScissor(x + w-(w/3), y +h -h/3, w/3, (GLsizei) ((h-y)/3));  // top-right corner
-    glEnable(GL_SCISSOR_TEST);
-    
-    ::g.gui.scene()->setViewport(w-(w/3)+bord, y+h-h/3-bord, (w/3)-2*bord, (GLsizei) ((h-y)/3));
-    glMatrixMode(GL_MODELVIEW);
+  uint8_t bord = 1;	// 1 pixel
+  GLint x, y, w, h;
 
-    // place the mini-map at a position depending on the world's dimensions
-    World *world = World::current();
-    GLfloat d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1]) / tan(DEG2RAD(User::FOVY)) - 5);
-    M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(0, 0, -d)); // dm top
+  ::g.gui.scene()->getCoords(x, y, w, h);
+  
+  glScissor(x + w-(w/3), y +h -h/3, w/3, (GLsizei) ((h-y)/3));  // top-right corner
+  glEnable(GL_SCISSOR_TEST);
+ 
+  ::g.gui.scene()->setViewport(w-(w/3)+bord, y+h-h/3-bord, (w/3)-2*bord, (GLsizei) ((h-y)/3));
+  glMatrixMode(GL_MODELVIEW);
 
-    // transpose vreng to opengl
-    GLfloat glmat[16];	// opengl matrix
-    M4toV16(&vrmat, glmat);
-    glLoadMatrixf(glmat);
+  // place the mini-map at a position depending on the world's dimensions
+  World *world = World::current();
+  GLfloat d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1]) / tan(DEG2RAD(User::FOVY)) - 5);
+  //echo("map: %.1f", d);
+  M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(0, 0, -d)); // dm top
 
-    // redraw the scene inside the scissor
-    minirender();
+  // transpose vreng to opengl
+  GLfloat glmat[16];	// opengl matrix
+  M4toV16(&vrmat, glmat);
+  glLoadMatrixf(glmat);
 
-    if (localuser) mapPos = getVisiblePosition(localuser);
-    mapPos.v[2] = 1;
+  // redraw the scene inside the scissor
+  minirender();
 
-    // reset initial state
-    glDisable(GL_SCISSOR_TEST);
-    ::g.gui.scene()->setViewport(x, y, w, h);
-  }
+  //dax if (localuser) mapPos = getVisiblePosition(localuser);
+  //dax mapPos.v[2] = 1;
+
+  // reset initial state
+  glDisable(GL_SCISSOR_TEST);
+  ::g.gui.scene()->setViewport(x, y, w, h);
 }
 
 /* Displays the satellite on the bottom-left corner of the canvas */
@@ -271,7 +272,7 @@ void Render::showSat()
 void Render::resetCamera()
 {
   view = VIEW_FIRST_PERSON;
-  thirdPerson_xRot = thirdPerson_yRot = thirdPerson_Near = 0;
+  third_xRot = third_yRot = third_Near = 0;
 }
 
 void Render::setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz)
@@ -369,6 +370,7 @@ void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz
   render();
 }
 
+#if 0 // notused
 void Render::computeCameraProjection()
 {
   GLint viewport[4];
@@ -380,5 +382,6 @@ void Render::computeCameraProjection()
   GLfloat near = cam_user.near;
   GLfloat far = cam_user.far;
 
-  trace(DBG_FORCE, "User=(%.2f %.2f %.2f %.2f) fovy=%.2f near=%.2f far=%.2f w=%.2f h=%.2f", localuser->pos.x, localuser->pos.y, localuser->pos.z, localuser->pos.az, fovy, near, far, w, h);
+  echo("User=(%.2f %.2f %.2f %.2f) fovy=%.2f near=%.2f far=%.2f w=%.2f h=%.2f", localuser->pos.x, localuser->pos.y, localuser->pos.z, localuser->pos.az, fovy, near, far, w, h);
 }
+#endif // notused

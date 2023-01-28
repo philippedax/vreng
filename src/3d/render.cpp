@@ -58,11 +58,10 @@ Render::Render()
   // camera defaults
   view = VIEW_FIRST_PERSON;
   viewMap = false;
-  viewSat = false;
-  thirdPerson_yRot = 0;
-  thirdPerson_xRot = 0;
-  thirdPerson_Near = 0;
-  turnAround = 0;
+  third_yRot = 0;
+  third_xRot = 0;
+  third_Near = 0;
+  turna = 0;		// turn around
   pitch = 0;
   
   // texture cache
@@ -129,14 +128,15 @@ void Render::init(bool _quality)
     glHint(GL_FOG_HINT, hint);
 
     if (::g.pref.infogl == true)
-      trace(DBG_FORCE, "version=%s vendor=%s renderer=%s, depth=%d textures=%d stencil=%d clips=%d",
-            glGetString(GL_VERSION),
-            glGetString(GL_VENDOR),
-            glGetString(GL_RENDERER),
-            haveDepth(),
-            haveTextures(),
-            haveStencil(),
-            haveClips());
+      echo("version=%s vendor=%s renderer=%s, depth=%d textures=%d stencil=%d clips=%d",
+           glGetString(GL_VERSION),
+           glGetString(GL_VENDOR),
+           glGetString(GL_RENDERER),
+           haveDepth(),
+           haveTextures(),
+           haveStencil(),
+           haveClips()
+          );
 
     solidList.clear();	// clear solidList
     configured = true;

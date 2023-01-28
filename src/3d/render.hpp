@@ -157,7 +157,7 @@ public:
    * - far : distance between the eye and the clipping plan
    */
 
-  void computeCameraProjection();
+  //dax void computeCameraProjection();
 
   void calculateFov(GLfloat x, GLfloat y, GLfloat z, GLfloat az, char* filname);
   /**< calculate the FOV of the user on the position x,y,z and az. */
@@ -227,22 +227,21 @@ private:
   bool flash;			///< flag flash.
   uint8_t view;			///< local user View type.
   bool viewMap;                 ///< local user Map.
-  bool viewSat;                 ///< local user satellite view.
-  GLfloat thirdPerson_yRot;	///< local user y rotation for Third Person view.
-  GLfloat thirdPerson_xRot;	///< local user x rotation for Third Person view.
-  GLfloat thirdPerson_Near;	///< local user distance for Third Person view.
-  GLfloat turnAround;		///< local user rotation for Turn Around view.
+  GLfloat third_yRot;		///< local user y rotation for Third Person view.
+  GLfloat third_xRot;		///< local user x rotation for Third Person view.
+  GLfloat third_Near;		///< local user distance for Third Person view.
+  GLfloat turna;		///< local user rotation for Turn Around view.
   GLfloat pitch;		///< local user pitch rotation.
   V3 satPos;			///< satellite position
   V3 satRot;			///< satellite orientation
-  V3 mapPos;			///< map position
+  //dax V3 mapPos;		///< map position
   class Wheel *wheel;		///< experimental
 
   // rendering setup
   void lighting();		///< Set lights.
   void materials();		///< Set colors of materials.
 
-  // rendering
+  // rendering categories
   void renderSolids();		///< general rendering.
   void renderOpaque();		///< opaque solids
   void renderTransparent();  	///< transparent solids
@@ -251,7 +250,8 @@ private:
   void renderUser(); 	 	///< user solids
   void renderFlary(); 	 	///< flary solids
 
-  static bool compDist(const void *t1, const void *t2);	///< compare distantes to eyes
+  // compare functions
+  static bool compDist(const void *t1, const void *t2);	///< compare distances to eyes
   static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes
   static bool compFrame(const void *t1, const void *t2);///< compare nbframes
 
