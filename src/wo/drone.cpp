@@ -28,7 +28,7 @@
 const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);
 
 const float Drone::DRONE_SCALE = .4;
-const float Drone::DRONE_ZONE = 10;	// flying zone
+const float Drone::DRONE_ZONE = 20;	// flying zone
 const float Drone::DRONE_DELTA = .05;	// elem motion
 
 
@@ -153,7 +153,7 @@ void Drone::changePermanent(float lasting)
   // z
   if (expansionz) {
     signz = 1;
-    if (pos.z > (posinit.z + radius) / 2) {
+    if (pos.z > (posinit.z + radius / 2)) {
       //dax expansionz = false;
       signz = -0;	// asymptote
     }
