@@ -183,9 +183,8 @@ void Render::cameraPosition(WObject *o)
       break;
 
     case VIEW_WIRED:
-      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
       glLineWidth(1);
-      glPointSize(1);
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
       vrmat = mulM4(rotM4(pitch, UX), camera_pos);
       break;
 
