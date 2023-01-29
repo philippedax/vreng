@@ -23,6 +23,8 @@
 #include "wings.hpp"
 #include "user.hpp"	// setView
 #include "render.hpp"	// cameraPosition
+#include "gui.hpp"	// ::g;gui
+#include "scene.hpp"	// getCoords, setViewport
 
 
 const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);
@@ -175,7 +177,42 @@ void Drone::render()
 {
   if (filming) {
     //echo("drone: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
+#if 1 //dax
     ::g.render.cameraPosition(this);
+#else
+    GLint x, y, w, h;
+
+    ::g.gui.scene()->getCoords(x, y, w, h);
+
+    glScissor(x, y, w/2, h/2);
+    glEnable(GL_SCISSOR_TEST);
+    ::g.gui.scene()->setViewport(100, 100, w/2, h/2);
+
+    glMatrixMode(GL_MODELVIEW);
+
+#if 1 //dax
+    M4 vrmat = mulM4(transM4(0, 0, -pos.z), rotM4(M_PI_2, UZ)); // dm top
+
+    // transpose vreng to opengl
+    GLfloat glmat[16];    // opengl matrix
+    M4toV16(&vrmat, glmat);
+    glLoadMatrixf(glmat);
+#else
+    glLoadIdentity();
+    //glRotatef(-90,1,0,0);
+
+    glRotatef(90, 0, 0, 1);
+    glTranslatef(-pos.x, -pos.y, -pos.z);
+#endif
+
+    // draw the scene inside the scissor
+    //dax glClear(GL_COLOR_BUFFER_BIT);
+    ::g.render.minirender();
+
+    // reset initial state
+    glDisable(GL_SCISSOR_TEST);
+    ::g.gui.scene()->setViewport(x, y, w, h);
+#endif
   }
   glPushMatrix();
   glEnable(GL_CULL_FACE);
