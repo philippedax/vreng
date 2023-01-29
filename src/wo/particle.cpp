@@ -346,6 +346,8 @@ void Particle::render()
     glDisable(GL_LINE_STIPPLE);
     glEnd();
   }
+  glLineWidth(1);
+  glPointSize(1);
   glEnable(GL_LIGHTING);
   glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
