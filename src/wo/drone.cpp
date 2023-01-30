@@ -180,42 +180,7 @@ void Drone::render()
 #if 0 //dax
     ::g.render.cameraPosition(this);
 #else
-#if 1 //dax test
     ::g.render.showView(pos.x, pos.y, pos.z);
-#else //dax test
-    GLint x, y, w, h;
-
-    ::g.gui.scene()->getCoords(x, y, w, h);
-
-    glScissor(x, y, w/2, h/2);
-    glEnable(GL_SCISSOR_TEST);
-    ::g.gui.scene()->setViewport(100, 100, w/2, h/2);
-
-    glMatrixMode(GL_MODELVIEW);
-
-#if 1 //dax
-    M4 vrmat = mulM4(transM4(0, 0, -pos.z), rotM4(M_PI_2, UZ)); // dm top
-
-    // transpose vreng to opengl
-    GLfloat glmat[16];    // opengl matrix
-    M4toV16(&vrmat, glmat);
-    glLoadMatrixf(glmat);
-#else
-    glLoadIdentity();
-    //glRotatef(-90,1,0,0);
-
-    glRotatef(90, 0, 0, 1);
-    glTranslatef(-pos.x, -pos.y, -pos.z);
-#endif
-
-    // draw the scene inside the scissor
-    //dax glClear(GL_COLOR_BUFFER_BIT);
-    ::g.render.minirender();
-
-    // reset initial state
-    glDisable(GL_SCISSOR_TEST);
-    ::g.gui.scene()->setViewport(x, y, w, h);
-#endif //dax test
 #endif
   }
   glPushMatrix();
