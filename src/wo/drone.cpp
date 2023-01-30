@@ -177,9 +177,12 @@ void Drone::render()
 {
   if (filming) {
     //echo("drone: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
-#if 1 //dax
+#if 0 //dax
     ::g.render.cameraPosition(this);
 #else
+#if 1 //dax test
+    ::g.render.showView(pos.x, pos.y, pos.z);
+#else //dax test
     GLint x, y, w, h;
 
     ::g.gui.scene()->getCoords(x, y, w, h);
@@ -212,6 +215,7 @@ void Drone::render()
     // reset initial state
     glDisable(GL_SCISSOR_TEST);
     ::g.gui.scene()->setViewport(x, y, w, h);
+#endif //dax test
 #endif
   }
   glPushMatrix();

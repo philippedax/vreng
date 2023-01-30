@@ -198,13 +198,15 @@ bool Render::compFrame(const void *t1, const void *t2)
 }
 
 // Renders opaque solids
-void Render::renderOpaque()
+void Render::renderOpaque(bool mini)
 {
   trace2(DBG_VGL, "\nopaque: ");
   // sort opaqueList
-  opaqueList.sort(compDist);	// sort distances decreasingly : large surfaces overlap
-  opaqueList.sort(compSize);	// sort surfaces decreasingly : fix overlaping
-  opaqueList.sort(compFrame);	// sort nbframes increasingly : fix overlaping (see maze.vre)
+  if (! mini) {
+    opaqueList.sort(compDist);	// sort distances decreasingly : large surfaces overlap
+    opaqueList.sort(compSize);	// sort surfaces decreasingly : fix overlaping
+    opaqueList.sort(compFrame);	// sort nbframes increasingly : fix overlaping (see maze.vre)
+  }
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
@@ -238,7 +240,7 @@ void Render::renderOpaque()
 }
 
 // Renders transparent solids sorted from the furthest to the nearest
-void Render::renderTransparent()
+void Render::renderTransparent(bool mini)
 {
   trace2(DBG_VGL, "\ntransparent: ");
   // build transparentList from solidList
@@ -252,8 +254,10 @@ void Render::renderTransparent()
   }
 
   // sort transparentList
-  transparentList.sort(compSize);	// sort surfaces decreasingly
-  transparentList.sort(compDist);	// sort distances decreasingly
+  if (! mini) {
+    transparentList.sort(compSize);	// sort surfaces decreasingly
+    transparentList.sort(compDist);	// sort distances decreasingly
+  }
 
   // render transparentList
   for (list<Solid*>::iterator it = transparentList.begin(); it != transparentList.end() ; ++it) {
@@ -365,17 +369,17 @@ void Render::renderFlary()
  * - makes specific rendering for special objects (SPECIFIC_RENDER)
  * - else renders solids in their own displaylists
  */
-void Render::renderSolids()
+void Render::renderSolids(bool mini)
 {
   uint32_t objectsnumber = WObject::getObjectsNumber();
 
   // build rendering lists from solidList
-  opaqueList.clear();
-  groundList.clear();
-  modelList.clear();
-  userList.clear();
-  flaryList.clear();
-  transparentList.clear();
+    opaqueList.clear();
+    transparentList.clear();
+    groundList.clear();
+    modelList.clear();
+    userList.clear();
+    flaryList.clear();
 
   // for all solids
   // set setRendered=false updateDist and find the localuser solid
@@ -404,8 +408,8 @@ void Render::renderSolids()
 
   // order is important !!!
   renderGround();	// renders ground solids first
-  renderOpaque();	// renders opaque solids
-  renderTransparent();	// renders transparent solids
+  renderOpaque(mini);	// renders opaque solids
+  renderTransparent(mini);	// renders transparent solids
   renderModel();	// renders model solids
   renderFlary();	// renders flary solids
   renderUser();		// renders localuser last
@@ -421,7 +425,7 @@ void Render::render()
   cameraPosition();		// camera position
   clearBuffer();		// background color
   lighting();			// general lighting
-  renderSolids();		// solids rendering
+  renderSolids(0);		// solids rendering
   Grid::grid()->render();	// grid
   Axis::axis()->render();	// axis
   showSat();			// launch a satellite camera
@@ -433,7 +437,7 @@ void Render::minirender()
 {
   cameraPosition();		// camera position
   clearBuffer();		// background color
-  renderSolids();		// solids rendering
+  renderSolids(1);		// solids rendering
 }
 
 void Render::clearBuffer()
@@ -570,7 +574,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   cameraPosition();
 
   // redraw the objects into the selection buffer
-  renderSolids();
+  renderSolids(1);
 
   // we put the normal mode back
   glMatrixMode(GL_MODELVIEW);
@@ -760,7 +764,7 @@ WObject** Render::getDrawedObjects(int *nbhit)
   cameraPosition();
 
   // redraws the objects into the selection buffer
-  renderSolids();
+  renderSolids(1);
 
   // we put the normal mode back
   glMatrixMode(GL_PROJECTION);

@@ -270,6 +270,41 @@ void Render::showSat()
   ::g.gui.scene()->setViewport(x, y, w, h);
 }
 
+void Render::showView(float posx, float posy, float posz)
+{
+    GLint x, y, w, h;
+
+    ::g.gui.scene()->getCoords(x, y, w, h);
+
+    glScissor(x, y, w/2, h/2);
+    glEnable(GL_SCISSOR_TEST);
+    ::g.gui.scene()->setViewport(100, 100, w/2, h/2);
+
+    glMatrixMode(GL_MODELVIEW);
+
+#if 1 //dax
+    M4 vrmat = mulM4(transM4(-posx, -posy, -posz), rotM4(M_PI_2, UZ)); // dm top
+
+    // transpose vreng to opengl
+    GLfloat glmat[16];    // opengl matrix
+    M4toV16(&vrmat, glmat);
+    glLoadMatrixf(glmat);
+#else
+    glLoadIdentity();
+
+    glRotatef(90, 0, 0, 1);
+    glTranslatef(-posx, -posy, -posz);
+#endif
+
+    // draw the scene inside the scissor
+    //dax glClear(GL_COLOR_BUFFER_BIT);
+    minirender();
+
+    // reset initial state
+    glDisable(GL_SCISSOR_TEST);
+    ::g.gui.scene()->setViewport(x, y, w, h);
+}
+
 void Render::resetCamera()
 {
   view = VIEW_FIRST_PERSON;
@@ -356,7 +391,7 @@ void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz
 
    // redraw the scene (objects only)
    clearBuffer();
-   renderSolids();
+   renderSolids(0);
   glPopMatrix();
 
   // we use the back, then we read the back

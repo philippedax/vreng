@@ -242,9 +242,9 @@ private:
   void materials();		///< Set colors of materials.
 
   // rendering categories
-  void renderSolids();		///< general rendering.
-  void renderOpaque();		///< opaque solids
-  void renderTransparent();  	///< transparent solids
+  void renderSolids(bool mini);		///< general rendering.
+  void renderOpaque(bool mini);		///< opaque solids
+  void renderTransparent(bool mini);  	///< transparent solids
   void renderGround();  	///< ground solids
   void renderModel(); 	 	///< model solids
   void renderUser(); 	 	///< user solids
@@ -263,6 +263,11 @@ private:
 
   void showSat();
   /**< show the satellite view. */
+
+public:
+  void showView(float posx, float posy, float posz);
+  /**< show the view. */
+private:
 
   static int compareHit(const void *t1, const void *t2);
   /**< Sorts all elements of the selection buffer. */
