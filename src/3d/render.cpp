@@ -410,9 +410,11 @@ void Render::renderSolids(bool mini)
   renderGround();	// renders ground solids first
   renderOpaque(mini);	// renders opaque solids
   renderTransparent(mini);	// renders transparent solids
-  renderModel();	// renders model solids
-  renderFlary();	// renders flary solids
-  renderUser();		// renders localuser last
+  if (! mini) {
+    renderModel();	// renders model solids
+    renderFlary();	// renders flary solids
+    renderUser();	// renders localuser last
+  }
 }
 
 

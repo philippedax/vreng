@@ -272,37 +272,37 @@ void Render::showSat()
 
 void Render::showView(float posx, float posy, float posz)
 {
-    GLint x, y, w, h;
+  GLint x, y, w, h;
 
-    ::g.gui.scene()->getCoords(x, y, w, h);
+  ::g.gui.scene()->getCoords(x, y, w, h);
 
-    glScissor(x, y, w/2, h/2);
-    glEnable(GL_SCISSOR_TEST);
-    ::g.gui.scene()->setViewport(100, 100, w/2, h/2);
+  glScissor(x, y, w/2, h/2);
+  glEnable(GL_SCISSOR_TEST);
+  ::g.gui.scene()->setViewport(w/4, h/4, w/2, h/2);
 
-    glMatrixMode(GL_MODELVIEW);
+  glMatrixMode(GL_MODELVIEW);
 
-#if 1 //dax
-    M4 vrmat = mulM4(transM4(-posx, -posy, -posz), rotM4(M_PI_2, UZ)); // dm top
+#if 1 //dax map
+  M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(-posx, -posy, -posz)); // posz top
+  //M4 vrmat = mulM4(transM4(-posx, -posy, -posz), rotM4(M_PI_2, UZ));
 
-    // transpose vreng to opengl
-    GLfloat glmat[16];    // opengl matrix
-    M4toV16(&vrmat, glmat);
-    glLoadMatrixf(glmat);
-#else
-    glLoadIdentity();
+  // transpose vreng to opengl
+  GLfloat glmat[16];    // opengl matrix
+  M4toV16(&vrmat, glmat);
+  glLoadMatrixf(glmat);
+#else //dax sat
+  glLoadIdentity();
 
-    glRotatef(90, 0, 0, 1);
-    glTranslatef(-posx, -posy, -posz);
+  glRotatef(90, 0, 0, 1);
+  glTranslatef(-posx, -posy, -posz);
 #endif
 
-    // draw the scene inside the scissor
-    //dax glClear(GL_COLOR_BUFFER_BIT);
-    minirender();
+  // draw the scene inside the scissor
+  //minirender();	// segfault
 
-    // reset initial state
-    glDisable(GL_SCISSOR_TEST);
-    ::g.gui.scene()->setViewport(x, y, w, h);
+  // reset initial state
+  glDisable(GL_SCISSOR_TEST);
+  ::g.gui.scene()->setViewport(x, y, w, h);
 }
 
 void Render::resetCamera()
