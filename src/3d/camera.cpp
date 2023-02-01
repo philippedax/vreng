@@ -204,20 +204,19 @@ void Render::showMap()
 {
   if (! viewMap) return;
 
-  uint8_t bord = 1;	// 1 pixel
   GLint x, y, w, h;
 
   ::g.gui.scene()->getCoords(x, y, w, h);
   
-  glScissor(x + w-(w/3), y +h -h/3, w/3, (GLsizei) ((h-y)/3));  // top-right corner
+  glScissor(w*2/3, h*2/3, w/3, h/3);  // top-right corner
   glEnable(GL_SCISSOR_TEST);
  
-  ::g.gui.scene()->setViewport(w-(w/3)+bord, y+h-h/3-bord, (w/3)-2*bord, (GLsizei) ((h-y)/3));
+  ::g.gui.scene()->setViewport(w*2/3, h*2/3, w/3, h/3);
   glMatrixMode(GL_MODELVIEW);
 
   // place the mini-map at a position depending on the world's dimensions
   World *world = World::current();
-  GLfloat d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1]) / tan(DEG2RAD(User::FOVY)) - 5);
+  float d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1])/tan(DEG2RAD(User::FOVY))-5);
   //echo("map: %.1f", d);
   M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(0, 0, -d)); // dm top
 
@@ -242,14 +241,13 @@ void Render::showSat()
 {
   if (view != VIEW_SCISSOR) return;
 
-  uint8_t bord = 1;	// 1 pixel
   GLint x, y, w, h;
 
   ::g.gui.scene()->getCoords(x, y, w, h);
 
-  glScissor(x, y, w/5, (GLsizei)((h-y)/5));   // bottom-left corner
+  glScissor(x, y, w/5, h/5);   // bottom-left corner
   glEnable(GL_SCISSOR_TEST);
-  ::g.gui.scene()->setViewport(bord, bord, (w/5)-2*bord, (GLsizei) ((h-y)/5)-2*bord);
+  ::g.gui.scene()->setViewport(0, 0, w/5, h/5);
   glMatrixMode(GL_MODELVIEW);
 
   // scene position
@@ -272,6 +270,8 @@ void Render::showSat()
 
 void Render::showView(float posx, float posy, float posz)
 {
+  //if (view != VIEW_SCISSOR) return;
+
   GLint x, y, w, h;
 
   ::g.gui.scene()->getCoords(x, y, w, h);
