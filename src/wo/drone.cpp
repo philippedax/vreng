@@ -180,8 +180,11 @@ void Drone::render()
 #if 0 //dax
     ::g.render.cameraPosition(this);
 #else
-    ::g.render.showView(pos.x, pos.y, pos.z);
+    ::g.render.setCameraScissor(pos.x, pos.y, pos.z, pos.az);
+    //dax ::g.render.showView(pos.x, pos.y, pos.z);
+    ::g.render.showView();
 #endif
+    return;
   }
   glPushMatrix();
   glEnable(GL_CULL_FACE);
@@ -221,11 +224,13 @@ void Drone::view()
   if (flying) {
     if (filming) {
       filming = false;
+      ::g.render.switchViewObj();
       localuser->setView(vieworig);
     }
     else {
       filming = true;
-      localuser->setView(Render::VIEW_VERTICAL_FROM_OBJECT);
+      ::g.render.switchViewObj();
+      //dax localuser->setView(Render::VIEW_VERTICAL_FROM_OBJECT);
     }
   }
 }

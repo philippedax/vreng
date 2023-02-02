@@ -127,6 +127,12 @@ public:
   void switchViewMap();
   /**< Switchs the view map. */
 
+  void switchViewSat();
+  /**< Switchs the view sat. */
+
+  void switchViewObj();
+  /**< Switchs the view from object. */
+
   void setPitch(GLfloat angle);
   /**< Sets the pitch angle. */
 
@@ -227,6 +233,8 @@ private:
   bool flash;			///< flag flash.
   uint8_t view;			///< local user View type.
   bool viewMap;                 ///< local user Map.
+  bool viewSat;                 ///< local Satellite.
+  bool viewObj;                 ///< local Object.
   GLfloat third_yRot;		///< local user y rotation for Third Person view.
   GLfloat third_xRot;		///< local user x rotation for Third Person view.
   GLfloat third_Near;		///< local user distance for Third Person view.
@@ -250,6 +258,9 @@ private:
   void renderUser(); 	 	///< user solids
   void renderFlary(); 	 	///< flary solids
 
+  void scissors();
+  /**< Renders scissors. */
+
   // compare functions
   static bool compDist(const void *t1, const void *t2);	///< compare distances to eyes
   static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes
@@ -265,7 +276,8 @@ private:
   /**< show the satellite view. */
 
 public:
-  void showView(float posx, float posy, float posz);
+  //dax void showView(float posx, float posy, float posz);
+  void showView();
   /**< show the view. */
 private:
 

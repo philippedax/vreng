@@ -58,6 +58,8 @@ Render::Render()
   // camera defaults
   view = VIEW_FIRST_PERSON;
   viewMap = false;
+  viewSat = false;
+  viewObj = false;
   third_yRot = 0;
   third_xRot = 0;
   third_Near = 0;
@@ -428,10 +430,9 @@ void Render::render()
   clearBuffer();		// background color
   lighting();			// general lighting
   renderSolids(0);		// solids rendering
-  Grid::grid()->render();	// grid
-  Axis::axis()->render();	// axis
-  showSat();			// launch a satellite camera
-  showMap();			// display map
+  Grid::grid()->render();	// render grid
+  Axis::axis()->render();	// render axis
+  scissors();			// render scissors
   trace2(DBG_VGL, "\n");	// end of trace2 !
 }
 
@@ -440,6 +441,13 @@ void Render::minirender()
   cameraPosition();		// camera position
   clearBuffer();		// background color
   renderSolids(1);		// solids rendering
+}
+
+void Render::scissors()
+{
+  showSat();			// launch a satellite camera
+  showMap();			// display map
+  //dax showView();			// display view from object
 }
 
 void Render::clearBuffer()

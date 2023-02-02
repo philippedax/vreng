@@ -27,7 +27,7 @@ void idM4(M4 *a)
 {
   for (int i=0; i<4; i++) {
     for (int j=0; j<4; j++) {
-      a->m[i][j] = (i==j) ? 1.0 : 0.0;
+      a->m[i][j] = (i==j) ? 1 : 0;
     }
   }
 }
@@ -38,7 +38,7 @@ M4 mulM4(M4 a, M4 b)
 
   for (int i=0; i<4; i++) {
     for (int j=0; j<4; j++) {
-      float s = 0.;
+      float s = 0;
       for (int k=0; k<4; k++) {
         s += a.m[i][k] * b.m[k][j];
       }
@@ -65,8 +65,8 @@ M4 rotM4(float t, int u)
   int v,w;
   M4 a;
 
-  if ((v = u+1)>2) v = 0;
-  if ((w = v+1)>2) w = 0;
+  if ((v = u+1) > 2) v = 0;
+  if ((w = v+1) > 2) w = 0;
   s = sin(t);
   c = cos(t);
   idM4(&a);

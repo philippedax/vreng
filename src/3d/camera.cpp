@@ -92,6 +92,16 @@ void Render::switchViewMap()
   viewMap = !viewMap;
 }
 
+void Render::switchViewSat()
+{
+  viewSat = !viewSat;
+}
+
+void Render::switchViewObj()
+{
+  viewObj = !viewObj;
+}
+
 void Render::setPitch(GLfloat angle)
 {
   pitch = angle;
@@ -239,7 +249,8 @@ void Render::showMap()
 /* Displays the satellite on the bottom-left corner of the canvas */
 void Render::showSat()
 {
-  if (view != VIEW_SCISSOR) return;
+  if (view != VIEW_SCISSOR || viewObj) return;
+  //if (! viewSat) return;
 
   GLint x, y, w, h;
 
@@ -248,12 +259,13 @@ void Render::showSat()
   glScissor(x, y, w/5, h/5);   // bottom-left corner
   glEnable(GL_SCISSOR_TEST);
   ::g.gui.scene()->setViewport(0, 0, w/5, h/5);
+
   glMatrixMode(GL_MODELVIEW);
 
   // scene position
   glLoadIdentity();
-  glRotatef(-90,1,0,0);
-  glRotatef(90,0,0,1);
+  glRotatef(-90 ,1,0,0);
+  glRotatef(90 ,0,0,1);
 
   // camera position
   glRotatef(-RAD2DEG(satRot.v[2]), 0, 0, 1);
@@ -268,23 +280,29 @@ void Render::showSat()
   ::g.gui.scene()->setViewport(x, y, w, h);
 }
 
-void Render::showView(float posx, float posy, float posz)
+//dax void Render::showView(float posx, float posy, float posz)
+void Render::showView()
 {
-  //if (view != VIEW_SCISSOR) return;
+  if (! viewObj) return;
 
   GLint x, y, w, h;
+  GLint X, Y, W, H;
 
   ::g.gui.scene()->getCoords(x, y, w, h);
+  X = w/4; Y = h/4; W = w/2; H = h/2;
 
-  glScissor(x, y, w/2, h/2);
   glEnable(GL_SCISSOR_TEST);
-  ::g.gui.scene()->setViewport(w/4, h/4, w/2, h/2);
+  glScissor(x+w/4, y+h/4, w/2, h/2);
+  //GLint s[4];
+  //glGetIntegerv(GL_SCISSOR_BOX, s);
+  //echo("vp: %d %d %d %d, %d %d %d %d, %d %d %d %d",x,y,w,h,X,Y,W,H,s[0],s[1],s[2],s[3]);
+  ::g.gui.scene()->setViewport(X, Y, W, H);
 
   glMatrixMode(GL_MODELVIEW);
 
 #if 1 //dax map
-  M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(-posx, -posy, -posz)); // posz top
-  //M4 vrmat = mulM4(transM4(-posx, -posy, -posz), rotM4(M_PI_2, UZ));
+  M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(-satPos.v[0], -satPos.v[1], -satPos.v[2]));
+  //M4 vrmat = mulM4(transM4(-satPos.v[Ø], -satPos.v[1], -satPos.v[2]), rotM4(M_PI_2, UZ));
 
   // transpose vreng to opengl
   GLfloat glmat[16];    // opengl matrix
@@ -292,9 +310,8 @@ void Render::showView(float posx, float posy, float posz)
   glLoadMatrixf(glmat);
 #else //dax sat
   glLoadIdentity();
-
   glRotatef(90, 0, 0, 1);
-  glTranslatef(-posx, -posy, -posz);
+  glTranslatef(-satPos.v[0], -satPos.v[1], -satPos.v[2]);
 #endif
 
   // draw the scene inside the scissor
@@ -315,6 +332,7 @@ void Render::setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat 
 {
   if (view != VIEW_SCISSOR) {
     view = VIEW_SCISSOR;
+    viewSat = true;
     satPos.v[0] = posx;
     satPos.v[1] = posy;
     satPos.v[2] = posz;
