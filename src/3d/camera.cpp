@@ -56,11 +56,9 @@ void Render::cameraProjection(GLfloat fovy, GLfloat near, GLfloat far)
   GLint vp[4];
 
   glGetIntegerv(GL_VIEWPORT, vp);
-  GLint width = vp[2];
-  GLint height = vp[3];
-  GLfloat ratio = (GLfloat) width / (GLfloat) height;
+  GLfloat ratio = (GLfloat) vp[2] / (GLfloat) vp[3];
   GLfloat top = near * tan(fovy * M_PI_180);
-  GLfloat bottom = -top;
+  GLfloat bot = -top;
   GLfloat right = top * ratio;
   GLfloat left = -right;
   cam_user.fovy = fovy;
@@ -69,7 +67,7 @@ void Render::cameraProjection(GLfloat fovy, GLfloat near, GLfloat far)
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glFrustum(left, right, bottom, top, near, far);
+  glFrustum(left, right, bot, top, near, far);
   glTranslatef(0, 0, -near);	// orig -0.4
   glMatrixMode(GL_MODELVIEW);
 }
@@ -204,9 +202,9 @@ void Render::cameraPosition(WObject *o)
   }
 
   // transpose Vreng to OpenGl coordinates
-  GLfloat oglmat[16];		// opengl matrix
-  M4toV16(&vrmat, oglmat);
-  glLoadMatrixf(oglmat);
+  GLfloat glmat[16];		// opengl matrix
+  M4toV16(&vrmat, glmat);
+  glLoadMatrixf(glmat);
 }
 
 /* Displays the map on the top-right corner of the canvas */
@@ -238,9 +236,6 @@ void Render::showMap()
   // redraw the scene inside the scissor
   minirender();
 
-  //dax if (localuser) mapPos = getVisiblePosition(localuser);
-  //dax mapPos.v[2] = 1;
-
   // reset initial state
   glDisable(GL_SCISSOR_TEST);
   ::g.gui.scene()->setViewport(x, y, w, h);
@@ -264,8 +259,8 @@ void Render::showSat()
 
   // scene position
   glLoadIdentity();
-  glRotatef(-90 ,1,0,0);
-  glRotatef(90 ,0,0,1);
+  glRotatef(-90 ,1,0,0);	// X
+  glRotatef(90 ,0,0,1);		// Z
 
   // camera position
   glRotatef(-RAD2DEG(satRot.v[2]), 0, 0, 1);
@@ -409,7 +404,7 @@ void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz
    renderSolids(0);
   glPopMatrix();
 
-  // we use the back, then we read the back
+  // we use the back buffer, then we read the back
   uint8_t *pixjpg = Ogl::copyPixels(::g.pref.width3D, ::g.pref.height3D, GL_BACK);
 
   // saving in a jpeg file
@@ -418,21 +413,21 @@ void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz
   delete[] pixjpg;
 
   // rendering reinitializes buffers then we draw in the front and the back
-  render();
+  minirender();
 }
 
 #if 0 // notused
 void Render::computeCameraProjection()
 {
-  GLint viewport[4];
-  glGetIntegerv(GL_VIEWPORT, viewport);
+  GLint vp[4];
 
-  GLint w = viewport[2];
-  GLint h = viewport[3];
+  glGetIntegerv(GL_VIEWPORT, vp);
+  GLint w = vp[2];
+  GLint h = vvp[3];
   GLfloat fovy = cam_user.fovy;
   GLfloat near = cam_user.near;
   GLfloat far = cam_user.far;
 
-  echo("User=(%.2f %.2f %.2f %.2f) fovy=%.2f near=%.2f far=%.2f w=%.2f h=%.2f", localuser->pos.x, localuser->pos.y, localuser->pos.z, localuser->pos.az, fovy, near, far, w, h);
+  echo("User=(%.1f %.1f %.1f %.1f) fovy=%.2f near=%.1f far=%.1f w=%.1f h=%.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z, localuser->pos.az, fovy, near, far, w, h);
 }
 #endif // notused

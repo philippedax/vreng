@@ -466,11 +466,10 @@ void Render::clearBuffer()
 
   // !NOTICE: do not do GL_COLOR_BUFFER_BIT because this would clear the color
   // of the whole window (including the background color of the widgets)
-  glClear(
-            //GL_COLOR_BUFFER_BIT |
+  glClear(  //GL_COLOR_BUFFER_BIT |
             GL_DEPTH_BUFFER_BIT
           | GL_STENCIL_BUFFER_BIT
-          | GL_ACCUM_BUFFER_BIT
+          //| GL_ACCUM_BUFFER_BIT
          );
 }
 
