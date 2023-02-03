@@ -63,7 +63,7 @@ Render::Render()
   third_yRot = 0;
   third_xRot = 0;
   third_Near = 0;
-  turna = 0;		// turn around
+  turna = 0;		// turn around angle
   pitch = 0;
   
   // texture cache
@@ -158,7 +158,7 @@ void Render::materials()
 // DEBUG //
 #if 0 // set to 1 to force debug tracing
 #define DBG_VGL DBG_FORCE
-#endif
+#endif //debug
 
 /** Records object number into the selection buffer */
 void Render::putSelbuf(WObject *obj)
@@ -373,15 +373,13 @@ void Render::renderFlary()
  */
 void Render::renderSolids(bool mini)
 {
-  uint32_t objectsnumber = WObject::getObjectsNumber();
-
   // build rendering lists from solidList
-    opaqueList.clear();
-    transparentList.clear();
-    groundList.clear();
-    modelList.clear();
-    userList.clear();
-    flaryList.clear();
+  opaqueList.clear();
+  transparentList.clear();
+  groundList.clear();
+  modelList.clear();
+  userList.clear();
+  flaryList.clear();
 
   // for all solids
   // set setRendered=false updateDist and find the localuser solid
@@ -399,7 +397,6 @@ void Render::renderSolids(bool mini)
         modelList.push_back(*it);	// add to model list
       }
       else if ( (*it)->object()->type == USER_TYPE ) {
-      //else if (! strcmp((*it)->object()->getInstance(), localuser->getInstance())) {
         userList.push_back(*it);	// add to user list
       }
       else {
@@ -473,7 +470,7 @@ void Render::clearBuffer()
             //GL_COLOR_BUFFER_BIT |
             GL_DEPTH_BUFFER_BIT
           | GL_STENCIL_BUFFER_BIT
-          //| GL_ACCUM_BUFFER_BIT
+          | GL_ACCUM_BUFFER_BIT
          );
 }
 
@@ -537,8 +534,8 @@ void Render::setAllTypeFlashy(char *object_type, int typeflash)
 }
 
 /*
- * 3D Selection with picking method.
- * returns object number selectionned
+ * 3D Selection using picking method.
+ * Returns object number selectionned
  * called by camera and getPointedObject (widgets.cpp)
  */
 uint16_t Render::bufferSelection(GLint x, GLint y)
@@ -548,7 +545,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y)
 
 uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
 {
-  int max, cur = 0;
+  GLint max, cur = 0;
   glGetIntegerv(GL_NAME_STACK_DEPTH, &cur);
   glGetIntegerv(GL_MAX_NAME_STACK_DEPTH, &max);
   //echo("bufselect: x=%d y=%d names:%d/%d", x, y, cur, max);
@@ -562,29 +559,29 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
 
   GLint vp[4];
   glGetIntegerv(GL_VIEWPORT, vp);
-  GLint width  = vp[2];
-  GLint height = vp[3];
+  GLint w = vp[2];
+  GLint h = vp[3];
   GLfloat top = cam_user.near * tan(cam_user.fovy * M_PI_180);
-  GLfloat bottom = -top;
-  GLfloat ratio = (GLfloat) width / (GLfloat) height;
+  GLfloat bot = -top;
+  GLfloat ratio = (GLfloat) w / (GLfloat) h;
   GLfloat right = top * ratio;
   GLfloat left = -right;
 
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
-  glFrustum(left + (x-0.1) * (right-left) / (width-1),
-	    left + (x+0.1) * (right-left) / (width-1),
-	    top -  (y+0.1) * (top-bottom) / (height-1),
-	    top -  (y-0.1) * (top-bottom) / (height-1),
+  glFrustum(left + (x-0.1) * (right-left) / (w-1),
+	    left + (x+0.1) * (right-left) / (w-1),
+	    top -  (y+0.1) * (top-bot) / (h-1),
+	    top -  (y-0.1) * (top-bot) / (h-1),
 	    cam_user.near, cam_user.far);
   glTranslatef(0, 0, -cam_user.near);
 
-  // eye position
+  // user"s eyes position
   cameraPosition();
 
   // redraw the objects into the selection buffer
-  renderSolids(1);
+  renderSolids(1);	// mini render
 
   // we put the normal mode back
   glMatrixMode(GL_MODELVIEW);
@@ -610,8 +607,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
     int n = depth % hits;
     nearest = hitlist[n][3];
-    if (::g.pref.dbgtrace)
-      echo("n=%d num=%d name=%s", n, nearest, WObject::byNum(nearest)->getInstance());
+    if (::g.pref.dbgtrace) echo("n=%d num=%d name=%s", n, nearest, WObject::byNum(nearest)->getInstance());
   }
   if (hitlist) delete[] hitlist;
 
@@ -701,6 +697,7 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   GLfloat tx = (GLfloat) User::FAR;
   GLfloat ty = vp[2]/2 - (GLfloat) wx;
   GLfloat tz = vp[3]/2 - (GLfloat) wy;
+
   if (ty < 0) ty = MAX(ty, -User::FAR); else ty = MIN(ty, User::FAR);
   if (tz < 0) tz = MAX(tz, -User::FAR); else tz = MIN(tz, User::FAR);
   dir->v[0] = (GLfloat) (tx - ex);
@@ -752,29 +749,29 @@ WObject** Render::getDrawedObjects(int *nbhit)
   GLint vp[4];
   glGetIntegerv(GL_VIEWPORT, vp);
 
-  GLint width = vp[2];
-  GLint height = vp[3];
+  GLint w = vp[2];
+  GLint h = vp[3];
   GLfloat top = cam_user.near * tan(cam_user.fovy * M_PI_180);
-  GLfloat bottom = -top;
-  GLfloat ratio = (GLfloat) width / (GLfloat) height;
+  GLfloat bot = -top;
+  GLfloat ratio = (GLfloat) w / (GLfloat) h;
   GLfloat right = top * ratio;
   GLfloat left = -right;
 
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
-  glFrustum(left + ((width/2.0)-(width/2.0)) * (right-left) / (width-1),
-	    left + ((width/2.0)+(width/2.0)) * (right-left) / (width-1),
-	    top -  ((height/2.0)+(height/2.0)) * (top-bottom) / (height-1),
-	    top -  ((height/2.0)-(height/2.0)) * (top-bottom) / (height-1),
+  glFrustum(left + ((w/2)-(w/2)) * (right-left) / (w-1),
+	    left + ((w/2)+(w/2)) * (right-left) / (w-1),
+	    top -  ((h/2)+(h/2)) * (top-bot) / (h-1),
+	    top -  ((h/2)-(h/2)) * (top-bot) / (h-1),
 	    cam_user.near, cam_user.far);
   glTranslatef(0, 0, -cam_user.near);
 
-  // eye position
+  // eyes position
   cameraPosition();
 
   // redraws the objects into the selection buffer
-  renderSolids(1);
+  renderSolids(1);	// mini render
 
   // we put the normal mode back
   glMatrixMode(GL_PROJECTION);
@@ -819,16 +816,16 @@ void Render::setFlash()
 void Render::stat()
 {
   GLint dlist = glGenLists(1);
-  trace(DBG_FORCE, "### Graphic ###\ndisplay-lists   : %d", --dlist);
+  echo("### Graphic ###\ndisplay-lists   : %d", --dlist);
 }
 
 /* Debug */
 void Render::showSolidList()
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    trace(DBG_FORCE, "solidList: %s->%s", (*s)->object()->typeName(),(*s)->object()->getInstance());
+    echo("solidList: %s->%s", (*s)->object()->typeName(),(*s)->object()->getInstance());
     if (! strcasecmp((*s)->object()->typeName(), "User")) {
-      echo("User: %.2f,%.2f,%.2f %.2f,%.2f %d",
+      echo("User: %.1f %.1f %.1f %.1f %.1f (%d)",
 	   (*s)->object()->pos.x,
 	   (*s)->object()->pos.y,
 	   (*s)->object()->pos.z,

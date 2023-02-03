@@ -301,12 +301,9 @@ void Render::showView()
   glMatrixMode(GL_MODELVIEW);
 
 #if 1 //dax map
-  M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(-satPos.v[0], -satPos.v[1], -satPos.v[2]));
-  //M4 vrmat = mulM4(transM4(-satPos.v[Ø], -satPos.v[1], -satPos.v[2]), rotM4(M_PI_2, UZ));
-
-  // transpose vreng to opengl
-  GLfloat glmat[16];    // opengl matrix
-  M4toV16(&vrmat, glmat);
+  M4 vrmat = mulM4(transM4(-satPos.v[0], -satPos.v[1], -satPos.v[2]), rotM4(M_PI_2, UZ));
+  GLfloat glmat[16];		// opengl matrix
+  M4toV16(&vrmat, glmat);	// transpose vreng to opengl
   glLoadMatrixf(glmat);
 #else //dax sat
   glLoadIdentity();
