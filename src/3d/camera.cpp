@@ -48,7 +48,7 @@ void Render::setCameraPosition(M4 *vrmat)
 }
 
 /*
- * Observer view, called by updateCameraFromObject: world.cpp user.cpp.
+ * Observer view, called by setCamera: user.cpp.
  * static
  */
 void Render::cameraProjection(GLfloat fovy, GLfloat near, GLfloat far)
@@ -68,7 +68,7 @@ void Render::cameraProjection(GLfloat fovy, GLfloat near, GLfloat far)
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glFrustum(left, right, bot, top, near, far);
-  glTranslatef(0, 0, -near);	// orig -0.4
+  glTranslatef(0, 0, -near);
   glMatrixMode(GL_MODELVIEW);
 }
 
@@ -193,7 +193,7 @@ void Render::cameraPosition(WObject *o)
     case VIEW_WIRED:
       glLineWidth(1);
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-      vrmat = mulM4(rotM4(pitch, UX), camera_pos);
+      vrmat = camera_pos;
       break;
 
     case VIEW_SCISSOR:
@@ -227,6 +227,7 @@ void Render::showMap()
   float d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1])/tan(DEG2RAD(User::FOVY))-5);
   //echo("map: %.1f", d);
   M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(0, 0, -d)); // dm top
+  //M4 vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -d, -0), camera_pos)); // dm top
 
   // transpose vreng to opengl
   GLfloat glmat[16];	// opengl matrix
