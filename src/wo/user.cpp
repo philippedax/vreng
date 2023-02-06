@@ -82,8 +82,6 @@ void User::defaults()
   width = DEF_WIDTH;
   depth = DEF_DEPTH;
   height = DEF_HEIGHT;
-  //dax lspeed = LSPEED;
-  //dax aspeed = ASPEED;
   if (::g.pref.tview)
     current_view = Render::VIEW_THIRD_PERSON_FAR;
   else
@@ -103,8 +101,8 @@ void User::resetPosition()
 {
   pos.x = 0;
   pos.y = 0;
-  pos.z = height/2;	// + 0.15;
-  pos.az = 0; //-M_PI_2;
+  pos.z = height/2;
+  pos.az = 0;
   pos.ax = 0;
   pos.ay = 0;
 }
@@ -115,8 +113,8 @@ void User::setPosition()
   Entry *entry = Entry::current();
   if (entry) {
     entry->query(this);
-    trace(DBG_INIT, "new entry: %.2f %.2f %.2f", pos.x, pos.y, pos.z);
-    //echo("entry: %.2f %.2f %.2f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
+    trace(DBG_INIT, "new entry: %.1f %.1f %.1f", pos.x, pos.y, pos.z);
+    //echo("entry: %.1f %.1f %.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
   } 
 }
 
@@ -243,6 +241,7 @@ void User::makeSolid()
   }
 }
 
+/* Sets network identity */
 void User::setRtcp()
 {
   rtcpname = new char[Rtp::RTPNAME_LEN];
@@ -254,16 +253,19 @@ void User::setRtcp()
   ssrc = NetObject::getMySsrcId();
 }
 
+/* Sets observer view from user's eyes */
 void User::setCamera()
 {
-  ::g.render.cameraProjection(FOVY, NEAR, FAR); // view from user
+  ::g.render.cameraProjection(FOVY, NEAR, FAR);
 }
 
+/* Informs the Gui */
 void User::addGui()
 {
   if (! guip) guip = ::g.gui.addUser(this);
 }
 
+/* Checks attached persist objects */
 void User::checkPersist()
 {
 #if VRSQL
@@ -312,21 +314,20 @@ void User::inits()
   initMobileObject(LASTING);
   enablePermanentMovement();	// gravity
   createVolatileNetObject(PROPS);
-  //pd noh->declareObjCreation(); // we don't need because delta do the job
+  // noh->declareObjCreation(); // we don't need because delta do the job
 
+  makeSolid();
   setPosition();	// position from entry
   updatePosition();
-  makeSolid();
+  setCamera();
   if (current_view)
     setView(current_view);
   else
    setView(Render::VIEW_FIRST_PERSON);
-  setCamera();
-  setRtcp();
-  clearKeyTab();
+  setRtcp();		// network identity
+  clearKeyTab();	// reset keys for movement
 
-  // inform GUI
-  addGui();
+  addGui();		// informs GUI
 
   // attach carrier & cart
   carrier = new Carrier();
@@ -334,8 +335,7 @@ void User::inits()
   strcpy(basket, "name=\"basket\"");
   cart = new Cart(basket);
 
-  // checks Persist objects
-  checkPersist();
+  checkPersist();	 // checks Persist objects
 }
 
 /* Creates localuser */
@@ -352,7 +352,7 @@ User::User()
   defaults();
   move.lspeed.v[0] = move.lspeed.v[1] = move.lspeed.v[2] = 0;
   move.aspeed.v[0] = move.aspeed.v[1] = move.aspeed.v[2] = 0;
-  pos.az = 0; //-M_PI_2;
+  pos.az = 0;
   hit = 0;
   inits();
 }
@@ -446,8 +446,8 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   echo("Avatar: rctpname=%s", rtcpname);
 
   initMobileObject(0);
-  addGui();
-  ::g.gui.expandAvatar();	// shows new avatar coming on
+  addGui();			// informs Gui
+  ::g.gui.expandAvatar();	// shows new avatar coming in
 
   trace(DBG_WO, "replica: web=%s vre=%s", web, vre);
   trace(DBG_WO, "replica: avatar=%s face=%s", avatar, face);
@@ -660,18 +660,6 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
     pcur->updatePositionAndGrid(pold);
   }
   return true;
-}
-
-void User::render()
-{
-#if 0 //dax2
-  if (guy) {
-    guy->render();
-  }
-  if (human) {
-    human->render();
-  }
-#endif
 }
 
 void User::setRayDirection(GLint wx, GLint wy)
@@ -1092,7 +1080,7 @@ void User::get_ray(User *pu, Payload *pp)
     if (pu->getSolid()) {
       if (tx) {
         float blue[4] = {0,0,1,1}; //blue
-        //trace(DBG_FORCE, "get_ray: %.2f,%.2f,%.2f -> %.2f,%.2f,%.2f", ex, ey, ez, tx, ty, tz);
+        //echo("get_ray: %.1f,%.1f,%.1f -> %.1f,%.1f,%.1f", ex, ey, ez, tx, ty, tz);
         Draw::ray(&pu->getSolid()->ray_dlist, ex,ey,ez, tx,ty,tz, blue, 0);
       }
       else {
@@ -1167,8 +1155,9 @@ void User::put_ray(User *pu, Payload *pp)
 {
   if (pu) {
     pp->putPayload("ffffff", pu->pos.x, pu->pos.y, pu->pos.z + pu->height/2 - 0.10, pu->ray.v[0], pu->ray.v[1], pu->ray.v[2]);
-    if (pu->ray.v[0])
-      trace(DBG_WO, "put_ray: %.2f,%.2f,%.2f -> %.2f,%.2f,%.2f", pu->pos.x, pu->pos.y, pu->pos.z + pu->height/2 - 0.10, pu->ray.v[0], pu->ray.v[1], pu->ray.v[2]);
+    if (pu->ray.v[0]) {
+      //echo("put_ray: %.1f,%.1f,%.1f -> %.1f,%.1f,%.1f", pu->pos.x, pu->pos.y, pu->pos.z + pu->height/2 - 0.10, pu->ray.v[0], pu->ray.v[1], pu->ray.v[2]);
+    }
   }
 }
 

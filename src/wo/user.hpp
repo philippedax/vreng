@@ -247,8 +247,6 @@ public:
   bool hasHead();
   /**< Returns boolean. */
 
-  virtual void render();
-
   void setView(uint8_t view);
   /**< User View managment. */
 
