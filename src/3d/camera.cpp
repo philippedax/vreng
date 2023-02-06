@@ -173,8 +173,8 @@ void Render::cameraPosition(WObject *o)
       vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -.5, 0), camera_pos));
       break;
 
-    case VIEW_VERTICAL_FAR: 		// 3m top
-      vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -3, 0), camera_pos));
+    case VIEW_VERTICAL_FAR: 		// 5m top
+      vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -5, 0), camera_pos));
       break;
 
     case VIEW_TURN_AROUND:		// -2m side
@@ -216,18 +216,18 @@ void Render::showMap()
 
   ::g.gui.scene()->getScene(x, y, w, h);
   
-  glScissor(w*2/3, h*2/3, w/3, h/3);  // top-right corner
+  glScissor((w/3)*2, (h/3)*2, w/3, h/3);  // top-right corner
   glEnable(GL_SCISSOR_TEST);
  
   ::g.gui.scene()->setScene(w*2/3, h*2/3, w/3, h/3);
   glMatrixMode(GL_MODELVIEW);
 
-#if 0 //dax
+#if 1 //dax
   // place the mini-map at a position depending on the world's dimensions
-  World *w = World::current();
-  float d = floor(MAX(w->bbsize.v[0], w->bbsize.v[1])/tan(DEG2RAD(User::FOVY))-5);
+  World *world = World::current();
+  float d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1])/tan(DEG2RAD(User::FOVY))-5);
   //echo("map: %.1f", d);
-  M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(0, 0, -d)); // dm top
+  M4 vrmat = mulM4(rotM4(M_PI_2, UX), transM4(0, 0, -d)); // dm top
   //M4 vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -d, -0), camera_pos)); // dm top
 
   // transpose vreng to opengl
