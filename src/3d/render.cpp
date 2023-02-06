@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "render.hpp"
 #include "solid.hpp"	// Solid, object()
-#include "scene.hpp"	// getWindow
+#include "scene.hpp"	// getScene
 #include "texture.hpp"	// init
 #include "wobject.hpp"	// WObject
 #include "world.hpp"	// current
@@ -688,7 +688,7 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   GLint vp[4];
 
   //dax glGetIntegerv(GL_VIEWPORT, vp);
-  ::g.gui.scene()->getWindow(vp[0], vp[1], vp[2], vp[3]);	// get viewport
+  ::g.gui.scene()->getScene(vp[0], vp[1], vp[2], vp[3]);	// get viewport
 
   GLfloat ex = localuser->pos.x + User::NEAR;
   GLfloat ey = localuser->pos.y;
