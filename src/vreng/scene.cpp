@@ -93,7 +93,7 @@ void Scene::setBackground(UColor& c)
   background.setColor(c);
 }
 
-void Scene::getCoords(GLint coords[4])
+void Scene::getWindow(GLint coords[4])
 {
   UView* v = getView();
   if (!v) {
@@ -108,7 +108,7 @@ void Scene::getCoords(GLint coords[4])
   }
 }
 
-void Scene::getCoords(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
+void Scene::getWindow(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
 {
   UView* v = getView();
   if (!v) {
@@ -123,8 +123,8 @@ void Scene::getCoords(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
   }
 }
 
-/* set viewport */
-void Scene::setViewport(GLint x, GLint y, GLsizei w, GLsizei h)
+/* set Window */
+void Scene::setWindow(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   UView* v = getView();
   if (v) {

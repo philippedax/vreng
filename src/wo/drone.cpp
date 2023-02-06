@@ -23,8 +23,6 @@
 #include "wings.hpp"
 #include "user.hpp"	// setView
 #include "render.hpp"	// cameraPosition
-#include "gui.hpp"	// ::g;gui
-#include "scene.hpp"	// getCoords, setViewport
 
 
 const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);

@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "render.hpp"
-#include "scene.hpp"	// Scene
+#include "scene.hpp"	// getWindow, setWindow
 #include "solid.hpp"	// Solid
 #include "wobject.hpp"	// WObject
 #include "world.hpp"	// current
@@ -214,17 +214,18 @@ void Render::showMap()
 
   GLint x, y, w, h;
 
-  ::g.gui.scene()->getCoords(x, y, w, h);
+  ::g.gui.scene()->getWindow(x, y, w, h);
   
   glScissor(w*2/3, h*2/3, w/3, h/3);  // top-right corner
   glEnable(GL_SCISSOR_TEST);
  
-  ::g.gui.scene()->setViewport(w*2/3, h*2/3, w/3, h/3);
+  ::g.gui.scene()->setWindow(w*2/3, h*2/3, w/3, h/3);
   glMatrixMode(GL_MODELVIEW);
 
+#if 0 //dax
   // place the mini-map at a position depending on the world's dimensions
-  World *world = World::current();
-  float d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1])/tan(DEG2RAD(User::FOVY))-5);
+  World *w = World::current();
+  float d = floor(MAX(w->bbsize.v[0], w->bbsize.v[1])/tan(DEG2RAD(User::FOVY))-5);
   //echo("map: %.1f", d);
   M4 vrmat = mulM4(rotM4(M_PI_2, UZ), transM4(0, 0, -d)); // dm top
   //M4 vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -d, -0), camera_pos)); // dm top
@@ -233,13 +234,14 @@ void Render::showMap()
   GLfloat glmat[16];	// opengl matrix
   M4toV16(&vrmat, glmat);
   glLoadMatrixf(glmat);
+#endif
 
   // redraw the scene inside the scissor
   minirender();
 
   // reset initial state
   glDisable(GL_SCISSOR_TEST);
-  ::g.gui.scene()->setViewport(x, y, w, h);
+  ::g.gui.scene()->setWindow(x, y, w, h);
 }
 
 /* Displays the satellite on the bottom-left corner of the canvas */
@@ -250,11 +252,11 @@ void Render::showSat()
 
   GLint x, y, w, h;
 
-  ::g.gui.scene()->getCoords(x, y, w, h);
+  ::g.gui.scene()->getWindow(x, y, w, h);
 
   glScissor(x, y, w/5, h/5);   // bottom-left corner
   glEnable(GL_SCISSOR_TEST);
-  ::g.gui.scene()->setViewport(0, 0, w/5, h/5);
+  ::g.gui.scene()->setWindow(0, 0, w/5, h/5);
 
   glMatrixMode(GL_MODELVIEW);
 
@@ -273,7 +275,7 @@ void Render::showSat()
 
   // reset initial state
   glDisable(GL_SCISSOR_TEST);
-  ::g.gui.scene()->setViewport(x, y, w, h);
+  ::g.gui.scene()->setWindow(x, y, w, h);
 }
 
 //dax void Render::showView(float posx, float posy, float posz)
@@ -284,7 +286,7 @@ void Render::showView()
   GLint x, y, w, h;
   GLint X, Y, W, H;
 
-  ::g.gui.scene()->getCoords(x, y, w, h);
+  ::g.gui.scene()->getWindow(x, y, w, h);
   X = w/4; Y = h/4; W = w/2; H = h/2;
 
   glEnable(GL_SCISSOR_TEST);
@@ -292,7 +294,7 @@ void Render::showView()
   //GLint s[4];
   //glGetIntegerv(GL_SCISSOR_BOX, s);
   //echo("vp: %d %d %d %d, %d %d %d %d, %d %d %d %d",x,y,w,h,X,Y,W,H,s[0],s[1],s[2],s[3]);
-  ::g.gui.scene()->setViewport(X, Y, W, H);
+  ::g.gui.scene()->setWindow(X, Y, W, H);
 
   glMatrixMode(GL_MODELVIEW);
 
@@ -312,7 +314,7 @@ void Render::showView()
 
   // reset initial state
   glDisable(GL_SCISSOR_TEST);
-  ::g.gui.scene()->setViewport(x, y, w, h);
+  ::g.gui.scene()->setWindow(x, y, w, h);
 }
 
 void Render::resetCamera()
@@ -342,7 +344,7 @@ V3 Render::getVisiblePosition(WObject *po)
   GLint vp[4];
   GLdouble mview[16], mproj[16];
 
-  ::g.gui.scene()->getCoords(vp[0], vp[1], vp[2], vp[3]);
+  ::g.gui.scene()->getWindow(vp[0], vp[1], vp[2], vp[3]);
   GLint w = vp[2];
   GLint h = vp[3];
 

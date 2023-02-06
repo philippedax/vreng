@@ -43,9 +43,9 @@ public:
   void setNetDelay(int msec);
   int getNetDelay() const;
   
-  void getCoords(GLint coords[4]);
-  void getCoords(GLint& x, GLint& y, GLsizei& w, GLsizei& h);
-  void setViewport(GLint x, GLint y, GLsizei width, GLsizei height);
+  void getWindow(GLint coords[4]);
+  void getWindow(GLint& x, GLint& y, GLsizei& w, GLsizei& h);
+  void setWindow(GLint x, GLint y, GLsizei width, GLsizei height);
   void setBackground(UColor&);
   void toggleHud();
   
