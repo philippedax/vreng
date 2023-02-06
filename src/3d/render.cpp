@@ -227,6 +227,7 @@ void Render::renderOpaque(bool mini)
         trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
       else {					// multi solids
+        glPushMatrix();
         (*it)->displaySolid(Solid::OPAQUE);	// main solid first
         trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
 
@@ -235,6 +236,7 @@ void Render::renderOpaque(bool mini)
           (*jt)->setRendered(true);
           trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
         }
+        glPopMatrix();
       }
     }
     (*it)->setRendered(true);
@@ -275,6 +277,7 @@ void Render::renderTransparent(bool mini)
         trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
       else {					// multi solids
+        glPushMatrix();
         (*it)->displaySolid(Solid::TRANSPARENT);
         trace2(DBG_VGL, " %s:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->nbsolids);
 
@@ -283,6 +286,7 @@ void Render::renderTransparent(bool mini)
           (*jt)->setRendered(true);
           trace2(DBG_VGL, " %s:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->nbsolids);
         }
+        glPopMatrix();
       }
     }
     (*it)->setRendered(true);
