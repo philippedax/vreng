@@ -44,6 +44,8 @@ public:
   Rain(class Cloud *o, void *d, time_t s, time_t u);
   /**< constructor: called by cloud */
 
+  static const OClass oclass;	// class variable
+
   static void funcs();	///< init funclist
 
   void changePermanent(float lasting);

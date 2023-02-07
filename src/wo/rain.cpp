@@ -25,6 +25,8 @@
 #include "sound.hpp"	// playSound
 
 
+const OClass Rain::oclass(RAIN_TYPE, "Rain", NULL);
+
 //local
 static Rain *prain = NULL;	// singleton
 
