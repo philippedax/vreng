@@ -169,12 +169,16 @@ void Render::cameraPosition(WObject *o)
       }
       break;
 
-    case VIEW_VERTICAL:			// 50cm top
+    case VIEW_VERTICAL_NEAR:		// 50cm top
       vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -.5, 0), camera_pos));
       break;
 
     case VIEW_VERTICAL_FAR: 		// 5m top
       vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -5, 0), camera_pos));
+      break;
+
+    case VIEW_VERTICAL_FROM_SKY: 	// 50m top
+      vrmat = mulM4(rotM4(M_PI_2, UX), mulM4(transM4(0, -50, 0), camera_pos));
       break;
 
     case VIEW_TURN_AROUND:		// -2m side

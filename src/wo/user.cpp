@@ -138,8 +138,9 @@ void User::setView(uint8_t view)
     case Render::VIEW_THIRD_PERSON :
     case Render::VIEW_THIRD_PERSON_FAR :
     case Render::VIEW_THIRD_PERSON_FRONT :
-    case Render::VIEW_VERTICAL :
+    case Render::VIEW_VERTICAL_NEAR :
     case Render::VIEW_VERTICAL_FAR :
+    case Render::VIEW_VERTICAL_FROM_SKY :
     case Render::VIEW_TURN_AROUND :
       disableBehavior(UNVISIBLE);	// visible by myself
       if (humanhead) humanhead->visibility(true);
