@@ -354,10 +354,11 @@ void WObject::setOwner()
 void WObject::getObjectNameById(uint8_t type, char *name)
 {
   const OClass *oclass = OClass::getOClass(type);
-  if (! oclass)
-    warning("getObjectNameById: no name found for type=%d", type);
-  else
+  if (oclass) {
     strcpy(name, oclass->type_name);
+    return;
+  }
+  warning("getObjectNameById: no name found for type=%d", type);
   return;
 }
 
