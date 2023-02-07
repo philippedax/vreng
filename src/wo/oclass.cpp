@@ -68,6 +68,10 @@ const OClass * OClass::getOClass(const char *type_name)
           if (! mystrcasecmp(type_name, otable[i]->type_name)) {
             return otable[i];
           }
+          if (! mystrcasecmp(type_name, "html")) {
+            dumpTable();
+            fatal("bad world: type=html");
+          }
         }
       }
       else {
@@ -120,7 +124,7 @@ WObject * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 void OClass::dumpTable()
 {
   for (int i=1; i < otable_size; i++) {
-    printf("%02d: %p %02d %s\n", i, otable[i], otable[i]->type_id, otable[i]->type_name);
+    printf("%02d: %s\n", otable[i]->type_id, otable[i]->type_name);
   }
 }
 
