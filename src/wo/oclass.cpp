@@ -124,7 +124,12 @@ WObject * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 void OClass::dumpTable()
 {
   for (int i=1; i < otable_size; i++) {
-    printf("%02d: %s\n", otable[i]->type_id, otable[i]->type_name);
+    if (otable[i]) {
+      echo("%02d: %s", otable[i]->type_id, otable[i]->type_name);
+    }
+    else {
+      error("otable[%d] null -> segfault", i);
+    }
   }
 }
 
