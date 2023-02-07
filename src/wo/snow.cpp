@@ -24,6 +24,8 @@
 #include "cloud.hpp"	// Cloud
 
 
+const OClass Snow::oclass(SNOW_TYPE, "Snow", NULL);
+
 //local
 static Snow *psnow = NULL;	// singleton
 
