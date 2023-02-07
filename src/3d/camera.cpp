@@ -219,7 +219,7 @@ void Render::showMap()
   glScissor((w/3)*2, (h/3)*2, w/3, h/3);  // top-right corner
   glEnable(GL_SCISSOR_TEST);
  
-  ::g.gui.scene()->setScene(w*2/3, h*2/3, w/3, h/3);
+  ::g.gui.scene()->setScene((w/3)*2, (h/3)*2, w/3, h/3);
   glMatrixMode(GL_MODELVIEW);
 
 #if 1 //dax
@@ -287,10 +287,10 @@ void Render::showView()
   GLint X, Y, W, H;
 
   ::g.gui.scene()->getScene(x, y, w, h);
-  X = w/4; Y = h/4; W = w/2; H = h/2;
+  X = w/4; Y = h/4; W = w/4; H = h/4;
 
   glEnable(GL_SCISSOR_TEST);
-  glScissor(x+w/4, y+h/4, w/2, h/2);
+  glScissor(X, Y, W, H);
   //GLint s[4];
   //glGetIntegerv(GL_SCISSOR_BOX, s);
   //echo("vp: %d %d %d %d, %d %d %d %d, %d %d %d %d",x,y,w,h,X,Y,W,H,s[0],s[1],s[2],s[3]);
