@@ -24,6 +24,9 @@
 #include "netobj.hpp"	// NetObject
 
 
+const OClass Projectile::oclass(PROJECTILE_TYPE, "Projectile", NULL);
+
+
 void Projectile::updateTime(time_t s, time_t us, float *plasting)
 {
   if (! updateLasting(s, us, plasting)) {

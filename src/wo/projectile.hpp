@@ -51,6 +51,8 @@ class Projectile: public WObject {
     CREATE
   };
 
+  static const OClass oclass;   ///< class variable
+
   static void funcs();	///< init funclist
 
   virtual void changePosition(float lasting);
