@@ -246,6 +246,9 @@ int Parse::parseLine(char *_line, int *ptag_type)
       FREE(line);
       return TAG_OBJECT;
     }
+    else {
+      fatal("bad tag %s", tagobj);
+    }
     FREE(line);
     return TAG_OBJECT;
   }
