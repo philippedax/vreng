@@ -417,7 +417,7 @@ htagain:
                   if ( (q = strchr(p+17, '/')) != 0 ) {
                     *q = '\0';
                     strcpy(host, p+17);	// redirect host
-                    warning("redirect host = %s", host);
+                    echo("redirect host = %s", host);
                     goto htagain;
                   }
                 }
@@ -425,16 +425,16 @@ htagain:
               break;
 
             case 400:		// bad request
-              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
+              error("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
               httperr = true;
               break;
             case 403:		// forbidden
             case 404:		// not found
-              warning("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
+              error("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
               httperr = true;
               break;
             case HTTP_503:	// server unavailable
-              warning("HTTP-err: %d - server %s unavailable", httperr, host);
+              error("HTTP-err: %d - server %s unavailable", httperr, host);
               httperr = true;
               break;
 
