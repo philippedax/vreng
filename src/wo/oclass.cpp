@@ -69,8 +69,9 @@ const OClass * OClass::getOClass(const char *type_name)
             return otable[i];
           }
           if (! mystrcasecmp(type_name, "html")) {
-            dumpTable();
+            //dumpTable();
             fatal("bad world: type=html");
+            Vreng::quit(1);
           }
         }
       }
@@ -80,7 +81,7 @@ const OClass * OClass::getOClass(const char *type_name)
     }
   }
   error("type_name=%s not found, please upgrade VREng!", type_name);
-  dumpTable();
+  //dumpTable();
   return (OClass *) NULL;
 }
 
