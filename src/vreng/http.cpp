@@ -425,16 +425,16 @@ htagain:
               break;
 
             case 400:		// bad request
-              error("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
+              echo("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
               httperr = true;
               break;
             case 403:		// forbidden
             case 404:		// not found
-              error("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
+              echo("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
               httperr = true;
               break;
             case HTTP_503:	// server unavailable
-              error("HTTP-err: %d - server %s unavailable", httperr, host);
+              echo("HTTP-err: %d - server %s unavailable", httperr, host);
               httperr = true;
               break;
 
