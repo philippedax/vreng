@@ -149,7 +149,7 @@ void Gate::enter()
       trace(DBG_FORCE, "enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
     }
     else {
-      //echo("enter: warning resolveWorldUrl failed from Vac: url=%s", names.url);
+      //echo("enter: resolveWorldUrl failed from Vac: url=%s", names.url);
       if (! *chan)
         strcpy(chan, DEF_VRE_CHANNEL);  // no given channel, forced to the default
     }
