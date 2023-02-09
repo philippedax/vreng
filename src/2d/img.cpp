@@ -115,7 +115,7 @@ Img * Img::resize(uint16_t width_new, uint16_t height_new)
     return NULL;
   }
   if (pixmap == NULL) {
-    warning("resize pixmap null");
+    error("resize pixmap null");
     return NULL;
   }
 
