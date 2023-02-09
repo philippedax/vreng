@@ -938,7 +938,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
       else {
         strncpy(newworld->url, url, URL_LEN-1);
         newworld->url[URL_LEN] = '\0';
-        warning("enter: url too long = %s", url);
+        error("enter: url too long = %s", url);
       }
       newworld->setName(newworld->url);
     }
