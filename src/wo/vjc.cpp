@@ -244,7 +244,7 @@ int VjcSocket::openRecv()
     if (Socket::bindSocket(sdr, INADDR_ANY, listenPort + tries) != -1) {
       listenPort += tries;
       statecon = SOCK_RCVOPEN;
-      notice("Vjc receiver bound to port %d", listenPort);
+      echo("Vjc receiver bound to port %d", listenPort);
       return 1;
     }
   }
