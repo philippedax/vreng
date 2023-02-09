@@ -79,7 +79,7 @@ bool Ase::loadFromFile(FILE *f)
     return false;
   }
   if (importTextures() == false) {
-    warning("textures of ASE file not loaded");
+    error("textures of ASE file not loaded");
   }
   return loaded = true; //success
 }
