@@ -192,7 +192,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   if (geometry && isprint(*geometry)) {	//FIXME: when object comes from Cart
     parse()->parseSolids(geometry, SEP, this);
   }
-  else warning("Mirage: %s no geometry available", names.given);
+  else error("Mirage: %s no geometry available", names.given);
 
   enableBehavior(DYNAMIC);  // palette
   behavior();
