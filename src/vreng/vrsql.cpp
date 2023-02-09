@@ -104,20 +104,20 @@ bool VRSql::connectDB()
 #ifdef HAVE_MYSQL_REAL_CONNECT
   if ((db = mysql_init(db)) != NULL) {
     if (! mysql_real_connect(db, DEF_MYSQL_SERVER, USER, PASSWD, DB, 0, NULL, 0)) {
-      warning("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
+      error("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
       if (mysql_errno(db))
         error("mysql_error: %s", mysql_error(db));
       return false;
     }
   }
   else {
-    warning("VRSql: %s can't init %s", USER, DEF_MYSQL_SERVER);
+    error("VRSql: %s can't init %s", USER, DEF_MYSQL_SERVER);
     return false;
   }
   return true;
 #else
   if ((db = mysql_connect(NULL, DEF_MYSQL_SERVER, USER, PASSWD)) == NULL) {
-    warning("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
+    error("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
     return false;
   }
   if (db && mysql_select_db(db, DB) != 0) {
@@ -142,7 +142,7 @@ bool VRSql::connectDB()
   sprintf(args, "user=%s dbname=%s", ::g.user, DB);
   PGconn *db = PQconnectdb(args);
   if (PQstatus(db) == CONNECTION_BAD) {
-    warning("VRSql: %s can't connect %s", ::g.user, DEF_PGSQL_SERVER);
+    error("VRSql: %s can't connect %s", ::g.user, DEF_PGSQL_SERVER);
     PQerrorMessage(db);
     PQfinish(db);
     return false;
