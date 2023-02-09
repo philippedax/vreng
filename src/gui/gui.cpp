@@ -192,7 +192,7 @@ GuiItem * Gui::addUser(User *user) 	// when a new user comes in
 {
   if (! user)  return NULL;
 
-  notice("Avatar %s joins %s", user->getInstance(), user->worldName());
+  echo("Avatar %s joins %s", user->getInstance(), user->worldName());
   return widgets->addUser(user);
 }
 
@@ -200,7 +200,7 @@ void Gui::removeUser(User *user)	// when an user quits
 {
   if (! user)  return;
 
-  notice("Avatar %s leaves %s", user->getInstance(), user->worldName());
+  echo("Avatar %s leaves %s", user->getInstance(), user->worldName());
   if (user->isGui()) {
     widgets->removeUser(user->getGui());
     // MS : for Ubit at least, removeUser does a delete on the guiItem structure.
