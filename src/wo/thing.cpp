@@ -144,7 +144,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   if (geometry && isprint(*geometry)) {
     parse()->parseSolids(geometry, SEP, this);
   }
-  else warning("Thing: %s has no geometry", names.given);
+  else error("Thing: %s has no geometry", names.given);
 #endif
 
   enableBehavior(DYNAMIC);
