@@ -146,7 +146,7 @@ void Vjc::start()
     msg->sendData();
     if (msg) delete msg;
   }
-  echo("vjs opened");
+  //echo("vjs opened");
   return;
 }
 
