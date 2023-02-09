@@ -358,7 +358,7 @@ void WObject::getObjectNameById(uint8_t type, char *name)
     strcpy(name, oclass->type_name);
     return;
   }
-  warning("getObjectNameById: no name found for type=%d", type);
+  error("getObjectNameById: no name found for type=%d", type);
   return;
 }
 
@@ -1379,5 +1379,5 @@ void WObject::deleteReplica()
     if (noh) delete noh;
     noh = NULL; // delete NetObject
   }
-  else warning("%s disapeared, but he is back!", getInstance());
+  else echo("%s disapeared, but he is back!", getInstance());
 }
