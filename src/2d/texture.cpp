@@ -161,7 +161,7 @@ void Texture::httpReader(void *_tex, Http *_http)
     case IMG_PSD: img = Img::loadPSD(tex, imageReader); break;
     case IMG_NULL: return;
     default:
-      warning("texture: unrecognized image format");
+      echo("texture: unrecognized image format");
       return;
   }
 
