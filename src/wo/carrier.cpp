@@ -65,7 +65,7 @@ void Carrier::leaveControl(WObject *po, void *d, time_t s, time_t us)
 void Carrier::take(WObject *po)
 {
   if (po->mode != MOBILE) {
-    warning("%s is not mobile", po->getInstance());
+    echo("%s is not mobile", po->getInstance());
     return;
   }
 
