@@ -41,7 +41,7 @@
 void changeKey(int k_id, bool pressed, time_t sec, time_t usec)
 {
   if (k_id >= MAXKEYS || k_id < 0) {
-    warning("changeKey: invalid k_id = %d", k_id);
+    error("changeKey: invalid k_id = %d", k_id);
     return;
   }
   if (localuser) {
