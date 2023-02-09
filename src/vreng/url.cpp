@@ -102,7 +102,7 @@ void Url::abs(const char *relurl, char *absurl)
   }
   if (strlen(absurl) >= URL_LEN) {
     absurl[URL_LEN -1] = '\0';
-    warning("url length too big %s", absurl);
+    error("url length too big %s", absurl);
   }
   //echo("absurl: %s", absurl);
 }
