@@ -90,7 +90,7 @@ bool Obj::loadFromFile(FILE *f)
     error("OBJ file not loaded");
     return false;
   }
-  if (importTextures() == false) warning("textures of OBJ file not loaded");
+  if (importTextures() == false) error("textures of OBJ file not loaded");
   return loaded = true; //success
 }
 
