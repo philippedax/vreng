@@ -138,6 +138,7 @@ void Vjc::start()
   if (sock->openSocket() == -1) {
     error("Unable to open Vjc socket");
     if (sock) delete sock;
+    return;
   }
   else {
     localPort = sock->listenPort;
@@ -145,6 +146,8 @@ void Vjc::start()
     msg->sendData();
     if (msg) delete msg;
   }
+  echo("vjs opened");
+  return;
 }
 
 /* Sends a terminate notification to the server */
