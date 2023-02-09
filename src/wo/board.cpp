@@ -83,14 +83,14 @@ bool Board::isDrawing() const
 /* React to a user click on our surface */
 void Board::click(V3 d)
 {
-#if 0 //dax
+#if 1 //dax
   // get two principal vectors and a normal one
   V3 v, w, n;
   getSurfVecs(pos, &v, &w, &n);
 
   // check whether the click comes from the right side of the surface
   //float sp = n.v[0]*d.v[0] + n.v[1]*d.v[1] + n.v[2]*d.v[2];
-  //if (sp < 0) { warning("Board::click: bad side!"); }
+  //if (sp < 0) { error("Board::click: bad side!"); }
 
   // eye position
   V3 e = setV3(localuser->pos.x, localuser->pos.y, localuser->pos.z + localuser->height/2 - 0.10);
@@ -99,8 +99,8 @@ void Board::click(V3 d)
 
   // determine (x,y) coord. relativly to our surface
   float det = detV3(d, v, w);
-  float varx = calcVar(c, e, w, d) / det;
-  float vary = calcVar(c, e, d, v) / det;
+  float varx = calcV3(c, e, w, d) / det;
+  float vary = calcV3(c, e, d, v) / det;
   int x = (int) (varx);
   int y = (int) (vary);
   //echo("click: x=%d y=%d d=%.2f %.2f v=%.2f %.2f w=%.2f %.2f n=%.2f %.2f e=%.2f %.2f", x, y, d.v[0],d.v[1],v.v[0],v.v[1],w.v[0],w.v[1],n.v[0],n.v[1],e.v[0],e.v[1]);
