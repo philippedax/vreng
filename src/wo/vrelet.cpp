@@ -83,7 +83,7 @@ void Vrelet::parser(char *l)
     }
     else { // neither of the above methods worked, just put a default url
       sprintf(url, "http://%s/%s%s", ::g.server, ::g.urlpfx, DEF_URL_JAR);
-      echo("vrelet def url: %s", url);
+      //echo("vrelet def url: %s", url);
     }
   }
 }
@@ -97,7 +97,7 @@ Vrelet::Vrelet(char *l)
 
   parser(l);
 
-  // Vrelet objects can't currently collide with anything, they move through them
+  // Vrelet objects can't currently collide with anything
   enableBehavior(COLLIDE_GHOST);
   enableBehavior(SPECIFIC_RENDER);
 

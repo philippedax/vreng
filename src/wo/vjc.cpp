@@ -180,6 +180,7 @@ void Vjc::stopApp(Vrelet *po)
 /* Register a Vrelet object with the server */
 void Vjc::startApp(Vrelet *po)
 {
+  //echo("startApp");
   Vjc *srv = getServer();
   if (! srv)  return;
 
