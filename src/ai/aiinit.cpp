@@ -218,7 +218,7 @@ value recherche_Func(value mot, value act)
   int *listNumType = Vicinity::getTypeFromAction(val);
   int nbtype = listNumType[0];
 
-  //warning("Je suis la %d %s %s !", nbtype, val, actiontype);
+  //echo("Je suis la %d %s %s !", nbtype, val, actiontype);
 
   if (nbtype > 0) {
     char** typelist = new char*[nbtype];
@@ -296,7 +296,7 @@ value deplacement_to_Proximite(value mot, value pos)
 void msg_info(value mot)
 {
   char *val = (char *) String_val(mot);
-  warning("msgInfo::%s", val);
+  echo("msgInfo::%s", val);
 }
 
 void msg_debug(value mot)
