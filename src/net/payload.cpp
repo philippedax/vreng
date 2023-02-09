@@ -703,7 +703,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
     // resolved by getting a new random version
     // publishes new version to sender in unicast
     pn->declareObjDelta(prop_id);
-    // warning("Conflict resol: obj=%s, prop=%d, changing vers_num %d->%d",
+    // error("Conflict resol: obj=%s, prop=%d, changing vers_num %d->%d",
     // pn->getNetNameById(), prop_id, vers_id, pn->prop[prop_id].version);
   }
   // else, it's just a "recall" (then nothing to do)
