@@ -211,7 +211,7 @@ void Rtp::getSdesItemBySsrc(uint8_t sdes_type, uint32_t _ssrc, char *itemstr)
   for (Session *pse = Session::getList(); pse && pse->mode == Channel::WORLD_MODE; pse = pse->next) {
     for (Source *pso = pse->source; pso ; pso = pso->next) {
       if (pso == pso->next) {
-        //pd warning("Infinite loop in getSdesItemBySsrc");	// BUG ?
+        error("Infinite loop in getSdesItemBySsrc");	// BUG ?
         //pso->dump();
       }
 
