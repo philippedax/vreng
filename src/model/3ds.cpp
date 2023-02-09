@@ -99,7 +99,7 @@ bool _3ds::loadFromFile(FILE *f)
     error("3ds file not loaded");
     return false;
   }
-  if (importTextures() == false) warning("textures of 3ds file not loaded");
+  if (importTextures() == false) error("textures of 3ds file not loaded");
   return loaded = true; //success
 }
 
