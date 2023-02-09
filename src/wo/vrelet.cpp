@@ -292,7 +292,7 @@ void Vrelet::click(V3 dir)
 
   // check whether the click comes from the right side of the surface
   float sp = normal.v[0]*dir.v[0] + normal.v[1]*dir.v[1] + normal.v[2]*dir.v[2];
-  if (sp < 0) { warning("Vrelet::click: bad side!"); return; }
+  if (sp < 0) { error("Vrelet::click: bad side!"); return; }
 
   // eye position
   V3 e = setV3(localuser->pos.x, localuser->pos.y, localuser->pos.z + localuser->height/2 - 0.10);
@@ -432,7 +432,7 @@ tObject2D * Vrelet::removeObject2D(tObject2D *o2l, int _type, int _tag)
     }
     prev = pl;
   }
-  warning("attempt to remove a non-existing 2d object (%d %d)", _type, _tag);
+  error("attempt to remove a non-existing 2d object (%d %d)", _type, _tag);
   return o2l;
 }
 
@@ -450,7 +450,7 @@ void Vrelet::freePointList(tPointList *pts)
 /* Free an object2D and its point list */
 void Vrelet::freeObject2D(tObject2D *_o2)
 {
-  if (! _o2) warning("attempt to free a null 2d object");
+  if (! _o2) error("attempt to free a null 2d object");
   else {
     freePointList(_o2->points);
     delete[] _o2;
