@@ -183,7 +183,7 @@ void Model::loader()
   case MODEL_OFF: off = new Off(names.url); break;
   case MODEL_X3D: x3d = new X3d(names.url); break;
   case MODEL_MAN: man = new Man(); break;
-  default: warning("Model: unknown type=%d url=%s", model_t, names.url); return;
+  default: error("Model: unknown type=%d url=%s", model_t, names.url); return;
   }
 }
 
