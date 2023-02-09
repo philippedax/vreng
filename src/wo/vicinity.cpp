@@ -189,7 +189,7 @@ Vicinity::Dist Vicinity::computeDistance(WObject *obj1, WObject *obj2)
       (inclusion[1] == DIST_INTER) ||
       (inclusion[2] == DIST_INTER))
     return DIST_INTER;
-  warning("computeDistance: default distance value");
+  error("computeDistance: default distance value");
   return DIST_INTER;
 }
 
