@@ -272,13 +272,13 @@ int Channel::create(const char *chan_str, int **pfds)
 
   if (::g.pref.reflector) {
     if ((sd[SD_R_RTP] = createMcastRecvSocket(sa[SA_RTP_R])) < 0) {
-      warning("can't open receive socket RTP reflector");
+      error("can't open receive socket RTP reflector");
       return 0;
     }
   }
   else {	// native Multicast
     if ((sd[SD_R_RTP] = createMcastRecvSocket(sa[SA_RTP])) < 0) {
-      warning("can't open receive socket RTP");
+      error("can't open receive socket RTP");
       return 0;
     }
   }
@@ -312,13 +312,13 @@ int Channel::create(const char *chan_str, int **pfds)
 
   if (::g.pref.reflector) {
     if ((sd[SD_R_RTCP] = createMcastRecvSocket(sa[SA_RTCP_R])) < 0) {
-      warning("can't open receive socket RTCP reflector");
+      error("can't open receive socket RTCP reflector");
       return 0;
     }
   }
   else {	// native Multicast
     if ((sd[SD_R_RTCP] = createMcastRecvSocket(sa[SA_RTCP])) < 0) {
-      warning("can't open receive socket RTCP");
+      error("can't open receive socket RTCP");
       return 0;
     }
   }
@@ -570,7 +570,7 @@ void Channel::getGroup(const char *chan_str, char *grp_str)
   else {
     strncpy(grp_str, tmpchan, GROUP_LEN-1);
     grp_str[GROUP_LEN] = '\0';
-    warning("getGroup: \"%s\" too long", tmpchan);
+    error("getGroup: \"%s\" too long", tmpchan);
   }
   free(tmpchan);
 }
@@ -624,7 +624,7 @@ void Channel::newChanStr(char *chan_str)
   group = strdup(groupstr);
   sprintf(chan_str, "%s/%u/%d", group, getPort(chan_str), currentTtl());
   if (strlen(chan_str) >= CHAN_LEN) {
-    warning("buildChanStr: %s too long", chan_str);
+    error("buildChanStr: %s too long", chan_str);
     chan_str[CHAN_LEN] = '\0';
   }
   free(group);

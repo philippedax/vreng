@@ -205,7 +205,7 @@ void NetObject::addToList()
 
 void NetObject::initProperties(bool _responsible)
 {
-  if (netprop) return; //warning("initProperties: netprop already exists (type=%d)", type);
+  if (netprop) return; //error("initProperties: netprop already exists (type=%d)", type);
 
   uint8_t n = NetProperty::getPropertiesNumber(type);
   if (!n) return;
@@ -285,7 +285,7 @@ void NetObject::setNetName(const char *s, bool netbehave)
   noid.obj_id = htons(obj_id);
 
   if (getNetObject())
-    return;	//warning("setNetName: %s already seen %d/%d", pobject->getInstance(), scene_id, obj_id);
+    return;	//error("setNetName: %s already seen %d/%d", pobject->getInstance(), scene_id, obj_id);
   addToList();	// add to list
 }
 
@@ -293,7 +293,7 @@ void NetObject::setNetName(const char *s, bool netbehave)
 void NetObject::deleteFromList()
 {
   if (! getNetObject())
-    return;	//warning("deleteFromList: already unnamed/deleted type=%d", type);
+    return;	//error("deleteFromList: already unnamed/deleted type=%d", type);
 
   netobjectList.remove(this);
 }
@@ -425,11 +425,11 @@ void NetObject::sendCreate(const struct sockaddr_in *to)
 void NetObject::declareObjCreation()
 {
   if (! getNetObject()) {
-    warning("declareObjCreation: unnamed netobject (type=%d)", type);
+    error("declareObjCreation: unnamed netobject (type=%d)", type);
     return;
   }
   if (ntohl(noid.src_id) == 1) {
-    warning("declareObjCreation: not a new netobject (type=%d)", type);
+    error("declareObjCreation: not a new netobject (type=%d)", type);
     return;
   }
   Channel *pchan = Channel::current();
@@ -461,7 +461,7 @@ void NetObject::declareDeletion()
   if (! getNetObject()) return;
 
   if (permanent) {
-    warning("declareDeletion: on permanent object (type=%d)", type); return;
+    error("declareDeletion: on permanent object (type=%d)", type); return;
   }
   Channel *pchan = Channel::current();
   if (pchan) sendDelete(pchan->sa[SA_RTP]);
