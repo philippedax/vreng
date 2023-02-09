@@ -44,7 +44,7 @@ static char rtcp_tool[Rtp::TOOL_LEN];    // tool name
   { Session *sess = sessionList; \
     while (sess != NULL) { \
       if (sess->next == sess) \
-        warning("RtpSession list invalid at %s:%d", __FILE__, __LINE__); \
+        error("RtpSession list invalid at %s:%d", __FILE__, __LINE__); \
         break; \
       sess = sess->next; \
     } \
