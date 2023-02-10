@@ -30,6 +30,7 @@
 #include "ground.hpp"	// GROUND_TYPE
 #include "model.hpp"	// MODEL_TYPE
 #include "guide.hpp"	// GUIDE_TYPE
+#include "vrelet.hpp"	// VRELET_TYPE
 #include "pref.hpp"	// ::g.pref
 #include "grid.hpp"	// Grid
 #include "axis.hpp"	// Axis
@@ -216,7 +217,9 @@ void Render::renderOpaque(bool mini)
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
       (*it)->object()->render();
-      if ( (*it)->object()->type == GUIDE_TYPE ) {	// exception: guide is both
+      if ( (*it)->object()->type == GUIDE_TYPE ||	// exception: guide is both
+           (*it)->object()->type == VRELET_TYPE 	// exception: vrelet is both
+         ) {
         (*it)->displaySolid(Solid::OPAQUE);
       }
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
@@ -269,14 +272,17 @@ void Render::renderTransparent(bool mini)
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
+      if ( (*it)->object()->type == VRELET_TYPE ) {	// exception: vrelet is both
+        (*it)->displaySolid(Solid::TRANSPARENT);
+      }
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }
     else {
-      if ((*it)->nbsolids == 1) {		// mono solid
+      if ((*it)->nbsolids == 1) {	// mono solid
         (*it)->displaySolid(Solid::TRANSPARENT);
         trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
-      else {					// multi solids
+      else {				// multi solids
         glPushMatrix();
         (*it)->displaySolid(Solid::TRANSPARENT);
         trace2(DBG_VGL, " %s:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->nbsolids);
@@ -342,7 +348,6 @@ void Render::renderUser()
       (*it)->object()->render();
     }
     else {
-      //echo("general: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
       (*it)->displaySolid(Solid::USER);
     }
     (*it)->setRendered(true);

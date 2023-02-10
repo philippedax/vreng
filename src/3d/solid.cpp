@@ -398,6 +398,7 @@ char * Solid::parser(char *l)
  */
 int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 {
+  //echo("l: %s %s",l,object()->getInstance());
   if (!l) {
     error("no solid description");
     return -1;
