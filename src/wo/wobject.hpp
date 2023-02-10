@@ -41,6 +41,7 @@
 #define REMOVABLE		256	// bit 8
 #define PARTICLE		512	// bit 9
 #define LIQUID			1024	// bit 10
+#define MIX_RENDER		2048	// bit 11 double render (common + specific)
 
 /* collide behaviors */
 #define COLLIDE_EVER		0	// bits 29,30,31

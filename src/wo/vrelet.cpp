@@ -99,7 +99,8 @@ Vrelet::Vrelet(char *l)
 
   // Vrelet objects can't currently collide with anything
   enableBehavior(COLLIDE_GHOST);
-  enableBehavior(SPECIFIC_RENDER);
+  enableBehavior(SPECIFIC_RENDER);      
+  enableBehavior(MIX_RENDER);   // and common render
 
   initMobileObject(0);
 

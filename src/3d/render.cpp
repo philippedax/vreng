@@ -29,8 +29,6 @@
 #include "user.hpp"	// USER_TYPE
 #include "ground.hpp"	// GROUND_TYPE
 #include "model.hpp"	// MODEL_TYPE
-#include "guide.hpp"	// GUIDE_TYPE
-#include "vrelet.hpp"	// VRELET_TYPE
 #include "pref.hpp"	// ::g.pref
 #include "grid.hpp"	// Grid
 #include "axis.hpp"	// Axis
@@ -217,9 +215,7 @@ void Render::renderOpaque(bool mini)
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
       (*it)->object()->render();
-      if ( (*it)->object()->type == GUIDE_TYPE ||	// exception: guide is both
-           (*it)->object()->type == VRELET_TYPE 	// exception: vrelet is both
-         ) {
+      if ((*it)->object()->isBehavior(MIX_RENDER)) {	// mix render
         (*it)->displaySolid(Solid::OPAQUE);
       }
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
@@ -272,7 +268,7 @@ void Render::renderTransparent(bool mini)
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
-      if ( (*it)->object()->type == VRELET_TYPE ) {	// exception: vrelet is both
+      if ((*it)->object()->isBehavior(MIX_RENDER)) {	// mix render
         (*it)->displaySolid(Solid::TRANSPARENT);
       }
       trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);

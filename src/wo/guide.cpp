@@ -135,6 +135,7 @@ Guide::Guide(char *l)
 
   parser(l);
   enableBehavior(SPECIFIC_RENDER);
+  enableBehavior(MIX_RENDER);	// and common render
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
