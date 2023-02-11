@@ -24,6 +24,7 @@
 #include "ball.hpp"	// BALL_TYPE
 #include "cauldron.hpp"	// CAULDRON_TYPE
 #include "solid.hpp"	// setTransparent
+#include "texture.hpp"	// current()
 #include "sound.hpp"	// playSound
 
 
@@ -92,6 +93,7 @@ void Water::inits()
   initFluidObject(0);
   enablePermanentMovement();
   getSolid()->setTransparent(color[3]);
+  texid = Texture::current();
 
   //echo("Water: bbs=%.2f %.2f %.2f bbc=%.2f %.2f %.2f", pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2], pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
 }
@@ -142,6 +144,11 @@ void Water::draw()
 void Water::render()
 {
   glPushMatrix();
+   if (texid) {
+     glEnable(GL_TEXTURE_2D);
+     glBindTexture(GL_TEXTURE_2D, texid);
+     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+   }
    glEnable(GL_BLEND);
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, color);

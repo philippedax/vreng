@@ -42,6 +42,7 @@ private:
   float phase;		///< wave speed
   float transparency;	///< water transparency
   float off;		///< offset
+  GLuint texid;		///< texture id
 
 public:
   static const float DEF_TRANSP;
