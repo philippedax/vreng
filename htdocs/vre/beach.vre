@@ -24,8 +24,8 @@
 -->
 
 <!-- sun -->
-<mirage name="sun" pos="200 50 80" flare="1">
-  <solid shape="sphere" r="10" emi="1 1 .2" dif="black" amb="black" spe="black" shi="255" />
+<mirage name="sun" pos="200 50 80" >
+  <solid shape="sphere" r="10" emi="yellow" />
 </mirage>
 
 <!-- beach -->
