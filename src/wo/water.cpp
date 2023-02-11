@@ -93,7 +93,7 @@ void Water::inits()
   enablePermanentMovement();
   getSolid()->setTransparent(color[3]);
 
-  //trace(DBG_WO, "Water: bbs=%.2f %.2f %.2f bbc=%.2f %.2f %.2f", pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2], pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
+  //echo("Water: bbs=%.2f %.2f %.2f bbc=%.2f %.2f %.2f", pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2], pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
 }
 
 Water::Water(char *l)
@@ -177,9 +177,7 @@ bool Water::whenIntersect(WObject *pcur, WObject *pold)
     static bool first = true;
 
     if (first) {
-      trace(DBG_WO, "WaterC: bbs=%.2f,%.2f,%.2f bbc=%.2f,%.2f,%.2f",
-            pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2],
-            pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
+      //echo("WaterC: bbs=%.1f %.1f %.1f bbc=%.1f %.1f %.1f", pos.bbs.v[0], pos.bbs.v[1], pos.bbs.v[2], pos.bbc.v[0], pos.bbc.v[1], pos.bbc.v[2]);
       first = false;
     }
     pcur->pos.z += 2 * Ball::DELTAZ;

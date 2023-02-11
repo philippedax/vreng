@@ -295,7 +295,7 @@ void Vrelet::click(V3 dir)
 
   // check whether the click comes from the right side of the surface
   float sp = normal.v[0]*dir.v[0] + normal.v[1]*dir.v[1] + normal.v[2]*dir.v[2];
-  if (sp < 0) { error("Vrelet::click: bad side!"); return; }
+  //dax if (sp < 0) { error("Vrelet::click: bad side!"); return; }
 
   // eye position
   V3 e = setV3(localuser->pos.x, localuser->pos.y, localuser->pos.z + localuser->height/2 - 0.10);
@@ -313,7 +313,7 @@ void Vrelet::click(V3 dir)
   int y = (int) (vary * (float) incry / fy);
 
   // notify the child
-  trace(DBG_IFC, "Vrelet::click: x=%d y=%d", x, y);
+  //echo("Vrelet::click: x=%d y=%d", x, y);
   sendClick(x, y);
 }
 
