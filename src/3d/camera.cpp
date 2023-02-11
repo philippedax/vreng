@@ -423,18 +423,17 @@ void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz
   minirender();
 }
 
-#if 0 // notused
+/* called by aiinit */
 void Render::computeCameraProjection()
 {
   GLint vp[4];
 
   glGetIntegerv(GL_VIEWPORT, vp);
   GLint w = vp[2];
-  GLint h = vvp[3];
+  GLint h = vp[3];
   GLfloat fovy = cam_user.fovy;
   GLfloat near = cam_user.near;
   GLfloat far = cam_user.far;
 
   echo("User=(%.1f %.1f %.1f %.1f) fovy=%.2f near=%.1f far=%.1f w=%.1f h=%.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z, localuser->pos.az, fovy, near, far, w, h);
 }
-#endif // notused

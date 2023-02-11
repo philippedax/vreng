@@ -164,7 +164,8 @@ public:
    * - far : distance between the eye and the clipping plan
    */
 
-  //dax void computeCameraProjection();
+  void computeCameraProjection();
+  /**< called by aiinit */
 
   void calculateFov(GLfloat x, GLfloat y, GLfloat z, GLfloat az, char* filname);
   /**< calculate the FOV of the user on the position x,y,z and az. */
