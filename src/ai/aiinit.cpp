@@ -55,16 +55,16 @@ value recherche_Typegen(value ttype, value actiondemande)
 
   char *foundpos = new char[100];
   sprintf(foundpos, "N/A");
-  //echo("ICI");
+  //echo("Here");
   int nbelem = 0;
   WObject** listObj = g.render.getDrawedObjects(&nbelem);
-  //echo("ICI3 %s >> %s >> %d", listObj[1]->typeName(), typechercher, nbelem);
+  //echo("Here %s >> %s >> %d", listObj[1]->typeName(), typechercher, nbelem);
 
   int found = 0;
   int foundelem = 0;
 
   for (int i=1; i < nbelem; i++) {
-    echo("ICI2 %d %s", i, listObj[i]->typeName());
+    echo("Here %d %s", i, listObj[i]->typeName());
 
     if (! strcasecmp(listObj[i]->typeName(), typechercher) && listObj[i]->isVisible()) {
       //echo("found a type !");
@@ -79,23 +79,23 @@ value recherche_Typegen(value ttype, value actiondemande)
   }
 
   if (found == 1) {
-    notice("ACI:j'execute l'action sur l'objet.");
+    echo("Here: I execute the action on the object");
     listObj[foundelem]->runAction(action);
   }
   if (found == -1 || found == 0) {
     g.gui.getClicked(&oclick, oclicked);
     if (oclicked[0] != MAXFLOAT && oclick == 0) {
-      //notice("j'analyse votre selection sur %s.", (g.gui.getSelectedObject())->name); 
+      //echo("I analyze your selection on %s", (g.gui.getSelectedObject())->name); 
       g.gui.getSelectedObject()->runAction(action);
       g.gui.initClicked();
       return Val_int(0);
     }
   }
   if (found == -1) {
-    notice("il y a plusieurs elements de ce type, veuillez designer.");
+    echo("there are several elements of this type, please show");
     return Val_int(1);
   } else if (found == 0) {
-    notice("Je n'en vois aucun, veuillez designer.");
+    echo("I don't see anything, please show");
     return Val_int(1);
   }
 
@@ -218,7 +218,7 @@ value recherche_Func(value mot, value act)
   int *listNumType = Vicinity::getTypeFromAction(val);
   int nbtype = listNumType[0];
 
-  //echo("Je suis la %d %s %s !", nbtype, val, actiontype);
+  //echo("I'am here %d %s %s !", nbtype, val, actiontype);
 
   if (nbtype > 0) {
     char** typelist = new char*[nbtype];
@@ -239,26 +239,26 @@ value recherche_Func(value mot, value act)
     }
     else {
       if (nb == 1 && listObj[0]) {
-        notice("object found, do \"%s\" action !", val);
+        echo("object found, do \"%s\" action !", val);
         listObj[0]->runAction(val);
       }
       else if (nb > 1) {
-        notice("ambiguity, %d objects found, be more precise", nb);
+        echo("ambiguity, %d objects found, be more precise", nb);
       }
       else {
-        notice("no visible object for \"%s\", scan around the user", val);
+        echo("no visible object for \"%s\", scan around the user", val);
         Vicinity *vicin = new Vicinity();
         int nbproximity = 0;
         WObject* nearObj = vicin->searchProximityObject(typelist, nbtype);
         if (nearObj) {
 	  nearObj->runAction(val);
-	  notice("call the method on the nearest object");	
+	  echo("call the method on the nearest object");	
         }
         else if (nbproximity > 1) {
-	  notice("test proxi %d", nbproximity);
+	  echo("test proxi %d", nbproximity);
         }
         else {
-	  notice("no action \"%s\" possible", val);
+	  echo("no action \"%s\" possible", val);
         }
       }
     }
