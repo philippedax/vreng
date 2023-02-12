@@ -236,7 +236,7 @@ void Widget::quit()
 void Widget::takeFocus(Widget *widget, void *d, time_t s, time_t u)
 {
   if (! widget->focus) {
-    notice("Take Focus");
+    echo("Take Focus");
     //::g.gui.setToWidget(widget);
     widget->focus = true;
   }
@@ -246,7 +246,7 @@ void Widget::takeFocus(Widget *widget, void *d, time_t s, time_t u)
 void Widget::leaveFocus(Widget *widget, void *d, time_t s, time_t u)
 {
   if (widget->focus) {
-    notice("Leave Focus");
+    echo("Leave Focus");
     //::g.gui.setToWidget(NULL);
     widget->focus = false;
   }
