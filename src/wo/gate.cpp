@@ -184,7 +184,7 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
   case USER_TYPE:
     if (automatic) {
       if (pcur != localuser) {
-	notice("User was just pushed out of this world");
+	echo("User was just pushed out of this world");
         return true;
       }
       else {
@@ -199,12 +199,12 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
     else {
       if (collidecnt < 20) {
         pold->copyPositionAndBB(pcur);
-        notice("Warning! You are near the gate %s in=%d", getInstance(), collidecnt);
+        echo("You are near the gate %s in=%d", getInstance(), collidecnt);
         collidecnt++;
       }
       else if (collidecnt < 40) {
         pold->copyPositionAndBB(pcur);
-        notice("Warning! If you insist you'll enter in %s in=%d", getInstance(), collidecnt);
+        echo("If you insist you'll enter in %s in=%d", getInstance(), collidecnt);
         collidecnt++;
       }
       else {
@@ -215,7 +215,7 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
     break;
   case BULLET_TYPE:
   case DART_TYPE:
-    notice("%s:%s hits %s:%s", pcur->names.type, pcur->getInstance(), names.type, getInstance());
+    echo("%s:%s hits %s:%s", pcur->names.type, pcur->getInstance(), names.type, getInstance());
     pold->copyPositionAndBB(pcur);
     pcur->toDelete();
     break;
