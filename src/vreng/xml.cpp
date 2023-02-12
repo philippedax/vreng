@@ -526,17 +526,17 @@ void Xml::dtdValidation(const char *pathname)
 
     /* Once the document has been fully parsed check the validation results */
     if (xmlTextReaderIsValid(xmltextptr) != 1) {
-      warning("%s does not validate DTD!", filename);
+      error("%s does not validate DTD!", filename);
       ret = 0;
       dtderr = true;
     }
     xmlFreeTextReader(xmltextptr);
     if (ret != 0) {
-      warning("%s : failed to parse", filename);
+      error("%s : failed to parse", filename);
       dtderr = true;
     }
     if (!dtderr)
-      notice("%s is valid!", filename);
+      echo("%s is valid!", filename);
   }
   else {
     error("can't open %s", pathname);
