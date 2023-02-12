@@ -191,11 +191,11 @@ bool VNCRFB::initRFB()
     return false;
   }
   desktopName[si.nameLength] = 0;
-  notice("Desktop: %s", desktopName);
+  echo("Desktop: %s", desktopName);
   delete[] desktopName;
   desktopName = NULL;
 
-  trace(DBG_FORCE, "initRFB: connected to VNC server, using protocol version %d.%d",
+  echo("initRFB: connected to VNC server, using protocol version %d.%d",
 	rfbProtocolMajorVersion, rfbProtocolMinorVersion);
   trace(DBG_VNC, "initRFB: VNC server default format:");
   printPixelFormat(&si.format);
@@ -298,8 +298,8 @@ bool VNCRFB::sendClientCutText(char *str, int len)
   cct.type = rfbClientCutText;
   cct.length = swap32(len);
 
-  return  (vncsock.writeExact((char *)&cct, sz_rfbClientCutTextMsg) &&
-	   vncsock.writeExact(str, len));
+  return (vncsock.writeExact((char *)&cct, sz_rfbClientCutTextMsg) &&
+	  vncsock.writeExact(str, len));
 }
 
 /**
@@ -342,7 +342,7 @@ void VNCRFB::printPixelFormat(rfbPixelFormat *format)
 	    format->redShift, format->greenShift, format->blueShift);
     }
     else
-      trace(DBG_VNC, " Colour map (not true colour)");
+      trace(DBG_VNC, " Color map (not true color)");
   }
 }
 
