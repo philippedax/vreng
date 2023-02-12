@@ -59,7 +59,7 @@ bool Projectile::whenIntersect(WObject *pcur, WObject *pold)
   switch (pcur->type) {
   case USER_TYPE:
     /* projectile intersects an user: hit */
-    notice("%s hited by %s", pcur->getInstance(), getInstance());
+    echo("%s hited by %s", pcur->getInstance(), getInstance());
     pold->copyPositionAndBB(pcur);
     break;
   default:
