@@ -153,7 +153,7 @@ void Board::import()
 {
   if (state == INACTIVE) return;
   state |= IMPORT;
-  notice("Click in the whiteboard window");
+  echo("click in the whiteboard window!");
   /* TODO */
 }
 
