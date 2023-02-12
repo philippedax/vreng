@@ -556,7 +556,7 @@ void Widgets::saveCB()
       filein->close();
       delete fileout;
       delete filein;
-      notice("world %s saved", vreout);
+      echo("world %s saved", vreout);
     }
   }
 }
