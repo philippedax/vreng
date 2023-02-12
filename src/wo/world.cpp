@@ -379,7 +379,7 @@ void World::compute(time_t sec, time_t usec)
     }
     OList::clearIspointed(mobileList);
 
-    notice("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f",
+    //echo("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f",
            bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
 
 #if 0 //dax notused
