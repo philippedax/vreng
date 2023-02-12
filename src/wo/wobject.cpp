@@ -664,7 +664,7 @@ bool WObject::removeFromScene()
     return true;
   }
   else {
-    notice("Permission denied, owner is %s", names.owner);
+    echo("Permission denied, owner is %s", names.owner);
     removed = false;
     return false;
   }
