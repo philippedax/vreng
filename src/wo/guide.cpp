@@ -25,7 +25,7 @@
 
 const OClass Guide::oclass(GUIDE_TYPE, "Guide", Guide::creator);
 
-#define GUIDE_MAX 32
+#define GUIDE_MAX 64
 
 
 const uint8_t Guide::GUIDE_DIM = GUIDE_MAX;
@@ -46,8 +46,8 @@ static float userpos[4];	///< initial position of user
  * pointi = xi yi zi speedi, delayi
  * seg0 = point1 - origin (pos)
  * segi = pointi+1 - pointi
- * guide = origin----point1----point2---- ... ----pointn
- *               seg0      seg1      seg2     segn-1
+ * guide = origin------point1------point2------ ... ------pointn
+ *                seg0        seg1        seg2       segn-1
  */
 static float path[GUIDE_MAX][5]; ///< array of positions-speed-pause in the path
 
@@ -134,8 +134,8 @@ Guide::Guide(char *l)
   guide = this;
 
   parser(l);
-  enableBehavior(SPECIFIC_RENDER);
-  enableBehavior(MIX_RENDER);	// and common render
+  enableBehavior(SPECIFIC_RENDER);	// ramp rendering
+  enableBehavior(MIX_RENDER);		// skate rendering
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
@@ -368,6 +368,7 @@ void Guide::draw(float *color)
   glEndList();
 }
 
+/* Renders the ramp */
 void Guide::render()
 {
   if (! show || dlist < 0) return;
@@ -375,7 +376,9 @@ void Guide::render()
   glPushAttrib(GL_LINE_BIT);
   glPushMatrix();
    glDisable(GL_LIGHTING);
+
    glCallList(dlist);
+
    glEnable(GL_LIGHTING);
   glPopMatrix();
   glPopAttrib();
