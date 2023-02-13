@@ -75,11 +75,11 @@ void Vrelet::parser(char *l)
     // try to build an url like [...]/jar/vrengapp.jar
     strcpy(l2, World::current()->getUrl());
     if ((last = strrchr(l2, '/'))) *last = '\0';
-    if ((last = strrchr(l2, '/')) && (! stringcmp(last, "XXXXXX/vre"))) {
+    if ((last = strrchr(l2, '/')) && (! stringcmp(last, "/vre"))) {
       *last = '\0';
       Url::abs(l2, url);
       strcat(url, DEF_URL_JAR);
-      echo("vrelet url: %s l2=%s", url, l2);
+      //echo("vrelet url: %s l2=%s", url, l2);
     }
     else { // neither of the above methods worked, just put a default url
       sprintf(url, "http://%s/%s%s", ::g.server, ::g.urlpfx, DEF_URL_JAR);
@@ -99,8 +99,8 @@ Vrelet::Vrelet(char *l)
 
   // Vrelet objects can't currently collide with anything
   enableBehavior(COLLIDE_GHOST);
-  enableBehavior(SPECIFIC_RENDER);      
-  enableBehavior(MIX_RENDER);   // and common render
+  enableBehavior(SPECIFIC_RENDER);      // interactive drawing
+  enableBehavior(MIX_RENDER);		// drawing surface
 
   initMobileObject(0);
 
