@@ -22,7 +22,7 @@
 #include "wobject.hpp"
 #include "vjc.hpp"
 #include "socket.hpp"	// setNoBlocking
-#include "nsl.hpp"	// get_mygethostbyname
+#include "nsl.hpp"	// my_getgethostbyname
 #include "netobj.hpp"	// NetObject
 
 
@@ -111,6 +111,7 @@ int Vjc::sendCommand(WObject *po, int id)
   int ret = msg->sendData();
   if (msg) delete msg;
   msg = NULL;
+  echo("vjc: command %d", id);
   return ret;
 }
 
@@ -122,6 +123,7 @@ void Vjc::ping()
     sendCommand(this, VJC_MSGV_PING);
     lastping = 0;
   }
+  echo("vjc: ping %d", lastping);
 }
 
 void Vjc::quit()
@@ -136,7 +138,7 @@ void Vjc::start()
 
   // Open the socket
   if (sock->openSocket() == -1) {
-    error("Unable to open Vjc socket");
+    error("vjc: unable to open Vjc socket");
     if (sock) delete sock;
     return;
   }
@@ -156,7 +158,7 @@ void Vjc::stop()
   Vjc *srv = getServer();
   if (! srv) return;
 
-  trace(DBG_IFC, "Shutting down vjs server");
+  echo("vjc: shutting down vjs server");
   sendCommand(NULL, VJC_MSGV_TERMINATE);
   if (srv->sock) delete srv->sock;
   srv->sock = NULL;
@@ -169,6 +171,7 @@ void Vjc::stop()
 /* Unregister a Vrelet object with the server */
 void Vjc::stopApp(Vrelet *po)
 {
+  echo("vjc: stopApp");
   Vjc *srv = getServer();
   if (! srv) return;
 
@@ -180,15 +183,16 @@ void Vjc::stopApp(Vrelet *po)
 /* Register a Vrelet object with the server */
 void Vjc::startApp(Vrelet *po)
 {
-  //echo("startApp");
   Vjc *srv = getServer();
   if (! srv)  return;
+  echo("vjc: startApp");
 
-  char hostname[MAXHOSTNAMELEN];
-  if (gethostname(hostname, sizeof(hostname)-1) < 0) return;
+  char host[MAXHOSTNAMELEN];
+  if (gethostname(host, sizeof(host)-1) < 0) return;
+  //echo("vjc: host=%s", host);
 
   VjcMessage *msg = new VjcMessage(po, VJC_MSGT_CTRL, VJC_MSGV_REGISTER);
-  msg->putStr(hostname);
+  msg->putStr(host);
   msg->put16(srv->localPort);
   msg->putStr(po->getInstance());
   msg->putStr(po->app);
@@ -216,7 +220,7 @@ VjcSocket::VjcSocket(uint16_t _listenPort, const char *_destHost, uint16_t _dest
 
   struct sockaddr_in *sa;
   if ((sa = new struct sockaddr_in[1]) == NULL) {
-    //error("VjcSocket: can't new sa");
+    error("vjc: can't new sa");
     return;
   }
   memset(sa, 0, sizeof(struct sockaddr_in));
@@ -225,7 +229,7 @@ VjcSocket::VjcSocket(uint16_t _listenPort, const char *_destHost, uint16_t _dest
 
   struct hostent *hp;
   if ((hp = my_gethostbyname(_destHost, AF_INET)) == NULL) {
-    error("VjcSocket: unknown server %s", _destHost);
+    error("vjc: unknown server %s", _destHost);
     if (sa) delete[] sa;
     return;
   }
@@ -238,6 +242,7 @@ VjcSocket::VjcSocket(uint16_t _listenPort, const char *_destHost, uint16_t _dest
 /* Opens the receiver socket for this socket pair */
 int VjcSocket::openRecv()
 {
+  echo("vjc: openRecv");
   if ((sdr = Socket::openDatagram()) < 0) return 0;
 
   for (int tries = 0; tries<10; tries++) {
@@ -255,6 +260,7 @@ int VjcSocket::openRecv()
 /* Opens the sender socket. IO is set to non-blocking on this one */
 int VjcSocket::openSend()
 {
+  echo("vjc: openSend");
   if ((sdw = Socket::openDatagram()) < 0) return 0;
 
   Socket::setNoBlocking(sdw);
@@ -269,8 +275,9 @@ int VjcSocket::connectSend()
   timeout.tv_sec = 10;
   timeout.tv_usec = 0;
 
-  if (setsockopt(sdw, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
-    error("setsockopt failed\n");
+  if (setsockopt(sdw, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0) {
+    error("vjc: setsockopt failed\n");
+  }
   if (connect(sdw, (const struct sockaddr *) sadest, sizeof(struct sockaddr_in)) < 0) {
     if ((errno == EINPROGRESS) || (errno == EALREADY)) {
       // Socket set to non-blocking to prevent an app freeze
@@ -381,6 +388,7 @@ tVjcHeader vjcNewHeader(uint32_t ssrc, uint8_t type, uint8_t id, uint16_t len)
 /* Setups the header */
 void VjcMessage::setup(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
+  echo("vjc: setup type=%d id=%d", type, id);
   cursor = 0;	// set the cursor to the start of the buffer
   header = vjcNewHeader(ssrc, type, id, 0);	// create the header
   sender = po;	// set the sender object
@@ -432,7 +440,7 @@ void VjcMessage::dumpHeader(tVjcHeader hdr)
 
 #define VJC_CHECK_OVERFLOW_1(a) \
   if (cursor >= VjcMessage::MAX_PACKET-a) { \
-    error("Write past end of buffer (%d %d)", getHeader().msg_type, getHeader().msg_id); \
+    error("vjc: write past end of buffer (%d %d)", getHeader().msg_type, getHeader().msg_id); \
     return; \
   }
 
@@ -576,7 +584,7 @@ int VjcMessage::sendData()
 
 #define VJC_CHECK_OVERFLOW_2(a) \
   if (cursor > maxlen-a) { \
-    error("Read past end of buffer (%d %d)", getHeader().msg_type, getHeader().msg_id); \
+    error("vjc: read past end of buffer (%d %d)", getHeader().msg_type, getHeader().msg_id); \
     return NULL; \
   }
 
@@ -611,7 +619,7 @@ VjcMessage * Vjc::getData(WObject *po)
     if ((r = recv(srv->sock->sdr, (void *) pkt, VjcMessage::MAX_PACKET, 0)) > 0) {
       if (r < VJC_HDR_LEN) {
 	/* We didn't get a whole header */
-	error("Vjc::getData: dropped incomplete packet (%d)", r);
+	error("vjc: dropped incomplete packet (%d)", r);
       }
       else {
 	/* Message size is big enough to contain a header */
@@ -621,7 +629,7 @@ VjcMessage * Vjc::getData(WObject *po)
 	// TODO: check protocol id and version number
 	if (srv->lastMessage->getHeader().data_len > (VjcMessage::MAX_PACKET-VJC_HDR_LEN)) {
 	  /* Header and real length don't agree */
-	  error("Vjc::getData: illegal data length");
+	  error("vjc: illegal data length");
 	  if (srv->lastMessage) delete srv->lastMessage;
 	  srv->lastMessage = NULL;
 	}

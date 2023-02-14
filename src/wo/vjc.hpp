@@ -28,8 +28,8 @@
 
 //****************************************** begin of unviolable code
 // DON'T MODIFY THE FOLLOWING CONSTANTS !!!
-// They are needed by servers/vjs/gen.pl
-// to build servers/vjs/gen/fr/enst/vreng/MessageTypes.java
+// They are needed by src/vjs/gen.pl
+// to build src/vjs/gen/fr/enst/vreng/MessageTypes.java
 // They are used in:
 //	vjs/base/fr/enst/vreng/net/Receiver.java
 //	vjs/base/fr/enst/vreng/server/Server.java
@@ -40,6 +40,7 @@
 //	vjs/base/fr/enst/vreng/data/messages/PosMessage.java
 //	vjs/base/fr/enst/vreng/data/messages/QueryMessage.java
 //
+
 // Message types
 #define VJC_MSGT_CTRL	0
 #define VJC_MSGT_CLICK	1
