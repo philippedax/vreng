@@ -166,16 +166,20 @@ void Vrelet::answerTypeQuery(int _type)
 }
 
 /* Deal with input from the client app */
-void Vrelet::processClient()
+void Vrelet::readApp()
 {
   bool processed = false;
-  int tag;
-  V3 color = setV3(0, 0, 0);	//black;
 
   // check if the client has sent anything
   VjcMessage *msg;
-  if ((msg = Vjc::getData(this)) == NULL) return;
+  if ((msg = Vjc::getData(this)) == NULL)
+    return;	// nothing to do
+
   tVjcHeader header = msg->getHeader();
+  echo("vrelet: get meg=%d", header.msg_type);
+
+  int tag;
+  V3 color = setV3(0, 0, 0);	//black;
 
   // Process the client's data
   switch (header.msg_type) {
@@ -188,7 +192,7 @@ void Vrelet::processClient()
     ||   (header.msg_id == VJC_MSGV_LOOP)
     ||   (header.msg_id == VJC_MSGV_FILL) ) {
       // create a new line
-      trace(DBG_IFC, "vrelet get new line");
+      echo("vrelet: get new line");
       o2 = newObject2D(o2, header.msg_id, tag, color);
       while (msg->hasData(2*sizeof(int32_t))) {
         addPoint(o2, msg->readPoint2D());
@@ -196,7 +200,7 @@ void Vrelet::processClient()
       processed = true;
     }
     else if (header.msg_id == VJC_MSGV_CIRCLE) {
-      trace(DBG_IFC, "vrelet get new circle");
+      echo("vrelet: get new circle");
       // Create a new circle
       o2 = newObject2D(o2, header.msg_id, tag, color);
       addPoint(o2, msg->readPoint2D());
@@ -295,7 +299,7 @@ void Vrelet::click(V3 dir)
 
   // check whether the click comes from the right side of the surface
   float sp = normal.v[0]*dir.v[0] + normal.v[1]*dir.v[1] + normal.v[2]*dir.v[2];
-  //dax if (sp < 0) { error("Vrelet::click: bad side!"); return; }
+  //dax if (sp < 0) { error("vrelet: click bad side"); return; }
 
   // eye position
   V3 e = setV3(localuser->pos.x, localuser->pos.y, localuser->pos.z + localuser->height/2 - 0.10);
@@ -346,7 +350,7 @@ void Vrelet::deltaPos(WObject *po)
 /* Return yes if the child has sent a delta request */
 bool Vrelet::isMoving()
 {
-  processClient();
+  readApp();
   return (wantDelta > 0 || needRedraw);
 }
 
@@ -435,7 +439,7 @@ tObject2D * Vrelet::removeObject2D(tObject2D *o2l, int _type, int _tag)
     }
     prev = pl;
   }
-  error("attempt to remove a non-existing 2d object (%d %d)", _type, _tag);
+  error("vrelet: attempt to remove a non-existing 2d object (%d %d)", _type, _tag);
   return o2l;
 }
 
@@ -453,7 +457,7 @@ void Vrelet::freePointList(tPointList *pts)
 /* Free an object2D and its point list */
 void Vrelet::freeObject2D(tObject2D *_o2)
 {
-  if (! _o2) error("attempt to free a null 2d object");
+  if (! _o2) error("vrelet: attempt to free a null 2d object");
   else {
     freePointList(_o2->points);
     delete[] _o2;
@@ -479,7 +483,7 @@ void Vrelet::addPoint(tObject2D *_o2, V3 _point)
 {
   tPointList *pts = new tPointList[1];
 
-  trace(DBG_IFC, "addPoint: px=%.2f py=%.2f", _point.v[0], _point.v[1]);
+  echo("vrelet: addPoint: px=%.2f py=%.2f", _point.v[0], _point.v[1]);
   copyV3(&pts->point, _point);
   pts->next = _o2->points;
   _o2->points = pts;
@@ -496,7 +500,7 @@ void Vrelet::draw()
   glTranslatef(0, 0, 0.02); // extra z so that the figures are drawn slightly
 		            // above the surface
   while (o2) {
-    trace(DBG_IFC, "draw2DList: o2->type=%d", o2->type);
+    echo("vrelet: draw: o2->type=%d", o2->type);
     switch (o2->type) {
 
       case VJC_MSGV_LINE:

@@ -162,7 +162,7 @@ class Vrelet: public WObject {
    * of WObject. A list of all the object ids is returned to the child.
    */
 
-  void processClient();
+  void readApp();
   /**<
    * Deal with input from the client app.
    * This function is called at every render phase.
