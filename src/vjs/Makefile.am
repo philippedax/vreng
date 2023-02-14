@@ -119,8 +119,8 @@ APP_FILES=\
         $(APP_DIR)/Fan.java \
         $(APP_DIR)/Slide.java \
         $(APP_DIR)/Board.java \
-        $(APP_DIR)/TicTacToe.java
-#dax        $(APP_DIR)/Ring.java
+        $(APP_DIR)/TicTacToe.java \
+        $(APP_DIR)/Ring.java
 
 # Base files
 BASE_FILES=\
