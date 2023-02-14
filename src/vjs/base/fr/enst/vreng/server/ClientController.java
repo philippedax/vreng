@@ -54,7 +54,8 @@ public class ClientController implements Runnable {
   /** Returns a client based on its SSRC */
   public Vreng getClient(int ssrc) {
     synchronized(clients) {
-      return (Vreng) clients.get(new Integer(ssrc));
+      //deprecated return (Vreng) clients.get(new Integer(ssrc));
+      return (Vreng) clients.get(Integer.valueOf(ssrc));
     }
   }
 
@@ -62,7 +63,8 @@ public class ClientController implements Runnable {
   public void addClient(Vreng vreng) {
     synchronized(clients) {
       System.out.println("[Addind "+vreng+"]");
-      clients.put(new Integer(vreng.getSSRC()), vreng);
+      //deprecated clients.put(new Integer(vreng.getSSRC()), vreng);
+      clients.put(Integer.valueOf(vreng.getSSRC()), vreng);
     }
   }
 
@@ -82,7 +84,8 @@ public class ClientController implements Runnable {
   public void removeClient(Vreng vreng) {
     synchronized(clients) {
       System.out.println("[Removing "+vreng+"]");
-      clients.remove(new Integer(vreng.getSSRC()));
+      //deprecated clients.remove(new Integer(vreng.getSSRC()));
+      clients.remove(Integer.valueOf(vreng.getSSRC()));
     }
   }
 

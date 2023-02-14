@@ -332,7 +332,8 @@ public abstract class VrengApp implements IVrengApp {
       throw new VrengException("Class "+classname+" not found.");
     }
     try {
-      app = (IVrengApp) clazz.newInstance();
+      //deprecated app = (IVrengApp) clazz.newInstance();
+      app = (IVrengApp) clazz.getDeclaredConstructor().newInstance();
     } catch (Throwable t) {
       throw new VrengException("Couldn't load class "+classname+" : "+t.getMessage());
     }
