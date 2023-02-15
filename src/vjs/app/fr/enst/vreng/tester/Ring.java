@@ -91,8 +91,8 @@ public class Ring extends VrengApp {
     if (!keepGoing)
       return;
 
-    QueryMessage qm = new QueryMessage(MessageTypes.MSGV_QTYPE, 1);	//dax
-                                       //dax notfound ObjectTypes.OBJ_User);
+    //dax QueryMessage qm = new QueryMessage(MessageTypes.MSGV_QTYPE, 1);
+    QueryMessage qm = new QueryMessage(MessageTypes.MSGV_QTYPE, ObjectTypes.OBJ_User);
     QueryMessage ans = null;
     try {
       ans = sendQuery(qm);
