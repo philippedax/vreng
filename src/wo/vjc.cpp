@@ -158,7 +158,7 @@ void Vjc::stop()
   Vjc *srv = getServer();
   if (! srv) return;
 
-  echo("vjc: shutting down vjs server");
+  //echo("vjc: shutting down vjs server");
   sendCommand(NULL, VJC_MSGV_TERMINATE);
   if (srv->sock) delete srv->sock;
   srv->sock = NULL;
@@ -168,19 +168,19 @@ void Vjc::stop()
   setServer(NULL);
 }
 
-/* Unregister a Vrelet object with the server */
+/* Unregisters a Vrelet object with the server */
 void Vjc::stopApp(Vrelet *po)
 {
-  echo("vjc: stopApp");
   Vjc *srv = getServer();
   if (! srv) return;
+  echo("vjc: stopApp");
 
   sendCommand(po, VJC_MSGV_UNREGISTER);
   if (srv->lastMessage) delete srv->lastMessage;
   srv->lastMessage = NULL;
 }
 
-/* Register a Vrelet object with the server */
+/* Registers a Vrelet object with the server */
 void Vjc::startApp(Vrelet *po)
 {
   Vjc *srv = getServer();
@@ -209,7 +209,7 @@ void Vjc::startApp(Vrelet *po)
 //* Network management
 //*
 
-/* Initialize a pair of sockets for communicating with the child app */
+/* Initializes a pair of sockets for communicating with the child app */
 VjcSocket::VjcSocket(uint16_t _listenPort, const char *_destHost, uint16_t _destPort)
 {
   listenPort = _listenPort;
@@ -280,7 +280,7 @@ int VjcSocket::connectSend()
   }
   if (connect(sdw, (const struct sockaddr *) sadest, sizeof(struct sockaddr_in)) < 0) {
     if ((errno == EINPROGRESS) || (errno == EALREADY)) {
-      // Socket set to non-blocking to prevent an app freeze
+      // socket set to non-blocking to prevent an app freeze
       return 1;
     }
     else {
@@ -388,7 +388,7 @@ tVjcHeader vjcNewHeader(uint32_t ssrc, uint8_t type, uint8_t id, uint16_t len)
 /* Setups the header */
 void VjcMessage::setup(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
-  echo("vjc: setup type=%d id=%d", type, id);
+  //echo("vjc: setup type=%d id=%d", type, id);
   cursor = 0;	// set the cursor to the start of the buffer
   header = vjcNewHeader(ssrc, type, id, 0);	// create the header
   sender = po;	// set the sender object
@@ -431,11 +431,10 @@ tVjcHeader VjcMessage::getHeader()
   return header;
 }
 
-/* Read a header struct for the raw packet data */
+/* Reads a header struct for the raw packet data */
 void VjcMessage::dumpHeader(tVjcHeader hdr)
 {
-  //echo("%x %d %d %d %d %d",
-  //hdr.proto, hdr.version, hdr.app_ssrc, hdr.msg_type, hdr.msg_id, hdr.data_len);
+  //echo("%x %d %d %d %d %d", hdr.proto, hdr.version, hdr.app_ssrc, hdr.msg_type, hdr.msg_id, hdr.data_len);
 }
 
 #define VJC_CHECK_OVERFLOW_1(a) \
@@ -444,27 +443,27 @@ void VjcMessage::dumpHeader(tVjcHeader hdr)
     return; \
   }
 
-/* Add a 8bit int to the message */
+/* Adds a 8bit int to the message */
 void VjcMessage::put8(int val)
 {
-  //pd VJC_CHECK_OVERFLOW_1(sizeof(uint8_t))
+  //dax VJC_CHECK_OVERFLOW_1(sizeof(uint8_t))
   data[cursor] = (uint8_t) (0x000000FF) & val;
   cursor += sizeof(uint8_t);
 }
 
-/* Add a 16bit int to the message */
+/* Adds a 16bit int to the message */
 void VjcMessage::put16(int val)
 {
-  //pd VJC_CHECK_OVERFLOW_1(sizeof(int16_t))
+  //dax VJC_CHECK_OVERFLOW_1(sizeof(int16_t))
   data[cursor]   = (val & 0xFF00) >> 8;
   data[cursor+1] = (val & 0x00FF);
   cursor += sizeof(int16_t);
 }
 
-/* Add a 32bit int to the message */
+/* Adds a 32bit int to the message */
 void VjcMessage::put32(int val)
 {
-  //pd VJC_CHECK_OVERFLOW_1(sizeof(int32_t))
+  //dax VJC_CHECK_OVERFLOW_1(sizeof(int32_t))
   data[cursor]   = (val & 0xFF000000) >> 24;
   data[cursor+1] = (val & 0x00FF0000) >> 16;
   data[cursor+2] = (val & 0x0000FF00) >> 8;
@@ -472,7 +471,7 @@ void VjcMessage::put32(int val)
   cursor += sizeof(int32_t);
 }
 
-/* Add a string to the message */
+/* Adds a string to the message */
 void VjcMessage::putStr(const char *str)
 {
   int i, len = strlen(str);
@@ -536,13 +535,13 @@ uint8_t *VjcMessage::toBytes(int *pktlen)
   put16(datalen);
   cursor = VJC_HDR_SSRC_IDX;	// set the ssrc (could have been updated)
   put32(Vjc::getServer()->ssrc);
-  // Restore the cursor. This should actually never be needed, except
+  // restore the cursor, this should actually never be needed, except
   // if someone sends the same message twice, after updating it
   cursor = *pktlen;
   return data;		// return a pointer to the data.
 }
 
-/* Send data over to the server */
+/* Sends data over to the server */
 int VjcMessage::sendData()
 {
   int pktlen = 0;
@@ -561,7 +560,7 @@ int VjcMessage::sendData()
           && (getHeader().msg_id  == VJC_MSGV_REGISTER))) {
 
         VjcMessage *msg = new VjcMessage(srv, srv->ssrc, VJC_MSGT_CTRL, VJC_MSGV_UPDATE);
-        //echo("Vjc: updating SSRC for Vjc (old:%d, new:%d)", srv->ssrc, NetObject::getMySsrcId());
+        //echo("vjc: updating ssrc (old:%d,new:%d)", srv->ssrc, NetObject::getMySsrcId());
         msg->put32(NetObject::getMySsrcId());
         pkt = msg->toBytes(&pktlen);
         send(srv->sock->sdw, pkt, pktlen, 0);
@@ -573,7 +572,7 @@ int VjcMessage::sendData()
     /* send the message */
     pkt = toBytes(&pktlen);
     send(srv->sock->sdw, pkt, pktlen, 0);
-    //echo("Vjc: sending %d bytes with '%02x%02x' %d %08x (%d %d)",
+    //echo("vjc: sending %d bytes with '%02x%02x' %d %08x (%d %d)",
     //	  sent, pkt[0], pkt[1], pkt[2], NetObject::getMySsrcId(),
     //	  getHeader().msg_type,
     //	  getHeader().msg_id);
@@ -588,16 +587,16 @@ int VjcMessage::sendData()
     return NULL; \
   }
 
-/* Reads in data from the child process, if any is availabe */
+/* Reads in data from the app process, if any is available */
 VjcMessage * Vjc::getData(WObject *po)
 {
   /* check that the socket is really open */
   Vjc *srv = getServer();
   if ((! srv) || (srv->sock->statecon != VjcSocket::SOCK_OPEN)) return NULL;
 
-  if (srv->lastMessage) goto haspack;
+  uint8_t *pkt = NULL;
 
-  uint8_t *pkt;
+  if (srv->lastMessage) goto haspack;
 
   /* set a 0 sec timeout:
    * the select will return instantly if no data is available */
@@ -611,29 +610,26 @@ VjcMessage * Vjc::getData(WObject *po)
 
   if (select(srv->sock->sdr+1, &fds, NULL, NULL, &to) > 0) {
     int r;
-
-    if ((pkt = new uint8_t[VjcMessage::MAX_PACKET]) == NULL) {
-      return NULL;
-    }
+    pkt = new uint8_t[VjcMessage::MAX_PACKET];
 
     if ((r = recv(srv->sock->sdr, (void *) pkt, VjcMessage::MAX_PACKET, 0)) > 0) {
       if (r < VJC_HDR_LEN) {
-	/* We didn't get a whole header */
+	/* we didn't get a whole header */
 	error("vjc: dropped incomplete packet (%d)", r);
       }
       else {
-	/* Message size is big enough to contain a header */
+	/* message size is big enough to contain a header */
 	srv->lastMessage = new VjcMessage(pkt, r);
 
-	/* Check the header */
+	/* check the header */
 	// TODO: check protocol id and version number
 	if (srv->lastMessage->getHeader().data_len > (VjcMessage::MAX_PACKET-VJC_HDR_LEN)) {
-	  /* Header and real length don't agree */
+	  /* header and real length don't agree */
 	  error("vjc: illegal data length");
 	  if (srv->lastMessage) delete srv->lastMessage;
 	  srv->lastMessage = NULL;
 	}
-        else goto haspack;
+        else goto haspack;	// packet is here
       }
     }
     // (r < 0) || (packet too short) || (invalid header)
@@ -644,11 +640,12 @@ VjcMessage * Vjc::getData(WObject *po)
   return NULL; // select <= 0
 
 haspack:
-  // A message was read from the socket, or had been read previously
+  // a message was read from the socket, or had been read previously
   if (srv->lastMessage->isForObject(po)) {
-    VjcMessage *ret = srv->lastMessage;
+    echo("vjc: got msg");
+    VjcMessage *msg = srv->lastMessage;
     srv->lastMessage = NULL;
-    return ret;
+    return msg;
   }
   return NULL;
 }
@@ -656,7 +653,7 @@ haspack:
 /* Reads an 8 bit signed int */
 int8_t VjcMessage::read8()
 {
-  //pd VJC_CHECK_OVERFLOW_2(sizeof(int8_t))
+  //dax VJC_CHECK_OVERFLOW_2(sizeof(int8_t))
   uint8_t val = data[cursor];
   cursor += sizeof(int8_t);
   return val;
@@ -665,7 +662,7 @@ int8_t VjcMessage::read8()
 /* Reads a 16 bit signed int */
 int16_t VjcMessage::read16()
 {
-  //pd VJC_CHECK_OVERFLOW_2(sizeof(int16_t))
+  //dax VJC_CHECK_OVERFLOW_2(sizeof(int16_t))
   int16_t val = (data[cursor] << 8) + (0x00ff & data[cursor+1]);
   cursor += sizeof(int16_t);
   return val;
@@ -674,7 +671,7 @@ int16_t VjcMessage::read16()
 /* Reads a 32 bit signed int */
 int32_t VjcMessage::read32()
 {
-  //pd VJC_CHECK_OVERFLOW_2(sizeof(int32_t))
+  //dax VJC_CHECK_OVERFLOW_2(sizeof(int32_t))
   int32_t val =
           (0xff000000 & (data[cursor]   << 24))
         + (0x00ff0000 & (data[cursor+1] << 16))
@@ -684,7 +681,7 @@ int32_t VjcMessage::read32()
   return val;
 }
 
-/* Read a header struct for the raw packet data */
+/* Reads a header struct for the raw packet data */
 tVjcHeader VjcMessage::readHeader()
 {
   tVjcHeader hdr;
@@ -702,12 +699,12 @@ tVjcHeader VjcMessage::readHeader()
   return hdr;
 }
 
-/* Read two 32bit ints, and return them as the x and y coords. of a V3 */
+/* Reads two 32bit ints, and return them as the x and y coords. of a V3 */
 V3 VjcMessage::readPoint2D()
 {
   V3 point;
 
-  //pd VJC_CHECK_OVERFLOW_2(2*sizeof(int32_t))
+  //dax VJC_CHECK_OVERFLOW_2(2*sizeof(int32_t))
   point.v[0] = ((float) read32());
   point.v[1] = ((float) read32());
   point.v[2] = 0;
@@ -718,12 +715,12 @@ V3 VjcMessage::readPoint3D()
 {
   V3 point = readPoint2D();
 
-  //pd VJC_CHECK_OVERFLOW_2(sizeof(int32_t))
+  //dax VJC_CHECK_OVERFLOW_2(sizeof(int32_t))
   point.v[2] = ((float) read32());
   return point;
 }
 
-/* Read three 32bit ints, converted to floats by division by 1000 */
+/* Reads three 32bit ints, converted to floats by division by 1000 */
 V3 VjcMessage::readDelta()
 {
   V3 point = readPoint3D();
