@@ -23,7 +23,7 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 
 SUBDIRS = app base
 
-EXTRA_DIST = gen.pl vjs.in
+EXTRA_DIST = gen.pl.in vjs.in gen.pl
 
 if ENABLE_VJS
 if ENABLE_JAVA

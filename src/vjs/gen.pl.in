@@ -102,7 +102,7 @@ gen($vjc, $gendir, $package, $mestype, "", "int", @consts, %strings);
 @consts = ();
 %strings = ();
 
-die "Can't open objects file: $!" unless open F, $objects;
+die "Can't open $objects file: $!" unless open F, $objects;
 while ($line = <F>) {
   if ($line =~ /\/\*\s*(\d+)\s*\*\/\s*\{\s*(\S+?)_NAME/) {
     push @consts, $2, $1;
