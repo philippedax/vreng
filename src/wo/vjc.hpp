@@ -119,19 +119,20 @@ class VjcSocket {
 
   VjcSocket(uint16_t listenPort, const char *destHost, uint16_t destPort);
   /**<
-   * Initialize a pair of sockets for communicating with the child app.
+   * Constructor :
+   * Initializes a pair of sockets for communicating with the child app.
    * The sockets aren't actually opened. The addresses are initialized.
    */
 
   virtual ~VjcSocket();
   /**<
-   * Closes and frees an VjcSocket.
+   * Closes and frees a VjcSocket.
    * The handle is invalidated by this call.
    */
 
   int openSocket();
   /**<
-   * Opens an VjcSocket. This call is 'non-blocking' : if the connect
+   * Opens a VjcSocket. This call is 'non-blocking' : if the connect
    * does not work because the client is not ready yet, this function
    * returns 0.
    * In this case, it should be called again to finish the connection.
@@ -141,7 +142,7 @@ class VjcSocket {
 
   int openRecv();
   /**<
-   * Open the receiver socket for this socket pair.
+   * Opens the receiver socket for this socket pair.
    * The socket is bound to the local port passed in when it was initialized.
    */
 
@@ -163,7 +164,7 @@ class VjcSocket {
 
   bool isConnected();
   /**<
-   * Check if the non-blocking connect call on the send socket
+   * Checks if the non-blocking connect call on the send socket
    * finished or not.
    */
 
@@ -190,10 +191,10 @@ class VjcSocket {
 
 typedef struct {
   int16_t proto;	///< protocol id X'abcd'
-  uint8_t  version;	///< protocol version
+  uint8_t version;	///< protocol version
   uint32_t app_ssrc;	///< application's SSRC
-  uint8_t  msg_type;	///< Message type
-  uint8_t  msg_id;	///< Message id
+  uint8_t msg_type;	///< Message type
+  uint8_t msg_id;	///< Message id
   int16_t data_len;	///< Data length
   uint8_t obj_type;	///< Sender type
   uint32_t src_id;	///< Sender ssrc
@@ -430,7 +431,7 @@ class Vjc: public WObject {
 
   static void startApp(class Vrelet *pifc);
   /**<
-   * Register an Vrelet object with the external server
+   * Registers a Vrelet object with the external server
    * The message contains:
    * - localhost name (string)
    * - local listen port (16bit)

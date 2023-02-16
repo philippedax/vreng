@@ -126,11 +126,11 @@ CONTRIBUTORS\n\
 ------------\n\
 Francois Karr : Windows95 port\n\
 Vincent Haverlant : RTP protocol\n\
-Adrien Felon : aoi objects\n\
-Patrick Bellot <bellot@enst.fr>: language vrel\n\
+Adrien Felon : aoi object\n\
+Patrick Bellot <bellot@enst.fr>: vrel language\n\
 Ankit Jalote : humanoid\n\
 Yann Renard : face, bone, v3d\n\
-Mathieu Seigneurin : vfs, vfc, vrelet\n\
+Mathieu Seigneurin : vjs, vjc, vrelet\n\
 Guillaume Brule : bap\n\
 Pierre Gros : transform, lwo, mysql\n\
 Mario Trentini : landmarks, axis\n\

@@ -104,7 +104,7 @@ void Vjc::changePermanent(float lasting)
   getServer()->ping();
 }
 
-/* Sends a simple (no data) control command to the child */
+/* Sends a simple (no data) control command to the app */
 int Vjc::sendCommand(WObject *po, int id)
 {
   VjcMessage *msg = new VjcMessage(po, VJC_MSGT_CTRL, id);
@@ -148,7 +148,7 @@ void Vjc::start()
     msg->sendData();
     if (msg) delete msg;
   }
-  //echo("vjs opened");
+  //echo("vjc: started");
   return;
 }
 
@@ -189,7 +189,6 @@ void Vjc::startApp(Vrelet *po)
 
   char host[MAXHOSTNAMELEN];
   if (gethostname(host, sizeof(host)-1) < 0) return;
-  //echo("vjc: host=%s", host);
 
   VjcMessage *msg = new VjcMessage(po, VJC_MSGT_CTRL, VJC_MSGV_REGISTER);
   msg->putStr(host);
@@ -219,10 +218,7 @@ VjcSocket::VjcSocket(uint16_t _listenPort, const char *_destHost, uint16_t _dest
   sdw = -1;
 
   struct sockaddr_in *sa;
-  if ((sa = new struct sockaddr_in[1]) == NULL) {
-    error("vjc: can't new sa");
-    return;
-  }
+  sa = new struct sockaddr_in[1];
   memset(sa, 0, sizeof(struct sockaddr_in));
   sa->sin_family = AF_INET;
   sa->sin_port = htons(destPort);
@@ -249,7 +245,7 @@ int VjcSocket::openRecv()
     if (Socket::bindSocket(sdr, INADDR_ANY, listenPort + tries) != -1) {
       listenPort += tries;
       statecon = SOCK_RCVOPEN;
-      echo("Vjc receiver bound to port %d", listenPort);
+      echo("vjc: receiver bound to port %d", listenPort);
       return 1;
     }
   }
@@ -260,7 +256,7 @@ int VjcSocket::openRecv()
 /* Opens the sender socket. IO is set to non-blocking on this one */
 int VjcSocket::openSend()
 {
-  echo("vjc: openSend");
+  //echo("vjc: openSend");
   if ((sdw = Socket::openDatagram()) < 0) return 0;
 
   Socket::setNoBlocking(sdw);
@@ -276,7 +272,7 @@ int VjcSocket::connectSend()
   timeout.tv_usec = 0;
 
   if (setsockopt(sdw, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0) {
-    error("vjc: setsockopt failed\n");
+    error("vjc: setsockopt failed");
   }
   if (connect(sdw, (const struct sockaddr *) sadest, sizeof(struct sockaddr_in)) < 0) {
     if ((errno == EINPROGRESS) || (errno == EALREADY)) {
@@ -297,12 +293,13 @@ bool VjcSocket::isConnected()
   fd_set set;
   struct timeval timeout;
 
-  FD_ZERO(&set);
-  FD_SET(sdw, &set);
   timeout.tv_sec = 0;
   timeout.tv_usec = 0;
+  FD_ZERO(&set);
+  FD_SET(sdw, &set);
+
   if (select(sdw+1, NULL, &set, NULL, &timeout) > 0) {
-    statecon = SOCK_OPEN;	// The socket finished connecting
+    statecon = SOCK_OPEN;	// the socket finished connecting
     return true;
   }
   return false;
@@ -313,14 +310,18 @@ int VjcSocket::openSocket()
 {
   // check if it's not already open
   if (statecon == SOCK_OPEN) return 1;
-  // Open the receiver
+
+  // open the receiver
   if (statecon == SOCK_CLOSED) if (openRecv() == 0) return -1;
-  // Open the sender
+
+  // open the sender
   if (statecon == SOCK_RCVOPEN) if (openSend() == 0) return -1;
-  // Connect the sender
+
+  // connect the sender
   if (statecon == SOCK_CONNECT) if (connectSend() == 0) return -1;
-  if (statecon == SOCK_OPEN) return 1;	// Everything is connected
-  // One of the steps didn't finish yet.
+  if (statecon == SOCK_OPEN) return 1;	// everything is connected
+
+  // one of the steps didn't finish yet.
   return 0;
 }
 
@@ -389,26 +390,22 @@ tVjcHeader vjcNewHeader(uint32_t ssrc, uint8_t type, uint8_t id, uint16_t len)
 void VjcMessage::setup(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
   //echo("vjc: setup type=%d id=%d", type, id);
-  cursor = 0;	// set the cursor to the start of the buffer
+  cursor = 0;			// set the cursor to the start of the buffer
   header = vjcNewHeader(ssrc, type, id, 0);	// create the header
-  sender = po;	// set the sender object
-  if ((data = new uint8_t[VjcMessage::MAX_PACKET]) == NULL) {	// alloc our data array
-    return;
-  }
-  putHeader(); // Write out the header
+  sender = po;			// set the sender object
+  data = new uint8_t[VjcMessage::MAX_PACKET];	// alloc our data array
+  putHeader(); 			// Write out the header
 }
 
 /* Constructor for incoming messages */
 VjcMessage::VjcMessage(uint8_t *_data, int _datalen)
 {
-  cursor = 0;		// set the cursor to the start of the buffer
-  sender = NULL;	// sender will always be null on incoming messages
-  if ((data = new uint8_t[_datalen]) == NULL) {	// alloc the buffer
-    return;
-  }
-  memcpy(data, _data, _datalen);	// copy the data
-  maxlen = _datalen;			// mark the maximum read length
-  header = readHeader();		// read the header in
+  cursor = 0;			// set the cursor to the start of the buffer
+  sender = NULL;		// sender will always be null on incoming messages
+  data = new uint8_t[_datalen];	// alloc the buffer
+  memcpy(data, _data, _datalen);// copy the data
+  maxlen = _datalen;		// mark the maximum read length
+  header = readHeader();	// read the header in
 }
 
 /* Destructor */
@@ -475,10 +472,12 @@ void VjcMessage::put32(int val)
 void VjcMessage::putStr(const char *str)
 {
   int i, len = strlen(str);
+
   put16(len);
   VJC_CHECK_OVERFLOW_1(len)
-  for (i=0; i<len ; i++)
+  for (i=0; i<len ; i++) {
     data[cursor+i] = (uint8_t) str[i];
+  }
   cursor += len;
 }
 
@@ -530,7 +529,7 @@ uint8_t *VjcMessage::toBytes(int *pktlen)
 {
   int datalen = cursor - VJC_HDR_LEN;	// total length - header
 
-  *pktlen = cursor;	// total length is where our cursor currently is
+  *pktlen = cursor;		// total length is where our cursor currently is
   cursor = VJC_HDR_DATALEN_IDX;	// set the data length in the packet
   put16(datalen);
   cursor = VJC_HDR_SSRC_IDX;	// set the ssrc (could have been updated)
@@ -538,7 +537,7 @@ uint8_t *VjcMessage::toBytes(int *pktlen)
   // restore the cursor, this should actually never be needed, except
   // if someone sends the same message twice, after updating it
   cursor = *pktlen;
-  return data;		// return a pointer to the data.
+  return data;			// return a pointer to the data.
 }
 
 /* Sends data over to the server */
@@ -547,14 +546,14 @@ int VjcMessage::sendData()
   int pktlen = 0;
   uint8_t *pkt;
 
-  /* Check that the socket is ready */
+  /* check that the socket is ready */
   Vjc *srv = Vjc::getServer();
   if (srv && (srv->sock->statecon == VjcSocket::SOCK_CONNECT)) {
     // The socket is still trying to connect. Check if it's done or not.
     if (! srv->sock->isConnected()) return 0;  // The connection is still in progress
   }
   if (srv && (srv->sock->statecon == VjcSocket::SOCK_OPEN)) {
-    /* Check if an SSRC change occured since we sent the REGISTER commands */
+    /* check if an ssrc change occured since we sent the REGISTER commands */
     if (NetObject::getMySsrcId() != srv->ssrc) {
       if (! ((getHeader().msg_type == VJC_MSGT_CTRL)
           && (getHeader().msg_id  == VJC_MSGV_REGISTER))) {
@@ -603,10 +602,10 @@ VjcMessage * Vjc::getData(WObject *po)
   fd_set fds;
   struct timeval to;
 
-  FD_ZERO(&fds);
-  FD_SET(srv->sock->sdr, &fds);
   to.tv_sec = 0;
   to.tv_usec = 0;
+  FD_ZERO(&fds);
+  FD_SET(srv->sock->sdr, &fds);
 
   if (select(srv->sock->sdr+1, &fds, NULL, NULL, &to) > 0) {
     int r;

@@ -28,6 +28,7 @@
 
 using namespace std;
 
+
 const OClass Vrelet::oclass(VRELET_TYPE, "Vrelet", Vrelet::creator);
 
 void Vrelet::funcs() {}
@@ -97,8 +98,7 @@ Vrelet::Vrelet(char *l)
 
   parser(l);
 
-  // Vrelet objects can't currently collide with anything
-  enableBehavior(COLLIDE_GHOST);
+  enableBehavior(COLLIDE_GHOST);	// Vrelet can't collide with anything
   enableBehavior(SPECIFIC_RENDER);      // interactive drawing
   enableBehavior(MIX_RENDER);		// drawing surface
 
@@ -176,7 +176,7 @@ void Vrelet::readApp()
     return;	// nothing to do
 
   tVjcHeader header = msg->getHeader();
-  echo("vrelet: get meg=%d", header.msg_type);
+  echo("vrelet: get msg=%d", header.msg_type);
 
   int tag;
   V3 color = setV3(0, 0, 0);	//black;
@@ -223,7 +223,7 @@ void Vrelet::readApp()
     break;
 
   case VJC_MSGT_POS: {
-    // get the objet ID
+    // get the object ID
     uint8_t  type = msg->read8();
     uint32_t src  = msg->read32();
     uint16_t port = msg->read16();
@@ -374,7 +374,7 @@ void Vrelet::sendIntersect(WObject *pcur, WObject *pold, int inOrOut)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_ISEC, inOrOut);
 
-  //echo("sendIntersect: %d name=%s", inOrOut, pcur->getInstance());
+  echo("vrelet: sendIntersect: %d name=%s", inOrOut, pcur->getInstance());
   msg->putOID(pcur);
   msg->putPos(pcur);
   msg->putPos(pold);
@@ -396,7 +396,7 @@ bool Vrelet::whenIntersectOut(WObject *pcur, WObject *pold)
   return true;
 }
 
-/* Turn the child on */
+/* Turn the app child off */
 void Vrelet::quit()
 {
   glDeleteLists(dlist, 1);
@@ -556,7 +556,9 @@ void Vrelet::render()
     getPosition(posmat);
     M4toV16(&posmat, gl_mat);
     glMultMatrixf(gl_mat);
+
     glCallList(dlist);
+
     glPopMatrix();
   }
 }
