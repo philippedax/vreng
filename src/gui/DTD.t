@@ -504,6 +504,7 @@ const char DTD[] = "\
 <!ATTLIST terrain	name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST terrain	descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST terrain	level	NMTOKEN \"6\">\n\
+<!ATTLIST terrain	width	NMTOKEN \"20\">\n\
 <!ATTLIST terrain	height	NMTOKEN \"0.1\">\n\
 <!ATTLIST terrain	div	NMTOKEN \"1.85\">\n\
 <!ATTLIST terrain	scale	NMTOKEN \"100\">\n\
