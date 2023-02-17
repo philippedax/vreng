@@ -79,6 +79,9 @@ public:
   void behavior();
   /**< Sets behavior */
 
+  void makeSolid();
+  /**< Makes a solid */
+
   void inits();
   /**< Do specific inits */
 

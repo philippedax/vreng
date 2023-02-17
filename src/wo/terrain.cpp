@@ -66,9 +66,19 @@ void Terrain::behavior()
 {
   enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
-  enableBehavior(MIX_RENDER);
+  //enableBehavior(MIX_RENDER);
 
   initStillObject();
+}
+
+void Terrain::makeSolid()
+{
+  V3 dim;
+  char s[256];
+
+  getDimBB(dim);
+  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",dim.v[0],dim.v[1],dim.v[2]);
+  parse()->parseSolid(s, SEP, this);
 }
 
 void Terrain::inits()
@@ -88,6 +98,7 @@ Terrain::Terrain(char *l)
 {
   parser(l);
   behavior();
+  makeSolid();
   inits();
 }
 
