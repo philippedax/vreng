@@ -35,6 +35,7 @@ class Terrain: public WObject {
 
 protected:
   static const uint8_t DEF_LEVEL;
+  static const GLfloat DEF_WIDTH;
   static const GLfloat DEF_HEIGHT;
   static const GLfloat DEF_DIV;
   static const GLfloat DEF_SCALE;
@@ -43,6 +44,7 @@ protected:
   GLfloat *mesh;	///< mesh
   nVect *normales;	///< normales
   uint8_t level;	///< number of iterations
+  float width;		///< base width
   float height;		///< base height
   float div;		///< factor to divide height 
   float mul;		///< coeff to multiply div factor

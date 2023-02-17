@@ -25,6 +25,7 @@
 const OClass Terrain::oclass(TERRAIN_TYPE, "Terrain", Terrain::creator);
 
 const uint8_t Terrain::DEF_LEVEL = 6;
+const GLfloat Terrain::DEF_WIDTH = 20;
 const GLfloat Terrain::DEF_HEIGHT = 0.1;
 const GLfloat Terrain::DEF_DIV = 1.85;
 const GLfloat Terrain::DEF_SCALE = 100;
@@ -39,6 +40,7 @@ WObject * Terrain::creator(char *l)
 void Terrain::defaults()
 {
   level = DEF_LEVEL;
+  width = DEF_WIDTH;
   height = DEF_HEIGHT;
   div = DEF_DIV;
   scale = DEF_SCALE;
@@ -54,6 +56,7 @@ void Terrain::parser(char *l)
     l = parse()->parseAttributes(l, this);
     if (!l) break;
     if      (!stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
+    else if (!stringcmp(l, "width"))  l = parse()->parseFloat(l, &width, "width");
     else if (!stringcmp(l, "color"))  l = parse()->parseVector3f(l, color, "color");
     else if (!stringcmp(l, "level"))  l = parse()->parseUInt8(l, &level, "level");
     else if (!stringcmp(l, "div"))    l = parse()->parseFloat(l, &div, "div");
@@ -66,18 +69,15 @@ void Terrain::behavior()
 {
   enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
-  //enableBehavior(MIX_RENDER);
 
   initStillObject();
 }
 
 void Terrain::makeSolid()
 {
-  V3 dim;
   char s[256];
 
-  getDimBB(dim);
-  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",dim.v[0],dim.v[1],dim.v[2]);
+  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", width, width, height);
   parse()->parseSolid(s, SEP, this);
 }
 
