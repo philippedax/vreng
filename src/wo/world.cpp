@@ -281,7 +281,6 @@ const char* World::getUrl() const
 
 void World::setUrl(const char* _url)
 {
-  //if (url) delete[] url;
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
 }
@@ -758,7 +757,7 @@ httpread:
     delete filein;
   }
 
-  trace(DBG_WO, "worldReader: %s downloaded", url);
+  //echo("worldReader: %s downloaded", url);
   delete[] cachename;
   return;
 }
@@ -775,7 +774,6 @@ void World::init(const char *url)
   world->setUrl(url);
   world->setName(url);
   world->setChanAndJoin(::g.channel);      // join initial channel
-  //dax world->setName(::g.url);
   Channel::getGroup(world->getChan(), Universe::current()->grpstr);
   Universe::current()->port = Channel::getPort(world->getChan());
 
@@ -802,7 +800,6 @@ void World::init(const char *url)
   //
   // Download initial world (Rendezvous.vre by default)
   //
-  trace(DBG_WO, "download initial world");
   //echo("download initial world url=%s", url);
   //world->universe->startWheel();
   Http::httpOpen(url, worldReader, (void *)url, 0);
@@ -893,16 +890,6 @@ void World::quit()
 /* New World initialization - static */
 World * World::enter(const char *url, const char *chanstr, bool isnew)
 {
-#if 0 //dax debug
-    int ofile = 0;
-    for (int i=0; i<4000; i++) {
-      int f = dup(i);
-      if (f<0) continue;
-      ofile++;
-      close(f);
-    }
-    printf("ofile = %d world = %d \n", ofile, new_world);
-#endif
   trace(DBG_WO, "world enter");
 
   // cleanup
@@ -957,7 +944,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     world = newworld;
   }
   else {	// world already exists
-    trace(DBG_WO, "enter: world=%s (%d) already exists", current()->getName(), isnew);
+    //echo("enter: world=%s (%d) already exists", current()->getName(), isnew);
     world = current();
     if (world->guip) {
       ::g.gui.updateWorld(world, OLD);
@@ -992,7 +979,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     //
     // sandbox world
     //
-    trace(DBG_WO, "enter: world sandbox");
+    //echo("enter: world sandbox");
     World *sandbox = world;
     //dax World *sandbox = new World();
 
