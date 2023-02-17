@@ -76,7 +76,7 @@ void River::behavior()
   enableBehavior(NO_BBABLE);
   enableBehavior(LIQUID);
   enableBehavior(SPECIFIC_RENDER);
-  enableBehavior(MIX_RENDER);
+  //enableBehavior(MIX_RENDER);
 
   if (width * depth > 10) {	// large surface
     //dax setRenderPrior(PRIOR_LOW);	// FIXME! -> FIXED (no longer PRIOR)

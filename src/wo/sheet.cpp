@@ -103,8 +103,7 @@ bool Sheet::updateToNetwork(const Pos &oldpos)
 
 bool Sheet::whenIntersect(WObject *pcur, WObject *pold)
 {
-  // if (state == RIGHT)
-    projectPosition(pcur, pold);
+  projectPosition(pcur, pold);
   return true;
 }
 
@@ -126,30 +125,25 @@ void Sheet::sheetCreate(Book* book, char* l, uint8_t side, int heap)
 void Sheet::turnNext()
 {
   float ttl = ABSF(deltaAngle(aright, aleft) / aspeed);
-  // if (state == LEFT) return;
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   move.aspeed.v[0] = -aspeed;
   initImposedMovement(ttl);
   Mp3::start(DEF_URL_NOISE);
-  //state = LEFT;
 }
 
 void Sheet::turnPrev()
 {
   float ttl = ABSF(deltaAngle(aleft, aright) / aspeed);
-  // if (state == RIGHT) return;
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   move.aspeed.v[0] = aspeed;
   initImposedMovement(ttl);
   Mp3::start(DEF_URL_NOISE);
-  //state = RIGHT;
 }
 
 void Sheet::pullNext()
 {
-  // if (state == LEFT) return;
   getDimBB(size);
   float ttl = ABSF(deltaAngle(pos.az, aleft) / aspeed);
   float dx = -size.v[1] * (cos(aleft) + cos(aright));
@@ -160,12 +154,10 @@ void Sheet::pullNext()
   move.lspeed.v[1] = dy / ttl;
   move.aspeed.v[0] = -aspeed;
   initImposedMovement(ttl);
-  //state = LEFT;
 }
 
 void Sheet::pullPrev()
 {
-  // if (state == RIGHT) return;
   getDimBB(size);
   float ttl = ABSF(deltaAngle(aleft, aright) / aspeed);
   float dx =  size.v[1] * (cos(aleft) + cos(aright));
@@ -176,13 +168,11 @@ void Sheet::pullPrev()
   move.lspeed.v[1] = dy / ttl;
   move.aspeed.v[0] = aspeed;
   initImposedMovement(ttl);
-  //state = RIGHT;
 }
 
 /* pousser un tas gauche (pendant que le tas droit tourne) */
 void Sheet::pushNext(float dist)
 {
-  //if (state == RIGHT) return;
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   float ttl = ABSF(deltaAngle(aleft, aright) / aspeed);
@@ -194,7 +184,6 @@ void Sheet::pushNext(float dist)
 /* pousser un tas droit (pendant que le tas gauche tourne) */
 void Sheet::pushPrev(float dist)
 {
-  //if (state == LEFT) return;
   clearV3(move.lspeed);
   clearV3(move.aspeed);
   float ttl = ABSF(deltaAngle(aleft, aright) / aspeed);
