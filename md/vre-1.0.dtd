@@ -503,6 +503,7 @@
 <!ATTLIST terrain	name	NMTOKEN #IMPLIED>
 <!ATTLIST terrain	descr	NMTOKENS #IMPLIED>
 <!ATTLIST terrain	level	NMTOKEN "6">
+<!ATTLIST terrain	width	NMTOKEN "20">
 <!ATTLIST terrain	height	NMTOKEN "0.1">
 <!ATTLIST terrain	div	NMTOKEN "1.85">
 <!ATTLIST terrain	scale	NMTOKEN "100">
