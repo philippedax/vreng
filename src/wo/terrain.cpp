@@ -66,6 +66,7 @@ void Terrain::behavior()
 {
   enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
+  enableBehavior(MIX_RENDER);
 
   initStillObject();
 }

@@ -61,11 +61,23 @@ void River::parser(char *l)
   end_while_parse(l);
 }
 
+void River::makeSolid()
+{
+  V3 dim;
+  char s[256];
+
+  getDimBB(dim);
+  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",dim.v[0],dim.v[1],dim.v[2]);
+  parse()->parseSolid(s, SEP, this);
+}
+
 void River::behavior()
 {
   enableBehavior(NO_BBABLE);
   enableBehavior(LIQUID);
   enableBehavior(SPECIFIC_RENDER);
+  enableBehavior(MIX_RENDER);
+
   if (width * depth > 10) {	// large surface
     //dax setRenderPrior(PRIOR_LOW);	// FIXME! -> FIXED (no longer PRIOR)
 				// if LOW river is not visible,
@@ -98,6 +110,7 @@ River::River(char *l)
 {
   parser(l);
   behavior();
+  makeSolid();
   inits();
 }
 
