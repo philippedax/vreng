@@ -158,10 +158,11 @@ void World::setName(const char *urlOrName)
 
   // Copy the name
   if (name) delete name;
-  name = new char[end-begin + 1];
-  memcpy(name, begin, end-begin);
-  name[end-begin] = '\0';
-  trace(DBG_WO, "setName: %s", name);
+  uint8_t len = MIN(WORLD_LEN, end-begin);
+  name = new char[len];
+  memcpy(name, begin, len);
+  name[len] = '\0';
+  //echo("setName: %s", name);
 }
 
 /** Gets current world name */
@@ -774,7 +775,7 @@ void World::init(const char *url)
   world->setUrl(url);
   world->setName(url);
   world->setChanAndJoin(::g.channel);      // join initial channel
-  world->setName(::g.url);
+  //dax world->setName(::g.url);
   Channel::getGroup(world->getChan(), Universe::current()->grpstr);
   Universe::current()->port = Channel::getPort(world->getChan());
 
