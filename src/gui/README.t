@@ -25,7 +25,7 @@ with the Reflector.\n\
 SUPPORTED PLATFORMS\n\
 -------------------\n\
 	- Linux-*\n\
-	- MacOSX-10.*\n\
+	- MacOSX-1[01].*\n\
 	- Solaris*\n\
 	- Sunos4.1.*\n\
 	- HP-UX-B.10.20\n\
@@ -115,11 +115,11 @@ It is recommended to see also the ChangeLog file for more informations.\n\
 AUTHORS\n\
 -------\n\
 Denis Arnaud <denis.arnaud@free.fr>: interface between world mgt and network\n\
-Fabrice Bellard <bellard@email.enst.fr>: 3D rendering\n\
+Fabrice Bellard <fabrice@bellard.org>: global architecture and 3D rendering\n\
 Stephane Belmon <belmon@email.enst.fr>: network interface\n\
 Samuel Orzan <orzan@email.enst.fr>: world management\n\
 Lionel Ulmer <ulmer@email.enst.fr>: the GUI under X11\n\
-Eric Lecolinet <elc@telecom-paris.fr>: new GUI + Ubit GUI\n\
+Eric Lecolinet <elc@telecom-paris.fr>: new GUI + Ubit toolkit\n\
 Philippe Dax <philippe.dax@gmail.com>: project supervisor\n\
 \n\
 CONTRIBUTORS\n\
@@ -137,7 +137,7 @@ Mario Trentini : landmarks, axis\n\
 Julien Desreumaux - Sebastien Piraud : book, sheet\n\
 Romain Piegay : views, 3ds, ase, repeat textures\n\
 Pascal Chambon : x3d, carousel\n\
-Eric Varadaradjou <varadara@enst.fr> : communication agent, ocaml\n\
+Eric Varadaradjou : communication agent, ocaml\n\
 \n\
 MAINTAINER\n\
 ----------\n\
