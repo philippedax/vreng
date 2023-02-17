@@ -175,16 +175,15 @@ void Drone::render()
 {
   if (filming) {
     //echo("drone: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
-    glPushMatrix();
-#if 0 //dax
+#if 1 //dax
     ::g.render.cameraPosition(this);
 #else
+    glPushMatrix();
     ::g.render.setCameraScissor(pos.x, pos.y, pos.z, 90);
-    //dax ::g.render.showView(pos.x, pos.y, pos.z);
     ::g.render.showView();
-#endif
     glPopMatrix();
     return;
+#endif
   }
   glPushMatrix();
   glEnable(GL_CULL_FACE);
