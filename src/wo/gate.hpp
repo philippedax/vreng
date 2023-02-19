@@ -86,6 +86,9 @@ private:
   void behavior();
   /**< Sets behaviors. */
 
+  void inits();
+  /**< Makes initializations. */
+
   // Actions
   void enter();
 

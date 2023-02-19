@@ -75,7 +75,7 @@ void Gate::parser(char *l)
     else if (! stringcmp(l, "entry")) {
       l = parse()->parseVector3f(l, entry, "entry");
       flagentry = true;
-      trace(DBG_WO, "gate: entry=%.2f,%.2f,%.2f", entry[0], entry[1], entry[2]);
+      trace(DBG_WO, "gate: entry=%.1f %.1f %.1f", entry[0], entry[1], entry[2]);
     }
   }
   end_while_parse(l);
@@ -84,7 +84,10 @@ void Gate::parser(char *l)
 void Gate::behavior()
 {
   enableBehavior(COLLIDE_ONCE);
+}
 
+void Gate::inits()
+{
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 }
@@ -94,6 +97,7 @@ Gate::Gate(char *l)
 {
   parser(l);
   behavior();
+  inits();
 }
 
 /** Created by user (Gui) */
@@ -108,6 +112,7 @@ Gate::Gate(WObject *user, char *geom)
   parse()->parseSolid(geom, SEP, this);
 
   behavior();
+  inits();
   updatePosition();
 }
 
@@ -146,7 +151,7 @@ void Gate::enter()
   if (! vac->getChannel(names.url, chan)) {
     // this url is not in the cache, we need to ask to the vacs to resolve it
     if (vac->resolveWorldUrl(names.url, chan)) {
-      trace(DBG_FORCE, "enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
+      echo("enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
     }
     else {
       //echo("enter: resolveWorldUrl failed from Vac: url=%s", names.url);
