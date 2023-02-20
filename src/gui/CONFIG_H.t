@@ -177,6 +177,9 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the `getuid' function. */\n\
 #define HAVE_GETUID 1\n\
 \n\
+/* */\n\
+/* #undef HAVE_GL2PS */\n\
+\n\
 /* Define to 1 if you have the <GLUT/glut.h> header file. */\n\
 /* #undef HAVE_GLUT_GLUT_H */\n\
 \n\
@@ -724,21 +727,6 @@ const char CONFIG_H[] = "\
 \n\
 /* VReng minor version */\n\
 #define VRENG_MINOR_VERSION 4\n\
-\n\
-/* */\n\
-/* #undef WANT_GL2PS */\n\
-\n\
-/* */\n\
-/* #undef WANT_GLUI */\n\
-\n\
-/* */\n\
-/* #undef WANT_IPV6 */\n\
-\n\
-/* */\n\
-#define WANT_OCAML 1\n\
-\n\
-/* */\n\
-#define WANT_UBIT 1\n\
 \n\
 /* */\n\
 #define WGETPATH \"/usr/local/bin/wget\"\n\

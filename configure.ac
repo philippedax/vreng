@@ -556,11 +556,9 @@ am_ipv6="no"
 AC_ARG_ENABLE(ipv6,
               AS_HELP_STRING([--enable-ipv6],[allow use of ipv6 if available [[default=no]]]))
 
-AH_TEMPLATE(WANT_IPV6)
 AH_TEMPLATE(HAVE_IPV6)
 if test "${enable_ipv6:=no}" = "yes"; then
   am_ipv6="yes"
-  AC_DEFINE(WANT_IPV6)
   AC_MSG_CHECKING(IPv6 support)
   AC_EGREP_HEADER(sockaddr_in6, netinet/in.h,
         [
@@ -1064,7 +1062,6 @@ AM_CONDITIONAL(WITH_FTGL, test "$have_freetype_and_gl" = "yes")
 #
 # Ubit configuration
 #
-AH_TEMPLATE(WANT_UBIT)
 AC_ARG_WITH([ubit-builtin],
     AS_HELP_STRING([--with-ubit-builtin],[use builtin UBIT toolkit [[default=yes]]]),
     [ac_cv_use_ubit_builtin=$withval], [ac_cv_use_ubit_builtin=yes])
@@ -1128,7 +1125,6 @@ fi
 XLIBS=$x_libs
 AC_SUBST(XLIBS)
 AC_SUBST(UBIT_CFLAGS)
-AC_DEFINE(WANT_UBIT)
 LDFLAGS=$saved_ldflags
 
 
@@ -1611,10 +1607,10 @@ am_gl2ps="no"
 AC_ARG_ENABLE([gl2ps],
       AS_HELP_STRING([--enable-gl2ps],[allow use of gl2ps if available [[default=no]]]))
 
-AH_TEMPLATE(WANT_GL2PS)
+AH_TEMPLATE(HAVE_GL2PS)
 if test "${enable_gl2ps:=no}" = "yes"; then
   am_gl2ps="yes"
-  AC_DEFINE(WANT_GL2PS)
+  AC_DEFINE(HAVE_GL2PS)
 fi
 
 
@@ -1626,10 +1622,8 @@ am_glui="no"
 AC_ARG_ENABLE([glui],
       AS_HELP_STRING([--enable-glui],[allow use of glui if available [[default=no]]]))
 
-AH_TEMPLATE(WANT_GLUI)
 if test "${enable_glui:=no}" = "yes"; then
   am_glui="yes"
-  AC_DEFINE(WANT_GLUI)
 fi
 
 
@@ -1666,7 +1660,6 @@ fi
 # Ocaml configuration
 #
 AH_TEMPLATE(HAVE_OCAML)
-AH_TEMPLATE(WANT_OCAML)
 AH_TEMPLATE(OCAML_PATH)
 AH_TEMPLATE(HAVE_CAML_CALLBACK_H)
 
@@ -1674,7 +1667,6 @@ am_ocaml="no"
 AC_ARG_WITH([ocaml],
      AS_HELP_STRING([--with-ocaml],[allow use of ocaml if available [[default=no]]]))
 if test "${with_ocaml:=no}" = "yes"; then
-  AC_DEFINE(WANT_OCAML)
   OCAML_PATH=
   AC_PATH_PROG(OCAMLOPT, ocamlopt)
   if test "${ac_cv_path_OCAMLOPT}" != "" ; then
