@@ -603,10 +603,10 @@ uint16_t WObject::getObjId() const
 /* Assigns a unique identifier to each Vreng object */
 void WObject::setWObjectId()
 {
-  noid.src_id = NetObject::getMySsrcId();	// Application's identifier
-  noid.port_id = NetObject::getMyPortId();	// Comm port identifier
-  NetObject::setMyObjId(NetObject::getMyObjId() + 1);	// myObjId++
-  noid.obj_id = htons(NetObject::getMyObjId()); // Application wide unique number
+  noid.src_id = NetObject::getMySsrc();		// Application's identifier
+  noid.port_id = NetObject::getMyPort();	// Comm port identifier
+  NetObject::setMyObj(NetObject::getMyObj()+1);	// myObjId++
+  noid.obj_id = htons(NetObject::getMyObj());	// Application wide unique number
 }
 
 /* Copies Noid in WObjectId */

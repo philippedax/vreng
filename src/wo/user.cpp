@@ -251,7 +251,7 @@ void User::setRtcp()
   Rtp::getRtcpName(rtcpname);
   Rtp::getRtcpEmail(email);
   Rtp::getRtcpTool(tool);
-  ssrc = NetObject::getMySsrcId();
+  ssrc = NetObject::getMySsrc();
 }
 
 /* Sets observer view from user's eyes */

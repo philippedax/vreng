@@ -138,16 +138,17 @@ class NetObject {
   uint32_t getSrcId() const;
   uint16_t getPortId() const;
   uint16_t getObjId() const;
-  static void setMySsrcId(uint32_t ssrc_id);
-  static void setMyMgrSsrcId(uint32_t ssrc_id);
-  static void setMyHostId(uint32_t host_id);
-  static void setMyPortId(uint16_t port_id);
-  static void setMyObjId(uint16_t obj_id);
-  static uint32_t getMySsrcId();
-  static uint32_t getMyMgrSsrcId();
-  static uint32_t getMyHostId();
-  static uint16_t getMyPortId();
-  static uint16_t getMyObjId();
+
+  static void setMySsrc(uint32_t ssrc_id);
+  static void setMgrSsrc(uint32_t ssrc_id);
+  static void setMyHost(uint32_t host_id);
+  static void setMyPort(uint16_t port_id);
+  static void setMyObj(uint16_t obj_id);
+  static uint32_t getMySsrc();
+  static uint32_t getMyMgrSsrc();
+  static uint32_t getMyHost();
+  static uint16_t getMyPort();
+  static uint16_t getMyObj();
 
   // Send
   void sendCreate(const struct sockaddr_in *to);
