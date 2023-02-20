@@ -132,12 +132,14 @@ class NetObject {
    */
 
   // Accessors
+#if 0 //notused
   void setSrc(uint32_t src_id);
   void setPort(uint16_t port_id);
   void setObj(uint16_t obj_id);
   uint32_t getSrc() const;
   uint16_t getPort() const;
   uint16_t getObj() const;
+#endif //notused
 
   static void setMySsrc(uint32_t ssrc_id);
   static void setMgrSsrc(uint32_t ssrc_id);

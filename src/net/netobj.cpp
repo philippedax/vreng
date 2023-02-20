@@ -167,6 +167,7 @@ uint16_t NetObject::getMyObj()
   return myObjId;
 }
 
+#if 0 //notused
 void NetObject::setSrc(uint32_t _src_id)
 {
   noid.src_id = _src_id;
@@ -196,6 +197,7 @@ uint16_t NetObject::getObj() const
 {
   return noid.obj_id;
 }
+#endif //notused
 
 /* Inserts netobject in head of netobjectList */
 void NetObject::addToList()
