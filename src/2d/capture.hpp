@@ -62,10 +62,10 @@ private:
   void captureXwd(const char *ext);
   /**< Capture and save one image by xwd */
 
-  void captureGl2jpg(const char *ext);
+  void captureGl2JPG(const char *ext);
   /**< Capture and save one image in JPEG */
 
-  void captureGl2png(const char *ext);
+  void captureGl2PNG(const char *ext);
   /**< Capture and save one image in PNG */
   
 #if WANT_GL2PS
@@ -81,7 +81,7 @@ private:
   void captureImageSVG();
   /**< Capture and save one image in SVG */
   
-  void captureGl2ps(const char *ext);
+  void captureGl2PS(const char *ext);
   /**< Capture and save one image by gl2ps */
 #endif  
 };

@@ -32,23 +32,24 @@
 #include "timer.hpp"	// ::g.timer
 #include "file.hpp"	// open, close
 #include "sound.hpp"	// playSound
-#if WANT_GL2PS
+#if HAVE_GL2PS
 # include "gl2ps.h"	// GL2PS_*
 #endif
 
 
-Capture::Capture() 
-: is_capturing(false), capture_no(0)
+Capture::Capture() :
+ is_capturing(false),
+ capture_no(0)
 {
 }
 
-/** capture JPEG (only 3D) */
-void Capture::captureGl2jpg(const char *filename)
+/** capture JPEG (only 3D scene) */
+void Capture::captureGl2JPG(const char *filename)
 {
   GLint vp[4];
 
   glGetIntegerv(GL_VIEWPORT, vp);
-  GLint w = vp[2] -2;	// I don't know why -2, but the result is correct
+  GLint w = vp[2] -2;	// without borders
   GLint h = vp[3];
 
   uint8_t *pixels = Ogl::copyPixels(w, h, GL_FRONT);
@@ -61,8 +62,8 @@ void Capture::captureGl2jpg(const char *filename)
   echo("capture %dx%d done in file %s", w, h, filename);
 }
 
-/** capture PNG (only 3D) */
-void Capture::captureGl2png(const char *filename)
+/** capture PNG (only 3D scene) */
+void Capture::captureGl2PNG(const char *filename)
 {
   GLint vp[4];
 
@@ -87,9 +88,9 @@ void Capture::captureXwd(const char *ext)
   system(cmd);
 }
 
-#if WANT_GL2PS
+#if HAVE_GL2PS
 /** capture and save 3D area using gl2ps API */
-void Capture::captureGl2ps(const char *ext)
+void Capture::captureGl2PS(const char *ext)
 {
   GLint bufsize = 0, state = GL2PS_OVERFLOW;
   GLuint form;
@@ -133,25 +134,25 @@ void Capture::captureGl2ps(const char *ext)
 /** callback capture PS */
 void Capture::captureImagePS()
 {
-  captureGl2ps("ps");
+  captureGl2PS("ps");
 }
 
 /** callback capture EPS */
 void Capture::captureImageEPS()
 {
-  captureGl2ps("eps");
+  captureGl2PS("eps");
 }
 
 /** callback capture PDF */
 void Capture::captureImagePDF()
 {
-  captureGl2ps("pdf");
+  captureGl2PS("pdf");
 }
 
 /** callback capture SVG */
 void Capture::writeSVGImage()
 {
-  captureGl2ps("svg");
+  captureGl2PS("svg");
 }
 #endif //GL2PS
 
@@ -164,7 +165,7 @@ void Capture::writeJPGImage()
   sprintf(filename, "%s.jpg", World::current()->getName());
   g.render.setFlash();	// flash effect
   Sound::playSound(CAMERASND);  // sound effect
-  captureGl2jpg(filename);
+  captureGl2JPG(filename);
 }
 
 /** callback capture GIF */
@@ -181,7 +182,7 @@ void Capture::writePNGImage()
 
   Sound::playSound(CAMERASND);
   sprintf(filename, "%s.png", World::current()->getName());
-  captureGl2png(filename);
+  captureGl2PNG(filename);
 }
 
 // start capture video 
@@ -218,7 +219,7 @@ void Capture::writeVideoFrame()
   char filename[64];
 
   sprintf(filename, "/tmp/vreng-%03d.jpg", capture_no);
-  captureGl2jpg(filename);
+  captureGl2JPG(filename);
   capture_no++;
   if (capture_no >= MAX_CAPTURE_COUNT)
     stopVideo();
