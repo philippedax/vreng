@@ -64,7 +64,7 @@ NetObject::NetObject()
   defaults();
   type = 0;
   pobject = NULL;
-  permanent = NET_PERMANENT;
+  state = NET_PERMANENT;
   setNoid();
 }
 
@@ -74,24 +74,24 @@ NetObject::NetObject(WObject *po, uint8_t nprop, uint16_t oid)
   defaults();
   type = po->typeId();
   pobject = po;
-  permanent = NET_PERMANENT;
+  state = NET_PERMANENT;
   setPropertiesNumber(nprop);
 
   char str[80];
   sprintf(str, "%d/%d", type, oid);
-  setNetName(str, permanent);     // net objname
+  setNetName(str, state);     // net objname
   trace(DBG_NET, "NetObject: str=%s %s", str, pobject->getInstance());
 }
 
-/* Creates local volatile NetObject */
+/* Creates volatile NetObject */
 NetObject::NetObject(WObject *po, uint8_t nprop)
 {
   defaults();
   type = po->type;
   pobject = po;
-  permanent = NET_VOLATILE;
+  state = NET_VOLATILE;
   setPropertiesNumber(nprop);
-  create(permanent);
+  create(state);
   setNoid();
 }
 
@@ -101,7 +101,7 @@ NetObject::NetObject(WObject *po, uint8_t nprop, Noid _noid)
   defaults();
   type = po->type;
   pobject = po;
-  permanent = NET_VOLATILE;
+  state = NET_VOLATILE;
   noid = _noid;
   setPropertiesNumber(nprop);
 }
@@ -263,7 +263,7 @@ void NetObject::create(bool netbehave)
   // Vjc controller apps can tell them apart.
   setNoid();
 
-  permanent = netbehave;
+  state = netbehave;
   initProperties(true);	// new: then we are responsible
   addToList();
 }
@@ -279,7 +279,7 @@ void NetObject::setNetName(const char *s, bool netbehave)
     return;
   }
 
-  permanent = netbehave;	// should be true
+  state = netbehave;		// should be true
   initProperties(false);	// we are not responsible
 
   noid.src_id = htonl(1);
@@ -312,7 +312,7 @@ NetObject::~NetObject()
 
 bool NetObject::isPermanent() const
 {
-  return permanent;
+  return state;
 }
 
 bool NetObject::isResponsible() const
@@ -409,7 +409,7 @@ void NetObject::sendDelta(uint8_t prop_id)
 void NetObject::sendCreate(const struct sockaddr_in *to)
 {
   Payload pp;
-  pp.putPayload("ccnc", VREP_CREATE, type, noid, permanent);
+  pp.putPayload("ccnc", VREP_CREATE, type, noid, state);
   putAllProperties(&pp);
 
   uint8_t nprop = getPropertiesNumber(type);
@@ -462,7 +462,7 @@ void NetObject::declareDeletion()
 {
   if (! getNetObject()) return;
 
-  if (permanent) {
+  if (state) {
     error("declareDeletion: on permanent object (type=%d)", type); return;
   }
   Channel *pchan = Channel::current();

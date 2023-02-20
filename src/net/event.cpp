@@ -148,7 +148,7 @@ int netTimeout()
       }
       if (Timer::diffDates(pprop->assume_at, now) > 0) {
         // now > assume_at: assume's timeout on this property
-        if ((*it)->permanent) { // permanent object (door, lift, button, thing, ...)
+        if ((*it)->isPermanent()) { // permanent object (door, lift, button, thing, ...)
           if (pprop->version != 0) {
             // if permanent prop hasn't its initial value,
             // somebody must assume responsibility

@@ -739,7 +739,7 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   if (! pn->equalNoid(pn->noid)) {
     error("incomingCreate: bad noid=%s", pn->getNetNameById()); return;
   }
-  pn->permanent = _permanent;
+  pn->state = _permanent;
   pn->initProperties(false); // we are not responsible
   pn->addToList();
 

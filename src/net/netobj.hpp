@@ -35,6 +35,10 @@ class NetObject {
  friend class Noid;
 
  private:
+
+  NetObject *next;		///< next
+  NetObject *prev;		///< prev
+
   // network ids
   static uint32_t mySsrcId;     ///< ssrc network format
   static uint32_t myHostId;     ///< addr_IP network format
@@ -42,20 +46,42 @@ class NetObject {
   static uint16_t myObjId;      ///< new object'id (naming), fmt host
   static uint32_t myMgrSsrcId;  ///< manager ssrc network format
 
+  void defaults();
+  /**< Common to constructors */
+
+  void setNoid();
+  /**<
+   * Initializes a new NetObject.
+   * Assigns a unique identifier to each Vreng local netobject
+   * whether if be a networked object or not.
+   * Now we can do getObjId and declareObjDelta.
+   * It is preferable (perfs) to do a declareObjCreation
+   * when all the properties are initialized.
+   */
+
+  void addToList();
+  /**< Inserts netobject in head of NetObject list */
+
+  void setNetName(const char *str, bool netbehave);
+  /**<
+   * Build a NetObject name from a string "scene_id/obj_id", both uint16_t > 0
+   * Used by getNetObject and declareObjDelta.
+   * A declareObjCreation on such netobject produces a fatal.
+   */
+
  public:
-  class Noid noid;		///< NetObject id
-  uint8_t type;			///< NetObject type
-  uint8_t permanent;		///< permanent or valatile (not a true bool)
-  uint8_t nbprop;		///< number of properties
-  class WObject *pobject;	///< pointer on the WObject
-  class NetProperty *netprop;	///< netobject properties
-  NetObject *next;		///< next
-  NetObject *prev;		///< prev
 
   enum {
-    NET_VOLATILE, // replicatable
-    NET_PERMANENT
+    NET_VOLATILE,	// replica
+    NET_PERMANENT	// local
   };
+
+  class Noid noid;		///< NetObject id
+  uint8_t type;			///< NetObject type
+  uint8_t nbprop;		///< number of properties
+  uint8_t state;		///< permanent or valatile (not a true bool)
+  class WObject *pobject;	///< pointer on the WObject
+  class NetProperty *netprop;	///< netobject properties
 
   NetObject();
   /**< Constructor for local */
@@ -72,12 +98,6 @@ class NetObject {
   virtual ~NetObject();
   /**< Destructor */
 
-  void defaults();
-  /**< Common to constructors */
-
-  void addToList();
-  /**< Inserts netobject in head of NetObject list */
-
   void deleteFromList();
   /**<
    * Removes the NetObject from the list.
@@ -92,23 +112,6 @@ class NetObject {
    * Creates a new local netobject.
    * Then we can do getNetObject, declareObjDelta.
    * One declareObjCreation is wish latter, when props are set.
-   */
-
-  void setNoid();
-  /**<
-   * Initializes a new NetObject.
-   * Assigns a unique identifier to each Vreng local netobject
-   * whether if be a networked object or not.
-   * Now we can do getObjId and declareObjDelta.
-   * It is preferable (perfs) to do a declareObjCreation
-   * when all the properties are initialized.
-   */
-
-  void setNetName(const char *str, bool netbehave);
-  /**<
-   * Build a NetObject name from a string "scene_id/obj_id", both uint16_t > 0
-   * Used by getNetObject and declareObjDelta.
-   * A declareObjCreation on such netobject produces a fatal.
    */
 
   void declareObjCreation();
@@ -141,6 +144,7 @@ class NetObject {
   uint16_t getObj() const;
 #endif //notused
 
+  // static methods for static members
   static void setSsrc(uint32_t ssrc_id);
   static void setMgrSsrc(uint32_t ssrc_id);
   static void setHost(uint32_t host_id);
@@ -251,7 +255,7 @@ class NetObject {
   /**< Gets the NetObject list. */
 
   static void clearList();
-  /**< Clears th NetObject list */
+  /**< Clears the NetObject list */
 
   static NetObject *replicateObject(uint8_t type, class Noid noid, class Payload *pp);
   /**<
