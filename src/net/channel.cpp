@@ -219,7 +219,7 @@ void Channel::naming()
     my_free_hostent(ph);
     return;
   }
-  NetObject::setMyHost(pa->s_addr);
+  NetObject::setHost(pa->s_addr);
   my_free_hostent(ph);
 
   /* first packet to learn my_port_id */
@@ -228,16 +228,16 @@ void Channel::naming()
   pp.sendPayload(sa[SA_RTP]);	// needed for naming (port number)
 
 #if NEEDLOOPBACK
-  NetObject::setMyPort((uint16_t) (NetObject::getMySsrc() & 0x00007FFF));
+  NetObject::setPort((uint16_t) (NetObject::getSsrc() & 0x00007FFF));
 #else
-  NetObject::setMyPort(Socket::getSrcPort(sd[SD_W_RTP]));
-  if (NetObject::getMyPort() == 0)
-    NetObject::setMyPort((uint16_t) (NetObject::getMySsrc()) & 0x00007FFF);
+  NetObject::setPort(Socket::getSrcPort(sd[SD_W_RTP]));
+  if (NetObject::getPort() == 0)
+    NetObject::setPort((uint16_t) (NetObject::getSsrc()) & 0x00007FFF);
 #endif
 
   pp.sendPayload(sa[SA_RTCP]);	// needed for proxy (source port)
-  trace(DBG_NET, "my_port_id=%d", NetObject::getMyPort());
-  NetObject::setMyObj(0);
+  trace(DBG_NET, "my_port_id=%d", NetObject::getPort());
+  NetObject::setObj(0);
 }
 
 /** Create a Channel */
@@ -359,7 +359,7 @@ int Channel::create(const char *chan_str, int **pfds)
     session->mode = MANAGER_MODE;
   }
   else {
-    NetObject::setMySsrc(ssrc);
+    NetObject::setSsrc(ssrc);
     session->mode = WORLD_MODE;
 
     if (world) {

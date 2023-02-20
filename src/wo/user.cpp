@@ -251,7 +251,7 @@ void User::setRtcp()
   Rtp::getRtcpName(rtcpname);
   Rtp::getRtcpEmail(email);
   Rtp::getRtcpTool(tool);
-  ssrc = NetObject::getMySsrc();
+  ssrc = NetObject::getSsrc();
 }
 
 /* Sets observer view from user's eyes */
@@ -275,25 +275,25 @@ void User::checkPersist()
     int nitem;
     char pat[256], qname[256];
 
-    nitem = psql->getCount(HALO_NAME);  // halos in MySql
+    nitem = psql->getCount(HALO_NAME);  // halos in VRSql
     if (nitem) {
       sprintf(pat, "&%s", getInstance());
       if (psql->getName(HALO_NAME, pat, 0, qname) >= 0)
         doAction(HALO_TYPE, Halo::RECREATE, (User*)this, (void*)qname,0,0);
     }
-    nitem = psql->getCount(HAT_NAME);   // hats in MySql
+    nitem = psql->getCount(HAT_NAME);   // hats in VRSql
     if (nitem) {
       sprintf(pat, "&%s", getInstance());
       if (psql->getName(HAT_NAME, pat, 0, qname) >= 0)
         doAction(HAT_TYPE, Hat::RECREATE, (User*)this, (void*)qname,0,0);
     }
-    nitem = psql->getCount(DRESS_NAME); // dresses in MySql
+    nitem = psql->getCount(DRESS_NAME); // dresses in VRSql
     if (nitem) {
       sprintf(pat, "&%s", getInstance());
       if (psql->getName(DRESS_NAME, pat, 0, qname) >= 0)
         doAction(DRESS_TYPE, Dress::RECREATE, (User*)this, (void*)qname,0,0);
     }
-    nitem = psql->getCount(WINGS_NAME); // wings in MySql
+    nitem = psql->getCount(WINGS_NAME); // wings in VRSql
     if (nitem) {
       sprintf(pat, "&%s", getInstance());
       if (psql->getName(WINGS_NAME, pat, 0, qname) >= 0)

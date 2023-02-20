@@ -84,7 +84,7 @@ void netIncoming(int fd)
         default:
           echo("netincoming unknown: X'%02x' fd=%d from %lx/%x (mine is %lx/%x)",
                cmd, fd, ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
-               NetObject::getMyHost(), NetObject::getMyPort());
+               NetObject::getHost(), NetObject::getPort());
           break;
       }
       delete pp;

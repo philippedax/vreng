@@ -121,48 +121,48 @@ void NetObject::setMgrSsrc(uint32_t mgr_ssrc_id)
   myMgrSsrcId = mgr_ssrc_id;
 }
 
-uint32_t NetObject::getMyMgrSsrc()
+uint32_t NetObject::getMgrSsrc()
 {
   return myMgrSsrcId;
 }
 
-void NetObject::setMySsrc(uint32_t ssrc_id)
+void NetObject::setSsrc(uint32_t ssrc_id)
 {
   mySsrcId = ssrc_id;
 }
 
 // get current ssrc
-uint32_t NetObject::getMySsrc()
+uint32_t NetObject::getSsrc()
 {
   return mySsrcId;
 }
 
-void NetObject::setMyHost(uint32_t host_id)
+void NetObject::setHost(uint32_t host_id)
 {
   myHostId = host_id;
 }
 
-uint32_t NetObject::getMyHost()
+uint32_t NetObject::getHost()
 {
   return myHostId;
 }
 
-void NetObject::setMyPort(uint16_t _port_id)
+void NetObject::setPort(uint16_t _port_id)
 {
   myPortId = _port_id;
 }
 
-uint16_t NetObject::getMyPort()
+uint16_t NetObject::getPort()
 {
   return myPortId;
 }
 
-void NetObject::setMyObj(uint16_t _obj_id)
+void NetObject::setObj(uint16_t _obj_id)
 {
   myObjId = _obj_id;
 }
 
-uint16_t NetObject::getMyObj()
+uint16_t NetObject::getObj()
 {
   return myObjId;
 }

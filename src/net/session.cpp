@@ -213,7 +213,7 @@ Session::~Session()
 {
   del_session++;
   freeMySdes();
-  deleteSourceBySsrc(NetObject::getMySsrc());
+  deleteSourceBySsrc(NetObject::getSsrc());
 }
 
 /**
@@ -322,7 +322,7 @@ int Session::buildSR(rtcp_common_t *prtcp_hdr, uint8_t *pkt)
 
   buildRTCPcommon(prtcp_hdr, RTCP_SR);
   prtcp_hdr->count = 0;	// only one SSRC
-  sr.ssrc = htonl(NetObject::getMySsrc());
+  sr.ssrc = htonl(NetObject::getSsrc());
 
   struct timeval ts;
   gettimeofday(&ts, NULL);

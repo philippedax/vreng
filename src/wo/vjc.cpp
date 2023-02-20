@@ -82,7 +82,7 @@ Vjc::Vjc(char *l)
   sock = NULL;
   lastMessage = NULL;
   lastping = 0;
-  ssrc = NetObject::getMySsrc();
+  ssrc = NetObject::getSsrc();
   start();
 }
 
@@ -368,7 +368,7 @@ VjcMessage::VjcMessage(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id)
 /* Constructor for outgoing messages */
 VjcMessage::VjcMessage(WObject *po, uint8_t type, uint8_t id)
 {
-  setup(po, (Vjc::getServer() == NULL ? NetObject::getMySsrc() : Vjc::getServer()->ssrc), type, id);
+  setup(po, (Vjc::getServer() == NULL ? NetObject::getSsrc() : Vjc::getServer()->ssrc), type, id);
 }
 
 /* Creates a new tVjcHeader */
@@ -554,25 +554,25 @@ int VjcMessage::sendData()
   }
   if (srv && (srv->sock->statecon == VjcSocket::SOCK_OPEN)) {
     /* check if an ssrc change occured since we sent the REGISTER commands */
-    if (NetObject::getMySsrc() != srv->ssrc) {
+    if (NetObject::getSsrc() != srv->ssrc) {
       if (! ((getHeader().msg_type == VJC_MSGT_CTRL)
           && (getHeader().msg_id  == VJC_MSGV_REGISTER))) {
 
         VjcMessage *msg = new VjcMessage(srv, srv->ssrc, VJC_MSGT_CTRL, VJC_MSGV_UPDATE);
-        //echo("vjc: updating ssrc (old:%d,new:%d)", srv->ssrc, NetObject::getMySsrc());
-        msg->put32(NetObject::getMySsrc());
+        //echo("vjc: updating ssrc (old:%d,new:%d)", srv->ssrc, NetObject::getSsrc());
+        msg->put32(NetObject::getSsrc());
         pkt = msg->toBytes(&pktlen);
         send(srv->sock->sdw, pkt, pktlen, 0);
         if (msg) delete msg;
       }
-      srv->ssrc = NetObject::getMySsrc();
+      srv->ssrc = NetObject::getSsrc();
     }
 
     /* send the message */
     pkt = toBytes(&pktlen);
     send(srv->sock->sdw, pkt, pktlen, 0);
     //echo("vjc: sending %d bytes with '%02x%02x' %d %08x (%d %d)",
-    //	  sent, pkt[0], pkt[1], pkt[2], NetObject::getMySsrc(),
+    //	  sent, pkt[0], pkt[1], pkt[2], NetObject::getSsrc(),
     //	  getHeader().msg_type,
     //	  getHeader().msg_id);
     return 1;

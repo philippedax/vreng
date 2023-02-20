@@ -535,11 +535,11 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
    * test if the packet was sent by myself
    * this is probably broken anyway, loopback or not
    */
-  if (NetObject::getMyHost() == ntohl(from->sin_addr.s_addr)) {
+  if (NetObject::getHost() == ntohl(from->sin_addr.s_addr)) {
 #if NEEDLOOPBACK
     // If two apps are running on the same machine,
     // you need to sort out the packets on something else than just the host ID
-    if (ntohl(rtp_hdr->ssrc) == NetObject::getMySsrc())
+    if (ntohl(rtp_hdr->ssrc) == NetObject::getSsrc())
 #endif
       return 0; // Loopback from same app : ignore it
   }
