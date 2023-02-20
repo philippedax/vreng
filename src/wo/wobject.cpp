@@ -570,32 +570,32 @@ void WObject::resetFlashy()
 // net
 //
 
-void WObject::setSrcId(uint32_t _src_id)
+void WObject::setSrc(uint32_t _src_id)
 {
   noid.src_id = _src_id;
 }
 
-uint32_t WObject::getSrcId() const
+uint32_t WObject::getSrc() const
 {
   return noid.src_id;
 }
 
-void WObject::setPortId(uint16_t _port_id)
+void WObject::setPort(uint16_t _port_id)
 {
   noid.port_id = _port_id;
 }
 
-uint16_t WObject::getPortId() const
+uint16_t WObject::getPort() const
 {
   return noid.port_id;
 }
 
-void WObject::setObjId(uint16_t _obj_id)
+void WObject::setObj(uint16_t _obj_id)
 {
   noid.obj_id = _obj_id;
 }
 
-uint16_t WObject::getObjId() const
+uint16_t WObject::getObj() const
 {
   return noid.obj_id;
 }

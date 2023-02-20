@@ -83,9 +83,9 @@ WObject * OList::findMobile(uint8_t _type, uint32_t src_id, uint16_t port_id, ui
 {
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
     if (((*it)->type == _type)
-    &&  ((*it)->getSrcId() == src_id)
-    &&  ((*it)->getPortId() == port_id)
-    &&  ((*it)->getObjId() == obj_id))
+    &&  ((*it)->getSrc() == src_id)
+    &&  ((*it)->getPort() == port_id)
+    &&  ((*it)->getObj() == obj_id))
       return *it;
   }
   return NULL;

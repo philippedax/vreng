@@ -167,32 +167,32 @@ uint16_t NetObject::getMyObj()
   return myObjId;
 }
 
-void NetObject::setSrcId(uint32_t _src_id)
+void NetObject::setSrc(uint32_t _src_id)
 {
   noid.src_id = _src_id;
 }
 
-uint32_t NetObject::getSrcId() const
+uint32_t NetObject::getSrc() const
 {
   return noid.src_id;
 }
 
-void NetObject::setPortId(uint16_t _port_id)
+void NetObject::setPort(uint16_t _port_id)
 {
   noid.port_id = _port_id;
 }
 
-uint16_t NetObject::getPortId() const
+uint16_t NetObject::getPort() const
 {
   return noid.port_id;
 }
 
-void NetObject::setObjId(uint16_t _obj_id)
+void NetObject::setObj(uint16_t _obj_id)
 {
   noid.obj_id = _obj_id;
 }
 
-uint16_t NetObject::getObjId() const
+uint16_t NetObject::getObj() const
 {
   return noid.obj_id;
 }

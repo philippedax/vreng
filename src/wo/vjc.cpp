@@ -417,9 +417,9 @@ VjcMessage::~VjcMessage()
 /* Checks whether the packet was for this WObject */
 bool VjcMessage::isForObject(WObject *po)
 {
-  return (header.src_id == po->getSrcId())
-      && (header.port_id == po->getPortId())
-      && (header.obj_id == po->getObjId());
+  return (header.src_id == po->getSrc())
+      && (header.port_id == po->getPort())
+      && (header.obj_id == po->getObj());
 }
 
 /* Returns this message's header */
@@ -486,9 +486,9 @@ void VjcMessage::putOID(WObject *po)
 {
   if (po) {
     put8((po == sender ? 0 : po->type));
-    put32(po->getSrcId());
-    put16(po->getPortId());
-    put16(po->getObjId());
+    put32(po->getSrc());
+    put16(po->getPort());
+    put16(po->getObj());
   }
   else {
     put8( 0);

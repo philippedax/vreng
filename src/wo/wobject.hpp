@@ -252,7 +252,6 @@ public:
   virtual void updateTime(time_t sec, time_t usec, float *lasting) {}
   /**< Updates remaining times of the movement. */
 
-#if 1 //dax
   virtual void clearKeyTab();
   /**< Clears keys times array. */
 
@@ -261,7 +260,6 @@ public:
 
   virtual void changePositionOneDir(const uint8_t move_type, const float last);
   /**< Modifies user position in one direction. */
-#endif
 
   virtual bool updateToNetwork(const Pos &oldpos) { return false; }
   /**< Publishes changes to the network. */
@@ -434,22 +432,22 @@ public:
   void copyNoid(class Noid _noid);
   /**< Copies the NetObjectid in WObjectId. */
 
-  void setSrcId(uint32_t src_id);
+  void setSrc(uint32_t src_id);
   /**< Sets the SrcId. */
 
-  void setPortId(uint16_t port_id);
+  void setPort(uint16_t port_id);
   /**< Sets the PortId. */
 
-  void setObjId(uint16_t obj_id);
+  void setObj(uint16_t obj_id);
   /**< Sets the ObjId. */
 
-  uint32_t getSrcId() const;
+  uint32_t getSrc() const;
   /**< Gets the SrcId. */
 
-  uint16_t getPortId() const;
+  uint16_t getPort() const;
   /**< Gets the PortId. */
 
-  uint16_t getObjId() const;
+  uint16_t getObj() const;
   /**< Gets the ObjId. */
 
   //
