@@ -212,7 +212,7 @@ void NetObject::initProperties(bool _responsible)
   if (!np) return;
   trace(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, pobject->getInstance(), np, _responsible);
 
-  netprop = new NetProperty[n];
+  netprop = new NetProperty[np];
 
   for (int i=0; i<np; i++) {
     NetProperty *pprop = netprop + i;
