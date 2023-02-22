@@ -621,7 +621,7 @@ public:
   void createVolatileNetObject(uint8_t props);
   /**< Creates local volatile NetObject. */
 
-  void replicateVolatileNetObject(uint8_t props, class Noid _noid);
+  void replicateNetObject(uint8_t props, class Noid _noid);
   /**< Replicate distant volatile NetObject. */
 
   virtual void enableBehavior(uint32_t flag);

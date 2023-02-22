@@ -377,7 +377,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   defaults();
   getMemory();		// alloc geometries
 
-  replicateVolatileNetObject(PROPS, _noid);
+  replicateNetObject(PROPS, _noid);
 
   /* hack to retrieve the name and the mapping */
   noh->getProperty(/*  0 */ PROPHNAME, pp);

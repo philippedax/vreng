@@ -632,7 +632,7 @@ void WObject::createVolatileNetObject(uint8_t props)
 }
 
 /* Replicates distant volatile NetObject */
-void WObject::replicateVolatileNetObject(uint8_t props, Noid _noid)
+void WObject::replicateNetObject(uint8_t props, Noid _noid)
 {
   noh = new NetObject(this, props, _noid);
   noid.src_id = _noid.src_id;
