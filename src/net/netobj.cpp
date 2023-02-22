@@ -35,7 +35,6 @@ using namespace std;
 // local
 
 list<NetObject*> NetObject::netobjectList;
-//static NetObject *netobjectList = NULL; // netobjects list
 
 // network ids
 uint32_t NetObject::mySsrcId = 0;   // ssrc network format
@@ -209,13 +208,13 @@ void NetObject::initProperties(bool _responsible)
 {
   if (netprop) return; //error("initProperties: netprop already exists (type=%d)", type);
 
-  uint8_t n = NetProperty::getPropertiesNumber(type);
-  if (!n) return;
-  trace(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, pobject->getInstance(), n, _responsible);
+  uint8_t np = NetProperty::getPropertiesNumber(type);
+  if (!np) return;
+  trace(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, pobject->getInstance(), np, _responsible);
 
   netprop = new NetProperty[n];
 
-  for (int i=0; i<n; i++) {
+  for (int i=0; i<np; i++) {
     NetProperty *pprop = netprop + i;
     pprop->responsible = _responsible;
     pprop->version = 0;
@@ -256,22 +255,23 @@ void NetObject::setNoid()
 }
 
 /* Creates a new netobject name */
-void NetObject::create(bool netbehave)
+void NetObject::create(bool _state)
 {
   // MS.: Objects need a unique ID from the start,
   // not just for networked objects, so that the
   // Vjc controller apps can tell them apart.
   setNoid();
 
-  state = netbehave;
+  state = _state;
   initProperties(true);	// new: then we are responsible
   addToList();
 }
 
 /* Builds a netobject name from the string "scene_id/obj_id" */
-void NetObject::setNetName(const char *s, bool netbehave)
+void NetObject::setNetName(const char *s, bool _state)
 {
   uint16_t scene_id, obj_id;
+
   int c = sscanf(s, "%hu/%hu", &scene_id, &obj_id);
 
   if (c != 2 || scene_id == 0) {
@@ -279,24 +279,25 @@ void NetObject::setNetName(const char *s, bool netbehave)
     return;
   }
 
-  state = netbehave;		// should be true
+  state = _state;		// should be true
   initProperties(false);	// we are not responsible
 
   noid.src_id = htonl(1);
   noid.port_id = htons(scene_id);
   noid.obj_id = htons(obj_id);
 
-  if (getNetObject())
+  if (getNetObject()) {
     return;	//error("setNetName: %s already seen %d/%d", pobject->getInstance(), scene_id, obj_id);
+  }
   addToList();	// add to list
 }
 
 /* Deletes a netobject from the list */
 void NetObject::deleteFromList()
 {
-  if (! getNetObject())
+  if (! getNetObject()) {
     return;	//error("deleteFromList: already unnamed/deleted type=%d", type);
-
+  }
   netobjectList.remove(this);
 }
 
@@ -305,7 +306,7 @@ NetObject::~NetObject()
   deleteFromList();
 
   memset(&noid, 0, sizeof(noid));
-  //dax segfault - memory leak// if (netprop) delete[] netprop;
+  //if (netprop) delete[] netprop;
   netprop = NULL;
   del_netobject++;
 }
@@ -347,16 +348,19 @@ void NetObject::putProperty(uint8_t prop_id, Payload *pp)
 void NetObject::getAllProperties(Payload *pp) const
 {
   uint8_t _nbprop = getPropertiesNumber(type);
-  for (int p=0; p < _nbprop; p++)
+  for (int p=0; p < _nbprop; p++) {
     getProperty(p, pp);
+  }
 }
 
 /* Puts all properties of the netobject */
 void NetObject::putAllProperties(Payload *pp)
 {
   uint8_t _nbprop = getPropertiesNumber(type);
-  for (int p=0; p < _nbprop; p++)
+
+  for (int p=0; p < _nbprop; p++) {
     putProperty(p, pp);
+  }
 }
 
 /* Removes netobject */
@@ -376,13 +380,16 @@ NetObject * NetObject::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
     }
     return po->noh;	// OK
   }
-  return NULL;	// BAD
+  return NULL;		// BAD
 }
 
 /* Send a multicast packet of type '0x02' = Delta */
 void NetObject::sendDelta(uint8_t prop_id)
 {
-  if (! netprop) { error("sendDelta: netprop NULL"); return; }
+  if (! netprop) {
+    error("sendDelta: netprop NULL");
+    return;
+  }
 
   NetProperty *pprop = netprop + prop_id;
   pprop->setResponsible(true);
@@ -391,10 +398,9 @@ void NetObject::sendDelta(uint8_t prop_id)
   Payload pp;
   pp.putPayload("cnch", VREP_DELTA, noid, prop_id, pprop->version);
 
-  /*** TODO: the timevals ***/
-
   if (prop_id >= getPropertiesNumber(type)) {
-    error("sendDelta: prop_id wrong"); return;
+    error("sendDelta: prop_id wrong");
+    return;
   }
   putProperty(prop_id, &pp);
 
@@ -409,12 +415,14 @@ void NetObject::sendDelta(uint8_t prop_id)
 void NetObject::sendCreate(const struct sockaddr_in *to)
 {
   Payload pp;
+
   pp.putPayload("ccnc", VREP_CREATE, type, noid, state);
   putAllProperties(&pp);
 
   uint8_t nprop = getPropertiesNumber(type);
-  for (int i=0; i < nprop; i++)
+  for (int i=0; i < nprop; i++) {
     pp.putPayload("h", netprop[i].version);
+  }
 
   trace(DBG_NET, "sendCreate: nobj=%s to=%s", noid.getNetNameById(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
@@ -463,7 +471,8 @@ void NetObject::declareDeletion()
   if (! getNetObject()) return;
 
   if (state) {
-    error("declareDeletion: on permanent object (type=%d)", type); return;
+    error("declareDeletion: on permanent object (type=%d)", type);
+    return;
   }
   Channel *pchan = Channel::current();
   if (pchan) sendDelete(pchan->sa[SA_RTP]);
@@ -472,6 +481,7 @@ void NetObject::declareDeletion()
 void NetObject::sendDelete(const struct sockaddr_in *to)
 {
   Payload pp;
+
   pp.putPayload("cn", VREP_DELETE, noid);
   trace(DBG_NET, "sendDelete: nobj=%s to=%s", noid.getNetNameById(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
@@ -489,17 +499,20 @@ char * NetObject::getNetNameById()
 /* Returns 0 if different, other if equal */
 bool NetObject::equalNoid(Noid n2) const
 {
-  return noid.src_id == n2.src_id &&
-         noid.port_id == n2.port_id &&
-         noid.obj_id == n2.obj_id;
+  return (
+          noid.src_id == n2.src_id &&
+          noid.port_id == n2.port_id &&
+          noid.obj_id == n2.obj_id
+         );
 }
 
 /* Gets a NetObject by name */
 NetObject * NetObject::getNetObject()
 {
   for (list<NetObject*>::iterator it = netobjectList.begin(); it != netobjectList.end(); ++it) {
-    if ((*it)->equalNoid((*it)->noid))
+    if ((*it)->equalNoid((*it)->noid)) {
       return *it;  // found
+    }
     if (! OClass::isValidType((*it)->type)) {
       error("getNetObject: bad type=%d", (*it)->type);
       return NULL;
@@ -508,22 +521,23 @@ NetObject * NetObject::getNetObject()
   return NULL;
 }
 
-/* Heuristic to avoid to send bunch of Query */
+/* Heuristic to avoid to send bunch of Queries */
 int NetObject::filterQuery()
 {
   static Noid oldnoid;
-  static int countDelta = 0;
+  static int cntdelta = 0;
 
   if (equalNoid(oldnoid)) {
     // last request was on this name
-    if (++countDelta <= 15)
+    if (++cntdelta <= 15) {
       // 15: 10 proprietes en moyenne, avec 15 on saute donc
       // sans doute un "bloc" de deltas, mais sans doute pas deux
       return 0;    // cancel this request
+    }
   }
   // it's another one
   oldnoid = noid;
-  countDelta = 0;
+  cntdelta = 0;
   return 1;
 }
 
@@ -542,6 +556,7 @@ void NetObject::sendQueryNoid(const struct sockaddr_in *to)
 void NetObject::sendDeleteNoid(const struct sockaddr_in *to)
 {
   Payload pp;
+
   pp.putPayload("cn", VREP_DELETE, noid);
   trace(DBG_NET, "sendDelete: nobj=%s to=%s", getNetNameById(), inet4_ntop( &to->sin_addr));
   pp.sendPayload(to);
