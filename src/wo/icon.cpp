@@ -321,7 +321,6 @@ Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
   setType(type_id);
   replicateVolatileNetObject(PROPS, _noid);
   noh->getAllProperties(pp);
-  copyNoid(_noid);
 
   makeSolid();
   defaults();

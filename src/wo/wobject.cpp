@@ -609,6 +609,7 @@ void WObject::setWObjectId()
   noid.obj_id = htons(NetObject::getObj());	// Application wide unique number
 }
 
+#if 0 // notused
 /* Copies Noid in WObjectId */
 void WObject::copyNoid(Noid _noid)
 {
@@ -616,6 +617,7 @@ void WObject::copyNoid(Noid _noid)
   noid.port_id = _noid.port_id;
   noid.obj_id = _noid.obj_id;
 }
+#endif // notused
 
 /* Creates local permanent NetObject */
 void WObject::createPermanentNetObject(uint8_t props, uint16_t oid)

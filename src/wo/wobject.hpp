@@ -429,8 +429,8 @@ public:
    * whether if be a networked object or not.
    */
 
-  void copyNoid(class Noid _noid);
-  /**< Copies the NetObjectid in WObjectId. */
+  //notused void copyNoid(class Noid _noid);
+  //notused /**< Copies the NetObjectid in WObjectId. */
 
   void setSrc(uint32_t src_id);
   /**< Sets the SrcId. */
