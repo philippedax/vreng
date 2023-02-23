@@ -99,7 +99,7 @@ WObject::WObject()
   noid.port_id = 0;
   noid.obj_id = 0;
 
-  prior = PRIOR_MEDIUM;
+  //notused prior = PRIOR_MEDIUM;
 
   solid = NULL;
   ::g.render.relsolidList.clear();
@@ -144,6 +144,7 @@ void WObject::initObject(uint8_t _mode)
 
   setWObjectId();
   updateNames();
+  initPosition();
   addToList(objectList);	// add to objectList
 
   //echo("num=%d mode=%d type=%d", num, mode, type);
@@ -277,6 +278,7 @@ bool WObject::isSelectable() const
   return (! isBehavior(UNSELECTABLE));
 }
 
+#if 0 //notused
 void WObject::setRenderPrior(uint8_t _prior)
 {
   prior = _prior;
@@ -286,6 +288,7 @@ uint8_t WObject::getRenderPrior() const
 {
   return prior;
 }
+#endif //notused
 
 bool WObject::isValid() const
 {
@@ -570,14 +573,10 @@ void WObject::resetFlashy()
 // net
 //
 
+#if 0 //notused
 void WObject::setSrc(uint32_t _src_id)
 {
   noid.src_id = _src_id;
-}
-
-uint32_t WObject::getSrc() const
-{
-  return noid.src_id;
 }
 
 void WObject::setPort(uint16_t _port_id)
@@ -585,14 +584,20 @@ void WObject::setPort(uint16_t _port_id)
   noid.port_id = _port_id;
 }
 
-uint16_t WObject::getPort() const
-{
-  return noid.port_id;
-}
-
 void WObject::setObj(uint16_t _obj_id)
 {
   noid.obj_id = _obj_id;
+}
+#endif //notused
+
+uint32_t WObject::getSrc() const
+{
+  return noid.src_id;
+}
+
+uint16_t WObject::getPort() const
+{
+  return noid.port_id;
 }
 
 uint16_t WObject::getObj() const
@@ -783,7 +788,10 @@ void WObject::updatePosition()
 {
   updateAll3D(pos);
   //dax1 update3D(pos);
-  if (bbBehavior()) updateBB();
+  if (bbBehavior()) {
+    updateBB();
+    //dax updatePositionAndGrid(pos);
+  }
   pos.alter = true;	// has changed
   updateDist();
 }
@@ -806,18 +814,6 @@ void WObject::updateDist()
 {
   if (! solid || removed) return;
   solid->updateDist();
-}
-
-void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
-{
-  if (! po->carrier) {
-    po->carrier = new Carrier();
-    po->carrier->take(po);
-    po->move.manip = true;
-  }
-  po->enableBehavior(NO_ELEMENTARY_MOVE); //dax carrier
-  po->initImposedMovement(5); //dax carrier
-  localuser->carrier->take(po);
 }
 
 //
@@ -929,7 +925,7 @@ bool WObject::runAction(const char *action)
   return false;
 }
 
-#if 0 //dax notused
+#if 0 //notused
 /* Returns how many actions have this object */
 uint8_t WObject::numberAction()
 {
@@ -944,7 +940,7 @@ bool WObject::haveAction()
   if (! isValid()) return false;
   return isAction(typeId(), 0);
 }
-#endif
+#endif //notused
 
 /* Adds an object into the deleteList */
 void WObject::toDelete()
@@ -1058,11 +1054,13 @@ char * WObject::tokenize(char *l)
 // List
 //
 
+#if 0 //notused
 /* Clears an olist */
 void WObject::clearList(list<WObject*> &olist)
 {
   olist.clear();
 }
+#endif //notused
 
 /* Adds a pointer of this object in an olist */
 void WObject::addToList(list<WObject*> &olist)
@@ -1133,6 +1131,7 @@ OList * WObject::delOList(OList *olist)
   return front;
 }
 
+#if 0 //notused
 bool WObject::isStill()
 {
   for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
@@ -1156,6 +1155,7 @@ bool WObject::isFluid()
   }
   return false;
 }
+#endif //notused
 
 bool WObject::isEphemeral()
 {
@@ -1165,6 +1165,7 @@ bool WObject::isEphemeral()
   return false;
 }
 
+#if 0 //notused
 // virtual
 WObject * WObject::byWObject(WObject *wobject)
 {
@@ -1173,6 +1174,7 @@ WObject * WObject::byWObject(WObject *wobject)
   }
   return (WObject *) NULL;
 } 
+#endif //notused
 
 // static
 WObject * WObject::byNum(uint16_t num)

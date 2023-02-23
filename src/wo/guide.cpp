@@ -215,7 +215,7 @@ void Guide::progress(WObject *po)
   // user follows the guide
   localuser->pos.x += dx;
   localuser->pos.y += dy;
-  localuser->pos.z += dz + .06;  // + 6cm
+  localuser->pos.z += dz + .09;  // + 6cm
   //dax localuser->pos.z += (pos.z + pos.bbs.v[2]);
   localuser->updatePositionAndGrid(localuser->pos);
   updatePositionAndGrid(po->pos);

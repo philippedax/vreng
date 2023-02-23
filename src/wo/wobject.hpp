@@ -153,7 +153,7 @@ public:
   class NetObject *netop;	///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
   uint8_t type;			///< object type.
-  uint8_t mode;			///< object mode.
+  uint8_t mode;			///< object mode (STILL | MOBILE | INVISIBLE |...).
   uint16_t num;			///< object sequence number.
   uint32_t behavior;		///< behavior flags.
   Names names;			///< names.
@@ -166,7 +166,7 @@ public:
   bool removed;			///< flag removed or not.
   bool objectbar;		///< true if object bar is active.
   int16_t state;		///< current state.
-  uint8_t prior;		///< render priority (notused).
+  //notused uint8_t prior;		///< render priority (notused).
   char *geometry;		///< geometry string.
   char chan[CHAN_LEN];		///< channel.
 #if VRSQL 			///< HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
@@ -186,7 +186,7 @@ public:
     INVISIBLE,
     FLUID,
     MOBILEINVISIBLE,
-    ENDMODE
+    END_MODE
   };
 
   /* object's states */
@@ -201,14 +201,7 @@ public:
     MOVED,
     CARRYING,
     IN_CART,
-    ENDSTATE
-  };
-
-  /* render priorities (notused) */
-  enum object_prior {
-    PRIOR_LOW,
-    PRIOR_MEDIUM,
-    PRIOR_HIGH
+    END_STATE
   };
 
   /* keys */
@@ -217,6 +210,15 @@ public:
   time_t kpstart_u[MAXKEYS];    ///< key press starting time (usec).
   time_t kpdur_s[MAXKEYS];      ///< key press duration from starting time sec.
   time_t kpdur_u[MAXKEYS];      ///< key press duration from starting time usec.
+
+#if 0 //notused
+  /* render priorities (notused) */
+  enum object_prior {
+    PRIOR_LOW,
+    PRIOR_MEDIUM,
+    PRIOR_HIGH
+  };
+#endif //notused
 
   //////////////////////////////////////////////////////////////////////////////
   //
@@ -232,57 +234,48 @@ public:
   virtual const OClass* getOClass()	{ return NULL; }
   /**< Abstract class. */
 
-  virtual uint8_t typeId()		{ return getOClass()->type_id; }
-  virtual const char* typeName()	{ return getOClass()->type_name; }
+  uint8_t typeId()			{ return getOClass()->type_id; }
+  const char* typeName()		{ return getOClass()->type_name; }
   WCreator* getCreator()		{ return getOClass()->creator; }
-  WReplicator* getReplicator()  	{ return getOClass()->replicator; }
+  WReplicator* getReplicator() 		{ return getOClass()->replicator; }
 
   //
-  // Methods of Instances of general object handlers
+  // Virtual Methods of Instances of general object handlers
   //
-  virtual bool isMoving() { return testMoving(); }
+  virtual bool isMoving()		{ return testMoving(); }
   /**< Checks whether object is moving. */
 
-  virtual void changePosition(float lasting) {}
+  virtual void changePosition(float lasting)	{}
   /**< Changes the position after a triggered movement. */
 
-  virtual void changePermanent(float lasting) {}
+  virtual void changePermanent(float lasting)	{}
   /**< Changes the position during a permanent movement. */
 
-  virtual void updateTime(time_t sec, time_t usec, float *lasting) {}
+  virtual void updateTime(time_t s, time_t us, float *lasting)	{}
   /**< Updates remaining times of the movement. */
 
-  virtual void clearKeyTab();
-  /**< Clears keys times array. */
-
-  virtual void updateKeys(time_t sec, time_t usec);
-  /**< Updates the keydifftime arrays. */
-
-  virtual void changePositionOneDir(const uint8_t move_type, const float last);
-  /**< Modifies user position in one direction. */
-
-  virtual bool updateToNetwork(const Pos &oldpos) { return false; }
+  virtual bool updateToNetwork(const Pos &oldpos)		{ return false; }
   /**< Publishes changes to the network. */
 
-  virtual bool updatePosToNetwork(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay);
-  /**< Publishes position changes to the network. */
-
-  virtual bool whenIntersect(WObject *pcur, WObject *pold) { return false; }
+  virtual bool whenIntersect(WObject *pcur, WObject *pold)	{ return false; }
   /**< Handles an ingoing collision with another object. */
 
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold) {return false;}
+  virtual bool whenIntersectOut(WObject *pcur, WObject *pold)	{ return false; }
   /**< Handles an outgoing collision with another object. */
 
-  virtual void whenWallsIntersect(WObject *pold, V3 *norm) {}
+  virtual void whenWallsIntersect(WObject *pold, V3 *norm)	{}
   /**< Handles collisions with walls. */
 
-  virtual void render() {}
+  virtual void render()		{}
   /**< Makes special rendering. */
 
-  virtual void lighting() {}
+  virtual void lighting()	{}
   /**< Makes special lighting. */
 
-  virtual void quit() {}
+  virtual void click(V3 norm)	{}
+  /**< Intercepts a click. */
+
+  virtual void quit()		{}
   /**< Makes all thing when leaving the object. */
 
   //
@@ -291,155 +284,157 @@ public:
   const SolidList& solids() const;
   /**< solidlist address. */
 
-  //uint32_t countOfSolids() const;
-  //*< Count of solids. */
-
-  virtual class Solid* getSolid() const;
+  Solid* getSolid() const;
   /**< Returns first solid. */
 
-  virtual void addSolid(class Solid* solid);
+  void addSolid(class Solid* solid);
   /**< Adds to solidList. */
 
   virtual void deleteSolids();
   /**< Deletes solids from solidList. */
 
+  //notused uint32_t countOfSolids() const;
+  //notused *< Count of solids. */
+
   //
   // Intersections
   //
-  virtual int interAABB(WObject *o1, WObject *o2);
-  static int interAABB(V3 center1, V3 size1, V3 center2, V3 size2);
+public:
+  int interAABB(WObject *o1, WObject *o2);
+
+private:
+  int interAABB(V3 center1, V3 size1, V3 center2, V3 size2);	// static?
   /**< Computes intersection between 2 AABB (Axis Aligned Bounding Box). */
 
-  static int interAABBVertical(V3 center1, V3 size1, V3 center2, V3 size2);
-  static int interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2);
+  int interAABBVertical(V3 center1, V3 size1, V3 center2, V3 size2);	// static?
+  int interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2);	// static?
 
   //
   // Actions
   //
-  virtual void specialAction(int action, void *data, time_t sec, time_t usec);
+public:
+  void specialAction(int action, void *data, time_t sec, time_t usec);
   /**< Calls methods dedicated to each object.
    * Called by GUI.
    */
 
-  //virtual bool haveAction();
-  /**< Checks whether have actions. */
-
-  //virtual uint8_t numberAction();
-  /**< Number of actions. */
-
-  virtual bool runAction(const char *action);
+  bool runAction(const char *action);
   /**< Runs action everwhere if available. */
+
+  //notused bool haveAction();
+  //notused /**< Checks whether have actions. */
+  //notused uint8_t numberAction();
+  //notused /**< Number of actions. */
 
   //
   // Set, Get, Have, Is
   //
-
-  virtual void setType(uint8_t type);
+public:
+  void setType(uint8_t type);
   /**< Sets object type. */
 
-  virtual int getType() {return type;}
-  /**< Gets object type. */
-
-  virtual int getNumber() {return num;}
-  /**< Gets object number. */
-
-  virtual uint16_t getNum();
+  uint16_t getNum();
   /**< Gets a new object number. */
 
-  virtual void getPosition(M4& mpos);
+  void getPosition(M4& mpos);
   /**< Gives solid's position. */
 
-  virtual void getRelBB(V3 &center, V3 &size);
-  virtual void getDimBB(V3 &dim);
-  virtual void getCentBB(V3 &center);
-  virtual void getAbsBB(V3 &center, V3 &size);
+  void getRelBB(V3 &center, V3 &size);
+  void getDimBB(V3 &dim);
+  void getCentBB(V3 &center);
+  void getAbsBB(V3 &center, V3 &size);
   /**< Gets relative or absolute center and size of solid. */
 
-  virtual uint8_t getFrames();
+  //notused int getType()		{ return type; }
+  //notused /**< Gets object type. */
+  //notused int getNumber()	{ return num; }
+  //notused /**< Gets object number. */
+
+  uint8_t getFrames();
   /**< Gets number of frames of this solid. */
 
-  virtual uint8_t getFrame();
+  uint8_t getFrame();
   /**< Gets index of current frame of this solid. */
 
-  virtual void setFrame(uint8_t _frame);
+  void setFrame(uint8_t _frame);
   /**< Sets current frame. */
 
-  virtual bool isValid() const;
+  bool isValid() const;
   /**< Checks if valid object type. */
 
-  virtual bool isPermanent() const;
-  /**< Checks if permanent object. */
-
-  virtual const char * named() const;
+  const char * named() const;
   /**< Gets names.given. */
 
-  virtual const char * getInstance() const;
+  const char * getInstance() const;
   /**< Gets names.instance. */
 
-  virtual const char * urlName() const;
+  const char * urlName() const;
   /**< Gets names.url. */
 
-  virtual const char * ownerName() const;
+  const char * ownerName() const;
   /**< Gets names.owner. */
 
-  virtual const char * worldName() const;
-  /**< Gets names.owner. */
+  const char * worldName() const;
+  /**< Gets name of world. */
 
-  virtual bool givenName() const;
+  bool givenName() const;
   /**< Checks whether the object is explicitly named. */
 
-  virtual void toDelete();
-  /**< Delete this object latter. */
+  void toDelete();
+  /**< Delete this object later. */
 
-  virtual bool removeFromScene();
+  bool removeFromScene();
   /**< Removes an object. */
 
-  virtual bool isOwner() const;
-  /**< Returns true if owner. */
-
-  virtual void setOwner(const char *_owner);
-  /**< Initialize owner. */
-
-  virtual void setOwner();
+  void setOwner();
   /**< Initialize local user as owner. */
 
-  //dax static void show(const char *name);
-  /**< Snaps position (debug). */
-
-  virtual void click(GLint x, GLint y);
-  virtual void click(V3 norm) {}
+  void click(GLint x, GLint y);
   /**< Intercepts a click. */
+
+  bool isPermanent() const;
+  /**< Checks if permanent object. */
+
+private:
+  bool isOwner() const;
+  /**< Returns true if owner. */
+
+  void setOwner(const char *_owner);
+  /**< Initialize owner. */
+
+  //notused static void show(const char *name);
+  //notused /**< Snaps position (debug). */
+
+  //
+  // keys
+  //
+public:
+  void clearKeyTab();
+  /**< Clears keys times array. */
+
+  void updateKeys(time_t sec, time_t usec);
+  /**< Updates the keydifftime arrays. */
+
+  void changePositionOneDir(const uint8_t move_type, const float last);
+  /**< Modifies user position in one direction. */
 
   //
   // Parse
   //
-  virtual char * tokenize(char *l);
+public:
+  char * tokenize(char *l);
   /**< Tokenizes the line <object ... >. */
 
-  virtual Parse * parse();
+  Parse * parse();
   /**< Gets current parse. */
 
 
   //
   // Noid (Network Object Identifier)
   //
-  void setWObjectId();
-  /**< Sets the WObjectid.
-   * Assigns a unique identifier to each Vreng object
-   * whether if be a networked object or not.
-   */
-
-  //notused void copyNoid(class Noid _noid);
-  //notused /**< Copies the NetObjectid in WObjectId. */
-
-  void setSrc(uint32_t src_id);
-  /**< Sets the SrcId. */
-
-  void setPort(uint16_t port_id);
-  /**< Sets the PortId. */
-
-  void setObj(uint16_t obj_id);
-  /**< Sets the ObjId. */
+public:
+  bool updatePosToNetwork(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay);
+  /**< Publishes position changes to the network. */
 
   uint32_t getSrc() const;
   /**< Gets the SrcId. */
@@ -450,246 +445,270 @@ public:
   uint16_t getObj() const;
   /**< Gets the ObjId. */
 
+  void setWObjectId();
+  /**< Sets the WObjectid.
+   * Assigns a unique identifier to each Vreng object
+   * whether if be a networked object or not.
+   */
+
+  //notused void copyNoid(class Noid _noid);
+  //notused /**< Copies the NetObjectid in WObjectId. */
+  //notused void setSrc(uint32_t src_id);
+  //notused /**< Sets the SrcId. */
+  //notused void setPort(uint16_t port_id);
+  //notused /**< Sets the PortId. */
+  //notused void setObj(uint16_t obj_id);
+  //notused /**< Sets the ObjId. */
+
   //
   // 3D
   //
-  virtual void update3D(Pos &pos);
+private:
+  void update3D(Pos &pos);
   /**< Updates object in the 3D. */
 
-  virtual void updateAll3D(Pos &pos);
+  void updateAll3D(Pos &pos);
   /**< Updates object in the 3D. */
 
-  virtual void updateCamera(Pos &pos);
+  void updateBB();
+  /**< Updates object's Bounding Box. */
+
+public:
+  void updateCamera(Pos &pos);
   /**< Updates camera in the 3D. */
 
-  virtual void getSurfVecs(Pos &pos, V3 *v, V3 *w, V3 *norm);
+  void getSurfVecs(Pos &pos, V3 *v, V3 *w, V3 *norm);
   /**< Returns two vectors that describe the object's surface
    * and a normal vector to that surface
    */
 
-  virtual void updateBB();
-  /**< Updates object's Bounding Box. */
-
-  virtual void getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha);
+  void getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha);
 
   //
   // Grid
   //
-  virtual void insertIntoGrid();
-  /**< Adds an object into the vicinity grid. */
-
-  virtual void delFromGrid();
+public:
+  void delFromGrid();
   /**< Deletes an object from the vicinity grid. */
 
-  virtual void updateGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold);
-  virtual void updateGrid(const Pos &oldpos);
-  virtual void updateGrid(const WObject *pold);
+  void updateGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold);
+  void updateGrid(const Pos &oldpos);
+  void updateGrid(const WObject *pold);
   /**< Updates an object into the vicinity grid. */
+
+private:
+  void insertIntoGrid();
+  /**< Adds an object into the vicinity grid. */
 
   //
   // List
   //
-  virtual void    addToList(std::list<WObject*> &olist);
-  virtual OList * addToList(OList * olist);
+public:
+  void    addToList(std::list<WObject*> &olist);
+  OList * addToList(OList * olist);
   /**< Adds an object pointer into a olist. */
 
-  virtual void    addToListOnce(std::list<WObject*> &olist);
-  virtual OList * addOListOnce(OList * olist); // confuse
+  void    addToListOnce(std::list<WObject*> &olist);
+  OList * addOListOnce(OList * olist); // confuse
   /**< Adds an object pointer into a list only once time. */
 
-  virtual void    delFromList(std::list<WObject*> &olist);
-  virtual OList * delOList(OList * olist); // confuse
+  void    delFromList(std::list<WObject*> &olist);
+  OList * delOList(OList * olist); // confuse
   /**< Deletes an object pointer from a olist. */
 
-  virtual void clearList(std::list<WObject*> &olist);
-  /**< Clears an olist. */
+  OList * addListToList(OList * list1, OList * list2);
+  /**< Concatenation (test of "ispointed") of list pointers on an object. */
 
-  virtual WObject * byWObject(WObject *po);
-  /**< Gets a WObject from the lists. */
+  OList * getVicinity(const WObject *pold);
+  /**< Returns list of pointers on objects touching cell where is the object. */
+
+  void checkVicinity(WObject *pold);
+  /**< Checks whether vicinity. */
 
   static WObject * byNum(uint16_t num); // to become virtual !
   /**< Gets an object by its num. */
 
-  virtual OList * addListToList(OList * list1, OList * list2);
-  /**< Concatenation (test of "ispointed") of list pointers on an object. */
-
-  virtual OList * getVicinity(const WObject *pold);
-  /**< Returns list of pointers on objects touching cell where is the object. */
-
-  virtual void checkVicinity(WObject *pold);
-  /**< Checks whether vicinity. */
-
-  virtual bool isStill();
-  /**< Checks an object exists in the stilllist. */
-
-  virtual bool isMobile();
-  virtual bool isFluid();
-  virtual bool isEphemeral();
+  bool isEphemeral();
   /**< Checks an object exists in the mobilelist. */
+
+  //notused void clearList(std::list<WObject*> &olist);
+  //notused /**< Clears an olist. */
+  //notused WObject * byWObject(WObject *po);
+  //notused /**< Gets a WObject from the lists. */
+  //notused bool isStill();
+  //notused /**< Checks an object exists in the stilllist. */
+  //notused bool isMobile();
+  //notused bool isFluid();
 
   //
   // Movements
   //
-  virtual void enableImposedMovement();
+public:
+  void enableImposedMovement();
   /**< Enables movement on an object. */
 
-  virtual void enablePermanentMovement();
+  void enablePermanentMovement();
   /**< Enables permanent movement on an object. */
 
-  virtual void disablePermanentMovement();
+  void disablePermanentMovement();
   /**< Disables movement on an object. */
 
-  virtual void enablePermanentMovement(float speed);
+  void enablePermanentMovement(float speed);
   /**< Enables permanent movement on an object. */
 
-  virtual void imposedMovement(time_t sec, time_t usec);
-  /**< Handles an object movement. */
-
-  virtual void initImposedMovement(float lasting);
+  void initImposedMovement(float lasting);
   /**< Initializes movement on an object. */
 
-  virtual void elemImposedMovement(float lasting);
-  /**< Handles an elementary object movement. */
-
-  virtual float diffTime(time_t sec, time_t usec);
+  float diffTime(time_t sec, time_t usec);
   /**< Updates times on an object. */
 
-  virtual void stopImposedMovement();
+  void stopImposedMovement();
   /**< Stops a movement on an object. */
 
-  virtual void permanentMovement(time_t sec, time_t usec);
-  /**< Handles a permanent object movement. */
-
-  virtual void elemPermanentMovement(float lasting);
-  /**< Handles an elementary permanent object movement. */
-
-  virtual void setLasting(float maxlast);
-  /**< Sets the max lasting time of an object. */
-
-  virtual float getLasting() const;
-  /**< Gets the lasting time of an object. */
-
-  virtual bool testMoving();
+  bool testMoving();
   /**< Tests if object is moving. */
 
-  virtual bool updateLasting(time_t sec, time_t usec, float *lasting);
+  bool updateLasting(time_t sec, time_t usec, float *lasting);
   /**< Updates remaining times of the movement. */
 
-  virtual void moveUserToObject(float val, float _lttl, float _attl);
+  void imposedMovement(time_t sec, time_t usec);
+  /**< Handles an object movement. */
+
+  void permanentMovement(time_t sec, time_t usec);
+  /**< Handles a permanent object movement. */
+
+  void setLasting(float maxlast);
+  /**< Sets the max lasting time of an object. */
+
+  float getLasting() const;
+  /**< Gets the lasting time of an object. */
+
+  void moveUserToObject(float val, float _lttl, float _attl);
   /**< Moves the user to the object. */
 
   static void moveObject(WObject *po, void *d, time_t s, time_t u);
   /**< User moves the object. */
 
+private:
+  void elemImposedMovement(float lasting);
+  /**< Handles an elementary object movement. */
+
+  void elemPermanentMovement(float lasting);
+  /**< Handles an elementary permanent object movement. */
+
   //
   // Names
   //
+public:
   static void initNames();
   /**< inits hash_table of names. */
 
-  virtual void setObjectName(const char *str);
-  /**< Sets an object name. */
+  void updateNames();
+  /**< Updates names. */
 
-  virtual WObject *getObjectByName(const char *str);
+  WObject *getObjectByName(const char *str);
   /**< Gets an object by its name. */
 
-  static void getObjectNameById(uint8_t type, char *name);
-  /**< Gets a name by its id. */
+private:
+  void setObjectName(const char *str);
+  /**< Sets an object name. */
 
-  virtual void updateNames();
-  /**< Updates names. */
+  void getObjectNameById(uint8_t type, char *name);	// static?
+  /**< Gets a name by its id. */
 
   //
   // Initializations
   //
-  virtual void initObject(uint8_t mode);
+public:
+  void initObject(uint8_t mode);
   /**< Initializes object. */
 
-  virtual void initMobileObject(float last);
-  virtual void initEphemeralObject(float last);
+  void initMobileObject(float last);
+  void initEphemeralObject(float last);
   /**< Initializes mobile object. */
 
-  virtual void initStillObject();
+  void initStillObject();
   /**< Initializes still object. */
 
-  virtual void initFluidObject(float last);
+  void initFluidObject(float last);
   /**< Initializes fluid object. */
 
-  class NetObject * createPermanentNetObject(uint8_t props, uint16_t oid);
+  NetObject * createPermanentNetObject(uint8_t props, uint16_t oid);
   /**< Creates local permanent NetObject. */
 
-  class NetObject * createVolatileNetObject(uint8_t props);
+  NetObject * createVolatileNetObject(uint8_t props);
   /**< Creates local volatile NetObject. */
 
-  class NetObject * replicateNetObject(uint8_t props, class Noid _noid);
+  NetObject * replicateNetObject(uint8_t props, class Noid _noid);
   /**< Replicate distant volatile NetObject. */
 
-  virtual void enableBehavior(uint32_t flag);
+  void enableBehavior(uint32_t flag);
   /**< Enables behavior. */
 
-  virtual void disableBehavior(uint32_t flag);
+  void disableBehavior(uint32_t flag);
   /**< Disables behavior. */
 
-  virtual bool isBehavior(uint32_t flag) const;
+  bool isBehavior(uint32_t flag) const;
   /**< Checks if this behavior is on. */
 
-  virtual bool bbBehavior() const;
+  bool bbBehavior() const;
   /**< Checks if BBox behavior is on. */
 
-  virtual bool isSeen();
+  bool isSeen();
   /**< Checks if the object is in the sight view of the user. */
 
-  virtual void setVisible(bool flag);
+  void setVisible(bool flag);
   /**< Sets visible or not the 3D object. */
 
-  virtual bool isVisible() const;
+  bool isVisible() const;
   /**< Checks if the object is visible. */
 
-  virtual void setRendered(bool flag);
+  void setRendered(bool flag);
   /**< Sets rendered or not the 3D object. */
 
-  virtual bool isRendered() const;
+  bool isRendered() const;
   /**< Checks if the object is Rendered. */
 
-  virtual bool isOpaque() const;
+  bool isOpaque() const;
   /**< Checks whether the object is opaque. */
 
-  virtual void setFlashy(float *color);
+  void setFlashy(float *color);
   /**< Sets flashy the 3D object. */
 
-  virtual void setFlashy();
+  void setFlashy();
   /**< Sets flashy the 3D object. */
 
-  virtual void resetFlashy();
+  void resetFlashy();
   /**< Resets flashy the 3D object. */
 
-  virtual void setRay(GLint wx, GLint wy);
-  virtual void resetRay();
+  void setRay(GLint wx, GLint wy);
+  void resetRay();
   /**< Resets Ray on the 3D object. */
 
-  virtual void setReflexive(bool flag);
+  void setReflexive(bool flag);
 
-  virtual bool isSelectable() const;
+  bool isSelectable() const;
   /**< Checks whether 3D selectable behavior is on. */
 
-  virtual bool isRemoved() const;
+  bool isRemoved() const;
   /**< Returns if object has been removed or not. */
 
-  virtual uint32_t collideBehavior() const;
+  uint32_t collideBehavior() const;
   /**< Returns collide behavior. */
 
-  virtual void setRenderPrior(uint8_t _prior);
-  /**< Sets render priority. */
-
-  virtual uint8_t getRenderPrior() const;
-  /**< Gets render priority. */
+  //notused void setRenderPrior(uint8_t _prior);
+  //notused /**< Sets render priority. */
+  //notused uint8_t getRenderPrior() const;
+  //notused /**< Gets render priority. */
 
   //
   // Collisions
   //
+public:
   void generalIntersect(WObject *pold, OList *vicinityList);
   /**< General intersection of objects. */
 
+private:
   bool ingoingNeighbor(WObject *pold, WObject *neighbor);
   /** Checks ingoing intersection with a neighbor. */
 
@@ -699,45 +718,48 @@ public:
   void ingoingWalls(WObject *pold);
   /** Checks ingoing intersection with walls. */
 
-  virtual void copyPosAndBB(Pos &newpos);
-  /**< Copy object position and Bounding Box. */
-
-  virtual void copyPositionAndBB(WObject *o);
-  /**< Copy object position and Bounding Box. */
-
-  virtual bool projectPosition(WObject *pcur, WObject *pold);
-  /**< Projects object position. */
-
-  virtual int projectPositionOnObstacle(Pos &pcur, Pos &pold, Pos &obstacle);
-  /**< Projects object position on an obstacle. */
-
-  virtual void initPosition();
+  void initPosition();
   /**< Init 3D and grid position. */
 
-  virtual void updatePosition();
-  /**< Updating 3D. */
+public:
+  void copyPosAndBB(Pos &newpos);
+  /**< Copy object position and Bounding Box. */
 
-  virtual void updatePositionAndGrid(Pos &oldpos);
-  /**< Updating 3D and grid position. */
+  void copyPositionAndBB(WObject *o);
+  /**< Copy object position and Bounding Box. */
 
-  virtual void updatePositionAndGrid(WObject *pold);
-  /**< Updating 3D and grid position. */
+  int projectPositionOnObstacle(Pos &pcur, Pos &pold, Pos &obstacle);
+  /**< Projects object position on an obstacle. */
 
-  virtual void updateDist();
-  /**< Updating distance to localuser. */
-
-  virtual void computeNormal(WObject *mobil, V3 *normal);
+  void computeNormal(WObject *mobil, V3 *normal);
   /**< Computes the normal of an object. */
 
-  virtual void computeNormal(Pos &mobil, Pos &stil, V3 *normal);
+  void computeNormal(Pos &mobil, Pos &stil, V3 *normal);
   /**< Computes the normal of still object. */
 
-  virtual void bounceTrajectory(WObject *pold, V3 *norm);
+  bool projectPosition(WObject *pcur, WObject *pold);
+  /**< Projects object position. */
+
+  void bounceTrajectory(WObject *pold, V3 *norm);
   /**< Intersects with wall. */
+
+public:
+  void updatePosition();
+  /**< Updating 3D. */
+
+  void updatePositionAndGrid(Pos &oldpos);
+  /**< Updating 3D and grid position. */
+
+  void updatePositionAndGrid(WObject *pold);
+  /**< Updating 3D and grid position. */
+
+  void updateDist();
+  /**< Updating distance to localuser. */
 
   //
   // Properties
   //
+public:
   void getProperty(uint8_t prop_id, class Payload *pp);
   /**<
    * Gets the local copy property from the payload (pp->data).
@@ -753,29 +775,30 @@ public:
    * Typically called before a Delta emission.
    */
 
-  virtual void deleteReplica();
+  void deleteReplica();
   /**< Deletes a replicated object. */
 
   static void resetObjectsNumber();
   /**< Resets object seq. number. */
 
-  static uint32_t getObjectsNumber();
+  uint32_t getObjectsNumber();
   /**< Gets current object sequence number. */
 
 
   //
   // GUI
   //
-  virtual struct GuiItem * getGui() const;
+public:
+  struct GuiItem * getGui() const;
   /**< Gets the GUI handle. */
 
-  virtual bool isGui() const;
+  bool isGui() const;
   /**< Checks the GUI handle. */
 
-  virtual void resetGui();
+  void resetGui();
   /**< Resets the GUI handle. */
 
-  virtual void clearObjectBar();
+  void clearObjectBar();
   /**< Clears the ObjectBar in the GUI. */
 
   void getObjectHumanName(char **classname, char **instancename, char **actionnames);
@@ -786,22 +809,23 @@ public:
   //
   // VRSql
   //
-  virtual void getPersistency();
+public:
+  void getPersistency();
   /**< Checks if position is managed by VRSql and get it. */
 
-  virtual void getPersistency(int16_t state);
+  void getPersistency(int16_t state);
   /**< Gets state from VRSql. */
 
-  virtual void updatePersistency();
+  void updatePersistency();
   /**< Checks if position is managed by VRSql and update it. */
 
-  virtual void updatePersistency(int16_t state);
+  void updatePersistency(int16_t state);
   /**< Updates state for VRSql. */
 
-  virtual void savePersistency();
+  void savePersistency();
   /**< Flushes position for VRSql. */
 
-  virtual void quitPersistency();
+  void quitPersistency();
   /**< Quits VRSql. */
 
 protected:
