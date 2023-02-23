@@ -314,7 +314,7 @@ void User::inits()
   updateNames();
   initMobileObject(LASTING);
   enablePermanentMovement();	// gravity
-  createVolatileNetObject(PROPS);
+  noh = createVolatileNetObject(PROPS);
   // noh->declareObjCreation(); // we don't need because delta do the job
 
   makeSolid();
@@ -377,7 +377,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   defaults();
   getMemory();		// alloc geometries
 
-  replicateNetObject(PROPS, _noid);
+  noh = replicateNetObject(PROPS, _noid);
 
   /* hack to retrieve the name and the mapping */
   noh->getProperty(/*  0 */ PROPHNAME, pp);

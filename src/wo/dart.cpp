@@ -69,7 +69,7 @@ Dart::Dart(WObject *user, void *d, time_t s, time_t u)
   initImposedMovement(TTL);
 
   /* network creation */
-  createVolatileNetObject(PROPS);
+  noh = createVolatileNetObject(PROPS);
   noh->declareObjCreation();
 
   Sound::playSound(SHOOTSND);
@@ -90,7 +90,7 @@ WObject * Dart::replicator(uint8_t type_id, Noid noid, Payload *pp)
 Dart::Dart(uint8_t type_id, Noid _noid, Payload *pp)
 {
   setType(type_id);
-  replicateNetObject(PROPS, _noid);
+  noh = replicateNetObject(PROPS, _noid);
   noh->getAllProperties(pp);
 
   makeSolid();

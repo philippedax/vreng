@@ -615,13 +615,13 @@ public:
   virtual void initFluidObject(float last);
   /**< Initializes fluid object. */
 
-  void createPermanentNetObject(uint8_t props, uint16_t oid);
+  class NetObject * createPermanentNetObject(uint8_t props, uint16_t oid);
   /**< Creates local permanent NetObject. */
 
-  void createVolatileNetObject(uint8_t props);
+  class NetObject * createVolatileNetObject(uint8_t props);
   /**< Creates local volatile NetObject. */
 
-  void replicateNetObject(uint8_t props, class Noid _noid);
+  class NetObject * replicateNetObject(uint8_t props, class Noid _noid);
   /**< Replicate distant volatile NetObject. */
 
   virtual void enableBehavior(uint32_t flag);

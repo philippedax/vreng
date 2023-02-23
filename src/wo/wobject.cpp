@@ -620,24 +620,27 @@ void WObject::copyNoid(Noid _noid)
 #endif // notused
 
 /* Creates local permanent NetObject */
-void WObject::createPermanentNetObject(uint8_t props, uint16_t oid)
+NetObject * WObject::createPermanentNetObject(uint8_t props, uint16_t oid)
 {
   noh = new NetObject(this, props, oid);
+  return noh;
 }
 
 /* Creates local volatile NetObject */
-void WObject::createVolatileNetObject(uint8_t props)
+NetObject * WObject::createVolatileNetObject(uint8_t props)
 {
   noh = new NetObject(this, props);
+  return noh;
 }
 
 /* Replicates distant volatile NetObject */
-void WObject::replicateNetObject(uint8_t props, Noid _noid)
+NetObject * WObject::replicateNetObject(uint8_t props, Noid _noid)
 {
-  noh = new NetObject(this, props, _noid);
   noid.src_id = _noid.src_id;
   noid.port_id = _noid.port_id;
   noid.obj_id = _noid.obj_id;
+  noh = new NetObject(this, props, _noid);
+  return noh;
 }
 
 //
