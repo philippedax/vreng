@@ -150,7 +150,7 @@ class WObject {
 typedef std::list<class Solid*> SolidList;
 
 public:
-  class NetObject *noh;		///< reserved field for network.
+  class NetObject *netop;	///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
   uint8_t type;			///< object type.
   uint8_t mode;			///< object mode.

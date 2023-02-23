@@ -475,7 +475,7 @@ void WObject::imposedMovement(time_t sec, time_t usec)
     }
   }
 
-  if (noh && noh->isResponsible()) {
+  if (netop && netop->isResponsible()) {
     updateToNetwork(oldpos);	// handled by each object
   }
   updatePositionAndGrid(oldpos);
@@ -544,7 +544,7 @@ void WObject::permanentMovement(time_t sec, time_t usec)
     }
     updateTime(sec, usec, &lasting);	// never called FIXME!
 
-    if (noh && noh->isResponsible()) {
+    if (netop && netop->isResponsible()) {
       updateToNetwork(oldpos);		// handled by each object
     }
 

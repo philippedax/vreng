@@ -1299,7 +1299,7 @@ void Solid::setRay(GLint wx, GLint wy)
   Draw::ray(&ray_dlist, ex, ey, ez, ox, oy, oz, color, 0x3333);  // alternative
 
   localuser->ray = setV3(ox, oy, oz);
-  localuser->noh->declareObjDelta(User::PROPRAY);  // publish ray property to network
+  localuser->netop->declareObjDelta(User::PROPRAY);  // publish ray property to network
 }
 
 void Solid::resetRay()
@@ -1308,7 +1308,7 @@ void Solid::resetRay()
     ray_dlist = 0;
     if (localuser) {
       localuser->ray = setV3(0, 0, 0);
-      localuser->noh->declareObjDelta(User::PROPRAY);
+      localuser->netop->declareObjDelta(User::PROPRAY);
     }
   }
 }

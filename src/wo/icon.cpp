@@ -319,8 +319,8 @@ WObject * Icon::replicator(uint8_t type_id, Noid noid, Payload *pp)
 Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
 {
   setType(type_id);
-  noh = replicateNetObject(PROPS, _noid);
-  noh->getAllProperties(pp);
+  netop = replicateNetObject(PROPS, _noid);
+  netop->getAllProperties(pp);
 
   makeSolid();
   defaults();

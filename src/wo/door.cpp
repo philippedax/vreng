@@ -175,11 +175,11 @@ bool Door::updateToNetwork(const Pos &oldpos)
   bool change = false;
 
   if ((pos.x != oldpos.x) || (pos.y != oldpos.y)) {
-    noh->declareObjDelta(PROPXY);
+    netop->declareObjDelta(PROPXY);
     change = true;
   }
   if (pos.az != oldpos.az) {
-    noh->declareObjDelta(PROPAZ);
+    netop->declareObjDelta(PROPAZ);
     change = true;
   }
   return change;

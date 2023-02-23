@@ -314,8 +314,8 @@ void User::inits()
   updateNames();
   initMobileObject(LASTING);
   enablePermanentMovement();	// gravity
-  noh = createVolatileNetObject(PROPS);
-  // noh->declareObjCreation(); // we don't need because delta do the job
+  netop = createVolatileNetObject(PROPS);
+  // netop->declareObjCreation(); // we don't need because delta do the job
 
   makeSolid();
   setPosition();	// position from entry
@@ -377,12 +377,12 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   defaults();
   getMemory();		// alloc geometries
 
-  noh = replicateNetObject(PROPS, _noid);
+  netop = replicateNetObject(PROPS, _noid);
 
   /* hack to retrieve the name and the mapping */
-  noh->getProperty(/*  0 */ PROPHNAME, pp);
-  noh->getProperty(/*  1 */ PROPMAPFRONT, pp);
-  noh->getProperty(/*  2 */ PROPMAPBACK, pp);
+  netop->getProperty(/*  0 */ PROPHNAME, pp);
+  netop->getProperty(/*  1 */ PROPMAPFRONT, pp);
+  netop->getProperty(/*  2 */ PROPMAPBACK, pp);
 
   int idxgeom, idxend = 0;
   char s[1024];
@@ -397,21 +397,21 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
      ) {
     /* get replicated user characteristics from the network */
     //trace(DBG_WO, "idxgeom=%d[%02x]", idxgeom, idxgeom);
-    noh->getProperty(/* 09 */ PROPMENSURATION, pp);
-    noh->getProperty(/* 10 */ PROPMAPLEFT, pp);
-    noh->getProperty(/* 11 */ PROPMAPRIGHT, pp);
-    noh->getProperty(/* 12 */ PROPVRE, pp);
-    noh->getProperty(/* 13 */ PROPWEB, pp);
-    noh->getProperty(/* 14 */ PROPSSRC, pp);
-    noh->getProperty(/* 15 */ PROPRTCPNAME, pp);
-    noh->getProperty(/* 16 */ PROPRTCPEMAIL, pp);
-    noh->getProperty(/* 17 */ PROPMODEL, pp);
-    noh->getProperty(/* 18 */ PROPFACE, pp);
-    noh->getProperty(/* 19 */ PROPSEX, pp);
-    noh->getProperty(/* 20 */ PROPHEAD, pp);
-    noh->getProperty(/* 21 */ PROPSKIN, pp);
-    noh->getProperty(/* 22 */ PROPBUST, pp);
-    noh->getProperty(/* 23 */ PROPRAY, pp);
+    netop->getProperty(/* 09 */ PROPMENSURATION, pp);
+    netop->getProperty(/* 10 */ PROPMAPLEFT, pp);
+    netop->getProperty(/* 11 */ PROPMAPRIGHT, pp);
+    netop->getProperty(/* 12 */ PROPVRE, pp);
+    netop->getProperty(/* 13 */ PROPWEB, pp);
+    netop->getProperty(/* 14 */ PROPSSRC, pp);
+    netop->getProperty(/* 15 */ PROPRTCPNAME, pp);
+    netop->getProperty(/* 16 */ PROPRTCPEMAIL, pp);
+    netop->getProperty(/* 17 */ PROPMODEL, pp);
+    netop->getProperty(/* 18 */ PROPFACE, pp);
+    netop->getProperty(/* 19 */ PROPSEX, pp);
+    netop->getProperty(/* 20 */ PROPHEAD, pp);
+    netop->getProperty(/* 21 */ PROPSKIN, pp);
+    netop->getProperty(/* 22 */ PROPBUST, pp);
+    netop->getProperty(/* 23 */ PROPRAY, pp);
     idxend = pp->tellPayload();	// note end of properties
 
     if (isalpha(*avatar))
@@ -432,15 +432,15 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
     //trace(DBG_WO, "Replica: read var props, idxend=%d", idxend);
     pp->seekPayload(idxvar);	// begin prop var
     for (int np = PROPBEGINVAR; np <= PROPENDVAR; np++) {
-      noh->getProperty(np, pp);
+      netop->getProperty(np, pp);
     }
     pp->seekPayload(idxend);	// end properties
   }
   else {	// never executed
     error("never executed idxend=%d", idxend);
-    uint8_t _nbprop = noh->getPropertiesNumber();
+    uint8_t _nbprop = netop->getPropertiesNumber();
     for (int np = PROPBEGINVAR; np < _nbprop; np++) {
-      noh->getProperty(np, pp);
+      netop->getProperty(np, pp);
     }
   }
   echo("Avatar: rctpname=%s", rtcpname);
@@ -483,10 +483,10 @@ User::~User()
 
   // MS. if this destructor is called for a remote user,
   // we should not declare the deletion: it's not our problem.
-  if (this == localuser && noh) {
-    noh->declareDeletion();
-    delete noh;		// delete NetObject
-    noh = NULL;
+  if (this == localuser && netop) {
+    netop->declareDeletion();
+    delete netop;		// delete NetObject
+    netop = NULL;
   }
 
   if (front)   delete front;
@@ -511,13 +511,13 @@ bool User::updateToNetwork(const Pos &oldpos)
   bool change = false;
 
   if ((pos.x != oldpos.x) || (pos.y != oldpos.y)) {
-    noh->declareObjDelta(PROPXY); change = true;
+    netop->declareObjDelta(PROPXY); change = true;
   }
   if (ABSF(pos.z - oldpos.z) > DELTAZ) { // if d < 2cm => not sent
-    noh->declareObjDelta(PROPZ); change = true;
+    netop->declareObjDelta(PROPZ); change = true;
   }
   if (pos.az != oldpos.az) {
-    noh->declareObjDelta(PROPAZ); change = true;
+    netop->declareObjDelta(PROPAZ); change = true;
   }
   return change;
 }
@@ -539,7 +539,7 @@ void User::userWriting(const char *usermsg)
     localuser->message[MESS_LEN-1] = '\0';
   }
   localuser->lastmess++;
-  localuser->noh->declareObjDelta(PROPMSG); // msg property
+  localuser->netop->declareObjDelta(PROPMSG); // msg property
 
   localuser->bubble = localuser->getBubble();
   if (localuser->bubble) {
@@ -561,7 +561,7 @@ void User::userRequesting(const char *usermsg)
     localuser->request[MESS_LEN-1] = '\0';
   }
   localuser->lastmess++;
-  localuser->noh->declareObjDelta(PROPMSG); // msg property
+  localuser->netop->declareObjDelta(PROPMSG); // msg property
 }
 
 void User::changePosition(float lasting)
@@ -628,13 +628,13 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
       echo("%s:%s hits %s", pcur->names.type, pcur->getInstance(), getInstance());
       if (pcur->type == DART_TYPE) {
         ((Dart *)pcur)->hit = 1;
-        noh->sendDelta(Dart::PROPHIT);
+        netop->sendDelta(Dart::PROPHIT);
         ((Dart *)pcur)->hit = 0;
         Sound::playSound(OUILLESND);
       }
       else if (pcur->type == BULLET_TYPE) {
         ((Bullet *)pcur)->hit = 1;
-        noh->sendDelta(Bullet::PROPHIT);
+        netop->sendDelta(Bullet::PROPHIT);
         ((Bullet *)pcur)->hit = 0;
         Sound::playSound(RUPSSND);
       }
@@ -682,7 +682,7 @@ void User::setRayDirection(GLint wx, GLint wy)
   Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
 
   ray = setV3(tx, ty, tz);
-  noh->declareObjDelta(User::PROPRAY); // publishes ray property to network
+  netop->declareObjDelta(User::PROPRAY); // publishes ray property to network
 }
 
 bool User::hasHead()

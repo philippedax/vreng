@@ -325,8 +325,8 @@ bool NetObject::isResponsible() const
 WObject * NetObject::getWObjectByNoid() const
 {
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if ((*it)->noh) {
-      if (noid.equalNoid((*it)->noh->noid))
+    if ((*it)->netop) {
+      if (noid.equalNoid((*it)->netop->noid))
         return *it;	// found
     }
   }
@@ -375,10 +375,10 @@ NetObject * NetObject::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
   WObject *po = OClass::replicatorInstance(type_id, noid, pp);  // factory
 
   if (po) {
-    if (! po->noh) {
-      error("replicateObject: no po->noh for type=%d", type_id); return NULL;
+    if (! po->netop) {
+      error("replicateObject: no po->netop for type=%d", type_id); return NULL;
     }
-    return po->noh;	// OK
+    return po->netop;	// OK
   }
   return NULL;		// BAD
 }

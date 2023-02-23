@@ -110,10 +110,10 @@ void Aoi::aoiEnter()
 
   /* initializes local user's avatar */
   localuser->initMobileObject(0);
-  localuser->noh->create(NetObject::NET_VOLATILE);
+  localuser->netop->create(NetObject::NET_VOLATILE);
 
   /* publishes to other VREng processes we are there (no latency) */
-  localuser->noh->declareObjCreation();
+  localuser->netop->declareObjCreation();
 
   /* To do here: broadcast a query on new AoI to see who is there with
    * minimal latency.  In the current solution, we discover
@@ -148,8 +148,8 @@ void Aoi::aoiQuit()
 
   /* explicit declaration to network so that there is minimal latency
      on other VREng processes to see user leaving previous AoI */
-  localuser->noh->declareDeletion();
-  localuser->noh->deleteFromList();
+  localuser->netop->declareDeletion();
+  localuser->netop->deleteFromList();
 
   /* closes multicast channel now as we do not need it anymore */
   delete Channel::current();  // delete Channel

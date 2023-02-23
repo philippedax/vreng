@@ -874,9 +874,9 @@ void World::quit()
   }
   ::g.gui.showNavigator();	// force navig mode
 
-  if (localuser && localuser->noh) {
-    localuser->noh->declareDeletion();	// publishes I leave
-    localuser->noh->deleteFromList();
+  if (localuser && localuser->netop) {
+    localuser->netop->declareDeletion();	// publishes I leave
+    localuser->netop->deleteFromList();
   }
 
   // reset user position

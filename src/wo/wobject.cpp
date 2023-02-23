@@ -55,7 +55,7 @@ WObject::WObject()
 {
   new_wobject++;
 
-  noh = NULL;
+  netop = NULL;
   guip = NULL;
   inlist = false;
   removed = false;
@@ -121,12 +121,12 @@ WObject::~WObject()
   deleteSolids();	// delete all solids
 
   // delete NetObject
-  if (noh && (mode == MOBILE)) {
+  if (netop && (mode == MOBILE)) {
     if (! isPermanent()) {
-      noh->declareDeletion();
+      netop->declareDeletion();
     }
-    delete noh;
-    noh = NULL;
+    delete netop;
+    netop = NULL;
   }
   if (names.implicit) delete[] names.implicit;
   if (names.category) delete[] names.category;
@@ -315,7 +315,7 @@ void WObject::resetObjectsNumber()
 
 bool WObject::isPermanent() const
 {
-  return (noh) ? noh->isPermanent() : false;
+  return (netop) ? netop->isPermanent() : false;
 }
 
 bool WObject::isSeen()
@@ -622,15 +622,15 @@ void WObject::copyNoid(Noid _noid)
 /* Creates local permanent NetObject */
 NetObject * WObject::createPermanentNetObject(uint8_t props, uint16_t oid)
 {
-  noh = new NetObject(this, props, oid);
-  return noh;
+  netop = new NetObject(this, props, oid);
+  return netop;
 }
 
 /* Creates local volatile NetObject */
 NetObject * WObject::createVolatileNetObject(uint8_t props)
 {
-  noh = new NetObject(this, props);
-  return noh;
+  netop = new NetObject(this, props);
+  return netop;
 }
 
 /* Replicates distant volatile NetObject */
@@ -639,8 +639,8 @@ NetObject * WObject::replicateNetObject(uint8_t props, Noid _noid)
   noid.src_id = _noid.src_id;
   noid.port_id = _noid.port_id;
   noid.obj_id = _noid.obj_id;
-  noh = new NetObject(this, props, _noid);
-  return noh;
+  netop = new NetObject(this, props, _noid);
+  return netop;
 }
 
 //
@@ -1253,23 +1253,23 @@ bool WObject::updatePosToNetwork(const Pos &oldpos, int propxy, int propz, int p
   bool change = false;
 
   if ((pos.x != oldpos.x) || (pos.y != oldpos.y)) {
-    noh->declareObjDelta(propxy);
+    netop->declareObjDelta(propxy);
     change = true;
   }
   if (ABSF(pos.z - oldpos.z) > 0.1) {
-    noh->declareObjDelta(propz);
+    netop->declareObjDelta(propz);
     change = true;
   }
   if (pos.az != oldpos.az) {
-    noh->declareObjDelta(propaz);
+    netop->declareObjDelta(propaz);
     change = true;
   }
   if (pos.ax != oldpos.ax) {
-    noh->declareObjDelta(propax);
+    netop->declareObjDelta(propax);
     change = true;
   }
   if (pos.ay != oldpos.ay) {
-    noh->declareObjDelta(propay);
+    netop->declareObjDelta(propay);
     change = true;
   }
   return change;
@@ -1384,8 +1384,8 @@ void WObject::deleteReplica()
     }
     _solids.erase(_solids.begin(), _solids.end());
 
-    if (noh) delete noh;
-    noh = NULL; // delete NetObject
+    if (netop) delete netop;
+    netop = NULL; // delete NetObject
   }
   else echo("%s disapeared, but he is back!", getInstance());
 }

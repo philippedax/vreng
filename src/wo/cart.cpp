@@ -23,7 +23,7 @@
 #include "carrier.hpp"	// takeFromCart
 #include "user.hpp"	// localuser
 #include "gui.hpp"	// addCart, dialogCart
-#include "netobj.hpp"	// noh
+#include "netobj.hpp"	// netop
 #include "vrsql.hpp"	// VRSql
 #include "pref.hpp"	// g.user
 #include <list>
@@ -98,10 +98,10 @@ void Cart::addToCart(WObject *po)
   }
 
   // net deletion declaration
-  if (! po->isPermanent() && po->noh) {
-    delete po->noh;
+  if (! po->isPermanent() && po->netop) {
+    delete po->netop;
   }
-  po->noh = NULL;
+  po->netop = NULL;
 
   cartList.push_back(po);
   number++;
@@ -167,8 +167,8 @@ void Cart::leave(WObject *po)
 #endif
 
   // declare the object creation to the network
-  if (! po->isPermanent() && po->noh)
-    po->noh->declareObjCreation();
+  if (! po->isPermanent() && po->netop)
+    po->netop->declareObjCreation();
 
   if (number) number--;
   if (! number) ::g.gui.showCartDialog(false);	// switch-off cartDialog
