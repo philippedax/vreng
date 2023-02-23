@@ -175,8 +175,8 @@ public:
   class Flare *flare;		///< flare instance.
   class Carrier *carrier;	///< move via carrier.
 
-  float lspeed;         ///< linear speed.
-  float aspeed;         ///< angular speed.
+  float lspeed;         	///< linear speed.
+  float aspeed;         	///< angular speed.
 
   /* object's list modes */
   enum object_mode {
@@ -239,16 +239,17 @@ public:
   WCreator* getCreator()		{ return getOClass()->creator; }
   WReplicator* getReplicator() 		{ return getOClass()->replicator; }
 
+  ////////////////////////////////////////////////////////////////
   //
   // Virtual Methods of Instances of general object handlers
   //
-  virtual bool isMoving()		{ return testMoving(); }
+  virtual bool isMoving()					{ return testMoving(); }
   /**< Checks whether object is moving. */
 
-  virtual void changePosition(float lasting)	{}
+  virtual void changePosition(float lasting)			{}
   /**< Changes the position after a triggered movement. */
 
-  virtual void changePermanent(float lasting)	{}
+  virtual void changePermanent(float lasting)			{}
   /**< Changes the position during a permanent movement. */
 
   virtual void updateTime(time_t s, time_t us, float *lasting)	{}
@@ -266,17 +267,18 @@ public:
   virtual void whenWallsIntersect(WObject *pold, V3 *norm)	{}
   /**< Handles collisions with walls. */
 
-  virtual void render()		{}
+  virtual void render()						{}
   /**< Makes special rendering. */
 
-  virtual void lighting()	{}
+  virtual void lighting()					{}
   /**< Makes special lighting. */
 
-  virtual void click(V3 norm)	{}
+  virtual void click(V3 norm)					{}
   /**< Intercepts a click. */
 
-  virtual void quit()		{}
+  virtual void quit()						{}
   /**< Makes all thing when leaving the object. */
+
 
   //
   // Accessors to Solid
@@ -345,11 +347,6 @@ public:
   void getAbsBB(V3 &center, V3 &size);
   /**< Gets relative or absolute center and size of solid. */
 
-  //notused int getType()		{ return type; }
-  //notused /**< Gets object type. */
-  //notused int getNumber()	{ return num; }
-  //notused /**< Gets object number. */
-
   uint8_t getFrames();
   /**< Gets number of frames of this solid. */
 
@@ -395,6 +392,11 @@ public:
   bool isPermanent() const;
   /**< Checks if permanent object. */
 
+  //notused int getType()		{ return type; }
+  //notused /**< Gets object type. */
+  //notused int getNumber()	{ return num; }
+  //notused /**< Gets object number. */
+
 private:
   bool isOwner() const;
   /**< Returns true if owner. */
@@ -430,7 +432,7 @@ public:
 
 
   //
-  // Noid (Network Object Identifier)
+  // Network - Noid (Network Object Identifier)
   //
 public:
   bool updatePosToNetwork(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay);
@@ -461,18 +463,8 @@ public:
   //notused /**< Sets the ObjId. */
 
   //
-  // 3D
+  // 3D position
   //
-private:
-  void update3D(Pos &pos);
-  /**< Updates object in the 3D. */
-
-  void updateAll3D(Pos &pos);
-  /**< Updates object in the 3D. */
-
-  void updateBB();
-  /**< Updates object's Bounding Box. */
-
 public:
   void updateCamera(Pos &pos);
   /**< Updates camera in the 3D. */
@@ -483,6 +475,16 @@ public:
    */
 
   void getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha);
+
+private:
+  void update3D(Pos &pos);
+  /**< Updates object in the 3D. */
+
+  void updateAll3D(Pos &pos);
+  /**< Updates object in the 3D. */
+
+  void updateBB();
+  /**< Updates object's Bounding Box. */
 
   //
   // Grid
@@ -501,7 +503,7 @@ private:
   /**< Adds an object into the vicinity grid. */
 
   //
-  // List
+  // Lists
   //
 public:
   void    addToList(std::list<WObject*> &olist);
@@ -708,20 +710,6 @@ public:
   void generalIntersect(WObject *pold, OList *vicinityList);
   /**< General intersection of objects. */
 
-private:
-  bool ingoingNeighbor(WObject *pold, WObject *neighbor);
-  /** Checks ingoing intersection with a neighbor. */
-
-  bool outgoingNeighbor(WObject *pold, WObject *neighbor);
-  /** Checks outgoing intersection with a neighbor. */
-
-  void ingoingWalls(WObject *pold);
-  /** Checks ingoing intersection with walls. */
-
-  void initPosition();
-  /**< Init 3D and grid position. */
-
-public:
   void copyPosAndBB(Pos &newpos);
   /**< Copy object position and Bounding Box. */
 
@@ -743,7 +731,6 @@ public:
   void bounceTrajectory(WObject *pold, V3 *norm);
   /**< Intersects with wall. */
 
-public:
   void updatePosition();
   /**< Updating 3D. */
 
@@ -755,6 +742,19 @@ public:
 
   void updateDist();
   /**< Updating distance to localuser. */
+
+private:
+  bool ingoingNeighbor(WObject *pold, WObject *neighbor);
+  /** Checks ingoing intersection with a neighbor. */
+
+  bool outgoingNeighbor(WObject *pold, WObject *neighbor);
+  /** Checks outgoing intersection with a neighbor. */
+
+  void ingoingWalls(WObject *pold);
+  /** Checks ingoing intersection with walls. */
+
+  void initPosition();
+  /**< Init 3D and grid position. */
 
   //
   // Properties
