@@ -80,7 +80,6 @@ World::World()
   group = 0;
   islinked = false;
   persistent = true;
-  url = NULL;
   name = NULL;
   chan = NULL;
   grid = NULL;
@@ -274,6 +273,13 @@ void World::setPersistent(bool flag)
   persistent = flag;
 }
 
+#if 0 //notused
+uint16_t World::number() const
+{
+  return num;
+}
+#endif //notused
+
 const char* World::getUrl() const
 {
   return url;
@@ -283,11 +289,6 @@ void World::setUrl(const char* _url)
 {
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-}
-
-uint16_t World::number() const
-{
-  return num;
 }
 
 void World::setGround(float level)
@@ -310,7 +311,7 @@ void World::linked()
   islinked = true;
 }
 
-// notused
+#if 0 //notused
 bool World::isPersistent() const
 {
   return persistent;
@@ -320,6 +321,7 @@ uint32_t World::getSsrc() const
 {
   return ssrc;
 }
+#endif //notused
 
 void World::setSsrc(uint32_t _ssrc)
 {
@@ -586,6 +588,7 @@ void World::clearGrid()
   }
 }
 
+#if 0 //notused
 /** free all the grid (static) */
 void World::freeGrid()
 {
@@ -599,6 +602,7 @@ void World::freeGrid()
     }
   }
 }
+#endif //notused
 
 /* Check and load my proper icons - static */
 void World::checkIcons()

@@ -77,7 +77,7 @@ class World {
   static const uint8_t WORLD_LEN;
 
   static class OList *gridArray[4][4][2];
-  class OList ****grid;	///< matrix grid pointer.
+  class OList ****grid;		///< matrix grid pointer.
 
   V3 bbcent;			///< bb center of the world.
   V3 bbsize;			///< bb size of the world.
@@ -131,7 +131,6 @@ class World {
 
   uint8_t getState() const;		///< Gets the world state.
   void setState(int _state);		///< Sets a world state.
-  bool isDead() const;			///< Checks if world is dead.
 
   const char* getChan() const;		///< Current channel string.
   bool setChan(const char *chanstr);	///< Sets the channel name.
@@ -143,47 +142,49 @@ class World {
   void setGround(float level);		///< Sets the world level.
   float getGround() const;		///< Gets the world level.
 
-  // Accessors
-  bool isPersistent() const;
-  void setPersistent(bool persistent);
+  bool isDead() const;			///< Checks if world is dead.
+
   bool isLinked() const;
   void linked();
   struct GuiItem * getGui() const;
   bool isGui() const;
   void resetGui();
-  uint16_t number() const;
   User* localUser() const;
   Bgcolor* backgroundColor() const;
   uint32_t getGroupAdr() const;
-  uint32_t getSsrc() const;
   void setGroupAdr(uint32_t _group);
   void setSsrc(uint32_t _ssrc);
+  void setPersistent(bool persistent);
+
+  //notused uint32_t getSsrc() const;
+  //notused uint16_t number() const;
+  //notused bool isPersistent() const;
 
   //
   // Grid
   //
-  void localGrid();
-  /**< Sets locals for the current world. */
-
+private:
   void initGrid();
   /**< Inits the grid by default. */
 
   void clearGrid();
   /**< Clears the grid. */
 
-  void freeGrid();
-  /**< Frees the grid. */
+  void localGrid();
+  /**< Sets local grid for the current world. */
 
   //notused void initGrid(const uint8_t dim[3], const V3 &sl);
-  /**< Inits the grid. */
-
+  //notused /**< Inits the grid. */
+  //notused void freeGrid();
+  //notused /**< Frees the grid. */
   //notused class OList **** allocGrid();
-  /**< Allocs memory for the grid. */
+  //notused /**< Allocs memory for the grid. */
 
   //
   // World methods
   // static methods
   //
+public:
   static World* current();
   /**< Return the current world. */
 
@@ -220,13 +221,13 @@ class World {
   static void setManagerChanAndJoin(const char *chanstr);
   /**< Sets the manager channel name and joins it. */
 
-  //dax static const char * getManagerChan();
-  /**< Gets the channel name of the manager. */
-
   static void clearLists();
   /**< Clears all lists. */
 
   static void dumpworldList(const char *note);
+
+  //notused static const char * getManagerChan();
+  //notused /**< Gets the channel name of the manager. */
 };
 
 #endif
