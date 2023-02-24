@@ -149,7 +149,7 @@ public:
 
   static void funcs();		///< init funclist.
 
-  const OClass* getOClass() {return &oclass;};
+  const OClass* getOClass() { return &oclass; }
   /**< Returns instance of this class. */
 
   User();
@@ -164,9 +164,6 @@ public:
   void inits();
   /**< Does needed initializations. */
 
-  static void updateTime2(WObject *pu, time_t sec, time_t usec, float *lasting);
-  /**< Updates times array. */
-
   static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a remote avatar. */
 
@@ -176,19 +173,19 @@ public:
   Bubble * getBubble() const;
   /**< Gets bubble text. */
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
   /**< Imposed movement. */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Permanent movement. */
 
-  virtual void updateTime(time_t sec, time_t usec, float *last);
+  void updateTime(time_t sec, time_t usec, float *last);
   /**< Updates times. */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes position to the network. */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects. */
 
   static void userWriting(const char *usermsg);
@@ -197,33 +194,22 @@ public:
   static void userRequesting(const char *usermsg);
   /**< Signals a message sent by an user. */
 
-#if 0 //dax
-  void clearKeyTab();
-  /**< Clears keys times array. */
-
-  void updateKeys(time_t sec, time_t usec);
-  /**< Updates the keydifftime arrays. */
-
-  void changePositionOneDir(const uint8_t move_type, const float last);
-  /**< Modifies user position in one direction. */
-#endif
-
-  virtual void updateTime(float lasting[]);
+  void updateTime(float lasting[]);
   /**< Fills delays's array for each user motion direction. */
 
-  virtual void changePosition(const float lasting[]);
+  void changePosition(const float lasting[]);
   /**< Does the motion in each direction. */
 
-  virtual void elemUserMovement(const float lastings[]);
+  void elemUserMovement(const float lastings[]);
   /**< User motion limited by the maxlast. */
 
-  virtual void userMovement(time_t sec, time_t usec);
+  void userMovement(time_t sec, time_t usec);
   /**< User general motion. */
 
-  virtual void setRayDirection(GLint x, GLint y);
+  void setRayDirection(GLint x, GLint y);
   /**< Lanche a ray in thar direction. */
 
-  virtual void specialAction(int act_id, void *data, time_t sec, time_t usec);
+  void specialAction(int act_id, void *data, time_t sec, time_t usec);
   /**< Special action to do. */
 
   void enableGravity();
