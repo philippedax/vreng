@@ -69,13 +69,13 @@ Flare::~Flare()
   if (flareTex) delete[] flareTex;
 }
 
-tFlare Flare::set(int type, float loc, float _scale, const GLfloat *col, float colscale)
+tFlare Flare::set(int type, float loc, float scale, const GLfloat *col, float colscale)
 {
   tFlare flare;
 
   flare.type = type;
   flare.loc = loc;
-  flare.scale = _scale;
+  flare.scale = scale;
   flare.color[0] = col[0] * colscale;
   flare.color[1] = col[1] * colscale;
   flare.color[2] = col[2] * colscale;
@@ -85,7 +85,7 @@ tFlare Flare::set(int type, float loc, float _scale, const GLfloat *col, float c
 void Flare::inits()
 {
   // Shines (-1)
-  flares[0] = set(-1, 1, 3.0, red, 1);
+  flares[0] = set(-1, 0, 3.0, red, 1);
   flares[1] = set(-1, 1, 2.0, green, 1);
   flares[2] = set(-1, 1, 2.5, blue, 1);
 
