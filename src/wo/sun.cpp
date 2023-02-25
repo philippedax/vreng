@@ -85,7 +85,7 @@ void Sun::inits()
   oz = pos.z;
 
   light_dif[0] = 1;
-  light_dif[1] = 0.7; //MAX(sina, 0); //0.5 + 0.5*sina;
+  light_dif[1] = 0.7;
   light_dif[2] = 0;
   flares = new Flare(4, radius*2, light_dif);
   if (solid) solid->setFlary(true);
