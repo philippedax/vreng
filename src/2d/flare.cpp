@@ -200,11 +200,11 @@ void Flare::render(float *from, float delta)
 
   glPushMatrix();
   glDisable(GL_LIGHTING);
-  glDisable(GL_DITHER);
+  //dax glDisable(GL_DITHER);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  //dax glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   for (int i=0; i < num_flares; i++) {
     vscale(sx, dx, flares[i].scale * scale);
@@ -245,7 +245,7 @@ void Flare::render(float *from, float delta)
   }
   glDisable(GL_BLEND);
   glDisable(GL_TEXTURE_2D);
-  glEnable(GL_DITHER);
+  //dax glEnable(GL_DITHER);
   glEnable(GL_LIGHTING);
   glPopMatrix();
 }
