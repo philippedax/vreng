@@ -359,10 +359,9 @@ void WObject::getObjectNameById(uint8_t type, char *name)
   const OClass *oclass = OClass::getOClass(type);
   if (oclass) {
     strcpy(name, oclass->type_name);
-    return;
   }
-  error("getObjectNameById: no name found for type=%d", type);
-  return;
+  else
+    error("getObjectNameById: no name found for type=%d", type);
 }
 
 uint16_t WObject::getNum()
