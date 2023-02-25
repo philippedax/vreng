@@ -43,9 +43,8 @@ void Sun::defaults()
 {
   scale = 1;
   radius = DEF_RADIUS;
-  light_rot = 0;
+  rot = 0;
   flares = NULL;
-  state = ACTIVE;
 }
 
 void Sun::parser(char *l)
@@ -88,7 +87,7 @@ void Sun::inits()
   light_dif[0] = 1;
   light_dif[1] = 0.7; //MAX(sina, 0); //0.5 + 0.5*sina;
   light_dif[2] = 0;
-  flares = new Flare(4, radius*2, light_dif);
+  //dax flares = new Flare(4, radius*2, light_dif);
   if (solid) solid->setFlary(true);
 }
 
@@ -98,27 +97,38 @@ Sun::Sun(char *l)
   behavior();
   makeSolid();
   inits();
-  //draw();
+  draw();
+}
+
+void Sun::draw()
+{
+  dlist = glGenLists(1);
+  glNewList(dlist, GL_COMPILE);
+  Draw::sphere(radius, 16, 16, 0);
+  glEndList();
 }
 
 /* system of equations handling permanent motion */
 void Sun::changePermanent(float lasting)
 {
-  float ang = DEG2RAD(light_rot);
+  float ang = DEG2RAD(rot);
   float sina = sin(ang);
   float cosa = cos(ang);
-
-  light_dif[0] = MAX(0.9*(1+sina), 0); //1
-  light_dif[1] = 0.7 + 0.7*sina; //MAX(sina, 0); //0.5 + 0.5*sina;
-  light_dif[2] = 0.2 + 0.2*sina;
-  light_spe[0] = 1;
-  light_spe[1] = MAX(sina, 0);
-  light_spe[2] = MAX(sina, 0);
-  light_rot += 0.005;	// in reallife: 360/86400
 
   pos.x = ox * cosa;
   pos.y = oy * cosa;
   pos.z = ox * sina;
+
+  light_dif[0] = MAX(.9*sina, 0);
+  light_dif[1] = MAX(.7*sina, 0);
+  light_dif[2] = MAX(.2*sina, 0);
+  light_spe[0] = 1;
+  light_spe[1] = MAX(sina, 0);
+  light_spe[2] = MAX(sina, 0);
+  //echo("%.1f: %.1f %.1f %.1f", rot, light_dif[0], light_dif[1], light_dif[2]);
+
+  rot += 0.01;	// in reallife: 360/86400
+
   if (flares) {
     flares->setColor(light_dif);
   }
@@ -127,26 +137,21 @@ void Sun::changePermanent(float lasting)
 void Sun::render()
 {
    glPushMatrix();
+    glEnable(GL_LIGHTING);
     glTranslatef(pos.x, pos.y, pos.z);
-    glRotatef(RAD2DEG(localuser->pos.ax), 1, 0, 0);
-    glRotatef(RAD2DEG(localuser->pos.ay), 0, 1, 0);
-    glRotatef(RAD2DEG(localuser->pos.az), 0, 0, 1);
+    //dax glRotatef(RAD2DEG(localuser->pos.ax), 1, 0, 0);
+    //dax glRotatef(RAD2DEG(localuser->pos.ay), 0, 1, 0);
+    //dax glRotatef(RAD2DEG(localuser->pos.az), 0, 0, 1);
     glScalef(scale, scale, scale);
+
+    glCallList(dlist);
     if (flares) {
       flares->render(pos);
     }
+
+    glDisable(GL_LIGHTING);
    glPopMatrix();
 }
-
-#if 0 //dax
-void Sun::draw()
-{
-  dlist = glGenLists(1);
-  glNewList(dlist, GL_COMPILE);
-  Draw::sphere(radius, 16, 16, 0);
-  glEndList();
-}
-#endif
 
 /* called from general renderer if in lightList */
 void Sun::lighting()
@@ -162,7 +167,7 @@ void Sun::lighting()
    glLightfv(GL_LIGHT3, GL_SPECULAR, light_spe);
    glMaterialfv(GL_FRONT, GL_EMISSION, light_dif);
 
-   glRotatef(light_rot, -1, -1, -1);
+   glRotatef(rot, -1, -1, -1);
 
    glDisable(GL_LIGHT3);
    glDisable(GL_LIGHTING);
@@ -173,8 +178,7 @@ void Sun::lighting()
 }
 
 void Sun::quit()
-{ } 
+{} 
 
 void Sun::funcs()
-{
-} 
+{} 

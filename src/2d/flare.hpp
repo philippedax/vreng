@@ -67,11 +67,11 @@ public:
   void setColor(GLfloat *color);
   /**< Sets unique color for all flares */
 
-  virtual void render();
-  virtual void render(struct Pos &from);
-  virtual void render(float *from);
-  virtual void render(float delta);
-  virtual void render(float *from, float delta);
+  void render();
+  void render(struct Pos &from);
+  void render(float *from);
+  void render(float delta);
+  void render(float *from, float delta);
   /**< Renders flare + shine */
 
 private:

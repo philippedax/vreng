@@ -85,9 +85,10 @@ tFlare Flare::set(int type, float loc, float _scale, const GLfloat *col, float c
 void Flare::inits()
 {
   // Shines (-1)
-  flares[0] = set(-1, 0 /*1*/, 3, red, 1);
-  flares[1] = set(-1, 1, 2., green, 1);
+  flares[0] = set(-1, 1, 3.0, red, 1);
+  flares[1] = set(-1, 1, 2.0, green, 1);
   flares[2] = set(-1, 1, 2.5, blue, 1);
+
   // Flares
   flares[3] = set(2, 1.3, .4, red, 0.6);
   flares[4] = set(3, 1.0, 1., red, 0.4);
@@ -159,7 +160,19 @@ void Flare::render(float delta)
 
 void Flare::render(float *from, float delta)
 {
-  float at[3], light[3], view_dir[3], tmp[3], light_dir[3], pos[3], dx[3], dy[3], center[3], axis[3], sx[3], sy[3], dot;
+  float at[3];
+  float light[3];
+  float view_dir[3];
+  float tmp[3];
+  float light_dir[3];
+  float pos[3];
+  float dx[3];
+  float dy[3];
+  float center[3];
+  float axis[3];
+  float sx[3];
+  float sy[3];
+  float dot;
   float near = 1.;
 
   from[0] = localuser->pos.x;
@@ -168,21 +181,21 @@ void Flare::render(float *from, float delta)
   light[0] = sin(delta * 0.73) + 2.;
   light[1] = sin(delta * 0.678) * 0.5 + 2.;
   light[2] = sin(delta * 0.895) * 0.5 + 2.;
-  //echo("flare: %.1f %.1f %.1f", light[0], light[1], light[2]);
+  //echo("flare light: %.1f %.1f %.1f", light[0], light[1], light[2]);
 
   vdiff(view_dir, at, from);
-  vnorm(view_dir);			// view_dir = normalize(at-from)
+  vnorm(view_dir);		// view_dir = normalize(at-from)
   vscale(tmp, view_dir, near);
-  vadd(center, from, tmp);		// center = from + near * view_dir
+  vadd(center, from, tmp);	// center = from + near * view_dir
   vdiff(light_dir, light, from);
-  vnorm(light_dir);			// light_dir = normalize(light-from)
+  vnorm(light_dir);		// light_dir = normalize(light-from)
   dot = vdot(light_dir, view_dir);
   vscale(tmp, light_dir, near/dot);
-  vadd(light, from, light_dir);		// light = from + dot(light,view_dir)*near*light_dir
+  vadd(light, from, light_dir);	// light = from + dot(light,view_dir)*near*light_dir
   vdiff(axis, light, center);
-  vcopy(dx, axis);			// axis = light - center
-  vnorm(dx);				// dx = normalize(axis)
-  vcross(dy, dx, view_dir);		// dy = cross(dx,view_dir)
+  vcopy(dx, axis);		// axis = light - center
+  vnorm(dx);			// dx = normalize(axis)
+  vcross(dy, dx, view_dir);	// dy = cross(dx,view_dir)
 
   glPushMatrix();
   glDisable(GL_LIGHTING);
@@ -211,10 +224,22 @@ void Flare::render(float *from, float delta)
     vadd(pos, center, tmp);	// pos = center + flares[i].loc * axis
 
     glBegin(GL_QUADS);
-     glTexCoord2f(0, 0); vadd(tmp, pos, sx); vadd(tmp, tmp, sy); glVertex3fv(tmp);  // pos+sx+sy
-     glTexCoord2f(1, 0); vdiff(tmp, pos, sx);vadd(tmp, tmp, sy); glVertex3fv(tmp);  // pos-sx+sy
-     glTexCoord2f(1, 1); vdiff(tmp, pos, sx);vdiff(tmp, tmp, sy); glVertex3fv(tmp); // pos-sx-sy
-     glTexCoord2f(0, 1); vadd(tmp, pos, sx); vdiff(tmp, tmp, sy); glVertex3fv(tmp); // pos+sx-sy
+     glTexCoord2f(0, 0);
+      vadd(tmp, pos, sx);
+      vadd(tmp, tmp, sy);
+     glVertex3fv(tmp);	// pos+sx+sy
+     glTexCoord2f(1, 0);
+      vdiff(tmp, pos, sx);
+      vadd(tmp, tmp, sy);
+     glVertex3fv(tmp);	// pos-sx+sy
+     glTexCoord2f(1, 1);
+      vdiff(tmp, pos, sx);
+      vdiff(tmp, tmp, sy);
+     glVertex3fv(tmp);	// pos-sx-sy
+     glTexCoord2f(0, 1);
+      vadd(tmp, pos, sx);
+      vdiff(tmp, tmp, sy);
+     glVertex3fv(tmp);	// pos+sx-sy
     glEnd();
   }
   glDisable(GL_BLEND);
