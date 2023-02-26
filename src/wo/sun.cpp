@@ -62,7 +62,7 @@ void Sun::parser(char *l)
 
 void Sun::behavior()
 {
-  enableBehavior(COLLIDE_NEVER);
+  //dax enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(1);
@@ -88,7 +88,7 @@ void Sun::inits()
   light_dif[1] = 0.7;
   light_dif[2] = 0;
   flares = new Flare(4, radius*2, light_dif);
-  if (solid) solid->setFlary(true);
+  //dax if (solid) solid->setFlary(true);
 }
 
 Sun::Sun(char *l)
@@ -119,13 +119,12 @@ void Sun::changePermanent(float lasting)
   pos.y = oy * cosa;
   pos.z = ox * sina;
 
-  light_dif[0] = MAX(.9*sina, 0);
-  light_dif[1] = MAX(.7*sina, 0);
-  light_dif[2] = MAX(.2*sina, 0);
+  light_dif[0] = .9; //MAX(.9*sina, 0);
+  light_dif[1] = .7; //MAX(.7*sina, 0);
+  light_dif[2] = .2; //MAX(.2*sina, 0);
   light_spe[0] = 1;
   light_spe[1] = MAX(sina, 0);
   light_spe[2] = MAX(sina, 0);
-  //echo("%.1f: %.1f %.1f %.1f", rot, light_dif[0], light_dif[1], light_dif[2]);
 
   rot += 0.01;	// in reallife: 360/86400
 
@@ -139,10 +138,11 @@ void Sun::render()
    glPushMatrix();
     glEnable(GL_LIGHTING);
     glTranslatef(pos.x, pos.y, pos.z);
-    //dax glRotatef(RAD2DEG(localuser->pos.ax), 1, 0, 0);
-    //dax glRotatef(RAD2DEG(localuser->pos.ay), 0, 1, 0);
-    //dax glRotatef(RAD2DEG(localuser->pos.az), 0, 0, 1);
+    glRotatef(RAD2DEG(localuser->pos.ax), 1, 0, 0);
+    glRotatef(RAD2DEG(localuser->pos.ay), 0, 1, 0);
+    glRotatef(RAD2DEG(localuser->pos.az), 0, 0, 1);
     glScalef(scale, scale, scale);
+    glMaterialfv(GL_FRONT, GL_EMISSION, light_dif);
 
     glCallList(dlist);
     if (flares) {
