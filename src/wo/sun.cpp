@@ -144,7 +144,7 @@ void Sun::render()
 
     glCallList(dlist);
     if (flares) {
-      flares->render(pos);
+      flares->render(localuser->pos);
     }
 
     glDisable(GL_LIGHTING);
