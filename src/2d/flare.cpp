@@ -175,9 +175,9 @@ void Flare::render(float *from, float delta)
   float dot;
   float near = 1.;
 
-  //dax from[0] = localuser->pos.x;
-  //dax from[1] = localuser->pos.y;
-  //dax from[2] = localuser->pos.z;
+  from[0] = localuser->pos.x;
+  from[1] = localuser->pos.y;
+  from[2] = localuser->pos.z;
 
   light[0] = sin(delta * 0.73) + 2.;
   light[1] = sin(delta * 0.678) * 0.5 + 2.;
