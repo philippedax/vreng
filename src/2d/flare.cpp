@@ -200,7 +200,7 @@ void Flare::render(float *from, float delta)
 
   glPushMatrix();
   glDisable(GL_LIGHTING);
-  //dax glDisable(GL_DITHER);
+  glDisable(GL_DITHER);
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE);
@@ -245,7 +245,7 @@ void Flare::render(float *from, float delta)
   }
   glDisable(GL_BLEND);
   glDisable(GL_TEXTURE_2D);
-  //dax glEnable(GL_DITHER);
+  glEnable(GL_DITHER);
   glEnable(GL_LIGHTING);
   glPopMatrix();
 }
