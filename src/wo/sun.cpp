@@ -22,9 +22,9 @@
 #include "sun.hpp"
 #include "flare.hpp"	// Flare
 #include "user.hpp"	// localuser
-#include "light.hpp"	// lightList
 #include "solid.hpp"	// setFlary
 #include "draw.hpp"	// sphere
+#include "light.hpp"	// lightList
 
 
 const OClass Sun::oclass(SUN_TYPE, "Sun", Sun::creator);
@@ -62,7 +62,7 @@ void Sun::parser(char *l)
 
 void Sun::behavior()
 {
-  //dax enableBehavior(COLLIDE_NEVER);
+  enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(1);
@@ -88,7 +88,7 @@ void Sun::inits()
   light_dif[1] = 0.7;
   light_dif[2] = 0;
   flares = new Flare(4, radius*2, light_dif);
-  //dax if (solid) solid->setFlary(true);
+  if (solid) solid->setFlary(true);
 }
 
 Sun::Sun(char *l)
