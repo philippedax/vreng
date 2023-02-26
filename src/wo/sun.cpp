@@ -138,8 +138,6 @@ void Sun::render()
    glPushMatrix();
     glEnable(GL_LIGHTING);
     glTranslatef(pos.x, pos.y, pos.z);
-    glRotatef(RAD2DEG(localuser->pos.ax), 1, 0, 0);
-    glRotatef(RAD2DEG(localuser->pos.ay), 0, 1, 0);
     glRotatef(RAD2DEG(localuser->pos.az), 0, 0, 1);
     glScalef(scale, scale, scale);
     glMaterialfv(GL_FRONT, GL_EMISSION, light_dif);
