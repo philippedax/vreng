@@ -43,8 +43,6 @@ void Sun::defaults()
 {
   scale = 1;
   radius = DEF_RADIUS;
-  rot = 0;
-  flares = NULL;
 }
 
 void Sun::parser(char *l)
@@ -87,6 +85,8 @@ void Sun::inits()
   light_dif[0] = 1;
   light_dif[1] = 0.7;
   light_dif[2] = 0;
+  rot = 0;
+
   flares = new Flare(4, radius*2, light_dif);
   if (solid) solid->setFlary(true);
 }
@@ -140,7 +140,8 @@ void Sun::render()
     glTranslatef(pos.x, pos.y, pos.z);
     glRotatef(RAD2DEG(localuser->pos.az), 0, 0, 1);
     glScalef(scale, scale, scale);
-    glMaterialfv(GL_FRONT, GL_EMISSION, light_dif);
+    //glMaterialfv(GL_FRONT, GL_EMISSION, light_dif);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, light_dif);
 
     glCallList(dlist);
     if (flares) {
