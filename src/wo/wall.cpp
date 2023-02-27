@@ -27,8 +27,6 @@
 #include "thing.hpp"	// THING_TYPE
 #include "icon.hpp"	// ICON_TYPE
 #include "step.hpp"	// STEP_TYPE
-#include "guide.hpp"	// GUIDE_TYPE
-#include "web.hpp"	// WEB_TYPE
 
 
 const OClass Wall::oclass(WALL_TYPE, "Wall", Wall::creator);
@@ -90,8 +88,6 @@ bool Wall::whenIntersect(WObject *pcur, WObject *pold)
     pcur->toDelete();
     break;
   case STEP_TYPE:	// escalator
-  case GUIDE_TYPE:
-  case WEB_TYPE:
     return false;
   default:
     pold->copyPosAndBB(pcur->pos);
