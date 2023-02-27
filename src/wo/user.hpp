@@ -162,7 +162,7 @@ public:
   /**< Destructor. */
 
   void inits();
-  /**< Does needed initializations. */
+  /**< Makes needed initializations. */
 
   static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a remote avatar. */
@@ -188,20 +188,11 @@ public:
   bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects. */
 
-  static void userWriting(const char *usermsg);
-  /**< Signals a message sent by an user. */
-
-  static void userRequesting(const char *usermsg);
-  /**< Signals a message sent by an user. */
-
   void updateTime(float lasting[]);
   /**< Fills delays's array for each user motion direction. */
 
   void changePosition(const float lasting[]);
   /**< Does the motion in each direction. */
-
-  void elemUserMovement(const float lastings[]);
-  /**< User motion limited by the maxlast. */
 
   void userMovement(time_t sec, time_t usec);
   /**< User general motion. */
@@ -221,20 +212,25 @@ public:
   void resetPosition();
   /**< Resets user position. */
 
-  void checkPosition();
-  /**< RChecks user position. */
-
   void setPosition();
   /**< Sets user position. */
-
-  static void bulletPutHit(class Bullet *po, Payload *pp);
-  static void dartPutHit(class Dart *po, Payload *pp);
 
   bool hasHead();
   /**< Returns boolean. */
 
   void setView(uint8_t view);
   /**< User View managment. */
+
+  // static methods
+
+  static void userWriting(const char *usermsg);
+  /**< Signals a message sent by an user. */
+
+  static void userRequesting(const char *usermsg);
+  /**< Signals a message sent by an user. */
+
+  static void bulletPutHit(class Bullet *po, Payload *pp);
+  static void dartPutHit(class Dart *po, Payload *pp);
 
 private:
   void getMemory();
@@ -248,6 +244,12 @@ private:
 
   void setName();
   /**< Sets user name. */
+
+  void elemUserMovement(const float lastings[]);
+  /**< User motion limited by the maxlast. */
+
+  void checkPosition();
+  /**< Checks user position. */
 
   void checkPersist();
   /**< Checks Persist objects. */
