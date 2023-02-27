@@ -160,43 +160,46 @@ void Flare::render(float delta)
 
 void Flare::render(float *from, float delta)
 {
-  float at[3];
-  float light[3];
-  float view_dir[3];
-  float tmp[3];
-  float light_dir[3];
-  float pos[3];
-  float dx[3];
-  float dy[3];
-  float center[3];
-  float axis[3];
-  float sx[3];
-  float sy[3];
+  float at[3] = {0,0,0};
+  float light[3] = {0,0,0};
+  float view[3] = {0,0,0};
+  float tmp[3] = {0,0,0};
+  float light_dir[3] = {0,0,0};
+  float dx[3] = {0,0,0};
+  float dy[3] = {0,0,0};
+  float center[3] = {0,0,0};
+  float axis[3] = {0,0,0};
+  float sx[3] = {0,0,0};
+  float sy[3] = {0,0,0};
+  float pos[3] = {0,0,0};
   float dot;
   float near = 1.;
 
-  //from[0] = localuser->pos.x;
-  //from[1] = localuser->pos.y;
-  //from[2] = localuser->pos.z;
+  //echo("from: %.1f %.1f %.1f", from[0], from[1], from[2]);
 
   light[0] = sin(delta * 0.73) + 2.;
   light[1] = sin(delta * 0.678) * 0.5 + 2.;
   light[2] = sin(delta * 0.895) * 0.5 + 2.;
-  //echo("flare light: %.1f %.1f %.1f", light[0], light[1], light[2]);
 
-  vdiff(view_dir, at, from);
-  vnorm(view_dir);		// view_dir = normalize(at-from)
-  vscale(tmp, view_dir, near);
-  vadd(center, from, tmp);	// center = from + near * view_dir
+  vdiff(view, at, from);
+  vnorm(view);			// view = normalize(at-from)
+  //echo("view: %.1f %.1f %.1f", view[0], view[1], view[2]);
+
+  vscale(tmp, view, near);
+  vadd(center, from, tmp);	// center = from + near * view
+
   vdiff(light_dir, light, from);
   vnorm(light_dir);		// light_dir = normalize(light-from)
-  dot = vdot(light_dir, view_dir);
+  //echo("light_dir: %.1f %.1f %.1f", light_dir[0], light_dir[1], light_dir[2]);
+
+  dot = vdot(light_dir, view);
   vscale(tmp, light_dir, near/dot);
-  vadd(light, from, light_dir);	// light = from + dot(light,view_dir)*near*light_dir
+  vadd(light, from, light_dir);	// light = from + dot(light,view)*near*light_dir
+
   vdiff(axis, light, center);
   vcopy(dx, axis);		// axis = light - center
   vnorm(dx);			// dx = normalize(axis)
-  vcross(dy, dx, view_dir);	// dy = cross(dx,view_dir)
+  vcross(dy, dx, view);		// dy = cross(dx,view)
 
   glPushMatrix();
   glDisable(GL_LIGHTING);
@@ -204,7 +207,6 @@ void Flare::render(float *from, float delta)
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_ONE, GL_ONE);
-  //dax glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   for (int i=0; i < num_flares; i++) {
     vscale(sx, dx, flares[i].scale * scale);
