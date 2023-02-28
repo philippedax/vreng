@@ -21,9 +21,7 @@
 #include "vreng.hpp"
 #include "step.hpp"
 #include "user.hpp"	// localuser
-#include "guide.hpp"	// GUIDE_TYPE
 #include "ball.hpp"	// BALL_TYPE
-#include "move.hpp"	// gotoFront
 
 using namespace std;
 
@@ -321,11 +319,6 @@ bool Step::whenIntersect(WObject *pcur, WObject *pold)
           pcur->updatePositionAndGrid(pold);
         }
       }
-      break;
-
-    case STEP_TYPE:
-    case GUIDE_TYPE:
-      return false;  // ignore this collision
       break;
 
     case BALL_TYPE:
