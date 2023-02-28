@@ -22,9 +22,7 @@
 #include "plane.hpp"
 #include "user.hpp"	// USER_TYPE
 #include "ball.hpp"	// BALL_TYPE
-#include "thing.hpp"	// THING_TYPE
-#include "step.hpp"	// STEP_TYPE
-#include "guide.hpp"	// GUIDE_TYPE
+#include "step.hpp"	// JUMP
 
 
 const OClass Plane::oclass(PLANE_TYPE, "Plane", Plane::creator);
@@ -111,16 +109,13 @@ Plane::Plane(char *l)
 bool Plane::whenIntersect(WObject *pcur, WObject *pold)
 {
   switch (pcur->type) {
-
   case USER_TYPE:
-  case THING_TYPE:
     if (pos.ax > 0.01) {	// inclinated plane
       pcur->pos.z += Step::JUMP; // * sin(pos.ax);   // up
       pcur->updatePositionAndGrid(pold);
     }
     projectPosition(pcur, pold);
     break;
-
   case BALL_TYPE:
     {
     V3 normal;
@@ -131,11 +126,6 @@ bool Plane::whenIntersect(WObject *pcur, WObject *pold)
     pold->copyPosAndBB(pcur->pos);
     }
     break;
-
-  case STEP_TYPE:
-  case GUIDE_TYPE:
-    return false;
-
   default:
     pold->copyPosAndBB(pcur->pos);
   }
