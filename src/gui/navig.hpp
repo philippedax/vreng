@@ -41,6 +41,7 @@ public:
   void objectMove(UMouseEvent& e, Motion* mvt_x, Motion* mvt_y);
   void doMotion(UMouseEvent& e);
   void stopMotion();
+  void clearInfoBar();
 
 private:
   friend class Widgets;

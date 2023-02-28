@@ -274,13 +274,18 @@ void Navig::mousePressB2(UMouseEvent&, int x, int y)
   }
 }
 
+// Clears InfoBar
+void Navig::clearInfoBar()
+{
+  gw.infos_box.removeAll();	// clears infos in infobar
+}
+
 // Updates object infos (infosbox in the infobar and in the contextual menu)
 void Navig::selectObject(ObjInfo* objinfos)
 {
-  gw.infos_box.removeAll();	// clears infos in infobar
-
   if (! objinfos)  return;
 
+  gw.infos_box.removeAll();	// clears infos in infobar
   object_menu.removeAll();	// clears contextual menu
   
   // adds object class and name to the infosbox
