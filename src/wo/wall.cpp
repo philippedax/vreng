@@ -24,9 +24,7 @@
 #include "ball.hpp"	// BALL_TYPE
 #include "dart.hpp"	// DART_TYPE
 #include "bullet.hpp"	// BULLET_TYPE
-#include "thing.hpp"	// THING_TYPE
 #include "icon.hpp"	// ICON_TYPE
-#include "step.hpp"	// STEP_TYPE
 
 
 const OClass Wall::oclass(WALL_TYPE, "Wall", Wall::creator);
@@ -74,7 +72,6 @@ bool Wall::whenIntersect(WObject *pcur, WObject *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
-  case THING_TYPE:
   case BALL_TYPE:
     projectPosition(pcur, pold);
     break;
@@ -87,8 +84,6 @@ bool Wall::whenIntersect(WObject *pcur, WObject *pold)
   case DART_TYPE:
     pcur->toDelete();
     break;
-  case STEP_TYPE:	// escalator
-    return false;
   default:
     pold->copyPosAndBB(pcur->pos);
   }
