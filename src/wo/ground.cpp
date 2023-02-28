@@ -24,8 +24,6 @@
 #include "user.hpp"	// USER_TYPE
 #include "ball.hpp"	// BALL_TYPE
 #include "cauldron.hpp"	// CAULDRON_TYPE
-#include "step.hpp"	// STEP_TYPE
-#include "guide.hpp"	// GUIDE_TYPE
 
 
 const OClass Ground::oclass(GROUND_TYPE, "Ground", Ground::creator);
@@ -78,9 +76,6 @@ bool Ground::whenIntersect(WObject *pcur, WObject *pold)
     pold->disablePermanentMovement();
     pold->copyPosAndBB(pcur->pos);
     break;
-  case STEP_TYPE:
-  case GUIDE_TYPE:
-    return false;
   default:
     pold->setLasting(0);
     pold->disablePermanentMovement();
