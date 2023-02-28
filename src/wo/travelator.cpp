@@ -78,7 +78,8 @@ void Travelator::build()
     nextstep = new Step(newpos, pos, geometry, mobile, length, speed, dir);
   }
 
-  enablePermanentMovement(speed);
+  enablePermanentMovement();
+  setLinearSpeed(speed);
 }
 
 void Travelator::behavior()

@@ -75,7 +75,8 @@ void Accessory::init()
   following = false;
 
   initMobileObject(1);
-  enablePermanentMovement(speed);
+  enablePermanentMovement();
+  setLinearSpeed(speed);
   createPermanentNetObject(PROPS, ++oid);
 }
 

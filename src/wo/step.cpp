@@ -150,7 +150,8 @@ void Step::build()
   if (geom) delete[] geom;
 
   if (mobile) {
-    enablePermanentMovement(speed);
+    enablePermanentMovement();
+    setLinearSpeed(speed);
   }
 }
 
@@ -192,7 +193,8 @@ Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, 
   initMobileObject(1);
 
   if (mobile) {    // escalator or travelator
-    enablePermanentMovement(speed);
+    enablePermanentMovement();
+    setLinearSpeed(speed);
     state = ACTIVE;
   }
 }
