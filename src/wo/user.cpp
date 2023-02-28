@@ -24,7 +24,6 @@
 #include "ball.hpp"	// BALL_TYPE
 #include "dart.hpp"	// DART_TYPE
 #include "bullet.hpp"	// BULLET_TYPE
-#include "thing.hpp"	// THING_TYPE
 #include "step.hpp"	// STEP_TYPE
 #include "move.hpp"	// GRAVITY
 #include "walls.hpp"	// whenIntersect
@@ -647,7 +646,6 @@ bool User::whenIntersect(WObject *pcur, WObject *pold)
     pcur->pos.y += Ball::SHIFT;
     pcur->updatePositionAndGrid(pold);
     break;
-  case THING_TYPE:
   case USER_TYPE:
     /* user intersects an other user: slide */
     pcur->pos.x += GOTHROUGH; // step to shift
