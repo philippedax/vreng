@@ -62,16 +62,16 @@
 </mirage>
 
 <!-- escalators -->
-<escalator name="escal-up" pos="5.5 0 0 0"
+<escalator name="escal-up" pos="5.5 0 0"
   height="2" dir="up" speed=".2">
-  <solid dim=".8 .2 .10" dif="grey" a="1"/>
+  <solid dim=".8 .2 .1" dif="grey20" a="1"/>
 </escalator>
-<escalator name="escal-down" pos="4.5 2 2 0"
+<escalator name="escal-down" pos="4.5 2 2"
   height="2" dir="down" speed=".2">
-  <solid dim=".8 .2 .10" dif="grey" a="1"/>
+  <solid dim=".8 .2 .1" dif="grey20" a="1"/>
 </escalator>
 <!-- 1st level -->
-<step name="paillasson" pos="5.0 2.3 1.90 0">
+<step name="slab" pos="5 2.5 2">
   <solid dim="2 1 .1" dif="grey20" />
 </step>
 
