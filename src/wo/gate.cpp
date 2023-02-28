@@ -27,7 +27,6 @@
 #include "ball.hpp"	// BALL_TYPE
 #include "dart.hpp"	// DART_TYPE
 #include "bullet.hpp"	// BULLET_TYPE
-#include "guide.hpp"	// GUIDE_TYPE
 #include "icon.hpp"	// ICON_TYPE
 #include "channel.hpp"	// join
 #include "vac.hpp"	// resolveWorldUrl
@@ -227,8 +226,6 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
   case BALL_TYPE:
     projectPosition(pcur, pold);
     break;
-  case GUIDE_TYPE:
-    return false;
   case ICON_TYPE:
     // stick the icon on the wall
     doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
