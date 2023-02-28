@@ -330,14 +330,6 @@ void WObject::enablePermanentMovement()
   move.next = NULL;
 }
 
-void WObject::enablePermanentMovement(float speed)
-{
-  move.lspeed.v[0] = speed;
-  move.lspeed.v[1] = speed;
-  move.lspeed.v[2] = speed;
-  enablePermanentMovement();
-}
-
 void WObject::setLinearSpeed(float lspeed)
 {
   move.lspeed.v[0] = lspeed;
