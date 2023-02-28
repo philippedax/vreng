@@ -26,6 +26,7 @@
 #include "url.hpp"	// setCachePath
 #include "cache.hpp"	// url2file file2url
 #include "universe.hpp"	// Universe
+#include "gui.hpp"	// clearInfoBar
 #include "netobj.hpp"	// NetObject
 #include "channel.hpp"	// join
 #include "solid.hpp"	// ~Solid
@@ -898,6 +899,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // cleanup
   clearLists();
+  ::g.gui.clearInfoBar();
   WObject::initNames();
   current()->initGrid();
 

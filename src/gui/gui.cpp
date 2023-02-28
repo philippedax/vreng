@@ -372,6 +372,11 @@ void Gui::collapseAvatar()
 }
 
 // clears the info bar.
+void Gui::clearInfoBar()
+{
+  widgets->navig.selectObject(NULL);	// clears the objectBar
+}
+
 void Gui::clearInfoBar(WObject *obj)
 {
   if (obj == selected_object) {

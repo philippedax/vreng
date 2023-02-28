@@ -64,6 +64,7 @@ public:
   void collapseNotif();
   void expandAvatar();
   void collapseAvatar();
+  void clearInfoBar();
   void clearInfoBar(class WObject*);
  
   void writeMessage(const char *mode, const char *from, const char *mess);
