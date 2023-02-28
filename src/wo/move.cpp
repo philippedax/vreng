@@ -338,6 +338,20 @@ void WObject::enablePermanentMovement(float speed)
   enablePermanentMovement();
 }
 
+void WObject::setLinearSpeed(float lspeed)
+{
+  move.lspeed.v[0] = lspeed;
+  move.lspeed.v[1] = lspeed;
+  move.lspeed.v[2] = lspeed;
+}
+
+void WObject::setAngularSpeed(float aspeed)
+{
+  move.aspeed.v[0] = aspeed;
+  move.aspeed.v[1] = aspeed;
+  move.aspeed.v[2] = aspeed;
+}
+
 void WObject::disablePermanentMovement()
 {
   move.perm_sec = 0;

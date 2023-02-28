@@ -555,8 +555,14 @@ public:
   void disablePermanentMovement();
   /**< Disables movement on an object. */
 
-  void enablePermanentMovement(float speed);
+  void enablePermanentMovement(float lspeed);
   /**< Enables permanent movement on an object. */
+
+  void setLinearSpeed(float lspeed);
+  /**< set permanent linear speed of an object. */
+
+  void setAngularSpeed(float aspeed);
+  /**< set permanent angular speed of an object. */
 
   void initImposedMovement(float lasting);
   /**< Initializes movement on an object. */
