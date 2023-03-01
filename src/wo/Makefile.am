@@ -25,10 +25,12 @@ WO_SRCS = world.cpp oclass.cpp wobject.cpp vr2gl.cpp objects.cpp parse.cpp olist
 
 WO_HDRS = world.hpp oclass.hpp wobject.hpp objects.hpp parse.hpp olist.hpp move.hpp user.hpp wall.hpp ball.hpp board.hpp cauldron.hpp door.hpp mirage.hpp gate.hpp host.hpp step.hpp web.hpp button.hpp walls.hpp animator.hpp bullet.hpp lift.hpp aoi.hpp doc.hpp entry.hpp stars.hpp bgcolor.hpp music.hpp mirror.hpp clock.hpp clip.hpp download.hpp water.hpp dart.hpp mech.hpp light.hpp text.hpp movie.hpp guy.hpp thing.hpp humanoid.hpp vnc.hpp vrelet.hpp vjc.hpp transform.hpp model.hpp carrier.hpp cart.hpp particle.hpp book.hpp sheet.hpp icon.hpp flag.hpp guide.hpp area.hpp projectile.hpp ground.hpp plane.hpp carousel.hpp wind.hpp widget.hpp thunder.hpp cloud.hpp stair.hpp escalator.hpp travelator.hpp spiral.hpp waterfall.hpp fountain.hpp firework.hpp rain.hpp snow.hpp bubble.hpp terrain.hpp river.hpp sun.hpp cloth.hpp halo.hpp hat.hpp dress.hpp wings.hpp fire.hpp smoke.hpp hairs.hpp slider.hpp bumper.hpp accessory.hpp humanhead.hpp fractal.cpp sandbox.hpp human.hpp vicinity.hpp bird.hpp drone.hpp fog.hpp
 
+#dax all: types.hpp
+
 .PHONY: types.hpp
 
 types.hpp:
-	(cp /dev/null types.hpp; for i in *.hpp; do grep "^#define.*_TYPE.*[0-9]$" $i; done >>types.hpp)
+	( cp /dev/null types.hpp; for i in *.hpp ; do grep "^#define.*_TYPE.*[0-9]$$" $$i ; done >>types.hpp )
 
 EXTRA_DIST = template.hpp template.cpp
 
