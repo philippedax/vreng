@@ -18,15 +18,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef WCLASS_HPP
-#define WCLASS_HPP
+#ifndef OCLASS_HPP
+#define OCLASS_HPP
 
-#include <vector>
-using namespace std;
 
 typedef class WObject * (WCreator) (char *);
 typedef class WObject * (WReplicator) (uint8_t, class Noid, class Payload *);
 typedef void (WBuiltin) ();
+
+using namespace std;
 
 
 /**
@@ -69,11 +69,12 @@ public:
   static const OClass * getOClass(const char *type_name);
   /**< Gets oclass by name */
 
-  static void dumpTable();
-  /**< Dump table */
-
   static bool isValidType(uint8_t type_id);
   /**< Check if a type is valid, exists */
+
+private:
+  static void dumpTable();
+  /**< Dump table */
 };
 
 #endif
