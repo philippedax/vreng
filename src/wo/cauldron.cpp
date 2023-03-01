@@ -23,7 +23,6 @@
 #include "user.hpp"	// USER_TYPE
 #include "ball.hpp"	// BALL_TYPE
 #include "water.hpp"	// WATER_TYPE
-#include "step.hpp"	// STEP_TYPE
 #include "move.hpp"	// GRAVITY
 
 
@@ -70,8 +69,6 @@ bool Cauldron::whenIntersect(WObject *pcur, WObject *pold)
     }
     else pcur->pos.z += DELTAZ;	// jump upon cauldron
     break;
-  case STEP_TYPE:
-    return false;
   default:
     pold->copyPositionAndBB(pcur);
     return true;
