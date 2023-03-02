@@ -21,7 +21,7 @@
 #ifndef TEMPLATE_HPP
 #define TEMPLATE_HPP
 
-#define TEMPLATE_TYPE	55
+#define TEMPLATE_TYPE	0
 #define TEMPLATE_NAME	"Template"
 
 #include "wobject.hpp"
