@@ -64,6 +64,7 @@ void Accessory::parser(char *l)
 
 void Accessory::behavior()
 {
+  enableBehavior(PERMANENT_MOVEMENT);
   //dax1 enableBehavior(PERSISTENT);
 }
 
@@ -75,7 +76,7 @@ void Accessory::init()
   following = false;
 
   initMobileObject(1);
-  enablePermanentMovement();
+  //dax enablePermanentMovement();
   setLinearSpeed(speed);
   createPermanentNetObject(PROPS, ++oid);
 }
