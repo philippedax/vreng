@@ -64,6 +64,7 @@ void Accessory::parser(char *l)
 
 void Accessory::behavior()
 {
+  enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);
   //dax1 enableBehavior(PERSISTENT);
 }
