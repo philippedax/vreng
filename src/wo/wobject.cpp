@@ -159,6 +159,9 @@ void WObject::initObject(uint8_t _mode)
         getPersistency();	// calls persistency VRSql
       }
       addToList(mobileList);	// add to mobileList
+      if (isBehavior(PERMANENT_MOVEMENT)) {
+        enablePermanentMovement();
+      }
       break;
 
     case FLUID:
