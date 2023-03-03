@@ -286,6 +286,11 @@ void WObject::generalIntersect(WObject *pold, OList *vicinity)
   } //end neighbors
 }
 
+uint32_t WObject::collideBehavior() const
+{
+  return (behavior & (COLLIDE_ONCE | COLLIDE_NEVER | COLLIDE_GHOST));
+}
+
 
 /** Returns normal vectors 'normal' of still object */
 void WObject::computeNormal(WObject *mobil, V3 *normal)

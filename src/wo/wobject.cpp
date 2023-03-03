@@ -330,11 +330,6 @@ bool WObject::isSeen()
   return vseen.v[2];  // seen = v[2]
 }
 
-uint32_t WObject::collideBehavior() const
-{
-  return (behavior & (COLLIDE_ONCE | COLLIDE_NEVER | COLLIDE_GHOST));
-}
-
 bool WObject::isOwner() const
 {
   if (! strcmp(names.owner, localuser->names.instance)) {
