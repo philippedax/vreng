@@ -85,13 +85,14 @@ void Water::parser(char *l)
 void Water::behavior()
 {
   enableBehavior(LIQUID);
+  enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
 }
 
 void Water::inits()
 {
   initFluidObject(0);
-  enablePermanentMovement();
+
   getSolid()->setTransparent(color[3]);
   texid = Texture::current();
 

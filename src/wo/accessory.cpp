@@ -77,7 +77,6 @@ void Accessory::init()
   following = false;
 
   initMobileObject(1);
-  //dax enablePermanentMovement();
   setLinearSpeed(speed);
   createPermanentNetObject(PROPS, ++oid);
 }

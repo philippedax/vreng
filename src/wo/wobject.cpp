@@ -144,7 +144,7 @@ void WObject::initObject(uint8_t _mode)
 
   setWObjectId();
   updateNames();
-  initPosition();
+  //dax initPosition();
   addToList(objectList);	// add to objectList
 
   //echo("num=%d mode=%d type=%d", num, mode, type);

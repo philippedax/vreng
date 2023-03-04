@@ -93,8 +93,7 @@ void Escalator::build()
     nextstep = new Step(nextpos, pos, geometry, mobile, height, speed, dir);
   }
 
-  enablePermanentMovement();
-  setLinearSpeed(speed);
+  enablePermanentMovement(speed);
 }
 
 void Escalator::behavior()

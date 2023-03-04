@@ -205,6 +205,7 @@ void Drone::quit()
 void Drone::fly()
 {
   enableBehavior(SPECIFIC_RENDER);
+
   enablePermanentMovement();
   wings->start();
   flying = true;

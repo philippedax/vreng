@@ -22,6 +22,7 @@
 #include "step.hpp"
 #include "user.hpp"	// localuser
 #include "ball.hpp"	// BALL_TYPE
+#include "move.hpp"	// gotoFront
 
 using namespace std;
 
@@ -148,8 +149,7 @@ void Step::build()
   if (geom) delete[] geom;
 
   if (mobile) {
-    enablePermanentMovement();
-    setLinearSpeed(speed);
+    enablePermanentMovement(speed);
   }
 }
 
@@ -191,8 +191,7 @@ Step::Step(Pos& newpos, Pos& _firstpos, char *_geom, bool _mobile, float _size, 
   initMobileObject(1);
 
   if (mobile) {    // escalator or travelator
-    enablePermanentMovement();
-    setLinearSpeed(speed);
+    enablePermanentMovement(speed);
     state = ACTIVE;
   }
 }
@@ -319,6 +318,10 @@ bool Step::whenIntersect(WObject *pcur, WObject *pold)
           pcur->updatePositionAndGrid(pold);
         }
       }
+      break;
+
+    case STEP_TYPE:
+      return false;  // ignore this collision
       break;
 
     case BALL_TYPE:

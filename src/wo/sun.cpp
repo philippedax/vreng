@@ -61,10 +61,10 @@ void Sun::parser(char *l)
 void Sun::behavior()
 {
   enableBehavior(COLLIDE_NEVER);
+  enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(1);
-  enablePermanentMovement();
 }
 
 /** Solid geometry */

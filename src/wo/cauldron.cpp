@@ -46,8 +46,8 @@ Cauldron::Cauldron(char *l)
 {
   parser(l);
 
+  enableBehavior(PERMANENT_MOVEMENT);
   initMobileObject(MAXFLOAT);
-  enablePermanentMovement();
 }
 
 void Cauldron::changePermanent(float lasting)

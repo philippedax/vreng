@@ -604,10 +604,10 @@ Mech::Mech(char *l)
 
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
+  enableBehavior(PERMANENT_MOVEMENT);	// anim
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
-  enablePermanentMovement();	// anim
 
   rotz = (float) RAD2DEG(pos.az);
   roty = (float) RAD2DEG(pos.ax);

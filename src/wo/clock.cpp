@@ -37,6 +37,7 @@ Clock::Clock(char *l)
 
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);
+  enableBehavior(PERMANENT_MOVEMENT);
 
   initMobileObject(0);
 
@@ -52,6 +53,7 @@ Clock::Clock()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(UNVISIBLE);
+  enableBehavior(PERMANENT_MOVEMENT);
 
   initMobileObject(0);
 
@@ -69,7 +71,6 @@ void Clock::init()
   hour = ptime->tm_hour;
   sec_last = min_last = hour_last = 255;
 
-  enablePermanentMovement();
   changePermanent(60.);
 }
 

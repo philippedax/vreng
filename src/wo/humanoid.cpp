@@ -83,10 +83,10 @@ void Humanoid::behaviour()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
+  enableBehavior(PERMANENT_MOVEMENT);	// bap/fap frames
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
-  enablePermanentMovement();  // bap/fap frames
 }
 
 void Humanoid::inits()

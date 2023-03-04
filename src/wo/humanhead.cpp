@@ -106,9 +106,9 @@ void Humanhead::behavior()
   enableBehavior(SPECIFIC_RENDER);
   enableBehavior(DYNAMIC);
   enableBehavior(NO_BBABLE);
+  enableBehavior(PERMANENT_MOVEMENT);	// follows user
 
   initMobileObject(0);
-  enablePermanentMovement();	// follows user
   createPermanentNetObject(PROPS, ++oid);
 }
 

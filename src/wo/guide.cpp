@@ -134,15 +134,13 @@ Guide::Guide(char *l)
   guide = this;
 
   parser(l);
+
+  enableBehavior(PERMANENT_MOVEMENT);	// guide movement
   enableBehavior(SPECIFIC_RENDER);	// ramp rendering
   enableBehavior(MIX_RENDER);		// skate rendering
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
-
-  if (testing) {
-    enablePermanentMovement();
-  }
 
   pos.az = atan((path[seg+1][1]-path[seg][1]) / (path[seg+1][0]-path[seg][0]));
   origin[0] = pos.x;
@@ -175,8 +173,6 @@ void Guide::setUser()
   localuser->updatePositionAndGrid(localuser->pos);
 
   stuck = true;
-
-  enablePermanentMovement();	// ??? not usefull whenIntersect does the job
 }
 
 void sigguide(int s)

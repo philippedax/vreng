@@ -69,15 +69,18 @@ Hairs::Hairs(char *l)
 
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
-  enableBehavior(SPECIFIC_RENDER);
   enableBehavior(UNSELECTABLE);
+  enableBehavior(PERMANENT_MOVEMENT);
+  enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
-  enablePermanentMovement();
 
-  if (loader(names.url, scale)) 	// load model
+  if (loader(names.url, scale)) {	// load model
     dlist = glGenLists(1);
-  else trace(DBG_MOD, "%s not well loaded", names.url);
+  }
+  else {
+    error("hairs: %s not well loaded", names.url);
+  }
 }
 
 bool Hairs::loader(const char *url, float scale)

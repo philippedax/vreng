@@ -111,10 +111,10 @@ void Cloud::behavior()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
+  enableBehavior(PERMANENT_MOVEMENT);	// follows wind
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
-  enablePermanentMovement();
 }
 
 void Cloud::inits()
@@ -204,8 +204,9 @@ void Cloud::render()
 
 void Cloud::quit()
 {
-  for (int n=0; n < number; n++)
+  for (int n=0; n < number; n++) {
     if (obloids[n].dlist > 0) glDeleteLists(obloids[n].dlist, 1);
+  }
   delete[] obloids; obloids = NULL;
 }
 

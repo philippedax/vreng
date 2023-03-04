@@ -77,14 +77,14 @@ void Travelator::build()
 
     nextstep = new Step(newpos, pos, geometry, mobile, length, speed, dir);
   }
-
-  enablePermanentMovement();
-  setLinearSpeed(speed);
 }
 
 void Travelator::behavior()
 {
   initMobileObject(1);
+
+  enablePermanentMovement(speed);
+  //dax setLinearSpeed(speed);
   createPermanentNetObject(PROPS, ++oid);
 }
 

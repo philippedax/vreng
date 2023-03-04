@@ -318,7 +318,7 @@ void Vnc::connectServer()
                                             vncClient->realScreenWidth,
                                             vncClient->realScreenHeight,
                                             false);
-    enablePermanentMovement();
+    enablePermanentMovement();	// follows video frames
   }
 
   // texture initialization from the framebuffer

@@ -92,10 +92,10 @@ void Guy::behavior()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
+  enableBehavior(PERMANENT_MOVEMENT);	// gravity
   enableBehavior(SPECIFIC_RENDER);
 
   initMobileObject(0);
-  enablePermanentMovement();
 }
 
 void Guy::inits()

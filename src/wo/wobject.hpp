@@ -551,6 +551,7 @@ public:
   /**< Enables movement on an object. */
 
   void enablePermanentMovement();
+  void enablePermanentMovement(float lspeed);
   /**< Enables permanent movement on an object. */
 
   void disablePermanentMovement();

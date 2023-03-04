@@ -61,10 +61,10 @@ void Thunder::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
+  enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
 
   initEphemeralObject(0);
-  enablePermanentMovement();
 }
 
 void Thunder::inits()
