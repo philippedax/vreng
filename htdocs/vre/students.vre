@@ -48,7 +48,7 @@
 <!-- stairs -->
 <stair pos="0 1.4 0.1 0"
   height="3.5">
-  <solid dim="1 .2 .04" dif=".3 .3 .3" zp="/gif/wood.gif" zn="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yp="/gif/wood.gif" yn="/gif/wood.gif" />
+  <solid dim="1 .2 .04" dif=".3 .3 .3" tx="/gif/wood.gif" />
 </stair>
 
 <!-- spiral stairs -->
@@ -62,18 +62,18 @@
 </mirage>
 
 <!-- escalators -->
-<escalator name="escal-up" pos="5.5 0 0"
-  height="2" dir="up" speed=".2">
+<escalator name="escal-up" pos="4.5 0 0"
+  height="2" dir="up" speed=".1">
   <solid dim=".8 .2 .1" dif="grey20" a="1"/>
 </escalator>
-<escalator name="escal-down" pos="4.5 2 2"
+<escalator name="escal-down" pos="5.5 2 2"
   height="2" dir="down" speed=".2">
   <solid dim=".8 .2 .1" dif="grey20" a="1"/>
 </escalator>
 <!-- 1st level -->
-<step name="slab" pos="5 2.5 2">
+<wall name="slab" pos="5 2.5 2">
   <solid dim="2 1 .1" dif="grey20" />
-</step>
+</wall>
 
 <!-- travelator -->
 <travelator name="conveyor-belt" pos="-1 -2 0.01 -1.57"
