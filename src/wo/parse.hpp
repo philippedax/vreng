@@ -83,6 +83,9 @@ public:
   static Parse * getParse();
   /**< Gets the parse instance */
 
+  void printNumline();
+  /**< print parse error at */
+
   int parseVreFile(char *buf, int bufsiz);
   /**< parse vre data, called by vreHttpReader */
 
@@ -92,8 +95,14 @@ public:
    * string 'solid' gives the solid's geometry
    */
 
+  char * parseAttributes(char *l, class WObject *po);
+  /**< Parses attribute="value" */
+
   char * parseSolid(char *geom, const char *separ, class WObject *po);
   /**< Parses a builtin solid */
+
+  void parseSolids(char *geom, const char *separ, class WObject *po);
+  /**< Parses several solids */
 
   char * parseUrl(char *ptok, char *url);
   /**< Returns an url */
@@ -101,17 +110,8 @@ public:
   char * parseColor(char *ptok, Pos &p);
   /**< Returns a color under r,g,b,a format */
 
-  void parseSolids(char *geom, const char *separ, class WObject *po);
-  /**< Parses several solids */
-
-  char * parseAttributes(char *l, class WObject *po);
-  /**< Parses attribute="value" */
-
   char * parseGuide(char *ptok, float path[][5], uint8_t *segs);
   /**< Returns an array of position describing the guide */
-
-  void printNumline();
-  /**< print parse error at */
 
   char * parseWorldAndChannel(char *ptok, char *url, char *chan);
   /**< Returns a world url and a numeric string */

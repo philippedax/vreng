@@ -1020,14 +1020,64 @@ char * WObject::parseAttributes(char *l)
   return Parse::getParse()->parseAttributes(l, this);
 }
 
-void WObject::parseSolid(char *solid)
+void WObject::parseSolid(char *ptok)
 {
-  Parse::getParse()->parseSolid(solid, SEP, this);
+  Parse::getParse()->parseSolid(ptok, SEP, this);
 }
 
-void WObject::parseSolids(char *solid)
+void WObject::parseSolids(char *ptok)
 {
-  Parse::getParse()->parseSolid(solid, SEP, this);
+  Parse::getParse()->parseSolid(ptok, SEP, this);
+}
+
+char * WObject::parseUrl(char *l, char *url)
+{
+  return Parse::getParse()->parseUrl(l, url);
+}
+
+char * WObject::parseColor(char *l, Pos &p)
+{
+  return Parse::getParse()->parseColor(l, p);
+}
+
+char * WObject::parseInt(char *l, int *value, const char *attrkey)
+{
+  return Parse::getParse()->parseInt(l, value, attrkey);
+}
+
+char * WObject::parseUInt8(char *l, uint8_t *value, const char *attrkey)
+{
+  return Parse::getParse()->parseUInt8(l, value, attrkey);
+}
+
+char * WObject::parseUInt16(char *l, uint16_t *value, const char *attrkey)
+{
+  return Parse::getParse()->parseUInt16(l, value, attrkey);
+}
+
+char * WObject::parseBool(char *l, bool *value, const char *attrkey)
+{
+  return Parse::getParse()->parseBool(l, value, attrkey);
+}
+
+char * WObject::parseFloat(char *l, float *value, const char *attrkey)
+{
+  return Parse::getParse()->parseFloat(l, value, attrkey);
+}
+
+char * WObject::parseVector3f(char *l, float *vector, const char *attrkey)
+{
+  return Parse::getParse()->parseVector3f(l, vector, attrkey);
+}
+
+char * WObject::parseVector3fv(char *l, V3 *vector, const char *attrkey)
+{
+  return Parse::getParse()->parseVector3fv(l, vector, attrkey);
+}
+
+char * WObject::parseString(char *l, char *str, const char *attrkey)
+{
+  return Parse::getParse()->parseString(l, str, attrkey);
 }
 
 /* parse tag : tokenize the line */

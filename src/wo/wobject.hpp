@@ -438,6 +438,35 @@ public:
   void parseSolids(char *solid);
   /**< Parses solids. */
 
+  char * parseUrl(char *ptok, char *url);
+  /**< Returns an url */
+
+  char * parseColor(char *ptok, Pos &p);
+  /**< Returns a color under r,g,b,a format */
+
+  char * parseInt(char *ptok, int *value, const char *attrstr);
+  /**< Returns a int under attr=value format */
+
+  char * parseUInt8(char *ptok, uint8_t *value, const char *attrstr);
+  /**< Returns a uint8_t under attr=value format */
+
+  char * parseUInt16(char *ptok, uint16_t *value, const char *attrstr);
+  /**< Returns a uint16_t under attr=value format */
+
+  char * parseBool(char *ptok, bool *value, const char *attrstr);
+  /**< Returns a bool under attr=value format */
+
+  char * parseFloat(char *ptok, float *value, const char *attrstr);
+  /**< Returns a float under attr=value format */
+  
+  char * parseVector3f(char *ptok, float *vector, const char *attrstr);
+  /**< Returns a vector under attr=vx,vy,vz format */
+  
+  char * parseVector3fv(char *ptok, V3 *vector, const char *attrkey);
+  /**< Returns a vector under vx,vy,vz format */
+
+  char * parseString(char *ptok, char *str, const char *attrstr);
+  /**< Returns a string under attr=string format */
 
   //
   // Network - Noid (Network Object Identifier)
