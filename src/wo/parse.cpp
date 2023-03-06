@@ -692,6 +692,7 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
     return nextToken();
   }
   if (*ptok == '<') ptok++;
+  //dax strtok(ptok, SEP);  //dax
   if (! strcmp(ptok, "solid")) {
     ptok = nextToken();		// skip tag solid
   }
@@ -716,6 +717,7 @@ char * Parse::parseSolid(char *ptok, const char *sep, WObject *wobject)
   if (*ptok == '<') ptok++;
   strtok(ptok, sep);
   return parseSolid(ptok, wobject);
+  //dax return parseSolid(ptok, (WObject *)this);
 }
 
 /* parse several solids */

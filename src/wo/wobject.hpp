@@ -429,6 +429,9 @@ public:
   Parse * parse();
   /**< Gets current parse. */
 
+  void parseSolid(char *solid);
+  /**< Parses solid. */
+
 
   //
   // Network - Noid (Network Object Identifier)

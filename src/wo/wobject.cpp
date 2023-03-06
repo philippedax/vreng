@@ -1015,6 +1015,11 @@ Parse * WObject::parse()
   return Parse::getParse();
 }
 
+void WObject::parseSolid(char *solid)
+{
+  parse()->parseSolid(solid, SEP, this);
+}
+
 /* parse tag : tokenize the line */
 char * WObject::tokenize(char *l)
 {
