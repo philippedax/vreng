@@ -38,7 +38,7 @@ WObject * Ground::creator(char *l)
 void Ground::parser(char *l)
 {
   l = tokenize(l);
-  l = parse()->parseAttributes(l, this);
+  l = parseAttributes(l);
 }
 
 Ground::Ground(char *l)

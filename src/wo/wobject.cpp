@@ -1015,9 +1015,9 @@ Parse * WObject::parse()
   return Parse::getParse();
 }
 
-void WObject::parseAttributes(char *l)
+char * WObject::parseAttributes(char *l)
 {
-  Parse::getParse()->parseAttributes(l, this);
+  return Parse::getParse()->parseAttributes(l, this);
 }
 
 void WObject::parseSolid(char *solid)

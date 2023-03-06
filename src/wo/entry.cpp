@@ -40,7 +40,7 @@ WObject * Entry::creator(char *l)
 void Entry::parser(char *l)
 {
   l = tokenize(l);
-  l = parse()->parseAttributes(l, this);
+  l = parseAttributes(l);
 }
 
 Entry::Entry()

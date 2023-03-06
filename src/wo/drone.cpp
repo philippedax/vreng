@@ -54,7 +54,7 @@ void Drone::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if (! stringcmp(l, "model=")) {
       l = parse()->parseString(l, modelname, "model");

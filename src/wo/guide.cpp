@@ -85,7 +85,7 @@ void Guide::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "path=")) l = parse()->parseGuide(l, &path[1], &segs);
     else if (! stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");

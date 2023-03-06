@@ -39,7 +39,7 @@ void Host::parser(char *l)
 {
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if (! stringcmp(l, "host=")) l = parse()->parseString(l, names.url, "host");
   }

@@ -42,7 +42,7 @@ WObject * Wall::creator(char *l)
 void Wall::parser(char *l)
 {
   l = tokenize(l);
-  l = parse()->parseAttributes(l, this);
+  l = parseAttributes(l);
 }
 
 /* creation from vre file */

@@ -43,7 +43,7 @@ void Board::parser(char *l)
 {
   defaults();
   l = tokenize(l);
-  l = parse()->parseAttributes(l, this);
+  l = parseAttributes(l);
 }
 
 void Board::defaults()

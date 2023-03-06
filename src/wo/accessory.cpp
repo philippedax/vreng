@@ -49,7 +49,7 @@ void Accessory::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if      (!stringcmp(l, "speed")) l = parse()->parseFloat(l, &speed, "speed");
     else if (!stringcmp(l, "slowx")) l = parse()->parseFloat(l, &slowx, "slowx");

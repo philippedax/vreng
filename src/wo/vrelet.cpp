@@ -54,7 +54,7 @@ void Vrelet::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (! l) break;
     if (! stringcmp(l, "class=")) l = parse()->parseString(l, app, "class");	// java class
     else if (! stringcmp(l, "incrx")) l = parse()->parseInt(l, &incrx, "incrx");

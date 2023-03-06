@@ -43,7 +43,7 @@ void Door::parser(char *l)
   aopen = xopen = zopen = 0;
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if      (!stringcmp(l, "open")) {
       l = parse()->parseFloat(l, &aopen, "open");

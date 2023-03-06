@@ -48,7 +48,7 @@ void Slider::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if      (!stringcmp(l, "incrx")) l = parse()->parseFloat(l, &incrx, "incrx");
     else if (!stringcmp(l, "incry")) l = parse()->parseFloat(l, &incry, "incry");

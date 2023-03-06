@@ -50,7 +50,7 @@ void Sun::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if (! stringcmp(l, "scale"))  l = parse()->parseFloat(l, &scale, "scale");
     if (! stringcmp(l, "radius")) l = parse()->parseFloat(l, &radius, "radius");

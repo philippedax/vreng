@@ -39,7 +39,7 @@ WObject * Cauldron::creator(char *l)
 void Cauldron::parser(char *l)
 {
   l = tokenize(l);
-  l = parse()->parseAttributes(l, this);
+  l = parseAttributes(l);
 }
 
 Cauldron::Cauldron(char *l)

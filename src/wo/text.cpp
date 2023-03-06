@@ -61,7 +61,7 @@ void Text::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "font"))  l = parse()->parseString(l, names.url, "font");
     else if (! stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");

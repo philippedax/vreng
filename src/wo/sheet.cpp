@@ -37,7 +37,7 @@ static uint16_t oid = 0;
 void Sheet::parser(char *l)
 {
   l = tokenize(l);
-  l = parse()->parseAttributes(l, this);
+  l = parseAttributes(l);
 }
 
 Sheet::Sheet(Book* _book, char* l, uint8_t _side)

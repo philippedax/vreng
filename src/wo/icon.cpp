@@ -119,7 +119,7 @@ void Icon::parser(char *l)
 {
     l = tokenize(vref);
     begin_while_parse(l) {
-      l = parse()->parseAttributes(l, this);
+      l = parseAttributes(l);
       if (!l) break;
       if (!stringcmp(l, "owner=")) l = parse()->parseString(l, names.owner, "owner");
     }

@@ -48,7 +48,7 @@ void Bumper::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if      (!stringcmp(l, "forcex")) l = parse()->parseFloat(l, &forcex, "forcex");
     else if (!stringcmp(l, "forcey")) l = parse()->parseFloat(l, &forcey, "forcey");

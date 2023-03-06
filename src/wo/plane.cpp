@@ -47,7 +47,7 @@ void Plane::parser(char *l)
     strcpy(tex, p);
   }
   l = tokenize(l);
-  l = parse()->parseAttributes(l, this);
+  l = parseAttributes(l);
 }
 
 void Plane::makeSolid()

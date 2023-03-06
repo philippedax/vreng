@@ -41,7 +41,7 @@ WObject * Flag::creator(char *l)
 void Flag::parser(char *l)
 {
   l = tokenize(l);
-  l = parse()->parseAttributes(l, this);
+  l = parseAttributes(l);
 }
 
 void Flag::behavior()

@@ -183,7 +183,7 @@ void Book::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if      (!stringcmp(l, "url="))           l = parse()->parseUrl(l, url);
     else if (!stringcmp(l, "aright"))         l = parse()->parseFloat(l, &aright, "aright");

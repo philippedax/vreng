@@ -93,7 +93,7 @@ void Wings::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);	// <solid ... />
+    l = parseAttributes(l);	// <solid ... />
     if (!l) break;
     if (! stringcmp(l, "scale=")) {
       l = parse()->parseFloat(l, &scale, "scale");

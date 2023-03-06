@@ -71,7 +71,7 @@ void Halo::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);	// <solid ... />
+    l = parseAttributes(l);	// <solid ... />
     if (!l) break;
   }
   end_while_parse(l);

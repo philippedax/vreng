@@ -429,7 +429,7 @@ public:
   Parse * parse();
   /**< Gets current parse. */
 
-  void parseAttributes(char *l);
+  char * parseAttributes(char *l);
   /**< Parses attributes. */
 
   void parseSolid(char *solid);

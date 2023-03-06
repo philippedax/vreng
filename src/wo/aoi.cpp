@@ -61,9 +61,9 @@ void Aoi::parser(char *l)
 {
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
-    if (!l) break;
-    if (!stringcmp(l, "channel")) l = parse()->parseChannel(l, chan);
+    l = parseAttributes(l);
+    if (! l) break;
+    if (! stringcmp(l, "channel")) l = parse()->parseChannel(l, chan);
   }
   end_while_parse(l);
 }

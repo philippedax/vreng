@@ -66,7 +66,7 @@ void Cloth::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if (! stringcmp(l, "article=")) {
       char str[16];

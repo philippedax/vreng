@@ -48,7 +48,7 @@ void Travelator::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
     else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");

@@ -61,7 +61,7 @@ void Humanoid::parser(char *l)
   defaults();
   l = tokenize(l);
   begin_while_parse(l) {
-    l = parse()->parseAttributes(l, this);
+    l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "body="))   l = parse()->parseString(l, names.url, "body"); //body
     else if (! stringcmp(l, "face="))   l = parse()->parseString(l, face_url, "face");  //face
