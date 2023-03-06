@@ -59,7 +59,6 @@ WObject::WObject()
   guip = NULL;
   inlist = false;
   removed = false;
-  objectbar = false;
 
   state = NONE;
   type = 0;
@@ -982,7 +981,6 @@ void WObject::getObjectHumanName(char **classname, char **instancename, char **a
     trace(DBG_WO, "getObjectHumanName: type=%d a=%d name=%s", type, a, actionname[a]);
   }
   actionname[a][0] = '\0';
-  objectbar = true;
 }
 
 /**

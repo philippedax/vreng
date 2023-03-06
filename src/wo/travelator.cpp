@@ -58,14 +58,13 @@ void Travelator::parser(char *l)
 
 void Travelator::build()
 {
-  float sx = pos.bbs.v[0];  // step width
-  float sy = pos.bbs.v[1];  // step depth
-  float ss = MIN(sx, sy);
+  float sx = 2 * pos.bbs.v[0];  // step width
+  float sy = 2 * pos.bbs.v[1];  // step depth
 
-  nsteps = (int) ceil(length / ss);
-  trace(DBG_WO, "travellator: nsteps = %d", nsteps);
+  nsteps = (int) ceil(length / MIN(sx, sy));
+  //echo("travellator: nsteps = %d", nsteps);
 
-  for (int n=0; n <= nsteps; n++) {
+  for (int n=0; n < nsteps; n++) {
     Pos newpos;
     newpos.az = pos.az;
     newpos.ax = pos.ax;
@@ -75,16 +74,15 @@ void Travelator::build()
     newpos.y = pos.y - (cos(pos.az) * sy * n);
     newpos.z = pos.z;
 
-    nextstep = new Step(newpos, pos, geometry, mobile, length, speed, dir);
+    nextstep = new Step(newpos, pos, geometry, true, length, speed, dir);
   }
+
+  enablePermanentMovement(speed);
 }
 
 void Travelator::behavior()
 {
   initMobileObject(1);
-
-  enablePermanentMovement(speed);
-  //dax setLinearSpeed(speed);
   createPermanentNetObject(PROPS, ++oid);
 }
 

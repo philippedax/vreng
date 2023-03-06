@@ -165,10 +165,8 @@ public:
   class WObjectId noid;		///< WObject Id.
   bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
-  bool objectbar;		///< true if object bar is active.
   int16_t state;		///< current state.
-  //notused uint8_t prior;		///< render priority (notused).
-  char *geometry;		///< geometry string.
+  char *geometry;		///< geometry string of the solid.
   char chan[CHAN_LEN];		///< channel.
 #if VRSQL 			///< HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
   class VRSql *psql;		///< VRSql pointer.

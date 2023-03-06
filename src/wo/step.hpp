@@ -40,13 +40,13 @@ class Step: public WObject {
   bool travelator;	///< flag travelator
   bool stair;		///< flag stair
   bool spiral;		///< flag spiral staircase
-  bool stuck;		///< flag wether user is on escalator/travelator
+  bool stuck;		///< flag if user is on escalator/travelator
   int dir;		///< direction up=1 or down=-1 or horizontal=0
   float height;		///< escalator height
   float length;		///< travelator length
   float speed;		///< linear speed of escalator/travelator
   uint8_t nsteps;	///< number of steps
-  Pos firstpos;		///< first step position
+  Pos initialpos;	///< initial step position
   Step *nextstep;	///< list of steps
 
  public:
@@ -74,27 +74,28 @@ class Step: public WObject {
 
   Step(WObject *user, char *form);	///< Constructor from GUI
 
-  Step(Pos& newpos, Pos& _firstpos, char *geom, bool _mobile, float _height, float _speed, int _dir);
+  Step(Pos& newpos, Pos& _initialpos, char *geom, bool _mobile, float _height, float _speed, int _dir);
+  /**< Constructor for structure of steps */
 
   static WObject * (creator)(char *l);
   /**< Create from fileline */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects */
 
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WObject *pcur, WObject *pold);
   /**< When an other object leaves intersection */
 
-  virtual void updateTime(time_t s, time_t us, float *lasting);
+  void updateTime(time_t s, time_t us, float *lasting);
   /**< Updates lasting time */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Permanent movement */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes new position */
 
-  virtual void quit();
+  void quit();
   /**< Quits */
 
 protected:
@@ -103,14 +104,17 @@ protected:
   static void stop_cb(Step *po, void *d, time_t s, time_t u);
 
 private:
-  virtual void parser(char *l);
+  void parser(char *l);
   /**< Parses */
 
-  virtual void defaults();
+  void defaults();
   /**< Default values */
 
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
+
+  void makeSolid();
+  /**< Makes solid. */
 
   void build();
   /**< Builds stair or escalator */

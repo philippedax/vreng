@@ -66,9 +66,9 @@ void Escalator::parser(char *l)
 
 void Escalator::build()
 {
-  float sx = pos.bbs.v[0];  // step width
-  float sy = pos.bbs.v[1];  // step depth
-  float sz = pos.bbs.v[2];  // step height
+  float sx = 1 * pos.bbs.v[0];  // step width
+  float sy = 1 * pos.bbs.v[1];  // step depth
+  float sz = 2 * pos.bbs.v[2];  // step height
 
   if (height && dir > 0) {
     height += sz;  // add the top step
@@ -78,19 +78,19 @@ void Escalator::build()
   }
 
   nsteps = (int) ceil(height / sz);
+  //echo("nsteps: %d", nsteps);
 
-  for (int n=0; n <= nsteps; n++) {
-    Pos nextpos;
-    nextpos.az = pos.az;
-    nextpos.ax = pos.ax;
-    nextpos.ay = pos.ay;
-    //nextpos.x = pos.x + dir*(sin(pos.az) * sx * n);
-    //nextpos.y = pos.y + dir*(cos(pos.az) * sy * n);
-    nextpos.x = pos.x + (sx * n);
-    nextpos.y = pos.y + (sy * n);
-    nextpos.z = pos.z + dir*(sz * n);
+  for (int n=0; n < nsteps; n++) {
+    Pos newpos;
+    newpos.az = pos.az;
+    newpos.ax = pos.ax;
+    newpos.ay = pos.ay;
+    newpos.x = pos.x + dir*(sin(pos.az) * sx * n);
+    newpos.y = pos.y + dir*(cos(pos.az) * sy * n);
+    newpos.z = pos.z + dir*(sz * n);
 
-    nextstep = new Step(nextpos, pos, geometry, mobile, height, speed, dir);
+    //echo("newpos=%.1f %.1f %.1f d=%d", newpos.x,newpos.y,newpos.z,dir);
+    nextstep = new Step(newpos, pos, geometry, true, height, speed, dir);
   }
 
   enablePermanentMovement(speed);
