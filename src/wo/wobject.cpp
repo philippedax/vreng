@@ -734,6 +734,18 @@ WObject * WObject::getObjectByName(const char *name)
   return (WObject *) NULL;              // not found
 }
 
+/* Sets Object names */
+void WObject::setNames()
+{
+  getObjectNameById(type, names.type);
+  names.implicit = new char[OBJNAME_LEN];
+  sprintf(names.implicit, "%s%d", names.type, num);
+  if (isupper(*(names.implicit))) {
+    *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
+  }
+  names.instance = names.implicit;
+}
+
 /* Updates Object names */
 void WObject::updateNames()
 {
@@ -742,12 +754,7 @@ void WObject::updateNames()
   getObjectNameById(type, names.type);
 
   if (! givenName()) {	// no given name
-    names.implicit = new char[OBJNAME_LEN];
-    sprintf(names.implicit, "%s%d", names.type, num);
-    if (isupper(*(names.implicit))) {
-      *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
-    }
-    names.instance = names.implicit;
+    setNames();
   }
   else {
     names.instance = names.given;
