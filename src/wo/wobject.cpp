@@ -1009,15 +1009,25 @@ void WObject::click(GLint x, GLint y)
   click(dir);	// execute click method if exists
 }
 
-/* accessor */
+/* parse accessors */
 Parse * WObject::parse()
 {
   return Parse::getParse();
 }
 
+void WObject::parseAttributes(char *l)
+{
+  Parse::getParse()->parseAttributes(l, this);
+}
+
 void WObject::parseSolid(char *solid)
 {
-  parse()->parseSolid(solid, SEP, this);
+  Parse::getParse()->parseSolid(solid, SEP, this);
+}
+
+void WObject::parseSolids(char *solid)
+{
+  Parse::getParse()->parseSolid(solid, SEP, this);
 }
 
 /* parse tag : tokenize the line */
