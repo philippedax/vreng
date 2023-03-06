@@ -108,7 +108,7 @@ Gate::Gate(WObject *user, char *geom)
   pos.x = user->pos.x + 0.5;
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
-  parse()->parseSolid(geom, SEP, this);
+  parseSolid(geom);
 
   behavior();
   inits();

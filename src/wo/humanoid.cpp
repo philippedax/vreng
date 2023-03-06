@@ -76,7 +76,7 @@ void Humanoid::makeSolid()
   char s[256];
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />",.24,.14,B_HEIGHT);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Humanoid::behaviour()

@@ -86,7 +86,7 @@ void Humanhead::makeSolid()
       sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.15,.15,.2); break;
     default: return;
   }
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 uint8_t Humanhead::getModel(const char *name)

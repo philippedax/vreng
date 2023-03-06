@@ -73,7 +73,7 @@ void Plane::makeSolid()
 
   // le premier solide est au centre
   sprintf(s, "solid dim=\"%.2f %.2f %.2f\" %s />", 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
   for (int i=1; i < sections; i++) {
     for (int j=0; j<2; j++) {
       // les autres solides s'ecartent progressivement du centre en negatif et positif
@@ -87,7 +87,7 @@ void Plane::makeSolid()
       else {
         sprintf(s, "solid rel=\"%.2f %.2f %.2f 0 0\" dim=\"%.2f %.2f %.2f\" %s />", rel.v[0], rel.v[1], rel.v[2], 2*dim.v[0], 2*dim.v[1], 2*zsec, materials);
       }
-      parse()->parseSolid(s, SEP, this);
+      parseSolid(s);
     }
   }
 }

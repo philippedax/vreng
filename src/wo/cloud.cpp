@@ -104,7 +104,7 @@ void Cloud::makeSolid()
     maxz = MAX(maxz, obloids[n].z);
   }
   sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", (maxx-minx)/2, (maxy-miny)/2, (maxz-minz) *.5/2);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Cloud::behavior()

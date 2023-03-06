@@ -71,42 +71,42 @@ void Hat::makeSolid()
 
   case Hat::TOPHAT:
     sprintf(s,"solid shape=\"cone\" ri=\"%f\" re=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.08,.15,"black");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     sprintf(s,"<solid shape=\"disk\" rel=\"0 0 .15 0 0\" ri=\"0\" re=\"%f\" dif=\"%s\" />",.08,"black");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     sprintf(s,"<solid shape=\"disk\" rel=\"0 0 0 0 0\" ri=\"%f\" re=\"%f\" dif=\"%s\" />",.08,.15,"black");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     break;
 
   case Hat::BOWLER:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.05,.12,"green");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     sprintf(s,"solid shape=\"torus\" rel=\"0 0 0 0 0\" r=\"%f\" rt=\"%f\" dif=\"%s\" />",.08,.02,"darkgreen");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     break;
 
   case Hat::CHINESE:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.2,.0,.15,"yellow");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     break;
 
   case Hat::REDHAT:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.05,.10,"red");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     sprintf(s,"solid shape=\"disk\" rel=\"0 0 0 0 0\" ri=\"%f\" re=\"%f\" dif=\"%s\" />",.08,.12,"red");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     break;
 
   case Hat::COUNTRY:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" style=\"1\" />",.08,.04,.12,"wheat");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     sprintf(s,"solid shape=\"torus\" r=\"%f\" rt=\"%f\" dif=\"%s\" style=\"1\" />",.08,.02,"wheat");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     break;
 
   case Hat::CLOWN:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />",.08,.0,.30,"white");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     break;
 
   default:

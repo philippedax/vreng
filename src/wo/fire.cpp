@@ -93,7 +93,7 @@ void Fire::makeSolid()
   char s[128];
 
   sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.25,.25,.50);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Fire::behavior()

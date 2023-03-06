@@ -112,7 +112,7 @@ void Icon::makeSolid()
 
   sprintf(s, "solid dim=\"%f %f %f\" dif=\"%s\" xn=\"%s\" />",
           WIDTH, DEPTH, HEIGHT, COLOR, tex);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Icon::parser(char *l)

@@ -219,7 +219,7 @@ Stars::Stars(char *l)
   // makeSolid
   char s[128];
   sprintf(s, "solid shape=\"none\" />");
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Stars::changePermanent(float lasting)

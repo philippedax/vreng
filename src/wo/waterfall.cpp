@@ -69,7 +69,7 @@ void Waterfall::makeSolid()
 {
   char s[128];
   sprintf(s, "solid shape=\"none\" />");
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 Waterfall::Waterfall(char *l)

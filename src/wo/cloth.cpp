@@ -92,7 +92,7 @@ void Cloth::makeSolid()
     break;
   case HAT:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />", .08, .08, .10, color);
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     sprintf(s,"solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", .08, .15, color);
   case DRESS:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" dif=\"%s\" />", .10, .30, -.50, color);
@@ -102,7 +102,7 @@ void Cloth::makeSolid()
   default:
     return;
   }
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Cloth::behavior()

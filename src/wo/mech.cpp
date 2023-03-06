@@ -593,8 +593,8 @@ void Mech::parser(char *l)
 void Mech::makeSolid()
 {
   char s[256];
-  sprintf(s,"solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", .5, .5, 2.);
-  parse()->parseSolid(s, SEP, this);
+  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", .5, .5, 2.);
+  parseSolid(s);
 }
 
 Mech::Mech(char *l)

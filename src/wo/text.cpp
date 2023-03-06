@@ -79,7 +79,7 @@ void Text::makeSolid()
   char s[256];
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%f .01 .1\" />", (strlen(textstr)*GLYPHSIZ / 2));
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 /* Loads the font */

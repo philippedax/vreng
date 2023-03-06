@@ -93,7 +93,7 @@ void Step::makeSolid()
   char s[128];
 
   sprintf(s, "%s", geometry);		// step geometry duplicated
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Step::build()
@@ -185,7 +185,7 @@ Step::Step(Pos& newpos, Pos& _initialpos, const char *name, const char *_geom, b
   //echo("s: %s", _geom);
   char *s = new char[strlen(_geom)];
   strcpy(s, _geom);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
   //dax makeSolid();
 
   mobile = _mobile;
@@ -212,7 +212,7 @@ Step::Step(Pos& newpos, Pos& _initialpos, const char *name, const char *_geom, b
 /* creation from Gui addobj */
 Step::Step(WObject *user, char *geom)
 {
-  parse()->parseSolid(geom, SEP, this);
+  parseSolid(geom);
 
   behavior();
   enableBehavior(DYNAMIC);

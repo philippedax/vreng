@@ -80,7 +80,7 @@ void Smoke::makeSolid()
   char s[128];
 
   sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" a=\"0.7\" />", 0.25, 0.25, 0.25);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Smoke::inits()

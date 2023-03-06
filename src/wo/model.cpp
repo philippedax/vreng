@@ -79,7 +79,7 @@ void Model::makeSolid()
   char s[128];
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .3, .16, 1.7);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Model::setName()

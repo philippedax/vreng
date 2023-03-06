@@ -75,7 +75,7 @@ void Ball::makeSolid()
   char s[128];
 
   sprintf(s, "solid shape=\"sphere\" r=\"%f\" tx=\"%s\" />", RADIUS, DEF_URL_BALL);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 /** Parse vre fileline */
@@ -149,7 +149,7 @@ Ball::Ball(WObject *user, char *solid)
 {
   defaults();
   setName();
-  parse()->parseSolid(solid, SEP, this);
+  parseSolid(solid);
 
   /* position in front of user */
   pos.x = user->pos.x + 0.4;

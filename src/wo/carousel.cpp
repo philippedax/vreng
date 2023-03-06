@@ -68,7 +68,7 @@ void Carousel::makeSolid()
   char s[128];
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", dimx, dimy, dimz);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 /** constructor */

@@ -46,7 +46,7 @@ void Bullet::makeSolid()
   char s[128];
 
   sprintf(s,"solid shape=\"sphere\" r=\"%f\" emi=\"%s\" />", RADIUS, COLOR);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 Bullet::Bullet(WObject *pu, void *d, time_t s, time_t u)

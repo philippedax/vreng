@@ -78,7 +78,7 @@ void Terrain::makeSolid()
   char s[256];
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", width, width, height);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Terrain::inits()

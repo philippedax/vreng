@@ -64,7 +64,7 @@ void Fog::makeSolid()
 {
   char s[128];
   sprintf(s, "solid shape=\"none\" />");
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 Fog::Fog(char *l)

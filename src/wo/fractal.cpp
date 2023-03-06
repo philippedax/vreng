@@ -68,7 +68,7 @@ void Fractal::makeSolid()
   char s[256];
 
   sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",1.,.25,1.);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Fractal::inits()

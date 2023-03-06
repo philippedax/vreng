@@ -231,7 +231,7 @@ void User::makeSolid()
   }
   sprintf(s, "%s />", mensuration);
   trace(DBG_WO, "User: s=%s", s);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 
   // avatar's head
   if (*headurl) {
@@ -424,7 +424,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
             DEF_WIDTH, DEF_DEPTH, DEF_HEIGHT, front, back);
   }
   trace(DBG_WO, "Replica: s=%s", s);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 
   // get the variable properties
   if (idxend > 0) {

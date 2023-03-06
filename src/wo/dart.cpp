@@ -46,7 +46,7 @@ void Dart::makeSolid()
   char s[256];
 
   sprintf(s,"solid shape=\"box\" dim=\"%s\" dif=\"%s\" />", DIM, COLOR);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 Dart::Dart(WObject *user, void *d, time_t s, time_t u)

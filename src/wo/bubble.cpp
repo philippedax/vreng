@@ -70,11 +70,11 @@ void Bubble::makeSolid()
 
   // bubble glob (obloid)
   sprintf(s, "solid shape=\"sphere\" r=\"%f\" sx=\"2.5\" sy=\".6\" sz=\".1\" dif=\"pink\" a=%f />", r, a);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 
   // arrow
   sprintf(s, "solid shape=\"cone\" rel=\"0 0 +.1.0 0 1.57\" rb=\".03\" rt=\"0\" h=\".15\" sy=\".2\" dif=\"pink\" a=%f />", a);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Bubble::behavior()

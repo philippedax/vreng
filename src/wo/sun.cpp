@@ -73,7 +73,7 @@ void Sun::makeSolid()
   char s[128];
 
   sprintf(s, "solid shape=\"sphere\" r=\"%f\" emi=\"yellow\" />", radius);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Sun::inits()

@@ -138,7 +138,7 @@ void Human::makeSolid()
   char s[128];
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", width, depth, height);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Human::changePermanent(float lasting)

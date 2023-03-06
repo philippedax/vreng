@@ -59,7 +59,7 @@ Wall::Wall(WObject *user, char *geom)
   if (! user) return;
 
   setOwner();
-  parse()->parseSolids(geom, SEP, this);
+  parseSolid(geom);
 
   enableBehavior(DYNAMIC);
   initMobileObject(0);

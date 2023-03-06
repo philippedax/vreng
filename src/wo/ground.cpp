@@ -52,7 +52,7 @@ Ground::Ground(char *l)
 
 Ground::Ground(WObject *user, char *geom)
 {
-  parse()->parseSolid(geom, SEP, this);
+  parseSolid(geom);
 
   initMobileObject(0);
 

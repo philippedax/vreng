@@ -67,21 +67,21 @@ void Dress::makeSolid()
   switch (model) {
   case Dress::SPIRES:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.3,-.45,"/gif/pyjama-spires.gif");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.15,.25,"/gif/pyjama-spires.gif");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     break;
   case Dress::BANDS:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.25,-.45,"/gif/redbands.gif");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.15,.25,"/gif/redbands.gif");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     break;
   case Dress::ROSES:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.2,-.45,"/gif/roses.gif");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.15,.25,"/gif/roses.gif");
-    parse()->parseSolid(s, SEP, this);
+    parseSolid(s);
     break;
   default:
     break;

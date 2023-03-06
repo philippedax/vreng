@@ -46,7 +46,7 @@ void Snow::makeSolid()
 {
   char s[128];
   sprintf(s, "solid shape=\"none\" />");
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 Snow::Snow(Cloud *cloud, void *d, time_t s, time_t u)

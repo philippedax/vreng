@@ -62,7 +62,7 @@ void Halo::makeSolid()
   char s[128];
 
   sprintf(s, "solid shape=\"disk\" ri=\"%f\" re=\"%f\" dif=\"%s\" />", RI, RE, strcolor);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 /* Created from file */

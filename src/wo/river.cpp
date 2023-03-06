@@ -66,7 +66,7 @@ void River::makeSolid()
   char s[256];
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", width, depth, .1);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void River::behavior()

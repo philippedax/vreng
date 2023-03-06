@@ -71,7 +71,7 @@ void Firework::makeSolid()
   char s[256];
 
   sprintf(s,"solid shape=\"bsphere\" radius=\"%f\" />",1.);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 
   V3 dim;
   getDimBB(dim);

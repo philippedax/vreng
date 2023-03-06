@@ -71,7 +71,7 @@ void Wings::makeSolid()
 {
   char s[256];
   sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.6,.1,.6);
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 uint8_t Wings::getModel(const char *name)

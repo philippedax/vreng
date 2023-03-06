@@ -155,7 +155,7 @@ Mirage::Mirage(WObject *user, char *geom)
     psql->updateOwner(this);
   }
 #endif
-  parse()->parseSolids(geom, SEP, this);
+  parseSolid(geom);
 
   behavior();
   enableBehavior(DYNAMIC);	// addobj
@@ -167,19 +167,19 @@ Mirage::Mirage(WObject *user, char *geom)
   updatePosition();
 }
 
-/** Recreated by world via MySql */
+/** Recreated by world via VRSql */
 Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
 {
   char *str = (char *) d;       // string
   if (!str) return;
 
   strcpy(names.given, str);
-  strcpy(names.type, typeName());     // need names.type for MySql
+  strcpy(names.type, typeName());     // need names.type for VRSql
 
   /* local creation */
   defaults();
 
-  // we don't know anything about the geometry except from MySql
+  // we don't know anything about the geometry except from VRSql
   geometry = new char[BUFSIZ];
 #if VRSQL
   psql = VRSql::getVRSql();
@@ -190,7 +190,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   }
 #endif
   if (geometry && isprint(*geometry)) {	//FIXME: when object comes from Cart
-    parse()->parseSolids(geometry, SEP, this);
+    parseSolid(geometry);
   }
   else error("Mirage: %s no geometry available", names.given);
 

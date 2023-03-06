@@ -80,7 +80,7 @@ Thunder::Thunder(char *l)
   behavior();
   inits();
   sprintf(s, "solid shape=\"none\" />");
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 void Thunder::draw()

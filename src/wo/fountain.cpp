@@ -72,7 +72,7 @@ void Fountain::makeSolid()
 {
   char s[128];
   sprintf(s, "solid shape=\"none\" />");
-  parse()->parseSolid(s, SEP, this);
+  parseSolid(s);
 }
 
 Fountain::Fountain(char *l)

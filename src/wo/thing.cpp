@@ -88,7 +88,7 @@ Thing::Thing(WObject *user, char *geom)
   setOwner();
   oid++;
 
-  parse()->parseSolids(geom, SEP, this);
+  parseSolid(geom);
 
   /* position in front of the user */
   pos.x = user->pos.x + 1;
@@ -142,7 +142,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
     psql->getPos(this);
   }
   if (geometry && isprint(*geometry)) {
-    parse()->parseSolids(geometry, SEP, this);
+    parseSolid(geometry);
   }
   else error("Thing: %s has no geometry", names.given);
 #endif
