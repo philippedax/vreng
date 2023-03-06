@@ -154,7 +154,7 @@ void Step::build()
         newpos.z = pos.z + dir*(sz * n);
       }
     }
-    nextstep = new Step(newpos, initialpos, geometry, mobile, size, speed, dir);
+    nextstep = new Step(newpos, initialpos, "step", geometry, mobile, size, speed, dir);
   }
   //dax if (geom) delete[] geom;
 
@@ -178,7 +178,7 @@ Step::Step(char *l)
   }
 }
 
-Step::Step(Pos& newpos, Pos& _initialpos, char *_geom, bool _mobile, float _size, float _speed, int _dir)
+Step::Step(Pos& newpos, Pos& _initialpos, const char *name, const char *_geom, bool _mobile, float _size, float _speed, int _dir)
 {
   pos = newpos;
 
@@ -201,6 +201,7 @@ Step::Step(Pos& newpos, Pos& _initialpos, char *_geom, bool _mobile, float _size
   stuck = false;
 
   initMobileObject(1);
+  forceNames(name);
 
   if (mobile) {    // escalator or travelator
     enablePermanentMovement(speed);

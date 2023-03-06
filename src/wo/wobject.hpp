@@ -608,8 +608,8 @@ public:
   static void initNames();
   /**< inits hash_table of names. */
 
-  void setNames();
-  /**< Sets names. */
+  void forceNames(const char *name);
+  /**< Forces names. */
 
   void updateNames();
   /**< Updates names. */

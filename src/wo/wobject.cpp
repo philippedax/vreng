@@ -735,15 +735,16 @@ WObject * WObject::getObjectByName(const char *name)
 }
 
 /* Sets Object names */
-void WObject::setNames()
+void WObject::forceNames(const char *name)
 {
-  getObjectNameById(type, names.type);
+  strcpy(names.type, name);
   names.implicit = new char[OBJNAME_LEN];
-  sprintf(names.implicit, "%s%d", names.type, num);
+  sprintf(names.implicit, "%s%d", name, num);
   if (isupper(*(names.implicit))) {
     *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
   }
   names.instance = names.implicit;
+  //echo("names: t=%s i=%s", names.type, names.instance);
 }
 
 /* Updates Object names */
@@ -754,7 +755,12 @@ void WObject::updateNames()
   getObjectNameById(type, names.type);
 
   if (! givenName()) {	// no given name
-    setNames();
+    names.implicit = new char[OBJNAME_LEN];
+    sprintf(names.implicit, "%s%d", names.type, num);
+    if (isupper(*(names.implicit))) {
+      *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
+    }
+    names.instance = names.implicit;
   }
   else {
     names.instance = names.given;

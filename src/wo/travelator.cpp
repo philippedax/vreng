@@ -74,7 +74,8 @@ void Travelator::build()
     newpos.y = pos.y - (cos(pos.az) * sy * n);
     newpos.z = pos.z;
 
-    nextstep = new Step(newpos, pos, geometry, true, length, speed, dir);
+    nextstep = new Step(newpos, pos, "travelator", geometry, true, length, speed, dir);
+    //forceNames();
   }
 
   enablePermanentMovement(speed);

@@ -74,7 +74,7 @@ class Step: public WObject {
 
   Step(WObject *user, char *form);	///< Constructor from GUI
 
-  Step(Pos& newpos, Pos& _initialpos, char *geom, bool _mobile, float _height, float _speed, int _dir);
+  Step(Pos& newpos, Pos& _initialpos, const char *name, const char *geom, bool _mobile, float _height, float _speed, int _dir);
   /**< Constructor for structure of steps */
 
   static WObject * (creator)(char *l);

@@ -90,7 +90,8 @@ void Escalator::build()
     newpos.z = pos.z + dir*(sz * n);
 
     //echo("newpos=%.1f %.1f %.1f d=%d", newpos.x,newpos.y,newpos.z,dir);
-    nextstep = new Step(newpos, pos, geometry, true, height, speed, dir);
+    nextstep = new Step(newpos, pos, "escalator", geometry, true, height, speed, dir);
+    //forceNames();
   }
 
   enablePermanentMovement(speed);
