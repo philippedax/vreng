@@ -44,8 +44,8 @@ void Light::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "fog="))   l = parse()->parseFloat(l, &fog, "fog");
-    else if (! stringcmp(l, "color=")) l = parse()->parseVector3f(l, color, "color");
+    if      (! stringcmp(l, "fog="))   l = parseFloat(l, &fog, "fog");
+    else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
   }
   end_while_parse(l);
 }

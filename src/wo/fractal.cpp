@@ -92,8 +92,8 @@ void Fractal::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    else if (! stringcmp(l, "level")) l = parse()->parseUInt16(l, &level_in, "level");
-    else if (! stringcmp(l, "color")) { l = parse()->parseVector3f(l, color, "color"); mycolor = 1; }
+    else if (! stringcmp(l, "level")) l = parseUInt16(l, &level_in, "level");
+    else if (! stringcmp(l, "color")) { l = parseVector3f(l, color, "color"); mycolor = 1; }
   }
   end_while_parse(l);
 }

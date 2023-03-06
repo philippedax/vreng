@@ -50,8 +50,8 @@ void Carousel::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "url=")) l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "scale=")) l = parse()->parseFloat(l, &scale, "scale");
+    if (! stringcmp(l, "url=")) l = parseUrl(l, names.url);
+    else if (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "dim=")) {
       l = parse()->skipEqual(l);
       l = parse()->skipQuotes(l);	// to get values

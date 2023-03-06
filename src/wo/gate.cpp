@@ -62,17 +62,17 @@ void Gate::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url"))     l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "world"))   l = parse()->parseString(l, names.url, "world");
-    else if (! stringcmp(l, "channel")) l = parse()->parseString(l, chan, "channel");
+    if      (! stringcmp(l, "url"))     l = parseUrl(l, names.url);
+    else if (! stringcmp(l, "world"))   l = parseString(l, names.url, "world");
+    else if (! stringcmp(l, "channel")) l = parseString(l, chan, "channel");
     else if (! stringcmp(l, "mode")) {
       char modestr[6];
-      l = parse()->parseString(l, modestr, "mode");
+      l = parseString(l, modestr, "mode");
       if      (! stringcmp(modestr, "link")) link = true;
       else if (! stringcmp(modestr, "auto")) automatic = true;
     }
     else if (! stringcmp(l, "entry")) {
-      l = parse()->parseVector3f(l, entry, "entry");
+      l = parseVector3f(l, entry, "entry");
       flagentry = true;
       trace(DBG_WO, "gate: entry=%.1f %.1f %.1f", entry[0], entry[1], entry[2]);
     }

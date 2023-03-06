@@ -60,7 +60,7 @@ void Vjc::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (!stringcmp(l, "server=")) l = parse()->parseString(l, host, "server");
+    if (!stringcmp(l, "server=")) l = parseString(l, host, "server");
   }
   end_while_parse(l);
 

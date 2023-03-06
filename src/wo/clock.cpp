@@ -84,7 +84,7 @@ void Clock::parser(char *l)
     if (!l) break;
     if (! stringcmp(l, "needle")) {
       char needlestr[8] = "";
-      l = parse()->parseString(l, needlestr, "needle");
+      l = parseString(l, needlestr, "needle");
       haveneedle = true;
       switch (*needlestr) {
         case 's': needle = SECOND; break;

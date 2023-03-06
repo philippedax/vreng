@@ -55,12 +55,12 @@ void Terrain::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
-    else if (!stringcmp(l, "width"))  l = parse()->parseFloat(l, &width, "width");
-    else if (!stringcmp(l, "color"))  l = parse()->parseVector3f(l, color, "color");
-    else if (!stringcmp(l, "level"))  l = parse()->parseUInt8(l, &level, "level");
-    else if (!stringcmp(l, "div"))    l = parse()->parseFloat(l, &div, "div");
-    else if (!stringcmp(l, "scale"))  l = parse()->parseFloat(l, &scale, "scale");
+    if      (!stringcmp(l, "height")) l = parseFloat(l, &height, "height");
+    else if (!stringcmp(l, "width"))  l = parseFloat(l, &width, "width");
+    else if (!stringcmp(l, "color"))  l = parseVector3f(l, color, "color");
+    else if (!stringcmp(l, "level"))  l = parseUInt8(l, &level, "level");
+    else if (!stringcmp(l, "div"))    l = parseFloat(l, &div, "div");
+    else if (!stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
   }
   end_while_parse(l);
 }

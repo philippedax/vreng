@@ -68,15 +68,15 @@ void Vnc::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if (!stringcmp(l, "server")) {
-      l = parse()->parseString(l, servername, "server");
+      l = parseString(l, servername, "server");
       serverdefined = true;
     }
     else if (!stringcmp(l, "port")) {
-      l = parse()->parseUInt16(l, &port, "port");
+      l = parseUInt16(l, &port, "port");
       if (port == 0) port = VNC_PORT;
     }
     else if (!stringcmp(l, "passwd")) {
-      l = parse()->parseString(l, passwd, "passwd");
+      l = parseString(l, passwd, "passwd");
       passwd[8] = '\0';
     }
   }

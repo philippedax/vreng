@@ -96,10 +96,10 @@ void Wings::parser(char *l)
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
     if (! stringcmp(l, "scale=")) {
-      l = parse()->parseFloat(l, &scale, "scale");
+      l = parseFloat(l, &scale, "scale");
     }
     else if (! stringcmp(l, "model=")) {
-      l = parse()->parseString(l, modelname, "model");
+      l = parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "bird"))       model = BIRD;
       else if (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
       else if (! stringcmp(modelname, "libellule"))  model = LIBELLULE;

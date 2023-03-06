@@ -63,10 +63,10 @@ void Humanoid::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "body="))   l = parse()->parseString(l, names.url, "body"); //body
-    else if (! stringcmp(l, "face="))   l = parse()->parseString(l, face_url, "face");  //face
-    else if (! stringcmp(l, "color="))  l = parse()->parseVector3f(l, cloth, "color");  //color
-    else if (! stringcmp(l, "server=")) l = parse()->parseString(l, vaps, "server");    //server
+    if      (! stringcmp(l, "body="))   l = parseString(l, names.url, "body"); //body
+    else if (! stringcmp(l, "face="))   l = parseString(l, face_url, "face");  //face
+    else if (! stringcmp(l, "color="))  l = parseVector3f(l, cloth, "color");  //color
+    else if (! stringcmp(l, "server=")) l = parseString(l, vaps, "server");    //server
   }
   end_while_parse(l);
 }

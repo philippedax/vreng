@@ -50,8 +50,8 @@ void Travelator::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
-    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
+    if      (! stringcmp(l, "length")) l = parseFloat(l, &length, "length");
+    else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
   }
   end_while_parse(l);
 }

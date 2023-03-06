@@ -57,9 +57,9 @@ void Movie::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url"))  l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "rate")) l = parse()->parseFloat(l, &rate, "rate");
-    else if (! stringcmp(l, "anim")) l = parse()->parseBool(l, &anim, "anim");
+    if      (! stringcmp(l, "url"))  l = parseUrl(l, names.url);
+    else if (! stringcmp(l, "rate")) l = parseFloat(l, &rate, "rate");
+    else if (! stringcmp(l, "anim")) l = parseBool(l, &anim, "anim");
   }
   end_while_parse(l);
 }

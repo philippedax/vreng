@@ -67,14 +67,14 @@ void Guy::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url"))   l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "anim=")) l = parse()->parseBool(l, &animing, "anim");
-    else if (! stringcmp(l, "walk=")) l = parse()->parseBool(l, &walking, "walk");
-    else if (! stringcmp(l, "sex="))  l = parse()->parseBool(l, &sex, "sex");
-    else if (! stringcmp(l, "skin=")) l = parse()->parseVector3f(l, skin_color, "skin");
-    else if (! stringcmp(l, "bust=")) l = parse()->parseVector3f(l, bust_color, "bust");
-    else if (! stringcmp(l, "legs=")) l = parse()->parseVector3f(l, legs_color, "legs");
-    else if (! stringcmp(l, "feet=")) l = parse()->parseVector3f(l, feet_color, "feet");
+    if      (! stringcmp(l, "url"))   l = parseUrl(l, names.url);
+    else if (! stringcmp(l, "anim=")) l = parseBool(l, &animing, "anim");
+    else if (! stringcmp(l, "walk=")) l = parseBool(l, &walking, "walk");
+    else if (! stringcmp(l, "sex="))  l = parseBool(l, &sex, "sex");
+    else if (! stringcmp(l, "skin=")) l = parseVector3f(l, skin_color, "skin");
+    else if (! stringcmp(l, "bust=")) l = parseVector3f(l, bust_color, "bust");
+    else if (! stringcmp(l, "legs=")) l = parseVector3f(l, legs_color, "legs");
+    else if (! stringcmp(l, "feet=")) l = parseVector3f(l, feet_color, "feet");
   }
   end_while_parse(l);
 }

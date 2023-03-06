@@ -50,9 +50,9 @@ void Slider::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "incrx")) l = parse()->parseFloat(l, &incrx, "incrx");
-    else if (!stringcmp(l, "incry")) l = parse()->parseFloat(l, &incry, "incry");
-    else if (!stringcmp(l, "incrz")) l = parse()->parseFloat(l, &incrz, "incrz");
+    if      (!stringcmp(l, "incrx")) l = parseFloat(l, &incrx, "incrx");
+    else if (!stringcmp(l, "incry")) l = parseFloat(l, &incry, "incry");
+    else if (!stringcmp(l, "incrz")) l = parseFloat(l, &incrz, "incrz");
   }
   end_while_parse(l);
 }

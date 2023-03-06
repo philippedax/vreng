@@ -97,7 +97,7 @@ void Dress::parser(char *l)
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
     if (!stringcmp(l, "model=")) {
-      l = parse()->parseString(l, modelname, "model");
+      l = parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "spires")) model = SPIRES;
       else if (! stringcmp(modelname, "bands"))  model = BANDS;
       else if (! stringcmp(modelname, "roses"))  model = ROSES;

@@ -68,14 +68,14 @@ void Water::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if (! stringcmp(l, "amplitude")) {
-      l = parse()->parseFloat(l, &amplitude, "amplitude");
+      l = parseFloat(l, &amplitude, "amplitude");
       amplitude *= DEF_AMPLITUDE;	// coef
     }
     else if (! stringcmp(l, "freq")) {
-      l = parse()->parseFloat(l, &freq, "freq");
+      l = parseFloat(l, &freq, "freq");
     }
     else if (! stringcmp(l, "phase")) {
-      l = parse()->parseFloat(l, &phase, "phase");
+      l = parseFloat(l, &phase, "phase");
       phase *= DEF_PHASE;	// coef
     }
   }

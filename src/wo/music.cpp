@@ -52,8 +52,8 @@ void Music::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url"))   l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "state")) l = parse()->parseString(l, statestr, "state");
+    if      (! stringcmp(l, "url"))   l = parseUrl(l, names.url);
+    else if (! stringcmp(l, "state")) l = parseString(l, statestr, "state");
   }
   end_while_parse(l);
 }

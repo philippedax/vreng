@@ -41,7 +41,7 @@ void Host::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "host=")) l = parse()->parseString(l, names.url, "host");
+    if (! stringcmp(l, "host=")) l = parseString(l, names.url, "host");
   }
   end_while_parse(l);
 }

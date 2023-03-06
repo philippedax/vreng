@@ -94,20 +94,20 @@ void Model::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url="))   l = parse()->parseUrl(l, names.url);
-    else if (! stringcmp(l, "scale=")) l = parse()->parseFloat(l, &scale, "scale");
-    else if (! stringcmp(l, "color=")) l = parse()->parseVector3f(l, color, "color");
+    if      (! stringcmp(l, "url="))   l = parseUrl(l, names.url);
+    else if (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "bvh=")) {
       bvhurl = new char[URL_LEN];
-      l = parse()->parseString(l, bvhurl, "bvh");
+      l = parseString(l, bvhurl, "bvh");
     }
     else if (! stringcmp(l, "sound=")) {
       sndurl = new char[URL_LEN];
-      l = parse()->parseString(l, sndurl, "sound");
+      l = parseString(l, sndurl, "sound");
     }
     else if (! stringcmp(l, "tex=")) {
       texurl = new char[URL_LEN];
-      l = parse()->parseString(l, texurl, "tex");
+      l = parseString(l, texurl, "tex");
       texid = Texture::open(texurl);
     }
   }

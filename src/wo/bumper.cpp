@@ -50,9 +50,9 @@ void Bumper::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "forcex")) l = parse()->parseFloat(l, &forcex, "forcex");
-    else if (!stringcmp(l, "forcey")) l = parse()->parseFloat(l, &forcey, "forcey");
-    else if (!stringcmp(l, "forcez")) l = parse()->parseFloat(l, &forcez, "forcez");
+    if      (!stringcmp(l, "forcex")) l = parseFloat(l, &forcex, "forcex");
+    else if (!stringcmp(l, "forcey")) l = parseFloat(l, &forcey, "forcey");
+    else if (!stringcmp(l, "forcez")) l = parseFloat(l, &forcez, "forcez");
   }
   end_while_parse(l);
 }

@@ -56,14 +56,14 @@ void Vrelet::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (! l) break;
-    if (! stringcmp(l, "class=")) l = parse()->parseString(l, app, "class");	// java class
-    else if (! stringcmp(l, "incrx")) l = parse()->parseInt(l, &incrx, "incrx");
-    else if (! stringcmp(l, "incry")) l = parse()->parseInt(l, &incry, "incry");
-    else if (! stringcmp(l, "fx")) l = parse()->parseFloat(l, &fx, "fx");
-    else if (! stringcmp(l, "fy")) l = parse()->parseFloat(l, &fy, "fy");
+    if (! stringcmp(l, "class=")) l = parseString(l, app, "class");	// java class
+    else if (! stringcmp(l, "incrx")) l = parseInt(l, &incrx, "incrx");
+    else if (! stringcmp(l, "incry")) l = parseInt(l, &incry, "incry");
+    else if (! stringcmp(l, "fx")) l = parseFloat(l, &fx, "fx");
+    else if (! stringcmp(l, "fy")) l = parseFloat(l, &fy, "fy");
     else if (! stringcmp(l, "base")) {
       // url in the .vre file, try to find out the codebase URL
-      l = parse()->parseString(l, url, "base");
+      l = parseString(l, url, "base");
       goturl = true;
     }
   }

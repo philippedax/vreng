@@ -136,7 +136,7 @@ void Hat::parser(char *l)
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
     if (! stringcmp(l, "model=")) {
-      l = parse()->parseString(l, modelname, "model");
+      l = parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "tophat"))   model = TOPHAT;
       else if (! stringcmp(modelname, "bowler"))   model = BOWLER;
       else if (! stringcmp(modelname, "chinese"))  model = CHINESE;

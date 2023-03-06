@@ -58,7 +58,7 @@ void Web::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "url"))
-      l = parse()->parseUrl(l, names.url);
+      l = parseUrl(l, names.url);
     else if (! stringcmp(l, "caption"))
       l = parse()->parseCaption(l, caption, "caption");
     else if (! stringcmp(l, "text"))

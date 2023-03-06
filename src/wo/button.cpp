@@ -59,9 +59,9 @@ void Button::parser(char *l)
     if (!stringcmp(l, "use")) {
       l = parse()->parseQuotedString(l, use_names, "use");	// refers object to use
     }
-    else if (!stringcmp(l, "state"))   l = parse()->parseUInt8(l, &pos.st, "state");
-    else if (!stringcmp(l, "method0")) l = parse()->parseString(l, str_action0, "method0");
-    else if (!stringcmp(l, "method1")) l = parse()->parseString(l, str_action1, "method1");
+    else if (!stringcmp(l, "state"))   l = parseUInt8(l, &pos.st, "state");
+    else if (!stringcmp(l, "method0")) l = parseString(l, str_action0, "method0");
+    else if (!stringcmp(l, "method1")) l = parseString(l, str_action1, "method1");
   }
   end_while_parse(l);
 

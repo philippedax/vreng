@@ -41,7 +41,7 @@ void Doc::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "url")) l = parse()->parseUrl(l, names.url);
+    if (! stringcmp(l, "url")) l = parseUrl(l, names.url);
   }
   end_while_parse(l);
 }

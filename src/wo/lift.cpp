@@ -58,10 +58,10 @@ void Lift::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
-    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
-    else if (! stringcmp(l, "top"))    l = parse()->parseInt(l, &top, "top");
-    else if (! stringcmp(l, "bot"))    l = parse()->parseInt(l, &bot, "bot");
+    if      (! stringcmp(l, "height")) l = parseFloat(l, &height, "height");
+    else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
+    else if (! stringcmp(l, "top"))    l = parseInt(l, &top, "top");
+    else if (! stringcmp(l, "bot"))    l = parseInt(l, &bot, "bot");
   }
   end_while_parse(l);
 }

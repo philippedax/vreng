@@ -46,31 +46,31 @@ void Door::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (!stringcmp(l, "open")) {
-      l = parse()->parseFloat(l, &aopen, "open");
+      l = parseFloat(l, &aopen, "open");
       mecanism = ANGULAR;
     }
     else if (!stringcmp(l, "close")) {
-      l = parse()->parseFloat(l, &aclose, "close");
+      l = parseFloat(l, &aclose, "close");
       mecanism = ANGULAR;
     }
     else if (!stringcmp(l, "xopen")) {
-      l = parse()->parseFloat(l, &xopen, "xopen");
+      l = parseFloat(l, &xopen, "xopen");
       mecanism = SLIDING;
     }
     else if (!stringcmp(l, "xclose")) {
-      l = parse()->parseFloat(l, &xclose, "xclose");
+      l = parseFloat(l, &xclose, "xclose");
       mecanism = SLIDING;
     }
     else if (!stringcmp(l, "zopen")) {
-      l = parse()->parseFloat(l, &zopen, "zopen");
+      l = parseFloat(l, &zopen, "zopen");
       mecanism = VERTICAL;
     }
     else if (!stringcmp(l, "zclose")) {
-      l = parse()->parseFloat(l, &zclose, "zclose");
+      l = parseFloat(l, &zclose, "zclose");
       mecanism = VERTICAL;
     }
     else if (!stringcmp(l, "speed")) {
-      l = parse()->parseFloat(l, &speed, "speed");
+      l = parseFloat(l, &speed, "speed");
     }
   }
   end_while_parse(l);

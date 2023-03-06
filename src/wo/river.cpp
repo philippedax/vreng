@@ -52,11 +52,11 @@ void River::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "waves")) l = parse()->parseUInt8(l, &waves, "waves");
-    else if (! stringcmp(l, "width")) l = parse()->parseFloat(l, &width, "width");
-    else if (! stringcmp(l, "depth")) l = parse()->parseFloat(l, &depth, "depth");
-    else if (! stringcmp(l, "scale")) l = parse()->parseFloat(l, &scale, "scale");
-    else if (! stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
+    if      (! stringcmp(l, "waves")) l = parseUInt8(l, &waves, "waves");
+    else if (! stringcmp(l, "width")) l = parseFloat(l, &width, "width");
+    else if (! stringcmp(l, "depth")) l = parseFloat(l, &depth, "depth");
+    else if (! stringcmp(l, "scale")) l = parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "color")) l = parseVector3f(l, color, "color");
   }
   end_while_parse(l);
 }

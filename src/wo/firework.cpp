@@ -54,14 +54,14 @@ void Firework::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    else if (! stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
-    else if (! stringcmp(l, "ttl"))    l = parse()->parseFloat(l, &ttl, "ttl");
-    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
+    else if (! stringcmp(l, "number")) l = parseUInt16(l, &number, "number");
+    else if (! stringcmp(l, "ttl"))    l = parseFloat(l, &ttl, "ttl");
+    else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
     else if (! stringcmp(l, "color")) {
-      l = parse()->parseVector3f(l, color, "color");
+      l = parseVector3f(l, color, "color");
       onecolor = true;
     }
-    else if (! stringcmp(l, "size"))   l = parse()->parseUInt8(l, &pt_size, "size");
+    else if (! stringcmp(l, "size"))   l = parseUInt8(l, &pt_size, "size");
   }
   end_while_parse(l);
 }

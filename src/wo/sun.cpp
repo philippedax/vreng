@@ -52,8 +52,8 @@ void Sun::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "scale"))  l = parse()->parseFloat(l, &scale, "scale");
-    if (! stringcmp(l, "radius")) l = parse()->parseFloat(l, &radius, "radius");
+    if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
+    if (! stringcmp(l, "radius")) l = parseFloat(l, &radius, "radius");
   }
   end_while_parse(l);
 }

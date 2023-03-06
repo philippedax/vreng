@@ -70,19 +70,19 @@ void Mirage::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if (! stringcmp(l, "aspeed")) {
-      l = parse()->parseFloat(l, &aspeed, "aspeed");
+      l = parseFloat(l, &aspeed, "aspeed");
       azspeed = ayspeed = axspeed = aspeed;
     }
-    else if (! stringcmp(l, "azspeed")) l = parse()->parseFloat(l, &azspeed, "azspeed");
-    else if (! stringcmp(l, "ayspeed")) l = parse()->parseFloat(l, &ayspeed, "ayspeed");
-    else if (! stringcmp(l, "axspeed")) l = parse()->parseFloat(l, &axspeed, "axspeed");
-    else if (! stringcmp(l, "radius"))  l = parse()->parseFloat(l, &radius, "radius");
-    else if (! stringcmp(l, "flare"))   l = parse()->parseUInt8(l, &flares, "flare");
-    else if (! stringcmp(l, "scale"))   l = parse()->parseFloat(l, &scale, "scale");
-    else if (! stringcmp(l, "color"))   l = parse()->parseVector3f(l, color, "color");
+    else if (! stringcmp(l, "azspeed")) l = parseFloat(l, &azspeed, "azspeed");
+    else if (! stringcmp(l, "ayspeed")) l = parseFloat(l, &ayspeed, "ayspeed");
+    else if (! stringcmp(l, "axspeed")) l = parseFloat(l, &axspeed, "axspeed");
+    else if (! stringcmp(l, "radius"))  l = parseFloat(l, &radius, "radius");
+    else if (! stringcmp(l, "flare"))   l = parseUInt8(l, &flares, "flare");
+    else if (! stringcmp(l, "scale"))   l = parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "color"))   l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "mode=")) {
       char modestr[16];
-      l = parse()->parseString(l, modestr, "mode");
+      l = parseString(l, modestr, "mode");
       if (! stringcmp(modestr, "turn") || ! stringcmp(modestr, "self")) turn = true;
       if (! stringcmp(modestr, "roll")) roll = true;
       if (! stringcmp(modestr, "tilt")) tilt = true;

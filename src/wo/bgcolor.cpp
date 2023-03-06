@@ -41,7 +41,7 @@ void Bgcolor::parser(char *l)
   l = tokenize(l);
   begin_while_parse(l) {
     if (!stringcmp(l, "color=")) {
-      l = parse()->parseVector3f(l, color, "color");
+      l = parseVector3f(l, color, "color");
     }
   }
   end_while_parse(l);

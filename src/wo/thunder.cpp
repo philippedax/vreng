@@ -50,8 +50,8 @@ void Thunder::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
-    else if (! stringcmp(l, "period")) l = parse()->parseFloat(l, &period, "period");
+    if      (! stringcmp(l, "number")) l = parseUInt16(l, &number, "number");
+    else if (! stringcmp(l, "period")) l = parseFloat(l, &period, "period");
   }
   end_while_parse(l);
 }

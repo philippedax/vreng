@@ -88,10 +88,10 @@ void Guide::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "path=")) l = parse()->parseGuide(l, &path[1], &segs);
-    else if (! stringcmp(l, "color")) l = parse()->parseVector3f(l, color, "color");
+    else if (! stringcmp(l, "color")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "mode=")) {
       char modestr[16];
-      l = parse()->parseString(l, modestr, "mode");
+      l = parseString(l, modestr, "mode");
       if      (! stringcmp(modestr, "one-way")) oneway = true;
       else if (! stringcmp(modestr, "testing")) testing = true;
     }

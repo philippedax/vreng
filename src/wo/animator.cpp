@@ -51,10 +51,10 @@ void Animator::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "state")) l = parse()->parseUInt16(l, (uint16_t*) &state, "state");
-    else if (!stringcmp(l, "anim"))  l = parse()->parseUInt16(l, (uint16_t*) &state, "anim");
-    else if (!stringcmp(l, "begin")) l = parse()->parseUInt8(l, &frame, "begin");
-    else if (!stringcmp(l, "ttl"))   l = parse()->parseFloat(l, &ttl, "ttl");
+    if      (!stringcmp(l, "state")) l = parseUInt16(l, (uint16_t*) &state, "state");
+    else if (!stringcmp(l, "anim"))  l = parseUInt16(l, (uint16_t*) &state, "anim");
+    else if (!stringcmp(l, "begin")) l = parseUInt8(l, &frame, "begin");
+    else if (!stringcmp(l, "ttl"))   l = parseFloat(l, &ttl, "ttl");
   }
   end_while_parse(l);
 }

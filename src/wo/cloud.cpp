@@ -56,8 +56,8 @@ void Cloud::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
-    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
+    if      (! stringcmp(l, "number")) l = parseUInt16(l, &number, "number");
+    else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
   }
   end_while_parse(l);
 }

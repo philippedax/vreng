@@ -70,21 +70,21 @@ void Particle::parser(char *l)
     if (!l) break;
     if (! stringcmp(l, "system")) {
       char systemstr[16];
-      l = parse()->parseString(l, systemstr, "system");
+      l = parseString(l, systemstr, "system");
       if      (! stringcmp(systemstr, "fountain")) system = FOUNTAIN;
       else if (! stringcmp(systemstr, "firework")) system = FIREWORK;
       else if (! stringcmp(systemstr, "rain"))     system = RAIN;
       else if (! stringcmp(systemstr, "snow"))     system = SNOW;
       else                                         system = WATERFALL;
     }
-    else if (! stringcmp(l, "number")) l = parse()->parseUInt16(l, &number, "number");
-    else if (! stringcmp(l, "flow"))   l = parse()->parseFloat(l, &flow, "flow");
-    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
-    else if (! stringcmp(l, "ground")) l = parse()->parseFloat(l, &ground, "ground");
-    else if (! stringcmp(l, "size"))   l = parse()->parseUInt8(l, &pt_size, "size");
-    else if (! stringcmp(l, "points")) l = parse()->parseBool(l, &points, "points");
+    else if (! stringcmp(l, "number")) l = parseUInt16(l, &number, "number");
+    else if (! stringcmp(l, "flow"))   l = parseFloat(l, &flow, "flow");
+    else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
+    else if (! stringcmp(l, "ground")) l = parseFloat(l, &ground, "ground");
+    else if (! stringcmp(l, "size"))   l = parseUInt8(l, &pt_size, "size");
+    else if (! stringcmp(l, "points")) l = parseBool(l, &points, "points");
     else if (! stringcmp(l, "color")) {
-      l = parse()->parseVector3f(l, color, "color");
+      l = parseVector3f(l, color, "color");
       onecolor = true;
     }
   }

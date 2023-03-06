@@ -62,12 +62,12 @@ void Humanhead::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "url="))   l = parse()->parseUrl(l, names.url);
-    else if (!stringcmp(l, "scale=")) l = parse()->parseFloat(l, &scale, "scale");
-    else if (!stringcmp(l, "color=")) l = parse()->parseVector3f(l, color, "color");
+    if      (!stringcmp(l, "url="))   l = parseUrl(l, names.url);
+    else if (!stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
+    else if (!stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
     else if (!stringcmp(l, "model=")) {
       char str[16];
-      l = parse()->parseString(l, str, "model");
+      l = parseString(l, str, "model");
       if      (! stringcmp(str, "male"))   { model_e = MALE; }
       else if (! stringcmp(str, "female")) { model_e = FEMALE; }
     }

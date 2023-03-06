@@ -70,13 +70,13 @@ void Cloth::parser(char *l)
     if (!l) break;
     if (! stringcmp(l, "article=")) {
       char str[16];
-      l = parse()->parseString(l, str, "article");
+      l = parseString(l, str, "article");
       if      (! stringcmp(str, "halo"))  { halo = true;  article = HALO; }
       else if (! stringcmp(str, "hat"))   { hat = true;   article = HAT; }
       else if (! stringcmp(str, "dress")) { skirt = true; article = DRESS; }
       else if (! stringcmp(str, "wings")) { wings = true; article = WINGS; }
     }
-    else if (!stringcmp(l, "color=")) l = parse()->parseString(l, color, "color");
+    else if (!stringcmp(l, "color=")) l = parseString(l, color, "color");
   }
   end_while_parse(l);
 }

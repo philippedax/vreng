@@ -57,17 +57,17 @@ void Drone::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if (! stringcmp(l, "model=")) {
-      l = parse()->parseString(l, modelname, "model");
+      l = parseString(l, modelname, "model");
       if (! stringcmp(modelname, "helicopter"))  model = Wings::HELICOPTER;
     }
     else if (! stringcmp(l, "radius")) {
-      l = parse()->parseFloat(l, &radius, "radius");
+      l = parseFloat(l, &radius, "radius");
     }
     else if (! stringcmp(l, "scale")) {
-      l = parse()->parseFloat(l, &scale, "scale");
+      l = parseFloat(l, &scale, "scale");
     }
     else if (! stringcmp(l, "flying")) {
-      l = parse()->parseBool(l, &flying, "flying");
+      l = parseBool(l, &flying, "flying");
     }
   }
   end_while_parse(l);

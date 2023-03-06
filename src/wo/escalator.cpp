@@ -53,13 +53,13 @@ void Escalator::parser(char *l)
     if (!l) break;
     if (! stringcmp(l, "dir=")) {
       char modestr[16];
-      l = parse()->parseString(l, modestr, "dir");
+      l = parseString(l, modestr, "dir");
       if      (! stringcmp(modestr, "up"))   dir = 1;
       else if (! stringcmp(modestr, "down")) dir = -1;
     }
-    else if (! stringcmp(l, "height")) l = parse()->parseFloat(l, &height, "height");
-    else if (! stringcmp(l, "length")) l = parse()->parseFloat(l, &length, "length");
-    else if (! stringcmp(l, "speed"))  l = parse()->parseFloat(l, &speed, "speed");
+    else if (! stringcmp(l, "height")) l = parseFloat(l, &height, "height");
+    else if (! stringcmp(l, "length")) l = parseFloat(l, &length, "length");
+    else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
   }
   end_while_parse(l);
 }

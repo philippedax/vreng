@@ -51,13 +51,13 @@ void Accessory::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "speed")) l = parse()->parseFloat(l, &speed, "speed");
-    else if (!stringcmp(l, "slowx")) l = parse()->parseFloat(l, &slowx, "slowx");
-    else if (!stringcmp(l, "slowy")) l = parse()->parseFloat(l, &slowy, "slowy");
-    else if (!stringcmp(l, "slowz")) l = parse()->parseFloat(l, &slowz, "slowz");
-    else if (!stringcmp(l, "shiftx")) l = parse()->parseFloat(l, &shiftx, "shiftx");
-    else if (!stringcmp(l, "shifty")) l = parse()->parseFloat(l, &shifty, "shifty");
-    else if (!stringcmp(l, "shiftz")) l = parse()->parseFloat(l, &shiftz, "shiftz");
+    if      (!stringcmp(l, "speed")) l = parseFloat(l, &speed, "speed");
+    else if (!stringcmp(l, "slowx")) l = parseFloat(l, &slowx, "slowx");
+    else if (!stringcmp(l, "slowy")) l = parseFloat(l, &slowy, "slowy");
+    else if (!stringcmp(l, "slowz")) l = parseFloat(l, &slowz, "slowz");
+    else if (!stringcmp(l, "shiftx")) l = parseFloat(l, &shiftx, "shiftx");
+    else if (!stringcmp(l, "shifty")) l = parseFloat(l, &shifty, "shifty");
+    else if (!stringcmp(l, "shiftz")) l = parseFloat(l, &shiftz, "shiftz");
   }
   end_while_parse(l);
 }

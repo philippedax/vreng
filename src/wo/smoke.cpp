@@ -60,7 +60,7 @@ void Smoke::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (!stringcmp(l, "number")) l = parse()->parseUInt16(l, &np, "number");
+    if (!stringcmp(l, "number")) l = parseUInt16(l, &np, "number");
   }
   end_while_parse(l);
 }

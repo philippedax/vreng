@@ -121,7 +121,7 @@ void Icon::parser(char *l)
     begin_while_parse(l) {
       l = parseAttributes(l);
       if (!l) break;
-      if (!stringcmp(l, "owner=")) l = parse()->parseString(l, names.owner, "owner");
+      if (!stringcmp(l, "owner=")) l = parseString(l, names.owner, "owner");
     }
     end_while_parse(l);
 }

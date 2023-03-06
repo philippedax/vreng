@@ -584,8 +584,8 @@ void Mech::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "anim")) l = parse()->parseBool(l, &anim, "anim");
-    else if (!stringcmp(l, "walk")) l = parse()->parseBool(l, &walking, "walk");
+    if      (!stringcmp(l, "anim")) l = parseBool(l, &anim, "anim");
+    else if (!stringcmp(l, "walk")) l = parseBool(l, &walking, "walk");
   }
   end_while_parse(l);
 }
