@@ -60,9 +60,9 @@ void Web::parser(char *l)
     if      (! stringcmp(l, "url"))
       l = parseUrl(l, names.url);
     else if (! stringcmp(l, "caption"))
-      l = parse()->parseCaption(l, caption, "caption");
+      l = parseCaption(l, caption, "caption");
     else if (! stringcmp(l, "text"))
-      l = parse()->parseCaption(l, caption, "text");
+      l = parseCaption(l, caption, "text");
   }
   end_while_parse(l);
 }

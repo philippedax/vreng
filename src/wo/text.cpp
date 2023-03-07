@@ -67,7 +67,7 @@ void Text::parser(char *l)
     else if (! stringcmp(l, "color")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "verso")) l = parseUInt8(l, &verso, "verso");
     else if (! stringcmp(l, "scale")) l = parseFloat(l, &scale, "scale");
-    else                              l = parse()->parseQuotedString(l, textstr);
+    else                              l = parseQuotedString(l, textstr);
   }
   end_while_parse(l);
 

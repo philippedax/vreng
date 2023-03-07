@@ -1035,6 +1035,16 @@ char * WObject::parseUrl(char *l, char *url)
   return Parse::getParse()->parseUrl(l, url);
 }
 
+char * WObject::parseName(char *l, char *name)
+{
+  return Parse::getParse()->parseName(l, name);
+}
+
+char * WObject::parseChannel(char *l, char *chan)
+{
+  return Parse::getParse()->parseChannel(l, chan);
+}
+
 char * WObject::parseColor(char *l, Pos &p)
 {
   return Parse::getParse()->parseColor(l, p);
@@ -1078,6 +1088,21 @@ char * WObject::parseVector3fv(char *l, V3 *vector, const char *attrkey)
 char * WObject::parseString(char *l, char *str, const char *attrkey)
 {
   return Parse::getParse()->parseString(l, str, attrkey);
+}
+
+char * WObject::parseQuotedString(char *l, char *str, const char *attrkey)
+{
+  return Parse::getParse()->parseQuotedString(l, str, attrkey);
+}
+
+char * WObject::parseQuotedString(char *l, char *str)
+{
+  return Parse::getParse()->parseQuotedString(l, str);
+}
+
+char * WObject::parseCaption(char *l, char *str, const char *attrkey)
+{
+  return Parse::getParse()->parseCaption(l, str, attrkey);
 }
 
 /* parse tag : tokenize the line */

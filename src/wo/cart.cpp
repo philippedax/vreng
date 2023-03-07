@@ -40,7 +40,7 @@ void Cart::parser(char *l)
 {
   defaults();
   l = tokenize(l);
-  l = parse()->parseName(l, names.given);	// basket
+  l = parseName(l, names.given);	// basket
   names.instance = names.given;
 }
 
