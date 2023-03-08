@@ -49,7 +49,7 @@ static float userpos[4];	///< initial position of user
  * guide = origin------point1------point2------ ... ------pointn
  *                seg0        seg1        seg2       segn-1
  */
-static float path[GUIDE_MAX][5]; ///< array of positions-speed-pause in the path
+static float path[GUIDE_MAX][5]; ///< array of position[syz]-speed-pause in the path
 
 
 /* creation from a file */
@@ -90,10 +90,10 @@ void Guide::parser(char *l)
     if      (! stringcmp(l, "path=")) l = parse()->parseGuide(l, &path[1], &segs);
     else if (! stringcmp(l, "color")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "mode=")) {
-      char modestr[16];
-      l = parseString(l, modestr, "mode");
-      if      (! stringcmp(modestr, "one-way")) oneway = true;
-      else if (! stringcmp(modestr, "testing")) testing = true;
+      char mode[16];
+      l = parseString(l, mode, "mode");
+      if      (! stringcmp(mode, "one-way")) oneway = true;
+      else if (! stringcmp(mode, "testing")) testing = true;
     }
   }
   end_while_parse(l);
@@ -102,6 +102,7 @@ void Guide::parser(char *l)
     error("no guide path defined");
     return;
   }
+  segs++;	// end of path
 
   // start segment path[0] = guide initial
   path[0][0] = pos.x;
@@ -110,16 +111,15 @@ void Guide::parser(char *l)
   path[0][3] = path[1][3];
   path[0][4] = 1;
 
-  segs++;	// end of path
-  if (testing) {
-    oneway = false;	// without localuser
+  if (testing) {	// without localuser
+    oneway = false;
   }
   if (oneway) {
     path[segs][3] = 0;
     path[segs][4] = 0;
   }
-  else {
-    // round-trip: end segment = begin segment
+  else {		// round-trip
+    // end segment = begin segment
     for (int i=0; i<5 ; i++) {
       path[segs+1][i] = path[0][i];
     }
@@ -129,15 +129,19 @@ void Guide::parser(char *l)
   }
 }
 
+void Guide::behavior()
+{
+  enableBehavior(PERMANENT_MOVEMENT);	// guide movement
+  enableBehavior(SPECIFIC_RENDER);	// ramp rendering
+  enableBehavior(MIX_RENDER);		// skate rendering
+}
+
 Guide::Guide(char *l)
 {
   guide = this;
 
   parser(l);
-
-  enableBehavior(PERMANENT_MOVEMENT);	// guide movement
-  enableBehavior(SPECIFIC_RENDER);	// ramp rendering
-  enableBehavior(MIX_RENDER);		// skate rendering
+  behavior();
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
@@ -156,8 +160,8 @@ void Guide::updateTime(time_t sec, time_t usec, float *lasting)
   updateLasting(sec, usec, lasting);
 }
 
-/* Sets the user on the guide */
-void Guide::setUser()
+/* Stucks the user on the guide */
+void Guide::stuckUser()
 {
   // save initial position of the user
   userpos[0] = localuser->pos.x;
@@ -286,21 +290,22 @@ bool Guide::whenIntersect(WObject *pcur, WObject *pold)
     return true;
   }
 
-  // user only
-  if (restored) {
-    once = true;
-    restored = false;
-  }
+  //
+  // collision with user only
+  //
   if (once) {
     once = false;
-    setUser();
+    stuckUser();
     if (path[seg][4]) {	// pause
       signal(SIGALRM, sigguide);
       alarm((uint32_t) path[seg][4]);	// set delay
       pause = true;
     }
   }
-
+  if (restored) {
+    once = true;
+    restored = false;
+  }
   if (path[seg][3]) {	// speed present
     progress(pold);
   }
@@ -390,7 +395,7 @@ void Guide::quit()
 void Guide::visit_cb(Guide *o, void *d, time_t s, time_t u)
 {
   if (! o->stuck) {
-    o->setUser();
+    o->stuckUser();
   }
 }
 

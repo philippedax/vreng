@@ -97,7 +97,10 @@ private:
   void defaults();
   /**< Sets default values. */
 
-  void setUser();
+  void behavior();
+  /**< Sets behaviors of the guide. */
+
+  void stuckUser();
   /**< Sets User on the guide. */
 
   void motion(float *dx, float *dy, float *dz);
