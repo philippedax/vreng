@@ -474,6 +474,9 @@ public:
   char * parseString(char *ptok, char *str, const char *attrkey);
   /**< Returns a string under attr=string format */
 
+  char * parseString(char *ptok, char *str);
+  /**< Returns a string under attr=string format */
+
   char * parseQuotedString(char *ptok, char *str, const char *attrkey);
   /**< Returns a quoted string under attr=string format */
 
@@ -482,6 +485,14 @@ public:
 
   char * parseCaption(char *ptok, char *str, const char *attrkey);
   /**< Returns a caption string. */
+
+  char * parseRotation(char *ptok, Pos &p);
+  /**< Returns a rotation under r,X,Y,Z format */
+  char * parseTranslation(char *ptok, Pos &p);
+  /**< Returns a translation under tx,ty,tz format */
+
+  char * parseGuide(char *ptok, float path[][5], uint8_t *segs);
+  /**< Returns an array of position describing the guide */
 
   //
   // Network - Noid (Network Object Identifier)

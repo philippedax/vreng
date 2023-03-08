@@ -52,23 +52,23 @@ Transform::Transform(char *l)
   l = tokenize(l);
   while (l) {
     if (! stringcmp(l, "push")) {		// <local>
-      l = parse()->parseString(l, opstr);
+      l = parseString(l, opstr);
       addList(PUSH);
     }
     else if (! stringcmp(l, "pop")) {		// </local>
-      l = parse()->parseString(l, opstr);
+      l = parseString(l, opstr);
       addList(POP);
     }
     else if (! stringcmp(l, "rot") || !stringcmp(l, "rotation")) {
-      l = parse()->parseRotation(l, rot);
+      l = parseRotation(l, rot);
       addList(ROT, rot.x, rot.y, rot.z, rot.az);
     }
     else if (! stringcmp(l, "trans") || !stringcmp(l, "translation")) {
-      l = parse()->parseTranslation(l, trans);
+      l = parseTranslation(l, trans);
       addList(TRANS, trans.x, trans.y, trans.z);
     }
     else if (! stringcmp(l, "scale")) {
-      l = parse()->parseTranslation(l, scale);
+      l = parseTranslation(l, scale);
       addList(SCALE, scale.x, scale.y, scale.z);
     }
   }

@@ -1090,6 +1090,11 @@ char * WObject::parseString(char *l, char *str, const char *attrkey)
   return Parse::getParse()->parseString(l, str, attrkey);
 }
 
+char * WObject::parseString(char *l, char *str)
+{
+  return Parse::getParse()->parseString(l, str);
+}
+
 char * WObject::parseQuotedString(char *l, char *str, const char *attrkey)
 {
   return Parse::getParse()->parseQuotedString(l, str, attrkey);
@@ -1103,6 +1108,21 @@ char * WObject::parseQuotedString(char *l, char *str)
 char * WObject::parseCaption(char *l, char *str, const char *attrkey)
 {
   return Parse::getParse()->parseCaption(l, str, attrkey);
+}
+
+char * WObject::parseRotation(char *l, Pos &p)
+{
+  return Parse::getParse()->parseRotation(l, p);
+}
+
+char * WObject::parseTranslation(char *l, Pos &p)
+{
+  return Parse::getParse()->parseTranslation(l, p);
+}
+
+char * WObject::parseGuide(char *l, float path[][5], uint8_t *segs)
+{
+  return Parse::getParse()->parseGuide(l, &path[1], segs);
 }
 
 /* parse tag : tokenize the line */
