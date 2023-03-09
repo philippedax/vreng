@@ -871,7 +871,7 @@ public:
   void clearObjectBar();
   /**< Clears the ObjectBar in the GUI. */
 
-  void getObjectHumanName(char **classname, char **instancename, char **actionnames);
+  void getObjectNames(char **classname, char **instancename, char **actionnames);
   /**< Gives object's class_name & action names.
    * Called by GUI.
    */

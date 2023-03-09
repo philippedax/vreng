@@ -796,7 +796,6 @@ void WObject::updatePosition()
   updateAll3D(pos);
   if (bbBehavior()) {
     updateBB();
-    //dax updatePositionAndGrid(pos);	// segfault if uncommented
   }
   pos.alter = true;	// has changed
   updateDist();
@@ -971,7 +970,7 @@ void WObject::clearObjectBar()
  * Gives instance or class and action names of an object if it exists
  * called by GUI for infoBar
  */
-void WObject::getObjectHumanName(char **classname, char **instancename, char **actionnames)
+void WObject::getObjectNames(char **classname, char **instancename, char **actionnames)
 {
   int a;
   static char actionname[ACTIONSNUMBER][ACTIONNAME_LEN];
@@ -988,7 +987,7 @@ void WObject::getObjectHumanName(char **classname, char **instancename, char **a
   // copy actionname
   for (a=0; isActionName(type, a); a++) {
     copyActionName(type, a, actionname[a]);
-    trace(DBG_WO, "getObjectHumanName: type=%d a=%d name=%s", type, a, actionname[a]);
+    //echo("getObjectNames: t=%d a=%d n=%s", type, a, actionname[a]);
   }
   actionname[a][0] = '\0';
 }

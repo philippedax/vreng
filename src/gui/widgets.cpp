@@ -388,8 +388,8 @@ static void setWorld(GuiItem* gw, World *world, bool isCurrent)
 {
   if (! gw || !world)  return;
 
-  UFont *ft = isCurrent ? &UFont::bold : &UFont::plain;
-  gw->add(ft
+  UFont *font = isCurrent ? &UFont::bold : &UFont::plain;
+  gw->add(font
           + ustr(world->getName())
           + umenu(UFont::bold + UColor::navy
                   + uhbox(" URL: " + UFont::plain + world->getUrl())
@@ -457,7 +457,7 @@ WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 
   // Interaction GUI <--> 3D
   uint16_t num = g.render.bufferSelection(x, y);	// find object number in the Z-buffer
-  trace(DBG_GUI, "pointed: clic=%d,%d,%d num=%d", x, y, z, num);
+  trace(DBG_GUI, "pointed: clic=%d %d %d num=%d", x, y, z, num);
 
   WObject* object = WObject::byNum(num);
 
@@ -472,23 +472,24 @@ WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   }
 
   // an object has been selected
-  // get the object hname
-  object->getObjectHumanName(&classname, &instancename, &actionnames);
-  if (classname == NULL)  return NULL;
+  // get the object's names
+  object->getObjectNames(&classname, &instancename, &actionnames);
+  if (classname == NULL)
+    return NULL;
   objinfo[0].name = classname;
   if (instancename == NULL) instancename = (char *)"";
-  objinfo[1].name = instancename;   // TO BE COMPLETED
-  if (::g.pref.dbgtrace) trace(DBG_FORCE, "pointed: %s", classname);
+  objinfo[1].name = instancename;
+  if (::g.pref.dbgtrace) echo("pointed: %s", classname);
 
   // get actions of this object
   int i = 0;
   if (actionnames) {
-    for (i = 0; i < ACTIONSNUMBER ; i++) {
+    for (i=0; i < ACTIONSNUMBER ; i++) {
       if (*actionnames) {
         objinfo[i+2].name = actionnames;
         objinfo[i+2].fun  = objectActionCB;
         objinfo[i+2].farg = i;
-        trace(DBG_GUI, "i=%d act=%s", i, actionnames);
+        //echo("i=%d a=%s", i, actionnames);
       }
       actionnames += ACTIONNAME_LEN;	// AWFULL !!!
     }
@@ -1238,7 +1239,7 @@ static float alpha = 1;		// opaque
 static float size = .5;		// medium
 
 static const char chair_wood[] = "\
-<solid dim=\".25 .25 .01\" dif=\".5 .3 .1\" zp=\"/gif/wood.gif\" xp=\"/gif/wood.gif\" xn=\"/gif/wood.gif\" yp=\"/gif/wood.gif\" yn=\"/gif/wood.gif\" />\n\
+<solid dim=\".25 .25 .01\" dif=\".5 .3 .1\" tx=\"/gif/wood.gif\" />\n\
 <solid dim=\".02 .25 .25\" rel=\".12 0 .12 0 0\" dif=\".5 .3 .1\" />\n\
 <solid dim=\".01 .01 .25\" rel=\"-.12 .12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
 <solid dim=\".01 .01 .25\" rel=\".12 .12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
@@ -1246,7 +1247,7 @@ static const char chair_wood[] = "\
 <solid dim=\".01 .01 .25\" rel=\".12 -.12 -.12 0 0\" dif=\".5 .3 .1\" />\n\
 ";
 static const char table_wood[] = "\
-<solid dim=\".40 .80 .02\" dif=\".5 .3 .1\" yp=\"/gif/blondwood.gif\" xp=\"/gif/blondwood.gif\" xn=\"/gif/blondwood.gif\" yp=\"/gif/blondwood.gif\" yn=\"/gif/blondwood.gif\" />\n\
+<solid dim=\".40 .80 .02\" dif=\".5 .3 .1\" tx=\"/gif/blondwood.gif\" />\n\
 <solid dim=\".02 .02 .40\" rel=\"-.18 .38 -.20 0 0\" dif=\".5 .3 .1\" />\n\
 <solid dim=\".02 .02 .40\" rel=\".18 .38 -.20 0 0\"  dif=\".5 .3 .1\" />\n\
 <solid dim=\".02 .02 .40\" rel=\"-.18 -.38 -.20 0 0\" dif=\".5 .3 .1\" />\n\
