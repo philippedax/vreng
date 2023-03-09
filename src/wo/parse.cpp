@@ -553,19 +553,16 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   if (! stringcmp(ptok, "pos=")) {
     ptok = skipEqual(ptok);
   }
-
   ptok = skipQuotes(ptok);	// get pos.x
   if (isFloat(ptok))
     pos.x = (float) atof(ptok);
   else
     return nextToken();
-
   ptok = skipSepar(ptok);	// get pos.y
   if (isFloat(ptok))
     pos.y = (float) atof(ptok);
   else
     return nextToken();
-
   ptok = skipSepar(ptok);	// get pos.z
   if (isFloat(ptok)) {
     pos.z = (float) atof(ptok);
@@ -576,7 +573,6 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else {
     return nextToken();
   }
-
   ptok = skipSepar(ptok);	// get pos.az
   if (!ptok) {
     return nextToken();
@@ -590,7 +586,6 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else { // pos.az not float
     return ptok;
   }
-
   ptok = skipSepar(ptok);	// get pos.ax
   if (!ptok) {
     return nextToken();
@@ -604,7 +599,6 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else { // pos.ax not float
     if (!ptok) return ptok;
   }
-
   ptok = skipSepar(ptok);	// get pos.ay
   if (!ptok) {
     return nextToken();
@@ -667,7 +661,6 @@ char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
       ptok = nextToken();
     }
   }
-
   for (int i=0; ptok && (*ptok != '"'); i++) {
     path[i][0] = (float) atof(ptok); ptok = nextToken(); // x
     path[i][1] = (float) atof(ptok); ptok = nextToken(); // y
@@ -707,7 +700,6 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
   }
 
   ptok = solid->parser(ptok);	// calls its parser
-
   return ptok;
 }
 
@@ -740,7 +732,6 @@ char * Parse::parseRotation(char *ptok, Pos &p)
     if (*ptok == 0)
       ptok = nextToken();
   }
-
   p.az = (float) atof(ptok); ptok = skipSepar(ptok);
   p.x  = (float) atof(ptok); ptok = skipSepar(ptok);
   p.y  = (float) atof(ptok); ptok = skipSepar(ptok);
@@ -762,7 +753,6 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
     if (*ptok == 0)
       ptok = nextToken();
   }
-
   p.x  = (float) atof(ptok); ptok = skipSepar(ptok);
   p.y  = (float) atof(ptok); ptok = skipSepar(ptok);
   p.z  = (float) atof(ptok);
@@ -811,7 +801,7 @@ char * Parse::parseChannel(char *ptok, char *channel)
 }
 
 /* parse a string */
-// we assume that there is no space in the string, else loop bug for thr caller
+// we assume that there is no space in the string, else loop bug for the caller
 char * Parse::parseString(char *ptok, char *str)
 {
   if (ptok) {
@@ -970,7 +960,6 @@ char * Parse::parseVectorf(char *ptok, float *vector, int n)
   if (! isFloat(ptok)) {
     return ptok;	// parse color name
   }
-
   for (int i=0; i<n-1; i++) {		// n-1 intervals
     vector[i] = (float) atof(ptok);
     ptok = skipSepar(ptok);
@@ -1007,20 +996,11 @@ char * Parse::parseVector3f(char *ptok, float *vector)
   return nextToken();
 }
 
-char * Parse::parseVector5f(char *ptok, float *vector)
-{
-  if (!ptok)
-    return nextToken();	// sanity
-  ptok = parseVectorf(ptok, vector, 5);
-  if (!ptok)
-    return nextToken();
-  return ptok;
-}
-
 char * Parse::parseVector3fv(char *ptok, V3 *vector)
 {
-  if (!ptok)
+  if (!ptok) {
     return nextToken();
+  }
   ptok = skipQuotes(ptok);
   if (ptok) {
     vector->v[0] = (float) atof(ptok);
@@ -1048,4 +1028,15 @@ char * Parse::parseVector3fv(char *ptok, V3 *vector, const char *keystr)
     return parseVector3fv(ptok, vector);
   }
   return nextToken();
+}
+
+char * Parse::parseVector5f(char *ptok, float *vector)
+{
+  if (!ptok) {
+    return nextToken();	// sanity
+  }
+  ptok = parseVectorf(ptok, vector, 5);
+  if (!ptok)
+    return nextToken();
+  return ptok;
 }
