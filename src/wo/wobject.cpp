@@ -143,7 +143,7 @@ void WObject::initObject(uint8_t _mode)
 
   setWObjectId();
   updateNames();
-  //dax initPosition();
+  initPosition();
   addToList(objectList);	// add to objectList
 
   //echo("num=%d mode=%d type=%d", num, mode, type);
@@ -414,7 +414,7 @@ const WObject::SolidList& WObject::solids() const
   return _solids;
 }
 
-#if 0 //dax notused
+#if 0 //notused
 uint32_t WObject::countOfSolids() const
 {
   return _solids.size();
@@ -494,7 +494,6 @@ void WObject::deleteSolids()
       delete *it;
     }
   }
-  //dax8 _solids.erase(_solids.begin(), _solids.end());
 }
 
 void WObject::getPosition(M4& mpos)
@@ -744,7 +743,6 @@ void WObject::forceNames(const char *name)
     *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
   }
   names.instance = names.implicit;
-  //echo("names: t=%s i=%s", names.type, names.instance);
 }
 
 /* Updates Object names */
@@ -796,10 +794,9 @@ void WObject::initPosition()
 void WObject::updatePosition()
 {
   updateAll3D(pos);
-  //dax1 update3D(pos);
   if (bbBehavior()) {
     updateBB();
-    //dax updatePositionAndGrid(pos);
+    //dax updatePositionAndGrid(pos);	// segfault if uncommented
   }
   pos.alter = true;	// has changed
   updateDist();
@@ -961,7 +958,7 @@ void WObject::toDelete()
   }
   //dax8 deleteSolids();
   //dax8 if (solid) delete solid;
-  //dax8 solid = NULL;
+  solid = NULL;
 }
 
 /* Informs the GUI that a (possibly selected) object has been destroyed */
@@ -1004,7 +1001,6 @@ void WObject::click(GLint x, GLint y)
 {
   V3 dir;
 
-  //echo("x=%d y=%d", x,y);
   ::g.render.clickDirection(x, y, &dir);
   click(dir);	// execute click method if exists
 }
