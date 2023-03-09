@@ -26,9 +26,6 @@
 
 const OClass Carousel::oclass(CAROUSEL_TYPE, CAROUSEL_NAME, Carousel::creator);
 
-//local
-static X3d *x3dmodel = NULL;
-
 
 WObject * Carousel::creator(char *l)
 {
@@ -38,7 +35,7 @@ WObject * Carousel::creator(char *l)
 void Carousel::defaults()
 {
   x3d = NULL;
-  dimx = dimy = dimz = 0.2;	// minimum
+  V3 dim = {0.2, 0.2, 0.2};	// minimum size of BB
   scale = .5;
 }
 
@@ -50,15 +47,9 @@ void Carousel::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "url=")) l = parseUrl(l, names.url);
+    if      (! stringcmp(l, "url="))   l = parseUrl(l, names.url);
     else if (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
-    else if (! stringcmp(l, "dim=")) {
-      l = parse()->skipEqual(l);
-      l = parse()->skipQuotes(l);	// to get values
-      l = parse()->parseFloat(l, &dimx);
-      l = parse()->parseFloat(l, &dimy);
-      l = parse()->parseFloat(l, &dimz);
-    }
+    else if (! stringcmp(l, "dim="))   l = parseVector3fv(l, &dim, "dim");
   }
   end_while_parse(l);
 }
@@ -67,7 +58,7 @@ void Carousel::makeSolid()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", dimx, dimy, dimz);
+  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", dim.v[0], dim.v[1], dim.v[2]);
   parseSolid(s);
 }
 
@@ -76,16 +67,11 @@ Carousel::Carousel(char *l)
 {
   parser(l);
   makeSolid();
-
-  x3dmodel = x3d = new X3d(names.url);
-
   enableBehavior(SPECIFIC_RENDER);
-  initMobileObject(0);
-}
 
-X3d * Carousel::getx3d()
-{
-  return x3dmodel;
+  x3d = new X3d(names.url);
+
+  initMobileObject(0);
 }
 
 void Carousel::render()
@@ -129,12 +115,12 @@ void Carousel::stop(Carousel *carousel, void *d, time_t s, time_t u)
 /**< Sets flashy the X3d object */
 void Carousel::setFlashy(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  getx3d()->setFlashy();
+  carousel->x3d->setFlashy();
 }
 
 void Carousel::resetFlashy(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  getx3d()->resetFlashy();
+  carousel->x3d->resetFlashy();
 }
 
 void Carousel::funcs()

@@ -35,7 +35,7 @@ class Carousel: public WObject {
 
 private:
   X3d * x3d;
-  float dimx, dimy, dimz;
+  V3 dim;
   float scale;
 
 public:
@@ -54,8 +54,6 @@ public:
   void render();
 
   bool whenIntersect(WObject *pcur, WObject *pold);
-
-  static X3d * getx3d();
 
 private:
 
