@@ -134,17 +134,17 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "translation")) {
-        if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->translation,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->translation,3))
           shape->translationOn = true;
         else error("Translation non correcte !");
       }
       else if (isEqual(attr, "rotation")) {
-        if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->rotation,4))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->rotation,4))
           shape->rotationOn = true;
         else error("Rotation non correcte !");
       }
       else if (isEqual(attr, "scale")) {
-        if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->scale,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->scale,3))
           shape->scaleOn = true;
         else error("Scale non correcte !");
       }
@@ -158,27 +158,27 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "emissiveColor")) {
-        if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->emissive,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->emissive,3))
           shape->emissiveOn = true;
       }
       else if (isEqual(attr, "diffuseColor")) {
-        if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->diffuse,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->diffuse,3))
           shape->diffuseOn = true;
       }
       else if (isEqual(attr, "specularColor")) {
-        if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),shape->specular,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->specular,3))
           shape->specularOn = true;
       }
       else if (isEqual(attr, "ambientIntensity")) {
-        if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),&shape->ambientIntensity,1))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),&shape->ambientIntensity,1))
           shape->ambientIntensityOn = true;
       }
       else if (isEqual(attr, "shininess")) {
-        if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),&shape->shininess,1))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),&shape->shininess,1))
           shape->shininessOn = true;
       }
       else if (isEqual(attr, "transparency")) {
-        if (VectorTools::parseFloats(xmlnode->getAttributeValue(i),&shape->transparency,1))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),&shape->transparency,1))
           shape->transparencyOn = true;
       }
       else if (isEqual(attr, "DEF")) {
@@ -199,21 +199,21 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "point"))
-        VectorTools::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.Coordinate,3);
+        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.Coordinate,3);
     }
   }
   else if (isEqual(nodeName, "TextureCoordinate")) {
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "point"))
-        VectorTools::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.TextureCoordinate,2);
+        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.TextureCoordinate,2);
     }
   }
   else if (isEqual(nodeName, "Color")) {
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "color"))
-        VectorTools::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.Color,3);
+        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.Color,3);
     }
   }
   else if (isEqual(nodeName, "ColorInterpolator") ||
@@ -271,7 +271,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
-        VectorTools::parseVectors(temp,&shape->meshInfos.coordIndex);
+        Vectors::parseVectors(temp,&shape->meshInfos.coordIndex);
       }
       else if (isEqual(attr, "texCoordIndex")) {
         string temp(xmlnode->getAttributeValue(i));
@@ -280,7 +280,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
-        VectorTools::parseVectors(temp,&shape->meshInfos.texCoordIndex);
+        Vectors::parseVectors(temp,&shape->meshInfos.texCoordIndex);
       }
       else if (isEqual(attr, "colorIndex")) {
         string temp(xmlnode->getAttributeValue(i));
@@ -289,7 +289,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
-        VectorTools::parseVectors(temp, &shape->meshInfos.colorIndex);
+        Vectors::parseVectors(temp, &shape->meshInfos.colorIndex);
       }
     }
     // we draw the complex mesh with the stored data
@@ -459,27 +459,27 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
   // we display what we have in the temporary structure
   echo("New mesh in creation:");
   printf("coordindex: ");
-  VectorTools::displayVector(& meshInfos->coordIndex);
+  Vectors::displayVector(& meshInfos->coordIndex);
   printf("\n");
 
   printf("texcoordindex: ");
-  VectorTools::displayVector(& meshInfos->texCoordIndex);
+  Vectors::displayVector(& meshInfos->texCoordIndex);
   printf("\n");
 
   printf("colordindex: ");
-  VectorTools::displayVector(& meshInfos->colorIndex);
+  Vectors::displayVector(& meshInfos->colorIndex);
   printf("\n");
 
   printf("coordinate: ");
-  VectorTools::displayVector(& meshInfos->Coordinate);
+  Vectors::displayVector(& meshInfos->Coordinate);
   printf("\n");
 
   printf("texturecoordinate: ");
-  VectorTools::displayVector(& meshInfos->TextureCoordinate);
+  Vectors::displayVector(& meshInfos->TextureCoordinate);
   printf("\n");
 
   printf("color: ");
-  VectorTools::displayVector(& meshInfos->Color);
+  Vectors::displayVector(& meshInfos->Color);
   printf("\n");
 #endif
 
@@ -792,10 +792,10 @@ void X3d::resetAnimations()
 
 
 /*
- * VectorTools methods
+ * Vectors methods
  */
 
-bool VectorTools::parseFloats(const string str, float* outputs, uint32_t number)
+bool Vectors::parseFloats(const string str, float* outputs, uint32_t number)
 {
   vector<vector<float> > tempOutput;
 
@@ -813,7 +813,7 @@ bool VectorTools::parseFloats(const string str, float* outputs, uint32_t number)
 }
 
 /* returns true if succeeded, false else */
-bool VectorTools::parseFloats(const string str, vector<float>* output)
+bool Vectors::parseFloats(const string str, vector<float>* output)
 {
   vector<vector<float> > tempOutput;
 
@@ -829,7 +829,7 @@ bool VectorTools::parseFloats(const string str, vector<float>* output)
   return false;
 }
 
-bool VectorTools::parseCertifiedVectors(const string str, vector<vector<float> >* outputs, uint32_t vectorLength, uint32_t numVector)
+bool Vectors::parseCertifiedVectors(const string str, vector<vector<float> >* outputs, uint32_t vectorLength, uint32_t numVector)
 {
   bool res = parseVectors(str, outputs);
 
@@ -848,7 +848,7 @@ bool VectorTools::parseCertifiedVectors(const string str, vector<vector<float> >
   return res;
 }
 
-bool VectorTools::parseVectors(const string str, vector<vector<float> > *outputs)
+bool Vectors::parseVectors(const string str, vector<vector<float> > *outputs)
 {
   int limit = str.size();
   int in = 0;
@@ -910,7 +910,7 @@ bool VectorTools::parseVectors(const string str, vector<vector<float> > *outputs
   return true;
 }
 
-void VectorTools::displayVector(vector<vector<float> >* outputs)
+void Vectors::displayVector(vector<vector<float> >* outputs)
 {
   for (vector<vector<float> >::iterator i = outputs->begin(); i != outputs->end(); i++) {
     for (vector<float>::iterator j = i->begin(); j != i->end(); j++) {
@@ -919,7 +919,7 @@ void VectorTools::displayVector(vector<vector<float> >* outputs)
   }
 }
 
-void VectorTools::displayVector(vector<float>* outputs)
+void Vectors::displayVector(vector<float>* outputs)
 {
   for (vector<float>::iterator i = outputs->begin(); i != outputs->end(); i++) {
     printf("%.3f ", *i);
@@ -970,9 +970,9 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
     if (X3d::isEqual(attr, "DEF"))
       name = xmlnode->getAttributeValue(i);
     else if (X3d::isEqual(attr, "key"))
-      VectorTools::parseFloats(xmlnode->getAttributeValue(i), &keys);
+      Vectors::parseFloats(xmlnode->getAttributeValue(i), &keys);
     else if (X3d::isEqual(attr, "keyValue"))
-      VectorTools::parseCertifiedVectors(xmlnode->getAttributeValue(i), &keyValues, vectorSize);
+      Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i), &keyValues, vectorSize);
   }
 
   if (name == "") {
@@ -988,7 +988,7 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
     return false;
   }
   if (keys.front() != 0 || keys.back() != 1) {
-    VectorTools::displayVector(&keys);
+    Vectors::displayVector(&keys);
     error("interpolator bounding keys must be 0 and 1, not %.2f and %.2f, in %s", keys.front(), keys.back(),name.c_str());
     return false;
   }
@@ -1002,10 +1002,10 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
 
   //echo("interpolator added: %s of type %d", name.c_str(), type);
   //printf("Valeurs Key: ");
-  //VectorTools::displayVector(&keys);
+  //Vectors::displayVector(&keys);
   //printf("\n");
   //printf("Valeurs KeyValues: ");
-  //VectorTools::displayVector(&keyValues);
+  //Vectors::displayVector(&keyValues);
   //printf("\n");
 
   return true;
@@ -1219,7 +1219,7 @@ bool TimeSensor::initSensor(XMLNode* xmlnode)
       name = strdup(xmlnode->getAttributeValue(i));
     }
     else if (X3d::isEqual(attr, "cycleInterval")) {
-      VectorTools::parseFloats(xmlnode->getAttributeValue(i), &cycleIntervalMs, 1);
+      Vectors::parseFloats(xmlnode->getAttributeValue(i), &cycleIntervalMs, 1);
       cycleIntervalMs *= 1000;
     }
     else if (X3d::isEqual(attr, "loop")) {

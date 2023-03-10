@@ -32,7 +32,7 @@ using namespace std;
 //The classes we have below
 class X3d;
 class X3dShape;
-class VectorTools;
+class Vectors;
 class Interpolator;
 class TimeSensor;
 class Route;
@@ -70,9 +70,9 @@ struct MeshInfos
 
 
 /**
- * VectorTools class
+ * Vectors class
  */
-class VectorTools {
+class Vectors {
  public:
 
   static bool parseFloats(const string str, float* outputs, uint32_t number);
