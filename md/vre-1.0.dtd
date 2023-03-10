@@ -24,7 +24,7 @@
 <!ELEMENT scene (
 		accessory | animator | aoi | area |
 		bgcolor | bird | board | book | bumper | button | 
-		carousel | cauldron | clip | clock | cloud | cloth |
+		carousel | cauldron | clip | clock | cloth | cloud |
 		doc | door | download | dress | drone |
 		entry | escalator |
 		fire | firework | flag | fog | fountain | fractal |
@@ -138,19 +138,19 @@
 <!ATTLIST clock		descr	NMTOKENS #IMPLIED>
 <!ATTLIST clock		needle	(s | m | h | sec | min | hour) #REQUIRED>
 
-<!ELEMENT cloud		EMPTY>
-<!ATTLIST cloud		pos	NMTOKENS #REQUIRED>
-<!ATTLIST cloud		name	NMTOKEN #IMPLIED>
-<!ATTLIST cloud		descr	NMTOKENS #IMPLIED>
-<!ATTLIST cloud		number	NMTOKEN "200">
-<!ATTLIST cloud		speed	NMTOKEN "0.025">
-
 <!ELEMENT cloth		EMPTY>
 <!ATTLIST cloth		pos	NMTOKENS #REQUIRED>
 <!ATTLIST cloth		name	NMTOKEN #IMPLIED>
 <!ATTLIST cloth		descr	NMTOKENS #IMPLIED>
 <!ATTLIST cloth		article	(halo | hat | dress | wings) #REQUIRED>
 <!ATTLIST cloth		color	NMTOKENS #IMPLIED>
+
+<!ELEMENT cloud		EMPTY>
+<!ATTLIST cloud		pos	NMTOKENS #REQUIRED>
+<!ATTLIST cloud		name	NMTOKEN #IMPLIED>
+<!ATTLIST cloud		descr	NMTOKENS #IMPLIED>
+<!ATTLIST cloud		number	NMTOKEN "200">
+<!ATTLIST cloud		speed	NMTOKEN "0.025">
 
 <!ELEMENT doc		(solid)>
 <!ATTLIST doc		pos	NMTOKENS #REQUIRED>
