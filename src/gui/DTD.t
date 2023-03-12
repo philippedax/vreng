@@ -25,7 +25,7 @@ const char DTD[] = "\
 <!ELEMENT scene (\n\
 		accessory | animator | aoi | area |\n\
 		bgcolor | bird | board | book | bumper | button | \n\
-		carousel | cauldron | clip | clock | cloud | cloth |\n\
+		carousel | cauldron | clip | clock | cloth | cloud |\n\
 		doc | door | download | dress | drone |\n\
 		entry | escalator |\n\
 		fire | firework | flag | fog | fountain | fractal |\n\
@@ -139,19 +139,19 @@ const char DTD[] = "\
 <!ATTLIST clock		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST clock		needle	(s | m | h | sec | min | hour) #REQUIRED>\n\
 \n\
-<!ELEMENT cloud		EMPTY>\n\
-<!ATTLIST cloud		pos	NMTOKENS #REQUIRED>\n\
-<!ATTLIST cloud		name	NMTOKEN #IMPLIED>\n\
-<!ATTLIST cloud		descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST cloud		number	NMTOKEN \"200\">\n\
-<!ATTLIST cloud		speed	NMTOKEN \"0.025\">\n\
-\n\
 <!ELEMENT cloth		EMPTY>\n\
 <!ATTLIST cloth		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST cloth		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST cloth		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST cloth		article	(halo | hat | dress | wings) #REQUIRED>\n\
 <!ATTLIST cloth		color	NMTOKENS #IMPLIED>\n\
+\n\
+<!ELEMENT cloud		EMPTY>\n\
+<!ATTLIST cloud		pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST cloud		name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST cloud		descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST cloud		number	NMTOKEN \"200\">\n\
+<!ATTLIST cloud		speed	NMTOKEN \"0.025\">\n\
 \n\
 <!ELEMENT doc		(solid)>\n\
 <!ATTLIST doc		pos	NMTOKENS #REQUIRED>\n\

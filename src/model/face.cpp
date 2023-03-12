@@ -140,7 +140,7 @@ void Face::facesHttpReader(void *_face, Http *http)
   http->reset();
   while (http->getLine(line)) {
     char *faceurl = strdup(line);
-    trace(DBG_MAN, "facesHttpReader: add url=%s", faceurl);
+    //echo("facesHttpReader: add url=%s", faceurl);
     face->urlList.addElement(faceurl);
     free(faceurl);
   }
@@ -153,7 +153,7 @@ void Face::change()
   currentUrl++;
   currentUrl %= urlList.count();
   char *urlface = urlList.getElemAt(currentUrl);
-  trace(DBG_MAN, "change: urlface=%s", urlface);
+  //echo("change: urlface=%s", urlface);
   if (! isascii(urlface[0])) {
     error("change: BUG! urlface=%02x", urlface[0]);
     return;
@@ -167,7 +167,7 @@ void Face::load(const char *url)
   BoneVertex *newroot = new BoneVertex();
 
   if (Cache::setCachePath(url, cachefile) == 0) {
-    error("Face: file=%s url=%s", cachefile, url);
+    error("Face load: file=%s url=%s", cachefile, url);
     return;
   }
   Http::httpOpen(url, httpReader, (void *)url, 0);
@@ -200,7 +200,7 @@ void Face::animHead(float angle, int x, int y, int z)
   // 0,1,0 pitch (yes)
   // 1,0,0 yaw   (no)
   // 0,0,1 roll  (maybe)
-  trace(DBG_MAN, "animHead: angle=%.2f", angle);
+  //echo("animHead: angle=%.2f", angle);
   if ((bone = root->findBone(headRoot)) != NULL)
     bone->setRot(sin(angle/50.0) *10 , x, y, z);
   else
@@ -212,7 +212,7 @@ void Face::animNose(float angle, const char *_side)
   BoneVertex *bone;
   float scale = 1 - cos(angle / 16.) / 4.;
 
-  trace(DBG_MAN, "animNose: angle=%.2f scale=%.2f", angle, scale);
+  //echo("animNose: angle=%.2f scale=%.2f", angle, scale);
   if ((bone = root->findBone(noseRoot)) != NULL) {
     if ((bone = root->findBone(_side)) != NULL) {
       bone->resetPos();
@@ -228,7 +228,7 @@ void Face::animEyeBall(float angle, const char *_side, int dir)
   BoneVertex *bone;
   float scale = 1 - cos(angle / 16.) /* / 2. */;
 
-  trace(DBG_MAN, "animEyeBall: angle=%.2f scale=%.2f dir=%d", angle, scale, dir);
+  //echo("animEyeBall: angle=%.2f scale=%.2f dir=%d", angle, scale, dir);
     if ((bone = root->findBone(_side)) != NULL) {
       bone->resetPos();
       bone->setScale(scale, 1, 1);
@@ -254,7 +254,7 @@ void Face::animEyeLid(float angle, const char *root1, const char *lid, const cha
         sign = 1;
       else
         sign = -1;
-      trace(DBG_MAN, "animEyeLid: angle=%.2f scale=%.2f rot=%.2f", angle, scale, sign*(1-scale)*20);
+      //echo("animEyeLid: angle=%.2f scale=%.2f rot=%.2f", angle, scale, sign*(1-scale)*20);
       bone->resetPos();
       bone->setScale(1, scale, 1);
       bone->setRot(sign * (1-scale) * 20., 1,0,0);
@@ -279,7 +279,7 @@ void Face::animEyeBrow(float angle, const char *_root, const char *_side)
   BoneVertex *bone;
   float scale = cos(angle / 5.0);
 
-  trace(DBG_MAN, "animEyeBrow: angle=%.2f scale=%.2f", angle, scale);
+  //echo("animEyeBrow: angle=%.2f scale=%.2f", angle, scale);
   if ((bone = root->findBone(_root)) != NULL) {
     bone->resetPos();
     bone->setTrans(0, scale / 25.0, 0);
@@ -303,7 +303,7 @@ void Face::animLip(float angle, const char *_side)
     Vect3D delta(0, cos(angle/ 10.0) / 4., 0);
     float smile = cos(angle / 10.0) * 20;
 
-    trace(DBG_FORCE, "animLip: angle=%.2f smile=%.2f", angle, smile);
+    //echo("animLip: angle=%.2f smile=%.2f", angle, smile);
     if ((bone = root->findBone(_side)) != NULL) {
       bone->resetPos();
       bone->setTrans(delta);
@@ -342,19 +342,19 @@ void Face::animate(int fapn, int a)
     //if (a) echo("STRETCH_R_CORNERLIP %s a=%d", e_not_implemented, a);
     break;
   case LOWER_T_LIP_LM:		// 8
-    if (a) trace(DBG_MAN, "LOWER_T_LIP_LM a=%d", a);
+    if (a) //echo("LOWER_T_LIP_LM a=%d", a);
     animLip(a, lipsTopL);
     break;
   case LOWER_T_LIP_RM:		// 9
-    if (a) trace(DBG_MAN, "LOWER_T_LIP_RM a=%d", a);
+    if (a) //echo("LOWER_T_LIP_RM a=%d", a);
     animLip(a, lipsTopR);
     break;
   case RAISE_B_LIP_LM:		// 10
-    if (a) trace(DBG_MAN, "LOWER_B_LIP_LM a=%d", a);
+    if (a) //echo("LOWER_B_LIP_LM a=%d", a);
     animLip(a, lipsBotL);
     break;
   case RAISE_B_LIP_RM:		// 11
-    if (a) trace(DBG_MAN, "LOWER_B_LIP_RM a=%d", a);
+    if (a) //echo("LOWER_B_LIP_RM a=%d", a);
     animLip(a, lipsBotR);
     break;
   case RAISE_L_CORNERLIP:	// 12
@@ -413,27 +413,27 @@ void Face::animate(int fapn, int a)
     //if (a) echo("DILATE_PUPIL %s a=%d", e_not_implemented, a);
     break;
   case RAISE_L_I_EYEBROW:	// 31
-    if (a) trace(DBG_MAN, "RAISE_L_I_EYEBROW a=%d", a);
+    if (a) //echo("RAISE_L_I_EYEBROW a=%d", a);
     animEyeBrow(a, browLeftRoot, browRightL);
     break;
   case RAISE_R_I_EYEBROW:	// 32
-    if (a) trace(DBG_MAN, "RAISE_R_I_EYEBROW a=%d", a);
+    if (a) //echo("RAISE_R_I_EYEBROW a=%d", a);
     animEyeBrow(a, browRightRoot, browRightR);
     break;
   case RAISE_L_M_EYEBROW:	// 33
-    if (a) trace(DBG_MAN, "RAISE_L_M_EYEBROW a=%d", a);
+    if (a) //echo("RAISE_L_M_EYEBROW a=%d", a);
     animEyeBrow(a, browLeftRoot, browRightL);
     break;
   case RAISE_R_M_EYEBROW:	// 34
-    if (a) trace(DBG_MAN, "RAISE_R_M_EYEBROW a=%d", a);
+    if (a) //echo("RAISE_R_M_EYEBROW a=%d", a);
     animEyeBrow(a, browRightRoot, browRightR);
     break;
   case RAISE_L_O_EYEBROW:	// 35
-    if (a) trace(DBG_MAN, "RAISE_L_O_EYEBROW a=%d", a);
+    if (a) //echo("RAISE_L_O_EYEBROW a=%d", a);
     animEyeBrow(a, browLeftRoot, browRightL);
     break;
   case RAISE_R_O_EYEBROW:	// 36
-    if (a) trace(DBG_MAN, "RAISE_R_O_EYEBROW a=%d", a);
+    if (a) //echo("RAISE_R_O_EYEBROW a=%d", a);
     animEyeBrow(a, browRightRoot, browRightR);
     break;
   case SQUEEZE_L_EYEBROW:	// 37
@@ -458,15 +458,15 @@ void Face::animate(int fapn, int a)
     //if (a) echo("TONGUE %s", e_not_implemented);
     break;
   case HEAD_PITCH:		// 48
-    if (a) trace(DBG_MAN, "HEAD_PITCH a=%d", a);
+    if (a) //echo("HEAD_PITCH a=%d", a);
     animHead(a, 0, 1, 0);	// yes
     break;
   case HEAD_YAW:		// 49
-    if (a) trace(DBG_MAN, "HEAD_YAW a=%d", a);
+    if (a) //echo("HEAD_YAW a=%d", a);
     animHead(a, 1, 0, 0);	// no
     break;
   case HEAD_ROLL:		// 50
-    if (a) trace(DBG_MAN, "HEAD_ROLL a=%d", a);
+    if (a) //echo("HEAD_ROLL a=%d", a);
     animHead(a, 0, 0, 1);	// maybe
     break;
   case LOWER_T_MIDLIP_O:	// 51
@@ -482,19 +482,19 @@ void Face::animate(int fapn, int a)
     //if (a) echo("STRETCH_R_CORNERLIP_O %s a=%d", e_not_implemented, a);
     break;
   case LOWER_T_LIP_LM_O:	// 55
-    if (a) trace(DBG_MAN, "LOWER_T_LIP_LM_O a=%d", a);
+    if (a) //echo("LOWER_T_LIP_LM_O a=%d", a);
     animLip(a, lipsTopL);
     break;
   case LOWER_T_LIP_RM_O:	// 56
-    if (a) trace(DBG_MAN, "LOWER_T_LIP_RM_O a=%d", a);
+    if (a) //echo("LOWER_T_LIP_RM_O a=%d", a);
     animLip(a, lipsTopR);
     break;
   case RAISE_B_LIP_LM_O:	// 57
-    if (a) trace(DBG_MAN, "RAISE_B_LIP_LM_O a=%d", a);
+    if (a) //echo("RAISE_B_LIP_LM_O a=%d", a);
     animLip(a, lipsBotL);
     break;
   case RAISE_B_LIP_RM_O:	// 58
-    if (a) trace(DBG_MAN, "RAISE_B_LIP_RM_O a=%d", a);
+    if (a) //echo("RAISE_B_LIP_RM_O a=%d", a);
     animLip(a, lipsBotR);
     break;
   case RAISE_L_CORNERLIP_O:	// 59
@@ -504,11 +504,11 @@ void Face::animate(int fapn, int a)
     //if (a) echo("RAISE_R_CORNERLIP_O %s a=%d", e_not_implemented, a);
     break;
   case STRETCH_L_NOSE:		// 61
-    if (a) trace(DBG_MAN, "STRETCH_L_NOSE a=%d", a);
+    if (a) //echo("STRETCH_L_NOSE a=%d", a);
     animNose(a, noseLeft);
     break;
   case STRETCH_R_NOSE:		// 62
-    if (a) trace(DBG_MAN, "STRETCH_R_NOSE a=%d", a);
+    if (a) //echo("STRETCH_R_NOSE a=%d", a);
     animNose(a, noseRight);
     break;
   case RAISE_NOSE:		// 63
