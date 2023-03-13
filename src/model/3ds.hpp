@@ -34,6 +34,31 @@
 #include "vec3.hpp"	// Vec3
 #include <vector>
 
+// Primary Chunk, at the beginning of each file
+#define _3DS_PRIMARY    0x4D4D
+
+// Main Chunks
+#define _3DS_OBJECTINFO 0x3D3D	// This gives the version of the mesh and is found right before the material and object information
+#define _3DS_VERSION	0x0002	// This gives the version of the .3ds file
+#define _3DS_KEYFRAME	0xB000	// This is the header for all of the key frame info
+
+// sub defines of _3DS_OBJECTINFO
+#define _3DS_MATERIAL   0xAFFF  // This stored the texture info
+#define _3DS_OBJECT     0x4000  // This stores the faces, vertices, etc...
+
+// sub defines of _3DS_MATERIAL
+#define _3DS_MATNAME    0xA000  // This holds the material name
+#define _3DS_MATDIFFUSE 0xA020  // This holds the color of the object/material
+#define _3DS_MATMAP     0xA200  // This is a header for a new material
+#define _3DS_MATMAPFILE 0xA300  // This holds the file name of the texture
+
+#define _3DS_OBJECT_MESH 0x4100 // This lets us know that we are reading a new object
+
+// sub defines of _3DS_OBJECT_MESH
+#define _3DS_OBJECT_VERTICES    0x4110  // The objects vertices
+#define _3DS_OBJECT_FACES       0x4120  // The objects faces
+#define _3DS_OBJECT_MATERIAL    0x4130  // This is found if the object has a material, either texture map or color
+#define _3DS_OBJECT_UV          0x4140  // The UV texture coordinates
 
 /**
  * This is our face structure.
@@ -143,17 +168,15 @@ class _3ds {
   void draw();
   /**< Model drawing */
 
+  bool import(FILE *f);
+
   bool importModel(t3dsModel *pModel);
 
   bool importTextures();
 
-  int loadTexture(const char *imgFile);
+  int openTexture(const char *imgfile);
 
-  void bindTexture2D(int textureId);
-
-  const char * getUrl() const;
-
-  bool loadFromFile(FILE *f);
+  const char *getUrl() const;
 
   int getString(char *);
   /**< This reads in a string and saves it in the char array passed in */
