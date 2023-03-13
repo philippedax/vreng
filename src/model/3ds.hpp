@@ -163,7 +163,7 @@ class _3ds {
   /**< Draws in display list */
 
  private:
-  static void httpReader(void *_3ds, class Http *http);
+  static void reader(void *_3ds, class Http *http);
 
   void draw();
   /**< Model drawing */

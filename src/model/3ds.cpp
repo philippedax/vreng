@@ -48,7 +48,7 @@ _3ds::_3ds(const char *_url) :
 
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  Http::httpOpen(url, _3ds::httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
   displaylist();
 }
 
@@ -176,7 +176,7 @@ const char * _3ds::getUrl() const
   return (const char *) url;
 }
 
-void _3ds::httpReader(void *__3ds, Http *http)
+void _3ds::reader(void *__3ds, Http *http)
 {
   _3ds *_3d = (_3ds *) __3ds;
   if (! _3d) return;
