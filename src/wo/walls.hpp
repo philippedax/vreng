@@ -71,10 +71,10 @@ private:
   void makeSolid();
   /**< Sets solid values */
 
-  static void httpReader(void *va, class Http *http);
-  /**< download walls */
-
   const char * getUrl() const;
+
+  static void reader(void *va, class Http *http);
+  /**< download walls */
 
 };
 

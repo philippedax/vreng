@@ -40,7 +40,7 @@ WObject * Walls::creator(char *l)
 }
 
 /** Walls loader */
-void Walls::httpReader(void *_walls, Http *http)
+void Walls::reader(void *_walls, Http *http)
 {
   Walls *walls = (class Walls *) _walls;
   if (! walls) return;
@@ -115,7 +115,7 @@ Walls::Walls(char *l)
 
   initStillObject();
 
-  Http::httpOpen(names.url, httpReader, this, 0);
+  Http::httpOpen(names.url, reader, this, 0);
 
   draw();	// draws the walls
 }
