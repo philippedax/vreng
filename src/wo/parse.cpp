@@ -267,7 +267,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
   return TAG_OBJECT;
 }
 
-/* parse vre data, called by World::httpReader */
+/* parse vre data, called by World::worldReader */
 int Parse::parseVreFile(char *buf, int bufsiz)
 {
   int len = 0;	// line length
