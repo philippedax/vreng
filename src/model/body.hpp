@@ -613,8 +613,8 @@ protected:
   void load(const char *url);
   /**< Loads body joint points. */
 
-  static void httpReader(void *o, class Http *http);
-  /**< Reads joint points par Http. */
+  static void reader(void *o, class Http *http);
+  /**< Reads joint points. */
 
   void draw();
   /**< Draws body's drawable parts in displaylists. */

@@ -654,7 +654,7 @@ void Body::load(const char *_url)
 {
   url = new char[URL_LEN];
   strcpy(url, _url);
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
 }
 
 char * Body::getUrl() const
@@ -663,7 +663,7 @@ char * Body::getUrl() const
 }
 
 /** load joint points (static) */
-void Body::httpReader(void *_body, Http *http)
+void Body::reader(void *_body, Http *http)
 {
   Body *body = (Body *) _body;
 
