@@ -207,7 +207,7 @@ void Lwo::readPnts(FILE *f, int nbytes)
   }
 }
 
-void Lwo::httpReader(void *alwo, Http *http)
+void Lwo::reader(void *alwo, Http *http)
 {
   Lwo *lwo = (Lwo *) alwo;
   if (! lwo) return;
@@ -261,7 +261,7 @@ Lwo::Lwo(const char *url)
   dlist = 0;
 
   strcpy(lwourl, url);
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
   return;
 }
 

@@ -77,7 +77,7 @@ public:
   void setScale(float scale);
 
 private:
-  static void httpReader(void *_lwo, class Http *http);
+  static void reader(void *_lwo, class Http *http);
 
   void readSrfs(FILE *f, int nbytes);
   void readSurf(FILE *f, int nbytes);
