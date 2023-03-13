@@ -53,7 +53,7 @@ Obj::Obj(const char *_url, int _flgpart)
   flgpart = _flgpart;
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  if (! flgpart) Http::httpOpen(url, httpReader, this, 0);
+  if (! flgpart) Http::httpOpen(url, reader, this, 0);
 }
 
 /** Destructor: Free the faces, normals, vertices, and texture coordinates */
@@ -69,20 +69,20 @@ Obj::~Obj()
   if (dlist > 0) glDeleteLists(dlist, 1);
 }
 
-void Obj::httpReader(void *_obj, Http *http)
+void Obj::reader(void *_obj, Http *http)
 {
   Obj *obj = (Obj *) _obj;
   if (! obj) return;
 
   Cache *cache = new Cache();
   FILE *f = cache->open(obj->getUrl(), http);
-  obj->loadFromFile(f);
+  obj->import(f);
   if (! obj->flgpart) obj->displaylist();
   cache->close();
   delete cache;
 }
 
-bool Obj::loadFromFile(FILE *f)
+bool Obj::import(FILE *f)
 {
   fp = f;
 
@@ -106,7 +106,7 @@ bool Obj::importTextures()
 
   for (int i=0; i < OBJModel.numOfMaterials; i++) {
     if (strlen(OBJModel.pMaterials[i].strFile) > 0) {
-      id = loadTexture(OBJModel.pMaterials[i].strFile);
+      id = openTexture(OBJModel.pMaterials[i].strFile);
       if (id < 0) {
         error("texture %s not loaded", OBJModel.pMaterials[i].strFile);
         return false;
@@ -117,7 +117,7 @@ bool Obj::importTextures()
   return true;
 }
 
-int Obj::loadTexture(const char *file)
+int Obj::openTexture(const char *file)
 {
   char *end = strrchr(url, '/');
   int i=0;
@@ -127,14 +127,6 @@ int Obj::loadTexture(const char *file)
   sprintf(&url_tex[i], "/%s", file);
 
   return Texture::open(url_tex);
-}
-
-void Obj::bindTexture2D(int texid)
-{
-  if (texid > 0) {
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texid);
-  }
 }
 
 float Obj::getRadius()
@@ -195,7 +187,9 @@ void Obj::render(float *color)
   glEnable(GL_COLOR_MATERIAL);
   glScalef(currentScale, currentScale, currentScale);
   glColor3fv(color);
+
   glCallList(dlist);
+
   glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
 }
@@ -211,9 +205,11 @@ void Obj::render(const Pos &pos, float *color)
   glScalef(currentScale, currentScale, currentScale);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
-  //glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
+  glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
   glColor3fv(color);
+
   glCallList(dlist);
+
   glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
 }
@@ -445,10 +441,12 @@ void Obj::fillInObjectInfo(tOBJModel *pmodel)
       pobject->pFaces[i].coordIndex[j] -= 1 + textureOffset;
     }
   }
-  for (i=0; i < pobject->numOfVerts; i++)  // go through all the vertices in the object
+  for (i=0; i < pobject->numOfVerts; i++) { // go through all the vertices in the object
     pobject->pVerts[i] = pVertices[i];  // copy the current vertice from the temporary list
-  for (i=0; i < pobject->numTexVertex; i++)   // go through all of the texture coordinates
+  }
+  for (i=0; i < pobject->numTexVertex; i++) { // go through all of the texture coordinates
     pobject->pTexVerts[i] = pTextureCoords[i]; // copy the current UV coordinate
+  }
 
   // .OBJ files don't have materials, we set the material ID to -1.
   pobject->materialID = -1;

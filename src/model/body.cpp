@@ -804,7 +804,7 @@ endparse:
         break;
       case MODEL_OBJ:
         bodyparts[i].obj = new Obj(bodyparts[i].url, 1);
-        Http::httpOpen(bodyparts[i].url, Obj::httpReader, bodyparts[i].obj, 0);
+        Http::httpOpen(bodyparts[i].url, Obj::reader, bodyparts[i].obj, 0);
         bodyparts[i].obj->setScale(bscale * bodyparts[i].scale);
         if (bodyparts[i].texurl[0]) { // if url exist
           bodyparts[i].texid = Texture::open(bodyparts[i].texurl);

@@ -127,9 +127,6 @@ public:
   float getRadius();
   /**< Gets the radius */
 
-  void bindTexture2D(int textureId);
-  /**< Binds texture number */
-
   GLint displaylist();
   /**< Draws in displaylist */
 
@@ -140,7 +137,7 @@ public:
   virtual void render(const Pos &pos, float *color);
   /**< Model rendering */
 
-  static void httpReader(void *aobj, class Http *http);
+  static void reader(void *aobj, class Http *http);
 
 private:
   vector<Vec3>  pVertices;
@@ -159,13 +156,15 @@ private:
   bool bJustReadAFace;
   /**< This tells us if we just read in face data so we can keep track of multiple objects */
 
+  bool import(FILE *f);
+  /**< File loader */
 
   bool importModel(tOBJModel *pModel);
   /**< Just pass in your model that will hold the information */
 
   bool importTextures();
 
-  int loadTexture(const char *imgFile);
+  int openTexture(const char *imgfile);
 
   void readFile(tOBJModel *pModel);
   /**< This is the main loading loop that gets called in importModel() */
@@ -181,9 +180,6 @@ private:
 
   void computeNormals(tOBJModel *pModel);
   /**< it's nice to have vertex normals for lighting */
-
-  bool loadFromFile(FILE *f);
-  /**< File loader */
 
   const char * getUrl() const;
   /**< get an Url */
