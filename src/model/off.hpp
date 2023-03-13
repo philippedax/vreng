@@ -33,9 +33,6 @@ public:
   Off(const char *url);	///< constructor
   virtual ~Off();	///< destructor
 
-  static void httpReader(void *aoff, class Http *http);
-  /**< Off reader */
-
   GLint displaylist();
   /**< Draws model Off into display list*/
 
@@ -48,6 +45,9 @@ public:
   virtual void render(float *color);
   virtual void render(const Pos &pos, float *color);
   /**< renders model Off */
+
+  static void reader(void *aoff, class Http *http);
+  /**< Off reader */
 
 private:
   int vn;	///< Vertice number

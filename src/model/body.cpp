@@ -800,7 +800,7 @@ endparse:
       switch (bodyparts[i].model) {
       case MODEL_OFF:
         bodyparts[i].off = new Off(bodyparts[i].url);
-        Http::httpOpen(bodyparts[i].url, Off::httpReader, bodyparts[i].off, 0);
+        Http::httpOpen(bodyparts[i].url, Off::reader, bodyparts[i].off, 0);
         break;
       case MODEL_OBJ:
         bodyparts[i].obj = new Obj(bodyparts[i].url, 1);

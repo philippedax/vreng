@@ -44,7 +44,7 @@ Off::Off(const char *_url) : scale(1)
   defaults();
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
 }
 
 Off::~Off()
@@ -77,7 +77,7 @@ const char * Off::getUrl() const
 }
 
 /** Off Reader - static */
-void Off::httpReader(void *_off, Http *http)
+void Off::reader(void *_off, Http *http)
 {
   Off *off = (class Off *) _off;
   if (! off) return;
