@@ -168,6 +168,13 @@ void Drone::changePermanent(float lasting)
   pos.z += (signz * rand()%3 * DRONE_DELTA);
 
   updatePosition();
+
+  if (filming) {
+    // user follows the drone
+    localuser->pos.x = pos.x;
+    localuser->pos.y = pos.y;
+    localuser->pos.z = pos.z + 0.5;
+  }
 }
 
 /* Renders at each loop */
@@ -176,14 +183,14 @@ void Drone::render()
   if (filming) {
     //echo("drone: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
 #if 1 //dax
-    ::g.render.cameraPosition(this);
-#else
     glPushMatrix();
     ::g.render.setCameraScissor(pos.x, pos.y, pos.z, 90);
     ::g.render.showView();
     glPopMatrix();
-    return;
+#else
+    ::g.render.cameraPosition(this);
 #endif
+    return;
   }
   glPushMatrix();
   glEnable(GL_CULL_FACE);
@@ -268,7 +275,7 @@ void Drone::reset_cb(Drone *drone, void *d, time_t s, time_t u)
 void Drone::funcs()
 {
   setActionFunc(DRONE_TYPE, 0, _Action fly_cb, "flying");
-  setActionFunc(DRONE_TYPE, 1, _Action pause_cb, "pause");
-  setActionFunc(DRONE_TYPE, 2, _Action view_cb, "view");
+  setActionFunc(DRONE_TYPE, 1, _Action view_cb, "view");
+  setActionFunc(DRONE_TYPE, 2, _Action pause_cb, "pause");
   setActionFunc(DRONE_TYPE, 3, _Action reset_cb, "reset");
 }
