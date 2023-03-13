@@ -92,8 +92,8 @@ public:
 
 private:
 
-  static void httpReader(void *_url, Http *http);
-  static void facesHttpReader(void *_o, Http *http);
+  static void reader(void *_url, Http *http);
+  static void facesreader(void *_o, Http *http);
 
   // GUI callbacks
   static void changeMoveYes(class Humanoid *o, void *d, time_t s, time_t u);

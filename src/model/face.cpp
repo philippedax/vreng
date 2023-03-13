@@ -101,7 +101,7 @@ Face::Face(const char *urlindex)
   index = true;
   cachefile[0] = '\0';
   urlList.empty();
-  Http::httpOpen(urlindex, facesHttpReader, this, 0);
+  Http::httpOpen(urlindex, facesreader, this, 0);
   currentUrl = rand() % urlList.count();
 }
 
@@ -114,11 +114,11 @@ Face::~Face()
 }
 
 /** Caching file */
-void Face::httpReader(void *_url, Http *http)
+void Face::reader(void *_url, Http *http)
 {
   char *url = (char *) _url;
   if (! http) {
-    error("httpReader: unable to open http connection");
+    error("reader: unable to open http connection");
     return;
   }
   Cache *cache = new Cache();
@@ -127,11 +127,11 @@ void Face::httpReader(void *_url, Http *http)
 }
 
 /** Download list of faces url */
-void Face::facesHttpReader(void *_face, Http *http)
+void Face::facesreader(void *_face, Http *http)
 {
   Face *face = (Face *) _face;
   if (! http) {
-    error("facesHttpReader: unable to open http connection");
+    error("facesreader: unable to open http connection");
     return;
   }
 
@@ -140,7 +140,7 @@ void Face::facesHttpReader(void *_face, Http *http)
   http->reset();
   while (http->getLine(line)) {
     char *faceurl = strdup(line);
-    //echo("facesHttpReader: add url=%s", faceurl);
+    //echo("facesreader: add url=%s", faceurl);
     face->urlList.addElement(faceurl);
     free(faceurl);
   }
@@ -170,7 +170,7 @@ void Face::load(const char *url)
     error("Face load: file=%s url=%s", cachefile, url);
     return;
   }
-  Http::httpOpen(url, httpReader, (void *)url, 0);
+  Http::httpOpen(url, reader, (void *)url, 0);
 
   V3d::readV3Dfile(newmesh, newroot, cachefile);
 
