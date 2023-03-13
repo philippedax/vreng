@@ -41,7 +41,7 @@ X3d::X3d(const char *_url) : rootShape(0)
 {
   defaults(_url);
 
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
 }
 
 X3d::~X3d()
@@ -54,7 +54,7 @@ const char* X3d::getUrl() const
   return (const char*) url;
 }
 
-void X3d::httpReader(void *_x3d, class Http *http)
+void X3d::reader(void *_x3d, class Http *http)
 {
   X3d* x3d = (X3d *) _x3d;
   if (! x3d) return;

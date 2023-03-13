@@ -326,7 +326,7 @@ class X3d {
   void defaults(const char *_url);
   /**< default values for class attributes */
 
-  static void httpReader(void *x3d, class Http *http);
+  static void reader(void *x3d, class Http *http);
   /**< loader of the web file, manages the cache... */
 
   bool loadFromFile(char* f);
