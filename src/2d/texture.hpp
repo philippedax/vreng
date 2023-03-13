@@ -53,7 +53,7 @@ class Texture {
   virtual ~Texture();
   /**< Destructor. */
 
-  static void httpReader(void *_tex, Http *_http);
+  static void reader(void *_tex, Http *_http);
   /**< Downloads a texture. */
 
   static void init();

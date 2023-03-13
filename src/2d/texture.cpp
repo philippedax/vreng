@@ -125,7 +125,7 @@ int imageReader(void *_tex, char *buf, int len)
   return tex->http->httpRead(buf, len);        // return read length
 }
 
-void Texture::httpReader(void *_tex, Http *_http)
+void Texture::reader(void *_tex, Http *_http)
 {
   if (! _http) return;
   Texture *tex = (Texture *) _tex;
@@ -189,8 +189,8 @@ Texture::Texture(const char *url)
     strcpy(this->url, url);
     // load image
     switch (Format::getLoaderByUrl((char*) url)) {
-      case IMG_GIF: Http::httpOpen(url, httpReader, this, 1); break; // multi-threaded
-      default:      Http::httpOpen(url, httpReader, this, 0); break;
+      case IMG_GIF: Http::httpOpen(url, reader, this, 1); break; // multi-threaded
+      default:      Http::httpOpen(url, reader, this, 0); break;
     }
   }
   new_texture++;
@@ -214,8 +214,8 @@ GLuint Texture::open(const char *url)
   /* we must download the texture now */
   strcpy(texture->url, url);
   switch (Format::getLoaderByUrl((char*) url)) {
-    case IMG_GIF: Http::httpOpen(url, httpReader, texture, 1); break; // multi-threaded
-    default:      Http::httpOpen(url, httpReader, texture, 0); break;
+    case IMG_GIF: Http::httpOpen(url, reader, texture, 1); break; // multi-threaded
+    default:      Http::httpOpen(url, reader, texture, 0); break;
   }
   return texture->id;
 }
