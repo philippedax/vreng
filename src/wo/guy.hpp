@@ -178,7 +178,7 @@ private:
 
   const char * getUrl() const;
 
-  static void httpReader(void *oa, Http *http);
+  static void reader(void *oa, Http *http);
   /**< Reads cset files. */
 
   void computeCurve();

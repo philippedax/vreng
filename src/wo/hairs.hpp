@@ -235,13 +235,13 @@ private:
   void defaults();
   /**< Sets default values. */
 
-  static void httpReader(void *alwo, class Http *http);
-
   bool loader(const char *url, float scale);
   /**< Loader LWO model. */
 
   void draw();
   /**< Draws hairs. */
+
+  static void reader(void *alwo, class Http *http);
 };
 
 #endif

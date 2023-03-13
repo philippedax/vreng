@@ -194,7 +194,7 @@ private:
   static void lookLeft_cb(Book *book, void *d, time_t s, time_t u);
   static void lookRight_cb(Book *book, void *d, time_t s, time_t u);
 
-  static void httpReader(void*, Http*);
+  static void reader(void*, Http*);
 };
 
 #endif

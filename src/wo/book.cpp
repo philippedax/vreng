@@ -41,7 +41,7 @@ static uint16_t oid = 0;
 
 
 /* Downloads urls: filling of the two arrays */
-void Book::httpReader(void *_book, Http *http)
+void Book::reader(void *_book, Http *http)
 {
   Book *book = (Book *) _book;
   if (! book) return;
@@ -77,7 +77,7 @@ void Book::httpReader(void *_book, Http *http)
     if (! fgets(line, sizeof(line), f)) return;  // eof
     line[strlen(line) - 1] = '\0';
     if ((p = strtok(line, " \t")) == NULL) {
-      error("httpReader: bad line %s", line);
+      error("reader: bad line %s", line);
       return;
     }
     // copy url of the html page matching this texture
@@ -204,7 +204,7 @@ Book::Book(char *l)
   height = size.v[2];
 
   if (! *url) return;
-  if (Http::httpOpen(url, httpReader, this, 0) < 0) return;
+  if (Http::httpOpen(url, reader, this, 0) < 0) return;
   if (! nbs) return;	// no sheets
 
   //enableBehavior(PERSISTENT);

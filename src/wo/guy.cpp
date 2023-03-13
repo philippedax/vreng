@@ -106,7 +106,7 @@ void Guy::inits()
 
   draw();
 
-  Http::httpOpen(names.url, httpReader, this, 0);
+  Http::httpOpen(names.url, reader, this, 0);
 
   computeCurve();
 }
@@ -141,7 +141,7 @@ const char * Guy::getUrl() const
   return (const char *) names.url;
 }
 
-void Guy::httpReader(void *_guy, Http *http)
+void Guy::reader(void *_guy, Http *http)
 {
   Guy *guy = (Guy *) _guy;
   if (! guy) return;

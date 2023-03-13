@@ -91,7 +91,7 @@ bool Hairs::loader(const char *url, float scale)
   obj = new Object();
   obj->scal = scale;
 #endif
-  Http::httpOpen(url, httpReader, obj, 0);	// get model
+  Http::httpOpen(url, reader, obj, 0);	// get model
 
   Surface *s_hair = obj->findSurface("hair");
   if (s_hair == NULL) {
@@ -344,7 +344,7 @@ bool getSTRING(FILE *fp, char *s, int *l)
   return true;
 }
 
-void Hairs::httpReader(void *_lwo, Http *http)
+void Hairs::reader(void *_lwo, Http *http)
 {
   Object *lwo = (Object *) _lwo;
 
