@@ -472,7 +472,7 @@ public:
 
   char *url;
 
-  static void httpReader(void *_rigid, class Http *http);
+  static void reader(void *_rigid, class Http *http);
 
 private:
   ///temp
@@ -564,7 +564,7 @@ public:
   void process(string line);
   void init(string bvhFile);
 
-  static void httpReader(void *_bvh, class Http *http);
+  static void reader(void *_bvh, class Http *http);
 
 private:
   void download(const char *url);

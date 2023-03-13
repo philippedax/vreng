@@ -55,7 +55,7 @@ void Bvh::download(const char *_url)
 {
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
 }
 
 char * Bvh::getUrl() const
@@ -63,7 +63,7 @@ char * Bvh::getUrl() const
   return (char *) url;
 }
 
-void Bvh::httpReader(void *_bvh, Http *http)
+void Bvh::reader(void *_bvh, Http *http)
 {
   Bvh *bvh = (Bvh *) _bvh;
   if (! bvh) return;
@@ -417,7 +417,7 @@ void rigid::download(const char *_url)
   //echo("rigid::download");
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
 }
 
 const char * rigid::getUrl() const
@@ -425,7 +425,7 @@ const char * rigid::getUrl() const
   return (const char *) url;
 }
 
-void rigid::httpReader(void *_rigid, Http *http)
+void rigid::reader(void *_rigid, Http *http)
 {
   rigid *rigi = (rigid *) _rigid;
   if (! _rigid) return;
