@@ -60,7 +60,7 @@ Dxf::Dxf(const char *_url)
 
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
 }
 
 Dxf::~Dxf()
@@ -76,7 +76,7 @@ const char * Dxf::getUrl() const
 }
 
 /* http loader - static */
-void Dxf::httpReader(void *_dxf, Http *http)
+void Dxf::reader(void *_dxf, Http *http)
 {
   Dxf *dxf = (Dxf *) _dxf;
   if (! dxf) return;
@@ -96,19 +96,22 @@ void Dxf::httpReader(void *_dxf, Http *http)
   dxf->loaded = true;
 }
 
-void Dxf::bindTexture2D(int texid)
-{
-  if (texid > 0) {
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texid);
-  }
-}
-
 void Dxf::setScale(float scale)
 {
   if (scale != currentScale) {
     if (! loaded) desiredScale = scale;
     else { currentScale = desiredScale = scale; }
+  }
+}
+
+void Dxf::setColor(int type, float *color)
+{
+  flgcolor = true;
+  switch (type) {
+    case GL_DIFFUSE: for (int i=0; i<4 ; i++) mat_diffuse[i] = color[i]; break;
+    case GL_AMBIENT: for (int i=0; i<4 ; i++) mat_ambient[i] = color[i]; break;
+    case GL_SPECULAR: for (int i=0; i<4 ; i++) mat_specular[i] = color[i]; break;
+    case GL_EMISSION: break;
   }
 }
 
@@ -135,17 +138,6 @@ float Dxf::getRadius()
   }
 #endif
   return sqrt(max_radius);
-}
-
-void Dxf::setColor(int type, float *color)
-{
-  flgcolor = true;
-  switch (type) {
-    case GL_DIFFUSE: for (int i=0; i<4 ; i++) mat_diffuse[i] = color[i]; break;
-    case GL_AMBIENT: for (int i=0; i<4 ; i++) mat_ambient[i] = color[i]; break;
-    case GL_SPECULAR: for (int i=0; i<4 ; i++) mat_specular[i] = color[i]; break;
-    case GL_EMISSION: break;
-  }
 }
 
 bool Dxf::draw(DXF_file *dxffile)

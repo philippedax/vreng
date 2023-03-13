@@ -378,6 +378,9 @@ class Dxf {
   const char * getUrl() const;
   /**< get an Url */
 
+  static void reader(void *adxf, class Http *http);
+  /**< Downloads */
+
  public:
   Dxf(const char *url);
 
@@ -390,10 +393,6 @@ class Dxf {
   /**< Sets the color */
 
   float getRadius();
-  /**< Gets the radius */
-
-  void bindTexture2D(int textureId);
-  /**< Binds texture number */
 
   GLint displaylist();
   /**< Draws in displaylist */
@@ -403,9 +402,6 @@ class Dxf {
 
   void render();
   /**< Renders */
-
-  static void httpReader(void *adxf, class Http *http);
-  /**< Downloads */
 };
 
 #endif
