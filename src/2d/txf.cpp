@@ -58,7 +58,7 @@ Txf * Txf::load(const char *url)
   txfList.push_back(txf);	// add to cache list
 
   /* load font */
-  Http::httpOpen(url, httpReader, txf, 0);
+  Http::httpOpen(url, reader, txf, 0);
 
   return txf;
 }
@@ -68,7 +68,7 @@ const char * Txf::getUrl() const
   return (const char *) url;
 }
 
-void Txf::httpReader(void *_txf, Http *http)
+void Txf::reader(void *_txf, Http *http)
 {
   Txf *txf = (Txf *) _txf;
   if (! txf) return;

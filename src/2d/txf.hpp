@@ -105,9 +105,6 @@ private:
   Txf *next;			///< next Txf
   struct TexFont *texfont;	///< texfont ptr
 
-  static void httpReader(void *atexfont, class Http *http);
-  /**< http texfont loader */
-
   const char * getUrl() const;
   /**< Gets url name */
 
@@ -123,6 +120,9 @@ private:
 
   Txf * getByNumber(uint16_t num);
   /**< get Txf by its number  */
+
+  static void reader(void *atexfont, class Http *http);
+  /**< http texfont loader */
 
 };
 
