@@ -125,7 +125,7 @@ public:
   void render(struct Pos &pos, uint16_t frame);
   /**< Renders one frame of the model */
 
-  static void httpReader(void *_md2, class Http *http);
+  static void reader(void *_md2, class Http *http);
   /**< Md2 http reader */
 
 private:

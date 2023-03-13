@@ -37,7 +37,7 @@ Md2::Md2(const char *_url)
   defaults();
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
 }
 
 Md2::~Md2()
@@ -74,7 +74,7 @@ const char * Md2::getUrl() const
 }
 
 /** Md2 model http-reader */
-void Md2::httpReader(void *_md2, Http *http)
+void Md2::reader(void *_md2, Http *http)
 {
   Md2 *md2 = (Md2 *) _md2;
   if (! md2) return;
