@@ -61,27 +61,16 @@
 
 
 
-Ase::Ase(const char *_url)
- : loaded(false), currentScale(1.0), desiredScale(1.0), fp(NULL)
+Ase::Ase(const char *_url) :
+ loaded(false),
+ currentScale(1.0),
+ desiredScale(1.0),
+ fp(NULL)
 {
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
   displaylist();
-}
-
-bool Ase::loadFromFile(FILE *f)
-{
-  fp = f;
-
-  if (importModel(&ASEModel) == false) {
-    error("ASE file not loaded");
-    return false;
-  }
-  if (importTextures() == false) {
-    error("textures of ASE file not loaded");
-  }
-  return loaded = true; //success
 }
 
 Ase::~Ase()
@@ -96,13 +85,54 @@ Ase::~Ase()
   if (dlist > 0) glDeleteLists(dlist, 1);
 }
 
+const char * Ase::getUrl() const
+{
+  return (const char *) url;
+}
+
+void Ase::reader(void *aase, Http *http)
+{
+  Ase *ase = (Ase *) aase;
+  if (! ase) return;
+
+  Cache *cache = new Cache();
+  FILE *f = cache->open(ase->getUrl(), http);
+  ase->import(f);
+  cache->close();
+  delete cache;
+}
+
+bool Ase::import(FILE *f)
+{
+  fp = f;
+
+  if (importModel(&ASEModel) == false) {
+    error("ASE file not loaded");
+    return false;
+  }
+  if (importTextures() == false) {
+    error("textures of ASE file not loaded");
+  }
+  return loaded = true; //success
+}
+
+/** called to load in an .ase file by the file name */
+bool Ase::importModel(tASEModel *pModel)
+{
+  if (!pModel || !fp) return false;
+
+  readFile(pModel);
+  computeNormals(pModel);
+  return true;
+}
+
 bool Ase::importTextures()
 {
   int texid = 0;
 
   for (int i=0; i < ASEModel.numMaterials; i++) {
     if (strlen(ASEModel.pMaterials[i].strFile) > 0) {
-      texid = loadTexture(ASEModel.pMaterials[i].strFile);
+      texid = openTexture(ASEModel.pMaterials[i].strFile);
       if (texid < 0) {
         error("texture %s not loaded", ASEModel.pMaterials[i].strFile);
         return false;
@@ -113,16 +143,8 @@ bool Ase::importTextures()
   return true;
 }
 
-void Ase::bindTexture2D(int texid)
-{
-  if (texid > 0) {
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, texid);
-  }
-}
-
 /* Returns the texid */
-int Ase::loadTexture(const char *file)
+int Ase::openTexture(const char *file)
 {
   char *end = strrchr(url, '/');
   int i = 0;
@@ -132,14 +154,14 @@ int Ase::loadTexture(const char *file)
     url_tex[i] = *p;
   }
   sprintf(&url_tex[i], "/%s", file);
-  trace(DBG_VGL, "Ase::loadTexture: url=%s", url_tex);
+  //echo("Ase::openTexture: %s", url_tex);
 
   return Texture::open(url_tex);
 }
 
 float Ase::getRadius()
 {
-  double max_radius = 0.0;
+  double max_radius = 0;
 
   for (int i=0; i < ASEModel.numObjects; i++) {
     if (ASEModel.pObject.size() <= 0) break;
@@ -178,23 +200,6 @@ void Ase::setScale(float scale)
   }
 }
 
-const char * Ase::getUrl() const
-{
-  return (const char *) url;
-}
-
-void Ase::httpReader(void *aase, Http *http)
-{
-  Ase *ase = (Ase *) aase;
-  if (! ase) return;
-
-  Cache *cache = new Cache();
-  FILE *f = cache->open(ase->getUrl(), http);
-  ase->loadFromFile(f);
-  cache->close();
-  delete cache;
-}
-
 void Ase::render()
 {
   if (! loaded) return;
@@ -231,7 +236,8 @@ void Ase::draw()
     if (pObject->bHasTexture) {
       glColor3ub(255, 200, 200);  // the color to normal again
 
-      bindTexture2D(ASEModel.pMaterials[pObject->materialID].texureId); // Bind the texture
+      glEnable(GL_TEXTURE_2D);
+      glBindTexture(GL_TEXTURE_2D, ASEModel.pMaterials[pObject->materialID].texureId);
     }
     else {
       glDisable(GL_TEXTURE_2D);
@@ -266,16 +272,6 @@ void Ase::draw()
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_COLOR_MATERIAL);
   }
-}
-
-/** called to load in an .ase file by the file name */
-bool Ase::importModel(tASEModel *pModel)
-{
-  if (!pModel || !fp) return false;
-
-  readFile(pModel);
-  computeNormals(pModel);
-  return true;
 }
 
 /** reads the data for every object and it's associated material*/

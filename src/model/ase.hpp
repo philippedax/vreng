@@ -36,6 +36,8 @@
 
 #include "vec3.hpp"	// Vec3
 
+using namespace std;
+
 
 /**
  * This is our face structure.
@@ -83,12 +85,14 @@ struct tASEMaterialInfo
 struct tASEModel {
   int numObjects;		///< The number of objects in the model
   int numMaterials;		///< The number of materials for the model
-  std::vector<tASEMaterialInfo> pMaterials;	///< The list of material information (Textures and colors)
-  std::vector<tASEObject> pObject;	///< The object list for our model
+  vector<tASEMaterialInfo> pMaterials;	///< The list of material information
+  vector<tASEObject> pObject;	///< The object list for our model
 };
 
 
 /**
+ * Ase class
+ *
  * This class holds all the data and function for loading in a .Ase file.
  */
 class Ase {
@@ -121,24 +125,22 @@ private:
   /**< Model rendering */
 
  private:
-  static void httpReader(void *aase, class Http *http);
+  static void reader(void *aase, class Http *http);
 
   void draw();
   /**< Model drawing */
 
-  bool loadFromFile(FILE *f);
+  bool import(FILE *f);
   /**< File loader */
-
-  const char * getUrl() const;
-  /**< get an Url */
 
   bool importModel(tASEModel *pModel);
 
   bool importTextures();
 
-  int loadTexture(const char *imgFile);
+  const char *getUrl() const;
+  /**< get an Url */
 
-  void bindTexture2D(int textureId);
+  int openTexture(const char *imgFile);
 
   void readFile(tASEModel *pModel);
   /**< This is the main loop that parses the .ase file */
