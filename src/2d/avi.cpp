@@ -92,7 +92,7 @@ void Avi::download(const char *_url)
 {
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  Http::httpOpen(url, httpReader, this, 0);
+  Http::httpOpen(url, reader, this, 0);
 }
 
 const char * Avi::getUrl() const
@@ -100,7 +100,7 @@ const char * Avi::getUrl() const
   return (const char *) url;
 }
 
-void Avi::httpReader(void *_avi, Http *http)
+void Avi::reader(void *_avi, Http *http)
 {     
   Avi *avi = (Avi *) _avi;
   if (! avi) return;

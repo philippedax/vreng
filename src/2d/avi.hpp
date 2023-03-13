@@ -97,8 +97,6 @@ public:
   int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen);
   int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t max_aud, int32_t *retlen);
 
-  static void httpReader(void *_avi, class Http *http);
-
 private:
   FILE *fp;
   char *url;
@@ -133,6 +131,8 @@ private:
   void start_list(const char * name);
   void finish_list(const char * name);  
   void open_output_file(const char * filename);
+
+  static void reader(void *_avi, class Http *http);
 
 };
 
