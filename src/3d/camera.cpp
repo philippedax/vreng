@@ -226,7 +226,6 @@ void Render::showMap()
   ::g.gui.scene()->setScene((w/3)*2, (h/3)*2, w/3, h/3);
   glMatrixMode(GL_MODELVIEW);
 
-#if 1 //dax
   // place the mini-map at a position depending on the world's dimensions
   World *world = World::current();
   float d = floor(MAX(world->bbsize.v[0], world->bbsize.v[1])/tan(DEG2RAD(User::FOVY))-5);
@@ -238,7 +237,6 @@ void Render::showMap()
   GLfloat glmat[16];	// opengl matrix
   M4toV16(&vrmat, glmat);
   glLoadMatrixf(glmat);
-#endif
 
   // redraw the scene inside the scissor
   minirender();
@@ -252,7 +250,6 @@ void Render::showMap()
 void Render::showSat()
 {
   if (view != VIEW_SCISSOR || viewObj) return;
-  //if (! viewSat) return;
 
   GLint x, y, w, h;
 
@@ -282,7 +279,6 @@ void Render::showSat()
   ::g.gui.scene()->setScene(x, y, w, h);
 }
 
-//dax void Render::showView(float posx, float posy, float posz)
 void Render::showView()
 {
   if (! viewObj) return;
@@ -314,7 +310,7 @@ void Render::showView()
 #endif
 
   // draw the scene inside the scissor
-  //minirender();	// segfault
+  //dax minirender();	// segfault
 
   // reset initial state
   glDisable(GL_SCISSOR_TEST);
