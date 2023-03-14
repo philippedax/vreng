@@ -119,14 +119,14 @@ void Drone::changePermanent(float lasting)
   // x
   if (expansionx) {
     signx = -1;
-    if ( (pos.x < (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
+    if ( (pos.x < (0 - radius)) || (pos.x > (0 + radius)) ) {
       expansionx = false;
       signx = 1;
     }
   }
   else { // collapsex
     signx = 1;
-    if ( (pos.x < (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
+    if ( (pos.x < (0 - radius)) || (pos.x > (0 + radius)) ) {
       expansionx = true;
       signx = -1;
     }
@@ -136,14 +136,14 @@ void Drone::changePermanent(float lasting)
   // y
   if (expansiony) {
     signy = 1;
-    if ( (pos.y < (posinit.y - radius)) || (pos.y > (posinit.y + radius)) ) {
+    if ( (pos.y < (0 - radius)) || (pos.y > (0 + radius)) ) {
       expansiony = false;
       signy = -1;
     }
   }
   else { // collapsey
     signy = -1;
-    if ( (pos.y < (posinit.y - radius)) || (pos.y > (posinit.y + radius)) ) {
+    if ( (pos.y < (0 - radius)) || (pos.y > (0 + radius)) ) {
       expansiony = true;
       signy = 1;
     }
@@ -173,7 +173,7 @@ void Drone::changePermanent(float lasting)
     // user follows the drone
     localuser->pos.x = pos.x;
     localuser->pos.y = pos.y;
-    localuser->pos.z = pos.z + 0.5;
+    localuser->pos.z = pos.z - 0.5;
   }
 }
 
