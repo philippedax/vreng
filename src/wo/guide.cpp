@@ -172,7 +172,7 @@ void Guide::stuckUser()
 
   localuser->pos.x = pos.x;
   localuser->pos.y = pos.y;
-  localuser->pos.z += (pos.z + pos.bbs.v[2]);  // jump on the skate
+  localuser->pos.z += (pos.z + pos.bbs.v[2] * 2);  // jump on the skate
   localuser->pos.az = pos.az;
   localuser->updatePositionAndGrid(localuser->pos);
 
@@ -216,7 +216,7 @@ void Guide::progress(WObject *po)
   localuser->pos.x += dx;
   localuser->pos.y += dy;
   localuser->pos.z += dz + .09;  // + 6cm
-  //dax localuser->pos.z += (pos.z + pos.bbs.v[2]);
+  //dax localuser->pos.z += (pos.z + pos.bbs.v[2] * 2);
   localuser->updatePositionAndGrid(localuser->pos);
   updatePositionAndGrid(po->pos);
   localuser->updatePositionAndGrid(localuser->pos);
