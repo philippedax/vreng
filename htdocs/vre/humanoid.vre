@@ -62,7 +62,7 @@
 
 <thing name="chairgirl"
   pos="9.6 1.9 .48 0 0">
-  <solid dim=".4 .4 .04" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" dif="purple" />
+  <solid dim=".4 .4 .04" tx="/gif/wood.gif" dif="purple" />
   <solid dim=".40 .04 .5" rel="0 .18 .27 0 0" yp="/gif/wood.gif" dif="purple" />
   <solid dim=".04 .04 .5" rel="-.18 -.18 -.23 0 0" yp="/gif/wood.gif" dif="purple" />
   <solid dim=".04 .04 .5" rel="-.18 .18 -.23 0 0" yp="/gif/wood.gif" dif="purple" />
@@ -72,7 +72,7 @@
 
 <thing name="chairkang"
   pos="9.7 -1.3 .48 0 0">
-  <solid dim=".40 .40 .04" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" dif="purple" />
+  <solid dim=".40 .40 .04" tx="/gif/wood.gif" dif="purple" />
   <solid dim=".40 .04 .5" rel="0 -.18 .27 0 0" yp="/gif/wood.gif" dif="purple" />
   <solid dim=".04 .04 .5" rel="-.18 .18 -.23 0 0" yp="/gif/wood.gif" dif="purple" />
   <solid dim=".04 .04 .5" rel="-.18 -.18 -.23 0 0" yp="/gif/wood.gif" dif="purple" />
@@ -82,7 +82,7 @@
 
 <thing name="chairdog"
   pos="7.6 1.9 .48 0 0">
-  <solid dim=".40 .40 .04" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" dif="purple" />
+  <solid dim=".40 .40 .04" tx="/gif/wood.gif" dif="purple" />
   <solid dim=".40 .04 .5" rel="0 .18 .27 0 0" yp="/gif/wood.gif" dif="purple" />
   <solid dim=".04 .04 .5" rel="-.18 -.18 -.23 0 0" yp="/gif/wood.gif" dif="purple" />
   <solid dim=".04 .04 .5" rel="-.18 .18 -.23 0 0" yp="/gif/wood.gif" dif="purple" />
@@ -92,7 +92,7 @@
 
 <thing name="chairwolf"
   pos="7.7 -1.3 .48 0 0">
-  <solid dim=".40 .40 .04" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" dif="purple" />
+  <solid dim=".40 .40 .04" tx="/gif/wood.gif" dif="purple" />
   <solid dim=".40 .04 .5" rel="0 -.18 .27 0 0" yp="/gif/wood.gif" dif="purple" />
   <solid dim=".04 .04 .5" rel="-.18 .18 -.23 0 0" yp="/gif/wood.gif" dif="purple" />
   <solid dim=".04 .04 .5" rel="-.18 -.18 -.23 0 0" yp="/gif/wood.gif" dif="purple" />
@@ -116,14 +116,14 @@
 <door name="doorn"
   pos="11 -3.85 1 3.14 0"
   xopen="11.5" xclose="10.5" speed="1">
-  <solid dim="1 .01 2" xn="/gif/wood2.gif" yn="/gif/wood2.gif" yp="/gif/wood2.gif" xp="/gif/wood2.gif" />
+  <solid dim="1 .01 2" tx="/gif/wood2.gif" />
 </door>
 <!-- open="3.1" close=".0" speed="1"> -->
 <!-- xopen="8.5" xclose="9.5" speed="1"> -->
 <door name="doors"
   pos="9 -3.85 1 0 0"
   zopen="3" zclose="1" speed="1">
-  <solid dim="1 .01 2" xn="/gif/wood2.gif" yn="/gif/wood2.gif" yp="/gif/wood2.gif" xp="/gif/wood2.gif" />
+  <solid dim="1 .01 2" tx="/gif/wood2.gif" />
 </door>
 
 <!-- <vnc name="screen" pos="13.8 0 1.5 3.14" server="horla.enst.fr"> <solid dim=".4 4 2" /></vnc> -->
