@@ -57,15 +57,9 @@ void Bird::parser(char *l)
       if      (! stringcmp(modelname, "bird"))      model = Wings::BIRD;
       else if (! stringcmp(modelname, "butterfly")) model = Wings::BUTTERFLY;
     }
-    else if (! stringcmp(l, "radius")) {
-      l = parseFloat(l, &radius, "radius");
-    }
-    else if (! stringcmp(l, "scale")) {
-      l = parseFloat(l, &scale, "scale");
-    }
-    else if (! stringcmp(l, "flying")) {
-      l = parseBool(l, &flying, "flying");
-    }
+    else if (! stringcmp(l, "radius")) l = parseFloat(l, &radius, "radius");
+    else if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "flying")) l = parseBool(l, &flying, "flying");
   }
   end_while_parse(l);
 }
