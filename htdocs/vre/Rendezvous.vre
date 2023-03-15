@@ -311,7 +311,7 @@ url="http://www.stud.enst.fr/~bellard/">
 </mirage>
 
 <!-- pylone -->
-<mirage pos="20.8 3 0 0"> <solid shape="cone" rb=".14" rt=".14" h="7" dif="grey60" /></mirage>
+<mirage pos="20.8 3 0 0"> <solid shape="cone" rb=".14" rt=".14" h="6" dif="grey60" /></mirage>
 
 <!-- antenna -->
 <mirage pos="20.8 3 6 1.57 1.57" mode="turn"> <solid shape="disk" rb=".1" rt=".2" dif="grey10" /></mirage>
