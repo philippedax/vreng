@@ -46,6 +46,7 @@ void Drone::defaults()
   scale = DRONE_SCALE;
   flying = false;
   filming = false;
+  driven = false;
 }
 
 /* Parser */
@@ -116,64 +117,72 @@ void Drone::changePermanent(float lasting)
   static int signy = 1;
   static int signz = 1;
 
-  // x
-  if (expansionx) {
-    signx = -1;
-    if ( (pos.x < (0 - radius)) || (pos.x > (0 + radius)) ) {
-      expansionx = false;
-      signx = 1;
-    }
-  }
-  else { // collapsex
-    signx = 1;
-    if ( (pos.x < (0 - radius)) || (pos.x > (0 + radius)) ) {
-      expansionx = true;
+  if (! driven) {
+    // x
+    if (expansionx) {
       signx = -1;
+      if ( (pos.x < (0 - radius)) || (pos.x > (0 + radius)) ) {
+        expansionx = false;
+        signx = 1;
+      }
     }
-  }
-  pos.x += (signx * rand()%3 * DRONE_DELTA);
-
-  // y
-  if (expansiony) {
-    signy = 1;
-    if ( (pos.y < (0 - radius)) || (pos.y > (0 + radius)) ) {
-      expansiony = false;
-      signy = -1;
+    else { // collapsex
+      signx = 1;
+      if ( (pos.x < (0 - radius)) || (pos.x > (0 + radius)) ) {
+        expansionx = true;
+        signx = -1;
+      }
     }
-  }
-  else { // collapsey
-    signy = -1;
-    if ( (pos.y < (0 - radius)) || (pos.y > (0 + radius)) ) {
-      expansiony = true;
+    pos.x += (signx * rand()%3 * DRONE_DELTA);
+  
+    // y
+    if (expansiony) {
       signy = 1;
+      if ( (pos.y < (0 - radius)) || (pos.y > (0 + radius)) ) {
+        expansiony = false;
+        signy = -1;
+      }
     }
-  }
-  pos.y += (signy * rand()%3 * DRONE_DELTA);
+    else { // collapsey
+      signy = -1;
+      if ( (pos.y < (0 - radius)) || (pos.y > (0 + radius)) ) {
+        expansiony = true;
+        signy = 1;
+      }
+    }
+    pos.y += (signy * rand()%3 * DRONE_DELTA);
 
-  // z
-  if (expansionz) {
-    signz = 1;
-    if (pos.z > (posinit.z + radius / 2)) {
-      //dax expansionz = false;
-      signz = -0;	// asymptote
-    }
-  }
-  else { // collapsez
-    signz = -1;
-    if (pos.z < posinit.z) {
-      expansionz = true;
+    // z
+    if (expansionz) {
       signz = 1;
+      if (pos.z > (posinit.z + radius / 2)) {
+        //dax expansionz = false;
+        signz = -0;	// asymptote
+      }
+    }
+    else { // collapsez
+      signz = -1;
+      if (pos.z < posinit.z) {
+        expansionz = true;
+        signz = 1;
+      }
+    }
+    pos.z += (signz * rand()%3 * DRONE_DELTA);
+
+    updatePosition();
+
+    if (filming) {
+      // user follows the drone
+      localuser->pos.x = pos.x;
+      localuser->pos.y = pos.y;
+      localuser->pos.z = pos.z;
+      localuser->disableGravity();
     }
   }
-  pos.z += (signz * rand()%3 * DRONE_DELTA);
-
-  updatePosition();
-
-  if (filming) {
-    // user follows the drone
-    localuser->pos.x = pos.x;
-    localuser->pos.y = pos.y;
-    localuser->pos.z = pos.z - 0.5;
+  else {
+    pos.x = localuser->pos.x;
+    pos.y = localuser->pos.y;
+    pos.z = localuser->pos.z;
   }
 }
 
@@ -242,13 +251,26 @@ void Drone::view()
   }
 }
 
+/** toggle drive */
+void Drone::drive()
+{
+  if (driven) {
+    driven = false;	// drone takes control
+    localuser->enableGravity();
+  }
+  else
+    driven = true;	// user takes control of drone
+}
+
 void Drone::reset()
 {
   pause();
   pos = posinit;
   if (filming) {
     filming = false;
+    driven = false;
     localuser->setView(vieworig);
+    localuser->enableGravity();
   }
 }
 
@@ -267,6 +289,11 @@ void Drone::view_cb(Drone *drone, void *d, time_t s, time_t u)
   drone->view();
 }
 
+void Drone::drive_cb(Drone *drone, void *d, time_t s, time_t u)
+{
+  drone->drive();
+}
+
 void Drone::reset_cb(Drone *drone, void *d, time_t s, time_t u)
 {
   drone->reset();
@@ -276,6 +303,7 @@ void Drone::funcs()
 {
   setActionFunc(DRONE_TYPE, 0, _Action fly_cb, "flying");
   setActionFunc(DRONE_TYPE, 1, _Action view_cb, "view");
-  setActionFunc(DRONE_TYPE, 2, _Action pause_cb, "pause");
-  setActionFunc(DRONE_TYPE, 3, _Action reset_cb, "reset");
+  setActionFunc(DRONE_TYPE, 2, _Action drive_cb, "drive");
+  setActionFunc(DRONE_TYPE, 3, _Action pause_cb, "pause");
+  setActionFunc(DRONE_TYPE, 4, _Action reset_cb, "reset");
 }

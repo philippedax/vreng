@@ -34,6 +34,7 @@ class Drone : public WObject {
  private:
   bool flying;
   bool filming;
+  bool driven;
   class Wings *wings;
   Pos posinit;
   float radius;
@@ -59,13 +60,13 @@ class Drone : public WObject {
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Called each frame - check if ths texture has to be updated */
 
-  virtual void render();
+  void render();
   /**< Render the object */
 
-  virtual void quit();
+  void quit();
   /**< Called when the object is destroy */
 
  private:
@@ -82,14 +83,16 @@ class Drone : public WObject {
   /**< Do specific inits */
 
   void fly();
-  void pause();
   void view();
+  void drive();
+  void pause();
   void reset();
 
   // GUI callbacks
   static void fly_cb(Drone *o, void *d, time_t s, time_t u);
   static void pause_cb(Drone *o, void *d, time_t s, time_t u);
   static void view_cb(Drone *o, void *d, time_t s, time_t u);
+  static void drive_cb(Drone *o, void *d, time_t s, time_t u);
   static void reset_cb(Drone *o, void *d, time_t s, time_t u);
 
 };
