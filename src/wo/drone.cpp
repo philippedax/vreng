@@ -57,19 +57,9 @@ void Drone::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "model=")) {
-      l = parseString(l, modelname, "model");
-      if (! stringcmp(modelname, "helicopter"))  model = Wings::HELICOPTER;
-    }
-    else if (! stringcmp(l, "radius")) {
-      l = parseFloat(l, &radius, "radius");
-    }
-    else if (! stringcmp(l, "scale")) {
-      l = parseFloat(l, &scale, "scale");
-    }
-    else if (! stringcmp(l, "flying")) {
-      l = parseBool(l, &flying, "flying");
-    }
+    if (! stringcmp(l, "radius")) l = parseFloat(l, &radius, "radius");
+    else if (! stringcmp(l, "scale")) l = parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "flying")) l = parseBool(l, &flying, "flying");
   }
   end_while_parse(l);
 }
@@ -179,7 +169,7 @@ void Drone::changePermanent(float lasting)
       localuser->disableGravity();
     }
   }
-  else {
+  else {	// drone is drived by user
     pos.x = localuser->pos.x;
     pos.y = localuser->pos.y;
     pos.z = localuser->pos.z;
