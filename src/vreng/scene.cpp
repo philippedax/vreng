@@ -49,17 +49,20 @@ Scene::Scene(Widgets* _gw) :
  cycles(0),
  net_delay(500)
 {
+  is_hudvisible = true;		// hud visible by default
   background = UBackground::blue;
+
   addAttr(background);
   addAttr(usize(g.pref.width3D, g.pref.height3D));
 
-  hudbox.addAttr(upos(1, 1)  // position relatively to the canvas : up left corner
-                 + UOrient::vertical + UHalign::left
-                 + UFont::small + UColor::yellow   // size & color of the text
+  hudbox.addAttr(upos(1, 1)	// position relatively to the canvas : up left corner
+                 + UOrient::vertical
+                 + UHalign::left
+                 + UFont::small
+                 + UColor::yellow   // size & color of the text
                 );
-  hudbox.add(hud_line1 + hud_line2 + hud_line3 + hud_line4 + hud_line5);
+  hudbox.add(hud_line1 + hud_line2 + hud_line3 + hud_line4 + hud_line5 + hud_line6);
   add(hudbox);	// add the hudbox to the scene
-  is_hudvisible = true;
 
   message.addAttr(UFont::bold + UFont::xx_large + UColor::orange + uhcenter() + uvcenter());
   message.add("Please wait, VReng is coming up...");
@@ -68,7 +71,7 @@ Scene::Scene(Widgets* _gw) :
   // Paint and Resize functions:
   // - are callback functions (paintCB and resizeCB) if the Scene is a UBox 
   // - are redefinitions of paintGL and resizeGL if the Scene is a UGlcanvas
-  addAttr(UOn::paint / ucall(this, &Scene::paintCB)
+  addAttr(  UOn::paint  / ucall(this, &Scene::paintCB)
           + UOn::resize / ucall(this, &Scene::resizeCB));
 }
 
@@ -142,7 +145,8 @@ void Scene::setScene(GLint x, GLint y, GLsizei w, GLsizei h)
  */
 GLSection::GLSection(Scene* s) :
  UGraph::Glpaint(s->getView(), true)
-{}
+{
+}
 
 /* Paints scene CB */
 void Scene::paintCB(UPaintEvent& e)
@@ -232,7 +236,7 @@ void Scene::loopScene()
 
   // Displays misc infos in the hud
   if (is_hudvisible) {
-    updateHud();
+    refreshHud();
     hudbox.show(true);
   }
   else {
@@ -244,37 +248,46 @@ void Scene::loopScene()
     gw.capture.writeVideoFrame();
   }
 
-  cycles++;		// increments cycles
+  cycles++;		// increments cycles (fps)
 }
 
-void Scene::updateHud()
+void Scene::refreshHud()
 {
-  char line[128];
+  char tmp[32];
   
-  sprintf(line, "Rate:   %.1f fps", ::g.timer.rate());
-  hud_line1 = line;
+  // rate
+  sprintf(tmp, "Rate:   %.1f fps", ::g.timer.rate());
+  hud_line1 = tmp;
   
+  // world
   if (! localuser) return;
-  sprintf(line, "User:   %.1f %.1f %.1f %.0f",
+  sprintf(tmp, "World:  %s", localuser->worldName());
+  hud_line2 = tmp;
+
+  // user
+  sprintf(tmp, "User:   %.1f %.1f %.1f %.0f",
           localuser->pos.x, localuser->pos.y, localuser->pos.z, RAD2DEG(localuser->pos.az));
-  hud_line2 = line;
+  hud_line3 = tmp;
   
   WObject* obj = ::g.gui.selected_object;
   if (obj) {
-    sprintf(line, "Object: %.1f %.1f %.1f %.0f",
+    // object
+    sprintf(tmp, "Obj:    %.1f %.1f %.1f %.0f",
             obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az));
-    hud_line3 = line;
+    hud_line4 = tmp;
     
-    sprintf(line, "BBox:   %.1f %.1f %.1f",
+    // bbox
+    sprintf(tmp, "Bbox:   %.1f %.1f %.1f",
             obj->pos.bbs.v[0], obj->pos.bbs.v[1], obj->pos.bbs.v[2]);
-    hud_line4 = line;
+    hud_line5 = tmp;
     
+    // dist
     float dist = sqrt((localuser->pos.x-obj->pos.x)*(localuser->pos.x-obj->pos.x) +
                       (localuser->pos.y-obj->pos.y)*(localuser->pos.y-obj->pos.y) +
                       (localuser->pos.z-obj->pos.z)*(localuser->pos.z-obj->pos.z)
                      );
-    sprintf(line, "Dist:   %.1f", dist);
-    hud_line5 = line;
+    sprintf(tmp, "Dist:   %.1f", dist);
+    hud_line6 = tmp;
   }
 }
 

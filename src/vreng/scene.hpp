@@ -35,6 +35,9 @@ struct GLSection : public ubit::UGraph::Glpaint {
 };
 
 
+/**
+ * Scene class
+ */
 class Scene : public ubit::UBox {
 public:
   Scene(class Widgets*);	///< constructor.
@@ -46,7 +49,8 @@ public:
   void getScene(GLint coords[4]);
   void getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h);
   void setScene(GLint x, GLint y, GLsizei width, GLsizei height);
-  void setBackground(UColor&);
+
+  void setBackground(UColor& color);
   void toggleHud();
   
 private:
@@ -63,7 +67,7 @@ private:
   ULabel message;
   UBackground background;
   UBox hudbox;
-  UStr hud_line1, hud_line2, hud_line3, hud_line4, hud_line5;
+  UStr hud_line1, hud_line2, hud_line3, hud_line4, hud_line5, hud_line6;
   class Hud *hud;
 
   void init();
@@ -75,8 +79,9 @@ private:
   void resize(UResizeEvent&, int width, int height);
   /** Resizes the scene */
 
-  void updateHud();
   void netTimeoutCB();
+
+  void refreshHud();
 
   // callback methods for UBox
   void paintCB(UPaintEvent&);
