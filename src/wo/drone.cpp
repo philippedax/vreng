@@ -42,7 +42,7 @@ void Drone::defaults()
 {
   model = Wings::HELICOPTER;
   wings = NULL;
-  radius = DRONE_ZONE;
+  zone = DRONE_ZONE;
   scale = DRONE_SCALE;
   flying = false;
   filming = false;
@@ -57,8 +57,8 @@ void Drone::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "radius")) l = parseFloat(l, &radius, "radius");
-    else if (! stringcmp(l, "scale")) l = parseFloat(l, &scale, "scale");
+    if      (! stringcmp(l, "zone"))   l = parseFloat(l, &zone, "zone");
+    else if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "flying")) l = parseBool(l, &flying, "flying");
   }
   end_while_parse(l);
@@ -78,7 +78,7 @@ void Drone::behavior()
 void Drone::inits()
 {
   vieworig = ::g.render.getViewMode();
-  posinit = pos;
+  posorig = pos;
   wings = new Wings(model, scale);
   pos.x += DRONE_DELTA;
   pos.y += DRONE_DELTA;
@@ -106,19 +106,23 @@ void Drone::changePermanent(float lasting)
   static int signx = -1;
   static int signy = 1;
   static int signz = 1;
+  struct timeval tv;
+
+  gettimeofday(&tv, NULL);
+  srand((time_t) tv.tv_usec);
 
   if (! driven) {
     // x
     if (expansionx) {
       signx = -1;
-      if ( (pos.x < (0 - radius)) || (pos.x > (0 + radius)) ) {
+      if ( (pos.x < (0 - zone)) || (pos.x > (0 + zone)) ) {
         expansionx = false;
         signx = 1;
       }
     }
     else { // collapsex
       signx = 1;
-      if ( (pos.x < (0 - radius)) || (pos.x > (0 + radius)) ) {
+      if ( (pos.x < (0 - zone)) || (pos.x > (0 + zone)) ) {
         expansionx = true;
         signx = -1;
       }
@@ -128,14 +132,14 @@ void Drone::changePermanent(float lasting)
     // y
     if (expansiony) {
       signy = 1;
-      if ( (pos.y < (0 - radius)) || (pos.y > (0 + radius)) ) {
+      if ( (pos.y < (0 - zone)) || (pos.y > (0 + zone)) ) {
         expansiony = false;
         signy = -1;
       }
     }
     else { // collapsey
       signy = -1;
-      if ( (pos.y < (0 - radius)) || (pos.y > (0 + radius)) ) {
+      if ( (pos.y < (0 - zone)) || (pos.y > (0 + zone)) ) {
         expansiony = true;
         signy = 1;
       }
@@ -145,14 +149,14 @@ void Drone::changePermanent(float lasting)
     // z
     if (expansionz) {
       signz = 1;
-      if (pos.z > (posinit.z + radius / 2)) {
+      if (pos.z > (posorig.z + zone / 2)) {
         //dax expansionz = false;
         signz = -0;	// asymptote
       }
     }
     else { // collapsez
       signz = -1;
-      if (pos.z < posinit.z) {
+      if (pos.z < posorig.z) {
         expansionz = true;
         signz = 1;
       }
@@ -255,7 +259,7 @@ void Drone::drive()
 void Drone::reset()
 {
   pause();
-  pos = posinit;
+  pos = posorig;
   if (filming) {
     filming = false;
     driven = false;

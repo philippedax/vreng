@@ -32,15 +32,15 @@
 class Drone : public WObject {
 
  private:
+  class Wings *wings;
   bool flying;		///< the drone is flying
   bool filming;		///< filming from the drone
   bool driven;		///< the drone is under control of user
-  class Wings *wings;
-  Pos posinit;		///< initial position
-  float radius;		///< zone to explore
+  float zone;		///< zone to explore
   float scale;		///< scaling factor
-  uint8_t model;
-  uint8_t vieworig;
+  uint8_t model;	///< model of wings
+  Pos posorig;		///< initial position
+  uint8_t vieworig;	///< initial view mode
 
  public:
   static const float DRONE_ZONE;
