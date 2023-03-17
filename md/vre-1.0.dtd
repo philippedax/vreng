@@ -81,7 +81,7 @@
 <!ATTLIST bird		pos	NMTOKENS #REQUIRED>
 <!ATTLIST bird		name	NMTOKEN #IMPLIED>
 <!ATTLIST bird		descr	NMTOKENS #IMPLIED>
-<!ATTLIST bird  	radius	NMTOKEN #IMPLIED>
+<!ATTLIST bird  	zone	NMTOKEN #IMPLIED>
 <!ATTLIST bird		scale	NMTOKEN "1">
 <!ATTLIST bird		flying	(0 | 1) "0">
 <!ATTLIST bird		model	(bird) #IMPLIED>
@@ -186,7 +186,7 @@
 <!ATTLIST drone		pos	NMTOKENS #REQUIRED>
 <!ATTLIST drone		name	NMTOKEN #IMPLIED>
 <!ATTLIST drone		descr	NMTOKENS #IMPLIED>
-<!ATTLIST drone  	radius	NMTOKEN #IMPLIED>
+<!ATTLIST drone  	zone	NMTOKEN #IMPLIED>
 <!ATTLIST drone		scale	NMTOKEN "1">
 <!ATTLIST drone		model	(helicopter) #IMPLIED>
 
