@@ -82,7 +82,7 @@ const char DTD[] = "\
 <!ATTLIST bird		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST bird		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST bird		descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST bird  	radius	NMTOKEN #IMPLIED>\n\
+<!ATTLIST bird  	zone	NMTOKEN #IMPLIED>\n\
 <!ATTLIST bird		scale	NMTOKEN \"1\">\n\
 <!ATTLIST bird		flying	(0 | 1) \"0\">\n\
 <!ATTLIST bird		model	(bird) #IMPLIED>\n\
@@ -187,7 +187,7 @@ const char DTD[] = "\
 <!ATTLIST drone		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST drone		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST drone		descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST drone  	radius	NMTOKEN #IMPLIED>\n\
+<!ATTLIST drone  	zone	NMTOKEN #IMPLIED>\n\
 <!ATTLIST drone		scale	NMTOKEN \"1\">\n\
 <!ATTLIST drone		model	(helicopter) #IMPLIED>\n\
 \n\
