@@ -69,7 +69,8 @@ void Wings::defaults()
 /* solid geometry */
 void Wings::makeSolid()
 {
-  char s[256];
+  char s[128];
+
   sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.6,.1,.6);
   parseSolid(s);
 }
@@ -95,9 +96,7 @@ void Wings::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
-    if (! stringcmp(l, "scale=")) {
-      l = parseFloat(l, &scale, "scale");
-    }
+    if (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "model=")) {
       l = parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "bird"))       model = BIRD;
