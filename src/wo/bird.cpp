@@ -40,7 +40,7 @@ void Bird::defaults()
 {
   model = Wings::BIRD;
   wings = NULL;
-  radius = BIRD_ZONE;
+  zone = BIRD_ZONE;
   scale = BIRD_SCALE;
 }
 
@@ -57,7 +57,7 @@ void Bird::parser(char *l)
       if      (! stringcmp(modelname, "bird"))      model = Wings::BIRD;
       else if (! stringcmp(modelname, "butterfly")) model = Wings::BUTTERFLY;
     }
-    else if (! stringcmp(l, "radius")) l = parseFloat(l, &radius, "radius");
+    else if (! stringcmp(l, "zone"))   l = parseFloat(l, &zone, "zone");
     else if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "flying")) l = parseBool(l, &flying, "flying");
   }
@@ -77,8 +77,8 @@ void Bird::behavior()
 /* Specific inits */
 void Bird::inits()
 {
-  posinit = pos;
   wings = new Wings(model, scale);
+  posorig = pos;
   pos.x += rand()%3 * BIRD_DELTA;
   pos.y += rand()%3 * BIRD_DELTA;
   pos.z += rand()%3 * BIRD_DELTA;
@@ -112,14 +112,14 @@ void Bird::changePermanent(float lasting)
   // x
   if (expansionx) {
     signx = -1;
-    if ( (pos.x < (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
+    if ( (pos.x < (posorig.x - zone)) || (pos.x > (posorig.x + zone)) ) {
       expansionx = false;
       signx = 1;
     }
   }
   else { // collapsex
     signx = 1;
-    if ( (pos.x < (posinit.x - radius)) || (pos.x > (posinit.x + radius)) ) {
+    if ( (pos.x < (posorig.x - zone)) || (pos.x > (posorig.x + zone)) ) {
       expansionx = true;
       signx = -1;
     }
@@ -129,14 +129,14 @@ void Bird::changePermanent(float lasting)
   // y
   if (expansiony) {
     signy = 1;
-    if ( (pos.y < (posinit.y - radius)) || (pos.y > (posinit.y + radius)) ) {
+    if ( (pos.y < (posorig.y - zone)) || (pos.y > (posorig.y + zone)) ) {
       expansiony = false;
       signy = -1;
     }
   }
   else { // collapsey
     signy = -1;
-    if ( (pos.y < (posinit.y - radius)) || (pos.y > (posinit.y + radius)) ) {
+    if ( (pos.y < (posorig.y - zone)) || (pos.y > (posorig.y + zone)) ) {
       expansiony = true;
       signy = 1;
     }
@@ -146,14 +146,14 @@ void Bird::changePermanent(float lasting)
   // z
   if (expansionz) {
     signz = 1;
-    if (pos.z > (posinit.z + radius)) {
+    if (pos.z > (posorig.z + zone)) {
       expansionz = false;
       signz = -1;
     }
   }
   else { // collapsez
     signz = -1;
-    if (pos.z < posinit.z) {
+    if (pos.z < posorig.z) {
       expansionz = true;
       signz = 1;
     }
@@ -202,7 +202,7 @@ void Bird::pause()
 void Bird::reset()
 {
   pause();
-  pos = posinit;
+  pos = posorig;
 }
 
 void Bird::fly_cb(Bird *bird, void *d, time_t s, time_t u)

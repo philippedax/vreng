@@ -32,10 +32,10 @@
 class Bird : public WObject {
 
  private:
-  bool flying;
   class Wings *wings;
-  Pos posinit;
-  float radius;
+  bool flying;
+  Pos posorig;
+  float zone;
   float scale;
   uint8_t model;
   char modelname[16];
