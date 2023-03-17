@@ -567,9 +567,9 @@ amplitude="1" freq="1" phase="1">
 <mirage name="cristal" pos="4 -3.5 0"> <solid shape="pyramid" s="1" h="1" dif=".5 1 .9" a="1" /> </mirage>
 
 <!-- bird -->
-<bird name="bird1" pos="4 -3.5 1.5" flying="true" model="bird" scale=".5" radius="5"> <solid shape="wings" dif="grey" /> </bird>
-<bird name="bird2" pos="4 -3.2 1.2" flying="false" model="bird" scale=".4" radius="2"> <solid shape="wings" dif="grey" /> </bird>
-<bird name="bird3" pos="4 -3.8 1.3" flying="false" model="bird" scale=".3" radius="2"> <solid shape="wings" dif="grey" /> </bird>
+<bird name="bird1" pos="4 -3.5 1.5" flying="true" model="bird" scale=".5" zone="5"> <solid shape="wings" dif="grey" /> </bird>
+<bird name="bird2" pos="4 -3.2 1.2" flying="false" model="bird" scale=".4" zone="2"> <solid shape="wings" dif="grey" /> </bird>
+<bird name="bird3" pos="4 -3.8 1.3" flying="false" model="bird" scale=".3" zone="2"> <solid shape="wings" dif="grey" /> </bird>
 
 <!-- drone -->
 <drone name="drone" pos="4 -3.5 1" scale=".2"> <solid shape="wings" dif="grey" /> </drone>
