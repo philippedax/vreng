@@ -76,7 +76,7 @@ void Cloth::parser(char *l)
       else if (! stringcmp(str, "dress")) { skirt = true; article = DRESS; }
       else if (! stringcmp(str, "wings")) { wings = true; article = WINGS; }
     }
-    else if (!stringcmp(l, "color=")) l = parseString(l, color, "color");
+    else if (! stringcmp(l, "color=")) l = parseString(l, color, "color");
   }
   end_while_parse(l);
 }
@@ -107,14 +107,13 @@ void Cloth::makeSolid()
 
 void Cloth::behavior()
 {
-  enableBehavior(TAKABLE);      // cart
+  enableBehavior(TAKABLE);
   if (taken) {
     enableBehavior(DYNAMIC);
     enableBehavior(NO_BBABLE);
+    enablePermanentMovement();	// follows user
   }
   initMobileObject(ttl);
-  if (taken)
-    enablePermanentMovement();	// follows user
 }
 
 /* Sets an unique name */
