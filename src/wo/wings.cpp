@@ -59,7 +59,7 @@ void Wings::defaults()
   dy = 0;
   dz = 0.55;
   dax = 0;
-  day = -45;	// -90
+  day = 0; // -45;
   daz = 90;
   angle = 0;	// open
   scale = 1;
@@ -242,7 +242,7 @@ void Wings::draw(uint8_t _model)
     glColor3f(.7, .7, .7); glVertex2f(.1, -1);
     glColor3f(.7, .7, .7); glVertex2f(.1, -.5);
     glColor3f(.3, .3, .3); glVertex2f(0, 0);
-    Draw::sphere(.1, 8, 8, 0);
+    Draw::sphere(.2, 8, 8, 0);
   default:
     break;
   }
