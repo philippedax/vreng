@@ -63,7 +63,8 @@ void Dress::defaults()
 /* solid geometry */
 void Dress::makeSolid()
 {
-  char s[256];
+  char s[128];
+
   switch (model) {
   case Dress::SPIRES:
     sprintf(s,"solid shape=\"cone\" rb=\"%f\" rt=\"%f\" h=\"%f\" tx=\"%s\" />",.1,.3,-.45,"/gif/pyjama-spires.gif");
@@ -96,7 +97,7 @@ void Dress::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
-    if (!stringcmp(l, "model=")) {
+    if (! stringcmp(l, "model=")) {
       l = parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "spires")) model = SPIRES;
       else if (! stringcmp(modelname, "bands"))  model = BANDS;
@@ -178,11 +179,10 @@ void Dress::wear()
 /* takeoff */
 void Dress::takeoff()
 {
-  // restore original position
-  restorePosition();
+  taken = false;
+  restorePosition();	// restore original position
   delPersist();
   delFromWearList();
-  taken = false;
 }
 
 /* wear: indirectly called by user */

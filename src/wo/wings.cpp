@@ -119,8 +119,6 @@ Wings::Wings(char *l)
   active = false;
   taken = false;
   behavior();
-  enableBehavior(COLLIDE_NEVER);
-  enableBehavior(SPECIFIC_RENDER);
 
   draw();
 }
@@ -132,8 +130,6 @@ Wings::Wings(uint8_t _model, float _scale)
   active = true;
   taken = false;
   behavior();
-  enableBehavior(COLLIDE_NEVER);
-  enableBehavior(SPECIFIC_RENDER);
   //pos.ax -= M_PI_2;
   pos.az -= M_PI_2;
   scale = _scale;
@@ -148,8 +144,6 @@ Wings::Wings()
   active = true;
   taken = false;
   behavior();
-  enableBehavior(COLLIDE_NEVER);
-  enableBehavior(SPECIFIC_RENDER);
   pos.ax -= M_PI_2;
   pos.az -= M_PI_2;
   scale = .3;
@@ -175,13 +169,11 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   active = false;
   taken = true;
   model = getModel(modelname);
-  makeSolid();
   setName(modelname);
+  makeSolid();
   setOwner();
   getPersist();
   behavior();
-  enableBehavior(COLLIDE_NEVER);
-  enableBehavior(SPECIFIC_RENDER);
   inits();
 
   draw();
@@ -204,7 +196,7 @@ void Wings::draw()
 
 void Wings::draw(uint8_t _model)
 {
-  //center wing
+  // center wing
   dlist_center = glGenLists(1);
   glNewList(dlist_center, GL_COMPILE);
   glBegin(GL_POLYGON);
@@ -248,7 +240,7 @@ void Wings::draw(uint8_t _model)
   glEnd();
   glEndList();
 
-  //left wing
+  // left wing
   dlist_right = glGenLists(1);
   glNewList(dlist_right, GL_COMPILE);
   glBegin(GL_POLYGON);
@@ -351,7 +343,7 @@ void Wings::draw(uint8_t _model)
   glEnd();
   glEndList();
 
-  //right wing
+  // right wing
   dlist_left = glGenLists(1);
   glNewList(dlist_left, GL_COMPILE);
   glBegin(GL_POLYGON);
@@ -513,6 +505,7 @@ void Wings::render(uint8_t _model)
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
   glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
+
   switch (_model) {
   case HELICOPTER:
     glRotatef(90, 1, 0, 0);
@@ -524,15 +517,15 @@ void Wings::render(uint8_t _model)
   default:
     glScalef(scale, -scale, scale);
     glPushMatrix();
-     glCallList(dlist_center);
+     glCallList(dlist_center);		// center part
     glPopMatrix();
     glPushMatrix();
      glRotatef(angle, 0, 1, 0);
-     glCallList(dlist_left);
+     glCallList(dlist_left);		// left part
     glPopMatrix();
     glPushMatrix();
      glRotatef(-angle, 0, 1, 0);
-     glCallList(dlist_right);
+     glCallList(dlist_right);		// right part
     glPopMatrix();
     break;
   }
@@ -557,14 +550,13 @@ void Wings::wear()
 {
   if (taken) takeoff();
   defaults();
-  active = true;
   taken = true;
+  active = true;
   model = getModel(modelname);
   setName(modelname);
   setOwner();
   setPersist();
   behavior();
-  enableBehavior(SPECIFIC_RENDER);
   inits();
   addToWearList();
 }
@@ -572,12 +564,11 @@ void Wings::wear()
 /* takeoff */
 void Wings::takeoff()
 {
-  // restore original position
-  restorePosition();
+  taken = false;
+  active = false;
+  restorePosition();	// restore original position
   delPersist();
   delFromWearList();
-  active = false;
-  taken = false;
 }
 
 /* wear: indirectly called by user */

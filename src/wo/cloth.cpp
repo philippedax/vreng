@@ -107,6 +107,8 @@ void Cloth::makeSolid()
 
 void Cloth::behavior()
 {
+  enableBehavior(COLLIDE_NEVER);
+  enableBehavior(SPECIFIC_RENDER);
   enableBehavior(TAKABLE);
   if (taken) {
     enableBehavior(DYNAMIC);
