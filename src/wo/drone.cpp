@@ -28,8 +28,8 @@
 const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);
 
 const float Drone::DRONE_SCALE = .4;
-const float Drone::DRONE_ZONE = 20;	// flying zone
-const float Drone::DRONE_DELTA = .05;	// elem motion
+const float Drone::DRONE_ZONE = 20;	// flying zone 20x20
+const float Drone::DRONE_DELTA = .05;	// elementary movement 5cm
 
 
 /* Creation from a file */
@@ -70,8 +70,6 @@ void Drone::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
 }
 
 /* Specific inits */
@@ -80,10 +78,8 @@ void Drone::inits()
   vieworig = ::g.render.getViewMode();
   posorig = pos;
   wings = new Wings(model, scale);
-  pos.x += DRONE_DELTA;
-  pos.y += DRONE_DELTA;
-  pos.z += DRONE_DELTA;
-  updatePosition();
+
+  initMobileObject(0);
 
   if (flying)
     fly();
@@ -100,66 +96,54 @@ Drone::Drone(char *l)
 /* Computes postion at each loop */
 void Drone::changePermanent(float lasting)
 {
-  static bool expansionx = true;
-  static bool expansiony = true;
-  static bool expansionz = true;
-  static int signx = -1;
-  static int signy = 1;
-  static int signz = 1;
   struct timeval tv;
 
   gettimeofday(&tv, NULL);
-  srand((time_t) tv.tv_usec);
+  srand((time_t) tv.tv_sec);
+
+  static bool expandx = true;
+  static bool expandy = true;
+  static int signx = rand()%2 -1; //orig -1;
+  static int signy = rand()%2 -1; //orig 1;
+  static int signz = 1;
 
   if (! driven) {
     // x
-    if (expansionx) {
-      signx = -1;
-      if ( (pos.x < (0 - zone)) || (pos.x > (0 + zone)) ) {
-        expansionx = false;
-        signx = 1;
+    signx = signx ? signx : -1;
+    if (expandx) {
+      if ( (pos.x < -zone) || (pos.x > zone) ) {
+        expandx = false;
+        signx = (signx<0) ? 1 : -1;
       }
     }
     else { // collapsex
-      signx = 1;
-      if ( (pos.x < (0 - zone)) || (pos.x > (0 + zone)) ) {
-        expansionx = true;
-        signx = -1;
+      if ( (pos.x < -zone) || (pos.x > zone) ) {
+        expandx = true;
+        signx = (signx<0) ? 1 : -1;
       }
     }
     pos.x += (signx * rand()%3 * DRONE_DELTA);
   
     // y
-    if (expansiony) {
-      signy = 1;
-      if ( (pos.y < (0 - zone)) || (pos.y > (0 + zone)) ) {
-        expansiony = false;
-        signy = -1;
+    signy = signy ? signy : -1;
+    if (expandy) {
+      if ( (pos.y < -zone) || (pos.y > zone) ) {
+        expandy = false;
+        signy = (signy<0) ? 1 : -1;
       }
     }
     else { // collapsey
-      signy = -1;
-      if ( (pos.y < (0 - zone)) || (pos.y > (0 + zone)) ) {
-        expansiony = true;
-        signy = 1;
+      if ( (pos.y < -zone) || (pos.y > zone) ) {
+        expandy = true;
+        signy = (signy<0) ? 1 : -1;
       }
     }
     pos.y += (signy * rand()%3 * DRONE_DELTA);
+    //echo("pos: %.1f %.1f", pos.x, pos.y);
 
     // z
-    if (expansionz) {
-      signz = 1;
-      if (pos.z > (posorig.z + zone / 2)) {
-        //dax expansionz = false;
-        signz = -0;	// asymptote
-      }
-    }
-    else { // collapsez
-      signz = -1;
-      if (pos.z < posorig.z) {
-        expansionz = true;
-        signz = 1;
-      }
+    if (pos.z > (zone / 2)) {
+      signz = 0;	// asymptote
     }
     pos.z += (signz * rand()%3 * DRONE_DELTA);
 
@@ -214,11 +198,11 @@ void Drone::quit()
 
 void Drone::fly()
 {
+  flying = true;
   enableBehavior(SPECIFIC_RENDER);
 
   enablePermanentMovement();
   wings->start();
-  flying = true;
 }
 
 void Drone::pause()
@@ -252,8 +236,9 @@ void Drone::drive()
     driven = false;	// drone takes control
     localuser->enableGravity();
   }
-  else
+  else {
     driven = true;	// user takes control of drone
+  }
 }
 
 void Drone::reset()
