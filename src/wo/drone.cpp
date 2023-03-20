@@ -212,8 +212,8 @@ void Drone::pause()
   wings->stop();
 }
 
-/** toggle view */
-void Drone::view()
+/** toggle follow */
+void Drone::follow()
 {
   if (flying) {
     if (filming) {
@@ -258,19 +258,19 @@ void Drone::fly_cb(Drone *drone, void *d, time_t s, time_t u)
   drone->fly();
 }
 
-void Drone::pause_cb(Drone *drone, void *d, time_t s, time_t u)
+void Drone::follow_cb(Drone *drone, void *d, time_t s, time_t u)
 {
-  drone->pause();
-}
-
-void Drone::view_cb(Drone *drone, void *d, time_t s, time_t u)
-{
-  drone->view();
+  drone->follow();
 }
 
 void Drone::drive_cb(Drone *drone, void *d, time_t s, time_t u)
 {
   drone->drive();
+}
+
+void Drone::pause_cb(Drone *drone, void *d, time_t s, time_t u)
+{
+  drone->pause();
 }
 
 void Drone::reset_cb(Drone *drone, void *d, time_t s, time_t u)
@@ -281,7 +281,7 @@ void Drone::reset_cb(Drone *drone, void *d, time_t s, time_t u)
 void Drone::funcs()
 {
   setActionFunc(DRONE_TYPE, 0, _Action fly_cb, "flying");
-  setActionFunc(DRONE_TYPE, 1, _Action view_cb, "view");
+  setActionFunc(DRONE_TYPE, 1, _Action follow_cb, "follow");
   setActionFunc(DRONE_TYPE, 2, _Action drive_cb, "drive");
   setActionFunc(DRONE_TYPE, 3, _Action pause_cb, "pause");
   setActionFunc(DRONE_TYPE, 4, _Action reset_cb, "reset");

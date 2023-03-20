@@ -82,16 +82,16 @@ class Drone : public WObject {
   /**< Do specific inits */
 
   void fly();
-  void view();
+  void follow();
   void drive();
   void pause();
   void reset();
 
   // GUI callbacks
   static void fly_cb(Drone *o, void *d, time_t s, time_t u);
-  static void pause_cb(Drone *o, void *d, time_t s, time_t u);
-  static void view_cb(Drone *o, void *d, time_t s, time_t u);
+  static void follow_cb(Drone *o, void *d, time_t s, time_t u);
   static void drive_cb(Drone *o, void *d, time_t s, time_t u);
+  static void pause_cb(Drone *o, void *d, time_t s, time_t u);
   static void reset_cb(Drone *o, void *d, time_t s, time_t u);
 
 };
