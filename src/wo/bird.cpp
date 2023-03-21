@@ -70,8 +70,6 @@ void Bird::behavior()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
 }
 
 /* Specific inits */
@@ -79,11 +77,8 @@ void Bird::inits()
 {
   wings = new Wings(model, scale);
   posorig = pos;
-  pos.x += rand()%3 * BIRD_DELTA;
-  pos.y += rand()%3 * BIRD_DELTA;
-  pos.z += rand()%3 * BIRD_DELTA;
-  //pos.ay += M_PI_2;
-  updatePosition();
+
+  initMobileObject(0);
 
   if (flying) {
     fly();
@@ -102,60 +97,60 @@ Bird::Bird(char *l)
 /* Computes position at each loop */
 void Bird::changePermanent(float lasting)
 {
-  static bool expansionx = true;
-  static bool expansiony = true;
-  static bool expansionz = true;
-  static int signx = -1;
-  static int signy = 1;
+  static bool expandx = true;
+  static bool expandy = true;
+  static bool expandz = true;
+  static int signx = rand()%2 -1; //orig -1;
+  static int signy = rand()%2 -1; //orig 1;
   static int signz = 1;
 
   // x
-  if (expansionx) {
-    signx = -1;
+  if (expandx) {
+    signx = signx ? signx : -1;
     if ( (pos.x < (posorig.x - zone)) || (pos.x > (posorig.x + zone)) ) {
-      expansionx = false;
-      signx = 1;
+      expandx = false;
+      signx = (signx<0) ? 1 : -1;
     }
   }
   else { // collapsex
     signx = 1;
     if ( (pos.x < (posorig.x - zone)) || (pos.x > (posorig.x + zone)) ) {
-      expansionx = true;
-      signx = -1;
+      expandx = true;
+      signx = (signx<0) ? 1 : -1;
     }
   }
   pos.x += (signx * rand()%3 * BIRD_DELTA);
 
   // y
-  if (expansiony) {
-    signy = 1;
+  if (expandy) {
+    signy = signy ? signy : -1;
     if ( (pos.y < (posorig.y - zone)) || (pos.y > (posorig.y + zone)) ) {
-      expansiony = false;
-      signy = -1;
+      expandy = false;
+      signy = (signy<0) ? 1 : -1;
     }
   }
   else { // collapsey
     signy = -1;
     if ( (pos.y < (posorig.y - zone)) || (pos.y > (posorig.y + zone)) ) {
-      expansiony = true;
-      signy = 1;
+      expandy = true;
+      signy = (signy<0) ? 1 : -1;
     }
   }
   pos.y += (signy * rand()%3 * BIRD_DELTA);
 
   // z
-  if (expansionz) {
-    signz = 1;
+  if (expandz) {
+    signz = signz ? signz : -1;
     if (pos.z > (posorig.z + zone)) {
-      expansionz = false;
-      signz = -1;
+      expandz = false;
+      signz = (signz<0) ? 1 : -1;
     }
   }
   else { // collapsez
     signz = -1;
     if (pos.z < posorig.z) {
-      expansionz = true;
-      signz = 1;
+      expandz = true;
+      signz = (signz<0) ? 1 : -1;
     }
   }
   pos.z += (signz * rand()%3 * BIRD_DELTA);
