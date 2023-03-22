@@ -107,7 +107,13 @@ void Drone::changePermanent(float lasting)
   static int signy = rand()%2 -1; //orig 1;
   static int signz = 1;
 
-  if (! driven) {
+  if (driven) {
+    // drone is drived by user
+    pos.x = localuser->pos.x;
+    pos.y = localuser->pos.y;
+    pos.z = localuser->pos.z;
+  }
+  else {
     // x
     signx = signx ? signx : -1;
     if (expandx) {
@@ -154,13 +160,7 @@ void Drone::changePermanent(float lasting)
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
       localuser->pos.z = pos.z;
-      localuser->disableGravity();
     }
-  }
-  else {	// drone is drived by user
-    pos.x = localuser->pos.x;
-    pos.y = localuser->pos.y;
-    pos.z = localuser->pos.z;
   }
 }
 
@@ -169,40 +169,35 @@ void Drone::render()
 {
   if (following || driven) {
     //echo("drone: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
-#if 1 //dax
     glPushMatrix();
-    ::g.render.setCameraScissor(pos.x, pos.y, pos.z, 90);
-    ::g.render.showView();
+     //::g.render.setCameraScissor(pos.x, pos.y, pos.z, 90);
+     //dax ::g.render.showView();
+     //dax ::g.render.cameraPosition(this);
     glPopMatrix();
-#else
-    ::g.render.cameraPosition(this);
-#endif
-    return;
+    //dax return;
   }
   glPushMatrix();
-  glEnable(GL_CULL_FACE);
-  glTranslatef(pos.x, pos.y, pos.z);
-  glRotatef(-90, 1, 0, 0);
-  glRotatef(-90, 0, 0, 1);
-  glScalef(scale, scale, scale);
+   glEnable(GL_CULL_FACE);
+   glTranslatef(pos.x, pos.y, pos.z);
+   glRotatef(-90, 1, 0, 0);
+   glRotatef(-90, 0, 0, 1);
+   glScalef(scale, scale, scale);
 
-  wings->render();	// render wings
+   wings->render();	// render wings
 
-  glDisable(GL_CULL_FACE);
+   glDisable(GL_CULL_FACE);
   glPopMatrix();
-}
-
-void Drone::quit()
-{
 }
 
 void Drone::fly()
 {
-  flying = true;
-  enableBehavior(SPECIFIC_RENDER);
+  if (! flying) {
+    flying = true;
+    enableBehavior(SPECIFIC_RENDER);
 
-  enablePermanentMovement();
-  wings->start();
+    enablePermanentMovement();
+    wings->start();
+  }
 }
 
 void Drone::pause()
@@ -216,16 +211,16 @@ void Drone::pause()
 void Drone::follow()
 {
   if (flying) {
+    //dax ::g.render.switchViewObj();
     if (following) {
       following = false;
-      ::g.render.switchViewObj();
-      localuser->setView(vieworig);
+      //dax localuser->setView(vieworig);
       localuser->enableGravity();
     }
     else {
       following = true;
-      ::g.render.switchViewObj();
-      localuser->setView(Render::VIEW_VERTICAL_FROM_OBJECT);
+      //dax localuser->setView(Render::VIEW_VERTICAL_FROM_OBJECT);
+      localuser->disableGravity();
     }
   }
 }
@@ -252,6 +247,10 @@ void Drone::reset()
     localuser->setView(vieworig);
     localuser->enableGravity();
   }
+}
+
+void Drone::quit()
+{
 }
 
 void Drone::fly_cb(Drone *drone, void *d, time_t s, time_t u)
