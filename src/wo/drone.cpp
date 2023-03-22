@@ -167,7 +167,7 @@ void Drone::changePermanent(float lasting)
 /* Renders at each loop */
 void Drone::render()
 {
-  if (following) {
+  if (following || driven) {
     //echo("drone: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
 #if 1 //dax
     glPushMatrix();
@@ -220,6 +220,7 @@ void Drone::follow()
       following = false;
       ::g.render.switchViewObj();
       localuser->setView(vieworig);
+      localuser->enableGravity();
     }
     else {
       following = true;
