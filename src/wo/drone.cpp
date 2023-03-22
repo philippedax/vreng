@@ -45,7 +45,7 @@ void Drone::defaults()
   zone = DRONE_ZONE;
   scale = DRONE_SCALE;
   flying = false;
-  filming = false;
+  following = false;
   driven = false;
 }
 
@@ -149,7 +149,7 @@ void Drone::changePermanent(float lasting)
 
     updatePosition();
 
-    if (filming) {
+    if (following) {
       // user follows the drone
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
@@ -167,7 +167,7 @@ void Drone::changePermanent(float lasting)
 /* Renders at each loop */
 void Drone::render()
 {
-  if (filming) {
+  if (following) {
     //echo("drone: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
 #if 1 //dax
     glPushMatrix();
@@ -216,13 +216,13 @@ void Drone::pause()
 void Drone::follow()
 {
   if (flying) {
-    if (filming) {
-      filming = false;
+    if (following) {
+      following = false;
       ::g.render.switchViewObj();
       localuser->setView(vieworig);
     }
     else {
-      filming = true;
+      following = true;
       ::g.render.switchViewObj();
       localuser->setView(Render::VIEW_VERTICAL_FROM_OBJECT);
     }
@@ -245,8 +245,8 @@ void Drone::reset()
 {
   pause();
   pos = posorig;
-  if (filming) {
-    filming = false;
+  if (following) {
+    following = false;
     driven = false;
     localuser->setView(vieworig);
     localuser->enableGravity();

@@ -34,7 +34,7 @@ class Drone : public WObject {
  private:
   class Wings *wings;
   bool flying;		///< the drone is flying
-  bool filming;		///< filming from the drone
+  bool following;	///< following from the drone
   bool driven;		///< the drone is under control of user
   float zone;		///< zone to explore
   float scale;		///< scaling factor
