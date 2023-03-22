@@ -185,10 +185,11 @@ void Gate::enter()
 bool Gate::whenIntersect(WObject *pcur, WObject *pold)
 {
   switch (pcur->type) {
+
   case USER_TYPE:
     if (automatic) {
       if (pcur != localuser) {
-	echo("User was just pushed out of this world");
+	echo("user was just pushed out of this world");
         return true;
       }
       else {
@@ -201,14 +202,14 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
       }
     }
     else {
-      if (collidecnt < 20) {
+      if (collidecnt < 10) {
         pold->copyPositionAndBB(pcur);
-        echo("You are near the gate %s in=%d", getInstance(), collidecnt);
+        echo("you are near the gate %s in=%d", getInstance(), collidecnt);
         collidecnt++;
       }
-      else if (collidecnt < 40) {
+      else if (collidecnt < 20) {
         pold->copyPositionAndBB(pcur);
-        echo("If you insist you'll enter in %s in=%d", getInstance(), collidecnt);
+        echo("if you insist you'll enter in %s in=%d", getInstance(), collidecnt);
         collidecnt++;
       }
       else {
@@ -217,15 +218,18 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
       }
     }
     break;
+
   case BULLET_TYPE:
   case DART_TYPE:
     echo("%s:%s hits %s:%s", pcur->names.type, pcur->getInstance(), names.type, getInstance());
     pold->copyPositionAndBB(pcur);
     pcur->toDelete();
     break;
+
   case BALL_TYPE:
     projectPosition(pcur, pold);
     break;
+
   case ICON_TYPE:
     // stick the icon on the wall
     doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
@@ -235,6 +239,7 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
   default:	// other objects
     pold->copyPositionAndBB(pcur);
   }
+
   return true;
 }
 
