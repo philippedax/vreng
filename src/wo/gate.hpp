@@ -36,8 +36,8 @@ private:
   bool automatic;	///< flag automatic enter
   bool flagentry;	///< flag entry
   bool link;		///< flag link
-  uint8_t collidecnt;	///< collide count
-  float entry[3];	///< position after passing gate
+  uint8_t cntcol;	///< collide count
+  V3 entry;		///< position after passing gate
 
 public:
   /* properties */
@@ -64,16 +64,16 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from file line. */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects. */
 
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WObject *pcur, WObject *pold);
   /**< When an other object leave intersection. */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes new position. */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly. */
 
 private:

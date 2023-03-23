@@ -52,7 +52,7 @@ void Gate::defaults()
   link = false;
   automatic = false;
   flagentry = false;
-  memset(entry, 0, sizeof(entry));
+  clearV3(entry);
 }
 
 void Gate::parser(char *l)
@@ -72,9 +72,9 @@ void Gate::parser(char *l)
       else if (! stringcmp(modestr, "auto")) automatic = true;
     }
     else if (! stringcmp(l, "entry")) {
-      l = parseVector3f(l, entry, "entry");
+      l = parseVector3fv(l, &entry, "entry");
       flagentry = true;
-      trace(DBG_WO, "gate: entry=%.1f %.1f %.1f", entry[0], entry[1], entry[2]);
+      trace(DBG_WO, "gate: entry=%.1f %.1f %.1f", entry.v[0], entry.v[1], entry.v[2]);
     }
   }
   end_while_parse(l);
@@ -137,7 +137,7 @@ void Gate::enter()
   if (! strcmp(names.url, ::g.url)) {
     sprintf(chan, "%s/%u/%d",
             Universe::current()->grpstr, Universe::current()->port, Channel::currentTtl());
-    trace(DBG_IPMC, "initial channel = %s", chan);
+    //echo("initial channel: %s", chan);
   }
 #if 1 //dax
 #define USE_VACS 0
@@ -154,15 +154,15 @@ void Gate::enter()
     }
     else {
       //echo("enter: resolveWorldUrl failed from Vac: url=%s", names.url);
-      if (! *chan)
-        strcpy(chan, DEF_VRE_CHANNEL);  // no given channel, forced to the default
+      if (! *chan) {	// no given channel
+        strcpy(chan, DEF_VRE_CHANNEL);	// forced to the default
+      }
     }
     trace(DBG_IPMC, "enter: getChannel=%s url=%s", chan, new_url);
   }
 #endif //USE_VACS
 
-  char *new_chan = NULL;
-  new_chan = strdup(chan);
+  char *new_chan = strdup(chan);
 
   World::current()->quit();		// quit the current world
   delete Channel::current();		// delete Channel
@@ -172,7 +172,6 @@ void Gate::enter()
 
   Channel::join(new_chan);
   trace(DBG_IPMC, "enter: join channel=%s url=%s", new_chan, new_url);
-  //TODO declareJoinWorldToManager(new_url, new_chan, worlds->plocaluser->getInstance());
 
   if (audioactive) Audio::start(new_chan);
   if (new_chan)
@@ -193,7 +192,7 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
         return true;
       }
       else {
-        collidecnt = 0;
+        cntcol = 0;
         if (flagentry) {
           flagentry = false;
           pcur->updatePositionAndGrid(pcur->pos);
@@ -202,19 +201,19 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
       }
     }
     else {
-      if (collidecnt < 10) {
+      if (cntcol < 10) {
         pold->copyPositionAndBB(pcur);
-        echo("you are near the gate %s in=%d", getInstance(), collidecnt);
-        collidecnt++;
+        echo("you are near the gate %s in=%d", getInstance(), cntcol);
+        cntcol++;
       }
-      else if (collidecnt < 20) {
+      else if (cntcol < 20) {
         pold->copyPositionAndBB(pcur);
-        echo("if you insist you'll enter in %s in=%d", getInstance(), collidecnt);
-        collidecnt++;
+        echo("if you insist you'll enter in %s in=%d", getInstance(), cntcol);
+        cntcol++;
       }
       else {
         enter();	// enter by force
-        collidecnt = 0;
+        cntcol = 0;
       }
     }
     break;
@@ -246,7 +245,7 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
 bool Gate::whenIntersectOut(WObject *pcur, WObject *pold)
 {
   if (pcur->type == USER_TYPE) {
-    collidecnt = 0;
+    cntcol = 0;
     return true;
   }
   return false;
