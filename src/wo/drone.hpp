@@ -40,7 +40,6 @@ class Drone : public WObject {
   float scale;		///< scaling factor
   uint8_t model;	///< model of wings
   Pos posorig;		///< initial position
-  uint8_t vieworig;	///< initial view mode
 
  public:
   static const float DRONE_ZONE;

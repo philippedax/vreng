@@ -75,7 +75,6 @@ void Drone::behavior()
 /* Specific inits */
 void Drone::inits()
 {
-  vieworig = ::g.render.getViewMode();
   posorig = pos;
   wings = new Wings(model, scale);
 
@@ -167,15 +166,16 @@ void Drone::changePermanent(float lasting)
 /* Renders at each loop */
 void Drone::render()
 {
+#if 0 //dax
   if (following || driven) {
-    //echo("drone: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
     glPushMatrix();
-     //::g.render.setCameraScissor(pos.x, pos.y, pos.z, 90);
-     //dax ::g.render.showView();
+     ::g.render.setCameraScissor(pos.x, pos.y, pos.z, 90);
+     ::g.render.showView();
      //dax ::g.render.cameraPosition(this);
     glPopMatrix();
-    //dax return;
+    return;
   }
+#endif
   glPushMatrix();
    glEnable(GL_CULL_FACE);
    glTranslatef(pos.x, pos.y, pos.z);
@@ -211,15 +211,12 @@ void Drone::pause()
 void Drone::follow()
 {
   if (flying) {
-    //dax ::g.render.switchViewObj();
     if (following) {
       following = false;
-      //dax localuser->setView(vieworig);
       localuser->enableGravity();
     }
     else {
       following = true;
-      //dax localuser->setView(Render::VIEW_VERTICAL_FROM_OBJECT);
       localuser->disableGravity();
     }
   }
@@ -244,7 +241,6 @@ void Drone::reset()
   if (following) {
     following = false;
     driven = false;
-    localuser->setView(vieworig);
     localuser->enableGravity();
   }
 }
