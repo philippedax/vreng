@@ -55,9 +55,9 @@ class Walls: public WObject {
 
   void draw();	///< Draws walls
 
-  virtual void render(); ///< Renders the walls
+  void render(); ///< Renders the walls
 
-  virtual void quit();	///< Quits
+  void quit();	///< Quits
 
   static int whenIntersect(const V3& center, const V3& size, V3& norm);
 

@@ -55,17 +55,17 @@ class Projectile: public WObject {
 
   static void funcs();	///< init funclist
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
 
-  virtual void updateTime(time_t s, time_t us, float *plasting);
+  void updateTime(time_t s, time_t us, float *plasting);
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
 
-  virtual void whenWallsIntersect(WObject *pold, V3 *norm);
+  void whenWallsIntersect(WObject *pold, V3 *norm);
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
 
-  virtual void quit() {};
+  void quit() {};
   /**< Quits. */
 };
 

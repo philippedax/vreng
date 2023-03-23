@@ -83,19 +83,19 @@ public:
   static WObject * (creator)(char *l);
   /**< Create from fileline */
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
   /**< Makes changes on position */
 
-  virtual void updateTime(time_t, time_t, float *lasting);
+  void updateTime(time_t, time_t, float *lasting);
   /**< Updates time */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes position */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an collision occurs */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly */
 
 private:

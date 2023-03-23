@@ -76,9 +76,9 @@ class Transform: public WObject {
 
   static WObject * (creator)(char *l);	///< Creates from fileline
 
-  virtual void render();	///< do the operation
+  void render();	///< do the operation
 
-  virtual void quit();		///< quits
+  void quit();		///< quits
 
  private:
   void addList(uint8_t op, GLfloat x, GLfloat y, GLfloat z, GLfloat a);

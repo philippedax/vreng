@@ -49,10 +49,10 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from file line */
 
-  virtual void render();
+  void render();
   /**< Specific rendering */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly */
 
 private:

@@ -224,9 +224,9 @@ public:
   static WObject * (creator)(char *l);
   ///< Creates from fileline.
 
-  virtual void changePermanent(float lasting);
-  virtual void render();
-  virtual void quit();
+  void changePermanent(float lasting);
+  void render();
+  void quit();
 
 private:
   void parser(char *l);

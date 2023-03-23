@@ -68,13 +68,13 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from fileline. */
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
   /**< Follows localuser */
 
   void expire();
   /**< toDelete. */
 
-  virtual void render();
+  void render();
   /**< Special rendering for text. */
 
   void setPos(float x, float y, float z, float az, float ax);
@@ -83,7 +83,7 @@ public:
   float lenText(const char *text);
   ///< Returns lenght en glyphs.
 
-  virtual void quit();
+  void quit();
   /**< Quits text. */
 
 protected:

@@ -45,7 +45,7 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from file line */
 
-  //dax virtual void render();	///< rendering
+  //dax void render();	///< rendering
 
 private:
   void parser(char *l);

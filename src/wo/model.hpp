@@ -70,18 +70,18 @@ class Model: public WObject {
   static WObject * (creator)(char *l);
   /**< Creates from fileline. */
 
-  virtual bool isMoving();
+  bool isMoving();
   /**< Checks if is moving. */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Imposed movement. */
 
-  virtual void quit();
+  void quit();
   /**< Quits. */
 
-  virtual void render();
-  virtual void render(const Pos &pos);
-  virtual void render(const Pos &pos, float *color);
+  void render();
+  void render(const Pos &pos);
+  void render(const Pos &pos, float *color);
   /**< Renders the model. */
 
  private:

@@ -65,10 +65,10 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual void render();
+  void render();
   /**< Renderer */
 
-  virtual void quit();
+  void quit();
   /**< Quits */
 
  private:

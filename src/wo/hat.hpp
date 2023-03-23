@@ -70,7 +70,7 @@ public:
   Hat(char *l);			///< Constructor file
   Hat(class User *user, void *d, time_t s, time_t u); ///< Constructor from World
 
-  virtual void quit();	///< Quits
+  void quit();	///< Quits
   
 private:
   void defaults();

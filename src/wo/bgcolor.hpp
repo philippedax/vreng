@@ -36,7 +36,7 @@ class Bgcolor: public WObject {
 private:
   static Bgcolor *bgcolor;	///< The singleton instance of this class
 
-  float color[4];	/// buffer color
+  float color[4];		/// buffer color
 
 public:
   static const OClass oclass;	///< class variable
@@ -50,7 +50,7 @@ public:
 
   static WObject * (creator)(char *l); ///< Creates from fileline
 
-  virtual void quit();		///< Quits
+  void quit();		///< Quits
 
 private:
   void parser(char *l);

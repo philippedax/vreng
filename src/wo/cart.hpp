@@ -66,7 +66,7 @@ public:
   bool isSomethingInCart(WObject *po);
   /**< checks if something is inside cart */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly */
 
  private:

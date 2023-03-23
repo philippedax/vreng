@@ -87,9 +87,9 @@ public:
   static WObject * (creator)(char *l);
   ///< Creates from fileline.
 
-  virtual void changePermanent(float dt);
+  void changePermanent(float dt);
 
-  virtual void render();
+  void render();
 
   void update();
   void draw();

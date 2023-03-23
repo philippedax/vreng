@@ -65,13 +65,13 @@ class Mech: public WObject {
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Permanent motion */
 
-  virtual void render();
+  void render();
   /**< Specific rendering */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly */
 
 private:

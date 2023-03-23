@@ -40,12 +40,12 @@ public:
 
   Firework(char *l);	///< Constructor
 
-  virtual void updateTime(time_t s, time_t u, float *lasting);
+  void updateTime(time_t s, time_t u, float *lasting);
   /**< Updates times. */
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
 
-  virtual void render();
+  void render();
 
   static void funcs();	///< init funclist
 

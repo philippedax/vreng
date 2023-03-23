@@ -44,10 +44,10 @@ public:
   static WObject * (creator)(char *l);
   /**< Create from fileline. */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Position movement. */
 
-  virtual void quit();
+  void quit();
   /**< Quits. */
 
 private:

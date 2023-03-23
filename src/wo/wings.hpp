@@ -80,7 +80,7 @@ public:
   Wings();			///< Constructor from bird.
   Wings(uint8_t model, float scale);		///< Constructor from bird.
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Changes. */
 
   void start();
@@ -93,11 +93,11 @@ public:
   void draw(uint8_t model);
   /**< Draws. */
 
-  virtual void render();
-  virtual void render(uint8_t model);
+  void render();
+  void render(uint8_t model);
   /**< Renders. */
 
-  virtual void quit();
+  void quit();
   /**< Quits. */
   
 private:

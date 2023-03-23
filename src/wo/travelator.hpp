@@ -44,7 +44,7 @@ public:
   static WObject * (creator)(char *l);
   /**< Create from fileline */
 
-  virtual void quit();
+  void quit();
   /**< Quits */
 
 private:

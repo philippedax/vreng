@@ -87,13 +87,13 @@ public:
   static WObject * (creator)(char *l);
   ///< Creates from fileline.
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Animates Fire. */
 
-  virtual void render();
+  void render();
   /**< Renders the fire. */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly. */
 
 protected:

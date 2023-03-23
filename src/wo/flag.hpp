@@ -57,10 +57,10 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Permanent motions */
 
-  virtual void render();
+  void render();
   /**< Specific rendering */
 
 private:

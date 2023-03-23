@@ -58,7 +58,7 @@ public:
 
   float getOrient() const;	///< Gets orientation.
 
-  virtual void quit();		///< Quits.
+  void quit();		///< Quits.
 
 
 private:

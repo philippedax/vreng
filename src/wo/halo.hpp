@@ -60,7 +60,7 @@ public:
   Halo(class User *pu, void *d, time_t s, time_t u);
   /**< Constructor from World */
 
-  virtual void quit();
+  void quit();
   /**< Quits */
 
 private:

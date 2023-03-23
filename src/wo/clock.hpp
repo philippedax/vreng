@@ -64,11 +64,11 @@ public:
 
   static WObject * (creator)(char *l);
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
 
-  virtual void updateTime(time_t s, time_t u, float *lasting);
+  void updateTime(time_t s, time_t u, float *lasting);
 
-  virtual void quit();
+  void quit();
 
 private:
   void init();		///< init time

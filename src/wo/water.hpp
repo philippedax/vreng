@@ -64,10 +64,12 @@ public:
   static WObject * (creator)(char *l);
   ///< Creates from fileline.
 
-  virtual void changePermanent(float lasting);
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
-  virtual void render();
+  void changePermanent(float lasting);
+
+  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WObject *pcur, WObject *pold);
+
+  void render();
 
 private:
   void parser(char *l);

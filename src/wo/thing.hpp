@@ -77,20 +77,20 @@ class Thing: public WObject {
   /**< Creates from a file */
 
 #if 0 //unused
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Permanent movement */
 #endif
 
-  virtual void updateTime(time_t s, time_t us, float *lasting);
+  void updateTime(time_t s, time_t us, float *lasting);
   /**< Updates lasting time */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes to network */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< Intersects with a mobile object */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly */
 
  private:

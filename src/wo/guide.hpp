@@ -70,24 +70,24 @@ public:
   static WObject * (creator)(char *l);
   /**< Create from fileline. */
 
-  virtual void updateTime(time_t sec, time_t usec, float *lasting);
+  void updateTime(time_t sec, time_t usec, float *lasting);
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Perpetually movement. */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects. */
 
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WObject *pcur, WObject *pold);
   /**< When an object leaves intersection. */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes new position. */
 
-  virtual void render();
+  void render();
   /**< Renders the trajectory. */
 
-  virtual void quit();
+  void quit();
   /**< Quits. */
 
 private:

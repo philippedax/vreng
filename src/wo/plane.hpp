@@ -56,10 +56,10 @@ public:
 
   static void funcs();	///< init funclist.
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects. */
 
-  virtual void quit();
+  void quit();
   /**< Quits. */
 
 private:

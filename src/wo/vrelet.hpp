@@ -70,28 +70,28 @@ class Vrelet: public WObject {
 
   static WObject * (creator)(char *l); ///< Creates from fileline
 
-  virtual bool isMoving();
+  bool isMoving();
   /**< Returns yes if the child has sent a delta request */
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
   /**< Propagates the last deltas to the object's position */
 
-  virtual void updateTime(time_t s, time_t us, float *lasting);
+  void updateTime(time_t s, time_t us, float *lasting);
   /**< Dummy: always say we need to move */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< Notify the controler that an ingoing intersection occured */
 
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WObject *pcur, WObject *pold);
   /**< Notify the controler that an outgoing intersection occured */
 
-  virtual void render();
+  void render();
   /**< Displays */
 
   void click(V3 dir);
   /**< React to a user click on our surface */
 
-  virtual void quit();
+  void quit();
   /**< Turn the child on (start it up) */
 
  private:

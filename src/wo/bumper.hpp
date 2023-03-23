@@ -44,19 +44,19 @@ public:
   static WObject * (creator)(char *l);
   /**< Create from fileline. */
 
-  virtual bool isMoving();
+  bool isMoving();
   /**< Checks if object is moving. */
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
   /**< Changes the position after a triggered movement. */
 
-  virtual void updateTime(time_t sec, time_t usec, float *lasting);
+  void updateTime(time_t sec, time_t usec, float *lasting);
   /**< Updates remaining times of the movement. */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects. */
 
-  virtual void quit();
+  void quit();
   /**< Quits. */
 
 private:

@@ -67,7 +67,7 @@ public:
   Dress(class User *user, void *d, time_t s, time_t u);
   /**< Constructor from World */
 
-  virtual void quit();
+  void quit();
   /**< Quits */
   
 private:

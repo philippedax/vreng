@@ -79,10 +79,10 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Permanent movement */
 
-  virtual void quit();
+  void quit();
   /**< Quits */
 
 private:

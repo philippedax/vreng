@@ -77,7 +77,7 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from file line. */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Change permanent (frames). */
 
 private:

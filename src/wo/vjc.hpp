@@ -408,10 +408,11 @@ class Vjc: public WObject {
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Used to scan the sockets for incoming messages */
 
-  virtual void quit();
+  void quit();
+
   static void stop();
   /**<
    * Sends a terminate notification to the external server

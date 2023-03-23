@@ -64,13 +64,13 @@ public:
   static WObject * (creator)(char *l);
   /**< Creation from a file */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Equation to move permanently */
 
-  virtual void render();
+  void render();
   /**< Specific rendering */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly */
 
 private:

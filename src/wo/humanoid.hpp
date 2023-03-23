@@ -82,13 +82,13 @@ class Humanoid: public WObject {
   static WObject * (creator)(char *l);
   /**< Creates from fileline. */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Changes permanent. */
 
-  virtual void render();
+  void render();
   /**< Renders body and face. */
 
-  virtual void quit();
+  void quit();
   /**< Quits. */
 
 private:

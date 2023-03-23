@@ -61,13 +61,13 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< Intersection with an other object */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes new position */
 
-  virtual void render();
+  void render();
   /**< Renders the drawing */
 
   bool isDrawing() const;
@@ -76,7 +76,7 @@ public:
   void click(V3 dir);
   /**< React to a user click on our surface */
 
-  virtual void quit();
+  void quit();
   /**< Quits */
 
 private:

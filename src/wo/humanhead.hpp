@@ -80,13 +80,13 @@ public:
   static WObject * (creator)(char *l);
   /**< Creation from a file */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< movement */
 
-  virtual void render();
+  void render();
   /**< Renders */
 
-  virtual void quit();
+  void quit();
   /**< Quits */
 
   void visibility(bool flag);

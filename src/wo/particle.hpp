@@ -74,7 +74,7 @@ protected:
 public:
   static const OClass oclass;   ///< class variable
 
-  virtual const OClass* getOClass() {return &oclass;}
+  const OClass* getOClass() {return &oclass;}
 
   Particle(char *l);	///< Constructor
   Particle();		///< Constructor needed for sub classes
@@ -84,20 +84,20 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from file line */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Equations to move permanently */
 
-  virtual void render();
+  void render();
   /**< Specific rendering */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly */
 
 protected:
-  virtual void behavior();
+  void behavior();
   /**< Sets behavior */
 
-  virtual void inits();
+  void inits();
   /**< Creates particles */
 
   void generate(tParticle *p, float dt);

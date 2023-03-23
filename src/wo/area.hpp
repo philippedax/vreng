@@ -48,10 +48,10 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from fileline */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects */
 
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WObject *pcur, WObject *pold);
   /**< When an other object doesn't intersect */
 
 private:

@@ -64,7 +64,7 @@ public:
   static void lights();
   /**< Finds lights to render. */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly. */
 
 private:

@@ -102,12 +102,12 @@ public:
 
   static WObject * (creator)(char *l);
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   
-  virtual void render();
+  void render();
   /**< Specific rendering. */
 
-  virtual void quit();  
+  void quit();  
   /**< Quits properly. */
 
   void armShowing(int *dir);

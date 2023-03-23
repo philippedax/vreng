@@ -87,13 +87,13 @@ public:
   static WObject * (creator)(char *l);
   /**< Create from file */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< Intersects with another object */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes new position */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly */
 
 private:

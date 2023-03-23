@@ -55,12 +55,13 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from fileline. */
 
-  virtual void updateTime(time_t sec, time_t usec, float *lasting);
-  virtual void changePosition(float lasting);
+  void updateTime(time_t sec, time_t usec, float *lasting);
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  void changePosition(float lasting);
 
-  virtual void quit();
+  bool whenIntersect(WObject *pcur, WObject *pold);
+
+  void quit();
   /**< Quits. */
 
 private:

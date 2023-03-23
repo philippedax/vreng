@@ -54,7 +54,7 @@ public:
   void query(class User *user);
   /**< Answers the entry positions */
 
-  virtual void quit();	///< Quits
+  void quit();	///< Quits
 
 private:
   void parser(char *l);

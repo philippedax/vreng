@@ -52,7 +52,7 @@ class Button: public WObject {
 
   const OClass* getOClass() {return &oclass;}
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
 
   static void funcs();	///< init funlist
 
@@ -60,7 +60,7 @@ class Button: public WObject {
 
   static WObject * (creator)(char *l);
 
-  virtual void quit();	///< when leaving
+  void quit();	///< when leaving
 
  private:
   void parser(char *l);

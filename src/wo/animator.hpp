@@ -62,15 +62,15 @@ public:
 
   static WObject * (creator)(char *l);
 
-  virtual bool isMoving();
+  bool isMoving();
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
 
-  virtual void updateTime(time_t, time_t, float *);
+  void updateTime(time_t, time_t, float *);
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
 
-  virtual void quit();
+  void quit();
 
 private:
   void parser(char *l);

@@ -116,19 +116,19 @@ public:
   static WObject * (creator)(char *l);
   /**< Creates from file */
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
   /**< When changing position */
 
-  virtual void updateTime(time_t, time_t, float *);
+  void updateTime(time_t, time_t, float *);
   /**< Updates delays */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes to network */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an intersect occurs */
 
-  virtual void quit();
+  void quit();
   /**< Quits properly */
 
   void forward(void *d, time_t s, time_t u);

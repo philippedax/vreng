@@ -88,11 +88,11 @@ public:
   static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
 #endif
 
-  virtual void changePosition(float lasting);
-  virtual void updateTime(time_t s, time_t us, float *lasting);
-  virtual bool updateToNetwork(const Pos &oldpos);
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
-  virtual void quit();
+  void changePosition(float lasting);
+  void updateTime(time_t s, time_t us, float *lasting);
+  bool updateToNetwork(const Pos &oldpos);
+  bool whenIntersect(WObject *pcur, WObject *pold);
+  void quit();
 
   void turnPrev();
   void turnNext();

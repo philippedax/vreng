@@ -66,19 +66,19 @@ public:
 
   Bubble(class User *user, char *string, const float *color, bool face);	///< Constructor.
 
-  virtual void updateTime(time_t s, time_t us, float *lasting);
+  void updateTime(time_t s, time_t us, float *lasting);
   /**< Updates lasting time. */
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
   /**< Imposed movement. */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes to network. */
 
-  virtual void setPosition();
+  void setPosition();
   /**< Sets position above the head. */
 
-  virtual void quit();
+  void quit();
   /**< Quits bubble. */
 
 private:

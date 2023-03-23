@@ -53,7 +53,7 @@ class Wall: public WObject {
   Wall(WObject *user, char *forme);
   /**< Contructor from user */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects */
 
  private:

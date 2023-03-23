@@ -64,17 +64,17 @@ public:
 
   static WObject * (creator)(char *l);
 
-  virtual void updateTime(time_t sec, time_t usec, float *lasting);
+  void updateTime(time_t sec, time_t usec, float *lasting);
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
 
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WObject *pcur, WObject *pold);
 
-  virtual void quit();
+  void quit();
 
 private:
   void parser(char *l);

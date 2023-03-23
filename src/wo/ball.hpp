@@ -105,28 +105,28 @@ class Ball: public WObject {
   static WObject * (creator)(char *l);
   /**< Creates a ball defined in a file. */
 
-  virtual bool isMoving();
+  bool isMoving();
   /**< Checks if object is moving. */
 
-  virtual void changePosition(float lasting);
+  void changePosition(float lasting);
   /**< Does any position changes. */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Does permanent position changes. */
 
-  virtual void updateTime(time_t s, time_t u, float *lasting);
+  void updateTime(time_t s, time_t u, float *lasting);
   /**< Updates times. */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool updateToNetwork(const Pos &oldpos);
   /**< Publishes to network. */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< Handles collisions. */
 
-  virtual void whenWallsIntersect(WObject *pold, V3 *norm);
+  void whenWallsIntersect(WObject *pold, V3 *norm);
   /**< Handles collisions with a wall. */
 
-  virtual void quit();
+  void quit();
   /**< Quits. */
 
  private:
