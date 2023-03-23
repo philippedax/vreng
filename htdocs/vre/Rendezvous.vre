@@ -486,9 +486,9 @@ amplitude="1" freq="1" phase="1">
 -->
 
 <!-- guys -->
-<guy name="girl1"   pos="11.0 4.0 .85 1.5" skin="wheat"    bust="wheat" legs="pink" feet="black"    url="/cset/walking.cset"> sex=1 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
-<guy name="guy2"    pos="10.5 4.5 .85 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
-<guy name="guy3"    pos="10.5 3.5 .85 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
+<guy name="girl1"   pos="11.0 4.0 .70 1.5" skin="wheat"    bust="wheat" legs="pink" feet="red"       url="/cset/walking.cset"> sex=1 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
+<guy name="guy2"    pos="10.5 4.5 .75 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
+<guy name="guy3"    pos="10.5 3.5 .75 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
 <model name="man4" pos="10.0 4.0 .80 0.5" scale=".9" url="man"> <solid shape="man" dim=".3 .2 1.70" /></model>
 <!--
 -->
@@ -572,7 +572,7 @@ amplitude="1" freq="1" phase="1">
 <bird name="bird3" pos="4 -3.8 1.3" flying="false" model="bird" scale=".3" zone="2"> <solid shape="wings" dif="grey" /> </bird>
 
 <!-- drone -->
-<drone name="drone" pos="4 -3.5 1" scale=".2"> <solid shape="wings" dif="grey" /> </drone>
+<drone name="drone" pos="2 -0 .01 .7" scale=".2"> <solid shape="wings" dif="black" /> </drone>
 
 <!-- fire -->
 <fire name="fire" pos="2.25 -2.25 1" number="1000"> </fire>
