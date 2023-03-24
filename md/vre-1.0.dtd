@@ -188,6 +188,7 @@
 <!ATTLIST drone		descr	NMTOKENS #IMPLIED>
 <!ATTLIST drone  	zone	NMTOKEN #IMPLIED>
 <!ATTLIST drone		scale	NMTOKEN "1">
+<!ATTLIST drone		color	NMTOKENS "0.3 0.3 0.3">
 <!ATTLIST drone		model	(helicopter) #IMPLIED>
 
 <!ELEMENT entry		EMPTY>
@@ -616,6 +617,7 @@
 <!ATTLIST wings		name	NMTOKEN #IMPLIED>
 <!ATTLIST wings		descr	NMTOKENS #IMPLIED>
 <!ATTLIST wings		scale	NMTOKEN "1">
+<!ATTLIST wings		color	NMTOKENS "0.3 0.3 0.3">
 <!ATTLIST wings		model	(helicopter | butterfly | libellule | angel | eagle) #IMPLIED>
 
 
