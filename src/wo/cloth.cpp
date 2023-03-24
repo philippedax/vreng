@@ -29,7 +29,6 @@
 const OClass Cloth::oclass(CLOTH_TYPE, "Cloth", Cloth::creator);
 
 //local
-static Cloth *pcloth = NULL;
 static uint16_t oid = 0;
 
 #include <list>
@@ -196,7 +195,6 @@ Cloth::Cloth(char *l)
   parser(l);
   behavior();
   inits();
-  pcloth = this;
 }
 
 void Cloth::changePermanent(float lasting)
@@ -238,7 +236,6 @@ void Cloth::restorePosition()
 
 void Cloth::quit()
 {
-  pcloth = NULL;
   oid = 0;
 }
 
