@@ -108,14 +108,14 @@ void Cloth::makeSolid()
 void Cloth::behavior()
 {
   enableBehavior(COLLIDE_NEVER);
-  enableBehavior(SPECIFIC_RENDER);
   enableBehavior(TAKABLE);
   if (taken) {
     enableBehavior(DYNAMIC);
     enableBehavior(NO_BBABLE);
-    enablePermanentMovement();	// follows user
   }
   initMobileObject(ttl);
+  if (taken)
+    enablePermanentMovement();	// follows user
 }
 
 /* Sets an unique name */

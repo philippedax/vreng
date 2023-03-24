@@ -95,17 +95,17 @@ void Wings::parser(char *l)
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
     if      (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
-    else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "model=")) {
-      l = parseString(l, modelstr, "model");
-      if      (! stringcmp(modelstr, "bird"))       model = BIRD;
-      else if (! stringcmp(modelstr, "butterfly"))  model = BUTTERFLY;
-      else if (! stringcmp(modelstr, "libellule"))  model = LIBELLULE;
-      else if (! stringcmp(modelstr, "angel"))      model = ANGEL;
-      else if (! stringcmp(modelstr, "eagle"))      model = EAGLE;
-      else if (! stringcmp(modelstr, "helicopter")) model = HELICOPTER;
+      l = parseString(l, modelname, "model");
+      if      (! stringcmp(modelname, "bird"))       model = BIRD;
+      else if (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
+      else if (! stringcmp(modelname, "libellule"))  model = LIBELLULE;
+      else if (! stringcmp(modelname, "angel"))      model = ANGEL;
+      else if (! stringcmp(modelname, "eagle"))      model = EAGLE;
+      else if (! stringcmp(modelname, "helicopter")) model = HELICOPTER;
       else model = BIRD;
     }
+    else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
   }
   end_while_parse(l);
 }
@@ -177,14 +177,14 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   strcpy(names.type, typeName());     // need names.type for MySql
   p = strchr(str, '&');
   *p = '\0';
-  strcpy(modelstr, str);
+  strcpy(modelname, str);
 
   pwings = this;
   defaults();
   active = false;
   taken = true;
-  model = getModel(modelstr);
-  setName(modelstr);
+  model = getModel(modelname);
+  setName(modelname);
   makeSolid();
   setOwner();
   getPersist();
@@ -567,8 +567,8 @@ void Wings::wear()
   defaults();
   taken = true;
   active = true;
-  model = getModel(modelstr);
-  setName(modelstr);
+  model = getModel(modelname);
+  setName(modelname);
   setOwner();
   setPersist();
   behavior();

@@ -38,7 +38,7 @@ protected:
 
 public:
   enum {
-    NONE,
+    NOHAT,
     TOPHAT,
     BOWLER,
     CHINESE,
@@ -47,7 +47,7 @@ public:
     CLOWN,
     CANOTIER,
     SOMBRERO,
-    UNKNOWN
+    ENDHAT
   };
 
   enum {

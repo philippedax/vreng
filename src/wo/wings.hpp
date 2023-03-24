@@ -49,7 +49,7 @@ private:
 
 protected:
   uint8_t model;
-  char modelstr[16];
+  char modelname[16];
 
 public:
   enum {

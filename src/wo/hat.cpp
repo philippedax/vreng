@@ -41,7 +41,7 @@ static struct sHat hats[] = {
   {Hat::REDHAT,  "redhat"},
   {Hat::COUNTRY, "country"},
   {Hat::CLOWN,   "clown"},
-  {Hat::NONE,    ""},
+  {Hat::NOHAT,   ""},
 };
 
 WObject * Hat::creator(char *l)
@@ -59,7 +59,7 @@ void Hat::defaults()
   dax = 0;
   day = 0;
   daz = 0;
-  model = NONE;
+  model = NOHAT;
 }
 
 /* solid geometry */
@@ -124,7 +124,7 @@ uint8_t Hat::getModel(const char *name)
         return phats->hat_id;
     }
   }
-  return NONE;
+  return NOHAT;
 }
 
 /* Created from file */
@@ -145,7 +145,7 @@ void Hat::parser(char *l)
       else if (! stringcmp(modelname, "clown"))    model = CLOWN;
     }
     else
-     model = NONE;
+     model = NOHAT;
   }
   end_while_parse(l);
 }
@@ -154,10 +154,10 @@ void Hat::parser(char *l)
 Hat::Hat(char *l)
 {
   taken = false;
-  model = NONE;
+  model = NOHAT;
   parser(l);
   behavior();
-  if (model != NONE) {
+  if (model != NOHAT) {
     makeSolid();
   }
 }

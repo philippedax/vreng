@@ -87,10 +87,10 @@ public:
   static WObject * (creator)(char *l);
   /**< Creation from a file */
 
-  void changePermanent(float lasting);
+  virtual void changePermanent(float lasting);
   /**< movement */
 
-  void quit();
+  virtual void quit();
   /**< Quits */
 
 protected:
