@@ -94,8 +94,8 @@ void Wings::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
-    if (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
-    if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
+    if      (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "model=")) {
       l = parseString(l, modelstr, "model");
       if      (! stringcmp(modelstr, "bird"))       model = BIRD;
