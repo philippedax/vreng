@@ -38,6 +38,7 @@ class Drone : public WObject {
   bool driven;		///< the drone is under control of user
   float zone;		///< zone to explore
   float scale;		///< scaling factor
+  float color[3];	///< color
   uint8_t model;	///< model of wings
   Pos posorig;		///< initial position
 

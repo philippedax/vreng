@@ -27,6 +27,12 @@
 #define WINGS_TYPE	74
 #define WINGS_NAME	"Wings"
 
+struct sWings {
+  uint8_t wings_id;
+  const char wings_str[16];
+};
+
+
 /**
  * Wings class
  */
@@ -38,11 +44,12 @@ private:
   GLint dlist_right;	///< display-list right wing
   GLint dlist_left;	///< display-list left wing
   GLfloat scale;	///< scale
+  float color[3];	///< color
   bool active;		///< is in movement ?
 
 protected:
   uint8_t model;
-  char modelname[16];
+  char modelstr[16];
 
 public:
   enum {
@@ -79,6 +86,7 @@ public:
   /**< Constructor from User */
   Wings();			///< Constructor from bird.
   Wings(uint8_t model, float scale);		///< Constructor from bird.
+  Wings(uint8_t model, float scale, float *color);	///< Constructor from drone.
 
   void changePermanent(float lasting);
   /**< Changes. */

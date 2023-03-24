@@ -30,11 +30,6 @@ const OClass Wings::oclass(WINGS_TYPE, "Wings", Wings::creator);
 static Wings *pwings = NULL;
 static uint16_t oid = 0;
 
-struct sWings {
-  uint8_t wings_id;
-  const char wings_str[16];
-};
-  
 static struct sWings wingss[] = {
   {Wings::BIRD,       "bird"},
   {Wings::BUTTERFLY,  "butterfly"},
@@ -63,6 +58,9 @@ void Wings::defaults()
   daz = 90;
   angle = 0;	// open
   scale = 1;
+  for (int i=0; i<3; i++) {
+    color[i] = 0.3;
+  }
   model = NONE;
 }
 
@@ -97,14 +95,15 @@ void Wings::parser(char *l)
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
     if (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
+    if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "model=")) {
-      l = parseString(l, modelname, "model");
-      if      (! stringcmp(modelname, "bird"))       model = BIRD;
-      else if (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
-      else if (! stringcmp(modelname, "libellule"))  model = LIBELLULE;
-      else if (! stringcmp(modelname, "angel"))      model = ANGEL;
-      else if (! stringcmp(modelname, "eagle"))      model = EAGLE;
-      else if (! stringcmp(modelname, "helicopter")) model = HELICOPTER;
+      l = parseString(l, modelstr, "model");
+      if      (! stringcmp(modelstr, "bird"))       model = BIRD;
+      else if (! stringcmp(modelstr, "butterfly"))  model = BUTTERFLY;
+      else if (! stringcmp(modelstr, "libellule"))  model = LIBELLULE;
+      else if (! stringcmp(modelstr, "angel"))      model = ANGEL;
+      else if (! stringcmp(modelstr, "eagle"))      model = EAGLE;
+      else if (! stringcmp(modelstr, "helicopter")) model = HELICOPTER;
       else model = BIRD;
     }
   }
@@ -137,6 +136,22 @@ Wings::Wings(uint8_t _model, float _scale)
   draw();
 }
 
+/* Called by drone */
+Wings::Wings(uint8_t _model, float _scale, float *_color)
+{
+  model = _model;
+  active = true;
+  taken = false;
+  behavior();
+  pos.az -= M_PI_2;
+  scale = _scale;
+  for (int i=0; i<3; i++) {
+    color[i] = _color[i];
+  }
+
+  draw();
+}
+
 /* Called by solid shape=wings */
 Wings::Wings()
 {
@@ -162,14 +177,14 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   strcpy(names.type, typeName());     // need names.type for MySql
   p = strchr(str, '&');
   *p = '\0';
-  strcpy(modelname, str);
+  strcpy(modelstr, str);
 
   pwings = this;
   defaults();
   active = false;
   taken = true;
-  model = getModel(modelname);
-  setName(modelname);
+  model = getModel(modelstr);
+  setName(modelstr);
   makeSolid();
   setOwner();
   getPersist();
@@ -212,27 +227,27 @@ void Wings::draw(uint8_t _model)
     glRectf(-.02, -.6, .02, 0); //body
     break;
   case HELICOPTER :
-    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    glColor3fv(color); glVertex2f(0, 0);
     glColor3f(.7, .7, .7); glVertex2f(.5, .1);
     glColor3f(.7, .7, .7); glVertex2f(1, .1);
     glColor3f(.7, .7, .7); glVertex2f(1, -.1);
     glColor3f(.7, .7, .7); glVertex2f(.5, -.1);
-    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    glColor3fv(color); glVertex2f(0, 0);
     glColor3f(.7, .7, .7); glVertex2f(.1, .5);
     glColor3f(.7, .7, .7); glVertex2f(.1, 1);
     glColor3f(.7, .7, .7); glVertex2f(-.1, 1);
     glColor3f(.7, .7, .7); glVertex2f(-.1, .5);
-    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    glColor3fv(color); glVertex2f(0, 0);
     glColor3f(.7, .7, .7); glVertex2f(-.5, .1);
     glColor3f(.7, .7, .7); glVertex2f(-1, .1);
     glColor3f(.7, .7, .7); glVertex2f(-1, -.1);
     glColor3f(.7, .7, .7); glVertex2f(-.5, -.1);
-    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    glColor3fv(color); glVertex2f(0, 0);
     glColor3f(.7, .7, .7); glVertex2f(-.1, -.5);
     glColor3f(.7, .7, .7); glVertex2f(-.1, -1);
     glColor3f(.7, .7, .7); glVertex2f(.1, -1);
     glColor3f(.7, .7, .7); glVertex2f(.1, -.5);
-    glColor3f(.3, .3, .3); glVertex2f(0, 0);
+    glColor3fv(color); glVertex2f(0, 0);
     Draw::sphere(.2, 8, 8, 0);
   default:
     break;
@@ -552,8 +567,8 @@ void Wings::wear()
   defaults();
   taken = true;
   active = true;
-  model = getModel(modelname);
-  setName(modelname);
+  model = getModel(modelstr);
+  setName(modelstr);
   setOwner();
   setPersist();
   behavior();

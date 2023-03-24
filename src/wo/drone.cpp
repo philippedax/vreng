@@ -59,6 +59,7 @@ void Drone::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "zone"))   l = parseFloat(l, &zone, "zone");
     else if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "color"))  l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "flying")) l = parseBool(l, &flying, "flying");
   }
   end_while_parse(l);
@@ -76,7 +77,7 @@ void Drone::behavior()
 void Drone::inits()
 {
   posorig = pos;
-  wings = new Wings(model, scale);
+  wings = new Wings(model, scale, color);
 
   initMobileObject(0);
 
