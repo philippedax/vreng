@@ -455,8 +455,10 @@ WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 {
   static char *classname = 0, *instancename = 0, *actionnames = 0;
 
+  //
   // Interaction GUI <--> 3D
-  uint16_t num = g.render.bufferSelection(x, y);	// find object number in the Z-buffer
+  //
+  uint16_t num = ::g.render.bufferSelection(x, y);	// find object number in the Z-buffer
   trace(DBG_GUI, "pointed: clic=%d %d %d num=%d", x, y, z, num);
 
   WObject* object = WObject::byNum(num);
@@ -474,8 +476,10 @@ WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   // an object has been selected
   // get the object's names
   object->getObjectNames(&classname, &instancename, &actionnames);
-  if (classname == NULL)
+  if (classname == NULL) {
     return NULL;
+  }
+
   objinfo[0].name = classname;
   if (instancename == NULL) instancename = (char *)"";
   objinfo[1].name = instancename;
@@ -676,10 +680,10 @@ static long convertKey(long keycode, int keychar, int& vrkey)
   else if (keycode == UKey::Home)     { keymask = 1<<8;  vrkey = KEY_HZ; }  // stand up
   else if (keycode == UKey::End)      { keymask = 1<<13; vrkey = KEY_VI; }  // accelerator
   else if (keycode == UKey::BackSpace) {
-    Widgets::callAction(User::UA_ASPEEDLESS); return 0; 		    // decrease aspeed
+    Widgets::callAction(User::UA_ASPEEDLESS); return 0;	    // decrease aspeed
   }
   else if (keycode == UKey::Tab) {
-    Widgets::callAction(User::UA_ASPEEDMORE); return 0; 		    // increase aspeed
+    Widgets::callAction(User::UA_ASPEEDMORE); return 0;	    // increase aspeed
   }
   else {
     switch (keychar) {
