@@ -81,14 +81,12 @@ void Humanhead::makeSolid()
   char s[128];
 
   switch (model_e) {
-    case MALE:
-    case FEMALE:
-      sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.15,.15,.2);
-      break;
-    default:
-      return;
+  case MALE:
+  case FEMALE:
+    sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.15,.15,.2);
+    parseSolid(s);
+    break;
   }
-  parseSolid(s);
 }
 
 uint8_t Humanhead::getGender(const char *name)
@@ -117,7 +115,7 @@ void Humanhead::behavior()
 /* Sets an unique name */
 void Humanhead::setName(const char *modelname)
 {
-  sprintf(names.given,"%s&%s", modelname, localuser->getInstance());
+  sprintf(names.given, "%s&%s", modelname, localuser->getInstance());
   updateNames();
 }
 
@@ -131,15 +129,15 @@ void Humanhead::inits()
 {
   model_t = Format::getModelByUrl(names.url);
   switch (model_t) {
-    case MODEL_LWO: scale = LWO_SCALE; break;
-    case MODEL_3DS: scale = _3DS_SCALE; break;
+  case MODEL_LWO: scale = LWO_SCALE; break;
+  case MODEL_3DS: scale = _3DS_SCALE; break;
   }
 
   model = new Model(localuser, names.url, scale);
   switch (model_e) {
-    case MALE:
-    case FEMALE:
-      dz -= .10; break;
+  case MALE:
+  case FEMALE:
+    dz -= .10; break;
   }
 
   // sets position near the avatar
@@ -160,6 +158,7 @@ Humanhead::Humanhead(char *l)
   visible = true;
   model_t = 0;
   strcpy(modelname, "male");
+  defaults();
   parser(l);
   makeSolid();
   behavior();
@@ -171,12 +170,11 @@ Humanhead::Humanhead(char *l)
 Humanhead::Humanhead(User *user, void *d, time_t s, time_t u)
 {
   char *str = (char *) d;       // name transmitted
-  char *p;
   if (!str) return;
 
   strcpy(names.given, str);
   strcpy(names.type, typeName());     // need names.type for VRSql
-  p = strchr(str, '&');
+  char *p = strchr(str, '&');
   *p = '\0';
   strcpy(modelname, str);
 

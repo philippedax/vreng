@@ -27,7 +27,6 @@
 const OClass Wings::oclass(WINGS_TYPE, "Wings", Wings::creator);
 
 //local
-static Wings *pwings = NULL;
 static uint16_t oid = 0;
 
 static struct sWings wingss[] = {
@@ -69,7 +68,7 @@ void Wings::makeSolid()
 {
   char s[128];
 
-  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" />",.6,.1,.6);
+  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .6, .1, .6);
   parseSolid(s);
 }
 
@@ -95,6 +94,7 @@ void Wings::parser(char *l)
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
     if      (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
+    else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "model=")) {
       l = parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "bird"))       model = BIRD;
@@ -105,7 +105,6 @@ void Wings::parser(char *l)
       else if (! stringcmp(modelname, "helicopter")) model = HELICOPTER;
       else model = BIRD;
     }
-    else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
   }
   end_while_parse(l);
 }
@@ -174,12 +173,11 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   if (!str) return;
 
   strcpy(names.given, str);
-  strcpy(names.type, typeName());     // need names.type for MySql
+  strcpy(names.type, typeName());     // need names.type for VRSql
   p = strchr(str, '&');
   *p = '\0';
   strcpy(modelname, str);
 
-  pwings = this;
   defaults();
   active = false;
   taken = true;
@@ -552,7 +550,6 @@ void Wings::render(uint8_t _model)
 
 void Wings::quit()
 {
-  pwings = NULL;
   oid = 0;
   savePersistency();
   if (dlist_center > 0) glDeleteLists(dlist_center, 1);
