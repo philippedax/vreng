@@ -166,12 +166,13 @@ Model::Model(WObject *user, char *url, float _scale)
 
 void Model::loader()
 {
-  if (! strcmp(names.url, "man")) {
+  if (*names.url == 0 || ! strcmp(names.url, "man")) {
     model_t = MODEL_MAN;	// hugly hack!!!
     disableBehavior(SPECIFIC_RENDER);
   }
-  else
+  else {	// normal url
     model_t = Format::getModelByUrl(names.url);
+  }
 
   switch (model_t) {
   case MODEL_LWO: lwo = new Lwo(names.url); break;
