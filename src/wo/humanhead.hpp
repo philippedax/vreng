@@ -35,7 +35,6 @@
 class Humanhead: public WObject {
 
 protected:
-  bool taken;				///< bool taken by avatar
   bool visible;
   uint8_t model_e;			///< types of model
   uint8_t model_t;			///< types of 3D model
@@ -115,7 +114,7 @@ private:
   void makeSolid();
   /**< Builds solid geometry */
 
-  uint8_t getModel(const char *name);
+  uint8_t getGender(const char *name);
   /**< Gets model id */
 
   /** callbacks */
