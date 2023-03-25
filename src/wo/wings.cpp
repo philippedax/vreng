@@ -60,7 +60,7 @@ void Wings::defaults()
   for (int i=0; i<3; i++) {
     color[i] = 0.3;
   }
-  model = NONE;
+  model = NOWINGS;
 }
 
 /* solid geometry */
@@ -82,7 +82,7 @@ uint8_t Wings::getModel(const char *name)
         return pwingss->wings_id;
     }
   }
-  return NONE;
+  return NOWINGS;
 }
 
 /* Created from file */
@@ -93,9 +93,9 @@ void Wings::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
-    if      (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
-    else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
-    else if (! stringcmp(l, "model=")) {
+    if      (! stringcmp(l, "scale=")) { l = parseFloat(l, &scale, "scale"); }
+    else if (! stringcmp(l, "color=")) { l = parseVector3f(l, color, "color"); }
+      else if (! stringcmp(l, "model=")) {
       l = parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "bird"))       model = BIRD;
       else if (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
@@ -104,6 +104,7 @@ void Wings::parser(char *l)
       else if (! stringcmp(modelname, "eagle"))      model = EAGLE;
       else if (! stringcmp(modelname, "helicopter")) model = HELICOPTER;
       else model = BIRD;
+      //echo("wings: %s %d", modelname, model);
     }
   }
   end_while_parse(l);
@@ -112,6 +113,7 @@ void Wings::parser(char *l)
 /* Created from file */
 Wings::Wings(char *l)
 {
+  *modelname = 0;
   parser(l);
   pos.ax -= M_PI_2;
   active = false;
@@ -226,27 +228,27 @@ void Wings::draw(uint8_t _model)
     break;
   case HELICOPTER :
     glColor3fv(color); glVertex2f(0, 0);
-    glColor3f(.7, .7, .7); glVertex2f(.5, .1);
-    glColor3f(.7, .7, .7); glVertex2f(1, .1);
-    glColor3f(.7, .7, .7); glVertex2f(1, -.1);
-    glColor3f(.7, .7, .7); glVertex2f(.5, -.1);
+    glColor3f(.6, .6, .6); glVertex2f(.5, .1);
+    glColor3f(.6, .6, .6); glVertex2f(1, .1);
+    glColor3f(.6, .6, .6); glVertex2f(1, -.1);
+    glColor3f(.6, .6, .6); glVertex2f(.5, -.1);
     glColor3fv(color); glVertex2f(0, 0);
-    glColor3f(.7, .7, .7); glVertex2f(.1, .5);
-    glColor3f(.7, .7, .7); glVertex2f(.1, 1);
-    glColor3f(.7, .7, .7); glVertex2f(-.1, 1);
-    glColor3f(.7, .7, .7); glVertex2f(-.1, .5);
+    glColor3f(.6, .6, .6); glVertex2f(.1, .5);
+    glColor3f(.6, .6, .6); glVertex2f(.1, 1);
+    glColor3f(.6, .6, .6); glVertex2f(-.1, 1);
+    glColor3f(.6, .6, .6); glVertex2f(-.1, .5);
     glColor3fv(color); glVertex2f(0, 0);
-    glColor3f(.7, .7, .7); glVertex2f(-.5, .1);
-    glColor3f(.7, .7, .7); glVertex2f(-1, .1);
-    glColor3f(.7, .7, .7); glVertex2f(-1, -.1);
-    glColor3f(.7, .7, .7); glVertex2f(-.5, -.1);
+    glColor3f(.6, .6, .6); glVertex2f(-.5, .1);
+    glColor3f(.6, .6, .6); glVertex2f(-1, .1);
+    glColor3f(.6, .6, .6); glVertex2f(-1, -.1);
+    glColor3f(.6, .6, .6); glVertex2f(-.5, -.1);
     glColor3fv(color); glVertex2f(0, 0);
-    glColor3f(.7, .7, .7); glVertex2f(-.1, -.5);
-    glColor3f(.7, .7, .7); glVertex2f(-.1, -1);
-    glColor3f(.7, .7, .7); glVertex2f(.1, -1);
-    glColor3f(.7, .7, .7); glVertex2f(.1, -.5);
+    glColor3f(.6, .6, .6); glVertex2f(-.1, -.5);
+    glColor3f(.6, .6, .6); glVertex2f(-.1, -1);
+    glColor3f(.6, .6, .6); glVertex2f(.1, -1);
+    glColor3f(.6, .6, .6); glVertex2f(.1, -.5);
     glColor3fv(color); glVertex2f(0, 0);
-    Draw::sphere(.2, 8, 8, 0);
+    Draw::sphere(.15, 8, 8, 0);
   default:
     break;
   }

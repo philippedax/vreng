@@ -101,8 +101,8 @@ public:
   void draw(uint8_t model);
   /**< Draws. */
 
-  void render();
-  void render(uint8_t model);
+  virtual void render();
+  virtual void render(uint8_t model);
   /**< Renders. */
 
   void quit();
