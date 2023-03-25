@@ -107,7 +107,7 @@ void Humanhead::behavior()
 {
   enableBehavior(SPECIFIC_RENDER);
   enableBehavior(DYNAMIC);
-  enableBehavior(NO_BBABLE);
+  enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);	// follows user
 
   initMobileObject(0);
@@ -161,6 +161,7 @@ Humanhead::Humanhead(char *l)
   model_t = 0;
   strcpy(modelname, "male");
   parser(l);
+  makeSolid();
   behavior();
   inits();
   //phead = this;
@@ -182,9 +183,9 @@ Humanhead::Humanhead(User *user, void *d, time_t s, time_t u)
   //phead = this;
   defaults();
   model_e = getGender(modelname);
-  makeSolid();
   setName(modelname);
   setOwner();
+  makeSolid();
   behavior();
   inits();
 }
@@ -202,9 +203,9 @@ Humanhead::Humanhead(User *user, const char *url, const float *skin)
   sprintf(modelname, "head");
   defaults();
   for (int i=0; i<3; i++) color[i] = skin[i];
-  makeSolid();
   setName(modelname);
   setOwner();
+  makeSolid();
   behavior();
   inits();
   phead = this;		// if commented Fire is allways selected FIXME!
