@@ -42,8 +42,8 @@ using namespace std;
 
 
 // local
-const int Render::SEL_BUFSIZ = (4*128);		// 128 names
-static GLuint selbuf[4*128];			// 128 objects
+const int Render::SEL_BUFSIZ = (4*1024);	// 1024 names
+static GLuint selbuf[4*1024];			// 1024 objects
 
 extern struct Render::sCamera cam_user;		// camera.cpp
 

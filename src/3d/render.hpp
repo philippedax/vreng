@@ -255,10 +255,10 @@ private:
   void renderSolids(bool mini);		///< general rendering.
   void renderOpaque(bool mini);		///< opaque solids
   void renderTransparent(bool mini);  	///< transparent solids
-  void renderGround();  	///< ground solids
-  void renderModel(); 	 	///< model solids
-  void renderUser(); 	 	///< user solids
-  void renderFlary(); 	 	///< flary solids
+  void renderGround();  		///< ground solids
+  void renderModel(); 	 		///< model solids
+  void renderUser(); 	 		///< user solids
+  void renderFlary(); 	 		///< flary solids
 
   void scissors();
   /**< Renders scissors. */
