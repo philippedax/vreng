@@ -110,6 +110,7 @@ void Cloth::behavior()
   enableBehavior(TAKABLE);
   if (taken) {
     enableBehavior(DYNAMIC);
+    enableBehavior(SPECIFIC_RENDER);
     enableBehavior(NO_BBABLE);
   }
   initMobileObject(ttl);

@@ -57,10 +57,10 @@ void Wings::defaults()
   daz = 90;
   angle = 0;	// open
   scale = 1;
+  model = NOWINGS;
   for (int i=0; i<3; i++) {
     color[i] = 0.3;
   }
-  model = NOWINGS;
 }
 
 /* solid geometry */
@@ -95,7 +95,7 @@ void Wings::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "scale=")) { l = parseFloat(l, &scale, "scale"); }
     else if (! stringcmp(l, "color=")) { l = parseVector3f(l, color, "color"); }
-      else if (! stringcmp(l, "model=")) {
+    else if (! stringcmp(l, "model=")) {
       l = parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "bird"))       model = BIRD;
       else if (! stringcmp(modelname, "butterfly"))  model = BUTTERFLY;
@@ -104,7 +104,6 @@ void Wings::parser(char *l)
       else if (! stringcmp(modelname, "eagle"))      model = EAGLE;
       else if (! stringcmp(modelname, "helicopter")) model = HELICOPTER;
       else model = BIRD;
-      //echo("wings: %s %d", modelname, model);
     }
   }
   end_while_parse(l);
@@ -113,12 +112,12 @@ void Wings::parser(char *l)
 /* Created from file */
 Wings::Wings(char *l)
 {
-  *modelname = 0;
   parser(l);
   pos.ax -= M_PI_2;
   active = false;
   taken = false;
   behavior();
+  enableBehavior(SPECIFIC_RENDER);	// if commented not rendered
 
   draw();
 }
@@ -171,12 +170,11 @@ Wings::Wings()
 Wings::Wings(User *user, void *d, time_t s, time_t u)
 {
   char *str = (char *) d;       // name transmitted
-  char *p;
   if (!str) return;
 
   strcpy(names.given, str);
   strcpy(names.type, typeName());     // need names.type for VRSql
-  p = strchr(str, '&');
+  char *p = strchr(str, '&');
   *p = '\0';
   strcpy(modelname, str);
 
@@ -185,9 +183,9 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   taken = true;
   model = getModel(modelname);
   setName(modelname);
-  makeSolid();
   setOwner();
   getPersist();
+  makeSolid();
   behavior();
   inits();
 
@@ -228,27 +226,27 @@ void Wings::draw(uint8_t _model)
     break;
   case HELICOPTER :
     glColor3fv(color); glVertex2f(0, 0);
-    glColor3f(.6, .6, .6); glVertex2f(.5, .1);
-    glColor3f(.6, .6, .6); glVertex2f(1, .1);
-    glColor3f(.6, .6, .6); glVertex2f(1, -.1);
-    glColor3f(.6, .6, .6); glVertex2f(.5, -.1);
+    glColor3f(.4, .4, .4); glVertex2f(.5, .1);
+    glColor3f(.4, .4, .4); glVertex2f(1, .1);
+    glColor3f(.4, .4, .4); glVertex2f(1, -.1);
+    glColor3f(.4, .4, .4); glVertex2f(.5, -.1);
     glColor3fv(color); glVertex2f(0, 0);
-    glColor3f(.6, .6, .6); glVertex2f(.1, .5);
-    glColor3f(.6, .6, .6); glVertex2f(.1, 1);
-    glColor3f(.6, .6, .6); glVertex2f(-.1, 1);
-    glColor3f(.6, .6, .6); glVertex2f(-.1, .5);
+    glColor3f(.4, .4, .4); glVertex2f(.1, .5);
+    glColor3f(.4, .4, .4); glVertex2f(.1, 1);
+    glColor3f(.4, .4, .4); glVertex2f(-.1, 1);
+    glColor3f(.4, .4, .4); glVertex2f(-.1, .5);
     glColor3fv(color); glVertex2f(0, 0);
-    glColor3f(.6, .6, .6); glVertex2f(-.5, .1);
-    glColor3f(.6, .6, .6); glVertex2f(-1, .1);
-    glColor3f(.6, .6, .6); glVertex2f(-1, -.1);
-    glColor3f(.6, .6, .6); glVertex2f(-.5, -.1);
+    glColor3f(.4, .4, .4); glVertex2f(-.5, .1);
+    glColor3f(.4, .4, .4); glVertex2f(-1, .1);
+    glColor3f(.4, .4, .4); glVertex2f(-1, -.1);
+    glColor3f(.4, .4, .4); glVertex2f(-.5, -.1);
     glColor3fv(color); glVertex2f(0, 0);
-    glColor3f(.6, .6, .6); glVertex2f(-.1, -.5);
-    glColor3f(.6, .6, .6); glVertex2f(-.1, -1);
-    glColor3f(.6, .6, .6); glVertex2f(.1, -1);
-    glColor3f(.6, .6, .6); glVertex2f(.1, -.5);
+    glColor3f(.4, .4, .4); glVertex2f(-.1, -.5);
+    glColor3f(.4, .4, .4); glVertex2f(-.1, -1);
+    glColor3f(.4, .4, .4); glVertex2f(.1, -1);
+    glColor3f(.4, .4, .4); glVertex2f(.1, -.5);
     glColor3fv(color); glVertex2f(0, 0);
-    Draw::sphere(.15, 8, 8, 0);
+    Draw::sphere(.1, 8, 8, 0);
   default:
     break;
   }
@@ -520,7 +518,6 @@ void Wings::render(uint8_t _model)
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
   glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-
   switch (_model) {
   case HELICOPTER:
     glRotatef(90, 1, 0, 0);
@@ -532,15 +529,15 @@ void Wings::render(uint8_t _model)
   default:
     glScalef(scale, -scale, scale);
     glPushMatrix();
-     glCallList(dlist_center);		// center part
+     glCallList(dlist_center);	// center part
     glPopMatrix();
     glPushMatrix();
      glRotatef(angle, 0, 1, 0);
-     glCallList(dlist_left);		// left part
+     glCallList(dlist_left);	// left part
     glPopMatrix();
     glPushMatrix();
      glRotatef(-angle, 0, 1, 0);
-     glCallList(dlist_right);		// right part
+     glCallList(dlist_right);	// right part
     glPopMatrix();
     break;
   }
