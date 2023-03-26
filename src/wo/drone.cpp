@@ -96,6 +96,8 @@ Drone::Drone(char *l)
 /* Computes postion at each loop */
 void Drone::changePermanent(float lasting)
 {
+  if (! flying) return;
+
   struct timeval tv;
 
   gettimeofday(&tv, NULL);
@@ -237,7 +239,9 @@ void Drone::drive()
 
 void Drone::reset()
 {
-  pause();
+  flying = false;
+  disablePermanentMovement();
+  wings->stop();
   pos = posorig;
   if (following) {
     following = false;
@@ -280,6 +284,6 @@ void Drone::funcs()
   setActionFunc(DRONE_TYPE, 0, _Action fly_cb, "flying");
   setActionFunc(DRONE_TYPE, 1, _Action follow_cb, "follow");
   setActionFunc(DRONE_TYPE, 2, _Action drive_cb, "drive");
-  setActionFunc(DRONE_TYPE, 3, _Action pause_cb, "pause");
-  setActionFunc(DRONE_TYPE, 4, _Action reset_cb, "reset");
+  //dax setActionFunc(DRONE_TYPE, 3, _Action pause_cb, "pause");
+  setActionFunc(DRONE_TYPE, 3, _Action reset_cb, "reset");
 }
