@@ -178,7 +178,7 @@ void Model::loader()
   case MODEL_LWO: lwo = new Lwo(names.url); break;
   case MODEL_3DS: ds3 = new _3ds(names.url); break;
   case MODEL_ASE: ase = new Ase(names.url); break;
-  case MODEL_OBJ: obj = new Obj(names.url, 0); break;
+  case MODEL_OBJ: obj = new Obj(names.url); break;
   case MODEL_MD2: md2 = new Md2(names.url); break;
   case MODEL_DXF: dxf = new Dxf(names.url); break;
   case MODEL_OFF: off = new Off(names.url); break;

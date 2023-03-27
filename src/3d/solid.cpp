@@ -1036,7 +1036,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         }
 
       case MODEL_OBJ: {
-        Obj *obj = new Obj(urlmdl, 0);
+        Obj *obj = new Obj(urlmdl);
 
         obj->setScale(scale);
         obj->setColor(GL_DIFFUSE, mat_diffuse);

@@ -114,6 +114,7 @@ private:
 
 public:
 
+  Obj(const char *url);			///< Constructor
   Obj(const char *url, int flgpart);	///< Constructor
 
   virtual ~Obj();	///< Destructor
@@ -133,8 +134,8 @@ public:
   void draw();
   /**< Model drawing */
 
-  virtual void render(float *color);
-  virtual void render(const Pos &pos, float *color);
+  void render(float *color);
+  void render(const Pos &pos, float *color);
   /**< Model rendering */
 
   static void reader(void *aobj, class Http *http);
@@ -185,6 +186,5 @@ private:
   /**< get an Url */
 
 };
-
 
 #endif

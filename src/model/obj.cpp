@@ -35,12 +35,12 @@
 #include "cache.hpp"	// open, close
 
 
-Obj::Obj(const char *_url, int _flgpart)
+Obj::Obj(const char *_url)
  : loaded(false), currentScale(1.0), desiredScale(1.0), fp(NULL)
 {
   OBJModel.numOfObjects = 0;
   OBJModel.numOfMaterials = 0;
-  bObjectHasUV   = false;
+  bObjectHasUV = false;
   bObjectHasNormal = false;
   bJustReadAFace = false;
   flgcolor = false;
@@ -49,7 +49,26 @@ Obj::Obj(const char *_url, int _flgpart)
     mat_ambient[i] = 1;
     mat_specular[i] = 1;
   }
+  flgpart = 0;
+  url = new char[strlen(_url) + 1];
+  strcpy(url, _url);
+  Http::httpOpen(url, reader, this, 0);
+}
 
+Obj::Obj(const char *_url, int _flgpart)
+ : loaded(false), currentScale(1.0), desiredScale(1.0), fp(NULL)
+{
+  OBJModel.numOfObjects = 0;
+  OBJModel.numOfMaterials = 0;
+  bObjectHasUV = false;
+  bObjectHasNormal = false;
+  bJustReadAFace = false;
+  flgcolor = false;
+  for (int i=0; i<4 ; i++) {
+    mat_diffuse[i] = 1;
+    mat_ambient[i] = 1;
+    mat_specular[i] = 1;
+  }
   flgpart = _flgpart;
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
