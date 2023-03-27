@@ -167,7 +167,7 @@ void Man::setMaterial(int i)
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, materials[i].shininess);
 }
 
-/ Draws in the display list
+// Draws in the display list
 GLint Man::displaylist()
 {
   GLint dlist = glGenLists(1);

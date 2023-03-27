@@ -111,7 +111,7 @@ Human::Human(char *l)
 }
 
 Human::~Human()
-{ }
+{}
 
 void Human::parser(char *l)
 { 
@@ -176,13 +176,21 @@ void Human::setMaterial(int i)
   glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, materials[i].shininess);
 }
 
+// Draws in the display list
+GLint Human::displaylist()
+{
+  dlist = glGenLists(1);
+  glNewList(dlist, GL_COMPILE);
+  draw();
+  glEndList();
+  return dlist;
+}
+
 /* Draws man */
 void Human::draw()
 {
   int vc = 0;
 
-  dlist = glGenLists(1);
-  //dax glNewList(dlist, GL_COMPILE);
   for (int i=0; i < (sizeof(faces)/sizeof(faces[0])); i++) {
     glBegin(GL_TRIANGLES);
     if (vc == 0) {
@@ -200,7 +208,6 @@ void Human::draw()
     }
     glEnd();
   }
-  //dax glEndList();
 }
 
 void Human::render()

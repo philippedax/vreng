@@ -107,6 +107,8 @@ public:
   void render();
   /**< Specific rendering. */
 
+  GLint displaylist();
+
   void quit();  
   /**< Quits properly. */
 
