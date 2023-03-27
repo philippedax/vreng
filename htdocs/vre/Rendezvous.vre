@@ -486,38 +486,36 @@ amplitude="1" freq="1" phase="1">
 -->
 
 <!-- guys -->
-<guy name="girl1"   pos="11.0 4.0 .70 1.5" skin="wheat"    bust="wheat" legs="pink" feet="red"       url="/cset/walking.cset"> sex=1 <solid shape="bbox" dim=".3 .2 1.7" /></guy>
-<guy name="guy2"    pos="10.5 4.5 .75 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
-<guy name="guy3"    pos="10.5 3.5 .75 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset"> sex=0 <solid shape="bbox" dim=".3 .2 1.8" /></guy>
-<model name="man4" pos="10.0 4.0 .80 0.5" scale=".9" url="man"> <solid shape="man" dim=".3 .2 1.70" /></model>
-<!--
--->
+<guy name="girl1"   pos="11.0 4.0 .70 1.5" skin="wheat"    bust="wheat" legs="pink" feet="red"       url="/cset/walking.cset" sex="1"> <solid shape="bbox" dim=".3 .2 1.7" /></guy>
+<guy name="guy2"    pos="10.5 4.5 .75 2." skin="pink"      bust="grey" legs="black" feet="black"     url="/cset/walking.cset" sex="0"> <solid shape="bbox" dim=".3 .2 1.8" /></guy>
+<guy name="guy3"    pos="10.5 3.5 .75 1." skin="chocolate" bust="lightblue" legs="blue" feet="white" url="/cset/walking.cset" sex="0"> <solid shape="bbox" dim=".3 .2 1.8" /></guy>
+<model name="man4" pos="10.0 4.0 .80 0.5">   <solid shape="man"  dim=".3 .2 1.70" scale=".9" /></model>
 
 <!-- humanheads -->
-<model name="head1" pos="11.0 4.0 1.52 1.5 1.57"  url="/lwo/head.lwo" scale=".0028"></model>
-<model name="head2" pos="10.5 4.5 -.10 1.0 -1.57" url="/obj/head.obj" scale=".96"></model>
-<model name="head3" pos="10.5 3.5 -.03 -1.5 0.00" url="/off/head.off" color="pink"></model>
+<model name="head1" pos="11.0 4.0 1.47 1.5 1.57"  url="/lwo/head.lwo" scale=".0028"></model>
+<model name="head2" pos="10.5 4.5 -.15 1.0 -1.57" url="/obj/head.obj" scale=".96"></model>
+<model name="head3" pos="10.5 3.5 -.05 -1.5 0.00" url="/off/head.off" color="pink"></model>
 <!--
 <model name="head4" pos="10.0 4.0 1.55 6.5 0.00"  url="/3ds/head.3ds" scale=".028"></model>
 -->
 
 <!-- hats -->
-<hat name="hat1" pos="11.0 4.0 1.60" >
+<hat name="hat1" pos="11.0 4.0 1.50" >
  <solid shape="cone" rb=".08" rt=".08" h=".05"         dif="pink" />
  <solid shape="disk" rel="0 0 .05 0 0" ri="0" re=".08" dif="pink" />
  <solid shape="disk" rel="0 0 0 0 0" ri=".08" re=".20" dif="pink" />
 </hat>
-<hat name="hat2" pos="10.5 4.5 1.60" >
+<hat name="hat2" pos="10.5 4.5 1.53" >
  <solid shape="cone" rb=".08" rt=".08" h=".10"         dif="green" />
  <solid shape="disk" rel="0 0 .10 0 0" ri="0" re=".08" dif="green" />
  <solid shape="disk" rel="0 0 0 0 0" ri=".08" re=".15" dif="green" />
 </hat>
-<hat name="hat3" pos="10.5 3.5 1.60" >
+<hat name="hat3" pos="10.5 3.5 1.53" >
  <solid shape="cone" rb=".08" rt=".08" h=".08"         dif="red" />
  <solid shape="disk" rel="0 0 .08 0 0" ri="0" re=".08" dif="red" />
  <solid shape="disk" rel="0 0 0 0 0" ri=".08" re=".15" dif="red" />
 </hat>
-<hat name="hat4" pos="10.0 4.0 1.7" >
+<hat name="hat4" pos="10.0 4.0 1.65" >
  <solid shape="cone" rb=".08" rt=".08" h=".08"          dif="blue" />
  <solid shape="disk" rel="0 0 0.08 0 0" ri="0" re=".08" dif="blue" />
  <solid shape="disk" rel="0 0 0 0 0" ri=".08"  re=".12" dif="blue" />
@@ -570,9 +568,13 @@ amplitude="1" freq="1" phase="1">
 <bird name="bird1" pos="4 -3.5 1.5" flying="true" model="bird" scale=".5" zone="5"> <solid shape="wings" dif="grey" /> </bird>
 <bird name="bird2" pos="4 -3.2 1.2" flying="false" model="bird" scale=".4" zone="2"> <solid shape="wings" dif="grey" /> </bird>
 <bird name="bird3" pos="4 -3.8 1.3" flying="false" model="bird" scale=".3" zone="2"> <solid shape="wings" dif="grey" /> </bird>
+<!--
+-->
 
 <!-- drone -->
-<drone name="drone" pos="2 -0 .01 .7" scale=".2"> <solid shape="wings" dif="black" /> </drone>
+<drone name="drone" pos="-1 -0 .01" zone="18" scale=".2" > <solid shape="wings" dif="black" /> </drone>
+<!--
+-->
 
 <!-- fire -->
 <fire name="fire" pos="2.25 -2.25 1" number="1000"> </fire>
@@ -711,7 +713,7 @@ amplitude="1" freq="1" phase="1">
 -->
 
 <!-- carousel x3d -->
-<carousel pos="2 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></carousel>
+<carousel name="carousel" pos="2 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></carousel>
 <!--
 <carousel pos="2 2 .5" dim="1 1 1" url="/x3d/lighting.x3d"></carousel>
 -->
