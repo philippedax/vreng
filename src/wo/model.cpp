@@ -226,7 +226,7 @@ void Model::drawer()
   case MODEL_DXF: if (dxf) dxf->displaylist(); break;
   case MODEL_OFF: if (off) off->displaylist(); break;
   case MODEL_X3D: break;
-  case MODEL_MAN: break;
+  case MODEL_MAN: if (man) man->displaylist(); break;
   }
 }
 
