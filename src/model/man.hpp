@@ -35,6 +35,7 @@ public:
 
   virtual ~Man();	///< destructor
 
+  GLint displaylist();
   void draw();
 
 private:
