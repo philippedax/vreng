@@ -47,7 +47,7 @@ private:
   float color[3];	///< color
   bool active;		///< is in movement ?
 
-protected:
+private:
   uint8_t model;
   char modelname[16];
 
@@ -101,8 +101,8 @@ public:
   void draw(uint8_t model);
   /**< Draws. */
 
-  virtual void render();
-  virtual void render(uint8_t model);
+  void render();
+  void render(uint8_t model);
   /**< Renders. */
 
   void quit();

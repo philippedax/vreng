@@ -32,7 +32,7 @@
  */
 class Dress: public Cloth {
 
-protected:
+private:
   uint8_t model;
   char modelname[16];
 
@@ -89,9 +89,7 @@ private:
   // callbacks
   static void wear_cb(Dress *dress, void *d, time_t s, time_t u);
   static void takeoff_cb(Dress *dress, void *d, time_t s, time_t u);
-
   static void recreate_cb(class User *user, void *d, time_t s, time_t u);
-
 };
 
 #endif

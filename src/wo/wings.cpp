@@ -178,11 +178,11 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   *p = '\0';
   strcpy(modelname, str);
 
-  defaults();
+  //defaults();
   active = false;
   taken = true;
-  model = getModel(modelname);
-  setName(modelname);
+  //model = getModel(modelname);
+  //setName(modelname);
   setOwner();
   getPersist();
   makeSolid();
@@ -560,11 +560,12 @@ void Wings::quit()
 void Wings::wear()
 {
   if (taken) takeoff();
-  defaults();
+
   taken = true;
   active = true;
-  model = getModel(modelname);
-  setName(modelname);
+  //echo("wings: %s %d", modelname, model);
+  //model = getModel(modelname);
+  //setName(modelname);
   setOwner();
   setPersist();
   behavior();

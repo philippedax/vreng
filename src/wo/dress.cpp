@@ -165,7 +165,7 @@ void Dress::quit()
 void Dress::wear()
 {
   if (taken) takeoff();
-  defaults();
+
   taken = true;
   model = getModel(modelname);
   setName(modelname);

@@ -32,7 +32,7 @@
  */
 class Hat: public Cloth {
 
-protected:
+private:
   uint8_t model;
   char modelname[16];
 
