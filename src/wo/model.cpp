@@ -25,7 +25,6 @@
 #include "music.hpp"	// MUSIC_TYPE
 #include "texture.hpp"	// Texture::open
 #include "user.hpp"	// localuser
-
 #include "lwo.hpp"      // Lwo
 #include "3ds.hpp"      // 3ds
 #include "ase.hpp"      // Ase
@@ -56,21 +55,35 @@ void Model::defaults()
   scale = DEF_SCALE;
   state = INACTIVE;
   texid = 0;
-  texurl = NULL;
-  sndurl = NULL;
-  bvhurl = NULL;
   taken = false;
-  lwo = NULL;
-  ds3 = NULL;
-  ase = NULL;
-  obj = NULL;
-  md2 = NULL;
-  dxf = NULL;
-  off = NULL;
-  x3d = NULL;
-  bvh = NULL;
-  man = NULL;
-  color[0] = 1; color[1] = .75; color[2] = .7; color[3] = 1;
+  color[0] = 1; color[1] = .75; color[2] = .7;
+}
+
+/** Constructor : creation from vre file */
+Model::Model(char *l)
+ :
+ texurl(NULL),
+ bvhurl(NULL),
+ sndurl(NULL),
+ lwo(NULL),
+ ds3(NULL),
+ ase(NULL),
+ obj(NULL),
+ md2(NULL),
+ dxf(NULL),
+ off(NULL),
+ x3d(NULL),
+ bvh(NULL),
+ man(NULL)
+{
+  parser(l);
+  makeSolid();
+  behavior();
+  loader();
+  scaler();
+  drawer();
+
+  initMobileObject(1);
 }
 
 /** solid geometry */
@@ -100,6 +113,7 @@ void Model::parser(char *l)
     else if (! stringcmp(l, "bvh=")) {
       bvhurl = new char[URL_LEN];
       l = parseString(l, bvhurl, "bvh");
+      bvh = new Bvh(bvhurl);
     }
     else if (! stringcmp(l, "sound=")) {
       sndurl = new char[URL_LEN];
@@ -116,24 +130,9 @@ void Model::parser(char *l)
 
 void Model::behavior()
 {
+  enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
-}
-
-/** Constructor : creation from vre file */
-Model::Model(char *l)
-{
-  parser(l);
-  makeSolid();
-  behavior();
-
-  loader();
-  scaler();
-  drawer();
-
-  initMobileObject(1);
-
-  if (bvhurl) bvh = new Bvh(bvhurl);
 }
 
 /* creation from Gui addobj */
@@ -141,27 +140,25 @@ Model::Model(WObject *user, char *url, float _scale)
 {
   defaults();
   taken = true;
-  setName();
-  setOwner();
   makeSolid();
   behavior();
   enableBehavior(DYNAMIC);
 
+  setName();
+  setOwner();
   strcpy(names.url, url);
   loader();
   scale = _scale;
   scaler();
   drawer();
 
-  /* position = carried by user */
+  /* position = in front of user */
   pos.x = localuser->pos.x + 1;
   pos.y = localuser->pos.y;
   pos.z = localuser->pos.z;
   updatePosition();
 
   initMobileObject(1);
-
-  if (bvhurl) bvh = new Bvh(bvhurl);
 }
 
 void Model::loader()

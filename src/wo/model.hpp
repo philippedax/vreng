@@ -39,10 +39,10 @@ class Model: public WObject {
   float scale;		///< scale to apply.
   bool taken;		///< taken or not by user.
   int texid;		///< texture number.
+  float color[3];	///< main color.
   char *texurl;		///< texture url.
-  char *sndurl;		///< sound url.
   char *bvhurl;		///< bvh url.
-  float color[4];	///< main color.
+  char *sndurl;		///< sound url.
 
   // model pointers
   class Lwo  *lwo;	///< Lwo Model pointer.
