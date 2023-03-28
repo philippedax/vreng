@@ -207,12 +207,12 @@ void Cloth::changePermanent(float lasting)
   }
 }
 
-void Cloth::addToWearList()
+void Cloth::addWearList()
 {
   wearList.push_back(this);
 }
 
-void Cloth::delFromWearList()
+void Cloth::delWearList()
 {
   for (list<WObject*>::iterator it = wearList.begin(); it != wearList.end(); it++) {
     if (*it == this) {

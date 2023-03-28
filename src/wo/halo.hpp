@@ -35,7 +35,7 @@ class Halo: public Cloth {
 protected:
   static GLfloat RI, RE;
   char strcolor[16];
-  GLfloat color[4];
+  GLfloat color[3];
 
 public:
   enum {

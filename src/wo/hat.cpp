@@ -195,6 +195,7 @@ void Hat::wear()
 {
   if (taken) takeoff();
 
+  defaults();
   taken = true;
   //echo("wear hat: %s %d", modelname, model);	// modelname is wrong FIXME!
   setOwner();
@@ -202,7 +203,7 @@ void Hat::wear()
   inits();
   setPersist();
   createPermanentNetObject(PROPS, ++oid);
-  addToWearList();
+  addWearList();
 }
 
 /* takeoff */
@@ -213,7 +214,7 @@ void Hat::takeoff()
   taken = false;
   restorePosition();	// restore original position
   delPersist();
-  delFromWearList();
+  delWearList();
 }
 
 /* Deletion */
@@ -221,7 +222,7 @@ void Hat::destroy()
 {
   taken = false;
   delPersist();
-  delFromWearList();
+  delWearList();
   toDelete();
   phat = NULL;
 }

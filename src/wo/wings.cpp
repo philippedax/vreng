@@ -178,11 +178,8 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   *p = '\0';
   strcpy(modelname, str);
 
-  //defaults();
   active = false;
   taken = true;
-  //model = getModel(modelname);
-  //setName(modelname);
   setOwner();
   getPersist();
   makeSolid();
@@ -563,14 +560,11 @@ void Wings::wear()
 
   taken = true;
   active = true;
-  //echo("wings: %s %d", modelname, model);
-  //model = getModel(modelname);
-  //setName(modelname);
   setOwner();
   setPersist();
   behavior();
   inits();
-  addToWearList();
+  addWearList();
 }
 
 /* takeoff */
@@ -580,7 +574,7 @@ void Wings::takeoff()
   active = false;
   restorePosition();	// restore original position
   delPersist();
-  delFromWearList();
+  delWearList();
 }
 
 /* wear: indirectly called by user */

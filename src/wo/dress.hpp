@@ -38,11 +38,11 @@ private:
 
 public:
   enum {
-    NONE,
+    NODRESS,
     SPIRES,
     BANDS,
     ROSES,
-    UNKNOWN
+    UNKDRESS
   };
 
   enum {

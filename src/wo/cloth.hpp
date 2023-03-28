@@ -118,8 +118,8 @@ protected:
   void restorePosition();
   /**< Restores original position */
 
-  void addToWearList();
-  void delFromWearList();
+  void addWearList();
+  void delWearList();
   /**< List handling */
 
 private:

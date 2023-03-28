@@ -26,7 +26,6 @@
 const OClass Dress::oclass(DRESS_TYPE, "Dress", Dress::creator);
 
 //local
-static Dress *pdress = NULL;
 static uint16_t oid = 0;
 
 struct sDress {
@@ -35,10 +34,10 @@ struct sDress {
 };
 
 static struct sDress dresss[] = {
-  {Dress::SPIRES, "spires"},
-  {Dress::BANDS,  "bands"},
-  {Dress::ROSES,  "roses"},
-  {Dress::NONE,   ""},
+  {Dress::SPIRES,  "spires"},
+  {Dress::BANDS,   "bands"},
+  {Dress::ROSES,   "roses"},
+  {Dress::NODRESS, ""},
 };
 
 
@@ -57,7 +56,7 @@ void Dress::defaults()
   dax = 0;
   day = 0;
   daz = 0;
-  model = Dress::NONE;
+  model = Dress::NODRESS;
 }
 
 /* solid geometry */
@@ -116,7 +115,7 @@ uint8_t Dress::getModel(const char *name)
       if (! strcmp(name, pdresss->dress_str))
         return pdresss->dress_id;
   }
-  return NONE;
+  return NODRESS;
 }
 
 /* Created from file */
@@ -133,30 +132,27 @@ Dress::Dress(char *l)
 Dress::Dress(User *user, void *d, time_t s, time_t u)
 {
   char *str = (char *) d;       // name transmitted
-  char *p = str;
   if (!str) return;
 
   strcpy(names.given, str);
   strcpy(names.type, typeName());     // need names.type for MySql
-  p = strchr(str, '&');
+  char *p = strchr(str, '&');
   *p = '\0';
   strcpy(modelname, str);
 
-  pdress = this;
   defaults();
   taken = true;
   model = getModel(modelname);
-  makeSolid();
   setName(modelname);
   setOwner();
   getPersist();
+  makeSolid();
   behavior();
   inits();
 }
 
 void Dress::quit()
 {
-  pdress = NULL;
   oid = 0;
   savePersistency();
 }
@@ -167,13 +163,13 @@ void Dress::wear()
   if (taken) takeoff();
 
   taken = true;
-  model = getModel(modelname);
-  setName(modelname);
+  //model = getModel(modelname);
+  //setName(modelname);
   setOwner();
   setPersist();
   behavior();
   inits();
-  addToWearList();
+  addWearList();
 }
 
 /* takeoff */
@@ -182,7 +178,7 @@ void Dress::takeoff()
   taken = false;
   restorePosition();	// restore original position
   delPersist();
-  delFromWearList();
+  delWearList();
 }
 
 /* wear: indirectly called by user */
