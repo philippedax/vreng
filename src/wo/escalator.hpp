@@ -47,6 +47,8 @@ public:
   static WObject * (creator)(char *l);
   /**< Create from fileline */
 
+  void pause();
+
   void quit();
   /**< Quits */
 
@@ -62,6 +64,10 @@ private:
 
   void build();
   /**< Builds escalator */
+
+  // Gui callbacks
+  static void pause_cb(Escalator *po, void *d, time_t s, time_t u);
+  //static void stop_cb(Escalator *po, void *d, time_t s, time_t u);
 };
 
 #endif

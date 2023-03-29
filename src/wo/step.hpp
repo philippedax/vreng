@@ -33,6 +33,7 @@
 class Step: public WObject {
 
  protected:
+  static list<Step*> stepList;	///< list of steps (escalator, travelator,...)
   static const float LSPEED;	///< linear speed
 
   bool mobile;		///< flag escalator or travelator

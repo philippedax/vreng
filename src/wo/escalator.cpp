@@ -82,6 +82,8 @@ void Escalator::build()
   nsteps = (int) ceil(height / sz);
   //echo("nsteps: %d", nsteps);
 
+  stepList.push_back(this);
+
   for (int n=0; n < nsteps; n++) {
     Pos newpos;
     newpos.az = pos.az;
@@ -93,7 +95,7 @@ void Escalator::build()
 
     //echo("newpos=%.1f %.1f %.1f d=%d", newpos.x,newpos.y,newpos.z,dir);
     nextstep = new Step(newpos, pos, "escalator", geometry, true, height, speed, dir);
-    //forceNames();
+    stepList.push_back(nextstep);
   }
 
   enablePermanentMovement(speed);
@@ -113,14 +115,30 @@ Escalator::Escalator(char *l)
   state = on;	// ACTIVE | INACTIVE
 }
 
+void Escalator::pause()
+{
+  for (list<Step*>::iterator it = stepList.begin(); it != stepList.end(); it++) {
+    if ((*it)->state & ACTIVE)
+      (*it)->state = INACTIVE;
+    else
+      (*it)->state = ACTIVE;
+  }
+}
+
+void Escalator::pause_cb(Escalator *escalator, void *d, time_t s, time_t u)
+{
+  escalator->pause();
+}
+
 void Escalator::quit()
 {
+  stepList.clear();
   oid = 0;
 }
 
 void Escalator::funcs()
 {
   setActionFunc(ESCALATOR_TYPE, 0, _Action pause_cb, "Pause/Continue");
-  setActionFunc(ESCALATOR_TYPE, 1, _Action stop_cb, "Stop/Restart");
-  setActionFunc(ESCALATOR_TYPE, 2, _Action gotoFront, "Approach");
+  //setActionFunc(ESCALATOR_TYPE, 1, _Action stop_cb, "Stop/Restart");
+  //setActionFunc(ESCALATOR_TYPE, 2, _Action gotoFront, "Approach");
 }

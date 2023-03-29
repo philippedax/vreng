@@ -28,6 +28,7 @@ using namespace std;
 
 const OClass Step::oclass(STEP_TYPE, "Step", Step::creator);
 
+list<Step*> Step::stepList;	// steps list
 const float Step::JUMP = 0.10;
 const float Step::LSPEED = 0.5;	// 1/2 ms
 
@@ -123,6 +124,7 @@ void Step::build()
   }
 
   initialpos = pos;  // save initial step position for other steps
+  stepList.push_back(this);
 
   for (int n=0; n < nsteps; n++) {
     Pos newpos;
@@ -151,6 +153,7 @@ void Step::build()
       }
     }
     nextstep = new Step(newpos, initialpos, "step", geometry, mobile, size, speed, dir);
+    stepList.push_back(nextstep);
   }
 
   if (mobile) {
