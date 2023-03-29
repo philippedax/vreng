@@ -197,7 +197,7 @@ Step::Step(Pos& newpos, Pos& _initialpos, const char *name, const char *_geom, b
 
   if (mobile) {    // escalator or travelator
     enablePermanentMovement(speed);
-    state = ACTIVE;
+    state = ACTIVE;	// only one step !!!
   }
 }
 
@@ -362,16 +362,16 @@ void Step::quit()
 
 void Step::pause_cb(Step *step, void *d, time_t s, time_t u)
 {
-  if (step->state == ACTIVE) step->state = INACTIVE;
-  else                       step->state = ACTIVE;
+  if (step->state & ACTIVE) step->state = INACTIVE;
+  else                      step->state = ACTIVE;
 }
 
 void Step::stop_cb(Step *step, void *d, time_t s, time_t u)
 {
   if (step->mobile == true) step->mobile = false;
   else                      step->mobile = true;
-  if (step->state == ACTIVE) step->state = INACTIVE;
-  else                       step->state = ACTIVE;
+  if (step->state & ACTIVE) step->state = INACTIVE;
+  else                      step->state = ACTIVE;
 }
 
 void Step::destroy_cb(Step *step, void *d, time_t s, time_t u)
@@ -383,7 +383,7 @@ void Step::destroy_cb(Step *step, void *d, time_t s, time_t u)
 
 void Step::funcs()
 {
-  setActionFunc(STEP_TYPE, 0, _Action gotoFront, "Approach");
-  setActionFunc(STEP_TYPE, 1, _Action pause_cb, "Pause/Continue");
-  setActionFunc(STEP_TYPE, 2, _Action stop_cb, "Stop/Restart");
+  setActionFunc(STEP_TYPE, 0, _Action pause_cb, "Pause/Continue");
+  setActionFunc(STEP_TYPE, 1, _Action stop_cb, "Stop/Restart");
+  setActionFunc(STEP_TYPE, 2, _Action gotoFront, "Approach");
 }
