@@ -32,6 +32,9 @@
  */
 class Escalator: public Step {
 
+private:
+  bool on;	///< on | off
+
 public:
   static const OClass oclass;	///< class variable
 

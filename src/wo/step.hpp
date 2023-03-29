@@ -80,22 +80,22 @@ class Step: public WObject {
   static WObject * (creator)(char *l);
   /**< Create from fileline */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  virtual bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects */
 
-  bool whenIntersectOut(WObject *pcur, WObject *pold);
+  virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
   /**< When an other object leaves intersection */
 
-  void updateTime(time_t s, time_t us, float *lasting);
+  virtual void updateTime(time_t s, time_t us, float *lasting);
   /**< Updates lasting time */
 
-  void changePermanent(float lasting);
+  virtual void changePermanent(float lasting);
   /**< Permanent movement */
 
-  bool updateToNetwork(const Pos &oldpos);
+  virtual bool updateToNetwork(const Pos &oldpos);
   /**< Publishes new position */
 
-  void quit();
+  virtual void quit();
   /**< Quits */
 
 protected:
@@ -104,19 +104,19 @@ protected:
   static void stop_cb(Step *po, void *d, time_t s, time_t u);
 
 private:
-  void parser(char *l);
+  virtual void parser(char *l);
   /**< Parses */
 
-  void defaults();
+  virtual void defaults();
   /**< Default values */
 
-  void behavior();
+  virtual void behavior();
   /**< Sets behavior */
 
   void makeSolid();
   /**< Makes solid. */
 
-  void build();
+  virtual void build();
   /**< Builds stair or escalator */
 
   // Gui callbacks

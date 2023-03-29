@@ -70,7 +70,7 @@ void Step::parser(char *l)
       else if (! stringcmp(modestr, "stair")) stair = true;
       else if (! stringcmp(modestr, "spiral")) { stair = true; spiral = true; }
     }
-    if (! stringcmp(l, "dir=")) {
+    else if (! stringcmp(l, "dir=")) {
       char modestr[16];
       l = parseString(l, modestr, "dir");
       if      (! stringcmp(modestr, "up"))   dir = 1;	// up
@@ -103,10 +103,6 @@ void Step::build()
   float sy = 2 * pos.bbs.v[1];  // step depth
   float sz = 2 * pos.bbs.v[2];  // step height
 
-  //dax makeSolid();	//dax
-  //dax char *geom = new char[strlen(geometry) + 1];
-  //dax strcpy(geom, geometry);  // step geometry to duplicate
-
   // steps are interlaced (sx sy sz)
   if (travelator) {
     nsteps = (int) ceil(length / MIN(sx, sy));
@@ -115,7 +111,7 @@ void Step::build()
   else {  // escalator stair spiral
     if (height) {
       if (escalator) {
-        height += sz;  // add the top step
+        //dax height += sz;  // add the top step
       }
     }
     else if (length && pos.ax) {
@@ -156,7 +152,6 @@ void Step::build()
     }
     nextstep = new Step(newpos, initialpos, "step", geometry, mobile, size, speed, dir);
   }
-  //dax if (geom) delete[] geom;
 
   if (mobile) {
     enablePermanentMovement(speed);
@@ -182,11 +177,9 @@ Step::Step(Pos& newpos, Pos& _initialpos, const char *name, const char *_geom, b
 {
   pos = newpos;
 
-  //echo("s: %s", _geom);
   char *s = new char[strlen(_geom)];
   strcpy(s, _geom);
   parseSolid(s);
-  //dax makeSolid();
 
   mobile = _mobile;
   dir = _dir;
@@ -198,7 +191,6 @@ Step::Step(Pos& newpos, Pos& _initialpos, const char *name, const char *_geom, b
   }
   speed = _speed;
   initialpos = _initialpos;
-  stuck = false;
 
   initMobileObject(1);
   forceNames(name);
@@ -236,7 +228,7 @@ void Step::changePermanent(float lasting)
 
   float sx = 2 * pos.bbs.v[0];  // step width
   float sy = 2 * pos.bbs.v[1];  // step depth
-  float sz = 2 * pos.bbs.v[2];  // step height
+  float sz = 1 * pos.bbs.v[2];  // step height
 
   if (dir > 0) {
     //
@@ -245,24 +237,23 @@ void Step::changePermanent(float lasting)
     pos.x += lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y += lasting * move.lspeed.v[1] * cos(pos.az);
     pos.z += lasting * move.lspeed.v[2];
-    if (stuck) {  // user follows this step
+    if (pos.z > (initialpos.z + height /*- sz*/)) {	// switch step
+      //echo("+ %.1f %s", pos.z,getInstance());
+      pos.x = initialpos.x - (sin(pos.az) * sx);
+      pos.y = initialpos.y - (cos(pos.az) * sy);
+      pos.z = initialpos.z; //orig - sz;
+    }
+    if (stuck) {	// user follows up this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
       localuser->pos.z = pos.z + localuser->height/2;
-      if (pos.z >= (initialpos.z - sz + height)) {  // user stops
+      if (pos.z >= (initialpos.z + height - sz)) {	// user stops at top
         localuser->pos.x += (sin(pos.az) * sx);
         localuser->pos.y += (cos(pos.az) * sy);
         localuser->pos.z += sz;
         stuck = false;
       }
       localuser->updatePosition();
-    }
-
-    if (pos.z >= (initialpos.z - sz + height)) {  // switch step
-      pos.x = initialpos.x - (sin(pos.az) * sx);
-      pos.y = initialpos.y - (cos(pos.az) * sy);
-      pos.z = initialpos.z - sz;
-      //echo("+ %.1f %.1f %.1f %s", pos.x,pos.y,pos.z,getInstance());
     }
   }
   else if (dir < 0) {
@@ -272,22 +263,21 @@ void Step::changePermanent(float lasting)
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);
     pos.z -= lasting * move.lspeed.v[2];
-    if (stuck) {  // user follows this step
+    if (pos.z < (initialpos.z - height + sz)) {	// switch step
+      pos.x = initialpos.x;
+      pos.y = initialpos.y;
+      pos.z = initialpos.z;
+    }
+    if (stuck) {	// user follows down this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
       localuser->pos.z = pos.z + localuser->height/2;
-      if (pos.z <= (initialpos.z + sz - height)) {  // user stops
+      if (pos.z <= (initialpos.z - height + sz)) {	// user stops at bottom
         localuser->pos.x -= (sin(pos.az) * sx);
         localuser->pos.y -= (cos(pos.az) * sy);
         stuck = false;
       }
       localuser->updatePosition();
-    }
-
-    if (pos.z <= (initialpos.z + sz - height)) {
-      pos.x = initialpos.x;
-      pos.y = initialpos.y;
-      pos.z = initialpos.z;
     }
   }
   else {
@@ -296,18 +286,17 @@ void Step::changePermanent(float lasting)
     //
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);
-    if (stuck) {  // user follows this step
+    if (stuck) {	// user follows this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
-      if (pos.x >= (initialpos.x - sx + length)) {  // user stops
+      if (pos.x >= (initialpos.x + length - sx)) {	// user stops end
         localuser->pos.x -= (sin(pos.az) * sx);
         localuser->pos.y -= (cos(pos.az) * sy);
         stuck = false;
       }
       localuser->updatePosition();
     }
-
-    if (pos.x >= (initialpos.x - sx + length)) {
+    if (pos.x >= (initialpos.x + length - sx)) {	// switch step
       pos.x = initialpos.x;
       pos.y = initialpos.y;
     }

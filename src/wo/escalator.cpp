@@ -37,6 +37,7 @@ WObject * Escalator::creator(char *l)
 
 void Escalator::defaults()
 {
+  on = true;
   dir = 1;	// up by default
   height = 0;
   length = 0;
@@ -60,6 +61,7 @@ void Escalator::parser(char *l)
     else if (! stringcmp(l, "height")) l = parseFloat(l, &height, "height");
     else if (! stringcmp(l, "length")) l = parseFloat(l, &length, "length");
     else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
+    else if (! stringcmp(l, "on"))     l = parseBool(l, &on, "on");
   }
   end_while_parse(l);
 }
@@ -108,6 +110,7 @@ Escalator::Escalator(char *l)
   parser(l);
   behavior();
   build();
+  state = on;	// ACTIVE | INACTIVE
 }
 
 void Escalator::quit()
@@ -117,7 +120,7 @@ void Escalator::quit()
 
 void Escalator::funcs()
 {
-  setActionFunc(ESCALATOR_TYPE, 0, _Action gotoFront, "Approach");
-  setActionFunc(ESCALATOR_TYPE, 1, _Action pause_cb, "Pause/Continue");
-  setActionFunc(ESCALATOR_TYPE, 2, _Action stop_cb, "Stop/Restart");
+  setActionFunc(ESCALATOR_TYPE, 0, _Action pause_cb, "Pause/Continue");
+  setActionFunc(ESCALATOR_TYPE, 1, _Action stop_cb, "Stop/Restart");
+  setActionFunc(ESCALATOR_TYPE, 2, _Action gotoFront, "Approach");
 }
