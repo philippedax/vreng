@@ -33,8 +33,8 @@
 class Step: public WObject {
 
  protected:
-  static list<Step*> stepList;	///< list of steps (escalator, travelator,...)
   static const float LSPEED;	///< linear speed
+  static list<Step*> stepList;	///< list of steps (escalator, travelator,...)
 
   bool mobile;		///< flag escalator or travelator
   bool escalator;	///< flag escalator
@@ -96,13 +96,16 @@ class Step: public WObject {
   virtual bool updateToNetwork(const Pos &oldpos);
   /**< Publishes new position */
 
+  void pause();
+  /**c Pauses/Continues */
+
   virtual void quit();
   /**< Quits */
 
-protected:
   // Gui callbacks
   static void pause_cb(Step *po, void *d, time_t s, time_t u);
-  static void stop_cb(Step *po, void *d, time_t s, time_t u);
+  //static void stop_cb(Step *po, void *d, time_t s, time_t u);
+  //static void destroy_cb(Step *po, void *d, time_t s, time_t u);
 
 private:
   virtual void parser(char *l);
@@ -119,9 +122,6 @@ private:
 
   virtual void build();
   /**< Builds stair or escalator */
-
-  // Gui callbacks
-  static void destroy_cb(Step *po, void *d, time_t s, time_t u);
 };
 
 #endif

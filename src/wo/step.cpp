@@ -29,6 +29,7 @@ using namespace std;
 const OClass Step::oclass(STEP_TYPE, "Step", Step::creator);
 
 list<Step*> Step::stepList;	// steps list
+
 const float Step::JUMP = 0.10;
 const float Step::LSPEED = 0.5;	// 1/2 ms
 
@@ -360,15 +361,26 @@ bool Step::whenIntersectOut(WObject *pcur, WObject *pold)
 
 void Step::quit()
 {
+  stepList.clear();
   oid = 0;
+}
+
+void Step::pause()
+{
+  for (list<Step*>::iterator it = stepList.begin(); it != stepList.end(); it++) {
+    if ((*it)->state & ACTIVE)
+      (*it)->state = INACTIVE;
+    else
+      (*it)->state = ACTIVE;
+  }
 }
 
 void Step::pause_cb(Step *step, void *d, time_t s, time_t u)
 {
-  if (step->state & ACTIVE) step->state = INACTIVE;
-  else                      step->state = ACTIVE;
+  step->pause();
 }
 
+#if 0 //notused
 void Step::stop_cb(Step *step, void *d, time_t s, time_t u)
 {
   if (step->mobile == true) step->mobile = false;
@@ -383,10 +395,11 @@ void Step::destroy_cb(Step *step, void *d, time_t s, time_t u)
     step->removeFromScene();
   }
 }
+#endif //notused
 
 void Step::funcs()
 {
   setActionFunc(STEP_TYPE, 0, _Action pause_cb, "Pause/Continue");
-  setActionFunc(STEP_TYPE, 1, _Action stop_cb, "Stop/Restart");
-  setActionFunc(STEP_TYPE, 2, _Action gotoFront, "Approach");
+  setActionFunc(STEP_TYPE, 1, _Action gotoFront, "Approach");
+  //setActionFunc(STEP_TYPE, 1, _Action stop_cb, "Stop/Restart");
 }

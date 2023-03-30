@@ -43,6 +43,8 @@ void Escalator::defaults()
   length = 0;
   speed = Step::LSPEED;
   mobile = true;
+  //stepList = NULL;	// compile error: no viable overloaded '='
+  stepList.clear();
 }
 
 void Escalator::parser(char *l)

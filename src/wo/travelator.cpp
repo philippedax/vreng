@@ -75,7 +75,6 @@ void Travelator::build()
     newpos.z = pos.z;
 
     nextstep = new Step(newpos, pos, "travelator", geometry, true, length, speed, dir);
-    //forceNames();
   }
 
   enablePermanentMovement(speed);
@@ -101,7 +100,7 @@ void Travelator::quit()
 
 void Travelator::funcs()
 {
-  setActionFunc(TRAVELATOR_TYPE, 0, _Action gotoFront, "Approach");
-  setActionFunc(TRAVELATOR_TYPE, 1, _Action pause_cb, "Pause/Continue");
-  setActionFunc(TRAVELATOR_TYPE, 2, _Action stop_cb, "Stop/Restart");
+  setActionFunc(TRAVELATOR_TYPE, 0, _Action pause_cb, "Pause/Continue");
+  setActionFunc(TRAVELATOR_TYPE, 1, _Action gotoFront, "Approach");
+  //setActionFunc(TRAVELATOR_TYPE, 2, _Action stop_cb, "Stop/Restart");
 }
