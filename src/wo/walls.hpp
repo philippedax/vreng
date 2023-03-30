@@ -32,7 +32,7 @@
  */
 class Walls: public WObject {
 
- public:
+ private:
   float xs, xe;		///< pos x start, end
   float ys, ye;		///< pos y start, end
   float zs, ze;		///< pos z start, end
@@ -40,6 +40,7 @@ class Walls: public WObject {
   GLint dlist;		///< walls display list
   class Walls *next;	///< next walls
 
+ public:
   static const OClass oclass;	///< class variable
 
   const OClass* getOClass() {return &oclass;}
@@ -72,10 +73,10 @@ private:
   /**< Sets solid values */
 
   const char * getUrl() const;
+  /**< Gets url of walls */
 
   static void reader(void *va, class Http *http);
   /**< download walls */
-
 };
 
 #endif
