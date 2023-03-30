@@ -97,11 +97,12 @@ class Step: public WObject {
   /**< Publishes new position */
 
   void pause();
-  /**c Pauses/Continues */
+  /**< Pauses/Continues */
 
   virtual void quit();
   /**< Quits */
 
+protected:
   // Gui callbacks
   static void pause_cb(Step *po, void *d, time_t s, time_t u);
   //static void stop_cb(Step *po, void *d, time_t s, time_t u);
@@ -117,11 +118,11 @@ private:
   virtual void behavior();
   /**< Sets behavior */
 
-  void makeSolid();
-  /**< Makes solid. */
-
   virtual void build();
   /**< Builds stair or escalator */
+
+  //notused void makeSolid();
+  //notused /**< Makes solid. */
 };
 
 #endif

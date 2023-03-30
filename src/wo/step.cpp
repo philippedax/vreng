@@ -90,6 +90,7 @@ void Step::parser(char *l)
   }
 }
 
+#if 0 //notused
 void Step::makeSolid()
 {
   char s[128];
@@ -97,6 +98,7 @@ void Step::makeSolid()
   sprintf(s, "%s", geometry);		// step geometry duplicated
   parseSolid(s);
 }
+#endif //notused
 
 void Step::build()
 {
@@ -232,7 +234,7 @@ void Step::changePermanent(float lasting)
 
   float sx = 2 * pos.bbs.v[0];  // step width
   float sy = 2 * pos.bbs.v[1];  // step depth
-  float sz = 1 * pos.bbs.v[2];  // step height
+  float sz = 2 * pos.bbs.v[2];  // step height
 
   if (dir > 0) {
     //
