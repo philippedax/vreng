@@ -62,7 +62,8 @@ void Travelator::build()
   float sy = 2 * pos.bbs.v[1];  // step depth
 
   nsteps = (int) ceil(length / MIN(sx, sy));
-  //echo("travellator: nsteps = %d", nsteps);
+
+  stepList.push_back(this);
 
   for (int n=0; n < nsteps; n++) {
     Pos newpos;
@@ -75,6 +76,7 @@ void Travelator::build()
     newpos.z = pos.z;
 
     nextstep = new Step(newpos, pos, "travelator", geometry, true, length, speed, dir);
+    stepList.push_back(nextstep);
   }
 
   enablePermanentMovement(speed);
@@ -88,13 +90,30 @@ void Travelator::behavior()
 
 Travelator::Travelator(char *l)
 {
+  stepList.clear();
   parser(l);
   behavior();
   build();
 }
 
+void Travelator::pause()
+{
+  for (list<Step*>::iterator it = stepList.begin(); it != stepList.end(); it++) {
+    if ((*it)->state & ACTIVE)
+      (*it)->state = INACTIVE;
+    else
+      (*it)->state = ACTIVE;
+  }
+}
+
+void Travelator::pause_cb(Travelator *travelator, void *d, time_t s, time_t u)
+{
+  travelator->pause();
+}
+
 void Travelator::quit()
 {
+  stepList.clear();
   oid = 0;
 }
 
