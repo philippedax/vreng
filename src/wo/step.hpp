@@ -22,7 +22,7 @@
 #define STEP_HPP
 
 #include "wobject.hpp"
-#include <list>
+#include <vector>
 
 #define STEP_TYPE	6
 #define STEP_NAME	"Step"
@@ -34,9 +34,9 @@ class Step: public WObject {
 
  protected:
   static const float LSPEED;	///< linear speed
-  static list<Step*> stepList;	///< list of steps (stair)
-  static list<Step*> escaList;	///< list of steps (escalator)
-  static list<Step*> travList;	///< list of steps (travelator)
+  static vector<Step*> stepList;	///< vector of steps (stair)
+  static vector<Step*> escaList;	///< vector of steps (escalator)
+  static vector<Step*> travList;	///< vector of steps (travelator)
 
   bool mobile;		///< flag escalator or travelator
   bool escalator;	///< flag escalator

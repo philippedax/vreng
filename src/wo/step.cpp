@@ -28,9 +28,9 @@ using namespace std;
 
 const OClass Step::oclass(STEP_TYPE, "Step", Step::creator);
 
-list<Step*> Step::stepList;	// steps list
-list<Step*> Step::escaList;	// steps list
-list<Step*> Step::travList;	// steps list
+vector<Step*> Step::stepList;	// steps vector
+vector<Step*> Step::escaList;	// steps vector
+vector<Step*> Step::travList;	// steps vector
 
 const float Step::JUMP = 0.10;
 const float Step::LSPEED = 0.5;	// 1/2 ms
@@ -299,8 +299,8 @@ void Step::changePermanent(float lasting)
     // travelator horizontal
     //
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
-    pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);
-    echo("travel: %.1f %.1f", pos.x,pos.y);
+    pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);	// FIXME!
+    //echo("travel: %.1f %.1f", pos.x,pos.y);
     if (pos.x >= (initialpos.x + length - sx)) {	// switch step
       pos.x = initialpos.x;
       pos.y = initialpos.y;
@@ -380,20 +380,20 @@ void Step::quit()
 void Step::running()
 {
   if (! mobile) {
-    for (list<Step*>::iterator it = stepList.begin(); it != stepList.end(); it++) {
+    for (vector<Step*>::iterator it = stepList.begin(); it != stepList.end(); it++) {
       (*it)->state = ACTIVE;
     }
   }
   else {
     if (dir) {
       //echo("escalator running: size=%d", escaList.size());
-      for (list<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
+      for (vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
         (*it)->state = ACTIVE;
       }
     }
     else {
       //echo("travelator running: size=%d", travList.size());
-      for (list<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
+      for (vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
         (*it)->state = ACTIVE;
       }
     }
@@ -404,7 +404,7 @@ void Step::pause()
 {
   if (dir) {
     //echo("escalator pause: size=%d", escaList.size());
-    for (list<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
+    for (vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
       if ((*it)->state & ACTIVE) {
         //echo("inactive %s", getInstance());
         (*it)->state = INACTIVE;
@@ -417,7 +417,7 @@ void Step::pause()
   }
   else {
     //echo("travelator pause: size=%d", travList.size());
-    for (list<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
+    for (vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
       if ((*it)->state & ACTIVE) {
         //echo("inactive %s", getInstance());
         (*it)->state = INACTIVE;
