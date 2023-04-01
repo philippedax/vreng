@@ -43,8 +43,7 @@ void Escalator::defaults()
   length = 0;
   speed = Step::LSPEED;
   mobile = true;
-  //stepList = NULL;	// compile error: no viable overloaded '='
-  stepList.clear();
+  escaList.clear();
 }
 
 void Escalator::parser(char *l)
@@ -84,7 +83,7 @@ void Escalator::build()
   nsteps = (int) ceil(height / sz);
   //echo("nsteps: %d", nsteps);
 
-  stepList.push_back(this);
+  escaList.push_back(this);
 
   for (int n=0; n < nsteps; n++) {
     Pos newpos;
@@ -97,8 +96,9 @@ void Escalator::build()
 
     //echo("newpos=%.1f %.1f %.1f d=%d", newpos.x,newpos.y,newpos.z,dir);
     nextstep = new Step(newpos, pos, "escalator", geometry, true, height, speed, dir);
-    stepList.push_back(nextstep);
+    escaList.push_back(nextstep);
   }
+  //echo("escaList: %d", escaList.size());
 
   enablePermanentMovement(speed);
 }
@@ -114,27 +114,14 @@ Escalator::Escalator(char *l)
   parser(l);
   behavior();
   build();
-  state = on;	// ACTIVE | INACTIVE
-}
-
-void Escalator::pause()
-{
-  for (list<Step*>::iterator it = stepList.begin(); it != stepList.end(); it++) {
-    if ((*it)->state & ACTIVE)
-      (*it)->state = INACTIVE;
-    else
-      (*it)->state = ACTIVE;
+  if (on) {
+    running();
   }
-}
-
-void Escalator::pause_cb(Escalator *escalator, void *d, time_t s, time_t u)
-{
-  escalator->pause();
 }
 
 void Escalator::quit()
 {
-  stepList.clear();
+  escaList.clear();
   oid = 0;
 }
 

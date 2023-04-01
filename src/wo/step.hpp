@@ -34,7 +34,9 @@ class Step: public WObject {
 
  protected:
   static const float LSPEED;	///< linear speed
-  static list<Step*> stepList;	///< list of steps (escalator, travelator,...)
+  static list<Step*> stepList;	///< list of steps (stair)
+  static list<Step*> escaList;	///< list of steps (escalator)
+  static list<Step*> travList;	///< list of steps (travelator)
 
   bool mobile;		///< flag escalator or travelator
   bool escalator;	///< flag escalator
@@ -81,20 +83,23 @@ class Step: public WObject {
   static WObject * (creator)(char *l);
   /**< Create from fileline */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WObject *pcur, WObject *pold);
   /**< When an other object intersects */
 
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WObject *pcur, WObject *pold);
   /**< When an other object leaves intersection */
 
-  virtual void updateTime(time_t s, time_t us, float *lasting);
+  void updateTime(time_t s, time_t us, float *lasting);
   /**< Updates lasting time */
 
-  virtual void changePermanent(float lasting);
+  void changePermanent(float lasting);
   /**< Permanent movement */
 
   virtual bool updateToNetwork(const Pos &oldpos);
   /**< Publishes new position */
+
+  void running();
+  /**< Mecanism is running */
 
   void pause();
   /**< Pauses/Continues */

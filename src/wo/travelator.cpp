@@ -37,6 +37,7 @@ WObject * Travelator::creator(char *l)
 
 void Travelator::defaults()
 {
+  on = true;
   length = 0;
   dir = 0;		// horizontal
   speed = Step::LSPEED;
@@ -52,6 +53,7 @@ void Travelator::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "length")) l = parseFloat(l, &length, "length");
     else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
+    else if (! stringcmp(l, "state"))  l = parseBool(l, &on, "state");
   }
   end_while_parse(l);
 }
@@ -63,20 +65,19 @@ void Travelator::build()
 
   nsteps = (int) ceil(length / MIN(sx, sy));
 
-  stepList.push_back(this);
+  travList.push_back(this);
 
   for (int n=0; n < nsteps; n++) {
     Pos newpos;
     newpos.az = pos.az;
     newpos.ax = pos.ax;
     newpos.ay = pos.ay;
-    //FIXME: wrong position
-    newpos.x = pos.x - (sin(pos.az) * sx * n);
-    newpos.y = pos.y - (cos(pos.az) * sy * n);
+    newpos.x = pos.x - sin(pos.az) * (sx * n);
+    newpos.y = pos.y - cos(pos.az) * (sy * n);
     newpos.z = pos.z;
 
     nextstep = new Step(newpos, pos, "travelator", geometry, true, length, speed, dir);
-    stepList.push_back(nextstep);
+    travList.push_back(nextstep);
   }
 
   enablePermanentMovement(speed);
@@ -90,30 +91,18 @@ void Travelator::behavior()
 
 Travelator::Travelator(char *l)
 {
-  stepList.clear();
+  travList.clear();
   parser(l);
   behavior();
   build();
+  if (on)
+    running();
 }
 
-void Travelator::pause()
-{
-  for (list<Step*>::iterator it = stepList.begin(); it != stepList.end(); it++) {
-    if ((*it)->state & ACTIVE)
-      (*it)->state = INACTIVE;
-    else
-      (*it)->state = ACTIVE;
-  }
-}
-
-void Travelator::pause_cb(Travelator *travelator, void *d, time_t s, time_t u)
-{
-  travelator->pause();
-}
 
 void Travelator::quit()
 {
-  stepList.clear();
+  travList.clear();
   oid = 0;
 }
 
@@ -121,5 +110,4 @@ void Travelator::funcs()
 {
   setActionFunc(TRAVELATOR_TYPE, 0, _Action pause_cb, "Pause/Continue");
   setActionFunc(TRAVELATOR_TYPE, 1, _Action gotoFront, "Approach");
-  //setActionFunc(TRAVELATOR_TYPE, 2, _Action stop_cb, "Stop/Restart");
 }

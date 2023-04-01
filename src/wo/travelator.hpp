@@ -32,6 +32,9 @@
  */
 class Travelator: public Step {
 
+private:
+  bool on;	///< running or pause
+
 public:
   static const OClass oclass;	///< class variable
 
@@ -43,8 +46,6 @@ public:
 
   static WObject * (creator)(char *l);
   /**< Create from fileline */
-
-  void pause();
 
   void quit();
   /**< Quits */
@@ -61,9 +62,6 @@ private:
 
   void build();
   /**< Builds travelator */
-
-  // Gui callbacks
-  static void pause_cb(Travelator *po, void *d, time_t s, time_t u);
 };
 
 #endif
