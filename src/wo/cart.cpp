@@ -26,14 +26,14 @@
 #include "netobj.hpp"	// netop
 #include "vrsql.hpp"	// VRSql
 #include "pref.hpp"	// g.user
-#include <list>
+#include <vector>
 
 using namespace std;
 
 const OClass Cart::oclass(CART_TYPE, "Cart", NULL);
 
 // local
-list<WObject*> Cart::cartList;	// list of objects in Cart
+vector<WObject*> Cart::cartList;	// vector of objects in Cart
 
 
 void Cart::parser(char *l)
@@ -118,7 +118,7 @@ bool Cart::isSomethingInCart(WObject *po)
 void Cart::leave(WObject *po)
 {
   // remove object from the cartList
-  for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
+  for (vector<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
       cartList.erase(it);
     }
@@ -181,7 +181,7 @@ void Cart::leave(WObject *po)
 void Cart::removeFromCart(WObject *po)
 {
   // remove from cartList
-  for (list<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
+  for (vector<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
       cartList.erase(it);
     }

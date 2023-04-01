@@ -22,7 +22,7 @@
 #define CART_HPP
 
 #include "wobject.hpp"
-#include <list>
+#include <vector>
 
 #define CART_TYPE	42
 #define CART_NAME	"Cart"
@@ -36,7 +36,7 @@ class Cart: public WObject {
 protected:
   uint8_t number;	///< number of objects inside cart
   class User *user;	///< owner of the cart
-  static std::list<WObject*> cartList; ///< list of objects in the cart
+  static std::vector<WObject*> cartList; ///< vector of objects in the cart
 
 public:
   // target values handled by GuiRemoveCart in gui.cc
