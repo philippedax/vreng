@@ -300,6 +300,11 @@ void Step::changePermanent(float lasting)
     //
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);
+    echo("travel: %.1f %.1f", pos.x,pos.y);
+    if (pos.x >= (initialpos.x + length - sx)) {	// switch step
+      pos.x = initialpos.x;
+      pos.y = initialpos.y;
+    }
     if (stuck) {	// user follows this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
@@ -309,10 +314,6 @@ void Step::changePermanent(float lasting)
         stuck = false;
       }
       localuser->updatePosition();
-    }
-    if (pos.x >= (initialpos.x + length - sx)) {	// switch step
-      pos.x = initialpos.x;
-      pos.y = initialpos.y;
     }
   }
 
