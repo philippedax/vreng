@@ -92,7 +92,7 @@ Channel::Channel()
   for (int i=0; i<5; i++)  sd[i] = -1;
   session = NULL;
 
-  addToList();
+  channelList.push_back(this);
 }
 
 void Channel::clearList()
@@ -105,10 +105,12 @@ Channel * Channel::getList()
   return channelList.front();
 }
 
+#if 0 //notused
 void Channel::addToList()
 {
   channelList.push_back(this);
 }
+#endif //notused
 
 /** Join group */
 int Channel::joinGroup(int sd)

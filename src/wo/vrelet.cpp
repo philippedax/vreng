@@ -25,6 +25,7 @@
 #include "url.hpp"	// abs
 #include "gui.hpp"	// setToVrelet
 #include <list>
+#include <vector>
 
 using namespace std;
 

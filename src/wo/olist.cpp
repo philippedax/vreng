@@ -24,6 +24,7 @@
 #include "stat.hpp"	// new_objectlist
 
 #include <list>
+#include <vector>
 using namespace std;
 
 

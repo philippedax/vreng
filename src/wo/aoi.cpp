@@ -27,6 +27,7 @@
 #include "netobj.hpp"	// NetObject
 
 #include <list>
+#include <vector>
 using namespace std;
 
 #define DBG_AOI DBG_14	// temporary

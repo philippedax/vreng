@@ -82,13 +82,13 @@ class Channel {
    * init my_host_id, my_port_id, my_obj_id
    */
 
-  void addToList();
-  /**< Adds a channel into a list */
+  //notused void addToList();
+  //notused /**< Adds a channel into a list */
 
   void deleteFromList();
   /**< Deletes a channel from a list */
 
-  virtual void quit();
+  void quit();
   /**< Quits a channel */
 
   int createMcastRecvSocket(struct sockaddr_in *sa);

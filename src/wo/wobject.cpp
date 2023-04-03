@@ -144,20 +144,20 @@ void WObject::initObject(uint8_t _mode)
   setWObjectId();
   updateNames();
   initPosition();
-  addToList(objectList);	// add to objectList
+  objectList.push_back(this);	// add to objectList
 
   //echo("num=%d mode=%d type=%d", num, mode, type);
   switch (mode) {
 
     case STILL:
-      addToList(stillList);	// add to stillList
+      stillList.push_back(this);	// add to stillList
       break;
 
     case MOBILE:
       if (isBehavior(PERSISTENT)) {
         getPersistency();	// calls persistency VRSql
       }
-      addToList(mobileList);	// add to mobileList
+      mobileList.push_back(this);	// add to mobileList
       if (isBehavior(PERMANENT_MOVEMENT)) {
         enablePermanentMovement();
       }
@@ -165,29 +165,29 @@ void WObject::initObject(uint8_t _mode)
 
     case FLUID:
       enableBehavior(NO_ELEMENTARY_MOVE);
-      addToList(fluidList);	// add to fluidList
+      fluidList.push_back(this);	// add to fluidList
       break;
 
     case INVISIBLE:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
-      addToList(invisList);	// add to invisList
+      invisList.push_back(this);	// add to invisList
       break;
 
     case EPHEMERAL:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
-      addToList(mobileList);	// add to mobileList
+      mobileList.push_back(this);	// add to mobileList
       break;
 
     case MOBILEINVISIBLE:
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
-      addToList(mobileList);
-      addToList(invisList);	// add to invisList
+      mobileList.push_back(this);	// add to mobileList
+      invisList.push_back(this);	// add to invisList
       break;
   }
   if (isBehavior(NO_BBABLE)) {

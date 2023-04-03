@@ -22,6 +22,7 @@
 #define OLIST_HPP
 
 #include <list>
+#include <vector>
 
 
 /**

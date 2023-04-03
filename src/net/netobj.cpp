@@ -30,6 +30,7 @@
 #include "stat.hpp"	// new_netobject
 
 #include <list>
+#include <vector>
 using namespace std;
 
 // local
@@ -198,7 +199,7 @@ uint16_t NetObject::getObj() const
 }
 #endif //notused
 
-/* Inserts netobject in head of netobjectList */
+/* Inserts netobject into netobjectList */
 void NetObject::addToList()
 {
   netobjectList.push_back(this);
@@ -263,8 +264,8 @@ void NetObject::create(bool _state)
   setNoid();
 
   state = _state;
-  initProperties(true);	// new: then we are responsible
-  addToList();
+  initProperties(true);			// new: then we are responsible
+  netobjectList.push_back(this);	// add to list
 }
 
 /* Builds a netobject name from the string "scene_id/obj_id" */
@@ -289,7 +290,7 @@ void NetObject::setNetName(const char *s, bool _state)
   if (getNetObject()) {
     return;	//error("setNetName: %s already seen %d/%d", pobject->getInstance(), scene_id, obj_id);
   }
-  addToList();	// add to list
+  netobjectList.push_back(this);	// add to list
 }
 
 /* Deletes a netobject from the list */
@@ -303,7 +304,7 @@ void NetObject::deleteFromList()
 
 NetObject::~NetObject()
 {
-  deleteFromList();
+  netobjectList.remove(this);
 
   memset(&noid, 0, sizeof(noid));
   //if (netprop) delete[] netprop;

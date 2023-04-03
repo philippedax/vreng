@@ -106,11 +106,11 @@ World::World()
   num = universe->worldcnt++;
   trace(DBG_WO, "World: num=%d", num);
 
-  addToList();
+  addList();
 }
 
 /* Adds world into world list */
-void World::addToList()
+void World::addList()
 {
   if (!worldList) {	// first world encountered
     next = prev = NULL;
@@ -990,7 +990,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     //dax World *sandbox = new World();
 
     sandbox->setName("sandbox");
-    //dax sandbox->addToList();
+    //dax sandbox->addList();
 
     Parse *parser = Parse::getParse();
     parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));

@@ -100,7 +100,7 @@ class World {
   /**< Quits current world. */
 
  private:
-  void addToList();
+  void addList();
   /**< Adds world into world list. */
 
   bool call(World *wprev);

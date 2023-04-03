@@ -63,7 +63,7 @@ Light::Light(char *l)
   parser(l);
 
   initObject(INVISIBLE);
-  addToList(lightList);
+  lightList.push_back(this);
 
   if (!pos.x && !pos.y && !pos.z && !pos.az && !pos.ax)
     islight = false;
