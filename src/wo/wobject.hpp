@@ -573,7 +573,8 @@ public:
   OList * addToList(OList * olist);
   /**< Adds an object pointer into a olist. */
 
-  void    addToListOnce(std::list<WObject*> &olist);
+  //notused void    addToListOnce(std::list<WObject*> &olist);
+
   OList * addOListOnce(OList * olist); // confuse
   /**< Adds an object pointer into a list only once time. */
 

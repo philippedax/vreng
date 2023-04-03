@@ -60,7 +60,7 @@ class NetObject {
    */
 
   void addToList();
-  /**< Inserts netobject in head of NetObject list */
+  /**< Inserts netobject into NetObject list */
 
   void setNetName(const char *str, bool netbehave);
   /**<
