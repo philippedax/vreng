@@ -1184,13 +1184,13 @@ void WObject::addToListOnce(list<WObject*> &olist)
   }
   olist.push_back(this);	// add it into the list
 }
-#endif //notused
 
 /* Adds a pointer of this object in an olist */
 void WObject::addToList(list<WObject*> &olist)
 {
   olist.push_back(this);
 }
+#endif //notused
 
 /* Deletes a pointer of this object in an olist */
 void WObject::delFromList(list<WObject*> &olist)
@@ -1203,6 +1203,7 @@ void WObject::delFromList(list<WObject*> &olist)
   return;
 }
 
+/* called by addToListOnce */
 OList * WObject::addToList(OList *olist)
 {
   if (! isValid()) return olist;
@@ -1213,6 +1214,7 @@ OList * WObject::addToList(OList *olist)
   return ol;
 }
 
+/* called by addListToList */
 OList * WObject::addOListOnce(OList *olist)
 {
   for (OList *ol = olist; ol ; ol = ol->next) {

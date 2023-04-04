@@ -132,7 +132,8 @@ void Cart::leave(WObject *po)
   po->move.ttl = 0;
 
   // restore object into mobileList
-  po->addToList(mobileList);
+  //dax po->addToList(mobileList);
+  mobileList.push_back(po);
 
   // render visible the object coming back into the world
   po->setVisible(true);
