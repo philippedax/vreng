@@ -54,12 +54,12 @@
 /**
  * objects lists
  */
-extern std::list<WObject*> objectList;
+extern std::vector<WObject*> objectList;
 extern std::list<WObject*> mobileList;
-extern std::list<WObject*> stillList;
-extern std::list<WObject*> invisList;
-extern std::list<WObject*> fluidList;
-extern std::list<WObject*> deleteList;
+extern std::vector<WObject*> stillList;
+extern std::vector<WObject*> invisList;
+extern std::vector<WObject*> fluidList;
+extern std::vector<WObject*> deleteList;
 extern std::list<WObject*> lightList;
 
 

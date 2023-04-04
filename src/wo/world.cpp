@@ -361,7 +361,7 @@ void World::compute(time_t sec, time_t usec)
     //
     // computes world's bounding box
     //
-    for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    for (vector<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
@@ -841,14 +841,14 @@ void World::quit()
    * Quits and deletes objects
    */
   // invisible objects
-  for (list<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+  for (vector<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
     (*it)->quit();
     delete *it;
   }
   invisList.clear();
 
   // still objects
-  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+  for (vector<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     (*it)->quit();
     delete *it;
   }
@@ -867,7 +867,7 @@ void World::quit()
   mobileList.clear();
 
   // fluid objects
-  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+  for (vector<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
     (*it)->quit();
     delete *it;
   }
@@ -1030,13 +1030,13 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 /* Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
-  for (list<WObject*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
+  for (vector<WObject*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
     if (! (*it)->isBehavior(COLLIDE_NEVER)) {
       (*it)->delFromGrid();
     }
     if ((*it)->removed) {
-      objectList.remove(*it);
-      stillList.remove(*it);
+      //dax objectList.remove(*it);
+      //dax stillList.remove(*it);
       mobileList.remove(*it);
       //dax8 echo("delete object: %s", (*it)->getInstance());
       if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") //dax8 Hack! FIXME!

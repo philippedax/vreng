@@ -34,15 +34,16 @@
 #include "timer.hpp"	// ::g.timer
 
 #include <list>
+#include <vector>
 using namespace std;
 
 // global
-list<WObject*> objectList;
-list<WObject*> stillList;
+vector<WObject*> objectList;
+vector<WObject*> stillList;
 list<WObject*> mobileList;
-list<WObject*> fluidList;
-list<WObject*> invisList;
-list<WObject*> deleteList;
+vector<WObject*> fluidList;
+vector<WObject*> invisList;
+vector<WObject*> deleteList;
 list<WObject*> lightList;
 
 // local
@@ -1249,7 +1250,7 @@ OList * WObject::delOList(OList *olist)
 #if 0 //notused
 bool WObject::isStill()
 {
-  for (list<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+  for (vector<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if (*it == this)  return true;
   }
   return false;
@@ -1265,7 +1266,7 @@ bool WObject::isMobile()
 
 bool WObject::isFluid()
 {
-  for (list<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+  for (vector<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
     if (*it == this)  return true;
   }
   return false;
@@ -1284,7 +1285,7 @@ bool WObject::isEphemeral()
 // virtual
 WObject * WObject::byWObject(WObject *wobject)
 {
-  for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (vector<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if ((*it) == wobject) return *it;
   }
   return (WObject *) NULL;
@@ -1294,7 +1295,7 @@ WObject * WObject::byWObject(WObject *wobject)
 // static
 WObject * WObject::byNum(uint16_t num)
 {
-  for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (vector<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if ((*it)->num == num) return *it;
   }
   return (WObject *) NULL;

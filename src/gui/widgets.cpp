@@ -942,7 +942,7 @@ void Widgets::objectsDialog()
   char line[64];
 
   UBox& objects_box = uvbox(UBackground::none);
-  for (list<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (vector<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     sprintf(line, "%s:%s", (*it)->names.type, (*it)->names.instance);
     objects_box.add(uitem(UColor::black + line));
   }
