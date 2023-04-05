@@ -507,12 +507,12 @@ void Vicinity::show()
 
 void Vicinity::show(const char *str)
 {
-  trace(DBG_FORCE, "\n%s", str);
+  echo("%s", str);
   int i=0;
 
   OList *vicinityList = localuser->getVicinity(localuser);
   for (OList *ol = vicinityList; ol && ol->pobject ; ol = ol->next, i++) {
-    trace(DBG_FORCE, "%2d: %s", i, (ol->pobject)->getInstance());
+    echo("%2d: %s", i, (ol->pobject)->getInstance());
   }
 }
 
@@ -521,13 +521,13 @@ void Vicinity::actionList()
   for (int i=0; i <= OBJECTSNUMBER; i++) {
     for (int j=0; j < ACTIONSNUMBER; j++) { // action functions
       if (isActionName(i, j)) {
-	trace(DBG_FORCE, "actionList[%d,%d]= %s %s %p", j, i,
+	echo("actionList[%d,%d]= %s %s %p", j, i,
 		translateNum2Type(i),
 		getActionName(i, j),
 		getActionMethod(i, j));
       }
     }
-    //trace(DBG_FORCE, "-------------");
+    //echo("-------------");
   }
 }
 

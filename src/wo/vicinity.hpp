@@ -107,9 +107,9 @@ private:
   void describeTopo(Vicin tmp);
   void describeVisual();
 
-  void actionList();
-
   void setSize(WObject *user);
+
+  void actionList();
 
 public:
 
