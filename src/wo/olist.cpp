@@ -51,16 +51,6 @@ void OList::remove()
   }
 }
 
-// static - notused
-void OList::remove(list<WObject*> &olist)
-{
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
-    if (*it) {
-      delete *it;
-    }
-  }
-}
-
 /* Clears flags "inlist" of all objects in an olist */
 // virtual - called by col.cpp
 void OList::clearIspointed()
@@ -70,7 +60,7 @@ void OList::clearIspointed()
   }
 }
 
-// static - notused
+// static
 void OList::clearIspointed(list<WObject*> &olist)
 {
   for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
@@ -92,6 +82,16 @@ WObject * OList::findMobile(uint8_t _type, uint32_t src_id, uint16_t port_id, ui
   return NULL;
 }
 
+#if 0 //notused - static
+void OList::remove(list<WObject*> &olist)
+{
+  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
+    if (*it) {
+      delete *it;
+    }
+  }
+}
+
 /* Show an olist: debug only */
 // static
 void OList::show(list<WObject*> &olist)
@@ -103,12 +103,13 @@ void OList::show(list<WObject*> &olist)
 // static
 void OList::show(list<WObject*> &olist, const char *str)
 {
-  trace(DBG_FORCE, "\n%s", str);
+  echo("%s", str);
 
   for (list<WObject*>::reverse_iterator it = olist.rbegin(); it != olist.rend(); ++it) {
     if ((*it)->names.instance)
-      trace(DBG_FORCE, "t=%d m=%d n=%d %s", (*it)->type, (*it)->mode, (*it)->num, (*it)->names.instance);
+      echo("t=%d m=%d n=%d %s", (*it)->type, (*it)->mode, (*it)->num, (*it)->names.instance);
     else
-      trace(DBG_FORCE, "t=%d m=%d n=%d (null)", (*it)->type, (*it)->mode, (*it)->num);
+      echo("t=%d m=%d n=%d (null)", (*it)->type, (*it)->mode, (*it)->num);
   }
 }
+#endif //notused
