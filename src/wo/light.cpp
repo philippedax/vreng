@@ -126,7 +126,7 @@ Light::Light(char *l)
 void Light::lights()
 {
   //printf("\n*** light:");
-  for (list<WObject*>::iterator il = lightList.begin(); il != lightList.end() ; ++il) {
+  for (vector<WObject*>::iterator il = lightList.begin(); il != lightList.end() ; ++il) {
     (*il)->lighting();
     //printf(" %s", (*il)->typeName());
   }

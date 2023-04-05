@@ -44,7 +44,7 @@ list<WObject*> mobileList;
 vector<WObject*> fluidList;
 vector<WObject*> invisList;
 vector<WObject*> deleteList;
-list<WObject*> lightList;
+vector<WObject*> lightList;
 
 // local
 static uint32_t objectNum = 0;

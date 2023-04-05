@@ -516,7 +516,7 @@ void Render::lighting()
 
   // renders other lights for example sun, moon, lamp
   //trace2(DBG_VGL, "\nlight:");
-  for (list<WObject*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
+  for (vector<WObject*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
     if ((*it)->num) {	 //FIXME segfault sometimes : num replaces isValid()
       (*it)->lighting();
       //trace2(DBG_VGL, " %s", (*it)->getInstance());

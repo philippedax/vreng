@@ -60,7 +60,7 @@ extern std::vector<WObject*> stillList;
 extern std::vector<WObject*> invisList;
 extern std::vector<WObject*> fluidList;
 extern std::vector<WObject*> deleteList;
-extern std::list<WObject*> lightList;
+extern std::vector<WObject*> lightList;
 
 
 /**
