@@ -39,7 +39,6 @@ OList::~OList()
 }
 
 /* Removes all objects from a olist */
-// virtual
 void OList::remove()
 {
   for (OList *l = this; l ; ) {
@@ -52,7 +51,7 @@ void OList::remove()
 }
 
 /* Clears flags "inlist" of all objects in an olist */
-// virtual - called by col.cpp
+// called by col.cpp
 void OList::clearIspointed()
 {
   for (OList *l = this; l && l->pobject; l = l->next) {
@@ -60,17 +59,9 @@ void OList::clearIspointed()
   }
 }
 
-// static
-void OList::clearIspointed(list<WObject*> &olist)
-{
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
-    (*it)->inlist = false;
-  }
-}
-
 /* Returns the object from the mobile list */
 // static
-WObject * OList::findMobile(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
+WObject * OList::findObj(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
 {
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
     if (((*it)->type == _type)
@@ -89,6 +80,14 @@ void OList::remove(list<WObject*> &olist)
     if (*it) {
       delete *it;
     }
+  }
+}
+
+// static
+void OList::clearIspointed(list<WObject*> &olist)
+{
+  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
+    (*it)->inlist = false;
   }
 }
 

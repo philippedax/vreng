@@ -40,13 +40,13 @@ public:
   void remove();
   /**< Frees an object list. */
 
-  static void  clearIspointed(std::list<WObject*> &olist);
   void clearIspointed();
   /**< Clears flags "ispointed" of all objects in a list. */
 
-  static WObject * findMobile(uint8_t type_id, uint32_t src_id, uint16_t port_id, uint16_t obj_id);
+  static WObject *findObj(uint8_t type_id,uint32_t src_id,uint16_t port_id,uint16_t obj_id);
   /**< Returns the object identified by type and id from the mobile list. */
 
+  //notused static void  clearIspointed(std::list<WObject*> &olist);
   //notused static void  remove(std::list<WObject*> &olist);
   //notused static void show(std::list<WObject*> &olist);
   //notused static void show(std::list<WObject*> &olist, const char *str);

@@ -380,7 +380,7 @@ void World::compute(time_t sec, time_t usec)
       bbcent.v[i] = (bbmax.v[i] + bbmin.v[i]);
       bbsize.v[i] = (bbmax.v[i] - bbmin.v[i]);
     }
-    OList::clearIspointed(mobileList);
+    //dax OList::clearIspointed(mobileList);
 
     //echo("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f", bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
 
