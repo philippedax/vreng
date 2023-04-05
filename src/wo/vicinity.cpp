@@ -510,8 +510,8 @@ void Vicinity::show(const char *str)
   echo("%s", str);
   int i=0;
 
-  OList *vicinityList = localuser->getVicinity(localuser);
-  for (OList *ol = vicinityList; ol && ol->pobject ; ol = ol->next, i++) {
+  OList *viciList = localuser->getVicinity(localuser);
+  for (OList *ol = viciList; ol && ol->pobject ; ol = ol->next, i++) {
     echo("%2d: %s", i, (ol->pobject)->getInstance());
   }
 }

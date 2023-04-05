@@ -241,8 +241,7 @@ void Vrelet::readApp()
       sendPos(who);
       processed = true;
     }
-    else if ( (header.msg_id == VJC_MSGV_SET)
-           || (header.msg_id == VJC_MSGV_UPD) ) {
+    else if ( (header.msg_id == VJC_MSGV_SET) || (header.msg_id == VJC_MSGV_UPD) ) {
       // message was a move, get the movement information
       copyV3(&posDelta, msg->readDelta());
       copyV3(&angDelta, msg->readDelta());
@@ -264,9 +263,9 @@ void Vrelet::readApp()
         if (who == localuser) who->updateCamera(pos);
 
         // propagate the changes
-        OList *vicinityList = who->getVicinity(pold);
-        who->generalIntersect(pold, vicinityList);
-        vicinityList->remove();
+        OList *viciList = who->getVicinity(pold);
+        who->generalIntersect(pold, viciList);
+        viciList->remove();
         delete pold;
       }
       processed = true;
