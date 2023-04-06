@@ -29,8 +29,8 @@ using namespace std;
 const OClass Step::oclass(STEP_TYPE, "Step", Step::creator);
 
 vector<Step*> Step::stepList;	// steps vector
-vector<Step*> Step::escaList;	// steps vector
-vector<Step*> Step::travList;	// steps vector
+vector<Step*> Step::escaList;	// escalator steps vector
+vector<Step*> Step::travList;	// travelator steps vector
 
 const float Step::JUMP = 0.10;
 const float Step::LSPEED = 0.5;	// 1/2 ms
@@ -300,7 +300,6 @@ void Step::changePermanent(float lasting)
     //
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);	// FIXME!
-    //echo("travel: %.1f %.1f", pos.x,pos.y);
     if (pos.x >= (initialpos.x + length - sx)) {	// switch step
       pos.x = initialpos.x;
       pos.y = initialpos.y;
@@ -386,13 +385,11 @@ void Step::running()
   }
   else {
     if (dir) {
-      //echo("escalator running: size=%d", escaList.size());
       for (vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
         (*it)->state = ACTIVE;
       }
     }
     else {
-      //echo("travelator running: size=%d", travList.size());
       for (vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
         (*it)->state = ACTIVE;
       }
@@ -403,14 +400,12 @@ void Step::running()
 void Step::pause()
 {
   if (dir) {
-    //echo("escalator pause: size=%d", escaList.size());
+    //echo("escalator pause: size=%d", escaList.size());	// escaList is empty!
     for (vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
       if ((*it)->state & ACTIVE) {
-        //echo("inactive %s", getInstance());
         (*it)->state = INACTIVE;
       }
       else {
-        //echo("active %s", getInstance());
         (*it)->state = ACTIVE;
       }
     }
@@ -419,11 +414,9 @@ void Step::pause()
     //echo("travelator pause: size=%d", travList.size());
     for (vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
       if ((*it)->state & ACTIVE) {
-        //echo("inactive %s", getInstance());
         (*it)->state = INACTIVE;
       }
       else {
-        //echo("active %s", getInstance());
         (*it)->state = ACTIVE;
       }
     }
