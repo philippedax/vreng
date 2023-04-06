@@ -55,7 +55,7 @@ void Capture::captureGl2JPG(const char *filename)
   uint8_t *pixels = Ogl::copyPixels(w, h, GL_FRONT);
 
   // save in a jpeg file
-  int jpegquality = 75;	// range 1 to 100
+  int jpegquality = 100;	// range 1 to 100
   Img::saveJPG(filename, w, h, jpegquality, pixels);
 
   if (pixels) delete[] pixels;

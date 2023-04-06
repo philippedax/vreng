@@ -187,7 +187,6 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
   if ((outfile = file->open(filename, "wb")) == NULL) {
     error("can't open %s", filename); return;
   }
-  //echo("jpg: write file %s", filename);
   jpeg_stdio_dest(&cinfo, outfile);
 
   /* Step 3: set parameters for compression */
