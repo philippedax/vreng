@@ -57,6 +57,7 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
 {
 #if 0 //dax old png version 1.2 uncompatible
 #if HAVE_PNG_H
+#include <png.h>
   int         rowStride    = (width * 3 + 3) & ~0x3;
   png_bytep*  row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * height);
   png_structp pngWrite;
@@ -78,21 +79,22 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
 
   png_bytep pixels = (png_bytep) image;
 
-  for ( pixel_I = 0 ; pixel_I < height ; pixel_I++ )
+  for ( pixel_I = 0 ; pixel_I < height ; pixel_I++ ) {
     row_pointers[pixel_I] = (png_bytep) &pixels[rowStride * (height - pixel_I - 1)];
+  }
 
   pngWrite = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
   if (!pngWrite) {
     error("savePNG: png_create_write_struct failed");
-    cache->close();
-    delete cache;
+    file->close();
+    delete file;
     return;
   }
   pngInfo = png_create_info_struct(pngWrite);
   if (!pngInfo) {
     error("savePNG: png_create_info_struct failed");
-    cache->close();
-    delete cache;
+    file->close();
+    delete file;
     return;
   }
 
@@ -112,8 +114,8 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
   png_destroy_write_struct(&pngWrite, NULL);
   free( row_pointers );
   free(image);
-  cache->close();
-  delete cache;
+  file->close();
+  delete file;
 #endif
 #endif //dax
 }
