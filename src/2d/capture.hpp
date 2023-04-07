@@ -35,8 +35,8 @@ public:
 
   Capture();
   
-  void writeGIFImage();
-  /**< Capture and save one image in GIF */
+  void writeWINImage();
+  /**< Capture and save one image in JPG */
   
   void writeJPGImage();
   /**< Capture and save one image in JPG */

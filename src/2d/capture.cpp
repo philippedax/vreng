@@ -68,7 +68,7 @@ void Capture::captureGl2PNG(const char *filename)
   GLint vp[4];
 
   glGetIntegerv(GL_VIEWPORT, vp);
-  GLint w = vp[2] -2;	// I don't know why -2, but the result is correct
+  GLint w = vp[2];
   GLint h = vp[3];
 
   // save in a png file
@@ -160,29 +160,29 @@ void Capture::writeSVGImage()
 /** callback capture JPG */
 void Capture::writeJPGImage()
 {
-  char filename[World::WORLD_LEN + 4];
+  char worldname[World::WORLD_LEN + 4];
 
-  sprintf(filename, "%s.jpg", World::current()->getName());
-  g.render.setFlash();	// flash effect
+  sprintf(worldname, "%s.jpg", World::current()->getName());
+  ::g.render.setFlash();	// flash effect
   Sound::playSound(CAMERASND);  // sound effect
-  captureGl2JPG(filename);
+  captureGl2JPG(worldname);
 }
 
-/** callback capture GIF */
-void Capture::writeGIFImage()
+/** callback capture Window */
+void Capture::writeWINImage()
 {
   Sound::playSound(CAMERASND);
-  captureXwd("gif");
+  captureXwd("jpg");
 }
 
 /** callback capture PNG */
 void Capture::writePNGImage()
 {
-  char filename[World::WORLD_LEN + 4];
+  char worldname[World::WORLD_LEN + 4];
 
   Sound::playSound(CAMERASND);
-  sprintf(filename, "%s.png", World::current()->getName());
-  captureGl2PNG(filename);
+  sprintf(worldname, "%s.png", World::current()->getName());
+  captureGl2PNG(worldname);
 }
 
 // start capture video 
@@ -216,10 +216,10 @@ void Capture::stopVideo()
 // capture video 
 void Capture::writeVideoFrame()
 {
-  char filename[64];
+  char worldname[64];
 
-  sprintf(filename, "/tmp/vreng-%03d.jpg", capture_no);
-  captureGl2JPG(filename);
+  sprintf(worldname, "/tmp/vreng-%03d.jpg", capture_no);
+  captureGl2JPG(worldname);
   capture_no++;
   if (capture_no >= MAX_CAPTURE_COUNT)
     stopVideo();
