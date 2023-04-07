@@ -718,8 +718,8 @@ amplitude="1" freq="1" phase="1">
 
 <!-- carousel x3d -->
 <!--
-<carousel name="carousel" pos="2 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></carousel>
 -->
+<carousel name="carousel" pos="2 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></carousel>
 
 <!-- ellipse -->
 <!--
