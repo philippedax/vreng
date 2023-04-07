@@ -353,17 +353,17 @@ url="http://www.stud.enst.fr/~bellard/">
 
 <!-- clock -->
 <clock name="seconds" pos="5 3.99 2 1.57" needle="s">
-<solid shape="line" l=".18" thick="1" dif="red" />
+<solid shape="line" l=".18" thick="1" dif="black" />
 </clock>
 <clock name="minutes" pos="5 3.99 2 1.57" needle="m">
-<solid shape="line" l=".14" thick="1" dif="red" />
+<solid shape="line" l=".14" thick="2" dif="red" />
 </clock>
 <clock name="hours" pos="5 3.99 2 1.57" needle="h">
-<solid shape="line" l=".10" thick="2" dif="red" />
+<solid shape="line" l=".10" thick="3" dif="red" />
 </clock>
 <mirage name="horloge" pos="5 4 2 3.14 -1.57">
 <solid shape="disk" ri=".02" re=".2" dif="white" />
-<solid shape="disk" rel="0 -.01 0 0 0" ri="0" re=".02" dif="grey40" />
+<solid shape="disk" rel="0 -.01 0 0 0" ri="0" re=".02" dif="grey50" />
 <solid shape="disk" rel="0 -.01 0 0 0" ri=".2" re=".24" dif="grey40" />
 <solid shape="disk" rel="0 -.02 0 0 0" re=".2" dif=".6 1 .6" a=".1" />
 <solid shape="disk" rel="0 .01 0 -6.28 0" ri="0" re=".2" dif="grey40" />
@@ -711,15 +711,20 @@ amplitude="1" freq="1" phase="1">
 </escalator>
 -->
 
+<!-- carousel x3d -->
+<!--
+-->
+<carousel name="carousel" pos="0 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></carousel>
+
 <!-- model liberty -->
 <!--
 <model name="liberty" pos="-80 -60 0 2.4 0" scale="1" url="/ase/liberty.ase"> </model>
 -->
 
-<!-- carousel x3d -->
-<!--
+<!-- fractal -->
+<!-- bad idea !!!
+<fractal pos="5 0 0 1.57" level="4" color="green"> <solid shape="bbox" dim="1 1 1" /></fractal>
 -->
-<carousel name="carousel" pos="2 2 .5" dim="1 1 1" url="/x3d/tutorial.x3d"></carousel>
 
 <!-- ellipse -->
 <!--
@@ -729,11 +734,6 @@ amplitude="1" freq="1" phase="1">
 <!-- widget -->
 <!--
 <widget pos="6 6 1 1.57"> <solid dim="1.6 .2 1.6" a=".6" /></widget>
--->
-
-<!-- fractal -->
-<!-- bad idea !!!
-<fractal pos="5 0 0 1.57" level="4" color="green"> <solid shape="bbox" dim="1 1 1" /></fractal>
 -->
 
 <!-- <fish name="shark" pos="1 -5 -4 0"></fish> -->
