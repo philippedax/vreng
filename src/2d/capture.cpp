@@ -49,7 +49,7 @@ void Capture::captureGl2JPG(const char *filename)
   GLint vp[4];
 
   glGetIntegerv(GL_VIEWPORT, vp);
-  GLint w = vp[2] -2;	// without borders
+  GLint w = vp[2];
   GLint h = vp[3];
 
   uint8_t *pixels = Ogl::copyPixels(w, h, GL_FRONT);
@@ -82,10 +82,10 @@ void Capture::captureXwd(const char *ext)
 {
   char cmd[128];
 
-  const char *name = World::current()->getName();
-  sprintf(cmd, "IFS=' '; xwd -name vreng >/tmp/%s.xwd; convert /tmp/%s.xwd %s.%s; rm -f /tmp/%s.xwd", name, name, name, ext, name);
-  echo("capture done in file %s.%s", name, ext);
+  const char *worldname = World::current()->getName();
+  sprintf(cmd, "IFS=' '; xwd -name vreng >/tmp/%s.xwd; convert /tmp/%s.xwd %s.%s; rm -f /tmp/%s.xwd", worldname, worldname, worldname, ext, worldname);
   system(cmd);
+  echo("capture done in file %s.%s", worldname, ext);
 }
 
 #if HAVE_GL2PS
