@@ -225,6 +225,7 @@ void Render::showMap()
  
   ::g.gui.scene()->setScene((w/3)*2, (h/3)*2, w/3, h/3);
   glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 
   // place the mini-map at a position depending on the world's dimensions
   World *world = World::current();
