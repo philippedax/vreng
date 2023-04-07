@@ -15,6 +15,16 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.4\n\
+-- 9.4.1\n\
+	- fix jpeg capture\n\
+	(2023/04/07, Philippe Dax)\n\
+	- fix warning deprecated in Java\n\
+	(2023/02/14, Philippe Dax)\n\
+	- drone flying, user following drone\n\
+	(2023/03/13, Philippe Dax)\n\
+	- make rules to build types.hpp\n\
+	(2023/02/15, Philippe Dax)\n\
+\n\
 -- 9.4.0\n\
 	- moved VERSION to VERSION.md avoid conflicts with #include <version>\n\
 	- files md moved into md directory\n\
