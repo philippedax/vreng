@@ -46,6 +46,9 @@
 <ground name="basement" pos="0 0 -6.25"> <solid dim="60 40 .5" zp="/gif/stuc.gif" /> </ground>
 -->
 
+<!-- 1st level -->
+<step pos="-15 0 3 1.57"> <solid dim="30 10 .1" tx="/gif/stuc.gif" /></step>
+
 <!-- cardinal points -->
 <mirage name="cardinal" pos="0 0 0 0 1.57">
 <solid shape="cross" dim=".8 .04 .01" dif="red" />
@@ -566,9 +569,9 @@ amplitude="1" freq="1" phase="1">
 
 <!-- bird -->
 <bird name="bird1" pos="4 -3.5 1.5" flying="true" model="bird" scale=".5" zone="5"> <solid shape="wings" dif="grey" /> </bird>
+<!--
 <bird name="bird2" pos="4 -3.2 1.2" flying="false" model="bird" scale=".4" zone="2"> <solid shape="wings" dif="grey" /> </bird>
 <bird name="bird3" pos="4 -3.8 1.3" flying="false" model="bird" scale=".3" zone="2"> <solid shape="wings" dif="grey" /> </bird>
-<!--
 -->
 
 <!-- drone -->
@@ -697,15 +700,12 @@ amplitude="1" freq="1" phase="1">
 <!-- escalator -->
 <!--
 <escalator pos="-7.5 -10.5 0 -1.57"  height="3" dir="up" speed=".2">
-  <solid dim="1 .2 .1" dif="blue" a="1" />
+  <solid dim="1 .2 .1" dif="grey20" a="1" />
 </escalator>
 <escalator pos="-10.0 -11.5 3 -1.57" height="3" dir="down" speed=".2">
-  <solid dim="1 .2 .1" dif="green" a="1" />
+  <solid dim="1 .2 .1" dif="grey20" a="1" />
 </escalator>
 -->
-
-<!-- 1st level -->
-<step pos="-15 0 3 1.57"> <solid dim="30 10 .1" dif="pink" a="1" /></step>
 
 <!-- model liberty -->
 <!--
