@@ -28,5 +28,4 @@ facial expressions
 reset after sit
 manipulator moves
 escalator steps disappear
-capture jpeg is altered
 sun alters colors of scissors
