@@ -875,7 +875,7 @@ char * Parse::parseBool(char *ptok, bool *value)
   if (ptok) {
     ptok = skipQuotes(ptok);
     if (ptok && isdigit((int) *ptok)) {
-      *value = atoi(ptok) % 1;
+      *value = atoi(ptok) % 2;
     }
     else {
       if (! stringcmp(ptok, "true") || ! stringcmp(ptok, "on")) {
