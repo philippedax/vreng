@@ -77,10 +77,12 @@ FILE * Cache::open(const char *url, Http *http)
 
   FILE *fpr = NULL;
   FILE *fpw = NULL;
+  char buf[16];
+
   filein = new File();
   if ((fpr = filein->open(cachepath, "r")) == NULL) {
-    fileout = new File();
-    if ((fpw = fileout->open(cachepath, "w")) == NULL) {	// not in the cache, write it
+    fileout = new File();	// not in the cache, write it
+    if ((fpw = fileout->open(cachepath, "w")) == NULL) {
       error("openCache: can't create %s", cachepath);
       delete[] cachepath;
       delete fileout;
@@ -88,8 +90,6 @@ FILE * Cache::open(const char *url, Http *http)
     }
 
     // writes the file into the cache
-    char buf[16];
-
 http_reread:
     http->read_buf(buf, 16);	// read head to check if correct
     if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {
