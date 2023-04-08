@@ -89,10 +89,12 @@ FILE * Cache::open(const char *url, Http *http)
 
     // writes the file into the cache
     char buf[16];
+
+http_reread:
     while (! http->heof()) {
       http->read_buf(buf, 16);
       if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {
-        // Httpd-err occured
+        // Httpd-err occured (404)
         fileout->close();
         delete fileout;
         unlink(cachepath);
@@ -116,9 +118,10 @@ FILE * Cache::open(const char *url, Http *http)
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
       if (bufstat.st_size == 0) {
-        //error("openCache: %s is empty", cachepath);
+        error("openCache: %s is empty", cachepath);
         unlink(cachepath);
         progression('-');	// '-' as failed
+        goto http_reread;
       }
       else {
         progression('h');	// 'h' as http
