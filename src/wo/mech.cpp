@@ -245,6 +245,7 @@ void Mech::drawFoot()
 
 void Mech::drawLowerLeg()
 {
+  //dax glNewList(dlist + LOWER_LEG, GL_COMPILE);
   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
   for (float k=0; k<2; k++) {
     for (float l=0; l<2; l++) {
@@ -299,6 +300,7 @@ void Mech::drawLowerLeg()
       glPopMatrix();
     }
   }
+  //dax glEndList();
 }
 
 void Mech::drawRocketPod()
@@ -442,7 +444,7 @@ void Mech::display()
       else
         glRotatef((GLfloat) - hip22, 0, 0, 1);
       glTranslatef(-.5, -.85, -.5);
-      drawLowerLeg();		// no display-list, strange !
+      drawLowerLeg();
      }
      glPopMatrix();
    } //for
@@ -464,6 +466,7 @@ void Mech::draw()
   drawUpperArm();
   drawForeArm();
   drawUpperLeg();
+  drawLowerLeg();
   drawFoot();
   drawVulcanGun();
 }
@@ -584,15 +587,16 @@ void Mech::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "anim")) l = parseBool(l, &anim, "anim");
-    else if (!stringcmp(l, "walk")) l = parseBool(l, &walking, "walk");
+    if      (! stringcmp(l, "anim")) l = parseBool(l, &anim, "anim");
+    else if (! stringcmp(l, "walk")) l = parseBool(l, &walking, "walk");
   }
   end_while_parse(l);
 }
 
 void Mech::makeSolid()
 {
-  char s[256];
+  char s[128];
+
   sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", .5, .5, 2.);
   parseSolid(s);
 }
@@ -640,6 +644,7 @@ void Mech::render()
   }
 
   display();
+
   glPopMatrix();
 }
 
@@ -662,5 +667,4 @@ void Mech::funcs()
   setActionFunc(MECH_TYPE, 0, _Action still, "Still");
   setActionFunc(MECH_TYPE, 1, _Action animate, "Anim");
   setActionFunc(MECH_TYPE, 2, _Action walk, "Walk");
-  //setActionFunc(MECH_TYPE, 3, _Action moveObject, "Move");
 }

@@ -41,6 +41,7 @@ class Mech: public WObject {
     UPPER_ARM,
     FOREARM,
     UPPER_LEG,
+    LOWER_LEG,
     FOOT,
     ROCKET,
     VULCAN,
