@@ -91,17 +91,21 @@ FILE * Cache::open(const char *url, Http *http)
     char buf[16];
 
 http_reread:
+    http->read_buf(buf, 16);	// read head to check if correct
+    if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {
+      // Httpd-err occured (404)
+      fileout->close();
+      delete fileout;
+      unlink(cachepath);
+      progression('-');	// '-' as failed
+      return NULL;
+    }
+    fwrite(buf, 16, 1, fpw);
+
+    // read the remaining
     while (! http->heof()) {
-      http->read_buf(buf, 16);
-      if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {
-        // Httpd-err occured (404)
-        fileout->close();
-        delete fileout;
-        unlink(cachepath);
-        progression('-');	// '-' as failed
-        return NULL;
-      }
-      fwrite(buf, 16, 1, fpw);
+      http->read_buf(buf, 1);
+      fwrite(buf, 1, 1, fpw);
     }
     fflush(fpw);
     fileout->close();
