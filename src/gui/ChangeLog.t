@@ -16,6 +16,7 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.4\n\
 -- 9.4.1\n\
+	- fix close write cache in world.cpp\n\
 	- fix jpeg capture\n\
 	(2023/04/07, Philippe Dax)\n\
 	- fix warning deprecated in Java\n\
