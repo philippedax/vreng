@@ -245,7 +245,7 @@ void Mech::drawFoot()
 
 void Mech::drawLowerLeg()
 {
-  //dax glNewList(dlist + LOWER_LEG, GL_COMPILE);
+  glNewList(dlist + LOWER_LEG, GL_COMPILE);
   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
   for (float k=0; k<2; k++) {
     for (float l=0; l<2; l++) {
@@ -274,8 +274,6 @@ void Mech::drawLowerLeg()
       setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
       Draw::box(1, 1, .5);
       if (!k && !l) {
-        int j;
-
         glTranslatef(-.4, -.8, .5);
         if (leg)
           glRotatef((GLfloat) ankle1, 1, 0, 0);
@@ -283,7 +281,7 @@ void Mech::drawLowerLeg()
           glRotatef((GLfloat) ankle2, 1, 0, 0);
         glRotatef(90, 0, 1, 0);
         Draw::cylinder(.8, .8, 1.8, 16, 10, 0);
-        for (j=0; j<2; j++) {
+        for (int j=0; j<2; j++) {
           if (j) {
             glScalef(-1, 1, 1);
             glTranslatef(0, 0, 1.8);
@@ -300,7 +298,7 @@ void Mech::drawLowerLeg()
       glPopMatrix();
     }
   }
-  //dax glEndList();
+  glEndList();
 }
 
 void Mech::drawRocketPod()
@@ -325,7 +323,6 @@ void Mech::drawRocketPod()
    glTranslatef(-.5, -1, 1.3);
    // Eyes
    for (int i=0; i<2; i++) {
-     int k = 0;
      for (int j=2; j<3; j++) {
        glTranslatef(i, j, .6);
        setMaterial(mat_specular3, mat_ambient3, mat_diffuse3, mat_shininess3);
@@ -333,7 +330,6 @@ void Mech::drawRocketPod()
        glTranslatef(0, 0, .3);
        setMaterial(mat_specular4, mat_ambient4, mat_diffuse4, mat_shininess4);
        Draw::cylinder(.4, 0, .5, 16, 10, 0);
-       k++;
        glTranslatef(-i, -j, -.9);
      }
    }
@@ -344,10 +340,8 @@ void Mech::drawRocketPod()
 void Mech::display()
 {
   glPushMatrix();
-  {
    glScalef(.5, .5, .5);
    glPushMatrix();
-   {
     glTranslatef(0, -.75, 0);
     glRotatef((GLfloat) tilt, 1, 0, 0);
     glRotatef(90, 1, 0, 0);
@@ -357,24 +351,18 @@ void Mech::display()
 
     // torso
     glPushMatrix();
-    {
      glRotatef((GLfloat) pivot, 0, 1, 0);
      glPushMatrix();
-     {
       glCallList(dlist + TORSO);
-     }
      glPopMatrix();
      glPushMatrix();
-     {
       glTranslatef(.5, .5, 0);
       glCallList(dlist + ROCKET);
-     }
      glPopMatrix();
 
      // shouders, upperarms, forearms, vulcan
      for (int i=0; i<2; i++) {
        glPushMatrix();
-       {
         if (i)
           glScalef(-1, 1, 1);
         glTranslatef(1.5, 0, 0);
@@ -384,39 +372,33 @@ void Mech::display()
           glRotatef((GLfloat) lat1, 0, 0, 1);
           glRotatef((GLfloat) shoulder1, 1, 0, 0);
           glRotatef((GLfloat) shoulder3, 0, 1, 0);
-         } else {
-           glRotatef((GLfloat) lat2, 0, 0, 1);
-           glRotatef((GLfloat) shoulder2, 1, 0, 0);
-           glRotatef((GLfloat) shoulder4, 0, 1, 0);
-         }
-         glTranslatef(0, -1.4, 0);
-         glCallList(dlist + UPPER_ARM);
-         glTranslatef(0, -2.9, 0);
-         if (i)
-           glRotatef((GLfloat) elbow1, 1, 0, 0);
-         else
-           glRotatef((GLfloat) elbow2, 1, 0, 0);
-         glTranslatef(0, -.9, -.2);
-         glCallList(dlist + FOREARM);
-         glPushMatrix();
-         {
-          glTranslatef(0, 0, 2);
-          glRotatef((GLfloat) fire, 0, 0, 1);
-          glCallList(dlist + VULCAN);
-         }
-         glPopMatrix();
-       }
+        } else {
+          glRotatef((GLfloat) lat2, 0, 0, 1);
+          glRotatef((GLfloat) shoulder2, 1, 0, 0);
+          glRotatef((GLfloat) shoulder4, 0, 1, 0);
+        }
+        glTranslatef(0, -1.4, 0);
+        glCallList(dlist + UPPER_ARM);
+        glTranslatef(0, -2.9, 0);
+        if (i)
+          glRotatef((GLfloat) elbow1, 1, 0, 0);
+        else
+          glRotatef((GLfloat) elbow2, 1, 0, 0);
+        glTranslatef(0, -.9, -.2);
+        glCallList(dlist + FOREARM);
+        glPushMatrix();
+         glTranslatef(0, 0, 2);
+         glRotatef((GLfloat) fire, 0, 0, 1);
+         glCallList(dlist + VULCAN);
+        glPopMatrix();
        glPopMatrix();
      } //for
-    }
     glPopMatrix();
-   }
    glPopMatrix();
 
    // legs
    for (int j=0; j<2; j++) {
      glPushMatrix();
-     {
       if (j) {
         glScalef(-.5, .5, .5);
         leg = 1;
@@ -434,9 +416,7 @@ void Mech::display()
       }
       glTranslatef(0, .3, 0);
       glPushMatrix();
-      {
        glCallList(dlist + UPPER_LEG);
-      }
       glPopMatrix();
       glTranslatef(0, -8.3, -.4);
       if (j)
@@ -444,11 +424,12 @@ void Mech::display()
       else
         glRotatef((GLfloat) - hip22, 0, 0, 1);
       glTranslatef(-.5, -.85, -.5);
-      drawLowerLeg();
-     }
+      glPushMatrix();
+       glCallList(dlist + LOWER_LEG);
+       //dax drawLowerLeg();
+      glPopMatrix();
      glPopMatrix();
    } //for
-  }
   glPopMatrix();
 }
 
@@ -628,10 +609,10 @@ void Mech::render()
 
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
-  glScalef(.5, .5, .5);
   glRotatef(rotx, 1, 0, 0);
   glRotatef(roty, 0, 1, 0);
   glRotatef(rotz, 0, 0, 1);
+  glScalef(.5, .5, .5);
 
   if (walking) {
     mech_radian -= M_2PI / mech_step;
@@ -654,13 +635,20 @@ void Mech::quit()
 }
 
 void Mech::still(Mech *mech, void *d, time_t s, time_t u)
-{ mech->anim = false; mech->walking = false; }
+{
+  mech->anim = false;
+  mech->walking = false;
+}
 
 void Mech::animate(Mech *mech, void *d, time_t s, time_t u)
-{ mech->anim = true; }
+{
+  mech->anim = true;
+}
 
 void Mech::walk(Mech *mech, void *d, time_t s, time_t u)
-{ mech->walking = true; }
+{
+  mech->walking = true;
+}
 
 void Mech::funcs()
 {
