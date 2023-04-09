@@ -714,7 +714,7 @@ void World::worldReader(void *_url, Http *http)
 
   int len = 0;
   char *cachename = new char[PATH_LEN];
-  char buf[BUFSIZ];
+  char buf[1024];	// BUFSIZ
 
   *cachename = 0;
   Cache::setCachePath(url, cachename);
@@ -725,6 +725,7 @@ void World::worldReader(void *_url, Http *http)
   File *filein = new File();
   FILE *fpcache = NULL;
   struct stat bufstat;
+
   if (stat(cachename, &bufstat) < 0) {	// is not in the cache
     //echo("worldReader: file %s not in cache url=%s", cachename, url);
     if ((fpcache = fileout->open(cachename, "w")) == NULL) {
@@ -741,6 +742,8 @@ httpread:
         break;
       }
     }
+    fileout->close();
+    delete fileout;
 
 #if 0 //HAVE_LIBXML2
     Xml::dtdValidation(cachename);        // check the DTD
@@ -756,7 +759,6 @@ httpread:
       }
     }
   }
-  parser->numline = 0;
   if (fpcache) {
     filein->close();
     delete filein;

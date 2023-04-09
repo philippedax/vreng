@@ -102,6 +102,7 @@ http_reread:
     }
     fwrite(buf, 16, 1, fpw);
 
+    //echo("write %s", cachepath);
     // read the remaining
     while (! http->heof()) {
       http->read_buf(buf, 1);
