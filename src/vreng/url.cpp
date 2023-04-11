@@ -89,6 +89,7 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
     strcpy(path, "/");
   else // file
     strcpy(path, url);
+
   return urltype;
 }
 
@@ -115,9 +116,9 @@ bool Url::check(const char *url)
   } 
   if (! isprint(*url)) {
     error("url not printable");
-    for (int i=0; i<16; i++)
+    for (int i=0; i<16; i++) {
       fprintf(stderr, "%02x ", url[i]);
-    error("");
+    }
     return false;
   }
   return true;
