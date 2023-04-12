@@ -304,8 +304,7 @@ char * Solid::parser(char *l)
   }
   char *ll = strdup(l);	// copy origin line for debug
 
-  if (*l == '<')
-    l++;	// skip open-tag
+  if (*l == '<') l++;	// skip open-tag
   if (! stringcmp(l, "frames=")) {
     l = wobject->parse()->parseUInt8(l, &nbframes, "frames");
   }
@@ -388,8 +387,7 @@ char * Solid::parser(char *l)
   if (l && !strcmp(l, "/solid")) {	// md2
     l = wobject->parse()->nextToken();	// skip </solid>
   }
-
-  return l;
+  return l;	// next token
 }
 
 /*
@@ -398,7 +396,6 @@ char * Solid::parser(char *l)
  */
 int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 {
-  //echo("l: %s %s",l,object()->getInstance());
   if (!l) {
     error("no solid description");
     return -1;
@@ -415,7 +412,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   }
   mat_emission[3] = 1;
   mat_shininess[0] = DEF_SHININESS;
-  alpha = DEF_ALPHA;	// opaque
+  alpha = DEF_ALPHA;	// opaque by fefault
 
   // default lights params
   GLfloat light_spot_direction[] = {1,1,1,1};
@@ -478,11 +475,14 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
   }
 
-  // parse after shape
+  // parse shape=
   while (l) {
     uint16_t tok = 0; uint8_t flgblk = 0;
 
-    if ((*l == '\0') || (*l == '/')) { *l = '\0'; break; } // end of solid
+    if ((*l == '\0') || (*l == '/')) {
+      *l = '\0';
+      break;
+    } // end of solid
 
     l = getTok(l, &tok);
     switch (tok) {
@@ -490,7 +490,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         error("token solid");
         break;
       case STOK_URL:
-        break; //TODO
+        break;
       case STOK_SIZE:
         l = wobject->parse()->parseVector3fv(l, &dim);
         break;
@@ -909,7 +909,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     case STOK_RECT:
     case STOK_CIRCLE:
     case STOK_WHEEL:
-    case STOK_ELLIPSE: // 2D shapes without BBox
+    case STOK_ELLIPSE:
       break;
     default: // with bounding boxes
       getBB(bbmax, bbmin, idxframe != 0);
@@ -950,7 +950,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   while (l) {
     uint16_t tok;
 
-    if ( (*l == '\0') || (*l == '/') ) break; // end of solid
+    if ( (*l == '\0') || (*l == '/') ) break; // end of statue
 
     l = getTok(l, &tok);
     if (tok == 0) break;
