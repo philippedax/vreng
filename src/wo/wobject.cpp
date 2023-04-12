@@ -102,7 +102,7 @@ WObject::WObject()
   //notused prior = PRIOR_MEDIUM;
 
   solid = NULL;
-  //dax _solidList = ::g.render.getSolidList();
+  //dax solidList = ::g.render.getSolidList();
   ::g.render.relsolidList.clear();
 
 #if VRSQL
@@ -479,7 +479,7 @@ void WObject::setReflexive(bool flag)
 }
 
 /* Sets a WObject pointer to this object in the Solid (friend) */
-/* adds solid to the _solidList of solids for this object */
+/* adds solid to the list of solids for this object */
 void WObject::addSolid(Solid* psolid)
 {
   _solidList.push_back(psolid);	// add solid to solidList
@@ -490,8 +490,8 @@ void WObject::addSolid(Solid* psolid)
 /* Deletes all solids of this object */
 void WObject::delSolids()
 {
-  if (_solidList.empty()) return;
-  for (list<Solid*>::iterator it = _solidList.begin(); it != _solidList.end(); ++it) {
+  list<Solid*> solList = ::g.render.getSolidList();
+  for (list<Solid*>::iterator it = solList.begin(); it != solList.end(); ++it) {
     if ((*it)->wobject == this) {
       delete *it;
     }
@@ -1498,13 +1498,15 @@ void WObject::deleteReplica()
     delFromList(mobileList);
 
     // delete Solids
-    for (list<Solid*>::iterator s = _solidList.begin(); s != _solidList.end(); s++) {
+    list<Solid*> solList = ::g.render.getSolidList();
+    for (list<Solid*>::iterator s = solList.begin(); s != solList.end(); s++) {
       delete (*s);
     }
-    _solidList.erase(_solidList.begin(), _solidList.end());
+    solList.clear();
 
     if (netop) delete netop;
-    netop = NULL; // delete NetObject
+    netop = NULL;
   }
-  else echo("%s disapeared, but he is back!", getInstance());
+  else
+    echo("%s disapeared, but he is back!", getInstance());
 }
