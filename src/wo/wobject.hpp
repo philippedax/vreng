@@ -27,6 +27,8 @@
 #include "move.hpp"	// MAXKEYS
 #include "vrsql.hpp"	// VRSql
 
+#include <list>
+#include <vector>
 
 /* special behavior masks */
 #define NO_BEHAVIOR		0	// null
@@ -148,7 +150,7 @@ struct Move {
  */
 class WObject {
 
-typedef std::list<class Solid*> SolidList;
+//typedef std::list<class Solid*> SolidList_t;
 
 public:
   class NetObject *netop;	///< reserved field for network.
@@ -161,7 +163,7 @@ public:
   Pos pos;			///< position in the space.
   Move move;			///< movement specific.
   class Solid *solid;		///< solid pointer
-  SolidList _solids;		///< list of solids.
+  list<Solid*> _solidList;	///< list of solids.
   class WObjectId noid;		///< WObject Id.
   bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
@@ -173,7 +175,6 @@ public:
 #endif
   class Flare *flare;		///< flare instance.
   class Carrier *carrier;	///< move via carrier.
-
   float lspeed;         	///< linear speed.
   float aspeed;         	///< angular speed.
 
@@ -282,7 +283,7 @@ public:
   //
   // Accessors to Solid
   //
-  const SolidList& solids() const;
+  const list<Solid *>& solids() const;
   /**< solidlist address. */
 
   Solid* getSolid() const;

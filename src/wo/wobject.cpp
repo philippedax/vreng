@@ -410,15 +410,15 @@ bool WObject::givenName() const
 //
 
 /* solids accessor */
-const WObject::SolidList& WObject::solids() const
+const list<Solid*>& WObject::solids() const
 {
-  return _solids;
+  return _solidList;
 }
 
 #if 0 //notused
 uint32_t WObject::countOfSolids() const
 {
-  return _solids.size();
+  return _solidList.size();
 }
 #endif
 
@@ -478,10 +478,10 @@ void WObject::setReflexive(bool flag)
 }
 
 /* Sets a WObject pointer to this object in the Solid (friend) */
-/* adds solid to the list of solids for this object */
+/* adds solid to the _solidList of solids for this object */
 void WObject::addSolid(Solid* psolid)
 {
-  _solids.push_back(psolid);	// add solid to solidList
+  _solidList.push_back(psolid);	// add solid to solidList
   psolid->wobject = this;	// Solid is friend of WObject
   solid = psolid;		// keep solid pointer in WObject
 }
@@ -489,8 +489,8 @@ void WObject::addSolid(Solid* psolid)
 /* Deletes all solids of this object */
 void WObject::deleteSolids()
 {
-  if (_solids.empty()) return;
-  for (SolidList::iterator it = _solids.begin(); it != _solids.end(); ++it) {
+  if (_solidList.empty()) return;
+  for (list<Solid*>::iterator it = _solidList.begin(); it != _solidList.end(); ++it) {
     if ((*it)->wobject == this) {
       delete *it;
     }
@@ -1497,10 +1497,10 @@ void WObject::deleteReplica()
     delFromList(mobileList);
 
     // delete Solids
-    for (SolidList::iterator s = _solids.begin(); s != _solids.end(); s++) {
+    for (list<Solid*>::iterator s = _solidList.begin(); s != _solidList.end(); s++) {
       delete (*s);
     }
-    _solids.erase(_solids.begin(), _solids.end());
+    _solidList.erase(_solidList.begin(), _solidList.end());
 
     if (netop) delete netop;
     netop = NULL; // delete NetObject

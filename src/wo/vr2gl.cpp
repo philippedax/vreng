@@ -31,7 +31,7 @@ void WObject::updateAll3D(Pos &pos)
 {
   if (! solid || removed) return;
 
-  for (list<Solid*>::iterator s = _solids.begin(); s != _solids.end(); s++) {
+  for (list<Solid*>::iterator s = _solidList.begin(); s != _solidList.end(); s++) {
     M4 matobj = mulM4(transM4(pos.x, pos.y, pos.z),
 			      mulM4(rotM4(pos.az, UZ),
                                     mulM4(rotM4(pos.ay, UY),
@@ -47,7 +47,7 @@ void WObject::update3D(Pos &pos)
 {
   if (! solid || removed) return;
 
-  for (list<Solid*>::iterator s = _solids.begin(); s != _solids.end(); s++) {
+  for (list<Solid*>::iterator s = _solidList.begin(); s != _solidList.end(); s++) {
     M4 matobj = mulM4(transM4(pos.x, pos.y, pos.z),
 			      mulM4(rotM4(pos.az, UZ),
 			            rotM4(pos.ax, UX)

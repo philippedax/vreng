@@ -86,7 +86,7 @@ Widget::Widget(char *l)
 
 void Widget::buildScreen()
 {
-  if (_solids.empty()) return;	// no solid
+  if (_solidList.empty()) return;	// no solid
 
   V3 dim;
   getDimBB(dim);
