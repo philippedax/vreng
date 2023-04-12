@@ -23,7 +23,7 @@
 #include "solid.hpp"	// Solid, object()
 #include "wobject.hpp"	// WObject
 #include "user.hpp"	// localuser
-#include "render.hpp"	// solidList
+#include "render.hpp"	// getSolidList
 #include "pref.hpp"	// width3D
 
 #include <map>
@@ -34,17 +34,17 @@
 
 Vicinity::Vicinity()
 {
-  solidList = ::g.render.getSolidList();
+  solidLst = ::g.render.getSolidList();
   refObject = (WObject *) localuser;
   refObjectName = refObject->getInstance();
   setSize(user);
   userDist = DIST_INCL;
   objectSize = userSize;
 
-  vector<Vicin> vicinList(solidList.size());
+  vector<Vicin> vicinList(solidLst.size());
 
   listSize = 0;
-  for (list<Solid*>::iterator il = solidList.begin(); il != solidList.end() ; ++il) {
+  for (list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
     if (uselessType((*il)->object())) continue;
     vicinList[listSize].size = computeSize((*il)->object());
     vicinList[listSize].dist = computeDistance((*il)->object(), refObject);
@@ -58,7 +58,7 @@ Vicinity::Vicinity(string objectName)
 {
   // On instancie l'objet
   refObjectName = strdup(objectName.c_str());
-  solidList = ::g.render.getSolidList();
+  solidLst = ::g.render.getSolidList();
 
   // On cherche l'objet dans la liste
   refObject = NULL;
@@ -69,10 +69,10 @@ Vicinity::Vicinity(string objectName)
   userDist = computeDistance(user, refObject);
   objectSize = computeSize(refObject);
 
-  vector<Vicin> vicinList(solidList.size());
+  vector<Vicin> vicinList(solidLst.size());
 
   listSize = 0;
-  for (list<Solid*>::iterator il = solidList.begin(); il != solidList.end() ; ++il) {
+  for (list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
     if (uselessType((*il)->object())) continue;
     vicinList[listSize].size = computeSize((*il)->object());
     vicinList[listSize].dist = computeDistance((*il)->object(), refObject);

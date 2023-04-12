@@ -283,18 +283,17 @@ public:
   //
   // Accessors to Solid
   //
-  const list<Solid *>& solids() const;
-  /**< solidlist address. */
-
   Solid* getSolid() const;
   /**< Returns first solid. */
 
   void addSolid(class Solid* solid);
   /**< Adds to solidList. */
 
-  virtual void deleteSolids();
+  virtual void delSolids();
   /**< Deletes solids from solidList. */
 
+  //notused const list<Solid *>& solids() const;
+  //notused /**< solidlist address. */
   //notused uint32_t countOfSolids() const;
   //notused *< Count of solids. */
 

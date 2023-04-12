@@ -84,7 +84,7 @@ private:
   Vicin* vicinList;
   VisualPosition* visualList;
 
-  std::list<Solid*> solidList; ///< solids list
+  std::list<Solid*> solidLst; ///< solids list
   int listSize;
   int visualListSize;
 

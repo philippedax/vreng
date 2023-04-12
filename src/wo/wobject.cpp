@@ -102,6 +102,7 @@ WObject::WObject()
   //notused prior = PRIOR_MEDIUM;
 
   solid = NULL;
+  //dax _solidList = ::g.render.getSolidList();
   ::g.render.relsolidList.clear();
 
 #if VRSQL
@@ -118,7 +119,7 @@ WObject::~WObject()
     delFromGrid();
   }
 
-  deleteSolids();	// delete all solids
+  delSolids();	// delete all solids
 
   // delete NetObject
   if (netop && (mode == MOBILE)) {
@@ -409,18 +410,18 @@ bool WObject::givenName() const
 // Solids
 //
 
+#if 0 //notused
 /* solids accessor */
 const list<Solid*>& WObject::solids() const
 {
   return _solidList;
 }
 
-#if 0 //notused
 uint32_t WObject::countOfSolids() const
 {
   return _solidList.size();
 }
-#endif
+#endif //notused
 
 /* returns the first solid of the object - accessor */
 Solid* WObject::getSolid() const
@@ -487,7 +488,7 @@ void WObject::addSolid(Solid* psolid)
 }
 
 /* Deletes all solids of this object */
-void WObject::deleteSolids()
+void WObject::delSolids()
 {
   if (_solidList.empty()) return;
   for (list<Solid*>::iterator it = _solidList.begin(); it != _solidList.end(); ++it) {
@@ -956,7 +957,7 @@ void WObject::toDelete()
     delFromGrid();
     removed = true;		// mark as removed
   }
-  //dax8 deleteSolids();
+  //dax8 delSolids();
   //dax8 if (solid) delete solid;
   solid = NULL;
 }
