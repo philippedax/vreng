@@ -39,10 +39,7 @@ public:
   static int reuseAddr(int sock);
   static int tcpNoDelay(int sock);
   static uint16_t getSrcPort(int sock);
-  static int handleBlocking(int sock, bool block);
-  static int setBlocking(int sock);
   static int setNoBlocking(int sock);
-  static int setLoopback(int sock);
   static int setNoLoopback(int sock);
   static int setScope(int sock, uint8_t ttl);
   static int addMembership(int sock, const void *pmreq);
@@ -52,9 +49,13 @@ public:
   static int createSendSocket(uint8_t ttl);
   static bool isMulticastAddress(uint32_t address);
 
+  //notused static int setBlocking(int sock);
+
 private:
   static void setSendSocket(int sock, uint8_t ttl);
   static int handleLoopback(int sock, uint8_t loop);
+  static int handleBlocking(int sock, bool block);
+  static int setLoopback(int sock);
 };
 
 #endif
