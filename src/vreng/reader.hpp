@@ -66,7 +66,6 @@ class Reader {
   /**< Downloads a file into the cache. */
 
 private:
-
   uint8_t getChar(FILE *fp);
   uint8_t getChar();
   /**< Gets next char. */
@@ -88,7 +87,8 @@ private:
 
   //void reset();
   /**< Resets buffer. */
-#endif
+
+#endif //notused
 };
 
 

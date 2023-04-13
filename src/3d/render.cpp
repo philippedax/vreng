@@ -829,11 +829,10 @@ void Render::showSolidList()
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
     echo("solidList: %s->%s", (*s)->object()->typeName(),(*s)->object()->getInstance());
     if (! strcasecmp((*s)->object()->typeName(), "User")) {
-      echo("User: %.1f %.1f %.1f %.1f %.1f (%d)",
+      echo("User: %.1f %.1f %.1f %.1f (%d)",
 	   (*s)->object()->pos.x,
 	   (*s)->object()->pos.y,
 	   (*s)->object()->pos.z,
-	   (*s)->object()->pos.ax,
 	   (*s)->object()->pos.az,
 	   (*s)->isVisible()
 	  );
