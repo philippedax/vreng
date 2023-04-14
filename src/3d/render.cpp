@@ -45,7 +45,7 @@ using namespace std;
 const int Render::SEL_BUFSIZ = (4*1024);	// 1024 names
 static GLuint selbuf[4*1024];			// 1024 objects
 
-extern struct Render::sCamera cam_user;		// camera.cpp
+extern struct Render::sCamera camera;		// camera.cpp
 
 
 /* Initialization. */
@@ -142,7 +142,8 @@ void Render::init(bool _quality)
     solidList.clear();	// clear solidList
     configured = true;
   }
-  camera();
+
+  cameraProjection(camera.fovy, camera.near, camera.far);
 }
 
 void Render::materials()
@@ -565,7 +566,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   glGetIntegerv(GL_VIEWPORT, vp);
   GLint w = vp[2];
   GLint h = vp[3];
-  GLfloat top = cam_user.near * tan(cam_user.fovy * M_PI_180);
+  GLfloat top = camera.near * tan(camera.fovy * M_PI_180);
   GLfloat bot = -top;
   GLfloat ratio = (GLfloat) w / (GLfloat) h;
   GLfloat right = top * ratio;
@@ -578,8 +579,8 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
 	    left + (x+0.1) * (right-left) / (w-1),
 	    top -  (y+0.1) * (top-bot) / (h-1),
 	    top -  (y-0.1) * (top-bot) / (h-1),
-	    cam_user.near, cam_user.far);
-  glTranslatef(0, 0, -cam_user.near);
+	    camera.near, camera.far);
+  glTranslatef(0, 0, -camera.near);
 
   // user"s eyes position
   cameraPosition();
@@ -755,7 +756,7 @@ WObject** Render::getDrawedObjects(int *nbhit)
 
   GLint w = vp[2];
   GLint h = vp[3];
-  GLfloat top = cam_user.near * tan(cam_user.fovy * M_PI_180);
+  GLfloat top = camera.near * tan(camera.fovy * M_PI_180);
   GLfloat bot = -top;
   GLfloat ratio = (GLfloat) w / (GLfloat) h;
   GLfloat right = top * ratio;
@@ -768,8 +769,8 @@ WObject** Render::getDrawedObjects(int *nbhit)
 	    left + ((w/2)+(w/2)) * (right-left) / (w-1),
 	    top -  ((h/2)+(h/2)) * (top-bot) / (h-1),
 	    top -  ((h/2)-(h/2)) * (top-bot) / (h-1),
-	    cam_user.near, cam_user.far);
-  glTranslatef(0, 0, -cam_user.near);
+	    camera.near, camera.far);
+  glTranslatef(0, 0, -camera.near);
 
   // eyes position
   cameraPosition();

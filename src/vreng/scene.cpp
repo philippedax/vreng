@@ -138,7 +138,7 @@ void Scene::setScene(GLint x, GLint y, GLsizei w, GLsizei h)
 
 /* in UBox mode:
  * - GLSection sets the GL viewport, the clipping planes and calls push/popAttrib()
- * - paintGL performs GLSection, calls Render::camera() then paints the scene
+ * - paintGL performs GLSection, calls Render::cameraRepaint() then paints the scene
  * - resizeGL just changes ::g.pref.width3D,/height3D
  * The main difference is that GLSection must be done each time we paint because
  * only one window (and one GL context) is used
@@ -153,7 +153,7 @@ void Scene::paintCB(UPaintEvent& e)
 {
   GLSection gls(this);
   if (is_initialized) {
-    ::g.render.camera();
+    ::g.render.cameraRepaint();
   }
   loopScene();
 }

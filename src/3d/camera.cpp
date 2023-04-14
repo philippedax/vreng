@@ -33,12 +33,12 @@
 
 
 // global
-struct Render::sCamera cam_user;
+struct Render::sCamera camera;
 
-
-void Render::camera()
+/* Sets camera projection */
+void Render::cameraRepaint()
 {
-  cameraProjection(cam_user.fovy, cam_user.near, cam_user.far);
+  cameraProjection(camera.fovy, camera.near, camera.far);
 }
 
 /* Observer view, called by updateCamera: vr2gl.cpp. */
@@ -61,9 +61,9 @@ void Render::cameraProjection(GLfloat fovy, GLfloat near, GLfloat far)
   GLfloat bot = -top;
   GLfloat right = top * ratio;
   GLfloat left = -right;
-  cam_user.fovy = fovy;
-  cam_user.near = near;
-  cam_user.far = far;
+  camera.fovy = fovy;
+  camera.near = near;
+  camera.far = far;
 
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
@@ -428,9 +428,9 @@ void Render::computeCameraProjection()
   glGetIntegerv(GL_VIEWPORT, vp);
   GLint w = vp[2];
   GLint h = vp[3];
-  GLfloat fovy = cam_user.fovy;
-  GLfloat near = cam_user.near;
-  GLfloat far = cam_user.far;
+  GLfloat fovy = camera.fovy;
+  GLfloat near = camera.near;
+  GLfloat far = camera.far;
 
   echo("User=(%.1f %.1f %.1f %.1f) fovy=%.2f near=%.1f far=%.1f w=%.1f h=%.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z, localuser->pos.az, fovy, near, far, w, h);
 }
