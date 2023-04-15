@@ -141,8 +141,8 @@ public:
   // Camera
   /////////////
 
-  void cameraRepaint();
-  /**< Sets Camera position */
+  void cameraSet();
+  /**< Sets camera values (fovy, near, far). */
 
   void resetCamera();
   /**< Resets view. */

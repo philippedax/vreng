@@ -36,7 +36,7 @@
 struct Render::sCamera camera;
 
 /* Sets camera projection */
-void Render::cameraRepaint()
+void Render::cameraSet()
 {
   cameraProjection(camera.fovy, camera.near, camera.far);
 }

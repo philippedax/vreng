@@ -143,7 +143,7 @@ void Render::init(bool _quality)
     configured = true;
   }
 
-  cameraProjection(camera.fovy, camera.near, camera.far);
+  cameraSet();
 }
 
 void Render::materials()
