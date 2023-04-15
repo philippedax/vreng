@@ -36,7 +36,7 @@
 struct Render::sCamera camera;
 
 /* Sets camera projection */
-void Render::cameraSet()
+void Render::cameraUser()
 {
   cameraProjection(camera.fovy, camera.near, camera.far);
 }
@@ -318,7 +318,7 @@ void Render::showView()
   ::g.gui.scene()->setScene(x, y, w, h);
 }
 
-void Render::resetCamera()
+void Render::resetView()
 {
   view = VIEW_FIRST_PERSON;
   third_xRot = third_yRot = third_Near = 0;

@@ -27,6 +27,7 @@ using namespace std;
 class WObject;
 class Solid;
 
+
 /**
  * Render class
  *
@@ -36,7 +37,50 @@ class Render {
  friend class User;		///< access to some members.
  friend class Solid;		///< access to some members.
 
-public:
+ private:
+  static const int SEL_BUFSIZ;	///< selection buffer size
+
+  V3 bbox_min;			///< minimal bbox.
+  V3 bbox_max;			///< maximal bbox.
+  M4 camera_pos;		///< camera position.
+  bool first_bb;		///< first bbox.
+  bool quality;			///< flag quality yes/no.
+  bool flash;			///< flag flash.
+  uint8_t view;			///< local user View type.
+  bool viewMap;                 ///< local user Map.
+  bool viewSat;                 ///< local Satellite.
+  bool viewObj;                 ///< local Object.
+  GLfloat third_yRot;		///< local user y rotation for Third Person view.
+  GLfloat third_xRot;		///< local user x rotation for Third Person view.
+  GLfloat third_Near;		///< local user distance for Third Person view.
+  GLfloat turna;		///< local user rotation for Turn Around view.
+  GLfloat pitch;		///< local user pitch rotation.
+  V3 satPos;			///< satellite position
+  V3 satRot;			///< satellite orientation
+  class Wheel *wheel;		///< experimental
+
+  // rendering setup
+  void lighting();		///< Set lights.
+  void materials();		///< Set colors of materials.
+
+  // rendering categories
+  void renderSolids(bool mini);		///< general rendering.
+  void renderOpaque(bool mini);		///< opaque solids
+  void renderTransparent(bool mini);  	///< transparent solids
+  void renderGround();  		///< ground solids
+  void renderModel(); 	 		///< model solids
+  void renderUser(); 	 		///< user solids
+  void renderFlary(); 	 		///< flary solids
+
+  void scissors();
+  /**< Renders scissors. */
+
+  // compare functions
+  static bool compDist(const void *t1, const void *t2);	///< compare distances to eyes
+  static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes
+  static bool compFrame(const void *t1, const void *t2);///< compare nbframes
+
+ public:
 
   /* points of views */
   enum view_mode {
@@ -67,7 +111,7 @@ public:
   list<Solid*> userList;	///< user solids list.
   list<Solid*> flaryList;	///< flary solids list.
 
-  list<Solid*> getSolidList() { return solidList; }
+  list<Solid*> getSolidList()	{ return solidList; }
   /**< Returns the rendering solid list. */
 
   void showSolidList();
@@ -77,6 +121,7 @@ public:
   // Rendering
   /////////////
 
+ public:
   Render();
   /**< Constructor. */
 
@@ -86,34 +131,8 @@ public:
   void minirender();
   /**< Renders minimal. */
 
-  /////////////
-  // BB
-  /////////////
-
-  void getBB(V3& bbmax, V3& bbmin, bool _framed);
-  /**< Gets min/max BB. */
-
-  void setBB(GLfloat w, GLfloat d, GLfloat h);
-  void setBB(const GLfloat *v);
-  /**< Sets min/max BB. */
-
-  void updateBB(GLfloat az);
-  /**< Updates BB according to its orientation. */
-
-  /////////////
-  // Config
-  /////////////
-
-  void init(bool _quality);
-  /**< Initialization. */
-
-  GLint haveDepth();
-  GLint haveTextures();
-  GLint haveStencil();
-  GLint haveClips();
-  /**< Checks OpenGL buffers. */
-
-  static void stat();
+ private:
+  void clearBuffer();		///< Clear everything.
 
   /////////////
   // Views
@@ -134,18 +153,35 @@ public:
   void switchViewObj();
   /**< Switchs the view from object. */
 
+  //dax void showView(float posx, float posy, float posz);
+  void showView();
+  /**< show the view. */
+
+  void resetView();
+  /**< Resets view. */
+
   void setPitch(GLfloat angle);
   /**< Sets the pitch angle. */
+
+ private:
+  void showMap();
+  /**< show the small map. */
+
+  void showSat();
+  /**< show the satellite view. */
 
   /////////////
   // Camera
   /////////////
 
-  void cameraSet();
-  /**< Sets camera values (fovy, near, far). */
+ public:
+  /** Camera handling */
+  struct sCamera {
+    GLfloat fovy, near, far;
+  };
 
-  void resetCamera();
-  /**< Resets view. */
+  void cameraUser();
+  /**< Sets camera values (fovy, near, far). */
 
   void setCameraPosition(M4 *vr_mat);
   /**<
@@ -155,6 +191,9 @@ public:
    * on world coordoninates to screen coordoninates.
    * not fully implemented.
    */
+
+  void cameraPosition();		///< Set camera position.
+  void cameraPosition(WObject *object);	///< Set camera position.
 
   void cameraProjection(GLfloat fovy, GLfloat near, GLfloat far);
   /**<
@@ -173,30 +212,11 @@ public:
   void setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz);
   /**< move the intelligente satellite camera to the good position. */
 
-  /** Camera handling */
-  struct sCamera {
-    GLfloat fovy, near, far;
-  };
-
-  void cameraPosition();		///< Set camera position.
-  void cameraPosition(WObject *object);	///< Set camera position.
-
-  void clearBuffer();		///< Clear everything.
-
-  /////////////
-  // Effects
-  /////////////
-
-  void setFlash();
-  /**< accessor to flash. */
-
-  void setAllTypeFlashy(char * object_type, int typeflash);
-  /**< enable flashy for all same type object. */
-
   /////////////
   // Selection
   /////////////
 
+ public:
   uint16_t bufferSelection(GLint x, GLint y);
   uint16_t bufferSelection(GLint x, GLint y, GLint depth);
   /**< Returns the object's num displayed in (x,y) on the screen. */
@@ -210,82 +230,69 @@ public:
   WObject** getDrawedObjects(int* nbr);
   /**< get all drawed Objects on the screen. */
 
+ private:
+  void putSelbuf(WObject *po);
+  /**< Sets object name in Z-buffer for selection. */
+
+  static int compareHit(const void *t1, const void *t2);
+  /**< Sorts all elements of the selection buffer. */
+
+  /////////////
+  // BB
+  /////////////
+
+ public:
+  void getBB(V3& bbmax, V3& bbmin, bool _framed);
+  /**< Gets min/max BB. */
+
+  void setBB(GLfloat w, GLfloat d, GLfloat h);
+  void setBB(const GLfloat *v);
+  /**< Sets min/max BB. */
+
+  void updateBB(GLfloat az);
+  /**< Updates BB according to its orientation. */
+
+  /////////////
+  // Effects
+  /////////////
+
+ public:
+  void setFlash();
+  /**< Makes a flash (capture). */
+
+  void setAllTypeFlashy(char * object_type, int typeflash);
+  /**< Enables flashy for all same type object. */
+
   /////////////
   // Click
   /////////////
 
+ public:
   void clickDirection(GLint x, GLint y, V3 *dir);
   /**< Converts (x,y) screen coord into a direction from eyes to the click. */
+
+  /////////////
+  // Config
+  /////////////
+
+ public:
+  void init(bool _quality);
+  /**< Initialization. */
+
+  GLint haveDepth();
+  GLint haveTextures();
+  GLint haveStencil();
+  GLint haveClips();
+  /**< Checks OpenGL buffers. */
+
+  static void stat();
 
   /////////////
   // Quit
   /////////////
 
+ public:
   void quit();			///< Closes the 3d renderer.
-
-
-private:
-  static const int SEL_BUFSIZ;	///< selection buffer size
-
-  V3 bbox_min;			///< minimal bbox.
-  V3 bbox_max;			///< maximal bbox.
-  M4 camera_pos;		///< camera position.
-  bool first_bb;		///< first bbox.
-  bool quality;			///< flag quality yes/no.
-  bool flash;			///< flag flash.
-  uint8_t view;			///< local user View type.
-  bool viewMap;                 ///< local user Map.
-  bool viewSat;                 ///< local Satellite.
-  bool viewObj;                 ///< local Object.
-  GLfloat third_yRot;		///< local user y rotation for Third Person view.
-  GLfloat third_xRot;		///< local user x rotation for Third Person view.
-  GLfloat third_Near;		///< local user distance for Third Person view.
-  GLfloat turna;		///< local user rotation for Turn Around view.
-  GLfloat pitch;		///< local user pitch rotation.
-  V3 satPos;			///< satellite position
-  V3 satRot;			///< satellite orientation
-  //dax V3 mapPos;		///< map position
-  class Wheel *wheel;		///< experimental
-
-  // rendering setup
-  void lighting();		///< Set lights.
-  void materials();		///< Set colors of materials.
-
-  // rendering categories
-  void renderSolids(bool mini);		///< general rendering.
-  void renderOpaque(bool mini);		///< opaque solids
-  void renderTransparent(bool mini);  	///< transparent solids
-  void renderGround();  		///< ground solids
-  void renderModel(); 	 		///< model solids
-  void renderUser(); 	 		///< user solids
-  void renderFlary(); 	 		///< flary solids
-
-  void scissors();
-  /**< Renders scissors. */
-
-  // compare functions
-  static bool compDist(const void *t1, const void *t2);	///< compare distances to eyes
-  static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes
-  static bool compFrame(const void *t1, const void *t2);///< compare nbframes
-
-  void putSelbuf(WObject *po);
-  /**< Sets object name in Z-buffer for selection. */
-
-  void showMap();
-  /**< show the small map. */
-
-  void showSat();
-  /**< show the satellite view. */
-
-public:
-  //dax void showView(float posx, float posy, float posz);
-  void showView();
-  /**< show the view. */
-private:
-
-  static int compareHit(const void *t1, const void *t2);
-  /**< Sorts all elements of the selection buffer. */
-
 };
 
 #endif

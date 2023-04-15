@@ -143,7 +143,7 @@ void Render::init(bool _quality)
     configured = true;
   }
 
-  cameraSet();
+  cameraUser();
 }
 
 void Render::materials()
@@ -429,7 +429,7 @@ void Render::renderSolids(bool mini)
 void Render::render()
 {
   Texture::update();		// textures
-  cameraPosition();		// camera position
+  cameraPosition();		// camera user's eyes position
   clearBuffer();		// background color
   lighting();			// general lighting
   renderSolids(0);		// solids rendering
@@ -441,7 +441,7 @@ void Render::render()
 
 void Render::minirender()
 {
-  cameraPosition();		// camera position
+  cameraPosition();		// camera user's eyes position
   clearBuffer();		// background color
   renderSolids(1);		// solids rendering
 }
@@ -525,7 +525,7 @@ void Render::lighting()
   }
 }
 
-/* highlight same type object. */
+/* highlight same type of object. */
 void Render::setAllTypeFlashy(char *object_type, int typeflash)
 {
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; it++) {
@@ -539,7 +539,7 @@ void Render::setAllTypeFlashy(char *object_type, int typeflash)
 }
 
 /*
- * 3D Selection using picking method.
+ * 3D Selection using picking algorithm.
  * Returns object number selectionned
  * called by camera and getPointedObject (widgets.cpp)
  */
@@ -582,8 +582,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
 	    camera.near, camera.far);
   glTranslatef(0, 0, -camera.near);
 
-  // user"s eyes position
-  cameraPosition();
+  cameraPosition();	// user"s eyes position
 
   // redraw the objects into the selection buffer
   renderSolids(1);	// mini render
@@ -598,7 +597,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   GLuint *psel = selbuf;
   for (int i=0; i < hits; i++) {
     if (::g.pref.dbgtrace) {
-      echo("hit=%d/%d num=%d min=%ud name=%s/%s",
+      echo("hit: %d/%d num=%d min=%ud name=%s/%s",
             i, hits, psel[3], psel[1],
             WObject::byNum(psel[3])->typeName(),WObject::byNum(psel[3])->getInstance());
     }
@@ -708,7 +707,7 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
   dir->v[0] = (GLfloat) (tx - ex);
   dir->v[1] = (GLfloat) (ty - ey);
   dir->v[2] = (GLfloat) (tz - ez);
-  //echo("wx=%d wy=%d o1=%.2f %.2f %.2f o2=%.2f %.2f %.2f dir=%.2f %.2f %.2f", wx,wy,ex,ey,ez,tx,ty,tz,dir->v[0],dir->v[1],dir->v[2]);
+  //echo("wx=%d wy=%d dir=%.1f %.1f %.1f", wx, wy,dir->v[0], dir->v[1] ,dir->v[2]);
 }
 
 /*
