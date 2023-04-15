@@ -432,5 +432,5 @@ void Render::computeCameraProjection()
   GLfloat near = camera.near;
   GLfloat far = camera.far;
 
-  echo("User=(%.1f %.1f %.1f %.1f) fovy=%.2f near=%.1f far=%.1f w=%.1f h=%.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z, localuser->pos.az, fovy, near, far, w, h);
+  echo("User=(%.1f %.1f %.1f %.1f) fovy=%.2f near=%.1f far=%.1f w=%d h=%d", localuser->pos.x, localuser->pos.y, localuser->pos.z, localuser->pos.az, fovy, near, far, w, h);
 }
