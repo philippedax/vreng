@@ -132,7 +132,7 @@ class Render {
   /**< Renders minimal. */
 
  private:
-  void clearBuffer();		///< Clear everything.
+  void refreshBackground();	///< refresh buffer.
 
   /////////////
   // Views
@@ -249,7 +249,7 @@ class Render {
   void setBB(const GLfloat *v);
   /**< Sets min/max BB. */
 
-  void updateBB(GLfloat az);
+  void updBB(GLfloat az);
   /**< Updates BB according to its orientation. */
 
   /////////////

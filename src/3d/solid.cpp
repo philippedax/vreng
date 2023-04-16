@@ -1197,7 +1197,7 @@ void Solid::getAbsBB(V3 &center, V3 &size)
 
 void Solid::updateBB(GLfloat az)
 {
-  ::g.render.updateBB(az);
+  ::g.render.updBB(az);
 }
 
 // accessor - get WObject parent from Solid

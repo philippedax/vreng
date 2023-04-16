@@ -430,7 +430,7 @@ void Render::render()
 {
   Texture::update();		// textures
   cameraPosition();		// camera user's eyes position
-  clearBuffer();		// background color
+  refreshBackground();		// background color
   lighting();			// general lighting
   renderSolids(0);		// solids rendering
   Grid::grid()->render();	// render grid
@@ -442,7 +442,7 @@ void Render::render()
 void Render::minirender()
 {
   cameraPosition();		// camera user's eyes position
-  clearBuffer();		// background color
+  refreshBackground();		// background color
   renderSolids(1);		// solids rendering
 }
 
@@ -453,7 +453,7 @@ void Render::scissors()
   //dax showView();			// display view from object
 }
 
-void Render::clearBuffer()
+void Render::refreshBackground()
 {
   if (flash) {
     ::g.gui.scene()->setBackground(UColor::white);
@@ -674,7 +674,7 @@ void Render::setBB(GLfloat w, GLfloat d, GLfloat h)
 }
 
 /* Updates bounding box according to its orientation. */
-void Render::updateBB(GLfloat az)
+void Render::updBB(GLfloat az)
 {
   bbox_max.v[0] *= cos(az);
   bbox_max.v[1] *= sin(az);

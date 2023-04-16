@@ -404,7 +404,7 @@ void Render::calculateFov(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat rotz
    glTranslatef(-posx, -posy, -posz);
 
    // redraw the scene (objects only)
-   clearBuffer();
+   refreshBackground();
    renderSolids(0);
   glPopMatrix();
 
