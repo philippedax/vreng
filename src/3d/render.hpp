@@ -28,6 +28,9 @@ class WObject;
 class Solid;
 
 
+#define SEL_MAXNAMES	1024	// max names in buffer selection
+
+
 /**
  * Render class
  *

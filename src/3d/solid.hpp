@@ -297,7 +297,7 @@ public:
   /**< Sets the solid reflexive. */
 
   // File parsing
-  char* parser(char *l);	///< Parser commun.
+  char* parser(char *l);	///< common Parser.
 
   char* parseFrame(char* l);
   char* parseShape(char* l, uint8_t *shape);

@@ -219,7 +219,6 @@ Solid::~Solid()
   ::g.render.relsolidList.clear();
   nbsolids = 0;
 
-  //echo("del solid: %s", object()->getInstance());
   if (dlists) delete[] dlists;
   del_solid++;
 }
@@ -311,6 +310,7 @@ char * Solid::parser(char *l)
   dlists = new GLint[nbframes];
 
   ::g.render.solidList.push_back(this);	// add to solidList
+
   idM4(&matpos);	// init position to 0
 
   // axis aligned bounding boxes (AABB) are here
