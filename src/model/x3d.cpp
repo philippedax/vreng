@@ -30,11 +30,10 @@ using namespace std;
 
 void X3d::defaults(const char *_url)
 {
-  animationOn = true;
+  anim = true;
+  flashy = false;
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-
-  selected = false;
 }
 
 X3d::X3d(const char *_url) : rootShape(0)
@@ -107,49 +106,49 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
   const char* attr = NULL;
 
   if (isEqual(nodeName, "Shape")) {  //new shape
-    //echo("on ajoute un fils shape niveau %d", shape->level + 1);
-    X3dShape* son = new X3dShape(shape->level + 1);
+    //echo("add a child shape at level %d", shape->level + 1);
+    X3dShape* child = new X3dShape(shape->level + 1);
 
-    shape->childrenShapes.push_back(son);
-    shape = son; // we change of node
+    shape->childrenShapes.push_back(child);
+    shape = child; // we change of node
 
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "DEF")) {
-        //echo("we have an object DEF name: %s",xmlnode->getAttributeValue(i));
+        //echo("we have an DEF name: %s", xmlnode->getAttributeValue(i));
 	shape->name = xmlnode->getAttributeValue(i);
       }
     }
   }
   else if (isEqual(nodeName, "Transform")) {
     if (xmlnode->nChildNode() != 0) {
-      //echo("on ajoute un fils transform niveau %d", shape->level + 1);
+      //echo("add a child transform at level %d", shape->level + 1);
 
-      X3dShape* son = new X3dShape(shape->level + 1);
+      X3dShape* child = new X3dShape(shape->level + 1);
 
-      shape->childrenShapes.push_back(son);
-      shape = son; // we change of node
+      shape->childrenShapes.push_back(child);
+      shape = child; // we change of node
     }
 
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "translation")) {
-        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->translation,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i), shape->translation,3))
           shape->translationOn = true;
-        else error("Translation non correcte !");
+        else error("Translation not correct !");
       }
       else if (isEqual(attr, "rotation")) {
-        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->rotation,4))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i), shape->rotation,4))
           shape->rotationOn = true;
-        else error("Rotation non correcte !");
+        else error("Rotation not correct !");
       }
       else if (isEqual(attr, "scale")) {
-        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->scale,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i), shape->scale,3))
           shape->scaleOn = true;
-        else error("Scale non correcte !");
+        else error("Scale not correct !");
       }
       else if (isEqual(attr, "DEF")) {
-        //echo("we have an object DEF name: %s",xmlnode->getAttributeValue(i));
+        //echo("we have an object DEF name: %s", xmlnode->getAttributeValue(i));
         shape->name = xmlnode->getAttributeValue(i);
       }
     }
@@ -158,37 +157,37 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "emissiveColor")) {
-        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->emissive,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i), shape->emissive,3))
           shape->emissiveOn = true;
       }
       else if (isEqual(attr, "diffuseColor")) {
-        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->diffuse,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i), shape->diffuse,3))
           shape->diffuseOn = true;
       }
       else if (isEqual(attr, "specularColor")) {
-        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),shape->specular,3))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i), shape->specular,3))
           shape->specularOn = true;
       }
       else if (isEqual(attr, "ambientIntensity")) {
-        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),&shape->ambientIntensity,1))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i), &shape->ambientIntensity,1))
           shape->ambientIntensityOn = true;
       }
       else if (isEqual(attr, "shininess")) {
-        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),&shape->shininess,1))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i), &shape->shininess,1))
           shape->shininessOn = true;
       }
       else if (isEqual(attr, "transparency")) {
-        if (Vectors::parseFloats(xmlnode->getAttributeValue(i),&shape->transparency,1))
+        if (Vectors::parseFloats(xmlnode->getAttributeValue(i), &shape->transparency,1))
           shape->transparencyOn = true;
       }
       else if (isEqual(attr, "DEF")) {
-        //echo("We have an object DEF name: %s", xmlnode->getAttributeValue(i));
+        //echo("We have an DEF name: %s", xmlnode->getAttributeValue(i));
         shape->name = xmlnode->getAttributeValue(i);
       }
     }
   }
   else if (isEqual(nodeName, "ImageTexture")) {
-    // on modifie la texture
+    // we modify the texture
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "url"))
@@ -199,21 +198,21 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "point"))
-        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.Coordinate,3);
+        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i), &shape->meshInfos.Coordinate,3);
     }
   }
   else if (isEqual(nodeName, "TextureCoordinate")) {
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "point"))
-        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.TextureCoordinate,2);
+        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i), &shape->meshInfos.TextureCoordinate,2);
     }
   }
   else if (isEqual(nodeName, "Color")) {
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "color"))
-        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i),&shape->meshInfos.Color,3);
+        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i), &shape->meshInfos.Color,3);
     }
   }
   else if (isEqual(nodeName, "ColorInterpolator") ||
@@ -320,7 +319,7 @@ void X3d::setupInterpolators()
       if (sensor && interpolator)
         sensor->initTarget(interpolator);
       else
-        error("route sensor->interpolator buggee: de %p a %p", sensor, interpolator);
+        error("route sensor->interpolator bugged: de %p a %p", sensor, interpolator);
     }
 
     else if (fromfield == VALUE_CHANGED && tofield >= TRANSLATION && tofield <= TRANSPARENCY) {
@@ -332,7 +331,7 @@ void X3d::setupInterpolators()
         interpolator->initTarget(targetShape, tofield);
       }
       else
-        error("route interpolator->x3dshape buggee: de %p a %p", interpolator, targetShape);
+        error("route interpolator->x3dshape bugged: de %p a %p", interpolator, targetShape);
     }
     else
       error("bugged route with improper fields from %s to %s", route->fromNode.c_str(), route->toNode.c_str());
@@ -579,10 +578,10 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
             meshInfos->Coordinate[realVertex][1],
             meshInfos->Coordinate[realVertex][2]);
         }
-        else error("coordonnees du sommet incorrectes");
+        else error("coords of vertex incorrect");
       }
       else {
-        error("index de sommet hors-limites %d > %d", realVertex,meshInfos->Coordinate.size());
+        error("index of vertex out of bounds %d > %d", realVertex,meshInfos->Coordinate.size());
       }
     }
     glEnd();
@@ -593,7 +592,7 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
 
 void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
 {
-  //echo("On display la shape: %d au niveau %d",(int) myShape, myShape->level);
+  //echo("display shape: %d at level %d", (int) myShape, myShape->level);
   float amb[4] = { 0,0,0,1 };
   glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
 
@@ -628,7 +627,7 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
 
   for (vector<GLuint>::iterator i = myShape->meshes.begin(); i != myShape->meshes.end(); i++) {
     glCallList(*i);
-    if (selected) {  //selected mesh
+    if (flashy) {  //flashy mesh
       glPushMatrix();
       glLineWidth(1);
       glDisable(GL_POLYGON_OFFSET_FILL);
@@ -676,7 +675,7 @@ void X3d::render()
 
   // we update the timers for animation
   for (vector<TimeSensor>::iterator t = timeSensors.begin(); t != timeSensors.end(); t++) {
-    t->updateFraction(animationOn);
+    t->updateFraction(anim);
   }
 
   // list to make an iterative treatment of the tree
@@ -685,7 +684,6 @@ void X3d::render()
 
   X3dShape* currentShape;
   int previousLevel = -1;
-  //int npop=0, npush=0;
 
   while (! nextShapes.empty()) {
     // we take the next node of the tree
@@ -697,18 +695,15 @@ void X3d::render()
     if (currentShape->level <= previousLevel) {
       glPopMatrix(); // we remove the matrix of the current shape
       //dax1 glPopAttrib();
-      //npop++;
       if (currentShape->level < previousLevel) {
         glPopMatrix(); // we aso remove the matrix of the previous shape because we went down
         //dax1 glPopAttrib();
-        //npop++;
       }
     }
     previousLevel = currentShape->level;
 
     glPushMatrix();
     //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
-    //npush++;
 
     if (currentShape->texture) {  //texture is there in priority
       glEnable(GL_TEXTURE_2D);
@@ -734,7 +729,6 @@ void X3d::render()
   // we remove the remaining matrixes after having browsed the complete tree
   for (int k = -1; k < previousLevel; k++) {
     glPopMatrix();
-    //npop++;
   }
 }
 
@@ -775,12 +769,12 @@ ShapeToId X3d::knownPrimitives[KNOWNPRIMITIVESNUMBER] = {
 /* Sets flashy the X3d object */
 void X3d::setFlashy()
 {
-  selected = true;
+  flashy = true;
 }
 
 void X3d::resetFlashy()
 {
-  selected = false;
+  flashy = false;
 }
 
 void X3d::resetAnimations()
@@ -834,13 +828,13 @@ bool Vectors::parseCertifiedVectors(const string str, vector<vector<float> >* ou
   bool res = parseVectors(str, outputs);
 
   if (numVector > 0 && outputs->size() != numVector) {
-    error("too many vectors have been parsed");
+    error("too many vectors");
     return false;
   }
   if (vectorLength > 0) {
     for (vector<vector<float> >::iterator i=outputs->begin(); i!=outputs->end();i++) {
       if (i->size() != vectorLength) {
-        error("vectors too longs have been parsed");
+        error("vectors too long");
         return false;
       }
     }
@@ -867,7 +861,6 @@ bool Vectors::parseVectors(const string str, vector<vector<float> > *outputs)
             str[in] == ' ' ||
             str[in] == ',')) {
       in++;  // we skip initial spaces and semicolons
-
       if (str[in] == ',') {  //end of a vector
         if (!tempOutput.empty()) {
           outputs->push_back(tempOutput);
@@ -1259,7 +1252,7 @@ void TimeSensor::resetFraction()
   }
 }
 
-void TimeSensor::updateFraction(bool animationOn)
+void TimeSensor::updateFraction(bool _anim)
 {
   if (fraction < 0) {
     error("Fraction is negative in timer");
@@ -1269,7 +1262,7 @@ void TimeSensor::updateFraction(bool animationOn)
   struct timeval currentTime;
   gettimeofday(&currentTime, NULL);
 
-  if (animationOn) {
+  if (_anim) {
     int32_t diffSec = currentTime.tv_sec - previousTime.tv_sec;
     int32_t diffMilliSec = (currentTime.tv_usec - previousTime.tv_usec)/1000;
     int diffms = (int) (1000*diffSec + diffMilliSec);

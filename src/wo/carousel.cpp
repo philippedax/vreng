@@ -98,17 +98,17 @@ bool Carousel::whenIntersect(WObject *pcur, WObject *pold)
 
 void Carousel::start(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  carousel->x3d->animationOn = true;
+  carousel->x3d->anim = true;
 }
 
 void Carousel::pause(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  carousel->x3d->animationOn = false;
+  carousel->x3d->anim = false;
 }
 
 void Carousel::stop(Carousel *carousel, void *d, time_t s, time_t u)
 {
-  carousel->x3d->animationOn = false;
+  carousel->x3d->anim = false;
   carousel->x3d->resetAnimations();
 }
 

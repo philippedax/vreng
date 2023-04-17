@@ -180,7 +180,7 @@ class TimeSensor {
   void initTarget(Interpolator* interpolator);
   /**< adds an interpolator to the targets of the time event */
 
-  void updateFraction(bool animationOn);
+  void updateFraction(bool anim);
   /**< update the time for this timer */
 
   void resetFraction();
@@ -292,9 +292,9 @@ class Route {
  * X3d class
  */
 class X3d {
- public:
 
-  bool animationOn; 		///< is it animated or not at the moment ?
+ public:
+  bool anim; 			///< is it animated or not ?
 
   X3d(const char *url);		///< Constructor.
   virtual ~X3d();		///< Destructor.
@@ -321,7 +321,7 @@ class X3d {
   vector<TimeSensor> timeSensors;
   vector<Route> routes; ///< temporary structures to create links
 
-  bool selected;	///< flashy or not
+  bool flashy;	///< flashy or not
 
   void defaults(const char *_url);
   /**< default values for class attributes */
