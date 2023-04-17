@@ -38,7 +38,6 @@ class TimeSensor;
 class Route;
 
 
-//HERE YOU CAN ADD NEW PRIMITIVES
 /**
  * Provided you extend the X3d::knownPrimitives array and
  * the X3d::drawPrimitive function
@@ -56,7 +55,11 @@ enum X3dShapes {
   X3DLINE,
   KNOWNPRIMITIVESNUMBER
 };
-struct ShapeToId {XMLCSTR shape; X3dShapes id;};
+
+struct ShapeToId {
+  XMLCSTR shape;
+  X3dShapes id;
+};
 
 
 /**
@@ -73,8 +76,8 @@ struct MeshInfos
  * Vectors class
  */
 class Vectors {
- public:
 
+ public:
   static bool parseFloats(const string str, float* outputs, uint32_t number);
   /**< returns true if succeeded, false else */
 
@@ -97,8 +100,8 @@ class Vectors {
  * Node of the X3D tree, containing the data for a shape or a transormation
  */
 class X3dShape {
- public:
 
+ public:
   vector<X3dShape*> childrenShapes; ///< the sons of that node
 
   int level;	///< niveau croissant dans l'arbre x3d, root->0
@@ -126,24 +129,22 @@ class X3dShape {
   vector<GLuint> meshes; //index of the glCallLists of that mesh (for primitives and IndexedFaceSets)
 
   X3dShape(int _level) {
-    level=_level;
-    scaleOn=translationOn=rotationOn=false;
-
-    transparencyOn=shininessOn=ambientIntensityOn=specularOn=diffuseOn=emissiveOn=false;
-
-    ambientIntensity=0;
-    shininess=0;
-    transparency=0;
+    level = _level;
+    scaleOn=translationOn = rotationOn = false;
+    transparencyOn = shininessOn = ambientIntensityOn = specularOn = diffuseOn = emissiveOn = false;
+    ambientIntensity = 0;
+    shininess = 0;
+    transparency = 0;
     texture=0;
 
     for (int i=0;i<4;i++) {
-      specular[i]=0;
-      diffuse[i]=0;
-      emissive[i]=0;
+      specular[i] = 0;
+      diffuse[i] = 0;
+      emissive[i] = 0;
 
-      translation[i]=0; //last float unused
-      rotation[i]=0;
-      scale[i]=1; //last float unused
+      translation[i] = 0; //last float unused
+      rotation[i] = 0;
+      scale[i] = 1; //last float unused
     }
   }
 };
@@ -154,6 +155,7 @@ class X3dShape {
  * Object taking care of time for interpolators
  */
 class TimeSensor {
+
  private:
   struct timeval previousTime;
   float fraction;	///< current percentage of the loop
@@ -231,8 +233,8 @@ enum X3DINField {
  * Interpolator class
  */
 class Interpolator {
- private:
 
+ private:
   string name;
 
   InterpolatorType type; ///< what kind of field does this animate ??
@@ -244,10 +246,7 @@ class Interpolator {
   vector<float*> targets; ///< float targets (rotation, scale, shininess...)
 
  public:
-
-  Interpolator() {
-    type = INTERPOLATORTYPENONE;
-  }
+  Interpolator() { type = INTERPOLATORTYPENONE; }
 
   bool initArrays(XMLNode* xmlnode);
   /**< gets the attributes of the interpolator */
@@ -255,7 +254,7 @@ class Interpolator {
   bool initTarget(X3dShape* targetShape, X3DINField field);
   /**< adds a target field for the animated values */
 
-  virtual ~Interpolator() { }
+  virtual ~Interpolator() {}
 
   string getName() { return name; }
 
@@ -270,15 +269,15 @@ class Interpolator {
  * of the sensors and interpolators
  */
 class Route {
- public:
 
+ public:
   string fromNode, toNode;
   X3DOUTField fromField;
   X3DINField toField;
 
   Route() {
-   fromField=NOOUTX3DFIELD;
-   toField=NOINX3DFIELD;
+   fromField = NOOUTX3DFIELD;
+   toField = NOINX3DFIELD;
   }
 
   virtual ~Route() {}
@@ -326,9 +325,6 @@ class X3d {
   void defaults(const char *_url);
   /**< default values for class attributes */
 
-  static void reader(void *x3d, class Http *http);
-  /**< loader of the web file, manages the cache... */
-
   bool loadFromFile(char* f);
   /**< calls the functions to load the x3d tree and initialize everything */
 
@@ -348,10 +344,13 @@ class X3d {
   /**< browses the X3d tree to find the name shape */
 
   template <class T> T* findItem(vector<T>* tab, string name);
-  /**< to find a named item in a vecto */
+  /**< to find a named item in a vector */
 
   X3dShapes isKnownPrimitive(XMLCSTR vredata);
   /**< sends back the  vreng "solid" primitive corresponding to x3d */
+
+  static void reader(void *x3d, class Http *http);
+  /**< loader of the web file, manages the cache... */
 
   static ShapeToId knownPrimitives[KNOWNPRIMITIVESNUMBER];
   /**< array to do this */
