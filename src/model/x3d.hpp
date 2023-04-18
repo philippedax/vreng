@@ -90,8 +90,8 @@ class Vectors {
    *  spearated by commas. Detects only errors due to non-digit characters
    */
 
-  static void displayVector(vector<vector<float> >* outputs);
-  static void displayVector(vector<float>* outputs);
+  static void echoVector(vector<vector<float> >* outputs);
+  static void echoVector(vector<float>* outputs);
 };
 
 
@@ -160,7 +160,7 @@ class TimeSensor {
   struct timeval previousTime;
   float fraction;	///< current percentage of the loop
 
-  float cycleIntervalMs; ///< length of the loop (i.e speed of the animation)
+  float cycleInterval;	///< length of the loop (i.e speed of the animation)
   bool loop; 		///< if true : animation loops
   string name;
 
@@ -169,7 +169,7 @@ class TimeSensor {
  public:
   TimeSensor() {
     loop = true;
-    cycleIntervalMs = 0;
+    cycleInterval = 0;
     gettimeofday(&previousTime, NULL);
     fraction = 0;
   }

@@ -458,28 +458,22 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
   // we display what we have in the temporary structure
   echo("New mesh in creation:");
   printf("coordindex: ");
-  Vectors::displayVector(& meshInfos->coordIndex);
-  printf("\n");
+  Vectors::echoVector(& meshInfos->coordIndex);
 
   printf("texcoordindex: ");
-  Vectors::displayVector(& meshInfos->texCoordIndex);
-  printf("\n");
+  Vectors::echoVector(& meshInfos->texCoordIndex);
 
   printf("colordindex: ");
-  Vectors::displayVector(& meshInfos->colorIndex);
-  printf("\n");
+  Vectors::echoVector(& meshInfos->colorIndex);
 
   printf("coordinate: ");
-  Vectors::displayVector(& meshInfos->Coordinate);
-  printf("\n");
+  Vectors::echoVector(& meshInfos->Coordinate);
 
   printf("texturecoordinate: ");
-  Vectors::displayVector(& meshInfos->TextureCoordinate);
-  printf("\n");
+  Vectors::echoVector(& meshInfos->TextureCoordinate);
 
   printf("color: ");
-  Vectors::displayVector(& meshInfos->Color);
-  printf("\n");
+  Vectors::echoVector(& meshInfos->Color);
 #endif
 
   GLuint dList = glGenLists(1);;
@@ -519,7 +513,6 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
 
     // we browse the vertexes of one polygon
     for (int vertexNum=0; vertexNum < meshInfos->coordIndex[polygonNum].size(); vertexNum++) {
-
       // this is the vertex index we retrieve from the index list
       uint32_t tempRealVertex = (uint32_t)meshInfos->coordIndex[polygonNum][vertexNum];
       uint32_t realVertex = (uint32_t) tempRealVertex;
@@ -528,26 +521,20 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
 
       // if a vertex exists at that index
       if (realVertex < meshInfos->Coordinate.size()) {
-
         // if the vertex is well formed
         if (meshInfos->Coordinate[realVertex].size() == 3) {
-
           // one color per polygon
           if (meshInfos->colorPerVertex == true) {
-
             // we really have a list of colors for that polygon
             if (polygonNum < meshInfos->colorIndex.size()) {
-
               // if a color index exists for that vertex in the polygon
               if (vertexNum < meshInfos->colorIndex[polygonNum].size()) {
-
                 // this is the color index we retrieve from the index list
                 uint32_t tempRealColor = (uint32_t)meshInfos->colorIndex[polygonNum][vertexNum];
                 if (tempRealColor>=(uint32_t)meshInfos->Color.size())
                   error("index de couleur hors des limites !");
                 else {
                   uint32_t realColor = (uint32_t) tempRealColor;
-
                   // if the color is well formed
                   if (meshInfos->Color[realColor].size() == 3) {
                     glColor3f(
@@ -727,7 +714,7 @@ void X3d::render()
   }
 
   // we remove the remaining matrixes after having browsed the complete tree
-  for (int k = -1; k < previousLevel; k++) {
+  for (int k=-1; k < previousLevel; k++) {
     glPopMatrix();
   }
 }
@@ -791,12 +778,12 @@ void X3d::resetAnimations()
 
 bool Vectors::parseFloats(const string str, float* outputs, uint32_t number)
 {
-  vector<vector<float> > tempOutput;
+  vector<vector<float> > tempout;
 
-  bool res = parseCertifiedVectors(str, &tempOutput, number, 1);
+  bool res = parseCertifiedVectors(str, &tempout, number, 1);
 
   if (res) {
-    vector<float> myVector = tempOutput.front();
+    vector<float> myVector = tempout.front();
     for (int i=0; i<number; i++) {
       //outputs[i]=myVector.at(i);
       outputs[i] = myVector[i];
@@ -809,12 +796,11 @@ bool Vectors::parseFloats(const string str, float* outputs, uint32_t number)
 /* returns true if succeeded, false else */
 bool Vectors::parseFloats(const string str, vector<float>* output)
 {
-  vector<vector<float> > tempOutput;
+  vector<vector<float> > tempout;
 
-  bool res = parseCertifiedVectors(str, &tempOutput, 0, 1);
-
+  bool res = parseCertifiedVectors(str, &tempout, 0, 1);
   if (res) {
-    vector<float> myVector = tempOutput.front();
+    vector<float> myVector = tempout.front();
     vector<float>::iterator i = myVector.begin();
     vector<float>::iterator j = myVector.end();
     output->assign(i, j);
@@ -851,10 +837,9 @@ bool Vectors::parseVectors(const string str, vector<vector<float> > *outputs)
 
   char* temp = new char[limit+1]; //to store chars before conversion to float
 
-  vector<float> tempOutput;
+  vector<float> tempout;
 
   while (in < limit) {
-
     while (in < limit &&
            (str[in] == '\n' ||
             str[in] == '\r' ||
@@ -862,9 +847,9 @@ bool Vectors::parseVectors(const string str, vector<vector<float> > *outputs)
             str[in] == ',')) {
       in++;  // we skip initial spaces and semicolons
       if (str[in] == ',') {  //end of a vector
-        if (!tempOutput.empty()) {
-          outputs->push_back(tempOutput);
-          tempOutput.clear();
+        if (!tempout.empty()) {
+          outputs->push_back(tempout);
+          tempout.clear();
         }
       }
     }
@@ -886,37 +871,37 @@ bool Vectors::parseVectors(const string str, vector<vector<float> > *outputs)
     }
     temp[out] = '\0';
     out = 0;  // we begin again forming a float
-
     if (strlen(temp) != 0) {  // we have something to convert
       sscanf(temp, "%f", &newFloat); // 0.0 if conversion error
-      tempOutput.push_back(newFloat);
+      tempout.push_back(newFloat);
     }
     if (str[in] == ',' || in >= limit) {  // end of a vector
-      if (!tempOutput.empty()) {
-        outputs->push_back(tempOutput);
-        tempOutput.clear();
+      if (!tempout.empty()) {
+        outputs->push_back(tempout);
+        tempout.clear();
       }
     }
   }
-
   delete[] temp;
   return true;
 }
 
-void Vectors::displayVector(vector<vector<float> >* outputs)
+void Vectors::echoVector(vector<vector<float> >* outputs)
 {
   for (vector<vector<float> >::iterator i = outputs->begin(); i != outputs->end(); i++) {
     for (vector<float>::iterator j = i->begin(); j != i->end(); j++) {
-      printf("%.3f ", *j);
+      printf("%.1f ", *j);
     }
   }
+  printf("\n");
 }
 
-void Vectors::displayVector(vector<float>* outputs)
+void Vectors::echoVector(vector<float>* outputs)
 {
   for (vector<float>::iterator i = outputs->begin(); i != outputs->end(); i++) {
-    printf("%.3f ", *i);
+    printf("%.1f ", *i);
   }
+  printf("\n");
 }
 
 
@@ -981,8 +966,8 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
     return false;
   }
   if (keys.front() != 0 || keys.back() != 1) {
-    Vectors::displayVector(&keys);
-    error("interpolator bounding keys must be 0 and 1, not %.2f and %.2f, in %s", keys.front(), keys.back(),name.c_str());
+    Vectors::echoVector(&keys);
+    error("interpolator bounding keys must be 0 and 1, not %.1f and %.1f, in %s", keys.front(), keys.back(),name.c_str());
     return false;
   }
 
@@ -992,14 +977,12 @@ bool Interpolator::initArrays(XMLNode* xmlnode)
       return false;
     }
   }
-
   //echo("interpolator added: %s of type %d", name.c_str(), type);
-  //printf("Valeurs Key: ");
-  //Vectors::displayVector(&keys);
-  //printf("\n");
-  //printf("Valeurs KeyValues: ");
-  //Vectors::displayVector(&keyValues);
-  //printf("\n");
+
+  //printf("Key: ");
+  //Vectors::echoVector(&keys);
+  //printf("KeyValues: ");
+  //Vectors::echoVector(&keyValues);
 
   return true;
 }
@@ -1080,23 +1063,23 @@ bool Interpolator::initTarget(X3dShape* target, X3DINField field)
 
   if (temp) {
     targets.push_back(temp);
-    //echo("route ajoutee entre interpolator -%s- et X3dShape -%s- pour champ %d", name.c_str(), target->name.c_str(), field);
+    //echo("route added between interpolator -%s- and shape -%s- for field %d", name.c_str(), target->name.c_str(), field);
     return true;
   }
   else {
-    error("Interpolator init error: unproper field type %d for interpolator type %d",field,type);
+    error("interpolator: unproper field type %d for interpolator type %d", field, type);
     return false;
   }
 }
 
-/* updates the target values in the shapes according to the time raction we receive */
+/* updates the target values in the shapes according to the time fraction we receive */
 void Interpolator::updateValue(float newFraction)
 {
   int index = -1;	// left index of the interpolation key
   float percentage = 0; // % of interpolation between keyValues index and index+1
 
   if (targets.size() == 0) {
-    error("No targets for the updated Interpolator %s", name.c_str());
+    error("No targets for the updated interpolator %s", name.c_str());
     return;
   }
 
@@ -1122,7 +1105,7 @@ void Interpolator::updateValue(float newFraction)
           targets[j][i] = t[i];
         }
       }
-      //echo("Vector interpolation: %.2f %.2f %.2f", t[0],t[1],t[2]);
+      //echo("vector interpolation: %.1f %.1f %.1f", t[0],t[1],t[2]);
     }
     break;
 
@@ -1134,7 +1117,7 @@ void Interpolator::updateValue(float newFraction)
       for (int j=0; j < targets.size(); j++) {
         *targets[j] = tempScalar;
       }
-      //echo("Scalar interpolation: %.2f", tempScalar);
+      //echo("scalar interpolation: %.1f", tempScalar);
       }
       break;
 
@@ -1164,9 +1147,9 @@ void Interpolator::updateValue(float newFraction)
         targets[j][3] = tempVect[3];
       }
 
-      //echo("ROTATION: fraction=%.2f, pourcentage=%.2f, entre %.2f et %.2f",
+      //echo("ROTATION: fraction=%.1f, pourcentage=%.1f, entre %.1f et %.1f",
       //newFraction,percentage,keyValues[index][3],targetAngle);
-      //echo("Vector 3 interpolation: %.2f %.2f %.2f",t[0],t[1],t[2]);
+      //echo("Vector 3 interpolation: %.1f %.1f %.1f", t[0],t[1],t[2]);
 
 #if 0 //QUATERNION
       // QUATERNION INTERPOLATION HERE INSTEAD ????
@@ -1178,7 +1161,7 @@ void Interpolator::updateValue(float newFraction)
           targets[j][i] = tempRot[i];
         }
       }
-      //echo("Scalar interpolation : %.2f", tempScalar);
+      //echo("scalar interpolation: %.1f", tempScalar);
 #endif //QUATERNION
     }
     break;
@@ -1207,31 +1190,29 @@ bool TimeSensor::initSensor(XMLNode* xmlnode)
 
   for (int i=0; i < nattr; i++) {
     attr = xmlnode->getAttributeName(i);
-
     if (X3d::isEqual(attr, "DEF")) {
       name = strdup(xmlnode->getAttributeValue(i));
     }
     else if (X3d::isEqual(attr, "cycleInterval")) {
-      Vectors::parseFloats(xmlnode->getAttributeValue(i), &cycleIntervalMs, 1);
-      cycleIntervalMs *= 1000;
+      Vectors::parseFloats(xmlnode->getAttributeValue(i), &cycleInterval, 1);
+      cycleInterval *= 1000;
     }
     else if (X3d::isEqual(attr, "loop")) {
-      if (X3d::isEqual(xmlnode->getAttributeValue(i),"false"))
+      if (X3d::isEqual(xmlnode->getAttributeValue(i), "false"))
         loop = false;
     }
   }
-
   if (name == "") {
     error("no name for the sensor");
     return false;
   }
-  if (cycleIntervalMs <= 0) {
+  if (cycleInterval <= 0) {
     error("cycleInterval <= 0 in sensor");
     return false;
   }
 
-  //echo("TimeSensor ajoute: %s", name.c_str());
-  //echo("cycleIntervalMs: %.2f", cycleIntervalMs);
+  //echo("TimeSensor added: %s", name.c_str());
+  //echo("cycleInterval: %.1f", cycleInterval);
   //echo("loop: %d", loop);
 
   return true;
@@ -1240,7 +1221,7 @@ bool TimeSensor::initSensor(XMLNode* xmlnode)
 void TimeSensor::initTarget(Interpolator* interpolator)
 {
   targets.push_back(interpolator);
-  //echo("route ajoutee entre initSensor -%s- et interpolator -%s-", name.c_str(), interpolator->getName().c_str());
+  //echo("route added between initSensor -%s- and interpolator -%s-", name.c_str(), interpolator->getName().c_str());
 }
 
 void TimeSensor::resetFraction()
@@ -1266,9 +1247,9 @@ void TimeSensor::updateFraction(bool _anim)
     int32_t diffSec = currentTime.tv_sec - previousTime.tv_sec;
     int32_t diffMilliSec = (currentTime.tv_usec - previousTime.tv_usec)/1000;
     int diffms = (int) (1000*diffSec + diffMilliSec);
-    //error("%s says: difference of %d ms",name.c_str(), diffms);
+    //echo("%s says: difference of %d ms", name.c_str(), diffms);
 
-    float fractionIncrement = (float)diffms/cycleIntervalMs;
+    float fractionIncrement = (float)diffms/cycleInterval;
 
     fraction += fractionIncrement;
     if (fraction > 1) {
@@ -1277,7 +1258,7 @@ void TimeSensor::updateFraction(bool _anim)
       }
       else fraction = 1;
     }
-    //error("%s says: new increment is %.2f",name.c_str(), fraction);
+    //echo("%s says: new increment is %.1f", name.c_str(), fraction);
 
     for (vector<Interpolator*>::iterator it = targets.begin(); it != targets.end(); it++) {
       (*it)->updateValue(fraction);
@@ -1343,7 +1324,7 @@ bool Route::initRoute(XMLNode* xmlnode)
       toField == NOINX3DFIELD)
     return false;
 
-  //echo("structure route temporaire ajoutee");
+  //echo("route added");
   //echo("fromNode: %s", fromNode.c_str());
   //echo("fromField: %d", fromField);
   //echo("toNode: %s", toNode.c_str());
