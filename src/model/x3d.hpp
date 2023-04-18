@@ -68,7 +68,7 @@ struct ShapeToId {
 struct MeshInfos
 {
   bool colorPerVertex;
-  vector<vector<float> > coordIndex,texCoordIndex,colorIndex,Coordinate,TextureCoordinate,Color;
+  vector<vector<float> > coordIdx, texCoordIdx, colorIdx, Coord, TextureCoord, Color;
 };
 
 

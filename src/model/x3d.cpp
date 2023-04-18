@@ -198,14 +198,14 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "point"))
-        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i), &shape->meshInfos.Coordinate,3);
+        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i), &shape->meshInfos.Coord,3);
     }
   }
   else if (isEqual(nodeName, "TextureCoordinate")) {
     for (int i=0; i < nattr; i++) {
       attr = xmlnode->getAttributeName(i);
       if (isEqual(attr, "point"))
-        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i), &shape->meshInfos.TextureCoordinate,2);
+        Vectors::parseCertifiedVectors(xmlnode->getAttributeValue(i), &shape->meshInfos.TextureCoord,2);
     }
   }
   else if (isEqual(nodeName, "Color")) {
@@ -220,31 +220,28 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
            isEqual(nodeName, "ScaleInterpolator") ||
            isEqual(nodeName, "OrientationInterpolator") ||
            isEqual(nodeName, "ScalarInterpolator")) {
-    Interpolator temp;
-
-    if (temp.initArrays(xmlnode)) {
-      interpolators.push_back(temp);
+    Interpolator interpolator;
+    if (interpolator.initArrays(xmlnode)) {
+      interpolators.push_back(interpolator);
     }
     else error("interpolator rejected !");
   }
   else if (isEqual(nodeName, "TimeSensor")) {
-    TimeSensor temp;
-
-    if (temp.initSensor(xmlnode)) timeSensors.push_back(temp);
+    TimeSensor timesensor;
+    if (timesensor.initSensor(xmlnode)) timeSensors.push_back(timesensor);
     else error("timesensor rejected !");
   }
   else if (isEqual(nodeName, "ROUTE")) {
-    Route temp;
-
-    if (temp.initRoute(xmlnode)) routes.push_back(temp);
+    Route route;
+    if (route.initRoute(xmlnode)) routes.push_back(route);
     else error("route rejected !");
   }
   else {        // is it a PRIMITIVE ?
-    X3dShapes vrengPrimitiveIndex = X3DNONE;
+    X3dShapes vrengPrimitiveIdx = X3DNONE;
 
-    if (X3DNONE != (vrengPrimitiveIndex = isKnownPrimitive(xmlnode->getName()))) {
-      GLuint newPrimitive = drawPrimitive(vrengPrimitiveIndex);
-      shape->meshes.push_back(newPrimitive);
+    if (X3DNONE != (vrengPrimitiveIdx = isKnownPrimitive(xmlnode->getName()))) {
+      GLuint primitive = drawPrimitive(vrengPrimitiveIdx);
+      shape->meshes.push_back(primitive);
     }
   }
 
@@ -270,7 +267,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
-        Vectors::parseVectors(temp,&shape->meshInfos.coordIndex);
+        Vectors::parseVectors(temp, &shape->meshInfos.coordIdx);
       }
       else if (isEqual(attr, "texCoordIndex")) {
         string temp(xmlnode->getAttributeValue(i));
@@ -279,7 +276,7 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
-        Vectors::parseVectors(temp,&shape->meshInfos.texCoordIndex);
+        Vectors::parseVectors(temp, &shape->meshInfos.texCoordIdx);
       }
       else if (isEqual(attr, "colorIndex")) {
         string temp(xmlnode->getAttributeValue(i));
@@ -288,19 +285,19 @@ void X3d::browseX3dTree(XMLNode* xmlnode, X3dShape* shape)
           temp.replace(offset, 2, ", ");
           offset = temp.find("-1");
         }
-        Vectors::parseVectors(temp, &shape->meshInfos.colorIndex);
+        Vectors::parseVectors(temp, &shape->meshInfos.colorIdx);
       }
     }
     // we draw the complex mesh with the stored data
-    GLuint newPrimitive = drawMesh(&shape->meshInfos);
-    shape->meshes.push_back(newPrimitive);
+    GLuint primitive = drawMesh(&shape->meshInfos);
+    shape->meshes.push_back(primitive);
 
     // we reset everything for the next indexedFaceSet
-    shape->meshInfos.coordIndex.clear();
-    shape->meshInfos.texCoordIndex.clear();
-    shape->meshInfos.colorIndex.clear();
-    shape->meshInfos.Coordinate.clear();
-    shape->meshInfos.TextureCoordinate.clear();
+    shape->meshInfos.coordIdx.clear();
+    shape->meshInfos.texCoordIdx.clear();
+    shape->meshInfos.colorIdx.clear();
+    shape->meshInfos.Coord.clear();
+    shape->meshInfos.TextureCoord.clear();
     shape->meshInfos.Color.clear();
   }
 }
@@ -345,10 +342,10 @@ X3dShape* X3d::findShape(X3dShape* root, string name)
 {
   if (root->getName() == name) return root;
 
-  X3dShape* temp = NULL;
+  X3dShape* shape = NULL;
   for (int i=0; i < root->childrenShapes.size(); i++) {
-    temp = findShape(root->childrenShapes[i], name); //recursivity
-    if (temp) return temp;
+    shape = findShape(root->childrenShapes[i], name); //recursivity
+    if (shape) return shape;
   }
   return NULL;
 }
@@ -458,117 +455,101 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
   // we display what we have in the temporary structure
   echo("New mesh in creation:");
   printf("coordindex: ");
-  Vectors::echoVector(& meshInfos->coordIndex);
-
+  Vectors::echoVector(& meshInfos->coordIdx);
   printf("texcoordindex: ");
-  Vectors::echoVector(& meshInfos->texCoordIndex);
-
+  Vectors::echoVector(& meshInfos->texCoordIdx);
   printf("colordindex: ");
-  Vectors::echoVector(& meshInfos->colorIndex);
-
+  Vectors::echoVector(& meshInfos->colorIdx);
   printf("coordinate: ");
-  Vectors::echoVector(& meshInfos->Coordinate);
-
+  Vectors::echoVector(& meshInfos->Coord);
   printf("texturecoordinate: ");
-  Vectors::echoVector(& meshInfos->TextureCoordinate);
-
+  Vectors::echoVector(& meshInfos->TextureCoord);
   printf("color: ");
   Vectors::echoVector(& meshInfos->Color);
 #endif
 
-  GLuint dList = glGenLists(1);;
+  GLuint dList = glGenLists(1);
   glNewList(dList, GL_COMPILE);
 
   // we browse the vectors containing a polygon each
-  for (int polygonNum=0; polygonNum < meshInfos->coordIndex.size(); polygonNum++) {
+  for (int polnum=0; polnum < meshInfos->coordIdx.size(); polnum++) {
     glBegin(GL_POLYGON);	// create a polygon
-
     // one color per polygon
     if (meshInfos->colorPerVertex == false) {
-
       // we really have at least a single list of colors
-      if (0 < meshInfos->colorIndex.size()) {
-
+      if (0 < meshInfos->colorIdx.size()) {
         // if a color exists at that index
-        if (polygonNum < meshInfos->colorIndex.front().size()) {
-
+        if (polnum < meshInfos->colorIdx.front().size()) {
           // this is the color index we retrieve from the index list
-          uint32_t tempRealColor = (uint32_t)meshInfos->colorIndex.front()[polygonNum];
-          if (tempRealColor>=(uint32_t)meshInfos->Color.size())
-            error("index de couleur hors des limites !");
+          uint32_t tempColor = meshInfos->colorIdx.front()[polnum];
+          if (tempColor >= meshInfos->Color.size())
+            error("color index out of bounds !");
           else {
-            uint32_t realColor = (uint32_t) tempRealColor;
-
+            uint32_t color =  tempColor;
             // if the color is well formed
-            if (meshInfos->Color[realColor].size() == 3) {
+            if (meshInfos->Color[color].size() == 3) {
               glColor3f(
-                meshInfos->Color[realColor][0],
-                meshInfos->Color[realColor][1],
-                meshInfos->Color[realColor][2]);
+                meshInfos->Color[color][0],
+                meshInfos->Color[color][1],
+                meshInfos->Color[color][2]);
             }
           }
         }
       }
     }
-
     // we browse the vertexes of one polygon
-    for (int vertexNum=0; vertexNum < meshInfos->coordIndex[polygonNum].size(); vertexNum++) {
+    for (int vernum=0; vernum < meshInfos->coordIdx[polnum].size(); vernum++) {
       // this is the vertex index we retrieve from the index list
-      uint32_t tempRealVertex = (uint32_t)meshInfos->coordIndex[polygonNum][vertexNum];
-      uint32_t realVertex = (uint32_t) tempRealVertex;
-
-      //dax if (meshInfos->Coordinate.size() == 0) break;	//dax
-
+      uint32_t vertex = meshInfos->coordIdx[polnum][vernum];
+      //dax if (meshInfos->Coord.size() == 0) break;	//dax
       // if a vertex exists at that index
-      if (realVertex < meshInfos->Coordinate.size()) {
+      if (vertex < meshInfos->Coord.size()) {
         // if the vertex is well formed
-        if (meshInfos->Coordinate[realVertex].size() == 3) {
+        if (meshInfos->Coord[vertex].size() == 3) {
           // one color per polygon
           if (meshInfos->colorPerVertex == true) {
             // we really have a list of colors for that polygon
-            if (polygonNum < meshInfos->colorIndex.size()) {
+            if (polnum < meshInfos->colorIdx.size()) {
               // if a color index exists for that vertex in the polygon
-              if (vertexNum < meshInfos->colorIndex[polygonNum].size()) {
+              if (vernum < meshInfos->colorIdx[polnum].size()) {
                 // this is the color index we retrieve from the index list
-                uint32_t tempRealColor = (uint32_t)meshInfos->colorIndex[polygonNum][vertexNum];
-                if (tempRealColor>=(uint32_t)meshInfos->Color.size())
-                  error("index de couleur hors des limites !");
+                uint32_t tempColor = meshInfos->colorIdx[polnum][vernum];
+                if (tempColor >= meshInfos->Color.size())
+                  error("color inex out of bounds !");
                 else {
-                  uint32_t realColor = (uint32_t) tempRealColor;
+                  uint32_t color = tempColor;
                   // if the color is well formed
-                  if (meshInfos->Color[realColor].size() == 3) {
+                  if (meshInfos->Color[color].size() == 3) {
                     glColor3f(
-                      meshInfos->Color[realVertex][0],
-                      meshInfos->Color[realVertex][1],
-                      meshInfos->Color[realVertex][2]);
+                      meshInfos->Color[vertex][0],
+                      meshInfos->Color[vertex][1],
+                      meshInfos->Color[vertex][2]);
                   }
                 }
               }
             }
           }
           // texture coords to apply ?
-          if (polygonNum < meshInfos->texCoordIndex.size() &&
-              vertexNum < meshInfos->texCoordIndex[polygonNum].size()) {
-            uint32_t tempRealTex = (uint32_t)meshInfos->texCoordIndex[polygonNum][vertexNum];
-            uint32_t realTex = (uint32_t) tempRealTex;
-
+          if (polnum < meshInfos->texCoordIdx.size() &&
+              vernum < meshInfos->texCoordIdx[polnum].size()) {
+            uint32_t tex = meshInfos->texCoordIdx[polnum][vernum];
             // if a texturecoord exists at that index
-            if (realTex < meshInfos->TextureCoordinate.size()) {
+            if (tex < meshInfos->TextureCoord.size()) {
               // if the texcoord is well formed
-              if (meshInfos->TextureCoordinate[realTex].size() == 2)
-                glTexCoord2f(meshInfos->TextureCoordinate[realTex][0], meshInfos->TextureCoordinate[realTex][1]);
+              if (meshInfos->TextureCoord[tex].size() == 2)
+                glTexCoord2f(meshInfos->TextureCoord[tex][0], meshInfos->TextureCoord[tex][1]);
             }
           }
           // we put a vertex, after all that
           glVertex3f(
-            meshInfos->Coordinate[realVertex][0],
-            meshInfos->Coordinate[realVertex][1],
-            meshInfos->Coordinate[realVertex][2]);
+            meshInfos->Coord[vertex][0],
+            meshInfos->Coord[vertex][1],
+            meshInfos->Coord[vertex][2]);
         }
         else error("coords of vertex incorrect");
       }
       else {
-        error("index of vertex out of bounds %d > %d", realVertex,meshInfos->Coordinate.size());
+        error("index of vertex out of bounds %d>%d", vertex, meshInfos->Coord.size());
       }
     }
     glEnd();
@@ -624,9 +605,7 @@ void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
       glEnable(GL_CULL_FACE);
       glEnable(GL_BLEND);
-
       glCallList(*i);
-
       glDisable(GL_BLEND);
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
       glDisable(GL_COLOR_MATERIAL);
@@ -669,46 +648,46 @@ void X3d::render()
   vector<X3dShape*> nextShapes;
   nextShapes.push_back(&rootShape);
 
-  X3dShape* currentShape;
+  X3dShape* currShape;
   int previousLevel = -1;
 
   while (! nextShapes.empty()) {
     // we take the next node of the tree
-    currentShape = nextShapes.back();
+    currShape = nextShapes.back();
     nextShapes.pop_back();
 
     // we change the matrix stack according to the new change of level in the X3D tree
     // and if we switch to a child, we don't touch the current (parent) matrix
-    if (currentShape->level <= previousLevel) {
+    if (currShape->level <= previousLevel) {
       glPopMatrix(); // we remove the matrix of the current shape
       //dax1 glPopAttrib();
-      if (currentShape->level < previousLevel) {
+      if (currShape->level < previousLevel) {
         glPopMatrix(); // we aso remove the matrix of the previous shape because we went down
         //dax1 glPopAttrib();
       }
     }
-    previousLevel = currentShape->level;
+    previousLevel = currShape->level;
 
     glPushMatrix();
     //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-    if (currentShape->texture) {  //texture is there in priority
+    if (currShape->texture) {  //texture is there in priority
       glEnable(GL_TEXTURE_2D);
       glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-      glBindTexture(GL_TEXTURE_2D, currentShape->texture);
+      glBindTexture(GL_TEXTURE_2D, currShape->texture);
     }
-    else if (!currentShape->diffuseOn) {  // we'll use glColors instead of diffuse material
+    else if (!currShape->diffuseOn) {  // we'll use glColors instead of diffuse material
       glEnable(GL_COLOR_MATERIAL);
       glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     }
 
-    displayShape(currentShape); // call the display of the shape
+    displayShape(currShape); // call the display of the shape
 
     // Reset
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_COLOR_MATERIAL);
 
-    for (vector<X3dShape*>::iterator j = currentShape->childrenShapes.begin(); j!=currentShape->childrenShapes.end(); j++) {
+    for (vector<X3dShape*>::iterator j = currShape->childrenShapes.begin(); j!=currShape->childrenShapes.end(); j++) {
       nextShapes.push_back(*j);
     }
   }
@@ -778,12 +757,12 @@ void X3d::resetAnimations()
 
 bool Vectors::parseFloats(const string str, float* outputs, uint32_t number)
 {
-  vector<vector<float> > tempout;
+  vector<vector<float> > temp;
 
-  bool res = parseCertifiedVectors(str, &tempout, number, 1);
+  bool res = parseCertifiedVectors(str, &temp, number, 1);
 
   if (res) {
-    vector<float> myVector = tempout.front();
+    vector<float> myVector = temp.front();
     for (int i=0; i<number; i++) {
       //outputs[i]=myVector.at(i);
       outputs[i] = myVector[i];
@@ -796,11 +775,11 @@ bool Vectors::parseFloats(const string str, float* outputs, uint32_t number)
 /* returns true if succeeded, false else */
 bool Vectors::parseFloats(const string str, vector<float>* output)
 {
-  vector<vector<float> > tempout;
+  vector<vector<float> > temp;
 
-  bool res = parseCertifiedVectors(str, &tempout, 0, 1);
+  bool res = parseCertifiedVectors(str, &temp, 0, 1);
   if (res) {
-    vector<float> myVector = tempout.front();
+    vector<float> myVector = temp.front();
     vector<float>::iterator i = myVector.begin();
     vector<float>::iterator j = myVector.end();
     output->assign(i, j);
@@ -871,7 +850,7 @@ bool Vectors::parseVectors(const string str, vector<vector<float> > *outputs)
     }
     temp[out] = '\0';
     out = 0;  // we begin again forming a float
-    if (strlen(temp) != 0) {  // we have something to convert
+    if (strlen(temp)) {		// we have something to convert
       sscanf(temp, "%f", &newFloat); // 0.0 if conversion error
       tempout.push_back(newFloat);
     }
@@ -1111,13 +1090,13 @@ void Interpolator::updateValue(float newFraction)
 
   case SCALARINTERPOLATOR:
       {
-      float tempScalar;
+      float scalar;
 
-      tempScalar = (1-percentage)*keyValues[index][0] + percentage*keyValues[index+1][0];
+      scalar = (1-percentage)*keyValues[index][0] + percentage*keyValues[index+1][0];
       for (int j=0; j < targets.size(); j++) {
-        *targets[j] = tempScalar;
+        *targets[j] = scalar;
       }
-      //echo("scalar interpolation: %.1f", tempScalar);
+      //echo("scalar interpolation: %.1f", scalar);
       }
       break;
 
@@ -1153,15 +1132,15 @@ void Interpolator::updateValue(float newFraction)
 
 #if 0 //QUATERNION
       // QUATERNION INTERPOLATION HERE INSTEAD ????
-      float tempRot[4];
+      float rot[4];
 
       float q;
       for (int i=0; i<3; i++) {
         for (int j=0; j < targets.size(); j++) {
-          targets[j][i] = tempRot[i];
+          targets[j][i] = rot[i];
         }
       }
-      //echo("scalar interpolation: %.1f", tempScalar);
+      //echo("scalar interpolation: %.1f", scalar);
 #endif //QUATERNION
     }
     break;
@@ -1240,12 +1219,12 @@ void TimeSensor::updateFraction(bool _anim)
     fraction = 0;
   }
 
-  struct timeval currentTime;
-  gettimeofday(&currentTime, NULL);
+  struct timeval currTime;
+  gettimeofday(&currTime, NULL);
 
   if (_anim) {
-    int32_t diffSec = currentTime.tv_sec - previousTime.tv_sec;
-    int32_t diffMilliSec = (currentTime.tv_usec - previousTime.tv_usec)/1000;
+    int32_t diffSec = currTime.tv_sec - previousTime.tv_sec;
+    int32_t diffMilliSec = (currTime.tv_usec - previousTime.tv_usec)/1000;
     int diffms = (int) (1000*diffSec + diffMilliSec);
     //echo("%s says: difference of %d ms", name.c_str(), diffms);
 
@@ -1264,7 +1243,7 @@ void TimeSensor::updateFraction(bool _anim)
       (*it)->updateValue(fraction);
     }
   }
-  previousTime = currentTime;
+  previousTime = currTime;
 }
 
 
