@@ -21,7 +21,7 @@
        <Shape>
          <Appearance>
            <Material DEF="Water" diffuseColor="0 0 1"/>
-           <ImageTexture url="NorthPole.png"/>
+           <ImageTexture url="/gif/earth.gif"/>
          </Appearance>
          <IndexedFaceSet coordIndex="1 2 3 0 1 -1">
            <Coordinate DEF="Verticies" point="1 1 1, 1 1 -1, -1 1 -1, -1 1 1,  1 -1 1, 1 -1 -1, -1 -1 -1, -1 -1 1,  "/>
@@ -30,7 +30,7 @@
        <Shape>
          <Appearance>
            <Material USE="Water"/>
-           <ImageTexture url="SouthPole.png"/>
+           <ImageTexture url="/gif/moon.gif"/>
          </Appearance>
          <IndexedFaceSet coordIndex="7 6 5 4 7 -1">
            <Coordinate USE="Verticies"/>
@@ -39,7 +39,7 @@
        <Shape>
          <Appearance>
            <Material USE="Water" diffuseColor="0 0 1"/>
-           <ImageTexture DEF="EarthMap" url="earth-topo-small.png"/>
+           <ImageTexture DEF="EarthMap" url="/gif/mars.gif"/>
         </Appearance>
          <IndexedFaceSet coordIndex="0 3 7 4 0 -1" texCoordIndex="1 0 5 6 1 -1">
            <Coordinate USE="Verticies"/>
