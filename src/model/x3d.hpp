@@ -32,17 +32,17 @@ using namespace std;
 //The classes we have below
 class X3d;
 class X3dShape;
-class Vectors;
-class Interpolator;
-class TimeSensor;
-class Route;
+class X3dVectors;
+class X3dInterpolator;
+class X3dTimeSensor;
+class X3dRoute;
 
 
 /**
  * Provided you extend the X3d::knownPrimitives array and
  * the X3d::drawPrimitive function
  */
-enum X3dShapes {
+enum Primitives {
   X3DNONE=0,
   X3DSPHERE,
   X3DCYLINDER,
@@ -58,7 +58,7 @@ enum X3dShapes {
 
 struct ShapeToId {
   XMLCSTR shape;
-  X3dShapes id;
+  Primitives id;
 };
 
 
@@ -73,9 +73,9 @@ struct MeshInfos
 
 
 /**
- * Vectors class
+ * X3dVectors class
  */
-class Vectors {
+class X3dVectors {
 
  public:
   static bool parseFloats(const string str, float* outputs, uint32_t number);
@@ -102,7 +102,7 @@ class Vectors {
 class X3dShape {
 
  public:
-  vector<X3dShape*> childrenShapes; ///< the sons of that node
+  vector<X3dShape*> childShapes; ///< the sons of that node
 
   int level;	///< niveau croissant dans l'arbre x3d, root->0
 
@@ -151,10 +151,10 @@ class X3dShape {
 
 
 /**
- * TimeSensor class
+ * X3dTimeSensor class
  * Object taking care of time for interpolators
  */
-class TimeSensor {
+class X3dTimeSensor {
 
  private:
   struct timeval previousTime;
@@ -164,22 +164,22 @@ class TimeSensor {
   bool loop; 		///< if true : animation loops
   string name;
 
-  vector<Interpolator*> targets;	///< targets of the time event
+  vector<X3dInterpolator*> targets;	///< targets of the time event
 
  public:
-  TimeSensor() {
+  X3dTimeSensor() {
     loop = true;
     cycleInterval = 0;
     gettimeofday(&previousTime, NULL);
     fraction = 0;
   }
 
-  virtual ~TimeSensor() {}
+  virtual ~X3dTimeSensor() {}
 
   bool initSensor(XMLNode* xmlnode);
   /**< gets the attributes of the sensor */
 
-  void initTarget(Interpolator* interpolator);
+  void initTarget(X3dInterpolator* interpolator);
   /**< adds an interpolator to the targets of the time event */
 
   void updateFraction(bool anim);
@@ -230,9 +230,9 @@ enum X3DINField {
 
 
 /**
- * Interpolator class
+ * X3dInterpolator class
  */
-class Interpolator {
+class X3dInterpolator {
 
  private:
   string name;
@@ -246,7 +246,7 @@ class Interpolator {
   vector<float*> targets; ///< float targets (rotation, scale, shininess...)
 
  public:
-  Interpolator() { type = INTERPOLATORTYPENONE; }
+  X3dInterpolator() { type = INTERPOLATORTYPENONE; }
 
   bool initArrays(XMLNode* xmlnode);
   /**< gets the attributes of the interpolator */
@@ -254,7 +254,7 @@ class Interpolator {
   bool initTarget(X3dShape* targetShape, X3DINField field);
   /**< adds a target field for the animated values */
 
-  virtual ~Interpolator() {}
+  virtual ~X3dInterpolator() {}
 
   string getName() { return name; }
 
@@ -264,23 +264,23 @@ class Interpolator {
 
 
 /**
- * Route class
+ * X3dRoute class
  * temporary structure to prepare the initialization
  * of the sensors and interpolators
  */
-class Route {
+class X3dRoute {
 
  public:
   string fromNode, toNode;
   X3DOUTField fromField;
   X3DINField toField;
 
-  Route() {
+  X3dRoute() {
    fromField = NOOUTX3DFIELD;
    toField = NOINX3DFIELD;
   }
 
-  virtual ~Route() {}
+  virtual ~X3dRoute() {}
 
   bool initRoute(XMLNode* xmlnode);
   /**< inits the attributes of the temp Route */
@@ -316,13 +316,13 @@ class X3d {
 
   X3dShape rootShape;	///< root of the X3D tree
 
-  vector<Interpolator> interpolators;
-  vector<TimeSensor> timeSensors;
-  vector<Route> routes; ///< temporary structures to create links
+  vector<X3dInterpolator> interpolators;
+  vector<X3dTimeSensor> timeSensors;
+  vector<X3dRoute> routes; ///< temporary structures to create links
 
   bool flashy;	///< flashy or not
 
-  void defaults(const char *_url);
+  void defaults();
   /**< default values for class attributes */
 
   bool loadFromFile(char* f);
@@ -334,7 +334,7 @@ class X3d {
   void setupInterpolators();
   /**< initializes the animations thanks to the ROUTE objects */
 
-  GLuint drawPrimitive(X3dShapes Id);
+  GLuint drawPrimitive(Primitives Id);
   /**< draws the primitive and returns the calllist number */
 
   GLuint drawMesh(MeshInfos* meshInfos);
@@ -346,7 +346,7 @@ class X3d {
   template <class T> T* findItem(vector<T>* tab, string name);
   /**< to find a named item in a vector */
 
-  X3dShapes isKnownPrimitive(XMLCSTR vredata);
+  Primitives isKnownPrimitive(XMLCSTR vredata);
   /**< sends back the  vreng "solid" primitive corresponding to x3d */
 
   static void reader(void *x3d, class Http *http);
