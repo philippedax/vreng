@@ -81,14 +81,14 @@ Thing::Thing(char *l)
 }
 
 /** Created by user via the Gui addobj */
-Thing::Thing(WObject *user, char *geom)
+Thing::Thing(WObject *user, char *_geom)
 {
   defaults();
   setName();
   setOwner();
   oid++;
 
-  parseSolid(geom);
+  parseSolid(_geom);
 
   /* position in front of the user */
   pos.x = user->pos.x + 1;
@@ -105,8 +105,8 @@ Thing::Thing(WObject *user, char *geom)
     psql->insertRow(this);
     psql->updatePos(this);
     psql->updateOwner(this);
-    if (geom) {
-      psql->updateGeom(this, geom);
+    if (_geom) {
+      psql->updateGeom(this, _geom);
     }
   }
 #endif
@@ -133,7 +133,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
 
 #if VRSQL
   // we don't know anything about the geometry except from MySql
-  geometry = new char[BUFSIZ];
+  geom = new char[BUFSIZ];
   if (! psql)
     psql = VRSql::getVRSql();
   if (psql && givenName()) {
@@ -141,8 +141,8 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
     psql->getOwner(this);
     psql->getPos(this);
   }
-  if (geometry && isprint(*geometry)) {
-    parseSolid(geometry);
+  if (geom && isprint(*geom)) {
+    parseSolid(geom);
   }
   else error("Thing: %s has no geometry", names.given);
 #endif

@@ -77,7 +77,7 @@ WObject::WObject()
   names.world = NULL;
   names.category = NULL;
   names.infos = NULL;
-  geometry = NULL;
+  geom = NULL;
 
   pos.x = 0;
   pos.y = 0;
@@ -132,7 +132,7 @@ WObject::~WObject()
   if (names.implicit) delete[] names.implicit;
   if (names.category) delete[] names.category;
   if (names.infos) delete[] names.infos;
-  if (geometry) delete[] geometry;
+  if (geom) delete[] geom;
   del_wobject++;
 }
 
@@ -1139,9 +1139,9 @@ char * WObject::tokenize(char *l)
   char *p = strstr(l, "<solid");
   if (p) {
     char *q, *s;
-    geometry = new char[strlen(l)];
-    strcpy(geometry, ++p);
-    for (s = geometry; (q = strstr(s, "/>")) ; ) {
+    geom = new char[strlen(l)];
+    strcpy(geom, ++p);
+    for (s = geom; (q = strstr(s, "/>")) ; ) {
       s = q;			// end of geometry found
       p = strstr(s, "<solid");  // search next solid
       if (p) {
@@ -1154,7 +1154,7 @@ char * WObject::tokenize(char *l)
       }
     }
     *s = '\0';
-    for (s = geometry; (p = strchr(s, '<')) ; ) {
+    for (s = geom; (p = strchr(s, '<')) ; ) {
       *p = ' ';
       s = ++p;
     }

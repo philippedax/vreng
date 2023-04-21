@@ -78,7 +78,7 @@ void Stair::build()
     newpos.y = pos.y + (cos(pos.az) * sy * n);
     newpos.z = pos.z + (sz * n);
 
-    nextstep = new Step(newpos, pos, "stair", geometry, false, height, 0, dir);
+    nextstep = new Step(newpos, pos, "stair", geom, false, height, 0, dir);
     //forceNames();
   }
 }

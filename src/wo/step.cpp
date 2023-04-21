@@ -97,7 +97,7 @@ void Step::makeSolid()
 {
   char s[128];
 
-  sprintf(s, "%s", geometry);		// step geometry duplicated
+  sprintf(s, "%s", geom);		// step geometry duplicated
   parseSolid(s);
 }
 #endif //notused
@@ -142,7 +142,7 @@ void Step::build()
       newpos.y = pos.y + (sy * (sin(deltaspiral * n) - 1));
       newpos.z = pos.z + (sz * n);
       newpos.az = pos.az + (deltaspiral * n);
-      nextstep = new Step(newpos, initialpos, "spiral", geometry, mobile, size, speed, dir);
+      nextstep = new Step(newpos, initialpos, "spiral", geom, mobile, size, speed, dir);
       stepList.push_back(nextstep);
     }
     else {
@@ -152,7 +152,7 @@ void Step::build()
         newpos.x = pos.x - (sx * n);
         newpos.y = pos.y - (sy * n);
         newpos.z = pos.z;
-        nextstep = new Step(newpos, initialpos, "travelator", geometry, mobile, size, speed, dir);
+        nextstep = new Step(newpos, initialpos, "travelator", geom, mobile, size, speed, dir);
         travList.push_back(nextstep);
       }
       else {  // escalator stair
@@ -160,7 +160,7 @@ void Step::build()
         newpos.x = pos.x + (sx * n);
         newpos.y = pos.y + (sy * n);
         newpos.z = pos.z + dir*(sz * n);
-        nextstep = new Step(newpos, initialpos, "escalator", geometry, mobile, size, speed, dir);
+        nextstep = new Step(newpos, initialpos, "escalator", geom, mobile, size, speed, dir);
         escaList.push_back(nextstep);
       }
     }
@@ -215,9 +215,9 @@ Step::Step(Pos& newpos, Pos& _initialpos, const char *name, const char *_geom, b
 }
 
 /* creation from Gui addobj */
-Step::Step(WObject *user, char *geom)
+Step::Step(WObject *user, char *_geom)
 {
-  parseSolid(geom);
+  parseSolid(_geom);
 
   behavior();
   enableBehavior(DYNAMIC);

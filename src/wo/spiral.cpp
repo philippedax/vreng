@@ -72,7 +72,7 @@ void Spiral::build()
     newpos.z = pos.z + (sz * n);
     newpos.az = pos.az + (deltaspiral * n);
 
-    nextstep = new Step(newpos, pos, "spiral", geometry, false, height, 0, dir);
+    nextstep = new Step(newpos, pos, "spiral", geom, false, height, 0, dir);
     //forceNames();
   }
 }

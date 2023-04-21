@@ -168,7 +168,7 @@ public:
   bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
   int16_t state;		///< current state.
-  char *geometry;		///< geometry string of the solid.
+  char *geom;			///< geometry string of the solid.
   char chan[CHAN_LEN];		///< channel.
 #if VRSQL 			///< HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
   class VRSql *psql;		///< VRSql pointer.

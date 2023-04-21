@@ -140,7 +140,7 @@ Mirage::Mirage(char *l)
 }
 
 /** Created by user via Gui addobj */
-Mirage::Mirage(WObject *user, char *geom)
+Mirage::Mirage(WObject *user, char *_geom)
 {
   defaults();
   setName();
@@ -151,11 +151,11 @@ Mirage::Mirage(WObject *user, char *geom)
   if (psql && givenName()) {
     psql->insertRow(this);
     psql->updatePos(this);
-    psql->updateGeom(this, geom);
+    psql->updateGeom(this, _geom);
     psql->updateOwner(this);
   }
 #endif
-  parseSolid(geom);
+  parseSolid(_geom);
 
   behavior();
   enableBehavior(DYNAMIC);	// addobj
@@ -180,7 +180,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   defaults();
 
   // we don't know anything about the geometry except from VRSql
-  geometry = new char[BUFSIZ];
+  geom = new char[BUFSIZ];
 #if VRSQL
   psql = VRSql::getVRSql();
   if (psql && givenName()) {
@@ -189,8 +189,8 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
     psql->getPos(this);
   }
 #endif
-  if (geometry && isprint(*geometry)) {	//FIXME: when object comes from Cart
-    parseSolid(geometry);
+  if (geom && isprint(*geom)) {	//FIXME: when object comes from Cart
+    parseSolid(geom);
   }
   else error("Mirage: %s no geometry available", names.given);
 
