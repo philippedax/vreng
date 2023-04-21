@@ -693,6 +693,16 @@ private:
   //
   // Initializations
   //
+protected:
+  void defaults();
+  /**< Sets default values. */
+
+  void behaviors();
+  /**< Sets behavior. */
+
+  void geometry();
+  /**< Sets solid's geometry. */
+
 public:
   void initObject(uint8_t mode);
   /**< Initializes object. */
