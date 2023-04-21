@@ -87,11 +87,14 @@ private:
   void defaults();
   /**< Sets default values */
 
+  void behavior();
+  void makeSolid();
+  void init();
   void create(int n, int d);
   void move();
   void update();
   bool pointed(int n);
-  void show(int n);
+  void draw(int n);
   void rotate(float *x, float *y, float rot);
 };
 

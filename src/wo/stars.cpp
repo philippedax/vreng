@@ -122,7 +122,7 @@ bool Stars::pointed(int n)
   else return false;
 }
 
-void Stars::show(int n)
+void Stars::draw(int n)
 {
   GLfloat color[4] = {1,1,1,1};
 
@@ -138,8 +138,6 @@ void Stars::show(int n)
     rotate(&x1, &y1, stars[n].rot);
     x1 += 2*pos.x;
     y1 += 2*pos.y;
-
-    //glLineWidth(maxpos / 100. / stars[n].v[0] + 1);
 
     //color[1] = (float) ((warp - speed) / warp);
     //color[2] = (float) ((warp - speed) / warp);
@@ -195,10 +193,26 @@ void Stars::parser(char *l)
   end_while_parse(l);
 }
 
-Stars::Stars(char *l)
+void Stars::behavior()
 {
-  parser(l);
+  enableBehavior(PARTICLE);
+  enableBehavior(NO_ELEMENTARY_MOVE);
+  enableBehavior(NO_BBABLE);
+  enableBehavior(UNSELECTABLE);
+  enableBehavior(PERMANENT_MOVEMENT);
+  enableBehavior(SPECIFIC_RENDER);
+}
 
+void Stars::makeSolid()
+{
+  char s[128];
+
+  sprintf(s, "solid shape=\"none\" />");
+  parseSolid(s);
+}
+
+void Stars::init()
+{
   if (maxpos <= 0) maxpos = MAXPOS;
   if (warp <= speed) warp = WARP;
 
@@ -207,19 +221,15 @@ Stars::Stars(char *l)
 
   for (int n=0; n < number; n++) create(n, 100);
 
-  enableBehavior(PARTICLE);
-  enableBehavior(NO_ELEMENTARY_MOVE);
-  enableBehavior(NO_BBABLE);
-  enableBehavior(UNSELECTABLE);
-  enableBehavior(PERMANENT_MOVEMENT);
-  enableBehavior(SPECIFIC_RENDER);
-
   initEphemeralObject(0);
+}
 
-  // makeSolid
-  char s[128];
-  sprintf(s, "solid shape=\"none\" />");
-  parseSolid(s);
+Stars::Stars(char *l)
+{
+  parser(l);
+  behavior();
+  makeSolid();
+  init();
 }
 
 void Stars::changePermanent(float lasting)
@@ -237,7 +247,7 @@ void Stars::render()
 
   for (int n=0; n < number; n++) {
     if (stars[n].v[0] > speed || (stars[n].v[0] > 0 && speed < warp))
-      show(n);
+      draw(n);
   }
   glPopMatrix();
 }
