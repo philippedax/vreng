@@ -88,8 +88,8 @@ private:
   void geometry();
   /**< Builds transparent bubble. */
 
-  void behavior();
-  /**< Sets behavior. */
+  void behaviors();
+  /**< Sets behaviors. */
 
 };
 

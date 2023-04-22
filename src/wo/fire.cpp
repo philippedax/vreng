@@ -60,7 +60,7 @@ WObject * Fire::creator(char *l)
 Fire::Fire(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
 }
@@ -96,7 +96,7 @@ void Fire::geometry()
   parseSolid(s);
 }
 
-void Fire::behavior()
+void Fire::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);

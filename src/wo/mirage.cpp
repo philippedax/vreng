@@ -116,7 +116,7 @@ void Mirage::setName()
   updateNames();
 }
 
-void Mirage::behavior()
+void Mirage::behaviors()
 {
   //dax1 if (persist) enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
@@ -131,7 +131,7 @@ void Mirage::behavior()
 Mirage::Mirage(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
 
   if (flares && solid) {
     flare = new Flare(flares, scale, color);
@@ -157,7 +157,7 @@ Mirage::Mirage(WObject *user, char *_geom)
 #endif
   parseSolid(_geom);
 
-  behavior();
+  behaviors();
   enableBehavior(DYNAMIC);	// addobj
 
   /* position */
@@ -195,7 +195,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   else error("Mirage: %s no geometry available", names.given);
 
   enableBehavior(DYNAMIC);  // palette
-  behavior();
+  behaviors();
 }
 
 /* system of equations handling permanent motion */

@@ -100,7 +100,7 @@ private:
   void geometry();
   /**< Makes a solid. */
 
-  void behavior();
+  void behaviors();
   /**< Sets behaviors. */
 
   void inits();

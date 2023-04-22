@@ -65,7 +65,7 @@ void Terrain::parser(char *l)
   end_while_parse(l);
 }
 
-void Terrain::behavior()
+void Terrain::behaviors()
 {
   enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
@@ -97,7 +97,7 @@ void Terrain::inits()
 Terrain::Terrain(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
 }

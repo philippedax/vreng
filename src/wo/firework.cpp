@@ -83,7 +83,7 @@ void Firework::geometry()
 Firework::Firework(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
   initImposedMovement(ttl);

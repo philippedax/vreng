@@ -193,7 +193,7 @@ void Stars::parser(char *l)
   end_while_parse(l);
 }
 
-void Stars::behavior()
+void Stars::behaviors()
 {
   enableBehavior(PARTICLE);
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -227,7 +227,7 @@ void Stars::init()
 Stars::Stars(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   init();
 }

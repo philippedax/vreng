@@ -66,7 +66,7 @@ void Drone::parser(char *l)
 }
 
 /* Behavior */
-void Drone::behavior()
+void Drone::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
@@ -89,7 +89,7 @@ void Drone::inits()
 Drone::Drone(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   inits();
 }
 

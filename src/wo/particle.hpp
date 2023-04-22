@@ -94,8 +94,8 @@ public:
   /**< Quits properly */
 
 protected:
-  void behavior();
-  /**< Sets behavior */
+  void behaviors();
+  /**< Sets behaviors */
 
   void inits();
   /**< Creates particles */

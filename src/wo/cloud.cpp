@@ -107,7 +107,7 @@ void Cloud::geometry()
   parseSolid(s);
 }
 
-void Cloud::behavior()
+void Cloud::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
@@ -139,7 +139,7 @@ void Cloud::inits()
 Cloud::Cloud(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   inits();
 }
 

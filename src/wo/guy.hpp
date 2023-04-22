@@ -164,8 +164,8 @@ private:
   void geometry();
   /**< Builds geometry. */
 
-  void behavior();
-  /**< Sets behavior. */
+  void behaviors();
+  /**< Sets behaviors. */
 
   void inits();
   /**< Do specific initializations. */

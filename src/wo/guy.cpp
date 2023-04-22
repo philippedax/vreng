@@ -88,7 +88,7 @@ void Guy::geometry()
   parseSolid(s);
 }
 
-void Guy::behavior()
+void Guy::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
@@ -116,7 +116,7 @@ Guy::Guy(char *l)
 {
   parser(l);
   control = false;
-  behavior();
+  behaviors();
   geometry();
   inits();
 }
@@ -126,7 +126,7 @@ Guy::Guy()
 {
   defaults();
   control = true;
-  behavior();
+  behaviors();
   geometry();
 
   strcpy(names.url, DEF_URL_GUY);

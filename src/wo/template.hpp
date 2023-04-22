@@ -62,8 +62,8 @@ class Template : public WObject {
   void defaults();
   /**< Sets defaults values */
 
-  void behavior();
-  /**< Sets behavior */
+  void behaviors();
+  /**< Sets behaviors */
 
   void inits();
   /**< Do specific inits */

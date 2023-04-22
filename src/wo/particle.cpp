@@ -91,7 +91,7 @@ void Particle::parser(char *l)
   end_while_parse(l);
 }
 
-void Particle::behavior()
+void Particle::behaviors()
 {
   enableBehavior(PARTICLE);
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -119,7 +119,7 @@ Particle::Particle()
 Particle::Particle(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   inits();
   state = ACTIVE;
 

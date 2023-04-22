@@ -92,8 +92,8 @@ public:
   /**< Handle visibility */
 
 protected:
-  void behavior();
-  /**< Sets behavior */
+  void behaviors();
+  /**< Sets behaviors */
 
   void setName(const char *modelname);
   /**< Sets qualified name */

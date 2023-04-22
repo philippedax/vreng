@@ -108,7 +108,7 @@ private:
   void parser(char *l);
   /**< Parses. */
 
-  void behavior();
+  void behaviors();
 
   void geometry();
 

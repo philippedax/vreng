@@ -129,7 +129,7 @@ void Guide::parser(char *l)
   }
 }
 
-void Guide::behavior()
+void Guide::behaviors()
 {
   enableBehavior(PERMANENT_MOVEMENT);	// guide movement
   enableBehavior(SPECIFIC_RENDER);	// ramp rendering
@@ -141,7 +141,7 @@ Guide::Guide(char *l)
   guide = this;
 
   parser(l);
-  behavior();
+  behaviors();
 
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);

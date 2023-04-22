@@ -78,7 +78,7 @@ void Fountain::geometry()
 Fountain::Fountain(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
 }

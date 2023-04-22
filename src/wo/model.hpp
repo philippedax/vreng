@@ -97,8 +97,8 @@ class Model: public WObject {
   void setName();
   /**< Sets an implicited name. */
 
-  void behavior();
-  /**< Sets behavior flags. */
+  void behaviors();
+  /**< Sets behaviors flags. */
 
   void loader();
   /**< Loads the model. */

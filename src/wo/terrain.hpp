@@ -78,8 +78,8 @@ public:
   void defaults();
   /**< Sets defaults values */
 
-  void behavior();
-  /**< Sets behavior */
+  void behaviors();
+  /**< Sets behaviors */
 
   void geometry();
   /**< Makes a solid */

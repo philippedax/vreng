@@ -78,7 +78,7 @@ Model::Model(char *l)
 {
   parser(l);
   geometry();
-  behavior();
+  behaviors();
   loader();
   scaler();
   drawer();
@@ -128,7 +128,7 @@ void Model::parser(char *l)
   end_while_parse(l);
 }
 
-void Model::behavior()
+void Model::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
@@ -141,7 +141,7 @@ Model::Model(WObject *user, char *url, float _scale)
   defaults();
   taken = true;
   geometry();
-  behavior();
+  behaviors();
   enableBehavior(DYNAMIC);
 
   setName();

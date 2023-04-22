@@ -42,7 +42,7 @@ void Mirror::defaults()
   state = false;
 }
 
-void Mirror::behavior()
+void Mirror::behaviors()
 {
   enableBehavior(COLLIDE_ONCE);
 
@@ -62,7 +62,7 @@ void Mirror::parser(char *l)
 Mirror::Mirror(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
 }
 
 bool Mirror::updateToNetwork(const Pos &oldpos)

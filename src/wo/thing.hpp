@@ -103,8 +103,8 @@ class Thing: public WObject {
   void setName();
   /**< Sets name */
 
-  void behavior();
-  /**< Sets behavior flags */
+  void behaviors();
+  /**< Sets behaviors flags */
 
   // Funcs callbacks
   static void dropIntoBasket(Thing *o, void *d, time_t s, time_t u);

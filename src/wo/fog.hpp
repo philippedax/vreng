@@ -56,8 +56,8 @@ public:
   /**< Quits properly */
 
 private:
-  void behavior();
-  /**< Sets behavior */
+  void behaviors();
+  /**< Sets behaviors */
 
   void parser(char *l);
   /**< Parses */

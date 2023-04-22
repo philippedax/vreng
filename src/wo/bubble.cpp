@@ -77,7 +77,7 @@ void Bubble::geometry()
   parseSolid(s);
 }
 
-void Bubble::behavior()
+void Bubble::behaviors()
 {
   enableBehavior(DYNAMIC);      // dynamicaly introduced
   enableBehavior(NO_BBABLE);
@@ -96,7 +96,7 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   setPosition();
   geometry();
   state = ACTIVE;
-  behavior();
+  behaviors();
   updatePosition();
 
   // adjusting text position

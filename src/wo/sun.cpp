@@ -58,7 +58,7 @@ void Sun::parser(char *l)
   end_while_parse(l);
 }
 
-void Sun::behavior()
+void Sun::behaviors()
 {
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);
@@ -94,7 +94,7 @@ void Sun::inits()
 Sun::Sun(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
   draw();

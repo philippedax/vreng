@@ -54,7 +54,7 @@ void Rain::geometry()
 Rain::Rain(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
-  behavior();
+  behaviors();
   geometry();
   inits();
   points = false;

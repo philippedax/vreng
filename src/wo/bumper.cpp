@@ -57,7 +57,7 @@ void Bumper::parser(char *l)
   end_while_parse(l);
 }
 
-void Bumper::behavior()
+void Bumper::behaviors()
 {
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
@@ -66,7 +66,7 @@ void Bumper::behavior()
 Bumper::Bumper(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
 }
 
 bool Bumper::isMoving()

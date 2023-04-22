@@ -83,7 +83,7 @@ void Travelator::build()
   enablePermanentMovement(speed);
 }
 
-void Travelator::behavior()
+void Travelator::behaviors()
 {
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
@@ -93,7 +93,7 @@ Travelator::Travelator(char *l)
 {
   travList.clear();
   parser(l);
-  behavior();
+  behaviors();
   build();
   if (on)
     running();

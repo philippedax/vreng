@@ -55,7 +55,7 @@ void Thing::parser(char *l)
   l = parseAttributes(l);
 }
 
-void Thing::behavior()
+void Thing::behaviors()
 {
   enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_ONCE);
@@ -73,7 +73,7 @@ void Thing::setName()
 Thing::Thing(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   oid++;
 
   initMobileObject(1);
@@ -97,7 +97,7 @@ Thing::Thing(WObject *user, char *_geom)
   updatePosition();
 
   enableBehavior(DYNAMIC);	// dynamicaly introduced
-  behavior();
+  behaviors();
 
 #if VRSQL
   if (! psql) psql = VRSql::getVRSql();
@@ -148,7 +148,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
 #endif
 
   enableBehavior(DYNAMIC);
-  behavior();
+  behaviors();
 
   initMobileObject(1);
   createPermanentNetObject(PROPS, oid);

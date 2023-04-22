@@ -117,7 +117,7 @@ private:
   void parser(char *l);
   /**< Parses file line. */
 
-  void behavior();
+  void behaviors();
   /**< Sets behaviors. */
 
   void inits();

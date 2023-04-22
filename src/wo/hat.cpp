@@ -155,7 +155,7 @@ Hat::Hat(char *l)
   taken = false;
   model = NOHAT;
   parser(l);
-  behavior();
+  behaviors();
   geometry();
 }
 
@@ -179,7 +179,7 @@ Hat::Hat(User *user, void *d, time_t s, time_t u)
   setOwner();
   getPersist();
   geometry();
-  behavior();
+  behaviors();
   inits();
 }
 
@@ -199,7 +199,7 @@ void Hat::wear()
   taken = true;
   //echo("wear hat: %s %d", modelname, model);	// modelname is wrong FIXME!
   setOwner();
-  behavior();
+  behaviors();
   inits();
   setPersist();
   createPermanentNetObject(PROPS, ++oid);

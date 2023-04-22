@@ -80,7 +80,7 @@ void Gate::parser(char *l)
   end_while_parse(l);
 }
 
-void Gate::behavior()
+void Gate::behaviors()
 {
   enableBehavior(COLLIDE_ONCE);
 }
@@ -95,7 +95,7 @@ void Gate::inits()
 Gate::Gate(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   inits();
 }
 
@@ -110,7 +110,7 @@ Gate::Gate(WObject *user, char *geom)
   pos.z = user->pos.z + 0.5;
   parseSolid(geom);
 
-  behavior();
+  behaviors();
   inits();
   updatePosition();
 }

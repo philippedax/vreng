@@ -69,7 +69,7 @@ void River::geometry()
   parseSolid(s);
 }
 
-void River::behavior()
+void River::behaviors()
 {
   enableBehavior(NO_BBABLE);
   enableBehavior(LIQUID);
@@ -106,7 +106,7 @@ void River::inits()
 River::River(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
 }

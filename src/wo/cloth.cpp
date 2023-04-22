@@ -104,7 +104,7 @@ void Cloth::geometry()
   parseSolid(s);
 }
 
-void Cloth::behavior()
+void Cloth::behaviors()
 {
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(TAKABLE);
@@ -192,7 +192,7 @@ void Cloth::inits()
 Cloth::Cloth(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   inits();
 }
 
@@ -230,7 +230,7 @@ void Cloth::restorePosition()
   pos.ay = oay;
   pos.az = oaz;
   updatePosition();
-  behavior();
+  behaviors();
 }
 
 void Cloth::quit()

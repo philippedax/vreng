@@ -52,7 +52,7 @@ void Snow::geometry()
 Snow::Snow(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
-  behavior();
+  behaviors();
   geometry();
   inits();
   pcloud = cloud;

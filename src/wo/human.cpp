@@ -96,7 +96,7 @@ Human::Human()
   if (pref->my_depthstr)        depth = atof(pref->my_depthstr);
   if (pref->my_heightstr)       height = atof(pref->my_heightstr);
   usercontrol = true;
-  behavior();
+  behaviors();
   geometry();
   dlist = -1;
 }
@@ -106,7 +106,7 @@ Human::Human(char *l)
 { 
   parser(l);
   usercontrol = false;
-  behavior();
+  behaviors();
   dlist = -1;
 }
 
@@ -123,7 +123,7 @@ void Human::parser(char *l)
   end_while_parse(l);
 }
 
-void Human::behavior()
+void Human::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);

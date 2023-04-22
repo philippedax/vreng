@@ -78,7 +78,7 @@ private:
   void defaults();
   /**< Sets default values. */
 
-  void behavior();
+  void behaviors();
   /**< Sets behaviors. */
 
   void inits();

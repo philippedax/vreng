@@ -62,7 +62,7 @@ void Accessory::parser(char *l)
   end_while_parse(l);
 }
 
-void Accessory::behavior()
+void Accessory::behaviors()
 {
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);
@@ -84,7 +84,7 @@ void Accessory::init()
 Accessory::Accessory(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   init();
 }
 

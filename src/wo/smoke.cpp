@@ -43,7 +43,7 @@ WObject * Smoke::creator(char *l)
 Smoke::Smoke(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
 }
@@ -65,7 +65,7 @@ void Smoke::parser(char *l)
   end_while_parse(l);
 }
 
-void Smoke::behavior()
+void Smoke::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);

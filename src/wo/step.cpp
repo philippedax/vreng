@@ -171,7 +171,7 @@ void Step::build()
   }
 }
 
-void Step::behavior()
+void Step::behaviors()
 {
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
@@ -180,7 +180,7 @@ void Step::behavior()
 Step::Step(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   if (stair || escalator || travelator || spiral) {
     build();	// build the structure
   }
@@ -219,7 +219,7 @@ Step::Step(WObject *user, char *_geom)
 {
   parseSolid(_geom);
 
-  behavior();
+  behaviors();
   enableBehavior(DYNAMIC);
 
   /* position in front of localuser */

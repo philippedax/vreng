@@ -120,8 +120,8 @@ private:
   virtual void defaults();
   /**< Default values */
 
-  virtual void behavior();
-  /**< Sets behavior */
+  virtual void behaviors();
+  /**< Sets behaviors */
 
   virtual void build();
   /**< Builds stair or escalator */

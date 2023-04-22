@@ -75,7 +75,7 @@ void Waterfall::geometry()
 Waterfall::Waterfall(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
 }

@@ -65,7 +65,7 @@ void Bird::parser(char *l)
 }
 
 /* Behavior */
-void Bird::behavior()
+void Bird::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
@@ -90,7 +90,7 @@ Bird::Bird(char *l)
 {
   flying = false;
   parser(l);
-  behavior();
+  behaviors();
   inits();
 }
 

@@ -83,7 +83,7 @@ private:
   void defaults();
   /**< Sets defaults. */
 
-  void behavior();
+  void behaviors();
   /**< Sets behaviors. */
 
   void inits();

@@ -82,7 +82,7 @@ void Water::parser(char *l)
   end_while_parse(l);
 }
 
-void Water::behavior()
+void Water::behaviors()
 {
   enableBehavior(LIQUID);
   enableBehavior(PERMANENT_MOVEMENT);
@@ -102,7 +102,7 @@ void Water::inits()
 Water::Water(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   inits();
 }
 

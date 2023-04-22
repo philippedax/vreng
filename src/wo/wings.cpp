@@ -116,7 +116,7 @@ Wings::Wings(char *l)
   pos.ax -= M_PI_2;
   active = false;
   taken = false;
-  behavior();
+  behaviors();
   enableBehavior(SPECIFIC_RENDER);	// if commented not rendered
 
   draw();
@@ -128,7 +128,7 @@ Wings::Wings(uint8_t _model, float _scale)
   model = _model;
   active = true;
   taken = false;
-  behavior();
+  behaviors();
   //pos.ax -= M_PI_2;
   pos.az -= M_PI_2;
   scale = _scale;
@@ -142,7 +142,7 @@ Wings::Wings(uint8_t _model, float _scale, float *_color)
   model = _model;
   active = true;
   taken = false;
-  behavior();
+  behaviors();
   pos.az -= M_PI_2;
   scale = _scale;
   for (int i=0; i<3; i++) {
@@ -158,7 +158,7 @@ Wings::Wings()
   model = BIRD;
   active = true;
   taken = false;
-  behavior();
+  behaviors();
   pos.ax -= M_PI_2;
   pos.az -= M_PI_2;
   scale = .3;
@@ -183,7 +183,7 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   setOwner();
   getPersist();
   geometry();
-  behavior();
+  behaviors();
   inits();
 
   draw();
@@ -562,7 +562,7 @@ void Wings::wear()
   active = true;
   setOwner();
   setPersist();
-  behavior();
+  behaviors();
   inits();
   addWearList();
 }

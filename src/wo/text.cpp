@@ -96,7 +96,7 @@ bool Text::loadFont()
   return havefont;
 }
 
-void Text::behavior()
+void Text::behaviors()
 {
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
@@ -119,7 +119,7 @@ void Text::inits()
 Text::Text(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
 }
@@ -132,7 +132,7 @@ Text::Text(const char *t, Pos &pos, float _scale, const float *_color)
   for (int i=0; i<4; i++) {
     color[i] = _color[i];
   }
-  behavior();
+  behaviors();
   geometry();
   inits();
 }
@@ -146,7 +146,7 @@ Text::Text(const char *t, Pos &pos, float _scale, const float *_color, bool _fac
   for (int i=0; i<4; i++) {
     color[i] = _color[i];
   }
-  behavior();
+  behaviors();
   geometry();
   inits();
 }

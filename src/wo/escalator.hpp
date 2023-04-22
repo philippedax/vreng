@@ -57,7 +57,7 @@ private:
   void defaults();
   /**< Default values */
 
-  void behavior();
+  void behaviors();
   /**< Sets behavior */
 
   void build();

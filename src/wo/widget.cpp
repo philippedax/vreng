@@ -57,7 +57,7 @@ void Widget::parser(char *l)
 }
 
 /* Behavior */
-void Widget::behavior()
+void Widget::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);
@@ -80,7 +80,7 @@ void Widget::inits()
 Widget::Widget(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   inits();
 }
 

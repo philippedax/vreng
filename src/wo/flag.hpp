@@ -64,7 +64,7 @@ public:
   /**< Specific rendering */
 
 private:
-  void behavior();
+  void behaviors();
   /**< Sets behaviors */
 
   void inits();

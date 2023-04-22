@@ -103,7 +103,7 @@ void Escalator::build()
   enablePermanentMovement(speed);
 }
 
-void Escalator::behavior()
+void Escalator::behaviors()
 {
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
@@ -112,7 +112,7 @@ void Escalator::behavior()
 Escalator::Escalator(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   build();
   if (on) {
     running();

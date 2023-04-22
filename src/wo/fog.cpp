@@ -50,7 +50,7 @@ void Fog::parser(char *l)
   end_while_parse(l);
 }
 
-void Fog::behavior()
+void Fog::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);
@@ -70,7 +70,7 @@ void Fog::geometry()
 Fog::Fog(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
 }
 

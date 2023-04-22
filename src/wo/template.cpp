@@ -49,7 +49,7 @@ void Template::parser(char *l)
 }
 
 /* Behavior */
-void Template::behavior()
+void Template::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
@@ -68,7 +68,7 @@ void Template::inits()
 Template::Template(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   inits();
 }
 

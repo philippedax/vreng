@@ -83,7 +83,7 @@ void Stair::build()
   }
 }
 
-void Stair::behavior()
+void Stair::behaviors()
 {
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
@@ -92,7 +92,7 @@ void Stair::behavior()
 Stair::Stair(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   build();
 }
 

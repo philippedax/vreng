@@ -47,13 +47,13 @@ void Fractal::defaults()
 Fractal::Fractal(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   geometry();
   inits();
   initImposedMovement(10);
 }
 
-void Fractal::behavior()
+void Fractal::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);

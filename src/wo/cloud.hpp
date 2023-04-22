@@ -82,8 +82,8 @@ private:
   void defaults();
   /**< Sets default values */
 
-  void behavior();
-  /**< Sets behavior */
+  void behaviors();
+  /**< Sets behaviors */
 
   void inits();
   /**< Sets specific inits */

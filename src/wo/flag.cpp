@@ -44,7 +44,7 @@ void Flag::parser(char *l)
   l = parseAttributes(l);
 }
 
-void Flag::behavior()
+void Flag::behaviors()
 {
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(NO_ELEMENTARY_MOVE);
@@ -85,7 +85,7 @@ void Flag::inits()
 Flag::Flag(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
   inits();
 }
 

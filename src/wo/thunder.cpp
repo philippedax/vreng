@@ -56,7 +56,7 @@ void Thunder::parser(char *l)
   end_while_parse(l);
 }
 
-void Thunder::behavior()
+void Thunder::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);
@@ -77,7 +77,7 @@ Thunder::Thunder(char *l)
   char s[128];
 
   parser(l);
-  behavior();
+  behaviors();
   inits();
   sprintf(s, "solid shape=\"none\" />");
   parseSolid(s);

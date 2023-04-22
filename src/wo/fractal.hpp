@@ -74,8 +74,8 @@ private:
   void defaults();
   /**< Sets default values. */
 
-  void behavior();
-  /**< Sets behavior values. */
+  void behaviors();
+  /**< Sets behaviors values. */
 
   void geometry();
   /**< Make a default solid */

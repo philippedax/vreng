@@ -87,7 +87,7 @@ private:
   void defaults();
   /**< Sets default values */
 
-  void behavior();
+  void behaviors();
   void geometry();
   void init();
   void create(int n, int d);

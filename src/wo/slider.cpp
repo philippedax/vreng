@@ -57,7 +57,7 @@ void Slider::parser(char *l)
   end_while_parse(l);
 }
 
-void Slider::behavior()
+void Slider::behaviors()
 {
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
@@ -66,7 +66,7 @@ void Slider::behavior()
 Slider::Slider(char *l)
 {
   parser(l);
-  behavior();
+  behaviors();
 }
 
 bool Slider::isMoving()

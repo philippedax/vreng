@@ -694,16 +694,16 @@ private:
   // Initializations
   //
 protected:
-  void defaults();
+  void defaults()	{ return; };
   /**< Sets default values. */
 
-  void behaviors();
+  void behaviors()	{ return; };
   /**< Sets behavior. */
 
-  void geometry();
+  void geometry()	{ return; };
   /**< Sets solid's geometry. */
 
-  void inits();
+  void inits()		{ return; };
   /**< Sets initializations. */
 
 public:

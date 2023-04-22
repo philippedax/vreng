@@ -69,7 +69,7 @@ public:
 
 private:
   void defaults();
-  void behavior();
+  void behaviors();
 
   void parser(char *l);
   /**< Parses file line */

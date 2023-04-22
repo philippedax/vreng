@@ -95,8 +95,8 @@ private:
   void setName();
   /**< Sets name */
 
-  void behavior();
-  /**< Sets behavior flags */
+  void behaviors();
+  /**< Sets behaviors flags */
 
   //GUI callbacks
   static void destroy(Mirage *po, void *d, time_t s, time_t u);

@@ -71,8 +71,8 @@ private:
   void defaults();
   /**< Default values. */
 
-  void behavior();
-  /**< Sets behavior. */
+  void behaviors();
+  /**< Sets behaviors. */
 };
 
 #endif
