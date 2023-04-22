@@ -41,7 +41,7 @@ void Dart::defaults()
 }
 
 /** solid geometry */
-void Dart::makeSolid()
+void Dart::geometry()
 {
   char s[256];
 
@@ -52,7 +52,7 @@ void Dart::makeSolid()
 Dart::Dart(WObject *user, void *d, time_t s, time_t u)
 {
   defaults();
-  makeSolid();
+  geometry();
 
   /* position */
   pos.x = user->pos.x;
@@ -93,7 +93,7 @@ Dart::Dart(uint8_t type_id, Noid _noid, Payload *pp)
   netop = replicateNetObject(PROPS, _noid);
   netop->getAllProperties(pp);
 
-  makeSolid();
+  geometry();
 
   defaults();
   enableBehavior(COLLIDE_ONCE);

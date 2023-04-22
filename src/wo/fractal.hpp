@@ -77,7 +77,7 @@ private:
   void behavior();
   /**< Sets behavior values. */
 
-  void makeSolid();
+  void geometry();
   /**< Make a default solid */
 
   void inits();

@@ -58,7 +58,7 @@ private:
   void defaults();
   /**< Sets default values */
 
-  void makeSolid();
+  void geometry();
 
   static void sound_continue(int sig);
   void sound_continue();

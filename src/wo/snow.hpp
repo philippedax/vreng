@@ -56,7 +56,7 @@ private:
   void defaults();
   /**< Sets default values */
 
-  void makeSolid();
+  void geometry();
 
   // Callbacks
   static void start_cb(class Cloud *cloud, void *d, time_t s, time_t u);

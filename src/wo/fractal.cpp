@@ -48,7 +48,7 @@ Fractal::Fractal(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   inits();
   initImposedMovement(10);
 }
@@ -63,7 +63,7 @@ void Fractal::behavior()
   initMobileObject(1);
 }
 
-void Fractal::makeSolid()
+void Fractal::geometry()
 {
   char s[256];
 

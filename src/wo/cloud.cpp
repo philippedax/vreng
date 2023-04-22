@@ -89,7 +89,7 @@ void Cloud::rebuild()
   }
 }
 
-void Cloud::makeSolid()
+void Cloud::geometry()
 {
   char s[256];
   float minx, miny, minz, maxx, maxy, maxz;
@@ -122,7 +122,7 @@ void Cloud::inits()
   obloids = new tObloid[number];
 
   build();
-  makeSolid();
+  geometry();
   for (int n=0; n < number; n++) draw(n);
 
   // wind values

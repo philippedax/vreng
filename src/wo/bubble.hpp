@@ -85,7 +85,7 @@ private:
   void defaults();
   /**< Sets default values. */
 
-  void makeSolid();
+  void geometry();
   /**< Builds transparent bubble. */
 
   void behavior();

@@ -73,7 +73,7 @@ void Terrain::behavior()
   initStillObject();
 }
 
-void Terrain::makeSolid()
+void Terrain::geometry()
 {
   char s[256];
 
@@ -98,7 +98,7 @@ Terrain::Terrain(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   inits();
 }
 

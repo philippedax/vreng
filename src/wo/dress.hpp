@@ -77,7 +77,7 @@ private:
   void parser(char *l);
   /**< Parses file line */
 
-  void makeSolid();
+  void geometry();
   /**< Builds solid geometry */
 
   uint8_t getModel(const char *name);

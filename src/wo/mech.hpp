@@ -82,7 +82,7 @@ private:
   void defaults();
   /**< Default values */
 
-  void makeSolid();
+  void geometry();
   /**< Builds geometry */
 
   void draw();

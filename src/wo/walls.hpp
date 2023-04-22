@@ -69,7 +69,7 @@ private:
   void defaults();
   /**< Sets default values */
 
-  void makeSolid();
+  void geometry();
   /**< Sets solid values */
 
   const char * getUrl() const;

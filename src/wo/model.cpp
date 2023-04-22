@@ -77,7 +77,7 @@ Model::Model(char *l)
  man(NULL)
 {
   parser(l);
-  makeSolid();
+  geometry();
   behavior();
   loader();
   scaler();
@@ -87,7 +87,7 @@ Model::Model(char *l)
 }
 
 /** solid geometry */
-void Model::makeSolid()
+void Model::geometry()
 {
   char s[128];
 
@@ -140,7 +140,7 @@ Model::Model(WObject *user, char *url, float _scale)
 {
   defaults();
   taken = true;
-  makeSolid();
+  geometry();
   behavior();
   enableBehavior(DYNAMIC);
 

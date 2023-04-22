@@ -110,7 +110,7 @@ private:
 
   void behavior();
 
-  void makeSolid();
+  void geometry();
 
   void inits();	// notused
   /**< Initializations. */

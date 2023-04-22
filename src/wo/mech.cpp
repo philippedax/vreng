@@ -574,7 +574,7 @@ void Mech::parser(char *l)
   end_while_parse(l);
 }
 
-void Mech::makeSolid()
+void Mech::geometry()
 {
   char s[128];
 
@@ -585,7 +585,7 @@ void Mech::makeSolid()
 Mech::Mech(char *l)
 {
   parser(l);
-  makeSolid();
+  geometry();
 
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);

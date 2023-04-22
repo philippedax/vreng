@@ -60,7 +60,7 @@ void Fog::behavior()
   initMobileObject(0);
 }
 
-void Fog::makeSolid()
+void Fog::geometry()
 {
   char s[128];
   sprintf(s, "solid shape=\"none\" />");
@@ -71,7 +71,7 @@ Fog::Fog(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
 }
 
 void Fog::render()

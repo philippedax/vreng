@@ -62,7 +62,7 @@ private:
   void parser(char *l);
   /**< Parses */
 
-  void makeSolid();
+  void geometry();
   /**< Makes a solid */
 
   // GUI callbacks

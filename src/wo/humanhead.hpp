@@ -111,7 +111,7 @@ private:
   void parser(char *l);
   /**< Parses xml */
 
-  void makeSolid();
+  void geometry();
   /**< Builds solid geometry */
 
   uint8_t getGender(const char *name);

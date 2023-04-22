@@ -55,7 +55,7 @@ void Halo::defaults()
 }
 
 /* solid geometry */
-void Halo::makeSolid()
+void Halo::geometry()
 {
   char s[128];
 
@@ -97,7 +97,7 @@ Halo::Halo(User *user, void *d, time_t s, time_t u)
   setName();
   setOwner();
   getPersist();
-  makeSolid();
+  geometry();
   behavior();
   inits();
 }

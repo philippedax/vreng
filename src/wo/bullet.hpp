@@ -59,7 +59,7 @@ private:
   void defaults();
   /**< Sets default values */
 
-  void makeSolid();
+  void geometry();
   /**< Builds solid geometry */
 
   // callbacks

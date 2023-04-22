@@ -68,7 +68,7 @@ private:
   void parser(char *l);
   /**< Parses file line. */
 
-  void makeSolid();
+  void geometry();
   /**< Makes a new solid. */
 
 };

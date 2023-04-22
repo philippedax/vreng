@@ -95,7 +95,7 @@ private:
   void draw(int n);
   /** Draws an obloid */
 
-  void makeSolid();
+  void geometry();
   /**< Builds geometry */
 
   // Callbacks

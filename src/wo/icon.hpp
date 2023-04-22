@@ -132,7 +132,7 @@ private:
   void defaults();
   /**< icon defaults */
 
-  void makeSolid();
+  void geometry();
   /**< Builds solid geometry */
 
   char * getParam(char *ptok);

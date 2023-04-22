@@ -110,7 +110,7 @@ private:
   void parser(char *l);
   /**< Parses. */
 
-  void makeSolid();
+  void geometry();
   /**< Build geometry. */
 
   void defaults();

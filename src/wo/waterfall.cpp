@@ -65,7 +65,7 @@ void Waterfall::parser(char *l)
   end_while_parse(l);
 }
 
-void Waterfall::makeSolid()
+void Waterfall::geometry()
 {
   char s[128];
   sprintf(s, "solid shape=\"none\" />");
@@ -76,7 +76,7 @@ Waterfall::Waterfall(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   inits();
 }
 

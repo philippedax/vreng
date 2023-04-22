@@ -61,7 +61,7 @@ void River::parser(char *l)
   end_while_parse(l);
 }
 
-void River::makeSolid()
+void River::geometry()
 {
   char s[256];
 
@@ -107,7 +107,7 @@ River::River(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   inits();
 }
 

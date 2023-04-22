@@ -71,7 +71,7 @@ void Humanoid::parser(char *l)
   end_while_parse(l);
 }
 
-void Humanoid::makeSolid()
+void Humanoid::geometry()
 {
   char s[256];
 
@@ -120,7 +120,7 @@ void Humanoid::inits()
 Humanoid::Humanoid(char *l)
 {
   parser(l);
-  makeSolid();
+  geometry();
   behaviour();
   inits();
   usercontrol = false;
@@ -130,7 +130,7 @@ Humanoid::Humanoid(char *l)
 Humanoid::Humanoid()
 {
   defaults();
-  makeSolid();
+  geometry();
   behaviour();
   inits();
   usercontrol = true;

@@ -136,7 +136,7 @@ class Ball: public WObject {
   void parser(char *l);
   /**< Parses fileline. */
 
-  void makeSolid();
+  void geometry();
   /**< Builds solid geometry. */
 
   void setName();

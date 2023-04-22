@@ -50,7 +50,7 @@ void Plane::parser(char *l)
   l = parseAttributes(l);
 }
 
-void Plane::makeSolid()
+void Plane::geometry()
 {
   V3 dim, rel;
   uint8_t sections;
@@ -98,7 +98,7 @@ Plane::Plane(char *l)
   parser(l);
 
   if (pos.ax) {	// inclinated
-    makeSolid();
+    geometry();
   }
 
   initMobileObject(0);

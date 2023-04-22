@@ -129,7 +129,7 @@ private:
   void parser(char *l);
   /**< Parses xml */
 
-  void makeSolid();
+  void geometry();
   /**< Builds solid geometry */
 
 };

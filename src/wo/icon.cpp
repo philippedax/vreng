@@ -106,7 +106,7 @@ void Icon::defaults()
 }
 
 /** document's geometry */
-void Icon::makeSolid()
+void Icon::geometry()
 {
   char s[256];
 
@@ -281,7 +281,7 @@ Icon::Icon(User *user, void *d)
         }
       }
     }
-    makeSolid();
+    geometry();
   }
 
   // local creation
@@ -322,7 +322,7 @@ Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
   netop = replicateNetObject(PROPS, _noid);
   netop->getAllProperties(pp);
 
-  makeSolid();
+  geometry();
   defaults();
   initMobileObject(0);
   taken = false;

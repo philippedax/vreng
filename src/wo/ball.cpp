@@ -70,7 +70,7 @@ void Ball::setName()
 }
 
 /** Solid geometry */
-void Ball::makeSolid()
+void Ball::geometry()
 {
   char s[128];
 
@@ -106,7 +106,7 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 {
   defaults();
   setName();
-  makeSolid();
+  geometry();
 
   /* random position */
   srand((uint32_t) time(NULL));
@@ -135,7 +135,7 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
   trace(DBG_SQL, "recreate: %s oid=%d", names.given, oid);
 
   defaults();
-  makeSolid();
+  geometry();
 
   //dax1 enableBehavior(PERSISTENT);
   initMobileObject(TTL);
@@ -177,7 +177,7 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
   netop = replicateNetObject(PROPS, _noid);
   netop->getAllProperties(pp);
 
-  makeSolid();
+  geometry();
   defaults();
   initMobileObject(0);
 }

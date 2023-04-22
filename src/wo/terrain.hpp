@@ -81,7 +81,7 @@ public:
   void behavior();
   /**< Sets behavior */
 
-  void makeSolid();
+  void geometry();
   /**< Makes a solid */
 
   void inits();

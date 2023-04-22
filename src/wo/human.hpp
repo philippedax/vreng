@@ -127,7 +127,7 @@ private:
   void behavior();
   /**< Sets behavior. */
   
-  void makeSolid();
+  void geometry();
   /**< Makes solid. */
 
   static void myMaterial(GLenum mode, float *f, float alpha);

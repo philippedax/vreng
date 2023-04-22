@@ -152,7 +152,7 @@ void User::setView(uint8_t view)
   }
 }
 
-void User::makeSolid()
+void User::geometry()
 {
   char s[256];
 
@@ -316,7 +316,7 @@ void User::inits()
   netop = createVolatileNetObject(PROPS);
   // netop->declareObjCreation(); // we don't need because delta do the job
 
-  makeSolid();
+  geometry();
   setPosition();	// position from entry
   updatePosition();
   setCamera();

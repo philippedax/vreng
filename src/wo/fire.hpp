@@ -107,7 +107,7 @@ protected:
   bool anim;
   uint8_t sound;
 
-  void makeSolid();
+  void geometry();
   /**< Makes a solid if no one. */
 
 private:

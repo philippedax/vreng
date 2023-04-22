@@ -54,7 +54,7 @@ private:
   void defaults();
   /**< Sets default values. */
 
-  void makeSolid();
+  void geometry();
   /**< Make a pseudo solid. */
 
   static void pause(Fountain *fountain, void* d, time_t s, time_t u);

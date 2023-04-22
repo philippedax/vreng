@@ -97,7 +97,7 @@ Human::Human()
   if (pref->my_heightstr)       height = atof(pref->my_heightstr);
   usercontrol = true;
   behavior();
-  makeSolid();
+  geometry();
   dlist = -1;
 }
 
@@ -133,7 +133,7 @@ void Human::behavior()
   initMobileObject(0);
 }
 
-void Human::makeSolid()
+void Human::geometry()
 {
   char s[128];
 

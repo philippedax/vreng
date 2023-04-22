@@ -239,7 +239,7 @@ private:
   void defaults();
   /**< Sets default values. */
 
-  void makeSolid();
+  void geometry();
   /**< User geometry. */
 
   void setName();

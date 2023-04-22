@@ -44,7 +44,7 @@ Smoke::Smoke(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   inits();
 }
 
@@ -75,7 +75,7 @@ void Smoke::behavior()
   initMobileObject(0);
 }
 
-void Smoke::makeSolid()
+void Smoke::geometry()
 {
   char s[128];
 

@@ -41,7 +41,7 @@ void Bullet::defaults()
 }
 
 /** solid geometry */
-void Bullet::makeSolid()
+void Bullet::geometry()
 {
   char s[128];
 
@@ -52,7 +52,7 @@ void Bullet::makeSolid()
 Bullet::Bullet(WObject *pu, void *d, time_t s, time_t u)
 {
   defaults();
-  makeSolid();
+  geometry();
 
   /* position */
   pos.x = pu->pos.x;
@@ -94,7 +94,7 @@ Bullet::Bullet(uint8_t type_id, Noid _noid, Payload *pp)
   netop->getAllProperties(pp);
 
   defaults();
-  makeSolid();
+  geometry();
   initMobileObject(0);
 
   Sound::playSound(DRIPSND);

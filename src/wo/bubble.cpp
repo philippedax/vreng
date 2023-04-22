@@ -61,7 +61,7 @@ void Bubble::setPosition()
 }
 
 /** Make transparent bubble */
-void Bubble::makeSolid()
+void Bubble::geometry()
 {
   char s[256];
 
@@ -94,7 +94,7 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   face = _face;
   text = strdup(_text);
   setPosition();
-  makeSolid();
+  geometry();
   state = ACTIVE;
   behavior();
   updatePosition();

@@ -96,7 +96,7 @@ void Walls::parser(char *l)
   end_while_parse(l);
 }
 
-void Walls::makeSolid()
+void Walls::geometry()
 {
   char s[128];
 
@@ -111,7 +111,7 @@ Walls::Walls(char *l)
 
   enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
-  makeSolid();
+  geometry();
 
   initStillObject();
 

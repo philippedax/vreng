@@ -74,7 +74,7 @@ void Text::parser(char *l)
   textstr[MAXLEN - 1] = '\0';
 }
 
-void Text::makeSolid()
+void Text::geometry()
 {
   char s[256];
 
@@ -120,7 +120,7 @@ Text::Text(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   inits();
 }
 
@@ -133,7 +133,7 @@ Text::Text(const char *t, Pos &pos, float _scale, const float *_color)
     color[i] = _color[i];
   }
   behavior();
-  makeSolid();
+  geometry();
   inits();
 }
 
@@ -147,7 +147,7 @@ Text::Text(const char *t, Pos &pos, float _scale, const float *_color, bool _fac
     color[i] = _color[i];
   }
   behavior();
-  makeSolid();
+  geometry();
   inits();
 }
 

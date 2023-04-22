@@ -65,7 +65,7 @@ private:
   void defaults();
   /**< Sets default values */
 
-  void makeSolid();
+  void geometry();
   /**< Makes a pseudo solid */
 
 };

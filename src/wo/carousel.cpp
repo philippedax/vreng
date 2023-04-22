@@ -54,7 +54,7 @@ void Carousel::parser(char *l)
   end_while_parse(l);
 }
 
-void Carousel::makeSolid()
+void Carousel::geometry()
 {
   char s[128];
 
@@ -66,7 +66,7 @@ void Carousel::makeSolid()
 Carousel::Carousel(char *l)
 {
   parser(l);
-  makeSolid();
+  geometry();
   enableBehavior(SPECIFIC_RENDER);
 
   x3d = new X3d(names.url);

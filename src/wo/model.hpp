@@ -91,7 +91,7 @@ class Model: public WObject {
   void defaults();
   /**< Sets default values. */
 
-  void makeSolid();
+  void geometry();
   /**< Builds solid geometry. */
 
   void setName();

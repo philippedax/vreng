@@ -81,7 +81,7 @@ void Cloth::parser(char *l)
 }
 
 /* solid geometry */
-void Cloth::makeSolid()
+void Cloth::geometry()
 {
   char s[256];
 

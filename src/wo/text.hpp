@@ -97,7 +97,7 @@ private:
   void defaults();
   /**< Sets defaults. */
 
-  void makeSolid();
+  void geometry();
   /**< Makes a solid. */
 
   void behavior();

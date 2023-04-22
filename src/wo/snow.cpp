@@ -42,7 +42,7 @@ void Snow::defaults()
   for (int i=0; i<3; i++) color[i] = 1;	// white
 }
 
-void Snow::makeSolid()
+void Snow::geometry()
 {
   char s[128];
   sprintf(s, "solid shape=\"none\" />");
@@ -53,7 +53,7 @@ Snow::Snow(Cloud *cloud, void *d, time_t s, time_t u)
 {
   defaults();
   behavior();
-  makeSolid();
+  geometry();
   inits();
   pcloud = cloud;
   onecolor = true;

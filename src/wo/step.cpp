@@ -93,7 +93,7 @@ void Step::parser(char *l)
 }
 
 #if 0 //notused
-void Step::makeSolid()
+void Step::geometry()
 {
   char s[128];
 

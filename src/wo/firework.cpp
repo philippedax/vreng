@@ -66,7 +66,7 @@ void Firework::parser(char *l)
   end_while_parse(l);
 }
 
-void Firework::makeSolid()
+void Firework::geometry()
 {
   char s[256];
 
@@ -84,7 +84,7 @@ Firework::Firework(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   inits();
   initImposedMovement(ttl);
   generate();

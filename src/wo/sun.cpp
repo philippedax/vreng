@@ -68,7 +68,7 @@ void Sun::behavior()
 }
 
 /** Solid geometry */
-void Sun::makeSolid()
+void Sun::geometry()
 {
   char s[128];
 
@@ -95,7 +95,7 @@ Sun::Sun(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   inits();
   draw();
 }

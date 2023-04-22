@@ -79,7 +79,7 @@ void Guy::parser(char *l)
   end_while_parse(l);
 }
 
-void Guy::makeSolid()
+void Guy::geometry()
 {
   char s[256];
 
@@ -117,7 +117,7 @@ Guy::Guy(char *l)
   parser(l);
   control = false;
   behavior();
-  makeSolid();
+  geometry();
   inits();
 }
 
@@ -127,7 +127,7 @@ Guy::Guy()
   defaults();
   control = true;
   behavior();
-  makeSolid();
+  geometry();
 
   strcpy(names.url, DEF_URL_GUY);
   inits();

@@ -203,7 +203,7 @@ void Stars::behavior()
   enableBehavior(SPECIFIC_RENDER);
 }
 
-void Stars::makeSolid()
+void Stars::geometry()
 {
   char s[128];
 
@@ -228,7 +228,7 @@ Stars::Stars(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   init();
 }
 

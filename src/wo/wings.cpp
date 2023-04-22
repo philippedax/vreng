@@ -64,7 +64,7 @@ void Wings::defaults()
 }
 
 /* solid geometry */
-void Wings::makeSolid()
+void Wings::geometry()
 {
   char s[128];
 
@@ -182,7 +182,7 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   taken = true;
   setOwner();
   getPersist();
-  makeSolid();
+  geometry();
   behavior();
   inits();
 

@@ -61,7 +61,7 @@ Fire::Fire(char *l)
 {
   parser(l);
   behavior();
-  makeSolid();
+  geometry();
   inits();
 }
 
@@ -88,7 +88,7 @@ void Fire::parser(char *l)
   end_while_parse(l);
 }
 
-void Fire::makeSolid()
+void Fire::geometry()
 {
   char s[128];
 

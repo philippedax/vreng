@@ -76,7 +76,7 @@ void Humanhead::parser(char *l)
 }
 
 /* solid geometry */
-void Humanhead::makeSolid()
+void Humanhead::geometry()
 {
   char s[128];
 
@@ -152,7 +152,7 @@ Humanhead::Humanhead(char *l)
   strcpy(modelname, "male");
   defaults();
   parser(l);
-  makeSolid();
+  geometry();
   behavior();
 }
 
@@ -172,7 +172,7 @@ Humanhead::Humanhead(User *user, void *d, time_t s, time_t u)
   model_e = getGender(modelname);
   setName(modelname);
   setOwner();
-  makeSolid();
+  geometry();
   behavior();
 }
 
@@ -191,7 +191,7 @@ Humanhead::Humanhead(User *user, const char *url, const float *skin)
   for (int i=0; i<3; i++) color[i] = skin[i];
   setName(modelname);
   setOwner();
-  makeSolid();
+  geometry();
   behavior();
   inits();
   phead = this;		// if commented Fire is allways selected FIXME!

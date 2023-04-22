@@ -88,7 +88,7 @@ private:
   /**< Sets default values */
 
   void behavior();
-  void makeSolid();
+  void geometry();
   void init();
   void create(int n, int d);
   void move();

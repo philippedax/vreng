@@ -126,7 +126,7 @@ private:
   virtual void build();
   /**< Builds stair or escalator */
 
-  //notused void makeSolid();
+  //notused void geometry();
   //notused /**< Makes solid. */
 };
 

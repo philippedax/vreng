@@ -60,7 +60,7 @@ void Dress::defaults()
 }
 
 /* solid geometry */
-void Dress::makeSolid()
+void Dress::geometry()
 {
   char s[128];
 
@@ -146,7 +146,7 @@ Dress::Dress(User *user, void *d, time_t s, time_t u)
   setName(modelname);
   setOwner();
   getPersist();
-  makeSolid();
+  geometry();
   behavior();
   inits();
 }

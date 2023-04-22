@@ -84,7 +84,7 @@ public:
   void inits();
   /**< Inits specific */
 
-  void makeSolid();
+  void geometry();
   /**< Builds solid geometry. */
 
   void draw();
