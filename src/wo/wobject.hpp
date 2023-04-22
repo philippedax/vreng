@@ -703,6 +703,9 @@ protected:
   void geometry();
   /**< Sets solid's geometry. */
 
+  void inits();
+  /**< Sets initializations. */
+
 public:
   void initObject(uint8_t mode);
   /**< Initializes object. */
