@@ -68,6 +68,9 @@ class Button: public WObject {
 
   void defaults();	///< set default values
 
+  void behaviors();	///< set behaviors
+  void inits();		///< set initializations
+
   // GUI and network change callbacks
   static void get_bstate(Button *po, Payload *pp);
   static void put_bstate(Button *po, Payload *pp);

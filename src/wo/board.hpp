@@ -80,14 +80,17 @@ public:
   /**< Quits */
 
 private:
-  GLint dlist;
+  GLint dlist;		///< display-list
   bool drawing;
 
   void parser(char *l);
-  /**< Parses */
+  /**< Parses vre file. */
 
   void defaults();
-  /**< Sets default values */
+  /**< Sets default values. */
+
+  void inits();
+  /**< Sets initializations. */
 
   void draw();
   void import();

@@ -77,13 +77,10 @@ void Spiral::build()
   }
 }
 
-void Spiral::behaviors()
-{
-  initStillObject();
-}
-
 void Spiral::inits()
 {
+  initStillObject();
+
   mobile = false;
   build();
 }
@@ -91,7 +88,6 @@ void Spiral::inits()
 Spiral::Spiral(char *l)
 {
   parser(l);
-  behaviors();
   inits();
 }
 

@@ -165,6 +165,12 @@ private:
   void defaults();
   /**< sets default values */
 
+  void behaviors();
+  /**< sets behaviors. */
+
+  void inits();
+  /**< sets initializations. */
+
   const char * getUrl() const;
 
   void turnPrev(Sheet *sheet, void *d, time_t s, time_t u);

@@ -59,18 +59,27 @@ void Animator::parser(char *l)
   end_while_parse(l);
 }
 
-/* constructor */
-Animator::Animator(char *l)
+void Animator::behaviors()
 {
-  parser(l);
-
   enableBehavior(COLLIDE_NEVER);
+}
+
+void Animator::inits()
+{
   initMobileObject(0);
   createPermanentNetObject(PROPS, ++oid);
 
   if (state == ACTIVE) {
     enableImposedMovement();
   }
+}
+
+/* constructor */
+Animator::Animator(char *l)
+{
+  parser(l);
+  behaviors();
+  inits();
 }
 
 bool Animator::isMoving()

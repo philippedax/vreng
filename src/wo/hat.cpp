@@ -197,7 +197,6 @@ void Hat::wear()
 
   defaults();
   taken = true;
-  //echo("wear hat: %s %d", modelname, model);	// modelname is wrong FIXME!
   setOwner();
   behaviors();
   inits();

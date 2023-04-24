@@ -69,7 +69,7 @@ void Accessory::behaviors()
   //dax1 enableBehavior(PERSISTENT);
 }
 
-void Accessory::init()
+void Accessory::inits()
 {
   dx = dy = dz = 0;
   dax = day = daz = 0;
@@ -85,7 +85,7 @@ Accessory::Accessory(char *l)
 {
   parser(l);
   behaviors();
-  init();
+  inits();
 }
 
 void Accessory::changePermanent(float lasting)

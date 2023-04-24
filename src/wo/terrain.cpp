@@ -69,13 +69,11 @@ void Terrain::behaviors()
 {
   enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
-
-  initStillObject();
 }
 
 void Terrain::geometry()
 {
-  char s[256];
+  char s[128];
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", width, width, height);
   parseSolid(s);
@@ -83,6 +81,8 @@ void Terrain::geometry()
 
 void Terrain::inits()
 {
+  initStillObject();
+
   if (level > 10) level = DEF_LEVEL;
   if (div <= 1 || div > 3) div = DEF_DIV;
   size = level*level;

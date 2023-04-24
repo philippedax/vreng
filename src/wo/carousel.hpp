@@ -65,6 +65,12 @@ private:
   void geometry();
   /**< Makes a solid */
 
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
+
   // GUI callbacks
   static void start(Carousel *po, void *d, time_t s, time_t u);
   static void pause(Carousel *po, void *d, time_t s, time_t u);

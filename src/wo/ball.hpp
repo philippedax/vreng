@@ -136,6 +136,12 @@ class Ball: public WObject {
   void parser(char *l);
   /**< Parses fileline. */
 
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
+
   void geometry();
   /**< Builds solid geometry. */
 

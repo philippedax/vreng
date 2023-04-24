@@ -79,6 +79,12 @@ private:
   void defaults();
   /**< Sets default values */
 
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
+
   // GUI and network property change callbacks
   static void get_frame(Animator *pcur, Payload *pp);
   static void put_frame(Animator *po, Payload *pp);

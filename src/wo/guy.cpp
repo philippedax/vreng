@@ -94,12 +94,12 @@ void Guy::behaviors()
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);	// gravity
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
 }
 
 void Guy::inits()
 {
+  initMobileObject(0);
+
   step = CYCLES/2;
   incstep = 1.;
   dlist = -1;
@@ -115,10 +115,10 @@ void Guy::inits()
 Guy::Guy(char *l)
 {
   parser(l);
-  control = false;
   behaviors();
   geometry();
   inits();
+  control = false;
 }
 
 /* constructor from user */

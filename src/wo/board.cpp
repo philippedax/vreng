@@ -46,20 +46,24 @@ void Board::parser(char *l)
   l = parseAttributes(l);
 }
 
+void Board::inits()
+{
+  dlist = 0;
+  ::g.gui.setToBoard(this);
+  initMobileObject(0);
+  createPermanentNetObject(PROPS, ++oid);
+}
+
 void Board::defaults()
 {
   state = INACTIVE;
   drawing = false;
-  dlist = 0;
-  ::g.gui.setToBoard(this);
 }
 
 Board::Board(char *l)
 {
   parser(l);
-
-  initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  inits();
 }
 
 bool Board::updateToNetwork(const Pos &oldpos)

@@ -63,8 +63,6 @@ void Sun::behaviors()
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(1);
 }
 
 /** Solid geometry */
@@ -78,6 +76,8 @@ void Sun::geometry()
 
 void Sun::inits()
 {
+  initMobileObject(1);
+
   ox = pos.x;
   oy = pos.y;
   oz = pos.z;

@@ -81,14 +81,22 @@ void Button::parser(char *l)
   delete[] pname;
 }
 
+void Button::behaviors()
+{
+  enableBehavior(COLLIDE_NEVER);
+}
+
+void Button::inits()
+{
+  initMobileObject(0);
+  createPermanentNetObject(PROPS, ++oid);
+}
+
 Button::Button(char *l)
 {
   parser(l);
-
-  enableBehavior(COLLIDE_NEVER);
-
-  initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  behaviors();
+  inits();
 }
 
 /* Updates towards the network */

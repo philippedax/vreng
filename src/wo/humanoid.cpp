@@ -85,12 +85,12 @@ void Humanoid::behaviour()
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);	// bap/fap frames
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
 }
 
 void Humanoid::inits()
 {
+  initMobileObject(0);
+
   sdudp = -1;
   sdtcp = -1;
   bapfile = NULL;

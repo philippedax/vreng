@@ -56,6 +56,9 @@ private:
   void parser(char *l);
   /**< Parses */
 
+  void behaviors();
+  void inits();
+
   void black();		///< default bgcolor
 };
 

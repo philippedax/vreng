@@ -91,6 +91,9 @@ private:
   void behaviors();
   /**< Sets behaviors. */
 
+  void inits();
+  /**< Sets initializations. */
+
 };
 
 #endif

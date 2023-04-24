@@ -62,16 +62,25 @@ void Carousel::geometry()
   parseSolid(s);
 }
 
+void Carousel::behaviors()
+{
+  enableBehavior(SPECIFIC_RENDER);
+}
+
+void Carousel::inits()
+{
+  x3d = new X3d(names.url);
+
+  initMobileObject(0);
+}
+
 /** constructor */
 Carousel::Carousel(char *l)
 {
   parser(l);
   geometry();
-  enableBehavior(SPECIFIC_RENDER);
-
-  x3d = new X3d(names.url);
-
-  initMobileObject(0);
+  behaviors();
+  inits();
 }
 
 void Carousel::render()

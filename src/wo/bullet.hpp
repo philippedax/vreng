@@ -62,6 +62,12 @@ private:
   void geometry();
   /**< Builds solid geometry */
 
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
+
   // callbacks
   static void get_hit(Bullet *pcur, Payload *pp);
   static void create(User *u, void *d, time_t s, time_t us);

@@ -69,16 +69,24 @@ void Aoi::parser(char *l)
   end_while_parse(l);
 }
 
-Aoi::Aoi(char *l)
+void Aoi::behaviors()
 {
-  parser(l);
-
   /* AoI are not visible */
 #if !defined(AOI_VISIBLE)
   enableBehavior(UNVISIBLE);
 #endif
+}
 
+void Aoi::inits()
+{
   initStillObject();
+}
+
+Aoi::Aoi(char *l)
+{
+  parser(l);
+  behaviors();
+  inits();
 }
 
 /**

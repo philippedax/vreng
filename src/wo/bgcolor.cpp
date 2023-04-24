@@ -47,19 +47,27 @@ void Bgcolor::parser(char *l)
   end_while_parse(l);
 }
 
-Bgcolor::Bgcolor(char *l)
+void Bgcolor::behaviors()
 {
-  parser(l);
+  initObject(INVISIBLE);
+}
 
+void Bgcolor::inits()
+{
   /* we use (x,y,z,az) to match (r,g,b,a) */
   Bgcolor *wcolor = World::current()->backgroundColor();
   wcolor->color[0] = color[0];
   wcolor->color[1] = color[1];
   wcolor->color[2] = color[2];
   wcolor->color[3] = 1;
+}
 
-  initObject(INVISIBLE);
+Bgcolor::Bgcolor(char *l)
+{
   bgcolor = this;
+  parser(l);
+  behaviors();
+  inits();
 }
 
 /** Bgcolor by default, build by the world it self */

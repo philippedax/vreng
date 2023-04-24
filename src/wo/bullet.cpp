@@ -49,30 +49,39 @@ void Bullet::geometry()
   parseSolid(s);
 }
 
-Bullet::Bullet(WObject *pu, void *d, time_t s, time_t u)
+void Bullet::behaviors()
 {
-  defaults();
-  geometry();
-
-  /* position */
-  pos.x = pu->pos.x;
-  pos.y = pu->pos.y;
-  pos.z = pu->pos.z + 0.6 * localuser->height/2;
-  pos.az = pu->pos.az;
-
   enableBehavior(COLLIDE_ONCE);
-  initMobileObject(TTL);
+}
 
-  /* action */
-  move.lspeed.v[0] = lspeed * cos(pu->pos.az);
-  move.lspeed.v[1] = lspeed * sin(pu->pos.az);
-  initImposedMovement(TTL);
+void Bullet::inits()
+{
+  initMobileObject(TTL);
 
   /* network creation */
   netop = createVolatileNetObject(PROPS);
   netop->declareObjCreation();
 
+  /* position */
+  pos.x = localuser->pos.x;
+  pos.y = localuser->pos.y;
+  pos.z = localuser->pos.z + 0.6 * localuser->height/2;
+  pos.az = localuser->pos.az;
+
+  /* action */
+  move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
+  move.lspeed.v[1] = lspeed * sin(localuser->pos.az);
+  initImposedMovement(TTL);
+
   Sound::playSound(DRIPSND);
+}
+
+Bullet::Bullet(WObject *pu, void *d, time_t s, time_t u)
+{
+  defaults();
+  geometry();
+  behaviors();
+  inits();
 }
 
 /* Creation: this method is invisible, called by user */
@@ -95,9 +104,7 @@ Bullet::Bullet(uint8_t type_id, Noid _noid, Payload *pp)
 
   defaults();
   geometry();
-  initMobileObject(0);
-
-  Sound::playSound(DRIPSND);
+  behaviors();
 }
 
 void Bullet::get_hit(Bullet *pcur, Payload *pp)

@@ -42,7 +42,7 @@ Clock::Clock(char *l)
   initMobileObject(0);
 
   if (! haveneedle) needle = oid;
-  init();
+  inits();
   oid++;
 }
 
@@ -58,11 +58,11 @@ Clock::Clock()
   initMobileObject(0);
 
   needle = SECOND;
-  init();
+  inits();
 }
 
 /* Inits time */
-void Clock::init()
+void Clock::inits()
 {
   time_t t = time(0);
   struct tm *ptime = localtime(&t);

@@ -54,9 +54,6 @@ private:
   void defaults();
   /**< Default values */
 
-  void behaviors();
-  /**< Sets behaviors */
-
   void inits();
   /**< Do specific inits */
 

@@ -43,29 +43,30 @@ void Dart::defaults()
 /** solid geometry */
 void Dart::geometry()
 {
-  char s[256];
+  char s[128];
 
   sprintf(s,"solid shape=\"box\" dim=\"%s\" dif=\"%s\" />", DIM, COLOR);
   parseSolid(s);
 }
 
-Dart::Dart(WObject *user, void *d, time_t s, time_t u)
+void Dart::behaviors()
 {
-  defaults();
-  geometry();
-
-  /* position */
-  pos.x = user->pos.x;
-  pos.y = user->pos.y;
-  pos.z = user->pos.z + 0.6 * localuser->height/2;
-  pos.az = user->pos.az;
-
   enableBehavior(COLLIDE_ONCE);
+}
+
+void Dart::inits()
+{
+  /* position */
+  pos.x = localuser->pos.x;
+  pos.y = localuser->pos.y;
+  pos.z = localuser->pos.z + 0.6 * localuser->height/2;
+  pos.az = localuser->pos.az;
+
   initMobileObject(TTL);
 
   /* action */
-  move.lspeed.v[0] = lspeed * cos(user->pos.az);
-  move.lspeed.v[1] = lspeed * sin(user->pos.az);
+  move.lspeed.v[0] = lspeed * cos(localuser->pos.az);
+  move.lspeed.v[1] = lspeed * sin(localuser->pos.az);
   initImposedMovement(TTL);
 
   /* network creation */
@@ -73,6 +74,14 @@ Dart::Dart(WObject *user, void *d, time_t s, time_t u)
   netop->declareObjCreation();
 
   Sound::playSound(SHOOTSND);
+}
+
+Dart::Dart(WObject *user, void *d, time_t s, time_t u)
+{
+  defaults();
+  geometry();
+  behaviors();
+  inits();
 }
 
 /* Creation: this method is invisible, called by user */
@@ -93,13 +102,10 @@ Dart::Dart(uint8_t type_id, Noid _noid, Payload *pp)
   netop = replicateNetObject(PROPS, _noid);
   netop->getAllProperties(pp);
 
-  geometry();
-
   defaults();
-  enableBehavior(COLLIDE_ONCE);
+  geometry();
+  behaviors();
   initMobileObject(0);
-
-  Sound::playSound(SHOOTSND);
 }
 
 void Dart::get_hit(Dart *pcur, Payload *pp)

@@ -57,8 +57,8 @@ private:
   void defaults();
   /**< Default values */
 
-  void behaviors();
-  /**< Sets behavior */
+  void inits();
+  /**< Sets initializations */
 
   void build();
   /**< Builds escalator */

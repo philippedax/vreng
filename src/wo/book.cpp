@@ -195,9 +195,17 @@ void Book::parser(char *l)
   end_while_parse(l);
 }
 
-Book::Book(char *l)
+void Book::behaviors()
 {
-  parser(l);
+  //enableBehavior(PERSISTENT);
+  enableBehavior(COLLIDE_NEVER);
+  enableBehavior(TAKABLE);
+}
+
+void Book::inits()
+{
+  initMobileObject(1);
+  createPermanentNetObject(PROPS, ++oid);
 
   getDimBB(size);
   width = size.v[0];
@@ -206,13 +214,6 @@ Book::Book(char *l)
   if (! *url) return;
   if (Http::httpOpen(url, reader, this, 0) < 0) return;
   if (! nbs) return;	// no sheets
-
-  //enableBehavior(PERSISTENT);
-  enableBehavior(COLLIDE_NEVER);
-  enableBehavior(TAKABLE);
-
-  initMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
 
   // create the heaps (right and left) of sheets
 
@@ -268,6 +269,13 @@ Book::Book(char *l)
       createSheet(s, Sheet::RIGHT, VOLATILE);
     }
   }
+}
+
+Book::Book(char *l)
+{
+  parser(l);
+  behaviors();
+  inits();
 }
 
 void Book::changePosition(float dt)

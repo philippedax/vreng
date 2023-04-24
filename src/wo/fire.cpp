@@ -102,12 +102,12 @@ void Fire::behaviors()
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
 }
 
 void Fire::inits()
 {
+  initMobileObject(0);
+
   time = 0;
   lasttime = 0;
   np = MIN(np, FIREMAX);

@@ -90,5 +90,4 @@ void Ground::quit()
 }
 
 void Ground::funcs()
-{
-}
+{}

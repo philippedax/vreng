@@ -63,12 +63,12 @@ void Thunder::behaviors()
   enableBehavior(UNSELECTABLE);
   enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
-
-  initEphemeralObject(0);
 }
 
 void Thunder::inits()
 {
+  initEphemeralObject(0);
+
   draw();
 }
 

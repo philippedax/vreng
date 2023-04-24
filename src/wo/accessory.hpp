@@ -71,7 +71,7 @@ private:
   void behaviors();
   /**< Sets behaviors. */
 
-  void init();
+  void inits();
   /**< Initializes object. */
 
   void follow();

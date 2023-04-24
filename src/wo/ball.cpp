@@ -90,15 +90,24 @@ void Ball::parser(char *l)
   end_while_parse(l);
 }
 
+void Ball::behaviors()
+{
+  //dax1 enableBehavior(PERSISTENT);
+  enablePermanentMovement();	// follow gravity force
+}
+
+void Ball::inits()
+{
+  initMobileObject(TTL);
+  createVolatileNetObject(PROPS);
+}
+
 /** Create from fileline */
 Ball::Ball(char *l)
 {
   parser(l);
-
-  //dax1 enableBehavior(PERSISTENT);
-
-  initMobileObject(1);
-  createVolatileNetObject(PROPS);
+  behaviors();
+  inits();
 }
 
 /** Created by the cauldron */
@@ -107,6 +116,8 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
   defaults();
   setName();
   geometry();
+  behaviors();
+  inits();
 
   /* random position */
   srand((uint32_t) time(NULL));
@@ -114,12 +125,6 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
   pos.y = ball->pos.y + (float)drand48() * 2 -1;
   pos.z = ball->pos.z + ORIGZ;
   origz = pos.z;	// see ground
-
-  //dax1 enableBehavior(PERSISTENT);	//dax1
-  initMobileObject(TTL);
-  enablePermanentMovement();	// follow gravity force
-
-  createVolatileNetObject(PROPS);
 }
 
 /** Recreated by the world (persistency) */
@@ -136,19 +141,17 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
 
   defaults();
   geometry();
-
-  //dax1 enableBehavior(PERSISTENT);
-  initMobileObject(TTL);
-  enablePermanentMovement();	// follow gravity force
-
-  createVolatileNetObject(PROPS);
+  behaviors();
+  inits();
 }
 
 /** Created by the user */
 Ball::Ball(WObject *user, char *solid)
 {
   defaults();
+  behaviors();
   setName();
+  inits();
   parseSolid(solid);
 
   /* position in front of user */
@@ -156,12 +159,6 @@ Ball::Ball(WObject *user, char *solid)
   pos.y = user->pos.y;
   pos.z = user->pos.z + 0.5;
   updatePosition();
-
-  //dax1 enableBehavior(PERSISTENT);
-  initMobileObject(TTL);
-  enablePermanentMovement();	// follow gravity force
-
-  createVolatileNetObject(PROPS);
 }
 
 /** Replication from the network */
@@ -179,6 +176,7 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
 
   geometry();
   defaults();
+  behaviors();
   initMobileObject(0);
 }
 

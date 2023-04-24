@@ -68,6 +68,7 @@ void Waterfall::parser(char *l)
 void Waterfall::geometry()
 {
   char s[128];
+
   sprintf(s, "solid shape=\"none\" />");
   parseSolid(s);
 }

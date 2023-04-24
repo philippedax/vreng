@@ -81,7 +81,10 @@ void Bubble::behaviors()
 {
   enableBehavior(DYNAMIC);      // dynamicaly introduced
   enableBehavior(NO_BBABLE);
+}
 
+void Bubble::inits()
+{
   initEphemeralObject(BUBBLETTL);
   initImposedMovement(BUBBLETTL);		// alive delay
   createPermanentNetObject(PROPS, ++oid);
@@ -95,9 +98,10 @@ Bubble::Bubble(User *user, char *_text, const float *_color, bool _face)
   text = strdup(_text);
   setPosition();
   geometry();
-  state = ACTIVE;
   behaviors();
+  inits();
   updatePosition();
+  state = ACTIVE;
 
   // adjusting text position
   postext = pos;

@@ -113,12 +113,12 @@ void Cloud::behaviors()
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);	// follows wind
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
 }
 
 void Cloud::inits()
 {
+  initMobileObject(0);
+
   obloids = new tObloid[number];
 
   build();

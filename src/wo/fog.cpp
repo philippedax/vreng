@@ -56,13 +56,12 @@ void Fog::behaviors()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
 }
 
 void Fog::geometry()
 {
   char s[128];
+
   sprintf(s, "solid shape=\"none\" />");
   parseSolid(s);
 }
@@ -72,6 +71,8 @@ Fog::Fog(char *l)
   parser(l);
   behaviors();
   geometry();
+
+  initMobileObject(0);
 }
 
 void Fog::render()

@@ -101,12 +101,12 @@ void Text::behaviors()
   enableBehavior(NO_BBABLE);
   enableBehavior(UNSELECTABLE);
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
 }
 
 void Text::inits()
 {
+  initMobileObject(0);
+
   if (! loadFont()) return;
 
   // sanity check to avoid segfault with "'", "`"

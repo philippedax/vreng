@@ -62,9 +62,6 @@ void Widget::behaviors()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
-  updatePosition();
 }
 
 /* Specific inits */
@@ -82,12 +79,13 @@ Widget::Widget(char *l)
   parser(l);
   behaviors();
   inits();
+
+  initMobileObject(0);
+  updatePosition();
 }
 
 void Widget::buildScreen()
 {
-  //if (_solidList.empty()) return;	// no solid
-
   V3 dim;
   getDimBB(dim);
 

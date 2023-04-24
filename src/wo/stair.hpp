@@ -54,8 +54,8 @@ private:
   void defaults();
   /**< Default values */
 
-  void behaviors();
-  /**< Sets behaviors */
+  void inits();
+  /**< Sets initializations. */
 
   void build();
   /**< Builds stair */

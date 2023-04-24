@@ -63,6 +63,12 @@ private:
   void geometry();
   /**< Builds solid geometry */
 
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
+
   // callbacks
   static void get_hit(Dart *pcur, Payload *pp);
   static void create(User *pu, void *d, time_t s, time_t u);

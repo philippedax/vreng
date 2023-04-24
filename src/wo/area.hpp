@@ -57,6 +57,12 @@ public:
 private:
   void parser(char *l);
   /**< Parses */
+
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
 };
 
 #endif

@@ -38,15 +38,23 @@ void Area::parser(char *l)
   l = parseAttributes(l);
 }
 
-Area::Area(char *l)
+void Area::behaviors()
 {
-  parser(l);
-
   enableBehavior(COLLIDE_ONCE);
   enableBehavior(UNVISIBLE);
   initObject(INVISIBLE);
+}
 
+void Area::inits()
+{
   inside = false;
+}
+
+Area::Area(char *l)
+{
+  parser(l);
+  behaviors();
+  inits();
 }
 
 /** Intersection with an object */

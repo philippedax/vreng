@@ -47,6 +47,7 @@ void Rain::defaults()
 void Rain::geometry()
 {
   char s[128];
+
   sprintf(s, "solid shape=\"none\" />");
   parseSolid(s);
 }

@@ -81,6 +81,12 @@ private:
   void defaults();
   /**< Sets defauts values */
 
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
+
 };
 
 extern Aoi *currentAoi;
