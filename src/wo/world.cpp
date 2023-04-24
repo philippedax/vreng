@@ -860,7 +860,7 @@ void World::quit()
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it) == localuser) continue;
     //echo("%s", (*it)->getInstance());
-    if (! (*it)->isEphemeral()) {
+    if ( ! (*it)->isEphemeral() && ! (*it)->isBehavior(TAKABLE) ) {	// FIX segfault
       (*it)->clearObjectBar();	// segfault FIXME
       (*it)->quit();
       delete *it;
