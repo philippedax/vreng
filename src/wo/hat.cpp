@@ -137,7 +137,7 @@ void Hat::parser(char *l)
     if (!l) break;
     if (! stringcmp(l, "model=")) {
       l = parseString(l, modelname, "model");
-      echo("hat: %s", modelname);
+      //echo("hat: %s", modelname);
       if      (! stringcmp(modelname, "tophat"))   model = TOPHAT;
       else if (! stringcmp(modelname, "bowler"))   model = BOWLER;
       else if (! stringcmp(modelname, "chinese"))  model = CHINESE;

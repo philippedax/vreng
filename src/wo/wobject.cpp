@@ -132,7 +132,7 @@ WObject::~WObject()
   if (names.implicit) delete[] names.implicit;
   if (names.category) delete[] names.category;
   if (names.infos) delete[] names.infos;
-  if (geom) delete[] geom;
+  if (geom && isalpha(*geom)) delete[] geom;
   del_wobject++;
 }
 
