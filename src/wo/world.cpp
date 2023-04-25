@@ -859,7 +859,7 @@ void World::quit()
   // mobile objects
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     //echo("%s", (*it)->getInstance());
-    if ( (*it) == localuser || (*it)->isBehavior(TAKABLE) ) continue;	// FIX segfault
+    if ( (*it) == localuser || (*it)->isBehavior(TRANSCIENT) ) continue;  // FIX segfault
     (*it)->quit();
     delete *it;
   }

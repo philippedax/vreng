@@ -110,6 +110,7 @@ void Cloth::behaviors()
   enableBehavior(TAKABLE);
   if (taken) {
     enableBehavior(DYNAMIC);
+    enableBehavior(TRANSCIENT);
   }
 }
 
