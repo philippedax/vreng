@@ -111,9 +111,38 @@ void Cloth::behaviors()
   if (taken) {
     enableBehavior(DYNAMIC);
   }
+}
+
+/* sets position near the avatar */
+void Cloth::inits()
+{
   initMobileObject(ttl);
   if (taken)
     enablePermanentMovement();	// follows user
+
+  if (! taken)  return;
+  switch (article) {
+  case HALO:
+  case HAT:
+    if (localuser) dz += localuser->height / 2;
+    break;
+  }
+
+  // save original position
+  ox = pos.x; oy = pos.y; oz = pos.z;
+  oax = pos.ax; oay = pos.ay; oaz = pos.az;
+
+  // set new position
+  if (localuser) {
+    pos.x = localuser->pos.x + dx;
+    pos.y = localuser->pos.y + dy;
+    pos.z = localuser->pos.z + dz;
+    pos.az = localuser->pos.az + daz;
+  }
+  pos.ax = dax;
+  pos.ay = day;
+
+  updatePosition();
 }
 
 /* Sets an unique name */
@@ -159,33 +188,6 @@ void Cloth::delPersist()
 #if VRSQL
   if (psql && givenName())  psql->deleteRow(this, names.given);
 #endif
-}
-
-/* sets position near the avatar */
-void Cloth::inits()
-{
-  switch (article) {
-  case HALO:
-  case HAT:
-    if (localuser) dz += localuser->height / 2;
-    break;
-  }
-
-  // save original position
-  ox = pos.x; oy = pos.y; oz = pos.z;
-  oax = pos.ax; oay = pos.ay; oaz = pos.az;
-
-  // set new position
-  if (localuser) {
-    pos.x = localuser->pos.x + dx;
-    pos.y = localuser->pos.y + dy;
-    pos.z = localuser->pos.z + dz;
-    pos.az = localuser->pos.az + daz;
-  }
-  pos.ax = dax;
-  pos.ay = day;
-
-  updatePosition();
 }
 
 /* Creation from xml file */

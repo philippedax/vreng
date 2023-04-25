@@ -117,6 +117,7 @@ Wings::Wings(char *l)
   active = false;
   taken = false;
   behaviors();
+  inits();
   enableBehavior(SPECIFIC_RENDER);	// if commented not rendered
 
   draw();
@@ -129,6 +130,7 @@ Wings::Wings(uint8_t _model, float _scale)
   active = true;
   taken = false;
   behaviors();
+  inits();
   //pos.ax -= M_PI_2;
   pos.az -= M_PI_2;
   scale = _scale;
@@ -143,6 +145,7 @@ Wings::Wings(uint8_t _model, float _scale, float *_color)
   active = true;
   taken = false;
   behaviors();
+  inits();
   pos.az -= M_PI_2;
   scale = _scale;
   for (int i=0; i<3; i++) {
@@ -159,6 +162,7 @@ Wings::Wings()
   active = true;
   taken = false;
   behaviors();
+  inits();
   pos.ax -= M_PI_2;
   pos.az -= M_PI_2;
   scale = .3;
