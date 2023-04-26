@@ -82,6 +82,12 @@ private:
   void geometry();
   /**< Builds solid geometry */
 
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
+
   uint8_t getModel(const char *name);
   /**< Gets model id */
 

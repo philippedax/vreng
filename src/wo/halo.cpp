@@ -63,6 +63,44 @@ void Halo::geometry()
   parseSolid(s);
 }
 
+void Halo::behaviors()
+{
+  enableBehavior(COLLIDE_NEVER);
+  enableBehavior(TAKABLE);
+  if (taken) {
+    enableBehavior(DYNAMIC);
+    enableBehavior(TRANSCIENT);
+  }
+}
+
+/* sets position near the avatar */
+void Halo::inits()
+{
+  initMobileObject(ttl);
+  if (taken)
+    enablePermanentMovement();  // follows user
+
+  if (! taken)  return;
+  if (localuser) dz += localuser->height / 2;
+
+  // save original position
+  ox = pos.x; oy = pos.y; oz = pos.z;
+  oax = pos.ax; oay = pos.ay; oaz = pos.az;
+
+  // set new position
+  if (localuser) {
+    pos.x = localuser->pos.x + dx;
+    pos.y = localuser->pos.y + dy;
+    pos.z = localuser->pos.z + dz;
+    pos.az = localuser->pos.az + daz;
+  }
+  pos.ax = dax;
+  pos.ay = day;
+
+  updatePosition();
+}
+
+
 /* Created from file */
 void Halo::parser(char *l)
 {

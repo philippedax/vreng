@@ -44,6 +44,7 @@
 #include "ball.hpp"	// BALL_NAME
 #include "thing.hpp"	// THING_NAME
 #include "mirage.hpp"	// MIRAGE_NAME
+#include "dress.hpp"	// DRESS_TYPE
 #include "vjc.hpp"	// Vjc
 #include "vrsql.hpp"	// VRSql
 #include "tool.hpp"	// quitTools
@@ -858,8 +859,9 @@ void World::quit()
 
   // mobile objects
   for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    //echo("%s", (*it)->getInstance());
-    if ( (*it) == localuser || (*it)->isBehavior(TRANSCIENT) ) continue;  // FIX segfault
+    //debug echo("%s", (*it)->getInstance());
+    if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
+    //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     (*it)->quit();
     delete *it;
   }

@@ -115,6 +115,12 @@ private:
   void parser(char *l);
   /**< Parses file line. */
 
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
+
   void geometry();
   /**< Builds solid geometry. */
 

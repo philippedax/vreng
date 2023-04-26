@@ -20,8 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "cloth.hpp"
-#include "halo.hpp"
-#include "hat.hpp"
 #include "user.hpp"	// localuser
 #include "vrsql.hpp"	// VRSql
 
@@ -83,7 +81,7 @@ void Cloth::parser(char *l)
 /* solid geometry */
 void Cloth::geometry()
 {
-  char s[256];
+  char s[128];
 
   switch (article) {
   case HALO:
@@ -236,11 +234,10 @@ void Cloth::restorePosition()
   behaviors();
 }
 
-void Cloth::quit()
-{
-  oid = 0;
-}
+//void Cloth::quit()
+//{
+//  //dax oid = 0;
+//}
 
 void Cloth::funcs()
-{
-}
+{}

@@ -77,7 +77,7 @@ WObject::WObject()
   names.world = NULL;
   names.category = NULL;
   names.infos = NULL;
-  geom = NULL;
+  geomsolid = NULL;
 
   pos.x = 0;
   pos.y = 0;
@@ -132,7 +132,7 @@ WObject::~WObject()
   if (names.implicit) delete[] names.implicit;
   if (names.category) delete[] names.category;
   if (names.infos) delete[] names.infos;
-  if (geom && isalpha(*geom)) delete[] geom;
+  if (geomsolid && isalpha(*geomsolid)) delete[] geomsolid;
   del_wobject++;
 }
 
@@ -1135,14 +1135,14 @@ char * WObject::tokenize(char *l)
     if (p) *p = '\0';
   }
 
-  // save solid string into geometry for VRSql purposes
+  // save solid string into geomsolid for VRSql purposes
   char *p = strstr(l, "<solid");
   if (p) {
     char *q, *s;
-    geom = new char[strlen(l)];
-    strcpy(geom, ++p);
-    for (s = geom; (q = strstr(s, "/>")) ; ) {
-      s = q;			// end of geometry found
+    geomsolid = new char[strlen(l)];
+    strcpy(geomsolid, ++p);
+    for (s = geomsolid; (q = strstr(s, "/>")) ; ) {
+      s = q;			// end of geomsolid found
       p = strstr(s, "<solid");  // search next solid
       if (p) {
         s = p;
@@ -1154,7 +1154,7 @@ char * WObject::tokenize(char *l)
       }
     }
     *s = '\0';
-    for (s = geom; (p = strchr(s, '<')) ; ) {
+    for (s = geomsolid; (p = strchr(s, '<')) ; ) {
       *p = ' ';
       s = ++p;
     }

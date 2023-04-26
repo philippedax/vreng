@@ -32,20 +32,20 @@
 
 /* special behavior masks */
 #define NO_BEHAVIOR		0	// null
-#define NO_ELEMENTARY_MOVE	1	// bit 0
-#define NO_BBABLE		2	// bit 1
-#define UNSELECTABLE		4	// bit 2
-#define UNVISIBLE		8	// bit 3
-#define SPECIFIC_RENDER		16	// bit 4
-#define PERSISTENT		32	// bit 5
-#define DYNAMIC			64	// bit 6
-#define TAKABLE			128	// bit 7
-#define REMOVABLE		256	// bit 8
-#define PARTICLE		512	// bit 9
-#define LIQUID			1024	// bit 10
-#define MIX_RENDER		2048	// bit 11 double render (common + specific)
-#define PERMANENT_MOVEMENT	4096	// bit 12
-#define TRANSCIENT		8192	// bit 13
+#define NO_ELEMENTARY_MOVE	1<<0	// bit 0
+#define NO_BBABLE		1<<1	// bit 1
+#define UNSELECTABLE		1<<2	// bit 2
+#define UNVISIBLE		1<<3	// bit 3
+#define SPECIFIC_RENDER		1<<4	// bit 4
+#define PERSISTENT		1<<5	// bit 5
+#define DYNAMIC			1<<6	// bit 6
+#define TAKABLE			1<<7	// bit 7
+#define REMOVABLE		1<<8	// bit 8
+#define PARTICLE		1<<9	// bit 9
+#define LIQUID			1<<10	// bit 10
+#define MIX_RENDER		1<<11	// bit 11 double render (common + specific)
+#define PERMANENT_MOVEMENT	1<<12	// bit 12
+#define TRANSCIENT		1<<13	// bit 13
 
 /* collide behaviors */
 #define COLLIDE_EVER		0	// bits 29,30,31
@@ -169,7 +169,7 @@ public:
   bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
   int16_t state;		///< current state.
-  char *geom;			///< geometry string of the solid.
+  char *geomsolid;		///< geometry string of the solid.
   char chan[CHAN_LEN];		///< channel.
 #if VRSQL 			///< HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
   class VRSql *psql;		///< VRSql pointer.

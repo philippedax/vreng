@@ -63,28 +63,6 @@ void Wings::defaults()
   }
 }
 
-/* solid geometry */
-void Wings::geometry()
-{
-  char s[128];
-
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .6, .1, .6);
-  parseSolid(s);
-}
-
-uint8_t Wings::getModel(const char *name)
-{
-  struct sWings *pwingss = wingss;
-
-  if (name) {
-    for ( ; pwingss; pwingss++) {
-      if (! strcmp(name, pwingss->wings_str))
-        return pwingss->wings_id;
-    }
-  }
-  return NOWINGS;
-}
-
 /* Created from file */
 void Wings::parser(char *l)
 {
@@ -109,6 +87,65 @@ void Wings::parser(char *l)
   end_while_parse(l);
 }
 
+void Wings::behaviors()
+{
+  enableBehavior(COLLIDE_NEVER);
+  enableBehavior(TAKABLE);
+  enableBehavior(SPECIFIC_RENDER);	// if commented not rendered
+  if (taken) {
+    enableBehavior(DYNAMIC);
+    enableBehavior(TRANSCIENT);
+  }
+}
+
+/* sets position near the avatar */
+void Wings::inits()
+{
+  initMobileObject(ttl);
+  if (taken)
+    enablePermanentMovement();  // follows user
+
+  if (! taken)  return;
+
+  // save initial position
+  ox = pos.x; oy = pos.y; oz = pos.z;
+  oax = pos.ax; oay = pos.ay; oaz = pos.az;
+
+  // set new position
+  if (localuser) {
+    pos.x = localuser->pos.x + dx;
+    pos.y = localuser->pos.y + dy;
+    pos.z = localuser->pos.z + dz;
+    pos.az = localuser->pos.az + daz;
+  }
+  pos.ax = dax;
+  pos.ay = day;
+
+  updatePosition();
+}
+
+/* solid geometry */
+void Wings::geometry()
+{
+  char s[128];
+
+  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .6, .1, .6);
+  parseSolid(s);
+}
+
+uint8_t Wings::getModel(const char *name)
+{
+  struct sWings *pwingss = wingss;
+
+  if (name) {
+    for ( ; pwingss; pwingss++) {
+      if (! strcmp(name, pwingss->wings_str))
+        return pwingss->wings_id;
+    }
+  }
+  return NOWINGS;
+}
+
 /* Created from file */
 Wings::Wings(char *l)
 {
@@ -118,7 +155,6 @@ Wings::Wings(char *l)
   taken = false;
   behaviors();
   inits();
-  enableBehavior(SPECIFIC_RENDER);	// if commented not rendered
 
   draw();
 }
@@ -131,7 +167,6 @@ Wings::Wings(uint8_t _model, float _scale)
   taken = false;
   behaviors();
   inits();
-  //pos.ax -= M_PI_2;
   pos.az -= M_PI_2;
   scale = _scale;
 
@@ -155,7 +190,7 @@ Wings::Wings(uint8_t _model, float _scale, float *_color)
   draw();
 }
 
-/* Called by solid shape=wings */
+/* Called by solid shape="wings" */
 Wings::Wings()
 {
   model = BIRD;
@@ -576,7 +611,7 @@ void Wings::takeoff()
 {
   taken = false;
   active = false;
-  restorePosition();	// restore original position
+  restorePosition();	// restore initial position
   delPersist();
   delWearList();
 }

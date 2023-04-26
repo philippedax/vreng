@@ -90,7 +90,7 @@ public:
   virtual void changePermanent(float lasting);
   /**< movement */
 
-  virtual void quit();
+  //void quit();
   /**< Quits */
 
 protected:

@@ -73,6 +73,12 @@ private:
   void geometry();
   /**< Builds solid geometry */
 
+  void behaviors();
+  /**< Sets behaviors. */
+
+  void inits();
+  /**< Sets initializations. */
+
   void wear();
   void takeoff();
 

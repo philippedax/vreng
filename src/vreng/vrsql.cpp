@@ -839,17 +839,17 @@ void VRSql::getGeom(WObject *o)
 
 void VRSql::getGeom(WObject *o, uint16_t irow)
 {
-  getGeom(o, o->geom, irow);
+  getGeom(o, o->geomsolid, irow);
 }
 
-void VRSql::getGeom(WObject *o, char *_geom)
+void VRSql::getGeom(WObject *o, char *geom)
 {
-  if (_geom) getGeom(o, _geom, (uint16_t)0);
+  if (geom) getGeom(o, geom, (uint16_t)0);
 }
 
-void VRSql::getGeom(WObject *o, char *_geom, uint16_t irow)
+void VRSql::getGeom(WObject *o, char *geom, uint16_t irow)
 {
-  if (_geom) getString(o, COL_GEOM, _geom, irow);
+  if (geom) getString(o, COL_GEOM, geom, irow);
 }
 
 void VRSql::getUrl(WObject *o)
@@ -957,14 +957,14 @@ void VRSql::updateColor(WObject *o)
   updateColorA(o);
 }
 
-void VRSql::updateGeom(WObject *o, char *_geom)
+void VRSql::updateGeom(WObject *o, char *geom)
 {
-  if (_geom) updateString(o, COL_GEOM, _geom);
+  if (geom) updateString(o, COL_GEOM, geom);
 }
 
-void VRSql::updateGeom(WObject *o, const char *table, char *_geom)
+void VRSql::updateGeom(WObject *o, const char *table, char *geom)
 {
-  if (_geom) updateString(o, table, COL_GEOM, _geom);
+  if (geom) updateString(o, table, COL_GEOM, geom);
 }
 
 void VRSql::updateUrl(WObject *o)
