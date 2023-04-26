@@ -320,6 +320,7 @@ void Txf::render(const char *s, int l)
   }
 }
 
+#if 0 //notused
 Txf * Txf::getByUrl(const char *url)
 {
   for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it) {
@@ -349,3 +350,4 @@ const char * Txf::errorString()
 {
   return lastError;
 }
+#endif //notused

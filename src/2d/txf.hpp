@@ -110,20 +110,16 @@ private:
 
   TexGlyphVertexInfo * getGlyph(int c);
 
-  uint16_t getCurrentNumber() const;
-  /**< get Txf current font number  */
-
-  static const char *errorString();
-
-  Txf * getByUrl(const char *url);
-  /**< get Txf by its url  */
-
-  Txf * getByNumber(uint16_t num);
-  /**< get Txf by its number  */
-
   static void reader(void *atexfont, class Http *http);
   /**< http texfont loader */
 
+  //notused uint16_t getCurrentNumber() const;
+  //notused /**< get Txf current font number  */
+  //notused Txf * getByUrl(const char *url);
+  //notused /**< get Txf by its url  */
+  //notused Txf * getByNumber(uint16_t num);
+  //notused /**< get Txf by its number  */
+  //notused static const char *errorString();
 };
 
 #endif
