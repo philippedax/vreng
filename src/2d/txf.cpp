@@ -31,21 +31,21 @@
 using namespace std;
 
 // local
-list<Txf*> Txf::txfList;
+//notused list<Txf*> Txf::txfList;
 
 static const char *lastError;
-static uint16_t txf_number = 0;
+//notused static uint16_t txf_number = 0;
 
 
 Txf::Txf(const char *_url)
 {
-  num = ++txf_number;
+  //notused num = ++txf_number;
   strcpy(url, _url);
 }
 
 Txf::~Txf()
 {
-  txfList.remove(this);
+  //notused txfList.remove(this);
 }
 
 /* Loads texture font. */
@@ -55,7 +55,7 @@ Txf * Txf::load(const char *url)
 
   Txf * txf = new Txf(url);	// new entry
 
-  txfList.push_back(txf);	// add to cache list
+  //notused txfList.push_back(txf);	// add to cache list
 
   /* load font */
   Http::httpOpen(url, reader, txf, 0);
@@ -93,7 +93,8 @@ void Txf::reader(void *_txf, Http *http)
   char fileid[4];
   int got = fread((char *) fileid, 1, 4, f);
   if (got != 4 || strncmp(fileid, "\377txf", 4)) {
-    lastError = "not a texture font file."; goto error;
+    lastError = "not a texture font file.";
+    goto error;
   }
 
   got = fread((char *) &endianness, sizeof(int), 1, f);
@@ -123,7 +124,10 @@ void Txf::reader(void *_txf, Http *http)
   trace(DBG_IMG, "txfReader: fmt=%d w=%d h=%d ascent=%d descent=%d glyphs=%d", format, txf->texfont->tex_width, txf->texfont->tex_height, txf->texfont->max_ascent, txf->texfont->max_descent, txf->texfont->num_glyphs);
 
   txf->texfont->tgi = new TexGlyphInfo[txf->texfont->num_glyphs];
-  if (txf->texfont->tgi == NULL) { lastError = "out of memory."; goto error; }
+  if (txf->texfont->tgi == NULL) {
+    lastError = "out of memory.";
+    goto error;
+  }
   got = fread((char *) txf->texfont->tgi, sizeof(TexGlyphInfo), txf->texfont->num_glyphs, f);
   EXPECT(txf->texfont->num_glyphs);
 
@@ -185,7 +189,10 @@ void Txf::reader(void *_txf, Http *http)
   switch (format) {
   case TXF_FORMAT_BYTE:
     txf->texfont->teximage = new uint8_t[txf->texfont->tex_width * txf->texfont->tex_height];
-    if (txf->texfont->teximage == NULL) { lastError = "out of memory."; goto error; }
+    if (txf->texfont->teximage == NULL) {
+      lastError = "out of memory.";
+      goto error;
+    }
     got = fread((char *) txf->texfont->teximage, 1, txf->texfont->tex_width*txf->texfont->tex_height, f);
     EXPECT(txf->texfont->tex_width * txf->texfont->tex_height);
     break;

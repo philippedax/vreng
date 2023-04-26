@@ -98,11 +98,7 @@ public:
   /**< render one character. */
 
 private:
-  static std::list<Txf*> txfList; ///< txf list
-
-  uint16_t  num;		///< Txf number
   char url[URL_LEN];		///< font url
-  Txf *next;			///< next Txf
   struct TexFont *texfont;	///< texfont ptr
 
   const char * getUrl() const;
@@ -113,6 +109,9 @@ private:
   static void reader(void *atexfont, class Http *http);
   /**< http texfont loader */
 
+  //notused static std::list<Txf*> txfList; ///< txf list
+  //notused uint16_t  num;		///< Txf number
+  //notused Txf *next;			///< next Txf
   //notused uint16_t getCurrentNumber() const;
   //notused /**< get Txf current font number  */
   //notused Txf * getByUrl(const char *url);
