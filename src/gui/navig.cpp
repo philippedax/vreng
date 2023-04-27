@@ -218,8 +218,11 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
   }
 
   // current object
-  depthsel = 0;
-  WObject* object = gw.pointedObject(x, y, objinfo, depthsel);
+  //depthsel = rand()%2;	// orig: 0
+  static uint8_t depth = 0;	// first object
+  //echo("depth: %d", depth%2);
+  WObject* object = gw.pointedObject(x, y, objinfo, depth%2);
+  depth++;	// next object hidden
 
   if (object) {
     gw.gui.selected_object = object;

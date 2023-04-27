@@ -550,6 +550,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y)
 
 uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
 {
+  //echo("-- depth: %d", depth);
   GLint max, cur = 0;
   glGetIntegerv(GL_NAME_STACK_DEPTH, &cur);
   glGetIntegerv(GL_MAX_NAME_STACK_DEPTH, &max);
@@ -611,7 +612,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
     int n = depth % hits;
     nearest = hitlist[n][3];
-    if (::g.pref.dbgtrace) echo("n=%d num=%d name=%s", n, nearest, WObject::byNum(nearest)->getInstance());
+    if (::g.pref.dbgtrace) echo("num=%d name=%s next=%s", nearest, WObject::byNum(nearest)->getInstance(), WObject::byNum(hitlist[1][3])->getInstance());	// FIXME! segfault
   }
   if (hitlist) delete[] hitlist;
 

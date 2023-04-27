@@ -458,7 +458,7 @@ WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   //
   // Interaction GUI <--> 3D
   //
-  uint16_t num = ::g.render.bufferSelection(x, y);	// find object number in the Z-buffer
+  uint16_t num = ::g.render.bufferSelection(x, y, z);	// find object number in the Z-buffer
   trace(DBG_GUI, "pointed: clic=%d %d %d num=%d", x, y, z, num);
 
   WObject* object = WObject::byNum(num);
