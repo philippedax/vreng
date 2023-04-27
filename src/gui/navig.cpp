@@ -139,13 +139,13 @@ void Navig::mouseReleaseCB(UMouseEvent& e)
 // the mouse is dragged on the canvas
 void Navig::mouseDragCB(UMouseEvent& e)
 {
-  if (gw.gui.selected_object) {
+  if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
     gw.gui.selected_object->resetFlashy();	// stop flashing edges
     gw.gui.selected_object->resetRay();
   }
   else {
     if (localuser) {
-      localuser->resetRay();	//stop showing direction
+      localuser->resetRay();	// stop showing direction
     }
   }
 }
@@ -161,7 +161,7 @@ void Navig::mouseMoveCB(UMouseEvent& e)
     WObject *object = gw.pointedObject((int) e.getX(), (int) e.getY(), objinfo, depthsel);
     selectObject(object ? objinfo : null);
   }
-  else if (gw.gui.selected_object) {
+  else if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
     gw.gui.selected_object->resetFlashy();	// stop flashing edges
     gw.gui.selected_object->resetRay();
   }
@@ -281,16 +281,16 @@ void Navig::clearInfoBar()
 }
 
 // Updates object infos (infosbox in the infobar and in the contextual menu)
-void Navig::selectObject(ObjInfo* objinfos)
+void Navig::selectObject(ObjInfo* objinfo)
 {
-  if (! objinfos)  return;
+  if (! objinfo)  return;
 
   gw.infos_box.removeAll();	// clears infos in infobar
   object_menu.removeAll();	// clears contextual menu
   
   // adds object class and name to the infosbox
-  object_class = objinfos[0].name;
-  object_name  = objinfos[1].name;
+  object_class = objinfo[0].name;
+  object_name  = objinfo[1].name;
   gw.infos_box.add(object_infos);
   gw.infos_box.addAttr(UColor::navy + UFont::bold);
 
@@ -299,7 +299,7 @@ void Navig::selectObject(ObjInfo* objinfos)
   object_menu.add(UColor::white);
 
   // adds buttons (actions)
-  for (ObjInfo* oi = objinfos + 2; oi->name ; oi++) {
+  for (ObjInfo* oi = objinfo + 2; oi->name ; oi++) {
     UBox& b = ubutton(oi->name);
     if (oi->fun && strlen(oi->name)) {
       b.addAttr(UBackground::white);

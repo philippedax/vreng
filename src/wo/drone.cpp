@@ -162,6 +162,7 @@ void Drone::changePermanent(float lasting)
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
       localuser->pos.z = pos.z;
+      localuser->updatePosition();
     }
   }
 }
@@ -247,6 +248,7 @@ void Drone::reset()
     following = false;
     driven = false;
     localuser->enableGravity();
+    localuser->updatePosition();
   }
 }
 

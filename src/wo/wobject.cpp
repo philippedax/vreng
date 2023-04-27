@@ -470,6 +470,7 @@ void WObject::setRay(GLint wx, GLint wy)
 
 void WObject::resetRay()
 {
+  if (! isValid()) return;
   if (solid) solid->resetRay();
 }
 
@@ -563,6 +564,7 @@ void WObject::setFlashy()
 
 void WObject::resetFlashy()
 {
+  if (! isValid()) return;
   if (solid) solid->resetFlashyEdges();
 }
 
