@@ -72,15 +72,20 @@ void Thunder::inits()
   draw();
 }
 
-Thunder::Thunder(char *l)
+void Thunder::geometry()
 {
   char s[128];
 
-  parser(l);
-  behaviors();
-  inits();
   sprintf(s, "solid shape=\"none\" />");
   parseSolid(s);
+}
+
+Thunder::Thunder(char *l)
+{
+  parser(l);
+  behaviors();
+  geometry();
+  inits();
 }
 
 void Thunder::draw()
@@ -171,5 +176,4 @@ void Thunder::render()
 }
 
 void Thunder::quit()
-{
-}
+{}

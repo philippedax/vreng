@@ -69,18 +69,22 @@ public:
 
 private:
   void parser(char *l);
-  /**< Parses */
+  /**< Parses. */
 
   void defaults();
-  /**< Sets default values */
+  /**< Sets default values. */
 
   void behaviors();
-  /**< Sets behaviors */
+  /**< Sets behaviors. */
+
+  void geometry();
+  /**< Sets solid geometry. */
 
   void inits();
-  /**< Sets specific inits */
+  /**< Sets specific inits. */
 
   void draw();
+  /**< Draws a thunder. */
 };
 
 #endif
