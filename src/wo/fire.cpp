@@ -44,7 +44,7 @@ static float nrnd(float d)
   do {
     v1 = 2*hrnd(1.)-1.;
     v2 = 2*hrnd(1.)-1.;
-    r = v1*v1+v2*v2;
+    r = v1*v1 + v2*v2;
   } while (r >= 1. || r == 0.);
   r = sqrt(-2. * log(r)/r);
   return v1*d*r;
@@ -305,6 +305,6 @@ void Fire::stop_cb(Fire *fire, void *d, time_t s, time_t u)
 
 void Fire::funcs()
 {
-  setActionFunc(FIRE_TYPE, 0, _Action sound_cb, "Sound");
-  setActionFunc(FIRE_TYPE, 1, _Action stop_cb, "On/Off");
+  setActionFunc(FIRE_TYPE, 0, _Action stop_cb, "On/Off");
+  //setActionFunc(FIRE_TYPE, 1, _Action sound_cb, "Sound");
 }
