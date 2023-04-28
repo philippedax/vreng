@@ -27,7 +27,7 @@ ACLOCAL_AMFLAGS = -I support
 
 SUBDIRS = src man bin etc
 
-EXTRA_DIST = LICENSE README VERSION.md support/* md/* autogen.sh build vr
+EXTRA_DIST = LICENSE README VERSION.md support/* md/* htdocs/* autogen.sh build vr
 
 ARCHIVE  = /Users/dax/vreng/archive
 HTML     = /Users/dax/vreng/html
@@ -40,8 +40,8 @@ TARBALLS = $(TARBALL_GZ) $(TARBALL_XZ)
 TARLINK_GZ = $(PACKAGE_NAME).tar.gz
 TARLINK_XZ = $(PACKAGE_NAME).tar.xz
 
-FINGERPRINT_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-gz.md5sum
-FINGERPRINT_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-xz.md5sum
+#FINGERPRINT_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-gz.md5sum
+#FINGERPRINT_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-xz.md5sum
 
 ## maintainer's targets
 
@@ -50,9 +50,9 @@ dist dist-all:
 	-make dist-xz
 	@-cp -p ChangeLog VERSION.md $(HTML)
 
-fingerprint:
-	-md5sum < $(TARBALL_GZ) > $(FINGERPRINT_GZ)
-	-md5sum < $(TARBALL_XZ) > $(FINGERPRINT_XZ)
+#fingerprint:
+#	-md5sum < $(TARBALL_GZ) > $(FINGERPRINT_GZ)
+#	-md5sum < $(TARBALL_XZ) > $(FINGERPRINT_XZ)
 
 clean-tar:
 	tar xpf $(TARBALL_GZ)
@@ -65,14 +65,14 @@ data-tar:
 html-tar:
 	tar zcf vreng-html.tar.gz htdocs/html
 
-archive: dist fingerprint
-	-install -m 444 $(FINGERPRINT_GZ) $(ARCHIVE)
+archive: dist
 	-install -m 444 $(TARBALL_GZ) $(ARCHIVE)
-	-install -m 444 $(FINGERPRINT_XZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_XZ) $(ARCHIVE)
 	@-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ))
-	@-rm $(FINGERPRINT_GZ)
-	@-rm $(FINGERPRINT_XZ)
+#	-install -m 444 $(FINGERPRINT_GZ) $(ARCHIVE)
+#	-install -m 444 $(FINGERPRINT_XZ) $(ARCHIVE)
+#	@-rm $(FINGERPRINT_GZ)
+#	@-rm $(FINGERPRINT_XZ)
 
 doxygen:
 	@-rm -f $(HTML)/doxygen/html/*
