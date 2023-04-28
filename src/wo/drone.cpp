@@ -117,7 +117,7 @@ void Drone::changePermanent(float lasting)
   }
   else {
     // x
-    signx = signx ? signx : -1;
+    signx = (signx>0) ? signx : -1;
     if (expandx) {
       if ( (pos.x < -zone) || (pos.x > zone) ) {
         expandx = false;
@@ -133,7 +133,7 @@ void Drone::changePermanent(float lasting)
     pos.x += (signx * rand()%3 * DRONE_DELTA);
   
     // y
-    signy = signy ? signy : -1;
+    signy = (signy>0) ? signy : -1;
     if (expandy) {
       if ( (pos.y < -zone) || (pos.y > zone) ) {
         expandy = false;
