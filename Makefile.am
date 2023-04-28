@@ -48,7 +48,7 @@ FINGERPRINT_XZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-xz.md5sum
 dist dist-all:
 	-make dist-gzip
 	-make dist-xz
-	-cp -p ChangeLog VERSION.md $(HTML)
+	@-cp -p ChangeLog VERSION.md $(HTML)
 
 fingerprint:
 	-md5sum < $(TARBALL_GZ) > $(FINGERPRINT_GZ)
@@ -56,8 +56,8 @@ fingerprint:
 
 clean-tar:
 	tar xpf $(TARBALL_GZ)
-	cp $(TARBALL_GZ) vreng.tar.gz
-	-rm $(TARBALLS)
+	@-cp $(TARBALL_GZ) vreng-src.tar.gz
+	@-rm $(TARBALLS)
 
 data-tar:
 	tar zcf vreng-data.tar.gz htdocs
@@ -70,7 +70,7 @@ archive: dist fingerprint
 	-install -m 444 $(TARBALL_GZ) $(ARCHIVE)
 	-install -m 444 $(FINGERPRINT_XZ) $(ARCHIVE)
 	-install -m 444 $(TARBALL_XZ) $(ARCHIVE)
-	-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ))
+	@-(cd $(ARCHIVE); rm -f $(TARLINK_GZ); ln -s $(TARBALL_GZ) $(TARLINK_GZ); rm -f $(TARLINK_XZ); ln -s $(TARBALL_XZ) $(TARLINK_XZ))
 	@-rm $(FINGERPRINT_GZ)
 	@-rm $(FINGERPRINT_XZ)
 
