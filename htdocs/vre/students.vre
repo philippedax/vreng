@@ -91,7 +91,7 @@
 </mirage>
 
 <gate name="maze" pos="18.5 -11 1.2 1.57 0"
-  url="/vre/v8/maze.vre">
+  url="/vre/maze.vre">
   <solid dim="2 1.4 2.4" xn="/gif/maze.gif" />
 </gate>
 

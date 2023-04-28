@@ -72,7 +72,7 @@
 -->
 
 <gate name="board" pos="10 0 1 1.57"
-  url="/vre/v8/board.vre">
+  url="/vre/board.vre">
   <solid dim="1.6 0.04 2" dif="0.9 1 0" xn="/gif/wood.gif" />
 </gate>
 

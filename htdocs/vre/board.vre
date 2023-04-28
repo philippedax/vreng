@@ -23,7 +23,7 @@
 </vrelet>
 
 <gate name="rendezvous" pos="10 0 1 1.57"
-  url="/vre/v8/Rendezvous.vre">
+  url="/vre/Rendezvous.vre">
   <solid dim="2 0.4 2" xn="/gif/wood.gif" />
 </gate>
 

@@ -8,7 +8,7 @@
 <meta name="created" content="1 March 1997"/>
 <meta name="revised" content="26 April 2005"/>
 <meta name="revised" content="7 January 2007"/>
-<meta name="url" content="http://www.vreng.enst.fr/vre/v8/Rendezvous.vre"/>
+<meta name="url" content="http://www.vreng.enst.fr/vre/Rendezvous.vre"/>
 </head>
 
 <scene>
@@ -74,7 +74,7 @@
 
 <!-- students 224.255.0.2 -->
 <gate name="students" pos="11 -11.5 .7 .6"
-url="/vre/v8/students.vre" channel="224.255.0.2/52676/127">
+url="/vre/students.vre" channel="224.255.0.2/52676/127">
 <solid dim="1 .2 1.4" xn="/gif/eric_sam.gif" />
 </gate>
 
@@ -83,7 +83,7 @@ url="/vre/v8/students.vre" channel="224.255.0.2/52676/127">
 <!-- infres 224.255.0.4 -->
 <!--
 <gate name="infres" pos="2 11 .8 2.9"
-url="/vre/v8/infres.vre" channel="224.255.0.4/52696/127">
+url="/vre/infres.vre" channel="224.255.0.4/52696/127">
 <solid dim="1.6 .2 1.6" xn="/gif/infres.gif" />
 </gate>
 -->
@@ -91,92 +91,92 @@ url="/vre/v8/infres.vre" channel="224.255.0.4/52696/127">
 <!-- checker 224.255.0.5 -->
 <!--
 <gate name="checker" pos="-13 7.5 1 4.54"
-url="/vre/v8/checker.vre" channel="224.255.0.5/52706/127">
+url="/vre/checker.vre" channel="224.255.0.5/52706/127">
 <solid dim="2 .1 2" xn="/gif/checker.gif" />
 </gate>
 -->
 
 <!-- tarots 224.255.0.6 -->
 <gate name="tarots" pos="16.5 1.0 1 1.57"
-url="/vre/v8/tarots.vre" channel="224.255.0.6/52716/127">
+url="/vre/tarots.vre" channel="224.255.0.6/52716/127">
 <solid dim="2 .2 2" xn="/gif/tarots.gif" />
 </gate>
 
 <!-- telecomparis 224.255.0.7 -->
 <!--
 <gate name="telecomparis" pos="-2 10 .7 3.33"
-url="/vre/v8/enst.vre" channel="224.255.0.7/52726/127">
+url="/vre/enst.vre" channel="224.255.0.7/52726/127">
 <solid dim="1 .2 1.4" xn="/gif/telecom.gif" />
 </gate>
 -->
 
 <!-- stadium 224.255.0.8 -->
 <gate name="stadium" pos="0 -13.5 1 0"
-url="/vre/v8/stadium.vre" channel="224.255.0.8/52736/127">
+url="/vre/stadium.vre" channel="224.255.0.8/52736/127">
 <solid dim="2 .2 2" xn="/gif/stadium.gif" />
 </gate>
 
 <!-- pyramid 224.255.0.9 -->
 <gate name="pyramid" pos="5 -13 1 0"
-url="/vre/v8/pyramid.vre" channel="224.255.0.9/52746/127">
+url="/vre/pyramid.vre" channel="224.255.0.9/52746/127">
 <solid dim="2 .2 2" xn="/gif/pyramids.gif" />
 </gate>
 
 <!-- maze 224.255.0.10 -->
 <gate name="maze" pos="8.5 10.5 .7 2.6"
-url="/vre/v8/maze.vre" channel="224.255.0.10/52756/127">
+url="/vre/maze.vre" channel="224.255.0.10/52756/127">
 <solid dim="1 .2 1.4" xn="/gif/maze.gif" />
 </gate>
 
 <!-- dax 224.255.0.11 -->
 <gate name="dax" pos="12 9 .7 2.3"
-url="/vre/v8/dax.vre" channel="224.255.0.11/52766/127">
+url="/vre/dax.vre" channel="224.255.0.11/52766/127">
 <solid dim="1 .2 1.4" xn="/gif/dax.gif" />
 </gate>
 
 <!-- danzart 224.255.0.12 -->
 <!--
 <gate name="danzart" pos="4.5 11 .7 2.65"
-url="/vre/v8/danzart.vre" channel="224.255.0.12/52776/127">
+url="/vre/danzart.vre" channel="224.255.0.12/52776/127">
 <solid dim="1 .2 1.4" xn="/gif/danzart.gif" />
 </gate>
 -->
 
 <!-- felon 224.255.0.13 -->
 <gate name="felon" pos="2.5 -13.5 .7 .2"
-url="/vre/v8/felon.vre" channel="224.255.0.13/52786/127">
+url="/vre/felon.vre" channel="224.255.0.13/52786/127">
 <solid dim="2 .2 1.4" xn="/xbm/jp.xbm" />
 </gate>
 
 <!-- mouret 224.255.0.14 -->
 <!--
 <gate name="mouret" pos="0 10 .7 3.14"
-url="/vre/v8/mouret.vre" channel="224.255.0.14/52796/127">
+url="/vre/mouret.vre" channel="224.255.0.14/52796/127">
 <solid dim="1 .2 1.4" xn="/gif/zeni.gif" />
 </gate>
 -->
 
 <!-- mythology 224.255.0.15 -->
 <gate name="mythology" pos="17.5 -1 1 1.57"
-url="/vre/v8/mythology.vre" channel="224.255.0.15/52806/127">
+url="/vre/mythology.vre" channel="224.255.0.15/52806/127">
 <solid dim="1.6 .2 2" xn="/gif/mythology2.gif" />
 </gate>
 
 <!-- guide 224.255.0.31 -->
 <gate name="guide" pos="18.5 -3 1 1.57"
-url="/vre/v8/guide.vre" channel="224.255.0.31/52966/127">
+url="/vre/guide.vre" channel="224.255.0.31/52966/127">
 <solid dim="1.6 .2 2" xn="/gif/guide.gif" />
 </gate>
 
 <!-- classroom 224.255.0.16 -->
 <gate name="classroom" pos="2 14 .7 3.33"
-url="/vre/v8/classroom.vre" channel="224.255.0.16/52816/127">
+url="/vre/classroom.vre" channel="224.255.0.16/52816/127">
 <solid dim="1.6 .2 1.6" xn="/gif/classroom.gif" />
 </gate>
 
 <!-- house 224.255.0.17 -->
 <gate name="house" pos="16.5 5 1 2"
-url="/vre/v8/house.vre" channel="224.255.0.17/52826/127">
+url="/vre/house.vre" channel="224.255.0.17/52826/127">
 <solid dim="3 1 2" xn="/gif/house.gif" />
 </gate>
 
@@ -189,63 +189,63 @@ url="http://localhost/~dax/ftp/pub/vreng/vreng.tar.gz">
 
 <!-- labyrinthe 224.255.0.18 -->
 <gate name="labyrinthe" pos="11.5 10 .7 2.3"
-url="/vre/v8/labyrinthe.vre" channel="224.255.0.18/52836/127">
+url="/vre/labyrinthe.vre" channel="224.255.0.18/52836/127">
 <solid dim="1 .2 1.4" xn="/gif/laby.gif" />
 </gate>
 
 <!-- temple 224.255.0.19 -->
 <gate name="temple" pos="-1 14 1 3.81"
-url="/vre/v8/temple.vre" channel="224.255.0.19/52846/127">
+url="/vre/temple.vre" channel="224.255.0.19/52846/127">
 <solid dim="2 .2 2" xn="/gif/temple.gif" />
 </gate>
 
 <!-- cubes 224.255.0.20 -->
 <gate name="cubes" pos="-2.5 -13 1 6 0"
-url="/vre/v8/cubes.vre" channel="224.255.0.20/52856/127">
+url="/vre/cubes.vre" channel="224.255.0.20/52856/127">
 <solid dim="2 .2 2" xn="/gif/cubes.gif" />
 </gate>
 
 <!-- forest 224.255.0.21 -->
 <!--
 <gate name="forest" pos="-13 4.5 1 4.54"
-url="/vre/v8/forest.vre" channel="224.255.0.21/52866/127">
+url="/vre/forest.vre" channel="224.255.0.21/52866/127">
 <solid dim="2 .2 2" xn="/gif/forest.gif" />
 </gate>
 -->
 
 <!-- tests 224.255.0.22 -->
 <gate name="tests" pos="12 -10.5 0.7 .2"
-url="/vre/v8/tests.vre" channel="224.255.0.22/52876/127">
+url="/vre/tests.vre" channel="224.255.0.22/52876/127">
 <solid dim="1 .2 1.0" xn="/gif/travaux.gif" />
 </gate>
 
 <!-- beach 224.255.0.23 -->
 <gate name="beach" pos="12.8 6 .8 2.3"
-url="/vre/v8/beach.vre" channel="224.255.0.23/52886/127">
+url="/vre/beach.vre" channel="224.255.0.23/52886/127">
 <solid dim="1.6 .2 1.6" xn="/gif/beach.gif" />
 </gate>
 
 <!-- movies 224.255.0.24 -->
 <gate name="movies" pos="15 -11 .7 0.4"
-url="/vre/v8/movies.vre" channel="224.255.0.24/52896/127">
+url="/vre/movies.vre" channel="224.255.0.24/52896/127">
 <solid dim="1 .2 1.4" xn="/gif/movies.gif" dif="lightgreen" />
 </gate>
 
 <!-- humanoid 224.255.0.25 -->
 <gate name="humanoid" pos="15.5 -5 .9 1.3"
-url="/vre/v8/humanoid.vre" channel="224.255.0.25/52906/127">
+url="/vre/humanoid.vre" channel="224.255.0.25/52906/127">
 <solid dim="2.4 .2 1.8" xn="/gif/humanoid.gif" />
 </gate>
 
 <!-- desktops 224.255.0.26 -->
 <gate name="desktops" pos="15 -7.5 1.1 1"
-url="/vre/v8/desktops.vre" channel="224.255.0.26/52916/127">
+url="/vre/desktops.vre" channel="224.255.0.26/52916/127">
 <solid dim="2 .2 1.4" xn="/gif/vnc.gif" />
 </gate>
 
 <!-- entree 224.255.0.27 -->
 <gate name="entree" pos="10.2 10.6 .7 2.6"
-url="/vre/v8/entree.vre" channel="224.255.0.27/52926/127">
+url="/vre/entree.vre" channel="224.255.0.27/52926/127">
 <solid dim="1.4 .2 1.4" xn="/gif/entree.gif" />
 </gate>
 
@@ -256,20 +256,20 @@ url="/vre/v8/entree.vre" channel="224.255.0.27/52926/127">
 <!-- campus 224.255.0.31 -->
 <!--
 <gate name="campus" pos="13 -11.5 .7 .6"
-url="/vre/v8/campus.vre" channel="224.255.0.31/52966/127">
+url="/vre/campus.vre" channel="224.255.0.31/52966/127">
 <solid dim="2 .2 2.8" xn="/icon/html.gif" />
 </gate>
 -->
 
 <!-- romain 224.255.0.32 -->
 <gate name="romain" pos="6.5 11 .7 2.65"
-url="/vre/v8/romain.vre">
+url="/vre/romain.vre">
 <solid dim="2 .2 1.4" dif="lightblue" />
 </gate>
 
 <!-- eric 224.255.0.32 -->
 <gate name="eric" pos="4 11 1 3.14"
-url="/vre/v8/eric.vre">
+url="/vre/eric.vre">
 <solid dim="2 .2 1.4" xn="/gif/eric.gif" />
 </gate>
 
@@ -280,7 +280,7 @@ url="/vre/v8/eric.vre">
 <!-- router 239.254.2.96 -->
 <!--
 <gate name="router" pos="7.5 -12.5 .7 .3"
-url="/vre/v8/router.vre" channel="239.254.2.96/52666/127">
+url="/vre/router.vre" channel="239.254.2.96/52666/127">
 <solid dim="1 .2 1.4" xn="/gif/router.gif" />
 </gate>
 -->

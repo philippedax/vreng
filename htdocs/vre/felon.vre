@@ -31,7 +31,7 @@
 </aoi>
 
 <gate name="Rendezvous" pos="-19.25 0 -6.6 -4.71"
-  url="/vre/v8/Rendezvous.vre">
+  url="/vre/Rendezvous.vre">
   <solid dim="3 .7 2.4" xn="/gif/rendezvous.gif" yn="/gif/rendezvous.gif" />
 </gate>
 

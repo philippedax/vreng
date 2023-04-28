@@ -183,7 +183,7 @@
 <!-- exit -->
 <gate name="Rendezvous"
   pos="0 28 1.2 3.14"
-  url="/vre/v8/Rendezvous.vre">
+  url="/vre/Rendezvous.vre">
   <solid dim="2 1.4 2.4" xn="/gif/vrenglogo.gif" yn="/gif/vrenglogo.gif" />
 </gate>
 

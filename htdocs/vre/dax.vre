@@ -22,7 +22,7 @@
 
 <gate name="infres" pos="-1.5 4.45 1.5 0"
   mode="auto" entry="-6.625 -1 0"
-  url="/vre/v8/infres.vre">
+  url="/vre/infres.vre">
   <solid dim="2 .1 3" a=".2" />
 </gate>
 
@@ -389,11 +389,11 @@
 </thing>
 
 <gate name="tarots" pos="4 3.75 1 1.57 0"
-  url="/vre/v8/tarots.vre">
+  url="/vre/tarots.vre">
   <solid dim="1.5 .2 2" xn="/gif/tarots.gif" />
 </gate>
 <gate name="mythology" pos="-4 3.75 1 -1.57 0"
-  url="/vre/v8/mythology.vre">
+  url="/vre/mythology.vre">
   <solid dim="1.5 .2 1" xn="/gif/mythology.gif" />
 </gate>
 

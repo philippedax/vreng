@@ -207,7 +207,7 @@
 </web>
 
 <gate name="mouret" pos="43.9 0 1.3 1.57"
-  url="/vre/v8/mouret.vre">
+  url="/vre/mouret.vre">
   <solid dim="1.5 .1 2.6" xn="/gif/zeni.gif" xp="/gif/wood1.gif" />
 </gate>
 

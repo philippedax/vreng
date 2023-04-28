@@ -45,7 +45,7 @@
 -->
 
 <gate name="fan" pos="19 7 1 1.57"
-  url="/vre/v8/fan.vre" channel="224.255.0.28/52936/127" mode="auto">
+  url="/vre/fan.vre" channel="224.255.0.28/52936/127" mode="auto">
   <solid dim="1.6 0.04 2" dif="0 0.5 0.5" />
 </gate>
 

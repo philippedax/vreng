@@ -51,7 +51,7 @@
 </web>
 
 <gate name="Rendezvous" pos="39 0 1 1.57"
-  url="/vre/v8/Rendezvous.vre">
+  url="/vre/Rendezvous.vre">
   <solid dim="1.5 1 2" yp="/gif/brick.gif" />
 </gate>
 

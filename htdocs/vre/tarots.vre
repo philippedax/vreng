@@ -134,7 +134,7 @@
 </book>
 
 <gate name="mythology" pos="39 0 1 1.57"
-  url="/vre/v8/mythology.vre">
+  url="/vre/mythology.vre">
   <solid dim=".75 .5 1" xn="/elsa/mythology/athena.gif" />
 </gate>
 

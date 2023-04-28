@@ -16,7 +16,7 @@
 
 <gate name="tarots"
   pos="30 0 1.0 1.57"
-  url="/vre/v8/tarots.vre" channel="224.255.0.6/52666/127">
+  url="/vre/tarots.vre" channel="224.255.0.6/52666/127">
   <solid dim="1.5 1 2" xn="/gif/tarots.gif" />
 </gate>
 

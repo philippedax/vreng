@@ -53,7 +53,7 @@
 <wall pos="-4.5 -2 .05 0"> <solid dim="2.5 .044 .1" dif="blue" /></wall>
 <gate name="dax-room"
   pos="-6.625 -2 1 0 0"
-  url="/vre/v8/dax.vre" channel="224.255.0.11/52766/127"
+  url="/vre/dax.vre" channel="224.255.0.11/52766/127"
   mode="auto">
   <solid dim="1.75 .1 2" a=".1" />
 </gate>
@@ -672,7 +672,7 @@
 </cauldron>
 
 <gate name="classroom" pos="-54 0 1.2 4.71"
-  url="/vre/v8/classroom.vre" channel="224.255.0.17/52816/127">
+  url="/vre/classroom.vre" channel="224.255.0.17/52816/127">
   <solid dim="3 1.4 2.4" xn="/gif/classroom.gif" yn="/gif/classroom.gif" />
 </gate>
 

@@ -26,7 +26,7 @@
 
 <gate name="house"
   pos="-8 2 -2 3.14"
-  url="/vre/v8/house.vre" channel="224.255.0.17/52826/127">
+  url="/vre/house.vre" channel="224.255.0.17/52826/127">
   <solid dim=".3 1 2" xp="/gif/gate.gif" />
 </gate>
 

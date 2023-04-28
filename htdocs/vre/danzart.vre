@@ -53,7 +53,7 @@
   <solid dim="1.4 .01 1.4" xn="/gif/wb.gif" />
 </board>
 
-<gate name="infres" pos="-4.0 1 1.2 4.71" url="/vre/v8/infres.vre">
+<gate name="infres" pos="-4.0 1 1.2 4.71" url="/vre/infres.vre">
   <solid dim="1 .2 2.4" xn="/gif/infres.gif" yn="/gif/infres.gif" />
 </gate>
 

@@ -69,7 +69,7 @@
   <solid shape="cone" rb="12.2" rt="5.3" h=".01" dif="black" tx="/gif/road04.gif" />
 </step>
 <mirage pos="40 0 0 1.57">
-  <solid shape="cone" rb="6" rt=".1" h="4" dif="red" tx="/gif/herbe2.gif" a="0.5" />
+  <solid shape="cone" rb="6" rt=".1" h="4" dif="yellow" tx="/gif/herbe2.gif" a="1" />
 </mirage>
 <mirage name="car1" pos="40 0 0 1.57" aspeed="1" radius="10" mode="circular">
   <solid shape="car" dim="1.4 1.4 1.4" dif="grey" xp="/gif/stries.gif" xn="/gif/stries.gif" yp="/gif/stries.gif" yn="/gif/stries.gif" zp="/gif/stries.gif" />

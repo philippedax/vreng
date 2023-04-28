@@ -75,26 +75,26 @@
 <!-- Gates Side -->
 <gate name="dax"
   pos="10 10 -2.6 2.3"
-  url="/vre/v8/dax.vre">
+  url="/vre/dax.vre">
   <solid shape="box" dim="2 0.4 2.8" a=".9" xn="/gif/dax.gif" />
 </gate>
 
 <!-- Gate Front -->
 <gate name="Land"
   pos="16 0 -2.6 -1.5"
-  url="/vre/v8/land.vre">
+  url="/vre/land.vre">
   <solid shape="box" dim="3.5 0.4 2.8" a=".7" yn="/gif/w_land.gif" />
 </gate>
 
 <!-- Gates Middle -->
 <gate name="Forest"
   pos="13 5 -2.6 -1"
-  url="/vre/v8/forest2.vre">
+  url="/vre/forest2.vre">
   <solid shape="box" dim="2 0.4 2.8" a=".7" yn="/gif/w_forest.gif" />
 </gate>
 <gate name="Factory"
   pos="13 -5 -2.6 1"
-  url="/vre/v8/factory.vre">
+  url="/vre/factory.vre">
   <solid shape="box" dim="2 0.4 2.8" a=".7" xn="/gif/w_factory.gif" />
 </gate>
 

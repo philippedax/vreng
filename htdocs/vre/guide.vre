@@ -82,55 +82,55 @@
 
 <!-- infres 224.255.0.4 -->
 <!--
-<gate  pos="8 30 2 3.14" url="/vre/v8/infres.vre">
+<gate  pos="8 30 2 3.14" url="/vre/infres.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/infres.gif" />
 </gate>
 -->
 
 <!-- dax 224.255.0.11 -->
-<gate  pos="18 38 2 3.7" url="/vre/v8/dax.vre">
+<gate  pos="18 38 2 3.7" url="/vre/dax.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/dax.gif" />
 </gate>
 
 <!-- danzart 224.255.0.12 -->
 <!--
-<gate  pos="28 40 2 3.1" url="/vre/v8/danzart.vre">
+<gate  pos="28 40 2 3.1" url="/vre/danzart.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/danzart.gif" />
 </gate>
 -->
 
 <!-- stadium 224.255.0.8 -->
-<gate  pos="38 42 2 3.1" url="/vre/v8/stadium.vre">
+<gate  pos="38 42 2 3.1" url="/vre/stadium.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/stadium.gif" />
 </gate>
 
 <!-- classroom 224.255.0.16 -->
-<gate  pos="48 42 2 3" url="/vre/v8/classroom.vre">
+<gate  pos="48 42 2 3" url="/vre/classroom.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/classroom.gif" />
 </gate>
 
 <!-- labyrinthe 224.255.0.18 -->
-<gate  pos="58 40 2 2.9" url="/vre/v8/labyrinthe.vre">
+<gate  pos="58 40 2 2.9" url="/vre/labyrinthe.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/laby.gif" />
 </gate>
 
 <!-- sea 224.255.0.23 -->
-<gate  pos="68 38 2 2.7" url="/vre/v8/sea.vre">
+<gate  pos="68 38 2 2.7" url="/vre/sea.vre">
   <solid dim="3.6 .2 3.6" xn="/pgm/girl.pgm" />
 </gate>
 
 <!-- students 224.255.0.2 -->
-<gate  pos="78 36 2 2.4" url="/vre/v8/students.vre">
+<gate  pos="78 36 2 2.4" url="/vre/students.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/eric_sam.gif" />
 </gate>
 
 <!-- tarots 224.255.0.6 -->
-<gate  pos="88 30 2 2" url="/vre/v8/tarots.vre">
+<gate  pos="88 30 2 2" url="/vre/tarots.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/tarots.gif" />
 </gate>
 
 <!-- mythology 224.255.0.15 -->
-<gate  pos="95 20 2 1.57" url="/vre/v8/mythology.vre">
+<gate  pos="95 20 2 1.57" url="/vre/mythology.vre">
   <solid dim="3.6 .2 3.6" xn="/gif/mythology2.gif" />
 </gate>
 

@@ -46,7 +46,7 @@
 -->
 
 <gate name="ring" pos="15.2 24.2 1 .2"
-  url="/vre/v8/ring.vre" channel="224.255.0.29/52946/127"
+  url="/vre/ring.vre" channel="224.255.0.29/52946/127"
   mode="auto">
   <solid dim="1.6 .04 2" dif=".8 0 0" />
 </gate>

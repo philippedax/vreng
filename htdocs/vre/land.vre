@@ -47,36 +47,42 @@
 
 <!-- models -->
 <local>
-    <transform translation="2.5 0 1.6"></transform>
-    <transform rotation="90 1 0 0"></transform>
+  <transform translation="2.5 0 1.6"></transform>
+  <transform rotation="90 1 0 0"></transform>
 
-    <!-- Liberty face -->
-    <local>
-        <transform translation="25.15 1.5 -16"></transform>
-        <transform rotation="240 0 1 0"></transform>
-        <model name="liberty" url="/ase/liberty.ase" scale="1"></model>
-    </local>
+  <!-- Liberty -->
+<!--
+-->
+  <local>
+    <transform trans="25.15 1.5 -16"></transform>
+    <transform rot="240 0 1 0"></transform>
+    <model name="liberty" url="/ase/liberty.ase" scale="1"></model>
+  </local>
+<!--
+-->
 
-    <!-- Castle -->
-    <local>
-    	<transform translation="40 0 -1.5"></transform>
-        <transform rotation="90 0 1 0"></transform>
-    	<model name="castle" url="/3ds/castle.3ds" scale=".018"></model>
-    </local>
+  <!-- Castle -->
+  <local>
+    <transform trans="40 0 -1.5"></transform>
+    <transform rot="90 0 1 0"></transform>
+    <model name="castle" url="/3ds/castle.3ds" scale=".018"></model>
+<!--
+-->
+  </local>
 
-    <!-- Trees -->
-    <local>
-    	<transform translation="-.3 -1 2"></transform>
-    	<model name="tree1" url="/3ds/tree_1.3ds" scale=".05"></model>
-    	<transform translation="3 0 -3"></transform>
-    	<model name="tree2-1" url="/3ds/tree_2.3ds" scale=".07"></model>
-    	<transform translation="0 0 2"></transform>
-    	<model name="tree2-2" url="/3ds/tree_2.3ds" scale=".06"></model>
-     	<transform translation="0 0 2"></transform>
-    	<model name="tree2-3" url="/3ds/tree_2.3ds" scale=".08"></model>
-    	<transform translation="0 0 2"></transform>
-    	<model name="tree2-4" url="/3ds/tree_2.3ds" scale=".07"></model>
-    </local>
+  <!-- Trees -->
+  <local>
+    <transform trans="-.3 -1 2"></transform>
+    <model name="tree1" url="/3ds/tree_1.3ds" scale=".05"></model>
+    <transform trans="3 0 -3"></transform>
+    <model name="tree2-1" url="/3ds/tree_2.3ds" scale=".07"></model>
+    <transform trans="0 0 2"></transform>
+    <model name="tree2-2" url="/3ds/tree_2.3ds" scale=".06"></model>
+    <transform trans="0 0 2"></transform>
+    <model name="tree2-3" url="/3ds/tree_2.3ds" scale=".08"></model>
+    <transform trans="0 0 2"></transform>
+    <model name="tree2-4" url="/3ds/tree_2.3ds" scale=".07"></model>
+  </local>
 </local>
 
 </scene>
