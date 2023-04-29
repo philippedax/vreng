@@ -29,7 +29,7 @@ const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);
 
 const float Drone::DRONE_SCALE = .4;
 const float Drone::DRONE_ZONE = 20;	// flying zone 20x20
-const float Drone::DRONE_DELTA = .05;	// elementary movement 5cm
+const float Drone::DRONE_DELTA = .01;	// elementary movement 5cm
 
 
 /* Creation from a file */
@@ -68,7 +68,7 @@ void Drone::parser(char *l)
 /* Behavior */
 void Drone::behaviors()
 {
-  enableBehavior(NO_ELEMENTARY_MOVE);
+  //enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 }
@@ -130,7 +130,7 @@ void Drone::changePermanent(float lasting)
         signx = (signx<0) ? 1 : -1;
       }
     }
-    pos.x += (signx * rand()%3 * DRONE_DELTA);
+    pos.x += (signx /* * rand()%3 */ * DRONE_DELTA);
   
     // y
     signy = (signy) ? signy : -1;
@@ -146,7 +146,7 @@ void Drone::changePermanent(float lasting)
         signy = (signy<0) ? 1 : -1;
       }
     }
-    pos.y += (signy * rand()%3 * DRONE_DELTA);
+    pos.y += (signy /* * rand()%3 */ * DRONE_DELTA);
     //echo("pos: %.1f %.1f", pos.x, pos.y);
 
     // z
