@@ -27,7 +27,7 @@ const OClass Bird::oclass(BIRD_TYPE, "Bird", Bird::creator);
 
 const float Bird::BIRD_SCALE = 0.3;
 const float Bird::BIRD_ZONE = 3;	// flying zone
-const float Bird::BIRD_DELTA = .005;	// elem motion
+const float Bird::BIRD_DELTA = .01;	// elem motion
 
 
 /* Creation from a file */
@@ -67,7 +67,6 @@ void Bird::parser(char *l)
 /* Behavior */
 void Bird::behaviors()
 {
-  enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 }
@@ -119,7 +118,7 @@ void Bird::changePermanent(float lasting)
       signx = (signx<0) ? 1 : -1;
     }
   }
-  pos.x += (signx * rand()%3 * BIRD_DELTA);
+  pos.x += (signx /* * rand()%3 */ * BIRD_DELTA);
 
   // y
   if (expandy) {
@@ -136,7 +135,7 @@ void Bird::changePermanent(float lasting)
       signy = (signy<0) ? 1 : -1;
     }
   }
-  pos.y += (signy * rand()%3 * BIRD_DELTA);
+  pos.y += (signy /* * rand()%3 */ * BIRD_DELTA);
 
   // z
   if (expandz) {
@@ -153,7 +152,7 @@ void Bird::changePermanent(float lasting)
       signz = (signz<0) ? 1 : -1;
     }
   }
-  pos.z += (signz * rand()%3 * BIRD_DELTA);
+  pos.z += (signz /* * rand()%3 */ * BIRD_DELTA);
 
   updatePosition();
 }
