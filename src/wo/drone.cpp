@@ -238,6 +238,13 @@ void Drone::drive()
   }
 }
 
+void Drone::view()
+{
+  float a[1] = {-90};
+  localuser->setVisible(false);
+  User::setPitch(localuser, (void*) a, (time_t) 0, (time_t) 0);
+}
+
 void Drone::reset()
 {
   flying = false;
@@ -249,6 +256,10 @@ void Drone::reset()
     driven = false;
     localuser->enableGravity();
     localuser->updatePosition();
+    float a[1];
+    a[0] = 0;
+    localuser->setVisible(true);
+    User::setPitch(localuser, (void*) a, (time_t) 0, (time_t) 0);
   }
 }
 
@@ -276,6 +287,11 @@ void Drone::pause_cb(Drone *drone, void *d, time_t s, time_t u)
   drone->pause();
 }
 
+void Drone::view_cb(Drone *drone, void *d, time_t s, time_t u)
+{
+  drone->view();
+}
+
 void Drone::reset_cb(Drone *drone, void *d, time_t s, time_t u)
 {
   drone->reset();
@@ -287,5 +303,6 @@ void Drone::funcs()
   setActionFunc(DRONE_TYPE, 1, _Action follow_cb, "follow");
   setActionFunc(DRONE_TYPE, 2, _Action drive_cb, "drive");
   //dax setActionFunc(DRONE_TYPE, 3, _Action pause_cb, "pause");
-  setActionFunc(DRONE_TYPE, 3, _Action reset_cb, "reset");
+  setActionFunc(DRONE_TYPE, 3, _Action view_cb, "view");
+  setActionFunc(DRONE_TYPE, 4, _Action reset_cb, "reset");
 }

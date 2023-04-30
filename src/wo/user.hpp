@@ -293,7 +293,9 @@ private:
   static void pauseOff(User *pu, void *d, time_t s, time_t u);
   static void mapView(User *pu, void *d, time_t s, time_t u);
   static void setRoll(User *pu, void *d, time_t s, time_t u);
+ public:
   static void setPitch(User *pu, void *d, time_t s, time_t u);
+ private:
   static void increasePitch(User *pu, void *d, time_t s, time_t u);
   static void decreasePitch(User *pu, void *d, time_t s, time_t u);
   static void increaseRoll(User *pu, void *d, time_t s, time_t u);

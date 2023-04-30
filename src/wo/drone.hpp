@@ -85,6 +85,7 @@ class Drone : public WObject {
   void follow();
   void drive();
   void pause();
+  void view();
   void reset();
 
   // GUI callbacks
@@ -92,6 +93,7 @@ class Drone : public WObject {
   static void follow_cb(Drone *o, void *d, time_t s, time_t u);
   static void drive_cb(Drone *o, void *d, time_t s, time_t u);
   static void pause_cb(Drone *o, void *d, time_t s, time_t u);
+  static void view_cb(Drone *o, void *d, time_t s, time_t u);
   static void reset_cb(Drone *o, void *d, time_t s, time_t u);
 
 };
