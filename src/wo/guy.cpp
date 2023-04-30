@@ -500,6 +500,8 @@ void Guy::display_arm(bool side)
 
 void Guy::render()
 {
+  if (! localuser->visible) return;
+
   glPushMatrix();
    glTranslatef(pos.x, pos.y, pos.z);
    glRotatef(RAD2DEG(pos.az), 0, 0, 1);

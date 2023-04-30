@@ -168,6 +168,7 @@ public:
   class WObjectId noid;		///< WObject Id.
   bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
+  bool visible;			///< flag visible or not.
   int16_t state;		///< current state.
   char *geomsolid;		///< geometry string of the solid.
   char chan[CHAN_LEN];		///< channel.

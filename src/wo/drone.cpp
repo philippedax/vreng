@@ -46,6 +46,7 @@ void Drone::defaults()
   scale = DRONE_SCALE;
   flying = false;
   following = false;
+  viewing = false;
   driven = false;
 }
 
@@ -240,8 +241,18 @@ void Drone::drive()
 
 void Drone::view()
 {
-  float a[1] = {-90};
-  localuser->setVisible(false);
+  float a[1];
+
+  if (! viewing) {
+    viewing = true;
+    a[0] = -90;
+    localuser->setVisible(false);
+  }
+  else {
+    viewing = false;
+    a[0] = 0;
+    localuser->setVisible(true);
+  }
   User::setPitch(localuser, (void*) a, (time_t) 0, (time_t) 0);
 }
 

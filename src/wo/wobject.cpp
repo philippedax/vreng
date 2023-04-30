@@ -60,6 +60,7 @@ WObject::WObject()
   guip = NULL;
   inlist = false;
   removed = false;
+  visible = true;
 
   state = NONE;
   type = 0;
@@ -431,6 +432,7 @@ Solid* WObject::getSolid() const
 
 void WObject::setVisible(bool flag)
 {
+  visible = flag;
   if (solid) solid->setVisible(flag);
 }
 
