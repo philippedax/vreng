@@ -212,6 +212,8 @@ void Human::draw()
 
 void Human::render()
 {
+  if (localuser->human && ! localuser->visible) return;
+
   glPushMatrix();
    glTranslatef(pos.x, pos.y, pos.z);
    glRotatef(RAD2DEG(pos.az) + 180, 0, 0, 1);	// orientation forward
