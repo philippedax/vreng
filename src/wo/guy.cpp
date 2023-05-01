@@ -500,7 +500,7 @@ void Guy::display_arm(bool side)
 
 void Guy::render()
 {
-  if (! localuser->visible) return;
+  if (localuser->guy && ! localuser->visible) return;
 
   glPushMatrix();
    glTranslatef(pos.x, pos.y, pos.z);

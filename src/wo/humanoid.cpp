@@ -138,6 +138,8 @@ Humanoid::Humanoid()
 
 void Humanoid::render()
 {
+  if (localuser->humanoid && ! localuser->visible) return;
+
   body->render(pos);
 }
 
