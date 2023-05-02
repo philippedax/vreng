@@ -114,7 +114,6 @@ void Humanoid::inits()
   vaps_port = Channel::getPort(World::current()->getChan()) + vaps_offset_port;
   if (! ::g.pref.reflector) reset();
   state = INACTIVE;
-  setVisible(true);
 }
 
 /* Comes from file */
