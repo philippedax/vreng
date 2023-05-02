@@ -1547,6 +1547,7 @@ void Body::render(Pos& pos)
   //dax if (!bap) return;
 
   float dtz = (bscale != 1) ?  B_HEIGHT/2 : 0;
+  dtz = 0; //dax
   const float color[] = {.4,.4,.4,1};
 
   glPushMatrix();

@@ -91,6 +91,8 @@ class Humanoid: public WObject {
   void quit();
   /**< Quits. */
 
+  void pause();
+
 private:
   int connectToBapServer(int _ipmode);
   /**< Establishes a TCP connection to the vaps server
@@ -127,7 +129,6 @@ private:
 
   //char * toPlay(const char *str);
 
-  void pause();
   void hi();
   void bye();
   void ask();

@@ -207,7 +207,10 @@ void User::geometry()
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
       pos.az -= M_PI_2;
       humanoid->pos.az -= M_PI_2;
+      pos.z -= height/2;
+      humanoid->pos.z -= height/2;
       //echo("humanoid: %.1f %.2f", pos.z, pos.az);
+      humanoid->pause();	//dax
       updatePosition();
     }
     else if (! strcmp(avatar, "human")) {
@@ -565,6 +568,7 @@ void User::userRequesting(const char *usermsg)
   localuser->netop->declareObjDelta(PROPMSG); // msg property
 }
 
+/* imposed movement via keys or navig_menu or joystick */
 void User::changePosition(float lasting)
 {
   pos.x += lasting * move.lspeed.v[0];
@@ -579,7 +583,7 @@ void User::changePosition(float lasting)
   }
   if (localuser->humanoid) {
     localuser->humanoid->pos = pos;
-    //dax1 localuser->humanoid->updatePosition();
+    localuser->humanoid->updatePosition();
   }
   if (localuser->bubble) {
     localuser->bubble->setPosition();
