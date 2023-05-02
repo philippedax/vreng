@@ -55,6 +55,7 @@ where options are:\n\
 -3, --thirdview			Thirdperson view\n\
 -A, --address group/port/ttl	Multicast address (deprecated)\n\
 -C, --clean			Clean cache\n\
+-D, --debugger			Debugging lldb or gdb (reserved for vr)\n\
 -E, --expand			Expand palettes (GUI)\n\
 -F, --fillcache			Fill the cache artificialy\n\
 -L, --loghttpd			Logging more httpd client infos\n\
@@ -182,9 +183,9 @@ void Pref::parse(int argc, char **argv)
     {"ubit",       0, 0, 'U'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiklqrstv23CEFLMNPRSUa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv23CDEFLMNPRSUa:d:f:n:p:u:w:A:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiklqrstvx23CEFLMNPRSUa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx23CDEFLMNPRSUa:d:f:n:p:u:w:A:T:"))
 #endif
    != -1) {
 
@@ -300,6 +301,8 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'C':
         ::g.env.cleanCacheByTime(0L);
+        break;
+      case 'D':
         break;
       case 'E':
         expand = true;
