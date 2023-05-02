@@ -207,10 +207,10 @@ void User::geometry()
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
       pos.az -= M_PI_2;
       humanoid->pos.az -= M_PI_2;
-      pos.z -= height/2;
-      humanoid->pos.z -= height/2;
+      //dax pos.z -= height/2;
+      //dax humanoid->pos.z -= height/2;
       //echo("humanoid: %.1f %.2f", pos.z, pos.az);
-      humanoid->pause();	//dax
+      humanoid->pause();	//dax ??? OK WHY ???
       updatePosition();
     }
     else if (! strcmp(avatar, "human")) {
