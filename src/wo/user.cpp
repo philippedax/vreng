@@ -205,8 +205,10 @@ void User::geometry()
     else if (! strcmp(avatar, "humanoid")) {
       humanoid = new Humanoid();
       sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
-      //pos.az -= M_PI_2;
-      //dax updatePosition();
+      pos.az -= M_PI_2;
+      humanoid->pos.az -= M_PI_2;
+      //echo("humanoid: %.1f %.2f", pos.z, pos.az);
+      updatePosition();
     }
     else if (! strcmp(avatar, "human")) {
       human = new Human();
@@ -323,10 +325,9 @@ void User::inits()
   if (current_view)
     setView(current_view);
   else
-   setView(Render::VIEW_FIRST_PERSON);
+    setView(Render::VIEW_FIRST_PERSON);
   setRtcp();		// network identity
   clearKeyTab();	// reset keys for movement
-
   addGui();		// informs GUI
 
   // attach carrier & cart
@@ -349,11 +350,12 @@ User::User()
   humanoid = NULL;
   guy = NULL;
   humanhead = NULL;
+  hit = 0;
+
   defaults();
   move.lspeed.v[0] = move.lspeed.v[1] = move.lspeed.v[2] = 0;
   move.aspeed.v[0] = move.aspeed.v[1] = move.aspeed.v[2] = 0;
   pos.az = 0;
-  hit = 0;
   inits();
 }
 
@@ -442,7 +444,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
       netop->getProperty(np, pp);
     }
   }
-  echo("Avatar: rctpname=%s", rtcpname);
+  echo("new avatar: rctpname=%s", rtcpname);
 
   initMobileObject(0);
   addGui();			// informs Gui

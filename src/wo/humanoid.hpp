@@ -116,8 +116,8 @@ private:
   void defaults();
   /**< Sets defaults. */
 
-  void behaviour();
-  /**< Sets behaviour. */
+  void behaviors();
+  /**< Sets behaviors. */
 
   void inits();
   /**< Makes some initializations. */

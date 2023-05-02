@@ -79,7 +79,7 @@ void Humanoid::geometry()
   parseSolid(s);
 }
 
-void Humanoid::behaviour()
+void Humanoid::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
@@ -121,7 +121,7 @@ Humanoid::Humanoid(char *l)
 {
   parser(l);
   geometry();
-  behaviour();
+  behaviors();
   inits();
   usercontrol = false;
 }
@@ -131,7 +131,7 @@ Humanoid::Humanoid()
 {
   defaults();
   geometry();
-  behaviour();
+  behaviors();
   inits();
   usercontrol = true;
 }
