@@ -175,6 +175,7 @@ void WObject::initObject(uint8_t _mode)
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
+      visible = false;
       invisList.push_back(this);	// add to invisList
       break;
 
@@ -189,6 +190,7 @@ void WObject::initObject(uint8_t _mode)
       enableBehavior(NO_BBABLE);
       enableBehavior(UNSELECTABLE);
       enableBehavior(NO_ELEMENTARY_MOVE);
+      visible = false;
       mobileList.push_back(this);	// add to mobileList
       invisList.push_back(this);	// add to invisList
       break;

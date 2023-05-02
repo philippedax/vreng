@@ -73,7 +73,7 @@ void Humanoid::parser(char *l)
 
 void Humanoid::geometry()
 {
-  char s[256];
+  char s[128];
 
   sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />",.24,.14,B_HEIGHT);
   parseSolid(s);
@@ -114,6 +114,7 @@ void Humanoid::inits()
   vaps_port = Channel::getPort(World::current()->getChan()) + vaps_offset_port;
   if (! ::g.pref.reflector) reset();
   state = INACTIVE;
+  setVisible(true);
 }
 
 /* Comes from file */
@@ -138,7 +139,7 @@ Humanoid::Humanoid()
 
 void Humanoid::render()
 {
-  if (localuser->humanoid && ! localuser->visible) return;
+  if (localuser->humanoid != NULL && ! localuser->isVisible()) return;
 
   body->render(pos);
 }

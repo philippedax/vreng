@@ -245,12 +245,12 @@ void Drone::view()
 
   if (! viewing) {
     viewing = true;
-    a[0] = -90;
+    a[0] = -90;		// look down
     localuser->setVisible(false);
   }
   else {
     viewing = false;
-    a[0] = 0;
+    a[0] = 0;		// look normal
     localuser->setVisible(true);
   }
   User::setPitch(localuser, (void*) a, (time_t) 0, (time_t) 0);

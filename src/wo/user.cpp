@@ -329,6 +329,7 @@ void User::inits()
     setView(current_view);
   else
     setView(Render::VIEW_FIRST_PERSON);
+  setVisible(true);
   setRtcp();		// network identity
   clearKeyTab();	// reset keys for movement
   addGui();		// informs GUI
