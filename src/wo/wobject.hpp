@@ -151,34 +151,35 @@ struct Move {
  */
 class WObject {
 
-//typedef std::list<class Solid*> SolidList_t;
-
 public:
   class NetObject *netop;	///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
-  uint8_t type;			///< object type.
-  uint8_t mode;			///< object mode (STILL | MOBILE | INVISIBLE |...).
+  struct Names names;		///< names.
+  struct Pos pos;		///< position in the space.
+  struct Move move;		///< movement specific.
+
+  uint8_t  type;		///< object type.
+  uint8_t  mode;		///< object mode (STILL | MOBILE | INVISIBLE |...).
   uint16_t num;			///< object sequence number.
+  int16_t  state;		///< current state.
   uint32_t behavior;		///< behavior flags.
-  Names names;			///< names.
-  Pos pos;			///< position in the space.
-  Move move;			///< movement specific.
-  class Solid *solid;		///< solid pointer
-  list<Solid*> _solidList;	///< list of solids.
-  class WObjectId noid;		///< WObject Id.
+
+  float lspeed;         	///< linear speed.
+  float aspeed;         	///< angular speed.
+  bool visible;			///< flag visible or not.
   bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
-  bool visible;			///< flag visible or not.
-  int16_t state;		///< current state.
   char *geomsolid;		///< geometry string of the solid.
   char chan[CHAN_LEN];		///< channel.
+
+  class Solid *solid;		///< solid pointer
+  class WObjectId noid;		///< WObject Id.
+  list<Solid*> _solidList;	///< list of solids.
+  class Flare *flare;		///< flare instance.
+  class Carrier *carrier;	///< move via carrier.
 #if VRSQL 			///< HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
   class VRSql *psql;		///< VRSql pointer.
 #endif
-  class Flare *flare;		///< flare instance.
-  class Carrier *carrier;	///< move via carrier.
-  float lspeed;         	///< linear speed.
-  float aspeed;         	///< angular speed.
 
   /* object's list modes */
   enum object_mode {
