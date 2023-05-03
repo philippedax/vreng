@@ -188,22 +188,24 @@ Solid::Solid()
   wobject = NULL;	// wobject associated with this solid set by addSolid in wobject.cpp
   bbcent = setV3(0, 0, 0);
   bbsize = setV3(0, 0, 0);
-  idxframe = 0;		// frame index in displaylist
+
+  visible = true;	// visible by default
+  opaque = true;	// opaque by default
+  fictif = false;	// real solid by default
+  flashy = false;	// no flashy by default
+  flary = false;	// no flary by default
+  reflexive = false;	// no reflexive by default
+  blinking = false;	// no blinking by default
+  blink = false;	// no blinking by default
+  rendered = false;	// flag if already rendered
+  framed = false;	// mono framed by default
+
   frame = 0;		// frame to render
+  idxframe = 0;		// frame index in displaylist
   nbframes = 1;		// 1 frame by default
-  isframed = false;	// mono framed by default
-  isflashy = false;
-  isflary = false;
-  isreflex = false;
-  isblinking = false;
-  blink = false;
-  is_visible = true;	// visible by default
-  is_opaque = true;	// opaque by default
-  is_fictif = false;	// true solid
   userdist = 0;		// distance to localuser
   surfsize = 0;		// surface of solid
   ray_dlist = 0;	// ray display-list
-  rendered = false;	// flag if already rendered
 
   ::g.render.relsolidList.push_back(this);	// add solid to relsolidList
   nbsolids = ::g.render.relsolidList.size();	// number of solids
@@ -257,11 +259,11 @@ char * Solid::getTok(char *l, uint16_t *tok)
 char * Solid::parseFrame(char *l)
 {
   if (! strcmp(l, "frame")) {
-    isframed = true;
+    framed = true;
     char *p = wobject->parse()->nextToken();
     return p;
   }
-  while (l && isframed) {
+  while (l && framed) {
     if (! stringcmp(l, "frame"))
       return wobject->parse()->nextToken();
     l = wobject->parse()->nextToken();
@@ -519,7 +521,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseFloat(l, &alpha);
         mat_diffuse[3] = mat_ambient[3] = alpha;
         if (alpha < 1) {
-          is_opaque = false;
+          opaque = false;
         }
         break;
       case STOK_SCALE:
@@ -704,7 +706,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   switch (shape) {
 
     case STOK_NONE:
-      is_fictif = true;
+      fictif = true;
       break;
 
     case STOK_BOX:
@@ -987,7 +989,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseFloat(l, &alpha);
         mat_diffuse[3] = mat_ambient[3] = alpha;
         if (alpha < 1) {
-          is_opaque = false;
+          opaque = false;
         }
         break;
       case STOK_TEXTURE:
@@ -1028,7 +1030,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
             nf = -1;
             break;
           }
-          getBB(bbmax, bbmin, isframed); // get bounding box
+          getBB(bbmax, bbmin, framed); // get bounding box
         }
         if (md2) delete md2;
         md2 = NULL;
@@ -1073,7 +1075,7 @@ void Solid::doTransform(bool flag)
 void Solid::doBlend(bool flag, GLfloat _alpha)
 {
   if (_alpha < 1) {
-    is_opaque = false;
+    opaque = false;
     switch ((int)flag) {
     case true:  // pre
       glEnable(GL_BLEND);
@@ -1218,12 +1220,12 @@ void Solid::getPosition(M4& mpos)
 
 void Solid::setVisible(bool _isvisible)
 {
-  is_visible = _isvisible;
+  visible = _isvisible;
 }
 
 bool Solid::isVisible() const
 {
-  return is_visible;
+  return visible;
 }
 
 void Solid::setRendered(bool _rendered)
@@ -1238,41 +1240,41 @@ bool Solid::isRendered() const
 
 bool Solid::isOpaque() const
 {
-  return is_opaque;
+  return opaque;
 }
 
 bool Solid::isFlashy() const
 {
-  return isflashy;
+  return flashy;
 }
 
 bool Solid::isFlary() const
 {
-  return isflary;
+  return flary;
 }
 
 void Solid::setTransparent(float _alpha)
 {
   alpha = _alpha;
   if (alpha < 1)
-    is_opaque = false;
+    opaque = false;
   else
-    is_opaque = true;
+    opaque = true;
 }
 
 void Solid::setFlary(bool flag)
 {
-  isflary = flag;
+  flary = flag;
 }
 
 void Solid::setReflexive(bool flag)
 {
-  isreflex = flag;
+  reflexive = flag;
 }
 
 bool Solid::isReflexive() const
 {
-  return isreflex;
+  return reflexive;
 }
 
 /** Draws a ray between user'eyes and the object's impact
@@ -1315,12 +1317,12 @@ void Solid::resetRay()
 
 void Solid::setFlashyEdges(bool flag)
 {
-  isflashy = flag;
+  flashy = flag;
 }
 
 void Solid::setFlashyEdges(const GLfloat *color)
 {
-  isflashy = true;
+  flashy = true;
   for (int i=0; i<3; i++) {
     flashcol[i] = color[i];
   }
@@ -1328,7 +1330,7 @@ void Solid::setFlashyEdges(const GLfloat *color)
 
 void Solid::resetFlashyEdges()
 {
-  isflashy = false;
+  flashy = false;
 }
 
 bool Solid::toggleBlinking()
@@ -1345,12 +1347,12 @@ bool Solid::toggleBlinking()
 
 void Solid::setBlinking(bool flag)
 {
-  isblinking = flag;
+  blinking = flag;
 }
 
 bool Solid::isBlinking() const
 {
-  return isblinking;
+  return blinking;
 }
 
 uint8_t Solid::getFrames() const

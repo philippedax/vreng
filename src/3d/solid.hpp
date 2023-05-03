@@ -158,24 +158,24 @@ protected:
   V3		bbcent;		///< relative center of BB.
   V3		bbsize;		///< relative half sizes of BB.
   float 	pos[5];		///< relative position/orientation.
-  bool		is_visible;	///< should this solid be drawn ?.
-  bool		is_opaque;	///< set if the solid is totaly opaque.
-  bool		is_fictif;	///< set if the solid is fictif.
-  float		alpha;
-  float		scale, scalex, scaley, scalez;
-  bool		isflashy;	///< flag flashy.
-  bool		isflary;	///< flag flary.
-  bool		isreflex;	///< flag reflexive.
-  bool		isblinking;	///< flag blinking.
+  bool		fictif;		///< set if the solid is fictif.
+  bool		visible;	///< should this solid be drawn ?.
+  bool		opaque;		///< set if the solid is opaque.
+  bool		flashy;		///< flag flashy.
+  bool		flary;		///< flag flary.
+  bool		reflexive;	///< flag reflexive.
+  bool		blinking;	///< flag blinking.
   bool		blink;		///< flag blink.
+  bool		rendered;	///< flag if is already rendered
   uint8_t	shape;		///< basic shape.
   uint8_t	nbsolids;	///< number of solids.
   uint8_t	nbframes;	///< number of frames of this solid.
   uint8_t	frame;		///< current frame to render.
-  int		texid;		///< texture id
-  float		userdist;	///< distance to localuser
-  float		surfsize;	///< max surface size of solid
-  bool		rendered;	///< flag if is already rendered
+  int		texid;		///< texture id.
+  float		userdist;	///< distance to localuser.
+  float		surfsize;	///< max surface size of solid.
+  float		alpha;		///< transparency.
+  float		scale, scalex, scaley, scalez;
   GLfloat	mat_diffuse[4];
   GLfloat	mat_ambient[4];
   GLfloat	mat_specular[4];
@@ -357,7 +357,7 @@ public:
 
 private:
   uint8_t	idxframe;	///< frame index.
-  bool		isframed;	///< flag framed.
+  bool		framed;		///< flag framed.
 
   char * skipEqual(char *p);
   /** Skips '=' character. */

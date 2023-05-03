@@ -531,8 +531,8 @@ void Render::setAllTypeFlashy(char *object_type, int typeflash)
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; it++) {
     if (! strcasecmp((*it)->object()->typeName(), object_type)) {
       switch (typeflash) {
-      case 0: if (*it) (*it)->isflashy = false; break;
-      case 1: if (*it) (*it)->isflashy = true; break;
+      case 0: if (*it) (*it)->flashy = false; break;
+      case 1: if (*it) (*it)->flashy = true; break;
       }
     }
   }
