@@ -1546,12 +1546,10 @@ void Body::render(Pos& pos)
 {
   //dax if (!bap) return;
 
-  float dtz = (bscale != 1) ?  B_HEIGHT/2 : 0;
-  dtz = 0; //dax
   const float color[] = {.4,.4,.4,1};
 
   glPushMatrix();
-   glTranslatef(pos.x + tx, pos.y + ty, pos.z + tz + dtz);
+   glTranslatef(pos.x + tx, pos.y + ty, pos.z + tz);
    switch (model) {
    case MODEL_OBJ:
      glRotatef(rx, 0,1,0);
