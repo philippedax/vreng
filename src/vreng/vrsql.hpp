@@ -48,8 +48,8 @@
 class VRSql {
 
  private:
-  static const uint16_t CMD_MAX = 1024;	///< query size max
-  char sqlcmd[CMD_MAX];	///< Sql command
+  static const uint16_t SQLCMD_MAX = 1024;	///< query size max
+  char sql[SQLCMD_MAX];	///< Sql command
 
 #if HAVE_SQLITE
   sqlite3_stmt *res;	///< Sqlite result
@@ -83,7 +83,7 @@ class VRSql {
   static VRSql* getVRSql();
   /**< returns the vrsql pointer */
 
-  bool query(const char *sqlcmd);
+  bool query(const char *sql);
   /**< sends a Sql query */
 
   void quit();
@@ -102,7 +102,7 @@ class VRSql {
 
 #if HAVE_SQLITE
   static int callback(void *, int argc, char **argv, char **azColName);
-  int prepare(const char *sqlcmd);
+  int prepare(const char *sql);
 #endif
 
 #if HAVE_SQLITE

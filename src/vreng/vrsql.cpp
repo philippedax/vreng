@@ -205,9 +205,9 @@ void VRSql::quit()
 }
 
 #if HAVE_SQLITE
-int VRSql::prepare(const char *sqlcmd)
+int VRSql::prepare(const char *sql)
 {
-  int rc = sqlite3_prepare_v2(db, sqlcmd, strlen(sqlcmd) + 1, &res, NULL);
+  int rc = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &res, NULL);
 /** bad code !!! FIXME 
   //rc = sqlite3_step(res);
   //sqlite3_finalize(res);
@@ -218,9 +218,9 @@ int VRSql::prepare(const char *sqlcmd)
 #endif
 
 /** Sends a query SQL command */
-bool VRSql::query(const char *sqlcmd)
+bool VRSql::query(const char *sql)
 {
-  trace(DBG_SQL, "query: %s", sqlcmd);
+  trace(DBG_SQL, "query: %s", sql);
 
 #if HAVE_SQLITE
   char *err_msg = NULL;
@@ -230,8 +230,8 @@ bool VRSql::query(const char *sqlcmd)
   }
 
 /** bad code !!! FIXME 
-  int rc = sqlite3_exec(db, sqlcmd, 0, 0, &err_msg);	// without callback
-  //rc = sqlite3_prepare_v2(db, sqlcmd, -1, &res, 0);
+  int rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
+  //rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
   if (rc != SQLITE_OK) {
     //echo("query: err %s", err_msg);
     sqlite3_free(err_msg);
@@ -252,9 +252,9 @@ bool VRSql::query(const char *sqlcmd)
     connectDB();	// we need to reconnect to the MySql server
   }
 
-  if (mysql_query(db, sqlcmd) != 0) {
+  if (mysql_query(db, sql) != 0) {
     if (mysql_errno(db)) error("mysql_error: %s", mysql_error(db));
-    echo("query: %s", sqlcmd);
+    echo("query: %s", sql);
     return false;
   }
   return true;
@@ -264,10 +264,10 @@ bool VRSql::query(const char *sqlcmd)
     connectDB();	// we need to reconnect to the Postgres server
   }
 
-  PGresult *rc = PQexec(db, sqlcmd);
+  PGresult *rc = PQexec(db, sql);
   if (PQresultStatus(rc) != PGRES_TUPLES_OK) {
     PQclear(rc);
-    echo("query: %s", sqlcmd);
+    echo("query: %s", sql);
     return false;
     //PQfinish(db);
   }
@@ -298,7 +298,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
 {
   int val = 0;
 
-  sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
+  sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if HAVE_SQLITE
@@ -308,7 +308,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   char *err_msg = NULL;
 
   createTable(table);
-  rc = prepare(sqlcmd);
+  rc = prepare(sql);
   if (rc != SQLITE_OK) {
     echo("%s %s %d err prepare %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
@@ -329,7 +329,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   }
   sqlite3_finalize(res);
 #elif HAVE_MYSQL
-  query(sqlcmd);
+  query(sql);
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
   if ((row = mysql_fetch_row(res)) == NULL) {
@@ -351,7 +351,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
 {
   float val = 0;
 
-  sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
+  sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if HAVE_SQLITE
@@ -361,13 +361,13 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   char *err_msg = NULL;
 
   createTable(table);
-  rc = sqlite3_exec(db, sqlcmd, callback, this, &err_msg);	// with callback
+  rc = sqlite3_exec(db, sql, callback, this, &err_msg);	// with callback
   echo("exec rc=%d", rc);
   //if (rc != SQLITE_OK) {
   //  error("%s err exec %s", table, sqlite3_errmsg(db));
   //  sqlite3_free(err_msg);
   //}
-  rc = prepare(sqlcmd);
+  rc = prepare(sql);
   if (rc != SQLITE_OK) {
     error("%s err prepare %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
@@ -393,7 +393,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   sqlite3_finalize(res);
 
 #elif HAVE_MYSQL
-  query(sqlcmd);
+  query(sql);
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
   if ((row = mysql_fetch_row(res)) == NULL) {
@@ -413,7 +413,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
  */
 int VRSql::getString(const char *table, const char *col, const char *object, const char *world, char *retstring, uint16_t irow)
 {
-  sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s='%s%s%s'",
+  sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if HAVE_SQLITE
@@ -423,7 +423,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   char *err_msg = NULL;
 
   createTable(table);
-  rc = prepare(sqlcmd);
+  rc = prepare(sql);
   rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
   rc = sqlite3_step(res);
   if (rc == SQLITE_ROW) {
@@ -440,7 +440,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   sqlite3_finalize(res);
 
 #elif HAVE_MYSQL
-  if (! query(sqlcmd)) return ERR_SQL;
+  if (! query(sql)) return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
   if ((row = mysql_fetch_row(res)) == NULL) {
@@ -462,7 +462,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
  */
 int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, char *retstring)
 {
-  sprintf(sqlcmd, "select SQL_CACHE %s from %s where %s regexp '%s'",
+  sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s regexp '%s'",
           COL_NAME, table, COL_NAME, pattern);
 
 #if HAVE_SQLITE
@@ -472,7 +472,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   char *err_msg = NULL;
 
   createTable(table);
-  rc = prepare(sqlcmd);
+  rc = prepare(sql);
   rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
   rc = sqlite3_step(res);
   if (rc == SQLITE_ROW) {
@@ -485,7 +485,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   sqlite3_finalize(res);
 
 #elif HAVE_MYSQL
-  if (! query(sqlcmd)) return ERR_SQL;
+  if (! query(sql)) return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
   if ((row = mysql_fetch_row(res)) == NULL) {
@@ -513,12 +513,12 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
 {
   int val = 0;
 
-  sprintf(sqlcmd, "select SQL_CACHE count(*) from %s where %s regexp %s",
+  sprintf(sql, "SELECT SQL_CACHE count(*) FROM %s WHERE %s REGEXP %s",
           table, col, pattern);
 
 #if HAVE_SQLITE
 /** bad code !!! FIXME 
-  prepare(sqlcmd);
+  prepare(sql);
   sqlite3_bind_int(res, 1, 1);
   sqlite3_step(res);
   val = sqlite3_column_int(res, 0);
@@ -526,7 +526,7 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
 **/
 
 #elif HAVE_MYSQL
-  if (! query(sqlcmd)) return ERR_SQL;
+  if (! query(sql)) return ERR_SQL;
   res = mysql_store_result(db);
   if ((row = mysql_fetch_row(res)) == NULL) {
     mysql_free_result(res);
@@ -545,15 +545,15 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
 /** Creates database */
 void VRSql::createDatabase(const char *database)
 {
-  sprintf(sqlcmd, "create database if not exists %s", database);
-  query(sqlcmd);
+  sprintf(sql, "CREATE DATABASE IF NOT EXISTS %s", database);
+  query(sql);
 }
 
 /** Creates table */
 void VRSql::createTable(const char *table)
 {
-  sprintf(sqlcmd, "create table if not exists %s ('NULL')", table);
-  query(sqlcmd);
+  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s ('NULL')", table);
+  query(sql);
 }
 
 
@@ -563,19 +563,19 @@ void VRSql::createTable(const char *table)
 void VRSql::insertRow(WObject *o)
 {
   createTable(o->typeName());
-  sprintf(sqlcmd, "insert into %s (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) values ('%s@%s', '0', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', '%s', 'NULL', 'NULL')",
+  sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) VALUES ('%s@%s', '0', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', '%s', 'NULL', 'NULL')",
           o->typeName(),
           COL_NAME, COL_ST, COL_X, COL_Y, COL_Z, COL_AZ, COL_AX, COL_AY, COL_OWN, COL_GEOM, COL_URL,
           o->named(), World::current()->getName(), o->ownerName());
-  query(sqlcmd);
+  query(sql);
 }
 
 /** Insert col into the sql table */
 void VRSql::insertCol(const char *table, const char *col, const char *object, const char *world)
 {
-  sprintf(sqlcmd, "insert into %s (%s,%s) values ('%s%s%s', 'NULL')",
+  sprintf(sql, "INSERT INTO %s (%s,%s) VALUES ('%s%s%s', 'NULL')",
           table, COL_NAME, col, object, (*world) ? "@" : "", world);
-  query(sqlcmd);
+  query(sql);
 }
 
 
@@ -584,25 +584,25 @@ void VRSql::insertCol(const char *table, const char *col, const char *object, co
 /** Updates row int into the sql table */
 void VRSql::updateInt(WObject *o, const char *table, const char *col, const char *object, const char *world, int val)
 {
-  sprintf(sqlcmd, "update %s set %s=%d where %s='%s%s%s'",
+  sprintf(sql, "UPDATE %s SET %s=%d WHERE %s='%s%s%s'",
           table, col, val, COL_NAME, object, (*world) ? "@" : "", world);
-  query(sqlcmd);
+  query(sql);
 }
 
 /** Updates row float into the sql table */
 void VRSql::updateFloat(WObject *o, const char *table, const char *col, const char *object, const char *world, float val)
 {
-  sprintf(sqlcmd, "update %s set %s=%.3f where %s='%s%s%s'",
+  sprintf(sql, "UPDATE %s SET %s=%.3f WHERE %s='%s%s%s'",
           table, col, val, COL_NAME, object, (*world) ? "@" : "", world);
-  query(sqlcmd);
+  query(sql);
 }
 
 /** Updates row string into the sql table */
 void VRSql::updateString(WObject *o, const char *table, const char *col, const char *object, const char *world, const char *str)
 {
-  sprintf(sqlcmd, "update %s set %s='%s' where %s='%s%s%s'",
+  sprintf(sql, "UPDATE %s SET %s='%s' WHERE %s='%s%s%s'",
           table, col, str, COL_NAME, object, (*world) ? "@" : "", world);
-  query(sqlcmd);
+  query(sql);
 }
 
 
@@ -611,24 +611,24 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 /** Deletes all rows from the sql table */
 void VRSql::deleteRows(const char *table)
 {
-  sprintf(sqlcmd, "delete from %s", table);
-  query(sqlcmd);
+  sprintf(sql, "DELETE FROM %s", table);
+  query(sql);
 }
 
 /** Deletes a row from the sql table */
 void VRSql::deleteRow(WObject *o, const char *table, const char *object, const char *world)
 {
-  sprintf(sqlcmd, "delete from %s where %s='%s%s%s'",
+  sprintf(sql, "DELETE FROM %s WHERE %s='%s%s%s'",
           table, COL_NAME, object, (*world) ? "@" : "", world);
-  query(sqlcmd);
+  query(sql);
 }
 
 /** Deletes a row from the sql table matching a string */
 void VRSql::deleteRow(WObject *o, const char *str)
 {
-  sprintf(sqlcmd, "delete from %s where %s='%s@%s'",
+  sprintf(sql, "DELETE FROM %s WHERE %s='%s@%s'",
           o->typeName(), COL_NAME, str, World::current()->getName());
-  query(sqlcmd);
+  query(sql);
 }
 
 //
