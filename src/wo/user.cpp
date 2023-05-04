@@ -273,7 +273,6 @@ void User::addGui()
 /* Checks attached persist objects */
 void User::checkPersist()
 {
-#if VRSQL
   VRSql *psql = VRSql::getVRSql();     // first get the the VRSql handle;
   if (psql) {
     int nitem;
@@ -309,7 +308,6 @@ void User::checkPersist()
     // addObjectToCart
 #endif //todo
   }
-#endif
 }
 
 void User::inits()

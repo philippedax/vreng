@@ -146,7 +146,6 @@ Mirage::Mirage(WObject *user, char *geom)
   setName();
   setOwner();
 
-#if VRSQL
   psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->insertRow(this);
@@ -154,7 +153,6 @@ Mirage::Mirage(WObject *user, char *geom)
     psql->updateGeom(this, geom);
     psql->updateOwner(this);
   }
-#endif
   parseSolid(geom);
 
   behaviors();
@@ -181,14 +179,12 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
 
   // we don't know anything about the geometry except from VRSql
   geomsolid = new char[256];
-#if VRSQL
   psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->getGeom(this);
     psql->getOwner(this);
     psql->getPos(this);
   }
-#endif
   if (geomsolid && isprint(*geomsolid)) {	//FIXME: when object comes from Cart
     parseSolid(geomsolid);
   }

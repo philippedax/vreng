@@ -159,7 +159,6 @@ void Cloth::setName()
 
 void Cloth::setPersist()
 {
-#if VRSQL
   if (! psql) psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->insertRow(this);
@@ -167,26 +166,21 @@ void Cloth::setPersist()
     psql->updateOwner(this);
     //geom psql->updateGeom(this, geom);
   }
-#endif
 }
 
 void Cloth::getPersist()
 {
-#if VRSQL
   if (! psql) psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->getOwner(this);
     psql->getPos(this);
     psql->getGeom(this);
   }
-#endif
 }
 
 void Cloth::delPersist()
 {
-#if VRSQL
   if (psql && givenName())  psql->deleteRow(this, names.given);
-#endif
 }
 
 /* Creation from xml file */

@@ -105,9 +105,7 @@ WObject::WObject()
 
   flare = NULL;
   carrier = NULL;
-#if VRSQL
   psql = NULL;
-#endif
 
   //notused prior = PRIOR_MEDIUM;
 }
@@ -671,9 +669,7 @@ void WObject::resetGui()
 bool WObject::removeFromScene()
 {
   if (isOwner()) {
-#if VRSQL
     if (psql) psql->deleteRow(this);
-#endif
     toDelete();
     clearObjectBar();
     return true;
@@ -837,30 +833,25 @@ void WObject::updateDist()
  */
 void WObject::getPersistency()
 {
-#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     psql->getPos(this);
   }
   updatePersistency();
-#endif
 }
 
 void WObject::getPersistency(int16_t state)
 {
-#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     int st = psql->getState(this);
     trace(DBG_SQL, "state: name=%s state=%d", names.instance, st);
     state = (st != ERR_SQL) ? st : 0; // updates state
   }
-#endif
 }
 
 void WObject::updatePersistency()
 {
-#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     progression('m');
@@ -870,13 +861,11 @@ void WObject::updatePersistency()
     psql->updatePosZ(this);
     ::g.timer.mysql.stop();
   }
-#endif
 }
 
 /* Updates state for VRSql */
 void WObject::updatePersistency(int16_t _state)
 {
-#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     ::g.timer.mysql.start();
@@ -884,7 +873,6 @@ void WObject::updatePersistency(int16_t _state)
     psql->updateState(this, _state);
     ::g.timer.mysql.stop();
   }
-#endif
 }
 
 /** Flushes position for VRSql
@@ -892,7 +880,6 @@ void WObject::updatePersistency(int16_t _state)
  */
 void WObject::savePersistency()
 {
-#if VRSQL
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && isBehavior(PERSISTENT) && !removed && givenName()) {
     //trace(DBG_FORCE, "savePersistency: %s pos.alter=%d", names.instance, pos.alter);
@@ -901,15 +888,12 @@ void WObject::savePersistency()
     if (isBehavior(DYNAMIC)) psql->updateOwner(this);
     psql->quit();
   }
-#endif
 }
 
 /* Quits VRSql */
 void WObject::quitPersistency()
 {
-#if VRSQL
   if (psql) psql->quit();
-#endif
 }
 
 //

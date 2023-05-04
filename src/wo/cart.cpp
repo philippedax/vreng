@@ -56,12 +56,10 @@ Cart::Cart(char *l)
   parser(l);
 
   // If Cart is really persistent, these lines should be deleted
-#if VRSQL
   // systematicaly remove objects
   if ((psql = VRSql::getVRSql())) {
     psql->deleteRows(this);
   }
-#endif
 }
 
 /**
@@ -76,14 +74,12 @@ void Cart::addToCart(WObject *po)
     case MOBILE:
       po->delFromList(mobileList);
       po->setVisible(false);	// render invisible the object
-#if VRSQL
       psql = VRSql::getVRSql();	// first take the VRSql handle;
       if (psql) {
         psql->insertCol(CART_NAME, "owner", po->getInstance(), "");
         psql->updateString(po, CART_NAME, "owner", po->getInstance(), "", ::g.user);
         trace(DBG_SQL, "cartRow: (%s,%s)", po->getInstance(), po->ownerName());
       }
-#endif
     default:
       break;
   }
@@ -153,7 +149,6 @@ void Cart::leave(WObject *po)
   // declare that the object has moved for VRSql update
   po->pos.alter = true;
 
-#if VRSQL
   psql = VRSql::getVRSql();     // first take the VRSql handle;
   if (psql) {
     po->psql = psql;		// copy it into the object
@@ -161,10 +156,9 @@ void Cart::leave(WObject *po)
     psql->insertRow(po);
     psql->updatePos(po);
     psql->updateOwner(po);
-    psql->updateGeom(po, po->geometry);
+    psql->updateGeom(po, po->geomsolid);
     trace(DBG_SQL, "leaveFromCart: %s", po->getInstance());
   }
-#endif
 
   // declare the object creation to the network
   if (! po->isPermanent() && po->netop)
@@ -187,13 +181,11 @@ void Cart::removeFromCart(WObject *po)
     }
   }
 
-#if VRSQL
   psql = VRSql::getVRSql();     // first take the VRSql handle;
   if (psql) {
     psql->deleteRow(po, CART_NAME, po->getInstance(), "");
     trace(DBG_SQL, "removeFromCart: %s", po->getInstance());
   }
-#endif
 
   if (number) number--;
   if (! number) ::g.gui.showCartDialog(false);	// switch-off cartDialog

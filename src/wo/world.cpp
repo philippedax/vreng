@@ -656,7 +656,6 @@ void World::checkIcons()
 /* Check whether other objects are persistents */
 void World::checkPersist()
 {
-#if VRSQL
   VRSql *psql = VRSql::getVRSql();     // first take the VRSql handle;
   if (psql) {
     int nitem;
@@ -700,7 +699,6 @@ void World::checkPersist()
       }
     }
   }
-#endif
 }
 
 /* world reader - static */
