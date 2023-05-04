@@ -53,6 +53,7 @@ void Gate::defaults()
   automatic = false;
   flagentry = false;
   clearV3(entry);
+  memset(chan, 0, sizeof(chan));
 }
 
 void Gate::parser(char *l)

@@ -37,6 +37,7 @@ private:
   bool flagentry;	///< flag entry
   bool link;		///< flag link
   uint8_t cntcol;	///< collide count
+  char chan[CHAN_LEN];	///< channel
   V3 entry;		///< position after passing gate
 
 public:

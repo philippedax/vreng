@@ -170,7 +170,6 @@ public:
   bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
   char *geomsolid;		///< geometry string of the solid.
-  char chan[CHAN_LEN];		///< channel.
 
   class Solid *solid;		///< solid pointer
   class WObjectId noid;		///< WObject Id.

@@ -71,7 +71,6 @@ WObject::WObject()
   memset(names.given, 0, sizeof(names.given));
   memset(names.url, 0, sizeof(names.url));
   memset(names.owner, 0, sizeof(names.owner));
-  memset(chan, 0, sizeof(chan));
 
   names.implicit = NULL;
   names.instance = NULL;
@@ -100,17 +99,17 @@ WObject::WObject()
   noid.port_id = 0;
   noid.obj_id = 0;
 
-  //notused prior = PRIOR_MEDIUM;
-
   solid = NULL;
   //dax solidList = ::g.render.getSolidList();
   ::g.render.relsolidList.clear();
 
+  flare = NULL;
+  carrier = NULL;
 #if VRSQL
   psql = NULL;
 #endif
-  flare = NULL;
-  carrier = NULL;
+
+  //notused prior = PRIOR_MEDIUM;
 }
 
 /* WObject destructor */
