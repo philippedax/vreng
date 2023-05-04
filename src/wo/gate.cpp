@@ -130,7 +130,7 @@ void Gate::enter()
   if (link) {	// without channel
     World::current()->quit();
     World::enter(new_url, NULL, World::NEW);
-    World::current()->linked();	// linked world
+    World::current()->setLinked();	// linked world
     return;
   }
 

@@ -52,36 +52,32 @@ class World {
   static const float   DISTX;
   static const float   DISTY;
   static const float   DISTZ;
+  static const uint8_t WORLD_LEN;
+  static class OList *gridArray[4][4][2];
 
   char *url;			///< url of world description.
   char *name;			///< world name.
   char *chan;			///< channel string addr/port/ttl.
   uint8_t state;		///< current state.
+  uint16_t num;			///< world number.
   uint32_t group;		///< current group addr.
   uint32_t ssrc;		///< current ssrc.
-  bool islinked;		///< linked world or not.
+  bool linked;			///< linked world or not.
   bool persistent;		///< persistent world or not.
-  uint16_t num;			///< world number.
+  float ground;			///< ground level
   V3 bbmin;			///< bb min of the world.
   V3 bbmax;			///< bb max of the world.
   V3 bbslice;			///< slice units of the grid.
-  float ground;			///< ground level
+  V3 bbcent;			///< bb center of the world.
+  V3 bbsize;			///< bb size of the world.
   uint8_t dimgrid[3];		///< grid dimensions.
-  class Universe *universe;	///< universe pointer.
-  class Bgcolor *bgcolor;	///< background color.
-  class User *user;		///< localuser.
   World *prev;			///< prev world.
   World *next;			///< next world.
 
- public:
-  static const uint8_t WORLD_LEN;
-
-  static class OList *gridArray[4][4][2];
+  class Universe *universe;	///< universe pointer.
+  class Bgcolor *bgcolor;	///< background color.
+  class User *user;		///< localuser.
   class OList ****grid;		///< matrix grid pointer.
-
-  V3 bbcent;			///< bb center of the world.
-  V3 bbsize;			///< bb size of the world.
-
   struct GuiItem *guip;		///< gui handle.
   class Clock *clock;		///< internal clock.
   class Vjc *vjc;		///< vjc.
@@ -145,7 +141,7 @@ class World {
   bool isDead() const;			///< Checks if world is dead.
 
   bool isLinked() const;
-  void linked();
+  void setLinked();
   struct GuiItem * getGui() const;
   bool isGui() const;
   void resetGui();

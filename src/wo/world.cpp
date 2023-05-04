@@ -80,7 +80,7 @@ World::World()
   state = TOLOAD;
   num = 0;
   group = 0;
-  islinked = false;
+  linked = false;
   persistent = true;
   name = NULL;
   chan = NULL;
@@ -305,12 +305,12 @@ float World::getGround() const
 
 bool World::isLinked() const
 {
-  return islinked;
+  return linked;
 }
 
-void World::linked()
+void World::setLinked()
 {
-  islinked = true;
+  linked = true;
 }
 
 #if 0 //notused
@@ -440,7 +440,7 @@ void World::compute(time_t sec, time_t usec)
 // virtual private
 bool World::call(World *w)
 {
-  if (w->islinked) {
+  if (w->linked) {
     enter(url, NULL, OLD);
     setChan(w->chan);
   }
@@ -887,7 +887,7 @@ void World::quit()
 
   // reset user position
   if (localuser) localuser->resetPosition();
-  if (islinked) return;
+  if (linked) return;
 
   WObject::resetObjectsNumber();
   Tool::quitTools();		// quits all tools
@@ -995,7 +995,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
     Parse *parser = Parse::getParse();
     parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));
-    sandbox->islinked = true;
+    sandbox->linked = true;
 
     float gridcolor[4] = { 0, 1, 0, .5 };	// green grid
     Grid::grid()->toggleGrid2d();
