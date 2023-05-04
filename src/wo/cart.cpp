@@ -20,12 +20,12 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "cart.hpp"
-#include "carrier.hpp"	// takeFromCart
 #include "user.hpp"	// localuser
 #include "gui.hpp"	// addCart, dialogCart
 #include "netobj.hpp"	// netop
 #include "vrsql.hpp"	// VRSql
 #include "pref.hpp"	// g.user
+
 #include <vector>
 
 using namespace std;
@@ -132,7 +132,6 @@ void Cart::leave(WObject *po)
   po->move.ttl = 0;
 
   // restore object into mobileList
-  //dax po->addToList(mobileList);
   mobileList.push_back(po);
 
   // render visible the object coming back into the world
