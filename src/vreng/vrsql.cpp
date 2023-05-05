@@ -70,7 +70,7 @@ bool VRSql::openDB()
   char pathDB[128];
   char *err_msg = NULL;
 
-  sprintf(pathDB, "%s/.vreng/%s", Env::home(), DB);
+  sprintf(pathDB, "%s/.vreng/%s", ::g.env.home(), DB);
   int rc = sqlite3_open(pathDB, &db);
   if (rc != SQLITE_OK) {
     error("Cannot open database: %s", sqlite3_errmsg(db));
@@ -224,6 +224,7 @@ bool VRSql::query(const char *sql)
   }
 
 /** bad code !!! FIXME 
+**/
   int rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
   //rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
   if (rc != SQLITE_OK) {
@@ -232,13 +233,13 @@ bool VRSql::query(const char *sql)
     sqlite3_close(db);
     return false;
   }
-  rc = sqlite3_step(res);
+  //rc = sqlite3_step(res);
   //if (rc == SQLITE_ROW) {
   //  echo("step: %s", sqlite3_column_text(res, 0));
   //}
-  sqlite3_finalize(res);
-**/
-  //sqlite3_close(db);
+  //sqlite3_finalize(res);
+
+  sqlite3_close(db);
   return true;
 
 #elif HAVE_MYSQL
@@ -355,17 +356,18 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   char *err_msg = NULL;
 
   createTable(table);
-  rc = sqlite3_exec(db, sql, callback, this, &err_msg);	// with callback
+  //rc = sqlite3_exec(db, sql, callback, this, &err_msg);	// with callback
+  rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
   echo("exec rc=%d", rc);
-  //if (rc != SQLITE_OK) {
-  //  error("%s err exec %s", table, sqlite3_errmsg(db));
-  //  sqlite3_free(err_msg);
-  //}
-  rc = prepare(sql);
   if (rc != SQLITE_OK) {
-    error("%s err prepare %s", table, sqlite3_errmsg(db));
+    error("%s err exec %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
+  //rc = prepare(sql);
+  //if (rc != SQLITE_OK) {
+  //  error("%s err prepare %s", table, sqlite3_errmsg(db));
+  //  sqlite3_free(err_msg);
+  //}
   rc = sqlite3_bind_double(res, 1, 0);
   if (rc != SQLITE_OK) {
     error("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));

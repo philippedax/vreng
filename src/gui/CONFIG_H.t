@@ -450,10 +450,10 @@ const char CONFIG_H[] = "\
 #define HAVE_SOCKET 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_SQLITE */\n\
+#define HAVE_SQLITE 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_SQLITE_H */\n\
+#define HAVE_SQLITE_H 1\n\
 \n\
 /* Define to 1 if you have the `sqrt' function. */\n\
 #define HAVE_SQRT 1\n\
@@ -750,7 +750,7 @@ const char CONFIG_H[] = "\
 /* #undef WITH_PYTHON */\n\
 \n\
 /* */\n\
-/* #undef WITH_SQLITE */\n\
+#define WITH_SQLITE 1\n\
 \n\
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most\n\
    significant byte first (like Motorola and SPARC, unlike Intel). */\n\
