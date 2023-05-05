@@ -16,6 +16,14 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.4\n\
 -- 9.4.1\n\
+	- clean #if VRSQL ... #endif\n\
+	(2023/05/05, Philippe Dax)\n\
+	- fix avatar as humanoid in humanoid.cpp\n\
+	(2023/05/02, Philippe Dax)\n\
+	- fix vertical view in drone.cpp\n\
+	(2023/04/30, Philippe Dax)\n\
+	- fix bufferSelection for hinted objects\n\
+	(2023/04/27, Philippe Dax)\n\
 	- fix close write cache in world.cpp\n\
 	- fix jpeg capture\n\
 	(2023/04/07, Philippe Dax)\n\
