@@ -57,10 +57,8 @@ static const char * COL_BAP = "bap";	///< column bap
 /** Constructor */
 VRSql::VRSql()
 {
-#if VRSQL
   db = NULL;
   res = NULL;
-#endif
 }
 
 #if HAVE_SQLITE
@@ -154,7 +152,6 @@ bool VRSql::connectDB()
 /** Allocates VRSql */
 VRSql * VRSql::init()
 {
-#if VRSQL
   if (World::current())
     return NULL;
 
@@ -179,9 +176,6 @@ VRSql * VRSql::init()
   }
   trace(DBG_INIT, "init: vrsql");
   return vrsql;
-#else
-  return NULL;
-#endif
 }
 
 /** Returns VRSql ptr */
