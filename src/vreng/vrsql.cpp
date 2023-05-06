@@ -232,7 +232,7 @@ bool VRSql::query(const char *sql)
   rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
   if (rc != SQLITE_OK) {
     sqlite3_free(err_msg);
-    sqlite3_close(db);
+    //dax sqlite3_close(db);
     return false;
   }
   rc = sqlite3_step(res);
@@ -241,7 +241,7 @@ bool VRSql::query(const char *sql)
   }
   sqlite3_finalize(res);
 
-  sqlite3_close(db);
+  //dax sqlite3_close(db);
   return true;
 
 #elif HAVE_MYSQL
@@ -378,7 +378,8 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
     error("%s err prepare %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
-  rc = sqlite3_bind_double(res, 1, 0);
+  int idx = 1;
+  rc = sqlite3_bind_double(res, idx, (double) val);
   if (rc != SQLITE_OK) {
     error("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
