@@ -71,18 +71,19 @@ bool VRSql::openDB()
   char *err_msg = NULL;
 
   sprintf(pathDB, "%s/.vreng/%s", ::g.env.home(), DB);
-  int rc = sqlite3_open(pathDB, &db);
+  int rc = sqlite3_open_v2(pathDB, &db, SQLITE_OPEN_READWRITE, NULL);
   if (rc != SQLITE_OK) {
     error("Cannot open database: %s", sqlite3_errmsg(db));
     sqlite3_close(db);
     return false;
   }
+  //echo("open db: %x", db);
   return true;
 }
 
 int VRSql::callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
-  echo("callback: argc=%d", argc);
+  //echo("callback: argc=%d", argc);
   for (int i = 0; i < argc; i++) {
     printf("%d: %s = %s\n", i, azColName[i], argv[i] ? argv[i] : "NULL");
   }
@@ -195,6 +196,7 @@ void VRSql::quit()
 #elif HAVE_PGSQL
     PQfinish(db);
 #endif
+    db = NULL;
   }
 }
 
@@ -203,10 +205,10 @@ int VRSql::prepare(const char *sql)
 {
   int rc = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &res, NULL);
 /** bad code !!! FIXME 
+**/
   //rc = sqlite3_step(res);
   //sqlite3_finalize(res);
   //sqlite3_close(db);
-**/
   return rc;
 }
 #endif
@@ -217,6 +219,7 @@ bool VRSql::query(const char *sql)
   trace(DBG_SQL, "query: %s", sql);
 
 #if HAVE_SQLITE
+  int rc = 0;
   char *err_msg = NULL;
 
   if (! db) {
@@ -225,19 +228,18 @@ bool VRSql::query(const char *sql)
 
 /** bad code !!! FIXME 
 **/
-  int rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
-  //rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+  //rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
+  rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
   if (rc != SQLITE_OK) {
-    //echo("query: err %s", err_msg);
     sqlite3_free(err_msg);
     sqlite3_close(db);
     return false;
   }
-  //rc = sqlite3_step(res);
-  //if (rc == SQLITE_ROW) {
-  //  echo("step: %s", sqlite3_column_text(res, 0));
-  //}
-  //sqlite3_finalize(res);
+  rc = sqlite3_step(res);
+  if (rc == SQLITE_ROW) {
+    echo("query step: %s", sqlite3_column_text(res, 0));
+  }
+  sqlite3_finalize(res);
 
   sqlite3_close(db);
   return true;
@@ -249,7 +251,7 @@ bool VRSql::query(const char *sql)
 
   if (mysql_query(db, sql) != 0) {
     if (mysql_errno(db)) error("mysql_error: %s", mysql_error(db));
-    echo("query: %s", sql);
+    error("query: err %s", sql);
     return false;
   }
   return true;
@@ -262,7 +264,7 @@ bool VRSql::query(const char *sql)
   PGresult *rc = PQexec(db, sql);
   if (PQresultStatus(rc) != PGRES_TUPLES_OK) {
     PQclear(rc);
-    echo("query: %s", sql);
+    error("query: err %s", sql);
     return false;
     //PQfinish(db);
   }
@@ -302,27 +304,32 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   int rc;
   char *err_msg = NULL;
 
+  if (! db) {
+    openDB();	// we need to reopen database
+  }
+  //echo("sql getint %s", sql);
   createTable(table);
   rc = prepare(sql);
   if (rc != SQLITE_OK) {
-    echo("%s %s %d err prepare %s", table,col,irow, sqlite3_errmsg(db));
+    error("%s %s %d err prepare %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
   rc = sqlite3_bind_int(res, 1, 1);
   if (rc != SQLITE_OK) {
-    echo("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));
+    error("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
   rc = sqlite3_step(res);
   if (rc == SQLITE_ROW) {
     val = sqlite3_column_int(res, 0);
-    //echo("rc=%d val=%d", rc,val);
+    //echo("val=%d", val);
   }
   else {
     error("%s %s %d err step %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
   sqlite3_finalize(res);
+
 #elif HAVE_MYSQL
   query(sql);
   res = mysql_store_result(db);
@@ -336,7 +343,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   mysql_free_result(res);
 #endif
 
-  return val;
+  return val;	// return an int
 }
 
 /** Gets a float value from a row in the sql table
@@ -352,22 +359,25 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
 #if HAVE_SQLITE
 /** bad code !!! FIXME 
 **/
-  int rc;
+  int rc = 0;
   char *err_msg = NULL;
 
+  if (! db) {
+    openDB();	// we need to reopen database
+  }
+  //echo("sql getfloat %s", sql);
   createTable(table);
   //rc = sqlite3_exec(db, sql, callback, this, &err_msg);	// with callback
-  rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
-  echo("exec rc=%d", rc);
-  if (rc != SQLITE_OK) {
-    error("%s err exec %s", table, sqlite3_errmsg(db));
-    sqlite3_free(err_msg);
-  }
-  //rc = prepare(sql);
+  //rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
   //if (rc != SQLITE_OK) {
-  //  error("%s err prepare %s", table, sqlite3_errmsg(db));
+  //  error("%s err exec %s", table, sqlite3_errmsg(db));
   //  sqlite3_free(err_msg);
   //}
+  rc = prepare(sql);
+  if (rc != SQLITE_OK) {
+    error("%s err prepare %s", table, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+  }
   rc = sqlite3_bind_double(res, 1, 0);
   if (rc != SQLITE_OK) {
     error("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));
@@ -376,11 +386,11 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   rc = sqlite3_step(res);
   if (rc == SQLITE_ROW) {
     val = sqlite3_column_double(res, 0);
-    echo("rc=%d val=%.1f", rc,val);
+    //echo("val=%.1f", val);
   }
   else if (rc == SQLITE_DONE) {
     val = sqlite3_column_double(res, 0);
-    echo("rc=%d val=%.1f", rc,val);
+    //echo("val=%.1f", val);
   }
   else {
     error("rc=%d err step %s", rc, sqlite3_errmsg(db));
@@ -401,7 +411,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   mysql_free_result(res);
 #endif
 
-  return val;
+  return val;	// return a float
 }
 
 /** Gets a string (retstring) from a row in the sql table
@@ -419,17 +429,18 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   char *err_msg = NULL;
 
   createTable(table);
+  //echo("sql getstring %s %s", table, sql);
   rc = prepare(sql);
   rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
   rc = sqlite3_step(res);
   if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(res, 0));
-      //echo("rc=%d str=%s", rc,retstring);
+      //echo("str=%s", retstring);
     }
   }
   else {
-    echo("rc=%d err step %s", rc, sqlite3_errmsg(db));
+    error("rc=%d err step %s", rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
   sqlite3_reset(res);
@@ -468,13 +479,14 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   char *err_msg = NULL;
 
   createTable(table);
+  //echo("sql getsubstring %s %s", table, sql);
   rc = prepare(sql);
   rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
   rc = sqlite3_step(res);
   if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(res, 0));
-      //echo("rc=%d str=%s", rc,retstring);
+      //echo("str=%s", retstring);
     }
   }
   sqlite3_reset(res);
@@ -541,6 +553,7 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
 /** Creates database */
 void VRSql::createDatabase(const char *database)
 {
+  //echo("sql createdatabase %s", database);
   sprintf(sql, "CREATE DATABASE IF NOT EXISTS %s", database);
   query(sql);
 }
@@ -548,6 +561,7 @@ void VRSql::createDatabase(const char *database)
 /** Creates table */
 void VRSql::createTable(const char *table)
 {
+  //echo("sql createtable %s %x", table, db);
   sprintf(sql, "CREATE TABLE IF NOT EXISTS %s ('NULL')", table);
   query(sql);
 }
@@ -563,6 +577,7 @@ void VRSql::insertRow(WObject *o)
           o->typeName(),
           COL_NAME, COL_ST, COL_X, COL_Y, COL_Z, COL_AZ, COL_AX, COL_AY, COL_OWN, COL_GEOM, COL_URL,
           o->named(), World::current()->getName(), o->ownerName());
+  //echo("sql insertrow %s %s", o->typeName(), sql);
   query(sql);
 }
 
@@ -571,6 +586,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *object, co
 {
   sprintf(sql, "INSERT INTO %s (%s,%s) VALUES ('%s%s%s', 'NULL')",
           table, COL_NAME, col, object, (*world) ? "@" : "", world);
+  //echo("sql insertcol %s %s", table, sql);
   query(sql);
 }
 
@@ -582,6 +598,7 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
 {
   sprintf(sql, "UPDATE %s SET %s=%d WHERE %s='%s%s%s'",
           table, col, val, COL_NAME, object, (*world) ? "@" : "", world);
+  //echo("sql updateint %s %s", table, sql);
   query(sql);
 }
 
@@ -590,6 +607,7 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
 {
   sprintf(sql, "UPDATE %s SET %s=%.3f WHERE %s='%s%s%s'",
           table, col, val, COL_NAME, object, (*world) ? "@" : "", world);
+  //echo("sql updatefloat %s %s", table, sql);
   query(sql);
 }
 
@@ -598,6 +616,7 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 {
   sprintf(sql, "UPDATE %s SET %s='%s' WHERE %s='%s%s%s'",
           table, col, str, COL_NAME, object, (*world) ? "@" : "", world);
+  //echo("sql updatestring %s %s %s", table, str, sql);
   query(sql);
 }
 
@@ -607,6 +626,7 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 /** Deletes all rows from the sql table */
 void VRSql::deleteRows(const char *table)
 {
+  //echo("sql deleterows %s %x", table, db);
   sprintf(sql, "DELETE FROM %s", table);
   query(sql);
 }
@@ -614,6 +634,7 @@ void VRSql::deleteRows(const char *table)
 /** Deletes a row from the sql table */
 void VRSql::deleteRow(WObject *o, const char *table, const char *object, const char *world)
 {
+  //echo("sql deleterow %s", table);
   sprintf(sql, "DELETE FROM %s WHERE %s='%s%s%s'",
           table, COL_NAME, object, (*world) ? "@" : "", world);
   query(sql);
@@ -622,6 +643,7 @@ void VRSql::deleteRow(WObject *o, const char *table, const char *object, const c
 /** Deletes a row from the sql table matching a string */
 void VRSql::deleteRow(WObject *o, const char *str)
 {
+  //echo("sql deleterowstring %s %s", o->typeName(), str);
   sprintf(sql, "DELETE FROM %s WHERE %s='%s@%s'",
           o->typeName(), COL_NAME, str, World::current()->getName());
   query(sql);
