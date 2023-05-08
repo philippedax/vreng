@@ -615,7 +615,6 @@ void Wings::wear()
   setPersist();
   behaviors();
   inits();
-  //dax addWearList();
 }
 
 /* takeoff */
@@ -625,7 +624,6 @@ void Wings::takeoff()
   active = false;
   restorePosition();	// restore initial position
   delPersist();
-  //dax delWearList();
 }
 
 /* wear: indirectly called by user */
