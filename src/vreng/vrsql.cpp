@@ -75,6 +75,7 @@ bool VRSql::openDB()
   if (rc != SQLITE_OK) {
     error("Cannot open database: %s", sqlite3_errmsg(db));
     sqlite3_close(db);
+    db = NULL;
     return false;
   }
   //echo("open db: %x", db);
@@ -204,8 +205,6 @@ void VRSql::quit()
 int VRSql::prepare(const char *sql)
 {
   int rc = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &res, NULL);
-/** bad code !!! FIXME 
-**/
   //rc = sqlite3_step(res);
   //sqlite3_finalize(res);
   //sqlite3_close(db);
@@ -225,7 +224,6 @@ bool VRSql::query(const char *sql)
   if (! db) {
     openDB();	// we need to reopen database
   }
-
 /** bad code !!! FIXME 
 **/
   //rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
@@ -233,6 +231,7 @@ bool VRSql::query(const char *sql)
   if (rc != SQLITE_OK) {
     sqlite3_free(err_msg);
     //dax sqlite3_close(db);
+    db = NULL;
     return false;
   }
   rc = sqlite3_step(res);
@@ -248,7 +247,6 @@ bool VRSql::query(const char *sql)
   if (! db) {
     connectDB();	// we need to reconnect to the MySql server
   }
-
   if (mysql_query(db, sql) != 0) {
     if (mysql_errno(db)) error("mysql_error: %s", mysql_error(db));
     error("query: err %s", sql);
@@ -260,7 +258,6 @@ bool VRSql::query(const char *sql)
   if (! db) {
     connectDB();	// we need to reconnect to the Postgres server
   }
-
   PGresult *rc = PQexec(db, sql);
   if (PQresultStatus(rc) != PGRES_TUPLES_OK) {
     PQclear(rc);
@@ -379,7 +376,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
     sqlite3_free(err_msg);
   }
   int idx = 1;
-  rc = sqlite3_bind_double(res, idx, (double) val);
+  rc = sqlite3_bind_double(res, idx, (double) val);	// not sure of that ???
   if (rc != SQLITE_OK) {
     error("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);

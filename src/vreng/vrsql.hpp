@@ -64,7 +64,7 @@
 #include <libpq-fe.h>
 #endif
 
-#include "wobject.hpp"	// typeName (table)
+class WObject;
 
 
 #define	ERR_SQL	-11111	// query error
