@@ -232,7 +232,7 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   active = false;
   taken = true;
   setOwner();
-  //dax getPersist();
+  getPersist();
   geometry();
   behaviors();
   inits();
@@ -598,7 +598,7 @@ void Wings::render(uint8_t _model)
 void Wings::quit()
 {
   oid = 0;
-  //dax savePersistency();
+  savePersistency();
   if (dlist_center > 0) glDeleteLists(dlist_center, 1);
   if (dlist_right > 0) glDeleteLists(dlist_right, 1);
   if (dlist_left > 0) glDeleteLists(dlist_left, 1);
@@ -612,7 +612,7 @@ void Wings::wear()
   taken = true;
   active = true;
   setOwner();
-  //dax setPersist();
+  setPersist();
   behaviors();
   inits();
   //dax addWearList();
@@ -624,7 +624,7 @@ void Wings::takeoff()
   taken = false;
   active = false;
   restorePosition();	// restore initial position
-  //dax delPersist();
+  delPersist();
   //dax delWearList();
 }
 
