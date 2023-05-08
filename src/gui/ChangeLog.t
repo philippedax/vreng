@@ -15,6 +15,10 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.4\n\
+-- 9.4.2\n\
+	- add -Wno-macro-redefined configure.ac\n\
+	(2023/05/08, Philippe Dax)\n\
+\n\
 -- 9.4.1\n\
 	- clean #if VRSQL ... #endif\n\
 	(2023/05/05, Philippe Dax)\n\
