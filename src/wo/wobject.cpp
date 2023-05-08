@@ -905,6 +905,32 @@ void WObject::savePersistency()
   }
 }
 
+void WObject::setPersist()
+{
+  if (! psql) psql = VRSql::getVRSql();
+  if (psql && givenName()) {
+    psql->insertRow(this);
+    psql->updatePos(this);
+    psql->updateOwner(this);
+    //geom psql->updateGeom(this, geom);
+  }
+}
+
+void WObject::getPersist()
+{
+  if (! psql) psql = VRSql::getVRSql();
+  if (psql && givenName()) {
+    psql->getOwner(this);
+    psql->getPos(this);
+    psql->getGeom(this);
+  }
+}
+
+void WObject::delPersist()
+{
+  if (psql && givenName())  psql->deleteRow(this, names.given);
+}
+
 /* Quits VRSql */
 void WObject::quitPersistency()
 {

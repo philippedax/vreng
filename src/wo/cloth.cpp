@@ -157,6 +157,7 @@ void Cloth::setName()
   setName(typeName());
 }
 
+#if 0 //notused
 void Cloth::setPersist()
 {
   if (! psql) psql = VRSql::getVRSql();
@@ -182,6 +183,7 @@ void Cloth::delPersist()
 {
   if (psql && givenName())  psql->deleteRow(this, names.given);
 }
+#endif //notused
 
 /* Creation from xml file */
 Cloth::Cloth(char *l)

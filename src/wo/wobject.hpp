@@ -914,6 +914,15 @@ public:
   void savePersistency();
   /**< Flushes position for VRSql. */
 
+  void setPersist();
+  /**< inserts object */
+
+  void getPersist();
+  /**< Selects object */
+
+  void delPersist();
+  /**< Deletes object */
+
   void quitPersistency();
   /**< Quits VRSql. */
 

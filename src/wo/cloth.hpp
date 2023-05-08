@@ -100,21 +100,19 @@ protected:
   void setName();
   /**< Sets qualified name */
 
-  void setPersist();
-  /**< inserts object */
-
-  void getPersist();
-  /**< Selects object */
-
-  void delPersist();
-  /**< Deletes object */
-
   void restorePosition();
   /**< Restores original position */
 
   void addWearList();
   void delWearList();
   /**< List handling */
+
+  //notused void setPersist();
+  //notused /**< inserts object */
+  //notused void getPersist();
+  //notused /**< Selects object */
+  //notused void delPersist();
+  //notused /**< Deletes object */
 
 private:
   void defaults();
