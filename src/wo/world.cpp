@@ -1059,6 +1059,7 @@ void World::clearLists()
   mobileList.clear();
   stillList.clear();
   fluidList.clear();
+  clothList.clear();
   invisList.clear();
   deleteList.clear();
   lightList.clear();
