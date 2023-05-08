@@ -61,7 +61,7 @@ VRSql::VRSql()
   res = NULL;
 }
 
-#if HAVE_SQLITE
+#if USE_SQLITE
 bool VRSql::openDB()
 {
   if (::g.pref.nopersist == true)
@@ -91,7 +91,7 @@ int VRSql::callback(void *NotUsed, int argc, char **argv, char **azColName)
 }
 #endif
 
-#if HAVE_MYSQL
+#if USE_MYSQL
 /**
  * Establishes a link with the mysql server
  */
@@ -128,7 +128,7 @@ bool VRSql::connectDB()
 }
 #endif
 
-#if HAVE_PGSQL
+#if USE_PGSQL
 /**
  * Establishes a link with the pgsql server
  */
@@ -160,12 +160,12 @@ VRSql * VRSql::init()
 
   int r = 0;
   if (vrsql) {
-#if HAVE_SQLITE
+#if USE_SQLITE
     r = vrsql->openDB();	// open sqlite database
-#elif HAVE_MYSQL
+#elif USE_MYSQL
     r = vrsql->connectDB();	// connect to database mysql server
     vrsql->createDatabase(DB);
-#elif HAVE_PGSQL
+#elif USE_PGSQL
     r = vrsql->connectDB();	// connect to database postgres server
     vrsql->createDatabase(DB);
 #endif
@@ -189,18 +189,18 @@ VRSql * VRSql::getVRSql()
 void VRSql::quit()
 {
   if (vrsql) {
-#if HAVE_SQLITE
+#if USE_SQLITE
     sqlite3_close(db);
-#elif HAVE_MYSQL
+#elif USE_MYSQL
     mysql_close(db);
-#elif HAVE_PGSQL
+#elif USE_PGSQL
     PQfinish(db);
 #endif
     db = NULL;
   }
 }
 
-#if HAVE_SQLITE
+#if USE_SQLITE
 int VRSql::prepare(const char *sql)
 {
   int rc = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &res, NULL);
@@ -218,7 +218,7 @@ bool VRSql::query(const char *sql)
 {
   trace(DBG_SQL, "query: %s", sql);
 
-#if HAVE_SQLITE
+#if USE_SQLITE
   int rc = 0;
   char *err_msg = NULL;
 
@@ -244,7 +244,7 @@ bool VRSql::query(const char *sql)
   //dax sqlite3_close(db);
   return true;
 
-#elif HAVE_MYSQL
+#elif USE_MYSQL
   if (! db) {
     connectDB();	// we need to reconnect to the MySql server
   }
@@ -256,7 +256,7 @@ bool VRSql::query(const char *sql)
   }
   return true;
 
-#elif HAVE_PGSQL
+#elif USE_PGSQL
   if (! db) {
     connectDB();	// we need to reconnect to the Postgres server
   }
@@ -275,7 +275,7 @@ bool VRSql::query(const char *sql)
 #endif
 }
 
-#if HAVE_MYSQL
+#if USE_MYSQL
 /** Gets a result, fetching the row */
 MYSQL_RES * VRSql::result()
 {
@@ -298,7 +298,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
-#if HAVE_SQLITE
+#if USE_SQLITE
 /** bad code !!! FIXME 
 **/
   int rc;
@@ -330,7 +330,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   }
   sqlite3_finalize(res);
 
-#elif HAVE_MYSQL
+#elif USE_MYSQL
   query(sql);
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
@@ -356,7 +356,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
-#if HAVE_SQLITE
+#if USE_SQLITE
 /** bad code !!! FIXME 
 **/
   int rc = 0;
@@ -399,7 +399,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   }
   sqlite3_finalize(res);
 
-#elif HAVE_MYSQL
+#elif USE_MYSQL
   query(sql);
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
@@ -423,7 +423,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
-#if HAVE_SQLITE
+#if USE_SQLITE
 /** bad code !!! FIXME 
 **/
   int rc;
@@ -447,7 +447,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   sqlite3_reset(res);
   sqlite3_finalize(res);
 
-#elif HAVE_MYSQL
+#elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
@@ -473,7 +473,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s regexp '%s'",
           COL_NAME, table, COL_NAME, pattern);
 
-#if HAVE_SQLITE
+#if USE_SQLITE
 /** bad code !!! FIXME 
 **/
   int rc;
@@ -493,7 +493,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   sqlite3_reset(res);
   sqlite3_finalize(res);
 
-#elif HAVE_MYSQL
+#elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
@@ -525,7 +525,7 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
   sprintf(sql, "SELECT SQL_CACHE count(*) FROM %s WHERE %s REGEXP %s",
           table, col, pattern);
 
-#if HAVE_SQLITE
+#if USE_SQLITE
 /** bad code !!! FIXME 
   prepare(sql);
   sqlite3_bind_int(res, 1, 1);
@@ -534,7 +534,7 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
   sqlite3_finalize(res);
 **/
 
-#elif HAVE_MYSQL
+#elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
   res = mysql_store_result(db);
   if ((row = mysql_fetch_row(res)) == NULL) {

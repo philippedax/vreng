@@ -26,13 +26,38 @@
 #else
 #define VRSQL 0
 #endif
+#if HAVE_SQLITE
+#define USE_SQLITE 1
+#endif
+#if HAVE_MYSQL
+#define USE_MYSQL 1
+#endif
+#if HAVE_PGSQL
+#define USE_PGSQL 1
+#endif
+#if HAVE_SQLITE & HAVE_MYSQL
+#define USE_SQLITE 1
+#define USE_MYSQL 0
+#define USE_PGSQL 0
+#endif
+#if HAVE_SQLITE & HAVE_PGSQL
+#define USE_SQLITE 1
+#define USE_MYSQL 0
+#define USE_PGSQL 0
+#endif
+#if HAVE_MYSQL & HAVE_PGSQL
+#define USE_SQLITE 0
+#define USE_MYSQL 1
+#define USE_PGSQL 0
+#endif
+
 
 // includes system
-#if HAVE_SQLITE
+#if USE_SQLITE
 #include <sqlite3.h>
-#elif HAVE_MYSQL
+#elif USE_MYSQL
 #include <mysql/mysql.h>
-#elif HAVE_PGSQL
+#elif USE_PGSQL
 #include <libpq-fe.h>
 #endif
 
@@ -51,23 +76,23 @@ class VRSql {
   static const uint16_t SQLCMD_MAX = 1024;	///< query size max
   char sql[SQLCMD_MAX];	///< Sql command
 
-#if HAVE_SQLITE
+#if USE_SQLITE
   sqlite3_stmt *res;	///< Sqlite result
-#elif HAVE_MYSQL
+#elif USE_MYSQL
   MYSQL_RES *res;	///< MySqsl result
   MYSQL_ROW row;	///< MySql row
-#elif HAVE_PGSQL
+#elif USE_PGSQL
   PGresult *res;	///< PGSqsl result
 #else
   void *res;		///< no dbms
 #endif
 
  public:
-#if HAVE_SQLITE
+#if USE_SQLITE
   sqlite3 *db;		///< Sqlite handle
-#elif HAVE_MYSQL
+#elif USE_MYSQL
   MYSQL *db;		///< MySql handle
-#elif HAVE_PGSQL
+#elif USE_PGSQL
   PGconn *db;		///< PgSql handle
 #else
   void *db;		///< no dbms
@@ -89,24 +114,24 @@ class VRSql {
   void quit();
   /**< closes the VRSql link */
 
-#if HAVE_SQLITE
+#if USE_SQLITE
   bool openDB();
   /**< opens to the Sqlite database */
-#elif HAVE_MYSQL
+#elif USE_MYSQL
   bool connectDB();
   /**< connects to the MySql server */
-#elif HAVE_PGSQL
+#elif USE_PGSQL
   bool connectDB();
   /**< connects to the MySql server */
 #endif
 
-#if HAVE_SQLITE
+#if USE_SQLITE
   static int callback(void *, int argc, char **argv, char **azColName);
   int prepare(const char *sql);
 #endif
 
-#if HAVE_SQLITE
-#elif HAVE_MYSQL
+#if USE_SQLITE
+#elif USE_MYSQL
   MYSQL_RES * result();
   /**< gets the Sql result */
 #endif
