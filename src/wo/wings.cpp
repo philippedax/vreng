@@ -146,6 +146,18 @@ uint8_t Wings::getModel(const char *name)
   return NOWINGS;
 }
 
+void Wings::restorePosition()
+{
+  pos.x = ox;
+  pos.y = oy;
+  pos.z = oz;
+  pos.ax = oax;
+  pos.ay = oay;
+  pos.az = oaz;
+  updatePosition();
+  behaviors();
+}
+
 /* Created from file */
 Wings::Wings(char *l)
 {
@@ -220,7 +232,7 @@ Wings::Wings(User *user, void *d, time_t s, time_t u)
   active = false;
   taken = true;
   setOwner();
-  getPersist();
+  //dax getPersist();
   geometry();
   behaviors();
   inits();
@@ -586,7 +598,7 @@ void Wings::render(uint8_t _model)
 void Wings::quit()
 {
   oid = 0;
-  savePersistency();
+  //dax savePersistency();
   if (dlist_center > 0) glDeleteLists(dlist_center, 1);
   if (dlist_right > 0) glDeleteLists(dlist_right, 1);
   if (dlist_left > 0) glDeleteLists(dlist_left, 1);
@@ -600,10 +612,10 @@ void Wings::wear()
   taken = true;
   active = true;
   setOwner();
-  setPersist();
+  //dax setPersist();
   behaviors();
   inits();
-  addWearList();
+  //dax addWearList();
 }
 
 /* takeoff */
@@ -612,8 +624,8 @@ void Wings::takeoff()
   taken = false;
   active = false;
   restorePosition();	// restore initial position
-  delPersist();
-  delWearList();
+  //dax delPersist();
+  //dax delWearList();
 }
 
 /* wear: indirectly called by user */

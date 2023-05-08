@@ -36,9 +36,14 @@ struct sWings {
 /**
  * Wings class
  */
-class Wings: public Cloth {
+class Wings: public WObject {
 
 private:
+  bool taken;                           ///< bool taken by avatar
+  float ttl;                            ///< time to live with avatar
+  float dx, dy, dz, dax, day, daz;      ///< difference with avatar positions
+  float ox, oy, oz, oax, oay, oaz;      ///< original positions
+
   GLfloat angle;	///< angle
   GLint dlist_center;	///< display-list center
   GLint dlist_right;	///< display-list right wing
@@ -46,8 +51,8 @@ private:
   GLfloat scale;	///< scale
   float color[3];	///< color
   bool active;		///< is in movement ?
+  uint8_t article;                      ///< types of article
 
-private:
   uint8_t model;
   char modelname[16];
 
@@ -70,6 +75,17 @@ public:
     CREATE_WEAR,
     RECREATE,
     DESTROY
+  };
+
+  /* net properties */  
+  enum {
+    PROPHNAME,
+    PROPXY,
+    PROPZ,
+    PROPAZ,
+    PROPAX,
+    PROPAY,
+    PROPS       ///< last item = properties number
   };
 
   static const OClass oclass;	///< class variable.
@@ -126,6 +142,9 @@ private:
 
   uint8_t getModel(const char *name);
   /**< Gets model id. */
+
+  void restorePosition();
+  /**< Restores original position */
 
   void wear();
   void takeoff();

@@ -43,6 +43,7 @@ protected:
   uint8_t article;			///< types of article
   char color[16];			///< given color
 
+public:
   /* cloth models */
   enum cloth_model {
     HALO,
@@ -52,7 +53,6 @@ protected:
     NONE
   };
 
-public:
   /* net properties */
   enum {
     PROPHNAME,
@@ -90,13 +90,10 @@ public:
   virtual void changePermanent(float lasting);
   /**< movement */
 
-  //void quit();
+  //dax virtual void quit();
   /**< Quits */
 
 protected:
-  void behaviors();
-  /**< Sets behaviors */
-
   void setName(const char *modelname);
   /**< Sets qualified name */
 
@@ -112,9 +109,6 @@ protected:
   void delPersist();
   /**< Deletes object */
 
-  void inits();
-  /**< Do specific inits */
-
   void restorePosition();
   /**< Restores original position */
 
@@ -129,8 +123,14 @@ private:
   void parser(char *l);
   /**< Parses xml */
 
+  void behaviors();
+  /**< Sets behaviors */
+
   void geometry();
   /**< Builds solid geometry */
+
+  void inits();
+  /**< Do specific inits */
 
 };
 

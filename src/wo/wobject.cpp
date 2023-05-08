@@ -42,6 +42,7 @@ vector<WObject*> objectList;
 vector<WObject*> stillList;
 list<WObject*> mobileList;
 vector<WObject*> fluidList;
+vector<WObject*> clothList;
 vector<WObject*> invisList;
 vector<WObject*> deleteList;
 vector<WObject*> lightList;
@@ -127,9 +128,9 @@ WObject::~WObject()
     delete netop;
     netop = NULL;
   }
-  if (names.implicit) delete[] names.implicit;
-  if (names.category) delete[] names.category;
-  if (names.infos) delete[] names.infos;
+  if (names.implicit && isalpha(names.implicit[0])) delete[] names.implicit;
+  if (names.category && isalpha(names.category[0])) delete[] names.category;
+  if (names.infos && isalpha(names.infos[0])) delete[] names.infos;
   if (geomsolid && isalpha(*geomsolid)) delete[] geomsolid;
   del_wobject++;
 }
@@ -166,6 +167,11 @@ void WObject::initObject(uint8_t _mode)
     case FLUID:
       enableBehavior(NO_ELEMENTARY_MOVE);
       fluidList.push_back(this);	// add to fluidList
+      break;
+
+    case CLOTH:
+      enableBehavior(NO_ELEMENTARY_MOVE);
+      clothList.push_back(this);	// add to clothList
       break;
 
     case INVISIBLE:
@@ -222,6 +228,15 @@ void WObject::initMobileObject(float last)
 void WObject::initFluidObject(float last)
 {
   initObject(FLUID);
+  if (last) {
+    setLasting(last);
+  }
+}
+
+/* Initializes cloth object */
+void WObject::initClothObject(float last)
+{
+  initObject(CLOTH);
   if (last) {
     setLasting(last);
   }
@@ -1261,7 +1276,6 @@ bool WObject::isFluid()
   }
   return false;
 }
-#endif //notused
 
 bool WObject::isEphemeral()
 {
@@ -1271,7 +1285,6 @@ bool WObject::isEphemeral()
   return false;
 }
 
-#if 0 //notused
 // virtual
 WObject * WObject::byWObject(WObject *wobject)
 {

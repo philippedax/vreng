@@ -115,7 +115,7 @@ void Cloth::behaviors()
 /* sets position near the avatar */
 void Cloth::inits()
 {
-  initMobileObject(ttl);
+  initClothObject(ttl);
   if (taken)
     enablePermanentMovement();	// follows user
 
@@ -228,10 +228,12 @@ void Cloth::restorePosition()
   behaviors();
 }
 
-//void Cloth::quit()
-//{
-//  //dax oid = 0;
-//}
+#if 0 //dax
+void Cloth::quit()
+{
+  oid = 0;
+}
+#endif
 
 void Cloth::funcs()
 {}

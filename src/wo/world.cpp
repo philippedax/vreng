@@ -872,6 +872,13 @@ void World::quit()
   }
   fluidList.clear();
 
+  // cloth objects
+  for (vector<WObject*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
+    (*it)->quit();
+    delete *it;		// segfault
+  }
+  clothList.clear();
+
   // Update GUI
   if (guip) {
     ::g.gui.updateWorld(this, OLD);

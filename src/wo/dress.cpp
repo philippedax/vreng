@@ -131,7 +131,7 @@ void Dress::behaviors()
 /* sets position near the avatar */
 void Dress::inits()
 {
-  initMobileObject(ttl);
+  initClothObject(ttl);
   if (taken)
     enablePermanentMovement();  // follows user
 

@@ -62,6 +62,7 @@ extern std::list<WObject*> mobileList;
 extern std::vector<WObject*> stillList;
 extern std::vector<WObject*> invisList;
 extern std::vector<WObject*> fluidList;
+extern std::vector<WObject*> clothList;
 extern std::vector<WObject*> deleteList;
 extern std::vector<WObject*> lightList;
 
@@ -186,6 +187,7 @@ public:
     INVISIBLE,
     FLUID,
     MOBILEINVISIBLE,
+    CLOTH,
     END_MODE
   };
 
@@ -595,9 +597,6 @@ public:
   static WObject * byNum(uint16_t num); // to become virtual !
   /**< Gets an object by its num. */
 
-  bool isEphemeral();
-  /**< Checks an object exists in the mobilelist. */
-
   //notused void clearList(std::list<WObject*> &olist);
   //notused /**< Clears an olist. */
   //notused WObject * byWObject(WObject *po);
@@ -606,6 +605,8 @@ public:
   //notused /**< Checks an object exists in the stilllist. */
   //notused bool isMobile();
   //notused bool isFluid();
+  //notused bool isEphemeral();
+  //notused /**< Checks an object exists in the mobilelist. */
 
   //
   // Movements
@@ -719,6 +720,9 @@ public:
 
   void initFluidObject(float last);
   /**< Initializes fluid object. */
+
+  void initClothObject(float last);
+  /**< Initializes cloth object. */
 
   NetObject * createPermanentNetObject(uint8_t props, uint16_t oid);
   /**< Creates local permanent NetObject. */
