@@ -923,8 +923,8 @@ public:
   void delPersist();
   /**< Deletes object */
 
-  void quitPersistency();
-  /**< Quits VRSql. */
+  //notused void quitPersistency();
+  //notused /**< Quits VRSql. */
 
 protected:
   // GUI and network change callbacks

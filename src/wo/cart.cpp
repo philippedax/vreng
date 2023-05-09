@@ -196,7 +196,7 @@ void Cart::removeFromCart(WObject *po)
 
 void Cart::quit()
 {
-  quitPersistency();
+  savePersistency();
 }
 
 void Cart::funcs() {}

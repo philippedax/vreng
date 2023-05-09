@@ -931,11 +931,13 @@ void WObject::delPersist()
   if (psql && givenName())  psql->deleteRow(this, names.given);
 }
 
+#if 0 //notused
 /* Quits VRSql */
 void WObject::quitPersistency()
 {
   if (psql) psql->quit();
 }
+#endif //notused
 
 //
 // Actions

@@ -283,7 +283,7 @@ void Door::unlock()
 void Door::quit()
 {
   oid = 0;
-  quitPersistency();
+  savePersistency();
 }
 
 void Door::open_cb(Door *door, void *d, time_t s, time_t u) { door->open(); }
