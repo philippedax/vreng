@@ -154,8 +154,7 @@ bool VRSql::connectDB()
 /** Allocates VRSql */
 VRSql * VRSql::init()
 {
-  if (World::current())
-    return NULL;
+  //if (World::current()) return NULL;
 
   vrsql = new VRSql();
 
@@ -171,12 +170,12 @@ VRSql * VRSql::init()
     vrsql->createDatabase(DB);
 #endif
     if (! r) {
-      trace(DBG_INIT, "init: can't reach database");
+      error("init: can't reach database");
       delete vrsql;
       vrsql = NULL;
     }
   }
-  trace(DBG_INIT, "init: vrsql");
+  trace(DBG_INIT, "vrsql init: %d", r);
   return vrsql;
 }
 
