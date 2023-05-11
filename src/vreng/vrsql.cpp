@@ -311,16 +311,16 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   }
   rc = sqlite3_bind_int(res, 1, 1);
   if (rc != SQLITE_OK) {
-    error("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));
+    error("%s %s %d err bindint %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
   rc = sqlite3_step(res);
-  if (rc == SQLITE_ROW) {
+  if (rc == SQLITE_DONE) {
     val = sqlite3_column_int(res, 0);
     //echo("val=%d", val);
   }
   else {
-    error("%s %s %d err step %s", table,col,irow, sqlite3_errmsg(db));
+    error("%s %s %d err stepint %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
   sqlite3_finalize(res);
@@ -376,7 +376,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   int idx = 1;
   rc = sqlite3_bind_double(res, idx, (double) val);	// not sure of that ???
   if (rc != SQLITE_OK) {
-    error("%s %s %d err bind %s", table,col,irow, sqlite3_errmsg(db));
+    error("%s %s %d err binddouble %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
   rc = sqlite3_step(res);
@@ -389,7 +389,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
     //echo("val=%.1f", val);
   }
   else {
-    error("rc=%d err step %s", rc, sqlite3_errmsg(db));
+    error("rc=%d err stepdouble %s", rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
   sqlite3_finalize(res);
@@ -429,14 +429,14 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   rc = prepare(sql);
   rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
   rc = sqlite3_step(res);
-  if (rc == SQLITE_ROW) {
+  if (rc == SQLITE_DONE) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(res, 0));
       //echo("str=%s", retstring);
     }
   }
   else {
-    error("rc=%d err step %s", rc, sqlite3_errmsg(db));
+    error("rc=%d err stepstring %s", rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
   }
   sqlite3_reset(res);
@@ -479,7 +479,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   rc = prepare(sql);
   rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
   rc = sqlite3_step(res);
-  if (rc == SQLITE_ROW) {
+  if (rc == SQLITE_DONE) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(res, 0));
       //echo("str=%s", retstring);
@@ -522,12 +522,12 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
 
 #if USE_SQLITE
 /** bad code !!! FIXME 
+**/
   prepare(sql);
   sqlite3_bind_int(res, 1, 1);
   sqlite3_step(res);
   val = sqlite3_column_int(res, 0);
   sqlite3_finalize(res);
-**/
 
 #elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;

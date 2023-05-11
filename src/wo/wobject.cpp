@@ -846,14 +846,24 @@ void WObject::updateDist()
 /** Checks whether position is managed by VRSql
  * if it is, get position
  */
-#if 0 //dax - see getPersist()
-void WObject::getPersistency()
+void WObject::getPersist()
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     psql->getPos(this);
   }
   updatePersist();
+}
+
+#if 0 //dax - see getPersist()
+void WObject::getPersist()
+{
+  if (! psql) psql = VRSql::getVRSql();
+  if (psql && givenName()) {
+    psql->getOwner(this);
+    psql->getPos(this);
+    psql->getGeom(this);
+  }
 }
 #endif //dax
 
@@ -915,16 +925,6 @@ void WObject::setPersist()
     psql->updatePos(this);
     psql->updateOwner(this);
     //geom psql->updateGeom(this, geom);
-  }
-}
-
-void WObject::getPersist()
-{
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql && givenName()) {
-    psql->getOwner(this);
-    psql->getPos(this);
-    psql->getGeom(this);
   }
 }
 
