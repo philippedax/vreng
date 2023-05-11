@@ -246,7 +246,6 @@ void Clip::quit()
   state = RTP_INACTIVE;
   stopRtp();
   Mpeg::stop();
-  savePersistency();
 }
 
 void Clip::funcs()

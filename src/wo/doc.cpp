@@ -70,7 +70,6 @@ bool Doc::whenIntersect(WObject *pcur, WObject *pold)
 void Doc::quit()
 {
   Ps::quit();
-  savePersistency();
 }
 
 void Doc::view_cb(Doc *doc, void *d, time_t s, time_t u)

@@ -226,7 +226,7 @@ void Hat::quit()
 {
   phat = NULL;
   oid = 0;
-  savePersistency();
+  savePersist();
 }
 
 /* wear */

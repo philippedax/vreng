@@ -1130,7 +1130,7 @@ void Solid::getBB(V3 &max, V3 &min, bool is_framed)
 // Sets BB dims.
 void Solid::setBB(GLfloat w, GLfloat d, GLfloat h)
 {
-  ::g.render.setBB(w*1, d*1, h*1);
+  ::g.render.setBB(w, d, h);
 }
 
 /* returns relative center and size of BB. */

@@ -156,7 +156,7 @@ void WObject::initObject(uint8_t _mode)
 
     case MOBILE:
       if (isBehavior(PERSISTENT)) {
-        getPersistency();	// calls persistency VRSql
+        getPersist();	// calls persistency VRSql
       }
       mobileList.push_back(this);	// add to mobileList
       if (isBehavior(PERMANENT_MOVEMENT)) {
@@ -846,16 +846,18 @@ void WObject::updateDist()
 /** Checks whether position is managed by VRSql
  * if it is, get position
  */
+#if 0 //dax - see getPersist()
 void WObject::getPersistency()
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     psql->getPos(this);
   }
-  updatePersistency();
+  updatePersist();
 }
+#endif //dax
 
-void WObject::getPersistency(int16_t state)
+void WObject::getPersist(int16_t state)
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
@@ -865,7 +867,7 @@ void WObject::getPersistency(int16_t state)
   }
 }
 
-void WObject::updatePersistency()
+void WObject::updatePersist()
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
@@ -879,7 +881,7 @@ void WObject::updatePersistency()
 }
 
 /* Updates state for VRSql */
-void WObject::updatePersistency(int16_t _state)
+void WObject::updatePersist(int16_t _state)
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
@@ -893,11 +895,11 @@ void WObject::updatePersistency(int16_t _state)
 /** Flushes position for VRSql
  * if it is the case, get position and update it
  */
-void WObject::savePersistency()
+void WObject::savePersist()
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && isBehavior(PERSISTENT) && !removed && givenName()) {
-    //trace(DBG_FORCE, "savePersistency: %s pos.alter=%d", names.instance, pos.alter);
+    //trace(DBG_FORCE, "savePersist: %s pos.alter=%d", names.instance, pos.alter);
     // update VRSql table only if object has changed
     if (pos.alter) psql->updatePos(this);
     if (isBehavior(DYNAMIC)) psql->updateOwner(this);
@@ -933,7 +935,7 @@ void WObject::delPersist()
 
 #if 0 //notused
 /* Quits VRSql */
-void WObject::quitPersistency()
+void WObject::quitPersist()
 {
   if (psql) psql->quit();
 }

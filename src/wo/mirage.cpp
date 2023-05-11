@@ -240,7 +240,7 @@ void Mirage::changePermanent(float lasting)
 
 void Mirage::quit()
 {
-  if (persist) savePersistency();
+  if (persist) savePersist();
 }
 
 void Mirage::recreate(World *w, void *d, time_t s, time_t u)

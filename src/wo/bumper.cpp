@@ -135,7 +135,6 @@ bool Bumper::whenIntersect(WObject *pcur, WObject *pold)
 void Bumper::quit()
 {
   oid = 0;
-  savePersistency();
 }
 
 void Bumper::funcs()

@@ -93,8 +93,8 @@ Door::Door(char *l)
     break;
   }
 
-  /* calls persistency MySql server to know the door state */
-  getPersistency(state);
+  /* calls persistency VRSql server to know the door state */
+  getPersist(state);
 
   switch (mecanism) {
   case ANGULAR:
@@ -117,9 +117,9 @@ Door::Door(char *l)
   center.v[2] = pos.z;
   pos.x += size.v[0] * cos(pos.az);
   pos.y += size.v[0] * sin(pos.az);
-  //dax trace(DBG_FORCE, "pos=(%.2f,%.2f,%.2f) center=(%.2f,%.2f,%.2f) size=%.2f", pos.x, pos.y, pos.z, center.v[0], center.v[1], center.v[2], size.v[0]);
+  //dax echo("pos=(%.2f,%.2f,%.2f) center=(%.2f,%.2f,%.2f) size=%.2f", pos.x, pos.y, pos.z, center.v[0], center.v[1], center.v[2], size.v[0]);
 
-  //dax1 enableBehavior(PERSISTENT);
+  enableBehavior(PERSISTENT);
 
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
@@ -223,7 +223,7 @@ void Door::open()
   Sound::playSound(DOOROPENSND);
   state = OPENED;
   pos.alter = true;	// has changed
-  updatePersistency(state);
+  updatePersist(state);
 }
 
 void Door::close()
@@ -248,7 +248,7 @@ void Door::close()
   }
   state = CLOSED;
   pos.alter = true;	// has changed
-  updatePersistency(state);
+  updatePersist(state);
 }
 
 void Door::lock()
@@ -260,7 +260,7 @@ void Door::lock()
   case Door::CLOSED:
     state = Door::LOCKED;
     pos.alter = true;	// has changed
-    updatePersistency(state);
+    updatePersist(state);
   default:
     break;
   }
@@ -274,7 +274,7 @@ void Door::unlock()
   case Door::LOCKED:
     state = Door::UNLOCKED;
     pos.alter = true;	// has changed
-    updatePersistency(state);
+    updatePersist(state);
   default:
     break;
   }
@@ -283,7 +283,7 @@ void Door::unlock()
 void Door::quit()
 {
   oid = 0;
-  savePersistency();
+  savePersist();
 }
 
 void Door::open_cb(Door *door, void *d, time_t s, time_t u) { door->open(); }

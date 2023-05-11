@@ -183,7 +183,6 @@ void Music::quit()
   case FMT_MIDI: Midi::stop(); break;
   }
   oid = 0;
-  savePersistency();
 }
 
 void Music::funcs()

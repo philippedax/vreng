@@ -185,7 +185,6 @@ void Mirror::mirroredScene()
 void Mirror::quit()
 {
   oid = 0;
-  savePersistency();
 }
 
 void Mirror::mirrorOn(Mirror *po, void *d, time_t s, time_t u)

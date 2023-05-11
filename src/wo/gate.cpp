@@ -256,7 +256,6 @@ void Gate::quit()
 {
   clearObjectBar();
   oid = 0;
-  savePersistency();
 }
 
 void Gate::enter_cb(Gate *gate, void *d, time_t s, time_t u)

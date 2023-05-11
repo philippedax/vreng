@@ -144,7 +144,7 @@ Halo::Halo(User *user, void *d, time_t s, time_t u)
 void Halo::quit()
 {
   oid = 0;
-  savePersistency();
+  savePersist();
 }
 
 /* wear */

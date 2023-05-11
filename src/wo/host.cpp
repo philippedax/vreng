@@ -88,7 +88,6 @@ void Host::quit()
 {
   Xterm::quit();
   oid = 0;
-  savePersistency();
 }
 
 void Host::funcs()

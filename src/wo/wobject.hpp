@@ -899,19 +899,19 @@ public:
   // VRSql
   //
 public:
-  void getPersistency();
-  /**< Checks if position is managed by VRSql and get it. */
+  //dax void getPersistency();
+  //dax /**< Checks if position is managed by VRSql and get it. */
 
-  void getPersistency(int16_t state);
+  void getPersist(int16_t state);
   /**< Gets state from VRSql. */
 
-  void updatePersistency();
+  void updatePersist();
   /**< Checks if position is managed by VRSql and update it. */
 
-  void updatePersistency(int16_t state);
+  void updatePersist(int16_t state);
   /**< Updates state for VRSql. */
 
-  void savePersistency();
+  void savePersist();
   /**< Flushes position for VRSql. */
 
   void setPersist();
@@ -923,7 +923,7 @@ public:
   void delPersist();
   /**< Deletes object */
 
-  //notused void quitPersistency();
+  //notused void quitPersist();
   //notused /**< Quits VRSql. */
 
 protected:

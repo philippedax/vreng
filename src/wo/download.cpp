@@ -58,9 +58,7 @@ void Download::get(Download *wo, void *d, time_t s, time_t u)
 }
 
 void Download::quit()
-{
-  savePersistency();
-}
+{}
 
 void Download::funcs()
 {

@@ -85,9 +85,7 @@ bool Ground::whenIntersect(WObject *pcur, WObject *pold)
 }
 
 void Ground::quit()
-{
-  //savePersistency();
-}
+{}
 
 void Ground::funcs()
 {}

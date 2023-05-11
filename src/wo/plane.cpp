@@ -137,7 +137,6 @@ void Plane::quit()
   oid = 0;
   if (tex) delete[] tex;
   tex = NULL;
-  savePersistency();
 }
 
 void Plane::funcs()

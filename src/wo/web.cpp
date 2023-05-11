@@ -182,7 +182,6 @@ void Web::caption_cb(Web *web, void *d, time_t s, time_t u)
 void Web::quit()
 {
   oid = 0;
-  savePersistency();
   if (text)
     text->toDelete();
 }

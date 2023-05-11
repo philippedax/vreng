@@ -206,7 +206,6 @@ int VRSql::prepare(const char *sql)
   int rc = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &res, NULL);
   //rc = sqlite3_step(res);
   //sqlite3_finalize(res);
-  //sqlite3_close(db);
   return rc;
 }
 #endif

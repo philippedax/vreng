@@ -347,7 +347,7 @@ void Ball::destroy()
 
 void Ball::quit()
 {
-  savePersistency();
+  savePersist();
 }
 
 void Ball::push_cb(Ball *ball, void *d, time_t s, time_t u)

@@ -598,7 +598,7 @@ void Wings::render(uint8_t _model)
 void Wings::quit()
 {
   oid = 0;
-  savePersistency();
+  savePersist();
   if (dlist_center > 0) glDeleteLists(dlist_center, 1);
   if (dlist_right > 0) glDeleteLists(dlist_right, 1);
   if (dlist_left > 0) glDeleteLists(dlist_left, 1);

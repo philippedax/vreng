@@ -168,7 +168,7 @@ void Animator::put_ttl(Animator *po, Payload *pp)
 void Animator::quit()
 {
   oid = 0;
-  savePersistency();
+  savePersist();
 }
 
 void Animator::funcs()

@@ -630,9 +630,7 @@ void Mech::render()
 }
 
 void Mech::quit()
-{
-  savePersistency();
-}
+{}
 
 void Mech::still(Mech *mech, void *d, time_t s, time_t u)
 {

@@ -114,7 +114,6 @@ bool Slider::whenIntersect(WObject *pcur, WObject *pold)
 void Slider::quit()
 {
   oid = 0;
-  savePersistency();
 }
 
 void Slider::funcs()

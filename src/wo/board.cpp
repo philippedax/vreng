@@ -172,7 +172,6 @@ void Board::cancel_cb(Board *board, void *d, time_t s, time_t u) { Wb::quit(); }
 void Board::quit()
 {
   Wb::quit();
-  savePersistency();
 }
 
 void Board::funcs()

@@ -66,7 +66,7 @@ void Accessory::behaviors()
 {
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);
-  //dax1 enableBehavior(PERSISTENT);
+  enableBehavior(PERSISTENT);
 }
 
 void Accessory::inits()
@@ -120,7 +120,7 @@ void Accessory::changePermanent(float lasting)
 void Accessory::quit()
 {
   oid = 0;
-  savePersistency();
+  savePersist();
 }
 
 /* wear */

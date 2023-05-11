@@ -197,7 +197,6 @@ void Book::parser(char *l)
 
 void Book::behaviors()
 {
-  //enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(TAKABLE);
 }
@@ -308,7 +307,6 @@ void Book::quit()
 {
   if (tex) delete[] tex;
   if (html) delete[] html;
-  if (! near) savePersistency();
   oid = 0;
 }
 

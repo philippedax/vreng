@@ -183,7 +183,6 @@ bool Lift::whenIntersectOut(WObject *pcur, WObject *pold)
 void Lift::quit()
 {
   oid = 0;
-  savePersistency();
 }
 
 void Lift::funcs()
