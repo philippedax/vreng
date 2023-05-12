@@ -169,7 +169,7 @@ void Smoke::render()
 {
   //echo("render: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
   glPushMatrix();
-  glTranslatef(pos.x, pos.y, pos.z);	// coord vreng
+  glTranslatef(loc.x, loc.y, loc.z);	// coord vreng
   //dax glTranslatef(-pos.y, pos.z, -pos.x);	// coord opengl
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
   glEnable(GL_BLEND);
@@ -187,6 +187,9 @@ Smoke::Smoke(Vector3 l)
   vel = Vector3(0, 0.0005, 0);
   life = 255;
   dlist = -1;
+  loc.x = pos.x;
+  loc.y = pos.y;
+  loc.z = pos.z;
   //echo("new: loc=%.2f,%.2f,%.2f", loc.x,loc.y,loc.z);
 }
 

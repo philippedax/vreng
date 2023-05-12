@@ -204,6 +204,7 @@ Step::Step(Pos& newpos, Pos& _initialpos, const char *name, const char *geom, bo
   }
   speed = _speed;
   initialpos = _initialpos;
+  stuck = false;
 
   initMobileObject(1);
   forceNames(name);
