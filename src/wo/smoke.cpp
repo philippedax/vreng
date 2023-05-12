@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "smoke.hpp"
-#include "wobject.hpp"
 
 
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
@@ -48,9 +47,19 @@ Smoke::Smoke(char *l)
   inits();
 }
 
+Smoke::Smoke(Vector3 l)
+{
+  loc = l;
+  vel = Vector3(0, 0.0005, 0);
+  life = 255;
+  dlist = -1;
+  loc = Vector3(pos.x, pos.y, pos.z);
+  //echo("new: %.1f %.1f %.1f", loc.x,loc.y,loc.z);
+}
+
 void Smoke::defaults()
 {
-  np = SMOKENB;
+  npmax = SMOKENB;
 }
 
 void Smoke::parser(char *l)
@@ -60,7 +69,7 @@ void Smoke::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (!stringcmp(l, "number")) l = parseUInt16(l, &np, "number");
+    if (! stringcmp(l, "number")) l = parseUInt16(l, &npmax, "number");
   }
   end_while_parse(l);
 }
@@ -71,126 +80,112 @@ void Smoke::behaviors()
   enableBehavior(NO_BBABLE);
   enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
 }
 
 void Smoke::geometry()
 {
   char s[128];
 
-  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" a=\"0.7\" />", 0.25, 0.25, 0.25);
+  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" a=\"0.7\" />", 0.05, 0.05, 0.05);
   parseSolid(s);
 }
 
 void Smoke::inits()
 {
-  //dax Vector3 emitter(pos.x, pos.y, pos.z);
-  //echo("smoke: inits emitter=%.2f %.2f %.2f", emitter.x,emitter.y,emitter.z);
+  initMobileObject(0);
+  np = 0;
+#if 0 //dax
+  addParticles();
+#endif
 }
 
 void Smoke::changePermanent(float dt)
 {
-  addParticle();
-  moveParticle();
-  drawParticle();	// if commented no smake
-}
-
-void Smoke::addParticle()
-{   
-  //dax Vector3 emitter(pos.x, pos.y, pos.z);
-  //echo("add: emitter=%.1f %.1f %.1f", emitter.x,emitter.y,emitter.z);
-  Vector3 tmp = random();
-  tmp.add(emitter);
-  //echo("add: tmp=%.1f %.1f %.1f", tmp.x,tmp.y,tmp.z);
-  Smoke p(tmp);
-#if 0 // bad no smoke
-  p.loc.x = pos.x;
-  p.loc.y = pos.y;
-  p.loc.z = pos.z;
+#if 1 //dax
+  addParticles();
 #endif
-
-  particles.push_back(p);	// add p to particles
+  animParticles();
+  //drawParticles();	// if commented no smake
 }
 
-void Smoke::moveParticle()
+void Smoke::addParticles()
+{   
+  Vector3 emit(pos.x, pos.y, pos.z);
+//  Vector3 tmp = random();
+//  tmp.add(emit);
+#if 0 //dax
+  for (np=0; np < npmax; np++) {
+    Smoke p(emit);
+    particlesList.push_back(p);	// add p to particlesList
+    np++;
+  } 
+#else
+  np++;
+  if (np > npmax) return;
+  Smoke p(emit);
+  particlesList.push_back(p);	// add p to particlesList
+#endif
+}
+
+void Smoke::updateParticles()
 {     
-  for (vector<Smoke>::iterator it = particles.begin(); it < particles.end(); ++it) {
+  for (vector<Smoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
     if ((*it).life > 0) {	// is alive
       (*it).update();
     }
     else {
-      particles.erase(it);
+      particlesList.erase(it);
     }
   }
 } 
 
-void Smoke::drawParticle()
+void Smoke::drawParticles()
 {     
-  for (vector<Smoke>::iterator it = particles.begin(); it < particles.end(); ++it) {
+  for (vector<Smoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
     if ((*it).life > 0) {	// is alive
       (*it).draw();
     }
   }
-  //echo("(%d)", particles.size());
 } 
 
-void Smoke::dlistParticle()
+void Smoke::dlistParticles()
 {     
-  for (vector<Smoke>::iterator it = particles.begin(); it < particles.end(); ++it) {
+  for (vector<Smoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
     if ((*it).dlist > 0) {	// is alive
       glCallList((*it).dlist);
     }
   }
-  //echo("[%d]", particles.size());
 } 
 
-void Smoke::animParticle()
+void Smoke::animParticles()
 {     
-  for (vector<Smoke>::iterator it = particles.begin(); it < particles.end(); ++it) {
+  for (vector<Smoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
     if ((*it).life > 0) {	// is alive
       (*it).update();
       (*it).draw();
     }
     else {
-      particles.erase(it);
+      particlesList.erase(it);
     }
   }
 } 
 
-Vector3 Smoke::random()
-{ 
-  float x = -0.01+(0.02*((float)rand())/(RAND_MAX));	// -0.02+(0.04 (more compact)
-  float y = -0.01+(0.02*((float)rand())/(RAND_MAX));	// -0.02+(0.04 (more compact)
-  return Vector3(x, y, 0);
-}
-
 void Smoke::render()
 {
-  //echo("render: %.1f %.1f %.1f", pos.x,pos.y,pos.z);
+  if (np > npmax) return;
+
+  echo("rend: np=%d %.1f %.1f %.1f", np, loc.x, loc.y, loc.z);
   glPushMatrix();
   glTranslatef(loc.x, loc.y, loc.z);	// coord vreng
-  //dax glTranslatef(-pos.y, pos.z, -pos.x);	// coord opengl
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);
   glEnable(GL_BLEND);
 
-  drawParticle();
-  //dax dlistParticle();
+  draw();
+  //drawParticles();
+  //dax dlistParticles();
 
   glDisable(GL_BLEND);
   glPopMatrix();
-}
-
-Smoke::Smoke(Vector3 l)
-{
-  loc = l;
-  vel = Vector3(0, 0.0005, 0);
-  life = 255;
-  dlist = -1;
-  loc.x = pos.x;
-  loc.y = pos.y;
-  loc.z = pos.z;
-  //echo("new: loc=%.2f,%.2f,%.2f", loc.x,loc.y,loc.z);
 }
 
 void Smoke::update()
@@ -203,7 +198,7 @@ void Smoke::update()
   vel.add(acc);
   loc.add(vel);
   life -= 0.5;	// -> 511, 0.2 -> 1277
-  //echo("update: %.2f %.2f %.2f %.2f", loc.x,loc.y,loc.z,life);
+  //echo("upd: %.1f %.1f %.1f %.1f", loc.x, loc.y, loc.z, life);
 }
 
 void Smoke::draw()
@@ -213,7 +208,7 @@ void Smoke::draw()
   //dax dlist = glGenLists(1);
   //dax glNewList(dlist, GL_COMPILE);
   glColor4f(.9,.9,.9, a);
-  //glTranslatef(pos.x, pos.y, pos.z);
+  //glTranslatef(loc.x, loc.y, loc.z);
   glBegin(GL_POLYGON);
   for (int i=0; i < NA; i++) {
     glVertex3f(loc.x+COS[i], loc.y+SIN[i], loc.z);
@@ -221,5 +216,14 @@ void Smoke::draw()
   glEnd();
   //dax glEndList();
 }
+
+#if 0 //notused
+Vector3 Smoke::random()
+{ 
+  float x = -0.01+(0.02*((float)rand())/(RAND_MAX));	// -0.02+(0.04 (more compact)
+  float y = -0.01+(0.02*((float)rand())/(RAND_MAX));	// -0.02+(0.04 (more compact)
+  return Vector3(x, y, 0);
+}
+#endif //notused
 
 void Smoke::funcs() {}

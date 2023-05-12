@@ -28,7 +28,7 @@
 #include "wobject.hpp"
 #include <vector>
 
-#define SMOKENB		100
+#define SMOKENB		200	// number max of particles
 #define NA		8	// number of angles of polygon
 
 
@@ -65,15 +65,15 @@ public:
 class Smoke: public WObject {
 
 public:
+  uint16_t npmax;	// notused
+  uint16_t np;
   Vector3 loc;
   Vector3 vel;
   Vector3 acc;
   float life;
   GLint dlist;
 
-  vector<Smoke> particles;
-  Vector3 emitter;
-  uint16_t np;		// notused
+  vector<Smoke> particlesList;
 
   static const OClass oclass;	///< class variable.
   const OClass* getOClass() {return &oclass;}
@@ -115,14 +115,13 @@ private:
   void inits();	// notused
   /**< Initializations. */
 
-  void addParticle();   
+  void addParticles();   
+  void animParticles();
+  void updateParticles();
+  void drawParticles();
+  void dlistParticles();
 
-  void animParticle();
-  void moveParticle();
-  void drawParticle();
-  void dlistParticle();
-
-  Vector3 random();
+  //notused Vector3 random();
 };
 
 #endif
