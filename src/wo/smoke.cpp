@@ -53,7 +53,6 @@ PSmoke::PSmoke(Vector3 l)
   life = 255;
   dlist = -1;
   loc = Vector3(l.x, l.y, l.z);
-  //echo("new: %.1f %.1f %.1f", loc.x,loc.y,loc.z);
 }
 
 void Smoke::defaults()
@@ -140,7 +139,6 @@ void PSmoke::update()
 void Smoke::render()
 {
   if (np > npmax) return;
-  //echo("render: %d", np);
 
   for (vector<PSmoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
     if ((*it).life > 0) {	// is alive
@@ -156,8 +154,7 @@ void Smoke::render()
 
 void PSmoke::draw()
 {
-  float a = 1.2 - life/255;
-  a = MIN(a, 1);
+  float a = MIN(1.2 - life/255, 1);
 
   glColor4f(.9,.9,.9, a);
   glBegin(GL_POLYGON);		// octogon
@@ -169,8 +166,7 @@ void PSmoke::draw()
 
 void PSmoke::display()
 {
-  float a = 1.2 - life/255;
-  a = MIN(a, 1);
+  float a = MIN(1.2 - life/255, 1);
 
   dlist = glGenLists(1);
   glNewList(dlist, GL_COMPILE);
