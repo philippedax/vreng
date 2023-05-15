@@ -33,11 +33,10 @@
 
 
 /**
- * ParticleSmoke class
+ * PSmoke class
  */
-class ParticleSmoke {
+class PSmoke {
 
-#if 0 //dax0
 private:
   static const float SZ;
   static const float A[NA];
@@ -45,17 +44,18 @@ private:
   static const float SIN[NA];
 
 public:
-  Vector3 loc;
-  Vector3 vel;
-  Vector3 acc;
-  float life;
-  GLint dlist;
+  Vector3 loc;		///< location.
+  Vector3 vel;		///< velocity.
+  Vector3 acc;		///< acceleration.
+  float life;		///< time to live.
+  GLint dlist;		///< displaylist.
 
-  ParticleSmoke(Vector3 l);
+  PSmoke(Vector3 l);	///< Constructor.
+  ~PSmoke() {};		///< Destructor.
 
   void update();
   void draw();
-#endif //dax0
+  void display();
 };
 
 /**
@@ -64,15 +64,10 @@ public:
 class Smoke: public WObject {
 
 public:
-  uint16_t npmax;	// notused
-  uint16_t np;
-  Vector3 loc;
-  Vector3 vel;
-  Vector3 acc;
-  float life;
-  GLint dlist;
+  uint16_t npmax;	///< number max of particles
+  uint16_t np;		///< number of particles
 
-  vector<Smoke> particlesList;
+  vector<PSmoke> particlesList;
 
   static const OClass oclass;	///< class variable.
   const OClass* getOClass() {return &oclass;}
@@ -80,7 +75,6 @@ public:
   static void funcs();	///< init funclist.
 
   Smoke(char *l);	///< Constructor.
-  Smoke(Vector3 l);	///< Constructor.
   ~Smoke() {};		///< Destructor.
 
   static WObject * (creator)(char *l);
@@ -91,11 +85,6 @@ public:
   void render();
 
 private:
-  static const float SZ;
-  static const float A[NA];
-  static const float COS[NA];
-  static const float SIN[NA];
-
   void defaults();
   /**< Sets defaults values. */
 
@@ -114,15 +103,8 @@ private:
   void createParticle(float x, float y, float z);   
   /**< Creates a particle and and it to particlesList. */
 
-  void buildParticles();   
   void animParticles();
-  void updateParticles();
-  void drawParticles();
-  void displayParticles();
-
-  void update();
-  void draw();
-  void display();
+  /**< Animates particles. */
 
   //notused Vector3 random();
 };
