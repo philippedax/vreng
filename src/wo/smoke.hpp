@@ -28,7 +28,7 @@
 #include "wobject.hpp"
 #include <vector>
 
-#define SMOKENB		200	// number max of particles
+#define SMOKENB		100	// number max of particles
 #define NA		8	// number of angles of polygon
 
 
@@ -39,8 +39,7 @@ class ParticleSmoke {
 
 #if 0 //dax0
 private:
-  static const float S;
-  static const float PI;
+  static const float SZ;
   static const float A[NA];
   static const float COS[NA];
   static const float SIN[NA];
@@ -91,35 +90,39 @@ public:
 
   void render();
 
-  void update();
-  void draw();
-
 private:
-  static const float S;
-  static const float PI;
+  static const float SZ;
   static const float A[NA];
   static const float COS[NA];
   static const float SIN[NA];
 
   void defaults();
-
   /**< Sets defaults values. */
 
   void parser(char *l);
   /**< Parses. */
 
   void behaviors();
+  /**< Sets behaviors. */
 
   void geometry();
+  /**< Sets geometry. */
 
-  void inits();	// notused
+  void inits();
   /**< Initializations. */
 
-  void addParticles();   
+  void createParticle(float x, float y, float z);   
+  /**< Creates a particle and and it to particlesList. */
+
+  void buildParticles();   
   void animParticles();
   void updateParticles();
   void drawParticles();
-  void dlistParticles();
+  void displayParticles();
+
+  void update();
+  void draw();
+  void display();
 
   //notused Vector3 random();
 };

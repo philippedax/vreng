@@ -25,11 +25,10 @@
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
 // local
-const float Smoke::S = 0.0025;	//orig 0.005
-const float Smoke::PI = 3.141592;
-const float Smoke::A[NA] = { PI*1/4, PI*2/4, PI*3/4, PI, PI*5/4, PI*6/4, PI*7/4, 2*PI };
-const float Smoke::COS[NA] = { S*cos(A[0]), S*cos(A[1]), S*cos(A[2]), S*cos(A[3]), S*cos(A[4]), S*cos(A[5]), S*cos(A[6]), S*cos(A[7]) };
-const float Smoke::SIN[NA] = { S*sin(A[0]), S*sin(A[1]), S*sin(A[2]), S*sin(A[3]), S*sin(A[4]), S*sin(A[5]), S*sin(A[6]), S*sin(A[7]) };
+const float Smoke::SZ = 0.002;	//2mm orig 0.005
+const float Smoke::A[NA] = { M_PI*1/4, M_PI*2/4, M_PI*3/4, M_PI, M_PI*5/4, M_PI*6/4, M_PI*7/4, 2*M_PI };
+const float Smoke::COS[NA] = { SZ*cos(A[0]), SZ*cos(A[1]), SZ*cos(A[2]), SZ*cos(A[3]), SZ*cos(A[4]), SZ*cos(A[5]), SZ*cos(A[6]), SZ*cos(A[7]) };
+const float Smoke::SIN[NA] = { SZ*sin(A[0]), SZ*sin(A[1]), SZ*sin(A[2]), SZ*sin(A[3]), SZ*sin(A[4]), SZ*sin(A[5]), SZ*sin(A[6]), SZ*sin(A[7]) };
 
 
 /* creation from a file */
@@ -47,13 +46,17 @@ Smoke::Smoke(char *l)
   inits();
 }
 
+/* creates one particle */
 Smoke::Smoke(Vector3 l)
 {
-  loc = l;
+  //loc = l;
   vel = Vector3(0, 0.0005, 0);
   life = 255;
   dlist = -1;
-  loc = Vector3(pos.x, pos.y, pos.z);
+  loc = Vector3(l.x, l.y, l.z);
+  loc.x = pos.x;
+  loc.y = pos.y;
+  loc.z = pos.z;
   //echo("new: %.1f %.1f %.1f", loc.x,loc.y,loc.z);
 }
 
@@ -86,7 +89,7 @@ void Smoke::geometry()
 {
   char s[128];
 
-  sprintf(s,"solid shape=\"bbox\" dim=\"%f %f %f\" a=\"0.7\" />", 0.05, 0.05, 0.05);
+  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" a=\".7\" />", .05, .05, .05);
   parseSolid(s);
 }
 
@@ -95,36 +98,44 @@ void Smoke::inits()
   initMobileObject(0);
   np = 0;
 #if 0 //dax
-  addParticles();
+  buildParticles();	// build particlesList
 #endif
 }
 
-void Smoke::changePermanent(float dt)
-{
-#if 1 //dax
-  addParticles();
-#endif
-  animParticles();
-  //drawParticles();	// if commented no smake
-}
-
-void Smoke::addParticles()
+void Smoke::buildParticles()
 {   
   Vector3 emit(pos.x, pos.y, pos.z);
-//  Vector3 tmp = random();
-//  tmp.add(emit);
-#if 0 //dax
   for (np=0; np < npmax; np++) {
     Smoke p(emit);
     particlesList.push_back(p);	// add p to particlesList
     np++;
   } 
-#else
+}
+
+void Smoke::changePermanent(float dt)
+{
+#if 1 //dax
+  createParticle(pos.x, pos.y, pos.z);	// add one particle
+#endif
+  animParticles();	// update and draw particles
+}
+
+void Smoke::createParticle(float x, float y, float z)
+{   
   np++;
   if (np > npmax) return;
+
+  Vector3 emit(x, y, z);
+  //Vector3 emit(pos.x, pos.y, pos.z);
+  //emit.x = x;
+  //emit.y = y;
+  //emit.z = z;
+  //Vector3 tmp = random();
+  //tmp.add(emit);
+
+  //echo("cre: %.1f %.1f %.1f", emit.x,emit.y,emit.z);
   Smoke p(emit);
   particlesList.push_back(p);	// add p to particlesList
-#endif
 }
 
 void Smoke::updateParticles()
@@ -148,15 +159,6 @@ void Smoke::drawParticles()
   }
 } 
 
-void Smoke::dlistParticles()
-{     
-  for (vector<Smoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
-    if ((*it).dlist > 0) {	// is alive
-      glCallList((*it).dlist);
-    }
-  }
-} 
-
 void Smoke::animParticles()
 {     
   for (vector<Smoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
@@ -170,51 +172,76 @@ void Smoke::animParticles()
   }
 } 
 
-void Smoke::render()
-{
-  if (np > npmax) return;
-
-  echo("rend: np=%d %.1f %.1f %.1f", np, loc.x, loc.y, loc.z);
-  glPushMatrix();
-  glTranslatef(loc.x, loc.y, loc.z);	// coord vreng
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-  glEnable(GL_BLEND);
-
-  draw();
-  //drawParticles();
-  //dax dlistParticles();
-
-  glDisable(GL_BLEND);
-  glPopMatrix();
-}
+#if 1 //notused
+void Smoke::displayParticles()
+{     
+  for (vector<Smoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
+    if ((*it).dlist > 0) {	// is alive
+      glCallList((*it).dlist);
+    }
+  }
+} 
+#endif //notused
 
 void Smoke::update()
 {
-  float x_acc = 0.000034 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000034
-  float y_acc = 0.00001 *  (1+(-2*((float)rand())/(RAND_MAX)));
-  float z_acc = y_acc;	//0
+  //if (np > npmax) return;
+
+  float x_acc = 0.000020 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000034
+  float y_acc = 0.000005 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000010
+  float z_acc = y_acc;
 
   acc = Vector3(x_acc, y_acc, z_acc);
   vel.add(acc);
   loc.add(vel);
-  life -= 0.5;	// -> 511, 0.2 -> 1277
+  life -= 1.;
   //echo("upd: %.1f %.1f %.1f %.1f", loc.x, loc.y, loc.z, life);
+}
+
+void Smoke::render()
+{
+  if (np > npmax) return;
+
+  //echo("rend: np=%d %3.1f %3.1f %3.1f (%.1f %.1f %.1f)",np,loc.x,loc.y,loc.z,pos.x,pos.y,pos.z);
+  glPushMatrix();
+  glTranslatef(loc.x, loc.y, loc.z);	// coord vreng
+  //glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+  //glEnable(GL_BLEND);
+
+  draw();
+  //glCallList(dlist);
+
+  //glDisable(GL_BLEND);
+  glPopMatrix();
+}
+
+void Smoke::display()
+{
+  float a = 1.2 - life/255;
+  a = MIN(a, 1);
+
+  dlist = glGenLists(1);
+  glNewList(dlist, GL_COMPILE);
+  glColor4f(.9,.9,.9, a);
+  glBegin(GL_POLYGON);		// octogon
+  for (int i=0; i<NA; i++) {
+    glVertex3f(loc.x+COS[i], loc.y+SIN[i], loc.z);
+  }
+  glEnd();
+  glEndList();
 }
 
 void Smoke::draw()
 {
-  float a = 1.2 - life/255;	// 1.2
+  float a = 1.2 - life/255;
+  a = MIN(a, 1);
 
-  //dax dlist = glGenLists(1);
-  //dax glNewList(dlist, GL_COMPILE);
   glColor4f(.9,.9,.9, a);
-  //glTranslatef(loc.x, loc.y, loc.z);
-  glBegin(GL_POLYGON);
-  for (int i=0; i < NA; i++) {
+  glBegin(GL_POLYGON);		// octogon
+  for (int i=0; i<NA; i++) {
     glVertex3f(loc.x+COS[i], loc.y+SIN[i], loc.z);
   }
   glEnd();
-  //dax glEndList();
 }
 
 #if 0 //notused
