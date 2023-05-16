@@ -102,7 +102,7 @@ void Smoke::changePermanent(float dt)
 
 void Smoke::createParticle(float x, float y, float z)
 {   
-  if (np++ > npmax) return;
+  if (np++ > npmax) np = 0;
 
   //Vector3 emit(x, y, z);	// good position, but not rendered, FIXME!!!
   Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
@@ -138,12 +138,20 @@ void PSmoke::update()
 
 void Smoke::render()
 {
-  if (np > npmax) return;
+  //if (np > npmax) return;
+
+  GLfloat glmat[16];
+  glmat[0]=0;  glmat[4]=-1; glmat[8] =0; glmat[12]=0;           // Xogl = -Yvre
+  glmat[1]=0;  glmat[5]=0;  glmat[9] =1; glmat[13]=-1.85;       // Yogl = Zvre
+  glmat[2]=-1; glmat[6]=0;  glmat[10]=0; glmat[14]=0;           // Zogl = -Xvre
+  glmat[3]=0;  glmat[7]=0;  glmat[11]=0; glmat[15]=1;
 
   for (vector<PSmoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
     if ((*it).life > 0) {	// is alive
       //echo("rend: %.1f %.1f %.1f", (*it).loc.x, (*it).loc.y, (*it).loc.z);
       glPushMatrix();
+      //glLoadIdentity();
+      //glLoadMatrixf(glmat);
       glTranslatef((*it).loc.x, (*it).loc.y, (*it).loc.z);	//coord Vreng  bad
       //glTranslatef(-(*it).loc.y, (*it).loc.z, -(*it).loc.x);	//coord opengl good
       (*it).draw();

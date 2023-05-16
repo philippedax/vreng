@@ -64,6 +64,13 @@ void WObject::update3D(Pos &pos)
 /* Updates camera in 3D */
 void WObject::updateCamera(Pos &pos)
 {
+#if 1 //dax
+  M4 matcam = mulM4(rotM4(-M_PI_2 + pos.ax, UX),
+                    mulM4(rotM4(M_PI_2 - pos.az, UZ),
+                          transM4(-pos.x, -pos.y, -(pos.z + localuser->height/2))
+                         )
+                   );
+#else
   M4 matcam = mulM4(rotM4(-M_PI_2, UX),
                     mulM4(rotM4(M_PI_2, UZ),
                           mulM4(rotM4(pos.ax, UX),
@@ -75,6 +82,7 @@ void WObject::updateCamera(Pos &pos)
                                )
                          )
                    );
+#endif
   ::g.render.setCameraPosition(&matcam);
 }
 
