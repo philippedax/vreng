@@ -107,7 +107,6 @@ protected:
   /**< Regenerates some particles */
 
 private:
-
   void timestep(tParticle *p, float dt);
   /**< Motion in delta t */
 
@@ -126,6 +125,8 @@ private:
   void defaults();
   /**< Sets default values */
 
+  void geometry();
+  /**< Sets solid geometry */
 };
 
 #endif

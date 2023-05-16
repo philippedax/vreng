@@ -91,24 +91,6 @@ void Particle::parser(char *l)
   end_while_parse(l);
 }
 
-void Particle::behaviors()
-{
-  enableBehavior(PARTICLE);
-  enableBehavior(NO_ELEMENTARY_MOVE);
-  enableBehavior(NO_BBABLE);
-  enableBehavior(UNSELECTABLE);
-  enableBehavior(SPECIFIC_RENDER);
-
-  initMobileObject(0);
-  switch (system) {
-  case FIREWORK:
-    break;
-  default:     
-    enablePermanentMovement();
-    break;
-  }
-}
-
 /* constructor for sub-classes */
 Particle::Particle()
 {
@@ -122,14 +104,37 @@ Particle::Particle(char *l)
   behaviors();
   inits();
   state = ACTIVE;
+}
 
+void Particle::behaviors()
+{
+  enableBehavior(PARTICLE);
+  enableBehavior(NO_ELEMENTARY_MOVE);
+  enableBehavior(NO_BBABLE);
+  enableBehavior(UNSELECTABLE);
+  enableBehavior(SPECIFIC_RENDER);
+}
+
+void Particle::geometry()
+{
   char s[128];
+
   sprintf(s, "solid shape=\"none\" />");
   parseSolid(s);
 }
 
 void Particle::inits()
 {
+  initMobileObject(0);
+
+  switch (system) {
+  case FIREWORK:
+    break;
+  default:     
+    enablePermanentMovement();
+    break;
+  }
+
   particles = new tParticle[number];
   for (int n=0; n < number; n++) {
     particles[n].pos[0]  = 0;
@@ -334,8 +339,8 @@ void Particle::render()
   else { // lines
     glLineWidth(pt_size);
     glLineStipple(1, 0xF0F0);
-    glEnable(GL_LINE_STIPPLE);
     glBegin(GL_LINES);	// segments
+    glEnable(GL_LINE_STIPPLE);
     for (int n=0; n < number; n++) {
       if (! particles[n].alive) continue;  // dead
       if (particles[n].vel[2] > 0) continue;
