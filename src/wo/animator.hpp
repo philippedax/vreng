@@ -82,6 +82,9 @@ private:
   void behaviors();
   /**< Sets behaviors. */
 
+  void geometry();
+  /**< Sets geometry. */
+
   void inits();
   /**< Sets initializations. */
 

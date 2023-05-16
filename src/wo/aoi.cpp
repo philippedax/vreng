@@ -77,6 +77,14 @@ void Aoi::behaviors()
 #endif
 }
 
+void Aoi::geometry()
+{
+  char s[128];
+
+  sprintf(s, "solid shape=\"none\" />");
+  parseSolid(s);
+}
+
 void Aoi::inits()
 {
   initStillObject();
@@ -86,6 +94,7 @@ Aoi::Aoi(char *l)
 {
   parser(l);
   behaviors();
+  geometry();
   inits();
 }
 
