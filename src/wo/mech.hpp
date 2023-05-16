@@ -85,6 +85,12 @@ private:
   void geometry();
   /**< Builds geometry */
 
+  void behaviors();
+  /**< Sets behaviors */
+
+  void inits();
+  /**< Initializations */
+
   void draw();
   void display();
   void drawTorso();

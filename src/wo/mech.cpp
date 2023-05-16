@@ -574,24 +574,32 @@ void Mech::parser(char *l)
   end_while_parse(l);
 }
 
-void Mech::geometry()
-{
-  char s[128];
-
-  sprintf(s, "solid shape=\"bbox\" dim=\"%.2f %.2f %.2f\" />", .5, .5, 2.);
-  parseSolid(s);
-}
-
 Mech::Mech(char *l)
 {
   parser(l);
+  behaviors();
   geometry();
+  inits();
+}
 
+void Mech::behaviors()
+{
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(PERMANENT_MOVEMENT);	// anim
   enableBehavior(SPECIFIC_RENDER);
+}
 
+void Mech::geometry()
+{
+  char s[128];
+
+  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .5, .5, 2.);
+  parseSolid(s);
+}
+
+void Mech::inits()
+{
   initMobileObject(0);
 
   rotz = (float) RAD2DEG(pos.az);
