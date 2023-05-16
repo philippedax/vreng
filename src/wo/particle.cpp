@@ -334,8 +334,8 @@ void Particle::render()
   else { // lines
     glLineWidth(pt_size);
     glLineStipple(1, 0xF0F0);
-    glBegin(GL_LINES);	// segments
     glEnable(GL_LINE_STIPPLE);
+    glBegin(GL_LINES);	// segments
     for (int n=0; n < number; n++) {
       if (! particles[n].alive) continue;  // dead
       if (particles[n].vel[2] > 0) continue;
