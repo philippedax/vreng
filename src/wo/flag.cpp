@@ -50,12 +50,20 @@ void Flag::behaviors()
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
+}
 
-  initMobileObject(0);
+void Flag::geometry()
+{
+  char s[128];
+
+  sprintf(s, "solid shape=\"none\" />");
+  parseSolid(s);
 }
 
 void Flag::inits()
 {
+  initMobileObject(0);
+
   width = pos.bbs.v[0];
   height = pos.bbs.v[2];
   texid = Texture::current();
@@ -86,6 +94,7 @@ Flag::Flag(char *l)
 {
   parser(l);
   behaviors();
+  geometry();
   inits();
 }
 

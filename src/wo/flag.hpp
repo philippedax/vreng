@@ -64,14 +64,17 @@ public:
   /**< Specific rendering */
 
 private:
+  void parser(char *l);
+  /**< Parses */
+
   void behaviors();
   /**< Sets behaviors */
 
+  void geometry();
+  /**< Sets geometry */
+
   void inits();
   /**< Makes specific inits */
-
-  void parser(char *l);
-  /**< Parses */
 
   void draw();
   /**< Draws the flag */
