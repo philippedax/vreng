@@ -64,14 +64,6 @@ void Animator::behaviors()
   enableBehavior(COLLIDE_NEVER);
 }
 
-void Animator::geometry()
-{
-  char s[128];
-
-  sprintf(s, "solid shape=\"none\" />");
-  parseSolid(s);
-}
-
 void Animator::inits()
 {
   initMobileObject(0);
@@ -87,7 +79,6 @@ Animator::Animator(char *l)
 {
   parser(l);
   behaviors();
-  geometry();
   inits();
 }
 

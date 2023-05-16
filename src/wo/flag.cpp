@@ -52,14 +52,6 @@ void Flag::behaviors()
   enableBehavior(SPECIFIC_RENDER);
 }
 
-void Flag::geometry()
-{
-  char s[128];
-
-  sprintf(s, "solid shape=\"none\" />");
-  parseSolid(s);
-}
-
 void Flag::inits()
 {
   initMobileObject(0);
@@ -94,7 +86,6 @@ Flag::Flag(char *l)
 {
   parser(l);
   behaviors();
-  geometry();
   inits();
 }
 

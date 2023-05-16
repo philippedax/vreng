@@ -69,14 +69,6 @@ void Accessory::behaviors()
   enableBehavior(PERSISTENT);
 }
 
-void Accessory::geometry()
-{
-  char s[128];
-
-  sprintf(s, "solid shape=\"none\" />");
-  parseSolid(s);
-}
-
 void Accessory::inits()
 {
   dx = dy = dz = 0;
@@ -93,7 +85,6 @@ Accessory::Accessory(char *l)
 {
   parser(l);
   behaviors();
-  geometry();
   inits();
 }
 

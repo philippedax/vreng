@@ -70,9 +70,6 @@ private:
   void behaviors();
   /**< Sets behaviors */
 
-  void geometry();
-  /**< Sets geometry */
-
   void inits();
   /**< Makes specific inits */
 
