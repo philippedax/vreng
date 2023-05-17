@@ -884,8 +884,8 @@ void WObject::updatePersist()
     progression('m');
     ::g.timer.mysql.start();
     psql->updatePos(this);
-    pos.z = psql->getPosZ(this);
-    psql->updatePosZ(this);
+    //pos.z = psql->getPosZ(this);
+    //psql->updatePosZ(this);
     ::g.timer.mysql.stop();
   }
 }
