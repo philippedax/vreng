@@ -308,11 +308,13 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   if (rc != SQLITE_OK) {
     error("%s %s %d err prepare %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
+    return ERR_SQL;
   }
   rc = sqlite3_bind_int(res, 1, 1);
   if (rc != SQLITE_OK) {
     error("%s %s %d err bindint %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
+    return ERR_SQL;
   }
   rc = sqlite3_step(res);
   if (rc == SQLITE_DONE) {
@@ -378,6 +380,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   if (rc != SQLITE_OK) {
     error("%s %s %d err binddouble %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
+    return ERR_SQL;
   }
   rc = sqlite3_step(res);
   if (rc == SQLITE_ROW) {
@@ -391,6 +394,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   else {
     error("rc=%d err stepdouble %s", rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
+    return ERR_SQL;
   }
   sqlite3_finalize(res);
 
@@ -438,6 +442,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   else {
     error("rc=%d err stepstring %s", rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
+    return ERR_SQL;
   }
   sqlite3_reset(res);
   sqlite3_finalize(res);
@@ -485,6 +490,11 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
       //echo("str=%s", retstring);
     }
   }
+  else {
+    error("rc=%d err stepsubstring %s", rc, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
   sqlite3_reset(res);
   sqlite3_finalize(res);
 
@@ -523,10 +533,20 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
 #if USE_SQLITE
 /** bad code !!! FIXME 
 **/
+  int rc;
+  char *err_msg = NULL;
+
   prepare(sql);
   sqlite3_bind_int(res, 1, 1);
-  sqlite3_step(res);
-  val = sqlite3_column_int(res, 0);
+  rc = sqlite3_step(res);
+  if (rc == SQLITE_DONE) {
+    val = sqlite3_column_int(res, 0);
+  }
+  else {
+    error("rc=%d err stepcount %s", rc, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
   sqlite3_finalize(res);
 
 #elif USE_MYSQL
