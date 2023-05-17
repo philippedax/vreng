@@ -49,10 +49,10 @@ Smoke::Smoke(char *l)
 /* creates one particle */
 PSmoke::PSmoke(Vector3 l)
 {
+  loc = Vector3(l.x, l.y, l.z);
   vel = Vector3(0, 0.0005, 0);
   life = 255;
   dlist = -1;
-  loc = Vector3(l.x, l.y, l.z);
 }
 
 void Smoke::defaults()
@@ -78,6 +78,7 @@ void Smoke::behaviors()
   enableBehavior(NO_BBABLE);
   enableBehavior(PERMANENT_MOVEMENT);
   enableBehavior(SPECIFIC_RENDER);
+  enableBehavior(PARTICLE);
 }
 
 void Smoke::geometry()
@@ -102,24 +103,24 @@ void Smoke::changePermanent(float dt)
 
 void Smoke::createParticle(float x, float y, float z)
 {   
-  if (np++ > npmax) np = 0;
+  if (np++ > npmax) np = 0;	// regenerate the flow
 
   //Vector3 emit(x, y, z);	// good position, but not rendered, FIXME!!!
   Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
 
-  PSmoke p(emit);
+  PSmoke p(emit);		// create particle p
   particlesList.push_back(p);	// add p to particlesList
 }
 
 void Smoke::animParticles()
 {     
-  for (vector<PSmoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
-    if ((*it).life > 0) {	// is alive
-      (*it).update();
-      (*it).draw();
+  for (vector<PSmoke>::iterator i = particlesList.begin(); i < particlesList.end(); ++i) {
+    if ((*i).life > 0) {	// is alive
+      (*i).update();
+      (*i).draw();		// why draw now ???
     }
     else {
-      particlesList.erase(it);
+      particlesList.erase(i);	// erase at end of life
     }
   }
 } 
@@ -131,30 +132,30 @@ void PSmoke::update()
   float z_acc = y_acc;
 
   acc = Vector3(x_acc, y_acc, z_acc);
-  vel.add(acc);
-  loc.add(vel);
-  life -= 1.;
+  vel.add(acc);			// vel = vel + acc
+  loc.add(vel);			// loc = loc + vel
+  life -= 1.;			// decrease time to live
 }
 
 void Smoke::render()
 {
   //if (np > npmax) return;
 
-  GLfloat glmat[16];
-  glmat[0]=0;  glmat[4]=-1; glmat[8] =0; glmat[12]=0;           // Xogl = -Yvre
-  glmat[1]=0;  glmat[5]=0;  glmat[9] =1; glmat[13]=-1.85;       // Yogl = Zvre
-  glmat[2]=-1; glmat[6]=0;  glmat[10]=0; glmat[14]=0;           // Zogl = -Xvre
-  glmat[3]=0;  glmat[7]=0;  glmat[11]=0; glmat[15]=1;
+  GLfloat m[16];
+  m[0]=0;  m[4]=-1; m[8] =0; m[12]=0;           // Xogl = -Yvre
+  m[1]=0;  m[5]=0;  m[9] =1; m[13]=-1.85;       // Yogl = Zvre
+  m[2]=-1; m[6]=0;  m[10]=0; m[14]=0;           // Zogl = -Xvre
+  m[3]=0;  m[7]=0;  m[11]=0; m[15]=1;
 
-  for (vector<PSmoke>::iterator it = particlesList.begin(); it < particlesList.end(); ++it) {
-    if ((*it).life > 0) {	// is alive
-      //echo("rend: %.1f %.1f %.1f", (*it).loc.x, (*it).loc.y, (*it).loc.z);
+  for (vector<PSmoke>::iterator i = particlesList.begin(); i < particlesList.end(); ++i) {
+    if ((*i).life > 0) {	// is alive
+      //echo("rend: %.1f %.1f %.1f", (*i).loc.x, (*i).loc.y, (*i).loc.z);
       glPushMatrix();
       //glLoadIdentity();
-      //glLoadMatrixf(glmat);
-      glTranslatef((*it).loc.x, (*it).loc.y, (*it).loc.z);	//coord Vreng  bad
-      //glTranslatef(-(*it).loc.y, (*it).loc.z, -(*it).loc.x);	//coord opengl good
-      (*it).draw();
+      //glLoadMatrixf(m);
+      //glTranslatef((*i).loc.x, (*i).loc.y, (*i).loc.z);	//coord Vreng  bad
+      glTranslatef(-(*i).loc.y, (*i).loc.z, -(*i).loc.x);	//coord opengl good
+      (*i).draw();
       glPopMatrix();
     }
   }
