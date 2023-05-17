@@ -139,14 +139,24 @@ class VRSql {
   /**< gets the Sql result */
 #endif
 
+  // select
+
+  static int getInt_cb(void *val, int argc, char **argv, char **azColName);
+
   int getInt(const char *table, const char *col, const char *object, const char *world, uint16_t irow);
   /**< returns an int from a column */
+
+  static int getFloat_cb(void *val, int argc, char **argv, char **azColName);
 
   float getFloat(const char *table, const char *col, const char *object, const char *world, uint16_t irow);
   /**< returns a float from a column */
 
+  static int getString_cb(void *val, int argc, char **argv, char **azColName);
+
   int getString(const char *table, const char *col, const char *object, const char *world, char *str, uint16_t irow);
   /**< returns a string from a column */
+
+  static int getSubstring_cb(void *val, int argc, char **argv, char **azColName);
 
   int getSubstring(const char *table, const char *pattern, uint16_t irow, char *substring);
   /**< gets a string and returns an index if pattern matches */

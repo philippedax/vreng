@@ -286,6 +286,13 @@ MYSQL_RES * VRSql::result()
 /** Gets an integer value from a row in the sql table
  *  if value doesn't exist, the value is inserted
  */
+int VRSql::getInt_cb(void *val, int argc, char **argv, char**azColName)
+{
+  int *v = (int *)val;
+  *v = atoi(argv[0]);
+  return 0;
+}
+
 int VRSql::getInt(const char *table, const char *col, const char *object, const char *world, uint16_t irow)
 {
   int val = 0;
@@ -346,6 +353,13 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
 /** Gets a float value from a row in the sql table
  *  if value doesn't exist, the value is inserted
  */
+int VRSql::getFloat_cb(void *val, int argc, char **argv, char**azColName)
+{
+  float *v = (float *)val;
+  *v = atof(argv[0]);
+  return 0;
+}
+
 float VRSql::getFloat(const char *table, const char *col, const char *object, const char *world, uint16_t irow)
 {
   float val = 0;
@@ -359,11 +373,21 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   int rc = 0;
   char *err_msg = NULL;
 
+  //echo("sql getfloat %s", sql);
+  createTable(table);
+#if 1 //dax
   if (! db) {
     openDB();	// we need to reopen database
   }
-  //echo("sql getfloat %s", sql);
   createTable(table);
+  rc = sqlite3_exec(db, sql, getFloat_cb, &val, &err_msg);
+  if (rc != SQLITE_OK) {
+    error("%s rc=%d err getfloat %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  echo("getFloat: %s %.2f", table, val);
+#else
   //rc = sqlite3_exec(db, sql, callback, this, &err_msg);	// with callback
   //rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
   //if (rc != SQLITE_OK) {
@@ -397,6 +421,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
     return ERR_SQL;
   }
   sqlite3_finalize(res);
+#endif
 
 #elif USE_MYSQL
   query(sql);
@@ -417,6 +442,13 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
 /** Gets a string (retstring) from a row in the sql table
  *  if string is not found, the string is inserted
  */
+int VRSql::getString_cb(void *val, int argc, char **argv, char**azColName)
+{
+  char *v = (char *)val;
+  strcpy(v, argv[0]);
+  return 0;
+}
+
 int VRSql::getString(const char *table, const char *col, const char *object, const char *world, char *retstring, uint16_t irow)
 {
   sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
@@ -468,6 +500,13 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
 /** Gets a substring (retstring) if the pattern matches
  *  and returns the index of the row
  */
+int VRSql::getSubstring_cb(void *val, int argc, char **argv, char**azColName)
+{
+  char *v = (char *)val;
+  strcpy(v, argv[0]);
+  return 0;
+}
+
 int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, char *retstring)
 {
   sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s regexp '%s'",
@@ -540,7 +579,6 @@ int VRSql::getRows(const char *table)
   int rc;
   char *err_msg = NULL;
 
-#if 1 //dax
   if (! db) {
     openDB();	// we need to reopen database
   }
@@ -549,28 +587,9 @@ int VRSql::getRows(const char *table)
   if (rc != SQLITE_OK) {
     error("%s rc=%d err getcount %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
-    //sqlite3_close(db);
     return ERR_SQL;
   }
-  //sqlite3_close(db);
   echo("getRows: %s %d", table, val);
-  return val;
-#else
-/** bad code !!! FIXME 
-**/
-  prepare(sql);
-  sqlite3_bind_int(res, 1, 1);
-  rc = sqlite3_step(res);
-  if (rc == SQLITE_DONE) {
-    val = sqlite3_column_int(res, 0);
-  }
-  else {
-    error("%s %s %s rc=%d err stepcount %s", table, col, pattern, rc, sqlite3_errmsg(db));
-    sqlite3_free(err_msg);
-    return ERR_SQL;
-  }
-  sqlite3_finalize(res);
-#endif
 
 #elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
@@ -596,7 +615,6 @@ int VRSql::getRows(const char *table, const char *col, const char *pattern)
   int rc;
   char *err_msg = NULL;
 
-#if 1 //dax
   if (! db) {
     openDB();	// we need to reopen database
   }
@@ -605,28 +623,9 @@ int VRSql::getRows(const char *table, const char *col, const char *pattern)
   if (rc != SQLITE_OK) {
     error("%s rc=%d err getcount %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
-    //sqlite3_close(db);
     return ERR_SQL;
   }
-  //sqlite3_close(db);
-  echo("getRows: %s %d", table, val);
-  return val;
-#else
-/** bad code !!! FIXME 
-**/
-  prepare(sql);
-  sqlite3_bind_int(res, 1, 1);
-  rc = sqlite3_step(res);
-  if (rc == SQLITE_DONE) {
-    val = sqlite3_column_int(res, 0);
-  }
-  else {
-    error("%s %s %s rc=%d err stepcount %s", table, col, pattern, rc, sqlite3_errmsg(db));
-    sqlite3_free(err_msg);
-    return ERR_SQL;
-  }
-  sqlite3_finalize(res);
-#endif
+  echo("getRowswhere: %s %d", table, val);
 
 #elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
