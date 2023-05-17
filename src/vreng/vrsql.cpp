@@ -714,29 +714,34 @@ void VRSql::deleteRows(WObject *o)
 /** Gets an integer value from a row in the sql table */
 int VRSql::getInt(WObject *o, const char *col, uint16_t irow)
 {
-  return getInt(o->typeName(), col, o->named(), World::current()->getName(), irow);
+  int val = getInt(o->typeName(), col, o->named(), World::current()->getName(), irow);
+  return (val != ERR_SQL) ? val : 0;
 }
 
 /** Gets a float from a row in the sql table */
 float VRSql::getFloat(WObject *o, const char *col, uint16_t irow)
 {
-  return getFloat(o->typeName(), col, o->named(), World::current()->getName(), irow);
+  int val = getFloat(o->typeName(), col, o->named(), World::current()->getName(), irow);
+  return (val != ERR_SQL) ? val : 0;
 }
 
 /** Gets a string from a row in the sql table */
 int VRSql::getString(WObject *o, const char *col, char *str, uint16_t irow)
 {
-  return getString(o->typeName(), col, o->named(), World::current()->getName(), str, irow);
+  int val = getString(o->typeName(), col, o->named(), World::current()->getName(), str, irow);
+  return (val != ERR_SQL) ? val : 0;
 }
 
 int VRSql::getState(WObject *o)
 {
-  return getInt(o, COL_ST, 0);
+  int val = getInt(o, COL_ST, 0);
+  return (val != ERR_SQL) ? val : o->state;
 }
 
 int VRSql::getState(WObject *o, uint16_t irow)
 {
-  return getInt(o, COL_ST, irow);
+  int val = getInt(o, COL_ST, irow);
+  return (val != ERR_SQL) ? val : o->state;
 }
 
 void VRSql::getPos(WObject *o)
