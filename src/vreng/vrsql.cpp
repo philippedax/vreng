@@ -543,7 +543,7 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
     val = sqlite3_column_int(res, 0);
   }
   else {
-    error("rc=%d err stepcount %s", rc, sqlite3_errmsg(db));
+    error("%s %s %s rc=%d err stepcount %s", table, col, pattern, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
@@ -714,34 +714,31 @@ void VRSql::deleteRows(WObject *o)
 /** Gets an integer value from a row in the sql table */
 int VRSql::getInt(WObject *o, const char *col, uint16_t irow)
 {
-  int val = getInt(o->typeName(), col, o->named(), World::current()->getName(), irow);
-  return (val != ERR_SQL) ? val : 0;
+  return getInt(o->typeName(), col, o->named(), World::current()->getName(), irow);
 }
 
 /** Gets a float from a row in the sql table */
 float VRSql::getFloat(WObject *o, const char *col, uint16_t irow)
 {
-  int val = getFloat(o->typeName(), col, o->named(), World::current()->getName(), irow);
-  return (val != ERR_SQL) ? val : 0;
+  return getFloat(o->typeName(), col, o->named(), World::current()->getName(), irow);
 }
 
 /** Gets a string from a row in the sql table */
 int VRSql::getString(WObject *o, const char *col, char *str, uint16_t irow)
 {
-  int val = getString(o->typeName(), col, o->named(), World::current()->getName(), str, irow);
-  return (val != ERR_SQL) ? val : 0;
+  return getString(o->typeName(), col, o->named(), World::current()->getName(), str, irow);
 }
 
 int VRSql::getState(WObject *o)
 {
   int val = getInt(o, COL_ST, 0);
+  echo("state=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
 int VRSql::getState(WObject *o, uint16_t irow)
 {
-  int val = getInt(o, COL_ST, irow);
-  return (val != ERR_SQL) ? val : o->state;
+  return getInt(o, COL_ST, irow);
 }
 
 void VRSql::getPos(WObject *o)
