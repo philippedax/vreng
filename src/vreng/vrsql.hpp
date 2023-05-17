@@ -151,7 +151,11 @@ class VRSql {
   int getSubstring(const char *table, const char *pattern, uint16_t irow, char *substring);
   /**< gets a string and returns an index if pattern matches */
 
-  int getCount(const char *table, const char *col, const char *pattern);
+  static int getRows_cb(void *val, int argc, char **argv, char **azColName);
+
+  int getRows(const char *table);
+
+  int getRows(const char *table, const char *col, const char *pattern);
   /**< gets a count of rows matching the pattern */
 
   int getInt(WObject *o, const char *col, uint16_t irow);

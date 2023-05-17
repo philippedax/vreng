@@ -523,19 +523,41 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
 }
 
 /** Gets a count of rows from a sql table */
-int VRSql::getCount(const char *table, const char *col, const char *pattern)
+int VRSql::getRows_cb(void *val, int argc, char **argv, char**azColName)
+{
+  int *v = (int *)val;
+  *v = atoi(argv[0]);
+  return 0;
+}
+
+int VRSql::getRows(const char *table)
 {
   int val = 0;
 
-  sprintf(sql, "SELECT SQL_CACHE count(*) FROM %s WHERE %s REGEXP %s",
-          table, col, pattern);
+  sprintf(sql, "SELECT count(*) FROM %s", table);
 
 #if USE_SQLITE
-/** bad code !!! FIXME 
-**/
   int rc;
   char *err_msg = NULL;
 
+#if 1 //dax
+  if (! db) {
+    openDB();	// we need to reopen database
+  }
+  createTable(table);
+  rc = sqlite3_exec(db, sql, getRows_cb, &val, &err_msg);
+  if (rc != SQLITE_OK) {
+    error("%s rc=%d err getcount %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    sqlite3_free(err_msg);
+    //sqlite3_close(db);
+    return ERR_SQL;
+  }
+  //sqlite3_close(db);
+  echo("getRows: %s %d", table, val);
+  return val;
+#else
+/** bad code !!! FIXME 
+**/
   prepare(sql);
   sqlite3_bind_int(res, 1, 1);
   rc = sqlite3_step(res);
@@ -548,6 +570,63 @@ int VRSql::getCount(const char *table, const char *col, const char *pattern)
     return ERR_SQL;
   }
   sqlite3_finalize(res);
+#endif
+
+#elif USE_MYSQL
+  if (! query(sql)) return ERR_SQL;
+  res = mysql_store_result(db);
+  if ((row = mysql_fetch_row(res)) == NULL) {
+    mysql_free_result(res);
+    return 0;	// no row
+  }
+  val = atoi(row[0]);
+  mysql_free_result(res);
+#endif
+
+  return val;
+}
+
+int VRSql::getRows(const char *table, const char *col, const char *pattern)
+{
+  int val = 0;
+
+  sprintf(sql, "SELECT count(*) FROM %s WHERE %s REGEXP %s", table, col, pattern);
+
+#if USE_SQLITE
+  int rc;
+  char *err_msg = NULL;
+
+#if 1 //dax
+  if (! db) {
+    openDB();	// we need to reopen database
+  }
+  createTable(table);
+  rc = sqlite3_exec(db, sql, getRows_cb, &val, &err_msg);
+  if (rc != SQLITE_OK) {
+    error("%s rc=%d err getcount %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    sqlite3_free(err_msg);
+    //sqlite3_close(db);
+    return ERR_SQL;
+  }
+  //sqlite3_close(db);
+  echo("getRows: %s %d", table, val);
+  return val;
+#else
+/** bad code !!! FIXME 
+**/
+  prepare(sql);
+  sqlite3_bind_int(res, 1, 1);
+  rc = sqlite3_step(res);
+  if (rc == SQLITE_DONE) {
+    val = sqlite3_column_int(res, 0);
+  }
+  else {
+    error("%s %s %s rc=%d err stepcount %s", table, col, pattern, rc, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  sqlite3_finalize(res);
+#endif
 
 #elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
@@ -738,7 +817,9 @@ int VRSql::getState(WObject *o)
 
 int VRSql::getState(WObject *o, uint16_t irow)
 {
-  return getInt(o, COL_ST, irow);
+  int val =  getInt(o, COL_ST, irow);
+  echo("state=%d val=%d", o->state, val);
+  return (val != ERR_SQL) ? val : o->state;
 }
 
 void VRSql::getPos(WObject *o)
@@ -839,25 +920,25 @@ void VRSql::getColor(WObject *o, uint16_t irow)
 
 int VRSql::getCountCart()
 {
-  char pattern[256];
+  char pattern[64];
   //sprintf(pattern, "'^%s$'", ::g.user);
-  int val = getCount("Cart", COL_OWN, pattern);
+  int val = getRows("Cart", COL_OWN, pattern);
   return (val != ERR_SQL) ? val : 0;
 }
 
 int VRSql::getCount(const char *table)
 {
-  char pattern[256];
+  char pattern[64];
   sprintf(pattern, "'$'");
-  int val = getCount(table, COL_NAME, pattern);
+  int val = getRows(table);
   return (val != ERR_SQL) ? val : 0;
 }
 
 int VRSql::getCount(const char *table, const char *world)
 {
-  char pattern[256];
+  char pattern[64];
   sprintf(pattern, "'@%s$'", world);
-  int val = getCount(table, COL_NAME, pattern);
+  int val = getRows(table, COL_NAME, pattern);
   return (val != ERR_SQL) ? val : 0;
 }
 
