@@ -74,8 +74,6 @@ bool VRSql::openDB()
   int rc = sqlite3_open_v2(pathDB, &db, SQLITE_OPEN_READWRITE, NULL);
   if (rc != SQLITE_OK) {
     error("Cannot open database: %s", sqlite3_errmsg(db));
-    sqlite3_close(db);
-    db = NULL;
     return false;
   }
   //echo("open db: %x", db);
@@ -228,8 +226,6 @@ bool VRSql::query(const char *sql)
   rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
   if (rc != SQLITE_OK) {
     sqlite3_free(err_msg);
-    //dax sqlite3_close(db);
-    db = NULL;
     return false;
   }
   rc = sqlite3_step(res);
@@ -238,7 +234,6 @@ bool VRSql::query(const char *sql)
   }
   sqlite3_finalize(res);
 
-  //dax sqlite3_close(db);
   return true;
 
 #elif USE_MYSQL
@@ -297,7 +292,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
 {
   int val = 0;
 
-  sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
+  sprintf(sql, "SELECT %s FROM %s WHERE %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if USE_SQLITE
@@ -311,6 +306,15 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
   }
   //echo("sql getint %s", sql);
   createTable(table);
+#if 1 //dax
+  rc = sqlite3_exec(db, sql, getInt_cb, &val, &err_msg);
+  if (rc != SQLITE_OK) {
+    error("%s rc=%d err getint %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  echo("getInt: %s.%s %d", table, col, val);
+#else
   rc = prepare(sql);
   if (rc != SQLITE_OK) {
     error("%s %s %d err prepare %s", table,col,irow, sqlite3_errmsg(db));
@@ -333,6 +337,7 @@ int VRSql::getInt(const char *table, const char *col, const char *object, const 
     sqlite3_free(err_msg);
   }
   sqlite3_finalize(res);
+#endif
 
 #elif USE_MYSQL
   query(sql);
@@ -364,7 +369,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
 {
   float val = 0;
 
-  sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
+  sprintf(sql, "SELECT %s FROM %s WHERE %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if USE_SQLITE
@@ -386,7 +391,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  echo("getFloat: %s %.2f", table, val);
+  echo("getFloat: %s.%s %.2f", table, col, val);
 #else
   //rc = sqlite3_exec(db, sql, callback, this, &err_msg);	// with callback
   //rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
@@ -451,7 +456,7 @@ int VRSql::getString_cb(void *val, int argc, char **argv, char**azColName)
 
 int VRSql::getString(const char *table, const char *col, const char *object, const char *world, char *retstring, uint16_t irow)
 {
-  sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s='%s%s%s'",
+  sprintf(sql, "SELECT %s FROM %s WHERE %s='%s%s%s'",
           col, table, COL_NAME, object, (*world) ? "@" : "", world);
 
 #if USE_SQLITE
@@ -462,6 +467,15 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
 
   createTable(table);
   //echo("sql getstring %s %s", table, sql);
+#if 1 //dax
+  rc = sqlite3_exec(db, sql, getString_cb, retstring, &err_msg);
+  if (rc != SQLITE_OK) {
+    error("%s rc=%d err getstring %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  echo("getString: %s.%s %s", table, col, retstring);
+#else
   rc = prepare(sql);
   rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
   rc = sqlite3_step(res);
@@ -478,6 +492,7 @@ int VRSql::getString(const char *table, const char *col, const char *object, con
   }
   sqlite3_reset(res);
   sqlite3_finalize(res);
+#endif
 
 #elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
@@ -509,7 +524,7 @@ int VRSql::getSubstring_cb(void *val, int argc, char **argv, char**azColName)
 
 int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, char *retstring)
 {
-  sprintf(sql, "SELECT SQL_CACHE %s FROM %s WHERE %s regexp '%s'",
+  sprintf(sql, "SELECT %s FROM %s WHERE %s regexp '%s'",
           COL_NAME, table, COL_NAME, pattern);
 
 #if USE_SQLITE
@@ -520,6 +535,15 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
 
   createTable(table);
   //echo("sql getsubstring %s %s", table, sql);
+#if 1 //dax
+  rc = sqlite3_exec(db, sql, getSubstring_cb, retstring, &err_msg);
+  if (rc != SQLITE_OK) {
+    error("%s rc=%d err getsubstring %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  echo("getSubstring: %s.%s %s", table, pattern, retstring);
+#else
   rc = prepare(sql);
   rc = sqlite3_bind_text(res, 1, NULL, -1, NULL);
   rc = sqlite3_step(res);
@@ -536,6 +560,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   }
   sqlite3_reset(res);
   sqlite3_finalize(res);
+#endif
 
 #elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
@@ -625,7 +650,7 @@ int VRSql::getRows(const char *table, const char *col, const char *pattern)
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  echo("getRowswhere: %s %d", table, val);
+  echo("getRowswhere: %s.%s %d", table, col, val);
 
 #elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;

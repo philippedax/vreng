@@ -94,7 +94,7 @@ Door::Door(char *l)
   }
 
   /* calls persistency VRSql server to know the door state */
-  //dax getPersist(state);
+  getPersist(state);
 
   switch (mecanism) {
   case ANGULAR:
@@ -119,7 +119,7 @@ Door::Door(char *l)
   pos.y += size.v[0] * sin(pos.az);
   //dax echo("pos=(%.2f,%.2f,%.2f) center=(%.2f,%.2f,%.2f) size=%.2f", pos.x, pos.y, pos.z, center.v[0], center.v[1], center.v[2], size.v[0]);
 
-  //dax enableBehavior(PERSISTENT);
+  enableBehavior(PERSISTENT);
 
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
