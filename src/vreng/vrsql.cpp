@@ -67,16 +67,17 @@ bool VRSql::openDB()
   if (::g.pref.nopersist == true)
     return false;
 
-  char pathDB[128];
+  char path[128];
   char *err_msg = NULL;
 
-  sprintf(pathDB, "%s/.vreng/%s", ::g.env.home(), DB);
-  int rc = sqlite3_open_v2(pathDB, &db, SQLITE_OPEN_READWRITE, NULL);
+  sprintf(path, "%s/.vreng/%s", ::g.env.home(), DB);
+  int rc = sqlite3_open(path, &db);
   if (rc != SQLITE_OK) {
     error("Cannot open database: %s", sqlite3_errmsg(db));
+    //echo("open db: %x path=%s rc=%d", db, path, rc);
     return false;
   }
-  //echo("open db: %x", db);
+  //echo("open db: %x path=%s rc=%d", db, path, rc);
   return true;
 }
 #endif
@@ -143,8 +144,6 @@ bool VRSql::connectDB()
 /** Allocates VRSql */
 VRSql * VRSql::init()
 {
-  //if (World::current()) return NULL;
-
   vrsql = new VRSql();
 
   int r = 0;
@@ -153,11 +152,10 @@ VRSql * VRSql::init()
     r = vrsql->openDB();	// open sqlite database
 #elif USE_MYSQL
     r = vrsql->connectDB();	// connect to database mysql server
-    vrsql->createDatabase(DB);
 #elif USE_PGSQL
     r = vrsql->connectDB();	// connect to database postgres server
-    vrsql->createDatabase(DB);
 #endif
+    vrsql->createDatabase(DB);
     if (! r) {
       error("init: can't reach database");
       delete vrsql;
