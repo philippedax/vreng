@@ -129,11 +129,6 @@ class VRSql {
 #endif
 
 #if USE_SQLITE
-  static int callback(void *, int argc, char **argv, char **azColName);
-  int prepare(const char *sql);
-#endif
-
-#if USE_SQLITE
 #elif USE_MYSQL
   MYSQL_RES * result();
   /**< gets the Sql result */
