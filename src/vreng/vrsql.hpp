@@ -128,11 +128,11 @@ class VRSql {
   /**< connects to the MySql server */
 #endif
 
-#if USE_SQLITE
-#elif USE_MYSQL
+#if USE_MYSQL
   MYSQL_RES * result();
   /**< gets the Sql result */
 #endif
+
 
   // select
 
@@ -253,34 +253,20 @@ class VRSql {
   float getPosAZ(WObject *o, uint16_t irow);
   float getPosAX(WObject *o, uint16_t irow);
   float getPosAY(WObject *o, uint16_t irow);
-  float getColorR(WObject *o, uint16_t irow);
-  float getColorG(WObject *o, uint16_t irow);
-  float getColorB(WObject *o, uint16_t irow);
-  float getColorA(WObject *o, uint16_t irow);
 
-  void getColor(WObject *o);
-  void getColor(WObject *o, uint16_t irow);
   void getGeom(WObject *o);
   void getGeom(WObject *o, char *geom);
   void getGeom(WObject *o, uint16_t irow);
   void getGeom(WObject *o, char *geom, uint16_t irow);
-  void getUrl(WObject *o);
-  void getUrl(WObject *o, uint16_t irow);
   void getOwner(WObject *o);
   void getOwner(WObject *o, uint16_t irow);
-  void getBap(WObject *o, char *bap, uint16_t irow);
 
   void updateState(WObject *o);
   void updateState(WObject *o, int val);
-  /**< updates the state of object id in the database */
-
   void updatePos(WObject *o);
-  void updateColor(WObject *o);
   void updateGeom(WObject *o, char *geom);
   void updateGeom(WObject *o, const char *table, char *geom);
-  void updateUrl(WObject *o);
   void updateOwner(WObject *o);
-  void updateBap(class Humanoid *o);
 
   void updatePosX(WObject *o);
   void updatePosY(WObject *o);
@@ -288,11 +274,6 @@ class VRSql {
   void updatePosAZ(WObject *o);
   void updatePosAX(WObject *o);
   void updatePosAY(WObject *o);
-
-  void updateColorR(WObject *o);
-  void updateColorG(WObject *o);
-  void updateColorB(WObject *o);
-  void updateColorA(WObject *o);
 };
 
 #endif // VRSQL

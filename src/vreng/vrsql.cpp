@@ -44,14 +44,8 @@ static const char * C_Z = "z";		///< column z         : float
 static const char * C_AZ = "az";	///< column az        : float
 static const char * C_AX = "ax";	///< column ax        : float
 static const char * C_AY = "ay";	///< column ay        : float
-static const char * C_R = "r";		///< column r (red)   : float
-static const char * C_G = "g";		///< column g (green) : float
-static const char * C_B = "b";		///< column b (blue)  : float
-static const char * C_A = "a";		///< column a (alpha) : float
 static const char * C_OWN = "owner";	///< column owner     : text(16)
 static const char * C_GEOM = "geom";	///< column geom      : text(64)
-static const char * C_URL = "url";	///< column url       : text(64)
-static const char * C_BAP = "bap";	///< column bap       : text(128)
 
 
 /** Constructor */
@@ -193,7 +187,7 @@ void VRSql::quit()
 /** Sends a query SQL command */
 bool VRSql::query(const char *sql)
 {
-  trace(DBG_SQL, "query: %s", sql);
+  echo("query: %s", sql);
 
 #if USE_SQLITE
   int rc = 0;
@@ -301,7 +295,7 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
     openDB();	// we need to reopen database
   }
   //echo("sql getint %s", sql);
-  createTable(table);
+  //createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, &VRSql::getInt_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
@@ -377,12 +371,11 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
   char *err_msg = NULL;
 
   //echo("sql getfloat %s", sql);
-  createTable(table);
 #if 0 //dax
   if (! db) {
     openDB();	// we need to reopen database
   }
-  createTable(table);
+  //createTable(table);
   rc = sqlite3_exec(db, sql, getFloat_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
     error("%s rc=%d err getfloat %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
@@ -447,8 +440,8 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
   int rc;
   char *err_msg = NULL;
 
-  createTable(table);
   //echo("sql getstring %s %s", table, sql);
+  //createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, getString_cb, retstring, &err_msg);
   if (rc != SQLITE_OK) {
@@ -519,8 +512,8 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   int rc;
   char *err_msg = NULL;
 
-  createTable(table);
   //echo("sql getsubstring %s %s", table, sql);
+  //createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, getSubstring_cb, retstring, &err_msg);
   if (rc != SQLITE_OK) {
@@ -712,7 +705,7 @@ void VRSql::createDatabase(const char *database)
 void VRSql::createTable(const char *table)
 {
   //echo("sql createtable %s %x", table, db);
-  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s (name text(16), state tinyint(255), x float(24), y float(24), z float(24), az float(24), ax float(24), ay float(24), r float(24), g float(24), b float(24), a float(24), owner text(16), url text(64), geom text(64), bap text(128))", table);
+  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s ( name text(16), state tinyint(255), x float(24), y float(24), z float(24), az float(24), ax float(24), ay float(24), owner text(16), geom text(64) )", table);
   query(sql);
 }
 
@@ -723,11 +716,11 @@ void VRSql::createTable(const char *table)
 void VRSql::insertRow(WObject *o)
 {
   createTable(o->typeName());
-  sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) VALUES ('%s@%s', '0', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', '%s', 'NULL', 'NULL')",
+  sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) VALUES ( '%s@%s', '0', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', '%s', 'NULL' )",
           o->typeName(),
-          C_NAME, C_ST, C_X, C_Y, C_Z, C_AZ, C_AX, C_AY, C_OWN, C_GEOM, C_URL,
+          C_NAME, C_ST, C_X, C_Y, C_Z, C_AZ, C_AX, C_AY, C_OWN, C_GEOM,
           o->named(), World::current()->getName(), o->ownerName());
-  //echo("sql insertrow %s %s", o->typeName(), sql);
+  //echo("sql insertrow %s", o->typeName());
   query(sql);
 }
 
@@ -934,46 +927,6 @@ float VRSql::getPosAY(WObject *o, uint16_t irow)
   return (val != ERR_SQL) ? val : o->pos.ay;
 }
 
-float VRSql::getColorR(WObject *o, uint16_t irow)
-{
-  float val = getFloat(o, C_R, irow);
-  return (val != ERR_SQL) ? val : o->pos.x;
-}
-
-float VRSql::getColorG(WObject *o, uint16_t irow)
-{
-  float val = getFloat(o, C_G, irow);
-  return (val != ERR_SQL) ? val : o->pos.y;
-}
-
-float VRSql::getColorB(WObject *o, uint16_t irow)
-{
-  float val = getFloat(o, C_B, irow);
-  return (val != ERR_SQL) ? val : o->pos.z;
-}
-
-float VRSql::getColorA(WObject *o, uint16_t irow)
-{
-  float val = getFloat(o, C_A, irow);
-  return (val != ERR_SQL) ? val : o->pos.az;
-}
-
-void VRSql::getColor(WObject *o)
-{
-  o->pos.x = getColorR(o, 0);
-  o->pos.y = getColorG(o, 0);
-  o->pos.z = getColorB(o, 0);
-  o->pos.az = getColorA(o, 0);
-}
-
-void VRSql::getColor(WObject *o, uint16_t irow)
-{
-  o->pos.x = getColorR(o, irow);
-  o->pos.y = getColorG(o, irow);
-  o->pos.z = getColorB(o, irow);
-  o->pos.az = getColorA(o, irow);
-}
-
 int VRSql::getCountCart()
 {
   char pattern[64];
@@ -1023,16 +976,6 @@ void VRSql::getGeom(WObject *o, char *geom, uint16_t irow)
   if (geom) getString(o, C_GEOM, geom, irow);
 }
 
-void VRSql::getUrl(WObject *o)
-{
-  getUrl(o, (uint16_t)0);
-}
-
-void VRSql::getUrl(WObject *o, uint16_t irow)
-{
-  getString(o, C_URL, (char *) o->urlName(), irow);
-}
-
 void VRSql::getOwner(WObject *o)
 {
   getOwner(o, (uint16_t)0);
@@ -1043,10 +986,6 @@ void VRSql::getOwner(WObject *o, uint16_t irow)
   getString(o, C_OWN, (char *) o->ownerName(), irow);
 }
 
-void VRSql::getBap(WObject *o, char *bap, uint16_t irow)
-{
-  getString(o, C_BAP, bap, irow);
-}
 
 // updates
 
@@ -1090,26 +1029,6 @@ void VRSql::updatePosAY(WObject *o)
   updateFloat(o, C_AY, o->pos.ay);
 }
 
-void VRSql::updateColorR(WObject *o)
-{
-  updateFloat(o, C_R, o->pos.x);
-}
-
-void VRSql::updateColorG(WObject *o)
-{
-  updateFloat(o, C_G, o->pos.y);
-}
-
-void VRSql::updateColorB(WObject *o)
-{
-  updateFloat(o, C_B, o->pos.z);
-}
-
-void VRSql::updateColorA(WObject *o)
-{
-  updateFloat(o, C_A, o->pos.az);
-}
-
 void VRSql::updatePos(WObject *o)
 {
   updatePosX(o);
@@ -1118,14 +1037,6 @@ void VRSql::updatePos(WObject *o)
   updatePosAZ(o);
   updatePosAX(o);
   updatePosAY(o);
-}
-
-void VRSql::updateColor(WObject *o)
-{
-  updateColorR(o);
-  updateColorG(o);
-  updateColorB(o);
-  updateColorA(o);
 }
 
 void VRSql::updateGeom(WObject *o, char *geom)
@@ -1138,18 +1049,7 @@ void VRSql::updateGeom(WObject *o, const char *table, char *geom)
   if (geom) updateString(o, table, C_GEOM, geom);
 }
 
-void VRSql::updateUrl(WObject *o)
-{
-  updateString(o, C_URL, o->urlName());
-}
-
 void VRSql::updateOwner(WObject *o)
 {
   updateString(o, C_OWN, o->ownerName());
 }
-
-void VRSql::updateBap(Humanoid *o)
-{
-  updateString(o, C_BAP, o->bapline);
-}
-
