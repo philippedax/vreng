@@ -42,8 +42,6 @@ static const char * C_X = "x";		///< column x         : float
 static const char * C_Y = "y";		///< column y         : float
 static const char * C_Z = "z";		///< column z         : float
 static const char * C_AZ = "az";	///< column az        : float
-static const char * C_AX = "ax";	///< column ax        : float
-static const char * C_AY = "ay";	///< column ay        : float
 static const char * C_OWN = "owner";	///< column owner     : text(16)
 static const char * C_GEOM = "geom";	///< column geom      : text(64)
 
@@ -705,7 +703,7 @@ void VRSql::createDatabase(const char *database)
 void VRSql::createTable(const char *table)
 {
   //echo("sql createtable %s %x", table, db);
-  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s ( name text(16), state tinyint(255), x float(24), y float(24), z float(24), az float(24), ax float(24), ay float(24), owner text(16), geom text(64) )", table);
+  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s ( name text(16), state tinyint(255), x float(24), y float(24), z float(24), az float(24), owner text(16), geom text(64) )", table);
   query(sql);
 }
 
@@ -716,9 +714,9 @@ void VRSql::createTable(const char *table)
 void VRSql::insertRow(WObject *o)
 {
   createTable(o->typeName());
-  sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) VALUES ( '%s@%s', '0', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', 'NULL', '%s', 'NULL' )",
+  sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) VALUES ( '%s@%s', '0', 'NULL', 'NULL', 'NULL', 'NULL', '%s', 'NULL' )",
           o->typeName(),
-          C_NAME, C_ST, C_X, C_Y, C_Z, C_AZ, C_AX, C_AY, C_OWN, C_GEOM,
+          C_NAME, C_ST, C_X, C_Y, C_Z, C_AZ, C_OWN, C_GEOM,
           o->named(), World::current()->getName(), o->ownerName());
   //echo("sql insertrow %s", o->typeName());
   query(sql);
@@ -877,8 +875,6 @@ void VRSql::getPos(WObject *o)
   o->pos.y = getPosY(o, 0);
   o->pos.z = getPosZ(o, 0);
   o->pos.az = getPosAZ(o, 0);
-  o->pos.ax = getPosAX(o, 0);
-  o->pos.ay = getPosAY(o, 0);
 }
 
 void VRSql::getPos(WObject *o, uint16_t irow)
@@ -887,8 +883,6 @@ void VRSql::getPos(WObject *o, uint16_t irow)
   o->pos.y = getPosY(o, irow);
   o->pos.z = getPosZ(o, irow);
   o->pos.az = getPosAZ(o, irow);
-  o->pos.ax = getPosAX(o, irow);
-  o->pos.ay = getPosAY(o, irow);
 }
 
 float VRSql::getPosX(WObject *o, uint16_t irow = 0)
@@ -913,18 +907,6 @@ float VRSql::getPosAZ(WObject *o, uint16_t irow)
 {
   float val = getFloat(o, C_AZ, irow);
   return (val != ERR_SQL) ? val : o->pos.az;
-}
-
-float VRSql::getPosAX(WObject *o, uint16_t irow)
-{
-  float val = getFloat(o, C_AX, irow);
-  return (val != ERR_SQL) ? val : o->pos.ax;
-}
-
-float VRSql::getPosAY(WObject *o, uint16_t irow)
-{
-  float val = getFloat(o, C_AY, irow);
-  return (val != ERR_SQL) ? val : o->pos.ay;
 }
 
 int VRSql::getCountCart()
@@ -1019,24 +1001,12 @@ void VRSql::updatePosAZ(WObject *o)
   updateFloat(o, C_AZ, o->pos.az);
 }
 
-void VRSql::updatePosAX(WObject *o)
-{
-  updateFloat(o, C_AX, o->pos.ax);
-}
-
-void VRSql::updatePosAY(WObject *o)
-{
-  updateFloat(o, C_AY, o->pos.ay);
-}
-
 void VRSql::updatePos(WObject *o)
 {
   updatePosX(o);
   updatePosY(o);
   updatePosZ(o);
   updatePosAZ(o);
-  updatePosAX(o);
-  updatePosAY(o);
 }
 
 void VRSql::updateGeom(WObject *o, char *geom)

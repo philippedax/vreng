@@ -251,8 +251,6 @@ class VRSql {
   float getPosY(WObject *o, uint16_t irow);
   float getPosZ(WObject *o, uint16_t irow = 0);
   float getPosAZ(WObject *o, uint16_t irow);
-  float getPosAX(WObject *o, uint16_t irow);
-  float getPosAY(WObject *o, uint16_t irow);
 
   void getGeom(WObject *o);
   void getGeom(WObject *o, char *geom);
@@ -272,8 +270,6 @@ class VRSql {
   void updatePosY(WObject *o);
   void updatePosZ(WObject *o);
   void updatePosAZ(WObject *o);
-  void updatePosAX(WObject *o);
-  void updatePosAY(WObject *o);
 };
 
 #endif // VRSQL
