@@ -383,24 +383,12 @@ float VRSql::getFloat(const char *table, const char *col, const char *object, co
   }
   //echo("getFloat: %s.%s %.2f", table, col, val);
 #else
-  //rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
-  //if (rc != SQLITE_OK) {
-  //  error("%s err exec %s", table, sqlite3_errmsg(db));
-  //  sqlite3_free(err_msg);
-  //}
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
     error("%s err prepare %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  //int idx = 1;
-  //rc = sqlite3_bind_double(stmt, idx, (double) val);	// not sure of that ???
-  //if (rc != SQLITE_OK) {
-  //  error("%s %s %d err binddouble %s", table,col,irow, sqlite3_errmsg(db));
-  //  sqlite3_free(err_msg);
-  //  return ERR_SQL;
-  //}
   rc = sqlite3_step(stmt);
   if (rc == SQLITE_DONE) {
     val = sqlite3_column_double(stmt, 0);
@@ -577,6 +565,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
 /** Gets a count of rows from a sql table */
 int VRSql::getRows_cb(void *val, int argc, char **argv, char**azColName)
 {
+  echo("row_cb: argc=%d argv=%s azcolname=%s", argc, argv[0], azColName[0]);
   int *v = (int *)val;
   *v = atoi(argv[0]);
   return 0;
@@ -596,6 +585,7 @@ int VRSql::getRows(const char *table)
     openDB();	// we need to reopen database
   }
   createTable(table);
+#if 0 //dax
   rc = sqlite3_exec(db, sql, getRows_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
     error("%s rc=%d err getcount %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
@@ -603,6 +593,25 @@ int VRSql::getRows(const char *table)
     return ERR_SQL;
   }
   echo("getRows: %s %d", table, val);
+#else
+  rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+  if (rc != SQLITE_OK) {
+    error("%s err preparerows %s", table, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  rc = sqlite3_step(stmt);
+  if (rc == SQLITE_DONE) {
+    val = sqlite3_column_count(stmt);
+    echo("getRosw: %s %d", table, val);
+  }
+  else if (rc != SQLITE_DONE) {
+    error("%s err steprows %s", table, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  sqlite3_finalize(stmt);
+#endif
 
 #elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
@@ -632,13 +641,33 @@ int VRSql::getRows(const char *table, const char *col, const char *pattern)
     openDB();	// we need to reopen database
   }
   createTable(table);
+#if 0 //dax
   rc = sqlite3_exec(db, sql, getRows_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
-    error("%s rc=%d err getcount %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    error("%s rc=%d err getcountwhere %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return 0;
   }
-  echo("getRowswhere: %s.%s %d", table, col, val);
+  echo("getRowswhere: %s.%s.%s %d", table, col, pattern, val);
+#else
+  rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+  if (rc != SQLITE_OK) {
+    error("%s err preparerows %s", table, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  rc = sqlite3_step(stmt);
+  if (rc == SQLITE_DONE) {
+    val = sqlite3_column_count(stmt);
+    echo("getRoswwhere: %s.%s.%s %d", table, col, pattern, val);
+  }
+  else if (rc != SQLITE_DONE) {
+    error("%s err steprows %s", table, sqlite3_errmsg(db));
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  sqlite3_finalize(stmt);
+#endif
 
 #elif USE_MYSQL
   if (! query(sql)) return ERR_SQL;
@@ -800,7 +829,7 @@ void VRSql::deleteRows(WObject *o)
   deleteRows(o->typeName());
 }
 
-// gets
+// gets (select)
 
 /** Gets an integer value from a row in the sql table */
 int VRSql::getInt(WObject *o, const char *col, uint16_t irow)
@@ -933,15 +962,13 @@ void VRSql::getColor(WObject *o, uint16_t irow)
 int VRSql::getCountCart()
 {
   char pattern[64];
-  //sprintf(pattern, "'^%s$'", ::g.user);
+  sprintf(pattern, "'^%s$'", ::g.user);
   int val = getRows("Cart", C_OWN, pattern);
   return (val != ERR_SQL) ? val : 0;
 }
 
 int VRSql::getCount(const char *table)
 {
-  char pattern[64];
-  sprintf(pattern, "'$'");
   int val = getRows(table);
   return (val != ERR_SQL) ? val : 0;
 }

@@ -182,8 +182,8 @@ void statTimings(FILE *fout)
        (float) timer.object.cumul_time, (float) 100*timer.object.cumul_time/d);
   fprintf(fout,"image time      : %5.2fs, %4.2f%%\n", 
        (float) timer.image.cumul_time, (float) 100*timer.image.cumul_time/d);
-  fprintf(fout,"mysql time      : %5.2fs, %4.2f%%\n", 
-       (float) timer.mysql.cumul_time, (float) 100*timer.mysql.cumul_time/d);
+  fprintf(fout,"sql time        : %5.2fs, %4.2f%%\n", 
+       (float) timer.sql.cumul_time, (float) 100*timer.sql.cumul_time/d);
   fprintf(fout,"idle time       : %5.2fs, %4.2f%%\n", 
        (float) timer.idle.cumul_time, (float) 100*timer.idle.cumul_time/d);
   fprintf(fout,"cycles          : %d\n", ::g.gui.getCycles());

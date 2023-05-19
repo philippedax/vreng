@@ -881,12 +881,10 @@ void WObject::updatePersist()
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
-    progression('m');
-    ::g.timer.mysql.start();
+    progression('s');
+    ::g.timer.sql.start();
     psql->updatePos(this);
-    //pos.z = psql->getPosZ(this);
-    //psql->updatePosZ(this);
-    ::g.timer.mysql.stop();
+    ::g.timer.sql.stop();
   }
 }
 
@@ -895,10 +893,10 @@ void WObject::updatePersist(int16_t _state)
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
-    ::g.timer.mysql.start();
-    progression('m');
+    ::g.timer.sql.start();
+    progression('s');
     psql->updateState(this, _state);
-    ::g.timer.mysql.stop();
+    ::g.timer.sql.stop();
   }
 }
 
@@ -909,7 +907,6 @@ void WObject::savePersist()
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && isBehavior(PERSISTENT) && !removed && givenName()) {
-    //trace(DBG_FORCE, "savePersist: %s pos.alter=%d", names.instance, pos.alter);
     // update VRSql table only if object has changed
     if (pos.alter) psql->updatePos(this);
     if (isBehavior(DYNAMIC)) psql->updateOwner(this);

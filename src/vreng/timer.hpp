@@ -46,7 +46,7 @@ public:
 class Timer {
 public:
 
-  ProfileTime init, net, simul, render, idle, capture, mysql, object, image;
+  ProfileTime init, net, simul, render, idle, capture, sql, object, image;
 
   float rate();
   /**< Returns actual rate */
