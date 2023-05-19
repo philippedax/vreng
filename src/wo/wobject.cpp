@@ -850,7 +850,7 @@ void WObject::getPersist()
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
-    psql->getPos(this);
+    //dax psql->getPos(this);
   }
   updatePersist();
 }
