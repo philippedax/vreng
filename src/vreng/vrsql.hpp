@@ -80,7 +80,7 @@ class VRSql {
   char sql[SQLCMD_MAX];	///< Sql command
 
 #if USE_SQLITE
-  sqlite3_stmt *res;	///< Sqlite result
+  sqlite3_stmt *stmt;	///< Sqlite statement
 #elif USE_MYSQL
   MYSQL_RES *res;	///< MySqsl result
   MYSQL_ROW row;	///< MySql row
