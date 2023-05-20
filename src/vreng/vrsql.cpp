@@ -144,11 +144,8 @@ VRSql * VRSql::init()
   if (vrsql) {
 #if USE_SQLITE
     r = vrsql->openDB();	// open sqlite database
-#elif USE_MYSQL
-    r = vrsql->connectDB();	// connect to database mysql server
-    vrsql->createDatabase(DB);
-#elif USE_PGSQL
-    r = vrsql->connectDB();	// connect to database postgres server
+#else
+    r = vrsql->connectDB();	// connect to database server
     vrsql->createDatabase(DB);
 #endif
     if (! r) {
@@ -184,7 +181,7 @@ void VRSql::quit()
 /** Sends a query SQL command */
 bool VRSql::query(const char *sql)
 {
-  echo("query: %s", sql);
+  //echo("query: %s", sql);
 
 #if USE_SQLITE
   int rc = 0;
@@ -200,6 +197,7 @@ bool VRSql::query(const char *sql)
     sqlite3_free(err_msg);
     return false;
   }
+  //quit();	// do the close -> prepare out of memory FIXME!
 #else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
