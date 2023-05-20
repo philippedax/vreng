@@ -37,12 +37,12 @@ static const char * DB = NULL;		///< no database
 static const char * USER = "vreng";	///< user name
 static const char * PASSWD = NULL;	///< no password
 static const char * C_NAME = "name";	///< column name      : text(16)
-static const char * C_ST = "state";	///< column state     : tinyint
+static const char * C_STATE = "state";	///< column state     : tinyint
 static const char * C_X = "x";		///< column x         : float
 static const char * C_Y = "y";		///< column y         : float
 static const char * C_Z = "z";		///< column z         : float
 static const char * C_AZ = "az";	///< column az        : float
-static const char * C_OWN = "owner";	///< column owner     : text(16)
+static const char * C_OWNER = "owner";	///< column owner     : text(16)
 static const char * C_GEOM = "geom";	///< column geom      : text(64)
 
 
@@ -90,8 +90,7 @@ bool VRSql::connectDB()
   if ((db = mysql_init(db)) != NULL) {
     if (! mysql_real_connect(db, DEF_MYSQL_SERVER, USER, PASSWD, DB, 0, NULL, 0)) {
       error("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
-      if (mysql_errno(db))
-        error("mysql_error: %s", mysql_error(db));
+      error("mysql_error: %s", mysql_error(db));
       return false;
     }
   }
@@ -136,23 +135,23 @@ bool VRSql::connectDB()
 }
 #endif
 
-/** Allocates VRSql */
+/** Allocates and returns VRSql handle */
 VRSql * VRSql::init()
 {
   vrsql = new VRSql();
 
-  int r = 0;
+  bool r = false;
   if (vrsql) {
 #if USE_SQLITE
     r = vrsql->openDB();	// open sqlite database
 #elif USE_MYSQL
     r = vrsql->connectDB();	// connect to database mysql server
+    vrsql->createDatabase(DB);
 #elif USE_PGSQL
     r = vrsql->connectDB();	// connect to database postgres server
+    vrsql->createDatabase(DB);
 #endif
-    //dax vrsql->createDatabase(DB);
     if (! r) {
-      error("init: can't reach database");
       delete vrsql;
       vrsql = NULL;
     }
@@ -194,8 +193,6 @@ bool VRSql::query(const char *sql)
   if (! db) {
     openDB();	// we need to reopen database
   }
-/** bad code !!! FIXME 
-**/
 #if 1 //dax
   rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
   if (rc != SQLITE_OK) {
@@ -212,7 +209,7 @@ bool VRSql::query(const char *sql)
   }
   rc = sqlite3_step(stmt);
   if (rc == SQLITE_ROW) {
-    error("query step: %s", sqlite3_column_text(stmt, 0));
+    echo("query step: %s", sqlite3_column_text(stmt, 0));
   }
   if (rc != SQLITE_DONE) {
     error("query err: rc=%d", rc);
@@ -242,8 +239,8 @@ bool VRSql::query(const char *sql)
   if (PQresultStatus(rc) != PGRES_TUPLES_OK) {
     PQclear(rc);
     error("query: err %s", sql);
-    return false;
     //PQfinish(db);
+    return false;
   }
   return true;
 
@@ -293,7 +290,7 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
     openDB();	// we need to reopen database
   }
   //echo("sql getint %s", sql);
-  //createTable(table);
+  createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, &VRSql::getInt_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
@@ -373,7 +370,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
   if (! db) {
     openDB();	// we need to reopen database
   }
-  //createTable(table);
+  createTable(table);
   rc = sqlite3_exec(db, sql, getFloat_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
     error("%s rc=%d err getfloat %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
@@ -439,7 +436,7 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
   char *err_msg = NULL;
 
   //echo("sql getstring %s %s", table, sql);
-  //createTable(table);
+  createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, getString_cb, retstring, &err_msg);
   if (rc != SQLITE_OK) {
@@ -511,7 +508,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
   char *err_msg = NULL;
 
   //echo("sql getsubstring %s %s", table, sql);
-  //createTable(table);
+  createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, getSubstring_cb, retstring, &err_msg);
   if (rc != SQLITE_OK) {
@@ -688,6 +685,10 @@ int VRSql::getRows(const char *table, const char *col, const char *pattern)
   return val;
 }
 
+//
+//---------------------- methods independants of RDB system ---------------------
+//
+
 
 // create
 
@@ -714,10 +715,18 @@ void VRSql::createTable(const char *table)
 void VRSql::insertRow(WObject *o)
 {
   createTable(o->typeName());
+#if 1 //dax
+  sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) VALUES ( '%s@%s', '%d', '%f', '%f', '%f', '%f', '%s', '%s' )",
+          o->typeName(),
+          C_NAME, C_STATE, C_X, C_Y, C_Z, C_AZ, C_OWNER, C_GEOM,
+          o->named(), World::current()->getName(),
+          o->state, o->pos.x, o->pos.y, o->pos.z, o->pos.az, o->ownerName(), o->geomsolid);
+#else
   sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) VALUES ( '%s@%s', '0', 'NULL', 'NULL', 'NULL', 'NULL', '%s', 'NULL' )",
           o->typeName(),
-          C_NAME, C_ST, C_X, C_Y, C_Z, C_AZ, C_OWN, C_GEOM,
+          C_NAME, C_STATE, C_X, C_Y, C_Z, C_AZ, C_OWNER, C_GEOM,
           o->named(), World::current()->getName(), o->ownerName());
+#endif
   //echo("sql insertrow %s", o->typeName());
   query(sql);
 }
@@ -762,6 +771,33 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 }
 
 
+// updates
+
+/** Updates row int into the sql table */
+void VRSql::updateInt(WObject *o, const char *col, int val)
+{
+  updateInt(o, o->typeName(), col, o->named(), World::current()->getName(), val);
+}
+
+/** Updates row float into the sql table */
+void VRSql::updateFloat(WObject *o, const char *col, float val)
+{
+  updateFloat(o, o->typeName(), col, o->named(), World::current()->getName(), val);
+}
+
+/** Updates row string into the sql table */
+void VRSql::updateString(WObject *o, const char *col, const char *str)
+{
+  updateString(o, o->typeName(), col, o->named(), World::current()->getName(), str);
+}
+
+/** Updates row string into the sql table */
+void VRSql::updateString(WObject *o, const char *table, const char *col, const char *str)
+{
+  updateString(o, table, col, o->named(), World::current()->getName(), str);
+}
+
+
 // deletes
 
 /** Deletes all rows from the sql table */
@@ -791,38 +827,6 @@ void VRSql::deleteRow(WObject *o, const char *str)
   query(sql);
 }
 
-//
-//---------------------- methods independants of RDB system ---------------------
-//
-
-// updates
-
-/** Updates row int into the sql table */
-void VRSql::updateInt(WObject *o, const char *col, int val)
-{
-  updateInt(o, o->typeName(), col, o->named(), World::current()->getName(), val);
-}
-
-/** Updates row float into the sql table */
-void VRSql::updateFloat(WObject *o, const char *col, float val)
-{
-  updateFloat(o, o->typeName(), col, o->named(), World::current()->getName(), val);
-}
-
-/** Updates row string into the sql table */
-void VRSql::updateString(WObject *o, const char *col, const char *str)
-{
-  updateString(o, o->typeName(), col, o->named(), World::current()->getName(), str);
-}
-
-/** Updates row string into the sql table */
-void VRSql::updateString(WObject *o, const char *table, const char *col, const char *str)
-{
-  updateString(o, table, col, o->named(), World::current()->getName(), str);
-}
-
-// delete
-
 /** Deletes a row of this object */
 void VRSql::deleteRow(WObject *o)
 {
@@ -834,6 +838,7 @@ void VRSql::deleteRows(WObject *o)
 {
   deleteRows(o->typeName());
 }
+
 
 // gets (select)
 
@@ -857,14 +862,14 @@ int VRSql::getString(WObject *o, const char *col, char *str, uint16_t irow)
 
 int VRSql::getState(WObject *o)
 {
-  int val = getInt(o, C_ST, 0);
+  int val = getInt(o, C_STATE, 0);
   echo("state=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
 int VRSql::getState(WObject *o, uint16_t irow)
 {
-  int val =  getInt(o, C_ST, irow);
+  int val =  getInt(o, C_STATE, irow);
   echo("state=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
@@ -913,7 +918,7 @@ int VRSql::getCountCart()
 {
   char pattern[64];
   sprintf(pattern, "'^%s$'", ::g.user);
-  int val = getRows("Cart", C_OWN, pattern);
+  int val = getRows("Cart", C_OWNER, pattern);
   return (val != ERR_SQL) ? val : 0;
 }
 
@@ -965,7 +970,7 @@ void VRSql::getOwner(WObject *o)
 
 void VRSql::getOwner(WObject *o, uint16_t irow)
 {
-  getString(o, C_OWN, (char *) o->ownerName(), irow);
+  getString(o, C_OWNER, (char *) o->ownerName(), irow);
 }
 
 
@@ -973,12 +978,12 @@ void VRSql::getOwner(WObject *o, uint16_t irow)
 
 void VRSql::updateState(WObject *o)
 {
-  updateInt(o, C_ST, o->state);
+  updateInt(o, C_STATE, o->state);
 }
 
 void VRSql::updateState(WObject *o, int val)
 {
-  updateInt(o, C_ST, val);
+  updateInt(o, C_STATE, val);
 }
 
 void VRSql::updatePosX(WObject *o)
@@ -1021,5 +1026,5 @@ void VRSql::updateGeom(WObject *o, const char *table, char *geom)
 
 void VRSql::updateOwner(WObject *o)
 {
-  updateString(o, C_OWN, o->ownerName());
+  updateString(o, C_OWNER, o->ownerName());
 }
