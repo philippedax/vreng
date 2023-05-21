@@ -327,7 +327,8 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
 #endif
 
 #elif USE_MYSQL
-  query(sql);
+  if (! query(sql))
+    return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
   if ((row = mysql_fetch_row(res)) == NULL) {
@@ -400,7 +401,8 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
 #endif
 
 #elif USE_MYSQL
-  query(sql);
+  if (! query(sql))
+    return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
   if ((row = mysql_fetch_row(res)) == NULL) {
@@ -469,7 +471,8 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
 #endif
 
 #elif USE_MYSQL
-  if (! query(sql)) return ERR_SQL;
+  if (! query(sql))
+    return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
   if ((row = mysql_fetch_row(res)) == NULL) {
@@ -540,7 +543,8 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
 #endif
 
 #elif USE_MYSQL
-  if (! query(sql)) return ERR_SQL;
+  if (! query(sql))
+    return ERR_SQL;
   res = mysql_store_result(db);
   mysql_data_seek(res, irow);
   if ((row = mysql_fetch_row(res)) == NULL) {
@@ -615,7 +619,8 @@ int VRSql::getRows(const char *table)
 #endif
 
 #elif USE_MYSQL
-  if (! query(sql)) return ERR_SQL;
+  if (! query(sql))
+    return ERR_SQL;
   res = mysql_store_result(db);
   if ((row = mysql_fetch_row(res)) == NULL) {
     mysql_free_result(res);
@@ -671,7 +676,8 @@ int VRSql::getRows(const char *table, const char *col, const char *pattern)
 #endif
 
 #elif USE_MYSQL
-  if (! query(sql)) return ERR_SQL;
+  if (! query(sql))
+    return ERR_SQL;
   res = mysql_store_result(db);
   if ((row = mysql_fetch_row(res)) == NULL) {
     mysql_free_result(res);
@@ -799,8 +805,8 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 /** Deletes all rows from the sql table */
 void VRSql::deleteRows(const char *table)
 {
-  createTable(table);
   //echo("sql deleterows %s %x", table, db);
+  createTable(table);
   sprintf(sql, "DELETE FROM %s", table);
   query(sql);
 }
@@ -809,6 +815,7 @@ void VRSql::deleteRows(const char *table)
 void VRSql::deleteRow(WObject *o, const char *table, const char *name, const char *world)
 {
   //echo("sql deleterow %s", table);
+  createTable(table);
   sprintf(sql, "DELETE FROM %s WHERE %s='%s%s%s'",
           table, C_NAME, name, (*world) ? "@" : "", world);
   query(sql);
@@ -818,6 +825,7 @@ void VRSql::deleteRow(WObject *o, const char *table, const char *name, const cha
 void VRSql::deleteRow(WObject *o, const char *str)
 {
   //echo("sql deleterowstring %s %s", o->typeName(), str);
+  createTable(o->typeName());
   sprintf(sql, "DELETE FROM %s WHERE %s='%s@%s'",
           o->typeName(), C_NAME, str, World::current()->getName());
   query(sql);
