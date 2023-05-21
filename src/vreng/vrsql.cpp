@@ -751,6 +751,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 /** Updates row int into the sql table */
 void VRSql::updateInt(WObject *o, const char *table, const char *col, const char *name, const char *world, int val)
 {
+  createTable(table);
   sprintf(sql, "UPDATE %s SET %s=%d WHERE %s='%s%s%s'",
           table, col, val, C_NAME, name, (*world) ? "@" : "", world);
   echo("sql updateint %s %s", table, sql);
@@ -760,6 +761,7 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
 /** Updates row float into the sql table */
 void VRSql::updateFloat(WObject *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
+  createTable(table);
   sprintf(sql, "UPDATE %s SET %s=%.2f WHERE %s='%s%s%s'",
           table, col, val, C_NAME, name, (*world) ? "@" : "", world);
   //echo("sql updatefloat %s %s", table, sql);
@@ -769,6 +771,7 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
 /** Updates row string into the sql table */
 void VRSql::updateString(WObject *o, const char *table, const char *col, const char *name, const char *world, const char *str)
 {
+  createTable(table);
   sprintf(sql, "UPDATE %s SET %s='%s' WHERE %s='%s%s%s'",
           table, col, str, C_NAME, name, (*world) ? "@" : "", world);
   echo("sql updatestring %s %s %s", table, str, sql);
