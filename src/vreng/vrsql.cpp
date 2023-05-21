@@ -144,8 +144,11 @@ VRSql * VRSql::init()
   if (vrsql) {
 #if USE_SQLITE
     r = vrsql->openDB();	// open sqlite database
-#else
-    r = vrsql->connectDB();	// connect to database server
+#elif USE_MYSQL
+    r = vrsql->connectDB();     // connect to database MySql server
+    vrsql->createDatabase(DB);
+#elif USE_PGSQL
+    r = vrsql->connectDB();     // connect to database PGSql server
     vrsql->createDatabase(DB);
 #endif
     if (! r) {
@@ -315,8 +318,8 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
     val = sqlite3_column_int(stmt, 0);
     echo("getInt: %s.%s %d", table, col, val);
   }
-  else if (rc != SQLITE_DONE) {
-    error("%s %s %d err stepint %s", table,col,irow, sqlite3_errmsg(db));
+  else {
+    error("%s %s %d errstepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
@@ -388,7 +391,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
     val = sqlite3_column_double(stmt, 0);
     echo("getFloat: %s.%s %.2f", table, col, val);
   }
-  else if (rc != SQLITE_DONE) {
+  else {
     error("rc=%d err stepdouble %s", rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
@@ -462,7 +465,6 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  sqlite3_reset(stmt);
   sqlite3_finalize(stmt);
 #endif
 
@@ -534,7 +536,6 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  sqlite3_reset(stmt);
   sqlite3_finalize(stmt);
 #endif
 
@@ -734,7 +735,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 {
   sprintf(sql, "INSERT INTO %s (%s,%s) VALUES ('%s%s%s', 'NULL')",
           table, C_NAME, col, name, (*world) ? "@" : "", world);
-  //echo("sql insertcol %s %s", table, sql);
+  echo("sql insertcol %s %s", table, sql);
   query(sql);
 }
 
@@ -746,14 +747,14 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
 {
   sprintf(sql, "UPDATE %s SET %s=%d WHERE %s='%s%s%s'",
           table, col, val, C_NAME, name, (*world) ? "@" : "", world);
-  //echo("sql updateint %s %s", table, sql);
+  echo("sql updateint %s %s", table, sql);
   query(sql);
 }
 
 /** Updates row float into the sql table */
 void VRSql::updateFloat(WObject *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
-  sprintf(sql, "UPDATE %s SET %s=%.3f WHERE %s='%s%s%s'",
+  sprintf(sql, "UPDATE %s SET %s=%.2f WHERE %s='%s%s%s'",
           table, col, val, C_NAME, name, (*world) ? "@" : "", world);
   //echo("sql updatefloat %s %s", table, sql);
   query(sql);
@@ -764,12 +765,9 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 {
   sprintf(sql, "UPDATE %s SET %s='%s' WHERE %s='%s%s%s'",
           table, col, str, C_NAME, name, (*world) ? "@" : "", world);
-  //echo("sql updatestring %s %s %s", table, str, sql);
+  echo("sql updatestring %s %s %s", table, str, sql);
   query(sql);
 }
-
-
-// updates
 
 /** Updates row int into the sql table */
 void VRSql::updateInt(WObject *o, const char *col, int val)
