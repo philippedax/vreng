@@ -80,8 +80,6 @@ class Model: public WObject {
   /**< Quits. */
 
   void render();
-  void render(const Pos &pos);
-  void render(const Pos &pos, float *color);
   /**< Renders the model. */
 
  private:

@@ -254,7 +254,6 @@ void Model::preRender()
   else {
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
   }
-
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(RAD2DEG(pos.az), 0,0,1);
@@ -272,40 +271,16 @@ void Model::postRender()
 void Model::render()
 {
   switch (model_t) {
-  case MODEL_LWO: if (lwo) { preRender(); lwo->render(); postRender(); } break;
+  case MODEL_LWO: if (lwo) { preRender(); lwo->render();      postRender(); } break;
   case MODEL_3DS: if (ds3) { preRender(); ds3->render(color); postRender(); } break;
-  case MODEL_ASE: if (ase) { preRender(); ase->render(); postRender(); } break;
+  case MODEL_ASE: if (ase) { preRender(); ase->render();      postRender(); } break;
   case MODEL_OBJ: if (obj) { preRender(); obj->render(color); postRender(); } break;
-  case MODEL_DXF: if (dxf) { preRender(); dxf->render(); postRender(); } break;
+  case MODEL_DXF: if (dxf) { preRender(); dxf->render();      postRender(); } break;
   case MODEL_OFF: if (off) { preRender(); off->render(color); postRender(); } break;
-  case MODEL_MD2: if (md2) { /*preRender();*/ md2->render(pos); /*postRender();*/ } break;
-  case MODEL_MAN: if (man) { /*preRender(); man->render(); postRender();*/ } break;
+  case MODEL_MD2: if (md2) {              md2->render(pos);                 } break;
+  case MODEL_MAN: if (man) {                                                } break;
   case MODEL_X3D: break;
   }
-}
-
-void Model::render(const Pos &pos)
-{
-#if 0 //dax notused
-  switch (model_t) {
-  case MODEL_LWO: if (lwo) { lwo->render(pos); } break;
-  case MODEL_3DS: if (ds3) { ds3->render(pos, color); } break;
-  case MODEL_OBJ: if (obj) { obj->render(pos, color); } break;
-  case MODEL_OFF: if (off) { off->render(pos, color); } break;
-  }
-#endif
-}
-
-void Model::render(const Pos &pos, float *color)
-{
-#if 0 //dax notused
-  switch (model_t) {
-  case MODEL_LWO: if (lwo) { lwo->render(pos); } break;
-  case MODEL_3DS: if (ds3) { ds3->render(pos, color); } break;
-  case MODEL_OBJ: if (obj) { obj->render(pos, color); } break;
-  case MODEL_OFF: if (off) { off->render(pos, color); } break;
-  }
-#endif
 }
 
 void Model::quit()

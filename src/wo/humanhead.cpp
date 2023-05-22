@@ -229,7 +229,8 @@ void Humanhead::visibility(bool flag)
 void Humanhead::render()
 {
   if (visible)
-    model->render(pos, color);
+    model->render();
+    //dax model->render(pos, color);
 }
 
 void Humanhead::quit()
