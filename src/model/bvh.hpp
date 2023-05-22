@@ -1,9 +1,15 @@
 #ifndef BVH_HPP
 #define BVH_HPP
 
-#define ROTATE_SLOWNESS 8
+#include <iostream>
+#include <fstream>
+#include <iterator>
+#include <string>
+#include <vector>
 
 using namespace std;
+
+#define ROTATE_SLOWNESS 8
 
 class fileNotFound {};
 class ChannelError;
@@ -141,9 +147,7 @@ typedef struct _triangleV {
   vector3f norm;      // triangle norm
 } triangleV;
 
-#if 0 //notused
-vector3f findNorm(int index, int numSurfTriangles, vector3f **surfTriangles);
-#endif
+//notcalled vector3f findNorm(int index, int numSurfTriangles, vector3f **surfTriangles);
 
 
 /// Mostly virtual class for any entity in the scene
@@ -208,9 +212,7 @@ public:
   bool drawBB;
 
   // has this been completely tested for collisions?
-#if 0 //notused
-  bool BBtested;
-#endif
+  //notuse bool BBtested;
   bool BBcollided;
 
   vector3f centerBB;
@@ -221,16 +223,13 @@ public:
   vector3f edgesAABB;
   vector3f AABB[8];
   
-#if 0 //notused
   // is the object moved normally or is
   // it subject to the physics engine?
-  bool physical;
-#endif
+  //notuse bool physical;
 
 };
 
 
-#if 1 //notused
 class triangleInd {
 public:
   triangleInd() {}
@@ -242,7 +241,6 @@ public:
   
   triangleInd& operator= (const triangleInd &tri);
 };
-#endif
 
 
 /// Hold location, orientation, and mode of the viewer
@@ -298,7 +296,6 @@ public:
   be split up for lighting in order to show a differential across
   it's surface), I'm curious what the conventional way is.
  */
-#if 1 //notused
 class light: public movable {
 public:
   light() {}
@@ -334,14 +331,12 @@ public:
   int GL_LIGHTX;
   bool verbose;
 };
-#endif
 
 /**
   UVs and textures aren't supported, as I'm not really interested
   in them, being literally superficial in addition to me not having
   any easy-to-use UV mappers (lithunwrap is a pain).
  */
-#if 1 //notused
 class material {
 public:
   material() {}
@@ -365,7 +360,6 @@ public:
   GLfloat Ke[4]; ///< Emission
   GLfloat opacity;
 };
-#endif
 
 
 /// Parse in .obj's 
@@ -418,9 +412,9 @@ private:
   string mtlFile;
   uint32_t mtlIndex;
   triangleInd tempTriangle;
-  //notused uint32_t kIndex;
+  //notuse uint32_t kIndex;
   objMode theMode;
-  //notused mtlMode theMtlMode;
+  //notuse mtlMode theMtlMode;
   vector3f tempVector;
   uint32_t tempVectorIndex;
   bool verbose;

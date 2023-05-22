@@ -22,12 +22,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 ******************************************************************************/
-#include <iostream>
-#include <fstream>
-#include <iterator>
-#include <string>
-#include <vector>
-
 #include "vreng.hpp"
 #include "bvh.hpp"
 #include "http.hpp"	// httpOpen
@@ -439,12 +433,12 @@ void rigid::reader(void *_rigid, Http *http)
   }
 }
 
-#if 0 //notused
+#if 0 //notcalled
 void rigid::draw()
 {
   echo("rigid::draw");
   glPushMatrix();
-  //notused if (drawBB) drawAABB();
+  if (drawBB) drawAABB();
   glMultMatrixf(location.matrix);
 
   glEnable(GL_LIGHTING);
@@ -503,14 +497,14 @@ void rigid::draw()
   glPopMatrix();
   return;
 }
-#endif
+#endif //notcalled
 
-#if 0 //notused
+#if 0 //notcalled
 void rigid::drawDim(vector<light*> lights)
 {
   echo("rigid::drawDim");
   glPushMatrix();
-  //glMultMatrixf(location.matrix);
+  glMultMatrixf(location.matrix);
   glEnable(GL_LIGHTING);
 
   for (uint32_t m=0; m < mtls.size(); m++) {
@@ -549,13 +543,13 @@ void rigid::drawDim(vector<light*> lights)
   glDisable(GL_LIGHTING);
   glPopMatrix();
 }
-#endif
+#endif //notcalled
 
 void rigid::makeList()
 {
   echo("rigid::makeList");
-  //listNum = glGenLists(1);
-  //glNewList(listNum, GL_COMPILE);
+  listNum = glGenLists(1);
+  glNewList(listNum, GL_COMPILE);
   glBegin(GL_TRIANGLES);
   for (uint32_t m=0; m < mtls.size(); m++) {
     glMaterialfv(GL_FRONT,GL_AMBIENT, mtls[m]->Ka);
@@ -575,18 +569,16 @@ void rigid::makeList()
     }
   }
   glEnd();
-  //glEndList();
+  glEndList();
 }
 
 void rigid::getBoundingBox()
 {
   //echo("rigid::getBB");
-  /*  
   for (int j=0; j<3;j++) {
-    boundingBox[0].vertex[j] = test[0]->location.vertex[j]; // lower right bound
-    boundingBox[6].vertex[j] = test[0]->location.vertex[j]; // upper right bound
+    //boundingBox[0].vertex[j] = test[0]->location.vertex[j]; // lower right bound
+    //boundingBox[6].vertex[j] = test[0]->location.vertex[j]; // upper right bound
   }
-  */
   boundingBox[0] = vertices[1];
   boundingBox[6] = vertices[1];
       
@@ -623,8 +615,7 @@ void rigid::getBoundingBox()
   boundingBox[7].vertex[2] = boundingBox[0].vertex[2];
 }
 
-/*****************************************************/
-#if 1 //notused
+
 movable::movable()
 {
   init();
@@ -645,11 +636,11 @@ void movable::init()
 
   drawBB    = true;
   BBcollided  = false;
-#if 0 //notused
+#if 0 //
   physical = false;
   normalize = true;
 #endif
-  //getBoundingBox();
+  getBoundingBox();
 }
 
 movable& movable::operator= (const movable& other)
@@ -664,9 +655,10 @@ void movable::setName(string name)
   location.identity();
   location.matrix[10] = -1.0f; 
   this->name = name;
-  for (int i=0; name[i] !=0; i++)
+  for (int i=0; name[i] !=0; i++) {
     this->name[i] = name[i];
-  //movableFrame->setText(name);
+  }
+  //movableFrame->setText(name);	//
 }
 
 void movable::move(int pitch, int turn, int roll, float x, float y, float z)
@@ -676,14 +668,14 @@ void movable::move(int pitch, int turn, int roll, float x, float y, float z)
   if (turn != 0)  location.RotateY(-turn/ROTATE_SLOWNESS);
   if (roll != 0)  location.RotateZ(roll/ROTATE_SLOWNESS);
 
-  location.translate(x,y,z);
+  location.translate(x, y, z);
   newLocation = location;
 }
 
 void movable::getAABB()
 {
   //echo("movable::getAABB");
-#if 0 //notused
+#if 0 //
   oldCenterAABB = centerAABB;
 #endif
 
@@ -731,7 +723,7 @@ void movable::getAABB()
 void movable::drawAABB()
 {
   echo("movable::drawAABB");
-  //getAABB();
+  getAABB();	//
   glPushMatrix();
 
   glTranslatef(location.matrix[12],location.matrix[13],location.matrix[14]);
@@ -746,13 +738,11 @@ void movable::drawAABB()
     glVertex3fv(AABB[i+4].vertex);
     glEnd();
   }
-  
   glBegin(GL_LINE_LOOP);  
   for (int j=0; j<4;j++) {
     glVertex3fv(AABB[j].vertex);
   }
   glEnd();
-  
   glBegin(GL_LINE_LOOP);  
   for (int k=4; k<8; k++) {
     glVertex3fv(AABB[k].vertex );
@@ -777,13 +767,11 @@ void movable::drawBoundingBox()
     glVertex3fv(boundingBox[i+4].vertex);
     glEnd();
   }
-  
   glBegin(GL_LINE_LOOP);  
   for (int j=0; j<4; j++) {
     glVertex3fv(boundingBox[j].vertex );
   }
   glEnd();
-  
   glBegin(GL_LINE_LOOP);  
   for (int k=4; k<8; k++) {
     glVertex3fv(boundingBox[k].vertex );
@@ -792,10 +780,9 @@ void movable::drawBoundingBox()
 
   glEnable(GL_LIGHTING);
 }
-#endif
 
-/************************************************/
-#if 0 //notused
+
+#if 0 //notcalled
 void Normal(vector3f* v1, vector3f* v2, vector3f* v3)
 {
   //echo("Normal");
@@ -820,7 +807,7 @@ void Normal(vector3f* v1, vector3f* v2, vector3f* v3)
   // normalize and specify the normal
   glNormal3f(res.vertex[0]/len, res.vertex[1]/len, res.vertex[2]/len);
 }
-#endif
+#endif //notcalled
 
 // calculate the length of the normal
 float vector3f::length()
@@ -994,20 +981,18 @@ vector3f operator/ (const vector3f &v1, const float scalar)
 }
 
 ///////////////////////////
-/*
-OpengGL compatible matrix:
-
-float[16]
-[0 4 8  12]
-[1 5 9  13]
-[2 6 10 14]
-[3 7 11 15]
-
-[rightX upX  outX  X]
-[rightY upY outY  Y]
-[rightZ  upZ  outZ  Z]
-[0    0  0    1]
-*/
+// OpengGL compatible matrix:
+// 
+// float[16]
+// [0 4 8  12]
+// [1 5 9  13]
+// [2 6 10 14]
+// [3 7 11 15]
+// 
+// [rightX upX outX  X]
+// [rightY upY outY  Y]
+// [rightZ upZ outZ  Z]
+// [0      0   0     1]
 ///////////////////////////
 
 void matrix16f::reset()
@@ -1034,8 +1019,8 @@ void matrix16f::translate(float x, float y, float z)
 void matrix16f::scale(float x, float y, float z)
 {
   matrix[0] *= x;
-   matrix[5] *= y;
-    matrix[10] *= z;
+  matrix[5] *= y;
+  matrix[10] *= z;
 }
 
 // current uses only 3x3 orientation portion, not location triple
@@ -1088,10 +1073,10 @@ void matrix16f::print()
     << matrix[2] << "\t" << matrix[6] << "\t" << matrix[10]<< "\t" << matrix[14] << "\n\n";
 }
 
-// 1  0     0    0 
+// 1  0      0        0 
 // 0  cos(x) -sin(x)  0  
 // 0  sin(x)  cos(x)  0  
-// 0  0     0    1 
+// 0  0      0        1 
 void matrix16f::RotateX(int deg)
 {
   float tempX = this->matrix[12];
@@ -1116,10 +1101,10 @@ void matrix16f::RotateX(int deg)
 } 
 
 // rotate about y-axis about center of this, not origin
-// cos(x)  0  sin(x)  0 
-// 0    1   0    0
-//-sin(x)  0  cos(x)  0  
-// 0    0   0    1 
+// cos(x)   0    sin(x)  0 
+// 0        1    0       0
+//-sin(x)   0    cos(x)  0  
+// 0        0    0       1 
 void matrix16f::RotateY(int deg)
 {
   float tempX = this->matrix[12];
@@ -1132,8 +1117,8 @@ void matrix16f::RotateY(int deg)
 
   matrix16f temp;
   temp.identity();
-  temp.matrix[0] = (float) cos(DEG2RAD(deg)); temp.matrix[8]  = (float) -sin(DEG2RAD(deg));
-  temp.matrix[2] = (float) sin(DEG2RAD(deg)); temp.matrix[10] = (float) cos(DEG2RAD(deg));
+  temp.matrix[0] = (float)cos(DEG2RAD(deg)); temp.matrix[8]  = (float) -sin(DEG2RAD(deg));
+  temp.matrix[2] = (float)sin(DEG2RAD(deg)); temp.matrix[10] = (float) cos(DEG2RAD(deg));
 
   *this = (*this)*temp;
 
@@ -1303,8 +1288,9 @@ void matrix16f::set(vector3f right, vector3f up, vector3f out)
 
 matrix16f& matrix16f::operator= (const matrix16f &m1)
 {
-  for (int i = 0; i<16; i++)  
+  for (int i = 0; i<16; i++) {
     matrix[i]= m1.matrix[i];
+  }
   return *this;
 }
 
@@ -1312,8 +1298,9 @@ matrix16f operator+ (const matrix16f &m1, const matrix16f &m2)
 {
   matrix16f res;
 
-  for (int i = 0; i<16; i++)
+  for (int i = 0; i<16; i++) {
     res.matrix[i]= m1.matrix[i]+m2.matrix[i];
+  }
   return res;
 }
 
@@ -1333,8 +1320,9 @@ matrix16f operator- (const matrix16f &m1, const matrix16f &m2)
 {
   matrix16f res;
 
-  for (int i = 0; i<16; i++)
+  for (int i = 0; i<16; i++) {
     res.matrix[i]= m1.matrix[i]-m2.matrix[i];
+  }
   return res;
 }
 
@@ -1342,8 +1330,9 @@ matrix16f operator* (const matrix16f &m1, const float scalar)
 {
   matrix16f res;
 
-  for (int i = 0; i<16; i++)
+  for (int i = 0; i<16; i++) {
     res.matrix[i]= m1.matrix[i]*scalar;
+  }
   return res;
 }
 
@@ -1379,16 +1368,19 @@ matrix16f operator/ (const matrix16f &m1, const float scalar)
 {  
   matrix16f res;
 
-  for (int i=0; i<16; i++)
+  for (int i=0; i<16; i++) {
     res.matrix[i]= m1.matrix[i]/scalar;
+  }
   return res;
 }
 
 bool operator== (const matrix16f &m1, const matrix16f &m2)
 {
   bool res = true;
-  for (int i=0; i< 16; i++)
+
+  for (int i=0; i< 16; i++) {
     if (m1.matrix[i] != m2.matrix[i]) res = false;
+  }
   return res;
 }
 
@@ -1631,20 +1623,23 @@ matrix9f operator/ (const matrix9f &m1, const float scalar)
 {  
   matrix9f res;
 
-  for (int i = 0; i<9; i++)
+  for (int i = 0; i<9; i++) {
     res.matrix[i]= m1.matrix[i]/scalar;
+  }
   return res;
 }
 
 bool operator== (const matrix9f &m1, const matrix9f &m2)
 {
   bool res = true;
-  for (int i = 0; i< 9; i++)
+
+  for (int i = 0; i< 9; i++) {
     if (m1.matrix[i] != m2.matrix[i]) res = false;
+  }
   return res;
 }
 
-#if 0 //notused
+#if 0 //notcalled
 //////////////////////////////////////////////////////////////////
 // This makes a normal based on the surface normals of all triangles adjacent
 // to the point, regardless ('irregardless' as Homer would say) of the size of the
@@ -1663,9 +1658,9 @@ vector3f findNorm(vector3f &matchVertex, int numSurfTriangles, triangleV **surfT
   norm = norm/norm.length();
   return norm;
 }
-#endif
+#endif //notcalled
 
-#if 0 //notused
+#if 0 //notcalled
 light::light(camera *viewer, int GL_LIGHTX, float maxFade, float minFade, float scale)
 {
   echo("light::light %d sc=%.2f", GL_LIGHTX, scale);
@@ -1764,10 +1759,10 @@ void light::getBoundingBox()
   }
 #endif
 }
-#endif
+#endif //notcalled
 
 
-#if 0 //notused
+#if 0 //notcalled
 camera::camera()
 {
   init();
@@ -1880,7 +1875,7 @@ void camera::look()
 #endif
 
 ///////////////////////////////
-#if 0 //notused
+#if 0 //notcalled
 material& material::operator= (const material &mat)
 {
   name = mat.name;
@@ -1907,7 +1902,7 @@ triangleInd& triangleInd::operator= (const triangleInd &tri)
 }
 #endif
 
-#if 0 //notused replaced by Obj
+#if 0 //notcalled replaced by Obj
 objloader::objloader(string objFile)
 {  
   counter = 0;
@@ -2157,7 +2152,6 @@ bool objloader::matchMtl(uint32_t &index, string name)
   return false;
 }
 
-#if 1 //notused
 void objloader::setMass(float newMass)
 {
   //echo("objloader::setMass");
@@ -2177,7 +2171,6 @@ void objloader::update(float seconds)
 void objloader::draw()
 {
 }
-#endif
 
 void objloader::getBoundingBox()
 {

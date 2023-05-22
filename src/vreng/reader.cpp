@@ -60,7 +60,7 @@ char * Reader::getFilename(void *_tex)
   return filepath;
 }
 
-#if 0 //notused
+#if 0 //not used
 
 FILE * Reader::getFileCache(void *_tex, bool flagclose)
 {
@@ -86,7 +86,7 @@ FILE * Reader::getFileCache(Texture *tex)
   return fp;
 }
 
-/* Opens a file given by its url and puts it in the cache - notused */
+/* Opens a file given by its url and puts it in the cache */
 FILE * Reader::getFileCache(const char *url, char *filepath)
 {
   FILE *fpi = NULL, *fpo = NULL;
@@ -206,4 +206,4 @@ void Reader::skipSpaces(FILE *f)
   while (isspace(ch)) getChar1(f);
 }
 
-#endif //notused
+#endif //not used

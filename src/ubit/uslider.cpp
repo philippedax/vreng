@@ -149,7 +149,7 @@ void USlider::gotoPosCB(UMouseEvent& e) {
  }
 }
 
-void USlider::actionCB(UEvent& notused) {  //UNodeEvent
+void USlider::actionCB(UEvent& noused) {  //UNodeEvent
   // cette verif doit etre dans setCB, pas dans set() car pvalue peut etre
   // modifiee directement si partagee par d'autres objets (via value() etc)
   if (*pvalue < 0.) *pvalue = 0.;
@@ -162,7 +162,7 @@ void USlider::actionCB(UEvent& notused) {  //UNodeEvent
   fire(e2);
 }
 
-void USlider::changeCB(UEvent& notused) {  //UNodeEvent
+void USlider::changeCB(UEvent& noused) {  //UNodeEvent
   if (isVertical()) *pvalue = pknob_pos->getY().val; 
   else *pvalue = pknob_pos->getX().val;
   
