@@ -188,13 +188,11 @@ void PSmoke::display()
   glEndList();
 }
 
-#if 0 //notused
 Vector3 Smoke::random()
 { 
   float x = -0.01+(0.02*((float)rand())/(RAND_MAX));	// -0.02+(0.04 (more compact)
   float y = -0.01+(0.02*((float)rand())/(RAND_MAX));	// -0.02+(0.04 (more compact)
   return Vector3(x, y, 0);
 }
-#endif //notused
 
 void Smoke::funcs() {}

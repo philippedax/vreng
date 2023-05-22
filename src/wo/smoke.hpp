@@ -106,7 +106,7 @@ private:
   void animParticles();
   /**< Animates particles. */
 
-  //notused Vector3 random();
+  Vector3 random();
 };
 
 #endif
