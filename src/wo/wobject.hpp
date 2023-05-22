@@ -213,15 +213,6 @@ public:
   time_t kpdur_s[MAXKEYS];      ///< key press duration from starting time sec.
   time_t kpdur_u[MAXKEYS];      ///< key press duration from starting time usec.
 
-#if 0 //notused
-  /* render priorities (notused) */
-  enum object_prior {
-    PRIOR_LOW,
-    PRIOR_MEDIUM,
-    PRIOR_HIGH
-  };
-#endif //notused
-
   //////////////////////////////////////////////////////////////////////////////
   //
   // Methods
@@ -294,11 +285,6 @@ public:
   virtual void delSolids();
   /**< Deletes solids from solidList. */
 
-  //notused const list<Solid *>& solids() const;
-  //notused /**< solidlist address. */
-  //notused uint32_t countOfSolids() const;
-  //notused *< Count of solids. */
-
   //
   // Intersections
   //
@@ -323,11 +309,6 @@ public:
 
   bool runAction(const char *action);
   /**< Runs action everwhere if available. */
-
-  //notused bool haveAction();
-  //notused /**< Checks whether have actions. */
-  //notused uint8_t numberAction();
-  //notused /**< Number of actions. */
 
   //
   // Set, Get, Have, Is
@@ -393,20 +374,12 @@ public:
   bool isPermanent() const;
   /**< Checks if permanent object. */
 
-  //notused int getType()		{ return type; }
-  //notused /**< Gets object type. */
-  //notused int getNumber()	{ return num; }
-  //notused /**< Gets object number. */
-
 private:
   bool isOwner() const;
   /**< Returns true if owner. */
 
   void setOwner(const char *_owner);
   /**< Initialize owner. */
-
-  //notused static void show(const char *name);
-  //notused /**< Snaps position (debug). */
 
   //
   // keys
@@ -518,15 +491,6 @@ public:
    * whether if be a networked object or not.
    */
 
-  //notused void copyNoid(class Noid _noid);
-  //notused /**< Copies the NetObjectid in WObjectId. */
-  //notused void setSrc(uint32_t src_id);
-  //notused /**< Sets the SrcId. */
-  //notused void setPort(uint16_t port_id);
-  //notused /**< Sets the PortId. */
-  //notused void setObj(uint16_t obj_id);
-  //notused /**< Sets the ObjId. */
-
   //
   // 3D position
   //
@@ -571,8 +535,6 @@ private:
   // Lists
   //
 public:
-  //notused void    addToList(std::list<WObject*> &olist);
-
   OList * addToList(OList * olist);
   /**< Adds an object pointer into a olist. */
 
@@ -596,17 +558,6 @@ public:
 
   static WObject * byNum(uint16_t num); // to become virtual !
   /**< Gets an object by its num. */
-
-  //notused void clearList(std::list<WObject*> &olist);
-  //notused /**< Clears an olist. */
-  //notused WObject * byWObject(WObject *po);
-  //notused /**< Gets a WObject from the lists. */
-  //notused bool isStill();
-  //notused /**< Checks an object exists in the stilllist. */
-  //notused bool isMobile();
-  //notused bool isFluid();
-  //notused bool isEphemeral();
-  //notused /**< Checks an object exists in the mobilelist. */
 
   //
   // Movements
@@ -787,11 +738,6 @@ public:
   uint32_t collideBehavior() const;
   /**< Returns collide behavior. */
 
-  //notused void setRenderPrior(uint8_t _prior);
-  //notused /**< Sets render priority. */
-  //notused uint8_t getRenderPrior() const;
-  //notused /**< Gets render priority. */
-
   //
   // Collisions
   //
@@ -922,9 +868,6 @@ public:
 
   void delPersist();
   /**< Deletes object */
-
-  //notused void quitPersist();
-  //notused /**< Quits VRSql. */
 
 protected:
   // GUI and network change callbacks

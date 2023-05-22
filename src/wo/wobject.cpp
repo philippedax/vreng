@@ -107,8 +107,6 @@ WObject::WObject()
   flare = NULL;
   carrier = NULL;
   psql = NULL;
-
-  //notused prior = PRIOR_MEDIUM;
 }
 
 /* WObject destructor */
@@ -297,18 +295,6 @@ bool WObject::isSelectable() const
   return (! isBehavior(UNSELECTABLE));
 }
 
-#if 0 //notused
-void WObject::setRenderPrior(uint8_t _prior)
-{
-  prior = _prior;
-}
-
-uint8_t WObject::getRenderPrior() const
-{
-  return prior;
-}
-#endif //notused
-
 bool WObject::isValid() const
 {
   return OClass::isValidType(type);
@@ -424,19 +410,6 @@ bool WObject::givenName() const
 //
 // Solids
 //
-
-#if 0 //notused
-/* solids accessor */
-const list<Solid*>& WObject::solids() const
-{
-  return _solidList;
-}
-
-uint32_t WObject::countOfSolids() const
-{
-  return _solidList.size();
-}
-#endif //notused
 
 /* returns the first solid of the object - accessor */
 Solid* WObject::getSolid() const
@@ -588,23 +561,6 @@ void WObject::resetFlashy()
 // net
 //
 
-#if 0 //notused
-void WObject::setSrc(uint32_t _src_id)
-{
-  noid.src_id = _src_id;
-}
-
-void WObject::setPort(uint16_t _port_id)
-{
-  noid.port_id = _port_id;
-}
-
-void WObject::setObj(uint16_t _obj_id)
-{
-  noid.obj_id = _obj_id;
-}
-#endif //notused
-
 uint32_t WObject::getSrc() const
 {
   return noid.src_id;
@@ -628,16 +584,6 @@ void WObject::setWObjectId()
   NetObject::setObj(NetObject::getObj()+1);	// myObjId++
   noid.obj_id = htons(NetObject::getObj());	// Application wide unique number
 }
-
-#if 0 // notused
-/* Copies Noid in WObjectId */
-void WObject::copyNoid(Noid _noid)
-{
-  noid.src_id = _noid.src_id;
-  noid.port_id = _noid.port_id;
-  noid.obj_id = _noid.obj_id;
-}
-#endif // notused
 
 /* Creates local permanent NetObject */
 NetObject * WObject::createPermanentNetObject(uint8_t props, uint16_t oid)
@@ -930,14 +876,6 @@ void WObject::delPersist()
   if (psql && givenName())  psql->deleteRow(this, names.given);
 }
 
-#if 0 //notused
-/* Quits VRSql */
-void WObject::quitPersist()
-{
-  if (psql) psql->quit();
-}
-#endif //notused
-
 //
 // Actions
 //
@@ -962,23 +900,6 @@ bool WObject::runAction(const char *action)
   }
   return false;
 }
-
-#if 0 //notused
-/* Returns how many actions have this object */
-uint8_t WObject::numberAction()
-{
-  int i;
-  for (i=0; isAction(typeId(), i); i++) ;
-  return i;
-}
-
-/* Checks if this object have actions */
-bool WObject::haveAction()
-{
-  if (! isValid()) return false;
-  return isAction(typeId(), 0);
-}
-#endif //notused
 
 /* Adds an object into the deleteList */
 void WObject::toDelete()
@@ -1200,31 +1121,6 @@ char * WObject::tokenize(char *l)
 // List
 //
 
-#if 0 //notused
-/* Clears an olist */
-void WObject::clearList(list<WObject*> &olist)
-{
-  olist.clear();
-}
-
-/* Adds a pointer of this object to an olist if it's not already there */
-void WObject::addToListOnce(list<WObject*> &olist)
-{
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
-    if (*it == this) {
-      return;		// already in the list
-    }
-  }
-  olist.push_back(this);	// add it into the list
-}
-
-/* Adds a pointer of this object in an olist */
-void WObject::addToList(list<WObject*> &olist)
-{
-  olist.push_back(this);
-}
-#endif //notused
-
 /* Deletes a pointer of this object in an olist */
 void WObject::delFromList(list<WObject*> &olist)
 {
@@ -1278,49 +1174,6 @@ OList * WObject::delOList(OList *olist)
   }
   return front;
 }
-
-#if 0 //notused
-bool WObject::isStill()
-{
-  for (vector<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-    if (*it == this)  return true;
-  }
-  return false;
-}
-
-bool WObject::isMobile()
-{
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if (*it == this)  return true;
-  }
-  return false;
-}
-
-bool WObject::isFluid()
-{
-  for (vector<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
-    if (*it == this)  return true;
-  }
-  return false;
-}
-
-bool WObject::isEphemeral()
-{
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if (*it == this && (*it)->mode == EPHEMERAL)  return true;
-  }
-  return false;
-}
-
-// virtual
-WObject * WObject::byWObject(WObject *wobject)
-{
-  for (vector<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
-    if ((*it) == wobject) return *it;
-  }
-  return (WObject *) NULL;
-} 
-#endif //notused
 
 // static
 WObject * WObject::byNum(uint16_t num)
