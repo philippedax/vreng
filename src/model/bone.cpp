@@ -1346,7 +1346,7 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
 }
 
 
-#if 0 //notused
+#if 0 //mayused
 //---------------------------------------------------------------------------
 
 void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
@@ -1529,4 +1529,4 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
   result->setName(filename);
 }
 
-#endif //notused
+#endif //mayused
