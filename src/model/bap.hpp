@@ -214,7 +214,7 @@ public:
 
   void setFap(int param, float val);
 
-#if 0 //dax - notused - see body.hpp
+#if 0 //notused - see body.hpp
   void jpRX(int param, uint8_t model);
   /**< Rotates around X axis at this Joint Point */
 
@@ -223,7 +223,7 @@ public:
 
   void jpRZ(int param, uint8_t model);
   /**< Rotates around Z axis at this Joint Point */
-#endif
+#endif //notused
 
 protected:
   uint8_t bit[NUM_BAPS_V32 + 1];	///< bap/fap bit mask

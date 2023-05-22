@@ -84,7 +84,7 @@ void Bap::setFap(int param, float val)
   fa[param] = val;
 }
 
-#if 0 //dax - notused
+#if 0 //notused
 bool Bap::equalLast(int param)
 {
   return (ba[param] == balast[param]);
@@ -94,9 +94,9 @@ void Bap::copyLast(int param)
 {
   balast[param] = ba[param];
 }
-#endif
+#endif //notused
 
-#if 0 //dax - notused - see body.cpp
+#if 0 //notused - see body.cpp
 void Bap::jpRX(int param, uint8_t model)
 {
   //if (param == 0) return;
@@ -141,7 +141,7 @@ void Bap::jpRZ(int param, uint8_t model)
   }
   //copyLast(param);
 }
-#endif
+#endif //notused
 
 uint8_t Bap::parse(char *bapline)
 {
