@@ -107,13 +107,6 @@ protected:
   void delWearList();
   /**< List handling */
 
-  //notused void setPersist();
-  //notused /**< inserts object */
-  //notused void getPersist();
-  //notused /**< Selects object */
-  //notused void delPersist();
-  //notused /**< Deletes object */
-
 private:
   void defaults();
   /**< Sets default values */

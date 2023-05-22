@@ -157,34 +157,6 @@ void Cloth::setName()
   setName(typeName());
 }
 
-#if 0 //notused
-void Cloth::setPersist()
-{
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql && givenName()) {
-    psql->insertRow(this);
-    psql->updatePos(this);
-    psql->updateOwner(this);
-    //geom psql->updateGeom(this, geom);
-  }
-}
-
-void Cloth::getPersist()
-{
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql && givenName()) {
-    psql->getOwner(this);
-    psql->getPos(this);
-    psql->getGeom(this);
-  }
-}
-
-void Cloth::delPersist()
-{
-  if (psql && givenName())  psql->deleteRow(this, names.given);
-}
-#endif //notused
-
 /* Creation from xml file */
 Cloth::Cloth(char *l)
 {
