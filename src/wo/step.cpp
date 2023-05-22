@@ -92,16 +92,6 @@ void Step::parser(char *l)
   }
 }
 
-#if 0 //notused
-void Step::geometry()
-{
-  char s[128];
-
-  sprintf(s, "%s", geomsolid);		// step geometry duplicated
-  parseSolid(s);
-}
-#endif //notused
-
 void Step::build()
 {
   float size = 0;
@@ -429,26 +419,8 @@ void Step::pause_cb(Step *step, void *d, time_t s, time_t u)
   step->pause();
 }
 
-#if 0 //notused
-void Step::stop_cb(Step *step, void *d, time_t s, time_t u)
-{
-  if (step->mobile == true) step->mobile = false;
-  else                      step->mobile = true;
-  if (step->state & ACTIVE) step->state = INACTIVE;
-  else                      step->state = ACTIVE;
-}
-
-void Step::destroy_cb(Step *step, void *d, time_t s, time_t u)
-{
-  if (step->isBehavior(DYNAMIC)) {
-    step->removeFromScene();
-  }
-}
-#endif //notused
-
 void Step::funcs()
 {
   setActionFunc(STEP_TYPE, 0, _Action pause_cb, "Pause/Running");
   setActionFunc(STEP_TYPE, 1, _Action gotoFront, "Approach");
-  //setActionFunc(STEP_TYPE, 1, _Action stop_cb, "Stop/Restart");
 }

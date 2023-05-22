@@ -110,8 +110,6 @@ class Step: public WObject {
 protected:
   // Gui callbacks
   static void pause_cb(Step *po, void *d, time_t s, time_t u);
-  //static void stop_cb(Step *po, void *d, time_t s, time_t u);
-  //static void destroy_cb(Step *po, void *d, time_t s, time_t u);
 
 private:
   virtual void parser(char *l);
@@ -125,9 +123,6 @@ private:
 
   virtual void build();
   /**< Builds stair or escalator */
-
-  //notused void geometry();
-  //notused /**< Makes solid. */
 };
 
 #endif
