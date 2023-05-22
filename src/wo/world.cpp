@@ -270,18 +270,6 @@ Bgcolor* World::backgroundColor() const
   return bgcolor;
 }
 
-void World::setPersistent(bool flag)
-{
-  persistent = flag;
-}
-
-#if 0 //notused
-uint16_t World::number() const
-{
-  return num;
-}
-#endif //notused
-
 const char* World::getUrl() const
 {
   return url;
@@ -312,18 +300,6 @@ void World::setLinked()
 {
   linked = true;
 }
-
-#if 0 //notused
-bool World::isPersistent() const
-{
-  return persistent;
-}
-
-uint32_t World::getSsrc() const
-{
-  return ssrc;
-}
-#endif //notused
 
 void World::setSsrc(uint32_t _ssrc)
 {
@@ -384,25 +360,6 @@ void World::compute(time_t sec, time_t usec)
     //dax OList::clearIspointed(mobileList);
 
     //echo("bbs=%.1f,%.1f,%.1f bbc=%.1f,%.1f,%.1f", bbsize.v[0], bbsize.v[1], bbsize.v[2], bbcent.v[0], bbcent.v[1], bbcent.v[2]);
-
-#if 0 //dax notused
-    //
-    // computes Grid dimensions
-    //
-    {
-    uint8_t dimx, dimy, dimz;
-
-    dimx = (uint8_t) (bbsize.v[0] / DISTX);
-    dimy = (uint8_t) (bbsize.v[1] / DISTY);
-    dimz = (uint8_t) (bbsize.v[2] / DISTZ);
-    dimx = (dimx % 2) ? dimx + 1 : dimx;
-    dimy = (dimy % 2) ? dimy + 1 : dimy;
-    dimz = (dimz % 2) ? dimz + 1 : dimz;
-    dimx = MIN(64, dimx);
-    dimy = MIN(64, dimy);
-    dimz = MIN(16, dimz);
-    }
-#endif
 
     setState(SIMULATION);
     Axis::axis()->init();
@@ -560,24 +517,6 @@ void World::initGrid()
   clearGrid();
 }
 
-#if 0 // notused
-void World::initGrid(const uint8_t _dim[3], const V3 &slice)
-{
-  for (int i=0; i<3 ; i++) {
-    dimgrid[i] = _dim[i];
-    bbslice.v[i] = slice.v[i];
-  }
-
-  localGrid();
-  clearGrid();
-}
-
-OList **** World::allocGrid()
-{
-  return NULL;
-}
-#endif
-  
 /** clear all pointers in the grid */
 void World::clearGrid()
 {
@@ -589,22 +528,6 @@ void World::clearGrid()
     }
   }
 }
-
-#if 0 //notused
-/** free all the grid (static) */
-void World::freeGrid()
-{
-  for (int x=0; x < dimgrid[0]; x++) {
-    for (int y=0; y < dimgrid[1]; y++) {
-      for (int z=0; z < dimgrid[2]; z++) {
-        if (gridArray[x][y][z]) {
-          gridArray[x][y][z] = NULL;
-        }
-      }
-    }
-  }
-}
-#endif //notused
 
 /* Check and load my proper icons - static */
 void World::checkIcons()
@@ -634,10 +557,11 @@ void World::checkIcons()
               char vref[BUFSIZ], infos[BUFSIZ *2], url[URL_LEN];
               fgets(vref, sizeof(vref), fp);
               file->close();
-              Cache::file2url(di->d_name, url);
+
               // create the icon
+              Cache::file2url(di->d_name, url);
               sprintf(infos, "<url=\"%s\">&<vref=%s>", url, vref);
-              trace(DBG_WO, "load-icon: %s", infos);
+              //echo("load-icon: %s", infos);
               if (isAction(ICON_TYPE, Icon::CREATE)) {
                 doAction(ICON_TYPE, Icon::CREATE, localUser(), infos, 0, 0);
               }
@@ -658,43 +582,42 @@ void World::checkPersist()
 {
   VRSql *psql = VRSql::getVRSql();     // first take the VRSql handle;
   if (psql) {
-    int nitem;
-    char pat[256], qname[256];
+    int nitem = 0;
+    char pat[64], name[128];
 
-    nitem = psql->getCount(BALL_NAME, getName());	// balls in MySql
+    // check balls
+    nitem = psql->getCount(BALL_NAME, getName());	// balls in VRSql
     for (int i=0; i < nitem; i++) {
       sprintf(pat, "@%s", getName());
-      if (psql->getName(BALL_NAME, pat, i, qname) >= 0) {
-        char *p = strchr(qname, '@');
+      if (psql->getName(BALL_NAME, pat, i, name) >= 0) {
+        char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
-          doAction(BALL_TYPE, Ball::RECREATE, (WObject*)this, (void*)qname,0,0);
+          doAction(BALL_TYPE, Ball::RECREATE, (WObject*)this, (void*)name,0,0);
         }
       }
     }
-    nitem = psql->getCount(THING_NAME, getName());	// things in MySql
+    // check things
+    nitem = psql->getCount(THING_NAME, getName());	// things in VRSql
     for (int i=0; i < nitem; i++) {
       sprintf(pat, "@%s", getName());
-      if (psql->getName(THING_NAME, pat, i, qname) >= 0) {
-        if (! stringcmp(qname, THING_NAME)) {
-          char *p = strchr(qname, '@');
-          if (p) {
-            *p = '\0';
-            doAction(THING_TYPE, Thing::RECREATE, (WObject*)this, (void*)qname,0,0);
-          }
+      if (psql->getName(THING_NAME, pat, i, name) >= 0) {
+        char *p = strchr(name, '@');
+        if (p) {
+          *p = '\0';
+          doAction(THING_TYPE, Thing::RECREATE, (WObject*)this, (void*)name,0,0);
         }
       }
     }
-    nitem = psql->getCount(MIRAGE_NAME, getName());	// mirages in MySql
+    // check mirages
+    nitem = psql->getCount(MIRAGE_NAME, getName());	// mirages in VRSql
     for (int i=0; i < nitem; i++) {
       sprintf(pat, "@%s", getName());
-      if (psql->getName(MIRAGE_NAME, pat, i, qname) >= 0) {
-        if (! stringcmp(qname, MIRAGE_NAME)) {
-          char *p = strchr(qname, '@');
-          if (p) {
-            *p = '\0';
-            doAction(MIRAGE_TYPE, Mirage::RECREATE, (WObject*)this, (void*)qname,0,0);
-          }
+      if (psql->getName(MIRAGE_NAME, pat, i, name) >= 0) {
+        char *p = strchr(name, '@');
+        if (p) {
+          *p = '\0';
+          doAction(MIRAGE_TYPE, Mirage::RECREATE, (WObject*)this, (void*)name,0,0);
         }
       }
     }

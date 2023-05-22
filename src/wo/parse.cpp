@@ -355,7 +355,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
 
         case TAG_META:
 	  if ((p = strstr(line, "=\"refresh\""))) {
-            World::current()->setPersistent(false);
+            World::current()->persistent = false;
           }
 	  if ((p = strstr(line, "/>"))) {
             DELETE2(line);

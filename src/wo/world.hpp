@@ -150,11 +150,6 @@ class World {
   uint32_t getGroupAdr() const;
   void setGroupAdr(uint32_t _group);
   void setSsrc(uint32_t _ssrc);
-  void setPersistent(bool persistent);
-
-  //notused uint32_t getSsrc() const;
-  //notused uint16_t number() const;
-  //notused bool isPersistent() const;
 
   //
   // Grid
@@ -168,13 +163,6 @@ private:
 
   void localGrid();
   /**< Sets local grid for the current world. */
-
-  //notused void initGrid(const uint8_t dim[3], const V3 &sl);
-  //notused /**< Inits the grid. */
-  //notused void freeGrid();
-  //notused /**< Frees the grid. */
-  //notused class OList **** allocGrid();
-  //notused /**< Allocs memory for the grid. */
 
   //
   // World methods
