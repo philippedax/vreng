@@ -31,21 +31,21 @@
 using namespace std;
 
 // local
-//notused list<Txf*> Txf::txfList;
+//mayused list<Txf*> Txf::txfList;
 
 static const char *lastError;
-//notused static uint16_t txf_number = 0;
+//mayused static uint16_t txf_number = 0;
 
 
 Txf::Txf(const char *_url)
 {
-  //notused num = ++txf_number;
+  //mayused num = ++txf_number;
   strcpy(url, _url);
 }
 
 Txf::~Txf()
 {
-  //notused txfList.remove(this);
+  //mayused txfList.remove(this);
 }
 
 /* Loads texture font. */
@@ -55,7 +55,7 @@ Txf * Txf::load(const char *url)
 
   Txf * txf = new Txf(url);	// new entry
 
-  //notused txfList.push_back(txf);	// add to cache list
+  //mayused txfList.push_back(txf);	// add to cache list
 
   /* load font */
   Http::httpOpen(url, reader, txf, 0);
@@ -327,7 +327,7 @@ void Txf::render(const char *s, int l)
   }
 }
 
-#if 0 //notused
+#if 0 //mayused
 Txf * Txf::getByUrl(const char *url)
 {
   for (list<Txf*>::iterator it = txfList.begin(); it != txfList.end() ; ++it) {
@@ -357,4 +357,4 @@ const char * Txf::errorString()
 {
   return lastError;
 }
-#endif //notused
+#endif //mayused
