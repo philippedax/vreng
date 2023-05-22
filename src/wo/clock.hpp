@@ -66,8 +66,6 @@ public:
 
   void changePermanent(float lasting);
 
-  void updateTime(time_t s, time_t u, float *lasting);
-
   void quit();
 
 private:
@@ -75,7 +73,6 @@ private:
 
   void parser(char *l);
   /**< Parses */
-
 };
 
 #endif

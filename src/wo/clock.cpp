@@ -97,17 +97,6 @@ void Clock::parser(char *l)
   end_while_parse(l);
 }
 
-/* never called : notused */
-void Clock::updateTime(time_t s, time_t us, float *lasting)
-{
-  struct tm *ptime = localtime(&s);
-
-  sec = ptime->tm_sec;
-  min = ptime->tm_min;
-  hour = ptime->tm_hour;
-  yday = ptime->tm_yday;
-}
-
 void Clock::changePermanent(float lasting)
 {
   time_t t = time(0);
