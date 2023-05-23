@@ -333,15 +333,15 @@ void Bvh::recurs(bvhPart* some)
   motion0.translate(some->offset.vertex[0], some->offset.vertex[1], some->offset.vertex[2]);
   some->motion.push_back(motion0);
   if (some->child.size() != 0) bvhPartsLinear.push_back(some);
-    cout << some->name << ": "
-         << some->offset.vertex[0]
-         << " "
-         << some->offset.vertex[1]
-         << " "
-         << some->offset.vertex[2]
-         << endl;
+    //cout << some->name << ": "
+    //     << some->offset.vertex[0]
+    //     << " "
+    //     << some->offset.vertex[1]
+    //     << " "
+    //     << some->offset.vertex[2]
+    //     << endl;
   for (uint32_t i=0; i < some->child.size(); i++) {
-    cout << "recurs-child " << some->child[i]->name << " (" << i << ")" << endl;
+    //cout << "recurs-child " << some->child[i]->name << " (" << i << ")" << endl;
     recurs(some->child[i]);
   }
 }
@@ -360,18 +360,18 @@ void Bvh::init(string bvhFile)
   
   ifstream bvhStream(bvhFile.c_str());
   if (!bvhStream) {
-    cerr << "File \"" << bvhFile << "\" not found.\n";
+    error("File %s not found", bvhFile.c_str());
     throw fileNotFound(); 
     return;
   }
-  if (verbose) cout << "File \"" << bvhFile << "\" found.\n";
+  //echo("File %s found", bvhFile.c_str());
   istream_iterator<string> bvhIt(bvhStream);
   istream_iterator<string> sentinel;
 
-  vector<string> lines(bvhIt,sentinel);
+  vector<string> lines(bvhIt, sentinel);
   
   // for_each(lines.begin(),lines.end(),&bvh::process);
-  for (uint32_t i=0; i < lines.size(); i++) {
+  for (int i=0; i < lines.size(); i++) {
     try { process(lines[i]); }
     catch (fileNotFound) { throw fileNotFound(); return; }
   }
@@ -408,7 +408,7 @@ rigid::rigid(const char *url)
 
 void rigid::download(const char *_url)
 {
-  //echo("rigid::download");
+  echo("rigid::download %s", url);
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
   Http::httpOpen(url, reader, this, 0);
@@ -1666,7 +1666,7 @@ light::light(camera *viewer, int GL_LIGHTX, float maxFade, float minFade, float 
   echo("light::light %d sc=%.2f", GL_LIGHTX, scale);
   //verbose = true;
   
-  //if (verbose) cout << "light " << GL_LIGHTX << " init..." << endl;
+  if (verbose) cout << "light " << GL_LIGHTX << " init..." << endl;
 
   this->viewer = viewer;
   this->GL_LIGHTX = GL_LIGHTX;
@@ -1689,7 +1689,7 @@ light::light(camera *viewer, int GL_LIGHTX, float maxFade, float minFade, float 
     glLightfv(GL_LIGHTX, GL_DIFFUSE, Kd);
     glLightfv(GL_LIGHTX, GL_SPECULAR,Ks);
   }
-  //if (verbose) cout << "finished\n\t";
+  if (verbose) cout << "finished\n\t";
 }
 
 light::~light()
@@ -1773,7 +1773,7 @@ camera::camera(string name, mode lookMode)
   echo("camera::camera");
   this->name = name;
   this->lookMode = lookMode;
-  cout << lookMode << "\n";
+  //cout << lookMode << "\n";
   init();
 }
 
@@ -1918,7 +1918,7 @@ objloader::objloader(string objFile)
   if (verbose) cout << subdir + objFile << " init...";
   try { load(objFile); }
   catch (fileNotFound) { throw fileNotFound(); return;}
-  //if (verbose) cout << "finished\n";
+  if (verbose) cout << "finished\n";
   
   mass = 1;
   getBoundingBox();
@@ -1984,7 +1984,7 @@ bool objloader::load(string objFile)
   
 void objloader::process(string line)
 {  
-  //cout << "process " << line << "\n";
+  cout << "process " << line << "\n";
   int index; 
   string::size_type slashes;
   
@@ -2010,7 +2010,7 @@ void objloader::process(string line)
 #if 1 //dax
         mtlIndex = 0;
 #else
-        if (verbose) cout << "\n\tparsing .mtl file: " << subdir + line << "...";
+        cout << "\n\tparsing .mtl file: " << subdir + line << "...";
         mtlFile = line;
         
         if (!matchMtl(mtlIndex, mtlFile)) {
@@ -2019,13 +2019,13 @@ void objloader::process(string line)
             
           matchMtl(mtlIndex, mtlFile);
         }
-        if (verbose) cout << ".mtl " << mtlIndex << " done\n";
+        cout << ".mtl " << mtlIndex << " done\n";
         theMode = NONE;
 #endif
         break;
       case (VERTEX):
         tempVector.vertex[tempVectorIndex] = atof(line.c_str());
-        //cout << tempVector.vertex[tempVectorIndex] << "\n";
+        cout << tempVector.vertex[tempVectorIndex] << "\n";
         tempVectorIndex++;
         if (tempVectorIndex >=3) {
           theMode = NONE;
@@ -2044,12 +2044,12 @@ void objloader::process(string line)
         /// face indices are denoted index//index (redundantly) in the .obj format
         slashes = line.find("//");
         index = atoi(line.substr(0,slashes).c_str());
-        //cout << slashes << " " << index << "\n";
+        cout << slashes << " " << index << "\n";
         tempTriangle.vertIndices[tempVectorIndex] = index;
         tempVectorIndex++;
         if (tempVectorIndex >= 3) {
           theMode = NONE;
-          //dax mtls[mtlIndex]->faces.push_back(tempTriangle);  
+          mtls[mtlIndex]->faces.push_back(tempTriangle);  
         }
         break;
       case (NONE):
@@ -2061,7 +2061,7 @@ void objloader::process(string line)
 void objloader::processMtl(string line, material *mtl)
 {  
   echo("objloader::processMtl");
-#if 0 //dax
+#if 1 //dax
   if ((line.size()) && (line.substr(0,1) != "#")) {
     if (line == "newmtl") theMtlMode = NEWMTL;
     else if (line == "Ns") theMtlMode = NS;
@@ -2076,9 +2076,9 @@ void objloader::processMtl(string line, material *mtl)
         kIndex++;
         if (kIndex >= 3) {
           mtl->Kd[3] = 1.0f;
-          /*cout << mtl->name << " " << mtl->Kd[0] << " " << 
-            mtl->Kd[1] << " " << mtl->Kd[2] << " " <<
-            mtl->Kd[3] << "\n";*/
+          //cout << mtl->name << " " << mtl->Kd[0] << " " << 
+          //     mtl->Kd[1] << " " << mtl->Kd[2] << " " <<
+          //     mtl->Kd[3] << "\n";
           theMtlMode = NONEM;
         }
         break;
@@ -2112,7 +2112,7 @@ void objloader::processMtl(string line, material *mtl)
 void objloader::loadMtl(string mtlFile)
 {  
   echo("objloader::loadMtl");
-#if 0 //dax
+#if 1 //dax
   ifstream objStream((subdir + mtlFile).c_str());
   if (!objStream) { 
     cout << "file \"" << subdir + mtlFile << "\" not found\n";
@@ -2130,7 +2130,7 @@ void objloader::loadMtl(string mtlFile)
   newMtl->Ke[2] = 0;
   newMtl->Ke[3] = 1.0f;
   
-  for (uint32_t i=0; i < lines.size(); i++) {
+  for (int i=0; i < lines.size(); i++) {
     processMtl(lines[i], newMtl);
   }
   mtls.push_back(newMtl);
@@ -2140,8 +2140,8 @@ void objloader::loadMtl(string mtlFile)
 bool objloader::matchMtl(uint32_t &index, string name)
 {
   echo("objloader::matchMtl");
-#if 0 //dax
-  for (uint32_t m=0; m < (mtls.size()); m++) {
+#if 1 //dax
+  for (int m=0; m < (mtls.size()); m++) {
     if (name == mtls[m]->name) {
       index = m;
       return true;
@@ -2183,7 +2183,7 @@ void objloader::getBoundingBox()
   boundingBox[6] = vertices[1];
 
   // find extremities
-  for (uint32_t i=1; i < vertices.size(); i++) {
+  for (int i=1; i < vertices.size(); i++) {
     for (int j=0; j<3; j++) {
       if (boundingBox[0].vertex[j] > vertices[i].vertex[j])
         boundingBox[0].vertex[j] = vertices[i].vertex[j]; // lower left   minimum bound 
