@@ -82,9 +82,6 @@ class Channel {
    * init my_host_id, my_port_id, my_obj_id
    */
 
-  //notused void addToList();
-  //notused /**< Adds a channel into a list */
-
   void deleteFromList();
   /**< Deletes a channel from a list */
 

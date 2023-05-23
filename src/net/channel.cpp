@@ -105,13 +105,6 @@ Channel * Channel::getList()
   return channelList.front();
 }
 
-#if 0 //notused
-void Channel::addToList()
-{
-  channelList.push_back(this);
-}
-#endif //notused
-
 /** Join group */
 int Channel::joinGroup(int sd)
 {
@@ -238,7 +231,7 @@ void Channel::naming()
 #endif
 
   pp.sendPayload(sa[SA_RTCP]);	// needed for proxy (source port)
-  trace(DBG_NET, "my_port_id=%d", NetObject::getPort());
+  //echo("my_port_id=%d", NetObject::getPort());
   NetObject::setObj(0);
 }
 
@@ -287,10 +280,9 @@ int Channel::create(const char *chan_str, int **pfds)
 
   sd[SD_W_RTP] = Socket::createSendSocket(ttl);
   cntfds += 2;
-  trace(DBG_RTP, "sa[SA_RTP]=%p", sa[SA_RTP]);
-  trace(DBG_RTP, "sd[SD_R_RTP]=%d, sd[SD_W_RTP]=%d",
-                  sd[SD_R_RTP], sd[SD_W_RTP]);
-  trace(DBG_RTP, "SA_RTP: port=%d", sa[SA_RTP]->sin_port);
+  //echo("sa[SA_RTP]=%p", sa[SA_RTP]);
+  //echo("sd[SD_R_RTP]=%d, sd[SD_W_RTP]=%d", sd[SD_R_RTP], sd[SD_W_RTP]);
+  //echo("SA_RTP: port=%d", sa[SA_RTP]->sin_port);
 
   /*
    * RTCP channel
@@ -327,10 +319,9 @@ int Channel::create(const char *chan_str, int **pfds)
 
   sd[SD_W_RTCP] = Socket::createSendSocket(ttl);
   cntfds += 2;
-  trace(DBG_RTP, "sa[SA_RTCP]=%p", sa[SA_RTCP]);
-  trace(DBG_RTP, "sd[SD_R_RTCP]=%d, sd[SD_W_RTCP]=%d",
-                  sd[SD_R_RTCP], sd[SD_W_RTCP]);
-  trace(DBG_RTP, "SA_RTCP: port=%d", sa[SA_RTCP]->sin_port);
+  //echo("sa[SA_RTCP]=%p", sa[SA_RTCP]);
+  //echo("sd[SD_R_RTCP]=%d, sd[SD_W_RTCP]=%d", sd[SD_R_RTCP], sd[SD_W_RTCP]);
+  //echo("SA_RTCP: port=%d", sa[SA_RTCP]->sin_port);
 
   /* UDP channel */
   sa[SA_UDP] = NULL;
@@ -387,13 +378,12 @@ void Channel::sendBYE()
     session->sendRTCPPacket(sa[SA_RTCP], RTCP_SR);
     session->sendRTCPPacket(sa[SA_RTCP], RTCP_BYE);
   }
-  trace(DBG_NET, "sendBYE: on channel=%p", this);
+  //echo("sendBYE: on channel=%p", this);
 }
 
 /** Delete from channelList */
 void Channel::deleteFromList()
 {
-  trace(DBG_NET, "deleteFromList: channel=%p", this);
   if (this == managerChannel)  return;
 
   if (channelList.empty()) return;
@@ -404,7 +394,6 @@ void Channel::quit()
 {
   /* respect this order! */
   if (this != managerChannel) {
-    trace(DBG_RTP, "quit: sendBYE on channel=%p session=%p", this, session);
     sendBYE();
 
     if (session) delete session;	// delete Session
@@ -431,7 +420,6 @@ Channel::~Channel()
   channelCount--;
   if (channelCount < 0) channelCount = 0;
   channel = NULL;
-  //trace(DBG_IPMC, "~Channel: channelCount=%d", channelCount);
 }
 
 /** join the channel and return the new channel string */
@@ -441,15 +429,14 @@ bool Channel::join(char *chan_str)
 
   channel = new Channel();
   newChanStr(chan_str);
-  trace(DBG_IPMC, "join: channel=%p -> chan_str=%s", channel, chan_str);
+  //echo("join: channel=%p -> chan_str=%s", channel, chan_str);
 
   int cntfd = channel->create(chan_str, &tabFd);
   if (cntfd == 0)  return false;
 
   ::g.gui.addChannelSources(WORLD_MODE, tabFd, cntfd);
   channelCount++;
-  trace(DBG_IPMC, "join: channel=%p channelCount=%d cntfd=%d",
-        channel, channelCount, cntfd);
+  //echo("join: channel=%p channelCount=%d cntfd=%d", channel, channelCount, cntfd);
   return true;
 }
 
@@ -460,7 +447,7 @@ bool Channel::joinManager(char *manager_str, const char *chan_str)
 
   strcpy(manager_str, chan_str);
   newChanStr(manager_str);
-  trace(DBG_IPMC, "joinManager: manager_str: %s", manager_str);
+  //echo("joinManager: manager_str: %s", manager_str);
 
   int cntfd = managerChannel->create(manager_str, &tabManagerFd);
   if (cntfd == 0)  return false;
@@ -490,7 +477,7 @@ int Channel::getfdbysa(const struct sockaddr_in *sa, int i_fd)
     }
   }
   ret = channelList.front()->sd[i_fd];
-  trace(DBG_NET, "getfdbysa: sa=%x not in table, force fd=%d", sa, ret);
+  //echo("getfdbysa: sa=%x not in table, force fd=%d", sa, ret);
   return ret;
 }
 
@@ -538,7 +525,7 @@ Channel * Channel::getbysa(const struct sockaddr_in *sa)
     if ((*it)->sa[SA_RTCP] == sa) return *it;
     if ((*it)->sa[SA_UDP] == sa)  return *it;
   }
-  trace(DBG_NET, "getbysa: sa=%x not in table, force curr channel", sa);
+  //echo("getbysa: sa=%x not in table, force curr channel", sa);
   return current();  // hack
 }
 
@@ -557,7 +544,7 @@ void Channel::getGroup(const char *chan_str, char *grp_str)
     *grp_str = 0;	// empty group
     return;
   }
-  trace(DBG_IPMC, "getGroup: chan_str=%s", chan_str);
+  //echo("getGroup: chan_str=%s", chan_str);
 
   char *tmpchan = strdup(chan_str);
   char *p;
@@ -589,7 +576,7 @@ uint16_t Channel::getPort(const char *chan_str)
     port = (uint16_t) DEF_VRENG_PORT;
   else
     port = (uint16_t) atoi(++p);
-  trace(DBG_IPMC, "getPort: port=%u", port);
+  //echo("getPort: port=%u", port);
   return port;
 }
 
@@ -610,7 +597,7 @@ uint8_t Channel::getTtl(const char *chan_str)
     ttl = (uint8_t) DEF_VRENG_TTL;
   else
     ttl = (uint8_t) atoi(++p);
-  trace(DBG_IPMC, "getTtl: ttl=%u", ttl);
+  //echo("getTtl: ttl=%u", ttl);
   return ttl;
 }
 
@@ -630,6 +617,6 @@ void Channel::newChanStr(char *chan_str)
     chan_str[CHAN_LEN] = '\0';
   }
   free(group);
-  trace(DBG_IPMC, "newChanStr: chan_str=%s", chan_str);
+  //echo("newChanStr: chan_str=%s", chan_str);
   return;
 }
