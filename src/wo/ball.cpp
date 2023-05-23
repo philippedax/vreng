@@ -92,7 +92,7 @@ void Ball::parser(char *l)
 
 void Ball::behaviors()
 {
-  //dax1 enableBehavior(PERSISTENT);
+  enableBehavior(PERSISTENT);
   enablePermanentMovement();	// follow gravity force
 }
 
