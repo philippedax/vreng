@@ -214,17 +214,6 @@ public:
 
   void setFap(int param, float val);
 
-#if 0 //notused - see body.hpp
-  void jpRX(int param, uint8_t model);
-  /**< Rotates around X axis at this Joint Point */
-
-  void jpRY(int param, uint8_t model);
-  /**< Rotates around Y axis at this Joint Point */
-
-  void jpRZ(int param, uint8_t model);
-  /**< Rotates around Z axis at this Joint Point */
-#endif //notused
-
 protected:
   uint8_t bit[NUM_BAPS_V32 + 1];	///< bap/fap bit mask
   float ba[NUM_BAPS_V32 + 1];		///< baps angles
@@ -233,12 +222,6 @@ protected:
 
   void resetMask(int num);
   /**< Resets bit mask */
-
-  //bool equalLast(int param);
-  /**< Checks whether same bap value */
-
-  //void copyLast(int param);
-  /**< Saves last bap */
 };
 
 #endif

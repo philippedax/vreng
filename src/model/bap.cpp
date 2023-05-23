@@ -84,65 +84,6 @@ void Bap::setFap(int param, float val)
   fa[param] = val;
 }
 
-#if 0 //notused
-bool Bap::equalLast(int param)
-{
-  return (ba[param] == balast[param]);
-}
-
-void Bap::copyLast(int param)
-{
-  balast[param] = ba[param];
-}
-#endif //notused
-
-#if 0 //notused - see body.cpp
-void Bap::jpRX(int param, uint8_t model)
-{
-  //if (param == 0) return;
-  //if (! isMask(param)) return;
-  //if (equalLast(param)) return;
-  //if (param < 0)
-  //  echo("rx: %d (%1.f)", param, ba[abs(param)]);
-  int sign = (param >= 0) ?1:-1;
-  switch (model) {
-  case MODEL_OFF: glRotatef( sign * ba[abs(param)], 1,0,0); break;
-  case MODEL_OBJ: glRotatef(-sign * ba[abs(param)], 0,1,0); break;
-  }
-  //copyLast(param);
-}
-
-void Bap::jpRY(int param, uint8_t model)
-{
-  //if (param == 0) return;
-  //if (! isMask(abs(param))) return;
-  //if (equalLast(param)) return;
-  //if (param < 0)
-  //  echo("ry: %d (%1.f)", param, ba[abs(param)]);
-  int sign = (param >= 0) ?1:-1;
-  switch (model) {
-  case MODEL_OFF: glRotatef(sign * ba[abs(param)], 0,1,0); break;
-  case MODEL_OBJ: glRotatef(sign * ba[abs(param)], 1,0,0); break;
-  }
-  //copyLast(param);
-}
-
-void Bap::jpRZ(int param, uint8_t model)
-{
-  //if (param == 0) return;
-  //if (! isMask(param)) return;
-  //if (equalLast(param)) return;
-  //if (param < 0)
-  //  echo("rz: %d (%1.f)", param, ba[abs(param)]);
-  int sign = (param >= 0) ?1:-1;
-  switch (model) {
-  case MODEL_OFF: glRotatef(sign * ba[abs(param)], 0,0,1); break;
-  case MODEL_OBJ: glRotatef(sign * ba[abs(param)], 0,0,1); break;
-  }
-  //copyLast(param);
-}
-#endif //notused
-
 uint8_t Bap::parse(char *bapline)
 {
   if (! strcmp(bapline, ""))  return 0;  // discard empty bapline
