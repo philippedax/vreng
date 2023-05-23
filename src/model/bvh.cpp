@@ -33,7 +33,7 @@ using namespace std;
 
 Bvh::Bvh(const char *url)
 {
-  verbose = true;
+  verbose = false;
   string bvhfile;
   download(url);
   Cache::getCacheName(url, bvhfile);
@@ -360,7 +360,7 @@ void Bvh::init(string bvhFile)
   
   ifstream bvhStream(bvhFile.c_str());
   if (!bvhStream) {
-    cout << "File \"" << bvhFile << "\" not found.\n";
+    cerr << "File \"" << bvhFile << "\" not found.\n";
     throw fileNotFound(); 
     return;
   }
