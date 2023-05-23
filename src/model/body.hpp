@@ -603,9 +603,6 @@ public:
 #endif
   /**< Loads body's drawable parts. */
 
-  //void setJointPoint(uint8_t indice, float *_jp);
-  /**< Sets one joint point for this indice. */
-
   void setColors(float *_skin, float *_cloth);
   /**< Sets colors for skin and cloth. */
 

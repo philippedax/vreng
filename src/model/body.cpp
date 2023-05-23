@@ -745,7 +745,7 @@ void Body::loadBodyParts(FILE *f)
   for (int i=0; i < MAX_PARTS; i++) {
     if (! fgets(jpline, sizeof(jpline), f)) break;
     jpline[strlen(jpline) - 1] = '\0';
-    trace(DBG_MAN, "loadBodyParts: %s", jpline);
+    //echo("loadBodyParts: %s", jpline);
 
     int bpindex = 0;
     char *p = jpline;
@@ -754,7 +754,7 @@ void Body::loadBodyParts(FILE *f)
       l = strtok(p, SEP);
       l = getTok(l, &bpindex);
       if (bpindex < 0)
-        goto endparse;  // eof
+        goto endloadbody;  // eof
       l = strtok(NULL, SEP);
 
       // parse others lines of <body ...> ... </body>
@@ -791,7 +791,7 @@ void Body::loadBodyParts(FILE *f)
     }
   }
 
-endparse:
+endloadbody:
   // now we can download all parts
   for (int i=0; i < MAX_PARTS; i++) {
     if (bodyparts[i].url[0]) {  // if url exist
@@ -816,15 +816,6 @@ endparse:
   }
   model = bodyparts[0].model;  // keep model used
 }
-
-#if 0 //dax notused
-void Body::setJointPoint(uint8_t ind, float *_jp)
-{
-  jp.x[ind] = _jp[0];
-  jp.y[ind] = _jp[1];
-  jp.z[ind] = _jp[2];
-}
-#endif
 
 void Body::draw()
 {
@@ -1096,7 +1087,6 @@ void Body::animHand(float deg, uint8_t side, uint8_t axis)
   }
 }
 
-#if 1 //dax
 /** Animates body articulations */
 void Body::anim(int param)
 {
@@ -1160,7 +1150,6 @@ void Body::anim(int param)
   case RT_BODY_TILT:		ry = bap->getBap(RT_BODY_TILT); break;
   }
 }
-#endif
 
 bool Body::isLoaded(uint8_t part)
 {
@@ -1463,7 +1452,7 @@ void Body::display()
         //ddisplay(R_PINKY);
        glPopMatrix();
        glPopMatrix();
-#endif
+#endif //fingers
 
       glPopMatrix();
      glPopMatrix();
