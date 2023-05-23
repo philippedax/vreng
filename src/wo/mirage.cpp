@@ -118,7 +118,7 @@ void Mirage::setName()
 
 void Mirage::behaviors()
 {
-  //dax1 if (persist) enableBehavior(PERSISTENT);
+  if (persist) enableBehavior(PERSISTENT);
   enableBehavior(COLLIDE_NEVER);
 
   initMobileObject(1);
