@@ -43,7 +43,7 @@ static const char * C_Y = "y";		///< column y         : float
 static const char * C_Z = "z";		///< column z         : float
 static const char * C_AZ = "az";	///< column az        : float
 static const char * C_OWNER = "owner";	///< column owner     : text(16)
-static const char * C_GEOM = "geom";	///< column geom      : text(64)
+static const char * C_GEOM = "geom";	///< column geom      : text(256)
 
 
 /** Constructor */
@@ -184,9 +184,10 @@ void VRSql::quit()
 void VRSql::queryTrace(const char *sql)
 {
   //echo("trace: %s", ::g.pref.sqltable);
-  char str[16];
-  sprintf(str, "UPDATE %s", ::g.pref.sqltable);
-  if (! stringcmp(sql, str)) {
+  char strupd[16], strins[32];
+  sprintf(strupd, "UPDATE %s", ::g.pref.sqltable);
+  sprintf(strins, "INSERT INTO %s", ::g.pref.sqltable);
+  if (! stringcmp(sql, strupd) || ! stringcmp(sql, strins)) {
     echo("%s", sql);
   }
 }
@@ -720,7 +721,7 @@ void VRSql::createDatabase(const char *database)
 void VRSql::createTable(const char *table)
 {
   //echo("sql createtable %s %x", table, db);
-  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s ( name text(16), state tinyint(255), x float(24), y float(24), z float(24), az float(24), owner text(16), geom text(64) )", table);
+  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s ( name text(16), state tinyint(255), x float(24), y float(24), z float(24), az float(24), owner text(16), geom text(256) )", table);
   query(sql);
 }
 
