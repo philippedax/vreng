@@ -792,6 +792,7 @@ void WObject::updateDist()
 /** Checks whether position is managed by VRSql
  * if it is, get position
  */
+#if 1 //dax
 void WObject::getPersist()
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
@@ -800,8 +801,7 @@ void WObject::getPersist()
   }
   updatePersist();
 }
-
-#if 0 //dax - see getPersist()
+#else
 void WObject::getPersist()
 {
   if (! psql) psql = VRSql::getVRSql();
@@ -818,8 +818,19 @@ void WObject::getPersist(int16_t state)
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     int st = psql->getState(this);
-    trace(DBG_SQL, "state: name=%s state=%d", names.instance, st);
+    //echo("state: name=%s state=%d", names.instance, st);
     state = (st != ERR_SQL) ? st : 0; // updates state
+  }
+}
+
+void WObject::setPersist()
+{
+  if (! psql) psql = VRSql::getVRSql();
+  if (psql && givenName()) {
+    psql->insertRow(this);
+    psql->updatePos(this);
+    psql->updateOwner(this);
+    //geom psql->updateGeom(this, geom);
   }
 }
 
@@ -829,6 +840,7 @@ void WObject::updatePersist()
   if (psql && givenName()) {
     progression('s');
     ::g.timer.sql.start();
+    psql->insertRow(this);	//dax
     psql->updatePos(this);
     ::g.timer.sql.stop();
   }
@@ -857,17 +869,6 @@ void WObject::savePersist()
     if (pos.alter) psql->updatePos(this);
     if (isBehavior(DYNAMIC)) psql->updateOwner(this);
     psql->quit();
-  }
-}
-
-void WObject::setPersist()
-{
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql && givenName()) {
-    psql->insertRow(this);
-    psql->updatePos(this);
-    psql->updateOwner(this);
-    //geom psql->updateGeom(this, geom);
   }
 }
 
