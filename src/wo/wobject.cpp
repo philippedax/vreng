@@ -828,9 +828,9 @@ void WObject::setPersist()
   if (! psql) psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->insertRow(this);
-    psql->updatePos(this);
-    psql->updateOwner(this);
-    //geom psql->updateGeom(this, geom);
+    //psql->updatePos(this);
+    //psql->updateOwner(this);
+    //psql->updateGeom(this, geom);
   }
 }
 
@@ -851,8 +851,9 @@ void WObject::updatePersist(int16_t _state)
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
-    ::g.timer.sql.start();
     progression('s');
+    ::g.timer.sql.start();
+    psql->insertRow(this);	//dax
     psql->updateState(this, _state);
     ::g.timer.sql.stop();
   }
@@ -874,7 +875,10 @@ void WObject::savePersist()
 
 void WObject::delPersist()
 {
-  if (psql && givenName())  psql->deleteRow(this, names.given);
+  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
+  if (psql && givenName()) {
+    psql->deleteRow(this, names.given);
+  }
 }
 
 //
