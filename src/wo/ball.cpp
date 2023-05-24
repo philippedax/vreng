@@ -137,7 +137,7 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
   while (*p && !isdigit(*p)) p++;
   oid = atoi(p);
   strcpy(names.given, nam);
-  trace(DBG_SQL, "recreate: %s oid=%d", names.given, oid);
+  echo("recreate: %s oid=%d", names.given, oid);
 
   defaults();
   geometry();
@@ -145,7 +145,7 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
   inits();
 }
 
-/** Created by the user */
+/** Created by the user - via addobj (GUI) */
 Ball::Ball(WObject *user, char *solid)
 {
   defaults();

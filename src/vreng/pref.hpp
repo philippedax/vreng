@@ -59,6 +59,7 @@ public:
   bool dbgtrace;	///< show trace
   bool loghttpd;	///< show loghttpd
   bool tview;		///< thirdpersonn view
+  bool sql;		///< trace sql table
 
   /* preferences */
   char *my_avatar;	///< avatar model
@@ -82,6 +83,7 @@ public:
   char *httpproxystr;
   char *noproxystr;
   char *mcastproxystr;
+  char *sqltable;
 
   void parse(int argc, char **argv);
   /**< Parses options in command line */

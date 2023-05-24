@@ -62,6 +62,7 @@ where options are:\n\
 -M, --multicast			MBone IP Multicast mode\n\
 -N, --nopersist			No persistency (without MySql | Sqlite | Postgres)\n\
 -P, --progress			Progression indicators [show]\n\
+-Q, --sqltrace table		Sql trace table\n\
 -R, --reflector			Reflector unicast/multicast mode\n\
 -S, --stats			Stats when quiting [show]\n\
 -T, --timetolive days		Cache time in days\n\
@@ -101,6 +102,7 @@ Pref::Pref()
   refresh = false;
   loghttpd = false;
   tview = false;
+  sql = false;
 
   // options with default values
   width3D  = DEF_WIDTH3D;
@@ -131,6 +133,7 @@ Pref::Pref()
   httpproxystr = NULL;
   noproxystr = NULL;
   mcastproxystr = NULL;
+  sqltable = NULL;
 }
 
 void Pref::init(int argc, char **argv, const char* pref_file)
@@ -177,15 +180,16 @@ void Pref::parse(int argc, char **argv)
     {"multicast",  0, 0, 'M'},
     {"nopersist",  0, 0, 'N'},
     {"progress",   0, 0, 'P'},
+    {"sqltrace",   1, 0, 'Q'},
     {"stats",      0, 0, 'S'},
     {"reflector",  0, 0, 'R'},
     {"timetolive", 1, 0, 'T'},
     {"ubit",       0, 0, 'U'},
     {0,0,0,0}
   };
-  while ((c = getopt_long(argc, argv, "bghiklqrstv23CDEFLMNPRSUa:d:f:n:p:u:w:A:T:", longopts, NULL))
+  while ((c = getopt_long(argc, argv, "bghiklqrstv23CDEFLMNPRSUa:d:f:n:p:u:w:A:Q:T:", longopts, NULL))
 #else
-  while ((c = getopt(argc, argv, "-bghiklqrstvx23CDEFLMNPRSUa:d:f:n:p:u:w:A:T:"))
+  while ((c = getopt(argc, argv, "-bghiklqrstvx23CDEFLMNPRSUa:d:f:n:p:u:w:A:Q:T:"))
 #endif
    != -1) {
 
@@ -321,6 +325,10 @@ void Pref::parse(int argc, char **argv)
         break;
       case 'P':
         progress = true;
+        break;
+      case 'Q':
+        sql = true;
+        sqltable = strdup(optarg);
         break;
       case 'R':
         reflector = true;
