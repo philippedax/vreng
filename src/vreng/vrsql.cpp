@@ -181,10 +181,21 @@ void VRSql::quit()
   }
 }
 
+void VRSql::queryTrace(const char *sql)
+{
+  //echo("trace: %s", ::g.pref.sqltable);
+  char str[16];
+  sprintf(str, "UPDATE %s", ::g.pref.sqltable);
+  if (! stringcmp(sql, str)) {
+    echo("%s", sql);
+  }
+}
+
 /** Sends a query SQL command */
 bool VRSql::query(const char *sql)
 {
   //echo("query: %s", sql);
+  if (::g.pref.sql) queryTrace(sql);
 
 #if USE_SQLITE
   int rc = 0;

@@ -75,7 +75,7 @@ class WObject;
  */
 class VRSql {
 
- private:
+private:
   static const uint16_t SQLCMD_MAX = 1024;	///< query size max
   char sql[SQLCMD_MAX];	///< Sql command
 
@@ -90,7 +90,9 @@ class VRSql {
   void *res;		///< no dbms
 #endif
 
- public:
+  void queryTrace(const char *sql);
+
+public:
 #if USE_SQLITE
   sqlite3 *db;		///< Sqlite handle
 #elif USE_MYSQL
@@ -117,6 +119,7 @@ class VRSql {
   void quit();
   /**< closes the VRSql link */
 
+private:
 #if USE_SQLITE
   bool openDB();
   /**< opens to the Sqlite database */
@@ -133,6 +136,7 @@ class VRSql {
   /**< gets the Sql result */
 #endif
 
+public:
 
   // select
 
