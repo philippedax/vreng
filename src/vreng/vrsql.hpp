@@ -160,11 +160,11 @@ public:
   int getSubstring(const char *table, const char *pattern, uint16_t irow, char *substring);
   /**< gets a string and returns an index if pattern matches */
 
-  static int getRows_cb(void *val, int argc, char **argv, char **azColName);
+  static int countRows_cb(void *val, int argc, char **argv, char **azColName);
 
-  int getRows(const char *table);
+  int countRows(const char *table);
 
-  int getRows(const char *table, const char *col, const char *pattern);
+  int countRows(const char *table, const char *col, const char *pattern);
   /**< gets a count of rows matching the pattern */
 
   int getInt(WObject *o, const char *col, uint16_t irow);
@@ -183,6 +183,9 @@ public:
 
   void createTable(const char *table);
   /**< creates a table */
+
+  int checkRow(const char *table, const char *name, const char *world);
+  /**< checks if row exists or not */
 
   // insert
 
@@ -236,6 +239,7 @@ public:
 
   int getCount(const char *table);
   int getCount(const char *table, const char *world);
+  int getCount(const char *table, const char *name, const char *world);
   /**< gets the count of rows from this table */
 
   int getCountCart();
