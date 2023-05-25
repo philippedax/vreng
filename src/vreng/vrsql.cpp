@@ -592,7 +592,7 @@ int VRSql::countRows(const char *table)
 {
   int val = 0;
 
-  sprintf(sql, "SELECT count(*) FROM %s", table);
+  sprintf(sql, "SELECT COUNT(*) FROM %s", table);
 
 #if USE_SQLITE
   int rc;
@@ -649,7 +649,7 @@ int VRSql::countRows(const char *table, const char *col, const char *pattern)
 {
   int val = 0;
 
-  sprintf(sql, "SELECT count(*) FROM %s WHERE %s REGEXP %s", table, col, pattern);
+  sprintf(sql, "SELECT COUNT(*) FROM %s WHERE %s REGEXP %s", table, col, pattern);
 
 #if USE_SQLITE
   int rc;
