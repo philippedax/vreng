@@ -818,7 +818,7 @@ void WObject::getPersist(int16_t state)
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     int st = psql->getState(this);
-    //echo("state: name=%s state=%d", names.instance, st);
+    echo("state: name=%s state=%d", names.instance, st);
     state = (st != ERR_SQL) ? st : 0; // updates state
   }
 }
@@ -828,9 +828,6 @@ void WObject::setPersist()
   if (! psql) psql = VRSql::getVRSql();
   if (psql && givenName()) {
     psql->insertRow(this);
-    //psql->updatePos(this);
-    //psql->updateOwner(this);
-    //psql->updateGeom(this, geom);
   }
 }
 
@@ -839,10 +836,10 @@ void WObject::updatePersist()
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     progression('s');
-    ::g.timer.sql.start();
+    //::g.timer.sql.start();
     psql->insertRow(this);	//dax
     psql->updatePos(this);
-    ::g.timer.sql.stop();
+    //::g.timer.sql.stop();
   }
 }
 
@@ -852,10 +849,10 @@ void WObject::updatePersist(int16_t _state)
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && givenName()) {
     progression('s');
-    ::g.timer.sql.start();
-    psql->insertRow(this);	//dax
+    //::g.timer.sql.start();
+    //dax psql->insertRow(this);	//dax
     psql->updateState(this, _state);
-    ::g.timer.sql.stop();
+    //::g.timer.sql.stop();
   }
 }
 
