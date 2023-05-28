@@ -302,7 +302,7 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
   if (! db) {
     openDB();	// we need to reopen database
   }
-  //echo("sql getint %s", sql);
+  echo("sql getint %s", sql);
   createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, &VRSql::getInt_cb, &val, &err_msg);
@@ -311,7 +311,7 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  echo("getInt: %s.%s %d", table, col, val);
+  //echo("getInt: %s.%s %d", table, col, val);
 #else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
@@ -319,18 +319,20 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  //rc = sqlite3_bind_int(stmt, 1, 1);
-  //if (rc != SQLITE_OK) {
-  //  error("%s %s %d err bindint %s", table,col,irow, sqlite3_errmsg(db));
-  //  sqlite3_free(err_msg);
-  //  return ERR_SQL;
-  //}
   rc = sqlite3_step(stmt);
-  if (rc == SQLITE_DONE) {
-    val = sqlite3_column_int(stmt, 0);
-    echo("getInt: %s.%s %d", table, col, val);
-  }
-  else {
+    echo("getInt: %s.%s rc=%d", table, col, rc);
+    //if (rc == SQLITE_DONE) {
+      val = sqlite3_column_int(stmt, 0);
+      int t = sqlite3_column_type(stmt, 0);
+      if (t == SQLITE_INTEGER)
+        echo("getInt: integer t=%d");
+      if (t == SQLITE_NULL) {
+        echo("getInt: null t=%d");
+        return ERR_SQL;
+      }
+      echo("getInt: %s.%s %d", table, col, val);
+    //}
+  if (rc != SQLITE_DONE) {
     error("%s %s %d errstepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
@@ -380,19 +382,10 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
   char *err_msg = NULL;
 
   //echo("sql getfloat %s", sql);
-#if 0 //dax
   if (! db) {
     openDB();	// we need to reopen database
   }
   createTable(table);
-  rc = sqlite3_exec(db, sql, getFloat_cb, &val, &err_msg);
-  if (rc != SQLITE_OK) {
-    error("%s rc=%d err getfloat %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
-    sqlite3_free(err_msg);
-    return ERR_SQL;
-  }
-  //echo("getFloat: %s.%s %.2f", table, col, val);
-#else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
     error("%s err prepare %s", table, sqlite3_errmsg(db));
@@ -400,17 +393,16 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
-  if (rc == SQLITE_DONE) {
+  //if (rc == SQLITE_ROW) {
     val = sqlite3_column_double(stmt, 0);
     echo("getFloat: %s.%s %.2f", table, col, val);
-  }
-  else {
+  //}
+  if (rc != SQLITE_DONE) {
     error("rc=%d err stepdouble %s", rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
   sqlite3_finalize(stmt);
-#endif
 
 #elif USE_MYSQL
   if (! query(sql))
@@ -468,13 +460,13 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
-  if (rc == SQLITE_DONE) {
+  if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
       echo("getString: %s.%s %s", table, col, retstring);
     }
   }
-  else {
+  else if (rc != SQLITE_DONE) {
     error("rc=%d err stepstring %s", rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
@@ -501,20 +493,10 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
   return irow;
 }
 
-/** Gets a substring (retstring) if the pattern matches
- *  and returns the index of the row
- */
-int VRSql::getSubstring_cb(void *val, int argc, char **argv, char**azColName)
-{
-  char *v = (char *)val;
-  strcpy(v, argv[0]);
-  return 0;
-}
-
-int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, char *retstring)
+int VRSql::getSubstring(const char *table, const char *regexp, uint16_t irow, char *retstring)
 {
   sprintf(sql, "SELECT %s FROM %s WHERE %s regexp '%s'",
-          C_NAME, table, C_NAME, pattern);
+          C_NAME, table, C_NAME, regexp);
 
 #if USE_SQLITE
 /** bad code !!! FIXME 
@@ -524,15 +506,6 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
 
   //echo("sql getsubstring %s %s", table, sql);
   createTable(table);
-#if 0 //dax
-  rc = sqlite3_exec(db, sql, getSubstring_cb, retstring, &err_msg);
-  if (rc != SQLITE_OK) {
-    error("%s rc=%d err getsubstring %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
-    sqlite3_free(err_msg);
-    return ERR_SQL;
-  }
-  echo("getSubstring: %s.%s %s", table, pattern, retstring);
-#else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
     error("%s err getsubstring %s sql=%s", table, sqlite3_errmsg(db), sql);
@@ -540,19 +513,18 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
-  if (rc == SQLITE_DONE) {
+  if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
-      echo("getSubstring: %s.%s %s", table, pattern, retstring);
+      echo("getSubstring: %s.%s %s", table, regexp, retstring);
     }
   }
-  else {
+  else if (rc != SQLITE_DONE) {
     error("rc=%d err stepsubstring %s", rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
   sqlite3_finalize(stmt);
-#endif
 
 #elif USE_MYSQL
   if (! query(sql))
@@ -567,7 +539,7 @@ int VRSql::getSubstring(const char *table, const char *pattern, uint16_t irow, c
     mysql_free_result(res);
     return ERR_SQL;
   }
-  if (! strstr(row[0], pattern)) {
+  if (! strstr(row[0], regexp)) {
     mysql_free_result(res);
     return ERR_SQL;	// no match
   }
@@ -618,11 +590,11 @@ int VRSql::countRows(const char *table)
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
-  if (rc == SQLITE_DONE) {
+  //if (rc == SQLITE_ROW) {
     val = sqlite3_column_count(stmt);
-    //echo("getRosw: %s %d", table, val);
-  }
-  else if (rc != SQLITE_DONE) {
+    echo("getRows: %s t=%d val=%d", table, sqlite3_column_type(stmt, 0), val);
+  //}
+  if (rc != SQLITE_DONE) {
     error("%s err steprows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
@@ -645,11 +617,11 @@ int VRSql::countRows(const char *table)
   return val;
 }
 
-int VRSql::countRows(const char *table, const char *col, const char *pattern)
+int VRSql::countRows(const char *table, const char *col, const char *regexp)
 {
   int val = 0;
 
-  sprintf(sql, "SELECT COUNT(*) FROM %s WHERE %s REGEXP %s", table, col, pattern);
+  sprintf(sql, "SELECT COUNT(*) FROM %s WHERE %s REGEXP %s", table, col, regexp);
 
 #if USE_SQLITE
   int rc;
@@ -659,33 +631,24 @@ int VRSql::countRows(const char *table, const char *col, const char *pattern)
     openDB();	// we need to reopen database
   }
   createTable(table);
-#if 0 //dax
-  rc = sqlite3_exec(db, sql, countRows_cb, &val, &err_msg);
-  if (rc != SQLITE_OK) {
-    error("%s rc=%d err getcountwhere %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
-    sqlite3_free(err_msg);
-    return 0;
-  }
-  //echo("countRowswhere: %s.%s.%s %d", table, col, pattern, val);
-#else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
     error("%s err preparerows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
+  //while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
   rc = sqlite3_step(stmt);
-  if (rc == SQLITE_DONE) {
-    val = sqlite3_column_count(stmt);
-    //echo("getRoswwhere: %s.%s.%s %d", table, col, pattern, val);
-  }
-  else if (rc != SQLITE_DONE) {
+    //val++;
+    val = sqlite3_column_int(stmt, 0);
+    echo("getRoswwhere: %s.%s.%s val=%d", table, col, regexp, val);
+  //}
+  if (rc != SQLITE_DONE) {
     error("%s err steprows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
   sqlite3_finalize(stmt);
-#endif
 
 #elif USE_MYSQL
   if (! query(sql))
@@ -775,7 +738,7 @@ void VRSql::insertRow(WObject *o)
 /** Insert col into the sql table */
 void VRSql::insertCol(const char *table, const char *col, const char *name, const char *world)
 {
-  sprintf(sql, "INSERT INTO %s (%s,%s) VALUES ('%s%s%s', 'NULL')",
+  sprintf(sql, "INSERT INTO %s (%s,%s) VALUES ('%s%s%s')",
           table, C_NAME, col, name, (*world) ? "@" : "", world);
   echo("sql insertcol %s %s", table, sql);
   query(sql);
@@ -792,6 +755,7 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
   sprintf(pat, "%s@%s", name, world);
   //if (checkRow(table, name, world) == ERR_SQL) {
   if (countRows(table, C_NAME, pat) == 0) {
+    echo("int insertrow");
     insertRow(o);
   }
   sprintf(sql, "UPDATE %s SET %s=%d WHERE %s='%s%s%s'",
@@ -808,7 +772,8 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
   sprintf(pat, "%s@%s", name, world);
   //if (checkRow(table, name, world) == ERR_SQL) {
   if (countRows(table, C_NAME, pat) == 0) {
-    insertRow(o);
+    //echo("float insertrow");
+    //insertRow(o);
   }
   sprintf(sql, "UPDATE %s SET %s=%.2f WHERE %s='%s%s%s'",
           table, col, val, C_NAME, name, (*world) ? "@" : "", world);
@@ -824,7 +789,8 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
   sprintf(pat, "%s@%s", name, world);
   //if (checkRow(table, name, world) == ERR_SQL) {
   if (countRows(table, C_NAME, pat) == 0) {
-    insertRow(o);
+    echo("string insertrow");
+    //insertRow(o);
   }
   sprintf(sql, "UPDATE %s SET %s='%s' WHERE %s='%s%s%s'",
           table, col, str, C_NAME, name, (*world) ? "@" : "", world);
@@ -1005,10 +971,10 @@ int VRSql::getCount(const char *table, const char *name, const char *world)
   return (val != ERR_SQL) ? val : 0;
 }
 
-int VRSql::getName(const char *table, const char *pattern, int num, char *retstr)
+int VRSql::getName(const char *table, const char *pattern, int num, char *retname)
 {
-  int irow = getSubstring(table, pattern, num, retstr);
-  trace(DBG_SQL, "num=%d irow=%d str=%s", num, irow, retstr);
+  int irow = getSubstring(table, pattern, num, retname);
+  trace(DBG_SQL, "num=%d irow=%d str=%s", num, irow, retname);
   return (irow >= 0 ) ? irow : -1;
 }
 

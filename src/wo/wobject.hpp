@@ -851,6 +851,9 @@ public:
   void getPersist(int16_t state);
   /**< Gets state from VRSql. */
 
+  bool checkPersist();
+  /**< Checks if rows exists */
+
   void updatePersist();
   /**< Checks if position is managed by VRSql and update it. */
 
