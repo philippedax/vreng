@@ -637,12 +637,10 @@ int VRSql::countRows(const char *table, const char *col, const char *regexp)
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  //while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
   rc = sqlite3_step(stmt);
-    //val++;
-    val = sqlite3_column_int(stmt, 0);
-    echo("getRoswwhere: %s.%s.%s val=%d", table, col, regexp, val);
-  //}
+  //val++;
+  val = sqlite3_column_int(stmt, 0);
+  echo("getRoswwhere: %s.%s.%s val=%d", table, col, regexp, val);
   if (rc != SQLITE_DONE) {
     error("%s err steprows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
@@ -670,6 +668,7 @@ int VRSql::countRows(const char *table, const char *col, const char *regexp)
 //
 
 
+///////////
 // create
 
 /** Creates database */
@@ -713,6 +712,7 @@ int VRSql::checkRow(const char *table, const char *name, const char *world)
 }
 
 
+///////////
 // inserts
 
 /** Insert row into the sql table */
@@ -745,6 +745,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 }
 
 
+///////////
 // updates
 
 /** Updates row int into the sql table */
@@ -823,6 +824,7 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 }
 
 
+///////////
 // deletes
 
 /** Deletes all rows from the sql table */
@@ -867,6 +869,7 @@ void VRSql::deleteRows(WObject *o)
 }
 
 
+///////////
 // gets (select)
 
 /** Gets an integer value from a row in the sql table */
@@ -955,26 +958,28 @@ int VRSql::getCount(const char *table)
   return (val != ERR_SQL) ? val : 0;
 }
 
+/* Gets number of rows where world is - called by checkPersist in world.cpp */
 int VRSql::getCount(const char *table, const char *world)
 {
-  char pattern[64];
-  sprintf(pattern, "'@%s$'", world);
-  int val = countRows(table, C_NAME, pattern);
+  char where[64];
+  sprintf(where, "'@%s$'", world);
+  int val = countRows(table, C_NAME, where);
   return (val != ERR_SQL) ? val : 0;
 }
 
 int VRSql::getCount(const char *table, const char *name, const char *world)
 {
-  char pattern[64];
-  sprintf(pattern, "'%s@%s$'", name, world);
-  int val = countRows(table, C_NAME, pattern);
+  char where[64];
+  sprintf(where, "'%s@%s$'", name, world);
+  int val = countRows(table, C_NAME, where);
   return (val != ERR_SQL) ? val : 0;
 }
 
-int VRSql::getName(const char *table, const char *pattern, int num, char *retname)
+/* Gets qualified name in C_NAME - called by checkPersist in world.cpp */
+int VRSql::getName(const char *table, const char *pattern, int numrow, char *retname)
 {
-  int irow = getSubstring(table, pattern, num, retname);
-  trace(DBG_SQL, "num=%d irow=%d str=%s", num, irow, retname);
+  int irow = getSubstring(table, pattern, numrow, retname);
+  //echo("num=%d irow=%d str=%s", numrow, irow, retname);
   return (irow >= 0 ) ? irow : -1;
 }
 
@@ -1009,6 +1014,7 @@ void VRSql::getOwner(WObject *o, uint16_t irow)
 }
 
 
+///////////
 // updates
 
 void VRSql::updateState(WObject *o)
