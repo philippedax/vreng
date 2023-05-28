@@ -296,7 +296,7 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
 #if USE_SQLITE
 /** bad code !!! FIXME 
 **/
-  int rc;
+  int rc = 0;
   char *err_msg = NULL;
 
   if (! db) {
@@ -333,7 +333,7 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
       echo("getInt: %s.%s %d", table, col, val);
     //}
   if (rc != SQLITE_DONE) {
-    error("%s %s %d errstepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    error("%s %s %d err stepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
@@ -439,7 +439,7 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
 #if USE_SQLITE
 /** bad code !!! FIXME 
 **/
-  int rc;
+  int rc = 0;
   char *err_msg = NULL;
 
   //echo("sql getstring %s %s", table, sql);
@@ -501,7 +501,7 @@ int VRSql::getSubstring(const char *table, const char *regexp, uint16_t irow, ch
 #if USE_SQLITE
 /** bad code !!! FIXME 
 **/
-  int rc;
+  int rc = 0;
   char *err_msg = NULL;
 
   //echo("sql getsubstring %s %s", table, sql);
@@ -577,11 +577,11 @@ int VRSql::countRows(const char *table)
 #if 0 //dax
   rc = sqlite3_exec(db, sql, countRows_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
-    error("%s rc=%d err getcount %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    error("%s rc=%d err countrows %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  //echo("countRows: %s %d", table, val);
+  echo("countrows: %s val=%d", table, val);
 #else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
@@ -592,7 +592,7 @@ int VRSql::countRows(const char *table)
   rc = sqlite3_step(stmt);
   //if (rc == SQLITE_ROW) {
     val = sqlite3_column_count(stmt);
-    echo("getRows: %s t=%d val=%d", table, sqlite3_column_type(stmt, 0), val);
+    echo("countrows: %s t=%d val=%d", table, sqlite3_column_type(stmt, 0), val);
   //}
   if (rc != SQLITE_DONE) {
     error("%s err steprows %s", table, sqlite3_errmsg(db));
@@ -638,9 +638,8 @@ int VRSql::countRows(const char *table, const char *col, const char *regexp)
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
-  //val++;
   val = sqlite3_column_int(stmt, 0);
-  echo("getRoswwhere: %s.%s.%s val=%d", table, col, regexp, val);
+  echo("countrowswhere: %s.%s.%s val=%d", table, col, regexp, val);
   if (rc != SQLITE_DONE) {
     error("%s err steprows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
