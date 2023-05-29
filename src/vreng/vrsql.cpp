@@ -319,24 +319,20 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  rc = sqlite3_step(stmt);
-    echo("getInt: %s.%s rc=%d", table, col, rc);
-    //if (rc == SQLITE_DONE) {
+  for (;;) {
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_DONE) {
       val = sqlite3_column_int(stmt, 0);
-      int t = sqlite3_column_type(stmt, 0);
-      if (t == SQLITE_INTEGER)
-        echo("getInt: integer t=%d");
-      if (t == SQLITE_NULL) {
-        echo("getInt: null t=%d");
-        return ERR_SQL;
-      }
-      echo("getInt: %s.%s %d", table, col, val);
-    //}
-  if (rc != SQLITE_DONE) {
-    error("%s %s %d err stepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
-    sqlite3_free(err_msg);
-    return ERR_SQL;
+      break;
+    }
+    if (rc != SQLITE_ROW) {
+      error("%s %s %d err stepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+      sqlite3_free(err_msg);
+      val = ERR_SQL;
+      break;
+    }
   }
+  echo("getInt: %s.%s val=%d", table, col, val);
   sqlite3_finalize(stmt);
 #endif
 
