@@ -76,7 +76,7 @@ void Cart::addToCart(WObject *po)
       po->setVisible(false);	// render invisible the object
       psql = VRSql::getVRSql();	// first take the VRSql handle;
       if (psql) {
-        //insertRow(po);
+        psql->insertRow(po);
         //dax psql->insertCol(CART_NAME, "owner", po->getInstance(), "");
         //dax psql->updateString(po, CART_NAME, "owner", po->getInstance(), "", ::g.user);
         //echo("cartRow: (%s,%s)", po->getInstance(), po->ownerName());
