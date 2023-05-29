@@ -157,6 +157,9 @@ void WObject::initObject(uint8_t _mode)
         if (checkPersist()) {
           getPersist();	// gets persistency object
         }
+        else {
+          setPersist();	// sets persistency object
+        }
       }
       mobileList.push_back(this);	// add to mobileList
       if (isBehavior(PERMANENT_MOVEMENT)) {

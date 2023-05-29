@@ -591,7 +591,8 @@ int VRSql::countRows(const char *table)
   }
   rc = sqlite3_step(stmt);
   //if (rc == SQLITE_ROW) {
-    val = sqlite3_column_count(stmt);
+    //val = sqlite3_column_count(stmt);
+    val = sqlite3_column_int(stmt, 0);
     echo("countrows: %s t=%d val=%d", table, sqlite3_column_type(stmt, 0), val);
   //}
   if (rc != SQLITE_DONE) {
@@ -682,7 +683,7 @@ void VRSql::createDatabase(const char *database)
 void VRSql::createTable(const char *table)
 {
   //echo("sql createtable %s %x", table, db);
-  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s ( name text(32), state tinyint(255), x float(24), y float(24), z float(24), az float(24), owner text(16), geom text(256) )", table);
+  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s (name text(32), state tinyint(255), x float(24), y float(24), z float(24), az float(24), owner text(16), geom text(256))", table);
   query(sql);
 }
 
@@ -717,6 +718,7 @@ int VRSql::checkRow(const char *table, const char *name, const char *world)
 /** Insert row into the sql table */
 void VRSql::insertRow(WObject *o)
 {
+  if (! strcmp(o->named(), "")) return;	// no name
   createTable(o->typeName());
 #if 1 //dax
   sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) VALUES ( '%s@%s', '%d', '%f', '%f', '%f', '%f', '%s', '%s' )",
@@ -750,14 +752,15 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 /** Updates row int into the sql table */
 void VRSql::updateInt(WObject *o, const char *table, const char *col, const char *name, const char *world, int val)
 {
+  if (! strcmp(o->named(), "")) return;	// no name
   createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
   //if (checkRow(table, name, world) == ERR_SQL) {
-  if (countRows(table, C_NAME, pat) == 0) {
-    echo("int insertrow");
-    insertRow(o);
-  }
+  //if (countRows(table, C_NAME, pat) == 0) {
+  //  echo("int insertrow");
+  //  insertRow(o);
+  //}
   sprintf(sql, "UPDATE %s SET %s=%d WHERE %s='%s%s%s'",
           table, col, val, C_NAME, name, (*world) ? "@" : "", world);
   echo("sql updateint %s %s", table, sql);
@@ -767,6 +770,7 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
 /** Updates row float into the sql table */
 void VRSql::updateFloat(WObject *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
+  if (! strcmp(o->named(), "")) return;	// no name
   createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
@@ -784,14 +788,15 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
 /** Updates row string into the sql table */
 void VRSql::updateString(WObject *o, const char *table, const char *col, const char *name, const char *world, const char *str)
 {
+  if (! strcmp(o->named(), "")) return;	// no name
   createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
   //if (checkRow(table, name, world) == ERR_SQL) {
-  if (countRows(table, C_NAME, pat) == 0) {
-    echo("string insertrow");
-    //insertRow(o);
-  }
+  //if (countRows(table, C_NAME, pat) == 0) {
+  //  echo("string insertrow");
+  //  //insertRow(o);
+  //}
   sprintf(sql, "UPDATE %s SET %s='%s' WHERE %s='%s%s%s'",
           table, col, str, C_NAME, name, (*world) ? "@" : "", world);
   echo("sql updatestring %s %s %s", table, str, sql);
