@@ -76,9 +76,10 @@ void Cart::addToCart(WObject *po)
       po->setVisible(false);	// render invisible the object
       psql = VRSql::getVRSql();	// first take the VRSql handle;
       if (psql) {
-        psql->insertCol(CART_NAME, "owner", po->getInstance(), "");
-        psql->updateString(po, CART_NAME, "owner", po->getInstance(), "", ::g.user);
-        trace(DBG_SQL, "cartRow: (%s,%s)", po->getInstance(), po->ownerName());
+        insertRows(po);
+        //dax psql->insertCol(CART_NAME, "owner", po->getInstance(), "");
+        //dax psql->updateString(po, CART_NAME, "owner", po->getInstance(), "", ::g.user);
+        //echo("cartRow: (%s,%s)", po->getInstance(), po->ownerName());
       }
     default:
       break;
@@ -154,9 +155,9 @@ void Cart::leave(WObject *po)
     po->psql = psql;		// copy it into the object
     psql->deleteRow(po, CART_NAME, po->getInstance(), "");
     psql->insertRow(po);
-    psql->updatePos(po);
-    psql->updateOwner(po);
-    psql->updateGeom(po, po->geomsolid);
+    //psql->updatePos(po);
+    //psql->updateOwner(po);
+    //psql->updateGeom(po, po->geomsolid);
     trace(DBG_SQL, "leaveFromCart: %s", po->getInstance());
   }
 

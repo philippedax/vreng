@@ -811,7 +811,7 @@ void WObject::getPersist(int16_t state)
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql) {
     int st = psql->getState(this);
-    echo("state: name=%s state=%d", names.instance, st);
+    echo("state: name=%s state=%d", names.given, st);
     state = (st != ERR_SQL) ? st : 0; // updates state
   }
 }

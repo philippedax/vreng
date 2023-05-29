@@ -205,7 +205,7 @@ bool VRSql::query(const char *sql)
   if (! db) {
     openDB();	// we need to reopen database
   }
-#if 1 //dax
+#if 0 //dax
   rc = sqlite3_exec(db, sql, 0, 0, &err_msg);	// without callback
   if (rc != SQLITE_OK) {
     error("query exec %s sql=%s", sqlite3_errmsg(db), sql);
