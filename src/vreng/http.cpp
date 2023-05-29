@@ -394,13 +394,13 @@ htagain:
 
           if (answerline) {
             /* first line => get error code */
-            int httperr, major, minor;
+            int herr, major, minor;
 
-            sscanf(httpheader, "HTTP/%d.%d %d", &major, &minor, &httperr);
+            sscanf(httpheader, "HTTP/%d.%d %d", &major, &minor, &herr);
             trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
-                  httperr, major, minor, httpheader+12, httpthread->url);
+                  herr, major, minor, httpheader+12, httpthread->url);
 
-            switch (httperr) {
+            switch (herr) {
 
             case HTTP_200:	// good
             case HTTP_202:
@@ -424,27 +424,27 @@ htagain:
               break;
 
             case 400:		// bad request
-              error("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
+              error("HTTP-err: %d - %s %s on %s", herr, httpheader, httpthread->url, host);
               httperr = true;
               break;
             case 403:		// forbidden
             case 404:		// not found
-              error("HTTP-err: %d - %s %s on %s", httperr, httpheader, httpthread->url, host);
+              error("HTTP-err: %d - %s %s on %s", herr, httpheader, httpthread->url, host);
               httperr = true;
               break;
             case HTTP_503:	// server unavailable
-              error("HTTP-err: %d - server %s unavailable", httperr, host);
+              error("HTTP-err: %d - server %s unavailable", herr, host);
               httperr = true;
               break;
 
             default:
-              error("HTTP-err: %d - %s %s", httperr, httpheader+12, httpthread->url);
+              error("HTTP-err: %d - %s %s", herr, httpheader+12, httpthread->url);
               httperr = true;
               break;
             }
           }
           if (httperr) {
-            echo("url: %s", ::g.url);
+            //echo("url: %s", ::g.url);
             break;
           }
 
