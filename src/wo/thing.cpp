@@ -100,13 +100,11 @@ Thing::Thing(WObject *user, char *_geom)
   behaviors();
 
   if (! psql) psql = VRSql::getVRSql();
-  if (psql && givenName()) {
+  if (psql) {
     psql->insertRow(this);
-    psql->updatePos(this);
-    psql->updateOwner(this);
-    if (_geom) {
-      psql->updateGeom(this, _geom);
-    }
+    //psql->updatePos(this);
+    //psql->updateOwner(this);
+    //psql->updateGeom(this, _geom);
   }
 
   initMobileObject(1);
@@ -130,10 +128,9 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   defaults();
 
   // we don't know anything about the geometry except from VRSql
-  char *geom = new char[1024];
-  if (! psql)
-    psql = VRSql::getVRSql();
-  if (psql && givenName()) {
+  char *geom = new char[256];
+  if (! psql) psql = VRSql::getVRSql();
+  if (psql) {
     psql->getGeom(this);
     psql->getOwner(this);
     psql->getPos(this);
