@@ -72,7 +72,6 @@ bool VRSql::openDB()
     //echo("open db: %x pathdb=%s rc=%d", db, pathdb, rc);
     return false;
   }
-  //echo("open db: %x pathdb=%s rc=%d", db, pathdb, rc);
   return true;
 }
 #endif
@@ -298,7 +297,7 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
   if (! db) {
     openDB();	// we need to reopen database
   }
-  echo("sql getint %s", sql);
+  echo("getint %s", sql);
   createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, &VRSql::getInt_cb, &val, &err_msg);
@@ -373,7 +372,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
   int rc = 0;
   char *err_msg = NULL;
 
-  //echo("sql getfloat %s", sql);
+  //echo("getfloat %s", sql);
   if (! db) {
     openDB();	// we need to reopen database
   }
@@ -434,7 +433,7 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
   int rc = 0;
   char *err_msg = NULL;
 
-  //echo("sql getstring %s %s", table, sql);
+  //echo("getstring %s %s", table, sql);
   createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, getString_cb, retstring, &err_msg);
@@ -485,9 +484,9 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
   return irow;
 }
 
-int VRSql::getSubstring(const char *table, const char *regexp, uint16_t irow, char *retstring)
+int VRSql::getSubstring(const char *table, const char *like, uint16_t irow, char *retstring)
 {
-  sprintf(sql, "SELECT name FROM %s WHERE 'name' LIKE '%s'", table, regexp);
+  sprintf(sql, "SELECT name FROM %s WHERE 'name' LIKE '%s'", table, like);
 
 #if USE_SQLITE
 /** bad code !!! FIXME 
@@ -495,7 +494,7 @@ int VRSql::getSubstring(const char *table, const char *regexp, uint16_t irow, ch
   int rc = 0;
   char *err_msg = NULL;
 
-  //echo("sql getsubstring %s %s", table, sql);
+  //echo("getsubstring %s %s", table, sql);
   createTable(table);
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
@@ -507,7 +506,7 @@ int VRSql::getSubstring(const char *table, const char *regexp, uint16_t irow, ch
   if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
-      echo("getSubstring: %s.%s %s", table, regexp, retstring);
+      echo("getSubstring: %s.%s %s", table, like, retstring);
     }
   }
   else if (rc != SQLITE_DONE) {
@@ -530,7 +529,7 @@ int VRSql::getSubstring(const char *table, const char *regexp, uint16_t irow, ch
     mysql_free_result(res);
     return ERR_SQL;
   }
-  if (! strstr(row[0], regexp)) {
+  if (! strstr(row[0], like)) {
     mysql_free_result(res);
     return ERR_SQL;	// no match
   }
@@ -581,11 +580,9 @@ int VRSql::countRows(const char *table)
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
-  //if (rc == SQLITE_ROW) {
-    //val = sqlite3_column_count(stmt);
-    val = sqlite3_column_int(stmt, 0);
-    echo("countrows: %s t=%d val=%d", table, sqlite3_column_type(stmt, 0), val);
-  //}
+  //val = sqlite3_column_count(stmt);
+  val = sqlite3_column_int(stmt, 0);
+  echo("countrows: %s val=%d", table, val);
   if (rc != SQLITE_DONE) {
     error("%s err steprows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
@@ -609,14 +606,14 @@ int VRSql::countRows(const char *table)
   return val;
 }
 
-int VRSql::countRows(const char *table, const char *col, const char *regexp)
+int VRSql::countRows(const char *table, const char *col, const char *like)
 {
   int val = 0;
 
-  sprintf(sql, "SELECT COUNT(*) FROM %s WHERE '%s' LIKE '%s'", table, col, regexp);
+  sprintf(sql, "SELECT COUNT(*) FROM %s WHERE '%s' LIKE '%s'", table, col, like);
 
 #if USE_SQLITE
-  int rc;
+  int rc = 0;
   char *err_msg = NULL;
 
   if (! db) {
@@ -631,7 +628,7 @@ int VRSql::countRows(const char *table, const char *col, const char *regexp)
   }
   rc = sqlite3_step(stmt);
   val = sqlite3_column_int(stmt, 0);
-  echo("countrowswhere: %s.%s.%s val=%d", table, col, regexp, val);
+  echo("countrowswhere: %s.%s.%s val=%d", table, col, like, val);
   if (rc != SQLITE_DONE) {
     error("%s err steprows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
@@ -665,7 +662,7 @@ int VRSql::countRows(const char *table, const char *col, const char *regexp)
 /** Creates database */
 void VRSql::createDatabase(const char *database)
 {
-  //echo("sql createdatabase %s", database);
+  //echo("createdatabase %s", database);
   sprintf(sql, "CREATE DATABASE IF NOT EXISTS %s", database);
   query(sql);
 }
@@ -673,7 +670,7 @@ void VRSql::createDatabase(const char *database)
 /** Creates table */
 void VRSql::createTable(const char *table)
 {
-  //echo("sql createtable %s %x", table, db);
+  //echo("createtable %s %x", table, db);
   sprintf(sql, "CREATE TABLE IF NOT EXISTS %s (name text(32), state tinyint(255), x float(24), y float(24), z float(24), az float(24), owner text(16), geom text(256))", table);
   query(sql);
 }
@@ -722,7 +719,7 @@ void VRSql::insertRow(WObject *o)
           C_NAME, C_STATE, C_X, C_Y, C_Z, C_AZ, C_OWNER, C_GEOM,
           o->named(), World::current()->getName(), o->ownerName());
 #endif
-  //echo("sql insertrow %s", o->typeName());
+  //echo("insertrow %s", o->typeName());
   query(sql);
 }
 
@@ -731,7 +728,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 {
   sprintf(sql, "INSERT INTO %s (name,%s) VALUES ('%s%s%s', 'NULL')",
           table, col, name, (*world) ? "@" : "", world);
-  echo("sql insertcol %s %s", table, sql);
+  echo("insertcol %s %s", table, sql);
   query(sql);
 }
 
@@ -753,7 +750,7 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
   //}
   sprintf(sql, "UPDATE %s SET %s=%d WHERE name='%s%s%s'",
           table, col, val, name, (*world) ? "@" : "", world);
-  echo("sql updateint %s %s", table, sql);
+  echo("updateint %s %s", table, sql);
   query(sql);
 }
 
@@ -771,7 +768,7 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
   }
   sprintf(sql, "UPDATE %s SET %s=%.2f WHERE name='%s%s%s'",
           table, col, val, name, (*world) ? "@" : "", world);
-  //echo("sql updatefloat %s %s", table, sql);
+  //echo("updatefloat %s %s", table, sql);
   query(sql);
 }
 
@@ -789,7 +786,7 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
   //}
   sprintf(sql, "UPDATE %s SET %s='%s' WHERE name='%s%s%s'",
           table, col, str, name, (*world) ? "@" : "", world);
-  echo("sql updatestring %s %s %s", table, str, sql);
+  echo("updatestring %s %s %s", table, str, sql);
   query(sql);
 }
 
@@ -824,7 +821,7 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 /** Deletes all rows from the sql table */
 void VRSql::deleteRows(const char *table)
 {
-  //echo("sql deleterows %s %x", table, db);
+  //echo("deleterows %s %x", table, db);
   createTable(table);
   sprintf(sql, "DELETE FROM %s", table);
   query(sql);
@@ -833,7 +830,7 @@ void VRSql::deleteRows(const char *table)
 /** Deletes a row from the sql table */
 void VRSql::deleteRow(WObject *o, const char *table, const char *name, const char *world)
 {
-  //echo("sql deleterow %s", table);
+  //echo("deleterow %s", table);
   createTable(table);
   sprintf(sql, "DELETE FROM %s WHERE name='%s%s%s'",
           table, name, (*world) ? "@" : "", world);
@@ -843,7 +840,7 @@ void VRSql::deleteRow(WObject *o, const char *table, const char *name, const cha
 /** Deletes a row from the sql table matching a string */
 void VRSql::deleteRow(WObject *o, const char *str)
 {
-  //echo("sql deleterowstring %s %s", o->typeName(), str);
+  //echo("deleterowstring %s %s", o->typeName(), str);
   createTable(o->typeName());
   sprintf(sql, "DELETE FROM %s WHERE name='%s@%s'",
           o->typeName(), str, World::current()->getName());
@@ -887,14 +884,14 @@ int VRSql::getString(WObject *o, const char *col, char *str, uint16_t irow)
 int VRSql::getState(WObject *o)
 {
   int val = getInt(o, C_STATE, 0);
-  echo("state=%d val=%d", o->state, val);
+  echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
 int VRSql::getState(WObject *o, uint16_t irow)
 {
   int val =  getInt(o, C_STATE, irow);
-  echo("state=%d val=%d", o->state, val);
+  echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
@@ -955,17 +952,17 @@ int VRSql::getCount(const char *table)
 /* Gets number of rows where world is - called by checkPersist in world.cpp */
 int VRSql::getCount(const char *table, const char *world)
 {
-  char where[64];
-  sprintf(where, "'@%s'", world);
-  int val = countRows(table, C_NAME, where);
+  char pattern[64];
+  sprintf(pattern, "'@%s'", world);
+  int val = countRows(table, C_NAME, pattern);
   return (val != ERR_SQL) ? val : 0;
 }
 
 int VRSql::getCount(const char *table, const char *name, const char *world)
 {
-  char where[64];
-  sprintf(where, "'%s@%s'", name, world);
-  int val = countRows(table, C_NAME, where);
+  char pattern[64];
+  sprintf(pattern, "'%s@%s'", name, world);
+  int val = countRows(table, C_NAME, pattern);
   return (val != ERR_SQL) ? val : 0;
 }
 
