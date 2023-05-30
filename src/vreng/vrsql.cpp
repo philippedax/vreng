@@ -487,7 +487,7 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
 
 int VRSql::getSubstring(const char *table, const char *regexp, uint16_t irow, char *retstring)
 {
-  sprintf(sql, "SELECT name FROM %s WHERE name regexp '%s'", table, regexp);
+  sprintf(sql, "SELECT name FROM %s WHERE 'name' LIKE '%s'", table, regexp);
 
 #if USE_SQLITE
 /** bad code !!! FIXME 
@@ -613,7 +613,7 @@ int VRSql::countRows(const char *table, const char *col, const char *regexp)
 {
   int val = 0;
 
-  sprintf(sql, "SELECT COUNT(*) FROM %s WHERE %s REGEXP %s", table, col, regexp);
+  sprintf(sql, "SELECT COUNT(*) FROM %s WHERE '%s' LIKE '%s'", table, col, regexp);
 
 #if USE_SQLITE
   int rc;
@@ -941,7 +941,7 @@ float VRSql::getPosAZ(WObject *o, uint16_t irow)
 int VRSql::getCountCart()
 {
   char pattern[64];
-  sprintf(pattern, "'^%s$'", ::g.user);
+  sprintf(pattern, "'^%s'", ::g.user);
   int val = countRows("Cart", C_OWNER, pattern);
   return (val != ERR_SQL) ? val : 0;
 }
@@ -956,7 +956,7 @@ int VRSql::getCount(const char *table)
 int VRSql::getCount(const char *table, const char *world)
 {
   char where[64];
-  sprintf(where, "'@%s$'", world);
+  sprintf(where, "'@%s'", world);
   int val = countRows(table, C_NAME, where);
   return (val != ERR_SQL) ? val : 0;
 }
@@ -964,7 +964,7 @@ int VRSql::getCount(const char *table, const char *world)
 int VRSql::getCount(const char *table, const char *name, const char *world)
 {
   char where[64];
-  sprintf(where, "'%s@%s$'", name, world);
+  sprintf(where, "'%s@%s'", name, world);
   int val = countRows(table, C_NAME, where);
   return (val != ERR_SQL) ? val : 0;
 }
