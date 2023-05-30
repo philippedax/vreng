@@ -651,6 +651,46 @@ int VRSql::countRows(const char *table, const char *col, const char *like)
   return val;
 }
 
+int VRSql::checkRow(const char *table, const char *name, const char *world)
+{
+  int val = 0;
+
+  createTable(table);
+  sprintf(sql, "SELECT * FROM %s WHERE name='%s%s%s'", table, name, (*world) ? "@" : "", world);
+
+#if USE_SQLITE
+  int rc = 0;
+  char *err_msg = NULL;
+
+#if 0 //dax
+  rc = sqlite3_exec(db, sql, 0, NULL, &err_msg);
+  if (rc != SQLITE_OK) {
+    error("%s rc=%d err checkrow %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    sqlite3_free(err_msg);
+    val = ERR_SQL;
+    return ERR_SQL;
+  }
+#else
+  rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+  if (rc != SQLITE_OK) {
+    error("checkrow prepare %s sql=%s", sqlite3_errmsg(db), sql);
+    sqlite3_free(err_msg);
+    return ERR_SQL;
+  }
+  rc = sqlite3_step(stmt);
+  if (rc != SQLITE_DONE) {
+    error("checkrow err: rc=%d", rc);
+    return ERR_SQL;
+  }
+  val = sqlite3_column_int(stmt, 0);
+  sqlite3_finalize(stmt);
+#endif
+#endif
+
+  echo("checkrow: %d", val);
+  return val;
+}
+
 //
 //---------------------- methods independants of RDB system ---------------------
 //
@@ -670,32 +710,9 @@ void VRSql::createDatabase(const char *database)
 /** Creates table */
 void VRSql::createTable(const char *table)
 {
-  //echo("createtable %s %x", table, db);
+  //echo("createtable %s", table);
   sprintf(sql, "CREATE TABLE IF NOT EXISTS %s (name text(32), state tinyint(255), x float(24), y float(24), z float(24), az float(24), owner text(16), geom text(256))", table);
   query(sql);
-}
-
-int VRSql::checkRow(const char *table, const char *name, const char *world)
-{
-  int val = 0;
-
-  //createTable(table);
-  sprintf(sql, "SELECT * FROM %s WHERE name='%s%s%s'", table, name, (*world) ? "@" : "", world);
-
-#if USE_SQLITE
-  int rc = 0;
-  char *err_msg = NULL;
-
-  rc = sqlite3_exec(db, sql, 0, NULL, &err_msg);
-  if (rc != SQLITE_OK) {
-    error("%s rc=%d err checkrow %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
-    sqlite3_free(err_msg);
-    val = ERR_SQL;
-    return ERR_SQL;
-  }
-  echo("checkrow: %d", val);
-  return val;
-#endif
 }
 
 
