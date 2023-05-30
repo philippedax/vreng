@@ -34,7 +34,7 @@ static const char * DB = "vreng_db";	///< database name
 #else
 static const char * DB = NULL;		///< no database
 #endif
-static const char * USER = "vreng";	///< user name
+static const char * USER = "vreng";	///< username
 static const char * PASSWD = NULL;	///< no password
 static const char * C_NAME = "name";	///< column name      : text(32)
 static const char * C_STATE = "state";	///< column state     : tinyint
@@ -62,25 +62,23 @@ bool VRSql::openDB()
 {
   if (::g.pref.nopersist == true) return false;
 
-  char path[128];
+  char pathdb[128];
   char *err_msg = NULL;
 
-  sprintf(path, "%s/.vreng/%s", ::g.env.home(), DB);
-  int rc = sqlite3_open(path, &db);
+  sprintf(pathdb, "%s/.vreng/%s", ::g.env.home(), DB);
+  int rc = sqlite3_open(pathdb, &db);
   if (rc != SQLITE_OK) {
     error("Cannot open database: %s", sqlite3_errmsg(db));
-    //echo("open db: %x path=%s rc=%d", db, path, rc);
+    //echo("open db: %x pathdb=%s rc=%d", db, pathdb, rc);
     return false;
   }
-  //echo("open db: %x path=%s rc=%d", db, path, rc);
+  //echo("open db: %x pathdb=%s rc=%d", db, pathdb, rc);
   return true;
 }
 #endif
 
 #if USE_MYSQL
-/**
- * Establishes a link with the mysql server
- */
+/** Establishes a link with the mysql server */
 bool VRSql::connectDB()
 {
   if (::g.pref.nopersist == true)
@@ -114,9 +112,7 @@ bool VRSql::connectDB()
 #endif
 
 #if USE_PGSQL
-/**
- * Establishes a link with the pgsql server
- */
+/** Establishes a link with the pgsql server */
 bool VRSql::connectDB()
 {
   if (::g.pref.nopersist == true)
@@ -183,8 +179,8 @@ void VRSql::quit()
 
 void VRSql::queryTrace(const char *sql)
 {
-  //echo("trace: %s", ::g.pref.sqltable);
   char strupd[16], strins[32];
+
   sprintf(strupd, "UPDATE %s", ::g.pref.sqltable);
   sprintf(strins, "INSERT INTO %s", ::g.pref.sqltable);
   if (! stringcmp(sql, strupd) || ! stringcmp(sql, strins)) {
@@ -290,8 +286,8 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
 {
   int val = 0;
 
-  sprintf(sql, "SELECT %s FROM %s WHERE %s='%s%s%s'",
-          col, table, C_NAME, name, (*world) ? "@" : "", world);
+  sprintf(sql, "SELECT %s FROM %s WHERE name='%s%s%s'",
+          col, table, name, (*world) ? "@" : "", world);
 
 #if USE_SQLITE
 /** bad code !!! FIXME 
@@ -368,8 +364,8 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
 {
   float val = 0;
 
-  sprintf(sql, "SELECT %s FROM %s WHERE %s='%s%s%s'",
-          col, table, C_NAME, name, (*world) ? "@" : "", world);
+  sprintf(sql, "SELECT %s FROM %s WHERE name='%s%s%s'",
+          col, table, name, (*world) ? "@" : "", world);
 
 #if USE_SQLITE
 /** bad code !!! FIXME 
@@ -429,8 +425,8 @@ int VRSql::getString_cb(void *val, int argc, char **argv, char**azColName)
 
 int VRSql::getString(const char *table, const char *col, const char *name, const char *world, char *retstring, uint16_t irow)
 {
-  sprintf(sql, "SELECT %s FROM %s WHERE %s='%s%s%s'",
-          col, table, C_NAME, name, (*world) ? "@" : "", world);
+  sprintf(sql, "SELECT %s FROM %s WHERE name='%s%s%s'",
+          col, table, name, (*world) ? "@" : "", world);
 
 #if USE_SQLITE
 /** bad code !!! FIXME 
@@ -491,8 +487,7 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
 
 int VRSql::getSubstring(const char *table, const char *regexp, uint16_t irow, char *retstring)
 {
-  sprintf(sql, "SELECT %s FROM %s WHERE %s regexp '%s'",
-          C_NAME, table, C_NAME, regexp);
+  sprintf(sql, "SELECT name FROM %s WHERE name regexp '%s'", table, regexp);
 
 #if USE_SQLITE
 /** bad code !!! FIXME 
@@ -688,8 +683,7 @@ int VRSql::checkRow(const char *table, const char *name, const char *world)
   int val = 0;
 
   //createTable(table);
-  sprintf(sql, "SELECT '*' FROM %s WHERE %s='%s%s%s'",
-          table, C_NAME, name, (*world) ? "@" : "", world);
+  sprintf(sql, "SELECT * FROM %s WHERE name='%s%s%s'", table, name, (*world) ? "@" : "", world);
 
 #if USE_SQLITE
   int rc = 0;
@@ -714,7 +708,7 @@ int VRSql::checkRow(const char *table, const char *name, const char *world)
 /** Insert row into the sql table */
 void VRSql::insertRow(WObject *o)
 {
-  if (! strcmp(o->named(), "")) return;	// no name
+  if (! o->named()) return;	// no name
   createTable(o->typeName());
 #if 1 //dax
   sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) VALUES ( '%s@%s', '%d', '%f', '%f', '%f', '%f', '%s', '%s' )",
@@ -735,8 +729,8 @@ void VRSql::insertRow(WObject *o)
 /** Insert col into the sql table */
 void VRSql::insertCol(const char *table, const char *col, const char *name, const char *world)
 {
-  sprintf(sql, "INSERT INTO %s (%s,%s) VALUES ('%s%s%s')",
-          table, C_NAME, col, name, (*world) ? "@" : "", world);
+  sprintf(sql, "INSERT INTO %s (name,%s) VALUES ('%s%s%s', 'NULL')",
+          table, col, name, (*world) ? "@" : "", world);
   echo("sql insertcol %s %s", table, sql);
   query(sql);
 }
@@ -748,7 +742,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 /** Updates row int into the sql table */
 void VRSql::updateInt(WObject *o, const char *table, const char *col, const char *name, const char *world, int val)
 {
-  if (! strcmp(o->named(), "")) return;	// no name
+  if (! o->named()) return;	// no name
   createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
@@ -757,8 +751,8 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
   //  echo("int insertrow");
   //  insertRow(o);
   //}
-  sprintf(sql, "UPDATE %s SET %s=%d WHERE %s='%s%s%s'",
-          table, col, val, C_NAME, name, (*world) ? "@" : "", world);
+  sprintf(sql, "UPDATE %s SET %s=%d WHERE name='%s%s%s'",
+          table, col, val, name, (*world) ? "@" : "", world);
   echo("sql updateint %s %s", table, sql);
   query(sql);
 }
@@ -766,7 +760,7 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
 /** Updates row float into the sql table */
 void VRSql::updateFloat(WObject *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
-  if (! strcmp(o->named(), "")) return;	// no name
+  if (! o->named()) return;	// no name
   createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
@@ -775,8 +769,8 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
     //echo("float insertrow");
     //insertRow(o);
   }
-  sprintf(sql, "UPDATE %s SET %s=%.2f WHERE %s='%s%s%s'",
-          table, col, val, C_NAME, name, (*world) ? "@" : "", world);
+  sprintf(sql, "UPDATE %s SET %s=%.2f WHERE name='%s%s%s'",
+          table, col, val, name, (*world) ? "@" : "", world);
   //echo("sql updatefloat %s %s", table, sql);
   query(sql);
 }
@@ -784,7 +778,7 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
 /** Updates row string into the sql table */
 void VRSql::updateString(WObject *o, const char *table, const char *col, const char *name, const char *world, const char *str)
 {
-  if (! strcmp(o->named(), "")) return;	// no name
+  if (! o->named()) return;	// no name
   createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
@@ -793,8 +787,8 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
   //  echo("string insertrow");
   //  //insertRow(o);
   //}
-  sprintf(sql, "UPDATE %s SET %s='%s' WHERE %s='%s%s%s'",
-          table, col, str, C_NAME, name, (*world) ? "@" : "", world);
+  sprintf(sql, "UPDATE %s SET %s='%s' WHERE name='%s%s%s'",
+          table, col, str, name, (*world) ? "@" : "", world);
   echo("sql updatestring %s %s %s", table, str, sql);
   query(sql);
 }
@@ -841,8 +835,8 @@ void VRSql::deleteRow(WObject *o, const char *table, const char *name, const cha
 {
   //echo("sql deleterow %s", table);
   createTable(table);
-  sprintf(sql, "DELETE FROM %s WHERE %s='%s%s%s'",
-          table, C_NAME, name, (*world) ? "@" : "", world);
+  sprintf(sql, "DELETE FROM %s WHERE name='%s%s%s'",
+          table, name, (*world) ? "@" : "", world);
   query(sql);
 }
 
@@ -851,8 +845,8 @@ void VRSql::deleteRow(WObject *o, const char *str)
 {
   //echo("sql deleterowstring %s %s", o->typeName(), str);
   createTable(o->typeName());
-  sprintf(sql, "DELETE FROM %s WHERE %s='%s@%s'",
-          o->typeName(), C_NAME, str, World::current()->getName());
+  sprintf(sql, "DELETE FROM %s WHERE name='%s@%s'",
+          o->typeName(), str, World::current()->getName());
   query(sql);
 }
 
