@@ -555,7 +555,7 @@ int VRSql::countRows(const char *table)
 {
   int val = 0;
 
-  sprintf(sql, "SELECT COUNT(*) FROM %s", table);
+  sprintf(sql, "SELECT COUNT(DISTINCT name) FROM %s", table);
 
 #if USE_SQLITE
   int rc = 0;
@@ -616,7 +616,7 @@ int VRSql::countRows(const char *table, const char *col, const char *like)
 {
   int val = 0;
 
-  sprintf(sql, "SELECT COUNT(*) FROM %s WHERE '%s' LIKE '%s'", table, col, like);
+  sprintf(sql, "SELECT COUNT(DISTINCT name) FROM %s WHERE '%s' LIKE '%s'", table, col, like);
 
 #if USE_SQLITE
   int rc = 0;
