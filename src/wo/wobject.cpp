@@ -831,6 +831,7 @@ void WObject::setPersist()
 {
   if (! psql) psql = VRSql::getVRSql();
   if (psql) {
+    psql->deleteRow(this, names.given);
     psql->insertRow(this);
   }
 }
