@@ -270,7 +270,7 @@ MYSQL_RES * VRSql::result()
 #endif
 
 
-/** Gets an integer value from a row in the sql table
+/** Selects an integer value from a row in the sql table
  *  if value doesn't exist, the value is inserted
  */
 int VRSql::selectInt_cb(void *val, int argc, char **argv, char**azColName)
@@ -348,7 +348,7 @@ int VRSql::selectInt(const char *table, const char *col, const char *name, const
   return val;	// return an int
 }
 
-/** Gets a float value from a row in the sql table
+/** Selects a float value from a row in the sql table
  *  if value doesn't exist, the value is inserted
  */
 int VRSql::selectFloat_cb(void *val, int argc, char **argv, char**azColName)
@@ -383,16 +383,20 @@ float VRSql::selectFloat(const char *table, const char *col, const char *name, c
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  rc = sqlite3_step(stmt);
-  //if (rc == SQLITE_ROW) {
-    val = sqlite3_column_double(stmt, 0);
-    echo("selectFloat: %s.%s %.2f", table, col, val);
-  //}
-  if (rc != SQLITE_DONE) {
-    error("rc=%d err stepdouble %s", rc, sqlite3_errmsg(db));
-    sqlite3_free(err_msg);
-    return ERR_SQL;
+  for (;;) {
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_DONE) {
+      val = sqlite3_column_double(stmt, 0);
+      break;
+    }
+    if (rc != SQLITE_ROW) {
+      error("rc=%d err stepfloat %s", rc, sqlite3_errmsg(db));
+      sqlite3_free(err_msg);
+      val = ERR_SQL;
+      break;
+    }
   }
+  echo("selectFloat: %s.%s val=%.2f", table, col, val);
   sqlite3_finalize(stmt);
 
 #elif USE_MYSQL
@@ -412,7 +416,7 @@ float VRSql::selectFloat(const char *table, const char *col, const char *name, c
   return val;	// return a float
 }
 
-/** Gets a string (retstring) from a row in the sql table
+/** Selects a string (retstring) from a row in the sql table
  *  if string is not found, the string is inserted
  */
 int VRSql::selectString_cb(void *val, int argc, char **argv, char**azColName)
@@ -450,17 +454,20 @@ int VRSql::selectString(const char *table, const char *col, const char *name, co
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  rc = sqlite3_step(stmt);
-  if (rc == SQLITE_ROW) {
-    if (retstring) {
-      strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
-      echo("selectString: %s.%s %s", table, col, retstring);
+  for (;;) {
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_DONE) {
+      if (retstring) {
+        strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
+        echo("selectString: %s.%s %s", table, col, retstring);
+      }
+      break;
     }
-  }
-  else if (rc != SQLITE_DONE) {
-    error("rc=%d err stepstring %s", rc, sqlite3_errmsg(db));
-    sqlite3_free(err_msg);
-    return ERR_SQL;
+    if (rc != SQLITE_ROW) {
+      error("rc=%d err stepstring %s", rc, sqlite3_errmsg(db));
+      sqlite3_free(err_msg);
+      return ERR_SQL;
+    }
   }
   sqlite3_finalize(stmt);
 #endif
@@ -502,17 +509,20 @@ int VRSql::selectSubstring(const char *table, const char *like, uint16_t irow, c
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  rc = sqlite3_step(stmt);
-  if (rc == SQLITE_ROW) {
-    if (retstring) {
-      strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
-      echo("selectSubstring: %s.%s %s", table, like, retstring);
+  for (;;) {
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_DONE) {
+      if (retstring) {
+        strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
+        echo("selectSubstring: %s.%s %s", table, like, retstring);
+      }
+      break;
     }
-  }
-  else if (rc != SQLITE_DONE) {
-    error("rc=%d err stepsubstring %s", rc, sqlite3_errmsg(db));
-    sqlite3_free(err_msg);
-    return ERR_SQL;
+    if (rc != SQLITE_ROW) {
+      error("rc=%d err stepsubstring %s", rc, sqlite3_errmsg(db));
+      sqlite3_free(err_msg);
+      return ERR_SQL;
+    }
   }
   sqlite3_finalize(stmt);
 
@@ -579,14 +589,19 @@ int VRSql::countRows(const char *table)
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  rc = sqlite3_step(stmt);
-  //val = sqlite3_column_count(stmt);
-  val = sqlite3_column_int(stmt, 0);
-  echo("countrows: %s val=%d", table, val);
-  if (rc != SQLITE_DONE) {
-    error("%s err steprows %s", table, sqlite3_errmsg(db));
-    sqlite3_free(err_msg);
-    return ERR_SQL;
+  for (;;) {
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_DONE) {
+      //val = sqlite3_column_count(stmt);
+      val = sqlite3_column_int(stmt, 0);
+      break;
+    }
+    if (rc != SQLITE_ROW) {
+      error("%s err steprows %s", table, sqlite3_errmsg(db));
+      sqlite3_free(err_msg);
+      val = ERR_SQL;
+      break;
+    }
   }
   sqlite3_finalize(stmt);
 #endif
@@ -626,14 +641,21 @@ int VRSql::countRows(const char *table, const char *col, const char *like)
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  rc = sqlite3_step(stmt);
-  val = sqlite3_column_int(stmt, 0);
-  //echo("countrowswhere: %s.%s.%s val=%d", table, col, like, val);
-  if (rc != SQLITE_DONE) {
-    error("%s err steprows %s", table, sqlite3_errmsg(db));
-    sqlite3_free(err_msg);
-    return ERR_SQL;
+  for (;;) {
+    rc = sqlite3_step(stmt);
+    if (rc == SQLITE_DONE) {
+      //val = sqlite3_column_count(stmt);
+      val = sqlite3_column_int(stmt, 0);
+      break;
+    }
+    if (rc != SQLITE_ROW) {
+      error("%s err steprows %s", table, sqlite3_errmsg(db));
+      sqlite3_free(err_msg);
+      val = ERR_SQL;
+      break;
+    }
   }
+  //echo("countrowswhere: %s.%s.%s val=%d", table, col, like, val);
   sqlite3_finalize(stmt);
 
 #elif USE_MYSQL
