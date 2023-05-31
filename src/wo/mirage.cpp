@@ -48,7 +48,7 @@ void Mirage::defaults()
   tilt     = false;
   orbit    = false;
   circular = false;
-  persist  = true;
+  persist  = false;
   aspeed   = ASPEED;
   azspeed  = ASPEED;
   ayspeed  = ASPEED;
