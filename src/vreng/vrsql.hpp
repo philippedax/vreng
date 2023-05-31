@@ -140,22 +140,22 @@ private:
   // select
 
 private:
-  static int getInt_cb(void *val, int argc, char **argv, char **azColName);
-  static int getFloat_cb(void *val, int argc, char **argv, char **azColName);
-  static int getString_cb(void *val, int argc, char **argv, char **azColName);
-  static int getSubstring_cb(void *val, int argc, char **argv, char **azColName);
+  static int selectInt_cb(void *val, int argc, char **argv, char **azColName);
+  static int selectFloat_cb(void *val, int argc, char **argv, char **azColName);
+  static int selectString_cb(void *val, int argc, char **argv, char **azColName);
+  static int selectSubstring_cb(void *val, int argc, char **argv, char **azColName);
   static int countRows_cb(void *val, int argc, char **argv, char **azColName);
 
-  int getInt(const char *table, const char *col, const char *object, const char *world, uint16_t irow);
+  int selectInt(const char *table, const char *col, const char *object, const char *world, uint16_t irow);
   /**< returns an int from a column */
 
-  float getFloat(const char *table, const char *col, const char *object, const char *world, uint16_t irow);
+  float selectFloat(const char *table, const char *col, const char *object, const char *world, uint16_t irow);
   /**< returns a float from a column */
 
-  int getString(const char *table, const char *col, const char *object, const char *world, char *str, uint16_t irow);
+  int selectString(const char *table, const char *col, const char *object, const char *world, char *str, uint16_t irow);
   /**< returns a string from a column */
 
-  int getSubstring(const char *table, const char *pat, uint16_t irow, char *substring);
+  int selectSubstring(const char *table, const char *pat, uint16_t irow, char *substring);
   /**< gets a string and returns an index if pattern matches */
 
   int getInt(WObject *o, const char *col, uint16_t irow);

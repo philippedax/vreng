@@ -273,7 +273,7 @@ MYSQL_RES * VRSql::result()
 /** Gets an integer value from a row in the sql table
  *  if value doesn't exist, the value is inserted
  */
-int VRSql::getInt_cb(void *val, int argc, char **argv, char**azColName)
+int VRSql::selectInt_cb(void *val, int argc, char **argv, char**azColName)
 {
   echo("int_cb: argc=%d argv=%s azcolname=%s", argc, argv[0], azColName[0]);
   int *v = (int *)val;
@@ -281,7 +281,7 @@ int VRSql::getInt_cb(void *val, int argc, char **argv, char**azColName)
   return 0;
 }
 
-int VRSql::getInt(const char *table, const char *col, const char *name, const char *world, uint16_t irow)
+int VRSql::selectInt(const char *table, const char *col, const char *name, const char *world, uint16_t irow)
 {
   int val = 0;
 
@@ -297,16 +297,16 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
   if (! db) {
     openDB();	// we need to reopen database
   }
-  echo("getint %s", sql);
+  echo("selectint %s", sql);
   createTable(table);
 #if 0 //dax
-  rc = sqlite3_exec(db, sql, &VRSql::getInt_cb, &val, &err_msg);
+  rc = sqlite3_exec(db, sql, &VRSql::selectInt_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
-    error("%s rc=%d err getint %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    error("%s rc=%d err selectint %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  //echo("getInt: %s.%s %d", table, col, val);
+  //echo("selectInt: %s.%s %d", table, col, val);
 #else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
@@ -327,7 +327,7 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
       break;
     }
   }
-  echo("getInt: %s.%s val=%d", table, col, val);
+  echo("selectInt: %s.%s val=%d", table, col, val);
   sqlite3_finalize(stmt);
 #endif
 
@@ -351,7 +351,7 @@ int VRSql::getInt(const char *table, const char *col, const char *name, const ch
 /** Gets a float value from a row in the sql table
  *  if value doesn't exist, the value is inserted
  */
-int VRSql::getFloat_cb(void *val, int argc, char **argv, char**azColName)
+int VRSql::selectFloat_cb(void *val, int argc, char **argv, char**azColName)
 {
   echo("float_cb: argc=%d argv=%s azcolname=%s", argc, argv[0], azColName[0]);
   float *v = (float *)val;
@@ -359,7 +359,7 @@ int VRSql::getFloat_cb(void *val, int argc, char **argv, char**azColName)
   return 0;
 }
 
-float VRSql::getFloat(const char *table, const char *col, const char *name, const char *world, uint16_t irow)
+float VRSql::selectFloat(const char *table, const char *col, const char *name, const char *world, uint16_t irow)
 {
   float val = 0;
 
@@ -372,7 +372,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
   int rc = 0;
   char *err_msg = NULL;
 
-  //echo("getfloat %s", sql);
+  //echo("selectfloat %s", sql);
   if (! db) {
     openDB();	// we need to reopen database
   }
@@ -386,7 +386,7 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
   rc = sqlite3_step(stmt);
   //if (rc == SQLITE_ROW) {
     val = sqlite3_column_double(stmt, 0);
-    echo("getFloat: %s.%s %.2f", table, col, val);
+    echo("selectFloat: %s.%s %.2f", table, col, val);
   //}
   if (rc != SQLITE_DONE) {
     error("rc=%d err stepdouble %s", rc, sqlite3_errmsg(db));
@@ -415,14 +415,14 @@ float VRSql::getFloat(const char *table, const char *col, const char *name, cons
 /** Gets a string (retstring) from a row in the sql table
  *  if string is not found, the string is inserted
  */
-int VRSql::getString_cb(void *val, int argc, char **argv, char**azColName)
+int VRSql::selectString_cb(void *val, int argc, char **argv, char**azColName)
 {
   char *v = (char *)val;
   strcpy(v, argv[0]);
   return 0;
 }
 
-int VRSql::getString(const char *table, const char *col, const char *name, const char *world, char *retstring, uint16_t irow)
+int VRSql::selectString(const char *table, const char *col, const char *name, const char *world, char *retstring, uint16_t irow)
 {
   sprintf(sql, "SELECT %s FROM %s WHERE name='%s%s%s'",
           col, table, name, (*world) ? "@" : "", world);
@@ -433,20 +433,20 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
   int rc = 0;
   char *err_msg = NULL;
 
-  //echo("getstring %s %s", table, sql);
+  //echo("selectstring %s %s", table, sql);
   createTable(table);
 #if 0 //dax
-  rc = sqlite3_exec(db, sql, getString_cb, retstring, &err_msg);
+  rc = sqlite3_exec(db, sql, selectString_cb, retstring, &err_msg);
   if (rc != SQLITE_OK) {
-    error("%s rc=%d err getstring %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    error("%s rc=%d err selectstring %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  echo("getString: %s.%s %s", table, col, retstring);
+  echo("selectString: %s.%s %s", table, col, retstring);
 #else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
-    error("%s err getstring %s sql=%s", table, sqlite3_errmsg(db), sql);
+    error("%s err selectstring %s sql=%s", table, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
@@ -454,7 +454,7 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
   if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
-      echo("getString: %s.%s %s", table, col, retstring);
+      echo("selectString: %s.%s %s", table, col, retstring);
     }
   }
   else if (rc != SQLITE_DONE) {
@@ -484,7 +484,7 @@ int VRSql::getString(const char *table, const char *col, const char *name, const
   return irow;
 }
 
-int VRSql::getSubstring(const char *table, const char *like, uint16_t irow, char *retstring)
+int VRSql::selectSubstring(const char *table, const char *like, uint16_t irow, char *retstring)
 {
   sprintf(sql, "SELECT name FROM %s WHERE 'name' LIKE '%s'", table, like);
 
@@ -494,11 +494,11 @@ int VRSql::getSubstring(const char *table, const char *like, uint16_t irow, char
   int rc = 0;
   char *err_msg = NULL;
 
-  //echo("getsubstring %s %s", table, sql);
+  //echo("selectsubstring %s %s", table, sql);
   createTable(table);
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
-    error("%s err getsubstring %s sql=%s", table, sqlite3_errmsg(db), sql);
+    error("%s err selectsubstring %s sql=%s", table, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
@@ -506,7 +506,7 @@ int VRSql::getSubstring(const char *table, const char *like, uint16_t irow, char
   if (rc == SQLITE_ROW) {
     if (retstring) {
       strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
-      echo("getSubstring: %s.%s %s", table, like, retstring);
+      echo("selectSubstring: %s.%s %s", table, like, retstring);
     }
   }
   else if (rc != SQLITE_DONE) {
@@ -889,25 +889,29 @@ void VRSql::deleteRows(WObject *o)
 
 
 ///////////
-// gets (select)
+// select
 
-/** Gets an integer value from a row in the sql table */
+/** Selects an integer value from a row in the sql table */
 int VRSql::getInt(WObject *o, const char *col, uint16_t irow)
 {
-  return getInt(o->typeName(), col, o->named(), World::current()->getName(), irow);
+  return selectInt(o->typeName(), col, o->named(), World::current()->getName(), irow);
 }
 
-/** Gets a float from a row in the sql table */
+/** Selects a float from a row in the sql table */
 float VRSql::getFloat(WObject *o, const char *col, uint16_t irow)
 {
-  return getFloat(o->typeName(), col, o->named(), World::current()->getName(), irow);
+  return selectFloat(o->typeName(), col, o->named(), World::current()->getName(), irow);
 }
 
-/** Gets a string from a row in the sql table */
+/** Selects a string from a row in the sql table */
 int VRSql::getString(WObject *o, const char *col, char *str, uint16_t irow)
 {
-  return getString(o->typeName(), col, o->named(), World::current()->getName(), str, irow);
+  return selectString(o->typeName(), col, o->named(), World::current()->getName(), str, irow);
 }
+
+
+///////////
+// gets
 
 int VRSql::getState(WObject *o)
 {
@@ -999,7 +1003,7 @@ int VRSql::getCount(const char *table, const char *name, const char *world)
 /* Gets qualified name in C_NAME - called by checkPersist in world.cpp */
 int VRSql::getName(const char *table, const char *pattern, int numrow, char *retname)
 {
-  int irow = getSubstring(table, pattern, numrow, retname);
+  int irow = selectSubstring(table, pattern, numrow, retname);
   //echo("num=%d irow=%d str=%s", numrow, irow, retname);
   return (irow >= 0 ) ? irow : -1;
 }
