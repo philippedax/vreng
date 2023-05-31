@@ -557,7 +557,7 @@ int VRSql::countRows(const char *table)
   sprintf(sql, "SELECT COUNT(*) FROM %s", table);
 
 #if USE_SQLITE
-  int rc;
+  int rc = 0;
   char *err_msg = NULL;
 
   if (! db) {
@@ -628,7 +628,7 @@ int VRSql::countRows(const char *table, const char *col, const char *like)
   }
   rc = sqlite3_step(stmt);
   val = sqlite3_column_int(stmt, 0);
-  echo("countrowswhere: %s.%s.%s val=%d", table, col, like, val);
+  //echo("countrowswhere: %s.%s.%s val=%d", table, col, like, val);
   if (rc != SQLITE_DONE) {
     error("%s err steprows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
