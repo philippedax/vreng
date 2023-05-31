@@ -655,6 +655,7 @@ int VRSql::checkRow(const char *table, const char *name, const char *world)
 {
   int val = 0;
 
+  if (!name) return 0;
   createTable(table);
   sprintf(sql, "SELECT * FROM %s WHERE name='%s%s%s'", table, name, (*world) ? "@" : "", world);
 
@@ -743,6 +744,7 @@ void VRSql::insertRow(WObject *o)
 /** Insert col into the sql table */
 void VRSql::insertCol(const char *table, const char *col, const char *name, const char *world)
 {
+  if (!name) return;
   sprintf(sql, "INSERT INTO %s (name,%s) VALUES ('%s%s%s', 'NULL')",
           table, col, name, (*world) ? "@" : "", world);
   echo("insertcol %s %s", table, sql);
@@ -756,6 +758,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 /** Updates row int into the sql table */
 void VRSql::updateInt(WObject *o, const char *table, const char *col, const char *name, const char *world, int val)
 {
+  if (!name) return;
   if (! o->named()) return;	// no name
   createTable(table);
   char pat[32];
@@ -774,6 +777,7 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
 /** Updates row float into the sql table */
 void VRSql::updateFloat(WObject *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
+  if (!name) return;
   if (! o->named()) return;	// no name
   createTable(table);
   char pat[32];
@@ -792,6 +796,7 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
 /** Updates row string into the sql table */
 void VRSql::updateString(WObject *o, const char *table, const char *col, const char *name, const char *world, const char *str)
 {
+  if (!name) return;
   if (! o->named()) return;	// no name
   createTable(table);
   char pat[32];
@@ -810,24 +815,28 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 /** Updates row int into the sql table */
 void VRSql::updateInt(WObject *o, const char *col, int val)
 {
+  if (! o->named()) return;	// no name
   updateInt(o, o->typeName(), col, o->named(), World::current()->getName(), val);
 }
 
 /** Updates row float into the sql table */
 void VRSql::updateFloat(WObject *o, const char *col, float val)
 {
+  if (! o->named()) return;	// no name
   updateFloat(o, o->typeName(), col, o->named(), World::current()->getName(), val);
 }
 
 /** Updates row string into the sql table */
 void VRSql::updateString(WObject *o, const char *col, const char *str)
 {
+  if (! o->named()) return;	// no name
   updateString(o, o->typeName(), col, o->named(), World::current()->getName(), str);
 }
 
 /** Updates row string into the sql table */
 void VRSql::updateString(WObject *o, const char *table, const char *col, const char *str)
 {
+  if (! o->named()) return;	// no name
   updateString(o, table, col, o->named(), World::current()->getName(), str);
 }
 
@@ -838,7 +847,7 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 /** Deletes all rows from the sql table */
 void VRSql::deleteRows(const char *table)
 {
-  //echo("deleterows %s %x", table, db);
+  //echo("deleterows %s", table);
   createTable(table);
   sprintf(sql, "DELETE FROM %s", table);
   query(sql);
@@ -848,6 +857,7 @@ void VRSql::deleteRows(const char *table)
 void VRSql::deleteRow(WObject *o, const char *table, const char *name, const char *world)
 {
   //echo("deleterow %s", table);
+  if (!name) return;
   createTable(table);
   sprintf(sql, "DELETE FROM %s WHERE name='%s%s%s'",
           table, name, (*world) ? "@" : "", world);
@@ -867,6 +877,7 @@ void VRSql::deleteRow(WObject *o, const char *str)
 /** Deletes a row of this object */
 void VRSql::deleteRow(WObject *o)
 {
+  if (! o->named()) return;	// no name
   deleteRow(o, o->typeName(), o->named(), World::current()->getName());
 }
 
@@ -952,6 +963,7 @@ float VRSql::getPosAZ(WObject *o, uint16_t irow)
   return (val != ERR_SQL) ? val : o->pos.az;
 }
 
+/* Deletes objects owned by user in Cart */
 int VRSql::getCountCart()
 {
   char pattern[64];
@@ -977,6 +989,7 @@ int VRSql::getCount(const char *table, const char *world)
 
 int VRSql::getCount(const char *table, const char *name, const char *world)
 {
+  if (!name) return 0;
   char pattern[64];
   sprintf(pattern, "'%s@%s'", name, world);
   int val = countRows(table, C_NAME, pattern);
