@@ -25,7 +25,6 @@
 #include "olist.hpp"	// OList
 #include "parse.hpp"	// Parse
 #include "move.hpp"	// MAXKEYS
-#include "vrsql.hpp"	// VRSql
 
 #include <list>
 #include <vector>
@@ -845,9 +844,6 @@ public:
   // VRSql
   //
 public:
-  //dax void getPersistency();
-  //dax /**< Checks if position is managed by VRSql and get it. */
-
   void getPersist(int16_t state);
   /**< Gets state from VRSql. */
 
