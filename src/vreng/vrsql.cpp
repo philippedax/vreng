@@ -423,6 +423,8 @@ int VRSql::selectString_cb(void *val, int argc, char **argv, char**azColName)
 
 int VRSql::selectString(const char *table, const char *col, const char *name, const char *world, char *retstring, uint16_t irow)
 {
+  int val = 0;
+
   sprintf(sql, "SELECT %s FROM %s WHERE name='%s%s%s'",
           col, table, name, (*world) ? "@" : "", world);
 
@@ -459,7 +461,8 @@ int VRSql::selectString(const char *table, const char *col, const char *name, co
     if (rc != SQLITE_ROW) {
       error("rc=%d err stepstring %s", rc, sqlite3_errmsg(db));
       sqlite3_free(err_msg);
-      return ERR_SQL;
+      val = ERR_SQL;
+      break;
     }
   }
   sqlite3_finalize(stmt);
@@ -486,6 +489,8 @@ int VRSql::selectString(const char *table, const char *col, const char *name, co
 
 int VRSql::selectSubstring(const char *table, const char *like, uint16_t irow, char *retstring)
 {
+  int val = 0;
+
   sprintf(sql, "SELECT name FROM %s WHERE 'name' LIKE '%s'", table, like);
 
 #if USE_SQLITE
@@ -512,7 +517,8 @@ int VRSql::selectSubstring(const char *table, const char *like, uint16_t irow, c
     if (rc != SQLITE_ROW) {
       error("rc=%d err stepsubstring %s", rc, sqlite3_errmsg(db));
       sqlite3_free(err_msg);
-      return ERR_SQL;
+      val = ERR_SQL;
+      break;
     }
   }
   sqlite3_finalize(stmt);
@@ -583,7 +589,6 @@ int VRSql::countRows(const char *table)
   for (;;) {
     rc = sqlite3_step(stmt);
     if (rc == SQLITE_DONE) {
-      //val = sqlite3_column_count(stmt);
       val = sqlite3_column_int(stmt, 0);
       break;
     }
@@ -635,7 +640,6 @@ int VRSql::countRows(const char *table, const char *col, const char *like)
   for (;;) {
     rc = sqlite3_step(stmt);
     if (rc == SQLITE_DONE) {
-      //val = sqlite3_column_count(stmt);
       val = sqlite3_column_int(stmt, 0);
       break;
     }
@@ -694,6 +698,7 @@ int VRSql::checkRow(const char *table, const char *name, const char *world)
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE) {
     error("checkrow err: rc=%d", rc);
+    sqlite3_finalize(stmt);
     return ERR_SQL;
   }
   val = sqlite3_column_int(stmt, 0);
@@ -774,7 +779,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 /** Updates int into the sql table */
 void VRSql::updateInt(WObject *o, const char *table, const char *col, const char *name, const char *world, int val)
 {
-  if (!name) return;	// no name -> no update
+  if (! name) return;	// no name -> no update
   createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
@@ -792,7 +797,7 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
 /** Updates float into the sql table */
 void VRSql::updateFloat(WObject *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
-  if (!name) return;	// no name -> no update
+  if (! name) return;	// no name -> no update
   createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
@@ -810,7 +815,7 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
 /** Updates string into the sql table */
 void VRSql::updateString(WObject *o, const char *table, const char *col, const char *name, const char *world, const char *str)
 {
-  if (!name) return;	// no name -> no update
+  if (! name) return;	// no name -> no update
   createTable(table);
   char pat[32];
   sprintf(pat, "%s@%s", name, world);
@@ -1062,7 +1067,7 @@ int VRSql::getCount(const char *table, const char *world)
 
 int VRSql::getCount(const char *table, const char *name, const char *world)
 {
-  if (!name) return 0;
+  if (! name) return 0;
   char pattern[64];
   sprintf(pattern, "'%s@%s'", name, world);
   int val = countRows(table, C_NAME, pattern);
