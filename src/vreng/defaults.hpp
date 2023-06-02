@@ -58,13 +58,13 @@
 #define VRE_VERSION	8	// current stable version of vre files
 
 /* default URLs */
-//#define GEN_URL(h, u, p) 	("http://" h u p) // notused
-#if !defined(DEF_URL_PFX)	// by ./configure --with-httpd-prefix
+//#define GEN_URL(h, u, p) 	("http://" h u p) // macro not used
 
-// Url prefix allowing access to the htdocs location
+#if !defined(DEF_URL_PFX)	// by ./configure --with-httpd-prefix
+// Default Url prefix allowing access to the htdocs (data) location
 // default url prefix: can be changed to be adapted to your site.
-#define DEF_URL_PFX "~%s/vreng"	// <-- %s is the current loginname of the vreng user
-				// prefix to tune, should be "" (old prefix)
+#define DEF_URL_PFX "~%s/vreng"	// %s represent the current user's loginname
+				// this prefix may be tuned, it should be "" (old prefix)
 				// it is the HTDOCS equivallent for your
 				// local httpd server (after http://httpserver/)
 				// for example:
@@ -74,14 +74,14 @@
 				//     ~/Sites/vreng/ (for MacOS)
 				// where "vreng/" is the same as "htdocs/" directory
 				// in this distribution.
-#endif
+#endif //DEF_URL_PFX
 
-// these paths are relative to the htdocs directory
+// these paths are relative to the htdocs/ (data) directory
 #define DEF_URL_WORLD     "/vre/Rendezvous.vre"		// location: /vre/Rendezvous.vre
 #define DEF_URL_WORLD_BAK "/vre/v8/Rendezvous.vre"	// alt location: /vre/v8/Rendezvous.vre
 #define DEF_URL_WORLDS    "/vre/worlds"			// list of worlds
-#define DEF_URL_FRONT     "/gif/default.gif"		// for user box
-#define DEF_URL_BACK      "/gif/default.1.gif"		// for user box
+#define DEF_URL_FRONT     "/gif/default.gif"		// user front box
+#define DEF_URL_BACK      "/gif/default.1.gif"		// user back box
 #define DEF_URL_BALL      "/gif/ball.gif"		// ball by default
 #define DEF_URL_TXF       "/txf/helvetica-br-24.txf"	// txf font by default
 #define DEF_URL_PAPER     "/jpg/paper.jpg"		// paper for book
