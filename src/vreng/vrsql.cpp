@@ -302,7 +302,7 @@ int VRSql::selectInt(const char *table, const char *col, const char *name, const
 #if 0 //dax
   rc = sqlite3_exec(db, sql, &VRSql::selectInt_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
-    error("%s rc=%d err selectint %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    error("%s rc=%d selectint %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
@@ -310,22 +310,22 @@ int VRSql::selectInt(const char *table, const char *col, const char *name, const
 #else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
-    error("%s %s %d err prepare %s", table,col,irow, sqlite3_errmsg(db));
+    error("%s.%s %d prepare %s", table,col,irow, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE && rc != SQLITE_ROW) {
-    error("%s.%s %d err stepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    error("%s.%s %d stepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     val = ERR_SQL;
   }
   if (rc != SQLITE_DONE) {
-    error("%s.%s %d err stepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    error("%s.%s %d stepint rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    echo("%s.%s %d err stepint null rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    echo("%s.%s %d stepint null", table, col, irow);
     val = ERR_SQL;
   }
   else {
@@ -383,22 +383,22 @@ float VRSql::selectFloat(const char *table, const char *col, const char *name, c
   createTable(table);
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
-    error("%s err prepare %s", table, sqlite3_errmsg(db));
+    error("%s prepare %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE && rc != SQLITE_ROW) {
-    error("%s.%s %d err stepfloat rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    error("%s.%s %d stepfloat rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     val = ERR_SQL;
   }
   if (rc != SQLITE_DONE) {
-    error("%s.%s %d err stepfloat rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    error("%s.%s %d stepfloat rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    //echo("%s.%s %d err stepfloat null rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    //echo("%s.%s %d stepfloat null", table, col, irow);
     val = ERR_SQL;
   }
   else {
@@ -452,7 +452,7 @@ int VRSql::selectString(const char *table, const char *col, const char *name, co
 #if 0 //dax
   rc = sqlite3_exec(db, sql, selectString_cb, retstring, &err_msg);
   if (rc != SQLITE_OK) {
-    error("%s rc=%d err selectstring %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    error("%s rc=%d selectstring %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
@@ -460,22 +460,22 @@ int VRSql::selectString(const char *table, const char *col, const char *name, co
 #else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
-    error("%s err selectstring %s sql=%s", table, sqlite3_errmsg(db), sql);
+    error("%s selectstring %s sql=%s", table, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE && rc != SQLITE_ROW) {
-    error("%s.%s %d err stepstring rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    error("%s.%s %d stepstring rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     val = ERR_SQL;
   }
   if (rc != SQLITE_DONE) {
-    error("%s.%s %d err stepstring rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    error("%s.%s %d stepstring rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    //echo("%s.%s %d err stepstring null rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    //echo("%s.%s %d stepstring null", table, col, irow);
     val = ERR_SQL;
   }
   else {
@@ -520,22 +520,22 @@ int VRSql::selectSubstring(const char *table, const char *like, uint16_t irow, c
   createTable(table);
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
-    error("%s err selectsubstring %s sql=%s", table, sqlite3_errmsg(db), sql);
+    error("%s selectsubstring %s sql=%s", table, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE && rc != SQLITE_ROW) {
-    error("%s %d err stepsubstring rc=%d %s", table, irow, rc, sqlite3_errmsg(db));
+    error("%s %d stepsubstring rc=%d %s", table, irow, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     val = ERR_SQL;
   }
   if (rc != SQLITE_DONE) {
-    error("%s %d err stepsubstring rc=%d %s", table, irow, rc, sqlite3_errmsg(db));
+    error("%s %d stepsubstring rc=%d %s", table, irow, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    //echo("%s %d err stepsubstring null rc=%d %s", table, irow, rc, sqlite3_errmsg(db));
+    //echo("%s %d stepsubstring null", table, irow);
     val = ERR_SQL;
   }
   else {
@@ -597,7 +597,7 @@ int VRSql::countRows(const char *table)
 #if 0 //dax
   rc = sqlite3_exec(db, sql, countRows_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
-    error("%s rc=%d err countrows %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    error("%s rc=%d countrows %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
@@ -605,22 +605,22 @@ int VRSql::countRows(const char *table)
 #else
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
-    error("%s err preparerows %s", table, sqlite3_errmsg(db));
+    error("%s preparerows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE && rc != SQLITE_ROW) {
-    error("%s err steprow rc=%d %s", table, rc, sqlite3_errmsg(db));
+    error("%s steprow rc=%d %s", table, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     val = ERR_SQL;
   }
   if (rc != SQLITE_DONE) {
-    error("%s err steprow rc=%d %s", table, rc, sqlite3_errmsg(db));
+    error("%s steprow rc=%d %s", table, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    //echo("%s err steprow null rc=%d %s", table, rc, sqlite3_errmsg(db));
+    //echo("%s steprow null", table);
     val = ERR_SQL;
   }
   else {
@@ -661,22 +661,22 @@ int VRSql::countRows(const char *table, const char *col, const char *like)
   createTable(table);
   rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK) {
-    error("%s err preparerows %s", table, sqlite3_errmsg(db));
+    error("%s preparerows %s", table, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE && rc != SQLITE_ROW) {
-    error("%s.%s err steprows rc=%d %s", table, col, rc, sqlite3_errmsg(db));
+    error("%s.%s steprows rc=%d %s", table, col, rc, sqlite3_errmsg(db));
     sqlite3_free(err_msg);
     val = ERR_SQL;
   }
   if (rc != SQLITE_DONE) {
-    error("%s.%s err steprows rc=%d %s", table, col, rc, sqlite3_errmsg(db));
+    error("%s.%s steprows rc=%d %s", table, col, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    //echo("%s.%s err steprows null rc=%d %s", table, col, rc, sqlite3_errmsg(db));
+    //echo("%s.%s steprows null", table, col);
     val = ERR_SQL;
   }
   else {
@@ -715,7 +715,7 @@ int VRSql::checkRow(const char *table, const char *name, const char *world)
 #if 0 //dax
   rc = sqlite3_exec(db, sql, 0, NULL, &err_msg);
   if (rc != SQLITE_OK) {
-    error("%s rc=%d err checkrow %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
+    error("%s rc=%d checkrow %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
     val = ERR_SQL;
     return ERR_SQL;
