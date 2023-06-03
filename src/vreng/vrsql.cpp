@@ -36,14 +36,14 @@ static const char * DB = NULL;		///< no database
 #endif
 static const char * USER = "vreng";	///< username
 static const char * PASSWD = NULL;	///< no password
-static const char * C_NAME = "name";	///< column name      : text(32)
-static const char * C_STATE = "state";	///< column state     : tinyint
-static const char * C_X = "x";		///< column x         : float
-static const char * C_Y = "y";		///< column y         : float
-static const char * C_Z = "z";		///< column z         : float
-static const char * C_AZ = "az";	///< column az        : float
-static const char * C_OWNER = "owner";	///< column owner     : text(16)
-static const char * C_GEOM = "geom";	///< column geom      : text(256)
+static const char * C_NAME = "name";	///< column name      : varchar(32)
+static const char * C_STATE = "state";	///< column state     : int
+static const char * C_X = "x";		///< column x         : real
+static const char * C_Y = "y";		///< column y         : real
+static const char * C_Z = "z";		///< column z         : real
+static const char * C_AZ = "az";	///< column az        : real
+static const char * C_OWNER = "owner";	///< column owner     : varchar(16)
+static const char * C_GEOM = "geom";	///< column geom      : varchar(256)
 
 
 /** Constructor */
@@ -398,7 +398,7 @@ float VRSql::selectFloat(const char *table, const char *col, const char *name, c
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    error("%s.%s %d err stepfloat null rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    //echo("%s.%s %d err stepfloat null rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else {
@@ -475,7 +475,7 @@ int VRSql::selectString(const char *table, const char *col, const char *name, co
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    error("%s.%s %d err stepstring null rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    //echo("%s.%s %d err stepstring null rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else {
@@ -535,7 +535,7 @@ int VRSql::selectSubstring(const char *table, const char *like, uint16_t irow, c
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    error("%s %d err stepsubstring null rc=%d %s", table, irow, rc, sqlite3_errmsg(db));
+    //echo("%s %d err stepsubstring null rc=%d %s", table, irow, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else {
@@ -620,7 +620,7 @@ int VRSql::countRows(const char *table)
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    error("%s err steprow null rc=%d %s", table, rc, sqlite3_errmsg(db));
+    //echo("%s err steprow null rc=%d %s", table, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else {
@@ -676,7 +676,7 @@ int VRSql::countRows(const char *table, const char *col, const char *like)
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    error("%s.%s err steprows null rc=%d %s", table, col, rc, sqlite3_errmsg(db));
+    //echo("%s.%s err steprows null rc=%d %s", table, col, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else {
@@ -763,7 +763,7 @@ void VRSql::createDatabase(const char *database)
 void VRSql::createTable(const char *table)
 {
   //echo("createtable %s", table);
-  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s (name text(32), state tinyint(255), x float(24), y float(24), z float(24), az float(24), owner text(16), geom text(256))", table);
+  sprintf(sql, "CREATE TABLE IF NOT EXISTS %s (name VARCHAR(32) NOT NULL, state INT NOT NULL, x REAL NOT NULL, y REAL NOT NULL, z REAL NOT NULL, az REAL, owner VARCHAR(16), geom VARCHAR(256))", table);
   query(sql);
 }
 
