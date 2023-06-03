@@ -297,7 +297,7 @@ int VRSql::selectInt(const char *table, const char *col, const char *name, const
   if (! db) {
     openDB();	// we need to reopen database
   }
-  echo("selectint %s", sql);
+  //echo("selectint %s", sql);
   createTable(table);
 #if 0 //dax
   rc = sqlite3_exec(db, sql, &VRSql::selectInt_cb, &val, &err_msg);
@@ -325,7 +325,7 @@ int VRSql::selectInt(const char *table, const char *col, const char *name, const
     val = ERR_SQL;
   }
   else if (sqlite3_column_type(stmt, 0) == SQLITE_NULL) {
-    error("%s.%s %d err stepint null rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
+    echo("%s.%s %d err stepint null rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
     val = ERR_SQL;
   }
   else {
@@ -1022,14 +1022,14 @@ int VRSql::getString(WObject *o, const char *col, char *str, uint16_t irow)
 int VRSql::getState(WObject *o)
 {
   int val = getInt(o, C_STATE, 0);
-  echo("state_old=%d val=%d", o->state, val);
+  //echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
 int VRSql::getState(WObject *o, uint16_t irow)
 {
   int val =  getInt(o, C_STATE, irow);
-  echo("state_old=%d val=%d", o->state, val);
+  //echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
