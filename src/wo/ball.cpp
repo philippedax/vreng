@@ -36,7 +36,6 @@ const OClass Ball::oclass(BALL_TYPE, "Ball", Ball::creator, Ball::replicator);
 const float Ball::LSPEED = 5.0;		// 5 m/s
 const float Ball::ZSPEED = 3.0;		// 3 m/s
 const float Ball::ASPEED = -1.5;	// 1.5 rd/s
-const float Ball::ORIGZ = 1.0;		// 1 m
 const float Ball::SHIFT = 1.0;		// 1 m
 const float Ball::RADIUS = 0.1;		// 10 cm
 const float Ball::DELTAZ = 0.02;        // 2 cm
@@ -121,10 +120,9 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 
   /* random position */
   srand((uint32_t) time(NULL));
-  pos.x = ball->pos.x + (float)drand48() * 2 -1;
-  pos.y = ball->pos.y + (float)drand48() * 2 -1;
-  pos.z = ball->pos.z + ORIGZ;
-  origz = pos.z;	// see ground
+  pos.x += (float)drand48() * 2 -1;
+  pos.y += (float)drand48() * 2 -1;
+  pos.z += 1;	// + 1m
 }
 
 /** Recreated by the world (persistency) */
