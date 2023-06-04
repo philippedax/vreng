@@ -93,12 +93,12 @@ void Ball::parser(char *l)
 void Ball::behaviors()
 {
   enableBehavior(PERSISTENT);
-  enablePermanentMovement();	// follow gravity force
 }
 
 void Ball::inits()
 {
   initMobileObject(TTL);
+  enablePermanentMovement();	// follow gravity force
   createVolatileNetObject(PROPS);
 }
 
@@ -174,8 +174,8 @@ Ball::Ball(uint8_t type_id, Noid _noid, Payload *pp)
   netop = replicateNetObject(PROPS, _noid);
   netop->getAllProperties(pp);
 
-  geometry();
   defaults();
+  geometry();
   behaviors();
   initMobileObject(0);
 }
@@ -341,7 +341,7 @@ void Ball::destroy()
 {
   taken = false;
   clearObjectBar();
-  toDelete();	// delete Ball
+  toDelete();	// predelete Ball
   if (psql) psql->deleteRow(this);
 }
 
