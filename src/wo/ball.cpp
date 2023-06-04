@@ -110,7 +110,7 @@ Ball::Ball(char *l)
 }
 
 /** Created by the cauldron */
-Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
+Ball::Ball(WObject *cauldron, void *d, time_t s, time_t u)
 {
   defaults();
   setName();
@@ -120,9 +120,9 @@ Ball::Ball(WObject *ball, void *d, time_t s, time_t u)
 
   /* random position */
   srand((uint32_t) time(NULL));
-  pos.x += (float)drand48() * 2 -1;
-  pos.y += (float)drand48() * 2 -1;
-  pos.z += 1;	// + 1m
+  pos.x = cauldron->pos.x + (float)drand48() * 2 -1;
+  pos.y = cauldron->pos.y + (float)drand48() * 2 -1;
+  pos.z = cauldron->pos.z + 1;	// + 1m
 }
 
 /** Recreated by the world (persistency) */

@@ -81,7 +81,7 @@ class Ball: public WObject {
 
   const OClass* getOClass() {return &oclass;}
 
-  Ball(class WObject *o, void *d, time_t s, time_t u);
+  Ball(class WObject *cauldron, void *d, time_t s, time_t u);
   /**< constructor: called by cauldron. */
 
   Ball(class World *world, void *d, time_t s, time_t u);
