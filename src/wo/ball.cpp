@@ -74,6 +74,10 @@ void Ball::geometry()
   char s[128];
 
   sprintf(s, "solid shape=\"sphere\" r=\"%f\" tx=\"%s\" />", RADIUS, DEF_URL_BALL);
+  if (! geomsolid) {
+    geomsolid = new char[strlen(s)];
+    strcpy(geomsolid, s);
+  }
   parseSolid(s);
 }
 
