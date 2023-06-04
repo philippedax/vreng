@@ -777,29 +777,25 @@ void VRSql::insertRow(WObject *o)
 {
   if (! o->named()) return;	// no name
   createTable(o->typeName());
-#if 1 //dax
-  sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) VALUES ( '%s@%s', '%d', '%f', '%f', '%f', '%f', '%s', '%s' )",
+  sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) \
+                VALUES ( '%s@%s', '%d', '%f', '%f', '%f', '%f', '%s', '%s' )",
           o->typeName(),
           C_NAME, C_STATE, C_X, C_Y, C_Z, C_AZ, C_OWNER, C_GEOM,
-          o->named(), World::current()->getName(),
-          o->state, o->pos.x, o->pos.y, o->pos.z, o->pos.az, o->ownerName(), o->geomsolid);
-#else
-  sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) VALUES ( '%s@%s', '0', 'NULL', 'NULL', 'NULL', 'NULL', '%s', 'NULL' )",
-          o->typeName(),
-          C_NAME, C_STATE, C_X, C_Y, C_Z, C_AZ, C_OWNER, C_GEOM,
-          o->named(), World::current()->getName(), o->ownerName());
-#endif
-  //echo("insertrow %s", o->typeName());
+          o->named(), World::current()->getName(),	// name
+          o->state,					// state
+          o->pos.x, o->pos.y, o->pos.z, o->pos.az,	// pos
+          o->ownerName(), o->geomsolid);		// owner + geom
+  //echo("insertrow %s", sql);
   query(sql);
 }
 
 /** Insert col into the sql table */
 void VRSql::insertCol(const char *table, const char *col, const char *name, const char *world)
 {
-  if (!name) return;
+  if (! name) return;	// no name
   sprintf(sql, "INSERT INTO %s (name,%s) VALUES ('%s%s%s', 'NULL')",
           table, col, name, (*world) ? "@" : "", world);
-  echo("insertcol %s %s", table, sql);
+  echo("insertcol %s", sql);
   query(sql);
 }
 
