@@ -864,18 +864,17 @@ void WObject::savePersist()
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && isBehavior(PERSISTENT) && !removed) {
+    psql->deleteRow(this, names.given);
+    psql->insertRow(this);	//dax
     // update VRSql table only if object has changed
-    if (pos.alter) {
-      psql->deleteRow(this, names.given);
-      psql->insertRow(this);	//dax
-      //dax psql->updatePos(this);
-    }
-    if (isBehavior(DYNAMIC)) {
-      psql->deleteRow(this, names.given);
-      psql->insertRow(this);	//dax
-      //dax psql->updateOwner(this);
-      //dax psql->updateGeom(this, geomsolid);
-    }
+    //if (pos.alter) {
+    //  psql->deleteRow(this, names.given);
+    //  psql->insertRow(this);	//dax
+    //}
+    //if (isBehavior(DYNAMIC)) {
+    //  psql->deleteRow(this, names.given);
+    //  psql->insertRow(this);	//dax
+    //}
     psql->quit();
   }
 }
