@@ -147,7 +147,7 @@ Mirage::Mirage(WObject *user, char *geom)
   setOwner();
 
   psql = VRSql::getVRSql();
-  if (psql && named()) {
+  if (isBehavior(PERSISTENT) && psql && named()) {
     psql->insertRow(this);
     //psql->updatePos(this);
     //psql->updateGeom(this, geom);
@@ -180,7 +180,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   // we don't know anything about the geometry except from VRSql
   geomsolid = new char[256];
   psql = VRSql::getVRSql();
-  if (psql && named()) {
+  if (isBehavior(PERSISTENT) && psql && named()) {
     psql->getGeom(this);
     psql->getOwner(this);
     psql->getPos(this);
