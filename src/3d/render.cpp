@@ -596,23 +596,34 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   GLint hits = glRenderMode(GL_RENDER);
   GLuint** hitlist = new GLuint*[hits];
   GLuint *psel = selbuf;
-  for (int i=0; i < hits; i++) {
+  for (int hit=0; hit < hits; hit++) {
     if (::g.pref.dbgtrace) {
       echo("hit: %d/%d num=%d min=%ud name=%s/%s",
-            i, hits, psel[3], psel[1],
-            WObject::byNum(psel[3])->typeName(),WObject::byNum(psel[3])->getInstance());
+            hit, hits, psel[3], psel[1],
+            WObject::byNum(psel[3])->typeName(),
+            WObject::byNum(psel[3])->getInstance());
     }
-    hitlist[i] = psel;
+    hitlist[hit] = psel;
     psel += 3 + psel[0];	// next hit
   }
 
   uint16_t nearest = 0;
+  uint16_t next = 0;
 
   if (hits > 0) {
     qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
     int n = depth % hits;
     nearest = hitlist[n][3];
-    if (::g.pref.dbgtrace) echo("num=%d name=%s next=%s", nearest, WObject::byNum(nearest)->getInstance(), WObject::byNum(hitlist[1][3])->getInstance());	// FIXME! segfault
+    if (hits > 1) next = hitlist[1][3];
+    if (::g.pref.dbgtrace) {
+      if (hits > 1)
+        echo("nearest: %d/%s next %d/%s",
+              nearest, WObject::byNum(nearest)->getInstance(),
+              next, WObject::byNum(next)->getInstance());
+      else
+        echo("nearest: %d/%s",
+              nearest, WObject::byNum(nearest)->getInstance());
+    }
   }
   if (hitlist) delete[] hitlist;
 

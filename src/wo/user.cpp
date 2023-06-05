@@ -336,7 +336,7 @@ void User::inits()
   carrier = new Carrier();
   char *basket = new char[32];
   strcpy(basket, "name=\"basket\"");
-  cart = new Cart(basket);
+  //dax cart = new Cart(basket);
 
   checkPersist();	 // checks Persist objects
 }

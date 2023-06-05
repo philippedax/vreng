@@ -221,12 +221,12 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
   //depthsel = rand()%2;	// orig: 0
   static uint8_t depth = 0;	// first object
   //echo("depth: %d", depth%2);
-  WObject* object = gw.pointedObject(x, y, objinfo, depth%2);
+  WObject* object = gw.pointedObject(x, y, objinfo, depth % 3);
   depth++;	// next object hidden
 
   if (object) {
     gw.gui.selected_object = object;
-    trace(DBG_GUI, "clic [%d %d] on %s", x, y, object->getInstance());
+    //echo("clic [%d %d] on %s", x, y, object->getInstance());
   
     if (object->names.url[0]) {
       selected_object_url = object->names.url;
