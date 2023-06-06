@@ -217,12 +217,11 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
     prev_object->resetRay();
   }
 
-  // current object
-  //depthsel = rand()%2;	// orig: 0
-  static uint8_t depth = 0;	// first object
-  //echo("depth: %d", depth%2);
-  WObject* object = gw.pointedObject(x, y, objinfo, depth % 3);
-  depth++;	// next object hidden
+  // current clic
+  static uint8_t z = 0;	// first object static to allow 3 objects
+  //echo("z: %d", z);
+  WObject* object = gw.pointedObject(x, y, objinfo, z % 3);
+  z++;			// next object hidden in th the z buffer
 
   if (object) {
     gw.gui.selected_object = object;

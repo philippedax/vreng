@@ -42,6 +42,7 @@ using namespace std;
 
 
 // local
+#define SEL_MAXNAMES    1024				// max names in buffer selection
 const int Render::SEL_BUFSIZ = (4*SEL_MAXNAMES);	// 1024 names
 static GLuint selbuf[4*SEL_MAXNAMES];			// 1024 objects
 
@@ -323,6 +324,7 @@ void Render::renderModel()
   for (list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
     materials();
     putSelbuf((*it)->object());		// records the name before displaying it
+    //ok echo("%s", (*it)->object()->getInstance());
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
