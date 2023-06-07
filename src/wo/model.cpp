@@ -130,8 +130,8 @@ void Model::parser(char *l)
 
 void Model::behaviors()
 {
-  enableBehavior(NO_ELEMENTARY_MOVE);
-  enableBehavior(COLLIDE_NEVER);
+  //dax enableBehavior(NO_ELEMENTARY_MOVE);
+  //dax enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 }
 
@@ -189,12 +189,12 @@ void Model::scaler()
 {
   if (scale == 1) {
     switch (model_t) {
-    case MODEL_LWO: if (lwo) scale = lwo->getRadius(); break;
-    case MODEL_3DS: if (ds3) scale = ds3->getRadius(); break;
-    case MODEL_ASE: if (ase) scale = ase->getRadius(); break;
-    case MODEL_OBJ: if (obj) scale = obj->getRadius(); break;
-    case MODEL_MD2: if (md2) scale = md2->getRadius(); break;
-    case MODEL_DXF: if (dxf) scale = dxf->getRadius(); break;
+    case MODEL_LWO: if (lwo) scale = lwo->getScale(); break;
+    case MODEL_3DS: if (ds3) scale = ds3->getScale(); break;
+    case MODEL_ASE: if (ase) scale = ase->getScale(); break;
+    case MODEL_OBJ: if (obj) scale = obj->getScale(); break;
+    case MODEL_MD2: if (md2) scale = md2->getScale(); break;
+    case MODEL_DXF: if (dxf) scale = dxf->getScale(); break;
     case MODEL_OFF: break;
     case MODEL_X3D: break;
     case MODEL_MAN: break;

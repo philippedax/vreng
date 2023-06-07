@@ -115,7 +115,7 @@ void Dxf::setColor(int type, float *color)
   }
 }
 
-float Dxf::getRadius()
+float Dxf::getScale()
 {
   float max_radius = 0.0;
 #if 0

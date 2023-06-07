@@ -156,7 +156,7 @@ class _3ds {
   void setScale(float scale);
   /**< Changes scale */
 
-  float getRadius();
+  float getScale();
   /**< Gets spheric BB */
 
   GLint displaylist();

@@ -148,7 +148,7 @@ int Obj::openTexture(const char *file)
   return Texture::open(url_tex);
 }
 
-float Obj::getRadius()
+float Obj::getScale()
 {
   double max_radius = 0.0;
 

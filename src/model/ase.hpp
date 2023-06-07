@@ -115,8 +115,8 @@ private:
   void setScale(float scale);
   /**< Sets the scale */
 
-  float getRadius();
-  /**< Gets the radius */
+  float getScale();
+  /**< Gets the radius of BB */
 
   GLint displaylist();
   /**< Draws in displaylist */

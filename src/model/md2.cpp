@@ -366,7 +366,7 @@ void Md2::updBbox(float x, float y, float z)
   else if (z > bbox.zmax) bbox.zmax = z;
 }
 
-float Md2::getRadius()
+float Md2::getScale()
 {
   float radius = (float) fabs(bbox.xmin);
 

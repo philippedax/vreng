@@ -73,7 +73,7 @@ public:
   void displaylist();
   void render();
   void render(const struct Pos &pos);
-  float getRadius();
+  float getScale();
   void setScale(float scale);
 
 private:

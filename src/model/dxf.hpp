@@ -392,7 +392,8 @@ class Dxf {
   void setColor(int type, float *color);
   /**< Sets the color */
 
-  float getRadius();
+  float getScale();
+  /**< Gets the spheric BB */
 
   GLint displaylist();
   /**< Draws in displaylist */

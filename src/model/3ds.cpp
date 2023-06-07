@@ -130,7 +130,7 @@ int _3ds::openTexture(const char *imgFile)
   return Texture::open(url_tex);
 }
 
-float _3ds::getRadius()
+float _3ds::getScale()
 {
   float max_radius = 0;
 

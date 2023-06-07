@@ -401,7 +401,7 @@ void Lwo::render(const Pos &pos)
   }
 }
 
-float Lwo::getRadius()
+float Lwo::getScale()
 {
   float max_radius = 0;
 

@@ -116,8 +116,8 @@ public:
   void setScale(float scale);
   /**< Sets scale of model */
 
-  float getRadius();
-  /**< Gets radius of model */
+  float getScale();
+  /**< Gets radius BB */
 
   void render(struct Pos &pos);
   /**< Renders the model */

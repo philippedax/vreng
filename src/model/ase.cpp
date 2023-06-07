@@ -159,7 +159,7 @@ int Ase::openTexture(const char *file)
   return Texture::open(url_tex);
 }
 
-float Ase::getRadius()
+float Ase::getScale()
 {
   double max_radius = 0;
 

@@ -125,8 +125,8 @@ public:
   void setColor(int type, float *color);
   /**< Sets the color */
 
-  float getRadius();
-  /**< Gets the radius */
+  float getScale();
+  /**< Gets the spheric BB */
 
   GLint displaylist();
   /**< Draws in displaylist */
