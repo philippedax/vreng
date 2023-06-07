@@ -776,16 +776,16 @@ void VRSql::createTable(const char *table)
 void VRSql::insertRow(WObject *o)
 {
   if (! o->named()) return;	// no name
-  echo("%.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
+  //echo("insertrow: %.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
   createTable(o->typeName());
   sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) \
                 VALUES ( '%s@%s', '%d', '%f', '%f', '%f', '%f', '%s', '%s' )",
           o->typeName(),
           C_NAME, C_STATE, C_X, C_Y, C_Z, C_AZ, C_OWNER, C_GEOM,
-          o->named(), World::current()->getName(),	// name
-          o->state,					// state
+          o->named(), World::current()->getName(),		// name
+          o->state,						// state
           o->pos.x, o->pos.y, ABSF(o->pos.z), o->pos.az,	// pos
-          o->ownerName(), o->geomsolid);		// owner + geom
+          o->ownerName(), o->geomsolid);			// owner + geom
   //echo("insertrow %s", sql);
   query(sql);
 }
