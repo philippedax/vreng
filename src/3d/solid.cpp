@@ -717,7 +717,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_BBOX:	// invisible bounding box
-      setBB(dim.v[0], dim.v[1], dim.v[2]);
+      setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
       //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
 

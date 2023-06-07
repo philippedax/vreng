@@ -48,7 +48,7 @@ File *filein;
 
 
 Dxf::Dxf(const char *_url)
- : loaded(false), currentScale(1.0), desiredScale(1.0)
+ : loaded(false), currentScale(0.001), desiredScale(0.001)
 {
   flgcolor = false;
   filein = NULL;
