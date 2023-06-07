@@ -39,31 +39,25 @@
 </water>
 
 <!-- models -->
-<model name="bridget" pos="2.5 3 -.35 0"   scale="2.3"  url="/lwo/bridget.lwo"> </model>
-<model name="monica"  pos="4.5 4 .7 -1.57" scale="2.6"  url="/lwo/monica.lwo"> </model>
-<model name="noma"    pos="5.5 3 .15 -1.6" scale=".022" url="/lwo/noma.lwo"> </model>
-<model name="gidget"  pos="5.6 -2.2 -.5"   scale="3.5"  url="/lwo/gidget.lwo"> </model>
-<model name="penguin" pos="7.0 3 .4 1.57"  scale=".3"   url="/lwo/penguin.lwo"> </model>
+<model name="bridget" pos="2.5 3 -.35 0"    scale="2.3"  url="/lwo/bridget.lwo"> </model>
+<model name="monica"  pos="4.5 4 .7 -1.57"  scale="2.6"  url="/lwo/monica.lwo"> </model>
+<model name="noma"    pos="5.5 3 .15 -1.6"  scale=".022" url="/lwo/noma.lwo"> </model>
+<model name="gidget"  pos="5.6 -2.2 -.5"    scale="3.5"  url="/lwo/gidget.lwo"> </model>
+<model name="penguin" pos="7.0 3 .4 1.57"   scale=".3"   url="/lwo/penguin.lwo"> </model>
+<model name="shrub"   pos="3.0 -2 0 0"      scale=".07"  url="/3ds/tree_1.3ds"> </model>
+<model name="tree"    pos="3.0 4.5 0 0"     scale=".07"  url="/3ds/tree_2.3ds"> </model>
+<model name="liberty" pos="50 -10 6 2.4 0"  scale="1"    url="/ase/liberty.ase"> </model>
+<model name="dxf"     pos="4.0 3 0 0"       scale="1"    url="/dxf/man.dxf" color="brown"> </model>
+<model name="male"    pos="2.0 -1 0 1.57"   scale="3"    url="/obj/male.obj" color="chocolate"> </model>
+<model name="female"  pos="4.0 -1.5 0 3.14" scale="3"    url="/obj/female.obj" color="salmon"> </model>
+<model name="sl"      pos="3.0 1 0 1.57"    scale="3"    url="/obj/avatar.obj" color="pink" bvh="/bvh/cmu_walk.bvh"> </model>
 <!--
--->
-<model name="shrub"   pos="3.0 -2 0 0"     scale=".05"  url="/3ds/tree_1.3ds"> </model>
-<model name="tree"    pos="3.0 4.5 0 0"    scale=".07"  url="/3ds/tree_2.3ds"> </model>
-<model name="liberty" pos="50 -10 6 2.4 0" scale="1"    url="/ase/liberty.ase"> </model>
-<model name="sl"      pos="2.0 1 0 -1.57"   scale="3.2"  url="/obj/avatar.obj" color="pink" bvh="/bvh/cmu_walk.bvh"> </model>
-<model name="dxf"     pos="4.0 3 0 0"      scale=".001" url="/dxf/man.dxf" color="brown"> </model>
-<model name="male"    pos="2.0 -1 0 1.57"  scale="3.2"  url="/obj/male.obj" color="chocolate"> </model>
-<model name="female"  pos="2.0 -0 0 1.57"  scale="2.9"  url="/obj/female.obj" color="salmon"> </model>
-<!--
--->
-<!--
-<model name="maggie"  pos="3.5 3 0 -1.57"  scale="1"    url="/lwo/maggie.lwo"> </model>
-<model name="tris"    pos="1.5 1.5 0 0"    scale=".035" url="/md2/tris.md2" tex="/pcx/skin1.pcx"> </model>
-<model name="cow"     pos="0.0 -4 0 2.35"  scale="1"    url="/3ds/vache.3ds" sound="/wav/cow.wav"> </model>
-<model name="demon"   pos="1.0 3 0 -1.57"  scale=".9"   url="/lwo/demon.lwo"> </model>
-<model name="weapon"  pos="2.0  2 0 0"     scale=".035" url="/md2/weapon.md2"></model>
--->
-<!--
-<model name="tricera" pos="2.0 -2 0 0"     scale="1"    url="/obj/triceratops.obj"> </model>
+<model name="maggie"  pos="3.5 3 0 -1.57"   scale="1"    url="/lwo/maggie.lwo"> </model>
+<model name="demon"   pos="1.0 3 0 -1.57"   scale="1"    url="/lwo/demon.lwo"> </model>
+<model name="cow"     pos="0.0 -4 0 2.35"   scale="1"    url="/3ds/vache.3ds" sound="/wav/cow.wav"> </model>
+<model name="weapon"  pos="2.0  2 0 0"      scale=".035" url="/md2/weapon.md2"></model>
+<model name="tris"    pos="1.5 1.5 0 0"     scale=".035" url="/md2/tris.md2" tex="/pcx/skin1.pcx"> </model>
+<model name="tricera" pos="2.0 -2 0 0"      scale="1"    url="/obj/triceratops.obj"> </model>
 -->
 
 <!-- girl -->
