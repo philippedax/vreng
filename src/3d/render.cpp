@@ -266,7 +266,7 @@ void Render::renderTransparent(bool mini)
 
   // render transparentList
   for (list<Solid*>::iterator it = transparentList.begin(); it != transparentList.end() ; ++it) {
-    recordObject((*it)->object());		// records the name before displaying it
+    recordObject((*it)->object());	// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
@@ -297,14 +297,14 @@ void Render::renderTransparent(bool mini)
   }
 }
 
-// Renders model solids sorted from the furthest to the nearest
+// Renders ground solids sorted from the furthest to the nearest
 void Render::renderGround()
 {
   trace2(DBG_VGL, "\nground: ");
   groundList.sort(compDist);		// sort distances decreasingly
   for (list<Solid*>::iterator it = groundList.begin(); it != groundList.end() ; ++it) {
     materials();
-    recordObject((*it)->object());		// records the name before displaying it
+    recordObject((*it)->object());	// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
@@ -323,7 +323,7 @@ void Render::renderModel()
   modelList.sort(compDist);		// sort distances decreasingly
   for (list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
     materials();
-    recordObject((*it)->object());		// records the name before displaying it
+    recordObject((*it)->object());	// records the name before displaying it
     //ok echo("%s", (*it)->object()->getInstance());
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
@@ -341,7 +341,7 @@ void Render::renderUser()
 {
   trace2(DBG_VGL, "\nuser: ");
   for (list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
-    recordObject((*it)->object());		// records the name before displaying it
+    recordObject((*it)->object());	// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       //echo("specific: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
       (*it)->object()->render();
@@ -418,10 +418,8 @@ void Render::renderSolids(bool mini)
   renderOpaque(mini);		// renders opaque solids
   renderTransparent(mini);	// renders transparent solids
   renderModel();		// renders model solids
-  //if (! mini) {
-    renderFlary();		// renders flary solids
-    renderUser();		// renders localuser last
-  //}
+  renderFlary();		// renders flary solids
+  renderUser();			// renders localuser last
 }
 
 
@@ -598,6 +596,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
   GLint hits = glRenderMode(GL_RENDER);
   GLuint** hitlist = new GLuint*[hits];
   GLuint *psel = selbuf;
+
   for (int hit=0; hit < hits; hit++) {
     if (::g.pref.dbgtrace) {
       echo("hit: %d/%d num=%d min=%ud name=%s/%s",
