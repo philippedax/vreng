@@ -414,14 +414,14 @@ void Render::renderSolids(bool mini)
   }
 
   // order is important !!!
-  renderGround();	// renders ground solids first
-  renderOpaque(mini);	// renders opaque solids
+  renderGround();		// renders ground solids first
+  renderOpaque(mini);		// renders opaque solids
   renderTransparent(mini);	// renders transparent solids
-  if (! mini) {
-    renderModel();	// renders model solids
-    renderFlary();	// renders flary solids
-    renderUser();	// renders localuser last
-  }
+  renderModel();		// renders model solids
+  //if (! mini) {
+    renderFlary();		// renders flary solids
+    renderUser();		// renders localuser last
+  //}
 }
 
 
