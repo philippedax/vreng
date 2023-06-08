@@ -231,7 +231,7 @@ class Render {
   /**< get all drawed Objects on the screen. */
 
  private:
-  void putSelbuf(WObject *po);
+  void recordObject(WObject *po);
   /**< Sets object name in Z-buffer for selection. */
 
   static int compareHit(const void *t1, const void *t2);

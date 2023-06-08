@@ -162,11 +162,11 @@ void Render::materials()
 #endif //debug
 
 /** Records object number into the selection buffer */
-void Render::putSelbuf(WObject *obj)
+void Render::recordObject(WObject *o)
 {
-  if (obj->isSelectable()) {
+  if (o->isSelectable()) {
     glPopName();
-    glPushName((GLuint) obj->num); // push number
+    glPushName((GLuint) o->num); // push number
   }
 }
 
@@ -213,7 +213,7 @@ void Render::renderOpaque(bool mini)
 
   for (list<Solid*>::iterator it = opaqueList.begin(); it != opaqueList.end() ; ++it) {
     materials();
-    putSelbuf((*it)->object());		// records the name before displaying it
+    recordObject((*it)->object());		// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
       (*it)->object()->render();
@@ -266,7 +266,7 @@ void Render::renderTransparent(bool mini)
 
   // render transparentList
   for (list<Solid*>::iterator it = transparentList.begin(); it != transparentList.end() ; ++it) {
-    putSelbuf((*it)->object());		// records the name before displaying it
+    recordObject((*it)->object());		// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
@@ -304,7 +304,7 @@ void Render::renderGround()
   groundList.sort(compDist);		// sort distances decreasingly
   for (list<Solid*>::iterator it = groundList.begin(); it != groundList.end() ; ++it) {
     materials();
-    putSelbuf((*it)->object());		// records the name before displaying it
+    recordObject((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
@@ -323,7 +323,7 @@ void Render::renderModel()
   modelList.sort(compDist);		// sort distances decreasingly
   for (list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
     materials();
-    putSelbuf((*it)->object());		// records the name before displaying it
+    recordObject((*it)->object());		// records the name before displaying it
     //ok echo("%s", (*it)->object()->getInstance());
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
@@ -341,7 +341,7 @@ void Render::renderUser()
 {
   trace2(DBG_VGL, "\nuser: ");
   for (list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
-    putSelbuf((*it)->object());		// records the name before displaying it
+    recordObject((*it)->object());		// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       //echo("specific: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
       (*it)->object()->render();

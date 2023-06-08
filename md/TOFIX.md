@@ -29,3 +29,4 @@ reset after sit
 manipulator moves
 escalator steps disappear
 sun alters colors of scissors
+model no more selectable
