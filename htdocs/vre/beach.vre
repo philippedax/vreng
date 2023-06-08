@@ -12,14 +12,12 @@
 <entry pos="-1 1 0"></entry>
 
 <!-- sky -->
-<bgcolor color=".6 .6 1"></bgcolor>
+<bgcolor color=".7 .8 1"></bgcolor>
 
 <!-- light from sun - syntax: x y z direction spot_cutoff> -->
 <!--
 <light pos="-1 0 -1 0 30"></light>
 <light pos="200 50 80 1"></light>
--->
-<!--
 <light pos="-50 80 -200 1"></light>
 -->
 
@@ -89,11 +87,11 @@
 </cauldron>
 
 <!-- dunes -->
-<plane name="dune1" pos="-25 0 2 1.57 .44">
-  <solid dim="100 12 4" dif=".8 .8 0" zp="/gif/grass.gif" />
+<plane name="dune1" pos="-20 0 2 1.57 .22">
+  <solid dim="100 12 4" dif=".8 .8 0" zp="/gif/desert.gif" />
 </plane>
 <!--
-<plane name="dune2" pos="-45 0 1.5 1.57 -.22">
+<plane name="dune2" pos="-40 0 1.5 1.57 -.22">
   <solid dim="100 30 1" dif="green" zp="/gif/desert.gif" />
 </plane>
 -->
@@ -109,11 +107,16 @@
 <step pos="46 0 -4.0 1.57"> <solid dim="100 10 1" dif="grey30" a=".0" /></step>
 <step pos="51 0 -4.5 1.57"> <solid dim="100 10 1" dif="grey20" a=".0" /></step>
 
+<!-- thunder -->
+<!--
 <thunder pos="40 0 20" number="1"></thunder>
+-->
 
+<!--
 <mirage pos="11 1. .15 0" mode="turn">
   <solid shape="model" url="/obj/avatar.obj" scale="3.2" dif="chocolate" />
 </mirage>
+-->
 
 <!--
 <music name="sea-noise" pos="35 10 0"
