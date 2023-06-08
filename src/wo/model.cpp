@@ -130,8 +130,8 @@ void Model::parser(char *l)
 
 void Model::behaviors()
 {
-  //dax enableBehavior(NO_ELEMENTARY_MOVE);
-  //dax enableBehavior(COLLIDE_NEVER);
+  enableBehavior(NO_ELEMENTARY_MOVE);
+  enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 }
 
@@ -218,15 +218,15 @@ void Model::scaler()
 void Model::drawer()
 {
   switch (model_t) {
-  case MODEL_LWO: if (lwo) lwo->displaylist(); break;
+  case MODEL_LWO:    if (lwo) lwo->displaylist(); break;
   case MODEL_3DS: /* if (ds3) ds3->displaylist(); */ break;
   case MODEL_ASE: /* if (ase) ase->displaylist(); */ break;
   case MODEL_OBJ: /* if (obj) obj->displaylist(); */ break;
-  case MODEL_MD2: if (md2) md2->displaylist(1, texid); break;
-  case MODEL_DXF: if (dxf) dxf->displaylist(); break;
-  case MODEL_OFF: if (off) off->displaylist(); break;
+  case MODEL_MD2:    if (md2) md2->displaylist(1, texid); break;
+  case MODEL_DXF:    if (dxf) dxf->displaylist(); break;
+  case MODEL_OFF:    if (off) off->displaylist(); break;
+  case MODEL_MAN:    if (man) man->displaylist(); break;
   case MODEL_X3D: break;
-  case MODEL_MAN: if (man) man->displaylist(); break;
   }
 }
 
