@@ -75,9 +75,9 @@ void Carrier::take(WObject *po)
 
   object = po;
   object->move.manip = true;
-  object->move.lspeed.v[0] = 0;
-  object->move.aspeed.v[1] = 0;
-  object->initImposedMovement(0);
+  object->move.lspeed.v[0] = lspeed;
+  object->move.aspeed.v[1] = aspeed;
+  object->initImposedMovement(1);
   taking = true;
 }
 
