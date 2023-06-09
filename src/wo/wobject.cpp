@@ -803,7 +803,7 @@ void WObject::getPersist()
   if (psql) {
     psql->getPos(this);
   }
-  //dax updatePersist();
+  updatePersist();
 }
 
 void WObject::getPersist(int16_t state)
@@ -841,8 +841,7 @@ void WObject::updatePersist()
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql) {
     psql->deleteRow(this, names.given);
-    psql->insertRow(this);	//dax
-    //dax psql->updatePos(this);
+    psql->insertRow(this);
   }
 }
 
@@ -852,8 +851,7 @@ void WObject::updatePersist(int16_t _state)
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql) {
     psql->deleteRow(this, names.given);
-    psql->insertRow(this);	//dax
-    //dax psql->updateState(this, _state);
+    psql->insertRow(this);
   }
 }
 
@@ -865,16 +863,7 @@ void WObject::savePersist()
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql && isBehavior(PERSISTENT) && !removed) {
     psql->deleteRow(this, names.given);
-    psql->insertRow(this);	//dax
-    // update VRSql table only if object has changed
-    //if (pos.alter) {
-    //  psql->deleteRow(this, names.given);
-    //  psql->insertRow(this);	//dax
-    //}
-    //if (isBehavior(DYNAMIC)) {
-    //  psql->deleteRow(this, names.given);
-    //  psql->insertRow(this);	//dax
-    //}
+    psql->insertRow(this);
     psql->quit();
   }
 }
