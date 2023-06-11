@@ -850,7 +850,7 @@ public:
   void getPersist();
   /**< Selects object. */
 
-  int getPersist(int16_t state);
+  int16_t getPersist(int16_t state);
   /**< Gets state from VRSql. */
 
   void updatePersist();

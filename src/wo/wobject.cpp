@@ -804,11 +804,11 @@ void WObject::getPersist()
   updatePersist();
 }
 
-int WObject::getPersist(int16_t state)
+int16_t WObject::getPersist(int16_t state)
 {
   if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
   int st = vrsql->getState(this);
-  echo("state: name=%s state=%d", names.given, st);
+  //echo("state: name=%s state=%d", names.given, st);
   state = (st != ERR_SQL) ? st : 0; // updates state
   return state;
 }

@@ -57,9 +57,8 @@ Cart::Cart(char *l)
 
   // If Cart is really persistent, these lines should be deleted
   // systematicaly remove objects
-  if (vrsql = new VRSql()) {
-    vrsql->deleteRows(this);
-  }
+  vrsql = new VRSql();
+  vrsql->deleteRows(this);
 }
 
 /**
