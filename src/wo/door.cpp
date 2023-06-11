@@ -81,6 +81,7 @@ Door::Door(char *l)
 {
   parser(l);
 
+#if 0 //dax
   switch (mecanism) {
   case ANGULAR:
     state = (aclose == pos.az) ? CLOSED : OPENED;
@@ -92,14 +93,17 @@ Door::Door(char *l)
     state = (zclose == pos.z) ? CLOSED : OPENED;
     break;
   }
+#endif
 
   /* calls persistency VRSql server to know the door state */
   getPersist(state);
+  echo("Door: sql state: %d", state);
 
   switch (mecanism) {
   case ANGULAR:
+    state = (aclose == pos.az) ? CLOSED : OPENED;
     pos.az = (state & CLOSED) ? aclose : aopen;
-    trace(DBG_WO, "Door: sql state: %d %.2f", state, pos.az);
+    //echo("Door: sql state: %d %.2f", state, pos.az);
     break;
   case SLIDING:
     state = (xclose == pos.x) ? CLOSED : OPENED;
@@ -222,8 +226,7 @@ void Door::open()
   }
   Sound::playSound(DOOROPENSND);
   state = OPENED;
-  pos.alter = true;	// has changed
-  updatePersist(state);
+  updatePersist();
 }
 
 void Door::close()
@@ -247,8 +250,7 @@ void Door::close()
     break;
   }
   state = CLOSED;
-  pos.alter = true;	// has changed
-  updatePersist(state);
+  updatePersist();
 }
 
 void Door::lock()
@@ -259,8 +261,7 @@ void Door::lock()
   case Door::UNLOCKED:
   case Door::CLOSED:
     state = Door::LOCKED;
-    pos.alter = true;	// has changed
-    updatePersist(state);
+    updatePersist();
   default:
     break;
   }
@@ -273,8 +274,7 @@ void Door::unlock()
   switch (state) {
   case Door::LOCKED:
     state = Door::UNLOCKED;
-    pos.alter = true;	// has changed
-    updatePersist(state);
+    updatePersist();
   default:
     break;
   }
