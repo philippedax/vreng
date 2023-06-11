@@ -149,9 +149,6 @@ Mirage::Mirage(WObject *user, char *geom)
   psql = VRSql::getVRSql();
   if (isBehavior(PERSISTENT) && psql && named()) {
     psql->insertRow(this);
-    //psql->updatePos(this);
-    //psql->updateGeom(this, geom);
-    //psql->updateOwner(this);
   }
   parseSolid(geom);
 
