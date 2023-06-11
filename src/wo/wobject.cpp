@@ -106,7 +106,7 @@ WObject::WObject()
 
   flare = NULL;
   carrier = NULL;
-  psql = NULL;
+  vrsql = NULL;
 }
 
 /* WObject destructor */
@@ -635,7 +635,7 @@ void WObject::resetGui()
 bool WObject::removeFromScene()
 {
   if (isOwner()) {
-    if (psql) psql->deleteRow(this);
+    if (vrsql) vrsql->deleteRow(this);
     toDelete();
     clearObjectBar();
     return true;
@@ -799,64 +799,48 @@ void WObject::updateDist()
  */
 void WObject::getPersist()
 {
-  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql) {
-    psql->getPos(this);
-  }
+  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
+  vrsql->getPos(this);
   updatePersist();
 }
 
 int WObject::getPersist(int16_t state)
 {
-  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql) {
-    int st = psql->getState(this);
-    echo("state: name=%s state=%d", names.given, st);
-    state = (st != ERR_SQL) ? st : 0; // updates state
-    return state;
-  }
-  else
-    return 0;
+  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
+  int st = vrsql->getState(this);
+  echo("state: name=%s state=%d", names.given, st);
+  state = (st != ERR_SQL) ? st : 0; // updates state
+  return state;
 }
 
 bool WObject::checkPersist()
 {
-  int rows = 0;
-
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql) {
-    rows = psql->countRows(names.type);
-  }
+  if (! vrsql) vrsql = new VRSql();
+  int rows = vrsql->countRows(names.type);
   return rows;
 }
 
 void WObject::setPersist()
 {
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql) {
-    psql->deleteRow(this, names.given);
-    psql->insertRow(this);
-  }
+  if (! vrsql) vrsql = new VRSql();
+  vrsql->deleteRow(this, names.given);
+  vrsql->insertRow(this);
 }
 
 void WObject::updatePersist()
 {
-  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql) {
-    psql->deleteRow(this, names.given);
-    psql->insertRow(this);
-  }
+  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
+  vrsql->deleteRow(this, names.given);
+  vrsql->insertRow(this);
 }
 
 #if 0 //notused
 /* Updates state for VRSql */
 void WObject::updatePersist(int16_t _state)
 {
-  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql) {
-    psql->deleteRow(this, names.given);
-    psql->insertRow(this);
-  }
+  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
+  vrsql->deleteRow(this, names.given);
+  vrsql->insertRow(this);
 }
 #endif //notused
 
@@ -865,20 +849,18 @@ void WObject::updatePersist(int16_t _state)
  */
 void WObject::savePersist()
 {
-  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql && isBehavior(PERSISTENT) && !removed) {
-    psql->deleteRow(this, names.given);
-    psql->insertRow(this);
-    psql->quit();
+  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
+  if (vrsql && isBehavior(PERSISTENT) && !removed) {
+    vrsql->deleteRow(this, names.given);
+    vrsql->insertRow(this);
+    vrsql->quit();
   }
 }
 
 void WObject::delPersist()
 {
-  if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
-  if (psql) {
-    psql->deleteRow(this, names.given);
-  }
+  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
+  vrsql->deleteRow(this, names.given);
 }
 
 //

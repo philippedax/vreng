@@ -580,16 +580,16 @@ void World::checkIcons()
 /* Check whether other objects are persistents */
 void World::checkPersist()
 {
-  VRSql *psql = VRSql::getVRSql();     // first take the VRSql handle;
-  if (psql) {
+  VRSql *vrsql = new VRSql();     // first take the VRSql handle;
+  if (vrsql) {
     int nitem = 0;
     char pat[64], name[128];
 
     // check balls
-    nitem = psql->getCount(BALL_NAME, getName());	// balls in VRSql
+    nitem = vrsql->getCount(BALL_NAME, getName());	// balls in VRSql
     for (int i=0; i < nitem; i++) {
       sprintf(pat, "@%s", getName());
-      if (psql->getName(BALL_NAME, pat, i, name) >= 0) {
+      if (vrsql->getName(BALL_NAME, pat, i, name) >= 0) {
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
@@ -598,10 +598,10 @@ void World::checkPersist()
       }
     }
     // check things
-    nitem = psql->getCount(THING_NAME, getName());	// things in VRSql
+    nitem = vrsql->getCount(THING_NAME, getName());	// things in VRSql
     for (int i=0; i < nitem; i++) {
       sprintf(pat, "@%s", getName());
-      if (psql->getName(THING_NAME, pat, i, name) >= 0) {
+      if (vrsql->getName(THING_NAME, pat, i, name) >= 0) {
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
@@ -610,10 +610,10 @@ void World::checkPersist()
       }
     }
     // check mirages
-    nitem = psql->getCount(MIRAGE_NAME, getName());	// mirages in VRSql
+    nitem = vrsql->getCount(MIRAGE_NAME, getName());	// mirages in VRSql
     for (int i=0; i < nitem; i++) {
       sprintf(pat, "@%s", getName());
-      if (psql->getName(MIRAGE_NAME, pat, i, name) >= 0) {
+      if (vrsql->getName(MIRAGE_NAME, pat, i, name) >= 0) {
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';

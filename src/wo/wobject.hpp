@@ -176,7 +176,7 @@ public:
   list<Solid*> _solidList;	///< list of solids.
   class Flare *flare;		///< flare instance.
   class Carrier *carrier;	///< move via carrier.
-  class VRSql *psql;		///< VRSql pointer.
+  class VRSql *vrsql;		///< VRSql handle.
 
   /* object's list modes */
   enum object_mode {

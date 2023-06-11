@@ -57,8 +57,8 @@ Cart::Cart(char *l)
 
   // If Cart is really persistent, these lines should be deleted
   // systematicaly remove objects
-  if ((psql = VRSql::getVRSql())) {
-    psql->deleteRows(this);
+  if (vrsql = new VRSql()) {
+    vrsql->deleteRows(this);
   }
 }
 
@@ -74,9 +74,9 @@ void Cart::addToCart(WObject *po)
     case MOBILE:
       po->delFromList(mobileList);
       po->setVisible(false);	// render invisible the object
-      psql = VRSql::getVRSql();	// first take the VRSql handle;
-      if (psql) {
-        psql->insertRow(po);
+      vrsql = new VRSql();	// first take the VRSql handle;
+      if (vrsql) {
+        vrsql->insertRow(po);
         //echo("cartRow: (%s,%s)", po->getInstance(), po->ownerName());
       }
     default:
@@ -148,11 +148,11 @@ void Cart::leave(WObject *po)
   // declare that the object has moved for VRSql update
   po->pos.alter = true;
 
-  psql = VRSql::getVRSql();     // first take the VRSql handle;
-  if (psql) {
-    po->psql = psql;		// copy it into the object
-    psql->deleteRow(po, CART_NAME, po->getInstance(), "");
-    psql->insertRow(po);
+  vrsql = new VRSql();     // first take the VRSql handle;
+  if (vrsql) {
+    po->vrsql = vrsql;		// copy it into the object
+    vrsql->deleteRow(po, CART_NAME, po->getInstance(), "");
+    vrsql->insertRow(po);
     trace(DBG_SQL, "leaveFromCart: %s", po->getInstance());
   }
 
@@ -177,9 +177,9 @@ void Cart::removeFromCart(WObject *po)
     }
   }
 
-  psql = VRSql::getVRSql();     // first take the VRSql handle;
-  if (psql) {
-    psql->deleteRow(po, CART_NAME, po->getInstance(), "");
+  vrsql = new VRSql();     // first take the VRSql handle;
+  if (vrsql) {
+    vrsql->deleteRow(po, CART_NAME, po->getInstance(), "");
     trace(DBG_SQL, "removeFromCart: %s", po->getInstance());
   }
 

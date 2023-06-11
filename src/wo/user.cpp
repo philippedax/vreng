@@ -273,37 +273,37 @@ void User::addGui()
 /* Checks attached persist objects */
 void User::checkPersist()
 {
-  VRSql *psql = VRSql::getVRSql();     // first get the the VRSql handle;
-  if (psql) {
+  VRSql *vrsql = new VRSql();     // first get the the VRSql handle;
+  if (vrsql) {
     int nitem;
     char pat[256], qname[256];
 
-    nitem = psql->getCount(HALO_NAME);  // halos in VRSql
+    nitem = vrsql->getCount(HALO_NAME);  // halos in VRSql
     if (nitem) {
       sprintf(pat, "&%s", getInstance());
-      if (psql->getName(HALO_NAME, pat, 0, qname) >= 0)
+      if (vrsql->getName(HALO_NAME, pat, 0, qname) >= 0)
         doAction(HALO_TYPE, Halo::RECREATE, (User*)this, (void*)qname,0,0);
     }
-    nitem = psql->getCount(HAT_NAME);   // hats in VRSql
+    nitem = vrsql->getCount(HAT_NAME);   // hats in VRSql
     if (nitem) {
       sprintf(pat, "&%s", getInstance());
-      if (psql->getName(HAT_NAME, pat, 0, qname) >= 0)
+      if (vrsql->getName(HAT_NAME, pat, 0, qname) >= 0)
         doAction(HAT_TYPE, Hat::RECREATE, (User*)this, (void*)qname,0,0);
     }
-    nitem = psql->getCount(DRESS_NAME); // dresses in VRSql
+    nitem = vrsql->getCount(DRESS_NAME); // dresses in VRSql
     if (nitem) {
       sprintf(pat, "&%s", getInstance());
-      if (psql->getName(DRESS_NAME, pat, 0, qname) >= 0)
+      if (vrsql->getName(DRESS_NAME, pat, 0, qname) >= 0)
         doAction(DRESS_TYPE, Dress::RECREATE, (User*)this, (void*)qname,0,0);
     }
-    nitem = psql->getCount(WINGS_NAME); // wings in VRSql
+    nitem = vrsql->getCount(WINGS_NAME); // wings in VRSql
     if (nitem) {
       sprintf(pat, "&%s", getInstance());
-      if (psql->getName(WINGS_NAME, pat, 0, qname) >= 0)
+      if (vrsql->getName(WINGS_NAME, pat, 0, qname) >= 0)
         doAction(WINGS_TYPE, Wings::RECREATE, (User*)this, (void*)qname,0,0);
     }
 #if 0 //todo
-    int cartnum = psql->getCountCart();
+    int cartnum = vrsql->getCountCart();
     //TODO: get the rows
     // addObjectToCart
 #endif //todo

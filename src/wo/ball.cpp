@@ -344,7 +344,7 @@ void Ball::destroy()
   taken = false;
   clearObjectBar();
   toDelete();	// predelete Ball
-  if (psql) psql->deleteRow(this);
+  if (vrsql) vrsql->deleteRow(this);
 }
 
 void Ball::quit()

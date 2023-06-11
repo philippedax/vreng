@@ -99,9 +99,9 @@ Thing::Thing(WObject *user, char *_geom)
   enableBehavior(DYNAMIC);	// dynamicaly introduced
   behaviors();
 
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql) {
-    psql->insertRow(this);
+  if (! vrsql) vrsql = new VRSql();
+  if (vrsql) {
+    vrsql->insertRow(this);
   }
 
   initMobileObject(1);
@@ -126,11 +126,11 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
 
   // we don't know anything about the geometry except from VRSql
   char *geom = new char[256];
-  if (! psql) psql = VRSql::getVRSql();
-  if (psql) {
-    psql->getGeom(this);
-    psql->getOwner(this);
-    psql->getPos(this);
+  if (! vrsql) vrsql = new VRSql();
+  if (vrsql) {
+    vrsql->getGeom(this);
+    vrsql->getOwner(this);
+    vrsql->getPos(this);
   }
   if (geom && isprint(*geom)) {
     parseSolid(geom);
@@ -176,9 +176,9 @@ bool Thing::updateToNetwork(const Pos &oldpos)
 
 void Thing::dropIntoBasket(Thing *thing, void *d, time_t s, time_t u)
 {
-  if (thing->psql) {
+  if (thing->vrsql) {
     //FIXME: should'nt be deleted but marked as deleted
-    //thing->psql->deleteRow(thing);	// delete from the current world
+    //thing->vrsql->deleteRow(thing);	// delete from the current world
     thing->state = DELETED;
     thing->updatePersist(); // mark deleted
   }
