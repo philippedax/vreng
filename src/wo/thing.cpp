@@ -102,9 +102,6 @@ Thing::Thing(WObject *user, char *_geom)
   if (! psql) psql = VRSql::getVRSql();
   if (psql) {
     psql->insertRow(this);
-    //psql->updatePos(this);
-    //psql->updateOwner(this);
-    //psql->updateGeom(this, _geom);
   }
 
   initMobileObject(1);
@@ -183,7 +180,7 @@ void Thing::dropIntoBasket(Thing *thing, void *d, time_t s, time_t u)
     //FIXME: should'nt be deleted but marked as deleted
     //thing->psql->deleteRow(thing);	// delete from the current world
     thing->state = DELETED;
-    thing->updatePersist(thing->state); // mark deleted
+    thing->updatePersist(); // mark deleted
   }
   // then add to Basket
   //trace(DBG_FORCE, "addToCart: (%s,%s)", thing->getInstance(), pref->user);
