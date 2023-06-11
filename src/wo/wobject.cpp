@@ -806,14 +806,17 @@ void WObject::getPersist()
   updatePersist();
 }
 
-void WObject::getPersist(int16_t state)
+int WObject::getPersist(int16_t state)
 {
   if (! psql) psql = VRSql::getVRSql();	// first take the VRSql handle;
   if (psql) {
     int st = psql->getState(this);
     echo("state: name=%s state=%d", names.given, st);
     state = (st != ERR_SQL) ? st : 0; // updates state
+    return state;
   }
+  else
+    return 0;
 }
 
 bool WObject::checkPersist()
@@ -845,6 +848,7 @@ void WObject::updatePersist()
   }
 }
 
+#if 0 //notused
 /* Updates state for VRSql */
 void WObject::updatePersist(int16_t _state)
 {
@@ -854,6 +858,7 @@ void WObject::updatePersist(int16_t _state)
     psql->insertRow(this);
   }
 }
+#endif //notused
 
 /** Flushes position for VRSql
  * if it is the case, get position and update it

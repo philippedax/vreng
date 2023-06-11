@@ -844,29 +844,29 @@ public:
   // VRSql
   //
 public:
-  void getPersist(int16_t state);
-  /**< Gets state from VRSql. */
-
   bool checkPersist();
-  /**< Checks if rows exists */
+  /**< Checks if rows exists. */
+
+  void getPersist();
+  /**< Selects object. */
+
+  int getPersist(int16_t state);
+  /**< Gets state from VRSql. */
 
   void updatePersist();
   /**< Checks if position is managed by VRSql and update it. */
 
-  void updatePersist(int16_t state);
-  /**< Updates state for VRSql. */
+  void setPersist();
+  /**< inserts object. */
+
+  void delPersist();
+  /**< Deletes object. */
 
   void savePersist();
   /**< Flushes position for VRSql. */
 
-  void setPersist();
-  /**< inserts object */
-
-  void getPersist();
-  /**< Selects object */
-
-  void delPersist();
-  /**< Deletes object */
+  //notused void updatePersist(int16_t state);
+  //notused /**< Updates state for VRSql. */
 
 protected:
   // GUI and network change callbacks
