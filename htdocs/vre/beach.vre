@@ -9,7 +9,7 @@
 
 <scene>
 
-<entry pos="-1 1 0"></entry>
+<entry pos="-1 1 1"></entry>
 
 <!-- sky -->
 <bgcolor color=".7 .8 1"></bgcolor>
@@ -28,7 +28,7 @@
 
 <!-- beach -->
 <ground name="beach" pos="0 0 -.5">
-  <solid dim="20 100 1" dif=".6 .6 .1" />
+  <solid dim="20 100 .5" dif=".6 .6 .1" />
 </ground>
 
 <!-- ocean -->
@@ -74,15 +74,15 @@
 <step name="green-towel" pos="5 -1.0 .01 0">
   <solid dim="2 .5 .02" zp="/gif/greenstrips.gif" />
 </step>
-<ball name="basket-ball" pos="5 -3 .15">
+<ball name="basket-ball" pos="5 -3 .25">
   <solid shape="sphere" r=".15" dif="red" />
 </ball>
-<ball name="volley-ball" pos="3.5 -2 .075">
+<ball name="volley-ball" pos="3.5 -2 .175">
   <solid shape="sphere" r=".075" tx="/gif/ball.gif" />
 </ball>
 <!--
 -->
-<cauldron name="rubber-ring" pos="6 2 .1">
+<cauldron name="rubber-ring" pos="6 2 .2">
   <solid shape="torus" r=".4" rt=".1" dif=".2 .2 .8" />
 </cauldron>
 
