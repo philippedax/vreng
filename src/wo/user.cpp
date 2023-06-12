@@ -122,8 +122,9 @@ void User::checkPosition()
 {
   if ( localuser->pos.x>100 || localuser->pos.x<-100 || localuser->pos.y>100 || localuser->pos.y<-100 || localuser->pos.z>100 || localuser->pos.z<-100 ) {
     echo("localuser->pos: %.1f %.1f %.1f", localuser->pos.x, localuser->pos.y, localuser->pos.z);
-    echo("reset localuser pos");
-    localuser->pos.x = localuser->pos.y = localuser->pos.z = 0;
+    echo("reset localuser pos(0 0 2)");
+    localuser->pos.x = localuser->pos.y = 0;
+    localuser->pos.z = 2;
   }
 }
 
