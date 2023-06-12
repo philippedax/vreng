@@ -498,21 +498,21 @@ void WObject::imposedMovement(time_t sec, time_t usec)
 void WObject::elemPermanentMovement(float dt)
 {
   if (isBehavior(COLLIDE_NEVER)) {
-
     changePermanent(dt);	// handled by each object
-
     update3D(pos);
     return;
   }
   WObject *pold = new WObject();
   copyPositionAndBB(pold);	// keep oldpos for intersection
-  //echo("ch perm: %s", getInstance()); //dax8
 
   changePermanent(dt);		// handled by each object
 
   updatePosition();
   checkVicinity(pold);
   delete pold;
+  if (this == localuser) {
+    localuser->checkPosition();	// check out-of-bounds
+  }
 }
 
 /* object permanent movement - called by world */
