@@ -200,39 +200,36 @@ void User::geometry()
     // 5 available avatar : guy, human, humanoid, box, bbox
     if (! strcmp(avatar, "guy")) {
       guy = new Guy();
-      sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
+      sprintf(mensuration, "shape=\"guy\" dim=\"%f %f %f\"", width, depth, height);
     }
     else if (! strcmp(avatar, "humanoid")) {
       humanoid = new Humanoid();
-      sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
+      sprintf(mensuration, "shape=\"guy\" dim=\"%f %f %f\"", width, depth, height);
       pos.az -= M_PI_2;
       humanoid->pos.az -= M_PI_2;
-      //dax pos.z -= height/2;
-      //dax humanoid->pos.z -= height/2;
-      //echo("humanoid: %.1f %.2f", pos.z, pos.az);
       humanoid->pause();	//dax ??? OK WHY ???
       updatePosition();
     }
     else if (! strcmp(avatar, "human")) {
       human = new Human();
-      sprintf(mensuration, "shape=\"human\" size=\"%.2f %.2f %.2f\"", width, depth, height);
+      sprintf(mensuration, "shape=\"human\" dim=\"%f %f %f\"", width, depth, height);
       enableBehavior(SPECIFIC_RENDER);
     }
     else if (! strcmp(avatar, "box")) {
-      sprintf(mensuration, "shape=\"box\" size=\"%.2f %.2f %.2f\" yp=\"%s\" xp=\"%s\"",
+      sprintf(mensuration, "shape=\"box\" dim=\"%f %f %f\" yp=\"%s\" xp=\"%s\"",
                             depth, width, height, front, back);
     }
     else if (! strcmp(avatar, "bbox")) {
-      sprintf(mensuration, "shape=\"bbox\" size=\"%.2f %.2f %.2f\"", width, depth, height);
+      sprintf(mensuration, "shape=\"bbox\" dim=\"%f %f %f\"", width, depth, height);
     }
     else {
       guy = new Guy();
-      sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
+      sprintf(mensuration, "shape=\"guy\" dim=\"%f %f %f\"", width, depth, height);
     }
   }
   else {	// take the default
     guy = new Guy();
-    sprintf(mensuration, "shape=\"guy\" size=\"%.2f %.2f %.2f\"", width, depth, height);
+    sprintf(mensuration, "shape=\"guy\" dim=\"%f %f %f\"", width, depth, height);
   }
   sprintf(s, "%s />", mensuration);
   trace(DBG_WO, "User: s=%s", s);
@@ -273,41 +270,40 @@ void User::addGui()
 /* Checks attached persist objects */
 void User::checkPersist()
 {
-  VRSql *vrsql = new VRSql();     // first get the the VRSql handle;
-  if (vrsql) {
-    int nitem;
-    char pat[256], qname[256];
+  int nitem;
+  char pat[128], qname[128];
 
-    nitem = vrsql->getCount(HALO_NAME);  // halos in VRSql
-    if (nitem) {
-      sprintf(pat, "&%s", getInstance());
-      if (vrsql->getName(HALO_NAME, pat, 0, qname) >= 0)
-        doAction(HALO_TYPE, Halo::RECREATE, (User*)this, (void*)qname,0,0);
-    }
-    nitem = vrsql->getCount(HAT_NAME);   // hats in VRSql
-    if (nitem) {
-      sprintf(pat, "&%s", getInstance());
-      if (vrsql->getName(HAT_NAME, pat, 0, qname) >= 0)
-        doAction(HAT_TYPE, Hat::RECREATE, (User*)this, (void*)qname,0,0);
-    }
-    nitem = vrsql->getCount(DRESS_NAME); // dresses in VRSql
-    if (nitem) {
-      sprintf(pat, "&%s", getInstance());
-      if (vrsql->getName(DRESS_NAME, pat, 0, qname) >= 0)
-        doAction(DRESS_TYPE, Dress::RECREATE, (User*)this, (void*)qname,0,0);
-    }
-    nitem = vrsql->getCount(WINGS_NAME); // wings in VRSql
-    if (nitem) {
-      sprintf(pat, "&%s", getInstance());
-      if (vrsql->getName(WINGS_NAME, pat, 0, qname) >= 0)
-        doAction(WINGS_TYPE, Wings::RECREATE, (User*)this, (void*)qname,0,0);
-    }
-#if 0 //todo
-    int cartnum = vrsql->getCountCart();
-    //TODO: get the rows
-    // addObjectToCart
-#endif //todo
+  VRSql *vrsql = new VRSql();     // first get the the VRSql handle;
+
+  nitem = vrsql->getCount(HALO_NAME);  // halos in VRSql
+  if (nitem) {
+    sprintf(pat, "&%s", getInstance());
+    if (vrsql->getName(HALO_NAME, pat, 0, qname) >= 0)
+      doAction(HALO_TYPE, Halo::RECREATE, (User*)this, (void*)qname,0,0);
   }
+  nitem = vrsql->getCount(HAT_NAME);   // hats in VRSql
+  if (nitem) {
+    sprintf(pat, "&%s", getInstance());
+    if (vrsql->getName(HAT_NAME, pat, 0, qname) >= 0)
+      doAction(HAT_TYPE, Hat::RECREATE, (User*)this, (void*)qname,0,0);
+  }
+  nitem = vrsql->getCount(DRESS_NAME); // dresses in VRSql
+  if (nitem) {
+    sprintf(pat, "&%s", getInstance());
+    if (vrsql->getName(DRESS_NAME, pat, 0, qname) >= 0)
+      doAction(DRESS_TYPE, Dress::RECREATE, (User*)this, (void*)qname,0,0);
+  }
+  nitem = vrsql->getCount(WINGS_NAME); // wings in VRSql
+  if (nitem) {
+    sprintf(pat, "&%s", getInstance());
+    if (vrsql->getName(WINGS_NAME, pat, 0, qname) >= 0)
+      doAction(WINGS_TYPE, Wings::RECREATE, (User*)this, (void*)qname,0,0);
+  }
+#if 0 //todo
+  int cartnum = vrsql->getCountCart();
+  //TODO: get the rows
+  // addObjectToCart
+#endif //todo
 }
 
 void User::inits()
@@ -388,18 +384,18 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   netop->getProperty(/*  2 */ PROPMAPBACK, pp);
 
   int idxgeom, idxend = 0;
-  char s[1024];
+  char s[256];
   memset(s, 0, sizeof(s));
 
   int idxvar = pp->tellPayload();	// note begin of var
-  //trace(DBG_WO, "idxvar=%d[%02x]", idxvar, idxvar);
-  if (((idxgeom = pp->tellStrInPayload("shape=\"box\" size=")) > 0) ||
-      ((idxgeom = pp->tellStrInPayload("shape=\"human\" size=")) > 0) ||
-      ((idxgeom = pp->tellStrInPayload("shape=\"humanoid\" size=")) > 0) ||
-      ((idxgeom = pp->tellStrInPayload("shape=\"guy\" size=")) > 0)
+  //echo("idxvar=%d[%02x]", idxvar, idxvar);
+  if (((idxgeom = pp->tellStrInPayload("shape=\"box\" dim=")) > 0) ||
+      ((idxgeom = pp->tellStrInPayload("shape=\"human\" dim=")) > 0) ||
+      ((idxgeom = pp->tellStrInPayload("shape=\"humanoid\" dim=")) > 0) ||
+      ((idxgeom = pp->tellStrInPayload("shape=\"guy\" dim=")) > 0)
      ) {
     /* get replicated user characteristics from the network */
-    //trace(DBG_WO, "idxgeom=%d[%02x]", idxgeom, idxgeom);
+    //echo("idxgeom=%d[%02x]", idxgeom, idxgeom);
     netop->getProperty(/* 09 */ PROPMENSURATION, pp);
     netop->getProperty(/* 10 */ PROPMAPLEFT, pp);
     netop->getProperty(/* 11 */ PROPMAPRIGHT, pp);
@@ -424,15 +420,15 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   }
   else {
     // builtin user solid
-    sprintf(s, "dim=\"%.2f %.2f %.2f\" xp=\"%s\" xn=\"%s\" />",
+    sprintf(s, "dim=\"%f %f %f\" xp=\"%s\" xn=\"%s\" />",
             DEF_WIDTH, DEF_DEPTH, DEF_HEIGHT, front, back);
   }
-  trace(DBG_WO, "Replica: s=%s", s);
+  //echo("Replica: s=%s", s);
   parseSolid(s);
 
   // get the variable properties
   if (idxend > 0) {
-    //trace(DBG_WO, "Replica: read var props, idxend=%d", idxend);
+    //echo("Replica: read var props, idxend=%d", idxend);
     pp->seekPayload(idxvar);	// begin prop var
     for (int np = PROPBEGINVAR; np <= PROPENDVAR; np++) {
       netop->getProperty(np, pp);
@@ -452,10 +448,9 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   addGui();			// informs Gui
   ::g.gui.expandAvatar();	// shows new avatar coming in
 
-  trace(DBG_WO, "replica: web=%s vre=%s", web, vre);
-  trace(DBG_WO, "replica: avatar=%s face=%s", avatar, face);
-  trace(DBG_WO, "replica: type=%s given=%s name=%s ssrc=%x rtcpname=%s email=%s",
-                 names.type, names.given, getInstance(), ssrc, rtcpname, email);
+  //echo("replica: web=%s vre=%s", web, vre);
+  //echo("replica: avatar=%s face=%s", avatar, face);
+  //echo("replica: name=%s ssrc=%x rtcpname=%s email=%s", getInstance(), ssrc, rtcpname, email);
 }
 
 void User::getMemory()
@@ -492,6 +487,7 @@ User::~User()
     netop = NULL;
   }
 
+  if (vrsql)   delete vrsql;
   if (front)   delete front;
   if (back)    delete back;
   if (left)    delete left;
