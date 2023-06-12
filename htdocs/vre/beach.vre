@@ -74,10 +74,10 @@
 <step name="green-towel" pos="5 -1.0 .01 0">
   <solid dim="2 .5 .02" zp="/gif/greenstrips.gif" />
 </step>
-<ball name="basket-ball" pos="5 -3 .25">
+<ball name="basket-ball" pos="6 -1 .25">
   <solid shape="sphere" r=".15" dif="red" />
 </ball>
-<ball name="volley-ball" pos="3.5 -2 .175">
+<ball name="volley-ball" pos="3.5 0 .175">
   <solid shape="sphere" r=".075" tx="/gif/ball.gif" />
 </ball>
 <!--
