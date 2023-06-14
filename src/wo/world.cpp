@@ -53,6 +53,7 @@
 #include "bubble.hpp"	// Bubble
 #include "axis.hpp"	// Axis
 #include "grid.hpp"	// toggleGrid2d
+#include "report.hpp"	// report
 
 #include <list>
 using namespace std;
@@ -706,6 +707,7 @@ void World::init(const char *url)
   Channel::getGroup(world->getChan(), Universe::current()->grpstr);
   Universe::current()->port = Channel::getPort(world->getChan());
 
+  //report(world->getName());
   world->guip = ::g.gui.addWorld(world, NEW);
   world->initGrid();
   clearLists();
