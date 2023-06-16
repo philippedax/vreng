@@ -139,10 +139,15 @@ void Vreng::stats()
 
 }
 
-extern int my_wait(pid_t);
 static void reapchild(int sig)
 {
-  my_wait(-1);
+  int status = 0;
+
+#if HAVE_WAITPID
+  while (waitpid(-1, &status, WNOHANG) > 0) ;
+#else
+  while (wait(&status) != -1) ;
+#endif
 }
 
 void Vreng::initSignals()
