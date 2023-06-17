@@ -1849,7 +1849,6 @@ AC_CONFIG_FILES([
         Makefile 
         src/Makefile
         src/vreng/Makefile
-        src/sys/Makefile
         src/gui/Makefile
         src/gui/xpm/Makefile
         src/wo/Makefile
