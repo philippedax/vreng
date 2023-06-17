@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign # no-dependencies
 
-SYS_SRCS = base64.cpp md5.cpp random.cpp nsl.cpp str.cpp windoze.cpp
+SYS_SRCS = base64.cpp md5.cpp random.cpp str.cpp windoze.cpp
 
-SYS_HDRS = sysdep.hpp md5.hpp nsl.hpp str.hpp windoze.hpp
+SYS_HDRS = sysdep.hpp md5.hpp str.hpp windoze.hpp
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR) -I$(SRCDIR)/sys
