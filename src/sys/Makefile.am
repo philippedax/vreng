@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign # no-dependencies
 
-SYS_SRCS = md5.cpp random.cpp
+SYS_SRCS = random.cpp
 
-SYS_HDRS = md5.hpp
+SYS_HDRS = 
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng
