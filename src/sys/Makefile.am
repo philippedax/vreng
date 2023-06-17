@@ -21,7 +21,7 @@
 
 AUTOMAKE_OPTIONS = foreign # no-dependencies
 
-SYS_SRCS = base64.cpp md5.cpp random.cpp
+SYS_SRCS = md5.cpp random.cpp
 
 SYS_HDRS = sysdep.hpp md5.hpp
 

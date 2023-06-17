@@ -21,7 +21,7 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-VRENG_SRCS = vreng.cpp scene.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp reader.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp sound.cpp sounds.cpp universe.cpp vrsql.cpp xml.cpp openal.cpp report.cpp thread.cpp nsl.cpp str.cpp windoze.cpp
+VRENG_SRCS = vreng.cpp scene.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp reader.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp sound.cpp sounds.cpp universe.cpp vrsql.cpp xml.cpp openal.cpp report.cpp thread.cpp nsl.cpp str.cpp windoze.cpp base64.cpp
 
 VRENG_HDRS = vreng.hpp scene.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp reader.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp color.hpp stat.hpp sound.hpp sounds.hpp vector3.hpp universe.hpp vrsql.hpp xml.hpp openal.hpp report.hpp thread.hpp nsl.hpp str.hpp windoze.hpp
 
