@@ -21,11 +21,8 @@
 /*
  * decoder base64
  */
-#include "sysdep.hpp"
+#include "base64.hpp"
 
-
-#define base64digits \
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
 static int numbits = 0;
 static int size = 0;

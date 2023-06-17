@@ -21,6 +21,7 @@
 #include "vreng.hpp"
 #include "sound.hpp"
 #include "pref.hpp"	// ::g.pref.silent
+#include "base64.hpp"	// decodeBase64
 
 
 #define DEVAUDIO	"/dev/audio"
@@ -29,7 +30,6 @@
 
 // extern
 extern int audioactive;
-extern int decodeBase64(const char *string, char *out);
 
 
 /* Open audio device */
