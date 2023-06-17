@@ -28,7 +28,7 @@ man_MANS = vacs.8
 EXTRA_DIST = $(VACS_SRCS) vacs.8
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng
+AM_CPPFLAGS = -I$(SRCDIR)/vreng
 
 if ENABLE_VACS
 vacs_SOURCES = $(VACS_SRCS)

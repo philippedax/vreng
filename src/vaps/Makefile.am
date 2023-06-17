@@ -28,7 +28,7 @@ man_MANS = vaps.8
 EXTRA_DIST = $(VAPS_SRCS) vaps.8
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng
+AM_CPPFLAGS = -I$(SRCDIR)/vreng
 
 if ENABLE_VAPS
 vaps_SOURCES = $(VAPS_SRCS)

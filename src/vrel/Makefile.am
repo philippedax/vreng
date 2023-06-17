@@ -38,7 +38,7 @@ clean:
 	@-rm vrel *.o y.output y.tab.h y.tab.cpp lex.yy.cpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = -I$(SRCDIR)/sys
+AM_CPPFLAGS = -I$(SRCDIR)/vreng
 
 vrel_SOURCES = $(VREL_SRCS) y.tab.cpp lex.yy.cpp
 bin_PROGRAMS = vrel
