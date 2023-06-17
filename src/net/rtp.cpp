@@ -26,11 +26,10 @@
 #include "source.hpp"	// Source
 #include "stat.hpp"	// statSendPacket
 #include "file.hpp"	// open, close
+#include "random.hpp"	// random32
 
-extern uint32_t random32(int type);
 
-
-/*
+/****************************
  * Handling RTP packet header
  */
 
