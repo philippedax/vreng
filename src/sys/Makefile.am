@@ -23,10 +23,10 @@ AUTOMAKE_OPTIONS = foreign # no-dependencies
 
 SYS_SRCS = md5.cpp random.cpp
 
-SYS_HDRS = sysdep.hpp md5.hpp
+SYS_HDRS = md5.hpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = -I$(SRCDIR) -I$(SRCDIR)/sys
+AM_CPPFLAGS = -I$(SRCDIR) -I$(SRCDIR)/sys -I$(SRCDIR)/vreng
 
 libsys_a_SOURCES = $(SYS_SRCS) $(SYS_HDRS)
 noinst_LIBRARIES = libsys.a
