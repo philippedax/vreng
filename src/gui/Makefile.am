@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-GUI_SRCS = gui.cpp widgets.cpp navig.cpp motion.cpp joystick.cpp panels.cpp palette.cpp theme.cpp message.cpp
+GUI_SRCS = gui.cpp scene.cpp widgets.cpp navig.cpp motion.cpp joystick.cpp panels.cpp palette.cpp theme.cpp message.cpp
 
-GUI_HDRS = gui.hpp widgets.hpp navig.hpp motion.hpp panels.hpp palette.hpp joystick.hpp message.hpp theme.hpp
+GUI_HDRS = gui.hpp scene.hpp widgets.hpp navig.hpp motion.hpp panels.hpp palette.hpp joystick.hpp message.hpp theme.hpp
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @OCAML_CFLAGS@ @XML2_CFLAGS@ -I$(SRCDIR)/vreng -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/gui/xpm -I$(SRCDIR)/bundle/gl2ps -I$(SRCDIR)/bundle/xmlParser -I$(SRCDIR)/ai -I$(SRCDIR) -I$(SRCDIR)/ubit
