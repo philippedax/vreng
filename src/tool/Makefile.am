@@ -26,7 +26,7 @@ APP_SRCS = tool.cpp audio.cpp xterm.cpp video.cpp wb.cpp browser.cpp ps.cpp pdf.
 APP_HDRS = tool.hpp au.hpp audio.hpp video.hpp wb.hpp browser.hpp midi.hpp modeler.hpp mp3.hpp mpeg.hpp office.hpp pdf.hpp ps.hpp wav.hpp wget.hpp xterm.hpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = -I$(SRCDIR)/sys -I$(SRCDIR)/vreng -I$(SRCDIR)/wo -I$(SRCDIR)/net
+AM_CPPFLAGS = -I$(SRCDIR)/vreng -I$(SRCDIR)/wo -I$(SRCDIR)/net
 
 libtool_a_SOURCES = $(APP_SRCS) $(APP_HDRS)
 noinst_LIBRARIES = libtool.a

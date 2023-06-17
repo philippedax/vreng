@@ -21,4 +21,4 @@
 
 AUTOMAKE_OPTIONS = gnu no-dependencies
 
-SUBDIRS = vreng sys gui wo 2d 3d model net tool vnc ubit bundle ai vacs vaps vjs vrum vrl vrel vred vmm misc
+SUBDIRS = vreng gui wo 2d 3d model net tool vnc ubit bundle ai vacs vaps vjs vrum vrl vrel vred vmm misc
