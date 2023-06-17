@@ -21,7 +21,7 @@
 
 AUTOMAKE_OPTIONS = foreign # no-dependencies
 
-SYS_SRCS = random.cpp
+SYS_SRCS = 
 
 SYS_HDRS = 
 
