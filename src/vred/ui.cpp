@@ -177,15 +177,9 @@ void UI::control_cb( int event )
 
     case SIZE:
       if (item) {
-        if (size[0] < MIN_SOLID_SIZE) {
-          size[0] = MIN_SOLID_SIZE;
-	}
-        if (size[1] < MIN_SOLID_SIZE) {
-          size[1] = MIN_SOLID_SIZE;
-	}
-        if (size[2] < MIN_SOLID_SIZE) {
-          size[2] = MIN_SOLID_SIZE;
-	}
+        if (size[0] < MIN_SOLID_SIZE) size[0] = MIN_SOLID_SIZE;
+        if (size[1] < MIN_SOLID_SIZE) size[1] = MIN_SOLID_SIZE;
+        if (size[2] < MIN_SOLID_SIZE) size[2] = MIN_SOLID_SIZE;
 
 	if (dynamic_cast<Sphere*>(item)) {
 	  // resizing sphere
@@ -245,9 +239,7 @@ void UI::control_cb( int event )
 
     case RADIUS:
       if (item) {
-	if (radius < MIN_SOLID_SIZE) {
-	  radius = MIN_SOLID_SIZE;
-        }
+	if (radius < MIN_SOLID_SIZE) radius = MIN_SOLID_SIZE;
 	if (collis) {	      
 	  float oldradius = item->getSize()[0];
 	  int wasColliding = Vred::treeRoot->collide(*item);
@@ -632,19 +624,19 @@ void UI::setupUI(int argc, char *argv[])
                                                  GLUI_EDITTEXT_FLOAT,
                                                  &center[0], CENTER_XY,
                                                  control_cb)
-  )->set_w(10);
+  )->set_w(4);
   topWin->add_column_to_panel(xyzPanel, false);
   (centerGlui[1] = topWin->add_edittext_to_panel(xyzPanel, "y",
                                                  GLUI_EDITTEXT_FLOAT,
                                                  &center[1], CENTER_XY,
                                                  control_cb)
-  )->set_w(10);
+  )->set_w(4);
   topWin->add_column_to_panel(xyzPanel, false);
   (centerGlui[2] = topWin->add_edittext_to_panel(xyzPanel, "z",
                                                  GLUI_EDITTEXT_FLOAT,
                                                  &center[2], CENTER_XY,
                                                  control_cb)
-  )->set_w(10);
+  )->set_w(4);
 
   /* dimensions */
   GLUI_Panel *sizePanel = topWin->add_panel("");
@@ -652,19 +644,19 @@ void UI::setupUI(int argc, char *argv[])
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[0], SIZE,
                                                control_cb)
-  )->set_w(10);
+  )->set_w(4);
   topWin->add_column_to_panel(sizePanel, false);
   (sizeGlui[1] = topWin->add_edittext_to_panel(sizePanel, "Dy",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[1], SIZE,
                                                control_cb)
-  )->set_w(10);
+  )->set_w(4);
   topWin->add_column_to_panel(sizePanel, false);
   (sizeGlui[2] = topWin->add_edittext_to_panel(sizePanel, "Dz",
                                                GLUI_EDITTEXT_FLOAT, 
 					       &size[2], SIZE,
                                                control_cb)
-  )->set_w(10);
+  )->set_w(4);
   topWin->add_column(false);
   angleZGlui = topWin->add_edittext("Angle/Z",
                                     GLUI_EDITTEXT_FLOAT, 
@@ -690,39 +682,39 @@ void UI::setupUI(int argc, char *argv[])
                                            GLUI_EDITTEXT_TEXT,
                                            urlXp, TEXTURE,
                                            control_cb)
-  )->set_w(100);
+  )->set_w(32);
   (texXn = rightWin->add_edittext_to_panel(texPanel, "Xn",
                                            GLUI_EDITTEXT_TEXT,
                                            urlXn, TEXTURE,
                                            control_cb)
-  )->set_w(100);
+  )->set_w(32);
   rightWin->add_column_to_panel(texPanel, false);
   (texYp = rightWin->add_edittext_to_panel(texPanel, "Yp",
                                            GLUI_EDITTEXT_TEXT,
                                            urlYp, TEXTURE,
                                            control_cb)
-  )->set_w(100);
+  )->set_w(32);
   (texYn = rightWin->add_edittext_to_panel(texPanel, "Yn",
                                            GLUI_EDITTEXT_TEXT,
                                            urlYn, TEXTURE,
                                            control_cb)
-  )->set_w(100);
+  )->set_w(32);
   rightWin->add_column_to_panel(texPanel, false);
   (texZp = rightWin->add_edittext_to_panel(texPanel, "Zp",
                                            GLUI_EDITTEXT_TEXT,
                                            urlZp, TEXTURE,
                                            control_cb)
-  )->set_w(100);
+  )->set_w(32);
   (texZn = rightWin->add_edittext_to_panel(texPanel, "Zn",
                                            GLUI_EDITTEXT_TEXT,
                                            urlZn, TEXTURE,
                                            control_cb)
-  )->set_w(100);
+  )->set_w(32);
   (texSph = rightWin->add_edittext_to_panel(texPanel, "Sp",
                                             GLUI_EDITTEXT_TEXT,
                                             urlXp, TEXTURE,
                                             control_cb)
-  )->set_w(100);
+  )->set_w(32);
   rightWin->add_button_to_panel(texPanel, "Load textures", TEXTURE, control_cb);
 
   /* Appearance */
@@ -733,21 +725,21 @@ void UI::setupUI(int argc, char *argv[])
                                                 GLUI_EDITTEXT_FLOAT,
 					        &dif[0], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   difGlui[0]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(difPanel, false);  
   (difGlui[1] = rightWin->add_edittext_to_panel(difPanel, "G",
                                                 GLUI_EDITTEXT_FLOAT, 
 					        &dif[1], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   difGlui[1]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(difPanel, false);
   (difGlui[2] = rightWin->add_edittext_to_panel(difPanel, "B",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &dif[2], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   difGlui[2]->set_float_limits(0, 1);
 
   GLUI_Panel *ambPanel = rightWin->add_panel_to_panel(appRollout, "Ambient");
@@ -755,21 +747,21 @@ void UI::setupUI(int argc, char *argv[])
                                                 GLUI_EDITTEXT_FLOAT,
 					        &amb[0], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   ambGlui[0]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(ambPanel, false);  
   (ambGlui[1] = rightWin->add_edittext_to_panel(ambPanel, "G",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &amb[1], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   ambGlui[1]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(ambPanel, false);
   (ambGlui[2] = rightWin->add_edittext_to_panel(ambPanel, "B",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &amb[2], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   ambGlui[2]->set_float_limits(0, 1);
 
   GLUI_Panel *spePanel = rightWin->add_panel_to_panel(appRollout, "Specular");
@@ -777,21 +769,21 @@ void UI::setupUI(int argc, char *argv[])
                                                 GLUI_EDITTEXT_FLOAT,
 					        &spe[0], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   speGlui[0]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(spePanel, false);  
   (speGlui[1] = rightWin->add_edittext_to_panel(spePanel, "G",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &spe[1], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   speGlui[1]->set_float_limits(0, 1);
   rightWin->add_column_to_panel(spePanel, false);
   (speGlui[2] = rightWin->add_edittext_to_panel(spePanel, "B",
                                                 GLUI_EDITTEXT_FLOAT,
 					        &spe[2], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   speGlui[2]->set_float_limits(0, 1);
 
   GLUI_Panel *shiPanel = rightWin->add_panel_to_panel(appRollout, "Shininess");
@@ -799,10 +791,10 @@ void UI::setupUI(int argc, char *argv[])
                                                 GLUI_EDITTEXT_FLOAT,
 					        &shi[0], APPEARANCE,
                                                 control_cb)
-  )->set_w(10);
+  )->set_w(4);
   shiGlui[0]->set_float_limits(0, 20);
 
-  (urlGlui = rightWin->add_edittext("url",
+  (urlGlui = rightWin->add_edittext("world url",
                                     GLUI_EDITTEXT_TEXT,
                                     url, TARGET_URL,
                                     control_cb)
@@ -821,19 +813,19 @@ void UI::setupUI(int argc, char *argv[])
   botWin = GLUI_Master.create_glui_subwindow(mainWin, GLUI_SUBWINDOW_BOTTOM);
   botWin->set_main_gfx_window(mainWin);
 
-  transXYButton = botWin->add_translation("Trans YZ",
+  transXYButton = botWin->add_translation("Trans XY",
                                           GLUI_TRANSLATION_XY,
                                           &center[1], CENTER_XY,
                                           control_cb);
   transXYButton->set_speed(0.1);
   botWin->add_column(false);
-  transZButton = botWin->add_translation("Trans X",
+  transZButton = botWin->add_translation("Trans Z",
                                          GLUI_TRANSLATION_Z,
                                          &centerXButton, CENTER_Z,
                                          control_cb);
   transZButton->set_speed(0.1);
   botWin->add_column(false);
-  rotZButton = botWin->add_translation("Rot/Z",
+  rotZButton = botWin->add_translation("Angle/Z",
                                        GLUI_TRANSLATION_X,
                                        &angleZ, ROT_Z,
                                        control_cb);
@@ -886,7 +878,7 @@ void UI::createObject()
       break;
     case EARTH_TYPE:
       item = new Earth("Sphere",
-                     Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App(),10,10);
+                     Vect::null, Vect::null, Vect::unit, COLORED, Color::white, Tex(), App(),8,8);
       break;
     case WEB_TYPE:
       item = new Web("Web",
