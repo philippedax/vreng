@@ -21,15 +21,12 @@
 #include "vreng.hpp"
 #include "sound.hpp"
 #include "pref.hpp"	// ::g.pref.silent
+#include "audio.hpp"	// audioactive
 #include "base64.hpp"	// decodeBase64
 
 
 #define DEVAUDIO	"/dev/audio"
 #define DEVAUDIOCTL	"/dev/audioctl"
-
-
-// extern
-extern int audioactive;
 
 
 /* Open audio device */
@@ -68,7 +65,7 @@ void * Sound::sound_thread(void *snd)
 /* Method which plays a sound */
 void Sound::playSound(const char *snd)
 {
-  //error("play: busy=%d", audioactive);
+  //echo("play: busy=%d", audioactive);
   if (::g.pref.silent)  return;
   if (audioactive)  return;
 
