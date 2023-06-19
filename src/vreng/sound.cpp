@@ -25,9 +25,6 @@
 #include "base64.hpp"	// decodeBase64
 
 
-#define DEVAUDIO	"/dev/audio"
-#define DEVAUDIOCTL	"/dev/audioctl"
-
 
 /* Open audio device */
 int Sound::opendev()

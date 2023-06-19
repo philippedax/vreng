@@ -21,6 +21,9 @@
 #ifndef AUDIO_HPP
 #define AUDIO_HPP
 
+#define DEVAUDIO        "/dev/audio"
+#define DEVAUDIOCTL     "/dev/audioctl"
+
 
 /**
  * Audio class

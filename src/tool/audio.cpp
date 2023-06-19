@@ -25,10 +25,6 @@
 #include "pref.hpp"	// ::g.pref.silent
 
 
-#define DEVAUDIO	"/dev/audio"
-#define DEVAUDIOCTL	"/dev/audioctl"
-
-
 int Audio::toolid = RAT_TOOL;
 
 // global
