@@ -1082,7 +1082,7 @@ UDialog& Widgets::settingsDialog()
            + ucheckbox("Opera" + sel_browser
                        + UOn::select / ucall(this, OPERA_TOOL, &Widgets::prefCB))
            + ucheckbox("I-Explorer" + sel_browser
-                       + UOn::select / ucall(this, IEXPLORER_TOOL, &Widgets::prefCB))
+                       + UOn::select / ucall(this, EDGE_TOOL, &Widgets::prefCB))
           )
    + uhbox(UBorder::shadowOut)
    + uhbox("Audio streaming : " + UFont::plain

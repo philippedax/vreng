@@ -173,7 +173,7 @@ void Browser::start(const char *_url, bool rewrite)
   case SAFARI_TOOL:    launchsafari("safari", url); break;
   case CHROME_TOOL:    launchchrome("chrome", url); break;
   case OPERA_TOOL:     launchmozilla("opera", url); break;
-  case IEXPLORER_TOOL: launchmozilla("iexplorer", url); break;
+  case EDGE_TOOL:      launchmozilla("edge", url); break;
   case MOZILLA_TOOL:   launchmozilla("mozilla", url); break;
   case NETSCAPE_TOOL:  launchnetscape("netscape", url); break;
   default:             error("%s browser", e_tool);
