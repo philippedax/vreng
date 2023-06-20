@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-VRENG_SRCS = vreng.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp reader.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp sound.cpp sounds.cpp universe.cpp vrsql.cpp xml.cpp openal.cpp report.cpp thread.cpp nsl.cpp str.cpp windoze.cpp base64.cpp md5.cpp random.cpp
+VRENG_SRCS = vreng.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp reader.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp universe.cpp vrsql.cpp xml.cpp openal.cpp report.cpp thread.cpp nsl.cpp str.cpp windoze.cpp base64.cpp md5.cpp random.cpp
 
-VRENG_HDRS = vreng.hpp sysdep.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp reader.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp color.hpp stat.hpp sound.hpp sounds.hpp vector3.hpp universe.hpp vrsql.hpp xml.hpp openal.hpp report.hpp thread.hpp nsl.hpp str.hpp windoze.hpp base64.hpp md5.hpp random.hpp
+VRENG_HDRS = vreng.hpp sysdep.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp reader.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp color.hpp stat.hpp vector3.hpp universe.hpp vrsql.hpp xml.hpp openal.hpp report.hpp thread.hpp nsl.hpp str.hpp windoze.hpp base64.hpp md5.hpp random.hpp
 
 SRCDIR = $(top_srcdir)/src
 CORE_INCL = -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/vnc -I$(SRCDIR)/tool -I$(SRCDIR)/ai
