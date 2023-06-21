@@ -7,18 +7,20 @@
 
 <scene>
 
-<entry pos="0 0 0"></entry>
+<entry pos="0 0 1"></entry>
 
-<ground name="ground" pos="0 0 -8"> <solid dim="40 40 2" zp="/gif/wood1.gif" zpr="8" /></ground>
+<ground name="ground" pos="0 0 -5"> <solid dim="20 20 1" tx="/gif/brick.gif" txr="8" /></ground>
 
-<wall name="wall1"  pos="0 -20 11"> <solid dim="40 2 40" xn="/gif/wall3.gif" xnr="4" /></wall>
-<wall name="wall2"  pos="0 20 11">  <solid dim="40 2 40" yn="/gif/wall3.gif" ynr="4" /></wall>
-<wall name="wall3"  pos="-20 0 11"> <solid dim="2 40 40" yp="/gif/wall3.gif" ypr="4" /></wall>
-<wall name="wall4"  pos="20 0 11">  <solid dim="2 40 40" xp="/gif/wall3.gif" xpr="4" /></wall>
+<wall name="wall1"  pos="0 -10 5"> <solid dim="20 1 20" tx="/gif/wall3.gif" txr="16" /></wall>
+<wall name="wall2"  pos="0 10 5">  <solid dim="20 1 20" tx="/gif/wall3.gif" txr="16" /></wall>
+<wall name="wall3"  pos="-10 0 5"> <solid dim="1 20 20" tx="/gif/wall3.gif" txr="16" /></wall>
+<wall name="wall4"  pos="10 0 5">  <solid dim="1 20 20" tx="/gif/wall3.gif" txr="16" /></wall>
 
-<wall name="box" pos="6 3 -8"> <solid dim="2 2 2" xp="/gif/wood1.gif" yp="/gif/wood1.gif" yn="/gif/wood1.gif" xn="/gif/wood1.gif" zp="/gif/wood1.gif" /></wall>
+<thing name="crate" pos="6 3 -5"> <solid dim="2 2 2" tx="/gif/wood1.gif" /></thing>
 
-<thing name="marble-board" pos="10 0 -8"> <solid shape="rect" dim="4 4 0" tx="/gif/marble.gif" txr="8" /></thing>
+<!--
+<thing name="marble-board" pos="10 0 0"> <solid shape="rect" dim="4 4 0" tx="/gif/marble.gif" txr="8" /></thing>
+-->
 
 </scene>
 </vre>
