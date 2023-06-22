@@ -20,12 +20,12 @@
 <!-- sun -->
 <mirage name="sun" pos="200 50 80"> <solid shape="sphere" r="10" emi="orange"/></mirage>
 
-<ground name="rivage" pos="0 0 -.5"> <solid dim="40 200 1" dif=".1 .9 .1" /></ground>
+<ground name="beach" pos="0 0 -.5"> <solid dim="40 200 1" dif=".3 .9 .3" /></ground>
 
 <!-- hill -->
-<plane name="hill1" pos="-15 0 2 1.57 .34"> <solid dim="200 12 1" dif=".2 .9 .2" zp="/gif/grass.gif" /></plane>
+<plane name="hill" pos="-15 0 1 1.57 .34"> <solid dim="200 10 1" zp="/gif/grass.gif" /></plane>
 <!--
-<plane name="hill2" pos="-80 0 12.95 1.57 .15"> <solid dim="200 120 1" dif=".2 .9 .2" zp="/gif/grass.gif" /></plane>
+<plane name="hill2" pos="-80 0 12.95 1.57 .15"> <solid dim="200 120 1" zp="/gif/grass.gif" /></plane>
 -->
 
 <!-- models -->
@@ -36,13 +36,13 @@
   <local>
     <transform trans="45 0 -1.5"></transform>
     <transform rot="90 0 1 0"></transform>
-    <model name="castle" url="/3ds/castle.3ds" scale=".018"></model>
+    <model name="castle" url="/3ds/castle.3ds" scale=".010"></model>
   </local>
   <!-- liberty -->
   <local>
-    <transform trans="25.15 1.5 -16"></transform>
-    <transform rot="240 0 1 0"></transform>
-    <model name="liberty" url="/ase/liberty.ase" scale="1"></model>
+    <transform trans="25 15 -16"></transform>
+    <transform rot="180 0 1 0"></transform>
+    <model name="liberty" url="/ase/liberty.ase" scale=".5"></model>
   </local>
   <!-- trees -->
   <local>
