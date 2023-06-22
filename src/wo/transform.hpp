@@ -81,6 +81,10 @@ class Transform: public WObject {
   void quit();		///< quits
 
  private:
+  void parser(char *l);
+  void behaviors();
+  void inits();
+
   void addList(uint8_t op, GLfloat x, GLfloat y, GLfloat z, GLfloat a);
   ///< add to list
 };

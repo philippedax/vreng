@@ -44,11 +44,9 @@ void Transform::addList(uint8_t op, GLfloat x=0, GLfloat y=0, GLfloat z=0, GLflo
   opl = new sOplist[1];
 }
 
-Transform::Transform(char *l)
+void Transform::parser(char *l)
 {
   char opstr[16];
-  opl = opList = new sOplist[1];;
-
   l = tokenize(l);
   while (l) {
     if (! stringcmp(l, "push")) {		// <local>
@@ -72,13 +70,25 @@ Transform::Transform(char *l)
       addList(SCALE, scale.x, scale.y, scale.z);
     }
   }
+}
 
+void Transform::behaviors()
+{
   enableBehavior(SPECIFIC_RENDER);
-  initObject(INVISIBLE);
+}
 
-  char s[128];
-  sprintf(s, "solid shape=\"none\" />");
-  parseSolid(s);
+void Transform::inits()
+{
+  initObject(INVISIBLE);
+}
+
+Transform::Transform(char *l)
+{
+  opl = opList = new sOplist[1];
+
+  parser(l);
+  behaviors();
+  inits();
 }
 
 void Transform::render()
