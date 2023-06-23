@@ -149,8 +149,8 @@ class _3ds {
 
   virtual ~_3ds();		///< Destructor
 
-  virtual void render(float *color);
-  virtual void render(const Pos &pos, float *color);
+  void render(float *color);
+  void render(const Pos &pos, float *color);
   /**< Model rendering */
 
   void setScale(float scale);
