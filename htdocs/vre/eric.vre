@@ -390,21 +390,23 @@
 
 <!-- le canape -->
 <!--
-#<local>
+<model pos="10 32 -.2" name="canape" scale=".04" url="/3ds/canape.3ds"></model>
+<local>
   <transform translation="10 32 -.2"></transform>
   <transform rotation="90 1 0 0"></transform>
   <transform rotation="-90 0 1 0"></transform>
   <model name="canape" scale=".04" url="/3ds/canape.3ds"></model>
-#</local>
+</local>
 -->
 
 <!-- la plante --> 
+<model name="plante" pos="12 33.8 .8" scale=".045" url="/3ds/tree_1.3ds"></model>
 <!--
-#<local>
+<local>
   <transform translation="12 33.8 .8"></transform>
   <transform rotation="90 1 0 0"></transform>
   <model name="plante" scale=".045" url="/3ds/tree_1.3ds"></model>
-#</local>
+</local>
 -->
 
 <thing name="pot" pos="12 33.8 0">
