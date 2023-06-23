@@ -133,20 +133,20 @@ UConf::UConf() :
     //regular
     (XFT_DIR"UTRG____.pfa,"LFT_DIR"UTRG____.pfa,"OFT_DIR"Arial.ttf",  //-adobe-utopia-medium-r-normal--0-0-0-0-p-0-iso8859-1
      //bold
-     XFT_DIR"UTB_____.pfa,"LFT_DIR"UTB_____.pfa,"OFT_DIR"Arial-Bold.ttf", //-adobe-utopia-bold-r-normal--0-0-0-0-p-0-iso8859-1
+     XFT_DIR"UTB_____.pfa,"LFT_DIR"UTB_____.pfa,"OFT_DIR"Arial_Bold.ttf", //-adobe-utopia-bold-r-normal--0-0-0-0-p-0-iso8859-1
      //italic
-     XFT_DIR"UTI_____.pfa,"LFT_DIR"UTI_____.pfa,"OFT_DIR"Arial-Italic.ttf", //-adobe-utopia-medium-i-normal--0-0-0-0-p-0-iso8859-1
+     XFT_DIR"UTI_____.pfa,"LFT_DIR"UTI_____.pfa,"OFT_DIR"Arial_Italic.ttf", //-adobe-utopia-medium-i-normal--0-0-0-0-p-0-iso8859-1
      //bolditalic
-     XFT_DIR"UTBI____.pfa,"LFT_DIR"UTBI____.pfa,"OFT_DIR"Arial-BoldItalic.ttf"); //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
+     XFT_DIR"UTBI____.pfa,"LFT_DIR"UTBI____.pfa,"OFT_DIR"Arial_BoldItalic.ttf"); //-adobe-utopia-bold-i-normal--0-0-0-0-p-0-iso8859-1
 #else
     //regular
     (XFT_DIR"l048013t.pfa,"LFT_DIR"l048013t.pfa,"OFT_DIR"Arial.ttf",  //b&h-luxi sans-medium-r-**-iso8859-1
      //bold
-     XFT_DIR"l048016t.pfa,"LFT_DIR"l048016t.pfa,"OFT_DIR"Arial-Bold.ttf", //b&h-luxi sans-bold-r-**-iso8859-1
+     XFT_DIR"l048016t.pfa,"LFT_DIR"l048016t.pfa,"OFT_DIR"Arial_Bold.ttf", //b&h-luxi sans-bold-r-**-iso8859-1
      //italic
-     XFT_DIR"l048033t.pfa,"LFT_DIR"l048033t.pfa,"OFT_DIR"Arial-Italic.ttf", //b&h-luxi sans-medium-o-**-iso8859-1
+     XFT_DIR"l048033t.pfa,"LFT_DIR"l048033t.pfa,"OFT_DIR"Arial_Italic.ttf", //b&h-luxi sans-medium-o-**-iso8859-1
      //bolditalic
-     XFT_DIR"l048036t.pfa,"LFT_DIR"l048036t.pfa,"OFT_DIR"Arial-BoldItalic.ttf"); //b&h-luxi sans-bold-o-**-iso8859-1
+     XFT_DIR"l048036t.pfa,"LFT_DIR"l048036t.pfa,"OFT_DIR"Arial_BoldItalic.ttf"); //b&h-luxi sans-bold-o-**-iso8859-1
 #endif
   
   UFontFamily::serif = UFontFamily::defaults;
