@@ -89,7 +89,7 @@ UInt UInt::operator++(int) {
 
 UInt  UInt::operator--(int) {
   UInt clone = *this;
-  setImpl(value+1);
+  setImpl(value-1); //dax +
   return clone;
 }
 
@@ -162,7 +162,7 @@ UFloat UFloat::operator++(int) {
 
 UFloat UFloat::operator--(int) {
   UFloat clone = *this;
-  ++value;
+  --value; //dax +
   return clone;
 }
 
