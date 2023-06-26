@@ -76,7 +76,7 @@ class WObject;
 class VRSql {
 
 private:
-  static const uint16_t SQLCMD_MAX = 1024;	///< query size max
+  static const uint16_t SQLCMD_MAX = 2048;	///< query size max
   char sql[SQLCMD_MAX];	///< Sql command
 
 #if USE_SQLITE
