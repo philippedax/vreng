@@ -29,12 +29,13 @@
 
 <!-- sky -->
 <bgcolor color="skyblue"></bgcolor>
+
 <!-- sun -->
 <mirage name="sun" pos="200 50 80">
   <solid shape="sphere" r="5" emi="1 1 0" amb="1 1 1" dif="1 1 1" />
 </mirage>
 
-<!-- the grounds -->
+<!-- ground -->
 <ground name="ground1" pos="29 30 -0.25"> <solid dim="60 60 .5" zp="/gif/marble.gif" /> </ground>
 <ground name="ground2" pos="89 32.5 -0.25"> <solid dim="60 55 .5" zp="/tga/terrain.tga" /> </ground>
 <ground name="ground3" pos="89 -32.5 -0.25"> <solid dim="60 55 .5" zp="/gif/desert.gif" /> </ground>
@@ -55,7 +56,6 @@
 <mirage name="dune4" pos="60 -65 -0.4 3.14 0.44">
   <solid dim="144 12 .02" dif="0.8 0.8 0" />
 </mirage>
-
 
 <!-- bassin -->
 <!--
@@ -78,7 +78,7 @@
 </water>
 -->
 
-<!-- Des  mondes !!!  -->
+<!-- worlds -->
 
 <!-- infres 224.255.0.4 -->
 <!--
@@ -131,7 +131,7 @@
 
 <!-- mythology 224.255.0.15 -->
 <gate  pos="95 20 2 1.57" url="/vre/mythology.vre">
-  <solid dim="3.6 .2 3.6" xn="/gif/mythology2.gif" />
+  <solid dim="3.6 .2 3.6" xn="/gif/mythology.gif" />
 </gate>
 
 
@@ -227,8 +227,6 @@
 <mirage pos="24.3 -26.0 0"> <solid shape="cone" rb="0.09" rt="0.09" h="1.7" dif="0.26 0.15 0" /></mirage>
 <mirage pos="28 -30 1"> <solid shape="cone" rb="0.4" rt="0.0" h="3.9" amb="0 0.27 0" /></mirage>
 <mirage pos="28 -30 0"> <solid shape="cone" rb="0.14" rt="0.14" h="1.9" dif="0.26 0.15 0" /></mirage>
-<!--
--->
 
 </scene>
 </vre>
