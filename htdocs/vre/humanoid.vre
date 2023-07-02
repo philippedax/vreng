@@ -134,7 +134,7 @@
 </movie>
 <movie name="bonjour" pos="13.8 2.2 1.5 1.57 0"
   url="/mpg/bonjour.mpg" rate="10">
-  <solid dim="2 .2 2" xn="/gif/wood017.gif" />
+  <solid dim="2 .2 2" xn="/gif/wood0.gif" />
 </movie>
 <movie name="aurevoir" pos="13.8 -2.2 1.5 1.57 0"
   url="/mpg/aurevoir.mpg" rate="10">
