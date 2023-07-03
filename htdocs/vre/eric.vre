@@ -17,7 +17,7 @@
 
 <!-- sol general -->
 <ground name="sol" pos="15 0 -.2">
-  <solid dim="100 100 .4" dif="grey50" zp="/gif/herbe2.gif" zpr="40" />
+  <solid dim="100 100 .4" dif="grey50" zp="/gif/grass.gif" zpr="40" />
 </ground>
 
 <!-- les axes -->
@@ -32,16 +32,16 @@
 
 <!-- le chemin -->
 <step pos="0 -2 .02">
-<solid dim="50 2.1 .02" zp="/gif/herbevar1.gif" zprt="1" zprs="25" />
+<solid dim="50 2.1 .02" zp="/gif/grass.gif" zprt="1" zprs="25" />
 </step>
 <step pos="0 0 .02">
 <solid dim="50 2.1 .02" zp="/gif/pave1.gif" zprt="1" zprs="25" />
 </step>
 <step pos="0 2 .02 3.14">
-<solid dim="50 2.1 .02" zp="/gif/herbevar1.gif" zprt="1" zprs="25" />
+<solid dim="50 2.1 .02" zp="/gif/grass.gif" zprt="1" zprs="25" />
 </step>
 <step pos="27 12 .02 0">
-<solid dim="2.1 24 .02" zp="/gif/herbe3.gif" zprt="7" zprs="1" />
+<solid dim="2.1 24 .02" zp="/gif/grass.gif" zprt="7" zprs="1" />
 </step>
 
 <!-- le parking -->
@@ -69,7 +69,7 @@
   <solid shape="cone" rb="12.2" rt="5.3" h=".01" dif="black" tx="/gif/road04.gif" />
 </step>
 <mirage pos="40 0 0 1.57">
-  <solid shape="cone" rb="6" rt=".1" h="4" dif="yellow" tx="/gif/herbe2.gif" a="1" />
+  <solid shape="cone" rb="6" rt=".1" h="4" dif="yellow" tx="/gif/grass.gif" a="1" />
 </mirage>
 <mirage name="car1" pos="40 0 0 1.57" aspeed="1" radius="10" mode="circular">
   <solid shape="car" dim="1.4 1.4 1.4" dif="grey" xp="/gif/stries.gif" xn="/gif/stries.gif" yp="/gif/stries.gif" yn="/gif/stries.gif" zp="/gif/stries.gif" />
