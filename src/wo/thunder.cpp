@@ -105,9 +105,9 @@ void Thunder::draw()
 
     int div = rand()%12 + 12;	// [12..24]
     // starting point
-    pt.x = pos.x + ((rand()%20) - 20/2);	// xorig +- 10
-    pt.y = pos.y + ((rand()%40) - 40/2);	// yorig +- 20
-    pt.z = pos.z + ((rand()%10) - 10/2);	// zorig +- 5
+    pt.x = pos.x + ((rand()%10) - 5);	// xorig +- 5
+    pt.y = pos.y + ((rand()%50) - 25);	// yorig +- 25
+    pt.z = pos.z + ((rand()%20) - 10);	// zorig +- 10
     // increments
     inc.x = pt.x / div;
     inc.y = pt.y / div;
@@ -115,12 +115,12 @@ void Thunder::draw()
 
     glNewList(dlist + n, GL_COMPILE);
     glBegin(GL_LINE_STRIP);
-    glVertex3f(pt.x, pt.y, pt.z);
+    //glVertex3f(pt.x, pt.y, pt.z);
     for (int i=0; i < div; i++) {
       glVertex3f(pt.x, pt.y, pt.z);
       // next point
-      pt.x += (sign * (inc.x + ((rand()%6) - 6/2)));
-      pt.y += (sign * (inc.y + ((rand()%6) - 6/2)));
+      pt.x += (sign * (inc.x + ((rand()%6) - 3)));
+      pt.y += (sign * (inc.y + ((rand()%6) - 3)));
       //pt.z -= inc.z + ((rand()%2) - 1);
       pt.z -= inc.z; // fall down
     }
