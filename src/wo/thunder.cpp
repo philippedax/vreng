@@ -90,7 +90,7 @@ Thunder::Thunder(char *l)
 
 void Thunder::draw()
 {
-  for (int i=0; i < 4; i++) color[i] = 1;
+  for (int i=0; i<4; i++) color[i] = 1;	// white
 
   dlist = glGenLists(number);
   for (int n=0; n < number; n++) {
@@ -106,8 +106,8 @@ void Thunder::draw()
     int div = rand()%12 + 12;	// [12..24]
     // starting point
     pt.x = pos.x + ((rand()%10) - 5);	// xorig +- 5
-    pt.y = pos.y + ((rand()%50) - 25);	// yorig +- 25
-    pt.z = pos.z + ((rand()%20) - 10);	// zorig +- 10
+    pt.y = pos.y + ((rand()%40) - 20);	// yorig +- 20
+    pt.z = pos.z + ((rand()%10) - 5);	// zorig +- 5
     // increments
     inc.x = pt.x / div;
     inc.y = pt.y / div;
@@ -115,7 +115,6 @@ void Thunder::draw()
 
     glNewList(dlist + n, GL_COMPILE);
     glBegin(GL_LINE_STRIP);
-    //glVertex3f(pt.x, pt.y, pt.z);
     for (int i=0; i < div; i++) {
       glVertex3f(pt.x, pt.y, pt.z);
       // next point
@@ -140,13 +139,13 @@ void Thunder::changePermanent(float lasting)
     draw();
 
     // color
-    int rgb = rand()%3;
+    int rgb = rand()%3;	// [Ø..2]
     if (rand()%2) {	// one over two is white
       color[rgb] = 0.6;
       rgb = rand()%3;
       color[rgb] = 0.6;
     }
-    state = true;
+    state = true;	// to display
   }
   else {
     state = false;
@@ -157,7 +156,7 @@ void Thunder::render()
 {
   struct timeval tv;
   gettimeofday(&tv, NULL);
-  if (((int) tv.tv_sec) % (int) period != 0) return;
+  if ( (((int) tv.tv_sec) % (int) period) != 0 ) return;
   if (!state || dlist <= 0) return;
 
   for (int n=0; n < number; n++) {
