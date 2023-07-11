@@ -231,18 +231,18 @@ char * Solid::skipEqual(char *p)
   return p;
 }
 
-char * Solid::getTok(char *l, uint16_t *tok)
+char * Solid::getTok(char *l, uint16_t *stok)
 {
   char *t = l;
   const struct sStokens *ptab;
 
-  *tok = STOK_ERR;
+  *stok = STOK_ERR;
   l = skipEqual(l);
   if (l) {
     *(l-1) = '\0';	// end of token '=',  replaced by null terminated
     for (ptab = stokens; ptab->tokstr ; ptab++) {
       if ( (! strcmp(ptab->tokstr, t)) || (! strcmp(ptab->tokalias, t)) ) {
-        *tok = ptab->tokid;
+        *stok = ptab->tokid;
         return l;
       }
     }
@@ -436,7 +436,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   uint8_t face = 0;	// default face
 
   // default textures
-  texid = -1;			// for quadrics (sphere, cylinder, disc, torus, ...)
+  texid = -1;				// for quadrics (sphere, cylinder, disc, torus, ...)
   int box_tex[6] = {-1,-1,-1,-1,-1,-1};	// for parallepipedic shapes
   GLfloat box_texrep[6][2] = { {1,1}, {1,1}, {1,1}, {1,1}, {1,1}, {1,1} };
   GLfloat tex_r_s = 1, tex_r_t = 1;
@@ -444,7 +444,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   Teapot *teapot = NULL;
   Car *car = NULL;
 
-  V3 dim = setV3(.1, .1, .1);	// default dimension : box 10x10x10 cm
+  V3 dim = setV3(.1, .1, .1);		// default dimension : box 10x10x10 cm
 
   ::g.render.first_bb = true;
 
@@ -477,17 +477,17 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
   }
 
-  // parse shape=
+  // parse shape="..."
   while (l) {
-    uint16_t tok = 0; uint8_t flgblk = 0;
+    uint16_t stok = 0; uint8_t flgblk = 0;
 
     if ((*l == '\0') || (*l == '/')) {
       *l = '\0';
       break;
     } // end of solid
 
-    l = getTok(l, &tok);
-    switch (tok) {
+    l = getTok(l, &stok);
+    switch (stok) {
       case STOK_SOLID:	//not used
         error("token solid");
         break;
@@ -640,7 +640,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
           l = wobject->parse()->parseString(l, urltex);
           if (*urltex) {
             texture = new Texture(urltex);
-            box_tex[tok - STOK_TEX_XP] = texture->id;
+            box_tex[stok - STOK_TEX_XP] = texture->id;
             texid = texture->id;
             texture->object = wobject;
           }
@@ -663,8 +663,8 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_TEX_YN_R:
       case STOK_TEX_ZP_R:
       case STOK_TEX_ZN_R:
-        l = wobject->parse()->parseFloat(l, &box_texrep[tok-STOK_TEX_XP_R][0]);
-        box_texrep[tok-STOK_TEX_XP_R][1] = box_texrep[tok-STOK_TEX_XP_R][0];
+        l = wobject->parse()->parseFloat(l, &box_texrep[stok-STOK_TEX_XP_R][0]);
+        box_texrep[stok-STOK_TEX_XP_R][1] = box_texrep[stok-STOK_TEX_XP_R][0];
         break;
       case STOK_TEX_XP_RS:
       case STOK_TEX_XN_RS:
@@ -672,7 +672,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_TEX_YN_RS:
       case STOK_TEX_ZP_RS:
       case STOK_TEX_ZN_RS:
-        l = wobject->parse()->parseFloat(l, &box_texrep[tok-STOK_TEX_XP_RS][0]);
+        l = wobject->parse()->parseFloat(l, &box_texrep[stok-STOK_TEX_XP_RS][0]);
         break;
       case STOK_TEX_XP_RT:
       case STOK_TEX_XN_RT:
@@ -680,10 +680,10 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       case STOK_TEX_YN_RT:
       case STOK_TEX_ZP_RT:
       case STOK_TEX_ZN_RT:
-        l = wobject->parse()->parseFloat(l, &box_texrep[tok-STOK_TEX_XP_RT][1]);
+        l = wobject->parse()->parseFloat(l, &box_texrep[stok-STOK_TEX_XP_RT][1]);
         break;
       default:
-        error("solidParser: bad token=%hu", tok);
+        error("solidParser: bad token=%hu", stok);
         return -1;
     }
   }
@@ -717,7 +717,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_BBOX:	// invisible bounding box
-      setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
+      setBB(dim.v[0], dim.v[1], dim.v[2]);
       //dax1 if (::g.pref.bbox) Draw::bbox(dim.v[0], dim.v[1], dim.v[2]);
       break;
 
@@ -743,12 +743,13 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
        Man *man = new Man();
        man->draw();
       }
-      setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
+      setBB(dim.v[0], dim.v[1], dim.v[2]/2);
       break;
 
     case STOK_GUY:
     case STOK_HUMANOID:
-      setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
+      //echo("%.1f %.1f %.1f", dim.v[0], dim.v[1], dim.v[2]);
+      setBB(dim.v[0], dim.v[1], dim.v[2]/2);
       break;
 
     case STOK_WINGS:
@@ -756,7 +757,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
        Wings *wings = new Wings();
        wings->draw();
       }
-      setBB(dim.v[0]/2, dim.v[1]/2, dim.v[2]/2);
+      setBB(dim.v[0], dim.v[1], dim.v[2]);
       break;
 
     case STOK_CONE:
@@ -950,14 +951,14 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   ::g.render.first_bb = true;
 
   while (l) {
-    uint16_t tok;
+    uint16_t stok;
 
     if ( (*l == '\0') || (*l == '/') ) break; // end of statue
 
-    l = getTok(l, &tok);
-    if (tok == 0) break;
+    l = getTok(l, &stok);
+    if (stok == 0) break;
 
-    switch (tok) {
+    switch (stok) {
       case STOK_SOLID: break;
       case STOK_MODEL:
       case STOK_URL:
@@ -1004,7 +1005,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
         }
         break;
       default:
-        error("statueParser: bad tok=%d", tok);
+        error("statueParser: bad stok=%d", stok);
         return -1;
     }
   }
