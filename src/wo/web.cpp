@@ -114,7 +114,7 @@ void Web::showCaption()
     Pos postext = pos;
     V3 dim;
 
-    getDimBB(dim);			// get dim of the surface
+    getDim(dim);			// get dim of the surface
     postext.z += (dim.v[2] - 0.20);	// 20cm under the top
     postext.ax = M_PI_2;
     postext.az = pos.az + M_PI;

@@ -113,7 +113,7 @@ void Fire::inits()
   np = MIN(np, FIREMAX);
 
   V3 dim;
-  getDimBB(dim);
+  getDim(dim);
   width = dim.v[0];
   depth = dim.v[1];
   height = dim.v[2];

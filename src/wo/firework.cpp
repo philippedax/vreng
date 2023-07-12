@@ -74,7 +74,7 @@ void Firework::geometry()
   parseSolid(s);
 
   V3 dim;
-  getDimBB(dim);
+  getDim(dim);
   w = dim.v[0];
   d = dim.v[1];
   h = dim.v[2];

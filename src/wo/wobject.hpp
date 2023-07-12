@@ -310,7 +310,7 @@ public:
   /**< Runs action everwhere if available. */
 
   //
-  // Set, Get, Have, Is
+  // Set, Get, Is
   //
 public:
   void setType(uint8_t type);
@@ -322,10 +322,10 @@ public:
   void getPosition(M4& mpos);
   /**< Gives solid's position. */
 
-  void getRelBB(V3 &center, V3 &size);
-  void getDimBB(V3 &dim);
-  void getCentBB(V3 &center);
-  void getAbsBB(V3 &center, V3 &size);
+  void getDim(V3 &dim);
+  void getRel(V3 &center, V3 &size);
+  void getAbs(V3 &center, V3 &size);
+  void getCent(V3 &center);
   /**< Gets relative or absolute center and size of solid. */
 
   uint8_t getFrames();

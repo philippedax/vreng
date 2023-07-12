@@ -58,7 +58,7 @@ void Plane::geometry()
   GLfloat dif[4], amb[4], spe[4], emi[4], a;
   GLint shi[1];
 
-  getDimBB(dim);
+  getDim(dim);
   // decomposer le solid d'origine en plusieurs petits solides
   // pour faire de multiples bounding boxes gerables aux collisions
   if (dim.v[2] < 0.2) return; // seuil de 20 cm en hauteur

@@ -22,7 +22,6 @@
 #include "sheet.hpp"
 #include "book.hpp"	// Book
 #include "mp3.hpp"	// start
-#include "solid.hpp"	// getRelativeBB
 
 
 const OClass Sheet::oclass(SHEET_TYPE, "Sheet", NULL);
@@ -55,7 +54,7 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   center.v[1] = pos.y;
   center.v[2] = pos.z;
 
-  getDimBB(size);
+  getDim(size);
   pos.x = center.v[0] + (size.v[0] * cos(pos.az));
   pos.y = center.v[1] + (size.v[0] * sin(pos.az));
   clearV3(move.lspeed);
@@ -144,7 +143,7 @@ void Sheet::turnPrev()
 
 void Sheet::pullNext()
 {
-  getDimBB(size);
+  getDim(size);
   float ttl = ABSF(deltaAngle(pos.az, aleft) / aspeed);
   float dx = -size.v[1] * (cos(aleft) + cos(aright));
   float dy =  size.v[1] * (sin(aleft) + sin(aright));
@@ -158,7 +157,7 @@ void Sheet::pullNext()
 
 void Sheet::pullPrev()
 {
-  getDimBB(size);
+  getDim(size);
   float ttl = ABSF(deltaAngle(aleft, aright) / aspeed);
   float dx =  size.v[1] * (cos(aleft) + cos(aright));
   float dy = -size.v[1] * (sin(aleft) + sin(aright));

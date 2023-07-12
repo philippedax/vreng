@@ -87,7 +87,7 @@ Widget::Widget(char *l)
 void Widget::buildScreen()
 {
   V3 dim;
-  getDimBB(dim);
+  getDim(dim);
 
   float left  = MAX(dim.v[1], dim.v[0]);
   float front = MIN(dim.v[0], dim.v[1]) + 0.02;

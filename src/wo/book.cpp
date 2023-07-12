@@ -206,7 +206,7 @@ void Book::inits()
   initMobileObject(1);
   createPermanentNetObject(PROPS, ++oid);
 
-  getDimBB(size);
+  getDim(size);
   width = size.v[0];
   height = size.v[2];
 
@@ -349,7 +349,7 @@ void Book::nextSheet(Book *book, void *d, time_t sec, time_t usec)
       createSheet(s, Sheet::RIGHT, RIGHT);
       // replace the left heap if too big (case of bookClose)
       if (left) {
-        left->getDimBB(size);
+        left->getDim(size);
       }
       else {
         echo("no left sheet");
@@ -440,7 +440,7 @@ void Book::prevSheet(Book *book, void *d, time_t sec, time_t usec)
       createSheet(s, Sheet::LEFT, LEFT);
       // replace the right heap if not too big
       if (right) {
-        right->getDimBB(size);
+        right->getDim(size);
       }
       else {
         echo("no right sheet");
@@ -652,7 +652,7 @@ void Book::approach()
 
     // move the right sheet
     if (right) {
-      right->getDimBB(size);
+      right->getDim(size);
       float dxright = dx + size.v[1] * (sin(aright0) - sin(azend));
       float dyright = dy + size.v[1] * (cos(azend) - cos(aright0));
       right->move.lspeed.v[0] = dxright / ttl;
@@ -666,7 +666,7 @@ void Book::approach()
     }
     // move the left sheet
     if (left) {
-      left->getDimBB(size);
+      left->getDim(size);
       float dxleft = dx + size.v[1] * (sin(aleft0+daz) - sin(aleft0));
       float dyleft = dy + size.v[1] * (cos(aleft0) - cos(aleft0+daz));
       left->move.lspeed.v[0] = dxleft / ttl;
