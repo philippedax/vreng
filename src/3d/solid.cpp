@@ -201,7 +201,7 @@ Solid::Solid()
   framed = false;	// mono framed by default
 
   frame = 0;		// frame to render
-  idxframe = 0;		// frame index in displaylist
+  iframe = 0;		// frame index in displaylist
   nbframes = 1;		// 1 frame by default
   userdist = 0;		// distance to localuser
   surfsize = 0;		// surface of solid
@@ -320,7 +320,7 @@ char * Solid::parser(char *l)
   V3 bbmin = setV3(0, 0, 0);
 
   // for each frame
-  for (idxframe = 0; idxframe < nbframes; ) {
+  for (iframe = 0; iframe < nbframes; ) {
     int r = 0;
 
     l = parseFrame(l);
@@ -371,7 +371,7 @@ char * Solid::parser(char *l)
       delete this;
       return NULL;
     }
-    idxframe += r;
+    iframe += r;
   }
 
   // computes relative AABB of this solid: bbcent and bbsize
@@ -899,7 +899,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
   glEndList();
 
   // sets dlists number for this frame
-  dlists[idxframe] = dlist;
+  dlists[iframe] = dlist;
 
   /*
    * gets bounding boxes bbmax and bbmin
@@ -915,7 +915,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
     case STOK_ELLIPSE:
       break;
     default: // with bounding boxes
-      getBB(bbmax, bbmin, idxframe != 0);
+      getMaxMinBB(bbmax, bbmin, iframe != 0);
   }
 
   updateDist();
@@ -1031,7 +1031,7 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
             nf = -1;
             break;
           }
-          getBB(bbmax, bbmin, framed); // get bounding box
+          getMaxMinBB(bbmax, bbmin, framed); // get bounding box
         }
         if (md2) delete md2;
         md2 = NULL;
@@ -1123,12 +1123,12 @@ void Solid::postDraw(int texid, GLfloat alpha, GLfloat *fog)
 }
 
 // Gets max min BB.
-void Solid::getBB(V3 &max, V3 &min, bool is_framed)
+void Solid::getMaxMinBB(V3 &max, V3 &min, bool is_framed)
 {
   ::g.render.getBB(max, min, is_framed);
 }
 
-// Sets BB dims.
+// Sets BB sizes.
 void Solid::setBB(GLfloat w, GLfloat d, GLfloat h)
 {
   ::g.render.setBB(w, d, h);
@@ -1147,24 +1147,13 @@ void Solid::getDimBB(V3 &dim) const
   dim = bbsize;
 }
 
+#if 0 //notused
 /* returns relative center of BB. */
 void Solid::getCentBB(V3 &center) const
 {
   center = bbcent;
 }
-
-/* returns materials. */
-void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alp)
-{
-  for (int i=0; i<4; i++) {
-    dif[i] = mat_diffuse[i];
-    amb[i] = mat_ambient[i];
-    spe[i] = mat_specular[i];
-    emi[i] = mat_emission[i];
-  }
-  shi[0] = mat_shininess[0];
-  *alp = alpha;
-}
+#endif //notused
 
 /* Returns absolute center and size of AABB. */
 void Solid::getAbsBB(V3 &center, V3 &size)
@@ -1201,6 +1190,19 @@ void Solid::getAbsBB(V3 &center, V3 &size)
 void Solid::updateBB(GLfloat az)
 {
   ::g.render.updBB(az);
+}
+
+/* returns materials. */
+void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alp)
+{
+  for (int i=0; i<4; i++) {
+    dif[i] = mat_diffuse[i];
+    amb[i] = mat_ambient[i];
+    spe[i] = mat_specular[i];
+    emi[i] = mat_emission[i];
+  }
+  shi[0] = mat_shininess[0];
+  *alp = alpha;
 }
 
 // accessor - get WObject parent from Solid

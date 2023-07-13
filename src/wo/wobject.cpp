@@ -509,23 +509,25 @@ void WObject::getDim(V3 &dim)
   if (solid) solid->getDimBB(dim);
 }
 
-/* Gets relative center of solid */
-void WObject::getCent(V3 &center)
-{
-  if (solid) solid->getCentBB(center);
-}
-
 /* Gets relative center and size of solid */
 void WObject::getRelBB(V3 &center, V3 &size)
 {
   if (solid) solid->getRelBB(center, size);
 }
 
+#if 0 //notused
 /* Gets absolute center and size of solid */
 void WObject::getAbsBB(V3 &center, V3 &size)
 {
   if (solid) solid->getAbsBB(center, size);
 }
+
+/* Gets relative center of solid */
+void WObject::getCent(V3 &center)
+{
+  if (solid) solid->getCentBB(center);
+}
+#endif //notused
 
 /* Gets number of frames of this solid */
 uint8_t WObject::getFrames()

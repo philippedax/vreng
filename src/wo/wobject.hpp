@@ -323,9 +323,9 @@ public:
   /**< Gives solid's position. */
 
   void getDim(V3 &dim);
-  void getCent(V3 &center);
   void getRelBB(V3 &center, V3 &size);
-  void getAbsBB(V3 &center, V3 &size);
+  //notused void getAbsBB(V3 &center, V3 &size);
+  //notused void getCent(V3 &center);
   /**< Gets relative or absolute center and size of solid. */
 
   uint8_t getFrames();

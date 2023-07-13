@@ -233,14 +233,14 @@ public:
   WObject* object() const;
   /**< Returns the associated WObject. */
 
+  void getDimBB(V3& bbsize) const;
+  void getRelBB(V3& bbcent, V3& bbsize) const;
+  //notused void getCentBB(V3& bbcent) const;
+  /**< Returns relative bounding-box. */
+
   void getAbsBB(V3& bbcent, V3& bbsize);
   /**< Returns a bounding box for this solid.
    * The bounding box is aligned with the world reference. */
-
-  void getRelBB(V3& bbcent, V3& bbsize) const;
-  void getDimBB(V3& bbsize) const;
-  void getCentBB(V3& bbcent) const;
-  /**< Returns relative bounding-box. */
 
   void updateBB(GLfloat az);
   /**< Updates BB according to its orientation. */
@@ -356,7 +356,7 @@ public:
   /**< Displays ray. */
 
 private:
-  uint8_t	idxframe;	///< frame index.
+  uint8_t	iframe;		///< frame index.
   bool		framed;		///< flag framed.
 
   char * skipEqual(char *p);
@@ -371,11 +371,11 @@ private:
   void postDraw(int texid, GLfloat alpha, GLfloat *fog);
   /**< Ends transforms after drawing. */
 
-  void getBB(V3 &max, V3 &min, bool framed);
-  /**< Gets BB. */
+  void getMaxMinBB(V3 &max, V3 &min, bool framed);
+  /**< Gets Max & Min BB. */
 
   void setBB(GLfloat w, GLfloat d, GLfloat h);
-  /**< Sets BB. */
+  /**< Sets BB sizes. */
 
   void doTransform(bool flag);
   /**< Makes transforms rotations and translations. */
@@ -384,24 +384,20 @@ private:
   /**< Makes blending operations if alpha. */
 
   void doTexture(bool flag, int texid);
-  /**< Makes texture binding */
+  /**< Makes texture binding. */
 
-  char* getTok(char* l, uint16_t* tok);
-  /** Gets current token. */
+  char* getTok(char* l, uint16_t* stok);
+  /** Gets current solid token. */
 
-#if 0 //notused
-  void displayObject();
-  /**< Displays a reflexive object. */
-
-  int solidIntersect(Solid *s2);
-  /**< Returns True if both solids 's1' et 's2' intersect themself
-   * not implemented for the moment: return 'true'. */
-
-  static void setFrameBuffer(char *buf, int x0, int y0, int xsize, int ysize);
-  /**< parameters given the position of the display buffer in the display window
-   * (at address 'buf').
-   * note: 'xsize' and 'x0' must be even. */
-#endif //notused
+  //notused void displayObject();
+  //notused /**< Displays a reflexive object. */
+  //notused int solidIntersect(Solid *s2);
+  //notused /**< Returns True if both solids 's1' et 's2' intersect themself
+  //notused  * not implemented for the moment: return 'true'. */
+  //notused static void setFrameBuffer(char *buf, int x0, int y0, int xsize, int ysize);
+  //notused /**< parameters given the position of the display buffer in the display window
+  //notused  * (at address 'buf').
+  //notused  * note: 'xsize' and 'x0' must be even. */
 
 };
 
