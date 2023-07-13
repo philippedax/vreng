@@ -246,11 +246,13 @@ char * Solid::getTok(char *l, uint16_t *stok)
         return l;
       }
     }
-    error("getTok: unknown \"%s\" in %s", t, l);
+    error("getTok: unknown token \"%s\"", t);
+    wobject->parse()->printNumline();
     return l;
   }
   else {
     error("getTok: in %s", t);
+    wobject->parse()->printNumline();
     return t;
   }
 }
@@ -285,7 +287,8 @@ char * Solid::parseShape(char *l, uint8_t *shape)
         return l;
       }
     }
-    error("unknown shape \"%s\" in %s'", s, l);
+    error("unknown shape \"%s\"", s);
+    wobject->parse()->printNumline();
     *shape = STOK_ERR;
   }
   return l;
@@ -367,6 +370,7 @@ char * Solid::parser(char *l)
 
     if (r == -1) {
       error("parser error: shape=%hu ll=%s", shape, ll);
+      wobject->parse()->printNumline();
       free(ll);
       delete this;
       return NULL;
@@ -400,6 +404,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 {
   if (!l) {
     error("no solid description");
+    wobject->parse()->printNumline();
     return -1;
   }
 
@@ -684,6 +689,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         break;
       default:
         error("solidParser: bad token=%hu", stok);
+        wobject->parse()->printNumline();
         return -1;
     }
   }
