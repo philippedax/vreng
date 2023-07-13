@@ -251,7 +251,6 @@ char * Solid::getTok(char *l, uint16_t *stok)
     return l;
   }
   else {
-    error("getTok: in %s", t);
     wobject->parse()->printNumline();
     return t;
   }
@@ -369,8 +368,6 @@ char * Solid::parser(char *l)
     }
 
     if (r == -1) {
-      error("parser error: shape=%hu ll=%s", shape, ll);
-      wobject->parse()->printNumline();
       free(ll);
       delete this;
       return NULL;
@@ -688,7 +685,6 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
         l = wobject->parse()->parseFloat(l, &box_texrep[stok-STOK_TEX_XP_RT][1]);
         break;
       default:
-        error("solidParser: bad token=%hu", stok);
         wobject->parse()->printNumline();
         return -1;
     }

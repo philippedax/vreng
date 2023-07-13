@@ -456,7 +456,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
 
 void Parse::printNumline()
 {
-  error("parse error at line %d (solid)", numline);
+  error("parse error at line %d", numline);
 }
 
 /* skip attributes */
@@ -476,7 +476,7 @@ char * Parse::skipAttribute(char *l)
   return l;
 }
 
-/* parse attributes: name pos solid category description / */
+/* parse attributes: name pos solid category description */
 char * Parse::parseAttributes(char *l, WObject *wobject)
 {
   while (l) {
@@ -685,7 +685,6 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
     return nextToken();
   }
   if (*ptok == '<') ptok++;
-  //dax strtok(ptok, SEP);  //dax
   if (! strcmp(ptok, "solid")) {
     ptok = nextToken();		// skip tag solid
   }
@@ -709,7 +708,6 @@ char * Parse::parseSolid(char *ptok, const char *sep, WObject *wobject)
   if (*ptok == '<') ptok++;
   strtok(ptok, sep);
   return parseSolid(ptok, wobject);
-  //dax return parseSolid(ptok, (WObject *)this);
 }
 
 /* parse several solids */
