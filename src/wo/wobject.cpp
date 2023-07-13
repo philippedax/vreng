@@ -503,12 +503,6 @@ void WObject::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *em
   if (solid) solid->getMaterials(dif, amb, spe, emi, shi, alpha);
 }
 
-/* Gets relative center and size of solid */
-void WObject::getRel(V3 &center, V3 &size)
-{
-  if (solid) solid->getRelBB(center, size);
-}
-
 /* Gets size of solid */
 void WObject::getDim(V3 &dim)
 {
@@ -521,8 +515,14 @@ void WObject::getCent(V3 &center)
   if (solid) solid->getCentBB(center);
 }
 
+/* Gets relative center and size of solid */
+void WObject::getRelBB(V3 &center, V3 &size)
+{
+  if (solid) solid->getRelBB(center, size);
+}
+
 /* Gets absolute center and size of solid */
-void WObject::getAbs(V3 &center, V3 &size)
+void WObject::getAbsBB(V3 &center, V3 &size)
 {
   if (solid) solid->getAbsBB(center, size);
 }
