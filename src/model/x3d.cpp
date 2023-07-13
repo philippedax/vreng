@@ -633,7 +633,7 @@ void X3d::render()
   float shiny = 1;
   float black[4] = {0,0,0,1};
   float white[4] = {1,1,1,1};
-  //dax2 glColor4f(0,0,0,1); // track the default ambient wanted else problems with gl_color_material
+  glColor4f(0,0,0,1); // track the default ambient wanted else problems with gl_color_material
   glMaterialfv(GL_FRONT, GL_AMBIENT, black);
   glMaterialfv(GL_FRONT, GL_SPECULAR, white);
   glMaterialfv(GL_FRONT, GL_SHININESS, &shiny);
@@ -661,16 +661,16 @@ void X3d::render()
     // and if we switch to a child, we don't touch the current (parent) matrix
     if (shape->level <= prevlevel) {
       glPopMatrix(); // we remove the matrix of the current shape
-      //dax1 glPopAttrib();
+      //glPopAttrib();	//dax1
       if (shape->level < prevlevel) {
         glPopMatrix(); // remove the matrix of the previous shape because we went down
-        //dax1 glPopAttrib();
+        //glPopAttrib();	//dax1
       }
     }
     prevlevel = shape->level;
 
     glPushMatrix();
-    //dax1 glPushAttrib(GL_ALL_ATTRIB_BITS);
+    //glPushAttrib(GL_ALL_ATTRIB_BITS);	//dax1
 
     if (shape->texture) {  //texture is there in priority
       glEnable(GL_TEXTURE_2D);
