@@ -10,7 +10,7 @@
 <bgcolor color=".8 0 1"></bgcolor>
 <entry pos="-15 -2 0"></entry>
 
-<ground name="ground" pos="0 0 -.1"> <solid dim="40 40 .2" zp="/gif/desert.gif" /></ground>
+<ground name="ground" pos="0 0 -.1"> <solid dim="40 40 .2" zp="/jpg/desert.jpg" /></ground>
 
 <wall name="roof" pos="15 0 8.5"> <solid dim="22 22 1" dif=".6 .6 .6" tx="/gif/wood1.gif" /></wall>
 

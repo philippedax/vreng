@@ -11,7 +11,7 @@
 
 <ground name="ground"
   pos="0 0 -0.5 0">
-  <solid dim="80 20 1 zp=/gif/desert.gif" />
+  <solid dim="80 20 1 zp=/jpg/desert.jpg" />
 </ground>
 
 <gate name="tarots"

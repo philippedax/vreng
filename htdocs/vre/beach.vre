@@ -88,16 +88,16 @@
 
 <!-- dunes -->
 <plane name="dune1" pos="-20 0 2 1.57 .22">
-  <solid dim="100 12 4" dif=".8 .8 0" zp="/gif/desert.gif" />
+  <solid dim="100 12 4" dif=".9 .9 0" zp="/jpg/desert.jpg" />
 </plane>
 <!--
 <plane name="dune2" pos="-40 0 1.5 1.57 -.22">
-  <solid dim="100 30 1" dif="green" zp="/gif/desert.gif" />
+  <solid dim="100 30 1" dif="orange" zp="/jpg/desert.jpg" />
 </plane>
 -->
 
 <!-- underwater -->
-<step pos="11 0 -0.5 1.57"> <solid dim="100 4 1.02" zp="/gif/ecume.gif" a=".0" /></step>
+<step pos="11 0 -0.5 1.57"> <solid dim="100 4 1.02" zp="/gif/ecume.gif" a=".5" /></step>
 <step pos="16 0 -1.0 1.57"> <solid dim="100 10 1" dif="grey90" a=".0" /></step>
 <step pos="21 0 -1.5 1.57"> <solid dim="100 10 1" dif="grey80" a=".0" /></step>
 <step pos="26 0 -2.0 1.57"> <solid dim="100 10 1" dif="grey70" a=".0" /></step>
