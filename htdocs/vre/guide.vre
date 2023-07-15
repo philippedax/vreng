@@ -38,7 +38,7 @@
 <!-- ground -->
 <ground name="ground1" pos="29 30 -0.25"> <solid dim="60 60 .5" zp="/gif/marble.gif" /> </ground>
 <ground name="ground2" pos="89 32.5 -0.25"> <solid dim="60 55 .5" zp="/tga/terrain.tga" /> </ground>
-<ground name="ground3" pos="89 -32.5 -0.25"> <solid dim="60 55 .5" zp="/gif/desert.gif" /> </ground>
+<ground name="ground3" pos="89 -32.5 -0.25"> <solid dim="60 55 .5" zp="/jpg/desert.jpg" /> </ground>
 <ground name="ground4" pos="29 -30 -0.25"> <solid dim="60 60 .5" zp="/gif/grass.gif" a="0.5" /> </ground>
 
 <!-- dunes -->
