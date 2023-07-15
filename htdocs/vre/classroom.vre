@@ -33,7 +33,7 @@
 <!-- table -->
 <thing name="table1"
  pos="2.48 -2.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -43,27 +43,27 @@
 <!-- chair -->
 <thing name="chair1-1"
  pos="2.90 -2.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif" />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair1-2"
  pos="2.90 -3.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif" />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table2"
  pos="2.48 -5.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -72,27 +72,27 @@
 
 <thing name="chair2.1"
  pos="2.90 -5.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif" />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair2-2"
  pos="2.90 -6.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table3"
  pos="2.48 -8.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -101,27 +101,27 @@
 
 <thing name="chair3-1"
  pos="2.90 -8.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair3-2"
  pos="2.90 -9.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table4"
  pos="2.48 -11.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -130,27 +130,27 @@
 
 <thing name="chair4-1"
  pos="2.90 -11.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair4-2"
  pos="2.90 -12.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table5"
  pos="4.47 -2.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -159,27 +159,27 @@
 
 <thing name="chair5-1"
  pos="4.90 -2.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair5-2"
  pos="4.90 -3.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table6"
  pos="4.47 -5.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -188,27 +188,27 @@
 
 <thing name="chair6-1"
  pos="4.90 -5.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair6-2"
  pos="4.90 -6.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table7"
  pos="4.47 -8.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -217,27 +217,27 @@
 
 <thing name="chair7-1"
  pos="4.90 -8.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair7-2"
  pos="4.90 -9.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table8"
  pos="4.47 -11.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -246,27 +246,27 @@
 
 <thing name="chair8-1"
  pos="4.90 -11.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair8-2"
  pos="4.90 -12.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table9"
  pos="6.47 -2.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -275,27 +275,27 @@
 
 <thing name="chair9-1"
  pos="6.90 -2.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair9-2"
  pos="6.90 -3.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table10"
  pos="6.47 -5.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -304,27 +304,27 @@
 
 <thing name="chair10-1"
  pos="6.90 -5.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair10-2"
  pos="6.90 -6.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table11"
  pos="6.47 -8.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -333,27 +333,27 @@
 
 <thing name="chair11-1"
  pos="6.90 -8.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair11-2"
  pos="6.90 -9.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table12"
  pos="6.47 -11.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -362,27 +362,27 @@
 
 <thing name="chair12-1"
  pos="6.90 -11.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair12-2"
  pos="6.90 -12.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table13"
  pos="8.47 -2.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -391,27 +391,27 @@
 
 <thing name="chair13-1"
  pos="8.90 -2.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair13-2"
  pos="8.90 -3.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table14"
  pos="8.47 -5.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -420,27 +420,27 @@
 
 <thing name="chair14-1"
  pos="8.90 -5.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair14-2"
  pos="8.90 -6.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table15"
  pos="8.47 -8.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -449,27 +449,27 @@
 
 <thing name="chair15-1"
  pos="8.90 -8.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair15-2"
  pos="8.90 -9.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="table16"
  pos="8.47 -11.70 -2.24 0">
- <solid dim=".96 2.2 .08" yp="/gif/blondwood.gif" xp="/gif/blondwood.gif" xn="/gif/blondwood.gif" yn="/gif/blondwood.gif" zp="/gif/blondwood.gif" />
+ <solid dim=".96 2.2 .08" tx="/gif/blondwood.gif" />
  <solid dim=".08 .08 .8" rel="-.23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel=".23 .82 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
  <solid dim=".08 .08 .8" rel="-.23 -.86 -.38 0 0" yp="/gif/blondwood.gif" dif="orange" />
@@ -478,22 +478,22 @@
 
 <thing name="chair16-1"
  pos="8.90 -11.30 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 <thing name="chair16-2"
  pos="8.90 -12.10 -2.52 0">
- <solid dim=".6 .5 .04" yp="/gif/wood2.gif" xp="/gif/wood2.gif" xn="/gif/wood2.gif" yn="/gif/wood2.gif" zp="/gif/wood2.gif" />
- <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
- <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood2.gif" dif="brown" />
+ <solid dim=".6 .5 .04" tx="/gif/wood.gif />
+ <solid dim=".08 .5 .5" rel=".34 0 .27 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 .22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel="-.33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
+ <solid dim=".04 .04 .5" rel=".33 -.22 -.23 0 0" yp="/gif/wood.gif" dif="brown" />
 </thing>
 
 </scene>
