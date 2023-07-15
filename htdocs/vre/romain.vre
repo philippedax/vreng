@@ -7,7 +7,7 @@
 
 <scene>
 
-<entry pos="-8 0 0"></entry>
+<entry pos="-8 0 1"></entry>
 
 <!-- moon -->
 <mirage name="sun"
@@ -28,7 +28,7 @@
 
 <ground name="ground"
   pos="0 0 -5">
-  <solid shape="box" dim="40 40 2" zp="/gif/tiling1.gif" zpr="20" />
+  <solid shape="box" dim="40 40 2" zp="/gif/tiling.gif" zpr="20" />
 </ground>
 
 <wall name="wall1Up" pos="0 -20 8">
