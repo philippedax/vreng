@@ -255,21 +255,21 @@
 <wall name="mur17" pos="13.71 6.65 24.75"> <solid dim=".02 6.7 4.5" dif=".4 .4 .5" /></wall>
 
 <!-- flat 1 -->
-<wall name="flat1" pos=".09 -6.14 2.15"> <solid dim=".2 .3 4.3" yp="/gif/wood2.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
-<wall name="flat1" pos=".09 -8.74 2.15"> <solid dim=".2 2.5 4.3" yp="/gif/wood2.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
-<wall name="flat1" pos=".09 -6.89 3.15"> <solid dim=".2 1.2 2.3" yp="/gif/wood2.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
+<wall name="flat1" pos=".09 -6.14 2.15"> <solid dim=".2 .3 4.3" yp="/gif/wood.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
+<wall name="flat1" pos=".09 -8.74 2.15"> <solid dim=".2 2.5 4.3" yp="/gif/wood.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
+<wall name="flat1" pos=".09 -6.89 3.15"> <solid dim=".2 1.2 2.3" yp="/gif/wood.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
 <!-- h=0 -->
-<wall pos=".09 -6.89 -.1"> <solid dim=".2 .12 .2" yp="/gif/wood2.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
+<wall pos=".09 -6.89 -.1"> <solid dim=".2 .12 .2" yp="/gif/wood.gif" xp="/gif/stuc.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
 
 <door name="door-flat1" pos=".21 -7.49 1 .01" open="0" close="1.57" speed="-1"> <solid dim="1.2 .04 1.9" dif=".1 .1 .9" /> </door>
 
-<wall name="pan1" pos="6.89 -6.49 2.15"> <solid dim=".2 1 4.3" yp="/gif/stuc.gif" xp="/gif/wood2.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
-<wall name="pan2" pos="6.89 -9.74 2.15"> <solid dim=".2 .5 4.3" yp="/gif/stuc.gif" xp="/gif/wood2.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
-<wall name="pan3" pos="6.89 -8.24 3.4"> <solid dim=".2 2.5 1.8" yp="/gif/stuc.gif" xp="/gif/wood2.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
-<wall name="pan4" pos="6.89 -8.24 .25"> <solid dim=".2 2.5 .5" yp="/gif/stuc.gif" xp="/gif/wood2.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
-<wall name="pan5" pos="3.49 -6.09 2.15"> <solid dim="6.6 .2 4.3" yn="/gif/wood2.gif" dif=".5 .3 .1" /></wall>
+<wall name="pan1" pos="6.89 -6.49 2.15"> <solid dim=".2 1 4.3" yp="/gif/stuc.gif" xp="/gif/wood.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
+<wall name="pan2" pos="6.89 -9.74 2.15"> <solid dim=".2 .5 4.3" yp="/gif/stuc.gif" xp="/gif/wood.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
+<wall name="pan3" pos="6.89 -8.24 3.4"> <solid dim=".2 2.5 1.8" yp="/gif/stuc.gif" xp="/gif/wood.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
+<wall name="pan4" pos="6.89 -8.24 .25"> <solid dim=".2 2.5 .5" yp="/gif/stuc.gif" xp="/gif/wood.gif" xn="/gif/stuc.gif" yn="/gif/stuc.gif" dif=".5 .3 .1" /></wall>
+<wall name="pan5" pos="3.49 -6.09 2.15"> <solid dim="6.6 .2 4.3" yn="/gif/wood.gif" dif=".5 .3 .1" /></wall>
 
-<wall pos="3.49 -9.89 2.15"> <solid dim="6.6 .2 4.3" xn="/gif/wood2.gif" dif=".5 .3 .1" /></wall>
+<wall pos="3.49 -9.89 2.15"> <solid dim="6.6 .2 4.3" xn="/gif/wood.gif" dif=".5 .3 .1" /></wall>
 <wall pos=".09 -6.24 11.15"> <solid dim=".2 .5 4.3" dif=".5 .3 .1" /></wall>
 <wall pos=".09 -8.84 11.15"> <solid dim=".2 2.3 4.3" dif=".5 .3 .1" /></wall>
 <wall pos=".09 -7.09 12.15"> <solid dim=".2 1.2 2.3" dif=".5 .3 .1" /></wall>
