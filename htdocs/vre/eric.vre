@@ -99,7 +99,7 @@
   <solid dim=".4 12 6"
   yp="/gif/brick.gif" ypr="3" 
   yn="/gif/brick.gif" ynr="3" 
-  xp="/gif/paper.gif" xpr="3"
+  xp="/gif/stuc.gif" xpr="3"
   xn="/gif/brick.gif" xnr="3"
   />
 </wall>
@@ -110,7 +110,7 @@
   yp="/gif/sup02.gif" ypr="3" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  xp="/gif/paper.gif" xpr="3"
+  xp="/gif/stuc.gif" xpr="3"
   />
 </wall>
 
@@ -120,7 +120,7 @@
   xp="/gif/sup02.gif" xprs="2" xprt="2"
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  yp="/gif/paper.gif" ypr="3"
+  yp="/gif/stuc.gif" ypr="3"
   />
 </wall>
 
@@ -130,7 +130,7 @@
   xp="/gif/sup02.gif" xprs="3" xprt=".5"
   xn="/gif/sup02.gif" xnr="2"
   yn="/gif/sup02.gif" ynr="2"
-  yp="/gif/paper.gif" ypr="3"
+  yp="/gif/stuc.gif" ypr="3"
   />
 </wall>
 
@@ -140,7 +140,7 @@
   xp="/gif/sup02.gif" xpr="1" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  yp="/gif/paper.gif" ypr="3"
+  yp="/gif/stuc.gif" ypr="3"
   />
 </wall>
 
@@ -150,7 +150,7 @@
   xp="/gif/sup02.gif" xpr="1" 
   xn="/gif/sup02.gif" xnr="1" 
   yn="/gif/sup02.gif" ynr="1" 
-  yp="/gif/paper.gif" ypr="3"
+  yp="/gif/stuc.gif" ypr="3"
   />
 </wall>
 
