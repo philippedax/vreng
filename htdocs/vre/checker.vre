@@ -12,19 +12,19 @@
 <ground pos="0 0 -1"> <solid dim="20 20 2" zp="/gif/damier.gif" zprs="16" zprt="16" /></ground>
 
 <!-- chair -->
-<mirage pos="4 4 .5"> <solid dim=".5 .5 .04" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></mirage>
-<mirage pos="4.22 4.22 .25"> <solid dim=".02 .02 .5" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></mirage>
-<mirage pos="3.78 4.22 .25"> <solid dim=".02 .02 .5" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></mirage>
-<mirage pos="4.22 3.78 .25"> <solid dim=".02 .02 .5" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></mirage>
-<mirage pos="3.78 3.78 .25"> <solid dim=".02 .02 .5" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></mirage>
-<mirage pos="4.24 4 .75"> <solid dim=".02 .5 .5" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></mirage>
+<mirage pos="4 4 .5">        <solid dim=".5 .5 .04"  tx="/gif/wood.gif"/></mirage>
+<mirage pos="4.22 4.22 .25"> <solid dim=".02 .02 .5" tx="/gif/wood.gif"/></mirage>
+<mirage pos="3.78 4.22 .25"> <solid dim=".02 .02 .5" tx="/gif/wood.gif"/></mirage>
+<mirage pos="4.22 3.78 .25"> <solid dim=".02 .02 .5" tx="/gif/wood.gif"/></mirage>
+<mirage pos="3.78 3.78 .25"> <solid dim=".02 .02 .5" tx="/gif/wood.gif"/></mirage>
+<mirage pos="4.24 4 .75">    <solid dim=".02 .5 .5"  tx="/gif/wood.gif"/></mirage>
 
 <!-- table -->
-<wall pos="3 4 .75"> <solid dim="1.5 1 .04" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></wall>
-<wall pos="3.66 4.44 .5"> <solid dim=".03 .03 .5" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></wall>
-<wall pos="2.34 4.44 .5"> <solid dim=".03 .03 .5" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></wall>
-<wall pos="3.66 3.56 .5"> <solid dim=".03 .03 .5" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></wall>
-<wall pos="2.34 3.56 .5"> <solid dim=".03 .03 .5" yp="/gif/wood.gif" xp="/gif/wood.gif" xn="/gif/wood.gif" yn="/gif/wood.gif" zp="/gif/wood.gif" /></wall>
+<wall pos="3 4 .75">      <solid dim="1.5 1 .04"  tx="/gif/wood.gif"/></wall>
+<wall pos="3.66 4.44 .5"> <solid dim=".03 .03 .5" tx="/gif/wood.gif"/></wall>
+<wall pos="2.34 4.44 .5"> <solid dim=".03 .03 .5" tx="/gif/wood.gif"/></wall>
+<wall pos="3.66 3.56 .5"> <solid dim=".03 .03 .5" tx="/gif/wood.gif"/></wall>
+<wall pos="2.34 3.56 .5"> <solid dim=".03 .03 .5" tx="/gif/wood.gif"/></wall>
 
 </scene>
 </vre>

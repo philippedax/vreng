@@ -167,12 +167,12 @@
 <step pos="-56 0 9.8 1.57">	<solid dim="68 .5 .4" yn="/gif/brick.gif" /></step>
 
 <!-- goals -->
-<wall pos="40 3 1.2 1.57"> <solid dim=".1 .1 2.4" xn="/gif/white.gif" yn="/gif/white.gif" yp="/gif/white.gif" xp="/gif/white.gif" /></wall>
-<wall pos="40 -3 1.2 1.57"> <solid dim=".1 .1 2.4" xn="/gif/white.gif" yn="/gif/white.gif" yp="/gif/white.gif" xp="/gif/white.gif" /></wall>
-<wall pos="40 0 2.45 1.57"> <solid dim="6 .1 .1" xn="/gif/white.gif" yn="/gif/white.gif" zp="/gif/white.gif" zn="/gif/white.gif" /></wall>
-<wall pos="-40 3 1.2 1.57"> <solid dim=".1 .1 2.4" xn="/gif/white.gif" yn="/gif/white.gif" yp="/gif/white.gif" xp="/gif/white.gif" /></wall>
-<wall pos="-40 -3 1.2 1.57"> <solid dim=".1 .1 2.4" xn="/gif/white.gif" yn="/gif/white.gif" yp="/gif/white.gif" xp="/gif/white.gif" /></wall>
-<wall pos="-40 0 2.45 1.57"> <solid dim="6 .1 .1" xn="/gif/white.gif" yn="/gif/white.gif" zp="/gif/white.gif" zn="/gif/white.gif" /></wall>
+<wall pos="40 3 1.2 1.57"> <solid dim=".1 .1 2.4" tx="/gif/white.gif"/></wall>
+<wall pos="40 -3 1.2 1.57"> <solid dim=".1 .1 2.4" tx="/gif/white.gif"/></wall>
+<wall pos="40 0 2.45 1.57"> <solid dim="6 .1 .1" tx="/gif/white.gif"/></wall>
+<wall pos="-40 3 1.2 1.57"> <solid dim=".1 .1 2.4" tx="/gif/white.gif"/></wall>
+<wall pos="-40 -3 1.2 1.57"> <solid dim=".1 .1 2.4" tx="/gif/white.gif"/></wall>
+<wall pos="-40 0 2.45 1.57"> <solid dim="6 .1 .1" tx="/gif/white.gif"/></wall>
 
 <!-- circles -->
 <cauldron pos="0 0 0.05 0"> <solid shape="torus" rb=".2" rt=".04" /></cauldron>

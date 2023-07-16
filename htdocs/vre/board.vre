@@ -24,7 +24,7 @@
 
 <gate name="rendezvous" pos="10 0 1 1.57"
   url="/vre/Rendezvous.vre">
-  <solid dim="2 0.4 2" xn="/gif/wood.gif" />
+  <solid dim="2 0.4 2" xn="/gif/rendezvous.gif" />
 </gate>
 
 </scene>

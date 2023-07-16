@@ -6,7 +6,7 @@
 
 <scene>
 <bgcolor color=".6 .6 .6"></bgcolor>
-<entry pos="4 0 0 0"></entry>
+<entry pos="4 0 1 0"></entry>
 
 <ground name="carpet" pos="0 0 -.02 0"> <solid dim="28 12 .04" dif="grey" /></ground>
 <plane name="ceil" pos="0 0 5 0">  <solid dim="28 14 .001" zn="/gif/stries.gif" /></plane>
