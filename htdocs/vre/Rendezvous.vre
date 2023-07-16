@@ -220,7 +220,7 @@ url="/vre/movies.vre" channel="224.255.0.24/52896/127">
 <!-- humanoid 224.255.0.25 -->
 <gate name="humanoid" pos="15.5 -5 .9 1.3"
 url="/vre/humanoid.vre" channel="224.255.0.25/52906/127">
-<solid dim="2.4 .2 1.8" xn="/gif/humanoid.gif" />
+<solid dim="2.4 .2 1.8" xn="/jpg/meeting.jpg" />
 </gate>
 
 <!-- desktops 224.255.0.26 -->
