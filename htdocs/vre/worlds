@@ -22,7 +22,7 @@ http://localhost/~dax/vre/forest.vre       224.255.0.21/52866
 http://localhost/~dax/vre/tests.vre        224.255.0.22/52876
 http://localhost/~dax/vre/beach.vre        224.255.0.23/52886
 http://localhost/~dax/vre/movies.vre       224.255.0.24/52896
-http://localhost/~dax/vre/humanoid.vre     224.255.0.25/52906
+http://localhost/~dax/vre/meeting.vre      224.255.0.25/52906
 http://localhost/~dax/vre/desktops.vre     224.255.0.26/52916
 http://localhost/~dax/vre/entree.vre       224.255.0.27/52926
 http://localhost/~dax/vre/fan.vre          224.255.0.28/52936
