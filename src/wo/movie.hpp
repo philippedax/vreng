@@ -38,22 +38,23 @@
  * Movie class
  */
 class Movie: public WObject {
+
 private:
   static const float FPS;	///< max number of frames decoded per rendering
 
   float rate;			///< asked avi/mpeg frames per second
   float fps;			///< coded frames per sec
   GLuint texid;			///< texture id
-  uint16_t width;		///< mpeg width in pixels
-  uint16_t height;		///< mpeg height in pixels
   uint16_t texsiz;		///< texture size in pixels
   uint16_t frame;		///< the current frame being displayed
+  uint16_t width;		///< video width in pixels
+  uint16_t height;		///< video height in pixels
   uint8_t vidfmt;		///< video format (mpg | avi)
   bool anim;			///< animated or not
   bool begin;			///< first frame begin playing
   FILE *fp;			///< the corresponding file pointer
   uint8_t *vidbuf;		///< buffer of the video
-  GLubyte *texmap;		///< pixmap of the texture
+  GLubyte *texframe;		///< pixmap of the texture
   ImageDesc *mpeg;		///< this is a structure used by mpeg_lib to store infos
   class Avi *avi;		///< avi instance
   class File *file;		///< file mpeg instance
@@ -86,6 +87,13 @@ private:
 
   void defaults();
   /**< Sets default values. */
+
+  void open_mpeg();
+  void open_avi();
+  void init_tex();
+  void play_mpeg();
+  void play_avi();
+  void bind_frame();
 
   void inits();
   /**< Inits. */
