@@ -52,6 +52,8 @@ private:
   uint8_t vidfmt;		///< video format (mpg | avi)
   bool anim;			///< animated or not
   bool begin;			///< first frame begin playing
+  GLint dlist;			///< displaylist of spot
+  V3 dim;			///< dimension of screen projection
   FILE *fp;			///< the corresponding file pointer
   uint8_t *vidbuf;		///< buffer of the video
   GLubyte *texframe;		///< pixmap of the texture
@@ -91,6 +93,7 @@ private:
   void open_mpeg();
   void open_avi();
   void init_tex();
+  void draw_spot();
   void play_mpeg();
   void play_avi();
   void bind_frame();
