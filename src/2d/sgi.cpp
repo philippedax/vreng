@@ -29,7 +29,7 @@ typedef struct {
   uint16_t imagic;
   uint16_t type;
   uint16_t dim;
-  uint16_t width, height, channel;
+  uint16_t width, height, bpp;
   uint32_t min, max;
   uint32_t wasteBytes;
   char name[80];
@@ -125,7 +125,7 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
   if (!sgi->tmp) return NULL;
 
   if ((sgi->type & 0xFF00) == 0x0100) {	// storage = RLE
-    int x = sgi->height * sgi->channel * sizeof(uint32_t);
+    int x = sgi->height * sgi->bpp * sizeof(uint32_t);
     sgi->rowStart = new uint32_t[x];
     sgi->rowSize  = new uint32_t[x];
     if (!sgi->rowStart || !sgi->rowSize) return NULL;
@@ -139,7 +139,7 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
     }
   }
 
-  trace(DBG_IMG, "sgi: w=%d h=%d c=%d", sgi->width, sgi->height, sgi->channel);
+  trace(DBG_IMG, "sgi: w=%d h=%d c=%d", sgi->width, sgi->height, sgi->bpp);
 
   /* alloc the data */
   Img *img = new Img(sgi->width, sgi->height, Img::RGB);
@@ -153,20 +153,20 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
   /* read the data */
   uint8_t *lptr = img->pixmap;
   for (int y=0; y < sgi->height; y++) {
-    if (sgi->channel == 4) {	// RGBA
+    if (sgi->bpp == 4) {	// RGBA
       getRow(sgi, rbuf, y, 0);
       getRow(sgi, gbuf, y, 1);
       getRow(sgi, bbuf, y, 2);
       getRow(sgi, abuf, y, 3);
       rgbatorgb(rbuf, gbuf, bbuf, abuf, lptr, sgi->width);
     }
-    else if (sgi->channel == 3) {	// RGB
+    else if (sgi->bpp == 3) {	// RGB
       getRow(sgi, rbuf, y, 0);
       getRow(sgi, gbuf, y, 1);
       getRow(sgi, bbuf, y, 2);
       rgbtorgb(rbuf, gbuf, bbuf, lptr, sgi->width);
     }
-    else if (sgi->channel == 2) {	// LA
+    else if (sgi->bpp == 2) {	// LA
       getRow(sgi, rbuf, y, 0);
       getRow(sgi, abuf, y, 1);
       latorgb(rbuf, abuf, lptr, sgi->width);

@@ -468,15 +468,15 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
   rw = SafeSize(width), rh = SafeSize(height);
 
   if (rw != width || rh != height) {
-    const int channels = png_get_rowbytes(png, info)/width;
+    const int bpps = png_get_rowbytes(png, info)/width;
 
-    data2 = (png_bytep) malloc(rw*rh*channels);
+    data2 = (png_bytep) malloc(rw*rh*bpps);
 
    /* Doesn't work on certain sizes */
 /* if (gluScaleImage(glformat, width, height, GL_UNSIGNED_BYTE, data, rw, rh, GL_UNSIGNED_BYTE, data2) != 0)
      return 0;
 */
-    Resize(channels, data, width, height, data2, rw, rh);
+    Resize(bpps, data, width, height, data2, rw, rh);
 
     width = rw, height = rh;
     free(data);

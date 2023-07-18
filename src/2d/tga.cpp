@@ -50,7 +50,7 @@ typedef struct {
 Img * Img::loadTGA(void *tex, ImageReader read_func)
 {
   uint16_t width, height;
-  uint8_t  channel;
+  uint8_t  bpp;
   uint8_t  rle, TgaInfo[18];
   int size;
 
@@ -66,18 +66,18 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
   height = TgaInfo[14] + TgaInfo[15] * 256;
   switch (TgaInfo[16]) {      // Read only 32 && 24 bit per pixel
   case 32:
-    channel = 4; // 32 bit per pixel (RGBA)
+    bpp = 4; // 32 bit per pixel (RGBA)
     break;
   case 24:
-    channel = 3; // 24 bit per pixel (RGB)
+    bpp = 3; // 24 bit per pixel (RGB)
     break;
   default:
     cache->close();
     delete cache;
     return NULL;
   }
-  trace(DBG_IMG, "loadTGA: w=%d h=%d c=%d", width, height, channel);
-  size = width * height * channel;
+  trace(DBG_IMG, "loadTGA: w=%d h=%d c=%d", width, height, bpp);
+  size = width * height * bpp;
 
   Img *img = new Img(width, height, Img::RGB);
 
@@ -102,16 +102,16 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
       fread(&rle, 1, 1, f);
         if (rle & 0x80) {
           rle ^= 0x80;
-          fread(pdata, 1, channel, f);
-          pdata += channel;
-          for (int j = 0; j < rle * channel; j++) {
-            *pdata = *(pdata - channel);
+          fread(pdata, 1, bpp, f);
+          pdata += bpp;
+          for (int j = 0; j < rle * bpp; j++) {
+            *pdata = *(pdata - bpp);
             pdata++;
           }
-          i += channel * (rle + 1);
+          i += bpp * (rle + 1);
         }
         else {
-          int k = channel * (rle + 1);
+          int k = bpp * (rle + 1);
           fread(pdata, 1, k, f);
           pdata += k;
           i += k;
@@ -124,7 +124,7 @@ Img * Img::loadTGA(void *tex, ImageReader read_func)
      delete[] data;
      return NULL;
   }
-  for (i=0, j=0; i < size; i += channel, j += 3) {  // BGR -> RGB
+  for (i=0, j=0; i < size; i += bpp, j += 3) {  // BGR -> RGB
     img->pixmap[j]   = data[i+2];
     img->pixmap[j+1] = data[i+1];
     img->pixmap[j+2] = data[i];

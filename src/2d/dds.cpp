@@ -35,8 +35,8 @@
 typedef struct {
   GLsizei width;
   GLsizei height;
-  GLenum channel;
-  GLint internal_channel;
+  GLenum bpp;
+  GLint internal_bpp;
   GLuint id;
   GLubyte *texels;
   GLint numMipmaps;
@@ -82,7 +82,7 @@ typedef struct {
   DDColorKey ckDestBlt;
   DDColorKey ckSrcOverlay;
   DDColorKey ckSrcBlt;
-  DDPixelFormat channel;
+  DDPixelFormat bpp;
   DDSCaps caps;
   GLuint textureStage;
 } DDSurfaceDesc;
@@ -152,22 +152,22 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
 
   trace(DBG_IMG, "dds: w=%d h=%d numMipmaps=%d", dds->width, dds->height, dds->numMipmaps);
 
-  switch (ddsd.channel.fourCC) {
+  switch (ddsd.bpp.fourCC) {
   case DXT1:
-    dds->channel = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-    dds->internal_channel = Img::RGB;
+    dds->bpp = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+    dds->internal_bpp = Img::RGB;
     break;
   case DXT3:
-    dds->channel = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-    dds->internal_channel = Img::RGBA;
+    dds->bpp = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
+    dds->internal_bpp = Img::RGBA;
     break;
   case DXT5:
-    dds->channel = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-    dds->internal_channel = Img::RGBA;
+    dds->bpp = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
+    dds->internal_bpp = Img::RGBA;
     break;
   default:
     error("the file \"%s\" doesn't appear to be compressed using DXT1, DXT3, or DXT5! [%x]",
-          Cache::getFilePath(texture->url), ddsd.channel.fourCC);
+          Cache::getFilePath(texture->url), ddsd.bpp.fourCC);
     cache->close();
     delete cache;
     if (dds) delete[] dds;

@@ -80,7 +80,7 @@ static uint8_t *convert_format(uint8_t *data, uint8_t srccomp, uint8_t dstcomp, 
     uint8_t *dst = good + j * x * dstcomp;
     #define COMBO(a,b) ((a)*8+(b))
     #define CASE(a,b)  case COMBO(a,b): for (int i=x-1; i >= 0; --i, src += a, dst += b)
-    // convert source image with srccomp channel to one with dstcomp channel;
+    // convert source image with srccomp bpp to one with dstcomp bpp;
     // avoid switch per pixel, so use switch per scanline and massive macros
     switch (COMBO(srccomp, dstcomp)) {
       CASE(1,2) dst[0]=src[0], dst[1]=255;
@@ -117,8 +117,8 @@ static uint8_t *convert_format(uint8_t *data, uint8_t srccomp, uint8_t dstcomp, 
 static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, uint8_t dstcomp)
 {
   uint16_t nbpixels;
-  uint8_t  nbchannels;
-  uint8_t  compression, channel;
+  uint8_t  nbbpps;
+  uint8_t  compression, bpp;
   uint16_t count, len;
   uint16_t w, h;
   uint8_t  *data = NULL;
@@ -135,10 +135,10 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
   }
   // Skip 6 reserved bytes.
   skip(s, 6);
-  // Read the number of channels (R, G, B, A).
-  nbchannels = get16(s);
-  if (nbchannels > 16) {
-    error("unsupported number of channels in PSD image");
+  // Read the number of bpps (R, G, B, A).
+  nbbpps = get16(s);
+  if (nbbpps > 16) {
+    error("unsupported number of bpps in PSD image");
     return NULL;
   }
   // Read the rows and columns of the image.
@@ -155,7 +155,7 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
   //   2: Indexed color
   //   3: RGB color
   //   4: CMYK color
-  //   7: Multichannel
+  //   7: Multibpp
   //   8: Duotone
   //   9: Lab color
   if (get16(s) != 3) {
@@ -192,15 +192,15 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
     // Endloop
     // The RLE-compressed data is preceeded by a 2-byte data count for each row in the data,
     // which we're going to just skip.
-    skip(s, h * nbchannels * 2);
+    skip(s, h * nbbpps * 2);
 
-    // Read the RLE data by channel.
-    for (channel=0; channel < 4; channel++) {
-      uint8_t *p = data + channel;
-      if (channel >= nbchannels) {
-        // Fill this channel with default data.
+    // Read the RLE data by bpp.
+    for (bpp=0; bpp < 4; bpp++) {
+      uint8_t *p = data + bpp;
+      if (bpp >= nbbpps) {
+        // Fill this bpp with default data.
         for (int i=0; i < nbpixels; i++) {
-          *p = (channel == 3 ? 255 : 0), p += 4;
+          *p = (bpp == 3 ? 255 : 0), p += 4;
         }
       }
       else {
@@ -240,15 +240,15 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
     }
   } //end compression
   else {
-    // We're at the raw image data.  It's each channel in order (Red, Green, Blue, Alpha, ...)
-    // where each channel consists of an 8-bit value for each pixel in the image.
+    // We're at the raw image data.  It's each bpp in order (Red, Green, Blue, Alpha, ...)
+    // where each bpp consists of an 8-bit value for each pixel in the image.
 
-    // Read the data by channel.
-    for (channel=0; channel < 4; channel++) {
-      uint8_t *p = data + channel;
-      if (channel > nbchannels) {
-        // Fill this channel with default data.
-        for (int i=0; i < nbpixels; i++) *p = (channel == 3) ? 255 : 0, p += 4;
+    // Read the data by bpp.
+    for (bpp=0; bpp < 4; bpp++) {
+      uint8_t *p = data + bpp;
+      if (bpp > nbbpps) {
+        // Fill this bpp with default data.
+        for (int i=0; i < nbpixels; i++) *p = (bpp == 3) ? 255 : 0, p += 4;
       }
       else {
         // Read the data.
@@ -266,7 +266,7 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
     if (data == NULL) return NULL; // convert_format frees input on failure
   }
   if (srccomp) {
-    *srccomp = nbchannels;
+    *srccomp = nbbpps;
   }
   *y = h;
   *x = w;
@@ -279,7 +279,7 @@ Img * Img::loadPSD(void *tex, ImageReader read_func)
 {
   stbi s;
   uint16_t width, height;
-  uint8_t channel, dstcomp = Img::RGB;
+  uint8_t bpp, dstcomp = Img::RGB;
 
   Texture *texture = (Texture *) tex;
 
@@ -289,7 +289,7 @@ Img * Img::loadPSD(void *tex, ImageReader read_func)
 
   s.img_file = f;
 
-  static uint8_t *data = psd_load(&s, &width, &height, &channel, dstcomp);
+  static uint8_t *data = psd_load(&s, &width, &height, &bpp, dstcomp);
   Img *img = new Img(width, height, Img::RGB);
   img->pixmap = data;
 

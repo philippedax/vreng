@@ -38,7 +38,7 @@ class Img {
 public:
 
   /**! we only deal with 8 bits RGB images */
-  enum internalchannel_t {
+  enum bpp_t {
     BW = 1,	///< black & white.
     LA,		///< luninance alpha.
     RGB,	///< red green blue.
@@ -49,13 +49,12 @@ public:
 
   uint16_t width;	///< image width in pixels.
   uint16_t height;	///< image height in pixels.
-  uint8_t channel;	///< bytes per pixel.
+  uint8_t bpp;		///< bytes per pixel.
   int32_t nummipmaps;	///< number of mipmaps.
   uint8_t *pixmap;	///< image data.
-  //bool anim;		///< flag still or anim.
 
-  Img(uint16_t width, uint16_t height, uint8_t channel);
-  Img(uint16_t width, uint16_t height, uint8_t channel, int32_t nummipmaps, uint32_t size);
+  Img(uint16_t width, uint16_t height, uint8_t bpp);
+  Img(uint16_t width, uint16_t height, uint8_t bpp, int32_t nummipmaps, uint32_t size);
   /**< Constructors. */
 
   virtual ~Img();

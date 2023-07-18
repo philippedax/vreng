@@ -33,23 +33,23 @@ void Img::defaults()
 }
 
 /** Img constructor */
-Img::Img(uint16_t _width, uint16_t _height, uint8_t _channel)
+Img::Img(uint16_t _width, uint16_t _height, uint8_t _bpp)
 {
   defaults();
   width = _width;
   height = _height;
-  channel = _channel;
-  if ((pixmap = new GLubyte[_width * _height * _channel]) == NULL) {
+  bpp = _bpp;
+  if ((pixmap = new GLubyte[_width * _height * _bpp]) == NULL) {
     error("Img: can't new pixmap"); return;
   }
 }
 
-Img::Img(uint16_t _width, uint16_t _height, uint8_t _channel, int32_t _nummipmaps, uint32_t size)
+Img::Img(uint16_t _width, uint16_t _height, uint8_t _bpp, int32_t _nummipmaps, uint32_t size)
 {
   defaults();
   width = _width;
   height = _height;
-  channel = _channel;
+  bpp = _bpp;
   nummipmaps = _nummipmaps;
   if ((pixmap = new GLubyte[size]) == NULL) {
     error("Img: can't new pixmap"); return;
@@ -66,13 +66,13 @@ Img::~Img()
 
 Img * Img::init()
 {
-  uint8_t channel = RGB;
+  uint8_t bpp = RGB;
   Img * default_img = new Img(SIZE*2, SIZE*2, RGB);	//dax *2 avoids segfault !
 
   GLubyte *pixmap = default_img->pixmap;
   for (int i=0; i < SIZE*SIZE; i++) {
-    pixmap[channel*i+0] = pixmap[channel*i+1] = pixmap[channel*i+2] = 0x80; //grey
-   // RGBA pixmap[channel*i+3] = 0xff;
+    pixmap[bpp*i+0] = pixmap[bpp*i+1] = pixmap[bpp*i+2] = 0x80; //grey
+   //pixmap[bpp*i+3] = 0xff;	// rgba
   }
   return default_img;
 }
@@ -110,8 +110,8 @@ int interpol(int v00, int v01, int v10, int v11, int xf, int yf)
  */
 Img * Img::resize(uint16_t width_new, uint16_t height_new)
 {
-  if (channel != RGB && channel != BW && channel != RGBA) {
-    error("resize invalid channel: f=%d w=%d h=%d", channel, width, height);
+  if (bpp != RGB && bpp != BW && bpp != RGBA) {
+    error("resize invalid bpp: f=%d w=%d h=%d", bpp, width, height);
     return NULL;
   }
   if (pixmap == NULL) {
@@ -119,7 +119,7 @@ Img * Img::resize(uint16_t width_new, uint16_t height_new)
     return NULL;
   }
 
-  Img *img_new = new Img(width_new, height_new, channel);
+  Img *img_new = new Img(width_new, height_new, bpp);
   GLubyte *pix_new = (GLubyte *) img_new->pixmap;
 
   uint16_t x1incr = ((width - 1)  * NORM_8) / (width_new - 1);
@@ -136,21 +136,21 @@ Img * Img::resize(uint16_t width_new, uint16_t height_new)
       yf = ynew & ((1 << (NORM16_BITS - NORM8_BITS))-1);
 
       if (xi < (width-1) && yi < (height-1)) {
-        for (int k=0; k<channel; k++) {
+        for (int k=0; k<bpp; k++) {
           //DAX segfault
-          pix_new[k] = interpol(pixmap[(yi     * width+xi)   * channel +k],
-                                pixmap[(yi     * width+xi+1) * channel +k],
-                                pixmap[((yi+1) * width+xi)   * channel +k],
-                                pixmap[((yi+1) * width+xi+1) * channel +k],
+          pix_new[k] = interpol(pixmap[(yi     * width+xi)   * bpp +k],
+                                pixmap[(yi     * width+xi+1) * bpp +k],
+                                pixmap[((yi+1) * width+xi)   * bpp +k],
+                                pixmap[((yi+1) * width+xi+1) * bpp +k],
                                 xf, yf);
         }
       }
       else {
-        for (int k=0; k<channel; k++) {
-          pix_new[k] = pixmap[(yi * width + xi) * channel +k];		// segfault FIXME!
+        for (int k=0; k<bpp; k++) {
+          pix_new[k] = pixmap[(yi * width + xi) * bpp +k];		// segfault FIXME!
         }
       }
-      pix_new += channel;
+      pix_new += bpp;
       xnew += x1incr;
     }
     ynew += y1incr;

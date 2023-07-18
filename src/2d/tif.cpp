@@ -55,16 +55,16 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
 
   /* reads the header */
   uint16_t width, height;
-  uint8_t channel;
+  uint8_t bpp;
 
   TIFFGetField(fp, TIFFTAG_IMAGEWIDTH, &width);
   TIFFGetField(fp, TIFFTAG_IMAGELENGTH, &height);
-  TIFFGetField(fp, TIFFTAG_SAMPLESPERPIXEL, &channel);
+  TIFFGetField(fp, TIFFTAG_SAMPLESPERPIXEL, &bpp);
 
-  if (channel <= Img::RGB) channel = Img::RGB;
-  else channel = Img::RGBA;
+  if (bpp <= Img::RGB) bpp = Img::RGB;
+  else bpp = Img::RGBA;
 
-  trace(DBG_IMG, "loadTIF: w=%d h=%d c=%d", width, height, channel);
+  trace(DBG_IMG, "loadTIF: w=%d h=%d c=%d", width, height, bpp);
 
   // always 4 bytes per pixel for this
   uint32 * tmpImage = (uint32 *)_TIFFmalloc((tsize_t)(width * height * sizeof(uint32_t)));
@@ -76,7 +76,7 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
   }
 
   // allocs img
-  Img *img = new Img(width, height, channel);
+  Img *img = new Img(width, height, bpp);
 
   // converts component format
   uint8_t *pixptr = img->pixmap;
@@ -89,7 +89,7 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
       *pixptr++ = (uint8_t)TIFFGetR(pixel);
       *pixptr++ = (uint8_t)TIFFGetG(pixel);
       *pixptr++ = (uint8_t)TIFFGetB(pixel);
-      if (channel == Img::RGBA) {
+      if (bpp == Img::RGBA) {
         *pixptr++ = (uint8_t)TIFFGetA(pixel);
       }
     }

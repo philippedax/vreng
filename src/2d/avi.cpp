@@ -564,7 +564,7 @@ void Avi::write_header(int width, int height, int norm, int audio, int stereo, i
     out4cc("strf");
     outlong(16);            /* # of bytes to follow */
     outshrt(WAVE_FORMAT_PCM);  /* Size */
-    outshrt(achans);        /* Number of channels */
+    outshrt(achans);        /* Number of bpps */
     outlong(rate);          /* SamplesPerSec */
     outlong(sampsize*rate); /* AvgBytesPerSec */
     outshrt(sampsize);      /* BlockAlign */

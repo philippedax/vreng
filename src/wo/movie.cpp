@@ -189,19 +189,19 @@ void Movie::draw_spot()
   //echo("dim: %.f %.1f %.1f", dim.v[0], dim.v[1], dim.v[2]);
 
   // eye left up
-  elu.v[0] = localuser->pos.x;
+  elu.v[0] = localuser->pos.x + 1;
   elu.v[1] = localuser->pos.y + 0.4;	//left
   elu.v[2] = localuser->pos.z * 2 - .6;	//up
   // eye left bot
-  elb.v[0] = localuser->pos.x;
+  elb.v[0] = localuser->pos.x + 1;
   elb.v[1] = localuser->pos.y + 0.4;	//left
   elb.v[2] = localuser->pos.z * 2 - .7;	//bot
   // eye right up
-  eru.v[0] = localuser->pos.x;
+  eru.v[0] = localuser->pos.x + 1;
   eru.v[1] = localuser->pos.y - 0.4;	//right
   eru.v[2] = localuser->pos.z * 2 - .6;	//up
   // eye right bot
-  erb.v[0] = localuser->pos.x;
+  erb.v[0] = localuser->pos.x + 1;
   erb.v[1] = localuser->pos.y - 0.4;	//right
   erb.v[2] = localuser->pos.z * 2 - .7;	//bot
   // screen left up
@@ -224,17 +224,20 @@ void Movie::draw_spot()
   dlist = glGenLists(1);
   //glNewList(dlist, GL_COMPILE);
   glBegin(GL_POLYGON);
-  glColor4fv(color);
 
   // spot
+  glColor4fv(color);
   glVertex3f(elu.v[0], elu.v[1], elu.v[2]);	// eye left up
+  glColor4fv(color);
   glVertex3f(slu.v[0], slu.v[1], slu.v[2]); 	// scr left up
-  glVertex3f(slb.v[0], slb.v[1], slb.v[2]);	// scr right bot
-  glVertex3f(elb.v[0], elb.v[1], elb.v[2]);	// eye right bot
+  //glVertex3f(slb.v[0], slb.v[1], slb.v[2]);	// scr right bot
+  //glVertex3f(elb.v[0], elb.v[1], elb.v[2]);	// eye right bot
+  glColor4fv(color);
   glVertex3f(eru.v[0], eru.v[1], eru.v[2]);	// eye right up
+  glColor4fv(color);
   glVertex3f(sru.v[0], sru.v[1], sru.v[2]);	// scr right up
-  glVertex3f(srb.v[0], srb.v[1], srb.v[2]);	// scr right bot
-  glVertex3f(erb.v[0], erb.v[1], erb.v[2]);	// eye right bot
+  //glVertex3f(srb.v[0], srb.v[1], srb.v[2]);	// scr right bot
+  //glVertex3f(erb.v[0], erb.v[1], erb.v[2]);	// eye right bot
   glVertex3f(elu.v[0], elu.v[1], elu.v[2]);	// eye left up
 
   glEnd();

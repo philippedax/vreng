@@ -58,7 +58,7 @@ extern "C" {
 
 /* Transparency parameters */
 #define PNG_CALL_BACK  -3 /* Call the callback function to generate alpha   */
-#define PNG_ALPHA     -2 /* Use alpha channel in PNG file, if there is one */
+#define PNG_ALPHA     -2 /* Use alpha bpp in PNG file, if there is one */
 #define PNG_SOLID     -1 /* No transparency                                */
 #define PNG_STENCIL    0 /* Sets alpha to 0 for r=g=b=0, 1 otherwise       */
 #define PNG_BLEND1     1 /* a = r+g+b                                      */

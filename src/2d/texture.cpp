@@ -87,7 +87,7 @@ void Texture::update()
           /* have mipmap */
           GLsizei mipw = (*it)->img->width;
           GLsizei miph = (*it)->img->height;
-          int mipc = ((*it)->img->channel == Img::RGB) ? 8 : 16;
+          int mipc = ((*it)->img->bpp == Img::RGB) ? 8 : 16;
           int off = 0;
 
           /* setup some parameters for texture filters and mipmapping */
@@ -98,7 +98,7 @@ void Texture::update()
           for (GLint mip = 0; mip < (*it)->img->nummipmaps; ++mip) {
             GLsizei mips = ((mipw + 3) / 4) * ((miph + 3) / 4) * mipc;	// mip size
 
-            glCompressedTexImage2D(GL_TEXTURE_2D, mip, (*it)->img->channel,
+            glCompressedTexImage2D(GL_TEXTURE_2D, mip, (*it)->img->bpp,
                                    mipw, miph, 0, mips,
                                    (*it)->img->pixmap + off);
             mipw = MAX(mipw >> 1, 1);
