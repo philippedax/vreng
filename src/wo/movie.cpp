@@ -97,7 +97,7 @@ void Movie::geometry()
   char s[128];
 
   getDim(dim);
-  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\".1\"", dim.v[0], proj);
+  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\".3\"", dim.v[0], proj);
   parseSolid(s);
 }
 
@@ -385,17 +385,17 @@ void Movie::changePermanent(float lasting)
   if (state == INACTIVE || state == PAUSE) return;
 
   static struct timeval tstart;
-  struct timeval tcurr;
 
   if (begin) {
     gettimeofday(&tstart, NULL);
-      //enableBehavior(SPECIFIC_RENDER);
-      //enableBehavior(MIX_RENDER);
+      enableBehavior(SPECIFIC_RENDER);
+      enableBehavior(MIX_RENDER);
       geometry();
     begin = false;
   }
   uint16_t finter = frame;	// previous frame
 
+  struct timeval tcurr;
   gettimeofday(&tcurr, NULL);
   	
   // current frame
@@ -431,8 +431,7 @@ void Movie::render()
   //echo("spot");
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
-  glRotatef(-90, 1, 0, 0);
-  //glRotatef(-90, 0, 1, 0);
+  glRotatef(90, 0, 1, 0);
   glPopMatrix();
 }
 
