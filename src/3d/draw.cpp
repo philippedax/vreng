@@ -279,25 +279,24 @@ void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
 
 void Draw::pyramid(GLfloat width, GLfloat height, uint8_t style)
 {
-  GLfloat w = width/2;
-
   if (style == STYLE_FILL) glBegin(GL_TRIANGLE_FAN);
   else                     glBegin(GL_LINE_LOOP);
    glVertex3f(0, 0, height);
-   glVertex3f(-w, -w, 0);
-   glVertex3f(+w, -w, 0);
-   glVertex3f(+w, +w, 0);
-   glVertex3f(-w, +w, 0);
-   glVertex3f(-w, -w, 0);
+   glVertex3f(-width, -width, 0);
+   glVertex3f(+width, -width, 0);
+   glVertex3f(+width, +width, 0);
+   glVertex3f(-width, +width, 0);
+   glVertex3f(-width, -width, 0);
   glEnd();
-
+/**
   if (style == STYLE_FILL) glBegin(GL_QUADS);
   else                     glBegin(GL_LINE_LOOP);
-   glVertex3f(-w, -w, 0);
-   glVertex3f(+w, -w, 0);
-   glVertex3f(+w, +w, 0);
-   glVertex3f(-w, +w, 0);
+   glVertex3f(-width, -width, 0);
+   glVertex3f(+width, -width, 0);
+   glVertex3f(+width, +width, 0);
+   glVertex3f(-width, +width, 0);
   glEnd();
+**/
 }
 
 void Draw::octagon(GLfloat width, GLfloat height, uint8_t style)

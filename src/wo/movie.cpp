@@ -37,7 +37,8 @@
 
 const OClass Movie::oclass(MOVIE_TYPE, "Movie", Movie::creator);
 
-const float Movie::FPS = 10.;	// max number of frames decoded per rendering
+const float Movie::FPS = 10.;		// max number of frames decoded per rendering
+const float Movie::DEF_PROJ = 10;	// distance between projector and screen
 
 
 WObject * Movie::creator(char *l)
@@ -48,6 +49,7 @@ WObject * Movie::creator(char *l)
 void Movie::defaults()
 {
   rate = FPS;
+  proj = DEF_PROJ;
   anim = false;
 }
 
@@ -59,6 +61,7 @@ void Movie::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "url"))  l = parseUrl(l, names.url);
+    else if (! stringcmp(l, "proj")) l = parseFloat(l, &proj, "proj");
     else if (! stringcmp(l, "rate")) l = parseFloat(l, &rate, "rate");
     else if (! stringcmp(l, "anim")) l = parseBool(l, &anim, "anim");
   }
@@ -72,7 +75,7 @@ Movie::Movie(char *l)
   frame = 0;
   begin = false;
   dlist = -1;
-  vidbuf = NULL;
+  videobuf = NULL;
   texframe = NULL;
   mpeg = NULL;
   avi = NULL;
@@ -88,6 +91,16 @@ Movie::Movie(char *l)
     play();
   }
 }
+
+void Movie::geometry()
+{
+  char s[128];
+
+  getDim(dim);
+  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\".1\"", dim.v[0], proj);
+  parseSolid(s);
+}
+
 
 void Movie::open_mpeg()
 {
@@ -116,7 +129,7 @@ void Movie::open_mpeg()
     width = mpeg->Width;
     height = mpeg->Height;
     fps = mpeg->PictureRate;
-    vidbuf = new uint8_t[mpeg->Size];
+    videobuf = new uint8_t[mpeg->Size];
     //echo("mpeg: w=%d h=%d f=%.3f", width, height, fps);
   }
   else {
@@ -145,7 +158,7 @@ void Movie::open_avi()
   }
   fp = avi->getFile();
   avi->getInfos(&width, &height, &fps);
-  vidbuf = new uint8_t[4 * width * height];
+  videobuf = new uint8_t[4 * width * height];
   echo("avi: w=%d h=%d f=%.3f", width, height, fps);
 }
 
@@ -256,7 +269,7 @@ void Movie::inits()
     default: return;
   }
   init_tex();
-  draw_spot();
+  //draw_spot();
 }
 
 void Movie::play_mpeg()
@@ -270,7 +283,7 @@ void Movie::play_mpeg()
 
   if (! mpeg) return;
   // get a frame from the mpeg video stream
-  if (GetMPEGFrame((char *)vidbuf) == false) { // end of mpeg video
+  if (GetMPEGFrame((char *)videobuf) == false) { // end of mpeg video
     if (state == LOOP) {
       RewindMPEG(fp, mpeg);	// rewind mpeg video
       begin = true;
@@ -291,7 +304,7 @@ void Movie::play_mpeg()
   if (mpeg->Colormap) {	// case of Colormap Index
     for (int h=0; h < height; h++) {
       for (int w=0; w < width; w++) {
-        int v = vidbuf[width * h + w];
+        int v = videobuf[width * h + w];
         ColormapEntry *color = &mpeg->Colormap[v];
         int t = 3 * (texsiz * (h + hof) + w + wof);	// texframe index
         texframe[t+0] = color->red % 255;	
@@ -303,11 +316,11 @@ void Movie::play_mpeg()
   else {
     for (int h=0; h < height; h++) {
       for (int w=0; w < width; w++) {
-        int v = 4 * (width * h + w);		// vidbuf index
+        int v = 4 * (width * h + w);		// videobuf index
         int t = 3 * (texsiz * (h + hof) + w + wof);	// texframe index
-        texframe[t+0] = vidbuf[v+r];
-        texframe[t+1] = vidbuf[v+g];
-        texframe[t+2] = vidbuf[v+b];
+        texframe[t+0] = videobuf[v+r];
+        texframe[t+1] = videobuf[v+g];
+        texframe[t+2] = videobuf[v+b];
       }
     }
   }
@@ -324,7 +337,7 @@ void Movie::play_avi()
     r = 2, g = 1, b = 0; // BGR
 
   // get a frame from the avi video stream
-  ret = avi->read_data(vidbuf, width * height * 4, &retlen);
+  ret = avi->read_data(videobuf, width * height * 4, &retlen);
   //echo("f=%d s=%d l=%d", frame, width*height*4, retlen);
   if (ret == 0) {	// end of avi video
     File::closeFile(fp);
@@ -342,12 +355,12 @@ void Movie::play_avi()
   //echo("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
   for (int h=0; h < height; h++) {
     for (int w=0; w < width; w++) {
-      int v = 4 * (width * h + w);		// vidbuf index
+      int v = 4 * (width * h + w);		// videobuf index
       int t = 3 * (256 * (h+hof) + w + wof);	// texframe index
       //echo("w,h: %d,%d t,v: %d,%d", w,h,t,v);
-      texframe[t+0] = vidbuf[v+r];
-      texframe[t+1] = vidbuf[v+g];
-      texframe[t+2] = vidbuf[v+g];
+      texframe[t+0] = videobuf[v+r];
+      texframe[t+1] = videobuf[v+g];
+      texframe[t+2] = videobuf[v+g];
     }
   }
 }
@@ -376,6 +389,9 @@ void Movie::changePermanent(float lasting)
 
   if (begin) {
     gettimeofday(&tstart, NULL);
+      //enableBehavior(SPECIFIC_RENDER);
+      //enableBehavior(MIX_RENDER);
+      geometry();
     begin = false;
   }
   uint16_t finter = frame;	// previous frame
@@ -394,9 +410,7 @@ void Movie::changePermanent(float lasting)
     switch (vidfmt) {
     case PLAYER_MPG:
       play_mpeg();
-      //bind_frame();
       break;
-
     case PLAYER_AVI:
       play_avi();
       break;
@@ -404,15 +418,27 @@ void Movie::changePermanent(float lasting)
   }
 
   bind_frame();
-  glBindTexture(GL_TEXTURE_2D, texid);
 
-  glPushMatrix();
+  //glBindTexture(GL_TEXTURE_2D, texid);
+  //glPushMatrix();
   //glCallList(dlist);
-  draw_spot();
+  //draw_spot();
+  //glPopMatrix();
+}
+
+void Movie::render()
+{
+  //echo("spot");
+  glPushMatrix();
+  glTranslatef(pos.x, pos.y, pos.z);
+  glRotatef(-90, 1, 0, 0);
+  //glRotatef(-90, 0, 1, 0);
   glPopMatrix();
 }
 
-/* Actions */
+/*
+ * Actions
+ */
 
 void Movie::play()
 {
@@ -445,8 +471,8 @@ void Movie::stop()
 
   disablePermanentMovement();
 
-  if (vidbuf) delete[] vidbuf;
-  vidbuf = NULL;
+  if (videobuf) delete[] videobuf;
+  videobuf = NULL;
   if (texframe) delete[] texframe;
   texframe = NULL;
 }

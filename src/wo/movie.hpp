@@ -41,6 +41,7 @@ class Movie: public WObject {
 
 private:
   static const float FPS;	///< max number of frames decoded per rendering
+  static const float DEF_PROJ;	///< distance between projector and screen
 
   float rate;			///< asked avi/mpeg frames per second
   float fps;			///< coded frames per sec
@@ -52,10 +53,11 @@ private:
   uint8_t vidfmt;		///< video format (mpg | avi)
   bool anim;			///< animated or not
   bool begin;			///< first frame begin playing
+  GLfloat proj;			///< distance between projector and screen
   GLint dlist;			///< displaylist of spot
   V3 dim;			///< dimension of screen projection
   FILE *fp;			///< the corresponding file pointer
-  uint8_t *vidbuf;		///< buffer of the video
+  uint8_t *videobuf;		///< buffer of the video
   GLubyte *texframe;		///< pixmap of the texture
   ImageDesc *mpeg;		///< this is a structure used by mpeg_lib to store infos
   class Avi *avi;		///< avi instance
@@ -83,6 +85,9 @@ public:
   void changePermanent(float lasting);
   /**< Change permanent (frames). */
 
+  void render();
+  /**< Renders the spot. */
+
 private:
   void parser(char *l);
   /**< Parses vre line. */
@@ -90,6 +95,7 @@ private:
   void defaults();
   /**< Sets default values. */
 
+  void geometry();
   void open_mpeg();
   void open_avi();
   void init_tex();
