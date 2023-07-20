@@ -97,7 +97,7 @@ void Movie::geometry()
   char s[128];
 
   getDim(dim);
-  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\".1\"", dim.v[0], proj);
+  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\".3\"", dim.v[0], proj);
   parseSolid(s);
 }
 
@@ -389,8 +389,8 @@ void Movie::changePermanent(float lasting)
 
   if (begin) {
     gettimeofday(&tstart, NULL);
-      //enableBehavior(SPECIFIC_RENDER);
-      //enableBehavior(MIX_RENDER);
+      enableBehavior(SPECIFIC_RENDER);
+      enableBehavior(MIX_RENDER);
       geometry();
     begin = false;
   }
@@ -431,8 +431,8 @@ void Movie::render()
   //echo("spot");
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
-  glRotatef(-90, 1, 0, 0);
-  //glRotatef(-90, 0, 1, 0);
+  //glRotatef(-90, 1, 0, 0);
+  glRotatef(90, 0, 1, 0);
   glPopMatrix();
 }
 
