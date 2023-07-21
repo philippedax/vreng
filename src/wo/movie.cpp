@@ -385,7 +385,6 @@ void Movie::changePermanent(float lasting)
   if (state == INACTIVE || state == PAUSE) return;
 
   static struct timeval tstart;
-  struct timeval tcurr;
 
   if (begin) {
     gettimeofday(&tstart, NULL);
@@ -396,6 +395,7 @@ void Movie::changePermanent(float lasting)
   }
   uint16_t finter = frame;	// previous frame
 
+  struct timeval tcurr;
   gettimeofday(&tcurr, NULL);
   	
   // current frame
