@@ -97,7 +97,8 @@ void Movie::geometry()
   char s[128];
 
   getDim(dim);
-  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\".3\"", dim.v[0], proj);
+  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\".3\"", dim.v[0] - .4, proj);
+  //pos.ax = -M_PI_2;
   parseSolid(s);
 }
 
@@ -431,8 +432,7 @@ void Movie::render()
   //echo("spot");
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
-  //glRotatef(-90, 1, 0, 0);
-  glRotatef(90, 0, 1, 0);
+  glRotatef(-90, 1, 0, 0);
   glPopMatrix();
 }
 
