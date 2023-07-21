@@ -20,7 +20,7 @@
 -->
 
 <!-- entry point -->
-<entry pos="-5 0 1"></entry>
+<entry pos="-5 0 0"></entry>
 
 <!-- wind -->
 <wind></wind>
@@ -217,9 +217,9 @@ url="/vre/movies.vre" channel="224.255.0.24/52896/127">
 <solid dim="1 .2 1.4" xn="/gif/movies.gif" dif="lightgreen" />
 </gate>
 
-<!-- humanoid 224.255.0.25 -->
-<gate name="humanoid" pos="15.5 -5 .9 1.3"
-url="/vre/humanoid.vre" channel="224.255.0.25/52906/127">
+<!-- meeting 224.255.0.25 -->
+<gate name="meeting" pos="15.5 -5 .9 1.3"
+url="/vre/meeting.vre" channel="224.255.0.25/52906/127">
 <solid dim="2.4 .2 1.8" xn="/jpg/meeting.jpg" />
 </gate>
 
@@ -543,8 +543,9 @@ amplitude="1" freq="1" phase="1">
                           <solid rel="0 0 -2 0"  dim="2 .02 .04" emi="grey" />
 </mirage>
 
-<!-- pyramid -->
-<mirage name="cristal" pos="4 -3.5 0"> <solid shape="pyramid" s="1" h="1" dif=".5 1 .9" a="1" /> </mirage>
+<!-- cristal -->
+<mirage name="cristal" pos="4 -3.5 .5"> <solid shape="pyramid" s=".5" h=".5" dif=".5 1 .9" a=".5" /> </mirage>
+<mirage name="cristal" pos="4 -3.5 .5 0 3.14"> <solid shape="pyramid" s=".5" h=".5" dif=".5 1 .9" a=".5" /> </mirage>
 
 <!-- bird -->
 <bird name="bird1" pos="4 -3.5 1.5" flying="true" model="bird" scale=".5" zone="5"> <solid shape="wings" dif="grey" /> </bird>
