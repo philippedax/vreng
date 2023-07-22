@@ -110,6 +110,7 @@
 #include "bird.hpp"		/* 85 */
 #include "drone.hpp"		/* 86 */
 #include "fog.hpp"		/* 87 */
+#include "spot.hpp"		/* 88 */
 
 
 const struct InitFunc initFuncs[] = {
@@ -201,6 +202,7 @@ const struct InitFunc initFuncs[] = {
 /* 85 */	{Bird::funcs},
 /* 86 */	{Drone::funcs},
 /* 87 */	{Fog::funcs},
+/* 88 */	{Spot::funcs},
 
 /* END */	{NULL}
 };

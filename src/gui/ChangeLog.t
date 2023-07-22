@@ -16,6 +16,10 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.4\n\
 -- 9.4.2\n\
+	- add object spot (#88)\n\
+	(2023/07/22, Philippe Dax)\n\
+	- add spot to movie\n\
+	(2023/07/20, Philippe Dax)\n\
 	- add -Wno-macro-redefined configure.ac\n\
 	(2023/05/08, Philippe Dax)\n\
 \n\
