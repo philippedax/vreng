@@ -35,8 +35,8 @@ private:
   bool on;
   float alpha;
   float dist;
-  float base;
   float color[3];
+  V3 dim;
 
 public:
   uint8_t state;

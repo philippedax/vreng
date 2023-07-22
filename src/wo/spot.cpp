@@ -34,9 +34,8 @@ WObject * Spot::creator(char *l)
 void Spot::defaults()
 {
   on = true;
-  alpha = 0;
+  alpha = .3;
   dist = 10;
-  base = 1;
   color[0] = color[1] = color[2] = 1; // white
 }
 
@@ -57,22 +56,27 @@ void Spot::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(SPECIFIC_RENDER);
+  enableBehavior(MIX_RENDER);
 }
 
 void Spot::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
+  getDim(dim);
+  //echo("dim: %.1f %.1f %.1f", dim.v[0], dim.v[1], dim.v[2]);
+  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", dim.v[0]/2, dist, alpha);
   parseSolid(s);
 }
 
 Spot::Spot(char *l)
 {
-  pos.ax = -M_PI_2;
   parser(l);
   behaviors();
   geometry();
+  //echo("spot: %.1f %.1f", pos.az, pos.ax);
+  //pos.az = M_PI_2;
+  //pos.ax = -M_PI_2;
 
   initMobileObject(0);
 }
@@ -81,8 +85,10 @@ void Spot::render()
 {
   if (! on) return;
 
+  //echo("render: %.2f %.2f", pos.az, pos.ax);
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
+  //glRotatef(90, 1, 0, 0);
   glPopMatrix();
 }
 
