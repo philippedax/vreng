@@ -32,15 +32,13 @@
 class Spot: public WObject {
 
 private:
-  bool on;
+  uint8_t state;
   float alpha;
   float dist;
   float color[3];
   V3 dim;
 
 public:
-  uint8_t state;
-
   static const OClass oclass;   ///< class variable
 
   const OClass* getOClass() {return &oclass;}
@@ -71,6 +69,9 @@ private:
   void geometry();
   /**< Makes a pseudo solid */
 
+  // GUI callbacks
+  static void On(Spot *po, void *d, time_t s, time_t u);
+  static void Off(Spot *po, void *d, time_t s, time_t u);
 };
 
 #endif

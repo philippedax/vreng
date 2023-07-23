@@ -33,7 +33,7 @@ WObject * Spot::creator(char *l)
 
 void Spot::defaults()
 {
-  on = true;
+  state = true;
   alpha = .3;
   dist = 10;
   color[0] = color[1] = color[2] = 1; // white
@@ -65,7 +65,10 @@ void Spot::geometry()
 
   getDim(dim);
   //echo("dim: %.1f %.1f %.1f", dim.v[0], dim.v[1], dim.v[2]);
-  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", dim.v[0]/2, dist, alpha);
+  float base = dim.v[0]/2;
+  if (base == 0)
+    base = 1;
+  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
   parseSolid(s);
 }
 
@@ -74,26 +77,46 @@ Spot::Spot(char *l)
   parser(l);
   behaviors();
   geometry();
+  if (pos.az == 0)
+    pos.az = M_PI_2;
+  if (pos.ax == 0)
+    pos.ax = -M_PI_2;
   //echo("spot: %.1f %.1f", pos.az, pos.ax);
-  //pos.az = M_PI_2;
-  //pos.ax = -M_PI_2;
 
   initMobileObject(0);
 }
 
 void Spot::render()
 {
-  if (! on) return;
+  if (! state) return;
 
-  //echo("render: %.2f %.2f", pos.az, pos.ax);
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
-  //glRotatef(90, 1, 0, 0);
   glPopMatrix();
+}
+
+void Spot::On(Spot *po, void *data, time_t s, time_t u)
+{
+  if (po->state) return;
+  po->state = true;
+  po->enableBehavior(SPECIFIC_RENDER);
+  po->enableBehavior(MIX_RENDER);
+}
+
+void Spot::Off(Spot *po, void *data, time_t s, time_t u)
+{
+  if (! po->state) return;
+  po->state = false;
+  po->disableBehavior(SPECIFIC_RENDER);
+  po->disableBehavior(MIX_RENDER);
+}
+
+void Spot::funcs()
+{
+  setActionFunc(SPOT_TYPE, 0, _Action On, "On");
+  setActionFunc(SPOT_TYPE, 1, _Action Off, "Off");
 }
 
 void Spot::quit()
 {
 }
-
-void Spot::funcs() {}
