@@ -99,7 +99,6 @@ void Movie::geometry()
 
   getDim(dim);
   sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\".3\"", dim.v[0] - .4, proj);
-  //pos.ax = -M_PI_2;
   parseSolid(s);
 }
 
@@ -397,9 +396,9 @@ void Movie::changePermanent(float lasting)
 
   if (begin) {
     gettimeofday(&tstart, NULL);
-      enableBehavior(SPECIFIC_RENDER);
-      enableBehavior(MIX_RENDER);
-      geometry();
+    //enableBehavior(SPECIFIC_RENDER);
+    //enableBehavior(MIX_RENDER);
+    //geometry();
     begin = false;
   }
   uint16_t finter = frame;	// previous frame
