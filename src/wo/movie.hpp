@@ -99,10 +99,10 @@ private:
   void open_mpeg();
   void open_avi();
   void init_tex();
-  void draw_spot();
   void play_mpeg();
   void play_avi();
   void bind_frame();
+  //notused void draw_spot();
 
   void inits();
   /**< Inits. */

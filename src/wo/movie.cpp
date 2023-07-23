@@ -26,6 +26,7 @@
 #include "user.hpp"	// localuser
 #include "pref.hpp"	// quality
 #include "format.hpp"	// Format
+#include "spot.hpp"	// Spot::CREATE
 #if HAVE_LIBMPEG
 #include <mpeg.h>	// /usr/local/include
 #else
@@ -194,6 +195,7 @@ void Movie::init_tex()
   //echo("texid=%d (%s)", texid, Texture::getUrlById(texid));
 }
 
+#if 0 //notused
 void Movie::draw_spot()
 {
   V3 elu, elb, eru, erb, slu, slb, sru, srb;
@@ -257,6 +259,7 @@ void Movie::draw_spot()
   glEnd();
   //glEndList();
 }
+#endif //notused
 
 void Movie::inits()
 {
@@ -270,7 +273,12 @@ void Movie::inits()
     default: return;
   }
   init_tex();
-  //draw_spot();
+  //notused draw_spot();
+
+  /* creates a spot */
+  if (isAction(SPOT_TYPE, Spot::CREATE)) {
+    doAction(SPOT_TYPE, Spot::CREATE, this, (void*) NULL, 0L, 0L);
+  }
 }
 
 void Movie::play_mpeg()

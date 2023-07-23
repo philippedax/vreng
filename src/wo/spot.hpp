@@ -39,11 +39,20 @@ private:
   V3 dim;
 
 public:
+
+  /* actions */
+  enum {
+    ON,
+    OFF,
+    CREATE
+  };
+
   static const OClass oclass;   ///< class variable
 
   const OClass* getOClass() {return &oclass;}
 
   Spot(char *l);	///< Constructor
+  Spot(WObject *movie, void *d, time_t s, time_t u);
 
   static void funcs();	///< init funclist
 
@@ -72,6 +81,7 @@ private:
   // GUI callbacks
   static void On(Spot *po, void *d, time_t s, time_t u);
   static void Off(Spot *po, void *d, time_t s, time_t u);
+  static void create_cb(Spot *po, void *d, time_t s, time_t u);
 };
 
 #endif

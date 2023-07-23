@@ -33,10 +33,11 @@ WObject * Spot::creator(char *l)
 
 void Spot::defaults()
 {
-  state = true;
+  state = false;
   alpha = .3;
   dist = 10;
   color[0] = color[1] = color[2] = 1; // white
+  clearV3(dim);
 }
 
 void Spot::parser(char *l)
@@ -46,8 +47,8 @@ void Spot::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (!stringcmp(l, "alpha"))   l = parseFloat(l, &alpha, "alpha");
-    else if (!stringcmp(l, "color"))  l = parseVector3f(l, color, "color");
+    if      (! stringcmp(l, "alpha")) l = parseFloat(l, &alpha, "alpha");
+    else if (! stringcmp(l, "color")) l = parseVector3f(l, color, "color");
   }
   end_while_parse(l);
 }
@@ -55,16 +56,20 @@ void Spot::parser(char *l)
 void Spot::behaviors()
 {
   enableBehavior(NO_ELEMENTARY_MOVE);
-  enableBehavior(SPECIFIC_RENDER);
-  enableBehavior(MIX_RENDER);
+  if (state == true) {
+    enableBehavior(SPECIFIC_RENDER);
+    enableBehavior(MIX_RENDER);
+  }
 }
 
 void Spot::geometry()
 {
   char s[128];
 
-  getDim(dim);
-  //echo("dim: %.1f %.1f %.1f", dim.v[0], dim.v[1], dim.v[2]);
+  if (dim.v[0] == 0 && dim.v[1] == 0) { 
+    getDim(dim);
+  }
+  echo("dim: %.1f %.1f %.1f", dim.v[0], dim.v[1], dim.v[2]);
   float base = dim.v[0]/2;
   if (base == 0)
     base = 1;
@@ -86,9 +91,26 @@ Spot::Spot(char *l)
   initMobileObject(0);
 }
 
+/** Created by movie */
+Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
+{
+  echo("create from movie");
+  defaults();
+  behaviors();
+
+  movie->getDim(dim);
+  geometry();
+
+  /* orientation */
+  pos.az = movie->pos.az + M_PI_2;
+  pos.ax = movie->pos.ax - M_PI_2;
+  
+  initMobileObject(0);
+}
+
 void Spot::render()
 {
-  if (! state) return;
+  if (state == false) return;
 
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
@@ -111,10 +133,16 @@ void Spot::Off(Spot *po, void *data, time_t s, time_t u)
   po->disableBehavior(MIX_RENDER);
 }
 
+void Spot::create_cb(Spot *po, void *d, time_t s, time_t u)
+{
+  new Spot(po, d, s, u);
+}
+
 void Spot::funcs()
 {
   setActionFunc(SPOT_TYPE, 0, _Action On, "On");
   setActionFunc(SPOT_TYPE, 1, _Action Off, "Off");
+  setActionFunc(SPOT_TYPE, 2, _Action create_cb, "");
 }
 
 void Spot::quit()
