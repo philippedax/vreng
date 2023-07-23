@@ -65,14 +65,16 @@ void Spot::behaviors()
 void Spot::geometry()
 {
   char s[128];
+  float base = 1;
 
   if (dim.v[0] == 0 && dim.v[1] == 0) { 
     getDim(dim);
+    base = dim.v[0]/2;	// bbox
   }
-  echo("dim: %.1f %.1f %.1f", dim.v[0], dim.v[1], dim.v[2]);
-  float base = dim.v[0]/2;
-  if (base == 0)
-    base = 1;
+  else {
+    base = dim.v[0];
+  }
+  echo("base: %.2f", base);
   sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
   parseSolid(s);
 }
@@ -83,7 +85,7 @@ Spot::Spot(char *l)
   behaviors();
   geometry();
   if (pos.az == 0)
-    pos.az = M_PI_2;
+    pos.az += M_PI_2;
   if (pos.ax == 0)
     pos.ax = -M_PI_2;
   //echo("spot: %.1f %.1f", pos.az, pos.ax);
@@ -96,14 +98,20 @@ Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
 {
   echo("create from movie");
   defaults();
+  state = true;
   behaviors();
 
   movie->getDim(dim);
   geometry();
 
   /* orientation */
-  pos.az = movie->pos.az + M_PI_2;
+  pos.x = movie->pos.x;
+  pos.y = movie->pos.y;
+  pos.z = movie->pos.z;
+  //pos.az = movie->pos.az + M_PI_2;
+  pos.az = movie->pos.az;
   pos.ax = movie->pos.ax - M_PI_2;
+  echo("pos: %.2f %.2f %.2f %.2f %.2f", pos.x,pos.y,pos.z,pos.az,pos.ax);
   
   initMobileObject(0);
 }
@@ -140,9 +148,9 @@ void Spot::create_cb(Spot *po, void *d, time_t s, time_t u)
 
 void Spot::funcs()
 {
-  setActionFunc(SPOT_TYPE, 0, _Action On, "On");
-  setActionFunc(SPOT_TYPE, 1, _Action Off, "Off");
-  setActionFunc(SPOT_TYPE, 2, _Action create_cb, "");
+  setActionFunc(SPOT_TYPE, Spot::ON, _Action On, "On");
+  setActionFunc(SPOT_TYPE, Spot::OFF, _Action Off, "Off");
+  setActionFunc(SPOT_TYPE, Spot::CREATE, _Action create_cb, "");
 }
 
 void Spot::quit()
