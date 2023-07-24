@@ -26,6 +26,7 @@
 
 #include "wobject.hpp"
 
+
 /**
  * Spot class
  */
@@ -37,6 +38,7 @@ private:
   float dist;
   float color[3];
   V3 dim;
+  Spot *spot;
 
 public:
 

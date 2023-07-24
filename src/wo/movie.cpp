@@ -436,7 +436,6 @@ void Movie::changePermanent(float lasting)
 
 void Movie::render()
 {
-  //echo("spot");
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
   glRotatef(-90, 1, 0, 0);

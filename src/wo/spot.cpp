@@ -38,6 +38,7 @@ void Spot::defaults()
   dist = 10;
   color[0] = color[1] = color[2] = 1; // white
   clearV3(dim);
+  spot = NULL;
 }
 
 void Spot::parser(char *l)
@@ -96,7 +97,8 @@ Spot::Spot(char *l)
 /** Created by movie */
 Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
 {
-  echo("create from movie");
+  //echo("create from movie");
+  spot = this;
   defaults();
   state = true;
   behaviors();
@@ -125,7 +127,7 @@ void Spot::render()
   glPopMatrix();
 }
 
-void Spot::On(Spot *po, void *data, time_t s, time_t u)
+void Spot::On(Spot *po, void *d, time_t s, time_t u)
 {
   if (po->state) return;
   po->state = true;
@@ -133,12 +135,16 @@ void Spot::On(Spot *po, void *data, time_t s, time_t u)
   po->enableBehavior(MIX_RENDER);
 }
 
-void Spot::Off(Spot *po, void *data, time_t s, time_t u)
+void Spot::Off(Spot *po, void *d, time_t s, time_t u)
 {
   if (! po->state) return;
   po->state = false;
   po->disableBehavior(SPECIFIC_RENDER);
   po->disableBehavior(MIX_RENDER);
+  if (po->spot) {
+    delete po->spot;
+    po->spot = NULL;
+  }
 }
 
 void Spot::create_cb(Spot *po, void *d, time_t s, time_t u)
