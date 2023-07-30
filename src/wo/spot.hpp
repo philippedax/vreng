@@ -37,12 +37,11 @@ private:
   float alpha;
   float dist;
   float color[3];
-  V3 dim;
-  Spot *spot;
+  V3 dim;		///< surface dimension
 
 public:
 
-  /* actions */
+  /* spot actions */
   enum {
     ON,
     OFF,
@@ -83,7 +82,7 @@ private:
   // GUI callbacks
   static void On(Spot *po, void *d, time_t s, time_t u);
   static void Off(Spot *po, void *d, time_t s, time_t u);
-  static void create_cb(Spot *po, void *d, time_t s, time_t u);
+  static void create_cb(WObject *po, void *d, time_t s, time_t u);
 };
 
 #endif

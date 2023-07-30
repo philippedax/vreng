@@ -24,6 +24,9 @@
 
 const OClass Spot::oclass(SPOT_TYPE, "Spot", Spot::creator);
 
+// local
+static Spot *spot = NULL;	///< singleton
+
 
 /* creation from a file */
 WObject * Spot::creator(char *l)
@@ -38,7 +41,6 @@ void Spot::defaults()
   dist = 10;
   color[0] = color[1] = color[2] = 1; // white
   clearV3(dim);
-  spot = NULL;
 }
 
 void Spot::parser(char *l)
@@ -68,8 +70,8 @@ void Spot::geometry()
   char s[128];
   float base = 1;
 
-  if (dim.v[0] == 0 && dim.v[1] == 0) { 
-    getDim(dim);
+  if (dim.v[0] == 0 && dim.v[1] == 0 && dim.v[2] == 0) { 
+    getDim(dim);	// dim of movie
     base = dim.v[0]/2;	// bbox
   }
   else {
@@ -88,8 +90,9 @@ Spot::Spot(char *l)
   if (pos.az == 0)
     pos.az += M_PI_2;
   if (pos.ax == 0)
-    pos.ax = -M_PI_2;
+    pos.ax = -M_PI_2;		// horizontal
   //echo("spot: %.1f %.1f", pos.az, pos.ax);
+  spot = this;
 
   initMobileObject(0);
 }
@@ -110,9 +113,8 @@ Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
   pos.x = movie->pos.x;
   pos.y = movie->pos.y;
   pos.z = movie->pos.z;
-  //pos.az = movie->pos.az + M_PI_2;
   pos.az = movie->pos.az;
-  pos.ax = movie->pos.ax - M_PI_2;
+  pos.ax = movie->pos.ax - M_PI_2;	// horizontal
   echo("pos: %.2f %.2f %.2f %.2f %.2f", pos.x,pos.y,pos.z,pos.az,pos.ax);
   
   initMobileObject(0);
@@ -141,13 +143,13 @@ void Spot::Off(Spot *po, void *d, time_t s, time_t u)
   po->state = false;
   po->disableBehavior(SPECIFIC_RENDER);
   po->disableBehavior(MIX_RENDER);
-  if (po->spot) {
-    delete po->spot;
-    po->spot = NULL;
+  if (spot) {
+    delete spot;
+    spot = NULL;
   }
 }
 
-void Spot::create_cb(Spot *po, void *d, time_t s, time_t u)
+void Spot::create_cb(WObject *po, void *d, time_t s, time_t u)
 {
   new Spot(po, d, s, u);
 }
@@ -156,7 +158,7 @@ void Spot::funcs()
 {
   setActionFunc(SPOT_TYPE, Spot::ON, _Action On, "On");
   setActionFunc(SPOT_TYPE, Spot::OFF, _Action Off, "Off");
-  setActionFunc(SPOT_TYPE, Spot::CREATE, _Action create_cb, "");
+  setActionFunc(SPOT_TYPE, Spot::CREATE, _Action create_cb, ""); // not necessary
 }
 
 void Spot::quit()

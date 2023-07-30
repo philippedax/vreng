@@ -442,7 +442,7 @@ void WObject::elemImposedMovement(float dt)
 void WObject::imposedMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {
-    error("imposedMovement: type=%d invalid", type);
+    error("imposedMovement: %s type=%d invalid", names.given, type);
     return;
   }
   if (World::current()->isDead()) return;

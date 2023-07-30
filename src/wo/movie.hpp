@@ -60,8 +60,10 @@ private:
   uint8_t *videobuf;		///< buffer of the video
   GLubyte *texframe;		///< pixmap of the texture
   ImageDesc *mpeg;		///< this is a structure used by mpeg_lib to store infos
+  char *line;			///< line copy
   class Avi *avi;		///< avi instance
   class File *file;		///< file mpeg instance
+  class Spot *spot;		///< Spot instance
 
 public:
   enum {

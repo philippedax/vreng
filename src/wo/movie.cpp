@@ -26,7 +26,7 @@
 #include "user.hpp"	// localuser
 #include "pref.hpp"	// quality
 #include "format.hpp"	// Format
-#include "spot.hpp"	// Spot::CREATE
+#include "spot.hpp"	// new Spot
 #if HAVE_LIBMPEG
 #include <mpeg.h>	// /usr/local/include
 #else
@@ -81,7 +81,10 @@ Movie::Movie(char *l)
   mpeg = NULL;
   avi = NULL;
   file = NULL;
+  spot = NULL;
 
+  line = new char[strlen(l)];
+  strcpy(line, l);
   parser(l);
 
   initMobileObject(0);
@@ -240,7 +243,6 @@ void Movie::draw_spot()
   //glNewList(dlist, GL_COMPILE);
   glBegin(GL_POLYGON);
 
-  // spot
   glColor4fv(color);
   glVertex3f(elu.v[0], elu.v[1], elu.v[2]);	// eye left up
   glColor4fv(color);
@@ -275,9 +277,7 @@ void Movie::inits()
   //notused draw_spot();
 
   /* creates a spot */
-  if (isAction(SPOT_TYPE, Spot::CREATE)) {
-    doAction(SPOT_TYPE, Spot::CREATE, this, (void*) NULL, 0L, 0L);
-  }
+  spot = new Spot(this, NULL, 0L, 0L);
 }
 
 void Movie::play_mpeg()
@@ -303,6 +303,12 @@ void Movie::play_mpeg()
     state = INACTIVE;
     begin = true;
     dlist = -1;
+    if (spot) {
+      delete spot;
+      spot = NULL;
+    }
+    //parser(line);	// try to redisplay initial texture
+    //geometry();
     return;
   }
   // build pixmap texture
@@ -354,6 +360,10 @@ void Movie::play_avi()
     avi = NULL;
     begin = true;
     dlist = -1;
+    if (spot) {
+      delete spot;
+      spot = NULL;
+    }
     return;
   }
   // build pixmap texture : doesn't work !!!
