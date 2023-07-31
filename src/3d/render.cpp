@@ -157,7 +157,7 @@ void Render::materials()
 }
 
 // DEBUG //
-#if 1 // set to 1 to force debug tracing
+#if 0 // set to 1 to force debug tracing
 #define DBG_VGL DBG_FORCE
 #endif //debug
 
