@@ -116,6 +116,7 @@ void * endMovement(void *arg)
 bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 {
   *lasting = diffTime(sec, usec);
+  if (move.ttl < 0.0005) return false;
   if (move.next) {
     //echo("next1: ttl=%.1f nocol=%d", move.ttl, move.nocol);
     move = *(move.next);	// copy next move into current - segfault occurs FIXME!
@@ -445,8 +446,9 @@ void WObject::imposedMovement(time_t sec, time_t usec)
     error("imposedMovement: %s type=%d invalid", names.given, type);
     return;
   }
-  if (World::current()->isDead()) return;
-  if (! isMoving() && ! move.manip) return;	// no moving
+  //dax if (World::current()->isDead()) return;
+  //if (! isMoving() && ! move.manip) return;	// no moving
+  if (move.ttl < 0.0005 && ! move.manip) return;	// no moving
 
   Pos oldpos = pos;
   copyPosAndBB(oldpos);		// keep oldpos for network

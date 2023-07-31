@@ -785,6 +785,7 @@ void World::quit()
     //debug echo("%s", (*it)->getInstance());
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
+    if (! (*it)->isValid()) return;
     (*it)->quit();
     delete *it;
   }
