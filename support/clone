@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh +x
 #
 # clone
 #
@@ -21,8 +21,8 @@ case $# in
     if test -d github ; then
       rm -rf old/github
       mv github old
-      git clone https://github.com/philippedax/vreng.git github
     fi
+    git clone https://github.com/philippedax/vreng.git github
     ;;
   gitlab | freedesktop )
     rm -rf old/$1
