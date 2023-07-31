@@ -775,6 +775,7 @@ void World::quit()
 
   // still objects
   for (vector<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    if (! (*it)->isValid()) continue;
     (*it)->quit();
     delete *it;
   }
@@ -785,7 +786,7 @@ void World::quit()
     //debug echo("%s", (*it)->getInstance());
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
-    if (! (*it)->isValid()) return;
+    if (! (*it)->isValid()) continue;
     (*it)->quit();
     delete *it;
   }

@@ -157,7 +157,7 @@ void Render::materials()
 }
 
 // DEBUG //
-#if 0 // set to 1 to force debug tracing
+#if 1 // set to 1 to force debug tracing
 #define DBG_VGL DBG_FORCE
 #endif //debug
 
@@ -216,16 +216,15 @@ void Render::renderOpaque(bool mini)
     recordObject((*it)->object());		// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
+      trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       (*it)->object()->render();
       if ((*it)->object()->isBehavior(MIX_RENDER)) {	// mix render
         (*it)->displaySolid(Solid::OPAQUE);
       }
-      trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }
     else {	// general render, no specific render
       if ((*it)->nbsolids == 1) {		// mono solid
         (*it)->displaySolid(Solid::OPAQUE);
-        trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
       else {					// multi solids
         glPushMatrix();

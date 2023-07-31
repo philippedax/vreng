@@ -94,7 +94,7 @@ Spot::Spot(char *l)
   //echo("spot: %.1f %.1f", pos.az, pos.ax);
   spot = this;
 
-  initMobileObject(0);
+  initStillObject();
 }
 
 /** Created by movie */
@@ -117,7 +117,7 @@ Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
   pos.ax = movie->pos.ax - M_PI_2;	// horizontal
   echo("pos: %.2f %.2f %.2f %.2f %.2f", pos.x,pos.y,pos.z,pos.az,pos.ax);
   
-  initMobileObject(0);
+  initStillObject();
 }
 
 void Spot::render()
