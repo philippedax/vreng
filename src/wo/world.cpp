@@ -768,6 +768,7 @@ void World::quit()
    */
   // invisible objects
   for (vector<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+    if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
   }
@@ -775,7 +776,7 @@ void World::quit()
 
   // still objects
   for (vector<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
-    if (! (*it)->isValid()) continue;
+    if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
   }
@@ -786,7 +787,7 @@ void World::quit()
     //debug echo("%s", (*it)->getInstance());
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
-    if (! (*it)->isValid()) continue;
+    if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
   }
@@ -794,6 +795,7 @@ void World::quit()
 
   // fluid objects
   for (vector<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+    if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
   }
@@ -801,6 +803,7 @@ void World::quit()
 
   // cloth objects
   for (vector<WObject*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
+    if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;		// segfault
   }
@@ -972,6 +975,7 @@ void World::deleteObjects()
       //dax stillList.remove(*it);
       mobileList.remove(*it);
       //dax8 echo("delete object: %s", (*it)->getInstance());
+      if ((*it)->deleted) continue;
       if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") //dax8 Hack! FIXME!
         delete (*it);	//segfault FIXME!
     }

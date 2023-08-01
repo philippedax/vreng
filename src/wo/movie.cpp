@@ -304,6 +304,7 @@ void Movie::play_mpeg()
     begin = true;
     dlist = -1;
     if (spot) {
+      spot->deleted = true;
       delete spot;
       spot = NULL;
     }
@@ -361,6 +362,7 @@ void Movie::play_avi()
     begin = true;
     dlist = -1;
     if (spot) {
+      spot->deleted = true;
       delete spot;
       spot = NULL;
     }

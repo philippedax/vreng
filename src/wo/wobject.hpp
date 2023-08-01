@@ -169,6 +169,7 @@ public:
   bool visible;			///< flag visible or not.
   bool inlist;			///< true if it is already in an OList.
   bool removed;			///< flag removed or not.
+  bool deleted;			///< flag deleted or not.
   char *geomsolid;		///< geometry string of the solid.
 
   class Solid *solid;		///< solid pointer

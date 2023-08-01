@@ -144,6 +144,7 @@ void Spot::Off(Spot *po, void *d, time_t s, time_t u)
   po->disableBehavior(SPECIFIC_RENDER);
   po->disableBehavior(MIX_RENDER);
   if (spot) {
+    spot->deleted = true;
     delete spot;
     spot = NULL;
   }

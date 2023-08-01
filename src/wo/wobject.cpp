@@ -61,6 +61,7 @@ WObject::WObject()
   guip = NULL;
   inlist = false;
   removed = false;
+  deleted = false;
   visible = true;
 
   state = NONE;
@@ -112,6 +113,7 @@ WObject::WObject()
 /* WObject destructor */
 WObject::~WObject()
 {
+  if (! isValid()) return;
   if (! isBehavior(COLLIDE_NEVER)) {
     delFromGrid();
   }
@@ -1155,7 +1157,10 @@ OList * WObject::delOList(OList *olist)
     if (ol->pobject == this) {
       if (ol->next) {
         front = ol->next;
-        if (ol) delete ol;
+        if (ol) {
+          //dax ol->deleted = true;
+          delete ol;
+        }
         ol = NULL;
         return front;
       }
