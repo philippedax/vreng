@@ -567,7 +567,7 @@ void WObject::resetFlashy()
 }
 
 //
-// net
+// Network
 //
 
 uint32_t WObject::getSrc() const
@@ -651,6 +651,9 @@ bool WObject::removeFromScene()
   }
 }
 
+//
+// names
+//
 void WObject::initNames()  
 { 
   for (int i=0; i < NAME_HASH_SIZE; i++) {
@@ -948,6 +951,10 @@ void WObject::click(GLint x, GLint y)
   ::g.render.clickDirection(x, y, &dir);
   click(dir);	// execute click method if exists
 }
+
+//
+// Parse
+//
 
 /* parse accessors */
 Parse * WObject::parse()

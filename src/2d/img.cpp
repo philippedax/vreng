@@ -60,8 +60,10 @@ Img::Img(uint16_t _width, uint16_t _height, uint8_t _bpp, int32_t _nummipmaps, u
 Img::~Img()
 {
   del_image++;
-  delete[] pixmap;
-  pixmap = NULL;
+  if (pixmap) {
+    //dax delete[] pixmap;	// segfault FIXME!!!
+    pixmap = NULL;
+  }
 }
 
 Img * Img::init()
@@ -72,7 +74,7 @@ Img * Img::init()
   GLubyte *pixmap = default_img->pixmap;
   for (int i=0; i < SIZE*SIZE; i++) {
     pixmap[bpp*i+0] = pixmap[bpp*i+1] = pixmap[bpp*i+2] = 0x80; //grey
-   //pixmap[bpp*i+3] = 0xff;	// rgba
+    //pixmap[bpp*i+3] = 0xff;	// rgba
   }
   return default_img;
 }
