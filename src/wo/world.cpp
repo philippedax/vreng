@@ -777,6 +777,8 @@ void World::quit()
   // still objects
   for (vector<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
+    if (! (*it)->isValid()) continue;
+    if (::g.pref.dbgtrace) echo("del: %s", (*it)->getInstance());
     (*it)->quit();
     delete *it;
   }

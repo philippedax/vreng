@@ -425,7 +425,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
 	    if (*attr == '>') {
 	      ++attr;
             }
-            if (::g.pref.dbgtrace) trace(DBG_FORCE, "[%d] %s", tag_type, line);
+            //debug if (::g.pref.dbgtrace) trace(DBG_FORCE, "[%d] %s", tag_type, line);
             progression('o');
             ::g.timer.object.start();
             // call the creator of this object with object attributes
