@@ -36,7 +36,6 @@ WObject * Spot::creator(char *l)
 
 void Spot::defaults()
 {
-  state = false;
   alpha = .3;
   dist = 10;
   color[0] = color[1] = color[2] = 1; // white
@@ -70,13 +69,14 @@ void Spot::geometry()
   char s[128];
   float base = 1;
 
-  if (dim.v[0] == 0 && dim.v[1] == 0 && dim.v[2] == 0) { 
-    getDim(dim);	// dim of movie
-    base = dim.v[0]/2;	// bbox
-  }
-  else {
-    base = dim.v[0];
-  }
+  //if (dim.v[0] == 0 && dim.v[1] == 0 && dim.v[2] == 0) { 
+  //  getDim(dim);	// dim of movie
+  //  base = dim.v[0]/2;	// bbox
+  //}
+  //else {
+  //  base = dim.v[0];
+  //}
+  base = dim.v[0];
   echo("base: %.2f", base);
   sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
   parseSolid(s);
@@ -85,28 +85,31 @@ void Spot::geometry()
 Spot::Spot(char *l)
 {
   parser(l);
+  state = false;		// switch off
   behaviors();
+  getDim(dim);			// dim of spot itself
   geometry();
+
+  /* orientation */
   if (pos.az == 0)
     pos.az += M_PI_2;
   if (pos.ax == 0)
     pos.ax = -M_PI_2;		// horizontal
   //echo("spot: %.1f %.1f", pos.az, pos.ax);
-  spot = this;
 
+  spot = this;
   initStillObject();
 }
 
 /** Created by movie */
 Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
 {
-  //echo("create from movie");
-  spot = this;
+  //echo("created from movie");
   defaults();
-  state = true;
+  state = true;			// switch on
   behaviors();
 
-  movie->getDim(dim);
+  movie->getDim(dim);		// dim of movie
   geometry();
 
   /* orientation */
@@ -115,8 +118,9 @@ Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
   pos.z = movie->pos.z;
   pos.az = movie->pos.az;
   pos.ax = movie->pos.ax - M_PI_2;	// horizontal
-  echo("pos: %.2f %.2f %.2f %.2f %.2f", pos.x,pos.y,pos.z,pos.az,pos.ax);
+  //echo("pos: %.2f %.2f %.2f %.2f %.2f", pos.x,pos.y,pos.z,pos.az,pos.ax);
   
+  spot = this;
   initStillObject();
 }
 
