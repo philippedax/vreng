@@ -24,9 +24,6 @@
 
 const OClass Spot::oclass(SPOT_TYPE, "Spot", Spot::creator);
 
-// local
-static Spot *spot = NULL;	///< singleton
-
 
 /* creation from a file */
 WObject * Spot::creator(char *l)
@@ -69,15 +66,8 @@ void Spot::geometry()
   char s[128];
   float base = 1;
 
-  //if (dim.v[0] == 0 && dim.v[1] == 0 && dim.v[2] == 0) { 
-  //  getDim(dim);	// dim of movie
-  //  base = dim.v[0]/2;	// bbox
-  //}
-  //else {
-  //  base = dim.v[0];
-  //}
   base = dim.v[0];
-  echo("base: %.2f", base);
+  //echo("base: %.2f", base);
   sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
   parseSolid(s);
 }
@@ -98,14 +88,12 @@ Spot::Spot(char *l)
     pos.ax = -M_PI_2;		// horizontal
   //echo("spot: %.1f %.1f", pos.az, pos.ax);
 
-  spot = this;
   initStillObject();
 }
 
 /** Created by movie */
 Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
 {
-  //echo("created from movie");
   defaults();
   state = true;			// switch on
   behaviors();
@@ -121,7 +109,6 @@ Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
   pos.ax = movie->pos.ax - M_PI_2;	// horizontal
   //echo("pos: %.2f %.2f %.2f %.2f %.2f", pos.x,pos.y,pos.z,pos.az,pos.ax);
   
-  spot = this;
   initStillObject();
 }
 
@@ -148,11 +135,6 @@ void Spot::Off(Spot *po, void *d, time_t s, time_t u)
   po->state = false;
   po->disableBehavior(SPECIFIC_RENDER);
   po->disableBehavior(MIX_RENDER);
-  if (spot) {
-    spot->deleted = true;
-    delete spot;
-    spot = NULL;
-  }
 }
 
 void Spot::create_cb(WObject *po, void *d, time_t s, time_t u)
