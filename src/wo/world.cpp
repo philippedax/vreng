@@ -779,7 +779,7 @@ void World::quit()
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
     if (::g.pref.dbgtrace) echo("del: %s", (*it)->getInstance());
-    if (! strlen((*it)->getInstance())) continue;
+    if (! strlen((*it)->getInstance())) continue;	// avoid segfault
     (*it)->quit();	// sometimes segfault FIXME!!!
     delete *it;
   }
@@ -792,6 +792,7 @@ void World::quit()
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
+    if (! strlen((*it)->getInstance())) continue;
     (*it)->quit();
     delete *it;
   }
