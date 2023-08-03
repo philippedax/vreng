@@ -779,7 +779,8 @@ void World::quit()
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
     if (::g.pref.dbgtrace) echo("del: %s", (*it)->getInstance());
-    (*it)->quit();
+    if (! strlen((*it)->getInstance())) continue;
+    (*it)->quit();	// sometimes segfault FIXME!!!
     delete *it;
   }
   stillList.clear();
@@ -790,6 +791,7 @@ void World::quit()
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     if ((*it)->deleted) continue;
+    if (! (*it)->isValid()) continue;
     (*it)->quit();
     delete *it;
   }
@@ -807,7 +809,7 @@ void World::quit()
   for (vector<WObject*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
-    delete *it;		// segfault
+    delete *it;		// sometimes segfault FIXME!!!
   }
   clothList.clear();
 

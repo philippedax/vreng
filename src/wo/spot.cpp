@@ -88,6 +88,7 @@ Spot::Spot(char *l)
   state = false;		// switch off
   behaviors();
   getDim(dim);			// dim of spot itself
+  dim.v[0] /= 2;		// bbox effect FIXME!
   geometry();
 
   /* orientation */
