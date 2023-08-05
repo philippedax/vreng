@@ -54,7 +54,6 @@ private:
   bool anim;			///< animated or not
   bool begin;			///< first frame begin playing
   GLfloat proj;			///< distance between projector and screen
-  GLint dlist;			///< displaylist of spot
   V3 dim;			///< dimension of screen projection
   FILE *fp;			///< the corresponding file pointer
   uint8_t *videobuf;		///< buffer of the video
@@ -87,9 +86,6 @@ public:
   void changePermanent(float lasting);
   /**< Change permanent (frames). */
 
-  void render();
-  /**< Renders the spot. */
-
 private:
   void parser(char *l);
   /**< Parses vre line. */
@@ -97,14 +93,12 @@ private:
   void defaults();
   /**< Sets default values. */
 
-  void geometry();
   void open_mpeg();
   void open_avi();
   void init_tex();
   void play_mpeg();
   void play_avi();
   void bind_frame();
-  //notused void draw_spot();
 
   void inits();
   /**< Inits. */

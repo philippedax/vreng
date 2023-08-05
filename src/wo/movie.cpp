@@ -75,7 +75,6 @@ Movie::Movie(char *l)
   texid = -1;
   frame = 0;
   begin = false;
-  dlist = -1;
   videobuf = NULL;
   texframe = NULL;
   mpeg = NULL;
@@ -95,16 +94,6 @@ Movie::Movie(char *l)
     play();
   }
 }
-
-void Movie::geometry()
-{
-  char s[128];
-
-  getDim(dim);
-  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\".3\"", dim.v[0] - .4, proj);
-  parseSolid(s);
-}
-
 
 void Movie::open_mpeg()
 {
@@ -197,71 +186,6 @@ void Movie::init_tex()
   //echo("texid=%d (%s)", texid, Texture::getUrlById(texid));
 }
 
-#if 0 //notused
-void Movie::draw_spot()
-{
-  V3 elu, elb, eru, erb, slu, slb, sru, srb;
-  GLfloat color[4] = { .9, .9, 1, .3 };	// lightblue + alpha
-
-  getDim(dim);
-  //echo("dim: %.f %.1f %.1f", dim.v[0], dim.v[1], dim.v[2]);
-
-  // eye left up
-  elu.v[0] = localuser->pos.x + 1;
-  elu.v[1] = localuser->pos.y + 0.4;	//left
-  elu.v[2] = localuser->pos.z * 2 - .6;	//up
-  // eye left bot
-  elb.v[0] = localuser->pos.x + 1;
-  elb.v[1] = localuser->pos.y + 0.4;	//left
-  elb.v[2] = localuser->pos.z * 2 - .7;	//bot
-  // eye right up
-  eru.v[0] = localuser->pos.x + 1;
-  eru.v[1] = localuser->pos.y - 0.4;	//right
-  eru.v[2] = localuser->pos.z * 2 - .6;	//up
-  // eye right bot
-  erb.v[0] = localuser->pos.x + 1;
-  erb.v[1] = localuser->pos.y - 0.4;	//right
-  erb.v[2] = localuser->pos.z * 2 - .7;	//bot
-  // screen left up
-  slu.v[0] = pos.x;
-  slu.v[1] = pos.y - dim.v[1]/2;	//left
-  slu.v[2] = pos.z + dim.v[2]/2;	//up
-  // screen left bot
-  slb.v[0] = pos.x;
-  slb.v[1] = pos.y - dim.v[1]/2;	//left
-  slb.v[2] = pos.z - dim.v[2]/2;	//bot
-  // screen right up
-  sru.v[0] = pos.x;
-  sru.v[1] = pos.y - dim.v[1]/2;	//right
-  sru.v[2] = pos.z + dim.v[2]/2;	//up
-  // screen right bot
-  srb.v[0] = pos.x;
-  srb.v[1] = pos.y - dim.v[1]/2;	//right
-  srb.v[2] = pos.z - dim.v[2]/2;	//bot
-
-  dlist = glGenLists(1);
-  //glNewList(dlist, GL_COMPILE);
-  glBegin(GL_POLYGON);
-
-  glColor4fv(color);
-  glVertex3f(elu.v[0], elu.v[1], elu.v[2]);	// eye left up
-  glColor4fv(color);
-  glVertex3f(slu.v[0], slu.v[1], slu.v[2]); 	// scr left up
-  //glVertex3f(slb.v[0], slb.v[1], slb.v[2]);	// scr right bot
-  //glVertex3f(elb.v[0], elb.v[1], elb.v[2]);	// eye right bot
-  glColor4fv(color);
-  glVertex3f(eru.v[0], eru.v[1], eru.v[2]);	// eye right up
-  glColor4fv(color);
-  glVertex3f(sru.v[0], sru.v[1], sru.v[2]);	// scr right up
-  //glVertex3f(srb.v[0], srb.v[1], srb.v[2]);	// scr right bot
-  //glVertex3f(erb.v[0], erb.v[1], erb.v[2]);	// eye right bot
-  glVertex3f(elu.v[0], elu.v[1], elu.v[2]);	// eye left up
-
-  glEnd();
-  //glEndList();
-}
-#endif //notused
-
 void Movie::inits()
 {
   switch (vidfmt) {
@@ -274,7 +198,6 @@ void Movie::inits()
     default: return;
   }
   init_tex();
-  //notused draw_spot();
 
   /* creates a spot */
   spot = new Spot(this, NULL, 0L, 0L);
@@ -302,14 +225,12 @@ void Movie::play_mpeg()
     mpeg = NULL;
     state = INACTIVE;
     begin = true;
-    dlist = -1;
     if (spot) {
       spot->deleted = true;
       delete spot;
       spot = NULL;
     }
     //parser(line);	// try to redisplay initial texture
-    //geometry();
     return;
   }
   // build pixmap texture
@@ -360,7 +281,6 @@ void Movie::play_avi()
     delete avi;
     avi = NULL;
     begin = true;
-    dlist = -1;
     if (spot) {
       spot->deleted = true;
       delete spot;
@@ -410,7 +330,6 @@ void Movie::changePermanent(float lasting)
     gettimeofday(&tstart, NULL);
     //enableBehavior(SPECIFIC_RENDER);
     //enableBehavior(MIX_RENDER);
-    //geometry();
     begin = false;
   }
   uint16_t finter = frame;	// previous frame
@@ -438,20 +357,6 @@ void Movie::changePermanent(float lasting)
   }
 
   bind_frame();
-
-  //glBindTexture(GL_TEXTURE_2D, texid);
-  //glPushMatrix();
-  //glCallList(dlist);
-  //draw_spot();
-  //glPopMatrix();
-}
-
-void Movie::render()
-{
-  glPushMatrix();
-  glTranslatef(pos.x, pos.y, pos.z);
-  glRotatef(-90, 1, 0, 0);
-  glPopMatrix();
 }
 
 /*
