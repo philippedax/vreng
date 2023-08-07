@@ -75,7 +75,7 @@ void Spot::geometry()
 Spot::Spot(char *l)
 {
   parser(l);
-  state = true;		// switch off
+  state = true;			// switch on
   behaviors();
   getDim(dim);			// dim of spot itself
   dim.v[0] /= 2;		// bbox effect FIXME!
