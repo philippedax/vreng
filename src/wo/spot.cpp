@@ -75,7 +75,7 @@ void Spot::geometry()
 Spot::Spot(char *l)
 {
   parser(l);
-  state = false;		// switch off
+  state = true;		// switch off
   behaviors();
   getDim(dim);			// dim of spot itself
   dim.v[0] /= 2;		// bbox effect FIXME!
@@ -127,6 +127,7 @@ void Spot::On(Spot *po, void *d, time_t s, time_t u)
   po->state = true;
   po->enableBehavior(SPECIFIC_RENDER);
   po->enableBehavior(MIX_RENDER);
+  po->disableBehavior(INVISIBLE);
 }
 
 void Spot::Off(Spot *po, void *d, time_t s, time_t u)
@@ -135,6 +136,7 @@ void Spot::Off(Spot *po, void *d, time_t s, time_t u)
   po->state = false;
   po->disableBehavior(SPECIFIC_RENDER);
   po->disableBehavior(MIX_RENDER);
+  po->enableBehavior(INVISIBLE);
 }
 
 void Spot::create_cb(WObject *po, void *d, time_t s, time_t u)
