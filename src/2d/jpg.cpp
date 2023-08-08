@@ -65,7 +65,7 @@ static void readJpegData(Img *img, struct jpeg_decompress_struct& cinfo)
   buf = (*cinfo.mem->alloc_sarray) ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
 
   // Step 6: while (scan lines remain to be read)
-  trace(DBG_IMG, "readJpegData: w=%d h=%d c=%d", cinfo.output_width, cinfo.output_height, cinfo.output_components);
+  trace(DBG_2D, "readJpegData: w=%d h=%d c=%d", cinfo.output_width, cinfo.output_height, cinfo.output_components);
   int k = 0;
   int y = 0;
   while (cinfo.output_scanline < cinfo.output_height) {

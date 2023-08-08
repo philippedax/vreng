@@ -132,7 +132,7 @@ void Texture::reader(void *_tex, Http *_http)
   Texture *tex = (Texture *) _tex;
 
   tex->http = _http;
-  trace(DBG_IMG, "texture: mime=%s url=%s", tex->mime, tex->url);
+  trace(DBG_2D, "texture: mime=%s url=%s", tex->mime, tex->url);
 
   Img *img = NULL;
 
@@ -210,7 +210,7 @@ GLuint Texture::open(const char *url)
 
   texture->id = create();		// creates texture and return texid
   last_texid = texture->id;
-  //trace(DBG_IMG, "texture: id=%d %s", texture->id, url);
+  //trace(DBG_2D, "texture: id=%d %s", texture->id, url);
 
   /* we must download the texture now */
   strcpy(texture->url, url);

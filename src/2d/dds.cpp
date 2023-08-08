@@ -150,7 +150,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   dds->height = ddsd.height;
   dds->numMipmaps = ddsd.mipMapLevels;
 
-  trace(DBG_IMG, "dds: w=%d h=%d numMipmaps=%d", dds->width, dds->height, dds->numMipmaps);
+  trace(DBG_2D, "dds: w=%d h=%d numMipmaps=%d", dds->width, dds->height, dds->numMipmaps);
 
   switch (ddsd.bpp.fourCC) {
   case DXT1:

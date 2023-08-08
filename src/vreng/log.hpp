@@ -31,7 +31,7 @@
 #define DBG_HTTP	3	// 8		15
 #define DBG_IPMC	4	// 16		31
 #define DBG_3D		5	// 32		63
-#define DBG_IMG 	6	// 64		127
+#define DBG_2D	 	6	// 64		127
 #define DBG_NET		7	// 128		255
 #define DBG_RTP		8	// 256		511
 #define DBG_SQL		9	// 512		1023

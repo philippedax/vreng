@@ -51,7 +51,7 @@ Txf::~Txf()
 /* Loads texture font. */
 Txf * Txf::load(const char *url)
 {
-  trace(DBG_IMG, "load: loading %s", url);
+  trace(DBG_2D, "load: loading %s", url);
 
   Txf * txf = new Txf(url);	// new entry
 
@@ -121,7 +121,7 @@ void Txf::reader(void *_txf, Http *http)
     SWAPL(&txf->texfont->max_descent, tmp);
     SWAPL(&txf->texfont->num_glyphs, tmp);
   }
-  trace(DBG_IMG, "txfReader: fmt=%d w=%d h=%d ascent=%d descent=%d glyphs=%d", format, txf->texfont->tex_width, txf->texfont->tex_height, txf->texfont->max_ascent, txf->texfont->max_descent, txf->texfont->num_glyphs);
+  trace(DBG_2D, "txfReader: fmt=%d w=%d h=%d ascent=%d descent=%d glyphs=%d", format, txf->texfont->tex_width, txf->texfont->tex_height, txf->texfont->max_ascent, txf->texfont->max_descent, txf->texfont->num_glyphs);
 
   txf->texfont->tgi = new TexGlyphInfo[txf->texfont->num_glyphs];
   if (txf->texfont->tgi == NULL) {

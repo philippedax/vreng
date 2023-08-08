@@ -139,7 +139,7 @@ Img * Img::loadSGI(void *tex, ImageReader read_func)
     }
   }
 
-  trace(DBG_IMG, "sgi: w=%d h=%d c=%d", sgi->width, sgi->height, sgi->bpp);
+  trace(DBG_2D, "sgi: w=%d h=%d c=%d", sgi->width, sgi->height, sgi->bpp);
 
   /* alloc the data */
   Img *img = new Img(sgi->width, sgi->height, Img::RGB);

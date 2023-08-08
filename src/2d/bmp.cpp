@@ -100,7 +100,7 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
 
   delete ir;
 
-  trace(DBG_IMG, "loadBMP: w=%d h=%d c=%d s=%d", width, height, bit_count, image_size);
+  trace(DBG_2D, "loadBMP: w=%d h=%d c=%d s=%d", width, height, bit_count, image_size);
 
   Img *img = new Img(width, height, Img::RGB);
 
