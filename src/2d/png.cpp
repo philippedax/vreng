@@ -45,7 +45,7 @@ Img * Img::loadPNG(void *tex, ImageReader read_func)
   }
   cache->close();
   delete cache;
-  trace(DBG_VGL, "loadPNG: w=%d h=%d d=%d a=%d", rawinfo.Width, rawinfo.Height, rawinfo.Depth, rawinfo.Alpha);
+  //echo("loadPNG: w=%d h=%d d=%d a=%d", rawinfo.Width, rawinfo.Height, rawinfo.Depth, rawinfo.Alpha);
 
   Img *img = new Img(rawinfo.Width, rawinfo.Height, Img::RGB);
 

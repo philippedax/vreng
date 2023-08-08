@@ -158,7 +158,7 @@ void Render::materials()
 
 // DEBUG //
 #if 0 // set to 1 to force debug tracing
-#define DBG_VGL DBG_FORCE
+#define DBG_3D DBG_FORCE
 #endif //debug
 
 /** Records object number into the selection buffer */
@@ -203,7 +203,7 @@ bool Render::compFrame(const void *t1, const void *t2)
 // Renders opaque solids
 void Render::renderOpaque(bool mini)
 {
-  trace2(DBG_VGL, "\nopaque: ");
+  trace2(DBG_3D, "\nopaque: ");
   // sort opaqueList
   if (! mini) {
     opaqueList.sort(compDist);	// sort distances decreasingly : large surfaces overlap
@@ -216,7 +216,7 @@ void Render::renderOpaque(bool mini)
     recordObject((*it)->object());		// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
-      trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+      trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       (*it)->object()->render();
       if ((*it)->object()->isBehavior(MIX_RENDER)) {	// mix render
         (*it)->displaySolid(Solid::OPAQUE);
@@ -229,12 +229,12 @@ void Render::renderOpaque(bool mini)
       else {					// multi solids
         glPushMatrix();
         (*it)->displaySolid(Solid::OPAQUE);	// main solid first
-        trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
+        trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
 
         for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::OPAQUE);
           (*jt)->setRendered(true);
-          trace2(DBG_VGL, " %s:%.1f:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
+          trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
         }
         glPopMatrix();
       }
@@ -246,7 +246,7 @@ void Render::renderOpaque(bool mini)
 // Renders transparent solids sorted from the furthest to the nearest
 void Render::renderTransparent(bool mini)
 {
-  trace2(DBG_VGL, "\ntransparent: ");
+  trace2(DBG_3D, "\ntransparent: ");
   // build transparentList from solidList
   for (list<Solid*>::iterator it = solidList.begin(); it != solidList.end() ; ++it) {
     if ( (*it)->isOpaque() == false &&
@@ -272,22 +272,22 @@ void Render::renderTransparent(bool mini)
       if ((*it)->object()->isBehavior(MIX_RENDER)) {	// mix render
         (*it)->displaySolid(Solid::TRANSPARENT);
       }
-      trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+      trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
     }
     else {
       if ((*it)->nbsolids == 1) {	// mono solid
         (*it)->displaySolid(Solid::TRANSPARENT);
-        trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+        trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
       }
       else {				// multi solids
         glPushMatrix();
         (*it)->displaySolid(Solid::TRANSPARENT);
-        trace2(DBG_VGL, " %s:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->nbsolids);
+        trace2(DBG_3D, " %s:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->nbsolids);
 
         for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::TRANSPARENT);
           (*jt)->setRendered(true);
-          trace2(DBG_VGL, " %s:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->nbsolids);
+          trace2(DBG_3D, " %s:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->nbsolids);
         }
         glPopMatrix();
       }
@@ -299,7 +299,7 @@ void Render::renderTransparent(bool mini)
 // Renders ground solids sorted from the furthest to the nearest
 void Render::renderGround()
 {
-  trace2(DBG_VGL, "\nground: ");
+  trace2(DBG_3D, "\nground: ");
   groundList.sort(compDist);		// sort distances decreasingly
   for (list<Solid*>::iterator it = groundList.begin(); it != groundList.end() ; ++it) {
     materials();
@@ -311,14 +311,14 @@ void Render::renderGround()
       (*it)->displaySolid(Solid::OPAQUE);
     }
     (*it)->setRendered(true);
-    trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+    trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
 
 // Renders model solids sorted from the furthest to the nearest
 void Render::renderModel()
 {
-  trace2(DBG_VGL, "\nmodel: ");
+  trace2(DBG_3D, "\nmodel: ");
   modelList.sort(compDist);		// sort distances decreasingly
   for (list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
     materials();
@@ -331,14 +331,14 @@ void Render::renderModel()
       (*it)->displaySolid(Solid::OPAQUE);
     }
     (*it)->setRendered(true);
-    trace2(DBG_VGL, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+    trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
   }
 }
 
 // Renders user
 void Render::renderUser()
 {
-  trace2(DBG_VGL, "\nuser: ");
+  trace2(DBG_3D, "\nuser: ");
   for (list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
     recordObject((*it)->object());	// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
@@ -349,7 +349,7 @@ void Render::renderUser()
       (*it)->displaySolid(Solid::USER);
     }
     (*it)->setRendered(true);
-    trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
+    trace2(DBG_3D, " %s", (*it)->object()->getInstance());
     break;	// only one
   }
 }
@@ -357,7 +357,7 @@ void Render::renderUser()
 // Renders flary solids
 void Render::renderFlary()
 {
-  trace2(DBG_VGL, "\nflary: ");
+  trace2(DBG_3D, "\nflary: ");
   for (list<Solid*>::iterator it = flaryList.begin(); it != flaryList.end() ; ++it) {
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
@@ -366,7 +366,7 @@ void Render::renderFlary()
       (*it)->displaySolid(Solid::FLASH);
     }
     (*it)->setRendered(true);
-    trace2(DBG_VGL, " %s", (*it)->object()->getInstance());
+    trace2(DBG_3D, " %s", (*it)->object()->getInstance());
   }
 }
 
@@ -435,7 +435,7 @@ void Render::render()
   Grid::grid()->render();	// render grid
   Axis::axis()->render();	// render axis
   scissors();			// render scissors
-  trace2(DBG_VGL, "\n");	// end of trace2 !
+  trace2(DBG_3D, "\n");		// end of trace2 !
 }
 
 void Render::minirender()
@@ -515,11 +515,11 @@ void Render::lighting()
   glEnable(GL_LIGHTING);
 
   // renders other lights for example sun, moon, lamp
-  //trace2(DBG_VGL, "\nlight:");
+  //trace2(DBG_3D, "\nlight:");
   for (vector<WObject*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
     if ((*it)->num) {	 //FIXME segfault sometimes : num replaces isValid()
       (*it)->lighting();
-      //trace2(DBG_VGL, " %s", (*it)->getInstance());
+      //trace2(DBG_3D, " %s", (*it)->getInstance());
     }
   }
 }

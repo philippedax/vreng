@@ -273,11 +273,11 @@ int32_t Md2::getFrames(tHeader *md2_hdr, Http *h)
 int32_t Md2::getGLCmds(tHeader *md2_hdr, FILE *f)
 {
   int32_t num_vertices = ((md2_hdr->num_tris + 2 * md2_hdr->num_glcmds - 2) / 7);
-  //trace(DBG_FORCE, "getGLCmds: num_vertices=%d", num_vertices);
+  //echo("getGLCmds: num_vertices=%d", num_vertices);
 
   texinfo = new tTexInfo[num_vertices];
   glcmds = new int32_t[md2_hdr->num_glcmds - 2 * num_vertices];
-  trace(DBG_VGL, "glcmds size = %d", sizeof(int32_t) * (md2_hdr->num_glcmds - 2 * num_vertices));
+  //echo("glcmds size = %d", sizeof(int32_t) * (md2_hdr->num_glcmds - 2 * num_vertices));
 
   /* now transform the GL commands */
   int32_t *glcmds_copy = glcmds;
@@ -316,11 +316,11 @@ int32_t Md2::getGLCmds(tHeader *md2_hdr, FILE *f)
 int32_t Md2::getGLCmds(tHeader *md2_hdr, Http *h)
 {
   int32_t num_vertices = ((md2_hdr->num_tris + 2 * md2_hdr->num_glcmds - 2) / 7);
-  //trace(DBG_FORCE, "getGLCmds: num_vertices=%d", num_vertices);
+  //echo("getGLCmds: num_vertices=%d", num_vertices);
 
   texinfo = new tTexInfo[num_vertices];
   glcmds = new int32_t[md2_hdr->num_glcmds - 2 * num_vertices];
-  trace(DBG_VGL, "glcmds size = %d", sizeof(int32_t) * (md2_hdr->num_glcmds - 2 * num_vertices));
+  //echo("glcmds size = %d", sizeof(int32_t) * (md2_hdr->num_glcmds - 2 * num_vertices));
 
   /* now transform the GL commands */
   int32_t *glcmds_copy = glcmds;
@@ -393,7 +393,7 @@ void Md2::draw(int32_t frame, int32_t nextframe, float ratio, float scale)
 
   frame %= numframes;
   nextframe %= numframes;
-  //trace(DBG_FORCE, "draw: frame=%d", frame);
+  ////echo("draw: frame=%d", frame);
 
   /* get the frames information */
   tFrame *frame1 = frames + frame;
