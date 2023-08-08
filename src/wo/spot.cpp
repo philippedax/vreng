@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
+// Copyright (C) 1997-2023 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -146,9 +146,9 @@ void Spot::create_cb(WObject *po, void *d, time_t s, time_t u)
 
 void Spot::funcs()
 {
-  setActionFunc(SPOT_TYPE, Spot::ON, _Action On, "On");
-  setActionFunc(SPOT_TYPE, Spot::OFF, _Action Off, "Off");
-  setActionFunc(SPOT_TYPE, Spot::CREATE, _Action create_cb, ""); // not necessary
+  //setActionFunc(SPOT_TYPE, Spot::ON, _Action On, "On");
+  //setActionFunc(SPOT_TYPE, Spot::OFF, _Action Off, "Off");
+  //setActionFunc(SPOT_TYPE, Spot::CREATE, _Action create_cb, ""); // not necessary
 }
 
 void Spot::quit()
