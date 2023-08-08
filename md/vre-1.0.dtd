@@ -34,7 +34,7 @@
 		mech | mirage | mirror | model | movie | music |
 		particle | plane |
 		rain | river |
-		slider | smoke | snow | spiral | stair | stars | step | sun |
+		slider | smoke | snow | spiral | spot | stair | stars | step | sun |
 		terrain | text | thing | thunder | travelator |
 		vjc | vnc | vrelet | 
 		wall | walls | water | waterfall | web | widget | wind | wings
@@ -467,6 +467,13 @@
 <!ATTLIST spiral	name	NMTOKEN #IMPLIED>
 <!ATTLIST spiral	descr	NMTOKENS #IMPLIED>
 <!ATTLIST spiral	height	NMTOKEN "0">
+
+<!ELEMENT spot		(solid+)>
+<!ATTLIST spot		pos	NMTOKENS #REQUIRED>
+<!ATTLIST spot		name	NMTOKEN #IMPLIED>
+<!ATTLIST spot		descr	NMTOKENS #IMPLIED>
+<!ATTLIST spot		alpha	NMTOKEN "0.3">
+<!ATTLIST spot		color	NMTOKEN #IMPLIED>
 
 <!ELEMENT stair		(solid+)>
 <!ATTLIST stair		pos	NMTOKENS #REQUIRED>

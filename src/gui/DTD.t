@@ -35,7 +35,7 @@ const char DTD[] = "\
 		mech | mirage | mirror | model | movie | music |\n\
 		particle | plane |\n\
 		rain | river |\n\
-		slider | smoke | snow | spiral | stair | stars | step | sun |\n\
+		slider | smoke | snow | spiral | spot | stair | stars | step | sun |\n\
 		terrain | text | thing | thunder | travelator |\n\
 		vjc | vnc | vrelet | \n\
 		wall | walls | water | waterfall | web | widget | wind | wings\n\
@@ -468,6 +468,13 @@ const char DTD[] = "\
 <!ATTLIST spiral	name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST spiral	descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST spiral	height	NMTOKEN \"0\">\n\
+\n\
+<!ELEMENT spot		(solid+)>\n\
+<!ATTLIST spot		pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST spot		name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST spot		descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST spot		alpha	NMTOKEN \"0.3\">\n\
+<!ATTLIST spot		color	NMTOKEN #IMPLIED>\n\
 \n\
 <!ELEMENT stair		(solid+)>\n\
 <!ATTLIST stair		pos	NMTOKENS #REQUIRED>\n\
