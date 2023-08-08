@@ -43,7 +43,7 @@ private:
   static const float FPS;	///< max number of frames decoded per rendering
   static const float DEF_PROJ;	///< distance between projector and screen
 
-  float rate;			///< asked avi/mpeg frames per second
+  float rate;			///< asked avi/mpg frames per second
   float fps;			///< coded frames per sec
   GLuint texid;			///< texture id
   uint16_t texsiz;		///< texture size in pixels
@@ -58,10 +58,10 @@ private:
   FILE *fp;			///< the corresponding file pointer
   uint8_t *videobuf;		///< buffer of the video
   GLubyte *texframe;		///< pixmap of the texture
-  ImageDesc *mpeg;		///< this is a structure used by mpeg_lib to store infos
+  ImageDesc *mpg;		///< this is a structure used by mpeg_lib to store infos
   char *line;			///< line copy
   class Avi *avi;		///< avi instance
-  class File *file;		///< file mpeg instance
+  class File *file;		///< file mpg instance
   class Spot *spot;		///< Spot instance
 
 public:
@@ -93,10 +93,10 @@ private:
   void defaults();
   /**< Sets default values. */
 
-  void open_mpeg();
+  void open_mpg();
   void open_avi();
   void init_tex();
-  void play_mpeg();
+  void play_mpg();
   void play_avi();
   void bind_frame();
 

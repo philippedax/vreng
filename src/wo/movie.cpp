@@ -77,7 +77,7 @@ Movie::Movie(char *l)
   begin = false;
   videobuf = NULL;
   texframe = NULL;
-  mpeg = NULL;
+  mpg = NULL;
   avi = NULL;
   file = NULL;
   spot = NULL;
@@ -95,41 +95,41 @@ Movie::Movie(char *l)
   }
 }
 
-void Movie::open_mpeg()
+void Movie::open_mpg()
 {
-  if (mpeg) return;		// an instance is already running
+  if (mpg) return;		// an instance is already running
 
-  char *filempeg = new char[MAXHOSTNAMELEN];
+  char *filempg = new char[MAXHOSTNAMELEN];
   file = new File();
 
-  if (Cache::download(names.url, filempeg) == 0) {	// download Mpeg file
-    error("can't download %s", filempeg);
-    delete[] filempeg;
+  if (Cache::download(names.url, filempg) == 0) {	// download Mpeg file
+    error("can't download %s", filempg);
+    delete[] filempg;
     delete file;
     return;
   }
-  if ((fp = file->open(filempeg, "r")) == NULL) {
-    error("can't open mpeg");
-    delete[] filempeg;
+  if ((fp = file->open(filempg, "r")) == NULL) {
+    error("can't open mpg");
+    delete[] filempg;
     delete file;
     return;
   }
 
-  mpeg = new ImageDesc[1];
+  mpg = new ImageDesc[1];
 
   SetMPEGOption(MPEG_DITHER, FULL_COLOR_DITHER); //ORDERED_DITHER);
-  if (OpenMPEG(fp, mpeg)) {
-    width = mpeg->Width;
-    height = mpeg->Height;
-    fps = mpeg->PictureRate;
-    videobuf = new uint8_t[mpeg->Size];
-    //echo("mpeg: w=%d h=%d f=%.3f", width, height, fps);
+  if (OpenMPEG(fp, mpg)) {
+    width = mpg->Width;
+    height = mpg->Height;
+    fps = mpg->PictureRate;
+    videobuf = new uint8_t[mpg->Size];
+    //echo("mpg: w=%d h=%d f=%.3f", width, height, fps);
   }
   else {
     error("can't OpenMPEG");
-    delete[] filempeg;
-    delete[] mpeg;
-    mpeg = NULL;
+    delete[] filempg;
+    delete[] mpg;
+    mpg = NULL;
     file->close();
     delete file;
     return;
@@ -152,7 +152,7 @@ void Movie::open_avi()
   fp = avi->getFile();
   avi->getInfos(&width, &height, &fps);
   videobuf = new uint8_t[4 * width * height];
-  echo("avi: w=%d h=%d f=%.3f", width, height, fps);
+  //echo("avi: w=%d h=%d f=%.3f", width, height, fps);
 }
 
 void Movie::init_tex()
@@ -190,7 +190,7 @@ void Movie::inits()
 {
   switch (vidfmt) {
     case PLAYER_MPG:
-      open_mpeg();
+      open_mpg();
       break;
     case PLAYER_AVI:
       open_avi();
@@ -203,7 +203,7 @@ void Movie::inits()
   spot = new Spot(this, NULL, 0L, 0L);
 }
 
-void Movie::play_mpeg()
+void Movie::play_mpg()
 {
   uint8_t r, g, b;
 
@@ -212,17 +212,17 @@ void Movie::play_mpeg()
   else
     r = 2, g = 1, b = 0; // BGR
 
-  if (! mpeg) return;
-  // get a frame from the mpeg video stream
-  if (GetMPEGFrame((char *)videobuf) == false) { // end of mpeg video
+  if (! mpg) return;
+  // get a frame from the mpg video stream
+  if (GetMPEGFrame((char *)videobuf) == false) { // end of mpg video
     if (state == LOOP) {
-      RewindMPEG(fp, mpeg);	// rewind mpeg video
+      RewindMPEG(fp, mpg);	// rewind mpg video
       begin = true;
       return;
     }
     CloseMPEG();
-    delete[] mpeg;
-    mpeg = NULL;
+    delete[] mpg;
+    mpg = NULL;
     state = INACTIVE;
     begin = true;
     if (spot) {
@@ -233,15 +233,15 @@ void Movie::play_mpeg()
     //parser(line);	// try to redisplay initial texture
     return;
   }
-  // build pixmap texture
+  // mpg frame : build pixmap texture
   int wof = (texsiz - width) / 2;
   int hof = (texsiz - height) / 2;
   //echo("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
-  if (mpeg->Colormap) {	// case of Colormap Index
+  if (mpg->Colormap) {	// case of Colormap Index
     for (int h=0; h < height; h++) {
       for (int w=0; w < width; w++) {
         int v = videobuf[width * h + w];
-        ColormapEntry *color = &mpeg->Colormap[v];
+        ColormapEntry *color = &mpg->Colormap[v];
         int t = 3 * (texsiz * (h + hof) + w + wof);	// texframe index
         texframe[t+0] = color->red % 255;	
         texframe[t+1] = color->green % 255;	
@@ -264,7 +264,7 @@ void Movie::play_mpeg()
 
 void Movie::play_avi()
 {
-  int ret, retlen;
+  int ret, len;
   uint8_t r, g, b;
 
   if (File::littleEndian())
@@ -273,8 +273,8 @@ void Movie::play_avi()
     r = 2, g = 1, b = 0; // BGR
 
   // get a frame from the avi video stream
-  ret = avi->read_data(videobuf, width * height * 4, &retlen);
-  //echo("f=%d s=%d l=%d", frame, width*height*4, retlen);
+  ret = avi->read_data(videobuf, width * height * 4, &len);
+  //echo("avi: f=%d s=%d l=%d", frame, width*height*4, len);
   if (ret == 0) {	// end of avi video
     File::closeFile(fp);
     state = INACTIVE;
@@ -288,15 +288,15 @@ void Movie::play_avi()
     }
     return;
   }
-  // build pixmap texture : doesn't work !!!
+  // avi frame : build pixmap texture : doesn't work !!!
   int wof = (texsiz - width) / 2;
   int hof = (texsiz - height) / 2;
-  wof = hof = 0; //dax ??
-  //echo("f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
+  //wof = hof = 0; //dax ??
+  echo("avi: f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
   for (int h=0; h < height; h++) {
     for (int w=0; w < width; w++) {
       int v = 4 * (width * h + w);		// videobuf index
-      int t = 3 * (256 * (h+hof) + w + wof);	// texframe index
+      int t = 3 * (texsiz * (h+hof) + w+wof);	// texframe index
       //echo("w,h: %d,%d t,v: %d,%d", w,h,t,v);
       texframe[t+0] = videobuf[v+r];
       texframe[t+1] = videobuf[v+g];
@@ -348,7 +348,7 @@ void Movie::changePermanent(float lasting)
     }
     switch (vidfmt) {
     case PLAYER_MPG:
-      play_mpeg();
+      play_mpg();
       break;
     case PLAYER_AVI:
       play_avi();
@@ -383,8 +383,8 @@ void Movie::stop()
       CloseMPEG();
       file->close();
       delete file;
-      if (mpeg) delete[] mpeg;
-      mpeg = NULL;
+      if (mpg) delete[] mpg;
+      mpg = NULL;
       break;
     case PLAYER_AVI:
       if (avi) delete avi;
@@ -416,7 +416,7 @@ void Movie::rewind()
 {
   if (state != PLAYING && state != LOOP && fp != NULL) {
     if (vidfmt == PLAYER_MPG) {
-      RewindMPEG(fp, mpeg);
+      RewindMPEG(fp, mpg);
       frame = 0;
       begin = true;
       state = PLAYING;
