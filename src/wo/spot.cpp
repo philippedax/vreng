@@ -33,6 +33,7 @@ WObject * Spot::creator(char *l)
 
 void Spot::defaults()
 {
+  shape = SPOT_PYRAMID;
   alpha = .3;
   dist = 10;
   color[0] = color[1] = color[2] = 1; // white
@@ -48,6 +49,13 @@ void Spot::parser(char *l)
     if (!l) break;
     if      (! stringcmp(l, "alpha")) l = parseFloat(l, &alpha, "alpha");
     else if (! stringcmp(l, "color")) l = parseVector3f(l, color, "color");
+    else if (! stringcmp(l, "shape")) {
+      char str[16];
+      l = parseString(l, str, "shape");
+      if (! stringcmp(str, "cone")) {
+        shape = SPOT_CONE;
+      }
+    }
   }
   end_while_parse(l);
 }
@@ -67,8 +75,15 @@ void Spot::geometry()
   float base = 1;
 
   base = dim.v[0];
-  //echo("base: %.2f", base);
-  sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
+  //echo("base: %.2f shape: %d", base, shape);
+  switch (shape) {
+  case SPOT_PYRAMID:
+    sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
+    break;
+  case SPOT_CONE:
+    sprintf(s, "solid shape=\"cone\" rb=\"%f\" rt=\"0.1\" h=\"%f\" a=\"%f\" />", base/2, dist, alpha);
+    break;
+  }
   parseSolid(s);
 }
 
@@ -96,6 +111,7 @@ Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
 {
   defaults();
   state = true;			// switch on
+  shape = (d == (void *)SPOT_PYRAMID) ? SPOT_PYRAMID : SPOT_CONE;
   behaviors();
 
   movie->getDim(dim);		// dim of movie
@@ -146,9 +162,9 @@ void Spot::create_cb(WObject *po, void *d, time_t s, time_t u)
 
 void Spot::funcs()
 {
-  //setActionFunc(SPOT_TYPE, Spot::ON, _Action On, "On");
-  //setActionFunc(SPOT_TYPE, Spot::OFF, _Action Off, "Off");
-  //setActionFunc(SPOT_TYPE, Spot::CREATE, _Action create_cb, ""); // not necessary
+  //setActionFunc(SPOT_TYPE, Spot::SPOT_ON, _Action On, "On");
+  //setActionFunc(SPOT_TYPE, Spot::SPOT_OFF, _Action Off, "Off");
+  //setActionFunc(SPOT_TYPE, Spot::SPOT_CREATE, _Action create_cb, ""); // not necessary
 }
 
 void Spot::quit()

@@ -33,6 +33,7 @@
 class Spot: public WObject {
 
 private:
+  uint8_t shape;
   uint8_t state;
   float alpha;
   float dist;
@@ -41,11 +42,17 @@ private:
 
 public:
 
+  /* shapes */
+  enum {
+    SPOT_PYRAMID,
+    SPOT_CONE
+  };
+
   /* spot actions */
   enum {
-    ON,
-    OFF,
-    CREATE
+    SPOT_ON,
+    SPOT_OFF,
+    SPOT_CREATE
   };
 
   static const OClass oclass;   ///< class variable
