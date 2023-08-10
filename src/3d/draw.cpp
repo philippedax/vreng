@@ -292,6 +292,8 @@ void Draw::pentagon(GLfloat width, GLfloat height, uint8_t style)
 
 void Draw::pyramid(GLfloat width, uint8_t style)
 {
+  pentagon(width, width, style);
+/**
   if (style == STYLE_FILL) glBegin(GL_QUADS);
   else                     glBegin(GL_LINE_LOOP);
    glVertex3f(-width, -width, 0);
@@ -299,6 +301,7 @@ void Draw::pyramid(GLfloat width, uint8_t style)
    glVertex3f(+width, +width, 0);
    glVertex3f(-width, +width, 0);
   glEnd();
+**/
 }
 
 void Draw::octagon(GLfloat width, GLfloat height, uint8_t style)

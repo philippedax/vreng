@@ -473,7 +473,7 @@ const char DTD[] = "\
 <!ATTLIST spot		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST spot		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST spot		descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST spot		shape	(pyra | cone) #IMPLIED>\n\
+<!ATTLIST spot		shape	(pentagon | cone) #IMPLIED>\n\
 <!ATTLIST spot		alpha	NMTOKEN \"0.3\">\n\
 <!ATTLIST spot		color	NMTOKEN #IMPLIED>\n\
 \n\
@@ -671,7 +671,7 @@ const char DTD[] = "\
 <!ATTLIST solid		scalex	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scaley	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scalez	NMTOKEN \"1\">\n\
-<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | human | man | guy | car | teapot | walls) \"box\">\n\
+<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pentagon | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | human | man | guy | car | teapot | walls) \"box\">\n\
 <!ATTLIST solid		shi	NMTOKEN \"20\">\n\
 <!ATTLIST solid		shininess NMTOKEN \"20\">\n\
 <!ATTLIST solid		side	NMTOKEN #IMPLIED>\n\
