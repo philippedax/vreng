@@ -81,7 +81,7 @@ void Spot::geometry()
     sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
     break;
   case SPOT_CONE:
-    sprintf(s, "solid shape=\"cone\" rb=\"%f\" rt=\"0.1\" h=\"%f\" a=\"%f\" />", base/2, dist, alpha);
+    sprintf(s, "solid shape=\"cone\" rb=\"%f\" rt=\"0.05\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
     break;
   }
   parseSolid(s);

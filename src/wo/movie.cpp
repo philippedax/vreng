@@ -200,7 +200,7 @@ void Movie::inits()
   init_tex();
 
   /* creates a spot */
-  spot = new Spot(this, NULL, 0L, 0L);
+  spot = new Spot(this, (void *)Spot::SPOT_PYRAMID, 0L, 0L);
 }
 
 void Movie::play_mpg()
