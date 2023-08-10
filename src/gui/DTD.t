@@ -473,6 +473,7 @@ const char DTD[] = "\
 <!ATTLIST spot		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST spot		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST spot		descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST spot		shape	(pyra | cone) #IMPLIED>\n\
 <!ATTLIST spot		alpha	NMTOKEN \"0.3\">\n\
 <!ATTLIST spot		color	NMTOKEN #IMPLIED>\n\
 \n\

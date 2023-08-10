@@ -472,6 +472,7 @@
 <!ATTLIST spot		pos	NMTOKENS #REQUIRED>
 <!ATTLIST spot		name	NMTOKEN #IMPLIED>
 <!ATTLIST spot		descr	NMTOKENS #IMPLIED>
+<!ATTLIST spot		shape	(pyra | cone) #IMPLIED>
 <!ATTLIST spot		alpha	NMTOKEN "0.3">
 <!ATTLIST spot		color	NMTOKEN #IMPLIED>
 
