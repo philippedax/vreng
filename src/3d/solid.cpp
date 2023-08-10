@@ -72,6 +72,7 @@ static const struct sStokens stokens[] = {
   { "line", "line", STOK_LINE },
   { "pent", "pentagon", STOK_PENTAGON },
   { "pyra", "pyramid", STOK_PYRAMID },
+  { "oct", "octagon", STOK_OCTAGON },
   { "tri", "triangle", STOK_TRIANGLE },
   { "cir", "circle", STOK_CIRCLE },
   { "ell", "ellipse", STOK_ELLIPSE },
@@ -342,6 +343,7 @@ char * Solid::parser(char *l)
       case STOK_POINT:
       case STOK_PENTAGON:
       case STOK_PYRAMID:
+      case STOK_OCTAGON:
       case STOK_TRIANGLE:
       case STOK_BSPHERE:
       case STOK_CIRCLE:
@@ -801,6 +803,13 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       preDraw(texid, alpha, fog, true);
       Draw::pentagon(side, side, style);
       setBB(side, side, side);
+      postDraw(texid, alpha, fog);
+      break;
+
+    case STOK_OCTAGON:
+      preDraw(texid, alpha, fog, true);
+      Draw::octagon(side, height, style);
+      setBB(side, side, height);
       postDraw(texid, alpha, fog);
       break;
 
