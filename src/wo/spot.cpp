@@ -33,7 +33,7 @@ WObject * Spot::creator(char *l)
 
 void Spot::defaults()
 {
-  shape = SPOT_PYRAMID;
+  shape = SPOT_PENTAGON;
   alpha = .3;
   dist = 10;
   color[0] = color[1] = color[2] = 1; // white
@@ -77,8 +77,8 @@ void Spot::geometry()
   base = dim.v[0];
   //echo("base: %.2f shape: %d", base, shape);
   switch (shape) {
-  case SPOT_PYRAMID:
-    sprintf(s, "solid shape=\"pyramid\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
+  case SPOT_PENTAGON:
+    sprintf(s, "solid shape=\"pentagon\" s=\"%f\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
     break;
   case SPOT_CONE:
     sprintf(s, "solid shape=\"cone\" rb=\"%f\" rt=\"0.05\" h=\"%f\" a=\"%f\" />", base, dist, alpha);
@@ -111,7 +111,7 @@ Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
 {
   defaults();
   state = true;			// switch on
-  shape = (d == (void *)SPOT_PYRAMID) ? SPOT_PYRAMID : SPOT_CONE;
+  shape = (d == (void *)SPOT_PENTAGON) ? SPOT_PENTAGON : SPOT_CONE;
   behaviors();
 
   movie->getDim(dim);		// dim of movie

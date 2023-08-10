@@ -44,7 +44,7 @@ public:
 
   /* shapes */
   enum {
-    SPOT_PYRAMID,
+    SPOT_PENTAGON,
     SPOT_CONE
   };
 

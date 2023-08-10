@@ -277,7 +277,7 @@ void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
   glDisable(GL_LINE_STIPPLE);
 }
 
-void Draw::pyramid(GLfloat width, GLfloat height, uint8_t style)
+void Draw::pentagon(GLfloat width, GLfloat height, uint8_t style)
 {
   if (style == STYLE_FILL) glBegin(GL_TRIANGLE_FAN);
   else                     glBegin(GL_LINE_LOOP);
@@ -288,7 +288,10 @@ void Draw::pyramid(GLfloat width, GLfloat height, uint8_t style)
    glVertex3f(-width, +width, 0);
    glVertex3f(-width, -width, 0);
   glEnd();
-/**
+}
+
+void Draw::pyramid(GLfloat width, uint8_t style)
+{
   if (style == STYLE_FILL) glBegin(GL_QUADS);
   else                     glBegin(GL_LINE_LOOP);
    glVertex3f(-width, -width, 0);
@@ -296,7 +299,6 @@ void Draw::pyramid(GLfloat width, GLfloat height, uint8_t style)
    glVertex3f(+width, +width, 0);
    glVertex3f(-width, +width, 0);
   glEnd();
-**/
 }
 
 void Draw::octagon(GLfloat width, GLfloat height, uint8_t style)

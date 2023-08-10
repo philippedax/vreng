@@ -62,7 +62,10 @@ public:
   static void box(GLfloat width, GLfloat depth, GLfloat height);
   /**< Draws a box. */
 
-  static void pyramid(GLfloat side, GLfloat height, uint8_t style);
+  static void pentagon(GLfloat side, GLfloat height, uint8_t style);
+  /**< Draws a pentagon. */
+
+  static void pyramid(GLfloat side, uint8_t style);
   /**< Draws a pyramid. */
 
   static void octagon(GLfloat side, GLfloat height, uint8_t style);
