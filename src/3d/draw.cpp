@@ -277,6 +277,9 @@ void Draw::bbox(GLfloat width, GLfloat depth, GLfloat height)
   glDisable(GL_LINE_STIPPLE);
 }
 
+/*
+ * Draws a pentagon
+ */
 void Draw::pentagon(GLfloat width, GLfloat height, uint8_t style)
 {
   if (style == STYLE_FILL) glBegin(GL_TRIANGLE_FAN);
@@ -292,7 +295,7 @@ void Draw::pentagon(GLfloat width, GLfloat height, uint8_t style)
 
 void Draw::pyramid(GLfloat width, uint8_t style)
 {
-  pentagon(width, width, style);
+  pentagon(width, width, style);	// regular pentagon
 /**
   if (style == STYLE_FILL) glBegin(GL_QUADS);
   else                     glBegin(GL_LINE_LOOP);
