@@ -50,22 +50,22 @@ static float elevation = 0, mframe = 3;
 static GLint dlist = -1;
 
 /* material definitions */
-static GLfloat mat_specular[] = {.628281, .555802, .366065, 1};
-static GLfloat mat_ambient[] = {.24725, .1995, .0745, 1};
-static GLfloat mat_diffuse[] = {.75164, .60648, .22648, 1};
-static GLfloat mat_shininess[] = {128 * .4};
-static GLfloat mat_specular2[] = {.508273, .508273, .508373, 1};
-static GLfloat mat_ambient2[] = {.19225, .19225, .19225, 1};
-static GLfloat mat_diffuse2[] = {.50754, .50754, .50754, 1};
-static GLfloat mat_shininess2[] = {128 * .6};
-static GLfloat mat_specular3[] = {.296648, .296648, .296648, 1};
-static GLfloat mat_ambient3[] = {.25, .20725, .20725, 1};
-static GLfloat mat_diffuse3[] = {1, .829, .829, 1};
-static GLfloat mat_shininess3[] = {128 * .088};
-static GLfloat mat_specular4[] = {.633, .727811, .633, 1};
-static GLfloat mat_ambient4[] = {.0215, .1745, .0215, 1};
-static GLfloat mat_diffuse4[] = {.07568, .61424, .07568, 1};
-static GLfloat mat_shininess4[] = {128 * .6};
+static GLfloat specular[] = {.628281, .555802, .366065, 1};
+static GLfloat ambient[] = {.24725, .1995, .0745, 1};
+static GLfloat diffuse[] = {.75164, .60648, .22648, 1};
+static GLfloat shininess[] = {128 * .4};
+static GLfloat specular2[] = {.508273, .508273, .508373, 1};
+static GLfloat ambient2[] = {.19225, .19225, .19225, 1};
+static GLfloat diffuse2[] = {.50754, .50754, .50754, 1};
+static GLfloat shininess2[] = {128 * .6};
+static GLfloat specular3[] = {.296648, .296648, .296648, 1};
+static GLfloat ambient3[] = {.25, .20725, .20725, 1};
+static GLfloat diffuse3[] = {1, .829, .829, 1};
+static GLfloat shininess3[] = {128 * .088};
+static GLfloat specular4[] = {.633, .727811, .633, 1};
+static GLfloat ambient4[] = {.0215, .1745, .0215, 1};
+static GLfloat diffuse4[] = {.07568, .61424, .07568, 1};
+static GLfloat shininess4[] = {128 * .6};
 
 
 void Mech::setMaterial(GLfloat spec[], GLfloat amb[], GLfloat diff[], GLfloat shin[])
@@ -79,10 +79,10 @@ void Mech::setMaterial(GLfloat spec[], GLfloat amb[], GLfloat diff[], GLfloat sh
 void Mech::drawTorso()
 {
   glNewList(dlist + TORSO, GL_COMPILE);
-   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+   setMaterial(specular, ambient, diffuse, shininess);
    Draw::box(1, 3, 1);
    glTranslatef(.75, 0, 0);
-   setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+   setMaterial(specular2, ambient2, diffuse2, shininess2);
    Draw::box(.5, 2, .6);
    glTranslatef(-1.5, 0, 0);
    Draw::box(.5, 2, .6);
@@ -93,13 +93,13 @@ void Mech::drawTorso()
 void Mech::drawHip()
 {
   glNewList(dlist + HIP, GL_COMPILE);
-   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+   setMaterial(specular, ambient, diffuse, shininess);
    Draw::octagon(.7, .5, 0);
    for (int i=0; i<2; i++) {
      if (i)
        glScalef(-1, 1, 1);
      glTranslatef(1, 0, 0);
-     setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+     setMaterial(specular2, ambient2, diffuse2, shininess2);
      Draw::sphere(.2, 16, 16, 0);
      glTranslatef(-1, 0, 0);
    }
@@ -110,10 +110,10 @@ void Mech::drawHip()
 void Mech::drawShoulder()
 {
   glNewList(dlist + SHOULDER, GL_COMPILE);
-   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+   setMaterial(specular, ambient, diffuse, shininess);
    Draw::box(1, .5, .5);
    glTranslatef(.9, 0, 0);
-   setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+   setMaterial(specular2, ambient2, diffuse2, shininess2);
    Draw::sphere(.6, 16, 16, 0);
    glTranslatef(-.9, 0, 0);
   glEndList();
@@ -122,13 +122,13 @@ void Mech::drawShoulder()
 void Mech::drawUpperArm()
 {
   glNewList(dlist + UPPER_ARM, GL_COMPILE);
-   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+   setMaterial(specular, ambient, diffuse, shininess);
    Draw::box(1, 1, 2);
    glTranslatef(0, -.95, 0);
    glRotatef(90, 1, 0, 0);
-   setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+   setMaterial(specular2, ambient2, diffuse2, shininess2);
    Draw::cylinder(.4, .4, 1.5, 16, 10, 0);
-   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+   setMaterial(specular, ambient, diffuse, shininess);
    glRotatef(-90, 1, 0, 0);
    glTranslatef(-.4, -1.85, 0);
    glRotatef(90, 0, 1, 0);
@@ -156,7 +156,7 @@ void Mech::drawUpperArm()
 void Mech::drawVulcanGun()
 {
   glNewList(dlist + VULCAN, GL_COMPILE);
-  setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+  setMaterial(specular2, ambient2, diffuse2, shininess2);
   Draw::cylinder(.5, .5, .5, 16, 10, 0);
   glTranslatef(0, 0, .5);
   Draw::disk(0, .5, 16, 10, 0);
@@ -179,7 +179,7 @@ void Mech::drawVulcanGun()
 void Mech::drawForeArm()
 {
   glNewList(dlist + FOREARM, GL_COMPILE);
-   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+   setMaterial(specular, ambient, diffuse, shininess);
    for (int i=0; i<5; i++) {
      glTranslatef(0, -.1, -.15);
      Draw::box(.6, .2, .8);
@@ -195,7 +195,7 @@ void Mech::drawForeArm()
 void Mech::drawUpperLeg()
 {
   glNewList(dlist + UPPER_LEG, GL_COMPILE);
-   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+   setMaterial(specular, ambient, diffuse, shininess);
    glTranslatef(0, -1, 0);
    Draw::box(.4, .7, 1);
    glTranslatef(0, -.65, 0);
@@ -209,16 +209,16 @@ void Mech::drawUpperLeg()
    Draw::box(2, 2, .5);
    glTranslatef(0, -.3, -.2);
    glRotatef(90, 1, 0, 0);
-   setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+   setMaterial(specular2, ambient2, diffuse2, shininess2);
    Draw::cylinder(.6, .6, 3, 16, 10, 0);
-   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+   setMaterial(specular, ambient, diffuse, shininess);
    glRotatef(-90, 1, 0, 0);
    glTranslatef(0, -1.5, 1);
    Draw::box(1.5, .5, 3);
    glTranslatef(0, -1.75, -.8);
    Draw::box(2, 2, .5);
    glTranslatef(0, -.9, -.85);
-   setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+   setMaterial(specular2, ambient2, diffuse2, shininess2);
    Draw::cylinder(.8, .8, 1.8, 16, 10, 0);
    for (int i=0; i<2; i++) {
      if (i)
@@ -236,7 +236,7 @@ void Mech::drawUpperLeg()
 void Mech::drawFoot()
 {
   glNewList(dlist + FOOT, GL_COMPILE);
-   setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+   setMaterial(specular2, ambient2, diffuse2, shininess2);
    glRotatef(90, 1, 0, 0);
    Draw::octagon(1.5, .6, 0);
    glRotatef(-90, 1, 0, 0);
@@ -246,32 +246,32 @@ void Mech::drawFoot()
 void Mech::drawLowerLeg()
 {
   glNewList(dlist + LOWER_LEG, GL_COMPILE);
-  setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+  setMaterial(specular, ambient, diffuse, shininess);
   for (float k=0; k<2; k++) {
     for (float l=0; l<2; l++) {
       glPushMatrix();
       glTranslatef(k, 0, l);
-      setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+      setMaterial(specular, ambient, diffuse, shininess);
       Draw::box(1, 1, .5);
       glTranslatef(0, -.45, 0);
-      setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+      setMaterial(specular2, ambient2, diffuse2, shininess2);
       Draw::sphere(.2, 16, 16, 0);
       if (leg)
         glRotatef((GLfloat) heel1, 1, 0, 0);
       else
         glRotatef((GLfloat) heel2, 1, 0, 0);
       glTranslatef(0, -1.7, 0);
-      setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+      setMaterial(specular, ambient, diffuse, shininess);
       Draw::box(.25, .25, 3);
       glTranslatef(0, -1.7, 0);
-      setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+      setMaterial(specular2, ambient2, diffuse2, shininess2);
       Draw::sphere(.2, 16, 16, 0);
       if (leg)
         glRotatef((GLfloat) - heel1, 1, 0, 0);
       else
         glRotatef((GLfloat) - heel2, 1, 0, 0);
       glTranslatef(0, -.45, 0);
-      setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+      setMaterial(specular, ambient, diffuse, shininess);
       Draw::box(1, 1, .5);
       if (!k && !l) {
         glTranslatef(-.4, -.8, .5);
@@ -304,7 +304,7 @@ void Mech::drawLowerLeg()
 void Mech::drawRocketPod()
 {
   glNewList(dlist + ROCKET, GL_COMPILE);
-   setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+   setMaterial(specular2, ambient2, diffuse2, shininess2);
    glScalef(.4, .4, .4);
    // Neck1
    glRotatef(45, 0, 0, 1);
@@ -318,17 +318,17 @@ void Mech::drawRocketPod()
    // Head
    glTranslatef(2.1, 0, 0);
    glRotatef(-90, 0, 0, 1);
-   setMaterial(mat_specular, mat_ambient, mat_diffuse, mat_shininess);
+   setMaterial(specular, ambient, diffuse, shininess);
    Draw::box(2, 4, 3);
    glTranslatef(-.5, -1, 1.3);
    // Eyes
    for (int i=0; i<2; i++) {
      for (int j=2; j<3; j++) {
        glTranslatef(i, j, .6);
-       setMaterial(mat_specular3, mat_ambient3, mat_diffuse3, mat_shininess3);
+       setMaterial(specular3, ambient3, diffuse3, shininess3);
        Draw::cylinder(.4, .4, .3, 16, 10, 0);
        glTranslatef(0, 0, .3);
-       setMaterial(mat_specular4, mat_ambient4, mat_diffuse4, mat_shininess4);
+       setMaterial(specular4, ambient4, diffuse4, shininess4);
        Draw::cylinder(.4, 0, .5, 16, 10, 0);
        glTranslatef(-i, -j, -.9);
      }
@@ -439,7 +439,7 @@ void Mech::draw()
   if (dlist != -1) glDeleteLists(dlist, BODY_PARTS);
 #endif
   dlist = glGenLists(BODY_PARTS);
-  setMaterial(mat_specular2, mat_ambient2, mat_diffuse2, mat_shininess2);
+  setMaterial(specular2, ambient2, diffuse2, shininess2);
   drawTorso();
   drawHip();
   drawShoulder();
