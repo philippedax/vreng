@@ -670,7 +670,7 @@
 <!ATTLIST solid		scalex	NMTOKEN "1">
 <!ATTLIST solid		scaley	NMTOKEN "1">
 <!ATTLIST solid		scalez	NMTOKEN "1">
-<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pentagon | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | human | man | guy | car | teapot | walls) "box">
+<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pentagon | pyramid | octagon | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | human | man | guy | car | teapot | walls) "box">
 <!ATTLIST solid		shi	NMTOKEN "20">
 <!ATTLIST solid		shininess NMTOKEN "20">
 <!ATTLIST solid		side	NMTOKEN #IMPLIED>

@@ -671,7 +671,7 @@ const char DTD[] = "\
 <!ATTLIST solid		scalex	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scaley	NMTOKEN \"1\">\n\
 <!ATTLIST solid		scalez	NMTOKEN \"1\">\n\
-<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pentagon | pyramid | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | human | man | guy | car | teapot | walls) \"box\">\n\
+<!ATTLIST solid		shape	(none | bbox | box | bsphere | sphere | cylinder | cone | torus | rect | disk | line | pentagon | pyramid | octagon | triangle | circle | ellipse | helix | wheel | pt | point | statue | model | cross | dsphere | saucer | hat | human | man | guy | car | teapot | walls) \"box\">\n\
 <!ATTLIST solid		shi	NMTOKEN \"20\">\n\
 <!ATTLIST solid		shininess NMTOKEN \"20\">\n\
 <!ATTLIST solid		side	NMTOKEN #IMPLIED>\n\
