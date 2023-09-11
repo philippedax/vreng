@@ -21,7 +21,6 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
-#include "wobject.hpp"	// WObject
 
 #ifndef MIME_LEN
 #define MIME_LEN 32
@@ -44,7 +43,7 @@ class Texture {
   GLuint id;			///< texture id
   class Img *img;		///< img structure
   class Http *http;		///< http handle
-  class WObject *object;
+  class WObject *object;	///< object referant
   char url[URL_LEN];		///< url where is the texture
 
   Texture(const char *url);
@@ -71,17 +70,11 @@ class Texture {
   static GLuint getIdByUrl(const char *url);
   /**< Gets a texture id by its url. */
 
-  static GLuint getIdByObject(WObject *wo);
-  /**< Gets a texture id by its object. */
-
-  static Texture * getTexByUrl(const char *url);
-  /**< Gets a tc by its url. */
-
   static Texture * getTexById(GLuint texid);
   /**< Gets a texture by its texture id. */
 
-  static char * getUrlById(GLuint texid);
-  /**< Gets a texture url by its texture id. */
+  static GLuint getIdByObject(class WObject *wo);
+  /**< Gets a texture id by its object. */
 
   static void update();
   /**< Updates textures (resizing). */
@@ -91,6 +84,11 @@ class Texture {
 
   static void listTextures();
   /**< List textureList. */
+
+  //notused static char * getUrlById(GLuint texid);
+  //notused /**< Gets a texture url by its texture id. */
+  //notused static Texture * getTexByUrl(const char *url);
+  //notused /**< Gets a tc by its url. */
 
  private:
   static GLuint create();

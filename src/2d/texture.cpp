@@ -178,6 +178,7 @@ Texture::Texture(const char *url)
 {
   http = NULL;
   img = NULL;
+  object = NULL;
   loaded = false;
   *mime = '\0';
 
@@ -244,17 +245,6 @@ GLuint Texture::current()
   return last_texid;
 }
 
-Texture * Texture::getTexByUrl(const char *url)
-{
-  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
-    if (! strcmp((*it)->url, url)) {
-      return *it;	// texture is in the cache
-    }
-  }
-  /* we will download the texture later */
-  return NULL;
-}
-
 Texture * Texture::getTexById(GLuint texid)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
@@ -286,6 +276,18 @@ GLuint Texture::getIdByObject(WObject *wo)
   return 0;
 }
 
+#if 0 //notused
+Texture * Texture::getTexByUrl(const char *url)
+{
+  for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
+    if (! strcmp((*it)->url, url)) {
+      return *it;	// texture is in the cache
+    }
+  }
+  /* we will download the texture later */
+  return NULL;
+}
+
 char * Texture::getUrlById(GLuint texid)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
@@ -295,6 +297,7 @@ char * Texture::getUrlById(GLuint texid)
   }
   return NULL;
 }
+#endif //notused
 
 void Texture::setMime(char *p)
 {
