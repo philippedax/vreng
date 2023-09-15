@@ -106,19 +106,19 @@ PNG_LIB= -lpng
 Z_LIB= -lz
 EXT_LIB = $(PNG_LIB) $(Z_LIB)
 
-# bundle libraries
-XML_LIB   = -L$(SRCDIR)/bundle/xmlParser $(SRCDIR)/bundle/xmlParser/libxmlparser.a
+# embedded libraries
+XML_LIB   = -L$(SRCDIR)/ext/xmlParser $(SRCDIR)/ext/xmlParser/libxmlparser.a
 if ENABLE_LIBMPEG
-MPEG_LIB  = -L$(SRCDIR)/bundle/mpeg_lib $(SRCDIR)/bundle/mpeg_lib/libmpeg.a
+MPEG_LIB  = -L$(SRCDIR)/ext/mpeg_lib $(SRCDIR)/ext/mpeg_lib/libmpeg.a
 endif
 if ENABLE_FTGL
-FTGL_LIB  = -L$(SRCDIR)/bundle/ftgl $(SRCDIR)/bundle/ftgl/libftgl.a
+FTGL_LIB  = -L$(SRCDIR)/ext/ftgl $(SRCDIR)/ext/ftgl/libftgl.a
 endif
 if ENABLE_GLUI
-GLUI_LIB  = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a
+GLUI_LIB  = -L$(SRCDIR)/ext/glui $(SRCDIR)/ext/glui/libglui.a
 endif
 if ENABLE_GL2PS
-GL2PS_LIB = -L$(SRCDIR)/bundle/gl2ps $(SRCDIR)/bundle/gl2ps/libgl2ps.a
+GL2PS_LIB = -L$(SRCDIR)/ext/gl2ps $(SRCDIR)/ext/gl2ps/libgl2ps.a
 endif
 
 # core libs
@@ -138,8 +138,8 @@ endif
 
 CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(VRENG_LIB) $(UBIT_LIB) $(AI_LIB)
 
-# bundle libs
-BUNDLE_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB)
+# embedded libs
+EXT_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB)
 
 # executable
-vreng_LDADD = $(CORE_LIBS) $(BUNDLE_LIBS) $(VRELIBS)
+vreng_LDADD = $(CORE_LIBS) $(EXT_LIBS) $(VRELIBS)

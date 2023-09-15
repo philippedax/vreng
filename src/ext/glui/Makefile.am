@@ -9,7 +9,7 @@ GLUI_HDRS = glui.h algebra3.h arcball.h glui_internal.h glui_internal_control.h 
 
 EXTRA_DIST = $(GLUI_HDRS)
 
-if ENABLE_GLUI
+#if ENABLE_GLUI
 noinst_LIBRARIES = libglui.a
 libglui_a_SOURCES = $(GLUI_SRCS) $(GLUI_HDRS)
-endif
+#endif

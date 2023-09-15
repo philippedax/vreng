@@ -25,8 +25,8 @@
 #include <ubit/uhardfont.hpp>
 
 #if UBIT_WITH_GL && UBIT_WITH_FREETYPE
-#    include <ftgl/FTFont.h>  // FTGL
-#    include <ftgl/FTGLTextureFont.h>
+#    include "ftgl/FTFont.h"  // FTGL
+#    include "ftgl/FTGLTextureFont.h"
 #endif
 
 #define NAMESPACE_UBIT namespace ubit {

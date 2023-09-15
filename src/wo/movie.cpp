@@ -30,7 +30,7 @@
 #if HAVE_LIBMPEG
 #include <mpeg.h>	// /usr/local/include
 #else
-#include "mpeg.h"	// local: src/bundle/mpeg_lib
+#include "mpeg.h"	// local: src/ext/mpeg_lib
 #endif
 #include "avi.hpp"	// Avi
 #include "theme.hpp"	// theme.playvideo

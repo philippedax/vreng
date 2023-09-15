@@ -5,7 +5,7 @@ VRED_HDRS = main.hpp vred.hpp vre.hpp app.hpp bbox.hpp board.hpp box.hpp bsphere
 EXTRA_DIST = vred.l vred.y
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = -I$(SRCDIR)/vreng -I$(SRCDIR)/bundle/glui $(GL_CFLAGS) $(X_CFLAGS)
+AM_CPPFLAGS = -I$(SRCDIR)/vreng -I$(SRCDIR)/ext/glui $(GL_CFLAGS) $(X_CFLAGS)
 
 if ENABLE_VRED
 lex.yy.o: lex.yy.cpp y.tab.h
@@ -32,6 +32,6 @@ MACOS_GLUT_LIB = -L/System/Library/Frameworks -framework GLUT -framework OpenGL
 MACOS_GLUT = /System/Library/Frameworks/GLUT.framework/Versions/A/GLUT
 MACOS_FREEGLUT_LIB = -L/usr/local/opt/freeglut/lib -lglut 
 
-vred_LDADD = -L$(SRCDIR)/bundle/glui $(SRCDIR)/bundle/glui/libglui.a -lglut -L/usr/X11/lib -lGLU -lGL -lX11 -lm 
+vred_LDADD = -L$(SRCDIR)/ext/glui $(SRCDIR)/ext/glui/libglui.a -lglut -L/usr/X11/lib -lGLU -lGL -lX11 -lm 
 
 endif

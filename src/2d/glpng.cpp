@@ -29,7 +29,7 @@
 #include <math.h>
 #include "glpng.hpp"
 
-#include "png.h"	// src/bundle/mypng
+#include "png.h"	// src/ext/mypng
 
 
 /* Used to decide if GL/gl.h supports the paletted extension */

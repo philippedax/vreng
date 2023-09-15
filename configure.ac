@@ -1276,7 +1276,7 @@ fi
 #  #
 #  AC_CHECK_LIB([ftgl], [main], 
 #               [VRELIBS="-lftgl ${VRELIBS}"],
-#               [AC_MSG_WARN([ftgl library not found, use bundle ftgl])])
+#               [AC_MSG_WARN([ftgl library not found, use embedded ftgl])])
 #  if test "$ac_cv_lib_ftgl_main" = "yes" ; then
 #    AC_DEFINE(WITH_FTGL)
 #    AC_DEFINE(HAVE_FTGL)
@@ -1306,7 +1306,7 @@ if test "${with_mpeg:=yes}" = "yes"; then
   #
   AC_CHECK_LIB([mpeg], [OpenMPEG],
                [VRELIBS="${OSDEP_LIBS} -l${libmpeg} ${VRELIBS}"],
-               [AC_MSG_RESULT([	use bundle mpeg_lib ])],
+               [AC_MSG_RESULT([	use embedded mpeg_lib ])],
                [${OSDEP_LIBS}])
   if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
     AC_DEFINE(HAVE_LIBMPEG)
@@ -1865,12 +1865,12 @@ AC_CONFIG_FILES([
         src/vmm/Makefile
         src/misc/Makefile
         src/ubit/Makefile
-        src/bundle/Makefile
-        src/bundle/xmlParser/Makefile
-        src/bundle/mpeg_lib/Makefile
-        src/bundle/glui/Makefile
-        src/bundle/ftgl/Makefile
-        src/bundle/gl2ps/Makefile
+        src/ext/Makefile
+        src/ext/xmlParser/Makefile
+        src/ext/mpeg_lib/Makefile
+        src/ext/glui/Makefile
+        src/ext/ftgl/Makefile
+        src/ext/gl2ps/Makefile
         src/vrum/Makefile
         src/vacs/Makefile
         src/vaps/Makefile
