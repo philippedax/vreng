@@ -46,31 +46,27 @@ class Channel {
   struct sockaddr_in sa_data;	///< UDP datas
   struct ip_mreq mreq;		///< IGMPv2
   class Session *session;	///< RTP session
-  // Channel *next;		///< next channel
 
   enum {
     MANAGER_MODE,
     WORLD_MODE
   };
 
-  Channel();
-  /**< Constructor */
+  Channel();		 /**< Constructor */
 
-  virtual ~Channel();
-  /**< Destructor */
+  virtual ~Channel();	/**< Destructor */
 
   int create(const char *chanstr, int **fds);
   /**<
    * Create a Channel
    * channel string is given by decode
-   * channel structure is given bye Channel
    * return number of fd to survey
    *
    * Usage:
    * int *fds;
    * int count = createChannel(chan_str, &fds);
    * for (i=0; i < count; i++) {
-   *   addThisFdToWatchList(fds[i]);
+   *   addThisFdToList(fds[i]);
    * }
    * create sockets mcast_recv_rtp and mcast_send_rtp
    *        sockets mcast_recv_rtcp and mcast_send_rtcp
@@ -78,8 +74,7 @@ class Channel {
 
   void naming();
   /**<
-   * Channel naming
-   * init my_host_id, my_port_id, my_obj_id
+   * Channel naming : my_host_id, my_port_id, my_obj_id
    */
 
   void deleteFromList();

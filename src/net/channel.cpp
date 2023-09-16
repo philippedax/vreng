@@ -26,7 +26,7 @@
 #include "vrep.hpp"	// SD_R_RTP
 #include "payload.hpp"	// Payload
 #include "session.hpp"	// Session
-#include "universe.hpp"	// MANAGER_NAME
+#include "universe.hpp"	// current
 #include "world.hpp"	// current
 #include "gui.hpp"	// addChannelSources
 #include "pref.hpp"	// reflector
@@ -36,6 +36,7 @@
 
 #include <list>
 using namespace std;
+
 
 // local: list
 list<Channel*> Channel::channelList;
@@ -56,13 +57,12 @@ static char vrum_addr[16];
 /** Find the VRUM address and check if the MBone works */
 void Channel::initReflector()
 {
-  /* resolve reflector address */
+  // resolves reflector address
   struct hostent *hp;
   if ((hp = my_gethostbyname(DEF_VRUM_SERVER, AF_INET)) != NULL) {
     strcpy(vrum_addr, inet4_ntop(hp->h_addr_list[0]));
     my_free_hostent(hp);
   }
-  //FIXME timeout
   if (::g.pref.reflector) Sap::init();
 }
 
@@ -333,6 +333,7 @@ int Channel::create(const char *chan_str, int **pfds)
 
   uint32_t oldssrc = 0;
   World *world = NULL;
+
 #if 0 //dax loop in worldByGroup
   if ((world = World::worldByGroup(group)) != NULL) {
     if (world) {
@@ -429,14 +430,12 @@ bool Channel::join(char *chan_str)
 
   channel = new Channel();
   newChanStr(chan_str);
-  //echo("join: channel=%p -> chan_str=%s", channel, chan_str);
 
   int cntfd = channel->create(chan_str, &tabFd);
   if (cntfd == 0)  return false;
 
   ::g.gui.addChannelSources(WORLD_MODE, tabFd, cntfd);
   channelCount++;
-  //echo("join: channel=%p channelCount=%d cntfd=%d", channel, channelCount, cntfd);
   return true;
 }
 
