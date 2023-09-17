@@ -33,7 +33,7 @@ src/*/*/*/.deps
 src/*/*/*.o
 src/ai/*.cmx
 src/ai/*.cm*
-src/vreng/txt2str
+src/base/txt2str
 src/tool/snd2str
 src/vjs/classes
 src/vjs/jar
