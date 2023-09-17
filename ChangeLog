@@ -14,6 +14,12 @@ The rules for this file:
 
 ++ 9
 == 9.4
+-- 9.4.3
+	- rename src/bundle ro src/ext
+	- rename src/vreng ro src/base
+	- rename src/wo ro src/world
+	(2023/09/17, Philippe Dax)
+
 -- 9.4.2
 	- add object spot (#88)
 	(2023/07/22, Philippe Dax)
