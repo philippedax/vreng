@@ -26,24 +26,24 @@ GUI_SRCS = gui.cpp scene.cpp widgets.cpp navig.cpp motion.cpp joystick.cpp panel
 GUI_HDRS = gui.hpp scene.hpp widgets.hpp navig.hpp motion.hpp panels.hpp palette.hpp joystick.hpp message.hpp theme.hpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @OCAML_CFLAGS@ @XML2_CFLAGS@ -I$(SRCDIR)/vreng -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/gui/xpm -I$(SRCDIR)/ext/gl2ps -I$(SRCDIR)/ext/xmlParser -I$(SRCDIR)/ai -I$(SRCDIR) -I$(SRCDIR)/ubit
+AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @OCAML_CFLAGS@ @XML2_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/gui/xpm -I$(SRCDIR)/ext/gl2ps -I$(SRCDIR)/ext/xmlParser -I$(SRCDIR)/ai -I$(SRCDIR) -I$(SRCDIR)/ubit
 
 widgets.cpp: README.t TODO.t DTD.t COPYRIGHT.t COPYING.t ChangeLog.t CONFIG_H.t
 
 README.t: $(top_srcdir)/md/README.md
-	../vreng/txt2str README < $(top_srcdir)/md/README.md > $@
+	../base/txt2str README < $(top_srcdir)/md/README.md > $@
 COPYRIGHT.t: $(top_srcdir)/md/COPYRIGHT.md
-	../vreng/txt2str COPYRIGHT < $(top_srcdir)/md/COPYRIGHT.md > $@
+	../base/txt2str COPYRIGHT < $(top_srcdir)/md/COPYRIGHT.md > $@
 COPYING.t: $(top_srcdir)/md/COPYING.md
-	../vreng/txt2str COPYING < $(top_srcdir)/md/COPYING.md > $@
+	../base/txt2str COPYING < $(top_srcdir)/md/COPYING.md > $@
 ChangeLog.t: $(top_srcdir)/ChangeLog
-	../vreng/txt2str ChangeLog < $(top_srcdir)/ChangeLog > $@
+	../base/txt2str ChangeLog < $(top_srcdir)/ChangeLog > $@
 TODO.t: $(top_srcdir)/md/TODO.md
-	../vreng/txt2str TODO < $(top_srcdir)/md/TODO.md > $@
+	../base/txt2str TODO < $(top_srcdir)/md/TODO.md > $@
 DTD.t: $(top_srcdir)/md/vre-1.0.dtd
-	../vreng/txt2str DTD < $(top_srcdir)/md/vre-1.0.dtd > $@
+	../base/txt2str DTD < $(top_srcdir)/md/vre-1.0.dtd > $@
 CONFIG_H.t: $(top_srcdir)/config.h
-	../vreng/txt2str CONFIG_H < $(top_srcdir)/config.h > $@
+	../base/txt2str CONFIG_H < $(top_srcdir)/config.h > $@
 
 libgui_a_SOURCES  = $(GUI_SRCS) $(GUI_HDRS)
 noinst_LIBRARIES = libgui.a

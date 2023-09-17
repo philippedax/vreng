@@ -28,7 +28,7 @@ VGL_SRCS = solid.cpp draw.cpp render.cpp camera.cpp ogl.cpp axis.cpp grid.cpp
 VGL_HDRS = solid.hpp draw.hpp render.hpp ogl.hpp axis.hpp grid.hpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/vreng -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/ai
+AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/ai
 
 lib3d_a_SOURCES = $(VGL_SRCS) $(VGL_HDRS)
 noinst_LIBRARIES = lib3d.a

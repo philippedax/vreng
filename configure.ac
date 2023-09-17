@@ -31,7 +31,7 @@ AC_INIT([vreng],[9.4.2],[philippe.dax@gmail.com])
 # Make sure we are using a recent autoconf version
 #AC_PREREQ([2.69])
 
-AC_CONFIG_SRCDIR([src/vreng/vreng.cpp])
+AC_CONFIG_SRCDIR([src/base/vreng.cpp])
 
 # where to find install.sh, config.sub, and config.guess
 AC_CONFIG_AUX_DIR(support)
@@ -1848,7 +1848,7 @@ AM_CONDITIONAL(ENABLE_GLUI,    test "$am_glui" = "yes")
 AC_CONFIG_FILES([
         Makefile 
         src/Makefile
-        src/vreng/Makefile
+        src/base/Makefile
         src/gui/Makefile
         src/gui/xpm/Makefile
         src/wo/Makefile

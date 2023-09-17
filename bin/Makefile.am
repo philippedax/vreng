@@ -23,7 +23,7 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 
 # paths for sources
 SRCDIR = $(top_srcdir)/src
-VRENG_SRCS = $(SRCDIR)/vreng/vreng.cpp
+VRENG_SRCS = $(SRCDIR)/base/vreng.cpp
 
 # sources
 vreng_SOURCES = $(VRENG_SRCS)
@@ -93,7 +93,7 @@ vmm:
 endif
 
 # core includes
-CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/vreng -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
+CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 
 # ocaml includes
 if ENABLE_OCAML
@@ -122,7 +122,7 @@ GL2PS_LIB = -L$(SRCDIR)/ext/gl2ps $(SRCDIR)/ext/gl2ps/libgl2ps.a
 endif
 
 # core libs
-VRENG_LIB = -L$(SRCDIR)/vreng $(SRCDIR)/vreng/libvreng.a
+BASE_LIB  = -L$(SRCDIR)/base  $(SRCDIR)/base/libbase.a
 GUI_LIB   = -L$(SRCDIR)/gui   $(SRCDIR)/gui/libgui.a
 WO_LIB    = -L$(SRCDIR)/wo    $(SRCDIR)/wo/libwo.a
 2D_LIB    = -L$(SRCDIR)/2d    $(SRCDIR)/2d/lib2d.a
@@ -136,7 +136,7 @@ if ENABLE_OCAML
 AI_LIB    = -L$(SRCDIR)/ai    $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
 endif
 
-CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(VRENG_LIB) $(UBIT_LIB) $(AI_LIB)
+CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(BASE_LIB) $(UBIT_LIB) $(AI_LIB)
 
 # embedded libs
 EXT_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB)
