@@ -26,7 +26,7 @@ NET_SRCS = event.cpp channel.cpp netobj.cpp noid.cpp payload.cpp netprop.cpp rtp
 NET_HDRS = vrep.hpp event.hpp channel.hpp netobj.hpp noid.hpp payload.hpp netprop.hpp rtp.hpp session.hpp source.hpp sap.hpp vac.hpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS =  @UBIT_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/2d -I$(SRCDIR)/3d -I$(SRCDIR)/tool
+AM_CPPFLAGS =  @UBIT_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/2d -I$(SRCDIR)/3d -I$(SRCDIR)/tool
 
 libnet_a_SOURCES = $(NET_SRCS) $(NET_HDRS)
 noinst_LIBRARIES = libnet.a

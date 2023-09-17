@@ -6,7 +6,7 @@ OCAML_SRCS = $(OCAML_INIT) stringParser.mly stringLexer.mll requeteParser.mly re
 OCAML_HDRS = aiinit.hpp analyseur.mli requeteAffichage.mli stringParser.mli stringLexer.mli requeteParser.mli requeteLexer.mli requeteSemantique.mli requeteSyntax.mli
 EXTRA_DIST = $(OCAML_SRCS) $(OCAML_HDRS)
 
-AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ -I$(top_srcdir)/src/base -I$(top_srcdir)/src/com -I$(top_srcdir)/src/net -I$(top_srcdir)/src/wo -I$(top_srcdir)/src/3d -I$(top_srcdir)/src/gui
+AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ -I$(top_srcdir)/src/base -I$(top_srcdir)/src/com -I$(top_srcdir)/src/net -I$(top_srcdir)/src/world -I$(top_srcdir)/src/3d -I$(top_srcdir)/src/gui
 
 if ENABLE_OCAML
 

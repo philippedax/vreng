@@ -106,8 +106,8 @@ JAVAC_FLAGS=-g -classpath $(CLASSPATH) -Xlint:-unchecked -Xlint:deprecation
 # ------------
 # - source dependencies
 GEN_DEP=\
-	$(VRENG_DIR)/src/wo/vjc.hpp \
-	$(VRENG_DIR)/src/wo/objects.cpp
+	$(VRENG_DIR)/src/world/vjc.hpp \
+	$(VRENG_DIR)/src/world/objects.cpp
 
 # - generated source
 GEN_FILES=\

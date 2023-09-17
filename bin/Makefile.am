@@ -93,7 +93,7 @@ vmm:
 endif
 
 # core includes
-CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
+CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 
 # ocaml includes
 if ENABLE_OCAML
@@ -124,7 +124,7 @@ endif
 # core libs
 BASE_LIB  = -L$(SRCDIR)/base  $(SRCDIR)/base/libbase.a
 GUI_LIB   = -L$(SRCDIR)/gui   $(SRCDIR)/gui/libgui.a
-WO_LIB    = -L$(SRCDIR)/wo    $(SRCDIR)/wo/libwo.a
+WORLD_LIB = -L$(SRCDIR)/world $(SRCDIR)/world/libworld.a
 2D_LIB    = -L$(SRCDIR)/2d    $(SRCDIR)/2d/lib2d.a
 3D_LIB    = -L$(SRCDIR)/3d    $(SRCDIR)/3d/lib3d.a
 NET_LIB   = -L$(SRCDIR)/net   $(SRCDIR)/net/libnet.a
@@ -136,7 +136,7 @@ if ENABLE_OCAML
 AI_LIB    = -L$(SRCDIR)/ai    $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
 endif
 
-CORE_LIBS = $(GUI_LIB) $(WO_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(BASE_LIB) $(UBIT_LIB) $(AI_LIB)
+CORE_LIBS = $(GUI_LIB) $(WORLD_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(BASE_LIB) $(UBIT_LIB) $(AI_LIB)
 
 # embedded libs
 EXT_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB)

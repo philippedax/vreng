@@ -28,7 +28,7 @@ MODEL_SRCS = md2.cpp lwo.cpp off.cpp 3ds.cpp ase.cpp man.cpp obj.cpp dxf.cpp x3d
 MODEL_HDRS = md2.hpp lwo.hpp off.hpp 3ds.hpp ase.hpp man.hpp obj.hpp dxf.hpp x3d.hpp vec3.hpp body.hpp face.hpp bap.hpp fap.hpp bvh.hpp bone.hpp car.hpp teapot.hpp
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/gui -I$(SRCDIR)/wo -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/3d -I$(SRCDIR)/ext/xmlParser
+AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/3d -I$(SRCDIR)/ext/xmlParser
 
 libmodel_a_SOURCES = $(MODEL_SRCS) $(MODEL_HDRS)
 noinst_LIBRARIES = libmodel.a

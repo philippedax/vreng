@@ -1851,7 +1851,7 @@ AC_CONFIG_FILES([
         src/base/Makefile
         src/gui/Makefile
         src/gui/xpm/Makefile
-        src/wo/Makefile
+        src/world/Makefile
         src/net/Makefile
         src/2d/Makefile
         src/3d/Makefile
@@ -1863,7 +1863,6 @@ AC_CONFIG_FILES([
         src/vrel/Makefile
         src/vred/Makefile
         src/vmm/Makefile
-        src/misc/Makefile
         src/ubit/Makefile
         src/ext/Makefile
         src/ext/xmlParser/Makefile
@@ -1871,6 +1870,7 @@ AC_CONFIG_FILES([
         src/ext/glui/Makefile
         src/ext/ftgl/Makefile
         src/ext/gl2ps/Makefile
+        src/misc/Makefile
         src/vrum/Makefile
         src/vacs/Makefile
         src/vaps/Makefile
