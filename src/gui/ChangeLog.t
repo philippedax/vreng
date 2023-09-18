@@ -16,6 +16,8 @@ The rules for this file:\n\
 ++ 9\n\
 == 9.4\n\
 -- 9.4.3\n\
+	- rename support to config\n\
+	- rename htdocs to data\n\
 	- rename src/bundle ro src/ext\n\
 	- rename src/vreng ro src/base\n\
 	- rename src/wo ro src/world\n\
