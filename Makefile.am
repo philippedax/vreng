@@ -27,7 +27,7 @@ ACLOCAL_AMFLAGS = -I config
 
 SUBDIRS = src man bin etc
 
-EXTRA_DIST = LICENSE README VERSION.md config/* md/* htdocs/* autogen.sh build vr
+EXTRA_DIST = LICENSE README VERSION.md config/* md/* data/* autogen.sh build vr
 
 ARCHIVE  = /Users/dax/vreng/archive
 HTML     = /Users/dax/vreng/html
@@ -60,10 +60,10 @@ clean-tar:
 	@-rm $(TARBALLS)
 
 data-tar:
-	tar zcf vreng-data.tar.gz htdocs
+	tar zcf vreng-data.tar.gz data
 
 html-tar:
-	tar zcf vreng-html.tar.gz htdocs/html
+	tar zcf vreng-html.tar.gz data/html
 
 archive: dist
 	-install -m 444 $(TARBALL_GZ) $(ARCHIVE)
