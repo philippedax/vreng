@@ -23,11 +23,11 @@
 ##
 
 AUTOMAKE_OPTIONS = foreign no-dependencies subdir-objects
-ACLOCAL_AMFLAGS = -I support
+ACLOCAL_AMFLAGS = -I config
 
 SUBDIRS = src man bin etc
 
-EXTRA_DIST = LICENSE README VERSION.md support/* md/* htdocs/* autogen.sh build vr
+EXTRA_DIST = LICENSE README VERSION.md config/* md/* htdocs/* autogen.sh build vr
 
 ARCHIVE  = /Users/dax/vreng/archive
 HTML     = /Users/dax/vreng/html
@@ -84,7 +84,4 @@ snapshot:
 history:
 	@(cd $(ARCHIVE); ls -ltr)
 
-rss:
-	support/vreng-rss
-
-.PHONY: dist fingerprint doxygen snapshot history rss data-tar
+.PHONY: dist fingerprint doxygen snapshot history data-tar

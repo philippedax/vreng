@@ -34,9 +34,9 @@ AC_INIT([vreng],[9.4.3],[philippe.dax@gmail.com])
 AC_CONFIG_SRCDIR([src/base/vreng.cpp])
 
 # where to find install.sh, config.sub, and config.guess
-AC_CONFIG_AUX_DIR(support)
+AC_CONFIG_AUX_DIR(config)
 # where to find macros m4
-AC_CONFIG_MACRO_DIR(support)
+AC_CONFIG_MACRO_DIR(config)
 
 # canonicalizing cpu:vendor:os
 AC_CANONICAL_HOST([])
