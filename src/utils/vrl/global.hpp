@@ -1,7 +1,7 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
-#include "sysdep.h"	// system includes
+#include "sysdep.hpp"	// system includes
 #include <iostream>
 
 using namespace std;

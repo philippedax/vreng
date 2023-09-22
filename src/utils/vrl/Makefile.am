@@ -2,13 +2,13 @@
 ##
 ## Maintainer: Philippe Dax
 ##
-AUTOMAKE_OPTIONS = foreign
+AUTOMAKE_OPTIONS = foreign no-dependencies
 ACLOCAL_AMFLAGS = -I config
 
 VRL_SRCS = vrl.cpp vre.cpp
 VRL_HDRS = vrl.hpp vre.hpp
 
-EXTRA_DIST = sysdep.h global.hpp vrl.l vrl.y
+EXTRA_DIST = sysdep.hpp global.hpp vrl.l vrl.y
 
 
 if ENABLE_VRL

@@ -1,7 +1,7 @@
-AUTOMAKE_OPTIONS = foreign
+AUTOMAKE_OPTIONS = foreign no-dependencies
 
 MAIN_SRCS = vrel.cpp
-MAIN_HDRS = vrel.hpp
+MAIN_HDRS = vrel.hpp sysdep.hpp
 
 ENV_SRCS = envvar.cpp namelist.cpp program.cpp tabobj.cpp tabvar.cpp
 ENV_HDRS = envvar.hpp namelist.hpp program.hpp tabobj.hpp tabvar.hpp

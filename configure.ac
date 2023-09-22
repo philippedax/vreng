@@ -1859,18 +1859,18 @@ AC_CONFIG_FILES([
         src/tool/Makefile
         src/vnc/Makefile
         src/ai/Makefile
-        src/vrl/Makefile
-        src/vrel/Makefile
-        src/vred/Makefile
-        src/vmm/Makefile
         src/ubit/Makefile
         src/ext/Makefile
-        src/ext/xmlParser/Makefile
         src/ext/mpeg_lib/Makefile
         src/ext/glui/Makefile
         src/ext/ftgl/Makefile
+        src/ext/xmlParser/Makefile
         src/ext/gl2ps/Makefile
-        src/misc/Makefile
+        src/utils/Makefile
+        src/utils/vrl/Makefile
+        src/utils/vrel/Makefile
+        src/utils/vred/Makefile
+        src/utils/misc/Makefile
         src/vrum/Makefile
         src/vacs/Makefile
         src/vaps/Makefile
@@ -1890,6 +1890,7 @@ AC_CONFIG_FILES([
         src/vjs/app/fr/enst/Makefile
         src/vjs/app/fr/enst/vreng/Makefile
         src/vjs/app/fr/enst/vreng/tester/Makefile
+        src/vmm/Makefile
         man/Makefile
         bin/Makefile
         bin/vre

@@ -21,4 +21,4 @@
 
 AUTOMAKE_OPTIONS = gnu no-dependencies
 
-SUBDIRS = base gui world 2d 3d model net tool vnc ubit ext ai vacs vaps vjs vrum vmm
+SUBDIRS = vrl vrel vred misc

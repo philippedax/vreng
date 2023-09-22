@@ -22,7 +22,7 @@
 ## Maintainer: Philippe Dax
 ##
 
-AUTOMAKE_OPTIONS = foreign no-dependencies subdir-objects
+AUTOMAKE_OPTIONS = foreign no-dependencies
 ACLOCAL_AMFLAGS = -I config
 
 SUBDIRS = src man bin etc

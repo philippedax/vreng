@@ -42,22 +42,22 @@ noinst_SCRIPTS =
 
 # to copy into bin/
 if ENABLE_VRL
-vrl: $(SRCDIR)/vrl/vrl
-	@-cp -p $(SRCDIR)/vrl/vrl .
+vrl: $(SRCDIR)/utils/vrl/vrl
+	@-cp -p $(SRCDIR)/utils/vrl/vrl .
 else
 vrl:
 	@echo "" >/dev/null
 endif
 if ENABLE_VREL
-vrel: $(SRCDIR)/vrel/vrel
-	@-cp -p $(SRCDIR)/vrel/vrel .
+vrel: $(SRCDIR)/utils/vrel/vrel
+	@-cp -p $(SRCDIR)/utils/vrel/vrel .
 else
 vrel:
 	@echo "" >/dev/null
 endif
 if ENABLE_VRED
-vred: $(SRCDIR)/vred/vred
-	@-cp -p $(SRCDIR)/vred/vred .
+vred: $(SRCDIR)/utils/vred/vred
+	@-cp -p $(SRCDIR)/utils/vred/vred .
 else
 vred:
 	@echo "" >/dev/null
