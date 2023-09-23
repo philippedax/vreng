@@ -1871,26 +1871,27 @@ AC_CONFIG_FILES([
         src/utils/vrel/Makefile
         src/utils/vred/Makefile
         src/utils/misc/Makefile
-        src/vrum/Makefile
-        src/vacs/Makefile
-        src/vaps/Makefile
-        src/vjs/Makefile
-        src/vjs/vjs
-        src/vjs/base/Makefile
-        src/vjs/base/fr/Makefile
-        src/vjs/base/fr/enst/Makefile
-        src/vjs/base/fr/enst/vreng/Makefile
-        src/vjs/base/fr/enst/vreng/server/Makefile
-        src/vjs/base/fr/enst/vreng/net/Makefile
-        src/vjs/base/fr/enst/vreng/data/Makefile
-        src/vjs/base/fr/enst/vreng/data/types/Makefile
-        src/vjs/base/fr/enst/vreng/data/messages/Makefile
-        src/vjs/app/Makefile
-        src/vjs/app/fr/Makefile
-        src/vjs/app/fr/enst/Makefile
-        src/vjs/app/fr/enst/vreng/Makefile
-        src/vjs/app/fr/enst/vreng/tester/Makefile
-        src/vmm/Makefile
+        src/servers/Makefile
+        src/servers/vacs/Makefile
+        src/servers/vaps/Makefile
+        src/servers/vrum/Makefile
+        src/servers/vjs/Makefile
+        src/servers/vjs/vjs
+        src/servers/vjs/base/Makefile
+        src/servers/vjs/base/fr/Makefile
+        src/servers/vjs/base/fr/enst/Makefile
+        src/servers/vjs/base/fr/enst/vreng/Makefile
+        src/servers/vjs/base/fr/enst/vreng/server/Makefile
+        src/servers/vjs/base/fr/enst/vreng/net/Makefile
+        src/servers/vjs/base/fr/enst/vreng/data/Makefile
+        src/servers/vjs/base/fr/enst/vreng/data/types/Makefile
+        src/servers/vjs/base/fr/enst/vreng/data/messages/Makefile
+        src/servers/vjs/app/Makefile
+        src/servers/vjs/app/fr/Makefile
+        src/servers/vjs/app/fr/enst/Makefile
+        src/servers/vjs/app/fr/enst/vreng/Makefile
+        src/servers/vjs/app/fr/enst/vreng/tester/Makefile
+        src/servers/vmm/Makefile
         man/Makefile
         bin/Makefile
         bin/vre
@@ -1900,7 +1901,7 @@ AC_CONFIG_FILES([
 #7.0.0#AC_CONFIG_COMMANDS([default],
 AC_CONFIG_COMMANDS([src/ubit/ubit_features.h],
         [
-	chmod +x bin/vre src/vjs/vjs;
+	chmod +x bin/vre src/servers/vjs/vjs;
 
 	# Ubit
         featuresfile=src/ubit/ubit_features.h

@@ -19,8 +19,18 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-AUTOMAKE_OPTIONS = gnu no-dependencies
+AUTOMAKE_OPTIONS = foreign no-dependencies
 
-SUBDIRS = vrl vrel vred misc
+VACS_SRCS = vacs.cpp sysdep.hpp
 
-AM_CPPFLAGS = $(top_srcdir)/src/base
+man_MANS = vacs.8
+
+EXTRA_DIST = $(VACS_SRCS) vacs.8
+
+SRCDIR = $(top_srcdir)/src
+AM_CPPFLAGS = -I$(top_srcdir)/src/base
+
+if ENABLE_VACS
+vacs_SOURCES = $(VACS_SRCS)
+bin_PROGRAMS = vacs
+endif

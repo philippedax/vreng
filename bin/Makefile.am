@@ -63,29 +63,29 @@ vred:
 	@echo "" >/dev/null
 endif
 if ENABLE_VACS
-vacs: $(SRCDIR)/vacs/vacs
-	@-cp -p $(SRCDIR)/vacs/vacs .
+vacs: $(SRCDIR)/servers/vacs/vacs
+	@-cp -p $(SRCDIR)/servers/vacs/vacs .
 else
 vacs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VAPS
-vaps: $(SRCDIR)/vaps/vaps
-	@-cp -p $(SRCDIR)/vaps/vaps .
+vaps: $(SRCDIR)/servers/vaps/vaps
+	@-cp -p $(SRCDIR)/servers/vaps/vaps .
 else
 vaps:
 	@echo "" >/dev/null
 endif
 if ENABLE_VJS
-vjs: $(SRCDIR)/vjs/vjs
-	@-cp -p $(SRCDIR)/vjs/vjs .
+vjs: $(SRCDIR)/servers/vjs/vjs
+	@-cp -p $(SRCDIR)/servers/vjs/vjs .
 else
 vjs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VMM
-vmm: $(SRCDIR)/vmm/vmm
-	@-cp -p $(SRCDIR)/vmm/vmm .
+vmm: $(SRCDIR)/servers/vmm/vmm
+	@-cp -p $(SRCDIR)/servers/vmm/vmm .
 	chmod 755 vmm
 else
 vmm:

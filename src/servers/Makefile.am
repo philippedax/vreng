@@ -19,8 +19,8 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-AUTOMAKE_OPTIONS = gnu no-dependencies
+AUTOMAKE_OPTIONS = foreign no-dependencies
 
-SUBDIRS = vrl vrel vred misc
+SUBDIRS = vacs vaps vjs vrum vmm
 
 AM_CPPFLAGS = $(top_srcdir)/src/base
