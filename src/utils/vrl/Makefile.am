@@ -13,6 +13,8 @@ EXTRA_DIST = sysdep.hpp global.hpp vrl.l vrl.y
 
 if ENABLE_VRL
 
+AM_CPPFLAGS = -I $(top_srcdir)/src/base
+
 lex.yy.o: lex.yy.cpp y.tab.h
 y.tab.o: y.tab.cpp y.tab.h
 
