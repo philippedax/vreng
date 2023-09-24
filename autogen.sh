@@ -1,7 +1,7 @@
 #! /bin/sh
 mkdir log 2>&1 >/dev/null
 date 2>&1 >log/date.log
-cd support
+cd config
 ./autogen.sh "$@"
 cd ..
 make
