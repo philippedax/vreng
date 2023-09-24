@@ -2,11 +2,10 @@
 
 #include "vrl.hpp"
 
-extern int lineNumber;
-extern int charPos;
-
 extern Fichier *fvrl;
 
+extern int yylineno;
+extern int yypos;
 extern void yyerror(char *s);
 extern int yylex();
 extern char *yytext;
@@ -17,124 +16,124 @@ extern "C" {
 
 %}
 
-%union{
-	int                            lineNo ;
-	char                           *chaine ;
-	int                            valeurint ;
-	float                          valeurfloat ;
-	Table                          *table ;
-	Entree                         *entree ;
-	EntreeFloat                    *entreefloat ;
-	EntreeString                   *entreestring ;
-	EntreeObjet                    *entreeobjet ;
-	PointeurPile                   *pointeurpile ;
-	Pointeur                       *pointeur ;
-	Fichier                        *fichier ;
-	StructureListe                 *structureliste ;
-	Structure                      *structure ;
-	StructureHeritee               *structureheritee ;
-	FonctionListe                  *fonctionliste ;
-	Fonction                       *fonction ;
-	PointDEntree                   *pointdentree ;
-	Constructeur                   *constructeur ;
-	InstructionListe               *instructionliste ;
-	Instruction                    *instruction ;
-	AppelDeConstructeur            *appeldeconstructeur ;
-	Statement                      *statement ;
-	Retour                         *retour ;
-	BoucleIf                       *boucleif ;
-	BoucleFor                      *bouclefor ;
-	DeclarationListe               *declarationliste;
-	Declaration                    *declaration ;
-	DeclarationSimple              *declarationsimple ;
-	DeclarationComplexe            *declarationcomplexe ;
-	DeclarationComplexeChaine      *declarationcomplexechaine ;
-	DeclarationComplexeExpr        *declarationcomplexeexpr ;
-	DeclarationComplexeNouvelObjet *declarationcomplexenouvelobjet ;
-	Assign                         *assign ;
-	AssignChaine	               *assignchaine ;
-	AssignExpr	               *assignexpr ;
-	AssignVariable	               *assignvariable ;
-	AssignNouvelObjet              *assignnouvelobjet ;
-	NouvelObjet                    *nouvelobjet ;
-	ExprListe                      *exprliste ;
-	Expr                           *expr ;
-	ExprCalculable	               *calculableexpr ;
-	Nombre                         *nombre ;
-	AppelDeFonction                *appeldefonction ;
-	Variable                       *variable ;
-	VariableSimpleListe            *variablesimpleliste ;
-	VariableSimple                 *variablesimple ;	
-	NomListe                       *nomliste ;
-	Nom                            *nom ;
-	NomDeTableau                   *nomdetableau ;
-	VariableComplexe               *variablecomplexe ;
-	Operation                      *operation ;
-	OperationBinaire               *operationbinaire ;
-	Addition                       *addition ;
-	Soustraction                   *soustraction ;
-	Multiplication                 *multiplication ;
-	Division                       *division ;
-	OperationUnaire                *operationunaire ;
-	Negation                       *negation ;
-	Absolu                         *absolu ;
-	ExprLogiqueListe               *exprlogiqueliste ;
-	ExprLogique                    *exprlogique ;
-	Comparaison                    *comparaison ;
-	Superieur                      *superieur ;
-	Inferieur                      *inferieur ;
-	SuperieurOuEgal                *superieurouegal ;
-	InferieurOuEgal                *inferieurouegal ;
-	EgalEgal                       *egalegal ;
-	Different                      *different ;
-	OperationBinaireLogique        *operationbinairelogique ;
-	OuLogique                      *oulogique ;
-	EtLogique                      *etlogique ;
-	OperationUnaireLogique         *operationunairelogique ;
-	NegationLogique                *negationlogique ;
+%union {
+  int                            lineNo ;
+  char                           *chaine ;
+  int                            valeurint ;
+  float                          valeurfloat ;
+  Table                          *table ;
+  Entree                         *entree ;
+  EntreeFloat                    *entreefloat ;
+  EntreeString                   *entreestring ;
+  EntreeObjet                    *entreeobjet ;
+  PointeurPile                   *pointeurpile ;
+  Pointeur                       *pointeur ;
+  Fichier                        *fichier ;
+  StructureListe                 *structureliste ;
+  Structure                      *structure ;
+  StructureHeritee               *structureheritee ;
+  FonctionListe                  *fonctionliste ;
+  Fonction                       *fonction ;
+  PointDEntree                   *pointdentree ;
+  Constructeur                   *constructeur ;
+  InstructionListe               *instructionliste ;
+  Instruction                    *instruction ;
+  AppelDeConstructeur            *appeldeconstructeur ;
+  Statement                      *statement ;
+  Retour                         *retour ;
+  BoucleIf                       *boucleif ;
+  BoucleFor                      *bouclefor ;
+  DeclarationListe               *declarationliste;
+  Declaration                    *declaration ;
+  DeclarationSimple              *declarationsimple ;
+  DeclarationComplexe            *declarationcomplexe ;
+  DeclarationComplexeChaine      *declarationcomplexechaine ;
+  DeclarationComplexeExpr        *declarationcomplexeexpr ;
+  DeclarationComplexeNouvelObjet *declarationcomplexenouvelobjet ;
+  Assign                         *assign ;
+  AssignChaine                   *assignchaine ;
+  AssignExpr                     *assignexpr ;
+  AssignVariable                 *assignvariable ;
+  AssignNouvelObjet              *assignnouvelobjet ;
+  NouvelObjet                    *nouvelobjet ;
+  ExprListe                      *exprliste ;
+  Expr                           *expr ;
+  ExprCalculable                 *calculableexpr ;
+  Nombre                         *nombre ;
+  AppelDeFonction                *appeldefonction ;
+  Variable                       *variable ;
+  VariableSimpleListe            *variablesimpleliste ;
+  VariableSimple                 *variablesimple ;
+  NomListe                       *nomliste ;
+  Nom                            *nom ;
+  NomDeTableau                   *nomdetableau ;
+  VariableComplexe               *variablecomplexe ;
+  Operation                      *operation ;
+  OperationBinaire               *operationbinaire ;
+  Addition                       *addition ;
+  Soustraction                   *soustraction ;
+  Multiplication                 *multiplication ;
+  Division                       *division ;
+  OperationUnaire                *operationunaire ;
+  Negation                       *negation ;
+  Absolu                         *absolu ;
+  ExprLogiqueListe               *exprlogiqueliste ;
+  ExprLogique                    *exprlogique ;
+  Comparaison                    *comparaison ;
+  Superieur                      *superieur ;
+  Inferieur                      *inferieur ;
+  SuperieurOuEgal                *superieurouegal ;
+  InferieurOuEgal                *inferieurouegal ;
+  EgalEgal                       *egalegal ;
+  Different                      *different ;
+  OperationBinaireLogique        *operationbinairelogique ;
+  OuLogique                      *oulogique ;
+  EtLogique                      *etlogique ;
+  OperationUnaireLogique         *operationunairelogique ;
+  NegationLogique                *negationlogique ;
 }
 
-%token <lineNo>   STRUCTKEY
-%token <lineNo>   LEFTBRACEKEY
-%token <lineNo>   RIGHTBRACEKEY
-%token <lineNo>   VARKEY
-%token <lineNo>   SEMICOLONKEY
-%token <lineNo>   COMMAKEY
-%token <lineNo>   LEFTBRACKETKEY
-%token <lineNo>   RIGHTBRACKETKEY
-%token <lineNo>   CONSTRUCTORKEY
-%token <lineNo>   NEWKEY
-%token <lineNo>   LEFTPARENKEY
-%token <lineNo>   RIGHTPARENKEY
-%token <lineNo>   EQUALKEY
-%token <lineNo>   PERIODKEY
-%token <lineNo>   COLONKEY
-%token <lineNo>   MAINKEY
-%token <lineNo>   FUNCTIONKEY
-%token <lineNo>   CALLKEY
-%token <lineNo>   RETURNKEY
-%token <lineNo>   IFKEY
-%token <lineNo>   ELSEKEY
-%token <lineNo>   FORKEY
-%token <lineNo>   DOTKEY
-%token <lineNo>   PLUSKEY
-%token <lineNo>   MINUSKEY
-%token <lineNo>   MULTKEY
-%token <lineNo>   DIVKEY
-%token <lineNo>   ABSKEY
-%token <lineNo>   SUPKEY
-%token <lineNo>   INFKEY
-%token <lineNo>   SUPEQUALKEY
-%token <lineNo>   INFEQUALKEY
-%token <lineNo>   EQUALEQUALKEY
-%token <lineNo>   EXCLAMATIONEQUALKEY
-%token <lineNo>   EXCLAMATIONKEY
-%token <lineNo>   ORKEY
-%token <lineNo>   ANDKEY
-%token <chaine>   NAME
-%token <chaine>   STRING
+%token <lineNo>      STRUCTKEY
+%token <lineNo>      LEFTBRACEKEY
+%token <lineNo>      RIGHTBRACEKEY
+%token <lineNo>      VARKEY
+%token <lineNo>      SEMICOLONKEY
+%token <lineNo>      COMMAKEY
+%token <lineNo>      LEFTBRACKETKEY
+%token <lineNo>      RIGHTBRACKETKEY
+%token <lineNo>      CONSTRUCTORKEY
+%token <lineNo>      NEWKEY
+%token <lineNo>      LEFTPARENKEY
+%token <lineNo>      RIGHTPARENKEY
+%token <lineNo>      EQUALKEY
+%token <lineNo>      PERIODKEY
+%token <lineNo>      COLONKEY
+%token <lineNo>      MAINKEY
+%token <lineNo>      FUNCTIONKEY
+%token <lineNo>      CALLKEY
+%token <lineNo>      RETURNKEY
+%token <lineNo>      IFKEY
+%token <lineNo>      ELSEKEY
+%token <lineNo>      FORKEY
+%token <lineNo>      DOTKEY
+%token <lineNo>      PLUSKEY
+%token <lineNo>      MINUSKEY
+%token <lineNo>      MULTKEY
+%token <lineNo>      DIVKEY
+%token <lineNo>      ABSKEY
+%token <lineNo>      SUPKEY
+%token <lineNo>      INFKEY
+%token <lineNo>      SUPEQUALKEY
+%token <lineNo>      INFEQUALKEY
+%token <lineNo>      EQUALEQUALKEY
+%token <lineNo>      EXCLAMATIONEQUALKEY
+%token <lineNo>      EXCLAMATIONKEY
+%token <lineNo>      ORKEY
+%token <lineNo>      ANDKEY
+%token <chaine>      NAME
+%token <chaine>      STRING
 %token <valeurint>   INTEGER
-%token <valeurfloat>   FLOATNUMBER
+%token <valeurfloat> FLOATNUMBER
 
 %type <fichier>				FILE
 %type <structure>			STRUCTURE
@@ -254,8 +253,8 @@ INSTRUCTION : DECLARATION
 	| STATEMENT
 		{ $$ = $1 ; }
 
-CONSTRUCTOR_CALL : 	NAME LEFTPARENKEY  RIGHTPARENKEY SEMICOLONKEY
-		{ $$ = new AppelDeConstructeur($1) ; }		
+CONSTRUCTOR_CALL : NAME LEFTPARENKEY  RIGHTPARENKEY SEMICOLONKEY
+		{ $$ = new AppelDeConstructeur($1) ; }
 	| NAME LEFTPARENKEY EXPRESSIONLIST RIGHTPARENKEY SEMICOLONKEY
 		{ $$ = new AppelDeConstructeur($1, $3) ; }
 
@@ -295,16 +294,16 @@ COMPLEX_DECLARATION : VARKEY VARIABLE EQUALKEY STRING SEMICOLONKEY
 non implementee */
 
 STRING_ASSIGNMENT : VARIABLE EQUALKEY STRING SEMICOLONKEY
-		{ $$ = new AssignChaine($1,$3) ; }
+		{ $$ = new AssignChaine($1, $3) ; }
 
 EXPRESSION_ASSIGNMENT : VARIABLE EQUALKEY CALCULABLE_EXPRESSION SEMICOLONKEY
-		{ $$ = new AssignExpr($1,$3) ; }
+		{ $$ = new AssignExpr($1, $3) ; }
 
 VARIABLE_ASSIGNMENT : VARIABLE EQUALKEY VARIABLE SEMICOLONKEY
 		{ $$ = new AssignVariable($1, $3); }
 
 NEWOBJECT_ASSIGNMENT : VARIABLE EQUALKEY NEWOBJECT SEMICOLONKEY
-		{ $$ = new AssignNouvelObjet($1,$3) ; }
+		{ $$ = new AssignNouvelObjet($1, $3) ; }
 
 IF_STATEMENT : SIMPLE_IF_STATEMENT
 		{ $$ = $1 ; }
@@ -312,10 +311,10 @@ IF_STATEMENT : SIMPLE_IF_STATEMENT
 		{ $$ = $1 ; }
 
 SIMPLE_IF_STATEMENT : IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
-		{ $$ = new BoucleIf($2,$4) ; }
+		{ $$ = new BoucleIf($2, $4) ; }
 
 IF_ELSE_STATEMENT : IFKEY LOGICAL_EXPRESSION LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY ELSEKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
-		{ $$ = new BoucleIf($2,$4,$8) ; }
+		{ $$ = new BoucleIf($2, $4, $8) ; }
 
 FOR_STATEMENT : FORKEY LEFTPARENKEY EXPRESSION_ASSIGNMENT LOGICAL_EXPRESSION SEMICOLONKEY EXPRESSION_ASSIGNMENT RIGHTPARENKEY LEFTBRACEKEY INSTRUCTIONLIST RIGHTBRACEKEY
 		{ $$ = new BoucleFor($3, $4, $6, $9) ; }
@@ -362,7 +361,7 @@ VARIABLE : SIMPLE_VARIABLE
 	| COMPLEX_VARIABLE
 		{ $$ = $1 ; }
 
-SIMPLE_VARIABLE : NAME	
+SIMPLE_VARIABLE : NAME
 		{ $$ = new Nom($1) ; }
 	| ARRAYNAME
 		{ $$ = $1 ; }
@@ -430,6 +429,6 @@ EMPTY : {}
 void yyerror(char *s)
 {
   fprintf(stderr, "### Error : %s\n", s) ;
-  fprintf(stderr, "### Line=%d, Char=%dth : ''%s''\n", lineNumber, charPos, yytext) ;
+  fprintf(stderr, "### Line=%d, Char=%dth : ''%s''\n", yylineno, yypos, yytext) ;
   exit(-1) ;
 }
