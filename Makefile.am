@@ -25,7 +25,7 @@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 ACLOCAL_AMFLAGS = -I config
 
-SUBDIRS = src man bin etc
+SUBDIRS = src man etc bin
 
 EXTRA_DIST = LICENSE README VERSION.md config/* md/* data/* autogen.sh build vr
 

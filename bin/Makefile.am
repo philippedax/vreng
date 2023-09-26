@@ -40,6 +40,8 @@ bin_PROGRAMS = vreng
 bin_SCRIPTS = vre
 noinst_SCRIPTS =
 
+# redefinition AM_CPPFLAGS = -I$(SRCDIR)/base
+
 # to copy into bin/
 if ENABLE_VRL
 vrl: $(SRCDIR)/utils/vrl/vrl
