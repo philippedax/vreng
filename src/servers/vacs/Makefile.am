@@ -21,7 +21,7 @@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
-VACS_SRCS = vacs.cpp sysdep.hpp
+VACS_SRCS = vacs.cpp
 
 man_MANS = vacs.8
 

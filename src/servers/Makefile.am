@@ -22,5 +22,3 @@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
 SUBDIRS = vacs vaps vjs vrum vmm
-
-AM_CPPFLAGS = $(top_srcdir)/src/base

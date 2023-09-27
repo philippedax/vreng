@@ -22,5 +22,3 @@
 AUTOMAKE_OPTIONS = gnu no-dependencies
 
 SUBDIRS = vrl vrel vred misc
-
-AM_CPPFLAGS = $(top_srcdir)/src/base
