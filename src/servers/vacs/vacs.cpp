@@ -19,7 +19,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "sysdep.hpp"
-#include "defaults.hpp"		// cd src/servers/vacs; make -> WORKS !!!
+#include "defaults.hpp"		// cd src/servers/vacs; make; cd ../../.. -> WORKS !!!
 
 
 #define VRENG_PORT_INCR		10

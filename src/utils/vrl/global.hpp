@@ -1,9 +1,9 @@
-#ifndef GLOBAL_H
-#define GLOBAL_H
+#ifndef GLOBAL_HPP
+#define GLOBAL_HPP
 
-#include "sysdep.hpp"	// cd src/servers/vacs; make -> WORKS !!!
+#include "sysdep.hpp"	// cd src/utils/vrl; make; cd ../../.. -> WORKS !!!
 #include <iostream>
 
 using namespace std;
 
-#endif  // GLOBAL_H
+#endif  // GLOBAL_HPP

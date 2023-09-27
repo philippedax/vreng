@@ -6,9 +6,9 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 ACLOCAL_AMFLAGS = -I config
 
 VRL_SRCS = vrl.cpp vre.cpp
-VRL_HDRS = vrl.hpp vre.hpp
+VRL_HDRS = vrl.hpp vre.hpp global.hpp
 
-EXTRA_DIST = sysdep.hpp global.hpp vrl.l vrl.y
+EXTRA_DIST = sysdep.hpp vrl.l vrl.y
 
 
 if ENABLE_VRL
