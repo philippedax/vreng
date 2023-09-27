@@ -30,8 +30,8 @@ vreng_SOURCES = $(VRENG_SRCS)
 
 # targets
 MAIN_TARGET = all-am
-OTHERS_TARGETS = vrl vrel vred vacs vaps vjs vmm
-all: $(MAIN_TARGET) $(OTHERS_TARGETS)
+OTHER_TARGETS = vrl vrel vred vacs vaps vjs vmm
+all: $(MAIN_TARGET) $(OTHER_TARGETS)
 
 # to install
 bin_PROGRAMS = vreng
@@ -39,8 +39,6 @@ bin_PROGRAMS = vreng
 # to not install
 bin_SCRIPTS = vre
 noinst_SCRIPTS =
-
-# redefinition AM_CPPFLAGS = -I$(SRCDIR)/base
 
 # to copy into bin/
 if ENABLE_VRL
@@ -95,13 +93,13 @@ vmm:
 endif
 
 # core includes
-CORE_INCL = -I$(SRCDIR) -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
+CORE_CFLAGS = -I$(SRCDIR) -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/3d -I$(SRCDIR)/model -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 
 # ocaml includes
 if ENABLE_OCAML
-AM_CPPFLAGS = @UBIT_CFLAGS@ @OCAML_CFLAGS@ @XML2_CFLAGS@ $(CORE_INCL)
+AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ $(CORE_CFLAGS)
 else
-AM_CPPFLAGS = @UBIT_CFLAGS@ $(CORE_INCL)
+AM_CPPFLAGS = @UBIT_CFLAGS@ $(CORE_CFLAGS)
 endif
 
 PNG_LIB= -lpng
