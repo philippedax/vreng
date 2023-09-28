@@ -37,9 +37,6 @@
 #include "aiinit.hpp"	// initOcaml
 #include "openal.hpp"	// Openal::init
 
-#include <setjmp.h>	// jmp_buf
-#include <sys/resource.h>	// rlimit
-
 
 // global
 Vreng g;	// variable that refers to various modules

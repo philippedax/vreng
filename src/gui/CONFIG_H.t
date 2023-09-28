@@ -431,6 +431,9 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the `select' function. */\n\
 #define HAVE_SELECT 1\n\
 \n\
+/* Define to 1 if you have the <setjmp.h> header file. */\n\
+#define HAVE_SETJMP_H 1\n\
+\n\
 /* Define to 1 if you have the `setlocale' function. */\n\
 #define HAVE_SETLOCALE 1\n\
 \n\

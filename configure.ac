@@ -468,7 +468,7 @@ AC_HEADER_STAT
 AC_HEADER_ASSERT
 AC_HEADER_SYS_WAIT
 
-AC_CHECK_HEADERS([unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h utime.h malloc.h signal.h math.h errno.h getopt.h pwd.h pthread.h ieeefp.h locale.h wchar.h libintl.h floatingpoint.h sys/param.h sys/time.h sys/timeb.h sys/socket.h sys/select.h sys/poll.h sys/resource.h sys/utsname.h netinet/tcp.h arpa/inet.h])
+AC_CHECK_HEADERS([unistd.h stddef.h float.h limits.h fcntl.h stdarg.h ctype.h utime.h malloc.h signal.h math.h errno.h setjmp.h getopt.h pwd.h pthread.h ieeefp.h locale.h wchar.h libintl.h floatingpoint.h sys/param.h sys/time.h sys/timeb.h sys/socket.h sys/select.h sys/poll.h sys/resource.h sys/utsname.h netinet/tcp.h arpa/inet.h])
 
 
 # --------------------------------------------------------------------------

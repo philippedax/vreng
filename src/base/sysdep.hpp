@@ -91,6 +91,10 @@
 # include <errno.h>
 #endif
 
+#if HAVE_SETJMP_H
+# include <setjmp.h>
+#endif
+
 #if HAVE_LOCALE_H
 # include <locale.h>
 #endif

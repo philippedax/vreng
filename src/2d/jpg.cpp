@@ -35,7 +35,6 @@ extern "C" {  // stupid JPEG library
 #undef HAVE_STDDEF_H	// stupid jpeglib.h
 #include <jpeglib.h>
 }
-#include <setjmp.h>
 
 static void readJpegHeader(FILE* f, struct jpeg_decompress_struct& cinfo)
 {
