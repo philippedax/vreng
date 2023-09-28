@@ -1,7 +1,7 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
-#include "sysdep.hpp"	// cd src/utils/vrl; make; cd ../../.. -> WORKS !!!
+#include "includes.hpp"	// system includes
 #include <iostream>
 
 using namespace std;

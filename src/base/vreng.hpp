@@ -21,7 +21,7 @@
 #ifndef VRENG_HPP
 #define VRENG_HPP
 
-#include "sysdep.hpp"	// system includes
+#include "includes.hpp"	// system includes
 #include "macros.hpp"	// builtin defines
 #include "defaults.hpp"	// DEF_*
 #include "log.hpp"	// echo, notice, warning, error, fatal, trace

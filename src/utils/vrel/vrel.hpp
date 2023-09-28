@@ -19,14 +19,14 @@
 #define VREL_HPP
 
 #include <iostream>
-#include "sysdep.hpp"
+#include "includes.hpp"		///< system includes
 
-extern FILE * yyout;			///< vre file pointer
-extern int yylineno;			///< line number in the current file
+extern FILE * yyout;		///< vre file pointer
+extern int yylineno;		///< line number in the current file
 extern int  comptfichier;
 extern FILE *tabyyin[];
 extern int  tablinenumber[];
-extern char vrelfile[];			///< current input file
+extern char vrelfile[];		///< current input file
 extern char tabvrelfile[20][100];
 
 using namespace std;
