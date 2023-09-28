@@ -223,7 +223,7 @@
 # include <curl/curl.h>
 #endif
 
-#if HAVE_LIBXPM
+#if HAVE_XPM_H
 # include <X11/xpm.h>
 #endif
 
