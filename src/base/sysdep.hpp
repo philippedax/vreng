@@ -223,6 +223,10 @@
 # include <curl/curl.h>
 #endif
 
+#if HAVE_LIBXPM
+# include <X11/xpm.h>
+#endif
+
 #if defined(HAVE_DMALLOC_H) && defined(DMALLOC_FUNC_CHECK)
 # include <dmalloc.h>
 #else

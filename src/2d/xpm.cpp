@@ -24,10 +24,6 @@
 #include "file.hpp"	// closeFile
 #include "texture.hpp"	// Texture
 
-#if HAVE_LIBXPM
-#include <X11/xpm.h>
-#endif
-
 
 Img * Img::loadXPM(void *tex, ImageReader read_func)
 {
