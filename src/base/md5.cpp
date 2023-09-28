@@ -49,7 +49,7 @@
  * SUCH DAMAGE.
  */
 
-#include "sysdep.hpp"
+#include "vreng.hpp"
 #include "md5.hpp"
 
 #if WORDS_BIGENDIAN
@@ -72,19 +72,16 @@
 	(a) = SHIFT((a), (s)); \
 	(a) = (b) + (a); \
 }
-
 #define ROUND2(a, b, c, d, k, s, i) { \
 	(a) = (a) + G((b), (c), (d)) + X[(k)] + T[(i)]; \
 	(a) = SHIFT((a), (s)); \
 	(a) = (b) + (a); \
 }
-
 #define ROUND3(a, b, c, d, k, s, i) { \
 	(a) = (a) + H((b), (c), (d)) + X[(k)] + T[(i)]; \
 	(a) = SHIFT((a), (s)); \
 	(a) = (b) + (a); \
 }
-
 #define ROUND4(a, b, c, d, k, s, i) { \
 	(a) = (a) + I((b), (c), (d)) + X[(k)] + T[(i)]; \
 	(a) = SHIFT((a), (s)); \
@@ -95,17 +92,14 @@
 #define Sb	12
 #define Sc	17
 #define Sd	22
-
 #define Se	 5
 #define Sf	 9
 #define Sg	14
 #define Sh	20
-
 #define Si	 4
 #define Sj	11
 #define Sk	16
 #define Sl	23
-
 #define Sm	 6
 #define Sn	10
 #define So	15

@@ -21,6 +21,7 @@
 /*
  * decoder base64
  */
+#include "vreng.hpp"
 #include "base64.hpp"
 
 

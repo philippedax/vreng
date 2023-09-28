@@ -21,7 +21,7 @@
 #ifndef RANDOM_HPP
 #define RANDOM_HPP
 
-#include "sysdep.hpp"
+#include "vreng.hpp"
 
 static uint32_t md_32(char *string, int length);
 

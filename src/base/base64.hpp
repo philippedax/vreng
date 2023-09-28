@@ -21,13 +21,12 @@
 #ifndef BASE64_HPP
 #define BASE64_HPP
 
-#include "sysdep.hpp"
 
 #define base64digits "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
 
 static int readchar();
-static void writebits(uint32_t bits, int n);
+static void writebits(unsigned int bits, int n);
 
 int decodeBase64(const char *str, char *out);
 
