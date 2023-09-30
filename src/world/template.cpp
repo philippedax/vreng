@@ -27,7 +27,7 @@ const OClass Template::oclass(TEMPLATE_TYPE, "Template", Template::creator);
 
 
 /* Creation from a file */
-WObject * Template::creator(char *l)
+WO * Template::creator(char *l)
 {
   return new Template(l);
 }

@@ -61,9 +61,9 @@ void OList::clearIspointed()
 
 /* Returns the object from the mobile list */
 // static
-WObject * OList::findObj(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
+WO * OList::findObj(uint8_t _type, uint32_t src_id, uint16_t port_id, uint16_t obj_id)
 {
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
+  for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end() ; ++it) {
     if (((*it)->type == _type)
     &&  ((*it)->getSrc() == src_id)
     &&  ((*it)->getPort() == port_id)
@@ -74,9 +74,9 @@ WObject * OList::findObj(uint8_t _type, uint32_t src_id, uint16_t port_id, uint1
 }
 
 #if 0 //notused - static
-void OList::remove(list<WObject*> &olist)
+void OList::remove(list<WO*> &olist)
 {
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
+  for (list<WO*>::iterator it = olist.begin(); it != olist.end(); ++it) {
     if (*it) {
       delete *it;
     }
@@ -84,27 +84,27 @@ void OList::remove(list<WObject*> &olist)
 }
 
 // static
-void OList::clearIspointed(list<WObject*> &olist)
+void OList::clearIspointed(list<WO*> &olist)
 {
-  for (list<WObject*>::iterator it = olist.begin(); it != olist.end(); ++it) {
+  for (list<WO*>::iterator it = olist.begin(); it != olist.end(); ++it) {
     (*it)->inlist = false;
   }
 }
 
 /* Show an olist: debug only */
 // static
-void OList::show(list<WObject*> &olist)
+void OList::show(list<WO*> &olist)
 {
   show(olist, "List:");
 }
 
 /* Show an olist with its prefix: debug only */
 // static
-void OList::show(list<WObject*> &olist, const char *str)
+void OList::show(list<WO*> &olist, const char *str)
 {
   echo("%s", str);
 
-  for (list<WObject*>::reverse_iterator it = olist.rbegin(); it != olist.rend(); ++it) {
+  for (list<WO*>::reverse_iterator it = olist.rbegin(); it != olist.rend(); ++it) {
     if ((*it)->names.instance)
       echo("t=%d m=%d n=%d %s", (*it)->type, (*it)->mode, (*it)->num, (*it)->names.instance);
     else

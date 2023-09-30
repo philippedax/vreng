@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "texture.hpp"
 #include "img.hpp"	// Img
-#include "wobject.hpp"	// WObject
+#include "wobject.hpp"	// WO
 #include "http.hpp"	// httpOpen
 #include "url.hpp"	// check
 #include "format.hpp"	// getLoaderByMime
@@ -183,7 +183,7 @@ Texture::Texture(const char *url)
   *mime = '\0';
 
   textureList.push_back(this);
-  //dax object = WObject::getSolid()->wobject;
+  //dax object = WO::getSolid()->wobject;
   id = create();
   last_texid = id;
 
@@ -266,7 +266,7 @@ GLuint Texture::getIdByUrl(const char *url)
   return 0;
 }
 
-GLuint Texture::getIdByObject(WObject *wo)
+GLuint Texture::getIdByObject(WO *wo)
 {
   for (list<Texture*>::iterator it = textureList.begin(); it != textureList.end(); ++it) {
     if ((*it)->object == wo) {

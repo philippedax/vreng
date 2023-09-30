@@ -30,7 +30,7 @@ const float Thunder::PERIOD = 2;
 void Thunder::funcs() {}
 
 
-WObject * Thunder::creator(char *l)
+WO * Thunder::creator(char *l)
 {
   return new Thunder(l);
 }

@@ -40,7 +40,7 @@ typedef struct {
 /**
  * Particle class
  */
-class Particle: public WObject {
+class Particle: public WO {
 
 protected:
   static const uint16_t DEF_NUM;
@@ -81,7 +81,7 @@ public:
 
   static void funcs();	///< init funclist
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from file line */
 
   void changePermanent(float lasting);

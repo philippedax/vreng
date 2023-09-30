@@ -49,7 +49,7 @@ public:
 
   static void funcs();	///< init funclist
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from file line */
 
 private:

@@ -30,7 +30,7 @@
 /**
  * Web class
  */
-class Web: public WObject {
+class Web: public WO {
 
 public:
   /* properties */
@@ -52,14 +52,14 @@ public:
 
   Web(char *l);		///< Constructor.
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline. */
 
   void updateTime(time_t sec, time_t usec, float *lasting);
 
   void changePosition(float lasting);
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
 
   void quit();
   /**< Quits. */

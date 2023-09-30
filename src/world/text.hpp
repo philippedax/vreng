@@ -29,7 +29,7 @@
 /**
  * Text class
  */
-class Text: public WObject {
+class Text: public WO {
 
 protected:
   static const float RATIO_SCALE;	///< default scale ratio.
@@ -65,7 +65,7 @@ public:
   Text(const char *t, struct Pos &pos, float _scale, const float *_color, bool _face);
   ///< Constructor for bubble.
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline. */
 
   void changePosition(float lasting);

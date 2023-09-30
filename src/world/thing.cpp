@@ -37,7 +37,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Thing::creator(char *l)
+WO * Thing::creator(char *l)
 {
   return new Thing(l);
 }
@@ -81,7 +81,7 @@ Thing::Thing(char *l)
 }
 
 /** Created by user via the Gui addobj */
-Thing::Thing(WObject *user, char *_geom)
+Thing::Thing(WO *user, char *_geom)
 {
   defaults();
   setName();
@@ -187,7 +187,7 @@ void Thing::dropIntoBasket(Thing *thing, void *d, time_t s, time_t u)
   localuser->cart->addToCart(thing);
 }
 
-bool Thing::whenIntersect(WObject *pcur, WObject *pold)
+bool Thing::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
     case USER_TYPE:

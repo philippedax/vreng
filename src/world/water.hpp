@@ -30,7 +30,7 @@
 /**
  * Water class
  */
-class Water: public WObject {
+class Water: public WO {
 
 private:
   //static const uint16_t RATE;
@@ -61,13 +61,13 @@ public:
 
   Water(char *l);	///< Constructor.
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   ///< Creates from fileline.
 
   void changePermanent(float lasting);
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
-  bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
+  bool whenIntersectOut(WO *pcur, WO *pold);
 
   void render();
 

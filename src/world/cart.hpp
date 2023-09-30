@@ -31,12 +31,12 @@
 /**
  * Cart class
  */
-class Cart: public WObject {
+class Cart: public WO {
 
 protected:
   uint8_t number;	///< number of objects inside cart
   class User *user;	///< owner of the cart
-  static std::vector<WObject*> cartList; ///< vector of objects in the cart
+  static std::vector<WO*> cartList; ///< vector of objects in the cart
 
 public:
   // target values handled by GuiRemoveCart in gui.cc
@@ -54,16 +54,16 @@ public:
 
   static void funcs();	///< init funclist
 
-  void addToCart(WObject *po);
+  void addToCart(WO *po);
   /**< called by thingAddToCart */
 
-  void removeFromCart(WObject *po);
+  void removeFromCart(WO *po);
   /**< called by GuiRemoveCart (target = "REMOVE") */
 
-  void leave(WObject *po);
+  void leave(WO *po);
   /**< called by GuiRemoveCart (target = "LEAVE") */
 
-  bool isSomethingInCart(WObject *po);
+  bool isSomethingInCart(WO *po);
   /**< checks if something is inside cart */
 
   void quit();

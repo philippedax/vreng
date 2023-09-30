@@ -40,7 +40,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Step::creator(char *l)
+WO * Step::creator(char *l)
 {
   return new Step(l);
 }
@@ -206,7 +206,7 @@ Step::Step(Pos& newpos, Pos& _initialpos, const char *name, const char *geom, bo
 }
 
 /* creation from Gui addobj */
-Step::Step(WObject *user, char *geom)
+Step::Step(WO *user, char *geom)
 {
   parseSolid(geom);
 
@@ -316,7 +316,7 @@ bool Step::updateToNetwork(const Pos &oldpos)
 }
 
 /* object intersects: up */
-bool Step::whenIntersect(WObject *pcur, WObject *pold)
+bool Step::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
     case USER_TYPE:
@@ -350,7 +350,7 @@ bool Step::whenIntersect(WObject *pcur, WObject *pold)
   return true;
 }
 
-bool Step::whenIntersectOut(WObject *pcur, WObject *pold)
+bool Step::whenIntersectOut(WO *pcur, WO *pold)
 {
   if (pcur->type == USER_TYPE) {
     stuck = false;

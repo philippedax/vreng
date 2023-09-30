@@ -773,7 +773,7 @@ void VRSql::createTable(const char *table)
 ///////////
 
 /** Insert row into the sql table */
-void VRSql::insertRow(WObject *o)
+void VRSql::insertRow(WO *o)
 {
   if (! o->named()) return;	// no name
   //echo("insertrow: %.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
@@ -806,7 +806,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 ///////////
 
 /** Updates int into the sql table */
-void VRSql::updateInt(WObject *o, const char *table, const char *col, const char *name, const char *world, int val)
+void VRSql::updateInt(WO *o, const char *table, const char *col, const char *name, const char *world, int val)
 {
   if (! name) return;	// no name -> no update
   createTable(table);
@@ -824,7 +824,7 @@ void VRSql::updateInt(WObject *o, const char *table, const char *col, const char
 }
 
 /** Updates float into the sql table */
-void VRSql::updateFloat(WObject *o, const char *table, const char *col, const char *name, const char *world, float val)
+void VRSql::updateFloat(WO *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
   if (! name) return;	// no name -> no update
   createTable(table);
@@ -842,7 +842,7 @@ void VRSql::updateFloat(WObject *o, const char *table, const char *col, const ch
 }
 
 /** Updates string into the sql table */
-void VRSql::updateString(WObject *o, const char *table, const char *col, const char *name, const char *world, const char *str)
+void VRSql::updateString(WO *o, const char *table, const char *col, const char *name, const char *world, const char *str)
 {
   if (! name) return;	// no name -> no update
   createTable(table);
@@ -860,64 +860,64 @@ void VRSql::updateString(WObject *o, const char *table, const char *col, const c
 }
 
 /** Updates int into the sql table */
-void VRSql::updateInt(WObject *o, const char *col, int val)
+void VRSql::updateInt(WO *o, const char *col, int val)
 {
   if (! o->named()) return;	// no name
   updateInt(o, o->typeName(), col, o->named(), World::current()->getName(), val);
 }
 
 /** Updates float into the sql table */
-void VRSql::updateFloat(WObject *o, const char *col, float val)
+void VRSql::updateFloat(WO *o, const char *col, float val)
 {
   if (! o->named()) return;	// no name
   updateFloat(o, o->typeName(), col, o->named(), World::current()->getName(), val);
 }
 
 /** Updates string into the sql table */
-void VRSql::updateString(WObject *o, const char *col, const char *str)
+void VRSql::updateString(WO *o, const char *col, const char *str)
 {
   if (! o->named()) return;	// no name
   updateString(o, o->typeName(), col, o->named(), World::current()->getName(), str);
 }
 
 /** Updates string into the sql table */
-void VRSql::updateString(WObject *o, const char *table, const char *col, const char *str)
+void VRSql::updateString(WO *o, const char *table, const char *col, const char *str)
 {
   if (! o->named()) return;	// no name
   updateString(o, table, col, o->named(), World::current()->getName(), str);
 }
 
-void VRSql::updateState(WObject *o)
+void VRSql::updateState(WO *o)
 {
   updateInt(o, C_STATE, o->state);
 }
 
-void VRSql::updateState(WObject *o, int val)
+void VRSql::updateState(WO *o, int val)
 {
   updateInt(o, C_STATE, val);
 }
 
-void VRSql::updatePosX(WObject *o)
+void VRSql::updatePosX(WO *o)
 {
   updateFloat(o, C_X, o->pos.x);
 }
 
-void VRSql::updatePosY(WObject *o)
+void VRSql::updatePosY(WO *o)
 {
   updateFloat(o, C_Y, o->pos.y);
 }
 
-void VRSql::updatePosZ(WObject *o)
+void VRSql::updatePosZ(WO *o)
 {
   updateFloat(o, C_Z, o->pos.z);
 }
 
-void VRSql::updatePosAZ(WObject *o)
+void VRSql::updatePosAZ(WO *o)
 {
   updateFloat(o, C_AZ, o->pos.az);
 }
 
-void VRSql::updatePos(WObject *o)
+void VRSql::updatePos(WO *o)
 {
   updatePosX(o);
   updatePosY(o);
@@ -925,17 +925,17 @@ void VRSql::updatePos(WObject *o)
   updatePosAZ(o);
 }
 
-void VRSql::updateGeom(WObject *o, char *geom)
+void VRSql::updateGeom(WO *o, char *geom)
 {
   if (geom) updateString(o, C_GEOM, geom);
 }
 
-void VRSql::updateGeom(WObject *o, const char *table, char *geom)
+void VRSql::updateGeom(WO *o, const char *table, char *geom)
 {
   if (geom) updateString(o, table, C_GEOM, geom);
 }
 
-void VRSql::updateOwner(WObject *o)
+void VRSql::updateOwner(WO *o)
 {
   updateString(o, C_OWNER, o->ownerName());
 }
@@ -955,7 +955,7 @@ void VRSql::deleteRows(const char *table)
 }
 
 /** Deletes a row from the sql table */
-void VRSql::deleteRow(WObject *o, const char *table, const char *name, const char *world)
+void VRSql::deleteRow(WO *o, const char *table, const char *name, const char *world)
 {
   //echo("deleterow %s", table);
   if (!name) return;
@@ -966,7 +966,7 @@ void VRSql::deleteRow(WObject *o, const char *table, const char *name, const cha
 }
 
 /** Deletes a row from the sql table matching a string */
-void VRSql::deleteRow(WObject *o, const char *str)
+void VRSql::deleteRow(WO *o, const char *str)
 {
   //echo("deleterowstring %s %s", o->typeName(), str);
   createTable(o->typeName());
@@ -976,14 +976,14 @@ void VRSql::deleteRow(WObject *o, const char *str)
 }
 
 /** Deletes a row of this object */
-void VRSql::deleteRow(WObject *o)
+void VRSql::deleteRow(WO *o)
 {
   if (! o->named()) return;	// no name
   deleteRow(o, o->typeName(), o->named(), World::current()->getName());
 }
 
 /** Deletes all rows of this object */
-void VRSql::deleteRows(WObject *o)
+void VRSql::deleteRows(WO *o)
 {
   deleteRows(o->typeName());
 }
@@ -994,19 +994,19 @@ void VRSql::deleteRows(WObject *o)
 ///////////
 
 /** Selects an integer value from a row in the sql table */
-int VRSql::getInt(WObject *o, const char *col, uint16_t irow)
+int VRSql::getInt(WO *o, const char *col, uint16_t irow)
 {
   return selectInt(o->typeName(), col, o->named(), World::current()->getName(), irow);
 }
 
 /** Selects a float from a row in the sql table */
-float VRSql::getFloat(WObject *o, const char *col, uint16_t irow)
+float VRSql::getFloat(WO *o, const char *col, uint16_t irow)
 {
   return selectFloat(o->typeName(), col, o->named(), World::current()->getName(), irow);
 }
 
 /** Selects a string from a row in the sql table */
-int VRSql::getString(WObject *o, const char *col, char *str, uint16_t irow)
+int VRSql::getString(WO *o, const char *col, char *str, uint16_t irow)
 {
   return selectString(o->typeName(), col, o->named(), World::current()->getName(), str, irow);
 }
@@ -1016,21 +1016,21 @@ int VRSql::getString(WObject *o, const char *col, char *str, uint16_t irow)
 // gets
 ///////////
 
-int VRSql::getState(WObject *o)
+int VRSql::getState(WO *o)
 {
   int val = getInt(o, C_STATE, 0);
   //echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
-int VRSql::getState(WObject *o, uint16_t irow)
+int VRSql::getState(WO *o, uint16_t irow)
 {
   int val =  getInt(o, C_STATE, irow);
   //echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
-void VRSql::getPos(WObject *o)
+void VRSql::getPos(WO *o)
 {
   o->pos.x = getPosX(o, 0);
   o->pos.y = getPosY(o, 0);
@@ -1038,7 +1038,7 @@ void VRSql::getPos(WObject *o)
   o->pos.az = getPosAZ(o, 0);
 }
 
-void VRSql::getPos(WObject *o, uint16_t irow)
+void VRSql::getPos(WO *o, uint16_t irow)
 {
   o->pos.x = getPosX(o, irow);
   o->pos.y = getPosY(o, irow);
@@ -1046,25 +1046,25 @@ void VRSql::getPos(WObject *o, uint16_t irow)
   o->pos.az = getPosAZ(o, irow);
 }
 
-float VRSql::getPosX(WObject *o, uint16_t irow = 0)
+float VRSql::getPosX(WO *o, uint16_t irow = 0)
 {
   float val = getFloat(o, C_X, irow);
   return (val != ERR_SQL) ? val : o->pos.x;
 }
 
-float VRSql::getPosY(WObject *o, uint16_t irow)
+float VRSql::getPosY(WO *o, uint16_t irow)
 {
   float val = getFloat(o, C_Y, irow);
   return (val != ERR_SQL) ? val : o->pos.y;
 }
 
-float VRSql::getPosZ(WObject *o, uint16_t irow)
+float VRSql::getPosZ(WO *o, uint16_t irow)
 {
   float val = getFloat(o, C_Z, irow);
   return (val != ERR_SQL) ? val : o->pos.z;
 }
 
-float VRSql::getPosAZ(WObject *o, uint16_t irow)
+float VRSql::getPosAZ(WO *o, uint16_t irow)
 {
   float val = getFloat(o, C_AZ, irow);
   return (val != ERR_SQL) ? val : o->pos.az;
@@ -1111,32 +1111,32 @@ int VRSql::getName(const char *table, const char *pattern, int numrow, char *ret
   return (irow >= 0 ) ? irow : -1;
 }
 
-void VRSql::getGeom(WObject *o)
+void VRSql::getGeom(WO *o)
 {
   getGeom(o, (uint16_t)0);
 }
 
-void VRSql::getGeom(WObject *o, uint16_t irow)
+void VRSql::getGeom(WO *o, uint16_t irow)
 {
   getGeom(o, o->geomsolid, irow);
 }
 
-void VRSql::getGeom(WObject *o, char *geom)
+void VRSql::getGeom(WO *o, char *geom)
 {
   if (geom) getGeom(o, geom, (uint16_t)0);
 }
 
-void VRSql::getGeom(WObject *o, char *geom, uint16_t irow)
+void VRSql::getGeom(WO *o, char *geom, uint16_t irow)
 {
   if (geom) getString(o, C_GEOM, geom, irow);
 }
 
-void VRSql::getOwner(WObject *o)
+void VRSql::getOwner(WO *o)
 {
   getOwner(o, (uint16_t)0);
 }
 
-void VRSql::getOwner(WObject *o, uint16_t irow)
+void VRSql::getOwner(WO *o, uint16_t irow)
 {
   getString(o, C_OWNER, (char *) o->ownerName(), irow);
 }

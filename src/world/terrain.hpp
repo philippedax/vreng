@@ -31,7 +31,7 @@ typedef struct {GLfloat x; GLfloat y; GLfloat z;} nVect;
 /**
  * Terrain class
  */
-class Terrain: public WObject {
+class Terrain: public WO {
 
 protected:
   static const uint8_t DEF_LEVEL;
@@ -62,7 +62,7 @@ public:
 
   Terrain(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   void render();

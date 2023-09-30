@@ -269,7 +269,7 @@ void Scene::refreshHud()
           localuser->pos.x, localuser->pos.y, localuser->pos.z, RAD2DEG(localuser->pos.az));
   hud_line3 = tmp;
   
-  WObject* obj = ::g.gui.selected_object;
+  WO* obj = ::g.gui.selected_object;
   if (obj) {
     // object
     sprintf(tmp, "Obj:    %.1f %.1f %.1f %.0f",

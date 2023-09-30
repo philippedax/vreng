@@ -30,7 +30,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Escalator::creator(char *l)
+WO * Escalator::creator(char *l)
 {
   return new Escalator(l);
 }

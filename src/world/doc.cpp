@@ -30,7 +30,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Doc::creator(char *l)
+WO * Doc::creator(char *l)
 {
   return new Doc(l);
 }
@@ -61,7 +61,7 @@ bool Doc::updateToNetwork(const Pos &oldpos)
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Doc::whenIntersect(WObject *pcur, WObject *pold)
+bool Doc::whenIntersect(WO *pcur, WO *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

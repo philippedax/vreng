@@ -27,7 +27,7 @@ const OClass Waterfall::oclass(WATERFALL_TYPE, "Waterfall", Waterfall::creator);
 
 
 /* creation from a file */
-WObject * Waterfall::creator(char *l)
+WO * Waterfall::creator(char *l)
 {
   return new Waterfall(l);
 }

@@ -30,7 +30,7 @@
 /**
  * Lift class
  */
-class Lift: public WObject {
+class Lift: public WO {
 
 private:
   static const int DEF_TOP;
@@ -62,7 +62,7 @@ public:
 
   Lift(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
 
   void updateTime(time_t sec, time_t usec, float *lasting);
 
@@ -70,9 +70,9 @@ public:
 
   bool updateToNetwork(const Pos &oldpos);
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
 
-  bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WO *pcur, WO *pold);
 
   void quit();
 

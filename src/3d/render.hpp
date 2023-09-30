@@ -24,7 +24,7 @@
 #include <list>
 using namespace std;
 
-class WObject;
+class WO;
 class Solid;
 
 
@@ -193,7 +193,7 @@ class Render {
    */
 
   void cameraPosition();		///< Set camera position.
-  void cameraPosition(WObject *object);	///< Set camera position.
+  void cameraPosition(WO *object);	///< Set camera position.
 
   void cameraProjection(GLfloat fovy, GLfloat near, GLfloat far);
   /**<
@@ -221,17 +221,17 @@ class Render {
   uint16_t bufferSelection(GLint x, GLint y, GLint depth);
   /**< Returns the object's num displayed in (x,y) on the screen. */
 
-  V3 getVisiblePosition(WObject *po);
+  V3 getVisiblePosition(WO *po);
   /**< get the 3D position of the object on the user screen. */
 
-  WObject** getVisibleObjects(char **listetype, int nbr, int* nbrElemts);
+  WO** getVisibleObjects(char **listetype, int nbr, int* nbrElemts);
   /**< Get the object list where each object have a type present in the given list. */
 
-  WObject** getDrawedObjects(int* nbr);
+  WO** getDrawedObjects(int* nbr);
   /**< get all drawed Objects on the screen. */
 
  private:
-  void recordObject(WObject *po);
+  void recordObject(WO *po);
   /**< Sets object name in Z-buffer for selection. */
 
   static int compareHit(const void *t1, const void *t2);

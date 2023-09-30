@@ -30,7 +30,7 @@ Wind * Wind::wind = NULL;	// singleton
 
 
 /* creation from a file */
-WObject * Wind::creator(char *l)
+WO * Wind::creator(char *l)
 {
   return new Wind(l);
 }

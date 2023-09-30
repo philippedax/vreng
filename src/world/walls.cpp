@@ -34,7 +34,7 @@ static uint16_t numwall;      // number of walls
 void Walls::funcs() {}
 
 
-WObject * Walls::creator(char *l)
+WO * Walls::creator(char *l)
 {
   return new Walls(l);
 }

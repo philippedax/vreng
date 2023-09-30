@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "parse.hpp"	// Parse
-#include "wobject.hpp"	// WObject
+#include "wobject.hpp"	// WO
 #include "world.hpp"	// current
 #include "solid.hpp"	// Solid
 #include "color.hpp"	// getRGB
@@ -333,7 +333,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
         continue;
       }
 
-      WObject *wobject = NULL;
+      WO *wobject = NULL;
       uint8_t tag = parseLine(line, &tag_type);
 
       switch (tag) {
@@ -477,7 +477,7 @@ char * Parse::skipAttribute(char *l)
 }
 
 /* parse attributes: name pos solid category description */
-char * Parse::parseAttributes(char *l, WObject *wobject)
+char * Parse::parseAttributes(char *l, WO *wobject)
 {
   while (l) {
     if      (! stringcmp(l, "name=")) {
@@ -678,7 +678,7 @@ char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
 }
 
 /* tag <solid : creates a solid and calls its parser */
-char * Parse::parseSolid(char *ptok, WObject *wobject)
+char * Parse::parseSolid(char *ptok, WO *wobject)
 {
   if (!ptok || !strlen(ptok)) {
     error("parse error at line %d (no solid)", numline-1);
@@ -703,7 +703,7 @@ char * Parse::parseSolid(char *ptok, WObject *wobject)
 }
 
 /* parse a solid */
-char * Parse::parseSolid(char *ptok, const char *sep, WObject *wobject)
+char * Parse::parseSolid(char *ptok, const char *sep, WO *wobject)
 {
   if (*ptok == '<') ptok++;
   strtok(ptok, sep);
@@ -711,7 +711,7 @@ char * Parse::parseSolid(char *ptok, const char *sep, WObject *wobject)
 }
 
 /* parse several solids */
-void Parse::parseSolids(char *ptok, const char *sep, WObject *wobject)
+void Parse::parseSolids(char *ptok, const char *sep, WO *wobject)
 {
   strtok(ptok, sep);
   while (ptok) {

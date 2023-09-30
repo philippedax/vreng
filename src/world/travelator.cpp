@@ -30,7 +30,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Travelator::creator(char *l)
+WO * Travelator::creator(char *l)
 {
   return new Travelator(l);
 }

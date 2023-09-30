@@ -41,7 +41,7 @@ const float Guy::FEET_COLOR[] = {.0, .0, .0, 1};
 
 
 /* Creation from a file */
-WObject * Guy::creator(char *l)
+WO * Guy::creator(char *l)
 {
   return new Guy(l);
 }

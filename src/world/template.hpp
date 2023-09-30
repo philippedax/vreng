@@ -29,7 +29,7 @@
 /**
  * Template class
  */
-class Template : public WObject {
+class Template : public WO {
 
  private:
 
@@ -43,7 +43,7 @@ class Template : public WObject {
   Template(char *l);
   /**< Constructor */
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

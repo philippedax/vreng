@@ -30,7 +30,7 @@
 /**
  * Area class
  */
-class Area: public WObject {
+class Area: public WO {
 
 private:
   bool inside;		///< flag inside/outside
@@ -45,13 +45,13 @@ public:
   Area(char *l);
   /**< Constructor */
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects */
 
-  bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WO *pcur, WO *pold);
   /**< When an other object doesn't intersect */
 
 private:

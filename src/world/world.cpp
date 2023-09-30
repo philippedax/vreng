@@ -339,14 +339,14 @@ void World::compute(time_t sec, time_t usec)
     //
     // computes world's bounding box
     //
-    for (vector<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+    for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER)) continue;
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
         bbmax.v[i] = MAX(bbmax.v[i], (*it)->pos.bbc.v[i] + (*it)->pos.bbs.v[i]);
       }
     }
-    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if (! (*it)->bbBehavior() || (*it)->isBehavior(COLLIDE_NEVER) || (*it)->type == USER_TYPE) continue;
       for (int i=0; i<3 ; i++) {
         bbmin.v[i] = MIN(bbmin.v[i], (*it)->pos.bbc.v[i] - (*it)->pos.bbs.v[i]);
@@ -383,7 +383,7 @@ void World::compute(time_t sec, time_t usec)
     //
     // objects with imposed or permanent movements
     //
-    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       (*it)->imposedMovement(sec, usec);	// object with imposed movement
       (*it)->permanentMovement(sec, usec);	// object with permanent movement
     }
@@ -594,7 +594,7 @@ void World::checkPersist()
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
-          doAction(BALL_TYPE, Ball::RECREATE, (WObject*)this, (void*)name,0,0);
+          doAction(BALL_TYPE, Ball::RECREATE, (WO*)this, (void*)name,0,0);
         }
       }
     }
@@ -606,7 +606,7 @@ void World::checkPersist()
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
-          doAction(THING_TYPE, Thing::RECREATE, (WObject*)this, (void*)name,0,0);
+          doAction(THING_TYPE, Thing::RECREATE, (WO*)this, (void*)name,0,0);
         }
       }
     }
@@ -618,7 +618,7 @@ void World::checkPersist()
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
-          doAction(MIRAGE_TYPE, Mirage::RECREATE, (WObject*)this, (void*)name,0,0);
+          doAction(MIRAGE_TYPE, Mirage::RECREATE, (WO*)this, (void*)name,0,0);
         }
       }
     }
@@ -711,7 +711,7 @@ void World::init(const char *url)
   world->guip = ::g.gui.addWorld(world, NEW);
   world->initGrid();
   clearLists();
-  WObject::initNames();
+  WO::initNames();
   initFunc();		// init funcs (objects.cpp)
 
   if (::g.pref.keep == false) {
@@ -767,7 +767,7 @@ void World::quit()
    * Quits and deletes objects
    */
   // invisible objects
-  for (vector<WObject*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
+  for (vector<WO*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -775,7 +775,7 @@ void World::quit()
   invisList.clear();
 
   // still objects
-  for (vector<WObject*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
+  for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
     if (::g.pref.dbgtrace) echo("del: %s", (*it)->getInstance());
@@ -786,7 +786,7 @@ void World::quit()
   stillList.clear();
 
   // mobile objects
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+  for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     //debug echo("%s", (*it)->getInstance());
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
@@ -799,7 +799,7 @@ void World::quit()
   mobileList.clear();
 
   // fluid objects
-  for (vector<WObject*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
+  for (vector<WO*>::iterator it = fluidList.begin(); it != fluidList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;
@@ -807,7 +807,7 @@ void World::quit()
   fluidList.clear();
 
   // cloth objects
-  for (vector<WObject*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
+  for (vector<WO*>::iterator it = clothList.begin(); it != clothList.end(); ++it) {
     if ((*it)->deleted) continue;
     (*it)->quit();
     delete *it;		// sometimes segfault FIXME!!!
@@ -829,7 +829,7 @@ void World::quit()
   if (localuser) localuser->resetPosition();
   if (linked) return;
 
-  WObject::resetObjectsNumber();
+  WO::resetObjectsNumber();
   Tool::quitTools();		// quits all tools
 }
 
@@ -841,7 +841,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   // cleanup
   clearLists();
   ::g.gui.clearInfoBar();
-  WObject::initNames();
+  WO::initNames();
   current()->initGrid();
 
   World *world = NULL;
@@ -971,7 +971,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 /* Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
-  for (vector<WObject*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
+  for (vector<WO*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
     if (! (*it)->isBehavior(COLLIDE_NEVER)) {
       (*it)->delFromGrid();
     }

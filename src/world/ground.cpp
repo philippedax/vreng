@@ -30,7 +30,7 @@ const OClass Ground::oclass(GROUND_TYPE, "Ground", Ground::creator);
 
 
 /* creation from a file */
-WObject * Ground::creator(char *l)
+WO * Ground::creator(char *l)
 {
   return new Ground(l);
 }
@@ -50,7 +50,7 @@ Ground::Ground(char *l)
   //echo("ground: z=%.2f bb=%.2f gr=%.2f",pos.z,pos.bbs.v[2],pos.z+pos.bbs.v[2]);
 }
 
-Ground::Ground(WObject *user, char *geom)
+Ground::Ground(WO *user, char *geom)
 {
   parseSolid(geom);
 
@@ -63,7 +63,7 @@ Ground::Ground(WObject *user, char *geom)
 }
 
 /* Intersection with an object */
-bool Ground::whenIntersect(WObject *pcur, WObject *pold)
+bool Ground::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
   case BALL_TYPE:

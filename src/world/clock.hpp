@@ -30,7 +30,7 @@
 /**
  * Clock class
  */
-class Clock: public WObject {
+class Clock: public WO {
 
 private:
   enum {
@@ -62,7 +62,7 @@ public:
 
   static void funcs();	///< init funclist
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
 
   void changePermanent(float lasting);
 

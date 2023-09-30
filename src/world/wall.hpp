@@ -30,7 +30,7 @@
 /**
  * Wall class
  */
-class Wall: public WObject {
+class Wall: public WO {
 
  public:
   static const uint8_t props;
@@ -41,7 +41,7 @@ class Wall: public WObject {
 
   const OClass* getOClass() {return &oclass;}
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   Wall(char *l);
@@ -50,10 +50,10 @@ class Wall: public WObject {
   Wall() {}
   /**< Contructor for sub-classes */
 
-  Wall(WObject *user, char *forme);
+  Wall(WO *user, char *forme);
   /**< Contructor from user */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects */
 
  private:

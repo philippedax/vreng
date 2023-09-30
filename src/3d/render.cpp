@@ -23,7 +23,7 @@
 #include "solid.hpp"	// Solid, object()
 #include "scene.hpp"	// getScene
 #include "texture.hpp"	// init
-#include "wobject.hpp"	// WObject
+#include "wobject.hpp"	// WO
 #include "world.hpp"	// current
 #include "bgcolor.hpp"	// Bgcolor
 #include "user.hpp"	// USER_TYPE
@@ -162,7 +162,7 @@ void Render::materials()
 #endif //debug
 
 /** Records object number into the selection buffer */
-void Render::recordObject(WObject *o)
+void Render::recordObject(WO *o)
 {
   if (o->isSelectable()) {
     glPopName();
@@ -516,7 +516,7 @@ void Render::lighting()
 
   // renders other lights for example sun, moon, lamp
   //trace2(DBG_3D, "\nlight:");
-  for (vector<WObject*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
+  for (vector<WO*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
     if ((*it)->num) {	 //FIXME segfault sometimes : num replaces isValid()
       (*it)->lighting();
       //trace2(DBG_3D, " %s", (*it)->getInstance());
@@ -600,8 +600,8 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     if (::g.pref.dbgtrace) {
       echo("hit: %d/%d num=%d min=%ud name=%s/%s",
             hit, hits, psel[3], psel[1],
-            WObject::byNum(psel[3])->typeName(),
-            WObject::byNum(psel[3])->getInstance());
+            WO::byNum(psel[3])->typeName(),
+            WO::byNum(psel[3])->getInstance());
     }
     hitlist[hit] = psel;
     psel += 3 + psel[0];	// next hit
@@ -618,11 +618,11 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     if (::g.pref.dbgtrace) {
       if (hits > 1)
         echo("nearest: %d/%s next %d/%s",
-              nearest, WObject::byNum(nearest)->getInstance(),
-              next, WObject::byNum(next)->getInstance());
+              nearest, WO::byNum(nearest)->getInstance(),
+              next, WO::byNum(next)->getInstance());
       else
         echo("nearest: %d/%s",
-              nearest, WObject::byNum(nearest)->getInstance());
+              nearest, WO::byNum(nearest)->getInstance());
     }
   }
   if (hitlist) delete[] hitlist;
@@ -725,13 +725,13 @@ void Render::clickDirection(GLint wx, GLint wy, V3 *dir)
 /*
  * Get the object list where each object have a type present in the given list.
  */
-WObject** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
+WO** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
 {
   int hits = 0;
   int nb = 0;
 
-  WObject **drawedlist = Render::getDrawedObjects(&hits);
-  WObject **objlist = (WObject**) malloc(hits*sizeof(WObject*));
+  WO **drawedlist = Render::getDrawedObjects(&hits);
+  WO **objlist = (WO**) malloc(hits*sizeof(WO*));
 
   for (int i=0; i < hits ; i++) {
     for (int j=0; j < nbr ; j++) {
@@ -745,7 +745,7 @@ WObject** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
       }
     }
   }
-  objlist = (WObject**) realloc(objlist, nb * sizeof(WObject*));
+  objlist = (WO**) realloc(objlist, nb * sizeof(WO*));
 
   *nbelems = nb;
   if (drawedlist) delete[] drawedlist;
@@ -754,7 +754,7 @@ WObject** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
 }
 
 /* Returns the list of drawed object on the user's screen. */
-WObject** Render::getDrawedObjects(int *nbhit)
+WO** Render::getDrawedObjects(int *nbhit)
 {
   // set selection mode
   glSelectBuffer(sizeof(selbuf), selbuf);
@@ -806,16 +806,16 @@ WObject** Render::getDrawedObjects(int *nbhit)
   qsort((void *) hitlist, hits, sizeof(GLuint *), compareHit);
 
   int usercount = 0;
-  if (! strcasecmp((WObject::byNum((uint16_t) hitlist[0][3]))->typeName(), "User")) {
+  if (! strcasecmp((WO::byNum((uint16_t) hitlist[0][3]))->typeName(), "User")) {
     hitlist[0] = NULL;
     usercount = 1;
   }
 
-  WObject** selectlist = new WObject*[hits - usercount];
+  WO** selectlist = new WO*[hits - usercount];
 
   for (int i=0; i < hits; i++) {
     if (hitlist[i]) {
-      selectlist[i] = WObject::byNum(hitlist[i][3]);
+      selectlist[i] = WO::byNum(hitlist[i][3]);
     }
   }
   if (hitlist) delete[] hitlist;

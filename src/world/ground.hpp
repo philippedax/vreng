@@ -30,7 +30,7 @@
 /**
  * Ground class
  */
-class Ground: public WObject {
+class Ground: public WO {
 
 public:
   static const OClass oclass;	///< class variable
@@ -39,16 +39,16 @@ public:
 
   const OClass* getOClass() {return &oclass;}
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   Ground(char *l);
   /**< Contructor */
 
-  Ground(WObject *user, char *form);
+  Ground(WO *user, char *form);
   /**< Contructor from GUI */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects */
 
   void quit();

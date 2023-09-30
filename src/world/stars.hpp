@@ -36,7 +36,7 @@ typedef struct {
 /**
  * Stars class
  */
-class Stars: public WObject {
+class Stars: public WO {
 
 private:
   static const uint16_t NUMBER;
@@ -68,7 +68,7 @@ public:
 
   Stars(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creation from a file */
 
   void changePermanent(float lasting);

@@ -54,7 +54,7 @@ bool Projectile::updateToNetwork(const Pos &oldpos)
   return change;
 }
 
-bool Projectile::whenIntersect(WObject *pcur, WObject *pold)
+bool Projectile::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:
@@ -71,7 +71,7 @@ bool Projectile::whenIntersect(WObject *pcur, WObject *pold)
   return true;
 }
 
-void Projectile::whenWallsIntersect(WObject *pold, V3 *normal)
+void Projectile::whenWallsIntersect(WO *pold, V3 *normal)
 {
   enableBehavior(COLLIDE_ONCE);
   bounceTrajectory(pold, normal);

@@ -30,7 +30,7 @@
 /**
  * Animator class
  */
-class Animator: public WObject {
+class Animator: public WO {
 
 protected:
   uint8_t frame;	///< current frame number
@@ -60,7 +60,7 @@ public:
 
   Animator(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
 
   bool isMoving();
 
@@ -68,7 +68,7 @@ public:
 
   void updateTime(time_t, time_t, float *);
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
 
   void quit();
 

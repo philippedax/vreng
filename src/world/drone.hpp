@@ -29,7 +29,7 @@
 /**
  * Drone class
  */
-class Drone : public WObject {
+class Drone : public WO {
 
  private:
   class Wings *wings;
@@ -57,7 +57,7 @@ class Drone : public WObject {
   Drone(char *l);
   /**< Constructor */
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

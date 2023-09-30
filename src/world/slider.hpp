@@ -41,7 +41,7 @@ public:
 
   Slider(char *l);	///< Constructor.
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Create from fileline. */
 
   bool isMoving();
@@ -53,7 +53,7 @@ public:
   void updateTime(time_t sec, time_t usec, float *lasting);
   /**< Updates remaining times of the movement. */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects. */
 
   void quit();
@@ -63,7 +63,7 @@ private:
   float incrx;
   float incry;
   float incrz;
-  WObject *capted;	///< captured object.
+  WO *capted;	///< captured object.
 
   void parser(char *l);
   /**< Parses fileline. */

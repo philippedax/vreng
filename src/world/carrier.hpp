@@ -42,13 +42,13 @@
  *      mode 3: rotation around X and Z axis
  *      mode 4: rotation around Y axis
  */
-class Carrier: public WObject {
+class Carrier: public WO {
 
 private:
-  class WObject *object;	///< object ptr
-  float lspeed;			///< linear speed
-  float aspeed;			///< angular speed
-  bool taking;			///< flag true/false
+  class WO *object;	///< object ptr
+  float lspeed;		///< linear speed
+  float aspeed;		///< angular speed
+  bool taking;		///< flag true/false
 
 
 public:
@@ -73,16 +73,16 @@ public:
   bool underControl() const;
   /**< Accessor: is something taking ? */
 
-  void take(WObject *po);
+  void take(WO *po);
   /**< handle position changes
    * Takes control of the object to manipulate it.
    * The position/orientation of the object will be changed by changePosition
    * and the object will be updated in the 3D */
 
-  void set(WObject *po);
+  void set(WO *po);
   /**< Sets taking */
 
-  void leave(WObject *po);
+  void leave(WO *po);
   void leave();
   /**< called when we release an object
    * Releases the carried object, put it into the mobile-list
@@ -106,12 +106,12 @@ private:
   /**< Sets default values */
 
   // GUI and callbacks
-  static void takeControl(WObject *po, void *d, time_t s, time_t u);
+  static void takeControl(WO *po, void *d, time_t s, time_t u);
   /**< called when we take an object
    * puts the object into the carrier and realizes all
    * needed operations to pass in transport mode */
 
-  static void leaveControl(WObject *po, void *d, time_t s, time_t u);
+  static void leaveControl(WO *po, void *d, time_t s, time_t u);
   /**< called when we leave an object */
 
   static void setLspeed(Carrier *pc, void *d, time_t s, time_t u);

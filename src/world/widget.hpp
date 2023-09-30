@@ -29,7 +29,7 @@
 /**
  * Widget class
  */
-class Widget : public WObject {
+class Widget : public WO {
 
  private:
   bool focus;
@@ -54,7 +54,7 @@ class Widget : public WObject {
   Widget(char *l);
   /**< Constructor */
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

@@ -26,7 +26,7 @@
 const OClass Download::oclass(DOWNLOAD_TYPE, "Download", Download::creator);
 
 
-WObject * Download::creator(char *l)
+WO * Download::creator(char *l)
 {
   return new Download(l);
 }

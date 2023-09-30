@@ -31,7 +31,7 @@ const float Cauldron::DELTAZ = 0.02;	// 2 cm
 
 
 /* creation from a file */
-WObject * Cauldron::creator(char *l)
+WO * Cauldron::creator(char *l)
 {
   return new Cauldron(l);
 }
@@ -55,7 +55,7 @@ void Cauldron::changePermanent(float lasting)
   pos.z -= lasting * GRAVITY / 4;
 }
 
-bool Cauldron::whenIntersect(WObject *pcur, WObject *pold)
+bool Cauldron::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

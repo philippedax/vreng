@@ -41,7 +41,7 @@ static struct sDress dresss[] = {
 };
 
 
-WObject * Dress::creator(char *l)
+WO * Dress::creator(char *l)
 { 
   return new Dress(l);
 }

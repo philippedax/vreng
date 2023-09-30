@@ -30,7 +30,7 @@
 /**
  * Thing class
  */
-class Thing: public WObject {
+class Thing: public WO {
 
  private:
   static const float LSPEED;
@@ -67,13 +67,13 @@ class Thing: public WObject {
 
   Thing(char *l);	///< Constructor
 
-  Thing(WObject *user, char *form);
+  Thing(WO *user, char *form);
   /**< Constructor from GUI */
 
   Thing(class World *pw, void *d, time_t s, time_t u);
   /**< Constructor from World */
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from a file */
 
 #if 0 //unused
@@ -87,7 +87,7 @@ class Thing: public WObject {
   bool updateToNetwork(const Pos &oldpos);
   /**< Publishes to network */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< Intersects with a mobile object */
 
   void quit();

@@ -36,7 +36,7 @@ typedef struct {
 /**
  * Cloud class
  */
-class Cloud: public WObject {
+class Cloud: public WO {
 
 private:
   static const uint16_t NUMBER;
@@ -61,7 +61,7 @@ public:
 
   Cloud(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creation from a file */
 
   void changePermanent(float lasting);

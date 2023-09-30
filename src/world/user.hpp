@@ -38,7 +38,7 @@ extern class User *localuser;	// global
 /**
  * User class
  */
-class User: public WObject {
+class User: public WO {
 
 public:
   static const float LASTING;
@@ -62,7 +62,7 @@ public:
   class Humanhead *humanhead;	///< Head avatar
   
 protected:
-  friend class WObject;
+  friend class WO;
 
   uint32_t ssrc;	///< ssrc id.
   char  *front;		///< url body front.
@@ -80,7 +80,7 @@ protected:
   char  *color;		///< color.
   char  *baps;		///< vaps server.
 
-  WObject* lastSelected;
+  WO* lastSelected;
   float lastDistance;
 
   char  mensuration[MENSURATIONLEN];
@@ -164,7 +164,7 @@ public:
   void inits();
   /**< Makes needed initializations. */
 
-  static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
   /**< Replicates a remote avatar. */
 
   void resetBubble();
@@ -185,7 +185,7 @@ public:
   bool updateToNetwork(const Pos &oldpos);
   /**< Publishes position to the network. */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects. */
 
   void updateTime(float lasting[]);
@@ -305,11 +305,11 @@ private:
 
   // network change callbacks
   static void get_username(User *pu, Payload *pp);
-  static void u_get_xy(WObject *po, Payload *pp);
-  static void u_get_z(WObject *po, Payload *pp);
-  static void u_get_ax(WObject *po, Payload *pp);
-  static void u_get_ay(WObject *po, Payload *pp);
-  static void u_get_az(WObject *po, Payload *pp);
+  static void u_get_xy(WO *po, Payload *pp);
+  static void u_get_z(WO *po, Payload *pp);
+  static void u_get_ax(WO *po, Payload *pp);
+  static void u_get_ay(WO *po, Payload *pp);
+  static void u_get_az(WO *po, Payload *pp);
   static void get_msg(User *pu, Payload *pp);
   static void get_infos(User *pu, Payload *pp);
   static void get_mensuration(User *pu, Payload *pp);

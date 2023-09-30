@@ -30,7 +30,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Host::creator(char *l)
+WO * Host::creator(char *l)
 {
   return new Host(l);
 }
@@ -60,7 +60,7 @@ bool Host::updateToNetwork(const Pos &oldpos)
 }
 
 /* object intersects: stop */
-bool Host::whenIntersect(WObject *pcur, WObject *pold)
+bool Host::whenIntersect(WO *pcur, WO *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

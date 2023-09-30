@@ -33,7 +33,7 @@ const OClass Flag::oclass(FLAG_TYPE, "Flag", Flag::creator);
 
 
 /* creation from a file */
-WObject * Flag::creator(char *l)
+WO * Flag::creator(char *l)
 {
   return new Flag(l);
 }

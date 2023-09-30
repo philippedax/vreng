@@ -32,7 +32,7 @@
 /**
  * Humanhead class
  */
-class Humanhead: public WObject {
+class Humanhead: public WO {
 
 protected:
   bool visible;
@@ -76,7 +76,7 @@ public:
   Humanhead(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
   Humanhead(class User *user, const char *url, const float *skin); ///< Constructor from User.
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creation from a file */
 
   void changePermanent(float lasting);

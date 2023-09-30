@@ -34,7 +34,7 @@ const GLfloat Sun::light_pos[4] = {1,0,0,0};
 const GLfloat Sun::light_amb[4] = {0.05,0.05,0.05,1};
 
 
-WObject * Sun::creator(char *l)
+WO * Sun::creator(char *l)
 {
   return new Sun(l);
 }

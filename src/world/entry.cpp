@@ -32,7 +32,7 @@ void Entry::funcs() {}
 
 
 /* creation from a file */
-WObject * Entry::creator(char *l)
+WO * Entry::creator(char *l)
 {
   return new Entry(l);
 }

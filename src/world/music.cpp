@@ -33,7 +33,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Music::creator(char *l)
+WO * Music::creator(char *l)
 {
   return new Music(l);
 }
@@ -96,7 +96,7 @@ bool Music::updateToNetwork(const Pos &oldpos)
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Music::whenIntersect(WObject *pcur, WObject *pold)
+bool Music::whenIntersect(WO *pcur, WO *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

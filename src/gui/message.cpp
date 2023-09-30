@@ -34,7 +34,7 @@
 #include "message.hpp"
 #include "widgets.hpp"	// Widgets gw
 #include "theme.hpp"	// theme
-#include "wobject.hpp"	// WObject
+#include "wobject.hpp"	// WO
 #include "user.hpp"	// userWriting
 #include "render.hpp"	// setCameraScissor
 #include "cache.hpp"	// check
@@ -177,7 +177,7 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
 #endif //HAVE_OCAML
 }
 
-void Message::performRequest(WObject* object)
+void Message::performRequest(WO* object)
 {
   if (object && nclicks > 0) {
     clicked[0]=object->pos.x;

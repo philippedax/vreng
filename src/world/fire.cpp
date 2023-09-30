@@ -52,7 +52,7 @@ static float nrnd(float d)
 
 
 /* creation from a file */
-WObject * Fire::creator(char *l)
+WO * Fire::creator(char *l)
 {
   return new Fire(l);
 }

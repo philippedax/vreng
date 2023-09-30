@@ -30,7 +30,7 @@
 /**
  * Gate class
  */
-class Gate: public WObject {
+class Gate: public WO {
 
 private:
   bool automatic;	///< flag automatic enter
@@ -60,15 +60,15 @@ public:
 
   Gate(char *l);	///< Constructor.
 
-  Gate(WObject *user, char *geom);	///< Constructor from user.
+  Gate(WO *user, char *geom);	///< Constructor from user.
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from file line. */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects. */
 
-  bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WO *pcur, WO *pold);
   /**< When an other object leave intersection. */
 
   bool updateToNetwork(const Pos &oldpos);

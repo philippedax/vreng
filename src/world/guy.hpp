@@ -64,7 +64,7 @@ typedef struct {
 /**
  * Guy class
  */
-class Guy: public WObject {
+class Guy: public WO {
 
 private:
   enum {
@@ -129,7 +129,7 @@ public:
 
   Guy();		///< Constructor from localuser (avatar).
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
 
   void changePermanent(float lasting);
 

@@ -46,7 +46,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Ball::creator(char *l)
+WO * Ball::creator(char *l)
 {
   return new Ball(l);
 }
@@ -114,7 +114,7 @@ Ball::Ball(char *l)
 }
 
 /** Created by the cauldron */
-Ball::Ball(WObject *cauldron, void *d, time_t s, time_t u)
+Ball::Ball(WO *cauldron, void *d, time_t s, time_t u)
 {
   defaults();
   setName();
@@ -148,7 +148,7 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
 }
 
 /** Created by the user - via addobj (GUI) */
-Ball::Ball(WObject *user, char *solid)
+Ball::Ball(WO *user, char *solid)
 {
   defaults();
   behaviors();
@@ -164,7 +164,7 @@ Ball::Ball(WObject *user, char *solid)
 }
 
 /** Replication from the network */
-WObject * Ball::replicator(uint8_t type_id, Noid noid, Payload *pp)
+WO * Ball::replicator(uint8_t type_id, Noid noid, Payload *pp)
 {
   return new Ball(type_id, noid, pp);
 }
@@ -232,7 +232,7 @@ bool Ball::updateToNetwork(const Pos &oldpos)
 }
 
 /** Intersects with an other object */
-bool Ball::whenIntersect(WObject *pcur, WObject *pold)
+bool Ball::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
   case BALL_TYPE:
@@ -261,7 +261,7 @@ bool Ball::whenIntersect(WObject *pcur, WObject *pold)
 }
 
 /** Intersects with walls */
-void Ball::whenWallsIntersect(WObject *pold, V3 *normal)
+void Ball::whenWallsIntersect(WO *pold, V3 *normal)
 {
   enableBehavior(COLLIDE_ONCE);
   bounceTrajectory(pold, normal);

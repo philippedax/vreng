@@ -31,7 +31,7 @@
 /**
  * Fractal class
  */
-class Fractal: public WObject {
+class Fractal: public WO {
 
 public:
   static const OClass oclass;   ///< class variable
@@ -49,7 +49,7 @@ public:
 
   static void funcs();	///< init funclist
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from file line */
 
 private:

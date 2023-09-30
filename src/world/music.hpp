@@ -30,7 +30,7 @@
 /**
  * Music class
  */
-class Music: public WObject {
+class Music: public WO {
 
 private:
   uint8_t fmt;		///< audio format
@@ -84,10 +84,10 @@ public:
 
   Music(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Create from file */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< Intersects with another object */
 
   bool updateToNetwork(const Pos &oldpos);

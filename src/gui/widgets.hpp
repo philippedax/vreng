@@ -43,7 +43,7 @@ class Widgets;
 class Scene;
 class Navig;
 class Motion;
-class WObject;
+class WO;
 class User;
 class World;
 class Vnc;
@@ -118,7 +118,7 @@ public:
   ///< Removes a world name.
 
   // Callback functions
-  class WObject* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
+  class WO* pointedObject(int x, int y, ObjInfo* obji, int depthsel);
   /**< returns info about the pointed object but do NOT select it */
   
   static void callAction(int numaction);

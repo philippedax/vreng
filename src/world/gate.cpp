@@ -42,7 +42,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Gate::creator(char *l)
+WO * Gate::creator(char *l)
 {
   return new Gate(l);
 }
@@ -101,7 +101,7 @@ Gate::Gate(char *l)
 }
 
 /** Created by user (Gui) */
-Gate::Gate(WObject *user, char *geom)
+Gate::Gate(WO *user, char *geom)
 {
   defaults();
 
@@ -182,7 +182,7 @@ void Gate::enter()
 }
 
 /* when an intersection occurs */
-bool Gate::whenIntersect(WObject *pcur, WObject *pold)
+bool Gate::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
 
@@ -243,7 +243,7 @@ bool Gate::whenIntersect(WObject *pcur, WObject *pold)
   return true;
 }
 
-bool Gate::whenIntersectOut(WObject *pcur, WObject *pold)
+bool Gate::whenIntersectOut(WO *pcur, WO *pold)
 {
   if (pcur->type == USER_TYPE) {
     cntcol = 0;

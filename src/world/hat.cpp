@@ -44,7 +44,7 @@ static struct sHat hats[] = {
   {Hat::NOHAT,   ""},
 };
 
-WObject * Hat::creator(char *l)
+WO * Hat::creator(char *l)
 { 
   return new Hat(l);
 }

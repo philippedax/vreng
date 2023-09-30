@@ -565,7 +565,7 @@ public:
   struct sJP jp;		///< jointpoints.
   class Bap *bap;		///< bap ptr.
   class Face *face;		///< face ptr.
-  class WObject *wobject;	///< wobject ptr.
+  class WO *wobject;		///< wobject ptr.
 
   Body();
   Body(const char *url);	///< constructor.

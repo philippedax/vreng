@@ -27,7 +27,7 @@
 
 
 /* Updates objects in 3D */
-void WObject::updateAll3D(Pos &pos)
+void WO::updateAll3D(Pos &pos)
 {
   if (! solid || removed) return;
 
@@ -45,7 +45,7 @@ void WObject::updateAll3D(Pos &pos)
   }
 }
 
-void WObject::update3D(Pos &pos)
+void WO::update3D(Pos &pos)
 {
   if (! solid || removed) return;
 
@@ -62,7 +62,7 @@ void WObject::update3D(Pos &pos)
 }
 
 /* Updates camera in 3D */
-void WObject::updateCamera(Pos &pos)
+void WO::updateCamera(Pos &pos)
 {
 #if 1 //dax
   M4 matcam = mulM4(rotM4(-M_PI_2 + pos.ax, UX),
@@ -87,7 +87,7 @@ void WObject::updateCamera(Pos &pos)
 }
 
 /* Returns three vectors (v, w, n) that describe the object's surface */
-void WObject::getSurfVecs(Pos &pos, V3 *v, V3 *w, V3 *normal)
+void WO::getSurfVecs(Pos &pos, V3 *v, V3 *w, V3 *normal)
 {
   M4 rot = mulM4(rotM4(pos.az, UZ), rotM4(pos.ax, UX));
   V3 vec = setV3(1, 0, 0);

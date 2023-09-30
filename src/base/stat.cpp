@@ -235,7 +235,7 @@ void statMemory(FILE *fout)
 {
   fprintf(fout, "### Memory (new/delete) ###\n");
 
-  fprintf(fout, "WObject         : n=%8d d=%8d\n", new_wobject, del_wobject);
+  fprintf(fout, "WO              : n=%8d d=%8d\n", new_wobject, del_wobject);
   fprintf(fout, "World           : n=%8d d=%8d\n", new_world, del_world);
   fprintf(fout, "Channel         : n=%8d d=%8d\n", new_channel, del_channel);
   fprintf(fout, "Session         : n=%8d d=%8d\n", new_session, del_session);

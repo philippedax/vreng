@@ -46,7 +46,7 @@ public:
 
   static void funcs();	///< init funclist
 
-  Dart(WObject *po, void *d, time_t s, time_t u);
+  Dart(WO *po, void *d, time_t s, time_t u);
   /**< Constructor */
 
   virtual ~Dart() {};
@@ -54,7 +54,7 @@ public:
   Dart(uint8_t type_id, Noid noid, Payload *pp);
   /**< Constructor replicator */
 
-  static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
 
 private:
   void defaults();

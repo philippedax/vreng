@@ -22,7 +22,7 @@
 #include "render.hpp"
 #include "scene.hpp"	// getScene, setScene
 #include "solid.hpp"	// Solid
-#include "wobject.hpp"	// WObject
+#include "wobject.hpp"	// WO
 #include "world.hpp"	// current
 #include "user.hpp"	// USER_TYPE
 #include "glu.hpp"	// glu alternative
@@ -122,7 +122,7 @@ void Render::cameraPosition()
  *   /
  * Z=-x
  */
-void Render::cameraPosition(WObject *o)
+void Render::cameraPosition(WO *o)
 {
   // coordinates are opengl coordinates
   M4 vrmat;	// vreng matrix
@@ -339,7 +339,7 @@ void Render::setCameraScissor(GLfloat posx, GLfloat posy, GLfloat posz, GLfloat 
   }
 }
 
-V3 Render::getVisiblePosition(WObject *po)
+V3 Render::getVisiblePosition(WO *po)
 {
   bool seen = false;
   GLint vp[4];
@@ -373,7 +373,7 @@ V3 Render::getVisiblePosition(WObject *po)
   for (int i=0; i<5; i++) {
     if ((x[i] > w) || (x[i] < 0) || (y[i] > h) || (y[i] < 0)) continue;
     uint16_t num = bufferSelection((GLint) x[i], (GLint) y[i]);
-    WObject *o = WObject::byNum(num);
+    WO *o = WO::byNum(num);
     if (o && ! strcasecmp(po->getInstance(), o->getInstance())) {
       seen = true;
       break;

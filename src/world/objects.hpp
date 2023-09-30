@@ -21,7 +21,7 @@
 #ifndef INITOBJ_HPP
 #define INITOBJ_HPP
 
-#include "wobject.hpp"	// WObject
+#include "wobject.hpp"	// WO
 
 
 /*
@@ -44,26 +44,26 @@ struct InitFunc {
  * ProperFunc struct
  */
 struct ProperFunc {
-  void (*method) (WObject *po, class Payload *pp);
+  void (*method) (WO *po, class Payload *pp);
 };
-#define _Payload (void (*)(WObject *o, class Payload *p))
+#define _Payload (void (*)(WO *o, class Payload *p))
 
 /**
  * ActionFunc struct
  */
 struct ActionFunc {
   char name[ACTIONNAME_LEN];
-  void (*method) (WObject *po, void *d, time_t s, time_t u);
+  void (*method) (WO *po, void *d, time_t s, time_t u);
 };
-#define _Action (void (*)(WObject *o, void *d, time_t s, time_t u))
+#define _Action (void (*)(WO *o, void *d, time_t s, time_t u))
 
 
 /** external functions **/
 
 /* Action */
-void setActionFunc(uint8_t type, uint8_t action, void (*method)(WObject *o, void *d, time_t s, time_t u), const char *action_name);
+void setActionFunc(uint8_t type, uint8_t action, void (*method)(WO *o, void *d, time_t s, time_t u), const char *action_name);
 bool isAction(uint8_t type, uint8_t action);
-void doAction(uint8_t type, uint8_t action, WObject *o, void *d, time_t s, time_t u);
+void doAction(uint8_t type, uint8_t action, WO *o, void *d, time_t s, time_t u);
 bool isActionName(uint8_t type, uint8_t action);
 int indexAction(uint8_t type, const char *name);
 void copyActionName(uint8_t type, uint8_t action, char *dest);
@@ -78,11 +78,11 @@ float getMaxLastings(uint8_t type);
 void setPropertiesnumber(uint8_t type, uint8_t nbprop);
 uint8_t getPropertiesnumber(uint8_t type);
 
-void getPropertyFunc(uint8_t type, uint8_t prop, void (*get_method)(WObject *o, Payload *p));
-void putPropertyFunc(uint8_t type, uint8_t prop, void (*put_method)(WObject *o, Payload *p));
+void getPropertyFunc(uint8_t type, uint8_t prop, void (*get_method)(WO *o, Payload *p));
+void putPropertyFunc(uint8_t type, uint8_t prop, void (*put_method)(WO *o, Payload *p));
 bool isGetPropertyFunc(uint8_t type, uint8_t prop);
 bool isPutPropertyFunc(uint8_t type, uint8_t prop);
-void runGetPropertyFunc(uint8_t type, uint8_t prop, WObject *o, Payload *p);
-void runPutPropertyFunc(uint8_t type, uint8_t prop, WObject *o, Payload *p);
+void runGetPropertyFunc(uint8_t type, uint8_t prop, WO *o, Payload *p);
+void runPutPropertyFunc(uint8_t type, uint8_t prop, WO *o, Payload *p);
 
 #endif

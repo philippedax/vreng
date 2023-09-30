@@ -36,7 +36,7 @@ struct sWings {
 /**
  * Wings class
  */
-class Wings: public WObject {
+class Wings: public WO {
 
 private:
   bool taken;                           ///< bool taken by avatar
@@ -94,7 +94,7 @@ public:
 
   static void funcs();	///< init funclist.
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creation from a file. */
 
   Wings(char *l);		///< Constructor file.

@@ -31,7 +31,7 @@ class Book;
 /**
  * Sheet class
  */
-class Sheet: public WObject {
+class Sheet: public WO {
   friend class Book;
 
 protected:
@@ -85,13 +85,13 @@ public:
   Sheet(uint8_t type_id, Noid _noid, Payload *pp);
   /**< Constructor replicator */
 
-  static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
 #endif
 
   void changePosition(float lasting);
   void updateTime(time_t s, time_t us, float *lasting);
   bool updateToNetwork(const Pos &oldpos);
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   void quit();
 
   void turnPrev();

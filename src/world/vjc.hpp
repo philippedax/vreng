@@ -214,15 +214,15 @@ class VjcMessage {
   static const uint32_t MAGIC;
   static const uint16_t MAX_PACKET;
 
-  VjcMessage(WObject *sender, uint8_t type, uint8_t id);
+  VjcMessage(WO *sender, uint8_t type, uint8_t id);
   /**<
    * Outgoing constructor
-   * WObject *sender should be set to the object sending the data
+   * WO *sender should be set to the object sending the data
    * int type is the message type (VJC_MSGT_*)
    * int val  is the message value (subtype) (VJC_MSGV_*)
    */
 
-  VjcMessage(WObject *sender, uint32_t ssrc, uint8_t type, uint8_t id);
+  VjcMessage(WO *sender, uint32_t ssrc, uint8_t type, uint8_t id);
   /**<
    * This constructor is used by Vjc for special update
    * messages. The additional ssrc int is used to force
@@ -249,7 +249,7 @@ class VjcMessage {
    * For outgoing messages, the header's data_len field is not set.
    */
 
-  bool isForObject(WObject *po);
+  bool isForObject(WO *po);
   /**< Checks wether this message is for the object *po */
 
   void put8(int val);
@@ -261,7 +261,7 @@ class VjcMessage {
   void put32(int val);
   /**< Add a 32bit int to the message */
 
-  void putOID(WObject *po);
+  void putOID(WO *po);
   /**<
    * Puts an object's net id.
    * 8bit type, 32bit src id, 16bit port id, 16bit obj id.
@@ -271,7 +271,7 @@ class VjcMessage {
    *               We set all the fields to 0.
    */
 
-  void putPos(WObject *po);
+  void putPos(WO *po);
   /**<
    * Puts an object position.
    * 6*32bit ((x,y,z),(az,ax,0)).
@@ -341,14 +341,14 @@ class VjcMessage {
  private:
   uint8_t *data;		// buffer
   tVjcHeader header;		// header
-  class WObject *sender;	// sender
+  class WO *sender;		// sender
   int cursor;			// current position within the buffer
   int maxlen;			// length of the buffer
 
   void putHeader();
   /**< Writes the header */
 
-  void setup(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id);
+  void setup(WO *po, uint32_t ssrc, uint8_t type, uint8_t id);
   /**< Creates the buffer and the header */
 
   void dumpHeader(tVjcHeader hdr);
@@ -371,7 +371,7 @@ class VjcMessage {
  * running, and all the methods the Vrelet objects
  * use are static and delegate to that singelton.
  */
-class Vjc: public WObject {
+class Vjc: public WO {
 
  private:
   static const uint16_t PING_WAIT;
@@ -405,7 +405,7 @@ class Vjc: public WObject {
 
   static void funcs();	///< init funclist
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);
@@ -420,14 +420,14 @@ class Vjc: public WObject {
    * is also removed.
    */
 
-  static VjcMessage *getData(WObject *po);
+  static VjcMessage *getData(WO *po);
   /**<
    * Reads in data from the child process, if any is availabe.
    * It is the caller's responsability to delete the message
    * received if it was non null.
    */
 
-  static int sendCommand(WObject *po, int val);
+  static int sendCommand(WO *po, int val);
   /**< Sends a command */
 
   static void startApp(class Vrelet *pifc);

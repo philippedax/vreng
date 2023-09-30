@@ -33,7 +33,7 @@
  * Aoi class
  * Area of Interest
  */
-class Aoi: public WObject {
+class Aoi: public WO {
 
 private:
 #if 0
@@ -51,7 +51,7 @@ public:
 
   Aoi(char *l);		///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   void aoiEnter();

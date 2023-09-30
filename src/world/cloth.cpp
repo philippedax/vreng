@@ -32,10 +32,10 @@ static uint16_t oid = 0;
 #include <list>
 using namespace std;
 
-list<WObject*> Cloth::wearList;		// list of objects weared by local user
+list<WO*> Cloth::wearList;		// list of objects weared by local user
 
 
-WObject * Cloth::creator(char *l)
+WO * Cloth::creator(char *l)
 {
   return new Cloth(l);
 }
@@ -183,7 +183,7 @@ void Cloth::addWearList()
 
 void Cloth::delWearList()
 {
-  for (list<WObject*>::iterator it = wearList.begin(); it != wearList.end(); it++) {
+  for (list<WO*>::iterator it = wearList.begin(); it != wearList.end(); it++) {
     if (*it == this) {
       wearList.pop_back();	// wearList.erase(it);
     }

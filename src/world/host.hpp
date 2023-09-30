@@ -30,7 +30,7 @@
 /**
  * Host class
  */
-class Host: public WObject {
+class Host: public WO {
 
 public:
   /* properties */
@@ -52,10 +52,10 @@ public:
 
   Host(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects */
 
   bool updateToNetwork(const Pos &oldpos);

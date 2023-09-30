@@ -30,7 +30,7 @@ struct TexFont;
 /**
  * Bubble class
  */
-class Bubble: public WObject {
+class Bubble: public WO {
 private:
 
   Text *bubtext;	///< message inside bubble

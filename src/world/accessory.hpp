@@ -41,7 +41,7 @@ public:
 
   Accessory(char *l);	///< Constructor.
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Create from fileline. */
 
   void changePermanent(float lasting);

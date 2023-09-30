@@ -30,7 +30,7 @@
 /**
  * Download class
  */
-class Download: public WObject {
+class Download: public WO {
 
 public:
   static const OClass oclass;	///< class variable
@@ -41,7 +41,7 @@ public:
 
   Download(char *l);		///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   void quit();

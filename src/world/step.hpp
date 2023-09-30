@@ -30,7 +30,7 @@
 /**
  * Step class
  */
-class Step: public WObject {
+class Step: public WO {
 
  protected:
   static const float LSPEED;	///< linear speed
@@ -75,18 +75,18 @@ class Step: public WObject {
   Step() {}		///< Constructor
   Step(char *l);	///< Constructor
 
-  Step(WObject *user, char *form);	///< Constructor from GUI
+  Step(WO *user, char *form);	///< Constructor from GUI
 
   Step(Pos& newpos, Pos& _initialpos, const char *name, const char *geom, bool _mobile, float _height, float _speed, int _dir);
   /**< Constructor for structure of steps */
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Create from fileline */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects */
 
-  bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WO *pcur, WO *pold);
   /**< When an other object leaves intersection */
 
   void updateTime(time_t s, time_t us, float *lasting);

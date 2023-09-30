@@ -223,7 +223,7 @@ public:
     PROGRESS
   };
 
-  class WObject	*wobject;	///< WObject parent.
+  class WO	*wobject;	///< WO parent.
   class Texture *texture;	///< texture if exists.
   GLint*	dlists;		///< cached display list.
   GLint		ray_dlist;	///< ray display list.
@@ -232,8 +232,8 @@ public:
   virtual ~Solid();		///< destructor.
 
   // Accessors
-  WObject* object() const;
-  /**< Returns the associated WObject. */
+  WO* object() const;
+  /**< Returns the associated WO. */
 
   void getDimBB(V3& bbsize) const;
   void getRelBB(V3& bbcent, V3& bbsize) const;

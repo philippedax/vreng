@@ -43,7 +43,7 @@ static struct sHumanhead heads[] = {
 };
 
 
-WObject * Humanhead::creator(char *l)
+WO * Humanhead::creator(char *l)
 {
   return new Humanhead(l);
 }

@@ -65,7 +65,7 @@ public:
   void expandAvatar();
   void collapseAvatar();
   void clearInfoBar();
-  void clearInfoBar(class WObject*);
+  void clearInfoBar(class WO*);
  
   void writeMessage(const char *mode, const char *from, const char *mess);
   ///< writes a message.
@@ -88,9 +88,9 @@ public:
   
   // Cart
   void showCartDialog(bool flag);
-  GuiItem* addCart(class WObject *po);
-  void removeCart(class WObject *po, int target);
-  void updateCart(class WObject*);	///< Updates the infoBar when a cart item is selected.
+  GuiItem* addCart(class WO *po);
+  void removeCart(class WO *po, int target);
+  void updateCart(class WO*);		///< Updates the infoBar when a cart item is selected.
   
   // Vnc, Vrelet, Carrier, Board
   void launchVnc(class Vnc*);		///< Lauches vnc dialog.
@@ -102,7 +102,7 @@ public:
   // Ocaml
   void initClicked();
   void getClicked(uint8_t *click, float clicked[]);
-  WObject* getSelectedObject();
+  WO* getSelectedObject();
   
 private:
   friend class Widgets;
@@ -114,7 +114,7 @@ private:
   std::vector<ChannelSources*> channel_sources;	///< table of network events
 
   class Widgets* widgets;		///< the widgets of the GUI
-  class WObject* selected_object;	///< the object that is currently selected
+  class WO* selected_object;	///< the object that is currently selected
   class Vnc* vnc;			///< vnc pointer
   class Carrier* carrier;		///< carrier pointer
   class Vrelet* vrelet;			///< vrelet pointer

@@ -49,7 +49,7 @@ Aoi *currentAoi = NULL;  ///< points to current AoI where localuser is in
 
 
 /* creation from file */
-WObject * Aoi::creator(char *l)
+WO * Aoi::creator(char *l)
 {
   return new Aoi(l);
 }
@@ -145,7 +145,7 @@ void Aoi::aoiEnter()
 void Aoi::aoiQuit()
 {
   /* freeing only mobile object we're responsible for */
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+  for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     /* skipping local user object (as we do not want to remove it) */
     if (*it == localuser) continue;
     /* closes GUI */

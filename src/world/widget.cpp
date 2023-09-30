@@ -27,7 +27,7 @@ const OClass Widget::oclass(WIDGET_TYPE, "Widget", Widget::creator);
 
 
 /* Creation from a file */
-WObject * Widget::creator(char *l)
+WO * Widget::creator(char *l)
 {
   return new Widget(l);
 }

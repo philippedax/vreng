@@ -31,7 +31,7 @@
 /**
  * Carousel class
  */
-class Carousel: public WObject {
+class Carousel: public WO {
 
 private:
   X3d * x3d;
@@ -49,11 +49,11 @@ public:
 
   static void funcs(); //makes links with the GUI
 
-  static WObject * creator(char *l);
+  static WO * creator(char *l);
 
   void render();
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
 
 private:
 

@@ -29,7 +29,7 @@
 /**
  * Clip class
  */
-class Clip: public WObject {
+class Clip: public WO {
 
 private:
   uint8_t fmt;		///< video format
@@ -58,10 +58,10 @@ public:
 
   Clip(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Create from fileline */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects */
 
   void quit();

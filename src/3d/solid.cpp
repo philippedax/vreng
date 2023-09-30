@@ -26,7 +26,7 @@
 #include "draw.hpp"	// STYLE
 #include "render.hpp"	// ::g.render
 #include "texture.hpp"	// Texture
-#include "wobject.hpp"	// WObject
+#include "wobject.hpp"	// WO
 #include "parse.hpp"	// printNumline
 #include "netobj.hpp"	// declareObjDelta
 #include "user.hpp"	// localuser
@@ -1225,8 +1225,8 @@ void Solid::getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi,
   *alp = alpha;
 }
 
-// accessor - get WObject parent from Solid
-WObject* Solid::object() const
+// accessor - get WO parent from Solid
+WO* Solid::object() const
 {
   return wobject;
 }

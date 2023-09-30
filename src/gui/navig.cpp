@@ -158,7 +158,7 @@ void Navig::mouseMoveCB(UMouseEvent& e)
   }
   else if (followMouse) {
     // mode followMouse continuously indicates object under pointer
-    WObject *object = gw.pointedObject((int) e.getX(), (int) e.getY(), objinfo, depthsel);
+    WO *object = gw.pointedObject((int) e.getX(), (int) e.getY(), objinfo, depthsel);
     selectObject(object ? objinfo : null);
   }
   else if (gw.gui.selected_object && gw.gui.selected_object->isValid()) {
@@ -211,7 +211,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
   //Sound::playSound(CLICKSND);
 
   // desactivate previous object
-  WObject* prev_object = gw.gui.getSelectedObject();
+  WO* prev_object = gw.gui.getSelectedObject();
   if (prev_object) {
     prev_object->resetFlashy();
     prev_object->resetRay();
@@ -220,7 +220,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
   // current clic
   static uint8_t z = 0;	// first object static to allow 3 objects
   //echo("z: %d", z);
-  WObject* object = gw.pointedObject(x, y, objinfo, z % 3);
+  WO* object = gw.pointedObject(x, y, objinfo, z % 3);
   z++;			// next object hidden in th the z buffer
 
   if (object) {
@@ -262,7 +262,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
 void Navig::mousePressB2(UMouseEvent&, int x, int y)
 {
   depthsel++;
-  WObject* object = gw.pointedObject(x, y, objinfo, depthsel);
+  WO* object = gw.pointedObject(x, y, objinfo, depthsel);
   if (object) {
     gw.gui.selected_object = object;
     object->resetFlashy();

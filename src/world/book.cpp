@@ -156,7 +156,7 @@ void Book::createSheet(char *s, uint8_t t, uint8_t side)
 }
 
 /* creation from a file */
-WObject * Book::creator(char *l)
+WO * Book::creator(char *l)
 {
   return new Book(l);
 }
@@ -297,7 +297,7 @@ bool Book::updateToNetwork(const Pos &oldpos)
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Book::whenIntersect(WObject *pcur, WObject *pold)
+bool Book::whenIntersect(WO *pcur, WO *pold)
 {
   if (state == OPENED) projectPosition(pcur, pold);
   return true;

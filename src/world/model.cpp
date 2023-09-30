@@ -45,7 +45,7 @@ const float Model::DEF_SCALE = 1;       ///< 1
 static uint16_t oid = 0;
 
 
-WObject * Model::creator(char *l)
+WO * Model::creator(char *l)
 {
   return new Model(l);
 }
@@ -136,7 +136,7 @@ void Model::behaviors()
 }
 
 /* creation from Gui addobj */
-Model::Model(WObject *user, char *url, float _scale)
+Model::Model(WO *user, char *url, float _scale)
 {
   defaults();
   taken = true;

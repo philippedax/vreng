@@ -551,7 +551,7 @@ void Mech::changePermanent(float lasting)
 }
 
 /* creation from a file */
-WObject * Mech::creator(char *l)
+WO * Mech::creator(char *l)
 {
   return new Mech(l);
 }

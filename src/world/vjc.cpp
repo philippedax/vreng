@@ -41,7 +41,7 @@ Vjc *Vjc::server = NULL;
 void Vjc::funcs() {}
 
 
-WObject * Vjc::creator(char *l)
+WO * Vjc::creator(char *l)
 {
   return new Vjc(l);
 }
@@ -105,7 +105,7 @@ void Vjc::changePermanent(float lasting)
 }
 
 /* Sends a simple (no data) control command to the app */
-int Vjc::sendCommand(WObject *po, int id)
+int Vjc::sendCommand(WO *po, int id)
 {
   VjcMessage *msg = new VjcMessage(po, VJC_MSGT_CTRL, id);
   int ret = msg->sendData();
@@ -360,13 +360,13 @@ bool VjcSocket::isClosed()
  */
 
 /* Constructor for outgoing messages */
-VjcMessage::VjcMessage(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id)
+VjcMessage::VjcMessage(WO *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
   setup(po, ssrc, type, id);
 }
 
 /* Constructor for outgoing messages */
-VjcMessage::VjcMessage(WObject *po, uint8_t type, uint8_t id)
+VjcMessage::VjcMessage(WO *po, uint8_t type, uint8_t id)
 {
   setup(po, (Vjc::getServer() == NULL ? NetObject::getSsrc() : Vjc::getServer()->ssrc), type, id);
 }
@@ -387,7 +387,7 @@ tVjcHeader vjcNewHeader(uint32_t ssrc, uint8_t type, uint8_t id, uint16_t len)
 }
 
 /* Setups the header */
-void VjcMessage::setup(WObject *po, uint32_t ssrc, uint8_t type, uint8_t id)
+void VjcMessage::setup(WO *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
   //echo("vjc: setup type=%d id=%d", type, id);
   cursor = 0;			// set the cursor to the start of the buffer
@@ -414,8 +414,8 @@ VjcMessage::~VjcMessage()
   if (data) delete[] data;
 }
 
-/* Checks whether the packet was for this WObject */
-bool VjcMessage::isForObject(WObject *po)
+/* Checks whether the packet was for this WO */
+bool VjcMessage::isForObject(WO *po)
 {
   return (header.src_id == po->getSrc())
       && (header.port_id == po->getPort())
@@ -482,7 +482,7 @@ void VjcMessage::putStr(const char *str)
 }
 
 /* Puts an object's net id */
-void VjcMessage::putOID(WObject *po)
+void VjcMessage::putOID(WO *po)
 {
   if (po) {
     put8((po == sender ? 0 : po->type));
@@ -499,7 +499,7 @@ void VjcMessage::putOID(WObject *po)
 }
 
 /* Puts an object position */
-void VjcMessage::putPos(WObject *po)
+void VjcMessage::putPos(WO *po)
 {
   put32((int32_t) (po->pos.x * 1000));
   put32((int32_t) (po->pos.y * 1000));
@@ -587,7 +587,7 @@ int VjcMessage::sendData()
   }
 
 /* Reads in data from the app process, if any is available */
-VjcMessage * Vjc::getData(WObject *po)
+VjcMessage * Vjc::getData(WO *po)
 {
   /* check that the socket is really open */
   Vjc *srv = getServer();

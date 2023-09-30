@@ -30,7 +30,7 @@
 /**
  * Humanoid class
  */
-class Humanoid: public WObject {
+class Humanoid: public WO {
 
  private:
   // VAPS values
@@ -79,7 +79,7 @@ class Humanoid: public WObject {
   Humanoid();
   /**< Constructor. */
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline. */
 
   void changePermanent(float lasting);

@@ -311,7 +311,7 @@ Icon::Icon(User *user, void *d)
 }
 
 /* Replication from the network */
-WObject * Icon::replicator(uint8_t type_id, Noid noid, Payload *pp)
+WO * Icon::replicator(uint8_t type_id, Noid noid, Payload *pp)
 {
   return new Icon(type_id, noid, pp);
 }
@@ -334,7 +334,7 @@ bool Icon::updateToNetwork(const Pos &oldpos)
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Icon::whenIntersect(WObject *pcur, WObject *pold)
+bool Icon::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
   case WALL_TYPE:

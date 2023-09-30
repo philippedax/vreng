@@ -89,19 +89,19 @@ public:
   int parseVreFile(char *buf, int bufsiz);
   /**< parse vre data, called by vreHttpReader */
 
-  char * parseSolid(char *ptok, class WObject *po);
+  char * parseSolid(char *ptok, class WO *po);
   /**<
    * Creates a new solid.
    * string 'solid' gives the solid's geometry
    */
 
-  char * parseAttributes(char *l, class WObject *po);
+  char * parseAttributes(char *l, class WO *po);
   /**< Parses attribute="value" */
 
-  char * parseSolid(char *geom, const char *separ, class WObject *po);
+  char * parseSolid(char *geom, const char *separ, class WO *po);
   /**< Parses a builtin solid */
 
-  void parseSolids(char *geom, const char *separ, class WObject *po);
+  void parseSolids(char *geom, const char *separ, class WO *po);
   /**< Parses several solids */
 
   char * parseUrl(char *ptok, char *url);

@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "universe.hpp"
 #include "world.hpp"	// World
-#include "wobject.hpp"	// WObject
+#include "wobject.hpp"	// WO
 #include "channel.hpp"	// getTtl
 #include "user.hpp"	// User
 #include "pref.hpp"	// url

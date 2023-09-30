@@ -36,7 +36,7 @@ void Vrelet::funcs() {}
 
 
 /* creation from a file */
-WObject * Vrelet::creator(char *l)
+WO * Vrelet::creator(char *l)
 {
   return new Vrelet(l);
 }
@@ -120,7 +120,7 @@ void Vrelet::sendClick(int x, int y)
 }
 
 /* Send some object's position to the child */
-void Vrelet::sendPos(WObject *po)
+void Vrelet::sendPos(WO *po)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_POS, VJC_MSGV_SET);
 
@@ -150,11 +150,11 @@ void Vrelet::answerTypeQuery(int _type)
 
   if (_type > 0) {
     int cnt = 0;
-    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if ((*it)->type == _type) cnt++;
     }
     msg->put32(cnt);
-    for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+    for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       if ((*it)->type == _type) msg->putOID(*it);
     }
   }
@@ -231,7 +231,7 @@ void Vrelet::readApp()
     uint16_t id   = msg->read16();
 
     // locate the object
-    WObject *who = ((type==0) ? this : OList::findObj(type, src, port, id));
+    WO *who = ((type==0) ? this : OList::findObj(type, src, port, id));
     if (! who) {
       // we didn't find anything that matched
       sendPosError(type, src, port, id);
@@ -250,7 +250,7 @@ void Vrelet::readApp()
         wantDelta = header.msg_id;
       }
       else {			// push someone else (vreng object)
-        WObject *pold = new WObject();	// needed for collision
+        WO *pold = new WO();	// needed for collision
 
         // make the changes
         who->copyPositionAndBB(pold);
@@ -327,7 +327,7 @@ void Vrelet::updateTime(time_t s, time_t us, float *lasting)
   *lasting = 1.;
 }
 
-void Vrelet::setPos(WObject *po)
+void Vrelet::setPos(WO *po)
 {
   po->pos.x = posDelta.v[0];
   po->pos.y = posDelta.v[1];
@@ -337,7 +337,7 @@ void Vrelet::setPos(WObject *po)
   po->pos.ax = angDelta.v[1];
 }
 
-void Vrelet::deltaPos(WObject *po)
+void Vrelet::deltaPos(WO *po)
 {
   po->pos.x += posDelta.v[0];
   po->pos.y += posDelta.v[1];
@@ -370,7 +370,7 @@ void Vrelet::changePosition(float lasting)
 }
 
 /* Send the client a notification that a thing just entered/exited its BB */
-void Vrelet::sendIntersect(WObject *pcur, WObject *pold, int inOrOut)
+void Vrelet::sendIntersect(WO *pcur, WO *pold, int inOrOut)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_ISEC, inOrOut);
 
@@ -383,14 +383,14 @@ void Vrelet::sendIntersect(WObject *pcur, WObject *pold, int inOrOut)
 }
 
 /* An ingoing intersection occured */
-bool Vrelet::whenIntersect(WObject *pcur, WObject *pold)
+bool Vrelet::whenIntersect(WO *pcur, WO *pold)
 {
   sendIntersect(pcur, pold, VJC_MSGV_ISECIN);
   return true;
 }
 
 /* An outgoing intersection occured */
-bool Vrelet::whenIntersectOut(WObject *pcur, WObject *pold)
+bool Vrelet::whenIntersectOut(WO *pcur, WO *pold)
 {
   sendIntersect(pcur, pold, VJC_MSGV_ISECOUT);
   return true;

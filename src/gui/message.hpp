@@ -29,7 +29,7 @@ using namespace ubit;
 using namespace std;
 
 
-class WObject;
+class WO;
 
 /**
  * Message class
@@ -51,7 +51,7 @@ public:
   void writeMessage(const char* mode, const char* from, const char* mess);
   ///< adds a new message to the messages box.
     
-  void performRequest(WObject*);
+  void performRequest(WO*);
   void initClicked();
 
   void getClicked(uint8_t *nclick, float clicked[]);

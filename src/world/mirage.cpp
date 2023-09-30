@@ -36,7 +36,7 @@ const float Mirage::ASPEED = -0.2;
 static float x0x0y0y0, maxx, maxy, minx, miny;
 
 
-WObject * Mirage::creator(char *l)
+WO * Mirage::creator(char *l)
 {
   return new Mirage(l);
 }
@@ -140,7 +140,7 @@ Mirage::Mirage(char *l)
 }
 
 /** Created by user via Gui addobj */
-Mirage::Mirage(WObject *user, char *geom)
+Mirage::Mirage(WO *user, char *geom)
 {
   defaults();
   setName();

@@ -46,14 +46,14 @@ public:
 
   static void funcs();	///< init funclist
 
-  Bullet(WObject *po, void *d, time_t s, time_t u);
+  Bullet(WO *po, void *d, time_t s, time_t u);
   /**< Constructor */
   Bullet(uint8_t type_id, Noid noid, Payload *pp);
   /**< Constructor replicator */
 
   virtual ~Bullet() {};
 
-  static WObject * replicator(uint8_t type_id, Noid noid, Payload *pp);
+  static WO * replicator(uint8_t type_id, Noid noid, Payload *pp);
 
 private:
   void defaults();

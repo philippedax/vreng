@@ -32,7 +32,7 @@ const OClass Mirror::oclass(MIRROR_TYPE, "Mirror", Mirror::creator);
 static uint16_t oid = 0;
 
 
-WObject * Mirror::creator(char *l)
+WO * Mirror::creator(char *l)
 {
   return new Mirror(l);
 }
@@ -70,7 +70,7 @@ bool Mirror::updateToNetwork(const Pos &oldpos)
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Mirror::whenIntersect(WObject *pcur, WObject *pold)
+bool Mirror::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

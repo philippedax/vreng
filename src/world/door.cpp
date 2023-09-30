@@ -32,7 +32,7 @@ const OClass Door::oclass(DOOR_TYPE, "Door", Door::creator);
 static uint16_t oid = 0;
 
 
-WObject * Door::creator(char *l)
+WO * Door::creator(char *l)
 {
   return new Door(l);
 }
@@ -190,7 +190,7 @@ bool Door::updateToNetwork(const Pos &oldpos)
 }
 
 /* Intersects with an object */
-bool Door::whenIntersect(WObject *pcur, WObject *pold)
+bool Door::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

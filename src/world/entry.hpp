@@ -30,7 +30,7 @@
 /**
  * Entry class
  */
-class Entry: public WObject {
+class Entry: public WO {
 
 private:
   static Entry *entry;	///< The singelton instance of this class
@@ -46,7 +46,7 @@ public:
   Entry(char *l);	///< Constructor from file
   Entry(float *newpos);	///< Constructor from gate
 
-  static WObject * (creator)(char *l);	///< Creates from fileline
+  static WO * (creator)(char *l);	///< Creates from fileline
 
   static Entry * current();
   /**< Returns the current entry */

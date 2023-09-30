@@ -30,7 +30,7 @@
 /**
  * Plane class
  */
-class Plane: public WObject {
+class Plane: public WO {
 
 public:
  /* properties */
@@ -48,7 +48,7 @@ public:
 
   const OClass* getOClass() {return &oclass;}
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline. */
 
   Plane(char *l);
@@ -56,7 +56,7 @@ public:
 
   static void funcs();	///< init funclist.
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects. */
 
   void quit();

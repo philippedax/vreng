@@ -61,7 +61,7 @@ public:
 /**
  * Smoke class
  */
-class Smoke: public WObject {
+class Smoke: public WO {
 
 public:
   uint16_t npmax;	///< number max of particles
@@ -77,7 +77,7 @@ public:
   Smoke(char *l);	///< Constructor.
   ~Smoke() {};		///< Destructor.
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   ///< Creates from fileline.
 
   void changePermanent(float dt);

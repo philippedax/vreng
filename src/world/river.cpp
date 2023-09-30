@@ -31,7 +31,7 @@ const GLfloat River::DEF_SCALE = 1;
 const GLfloat River::DEF_COLOR[4] = {0.2, 0.4, 0.7, 0.9};
 
 
-WObject * River::creator(char *l)
+WO * River::creator(char *l)
 {
   return new River(l);
 }

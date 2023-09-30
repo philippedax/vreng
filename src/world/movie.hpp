@@ -37,7 +37,7 @@
 /**
  * Movie class
  */
-class Movie: public WObject {
+class Movie: public WO {
 
 private:
   static const float FPS;	///< max number of frames decoded per rendering
@@ -80,7 +80,7 @@ public:
 
   Movie(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from file line. */
 
   void changePermanent(float lasting);

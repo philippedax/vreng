@@ -76,7 +76,7 @@ void Dart::inits()
   Sound::playSound(SHOOTSND);
 }
 
-Dart::Dart(WObject *user, void *d, time_t s, time_t u)
+Dart::Dart(WO *user, void *d, time_t s, time_t u)
 {
   defaults();
   geometry();
@@ -91,7 +91,7 @@ void Dart::create(User *user, void *d, time_t s, time_t u)
 }
 
 /* Replication from the network */
-WObject * Dart::replicator(uint8_t type_id, Noid noid, Payload *pp)
+WO * Dart::replicator(uint8_t type_id, Noid noid, Payload *pp)
 {
   return new Dart(type_id, noid, pp);
 }

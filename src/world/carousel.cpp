@@ -27,7 +27,7 @@
 const OClass Carousel::oclass(CAROUSEL_TYPE, CAROUSEL_NAME, Carousel::creator);
 
 
-WObject * Carousel::creator(char *l)
+WO * Carousel::creator(char *l)
 {
   return new Carousel(l);
 }
@@ -94,7 +94,7 @@ void Carousel::render()
   glPopMatrix();
 }
 
-bool Carousel::whenIntersect(WObject *pcur, WObject *pold)
+bool Carousel::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
   case USER_TYPE:

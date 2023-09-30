@@ -442,7 +442,7 @@ void Widgets::callAction(int numaction)
 /** do an action on selected object */
 static void objectActionCB(int numaction)
 {
-  WObject* object = g.gui.getSelectedObject();
+  WO* object = g.gui.getSelectedObject();
   if (object) {
     struct timeval t;
     gettimeofday(&t, NULL);
@@ -451,7 +451,7 @@ static void objectActionCB(int numaction)
 }
 
 /** returns info about the pointed object */
-WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
+WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
 {
   static char *classname = 0, *instancename = 0, *actionnames = 0;
 
@@ -461,7 +461,7 @@ WObject* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   uint16_t num = ::g.render.bufferSelection(x, y, z);	// find object number in the Z-buffer
   trace(DBG_GUI, "pointed: clic=%d %d %d num=%d", x, y, z, num);
 
-  WObject* object = WObject::byNum(num);
+  WO* object = WO::byNum(num);
 
   if (! object) {
     objinfo[0].name = (char*) "World";	// avoid segfault
@@ -942,7 +942,7 @@ void Widgets::objectsDialog()
   char line[64];
 
   UBox& objects_box = uvbox(UBackground::none);
-  for (vector<WObject*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
+  for (vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     sprintf(line, "%s:%s", (*it)->names.type, (*it)->names.instance);
     objects_box.add(uitem(UColor::black + line));
   }

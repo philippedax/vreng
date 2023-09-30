@@ -30,7 +30,7 @@
 /**
  * Mech class
  */
-class Mech: public WObject {
+class Mech: public WO {
 
  private:
   /* display list definitions */
@@ -63,7 +63,7 @@ class Mech: public WObject {
 
   Mech(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   void changePermanent(float lasting);

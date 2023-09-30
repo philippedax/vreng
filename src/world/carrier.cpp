@@ -51,18 +51,18 @@ bool Carrier::underControl() const
   return taking;
 }
 
-void Carrier::takeControl(WObject *po, void *d, time_t s, time_t us)
+void Carrier::takeControl(WO *po, void *d, time_t s, time_t us)
 {
   localuser->carrier->take(po);
 }
 
-void Carrier::leaveControl(WObject *po, void *d, time_t s, time_t us)
+void Carrier::leaveControl(WO *po, void *d, time_t s, time_t us)
 {
   localuser->carrier->leave(po);
 }
 
 /** Takes control of the mouse to enter in manipulation mode */
-void Carrier::take(WObject *po)
+void Carrier::take(WO *po)
 {
   if (po->mode != MOBILE) {
     echo("%s is not mobile", po->getInstance());
@@ -82,7 +82,7 @@ void Carrier::take(WObject *po)
 }
 
 /** Leaves control of the mouse to enter in navigation mode */
-void Carrier::leave(WObject *po)
+void Carrier::leave(WO *po)
 {
   leave();
 }
@@ -100,7 +100,7 @@ void Carrier::leave()
   defaults();  // reset the carrier
 }
 
-void Carrier::set(WObject *po)
+void Carrier::set(WO *po)
 {
   taking = true;
   object = po;
@@ -119,7 +119,7 @@ void Carrier::mouseEvent(uint16_t x, uint16_t y, uint8_t button)
  */
 void Carrier::mouseEvent(int8_t vkey, float last)
 {
-  WObject *poldobj = new WObject();
+  WO *poldobj = new WO();
   object->copyPositionAndBB(poldobj);	// copy oldpos, oldangle
 
   echo("carrier: k=%d", vkey);

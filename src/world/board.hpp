@@ -29,7 +29,7 @@
 /**
  * Board class
  */
-class Board: public WObject {
+class Board: public WO {
 
 public:
   /* properties */
@@ -58,10 +58,10 @@ public:
 
   Board(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< Intersection with an other object */
 
   bool updateToNetwork(const Pos &oldpos);

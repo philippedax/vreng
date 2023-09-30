@@ -49,7 +49,7 @@ typedef struct _Object2D {
 /**
  * Vrelet class
  */
-class Vrelet: public WObject {
+class Vrelet: public WO {
 
  public:
 
@@ -68,7 +68,7 @@ class Vrelet: public WObject {
 
   static void funcs();	///< init funclist
 
-  static WObject * (creator)(char *l); ///< Creates from fileline
+  static WO * (creator)(char *l); ///< Creates from fileline
 
   bool isMoving();
   /**< Returns yes if the child has sent a delta request */
@@ -79,10 +79,10 @@ class Vrelet: public WObject {
   void updateTime(time_t s, time_t us, float *lasting);
   /**< Dummy: always say we need to move */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< Notify the controler that an ingoing intersection occured */
 
-  bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WO *pcur, WO *pold);
   /**< Notify the controler that an outgoing intersection occured */
 
   void render();
@@ -125,7 +125,7 @@ class Vrelet: public WObject {
    * Finally, draw this Vrelet's 2D object list.
    */
 
-  void sendPos(WObject *po);
+  void sendPos(WO *po);
   /**<
    * Send some object's position to the child.
    * If the position is that of the current object,
@@ -148,7 +148,7 @@ class Vrelet: public WObject {
    * the object it's working on no longer exists.
    */
 
-  void sendIntersect(WObject *po, WObject *old, int inOrOut);
+  void sendIntersect(WO *po, WO *old, int inOrOut);
   /**<
    * Send the client a notification that a thing just entered/exited
    * its bounding box
@@ -159,7 +159,7 @@ class Vrelet: public WObject {
    * Answer a child's query.
    * Right now, the only query available is a query
    * to the list of mobile objects, asking for a given type
-   * of WObject. A list of all the object ids is returned to the child.
+   * of WO. A list of all the object ids is returned to the child.
    */
 
   void readApp();
@@ -180,10 +180,10 @@ class Vrelet: public WObject {
    * - MSGT_QUERY: Answers to type queries (returns a list of mobile objects)
    */
 
-  void setPos(WObject *po);
+  void setPos(WO *po);
   /**< Set initial position of this object */
 
-  void deltaPos(WObject *po);
+  void deltaPos(WO *po);
   /**< Update position of this object */
 
   void sendClick(int x, int y);

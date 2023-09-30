@@ -33,7 +33,7 @@ using namespace std;
 const OClass Cart::oclass(CART_TYPE, "Cart", NULL);
 
 // local
-vector<WObject*> Cart::cartList;	// vector of objects in Cart
+vector<WO*> Cart::cartList;	// vector of objects in Cart
 
 
 void Cart::parser(char *l)
@@ -66,7 +66,7 @@ Cart::Cart(char *l)
  * and calls the addCart to manage the cart widget
  * called by Thing::dropIntoBasket
  */
-void Cart::addToCart(WObject *po)
+void Cart::addToCart(WO *po)
 {
   // find object's world list and remove object from it
   switch (po->mode) {
@@ -101,7 +101,7 @@ void Cart::addToCart(WObject *po)
   number++;
 }
 
-bool Cart::isSomethingInCart(WObject *po)
+bool Cart::isSomethingInCart(WO *po)
 {
   return number;
 }
@@ -109,10 +109,10 @@ bool Cart::isSomethingInCart(WObject *po)
 /**
  * Leaves the object in the current world
  */
-void Cart::leave(WObject *po)
+void Cart::leave(WO *po)
 {
   // remove object from the cartList
-  for (vector<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
+  for (vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
       cartList.erase(it);
     }
@@ -167,10 +167,10 @@ void Cart::leave(WObject *po)
 /**
  * Removes the object, (removeCart yet called)
  */
-void Cart::removeFromCart(WObject *po)
+void Cart::removeFromCart(WO *po)
 {
   // remove from cartList
-  for (vector<WObject*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
+  for (vector<WO*>::iterator it = cartList.begin(); it != cartList.end(); ++it) {
     if (*it == po) {
       cartList.erase(it);
     }

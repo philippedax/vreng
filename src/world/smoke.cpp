@@ -32,7 +32,7 @@ const float PSmoke::SIN[NA] = { SZ*sin(A[0]), SZ*sin(A[1]), SZ*sin(A[2]), SZ*sin
 
 
 /* creation from a file */
-WObject * Smoke::creator(char *l)
+WO * Smoke::creator(char *l)
 {
   return new Smoke(l);
 }

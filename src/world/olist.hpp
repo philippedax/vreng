@@ -31,7 +31,7 @@
 class OList {
 
 public:
-  class WObject *pobject;	///< object ptr.
+  class WO *pobject;	///< object ptr.
   class OList *next;		///< next.
 
   OList();			///< constructor.
@@ -43,13 +43,13 @@ public:
   void clearIspointed();
   /**< Clears flags "ispointed" of all objects in a list. */
 
-  static WObject *findObj(uint8_t type_id,uint32_t src_id,uint16_t port_id,uint16_t obj_id);
+  static WO *findObj(uint8_t type_id,uint32_t src_id,uint16_t port_id,uint16_t obj_id);
   /**< Returns the object identified by type and id from the mobile list. */
 
-  //notused static void  clearIspointed(std::list<WObject*> &olist);
-  //notused static void  remove(std::list<WObject*> &olist);
-  //notused static void show(std::list<WObject*> &olist);
-  //notused static void show(std::list<WObject*> &olist, const char *str);
+  //notused static void  clearIspointed(std::list<WO*> &olist);
+  //notused static void  remove(std::list<WO*> &olist);
+  //notused static void show(std::list<WO*> &olist);
+  //notused static void show(std::list<WO*> &olist, const char *str);
   //notused /**< Shows contents of list for debugging only. */
 
 };

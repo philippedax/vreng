@@ -38,7 +38,7 @@ static const char * PAUSE_CGI = "rtppause.cgi";
 static const char * CONT_CGI = "rtpcont.cgi";
 
 
-WObject * Clip::creator(char *l)
+WO * Clip::creator(char *l)
 {
   return new Clip(l);
 }
@@ -86,7 +86,7 @@ Clip::Clip(char *l)
   state = RTP_INACTIVE;
 }
 
-bool Clip::whenIntersect(WObject *pcur, WObject *pold)
+bool Clip::whenIntersect(WO *pcur, WO *pold)
 {
   pold->copyPositionAndBB(pcur);
   return true;

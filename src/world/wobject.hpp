@@ -56,22 +56,22 @@
 /**
  * objects lists
  */
-extern std::vector<WObject*> objectList;
-extern std::list<WObject*> mobileList;
-extern std::vector<WObject*> stillList;
-extern std::vector<WObject*> invisList;
-extern std::vector<WObject*> fluidList;
-extern std::vector<WObject*> clothList;
-extern std::vector<WObject*> deleteList;
-extern std::vector<WObject*> lightList;
+extern std::vector<WO*> objectList;
+extern std::list<WO*> mobileList;
+extern std::vector<WO*> stillList;
+extern std::vector<WO*> invisList;
+extern std::vector<WO*> fluidList;
+extern std::vector<WO*> clothList;
+extern std::vector<WO*> deleteList;
+extern std::vector<WO*> lightList;
 
 
 /**
- * WObjectId class
+ * WOId class
  *
  * identifies a distributed object.
  */
-class WObjectId {
+class WOId {
  public:
   uint32_t src_id;	///< IPaddr src
   uint16_t port_id;	///< port
@@ -86,7 +86,7 @@ class WObjectId {
  * hash entry
  */
 struct hash_elt {
-  WObject *po;                  ///< object ptr
+  WO *po;                  ///< object ptr
   char name[OBJNAME_LEN];       ///< object name
 };
 
@@ -145,11 +145,11 @@ struct Move {
 };
 
 /**
- * WObject class
+ * WO class
  *
  * common class for all the objects.
  */
-class WObject {
+class WO {
 
 public:
   class NetObject *netop;	///< reserved field for network.
@@ -173,7 +173,7 @@ public:
   char *geomsolid;		///< geometry string of the solid.
 
   class Solid *solid;		///< solid pointer
-  class WObjectId noid;		///< WObject Id.
+  class WOId noid;		///< WO Id.
   list<Solid*> _solidList;	///< list of solids.
   class Flare *flare;		///< flare instance.
   class Carrier *carrier;	///< move via carrier.
@@ -218,10 +218,10 @@ public:
   // Methods
   //
 
-  WObject();
+  WO();
   /**< Constructor. */
 
-  virtual ~WObject();
+  virtual ~WO();
   /**< Destructor. */
 
   virtual const OClass* getOClass()	{ return NULL; }
@@ -251,13 +251,13 @@ public:
   virtual bool updateToNetwork(const Pos &oldpos)		{ return false; }
   /**< Publishes changes to the network. */
 
-  virtual bool whenIntersect(WObject *pcur, WObject *pold)	{ return false; }
+  virtual bool whenIntersect(WO *pcur, WO *pold)	{ return false; }
   /**< Handles an ingoing collision with another object. */
 
-  virtual bool whenIntersectOut(WObject *pcur, WObject *pold)	{ return false; }
+  virtual bool whenIntersectOut(WO *pcur, WO *pold)	{ return false; }
   /**< Handles an outgoing collision with another object. */
 
-  virtual void whenWallsIntersect(WObject *pold, V3 *norm)	{}
+  virtual void whenWallsIntersect(WO *pold, V3 *norm)	{}
   /**< Handles collisions with walls. */
 
   virtual void render()						{}
@@ -289,7 +289,7 @@ public:
   // Intersections
   //
 public:
-  int interAABB(WObject *o1, WObject *o2);
+  int interAABB(WO *o1, WO *o2);
 
 private:
   int interAABB(V3 center1, V3 size1, V3 center2, V3 size2);	// static?
@@ -485,8 +485,8 @@ public:
   uint16_t getObj() const;
   /**< Gets the ObjId. */
 
-  void setWObjectId();
-  /**< Sets the WObjectid.
+  void setWOId();
+  /**< Sets the WOid.
    * Assigns a unique identifier to each Vreng object
    * whether if be a networked object or not.
    */
@@ -524,7 +524,7 @@ public:
 
   void updateGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold);
   void updateGrid(const Pos &oldpos);
-  void updateGrid(const WObject *pold);
+  void updateGrid(const WO *pold);
   /**< Updates an object into the vicinity grid. */
 
 private:
@@ -538,25 +538,25 @@ public:
   OList * addToList(OList * olist);
   /**< Adds an object pointer into a olist. */
 
-  void    addToListOnce(std::list<WObject*> &olist);
+  void    addToListOnce(std::list<WO*> &olist);
 
   OList * addOListOnce(OList * olist); // confuse
   /**< Adds an object pointer into a list only once time. */
 
-  void    delFromList(std::list<WObject*> &olist);
+  void    delFromList(std::list<WO*> &olist);
   OList * delOList(OList * olist); // confuse
   /**< Deletes an object pointer from a olist. */
 
   OList * addListToList(OList * list1, OList * list2);
   /**< Concatenation (test of "ispointed") of list pointers on an object. */
 
-  OList * getVicinity(const WObject *pold);
+  OList * getVicinity(const WO *pold);
   /**< Returns list of pointers on objects touching cell where is the object. */
 
-  void checkVicinity(WObject *pold);
+  void checkVicinity(WO *pold);
   /**< Checks whether vicinity. */
 
-  static WObject * byNum(uint16_t num); // to become virtual !
+  static WO * byNum(uint16_t num); // to become virtual !
   /**< Gets an object by its num. */
 
   //
@@ -609,7 +609,7 @@ public:
   void moveUserToObject(float val, float _lttl, float _attl);
   /**< Moves the user to the object. */
 
-  static void moveObject(WObject *po, void *d, time_t s, time_t u);
+  static void moveObject(WO *po, void *d, time_t s, time_t u);
   /**< User moves the object. */
 
 private:
@@ -632,7 +632,7 @@ public:
   void updateNames();
   /**< Updates names. */
 
-  WObject *getObjectByName(const char *str);
+  WO *getObjectByName(const char *str);
   /**< Gets an object by its name. */
 
 private:
@@ -742,28 +742,28 @@ public:
   // Collisions
   //
 public:
-  void generalIntersect(WObject *pold, OList *vicinityList);
+  void generalIntersect(WO *pold, OList *vicinityList);
   /**< General intersection of objects. */
 
   void copyPosAndBB(Pos &newpos);
   /**< Copy object position and Bounding Box. */
 
-  void copyPositionAndBB(WObject *o);
+  void copyPositionAndBB(WO *o);
   /**< Copy object position and Bounding Box. */
 
   int projectPositionOnObstacle(Pos &pcur, Pos &pold, Pos &obstacle);
   /**< Projects object position on an obstacle. */
 
-  void computeNormal(WObject *mobil, V3 *normal);
+  void computeNormal(WO *mobil, V3 *normal);
   /**< Computes the normal of an object. */
 
   void computeNormal(Pos &mobil, Pos &stil, V3 *normal);
   /**< Computes the normal of still object. */
 
-  bool projectPosition(WObject *pcur, WObject *pold);
+  bool projectPosition(WO *pcur, WO *pold);
   /**< Projects object position. */
 
-  void bounceTrajectory(WObject *pold, V3 *norm);
+  void bounceTrajectory(WO *pold, V3 *norm);
   /**< Intersects with wall. */
 
   void updatePosition();
@@ -772,20 +772,20 @@ public:
   void updatePositionAndGrid(Pos &oldpos);
   /**< Updating 3D and grid position. */
 
-  void updatePositionAndGrid(WObject *pold);
+  void updatePositionAndGrid(WO *pold);
   /**< Updating 3D and grid position. */
 
   void updateDist();
   /**< Updating distance to localuser. */
 
 private:
-  bool ingoingNeighbor(WObject *pold, WObject *neighbor);
+  bool ingoingNeighbor(WO *pold, WO *neighbor);
   /** Checks ingoing intersection with a neighbor. */
 
-  bool outgoingNeighbor(WObject *pold, WObject *neighbor);
+  bool outgoingNeighbor(WO *pold, WO *neighbor);
   /** Checks outgoing intersection with a neighbor. */
 
-  void ingoingWalls(WObject *pold);
+  void ingoingWalls(WO *pold);
   /** Checks ingoing intersection with walls. */
 
   void initPosition();
@@ -871,19 +871,19 @@ public:
 
 protected:
   // GUI and network change callbacks
-  static void get_xy(WObject *po, class Payload *pp);
-  static void get_z(WObject *po, class Payload *pp);
-  static void get_az(WObject *po, class Payload *pp);
-  static void get_ay(WObject *po, class Payload *pp);
-  static void get_ax(WObject *po, class Payload *pp);
-  static void get_hname(WObject *po, class Payload *pp);
+  static void get_xy(WO *po, class Payload *pp);
+  static void get_z(WO *po, class Payload *pp);
+  static void get_az(WO *po, class Payload *pp);
+  static void get_ay(WO *po, class Payload *pp);
+  static void get_ax(WO *po, class Payload *pp);
+  static void get_hname(WO *po, class Payload *pp);
 
-  static void put_xy(WObject *po, class Payload *pp);
-  static void put_z(WObject *po, class Payload *pp);
-  static void put_az(WObject *po, class Payload *pp);
-  static void put_ay(WObject *po, class Payload *pp);
-  static void put_ax(WObject *po, class Payload *pp);
-  static void put_hname(WObject *po, class Payload *pp);
+  static void put_xy(WO *po, class Payload *pp);
+  static void put_z(WO *po, class Payload *pp);
+  static void put_az(WO *po, class Payload *pp);
+  static void put_ay(WO *po, class Payload *pp);
+  static void put_ax(WO *po, class Payload *pp);
+  static void put_hname(WO *po, class Payload *pp);
 };
 
 

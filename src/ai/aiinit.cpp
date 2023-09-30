@@ -57,7 +57,7 @@ value recherche_Typegen(value ttype, value actiondemande)
   sprintf(foundpos, "N/A");
   //echo("Here");
   int nbelem = 0;
-  WObject** listObj = g.render.getDrawedObjects(&nbelem);
+  WO** listObj = g.render.getDrawedObjects(&nbelem);
   //echo("Here %s >> %s >> %d", listObj[1]->typeName(), typechercher, nbelem);
 
   int found = 0;
@@ -114,7 +114,7 @@ value recherche_Type(value ttype)
   sprintf(foundpos, "N/A");
 
   int nbelem = 0;
-  WObject** listObj = g.render.getDrawedObjects(&nbelem);
+  WO** listObj = g.render.getDrawedObjects(&nbelem);
 
   int found = 0;
   for (int i=0; i < nbelem; i++) {
@@ -228,7 +228,7 @@ value recherche_Func(value mot, value act)
     }
 
     int nb = 0;
-    WObject **listObj = g.render.getVisibleObjects(typelist, nbtype, &nb);
+    WO **listObj = g.render.getVisibleObjects(typelist, nbtype, &nb);
 
     if (nb > 0 && strcasecmp(actiontype, "NA")) {
       //on lance la methode sur les objets visibles! faut-il la lancer sur tout?
@@ -249,7 +249,7 @@ value recherche_Func(value mot, value act)
         echo("no visible object for \"%s\", scan around the user", val);
         Vicinity *vicin = new Vicinity();
         int nbproximity = 0;
-        WObject* nearObj = vicin->searchProximityObject(typelist, nbtype);
+        WO* nearObj = vicin->searchProximityObject(typelist, nbtype);
         if (nearObj) {
 	  nearObj->runAction(val);
 	  echo("call the method on the nearest object");	

@@ -34,7 +34,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Board::creator(char *l)
+WO * Board::creator(char *l)
 {
   return new Board(l);
 }
@@ -72,7 +72,7 @@ bool Board::updateToNetwork(const Pos &oldpos)
 }
 
 /* object intersect: projection */
-bool Board::whenIntersect(WObject *pcur, WObject *pold)
+bool Board::whenIntersect(WO *pcur, WO *pold)
 {
   projectPosition(pcur, pold);
   return true;

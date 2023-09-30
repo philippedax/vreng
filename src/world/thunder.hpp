@@ -34,7 +34,7 @@ typedef struct {
 /**
  * Thunder class
  */
-class Thunder: public WObject {
+class Thunder: public WO {
 
 private:
   static const uint16_t NUMBER;		///< number of simultaneous thunders
@@ -55,7 +55,7 @@ public:
 
   Thunder(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creation from a file */
 
   void changePermanent(float lasting);

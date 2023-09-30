@@ -27,7 +27,7 @@ const OClass Fountain::oclass(FOUNTAIN_TYPE, "Fountain", Fountain::creator);
 
 
 /* creation from a file */
-WObject * Fountain::creator(char *l)
+WO * Fountain::creator(char *l)
 {
   return new Fountain(l);
 }

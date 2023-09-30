@@ -29,7 +29,7 @@
 /**
  * Mirror class
  */
-class Mirror: public WObject {
+class Mirror: public WO {
 
 public:
   /* properties */
@@ -53,9 +53,9 @@ public:
 
   Mirror(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an intersection occurs */
 
   bool updateToNetwork(const Pos &oldpos);

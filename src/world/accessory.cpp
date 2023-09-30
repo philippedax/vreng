@@ -32,7 +32,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Accessory::creator(char *l)
+WO * Accessory::creator(char *l)
 {
   return new Accessory(l);
 }

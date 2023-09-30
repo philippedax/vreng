@@ -30,7 +30,7 @@
 /**
  * Guide class
  */
-class Guide: public WObject {
+class Guide: public WO {
 
 private:
   static const uint8_t GUIDE_DIM;	///< max size of the path
@@ -67,7 +67,7 @@ public:
 
   Guide(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Create from fileline. */
 
   void updateTime(time_t sec, time_t usec, float *lasting);
@@ -75,10 +75,10 @@ public:
   void changePermanent(float lasting);
   /**< Perpetually movement. */
 
-  bool whenIntersect(WObject *pcur, WObject *pold);
+  bool whenIntersect(WO *pcur, WO *pold);
   /**< When an other object intersects. */
 
-  bool whenIntersectOut(WObject *pcur, WObject *pold);
+  bool whenIntersectOut(WO *pcur, WO *pold);
   /**< When an object leaves intersection. */
 
   bool updateToNetwork(const Pos &oldpos);
@@ -106,7 +106,7 @@ private:
   void motion(float *dx, float *dy, float *dz);
   /**< Returns deltas. */
 
-  void progress(WObject *po);
+  void progress(WO *po);
   /**< Progress along the guide. */
 
   void draw(float *color);

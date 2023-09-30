@@ -26,7 +26,7 @@ const OClass Spot::oclass(SPOT_TYPE, "Spot", Spot::creator);
 
 
 /* creation from a file */
-WObject * Spot::creator(char *l)
+WO * Spot::creator(char *l)
 {
   return new Spot(l);
 }
@@ -107,7 +107,7 @@ Spot::Spot(char *l)
 }
 
 /** Created by movie */
-Spot::Spot(WObject *movie, void *d, time_t s, time_t u)
+Spot::Spot(WO *movie, void *d, time_t s, time_t u)
 {
   defaults();
   state = true;			// switch on
@@ -155,7 +155,7 @@ void Spot::Off(Spot *po, void *d, time_t s, time_t u)
   po->enableBehavior(INVISIBLE);
 }
 
-void Spot::create_cb(WObject *po, void *d, time_t s, time_t u)
+void Spot::create_cb(WO *po, void *d, time_t s, time_t u)
 {
   new Spot(po, d, s, u);
 }

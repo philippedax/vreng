@@ -82,7 +82,7 @@ static _tBody manpart[] = {
 
 
 /* Creation from a file */
-WObject * Human::creator(char *l)
+WO * Human::creator(char *l)
 { 
   return new Human(l);
 } 

@@ -30,7 +30,7 @@
 /**
  * Bgcolor class
  */
-class Bgcolor: public WObject {
+class Bgcolor: public WO {
   friend class Render;		///< glClearColor
 
 private:
@@ -48,7 +48,7 @@ public:
   Bgcolor(char *l);	///< Constructor
   Bgcolor();		///< Contructor initial
 
-  static WObject * (creator)(char *l); ///< Creates from fileline
+  static WO * (creator)(char *l); ///< Creates from fileline
 
   void quit();		///< Quits
 

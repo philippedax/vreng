@@ -53,7 +53,7 @@ static float path[GUIDE_MAX][5]; ///< array of position[syz]-speed-pause in the 
 
 
 /* creation from a file */
-WObject * Guide::creator(char *l)
+WO * Guide::creator(char *l)
 {
   return new Guide(l);
 }
@@ -206,7 +206,7 @@ void Guide::motion(float *dx, float *dy, float *dz)
   }
 }
 
-void Guide::progress(WObject *po)
+void Guide::progress(WO *po)
 {
   float dx, dy, dz;
 
@@ -277,7 +277,7 @@ void Guide::changePermanent(float lasting)
  * user intersects: follows guide
  * moving the guide first
  */
-bool Guide::whenIntersect(WObject *pcur, WObject *pold)
+bool Guide::whenIntersect(WO *pcur, WO *pold)
 {
   static bool once = true;
 
@@ -337,7 +337,7 @@ void Guide::restore()
   stuck = false;
 }
 
-bool Guide::whenIntersectOut(WObject *pcur, WObject *pold)
+bool Guide::whenIntersectOut(WO *pcur, WO *pold)
 {
   //echo("out guide");
   if (pcur->type == USER_TYPE) {

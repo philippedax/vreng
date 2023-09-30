@@ -30,7 +30,7 @@
 /**
  * Spot class
  */
-class Spot: public WObject {
+class Spot: public WO {
 
 private:
   uint8_t shape;
@@ -60,11 +60,11 @@ public:
   const OClass* getOClass() {return &oclass;}
 
   Spot(char *l);	///< Constructor
-  Spot(WObject *movie, void *d, time_t s, time_t u);
+  Spot(WO *movie, void *d, time_t s, time_t u);
 
   static void funcs();	///< init funclist
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from file line */
 
   void render();
@@ -89,7 +89,7 @@ private:
   // GUI callbacks
   static void On(Spot *po, void *d, time_t s, time_t u);
   static void Off(Spot *po, void *d, time_t s, time_t u);
-  static void create_cb(WObject *po, void *d, time_t s, time_t u);
+  static void create_cb(WO *po, void *d, time_t s, time_t u);
 };
 
 #endif

@@ -34,7 +34,7 @@ const OClass Hairs::oclass(HAIRS_TYPE, "Hairs", Hairs::creator);
 void Hairs::funcs() {}
 
 /* creation from a file */
-WObject * Hairs::creator(char *l)
+WO * Hairs::creator(char *l)
 {
   return new Hairs(l);
 }

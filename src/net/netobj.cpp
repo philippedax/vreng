@@ -26,7 +26,7 @@
 #include "netprop.hpp"	// NetProperty
 #include "channel.hpp"	// Channel
 #include "oclass.hpp"	// isValidType
-#include "wobject.hpp"	// WObject
+#include "wobject.hpp"	// WO
 #include "stat.hpp"	// new_netobject
 
 #include <list>
@@ -68,7 +68,7 @@ NetObject::NetObject()
 }
 
 /* Creates local permanent NetObject */
-NetObject::NetObject(WObject *po, uint8_t nprop, uint16_t oid)
+NetObject::NetObject(WO *po, uint8_t nprop, uint16_t oid)
 {
   defaults();
   type = po->typeId();
@@ -83,7 +83,7 @@ NetObject::NetObject(WObject *po, uint8_t nprop, uint16_t oid)
 }
 
 /* Creates volatile NetObject */
-NetObject::NetObject(WObject *po, uint8_t nprop)
+NetObject::NetObject(WO *po, uint8_t nprop)
 {
   defaults();
   type = po->type;
@@ -95,7 +95,7 @@ NetObject::NetObject(WObject *po, uint8_t nprop)
 }
 
 /* Creates replicated volatile NetObject */
-NetObject::NetObject(WObject *po, uint8_t nprop, Noid _noid)
+NetObject::NetObject(WO *po, uint8_t nprop, Noid _noid)
 {
   defaults();
   type = po->type;
@@ -289,10 +289,10 @@ bool NetObject::isResponsible() const
   return (netprop && netprop->responsible);
 }
 
-/* Finds a WObject pointer by its noid */
-WObject * NetObject::getWObjectByNoid() const
+/* Finds a WO pointer by its noid */
+WO * NetObject::getWOByNoid() const
 {
-  for (list<WObject*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
+  for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it)->netop) {
       if (noid.equalNoid((*it)->netop->noid))
         return *it;	// found
@@ -340,7 +340,7 @@ void NetObject::requestDeletionFromNetwork()
 /* Creates a replicated object */
 NetObject * NetObject::replicateObject(uint8_t type_id, Noid noid, Payload *pp)
 {
-  WObject *po = OClass::replicatorInstance(type_id, noid, pp);  // factory
+  WO *po = OClass::replicatorInstance(type_id, noid, pp);  // factory
 
   if (po) {
     if (! po->netop) {

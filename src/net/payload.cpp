@@ -724,7 +724,7 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
 
   //
   // creates the replicated object
-  // glue with WObject
+  // glue with WO
   // very important !!!
   //
   NetObject *pn = NetObject::replicateObject(type_id, noid, this);

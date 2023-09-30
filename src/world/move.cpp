@@ -60,7 +60,7 @@ void changeKey(int k_id, bool pressed, time_t sec, time_t usec)
 }
 
 /* clear keys times array */
-void WObject::clearKeyTab()
+void WO::clearKeyTab()
 {
   for (int k=0; k < MAXKEYS; k++) {
     kpressed[k] = false;
@@ -70,7 +70,7 @@ void WObject::clearKeyTab()
 }
 
 /* update the keydifftime arrays */
-void WObject::updateKeys(time_t sec, time_t usec)
+void WO::updateKeys(time_t sec, time_t usec)
 {
   for (int k=0; k < MAXKEYS; k++) {
     if (kpressed[k]) {
@@ -91,7 +91,7 @@ void User::updateTime(float lastings[])
   }
 }
 
-bool WObject::testMoving()
+bool WO::testMoving()
 {
   return (move.ttl > 0.0005);
 }
@@ -113,7 +113,7 @@ void * endMovement(void *arg)
   return NULL;
 }
 
-bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
+bool WO::updateLasting(time_t sec, time_t usec, float *lasting)
 {
   *lasting = diffTime(sec, usec);
   if (move.ttl < 0.0005) return false;
@@ -154,7 +154,7 @@ bool WObject::updateLasting(time_t sec, time_t usec, float *lasting)
 }
 
 /* modify user position in one direction */
-void WObject::changePositionOneDir(uint8_t move_key, float lasting)
+void WO::changePositionOneDir(uint8_t move_key, float lasting)
 {
 #if 1 //dax
   if (carrier && carrier->underControl()) {  // Manipulator
@@ -277,22 +277,22 @@ void User::changePosition(const float lastings[])
   }
 }
 
-void WObject::setLasting(float maxlast)
+void WO::setLasting(float maxlast)
 {
   setMaxLastings(type, maxlast);
 }
 
-float WObject::getLasting() const
+float WO::getLasting() const
 {
   return getMaxLastings(type);
 }
 
-float WObject::diffTime(time_t sec, time_t usec)
+float WO::diffTime(time_t sec, time_t usec)
 {
   return (float) (sec - move.sec) + ((float) (usec - move.usec) / 1e6);
 }
 
-void WObject::enableImposedMovement()
+void WO::enableImposedMovement()
 {
   struct timeval t;
 
@@ -301,7 +301,7 @@ void WObject::enableImposedMovement()
   move.usec = t.tv_usec;
 }
 
-void WObject::initImposedMovement(float ttl)
+void WO::initImposedMovement(float ttl)
 {
   enableImposedMovement();
   move.ttl = (ttl < 0) ? -ttl : ttl;
@@ -309,7 +309,7 @@ void WObject::initImposedMovement(float ttl)
   move.nocol = false;	// with collision
 }
 
-void WObject::stopImposedMovement()
+void WO::stopImposedMovement()
 {
   move.ttl = 0;
   move.sec = 0;
@@ -321,7 +321,7 @@ void WObject::stopImposedMovement()
   }
 }
 
-void WObject::enablePermanentMovement()
+void WO::enablePermanentMovement()
 {
   struct timeval t;
 
@@ -331,7 +331,7 @@ void WObject::enablePermanentMovement()
   move.next = NULL;
 }
 
-void WObject::enablePermanentMovement(float speed)
+void WO::enablePermanentMovement(float speed)
 {
   move.lspeed.v[0] = speed;
   move.lspeed.v[1] = speed;
@@ -339,27 +339,27 @@ void WObject::enablePermanentMovement(float speed)
   enablePermanentMovement();
 }
 
-void WObject::setLinearSpeed(float lspeed)
+void WO::setLinearSpeed(float lspeed)
 {
   move.lspeed.v[0] = lspeed;
   move.lspeed.v[1] = lspeed;
   move.lspeed.v[2] = lspeed;
 }
 
-void WObject::setAngularSpeed(float aspeed)
+void WO::setAngularSpeed(float aspeed)
 {
   move.aspeed.v[0] = aspeed;
   move.aspeed.v[1] = aspeed;
   move.aspeed.v[2] = aspeed;
 }
 
-void WObject::disablePermanentMovement()
+void WO::disablePermanentMovement()
 {
   move.perm_sec = 0;
   move.perm_usec = 0;
 }
 
-void WObject::checkVicinity(WObject *pold)
+void WO::checkVicinity(WO *pold)
 {
   OList *vicinity = getVicinity(pold);
   if (vicinity) {
@@ -372,7 +372,7 @@ void WObject::checkVicinity(WObject *pold)
 
 void User::elemUserMovement(const float tabdt[])
 {
-  WObject *o = new WObject();
+  WO *o = new WO();
   copyPositionAndBB(o);	// keep oldpos for intersection
 
   changePosition(tabdt);
@@ -425,14 +425,14 @@ void User::userMovement(time_t sec, time_t usec)
   }
 }
 
-void WObject::elemImposedMovement(float dt)
+void WO::elemImposedMovement(float dt)
 {
   changePosition(dt);  // handled by each object
 
   updatePosition();
 
   if (! isBehavior(COLLIDE_NEVER)) {
-    WObject *pold = new WObject();
+    WO *pold = new WO();
     copyPositionAndBB(pold);	// keep oldpos for intersection
     checkVicinity(pold);
     delete pold;
@@ -440,7 +440,7 @@ void WObject::elemImposedMovement(float dt)
 }
 
 /* object imposed movement */
-void WObject::imposedMovement(time_t sec, time_t usec)
+void WO::imposedMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {
     error("imposedMovement: %s type=%d invalid", names.given, type);
@@ -497,14 +497,14 @@ void WObject::imposedMovement(time_t sec, time_t usec)
   updatePositionAndGrid(oldpos);
 }
 
-void WObject::elemPermanentMovement(float dt)
+void WO::elemPermanentMovement(float dt)
 {
   if (isBehavior(COLLIDE_NEVER)) {
     changePermanent(dt);	// handled by each object
     update3D(pos);
     return;
   }
-  WObject *pold = new WObject();
+  WO *pold = new WO();
   copyPositionAndBB(pold);	// keep oldpos for intersection
 
   changePermanent(dt);		// handled by each object
@@ -518,7 +518,7 @@ void WObject::elemPermanentMovement(float dt)
 }
 
 /* object permanent movement - called by world */
-void WObject::permanentMovement(time_t sec, time_t usec)
+void WO::permanentMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {
     error("permanentMovement: type=%d invalid", type);
@@ -571,7 +571,7 @@ void WObject::permanentMovement(time_t sec, time_t usec)
   }
 }
 
-void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
+void WO::moveObject(WO *po, void *d, time_t s, time_t u)
 {
   if (! po->carrier) {
     po->carrier = new Carrier();
@@ -584,7 +584,7 @@ void WObject::moveObject(WObject *po, void *d, time_t s, time_t u)
 }
 
 /* Moves the user towards the object */
-void WObject::moveUserToObject(float sgn, float lttl, float attl)
+void WO::moveUserToObject(float sgn, float lttl, float attl)
 {
   if (! localuser) return;
 
@@ -649,13 +649,13 @@ void gotoXYZ(float gox, float goy, float goz, float az)
 }
 
 /* Moves the user in front of the object */
-void gotoFront(WObject *po, void *d, time_t s, time_t u)
+void gotoFront(WO *po, void *d, time_t s, time_t u)
 {
   po->moveUserToObject(1, 5, .5);	// lttl: 5sec attl: 1/2sec
 }
 
 /* Moves the user behind the object */
-void gotoBehind(WObject *po, void *d, time_t s, time_t u)
+void gotoBehind(WO *po, void *d, time_t s, time_t u)
 {
   po->moveUserToObject(-1, 4, 1);
 }

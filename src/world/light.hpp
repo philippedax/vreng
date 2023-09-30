@@ -31,7 +31,7 @@
 /**
  * Light class
  */
-class Light: public WObject {
+class Light: public WO {
 
 private:
   GLfloat light_position[4];
@@ -56,7 +56,7 @@ public:
   Light(char *l);	///< Constructor
   Light();		///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
 
   void lighting();
   /**< Renders light. */

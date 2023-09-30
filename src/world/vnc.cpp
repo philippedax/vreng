@@ -32,7 +32,7 @@ const uint16_t Vnc::VNC_PORT = DEF_VNC_PORT;
 
 
 /* Creation from a file */
-WObject * Vnc::creator(char *l)
+WO * Vnc::creator(char *l)
 {
   return new Vnc(l);
 }

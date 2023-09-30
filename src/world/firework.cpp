@@ -30,7 +30,7 @@ const float Firework::DEF_TTL = 20; // 20 sec
 
 
 /* creation from a file */
-WObject * Firework::creator(char *l)
+WO * Firework::creator(char *l)
 {
   return new Firework(l);
 }

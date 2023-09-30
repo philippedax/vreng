@@ -30,7 +30,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Slider::creator(char *l)
+WO * Slider::creator(char *l)
 {
   return new Slider(l);
 }
@@ -103,7 +103,7 @@ void Slider::changePosition(float lasting)
   capted->updatePosition();
 }
 
-bool Slider::whenIntersect(WObject *pcur, WObject *pold)
+bool Slider::whenIntersect(WO *pcur, WO *pold)
 {
   capted = pcur;
   enableImposedMovement();

@@ -32,7 +32,7 @@ const GLfloat Terrain::DEF_SCALE = 100;
 const GLfloat Terrain::DEF_COLOR[4] = {0,1,0,1};	// green
 
 
-WObject * Terrain::creator(char *l)
+WO * Terrain::creator(char *l)
 {
   return new Terrain(l);
 }

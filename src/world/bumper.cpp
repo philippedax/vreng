@@ -32,7 +32,7 @@ static uint16_t oid = 0;
 
 
 /* creation from a file */
-WObject * Bumper::creator(char *l)
+WO * Bumper::creator(char *l)
 {
   return new Bumper(l);
 }
@@ -107,7 +107,7 @@ void Bumper::changePosition(float lasting)
   }
 }
 
-bool Bumper::whenIntersect(WObject *pcur, WObject *pold)
+bool Bumper::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
     case USER_TYPE:

@@ -30,10 +30,10 @@
 /**
  * Cloth class
  */
-class Cloth: public WObject {
+class Cloth: public WO {
 
 protected:
-  static list<WObject*> wearList;
+  static list<WO*> wearList;
 
   bool taken;				///< bool taken by avatar
   float ttl;				///< time to live with avatar
@@ -84,7 +84,7 @@ public:
   Cloth(char *l);		///< Constructor
   Cloth() {}			///< Constructor for sub-classes
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creation from a file */
 
   virtual void changePermanent(float lasting);

@@ -29,7 +29,7 @@
 /**
  * River class
  */
-class River: public WObject {
+class River: public WO {
 
 protected:
   static const uint8_t DEF_WAVES;
@@ -57,7 +57,7 @@ public:
 
   River(char *l);	///< Constructor
 
-  static WObject * (creator)(char *l);
+  static WO * (creator)(char *l);
   /**< Creates from fileline */
 
   void render();

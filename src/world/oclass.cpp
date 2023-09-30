@@ -94,7 +94,7 @@ const OClass * OClass::getOClass(uint8_t type_id)
   return (OClass *) NULL;
 }
 
-WObject * OClass::creatorInstance(uint8_t type_id, char *l)
+WO * OClass::creatorInstance(uint8_t type_id, char *l)
 {
   if (isValidType(type_id)) {
     return otable[type_id]->creator(l);
@@ -113,7 +113,7 @@ void OClass::builtinInstance(uint8_t type_id)
   }
 }
 
-WObject * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
+WO * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 {
   if (isValidType(type_id)) {
     return otable[type_id]->replicator(type_id, noid, pp);

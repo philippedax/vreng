@@ -30,7 +30,7 @@
 /**
  * Walls class
  */
-class Walls: public WObject {
+class Walls: public WO {
 
  private:
   float xs, xe;		///< pos x start, end
@@ -52,7 +52,7 @@ class Walls: public WObject {
   Walls(float sx, float ex, float sy, float ey, float sz, float ez, float r, float g, float b);
   /**< Constructor for one wall */
 
-  static WObject * (creator)(char *l);	///< Creates from fileline
+  static WO * (creator)(char *l);	///< Creates from fileline
 
   void draw();	///< Draws walls
 

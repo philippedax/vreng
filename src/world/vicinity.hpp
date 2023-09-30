@@ -54,13 +54,13 @@ private:
   } Size;
 
   typedef struct s_vicin {
-    WObject *object;
+    WO *object;
     Size size;
     Dist dist;
   } Vicin;
 
   typedef struct s_visualPosition {
-    WObject *object;
+    WO *object;
     int nbPixels;
     int xmin;
     int xmax;
@@ -73,7 +73,7 @@ private:
 //     struct typeTable suivant;
 //   } TypeTable
 
-  WObject *refObject;
+  WO *refObject;
   std::string refObjectName;
 
   User *user;
@@ -90,8 +90,8 @@ private:
 
   /**** METHODS ****/
 
-  static Dist computeDistance(WObject *obj1, WObject *obj2);
-  static Size computeSize(WObject *obj);
+  static Dist computeDistance(WO *obj1, WO *obj2);
+  static Size computeSize(WO *obj);
 
   static int compDistance(const void *t1, const void *t2);
   void sortDistance();
@@ -102,12 +102,12 @@ private:
   static int compVisual(const void *t1, const void *t2);
   void sortVisual();
 
-  bool uselessType(WObject *obj);
+  bool uselessType(WO *obj);
 
   void describeTopo(Vicin tmp);
   void describeVisual();
 
-  void setSize(WObject *user);
+  void setSize(WO *user);
 
   void actionList();
 
@@ -119,12 +119,12 @@ public:
   virtual ~Vicinity();
 
   std::string getObjectName() { return refObjectName; }
-  WObject* getObject() { return refObject; }
+  WO* getObject() { return refObject; }
 
   void analyseTopo();
   void analyseVisual(int details);
   void analyseVicinity();
-  WObject* searchProximityObject(char **typeObj, int nbre);
+  WO* searchProximityObject(char **typeObj, int nbre);
 
   void analyseScene();
   /**<

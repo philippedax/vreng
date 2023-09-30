@@ -30,7 +30,7 @@
 /**
  * Wind class
  */
-class Wind: public WObject {
+class Wind: public WO {
 
 private:
   static Wind *wind;		///< singleton.
@@ -48,7 +48,7 @@ public:
 
   Wind(char *l);	///< Constructor.
 
-  static WObject* (creator)(char *l);	///< Creates from fileline.
+  static WO* (creator)(char *l);	///< Creates from fileline.
 
   static Wind * current();	///< Gets wind pointer.
 

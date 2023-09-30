@@ -100,7 +100,7 @@ bool Sheet::updateToNetwork(const Pos &oldpos)
   return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
-bool Sheet::whenIntersect(WObject *pcur, WObject *pold)
+bool Sheet::whenIntersect(WO *pcur, WO *pold)
 {
   projectPosition(pcur, pold);
   return true;
