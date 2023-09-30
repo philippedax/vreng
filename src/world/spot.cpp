@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "spot.hpp"
+#include "matvec.hpp"   // V3 M4
 
 
 const OClass Spot::oclass(SPOT_TYPE, "Spot", Spot::creator);

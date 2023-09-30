@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "movie.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "texture.hpp"	// Texture
 #include "cache.hpp"	// download
 #include "file.hpp"	// openFile

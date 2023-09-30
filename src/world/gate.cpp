@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "gate.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "world.hpp"	// enter
 #include "universe.hpp"	// Universe
 #include "move.hpp"	// gotoFront

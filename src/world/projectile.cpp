@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "projectile.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "user.hpp"	// USER_TYPE
 #include "netobj.hpp"	// NetObject
 

@@ -21,6 +21,7 @@
 #ifndef PARSE_HPP
 #define PARSE_HPP
 
+#include "matvec.hpp"   // V3 M4
 #include "str.hpp"	// stringcmp()
 
 

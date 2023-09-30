@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "web.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "user.hpp"	// USER_TYPE
 #include "text.hpp"	// Text
 #include "color.hpp"	// Color

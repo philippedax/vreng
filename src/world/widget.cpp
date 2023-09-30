@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "widget.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "move.hpp"     // gotoFront
 
 

@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "icon.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "user.hpp"	// localuser
 #include "move.hpp"	// GRAVITY
 #include "wall.hpp"	// Wall

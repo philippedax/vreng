@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wobject.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "solid.hpp"	// Solid
 #include "render.hpp"	// ::g.render
 #include "user.hpp"	// localuser

@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "book.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "sheet.hpp"	// class Sheet
 #include "move.hpp"	// gotoFront
 #include "browser.hpp"	// start

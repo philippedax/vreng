@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "vrelet.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "world.hpp"	// current
 #include "user.hpp"	// localuser
 #include "url.hpp"	// abs

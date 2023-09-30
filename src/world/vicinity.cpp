@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "vicinity.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "solid.hpp"	// Solid, object()
 #include "wobject.hpp"	// WO
 #include "user.hpp"	// localuser

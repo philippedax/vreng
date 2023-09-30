@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "sheet.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "book.hpp"	// Book
 #include "mp3.hpp"	// start
 

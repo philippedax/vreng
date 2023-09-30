@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "user.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "world.hpp"	// getName
 #include "ball.hpp"	// BALL_TYPE
 #include "dart.hpp"	// DART_TYPE

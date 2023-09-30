@@ -21,6 +21,7 @@
 #include "vreng.hpp"
 #include "wobject.hpp"
 #include "move.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "world.hpp"
 #include "user.hpp"	// localuser
 #include "carrier.hpp"	// keyEvent

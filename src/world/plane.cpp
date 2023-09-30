@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "plane.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "user.hpp"	// USER_TYPE
 #include "ball.hpp"	// BALL_TYPE
 #include "step.hpp"	// JUMP

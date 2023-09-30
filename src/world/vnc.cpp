@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "vnc.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "move.hpp"	// gotoFront
 #include "glu.hpp"	// glu alternative
 #include "gui.hpp"	// setToVnc launchVnc

@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "carousel.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "x3d.hpp"	// X3d
 #include "user.hpp"	// USER_TYPE
 

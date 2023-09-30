@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "walls.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// open, close
 #include "file.hpp"	// closeFile

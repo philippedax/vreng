@@ -31,6 +31,7 @@
  */
 #include "vreng.hpp"
 #include "widgets.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "scene.hpp"	// new Scene
 #include "gui.hpp"	// Gui
 #include "navig.hpp"	// Navig

@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "ball.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "user.hpp"	// User
 #include "vrsql.hpp"	// deleteRow
 #include "cauldron.hpp"	// Cauldron

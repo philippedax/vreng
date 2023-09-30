@@ -25,7 +25,6 @@
 #include "macros.hpp"	// builtin defines
 #include "defaults.hpp"	// DEF_*
 #include "log.hpp"	// echo, notice, warning, error, fatal, trace
-#include "matvec.hpp"	// matrix M4 vector V3
 #include "trigo.hpp"	// my_trigo
 
 

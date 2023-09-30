@@ -22,6 +22,50 @@
 #include "matvec.hpp"
 
 
+V3 setV3(float x, float y, float z)
+{
+  V3 v;
+
+  v.v[0] = x;
+  v.v[1] = y;
+  v.v[2] = z;
+  return v;
+}
+
+/* Clear a vector */
+void clearV3(V3 vec)
+{
+  vec.v[0] = 0;
+  vec.v[1] = 0;
+  vec.v[2] = 0;
+}
+
+/* Copies a vector into another */
+void copyV3(V3 *to, V3 from)
+{
+  to->v[0] = from.v[0];
+  to->v[1] = from.v[1];
+  to->v[2] = from.v[2];
+}
+
+/* Computes a determinant for a 3x3 matrix */
+float detV3(V3 d, V3 v, V3 w)
+{
+  return (  d.v[0] * (v.v[2] * w.v[1] - v.v[1] * w.v[2])
+          + d.v[1] * (v.v[0] * w.v[2] - v.v[2] * w.v[0])
+          + d.v[2] * (v.v[1] * w.v[0] - v.v[0] * w.v[1])
+         );
+}
+
+/* Compute an quantity that's used in the line/surface intersection */
+float calcV3(V3 c, V3 e, V3 w, V3 v)
+{
+  return (  (c.v[0] - e.v[0]) * (v.v[2] * w.v[1] - v.v[1] * w.v[2])
+          + (c.v[1] - e.v[1]) * (v.v[0] * w.v[2] - v.v[2] * w.v[0])
+          + (c.v[2] - e.v[2]) * (v.v[1] * w.v[0] - v.v[0] * w.v[1])
+         );
+}
+
 /* identity matrix */
 void idM4(M4 *a)
 {
@@ -127,50 +171,6 @@ void M4toV16(const M4 *mat, float *_vec)
       *vec++ = mat->m[j][i];
     }
   }
-}
-
-V3 setV3(float x, float y, float z)
-{
-  V3 v;
-
-  v.v[0] = x;
-  v.v[1] = y;
-  v.v[2] = z;
-  return v;
-}
-
-/* Clear a vector */
-void clearV3(V3 vec)
-{
-  vec.v[0] = 0;
-  vec.v[1] = 0;
-  vec.v[2] = 0;
-}
-
-/* Copies a vector into another */
-void copyV3(V3 *to, V3 from)
-{
-  to->v[0] = from.v[0];
-  to->v[1] = from.v[1];
-  to->v[2] = from.v[2];
-}
-
-/* Computes a determinant for a 3x3 matrix */
-float detV3(V3 d, V3 v, V3 w)
-{
-  return (  d.v[0] * (v.v[2] * w.v[1] - v.v[1] * w.v[2])
-          + d.v[1] * (v.v[0] * w.v[2] - v.v[2] * w.v[0])
-          + d.v[2] * (v.v[1] * w.v[0] - v.v[0] * w.v[1])
-         );
-}
-
-/* Compute an quantity that's used in the line/surface intersection */
-float calcV3(V3 c, V3 e, V3 w, V3 v)
-{
-  return (  (c.v[0] - e.v[0]) * (v.v[2] * w.v[1] - v.v[1] * w.v[2])
-          + (c.v[1] - e.v[1]) * (v.v[0] * w.v[2] - v.v[2] * w.v[0])
-          + (c.v[2] - e.v[2]) * (v.v[1] * w.v[0] - v.v[0] * w.v[1])
-         );
 }
 
 #if 0 //notused

@@ -21,6 +21,7 @@
 #include "vreng.hpp"
 #include "wobject.hpp"
 #include "vjc.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "socket.hpp"	// setNoBlocking
 #include "nsl.hpp"	// my_getgethostbyname
 #include "netobj.hpp"	// NetObject

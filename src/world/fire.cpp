@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "fire.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "timer.hpp"	// delta
 #include "sound.hpp"	// playSound
 

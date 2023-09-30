@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "board.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "world.hpp"	// current
 #include "wb.hpp"	// start
 #include "gui.hpp"	// ::g.gui.setToBoard

@@ -30,6 +30,7 @@
 #ifndef SOLID_HPP
 #define SOLID_HPP
 
+#include "matvec.hpp"   // V3 M4
 #include <list>
 
 /* Solid tokens. */

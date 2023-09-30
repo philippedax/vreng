@@ -21,6 +21,7 @@
 
 #include "vreng.hpp"
 #include "fractal.hpp"
+#include "matvec.hpp"   // V3 M4
 
 const OClass Fractal::oclass(FRACTAL_TYPE, "Fractal", Fractal::creator);
 

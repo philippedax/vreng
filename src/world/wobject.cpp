@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wobject.hpp"
+#include "matvec.hpp"	// V3 M4
 #include "world.hpp"	// World::current
 #include "user.hpp"	// localuser
 #include "netobj.hpp"	// NetObject

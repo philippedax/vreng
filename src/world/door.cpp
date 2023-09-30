@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "door.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "move.hpp"	// gotoFront
 #include "user.hpp"	// USER-TYPE
 #include "netobj.hpp"	// NetObject

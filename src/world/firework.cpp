@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "firework.hpp"
+#include "matvec.hpp"   // V3 M4
 
 /*
  * Idea taken from Andrey Mirtchovski (2012)

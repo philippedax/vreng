@@ -21,6 +21,7 @@
 #ifndef WORLD_HPP
 #define WORLD_HPP
 
+#include "matvec.hpp"   // V3 M4
 #include <list>
 
 using namespace std;

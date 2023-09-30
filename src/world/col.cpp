@@ -20,6 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wobject.hpp"
+#include "matvec.hpp"   // V3 M4
 #include "aoi.hpp"	// AOI_TYPE
 #include "walls.hpp"	// whenIntersect
 #include "user.hpp"	// USER_TYPE
