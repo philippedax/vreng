@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "render.hpp"
-#include "matvec.hpp"	// V3
 #include "scene.hpp"	// getScene, setScene
 #include "solid.hpp"	// Solid
 #include "wobject.hpp"	// WO
