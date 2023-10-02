@@ -256,7 +256,7 @@ int HttpThread::openPath(const char *path)
   return open(path, O_RDONLY);
 }
 
-/** Makes an http connection */
+/** Makes a http connection */
 void * HttpThread::connectionHttpd(void *_httpthread)
 {
   HttpThread *httpthread = (HttpThread *) _httpthread;
@@ -267,7 +267,7 @@ void * HttpThread::connectionHttpd(void *_httpthread)
 
   struct sockaddr_in sa;
   bool httperr = false;
-  bool httpeoheader = false;
+  bool httpeoh = false;
   bool answerline = true;	// position first line
 
   char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[256];
@@ -367,11 +367,11 @@ htagain:
 
     do {
       if ((httpio->len = HttpThread::answerHttpd(httpio->fd, httpio->buf, HTTP_BUFSIZ)) <= 0) {
-        httpeoheader = true;
+        httpeoh = true;
         httperr = true;
         break;
       }
-      //echo("http answerHttpd: (%d) %p", httpio->len, httpio->buf);
+      //echo("answerHttpd: (%d) %p", httpio->len, httpio->buf);
 
       for (httpio->off = 0; 1; ) {
         int i = 0;
@@ -384,7 +384,7 @@ htagain:
         if (httpio->off < httpio->len) {
           if (httpheader[0] == '\r') { // test end of header
             httpio->off++;
-            httpeoheader = true;
+            httpeoh = true;
             httperr = true;
             break;
           }
@@ -472,7 +472,7 @@ htagain:
           break;
         }
       } // end for
-    } while (! httpeoheader);	// end do
+    } while (! httpeoh);	// end do
 
     /*
      * Call here the appropriated httpReader
@@ -529,7 +529,7 @@ Http::~Http()
 }
 
 /** Opens a HTTP transaction, returns -1 if error */
-int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), void *handle, int threaded)
+int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), void *hdl, int threaded)
 {
   if (! isprint(*url)) {
     error("httpOpen: url not printable");
@@ -544,7 +544,7 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
   httpthread->httpio = new Http();	// create a http IO instance
 
   // Fills the httpthread structure
-  httpthread->handle = handle;
+  httpthread->handle = hdl;
   httpthread->httpReader = httpReader;
   httpthread->modethr = threaded;
   strcpy(httpthread->url, url);

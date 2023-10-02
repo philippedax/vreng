@@ -74,6 +74,9 @@ class HttpThread {
   int putfifo();
   /**< Puts thread into a wait fifo. */
 
+  void (*httpReader) (void *handle, class Http *http);
+  /**< Http reader. */
+
   static int sendHttpd(int fd, const char *buf, int size);
   /**< Sends a http request. */
 
@@ -81,29 +84,25 @@ class HttpThread {
   /**< Receives a response from the http server. */
 
   static int connectHttpd(const struct sockaddr_in *sa);
-  /**< Establishes a connection to the http server. */
+  /**< Establishes a connection with the http server. */
+
+  static void * connectionHttpd(void *_hthr);
+  /**< Makes a http connection to the httpd server. */
 
   static void checkHttpProxy();
   /**< Checks proxy environment variables. */
-
- public:
-
-  HttpThread();
-  /**< Constructor. */
-
-  virtual ~HttpThread();
-  /**< Destructor. */
-
-  void (*httpReader) (void *handle, class Http *http);
-  /**< Http reader. */
-
-  static void * connectionHttpd(void *_hthr);
-  /**< Makes an http connection to the httpd server. */
 
   static int resolver(char *hoststr, char *portstr, struct sockaddr_in *sa);
   /**< Resolves a hostname. */
 
   static int openPath(const char *path);
+
+ public:
+  HttpThread();
+  /**< Constructor. */
+
+  virtual ~HttpThread();
+  /**< Destructor. */
 };
 
 
