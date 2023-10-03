@@ -30,6 +30,8 @@
 #define HTTP_301        301     // move permanently
 #define HTTP_302        302     // move temporarily
 #define HTTP_307        307     // temporarily redirect
+#define HTTP_400        400     // bad request
+#define HTTP_403        403     // forbidden
 #define HTTP_404        404     // not found
 #define HTTP_503        503     // server unavailable
 
@@ -62,7 +64,6 @@ class HttpThread {
   };
 
   tWaitFifo *httpfifo;	///< wait http fifo
-
   void *handle;		///< thread handle
   bool modethr;		///< thread or not
   class Http *httpio;	///< http handle for I/O
