@@ -51,8 +51,6 @@ uint32_t new_objectlist;
 uint32_t del_objectlist;
 uint32_t new_netproperty;
 uint32_t del_netproperty;
-uint32_t new_httpthread;
-uint32_t del_httpthread;
 uint32_t new_http;
 uint32_t del_http;
 uint32_t new_cache;
@@ -235,21 +233,20 @@ void statMemory(FILE *fout)
 {
   fprintf(fout, "### Memory (new/delete) ###\n");
 
-  fprintf(fout, "WO              : n=%8d d=%8d\n", new_wobject, del_wobject);
-  fprintf(fout, "World           : n=%8d d=%8d\n", new_world, del_world);
-  fprintf(fout, "Channel         : n=%8d d=%8d\n", new_channel, del_channel);
-  fprintf(fout, "Session         : n=%8d d=%8d\n", new_session, del_session);
-  fprintf(fout, "Source          : n=%8d d=%8d\n", new_source, del_source);
-  fprintf(fout, "Solid           : n=%8d d=%8d\n", new_solid, del_solid);
-  fprintf(fout, "Texture         : n=%8d d=%8d\n", new_texture, del_texture);
-  fprintf(fout, "Image           : n=%8d d=%8d\n", new_image, del_image);
-  fprintf(fout, "NetObject       : n=%8d d=%8d\n", new_netobject, del_netobject);
-  fprintf(fout, "Payload         : n=%8d d=%8d\n", new_payload, del_payload);
-  //fprintf(fout, "NetProperty   : n=%8d d=%8d\n", new_netproperty, del_netproperty);
-  fprintf(fout, "ObjectList      : n=%8d d=%8d\n", new_objectlist, del_objectlist);
-  fprintf(fout, "HttpThread      : n=%8d d=%8d\n", new_httpthread, del_httpthread);
-  fprintf(fout, "Cache           : n=%8d d=%8d\n", new_cache, del_cache);
-  fprintf(fout, "File            : n=%8d d=%8d\n", new_file, del_file);
+  fprintf(fout, "WO         : n=%8d d=%8d\n", new_wobject, del_wobject);
+  fprintf(fout, "World      : n=%8d d=%8d\n", new_world, del_world);
+  fprintf(fout, "Channel    : n=%8d d=%8d\n", new_channel, del_channel);
+  fprintf(fout, "Session    : n=%8d d=%8d\n", new_session, del_session);
+  fprintf(fout, "Source     : n=%8d d=%8d\n", new_source, del_source);
+  fprintf(fout, "Solid      : n=%8d d=%8d\n", new_solid, del_solid);
+  fprintf(fout, "Texture    : n=%8d d=%8d\n", new_texture, del_texture);
+  fprintf(fout, "Image      : n=%8d d=%8d\n", new_image, del_image);
+  fprintf(fout, "NetObject  : n=%8d d=%8d\n", new_netobject, del_netobject);
+  fprintf(fout, "Payload    : n=%8d d=%8d\n", new_payload, del_payload);
+  fprintf(fout, "ObjectList : n=%8d d=%8d\n", new_objectlist, del_objectlist);
+  fprintf(fout, "Http       : n=%8d d=%8d\n", new_http, del_http);
+  fprintf(fout, "Cache      : n=%8d d=%8d\n", new_cache, del_cache);
+  fprintf(fout, "File       : n=%8d d=%8d\n", new_file, del_file);
 }
 
 /** stat io usage (open, close) */

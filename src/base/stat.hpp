@@ -67,8 +67,6 @@ extern uint32_t new_objectlist;
 extern uint32_t del_objectlist;
 extern uint32_t new_netproperty;
 extern uint32_t del_netproperty;
-extern uint32_t new_httpthread;
-extern uint32_t del_httpthread;
 extern uint32_t new_http;
 extern uint32_t del_http;
 extern uint32_t new_cache;

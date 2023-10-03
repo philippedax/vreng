@@ -44,14 +44,12 @@ static const char NO_PROXY[] = "no_proxy";
 
 HttpThread::HttpThread()
 {
-  new_httpthread++;
   httpfifo = NULL;
   begin_thread();
 }
 
 HttpThread::~HttpThread()
 {
-  del_httpthread++;
   end_thread();
 }
 
