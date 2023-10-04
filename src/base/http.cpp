@@ -334,18 +334,18 @@ htagain:
     if (::g.pref.loghttpd) {	// more infos
       if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
         sprintf(req,
-                "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
+                "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.1\r\nHost: %s\r\n\r\n",
                 httpthread->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), ::g.env.relname(), ::g.user, host);
       }
       else {
         sprintf(req,
-                "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.0\r\nHost: %s\r\n\r\n",
+                "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.1\r\nHost: %s\r\n\r\n",
                 path, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
                 ::g.env.relname(), ::g.user, host);
       } 
     } 
     else {	// GET classic
-      sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
+      sprintf(req, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, host);
     } 
     //echo("reqHttpd: %s", req);
     if (Http::sendHttpd(httpio->fd, req, strlen(req)) < 0) {
