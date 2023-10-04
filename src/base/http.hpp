@@ -54,10 +54,10 @@ class HttpThread {
  friend class Http;
 
  private:
-  tWaitFifo *httpfifo;	///< wait http fifo
+  tWaitFifo *fifo;	///< wait http fifo
   void *handle;		///< thread handle
-  bool modethr;		///< thread or not
-  Http *httpio;		///< http handle for I/O
+  bool mode;		///< thread or not
+  Http *http;		///< http handle for I/O
   char url[URL_LEN];	///< url
 
   void begin_thread();	///< begins a thread
@@ -94,13 +94,13 @@ class Http {
   static void checkProxy();
   /**< Checks proxy environment variables. */
 
-  static int sendHttpd(int fd, const char *buf, int size);
+  static int send(int fd, const char *buf, int size);
   /**< Sends a http request. */
 
-  static int answerHttpd(int s, char *rep, int max);
+  static int answer(int s, char *rep, int max);
   /**< Receives a response from the http server. */
 
-  static int connectHttpd(const struct sockaddr_in *sa);
+  static int connect(const struct sockaddr_in *sa);
   /**< Establishes a connection with the http server. */
 
   static int resolver(char *hoststr, char *portstr, struct sockaddr_in *sa);

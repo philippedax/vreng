@@ -40,11 +40,14 @@ static tWaitFifo *fifofirst, *fifolast;	// variables protected by nbsimcon_mutex
 
 static const char HTTP_PROXY[] = "http_proxy";
 static const char NO_PROXY[] = "no_proxy";
+static uint8_t proxy=0, noproxy=0;
+static uint16_t portproxy;
+static char *domnoproxy, *hostproxy;
 
 
 HttpThread::HttpThread()
 {
-  httpfifo = NULL;
+  fifo = NULL;
   begin_thread();
 }
 
@@ -63,16 +66,16 @@ void Http::init()
 void HttpThread::begin_thread()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-  if (modethr > 0) {
+  if (mode > 0) {
     //trace(DBG_HTTP, "-> begin_thread %s", url);
-    if (httpfifo) {			// Wait authorization to begin_thread
+    if (fifo) {				// Wait authorization to begin_thread
       lockMutex(&nbsimcon_mutex);
       //[[ lock
-        pthread_cond_wait(&httpfifo->cond, &nbsimcon_mutex);
+        pthread_cond_wait(&fifo->cond, &nbsimcon_mutex);
         nbsimcon++;			// increments nbsimcon
-        fifofirst = httpfifo->next;	// removes one element from the fifo
-        if (httpfifo) delete[] httpfifo;
-        httpfifo = NULL;
+        fifofirst = fifo->next;		// removes one element from the fifo
+        if (fifo) delete[] fifo;
+        fifo = NULL;
       // unlock ]]
       unlockMutex(&nbsimcon_mutex);	// free fifo handling
     }
@@ -83,7 +86,7 @@ void HttpThread::begin_thread()
 void HttpThread::end_thread()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-  if (modethr > 0) {
+  if (mode > 0) {
     lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
     //[[ lock
       nbsimcon--;			// decrements nbsimcon
@@ -113,14 +116,14 @@ int HttpThread::putfifo()
     fifolast = newfifo;
     // unlock ]]
     unlockMutex(&nbsimcon_mutex);		// unlock the global variable
-    httpfifo = newfifo;				// block the thread
+    fifo = newfifo;				// block the thread
   }
   else {
     nbsimcon++;					// add a connection
     // unlock ]]
     trace(DBG_HTTP, "thread going now (%d) %s", nbsimcon, url);
     unlockMutex(&nbsimcon_mutex);
-    httpfifo = NULL;				// thread not blocked
+    fifo = NULL;				// thread not blocked
   }
 
   /* start new thread */
@@ -133,14 +136,40 @@ int HttpThread::putfifo()
 #endif
 }
 
+/////////////
+//
+// Http class
+//
+
+Http::Http()
+{
+  new_http++;
+  fd = -1;		// socket descriptor
+  len = off = 0;
+  url = new char[URL_LEN];
+  buf = new char[HTTP_BUFSIZ];
+  reset();
+}
+
+Http::~Http()
+{
+  del_http++;
+  if (url) delete[] url;
+  if (buf) delete[] buf;
+  buf = NULL;
+  if (fd > 0) {
+    Socket::closeStream(fd);
+  }
+}
+
 /** Fills buffer rep */
-int Http::answerHttpd(int s, char *rep, int max)
+int Http::answer(int s, char *rep, int max)
 {
   return recv(s, rep, max, 0);
 }
 
 /** Sends request to the http server */
-int Http::sendHttpd(int fd, const char *buf, int size)
+int Http::send(int fd, const char *buf, int size)
 {
   int r = 0;
 
@@ -154,16 +183,16 @@ int Http::sendHttpd(int fd, const char *buf, int size)
 }
 
 /** Connects to server defined by sa */
-int Http::connectHttpd(const struct sockaddr_in *sa)
+int Http::connect(const struct sockaddr_in *sa)
 {
   int sdhttp;
 
   if ((sdhttp = Socket::openStream()) < 0) {
-    perror("connectHttpd: socket");
+    perror("connect: socket");
     return -BADSOCKET;
   }
   if (Socket::connection(sdhttp, sa) < 0) {
-    perror("connectHttpd: connect");
+    perror("connect: connect");
     return -BADCONNECT;
   }
   return sdhttp;
@@ -201,53 +230,6 @@ int Http::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
   return 0;
 }
 
-static uint8_t proxy=0, noproxy=0;
-static uint16_t portproxy;
-static char *domnoproxy, *hostproxy;
-
-/** Checks if http proxy */
-void Http::checkProxy()
-{
-  static bool done = false;
-  if (done) return;
-
-  char *p;
-
-  if (::g.pref.httpproxystr) {
-    p = ::g.pref.httpproxystr;
-  }
-  else {
-    p = getenv(HTTP_PROXY);  // syntax: http://hostname:port/
-  }
-  if (p && *p) {
-    char envproxy[90];
-
-    hostproxy = new char[strlen(p)];
-    if (p[strlen(p) - 1] == '/') {
-      p[strlen(p) - 1] = '\0';
-    }
-    strcpy(envproxy, p);
-    p = strrchr(envproxy, ':');
-    *p = '\0';
-    portproxy = atoi(++p);
-    if ((p = strrchr(envproxy, '/')) == NULL) {
-      sprintf(hostproxy, "http://%s", envproxy);
-    }
-    else {
-      strcpy(hostproxy, ++p);
-    }
-    proxy = 1;
-    trace(DBG_HTTP, "proxy=%s:%d", hostproxy, portproxy);
-  }
-  p = (::g.pref.noproxystr) ? ::g.pref.noproxystr : getenv(NO_PROXY);
-  if (p && *p) {
-    domnoproxy = new char[strlen(p)];
-    strcpy(domnoproxy, p);
-    noproxy = 1;
-  }
-  done = true;
-}
-
 /** Opens a local file and returns its file descriptor */
 int Http::openPath(const char *path)
 {
@@ -259,14 +241,14 @@ void * Http::connection(void *_httpthread)
 {
   HttpThread *httpthread = (HttpThread *) _httpthread;
 
-  Http *httpio = httpthread->httpio;
+  Http *http = httpthread->http;
 
-  Http::checkProxy();
+  checkProxy();
 
   struct sockaddr_in sa;
   bool httperr = false;
   bool httpeoh = false;
-  bool answerline = true;	// position first line
+  bool answerline = true;	// position at first line
 
   char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[256];
 
@@ -275,21 +257,20 @@ void * Http::connection(void *_httpthread)
   memset(path, 0, sizeof(path));
 
   int urltype = Url::parser(httpthread->url, host, scheme, path);
-  //echo("connection: url=%s", httpthread->url);
   trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
                   ::g.url, ::g.universe, scheme, host, path, urltype);
-  trace(DBG_HTTP, "HTTP: %s://%s/%s", scheme, host, path);
+  //echo("HTTP: %s://%s/%s", scheme, host, path);
 
   /* which kind of URL ? */
   switch (urltype) {
 
   case Url::URLFILE:	// file://
-    if ((httpio->fd = Http::openPath(path)) < 0) {
+    if ((http->fd = openPath(path)) < 0) {
       httperr = true;
     }
     else {	// file not found
-      httpio->off = -1;
-      httpthread->httpReader(httpthread->handle, httpio);
+      http->off = -1;
+      httpthread->httpReader(httpthread->handle, http);
       httperr = false;
     }
     break;
@@ -311,7 +292,7 @@ htagain:
       my_free_hostent(hp);
     }
     else {
-      if (Http::resolver(host, scheme, &sa) != 0) {
+      if (resolver(host, scheme, &sa) != 0) {
         if (! strncmp(host, "localhost", 9)) {
           httperr = false;
         }
@@ -322,8 +303,8 @@ htagain:
         break;
       }
     }
-    if ((httpio->fd = Http::connectHttpd(&sa)) < 0) {
-      error("can't connectHttpd %s", host);
+    if ((http->fd = connect(&sa)) < 0) {
+      error("can't connect %s", host);
       httperr = true;
       break;
     }
@@ -347,9 +328,9 @@ htagain:
     else {	// GET classic
       sprintf(req, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, host);
     } 
-    //echo("reqHttpd: %s", req);
-    if (Http::sendHttpd(httpio->fd, req, strlen(req)) < 0) {
-      error("can't sendHttpd req=%s", req);
+    //echo("reqGet: %s", req);
+    if (send(http->fd, req, strlen(req)) < 0) {
+      error("can't send req=%s", req);
       httperr = true;
       break;
     }
@@ -358,33 +339,33 @@ htagain:
      * parses HTTP/1.1 headers received from the server
      */
 
-    httpio->reset();
+    http->reset();
 
     do {
-      if ((httpio->len = Http::answerHttpd(httpio->fd, httpio->buf, HTTP_BUFSIZ)) <= 0) {
+      if ((http->len = answer(http->fd, http->buf, HTTP_BUFSIZ)) <= 0) {
         httpeoh = true;
         httperr = true;
         break;
       }
-      //echo("answerHttpd: (%d) %p", httpio->len, httpio->buf);
+      //echo("answer: (%d) %p", http->len, http->buf);
 
-      for (httpio->off = 0; 1; ) {
+      for (http->off = 0; 1; ) {
         int i = 0;
         char httpheader[HTTP_BUFSIZ];
 
-        while ( (httpio->off < httpio->len) && (httpio->buf[httpio->off] != '\n') ) {
-          httpheader[i++] = httpio->buf[httpio->off++];
+        while ( (http->off < http->len) && (http->buf[http->off] != '\n') ) {
+          httpheader[i++] = http->buf[http->off++];
         }
 
-        if (httpio->off < httpio->len) {
+        if (http->off < http->len) {
           if (httpheader[0] == '\r') { // test end of header
-            httpio->off++;
+            http->off++;
             httpeoh = true;
             httperr = true;
             break;
           }
           httpheader[i-1] = '\0';	// replace '\r' by '\0'
-          httpio->off++;		// skip '\0'
+          http->off++;			// skip '\0'
           trace(DBG_HTTP, "->%s", httpheader);
 
           if (answerline) {
@@ -462,7 +443,7 @@ htagain:
     /*
      * Call here the appropriated httpReader
      */
-    httpthread->httpReader(httpthread->handle, httpio);
+    httpthread->httpReader(httpthread->handle, http);
     httperr = false;
     break;
 
@@ -475,42 +456,16 @@ htagain:
   }
 
   if (httperr && httpthread) {
-    httpthread->httpReader(httpthread->handle, httpio);
+    httpthread->httpReader(httpthread->handle, http);
   }
 
   // free memory
   if (httpthread) delete httpthread;
   httpthread = NULL;
-  if (httpio) delete httpio;
-  httpio = NULL;
+  if (http) delete http;
+  http = NULL;
 
   return NULL;
-}
-
-/////////////
-//
-// Http class
-//
-
-Http::Http()
-{
-  new_http++;
-  fd = -1;		// socket descriptor
-  len = off = 0;
-  url = new char[URL_LEN];
-  buf = new char[HTTP_BUFSIZ];
-  reset();
-}
-
-Http::~Http()
-{
-  del_http++;
-  if (url) delete[] url;
-  if (buf) delete[] buf;
-  buf = NULL;
-  if (fd > 0) {
-    Socket::closeStream(fd);
-  }
 }
 
 /** Opens a HTTP transaction, returns -1 if error */
@@ -525,20 +480,20 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
   ::g.timer.image.start();
 
   HttpThread *httpthread = new HttpThread();
-  httpthread->httpio = new Http();	// create a http IO instance
+  httpthread->http = new Http();	// create a http IO instance
 
   // Fills the httpthread structure
   httpthread->handle = hdl;
   httpthread->httpReader = httpReader;
-  httpthread->modethr = threaded;
+  httpthread->mode = threaded;
   strcpy(httpthread->url, url);
-  strcpy(httpthread->httpio->url, url);
+  strcpy(httpthread->http->url, url);
 
   // Checks if url is in the cache (threaded < 0 : don't use the cache)
   if (threaded >= 0 && Cache::inCache(url)) { // in cache
-    httpthread->httpReader(httpthread->handle, httpthread->httpio);  // call the appropiated httpReader
-    if (httpthread->httpio) delete httpthread->httpio;	// segfault
-    httpthread->httpio = NULL;
+    httpthread->httpReader(httpthread->handle, httpthread->http);  // call the appropiated httpReader
+    if (httpthread->http) delete httpthread->http;	// segfault
+    httpthread->http = NULL;
     progression('c');	// 'c' as cache
     delete httpthread;
     httpthread = NULL;
@@ -550,7 +505,7 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
       return httpthread->putfifo();	// yes, put it into fifo
     }
     else {
-      Http::connection((void *) httpthread);	// it's not a thread
+      connection((void *) httpthread);	// it's not a thread
       ::g.timer.image.stop();
       return 0;
     }
@@ -837,4 +792,48 @@ uint32_t Http::skip(int32_t skiplen)
     }
     return (uint32_t) skiplen;
   }
+}
+
+
+/** Checks if http proxy */
+void Http::checkProxy()
+{
+  static bool done = false;
+  if (done) return;
+
+  char *p;
+
+  if (::g.pref.httpproxystr) {
+    p = ::g.pref.httpproxystr;
+  }
+  else {
+    p = getenv(HTTP_PROXY);  // syntax: http://hostname:port/
+  }
+  if (p && *p) {
+    char envproxy[90];
+
+    hostproxy = new char[strlen(p)];
+    if (p[strlen(p) - 1] == '/') {
+      p[strlen(p) - 1] = '\0';
+    }
+    strcpy(envproxy, p);
+    p = strrchr(envproxy, ':');
+    *p = '\0';
+    portproxy = atoi(++p);
+    if ((p = strrchr(envproxy, '/')) == NULL) {
+      sprintf(hostproxy, "http://%s", envproxy);
+    }
+    else {
+      strcpy(hostproxy, ++p);
+    }
+    proxy = 1;
+    trace(DBG_HTTP, "proxy=%s:%d", hostproxy, portproxy);
+  }
+  p = (::g.pref.noproxystr) ? ::g.pref.noproxystr : getenv(NO_PROXY);
+  if (p && *p) {
+    domnoproxy = new char[strlen(p)];
+    strcpy(domnoproxy, p);
+    noproxy = 1;
+  }
+  done = true;
 }
