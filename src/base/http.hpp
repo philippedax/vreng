@@ -35,6 +35,8 @@
 #define HTTP_404        404     // not found
 #define HTTP_503        503     // server unavailable
 
+class Http;
+
 /**
  * FIFO
  * if max connections is reached
@@ -52,21 +54,10 @@ class HttpThread {
  friend class Http;
 
  private:
-
-  /* errors */
-  enum {
-    TCPEOF,
-    BADSEND,
-    BADSOCKET,
-    BADCONNECT,
-    BADNAME,
-    BADSERV
-  };
-
   tWaitFifo *httpfifo;	///< wait http fifo
   void *handle;		///< thread handle
   bool modethr;		///< thread or not
-  class Http *httpio;	///< http handle for I/O
+  Http *httpio;		///< http handle for I/O
   char url[URL_LEN];	///< url
 
   void begin_thread();	///< begins a thread
@@ -78,6 +69,31 @@ class HttpThread {
   void (*httpReader) (void *handle, class Http *http);
   /**< Http reader. */
 
+ public:
+  HttpThread();			/**< Constructor. */
+  virtual ~HttpThread();	/**< Destructor. */
+};
+
+
+/**
+ * Http class
+ * I/O methods
+ */
+class Http {
+ private:
+  /* errors */
+  enum {
+    TCPEOF,
+    BADSEND,
+    BADSOCKET,
+    BADCONNECT,
+    BADNAME,
+    BADSERV
+  };
+
+  static void checkProxy();
+  /**< Checks proxy environment variables. */
+
   static int sendHttpd(int fd, const char *buf, int size);
   /**< Sends a http request. */
 
@@ -87,31 +103,11 @@ class HttpThread {
   static int connectHttpd(const struct sockaddr_in *sa);
   /**< Establishes a connection with the http server. */
 
-  static void * connectionHttpd(void *_hthr);
-  /**< Makes a http connection to the httpd server. */
-
-  static void checkHttpProxy();
-  /**< Checks proxy environment variables. */
-
   static int resolver(char *hoststr, char *portstr, struct sockaddr_in *sa);
   /**< Resolves a hostname. */
 
   static int openPath(const char *path);
 
- public:
-  HttpThread();
-  /**< Constructor. */
-
-  virtual ~HttpThread();
-  /**< Destructor. */
-};
-
-
-/**
- * Http class
- * I/O methods
- */
-class Http {
  public:
   int fd;		///< http fd
   int off;		///< offset in buf
@@ -125,6 +121,9 @@ class Http {
 
   static void init();
   /**< Initializes Http. */
+
+  static void * connection(void *_hthr);
+  /**< Makes a http connection to the httpd server. */
 
   void reset();
   /**< Reset read buffer. */

@@ -30,7 +30,7 @@
 #include "timer.hpp"	// timer
 #include "cache.hpp"	// inCache
 #include "universe.hpp"	// universe_name
-#include "stat.hpp"	// new_http new_htppthread
+#include "stat.hpp"	// new_http, del_http
 
 
 // local
@@ -57,7 +57,7 @@ void Http::init()
 {
   initMutex(&nbsimcon_mutex);
   nbsimcon = 0;
-  trace(DBG_INIT, "HttpThread initialized");
+  trace(DBG_INIT, "Http initialized");
 }
 
 void HttpThread::begin_thread()
@@ -67,13 +67,13 @@ void HttpThread::begin_thread()
     //trace(DBG_HTTP, "-> begin_thread %s", url);
     if (httpfifo) {			// Wait authorization to begin_thread
       lockMutex(&nbsimcon_mutex);
-      //[[[ lock
+      //[[ lock
         pthread_cond_wait(&httpfifo->cond, &nbsimcon_mutex);
         nbsimcon++;			// increments nbsimcon
         fifofirst = httpfifo->next;	// removes one element from the fifo
         if (httpfifo) delete[] httpfifo;
         httpfifo = NULL;
-      // unlock ]]]
+      // unlock ]]
       unlockMutex(&nbsimcon_mutex);	// free fifo handling
     }
   }
@@ -85,14 +85,14 @@ void HttpThread::end_thread()
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
   if (modethr > 0) {
     lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
-    //[[[ lock
+    //[[ lock
       nbsimcon--;			// decrements nbsimcon
       if (nbsimcon < 0) nbsimcon = 0;
       if (fifofirst) {			// if something in fifo, awake it
         trace(DBG_HTTP, "thread awake (%d) %s", nbsimcon, url);
         pthread_cond_signal(&fifofirst->cond);
       }
-    // unlock ]]]
+    // unlock ]]
     unlockMutex(&nbsimcon_mutex);
   }
 #endif
@@ -102,7 +102,7 @@ int HttpThread::putfifo()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
   lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
-  //[[[ lock
+  //[[ lock
   if (nbsimcon >= ::g.pref.maxsimcon) {		// test number of active connections
     trace(DBG_HTTP, "too many threads=%d, waiting for %s", nbsimcon, url);
     tWaitFifo *newfifo = new tWaitFifo[1];	// new element in the fifo
@@ -111,13 +111,13 @@ int HttpThread::putfifo()
     if (! fifofirst) fifofirst = newfifo;
     if (fifolast) fifolast->next = newfifo;
     fifolast = newfifo;
-    // unlock ]]]
+    // unlock ]]
     unlockMutex(&nbsimcon_mutex);		// unlock the global variable
     httpfifo = newfifo;				// block the thread
   }
   else {
     nbsimcon++;					// add a connection
-    // unlock ]]]
+    // unlock ]]
     trace(DBG_HTTP, "thread going now (%d) %s", nbsimcon, url);
     unlockMutex(&nbsimcon_mutex);
     httpfifo = NULL;				// thread not blocked
@@ -125,26 +125,26 @@ int HttpThread::putfifo()
 
   /* start new thread */
   Vpthread_t tid;
-  return pthread_create(&tid, NULL, HttpThread::connectionHttpd, (void *) this);
+  return pthread_create(&tid, NULL, Http::connection, (void *) this);
 
 #else
-  HttpThread::connectionHttpd((void *) this);
+  Http::connection((void *) this);
   return 0;
 #endif
 }
 
 /** Fills buffer rep */
-int HttpThread::answerHttpd(int s, char *rep, int max)
+int Http::answerHttpd(int s, char *rep, int max)
 {
   return recv(s, rep, max, 0);
 }
 
 /** Sends request to the http server */
-int HttpThread::sendHttpd(int fd, const char *buf, int size)
+int Http::sendHttpd(int fd, const char *buf, int size)
 {
-  int sent, r=0;
+  int r = 0;
 
-  for (sent = 0; sent < size; sent += r) {
+  for (int sent = 0; sent < size; sent += r) {
     if ((r = write(fd, buf + sent, size - sent)) == -1) {
       perror("httpSend: write");
       return -BADSEND;
@@ -154,7 +154,7 @@ int HttpThread::sendHttpd(int fd, const char *buf, int size)
 }
 
 /** Connects to server defined by sa */
-int HttpThread::connectHttpd(const struct sockaddr_in *sa)
+int Http::connectHttpd(const struct sockaddr_in *sa)
 {
   int sdhttp;
 
@@ -170,7 +170,7 @@ int HttpThread::connectHttpd(const struct sockaddr_in *sa)
 }
 
 /** Converts host/port into sockaddr */
-int HttpThread::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
+int Http::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
 {
   struct hostent *hp = NULL;
 
@@ -206,7 +206,7 @@ static uint16_t portproxy;
 static char *domnoproxy, *hostproxy;
 
 /** Checks if http proxy */
-void HttpThread::checkHttpProxy()
+void Http::checkProxy()
 {
   static bool done = false;
   if (done) return;
@@ -249,19 +249,19 @@ void HttpThread::checkHttpProxy()
 }
 
 /** Opens a local file and returns its file descriptor */
-int HttpThread::openPath(const char *path)
+int Http::openPath(const char *path)
 {
   return open(path, O_RDONLY);
 }
 
 /** Makes a http connection */
-void * HttpThread::connectionHttpd(void *_httpthread)
+void * Http::connection(void *_httpthread)
 {
   HttpThread *httpthread = (HttpThread *) _httpthread;
 
   Http *httpio = httpthread->httpio;
 
-  HttpThread::checkHttpProxy();
+  Http::checkProxy();
 
   struct sockaddr_in sa;
   bool httperr = false;
@@ -275,7 +275,7 @@ void * HttpThread::connectionHttpd(void *_httpthread)
   memset(path, 0, sizeof(path));
 
   int urltype = Url::parser(httpthread->url, host, scheme, path);
-  //echo("connectionHttpd: url=%s", httpthread->url);
+  //echo("connection: url=%s", httpthread->url);
   trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
                   ::g.url, ::g.universe, scheme, host, path, urltype);
   trace(DBG_HTTP, "HTTP: %s://%s/%s", scheme, host, path);
@@ -284,7 +284,7 @@ void * HttpThread::connectionHttpd(void *_httpthread)
   switch (urltype) {
 
   case Url::URLFILE:	// file://
-    if ((httpio->fd = HttpThread::openPath(path)) < 0) {
+    if ((httpio->fd = Http::openPath(path)) < 0) {
       httperr = true;
     }
     else {	// file not found
@@ -311,7 +311,7 @@ htagain:
       my_free_hostent(hp);
     }
     else {
-      if (HttpThread::resolver(host, scheme, &sa) != 0) {
+      if (Http::resolver(host, scheme, &sa) != 0) {
         if (! strncmp(host, "localhost", 9)) {
           httperr = false;
         }
@@ -322,7 +322,7 @@ htagain:
         break;
       }
     }
-    if ((httpio->fd = HttpThread::connectHttpd(&sa)) < 0) {
+    if ((httpio->fd = Http::connectHttpd(&sa)) < 0) {
       error("can't connectHttpd %s", host);
       httperr = true;
       break;
@@ -348,7 +348,7 @@ htagain:
       sprintf(req, "GET %s HTTP/1.0\r\nHost: %s\r\n\r\n", path, host);
     } 
     //echo("reqHttpd: %s", req);
-    if (HttpThread::sendHttpd(httpio->fd, req, strlen(req)) < 0) {
+    if (Http::sendHttpd(httpio->fd, req, strlen(req)) < 0) {
       error("can't sendHttpd req=%s", req);
       httperr = true;
       break;
@@ -361,7 +361,7 @@ htagain:
     httpio->reset();
 
     do {
-      if ((httpio->len = HttpThread::answerHttpd(httpio->fd, httpio->buf, HTTP_BUFSIZ)) <= 0) {
+      if ((httpio->len = Http::answerHttpd(httpio->fd, httpio->buf, HTTP_BUFSIZ)) <= 0) {
         httpeoh = true;
         httperr = true;
         break;
@@ -521,11 +521,10 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
     return -1;
   }
 
-  HttpThread *httpthread = new HttpThread();
-
   trace(DBG_HTTP, "httpOpen: %s", url);
   ::g.timer.image.start();
 
+  HttpThread *httpthread = new HttpThread();
   httpthread->httpio = new Http();	// create a http IO instance
 
   // Fills the httpthread structure
@@ -551,7 +550,7 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
       return httpthread->putfifo();	// yes, put it into fifo
     }
     else {
-      HttpThread::connectionHttpd((void *) httpthread);	// it's not a thread
+      Http::connection((void *) httpthread);	// it's not a thread
       ::g.timer.image.stop();
       return 0;
     }
