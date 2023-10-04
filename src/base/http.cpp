@@ -171,10 +171,10 @@ int Http::answer(int s, char *rep, int max)
 /** Sends request to the http server */
 int Http::send(int fd, const char *buf, int size)
 {
-  int r = 0;
+  int sent = 0;
 
-  for (int sent = 0; sent < size; sent += r) {
-    if ((r = write(fd, buf + sent, size - sent)) == -1) {
+  for (int tosend = 0; tosend < size; tosend += sent) {
+    if ((sent = write(fd, buf + tosend, size - tosend)) == -1) {
       perror("httpSend: write");
       return -BADSEND;
     }
