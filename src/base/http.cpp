@@ -56,13 +56,6 @@ HttpThread::~HttpThread()
   end_thread();
 }
 
-void Http::init()
-{
-  initMutex(&nbsimcon_mutex);
-  nbsimcon = 0;
-  trace(DBG_INIT, "Http initialized");
-}
-
 void HttpThread::begin_thread()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
@@ -160,6 +153,13 @@ Http::~Http()
   if (fd > 0) {
     Socket::closeStream(fd);
   }
+}
+
+void Http::init()
+{
+  initMutex(&nbsimcon_mutex);
+  nbsimcon = 0;
+  trace(DBG_INIT, "Http initialized");
 }
 
 /** Fills buffer rep */
