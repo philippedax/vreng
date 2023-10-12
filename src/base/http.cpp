@@ -199,22 +199,23 @@ int Http::connect(const struct sockaddr_in *sa)
 }
 
 /** Converts host/port into sockaddr */
-int Http::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
+int Http::resolver(char *host, char *scheme, struct sockaddr_in *sa)
 {
   struct hostent *hp = NULL;
+  int ret = -1;
 
   // hostname
-  if ((hp = my_gethostbyname_r(hoststr, AF_INET)) == NULL) {
-    return -BADNAME;
+  if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
+    ret = -BADNAME;
   }
 
   uint16_t port;
 
-  if (isdigit((int) *portstr)) {
-    port = htons(atoi(portstr));
+  if (isdigit((int) *scheme)) {
+    port = htons(atoi(scheme));
   }
   else {
-    if (! strcmp(portstr, "http")) {
+    if (! strcmp(scheme, "http")) {
       port = htons(DEF_HTTP_PORT);
     }
     else {
@@ -222,12 +223,22 @@ int Http::resolver(char *hoststr, char *portstr, struct sockaddr_in *sa)
     }
   }
 
-  sa->sin_family = hp->h_addrtype;
-  memcpy(&sa->sin_addr, hp->h_addr_list[0], hp->h_length);
+  if (! strcmp(host, "localhost")) {
+    sa->sin_family = AF_INET;
+    struct in_addr ip;
+    inet_aton("127.0.0.1", &ip);
+    sa->sin_addr = ip;
+  }
+  else {
+    sa->sin_family = hp->h_addrtype;
+    memcpy(&sa->sin_addr, hp->h_addr_list[0], hp->h_length);
+  }
   sa->sin_port = port;
-  my_free_hostent(hp);
 
-  return 0;
+  my_free_hostent(hp);
+  ret = 0;	// resolved
+
+  return ret;
 }
 
 /** Opens a local file and returns its file descriptor */
