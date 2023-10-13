@@ -100,7 +100,7 @@ int HttpThread::putfifo()
   lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
   //[[ lock
   if (nbsimcon >= ::g.pref.maxsimcon) {		// test number of active connections
-    trace(DBG_HTTP, "too many threads=%d, waiting for %s", nbsimcon, url);
+    //echo("too many threads=%d, waiting for %s", nbsimcon, url);
     tWaitFifo *newfifo = new tWaitFifo[1];	// new element in the fifo
     pthread_cond_init(&(newfifo->cond), NULL);	// put thread into fifo
     newfifo->next = NULL;
@@ -114,7 +114,7 @@ int HttpThread::putfifo()
   else {
     nbsimcon++;					// add a connection
     // unlock ]]
-    trace(DBG_HTTP, "thread going now (%d) %s", nbsimcon, url);
+    //echo("thread going now (%d) %s", nbsimcon, url);
     unlockMutex(&nbsimcon_mutex);
     fifo = NULL;				// thread not blocked
   }
@@ -223,11 +223,11 @@ int Http::resolver(char *host, char *scheme, struct sockaddr_in *sa)
     }
   }
 
-  if (! strcmp(host, "localhost")) {
+  if (! strcmp(host, "localhost")) {	// force localhost (not resolved)
     sa->sin_family = AF_INET;
-    struct in_addr ip;
-    inet_aton("127.0.0.1", &ip);
-    sa->sin_addr = ip;
+    struct in_addr myip;
+    inet_aton("127.0.0.1", &myip);
+    sa->sin_addr = myip;
   }
   else {
     sa->sin_family = hp->h_addrtype;
@@ -302,7 +302,7 @@ htagain:
       memcpy(&sa.sin_addr, hp->h_addr_list[0], hp->h_length);
       my_free_hostent(hp);
     }
-    else {
+    else {	// normal
       if (resolver(host, scheme, &sa) != 0) {
         if (! strncmp(host, "localhost", 9)) {
           httperr = false;
@@ -340,6 +340,7 @@ htagain:
       sprintf(req, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, host);
     } 
     //echo("reqGet: %s", req);
+
     if (send(http->fd, req, strlen(req)) < 0) {
       error("can't send req=%s", req);
       httperr = true;
@@ -512,7 +513,7 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
   }
   else {		// not in cache
     progression('i');	// 'i' as image
-    if (threaded > 0) {	// is it a thread ?
+    if (threaded > 0) {			// is it a thread ?
       return httpthread->putfifo();	// yes, put it into fifo
     }
     else {

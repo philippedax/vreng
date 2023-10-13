@@ -11,13 +11,8 @@ const char CONFIG_H[] = "\
 /* */\n\
 /* #undef CENTOS */\n\
 \n\
-/* Define to 1 if the `closedir' function returns void instead of `int'. */\n\
+/* Define to 1 if the `closedir' function returns void instead of int. */\n\
 /* #undef CLOSEDIR_VOID */\n\
-\n\
-/* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP\n\
-   systems. This function is required for `alloca.c' support on those systems.\n\
-   */\n\
-/* #undef CRAY_STACKSEG_END */\n\
 \n\
 /* */\n\
 #define CURLPATH \"/usr/bin/curl\"\n\
@@ -25,7 +20,7 @@ const char CONFIG_H[] = "\
 /* */\n\
 /* #undef CYGWIN32 */\n\
 \n\
-/* Define to 1 if using `alloca.c'. */\n\
+/* Define to 1 if using 'alloca.c'. */\n\
 /* #undef C_ALLOCA */\n\
 \n\
 /* */\n\
@@ -49,11 +44,10 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the `alarm' function. */\n\
 #define HAVE_ALARM 1\n\
 \n\
-/* Define to 1 if you have `alloca', as a function or macro. */\n\
+/* Define to 1 if you have 'alloca', as a function or macro. */\n\
 #define HAVE_ALLOCA 1\n\
 \n\
-/* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).\n\
-   */\n\
+/* Define to 1 if <alloca.h> works. */\n\
 #define HAVE_ALLOCA_H 1\n\
 \n\
 /* */\n\
@@ -72,7 +66,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ARPA_NAMESER_H 1\n\
 \n\
 /* */\n\
-#define HAVE_CAML_CALLBACK_H 1\n\
+/* #undef HAVE_CAML_CALLBACK_H */\n\
 \n\
 /* Define to 1 if you have the <ctype.h> header file. */\n\
 #define HAVE_CTYPE_H 1\n\
@@ -214,7 +208,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ISASCII 1\n\
 \n\
 /* */\n\
-#define HAVE_JAVA 1\n\
+/* #undef HAVE_JAVA */\n\
 \n\
 /* */\n\
 #define HAVE_JPEGLIB_H 1\n\
@@ -331,9 +325,6 @@ const char CONFIG_H[] = "\
 /* Define to 1 if you have the `memmove' function. */\n\
 #define HAVE_MEMMOVE 1\n\
 \n\
-/* Define to 1 if you have the <memory.h> header file. */\n\
-#define HAVE_MEMORY_H 1\n\
-\n\
 /* Define to 1 if you have the `memset' function. */\n\
 #define HAVE_MEMSET 1\n\
 \n\
@@ -374,7 +365,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_NO_SOCKLEN_T */\n\
 \n\
 /* */\n\
-#define HAVE_OCAML 1\n\
+/* #undef HAVE_OCAML */\n\
 \n\
 /* */\n\
 /* #undef HAVE_OPENAL */\n\
@@ -453,10 +444,10 @@ const char CONFIG_H[] = "\
 #define HAVE_SOCKET 1\n\
 \n\
 /* */\n\
-#define HAVE_SQLITE 1\n\
+/* #undef HAVE_SQLITE */\n\
 \n\
 /* */\n\
-#define HAVE_SQLITE_H 1\n\
+/* #undef HAVE_SQLITE_H */\n\
 \n\
 /* Define to 1 if you have the `sqrt' function. */\n\
 #define HAVE_SQRT 1\n\
@@ -476,6 +467,9 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if you have the <stdint.h> header file. */\n\
 #define HAVE_STDINT_H 1\n\
+\n\
+/* Define to 1 if you have the <stdio.h> header file. */\n\
+#define HAVE_STDIO_H 1\n\
 \n\
 /* Define to 1 if you have the <stdlib.h> header file. */\n\
 #define HAVE_STDLIB_H 1\n\
@@ -597,7 +591,7 @@ const char CONFIG_H[] = "\
 #define HAVE_WCHAR_H 1\n\
 \n\
 /* */\n\
-#define HAVE_WGET 1\n\
+/* #undef HAVE_WGET */\n\
 \n\
 /* Define to 1 if `fork' works. */\n\
 #define HAVE_WORKING_FORK 1\n\
@@ -649,7 +643,7 @@ const char CONFIG_H[] = "\
 /* #undef NEXTSTEP */\n\
 \n\
 /* */\n\
-#define OCAML_PATH \"/usr/local/lib/ocaml\"\n\
+/* #undef OCAML_PATH */\n\
 \n\
 /* */\n\
 /* #undef OPENBSD */\n\
@@ -679,7 +673,7 @@ const char CONFIG_H[] = "\
 #define PACKAGE_VERSION \"9.4.3\"\n\
 \n\
 /* */\n\
-#define PERLPATH \"/opt/local/bin/perl\"\n\
+#define PERLPATH \"/usr/bin/perl\"\n\
 \n\
 /* Define to the type of arg 1 for `select'. */\n\
 #define SELECT_TYPE_ARG1 int\n\
@@ -704,13 +698,16 @@ const char CONFIG_H[] = "\
 /* Define to 1 if the `S_IS*' macros in <sys/stat.h> do not work properly. */\n\
 /* #undef STAT_MACROS_BROKEN */\n\
 \n\
-/* Define to 1 if you have the ANSI C header files. */\n\
+/* Define to 1 if all of the C90 standard headers exist (not just the ones\n\
+   required in a freestanding environment). This macro is provided for\n\
+   backward compatibility; new code need not use it. */\n\
 #define STDC_HEADERS 1\n\
 \n\
 /* */\n\
 /* #undef SUNOS */\n\
 \n\
-/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */\n\
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. This\n\
+   macro is obsolete. */\n\
 #define TIME_WITH_SYS_TIME 1\n\
 \n\
 /* */\n\
@@ -732,7 +729,7 @@ const char CONFIG_H[] = "\
 #define VRENG_MINOR_VERSION 4\n\
 \n\
 /* */\n\
-#define WGETPATH \"/usr/local/bin/wget\"\n\
+/* #undef WGETPATH */\n\
 \n\
 /* */\n\
 /* #undef WIN32 */\n\
@@ -753,7 +750,7 @@ const char CONFIG_H[] = "\
 /* #undef WITH_PYTHON */\n\
 \n\
 /* */\n\
-#define WITH_SQLITE 1\n\
+/* #undef WITH_SQLITE */\n\
 \n\
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most\n\
    significant byte first (like Motorola and SPARC, unlike Intel). */\n\
@@ -775,7 +772,7 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a\n\
    `char[]'. */\n\
-/* #undef YYTEXT_POINTER */\n\
+#define YYTEXT_POINTER 1\n\
 \n\
 /* */\n\
 /* #undef _REENTRANT */\n\
@@ -828,7 +825,7 @@ const char CONFIG_H[] = "\
 /* Define to `long int' if <sys/types.h> does not define. */\n\
 /* #undef off_t */\n\
 \n\
-/* Define to `int' if <sys/types.h> does not define. */\n\
+/* Define as a signed integer type capable of holding a process identifier. */\n\
 /* #undef pid_t */\n\
 \n\
 /* Define to rpl_realloc if the replacement function should be used. */\n\
