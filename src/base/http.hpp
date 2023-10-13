@@ -24,7 +24,7 @@
 #include "thread.hpp"	// Vpthread_cond_t
 
 #define MIME_LEN        32
-#define HTTP_BUFSIZ     4096
+#define HTTP_BUFSIZ     4096	// size of buffer for io
 #define HTTP_200        200     // OK
 #define HTTP_202        202     // accepted
 #define HTTP_301        301     // move permanently
@@ -91,6 +91,10 @@ class Http {
     BADSERV
   };
 
+  // members
+  void *handle;		///< thread handle
+
+  // methods
   static void checkProxy();
   /**< Checks proxy environment variables. */
 
@@ -103,7 +107,7 @@ class Http {
   static int connect(const struct sockaddr_in *sa);
   /**< Establishes a connection with the http server. */
 
-  static int resolver(char *hoststr, char *portstr, struct sockaddr_in *sa);
+  static int resolver(char *host, char *scheme, struct sockaddr_in *sa);
   /**< Resolves a hostname. */
 
   static int openPath(const char *path);
@@ -112,8 +116,8 @@ class Http {
   int fd;		///< http fd
   int off;		///< offset in buf
   int len;		///< length
-  char *url;		///< url
   char *buf;		///< buffer
+  char *url;		///< url
 
   Http();		///< constructor
 

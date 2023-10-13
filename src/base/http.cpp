@@ -281,7 +281,7 @@ void * Http::connection(void *_httpthread)
     }
     else {	// file not found
       http->off = -1;
-      httpthread->httpReader(httpthread->handle, http);
+      httpthread->httpReader(http->handle, http);
       httperr = false;
     }
     break;
@@ -439,8 +439,8 @@ htagain:
               }
               trace(DBG_HTTP, "mime=%s %s", p, http->url);
               // only for textures
-              if (httpthread->handle && strcmp(p, "plain")) {
-                Texture *tex = (Texture *) httpthread->handle;
+              if (http->handle && strcmp(p, "plain")) {
+                Texture *tex = (Texture *) http->handle;
 		tex->setMime(p);
               }
             }
@@ -455,7 +455,7 @@ htagain:
     /*
      * Call here the appropriated httpReader
      */
-    httpthread->httpReader(httpthread->handle, http);
+    httpthread->httpReader(http->handle, http);
     httperr = false;
     break;
 
@@ -468,7 +468,7 @@ htagain:
   }
 
   if (httperr && httpthread) {
-    httpthread->httpReader(httpthread->handle, http);
+    httpthread->httpReader(http->handle, http);
   }
 
   // free memory
@@ -496,6 +496,7 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
 
   // Fills the httpthread structure
   httpthread->handle = hdl;
+  httpthread->http->handle = hdl;
   httpthread->httpReader = httpReader;
   httpthread->mode = threaded;
   strcpy(httpthread->url, url);
