@@ -267,7 +267,7 @@ void * Http::connection(void *_httpthread)
   memset(scheme, 0, sizeof(scheme));
   memset(path, 0, sizeof(path));
 
-  int urltype = Url::parser(httpthread->url, host, scheme, path);
+  int urltype = Url::parser(http->url, host, scheme, path);
   trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
                   ::g.url, ::g.universe, scheme, host, path, urltype);
   //echo("HTTP: %s://%s/%s", scheme, host, path);
@@ -327,7 +327,7 @@ htagain:
       if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
         sprintf(req,
                 "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.1\r\nHost: %s\r\n\r\n",
-                httpthread->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), ::g.env.relname(), ::g.user, host);
+                http->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), ::g.env.relname(), ::g.user, host);
       }
       else {
         sprintf(req,
@@ -385,7 +385,7 @@ htagain:
 
             sscanf(httpheader, "HTTP/%d.%d %d", &major, &minor, &herr);
             trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
-                  herr, major, minor, httpheader+12, httpthread->url);
+                  herr, major, minor, httpheader+12, http->url);
 
             switch (herr) {
 
@@ -410,7 +410,7 @@ htagain:
             case HTTP_400:	// bad request
             case HTTP_403:	// forbidden
             case HTTP_404:	// not found
-              error("HTTP-err: %d - %s %s on %s", herr, httpheader, httpthread->url, host);
+              error("HTTP-err: %d - %s %s on %s", herr, httpheader, http->url, host);
               httperr = true;
               break;
             case HTTP_503:	// server unavailable
@@ -418,7 +418,7 @@ htagain:
               httperr = true;
               break;
             default:
-              error("HTTP-err: %d - %s %s", herr, httpheader+12, httpthread->url);
+              error("HTTP-err: %d - %s %s", herr, httpheader+12, http->url);
               httperr = true;
               break;
             }
@@ -437,7 +437,7 @@ htagain:
               else {
                 p[MIME_LEN] = 0;
               }
-              trace(DBG_HTTP, "mime=%s %s", p, httpthread->url);
+              trace(DBG_HTTP, "mime=%s %s", p, http->url);
               // only for textures
               if (httpthread->handle && strcmp(p, "plain")) {
                 Texture *tex = (Texture *) httpthread->handle;
