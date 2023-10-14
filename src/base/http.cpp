@@ -47,85 +47,85 @@ static char *domnoproxy, *hostproxy;
 
 HttpThread::HttpThread()
 {
-  fifo = NULL;
-  begin_thread();
+	fifo = NULL;
+	begin_thread();
 }
 
 HttpThread::~HttpThread()
 {
-  end_thread();
+	end_thread();
 }
 
 void HttpThread::begin_thread()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-  if (mode > 0) {
-    //trace(DBG_HTTP, "-> begin_thread %s", url);
-    if (fifo) {				// Wait authorization to begin_thread
-      lockMutex(&nbsimcon_mutex);
-      //[[ lock
-        pthread_cond_wait(&fifo->cond, &nbsimcon_mutex);
-        nbsimcon++;			// increments nbsimcon
-        fifofirst = fifo->next;		// removes one element from the fifo
-        if (fifo) delete[] fifo;
-        fifo = NULL;
-      // unlock ]]
-      unlockMutex(&nbsimcon_mutex);	// free fifo handling
-    }
-  }
+	if (mode > 0) {
+		//trace(DBG_HTTP, "-> begin_thread %s", url);
+		if (fifo) {				// Wait authorization to begin_thread
+			lockMutex(&nbsimcon_mutex);
+			//[[ lock
+			pthread_cond_wait(&fifo->cond, &nbsimcon_mutex);
+			nbsimcon++;			// increments nbsimcon
+			fifofirst = fifo->next;		// removes one element from the fifo
+			if (fifo) delete[] fifo;
+			fifo = NULL;
+			// unlock ]]
+			unlockMutex(&nbsimcon_mutex);	// free fifo handling
+		}
+	}
 #endif
 }
 
 void HttpThread::end_thread()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-  if (mode > 0) {
-    lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
-    //[[ lock
-      nbsimcon--;			// decrements nbsimcon
-      if (nbsimcon < 0) nbsimcon = 0;
-      if (fifofirst) {			// if something in fifo, awake it
-        trace(DBG_HTTP, "thread awake (%d) %s", nbsimcon, url);
-        pthread_cond_signal(&fifofirst->cond);
-      }
-    // unlock ]]
-    unlockMutex(&nbsimcon_mutex);
-  }
+	if (mode > 0) {
+		lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
+							//[[ lock
+		nbsimcon--;			// decrements nbsimcon
+		if (nbsimcon < 0) nbsimcon = 0;
+		if (fifofirst) {			// if something in fifo, awake it
+			trace(DBG_HTTP, "thread awake (%d) %s", nbsimcon, url);
+			pthread_cond_signal(&fifofirst->cond);
+		}
+		// unlock ]]
+		unlockMutex(&nbsimcon_mutex);
+	}
 #endif
 }
 
 int HttpThread::putfifo()
 {
 #if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-  lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
-  //[[ lock
-  if (nbsimcon >= ::g.pref.maxsimcon) {		// test number of active connections
-    //echo("too many threads=%d, waiting for %s", nbsimcon, url);
-    tWaitFifo *newfifo = new tWaitFifo[1];	// new element in the fifo
-    pthread_cond_init(&(newfifo->cond), NULL);	// put thread into fifo
-    newfifo->next = NULL;
-    if (! fifofirst) fifofirst = newfifo;
-    if (fifolast) fifolast->next = newfifo;
-    fifolast = newfifo;
-    // unlock ]]
-    unlockMutex(&nbsimcon_mutex);		// unlock the global variable
-    fifo = newfifo;				// block the thread
-  }
-  else {
-    nbsimcon++;					// add a connection
-    // unlock ]]
-    //echo("thread going now (%d) %s", nbsimcon, url);
-    unlockMutex(&nbsimcon_mutex);
-    fifo = NULL;				// thread not blocked
-  }
+	lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
+							//[[ lock
+	if (nbsimcon >= ::g.pref.maxsimcon) {		// test number of active connections
+							//echo("too many threads=%d, waiting for %s", nbsimcon, url);
+		tWaitFifo *newfifo = new tWaitFifo[1];	// new element in the fifo
+		pthread_cond_init(&(newfifo->cond), NULL);	// put thread into fifo
+		newfifo->next = NULL;
+		if (! fifofirst) fifofirst = newfifo;
+		if (fifolast) fifolast->next = newfifo;
+		fifolast = newfifo;
+		// unlock ]]
+		unlockMutex(&nbsimcon_mutex);		// unlock the global variable
+		fifo = newfifo;				// block the thread
+	}
+	else {
+		nbsimcon++;					// add a connection
+								// unlock ]]
+								//echo("thread going now (%d) %s", nbsimcon, url);
+		unlockMutex(&nbsimcon_mutex);
+		fifo = NULL;				// thread not blocked
+	}
 
-  /* start new thread */
-  Vpthread_t tid;
-  return pthread_create(&tid, NULL, Http::connection, (void *) this);
+	/* start new thread */
+	Vpthread_t tid;
+	return pthread_create(&tid, NULL, Http::connection, (void *) this);
 
 #else
-  Http::connection((void *) this);
-  return 0;
+	Http::connection((void *) this);
+	return 0;
 #endif
 }
 
@@ -136,45 +136,39 @@ int HttpThread::putfifo()
 
 Http::Http()
 {
-  new_http++;
-  fd = -1;		// socket descriptor
-  len = off = 0;
-  url = new char[URL_LEN];
-  buf = new char[HTTP_BUFSIZ];
-  reset();
+	new_http++;
+	sd = -1;		// socket descriptor
+	len = off = 0;
+	url = new char[URL_LEN];
+	buf = new char[HTTP_BUFSIZ];
+	reset();
 }
 
 Http::~Http()
 {
-  del_http++;
-  if (url) delete[] url;
-  if (buf) delete[] buf;
-  buf = NULL;
-  if (fd > 0) {
-    Socket::closeStream(fd);
-  }
+	del_http++;
+	if (url) delete[] url;
+	if (buf) delete[] buf;
+	buf = NULL;
+	if (sd > 0) {
+		Socket::closeStream(sd);
+	}
 }
 
 void Http::init()
 {
-  initMutex(&nbsimcon_mutex);
-  nbsimcon = 0;
-  trace(DBG_INIT, "Http initialized");
-}
-
-/** Fills buffer rep */
-int Http::answer(int s, char *rep, int max)
-{
-  return recv(s, rep, max, 0);
+	initMutex(&nbsimcon_mutex);
+	nbsimcon = 0;
+	trace(DBG_INIT, "Http initialized");
 }
 
 /** Sends request to the http server */
-int Http::send(int fd, const char *buf, int size)
+int Http::send(int sd, const char *buf, int size)
 {
-  int sent = 0;
+	int sent = 0;
 
   for (int tosend = 0; tosend < size; tosend += sent) {
-    if ((sent = write(fd, buf + tosend, size - tosend)) == -1) {
+    if ((sent = ::write(sd, buf + tosend, size - tosend)) == -1) {
       perror("httpSend: write");
       return -BADSEND;
     }
@@ -185,21 +179,21 @@ int Http::send(int fd, const char *buf, int size)
 /** Connects to server defined by sa */
 int Http::connect(const struct sockaddr_in *sa)
 {
-  int sdhttp;
+  int sd;
 
-  if ((sdhttp = Socket::openStream()) < 0) {
+  if ((sd = Socket::openStream()) < 0) {
     perror("connect: socket");
     return -BADSOCKET;
   }
-  if (Socket::connection(sdhttp, sa) < 0) {
+  if (Socket::connection(sd, sa) < 0) {
     perror("connect: connect");
     return -BADCONNECT;
   }
-  return sdhttp;
+  return sd;
 }
 
-/** Converts host/port into sockaddr */
-int Http::resolver(char *host, char *scheme, struct sockaddr_in *sa)
+/** Sets the http socket */
+int Http::setsocket(char *host, char *scheme, struct sockaddr_in *sa)
 {
   struct hostent *hp = NULL;
   int ret = -1;
@@ -241,12 +235,6 @@ int Http::resolver(char *host, char *scheme, struct sockaddr_in *sa)
   return ret;
 }
 
-/** Opens a local file and returns its file descriptor */
-int Http::openPath(const char *path)
-{
-  return open(path, O_RDONLY);
-}
-
 /** Makes a http connection */
 void * Http::connection(void *_httpthread)
 {
@@ -256,10 +244,10 @@ void * Http::connection(void *_httpthread)
 
   checkProxy();
 
-  struct sockaddr_in sa;
+  struct sockaddr_in httpsa;
   bool httperr = false;
   bool httpeoh = false;
-  bool answerline = true;	// position at first line
+  bool answer = true;	// position at first line
 
   char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[256];
 
@@ -272,11 +260,9 @@ void * Http::connection(void *_httpthread)
                   ::g.url, ::g.universe, scheme, host, path, urltype);
   //echo("HTTP: %s://%s/%s", scheme, host, path);
 
-  /* which kind of URL ? */
-  switch (urltype) {
-
+  switch (urltype) {	// which kind of URL ?
   case Url::URLFILE:	// file://
-    if ((http->fd = openPath(path)) < 0) {
+    if ((http->sd = ::open(path, O_RDONLY)) < 0) {
       httperr = true;
     }
     else {	// file not found
@@ -285,25 +271,24 @@ void * Http::connection(void *_httpthread)
       httperr = false;
     }
     break;
-
   case Url::URLHTTP:	// http://
-htagain:
+htretry:
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
       struct hostent *hp;
       if ((hp = my_gethostbyname(hostproxy, AF_INET)) == NULL) {
         trace(DBG_HTTP, "my_gethostbyname hostproxy=%s", hostproxy);
         proxy = 0;
         noproxy = 0;
-        goto htagain;
+        goto htretry;
       }
-      memset(&sa, 0, sizeof(struct sockaddr_in));
-      sa.sin_family = AF_INET;
-      sa.sin_port = htons(portproxy);
-      memcpy(&sa.sin_addr, hp->h_addr_list[0], hp->h_length);
+      memset(&httpsa, 0, sizeof(struct sockaddr_in));
+      httpsa.sin_family = AF_INET;
+      httpsa.sin_port = htons(portproxy);
+      memcpy(&httpsa.sin_addr, hp->h_addr_list[0], hp->h_length);
       my_free_hostent(hp);
     }
     else {	// normal
-      if (resolver(host, scheme, &sa) != 0) {
+      if (setsocket(host, scheme, &httpsa) != 0) {
         if (! strncmp(host, "localhost", 9)) {
           httperr = false;
         }
@@ -314,7 +299,7 @@ htagain:
         break;
       }
     }
-    if ((http->fd = connect(&sa)) < 0) {
+    if ((http->sd = connect(&httpsa)) < 0) {
       error("can't connect %s", host);
       httperr = true;
       break;
@@ -341,7 +326,7 @@ htagain:
     } 
     //echo("reqGet: %s", req);
 
-    if (send(http->fd, req, strlen(req)) < 0) {
+    if (send(http->sd, req, strlen(req)) < 0) {
       error("can't send req=%s", req);
       httperr = true;
       break;
@@ -354,12 +339,12 @@ htagain:
     http->reset();
 
     do {
-      if ((http->len = answer(http->fd, http->buf, HTTP_BUFSIZ)) <= 0) {
+      if ((http->len = ::recv(http->sd, http->buf, HTTP_BUFSIZ, 0)) <= 0) {
         httpeoh = true;
         httperr = true;
         break;
       }
-      //echo("answer: (%d) %p", http->len, http->buf);
+      //echo("recv: (%d) %p", http->len, http->buf);
 
       for (http->off = 0; 1; ) {
         int i = 0;
@@ -380,18 +365,17 @@ htagain:
           http->off++;			// skip '\0'
           trace(DBG_HTTP, "->%s", httpheader);
 
-          if (answerline) {
-            int herr, major, minor;
+          if (answer) {
+            int herr, hmajor, hminor;
 
-            sscanf(httpheader, "HTTP/%d.%d %d", &major, &minor, &herr);
+            sscanf(httpheader, "HTTP/%d.%d %d", &hmajor, &hminor, &herr);
             trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
-                  herr, major, minor, httpheader+12, http->url);
+                  herr, hmajor, hminor, httpheader+12, http->url);
 
             switch (herr) {
-
             case HTTP_200:	// good
             case HTTP_202:
-              answerline = false; // answerline done
+              answer = false;	// answer done
               break;
             case HTTP_301:	// transcient
             case HTTP_302:
@@ -402,7 +386,7 @@ htagain:
                     *q = '\0';
                     strcpy(host, p+17);	// redirect host
                     echo("redirect host = %s", host);
-                    goto htagain;
+                    goto htretry;
                   }
                 }
               }
@@ -437,7 +421,7 @@ htagain:
               else {
                 p[MIME_LEN] = 0;
               }
-              trace(DBG_HTTP, "mime=%s %s", p, http->url);
+              //echo("mime=%s %s", p, http->url);
               // only for textures
               if (http->handle && strcmp(p, "plain")) {
                 Texture *tex = (Texture *) http->handle;
@@ -505,15 +489,16 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
   // Checks if url is in the cache (threaded < 0 : don't use the cache)
   if (threaded >= 0 && Cache::inCache(url)) { // in cache
     httpthread->httpReader(httpthread->handle, httpthread->http);  // call the appropiated httpReader
-    if (httpthread->http) delete httpthread->http;	// segfault
+    if (httpthread->http)
+      delete httpthread->http;		// segfault
     httpthread->http = NULL;
-    progression('c');	// 'c' as cache
+    progression('c');			// 'c' as cache
     delete httpthread;
     httpthread = NULL;
     return 0;
   }
-  else {		// not in cache
-    progression('i');	// 'i' as image
+  else {				// not in cache
+    progression('i');			// 'i' as image
     if (threaded > 0) {			// is it a thread ?
       return httpthread->putfifo();	// yes, put it into fifo
     }
@@ -541,7 +526,7 @@ int Http::httpRead(char *pbuf, int maxl)
   }
 
   while (maxl > 0) {
-    int r = read(fd, pbuf+lread, maxl);
+    int r = ::read(sd, pbuf+lread, maxl);
     if (r < 0) {
       error("%s (%d) maxl=%d off=%d len=%d", strerror(errno), errno, maxl, off, len);
       return r;

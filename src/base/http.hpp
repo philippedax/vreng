@@ -98,22 +98,17 @@ class Http {
   static void checkProxy();
   /**< Checks proxy environment variables. */
 
-  static int send(int fd, const char *buf, int size);
-  /**< Sends a http request. */
-
-  static int answer(int s, char *rep, int max);
-  /**< Receives a response from the http server. */
+  static int setsocket(char *host, char *scheme, struct sockaddr_in *sa);
+  /**< Sets the http socket. */
 
   static int connect(const struct sockaddr_in *sa);
   /**< Establishes a connection with the http server. */
 
-  static int resolver(char *host, char *scheme, struct sockaddr_in *sa);
-  /**< Resolves a hostname. */
-
-  static int openPath(const char *path);
+  static int send(int sd, const char *buf, int size);
+  /**< Sends a http request. */
 
  public:
-  int fd;		///< http fd
+  int sd;		///< http fd
   int off;		///< offset in buf
   int len;		///< length
   char *buf;		///< buffer
