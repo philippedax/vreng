@@ -196,11 +196,11 @@ int Http::connect(const struct sockaddr_in *sa)
 int Http::setsocket(char *host, char *scheme, struct sockaddr_in *sa)
 {
   struct hostent *hp = NULL;
-  int ret = -1;
+  int ret = 0;
 
   // hostname
   if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
-    ret = -BADNAME;
+    ret = -BADNAME;	// not resolved
   }
 
   uint16_t port;
@@ -217,11 +217,12 @@ int Http::setsocket(char *host, char *scheme, struct sockaddr_in *sa)
     }
   }
 
-  if (! strcmp(host, "localhost")) {	// force localhost (not resolved)
+  if (ret < 0 && ! strcmp(host, "localhost")) {	// force localhost (not resolved)
     sa->sin_family = AF_INET;
     struct in_addr myip;
     inet_aton("127.0.0.1", &myip);
     sa->sin_addr = myip;
+    ret = 0;
   }
   else {
     sa->sin_family = hp->h_addrtype;
@@ -229,8 +230,7 @@ int Http::setsocket(char *host, char *scheme, struct sockaddr_in *sa)
   }
   sa->sin_port = port;
 
-  my_free_hostent(hp);
-  ret = 0;	// resolved
+  if (hp) my_free_hostent(hp);
 
   return ret;
 }
@@ -247,7 +247,7 @@ void * Http::connection(void *_httpthread)
   struct sockaddr_in httpsa;
   bool httperr = false;
   bool httpeoh = false;
-  bool answer = true;	// position at first line
+  bool hanswer = true;	// position at first line
 
   char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[256];
 
@@ -365,7 +365,7 @@ htretry:
           http->off++;			// skip '\0'
           trace(DBG_HTTP, "->%s", httpheader);
 
-          if (answer) {
+          if (hanswer) {
             int herr, hmajor, hminor;
 
             sscanf(httpheader, "HTTP/%d.%d %d", &hmajor, &hminor, &herr);
@@ -375,7 +375,7 @@ htretry:
             switch (herr) {
             case HTTP_200:	// good
             case HTTP_202:
-              answer = false;	// answer done
+              hanswer = false;	// answer done
               break;
             case HTTP_301:	// transcient
             case HTTP_302:
