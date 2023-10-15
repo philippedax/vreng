@@ -34,12 +34,12 @@
 
 
 // local
+static const char HTTP_PROXY[] = "http_proxy";
+static const char NO_PROXY[] = "no_proxy";
+
 static int32_t nbsimcon;		// current number of simultaneous connections
 static Vpthread_mutex_t nbsimcon_mutex;	// lock on the global variable simcon
 static tWaitFifo *fifofirst, *fifolast;	// variables protected by nbsimcon_mutex
-
-static const char HTTP_PROXY[] = "http_proxy";
-static const char NO_PROXY[] = "no_proxy";
 static uint8_t proxy=0, noproxy=0;
 static uint16_t portproxy;
 static char *domnoproxy, *hostproxy;
@@ -47,85 +47,85 @@ static char *domnoproxy, *hostproxy;
 
 HttpThread::HttpThread()
 {
-	fifo = NULL;
-	begin_thread();
+  fifo = NULL;
+  begin_thread();
 }
 
 HttpThread::~HttpThread()
 {
-	end_thread();
+  end_thread();
 }
 
 void HttpThread::begin_thread()
 {
-#if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-	if (mode > 0) {
-		//trace(DBG_HTTP, "-> begin_thread %s", url);
-		if (fifo) {				// Wait authorization to begin_thread
-			lockMutex(&nbsimcon_mutex);
-			//[[ lock
-			pthread_cond_wait(&fifo->cond, &nbsimcon_mutex);
-			nbsimcon++;			// increments nbsimcon
-			fifofirst = fifo->next;		// removes one element from the fifo
-			if (fifo) delete[] fifo;
-			fifo = NULL;
-			// unlock ]]
-			unlockMutex(&nbsimcon_mutex);	// free fifo handling
-		}
-	}
+#if defined(HAVE_LIBPTHREAD)
+  if (mode > 0) {
+    //trace(DBG_HTTP, "-> begin_thread %s", url);
+    if (fifo) {				// Wait authorization to begin_thread
+      lockMutex(&nbsimcon_mutex);
+      // [[ lock
+      pthread_cond_wait(&fifo->cond, &nbsimcon_mutex);
+      nbsimcon++;			// increments nbsimcon
+      fifofirst = fifo->next;		// removes one element from the fifo
+      if (fifo) delete[] fifo;
+      fifo = NULL;
+      // unlock ]]
+      unlockMutex(&nbsimcon_mutex);	// free fifo handling
+    }
+  }
 #endif
 }
 
 void HttpThread::end_thread()
 {
-#if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-	if (mode > 0) {
-		lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
-							//[[ lock
-		nbsimcon--;			// decrements nbsimcon
-		if (nbsimcon < 0) nbsimcon = 0;
-		if (fifofirst) {			// if something in fifo, awake it
-			trace(DBG_HTTP, "thread awake (%d) %s", nbsimcon, url);
-			pthread_cond_signal(&fifofirst->cond);
-		}
-		// unlock ]]
-		unlockMutex(&nbsimcon_mutex);
-	}
+#if defined(HAVE_LIBPTHREAD)
+  if (mode > 0) {
+    lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
+    // [[ lock
+    nbsimcon--;				// decrements nbsimcon
+    if (nbsimcon < 0) nbsimcon = 0;
+    if (fifofirst) {			// if something in fifo, awake it
+      trace(DBG_HTTP, "thread awake (%d) %s", nbsimcon, url);
+      pthread_cond_signal(&fifofirst->cond);
+    }
+    // unlock ]]
+    unlockMutex(&nbsimcon_mutex);
+  }
 #endif
 }
 
 int HttpThread::putfifo()
 {
-#if defined(HAVE_LIBPTHREAD) && defined(WITH_PTHREAD)
-	lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
-							//[[ lock
-	if (nbsimcon >= ::g.pref.maxsimcon) {		// test number of active connections
-							//echo("too many threads=%d, waiting for %s", nbsimcon, url);
-		tWaitFifo *newfifo = new tWaitFifo[1];	// new element in the fifo
-		pthread_cond_init(&(newfifo->cond), NULL);	// put thread into fifo
-		newfifo->next = NULL;
-		if (! fifofirst) fifofirst = newfifo;
-		if (fifolast) fifolast->next = newfifo;
-		fifolast = newfifo;
-		// unlock ]]
-		unlockMutex(&nbsimcon_mutex);		// unlock the global variable
-		fifo = newfifo;				// block the thread
-	}
-	else {
-		nbsimcon++;					// add a connection
-								// unlock ]]
-								//echo("thread going now (%d) %s", nbsimcon, url);
-		unlockMutex(&nbsimcon_mutex);
-		fifo = NULL;				// thread not blocked
-	}
+#if defined(HAVE_LIBPTHREAD)
+  lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
+  // [[ lock
+  if (nbsimcon >= ::g.pref.maxsimcon) {		// test number of active connections
+    //echo("too many threads=%d, waiting for %s", nbsimcon, url);
+    tWaitFifo *newfifo = new tWaitFifo[1];	// new element in the fifo
+    pthread_cond_init(&(newfifo->cond), NULL);	// put thread into fifo
+    newfifo->next = NULL;
+    if (! fifofirst) fifofirst = newfifo;
+    if (fifolast) fifolast->next = newfifo;
+    fifolast = newfifo;
+    // unlock ]]
+    unlockMutex(&nbsimcon_mutex);		// unlock the global variable
+    fifo = newfifo;				// block the thread
+  }
+  else {
+    nbsimcon++;					// add a connection
+    // unlock ]]
+    //echo("thread going now (%d) %s", nbsimcon, url);
+    unlockMutex(&nbsimcon_mutex);
+    fifo = NULL;				// thread not blocked
+  }
 
-	/* start new thread */
-	Vpthread_t tid;
-	return pthread_create(&tid, NULL, Http::connection, (void *) this);
+  /* start new thread */
+  Vpthread_t tid;
+  return pthread_create(&tid, NULL, Http::connection, (void *)this);
 
 #else
-	Http::connection((void *) this);
-	return 0;
+  Http::connection((void *) this);
+  return 0;
 #endif
 }
 
@@ -136,36 +136,36 @@ int HttpThread::putfifo()
 
 Http::Http()
 {
-	new_http++;
-	sd = -1;		// socket descriptor
-	len = off = 0;
-	url = new char[URL_LEN];
-	buf = new char[HTTP_BUFSIZ];
-	reset();
+  new_http++;
+  sd = -1;		// socket descriptor
+  len = off = 0;
+  url = new char[URL_LEN];
+  buf = new char[HTTP_BUFSIZ];
+  reset();
 }
 
 Http::~Http()
 {
-	del_http++;
-	if (url) delete[] url;
-	if (buf) delete[] buf;
-	buf = NULL;
-	if (sd > 0) {
-		Socket::closeStream(sd);
-	}
+  del_http++;
+  if (url) delete[] url;
+  if (buf) delete[] buf;
+  buf = NULL;
+  if (sd > 0) {
+    Socket::closeStream(sd);
+  }
 }
 
 void Http::init()
 {
-	initMutex(&nbsimcon_mutex);
-	nbsimcon = 0;
-	trace(DBG_INIT, "Http initialized");
+  initMutex(&nbsimcon_mutex);
+  nbsimcon = 0;
+  trace(DBG_INIT, "Http initialized");
 }
 
 /** Sends request to the http server */
 int Http::send(int sd, const char *buf, int size)
 {
-	int sent = 0;
+  int sent = 0;
 
   for (int tosend = 0; tosend < size; tosend += sent) {
     if ((sent = ::write(sd, buf + tosend, size - tosend)) == -1) {
@@ -333,7 +333,7 @@ htretry:
     }
 
     /*
-     * parses HTTP/1.1 headers received from the server
+     * parses HTTP/1.1 header received from the server
      */
 
     http->reset();
@@ -363,7 +363,7 @@ htretry:
           }
           httpheader[i-1] = '\0';	// replace '\r' by '\0'
           http->off++;			// skip '\0'
-          trace(DBG_HTTP, "->%s", httpheader);
+          //echo("->%s", httpheader);
 
           if (hanswer) {
             int herr, hmajor, hminor;
@@ -425,7 +425,7 @@ htretry:
               // only for textures
               if (http->handle && strcmp(p, "plain")) {
                 Texture *tex = (Texture *) http->handle;
-		tex->setMime(p);
+      	        tex->setMime(p);
               }
             }
           }

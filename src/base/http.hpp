@@ -121,7 +121,7 @@ class Http {
   static void init();
   /**< Initializes Http. */
 
-  static void * connection(void *_hthr);
+  static void * connection(void *_httpthread);
   /**< Makes a http connection to the httpd server. */
 
   void reset();
