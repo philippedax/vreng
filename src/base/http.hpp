@@ -77,37 +77,23 @@ class HttpThread {
 
 /**
  * Http class
- * I/O methods
  */
 class Http {
+
  private:
-  /* errors */
   enum {
     TCPEOF,
-    BADSEND,
-    BADSOCKET,
-    BADCONNECT,
     BADNAME,
     BADSERV
   };
 
-  // members
   void *handle;		///< thread handle
 
-  // methods
   static void checkProxy();
   /**< Checks proxy environment variables. */
 
-  static int setsocket(char *host, char *scheme, struct sockaddr_in *sa);
-  /**< Sets the http socket. */
-
-  static int connect(const struct sockaddr_in *sa);
-  /**< Establishes a connection with the http server. */
-
-  static int send(int sd, const char *buf, int size);
-  /**< Sends a http request. */
-
  public:
+  // members
   int sd;		///< http fd
   int off;		///< offset in buf
   int len;		///< length
@@ -115,9 +101,9 @@ class Http {
   char *url;		///< url
 
   Http();		///< constructor
-
   virtual ~Http();	///< destructor
 
+  // methods
   static void init();
   /**< Initializes Http. */
 

@@ -155,6 +155,7 @@ Http::~Http()
   }
 }
 
+// static
 void Http::init()
 {
   initMutex(&nbsimcon_mutex);
@@ -162,309 +163,8 @@ void Http::init()
   trace(DBG_INIT, "Http initialized");
 }
 
-/** Sends request to the http server */
-int Http::send(int sd, const char *buf, int size)
-{
-  int sent = 0;
-
-  for (int tosend = 0; tosend < size; tosend += sent) {
-    if ((sent = ::write(sd, buf + tosend, size - tosend)) == -1) {
-      perror("httpSend: write");
-      return -BADSEND;
-    }
-  }
-  return 0;
-}
-
-/** Connects to server defined by sa */
-int Http::connect(const struct sockaddr_in *sa)
-{
-  int sd;
-
-  if ((sd = Socket::openStream()) < 0) {
-    perror("connect: socket");
-    return -BADSOCKET;
-  }
-  if (Socket::connection(sd, sa) < 0) {
-    perror("connect: connect");
-    return -BADCONNECT;
-  }
-  return sd;
-}
-
-/** Sets the http socket */
-int Http::setsocket(char *host, char *scheme, struct sockaddr_in *sa)
-{
-  struct hostent *hp = NULL;
-  int ret = 0;
-
-  // hostname
-  if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
-    ret = -BADNAME;	// not resolved
-  }
-
-  uint16_t port;
-
-  if (isdigit((int) *scheme)) {
-    port = htons(atoi(scheme));
-  }
-  else {
-    if (! strcmp(scheme, "http")) {
-      port = htons(DEF_HTTP_PORT);
-    }
-    else {
-      return -BADSERV;
-    }
-  }
-
-  if (ret < 0 && ! strcmp(host, "localhost")) {	// force localhost (not resolved)
-    sa->sin_family = AF_INET;
-    struct in_addr myip;
-    inet_aton("127.0.0.1", &myip);
-    sa->sin_addr = myip;
-    ret = 0;
-  }
-  else {
-    sa->sin_family = hp->h_addrtype;
-    memcpy(&sa->sin_addr, hp->h_addr_list[0], hp->h_length);
-  }
-  sa->sin_port = port;
-
-  if (hp) my_free_hostent(hp);
-
-  return ret;
-}
-
-/** Makes a http connection */
-void * Http::connection(void *_httpthread)
-{
-  HttpThread *httpthread = (HttpThread *) _httpthread;
-
-  Http *http = httpthread->http;
-
-  checkProxy();
-
-  struct sockaddr_in httpsa;
-  bool httperr = false;
-  bool httpeoh = false;
-  bool hanswer = true;	// position at first line
-
-  char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[256];
-
-  memset(host, 0, sizeof(host));
-  memset(scheme, 0, sizeof(scheme));
-  memset(path, 0, sizeof(path));
-
-  int urltype = Url::parser(http->url, host, scheme, path);
-  trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
-                  ::g.url, ::g.universe, scheme, host, path, urltype);
-  //echo("HTTP: %s://%s/%s", scheme, host, path);
-
-  switch (urltype) {	// which kind of URL ?
-  case Url::URLFILE:	// file://
-    if ((http->sd = ::open(path, O_RDONLY)) < 0) {
-      httperr = true;
-    }
-    else {	// file not found
-      http->off = -1;
-      httpthread->httpReader(http->handle, http);
-      httperr = false;
-    }
-    break;
-  case Url::URLHTTP:	// http://
-htretry:
-    if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
-      struct hostent *hp;
-      if ((hp = my_gethostbyname(hostproxy, AF_INET)) == NULL) {
-        trace(DBG_HTTP, "my_gethostbyname hostproxy=%s", hostproxy);
-        proxy = 0;
-        noproxy = 0;
-        goto htretry;
-      }
-      memset(&httpsa, 0, sizeof(struct sockaddr_in));
-      httpsa.sin_family = AF_INET;
-      httpsa.sin_port = htons(portproxy);
-      memcpy(&httpsa.sin_addr, hp->h_addr_list[0], hp->h_length);
-      my_free_hostent(hp);
-    }
-    else {	// normal
-      if (setsocket(host, scheme, &httpsa) != 0) {
-        if (! strncmp(host, "localhost", 9)) {
-          httperr = false;
-        }
-        else {
-          error("can't resolve %s", host);
-          httperr = true;
-        }
-        break;
-      }
-    }
-    if ((http->sd = connect(&httpsa)) < 0) {
-      error("can't connect %s", host);
-      httperr = true;
-      break;
-    }
-
-    /*
-     * send the GET request to the http server with useful infos
-     */
-    if (::g.pref.loghttpd) {	// more infos
-      if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
-        sprintf(req,
-                "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.1\r\nHost: %s\r\n\r\n",
-                http->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), ::g.env.relname(), ::g.user, host);
-      }
-      else {
-        sprintf(req,
-                "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.1\r\nHost: %s\r\n\r\n",
-                path, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
-                ::g.env.relname(), ::g.user, host);
-      } 
-    } 
-    else {	// GET classic
-      sprintf(req, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, host);
-    } 
-    //echo("reqGet: %s", req);
-
-    if (send(http->sd, req, strlen(req)) < 0) {
-      error("can't send req=%s", req);
-      httperr = true;
-      break;
-    }
-
-    /*
-     * parses HTTP/1.1 header received from the server
-     */
-
-    http->reset();
-
-    do {
-      if ((http->len = ::recv(http->sd, http->buf, HTTP_BUFSIZ, 0)) <= 0) {
-        httpeoh = true;
-        httperr = true;
-        break;
-      }
-      //echo("recv: (%d) %p", http->len, http->buf);
-
-      for (http->off = 0; 1; ) {
-        int i = 0;
-        char httpheader[HTTP_BUFSIZ];
-
-        while ( (http->off < http->len) && (http->buf[http->off] != '\n') ) {
-          httpheader[i++] = http->buf[http->off++];
-        }
-
-        if (http->off < http->len) {
-          if (httpheader[0] == '\r') { // test end of header
-            http->off++;
-            httpeoh = true;
-            httperr = true;
-            break;
-          }
-          httpheader[i-1] = '\0';	// replace '\r' by '\0'
-          http->off++;			// skip '\0'
-          //echo("->%s", httpheader);
-
-          if (hanswer) {
-            int herr, hmajor, hminor;
-
-            sscanf(httpheader, "HTTP/%d.%d %d", &hmajor, &hminor, &herr);
-            trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
-                  herr, hmajor, hminor, httpheader+12, http->url);
-
-            switch (herr) {
-            case HTTP_200:	// good
-            case HTTP_202:
-              hanswer = false;	// answer done
-              break;
-            case HTTP_301:	// transcient
-            case HTTP_302:
-            case HTTP_307: {
-                char *p, *q;
-                if ( (p = strstr(httpheader, "Location:")) != 0 ) {
-                  if ( (q = strchr(p+17, '/')) != 0 ) {
-                    *q = '\0';
-                    strcpy(host, p+17);	// redirect host
-                    echo("redirect host = %s", host);
-                    goto htretry;
-                  }
-                }
-              }
-              break;
-            case HTTP_400:	// bad request
-            case HTTP_403:	// forbidden
-            case HTTP_404:	// not found
-              error("HTTP-err: %d - %s %s on %s", herr, httpheader, http->url, host);
-              httperr = true;
-              break;
-            case HTTP_503:	// server unavailable
-              error("HTTP-err: %d - server %s unavailable", herr, host);
-              httperr = true;
-              break;
-            default:
-              error("HTTP-err: %d - %s %s", herr, httpheader+12, http->url);
-              httperr = true;
-              break;
-            }
-          }
-          if (httperr) {
-            break;
-          }
-
-          // mime type
-          if (! strncmp(httpheader, "Content-Type: ", 14)) {
-            char *p, *q;
-            if ((p = strchr(httpheader, '/')) != NULL) {
-              if ((q = strchr(++p, ';')) != NULL) {
-                *q = '\0';
-              }
-              else {
-                p[MIME_LEN] = 0;
-              }
-              //echo("mime=%s %s", p, http->url);
-              // only for textures
-              if (http->handle && strcmp(p, "plain")) {
-                Texture *tex = (Texture *) http->handle;
-      	        tex->setMime(p);
-              }
-            }
-          }
-        }
-        else {
-          break;
-        }
-      } // end for
-    } while (! httpeoh);	// end do
-
-    /*
-     * Call here the appropriated httpReader
-     */
-    httpthread->httpReader(http->handle, http);
-    httperr = false;
-    break;
-
-  default:	// scheme:// unknown
-    if (urltype) {
-      error("unknown scheme urltype=%d", urltype);
-    }
-    httperr = true;
-    break;
-  }
-
-  if (httperr && httpthread) {
-    httpthread->httpReader(http->handle, http);
-  }
-
-  // free memory
-  if (httpthread) delete httpthread;
-  httpthread = NULL;
-  if (http) delete http;
-  http = NULL;
-
-  return NULL;
-}
-
 /** Opens a HTTP transaction, returns -1 if error */
+// static
 int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), void *hdl, int threaded)
 {
   if (! isprint(*url)) {
@@ -508,6 +208,266 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
       return 0;
     }
   }
+}
+
+/** Makes a http connection */
+void * Http::connection(void *_httpthread)
+{
+  HttpThread *httpthread = (HttpThread *) _httpthread;
+
+  Http *http = httpthread->http;
+
+  checkProxy();
+
+  struct sockaddr_in httpsa;
+  struct hostent *hp = NULL;
+  uint16_t port;
+  int err = 0;
+  bool httperr = false;
+  bool httpeoh = false;
+  bool hanswer = true;	// position at first line
+
+  char host[MAXHOSTNAMELEN], scheme[8], path[URL_LEN], req[256];
+
+  memset(host, 0, sizeof(host));
+  memset(scheme, 0, sizeof(scheme));
+  memset(path, 0, sizeof(path));
+
+  int urltype = Url::parser(http->url, host, scheme, path);
+  trace(DBG_HTTP, "url=%s, universe=%s scheme=%s host=%s path=%s type:%d",
+                  ::g.url, ::g.universe, scheme, host, path, urltype);
+  //echo("HTTP: %s://%s/%s", scheme, host, path);
+
+  switch (urltype) {	// which kind of URL ?
+
+  case Url::URLFILE:	// file://
+    if ((http->sd = ::open(path, O_RDONLY)) < 0) {
+      httperr = true;
+    }
+    else {	// file not found
+      http->off = -1;
+      httpthread->httpReader(http->handle, http);
+      httperr = false;
+    }
+    break;
+
+  case Url::URLHTTP:	// http://
+htretry:
+    if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
+      if ((hp = my_gethostbyname(hostproxy, AF_INET)) == NULL) {
+        trace(DBG_HTTP, "my_gethostbyname hostproxy=%s", hostproxy);
+        proxy = 0;
+        noproxy = 0;
+        goto htretry;
+      }
+      memset(&httpsa, 0, sizeof(struct sockaddr_in));
+      httpsa.sin_family = AF_INET;
+      httpsa.sin_port = htons(portproxy);
+      memcpy(&httpsa.sin_addr, hp->h_addr_list[0], hp->h_length);
+    }
+    else {	// normal
+      // resolve hostname
+      if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
+        err = -BADNAME;	// not resolved
+      }
+      if (isdigit((int) *scheme)) {
+        port = htons(atoi(scheme));
+      }
+      else {
+        if (! strcmp(scheme, "http")) {
+          port = htons(DEF_HTTP_PORT);
+        }
+        else {
+          err = -BADSERV;
+        }
+      }
+      if (err < 0 && ! strcmp(host, "localhost")) {	// force localhost (not resolved)
+        httpsa.sin_family = AF_INET;
+        struct in_addr myip;
+        inet_aton("127.0.0.1", &myip);
+        httpsa.sin_addr = myip;
+        err = 0;
+      }
+      else {
+        httpsa.sin_family = hp->h_addrtype;
+        memcpy(&httpsa.sin_addr, hp->h_addr_list[0], hp->h_length);
+      }
+      httpsa.sin_port = port;
+
+      if (err < 0) {
+        error("can't resolve %s", host);
+        httperr = true;
+      }
+
+      // open a socket to connect
+      if ((http->sd = Socket::openStream()) < 0) {
+        perror("connect: socket");
+        break;
+      }
+      if (Socket::connection(http->sd, &httpsa) < 0) {
+        perror("connect: connect");
+        break;
+      }
+
+      /*
+       * send the GET request to the http server with useful infos
+       */
+      if (::g.pref.loghttpd) {	// more infos
+        if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {
+          sprintf(req,
+                  "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.1\r\nHost: %s\r\n\r\n",
+                  http->url, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), ::g.env.relname(), ::g.user, host);
+        }
+        else {
+          sprintf(req,
+                  "GET %s?version=%s&target=%s-%s%s&user=%s HTTP/1.1\r\nHost: %s\r\n\r\n",
+                  path, PACKAGE_VERSION, ::g.env.machname(), ::g.env.sysname(), 
+                  ::g.env.relname(), ::g.user, host);
+        } 
+      } 
+      else {	// GET classic
+        sprintf(req, "GET %s HTTP/1.1\r\nHost: %s\r\n\r\n", path, host);
+      } 
+      //echo("reqGet: %s", req);
+
+      // send the request
+      if (::write(http->sd, req, strlen(req)) < 0) {
+        error("can't send req=%s", req);
+        httperr = true;
+        break;
+      }
+
+      /*
+       * parses HTTP/1.1 header received from the server
+       */
+      http->reset();
+
+      do {
+        if ((http->len = ::recv(http->sd, http->buf, HTTP_BUFSIZ, 0)) <= 0) {
+          httpeoh = true;
+          httperr = true;
+          break;
+        }
+        //echo("recv: (%d) %p", http->len, http->buf);
+
+        for (http->off = 0; 1; ) {
+          int i = 0;
+          char httpheader[HTTP_BUFSIZ];
+
+          while ( (http->off < http->len) && (http->buf[http->off] != '\n') ) {
+            httpheader[i++] = http->buf[http->off++];
+          }
+
+          if (http->off < http->len) {
+            if (httpheader[0] == '\r') { // test end of header
+              http->off++;
+              httpeoh = true;
+              httperr = true;
+              break;
+            }
+            httpheader[i-1] = '\0';	// replace '\r' by '\0'
+            http->off++;			// skip '\0'
+            //echo("->%s", httpheader);
+
+            if (hanswer) {
+              int herr, hmajor, hminor;
+
+              sscanf(httpheader, "HTTP/%d.%d %d", &hmajor, &hminor, &herr);
+              trace(DBG_HTTP, "HTTP-Code_err %d (%d.%d) - %s %s",
+                    herr, hmajor, hminor, httpheader+12, http->url);
+
+              switch (herr) {
+              case HTTP_200:	// good
+              case HTTP_202:
+                hanswer = false;	// answer done
+                break;
+              case HTTP_301:	// transcient
+              case HTTP_302:
+              case HTTP_307: {
+                  char *p, *q;
+                  if ( (p = strstr(httpheader, "Location:")) != 0 ) {
+                    if ( (q = strchr(p+17, '/')) != 0 ) {
+                      *q = '\0';
+                      strcpy(host, p+17);	// redirect host
+                      echo("redirect host = %s", host);
+                      goto htretry;
+                    }
+                  }
+                }
+                break;
+              case HTTP_400:	// bad request
+              case HTTP_403:	// forbidden
+              case HTTP_404:	// not found
+                error("HTTP-err: %d - %s %s on %s", herr, httpheader, http->url, host);
+                httperr = true;
+                break;
+              case HTTP_503:	// server unavailable
+                error("HTTP-err: %d - server %s unavailable", herr, host);
+                httperr = true;
+                break;
+              default:
+                error("HTTP-err: %d - %s %s", herr, httpheader+12, http->url);
+                httperr = true;
+                break;
+              }
+            }
+            if (httperr) {
+              break;
+            }
+
+            // mime type
+            if (! strncmp(httpheader, "Content-Type: ", 14)) {
+              char *p, *q;
+              if ((p = strchr(httpheader, '/')) != NULL) {
+                if ((q = strchr(++p, ';')) != NULL) {
+                  *q = '\0';
+                }
+                else {
+                  p[MIME_LEN] = 0;
+                }
+                //echo("mime=%s %s", p, http->url);
+                // only for textures
+                if (http->handle && strcmp(p, "plain")) {
+                  Texture *tex = (Texture *) http->handle;
+      	          tex->setMime(p);
+                }
+              }
+            }
+          }
+          else {
+            break;
+          }
+        } // end for
+      } while (! httpeoh);	// end do
+
+      /*
+       * call the appropriated httpReader
+       */
+      httpthread->httpReader(http->handle, http);
+      httperr = false;
+      break;
+
+    default:	// scheme:// unknown
+      if (urltype) {
+        error("unknown scheme urltype=%d", urltype);
+      }
+      httperr = true;
+      break;
+    } //end else normal
+  }
+
+  if (httperr && httpthread) {
+    httpthread->httpReader(http->handle, http);
+  }
+
+  // free memory
+  if (hp) my_free_hostent(hp);
+  if (httpthread) delete httpthread;
+  httpthread = NULL;
+  if (http) delete http;
+  http = NULL;
+
+  return NULL;
 }
 
 int Http::httpRead(char *pbuf, int maxl)
