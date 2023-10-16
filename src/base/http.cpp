@@ -47,7 +47,6 @@ static char *domnoproxy, *hostproxy;
 
 HttpThread::HttpThread()
 {
-  fifo = NULL;
   begin_thread();
 }
 
@@ -58,19 +57,24 @@ HttpThread::~HttpThread()
 
 void HttpThread::begin_thread()
 {
+  fifo = NULL;
 #if defined(HAVE_LIBPTHREAD)
   if (mode > 0) {
-    //trace(DBG_HTTP, "-> begin_thread %s", url);
+    if (! isprint(*url)) {
+      //error("-> begin_thread: url not printable: %02x%02x%02x", url[0],url[1],url[2]);
+      return;
+    }
+    //echo("-> begin_thread: %s", url);
     if (fifo) {				// Wait authorization to begin_thread
-      lockMutex(&nbsimcon_mutex);
       // [[ lock
+      lockMutex(&nbsimcon_mutex);
       pthread_cond_wait(&fifo->cond, &nbsimcon_mutex);
       nbsimcon++;			// increments nbsimcon
       fifofirst = fifo->next;		// removes one element from the fifo
       if (fifo) delete[] fifo;
       fifo = NULL;
-      // unlock ]]
       unlockMutex(&nbsimcon_mutex);	// free fifo handling
+      // unlock ]]
     }
   }
 #endif
@@ -80,16 +84,16 @@ void HttpThread::end_thread()
 {
 #if defined(HAVE_LIBPTHREAD)
   if (mode > 0) {
-    lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
     // [[ lock
+    lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
     nbsimcon--;				// decrements nbsimcon
     if (nbsimcon < 0) nbsimcon = 0;
     if (fifofirst) {			// if something in fifo, awake it
-      trace(DBG_HTTP, "thread awake (%d) %s", nbsimcon, url);
+      //echo("-> end_thread: thread awake (%d) %s", nbsimcon, url);
       pthread_cond_signal(&fifofirst->cond);
     }
-    // unlock ]]
     unlockMutex(&nbsimcon_mutex);
+    // unlock ]]
   }
 #endif
 }
@@ -97,26 +101,26 @@ void HttpThread::end_thread()
 int HttpThread::putfifo()
 {
 #if defined(HAVE_LIBPTHREAD)
-  lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
   // [[ lock
+  lockMutex(&nbsimcon_mutex);			// lock access to global variable nbsimcon
   if (nbsimcon >= ::g.pref.maxsimcon) {		// test number of active connections
-    //echo("too many threads=%d, waiting for %s", nbsimcon, url);
+    //echo("-> putfifo: too many threads=%d, waiting for %s", nbsimcon, url);
     tWaitFifo *newfifo = new tWaitFifo[1];	// new element in the fifo
     pthread_cond_init(&(newfifo->cond), NULL);	// put thread into fifo
     newfifo->next = NULL;
     if (! fifofirst) fifofirst = newfifo;
     if (fifolast) fifolast->next = newfifo;
     fifolast = newfifo;
-    // unlock ]]
-    unlockMutex(&nbsimcon_mutex);		// unlock the global variable
     fifo = newfifo;				// block the thread
+    unlockMutex(&nbsimcon_mutex);		// unlock the global variable
+    // unlock ]]
   }
   else {
     nbsimcon++;					// add a connection
-    // unlock ]]
-    //echo("thread going now (%d) %s", nbsimcon, url);
-    unlockMutex(&nbsimcon_mutex);
+    //echo("-> putfifo: thread going now (%d) %s", nbsimcon, url);
     fifo = NULL;				// thread not blocked
+    unlockMutex(&nbsimcon_mutex);
+    // unlock ]]
   }
 
   /* start new thread */
@@ -172,7 +176,7 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
     return -1;
   }
 
-  trace(DBG_HTTP, "httpOpen: %s", url);
+  //echo("httpOpen: %s", url);
   ::g.timer.image.start();
 
   HttpThread *httpthread = new HttpThread();
