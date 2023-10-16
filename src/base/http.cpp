@@ -112,16 +112,14 @@ int HttpThread::putfifo()
     if (fifolast) fifolast->next = newfifo;
     fifolast = newfifo;
     fifo = newfifo;				// block the thread
-    unlockMutex(&nbsimcon_mutex);		// unlock the global variable
-    // unlock ]]
   }
   else {
     nbsimcon++;					// add a connection
     //echo("-> putfifo: thread going now (%d) %s", nbsimcon, url);
     fifo = NULL;				// thread not blocked
-    unlockMutex(&nbsimcon_mutex);
-    // unlock ]]
   }
+  unlockMutex(&nbsimcon_mutex);			// unlock the global variable
+  // unlock ]]
 
   /* start new thread */
   Vpthread_t tid;
@@ -758,6 +756,7 @@ uint32_t Http::skip(int32_t skiplen)
 
 
 /** Checks if http proxy */
+// static
 void Http::checkProxy()
 {
   static bool done = false;

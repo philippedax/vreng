@@ -107,6 +107,11 @@ class Http {
   static void init();
   /**< Initializes Http. */
 
+  static int httpOpen(const char *url, void (*httpReader)(void *h, Http *httpio), void *hdl, int _thread);
+  /**< Opens an url
+   *   and gives which reader to use
+   *   and tells whether the connection is threaded or not. */
+
   static void * connection(void *_httpthread);
   /**< Makes a http connection to the httpd server. */
 
@@ -157,11 +162,6 @@ class Http {
 
   uint32_t skip(int32_t skiplen);
   /**< Skips a length. */
-
-  static int httpOpen(const char *url, void (*httpReader)(void *h, Http *httpio), void *hdl, int _thread);
-  /**< Opens an url
-   *   and gives which reader to use
-   *   and tells whether the connection is threaded or not. */
 };
 
 
