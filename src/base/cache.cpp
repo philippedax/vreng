@@ -1,3 +1,15 @@
+//---------------------------------------------------------------------------
+// VREng (Virtual Reality Engine)       http://vreng.enst.fr/
+// 
+// Copyright (C) 1997-2023 Philippe Dax
+// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// 
+// VREng is a free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public Licence as published by
+// the Free Software Foundation; either version 2, or (at your option)
+// any later version.   
+//
+// VREng is distributed in the hope that it will be useful, but
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
@@ -16,6 +28,7 @@
 #include "str.hpp"	// stringcmp
 #include "wget.hpp"	// start
 #include "stat.hpp"	// new_cache, del_cache
+
 #include <string>
 
 
@@ -44,7 +57,7 @@ int Cache::setCachePath(const char *url, char *cachepath)
     return 0;
   }
   sprintf(cachepath, "%s/%s", ::g.env.cache(), ++pfile);
-  //error("cachepath: %s", cachepath);
+  //echo("cachepath: %s", cachepath);
   return 1;
 }
 
@@ -142,7 +155,8 @@ http_reread:
   return fpr;  // file is now opened
 }
 
-/* Opens an url and writes it into the cache and returns the file opened - static */
+/* Opens an url and writes it into the cache and returns the file opened */
+// static
 FILE * Cache::openCache(const char *url, Http *http)
 {
   if (! http) return NULL;
@@ -151,9 +165,9 @@ FILE * Cache::openCache(const char *url, Http *http)
   memset(cachepath, 0, PATH_LEN);
   if (! setCachePath(url, cachepath)) return NULL;
 
-  FILE *fpcache = NULL;
-  if ((fpcache = File::openFile(cachepath, "r")) == NULL) {
-    if ((fpcache = File::openFile(cachepath, "w")) == NULL) {	// not in the cache, write it
+  FILE *fp = NULL;
+  if ((fp = File::openFile(cachepath, "r")) == NULL) {	// not in the cache, write it
+    if ((fp = File::openFile(cachepath, "w")) == NULL) {
       error("openCache: can't create %s", cachepath);
       delete[] cachepath;
       return NULL;
@@ -163,13 +177,13 @@ FILE * Cache::openCache(const char *url, Http *http)
     char buf[4];
     while (! http->heof()) {
       http->read_buf(buf, 4);
-      fwrite(buf, 4, 1, fpcache);
+      fwrite(buf, 4, 1, fp);
     }
-    fflush(fpcache);
-    File::closeFile(fpcache);
+    fflush(fp);
+    File::closeFile(fp);
 
     // open the file for reading
-    if ((fpcache = File::openFile(cachepath, "r")) == NULL) {
+    if ((fp = File::openFile(cachepath, "r")) == NULL) {
       error("openCache: can't open %s", cachepath);
       return NULL;
     }
@@ -193,7 +207,7 @@ FILE * Cache::openCache(const char *url, Http *http)
 
   // ready for reading
   delete[] cachepath;
-  return fpcache;  // file is now opened
+  return fp;  // file is now opened
 }
 
 /* Closes cache */

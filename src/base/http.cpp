@@ -88,6 +88,7 @@ void HttpThread::end_thread()
     lockMutex(&nbsimcon_mutex);		// lock access to global variable nbsimcon
     nbsimcon--;				// decrements nbsimcon
     if (nbsimcon < 0) nbsimcon = 0;
+    //echo("-> end_thread: %d %s", nbsimcon, url);
     if (fifofirst) {			// if something in fifo, awake it
       //echo("-> end_thread: thread awake (%d) %s", nbsimcon, url);
       pthread_cond_signal(&fifofirst->cond);
@@ -144,6 +145,7 @@ Http::Http()
   url = new char[URL_LEN];
   buf = new char[HTTP_BUFSIZ];
   reset();
+  //dax begin_thread();
 }
 
 Http::~Http()
@@ -155,6 +157,7 @@ Http::~Http()
   if (sd > 0) {
     Socket::closeStream(sd);
   }
+  //dax end_thread();
 }
 
 // static
@@ -167,7 +170,10 @@ void Http::init()
 
 /** Opens a HTTP transaction, returns -1 if error */
 // static
-int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), void *hdl, int threaded)
+int Http::httpOpen(const char *url,
+                   void (*httpReader)(void *handle, Http *http),
+                   void *_handle,
+                   int _mode)
 {
   if (! isprint(*url)) {
     error("httpOpen: url not printable");
@@ -178,21 +184,25 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
   ::g.timer.image.start();
 
   HttpThread *httpthread = new HttpThread();
+  //dax HttpThread *http = new Http();
   httpthread->http = new Http();	// create a http IO instance
 
   // Fills the httpthread structure
-  httpthread->handle = hdl;
-  httpthread->http->handle = hdl;
+  httpthread->handle = _handle;
+  httpthread->http->handle = _handle;
   httpthread->httpReader = httpReader;
-  httpthread->mode = threaded;
+  httpthread->mode = _mode;
   strcpy(httpthread->url, url);
   strcpy(httpthread->http->url, url);
 
   // Checks if url is in the cache (threaded < 0 : don't use the cache)
-  if (threaded >= 0 && Cache::inCache(url)) { // in cache
-    httpthread->httpReader(httpthread->handle, httpthread->http);  // call the appropiated httpReader
-    if (httpthread->http)
+  if (_mode >= 0 && Cache::inCache(url)) { // in cache
+    httpthread->httpReader(httpthread->handle, httpthread->http);	// call the appropiated httpReader
+    if (httpthread->http) {
+      //dax delete http;		// segfault
       delete httpthread->http;		// segfault
+    }
+    //dax http = NULL;
     httpthread->http = NULL;
     progression('c');			// 'c' as cache
     delete httpthread;
@@ -201,10 +211,12 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
   }
   else {				// not in cache
     progression('i');			// 'i' as image
-    if (threaded > 0) {			// is it a thread ?
+    if (_mode > 0) {			// is it a thread ?
+      //dax return http->putfifo();	// yes, put it into fifo
       return httpthread->putfifo();	// yes, put it into fifo
     }
     else {
+      //dax connection((void *) http);	// it's not a thread
       connection((void *) httpthread);	// it's not a thread
       ::g.timer.image.stop();
       return 0;
@@ -213,8 +225,10 @@ int Http::httpOpen(const char *url, void (*httpReader)(void *h, Http *http), voi
 }
 
 /** Makes a http connection */
+//dax void * Http::connection(void *_http)
 void * Http::connection(void *_httpthread)
 {
+  //dax Http *http = (Http *) _http;
   HttpThread *httpthread = (HttpThread *) _httpthread;
 
   Http *http = httpthread->http;
@@ -456,7 +470,7 @@ htretry:
       httperr = true;
       break;
     } //end else normal
-  }
+  } //end switch(urltype)
 
   if (httperr && httpthread) {
     httpthread->httpReader(http->handle, http);
@@ -476,7 +490,7 @@ int Http::httpRead(char *pbuf, int maxl)
 {
   int lread = 0;
 
-  /* Modifie par Fabrice, lread= longueur lue, maxl= longueur restante a recevoir */
+  /* modifie par Fabrice, lread= longueur lue, maxl= longueur restante a recevoir */
   int length = (off < 0) ? 0 : len - off;
 
   if (length > 0) {
@@ -530,7 +544,7 @@ int Http::getChar()
 {
   if (http_pos >= http_len) {	// eob
     http_pos = 0;
-    if ((http_len = httpRead((char *) http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -548,7 +562,7 @@ uint8_t Http::read_char()
 {
   if (http_pos >= http_len) {
     http_pos = 0;
-    if ((http_len = httpRead((char *) http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -562,7 +576,7 @@ int32_t Http::read_int()
   int32_t val;
 
   if (http_pos >= http_len) {
-    if ((http_len = httpRead((char *) http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -570,7 +584,7 @@ int32_t Http::read_int()
   }
   val = http_buf[http_pos++];
   if (http_pos >= http_len) {
-    if ((http_len = httpRead((char *) http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -578,7 +592,7 @@ int32_t Http::read_int()
   }
   val |= (http_buf[http_pos++] << 8);
   if (http_pos >= http_len) {
-    if ((http_len = httpRead((char *) http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -586,7 +600,7 @@ int32_t Http::read_int()
   }
   val |= (http_buf[http_pos++] << 16);
   if (http_pos >= http_len) {
-    if ((http_len = httpRead((char *) http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -688,7 +702,7 @@ int Http::fread(char *pbuf, int size, int nitems)
 
   while (len > 0) {
     if (http_pos >= http_len) {
-      if ((http_len = httpRead((char *) http_buf, sizeof(http_buf))) < 0) {
+      if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) < 0) {
         http_eof = true;
         return (nitems - (len / size));
       }
@@ -716,7 +730,7 @@ uint32_t Http::read_buf(char *buf, int maxlen)
   else {
     memcpy(buf, http_buf, siz);
     http_pos = http_len;
-    int r = httpRead((char *) buf+siz, maxlen-siz);
+    int r = httpRead(buf+siz, maxlen-siz);
     if (r == 0) {
       http_eof = true;
       return -1;	// http eof
@@ -738,7 +752,7 @@ uint32_t Http::skip(int32_t skiplen)
   else {
     skiplen -= ptr;
     while (skiplen > 0) {
-      if ((http_len = httpRead((char *) http_buf, sizeof(http_buf))) == 0) {
+      if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
         break;
       }
       if (skiplen >= http_len) {
