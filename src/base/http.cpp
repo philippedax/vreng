@@ -271,7 +271,7 @@ void * Http::connection(void *_httpthread)
 htretry:
     if (proxy && (!noproxy || strstr(host, domnoproxy) == 0)) {  // proxy
       if ((hp = my_gethostbyname(hostproxy, AF_INET)) == NULL) {
-        trace(DBG_HTTP, "my_gethostbyname hostproxy=%s", hostproxy);
+        echo("my_gethostbyname hostproxy=%s", hostproxy);
         proxy = 0;
         noproxy = 0;
         goto htretry;
@@ -286,16 +286,11 @@ htretry:
       if ((hp = my_gethostbyname_r(host, AF_INET)) == NULL) {
         err = -BADNAME;	// not resolved
       }
-      if (isdigit((int) *scheme)) {
-        port = htons(atoi(scheme));
+      if (! strcmp(scheme, "http")) {
+        port = htons(DEF_HTTP_PORT);
       }
       else {
-        if (! strcmp(scheme, "http")) {
-          port = htons(DEF_HTTP_PORT);
-        }
-        else {
-          err = -BADSERV;
-        }
+        err = -BADSERV;
       }
       if (err < 0 && ! strcmp(host, "localhost")) {	// force localhost (not resolved)
         httpsa.sin_family = AF_INET;
@@ -445,7 +440,7 @@ htretry:
                 // only for textures
                 if (http->handle && strcmp(p, "plain")) {
                   Texture *tex = (Texture *) http->handle;
-      	          tex->setMime(p);
+                  tex->setMime(p);
                 }
               }
             }

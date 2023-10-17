@@ -35,7 +35,7 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
   /* parse scheme */
   if (! url || ! strlen(url)) {
     *scheme = '\0';
-    trace(DBG_HTTP, "BAD URL: %s", url);
+    error("bad url: %s", url);
     return URLBAD;
   }
   if (! stringcmp(url, "http://")) {
@@ -47,14 +47,14 @@ int Url::parser(char *url, char *host, char *scheme, char *path)
     strcpy(scheme, "file");
     url += 5;
   }
-  else {	// incomplete URL
-    trace(DBG_HTTP, "relative URL: %s", url);
+  else {	// incomplete url
+    trace(DBG_HTTP, "relative url: %s", url);
     strcpy(scheme, "http");
     strcpy(host, ::g.server);
     if (*url != '/') {
       // relative url
       if (! isprint(*url)) {
-        error("Bad Url: %02x%02x%02x host=%s", url[0], url[1], url[2], host);
+        error("bad url: %02x%02x%02x host=%s", url[0], url[1], url[2], host);
         return URLBAD;
       }
       sprintf(path, "%s%s", ::g.urlpfx, url);
