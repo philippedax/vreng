@@ -49,14 +49,14 @@ class Vac {
   bool getUrlAndChannel(const char *name, char *_url, char *chanstr);
   /**< Gets an url and its channel by its world name from the list */
 
-  bool isConnected();
-  /**< Returns true if connected else false */
+  static Vac * init();
+  /**< Init vac */
 
   static  Vac * current();
   /**< Returns vac instance */
 
-  static Vac * init();
-  /**< Init vac */
+  //notused bool isConnected();
+  //notused /**< Returns true if connected else false */
 
  private:
 
@@ -65,6 +65,8 @@ class Vac {
 
   static void * connectThread(void *);
   /**< Establishes a connection with the Vacs server */
+
+  void setConnected();
 };
 
 #endif

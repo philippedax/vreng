@@ -48,14 +48,22 @@ Vac* Vac::init()
   return (Vac *)vac;
 }
 
+// static
 Vac* Vac::current()
 {
   return (Vac *)vac;
 }
 
+#if 0 //notused
 bool Vac::isConnected()
 {
   return connected;
+}
+#endif
+
+void Vac::setConnected()
+{
+  connected = true;
 }
 
 /** Connect to the VACS server: return false if connect fails */
@@ -86,14 +94,15 @@ void * Vac::connectThread(void *)
     error("can't resolve vacs");
   }
 
+  // set a timeout of 10 sec
   struct sockaddr_in savac;
   struct timeval timeout;      
   timeout.tv_sec = 10;
   timeout.tv_usec = 0;
 
-  // set a timeout of 10 sec
-  if (setsockopt(sdvac, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+  if (setsockopt(sdvac, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0) {
     error("setsockopt failed\n");
+  }
 
   memset(&savac, 0, sizeof(struct sockaddr_in));
   savac.sin_family = AF_INET;
@@ -105,6 +114,7 @@ void * Vac::connectThread(void *)
     perror("can't connect vacs");
     return NULL;
   }
+  vac->setConnected();
   return NULL;
 }
 
