@@ -29,8 +29,8 @@ SUBDIRS = src man etc bin
 
 EXTRA_DIST = LICENSE README VERSION.md config/* md/* data/* autogen.sh build vr
 
-ARCHIVE  = /Users/dax/vreng/archive
-HTML     = /Users/dax/vreng/html
+ARCHIVE  = archive
+HTML     = html
 #HTTP_SVN = http://www.vreng.enst.fr/svn/vreng
 
 TARBALL_GZ = $(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz

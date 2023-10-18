@@ -26,7 +26,7 @@ clean:
 	@-rm vred *.o y.output y.tab.h y.tab.cpp lex.yy.cpp
 
 
-vred_SOURCES = $(VRED_SRCS) $(VRED_HDRS) y.tab.cpp lex.yy.cpp
+vred_SOURCES = $(VRED_SRCS) $(VRED_HDRS)
 
 bin_PROGRAMS = vred
 
