@@ -28,7 +28,6 @@ y.tab.cpp y.tab.h: vrl.y
 clean:
 	@-rm vrl *.o lex.yy.c* y.tab.* y.output
 
-
 vrl_SOURCES = $(VRL_SRCS) $(VRL_HDRS) y.tab.cpp lex.yy.cpp
 bin_PROGRAMS = vrl
 vrl_LDADD = -lm

@@ -34,7 +34,6 @@ clean:
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR)/base
-
 vrel_SOURCES = $(VREL_SRCS) y.tab.cpp lex.yy.cpp
 bin_PROGRAMS = vrel
 
