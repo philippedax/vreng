@@ -45,17 +45,7 @@ static uint16_t portproxy;
 static char *domnoproxy, *hostproxy;
 
 
-HttpThread::HttpThread()
-{
-  begin_thread();
-}
-
-HttpThread::~HttpThread()
-{
-  end_thread();
-}
-
-void HttpThread::begin_thread()
+void Http::begin_thread()
 {
   fifo = NULL;
 #if defined(HAVE_LIBPTHREAD)
@@ -80,7 +70,7 @@ void HttpThread::begin_thread()
 #endif
 }
 
-void HttpThread::end_thread()
+void Http::end_thread()
 {
 #if defined(HAVE_LIBPTHREAD)
   if (mode > 0) {
@@ -99,7 +89,7 @@ void HttpThread::end_thread()
 #endif
 }
 
-int HttpThread::putfifo()
+int Http::putfifo()
 {
 #if defined(HAVE_LIBPTHREAD)
   // [[ lock
@@ -132,11 +122,6 @@ int HttpThread::putfifo()
 #endif
 }
 
-/////////////
-//
-// Http class
-//
-
 Http::Http()
 {
   new_http++;
@@ -145,7 +130,7 @@ Http::Http()
   url = new char[URL_LEN];
   buf = new char[HTTP_BUFSIZ];
   reset();
-  //dax begin_thread();
+  begin_thread();
 }
 
 Http::~Http()
@@ -157,7 +142,7 @@ Http::~Http()
   if (sd > 0) {
     Socket::closeStream(sd);
   }
-  //dax end_thread();
+  end_thread();
 }
 
 // static
@@ -183,41 +168,32 @@ int Http::httpOpen(const char *url,
   //echo("httpOpen: %s", url);
   ::g.timer.image.start();
 
-  HttpThread *httpthread = new HttpThread();
-  //dax HttpThread *http = new Http();
-  httpthread->http = new Http();	// create a http IO instance
+  Http *http = new Http();	// create a http instance
 
   // Fills the httpthread structure
-  httpthread->handle = _handle;
-  httpthread->http->handle = _handle;
-  httpthread->httpReader = httpReader;
-  httpthread->mode = _mode;
-  strcpy(httpthread->url, url);
-  strcpy(httpthread->http->url, url);
+  http->handle = _handle;
+  http->httpReader = httpReader;
+  http->mode = _mode;
+  strcpy(http->url, url);
 
   // Checks if url is in the cache (_mode < 0 : don't use the cache)
   if (_mode >= 0 && Cache::inCache(url)) { // in cache
-    httpthread->httpReader(httpthread->handle, httpthread->http);	// call the appropiated httpReader
-    if (httpthread->http) {
-      //dax delete http;		// segfault
-      delete httpthread->http;		// segfault
+    http->httpReader(http->handle, http);	// call the appropiated httpReader
+    if (http) {
+      delete http;		// segfault
     }
-    //dax http = NULL;
-    httpthread->http = NULL;
+    http = NULL;
     progression('c');			// 'c' as cache
-    delete httpthread;
-    httpthread = NULL;
+    delete http;
     return 0;
   }
   else {				// not in cache
     progression('i');			// 'i' as image
     if (_mode > 0) {			// is it a thread ?
-      //dax return http->putfifo();	// yes, put it into fifo
-      return httpthread->putfifo();	// yes, put it into fifo
+      return http->putfifo();	// yes, put it into fifo
     }
     else {
-      //dax connection((void *) http);	// it's not a thread
-      connection((void *) httpthread);	// it's not a thread
+      connection((void *) http);	// it's not a thread
       ::g.timer.image.stop();
       return 0;
     }
@@ -225,13 +201,9 @@ int Http::httpOpen(const char *url,
 }
 
 /** Makes a http connection */
-//dax void * Http::connection(void *_http)
-void * Http::connection(void *_httpthread)
+void * Http::connection(void *_http)
 {
-  //dax Http *http = (Http *) _http;
-  HttpThread *httpthread = (HttpThread *) _httpthread;
-
-  Http *http = httpthread->http;
+  Http *http = (Http *) _http;
 
   checkProxy();
 
@@ -262,7 +234,7 @@ void * Http::connection(void *_httpthread)
     }
     else {	// file not found
       http->off = -1;
-      httpthread->httpReader(http->handle, http);
+      http->httpReader(http->handle, http);
       httperr = false;
     }
     break;
@@ -454,7 +426,7 @@ htretry:
       /*
        * call the appropriated httpReader
        */
-      httpthread->httpReader(http->handle, http);
+      http->httpReader(http->handle, http);
       httperr = false;
       break;
 
@@ -467,14 +439,12 @@ htretry:
     } //end else normal
   } //end switch(urltype)
 
-  if (httperr && httpthread) {
-    httpthread->httpReader(http->handle, http);
+  if (httperr && http) {
+    http->httpReader(http->handle, http);
   }
 
   // free memory
   if (hp) my_free_hostent(hp);
-  if (httpthread) delete httpthread;
-  httpthread = NULL;
   if (http) delete http;
   http = NULL;
 

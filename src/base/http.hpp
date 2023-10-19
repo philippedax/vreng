@@ -48,34 +48,6 @@ typedef struct sWaitfifo {
 
 
 /**
- * HttpThread class
- */
-class HttpThread {
- friend class Http;
-
- private:
-  tWaitFifo *fifo;	///< wait http fifo
-  void *handle;		///< thread handle
-  bool mode;		///< thread or not
-  Http *http;		///< http handle for I/O
-  char url[URL_LEN];	///< url
-
-  void begin_thread();	///< begins a thread
-  void end_thread();	///< ends a thread
-
-  int putfifo();
-  /**< Puts thread into a wait fifo. */
-
-  void (*httpReader) (void *handle, class Http *http);
-  /**< Http reader. */
-
- public:
-  HttpThread();			/**< Constructor. */
-  virtual ~HttpThread();	/**< Destructor. */
-};
-
-
-/**
  * Http class
  */
 class Http {
@@ -87,7 +59,20 @@ class Http {
     BADSERV
   };
 
+  // members
+  tWaitFifo *fifo;	///< wait http fifo
   void *handle;		///< thread handle
+  bool mode;		///< thread or not
+
+  // methods
+  void begin_thread();	///< begins a thread
+  void end_thread();	///< ends a thread
+
+  int putfifo();
+  /**< Puts thread into a wait fifo. */
+
+  void (*httpReader) (void *handle, class Http *http);
+  /**< Http reader. */
 
   static void checkProxy();
   /**< Checks proxy environment variables. */
@@ -107,7 +92,7 @@ class Http {
   static void init();
   /**< Initializes Http. */
 
-  static int httpOpen(const char *url, void (*httpReader)(void *h, Http *httpio), void *_handle, int _mode);
+  static int httpOpen(const char *url, void (*httpReader)(void *handle, Http *http), void *_handle, int _mode);
   /**< Opens an url
    *   and gives which reader to use
    *   and tells whether the connection is threaded or not. */
