@@ -195,7 +195,7 @@ int Http::httpOpen(const char *url,
   strcpy(httpthread->url, url);
   strcpy(httpthread->http->url, url);
 
-  // Checks if url is in the cache (threaded < 0 : don't use the cache)
+  // Checks if url is in the cache (_mode < 0 : don't use the cache)
   if (_mode >= 0 && Cache::inCache(url)) { // in cache
     httpthread->httpReader(httpthread->handle, httpthread->http);	// call the appropiated httpReader
     if (httpthread->http) {

@@ -925,7 +925,7 @@ void Widgets::sourceDialog()
   if (! world) return;
 
   UBox& source_box = uvbox(UBackground::white);
-  if (Http::httpOpen(world->getUrl(), sourceHttpReader, &source_box, -1) < 0) { // -1: no cache
+  if (Http::httpOpen(world->getUrl(), sourceHttpReader, &source_box, 0) < 0) { // -1: no cache
     delete &source_box;
     return;
   }
