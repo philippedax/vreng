@@ -84,6 +84,10 @@ void Md2::reader(void *_md2, Http *http)
   if (f) {
     md2->readFile(f);	// from cache
   }
+  else {
+    error("can't read %s", md2->getUrl());
+    md2->readHttp(http);
+  }
   cache->close();
   delete cache;
 }
@@ -135,6 +139,7 @@ bool Md2::readFile(FILE *f)
     o += getGLCmds(&md2_hdr, f);
   }
   loaded = true;
+  //echo("md2 loaded");
   return loaded;
 }
 
@@ -393,7 +398,7 @@ void Md2::draw(int32_t frame, int32_t nextframe, float ratio, float scale)
 
   frame %= numframes;
   nextframe %= numframes;
-  ////echo("draw: frame=%d", frame);
+  //echo("draw: frame=%d", frame);
 
   /* get the frames information */
   tFrame *frame1 = frames + frame;

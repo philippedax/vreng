@@ -448,8 +448,8 @@ void WO::imposedMovement(time_t sec, time_t usec)
     return;
   }
   //dax if (World::current()->isDead()) return;
-  //if (! isMoving() && ! move.manip) return;	// no moving
-  if (move.ttl < 0.0005 && ! move.manip) return;	// no moving
+  if (! isMoving() && ! move.manip) return;	// no moving
+  //if (move.ttl < 0.0005 && ! move.manip) return;	// if uncommented animator doesn't work
 
   Pos oldpos = pos;
   copyPosAndBB(oldpos);		// keep oldpos for network

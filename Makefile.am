@@ -55,7 +55,7 @@ dist dist-all:
 #	-md5sum < $(TARBALL_XZ) > $(FINGERPRINT_XZ)
 
 clean-tar:
-	tar xpf $(TARBALL_GZ)
+	-tar xpf $(TARBALL_GZ)
 	@-cp $(TARBALL_GZ) vreng.tar.gz
 	@-rm $(TARBALLS)
 

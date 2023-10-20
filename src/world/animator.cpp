@@ -183,5 +183,5 @@ void Animator::funcs()
 
   setActionFunc(ANIMATOR_TYPE, 0, _Action start, "Start");
   setActionFunc(ANIMATOR_TYPE, 1, _Action stop, "Stop");
-  setActionFunc(ANIMATOR_TYPE, 2, _Action moveObject, "Move");
+  //setActionFunc(ANIMATOR_TYPE, 2, _Action moveObject, "Move");
 }
