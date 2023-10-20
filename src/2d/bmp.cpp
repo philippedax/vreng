@@ -20,8 +20,8 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "cache.hpp"    // open, close
-#include "texture.hpp"  // Texture
+#include "cache.hpp"	// open, close
+#include "texture.hpp"	// Texture
 #include "reader.hpp"	// Reader
 
 

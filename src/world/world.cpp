@@ -20,11 +20,11 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "world.hpp"
-#include "wobject.hpp"
+#include "wobject.hpp"	// WO
 #include "http.hpp"	// httpOpen httpRead
 #include "user.hpp"	// USER_TYPE
-#include "url.hpp"	// setCachePath
-#include "cache.hpp"	// url2file file2url
+#include "cache.hpp"	// setCachePath
+#include "url.hpp"	// file2url
 #include "universe.hpp"	// Universe
 #include "gui.hpp"	// clearInfoBar
 #include "netobj.hpp"	// NetObject
@@ -560,7 +560,7 @@ void World::checkIcons()
               file->close();
 
               // create the icon
-              Cache::file2url(di->d_name, url);
+              Url::file2url(di->d_name, url);
               sprintf(infos, "<url=\"%s\">&<vref=%s>", url, vref);
               //echo("load-icon: %s", infos);
               if (isAction(ICON_TYPE, Icon::CREATE)) {

@@ -252,88 +252,6 @@ bool Cache::inCache(const char *url)
   return false;
 }
 
-/* (specific icon) */
-void Cache::url2file(const char *_url, char *filename)
-{
-  int i = 0;
-  char *url = strdup(_url);
-
-  for (char *p = url; *p ; p++, i++) {
-    if (*p == '/') *p = '%';
-    filename[i] = *p;
-  }
-  filename[i] = '\0';
-  free(url);
-}
-
-void Cache::file2url(const char *filename, char *url)
-{
-  int i = 0;
-  char *fname = strdup(filename);
-
-  for (char *p = fname; *p ; p++, i++) {
-    if (*p == '%')
-      *p = '/';
-    url[i] = *p;
-  }
-  url[i] = '\0';
-  free(fname);
-}
-
-int Cache::curl(const char *url, char *filename, const char arg[])
-{
-#if HAVE_LIBCURL
-  CURL *hcurl;
-  CURLcode res;
-  FILE *fpcache = NULL;
-  size_t size;
-
-  hcurl = curl_easy_init();
-  if (hcurl) {
-    curl_easy_setopt(hcurl, CURLOPT_URL, url);
-    curl_easy_setopt(hcurl, CURLOPT_USERAGENT, PACKAGE_NAME "/" PACKAGE_VERSION);
-    curl_easy_setopt(hcurl, CURLOPT_FOLLOWLOCATION, 1);
-    curl_easy_setopt(hcurl, CURLOPT_TIMEOUT, 60L);
-    curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 1);
-    if (filename) {
-      if ((fpcache = File::openFile(filename, "wb")) == NULL) {
-        perror("open wb");
-        return 0;
-      }
-      curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 0);
-      curl_easy_setopt(hcurl, CURLOPT_WRITEFUNCTION, NULL);
-      curl_easy_setopt(hcurl, CURLOPT_WRITEDATA, fpcache);
-      if (stringcmp(arg, "anon") == 0) {
-        curl_easy_setopt(hcurl, CURLOPT_USERPWD, "ftp:vreng@");
-      }
-      if (stringcmp(arg, "inout") == 0) {
-        curl_easy_setopt(hcurl, CURLOPT_READFUNCTION, NULL);
-      }
-    }
-    else if (stringcmp(arg, "check") == 0) {
-      curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 0);
-      curl_easy_setopt(hcurl, CURLOPT_NOBODY, 1);
-    }
-    res = curl_easy_perform(hcurl);
-    if (res) {
-      error("curl: %s", curl_easy_strerror(res));
-    }
-    else {
-      curl_easy_getinfo(hcurl, CURLINFO_SIZE_DOWNLOAD, &size);
-    }
-    if (fpcache) File::closeFile(fpcache);
-    curl_easy_cleanup(hcurl);
-    return 1;
-  }
-  else {
-    error("curl: can't init");
-    return 0;
-  }
-#else
-  return 0;
-#endif
-}
-
 int Cache::download(const char *_url, char *filename, const char arg[])
 {
   char url[URL_LEN];
@@ -355,7 +273,7 @@ int Cache::download(const char *_url, char *filename, const char arg[])
     trace(DBG_TOOL, "download: download %s in %s", url, filename);
   }
 #if HAVE_CURL
-  return curl(url, filename, arg);
+  return Url::curl(url, filename, arg);
 #else
   return Wget::start(url, filename, arg);
 #endif

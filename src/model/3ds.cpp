@@ -34,7 +34,7 @@
 #include "http.hpp"	// httpOpen
 #include "file.hpp"	// localEndian
 #include "texture.hpp"	// open
-#include "cache.hpp"	// openCache, closeCache
+#include "cache.hpp"	// open, close
 
 
 _3ds::_3ds(const char *_url) :

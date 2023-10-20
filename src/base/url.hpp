@@ -44,6 +44,14 @@ class Url {
   static bool check(const char *url);
   ///< Check url integity */
 
+  static void url2file(const char *url, char *filename);
+  ///< Changes url name to filename.
+
+  static void file2url(const char *filename, char *url);
+  ///< Change filename to urlname.
+
+  static int curl(const char *url, char *filename, const char opts[] = (char *)"cache");
+  ///< Launchs curl on this url.
 };
 
 #endif

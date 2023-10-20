@@ -27,6 +27,7 @@
 #include "format.hpp"	// icons
 #include "file.hpp"	// open, close
 #include "cache.hpp"	// file download
+#include "url.hpp"	// url2file
 #include "texture.hpp"	// Texture
 #include "netobj.hpp"	// NetObject
 #include "payload.hpp"	// Payload
@@ -503,7 +504,7 @@ void Icon::destroy(Icon *icon, void *d, time_t s, time_t u)
     // remove file
     char ficon[URL_LEN];
 
-    Cache::url2file(icon->names.url, ficon);
+    Url::url2file(icon->names.url, ficon);
     chdir(::g.env.icons());
     chdir(icon->worldName());
     unlink(ficon);
@@ -557,7 +558,7 @@ void Icon::quit()
   if ((! taken) && (! remove) && *names.url) {
     char ficon[URL_LEN];
 
-    Cache::url2file(names.url, ficon);
+    Url::url2file(names.url, ficon);
 
     if (chdir(::g.env.icons()) != -1 ) {
       struct stat bufstat;

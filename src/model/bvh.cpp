@@ -25,7 +25,7 @@
 #include "vreng.hpp"
 #include "bvh.hpp"
 #include "http.hpp"	// httpOpen
-#include "cache.hpp"	// open
+#include "cache.hpp"	// open, close
 #include "obj.hpp"	// class Obj
 
 using namespace std;
