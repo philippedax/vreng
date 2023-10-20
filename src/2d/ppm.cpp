@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "img.hpp"
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// openFile, closeFile
+#include "file.hpp"	// open, close
 #include "texture.hpp"	// Texture
 
 

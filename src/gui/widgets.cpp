@@ -44,7 +44,7 @@
 #include "pref.hpp"	// width3Dm height3D
 #include "env.hpp"	// menu
 #include "http.hpp"	// httpOpen
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open, close
 #include "cache.hpp"	// open, close
 #include "universe.hpp" // Universe
 #include "world.hpp"	// World

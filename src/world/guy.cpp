@@ -25,7 +25,6 @@
 #include "timer.hpp"	// isRate
 #include "user.hpp"	// localuser
 #include "cache.hpp"	// open
-#include "file.hpp"	// closeFile
 
 
 const OClass Guy::oclass(GUY_TYPE, "Guy", Guy::creator);

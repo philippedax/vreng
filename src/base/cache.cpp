@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "cache.hpp"
-#include "file.hpp"	// openFile, closeFile
+#include "file.hpp"	// open, close
 #include "url.hpp"	// abs
 #include "http.hpp"	// read_buf
 #include "env.hpp"	// ::g.env.cache

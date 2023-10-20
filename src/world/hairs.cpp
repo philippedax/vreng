@@ -23,7 +23,7 @@
 #include "timer.hpp"    // fTime, delta
 #include "http.hpp"	// Http
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// closeFile
+#include "file.hpp"	// littleEndian
 #include "lwo.hpp"	// Lwo
 
 static Hairs *hairs = NULL;

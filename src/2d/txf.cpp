@@ -24,7 +24,6 @@
 #include "txf.hpp"
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// closeFile
 
 #include <list>
 

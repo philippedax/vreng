@@ -23,7 +23,7 @@
 #include "matvec.hpp"   // V3 M4
 #include "texture.hpp"	// Texture
 #include "cache.hpp"	// download
-#include "file.hpp"	// openFile
+#include "file.hpp"	// open
 #include "user.hpp"	// localuser
 #include "pref.hpp"	// quality
 #include "format.hpp"	// Format

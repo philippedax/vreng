@@ -23,7 +23,6 @@
 #include "matvec.hpp"   // V3 M4
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// closeFile
 
 
 const OClass Walls::oclass(WALLS_TYPE, "Walls", Walls::creator);

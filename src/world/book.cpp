@@ -27,7 +27,6 @@
 #include "user.hpp"	// User
 #include "http.hpp"	// httpOpen
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// closeFile
 
 
 const OClass Book::oclass(BOOK_TYPE, "Book", Book::creator);
