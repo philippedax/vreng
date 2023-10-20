@@ -106,15 +106,6 @@ class Http {
   int httpRead(char *buf, int size);
   /**< Reads a block. */
 
-  bool heof();
-  /**< Returns if eof. */
-
-  int htell();
-  /**< Returns current position. */
-
-  int getChar();
-  /**< Gets a char. */
-
   uint8_t read_char();
   /**< Gets a byte. */
 
@@ -130,9 +121,6 @@ class Http {
   float read_float();
   /**< Gets a float. */
 
-  int read_string(char *s, int maxlen);
-  /**< Gets a string. */
-
   bool nextLine(char *line);
   /**< Gets nextline. */
 
@@ -145,8 +133,18 @@ class Http {
   uint32_t read_buf(char *buf, int maxlen);
   /**< Gets a block. */
 
+  bool heof();
+  /**< Returns if eof. */
+
   uint32_t skip(int32_t skiplen);
   /**< Skips a length. */
+
+  //notused int getChar();
+  //notused /**< Gets a char. */
+  //notused int read_string(char *s, int maxlen);
+  //notused /**< Gets a string. */
+  //notused int htell();
+  //notused /**< Returns current position. */
 };
 
 #endif

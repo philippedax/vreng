@@ -498,6 +498,7 @@ bool Http::heof()
   return http_eof;
 }
 
+#if 0 //notused
 /** returns current position */
 int Http::htell()
 {
@@ -521,11 +522,12 @@ int Http::getChar()
   }
   return http_buf[http_pos++];
 }
+#endif //notused
 
 /** returns a byte */
 uint8_t Http::read_char()
 {
-  if (http_pos >= http_len) {
+  if (http_pos >= http_len) {	// eob
     http_pos = 0;
     if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
       http_eof = true;
@@ -594,6 +596,7 @@ float Http::read_float()
   return (float) *((float *) &n);
 }
 
+#if 0 //notused
 /** returns a string */
 int Http::read_string(char *str, int maxlen)
 {
@@ -617,6 +620,7 @@ int Http::read_string(char *str, int maxlen)
   }
   return cnt;
 }
+#endif //notused
 
 /** returns true and the line else returns false */
 bool Http::nextLine(char *line)
@@ -624,7 +628,7 @@ bool Http::nextLine(char *line)
   int i = 0;
 
   while (1) {
-    int c = getChar();
+    int c = read_char();
 
     if (c == '\n') break;  // eol
     if (c < 0) { // http eof
