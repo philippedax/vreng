@@ -59,7 +59,7 @@ public:
   static float read_float_le(FILE *f);
   static int read_string(FILE *f, char *s, int maxlen);
   static void read_buf(FILE *f, char *s, int len);
-  static void skip_byte(FILE *f, int skiplen);
+  static void skip(FILE *f, int skiplen);
 };
 
 

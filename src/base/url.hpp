@@ -42,7 +42,7 @@ class Url {
   ///< Change relative url to absolute.
 
   static bool check(const char *url);
-  ///< Check url integity */
+  ///< Check url integrity.
 
   static void url2file(const char *url, char *filename);
   ///< Changes url name to filename.

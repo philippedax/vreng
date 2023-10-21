@@ -267,7 +267,7 @@ void File::read_buf(FILE *f, char *buf, int len)
   } while (len != 0) ;
 }
 
-void File::skip_byte(FILE *f, int skiplen)
+void File::skip(FILE *f, int skiplen)
 {
   fseek(f, skiplen+(skiplen%2), SEEK_CUR);
 }

@@ -24,7 +24,7 @@
 #include "vreng.hpp"
 #include "lwo.hpp"
 #include "http.hpp"	// httpOpen
-#include "file.hpp"	// skip_byte
+#include "file.hpp"	// skip
 #include "cache.hpp"	// open, close
 
 
@@ -114,7 +114,7 @@ void Lwo::readSurf(FILE *f, int nbytes)
       File::read_char(f); // dummy
       break;
     default:
-      File::skip_byte(f, len+(len%2));
+      File::skip(f, len+(len%2));
     }
   }
 }
@@ -175,7 +175,7 @@ void Lwo::readPols(FILE *f, int nbytes)
       nbytes -= 2;
       while (det_cnt-- > 0) {
 	int cnt = File::read_short(f);
-	File::skip_byte(f, cnt*2+2);
+	File::skip(f, cnt*2+2);
 	nbytes -= cnt*2+2;
       }
     }
@@ -242,7 +242,7 @@ void Lwo::reader(void *alwo, Http *http)
       case ID_POLS: lwo->readPols(f, nbytes); break;
       case ID_SRFS: lwo->readSrfs(f, nbytes); break;
       case ID_SURF: lwo->readSurf(f, nbytes); break;
-      default: File::skip_byte(f, nbytes + nbytes%2);
+      default: File::skip(f, nbytes + nbytes%2);
     }
   }
   cache->close();

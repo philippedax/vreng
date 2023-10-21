@@ -127,15 +127,15 @@ bool Md2::readFile(FILE *f)
 
   /* check which info is first */
   if (md2_hdr.ofs_frames > md2_hdr.ofs_glcmds) {
-    File::skip_byte(f, md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
+    File::skip(f, md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
     o += getGLCmds(&md2_hdr, f);
-    File::skip_byte(f, md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
+    File::skip(f, md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
     o += getFrames(&md2_hdr, f);
   }
   else {
-    File::skip_byte(f, md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
+    File::skip(f, md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
     o += getFrames(&md2_hdr, f);
-    File::skip_byte(f, md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
+    File::skip(f, md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
     o += getGLCmds(&md2_hdr, f);
   }
   loaded = true;
