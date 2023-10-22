@@ -32,9 +32,9 @@
 #include "vreng.hpp"
 #include "3ds.hpp"
 #include "http.hpp"	// httpOpen
-#include "file.hpp"	// localEndian
 #include "texture.hpp"	// open
 #include "cache.hpp"	// open, close
+#include "file.hpp"	// localEndian
 
 
 _3ds::_3ds(const char *_url) :
@@ -214,7 +214,6 @@ void _3ds::render(const Pos &pos, float *color)
   glScalef(currentScale, currentScale, currentScale);
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
   glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
-  //glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
   glColor3fv(color);
   //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
 
@@ -293,7 +292,7 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
 {
   tObject newObject = {0};	// This is used to add to our object list
   t3dsMaterialInfo newTexture;	// This is used to add to our material list
-  unsigned int version = 0;	// This will hold the file version
+  uint32_t version = 0;		// This will hold the file version
   int buffer[50000] = {0};	// This is used to read past unwanted data
   tChunk currentChunk = {0};	// The current chunk to load
   tChunk tempChunk = {0};	// A temp chunk for holding data
@@ -305,9 +304,9 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
 
     switch (currentChunk.ID) {
     case _3DS_VERSION:		// This holds the version of the file
-      // This chunk has an unsigned short that holds the file version.
+      // This chunk has an uint16_t that holds the file version.
       currentChunk.bytesRead += fread(&version, 1, currentChunk.length - currentChunk.bytesRead,fp);
-      File::localEndian(&version, sizeof(unsigned int));
+      File::localEndian(&version, sizeof(uint32_t));
 
       if (version > 0x03)
         error("This 3DS file is over version 3 so it may load incorrectly");
@@ -319,7 +318,7 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
 
       // Get the version of the mesh
       tempChunk.bytesRead += fread(&version, 1, tempChunk.length - tempChunk.bytesRead, fp);
-      File::localEndian(&version, sizeof(unsigned int));
+      File::localEndian(&version, sizeof(uint32_t));
 
       currentChunk.bytesRead += tempChunk.bytesRead;
 
@@ -509,7 +508,7 @@ void _3ds::readVertexIndices(tObject *pObject, tChunk *pPreviousChunk)
     for (int j=0; j < 4; j++) {
       // Read the first vertice index for the current face
       pPreviousChunk->bytesRead += fread(&index, 1, sizeof(index), fp);
-      File::localEndian(&index,sizeof(unsigned short));
+      File::localEndian(&index, sizeof(uint16_t));
       if (j < 3) // Store the index in our face structure.
         pObject->pFaces[i].vertIndex[j] = index;
     }

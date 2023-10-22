@@ -77,13 +77,12 @@ public:
   void setScale(float scale);
 
 private:
-  static void reader(void *_lwo, class Http *http);
+  static void httpReader(void *_lwo, class Http *http);
 
-  void readSrfs(FILE *f, int nbytes);
-  void readSurf(FILE *f, int nbytes);
-  void readPols(FILE *f, int nbytes);
-  void readPnts(FILE *f, int nbytes);
-  
+  void readSrfs(class File *file, FILE *f, int nbytes);
+  void readSurf(class File *file, FILE *f, int nbytes);
+  void readPols(class File *file, FILE *f, int nbytes);
+  void readPnts(class File *file, FILE *f, int nbytes);
 };
 
 #endif

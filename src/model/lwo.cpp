@@ -24,8 +24,8 @@
 #include "vreng.hpp"
 #include "lwo.hpp"
 #include "http.hpp"	// httpOpen
-#include "file.hpp"	// skip
 #include "cache.hpp"	// open, close
+#include "file.hpp"	// skip
 
 
 // local
@@ -35,7 +35,7 @@ static char lwourl[256];
 #define DAXALLOC 1
 #endif
 
-void Lwo::readSrfs(FILE *f, int nbytes)
+void Lwo::readSrfs(class File *file, FILE *f, int nbytes)
 {
 #if DAXALLOC
   int cnt = nbm;
@@ -61,7 +61,7 @@ void Lwo::readSrfs(FILE *f, int nbytes)
 #endif
 
     /* read name */
-    nbytes -= File::read_string(f, lmaterial->name, LW_MAX_NAME_LEN);
+    nbytes -= file->read_string(f, lmaterial->name, LW_MAX_NAME_LEN);
 
     /* default color */
     lmaterial->r = lmaterial->g = lmaterial->b = 0.7;
@@ -78,13 +78,13 @@ void Lwo::readSrfs(FILE *f, int nbytes)
 #endif
 }
 
-void Lwo::readSurf(FILE *f, int nbytes)
+void Lwo::readSurf(class File *file, FILE *f, int nbytes)
 {
   char name[LW_MAX_NAME_LEN];
   tMaterial *lmaterial = NULL;
 
   /* read surface name */
-  nbytes -= File::read_string(f, name, LW_MAX_NAME_LEN);
+  nbytes -= file->read_string(f, name, LW_MAX_NAME_LEN);
 
   /* find material */
 #if DAXALLOC
@@ -101,25 +101,25 @@ void Lwo::readSurf(FILE *f, int nbytes)
 
   /* read values */
   while (nbytes > 0) {
-    int id = File::read_long(f);
-    int len = File::read_short(f);
+    int id = file->read_long(f);
+    int len = file->read_short(f);
     nbytes -= 6 + len + len%2;
 
     switch (id) {
     case ID_COLR:
-      lmaterial->r = File::read_char(f) / 255.;
-      lmaterial->g = File::read_char(f) / 255.;
-      lmaterial->b = File::read_char(f) / 255.;
+      lmaterial->r = file->read_char(f) / 255.;
+      lmaterial->g = file->read_char(f) / 255.;
+      lmaterial->b = file->read_char(f) / 255.;
       lmaterial->a = 1;
-      File::read_char(f); // dummy
+      file->read_char(f); // dummy
       break;
     default:
-      File::skip(f, len+(len%2));
+      file->skip(f, len+(len%2));
     }
   }
 }
 
-void Lwo::readPols(FILE *f, int nbytes)
+void Lwo::readPols(class File *file, FILE *f, int nbytes)
 {
 #if DAXALLOC
   int cnt = nbf;
@@ -145,7 +145,7 @@ void Lwo::readPols(FILE *f, int nbytes)
 #endif
 
     /* number of points in this face */
-    lface->index_count = File::read_short(f);
+    lface->index_count = file->read_short(f);
     nbytes -= 2;
 
     /* allocate space for points */
@@ -160,22 +160,22 @@ void Lwo::readPols(FILE *f, int nbytes)
 
     /* read points in */
     for (int i=0; i < lface->index_count; i++) {
-      lface->index[i] = File::read_short(f);
+      lface->index[i] = file->read_short(f);
       nbytes -= 2;
     }
 
     /* read surface material */
-    lface->material = File::read_short(f);
+    lface->material = file->read_short(f);
     nbytes -= 2;
 
     /* skip over detail polygons */
     if (lface->material < 0) {
       lface->material = -lface->material;
-      int det_cnt = File::read_short(f);
+      int det_cnt = file->read_short(f);
       nbytes -= 2;
       while (det_cnt-- > 0) {
-	int cnt = File::read_short(f);
-	File::skip(f, cnt*2+2);
+	int cnt = file->read_short(f);
+	file->skip(f, cnt*2+2);
 	nbytes -= cnt*2+2;
       }
     }
@@ -195,37 +195,41 @@ void Lwo::readPols(FILE *f, int nbytes)
 #endif
 }
 
-void Lwo::readPnts(FILE *f, int nbytes)
+void Lwo::readPnts(class File *file, FILE *f, int nbytes)
 {
   vertex_count = nbytes / 12;
   vertex = new float[vertex_count * 3];
   if (! vertex) { error("can't alloc vertex"); return; }
   for (int i=0; i < vertex_count; i++) {
-    vertex[i*3+0] = File::read_float(f);
-    vertex[i*3+1] = File::read_float(f);
-    vertex[i*3+2] = File::read_float(f);
+    vertex[i*3+0] = file->read_float(f);
+    vertex[i*3+1] = file->read_float(f);
+    vertex[i*3+2] = file->read_float(f);
   }
 }
 
-void Lwo::reader(void *alwo, Http *http)
+void Lwo::httpReader(void *alwo, Http *http)
 {
   Lwo *lwo = (Lwo *) alwo;
   if (! lwo) return;
 
   Cache *cache = new Cache();
   FILE *f = cache->open(lwourl, http);
-  if (! f) { error("lwo: can't open %s", lwourl); return; }
+  if (! f) {
+    error("lwo: can't open %s", lwourl);
+    return;
+  }
+  File *file = new(File);
 
   /* check for headers */
-  if (File::read_long(f) != ID_FORM) {
+  if (file->read_long(f) != ID_FORM) {
     error("lwoReader: error ID_FORM");
     cache->close();
     delete cache;
     return;
   }
-  int32_t form_bytes = File::read_long(f);
+  int32_t form_bytes = file->read_long(f);
   int32_t read_bytes = 4;
-  if (File::read_long(f) != ID_LWOB) {
+  if (file->read_long(f) != ID_LWOB) {
     error("lwoReader: not a LWOB file");
     cache->close();
     delete cache;
@@ -234,15 +238,15 @@ void Lwo::reader(void *alwo, Http *http)
 
   /* read chunks */
   while (read_bytes < form_bytes) {
-    int32_t  chunk  = File::read_long(f);
-    int32_t  nbytes = File::read_long(f);
+    int32_t  chunk  = file->read_long(f);
+    int32_t  nbytes = file->read_long(f);
     read_bytes += 8 + nbytes + nbytes%2;
     switch (chunk) {
-      case ID_PNTS: lwo->readPnts(f, nbytes); break;
-      case ID_POLS: lwo->readPols(f, nbytes); break;
-      case ID_SRFS: lwo->readSrfs(f, nbytes); break;
-      case ID_SURF: lwo->readSurf(f, nbytes); break;
-      default: File::skip(f, nbytes + nbytes%2);
+      case ID_PNTS: lwo->readPnts(file, f, nbytes); break;
+      case ID_POLS: lwo->readPols(file, f, nbytes); break;
+      case ID_SRFS: lwo->readSrfs(file, f, nbytes); break;
+      case ID_SURF: lwo->readSurf(file, f, nbytes); break;
+      default: file->skip(f, nbytes + nbytes%2);
     }
   }
   cache->close();
@@ -261,7 +265,7 @@ Lwo::Lwo(const char *url)
   dlist = 0;
 
   strcpy(lwourl, url);
-  Http::httpOpen(url, reader, this, 0);
+  Http::httpOpen(url, httpReader, this, 0);
   return;
 }
 

@@ -27,17 +27,25 @@
 #include "md2.hpp"
 #include "wobject.hpp"	// Pos
 #include "http.hpp"	// httpOpen
-#include "file.hpp"	// read_*
 #include "cache.hpp"	// open, close
+#include "file.hpp"	// read_*
 #include "draw.hpp"	// vertex3f
 
 
 Md2::Md2(const char *_url)
 {
-  defaults();
+  numframes = 0;
+  skinwidth = 0;
+  skinheight = 0;
+  texinfo = NULL;
+  glcmds = NULL;
+  frames = NULL;
+  loaded = false;
+  desiredScale = 1;
+  dlists = NULL;
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
-  Http::httpOpen(url, reader, this, 0);
+  Http::httpOpen(url, httpReader, this, 0);
 }
 
 Md2::~Md2()
@@ -54,27 +62,13 @@ Md2::~Md2()
   if (url) delete[] url;
 }
 
-void Md2::defaults()
-{
-  numframes = 0;
-  skinwidth = 0;
-  skinheight = 0;
-  texinfo = NULL;
-  glcmds = NULL;
-  frames = NULL;
-  loaded = false;
-  desiredScale = 1;
-  url = NULL;
-  dlists = NULL;
-}
-
 const char * Md2::getUrl() const
 {
   return (const char *) url;
 }
 
 /** Md2 model http-reader */
-void Md2::reader(void *_md2, Http *http)
+void Md2::httpReader(void *_md2, Http *http)
 {
   Md2 *md2 = (Md2 *) _md2;
   if (! md2) return;
@@ -82,41 +76,44 @@ void Md2::reader(void *_md2, Http *http)
   Cache *cache = new Cache();
   FILE *f = cache->open(md2->getUrl(), http);
   if (f) {
-    md2->readFile(f);	// from cache
+    File *file = new(File);
+    md2->readFile(file, f);	// from cache
   }
+#if 0 //notused
   else {
     error("can't read %s", md2->getUrl());
     md2->readHttp(http);
   }
+#endif //notused
   cache->close();
   delete cache;
 }
 
-/** Md2 model file-reader */
-bool Md2::readFile(FILE *f)
+/** Md2 model filereader */
+bool Md2::readFile(class File *file, FILE *f)
 {
   /* Read the header first */
   tHeader md2_hdr;
   int32_t o = 0;	// offset in file
 
   // read in little endian format (read_long_le)
-  File::read_buf(f, md2_hdr.ident, 4); o+=4;
-  md2_hdr.version = File::read_long_le(f); o+=4;
-  md2_hdr.skinwidth = File::read_long_le(f); o+=4;
-  md2_hdr.skinheight = File::read_long_le(f); o+=4;
-  md2_hdr.framesize = File::read_long_le(f); o+=4;
-  md2_hdr.num_skins = File::read_long_le(f); o+=4;
-  md2_hdr.num_xyz = File::read_long_le(f); o+=4;
-  md2_hdr.num_st = File::read_long_le(f); o+=4;
-  md2_hdr.num_tris = File::read_long_le(f); o+=4;
-  md2_hdr.num_glcmds = File::read_long_le(f); o+=4;
-  md2_hdr.num_frames = File::read_long_le(f); o+=4;
-  md2_hdr.ofs_skins = File::read_long_le(f); o+=4;
-  md2_hdr.ofs_st = File::read_long_le(f); o+=4;
-  md2_hdr.ofs_tris = File::read_long_le(f); o+=4;
-  md2_hdr.ofs_frames = File::read_long_le(f); o+=4;
-  md2_hdr.ofs_glcmds = File::read_long_le(f); o+=4;
-  md2_hdr.ofs_end = File::read_long_le(f); o+=4;
+  file->read_buf(f, md2_hdr.ident, 4); o+=4;
+  md2_hdr.version = file->read_long_le(f); o+=4;
+  md2_hdr.skinwidth = file->read_long_le(f); o+=4;
+  md2_hdr.skinheight = file->read_long_le(f); o+=4;
+  md2_hdr.framesize = file->read_long_le(f); o+=4;
+  md2_hdr.num_skins = file->read_long_le(f); o+=4;
+  md2_hdr.num_xyz = file->read_long_le(f); o+=4;
+  md2_hdr.num_st = file->read_long_le(f); o+=4;
+  md2_hdr.num_tris = file->read_long_le(f); o+=4;
+  md2_hdr.num_glcmds = file->read_long_le(f); o+=4;
+  md2_hdr.num_frames = file->read_long_le(f); o+=4;
+  md2_hdr.ofs_skins = file->read_long_le(f); o+=4;
+  md2_hdr.ofs_st = file->read_long_le(f); o+=4;
+  md2_hdr.ofs_tris = file->read_long_le(f); o+=4;
+  md2_hdr.ofs_frames = file->read_long_le(f); o+=4;
+  md2_hdr.ofs_glcmds = file->read_long_le(f); o+=4;
+  md2_hdr.ofs_end = file->read_long_le(f); o+=4;
 
   /* check if this is really a .md2 file */
   if (strncmp(md2_hdr.ident, "IDP2", 4)) return false;
@@ -127,22 +124,23 @@ bool Md2::readFile(FILE *f)
 
   /* check which info is first */
   if (md2_hdr.ofs_frames > md2_hdr.ofs_glcmds) {
-    File::skip(f, md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
-    o += getGLCmds(&md2_hdr, f);
-    File::skip(f, md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
-    o += getFrames(&md2_hdr, f);
+    file->skip(f, md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
+    o += getGLCmds(&md2_hdr, file, f);
+    file->skip(f, md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
+    o += getFrames(&md2_hdr, file, f);
   }
   else {
-    File::skip(f, md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
-    o += getFrames(&md2_hdr, f);
-    File::skip(f, md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
-    o += getGLCmds(&md2_hdr, f);
+    file->skip(f, md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
+    o += getFrames(&md2_hdr, file, f);
+    file->skip(f, md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
+    o += getGLCmds(&md2_hdr, file, f);
   }
   loaded = true;
   //echo("md2 loaded");
   return loaded;
 }
 
+#if 0  //notused
 /** Md2 model http-reader */
 bool Md2::readHttp(Http *h)
 {
@@ -191,8 +189,9 @@ bool Md2::readHttp(Http *h)
   loaded = true;
   return loaded;
 }
+#endif //notused
 
-int32_t Md2::getFrames(tHeader *md2_hdr, FILE *f)
+int32_t Md2::getFrames(tHeader *md2_hdr, class File *file, FILE *f)
 {
   /* converts the FrameInfos to Frames */
   frames = new tFrame[numframes];
@@ -204,13 +203,13 @@ int32_t Md2::getFrames(tHeader *md2_hdr, FILE *f)
   for (int fr=0; fr < numframes; fr++) {
     tVec3 scale, origin;
 
-    scale.x = File::read_float_le(f); o +=4;
-    scale.y = File::read_float_le(f); o +=4;
-    scale.z = File::read_float_le(f); o +=4;
-    origin.x = File::read_float_le(f); o +=4;
-    origin.y = File::read_float_le(f); o +=4;
-    origin.z = File::read_float_le(f); o +=4;
-    File::read_buf(f, frames[fr].name, 16); o +=16;
+    scale.x = file->read_float_le(f); o +=4;
+    scale.y = file->read_float_le(f); o +=4;
+    scale.z = file->read_float_le(f); o +=4;
+    origin.x = file->read_float_le(f); o +=4;
+    origin.y = file->read_float_le(f); o +=4;
+    origin.z = file->read_float_le(f); o +=4;
+    file->read_buf(f, frames[fr].name, 16); o +=16;
 
     frames[fr].vert_table = new tVertex[md2_hdr->num_xyz];
 
@@ -219,10 +218,10 @@ int32_t Md2::getFrames(tHeader *md2_hdr, FILE *f)
       tTrivertex cur_vert;
       tVertex *p = (frames[fr].vert_table) + i;
 
-      cur_vert.x = File::read_char(f); o++;
-      cur_vert.y = File::read_char(f); o++;
-      cur_vert.z = File::read_char(f); o++;
-      cur_vert.normal = File::read_char(f); o++;
+      cur_vert.x = file->read_char(f); o++;
+      cur_vert.y = file->read_char(f); o++;
+      cur_vert.z = file->read_char(f); o++;
+      cur_vert.normal = file->read_char(f); o++;
       p->x = ((cur_vert.x * scale.x) + origin.x);
       p->y = ((cur_vert.y * scale.y) + origin.y);
       p->z = ((cur_vert.z * scale.z) + origin.z);
@@ -231,6 +230,7 @@ int32_t Md2::getFrames(tHeader *md2_hdr, FILE *f)
   return o;
 }
 
+#if 0  //notused
 int32_t Md2::getFrames(tHeader *md2_hdr, Http *h)
 {
   /* converts the FrameInfos to Frames */
@@ -269,13 +269,14 @@ int32_t Md2::getFrames(tHeader *md2_hdr, Http *h)
   }
   return o;
 }
+#endif //notused
 
 /**
  * we keep only the commands and the index in the glcommands
  * we 'pre-parse' the texture coordinates
  * do not ask me how I found this formula :-))
  */
-int32_t Md2::getGLCmds(tHeader *md2_hdr, FILE *f)
+int32_t Md2::getGLCmds(tHeader *md2_hdr, class File *file, FILE *f)
 {
   int32_t num_vertices = ((md2_hdr->num_tris + 2 * md2_hdr->num_glcmds - 2) / 7);
   //echo("getGLCmds: num_vertices=%d", num_vertices);
@@ -290,7 +291,7 @@ int32_t Md2::getGLCmds(tHeader *md2_hdr, FILE *f)
 
   int32_t glcmd, o;
 
-  for (o = 0, glcmd = 0; (glcmd = File::read_long_le(f)) != 0; ) {
+  for (o = 0, glcmd = 0; (glcmd = file->read_long_le(f)) != 0; ) {
     int32_t nb_verts;
 
     o += 4;
@@ -304,12 +305,12 @@ int32_t Md2::getGLCmds(tHeader *md2_hdr, FILE *f)
 
     /* gets the texture information */
     for (int i=0; i < nb_verts; i++) {
-      _texinfo->s = File::read_float_le(f); o+=4;
-      _texinfo->t = File::read_float_le(f); o+=4;
+      _texinfo->s = file->read_float_le(f); o+=4;
+      _texinfo->t = file->read_float_le(f); o+=4;
       _texinfo++;
 
       /* we keep the vertex index */
-      glcmd = File::read_long_le(f); o+=4;
+      glcmd = file->read_long_le(f); o+=4;
       *(glcmds_copy++) = glcmd;	// copy the vertex index
     }
   }
@@ -318,6 +319,7 @@ int32_t Md2::getGLCmds(tHeader *md2_hdr, FILE *f)
   return o+4;
 }
 
+#if 0  //notused
 int32_t Md2::getGLCmds(tHeader *md2_hdr, Http *h)
 {
   int32_t num_vertices = ((md2_hdr->num_tris + 2 * md2_hdr->num_glcmds - 2) / 7);
@@ -360,6 +362,7 @@ int32_t Md2::getGLCmds(tHeader *md2_hdr, Http *h)
   *(glcmds_copy++) = glcmd;
   return o+4;
 }
+#endif //notused
 
 void Md2::updBbox(float x, float y, float z)
 {

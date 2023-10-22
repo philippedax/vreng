@@ -50,16 +50,17 @@ public:
   static void convertLong(uint32_t *array, long length);
 
   // IO
-  static int read_char(FILE *f);
-  static int read_short(FILE *f);
-  static int read_long(FILE *f);
-  static float read_float(FILE *f);
-  static int read_short_le(FILE *f);
-  static int read_long_le(FILE *f);
-  static float read_float_le(FILE *f);
-  static int read_string(FILE *f, char *s, int maxlen);
-  static void read_buf(FILE *f, char *s, int len);
-  static void skip(FILE *f, int skiplen);
+  // see also http.hpp
+  int read_char(FILE *f);
+  int read_short(FILE *f);
+  int read_long(FILE *f);
+  float read_float(FILE *f);
+  int read_short_le(FILE *f);
+  int read_long_le(FILE *f);
+  float read_float_le(FILE *f);
+  int read_string(FILE *f, char *s, int maxlen);
+  void read_buf(FILE *f, char *s, int len);
+  void skip(FILE *f, int skiplen);
 };
 
 

@@ -125,28 +125,25 @@ public:
   void render(struct Pos &pos, uint16_t frame);
   /**< Renders one frame of the model */
 
-  static void reader(void *_md2, class Http *http);
+  static void httpReader(void *_md2, class Http *http);
   /**< Md2 http reader */
 
 private:
-  void defaults();
-  /**< Sets default values */
+  //notused bool readHttp(Http *http);
+  //notused /**< Loads from http */
 
-  bool readHttp(Http *http);
-  /**< Loads from http */
-
-  bool readFile(FILE *f);
+  bool readFile(class File *file, FILE *f);
   /**< Loads from file */
 
   const char * getUrl() const;
   /**< get an Url */
 
-  int32_t getFrames(tHeader *md2_hdr, FILE *f);
-  int32_t getFrames(tHeader *md2_hdr, class Http *http);
+  int32_t getFrames(tHeader *md2_hdr, class File *file, FILE *f);
+  //notused int32_t getFrames(tHeader *md2_hdr, class Http *http);
   /**< Get frames from Md2 model */
 
-  int32_t getGLCmds(tHeader *md2_hdr, FILE *f);
-  int32_t getGLCmds(tHeader *md2_hdr, class Http *http);
+  int32_t getGLCmds(tHeader *md2_hdr, class File *file, FILE *f);
+  //notused int32_t getGLCmds(tHeader *md2_hdr, class Http *http);
   /**< Get GL commands from Md2 model */
 
   void updBbox(float x, float y, float z);
