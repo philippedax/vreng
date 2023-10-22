@@ -366,16 +366,23 @@ void Hairs::reader(void *_lwo, Http *http)
 
   Cache *cache = new Cache();
   FILE *fp = cache->open(hairs->urlName(), http);
+  File *file = new(File);
 
   /* check for headers */
-  littleendian = File::littleEndian();
-  trace(DBG_MOD,"%s", littleendian ? "LittleEndian" : "BigEndian");
+  littleendian = file->littleEndian();
+  //echo(littleendian ? "LittleEndian" : "BigEndian");
   fread(&id, 4, 1, fp);
-  if (stringcmp(sid, "FORM")) { error("not a ID_FORM"); return; }
+  if (stringcmp(sid, "FORM")) {
+    error("not a ID_FORM");
+    return;
+  }
   fread(&len, 4, 1, fp);
   SWAPL(&len, tmp);
   fread(&id, 4, 1, fp); len -= 4;
-  if (stringcmp(sid, "LWOB")) { error("not a LWOB file"); return; }
+  if (stringcmp(sid, "LWOB")) {
+    error("not a LWOB file");
+    return;
+  }
 
   while (len > 0) {
     fread(&id, 4, 1, fp);
@@ -383,7 +390,10 @@ void Hairs::reader(void *_lwo, Http *http)
     len -= 4;
     fread(&l, 4, 1, fp); len -= 4;
     SWAPL(&l, tmp);
-    if (l > len) { trace(DBG_MOD, "bad size: end after EOF (id=%s),l=%d len=%d",sid,l,len); /*return;*/ }
+    if (l > len) {
+      error("bad size: end after EOF (id=%s), l=%d len=%d", sid, l, len);
+      /*return;*/
+    }
     //echo("chunk: %x(%s) size=%d",id,sid,l);
     len -= l;
 
@@ -437,7 +447,10 @@ void Hairs::reader(void *_lwo, Http *http)
         fread(&id,4,1,fp); l -= 4;
         fread(&ll,4,1,fp); l -= 4;
         SWAPL(&ll, tmp);
-        if (ll > l) { error("bad chunk: after EOF (id=%s),ll=%d l=%d%x",sid,ll,l); /*return;*/ }
+        if (ll > l) {
+          error("bad chunk: after EOF (id=%s),ll=%d l=%d%x",sid,ll,l);
+          /*return;*/
+        }
         l -= ll;
         //echo("sid=%s l=%d ll=%s", sid, l, ll);
         if (! stringcmp(sid, "FLAG")) { //FLAG
