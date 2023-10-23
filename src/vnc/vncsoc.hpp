@@ -52,11 +52,6 @@ class VNCSoc {
   VNCSoc(const char *_servername, uint16_t _port);
   ///< constructors
 
-#if 1 //unused
-  void PrintInHex(char *buf, int len);
-  ///< Print out the contents of a packet for debugging.
-#endif
-
   signed int connectRFB();
   /**<
    * Connects to the given TCP port.
@@ -69,13 +64,16 @@ class VNCSoc {
   ///< sets a socket into non-blocking mode.
 
   bool readRFB(char *out, uint32_t n);
-  ///< Read bytes from the sever and stores it in the buffer
+  ///< Read bytes from the server and stores it in the buffer
 
   bool writeExact(char *buf, int n);
   ///< Write an exact number of bytes, and don't return until you've sent them.
 
   int getSock();
   ///< get the socket used
+
+  //notused void PrintInHex(char *buf, int len);
+  //notused ///< Print out the contents of a packet for debugging.
 };
 
 #endif

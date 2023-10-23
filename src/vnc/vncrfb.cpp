@@ -67,7 +67,7 @@ bool VNCRFB::connectRFB()
 {
   int sock = vncsock.connectRFB();
   if (sock < 0) {
-    error("connectRFB: unable to connect to RFB");
+    error("connectRFB: unable to connect");
     return false;
   }
   return vncsock.setBlocking();
@@ -82,7 +82,7 @@ bool VNCRFB::initRFB()
   uint32_t authScheme, reasonLen, authResult;
   uint8_t challenge[CHALLENGESIZE];
 
-  trace(DBG_VNC, "initRFB: initializing RFB connection");
+  //echo("initRFB: initializing RFB connection");
 
   if (!vncsock.readRFB(pv, sz_rfbProtocolVersionMsg))
     return false;
@@ -93,8 +93,7 @@ bool VNCRFB::initRFB()
     error("initRFB: not a valid RFB version");
     return false;
   }
-  trace(DBG_VNC, "initRFB: VNC server supports protocol version %d.%d (viewer %d.%d)",
-	major, minor, rfbProtocolMajorVersion, rfbProtocolMinorVersion);
+  //echo("initRFB: VNC server supports protocol version %d.%d (viewer %d.%d)", major, minor, rfbProtocolMajorVersion, rfbProtocolMinorVersion);
 
   major = rfbProtocolMajorVersion;
   minor = rfbProtocolMinorVersion;
@@ -121,7 +120,7 @@ bool VNCRFB::initRFB()
     return false;
 
   case rfbNoAuth:
-    trace(DBG_VNC, "No authentication needed");
+    //echo("No authentication needed");
     break;
 
   case rfbVncAuth:
@@ -151,7 +150,7 @@ bool VNCRFB::initRFB()
     authResult = swap32(authResult);
     switch (authResult) {
     case rfbVncAuthOK:
-      trace(DBG_VNC, "initRFB: VNC authentication succeeded");
+      //echo("initRFB: VNC authentication succeeded");
       break;
     case rfbVncAuthFailed:
       error("initRFB: VNC authentication failed");
@@ -197,7 +196,7 @@ bool VNCRFB::initRFB()
 
   echo("initRFB: connected to VNC server, using protocol version %d.%d",
 	rfbProtocolMajorVersion, rfbProtocolMinorVersion);
-  trace(DBG_VNC, "initRFB: VNC server default format:");
+  //echo("initRFB: VNC server default format:");
   printPixelFormat(&si.format);
   return true;
 }
@@ -224,7 +223,7 @@ bool VNCRFB::setFormatAndEncodings()
   se->nEncodings = 0;
 
   if (vncsock.sameMachine()) {
-    trace(DBG_VNC, "same machine: preferring raw encoding");
+    //echo("same machine: preferring raw encoding");
     encs[se->nEncodings++] = swap32(rfbEncodingRaw);
   }
   encs[se->nEncodings++] = swap32(rfbEncodingCopyRect);
@@ -326,23 +325,20 @@ void VNCRFB::setVisual()
 void VNCRFB::printPixelFormat(rfbPixelFormat *format)
 {
   if (format->bitsPerPixel == 1) {
-    trace(DBG_VNC, " Single bit per pixel");
-    trace(DBG_VNC, " %s significant bit in each byte is leftmost on the screen",
-	  (format->bigEndian ? "Most" : "Least"));
+    //echo(" Single bit per pixel");
+    //echo(" %s significant bit in each byte is leftmost on the screen", (format->bigEndian ? "Most" : "Least"));
   }
   else {
-    trace(DBG_VNC, " %d bits per pixel", format->bitsPerPixel);
+    //echo(" %d bits per pixel", format->bitsPerPixel);
     if (format->bitsPerPixel != 8) {
-      trace(DBG_VNC, " %s significant byte first in each pixel",
-	    (format->bigEndian ? "Most" : "Least"));
+      //echo(" %s significant byte first in each pixel", (format->bigEndian ? "Most" : "Least"));
     }
     if (format->trueColour) {
-      trace(DBG_VNC, " True color: max red %d green %d blue %d, shift red %d green %d blue %d",
-	    format->redMax, format->greenMax, format->blueMax,
-	    format->redShift, format->greenShift, format->blueShift);
+      //echo(" True color: max red %d green %d blue %d, shift red %d green %d blue %d", format->redMax, format->greenMax, format->blueMax, format->redShift, format->greenShift, format->blueShift);
     }
-    else
-      trace(DBG_VNC, " Color map (not true color)");
+    else {
+      //echo(" Color map (not true color)");
+    }
   }
 }
 

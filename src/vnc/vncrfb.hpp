@@ -645,15 +645,15 @@ class VNCRFB {
 
   VNCSoc vncsock;
 
-  VNCRFB(char *ServeurName, int Port, char *pswdFile);
-#if 0 //not used
+  VNCRFB(char *Servername, int Port, char *pswdFile);
+#if 0 //notused
   VNCRFB();
-  VNCRFB(char *serveurname, int port);
+  VNCRFB(char *servername, int port);
   VNCRFB(unsigned int IPAddr, int Port, char *pswdfile);
 #endif
   ///< constructors
 
-#if 0 //not used
+#if 0 //notused
   char **Encodings;
   ///< could be used to ask the best encoding for the client.
 #endif

@@ -247,6 +247,7 @@ int VNCSoc::getSock()
   return rfbsock;
 }
 
+#if 0 //notused
 /*
  * Print out the contents of a packet for debugging.
  */
@@ -278,3 +279,4 @@ void VNCSoc::PrintInHex(char *buf, int len)
   }
   fflush(stderr);
 }
+#endif //notused
