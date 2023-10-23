@@ -249,8 +249,12 @@ void Lwo::httpReader(void *alwo, Http *http)
       default: file->skip(f, nbytes + nbytes%2);
     }
   }
-  cache->close();
-  delete cache;
+  if (file) {
+    file->close();
+    delete file;
+    cache->close();
+    delete cache;
+  }
   return;
 }
 

@@ -78,6 +78,8 @@ void Md2::httpReader(void *_md2, Http *http)
   if (f) {
     File *file = new(File);
     md2->readFile(file, f);	// from cache
+    file->close();
+    delete file;
   }
 #if 0 //notused
   else {
@@ -85,8 +87,10 @@ void Md2::httpReader(void *_md2, Http *http)
     md2->readHttp(http);
   }
 #endif //notused
-  cache->close();
-  delete cache;
+  if (cache) {
+    cache->close();
+    delete cache;
+  }
 }
 
 /** Md2 model filereader */
