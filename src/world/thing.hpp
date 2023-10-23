@@ -76,10 +76,8 @@ class Thing: public WO {
   static WO * (creator)(char *l);
   /**< Creates from a file */
 
-#if 0 //unused
-  void changePermanent(float lasting);
-  /**< Permanent movement */
-#endif
+  //notused void changePermanent(float lasting);
+  //notused /**< Permanent movement */
 
   void updateTime(time_t s, time_t us, float *lasting);
   /**< Updates lasting time */

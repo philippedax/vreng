@@ -506,7 +506,7 @@ void Guy::render()
    glRotatef(RAD2DEG(pos.az), 0, 0, 1);
    glRotatef(90 + RAD2DEG(pos.ax), 1, 0, 0);	// stand up
 
-#if 0 //dax - unused
+#if 0 //notused
    float dx, dz;
    static       float rot = M_PI/2;
    static const float da = 72;
@@ -522,7 +522,7 @@ void Guy::render()
      glTranslatef(-dx, -dz, 0);
      glRotatef(RAD2DEG(rot), 0, 1, 0);
    }
-#endif
+#endif //notused
 
    display_bust();
    display_neck();
