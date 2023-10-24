@@ -46,25 +46,22 @@ struct bmp_header {
 
 
 /** Load a 24bpp BMP image */
-Img * Img::loadBMP(void *tex, ImageReader read_func)
+Img * Img::loadBMP(void *_tex, ImageReader read_func)
 {
-  int32_t width, height;
-  int32_t file_size, data_offset, image_size;
-  int16_t compression, bit_count;
-  int magic1, magic2;
+  struct bmp_header h;
 
-  Texture *texture = (Texture *) tex;
+  Texture *tex = (Texture *) _tex;
 
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   /* we read the header */
   Reader *ir = new Reader(tex, read_func);
 
-  magic1 = getc(f); magic2 = getc(f);
-  if (magic1 != 'B' || magic2 != 'M') {
-    error("LoadBMP: %s not a bmp file magic=%c%c", ir->getFilename(tex), magic1, magic2);
+  h.magic1 = getc(f); h.magic2 = getc(f);
+  if (h.magic1 != 'B' || h.magic2 != 'M') {
+    error("LoadBMP: %s not a bmp file magic=%c%c", ir->getFilename(tex), h.magic1, h.magic2);
     cache->close();
     delete cache;
     return NULL;
@@ -72,47 +69,47 @@ Img * Img::loadBMP(void *tex, ImageReader read_func)
 
   fseek(f, 4L, SEEK_CUR);	// reserved and ignored
   fseek(f, 4L, SEEK_CUR);	// file_size wrong
-  data_offset = ir->getUInt(f);
+  h.data_offset = ir->getUInt(f);
   fseek(f, 4L, SEEK_CUR);	// header_size
-  width = ir->getUInt(f);
-  height = ir->getUInt(f);
+  h.width = ir->getUInt(f);
+  h.height = ir->getUInt(f);
   fseek(f, 2L, SEEK_CUR);	// planes
-  bit_count = ir->getShort(f);
-  if (bit_count != 24) {
-    error("loadBMP: don't support %d bpp", bit_count);
+  h.bit_count = ir->getShort(f);
+  if (h.bit_count != 24) {
+    error("loadBMP: don't support %d bpp", h.bit_count);
     cache->close();
     delete cache;
     return NULL;
   }
-  compression = ir->getUInt(f);
-  if (compression != 0) {
+  h.compression = ir->getUInt(f);
+  if (h.compression != 0) {
     error("loadBMP: compression not supported");
     cache->close();
     delete cache;
     return NULL;
   }
-  image_size = ir->getUInt(f);
+  h.image_size = ir->getUInt(f);
   fseek(f, 0L, 2);
-  file_size = ftell(f);
-  if (image_size == 0) {
-    image_size = file_size - data_offset;
+  h.file_size = ftell(f);
+  if (h.image_size == 0) {
+    h.image_size = h.file_size - h.data_offset;
   }
 
   delete ir;
 
-  trace(DBG_2D, "loadBMP: w=%d h=%d c=%d s=%d", width, height, bit_count, image_size);
+  trace(DBG_2D, "loadBMP: w=%d h=%d c=%d s=%d", h.width, h.height, h.bit_count, h.image_size);
 
-  Img *img = new Img(width, height, Img::RGB);
+  Img *img = new Img(h.width, h.height, Img::RGB);
 
   // we read the data
-  fseek(f, (long) data_offset, 0);
-  fread((char *) img->pixmap, 1, image_size, f);
+  fseek(f, (long) h.data_offset, 0);
+  fread((char *) img->pixmap, 1, h.image_size, f);
 
   cache->close();
   delete cache;
 
   //Inverse R et B
-  for (int i=0; i < width*height ; i++) {
+  for (int i=0; i < h.width*h.height ; i++) {
     uint8_t t = img->pixmap[i*3];
     img->pixmap[i*3] = img->pixmap[i*3+2];
     img->pixmap[i*3+2] = t;
