@@ -108,14 +108,14 @@ void getRow(SgiInfo *sgi, uint8_t *buf, int y, int z)
 }
 
 /** SGI loader */
-Img * Img::loadSGI(void *tex, ImageReader read_func)
+Img * Img::loadSGI(void *_tex, ImageReader read_func)
 {
   SgiInfo *sgi = new SgiInfo[1];
   if (! sgi) return NULL;
 
-  Texture *texture = (Texture *) tex;
+  Texture *tex = (Texture *) _tex;
   Cache *cache = new Cache();
-  if ((sgi->f = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((sgi->f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   fread(sgi, 1, 12, sgi->f); // header
 
