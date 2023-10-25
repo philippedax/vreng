@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "img.hpp"
-#include "reader.hpp"	// Reader
 #include "cache.hpp"	// open, close
 #include "texture.hpp"	// Texture
 
@@ -34,24 +33,23 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
 {
 #if HAVE_LIBTIFF
   // downloads the tiff file and put it into the cache
-  Reader *ir = new Reader(tex, read_func);
 
   Texture *_tex = (Texture *) tex;
   char cachepath[PATH_LEN] = {0};
+
   Cache::setCachePath(_tex->url, cachepath);
   Cache *cache = new Cache();
   FILE *f;
   if ((f = cache->open(cachepath, _tex->http)) == NULL) {
-    delete ir;
+    delete cache;
     return NULL;
   }
   cache->close();
   delete cache;
-  delete ir;
 
   // opens the tiff file
   TIFF *fp;
-  if (! (fp = TIFFOpen(ir->getFilename(tex), "r"))) return NULL;
+  if (! (fp = TIFFOpen(cache->getFilename(tex), "r"))) return NULL;
 
   /* reads the header */
   uint16_t width, height;
@@ -71,7 +69,7 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
 
   // reads the data with the library
   if (! TIFFReadRGBAImage(fp, width, height, tmpImage, 0)) {
-    error("loadTIF: error reading file %s", ir->getFilename(tex));
+    error("loadTIF: error reading file %s", cache->getFilename(tex));
     return NULL;
   }
 
