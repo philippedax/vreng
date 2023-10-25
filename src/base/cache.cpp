@@ -26,6 +26,7 @@
 #include "env.hpp"	// ::g.env.cache
 #include "pref.hpp"	// ::g.pref.refresh
 #include "str.hpp"	// stringcmp
+#include "texture.hpp"	// Texture
 #include "wget.hpp"	// start
 #include "stat.hpp"	// new_cache, del_cache
 
@@ -250,6 +251,15 @@ bool Cache::inCache(const char *url)
   }
   delete[] cachepath;
   return false;
+}
+
+char * Cache::getFilename(void *_tex)
+{
+  static char filepath[PATH_LEN] = {0};
+  Texture *tex = (Texture *) _tex;
+
+  setCachePath(tex->url, filepath);
+  return filepath;
 }
 
 int Cache::download(const char *_url, char *filename, const char arg[])

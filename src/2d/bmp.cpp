@@ -22,7 +22,6 @@
 #include "img.hpp"
 #include "cache.hpp"	// open, close
 #include "texture.hpp"	// Texture
-#include "reader.hpp"	// Reader
 
 
 struct bmp_header {
@@ -56,12 +55,11 @@ Img * Img::loadBMP(void *_tex, ImageReader read_func)
   FILE *f;
   if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
-  /* we read the header */
-  Reader *ir = new Reader(tex, read_func);
-
-  h.magic1 = getc(f); h.magic2 = getc(f);
+  h.magic1 = cache->read_char(f);
+  h.magic2 = cache->read_char(f);
   if (h.magic1 != 'B' || h.magic2 != 'M') {
-    error("LoadBMP: %s not a bmp file magic=%c%c", ir->getFilename(tex), h.magic1, h.magic2);
+    error("LoadBMP: %s not a bmp file magic=%c%c", cache->getFilename(tex), h.magic1, h.magic2);
+errbmp:
     cache->close();
     delete cache;
     return NULL;
@@ -69,35 +67,29 @@ Img * Img::loadBMP(void *_tex, ImageReader read_func)
 
   fseek(f, 4L, SEEK_CUR);	// reserved and ignored
   fseek(f, 4L, SEEK_CUR);	// file_size wrong
-  h.data_offset = ir->getUInt(f);
+  h.data_offset = cache->read_long(f);
   fseek(f, 4L, SEEK_CUR);	// header_size
-  h.width = ir->getUInt(f);
-  h.height = ir->getUInt(f);
+  h.width = cache->read_long(f);
+  h.height = cache->read_long(f);
   fseek(f, 2L, SEEK_CUR);	// planes
-  h.bit_count = ir->getShort(f);
+  h.bit_count = cache->read_short(f);
   if (h.bit_count != 24) {
     error("loadBMP: don't support %d bpp", h.bit_count);
-    cache->close();
-    delete cache;
-    return NULL;
+    goto errbmp;
   }
-  h.compression = ir->getUInt(f);
+  h.compression = cache->read_long(f);
   if (h.compression != 0) {
     error("loadBMP: compression not supported");
-    cache->close();
-    delete cache;
-    return NULL;
+    goto errbmp;
   }
-  h.image_size = ir->getUInt(f);
-  fseek(f, 0L, 2);
+  h.image_size = cache->read_long(f);
+  fseek(f, 0L, SEEK_END);
   h.file_size = ftell(f);
   if (h.image_size == 0) {
     h.image_size = h.file_size - h.data_offset;
   }
 
-  delete ir;
-
-  trace(DBG_2D, "loadBMP: w=%d h=%d c=%d s=%d", h.width, h.height, h.bit_count, h.image_size);
+  //echo("loadBMP: w=%d h=%d c=%d s=%d", h.width, h.height, h.bit_count, h.image_size);
 
   Img *img = new Img(h.width, h.height, Img::RGB);
 

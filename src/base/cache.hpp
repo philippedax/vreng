@@ -21,16 +21,14 @@
 #ifndef CACHE_HPP
 #define CACHE_HPP
 
+#include "file.hpp"	///< File
 #include <string>
+
 
 /**
  * Cache class
  */
-
-class Http;
-class File;
-
-class Cache {
+class Cache : public File {
 
  private:
   File *filein;		///< filein instance
@@ -40,13 +38,12 @@ class Cache {
   Cache();
   virtual ~Cache();
 
+  char * getFilename(void *tex);
+
   static int setCachePath(const char *url, char *cachepath);
   ///< Sets cache path from url.
 
-  FILE * open(const char *url, Http *http);
-  ///< Saves file into cache and opens it.
-
-  static FILE * openCache(const char *url, Http *http);
+  FILE * open(const char *url, class Http *http);
   ///< Saves file into cache and opens it.
 
   void close();
@@ -54,6 +51,9 @@ class Cache {
 
   static void closeCache(FILE *fp);
   ///< Closes file into cache.
+
+  static FILE * openCache(const char *url, class Http *http);
+  ///< Saves file into cache and opens it.
 
   static bool inCache(const char *url);
   ///< Checks whether url is cached.
@@ -69,7 +69,6 @@ class Cache {
 
   static int check(const char *url);
   ///< Checks url existence.
-
 };
 
 #endif
