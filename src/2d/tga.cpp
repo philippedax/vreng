@@ -161,10 +161,8 @@ void Img::saveTGA(const char *filename, GLint width, GLint height, const GLubyte
     fputc(24, f);  /* Pixel Depth, 0x18 => 24 Bits */
     fputc(0x20, f); /* Image Descriptor */
     file->close();
-    delete file;
 
-    File *fileout = new File();
-    f = fileout->open(filename, "ab");  /* reopen in binary append mode */
+    f = file->open(filename, "ab");  /* reopen in binary append mode */
     for (int y=height-1 ; y>=0; y--) {
       for (int x=0; x<width; x++) {
         int i = (y*width + x) * 4;
@@ -173,7 +171,7 @@ void Img::saveTGA(const char *filename, GLint width, GLint height, const GLubyte
         fputc(pdata[i], f);   /* write red */
       }
     }
-    fileout->close();
-    delete fileout;
+    file->close();
+    delete file;
   }
 }

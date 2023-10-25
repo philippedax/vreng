@@ -26,13 +26,13 @@
 #include "glpng.hpp"	// pngLoadF
 
 
-Img * Img::loadPNG(void *tex, ImageReader read_func)
+Img * Img::loadPNG(void *_tex, ImageReader read_func)
 {
-  Texture *texture = (Texture *) tex;
+  Texture *tex = (Texture *) _tex;
 
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   pngRawInfo rawinfo;
 
