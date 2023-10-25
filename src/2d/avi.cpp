@@ -258,9 +258,9 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
     /* Read tag and length */
     if (fread(&tag, 4, 1, fp) != 1 ||
         fread(&n  , 4, 1, fp) != 1 ) {
-      //error("avi: read error");
+      error("avi: read error");
       fp = NULL;
-      return 0;
+      return -1;
     }
 #if WORDS_BIGENDIAN
     char tmp;
@@ -414,8 +414,11 @@ void Avi::open_output_file(const char *filename)
   char c[DATASTART-12];
 
   File *file = new File();
-  fp = file->open(filename, "wb+");//O_RDWR|O_CREAT|O_TRUNC,0600);
-  if (fp == NULL) { error("open"); return; }
+  fp = file->open(filename, "wb+");	//O_RDWR|O_CREAT|O_TRUNC,0600);
+  if (fp == NULL) {
+    error("open");
+    return;
+  }
 
   /* Set it nonblocking */
   //i = fcntl(fp, F_SETFL, O_NONBLOCK);
@@ -600,13 +603,16 @@ void Avi::add_frame(const char *jpeg_data, int length)
   outlong(length);
 
   int nw = fwrite(jpeg_data, length, 1, fp);
-  if (nw != 1) { perror("write"); return; }
+  if (nw != 1) {
+    perror("write");
+    return;
+  }
   frames++;
 }
 
 void Avi::add_audio(const char *audio_data, int length)
 {
-  if (n_idx >= MAXIDX) {echo("IDX"); return;}
+  if (n_idx >= MAXIDX) { echo("IDX"); return; }
   idx[n_idx  ] = MAKEFOURCC('0','1','w','b');
   idx[n_idx+1] = 0x00; /* RJ: No idea what that means */
   idx[n_idx+2] = ftell(fp);
@@ -616,6 +622,9 @@ void Avi::add_audio(const char *audio_data, int length)
   outlong(length);
 
   int nw = fwrite(audio_data, length, 1, fp);
-  if (nw != 1) { perror("write"); return; }
+  if (nw != 1) {
+    perror("write");
+    return;
+  }
   audio_samples += length;
 }
