@@ -69,7 +69,7 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
   File *file = new File();
   FILE *f = file->open(filename, "wb");
   if (!f) {
-    error("savePNG: File could not be opened for writing"); return;
+    error("savePNG: file could not be opened for writing"); return;
   }
 
   image = (GLubyte *) malloc(width * height * sizeof(GLubyte) * 3);
