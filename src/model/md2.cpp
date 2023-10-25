@@ -81,12 +81,12 @@ void Md2::httpReader(void *_md2, Http *http)
     file->close();
     delete file;
   }
-#if 0 //notused
   else {
     error("can't read %s", md2->getUrl());
+#if 0 //notused
     md2->readHttp(http);
-  }
 #endif //notused
+  }
   if (cache) {
     cache->close();
     delete cache;
