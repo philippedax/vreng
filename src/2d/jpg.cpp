@@ -110,16 +110,16 @@ static void my_error_exit(j_common_ptr cinfo)
 #endif //!HAVE_LIBJPEG
 
 
-Img * Img::loadJPG(void *tex, ImageReader read_func)
+Img * Img::loadJPG(void *_tex, ImageReader read_func)
 {
 #if HAVE_LIBJPEG
   struct jpeg_decompress_struct cinfo;
 
-  Texture *texture = (Texture *) tex;
+  Texture *tex = (Texture *) _tex;
 
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   /* error handling */
   struct my_error_mgr jerr;
@@ -184,7 +184,7 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
   /* Step 2: specify data destination (eg, a file) */
   File *file = new File();
   if ((outfile = file->open(filename, "wb")) == NULL) {
-    error("can't open %s", filename); return;
+    error("can't open %s for writing", filename); return;
   }
   jpeg_stdio_dest(&cinfo, outfile);
 
@@ -209,6 +209,7 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
   /* Step 6: Finish compression */
   jpeg_finish_compress(&cinfo);
   file->close();
+  delete file;
 
   /* Step 7: release JPEG compression object */
   jpeg_destroy_compress(&cinfo);
