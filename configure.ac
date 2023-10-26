@@ -1319,6 +1319,32 @@ fi
 
 # --------------------------------------------------------------------------
 #
+# TinyGL configuration
+#
+AC_ARG_WITH([tinygl],
+    AS_HELP_STRING([--with-tinygl],[allow use of libtinygl if available [[default=no]]]))
+
+am_libtinygl="no"
+AH_TEMPLATE(HAVE_LIBTINYGL)
+if test "${with_tinygl:=yes}" = "yes"; then
+  #
+  # check tinygl
+  #
+  AC_CHECK_LIB([tinygl], [glBegin],
+               [VRELIBS="${OSDEP_LIBS} -l${libtinygl} ${VRELIBS}"],
+               [AC_MSG_RESULT([	use embedded tinygl ])],
+               [${OSDEP_LIBS}])
+  if test $ac_cv_lib_tinygl_glBegin = "yes" ; then
+    AC_DEFINE(HAVE_LIBTINYGL)
+  else
+    am_libtinygl="yes"
+    AC_DEFINE(HAVE_LIBTINYGL)
+  fi
+fi
+
+
+# --------------------------------------------------------------------------
+#
 # SQLlite configuration
 #
 AC_ARG_WITH([sqlite],
@@ -1837,6 +1863,7 @@ AM_CONDITIONAL(ENABLE_VAPS,    test "$am_vaps" = "yes")
 AM_CONDITIONAL(ENABLE_VJS,     test "$am_vjs" = "yes")
 AM_CONDITIONAL(ENABLE_GL2PS,   test "$am_gl2ps" = "yes")
 AM_CONDITIONAL(ENABLE_LIBMPEG, test "$am_libmpeg" = "yes")
+AM_CONDITIONAL(ENABLE_LIBTINYGL, test "$am_libtinygl" = "yes")
 AM_CONDITIONAL(ENABLE_FTGL,    test "$am_ftgl" = "yes")
 AM_CONDITIONAL(ENABLE_GLUI,    test "$am_glui" = "yes")
 
@@ -1866,6 +1893,7 @@ AC_CONFIG_FILES([
         src/ext/ftgl/Makefile
         src/ext/xmlParser/Makefile
         src/ext/gl2ps/Makefile
+        src/ext/TinyGL/Makefile
         src/utils/Makefile
         src/utils/vrl/Makefile
         src/utils/vrel/Makefile

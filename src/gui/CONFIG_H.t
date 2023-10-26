@@ -274,6 +274,9 @@ const char CONFIG_H[] = "\
 #define HAVE_LIBTIFF 1\n\
 \n\
 /* */\n\
+/* #undef HAVE_LIBTINYGL */\n\
+\n\
+/* */\n\
 #define HAVE_LIBX11 1\n\
 \n\
 /* */\n\
