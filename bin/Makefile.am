@@ -41,49 +41,49 @@ bin_SCRIPTS = vre
 noinst_SCRIPTS =
 
 # to copy into bin/
-if ENABLE_VRL
+if AM_VRL
 vrl: $(SRCDIR)/utils/vrl/vrl
 	@-cp -p $(SRCDIR)/utils/vrl/vrl .
 else
 vrl:
 	@echo "" >/dev/null
 endif
-if ENABLE_VREL
+if AM_VREL
 vrel: $(SRCDIR)/utils/vrel/vrel
 	@-cp -p $(SRCDIR)/utils/vrel/vrel .
 else
 vrel:
 	@echo "" >/dev/null
 endif
-if ENABLE_VRED
+if AM_VRED
 vred: $(SRCDIR)/utils/vred/vred
 	@-cp -p $(SRCDIR)/utils/vred/vred .
 else
 vred:
 	@echo "" >/dev/null
 endif
-if ENABLE_VACS
+if AM_VACS
 vacs: $(SRCDIR)/servers/vacs/vacs
 	@-cp -p $(SRCDIR)/servers/vacs/vacs .
 else
 vacs:
 	@echo "" >/dev/null
 endif
-if ENABLE_VAPS
+if AM_VAPS
 vaps: $(SRCDIR)/servers/vaps/vaps
 	@-cp -p $(SRCDIR)/servers/vaps/vaps .
 else
 vaps:
 	@echo "" >/dev/null
 endif
-if ENABLE_VJS
+if AM_VJS
 vjs: $(SRCDIR)/servers/vjs/vjs
 	@-cp -p $(SRCDIR)/servers/vjs/vjs .
 else
 vjs:
 	@echo "" >/dev/null
 endif
-if ENABLE_VMM
+if AM_VMM
 vmm: $(SRCDIR)/servers/vmm/vmm
 	@-cp -p $(SRCDIR)/servers/vmm/vmm .
 	chmod 755 vmm
@@ -96,7 +96,7 @@ endif
 CORE_CFLAGS = -I$(SRCDIR) -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/3d -I$(SRCDIR)/model -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
 
 # ocaml includes
-if ENABLE_OCAML
+if AM_OCAML
 AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ $(CORE_CFLAGS)
 else
 AM_CPPFLAGS = @UBIT_CFLAGS@ $(CORE_CFLAGS)
@@ -108,16 +108,16 @@ EXT_LIB = $(PNG_LIB) $(Z_LIB)
 
 # embedded libraries
 XML_LIB   = -L$(SRCDIR)/ext/xmlParser $(SRCDIR)/ext/xmlParser/libxmlparser.a
-if ENABLE_LIBMPEG
+if AM_LIBMPEG
 MPEG_LIB  = -L$(SRCDIR)/ext/mpeg_lib $(SRCDIR)/ext/mpeg_lib/libmpeg.a
 endif
-if ENABLE_FTGL
+if AM_FTGL
 FTGL_LIB  = -L$(SRCDIR)/ext/ftgl $(SRCDIR)/ext/ftgl/libftgl.a
 endif
-if ENABLE_GLUI
+if AM_GLUI
 GLUI_LIB  = -L$(SRCDIR)/ext/glui $(SRCDIR)/ext/glui/libglui.a
 endif
-if ENABLE_GL2PS
+if AM_GL2PS
 GL2PS_LIB = -L$(SRCDIR)/ext/gl2ps $(SRCDIR)/ext/gl2ps/libgl2ps.a
 endif
 
@@ -132,7 +132,7 @@ MODEL_LIB = -L$(SRCDIR)/model $(SRCDIR)/model/libmodel.a
 TOOL_LIB  = -L$(SRCDIR)/tool  $(SRCDIR)/tool/libtool.a
 VNC_LIB   = -L$(SRCDIR)/vnc   $(SRCDIR)/vnc/libvnc.a
 UBIT_LIB  = -L$(SRCDIR)/ubit  $(SRCDIR)/ubit/libubit.a
-if ENABLE_OCAML
+if AM_OCAML
 AI_LIB    = -L$(SRCDIR)/ai    $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
 endif
 

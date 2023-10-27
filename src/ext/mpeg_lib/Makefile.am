@@ -8,7 +8,7 @@ MPEG_HDRS = decoders.h dither.h fs2.h fs4.h globals.h mpeg.h my_dmalloc.h proto.
 
 AM_CPPFLAGS = -I$(top_srcdir)
 
-if ENABLE_LIBMPEG
+if AM_LIBMPEG
 noinst_LIBRARIES = libmpeg.a
 libmpeg_a_SOURCES = $(MPEG_SRCS) $(MPEG_HDRS)
 endif

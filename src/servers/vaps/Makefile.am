@@ -30,7 +30,7 @@ EXTRA_DIST = $(VAPS_SRCS) vaps.8
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(SRCDIR)/base
 
-if ENABLE_VAPS
+if AM_VAPS
 vaps_SOURCES = $(VAPS_SRCS)
 bin_PROGRAMS = vaps
 endif

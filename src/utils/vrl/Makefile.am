@@ -11,7 +11,7 @@ VRL_HDRS = vrl.hpp vre.hpp global.hpp
 EXTRA_DIST = vrl.l vrl.y
 
 
-if ENABLE_VRL
+if AM_VRL
 
 AM_CPPFLAGS = -I$(top_srcdir)/src/base
 

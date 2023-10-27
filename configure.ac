@@ -29,7 +29,7 @@
 AC_INIT([vreng],[9.4.3],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
-#AC_PREREQ([2.69])
+#AC_PREREQ([2.71])
 
 AC_CONFIG_SRCDIR([src/base/vreng.cpp])
 
@@ -74,7 +74,6 @@ AC_PROG_CXX
 AC_PROG_CXXCPP
 AC_SEARCH_LIBS([strerror],[cposix])
 AC_PROG_GCC_TRADITIONAL
-AC_PROG_LEX
 AC_PROG_YACC
 
 AH_TEMPLATE(GCC_VERSION, [gcc version])
@@ -459,10 +458,8 @@ AC_CHECK_LIB([m], [sqrt])
 # Check headers
 #
 AC_INCLUDES_DEFAULT([])
-AC_HEADER_STDC
 AC_HEADER_STDBOOL
 AC_HEADER_DIRENT
-AC_HEADER_TIME
 AC_HEADER_RESOLV
 AC_HEADER_STAT
 AC_HEADER_ASSERT
@@ -554,17 +551,18 @@ fi
 #
 am_ipv6="no"
 AC_ARG_ENABLE(ipv6,
-              AS_HELP_STRING([--enable-ipv6],[allow use of ipv6 if available [[default=no]]]))
+              AS_HELP_STRING([--enable-ipv6],
+              [allow use of ipv6 if available [[default=no]]]))
 
 AH_TEMPLATE(HAVE_IPV6)
 if test "${enable_ipv6:=no}" = "yes"; then
   am_ipv6="yes"
   AC_MSG_CHECKING(IPv6 support)
   AC_EGREP_HEADER(sockaddr_in6, netinet/in.h,
-        [
-    	AC_MSG_RESULT(yes)
-    	AC_DEFINE(HAVE_IPV6)
-	])
+                  [
+    	          AC_MSG_RESULT(yes)
+    	          AC_DEFINE(HAVE_IPV6)
+	          ])
 fi
 
 
@@ -575,7 +573,8 @@ fi
 #
 AC_MSG_CHECKING(if standalone is enabled)
 AC_ARG_ENABLE(standalone,
-              AS_HELP_STRING([--enable-standalone],[allow use without network connectivity [[default=no]]]))
+              AS_HELP_STRING([--enable-standalone],
+              [allow use without network connectivity [[default=no]]]))
 
 if test "${enable_standalone:=no}" = "yes"; then
   CFLAGS="${CFLAGS} -DSTANDALONE"
@@ -589,7 +588,8 @@ if test "${enable_standalone}" = "yes"; then
   AH_TEMPLATE(DEF_URL_PFX)
   AC_MSG_CHECKING(if localhost httpd prefix is defined)
   AC_ARG_WITH(httpd_prefix,
-              AS_HELP_STRING([--with-httpd-prefix=[DIR]],[prefix relative to the localhost httpd root directory where are located vreng data]))
+              AS_HELP_STRING([--with-httpd-prefix=[DIR]],
+                             [prefix relative to the localhost httpd root directory where are located vreng data]))
   if test "${with_httpd_prefix}" != ""; then
     AC_DEFINE_UNQUOTED(DEF_URL_PFX, ["${with_httpd_prefix}"]) 
     AC_MSG_RESULT(yes -> "${with_httpd_prefix}")
@@ -607,7 +607,8 @@ fi
 am_vrl="no"
 AC_MSG_CHECKING(if vrl is enabled)
 AC_ARG_ENABLE(vrl,
-              AS_HELP_STRING([--enable-vrl],[allow use of vrl [[default=no]]]))
+              AS_HELP_STRING([--enable-vrl],
+              [allow use of vrl [[default=no]]]))
 
 if test "${enable_vrl:=no}" = "yes"; then
   am_vrl="yes"
@@ -626,7 +627,8 @@ fi
 am_vrel="no"
 AC_MSG_CHECKING(if vrel is enabled)
 AC_ARG_ENABLE(vrel,
-              AS_HELP_STRING([--enable-vrel],[allow use of vrel [[default=no]]]))
+              AS_HELP_STRING([--enable-vrel],
+              [allow use of vrel [[default=no]]]))
 
 if test "${enable_vrel:=no}" = "yes"; then
   am_vrel="yes"
@@ -645,11 +647,12 @@ fi
 am_vred="no"
 AC_MSG_CHECKING(if vred is enabled)
 AC_ARG_ENABLE(vred,
-              AS_HELP_STRING([--enable-vred],[allow use of vred [[default=no]]]))
+              AS_HELP_STRING([--enable-vred],
+              [allow use of vred [[default=no]]]))
 
 if test "${enable_vred:=no}" = "yes"; then
   am_vred="yes"
-  am_glui="yes"
+  am_libglui="yes"
   CFLAGS="${CFLAGS} -DVRED"
   CXXFLAGS="${CXXFLAGS} -DVRED"
   AC_MSG_RESULT(yes)
@@ -665,7 +668,8 @@ fi
 am_vmm="no"
 AC_MSG_CHECKING(if vmm is enabled)
 AC_ARG_ENABLE(vmm,
-              AS_HELP_STRING([--enable-vmm],[allow use of vmm [[default=no]]]))
+              AS_HELP_STRING([--enable-vmm],
+              [allow use of vmm [[default=no]]]))
 
 if test "${enable_vmm:=no}" = "yes"; then
   am_vmm="yes"
@@ -674,10 +678,9 @@ if test "${enable_vmm:=no}" = "yes"; then
   #
   # Java configuration
   #
-  #AC_CHECK_CLASSPATH
   AC_JAVA_OPTIONS
   AC_PROG_JAVAC
-  AC_PROG_JAVA
+  #AC_PROG_JAVA
   AC_PROG_JAR
 
   AH_TEMPLATE(HAVE_JAVA)
@@ -699,7 +702,8 @@ fi
 am_vaps="no"
 AC_MSG_CHECKING(if vaps is enabled)
 AC_ARG_ENABLE(vaps,
-              AS_HELP_STRING([--enable-vaps],[allow use of vaps server [[default=no]]]))
+              AS_HELP_STRING([--enable-vaps],
+              [allow use of vaps server [[default=no]]]))
 
 if test "${enable_vaps:=no}" = "yes"; then
   am_vaps="yes"
@@ -719,7 +723,8 @@ am_vjs="no"
 am_java="yes"
 AC_MSG_CHECKING(if vjs is enabled)
 AC_ARG_ENABLE(vjs,
-              AS_HELP_STRING([--enable-vjs],[allow use of vjs server [[default=no]]]))
+              AS_HELP_STRING([--enable-vjs],
+              [allow use of vjs server [[default=no]]]))
 
 if test "${enable_vjs:=no}" = "yes"; then
   am_vjs="yes"
@@ -729,10 +734,9 @@ if test "${enable_vjs:=no}" = "yes"; then
   #
   # Java configuration
   #
-  #AC_CHECK_CLASSPATH
   AC_JAVA_OPTIONS
   AC_PROG_JAVAC
-  AC_PROG_JAVA
+  #AC_PROG_JAVA
   AC_PROG_JAR
 
   AH_TEMPLATE(HAVE_JAVA)
@@ -754,7 +758,8 @@ fi
 am_vacs="no"
 AC_MSG_CHECKING(if vacs is enabled)
 AC_ARG_ENABLE(vacs,
-              AS_HELP_STRING([--enable-vacs],[allow use of vacs server [[default=no]]]))
+              AS_HELP_STRING([--enable-vacs],
+              [allow use of vacs server [[default=no]]]))
 
 if test "${enable_vacs:=no}" = "yes"; then
   am_vacs="yes"
@@ -823,7 +828,7 @@ AC_DEFUN([AC_X11_CHECK],
 #
 AC_DEFUN([AC_GLUT_CHECK],
 [ 
-am_glut="no"
+am_libglut="no"
 AH_TEMPLATE(HAVE_LIBGLUT)
 
 case "`$ac_config_sub $build`" in
@@ -876,7 +881,7 @@ case "`$ac_config_sub $build`" in
   ;;
 esac
 AC_DEFINE(HAVE_LIBGLUT)
-am_glut="yes"
+am_libglut="yes"
 
 CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
 ])
@@ -902,7 +907,7 @@ LDFLAGS="$X_LDFLAGS $X_LIBS"
 AC_CHECK_LIB([Xpm], [XpmReadFileToXpmImage],
 	     [VRELIBS="-lXpm $VRELIBS"],
              [AC_MSG_WARN([Xpm library not found, check config.log!,
-              Ubit needs Xpm, get http://koala.ilog.fr/ftp/pub/xpm or try apt|dnf|yum|brew install libXpm-devel | apt-get install libxpm-dev])],
+                          Ubit needs Xpm, get http://koala.ilog.fr/ftp/pub/xpm or try apt|dnf|yum|brew install libXpm-devel | apt-get install libxpm-dev])],
              [$X_LIBS $x_libs])
 AH_TEMPLATE(HAVE_LIBXPM)
 if test "$ac_cv_lib_Xpm_XpmReadFileToXpmImage" = "yes"; then
@@ -929,7 +934,7 @@ else
   AC_CHECK_LIB([gif], [DGifOpenFileName],
                [VRELIBS="$OSDEP_LIBS -lgif $VRELIBS"],
                [AC_MSG_WARN([gif library not found, check config.log!,
-	       get ftp://prtr-13.ucsc.edu/pub/libungif/ or try apt|dnf|yum|brew install giflib-devel | apt-get install libgif-dev giflib-tools])],
+	                    get ftp://prtr-13.ucsc.edu/pub/libungif/ or try apt|dnf|yum|brew install giflib-devel | apt-get install libgif-dev giflib-tools])],
                [$OSDEP_LIBS])
   if test "$ac_cv_lib_gif_DGifOpenFileName" = "yes"; then
     AC_DEFINE(HAVE_LIBGIF)
@@ -1109,7 +1114,7 @@ if test "$ac_cv_use_ubit_builtin" = "no"; then
 
   UBIT_CFLAGS=$UBIT_I
   am_ubit="no"
-  am_ftgl="no"
+  am_libftgl="no"
   toolkit="ubit-$UBIT_VERSION"
 else
   # Use builtin ubit
@@ -1118,7 +1123,7 @@ else
   UBIT_CFLAGS=$UBIT_I
   VRELIBS="$X_LIBS -lXpm -lICE -lSM -lXext -lXmu -lX11 $VRELIBS"
   am_ubit="yes"
-  am_ftgl="yes"
+  am_libftgl="yes"
   min_ubit_version=7.0.0
   toolkit=7.0.0
 fi
@@ -1134,7 +1139,8 @@ LDFLAGS=$saved_ldflags
 #
 have_gl="no"
 AC_ARG_WITH([GL-prefix],
-    AS_HELP_STRING([--with-GL-prefix=DIR],[prefix for OpenGL/Mesa3D lib & include]))
+            AS_HELP_STRING([--with-GL-prefix=DIR],
+            [prefix for OpenGL/Mesa3D lib & include]))
 
 case "`$ac_config_sub $build`" in
 *-*-darwin*)
@@ -1242,7 +1248,8 @@ VRELIBS="$LIBS $VRELIBS"
 AH_TEMPLATE(WITH_PTHREAD)
 AH_TEMPLATE(HAVE_LIBPTHREAD)
 AC_ARG_ENABLE([pthread],
-      AS_HELP_STRING([--enable-pthread],[allow use of pthreads [[default=yes]]]))
+              AS_HELP_STRING([--enable-pthread],
+              [allow use of pthreads [[default=yes]]]))
 
 if test "${enable_pthread:=yes}" = "yes"; then
   #
@@ -1284,10 +1291,10 @@ fi
 #    AC_CHECK_HEADER([FTGL/ftgl.h], [AC_DEFINE([HAVE_FTGL_H])],
 #	             AC_MSG_WARN([unable to find ftgl header]))
 #  else
-#    am_ftgl="yes"
+#    am_libftgl="yes"
 #  fi
 #else
-#  am_ftgl="yes"
+#  am_libftgl="yes"
 #fi
 
 
@@ -1296,7 +1303,8 @@ fi
 # Mpeg configuration
 #
 AC_ARG_WITH([mpeg],
-    AS_HELP_STRING([--with-mpeg],[allow use of libmpeg if available [[default=yes]]]))
+            AS_HELP_STRING([--with-mpeg],
+            [allow use of libmpeg if available [[default=yes]]]))
 
 am_libmpeg="no"
 AH_TEMPLATE(HAVE_LIBMPEG)
@@ -1322,7 +1330,8 @@ fi
 # TinyGL configuration
 #
 AC_ARG_WITH([tinygl],
-    AS_HELP_STRING([--with-tinygl],[allow use of libtinygl if available [[default=no]]]))
+            AS_HELP_STRING([--with-tinygl],
+            [allow use of libtinygl if available [[default=no]]]))
 
 am_libtinygl="no"
 AH_TEMPLATE(HAVE_LIBTINYGL)
@@ -1348,8 +1357,9 @@ fi
 # SQLlite configuration
 #
 AC_ARG_WITH([sqlite],
-    AS_HELP_STRING([--with-sqlite],[allow use of sqlite if available [[default=no]]]),
-    [ac_cv_use_sqlite=$withval], [ac_cv_use_sqlite=no])
+            AS_HELP_STRING([--with-sqlite],
+            [allow use of sqlite if available [[default=no]]]),
+            [ac_cv_use_sqlite=$withval], [ac_cv_use_sqlite=no])
 
 AH_TEMPLATE(WITH_SQLITE)
 if test "${with_sqlite:=no}" = "yes"; then
@@ -1382,8 +1392,9 @@ fi
 # PostgreSql configuration
 #
 AC_ARG_WITH([pgsql],
-    AS_HELP_STRING([--with-pgsql],[allow use of pgsql if available [[default=no]]]),
-    [ac_cv_use_pgsql=$withval], [ac_cv_use_pgsql=no])
+            AS_HELP_STRING([--with-pgsql],
+            [allow use of pgsql if available [[default=no]]]),
+            [ac_cv_use_pgsql=$withval], [ac_cv_use_pgsql=no])
 
 AH_TEMPLATE(WITH_PGSQL)
 if test "${with_pgsql:=no}" = "yes"; then
@@ -1415,8 +1426,9 @@ fi
 # MySql configuration
 #
 AC_ARG_WITH([mysql],
-    AS_HELP_STRING([--with-mysql],[allow use of mysql if available [[default=no]]]),
-    [ac_cv_use_mysql=$withval], [ac_cv_use_mysql=no])
+            AS_HELP_STRING([--with-mysql],
+            [allow use of mysql if available [[default=no]]]),
+            [ac_cv_use_mysql=$withval], [ac_cv_use_mysql=no])
 
 if test "${with_mysql:=no}" = "yes"; then
   AH_TEMPLATE(WITH_MYSQL)
@@ -1524,7 +1536,8 @@ fi
 # Xml2 configuration
 #
 AC_ARG_WITH([xml2],
-    AS_HELP_STRING([--with-xml2],[allow use of libxml2 if available [[default=yes]]]))
+            AS_HELP_STRING([--with-xml2],
+            [allow use of libxml2 if available [[default=yes]]]))
 
 AH_TEMPLATE(HAVE_LIBXML2)
 if test "${with_xml2:=yes}" = "yes"; then
@@ -1563,7 +1576,8 @@ fi
 # Python configuration
 #
 AC_ARG_WITH([python],
-    AS_HELP_STRING([--with-python],[allow use of python (experimental) [[default=no]]]))
+            AS_HELP_STRING([--with-python],
+            [allow use of python (experimental) [[default=no]]]))
 AH_TEMPLATE(WITH_PYTHON)
 AH_TEMPLATE(HAVE_LIBPYTHON)
 AH_TEMPLATE(HAVE_PYTHON_H)
@@ -1629,13 +1643,14 @@ fi
 #
 # Check gl2ps support
 #
-am_gl2ps="no"
+am_libgl2ps="no"
 AC_ARG_ENABLE([gl2ps],
-      AS_HELP_STRING([--enable-gl2ps],[allow use of gl2ps if available [[default=no]]]))
+              AS_HELP_STRING([--enable-gl2ps],
+              [allow use of gl2ps if available [[default=no]]]))
 
 AH_TEMPLATE(HAVE_GL2PS)
 if test "${enable_gl2ps:=no}" = "yes"; then
-  am_gl2ps="yes"
+  am_libgl2ps="yes"
   AC_DEFINE(HAVE_GL2PS)
 fi
 
@@ -1644,12 +1659,13 @@ fi
 #
 # Check glui support
 #
-am_glui="no"
+am_libglui="no"
 AC_ARG_ENABLE([glui],
-      AS_HELP_STRING([--enable-glui],[allow use of glui if available [[default=no]]]))
+              AS_HELP_STRING([--enable-glui],
+              [allow use of glui if available [[default=no]]]))
 
 if test "${enable_glui:=no}" = "yes"; then
-  am_glui="yes"
+  am_libglui="yes"
 fi
 
 
@@ -1658,7 +1674,8 @@ fi
 # Check for efence option
 #
 AC_ARG_ENABLE([efence],
-      AS_HELP_STRING([--enable-efence],[enable efence debugging [[default=no]]]))
+              AS_HELP_STRING([--enable-efence],
+              [enable efence debugging [[default=no]]]))
 
 if test "${enable_efence:=no}" = "yes"; then
   AC_CHECK_LIB([efence], [malloc])
@@ -1670,7 +1687,8 @@ fi
 # Check for dmalloc option
 #
 AC_ARG_ENABLE([dmalloc],
-      AS_HELP_STRING([--enable-dmalloc],[enable dmalloc debugging [[default=no]]]))
+              AS_HELP_STRING([--enable-dmalloc],
+              [enable dmalloc debugging [[default=no]]]))
 
 if test "${GCC}" = "yes"; then
   if test "${enable_dmalloc:=no}" = "yes"; then
@@ -1691,7 +1709,9 @@ AH_TEMPLATE(HAVE_CAML_CALLBACK_H)
 
 am_ocaml="no"
 AC_ARG_WITH([ocaml],
-     AS_HELP_STRING([--with-ocaml],[allow use of ocaml if available [[default=no]]]))
+            AS_HELP_STRING([--with-ocaml],
+            [allow use of ocaml if available [[default=no]]]))
+
 if test "${with_ocaml:=no}" = "yes"; then
   OCAML_PATH=
   AC_PATH_PROG(OCAMLOPT, ocamlopt)
@@ -1733,10 +1753,12 @@ fi
 #
 # check openal library
 #
-am_openal="no"
+am_libopenal="no"
 AC_ARG_WITH([openal],
-    AS_HELP_STRING([--with-openal],[allow use of openal if available  [[default=no]]]),
-    [ac_cv_use_openal=$withval], [ac_cv_use_openal=no])
+            AS_HELP_STRING([--with-openal],
+            [allow use of openal if available  [[default=no]]]),
+            [ac_cv_use_openal=$withval], [ac_cv_use_openal=no])
+
 if test "$ac_cv_use_openal" = "yes"; then
   AH_TEMPLATE(HAVE_OPENAL)
   AC_CHECK_LIB([openal], [alGetError],
@@ -1748,7 +1770,7 @@ if test "$ac_cv_use_openal" = "yes"; then
     AH_TEMPLATE(HAVE_AL_H)
     AC_CHECK_HEADER([AL/al.h], [AC_DEFINE([HAVE_AL_H])],
 	            AC_MSG_WARN([unable to find openal header AL/al.h]))
-    am_openal="yes"
+    am_libopenal="yes"
     # check alut
     AH_TEMPLATE(HAVE_ALUT)
     AC_CHECK_LIB([freealut], [alutLoadWAVFile],
@@ -1781,17 +1803,19 @@ fi
 #
 # SDL configuration
 #
-am_sdl="no"
+am_libsdl="no"
 AC_ARG_WITH([sdl2],
-    AS_HELP_STRING([--with-sdl2],[allow use of sdl2 toolkit if available [[default=no]]]),
-    [ac_cv_use_sdl2=$withval], [ac_cv_sdl2=no])
+            AS_HELP_STRING([--with-sdl2],
+            [allow use of sdl2 toolkit if available [[default=no]]]),
+            [ac_cv_use_sdl2=$withval], [ac_cv_sdl2=no])
+
 if test "$ac_cv_use_SDL" = "yes" ; then
   SDL_VERSION_MIN=1.2.11
   AM_PATH_SDL($SDL_VERSION_MIN,
-      [am_sdl="yes"],
+      [am_libsdl="yes"],
       AC_MSG_WARN([*** SDL version $SDL_VERSION_MIN not found!]))
   AH_TEMPLATE(HAVE_LIBSDL)
-  if test "$am_sdl" = "yes"; then
+  if test "$am_libsdl" = "yes"; then
     AC_DEFINE(HAVE_LIBSDL)
     SDL2LIBS=`sdl2-config --libs`
     #SDL_LIBS=`echo $SDL_LIBS | sed -e 's/-Wl,-framework,Cocoa//'`
@@ -1847,25 +1871,24 @@ fi
 # 
 # Automake conditions (used in Makefile.am)
 # 
-AM_CONDITIONAL(ENABLE_UBIT,    test "$am_ubit" = "yes")
-AM_CONDITIONAL(ENABLE_IPV6,    test "$am_ipv6" = "yes")
-AM_CONDITIONAL(ENABLE_JAVA,    test "$am_java" = "yes")
-AM_CONDITIONAL(ENABLE_OCAML,   test "$am_ocaml" = "yes")
-AM_CONDITIONAL(ENABLE_VRL,     test "$am_vrl" = "yes")
-AM_CONDITIONAL(ENABLE_VREL,    test "$am_vrel" = "yes")
-AM_CONDITIONAL(ENABLE_VRED,    test "$am_vred" = "yes")
-AM_CONDITIONAL(ENABLE_VMM,     test "$am_vmm" = "yes")
-AM_CONDITIONAL(ENABLE_GLUT,    test "$am_glut" = "yes")
-AM_CONDITIONAL(ENABLE_OPENAL,  test "$am_openal" = "yes")
-AM_CONDITIONAL(ENABLE_SDL,     test "$am_sdl" = "yes")
-AM_CONDITIONAL(ENABLE_VACS,    test "$am_vacs" = "yes")
-AM_CONDITIONAL(ENABLE_VAPS,    test "$am_vaps" = "yes")
-AM_CONDITIONAL(ENABLE_VJS,     test "$am_vjs" = "yes")
-AM_CONDITIONAL(ENABLE_GL2PS,   test "$am_gl2ps" = "yes")
-AM_CONDITIONAL(ENABLE_LIBMPEG, test "$am_libmpeg" = "yes")
-AM_CONDITIONAL(ENABLE_LIBTINYGL, test "$am_libtinygl" = "yes")
-AM_CONDITIONAL(ENABLE_FTGL,    test "$am_ftgl" = "yes")
-AM_CONDITIONAL(ENABLE_GLUI,    test "$am_glui" = "yes")
+AM_CONDITIONAL(AM_UBIT,      test "$am_ubit" = "yes")
+AM_CONDITIONAL(AM_JAVA,      test "$am_java" = "yes")
+AM_CONDITIONAL(AM_OCAML,     test "$am_ocaml" = "yes")
+AM_CONDITIONAL(AM_VRL,       test "$am_vrl" = "yes")
+AM_CONDITIONAL(AM_VREL,      test "$am_vrel" = "yes")
+AM_CONDITIONAL(AM_VRED,      test "$am_vred" = "yes")
+AM_CONDITIONAL(AM_VMM,       test "$am_vmm" = "yes")
+AM_CONDITIONAL(AM_VACS,      test "$am_vacs" = "yes")
+AM_CONDITIONAL(AM_VAPS,      test "$am_vaps" = "yes")
+AM_CONDITIONAL(AM_VJS,       test "$am_vjs" = "yes")
+AM_CONDITIONAL(AM_GLUT,      test "$am_libglut" = "yes")
+AM_CONDITIONAL(AM_GL2PS,     test "$am_libgl2ps" = "yes")
+AM_CONDITIONAL(AM_SDL,       test "$am_libsdl" = "yes")
+AM_CONDITIONAL(AM_LIBMPEG,   test "$am_libmpeg" = "yes")
+AM_CONDITIONAL(AM_FTGL,      test "$am_libftgl" = "yes")
+AM_CONDITIONAL(AM_GLUI,      test "$am_libglui" = "yes")
+AM_CONDITIONAL(AM_OPENAL,    test "$am_libopenal" = "yes")
+AM_CONDITIONAL(AM_LIBTINYGL, test "$am_libtinygl" = "yes")
 
 
 # --------------------------------------------------------------------------

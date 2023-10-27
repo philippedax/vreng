@@ -30,7 +30,7 @@ EXTRA_DIST = $(VACS_SRCS) vacs.8
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = -I$(top_srcdir)/src/base
 
-if ENABLE_VACS
+if AM_VACS
 vacs_SOURCES = $(VACS_SRCS)
 bin_PROGRAMS = vacs
 endif

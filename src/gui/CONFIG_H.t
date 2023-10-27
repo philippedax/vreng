@@ -709,10 +709,6 @@ const char CONFIG_H[] = "\
 /* */\n\
 /* #undef SUNOS */\n\
 \n\
-/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. This\n\
-   macro is obsolete. */\n\
-#define TIME_WITH_SYS_TIME 1\n\
-\n\
 /* */\n\
 #define TTFPATH \"/usr/X11/share/fonts/Type1/\"\n\
 \n\
@@ -772,10 +768,6 @@ const char CONFIG_H[] = "\
 \n\
 /* Define to 1 if the X Window System is missing or not being used. */\n\
 /* #undef X_DISPLAY_MISSING */\n\
-\n\
-/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a\n\
-   `char[]'. */\n\
-#define YYTEXT_POINTER 1\n\
 \n\
 /* */\n\
 /* #undef _REENTRANT */\n\

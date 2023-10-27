@@ -18,7 +18,7 @@ VREL_SRCS = $(MAIN_SRCS) $(MAIN_HDRS) $(ENV_SRCS) $(ENV_HDRS) $(DECL_SRCS) $(DEC
 EXTRA_DIST = vrel.l vrel.y
 
 
-if ENABLE_VREL
+if AM_VREL
 lex.yy.o: lex.yy.cpp y.tab.h
 y.tab.o: y.tab.cpp y.tab.h
 

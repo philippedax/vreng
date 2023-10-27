@@ -9,7 +9,7 @@ FTGL_SRCS = FTBitmapGlyph.cpp FTGLBitmapFont.cpp FTGlyph.cpp FTPolyGlyph.cpp FTC
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = @GL_CFLAGS@ -I$(SRCDIR)/bundle/ftgl
 
-if ENABLE_FTGL
+if AM_FTGL
 noinst_LIBRARIES = libftgl.a
 libftgl_a_SOURCES = $(FTGL_SRCS)
 endif
