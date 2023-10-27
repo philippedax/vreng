@@ -13,7 +13,7 @@ CMX = $(CML:.ml=.cmx)
 
 AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ -I$(top_srcdir)/src/base -I$(top_srcdir)/src/net -I$(top_srcdir)/src/world -I$(top_srcdir)/src/3d -I$(top_srcdir)/src/gui
 
-if AM_OCAML
+if ENABLE_OCAML
 
 libai_a_SOURCES = $(AI_INIT) aiinit.hpp
 noinst_LIBRARIES = libai.a

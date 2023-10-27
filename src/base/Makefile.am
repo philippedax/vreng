@@ -27,7 +27,7 @@ BASE_HDRS = vreng.hpp includes.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.
 
 SRCDIR = $(top_srcdir)/src
 CORE_INCL = -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/vnc -I$(SRCDIR)/tool -I$(SRCDIR)/ai
-if AM_OCAML
+if ENABLE_OCAML
 AM_CPPFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ $(CORE_INCL) @OCAML_CFLAGS@ -I$(SRCDIR)/ai
 else
 AM_CPPFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ $(CORE_INCL)

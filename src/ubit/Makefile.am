@@ -78,7 +78,7 @@ EXTRA_DIST += ucss.cpp udoc.cpp udom.cpp ufinder.cpp ufinderImpl.cpp uhtml.cpp u
 noinst_HEADERS = $(UBIT_HDRS) ubit_features.h
 ubit_SOURCES = $(UBIT_SRCS)
 
-if AM_UBIT
+if ENABLE_UBIT
   libubit_a_SOURCES = $(ubit_SOURCES)
   noinst_LIBRARIES = libubit.a
 endif

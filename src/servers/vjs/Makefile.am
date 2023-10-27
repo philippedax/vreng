@@ -25,8 +25,8 @@ SUBDIRS = app base
 
 EXTRA_DIST = gen.pl.in vjs.in gen.pl
 
-if AM_VJS
-if AM_JAVA
+if ENABLE_VJS
+if ENABLE_JAVA
 
 bin_SCRIPTS = vjs
 
@@ -241,5 +241,5 @@ install:
 notice:
 	@echo -- vjs up to date
 
-endif # AM_JAVA
-endif # AM_VJS
+endif # ENABLE_JAVA
+endif # ENABLE_VJS
