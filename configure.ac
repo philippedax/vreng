@@ -1329,27 +1329,27 @@ fi
 #
 # TinyGL configuration
 #
-AC_ARG_WITH([tinygl],
-            AS_HELP_STRING([--with-tinygl],
-            [allow use of libtinygl if available [[default=no]]]))
-
+#AC_ARG_WITH([tinygl],
+#            AS_HELP_STRING([--with-tinygl],
+#            [allow use of libtinygl if available [[default=no]]]))
+#
 am_libtinygl="no"
-AH_TEMPLATE(HAVE_LIBTINYGL)
-if test "${with_tinygl:=yes}" = "yes"; then
-  #
-  # check tinygl
-  #
-  AC_CHECK_LIB([tinygl], [glBegin],
-               [VRELIBS="${OSDEP_LIBS} -l${libtinygl} ${VRELIBS}"],
-               [AC_MSG_RESULT([	use embedded tinygl ])],
-               [${OSDEP_LIBS}])
-  if test $ac_cv_lib_tinygl_glBegin = "yes" ; then
-    AC_DEFINE(HAVE_LIBTINYGL)
-  else
-    am_libtinygl="yes"
-    AC_DEFINE(HAVE_LIBTINYGL)
-  fi
-fi
+#AH_TEMPLATE(HAVE_LIBTINYGL)
+#if test "${with_tinygl:=yes}" = "yes"; then
+#  #
+#  # check tinygl
+#  #
+#  AC_CHECK_LIB([tinygl], [glBegin],
+#               [VRELIBS="${OSDEP_LIBS} -l${libtinygl} ${VRELIBS}"],
+#               [AC_MSG_RESULT([	use embedded tinygl ])],
+#               [${OSDEP_LIBS}])
+#  if test $ac_cv_lib_tinygl_glBegin = "yes" ; then
+#    AC_DEFINE(HAVE_LIBTINYGL)
+#  else
+#    am_libtinygl="yes"
+#    AC_DEFINE(HAVE_LIBTINYGL)
+#  fi
+#fi
 
 
 # --------------------------------------------------------------------------
