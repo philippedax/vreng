@@ -66,7 +66,7 @@ const char CONFIG_H[] = "\
 #define HAVE_ARPA_NAMESER_H 1\n\
 \n\
 /* */\n\
-/* #undef HAVE_CAML_CALLBACK_H */\n\
+#define HAVE_CAML_CALLBACK_H 1\n\
 \n\
 /* Define to 1 if you have the <ctype.h> header file. */\n\
 #define HAVE_CTYPE_H 1\n\
@@ -365,7 +365,7 @@ const char CONFIG_H[] = "\
 /* #undef HAVE_NO_SOCKLEN_T */\n\
 \n\
 /* */\n\
-/* #undef HAVE_OCAML */\n\
+#define HAVE_OCAML 1\n\
 \n\
 /* */\n\
 /* #undef HAVE_OPENAL */\n\
@@ -643,7 +643,7 @@ const char CONFIG_H[] = "\
 /* #undef NEXTSTEP */\n\
 \n\
 /* */\n\
-/* #undef OCAML_PATH */\n\
+#define OCAML_PATH \"/usr/local/lib/ocaml\"\n\
 \n\
 /* */\n\
 /* #undef OPENBSD */\n\

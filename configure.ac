@@ -678,9 +678,10 @@ if test "${enable_vmm:=no}" = "yes"; then
   #
   # Java configuration
   #
+  #AC_CHECK_CLASSPATH
   AC_JAVA_OPTIONS
   AC_PROG_JAVAC
-  #AC_PROG_JAVA
+  AC_PROG_JAVA
   AC_PROG_JAR
 
   AH_TEMPLATE(HAVE_JAVA)
@@ -734,9 +735,10 @@ if test "${enable_vjs:=no}" = "yes"; then
   #
   # Java configuration
   #
+  #AC_CHECK_CLASSPATH
   AC_JAVA_OPTIONS
   AC_PROG_JAVAC
-  #AC_PROG_JAVA
+  AC_PROG_JAVA
   AC_PROG_JAR
 
   AH_TEMPLATE(HAVE_JAVA)
