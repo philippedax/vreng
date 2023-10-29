@@ -566,6 +566,61 @@ if test "${enable_ipv6:=no}" = "yes"; then
 fi
 
 
+# --------------------------------------------------------------------------
+#
+# Posix threads configuration
+#
+AH_TEMPLATE(WITH_PTHREAD)
+AH_TEMPLATE(HAVE_LIBPTHREAD)
+AC_ARG_ENABLE([pthread],
+              AS_HELP_STRING([--enable-pthread],
+              [allow use of pthreads [[default=yes]]]))
+
+if test "${enable_pthread:=yes}" = "yes"; then
+  #
+  # check pthread
+  #
+  AC_CHECK_LIB([pthread], [pthread_create], 
+               [VRELIBS="-lpthread -L/usr/lib -ldl ${VRELIBS}"],
+               [AC_MSG_WARN([pthreads library not found, check config.log!])])
+  if test "$ac_cv_lib_pthread_pthread_create" = "yes" ; then
+    CXXFLAGS="${CXXFLAGS} -D_REENTRANT"
+    AC_DEFINE(WITH_PTHREAD)
+    AC_DEFINE(HAVE_LIBPTHREAD)
+  fi
+fi
+
+
+# --------------------------------------------------------------------------
+#
+# Check for dmalloc option
+#
+AC_ARG_ENABLE([dmalloc],
+              AS_HELP_STRING([--enable-dmalloc],
+              [enable dmalloc debugging [[default=no]]]))
+
+if test "${GCC}" = "yes"; then
+  if test "${enable_dmalloc:=no}" = "yes"; then
+    CFLAGS="${CFLAGS} -DDMALLOC_FUNC_CHECK"
+    CXXFLAGS="${CXXFLAGS} -DDMALLOC_FUNC_CHECK"
+    AC_CHECK_LIB([dmallocthcxx], [dmalloc_verify])
+    AC_CHECK_HEADERS([dmalloc.h])
+  fi
+fi
+
+
+# --------------------------------------------------------------------------
+#
+# Check for efence option
+#
+AC_ARG_ENABLE([efence],
+              AS_HELP_STRING([--enable-efence],
+              [enable efence debugging [[default=no]]]))
+
+if test "${enable_efence:=no}" = "yes"; then
+  AC_CHECK_LIB([efence], [malloc])
+fi
+
 
 # --------------------------------------------------------------------------
 #
@@ -612,7 +667,6 @@ AC_ARG_ENABLE(vrl,
 
 if test "${enable_vrl:=no}" = "yes"; then
   am_vrl="yes"
-  CFLAGS="${CFLAGS} -DVRL"
   CXXFLAGS="${CXXFLAGS} -DVRL"
   AC_MSG_RESULT(yes)
 else
@@ -632,7 +686,6 @@ AC_ARG_ENABLE(vrel,
 
 if test "${enable_vrel:=no}" = "yes"; then
   am_vrel="yes"
-  CFLAGS="${CFLAGS} -DVREL"
   CXXFLAGS="${CXXFLAGS} -DVREL"
   AC_MSG_RESULT(yes)
 else
@@ -653,7 +706,6 @@ AC_ARG_ENABLE(vred,
 if test "${enable_vred:=no}" = "yes"; then
   am_vred="yes"
   am_libglui="yes"
-  CFLAGS="${CFLAGS} -DVRED"
   CXXFLAGS="${CXXFLAGS} -DVRED"
   AC_MSG_RESULT(yes)
 else
@@ -673,12 +725,10 @@ AC_ARG_ENABLE(vmm,
 
 if test "${enable_vmm:=no}" = "yes"; then
   am_vmm="yes"
-  CFLAGS="${CFLAGS} -DVMM"
   CXXFLAGS="${CXXFLAGS} -DVMM"
   #
   # Java configuration
   #
-  #AC_CHECK_CLASSPATH
   AC_JAVA_OPTIONS
   AC_PROG_JAVAC
   AC_PROG_JAVA
@@ -708,7 +758,6 @@ AC_ARG_ENABLE(vaps,
 
 if test "${enable_vaps:=no}" = "yes"; then
   am_vaps="yes"
-  CFLAGS="${CFLAGS} -DVAPS"
   CXXFLAGS="${CXXFLAGS} -DVAPS"
   AC_MSG_RESULT(yes)
 else
@@ -729,13 +778,11 @@ AC_ARG_ENABLE(vjs,
 
 if test "${enable_vjs:=no}" = "yes"; then
   am_vjs="yes"
-  CFLAGS="${CFLAGS} -DVJS"
   CXXFLAGS="${CXXFLAGS} -DVJS"
   AC_MSG_RESULT(yes)
   #
   # Java configuration
   #
-  #AC_CHECK_CLASSPATH
   AC_JAVA_OPTIONS
   AC_PROG_JAVAC
   AC_PROG_JAVA
@@ -765,7 +812,6 @@ AC_ARG_ENABLE(vacs,
 
 if test "${enable_vacs:=no}" = "yes"; then
   am_vacs="yes"
-  CFLAGS="$CFLAGS -DVACS"
   CXXFLAGS="$CXXFLAGS -DVACS"
   AC_MSG_RESULT(yes)
 else
@@ -825,71 +871,6 @@ AC_DEFUN([AC_X11_CHECK],
 
 
 # --------------------------------------------------------------------------
-#
-# Check Glut
-#
-AC_DEFUN([AC_GLUT_CHECK],
-[ 
-am_libglut="no"
-AH_TEMPLATE(HAVE_LIBGLUT)
-
-case "`$ac_config_sub $build`" in
-*-*-darwin*)
-  AC_CHECK_HEADERS([GLUT/glut.h])
-  # LIBS="$LIBS -framework GLUT -framework OpenGL"
-  OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
-  LIBS="$LIBS $(OPENGL_LIBS)"
-  # search in MacPorts and Fink installs
-  if test -d /wudr/X11/include ; then
-    OSDEP_CFLAGS="-I/wudr/X11/include"
-  elif test -d /opt/X11/include ; then
-    OSDEP_CFLAGS="-I/opt/X11/include"
-  elif test -d /opt/local/include ; then
-    OSDEP_CFLAGS="-I/opt/local/include"
-  elif test -d /sw/include ; then
-    OSDEP_CFLAGS="$OSDEP_CFLAGS -I/sw/include"
-  fi
-  if test -d /usr/X11/lib ; then
-    OSDEP_LIBS="-L/opt/X11/lib"
-  elif test -d /opt/X11/lib ; then
-    OSDEP_LIBS="-L/opt/X11/lib"
-  elif test -d /opt/local/lib ; then
-    OSDEP_LIBS="-L/opt/local/lib"
-  elif test -d /sw/lib ; then
-    OSDEP_LIBS="$OSDEP_LIBS -L/sw/lib"
-  fi
-  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
-  AC_DEFINE(HAVE_LIBGLU)  
-  ;;
-*)
-  case "`$ac_config_sub $build`" in
-    *-*-solaris*) OSDEP_LIBS="-L/usr/openwin/lib" OSDEP_CFLAGS="-I/usr/local/include" ;;
-    *-*-linux*)   OSDEP_LIBS=""                   OSDEP_CFLAGS="" ;;
-    *-*-netbsd*)  OSDEP_LIBS="-L/usr/pkg/lib"     OSDEP_CFLAGS="-I/usr/pkg/include" ;;
-    *)            OSDEP_LIBS="-L/usr/local/lib"   OSDEP_CFLAGS="-I/usr/local/include" ;;
-  esac
-
-  AC_CHECK_LIB([glut], [glutMainLoop])
-  AC_CHECK_HEADERS([GL/glut.h])
-  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
-  if test "ac_cv_lib_glut_glutMainLoop" = no; then
-    AC_MSG_WARN([Could not find glut lib!])
-  else
-    CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
-    LIBS="$OSDEP_LIBS -lglut $LIBS"
-    GLUT_LIB="$OSDEP_LIBS -lglut"
-    AC_SUBST(GNUT_LIB)
-  fi
-  ;;
-esac
-AC_DEFINE(HAVE_LIBGLUT)
-am_libglut="yes"
-
-CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
-])
-
-
-# --------------------------------------------------------------------------
 VRELIBS=""
 AC_SUBST(VRELIBS)
 
@@ -904,7 +885,7 @@ LDFLAGS="$X_LDFLAGS $X_LIBS"
 
 # --------------------------------------------------------------------------
 #
-# check xpm library
+# check Xpm library
 #
 AC_CHECK_LIB([Xpm], [XpmReadFileToXpmImage],
 	     [VRELIBS="-lXpm $VRELIBS"],
@@ -1024,6 +1005,33 @@ AC_CHECK_HEADER([png.h], [AC_DEFINE([HAVE_PNG_H])],
 
 # --------------------------------------------------------------------------
 #
+# Mpeg configuration
+#
+AC_ARG_WITH([mpeg],
+            AS_HELP_STRING([--with-mpeg],
+            [allow use of libmpeg if available [[default=yes]]]))
+
+am_libmpeg="no"
+AH_TEMPLATE(HAVE_LIBMPEG)
+if test "${with_mpeg:=yes}" = "yes"; then
+  #
+  # check mpeg
+  #
+  AC_CHECK_LIB([mpeg], [OpenMPEG],
+               [VRELIBS="${OSDEP_LIBS} -l${libmpeg} ${VRELIBS}"],
+               [AC_MSG_RESULT([	use embedded mpeg_lib ])],
+               [${OSDEP_LIBS}])
+  if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
+    AC_DEFINE(HAVE_LIBMPEG)
+  else
+    am_libmpeg="yes"
+    AC_DEFINE(HAVE_LIBMPEG)
+  fi
+fi
+
+
+# --------------------------------------------------------------------------
+#
 # check curl library
 #
 AH_TEMPLATE(HAVE_LIBCURL)
@@ -1137,6 +1145,33 @@ LDFLAGS=$saved_ldflags
 
 # --------------------------------------------------------------------------
 #
+# TinyGL configuration
+#
+#AC_ARG_WITH([tinygl],
+#            AS_HELP_STRING([--with-tinygl],
+#            [allow use of libtinygl if available [[default=no]]]))
+#
+am_libtinygl="no"
+#AH_TEMPLATE(HAVE_LIBTINYGL)
+#if test "${with_tinygl:=yes}" = "yes"; then
+#  #
+#  # check tinygl
+#  #
+#  AC_CHECK_LIB([tinygl], [glBegin],
+#               [VRELIBS="${OSDEP_LIBS} -l${libtinygl} ${VRELIBS}"],
+#               [AC_MSG_RESULT([	use embedded tinygl ])],
+#               [${OSDEP_LIBS}])
+#  if test $ac_cv_lib_tinygl_glBegin = "yes" ; then
+#    AC_DEFINE(HAVE_LIBTINYGL)
+#  else
+#    am_libtinygl="yes"
+#    AC_DEFINE(HAVE_LIBTINYGL)
+#  fi
+#fi
+
+
+# --------------------------------------------------------------------------
+#
 # OpenGL configuration
 #
 have_gl="no"
@@ -1245,32 +1280,72 @@ VRELIBS="$LIBS $VRELIBS"
 
 # --------------------------------------------------------------------------
 #
-# Posix threads configuration
+# Glut configuration
 #
-AH_TEMPLATE(WITH_PTHREAD)
-AH_TEMPLATE(HAVE_LIBPTHREAD)
-AC_ARG_ENABLE([pthread],
-              AS_HELP_STRING([--enable-pthread],
-              [allow use of pthreads [[default=yes]]]))
+AC_DEFUN([AC_GLUT_CHECK],
+[ 
+am_libglut="no"
+AH_TEMPLATE(HAVE_LIBGLUT)
 
-if test "${enable_pthread:=yes}" = "yes"; then
-  #
-  # check pthread
-  #
-  AC_CHECK_LIB([pthread], [pthread_create], 
-               [VRELIBS="-lpthread -L/usr/lib -ldl ${VRELIBS}"],
-               [AC_MSG_WARN([pthreads library not found, check config.log!])])
-  if test "$ac_cv_lib_pthread_pthread_create" = "yes" ; then
-    CXXFLAGS="${CXXFLAGS} -D_REENTRANT"
-    AC_DEFINE(WITH_PTHREAD)
-    AC_DEFINE(HAVE_LIBPTHREAD)
+case "`$ac_config_sub $build`" in
+*-*-darwin*)
+  AC_CHECK_HEADERS([GLUT/glut.h])
+  # LIBS="$LIBS -framework GLUT -framework OpenGL"
+  OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
+  LIBS="$LIBS $(OPENGL_LIBS)"
+  # search in MacPorts and Fink installs
+  if test -d /wudr/X11/include ; then
+    OSDEP_CFLAGS="-I/wudr/X11/include"
+  elif test -d /opt/X11/include ; then
+    OSDEP_CFLAGS="-I/opt/X11/include"
+  elif test -d /opt/local/include ; then
+    OSDEP_CFLAGS="-I/opt/local/include"
+  elif test -d /sw/include ; then
+    OSDEP_CFLAGS="$OSDEP_CFLAGS -I/sw/include"
   fi
-fi
+  if test -d /usr/X11/lib ; then
+    OSDEP_LIBS="-L/opt/X11/lib"
+  elif test -d /opt/X11/lib ; then
+    OSDEP_LIBS="-L/opt/X11/lib"
+  elif test -d /opt/local/lib ; then
+    OSDEP_LIBS="-L/opt/local/lib"
+  elif test -d /sw/lib ; then
+    OSDEP_LIBS="$OSDEP_LIBS -L/sw/lib"
+  fi
+  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
+  AC_DEFINE(HAVE_LIBGLU)  
+  ;;
+*)
+  case "`$ac_config_sub $build`" in
+    *-*-solaris*) OSDEP_LIBS="-L/usr/openwin/lib" OSDEP_CFLAGS="-I/usr/local/include" ;;
+    *-*-linux*)   OSDEP_LIBS=""                   OSDEP_CFLAGS="" ;;
+    *-*-netbsd*)  OSDEP_LIBS="-L/usr/pkg/lib"     OSDEP_CFLAGS="-I/usr/pkg/include" ;;
+    *)            OSDEP_LIBS="-L/usr/local/lib"   OSDEP_CFLAGS="-I/usr/local/include" ;;
+  esac
+
+  AC_CHECK_LIB([glut], [glutMainLoop])
+  AC_CHECK_HEADERS([GL/glut.h])
+  LDFLAGS="$OSDEP_LIBS $LDFLAGS"
+  if test "ac_cv_lib_glut_glutMainLoop" = no; then
+    AC_MSG_WARN([Could not find glut lib!])
+  else
+    CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+    LIBS="$OSDEP_LIBS -lglut $LIBS"
+    GLUT_LIB="$OSDEP_LIBS -lglut"
+    AC_SUBST(GNUT_LIB)
+  fi
+  ;;
+esac
+AC_DEFINE(HAVE_LIBGLUT)
+am_libglut="yes"
+
+CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
+])
 
 
 # --------------------------------------------------------------------------
 #
-# ftgl
+# ftgl configuration
 #
 #AH_TEMPLATE(WITH_FTGL)
 #AH_TEMPLATE(HAVE_FTGL)
@@ -1302,56 +1377,32 @@ fi
 
 # --------------------------------------------------------------------------
 #
-# Mpeg configuration
+# Check gl2ps support
 #
-AC_ARG_WITH([mpeg],
-            AS_HELP_STRING([--with-mpeg],
-            [allow use of libmpeg if available [[default=yes]]]))
+am_libgl2ps="no"
+AC_ARG_ENABLE([gl2ps],
+              AS_HELP_STRING([--enable-gl2ps],
+              [allow use of gl2ps if available [[default=no]]]))
 
-am_libmpeg="no"
-AH_TEMPLATE(HAVE_LIBMPEG)
-if test "${with_mpeg:=yes}" = "yes"; then
-  #
-  # check mpeg
-  #
-  AC_CHECK_LIB([mpeg], [OpenMPEG],
-               [VRELIBS="${OSDEP_LIBS} -l${libmpeg} ${VRELIBS}"],
-               [AC_MSG_RESULT([	use embedded mpeg_lib ])],
-               [${OSDEP_LIBS}])
-  if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
-    AC_DEFINE(HAVE_LIBMPEG)
-  else
-    am_libmpeg="yes"
-    AC_DEFINE(HAVE_LIBMPEG)
-  fi
+AH_TEMPLATE(HAVE_GL2PS)
+if test "${enable_gl2ps:=no}" = "yes"; then
+  am_libgl2ps="yes"
+  AC_DEFINE(HAVE_GL2PS)
 fi
 
 
 # --------------------------------------------------------------------------
 #
-# TinyGL configuration
+# Check glui support
 #
-#AC_ARG_WITH([tinygl],
-#            AS_HELP_STRING([--with-tinygl],
-#            [allow use of libtinygl if available [[default=no]]]))
-#
-am_libtinygl="no"
-#AH_TEMPLATE(HAVE_LIBTINYGL)
-#if test "${with_tinygl:=yes}" = "yes"; then
-#  #
-#  # check tinygl
-#  #
-#  AC_CHECK_LIB([tinygl], [glBegin],
-#               [VRELIBS="${OSDEP_LIBS} -l${libtinygl} ${VRELIBS}"],
-#               [AC_MSG_RESULT([	use embedded tinygl ])],
-#               [${OSDEP_LIBS}])
-#  if test $ac_cv_lib_tinygl_glBegin = "yes" ; then
-#    AC_DEFINE(HAVE_LIBTINYGL)
-#  else
-#    am_libtinygl="yes"
-#    AC_DEFINE(HAVE_LIBTINYGL)
-#  fi
-#fi
+am_libglui="no"
+AC_ARG_ENABLE([glui],
+              AS_HELP_STRING([--enable-glui],
+              [allow use of glui if available [[default=no]]]))
+
+if test "${enable_glui:=no}" = "yes"; then
+  am_libglui="yes"
+fi
 
 
 # --------------------------------------------------------------------------
@@ -1640,67 +1691,6 @@ if test "${with_python:=no}" = "yes"; then
   fi
 fi
 
-
-# --------------------------------------------------------------------------
-#
-# Check gl2ps support
-#
-am_libgl2ps="no"
-AC_ARG_ENABLE([gl2ps],
-              AS_HELP_STRING([--enable-gl2ps],
-              [allow use of gl2ps if available [[default=no]]]))
-
-AH_TEMPLATE(HAVE_GL2PS)
-if test "${enable_gl2ps:=no}" = "yes"; then
-  am_libgl2ps="yes"
-  AC_DEFINE(HAVE_GL2PS)
-fi
-
-
-# --------------------------------------------------------------------------
-#
-# Check glui support
-#
-am_libglui="no"
-AC_ARG_ENABLE([glui],
-              AS_HELP_STRING([--enable-glui],
-              [allow use of glui if available [[default=no]]]))
-
-if test "${enable_glui:=no}" = "yes"; then
-  am_libglui="yes"
-fi
-
-
-# --------------------------------------------------------------------------
-#
-# Check for efence option
-#
-AC_ARG_ENABLE([efence],
-              AS_HELP_STRING([--enable-efence],
-              [enable efence debugging [[default=no]]]))
-
-if test "${enable_efence:=no}" = "yes"; then
-  AC_CHECK_LIB([efence], [malloc])
-fi
-
-
-# --------------------------------------------------------------------------
-#
-# Check for dmalloc option
-#
-AC_ARG_ENABLE([dmalloc],
-              AS_HELP_STRING([--enable-dmalloc],
-              [enable dmalloc debugging [[default=no]]]))
-
-if test "${GCC}" = "yes"; then
-  if test "${enable_dmalloc:=no}" = "yes"; then
-    CFLAGS="${CFLAGS} -DDMALLOC_FUNC_CHECK"
-    CXXFLAGS="${CXXFLAGS} -DDMALLOC_FUNC_CHECK"
-    AC_CHECK_LIB([dmallocthcxx], [dmalloc_verify])
-    AC_CHECK_HEADERS([dmalloc.h])
-  fi
-fi
-
 # --------------------------------------------------------------------------
 #
 # Ocaml configuration
@@ -1899,6 +1889,10 @@ AM_CONDITIONAL(ENABLE_LIBTINYGL, test "$am_libtinygl" = "yes")
 #
 AC_CONFIG_FILES([
         Makefile 
+        bin/Makefile
+        bin/vre
+        etc/Makefile
+        man/Makefile
         src/Makefile
         src/base/Makefile
         src/gui/Makefile
@@ -1945,13 +1939,8 @@ AC_CONFIG_FILES([
         src/servers/vjs/app/fr/enst/vreng/Makefile
         src/servers/vjs/app/fr/enst/vreng/tester/Makefile
         src/servers/vmm/Makefile
-        man/Makefile
-        bin/Makefile
-        bin/vre
-        etc/Makefile
         ])
 
-#7.0.0#AC_CONFIG_COMMANDS([default],
 AC_CONFIG_COMMANDS([src/ubit/ubit_features.h],
         [
 	chmod +x bin/vre src/servers/vjs/vjs;
@@ -1961,7 +1950,7 @@ AC_CONFIG_COMMANDS([src/ubit/ubit_features.h],
         outfile=${featuresfile}.tmp
         AC_MSG_NOTICE([creating ${featuresfile}])
         cat > ${outfile} <<_EOF
-/* Generated by configure.  Do not edit */
+/* Ubit features generated by configure.  Do not edit */
 #ifndef UBIT_FEATURES_H
 #define UBIT_FEATURES_H
 
@@ -1978,11 +1967,11 @@ AC_CONFIG_COMMANDS([src/ubit/ubit_features.h],
 
 /* Features */
 _EOF
+
 #echo "Ubit features :"
 for feature in $ubit_features
 do
         echo "#define   $feature 1" >> ${outfile}
-#        echo "    $feature"
 done
 if test "$TTFPATH" != ""; then
   echo "#define	TTFPATH $TTFPATH" >> ${outfile}
@@ -2011,7 +2000,7 @@ AC_MSG_RESULT([
 ----------------------------------------------------
 VREng-$VERSION has been configured successfully!
 
-Now type 'make' to build ./bin/vreng!
+Now type 'make' to build ./bin/vreng
 
 'make install' to install it in ${prefix}/bin/vreng.
 ----------------------------------------------------
