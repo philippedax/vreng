@@ -19,7 +19,7 @@
 #
 # configure.ac for VREng	http://vreng.enst.fr/
 #
-# Written by Philippe Dax, report bugs to dax@telecom-paristech.fr
+# Written by Philippe Dax, report bugs to philippe.dax@gmail.com
 
 
 # --------------------------------------------------------------------------
@@ -131,7 +131,8 @@ fi
 # Check for debugging
 #
 AC_ARG_ENABLE(debug,
-              AS_HELP_STRING([--enable-debug],[allow to debug [[default=no]]]))
+              AS_HELP_STRING([--enable-debug],
+              [allow to debug [[default=no]]]))
 
 if test "${enable_debug:=no}" = "yes"; then
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
@@ -144,7 +145,8 @@ fi
 # Check for optimization
 #
 AC_ARG_ENABLE(optimize,
-              AS_HELP_STRING([--enable-optimize],[allow to optimize and make code faster [[default=no]]]))
+              AS_HELP_STRING([--enable-optimize],
+              [allow to optimize and make code faster [[default=no]]]))
 
 if test "${enable_optimize:=no}" = "yes"; then
   CFLAGS="${CFLAGS} -O"
@@ -164,7 +166,8 @@ fi
 # Check for profiling compiler option
 #
 AC_ARG_ENABLE(profiling,
-              AS_HELP_STRING([--enable-profiling],[add -pg gcc option [[default=no]]]))
+              AS_HELP_STRING([--enable-profiling],
+              [add -pg gcc option [[default=no]]]))
  
 if test "${enable_profiling:=no}" = "yes"; then
   if test "${GCC}" = "yes"; then
@@ -180,7 +183,8 @@ fi
 # Check for permissive compiler option
 #
 AC_ARG_ENABLE(permissive,
-              AS_HELP_STRING([--enable-permissive],[add --permissive gcc option [[default=no]]]))
+              AS_HELP_STRING([--enable-permissive],
+              [add --permissive gcc option [[default=no]]]))
  
 if test "${enable_permissive:=no}" = "yes"; then
   if test "${GCC}" = "yes"; then
@@ -211,7 +215,8 @@ fi
 # Check if support for 64 bits (tested with gcc-2.96, gcc-3.*, gcc4.*)
 #
 AC_ARG_ENABLE(64bit,
-              AS_HELP_STRING([--enable-64bit],[enable 64 bits compilation [[default=no]]]))
+              AS_HELP_STRING([--enable-64bit],
+              [enable 64 bits compilation [[default=no]]]))
 
 if test "${enable_64bit:=no}" = "yes"; then
   AC_MSG_RESULT([--> Using 64 bits])
@@ -226,23 +231,23 @@ fi
 #
 # Checks for OS types
 #
+AH_TEMPLATE(LINUX)
+AH_TEMPLATE(MACOSX)
+AH_TEMPLATE(WIN32)
 AH_TEMPLATE(SOLARIS)
 AH_TEMPLATE(SUNOS)
-AH_TEMPLATE(LINUX)
 AH_TEMPLATE(LINUX_SPARC)
 AH_TEMPLATE(LINUX_ALPHA)
 AH_TEMPLATE(LINUX_IPAQ)
-AH_TEMPLATE(NETBSD)
 AH_TEMPLATE(FREEBSD)
+AH_TEMPLATE(NETBSD)
 AH_TEMPLATE(OPENBSD)
 AH_TEMPLATE(HPUX)
 AH_TEMPLATE(AIX)
 AH_TEMPLATE(OSF1)
 AH_TEMPLATE(IRIX)
-AH_TEMPLATE(MACOSX)
 AH_TEMPLATE(NEXTSTEP)
 AH_TEMPLATE(CYGWIN32)
-AH_TEMPLATE(WIN32)
 AH_TEMPLATE(FEDORA)
 AH_TEMPLATE(UBUNTU)
 AH_TEMPLATE(CENTOS)
@@ -606,19 +611,6 @@ if test "${GCC}" = "yes"; then
     AC_CHECK_LIB([dmallocthcxx], [dmalloc_verify])
     AC_CHECK_HEADERS([dmalloc.h])
   fi
-fi
-
-
-# --------------------------------------------------------------------------
-#
-# Check for efence option
-#
-AC_ARG_ENABLE([efence],
-              AS_HELP_STRING([--enable-efence],
-              [enable efence debugging [[default=no]]]))
-
-if test "${enable_efence:=no}" = "yes"; then
-  AC_CHECK_LIB([efence], [malloc])
 fi
 
 
