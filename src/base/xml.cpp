@@ -25,11 +25,10 @@
 
 #if HAVE_LIBXML2 && HAVE_LIBXML_PARSER_H
 
-#define XML_ERROR -1
-#define DETECTION_ERROR -2
-#define ALL_OK 0
-#define _XML_DEBUG_ 0
-#define _XML_DTD_ 0
+#define XML_ERR		-1
+#define XML_DETECT_ERR	-2
+#define XML_OK		0
+#define XML_DEBUG	0
 
 
 int Xml::string2Coord(char *strpos, float *tmpx, float *tmpy, float *tmpz, float *tmporiz)
@@ -59,7 +58,7 @@ int Xml::string2Coord(char *strpos, float *tmpx, float *tmpy, float *tmpz, float
   }
   else return -2;
 
-  ptok =  strtok(NULL, ",");
+  ptok = strtok(NULL, ",");
   if (ptok) {
     *tmporiz = (float) atof(ptok);
   }
@@ -76,10 +75,10 @@ int Xml::getXmlDocument(char* filename, xmlDocPtr* doc)
 
   if ((*doc) == NULL) {
     error("unable to parse file \"%s\"", filename);
-    return XML_ERROR;
+    return XML_ERR;
   }
 
-  return ALL_OK;
+  return XML_OK;
 }
 
 
@@ -89,7 +88,7 @@ int Xml::selectXpathPoint(char *filename, float *position, char *type, char *res
   xmlXPathContextPtr xpathCtx;
   xmlXPathObjectPtr xpathObj;
   const xmlChar *xpathExpr;
-  char* xpathExpr_=strdup("//*/");
+  char* xpathExpr_ = strdup("//*/");
 
   strcat(xpathExpr_,type);
   xpathExpr = (const xmlChar *) xpathExpr_;
@@ -99,7 +98,7 @@ int Xml::selectXpathPoint(char *filename, float *position, char *type, char *res
 
   if (doc == NULL) {
     error("unable to parse file \"%s\"", filename);
-    return XML_ERROR;
+    return XML_ERR;
   }
 
   /* Creation du contexte d'evaluation */
@@ -107,7 +106,7 @@ int Xml::selectXpathPoint(char *filename, float *position, char *type, char *res
   if (xpathCtx == NULL) {
     error("unable to create new XPath context");
     xmlFreeDoc(doc);
-    return XML_ERROR;
+    return XML_ERR;
   }
 
   /* Evalue l'expression de xpathExpr ds le contexte xpathCtx */
@@ -116,7 +115,7 @@ int Xml::selectXpathPoint(char *filename, float *position, char *type, char *res
     error("unable to evaluate xpath expression \"%s\"", xpathExpr);
     xmlXPathFreeContext(xpathCtx);
     xmlFreeDoc(doc);
-    return XML_ERROR;
+    return XML_ERR;
   }
 
   int detecterror = getXpathPoint(xpathObj->nodesetval, position, result);
@@ -132,7 +131,7 @@ int Xml::selectXpathPoint(char *filename, float *position, char *type, char *res
 
 int Xml::getXpathPoint(xmlNodeSetPtr nodes, float *position, char *result)
 {
-  return ALL_OK;
+  return XML_OK;
 }
 
 
@@ -151,14 +150,14 @@ int Xml::selectProximity(char *filename,char *type, float *posx,float *posy,floa
   doc = xmlParseFile(filename);
   if (doc == NULL) {
     error( "unable to parse file \"%s\"", filename);
-    return XML_ERROR;
+    return XML_ERR;
   }
   /* Creation du contexte d'evaluation */
   xpathCtx = xmlXPathNewContext(doc);
   if (xpathCtx == NULL) {
     error("unable to create new XPath context");
     xmlFreeDoc(doc);
-    return XML_ERROR;
+    return XML_ERR;
   }
   /* Evalue l'expression de xpathExpr ds le contexte xpathCtx */
   xpathObj = xmlXPathEvalExpression(xpathExpr, xpathCtx);
@@ -166,7 +165,7 @@ int Xml::selectProximity(char *filename,char *type, float *posx,float *posy,floa
     error("unable to evaluate xpath expression \"%s\"", xpathExpr);
     xmlXPathFreeContext(xpathCtx);
     xmlFreeDoc(doc);
-    return XML_ERROR;
+    return XML_ERR;
   }
 
   int detecterror = getProximity(xpathObj->nodesetval, &(*posx),&(*posy),&(*posz),&(*ori));
@@ -183,14 +182,13 @@ int Xml::selectProximity(char *filename,char *type, float *posx,float *posy,floa
 int Xml::getProximity(xmlNodeSetPtr nodes, float *posx, float *posy, float *posz, float *ori)
 {
   xmlNodePtr cur;
-  // xmlNodePtr tmp, soliddim;
   xmlAttrPtr tmpattr;
   char *foundpos;
   char *founddim;
-  float positx = 0,tmpx =0;
-  float posity = 0,tmpy =0;
-  float positz = 0,tmpz =0;
-  float orientz = 0 , tmporiz =0;
+  float positx = 0, tmpx = 0;
+  float posity = 0, tmpy = 0;
+  float positz = 0, tmpz = 0;
+  float orientz = 0, tmporiz = 0;
   double distance = MAXFLOAT;
   double tmpdistance = MAXFLOAT;
   bool found = false;
@@ -200,9 +198,9 @@ int Xml::getProximity(xmlNodeSetPtr nodes, float *posx, float *posy, float *posz
   foundpos = strdup("N/A");
   founddim = strdup("0.0,0.0,0.0");
 
-  if ((nodes == NULL)||(size < 1)){
+  if ((nodes == NULL) || (size < 1)){
     error("no xml nodes");
-    return DETECTION_ERROR;
+    return XML_DETECT_ERR;
   }
 
   for (int i=0; i<size; ++i) {
@@ -247,9 +245,9 @@ int Xml::getProximity(xmlNodeSetPtr nodes, float *posx, float *posy, float *posz
     (*posy) = posity;
     (*posz) = positz;
     (*ori)  = orientz;
-    return ALL_OK;
+    return XML_OK;
   }
-  return DETECTION_ERROR;
+  return XML_DETECT_ERR;
 }
 
 
@@ -272,14 +270,14 @@ int Xml::selectXpathExpr(char *filename, const char *xpathExpr_, char *phrase, c
   doc = xmlParseFile(filename);
   if (doc == NULL) {
     error("unable to parse file \"%s\"", filename);
-    return XML_ERROR;
+    return XML_ERR;
   }
   /* Creation du contexte d'evaluation */
   xpathCtx = xmlXPathNewContext(doc);
   if (xpathCtx == NULL) {
     error("unable to create new XPath context");
     xmlFreeDoc(doc);
-    return XML_ERROR;
+    return XML_ERR;
   }
   /* Evalue l'expression de xpathExpr ds le contexte xpathCtx */
   xpathObj = xmlXPathEvalExpression(xpathExpr, xpathCtx);
@@ -287,7 +285,7 @@ int Xml::selectXpathExpr(char *filename, const char *xpathExpr_, char *phrase, c
     error("unable to evaluate xpath expression \"%s\"", xpathExpr);
     xmlXPathFreeContext(xpathCtx);
     xmlFreeDoc(doc);
-    return XML_ERROR;
+    return XML_ERR;
   }
 
   /* Lancement de l'analyse sur les resultats */
@@ -326,7 +324,7 @@ int Xml::getXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result)
 
   if ((nodes == NULL) || (size < 1)) {
     error("no xml nodes");
-    return DETECTION_ERROR;
+    return XML_DETECT_ERR;
   }
 
   for (int i=0; i<size; ++i) {
@@ -355,7 +353,7 @@ int Xml::getXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result)
 	  tmp = tmp->prev;
 	}
 	
-	/* le nom de la table et la position sont trouvés,
+	/* le nom de la table et la position sont trouves,
 	   il reste a trouver les dimensions de la table */
 	/* si on est pas sur un solid on part a l'interieur de
 	   la description de l'objet pour rechercher un solid */
@@ -377,7 +375,7 @@ int Xml::getXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result)
 	}
 	tmp = soliddim;
 	
-	/* Maintenant que le solid est trouvé on cherche la dimension */
+	/* Maintenant que le solid est trouve on cherche la dimension */
 	tmpattr = tmp->properties;
 	found = false;
 	while (tmpattr && !found) {
@@ -392,24 +390,24 @@ int Xml::getXpathExpr(xmlNodeSetPtr nodes, char *phrase, char *result)
     }
   }
 
-  /* Pour le moment nous ne tenons pas compte de l'orientation de l'objet en question*/
+  /* Pour le moment nous ne tenons pas compte de l'orientation de l'objet */
   if ((foundpos) && (strcmp(foundpos, "N/A"))) {
     string2Coord(foundpos, &positx, &posity, &positz, &orientz);
     sprintf(result, "%.2f,%.2f,%.2f,%.2f,%s", positx, posity, positz, orientz, founddim);
     free(foundpos);
     free(founddim);
-    return ALL_OK;
+    return XML_OK;
   }
   else {
     sprintf(result, "N/A");
     free(foundpos);
     free(founddim);
-    return DETECTION_ERROR;
+    return XML_DETECT_ERR;
   }
   free(foundpos);
   free(founddim);
 
-  return ALL_OK;
+  return XML_OK;
 }
 
 
@@ -432,7 +430,7 @@ int Xml::getXpathName(xmlNodeSetPtr nodes, char *result)
 
   if (!nodes || (size != 1)) {
     error("%d NODES problem: founded 2 same object name !", size);
-    return DETECTION_ERROR;
+    return XML_DETECT_ERR;
   }
 
   if (nodes->nodeTab[0]->type == XML_ELEMENT_NODE) {
@@ -448,7 +446,7 @@ int Xml::getXpathName(xmlNodeSetPtr nodes, char *result)
       }
       tmpattr2 = tmpattr2->next;
     }
-    /* le nom de la table et la position sont trouvés,
+    /* le nom de la table et la position sont trouves,
        il reste a trouver les dimensions de la table */
     /* si on est pas sur un solid on part a l'interieur de
        la description de l'objet pour rechercher un solid */
@@ -470,7 +468,7 @@ int Xml::getXpathName(xmlNodeSetPtr nodes, char *result)
     }
     tmp = soliddim;
 
-    /* Maintenant que le solid est trouvé on cherche la dimension */
+    /* Maintenant que le solid est trouve on cherche la dimension */
     tmpattr = tmp->properties;
     found = false;
     while (tmpattr && !found) {
@@ -483,24 +481,24 @@ int Xml::getXpathName(xmlNodeSetPtr nodes, char *result)
     }
   }
 
-  /* Pour le moment nous ne tenons pas compte de l'orientation de l'objet en question*/
+  /* Pour le moment nous ne tenons pas compte de l'orientation de l'objet */
   if ((foundpos) && (strcmp(foundpos,"N/A"))) {
     string2Coord(foundpos, &positx, &posity, &positz, &orientz);
     sprintf(result, "%.2f,%.2f,%.2f,%.2f,%s", positx, posity, positz, orientz, founddim);
     free(foundpos);
     free(founddim);
-    return ALL_OK;
+    return XML_OK;
   }
   else {
     sprintf(result, "N/A");
     free(foundpos);
     free(founddim);
-    return DETECTION_ERROR;
+    return XML_DETECT_ERR;
   }
   free(foundpos);
   free(founddim);
 
-  return ALL_OK;
+  return XML_OK;
 }
 
 
@@ -546,14 +544,14 @@ void Xml::dtdValidation(const char *pathname)
   return;
 }
 
-#if _DEBUG_DTD_ //evdebug DTD
+#if DEBUG_DTD //evdebug DTD
 void Xml::processNode(xmlTextReaderPtr reader)
 {
   const xmlChar *name, *value;
 
   name = xmlTextReaderConstName(reader);
   if (name == NULL)
-      name = BAD_CAST "--";
+    name = BAD_CAST "--";
 
   value = xmlTextReaderConstValue(reader);
 
