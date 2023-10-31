@@ -34,17 +34,15 @@
  * Xml class
  */
 class Xml {
-
  public:
-
   Xml() {};
   /**< Constructor */
 
   virtual ~Xml();
   /**< Destructor */
 
-  static int getXmlDocument(char* filename,xmlDocPtr* doc);
-  /**< return the scene described in xml type */
+  static void dtdValidation(const char *pathname);
+  /**< Checks DTD */
 
   static int selectXpathPoint(char *filename, float * position_, char *phrase, char *result);
   /**< search object with the position of mouse and the type */
@@ -55,8 +53,8 @@ class Xml {
   static int selectXpathExpr(char *filename, const char *xpathExpr, char *phrase, char *res);
   /**< search object with the name or something else */
 
-  static void dtdValidation(const char *pathname);
-  /**< Checks DTD */
+  //notused static int getXmlDocument(char* filename,xmlDocPtr* doc);
+  //notused /**< return the scene described in xml type */
 
  private:
   static int getXpathPoint(xmlNodeSetPtr nodes,float * position, char *result);
