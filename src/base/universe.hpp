@@ -21,7 +21,6 @@
 #ifndef UNIVERSE_HPP
 #define UNIVERSE_HPP
 
-class World;
 class User;
 
 #define	MANAGER_NAME	"manager"
@@ -31,18 +30,25 @@ class User;
  * Universe class
  */
 class Universe {
- public:
+ private:
   char *server;		///< http server name
   char *url;		///< url
   char *urlpfx;		///< url prefix
+  class Wheel *wheel;	///< wheel instance
+  pthread_t wheel_tid;  ///< wheel thread
+
+  static void sigWheel(int sig);
+  /**< Intercepts signal SIGTERM */
+
+  static void * runWheel(void *arg);
+  /**< Runs the wheel progression indicator */
+
+ public:
   char *grpstr;		///< group str
   uint16_t port;	///< port
   uint8_t ttl;		///< scope
-  uint8_t version;	///< vre version
-  uint8_t worldcnt;	///< world counter
   User *localuser;	///< current player (init by World !)
-  class Wheel *wheel;	///< wheel instance
-  pthread_t wheel_tid;  ///< wheel thread
+  uint8_t worldcnt;	///< world counter
 
   Universe();		///< Constructor
 
@@ -55,16 +61,10 @@ class Universe {
   void startWheel();
   /**< Starts the wheel progression indicator */
 
-  static void sigWheel(int sig);
-  /**< Intercepts signal SIGTERM */
-
-  static void * runWheel(void *arg);
-  /**< Runs the wheel progression indicator */
-
   void stopWheel();
   /**< Stops the wheel progression indicator */
 };
 
-extern World *world_manager;
+extern class World *world_manager;
 
 #endif

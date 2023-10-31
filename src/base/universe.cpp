@@ -21,7 +21,6 @@
 #include "vreng.hpp"
 #include "universe.hpp"
 #include "world.hpp"	// World
-#include "wobject.hpp"	// WO
 #include "channel.hpp"	// getTtl
 #include "user.hpp"	// User
 #include "pref.hpp"	// url
@@ -38,7 +37,6 @@ Universe::Universe()
 {
   localuser = NULL;
   port = DEF_VRENG_PORT;
-  version = VRE_VERSION;
   worldcnt = 0;
 
   url = new char[strlen(::g.url) + 1];
