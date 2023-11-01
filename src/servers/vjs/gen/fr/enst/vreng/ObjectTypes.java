@@ -1,7 +1,7 @@
 package fr.enst.vreng;
 
 /**
- * Generated from ../../../src/world/objects.cpp at Mon Oct 30 09:54:55 2023
+ * Generated from ../../../src/world/objects.cpp at Wed Nov  1 09:50:28 2023
  */
 public class ObjectTypes {
 

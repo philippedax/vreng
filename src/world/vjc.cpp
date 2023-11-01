@@ -257,7 +257,6 @@ int VjcSocket::openRecv()
 /* Opens the sender socket. IO is set to non-blocking on this one */
 int VjcSocket::openSend()
 {
-  //echo("vjc: openSend");
   if ((sdw = Socket::openDatagram()) < 0) return 0;
 
   Socket::setNoBlocking(sdw);
@@ -320,7 +319,6 @@ int VjcSocket::openSocket()
 
   // connect the sender
   if (statecon == SOCK_CONNECT) if (connectSend() == 0) return -1;
-  if (statecon == SOCK_OPEN) return 1;	// everything is connected
 
   // one of the steps didn't finish yet.
   return 0;
@@ -341,18 +339,20 @@ VjcSocket::~VjcSocket()
   sadest = NULL;
 }
 
+#if 0 //notused
 /*
  * Utility functions
  */
-bool VjcSocket::isOpen()
+bool VjcSocket::isOpen() const
 {
   return (statecon == SOCK_OPEN);
 }
 
-bool VjcSocket::isClosed()
+bool VjcSocket::isClosed() const
 {
   return (statecon == SOCK_CLOSED);
 }
+#endif //notused
 
 
 /*

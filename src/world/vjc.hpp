@@ -168,12 +168,10 @@ class VjcSocket {
    * finished or not.
    */
 
-  bool isOpen();
-  ///< Is socket opened ?.
-
-  bool isClosed();
-  ///< Is socket closed ?.
-
+  //notused bool isOpen() const;
+  //notused ///< Is socket opened ?.
+  //notused bool isClosed() const;
+  //notused ///< Is socket closed ?.
 };
 
 /**
@@ -308,6 +306,9 @@ class VjcMessage {
    * The message is not deleted.
    */
 
+  tVjcHeader readHeader();
+  /**< Reads a message header */
+
   int8_t  read8();
   /**< Reads an 8 bit signed int */
 
@@ -328,9 +329,6 @@ class VjcMessage {
    * Reads three 32bit ints, converted to floats by division by 1000,
    * and returns them in a V3.
    */
-
-  tVjcHeader readHeader();
-  /**< Reads a message header */
 
   bool hasData(int size);	
   /**<
@@ -373,13 +371,7 @@ class VjcMessage {
  */
 class Vjc: public WO {
 
- private:
-  static const uint16_t PING_WAIT;
-  static const uint16_t VJS_PORT;
-  static const uint16_t VJC_PORT;
-
  public:
-
   char host[MAXHOSTNAMELEN];	///< Controler's hostname
   uint32_t ssrc;		///< This app's ssrc
   uint16_t serverPort;		///< Controler's listen port
@@ -452,6 +444,9 @@ class Vjc: public WO {
   ///< The two-way socket
 
  private:
+  static const uint16_t PING_WAIT;
+  static const uint16_t VJS_PORT;
+  static const uint16_t VJC_PORT;
 
   static void setServer(Vjc *server);
   /**< Sets the current running instance */
@@ -476,7 +471,6 @@ class Vjc: public WO {
 
   void defaults();
   ///< Sets defaults
-
 };
 
 #endif
