@@ -59,7 +59,7 @@ int Wget::start(const char *_url, char *file, const char opts[])
       if (check) execlp("wget", "wget", "-q", "--spider", url, (char*)NULL);
       else       execlp("wget", "wget", "-q", url, (char*)NULL);
     }
-    if ( *file == '-') {
+    if (*file == '-') {
       execlp("wget", "wget", "-nv", "-O", "-", url, (char*)NULL);
     }
     else if (! stringcmp(opts, "inout"))		// local copy
@@ -89,7 +89,9 @@ int Wget::start(const char *_url, char *file, const char opts[])
 #endif
 }
 
+#if 0 //notused
 void Wget::unlinktmp(const char *file)
 {
   if (access(file, W_OK) == 0) unlink(file);
 }
+#endif //notused

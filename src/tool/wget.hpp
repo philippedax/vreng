@@ -31,8 +31,9 @@ class Wget {
   static int start(const char *url, char *cachepath, const char options[] = (char *)"-qO");
   ///< Launch wget on this url
 
-  static void unlinktmp(const char *path);
-  ///< Remove file in /tmp
+ private:
+  //notused static void unlinktmp(const char *path);
+  //notused ///< Remove file in /tmp
 
 };
 
