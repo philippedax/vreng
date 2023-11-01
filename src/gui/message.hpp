@@ -28,8 +28,8 @@
 using namespace ubit;
 using namespace std;
 
-
 class WO;
+
 
 /**
  * Message class
@@ -37,7 +37,7 @@ class WO;
 class Message {
 friend class Widgets;
 
-public:
+ public:
   vector<UStr> mess_history;	///< history log
 
   Message(class Widgets*);
@@ -57,7 +57,7 @@ public:
   void getClicked(uint8_t *nclick, float clicked[]);
   ///< get clicked object for the request.
 
-protected:
+ protected:
   class Widgets& gw;
   UBox mess_box;		///< message box
   UScrollpane mess_scrollpane;	///< message panel
@@ -77,19 +77,21 @@ protected:
  * Message2 class
  */
 class Message2 {
-public:
-  Message2();		///< Constructor.
+ public:
+  Message2() {}		///< constructor.
+  virtual ~Message2() {}///< destructor.
 
   void putIcon(const UStr& val);
   ///< Puts Icon's infos.
+
   void putIconCB();
   ///< Puts Icon.
 
-  UStr url;	///< document's url
-  UStr file;	///< local file
-  UStr ofile;	///< public file
-  UStr name;	///< document's name
-  UStr icon;	///< document's icon
- };
+  UStr url;		///< document's url
+  UStr file;		///< local file
+  UStr ofile;		///< public file
+  UStr name;		///< document's name
+  UStr icon;		///< document's icon
+};
 
 #endif

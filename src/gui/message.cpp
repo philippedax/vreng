@@ -61,8 +61,10 @@ Message::Message(Widgets* _gw) :
 /** Creates the input query box */
 UBox& Message::createQuery()
 {
-  UTextfield& input = utextfield(usize(250) + mess_text + ucall(this, &Message::inputCB));
-  UBox& query = uhbox(ulabel(UFont::bold + "input: ")
+  UTextfield& input = utextfield(usize(250)
+                    + mess_text
+                    + ucall(this, &Message::inputCB));
+  UBox& query =  uhbox(ulabel(UFont::bold + "input: ")
                + uhflex()
                + input
                + uright()
@@ -90,8 +92,10 @@ UBox& Message::createMessagePanel(bool transparent)
   mess_scrollpane.showVScrollButtons(false);
   mess_scrollpane.getHScrollbar()->show(false);
 
-  UTextfield& input = utextfield(usize(250) + mess_text + ucall(this, &Message::inputCB));
-  UBox& query = uhbox(ulabel(UFont::bold + "input: ")
+  UTextfield& input = utextfield(usize(250)
+                    + mess_text
+                    + ucall(this, &Message::inputCB));
+  UBox& query =  uhbox(ulabel(UFont::bold + "input: ")
                + uhflex()
                + input
                + uright()
@@ -108,7 +112,6 @@ UBox& Message::createMessagePanel(bool transparent)
                        + ucall(this, +1, &Message::getHistoryCB)
                       )
               );
-
   UBox& notif = ubox(UOrient::vertical
                      + uhflex()
                      + uvflex()
@@ -129,14 +132,14 @@ void Message::inputCB()
 
   mess_history.push_back(mess_text);	// save text into history
 
-  if (mess_text[0] == '!') {	// starts with a '!'
+  if (mess_text[0] == '!') {		// starts with a '!'
     performRequest(mess_text);
   }
   else {
     writeMessage("chat", g.user, mess_text.c_str());	// display in message zone
     User::userWriting(mess_text.c_str());		// send to localuser
   }
-  mess_text = "";	// clear textfield
+  mess_text = "";			// clear textfield
 }
 
 void Message::getHistoryCB(int go)
@@ -177,7 +180,7 @@ void Message::performRequest(const UStr& req)	// req starts with a '!'
 #endif //HAVE_OCAML
 }
 
-void Message::performRequest(WO* object)
+void Message::performRequest(WO *object)
 {
   if (object && nclicks > 0) {
     clicked[0]=object->pos.x;
@@ -195,6 +198,7 @@ void Message::performRequest(WO* object)
 void Message::initClicked()
 {
   nclicks = 0;
+
   for (int i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
     clicked[i] = MAXFLOAT;
   }
@@ -203,6 +207,7 @@ void Message::initClicked()
 void Message::getClicked(uint8_t *_nclicks, float _clicked[])
 {
   *_nclicks = nclicks;
+
   for (int i=0; i < sizeof(clicked)/sizeof(float) ; i++) {
     _clicked[i] = clicked[i];
   }
@@ -215,18 +220,18 @@ static bool string2Coord(const char* positions, float& x, float& y, float& z, fl
 
   x = y = z = az = 0;
   p = strtok_r(positions_copy, ",", &brkt);
-  if (p) x = (float) atof(p); else goto ERROR;
+  if (p) x = (float) atof(p); else goto endstr;
   p = strtok_r(NULL, ",", &brkt);
-  if (p) y = (float) atof(p); else goto ERROR;
+  if (p) y = (float) atof(p); else goto endstr;
   p = strtok_r(NULL, ",", &brkt);
-  if (p) z = (float) atof(p); else goto ERROR;
+  if (p) z = (float) atof(p); else goto endstr;
   p = strtok_r(NULL, ",", &brkt);
-  if (p) az = (float) atof(p); else goto ERROR;
+  if (p) az = (float) atof(p); else goto endstr;
 
   free(positions_copy);
   return true;
 
-ERROR:
+endstr:
   free(positions_copy);
   return false;
 }
@@ -240,7 +245,7 @@ static void moveSatCamera(char* pos)
   g.render.setCameraScissor(x, y, z, az);
 }
 
-void Message::convertTextToLink(const std::string& text, char **listeObjets, int size)
+void Message::convertTextToLink(const string& text, char **listeObjets, int size)
 {
   UElem* allmsgs = new UElem();
   bool found = false;
@@ -251,15 +256,15 @@ void Message::convertTextToLink(const std::string& text, char **listeObjets, int
     mess_box.add(uhbox(ugroup(mess)));
   }
   char *brkt = null;
-  char *tempmess = strtok_r(mess, " ", &brkt);
+  char *tmpmess = strtok_r(mess, " ", &brkt);
 
-  while (tempmess) {
+  while (tmpmess) {
     found = false;
     for (int i=0; i<size ; i=i+3) {
 
       if (! listeObjets[i])
         break;
-      if ((! strcasecmp(listeObjets[i], tempmess)) && (listeObjets[i+1])) {
+      if ((! strcasecmp(listeObjets[i], tmpmess)) && (listeObjets[i+1])) {
         UIma& uimg = uima(listeObjets[i+1]);	// loads image
         uimg.rescale(0.25);
         ULinkbutton& ulinkb =
@@ -271,21 +276,21 @@ void Message::convertTextToLink(const std::string& text, char **listeObjets, int
         allmsgs->add(ulinkb);
         allmsgs->add(ustr(" "));
         found = true;
-        unlink(listeObjets[i+1]);	// unlink temp file
+        unlink(listeObjets[i+1]);	// unlink tmp file
         break;
       }
     }
-    if (!found) {
-      allmsgs->add(ugroup(tempmess));
+    if (! found) {
+      allmsgs->add(ugroup(tmpmess));
       allmsgs->add(ustr(" "));
     }
-    tempmess = strtok_r(NULL, " ", &brkt);
+    tmpmess = strtok_r(NULL, " ", &brkt);
   }
   mess_box.add(uhbox(ustr("augmented msg>") + allmsgs));
   free(mess);
 }
 
-void Message::postRequest(const std::string& mess, std::string& result)
+void Message::postRequest(const string& mess, string& result)
 {
   int sizemax = 256;
   float posx, posy, posz, posaz; //coordonnees trouvees
@@ -328,7 +333,7 @@ void Message::postRequest(const std::string& mess, std::string& result)
       afficher = (afficher+1) % 3;
       continue;
     }
-    else { //not @
+    else { 		//not @
       if (afficher == 0) {
         result += mess[i];
       }
@@ -352,7 +357,7 @@ void Message::postRequest(const std::string& mess, std::string& result)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// chat, warning, notice...
+// chat, warning, request, notice...
 
 void Message::writeMessage(const char* mode, const char* from, const char* msg)
 {
@@ -362,9 +367,8 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
   uptr<UStr> prefix = null;
   uptr<UColor> prefix_color = null;
 
-  if (from) {
-    // chat
-    std::string result;
+  if (from) {		// chat
+    string result;
     postRequest(msg, result);
     mess_text = new UStr(result);
 
@@ -373,38 +377,31 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
     prefix->append("> ");
     prefix_color = &::g.theme.chatColor;
   }
-
-  else if (mode) {
-    // internal
+  else if (mode) {	// internal
     mess_text = new UStr(msg);
 
-    if (! strcmp(mode, "notice")) {
-      // notice
+    if (! strcmp(mode, "notice")) {		// notice
       prefix = new UStr(mode);
       prefix->append("> ");
       prefix_color = ::g.theme.noticeColor;
     }
-    else if (! strcmp(mode, "progress")) {
-      // progress
+    else if (! strcmp(mode, "progress")) {	// progress
       prefix = new UStr("");
       prefix_color = ::g.theme.noticeColor;
       mess_box.add(uhbox(ugroup(UFont::bold + prefix_color) + mess_text));
     }
-    else if (! strcmp(mode, "request")) {
-      // requext
+    else if (! strcmp(mode, "request")) {	// requext
       prefix = new UStr(mode);
       prefix->append("> ");
       prefix_color = ::g.theme.requestColor;
     }
-    else {
-      // warning
+    else {					// warning
       prefix = new UStr(mode);
       prefix->append("> ");
       prefix_color = ::g.theme.warningColor;
     }
   }
-  else {
-    // chat to
+  else {		// chat to
     error("msg: %s", msg);
     mess_text = new UStr(msg);
     prefix = new UStr("> ");
@@ -417,37 +414,32 @@ void Message::writeMessage(const char* mode, const char* from, const char* msg)
 
 /* ==================================================== ======== ======= */
 
-Message2::Message2() {}
-
 void Message2::putIconCB()
 {
-  char infos[BUFSIZ];
+  char infos[128];
+
   memset(infos, 0, sizeof(infos));
   if (url.c_str()) {
     strcat(infos, "<url=\"");
     strcat(infos, url.c_str());
-    strcat(infos, "\">&");
   }
   if (file.c_str()) {
     strcat(infos, "<file=\"");
     strcat(infos, file.c_str());
-    strcat(infos, "\">&");
   }
   if (ofile.c_str()) {
     strcat(infos, "<ofile=\"");
     strcat(infos, ofile.c_str());
-    strcat(infos, "\">&");
   }
   if (name.c_str()) {
     strcat(infos, "<name=\"");
     strcat(infos, name.c_str());
-    strcat(infos, "\">&");
   }
   if (icon.c_str()) {
     strcat(infos, "<icon=\"");
     strcat(infos, icon.c_str());
-    strcat(infos, "\">&");
   }
+  strcat(infos, "\">&");
   doAction(ICON_TYPE, Icon::CREATE, localuser, infos, 0, 0);
 }
 
