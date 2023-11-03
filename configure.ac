@@ -1251,7 +1251,7 @@ AC_ARG_WITH([glut],
 
 # check toolkit system first
 if test "$ac_cv_use_glut" = "yes"; then
-  AC_GLUT_CHECK
+  #AC_GLUT_CHECK
   want_glut="yes"
   want_x11="no"
   ubit_features="$ubit_features UBIT_WITH_GLUT"
