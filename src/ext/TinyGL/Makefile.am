@@ -8,7 +8,7 @@ TINYGL_HDRS = msghandling.h opinfo.h specbuf.h zbuffer.h zfeatures.h zgl.h zline
 
 AM_CPPFLAGS = -I$(top_srcdir)
 
-if ENABLE_LIBTINYGL
+if ENABLE_TINYGL
 noinst_LIBRARIES = libTinyGL.a
 libTinyGL_a_SOURCES = $(TINYGL_SRCS) $(TINYGL_HDRS)
 endif

@@ -1873,7 +1873,7 @@ AM_CONDITIONAL(ENABLE_LIBMPEG,   test "$am_libmpeg" = "yes")
 AM_CONDITIONAL(ENABLE_FTGL,      test "$am_libftgl" = "yes")
 AM_CONDITIONAL(ENABLE_GLUI,      test "$am_libglui" = "yes")
 AM_CONDITIONAL(ENABLE_OPENAL,    test "$am_libopenal" = "yes")
-AM_CONDITIONAL(ENABLE_LIBTINYGL, test "$am_libtinygl" = "yes")
+AM_CONDITIONAL(ENABLE_TINYGL,    test "$am_libtinygl" = "yes")
 
 
 # --------------------------------------------------------------------------

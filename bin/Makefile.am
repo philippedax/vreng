@@ -99,27 +99,12 @@ CORE_CFLAGS = -I$(SRCDIR) -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(
 if ENABLE_OCAML
 AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ $(CORE_CFLAGS)
 else
-AM_CPPFLAGS = @UBIT_CFLAGS@ $(CORE_CFLAGS)
+AM_CPPFLAGS = $(CORE_CFLAGS) @UBIT_CFLAGS@
 endif
 
 PNG_LIB= -lpng
 Z_LIB= -lz
 EXT_LIB = $(PNG_LIB) $(Z_LIB)
-
-# embedded libraries
-XML_LIB   = -L$(SRCDIR)/ext/xmlParser $(SRCDIR)/ext/xmlParser/libxmlparser.a
-if ENABLE_LIBMPEG
-MPEG_LIB  = -L$(SRCDIR)/ext/mpeg_lib $(SRCDIR)/ext/mpeg_lib/libmpeg.a
-endif
-if ENABLE_FTGL
-FTGL_LIB  = -L$(SRCDIR)/ext/ftgl $(SRCDIR)/ext/ftgl/libftgl.a
-endif
-if ENABLE_GLUI
-GLUI_LIB  = -L$(SRCDIR)/ext/glui $(SRCDIR)/ext/glui/libglui.a
-endif
-if ENABLE_GL2PS
-GL2PS_LIB = -L$(SRCDIR)/ext/gl2ps $(SRCDIR)/ext/gl2ps/libgl2ps.a
-endif
 
 # core libs
 BASE_LIB  = -L$(SRCDIR)/base  $(SRCDIR)/base/libbase.a
@@ -138,8 +123,26 @@ endif
 
 CORE_LIBS = $(GUI_LIB) $(WORLD_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(BASE_LIB) $(UBIT_LIB) $(AI_LIB)
 
+# embedded libraries
+XML_LIB   = -L$(SRCDIR)/ext/xmlParser $(SRCDIR)/ext/xmlParser/libxmlparser.a
+if ENABLE_LIBMPEG
+MPEG_LIB  = -L$(SRCDIR)/ext/mpeg_lib $(SRCDIR)/ext/mpeg_lib/libmpeg.a
+endif
+if ENABLE_FTGL
+FTGL_LIB  = -L$(SRCDIR)/ext/ftgl $(SRCDIR)/ext/ftgl/libftgl.a
+endif
+if ENABLE_GLUI
+GLUI_LIB  = -L$(SRCDIR)/ext/glui $(SRCDIR)/ext/glui/libglui.a
+endif
+if ENABLE_GL2PS
+GL2PS_LIB = -L$(SRCDIR)/ext/gl2ps $(SRCDIR)/ext/gl2ps/libgl2ps.a
+endif
+if ENABLE_TINYGL
+TINYGL_LIB = -L$(SRCDIR)/ext/TinyGL $(SRCDIR)/ext/TinyGL/libTinyGL.a
+endif
+
 # embedded libs
-EXT_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB)
+EXT_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB) $(TINYGL_LIB)
 
 # executable
 vreng_LDADD = $(CORE_LIBS) $(EXT_LIBS) $(VRELIBS)

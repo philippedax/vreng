@@ -180,6 +180,12 @@ const char CONFIG_H[] = "\
 /* */\n\
 /* #undef HAVE_GL2PS */\n\
 \n\
+/* Define to 1 if you have the <GLUT/glut.h> header file. */\n\
+/* #undef HAVE_GLUT_GLUT_H */\n\
+\n\
+/* Define to 1 if you have the <GL/glut.h> header file. */\n\
+/* #undef HAVE_GL_GLUT_H */\n\
+\n\
 /* */\n\
 #define HAVE_GL_GLU_H 1\n\
 \n\
@@ -224,6 +230,9 @@ const char CONFIG_H[] = "\
 \n\
 /* */\n\
 #define HAVE_LIBGLU 1\n\
+\n\
+/* Define to 1 if you have the `glut' library (-lglut). */\n\
+/* #undef HAVE_LIBGLUT */\n\
 \n\
 /* Define to 1 if you have the `iberty' library (-liberty). */\n\
 /* #undef HAVE_LIBIBERTY */\n\
