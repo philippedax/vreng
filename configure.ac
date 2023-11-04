@@ -1245,32 +1245,6 @@ AC_SUBST(GL_CFLAGS)
 
 
 # --------------------------------------------------------------------------
-AC_ARG_WITH([glut],
-    AS_HELP_STRING([--with-glut],[use GLUT toolkit if available [[default=no]]]),
-    [ac_cv_use_glut=$withval], [ac_cv_use_glut=no])
-
-# check toolkit system first
-if test "$ac_cv_use_glut" = "yes"; then
-  #AC_GLUT_CHECK
-  want_glut="yes"
-  want_x11="no"
-  ubit_features="$ubit_features UBIT_WITH_GLUT"
-  if test "$have_gl" = "yes"; then
-    ubit_features="$ubit_features UBIT_WITH_GL"
-  fi
-else
-  #AC_X11_CHECK
-  want_x11="yes"
-  want_glut="no"
-  ubit_features="$ubit_features UBIT_WITH_X11"
-  if test "$have_gl" = "yes"; then
-    ubit_features="$ubit_features UBIT_WITH_GL"
-  fi
-fi
-VRELIBS="$LIBS $VRELIBS"
-
-
-# --------------------------------------------------------------------------
 #
 # Glut configuration
 #
@@ -1333,6 +1307,33 @@ am_libglut="yes"
 
 CPPFLAGS="$OSDEP_CFLAGS $CPPFLAGS"
 ])
+
+# --------------------------------------------------------------------------
+# Ubit with Glut
+#
+AC_ARG_WITH([glut],
+    AS_HELP_STRING([--with-glut],[use GLUT toolkit if available [[default=no]]]),
+    [ac_cv_use_glut=$withval], [ac_cv_use_glut=no])
+
+# check toolkit system first
+if test "$ac_cv_use_glut" = "yes"; then
+  AC_GLUT_CHECK
+  want_glut="yes"
+  want_x11="no"
+  ubit_features="$ubit_features UBIT_WITH_GLUT"
+  if test "$have_gl" = "yes"; then
+    ubit_features="$ubit_features UBIT_WITH_GL"
+  fi
+else
+  #AC_X11_CHECK
+  want_x11="yes"
+  want_glut="no"
+  ubit_features="$ubit_features UBIT_WITH_X11"
+  if test "$have_gl" = "yes"; then
+    ubit_features="$ubit_features UBIT_WITH_GL"
+  fi
+fi
+VRELIBS="$LIBS $VRELIBS"
 
 
 # --------------------------------------------------------------------------
