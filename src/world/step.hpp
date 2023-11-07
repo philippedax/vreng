@@ -39,17 +39,17 @@ class Step: public WO {
   static vector<Step*> travList;	///< vector of steps (travelator)
 
   bool mobile;		///< flag escalator or travelator
-  bool escalator;	///< flag escalator
-  bool travelator;	///< flag travelator
-  bool stair;		///< flag stair
-  bool spiral;		///< flag spiral staircase
-  bool stuck;		///< flag if user is on escalator/travelator
+  bool escalator;	///< mode escalator
+  bool travelator;	///< mode travelator
+  bool stair;		///< mode stair
+  bool spiral;		///< mode spiral staircase
+  bool stuck;		///< if user follows on escalator/travelator
   int dir;		///< direction up=1 or down=-1 or horizontal=0
   float height;		///< escalator height
   float length;		///< travelator length
   float speed;		///< linear speed of escalator/travelator
   uint8_t nsteps;	///< number of steps
-  Pos initialpos;	///< initial step position
+  Pos ipos;		///< initial step position
   Step *nextstep;	///< list of steps
 
  public:
@@ -77,7 +77,7 @@ class Step: public WO {
 
   Step(WO *user, char *form);	///< Constructor from GUI
 
-  Step(Pos& newpos, Pos& _initialpos, const char *name, const char *geom, bool _mobile, float _height, float _speed, int _dir);
+  Step(Pos& newpos, Pos& _ipos, const char *name, const char *geom, bool _mobile, float _height, float _speed, int _dir);
   /**< Constructor for structure of steps */
 
   static WO * (creator)(char *l);
@@ -107,11 +107,11 @@ class Step: public WO {
   virtual void quit();
   /**< Quits */
 
-protected:
+ protected:
   // Gui callbacks
   static void pause_cb(Step *po, void *d, time_t s, time_t u);
 
-private:
+ private:
   virtual void parser(char *l);
   /**< Parses */
 
