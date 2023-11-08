@@ -137,7 +137,7 @@ void Step::build()
     }
     else {
       if (travelator) {		// travelator
-        travList.push_back(this);
+        //travList.push_back(this);
         //FIXME: wrong position
         newpos.x = pos.x - (sx * n);
         newpos.y = pos.y - (sy * n);
@@ -146,7 +146,7 @@ void Step::build()
         travList.push_back(nextstep);
       }
       else {			// escalator
-        escaList.push_back(this);
+        //escaList.push_back(this);
         newpos.x = pos.x + (sx * n);
         newpos.y = pos.y + (sy * n);
         newpos.z = pos.z + dir*(sz * n);
