@@ -98,7 +98,7 @@ Door::Door(char *l)
 
   /* calls persistency VRSql server to know the door state */
   getPersist(state);
-  echo("Door: sql state: %d", state);
+  //echo("Door: sql state: %d", state);
 
   switch (mecanism) {
   case ANGULAR:
