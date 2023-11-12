@@ -56,6 +56,7 @@ void Spiral::parser(char *l)
 
 void Spiral::build()
 {
+  uint8_t nsteps = 0;
   float sx = pos.bbs.v[0];  // step width
   float sy = pos.bbs.v[1];  // step depth
   float sz = 2 * pos.bbs.v[2];  // step height
@@ -63,16 +64,16 @@ void Spiral::build()
   nsteps = (int) ceil(height / sz);
 
   for (int n=0; n < nsteps; n++) {
-    Pos newpos;
-    newpos.az = pos.az;
-    newpos.ax = newpos.ay = 0;
+    Pos npos;
+    npos.az = pos.az;
+    npos.ax = npos.ay = 0;
     float deltaspiral = atan(sy / sx);
-    newpos.x = pos.x + (sx * (cos(deltaspiral * n) - 1));
-    newpos.y = pos.y + (sy * (sin(deltaspiral * n) - 1));
-    newpos.z = pos.z + (sz * n);
-    newpos.az = pos.az + (deltaspiral * n);
+    npos.x = pos.x + (sx * (cos(deltaspiral * n) - 1));
+    npos.y = pos.y + (sy * (sin(deltaspiral * n) - 1));
+    npos.z = pos.z + (sz * n);
+    npos.az = pos.az + (deltaspiral * n);
 
-    nextstep = new Step(newpos, pos, "spiral", geomsolid, false, height, 0, dir);
+    Step *step = new Step(npos, pos, "spiral", geomsolid, false, height, 0, 1);
     //forceNames();
   }
 }

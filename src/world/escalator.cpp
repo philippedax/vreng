@@ -69,6 +69,7 @@ void Escalator::parser(char *l)
 
 void Escalator::build()
 {
+  uint8_t nsteps = 0;
   float sx = 1 * pos.bbs.v[0];  // step width
   float sy = 1 * pos.bbs.v[1];  // step depth
   float sz = 2 * pos.bbs.v[2];  // step height
@@ -86,20 +87,15 @@ void Escalator::build()
   escaList.push_back(this);
 
   for (int n=0; n < nsteps; n++) {
-    Pos newpos;
-    newpos.az = pos.az;
-    newpos.ax = pos.ax;
-    newpos.ay = pos.ay;
-    newpos.x = pos.x + dir*(sin(pos.az) * sx * n);
-    newpos.y = pos.y + dir*(cos(pos.az) * sy * n);
-    newpos.z = pos.z + dir*(sz * n);
+    Pos npos = pos;
+    npos.x = pos.x + dir*(sin(pos.az) * sx * n);
+    npos.y = pos.y + dir*(cos(pos.az) * sy * n);
+    npos.z = pos.z + dir*(sz * n);
 
-    //echo("newpos=%.1f %.1f %.1f d=%d", newpos.x,newpos.y,newpos.z,dir);
-    nextstep = new Step(newpos, pos, "escalator", geomsolid, true, height, speed, dir);
-    escaList.push_back(nextstep);
+    //echo("npos=%.1f %.1f %.1f d=%d", npos.x,npos.y,npos.z,dir);
+    Step *step = new Step(npos, pos, "escalator", geomsolid, true, height, speed, dir);
+    escaList.push_back(step);
   }
-  //echo("escaList: %d", escaList.size());
-
   enablePermanentMovement(speed);
 }
 

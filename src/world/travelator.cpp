@@ -60,26 +60,20 @@ void Travelator::parser(char *l)
 
 void Travelator::build()
 {
+  uint8_t nsteps = 0;
   float sx = 2 * pos.bbs.v[0];  // step width
   float sy = 2 * pos.bbs.v[1];  // step depth
 
   nsteps = (int) ceil(length / MIN(sx, sy));
 
-  travList.push_back(this);
-
   for (int n=0; n < nsteps; n++) {
-    Pos newpos;
-    newpos.az = pos.az;
-    newpos.ax = pos.ax;
-    newpos.ay = pos.ay;
-    newpos.x = pos.x - sin(pos.az) * (sx * n);
-    newpos.y = pos.y - cos(pos.az) * (sy * n);
-    newpos.z = pos.z;
+    Pos npos = pos;
+    npos.x = pos.x - sin(pos.az) * (sx * n);
+    npos.y = pos.y - cos(pos.az) * (sy * n);
 
-    nextstep = new Step(newpos, pos, "travelator", geomsolid, true, length, speed, dir);
-    travList.push_back(nextstep);
+    Step *step = new Step(npos, pos, "travelator", geomsolid, true, length, speed, 0);
+    travList.push_back(step);
   }
-
   enablePermanentMovement(speed);
 }
 
@@ -95,10 +89,10 @@ Travelator::Travelator(char *l)
   parser(l);
   inits();
   build();
-  if (on)
+  if (on) {
     running();
+  }
 }
-
 
 void Travelator::quit()
 {

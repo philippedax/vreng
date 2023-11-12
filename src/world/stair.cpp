@@ -58,6 +58,7 @@ void Stair::parser(char *l)
 
 void Stair::build()
 {
+  uint8_t nsteps = 0;
   float sx = pos.bbs.v[0];  // step width
   float sy = pos.bbs.v[1];  // step depth
   float sz = MIN(sx, sy);
@@ -71,14 +72,14 @@ void Stair::build()
   nsteps = (int) ceil(height / sz);
 
   for (int n=0; n < nsteps; n++) {
-    Pos newpos;
-    newpos.az = pos.az;
-    newpos.ax = newpos.ay = 0;
-    newpos.x = pos.x + (sin(pos.az) * sx * n);
-    newpos.y = pos.y + (cos(pos.az) * sy * n);
-    newpos.z = pos.z + (sz * n);
+    Pos npos;
+    npos.az = pos.az;
+    npos.ax = npos.ay = 0;
+    npos.x = pos.x + (sin(pos.az) * sx * n);
+    npos.y = pos.y + (cos(pos.az) * sy * n);
+    npos.z = pos.z + (sz * n);
 
-    nextstep = new Step(newpos, pos, "stair", geomsolid, false, height, 0, dir);
+    Step *step = new Step(npos, pos, "stair", geomsolid, false, height, 0, 1);
     //forceNames();
   }
 }

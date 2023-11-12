@@ -21,16 +21,11 @@
 #include "vreng.hpp"
 #include "step.hpp"
 #include "user.hpp"	// localuser
-#include "ball.hpp"	// BALL_TYPE
 #include "move.hpp"	// gotoFront
 
 using namespace std;
 
 const OClass Step::oclass(STEP_TYPE, "Step", Step::creator);
-
-vector<Step*> Step::stepList;	// steps vector
-vector<Step*> Step::escaList;	// escalator steps vector
-vector<Step*> Step::travList;	// travelator steps vector
 
 const float Step::JUMP = 0.10;
 const float Step::LSPEED = 0.5;	// 1/2 ms
@@ -94,6 +89,7 @@ void Step::parser(char *l)
 
 void Step::build()
 {
+  uint8_t nsteps = 0;
   float size = 0;
   float sx = 2 * pos.bbs.v[0];  // step width
   float sy = 2 * pos.bbs.v[1];  // step depth
@@ -118,44 +114,37 @@ void Step::build()
     size = height;
   }
 
-  ipos = pos;  // save initial step position for other steps
+  ipos = pos;		// save initial step position for other steps
 
   for (int n=0; n < nsteps; n++) {
-    Pos newpos;
-    newpos.az = pos.az;
-    newpos.ax = pos.ax;
-    newpos.ay = pos.ay;
+    Pos npos = pos;
 
     if (spiral) {		// spiral
       float deltaspiral = atan(sy / sx);
-      newpos.x = pos.x + (sx * (cos(deltaspiral * n) - 1));
-      newpos.y = pos.y + (sy * (sin(deltaspiral * n) - 1));
-      newpos.z = pos.z + (sz * n);
-      newpos.az = pos.az + (deltaspiral * n);
-      nextstep = new Step(newpos, ipos, "spiral", geomsolid, mobile, size, speed, dir);
-      stepList.push_back(nextstep);
+      npos.x = pos.x + (sx * (cos(deltaspiral * n) - 1));
+      npos.y = pos.y + (sy * (sin(deltaspiral * n) - 1));
+      npos.z = pos.z + (sz * n);
+      npos.az = pos.az + (deltaspiral * n);
+      Step *step = new Step(npos, ipos, "spiral", geomsolid, mobile, size, speed, dir);
+      stairList.push_back(step);
     }
     else {
       if (travelator) {		// travelator
-        //travList.push_back(this);
-        //FIXME: wrong position
-        newpos.x = pos.x - (sx * n);
-        newpos.y = pos.y - (sy * n);
-        newpos.z = pos.z;
-        nextstep = new Step(newpos, ipos, "travelator", geomsolid, mobile, size, speed, dir);
-        travList.push_back(nextstep);
+        npos.x = pos.x - (sx * n);
+        npos.y = pos.y - (sy * n);
+        npos.z = pos.z;
+        Step *step = new Step(npos, ipos, "travelator", geomsolid, mobile, size, speed, dir);
+        travList.push_back(step);
       }
       else {			// escalator
-        //escaList.push_back(this);
-        newpos.x = pos.x + (sx * n);
-        newpos.y = pos.y + (sy * n);
-        newpos.z = pos.z + dir*(sz * n);
-        nextstep = new Step(newpos, ipos, "escalator", geomsolid, mobile, size, speed, dir);
-        escaList.push_back(nextstep);
+        npos.x = pos.x + (sx * n);
+        npos.y = pos.y + (sy * n);
+        npos.z = pos.z + dir*(sz * n);
+        Step *step = new Step(npos, ipos, "escalator", geomsolid, mobile, size, speed, dir);
+        escaList.push_back(step);
       }
     }
   }
-
   if (mobile) {
     enablePermanentMovement(speed);
   }
@@ -176,9 +165,9 @@ Step::Step(char *l)
   }
 }
 
-Step::Step(Pos& newpos, Pos& _ipos, const char *name, const char *geom, bool _mobile, float _size, float _speed, int _dir)
+Step::Step(Pos& npos, Pos& _ipos, const char *name, const char *geom, bool _mobile, float _size, float _speed, int _dir)
 {
-  pos = newpos;
+  pos = npos;
 
   char *s = new char[strlen(geom)];
   strcpy(s, geom);
@@ -240,12 +229,6 @@ void Step::changePermanent(float lasting)
     pos.x += lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y += lasting * move.lspeed.v[1] * cos(pos.az);
     pos.z += lasting * move.lspeed.v[2];
-    if (pos.z > (ipos.z + height - sz)) {	// switch step
-      //echo("+ %.1f %s", pos.z,getInstance());
-      pos.x = ipos.x - (sin(pos.az) * sx);
-      pos.y = ipos.y - (cos(pos.az) * sy);
-      pos.z = ipos.z; //orig - sz;
-    }
     if (stuck) {	// user follows up this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
@@ -258,16 +241,17 @@ void Step::changePermanent(float lasting)
       }
       localuser->updatePosition();
     }
+    if (pos.z >= (ipos.z + height - sz)) {	// rewind step
+      //echo("+ %.1f %s", pos.z,getInstance());
+      pos.x = ipos.x - (sin(pos.az) * sx);
+      pos.y = ipos.y - (cos(pos.az) * sy);
+      pos.z = ipos.z - sz; //orig - sz;
+    }
   }
   else if (dir < 0) {	// escalator downwards
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);
     pos.z -= lasting * move.lspeed.v[2];
-    if (pos.z < (ipos.z - height + sz)) {	// switch step
-      pos.x = ipos.x;
-      pos.y = ipos.y;
-      pos.z = ipos.z;
-    }
     if (stuck) {	// user follows down this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
@@ -279,14 +263,13 @@ void Step::changePermanent(float lasting)
       }
       localuser->updatePosition();
     }
+    if (pos.z < (ipos.z - height + sz)) {	// rewind step
+      pos = ipos;
+    }
   }
   else {		// travelator horizontal
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);	// FIXME!
-    if (pos.x >= (ipos.x + length - sx)) {	// switch step
-      pos.x = ipos.x;
-      pos.y = ipos.y;
-    }
     if (stuck) {	// user follows this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
@@ -296,6 +279,9 @@ void Step::changePermanent(float lasting)
         stuck = false;
       }
       localuser->updatePosition();
+    }
+    if (pos.x >= (ipos.x + length - sx)) {	// rewind step
+      pos = ipos;
     }
   }
   updatePositionAndGrid(pos);
@@ -332,11 +318,9 @@ bool Step::whenIntersect(WO *pcur, WO *pold)
     case STEP_TYPE:
       return false;	// ignore this collision
       break;
-    case BALL_TYPE:
-      pold->copyPositionAndBB(pcur);
-      break;
     default:
       pold->copyPositionAndBB(pcur);
+      break;
   }
   return true;
 }
@@ -352,7 +336,7 @@ bool Step::whenIntersectOut(WO *pcur, WO *pold)
 
 void Step::quit()
 {
-  stepList.clear();
+  stairList.clear();
   escaList.clear();
   travList.clear();
   oid = 0;
@@ -361,7 +345,7 @@ void Step::quit()
 void Step::running()
 {
   if (! mobile) {
-    for (vector<Step*>::iterator it = stepList.begin(); it != stepList.end(); it++) {
+    for (vector<Step*>::iterator it = stairList.begin(); it != stairList.end(); it++) {
       (*it)->state = ACTIVE;
     }
   }

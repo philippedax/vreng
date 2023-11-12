@@ -34,23 +34,20 @@ class Step: public WO {
 
  protected:
   static const float LSPEED;	///< linear speed
-  static vector<Step*> stepList;	///< vector of steps (stair)
-  static vector<Step*> escaList;	///< vector of steps (escalator)
-  static vector<Step*> travList;	///< vector of steps (travelator)
-
-  bool mobile;		///< flag escalator or travelator
-  bool escalator;	///< mode escalator
-  bool travelator;	///< mode travelator
-  bool stair;		///< mode stair
-  bool spiral;		///< mode spiral staircase
-  bool stuck;		///< if user follows on escalator/travelator
-  int dir;		///< direction up=1 or down=-1 or horizontal=0
-  float height;		///< escalator height
-  float length;		///< travelator length
-  float speed;		///< linear speed of escalator/travelator
-  uint8_t nsteps;	///< number of steps
-  Pos ipos;		///< initial step position
-  Step *nextstep;	///< list of steps
+  vector<Step*> stairList;	///< vector of steps (stair)
+  vector<Step*> escaList;	///< vector of steps (escalator)
+  vector<Step*> travList;	///< vector of steps (travelator)
+  bool mobile;			///< flag escalator or travelator
+  bool escalator;		///< mode escalator
+  bool travelator;		///< mode travelator
+  bool stair;			///< mode stair
+  bool spiral;			///< mode spiral staircase
+  bool stuck;			///< if user follows on escalator/travelator
+  int dir;			///< direction up=1 or down=-1 or horizontal=0
+  float height;			///< escalator height
+  float length;			///< travelator length
+  float speed;			///< linear speed of escalator/travelator
+  Pos ipos;			///< initial step position
 
  public:
   static const float JUMP;	///< jump
