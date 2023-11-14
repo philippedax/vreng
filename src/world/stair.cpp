@@ -61,7 +61,8 @@ void Stair::build()
   uint8_t nsteps = 0;
   float sx = pos.bbs.v[0];  // step width
   float sy = pos.bbs.v[1];  // step depth
-  float sz = MIN(sx, sy);
+  float sz = 2 * pos.bbs.v[2];  // step height
+  //float sz = MIN(sx, sy);
 
   if (height) height += sz;	// add the top step
   else if (length && pos.ax) {  // stair defined by its length and its angle
@@ -69,7 +70,7 @@ void Stair::build()
     pos.ax = 0;
   }
 
-  nsteps = (int) ceil(height / sz);
+  nsteps = (int) ceil(height /2 / sz);
 
   for (int n=0; n < nsteps; n++) {
     Pos npos;
@@ -77,10 +78,9 @@ void Stair::build()
     npos.ax = npos.ay = 0;
     npos.x = pos.x + (sin(pos.az) * sx * n);
     npos.y = pos.y + (cos(pos.az) * sy * n);
-    npos.z = pos.z + (sz * n);
+    npos.z = pos.z + (sz * n *2);
 
     Step *step = new Step(npos, pos, "stair", geomsolid, false, height, 0, 1);
-    //forceNames();
   }
 }
 
