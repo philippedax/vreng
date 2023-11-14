@@ -242,9 +242,8 @@ void Step::changePermanent(float lasting)
       localuser->updatePosition();
     }
     if (pos.z >= (ipos.z + height - sz)) {	// rewind step
-      //echo("+ %.1f %s", pos.z,getInstance());
-      pos.x = ipos.x - (sin(pos.az) * sx);
-      pos.y = ipos.y - (cos(pos.az) * sy);
+      //echo("+ %.2f %s", pos.z,getInstance());
+      pos = ipos;
       pos.z = ipos.z - sz; //orig - sz;
     }
   }
@@ -344,21 +343,14 @@ void Step::quit()
 
 void Step::running()
 {
-  if (! mobile) {
-    for (vector<Step*>::iterator it = stairList.begin(); it != stairList.end(); it++) {
+  if (dir) {
+    for (vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
       (*it)->state = ACTIVE;
     }
   }
   else {
-    if (dir) {
-      for (vector<Step*>::iterator it = escaList.begin(); it != escaList.end(); it++) {
-        (*it)->state = ACTIVE;
-      }
-    }
-    else {
-      for (vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
-        (*it)->state = ACTIVE;
-      }
+    for (vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
+      (*it)->state = ACTIVE;
     }
   }
 }
