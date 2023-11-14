@@ -52,9 +52,12 @@
 </stair>
 
 <!-- spiral stairs -->
+<mirage name="cage-c" pos="2.5 3 0">
+  <solid shape="cone" h="4" rb=".3" rt=".3" dif=".3 .3 .3" />
+</mirage>
 <spiral name="spiral" pos="3 3 0.1 0"
   height="4">
-  <solid dim="1 .2 .04" dif=".2 .2 .2" />
+  <solid dim="1 .2 .04" dif=".3 .3 .3" />
 </spiral>
 <!-- stairs case -->
 <mirage name="cage" pos="2.5 3 2">
