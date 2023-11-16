@@ -110,16 +110,16 @@ class Step: public WO {
 
  private:
   virtual void parser(char *l);
-  /**< Parses */
+  /**< Parses vre line. */
 
   virtual void defaults();
-  /**< Default values */
+  /**< Default values. */
 
-  virtual void behaviors();
-  /**< Sets behaviors */
+  virtual void inits();
+  /**< Do initialization. */
 
   virtual void build();
-  /**< Builds stair or escalator */
+  /**< Builds stair or escalator structure. */
 };
 
 #endif
