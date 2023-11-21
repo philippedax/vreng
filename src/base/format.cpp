@@ -40,6 +40,7 @@ static const struct _file imgs[] = {
   { EXT_BW,   MIME_BW,   IMG_SGI },
   { EXT_TIF,  MIME_TIF,  IMG_TIF },
   { EXT_TIFF, MIME_TIF,  IMG_TIF },
+  { EXT_SVG , MIME_SVG,  IMG_SVG },
   { EXT_DDS,  MIME_DDS,  IMG_DDS },
   { EXT_DXT1, MIME_DDS,  IMG_DDS },
   { EXT_DXT2, MIME_DDS,  IMG_DDS },

@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-TEX_SRCS = img.cpp texture.cpp gif.cpp jpg.cpp png.cpp ppm.cpp pcx.cpp sgi.cpp txf.cpp pgm.cpp bmp.cpp tga.cpp dds.cpp tif.cpp xpm.cpp xbm.cpp psd.cpp avi.cpp glpng.cpp flare.cpp wheel.cpp capture.cpp
+TEX_SRCS = img.cpp texture.cpp gif.cpp jpg.cpp png.cpp ppm.cpp pcx.cpp sgi.cpp txf.cpp pgm.cpp bmp.cpp tga.cpp dds.cpp tif.cpp xpm.cpp xbm.cpp psd.cpp avi.cpp svg.cpp glpng.cpp flare.cpp wheel.cpp capture.cpp
 
-TEX_HDRS = img.hpp texture.hpp txf.hpp avi.hpp glpng.hpp flare.hpp wheel.hpp capture.hpp
+TEX_HDRS = img.hpp texture.hpp txf.hpp avi.hpp glpng.hpp flare.hpp wheel.hpp capture.hpp nanosvg.h nanosvgrsat.h
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/3d -I$(SRCDIR)/net -I$(SRCDIR)/tool

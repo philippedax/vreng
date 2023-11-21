@@ -84,6 +84,7 @@ public:
   static Img * loadXPM(void *tex, ImageReader rf);
   static Img * loadXBM(void *tex, ImageReader rf);
   static Img * loadPSD(void *tex, ImageReader rf);
+  static Img * loadSVG(void *tex, ImageReader rf);
 
   /** Image writers. */
   static void saveJPG(const char *file, GLint width, GLint height, GLint quality, const GLubyte *buf);

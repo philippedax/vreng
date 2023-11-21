@@ -160,6 +160,7 @@ void Texture::reader(void *_tex, Http *_http)
     case IMG_XPM: img = Img::loadXPM(tex, imageReader); break;
     case IMG_XBM: img = Img::loadXBM(tex, imageReader); break;
     case IMG_PSD: img = Img::loadPSD(tex, imageReader); break;
+    case IMG_SVG: img = Img::loadSVG(tex, imageReader); break;
     case IMG_NULL: return;
     default:
       echo("texture: unrecognized image format");

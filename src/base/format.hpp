@@ -198,6 +198,7 @@ enum {
   IMG_XPM,
   IMG_DDS,
   IMG_PSD,
+  IMG_SVG,
   IMG_NIL
 };
 
