@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2009 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Copyright (C) 1997-2023 Philippe Dax
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -73,7 +73,7 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
     return NULL;
   }
 
-  echo("rasterizing image %d x %d", w, h);
+  //echo("rasterizing image %d x %d", w, h);
   nsvgRasterize(rast, image, 0,0,1, img->pixmap, w, h, w*4);
 
   nsvgDeleteRasterizer(rast);
