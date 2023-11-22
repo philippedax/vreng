@@ -48,7 +48,7 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
 
   NSVGimage *image = NULL;
   NSVGrasterizer *rast = NULL;
-  int w, h;
+  int width, height;
 
   // opens the svg file
   image = nsvgParseFromFile(cachepath, "px", 96);
@@ -57,12 +57,12 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
     nsvgDelete(image);
     return NULL;
   }
-  w = (int)image->width;
-  h = (int)image->height;
-  trace(DBG_2D, "loadSVG: w=%d h=%d", w, h);
+  width = (int)image->width;
+  height = (int)image->height;
+  trace(DBG_2D, "loadSVG: w=%d h=%d", width, height);
 
   // allocs img
-  Img *img = new Img(w, h, Img::RGB);
+  Img *img = new Img(width, height, Img::RGB);
 
   // fills the pixmap
   rast = nsvgCreateRasterizer();
@@ -73,8 +73,8 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
     return NULL;
   }
 
-  //echo("rasterizing image %d x %d", w, h);
-  nsvgRasterize(rast, image, 0,0,1, img->pixmap, w, h, w*Img::RGB);
+  //echo("rasterizing image %d x %d", width, height);
+  nsvgRasterize(rast, image, 0,0,1, img->pixmap, width, height, width*Img::RGB);
 
   nsvgDeleteRasterizer(rast);
   nsvgDelete(image);
