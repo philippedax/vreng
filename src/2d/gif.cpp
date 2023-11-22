@@ -26,8 +26,8 @@
 
 
 typedef struct {
-  int	screenwidth;	// The dimensions of the screen
-  int	screenheight;	// (not those of the image)
+  int	width;		// The dimensions of the screen
+  int	height;		// (not those of the image)
   int	global;		// Is there a global color map?
   int	globalbits;	// Number of bits of global colors
   int	backclr;	// Background color
@@ -36,7 +36,6 @@ typedef struct {
   uint8_t globalmap[256][3];
 
   FILE *fp;
-  class Reader *ir;
   class Img *img;
 
 /* lzw */
@@ -68,9 +67,7 @@ Img * Img::loadGIF(void *tex, ImageReader read_func)
 
   Cache *cache = new Cache();
   if ((g->fp = cache->open(texture->url, texture->http)) == NULL) return NULL;
-  //echo("gifo: %lu %s", g->fp, texture->url);
 
-  g->ir = 0;
   g->img = NULL;
 
   if (gifReadSignature(g)) {
@@ -92,7 +89,6 @@ Img * Img::loadGIF(void *tex, ImageReader read_func)
   //dax Cache::closeCache(g->fp);
   cache->close();
   if (cache) delete cache;
-  //echo("gifc: %lu", g->fp);
   return g->img;
 }
 
@@ -130,16 +126,16 @@ static int gifReadScreen(GifInfo *g)
   if (gifread(g, buf, 7) != 7) return -4;
   if (buf[6]) return -5;
 
-  g->screenwidth  = buf[0] + (buf[1] << 8);
-  g->screenheight = buf[2] + (buf[3] << 8);
-  g->global	  = buf[4] & 0x80;
-  g->colres	  = ((buf[4] & 0x70) >> 4) +1;
-  g->backclr	  = buf[5];
+  g->width  	= buf[0] + (buf[1] << 8);
+  g->height 	= buf[2] + (buf[3] << 8);
+  g->global	= buf[4] & 0x80;
+  g->colres	= ((buf[4] & 0x70) >> 4) +1;
+  g->backclr	= buf[5];
   if (g->global) {
     g->globalbits = (buf[4] & 0x07) + 1;
     gifread(g, (uint8_t *) g->globalmap, 3*(1<<g->globalbits));
   }
-  g->img = new Img(g->screenwidth, g->screenheight, Img::RGB);
+  g->img = new Img(g->width, g->height, Img::RGB);
   return (g->img == NULL);
 }
 
@@ -159,7 +155,7 @@ static int gifReadImage(GifInfo *g)
   int height		= buf[6] + (buf[7] << 8);
   int interleaved	= buf[8] & 0x40;
   int local		= buf[8] & 0x80;
-  if (left+width>g->screenwidth || top+height>g->screenheight) return -7;
+  if (left+width>g->width || top+height>g->height) return -7;
 
   if (local) {
     localbits = (buf[8] & 0x7) + 1;
@@ -184,34 +180,34 @@ static int gifReadImage(GifInfo *g)
   for (int pass=0; pass < nb_pass; pass++) {
     switch(pass) {
     case 0:
-      line_start=0;
+      line_start = 0;
       if (interleaved) {
-	pass_height=8;
-	line_inc=8;
+	pass_height = 8;
+	line_inc = 8;
       } else {
-	pass_height=1;
-	line_inc=1;
+	pass_height = 1;
+	line_inc = 1;
       }
       break;
     case 1:
-      pass_height=4;
-      line_start=4;
-      line_inc=8;
+      pass_height = 4;
+      line_start = 4;
+      line_inc = 8;
       break;
     case 2:
-      pass_height=2;
-      line_start=2;
-      line_inc=4;
+      pass_height = 2;
+      line_start = 2;
+      line_inc = 4;
       break;
     default:
-      pass_height=1;
-      line_start=1;
-      line_inc=2;
+      pass_height = 1;
+      line_start = 1;
+      line_inc = 2;
       break;
     }
     for (int line=line_start; line < height; line += line_inc) {
       LZWDecode(g, line_buf, width);
-      pix = (uint8_t *)g->img->pixmap + ((left + top * g->screenwidth) + (g->screenwidth * line)) * 3;
+      pix = (uint8_t *)g->img->pixmap + ((left + top * g->width) + (g->width * line)) * 3;
       pix1 = pix;
       for (int i=0; i < width; i++) {
 	int c = line_buf[i];
@@ -222,8 +218,8 @@ static int gifReadImage(GifInfo *g)
       }
       if (pass_height > 1) {
 	for (int j=1; j < pass_height; j++) {
-	  memcpy(pix, pix1, g->screenwidth*3);
-	  pix += g->screenwidth*3;
+	  memcpy(pix, pix1, g->width*3);
+	  pix += g->width*3;
 	}
       }
     }
@@ -267,7 +263,7 @@ static int gifReadBlocks(GifInfo *g)
       return -10;
     }
   }
-}	
+}
 
 /* LZW decompression */
 #define MAXBITS	12
