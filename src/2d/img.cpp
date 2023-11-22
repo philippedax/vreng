@@ -33,23 +33,23 @@ void Img::defaults()
 }
 
 /** Img constructor */
-Img::Img(uint16_t _width, uint16_t _height, uint8_t _bpp)
+Img::Img(uint16_t w, uint16_t h, uint8_t b)
 {
   defaults();
-  width = _width;
-  height = _height;
-  bpp = _bpp;
-  if ((pixmap = new GLubyte[_width * _height * _bpp]) == NULL) {
+  width = w;
+  height = h;
+  bpp = b;
+  if ((pixmap = new GLubyte[w * h * b]) == NULL) {
     error("Img: can't new pixmap"); return;
   }
 }
 
-Img::Img(uint16_t _width, uint16_t _height, uint8_t _bpp, int32_t _nummipmaps, uint32_t size)
+Img::Img(uint16_t w, uint16_t h, uint8_t b, int32_t _nummipmaps, uint32_t size)
 {
   defaults();
-  width = _width;
-  height = _height;
-  bpp = _bpp;
+  width = w;
+  height = h;
+  bpp = b;
   nummipmaps = _nummipmaps;
   if ((pixmap = new GLubyte[size]) == NULL) {
     error("Img: can't new pixmap"); return;
