@@ -62,7 +62,7 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
   trace(DBG_2D, "loadSVG: w=%d h=%d", w, h);
 
   // allocs img
-  Img *img = new Img(w, h, 4);
+  Img *img = new Img(w, h, Img::RGB);
 
   // fills the pixmap
   rast = nsvgCreateRasterizer();
@@ -74,7 +74,7 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
   }
 
   //echo("rasterizing image %d x %d", w, h);
-  nsvgRasterize(rast, image, 0,0,1, img->pixmap, w, h, w*4);
+  nsvgRasterize(rast, image, 0,0,1, img->pixmap, w, h, w*Img::RGB);
 
   nsvgDeleteRasterizer(rast);
   nsvgDelete(image);
