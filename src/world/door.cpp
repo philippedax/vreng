@@ -96,7 +96,7 @@ Door::Door(char *l)
   }
 #endif
 
-  /* calls persistency VRSql server to know the door state */
+  /* calls persistency VSql server to know the door state */
   getPersist(state);
   //echo("Door: sql state: %d", state);
 

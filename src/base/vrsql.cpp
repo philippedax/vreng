@@ -27,9 +27,9 @@
 
 
 // local
-static VRSql *vrsql = NULL;		// vrsql handle, only one by universe
+static VSql *vsql = NULL;		// vsql handle, only one by universe
 
-#if VRSQL
+#if VSQL
 static const char * DB = "vreng_db";	///< database name
 #else
 static const char * DB = NULL;		///< no database
@@ -47,7 +47,7 @@ static const char * C_GEOM = "geom";	///< column geom      : varchar(256)
 
 
 /** Constructor */
-VRSql::VRSql()
+VSql::VSql()
 {
   db = NULL;
 #if USE_SQLITE
@@ -58,7 +58,7 @@ VRSql::VRSql()
 }
 
 #if USE_SQLITE
-bool VRSql::openDB()
+bool VSql::openDB()
 {
   if (::g.pref.nopersist == true) return false;
 
@@ -78,7 +78,7 @@ bool VRSql::openDB()
 
 #if USE_MYSQL
 /** Establishes a link with the mysql server */
-bool VRSql::connectDB()
+bool VSql::connectDB()
 {
   if (::g.pref.nopersist == true)
     return false;
@@ -86,23 +86,23 @@ bool VRSql::connectDB()
 #ifdef HAVE_MYSQL_REAL_CONNECT
   if ((db = mysql_init(db)) != NULL) {
     if (! mysql_real_connect(db, DEF_MYSQL_SERVER, USER, PASSWD, DB, 0, NULL, 0)) {
-      error("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
+      error("VSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
       error("mysql_error: %s", mysql_error(db));
       return false;
     }
   }
   else {
-    error("VRSql: %s can't init %s", USER, DEF_MYSQL_SERVER);
+    error("VSql: %s can't init %s", USER, DEF_MYSQL_SERVER);
     return false;
   }
   return true;
 #else
   if ((db = mysql_connect(NULL, DEF_MYSQL_SERVER, USER, PASSWD)) == NULL) {
-    error("VRSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
+    error("VSql: %s can't connect %s", USER, DEF_MYSQL_SERVER);
     return false;
   }
   if (db && mysql_select_db(db, DB) != 0) {
-    error("VRSql: can't find database %s", DB);
+    error("VSql: can't find database %s", DB);
     return false;
   }
   return true;
@@ -112,7 +112,7 @@ bool VRSql::connectDB()
 
 #if USE_PGSQL
 /** Establishes a link with the pgsql server */
-bool VRSql::connectDB()
+bool VSql::connectDB()
 {
   if (::g.pref.nopersist == true)
     return false;
@@ -121,7 +121,7 @@ bool VRSql::connectDB()
   sprintf(args, "user=%s dbname=%s", ::g.user, DB);
   PGconn *db = PQconnectdb(args);
   if (PQstatus(db) == CONNECTION_BAD) {
-    error("VRSql: %s can't connect %s", ::g.user, DEF_PGSQL_SERVER);
+    error("VSql: %s can't connect %s", ::g.user, DEF_PGSQL_SERVER);
     PQerrorMessage(db);
     PQfinish(db);
     return false;
@@ -130,41 +130,41 @@ bool VRSql::connectDB()
 }
 #endif
 
-/** Allocates and returns VRSql handle */
-VRSql * VRSql::init()
+/** Allocates and returns VSql handle */
+VSql * VSql::init()
 {
-  vrsql = new VRSql();
+  vsql = new VSql();
 
   bool r = false;
-  if (vrsql) {
+  if (vsql) {
 #if USE_SQLITE
-    r = vrsql->openDB();	// open sqlite database
+    r = vsql->openDB();		// open sqlite database
 #elif USE_MYSQL
-    r = vrsql->connectDB();     // connect to database MySql server
-    vrsql->createDatabase(DB);
+    r = vsql->connectDB();	// connect to database MySql server
+    vsql->createDatabase(DB);
 #elif USE_PGSQL
-    r = vrsql->connectDB();     // connect to database PGSql server
-    vrsql->createDatabase(DB);
+    r = vsql->connectDB();	// connect to database PGSql server
+    vsql->createDatabase(DB);
 #endif
     if (! r) {
-      delete vrsql;
-      vrsql = NULL;
+      delete vsql;
+      vsql = NULL;
     }
   }
-  trace(DBG_INIT, "vrsql init: %d", r);
-  return vrsql;
+  trace(DBG_INIT, "vsql init: %d", r);
+  return vsql;
 }
 
-/** Returns VRSql ptr */
-VRSql * VRSql::getVRSql()
+/** Returns VSql ptr */
+VSql * VSql::getVSql()
 {
-  return vrsql;
+  return vsql;
 }
 
 /** Closes the sql link */
-void VRSql::quit()
+void VSql::quit()
 {
-  if (vrsql) {
+  if (vsql) {
 #if USE_SQLITE
     sqlite3_close(db);
 #elif USE_MYSQL
@@ -176,7 +176,7 @@ void VRSql::quit()
   }
 }
 
-void VRSql::queryTrace(const char *sql)
+void VSql::queryTrace(const char *sql)
 {
   char strupd[16], strins[32];
 
@@ -188,7 +188,7 @@ void VRSql::queryTrace(const char *sql)
 }
 
 /** Sends a query SQL command */
-bool VRSql::query(const char *sql)
+bool VSql::query(const char *sql)
 {
   //echo("query: %s", sql);
   if (::g.pref.sql) queryTrace(sql);
@@ -259,7 +259,7 @@ bool VRSql::query(const char *sql)
 
 #if USE_MYSQL
 /** Gets a result, fetching the row */
-MYSQL_RES * VRSql::result()
+MYSQL_RES * VSql::result()
 {
   MYSQL_RES *res = mysql_store_result(db);
 
@@ -273,7 +273,7 @@ MYSQL_RES * VRSql::result()
 /** Selects an integer value from a row in the sql table
  *  if value doesn't exist, the value is inserted
  */
-int VRSql::selectInt_cb(void *val, int argc, char **argv, char**azColName)
+int VSql::selectInt_cb(void *val, int argc, char **argv, char**azColName)
 {
   echo("int_cb: argc=%d argv=%s azcolname=%s", argc, argv[0], azColName[0]);
   int *v = (int *)val;
@@ -281,7 +281,7 @@ int VRSql::selectInt_cb(void *val, int argc, char **argv, char**azColName)
   return 0;
 }
 
-int VRSql::selectInt(const char *table, const char *col, const char *name, const char *world, uint16_t irow)
+int VSql::selectInt(const char *table, const char *col, const char *name, const char *world, uint16_t irow)
 {
   int val = 0;
 
@@ -300,7 +300,7 @@ int VRSql::selectInt(const char *table, const char *col, const char *name, const
   //echo("selectint %s", sql);
   createTable(table);
 #if 0 //dax
-  rc = sqlite3_exec(db, sql, &VRSql::selectInt_cb, &val, &err_msg);
+  rc = sqlite3_exec(db, sql, &VSql::selectInt_cb, &val, &err_msg);
   if (rc != SQLITE_OK) {
     error("%s rc=%d selectint %s sql=%s", table, rc, sqlite3_errmsg(db), sql);
     sqlite3_free(err_msg);
@@ -355,7 +355,7 @@ int VRSql::selectInt(const char *table, const char *col, const char *name, const
 /** Selects a float value from a row in the sql table
  *  if value doesn't exist, the value is inserted
  */
-int VRSql::selectFloat_cb(void *val, int argc, char **argv, char**azColName)
+int VSql::selectFloat_cb(void *val, int argc, char **argv, char**azColName)
 {
   echo("float_cb: argc=%d argv=%s azcolname=%s", argc, argv[0], azColName[0]);
   float *v = (float *)val;
@@ -363,7 +363,7 @@ int VRSql::selectFloat_cb(void *val, int argc, char **argv, char**azColName)
   return 0;
 }
 
-float VRSql::selectFloat(const char *table, const char *col, const char *name, const char *world, uint16_t irow)
+float VSql::selectFloat(const char *table, const char *col, const char *name, const char *world, uint16_t irow)
 {
   float val = 0;
 
@@ -427,14 +427,14 @@ float VRSql::selectFloat(const char *table, const char *col, const char *name, c
 /** Selects a string (retstring) from a row in the sql table
  *  if string is not found, the string is inserted
  */
-int VRSql::selectString_cb(void *val, int argc, char **argv, char**azColName)
+int VSql::selectString_cb(void *val, int argc, char **argv, char**azColName)
 {
   char *v = (char *)val;
   strcpy(v, argv[0]);
   return 0;
 }
 
-int VRSql::selectString(const char *table, const char *col, const char *name, const char *world, char *retstring, uint16_t irow)
+int VSql::selectString(const char *table, const char *col, const char *name, const char *world, char *retstring, uint16_t irow)
 {
   int val = 0;
 
@@ -506,7 +506,7 @@ int VRSql::selectString(const char *table, const char *col, const char *name, co
   return irow;
 }
 
-int VRSql::selectSubstring(const char *table, const char *like, uint16_t irow, char *retstring)
+int VSql::selectSubstring(const char *table, const char *like, uint16_t irow, char *retstring)
 {
   int val = 0;
 
@@ -572,7 +572,7 @@ int VRSql::selectSubstring(const char *table, const char *like, uint16_t irow, c
 }
 
 /** Gets a count of rows from a sql table */
-int VRSql::countRows_cb(void *val, int argc, char **argv, char**azColName)
+int VSql::countRows_cb(void *val, int argc, char **argv, char**azColName)
 {
   echo("row_cb: argc=%d argv=%s azcolname=%s", argc, argv[0], azColName[0]);
   int *v = (int *)val;
@@ -580,7 +580,7 @@ int VRSql::countRows_cb(void *val, int argc, char **argv, char**azColName)
   return 0;
 }
 
-int VRSql::countRows(const char *table)
+int VSql::countRows(const char *table)
 {
   int val = 0;
 
@@ -645,7 +645,7 @@ int VRSql::countRows(const char *table)
   return val;
 }
 
-int VRSql::countRows(const char *table, const char *col, const char *like)
+int VSql::countRows(const char *table, const char *col, const char *like)
 {
   int val = 0;
 
@@ -700,7 +700,7 @@ int VRSql::countRows(const char *table, const char *col, const char *like)
   return val;
 }
 
-int VRSql::checkRow(const char *table, const char *name, const char *world)
+int VSql::checkRow(const char *table, const char *name, const char *world)
 {
   int val = 0;
 
@@ -752,7 +752,7 @@ int VRSql::checkRow(const char *table, const char *name, const char *world)
 ///////////
 
 /** Creates database */
-void VRSql::createDatabase(const char *database)
+void VSql::createDatabase(const char *database)
 {
   //echo("createdatabase %s", database);
   sprintf(sql, "CREATE DATABASE IF NOT EXISTS %s", database);
@@ -760,7 +760,7 @@ void VRSql::createDatabase(const char *database)
 }
 
 /** Creates table */
-void VRSql::createTable(const char *table)
+void VSql::createTable(const char *table)
 {
   //echo("createtable %s", table);
   sprintf(sql, "CREATE TABLE IF NOT EXISTS %s (name VARCHAR(32) NOT NULL, state INT NOT NULL, x REAL NOT NULL, y REAL NOT NULL, z REAL NOT NULL, az REAL, owner VARCHAR(16), geom VARCHAR(256))", table);
@@ -773,7 +773,7 @@ void VRSql::createTable(const char *table)
 ///////////
 
 /** Insert row into the sql table */
-void VRSql::insertRow(WO *o)
+void VSql::insertRow(WO *o)
 {
   if (! o->named()) return;	// no name
   //echo("insertrow: %.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
@@ -791,7 +791,7 @@ void VRSql::insertRow(WO *o)
 }
 
 /** Insert col into the sql table */
-void VRSql::insertCol(const char *table, const char *col, const char *name, const char *world)
+void VSql::insertCol(const char *table, const char *col, const char *name, const char *world)
 {
   if (! name) return;	// no name
   sprintf(sql, "INSERT INTO %s (name,%s) VALUES ('%s%s%s', 'NULL')",
@@ -806,7 +806,7 @@ void VRSql::insertCol(const char *table, const char *col, const char *name, cons
 ///////////
 
 /** Updates int into the sql table */
-void VRSql::updateInt(WO *o, const char *table, const char *col, const char *name, const char *world, int val)
+void VSql::updateInt(WO *o, const char *table, const char *col, const char *name, const char *world, int val)
 {
   if (! name) return;	// no name -> no update
   createTable(table);
@@ -824,7 +824,7 @@ void VRSql::updateInt(WO *o, const char *table, const char *col, const char *nam
 }
 
 /** Updates float into the sql table */
-void VRSql::updateFloat(WO *o, const char *table, const char *col, const char *name, const char *world, float val)
+void VSql::updateFloat(WO *o, const char *table, const char *col, const char *name, const char *world, float val)
 {
   if (! name) return;	// no name -> no update
   createTable(table);
@@ -842,7 +842,7 @@ void VRSql::updateFloat(WO *o, const char *table, const char *col, const char *n
 }
 
 /** Updates string into the sql table */
-void VRSql::updateString(WO *o, const char *table, const char *col, const char *name, const char *world, const char *str)
+void VSql::updateString(WO *o, const char *table, const char *col, const char *name, const char *world, const char *str)
 {
   if (! name) return;	// no name -> no update
   createTable(table);
@@ -860,64 +860,64 @@ void VRSql::updateString(WO *o, const char *table, const char *col, const char *
 }
 
 /** Updates int into the sql table */
-void VRSql::updateInt(WO *o, const char *col, int val)
+void VSql::updateInt(WO *o, const char *col, int val)
 {
   if (! o->named()) return;	// no name
   updateInt(o, o->typeName(), col, o->named(), World::current()->getName(), val);
 }
 
 /** Updates float into the sql table */
-void VRSql::updateFloat(WO *o, const char *col, float val)
+void VSql::updateFloat(WO *o, const char *col, float val)
 {
   if (! o->named()) return;	// no name
   updateFloat(o, o->typeName(), col, o->named(), World::current()->getName(), val);
 }
 
 /** Updates string into the sql table */
-void VRSql::updateString(WO *o, const char *col, const char *str)
+void VSql::updateString(WO *o, const char *col, const char *str)
 {
   if (! o->named()) return;	// no name
   updateString(o, o->typeName(), col, o->named(), World::current()->getName(), str);
 }
 
 /** Updates string into the sql table */
-void VRSql::updateString(WO *o, const char *table, const char *col, const char *str)
+void VSql::updateString(WO *o, const char *table, const char *col, const char *str)
 {
   if (! o->named()) return;	// no name
   updateString(o, table, col, o->named(), World::current()->getName(), str);
 }
 
-void VRSql::updateState(WO *o)
+void VSql::updateState(WO *o)
 {
   updateInt(o, C_STATE, o->state);
 }
 
-void VRSql::updateState(WO *o, int val)
+void VSql::updateState(WO *o, int val)
 {
   updateInt(o, C_STATE, val);
 }
 
-void VRSql::updatePosX(WO *o)
+void VSql::updatePosX(WO *o)
 {
   updateFloat(o, C_X, o->pos.x);
 }
 
-void VRSql::updatePosY(WO *o)
+void VSql::updatePosY(WO *o)
 {
   updateFloat(o, C_Y, o->pos.y);
 }
 
-void VRSql::updatePosZ(WO *o)
+void VSql::updatePosZ(WO *o)
 {
   updateFloat(o, C_Z, o->pos.z);
 }
 
-void VRSql::updatePosAZ(WO *o)
+void VSql::updatePosAZ(WO *o)
 {
   updateFloat(o, C_AZ, o->pos.az);
 }
 
-void VRSql::updatePos(WO *o)
+void VSql::updatePos(WO *o)
 {
   updatePosX(o);
   updatePosY(o);
@@ -925,17 +925,17 @@ void VRSql::updatePos(WO *o)
   updatePosAZ(o);
 }
 
-void VRSql::updateGeom(WO *o, char *geom)
+void VSql::updateGeom(WO *o, char *geom)
 {
   if (geom) updateString(o, C_GEOM, geom);
 }
 
-void VRSql::updateGeom(WO *o, const char *table, char *geom)
+void VSql::updateGeom(WO *o, const char *table, char *geom)
 {
   if (geom) updateString(o, table, C_GEOM, geom);
 }
 
-void VRSql::updateOwner(WO *o)
+void VSql::updateOwner(WO *o)
 {
   updateString(o, C_OWNER, o->ownerName());
 }
@@ -946,7 +946,7 @@ void VRSql::updateOwner(WO *o)
 ///////////
 
 /** Deletes all rows from the sql table */
-void VRSql::deleteRows(const char *table)
+void VSql::deleteRows(const char *table)
 {
   //echo("deleterows %s", table);
   createTable(table);
@@ -955,7 +955,7 @@ void VRSql::deleteRows(const char *table)
 }
 
 /** Deletes a row from the sql table */
-void VRSql::deleteRow(WO *o, const char *table, const char *name, const char *world)
+void VSql::deleteRow(WO *o, const char *table, const char *name, const char *world)
 {
   //echo("deleterow %s", table);
   if (!name) return;
@@ -966,7 +966,7 @@ void VRSql::deleteRow(WO *o, const char *table, const char *name, const char *wo
 }
 
 /** Deletes a row from the sql table matching a string */
-void VRSql::deleteRow(WO *o, const char *str)
+void VSql::deleteRow(WO *o, const char *str)
 {
   //echo("deleterowstring %s %s", o->typeName(), str);
   createTable(o->typeName());
@@ -976,14 +976,14 @@ void VRSql::deleteRow(WO *o, const char *str)
 }
 
 /** Deletes a row of this object */
-void VRSql::deleteRow(WO *o)
+void VSql::deleteRow(WO *o)
 {
   if (! o->named()) return;	// no name
   deleteRow(o, o->typeName(), o->named(), World::current()->getName());
 }
 
 /** Deletes all rows of this object */
-void VRSql::deleteRows(WO *o)
+void VSql::deleteRows(WO *o)
 {
   deleteRows(o->typeName());
 }
@@ -994,19 +994,19 @@ void VRSql::deleteRows(WO *o)
 ///////////
 
 /** Selects an integer value from a row in the sql table */
-int VRSql::getInt(WO *o, const char *col, uint16_t irow)
+int VSql::getInt(WO *o, const char *col, uint16_t irow)
 {
   return selectInt(o->typeName(), col, o->named(), World::current()->getName(), irow);
 }
 
 /** Selects a float from a row in the sql table */
-float VRSql::getFloat(WO *o, const char *col, uint16_t irow)
+float VSql::getFloat(WO *o, const char *col, uint16_t irow)
 {
   return selectFloat(o->typeName(), col, o->named(), World::current()->getName(), irow);
 }
 
 /** Selects a string from a row in the sql table */
-int VRSql::getString(WO *o, const char *col, char *str, uint16_t irow)
+int VSql::getString(WO *o, const char *col, char *str, uint16_t irow)
 {
   return selectString(o->typeName(), col, o->named(), World::current()->getName(), str, irow);
 }
@@ -1016,21 +1016,21 @@ int VRSql::getString(WO *o, const char *col, char *str, uint16_t irow)
 // gets
 ///////////
 
-int VRSql::getState(WO *o)
+int VSql::getState(WO *o)
 {
   int val = getInt(o, C_STATE, 0);
   //echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
-int VRSql::getState(WO *o, uint16_t irow)
+int VSql::getState(WO *o, uint16_t irow)
 {
   int val =  getInt(o, C_STATE, irow);
   //echo("state_old=%d val=%d", o->state, val);
   return (val != ERR_SQL) ? val : o->state;
 }
 
-void VRSql::getPos(WO *o)
+void VSql::getPos(WO *o)
 {
   o->pos.x = getPosX(o, 0);
   o->pos.y = getPosY(o, 0);
@@ -1038,7 +1038,7 @@ void VRSql::getPos(WO *o)
   o->pos.az = getPosAZ(o, 0);
 }
 
-void VRSql::getPos(WO *o, uint16_t irow)
+void VSql::getPos(WO *o, uint16_t irow)
 {
   o->pos.x = getPosX(o, irow);
   o->pos.y = getPosY(o, irow);
@@ -1046,32 +1046,32 @@ void VRSql::getPos(WO *o, uint16_t irow)
   o->pos.az = getPosAZ(o, irow);
 }
 
-float VRSql::getPosX(WO *o, uint16_t irow = 0)
+float VSql::getPosX(WO *o, uint16_t irow = 0)
 {
   float val = getFloat(o, C_X, irow);
   return (val != ERR_SQL) ? val : o->pos.x;
 }
 
-float VRSql::getPosY(WO *o, uint16_t irow)
+float VSql::getPosY(WO *o, uint16_t irow)
 {
   float val = getFloat(o, C_Y, irow);
   return (val != ERR_SQL) ? val : o->pos.y;
 }
 
-float VRSql::getPosZ(WO *o, uint16_t irow)
+float VSql::getPosZ(WO *o, uint16_t irow)
 {
   float val = getFloat(o, C_Z, irow);
   return (val != ERR_SQL) ? val : o->pos.z;
 }
 
-float VRSql::getPosAZ(WO *o, uint16_t irow)
+float VSql::getPosAZ(WO *o, uint16_t irow)
 {
   float val = getFloat(o, C_AZ, irow);
   return (val != ERR_SQL) ? val : o->pos.az;
 }
 
 /* Deletes objects owned by user in Cart */
-int VRSql::getCountCart()
+int VSql::getCountCart()
 {
   char pattern[64];
   sprintf(pattern, "'^%s'", ::g.user);
@@ -1079,14 +1079,14 @@ int VRSql::getCountCart()
   return (val != ERR_SQL) ? val : 0;
 }
 
-int VRSql::getCount(const char *table)
+int VSql::getCount(const char *table)
 {
   int val = countRows(table);
   return (val != ERR_SQL) ? val : 0;
 }
 
 /* Gets number of rows where world is - called by checkPersist in world.cpp */
-int VRSql::getCount(const char *table, const char *world)
+int VSql::getCount(const char *table, const char *world)
 {
   char pattern[64];
   sprintf(pattern, "'@%s'", world);
@@ -1094,7 +1094,7 @@ int VRSql::getCount(const char *table, const char *world)
   return (val != ERR_SQL) ? val : 0;
 }
 
-int VRSql::getCount(const char *table, const char *name, const char *world)
+int VSql::getCount(const char *table, const char *name, const char *world)
 {
   if (! name) return 0;
   char pattern[64];
@@ -1104,39 +1104,39 @@ int VRSql::getCount(const char *table, const char *name, const char *world)
 }
 
 /* Gets qualified name in C_NAME - called by checkPersist in world.cpp */
-int VRSql::getName(const char *table, const char *pattern, int numrow, char *retname)
+int VSql::getName(const char *table, const char *pattern, int numrow, char *retname)
 {
   int irow = selectSubstring(table, pattern, numrow, retname);
   //echo("num=%d irow=%d str=%s", numrow, irow, retname);
   return (irow >= 0 ) ? irow : -1;
 }
 
-void VRSql::getGeom(WO *o)
+void VSql::getGeom(WO *o)
 {
   getGeom(o, (uint16_t)0);
 }
 
-void VRSql::getGeom(WO *o, uint16_t irow)
+void VSql::getGeom(WO *o, uint16_t irow)
 {
   getGeom(o, o->geomsolid, irow);
 }
 
-void VRSql::getGeom(WO *o, char *geom)
+void VSql::getGeom(WO *o, char *geom)
 {
   if (geom) getGeom(o, geom, (uint16_t)0);
 }
 
-void VRSql::getGeom(WO *o, char *geom, uint16_t irow)
+void VSql::getGeom(WO *o, char *geom, uint16_t irow)
 {
   if (geom) getString(o, C_GEOM, geom, irow);
 }
 
-void VRSql::getOwner(WO *o)
+void VSql::getOwner(WO *o)
 {
   getOwner(o, (uint16_t)0);
 }
 
-void VRSql::getOwner(WO *o, uint16_t irow)
+void VSql::getOwner(WO *o, uint16_t irow)
 {
   getString(o, C_OWNER, (char *) o->ownerName(), irow);
 }

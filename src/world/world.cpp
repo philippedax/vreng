@@ -46,7 +46,7 @@
 #include "mirage.hpp"	// MIRAGE_NAME
 #include "dress.hpp"	// DRESS_TYPE
 #include "vjc.hpp"	// Vjc
-#include "vrsql.hpp"	// VRSql
+#include "vrsql.hpp"	// VSql
 #include "tool.hpp"	// quitTools
 #include "sandbox.hpp"	// sandbox world
 #include "wind.hpp"	// Wind
@@ -581,16 +581,16 @@ void World::checkIcons()
 /* Check whether other objects are persistents */
 void World::checkPersist()
 {
-  VRSql *vrsql = new VRSql();     // first take the VRSql handle;
-  if (vrsql) {
+  VSql *vsql = new VSql();     // first take the VSql handle;
+  if (vsql) {
     int nitem = 0;
     char pat[64], name[128];
 
     // check balls
-    nitem = vrsql->getCount(BALL_NAME, getName());	// balls in VRSql
+    nitem = vsql->getCount(BALL_NAME, getName());	// balls in VSql
     for (int i=0; i < nitem; i++) {
       sprintf(pat, "@%s", getName());
-      if (vrsql->getName(BALL_NAME, pat, i, name) >= 0) {
+      if (vsql->getName(BALL_NAME, pat, i, name) >= 0) {
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
@@ -599,10 +599,10 @@ void World::checkPersist()
       }
     }
     // check things
-    nitem = vrsql->getCount(THING_NAME, getName());	// things in VRSql
+    nitem = vsql->getCount(THING_NAME, getName());	// things in VSql
     for (int i=0; i < nitem; i++) {
       sprintf(pat, "@%s", getName());
-      if (vrsql->getName(THING_NAME, pat, i, name) >= 0) {
+      if (vsql->getName(THING_NAME, pat, i, name) >= 0) {
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
@@ -611,10 +611,10 @@ void World::checkPersist()
       }
     }
     // check mirages
-    nitem = vrsql->getCount(MIRAGE_NAME, getName());	// mirages in VRSql
+    nitem = vsql->getCount(MIRAGE_NAME, getName());	// mirages in VSql
     for (int i=0; i < nitem; i++) {
       sprintf(pat, "@%s", getName());
-      if (vrsql->getName(MIRAGE_NAME, pat, i, name) >= 0) {
+      if (vsql->getName(MIRAGE_NAME, pat, i, name) >= 0) {
         char *p = strchr(name, '@');
         if (p) {
           *p = '\0';
@@ -956,7 +956,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // check whether icons are locally presents
   world->checkIcons();
-  // check whether other objects are persistents by VRSql
+  // check whether other objects are persistents by VSql
   world->checkPersist();
 
   // create clock

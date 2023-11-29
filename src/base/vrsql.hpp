@@ -18,13 +18,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef VRSQL_HPP
-#define VRSQL_HPP
+#ifndef VSQL_HPP
+#define VSQL_HPP
 
 #if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
-#define VRSQL 1
+#define VSQL 1
 #else
-#define VRSQL 0
+#define VSQL 0
 #endif
 #define USE_SQLITE 0
 #define USE_MYSQL 0
@@ -71,9 +71,9 @@ class WO;
 
 
 /**
- * VRSql class
+ * VSql class
  */
-class VRSql {
+class VSql {
 
 private:
   static const uint16_t SQLCMD_MAX = 2048;	///< query size max
@@ -103,21 +103,21 @@ public:
   void *db;		///< no dbms
 #endif
 
-  VRSql();		///< constructor
+  VSql();		///< constructor
 
-  virtual ~VRSql() {};	///< destructor
+  virtual ~VSql() {};	///< destructor
 
-  static VRSql* init();
+  static VSql* init();
   /**< initialization */
 
-  static VRSql* getVRSql();
-  /**< returns the vrsql pointer */
+  static VSql* getVSql();
+  /**< returns the vsql pointer */
 
   bool query(const char *sql);
   /**< sends a Sql query */
 
   void quit();
-  /**< closes the VRSql link */
+  /**< closes the VSql link */
 
 private:
 #if USE_SQLITE
@@ -291,4 +291,4 @@ public:
   void updatePosAZ(WO *o);
 };
 
-#endif // VRSQL
+#endif // VSQL

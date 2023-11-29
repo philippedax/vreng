@@ -22,7 +22,7 @@
 #include "mirage.hpp"
 #include "user.hpp"	// user
 #include "move.hpp"	// gotoFront
-#include "vrsql.hpp"	// VRSql
+#include "vrsql.hpp"	// VSql
 #include "timer.hpp"	// rate
 #include "flare.hpp"	// Flare
 #include "solid.hpp"	// setFlary
@@ -146,9 +146,9 @@ Mirage::Mirage(WO *user, char *geom)
   setName();
   setOwner();
 
-  vrsql = new VRSql();
-  if (isBehavior(PERSISTENT) && vrsql && named()) {
-    vrsql->insertRow(this);
+  vsql = new VSql();
+  if (isBehavior(PERSISTENT) && vsql && named()) {
+    vsql->insertRow(this);
   }
   parseSolid(geom);
 
@@ -162,25 +162,25 @@ Mirage::Mirage(WO *user, char *geom)
   updatePosition();
 }
 
-/** Recreated by world via VRSql */
+/** Recreated by world via VSql */
 Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
 {
   char *str = (char *) d;       // string
   if (!str) return;
 
   strcpy(names.given, str);
-  strcpy(names.type, typeName());     // need names.type for VRSql
+  strcpy(names.type, typeName());     // need names.type for VSql
 
   /* local creation */
   defaults();
 
-  // we don't know anything about the geometry except from VRSql
+  // we don't know anything about the geometry except from VSql
   geomsolid = new char[256];
-  vrsql = new VRSql();
-  if (isBehavior(PERSISTENT) && vrsql && named()) {
-    vrsql->getGeom(this);
-    vrsql->getOwner(this);
-    vrsql->getPos(this);
+  vsql = new VSql();
+  if (isBehavior(PERSISTENT) && vsql && named()) {
+    vsql->getGeom(this);
+    vsql->getOwner(this);
+    vsql->getPos(this);
   }
   if (geomsolid && isprint(*geomsolid)) {	//FIXME: when object comes from Cart
     parseSolid(geomsolid);

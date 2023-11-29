@@ -177,7 +177,7 @@ public:
   list<Solid*> _solidList;	///< list of solids.
   class Flare *flare;		///< flare instance.
   class Carrier *carrier;	///< move via carrier.
-  class VRSql *vrsql;		///< VRSql handle.
+  class VSql *vsql;		///< VSql handle.
 
   /* object's list modes */
   enum object_mode {
@@ -842,7 +842,7 @@ public:
    */
 
   //
-  // VRSql
+  // VSql
   //
 public:
   bool checkPersist();
@@ -852,10 +852,10 @@ public:
   /**< Selects object. */
 
   int16_t getPersist(int16_t state);
-  /**< Gets state from VRSql. */
+  /**< Gets state from VSql. */
 
   void updatePersist();
-  /**< Checks if position is managed by VRSql and update it. */
+  /**< Checks if position is managed by VSql and update it. */
 
   void setPersist();
   /**< inserts object. */
@@ -864,10 +864,10 @@ public:
   /**< Deletes object. */
 
   void savePersist();
-  /**< Flushes position for VRSql. */
+  /**< Flushes position for VSql. */
 
   //notused void updatePersist(int16_t state);
-  //notused /**< Updates state for VRSql. */
+  //notused /**< Updates state for VSql. */
 
 protected:
   // GUI and network change callbacks

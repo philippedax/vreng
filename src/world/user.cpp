@@ -275,34 +275,34 @@ void User::checkPersist()
   int nitem;
   char pat[128], qname[128];
 
-  VRSql *vrsql = new VRSql();     // first get the the VRSql handle;
+  VSql *vsql = new VSql();     // first get the the VSql handle;
 
-  nitem = vrsql->getCount(HALO_NAME);  // halos in VRSql
+  nitem = vsql->getCount(HALO_NAME);  // halos in VSql
   if (nitem) {
     sprintf(pat, "&%s", getInstance());
-    if (vrsql->getName(HALO_NAME, pat, 0, qname) >= 0)
+    if (vsql->getName(HALO_NAME, pat, 0, qname) >= 0)
       doAction(HALO_TYPE, Halo::RECREATE, (User*)this, (void*)qname,0,0);
   }
-  nitem = vrsql->getCount(HAT_NAME);   // hats in VRSql
+  nitem = vsql->getCount(HAT_NAME);   // hats in VSql
   if (nitem) {
     sprintf(pat, "&%s", getInstance());
-    if (vrsql->getName(HAT_NAME, pat, 0, qname) >= 0)
+    if (vsql->getName(HAT_NAME, pat, 0, qname) >= 0)
       doAction(HAT_TYPE, Hat::RECREATE, (User*)this, (void*)qname,0,0);
   }
-  nitem = vrsql->getCount(DRESS_NAME); // dresses in VRSql
+  nitem = vsql->getCount(DRESS_NAME); // dresses in VSql
   if (nitem) {
     sprintf(pat, "&%s", getInstance());
-    if (vrsql->getName(DRESS_NAME, pat, 0, qname) >= 0)
+    if (vsql->getName(DRESS_NAME, pat, 0, qname) >= 0)
       doAction(DRESS_TYPE, Dress::RECREATE, (User*)this, (void*)qname,0,0);
   }
-  nitem = vrsql->getCount(WINGS_NAME); // wings in VRSql
+  nitem = vsql->getCount(WINGS_NAME); // wings in VSql
   if (nitem) {
     sprintf(pat, "&%s", getInstance());
-    if (vrsql->getName(WINGS_NAME, pat, 0, qname) >= 0)
+    if (vsql->getName(WINGS_NAME, pat, 0, qname) >= 0)
       doAction(WINGS_TYPE, Wings::RECREATE, (User*)this, (void*)qname,0,0);
   }
 #if 0 //todo
-  int cartnum = vrsql->getCountCart();
+  int cartnum = vsql->getCountCart();
   //TODO: get the rows
   // addObjectToCart
 #endif //todo
@@ -489,7 +489,7 @@ User::~User()
     netop = NULL;
   }
 
-  if (vrsql)   delete vrsql;
+  if (vsql)    delete vsql;
   if (front)   delete front;
   if (back)    delete back;
   if (left)    delete left;

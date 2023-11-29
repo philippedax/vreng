@@ -24,7 +24,7 @@
 #include "world.hpp"	// World::current
 #include "user.hpp"	// localuser
 #include "netobj.hpp"	// NetObject
-#include "vrsql.hpp"	// VRSql
+#include "vrsql.hpp"	// VSql
 #include "solid.hpp"	// Solid
 #include "olist.hpp"	// OList
 #include "gui.hpp"	// clearInfoBar, removeUser
@@ -108,7 +108,7 @@ WO::WO()
 
   flare = NULL;
   carrier = NULL;
-  vrsql = NULL;
+  vsql = NULL;
 }
 
 /* WO destructor */
@@ -640,7 +640,7 @@ void WO::resetGui()
 bool WO::removeFromScene()
 {
   if (isOwner()) {
-    if (vrsql) vrsql->deleteRow(this);
+    if (vsql) vsql->deleteRow(this);
     toDelete();
     clearObjectBar();
     return true;
@@ -799,23 +799,23 @@ void WO::updateDist()
 }
 
 //
-// VRSql interface
+// VSql interface
 //
 
-/** Checks whether position is managed by VRSql
+/** Checks whether position is managed by VSql
  * if it is, get position
  */
 void WO::getPersist()
 {
-  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
-  vrsql->getPos(this);
+  if (! vsql) vsql = new VSql();	// first take the VSql handle;
+  vsql->getPos(this);
   updatePersist();
 }
 
 int16_t WO::getPersist(int16_t state)
 {
-  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
-  int st = vrsql->getState(this);
+  if (! vsql) vsql = new VSql();	// first take the VSql handle;
+  int st = vsql->getState(this);
   //echo("state: name=%s state=%d", names.given, st);
   state = (st != ERR_SQL) ? st : 0; // updates state
   return state;
@@ -823,52 +823,52 @@ int16_t WO::getPersist(int16_t state)
 
 bool WO::checkPersist()
 {
-  if (! vrsql) vrsql = new VRSql();
-  int rows = vrsql->countRows(names.type);
+  if (! vsql) vsql = new VSql();
+  int rows = vsql->countRows(names.type);
   return rows;
 }
 
 void WO::setPersist()
 {
-  if (! vrsql) vrsql = new VRSql();
-  vrsql->deleteRow(this, names.given);
-  vrsql->insertRow(this);
+  if (! vsql) vsql = new VSql();
+  vsql->deleteRow(this, names.given);
+  vsql->insertRow(this);
 }
 
 void WO::updatePersist()
 {
-  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
-  vrsql->deleteRow(this, names.given);
-  vrsql->insertRow(this);
+  if (! vsql) vsql = new VSql();	// first take the VSql handle;
+  vsql->deleteRow(this, names.given);
+  vsql->insertRow(this);
 }
 
 #if 0 //notused
-/* Updates state for VRSql */
+/* Updates state for VSql */
 void WO::updatePersist(int16_t _state)
 {
-  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
-  vrsql->deleteRow(this, names.given);
-  vrsql->insertRow(this);
+  if (! vsql) vsql = new VSql();	// first take the VSql handle;
+  vsql->deleteRow(this, names.given);
+  vsql->insertRow(this);
 }
 #endif //notused
 
-/** Flushes position for VRSql
+/** Flushes position for VSql
  * if it is the case, get position and update it
  */
 void WO::savePersist()
 {
-  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
-  if (vrsql && isBehavior(PERSISTENT) && !removed) {
-    vrsql->deleteRow(this, names.given);
-    vrsql->insertRow(this);
-    vrsql->quit();
+  if (! vsql) vsql = new VSql();	// first take the VSql handle;
+  if (vsql && isBehavior(PERSISTENT) && !removed) {
+    vsql->deleteRow(this, names.given);
+    vsql->insertRow(this);
+    vsql->quit();
   }
 }
 
 void WO::delPersist()
 {
-  if (! vrsql) vrsql = new VRSql();	// first take the VRSql handle;
-  vrsql->deleteRow(this, names.given);
+  if (! vsql) vsql = new VSql();	// first take the VSql handle;
+  vsql->deleteRow(this, names.given);
 }
 
 //
@@ -1086,7 +1086,7 @@ char * WO::tokenize(char *l)
     if (p) *p = '\0';
   }
 
-  // save solid string into geomsolid for VRSql purposes
+  // save solid string into geomsolid for VSql purposes
   char *p = strstr(l, "<solid");
   if (p) {
     char *q, *s;

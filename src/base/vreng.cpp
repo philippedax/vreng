@@ -32,7 +32,7 @@
 #include "vac.hpp"	// Vac::init
 #include "channel.hpp"	// Channel::init
 #include "http.hpp"	// Http::init
-#include "vrsql.hpp"	// VRSql::init
+#include "vrsql.hpp"	// VSql::init
 #include "stat.hpp"	// printStats
 #include "aiinit.hpp"	// initOcaml
 #include "openal.hpp"	// Openal::init
@@ -93,7 +93,7 @@ void Vreng::initCB()
   Http::init();		// Simultaneous http connections initialization
   Channel::init();	// Network initialization
   Vac::init();	    	// Vac cache initialization
-  VRSql::init();	// VRSql initialization
+  VSql::init();		// VSql initialization
 #if HAVE_OCAML
   initOcaml();		// Ocaml runtime initialization
 #endif

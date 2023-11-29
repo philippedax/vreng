@@ -23,7 +23,7 @@
 #include "user.hpp"	// localuser
 #include "gui.hpp"	// addCart, dialogCart
 #include "netobj.hpp"	// netop
-#include "vrsql.hpp"	// VRSql
+#include "vrsql.hpp"	// VSql
 #include "pref.hpp"	// g.user
 
 #include <vector>
@@ -57,8 +57,8 @@ Cart::Cart(char *l)
 
   // If Cart is really persistent, these lines should be deleted
   // systematicaly remove objects
-  vrsql = new VRSql();
-  vrsql->deleteRows(this);
+  vsql = new VSql();
+  vsql->deleteRows(this);
 }
 
 /**
@@ -73,9 +73,9 @@ void Cart::addToCart(WO *po)
     case MOBILE:
       po->delFromList(mobileList);
       po->setVisible(false);	// render invisible the object
-      vrsql = new VRSql();	// first take the VRSql handle;
-      if (vrsql) {
-        vrsql->insertRow(po);
+      vsql = new VSql();	// first take the VSql handle;
+      if (vsql) {
+        vsql->insertRow(po);
         //echo("cartRow: (%s,%s)", po->getInstance(), po->ownerName());
       }
     default:
@@ -144,14 +144,14 @@ void Cart::leave(WO *po)
   // owner is user
   po->setOwner();
 
-  // declare that the object has moved for VRSql update
+  // declare that the object has moved for VSql update
   po->pos.alter = true;
 
-  vrsql = new VRSql();     // first take the VRSql handle;
-  if (vrsql) {
-    po->vrsql = vrsql;		// copy it into the object
-    vrsql->deleteRow(po, CART_NAME, po->getInstance(), "");
-    vrsql->insertRow(po);
+  vsql = new VSql();     // first take the VSql handle;
+  if (vsql) {
+    po->vsql = vsql;		// copy it into the object
+    vsql->deleteRow(po, CART_NAME, po->getInstance(), "");
+    vsql->insertRow(po);
     trace(DBG_SQL, "leaveFromCart: %s", po->getInstance());
   }
 
@@ -176,9 +176,9 @@ void Cart::removeFromCart(WO *po)
     }
   }
 
-  vrsql = new VRSql();     // first take the VRSql handle;
-  if (vrsql) {
-    vrsql->deleteRow(po, CART_NAME, po->getInstance(), "");
+  vsql = new VSql();     // first take the VSql handle;
+  if (vsql) {
+    vsql->deleteRow(po, CART_NAME, po->getInstance(), "");
     trace(DBG_SQL, "removeFromCart: %s", po->getInstance());
   }
 
