@@ -290,9 +290,9 @@ void Step::changePermanent(float lasting)
   updatePositionAndGrid(pos);
 }
 
-bool Step::updateToNetwork(const Pos &oldpos)
+bool Step::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 /* object intersects: up */

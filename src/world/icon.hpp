@@ -116,7 +116,7 @@ private:
   void updateTime(time_t, time_t, float *);
   /**< Updates times */
 
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
   /**< Publishes to network */
 
   bool whenIntersect(WO *pcur, WO *pold);

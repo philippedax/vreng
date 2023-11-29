@@ -236,19 +236,19 @@ public:
   //
   // Virtual Methods of Instances of general object handlers
   //
-  virtual bool isMoving()					{ return testMoving(); }
+  virtual bool isMoving()				{ return testMoving(); }
   /**< Checks whether object is moving. */
 
-  virtual void changePosition(float lasting)			{}
+  virtual void changePosition(float lasting)		{}
   /**< Changes the position after a triggered movement. */
 
-  virtual void changePermanent(float lasting)			{}
+  virtual void changePermanent(float lasting)		{}
   /**< Changes the position during a permanent movement. */
 
   virtual void updateTime(time_t s, time_t us, float *lasting)	{}
   /**< Updates remaining times of the movement. */
 
-  virtual bool updateToNetwork(const Pos &oldpos)		{ return false; }
+  virtual bool publish(const Pos &oldpos)		{ return false; }
   /**< Publishes changes to the network. */
 
   virtual bool whenIntersect(WO *pcur, WO *pold)	{ return false; }
@@ -260,16 +260,16 @@ public:
   virtual void whenWallsIntersect(WO *pold, V3 *norm)	{}
   /**< Handles collisions with walls. */
 
-  virtual void render()						{}
+  virtual void render()					{}
   /**< Makes special rendering. */
 
-  virtual void lighting()					{}
+  virtual void lighting()				{}
   /**< Makes special lighting. */
 
-  virtual void click(V3 norm)					{}
+  virtual void click(V3 norm)				{}
   /**< Intercepts a click. */
 
-  virtual void quit()						{}
+  virtual void quit()					{}
   /**< Makes all thing when leaving the object. */
 
 
@@ -473,7 +473,7 @@ public:
   // Network - Noid (Network Object Identifier)
   //
 public:
-  bool updatePosToNetwork(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay);
+  bool publishPos(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay);
   /**< Publishes position changes to the network. */
 
   uint32_t getSrc() const;

@@ -227,9 +227,9 @@ void Ball::changePermanent(float lasting)
 }
 
 /** Updates to the network */
-bool Ball::updateToNetwork(const Pos &oldpos)
+bool Ball::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 /** Intersects with an other object */

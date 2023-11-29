@@ -90,7 +90,7 @@ public:
 
   void changePosition(float lasting);
   void updateTime(time_t s, time_t us, float *lasting);
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
   bool whenIntersect(WO *pcur, WO *pold);
   void quit();
 

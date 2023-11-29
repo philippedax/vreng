@@ -58,7 +58,7 @@ public:
   bool whenIntersect(WO *pcur, WO *pold);
   /**< When an intersect occurs. */
 
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
   /**< Publishes new position. */
 
   void quit();

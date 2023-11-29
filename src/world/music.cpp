@@ -91,9 +91,9 @@ Music::Music(char *l)
     play(this, (void *) 1, 0L, 0L);
 }
 
-bool Music::updateToNetwork(const Pos &oldpos)
+bool Music::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 bool Music::whenIntersect(WO *pcur, WO *pold)

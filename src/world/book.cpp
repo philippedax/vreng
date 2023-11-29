@@ -292,9 +292,9 @@ void Book::updateTime(time_t sec, time_t usec, float *dt)
   updateLasting(sec, usec, dt);
 }
 
-bool Book::updateToNetwork(const Pos &oldpos)
+bool Book::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 bool Book::whenIntersect(WO *pcur, WO *pold)

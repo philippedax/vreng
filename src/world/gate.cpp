@@ -117,9 +117,9 @@ Gate::Gate(WO *user, char *geom)
   updatePosition();
 }
 
-bool Gate::updateToNetwork(const Pos &oldpos)
+bool Gate::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 /* action: enter */

@@ -1251,7 +1251,7 @@ void WO::show(const char *name)
 // Network
 //
 
-bool WO::updatePosToNetwork(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay)
+bool WO::publishPos(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay)
 {
   bool change = false;
 

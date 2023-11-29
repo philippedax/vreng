@@ -141,9 +141,9 @@ void Bubble::updateTime(time_t sec, time_t usec, float *lasting)
   }
 }
 
-bool Bubble::updateToNetwork(const Pos &oldpos)
+bool Bubble::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 void Bubble::quit()

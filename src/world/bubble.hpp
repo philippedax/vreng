@@ -72,7 +72,7 @@ public:
   void changePosition(float lasting);
   /**< Imposed movement. */
 
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
   /**< Publishes to network. */
 
   void setPosition();

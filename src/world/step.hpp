@@ -92,7 +92,7 @@ class Step: public WO {
   void changePermanent(float lasting);
   /**< Permanent movement */
 
-  virtual bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
   /**< Publishes new position */
 
   void running();

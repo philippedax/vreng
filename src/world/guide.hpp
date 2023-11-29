@@ -81,7 +81,7 @@ public:
   bool whenIntersectOut(WO *pcur, WO *pold);
   /**< When an object leaves intersection. */
 
-  bool updateToNetwork(const Pos &oldpos);
+  bool publish(const Pos &oldpos);
   /**< Publishes new position. */
 
   void render();

@@ -65,9 +65,9 @@ Mirror::Mirror(char *l)
   behaviors();
 }
 
-bool Mirror::updateToNetwork(const Pos &oldpos)
+bool Mirror::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 bool Mirror::whenIntersect(WO *pcur, WO *pold)

@@ -331,9 +331,9 @@ Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
 }
 
 /** Updates to the network */
-bool Icon::updateToNetwork(const Pos &oldpos)
+bool Icon::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 bool Icon::whenIntersect(WO *pcur, WO *pold)

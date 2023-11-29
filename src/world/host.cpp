@@ -54,9 +54,9 @@ Host::Host(char *l)
   createPermanentNetObject(PROPS, ++oid);
 }
 
-bool Host::updateToNetwork(const Pos &oldpos)
+bool Host::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 /* object intersects: stop */

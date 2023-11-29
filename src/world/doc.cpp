@@ -56,9 +56,9 @@ Doc::Doc(char *l)
   createPermanentNetObject(PROPS, ++oid);
 }
 
-bool Doc::updateToNetwork(const Pos &oldpos)
+bool Doc::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 bool Doc::whenIntersect(WO *pcur, WO *pold)

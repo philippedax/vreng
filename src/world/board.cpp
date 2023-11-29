@@ -67,9 +67,9 @@ Board::Board(char *l)
   inits();
 }
 
-bool Board::updateToNetwork(const Pos &oldpos)
+bool Board::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 /* object intersect: projection */

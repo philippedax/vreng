@@ -169,9 +169,9 @@ void Thing::changePermanent(float lasting)
 }
 #endif //notused
 
-bool Thing::updateToNetwork(const Pos &oldpos)
+bool Thing::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 void Thing::dropIntoBasket(Thing *thing, void *d, time_t s, time_t u)

@@ -420,7 +420,7 @@ void User::userMovement(time_t sec, time_t usec)
       }
       elemUserMovement(tabdt);
     }
-    updateToNetwork(oldpos);
+    publish(oldpos);
     updatePositionAndGrid(oldpos);
     updateCamera(pos);
   }
@@ -493,7 +493,7 @@ void WO::imposedMovement(time_t sec, time_t usec)
   }
 
   if (netop && netop->isResponsible()) {
-    updateToNetwork(oldpos);	// handled by each object
+    publish(oldpos);	// handled by each object
   }
   updatePositionAndGrid(oldpos);
 }
@@ -562,7 +562,7 @@ void WO::permanentMovement(time_t sec, time_t usec)
     updateTime(sec, usec, &lasting);	// never called FIXME!
 
     if (netop && netop->isResponsible()) {
-      updateToNetwork(oldpos);		// handled by each object
+      publish(oldpos);			// handled by each object
     }
 
     updatePositionAndGrid(oldpos);

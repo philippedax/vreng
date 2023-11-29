@@ -96,9 +96,9 @@ void Sheet::updateTime(time_t s, time_t us, float *lasting)
   }
 }
 
-bool Sheet::updateToNetwork(const Pos &oldpos)
+bool Sheet::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 bool Sheet::whenIntersect(WO *pcur, WO *pold)

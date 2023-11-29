@@ -347,9 +347,9 @@ bool Guide::whenIntersectOut(WO *pcur, WO *pold)
   return false;
 }
 
-bool Guide::updateToNetwork(const Pos &oldpos)
+bool Guide::publish(const Pos &oldpos)
 {
-  return updatePosToNetwork(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
+  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 void Guide::draw(float *color)
