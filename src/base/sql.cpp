@@ -19,7 +19,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "vrsql.hpp"
+#include "sql.hpp"
 #include "world.hpp"	// current
 #include "humanoid.hpp"	// Humanoid bap
 #include "pref.hpp"	// g.user

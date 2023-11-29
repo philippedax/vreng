@@ -22,7 +22,7 @@
 #include "mirage.hpp"
 #include "user.hpp"	// user
 #include "move.hpp"	// gotoFront
-#include "vrsql.hpp"	// VSql
+#include "sql.hpp"	// VSql
 #include "timer.hpp"	// rate
 #include "flare.hpp"	// Flare
 #include "solid.hpp"	// setFlary

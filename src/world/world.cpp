@@ -46,7 +46,7 @@
 #include "mirage.hpp"	// MIRAGE_NAME
 #include "dress.hpp"	// DRESS_TYPE
 #include "vjc.hpp"	// Vjc
-#include "vrsql.hpp"	// VSql
+#include "sql.hpp"	// VSql
 #include "tool.hpp"	// quitTools
 #include "sandbox.hpp"	// sandbox world
 #include "wind.hpp"	// Wind

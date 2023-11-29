@@ -23,7 +23,7 @@
 #include "user.hpp"	// localuser
 #include "gui.hpp"	// addCart, dialogCart
 #include "netobj.hpp"	// netop
-#include "vrsql.hpp"	// VSql
+#include "sql.hpp"	// VSql
 #include "pref.hpp"	// g.user
 
 #include <vector>

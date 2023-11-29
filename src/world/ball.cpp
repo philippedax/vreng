@@ -22,7 +22,7 @@
 #include "ball.hpp"
 #include "matvec.hpp"   // V3 M4
 #include "user.hpp"	// User
-#include "vrsql.hpp"	// deleteRow
+#include "sql.hpp"	// deleteRow
 #include "cauldron.hpp"	// Cauldron
 #include "step.hpp"	// STEP_TYPE
 #include "move.hpp"	// GRAVITY

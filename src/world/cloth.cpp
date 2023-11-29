@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "cloth.hpp"
 #include "user.hpp"	// localuser
-#include "vrsql.hpp"	// VSql
+#include "sql.hpp"	// VSql
 
 
 const OClass Cloth::oclass(CLOTH_TYPE, "Cloth", Cloth::creator);

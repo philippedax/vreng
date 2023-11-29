@@ -18,8 +18,8 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef VSQL_HPP
-#define VSQL_HPP
+#ifndef SQL_HPP
+#define SQL_HPP
 
 #if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
 #define VSQL 1
@@ -291,4 +291,4 @@ public:
   void updatePosAZ(WO *o);
 };
 
-#endif // VSQL
+#endif // SQL

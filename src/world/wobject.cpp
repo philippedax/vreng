@@ -24,7 +24,7 @@
 #include "world.hpp"	// World::current
 #include "user.hpp"	// localuser
 #include "netobj.hpp"	// NetObject
-#include "vrsql.hpp"	// VSql
+#include "sql.hpp"	// VSql
 #include "solid.hpp"	// Solid
 #include "olist.hpp"	// OList
 #include "gui.hpp"	// clearInfoBar, removeUser

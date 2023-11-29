@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-BASE_SRCS = vreng.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp universe.cpp vrsql.cpp xml.cpp report.cpp thread.cpp nsl.cpp str.cpp windoze.cpp base64.cpp md5.cpp random.cpp vac.cpp
+BASE_SRCS = vreng.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp universe.cpp sql.cpp xml.cpp report.cpp thread.cpp nsl.cpp str.cpp windoze.cpp base64.cpp md5.cpp random.cpp vac.cpp
 
-BASE_HDRS = vreng.hpp includes.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp color.hpp stat.hpp vector3.hpp universe.hpp vrsql.hpp xml.hpp report.hpp thread.hpp nsl.hpp str.hpp windoze.hpp base64.hpp md5.hpp random.hpp vac.hpp
+BASE_HDRS = vreng.hpp includes.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp color.hpp stat.hpp vector3.hpp universe.hpp sql.hpp xml.hpp report.hpp thread.hpp nsl.hpp str.hpp windoze.hpp base64.hpp md5.hpp random.hpp vac.hpp
 
 SRCDIR = $(top_srcdir)/src
 CORE_INCL = -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/vnc -I$(SRCDIR)/tool -I$(SRCDIR)/ai
