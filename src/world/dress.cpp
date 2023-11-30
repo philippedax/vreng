@@ -206,6 +206,7 @@ void Dress::wear()
   setPersist();
   behaviors();
   inits();
+  createVolatileNetObject(PROPS);
   addWearList();
 }
 

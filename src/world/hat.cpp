@@ -240,7 +240,7 @@ void Hat::wear()
   behaviors();
   inits();
   setPersist();
-  createPermanentNetObject(PROPS, ++oid);
+  createVolatileNetObject(PROPS);
   addWearList();
 }
 
