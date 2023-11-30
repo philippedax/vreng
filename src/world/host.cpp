@@ -92,19 +92,19 @@ void Host::quit()
 
 void Host::funcs()
 {
-  getPropertyFunc(HOST_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(HOST_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(HOST_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(HOST_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(HOST_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(HOST_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(HOST_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(HOST_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(HOST_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(HOST_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(HOST_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(HOST_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(HOST_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(HOST_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(HOST_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(HOST_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(HOST_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(HOST_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(HOST_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(HOST_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(HOST_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(HOST_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(HOST_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(HOST_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(HOST_TYPE, 0, _Action connect, "Connect");
   setActionFunc(HOST_TYPE, 1, _Action disconnect, "Disconnect");

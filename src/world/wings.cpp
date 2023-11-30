@@ -647,19 +647,19 @@ void Wings::recreate_cb(User *pu, void *d, time_t s, time_t u)
 
 void Wings::funcs()
 {
-  getPropertyFunc(WINGS_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(WINGS_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(WINGS_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(WINGS_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(WINGS_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(WINGS_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(WINGS_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(WINGS_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(WINGS_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(WINGS_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(WINGS_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(WINGS_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(WINGS_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(WINGS_TYPE, PROPZ, _Payload put_z); 
-  putPropertyFunc(WINGS_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(WINGS_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(WINGS_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(WINGS_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(WINGS_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(WINGS_TYPE, PROPZ, _Payload put_z); 
+  putPropFunc(WINGS_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(WINGS_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(WINGS_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(WINGS_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(WINGS_TYPE, WEAR, _Action wear_cb, "Wear");
   setActionFunc(WINGS_TYPE, TAKEOFF, _Action takeoff_cb, "Takeoff");

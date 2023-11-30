@@ -294,15 +294,15 @@ void Door::unlock_cb(Door *door, void *d, time_t s, time_t u) { door->unlock(); 
 
 void Door::funcs()
 {
-  getPropertyFunc(DOOR_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(DOOR_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(DOOR_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(DOOR_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(DOOR_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(DOOR_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(DOOR_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(DOOR_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(DOOR_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(DOOR_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(DOOR_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(DOOR_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(DOOR_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(DOOR_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(DOOR_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(DOOR_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(DOOR_TYPE, 0, _Action open_cb, "Open");
   setActionFunc(DOOR_TYPE, 1, _Action close_cb, "Close");

@@ -187,19 +187,19 @@ void Music::quit()
 
 void Music::funcs()
 {
-  getPropertyFunc(MUSIC_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(MUSIC_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(MUSIC_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(MUSIC_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(MUSIC_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(MUSIC_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(MUSIC_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(MUSIC_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(MUSIC_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(MUSIC_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(MUSIC_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(MUSIC_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(MUSIC_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(MUSIC_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(MUSIC_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(MUSIC_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(MUSIC_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(MUSIC_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(MUSIC_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(MUSIC_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(MUSIC_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(MUSIC_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(MUSIC_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(MUSIC_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(MUSIC_TYPE, PLAY, _Action play, "Play");
   setActionFunc(MUSIC_TYPE, STOP, _Action stop, "Stop");

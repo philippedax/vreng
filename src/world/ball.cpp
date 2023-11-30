@@ -407,19 +407,19 @@ void Ball::recreate_cb(World *w, void *d, time_t s, time_t u)
 
 void Ball::funcs()
 {
-  getPropertyFunc(BALL_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(BALL_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(BALL_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(BALL_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(BALL_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(BALL_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(BALL_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(BALL_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(BALL_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(BALL_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(BALL_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(BALL_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(BALL_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(BALL_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(BALL_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(BALL_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(BALL_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(BALL_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(BALL_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(BALL_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(BALL_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(BALL_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(BALL_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(BALL_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(BALL_TYPE, PUSH,     _Action push_cb, "Push");
   setActionFunc(BALL_TYPE, PULL,     _Action pull_cb, "Pull");

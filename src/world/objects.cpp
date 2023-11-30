@@ -209,8 +209,8 @@ const struct InitFunc initFuncs[] = {
 
 
 // local
-static struct ProperFunc putPropertyArray[OBJECTSNUMBER+1][PROPSNUMBER];
-static struct ProperFunc getPropertyArray[OBJECTSNUMBER+1][PROPSNUMBER];
+static struct ProperFunc putPropArray[OBJECTSNUMBER+1][PROPSNUMBER];
+static struct ProperFunc getPropArray[OBJECTSNUMBER+1][PROPSNUMBER];
 static struct ActionFunc actionArray[OBJECTSNUMBER+1][ACTIONSNUMBER];
 
 float maxlastings[OBJECTSNUMBER+1];
@@ -230,8 +230,8 @@ void World::initFunc()
 
     // property functions
     for (uint8_t j=0; j < PROPSNUMBER ; j++) {
-      getPropertyArray[i][j].method = NULL;
-      putPropertyArray[i][j].method = NULL;
+      getPropArray[i][j].method = NULL;
+      putPropArray[i][j].method = NULL;
     }
 
     // property values
@@ -315,32 +315,32 @@ uint8_t getPropertiesnumber(uint8_t type)
 }
 
 /** Initializes table of property functions */
-void getPropertyFunc(uint8_t type, uint8_t prop, void (*get_method)(WO *o, Payload *p))
+void getPropFunc(uint8_t type, uint8_t prop, void (*get_method)(WO *o, Payload *p))
 {
-  getPropertyArray[type][prop].method = get_method;
+  getPropArray[type][prop].method = get_method;
 }
 
-void putPropertyFunc(uint8_t type, uint8_t prop, void (*put_method)(WO *o, Payload *p))
+void putPropFunc(uint8_t type, uint8_t prop, void (*put_method)(WO *o, Payload *p))
 {
-  putPropertyArray[type][prop].method = put_method;
+  putPropArray[type][prop].method = put_method;
 }
 
-bool isGetPropertyFunc(uint8_t type, uint8_t prop)
+bool isGetPropFunc(uint8_t type, uint8_t prop)
 {
-  return getPropertyArray[type][prop].method;
+  return getPropArray[type][prop].method;
 }
 
-bool isPutPropertyFunc(uint8_t type, uint8_t prop)
+bool isPutPropFunc(uint8_t type, uint8_t prop)
 {
-  return putPropertyArray[type][prop].method;
+  return putPropArray[type][prop].method;
 }
 
-void runGetPropertyFunc(uint8_t type, uint8_t prop, WO *o, Payload *pp)
+void runGetPropFunc(uint8_t type, uint8_t prop, WO *o, Payload *pp)
 {
-  getPropertyArray[type][prop].method(o, pp);
+  getPropArray[type][prop].method(o, pp);
 }
 
-void runPutPropertyFunc(uint8_t type, uint8_t prop, WO *o, Payload *pp)
+void runPutPropFunc(uint8_t type, uint8_t prop, WO *o, Payload *pp)
 {
-  putPropertyArray[type][prop].method(o, pp);
+  putPropArray[type][prop].method(o, pp);
 }

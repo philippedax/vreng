@@ -191,19 +191,19 @@ void Halo::recreate_cb(User *pu, void *d, time_t s, time_t u)
 
 void Halo::funcs()
 {
-  getPropertyFunc(HALO_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(HALO_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(HALO_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(HALO_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(HALO_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(HALO_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(HALO_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(HALO_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(HALO_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(HALO_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(HALO_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(HALO_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(HALO_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(HALO_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(HALO_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(HALO_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(HALO_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(HALO_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(HALO_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(HALO_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(HALO_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(HALO_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(HALO_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(HALO_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(HALO_TYPE, WEAR, _Action wear_cb, "Wear");
   setActionFunc(HALO_TYPE, TAKEOFF, _Action takeoff_cb, "Takeoff");

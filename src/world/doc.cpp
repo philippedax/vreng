@@ -89,19 +89,19 @@ void Doc::cancel_cb(Doc *doc, void *d, time_t s, time_t u)
 
 void Doc::funcs()
 {
-  getPropertyFunc(DOC_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(DOC_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(DOC_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(DOC_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(DOC_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(DOC_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(DOC_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(DOC_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(DOC_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(DOC_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(DOC_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(DOC_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(DOC_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(DOC_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(DOC_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(DOC_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(DOC_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(DOC_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(DOC_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(DOC_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(DOC_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(DOC_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(DOC_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(DOC_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(DOC_TYPE, 0, _Action view_cb, "View");
   setActionFunc(DOC_TYPE, 1, _Action print_cb, "Print");

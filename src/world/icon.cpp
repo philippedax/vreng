@@ -599,25 +599,25 @@ void Icon::quit()
 
 void Icon::funcs()
 {
-  getPropertyFunc(ICON_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(ICON_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(ICON_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(ICON_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(ICON_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(ICON_TYPE, PROPHNAME, _Payload get_hname);
-  getPropertyFunc(ICON_TYPE, PROPURL, _Payload get_url);
-  getPropertyFunc(ICON_TYPE, PROPTEX, _Payload get_tex);
-  getPropertyFunc(ICON_TYPE, PROPGNAME, _Payload get_gname);
+  getPropFunc(ICON_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(ICON_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(ICON_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(ICON_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(ICON_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(ICON_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(ICON_TYPE, PROPURL, _Payload get_url);
+  getPropFunc(ICON_TYPE, PROPTEX, _Payload get_tex);
+  getPropFunc(ICON_TYPE, PROPGNAME, _Payload get_gname);
 
-  putPropertyFunc(ICON_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(ICON_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(ICON_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(ICON_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(ICON_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(ICON_TYPE, PROPHNAME, _Payload put_hname);
-  putPropertyFunc(ICON_TYPE, PROPURL, _Payload put_url);
-  putPropertyFunc(ICON_TYPE, PROPTEX, _Payload put_tex);
-  putPropertyFunc(ICON_TYPE, PROPGNAME, _Payload put_gname);
+  putPropFunc(ICON_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(ICON_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(ICON_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(ICON_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(ICON_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(ICON_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(ICON_TYPE, PROPURL, _Payload put_url);
+  putPropFunc(ICON_TYPE, PROPTEX, _Payload put_tex);
+  putPropFunc(ICON_TYPE, PROPGNAME, _Payload put_gname);
 
   setActionFunc(ICON_TYPE, OPEN,   _Action open, "Open");
   setActionFunc(ICON_TYPE, SAVE,   _Action save, "Save");

@@ -1357,21 +1357,21 @@ void WO::put_hname(WO *po, Payload *pp)
 /** Gets property from Network */
 void WO::getProperty(uint8_t prop_id, Payload *pp)
 {
-  if (! isGetPropertyFunc(type, prop_id)) {
+  if (! isGetPropFunc(type, prop_id)) {
     error("getProperty: prop=%d doesn't match the object type=%d", prop_id, type);
     return;
   }
-  runGetPropertyFunc(type, prop_id, this, pp);
+  runGetPropFunc(type, prop_id, this, pp);
 }
 
 /** Puts property to Network */
 void WO::putProperty(uint8_t prop_id, Payload *pp)
 {
-  if (! isPutPropertyFunc(type, prop_id)) {
+  if (! isPutPropFunc(type, prop_id)) {
     error("putProperty: prop=%d undefined for object=%d", prop_id, type);
     return;
   }
-  runPutPropertyFunc(type, prop_id, this, pp);
+  runPutPropFunc(type, prop_id, this, pp);
 }
 
 void WO::deleteReplica()

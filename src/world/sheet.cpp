@@ -204,15 +204,15 @@ void Sheet::quit()
 
 void Sheet::funcs()
 {
-  getPropertyFunc(SHEET_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(SHEET_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(SHEET_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(SHEET_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(SHEET_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(SHEET_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(SHEET_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(SHEET_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(SHEET_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(SHEET_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(SHEET_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(SHEET_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(SHEET_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(SHEET_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(SHEET_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(SHEET_TYPE, PROPHNAME, _Payload put_hname);
 
   // invisible method, called by Book
   setActionFunc(SHEET_TYPE, CREATE, _Action sheetCreate, "");

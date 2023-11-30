@@ -159,17 +159,17 @@ void Bubble::quit()
 
 void Bubble::funcs()
 {
-  getPropertyFunc(BUBBLE_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(BUBBLE_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(BUBBLE_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(BUBBLE_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(BUBBLE_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(BUBBLE_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(BUBBLE_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(BUBBLE_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(BUBBLE_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(BUBBLE_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(BUBBLE_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(BUBBLE_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(BUBBLE_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(BUBBLE_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(BUBBLE_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(BUBBLE_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(BUBBLE_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(BUBBLE_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(BUBBLE_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(BUBBLE_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(BUBBLE_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(BUBBLE_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(BUBBLE_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(BUBBLE_TYPE, PROPHNAME, _Payload put_hname);
 }

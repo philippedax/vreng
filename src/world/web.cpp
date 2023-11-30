@@ -189,19 +189,19 @@ void Web::quit()
 
 void Web::funcs()
 {
-  getPropertyFunc(WEB_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(WEB_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(WEB_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(WEB_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(WEB_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(WEB_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(WEB_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(WEB_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(WEB_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(WEB_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(WEB_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(WEB_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(WEB_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(WEB_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(WEB_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(WEB_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(WEB_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(WEB_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(WEB_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(WEB_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(WEB_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(WEB_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(WEB_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(WEB_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(WEB_TYPE, 0, _Action open_cb, "Open");
   setActionFunc(WEB_TYPE, 1, _Action pivot_cb, "Pivot");

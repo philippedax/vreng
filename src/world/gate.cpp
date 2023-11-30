@@ -266,19 +266,19 @@ void Gate::enter_cb(Gate *gate, void *d, time_t s, time_t u)
 
 void Gate::funcs()
 {
-  getPropertyFunc(GATE_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(GATE_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(GATE_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(GATE_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(GATE_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(GATE_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(GATE_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(GATE_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(GATE_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(GATE_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(GATE_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(GATE_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(GATE_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(GATE_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(GATE_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(GATE_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(GATE_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(GATE_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(GATE_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(GATE_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(GATE_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(GATE_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(GATE_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(GATE_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(GATE_TYPE, 0, _Action enter_cb, "Enter");
   setActionFunc(GATE_TYPE, 1, _Action gotoFront, "Approach");

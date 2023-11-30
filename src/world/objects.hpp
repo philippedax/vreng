@@ -78,11 +78,11 @@ float getMaxLastings(uint8_t type);
 void setPropertiesnumber(uint8_t type, uint8_t nbprop);
 uint8_t getPropertiesnumber(uint8_t type);
 
-void getPropertyFunc(uint8_t type, uint8_t prop, void (*get_method)(WO *o, Payload *p));
-void putPropertyFunc(uint8_t type, uint8_t prop, void (*put_method)(WO *o, Payload *p));
-bool isGetPropertyFunc(uint8_t type, uint8_t prop);
-bool isPutPropertyFunc(uint8_t type, uint8_t prop);
-void runGetPropertyFunc(uint8_t type, uint8_t prop, WO *o, Payload *p);
-void runPutPropertyFunc(uint8_t type, uint8_t prop, WO *o, Payload *p);
+void getPropFunc(uint8_t type, uint8_t prop, void (*get_method)(WO *o, Payload *p));
+void putPropFunc(uint8_t type, uint8_t prop, void (*put_method)(WO *o, Payload *p));
+bool isGetPropFunc(uint8_t type, uint8_t prop);
+bool isPutPropFunc(uint8_t type, uint8_t prop);
+void runGetPropFunc(uint8_t type, uint8_t prop, WO *o, Payload *p);
+void runPutPropFunc(uint8_t type, uint8_t prop, WO *o, Payload *p);
 
 #endif

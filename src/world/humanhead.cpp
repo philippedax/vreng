@@ -246,19 +246,19 @@ void Humanhead::recreate_cb(User *user, void *d, time_t s, time_t u)
 
 void Humanhead::funcs()
 {
-  getPropertyFunc(HUMANHEAD_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(HUMANHEAD_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(HUMANHEAD_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(HUMANHEAD_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(HUMANHEAD_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(HUMANHEAD_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(HUMANHEAD_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(HUMANHEAD_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(HUMANHEAD_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(HUMANHEAD_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(HUMANHEAD_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(HUMANHEAD_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(HUMANHEAD_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(HUMANHEAD_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(HUMANHEAD_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(HUMANHEAD_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(HUMANHEAD_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(HUMANHEAD_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(HUMANHEAD_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(HUMANHEAD_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(HUMANHEAD_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(HUMANHEAD_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(HUMANHEAD_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(HUMANHEAD_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(HUMANHEAD_TYPE, RECREATE, _Action recreate_cb, "");
 }

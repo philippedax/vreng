@@ -222,19 +222,19 @@ void Thing::quit()
 
 void Thing::funcs()
 {
-  getPropertyFunc(THING_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(THING_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(THING_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(THING_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(THING_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(THING_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(THING_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(THING_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(THING_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(THING_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(THING_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(THING_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(THING_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(THING_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(THING_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(THING_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(THING_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(THING_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(THING_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(THING_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(THING_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(THING_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(THING_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(THING_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(THING_TYPE, APPROACH, _Action gotoFront, "Approach");
   setActionFunc(THING_TYPE, MOVE, _Action moveObject, "Move");

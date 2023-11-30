@@ -291,19 +291,19 @@ void Hat::recreate_cb(User *user, void *d, time_t s, time_t u)
 
 void Hat::funcs()
 {
-  getPropertyFunc(HAT_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(HAT_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(HAT_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(HAT_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(HAT_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(HAT_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(HAT_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(HAT_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(HAT_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(HAT_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(HAT_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(HAT_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(HAT_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(HAT_TYPE, PROPZ, _Payload put_z); 
-  putPropertyFunc(HAT_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(HAT_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(HAT_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(HAT_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(HAT_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(HAT_TYPE, PROPZ, _Payload put_z); 
+  putPropFunc(HAT_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(HAT_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(HAT_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(HAT_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(HAT_TYPE, WEAR, _Action wear_cb, "Wear");
   setActionFunc(HAT_TYPE, TAKEOFF, _Action takeoff_cb, "Takeoff");

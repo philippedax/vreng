@@ -746,19 +746,19 @@ void Book::lookLeft_cb(Book *book, void *d, time_t s, time_t u)
 
 void Book::funcs()
 {
-  getPropertyFunc(BOOK_TYPE, PROPXY, _Payload get_xy);
-  getPropertyFunc(BOOK_TYPE, PROPZ, _Payload get_z);
-  getPropertyFunc(BOOK_TYPE, PROPAZ, _Payload get_az);
-  getPropertyFunc(BOOK_TYPE, PROPAX, _Payload get_ax);
-  getPropertyFunc(BOOK_TYPE, PROPAY, _Payload get_ay);
-  getPropertyFunc(BOOK_TYPE, PROPHNAME, _Payload get_hname);
+  getPropFunc(BOOK_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(BOOK_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(BOOK_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(BOOK_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(BOOK_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(BOOK_TYPE, PROPHNAME, _Payload get_hname);
 
-  putPropertyFunc(BOOK_TYPE, PROPXY, _Payload put_xy);
-  putPropertyFunc(BOOK_TYPE, PROPZ, _Payload put_z);
-  putPropertyFunc(BOOK_TYPE, PROPAZ, _Payload put_az);
-  putPropertyFunc(BOOK_TYPE, PROPAX, _Payload put_ax);
-  putPropertyFunc(BOOK_TYPE, PROPAY, _Payload put_ay);
-  putPropertyFunc(BOOK_TYPE, PROPHNAME, _Payload put_hname);
+  putPropFunc(BOOK_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(BOOK_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(BOOK_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(BOOK_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(BOOK_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(BOOK_TYPE, PROPHNAME, _Payload put_hname);
 
   setActionFunc(BOOK_TYPE, PULL, _Action approach_cb, "Approach");
   setActionFunc(BOOK_TYPE, OPEN, _Action open_cb, "Open");
