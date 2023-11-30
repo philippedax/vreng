@@ -127,7 +127,7 @@ Door::Door(char *l)
   enableBehavior(PERSISTENT);
 
   initMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 }
 
 void Door::updateTime(time_t s, time_t us, float *lasting)

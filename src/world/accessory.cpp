@@ -78,7 +78,7 @@ void Accessory::inits()
 
   initMobileObject(1);
   setLinearSpeed(speed);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 }
 
 Accessory::Accessory(char *l)

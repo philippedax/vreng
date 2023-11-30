@@ -144,7 +144,7 @@ Guide::Guide(char *l)
   behaviors();
 
   initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 
   pos.az = atan((path[seg+1][1]-path[seg][1]) / (path[seg+1][0]-path[seg][0]));
   origin[0] = pos.x;

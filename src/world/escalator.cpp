@@ -102,7 +102,7 @@ void Escalator::build()
 void Escalator::inits()
 {
   initMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 }
 
 Escalator::Escalator(char *l)

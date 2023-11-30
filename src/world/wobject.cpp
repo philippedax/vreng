@@ -596,7 +596,7 @@ void WO::setWOId()
 }
 
 /* Creates local permanent NetObject */
-NetObject * WO::createPermanentNetObject(uint8_t props, uint16_t oid)
+NetObject * WO::createNetObj(uint8_t props, uint16_t oid)
 {
   netop = new NetObject(this, props, oid);
   return netop;

@@ -67,7 +67,7 @@ void Animator::behaviors()
 void Animator::inits()
 {
   initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 
   if (state == ACTIVE) {
     enableImposedMovement();

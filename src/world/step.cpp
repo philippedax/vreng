@@ -153,7 +153,7 @@ void Step::build()
 void Step::inits()
 {
   initMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 }
 
 Step::Step(char *l)

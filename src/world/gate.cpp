@@ -90,7 +90,7 @@ void Gate::behaviors()
 void Gate::inits()
 {
   initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 }
 
 /** Created fron vre file */

@@ -675,7 +675,7 @@ public:
   void initClothObject(float last);
   /**< Initializes cloth object. */
 
-  NetObject * createPermanentNetObject(uint8_t props, uint16_t oid);
+  NetObject * createNetObj(uint8_t props, uint16_t oid);
   /**< Creates local permanent NetObject. */
 
   NetObject * createVolatileNetObject(uint8_t props);

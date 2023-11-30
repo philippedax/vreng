@@ -80,7 +80,6 @@ void Travelator::build()
 void Travelator::inits()
 {
   initMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
 }
 
 Travelator::Travelator(char *l)

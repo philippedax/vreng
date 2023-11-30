@@ -52,7 +52,7 @@ void Board::inits()
   dlist = 0;
   ::g.gui.setToBoard(this);
   initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 }
 
 void Board::defaults()

@@ -87,7 +87,6 @@ void Stair::build()
 void Stair::inits()
 {
   initMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
 }
 
 Stair::Stair(char *l)

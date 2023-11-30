@@ -60,7 +60,6 @@ void Slider::parser(char *l)
 void Slider::behaviors()
 {
   initMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
 }
 
 Slider::Slider(char *l)

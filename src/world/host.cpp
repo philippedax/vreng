@@ -51,7 +51,7 @@ Host::Host(char *l)
   parser(l);
 
   initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 }
 
 bool Host::publish(const Pos &oldpos)

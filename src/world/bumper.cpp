@@ -60,7 +60,6 @@ void Bumper::parser(char *l)
 void Bumper::behaviors()
 {
   initMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
 }
 
 Bumper::Bumper(char *l)

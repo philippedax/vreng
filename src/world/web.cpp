@@ -78,7 +78,7 @@ Web::Web(char *l)
   angori = pos.az;	// keep initial angle
 
   initMobileObject(TTL);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 }
 
 void Web::updateTime(time_t sec, time_t usec, float *lasting)

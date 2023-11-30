@@ -85,15 +85,9 @@ Music::Music(char *l)
   enableBehavior(COLLIDE_NEVER);
 
   initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
 
   if ((! stringcmp(statestr, "play")) || (! stringcmp(statestr, "loop")))
     play(this, (void *) 1, 0L, 0L);
-}
-
-bool Music::publish(const Pos &oldpos)
-{
-  return publishPos(oldpos, PROPXY, PROPZ, PROPAZ, PROPAX, PROPAY);
 }
 
 bool Music::whenIntersect(WO *pcur, WO *pold)
@@ -187,20 +181,6 @@ void Music::quit()
 
 void Music::funcs()
 {
-  getPropFunc(MUSIC_TYPE, PROPXY, _Payload get_xy);
-  getPropFunc(MUSIC_TYPE, PROPZ, _Payload get_z);
-  getPropFunc(MUSIC_TYPE, PROPAZ, _Payload get_az);
-  getPropFunc(MUSIC_TYPE, PROPAX, _Payload get_ax);
-  getPropFunc(MUSIC_TYPE, PROPAY, _Payload get_ay);
-  getPropFunc(MUSIC_TYPE, PROPHNAME, _Payload get_hname);
-
-  putPropFunc(MUSIC_TYPE, PROPXY, _Payload put_xy);
-  putPropFunc(MUSIC_TYPE, PROPZ, _Payload put_z);
-  putPropFunc(MUSIC_TYPE, PROPAZ, _Payload put_az);
-  putPropFunc(MUSIC_TYPE, PROPAX, _Payload put_ax);
-  putPropFunc(MUSIC_TYPE, PROPAY, _Payload put_ay);
-  putPropFunc(MUSIC_TYPE, PROPHNAME, _Payload put_hname);
-
   setActionFunc(MUSIC_TYPE, PLAY, _Action play, "Play");
   setActionFunc(MUSIC_TYPE, STOP, _Action stop, "Stop");
   setActionFunc(MUSIC_TYPE, PAUSE, _Action pause, "Pause");

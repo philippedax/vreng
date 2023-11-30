@@ -90,9 +90,6 @@ public:
   bool whenIntersect(WO *pcur, WO *pold);
   /**< Intersects with another object */
 
-  bool publish(const Pos &oldpos);
-  /**< Publishes new position */
-
   void quit();
   /**< Quits properly */
 

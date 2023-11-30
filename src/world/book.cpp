@@ -204,7 +204,7 @@ void Book::behaviors()
 void Book::inits()
 {
   initMobileObject(1);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 
   getDim(size);
   width = size.v[0];

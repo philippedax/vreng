@@ -53,7 +53,7 @@ Doc::Doc(char *l)
   enableBehavior(TAKABLE);
 
   initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 }
 
 bool Doc::publish(const Pos &oldpos)

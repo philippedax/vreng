@@ -101,9 +101,7 @@ Plane::Plane(char *l)
   if (pos.ax) {	// inclinated
     geometry();
   }
-
   initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
 }
 
 /** Intersection with an object */
@@ -142,15 +140,5 @@ void Plane::quit()
 
 void Plane::funcs()
 {
-  getPropFunc(PLANE_TYPE, PROPXY, _Payload get_xy);
-  getPropFunc(PLANE_TYPE, PROPZ, _Payload get_z);
-  getPropFunc(PLANE_TYPE, PROPAZ, _Payload get_az);
-  getPropFunc(PLANE_TYPE, PROPHNAME, _Payload get_hname);
-
-  putPropFunc(PLANE_TYPE, PROPXY, _Payload put_xy);
-  putPropFunc(PLANE_TYPE, PROPZ, _Payload put_z);
-  putPropFunc(PLANE_TYPE, PROPAZ, _Payload put_az);
-  putPropFunc(PLANE_TYPE, PROPHNAME, _Payload put_hname);
-
   setActionFunc(PLANE_TYPE, 0, _Action moveObject, "Move");
 }

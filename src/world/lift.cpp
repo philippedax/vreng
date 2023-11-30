@@ -72,7 +72,7 @@ Lift::Lift(char *l)
 
   state = NONE;		// lift is empty
   initMobileObject(0);
-  createPermanentNetObject(PROPS, ++oid);
+  createNetObj(PROPS, ++oid);
 
   dest = pos.z;		// initial position
 }
