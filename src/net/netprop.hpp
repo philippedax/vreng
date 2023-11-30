@@ -44,9 +44,9 @@ class NetProperty {
 
   void setResponsible(bool flag);
 
-  static uint8_t getPropertiesNumber(uint8_t _type_id);
+  static uint8_t getProperties(uint8_t _type_id);
 
-  static void setPropertiesNumber(uint8_t _type_id, uint8_t _nbprop);
+  static void setProperties(uint8_t _type_id, uint8_t _nbprop);
 
   static void addToDate(struct timeval *t, double d);
 };

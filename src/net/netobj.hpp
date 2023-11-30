@@ -177,18 +177,18 @@ class NetObject {
    * Dates handled by resetDates.
    */
 
-  uint8_t getPropertiesNumber() const;
+  uint8_t getProperties() const;
 
-  static uint8_t getPropertiesNumber(uint8_t type_id);
+  static uint8_t getProperties(uint8_t type_id);
   /**<
    * Returns le number of properties for this type.
-   * Numbered from 0 to propertiesnumber-1.
+   * numbered from 0 to propertiesnumber-1.
    * Typically called after an incomingCreate.
    */
 
-  void setPropertiesNumber(uint8_t _nbprop);
+  void setProperties(uint8_t _nbprop);
 
-  static void setPropertiesNumber(uint8_t type_id, uint8_t _nbprop);
+  static void setProperties(uint8_t type_id, uint8_t _nbprop);
   /**<
    * Sets the number of properties for this type
    */

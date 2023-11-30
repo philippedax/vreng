@@ -439,7 +439,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   }
   else {	// never executed
     error("never executed idxend=%d", idxend);
-    uint8_t _nbprop = netop->getPropertiesNumber();
+    uint8_t _nbprop = netop->getProperties();
     for (int np = PROPBEGINVAR; np < _nbprop; np++) {
       netop->getProperty(np, pp);
     }

@@ -74,7 +74,7 @@ NetObject::NetObject(WO *po, uint8_t nprop, uint16_t oid)
   type = po->typeId();
   pobject = po;
   state = NET_PERMANENT;
-  setPropertiesNumber(nprop);
+  setProperties(nprop);
 
   char str[80];
   sprintf(str, "%d/%d", type, oid);
@@ -89,7 +89,7 @@ NetObject::NetObject(WO *po, uint8_t nprop)
   type = po->type;
   pobject = po;
   state = NET_VOLATILE;
-  setPropertiesNumber(nprop);
+  setProperties(nprop);
   create(state);
   setNoid();
 }
@@ -102,7 +102,7 @@ NetObject::NetObject(WO *po, uint8_t nprop, Noid _noid)
   pobject = po;
   state = NET_VOLATILE;
   noid = _noid;
-  setPropertiesNumber(nprop);
+  setProperties(nprop);
 }
 
 list<NetObject*>::iterator NetObject::getList()
@@ -176,7 +176,7 @@ void NetObject::initProperties(bool _responsible)
 {
   if (netprop) return; //error("initProperties: netprop already exists (type=%d)", type);
 
-  uint8_t np = NetProperty::getPropertiesNumber(type);
+  uint8_t np = NetProperty::getProperties(type);
   if (!np) return;
   trace(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, pobject->getInstance(), np, _responsible);
 
@@ -191,27 +191,27 @@ void NetObject::initProperties(bool _responsible)
 }
 
 /* Returns the number of properties of this type */
-uint8_t NetObject::getPropertiesNumber() const
+uint8_t NetObject::getProperties() const
 {
-  if (nbprop == 0) return NetProperty::getPropertiesNumber(type);
+  if (nbprop == 0) return NetProperty::getProperties(type);
   return nbprop;
 }
 
-uint8_t NetObject::getPropertiesNumber(uint8_t _type_id)
+uint8_t NetObject::getProperties(uint8_t _type_id)
 {
-  return NetProperty::getPropertiesNumber(_type_id);
+  return NetProperty::getProperties(_type_id);
 }
 
 /* Sets the number of properties of this type */
-void NetObject::setPropertiesNumber(uint8_t _nbprop)
+void NetObject::setProperties(uint8_t _nbprop)
 {
   nbprop = _nbprop;
-  NetProperty::setPropertiesNumber(type, _nbprop);
+  NetProperty::setProperties(type, _nbprop);
 }
 
-void NetObject::setPropertiesNumber(uint8_t _type_id, uint8_t _nbprop)
+void NetObject::setProperties(uint8_t _type_id, uint8_t _nbprop)
 {
-  NetProperty::setPropertiesNumber(_type_id, _nbprop);
+  NetProperty::setProperties(_type_id, _nbprop);
 }
 
 /* Assigns an unique identifier to each Vreng netobject */
@@ -315,7 +315,7 @@ void NetObject::putProperty(uint8_t prop_id, Payload *pp)
 
 void NetObject::getAllProperties(Payload *pp) const
 {
-  uint8_t _nbprop = getPropertiesNumber(type);
+  uint8_t _nbprop = getProperties(type);
   for (int p=0; p < _nbprop; p++) {
     getProperty(p, pp);
   }
@@ -324,7 +324,7 @@ void NetObject::getAllProperties(Payload *pp) const
 /* Puts all properties of the netobject */
 void NetObject::putAllProperties(Payload *pp)
 {
-  uint8_t _nbprop = getPropertiesNumber(type);
+  uint8_t _nbprop = getProperties(type);
 
   for (int p=0; p < _nbprop; p++) {
     putProperty(p, pp);
@@ -366,7 +366,7 @@ void NetObject::sendDelta(uint8_t prop_id)
   Payload pp;
   pp.putPayload("cnch", VREP_DELTA, noid, prop_id, pprop->version);
 
-  if (prop_id >= getPropertiesNumber(type)) {
+  if (prop_id >= getProperties(type)) {
     error("sendDelta: prop_id wrong");
     return;
   }
@@ -387,7 +387,7 @@ void NetObject::sendCreate(const struct sockaddr_in *to)
   pp.putPayload("ccnc", VREP_CREATE, type, noid, state);
   putAllProperties(&pp);
 
-  uint8_t nprop = getPropertiesNumber(type);
+  uint8_t nprop = getProperties(type);
   for (int i=0; i < nprop; i++) {
     pp.putPayload("h", netprop[i].version);
   }
@@ -422,7 +422,7 @@ void NetObject::declareObjDelta(uint8_t prop_id)
     //error("declareObjDelta: unnamed netobject type=%d prop=%d", type, prop_id);
     return;
   }
-  uint16_t nprop = getPropertiesNumber(type);
+  uint16_t nprop = getProperties(type);
   if (prop_id >= nprop) {
     error("declareObjDelta: invalid prop_id=%d > nprop=%d (type=%d)", prop_id, nprop, type);
     return;

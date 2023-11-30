@@ -130,7 +130,7 @@ int netTimeout()
     /*
      * scan its properties
      */
-    uint8_t nprop = (*it)->getPropertiesNumber();
+    uint8_t nprop = (*it)->getProperties();
     for (int i=0; i < nprop; i++) {
       switch ((*it)->type) {
         case USER_TYPE:

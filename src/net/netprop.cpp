@@ -43,13 +43,13 @@ NetProperty::~NetProperty()
 }
 
 /* Returns the number of properties of this type */
-uint8_t NetProperty::getPropertiesNumber(uint8_t _type_id)
+uint8_t NetProperty::getProperties(uint8_t _type_id)
 {
   return getPropertiesnumber(_type_id);
 }
 
 /* Sets the number of properties of this type */
-void NetProperty::setPropertiesNumber(uint8_t _type_id, uint8_t _nbprop)
+void NetProperty::setProperties(uint8_t _type_id, uint8_t _nbprop)
 {
   setPropertiesnumber(_type_id, _nbprop);
 }
