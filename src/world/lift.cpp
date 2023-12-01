@@ -22,7 +22,7 @@
 #include "lift.hpp"
 #include "move.hpp"	// gotoFront
 #include "user.hpp"	// localuser
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"   // netop
 
 
 const OClass Lift::oclass(LIFT_TYPE, "Lift", Lift::creator);

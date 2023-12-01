@@ -152,7 +152,7 @@ struct Move {
 class WO {
 
 public:
-  class NetObject *netop;	///< reserved field for network.
+  class NetObj *netop;		///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
   struct Names names;		///< names.
   struct Pos pos;		///< position in the space.
@@ -675,13 +675,13 @@ public:
   void initClothObject(float last);
   /**< Initializes cloth object. */
 
-  NetObject * createNetObj(uint8_t props, uint16_t oid);
+  NetObj * createNetObj(uint8_t props, uint16_t oid);
   /**< Creates local permanent NetObj. */
 
-  NetObject * createVolatile(uint8_t props);
+  NetObj * createVolatile(uint8_t props);
   /**< Creates local volatile NetObj. */
 
-  NetObject * replicate(uint8_t props, class Noid _noid);
+  NetObj * replicate(uint8_t props, class Noid _noid);
   /**< Replicate distant volatile NetObj. */
 
   void enableBehavior(uint32_t flag);

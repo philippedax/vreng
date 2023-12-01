@@ -32,7 +32,7 @@
 #include "carrier.hpp"	// Carrier
 #include "cart.hpp"	// Cart
 #include "bubble.hpp"	// Bubble
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "payload.hpp"	// Payload
 #include "solid.hpp"	// solid ray_dlist
 #include "draw.hpp"	// ray
@@ -254,7 +254,7 @@ void User::setRtcp()
   Rtp::getRtcpName(rtcpname);
   Rtp::getRtcpEmail(email);
   Rtp::getRtcpTool(tool);
-  ssrc = NetObject::getSsrc();
+  ssrc = NetObj::getSsrc();
 }
 
 /* Sets observer view from user's eyes */
@@ -485,7 +485,7 @@ User::~User()
   // we should not declare the deletion: it's not our problem.
   if (this == localuser && netop) {
     netop->declareDeletion();
-    delete netop;		// delete NetObject
+    delete netop;		// delete NetObj
     netop = NULL;
   }
 

@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "event.hpp"
 #include "vrep.hpp"	// VREP_*
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "payload.hpp"	// Payload
 #include "netprop.hpp"	// NetProperty
 #include "oclass.hpp"	// isValidType
@@ -84,7 +84,7 @@ void netIncoming(int fd)
         default:
           echo("netincoming unknown: X'%02x' fd=%d from %lx/%x (mine is %lx/%x)",
                cmd, fd, ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
-               NetObject::getHost(), NetObject::getPort());
+               NetObj::getHost(), NetObj::getPort());
           break;
       }
       delete pp;
@@ -121,7 +121,7 @@ int netTimeout()
   /*
    * for each netobject in netobjectlist
    */
-  for (list<NetObject*>::iterator it = NetObject::netobjectList.begin(); it != NetObject::netobjectList.end(); ++it) {
+  for (list<NetObj*>::iterator it = NetObj::netobjList.begin(); it != NetObj::netobjList.end(); ++it) {
     if (! OClass::isValidType((*it)->type)) {
       error("netTimout: invalid type (%d)", (*it)->type);
       return -1;

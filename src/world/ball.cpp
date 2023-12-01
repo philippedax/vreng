@@ -26,8 +26,8 @@
 #include "cauldron.hpp"	// Cauldron
 #include "step.hpp"	// STEP_TYPE
 #include "move.hpp"	// GRAVITY
-#include "netobj.hpp"	// NetObject
 #include "timer.hpp"	// rate
+#include "netobj.hpp"	// netop
 
 
 #define ratio() MAX(::g.timer.rate() / 20., 1)

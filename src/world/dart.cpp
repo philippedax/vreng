@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "dart.hpp"
 #include "user.hpp"	// USER_TYPE
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"   // netop
 #include "payload.hpp"	// Payload
 #include "sound.hpp"	// playSound
 

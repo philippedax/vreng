@@ -23,7 +23,7 @@
 #include "matvec.hpp"   // V3 M4
 #include "move.hpp"	// gotoFront
 #include "user.hpp"	// USER-TYPE
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "sound.hpp"	// playSound
 
 

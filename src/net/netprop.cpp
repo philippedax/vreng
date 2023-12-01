@@ -21,14 +21,14 @@
 #include "vreng.hpp"
 #include "netprop.hpp"
 #include "objects.hpp"	// getPropertiesnumber
-#include "stat.hpp"	// new_netproperty
+#include "stat.hpp"	// new_netprop
 
 
 NetProperty::NetProperty()
 {
   min_assume_delay = DEF_REFRESH_TIMEOUT * 2;
   max_assume_delay = DEF_REFRESH_TIMEOUT * 5;
-  new_netproperty++;
+  new_netprop++;
 }
 
 /* Initializes responsibilities */
@@ -39,7 +39,7 @@ void NetProperty::setResponsible(bool _responsible)
 
 NetProperty::~NetProperty()
 {
-  del_netproperty++;
+  del_netprop++;
 }
 
 /* Returns the number of properties of this type */

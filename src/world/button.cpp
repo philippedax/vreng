@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "button.hpp"
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"   // netop
 #include "payload.hpp"	// Payload
 
 

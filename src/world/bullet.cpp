@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "bullet.hpp"
 #include "user.hpp"	// localuser
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"   // netop
 #include "payload.hpp"	// Payload
 #include "sound.hpp"	// playSound
 

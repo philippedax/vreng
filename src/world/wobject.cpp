@@ -23,7 +23,7 @@
 #include "matvec.hpp"	// V3 M4
 #include "world.hpp"	// World::current
 #include "user.hpp"	// localuser
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"	// NetObj
 #include "sql.hpp"	// VSql
 #include "solid.hpp"	// Solid
 #include "olist.hpp"	// OList
@@ -121,7 +121,7 @@ WO::~WO()
 
   delSolids();	// delete all solids
 
-  // delete NetObject
+  // delete NetObj
   if (netop && (mode == MOBILE)) {
     if (! isPermanent()) {
       netop->declareDeletion();
@@ -589,33 +589,33 @@ uint16_t WO::getObj() const
 /* Assigns a unique identifier to each Vreng object */
 void WO::setWOId()
 {
-  noid.src_id = NetObject::getSsrc();		// Application's identifier
-  noid.port_id = NetObject::getPort();		// Comm port identifier
-  NetObject::setObj(NetObject::getObj()+1);	// myObjId++
-  noid.obj_id = htons(NetObject::getObj());	// Application wide unique number
+  noid.src_id = NetObj::getSsrc();		// Application's identifier
+  noid.port_id = NetObj::getPort();		// Comm port identifier
+  NetObj::setObj(NetObj::getObj()+1);		// myObjId++
+  noid.obj_id = htons(NetObj::getObj());	// Application wide unique number
 }
 
-/* Creates local permanent NetObject */
-NetObject * WO::createNetObj(uint8_t props, uint16_t oid)
+/* Creates local permanent NetObj */
+NetObj * WO::createNetObj(uint8_t props, uint16_t oid)
 {
-  netop = new NetObject(this, props, oid);
+  netop = new NetObj(this, props, oid);
   return netop;
 }
 
-/* Creates local volatile NetObject */
-NetObject * WO::createVolatile(uint8_t props)
+/* Creates local volatile NetObj */
+NetObj * WO::createVolatile(uint8_t props)
 {
-  netop = new NetObject(this, props);
+  netop = new NetObj(this, props);
   return netop;
 }
 
-/* Replicates distant volatile NetObject */
-NetObject * WO::replicate(uint8_t props, Noid _noid)
+/* Replicates distant volatile NetObj */
+NetObj * WO::replicate(uint8_t props, Noid _noid)
 {
   noid.src_id = _noid.src_id;
   noid.port_id = _noid.port_id;
   noid.obj_id = _noid.obj_id;
-  netop = new NetObject(this, props, _noid);
+  netop = new NetObj(this, props, _noid);
   return netop;
 }
 

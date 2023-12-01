@@ -28,16 +28,16 @@ using namespace std;
 
 
 /**
- * NetObject class
+ * NetObj class
  */
-class NetObject {
+class NetObj {
  friend class Payload;
  friend class Noid;
 
  private:
 
-  NetObject *next;		///< next
-  NetObject *prev;		///< prev
+  NetObj *next;		///< next
+  NetObj *prev;		///< prev
 
   // network ids
   static uint32_t mySsrcId;     ///< ssrc network format
@@ -51,8 +51,8 @@ class NetObject {
 
   void setNoid();
   /**<
-   * Initializes a new NetObject.
-   * Assigns a unique identifier to each Vreng local netobject
+   * Initializes a new NetObj.
+   * Assigns a unique identifier to each Vreng local netobj
    * whether if be a networked object or not.
    * Now we can do getObjId and declareDelta.
    * It is preferable (perfs) to do a declareCreation
@@ -60,13 +60,13 @@ class NetObject {
    */
 
   void addToList();
-  /**< Inserts netobject into NetObject list */
+  /**< Inserts netobj into NetObj list */
 
   void setNetName(const char *str, bool netbehave);
   /**<
-   * Build a NetObject name from a string "scene_id/obj_id", both uint16_t > 0
-   * Used by getNetObject and declareDelta.
-   * A declareCreation on such netobject produces a fatal.
+   * Build a NetObj name from a string "scene_id/obj_id", both uint16_t > 0
+   * Used by getNetObj and declareDelta.
+   * A declareCreation on such netobj produces a fatal.
    */
 
  public:
@@ -76,66 +76,66 @@ class NetObject {
     NET_PERMANENT	// local
   };
 
-  class Noid noid;		///< NetObject id
-  uint8_t type;			///< NetObject type
+  class Noid noid;		///< NetObj id
+  uint8_t type;			///< NetObj type
   uint8_t nbprop;		///< number of properties
   uint8_t state;		///< permanent or valatile (not a true bool)
   class WO *pobject;		///< pointer on the WO
-  class NetProperty *netprop;	///< netobject properties
+  class NetProperty *netprop;	///< netobj properties
 
-  NetObject();
+  NetObj();
   /**< Constructor for local */
 
-  NetObject(WO *po, uint8_t nprop, uint16_t oid);
+  NetObj(WO *po, uint8_t nprop, uint16_t oid);
   /**< Constructor for local ppermanent with args */
 
-  NetObject(WO *po, uint8_t nprop);
+  NetObj(WO *po, uint8_t nprop);
   /**< Constructor for local volatile with args */
 
-  NetObject(WO *po, uint8_t nprop, class Noid _noid);
+  NetObj(WO *po, uint8_t nprop, class Noid _noid);
   /**< Constructor for replica */
 
-  virtual ~NetObject();
+  virtual ~NetObj();
   /**< Destructor */
 
   void deleteFromList();
   /**<
-   * Removes the NetObject from the list.
+   * Removes the NetObj from the list.
    * To do necessarly before the final delete.
    */
 
  public:
-  static std::list<NetObject*> netobjectList;
-  /**< netobject list. */
+  static std::list<NetObj*> netobjList;
+  /**< netobj list. */
 
   //
   // exports to WO
   //
   void set(bool netbehave);
   /**<
-   * Creates a new local netobject.
-   * Then we can do getNetObject, declareDelta.
+   * Creates a new local netobj.
+   * Then we can do getNetObj, declareDelta.
    * One declareCreation is wish latter, when props are set.
    */
 
   void declareCreation();
   /**<
    * We assume the header yet initialized,
-   * should (perfs) be called after the NetObject naming create()
+   * should (perfs) be called after the NetObj naming create()
    * and the initialization of properties.
    * To call for each new objects.
    */
 
   void declareDelta(uint8_t prop_id);
   /**<
-   * Update netobject version.
+   * Update netobj version.
    * To call at each modification, eg. after a property value changes.
    */
 
   void declareDeletion();
   /**<
-   * Destroy the netobject (local copy), netobject must be valid (name).
-   * To call when we want destroy the object before a deleteNetObject.
+   * Destroy the netobj (local copy), netobj must be valid (name).
+   * To call when we want destroy the object before a deleteNetObj.
    */
 
   // static methods for static members
@@ -155,7 +155,7 @@ class NetObject {
   /**<
    * Send a '0x01' packet to mentionned unicast address for the current object
    * we don't touch version and dates
-   * Format: '0x01' (c), netobject type (c), netobject name (n), netbehave (c)
+   * Format: '0x01' (c), netobj type (c), netobj name (n), netbehave (c)
    *         then the initialization payload, obtained by a putAllProperties()
    *         then the version vector (nprop *pn).
    */
@@ -164,16 +164,16 @@ class NetObject {
   void sendDelta(uint8_t prop_id);
   /**<
    * Send a multicast packet of type '0x02' = Delta,
-   * on the property prop_id of the netobject.
+   * on the property prop_id of the netobj.
    * We do a resetDates (not version).
-   * Format: '0x02' (c), netobject name (n), property number (c), version (h),
-   *         netobject's properties.
+   * Format: '0x02' (c), netobj name (n), property number (c), version (h),
+   *         netobj's properties.
    */
 
   void sendDelete(const struct sockaddr_in *to);
   /**<
    * Send a Delete '0x04' packet to the unicast sender.
-   * Format: '0x04' (c), netobject name (n).
+   * Format: '0x04' (c), netobj name (n).
    */
 
   void initProperties(bool responsible);
@@ -220,7 +220,7 @@ class NetObject {
 
   void putAllProperties(class Payload *pp);
   /**<
-   * Puts all properties of this netobject.
+   * Puts all properties of this netobj.
    * The payload is initialized before, and filled here.
    * Called to known the Payload after one declareCreation.
    */
@@ -228,10 +228,10 @@ class NetObject {
   void requestDeletionFromNetwork();
   /**<
    * Supprime object du monde, si object n'est pas le local user
-   * The sequence must include deleteNetObject.
+   * The sequence must include deleteNetObj.
    *  1) faire le menage et afficher tout ce qui est necessaire.
    *  2) si la decision a ete prise localement: declareDeletion
-   *  3) deleteNetObject
+   *  3) deleteNetObj
    *     le nom devient invalide, plus aucun declare n'est possible
    *  4) faire le delete object final
    */
@@ -243,13 +243,13 @@ class NetObject {
 
   bool isPermanent() const;
 
-  static std::list<NetObject*>::iterator getList();
-  /**< Gets the NetObject list. */
+  static std::list<NetObj*>::iterator getList();
+  /**< Gets the NetObj list. */
 
   static void clearList();
-  /**< Clears the NetObject list */
+  /**< Clears the NetObj list */
 
-  static NetObject *replicateObject(uint8_t type, class Noid noid, class Payload *pp);
+  static NetObj *replicateObject(uint8_t type, class Noid noid, class Payload *pp);
   /**<
    * Dispatching the replicated object.
    * Creates a replication (local copy) of the object.
@@ -258,12 +258,12 @@ class NetObject {
    * Typically called after an incomingCreate().
    */
 
-  NetObject * getNetObject();
+  NetObj * getNetObj();
   /**<
-   * Gets a NetObject by name,
-   * returns NULL if netobject doesn't exist.
+   * Gets a NetObj by name,
+   * returns NULL if netobj doesn't exist.
    * Header vers noid se fait en lisant directement dans la struct
-   * Naming is done by create or createNetObjectFromString.
+   * Naming is done by create or createNetObj.
    */
 
   char * getNetNameById();
@@ -273,7 +273,7 @@ class NetObject {
   /**<
    * Send a Query '0x03' packet toi the unicast sender.
    * We try to avoid to send too many.
-   * Format: '0x03' (c), netobject name (n).
+   * Format: '0x03' (c), netobj name (n).
    * Called by incomingDelta.
    */
 

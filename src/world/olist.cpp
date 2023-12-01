@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "olist.hpp"
 #include "wobject.hpp"
-#include "stat.hpp"	// new_objectlist
+#include "stat.hpp"	// new_olist
 
 #include <list>
 #include <vector>
@@ -30,12 +30,12 @@ using namespace std;
 
 OList::OList()
 {
-  new_objectlist++;
+  new_olist++;
 }
 
 OList::~OList()
 {
-  del_objectlist++;
+  del_olist++;
 }
 
 /* Removes all objects from a olist */

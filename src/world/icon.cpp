@@ -29,7 +29,7 @@
 #include "cache.hpp"	// file download
 #include "url.hpp"	// url2file
 #include "texture.hpp"	// Texture
-#include "netobj.hpp"	// NetObject
+#include "netobj.hpp"   // netop
 #include "payload.hpp"	// Payload
 #include "ps.hpp"	// start
 #include "pdf.hpp"	// start
