@@ -676,13 +676,13 @@ public:
   /**< Initializes cloth object. */
 
   NetObject * createNetObj(uint8_t props, uint16_t oid);
-  /**< Creates local permanent NetObject. */
+  /**< Creates local permanent NetObj. */
 
   NetObject * createVolatile(uint8_t props);
-  /**< Creates local volatile NetObject. */
+  /**< Creates local volatile NetObj. */
 
-  NetObject * replicateNetObject(uint8_t props, class Noid _noid);
-  /**< Replicate distant volatile NetObject. */
+  NetObject * replicate(uint8_t props, class Noid _noid);
+  /**< Replicate distant volatile NetObj. */
 
   void enableBehavior(uint32_t flag);
   /**< Enables behavior. */

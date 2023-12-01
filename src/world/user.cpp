@@ -378,7 +378,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   defaults();
   getMemory();		// alloc geometries
 
-  netop = replicateNetObject(PROPS, _noid);
+  netop = replicate(PROPS, _noid);
 
   /* hack to retrieve the name and the mapping */
   netop->getProperty(/*  0 */ PROPHNAME, pp);

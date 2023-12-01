@@ -610,7 +610,7 @@ NetObject * WO::createVolatile(uint8_t props)
 }
 
 /* Replicates distant volatile NetObject */
-NetObject * WO::replicateNetObject(uint8_t props, Noid _noid)
+NetObject * WO::replicate(uint8_t props, Noid _noid)
 {
   noid.src_id = _noid.src_id;
   noid.port_id = _noid.port_id;

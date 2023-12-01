@@ -321,7 +321,7 @@ WO * Icon::replicator(uint8_t type_id, Noid noid, Payload *pp)
 Icon::Icon(uint8_t type_id, Noid _noid, Payload *pp)
 {
   setType(type_id);
-  netop = replicateNetObject(PROPS, _noid);
+  netop = replicate(PROPS, _noid);
   netop->getAllProperties(pp);
 
   geometry();
