@@ -117,6 +117,20 @@ void Slider::quit()
 
 void Slider::funcs()
 {
+  getPropFunc(SLIDER_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(SLIDER_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(SLIDER_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(SLIDER_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(SLIDER_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(SLIDER_TYPE, PROPHNAME, _Payload get_hname);
+
+  putPropFunc(SLIDER_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(SLIDER_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(SLIDER_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(SLIDER_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(SLIDER_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(SLIDER_TYPE, PROPHNAME, _Payload put_hname);
+
   setActionFunc(SLIDER_TYPE, 0, _Action gotoFront, "Approach");
   setActionFunc(SLIDER_TYPE, 1, _Action pause_cb, "Pause/Continue");
 }

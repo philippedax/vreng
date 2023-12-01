@@ -392,6 +392,20 @@ void Step::pause_cb(Step *step, void *d, time_t s, time_t u)
 
 void Step::funcs()
 {
+  getPropFunc(STEP_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(STEP_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(STEP_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(STEP_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(STEP_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(STEP_TYPE, PROPHNAME, _Payload get_hname);
+
+  putPropFunc(STEP_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(STEP_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(STEP_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(STEP_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(STEP_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(STEP_TYPE, PROPHNAME, _Payload put_hname);
+
   setActionFunc(STEP_TYPE, 0, _Action pause_cb, "Pause/Running");
   setActionFunc(STEP_TYPE, 1, _Action gotoFront, "Approach");
 }

@@ -421,6 +421,20 @@ void Guide::reset_cb(Guide *o, void *d, time_t s, time_t u)
 
 void Guide::funcs()
 {
+  getPropFunc(GUIDE_TYPE, PROPXY, _Payload get_xy);
+  getPropFunc(GUIDE_TYPE, PROPZ, _Payload get_z);
+  getPropFunc(GUIDE_TYPE, PROPAZ, _Payload get_az);
+  getPropFunc(GUIDE_TYPE, PROPAX, _Payload get_ax);
+  getPropFunc(GUIDE_TYPE, PROPAY, _Payload get_ay);
+  getPropFunc(GUIDE_TYPE, PROPHNAME, _Payload get_hname);
+
+  putPropFunc(GUIDE_TYPE, PROPXY, _Payload put_xy);
+  putPropFunc(GUIDE_TYPE, PROPZ, _Payload put_z);
+  putPropFunc(GUIDE_TYPE, PROPAZ, _Payload put_az);
+  putPropFunc(GUIDE_TYPE, PROPAX, _Payload put_ax);
+  putPropFunc(GUIDE_TYPE, PROPAY, _Payload put_ay);
+  putPropFunc(GUIDE_TYPE, PROPHNAME, _Payload put_hname);
+
   setActionFunc(GUIDE_TYPE, 0, _Action visit_cb, "Visit");
   setActionFunc(GUIDE_TYPE, 1, _Action showhide_cb, "Show");
   setActionFunc(GUIDE_TYPE, 2, _Action pausecontinue_cb, "Pause");
