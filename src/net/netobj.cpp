@@ -90,7 +90,7 @@ NetObject::NetObject(WO *po, uint8_t nprop)
   pobject = po;
   state = NET_VOLATILE;
   setProperties(nprop);
-  create(state);
+  set(state);
   setNoid();
 }
 
@@ -223,7 +223,7 @@ void NetObject::setNoid()
 }
 
 /* Creates a new netobject name */
-void NetObject::create(bool _state)
+void NetObject::set(bool _state)
 {
   // MS.: Objects need a unique ID from the start,
   // not just for networked objects, so that the

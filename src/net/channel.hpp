@@ -28,8 +28,58 @@ using namespace std;
  * Channel class
  */
 class Channel {
+
  private:
   static list<Channel*> channelList;
+
+  void namingId();
+  /**<
+   * Channel naming : my_host_id, my_port_id, my_obj_id
+   */
+
+  int createMcastRecvSocket(struct sockaddr_in *sa);
+  /**<
+   * Creates a Multicast listen socket on the channel defined by group/port.
+   * Returns sock else -1 if problem.
+   */
+
+  static void decodeChan(const char *chan_str, uint32_t *group, uint16_t *port, uint8_t *ttl);
+  /**<
+   * Decodes the string format "group[/port[/ttl]]".
+   * Returns group, port, ttl.
+   * If chan_str == "" or NULL, we get the default values.
+   */
+
+  void sendBYE();
+  /**< Sends a BYE RTCP */
+
+  void deleteFromList();
+  /**< Deletes a channel from a list */
+
+  static void clearList();
+  /**< Clears channelList */
+
+  void closeMcastSocket();
+  /**< Closes Multicast sockets */
+
+  int joinGroup(int sock);
+  /**<
+   * Joins group (IP_ADD_MEMBERSHIP).
+   * "group" in network format,
+   * returns sock if OK, else -1.
+   */
+
+  int leaveGroup(int sock);
+  /**<
+   * Leaves group (IP_DROP_MEMBERSHIP).
+   * Returns sock if OK, else -1.
+   */
+
+  static void initReflector();
+  /**< Reflector Initialization */
+
+  //notused void closeUcastSocket();
+  //notused /**< Closes Unicast sockets */
 
  public:
   uint32_t	ssrc;		///< ssrcid
@@ -52,9 +102,14 @@ class Channel {
     WORLD_MODE
   };
 
-  Channel();		 /**< Constructor */
-
+  Channel();		/**< Constructor */
   virtual ~Channel();	/**< Destructor */
+
+  void quit();
+  /**< Quits a channel */
+
+  static void init();
+  /**< Network Initialization */
 
   int create(const char *chanstr, int **fds);
   /**<
@@ -72,64 +127,6 @@ class Channel {
    *        sockets mcast_recv_rtcp and mcast_send_rtcp
    */
 
-  void naming();
-  /**<
-   * Channel naming : my_host_id, my_port_id, my_obj_id
-   */
-
-  void deleteFromList();
-  /**< Deletes a channel from a list */
-
-  void quit();
-  /**< Quits a channel */
-
-  int createMcastRecvSocket(struct sockaddr_in *sa);
-  /**<
-   * Creates a Multicast listen socket on the channel defined by group/port.
-   * Returns sock else -1 if problem.
-   */
-
-  void closeMcastSocket();
-  /**< Closes Multicast sockets */
-
-  void closeUcastSocket();
-  /**< Closes Unicast sockets */
-
-  void sendBYE();
-  /**< Sends a BYE RTCP */
-
-  int joinGroup(int sock);
-  /**<
-   * Joins group (IP_ADD_MEMBERSHIP).
-   * "group" in network format,
-   * returns sock if OK, else -1.
-   */
-
-  int leaveGroup(int sock);
-  /**<
-   * Leaves group (IP_DROP_MEMBERSHIP).
-   * Returns sock if OK, else -1.
-   */
-
-  static void init();
-  /**< Network Initialization */
-
-  static void initReflector();
-  /**< Reflector Initialization */
-
-  static void clearList();
-  /**< Clears channelList */
-
-  static Channel * getList();
-  /**< Gets list pointer */
-
-  static void decode(const char *chan_str, uint32_t *group, uint16_t *port, uint8_t *ttl);
-  /**<
-   * Decodes the string format "group[/port[/ttl]]".
-   * Returns group, port, ttl.
-   * If chan_str == "" or NULL, we get the default values.
-   */
-
   static bool join(char *chan_str);
   /**<
    * Joins the channel and return the new channel string.
@@ -145,9 +142,6 @@ class Channel {
   static Channel * current();
   /**< Gets current channel instance */
 
-  static Channel * getManager();
-  /**< Gets manager channel */
-
   static Channel * getbysa(const struct sockaddr_in *sa);
 
   static int getFdSendRTP(const struct sockaddr_in *sa);
@@ -159,12 +153,19 @@ class Channel {
 //
 // ChanStr
 //
+ private:
+  static void newChanStr(char *chan_str);
+
+ public:
   static void getGroup(const char *chanstr, char *group);
   static uint16_t getPort(const char *chanstr);
   static uint8_t getTtl(const char *chanstr);
   static uint8_t currentTtl();
-  static void newChanStr(char *chan_str);
 
+  //notused static Channel * getList();
+  //notused /**< Gets list pointer */
+  //notused static Channel * getManager();
+  //notused /**< Gets manager channel */
 };
 
 #endif

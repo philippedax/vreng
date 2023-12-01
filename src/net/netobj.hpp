@@ -104,10 +104,14 @@ class NetObject {
    * To do necessarly before the final delete.
    */
 
+ public:
+  static std::list<NetObject*> netobjectList;
+  /**< netobject list. */
+
   //
   // exports to WO
   //
-  void create(bool netbehave);
+  void set(bool netbehave);
   /**<
    * Creates a new local netobject.
    * Then we can do getNetObject, declareObjDelta.
@@ -156,6 +160,7 @@ class NetObject {
    *         then the version vector (nprop *pn).
    */
 
+ public:
   void sendDelta(uint8_t prop_id);
   /**<
    * Send a multicast packet of type '0x02' = Delta,
@@ -237,9 +242,6 @@ class NetObject {
   bool isResponsible() const;
 
   bool isPermanent() const;
-
-  static std::list<NetObject*> netobjectList;
-  /**< netobject list. */
 
   static std::list<NetObject*>::iterator getList();
   /**< Gets the NetObject list. */

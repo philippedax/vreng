@@ -100,10 +100,12 @@ void Channel::clearList()
   channelList.clear();
 }
 
+#if 0 //notused
 Channel * Channel::getList()
 {
   return channelList.front();
 }
+#endif //notused
 
 /** Join group */
 int Channel::joinGroup(int sd)
@@ -161,24 +163,28 @@ void Channel::closeMcastSocket()
   sd[SD_W_RTCP] = -1;
 }
 
+#if 0 //notused
 void Channel::closeUcastSocket()
 {
   Socket::closeDatagram(sd[SD_R_UDP]);
   sd[SD_R_UDP] = -1;
 }
+#endif //notused
 
 Channel * Channel::current()
 {
   return channel;
 }
 
+#if 0 //notused
 Channel * Channel::getManager()
 {
   return managerChannel;
 }
+#endif //notused
 
 /** Decode the string format "group[/port[/ttl]]" */
-void Channel::decode(const char *chan_str, uint32_t *group, uint16_t *port, uint8_t *ttl)
+void Channel::decodeChan(const char *chan_str, uint32_t *group, uint16_t *port, uint8_t *ttl)
 {
   char *ttlstr, *portstr, *groupstr;
   char *chanstr = strdup(chan_str);
@@ -202,7 +208,7 @@ void Channel::decode(const char *chan_str, uint32_t *group, uint16_t *port, uint
 }
 
 /** Channel naming */
-void Channel::naming()
+void Channel::namingId()
 {
   char hostname[MAXHOSTNAMELEN];
   gethostname(hostname, sizeof(hostname)-1);
@@ -241,7 +247,7 @@ int Channel::create(const char *chan_str, int **pfds)
   cntfds = 0;	// number of fd
 
   if (! chan_str)  return 0;
-  decode(chan_str, &group, &port, &ttl);
+  decodeChan(chan_str, &group, &port, &ttl);
 
   port &= ~1;	// RTP compliant: even port
 
@@ -366,7 +372,7 @@ int Channel::create(const char *chan_str, int **pfds)
     }
   }
 
-  naming();
+  namingId();
 
   *pfds = sd;
   cntFd += cntfds;
