@@ -678,7 +678,7 @@ public:
   NetObject * createNetObj(uint8_t props, uint16_t oid);
   /**< Creates local permanent NetObject. */
 
-  NetObject * createVolatileNetObject(uint8_t props);
+  NetObject * createVolatile(uint8_t props);
   /**< Creates local volatile NetObject. */
 
   NetObject * replicateNetObject(uint8_t props, class Noid _noid);

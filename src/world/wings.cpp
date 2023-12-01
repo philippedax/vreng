@@ -615,7 +615,7 @@ void Wings::wear()
   setPersist();
   behaviors();
   inits();
-  createVolatileNetObject(PROPS);
+  createVolatile(PROPS);
 }
 
 /* takeoff */

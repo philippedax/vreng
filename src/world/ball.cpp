@@ -103,7 +103,7 @@ void Ball::inits()
 {
   initMobileObject(TTL);
   enablePermanentMovement();	// follow gravity force
-  createVolatileNetObject(PROPS);
+  createVolatile(PROPS);
 }
 
 /** Create from fileline */

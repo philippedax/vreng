@@ -314,7 +314,7 @@ void User::inits()
   updateNames();
   initMobileObject(LASTING);
   enablePermanentMovement();	// gravity
-  netop = createVolatileNetObject(PROPS);
+  netop = createVolatile(PROPS);
   // netop->declareCreation(); // we don't need because delta do the job
 
   geometry();

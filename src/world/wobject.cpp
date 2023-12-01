@@ -603,7 +603,7 @@ NetObject * WO::createNetObj(uint8_t props, uint16_t oid)
 }
 
 /* Creates local volatile NetObject */
-NetObject * WO::createVolatileNetObject(uint8_t props)
+NetObject * WO::createVolatile(uint8_t props)
 {
   netop = new NetObject(this, props);
   return netop;

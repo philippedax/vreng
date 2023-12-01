@@ -87,7 +87,7 @@ void Bubble::inits()
 {
   initEphemeralObject(BUBBLETTL);
   initImposedMovement(BUBBLETTL);		// alive delay
-  createVolatileNetObject(PROPS);
+  createVolatile(PROPS);
 }
 
 /** Created by user */

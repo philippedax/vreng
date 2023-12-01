@@ -64,7 +64,7 @@ Sheet::Sheet(Book* _book, char* l, uint8_t _side)
   enableBehavior(COLLIDE_NEVER);
 
   initMobileObject(1);
-  createVolatileNetObject(PROPS);
+  createVolatile(PROPS);
 }
 
 void Sheet::changePosition(float lasting)

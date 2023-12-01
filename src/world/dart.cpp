@@ -70,7 +70,7 @@ void Dart::inits()
   initImposedMovement(TTL);
 
   /* network creation */
-  netop = createVolatileNetObject(PROPS);
+  netop = createVolatile(PROPS);
   netop->declareCreation();
 
   Sound::playSound(SHOOTSND);

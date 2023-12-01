@@ -298,7 +298,7 @@ Icon::Icon(User *user, void *d)
   disablePermanentMovement();
 
   // network creation
-  createVolatileNetObject(PROPS);
+  createVolatile(PROPS);
 
   // document's owner
   setOwner();
