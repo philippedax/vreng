@@ -60,7 +60,7 @@ void Bullet::inits()
 
   /* network creation */
   netop = createVolatileNetObject(PROPS);
-  netop->declareObjCreation();
+  netop->declareCreation();
 
   /* position */
   pos.x = localuser->pos.x;

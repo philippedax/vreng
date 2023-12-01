@@ -83,7 +83,7 @@ bool Lift::updateToNetwork(const Pos &oldpos)
   bool change = false;
 
   if (pos.z != oldpos.z) {
-    netop->declareObjDelta(PROPZ);
+    netop->declareDelta(PROPZ);
     change = true;
   }
   return change;

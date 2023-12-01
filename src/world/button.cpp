@@ -105,7 +105,7 @@ bool Button::updateToNetwork(const Pos &oldpos)
   bool change = false;
 
   if (pos.st != oldpos.st) {
-    netop->declareObjDelta(PROPSTATE);
+    netop->declareDelta(PROPSTATE);
     change = true;
   }
   return change;

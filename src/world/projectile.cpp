@@ -49,7 +49,7 @@ bool Projectile::updateToNetwork(const Pos &oldpos)
   bool change = false;
 
   if ((pos.x != oldpos.x) || (pos.y != oldpos.y)) {
-    netop->declareObjDelta(PROPXY);
+    netop->declareDelta(PROPXY);
     change = true;
   }
   return change;

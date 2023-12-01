@@ -54,8 +54,8 @@ class NetObject {
    * Initializes a new NetObject.
    * Assigns a unique identifier to each Vreng local netobject
    * whether if be a networked object or not.
-   * Now we can do getObjId and declareObjDelta.
-   * It is preferable (perfs) to do a declareObjCreation
+   * Now we can do getObjId and declareDelta.
+   * It is preferable (perfs) to do a declareCreation
    * when all the properties are initialized.
    */
 
@@ -65,8 +65,8 @@ class NetObject {
   void setNetName(const char *str, bool netbehave);
   /**<
    * Build a NetObject name from a string "scene_id/obj_id", both uint16_t > 0
-   * Used by getNetObject and declareObjDelta.
-   * A declareObjCreation on such netobject produces a fatal.
+   * Used by getNetObject and declareDelta.
+   * A declareCreation on such netobject produces a fatal.
    */
 
  public:
@@ -114,11 +114,11 @@ class NetObject {
   void set(bool netbehave);
   /**<
    * Creates a new local netobject.
-   * Then we can do getNetObject, declareObjDelta.
-   * One declareObjCreation is wish latter, when props are set.
+   * Then we can do getNetObject, declareDelta.
+   * One declareCreation is wish latter, when props are set.
    */
 
-  void declareObjCreation();
+  void declareCreation();
   /**<
    * We assume the header yet initialized,
    * should (perfs) be called after the NetObject naming create()
@@ -126,7 +126,7 @@ class NetObject {
    * To call for each new objects.
    */
 
-  void declareObjDelta(uint8_t prop_id);
+  void declareDelta(uint8_t prop_id);
   /**<
    * Update netobject version.
    * To call at each modification, eg. after a property value changes.
@@ -222,7 +222,7 @@ class NetObject {
   /**<
    * Puts all properties of this netobject.
    * The payload is initialized before, and filled here.
-   * Called to known the Payload after one declareObjCreation.
+   * Called to known the Payload after one declareCreation.
    */
 
   void requestDeletionFromNetwork();

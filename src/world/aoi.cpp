@@ -122,7 +122,7 @@ void Aoi::aoiEnter()
   localuser->netop->set(NetObject::NET_VOLATILE);
 
   /* publishes to other VREng processes we are there (no latency) */
-  localuser->netop->declareObjCreation();
+  localuser->netop->declareCreation();
 
   /* To do here: broadcast a query on new AoI to see who is there with
    * minimal latency.  In the current solution, we discover

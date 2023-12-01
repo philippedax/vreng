@@ -315,7 +315,7 @@ void User::inits()
   initMobileObject(LASTING);
   enablePermanentMovement();	// gravity
   netop = createVolatileNetObject(PROPS);
-  // netop->declareObjCreation(); // we don't need because delta do the job
+  // netop->declareCreation(); // we don't need because delta do the job
 
   geometry();
   setPosition();	// position from entry
@@ -512,13 +512,13 @@ bool User::updateToNetwork(const Pos &oldpos)
   bool change = false;
 
   if ((pos.x != oldpos.x) || (pos.y != oldpos.y)) {
-    netop->declareObjDelta(PROPXY); change = true;
+    netop->declareDelta(PROPXY); change = true;
   }
   if (ABSF(pos.z - oldpos.z) > DELTAZ) { // if d < 2cm => not sent
-    netop->declareObjDelta(PROPZ); change = true;
+    netop->declareDelta(PROPZ); change = true;
   }
   if (pos.az != oldpos.az) {
-    netop->declareObjDelta(PROPAZ); change = true;
+    netop->declareDelta(PROPAZ); change = true;
   }
   return change;
 }
@@ -540,7 +540,7 @@ void User::userWriting(const char *usermsg)
     localuser->message[MESS_LEN-1] = '\0';
   }
   localuser->lastmess++;
-  localuser->netop->declareObjDelta(PROPMSG); // msg property
+  localuser->netop->declareDelta(PROPMSG); // msg property
 
   localuser->bubble = localuser->getBubble();
   if (localuser->bubble) {
@@ -562,7 +562,7 @@ void User::userRequesting(const char *usermsg)
     localuser->request[MESS_LEN-1] = '\0';
   }
   localuser->lastmess++;
-  localuser->netop->declareObjDelta(PROPMSG); // msg property
+  localuser->netop->declareDelta(PROPMSG); // msg property
 }
 
 /* imposed movement via keys or navig_menu or joystick */
@@ -683,7 +683,7 @@ void User::setRayDirection(GLint wx, GLint wy)
   Draw::ray(&(getSolid()->ray_dlist), ex, ey, ez, tx, ty, tz, white, 0x3333);
 
   ray = setV3(tx, ty, tz);
-  netop->declareObjDelta(User::PROPRAY); // publishes ray property to network
+  netop->declareDelta(User::PROPRAY); // publishes ray property to network
 }
 
 bool User::hasHead()

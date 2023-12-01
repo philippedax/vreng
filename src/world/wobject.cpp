@@ -1256,23 +1256,23 @@ bool WO::publishPos(const Pos &oldpos, int propxy, int propz, int propaz, int pr
   bool change = false;
 
   if ((pos.x != oldpos.x) || (pos.y != oldpos.y)) {
-    netop->declareObjDelta(propxy);
+    netop->declareDelta(propxy);
     change = true;
   }
   if (ABSF(pos.z - oldpos.z) > 0.1) {
-    netop->declareObjDelta(propz);
+    netop->declareDelta(propz);
     change = true;
   }
   if (pos.az != oldpos.az) {
-    netop->declareObjDelta(propaz);
+    netop->declareDelta(propaz);
     change = true;
   }
   if (pos.ax != oldpos.ax) {
-    netop->declareObjDelta(propax);
+    netop->declareDelta(propax);
     change = true;
   }
   if (pos.ay != oldpos.ay) {
-    netop->declareObjDelta(propay);
+    netop->declareDelta(propay);
     change = true;
   }
   return change;

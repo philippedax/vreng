@@ -28,7 +28,7 @@
 #include "texture.hpp"	// Texture
 #include "wobject.hpp"	// WO
 #include "parse.hpp"	// printNumline
-#include "netobj.hpp"	// declareObjDelta
+#include "netobj.hpp"	// declareDelta
 #include "user.hpp"	// localuser
 #include "color.hpp"	// Color
 #include "format.hpp"	// getModelByUrl
@@ -1324,7 +1324,7 @@ void Solid::setRay(GLint wx, GLint wy)
   Draw::ray(&ray_dlist, ex, ey, ez, ox, oy, oz, color, 0x3333);  // alternative
 
   localuser->ray = setV3(ox, oy, oz);
-  localuser->netop->declareObjDelta(User::PROPRAY);  // publish ray property to network
+  localuser->netop->declareDelta(User::PROPRAY);  // publish ray property to network
 }
 
 void Solid::resetRay()
@@ -1333,7 +1333,7 @@ void Solid::resetRay()
     ray_dlist = 0;
     if (localuser) {
       localuser->ray = setV3(0, 0, 0);
-      localuser->netop->declareObjDelta(User::PROPRAY);
+      localuser->netop->declareDelta(User::PROPRAY);
     }
   }
 }

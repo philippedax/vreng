@@ -71,7 +71,7 @@ void Dart::inits()
 
   /* network creation */
   netop = createVolatileNetObject(PROPS);
-  netop->declareObjCreation();
+  netop->declareCreation();
 
   Sound::playSound(SHOOTSND);
 }

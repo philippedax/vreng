@@ -159,7 +159,7 @@ int netTimeout()
               return -1;
             }
             // heartbeat
-            (*it)->declareObjDelta(i);	// assume responsibility: publish my existence
+            (*it)->declareDelta(i);	// assume responsibility: publish my existence
           }
         }
         else { // volatile object (user, ball, dart, bullet, sheet, icon)

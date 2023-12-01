@@ -400,14 +400,14 @@ void NetObject::sendCreate(const struct sockaddr_in *to)
 }
 
 /* Exported to WO, to call for each new object */
-void NetObject::declareObjCreation()
+void NetObject::declareCreation()
 {
   if (! getNetObject()) {
-    error("declareObjCreation: unnamed netobject (type=%d)", type);
+    error("declareCreation: unnamed netobject (type=%d)", type);
     return;
   }
   if (ntohl(noid.src_id) == 1) {
-    error("declareObjCreation: not a new netobject (type=%d)", type);
+    error("declareCreation: not a new netobject (type=%d)", type);
     return;
   }
   Channel *pchan = Channel::current();
@@ -415,16 +415,16 @@ void NetObject::declareObjCreation()
 }
 
 /* Updates netobject version */
-void NetObject::declareObjDelta(uint8_t prop_id)
+void NetObject::declareDelta(uint8_t prop_id)
 {
   if (noid.src_id == 0) {
     noid.src_id = 1;	//localhost;
-    //error("declareObjDelta: unnamed netobject type=%d prop=%d", type, prop_id);
+    //error("declareDelta: unnamed netobject type=%d prop=%d", type, prop_id);
     return;
   }
   uint16_t nprop = getProperties(type);
   if (prop_id >= nprop) {
-    error("declareObjDelta: invalid prop_id=%d > nprop=%d (type=%d)", prop_id, nprop, type);
+    error("declareDelta: invalid prop_id=%d > nprop=%d (type=%d)", prop_id, nprop, type);
     return;
   }
   NetProperty *pprop = netprop + prop_id;

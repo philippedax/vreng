@@ -157,7 +157,7 @@ void Cart::leave(WO *po)
 
   // declare the object creation to the network
   if (! po->isPermanent() && po->netop)
-    po->netop->declareObjCreation();
+    po->netop->declareCreation();
 
   if (number) number--;
   if (! number) ::g.gui.showCartDialog(false);	// switch-off cartDialog
