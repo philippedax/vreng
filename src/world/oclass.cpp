@@ -103,6 +103,16 @@ WO * OClass::creatorInstance(uint8_t type_id, char *l)
   return NULL;
 }
 
+WO * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
+{
+  if (isValidType(type_id)) {
+    return otable[type_id]->replicator(type_id, noid, pp);
+  }
+  error("replicatorInstance: type_id=%d out of bounds", type_id); dumpTable();
+  return NULL;
+}
+
+#if 0 //notused
 void OClass::builtinInstance(uint8_t type_id)
 {
   if (isValidType(type_id)) {
@@ -112,15 +122,7 @@ void OClass::builtinInstance(uint8_t type_id)
     error("builtinInstance: type_id=%d out of bounds", type_id);
   }
 }
-
-WO * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
-{
-  if (isValidType(type_id)) {
-    return otable[type_id]->replicator(type_id, noid, pp);
-  }
-  error("replicatorInstance: type_id=%d out of bounds", type_id); dumpTable();
-  return NULL;
-}
+#endif //notused
 
 void OClass::dumpTable()
 {

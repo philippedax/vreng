@@ -56,12 +56,11 @@ public:
   static WO * creatorInstance(uint8_t type_id, char *l);
   /**< Creator from fileline */
 
-  static void builtinInstance(uint8_t type_id);
-  /**< Creator from internal */
-
-  static class WO * replicatorInstance(uint8_t type_id, class Noid noid,
-					    class Payload *pp);
+  static class WO * replicatorInstance(uint8_t type_id, class Noid noid, class Payload *pp);
   /**< Creator from network */
+
+  //notused static void builtinInstance(uint8_t type_id);
+  //notused /**< Creator from internal */
 
   static const OClass * getOClass(uint8_t type_id);
   /**< Gets oclass by id */
