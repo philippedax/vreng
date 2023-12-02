@@ -242,15 +242,18 @@ typedef struct _sitem {
  */
 class Rtp {
 
+ private:
+  static bool isSdesType(uint8_t sdes_type);
+
+  //notused static void getSdesItemBySsrc(uint8_t type, uint32_t ssrc, char *itemstr);
+  //notused static void getRtcpNameBySsrc(uint32_t ssrc, char *rtpname);
+  //notused static void getRtcpEmailBySsrc(uint32_t ssrc, char *email);
+  //notused static void getRtcpToolBySsrc(uint32_t ssrc, char *tool);
+
  public:
   static const uint8_t RTPNAME_LEN = 128;
   static const uint8_t EMAIL_LEN = 255;
   static const uint8_t TOOL_LEN = 16;
-
-  static uint16_t createSeq();
-  static uint32_t createSsrc(int value);
-  static void initSource(sourceInfos *s, uint16_t seq);
-  static int updateSeq(sourceInfos *s, uint16_t seq);
 
   static int sendPacket(int fd, const uint8_t *pkt, int pkt_len, const struct sockaddr_in *to);
   /**<
@@ -261,16 +264,15 @@ class Rtp {
   static int recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len);
   /**< Receive a RTCP packet */
 
+  static uint16_t createSeq();
+  static uint32_t createSsrc(int value);
+  static SdesItem * allocSdesItem();
+  static void initSource(sourceInfos *s, uint16_t seq);
+  static int updateSeq(sourceInfos *s, uint16_t seq);
   static const char * getRtpName(char *name);
   static void getRtcpName(char *name);
   static void getRtcpEmail(char *email);
   static void getRtcpTool(char *tool);
-  static SdesItem * allocSdesItem();
-  static bool isSdesType(uint8_t sdes_type);
-  static void getSdesItemBySsrc(uint8_t type, uint32_t ssrc, char *itemstr);
-  static void getRtcpNameBySsrc(uint32_t ssrc, char *rtpname);
-  static void getRtcpEmailBySsrc(uint32_t ssrc, char *email);
-  static void getRtcpToolBySsrc(uint32_t ssrc, char *tool);
 };
 
 #endif

@@ -202,6 +202,7 @@ bool Rtp::isSdesType(uint8_t sdes_type)
   return false;
 }
 
+#if 0 //notused
 void Rtp::getSdesItemBySsrc(uint8_t sdes_type, uint32_t _ssrc, char *itemstr)
 {
   SdesItem *sitem = NULL;
@@ -247,6 +248,7 @@ void Rtp::getRtcpToolBySsrc(uint32_t _ssrc, char *tool)
 {
   getSdesItemBySsrc(RTCP_SDES_TOOL, _ssrc, tool);
 }
+#endif //notused
 
 SdesItem * Rtp::allocSdesItem()
 {
