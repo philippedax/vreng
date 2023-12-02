@@ -92,6 +92,7 @@ char * Parse::skipEqual(char *p) const
   return skipChar(p, '=', 1);
 }
 
+#if 0 //notused
 char * Parse::skipOpenBracket(char *p) const
 {
   return skipChar(p, '[', 1);
@@ -111,6 +112,7 @@ char * Parse::skipCloseParenthesis(char *p) const
 {
   return skipChar(p, ')', 1);
 }
+#endif //notused
 
 /* Skip double quotes or single quote */
 char * Parse::skipQuotes(char *p, bool flag) const

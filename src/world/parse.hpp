@@ -48,8 +48,7 @@ struct Pos;
  */
 class Parse {
 
-private:
-
+ private:
   /**
    * Tags enum
    */
@@ -69,7 +68,41 @@ private:
   bool commented;	///< flag commented or not
   bool inscene;		///< between <scene> ... </scene>
 
-public:
+  char * nextSpace(char *p) const;
+  /**< find next space or next endtag */
+
+  char * skipChar(char *p, char c, bool flag) const;
+  /**< Skip this character */
+
+  char * skipSpace(char *p) const;
+  /**< Skip space character */
+
+  char * skipSepar(char *p) const;
+  /**< Skip separator character */
+
+  char * parseDescr(char *l, char *infos);
+  /**< Returns a description in infos */
+
+  int parseLine(char *_line, int *ptag_type);
+  /**< parse begin of line */
+
+  inline bool isFloat(const char *p) const;
+  /**< Check if string begins with a float */
+
+  inline bool isInt(const char *p) const;
+  /**< Check if string begins with an integer */
+
+  char * parseVectorf(char *ptok, float *vector, int n);
+  /**< Returns a vector of dimension n */
+
+  //notused char * skipOpenBracket(char *p) const;
+  //notused /**< Skip open-bracket character */
+  //notused char * skipOpenParenthesis(char *p) const;
+  //notused /**< Skip open-parenthesis character */
+  //notused char * skipCloseParenthesis(char *p) const;
+  //notused /**< Skip close-parenthesis character */
+
+ public:
   static const int TAG_LEN = 16;	// tag length
 
   uint32_t numline;	///< line number
@@ -206,45 +239,6 @@ public:
 
   char * nextToken() const;
   /**< Gets the next token */
-
-
-private:
-  char * nextSpace(char *p) const;
-  /**< find next space or next endtag */
-
-  char * skipChar(char *p, char c, bool flag) const;
-  /**< Skip this character */
-
-  char * skipOpenBracket(char *p) const;
-  /**< Skip open-bracket character */
-
-  char * skipOpenParenthesis(char *p) const;
-  /**< Skip open-parenthesis character */
-
-  char * skipCloseParenthesis(char *p) const;
-  /**< Skip close-parenthesis character */
-
-  char * skipSpace(char *p) const;
-  /**< Skip space character */
-
-  char * skipSepar(char *p) const;
-  /**< Skip separator character */
-
-  char * parseDescr(char *l, char *infos);
-  /**< Returns a description in infos */
-
-  int parseLine(char *_line, int *ptag_type);
-  /**< parse begin of line */
-
-  inline bool isFloat(const char *p) const;
-  /**< Check if string begins with a float */
-
-  inline bool isInt(const char *p) const;
-  /**< Check if string begins with an integer */
-
-  char * parseVectorf(char *ptok, float *vector, int n);
-  /**< Returns a vector of dimension n */
-
 };
 
 #endif
