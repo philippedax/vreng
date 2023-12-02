@@ -25,7 +25,7 @@
 /**
  * Noid class
  *
- * A Noid identifies a distributed netobject on 64 bits
+ * A Noid identifies a distributed netobj on 64 bits
  * (src_id + port_id + obj_id)
  */
 class Noid {
@@ -61,7 +61,6 @@ class Noid {
    */
 
  protected:
-
   bool equalNoid(Noid noid2) const;
   /**< Returns 0 if differents, other if equals */
 
