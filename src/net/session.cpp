@@ -50,11 +50,9 @@ static char rtcp_tool[Rtp::TOOL_LEN];    // tool name
     } \
   }
 
-
 /*
  * Handling Sessions
  */
-
 void Session::buildRtpHeader(rtp_hdr_t *rtp_hdr, uint32_t _ssrc)
 {
   struct timeval ts;
@@ -162,22 +160,22 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
   return ssrc;
 }
 
-void Session::deleteSessionBySsrc(uint32_t _ssrc)
+void Session::deleteSession(uint32_t _ssrc)
 {
   //pd CHECK_SESSION_LIST
   for (Session *pse = sessionList; pse; pse = pse->next) {
     for (Source *pso = pse->source; pso; pso = pso->next) {
       if (pso->ssrc == _ssrc) {
-        trace(DBG_RTP, "deleteSessionBySsrc: ssrc=%x found", _ssrc);
-        pse->deleteSourceBySsrc(_ssrc);
+        trace(DBG_RTP, "deleteSession: ssrc=%x found", _ssrc);
+        pse->deleteSource(_ssrc);
         return;
       }
     }
   }
-  echo("deleteSessionBySsrc: ssrc=%x not found", _ssrc);
+  echo("deleteSession: ssrc=%x not found", _ssrc);
 }
 
-void Session::deleteSourceBySsrc(uint32_t _ssrc)
+void Session::deleteSource(uint32_t _ssrc)
 {
   Source *pso, *psolast;
   int i = 0;
@@ -213,7 +211,7 @@ Session::~Session()
 {
   del_session++;
   freeMySdes();
-  deleteSourceBySsrc(NetObj::getSsrc());
+  deleteSource(NetObj::getSsrc());
 }
 
 /**

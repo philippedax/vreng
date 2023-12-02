@@ -203,7 +203,7 @@ bool Rtp::isSdesType(uint8_t sdes_type)
 }
 
 #if 0 //notused
-void Rtp::getSdesItemBySsrc(uint8_t sdes_type, uint32_t _ssrc, char *itemstr)
+void Rtp::getSdesItem(uint8_t sdes_type, uint32_t _ssrc, char *itemstr)
 {
   SdesItem *sitem = NULL;
 
@@ -211,7 +211,7 @@ void Rtp::getSdesItemBySsrc(uint8_t sdes_type, uint32_t _ssrc, char *itemstr)
   for (Session *pse = Session::getList(); pse && pse->mode == Channel::WORLD_MODE; pse = pse->next) {
     for (Source *pso = pse->source; pso ; pso = pso->next) {
       if (pso == pso->next) {
-        error("Infinite loop in getSdesItemBySsrc");	// BUG ?
+        error("Infinite loop in getSdesItem");	// BUG ?
         //pso->dump();
       }
 
@@ -234,19 +234,19 @@ void Rtp::getSdesItemBySsrc(uint8_t sdes_type, uint32_t _ssrc, char *itemstr)
   }
 }
 
-void Rtp::getRtcpNameBySsrc(uint32_t _ssrc, char *rtcpname)
+void Rtp::getRtcpName(uint32_t _ssrc, char *rtcpname)
 {
-  getSdesItemBySsrc(RTCP_SDES_NAME, _ssrc, rtcpname);
+  getSdesItem(RTCP_SDES_NAME, _ssrc, rtcpname);
 }
 
-void Rtp::getRtcpEmailBySsrc(uint32_t _ssrc, char *email)
+void Rtp::getRtcpEmail(uint32_t _ssrc, char *email)
 {
-  getSdesItemBySsrc(RTCP_SDES_EMAIL, _ssrc, email);
+  getSdesItem(RTCP_SDES_EMAIL, _ssrc, email);
 }
 
-void Rtp::getRtcpToolBySsrc(uint32_t _ssrc, char *tool)
+void Rtp::getRtcpTool(uint32_t _ssrc, char *tool)
 {
-  getSdesItemBySsrc(RTCP_SDES_TOOL, _ssrc, tool);
+  getSdesItem(RTCP_SDES_TOOL, _ssrc, tool);
 }
 #endif //notused
 
@@ -389,7 +389,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
         memcpy(&ssrc, pkt+len, sizeof(ssrc));
         trace(DBG_RTP, "Got BYE: ssrc=%x", ntohl(ssrc));
         if (pchan)
-          pchan->session->deleteSourceBySsrc(ntohl(ssrc));
+          pchan->session->deleteSource(ntohl(ssrc));
         len += (length << 2);
       }
       break;

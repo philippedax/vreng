@@ -30,31 +30,56 @@
  */
 class Session {
 
-public:
+ private:
   uint32_t	ssrc;		///< RTP ssrc id
   uint32_t	group;		///< multicast address
   uint16_t	rtp_port;	///< RTP port
   uint16_t	rtcp_port;	///< RTCP port
   uint8_t	ttl;		///< ttl
-  uint8_t	mode;		///< WORLD, MANAGER
   rtp_hdr_t	rtp_hdr;	///< session RTP header
   uint16_t	rtp_seq;	///< RTP sequence number
-  rtcp_sr_t	sr;		///< RTCP sender report
-  class Source	*source;	///< informations on sources
-  uint16_t	nbsources;	///< amount of sources
   SdesItem	*mysdes;	///< my own RTCP SDES
-  Session	*next;		///< next session
+
+ public:
+  uint8_t	mode;		///< WORLD, MANAGER
+  rtcp_sr_t	sr;		///< RTCP sender report
+  uint16_t	nbsources;	///< amount of sources
+  class Session	*next;		///< next session
+  class Source	*source;	///< informations on sources
 
   Session();			///< Constructor
-
   virtual ~Session();		///< Destructor
 
   uint32_t create(uint32_t group, uint16_t port, uint8_t ttl, uint32_t ssrc);
   /**< creates a new session, called by channel */
 
+  int buildBYE(rtcp_common_t *prtcp_hdr, uint8_t *pkt);
+  /**< Builds a BYE packet */
+
+  int sendRTCPPacket(const struct sockaddr_in *to, uint8_t pt);
+  /**< Sends a RTCP packet */
+
+  int sendSRSDES(const struct sockaddr_in *to);
+  /**<  Sends a RTCP compound packet (SR + SDES) */
+
   void buildRtpHeader(rtp_hdr_t *pkt, uint32_t ssrc);
   /**< builds a RTP header */
 
+  void deleteSource(uint32_t ssrc);
+
+  void incrSources();
+
+  void refreshMySdes();
+
+  void stat();
+
+  static Session * current();
+  /**< Gets the current session */
+
+  static Session * getList();
+  static void clearList();
+
+ private:
   void buildRTCPcommon(rtcp_common_t *prtcp_hdr, uint8_t pt);
   /**< Builds RTCP commun header */
 
@@ -67,31 +92,10 @@ public:
    * Fills rtcp buffer and return length.
    */
 
-  int buildBYE(rtcp_common_t *prtcp_hdr, uint8_t *pkt);
-  /**< Builds a BYE packet */
-
-  int sendRTCPPacket(const struct sockaddr_in *to, uint8_t pt);
-  /**< Sends a RTCP packet */
-
-  int sendSRSDES(const struct sockaddr_in *to);
-  /**<  Sends a RTCP compound packet (SR + SDES) */
-
-  void deleteSourceBySsrc(uint32_t ssrc);
-
-  void incrSources();
-
   void createMySdes();
-  void refreshMySdes();
   void freeMySdes();
   void dump();
-  void stat();
-
-  static Session * current();
-  /**< Gets the current session */
-
-  static void deleteSessionBySsrc(uint32_t ssrc);
-  static void clearList();
-  static Session * getList();
+  static void deleteSession(uint32_t ssrc);
   static void dumpAll();
 };
 
