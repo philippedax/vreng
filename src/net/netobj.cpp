@@ -332,7 +332,7 @@ void NetObj::putAllProperties(Payload *pp)
 }
 
 /* Removes netobj */
-void NetObj::requestDeletionFromNetwork()
+void NetObj::requestDeletion()
 {
   if (pobject) pobject->deleteReplica();
 }

@@ -225,7 +225,7 @@ class NetObj {
    * Called to known the Payload after one declareCreation.
    */
 
-  void requestDeletionFromNetwork();
+  void requestDeletion();
   /**<
    * Supprime object du monde, si object n'est pas le local user
    * The sequence must include deleteNetObj.

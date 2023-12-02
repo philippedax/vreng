@@ -119,7 +119,7 @@ int netTimeout()
 #endif
   
   /*
-   * for each netobject in netobjectlist
+   * for each netobj in netobjList
    */
   for (list<NetObj*>::iterator it = NetObj::netobjList.begin(); it != NetObj::netobjList.end(); ++it) {
     if (! OClass::isValidType((*it)->type)) {
@@ -171,7 +171,7 @@ int netTimeout()
                (*it)->pobject->getInstance(), (*it)->noid.getNetNameById(), 
                Timer::diffDates(pprop->last_seen, now));
           (*it)->declareDeletion();
-          (*it)->requestDeletionFromNetwork();	// discard the dead
+          (*it)->requestDeletion();	// discard the dead
           // no reason to continue after a requestDeletion
           break;
         }

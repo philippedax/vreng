@@ -790,7 +790,7 @@ void Payload::incomingDelete(const struct sockaddr_in *from)
 
   NetObj *pn;
   if ((pn = noid.getNetObj()))
-    pn->requestDeletionFromNetwork();
+    pn->requestDeletion();
 }
 
 void Payload::incomingOther(const struct sockaddr_in *from, int size)
