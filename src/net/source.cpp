@@ -109,6 +109,7 @@ uint16_t Source::decrSourcesNumber()
   return --sourcesCounter;
 }
 
+#if 0 //notused
 uint16_t Source::getMembersNumber()
 {
   uint16_t members = 0;
@@ -125,10 +126,8 @@ void Source::dump()
 {
   // if (&sdes == NULL) return;  // BUG! segfault
 
-  //echo("this=%p", this);
   echo("ssrc=%x", ssrc);
   echo("lost=%d", lost);
-  //echo("next=%p", next);
 
   SdesItem *sitem;
   int i;
@@ -166,3 +165,4 @@ void Source::dumpAll()
   }
   delete[] ssrctab;
 }
+#endif //notused

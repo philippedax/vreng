@@ -29,31 +29,31 @@
  * Informations on a RTP source
  */
 class Source {
+
+ private:
+  //notused static uint16_t getMembersNumber();
+  //notused static void dumpAll();
+  //notused void dump();
+
  public:
+  sourceInfos	s;		///< source info
   uint32_t	ssrc;		///< ssrc id
+  class Source	*next;		///< next source
   uint32_t	extended_max;	///< extented max
   uint32_t	expected;	///< expected packets
   uint32_t	lost;		///< lost packets
-  sourceInfos	s;		///< source info
-  SdesItem	sdes;		///< sdes from the source, if we received it
   rtcp_sr_t	sr;		///< sender report
   rtcp_rr_t	rr;		///< receiver report
-  class Source	*next;		///< next source
+  SdesItem	sdes;		///< sdes from the source, if we received it
 
-  Source(uint32_t ssrc);
-  /**< Constructor: creates a new source */
+  Source(uint32_t ssrc);	/**< Constructor: creates a new source */
 
-  virtual ~Source();
-  /**< destructor */
-
-  void dump();
+  virtual ~Source();		/**< destructor */
 
   static Source * getSource(uint32_t ssrc);
   static uint16_t getSourcesNumber();
   static uint16_t incrSourcesNumber();
   static uint16_t decrSourcesNumber();
-  static uint16_t getMembersNumber();
-  static void dumpAll();
 };
 
 #endif
