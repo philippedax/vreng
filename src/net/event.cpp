@@ -92,8 +92,8 @@ void netIncoming(int fd)
     }
     else {
       // empty or invalid payload
-      pp->incomingOther(&from, r);
-      echo("netincoming other: from %lx (%x)", ntohl(from.sin_addr.s_addr), r);
+      pp->incomingUnknown(&from, r);
+      echo("netincoming unknown: from %lx (%x)", ntohl(from.sin_addr.s_addr), r);
       delete pp;
       return;
     }

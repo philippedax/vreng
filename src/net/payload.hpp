@@ -21,29 +21,36 @@
 #ifndef PAYLOAD_HPP
 #define PAYLOAD_HPP
 
-#if 1
 #define PAYLOAD_LEN 1460
-#else
-#define PAYLOAD_LEN 524	// max size of datas (last=496, orig=237)
-#endif
 
 /**
  * Payload class
  */
 class Payload {
- public:
 
-  uint16_t len;			///< length
+ private:
   uint16_t idx;			///< current offset
   uint8_t vrep;			///< vrep version
   bool gzipped;			///< if compression
   uint8_t data[PAYLOAD_LEN];	///< data
 
-  Payload();
-  /**< Constructor */
+  bool isValid();
+  /**< Checks payload validity */
 
-  virtual ~Payload();
-  /**< Destructor */
+  Payload * resetPayload();
+  /**<
+   * Resets the payload, sets offset at the begining of the payload
+   * to call before using
+   */
+
+  void dump(FILE *fp);
+  /**< Dumps payload in a file pointed by fp */
+
+ public:
+  uint16_t len;			///< length
+
+  Payload();		/**< Constructor */
+  virtual ~Payload();	/**< Destructor */
 
   int putPayload(const char *format,...);
   /**<
@@ -57,25 +64,13 @@ class Payload {
    * Returns 0 if OK, else -1 if err
    */
 
-  bool isValidPayload();
-  /**< Checks payload validity */
-
-  Payload * resetPayload();
-  /**<
-   * Resets the payload, sets offset at the begining of the payload
-   * to call before using
-   */
-
-  void dumpPayload(FILE *fp);
-  /**< Dumps payload in a file pointed by fp */
-
   void seekPayload(const uint16_t idx);
   /**< Seeks pos inside the payload */
 
   uint16_t tellPayload();
   /**< Returns current offset inside the payload */
 
-  int tellStrInPayload(const char *str);
+  int tellPayload(const char *str);
   /**< Returns current offset of string "str" inside the payload */
 
   //
@@ -90,6 +85,7 @@ class Payload {
   //
   // Incomings
   //
+
   void incomingDelta(const struct sockaddr_in *sender);
   /**<
    * Incoming Delta:
@@ -127,16 +123,10 @@ class Payload {
    *   total (9 bytes)
    */
 
-  void incomingOther(const struct sockaddr_in *sender, const int len);
+  void incomingUnknown(const struct sockaddr_in *sender, const int len);
   /**<
    * Incoming not identified
    */
-
-#if 0 //notused
-  void incomingPersist(const struct sockaddr_in *sender);
-  void incomingWorld(const struct sockaddr_in *sender);
-#endif //notused
-
 };
 
 #endif

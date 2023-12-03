@@ -391,10 +391,10 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
 
   int idxvar = pp->tellPayload();	// note begin of var
   //echo("idxvar=%d[%02x]", idxvar, idxvar);
-  if (((idxgeom = pp->tellStrInPayload("shape=\"box\" dim=")) > 0) ||
-      ((idxgeom = pp->tellStrInPayload("shape=\"human\" dim=")) > 0) ||
-      ((idxgeom = pp->tellStrInPayload("shape=\"humanoid\" dim=")) > 0) ||
-      ((idxgeom = pp->tellStrInPayload("shape=\"guy\" dim=")) > 0)
+  if (((idxgeom = pp->tellPayload("shape=\"box\" dim=")) > 0) ||
+      ((idxgeom = pp->tellPayload("shape=\"human\" dim=")) > 0) ||
+      ((idxgeom = pp->tellPayload("shape=\"humanoid\" dim=")) > 0) ||
+      ((idxgeom = pp->tellPayload("shape=\"guy\" dim=")) > 0)
      ) {
     /* get replicated user characteristics from the network */
     //echo("idxgeom=%d[%02x]", idxgeom, idxgeom);
