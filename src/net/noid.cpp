@@ -35,7 +35,7 @@ using namespace std;
  */
 
 /* Builds a concataned string name */
-char * Noid::getNetNameById()
+char * Noid::getNoid()
 {
   static char str[80];
 
@@ -44,7 +44,7 @@ char * Noid::getNetNameById()
 }
 
 /* Returns 0 if different, other if equal */
-bool Noid::equalNoid(Noid n2) const
+bool Noid::equal(Noid n2) const
 {
   return src_id == n2.src_id && port_id == n2.port_id && obj_id == n2.obj_id;
 }
@@ -54,7 +54,7 @@ NetObj * Noid::getNetObj()
 {
   list<NetObj*>::iterator it;
   for (list<NetObj*>::iterator it = NetObj::getList(); it != NetObj::netobjList.end(); ++it) {
-    if (! equalNoid((*it)->noid)) {
+    if (! equal((*it)->noid)) {
       if (! OClass::isValidType((*it)->type)) {
         error("getNetObj: bad type=%d", (*it)->type); return NULL;
       }
@@ -69,7 +69,7 @@ int Noid::filterQuery()
   static Noid oldnoid;
   static int countDelta = 0;
 
-  if (equalNoid(oldnoid)) {
+  if (equal(oldnoid)) {
     // last request was on this name
     if (++countDelta <= 15)
       // 15: 10 proprietes en moyenne, avec 15 on saute donc
@@ -83,21 +83,23 @@ int Noid::filterQuery()
 }
 
 /* Send a Query '0x03' packet  to the unicast sender */
-void Noid::sendQueryNoid(const struct sockaddr_in *to)
+void Noid::sendQuery(const struct sockaddr_in *to)
 {
   if (! filterQuery()) return;
 
   Payload pp;
+
   pp.putPayload("cn", VREP_QUERY, this);
-  trace(DBG_NET, "sendQuery: nobj=%s to=%s", getNetNameById(), inet4_ntop(&to->sin_addr));
+  trace(DBG_NET, "sendQuery: nobj=%s to=%s", getNoid(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
 }
 
 /* Send a Delete '0x04' packet */
-void Noid::sendDeleteNoid(const struct sockaddr_in *to)
+void Noid::sendDelete(const struct sockaddr_in *to)
 {
   Payload pp;
+
   pp.putPayload("cn", VREP_DELETE, this);
-  trace(DBG_NET, "sendDelete: nobj=%s to=%s", getNetNameById(), inet4_ntop( &to->sin_addr));
+  trace(DBG_NET, "sendDelete: nobj=%s to=%s", getNoid(), inet4_ntop( &to->sin_addr));
   pp.sendPayload(to);
 }

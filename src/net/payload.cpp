@@ -21,6 +21,7 @@
 #include "vreng.hpp"
 #include "payload.hpp"
 #include "netobj.hpp"	// NetObj
+#include "noid.hpp"	// Noid
 #include "vrep.hpp"	// VREP_VERSION_V3
 #include "nsl.hpp"	// inet4_ntop
 #include "channel.hpp"	// Channel
@@ -186,11 +187,13 @@ int Payload::getPayload(const char *format, ...)
   va_list ap;
 
   if (! isValid()) {
-    error("getPayload: invalid len=%d idx=%d %02x%02x%02x%02x", len, idx,
-           data[idx], data[idx+1], data[idx+2], data[idx+3]);
+    error("getPayload: invalid len=%d idx=%d %02x%02x%02x%02x", len, idx, data[idx], data[idx+1], data[idx+2], data[idx+3]);
     return -1;
   }
-  if (! format) { error("getPayload: NULL format"); return -1; }
+  if (! format) {
+    error("getPayload: NULL format");
+    return -1;
+  }
 
   va_start(ap, format);
 
@@ -453,19 +456,21 @@ int Payload::sendPayload(const struct sockaddr_in *to)
   //dax if (! len) { return -1; }
 
   /*
-   * build the RTP Header
+   * builds the RTP Header
    */
   Channel *pchan;
   if ((pchan = Channel::getbysa(to)) == NULL) {
     pchan = Channel::current();	// hack !!!
     error("sendPayload: pchan NULL, to=%p", to);
-    return -1;	//FIXME: channel NULL
+    return -1;			//FIXME: channel NULL
   }
-  if (pchan->session) pchan->session->buildRtpHeader(rtp_hdr, pchan->ssrc);
-  else return -1;	//FIXME: session NULL
+  if (pchan->session) {
+    pchan->session->buildRtpHeader(rtp_hdr, pchan->ssrc);
+  }
+  else return -1;		//FIXME: session NULL
 
   /*
-   * build the VREP Header
+   * builds the VREP Header
    */
   hdrpl = pkt + RTP_HDR_SIZE;
 
@@ -491,31 +496,30 @@ int Payload::sendPayload(const struct sockaddr_in *to)
   trace(DBG_NET, "S: %02x%02x%02x%02x/%02x", hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
 
   /*
-   * find the file descriptor
+   * finds the file descriptor
    */
   if ((sd = Channel::getFdSendRTP(to)) <= 0) {
     sd = pchan->sd[SD_W_RTP];	// hack !!!
   }
 
   /*
-   * send the packet
+   * sends the packet
    */
   Rtp::sendPacket(sd, pkt, pkt_len, to);
   statSendRTP(pkt_len);
 
-  /* Update SR, TODO: compute RCTP interval */
+  /* Updates SR, TODO: computes RCTP interval */
   pchan->session->sr.psent++;
   pchan->session->sr.osent += pkt_len;
 
   uint32_t sent = getSentPackets();
   if (sent && ((sent % 100) == 0)) {
     /*
-     * send RTCP compound (SR + SDES)
+     * sends RTCP compound (SR + SDES)
      */
     pchan->session->refreshMySdes();
     pchan->session->sendSRSDES(to);
   }
-
   return pkt_len;
 }
 
@@ -524,7 +528,10 @@ int Payload::sendPayload(const struct sockaddr_in *to)
  */
 int Payload::recvPayload(int sd, struct sockaddr_in *from)
 {
-  if (! from) { error("recvPayload: from NULL"); return -1; }
+  if (! from) {
+    error("recvPayload: from NULL");
+    return -1;
+  }
 
   uint8_t pkt[PKTSIZE];
   rtp_hdr_t *rtp_hdr = (rtp_hdr_t *) pkt;
@@ -534,10 +541,8 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
 
   memset(from, 0, sizeof(struct sockaddr_in));
   if ((pkt_len = recvfrom(sd, pkt, sizeof(pkt), 0, (struct sockaddr *)from, &l)) <0) {
-#if IPMC_ENABLED
     error("recvPayload: %s on %d", strerror(errno), sd);
-#endif
-    return pkt_len;	// here pkt_len < 0 -> error
+    return pkt_len;			// here pkt_len < 0 -> error
   }
   //echo("recvPayload: %lx (%x)", ntohl(from->sin_addr.s_addr), pkt_len);
 
@@ -554,7 +559,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
       return 0; // Loopback from same app : ignore it
   }
 
-  statReceivePacket(pkt_len);	//FIXME! is not a the good place
+  statReceivePacket(pkt_len);		//FIXME! is not at the good place
 
   /*
    * test if it is a valid RTP header
@@ -609,7 +614,7 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
    * compatibility with older VREP Protocol
    */
   uint8_t vrep_version = hdrpl[VREP_HDR_VERSION]; // vrep version received
-  int32_t vrep_len;	// vrep header size + payload size
+  int32_t vrep_len;		// vrep header size + payload size
 
   uint8_t vrep_hdr_size;	// vrep header size
 
@@ -669,15 +674,17 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
   uint8_t prop_id;	// property number received
   int16_t vers_id;	// version received
 
-  if (getPayload("nch", &noid, &prop_id, &vers_id) < 0) return;
+  if (getPayload("nch", &noid, &prop_id, &vers_id) < 0) {
+    return;
+  }
 
   NetObj *pn;
   if ((pn = noid.getNetObj()) == NULL) {
     // delta on an unknown object
     trace(DBG_NET, "inDelta sendQuery on: %s, from=%s, p=%d, v=%d",
-                   noid.getNetNameById(), inet4_ntop(&from->sin_addr), prop_id, vers_id);
+                   noid.getNoid(), inet4_ntop(&from->sin_addr), prop_id, vers_id);
     // send a Query to the sender in unicast
-    noid.sendQueryNoid(from);
+    noid.sendQuery(from);
     return;
   }
 
@@ -711,8 +718,8 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
     // resolved by getting a new random version
     // publishes new version to sender in unicast
     pn->declareDelta(prop_id);
-    // error("Conflict resol: obj=%s, prop=%d, changing vers_num %d->%d",
-    // pn->getNetNameById(), prop_id, vers_id, pn->prop[prop_id].version);
+    // error("conflict resol: obj=%s, prop=%d, changing vers_num %d->%d",
+    // pn->getNoid(), prop_id, vers_id, pn->prop[prop_id].version);
   }
   // else, it's just a "recall" (then nothing to do)
 }
@@ -723,15 +730,17 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   Noid noid;
   uint8_t type_id, perm;
 
-  if (getPayload("cnc", &type_id, &noid, &perm) < 0) return;
+  if (getPayload("cnc", &type_id, &noid, &perm) < 0) {
+    return;
+  }
   if (noid.getNetObj()) return;  // local copy already exists -> ignore this request
 
-  trace(DBG_NET, "inCreate: nobj=%s (type=%d), perm=%d", noid.getNetNameById(), type_id, perm);
+  trace(DBG_NET, "inCreate: nobj=%s (type=%d), perm=%d", noid.getNoid(), type_id, perm);
   //dump(stderr);
 
   //
   // creates the replicated object
-  // glue with WO
+  // glue with WO (wobject)
   // very important !!!
   //
   NetObj *pn = NetObj::replicateObject(type_id, noid, this);
@@ -747,13 +756,14 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
   }
 #endif
   if (! pn->equalNoid(pn->noid)) {
-    error("inCreate: bad noid=%s", pn->getNetNameById()); return;
+    error("inCreate: bad noid=%s", pn->getNoid());
+    return;
   }
   pn->state = perm;
   pn->initProperties(false); // we are not responsible
   pn->addToList();
 
-  // get properties
+  // gets properties
   uint8_t nprop = pn->getProperties();
   for (int i=0; i < nprop; i++) {
     if (getPayload("h", &(pn->netprop[i].version)) < 0) {
@@ -769,19 +779,20 @@ void Payload::incomingQuery(const struct sockaddr_in *from)
 
   if (getPayload("n", &noid) < 0) return;
   if (noid.port_id == 0) {	//HACK!
-    error("inQuery: port_id null"); return;
+    error("inQuery: port_id null");
+    return;
   }
-  trace(DBG_NET, "inQuery: nobj=%s from=%s", noid.getNetNameById(), inet4_ntop(&from->sin_addr));
+  trace(DBG_NET, "inQuery: nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
 
   NetObj *pn;
   if ((pn = noid.getNetObj()) == NULL) {
     // unknown object: may be we have deleted it, we advertize the requester
-    error("inQuery: sendDelete nobj=%s from=%s", noid.getNetNameById(), inet4_ntop(&from->sin_addr));
-    noid.sendDeleteNoid(from);
+    error("inQuery: sendDelete nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
+    noid.sendDelete(from);
   }
   else {
     // object known, but not properties, ask them to sender
-    //echo("inQuery: sendCreate nobj=%s from=%s", pn->getNetNameById(), inet4_ntop(&from->sin_addr));
+    //echo("inQuery: sendCreate nobj=%s from=%s", pn->getNoid(), inet4_ntop(&from->sin_addr));
     pn->sendCreate(from);
   }
 }
@@ -791,9 +802,11 @@ void Payload::incomingDelete(const struct sockaddr_in *from)
 {
   Noid noid;
 
-  if (getPayload("n", &noid) < 0) return;
+  if (getPayload("n", &noid) < 0) {
+    return;
+  }
 
-  trace(DBG_NET, "inDelete: nobj=%s from=%s", noid.getNetNameById(), inet4_ntop(&from->sin_addr));
+  trace(DBG_NET, "inDelete: nobj=%s from=%s", noid.getNoid(), inet4_ntop(&from->sin_addr));
 
   NetObj *pn;
   if ((pn = noid.getNetObj())) {
@@ -801,6 +814,7 @@ void Payload::incomingDelete(const struct sockaddr_in *from)
   }
 }
 
+/* Incoming Unknown */
 void Payload::incomingUnknown(const struct sockaddr_in *from, int size)
 {
   error("InUnknown: size=%d from %lx/%x", size, ntohl(from->sin_addr.s_addr), ntohs(from->sin_port));

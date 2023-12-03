@@ -44,10 +44,10 @@ class Noid {
    * Naming is done by create or createNetObjFromString.
    */
 
-  char * getNetNameById();
+  char * getNoid();
   /**< Builds a concatened string name */
 
-  void sendQueryNoid(const struct sockaddr_in *sender);
+  void sendQuery(const struct sockaddr_in *sender);
   /**<
    * Send a Query '0x03' packet toi the unicast sender.
    * We try to avoid to send too many.
@@ -55,13 +55,13 @@ class Noid {
    * Called by incomingDelta.
    */
 
-  void sendDeleteNoid(const struct sockaddr_in *sender);
+  void sendDelete(const struct sockaddr_in *sender);
   /**<
    * Send a Delete '0x04' packet toi the unicast sender.
    */
 
  protected:
-  bool equalNoid(Noid noid2) const;
+  bool equal(Noid noid2) const;
   /**< Returns 0 if differents, other if equals */
 
   int filterQuery();

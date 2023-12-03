@@ -62,9 +62,7 @@ void netIncoming(int fd)
      */
     uint8_t cmd;
     if (pp->len > 0 && pp->getPayload("c", &cmd) >= 0) {
-      echo("Incoming from %lx/%x len=%d cmd=%02x",
-           ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
-           pp->len, cmd);
+      echo("In %lx/%x l=%d c=%02x", ntohl(from.sin_addr.s_addr),ntohs(from.sin_port), pp->len, cmd);
       //
       // parse VREP
       //
@@ -82,9 +80,7 @@ void netIncoming(int fd)
           pp->incomingDelete(&from);
           break;
         default:
-          echo("netincoming unknown: X'%02x' fd=%d from %lx/%x (mine is %lx/%x)",
-               cmd, fd, ntohl(from.sin_addr.s_addr), ntohs(from.sin_port),
-               NetObj::getHost(), NetObj::getPort());
+          echo("netincoming unknown: X'%02x' fd=%d from %lx/%x (mine is %lx/%x)", cmd, fd, ntohl(from.sin_addr.s_addr), ntohs(from.sin_port), NetObj::getHost(), NetObj::getPort());
           break;
       }
       delete pp;
@@ -134,8 +130,9 @@ int netTimeout()
     for (int i=0; i < nprop; i++) {
       switch ((*it)->type) {
         case USER_TYPE:
-          if (i < User::PROPBEGINVAR || i > User::PROPENDVAR)
+          if (i < User::PROPBEGINVAR || i > User::PROPENDVAR) {
             continue;	// skip static properties
+          }
       }
       NetProperty *pprop = (*it)->netprop + i;
       
@@ -152,7 +149,7 @@ int netTimeout()
           if (pprop->version != 0) {
             // if permanent prop hasn't its initial value,
             // somebody must assume responsibility
-            echo("netTimeout: (permanent) assuming responsibility for %s prop=%d unseen for %5.2fs", (*it)->noid.getNetNameById(), i, Timer::diffDates(pprop->last_seen, now));
+            echo("netTimeout: (permanent) assuming responsibility for %s prop=%d unseen for %5.2fs", (*it)->noid.getNoid(), i, Timer::diffDates(pprop->last_seen, now));
             if (pprop->responsible) {
               echo("netTimeout: (permanent) should assume responsibility "
                    "of something I am responsible for");
@@ -167,9 +164,7 @@ int netTimeout()
             echo("netTimeout: (volatile) should assume death of %s I am responsible for", (*it)->pobject->getInstance());
             return -1;
           }
-          echo("netTimeout: (volatile) assuming death of %s [%s] (unseen for %.2fs)",
-               (*it)->pobject->getInstance(), (*it)->noid.getNetNameById(), 
-               Timer::diffDates(pprop->last_seen, now));
+          echo("netTimeout: (volatile) assuming death of %s [%s] (unseen for %.2fs)", (*it)->pobject->getInstance(), (*it)->noid.getNoid(), Timer::diffDates(pprop->last_seen, now));
           (*it)->declareDeletion();
           (*it)->requestDeletion();	// discard the dead
           // no reason to continue after a requestDeletion

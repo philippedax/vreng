@@ -294,7 +294,7 @@ WO * NetObj::getWOByNoid() const
 {
   for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it)->netop) {
-      if (noid.equalNoid((*it)->netop->noid))
+      if (noid.equal((*it)->netop->noid))
         return *it;	// found
     }
   }
@@ -392,7 +392,7 @@ void NetObj::sendCreate(const struct sockaddr_in *to)
     pp.putPayload("h", netprop[i].version);
   }
 
-  trace(DBG_NET, "sendCreate: nobj=%s to=%s", noid.getNetNameById(), inet4_ntop(&to->sin_addr));
+  trace(DBG_NET, "sendCreate: nobj=%s to=%s", noid.getNoid(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
 #if 0 //pddebug
   pp.dumpPayload(stderr);
@@ -451,12 +451,12 @@ void NetObj::sendDelete(const struct sockaddr_in *to)
   Payload pp;
 
   pp.putPayload("cn", VREP_DELETE, noid);
-  trace(DBG_NET, "sendDelete: nobj=%s to=%s", noid.getNetNameById(), inet4_ntop(&to->sin_addr));
+  trace(DBG_NET, "sendDelete: nobj=%s to=%s", noid.getNoid(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
 }
 
 /* Builds and returns a concataned string name */
-char * NetObj::getNetNameById()
+char * NetObj::getNoid()
 {
   static char str[80];
 
@@ -515,8 +515,9 @@ void NetObj::sendQueryNoid(const struct sockaddr_in *to)
   if (! filterQuery()) return;
 
   Payload pp;
+
   pp.putPayload("cn", VREP_QUERY, noid);
-  trace(DBG_NET, "sendQuery: nobj=%s to=%s", getNetNameById(), inet4_ntop(&to->sin_addr));
+  trace(DBG_NET, "sendQuery: nobj=%s to=%s", getNoid(), inet4_ntop(&to->sin_addr));
   pp.sendPayload(to);
 }
 
@@ -526,7 +527,7 @@ void NetObj::sendDeleteNoid(const struct sockaddr_in *to)
   Payload pp;
 
   pp.putPayload("cn", VREP_DELETE, noid);
-  trace(DBG_NET, "sendDelete: nobj=%s to=%s", getNetNameById(), inet4_ntop( &to->sin_addr));
+  trace(DBG_NET, "sendDelete: nobj=%s to=%s", getNoid(), inet4_ntop( &to->sin_addr));
   pp.sendPayload(to);
 }
 

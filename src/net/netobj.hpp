@@ -266,7 +266,7 @@ class NetObj {
    * Naming is done by create or createNetObj.
    */
 
-  char * getNetNameById();
+  char * getNoid();
   /**< Builds a concatened string name */
 
   void sendQueryNoid(const struct sockaddr_in *sender);
