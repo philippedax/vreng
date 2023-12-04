@@ -458,27 +458,6 @@ void NetObj::sendDelete(const struct sockaddr_in *to)
   pp.sendPayload(to);
 }
 
-#if 0 //notused
-/* Builds and returns a concataned string name */
-char * NetObj::getNoid()
-{
-  static char str[80];
-
-  sprintf(str, "%x/%x/%x", ntohl(noid.src_id), ntohs(noid.port_id), ntohs(noid.obj_id));
-  return str;
-}
-
-/* Returns 0 if different, other if equal */
-bool NetObj::equalNoid(Noid n2) const
-{
-  return (
-          noid.src_id == n2.src_id &&
-          noid.port_id == n2.port_id &&
-          noid.obj_id == n2.obj_id
-         );
-}
-#endif //notused
-
 /* Gets a NetObj by name */
 NetObj * NetObj::getNetObj()
 {
@@ -494,15 +473,3 @@ NetObj * NetObj::getNetObj()
   }
   return NULL;
 }
-
-#if 0 //notused
-// get an netobj by SSRC
-NetObj * getObjectBySSRC(uint32_t _ssrc)
-{
-  NetObj *pn = netobjList;
-
-  for ( ; pn && pn->noid.src_id != _ssrc; pn = pn->next)
-	;
-  return pn;
-}
-#endif //notused

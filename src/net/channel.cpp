@@ -100,13 +100,6 @@ void Channel::clearList()
   channelList.clear();
 }
 
-#if 0 //notused
-Channel * Channel::getList()
-{
-  return channelList.front();
-}
-#endif //notused
-
 /** Join group */
 int Channel::joinGroup(int sd)
 {
@@ -163,25 +156,10 @@ void Channel::closeMcastSocket()
   sd[SD_W_RTCP] = -1;
 }
 
-#if 0 //notused
-void Channel::closeUcastSocket()
-{
-  Socket::closeDatagram(sd[SD_R_UDP]);
-  sd[SD_R_UDP] = -1;
-}
-#endif //notused
-
 Channel * Channel::current()
 {
   return channel;
 }
-
-#if 0 //notused
-Channel * Channel::getManager()
-{
-  return managerChannel;
-}
-#endif //notused
 
 /** Decode the string format "group[/port[/ttl]]" */
 void Channel::decodeChan(const char *chan_str, uint32_t *group, uint16_t *port, uint8_t *ttl)
@@ -237,7 +215,6 @@ void Channel::namingId()
 #endif
 
   pp.sendPayload(sa[SA_RTCP]);	// needed for proxy (source port)
-  //echo("my_port_id=%d", NetObj::getPort());
   NetObj::setObj(0);
 }
 
@@ -385,7 +362,6 @@ void Channel::sendBYE()
     session->sendRTCPPacket(sa[SA_RTCP], RTCP_SR);
     session->sendRTCPPacket(sa[SA_RTCP], RTCP_BYE);
   }
-  //echo("sendBYE: on channel=%p", this);
 }
 
 /** Delete from channelList */
@@ -452,7 +428,6 @@ bool Channel::joinManager(char *manager_str, const char *chan_str)
 
   strcpy(manager_str, chan_str);
   newChanStr(manager_str);
-  //echo("joinManager: manager_str: %s", manager_str);
 
   int cntfd = managerChannel->create(manager_str, &tabManagerFd);
   if (cntfd == 0)  return false;
@@ -549,7 +524,6 @@ void Channel::getGroup(const char *chan_str, char *grp_str)
     *grp_str = 0;	// empty group
     return;
   }
-  //echo("getGroup: chan_str=%s", chan_str);
 
   char *tmpchan = strdup(chan_str);
   char *p;
@@ -581,7 +555,6 @@ uint16_t Channel::getPort(const char *chan_str)
     port = (uint16_t) DEF_VRENG_PORT;
   else
     port = (uint16_t) atoi(++p);
-  //echo("getPort: port=%u", port);
   return port;
 }
 
@@ -602,7 +575,6 @@ uint8_t Channel::getTtl(const char *chan_str)
     ttl = (uint8_t) DEF_VRENG_TTL;
   else
     ttl = (uint8_t) atoi(++p);
-  //echo("getTtl: ttl=%u", ttl);
   return ttl;
 }
 
@@ -622,6 +594,5 @@ void Channel::newChanStr(char *chan_str)
     chan_str[CHAN_LEN] = '\0';
   }
   free(group);
-  //echo("newChanStr: chan_str=%s", chan_str);
   return;
 }

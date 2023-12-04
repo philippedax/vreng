@@ -265,13 +265,6 @@ class NetObj {
    * Header vers noid se fait en lisant directement dans la struct
    * Naming is done by create or createNetObj.
    */
-
-  //notused char * getNoid();
-  //notused /**< Builds a concatened string name */
-
- //notused protected:
-  //notused bool equalNoid(class Noid noid2) const;
-  //notused /**< Returns 0 if differents, other if equals */
 };
 
 #endif

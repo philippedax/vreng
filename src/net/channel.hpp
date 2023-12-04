@@ -78,9 +78,6 @@ class Channel {
   static void initReflector();
   /**< Reflector Initialization */
 
-  //notused void closeUcastSocket();
-  //notused /**< Closes Unicast sockets */
-
  public:
   uint32_t	ssrc;		///< ssrcid
   uint32_t	group;		///< group address
@@ -161,11 +158,6 @@ class Channel {
   static uint16_t getPort(const char *chanstr);
   static uint8_t getTtl(const char *chanstr);
   static uint8_t currentTtl();
-
-  //notused static Channel * getList();
-  //notused /**< Gets list pointer */
-  //notused static Channel * getManager();
-  //notused /**< Gets manager channel */
 };
 
 #endif
