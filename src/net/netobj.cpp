@@ -458,6 +458,7 @@ void NetObj::sendDelete(const struct sockaddr_in *to)
   pp.sendPayload(to);
 }
 
+#if 0 //notused
 /* Builds and returns a concataned string name */
 char * NetObj::getNoid()
 {
@@ -467,7 +468,6 @@ char * NetObj::getNoid()
   return str;
 }
 
-#if 0 //notused
 /* Returns 0 if different, other if equal */
 bool NetObj::equalNoid(Noid n2) const
 {

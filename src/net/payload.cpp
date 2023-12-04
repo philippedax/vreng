@@ -649,10 +649,8 @@ int Payload::recvPayload(int sd, struct sockaddr_in *from)
                     pkt[0], pkt[1], pkt[2], pkt[3],
                     pkt[4], pkt[5], pkt[6], pkt[7],
                     pkt[8], pkt[9], pkt[10], pkt[11]);
-    trace(DBG_NET, "R: %02x%02x%02x%02x/%02x",
-                    hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
-    trace(DBG_NET, "wrong packet size, pkt_len=%d vrep_len=%d",
-                   pkt_len, vrep_len);
+    trace(DBG_NET, "R: %02x%02x%02x%02x/%02x", hdrpl[0], hdrpl[1], hdrpl[2], hdrpl[3], hdrpl[4]);
+    trace(DBG_NET, "wrong packet size, pkt_len=%d vrep_len=%d", pkt_len, vrep_len);
     return -2;	// unknown packet type
   }
 
@@ -681,8 +679,7 @@ void Payload::incomingDelta(const struct sockaddr_in *from)
   NetObj *pn;
   if ((pn = noid.getNetObj()) == NULL) {
     // delta on an unknown object
-    trace(DBG_NET, "inDelta sendQuery on: %s, from=%s, p=%d, v=%d",
-                   noid.getNoid(), inet4_ntop(&from->sin_addr), prop_id, vers_id);
+    trace(DBG_NET, "inDelta sendQuery on: %s, from=%s, p=%d, v=%d", noid.getNoid(), inet4_ntop(&from->sin_addr), prop_id, vers_id);
     // send a Query to the sender in unicast
     noid.sendQuery(from);
     return;
@@ -757,7 +754,7 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
 #endif
   //dax if (! pn->equalNoid(pn->noid)) {
   if (! pn->noid.equal(pn->noid)) {
-    error("inCreate: bad noid=%s", pn->getNoid());
+    error("inCreate: bad noid=%s", pn->noid.getNoid());
     return;
   }
   pn->state = perm;
@@ -793,7 +790,7 @@ void Payload::incomingQuery(const struct sockaddr_in *from)
   }
   else {
     // object known, but not properties, ask them to sender
-    //echo("inQuery: sendCreate nobj=%s from=%s", pn->getNoid(), inet4_ntop(&from->sin_addr));
+    //echo("inQuery: sendCreate nobj=%s from=%s", pn->noid.getNoid(), inet4_ntop(&from->sin_addr));
     pn->sendCreate(from);
   }
 }

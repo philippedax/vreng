@@ -60,7 +60,6 @@ class Noid {
    * Send a Delete '0x04' packet to the unicast sender.
    */
 
- //dax protected:
   bool equal(Noid noid2) const;
   /**< Returns 0 if differents, other if equals */
 

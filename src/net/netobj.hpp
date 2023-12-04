@@ -266,8 +266,8 @@ class NetObj {
    * Naming is done by create or createNetObj.
    */
 
-  char * getNoid();
-  /**< Builds a concatened string name */
+  //notused char * getNoid();
+  //notused /**< Builds a concatened string name */
 
  //notused protected:
   //notused bool equalNoid(class Noid noid2) const;
