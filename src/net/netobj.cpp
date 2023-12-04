@@ -294,8 +294,10 @@ WO * NetObj::getWOByNoid() const
 {
   for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
     if ((*it)->netop) {
-      if (noid.equal((*it)->netop->noid))
+      //dax if (noid.equal((*it)->netop->noid))
+      if ((*it)->netop->noid.equal((*it)->netop->noid)) {
         return *it;	// found
+      }
     }
   }
   return NULL;
@@ -446,6 +448,7 @@ void NetObj::declareDeletion()
   if (pchan) sendDelete(pchan->sa[SA_RTP]);
 }
 
+/* Send a Delete '0x04' packet */
 void NetObj::sendDelete(const struct sockaddr_in *to)
 {
   Payload pp;
@@ -464,6 +467,7 @@ char * NetObj::getNoid()
   return str;
 }
 
+#if 0 //notused
 /* Returns 0 if different, other if equal */
 bool NetObj::equalNoid(Noid n2) const
 {
@@ -473,13 +477,15 @@ bool NetObj::equalNoid(Noid n2) const
           noid.obj_id == n2.obj_id
          );
 }
+#endif //notused
 
 /* Gets a NetObj by name */
 NetObj * NetObj::getNetObj()
 {
   for (list<NetObj*>::iterator it = netobjList.begin(); it != netobjList.end(); ++it) {
-    if ((*it)->equalNoid((*it)->noid)) {
-      return *it;  // found
+    //dax if ((*it)->equalNoid((*it)->noid)) {
+    if ((*it)->noid.equal((*it)->noid)) {
+      return *it;	// NetObj found
     }
     if (! OClass::isValidType((*it)->type)) {
       error("getNetObj: bad type=%d", (*it)->type);
@@ -489,49 +495,7 @@ NetObj * NetObj::getNetObj()
   return NULL;
 }
 
-/* Heuristic to avoid to send bunch of Queries */
-int NetObj::filterQuery()
-{
-  static Noid oldnoid;
-  static int cntdelta = 0;
-
-  if (equalNoid(oldnoid)) {
-    // last request was on this name
-    if (++cntdelta <= 15) {
-      // 15: 10 proprietes en moyenne, avec 15 on saute donc
-      // sans doute un "bloc" de deltas, mais sans doute pas deux
-      return 0;    // cancel this request
-    }
-  }
-  // it's another one
-  oldnoid = noid;
-  cntdelta = 0;
-  return 1;
-}
-
-/* Send a Query '0x03' packet  to the unicast sender */
-void NetObj::sendQueryNoid(const struct sockaddr_in *to)
-{
-  if (! filterQuery()) return;
-
-  Payload pp;
-
-  pp.putPayload("cn", VREP_QUERY, noid);
-  trace(DBG_NET, "sendQuery: nobj=%s to=%s", getNoid(), inet4_ntop(&to->sin_addr));
-  pp.sendPayload(to);
-}
-
-/* Send a Delete '0x04' packet */
-void NetObj::sendDeleteNoid(const struct sockaddr_in *to)
-{
-  Payload pp;
-
-  pp.putPayload("cn", VREP_DELETE, noid);
-  trace(DBG_NET, "sendDelete: nobj=%s to=%s", getNoid(), inet4_ntop( &to->sin_addr));
-  pp.sendPayload(to);
-}
-
-#if 0 //mayused
+#if 0 //notused
 // get an netobj by SSRC
 NetObj * getObjectBySSRC(uint32_t _ssrc)
 {
@@ -541,4 +505,4 @@ NetObj * getObjectBySSRC(uint32_t _ssrc)
 	;
   return pn;
 }
-#endif //mayused
+#endif //notused

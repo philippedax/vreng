@@ -49,7 +49,7 @@ class Noid {
 
   void sendQuery(const struct sockaddr_in *sender);
   /**<
-   * Send a Query '0x03' packet toi the unicast sender.
+   * Send a Query '0x03' packet to the unicast sender.
    * We try to avoid to send too many.
    * Format: '0x03' (c), netobject name (n).
    * Called by incomingDelta.
@@ -57,10 +57,10 @@ class Noid {
 
   void sendDelete(const struct sockaddr_in *sender);
   /**<
-   * Send a Delete '0x04' packet toi the unicast sender.
+   * Send a Delete '0x04' packet to the unicast sender.
    */
 
- protected:
+ //dax protected:
   bool equal(Noid noid2) const;
   /**< Returns 0 if differents, other if equals */
 

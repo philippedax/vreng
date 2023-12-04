@@ -269,26 +269,9 @@ class NetObj {
   char * getNoid();
   /**< Builds a concatened string name */
 
-  void sendQueryNoid(const struct sockaddr_in *sender);
-  /**<
-   * Send a Query '0x03' packet toi the unicast sender.
-   * We try to avoid to send too many.
-   * Format: '0x03' (c), netobj name (n).
-   * Called by incomingDelta.
-   */
-
-  void sendDeleteNoid(const struct sockaddr_in *sender);
-  /**<
-   * Send a Delete '0x04' packet toi the unicast sender.
-   */
-
- protected:
-  bool equalNoid(class Noid noid2) const;
-  /**< Returns 0 if differents, other if equals */
-
-  int filterQuery();
-  /**< Heuristic to avoid to send bunch of Query */
-
+ //notused protected:
+  //notused bool equalNoid(class Noid noid2) const;
+  //notused /**< Returns 0 if differents, other if equals */
 };
 
 #endif

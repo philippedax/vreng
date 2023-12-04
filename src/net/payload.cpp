@@ -755,7 +755,8 @@ void Payload::incomingCreate(const struct sockaddr_in *from)
     return;
   }
 #endif
-  if (! pn->equalNoid(pn->noid)) {
+  //dax if (! pn->equalNoid(pn->noid)) {
+  if (! pn->noid.equal(pn->noid)) {
     error("inCreate: bad noid=%s", pn->getNoid());
     return;
   }
