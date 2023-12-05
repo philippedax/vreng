@@ -70,7 +70,7 @@ int Rtp::updateSeq(sourceInfos *s, uint16_t seq)
    * sequential sequence numbers have been received.
    */
   if (s->probation) {
-    /* packet is in sequence */
+    // packet is in sequence
     if (seq == s->max_seq + 1) {
       s->probation--;
       s->max_seq = seq;
@@ -79,36 +79,36 @@ int Rtp::updateSeq(sourceInfos *s, uint16_t seq)
 	s->received++;
 	return 1;
       }
-    } else {
+    }
+    else {
       s->probation = MIN_SEQUENTIAL - 1;
       s->max_seq = seq;
     }
     return 0;
-  } else if (udelta < MAX_DROPOUT) {
-    /* in order, with permissible gap */
+  }
+  else if (udelta < MAX_DROPOUT) {
+    // in order, with permissible gap
     if (seq < s->max_seq) {
-      /*
-       * Sequence number wrapped - count another 64K cycle.
-       */
+      // Sequence number wrapped - count another 64K cycle.
       s->cycles += RTP_SEQ_MOD;
     }
     s->max_seq = seq;
-  } else if (udelta <= RTP_SEQ_MOD - MAX_MISORDER) {
-    /* the sequence number made a very large jump */
+  }
+  else if (udelta <= RTP_SEQ_MOD - MAX_MISORDER) {
+    // the sequence number made a very large jump
     if (seq == s->bad_seq) {
-      /*
-       * Two sequential packets -- assume that the other side
-       * restarted without telling us so just re-sync
-       * (i.e., pretend this was the first packet).
-       */
+      // Two sequential packets -- assume that the other side
+      // restarted without telling us so just re-sync
+      // (i.e., pretend this was the first packet).
       initSource(s, seq);
     }
     else {
       s->bad_seq = (seq + 1) & (RTP_SEQ_MOD-1);
       return 0;
     }
-  } else {
-    /* duplicate or reordered packet */
+  }
+  else {
+    // duplicate or reordered packet
   }
   s->received++;
   return 1;
@@ -118,20 +118,21 @@ int Rtp::updateSeq(sourceInfos *s, uint16_t seq)
  * Handling RTCP SDES
  */
 
+/* Returns name */
 const char * Rtp::getRtpName(char *name)
 {
   FILE *fp;
-  char *p, buf[BUFSIZ];
+  char *p, line[128];
 
   p = getenv("HOME");
   if (p == NULL || *p == '\0') return NULL;
-  sprintf(buf, "%s/.RTPdefaults", p);
+  sprintf(line, "%s/.RTPdefaults", p);
   File *file = new File();
-  if ((fp = file->open(buf, "r"))) {
-    while (fgets(buf, sizeof(buf), fp)) {
-      buf[strlen(buf) -1] = '\0';
-      if (strncmp(buf, "*Name:", 9) == 0) {
-        p = strchr(buf, ':');
+  if ((fp = file->open(line, "r"))) {
+    while (fgets(line, sizeof(line), fp)) {
+      buf[strlen(line) -1] = '\0';
+      if (strncmp(line, "*Name:", 9) == 0) {
+        p = strchr(line, ':');
         p += 2;
         strcpy(name, p);
         file->close();
@@ -145,6 +146,7 @@ const char * Rtp::getRtpName(char *name)
   return NULL;
 }
 
+/* Returns email */
 void Rtp::getRtcpEmail(char *email)
 {
   char mail[EMAIL_LEN+10], hostfqdn[255], hostname[MAXHOSTNAMELEN];
@@ -156,11 +158,13 @@ void Rtp::getRtcpEmail(char *email)
     strcpy(hostfqdn, ph->h_name);
     my_free_hostent(ph);
   }
-  else
+  else {
     strcpy(hostfqdn, hostname);
+  }
 
 #if HAVE_GETPWUID
   struct passwd *pwd;
+
   if ((pwd = getpwuid(getuid())) != NULL)
     sprintf(mail, "%s@%s", pwd->pw_name, hostfqdn);
   else
@@ -171,6 +175,7 @@ void Rtp::getRtcpEmail(char *email)
   strcpy(email, mail);
 }
 
+/* Returns rtcpname */
 void Rtp::getRtcpName(char *rtcpname)
 {
   const char *p;
@@ -184,6 +189,7 @@ void Rtp::getRtcpName(char *rtcpname)
   }
 }
 
+/* Returns tool */
 void Rtp::getRtcpTool(char *tool)
 {
   sprintf(tool, "%s-%s", PACKAGE_NAME, PACKAGE_VERSION);
