@@ -18,24 +18,24 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef VAC_HPP
-#define VAC_HPP
+#ifndef VACC_HPP
+#define VACC_HPP
 
 /**
  * Vac class
  */
-class Vac {
+class Vacc {
 
  public:
   char url[URL_LEN];		///< world url
   char channel[CHAN_LEN];	///< mapped channel
-  Vac *next;			///< next entry
+  Vacc *next;			///< next entry
   bool connected;		///x true if connect established
   int sdvac;			///< file descriptor
 
-  Vac();		///< Constructor
+  Vacc();		///< Constructor
 
-  virtual ~Vac() {};	///< Destructor
+  virtual ~Vacc() {};	///< Destructor
 
   bool getList();
   /**< Gets the whole cache and put it into an internal list */
@@ -49,10 +49,10 @@ class Vac {
   bool getUrlAndChannel(const char *name, char *_url, char *chanstr);
   /**< Gets an url and its channel by its world name from the list */
 
-  static Vac * init();
+  static Vacc * init();
   /**< Init vac */
 
-  static  Vac * current();
+  static  Vacc * current();
   /**< Returns vac instance */
 
   //notused bool isConnected();
@@ -60,7 +60,7 @@ class Vac {
 
  private:
 
-  bool connectVac();
+  bool connectVacs();
   /**< Establishes a connection with the Vacs server */
 
   static void * connectThread(void *);

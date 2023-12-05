@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-NET_SRCS = event.cpp channel.cpp netobj.cpp noid.cpp payload.cpp netprop.cpp rtp.cpp session.cpp source.cpp sap.cpp md5.cpp
+NET_SRCS = event.cpp channel.cpp netobj.cpp noid.cpp payload.cpp netprop.cpp rtp.cpp session.cpp source.cpp sap.cpp md5.cpp vacc.cpp
 
-NET_HDRS = vrep.hpp event.hpp channel.hpp netobj.hpp noid.hpp payload.hpp netprop.hpp rtp.hpp session.hpp source.hpp sap.hpp md5.hpp
+NET_HDRS = vrep.hpp event.hpp channel.hpp netobj.hpp noid.hpp payload.hpp netprop.hpp rtp.hpp session.hpp source.hpp sap.hpp md5.hpp vacc.hpp
 
 SRCDIR = $(top_srcdir)/src
 AM_CPPFLAGS =  @UBIT_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/2d -I$(SRCDIR)/3d -I$(SRCDIR)/tool

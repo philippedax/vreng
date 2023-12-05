@@ -30,7 +30,7 @@
 #include "bullet.hpp"	// BULLET_TYPE
 #include "icon.hpp"	// ICON_TYPE
 #include "channel.hpp"	// join
-#include "vac.hpp"	// resolveWorldUrl
+#include "vacc.hpp"	// resolveWorldUrl
 #include "sound.hpp"	// playSound
 #include "audio.hpp"	// start
 #include "entry.hpp"	// set
@@ -148,14 +148,14 @@ void Gate::enter()
 #endif
 #if USE_VACS
   // call here the VACS (VREng Address Cache Server) to get the channel string
-  Vac *vac = Vac::current();
+  Vacc *vac = Vacc::current();
   if (! vac->getChannel(names.url, chan)) {
     // this url is not in the cache, we need to ask to the vacs to resolve it
     if (vac->resolveWorldUrl(names.url, chan)) {
       echo("enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
     }
     else {
-      //echo("enter: resolveWorldUrl failed from Vac: url=%s", names.url);
+      //echo("enter: resolveWorldUrl failed from Vacs: url=%s", names.url);
       if (! *chan) {	// no given channel
         strcpy(chan, DEF_VRE_CHANNEL);	// forced to the default
       }

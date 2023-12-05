@@ -45,7 +45,7 @@
 #include "audio.hpp"	// start
 #include "event.hpp"	// netIncoming
 #include "channel.hpp"	// Channel
-#include "vac.hpp"	// resolveWorldUrl, getUrlAndChannel
+#include "vacc.hpp"	// resolveWorldUrl, getUrlAndChannel
 #include "theme.hpp"	// g.theme
 
 
@@ -231,7 +231,7 @@ void Gui::gotoWorld(const UStr& url_or_name)
 
   const char* urlorname = url_or_name.c_str();
   char urlvre[URL_LEN], chanstr[CHAN_LEN];
-  Vac *vac = Vac::current();
+  Vacc *vac = Vacc::current();
 
   strcpy(chanstr, DEF_VRENG_CHANNEL);
   if (strchr(urlorname, '/')) {	// url or path
