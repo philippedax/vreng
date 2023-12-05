@@ -237,6 +237,15 @@ typedef struct _sitem {
 } SdesItem;
 
 
+uint32_t md_32(char *string, int length);
+
+/*
+ * Return random unsigned 32-bit quantity. Use 'type' argument if you
+ * need to generate several different values in close succession.
+ */
+uint32_t random32(int type);
+
+
 /**
  * Rtp class
  */
