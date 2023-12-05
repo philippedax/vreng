@@ -22,19 +22,27 @@
 #define VACC_HPP
 
 /**
- * Vac class
+ * Vacc class
  */
 class Vacc {
 
- public:
+ private:
   char url[URL_LEN];		///< world url
   char channel[CHAN_LEN];	///< mapped channel
-  Vacc *next;			///< next entry
   bool connected;		///x true if connect established
   int sdvac;			///< file descriptor
+  Vacc *next;			///< next entry
 
+  bool connectVacs();
+  /**< Establishes a connection with the Vacs server */
+
+  static void * connectThread(void *);
+  /**< Establishes a connection with the Vacs server */
+
+  void setConnected();
+
+ public:
   Vacc();		///< Constructor
-
   virtual ~Vacc() {};	///< Destructor
 
   bool getList();
@@ -54,19 +62,6 @@ class Vacc {
 
   static  Vacc * current();
   /**< Returns vac instance */
-
-  //notused bool isConnected();
-  //notused /**< Returns true if connected else false */
-
- private:
-
-  bool connectVacs();
-  /**< Establishes a connection with the Vacs server */
-
-  static void * connectThread(void *);
-  /**< Establishes a connection with the Vacs server */
-
-  void setConnected();
 };
 
 #endif

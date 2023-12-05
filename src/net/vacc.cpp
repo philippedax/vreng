@@ -18,6 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+//
+// VACC: Vreng Addresses Cache Client
+//
+// should be compiled with ./configure --enable-vacs
+//
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "vacc.hpp"
 #include "socket.hpp"	// openStream
@@ -25,8 +31,8 @@
 #include "universe.hpp"	// MANAGER_NAME
 
 // local
-static Vacc *vacList = NULL;	        // vac head
-static Vacc *vac = NULL;		// vac singleton
+static Vacc *vacList = NULL;    // vacList head
+static Vacc *vac = NULL;	// vac singleton
 
 
 /** Constructor */
@@ -54,13 +60,6 @@ Vacc* Vacc::current()
   return (Vacc *)vac;
 }
 
-#if 0 //notused
-bool Vacc::isConnected()
-{
-  return connected;
-}
-#endif
-
 void Vacc::setConnected()
 {
   connected = true;
@@ -69,13 +68,8 @@ void Vacc::setConnected()
 /** Connect to the VACS server: return false if connect fails */
 bool Vacc::connectVacs()
 {
-#if 1 //dax
   pthread_t tid;
   pthread_create(&tid, NULL, Vacc::connectThread, (void * ) NULL);
-#else
-  Vacc::connectThread();
-  return connected;
-#endif
   return connected;
 }
 
