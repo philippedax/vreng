@@ -43,9 +43,10 @@ static char rtcp_tool[Rtp::TOOL_LEN];    // tool name
 #define CHECK_SESSION_LIST \
   { Session *sess = sessionList; \
     while (sess != NULL) { \
-      if (sess->next == sess) \
+      if (sess->next == sess) { \
         error("RtpSession list invalid at %s:%d", __FILE__, __LINE__); \
         break; \
+      } \
       sess = sess->next; \
     } \
   }
@@ -69,8 +70,7 @@ void Session::buildRtpHeader(rtp_hdr_t *rtp_hdr, uint32_t _ssrc)
   rtp_hdr->ssrc = htonl(_ssrc);
 
 #ifdef DEBUG
-  trace(DBG_RTP, "RTP: %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x",
-        hdr[0], hdr[1], hdr[2], hdr[3], hdr[4], hdr[5], hdr[6], hdr[7], hdr[8], hdr[9], hdr[10], hdr[11]);
+  echo("RTP: %02x%02x%02x%02x %02x%02x%02x%02x %02x%02x%02x%02x", hdr[0], hdr[1], hdr[2], hdr[3], hdr[4], hdr[5], hdr[6], hdr[7], hdr[8], hdr[9], hdr[10], hdr[11]);
 #endif
 }
 
@@ -121,7 +121,6 @@ Session * Session::getList()
 void Session::incrSources()
 {
   nbsources = Source::incrSourcesNumber();
-  trace(DBG_RTP, "getSource: nbsources=%d", nbsources);
 }
 
 /**
@@ -133,7 +132,7 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
   rtp_port = htons(_rtp_port);
   rtcp_port = htons(_rtp_port + 1);
   ttl = _ttl;
-  trace(DBG_RTP, "Session: rtp_port=%x rtcp_port=%x", rtp_port, rtcp_port);
+  //echo("Session: rtp_port=%x rtcp_port=%x", rtp_port, rtcp_port);
 
   /* seq number initialization */
   rtp_seq = Rtp::createSeq();
@@ -144,7 +143,7 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
   else
     ssrc = htonl(Rtp::createSsrc(rtp_seq));	// new ssrc
 
-  trace(DBG_RTP, "Session: ssrc=%x", ssrc);
+  //echo("Session: ssrc=%x", ssrc);
   rtp_hdr.ssrc = ssrc;
   sr.ssrc = ssrc;
 
@@ -152,7 +151,7 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
   source = new Source(ssrc);
 
   nbsources = source->incrSourcesNumber();
-  trace(DBG_RTP, "Session: nbsources=%d", nbsources);
+  //echo("Session: nbsources=%d", nbsources);
 
   Rtp::initSource(&source->s, rtp_seq);
   createMySdes();
@@ -162,17 +161,16 @@ uint32_t Session::create(uint32_t _group, uint16_t _rtp_port, uint8_t _ttl, uint
 
 void Session::deleteSession(uint32_t _ssrc)
 {
-  //pd CHECK_SESSION_LIST
+  //dax CHECK_SESSION_LIST
   for (Session *pse = sessionList; pse; pse = pse->next) {
     for (Source *pso = pse->source; pso; pso = pso->next) {
       if (pso->ssrc == _ssrc) {
-        trace(DBG_RTP, "deleteSession: ssrc=%x found", _ssrc);
         pse->deleteSource(_ssrc);
         return;
       }
     }
   }
-  echo("deleteSession: ssrc=%x not found", _ssrc);
+  //echo("deleteSession: ssrc=%x not found", _ssrc);
 }
 
 void Session::deleteSource(uint32_t _ssrc)
@@ -182,20 +180,23 @@ void Session::deleteSource(uint32_t _ssrc)
 
   for (psolast = pso = source; pso && (i < nbsources); pso = pso->next, i++) {
     if (pso->ssrc == _ssrc) {
-      if (psolast == NULL)	// no source found
+      if (psolast == NULL) {	// no source found
         source = NULL;
+      }
       else {
         // MS : this is a NOOP if pso == source
         // Bad things happen after that
         // psolast->next = pso->next;
-        if (pso == source)
+        if (pso == source) {
           source = pso->next;
-        else
+        }
+        else {
           psolast->next = pso->next;
+        }
       }
       setLostPackets(pso->lost);
       nbsources = Source::decrSourcesNumber();
-      trace(DBG_RTP, "nbsources--=%d", nbsources);
+      //echo("nbsources--=%d", nbsources);
       delete pso;		// delete Source
       pso = NULL;
       break;
@@ -224,7 +225,7 @@ void Session::createMySdes()
   Rtp::getRtcpName(rtcp_name);		// fill rtcp Name
   Rtp::getRtcpEmail(rtcp_email);	// fill rtcp Email
   Rtp::getRtcpTool(rtcp_tool);		// fill rtcp Tool
-  trace(DBG_RTP, "createMySdes: name=%s, email=%s, pse=%p", rtcp_name, rtcp_email, this);
+  //echo("createMySdes: name=%s, email=%s, pse=%p", rtcp_name, rtcp_email, this);
 
   if ((scname = Rtp::allocSdesItem()) == NULL) return;
   mysdes = scname;
@@ -272,7 +273,7 @@ void Session::refreshMySdes()
 {
   SdesItem *scname, *sname, *semail, *sloc;
 
-  trace(DBG_RTP, "refreshMySdes: pse=%p", this);
+  //echo("refreshMySdes: pse=%p", this);
 
   if ((scname = mysdes) == NULL) return;
   if ((sname = scname->si_next) == NULL) return;
@@ -287,7 +288,7 @@ void Session::refreshMySdes()
     sloc->si_len = strlen(MANAGER_NAME);
     sloc->si_str = (uint8_t *) MANAGER_NAME;
   }
-  trace(DBG_RTP, "sloc: %p %s", sloc, sloc->si_str);
+  //echo("sloc: %p %s", sloc, sloc->si_str);
 }
 
 void Session::freeMySdes()
@@ -331,7 +332,7 @@ int Session::buildSR(rtcp_common_t *prtcp_hdr, uint8_t *pkt)
   memcpy(pkt+len, &sr, sizeof(rtcp_sr_t));
   len += sizeof(rtcp_sr_t);
 
-  trace(DBG_RTP, "setSR: ssrc=%x len=%d", sr.ssrc, len);
+  //echo("setSR: ssrc=%x len=%d", sr.ssrc, len);
   return len;
 }
 
@@ -358,8 +359,9 @@ int Session::buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt)
   }
   items[xitem++] = RTCP_SDES_END; // end of chunks is indicated by a zero
 
-  while (xitem % 4) // Pad to 4 bytes word boundary and store zeros there
+  while (xitem % 4) {	// Pad to 4 bytes word boundary and store zeros there
     items[xitem++] = 0;
+  }
 
   /* SDES header */
   prtcp_hdr->length = htons(1 + (xitem >> 2));
@@ -370,7 +372,7 @@ int Session::buildSDES(rtcp_common_t *prtcp_hdr, uint8_t* pkt)
   memcpy(pkt+len, items, xitem);
   len += xitem;
 
-  trace(DBG_RTP, "setSDES: ssrc=%x len=%d xitem=%d", ssrc, len, xitem);
+  //echo("setSDES: ssrc=%x len=%d xitem=%d", ssrc, len, xitem);
   return len;
 }
 
@@ -388,7 +390,7 @@ int Session::buildBYE(rtcp_common_t *prtcp_hdr, uint8_t *pkt)
   memcpy(pkt+len, &ssrc, sizeof(ssrc));
   len += sizeof(ssrc);
 
-  trace(DBG_RTP, "setBYE: ssrc=%x len=%d", ssrc, len);
+  //echo("setBYE: ssrc=%x len=%d", ssrc, len);
   return len;
 }
 
@@ -414,10 +416,10 @@ int Session::sendRTCPPacket(const struct sockaddr_in *to, uint8_t pt)
     break;
   }
   if ((sin_rtcp = Channel::getSaRTCP(to)) == NULL) {
-    echo("sendRTCPPacket: sin_rtcp NULL"); return -1;
+    error("sendRTCPPacket: sin_rtcp NULL"); return -1;
   }
   if ((sd = Channel::getFdSendRTCP(sin_rtcp)) < 0) {
-    echo("sendRTCPPacket: sd <0"); return -1;
+    error("sendRTCPPacket: sd <0"); return -1;
   }
 
   r = Rtp::sendPacket(sd, pkt, pkt_len, sin_rtcp);
@@ -441,15 +443,15 @@ int Session::sendSRSDES(const struct sockaddr_in *to)
   pkt_len += len;
 
   if ((sin_rtcp = Channel::getSaRTCP(to)) == NULL) {
-    echo("sendSRSDES: sin_rtcp NULL");
+    error("sendSRSDES: sin_rtcp NULL");
     return -1;
   }
   if ((sd = Channel::getFdSendRTCP(sin_rtcp)) < 0) {
-    echo("sendSRSDES: sd <0");
+    error("sendSRSDES: sd <0");
     return -1;
   }
 
-  trace(DBG_RTP, "sendSRSDES: pkt_len=%d", pkt_len);
+  //echo("sendSRSDES: pkt_len=%d", pkt_len);
   int r = Rtp::sendPacket(sd, pkt, pkt_len, sin_rtcp);
   statSendRTCP(pkt_len);
   return r;
