@@ -133,11 +133,11 @@ void Wheel::draw(uint8_t teeth, GLfloat r, const GLfloat *color)
   for (int i=0; i<4 ; i++) {
     c[i] = color[i];
   }
-
   for (int i=0; i<teeth ; i++) {
     float a = i * 360 / teeth;
     dial(a, r, c);
   }
+  glRotatef(-90, 0, 1, 0);
 }
 
 /* wheel display-list */

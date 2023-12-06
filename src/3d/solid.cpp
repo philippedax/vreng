@@ -915,6 +915,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
 
     case STOK_WHEEL:
       Wheel *wheel = new Wheel(spokes, radius, mat_diffuse);
+      wheel->render();
       break;
   }
   glEndList();

@@ -114,30 +114,30 @@ public:
 
   /* props */
   enum {
-    PROPHNAME,
-    PROPMAPFRONT,
-    PROPMAPBACK,
-    PROPXY,
-    PROPZ,
-    PROPAZ,
-    PROPAY,
-    PROPAX,
-    PROPMSG,
-    PROPMENSURATION,
-    PROPMAPLEFT,
-    PROPMAPRIGHT,
-    PROPVRE,
-    PROPWEB,
-    PROPSSRC,
-    PROPRTCPNAME,
-    PROPRTCPEMAIL,
-    PROPMODEL,
-    PROPFACE,
-    PROPSEX,
-    PROPHEAD,
-    PROPSKIN,
-    PROPBUST,
-    PROPRAY,
+    PROPHNAME,		//00
+    PROPMAPFRONT,	//01
+    PROPMAPBACK,	//02
+    PROPXY,		//03
+    PROPZ,		//04
+    PROPAZ,		//05
+    PROPAY,		//06
+    PROPAX,		//07
+    PROPMSG,		//08
+    PROPMENSURATION,	//09
+    PROPMAPLEFT,	//10
+    PROPMAPRIGHT,	//11
+    PROPVRE,		//12
+    PROPWEB,		//13
+    PROPSSRC,		//14
+    PROPRTCPNAME,	//15
+    PROPRTCPEMAIL,	//16
+    PROPMODEL,		//17
+    PROPFACE,		//18
+    PROPSEX,		//19
+    PROPHEAD,		//20
+    PROPSKIN,		//21
+    PROPBUST,		//22
+    PROPRAY,		//23
     PROPS
   };
   enum {
