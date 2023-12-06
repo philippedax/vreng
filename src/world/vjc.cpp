@@ -18,6 +18,12 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
+//
+// VJC: Vreng Java Client
+//
+// should be compiled with ./configure --enable-vjs
+//
+//---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "wobject.hpp"
 #include "vjc.hpp"
@@ -29,7 +35,7 @@
 
 const OClass Vjc::oclass(VJC_TYPE, "Vjc", Vjc::creator);
 
-const uint8_t VjcMessage::VERS = 0;		// V0
+const uint8_t  VjcMessage::VERS = 0;		// V0
 const uint32_t VjcMessage::MAGIC = 0xABCD;	// magic header
 const uint16_t VjcMessage::MAX_PACKET = 512;	// packet size
 const uint16_t Vjc::PING_WAIT = 200;		// 200 ms
@@ -156,15 +162,14 @@ void Vjc::start()
 /* Sends a terminate notification to the server */
 void Vjc::stop()
 {
-  Vjc *srv = getServer();
-  if (! srv) return;
+  Vjc *vjs = getServer();
+  if (! vjs) return;
 
-  //echo("vjc: shutting down vjs server");
   sendCommand(NULL, VJC_MSGV_TERMINATE);
-  if (srv->sock) delete srv->sock;
-  srv->sock = NULL;
-  srv->serverPort = 0;
-  srv->localPort = 0;
+  if (vjs->sock) delete vjs->sock;
+  vjs->sock = NULL;
+  vjs->serverPort = 0;
+  vjs->localPort = 0;
   server = NULL;
   setServer(NULL);
 }
@@ -172,20 +177,20 @@ void Vjc::stop()
 /* Unregisters a Vrelet object with the server */
 void Vjc::stopApp(Vrelet *po)
 {
-  Vjc *srv = getServer();
-  if (! srv) return;
+  Vjc *vjs = getServer();
+  if (! vjs) return;
   echo("vjc: stopApp");
 
   sendCommand(po, VJC_MSGV_UNREGISTER);
-  if (srv->lastMessage) delete srv->lastMessage;
-  srv->lastMessage = NULL;
+  if (vjs->lastMessage) delete vjs->lastMessage;
+  vjs->lastMessage = NULL;
 }
 
 /* Registers a Vrelet object with the server */
 void Vjc::startApp(Vrelet *po)
 {
-  Vjc *srv = getServer();
-  if (! srv)  return;
+  Vjc *vjs = getServer();
+  if (! vjs)  return;
   echo("vjc: startApp");
 
   char host[MAXHOSTNAMELEN];
@@ -193,7 +198,7 @@ void Vjc::startApp(Vrelet *po)
 
   VjcMessage *msg = new VjcMessage(po, VJC_MSGT_CTRL, VJC_MSGV_REGISTER);
   msg->putStr(host);
-  msg->put16(srv->localPort);
+  msg->put16(vjs->localPort);
   msg->putStr(po->getInstance());
   msg->putStr(po->app);
   msg->putStr(po->url);
@@ -239,7 +244,6 @@ VjcSocket::VjcSocket(uint16_t _listenPort, const char *_destHost, uint16_t _dest
 /* Opens the receiver socket for this socket pair */
 int VjcSocket::openRecv()
 {
-  echo("vjc: openRecv");
   if ((sdr = Socket::openDatagram()) < 0) return 0;
 
   for (int tries = 0; tries<10; tries++) {
@@ -339,22 +343,6 @@ VjcSocket::~VjcSocket()
   sadest = NULL;
 }
 
-#if 0 //notused
-/*
- * Utility functions
- */
-bool VjcSocket::isOpen() const
-{
-  return (statecon == SOCK_OPEN);
-}
-
-bool VjcSocket::isClosed() const
-{
-  return (statecon == SOCK_CLOSED);
-}
-#endif //notused
-
-
 /*
  * VjcMessage
  * Data structure used to send messages to the controler
@@ -390,7 +378,6 @@ tVjcHeader vjcNewHeader(uint32_t ssrc, uint8_t type, uint8_t id, uint16_t len)
 /* Setups the header */
 void VjcMessage::setup(WO *po, uint32_t ssrc, uint8_t type, uint8_t id)
 {
-  //echo("vjc: setup type=%d id=%d", type, id);
   cursor = 0;			// set the cursor to the start of the buffer
   header = vjcNewHeader(ssrc, type, id, 0);	// create the header
   sender = po;			// set the sender object
@@ -547,35 +534,31 @@ int VjcMessage::sendData()
   int pktlen = 0;
   uint8_t *pkt;
 
-  /* check that the socket is ready */
-  Vjc *srv = Vjc::getServer();
-  if (srv && (srv->sock->statecon == VjcSocket::SOCK_CONNECT)) {
+  Vjc *vjs = Vjc::getServer();
+  if (vjs && (vjs->sock->statecon == VjcSocket::SOCK_CONNECT)) {
     // The socket is still trying to connect. Check if it's done or not.
-    if (! srv->sock->isConnected()) return 0;  // The connection is still in progress
+    if (! vjs->sock->isConnected()) return 0;  // The connection is still in progress
   }
-  if (srv && (srv->sock->statecon == VjcSocket::SOCK_OPEN)) {
-    /* check if an ssrc change occured since we sent the REGISTER commands */
-    if (NetObj::getSsrc() != srv->ssrc) {
+  if (vjs && (vjs->sock->statecon == VjcSocket::SOCK_OPEN)) {
+    // check if an ssrc change happened since we sent the REGISTER commands
+    if (NetObj::getSsrc() != vjs->ssrc) {
       if (! ((getHeader().msg_type == VJC_MSGT_CTRL)
           && (getHeader().msg_id  == VJC_MSGV_REGISTER))) {
 
-        VjcMessage *msg = new VjcMessage(srv, srv->ssrc, VJC_MSGT_CTRL, VJC_MSGV_UPDATE);
-        //echo("vjc: updating ssrc (old:%d,new:%d)", srv->ssrc, NetObj::getSsrc());
+        VjcMessage *msg = new VjcMessage(vjs, vjs->ssrc, VJC_MSGT_CTRL, VJC_MSGV_UPDATE);
+        //echo("vjc: updating ssrc (old:%d,new:%d)", vjs->ssrc, NetObj::getSsrc());
         msg->put32(NetObj::getSsrc());
         pkt = msg->toBytes(&pktlen);
-        send(srv->sock->sdw, pkt, pktlen, 0);
+        send(vjs->sock->sdw, pkt, pktlen, 0);
         if (msg) delete msg;
       }
-      srv->ssrc = NetObj::getSsrc();
+      vjs->ssrc = NetObj::getSsrc();
     }
 
-    /* send the message */
+    // send the message
     pkt = toBytes(&pktlen);
-    send(srv->sock->sdw, pkt, pktlen, 0);
-    //echo("vjc: sending %d bytes with '%02x%02x' %d %08x (%d %d)",
-    //	  sent, pkt[0], pkt[1], pkt[2], NetObj::getSsrc(),
-    //	  getHeader().msg_type,
-    //	  getHeader().msg_id);
+    send(vjs->sock->sdw, pkt, pktlen, 0);
+    //echo("vjc: sending %d bytes with '%02x%02x' %d %08x (%d %d)", sent, pkt[0], pkt[1], pkt[2], NetObj::getSsrc(), getHeader().msg_type, getHeader().msg_id);
     return 1;
   }
   return 0;
@@ -591,12 +574,12 @@ int VjcMessage::sendData()
 VjcMessage * Vjc::getData(WO *po)
 {
   /* check that the socket is really open */
-  Vjc *srv = getServer();
-  if ((! srv) || (srv->sock->statecon != VjcSocket::SOCK_OPEN)) return NULL;
+  Vjc *vjs = getServer();
+  if ((! vjs) || (vjs->sock->statecon != VjcSocket::SOCK_OPEN)) return NULL;
 
   uint8_t *pkt = NULL;
 
-  if (srv->lastMessage) goto haspack;
+  if (vjs->lastMessage) goto havedate;
 
   /* set a 0 sec timeout:
    * the select will return instantly if no data is available */
@@ -606,30 +589,30 @@ VjcMessage * Vjc::getData(WO *po)
   to.tv_sec = 0;
   to.tv_usec = 0;
   FD_ZERO(&fds);
-  FD_SET(srv->sock->sdr, &fds);
+  FD_SET(vjs->sock->sdr, &fds);
 
-  if (select(srv->sock->sdr+1, &fds, NULL, NULL, &to) > 0) {
+  if (select(vjs->sock->sdr+1, &fds, NULL, NULL, &to) > 0) {
     int r;
     pkt = new uint8_t[VjcMessage::MAX_PACKET];
 
-    if ((r = recv(srv->sock->sdr, (void *) pkt, VjcMessage::MAX_PACKET, 0)) > 0) {
+    if ((r = recv(vjs->sock->sdr, (void *) pkt, VjcMessage::MAX_PACKET, 0)) > 0) {
       if (r < VJC_HDR_LEN) {
-	/* we didn't get a whole header */
+	// we didn't get a whole header
 	error("vjc: dropped incomplete packet (%d)", r);
       }
       else {
-	/* message size is big enough to contain a header */
-	srv->lastMessage = new VjcMessage(pkt, r);
+	// message size is big enough to contain a header
+	vjs->lastMessage = new VjcMessage(pkt, r);
 
-	/* check the header */
+	// check the header
 	// TODO: check protocol id and version number
-	if (srv->lastMessage->getHeader().data_len > (VjcMessage::MAX_PACKET-VJC_HDR_LEN)) {
-	  /* header and real length don't agree */
+	if (vjs->lastMessage->getHeader().data_len > (VjcMessage::MAX_PACKET-VJC_HDR_LEN)) {
+	  // header and real length don't agree
 	  error("vjc: illegal data length");
-	  if (srv->lastMessage) delete srv->lastMessage;
-	  srv->lastMessage = NULL;
+	  if (vjs->lastMessage) delete vjs->lastMessage;
+	  vjs->lastMessage = NULL;
 	}
-        else goto haspack;	// packet is here
+        else goto havedate;	// packet is here
       }
     }
     // (r < 0) || (packet too short) || (invalid header)
@@ -639,12 +622,12 @@ VjcMessage * Vjc::getData(WO *po)
   }
   return NULL; // select <= 0
 
-haspack:
+havedate:
   // a message was read from the socket, or had been read previously
-  if (srv->lastMessage->isForObject(po)) {
+  if (vjs->lastMessage->isForObject(po)) {
     echo("vjc: got msg");
-    VjcMessage *msg = srv->lastMessage;
-    srv->lastMessage = NULL;
+    VjcMessage *msg = vjs->lastMessage;
+    vjs->lastMessage = NULL;
     return msg;
   }
   return NULL;

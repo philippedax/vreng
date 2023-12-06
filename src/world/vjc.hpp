@@ -42,14 +42,14 @@
 //
 
 // Message types
-#define VJC_MSGT_CTRL	0
-#define VJC_MSGT_CLICK	1
-#define VJC_MSGT_ADD	2
-#define VJC_MSGT_DEL	3
-#define VJC_MSGT_POS	4
-#define VJC_MSGT_ISEC	5
-#define VJC_MSGT_QUERY	6
-#define VJC_MSG_TYPES_STRINGS Control Click Add Delete Position Intersect Query
+#define VJC_MSGT_CTRL		0
+#define VJC_MSGT_CLICK		1
+#define VJC_MSGT_ADD		2
+#define VJC_MSGT_DEL		3
+#define VJC_MSGT_POS		4
+#define VJC_MSGT_ISEC		5
+#define VJC_MSGT_QUERY		6
+#define VJC_MSG_TYPES_STRINGS	Control Click Add Delete Position Intersect Query
 
 // Message val
 
@@ -60,37 +60,37 @@
 #define VJC_MSGV_TERMINATE	3
 #define VJC_MSGV_UPDATE		4
 #define VJC_MSGV_PING		5
-#define VJC_MSG_CTRL_STRINGS Register Unregister Inititate Terminate Update Ping
+#define VJC_MSG_CTRL_STRINGS	Register Unregister Inititate Terminate Update Ping
 
 // position
-#define VJC_MSGV_ASK	0
-#define VJC_MSGV_SET	1
-#define VJC_MSGV_UPD	2
-#define VJC_MSGV_ERROR	3
-#define VJC_MSG_POS_STRINGS Ask Set Update Error
+#define VJC_MSGV_ASK		0
+#define VJC_MSGV_SET		1
+#define VJC_MSGV_UPD		2
+#define VJC_MSGV_ERROR		3
+#define VJC_MSG_POS_STRINGS	Ask Set Update Error
 
 // query
 #define VJC_MSGV_QTYPE		0
 #define VJC_MSGV_QANS		1
-#define VJC_MSG_QUERY_STRINGS TypeQuery QueryAnswer
+#define VJC_MSG_QUERY_STRINGS	TypeQuery QueryAnswer
 //****************************************** end of unviolable code
 
 // draw  add / del
-#define VJC_MSGV_CIRCLE 0
-#define VJC_MSGV_LINE   1
-#define VJC_MSGV_LOOP   2
-#define VJC_MSGV_FILL   3
-#define VJC_MSGV_DELALL 4
-#define VJC_MSG_DRAW_STRINGS Circle Line Loop Fill DeleteAll
+#define VJC_MSGV_CIRCLE		0
+#define VJC_MSGV_LINE		1
+#define VJC_MSGV_LOOP		2
+#define VJC_MSGV_FILL		3
+#define VJC_MSGV_DELALL		4
+#define VJC_MSG_DRAW_STRINGS	Circle Line Loop Fill DeleteAll
 
 // click
-#define VJC_MSGV_CLICK  0
-#define VJC_MSG_CLICK_STRINGS Click
+#define VJC_MSGV_CLICK		0
+#define VJC_MSG_CLICK_STRINGS	Click
 
 // intersection
 #define VJC_MSGV_ISECIN		0
 #define VJC_MSGV_ISECOUT	1
-#define VJC_MSG_ISEC_STRINGS GoingIn GoingOut
+#define VJC_MSG_ISEC_STRINGS	GoingIn GoingOut
 
 
 #include "vrelet.hpp"
@@ -167,11 +167,6 @@ class VjcSocket {
    * Checks if the non-blocking connect call on the send socket
    * finished or not.
    */
-
-  //notused bool isOpen() const;
-  //notused ///< Is socket opened ?.
-  //notused bool isClosed() const;
-  //notused ///< Is socket closed ?.
 };
 
 /**
@@ -448,20 +443,15 @@ class Vjc: public WO {
   static const uint16_t VJS_PORT;
   static const uint16_t VJC_PORT;
 
-  static void setServer(Vjc *server);
-  /**< Sets the current running instance */
-
-  static Vjc *server;
-  ///< The singelton instance of this class
-
-  VjcMessage *lastMessage;
-  ///< The last message received
-
-  int lastping;
-  ///< 'Time' since last ping
+  static Vjc *server;		// The singelton instance of this class
+  VjcMessage *lastMessage;	// The last message received
+  int lastping;			// 'Time' since last ping
 
   void start();
   /**< Opens the sockets */
+
+  static void setServer(Vjc *server);
+  /**< Sets the current running instance */
 
   void ping();
   /**< Sends a ping to the server */
