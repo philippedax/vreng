@@ -29,7 +29,7 @@
 #include "solid.hpp"	// new Solid
 #include "universe.hpp"	// Universe::init
 #include "world.hpp"	// World::init
-#include "vacc.hpp"	// Vacc::init
+#include "vac.hpp"	// Vac::init
 #include "channel.hpp"	// Channel::init
 #include "http.hpp"	// Http::init
 #include "sql.hpp"	// VSql::init
@@ -92,7 +92,7 @@ void Vreng::initCB()
   Universe::init();	// World manager initialisation
   Http::init();		// Simultaneous http connections initialization
   Channel::init();	// Network initialization
-  Vacc::init();	    	// Vacc cache initialization
+  Vac::init();	    	// Vac cache initialization
   VSql::init();		// VSql initialization
 #if HAVE_OCAML
   initOcaml();		// Ocaml runtime initialization

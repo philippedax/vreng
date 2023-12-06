@@ -19,24 +19,24 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 //
-// VACC: Vreng Addresses Cache Client
+// VAC: Vreng Addresses Cache (client)
 //
 // should be compiled with ./configure --enable-vacs
 //
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "vacc.hpp"
+#include "vac.hpp"
 #include "socket.hpp"	// openStream
 #include "nsl.hpp"	// my_gethostbyname
 #include "universe.hpp"	// MANAGER_NAME
 
 // local
-static Vacc *vacList = NULL;    // vacList head
-static Vacc *vac = NULL;	// vac singleton
+static Vac *vacList = NULL;	// vacList head
+static Vac *vac = NULL;		// vac singleton
 
 
 /** Constructor */
-Vacc::Vacc()
+Vac::Vac()
 {
   memset(url, 0, sizeof(url));
   memset(channel, 0, sizeof(channel));
@@ -46,35 +46,35 @@ Vacc::Vacc()
 }
 
 /** Initialization */
-Vacc* Vacc::init()
+Vac* Vac::init()
 {
-  vac = new Vacc();
+  vac = new Vac();
 
   vac->getList();
-  return (Vacc *)vac;
+  return (Vac *)vac;
 }
 
 // static
-Vacc* Vacc::current()
+Vac* Vac::current()
 {
-  return (Vacc *)vac;
+  return (Vac *)vac;
 }
 
-void Vacc::setConnected()
+void Vac::setConnected()
 {
   connected = true;
 }
 
 /** Connect to the VACS server: return false if connect fails */
-bool Vacc::connectVacs()
+bool Vac::connectVacs()
 {
   pthread_t tid;
-  pthread_create(&tid, NULL, Vacc::connectThread, (void * ) NULL);
+  pthread_create(&tid, NULL, Vac::connectThread, (void * ) NULL);
   return connected;
 }
 
 /** Thread */
-void * Vacc::connectThread(void *)
+void * Vac::connectThread(void *)
 {
   int sdvac;
 
@@ -112,7 +112,7 @@ void * Vacc::connectThread(void *)
   return NULL;
 }
 
-bool Vacc::getList()
+bool Vac::getList()
 {
   uint32_t sizecache = 0;
   char reqvacs[8];
@@ -123,7 +123,7 @@ bool Vacc::getList()
   strcpy(channel, DEF_MANAGER_CHANNEL);
 
   // first get size of cache
-  Vacc::connectVacs();
+  Vac::connectVacs();
   if (! connected)  return false;
   memset(reqvacs, 0, sizeof(reqvacs));
   sprintf(reqvacs, "size");
@@ -134,7 +134,7 @@ bool Vacc::getList()
   //printf("sizecache: %d\n", sizecache);
 
   // and then get the cache
-  Vacc::connectVacs();
+  Vac::connectVacs();
   if (! connected)  return false;
   memset(reqvacs, 0, sizeof(reqvacs));
   sprintf(reqvacs, "list%d", VRE_VERSION);
@@ -142,7 +142,7 @@ bool Vacc::getList()
 
   vacList = this;
   next = NULL;
-  Vacc *prev = vacList;
+  Vac *prev = vacList;
   int r;
 
   char *cache = new char[sizecache + 1];
@@ -153,7 +153,7 @@ bool Vacc::getList()
     char *p = strtok(cache, " ");
     while (p) {
       if (strncmp(p, "http://", 7) != 0) break;  // !!! ELC: pour eviter blocage
-      Vacc *vac = new Vacc();
+      Vac *vac = new Vac();
       strcpy(vac->url, p);
       p = strtok(NULL, " ");
       if (p) strcpy(vac->channel, p);
@@ -170,12 +170,12 @@ bool Vacc::getList()
   return true;
 }
 
-bool Vacc::resolveWorldUrl(const char *url, char *chanstr)
+bool Vac::resolveWorldUrl(const char *url, char *chanstr)
 {
   if (connected == false) return false;
 
   // connect to the vacs server
-  Vacc::connectVacs();
+  Vac::connectVacs();
   if (connected == false) return false;
 
   // send the request "resolve"
@@ -190,7 +190,7 @@ bool Vacc::resolveWorldUrl(const char *url, char *chanstr)
     strcpy(chanstr, line);
     if (vacList && vacList->next) {
       bool cached = false;
-      Vacc *w = NULL, *wlast = NULL;
+      Vac *w = NULL, *wlast = NULL;
       for (w = vacList->next; w ; w = w->next) {
         if (! strcmp(url, w->url)) {
           cached = true;
@@ -200,7 +200,7 @@ bool Vacc::resolveWorldUrl(const char *url, char *chanstr)
       }
       if (! cached) {
 
-        Vacc *vac = new Vacc();
+        Vac *vac = new Vac();
 
         strcpy(vac->url, url);
         strcpy(vac->channel, line);
@@ -220,10 +220,10 @@ bool Vacc::resolveWorldUrl(const char *url, char *chanstr)
   }
 }
 
-bool Vacc::getChannel(const char *url, char *chanstr)
+bool Vac::getChannel(const char *url, char *chanstr)
 {
   if (vacList && vacList->next) {
-    for (Vacc *w = vacList->next; w ; w = w->next) {
+    for (Vac *w = vacList->next; w ; w = w->next) {
       if (strstr(w->url, url)) {
         strcpy(chanstr, w->channel);
         return true;
@@ -233,10 +233,10 @@ bool Vacc::getChannel(const char *url, char *chanstr)
   return false;
 }
 
-bool Vacc::getUrlAndChannel(const char *name, char *url, char *chanstr)
+bool Vac::getUrlAndChannel(const char *name, char *url, char *chanstr)
 {
   if (vacList && vacList->next) {
-    for (Vacc *w = vacList->next; w ; w = w->next) {
+    for (Vac *w = vacList->next; w ; w = w->next) {
       if (strstr(w->url, name)) {
         strcpy(url, w->url);
         strcpy(chanstr, w->channel);

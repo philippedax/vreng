@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "pref.hpp"
 #include "env.hpp"	// ::g.env
-#include "vacc.hpp"	// Vacc
+#include "vac.hpp"	// Vac
 #include "theme.hpp"	// Theme
 #include "file.hpp"	// open, close
 #include "str.hpp"	// stringcmp
@@ -273,7 +273,7 @@ void Pref::parse(int argc, char **argv)
 	{
           char chanstr[CHAN_LEN];
           memset(chanstr, 0, sizeof(chanstr));
-	  Vacc *vac = Vacc::current();
+	  Vac *vac = Vac::current();
           //dax FIXME segfault: vac->resolveWorldUrl(::g.url, chanstr);
           ::g.channel = strdup(chanstr);
 	}
