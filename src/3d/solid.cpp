@@ -913,7 +913,7 @@ int Solid::solidParser(char *l, V3 &bbmax, V3 &bbmin)
       break;
 
     case STOK_WHEEL:
-      //dax5 Wheel *wheel = new Wheel(spokes, radius, mat_diffuse);
+      Wheel *wheel = new Wheel(spokes, radius, mat_diffuse);
       break;
   }
   glEndList();
