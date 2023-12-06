@@ -56,9 +56,8 @@ class Render {
   GLfloat third_Near;		///< local user distance for Third Person view.
   GLfloat turna;		///< local user rotation for Turn Around view.
   GLfloat pitch;		///< local user pitch rotation.
-  V3 satPos;			///< satellite position
-  V3 satRot;			///< satellite orientation
-  class Wheel *wheel;		///< experimental
+  V3 satPos;			///< satellite position.
+  V3 satRot;			///< satellite orientation.
 
   // rendering setup
   void lighting();		///< Set lights.
@@ -66,20 +65,20 @@ class Render {
 
   // rendering categories
   void renderSolids(bool mini);		///< general rendering.
-  void renderOpaque(bool mini);		///< opaque solids
-  void renderTransparent(bool mini);  	///< transparent solids
-  void renderGround();  		///< ground solids
-  void renderModel(); 	 		///< model solids
-  void renderUser(); 	 		///< user solids
-  void renderFlary(); 	 		///< flary solids
+  void renderOpaque(bool mini);		///< opaque solids.
+  void renderTransparent(bool mini);  	///< transparent solids.
+  void renderGround();  		///< ground solids.
+  void renderModel(); 	 		///< model solids.
+  void renderUser(); 	 		///< user solids.
+  void renderFlary(); 	 		///< flary solids.
 
   void scissors();
   /**< Renders scissors. */
 
   // compare functions
-  static bool compDist(const void *t1, const void *t2);	///< compare distances to eyes
-  static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes
-  static bool compFrame(const void *t1, const void *t2);///< compare nbframes
+  static bool compDist(const void *t1, const void *t2);	///< compare distances to eyes.
+  static bool compSize(const void *t1, const void *t2);	///< compare surfaces sizes.
+  static bool compFrame(const void *t1, const void *t2);///< compare nbframes.
 
  public:
 
@@ -111,9 +110,7 @@ class Render {
   list<Solid*> modelList;	///< model solids list.
   list<Solid*> userList;	///< user solids list.
   list<Solid*> flaryList;	///< flary solids list.
-
-  list<Solid*> getSolidList()	{ return solidList; }
-  /**< Returns the rendering solid list. */
+  list<Solid*> getSolidList()	{ return solidList; } ///< Returns the rendering solid list.
 
   void showSolidList();
   /**< Shows all solids of the solid list. */
@@ -205,7 +202,7 @@ class Render {
    */
 
   void computeCameraProjection();
-  /**< called by aiinit */
+  /**< called by aiinit. */
 
   void calculateFov(GLfloat x, GLfloat y, GLfloat z, GLfloat az, char* filname);
   /**< calculate the FOV of the user on the position x,y,z and az. */

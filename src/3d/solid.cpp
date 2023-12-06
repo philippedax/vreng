@@ -42,6 +42,7 @@
 #include "car.hpp"	// draw
 #include "teapot.hpp"	// draw
 #include "flare.hpp"	// render
+#include "wheel.hpp"	// Wheel
 
 #include <list>
 using namespace std;
