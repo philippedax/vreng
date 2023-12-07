@@ -271,3 +271,21 @@ void File::skip(FILE *f, int skiplen)
 {
   fseek(f, skiplen+(skiplen%2), SEEK_CUR);
 }
+
+uint32_t File::getUInt(FILE *f)
+{
+  int c1, c2, c3, c4;
+
+  c1 = getc(f);  c2 = getc(f);  c3 = getc(f);  c4 = getc(f);
+  return ((uint32_t) c1) +
+         (((uint32_t) c2) << 8) +
+         (((uint32_t) c3) << 16) +
+         (((uint32_t) c4) << 24);
+}
+
+int16_t File::getShort(FILE *f)
+{
+  int c1 = getc(f);
+  int c2 = getc(f);
+  return ((int16_t) c1) + (((int16_t) c2) << 8);
+}

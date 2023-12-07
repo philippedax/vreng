@@ -67,22 +67,23 @@ errbmp:
 
   fseek(f, 4L, SEEK_CUR);	// reserved and ignored
   fseek(f, 4L, SEEK_CUR);	// file_size wrong
-  h.data_offset = cache->read_long(f);
+  h.data_offset = cache->getUInt(f);
   fseek(f, 4L, SEEK_CUR);	// header_size
-  h.width = cache->read_long(f);
-  h.height = cache->read_long(f);
+  h.width = cache->getUInt(f);
+  h.height = cache->getUInt(f);
+  //echo("bmp: w=%d h=%d", h.width, h.height);
   fseek(f, 2L, SEEK_CUR);	// planes
-  h.bit_count = cache->read_short(f);
+  h.bit_count = cache->getShort(f);
   if (h.bit_count != 24) {
     error("loadBMP: don't support %d bpp", h.bit_count);
     goto errbmp;
   }
-  h.compression = cache->read_long(f);
+  h.compression = cache->getUInt(f);
   if (h.compression != 0) {
     error("loadBMP: compression not supported");
     goto errbmp;
   }
-  h.image_size = cache->read_long(f);
+  h.image_size = cache->getUInt(f);
   fseek(f, 0L, SEEK_END);
   h.file_size = ftell(f);
   if (h.image_size == 0) {

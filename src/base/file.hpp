@@ -61,6 +61,8 @@ public:
   int read_string(FILE *f, char *s, int maxlen);
   void read_buf(FILE *f, char *s, int len);
   void skip(FILE *f, int skiplen);
+  uint32_t getUInt(FILE *f);
+  int16_t getShort(FILE *f);
 };
 
 
