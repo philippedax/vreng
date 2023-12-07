@@ -24,6 +24,8 @@
 #define VJC_TYPE	37
 #define VJC_NAME	"Vjc"
 
+#define DEF_URL_JAR	"/jar/vrengapp.jar"	// jar vjs server
+
 #include "wobject.hpp"
 
 //****************************************** begin of unviolable code

@@ -26,6 +26,8 @@
 #define BALL_TYPE	5
 #define BALL_NAME	"Ball"
 
+#define DEF_URL_BALL	"/gif/ball.gif"		// ball by default
+
 
 /**
  * Ball class

@@ -21,6 +21,9 @@
 #ifndef DEFAULTS_HPP
 #define DEFAULTS_HPP
 
+#include "defines.hpp"
+
+
 /* default servers */
 #if STANDALONE			// by ./configure --enable-standalone
 #define IPMC_ENABLED		0	// ipmulticast disabled
@@ -38,14 +41,14 @@
 #define IPMC_ENABLED		1	// ipmulticast enabled
 #define DEF_HTTP_SERVER		"localhost"
 				// was "www.vreng.enst.fr" but recently unreachable
-				// because it is no more maintained today
-				// the httpd server and its datas associated
-				// should be well known at a stable location (url)
-				// and so reachable for everybody
-				// allowing multi-users behavior
-				// localhost is not the ideal solution (mono-user)
-				// localhost allows to run simply autonomously.
-				// see also DEF_URL_PFX witch can be changed
+				// because it is no more maintained and hosted today.
+				// The httpd server and its associated data
+				// should be well known at a stable location
+				// and so be reachable for everybody from everywhere
+				// allowing multi-users and decentralized behavior
+				// "localhost" is not the ideal solution but
+				// "localhost" allows to run simply autonomously.
+				// see also DEF_URL_PFX which can be tuned at your convenience.
 #define DEF_VJS_SERVER		"localhost"
 #define DEF_VAPS_SERVER		"localhost"
 #define DEF_VACS_SERVER		"localhost"
@@ -57,22 +60,19 @@
 
 #define VRE_VERSION	8	// current stable version of vre files
 
-/* default URLs */
-//#define GEN_URL(h, u, p) 	("http://" h u p) // macro not used
-
 #if !defined(DEF_URL_PFX)	// by ./configure --with-httpd-prefix
 // Default Url prefix allowing access to the htdocs (data) location
-// default url prefix: can be changed to be adapted to your site.
+// the default url prefix can be tuned to be adapted as your usage.
 #define DEF_URL_PFX "~%s/vreng"	// %s represent the current user's loginname
-				// this prefix may be tuned, it should be "" (old prefix)
-				// it is the HTDOCS equivallent for your
-				// local httpd server (after http://httpserver/)
-				// for example:
+				// this prefix may be tuned, it should be "" (original prefix).
+				// It is equivalent to the HTDOCS location of your
+				// local httpd server (http://httpserver/<def_url_prefix>).
+				// For example:
 				// if url = http://httpserver/~login/vreng
                                 //   the location of data is
 				//     ~/public_html/vreng/ (for Linux) or 
 				//     ~/Sites/vreng/ (for MacOS)
-				// where "vreng/" is the same as "htdocs/" directory
+				// where "vreng/" is equivalent to the "htdocs/" directory
 				// in this distribution.
 #endif //DEF_URL_PFX
 
@@ -80,13 +80,6 @@
 #define DEF_URL_WORLD     "/vre/Rendezvous.vre"		// location: /vre/Rendezvous.vre
 #define DEF_URL_WORLD_BAK "/vre/v8/Rendezvous.vre"	// alt location: /vre/v8/Rendezvous.vre
 #define DEF_URL_WORLDS    "/vre/worlds"			// list of worlds
-#define DEF_URL_FRONT     "/gif/default.gif"		// user front box
-#define DEF_URL_BACK      "/gif/default.1.gif"		// user back box
-#define DEF_URL_BALL      "/gif/ball.gif"		// ball by default
-#define DEF_URL_TXF       "/txf/helvetica-br-24.txf"	// txf font by default
-#define DEF_URL_PAPER     "/jpg/paper.jpg"		// paper for book
-#define DEF_URL_NOISE     "/mp3/sheet.mp3"		// noise for sheet
-#define DEF_URL_JAR       "/jar/vrengapp.jar"		// jar vjs server
 
 /* default IPmulticast addresses & ports */
 #define DEF_VRENG_MADDR		"224.255.0.0"
@@ -109,22 +102,5 @@
 #define DEF_MAXSIMCON		8		// MAX simultaneous threaded connections
 #define DEF_MAXFRAMES		255		// MAX frames
 #define DEF_REFRESH_TIMEOUT	1.5		//orig: 1.5
-
-#define PATH_LEN		128		// max lenght of path file
-#define CHAN_LEN		32		// max length of a channel
-#define GROUP_LEN		16		// max length of a group
-#define URL_LEN			256		// max length of an url
-#define USER_LEN		17		// max lenght of user name
-#define OBJNAME_LEN		64		// max lenght of object name
-#define HNAME_LEN		11		// max length of understandable name
-#define ACTIONNAME_LEN		16		// max length of action name
-
-#ifndef TRUE
-#define TRUE 1
-#define FALSE 0
-#endif
-#ifndef RAND_MAX
-#define RAND_MAX 32767
-#endif
 
 #endif

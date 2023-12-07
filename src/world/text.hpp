@@ -26,6 +26,8 @@
 #define TEXT_TYPE	39
 #define TEXT_NAME	"Text"
 
+#define DEF_URL_TXF	"/txf/helvetica-br-24.txf"	// txf font by default
+
 /**
  * Text class
  */

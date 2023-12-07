@@ -22,6 +22,7 @@
 #include "pref.hpp"
 #include "env.hpp"	// ::g.env
 #include "vac.hpp"	// Vac
+#include "user.hpp"	// DEF_URL
 #include "theme.hpp"	// Theme
 #include "file.hpp"	// open, close
 #include "str.hpp"	// stringcmp

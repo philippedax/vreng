@@ -27,6 +27,7 @@
 #include "wheel.hpp"	// Wheel
 #include "scene.hpp"	// GLSection
 #include "stat.hpp"	// new_world
+#include "render.hpp"	// Render
 
 
 // global
@@ -76,7 +77,7 @@ Universe::Universe()
   grpstr = new char[GROUP_LEN + 1];
   Channel::getGroup(DEF_MANAGER_CHANNEL, grpstr);
   ttl = Channel::getTtl(::g.channel);
-  //dax wheel = new Wheel();
+  wheel = new Wheel();
   trace(DBG_INIT,"Universe: universe=%s server=%s pfx=%s", ::g.universe, ::g.server, ::g.urlpfx);
   //echo("universe=%s server=%s pfx=%s", ::g.universe, ::g.server, ::g.urlpfx);
 }
@@ -130,7 +131,7 @@ void * Universe::runWheel(void * arg)
 #if 0 //dax
   while (univ_progress) {
     //progression('.');
-    //::g.render.wheel();	//CRASH
+    ::g.render.wheel();	//CRASH
     if (new_world > 1) Wheel::current()->render();	//CRASH machine
     //signal(SIGTERM, SIG_IGN);
     usleep(100000/12);		// a tour of dial in 1 sec

@@ -27,6 +27,9 @@
 #define USER_TYPE	1
 #define USER_NAME	"User"
 
+#define DEF_URL_FRONT	"/gif/default.gif"	// user front box
+#define DEF_URL_BACK	"/gif/default1.gif"	// ball by default
+
 class Bullet;
 class Dart;
 class Carrier;

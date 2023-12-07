@@ -112,6 +112,8 @@ class Render {
   list<Solid*> flaryList;	///< flary solids list.
   list<Solid*> getSolidList()	{ return solidList; } ///< Returns the rendering solid list.
 
+  class Wheel *wheel;           ///< experimental
+
   void showSolidList();
   /**< Shows all solids of the solid list. */
 
