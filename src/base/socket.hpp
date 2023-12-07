@@ -22,6 +22,8 @@
 #define SOCKET_HPP
 
 
+#define NEEDLOOPBACK	0	// no loopback for ipmulticast
+
 /**
  * Socket class
  */

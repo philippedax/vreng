@@ -209,18 +209,18 @@ const struct InitFunc initFuncs[] = {
 
 
 // local
-static struct ProperFunc putPropArray[OBJECTSNUMBER+1][PROPSNUMBER];
-static struct ProperFunc getPropArray[OBJECTSNUMBER+1][PROPSNUMBER];
-static struct ActionFunc actionArray[OBJECTSNUMBER+1][ACTIONSNUMBER];
+static struct ProperFunc putPropArray[OBJECTSNUMBER][PROPSNUMBER];
+static struct ProperFunc getPropArray[OBJECTSNUMBER][PROPSNUMBER];
+static struct ActionFunc actionArray[OBJECTSNUMBER][ACTIONSNUMBER];
 
-float maxlastings[OBJECTSNUMBER+1];
-uint8_t propertiesnumber[OBJECTSNUMBER+1];
+float maxlastings[OBJECTSNUMBER];
+uint8_t propertiesnumber[OBJECTSNUMBER];
 
 
 /** initialization array of functions pointers */
 void World::initFunc()
 {
-  for (uint8_t i=0; i <= OBJECTSNUMBER; i++) {
+  for (uint8_t i=0; i < OBJECTSNUMBER; i++) {
 
     // action functions
     for (uint8_t j=0; j < ACTIONSNUMBER ; j++) {

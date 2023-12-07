@@ -31,6 +31,8 @@
 #define OBJECTSNUMBER   88	// increment it if new object added
 
 #define UNKNOWN_TYPE	-1
+#define PROPSNUMBER     32	// number max of object's properties
+#define ACTIONSNUMBER	64	// number max of actions per object
 
 
 /**

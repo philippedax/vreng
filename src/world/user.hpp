@@ -133,11 +133,11 @@ public:
     PROPRTCPEMAIL,	//16
     PROPMODEL,		//17
     PROPFACE,		//18
-    PROPSEX,		//19
-    PROPHEAD,		//20
-    PROPSKIN,		//21
-    PROPBUST,		//22
-    PROPRAY,		//23
+    PROPRAY,		//19
+    PROPSEX,		//20
+    PROPHEAD,		//21
+    PROPSKIN,		//22
+    PROPBUST,		//23
     PROPS
   };
   enum {

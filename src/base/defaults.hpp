@@ -118,9 +118,6 @@
 #define OBJNAME_LEN		64		// max lenght of object name
 #define HNAME_LEN		11		// max length of understandable name
 #define ACTIONNAME_LEN		16		// max length of action name
-#define ACTIONSNUMBER		64		// number max of actions per object
-#define PROPSNUMBER		20		// number max of object's properties
-#define NEEDLOOPBACK		0		// no loopback for ipmulticast
 
 #ifndef TRUE
 #define TRUE 1

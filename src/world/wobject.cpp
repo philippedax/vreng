@@ -1368,7 +1368,7 @@ void WO::getProperty(uint8_t prop_id, Payload *pp)
 void WO::putProperty(uint8_t prop_id, Payload *pp)
 {
   if (! isPutPropFunc(type, prop_id)) {
-    if (type != USER_TYPE)
+    //if (type != USER_TYPE)
       error("putProperty: prop=%d undefined for object=%d", prop_id, type);
     return;
   }

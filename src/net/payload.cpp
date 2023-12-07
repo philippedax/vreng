@@ -28,6 +28,7 @@
 #include "session.hpp"	// buildRtpHeader
 #include "source.hpp"	// Source
 #include "netprop.hpp"	// NetProperty
+#include "socket.hpp"	// NEEDLOOPBACK
 #include "stat.hpp"	// statSendRTP getSentPackets
 
 
