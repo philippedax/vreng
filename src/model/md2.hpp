@@ -92,7 +92,7 @@ typedef struct {
  */
 class Md2 {
 
-private:
+ private:
   int32_t *glcmds;	///< GL commands
   tTexInfo *texinfo;	///< texture infos
   tFrame *frames;	///< frames
@@ -102,7 +102,7 @@ private:
   float desiredScale;	///< scale
   char *url;		///< md2 url
 
-public:
+ public:
   int32_t numframes;	///< number of frames
   int32_t skinwidth;	///< skin width
   int32_t skinheight;	///< skin height
@@ -128,23 +128,23 @@ public:
   static void httpReader(void *_md2, class Http *http);
   /**< Md2 http reader */
 
-private:
-  //notused bool readHttp(Http *http);
-  //notused /**< Loads from http */
-
+ private:
   bool readFile(class File *file, FILE *f);
   /**< Loads from file */
 
+  //notused bool readHttp(Http *http);
+  //notused /**< Loads from http */
+
   const char * getUrl() const;
-  /**< get an Url */
+  /**< Gets an Url */
 
   int32_t getFrames(tHeader *md2_hdr, class File *file, FILE *f);
   //notused int32_t getFrames(tHeader *md2_hdr, class Http *http);
-  /**< Get frames from Md2 model */
+  /**< Gets frames from Md2 model */
 
   int32_t getGLCmds(tHeader *md2_hdr, class File *file, FILE *f);
   //notused int32_t getGLCmds(tHeader *md2_hdr, class Http *http);
-  /**< Get GL commands from Md2 model */
+  /**< Gets GL commands from Md2 model */
 
   void updBbox(float x, float y, float z);
   /**< Updates BB */
