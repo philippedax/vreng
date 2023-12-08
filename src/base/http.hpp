@@ -109,14 +109,11 @@ class Http {
   uint8_t read_char();
   /**< Gets a byte. */
 
-  int32_t read_short();
-  /**< Gets a short. */
-
   int32_t read_int();
   /**< Gets an integer. */
 
   int32_t read_long();
-  /**< Gets a short. */
+  /**< Gets a long. */
 
   float read_float();
   /**< Gets a float. */
@@ -139,6 +136,8 @@ class Http {
   uint32_t skip(int32_t skiplen);
   /**< Skips a length. */
 
+  //notused int32_t read_short();
+  //notused /**< Gets a short. */
   //notused int getChar();
   //notused /**< Gets a char. */
   //notused int read_string(char *s, int maxlen);

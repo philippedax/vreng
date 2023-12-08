@@ -577,12 +577,6 @@ int32_t Http::read_int()
   return val;
 }
 
-/** returns a short */
-int32_t Http::read_short()
-{
-  return (read_char()<<8) | read_char();
-}
-
 /** returns a long */
 int32_t Http::read_long()
 {
@@ -597,6 +591,12 @@ float Http::read_float()
 }
 
 #if 0 //notused
+/** returns a short */
+int32_t Http::read_short()
+{
+  return (read_char()<<8) | read_char();
+}
+
 /** returns a string */
 int Http::read_string(char *str, int maxlen)
 {
@@ -610,6 +610,7 @@ int Http::read_string(char *str, int maxlen)
     }
     else {
       str[maxlen-1] = '\0';
+      break;
     }
     cnt++;
   } while (c != 0) ;
