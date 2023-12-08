@@ -100,23 +100,17 @@ class Http {
   static void * connection(void *_httpthread);
   /**< Makes a http connection to the httpd server. */
 
+  bool heof();
+  /**< Returns if eof. */
+
   void reset();
   /**< Reset read buffer. */
-
-  int httpRead(char *buf, int size);
-  /**< Reads a block. */
 
   uint8_t read_char();
   /**< Gets a byte. */
 
-  int32_t read_int();
-  /**< Gets an integer. */
-
-  int32_t read_long();
-  /**< Gets a long. */
-
-  float read_float();
-  /**< Gets a float. */
+  int httpRead(char *buf, int size);
+  /**< Reads a block. */
 
   bool nextLine(char *line);
   /**< Gets nextline. */
@@ -124,18 +118,19 @@ class Http {
   bool getLine(char *line);
   /**< Gets a line. */
 
-  int fread(char *ptr, int size, int nitems);
-  /**< Emulates fread. */
-
   uint32_t read_buf(char *buf, int maxlen);
   /**< Gets a block. */
 
-  bool heof();
-  /**< Returns if eof. */
-
-  uint32_t skip(int32_t skiplen);
-  /**< Skips a length. */
-
+  //notused int32_t read_int();
+  //notused /**< Gets an integer. */
+  //notused int32_t read_long();
+  //notused /**< Gets a long. */
+  //notused float read_float();
+  //notused /**< Gets a float. */
+  //notused int fread(char *ptr, int size, int nitems);
+  //notused /**< Emulates fread. */
+  //notused uint32_t skip(int32_t skiplen);
+  //notused /**< Skips a length. */
   //notused int32_t read_short();
   //notused /**< Gets a short. */
   //notused int getChar();

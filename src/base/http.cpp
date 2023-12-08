@@ -498,7 +498,43 @@ bool Http::heof()
   return http_eof;
 }
 
-#if 0 //notused
+/** returns a byte */
+uint8_t Http::read_char()
+{
+  if (http_pos >= http_len) {	// eob
+    http_pos = 0;
+    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
+      http_eof = true;
+      return -1;	// http eof
+    }
+  }
+  return http_buf[http_pos++];
+}
+
+/** returns a block and its size */
+uint32_t Http::read_buf(char *buf, int maxlen)
+{
+  int32_t siz = http_len - http_pos;
+
+  if (siz >= maxlen) {
+    memcpy(buf, http_buf, maxlen);
+    http_pos += maxlen;
+    return (uint32_t) maxlen;
+  }
+  else {
+    memcpy(buf, http_buf, siz);
+    http_pos = http_len;
+    int r = httpRead(buf+siz, maxlen-siz);
+    if (r == 0) {
+      http_eof = true;
+      return -1;	// http eof
+    }
+    int size = siz + r;
+    return (uint32_t) size;
+  }
+}
+
+#if 0 //notused --------------------------------------------------------------
 /** returns current position */
 int Http::htell()
 {
@@ -518,20 +554,6 @@ int Http::getChar()
       error("getChar: len=%d", http_len);
       http_eof = true;
       return -2;	// err
-    }
-  }
-  return http_buf[http_pos++];
-}
-#endif //notused
-
-/** returns a byte */
-uint8_t Http::read_char()
-{
-  if (http_pos >= http_len) {	// eob
-    http_pos = 0;
-    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
-      http_eof = true;
-      return -1;	// http eof
     }
   }
   return http_buf[http_pos++];
@@ -590,7 +612,6 @@ float Http::read_float()
   return (float) *((float *) &n);
 }
 
-#if 0 //notused
 /** returns a short */
 int32_t Http::read_short()
 {
@@ -621,7 +642,57 @@ int Http::read_string(char *str, int maxlen)
   }
   return cnt;
 }
-#endif //notused
+
+/** skips an offset */
+uint32_t Http::skip(int32_t skiplen)
+{
+  int32_t ptr = http_len - http_pos;
+
+  if (ptr >= skiplen) {
+    http_pos += skiplen;
+    return 0;
+  }
+  else {
+    skiplen -= ptr;
+    while (skiplen > 0) {
+      if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
+        break;
+      }
+      if (skiplen >= http_len) {
+        skiplen -= http_len;
+        http_pos = http_len;
+      }
+      else {
+        http_pos = skiplen;
+        skiplen = 0;
+      }
+    }
+    return (uint32_t) skiplen;
+  }
+}
+
+/** returns an item */
+int Http::fread(char *pbuf, int size, int nitems)
+{
+  int toread, len = nitems * size;
+
+  while (len > 0) {
+    if (http_pos >= http_len) {
+      if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) < 0) {
+        http_eof = true;
+        return (nitems - (len / size));
+      }
+      http_pos = 0;
+    }
+    toread = (len < (http_len-http_pos)) ? len : (http_len-http_pos);
+    memcpy(pbuf, http_buf + http_pos, toread);
+    http_pos += toread;
+    pbuf += toread;
+    len -= toread;
+  }
+  return nitems;
+}
+#endif //notused --------------------------------------------------------------
 
 /** returns true and the line else returns false */
 bool Http::nextLine(char *line)
@@ -663,79 +734,6 @@ bool Http::getLine(char *line)
     }
   } while (isEmptyLine(line)) ;
   return true;
-}
-
-/** returns an item */
-int Http::fread(char *pbuf, int size, int nitems)
-{
-  int toread, len = nitems * size;
-
-  while (len > 0) {
-    if (http_pos >= http_len) {
-      if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) < 0) {
-        http_eof = true;
-        return (nitems - (len / size));
-      }
-      http_pos = 0;
-    }
-    toread = (len < (http_len-http_pos)) ? len : (http_len-http_pos);
-    memcpy(pbuf, http_buf + http_pos, toread);
-    http_pos += toread;
-    pbuf += toread;
-    len -= toread;
-  }
-  return nitems;
-}
-
-/** returns a block and its size */
-uint32_t Http::read_buf(char *buf, int maxlen)
-{
-  int32_t siz = http_len - http_pos;
-
-  if (siz >= maxlen) {
-    memcpy(buf, http_buf, maxlen);
-    http_pos += maxlen;
-    return (uint32_t) maxlen;
-  }
-  else {
-    memcpy(buf, http_buf, siz);
-    http_pos = http_len;
-    int r = httpRead(buf+siz, maxlen-siz);
-    if (r == 0) {
-      http_eof = true;
-      return -1;	// http eof
-    }
-    int size = siz + r;
-    return (uint32_t) size;
-  }
-}
-
-/** skips an offset */
-uint32_t Http::skip(int32_t skiplen)
-{
-  int32_t ptr = http_len - http_pos;
-
-  if (ptr >= skiplen) {
-    http_pos += skiplen;
-    return 0;
-  }
-  else {
-    skiplen -= ptr;
-    while (skiplen > 0) {
-      if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
-        break;
-      }
-      if (skiplen >= http_len) {
-        skiplen -= http_len;
-        http_pos = http_len;
-      }
-      else {
-        http_pos = skiplen;
-        skiplen = 0;
-      }
-    }
-    return (uint32_t) skiplen;
-  }
 }
 
 
