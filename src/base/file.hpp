@@ -24,11 +24,8 @@
 /**
  * File class
  */
-
 class File {
-
-public:
-
+ public:
   FILE *f;	///< file handle
 
   File();
@@ -50,7 +47,6 @@ public:
   static void convertLong(uint32_t *array, long length);
 
   // IO
-  // see also http.hpp
   int read_char(FILE *f);
   int read_short(FILE *f);
   int read_long(FILE *f);
@@ -61,8 +57,6 @@ public:
   int read_string(FILE *f, char *s, int maxlen);
   void read_buf(FILE *f, char *s, int len);
   void skip(FILE *f, int skiplen);
-  uint32_t getUInt(FILE *f);
-  int16_t getShort(FILE *f);
 };
 
 

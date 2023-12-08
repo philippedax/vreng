@@ -198,32 +198,38 @@ int File::read_char(FILE *f)
   return c;
 }
 
+/* Read a short in big-endian */
 int File::read_short(FILE *f)
 {
   return (read_char(f)<<8) | read_char(f);
 }
 
+/* Read a short in little-endian */
 int File::read_short_le(FILE *f)
 {
   return (read_char(f)) | (read_char(f)<<8);
 }
 
+/* Read a long in big-endian */
 int File::read_long(FILE *f)
 {
   return (read_char(f)<<24) | (read_char(f)<<16) | (read_char(f)<<8) | read_char(f);
 }
 
+/* Read a long in little-endian */
 int File::read_long_le(FILE *f)
 {
   return (read_char(f)) | (read_char(f)<<8) | (read_char(f)<<16) | (read_char(f)<<24);
 }
 
+/* Read a float in big-endian */
 float File::read_float(FILE *f)
 {
   int v = read_long(f);
   return (float) *(float *)&v;
 }
 
+/* Read a float in little-endian */
 float File::read_float_le(FILE *f)
 {
   int v = read_long_le(f);
@@ -237,11 +243,9 @@ int File::read_string(FILE *f, char *str, int maxlen)
 
   do {
     c = read_char(f);
-    if (cnt < maxlen) {
-      str[cnt] = c;
-    }
-    else {
+    if (cnt >= maxlen) {
       str[maxlen-1] = '\0';
+      break;
     }
     str[cnt] = c;
     cnt++;
@@ -270,22 +274,4 @@ void File::read_buf(FILE *f, char *buf, int len)
 void File::skip(FILE *f, int skiplen)
 {
   fseek(f, skiplen+(skiplen%2), SEEK_CUR);
-}
-
-uint32_t File::getUInt(FILE *f)
-{
-  int c1, c2, c3, c4;
-
-  c1 = getc(f);  c2 = getc(f);  c3 = getc(f);  c4 = getc(f);
-  return ((uint32_t) c1) +
-         (((uint32_t) c2) << 8) +
-         (((uint32_t) c3) << 16) +
-         (((uint32_t) c4) << 24);
-}
-
-int16_t File::getShort(FILE *f)
-{
-  int c1 = getc(f);
-  int c2 = getc(f);
-  return ((int16_t) c1) + (((int16_t) c2) << 8);
 }
