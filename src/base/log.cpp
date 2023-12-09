@@ -22,7 +22,7 @@
 #include "gui.hpp" 	// writeMessage
 #include "env.hpp" 	// dir
 #include "pref.hpp" 	// ::g.pref
-#include "file.hpp" 	// open
+#include "file.hpp" 	// open, close
 #include <iostream>
 
 const char *e_fork = "can't fork for";
@@ -178,17 +178,17 @@ void endprogression()
 
 void fopenlog(FILE *f, const char *name)
 {
-  fprintf(stderr, "open: %p %s\n", f, name);
+  fprintf(stderr, "open: %s\n", name);
 }
 
 void fcloselog(FILE *f)
 {
-  fprintf(stderr, "clos: %p\n", f);
+  //file->close();
 }
 
-#if 0 //dax
+#if 0 //notused
 void closelog(FILE *fl)
 {
-  File::closeFile(fl);
+  //file->close();
 }
-#endif
+#endif //notused
