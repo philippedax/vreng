@@ -156,6 +156,16 @@ http_reread:
   return fpr;  // file is now opened
 }
 
+/* Closes cache */
+void Cache::close()
+{
+  if (filein) {
+    filein->close();
+    delete filein;
+  }
+}
+
+#if 0 //notused
 /* Opens an url and writes it into the cache and returns the file opened */
 // static
 FILE * Cache::openCache(const char *url, Http *http)
@@ -211,15 +221,6 @@ FILE * Cache::openCache(const char *url, Http *http)
   return fp;  // file is now opened
 }
 
-/* Closes cache */
-void Cache::close()
-{
-  if (filein) {
-    filein->close();
-    delete filein;
-  }
-}
-
 /* Closes cache - static */
 void Cache::closeCache(FILE *fp)
 {
@@ -227,6 +228,7 @@ void Cache::closeCache(FILE *fp)
     File::closeFile(fp);
   }
 }
+#endif //notused
 
 /* Checks if file is in the cache */
 bool Cache::inCache(const char *url)

@@ -49,12 +49,6 @@ class Cache : public File {
   void close();
   ///< Closes file into cache.
 
-  static void closeCache(FILE *fp);
-  ///< Closes file into cache.
-
-  static FILE * openCache(const char *url, class Http *http);
-  ///< Saves file into cache and opens it.
-
   static bool inCache(const char *url);
   ///< Checks whether url is cached.
 
@@ -69,6 +63,11 @@ class Cache : public File {
 
   static int check(const char *url);
   ///< Checks url existence.
+
+  //notused static void closeCache(FILE *fp);
+  //notused ///< Closes file into cache.
+  //notused static FILE * openCache(const char *url, class Http *http);
+  //notused ///< Saves file into cache and opens it.
 };
 
 #endif
