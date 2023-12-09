@@ -23,7 +23,7 @@
 #include "matvec.hpp"   // V3 M4
 #include "texture.hpp"	// Texture
 #include "cache.hpp"	// download
-#include "file.hpp"	// open
+#include "file.hpp"	// open close
 #include "user.hpp"	// localuser
 #include "pref.hpp"	// quality
 #include "format.hpp"	// Format
@@ -277,7 +277,8 @@ void Movie::play_avi()
   ret = avi->read_data(videobuf, width * height * 4, &len);
   //echo("avi: f=%d s=%d l=%d", frame, width*height*4, len);
   if (ret == 0) {	// end of avi video
-    File::closeFile(fp);
+    file->close();
+    delete file;
     state = INACTIVE;
     delete avi;
     avi = NULL;
@@ -390,6 +391,7 @@ void Movie::stop()
     case PLAYER_AVI:
       if (avi) delete avi;
       avi = NULL;
+      delete file;
       break;
   }
 
