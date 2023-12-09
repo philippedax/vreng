@@ -45,15 +45,6 @@ FILE * File::open(const char *filename, const char *param)
   return f; 
 }
 
-/* Open a file - static */
-FILE * File::openFile(const char *filename, const char *param)
-{
-  FILE *fp = fopen(filename, param);
-  if (fp) opn_file++;
-  //debug fopenlog(fp, filename);
-  return fp; 
-}
-
 /* Close a file */
 void File::close()
 {
@@ -63,6 +54,16 @@ void File::close()
   }
 }
 
+/* Open a file - static */
+FILE * File::openFile(const char *filename, const char *param)
+{
+  FILE *fp = fopen(filename, param);
+  if (fp) opn_file++;
+  //debug fopenlog(fp, filename);
+  return fp; 
+}
+
+/* Close a file - static */
 void File::close(FILE *fp)
 {
   if (fp) {
@@ -82,6 +83,7 @@ void File::closeFile(FILE *fp)
 /**
  * check whether this machine is big endian
  * return 1 if big endian else 0 if little endian
+ * static
  */
 bool File::bigEndian()
 {
@@ -97,6 +99,7 @@ bool File::bigEndian()
 /**
  * check whether this machine is little endian
  * return 1 if little endian else 0 if big endian
+ * static
  */
 bool File::littleEndian()
 {
@@ -189,6 +192,11 @@ void File::convertLong(uint32_t *array, long len)
   }
 }
 
+//
+// methods commun to file and cache
+//
+
+/* Reads a char */
 int File::read_char(FILE *f)
 {
   int c = fgetc(f);
@@ -198,44 +206,45 @@ int File::read_char(FILE *f)
   return c;
 }
 
-/* Read a short in big-endian */
+/* Reads a short in big-endian */
 int File::read_short(FILE *f)
 {
   return (read_char(f)<<8) | read_char(f);
 }
 
-/* Read a short in little-endian */
+/* Reads a short in little-endian */
 int File::read_short_le(FILE *f)
 {
   return (read_char(f)) | (read_char(f)<<8);
 }
 
-/* Read a long in big-endian */
+/* Reads a long in big-endian */
 int File::read_long(FILE *f)
 {
   return (read_char(f)<<24) | (read_char(f)<<16) | (read_char(f)<<8) | read_char(f);
 }
 
-/* Read a long in little-endian */
+/* Reads a long in little-endian */
 int File::read_long_le(FILE *f)
 {
   return (read_char(f)) | (read_char(f)<<8) | (read_char(f)<<16) | (read_char(f)<<24);
 }
 
-/* Read a float in big-endian */
+/* Reads a float in big-endian */
 float File::read_float(FILE *f)
 {
   int v = read_long(f);
   return (float) *(float *)&v;
 }
 
-/* Read a float in little-endian */
+/* Reads a float in little-endian */
 float File::read_float_le(FILE *f)
 {
   int v = read_long_le(f);
   return (float) *(float *)&v;
 }
 
+/* Reads a string */
 int File::read_string(FILE *f, char *str, int maxlen)
 {
   int c;
@@ -258,6 +267,7 @@ int File::read_string(FILE *f, char *str, int maxlen)
   return cnt;
 }
 
+/* Reads a bloc */
 void File::read_buf(FILE *f, char *buf, int len)
 {
   int c;
@@ -271,7 +281,8 @@ void File::read_buf(FILE *f, char *buf, int len)
   } while (len != 0) ;
 }
 
-void File::skip(FILE *f, int skiplen)
+/* Skips an offset */
+void File::skip(FILE *f, int offset)
 {
-  fseek(f, skiplen+(skiplen%2), SEEK_CUR);
+  fseek(f, offset+(offset%2), SEEK_CUR);
 }
