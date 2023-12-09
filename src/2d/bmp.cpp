@@ -60,8 +60,10 @@ Img * Img::loadBMP(void *_tex, ImageReader read_func)
   if (h.magic1 != 'B' || h.magic2 != 'M') {
     error("LoadBMP: %s not a bmp file magic=%c%c", cache->getFilename(tex), h.magic1, h.magic2);
 errbmp:
-    cache->close();
-    delete cache;
+    if (cache) {
+      cache->close();
+      delete cache;
+    }
     return NULL;
   }
 
@@ -98,8 +100,10 @@ errbmp:
   fseek(f, (long) h.data_offset, 0);
   fread((char *) img->pixmap, 1, h.image_size, f);
 
-  cache->close();
-  delete cache;
+  if (cache) {
+    cache->close();
+    delete cache;
+  }
 
   //Inverse R et B
   for (int i=0; i < h.width*h.height ; i++) {

@@ -75,7 +75,7 @@ void Texture::update()
         }
         glTexImage2D(GL_TEXTURE_2D, 0, 3, img1->width, img1->height, 0,
                      GL_RGB, GL_UNSIGNED_BYTE, img1->pixmap);
-        delete img1;
+        if (img1) delete img1;
       }
       else {
         /* image well sized */
@@ -110,7 +110,7 @@ void Texture::update()
       }
       // once the texture resized we can delete its container img
       if ((*it)->loaded) {
-        delete (*it)->img;	// sometimes opengl crashes FIXME
+        if ((*it)->img) delete (*it)->img;	// sometimes opengl crashes FIXME
         (*it)->img = NULL;
       }
     }

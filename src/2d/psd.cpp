@@ -109,7 +109,7 @@ static uint8_t *convert_format(uint8_t *data, uint8_t srccomp, uint8_t dstcomp, 
     }
     #undef CASE
   }
-  delete[] data;
+  if (data) delete[] data;
   return good;
 }
 

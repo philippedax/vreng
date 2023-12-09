@@ -208,8 +208,10 @@ void Img::saveJPG(const char *filename, GLint width, GLint height, GLint quality
 
   /* Step 6: Finish compression */
   jpeg_finish_compress(&cinfo);
-  file->close();
-  delete file;
+  if (file) {
+    file->close();
+    delete file;
+  }
 
   /* Step 7: release JPEG compression object */
   jpeg_destroy_compress(&cinfo);
