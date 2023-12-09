@@ -105,7 +105,10 @@ FILE * Cache::open(const char *url, Http *http)
 
     // writes the file into the cache
 http_reread:
-    http->read_buf(buf, 16);	// read head to check if correct
+    //
+    // before check if the head of downloading file is valid
+    //
+    http->read_buf(buf, 14);	// read head to check if correct
     if (strncmp(buf, "<!DOCTYPE HTML", 14) == 0) {
       // Httpd-err occured (404)
       fileout->close();
@@ -114,10 +117,11 @@ http_reread:
       progression('-');	// '-' as failed
       return NULL;
     }
-    fwrite(buf, 16, 1, fpw);
+    fwrite(buf, 14, 1, fpw);
 
-    //echo("write %s", cachepath);
-    // read the remaining
+    //
+    // reads and writes the remaining
+    //
     while (! http->heof()) {
       http->read_buf(buf, 1);
       fwrite(buf, 1, 1, fpw);
@@ -126,14 +130,18 @@ http_reread:
     fileout->close();
     delete fileout;
 
-    // open the file for reading
+    //
+    // reopens the file for reading
+    //
     filein = new File();
     if ((fpr = filein->open(cachepath, "r")) == NULL) {
       error("openCache: can't open %s", cachepath);
       return NULL;
     }
 
-    // verify
+    //
+    // verify the integrity of the new file created
+    //
     struct stat bufstat;
     if (stat(cachepath, &bufstat) == 0) {
       if (bufstat.st_size == 0) {
