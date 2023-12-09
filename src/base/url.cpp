@@ -20,7 +20,7 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "url.hpp"
-#include "file.hpp"	// openFile, closeFile
+#include "file.hpp"	// open, close
 #include "str.hpp"	// stringcmp
 
 
@@ -159,7 +159,8 @@ int Url::curl(const char *url, char *filename, const char arg[])
 #if HAVE_LIBCURL
   CURL *hcurl;
   CURLcode res;
-  FILE *fpcache = NULL;
+  File *file = NULL;
+  FILE *fp = NULL;
   size_t size;
 
   hcurl = curl_easy_init();
@@ -170,13 +171,13 @@ int Url::curl(const char *url, char *filename, const char arg[])
     curl_easy_setopt(hcurl, CURLOPT_TIMEOUT, 60L);
     curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 1);
     if (filename) {
-      if ((fpcache = File::openFile(filename, "wb")) == NULL) {
+      if ((fp = file->open(filename, "wb")) == NULL) {
         perror("open wb");
         return 0;
       }
       curl_easy_setopt(hcurl, CURLOPT_VERBOSE, 0);
       curl_easy_setopt(hcurl, CURLOPT_WRITEFUNCTION, NULL);
-      curl_easy_setopt(hcurl, CURLOPT_WRITEDATA, fpcache);
+      curl_easy_setopt(hcurl, CURLOPT_WRITEDATA, fp);
       if (stringcmp(arg, "anon") == 0) {
         curl_easy_setopt(hcurl, CURLOPT_USERPWD, "ftp:vreng@");
       } 
@@ -195,7 +196,10 @@ int Url::curl(const char *url, char *filename, const char arg[])
     else {
       curl_easy_getinfo(hcurl, CURLINFO_SIZE_DOWNLOAD, &size);
     }
-    if (fpcache) File::closeFile(fpcache);
+    if (fp) {
+      file->close();
+      delete file;
+    }
     curl_easy_cleanup(hcurl);
     return 1;
   }

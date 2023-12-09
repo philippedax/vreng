@@ -28,7 +28,6 @@
 class Url {
 
  public:
-
   enum {
     URLBAD,
     URLHTTP,
