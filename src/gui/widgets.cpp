@@ -848,8 +848,7 @@ static void gotoHttpReader(void *box, Http *http)
   UBox *worlds_box = (UBox *) box;
   char line[URL_LEN + CHAN_LEN +2];
 
-  for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
-    //echo("line: %d %s", strlen(line), line);
+  while (http->nextLine(line)) {
     if (strncmp(line, "http://", 7)) continue;
 
     UStr& worldurl = ustr();
@@ -891,7 +890,7 @@ static void worldsHttpReader(void *box, Http *http)
   UBox *worlds_box = (UBox *) box;
   char line[URL_LEN + CHAN_LEN +2];
 
-  for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
+  while (http->nextLine(line)) {
     if (strncmp(line, "http://", 7)) continue;
 
     UStr& url = ustr();
