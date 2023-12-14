@@ -452,7 +452,7 @@ void Pref::parse(int argc, char **argv)
 void Pref::initPrefs(const char* pref_file)
 {
   FILE *fp;
-  char *p1, *p2, buf[BUFSIZ];
+  char *p1, *p2, buf[256];
 
   File *filein = new File();
   File *fileout = new File();

@@ -499,7 +499,7 @@ bool Http::heof()
 }
 
 /** returns a byte */
-uint8_t Http::read_char()
+int Http::read_char()
 {
   if (http_pos >= http_len) {	// eob
     http_pos = 0;
@@ -699,17 +699,17 @@ bool Http::nextLine(char *line)
 {
   int i = 0;
 
-  while (1) {
+  for (i = 0; ; i++) {
     int c = read_char();
 
-    if (c == '\n') break;  // eol
-    if (c < 0) { // http eof
+    if (c == '\n') break;	// eol
+    if (c < 0) {		// http eof
       line[i] = '\0';
       return false;
     }
-    line[i++] = c;
+    line[i] = c;
   }
-  line[i++] = '\0';	// null terminated
+  line[i] = '\0';	// null terminated
   return true;
 }
 

@@ -849,6 +849,7 @@ static void gotoHttpReader(void *box, Http *http)
   char line[URL_LEN + CHAN_LEN +2];
 
   for (int i=0 ; http->nextLine(line) && i < MAX_WORLDS ; i++) {
+    //echo("line: %d %s", strlen(line), line);
     if (strncmp(line, "http://", 7)) continue;
 
     UStr& worldurl = ustr();

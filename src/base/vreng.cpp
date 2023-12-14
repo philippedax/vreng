@@ -58,13 +58,13 @@ Vreng::Vreng() :	// beware: don't change order !!!
 
 int main(int argc, char *argv[])
 {
+  g.pref.init(argc, argv, g.env.prefs());	// Options & Preferences initialization
+  UAppli::conf.soft_menus = true;		// beware: only in single window mode
   return g.start(argc, argv);
 }
 
 int Vreng::start(int argc, char *argv[])
 {
-  pref.init(argc, argv, g.env.prefs());	// Options & Preferences initialization
-  UAppli::conf.soft_menus = true;	// beware: only in single window mode
   UAppli* vreng = new UAppli(argc, argv);
   if (! vreng) {
     fatal("Vreng can't be launched");

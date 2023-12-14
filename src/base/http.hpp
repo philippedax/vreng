@@ -106,8 +106,8 @@ class Http {
   void reset();
   /**< Reset read buffer. */
 
-  uint8_t read_char();
-  /**< Gets a byte. */
+  int read_char();
+  /**< Gets a byte or eof. */
 
   int httpRead(char *buf, int size);
   /**< Reads a block. */
