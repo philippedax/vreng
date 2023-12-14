@@ -36,7 +36,7 @@ class Book;
 class Sheet: public WO {
   friend class Book;
 
-protected:
+ protected:
   class Book* book;	///< book pointer
   float aright;		///< right angle
   float aleft;		///< left angle
@@ -45,7 +45,7 @@ protected:
   V3 center;		///< center
   V3 size;		///< size
 
-public:
+ public:
   static const float LSPEED;
   static const float ASPEED;
 
@@ -92,7 +92,7 @@ public:
 
   void changePosition(float lasting);
   void updateTime(time_t s, time_t us, float *lasting);
-  bool publish(const Pos &oldpos);
+  //bool publish(const Pos &oldpos);
   bool whenIntersect(WO *pcur, WO *pold);
   void quit();
 
@@ -104,7 +104,7 @@ public:
   void pushNext(float dist);
   void destroy();
 
-private:
+ private:
   void parser(char *l);
   /**< Parses */
 
