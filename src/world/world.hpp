@@ -26,7 +26,7 @@
 
 using namespace std;
 
-#define MAX_WORLDS 256
+//notused #define MAX_WORLDS 256
 
 
 /**
