@@ -64,19 +64,15 @@ int main(int argc, char *argv[])
 int Vreng::start(int argc, char *argv[])
 {
   pref.init(argc, argv, g.env.prefs());	// Options & Preferences initialization
-
   UAppli::conf.soft_menus = true;	// beware: only in single window mode
- 
-  UAppli* appli = new UAppli(argc, argv);
-  if (! appli) {
+  UAppli* vreng = new UAppli(argc, argv);
+  if (! vreng) {
     fatal("Vreng can't be launched");
   }
-
   theme.init();
   gui.createWidgets();
   gui.showWidgets();
-
-  return appli->start();
+  return vreng->start();
 }
 
 /*
@@ -86,19 +82,19 @@ int Vreng::start(int argc, char *argv[])
 void Vreng::initCB()
 {
   timer.init.start();	// starts init timer
-  initLimits();		// Change rlimit
-  initTrigo();		// Trigo
+  initLimits();		// increases limits
   initSignals();	// Signals initialization
-  Universe::init();	// World manager initialisation
-  Http::init();		// Simultaneous http connections initialization
+  initTrigo();		// Trigo initialization
+  Universe::init();	// world manager initialisation
+  Http::init();		// http connections initialization
   Channel::init();	// Network initialization
   Vac::init();	    	// Vac cache initialization
   VSql::init();		// VSql initialization
+  Openal::init();	// Openal initialization
+  World::init(::g.url); // takes a significant amount of time to launch
 #if HAVE_OCAML
   initOcaml();		// Ocaml runtime initialization
 #endif
-  Openal::init();	// Openal initialization
-  World::init(::g.url); // takes a significant amount of time to launch
   timer.init.stop();	// stops init timer
 }
 
@@ -106,34 +102,25 @@ void Vreng::quit(int sig)
 {
   static int inquit = 0;
 
-  if (sig > 0) {
+  if (sig) {
     cerr << "Got signal " << sig << ", aborting VREng (pid=" << getpid() << ")" << endl;
     signal(sig, SIG_DFL);
     longjmp(sigctx, sig);
   }
-  if (inquit > 0) {
-    trace(DBG_FORCE, "quit: inquit=%d sig=%d", inquit, sig);
+  if (inquit) {
+    echo("quit: inquit=%d sig=%d", inquit, sig);
     if (inquit > 2) {
       exit(sig);  // force exit
     }
   }
   inquit++;
 
-  stats();
+  if (::g.pref.stats)	printStats(stderr);
 
-  // close modules properly
-  ::g.render.quit();
-  World::current()->quit();
-
-  // quit the application (and close the main window)
-  UAppli::quit(sig);
-}
-
-void Vreng::stats()
-{
-  if (::g.pref.stats == false)  return;
-  printStats(stderr);
-
+  // closes modules properly
+  ::g.render.quit();		// quits 3D rendering
+  World::current()->quit();	// quits world management
+  UAppli::quit(sig);		// quits the application and closes the main window
 }
 
 static void reapchild(int sig)
@@ -141,10 +128,12 @@ static void reapchild(int sig)
   int status = 0;
 
 #if HAVE_WAITPID
-  while (waitpid(-1, &status, WNOHANG) > 0) ;
+  while (waitpid(-1, &status, WNOHANG) > 0) {
 #else
-  while (wait(&status) != -1) ;
+  while (wait(&status) != -1) {
 #endif
+    ;
+  }
 }
 
 void Vreng::initSignals()
@@ -156,10 +145,9 @@ void Vreng::initSignals()
   signal(SIGCHLD, reapchild);
   signal(SIGUSR1, SIG_IGN);
   signal(SIGUSR2, SIG_IGN);
-  trace(DBG_INIT, "Signals initialized");
 }
 
-// increases resource limits
+// Increases open files resource limits
 void Vreng::initLimits()
 {
 #if HAVE_SETRLIMIT

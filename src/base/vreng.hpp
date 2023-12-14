@@ -33,7 +33,7 @@
  */
 class Vreng {
 
-public:
+ public:
   // global variables reachable by ::g.<variable>
   char *url;            ///< world url.
   char *urlpfx;         ///< base path urlpfx.
@@ -56,16 +56,14 @@ public:
   // Methods
 
   Vreng();		///< constructor.
-  ~Vreng() {}		///< destructor.
+  virtual ~Vreng() {}	///< destructor.
   
   static void quit(int status);		///< quits
 
   int start(int argc, char *argv[]);	///< starts
   void initCB();			///< init call-back
 
-private:
-  static void stats();
-
+ private:
   void initSignals();
   void initLimits();
 };
