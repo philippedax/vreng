@@ -703,9 +703,9 @@ bool Http::nextLine(char *line)
     int c = read_char();
 
     if (c == '\n') break;	// eol
-    if (c < 0) {		// http eof
+    if (c < 0 || heof()) {	// http eof
       line[i] = '\0';
-      return false;
+      return false;		// end of file
     }
     line[i] = c;
   }
