@@ -57,9 +57,6 @@ class Widget : public WO {
   static WO * (creator)(char *l);
   /**< Creates from fileline */
 
-  void changePermanent(float lasting);
-  /**< Called each frame - check if ths texture has to be updated */
-
   void render();
   /**< Render the object */
 
@@ -85,9 +82,6 @@ class Widget : public WO {
   void inits();
   /**< Do specific inits */
 
-  void getCoords(int16_t &x, int16_t &y);
-  /**< Convert VReng screen coordinates to VNC screen coordinates */
-
   void setTexture(bool mipmap);
   /**< Build a texture */
 
@@ -103,7 +97,6 @@ class Widget : public WO {
   // GUI callbacks
   static void takeFocus(Widget *o, void *d, time_t s, time_t u);
   static void leaveFocus(Widget *o, void *d, time_t s, time_t u);
-
 };
 
 #endif

@@ -150,15 +150,9 @@ void Widget::setTexture(bool mipmap)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   }
 
-  //glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);	// bad fonts
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
   glDisable(GL_TEXTURE_2D);
-}
-
-/* Computes something at each loop */
-void Widget::changePermanent(float lasting)
-{
 }
 
 /* draw the screen */
@@ -177,23 +171,22 @@ void Widget::render()
 {
   updatePosition();
 
-  // push
   glPushMatrix();
   glEnable(GL_LIGHTING);
   glEnable(GL_CULL_FACE);
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, texture);
 
-  // change system of coordonates
+  // change system of coordinates
   M4 posmat;
   getPosition(posmat);
   GLfloat gl_mat[16];
   M4toV16(&posmat, gl_mat);
   glMultMatrixf(gl_mat);
 
-  // render
+  // display
   glRotatef(RAD2DEG(pos.az), 0, 0, 1);
-  drawScreen();	// draw screen
+  drawScreen();		// draw screen
 
   // update parameters for mouse handling
   GLint renderMode;
@@ -204,15 +197,10 @@ void Widget::render()
     glGetDoublev(GL_PROJECTION_MATRIX, projmat);
   }
 
-  // pop
   glDisable(GL_CULL_FACE);
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_LIGHTING);
   glPopMatrix();
-}
-
-void Widget::getCoords(int16_t &x, int16_t &y)
-{
 }
 
 /* Redirects events */
