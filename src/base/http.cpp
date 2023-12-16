@@ -692,26 +692,6 @@ int Http::fread(char *pbuf, int size, int nitems)
   }
   return nitems;
 }
-#endif //notused --------------------------------------------------------------
-
-/** returns true and the line else returns false */
-bool Http::nextLine(char *line)
-{
-  int i = 0;
-
-  for (i = 0; ; i++) {
-    int c = read_char();
-
-    if (c == '\n') break;	// eol
-    if (c < 0 || heof()) {	// http eof
-      line[i] = '\0';
-      return false;		// end of file
-    }
-    line[i] = c;
-  }
-  line[i] = '\0';	// null terminated
-  return true;
-}
 
 static
 bool isEmptyLine(char *line)
@@ -733,6 +713,26 @@ bool Http::getLine(char *line)
       return false;
     }
   } while (isEmptyLine(line)) ;
+  return true;
+}
+#endif //notused --------------------------------------------------------------
+
+/** returns true and the line else returns false */
+bool Http::nextLine(char *line)
+{
+  int i = 0;
+
+  for (i = 0; ; i++) {
+    int c = read_char();
+
+    if (c == '\n') break;	// eol
+    if (c < 0 || heof()) {	// http eof
+      line[i] = '\0';
+      return false;		// end of file
+    }
+    line[i] = c;
+  }
+  line[i] = '\0';	// null terminated
   return true;
 }
 

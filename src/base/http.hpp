@@ -115,9 +115,6 @@ class Http {
   bool nextLine(char *line);
   /**< Gets nextline. */
 
-  bool getLine(char *line);
-  /**< Gets a line. */
-
   uint32_t read_buf(char *buf, int maxlen);
   /**< Gets a block. */
 
@@ -139,6 +136,8 @@ class Http {
   //notused /**< Gets a string. */
   //notused int htell();
   //notused /**< Returns current position. */
+  //notused bool getLine(char *line);
+  //notused /**< Gets a line. */
 };
 
 #endif
