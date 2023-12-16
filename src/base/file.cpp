@@ -286,3 +286,22 @@ void File::skip(FILE *f, int offset)
 {
   fseek(f, offset+(offset%2), SEEK_CUR);
 }
+
+/** returns true and the line else returns false */
+bool File::nextLine(FILE *f, char *line)
+{
+  int i = 0;
+
+  for (i = 0; ; i++) {
+    int c = read_char(f);
+
+    if (c == '\n') break;       // eol
+    if (c < 0) {      		// file eof
+      line[i] = '\0';
+      return false;             // end of file
+    }
+    line[i] = c;
+  }
+  line[i] = '\0';       // null terminated
+  return true;
+}

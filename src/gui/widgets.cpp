@@ -849,7 +849,8 @@ static void gotoHttpReader(void *box, Http *http)
   char line[URL_LEN + CHAN_LEN +2];
 
   while (http->nextLine(line)) {
-    if (strncmp(line, "http://", 7)) continue;
+    //echo("line: %s", line);
+    //if (strncmp(line, "http://", 7)) continue;
 
     UStr& worldurl = ustr();
 
@@ -891,7 +892,7 @@ static void worldsHttpReader(void *box, Http *http)
   char line[URL_LEN + CHAN_LEN +2];
 
   while (http->nextLine(line)) {
-    if (strncmp(line, "http://", 7)) continue;
+    //if (strncmp(line, "http://", 7)) continue;
 
     UStr& url = ustr();
     UStr& chan = ustr();

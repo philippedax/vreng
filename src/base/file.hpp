@@ -57,6 +57,7 @@ class File {
   int read_string(FILE *f, char *s, int maxlen);
   void read_buf(FILE *f, char *s, int len);
   void skip(FILE *f, int skiplen);
+  bool nextLine(FILE *f, char *line);
 };
 
 
