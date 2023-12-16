@@ -43,14 +43,14 @@ class Face {
   friend class Body;		///< SCALE
   friend class Humanoid;	///< actions
 
-protected:
+ protected:
   static const float SCALE;
 
   BoneList < char > urlList;	///< list of faces url
 
   int currentUrl;	///< current url
   GLint textureId;	///< texture id
-  bool index;		///< flag if url index
+  bool indexed;		///< flag if url index
   bool moveYes;		///< flag move yes
   bool moveNo;		///< flag move no
   bool moveMouth;	///< flag move mouth
@@ -65,7 +65,7 @@ protected:
   BoneVertex *root;	///< bone root
   Bone bone;		///< bone animator
 
-public:
+ public:
   Face();			///< Constructor
   Face(const char *urlindex);	///< Constructor
   virtual ~Face();		///< Destructor
@@ -90,8 +90,7 @@ public:
   void animNose(float angle, const char *_side);
   void animHead(float angle, int x, int y, int z);
 
-private:
-
+ private:
   static void reader(void *_url, Http *http);
   static void facesreader(void *_o, Http *http);
 

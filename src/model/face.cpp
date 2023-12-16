@@ -82,11 +82,11 @@ Face::Face()
   moveEyeL = false;
   moveEyeR = false;
   moveNose = false;
-  index = false;
+  indexed = false;
   cachefile[0] = '\0';
 }
 
-Face::Face(const char *urlindex)
+Face::Face(const char *urls)
 {
   mesh = NULL;
   root = NULL;
@@ -98,10 +98,10 @@ Face::Face(const char *urlindex)
   moveEyeL = false;
   moveEyeR = false;
   moveNose = false;
-  index = true;
+  indexed = true;
   cachefile[0] = '\0';
   urlList.empty();
-  Http::httpOpen(urlindex, facesreader, this, 0);
+  Http::httpOpen(urls, facesreader, this, 0);
   currentUrl = rand() % urlList.count();
 }
 
@@ -123,7 +123,6 @@ void Face::reader(void *_url, Http *http)
   }
   Cache *cache = new Cache();
   FILE *f = cache->open(url, http);
-  //dax Cache::closeCache(f);
 }
 
 /** Download list of faces url */
@@ -137,8 +136,11 @@ void Face::facesreader(void *_face, Http *http)
 
   char line[URL_LEN];
 
-  http->reset();
-  while (http->getLine(line)) {
+  Cache *cache = new Cache();
+  FILE *f = cache->open(http->url, http);
+  //http->reset();
+  //while (http->getLine(line)) {
+  while (cache->nextLine(f, line)) {
     char *faceurl = strdup(line);
     //echo("facesreader: add url=%s", faceurl);
     face->urlList.addElement(faceurl);
@@ -148,7 +150,7 @@ void Face::facesreader(void *_face, Http *http)
 
 void Face::change()
 {
-  if (! index) return;
+  if (! indexed) return;
 
   currentUrl++;
   currentUrl %= urlList.count();
@@ -317,7 +319,7 @@ void Face::animLip(float angle, const char *_side)
 
 void Face::animate(int fapn, int a)
 {
-  //error("fap: %d %d", fapn, a);
+  //echo("fap: %d %d", fapn, a);
   switch (fapn) {
 
   case VISEME:			// 1
@@ -390,19 +392,19 @@ void Face::animate(int fapn, int a)
     break;
   case YAW_L_EYEBALL:		// 23
     //if (a) echo("YAW_L_EYEBALL %s a=%d", e_not_implemented, a);
-    //pd animEyeBall(a, eyeLeftRoot, 0);
+    //dax animEyeBall(a, eyeLeftRoot, 0);
     break;
   case YAW_R_EYEBALL:		// 24
     //if (a) echo("YAW_R_EYEBALL %s a=%d", e_not_implemented, a);
-    //pd animEyeBall(a, eyeRightRoot, 0);
+    //dax animEyeBall(a, eyeRightRoot, 0);
     break;
   case PITCH_L_EYEBALL:		// 25
     //if (a) echo("PITCH_L_EYEBALL %s a=%d", e_not_implemented, a);
-    //pd animEyeBall(a, eyeLeftRoot, 1);
+    //dax animEyeBall(a, eyeLeftRoot, 1);
     break;
   case PITCH_R_EYEBALL:		// 26
     //if (a) echo("PITCH_R_EYEBALL %s a=%d", e_not_implemented, a);
-    //pd animEyeBall(a, eyeRightRoot, 1);
+    //dax animEyeBall(a, eyeRightRoot, 1);
     break;
   case THRUST_L_EYEBALL:	// 27
   case THRUST_R_EYEBALL:	// 28
@@ -534,7 +536,7 @@ void Face::animate()
   angle += 5.;
 
   BoneVertex *bone;
-  // --- LIPS MANAGEMENT ---
+  // --- Lips management ---
   // == smile then sulk
   if ( moveMouth ) {
     if ((bone = root->findBone(lipsRoot)) != NULL) {
@@ -597,7 +599,7 @@ void Face::animate()
     }
   }
 
-  // --- LEFT EYE MANAGEMENT ---
+  // --- Left eye management ---
   // == eye glance
   if ( moveEyeL ) {
     if ((bone = root->findBone(eyeLeftRoot)) != NULL) {
@@ -631,7 +633,7 @@ void Face::animate()
     }
   }
 
-  // --- RIGHT EYE MANAGEMENT ---
+  // --- Right eye management ---
   // eye move
   if ( moveEyeR ) {
     if ((bone = root->findBone(eyeRightRoot)) != NULL) {
@@ -667,7 +669,7 @@ void Face::animate()
     }
   }
 
-  // --- NOSE MANAGEMENT ---
+  // --- Nose management ---
   // == resserement narines
   if ( moveNose ) {
     if ((bone = root->findBone(noseRoot)) != NULL) {
@@ -683,7 +685,7 @@ void Face::animate()
     }
   }
 
-  // --- ROOT MANAGEMENT ---
+  // --- Root management ---
   if ( moveYes ) {
     if ((bone = root->findBone(headRoot)) != NULL)
       bone->setRot(10 * sin(angle/50.0), 1, 0, 0);
