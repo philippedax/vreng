@@ -848,10 +848,10 @@ static void gotoHttpReader(void *box, Http *http)
   UBox *worlds_box = (UBox *) box;
   char line[URL_LEN + CHAN_LEN +2];
 
-  while (http->nextLine(line)) {
+  Cache *cache = new Cache();
+  FILE *fp = cache->open(http->url, http);
+  while (cache->nextLine(fp, line)) {
     //echo("line: %s", line);
-    //if (strncmp(line, "http://", 7)) continue;
-
     UStr& worldurl = ustr();
 
     char tmpline[URL_LEN + CHAN_LEN +2];
@@ -881,6 +881,8 @@ static void gotoHttpReader(void *box, Http *http)
                      );
     }
   }
+  cache->close();
+  delete cache;
 }
 
 /** Displays list of worlds and their urls */
@@ -891,9 +893,9 @@ static void worldsHttpReader(void *box, Http *http)
   UBox *worlds_box = (UBox *) box;
   char line[URL_LEN + CHAN_LEN +2];
 
-  while (http->nextLine(line)) {
-    //if (strncmp(line, "http://", 7)) continue;
-
+  Cache *cache = new Cache();
+  FILE *fp = cache->open(http->url, http);
+  while (cache->nextLine(fp, line)) {
     UStr& url = ustr();
     UStr& chan = ustr();
 
@@ -917,6 +919,8 @@ static void worldsHttpReader(void *box, Http *http)
                          )
                    );
   }
+  cache->close();
+  delete cache;
 }
 
 /** Dialog box for vre source */
