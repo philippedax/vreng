@@ -38,7 +38,7 @@ class Humanoid: public WO {
   static const uint16_t VAPS_PORT   = DEF_VAPS_PORT;	///< vaps port.
 
   float cloth[3];		///< cloth color.
-  char *face_url;		///< face url.
+  char *v3d_url;		///< v3d url.
   int sdtcp;			///< fd tcp.
   int sdudp;			///< fd udp.
   int ipmode;			///< IP mode.

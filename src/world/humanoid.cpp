@@ -22,7 +22,7 @@
 #include "humanoid.hpp"
 #include "world.hpp"	// current
 #include "body.hpp"	// Body
-#include "face.hpp"	// Face
+#include "v3d.hpp"	// V3d
 #include "channel.hpp"	// getGroup
 #include "socket.hpp"	// openStream
 #include "nsl.hpp"	// get_mygethostbyname
@@ -48,8 +48,8 @@ WO * Humanoid::creator(char *l)
 
 void Humanoid::defaults()
 {
-  face_url = new char[URL_LEN];
-  memset(face_url, 0, URL_LEN);
+  v3d_url = new char[URL_LEN];
+  memset(v3d_url, 0, URL_LEN);
   strcpy(vaps, DEF_VAPS_SERVER);   // default server
   strcpy(names.url, DEF_BODY_URL); // default body
 
@@ -64,7 +64,7 @@ void Humanoid::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "body="))   l = parseString(l, names.url, "body"); //body
-    else if (! stringcmp(l, "face="))   l = parseString(l, face_url, "face");  //face
+    else if (! stringcmp(l, "face="))   l = parseString(l, v3d_url, "face");   //v3d
     else if (! stringcmp(l, "color="))  l = parseVector3f(l, cloth, "color");  //color
     else if (! stringcmp(l, "server=")) l = parseString(l, vaps, "server");    //server
   }
@@ -104,11 +104,11 @@ void Humanoid::inits()
   body->load(names.url);
   body->draw();
 
-  if (*face_url) {
-    body->face = new Face();
-    body->face->load(face_url);
+  if (*v3d_url) {
+    body->v3d = new V3d();
+    body->v3d->load(v3d_url);
   }
-  if (face_url) delete[] face_url;
+  if (v3d_url) delete[] v3d_url;
 
   vaps_offset_port += 2;
   vaps_port = Channel::getPort(World::current()->getChan()) + vaps_offset_port;
@@ -297,8 +297,8 @@ void Humanoid::changePermanent(float lasting)
       break;
     case TYPE_FAP_V20: case TYPE_FAP_V21:
       for (int i=1; i <= NUM_FAPS; i++) {
-        if (bap->isMask(i) && body->face) {
-          body->face->animate(i, bap->getFap(i)); // play fap frame
+        if (bap->isMask(i) && body->v3d) {
+          body->v3d->animate(i, bap->getFap(i)); // play fap frame
         }
       }
       break;
@@ -335,8 +335,8 @@ void Humanoid::changePermanent(float lasting)
     //TODO: predictive interpollation
     }
   }
-  else if ((sdtcp > 0) && body->face) {
-    body->face->animate();	// local animation
+  else if ((sdtcp > 0) && body->v3d) {
+    body->v3d->animate();	// local animation
   }
       //angle = 10;
       //body->animArm(-angle, 0, 0);		// arm left flexion : OK
@@ -455,8 +455,8 @@ void Humanoid::changePermanent(float lasting)
         for (int i=1; i <= NUM_FAPS; i++) {
           if (! bap->isMask(i)) continue;
           echo("play fap: %d (%.2f)", i, bap->getFap(i));
-          if (body->face) {
-            body->face->animate(i, bap->getFap(i)); // play fap frame
+          if (body->v3d) {
+            body->v3d->animate(i, bap->getFap(i)); // play fap frame
           }
         }
         break;
@@ -714,9 +714,9 @@ void Humanoid::funcs()
   setActionFunc(HUMANOID_TYPE, 12, _Action surp_cb, "Surp");
   setActionFunc(HUMANOID_TYPE, 13, _Action jag_cb, "Jag");
   setActionFunc(HUMANOID_TYPE, 14, _Action reset_cb, "Reset");
-  setActionFunc(HUMANOID_TYPE, 15, _Action Face::changeFace, "New");
-  setActionFunc(HUMANOID_TYPE, 16, _Action Face::changeMoveYes, "Yes");
-  setActionFunc(HUMANOID_TYPE, 17, _Action Face::changeMoveNo, "No");
-  setActionFunc(HUMANOID_TYPE, 18, _Action Face::changeMoveEyeL, "EyeL");
-  setActionFunc(HUMANOID_TYPE, 19, _Action Face::changeMoveMouth, "Mouth");
+  setActionFunc(HUMANOID_TYPE, 15, _Action V3d::changeFace, "New");
+  setActionFunc(HUMANOID_TYPE, 16, _Action V3d::changeMoveYes, "Yes");
+  setActionFunc(HUMANOID_TYPE, 17, _Action V3d::changeMoveNo, "No");
+  setActionFunc(HUMANOID_TYPE, 18, _Action V3d::changeMoveEyeL, "EyeL");
+  setActionFunc(HUMANOID_TYPE, 19, _Action V3d::changeMoveMouth, "Mouth");
 }

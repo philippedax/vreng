@@ -524,7 +524,7 @@ class Body {
 
   struct sBodyParts *bodyparts; ///< body parts array
 
-public:
+ public:
 
   /* body drawable parts */
   enum body_parts {
@@ -564,7 +564,7 @@ public:
 
   struct sJP jp;		///< jointpoints.
   class Bap *bap;		///< bap ptr.
-  class Face *face;		///< face ptr.
+  class V3d *v3d;		///< v3d ptr.
   class WO *wobject;		///< wobject ptr.
 
   Body();
@@ -594,7 +594,7 @@ public:
   /**< Animates body. */
 
   virtual void render(Pos& pos);
-  /**< Renders body and face. */
+  /**< Renders body and v3d. */
 
 #if 0 //dax OK
   void loadBodyParts(class Http *http);
@@ -606,7 +606,7 @@ public:
   void setColors(float *_skin, float *_cloth);
   /**< Sets colors for skin and cloth. */
 
-protected:
+ protected:
   void load(const char *url);
   /**< Loads body joint points. */
 
@@ -617,7 +617,7 @@ protected:
   /**< Draws body's drawable parts in displaylists. */
 
   void display();
-  /**< Displays body and face. */
+  /**< Displays body and v3d face. */
 
   void display(uint8_t part);
   /**< Displays a part of the body. */
@@ -642,7 +642,6 @@ protected:
   char * getTok(char *l, int *tok);
   char * skipEqual(char *l);
   char * getUrl() const;
-
 };
 
 #endif

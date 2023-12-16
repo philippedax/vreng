@@ -1290,7 +1290,7 @@ void BoneTriangle::setColor(float _r=0.5, float _g=0.5, float _b=0.5, float _a=1
 //---------------------------------------------------------------------------
 
 //-- V3D internal format parser
-void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float scale)
+void Bone::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float scale)
 {
   File *file = new File();
   FILE *fp = file->open(filename, "rb");
@@ -1346,10 +1346,9 @@ void V3d::readV3Dfile(BoneMesh *result, BoneVertex *skel, char *filename, float 
 }
 
 
-#if 0 //mayused
-//---------------------------------------------------------------------------
+#if 0 //notused --------------------------------------------------------------------
 
-void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
+void Bone::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filename)
 {
   File *file = new File();
   FILE *fp = file->open(filename, "wb");
@@ -1409,7 +1408,7 @@ void V3d::writeV3Dfile(BoneMesh *outMesh, BoneVertex *skeletonRoot, char *filena
   delete file;
 }
 
-void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float centerx, float centery, float centerz, int colorMask)
+void Bone::readVRMLfile(BoneMesh *result, char *filename, float size, float centerx, float centery, float centerz, int colorMask)
 {
   trace(DBG_MAN, "Creating TRI mesh with vrml file");
   trace(DBG_MAN, "           Filename      : [%s]", filename);
@@ -1529,4 +1528,4 @@ void V3d::readVRMLfile(BoneMesh *result, char *filename, float size, float cente
   result->setName(filename);
 }
 
-#endif //mayused
+#endif //notused --------------------------------------------------------------------

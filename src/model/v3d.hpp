@@ -28,8 +28,8 @@
 //            be glad to know about it, please mail me          //
 //                myself_yr@hotmail.com                         //
 // ------------------------------------------------------------ //
-#ifndef FACE_HPP
-#define FACE_HPP
+#ifndef V3D_HPP
+#define V3D_HPP
 
 #include "wobject.hpp"
 #include "bone.hpp"	// The bone class
@@ -37,16 +37,16 @@
 class Http;
 
 /**
- * Face class
+ * V3d class
  */
-class Face {
+class V3d {
   friend class Body;		///< SCALE
   friend class Humanoid;	///< actions
 
  protected:
   static const float SCALE;
 
-  BoneList < char > urlList;	///< list of faces url
+  BoneList < char > urlList;	///< list of v3d faces url
 
   int currentUrl;	///< current url
   GLint textureId;	///< texture id
@@ -66,9 +66,9 @@ class Face {
   Bone bone;		///< bone animator
 
  public:
-  Face();			///< Constructor
-  Face(const char *urlindex);	///< Constructor
-  virtual ~Face();		///< Destructor
+  V3d();			///< Constructor
+  V3d(const char *urlindex);	///< Constructor
+  virtual ~V3d();		///< Destructor
 
   virtual void render();
   /**< Render the face */
@@ -92,7 +92,7 @@ class Face {
 
  private:
   static void reader(void *_url, Http *http);
-  static void facesreader(void *_o, Http *http);
+  static void v3dsreader(void *_o, Http *http);
 
   // GUI callbacks
   static void changeMoveYes(class Humanoid *o, void *d, time_t s, time_t u);

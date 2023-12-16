@@ -29,7 +29,7 @@
 //                myself_yr@hotmail.com                         //
 // ------------------------------------------------------------ //
 #include "vreng.hpp"
-#include "face.hpp"
+#include "v3d.hpp"
 #include "humanoid.hpp"
 #include "fap.hpp"
 #include "body.hpp"	// body
@@ -67,15 +67,15 @@ static const char lipsTopR[]		= "lipsTopR";
 static const char lipsBotL[]		= "lipsBotL";
 static const char lipsBotR[]		= "lipsBotR";
 
-const float Face::SCALE = 0.075;	///< 3/400
+const float V3d::SCALE = 0.075;	///< 3/400
 
 
-Face::Face()
+V3d::V3d()
 {
   mesh = NULL;
   root = NULL;
-  moveYes = false;
-  moveNo = false;
+  moveYes = true;
+  moveNo = true;
   moveMouth = false;
   moveSmile = false;
   moveSulk = false;
@@ -86,12 +86,12 @@ Face::Face()
   cachefile[0] = '\0';
 }
 
-Face::Face(const char *urls)
+V3d::V3d(const char *urls)
 {
   mesh = NULL;
   root = NULL;
-  moveYes = false;
-  moveNo = false;
+  moveYes = true;
+  moveNo = true;
   moveMouth = false;
   moveSmile = false;
   moveSulk = false;
@@ -101,11 +101,11 @@ Face::Face(const char *urls)
   indexed = true;
   cachefile[0] = '\0';
   urlList.empty();
-  Http::httpOpen(urls, facesreader, this, 0);
+  Http::httpOpen(urls, v3dsreader, this, 0);
   currentUrl = rand() % urlList.count();
 }
 
-Face::~Face()
+V3d::~V3d()
 {
   if (mesh) delete mesh;
   mesh = NULL;
@@ -114,7 +114,7 @@ Face::~Face()
 }
 
 /** Caching file */
-void Face::reader(void *_url, Http *http)
+void V3d::reader(void *_url, Http *http)
 {
   char *url = (char *) _url;
   if (! http) {
@@ -125,12 +125,12 @@ void Face::reader(void *_url, Http *http)
   FILE *f = cache->open(url, http);
 }
 
-/** Download list of faces url */
-void Face::facesreader(void *_face, Http *http)
+/** Download list of v3ds url */
+void V3d::v3dsreader(void *_v3d, Http *http)
 {
-  Face *face = (Face *) _face;
+  V3d *v3d = (V3d *) _v3d;
   if (! http) {
-    error("facesreader: unable to open http connection");
+    error("v3dsreader: unable to open http connection");
     return;
   }
 
@@ -141,40 +141,40 @@ void Face::facesreader(void *_face, Http *http)
   //http->reset();
   //while (http->getLine(line)) {
   while (cache->nextLine(f, line)) {
-    char *faceurl = strdup(line);
-    //echo("facesreader: add url=%s", faceurl);
-    face->urlList.addElement(faceurl);
-    free(faceurl);
+    char *v3durl = strdup(line);
+    //echo("v3dsreader: add url=%s", v3durl);
+    v3d->urlList.addElement(v3durl);
+    free(v3durl);
   }
 }
 
-void Face::change()
+void V3d::change()
 {
   if (! indexed) return;
 
   currentUrl++;
   currentUrl %= urlList.count();
-  char *urlface = urlList.getElemAt(currentUrl);
-  //echo("change: urlface=%s", urlface);
-  if (! isascii(urlface[0])) {
-    error("change: BUG! urlface=%02x", urlface[0]);
+  char *urlv3d = urlList.getElemAt(currentUrl);
+  echo("change: urlv3d=%s", urlv3d);
+  if (! isascii(urlv3d[0])) {
+    error("change: BUG! urlv3d=%02x", urlv3d[0]);
     return;
   }
-  load(urlface);
+  load(urlv3d);
 }
 
-void Face::load(const char *url)
+void V3d::load(const char *url)
 {
   BoneMesh   *newmesh = new BoneMesh();
   BoneVertex *newroot = new BoneVertex();
 
   if (Cache::setCachePath(url, cachefile) == 0) {
-    error("Face load: file=%s url=%s", cachefile, url);
+    error("V3d load: file=%s url=%s", cachefile, url);
     return;
   }
   Http::httpOpen(url, reader, (void *)url, 0);
 
-  V3d::readV3Dfile(newmesh, newroot, cachefile);
+  Bone::readV3Dfile(newmesh, newroot, cachefile);
 
   bone.registerMesh(newmesh);
   bone.registerSkeleton(newroot);
@@ -186,7 +186,7 @@ void Face::load(const char *url)
   root = newroot;
 }
 
-void Face::render()
+void V3d::render()
 {
   if (! mesh) return;
   if (bone.meshToMove && bone.skeleton) {
@@ -195,7 +195,7 @@ void Face::render()
   }
 }
 
-void Face::animHead(float angle, int x, int y, int z)
+void V3d::animHead(float angle, int x, int y, int z)
 {
   BoneVertex *bone;
 
@@ -209,7 +209,7 @@ void Face::animHead(float angle, int x, int y, int z)
     error("headRoot not found");
 }
 
-void Face::animNose(float angle, const char *_side)
+void V3d::animNose(float angle, const char *_side)
 {
   BoneVertex *bone;
   float scale = 1 - cos(angle / 16.) / 4.;
@@ -225,7 +225,7 @@ void Face::animNose(float angle, const char *_side)
     error("noseRoot not found");
 }
 
-void Face::animEyeBall(float angle, const char *_side, int dir)
+void V3d::animEyeBall(float angle, const char *_side, int dir)
 {
   BoneVertex *bone;
   float scale = 1 - cos(angle / 16.) /* / 2. */;
@@ -244,7 +244,7 @@ void Face::animEyeBall(float angle, const char *_side, int dir)
     error("%s not found", _side);
 }
 
-void Face::animEyeLid(float angle, const char *root1, const char *lid, const char *left, const char *right)
+void V3d::animEyeLid(float angle, const char *root1, const char *lid, const char *left, const char *right)
 {
   BoneVertex *bone;
   float scale = (1 - cos(angle / 10.)) /* / 2 */;
@@ -276,7 +276,7 @@ void Face::animEyeLid(float angle, const char *root1, const char *lid, const cha
     error("%s not found", root1);
 }
 
-void Face::animEyeBrow(float angle, const char *_root, const char *_side)
+void V3d::animEyeBrow(float angle, const char *_root, const char *_side)
 {
   BoneVertex *bone;
   float scale = cos(angle / 5.0);
@@ -297,7 +297,7 @@ void Face::animEyeBrow(float angle, const char *_root, const char *_side)
     error("%s not found", _side);
 }
 
-void Face::animLip(float angle, const char *_side)
+void V3d::animLip(float angle, const char *_side)
 {
   BoneVertex *bone;
 
@@ -317,7 +317,7 @@ void Face::animLip(float angle, const char *_side)
     error("lipsRoot not found");
 }
 
-void Face::animate(int fapn, int a)
+void V3d::animate(int fapn, int a)
 {
   //echo("fap: %d %d", fapn, a);
   switch (fapn) {
@@ -530,7 +530,7 @@ void Face::animate(int fapn, int a)
   }
 }
 
-void Face::animate()
+void V3d::animate()
 {
   static float angle = 0;
   angle += 5.;
@@ -710,56 +710,56 @@ void Face::animate()
 #endif
 }
 
-void Face::changeMoveYes(Humanoid *o, void *d, time_t s, time_t u)
+void V3d::changeMoveYes(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->face)
-    o->body->face->moveYes = ! o->body->face->moveYes;
+  if (o->body->v3d)
+    o->body->v3d->moveYes = ! o->body->v3d->moveYes;
 }
 
-void Face::changeMoveNo(Humanoid *o, void *d, time_t s, time_t u)
+void V3d::changeMoveNo(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->face)
-    o->body->face->moveNo = ! o->body->face->moveNo;
+  if (o->body->v3d)
+    o->body->v3d->moveNo = ! o->body->v3d->moveNo;
 }
 
-void Face::changeMoveMouth(Humanoid *o, void *d, time_t s, time_t u)
+void V3d::changeMoveMouth(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->face)
-    o->body->face->moveMouth = ! o->body->face->moveMouth;
+  if (o->body->v3d)
+    o->body->v3d->moveMouth = ! o->body->v3d->moveMouth;
 }
 
-void Face::changeMoveSmile(Humanoid *o, void *d, time_t s, time_t u)
+void V3d::changeMoveSmile(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->face)
-    o->body->face->moveSmile = ! o->body->face->moveSmile;
+  if (o->body->v3d)
+    o->body->v3d->moveSmile = ! o->body->v3d->moveSmile;
 }
 
-void Face::changeMoveSulk(Humanoid *o, void *d, time_t s, time_t u)
+void V3d::changeMoveSulk(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->face)
-    o->body->face->moveSulk = ! o->body->face->moveSulk;
+  if (o->body->v3d)
+    o->body->v3d->moveSulk = ! o->body->v3d->moveSulk;
 }
 
-void Face::changeMoveEyeR(Humanoid *o, void *d, time_t s, time_t u)
+void V3d::changeMoveEyeR(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->face)
-    o->body->face->moveEyeR = ! o->body->face->moveEyeR;
+  if (o->body->v3d)
+    o->body->v3d->moveEyeR = ! o->body->v3d->moveEyeR;
 }
 
-void Face::changeMoveEyeL(Humanoid *o, void *d, time_t s, time_t u)
+void V3d::changeMoveEyeL(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->face)
-    o->body->face->moveEyeL = ! o->body->face->moveEyeL;
+  if (o->body->v3d)
+    o->body->v3d->moveEyeL = ! o->body->v3d->moveEyeL;
 }
 
-void Face::changeMoveNose(Humanoid *o, void *d, time_t s, time_t u)
+void V3d::changeMoveNose(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->face)
-    o->body->face->moveNose = ! o->body->face->moveNose;
+  if (o->body->v3d)
+    o->body->v3d->moveNose = ! o->body->v3d->moveNose;
 }
 
-void Face::changeFace(Humanoid *o, void *d, time_t s, time_t u)
+void V3d::changeFace(Humanoid *o, void *d, time_t s, time_t u)
 {
-  if (o->body->face)
-    o->body->face->change();
+  if (o->body->v3d)
+    o->body->v3d->change();
 }

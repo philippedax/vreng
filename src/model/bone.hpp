@@ -680,27 +680,10 @@ class Bone {
   virtual void animate();
   virtual void animateSkeletonNode(BoneVertex *node);
 
+  static void readV3Dfile(BoneMesh *result, BoneVertex *skeletonRoot, char *filename, float size = 1.);
+
  private:
   void addNodeAndChildren(BoneVertex *boneVertex, BoneList < BoneVertex > *list);
 };
-
-//---------------------------------------------------------------------------
-
-/**
- * V3d class
- */
-class V3d {
- public:
-
-  V3d() {}		///< constructor
-  virtual ~V3d() {}	///< destructor
-
-  static void readV3Dfile(BoneMesh *result,
-			BoneVertex *skeletonRoot,
-			char *filename,
-			float size = 1.);
-};
-
-//---------------------------------------------------------------------------
 
 #endif
