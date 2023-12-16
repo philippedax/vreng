@@ -43,7 +43,7 @@ extern class User *localuser;	// global
  */
 class User: public WO {
 
-public:
+ public:
   static const float LASTING;
   static const float DEF_WIDTH;
   static const float DEF_DEPTH;
@@ -62,9 +62,9 @@ public:
   class Human *human;		///< Human avatar
   class Guy *guy;		///< Guy avatar
   class Humanoid *humanoid;	///< Humanoid avatar
-  class Humanhead *humanhead;	///< Head avatar
+  class Face *face;		///< Head avatar
   
-protected:
+ protected:
   friend class WO;
 
   uint32_t ssrc;	///< ssrc id.
@@ -75,7 +75,7 @@ protected:
   char  *vre;		///< url vre.
   char  *host;		///< url host.
   char  *avatar;	///< avatar str.
-  char  *face;		///< url face.
+  char  *uface;		///< url face.
   char  *sex;		///< sex.
   char  *headurl;	///< url head.
   char  *skin;		///< skin color.
@@ -99,7 +99,7 @@ protected:
   float aura_radius;    // sphere's radius
 #endif
 
-public:
+ public:
   float width;		///< body width.
   float depth;		///< body depth.
   float height;		///< body height.
@@ -235,7 +235,7 @@ public:
   static void bulletPutHit(class Bullet *po, Payload *pp);
   static void dartPutHit(class Dart *po, Payload *pp);
 
-private:
+ private:
   void getMemory();
   /**< Gets needed memory. */
 
@@ -323,7 +323,7 @@ private:
   static void get_vre(User *pu, Payload *pp);
   static void get_web(User *pu, Payload *pp);
   static void get_avatar(User *pu, Payload *pp);
-  static void get_face(User *pu, Payload *pp);
+  static void get_uface(User *pu, Payload *pp);
   static void get_sex(User *pu, Payload *pp);
   static void get_head(User *pu, Payload *pp);
   static void get_skin(User *pu, Payload *pp);
@@ -344,7 +344,7 @@ private:
   static void put_vre(User *pu, Payload *pp);
   static void put_web(User *pu, Payload *pp);
   static void put_avatar(User *pu, Payload *pp);
-  static void put_face(User *pu, Payload *pp);
+  static void put_uface(User *pu, Payload *pp);
   static void put_sex(User *pu, Payload *pp);
   static void put_head(User *pu, Payload *pp);
   static void put_skin(User *pu, Payload *pp);

@@ -49,7 +49,7 @@
 #include "hat.hpp"	// Hat
 #include "dress.hpp"	// Dress
 #include "wings.hpp"	// Wings
-#include "humanhead.hpp"// Humanhead
+#include "face.hpp"	// Face
 #include "humanoid.hpp"	// Humanoid
 
 
@@ -144,12 +144,12 @@ void User::setView(uint8_t view)
     case Render::VIEW_VERTICAL_FROM_SKY :
     case Render::VIEW_TURN_AROUND :
       disableBehavior(UNVISIBLE);	// visible by myself
-      if (humanhead) humanhead->visibility(true);
+      if (face) face->visibility(true);
       break;
     case Render::VIEW_FIRST_PERSON :
     default :
       enableBehavior(UNVISIBLE);	// not visible by myself
-      if (humanhead) humanhead->visibility(false);
+      if (face) face->visibility(false);
       break;
   }
 }
@@ -184,8 +184,8 @@ void User::geometry()
   else				{ web = strdup(" "); *web = 0; }
   if (pref->my_avatar)		avatar = strdup(pref->my_avatar);
   else				{ avatar = strdup(" "); *avatar = 0; }
-  if (pref->my_facestr)		face = strdup(pref->my_facestr);
-  else				{ face = strdup(" "); *face = 0; }
+  if (pref->my_facestr)		uface = strdup(pref->my_facestr);
+  else				{ uface = strdup(" "); *uface = 0; }
   if (pref->my_sexstr)		sex = strdup(pref->my_sexstr);
   else				{ sex = strdup(" "); *sex = 0; }
   if (pref->my_headstr)		headurl = strdup(pref->my_headstr);
@@ -241,7 +241,7 @@ void User::geometry()
   if (*headurl) {
     float color[3];
     Color::getRGB(skin, color);
-    humanhead = new Humanhead(this, headurl, color);
+    face = new Face(this, headurl, color);
   }
 }
 
@@ -349,7 +349,7 @@ User::User()
   human = NULL;
   humanoid = NULL;
   guy = NULL;
-  humanhead = NULL;
+  face = NULL;
   hit = 0;
 
   defaults();
@@ -374,7 +374,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   human = NULL;
   humanoid = NULL;
   guy = NULL;
-  humanhead = NULL;
+  face = NULL;
   defaults();
   getMemory();		// alloc geometries
 
@@ -451,7 +451,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   ::g.gui.expandAvatar();	// shows new avatar coming in
 
   //echo("replica: web=%s vre=%s", web, vre);
-  //echo("replica: avatar=%s face=%s", avatar, face);
+  //echo("replica: avatar=%s uface=%s", avatar, uface);
   //echo("replica: name=%s ssrc=%x rtcpname=%s email=%s", getInstance(), ssrc, rtcpname, email);
 }
 
@@ -464,7 +464,7 @@ void User::getMemory()
   vre      = new char[URL_LEN];
   web      = new char[URL_LEN];
   avatar   = new char[URL_LEN];
-  face     = new char[URL_LEN];
+  uface    = new char[URL_LEN];
   headurl  = new char[URL_LEN];
   sex      = new char[8];
   skin     = new char[8];
@@ -497,7 +497,7 @@ User::~User()
   if (vre)     delete vre;
   if (web)     delete web;
   if (avatar)  delete avatar;
-  if (face)    delete face;
+  if (uface)   delete uface;
   if (sex)     delete sex;
   if (headurl) delete headurl;
   if (skin)    delete skin;
@@ -688,7 +688,7 @@ void User::setRayDirection(GLint wx, GLint wy)
 
 bool User::hasHead()
 {
-  return (bool) humanhead;
+  return (bool) face;
 }
 
 void User::specialAction(int action_id, void *d, time_t s, time_t u)
@@ -1046,14 +1046,14 @@ void User::get_web(User *pu, Payload *pp)
 void User::get_avatar(User *pu, Payload *pp)
 { if (pu) pp->getPayload("s", pu->avatar); }
 
-void User::get_face(User *pu, Payload *pp)
-{ if (pu) pp->getPayload("s", pu->face); }
+void User::get_uface(User *pu, Payload *pp)
+{ if (pu) pp->getPayload("s", pu->uface); }
 
 void User::get_sex(User *pu, Payload *pp)
 { if (pu) pp->getPayload("s", pu->sex); }
 
 void User::get_head(User *pu, Payload *pp)
-{ if (pu) pp->getPayload("s", pu->humanhead); }
+{ if (pu) pp->getPayload("s", pu->face); }
 
 void User::get_skin(User *pu, Payload *pp)
 { if (pu) pp->getPayload("s", pu->skin); }
@@ -1125,14 +1125,14 @@ void User::put_web(User *pu, Payload *pp)
 void User::put_avatar(User *pu, Payload *pp)
 { if (pu) pp->putPayload("s", pu->avatar); }
 
-void User::put_face(User *pu, Payload *pp)
-{ if (pu) pp->putPayload("s", pu->face); }
+void User::put_uface(User *pu, Payload *pp)
+{ if (pu) pp->putPayload("s", pu->uface); }
 
 void User::put_sex(User *pu, Payload *pp)
 { if (pu) pp->putPayload("s", pu->sex); }
 
 void User::put_head(User *pu, Payload *pp)
-{ if (pu) pp->putPayload("s", pu->humanhead); }
+{ if (pu) pp->putPayload("s", pu->face); }
 
 void User::put_skin(User *pu, Payload *pp)
 { if (pu) pp->putPayload("s", pu->skin); }
@@ -1183,7 +1183,7 @@ void User::funcs()
   getPropFunc(USER_TYPE, PROPRTCPNAME, _Payload get_rtcpname);
   getPropFunc(USER_TYPE, PROPRTCPEMAIL, _Payload get_rtcpemail);
   getPropFunc(USER_TYPE, PROPMODEL, _Payload get_avatar);
-  getPropFunc(USER_TYPE, PROPFACE, _Payload get_face);
+  getPropFunc(USER_TYPE, PROPFACE, _Payload get_uface);
   getPropFunc(USER_TYPE, PROPSEX, _Payload get_sex);
   getPropFunc(USER_TYPE, PROPHEAD, _Payload get_head);
   getPropFunc(USER_TYPE, PROPSKIN, _Payload get_skin);
@@ -1208,7 +1208,7 @@ void User::funcs()
   putPropFunc(USER_TYPE, PROPRTCPNAME, _Payload put_rtcpname);
   putPropFunc(USER_TYPE, PROPRTCPEMAIL, _Payload put_rtcpemail);
   putPropFunc(USER_TYPE, PROPMODEL, _Payload put_avatar);
-  putPropFunc(USER_TYPE, PROPFACE, _Payload put_face);
+  putPropFunc(USER_TYPE, PROPFACE, _Payload put_uface);
   putPropFunc(USER_TYPE, PROPSEX, _Payload put_sex);
   putPropFunc(USER_TYPE, PROPHEAD, _Payload put_head);
   putPropFunc(USER_TYPE, PROPSKIN, _Payload put_skin);

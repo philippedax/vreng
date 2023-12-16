@@ -18,23 +18,23 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef HUMANHEAD_HPP
-#define HUMANHEAD_HPP
+#ifndef FACE_HPP
+#define FACE_HPP
 
 #include "wobject.hpp"
 
-#define HUMANHEAD_TYPE	81
-#define HUMANHEAD_NAME	"Humanhead"
+#define FACE_TYPE	81
+#define FACE_NAME	"Face"
 
 #define LWO_SCALE	0.0028
 #define _3DS_SCALE	0.0220
 
 /**
- * Humanhead class
+ * Face class
  */
-class Humanhead: public WO {
+class Face: public WO {
 
-protected:
+ protected:
   bool visible;
   uint8_t model_e;			///< types of model
   uint8_t model_t;			///< types of 3D model
@@ -44,7 +44,7 @@ protected:
   class Model *model;			///< model instance
   float color[3];
 
-public:
+ public:
   enum {
     MALE,
     FEMALE,
@@ -72,9 +72,9 @@ public:
 
   static void funcs();	///< init funclist
 
-  Humanhead(char *l);		///< Constructor.
-  Humanhead(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
-  Humanhead(class User *user, const char *url, const float *skin); ///< Constructor from User.
+  Face(char *l);		///< Constructor.
+  Face(class User *user, void *d, time_t s, time_t u); ///< Constructor from User.
+  Face(class User *user, const char *url, const float *skin); ///< Constructor from User.
 
   static WO * (creator)(char *l);
   /**< Creation from a file */
@@ -91,7 +91,7 @@ public:
   void visibility(bool flag);
   /**< Handle visibility */
 
-protected:
+ protected:
   void behaviors();
   /**< Sets behaviors */
 
@@ -104,7 +104,7 @@ protected:
   void inits();
   /**< Do specific inits */
 
-private:
+ private:
   void defaults();
   /**< Sets default values */
 
@@ -119,7 +119,6 @@ private:
 
   /** callbacks */
   static void recreate_cb(class User *user, void *d, time_t s, time_t u);
-
 };
 
 #endif
