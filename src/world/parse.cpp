@@ -43,7 +43,7 @@ static const struct sObj objs[] = {
   { "ftp", "download" },
   { "animx3d", "carousel" },
   { "android", "humanoid" },
-  { "head", "humanhead" },
+  { "head", "face" },
   { NULL, NULL }
 };
 
