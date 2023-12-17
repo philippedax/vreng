@@ -52,8 +52,8 @@
 <text name="welcome" pos="12 -2 5.5 -2.35 1.57" font="/txf/courier-br-46.txf"> Welcome to Rendezvous </text>
 
 <!-- wheel progression
-<solid shape="wheel" rel="0 0 0 0 0"  r=".09" dif="red" />
 -->
+<thing pos="0 0 1 1.57 -1.57 0.00"> <solid shape="wheel" r=".1" dif="white" /></thing>
 
 <!-- Gates -->
 
@@ -255,7 +255,7 @@ url="/vre/campus.vre" channel="224.255.0.31/52966/127">
 <!-- romain 224.255.0.32 -->
 <gate name="romain" pos="6.5 11 .7 2.65"
 url="/vre/romain.vre">
-<solid dim="2 .2 1.4" dif="lightblue" />
+<solid dim="2 .2 1.4" tx="/svg/23.svg" dif="lightblue" />
 </gate>
 
 <!-- eric 224.255.0.32 -->
