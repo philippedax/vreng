@@ -38,7 +38,7 @@ class Humanoid: public WO {
   static const uint16_t VAPS_PORT   = DEF_VAPS_PORT;	///< vaps port.
 
   float cloth[3];		///< cloth color.
-  char *v3d_url;		///< v3d url.
+  char *head_url;		///< head url.
   int sdtcp;			///< fd tcp.
   int sdudp;			///< fd udp.
   int ipmode;			///< IP mode.
@@ -53,9 +53,8 @@ class Humanoid: public WO {
  public:
   static const uint8_t VAPS_OFFSET_PORT = 10;	///< offset port.
 
-  class Body * body;		///< body ptr.
-  class Bap * bap;		///< bap ptr.
-
+  class Body *body;		///< body ptr.
+  class Bap *bap;		///< bap ptr.
   char bapline[VAPS_BUFSIZ];	///< bap/fap line.
 
   enum {
@@ -93,7 +92,7 @@ class Humanoid: public WO {
 
   void pause();
 
-private:
+ private:
   int connectToBapServer(int _ipmode);
   /**< Establishes a TCP connection to the vaps server
    * and send the setup packet.

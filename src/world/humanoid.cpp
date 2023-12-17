@@ -25,7 +25,7 @@
 #include "v3d.hpp"	// V3d
 #include "channel.hpp"	// getGroup
 #include "socket.hpp"	// openStream
-#include "nsl.hpp"	// get_mygethostbyname
+#include "nsl.hpp"	// my_gethostbyname
 #include "pref.hpp"	// reflector
 #include "timer.hpp"	// rate
 #include "user.hpp"	// localuser
@@ -48,8 +48,8 @@ WO * Humanoid::creator(char *l)
 
 void Humanoid::defaults()
 {
-  v3d_url = new char[URL_LEN];
-  memset(v3d_url, 0, URL_LEN);
+  head_url = new char[URL_LEN];
+  memset(head_url, 0, URL_LEN);
   strcpy(vaps, DEF_VAPS_SERVER);   // default server
   strcpy(names.url, DEF_BODY_URL); // default body
 
@@ -63,10 +63,11 @@ void Humanoid::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "body="))   l = parseString(l, names.url, "body"); //body
-    else if (! stringcmp(l, "face="))   l = parseString(l, v3d_url, "face");   //v3d
-    else if (! stringcmp(l, "color="))  l = parseVector3f(l, cloth, "color");  //color
-    else if (! stringcmp(l, "server=")) l = parseString(l, vaps, "server");    //server
+    if      (! stringcmp(l, "body="))   l = parseString(l, names.url, "body");	//body
+    else if (! stringcmp(l, "head="))   l = parseString(l, head_url, "head");	//head
+    else if (! stringcmp(l, "face="))   l = parseString(l, head_url, "face");	//head
+    else if (! stringcmp(l, "color="))  l = parseVector3f(l, cloth, "color");	//color
+    else if (! stringcmp(l, "server=")) l = parseString(l, vaps, "server");	//server
   }
   end_while_parse(l);
 }
@@ -75,7 +76,7 @@ void Humanoid::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />",.24,.14,B_HEIGHT);
+  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", .24, .14, B_HEIGHT);
   parseSolid(s);
 }
 
@@ -104,11 +105,11 @@ void Humanoid::inits()
   body->load(names.url);
   body->draw();
 
-  if (*v3d_url) {
+  if (*head_url) {
     body->v3d = new V3d();
-    body->v3d->load(v3d_url);
+    body->v3d->load(head_url);
   }
-  if (v3d_url) delete[] v3d_url;
+  if (head_url) delete[] head_url;
 
   vaps_offset_port += 2;
   vaps_port = Channel::getPort(World::current()->getChan()) + vaps_offset_port;
@@ -185,7 +186,7 @@ int Humanoid::connectToBapServer(int _ipmode)
     return 0;
   }
   if ((hp = my_gethostbyname(vaps, AF_INET)) == NULL) {
-    error("can't resolve name");
+    error("can't resolve vaps");
     return 0;
   }
   memset(&tcpsa, 0, sizeof(struct sockaddr_in));
@@ -201,11 +202,11 @@ int Humanoid::connectToBapServer(int _ipmode)
   if (setsockopt(sdtcp, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
     error("setsockopt failed");
   if (connect(sdtcp, (const struct sockaddr *) &tcpsa, sizeof(tcpsa)) < 0) {
-    //error("Connection failed with the vaps server: %s (%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
+    //error("connection failed with the vaps server: %s (%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
     sdtcp = -1;
     return 0;
   }
-  //echo("Connection established with vaps server: %s(%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
+  //echo("connection established with vaps server: %s(%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
 #if 0 //dax
   ipmode = _ipmode;
   if (ipmode == MULTICAST) {
@@ -229,7 +230,7 @@ void Humanoid::disconnectFromBapServer()
       Socket::dropMembership(sdudp, &mreq);
   }
   if (sdudp > 0) Socket::closeDatagram(sdudp);
-  //echo("Connection closed with the vaps server");
+  //echo("connection closed with the vaps server");
   sdtcp = sdudp = -1;
   state = INACTIVE;
 }
@@ -338,13 +339,13 @@ void Humanoid::changePermanent(float lasting)
   else if ((sdtcp > 0) && body->v3d) {
     body->v3d->animate();	// local animation
   }
-      //angle = 10;
-      //body->animArm(-angle, 0, 0);		// arm left flexion : OK
-      //body->animArm(+angle, 1, 0);		// arm right flexion : OK
-      //body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
-      //body->animForearm(+2*angle, 1, 0);	// forearm right flexion front : OK
+  //angle = 10;
+  //body->animArm(-angle, 0, 0);	// arm left flexion : OK
+  //body->animArm(+angle, 1, 0);	// arm right flexion : OK
+  //body->animForearm(-2*angle, 0, 0);	// forearm left flexion front : OK
+  //body->animForearm(+2*angle, 1, 0);	// forearm right flexion front : OK
 
-#if 0 //dax
+#if 0 //dax testing
   else if (sdtcp <= 0) {
     // get frame from local string bapfile (see gestures.hpp)
     echo("get local frame");
