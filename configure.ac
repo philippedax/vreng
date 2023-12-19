@@ -1052,6 +1052,8 @@ AC_CHECK_LIB([freetype],[FT_Library_Version],[have_freetype="yes"
 #dax AC_CHECK_FREETYPE([23.0.0],[have_freetype="yes"], [AC_MSG_WARN([could not find FreeType2!, try apt|dnf|yum|brew install freetype-devel or apt-get install libfreetype6-dev])])
 AC_PATH_PROG(FREETYPE_CONFIG,freetype-config)
 freetype_cflags=`$FREETYPE_CONFIG --cflags`
+FREETYPE_CFLAGS=$freetype_cflags
+AC_SUBST(FREETYPE_CFLAGS)
 freetype_libs=`$FREETYPE_CONFIG --libs`
 CPPFLAGS="$freetype_cflags $CPPFLAGS"
 LDFLAGS="$LDFLAGS $freetype_libs"
