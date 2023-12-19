@@ -41,8 +41,6 @@ DOWNLOADING\n\
 The VREng sources are available by:\n\
   - Git:        git clone https://github.com/philippedax/vreng.git (recommanded)\n\
   - Git:        git clone https://gitlab.freedesktop.org/philippedax/vreng.git\n\
-  - Subversion: svn co http://www.vreng.enst.fr/svn/vreng/trunk vreng (no more active)\n\
-  - Tarball:    wget http://www.vreng.enst.fr/ftp/pub/vreng/vreng.tar.{gz,xz,bz2,zip} (no more active)\n\
 \n\
 \n\
 COMPILING\n\
@@ -87,17 +85,20 @@ HOW TO NAVIGATE ?\n\
 You can alternatively use left button's mouse either arrow keys either\n\
 menu buttons to navigate in a virtual scene.\n\
 Arrow keys on your keyboard allow 6 spatial degrees of freedom:\n\
-	- key_up to go straight on\n\
-	- key_down to move back\n\
-	- key_right to turn on your right\n\
-	- key_left to turn on your left\n\
-	- key_pageup to look up\n\
-	- key_pagedown to look down\n\
+\n\
+- `key_up` to go straight on\n\
+- `key_down` to move back\n\
+- `key_right` to turn on your right\n\
+- `key_left` to turn on your left\n\
+- `key_pageup` to look up\n\
+- `key_pagedown` to look down\n\
+ \n\
 plus\n\
-	- key_home to look forward\n\
-	- key_end to accelerate\n\
-	- key_insert to rise up\n\
-	- key_delete to land on the ground\n\
+\n\
+- `key_home` to look forward\n\
+- `key_end` to accelerate\n\
+- `key_insert` to rise up\n\
+- `key_delete` to land on the ground\n\
 \n\
 To identify objects, click on the left or right button of the mouse, the name\n\
 of the pointed object will appear, maybe with a pushdown menu containing buttons\n\
@@ -107,37 +108,38 @@ to activate an action on this object (for example open/close for a door).\n\
 DOCUMENTATION\n\
 -------------\n\
 For more details, the documentation is available at\n\
-http://vreng.enst.fr/html/\n\
+https://web.archive.org/web/20160329013641/http://www.vreng.enst.fr/html/index.html\n\
 \n\
 It is recommended to see also the ChangeLog file for more informations.\n\
 \n\
 \n\
 AUTHORS\n\
 -------\n\
-Denis Arnaud <denis.arnaud@free.fr>: interface between world mgt and network\n\
-Fabrice Bellard <fabrice@bellard.org>: global architecture and 3D rendering\n\
-Stephane Belmon <belmon@email.enst.fr>: network interface\n\
-Samuel Orzan <orzan@email.enst.fr>: world management\n\
-Lionel Ulmer <ulmer@email.enst.fr>: the GUI under X11\n\
-Eric Lecolinet <elc@telecom-paris.fr>: new GUI + Ubit toolkit\n\
-Philippe Dax <philippe.dax@gmail.com>: project supervisor\n\
+\n\
+- Denis Arnaud <denis.arnaud@free.fr>: interface between world mgt and network\n\
+- Fabrice Bellard <fabrice@bellard.org>: global architecture and 3D rendering\n\
+- Stephane Belmon <belmon@email.enst.fr>: network interface\n\
+- Samuel Orzan <orzan@email.enst.fr>: world management\n\
+- Lionel Ulmer <ulmer@email.enst.fr>: the GUI under X11\n\
+- Eric Lecolinet <elc@telecom-paris.fr>: new GUI + Ubit toolkit\n\
+- Philippe Dax <philippe.dax@gmail.com>: project supervisor\n\
 \n\
 CONTRIBUTORS\n\
 ------------\n\
-Francois Karr : Windows95 port\n\
-Vincent Haverlant : RTP protocol\n\
-Adrien Felon : aoi object\n\
-Patrick Bellot <bellot@enst.fr>: vrel language\n\
-Ankit Jalote : humanoid\n\
-Yann Renard : face, bone, v3d\n\
-Mathieu Seigneurin : vjs, vjc, vrelet\n\
-Guillaume Brule : bap\n\
-Pierre Gros : transform, lwo, mysql\n\
-Mario Trentini : landmarks, axis\n\
-Julien Desreumaux - Sebastien Piraud : book, sheet\n\
-Romain Piegay : views, 3ds, ase, repeat textures\n\
-Pascal Chambon : x3d, carousel\n\
-Eric Varadaradjou : communication agent, ocaml\n\
+- Francois Karr : Windows95 port\n\
+- Vincent Haverlant : RTP protocol\n\
+- Adrien Felon : aoi object\n\
+- Patrick Bellot <bellot@enst.fr>: vrel language\n\
+- Ankit Jalote : humanoid\n\
+- Yann Renard : face, bone, v3d\n\
+- Mathieu Seigneurin : vjs, vjc, vrelet\n\
+- Guillaume Brule : bap\n\
+- Pierre Gros : transform, lwo, mysql\n\
+- Mario Trentini : landmarks, axis\n\
+- Julien Desreumaux - Sebastien Piraud : book, sheet\n\
+- Romain Piegay : views, 3ds, ase, repeat textures\n\
+- Pascal Chambon : x3d, carousel\n\
+- Eric Varadaradjou : communication agent, ocaml\n\
 \n\
 MAINTAINER\n\
 ----------\n\
@@ -145,10 +147,6 @@ Philippe Dax <philippe.dax@gmail.com>: project supervisor\n\
 \n\
 CONTACTS\n\
 --------\n\
-The mailing-list <vreng@listserv.enst.fr> has been opened for any discussion\n\
-about the VREng application and its evolution. To be added on this\n\
-mailing-list, send a message to <vreng-request@listserv.enst.fr> (no more active).\n\
-\n\
 You can send BUG reports and comments via Github.\n\
 \n\
 Have fun!\n\
