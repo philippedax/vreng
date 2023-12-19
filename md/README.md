@@ -40,8 +40,6 @@ DOWNLOADING
 The VREng sources are available by:
   - Git:        git clone https://github.com/philippedax/vreng.git (recommanded)
   - Git:        git clone https://gitlab.freedesktop.org/philippedax/vreng.git
-  - Subversion: svn co http://www.vreng.enst.fr/svn/vreng/trunk vreng (no more active)
-  - Tarball:    wget http://www.vreng.enst.fr/ftp/pub/vreng/vreng.tar.{gz,xz,bz2,zip} (no more active)
 
 
 COMPILING
@@ -86,17 +84,20 @@ HOW TO NAVIGATE ?
 You can alternatively use left button's mouse either arrow keys either
 menu buttons to navigate in a virtual scene.
 Arrow keys on your keyboard allow 6 spatial degrees of freedom:
-	- key_up to go straight on
-	- key_down to move back
-	- key_right to turn on your right
-	- key_left to turn on your left
-	- key_pageup to look up
-	- key_pagedown to look down
+
+- `key_up` to go straight on
+- `key_down` to move back
+- `key_right` to turn on your right
+- `key_left` to turn on your left
+- `key_pageup` to look up
+- `key_pagedown` to look down
+ 
 plus
-	- key_home to look forward
-	- key_end to accelerate
-	- key_insert to rise up
-	- key_delete to land on the ground
+
+- `key_home` to look forward
+- `key_end` to accelerate
+- `key_insert` to rise up
+- `key_delete` to land on the ground
 
 To identify objects, click on the left or right button of the mouse, the name
 of the pointed object will appear, maybe with a pushdown menu containing buttons
@@ -106,37 +107,38 @@ to activate an action on this object (for example open/close for a door).
 DOCUMENTATION
 -------------
 For more details, the documentation is available at
-http://vreng.enst.fr/html/
+https://web.archive.org/web/20160329013641/http://www.vreng.enst.fr/html/index.html
 
 It is recommended to see also the ChangeLog file for more informations.
 
 
 AUTHORS
 -------
-Denis Arnaud <denis.arnaud@free.fr>: interface between world mgt and network
-Fabrice Bellard <fabrice@bellard.org>: global architecture and 3D rendering
-Stephane Belmon <belmon@email.enst.fr>: network interface
-Samuel Orzan <orzan@email.enst.fr>: world management
-Lionel Ulmer <ulmer@email.enst.fr>: the GUI under X11
-Eric Lecolinet <elc@telecom-paris.fr>: new GUI + Ubit toolkit
-Philippe Dax <philippe.dax@gmail.com>: project supervisor
+
+- Denis Arnaud <denis.arnaud@free.fr>: interface between world mgt and network
+- Fabrice Bellard <fabrice@bellard.org>: global architecture and 3D rendering
+- Stephane Belmon <belmon@email.enst.fr>: network interface
+- Samuel Orzan <orzan@email.enst.fr>: world management
+- Lionel Ulmer <ulmer@email.enst.fr>: the GUI under X11
+- Eric Lecolinet <elc@telecom-paris.fr>: new GUI + Ubit toolkit
+- Philippe Dax <philippe.dax@gmail.com>: project supervisor
 
 CONTRIBUTORS
 ------------
-Francois Karr : Windows95 port
-Vincent Haverlant : RTP protocol
-Adrien Felon : aoi object
-Patrick Bellot <bellot@enst.fr>: vrel language
-Ankit Jalote : humanoid
-Yann Renard : face, bone, v3d
-Mathieu Seigneurin : vjs, vjc, vrelet
-Guillaume Brule : bap
-Pierre Gros : transform, lwo, mysql
-Mario Trentini : landmarks, axis
-Julien Desreumaux - Sebastien Piraud : book, sheet
-Romain Piegay : views, 3ds, ase, repeat textures
-Pascal Chambon : x3d, carousel
-Eric Varadaradjou : communication agent, ocaml
+- Francois Karr : Windows95 port
+- Vincent Haverlant : RTP protocol
+- Adrien Felon : aoi object
+- Patrick Bellot <bellot@enst.fr>: vrel language
+- Ankit Jalote : humanoid
+- Yann Renard : face, bone, v3d
+- Mathieu Seigneurin : vjs, vjc, vrelet
+- Guillaume Brule : bap
+- Pierre Gros : transform, lwo, mysql
+- Mario Trentini : landmarks, axis
+- Julien Desreumaux - Sebastien Piraud : book, sheet
+- Romain Piegay : views, 3ds, ase, repeat textures
+- Pascal Chambon : x3d, carousel
+- Eric Varadaradjou : communication agent, ocaml
 
 MAINTAINER
 ----------
@@ -144,10 +146,6 @@ Philippe Dax <philippe.dax@gmail.com>: project supervisor
 
 CONTACTS
 --------
-The mailing-list <vreng@listserv.enst.fr> has been opened for any discussion
-about the VREng application and its evolution. To be added on this
-mailing-list, send a message to <vreng-request@listserv.enst.fr> (no more active).
-
 You can send BUG reports and comments via Github.
 
 Have fun!
