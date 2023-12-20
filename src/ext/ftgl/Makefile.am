@@ -7,9 +7,7 @@ FTGL_HDRS = FTGL.h FTBBox.h FTGLBitmapFont.h FTList.h FTBitmapGlyph.h FTGLExtrdF
 FTGL_SRCS = FTBitmapGlyph.cpp FTGLBitmapFont.cpp FTGlyph.cpp FTPolyGlyph.cpp FTCharmap.cpp FTGLExtrdFont.cpp FTGlyphContainer.cpp FTSize.cpp FTContour.cpp FTGLOutlineFont.cpp FTLibrary.cpp FTTextureGlyph.cpp FTExtrdGlyph.cpp FTGLPixmapFont.cpp FTOutlineGlyph.cpp FTVectoriser.cpp FTFace.cpp FTGLPolygonFont.cpp FTPixmapGlyph.cpp FTFont.cpp FTGLTextureFont.cpp FTPoint.cpp $(FTGL_HDRS)
 
 SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @GL_CFLAGS@ -I$(SRCDIR)/bundle/ftgl
+AM_CPPFLAGS = @GL_CFLAGS@ @FREETYPE_CFLAGS@ -I. -I$(SRCDIR)/ext/ftgl
 
-if ENABLE_FTGL
 noinst_LIBRARIES = libftgl.a
 libftgl_a_SOURCES = $(FTGL_SRCS)
-endif
