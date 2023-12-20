@@ -25,8 +25,8 @@ TEX_SRCS = img.cpp texture.cpp gif.cpp jpg.cpp png.cpp ppm.cpp pcx.cpp sgi.cpp t
 
 TEX_HDRS = img.hpp texture.hpp txf.hpp avi.hpp glpng.hpp flare.hpp wheel.hpp capture.hpp nanosvg.h nanosvgrsat.h
 
-SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/3d -I$(SRCDIR)/net -I$(SRCDIR)/tool
+SRC = $(top_srcdir)/src
+AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ -I$(SRC)/base -I$(SRC)/gui -I$(SRC)/world -I$(SRC)/3d -I$(SRC)/net -I$(SRC)/tool
 
 lib2d_a_SOURCES = $(TEX_SRCS) $(TEX_HDRS)
 noinst_LIBRARIES = lib2d.a

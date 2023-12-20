@@ -25,8 +25,9 @@ GUI_SRCS = gui.cpp scene.cpp widgets.cpp navig.cpp motion.cpp joystick.cpp panel
 
 GUI_HDRS = gui.hpp scene.hpp widgets.hpp navig.hpp motion.hpp panels.hpp palette.hpp joystick.hpp message.hpp theme.hpp
 
-SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @FREETYPE_CFLAGS@ @XML2_CFLAGS@ @OCAML_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/gui/xpm -I$(SRCDIR)/ext/gl2ps -I$(SRCDIR)/ext/xmlParser -I$(SRCDIR)/ai -I$(SRCDIR) -I$(SRCDIR)/ubit
+SRC = $(top_srcdir)/src
+CFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @FREETYPE_CFLAGS@ @XML2_CFLAGS@ @OCAML_CFLAGS@
+AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/model -I$(SRC)/3d -I$(SRC)/tool -I$(SRC)/vnc -I$(SRC)/gui/xpm -I$(SRC)/ext/gl2ps -I$(SRC)/ext/xmlParser -I$(SRC)/ai -I$(SRC) -I$(SRC)/ubit
 
 widgets.cpp: README.t TODO.t DTD.t COPYRIGHT.t COPYING.t ChangeLog.t CONFIG_H.t
 

@@ -37,8 +37,9 @@ types.hpp:
 
 EXTRA_DIST = template.hpp template.cpp
 
-SRCDIR = $(top_srcdir)/src
-AM_CPPFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ @FREETYPE_CFLAGS@ @MYSQL_CFLAGS@ -I$(SRCDIR)/base -I$(SRCDIR)/gui -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ext/mpeg_lib
+SRC = $(top_srcdir)/src
+CFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ @FREETYPE_CFLAGS@ @MYSQL_CFLAGS@
+AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/gui -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/model -I$(SRC)/3d -I$(SRC)/tool -I$(SRC)/vnc -I$(SRC)/ext/mpeg_lib
 
 libworld_a_SOURCES = $(WORLD_SRCS) $(WORLD_HDRS) types.hpp
 noinst_LIBRARIES = libworld.a

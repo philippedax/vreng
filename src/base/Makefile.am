@@ -21,13 +21,14 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-BASE_SRCS = vreng.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp universe.cpp sql.cpp xml.cpp report.cpp thread.cpp nsl.cpp str.cpp windoze.cpp base64.cpp
+BASE_SRCS = vreng.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp universe.cpp sql.cpp xml.cpp report.cpp thread.cpp nsl.cpp str.cpp base64.cpp
 
-BASE_HDRS = vreng.hpp includes.hpp defines.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp color.hpp stat.hpp vector3.hpp universe.hpp sql.hpp xml.hpp report.hpp thread.hpp nsl.hpp str.hpp windoze.hpp base64.hpp
+BASE_HDRS = vreng.hpp includes.hpp defines.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp color.hpp stat.hpp vector3.hpp universe.hpp sql.hpp xml.hpp report.hpp thread.hpp nsl.hpp str.hpp base64.hpp
 
-SRCDIR = $(top_srcdir)/src
-
-AM_CPPFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ @FREETYPE_CFLAGS@ @MYSQL_CFLAGS@ @OCAML_CFLAGS@ $(CORE_INCL) -I$(SRCDIR)/ai -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/model -I$(SRCDIR)/3d -I$(SRCDIR)/vnc -I$(SRCDIR)/tool -I$(SRCDIR)/ai
+SRC = $(top_srcdir)/src
+CFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ @FREETYPE_CFLAGS@ @SQLITE_CFLAGS@ @MYSQL_CFLAGS@ @OCAML_CFLAGS@
+CORE_INCL = -I$(SRC)/ai -I$(SRC)/base -I$(SRC)/ubit -I$(SRC)/gui -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/model -I$(SRC)/3d -I$(SRC)/vnc -I$(SRC)/tool
+AM_CPPFLAGS = $(CFLAGS) $(CORE_INCL)
 
 EXTRA_DIST = txt2str.c
 

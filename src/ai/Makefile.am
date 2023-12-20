@@ -11,7 +11,9 @@ CMI = $(CMLI:.mli=.cmi)
 CMO = $(CML:.ml=.cmo)
 CMX = $(CML:.ml=.cmx)
 
-AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ -I$(top_srcdir)/src/base -I$(top_srcdir)/src/net -I$(top_srcdir)/src/world -I$(top_srcdir)/src/3d -I$(top_srcdir)/src/gui
+SRC = $(top_srcdir)/src
+CFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@
+AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/net -I$(SRC)/world -I$(SRC/3d -I$(SRC)/gui
 
 if ENABLE_OCAML
 
