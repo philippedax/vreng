@@ -178,8 +178,9 @@ Teapot::Teapot()
       for (int k=0; k<4 ; k++) {
         for (int n=0; n<3 ; n++) {
           int m = indices[i][j][k];
-          for (n=0; n<3 ; n++)
+          for (n=0; n<3 ; n++) {
             data[i][j][k][n] = vertices[m-1][n];
+          }
         }
       }
     }
@@ -213,10 +214,12 @@ void Teapot::divide_curve(point *c, point *r, point *l)
 /* transpose wastes time but makes program more readable */
 void Teapot::transpose(point p[4][4])
 {
-  for (int i=0; i<4 ; i++) for (int j=i; j<4 ; j++) for (int k=0; k<3 ; k++) {
-    GLfloat tt = p[i][j][k];
-    p[i][j][k] = p[j][i][k];
-    p[j][i][k] = tt;
+  for (int i=0; i<4 ; i++) {
+    for (int j=i; j<4 ; j++) for (int k=0; k<3 ; k++) {
+      GLfloat tt = p[i][j][k];
+      p[i][j][k] = p[j][i][k];
+      p[j][i][k] = tt;
+    }
   }
 }
 
@@ -228,17 +231,18 @@ void Teapot::divide_patch(point p[4][4], uint8_t n)
   point q[4][4], r[4][4], s[4][4], t[4][4];
   point a[4][4], b[4][4];
 
-  if (n==0) draw_patch(p); /* draw patch if recursion done */
+  if (n==0) draw_patch(p); // draw patch if recursion done
   else {
-    for (int k=0; k<4; k++)
+    for (int k=0; k<4; k++) {
       divide_curve(p[k], a[k], b[k]);
+    }
     transpose(a);
     transpose(b); 
     for (int k=0; k<4; k++) {
       divide_curve(a[k], q[k], r[k]);
       divide_curve(b[k], s[k], t[k]);
     }
-    /* recursive division of 4 resulting patches */
+    // recursive division of 4 resulting patches
     divide_patch(q, n-1);
     divide_patch(r, n-1);
     divide_patch(s, n-1);
@@ -263,13 +267,12 @@ void Teapot::draw_patch(point p[4][4])
 void Teapot::draw(GLfloat width, GLfloat depth, GLfloat height, const int textures[], GLfloat rtx[6][2], uint8_t slices, uint8_t style)
 {
   glPushMatrix();
-
   glScalef(width/5, depth/5, height/5);
 
-  /* data aligned along z axis, rotate to align with y axis */
+  // data aligned along z axis, rotate to align with y axis
   //glRotatef(0, 1, 0, 0);
-  for (int i=0; i<32 ; i++)
-    divide_patch(data[i], level); /* divide all 32 patches */
-
+  for (int i=0; i<32 ; i++) {
+    divide_patch(data[i], level);	// divide all 32 patches
+  }
   glPopMatrix();
 }
