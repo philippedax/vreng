@@ -57,7 +57,7 @@ struct sStokens {
 };
 
 static const struct sStokens stokens[] = {
-  { "solid", "solid", STOK_SOLID },
+  { "solid", "geom", STOK_SOLID },
   { "none", "fictif", STOK_NONE },
   { "shape", "shape", STOK_SHAPE },
   { "box", "cube", STOK_BOX },
