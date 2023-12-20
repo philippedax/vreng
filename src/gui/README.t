@@ -38,9 +38,7 @@ VREng has not been ported on other platforms yet, but any port will be welcome.\
 \n\
 DOWNLOADING\n\
 -----------\n\
-The VREng sources are available by:\n\
-  - Git:        git clone https://github.com/philippedax/vreng.git (recommanded)\n\
-  - Git:        git clone https://gitlab.freedesktop.org/philippedax/vreng.git\n\
+The VREng sources are available by: git clone https://github.com/philippedax/vreng.git\n\
 \n\
 \n\
 COMPILING\n\
@@ -152,27 +150,5 @@ You can send BUG reports and comments via Github.\n\
 Have fun!\n\
 \n\
 -- Philippe Dax\n\
-\n\
------\n\
-\n\
-Copyright (C) 1996 - 2021\n\
-  Free Software Foundation, Inc.\n\
-\n\
-This file is part of GNU VREng.\n\
-\n\
-GNU VREng is free software; you can redistribute it and/or modify\n\
-it under the terms of the GNU General Public License as published by\n\
-the Free Software Foundation; either version 2, or (at your option)\n\
-any later version.\n\
-\n\
-GNU VREng is distributed in the hope that it will be useful,\n\
-but WITHOUT ANY WARRANTY; without even the implied warranty of\n\
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n\
-GNU General Public License for more details.\n\
-\n\
-You should have received a copy of the GNU General Public License\n\
-along with autoconf; see the file COPYING.  If not, write to\n\
-the Free Software Foundation, Inc., 59 Temple Place - Suite 330,\n\
-Boston, MA 02111-1307, USA.\n\
 \n\
 ";
