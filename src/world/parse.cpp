@@ -489,13 +489,13 @@ char * Parse::parseAttributes(char *l, WO *wobject)
       l = parsePosition(l, wobject->pos);
       continue;
     }
-    else if (! stringcmp(l, "solid")) {
+    else if ( ! stringcmp(l, "solid") || ! stringcmp(l, "geom") ) {
       l = parseSolid(l, wobject);
     }
     else if (! stringcmp(l, "category=")) {
       l = parseDescr(l, wobject->names.category);
     }
-    else if (! stringcmp(l, "descr=") || ! stringcmp(l, "description=")) {
+    else if ( ! stringcmp(l, "descr=") || ! stringcmp(l, "description=") ) {
       l = parseDescr(l, wobject->names.infos);
     }
     else if (! strcmp(l, "/")) {
@@ -679,15 +679,15 @@ char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
   return nextToken();
 }
 
-/* tag <solid : creates a solid and calls its parser */
+/* tag <solid || <geom : creates a solid and calls its parser */
 char * Parse::parseSolid(char *ptok, WO *wobject)
 {
-  if (!ptok || !strlen(ptok)) {
+  if ( !ptok || !strlen(ptok) ) {
     error("parse error at line %d (no solid)", numline-1);
     return nextToken();
   }
   if (*ptok == '<') ptok++;
-  if (! strcmp(ptok, "solid")) {
+  if (! strcmp(ptok, "solid") || ! strcmp(ptok, "geom") ) {
     ptok = nextToken();		// skip tag solid
   }
 
