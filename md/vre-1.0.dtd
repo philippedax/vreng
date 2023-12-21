@@ -22,23 +22,23 @@
 <!-- all possible objects we want at least one element -->
 <!-- SCENE -->
 <!ELEMENT scene (
-		accessory | animator | aoi | area |
-		bgcolor | bird | board | book | bumper | button | 
-		carousel | cauldron | clip | clock | cloth | cloud |
-		doc | door | download | dress | drone |
-		entry | escalator |
-		fire | firework | flag | fog | fountain | fractal |
-		gate | ground | guide | guy | 
-		hairs | halo | hat | host | human | humanhead | humanoid
-		lift | light | local |
-		mech | mirage | mirror | model | movie | music |
-		particle | plane |
-		rain | river |
-		slider | smoke | snow | spiral | spot | stair | stars | step | sun |
-		terrain | text | thing | thunder | travelator |
-		vjc | vnc | vrelet | 
-		wall | walls | water | waterfall | web | widget | wind | wings
-		)+
+	accessory | animator | aoi | area |
+	bgcolor | bird | board | book | bumper | button | 
+	carousel | cauldron | clip | clock | cloth | cloud |
+	doc | door | download | dress | drone |
+	entry | escalator |
+	face | fire | firework | flag | fog | fountain | fractal |
+	gate | ground | guide | guy | 
+	hairs | halo | hat | host | human | humanoid
+	lift | light | local |
+	mech | mirage | mirror | model | movie | music |
+	particle | plane |
+	rain | river |
+	slider | smoke | snow | spiral | spot | stair | stars | step | sun |
+	terrain | text | thing | thunder | travelator |
+	vjc | vnc | vrelet | 
+	wall | walls | water | waterfall | web | widget | wind | wings
+	)+
 >
 
 <!-- alphabetic sort of main token -->
@@ -205,6 +205,14 @@
 <!ATTLIST escalator	length	NMTOKEN "0">
 <!ATTLIST escalator	speed	NMTOKEN "0.5">
 
+<!ELEMENT face		EMPTY>
+<!ATTLIST face		pos	NMTOKENS #REQUIRED>
+<!ATTLIST face		name	NMTOKEN #IMPLIED>
+<!ATTLIST face		descr	NMTOKENS #IMPLIED>
+<!ATTLIST face		url	CDATA #REQUIRED>
+<!ATTLIST face		scale	NMTOKEN "1">
+<!ATTLIST face		color	NMTOKENS "1 .75 .7">
+
 <!ELEMENT fire		EMPTY>
 <!ATTLIST fire		pos	NMTOKENS #REQUIRED>
 <!ATTLIST fire		name	NMTOKEN #IMPLIED>
@@ -315,14 +323,6 @@
 <!ATTLIST human		name	NMTOKEN #IMPLIED>
 <!ATTLIST human		descr	NMTOKENS #IMPLIED>
 <!ATTLIST human		skin	NMTOKEN #IMPLIED>
-
-<!ELEMENT humanhead	EMPTY>
-<!ATTLIST humanhead	pos	NMTOKENS #REQUIRED>
-<!ATTLIST humanhead	name	NMTOKEN #IMPLIED>
-<!ATTLIST humanhead	descr	NMTOKENS #IMPLIED>
-<!ATTLIST humanhead	url	CDATA #REQUIRED>
-<!ATTLIST humanhead	scale	NMTOKEN "1">
-<!ATTLIST humanhead	color	NMTOKENS "1 .75 .7">
 
 <!ELEMENT humanoid	EMPTY>
 <!ATTLIST humanoid	pos	NMTOKENS #REQUIRED>

@@ -23,23 +23,23 @@ const char DTD[] = "\
 <!-- all possible objects we want at least one element -->\n\
 <!-- SCENE -->\n\
 <!ELEMENT scene (\n\
-		accessory | animator | aoi | area |\n\
-		bgcolor | bird | board | book | bumper | button | \n\
-		carousel | cauldron | clip | clock | cloth | cloud |\n\
-		doc | door | download | dress | drone |\n\
-		entry | escalator |\n\
-		fire | firework | flag | fog | fountain | fractal |\n\
-		gate | ground | guide | guy | \n\
-		hairs | halo | hat | host | human | humanhead | humanoid\n\
-		lift | light | local |\n\
-		mech | mirage | mirror | model | movie | music |\n\
-		particle | plane |\n\
-		rain | river |\n\
-		slider | smoke | snow | spiral | spot | stair | stars | step | sun |\n\
-		terrain | text | thing | thunder | travelator |\n\
-		vjc | vnc | vrelet | \n\
-		wall | walls | water | waterfall | web | widget | wind | wings\n\
-		)+\n\
+	accessory | animator | aoi | area |\n\
+	bgcolor | bird | board | book | bumper | button | \n\
+	carousel | cauldron | clip | clock | cloth | cloud |\n\
+	doc | door | download | dress | drone |\n\
+	entry | escalator |\n\
+	face | fire | firework | flag | fog | fountain | fractal |\n\
+	gate | ground | guide | guy | \n\
+	hairs | halo | hat | host | human | humanoid\n\
+	lift | light | local |\n\
+	mech | mirage | mirror | model | movie | music |\n\
+	particle | plane |\n\
+	rain | river |\n\
+	slider | smoke | snow | spiral | spot | stair | stars | step | sun |\n\
+	terrain | text | thing | thunder | travelator |\n\
+	vjc | vnc | vrelet | \n\
+	wall | walls | water | waterfall | web | widget | wind | wings\n\
+	)+\n\
 >\n\
 \n\
 <!-- alphabetic sort of main token -->\n\
@@ -206,6 +206,14 @@ const char DTD[] = "\
 <!ATTLIST escalator	length	NMTOKEN \"0\">\n\
 <!ATTLIST escalator	speed	NMTOKEN \"0.5\">\n\
 \n\
+<!ELEMENT face		EMPTY>\n\
+<!ATTLIST face		pos	NMTOKENS #REQUIRED>\n\
+<!ATTLIST face		name	NMTOKEN #IMPLIED>\n\
+<!ATTLIST face		descr	NMTOKENS #IMPLIED>\n\
+<!ATTLIST face		url	CDATA #REQUIRED>\n\
+<!ATTLIST face		scale	NMTOKEN \"1\">\n\
+<!ATTLIST face		color	NMTOKENS \"1 .75 .7\">\n\
+\n\
 <!ELEMENT fire		EMPTY>\n\
 <!ATTLIST fire		pos	NMTOKENS #REQUIRED>\n\
 <!ATTLIST fire		name	NMTOKEN #IMPLIED>\n\
@@ -316,14 +324,6 @@ const char DTD[] = "\
 <!ATTLIST human		name	NMTOKEN #IMPLIED>\n\
 <!ATTLIST human		descr	NMTOKENS #IMPLIED>\n\
 <!ATTLIST human		skin	NMTOKEN #IMPLIED>\n\
-\n\
-<!ELEMENT humanhead	EMPTY>\n\
-<!ATTLIST humanhead	pos	NMTOKENS #REQUIRED>\n\
-<!ATTLIST humanhead	name	NMTOKEN #IMPLIED>\n\
-<!ATTLIST humanhead	descr	NMTOKENS #IMPLIED>\n\
-<!ATTLIST humanhead	url	CDATA #REQUIRED>\n\
-<!ATTLIST humanhead	scale	NMTOKEN \"1\">\n\
-<!ATTLIST humanhead	color	NMTOKENS \"1 .75 .7\">\n\
 \n\
 <!ELEMENT humanoid	EMPTY>\n\
 <!ATTLIST humanoid	pos	NMTOKENS #REQUIRED>\n\
