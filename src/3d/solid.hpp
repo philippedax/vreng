@@ -156,12 +156,11 @@ enum {
 class Solid {
   friend class Render;
 
-protected:
+ protected:
   M4		matpos;		///< position matrix.
   V3		bbcent;		///< relative center of BB.
   V3		bbsize;		///< relative half sizes of BB.
   float 	pos[5];		///< relative position/orientation.
-  bool		fictif;		///< set if the solid is fictif.
   bool		visible;	///< should this solid be drawn ?.
   bool		opaque;		///< set if the solid is opaque.
   bool		flashy;		///< flag flashy.
@@ -170,15 +169,18 @@ protected:
   bool		blinking;	///< flag blinking.
   bool		blink;		///< flag blink.
   bool		rendered;	///< flag if is already rendered
+  float		userdist;	///< distance to localuser.
+  float		surfsize;	///< max surface size of solid.
+  float		alpha;		///< transparency.
+  float		scale, scalex, scaley, scalez;
+
+ private:
+  bool		fictif;		///< set if the solid is fictif.
   uint8_t	shape;		///< basic shape.
   uint8_t	nbsolids;	///< number of solids.
   uint8_t	nbframes;	///< number of frames of this solid.
   uint8_t	frame;		///< current frame to render.
   int		texid;		///< texture id.
-  float		userdist;	///< distance to localuser.
-  float		surfsize;	///< max surface size of solid.
-  float		alpha;		///< transparency.
-  float		scale, scalex, scaley, scalez;
   GLfloat	mat_diffuse[4];
   GLfloat	mat_ambient[4];
   GLfloat	mat_specular[4];
@@ -202,7 +204,8 @@ static const uint8_t DEF_DISK_SLICES;	// 16
 static const uint8_t DEF_WHEEL_SPOKES;	// 12
 static const uint8_t DEF_DISK_LOOPS;	//  8
 static const uint8_t FRAME_MAX;		// 255
-public:
+
+ public:
 
   enum render_mode {
     DISPLAY,		///< render surfaces with plain colors.
@@ -358,7 +361,8 @@ public:
   void displayRay();
   /**< Displays ray. */
 
-private:
+ private:
+
   uint8_t	iframe;		///< frame index.
   bool		framed;		///< flag framed.
 

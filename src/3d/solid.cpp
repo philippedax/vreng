@@ -24,25 +24,25 @@
 #include "vreng.hpp"
 #include "solid.hpp"
 #include "draw.hpp"	// STYLE
-#include "render.hpp"	// ::g.render
-#include "texture.hpp"	// Texture
 #include "wobject.hpp"	// WO
 #include "parse.hpp"	// printNumline
-#include "netobj.hpp"	// declareDelta
-#include "user.hpp"	// localuser
-#include "color.hpp"	// Color
 #include "format.hpp"	// getModelByUrl
 #include "stat.hpp"	// new_solid
 #include "pref.hpp"	// ::g.pref
 #include "md2.hpp"	// Md2
 #include "obj.hpp"	// Obj
-#include "human.hpp"	// draw
 #include "man.hpp"	// draw
 #include "wings.hpp"	// draw
 #include "car.hpp"	// draw
 #include "teapot.hpp"	// draw
-#include "flare.hpp"	// render
 #include "wheel.hpp"	// Wheel
+
+#include "render.hpp"	// ::g.render
+#include "texture.hpp"	// Texture
+#include "color.hpp"	// Color
+#include "user.hpp"	// localuser
+#include "netobj.hpp"	// declareDelta
+#include "flare.hpp"	// render
 
 #include <list>
 using namespace std;
@@ -187,25 +187,25 @@ Solid::Solid()
 {
   new_solid++;
   shape = STOK_BOX;	// shape by default: box
-  dlists = NULL;	// solid display lists
+  fictif = false;	// real solid by default
+  framed = false;	// mono framed by default
   wobject = NULL;	// wobject associated with this solid set by addSolid in wobject.cpp
-  bbcent = setV3(0, 0, 0);
-  bbsize = setV3(0, 0, 0);
+  frame = 0;		// frame to render
+  iframe = 0;		// frame index in displaylist
+  nbframes = 1;		// 1 frame by default
 
+  dlists = NULL;	// solid display lists
   visible = true;	// visible by default
   opaque = true;	// opaque by default
-  fictif = false;	// real solid by default
   flashy = false;	// no flashy by default
   flary = false;	// no flary by default
   reflexive = false;	// no reflexive by default
   blinking = false;	// no blinking by default
   blink = false;	// no blinking by default
   rendered = false;	// flag if already rendered
-  framed = false;	// mono framed by default
+  bbcent = setV3(0, 0, 0);
+  bbsize = setV3(0, 0, 0);
 
-  frame = 0;		// frame to render
-  iframe = 0;		// frame index in displaylist
-  nbframes = 1;		// 1 frame by default
   userdist = 0;		// distance to localuser
   surfsize = 0;		// surface of solid
   ray_dlist = 0;	// ray display-list
