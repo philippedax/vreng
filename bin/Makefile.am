@@ -22,8 +22,8 @@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
 # paths for sources
-SRCDIR = $(top_srcdir)/src
-VRENG_SRCS = $(SRCDIR)/base/vreng.cpp
+SRC = $(top_srcdir)/src
+VRENG_SRCS = $(SRC)/base/vreng.cpp
 
 # sources
 vreng_SOURCES = $(VRENG_SRCS)
@@ -42,50 +42,50 @@ noinst_SCRIPTS =
 
 # to copy into bin/
 if ENABLE_VRL
-vrl: $(SRCDIR)/utils/vrl/vrl
-	@-cp -p $(SRCDIR)/utils/vrl/vrl .
+vrl: $(SRC)/utils/vrl/vrl
+	@-cp -p $(SRC)/utils/vrl/vrl .
 else
 vrl:
 	@echo "" >/dev/null
 endif
 if ENABLE_VREL
-vrel: $(SRCDIR)/utils/vrel/vrel
-	@-cp -p $(SRCDIR)/utils/vrel/vrel .
+vrel: $(SRC)/utils/vrel/vrel
+	@-cp -p $(SRC)/utils/vrel/vrel .
 else
 vrel:
 	@echo "" >/dev/null
 endif
 if ENABLE_VRED
-vred: $(SRCDIR)/utils/vred/vred
-	@-cp -p $(SRCDIR)/utils/vred/vred .
+vred: $(SRC)/utils/vred/vred
+	@-cp -p $(SRC)/utils/vred/vred .
 else
 vred:
 	@echo "" >/dev/null
 endif
 if ENABLE_VACS
-vacs: $(SRCDIR)/servers/vacs/vacs
-	@-cp -p $(SRCDIR)/servers/vacs/vacs .
+vacs: $(SRC)/servers/vacs/vacs
+	@-cp -p $(SRC)/servers/vacs/vacs .
 else
 vacs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VAPS
-vaps: $(SRCDIR)/servers/vaps/vaps
-	@-cp -p $(SRCDIR)/servers/vaps/vaps .
+vaps: $(SRC)/servers/vaps/vaps
+	@-cp -p $(SRC)/servers/vaps/vaps .
 else
 vaps:
 	@echo "" >/dev/null
 endif
 if ENABLE_VJS
-vjs: $(SRCDIR)/servers/vjs/vjs
-	@-cp -p $(SRCDIR)/servers/vjs/vjs .
+vjs: $(SRC)/servers/vjs/vjs
+	@-cp -p $(SRC)/servers/vjs/vjs .
 else
 vjs:
 	@echo "" >/dev/null
 endif
 if ENABLE_VMM
-vmm: $(SRCDIR)/servers/vmm/vmm
-	@-cp -p $(SRCDIR)/servers/vmm/vmm .
+vmm: $(SRC)/servers/vmm/vmm
+	@-cp -p $(SRC)/servers/vmm/vmm .
 	chmod 755 vmm
 else
 vmm:
@@ -93,13 +93,13 @@ vmm:
 endif
 
 # core includes
-CORE_CFLAGS = -I$(SRCDIR) -I$(SRCDIR)/base -I$(SRCDIR)/ubit -I$(SRCDIR)/gui -I$(SRCDIR)/world -I$(SRCDIR)/net -I$(SRCDIR)/2d -I$(SRCDIR)/3d -I$(SRCDIR)/model -I$(SRCDIR)/tool -I$(SRCDIR)/vnc -I$(SRCDIR)/ai
+CORE_CFLAGS = -I$(SRC) -I$(SRC)/base -I$(SRC)/ubit -I$(SRC)/gui -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/3d -I$(SRC)/model -I$(SRC)/tool -I$(SRC)/vnc -I$(SRC)/ai
 
 # ocaml includes
 if ENABLE_OCAML
-AM_CPPFLAGS = @OCAML_CFLAGS@ @XML2_CFLAGS@ @UBIT_CFLAGS@ $(CORE_CFLAGS)
+#AM_CPPFLAGS = $(CORE_CFLAGS) @XML2_CFLAGS@ @UBIT_CFLAGS@ @OCAML_CFLAGS@
 else
-AM_CPPFLAGS = $(CORE_CFLAGS) @UBIT_CFLAGS@
+#AM_CPPFLAGS = $(CORE_CFLAGS) @XML2_CFLAGS@ @UBIT_CFLAGS@
 endif
 
 PNG_LIB= -lpng
@@ -107,42 +107,43 @@ Z_LIB= -lz
 EXT_LIB = $(PNG_LIB) $(Z_LIB)
 
 # core libs
-BASE_LIB  = -L$(SRCDIR)/base  $(SRCDIR)/base/libbase.a
-GUI_LIB   = -L$(SRCDIR)/gui   $(SRCDIR)/gui/libgui.a
-WORLD_LIB = -L$(SRCDIR)/world $(SRCDIR)/world/libworld.a
-2D_LIB    = -L$(SRCDIR)/2d    $(SRCDIR)/2d/lib2d.a
-3D_LIB    = -L$(SRCDIR)/3d    $(SRCDIR)/3d/lib3d.a
-NET_LIB   = -L$(SRCDIR)/net   $(SRCDIR)/net/libnet.a
-MODEL_LIB = -L$(SRCDIR)/model $(SRCDIR)/model/libmodel.a
-TOOL_LIB  = -L$(SRCDIR)/tool  $(SRCDIR)/tool/libtool.a
-VNC_LIB   = -L$(SRCDIR)/vnc   $(SRCDIR)/vnc/libvnc.a
-UBIT_LIB  = -L$(SRCDIR)/ubit  $(SRCDIR)/ubit/libubit.a
+BASE_LIB  = -L$(SRC)/base  $(SRC)/base/libbase.a
+GUI_LIB   = -L$(SRC)/gui   $(SRC)/gui/libgui.a
+WORLD_LIB = -L$(SRC)/world $(SRC)/world/libworld.a
+2D_LIB    = -L$(SRC)/2d    $(SRC)/2d/lib2d.a
+3D_LIB    = -L$(SRC)/3d    $(SRC)/3d/lib3d.a
+NET_LIB   = -L$(SRC)/net   $(SRC)/net/libnet.a
+MODEL_LIB = -L$(SRC)/model $(SRC)/model/libmodel.a
+TOOL_LIB  = -L$(SRC)/tool  $(SRC)/tool/libtool.a
+VNC_LIB   = -L$(SRC)/vnc   $(SRC)/vnc/libvnc.a
+UBIT_LIB  = -L$(SRC)/ubit  $(SRC)/ubit/libubit.a
 if ENABLE_OCAML
-AI_LIB    = -L$(SRCDIR)/ai    $(SRCDIR)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRCDIR)/ai/libai.a -lunix -lasmrun -ldl
+AI_LIB    = -L$(SRC)/ai    $(SRC)/ai/libai.a @OCAML_LIBS@ -lasmrun $(SRC)/ai/libai.a -lunix -lasmrun -ldl
 endif
 
 CORE_LIBS = $(GUI_LIB) $(WORLD_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(BASE_LIB) $(UBIT_LIB) $(AI_LIB)
 
 # embedded libraries
-XML_LIB   = -L$(SRCDIR)/ext/xmlParser $(SRCDIR)/ext/xmlParser/libxmlparser.a
+XML_LIB   = -L$(SRC)/ext/xmlParser $(SRC)/ext/xmlParser/libxmlparser.a
 if ENABLE_LIBMPEG
-MPEG_LIB  = -L$(SRCDIR)/ext/mpeg_lib $(SRCDIR)/ext/mpeg_lib/libmpeg.a
+MPEG_LIB  = -L$(SRC)/ext/mpeg_lib $(SRC)/ext/mpeg_lib/libmpeg.a
 endif
 if ENABLE_FTGL
-FTGL_LIB  = -L$(SRCDIR)/ext/ftgl $(SRCDIR)/ext/ftgl/libftgl.a
+FTGL_LIB  = -L$(SRC)/ext/ftgl $(SRC)/ext/ftgl/libftgl.a
 endif
 if ENABLE_GLUI
-GLUI_LIB  = -L$(SRCDIR)/ext/glui $(SRCDIR)/ext/glui/libglui.a
+GLUI_LIB  = -L$(SRC)/ext/glui $(SRC)/ext/glui/libglui.a
 endif
 if ENABLE_GL2PS
-GL2PS_LIB = -L$(SRCDIR)/ext/gl2ps $(SRCDIR)/ext/gl2ps/libgl2ps.a
+GL2PS_LIB = -L$(SRC)/ext/gl2ps $(SRC)/ext/gl2ps/libgl2ps.a
 endif
 if ENABLE_TINYGL
-TINYGL_LIB = -L$(SRCDIR)/ext/TinyGL $(SRCDIR)/ext/TinyGL/libTinyGL.a
+TINYGL_LIB = -L$(SRC)/ext/TinyGL $(SRC)/ext/TinyGL/libTinyGL.a
 endif
 
 # embedded libs
 EXT_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB) $(TINYGL_LIB)
 
 # executable
+VRELIBS += -lpthread
 vreng_LDADD = $(CORE_LIBS) $(EXT_LIBS) $(VRELIBS)
