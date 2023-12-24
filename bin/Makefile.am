@@ -145,5 +145,6 @@ endif
 EXT_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB) $(TINYGL_LIB)
 
 # executable
-VRELIBS += -lpthread
-vreng_LDADD = $(CORE_LIBS) $(EXT_LIBS) $(VRELIBS)
+SYS_LIBS = ${LIBS}
+#SYS_LIBS += -lpthread
+vreng_LDADD = $(CORE_LIBS) $(EXT_LIBS) $(SYS_LIBS)
