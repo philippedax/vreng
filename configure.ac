@@ -588,7 +588,7 @@ if test "${enable_pthread:=yes}" = "yes"; then
   # check pthread
   #
   AC_CHECK_LIB([pthread], [pthread_create], 
-               [LIBS="-lpthread -L/usr/lib -ldl ${LIBS}"],
+               [LIBS="-lpthread -L/usr/lib -ldl $LIBS"],
                [AC_MSG_WARN([pthreads library not found, check config.log!])])
   if test "$ac_cv_lib_pthread_pthread_create" = "yes" ; then
     CXXFLAGS="${CXXFLAGS} -D_REENTRANT"
@@ -1010,7 +1010,7 @@ if test "${with_mpeg:=yes}" = "yes"; then
   # check mpeg
   #
   AC_CHECK_LIB([mpeg], [OpenMPEG],
-               [LIBS="${OSDEP_LIBS} -l${libmpeg} ${LIBS}"],
+               [LIBS="${OSDEP_LIBS} -l${libmpeg} $LIBS"],
                [AC_MSG_RESULT([	use embedded mpeg_lib ])],
                [${OSDEP_LIBS}])
   if test $ac_cv_lib_mpeg_OpenMPEG = "yes" ; then
@@ -1152,7 +1152,7 @@ am_libtinygl="no"
 #  # check tinygl
 #  #
 #  AC_CHECK_LIB([tinygl], [glBegin],
-#               [LIBS="${OSDEP_LIBS} -l${libtinygl} ${LIBS}"],
+#               [LIBS="${OSDEP_LIBS} -l${libtinygl} $LIBS"],
 #               [AC_MSG_RESULT([	use embedded tinygl ])],
 #               [${OSDEP_LIBS}])
 #  if test $ac_cv_lib_tinygl_glBegin = "yes" ; then
@@ -1354,7 +1354,7 @@ fi
 #  # check ftgl
 #  #
 #  AC_CHECK_LIB([ftgl], [main], 
-#               [LIBS="-lftgl ${LIBS}"],
+#               [LIBS="-lftgl $LIBS"],
 #               [AC_MSG_WARN([ftgl library not found, use embedded ftgl])])
 #  if test "$ac_cv_lib_ftgl_main" = "yes" ; then
 #    AC_DEFINE(WITH_FTGL)
@@ -1428,7 +1428,7 @@ if test "${with_sqlite:=no}" = "yes"; then
   AC_SUBST(SQLITE_CFLAGS)
   CPPFLAGS="${SQLITE_I} ${CPPFLAGS}"
   AC_CHECK_HEADER([sqlite3.h], [AC_DEFINE([HAVE_SQLITE_H])],)
-  AC_CHECK_LIB([sqlite3], [sqlite3_open], [LIBS="${SQLITE_L} -lsqlite3 ${LIBS}"],,)
+  AC_CHECK_LIB([sqlite3], [sqlite3_open], [LIBS="${SQLITE_L} -lsqlite3 $LIBS"],,)
   if test "$ac_cv_lib_sqlite3_sqlite3_open" = "yes" ; then
     AC_DEFINE(HAVE_SQLITE)
   fi
@@ -1462,7 +1462,7 @@ if test "${with_pgsql:=no}" = "yes"; then
   AC_SUBST(PGSQL_CFLAGS)
   CPPFLAGS="${PGSQL_I} ${CPPFLAGS}"
   AC_CHECK_HEADER([libpq-fe.h], [AC_DEFINE([HAVE_PGSQL_H])],)
-  AC_CHECK_LIB([pq], [PQstatus], [LIBS="${PGSQL_L} -lpq ${LIBS}"],,)
+  AC_CHECK_LIB([pq], [PQstatus], [LIBS="${PGSQL_L} -lpq $LIBS"],,)
   if test "$ac_cv_lib_pq_PQstatus" = "yes" ; then
     AC_DEFINE(HAVE_PGSQL)
   fi
@@ -1550,24 +1550,20 @@ if test "${with_mysql:=no}" = "yes"; then
   #
   if test "$ac_cv_lib_z_inflate" = "yes" ; then
     AC_CHECK_LIB([mysqlclient], [mysql_real_connect],
-	         [LIBS="${MYSQL_L} -lmysqlclient ${LIBS}"],,
+	         [LIBS="${MYSQL_L} -lmysqlclient $LIBS"],,
 	         [${MYSQL_L} -lz])
   else
     AC_CHECK_LIB([mysqlclient], [mysql_real_connect],
-	         [LIBS="${MYSQL_L} -lmysqlclient ${LIBS}"],,
+	         [LIBS="${MYSQL_L} -lmysqlclient $LIBS"],,
 	         [${MYSQL_L}])
   fi
   if test "$ac_cv_lib_mysqlclient_mysql_real_connect" = "yes" ; then
     AC_DEFINE(WITH_MYSQL)
     AC_DEFINE(HAVE_LIBMYSQLCLIENT)
     if test "$ac_cv_lib_z_inflate" = "yes" ; then
-      AC_CHECK_LIB([mysqlclient], [mysql_error],
-	           [LIBS="${LIBS}"],,
-	           [${MYSQL_L} -lz])
+      AC_CHECK_LIB([mysqlclient], [mysql_error], [LIBS="$LIBS"],, [${MYSQL_L} -lz])
     else
-      AC_CHECK_LIB([mysqlclient], [mysql_error],
-	           [LIBS="${LIBS}"],,
-	           [${MYSQL_L}])
+      AC_CHECK_LIB([mysqlclient], [mysql_error], [LIBS="$LIBS"],, [${MYSQL_L}])
     fi
     if test "$ac_cv_lib_mysqlclient_mysql_error" = "yes" ; then
       AC_DEFINE(HAVE_MYSQL_ERROR)
@@ -1609,7 +1605,7 @@ if test "${with_xml2:=yes}" = "yes"; then
   AC_CHECK_HEADERS([libxml/xpathInternals.h])
 
   AC_CHECK_LIB([xml2], [xmlReaderForFile],
-               [LIBS="${OSDEP_LIBS} -lxml2 ${LIBS}"],
+               [LIBS="${OSDEP_LIBS} -lxml2 $LIBS"],
                [AC_MSG_RESULT([	--> libxml2: http://xmlsoft.org/downloads.html])],
                [`${XML2CONFIG} --libs`])
   CPPFLAGS=$saved_cppflags
@@ -1677,8 +1673,7 @@ if test "${with_python:=no}" = "yes"; then
   # check libpython2.5
   #
   AC_CHECK_LIB([python2.5], [Py_Initialize],
-	       [LIBS="${PYTHON_L} -lpython2.5 ${LIBS}"],,
-	       [${PYTHON_L}])
+	       [LIBS="${PYTHON_L} -lpython2.5 $LIBS"],, [${PYTHON_L}])
   if test "$ac_cv_lib_python2_5_Py_Initialize" = "yes" ; then
     AC_DEFINE(HAVE_LIBPYTHON)
   else
@@ -1723,7 +1718,7 @@ if test "${with_ocaml:=no}" = "yes"; then
   exit(0);;
 !EOL
 ${OCAMLOPT} -output-obj conftestml.ml -o conftest_ml.o
-  AC_CHECK_LIB([asmrun], [caml_startup], [LIBS="${LIBS}"],,
+  AC_CHECK_LIB([asmrun], [caml_startup], [LIBS="$LIBS"],,
                [conftest_ml.o ${OCAML_LIBS} -lasmrun -ldl])
   if test "$ac_cv_lib_asmrun_caml_startup" = "yes" ; then
     AC_DEFINE(HAVE_OCAML)
@@ -1804,19 +1799,19 @@ if test "$ac_cv_use_SDL" = "yes" ; then
   AH_TEMPLATE(HAVE_LIBSDL)
   if test "$am_libsdl" = "yes"; then
     AC_DEFINE(HAVE_LIBSDL)
-    SDL2LIBS=`sdl2-config --libs`
+    SDL2_LIBS=`sdl2-config --libs`
     #SDL_LIBS=`echo $SDL_LIBS | sed -e 's/-Wl,-framework,Cocoa//'`
-    [LIBS="${OSDEP_LIBS} $SDL2LIBS ${LIBS}"]
+    [LIBS="${OSDEP_LIBS} $SDL2_LIBS $LIBS"]
     AC_CHECK_HEADERS([SDL/SDL.h])
-    SDL2CFLADS=`sdl2-config --cflags`
-    CPPFLAGS="$CPPFLAGS $SDL2CFLAGS"
+    SDL2_CFLADS=`sdl2-config --cflags`
+    CPPFLAGS="$CPPFLAGS $SDL2_CFLAGS"
   fi
   #
   # check SDL_mixer library
   #
   AH_TEMPLATE(HAVE_LIBSDLMIXER)
   AC_CHECK_LIB([SDL_mixer], [Mix_OpenAudio],
-               [LIBS="${OSDEP_LIBS} -lSDL_mixer ${LIBS}"],
+               [LIBS="${OSDEP_LIBS} -lSDL_mixer $LIBS"],
                [AC_MSG_RESULT([	--> libSDL_mixer: http://www.libsdl.org/projects/SDL_Mixer:])],
                [${OSDEP_LIBS}])
   if test "$ac_cv_lib_SDL_mixer_Mix_OpenAudio" = "yes" ; then
