@@ -23,12 +23,14 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 
 # paths for sources
 SRC = $(top_srcdir)/src
-VRENG_SRCS = $(SRC)/base/vreng.cpp
+VRENG_SRC = $(SRC)/base/vreng.cpp
 
 # sources
-vreng_SOURCES = $(VRENG_SRCS)
+vreng_SOURCES = $(VRENG_SRC)
 
+#
 # targets
+#
 MAIN_TARGET = all-am
 OTHER_TARGETS = vrl vrel vred vacs vaps vjs vmm
 all: $(MAIN_TARGET) $(OTHER_TARGETS)
@@ -92,21 +94,9 @@ vmm:
 	@echo "" >/dev/null
 endif
 
-# core includes
-CORE_CFLAGS = -I$(SRC) -I$(SRC)/base -I$(SRC)/ubit -I$(SRC)/gui -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/3d -I$(SRC)/model -I$(SRC)/tool -I$(SRC)/vnc -I$(SRC)/ai
-
-# ocaml includes
-if ENABLE_OCAML
-#AM_CPPFLAGS = $(CORE_CFLAGS) @XML2_CFLAGS@ @UBIT_CFLAGS@ @OCAML_CFLAGS@
-else
-#AM_CPPFLAGS = $(CORE_CFLAGS) @XML2_CFLAGS@ @UBIT_CFLAGS@
-endif
-
-PNG_LIB= -lpng
-Z_LIB= -lz
-EXT_LIB = $(PNG_LIB) $(Z_LIB)
-
+#
 # core libs
+#
 BASE_LIB  = -L$(SRC)/base  $(SRC)/base/libbase.a
 GUI_LIB   = -L$(SRC)/gui   $(SRC)/gui/libgui.a
 WORLD_LIB = -L$(SRC)/world $(SRC)/world/libworld.a
@@ -121,9 +111,11 @@ if ENABLE_OCAML
 AI_LIB    = -L$(SRC)/ai    $(SRC)/ai/libai.a @OCAML_LIB@ -lasmrun $(SRC)/ai/libai.a -lunix -lasmrun -ldl
 endif
 
-CORE_LIBS = $(GUI_LIB) $(WORLD_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(BASE_LIB) $(UBIT_LIB) $(AI_LIB)
+CORE_LIBS = $(BASE_LIB) $(GUI_LIB) $(WORLD_LIB) $(MODEL_LIB) $(2D_LIB) $(3D_LIB) $(NET_LIB) $(TOOL_LIB) $(VNC_LIB) $(UBIT_LIB) $(AI_LIB)
 
+#
 # embedded libraries
+#
 XML_LIB   = -L$(SRC)/ext/xmlParser $(SRC)/ext/xmlParser/libxmlparser.a
 if ENABLE_LIBMPEG
 MPEG_LIB  = -L$(SRC)/ext/mpeg_lib $(SRC)/ext/mpeg_lib/libmpeg.a
@@ -141,10 +133,9 @@ if ENABLE_TINYGL
 TINYGL_LIB = -L$(SRC)/ext/TinyGL $(SRC)/ext/TinyGL/libTinyGL.a
 endif
 
-# embedded libs
 EXT_LIBS = $(MPEG_LIB) $(XML_LIB) $(FTGL_LIB) $(GLUI_LIB) $(GL2PS_LIB) $(TINYGL_LIB)
 
+#
 # executable
-#LIBS += -lpthread
-SYS_LIBS = $(LIBS) -lm
-vreng_LDADD = $(CORE_LIBS) $(EXT_LIBS) -lm # $(SYS_LIBS)
+#
+vreng_LDADD = $(CORE_LIBS) $(EXT_LIBS) -lm
