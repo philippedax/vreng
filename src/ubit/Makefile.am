@@ -6,7 +6,7 @@ AUTOMAKE_OPTIONS = foreign
 EXTRA_DIST = COPYING COPYRIGHT AUTHORS fonts/* ubit-doxygen.css
 
 SRC = $(top_srcdir)/src
-AM_CPPFLAGS = @FREETYPE_CFLAGS@ -I$(SRC)/ubit -I$(SRC)/ext/ftgl
+AM_CPPFLAGS = @FREETYPE_CFLAGS@ -I$(SRC) -I$(SRC)/ubit -I$(SRC)/ext/ftgl
 
 UBIT_HDRS = \
 ubit.hpp uappli.hpp uappliImpl.hpp uargs.hpp uargsImpl.hpp uattr.hpp ubackground.hpp uborder.hpp ubox.hpp uboxgeom.hpp uboxes.hpp ucall.hpp uchild.hpp uchoice.hpp uclass.hpp uclassImpl.hpp ucolor.hpp ucond.hpp uconf.hpp uctlmenu.hpp ucursor.hpp udata.hpp udefs.hpp udialogs.hpp udisp.hpp uedit.hpp uelem.hpp uevent.hpp ueventflow.hpp ufile.hpp ufilebox.hpp ufont.hpp ufontImpl.hpp ufontmetrics.hpp uflag.hpp ugeom.hpp ugl.hpp uglcanvas.hpp ugraph.hpp uhtml.hpp uicon.hpp uima.hpp uinteractors.hpp ukey.hpp ulength.hpp ulistbox.hpp umenu.hpp umenuImpl.hpp umessage.hpp umsproto.hpp unode.hpp unumber.hpp uobject.hpp uon.hpp upalette.hpp uupdate.hpp uupdatecontext.hpp uparent.hpp upiemenu.hpp upix.hpp uselection.hpp uslider.hpp uscrollbar.hpp uscrollpane.hpp ustr.hpp ustyle.hpp ustyleparser.hpp usymbol.hpp usubwin.hpp usocket.hpp usource.hpp utable.hpp utimer.hpp uview.hpp uviewImpl.hpp uwin.hpp uwinImpl.hpp uxpm.hpp u3d.hpp u3dicon.hpp udispX11.hpp udispGLUT.hpp urendercontext.hpp uglcontext.hpp ux11context.hpp uhardfont.hpp uhardima.hpp uhardwinX11.hpp uhardwinGLUT.hpp
