@@ -260,12 +260,6 @@ OSDEP_CFLAGS=""
 # X11 paths
 case "`$ac_config_sub $build`" in
 *-*-darwin*)
-  #if test -d /opt/X11/include ; then
-  #  X_CFLAGS="-I/opt/X11/include"
-  #fi
-  #if test -d /opt/X11/lib ; then
-  #  X_LIBS="-L/opt/X11/lib"
-  #fi
   ;;
 *)
   X_CFLAGS="-I/usr/X11R6/include"
@@ -1125,7 +1119,7 @@ else
   UBIT_L="-L../../src/ubit"
   UBIT_I="-I../../src"
   UBIT_CFLAGS=$UBIT_I
-  LIBS="$X_LIBS -lXpm -lICE -lSM -lXext -lXmu -lX11 $LIBS"
+  LIBS="$X_LIBS -lICE -lSM -lXext -lXmu -lX11 $LIBS"
   am_ubit="yes"
   am_libftgl="yes"
   min_ubit_version=7.0.0
@@ -1258,7 +1252,6 @@ AH_TEMPLATE(HAVE_LIBGLUT)
 case "`$ac_config_sub $build`" in
 *-*-darwin*)
   AC_CHECK_HEADERS([GLUT/glut.h])
-  # LIBS="$LIBS -framework GLUT -framework OpenGL"
   OPENGL_LIBS=-framework GLUT /System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib  /System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib
   LIBS="$LIBS $(OPENGL_LIBS)"
   # search in MacPorts and Fink installs
@@ -1335,7 +1328,6 @@ else
     ubit_features="$ubit_features UBIT_WITH_GL"
   fi
 fi
-#LIBS="$LIBS $LIBS"
 
 
 # --------------------------------------------------------------------------
@@ -1350,9 +1342,6 @@ fi
 #     [ac_cv_use_ftgl=$withval], [ac_cv_use_ftgl=no])
 #
 #if test "${with_ftgl:=no}" = "yes"; then
-#  #
-#  # check ftgl
-#  #
 #  AC_CHECK_LIB([ftgl], [main], 
 #               [LIBS="-lftgl $LIBS"],
 #               [AC_MSG_WARN([ftgl library not found, use embedded ftgl])])
@@ -1508,8 +1497,6 @@ if test "${with_mysql:=no}" = "yes"; then
     MYSQL_L="-L/usr/local/mysql/lib"
   elif test -f /usr/lib/mysql/libmysqlclient.a ; then
     MYSQL_L="-L/usr/lib/mysql"
-  elif test -f /usr/sfw/mysql/lib/libmysqlclient.a ; then
-    MYSQL_L="-L/usr/sfw/mysql/lib"
   elif test -f /opt/local/lib/mysql/libmysqlclient.a ; then
     MYSQL_L="-L/opt/local/lib/mysql"
   elif test -f /sw/lib/mysql/libmysqlclient.a ; then
@@ -1525,8 +1512,6 @@ if test "${with_mysql:=no}" = "yes"; then
     MYSQL_I="-I/usr/include/mysql"
   elif test -f /usr/local/mysql/include/mysql.h ; then
     MYSQL_I="-I/usr/local/mysql/include"
-  elif test -f /usr/sfw/mysql/include/mysql.h ; then
-    MYSQL_I="-I/usr/sfw/mysql/include"
   elif test -f /opt/local/include/mysql/mysql.h ; then
     MYSQL_I="-I/opt/local/include/mysql"
   elif test -f /sw/include/mysql/mysql.h ; then
@@ -1700,11 +1685,11 @@ if test "${with_ocaml:=no}" = "yes"; then
   if test "${ac_cv_path_OCAMLOPT}" != "" ; then
     OCAML_PATH=`${OCAMLOPT} -where`
   fi
-  OCAML_LIBS="-L${OCAML_PATH}"
+  OCAML_LIB="-L${OCAML_PATH}"
   OCAML_CFLAGS="-I${OCAML_PATH}"
   saved_cppflags=$CPPFLAGS
   AC_SUBST(OCAML_CFLAGS)
-  AC_SUBST(OCAML_LIBS)
+  AC_SUBST(OCAML_LIB)
   CPPFLAGS="${OCAML_CFLAGS} ${CPPFLAGS}"
   AC_CHECK_HEADER([caml/callback.h],
 	          [AC_DEFINE([HAVE_CAML_CALLBACK_H])],
@@ -1719,7 +1704,7 @@ if test "${with_ocaml:=no}" = "yes"; then
 !EOL
 ${OCAMLOPT} -output-obj conftestml.ml -o conftest_ml.o
   AC_CHECK_LIB([asmrun], [caml_startup], [LIBS="$LIBS"],,
-               [conftest_ml.o ${OCAML_LIBS} -lasmrun -ldl])
+               [conftest_ml.o ${OCAML_LIB} -lasmrun -ldl])
   if test "$ac_cv_lib_asmrun_caml_startup" = "yes" ; then
     AC_DEFINE(HAVE_OCAML)
     am_ocaml="yes"
@@ -1799,9 +1784,9 @@ if test "$ac_cv_use_SDL" = "yes" ; then
   AH_TEMPLATE(HAVE_LIBSDL)
   if test "$am_libsdl" = "yes"; then
     AC_DEFINE(HAVE_LIBSDL)
-    SDL2_LIBS=`sdl2-config --libs`
-    #SDL_LIBS=`echo $SDL_LIBS | sed -e 's/-Wl,-framework,Cocoa//'`
-    [LIBS="${OSDEP_LIBS} $SDL2_LIBS $LIBS"]
+    SDL2_LIB=`sdl2-config --libs`
+    #SDL_LIB=`echo $SDL_LIB | sed -e 's/-Wl,-framework,Cocoa//'`
+    [LIBS="${OSDEP_LIBS} $SDL2_LIB $LIBS"]
     AC_CHECK_HEADERS([SDL/SDL.h])
     SDL2_CFLADS=`sdl2-config --cflags`
     CPPFLAGS="$CPPFLAGS $SDL2_CFLAGS"
