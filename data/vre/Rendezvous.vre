@@ -51,9 +51,9 @@
 <!-- welcome text -->
 <text name="welcome" pos="12 -2 5.5 -2.35 1.57" font="/txf/courier-br-46.txf"> Welcome to Rendezvous </text>
 
-<!-- wheel progression
--->
+<!-- wheel
 <thing pos="0 0 1 1.57 -1.57 0.00"> <solid shape="wheel" r=".1" dif="white" /></thing>
+-->
 
 <!-- Gates -->
 
