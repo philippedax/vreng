@@ -15,6 +15,9 @@ The rules for this file:
 ++ 9
 == 9.4
 -- 9.4.3
+	- fix AM_CPPFLAGS for freetype2 src/*/Makefile.am
+	- fix -lptread by reordering CHECK-LIBs configure.ac
+	(2023/12/24, Philippe Dax)
 	- rename support to config
 	- rename htdocs to data
 	- rename src/bundle ro src/ext
