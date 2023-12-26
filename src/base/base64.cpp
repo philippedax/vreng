@@ -70,8 +70,9 @@ int decodeBase64(const char *str, char *out)
   pin = str;
   pout = out;
   /* build decode table */
-  for (i = 0; i < 256; i++)
+  for (i = 0; i < 256; i++) {
     decode[i] = -2; /* illegal digit */
+  }
   for (i = 0; i < 64; i++) {
      decode[(int)digits[i]] = i;
      decode[(int)digits[i] | 0x80] = -1; /* ignore parity when decoding */
@@ -84,7 +85,8 @@ int decodeBase64(const char *str, char *out)
     if (digit < -1) {
       fprintf(stderr, "decodeBase64: illegal char: %c\n", c);
       return -1;
-    } else if (digit >= 0)
+    }
+    else if (digit >= 0)
       writebits(digit & 0x3f, 6);
   }
   return size;
