@@ -19,6 +19,9 @@ The rules for this file:\n\
 	- fix AM_CPPFLAGS for freetype2 src/*/Makefile.am\n\
 	- fix -lptread by reordering CHECK-LIBs configure.ac\n\
 	(2023/12/24, Philippe Dax)\n\
+	- rename model/face*pp to model/v3d*pp\n\
+	- rename world/humanhead*pp to world/face*pp\n\
+	(2023/12/16, Philippe Dax)\n\
 	- rename support to config\n\
 	- rename htdocs to data\n\
 	- rename src/bundle ro src/ext\n\
