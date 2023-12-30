@@ -83,9 +83,6 @@ void Md2::httpReader(void *_md2, Http *http)
   }
   else {
     error("can't read %s", md2->getUrl());
-#if 0 //notused
-    md2->readHttp(http);
-#endif //notused
   }
   if (cache) {
     cache->close();
@@ -144,57 +141,6 @@ bool Md2::readFile(class File *file, FILE *f)
   return loaded;
 }
 
-#if 0  //notused
-/** Md2 model http-reader */
-bool Md2::readHttp(Http *h)
-{
-  /* Read the header */
-  tHeader md2_hdr;
-  int32_t o = 0;
-
-  h->read_buf((char *) md2_hdr.ident, 4); o+=4;
-  md2_hdr.version = h->read_int(); o+=4;
-  md2_hdr.skinwidth = h->read_int(); o+=4;
-  md2_hdr.skinheight = h->read_int(); o+=4;
-  md2_hdr.framesize = h->read_int(); o+=4;
-  md2_hdr.num_skins = h->read_int(); o+=4;
-  md2_hdr.num_xyz = h->read_int(); o+=4;
-  md2_hdr.num_st = h->read_int(); o+=4;
-  md2_hdr.num_tris = h->read_int(); o+=4;
-  md2_hdr.num_glcmds = h->read_int(); o+=4;
-  md2_hdr.num_frames = h->read_int(); o+=4;
-  md2_hdr.ofs_skins = h->read_int(); o+=4;
-  md2_hdr.ofs_st = h->read_int(); o+=4;
-  md2_hdr.ofs_tris = h->read_int(); o+=4;
-  md2_hdr.ofs_frames = h->read_int(); o+=4;
-  md2_hdr.ofs_glcmds = h->read_int(); o+=4;
-  md2_hdr.ofs_end = h->read_int(); o+=4;
-
-  /* check if this is really a .md2 file */
-  if (strncmp(md2_hdr.ident, "IDP2", 4)) return false;
-  /* we do not need all the info from the header, just some of it */
-  numframes = md2_hdr.num_frames;
-  skinwidth = md2_hdr.skinwidth;
-  skinheight = md2_hdr.skinheight;
-
-  /* check which info is first */
-  if (md2_hdr.ofs_frames > md2_hdr.ofs_glcmds) {
-    h->skip(md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
-    o += getGLCmds(&md2_hdr, h);
-    h->skip(md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
-    o += getFrames(&md2_hdr, h);
-  }
-  else {
-    h->skip(md2_hdr.ofs_frames - o); o = md2_hdr.ofs_frames;
-    o += getFrames(&md2_hdr, h);
-    h->skip(md2_hdr.ofs_glcmds - o); o = md2_hdr.ofs_glcmds;
-    o += getGLCmds(&md2_hdr, h);
-  }
-  loaded = true;
-  return loaded;
-}
-#endif //notused
-
 int32_t Md2::getFrames(tHeader *md2_hdr, class File *file, FILE *f)
 {
   /* converts the FrameInfos to Frames */
@@ -233,47 +179,6 @@ int32_t Md2::getFrames(tHeader *md2_hdr, class File *file, FILE *f)
   }
   return o;
 }
-
-#if 0  //notused
-int32_t Md2::getFrames(tHeader *md2_hdr, Http *h)
-{
-  /* converts the FrameInfos to Frames */
-  frames = new tFrame[numframes];
-
-  // allocate display list
-  dlists = new GLint[numframes];
-
-  int32_t o = 0;
-  for (int f=0; f < numframes; f++) {
-    tVec3 scale, origin;
-
-    scale.x = h->read_float(); o+=4;
-    scale.y = h->read_float(); o+=4;
-    scale.z = h->read_float(); o+=4;
-    origin.x = h->read_float(); o+=4;
-    origin.y = h->read_float(); o+=4;
-    origin.z = h->read_float(); o+=4;
-    h->read_buf((char *) frames[f].name, 16); o+=16;
-
-    frames[f].vert_table = new tVertex[md2_hdr->num_xyz];
-
-    /* loads the vertices */
-    for (int i=0; i < md2_hdr->num_xyz; i++) {
-      tTrivertex cur_vert;
-      tVertex *p = (frames[f].vert_table) + i;
-
-      cur_vert.x = h->read_char(); o++;
-      cur_vert.y = h->read_char(); o++;
-      cur_vert.z = h->read_char(); o++;
-      cur_vert.normal = h->read_char(); o++;
-      p->x = ((cur_vert.x * scale.x) + origin.x);
-      p->y = ((cur_vert.y * scale.y) + origin.y);
-      p->z = ((cur_vert.z * scale.z) + origin.z);
-    }
-  }
-  return o;
-}
-#endif //notused
 
 /**
  * we keep only the commands and the index in the glcommands
@@ -322,51 +227,6 @@ int32_t Md2::getGLCmds(tHeader *md2_hdr, class File *file, FILE *f)
   *(glcmds_copy++) = glcmd;
   return o+4;
 }
-
-#if 0  //notused
-int32_t Md2::getGLCmds(tHeader *md2_hdr, Http *h)
-{
-  int32_t num_vertices = ((md2_hdr->num_tris + 2 * md2_hdr->num_glcmds - 2) / 7);
-  //echo("getGLCmds: num_vertices=%d", num_vertices);
-
-  texinfo = new tTexInfo[num_vertices];
-  glcmds = new int32_t[md2_hdr->num_glcmds - 2 * num_vertices];
-  //echo("glcmds size = %d", sizeof(int32_t) * (md2_hdr->num_glcmds - 2 * num_vertices));
-
-  /* now transform the GL commands */
-  int32_t *glcmds_copy = glcmds;
-  tTexInfo *_texinfo = texinfo;
-
-  int32_t glcmd, o;
-
-  for (o = 0, glcmd = 0; (glcmd = h->read_int()) != 0; ) {
-    int32_t nb_verts;
-
-    o += 4;
-
-    /* determine the command to draw the triangles */
-    if (glcmd > 0)	// triangle strip
-      nb_verts = glcmd;
-    else		// triangle fan
-      nb_verts = -glcmd;
-    *(glcmds_copy++) = glcmd;	// copy the command
-
-    /* gets the texture information */
-    for (int i=0; i < nb_verts; i++) {
-      _texinfo->s = h->read_float(); o+=4;
-      _texinfo->t = h->read_float(); o+=4;
-      _texinfo++;
-
-      /* we keep the vertex index */
-      glcmd = h->read_int(); o+=4;
-      *(glcmds_copy++) = glcmd;	// copy the vertex index
-    }
-  }
-  /* do not forget to copy the zero :-) */
-  *(glcmds_copy++) = glcmd;
-  return o+4;
-}
-#endif //notused
 
 void Md2::updBbox(float x, float y, float z)
 {
