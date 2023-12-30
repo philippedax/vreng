@@ -31,34 +31,20 @@
 // local
 static char lwourl[256];
 
-#if 1 //dax
-#define DAXALLOC 1
-#endif
 
 void Lwo::readSrfs(class File *file, FILE *f, int nbytes)
 {
-#if DAXALLOC
   int cnt = nbm;
-#else
-  tMaterial *head = NULL;
-#endif
   tMaterial *lmaterial = NULL;
 
   while (nbytes > 0) {
     /* allocate more memory for materials if needed */
-#if DAXALLOC
     if (cnt <= nbm) {
       cnt += cnt/2 + 4;
       material = (tMaterial*) realloc(material,sizeof(tMaterial)*cnt);
       if (! material) { error("can't realloc material"); return; }
     }
     lmaterial = material + nbm++;
-#else
-    if (! lmaterial) head = lmaterial = new tMaterial;
-    else             lmaterial = lmaterial->next = new tMaterial;
-    lmaterial->next = NULL;
-    nbm++;
-#endif
 
     /* read name */
     nbytes -= file->read_string(f, lmaterial->name, LW_MAX_NAME_LEN);
@@ -66,16 +52,8 @@ void Lwo::readSrfs(class File *file, FILE *f, int nbytes)
     /* default color */
     lmaterial->r = lmaterial->g = lmaterial->b = 0.7;
   }
-#if DAXALLOC
   material = (tMaterial*) realloc(material, sizeof(tMaterial) * nbm);
   if (! material) error("can't realloc material");
-#else
-  if (! material) material = head;
-  else {
-    for (lmaterial = material; lmaterial->next ; lmaterial = lmaterial->next) ;
-    lmaterial->next = head;
-  }
-#endif
 }
 
 void Lwo::readSurf(class File *file, FILE *f, int nbytes)
@@ -87,17 +65,12 @@ void Lwo::readSurf(class File *file, FILE *f, int nbytes)
   nbytes -= file->read_string(f, name, LW_MAX_NAME_LEN);
 
   /* find material */
-#if DAXALLOC
   for (int i=0; i < nbm; i++) {
     if (! strcmp(material[i].name, name)) {
       lmaterial = &material[i];
       break;
     }
   }
-#else
-  for (lmaterial = material; lmaterial ; lmaterial = lmaterial->next)
-    if (! strcmp(lmaterial->name, name)) break;
-#endif
 
   /* read values */
   while (nbytes > 0) {
@@ -121,42 +94,25 @@ void Lwo::readSurf(class File *file, FILE *f, int nbytes)
 
 void Lwo::readPols(class File *file, FILE *f, int nbytes)
 {
-#if DAXALLOC
   int cnt = nbf;
-#else
-  tFace *head = NULL;
-#endif
   tFace *lface = NULL;
 
   while (nbytes > 0) {
     /* allocate more memory for polygons if necessary */
-#if DAXALLOC
     if (cnt <= nbf) {
       cnt += cnt + 4;
       face = (tFace*) realloc((void*) face, sizeof(tFace) * cnt);
       if (! face) { error("can't realloc face"); return; }
     }
     lface = face + nbf++;
-#else
-    if (! lface) head = lface = new tFace;
-    else         lface = lface->next = new tFace;
-    lface->next = NULL;
-    nbf++;
-#endif
 
     /* number of points in this face */
     lface->index_count = file->read_short(f);
     nbytes -= 2;
 
     /* allocate space for points */
-#if 0 //dax
-    lface->index = new int[lface->index_count];
-    if (! lface->index) { error("can't alloc faceindex"); return; }
-    for (int i=0; i < lface->index_count; i++) lface->index[i] = 0;
-#else
     lface->index = (int*) calloc(sizeof(int) * lface->index_count, 1);
     if (! lface->index) { error("can't alloc faceindex"); return; }
-#endif
 
     /* read points in */
     for (int i=0; i < lface->index_count; i++) {
@@ -183,16 +139,8 @@ void Lwo::readPols(class File *file, FILE *f, int nbytes)
   }
 
   /* readjust to true size */
-#if DAXALLOC
   face = (tFace*) realloc(face, sizeof(tFace) * nbf);
   if (! face) error("can't realloc face");
-#else
-  if (! face) face = head;
-  else {
-    for (lface = face; lface->next ; lface = lface->next) ;
-    lface->next = head;
-  }
-#endif
 }
 
 void Lwo::readPnts(class File *file, FILE *f, int nbytes)
@@ -275,32 +223,10 @@ Lwo::Lwo(const char *url)
 
 Lwo::~Lwo()
 {
-#if DAXALLOC
-  if (face) {
-    for (int i=0; i < nbf; i++)
-      //dax segfault // if (face[i].index) free(face[i].index);
-      //dax if (face->index) free(face->index);
-    //dax segfault // free(face);
-    face = NULL;
-  }
+  if (face) free(face);
+  face = NULL;
   if (material) free(material);
   material = NULL;
-#else
-  tFace *lface;
-  tMaterial *lmaterial;
-
-  while (face) {
-    delete[] face->index;
-    lface = face;
-    face = face->next;
-    delete[] lface;
-  }
-  while (material) {
-    lmaterial = material;
-    material = material->next;
-    delete[] lmaterial;
-  }
-#endif
   if (vertex) delete[] vertex;
   if (dlist > 0) glDeleteLists(dlist, 1);
 }
@@ -400,10 +326,8 @@ void Lwo::render(const Pos &pos)
   if (dlist) {
     glPushMatrix();
     glTranslatef(pos.x, pos.y, pos.z);
-    //glRotatef(-RAD2DEG(pos.az) + 90, 0, 0, 1);
     glRotatef(RAD2DEG(pos.az), 0, 0, 1);
     glRotatef(RAD2DEG(pos.ax), 1, 0, 0);
-    //glRotatef(RAD2DEG(pos.ay), 0, 1, 0);
     glCallList(dlist);
     glPopMatrix();
   }

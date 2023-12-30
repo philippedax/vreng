@@ -57,7 +57,7 @@ typedef struct sFace {
  */
 class Lwo {
 
-private:
+ private:
   float *vertex;
   tFace *face;
   tMaterial *material;
@@ -66,7 +66,7 @@ private:
   int nbm;
   GLint dlist;		///< display list.
 
-public:
+ public:
   Lwo(const char *url);	///< constructor.
   virtual ~Lwo();	///< destructor.
 
@@ -76,7 +76,7 @@ public:
   float getScale();
   void setScale(float scale);
 
-private:
+ private:
   static void httpReader(void *_lwo, class Http *http);
 
   void readSrfs(class File *file, FILE *f, int nbytes);
