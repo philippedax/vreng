@@ -35,8 +35,7 @@ class Vicinity {
   friend class User;	///< access to many members
   friend class Render;  ///< access to Rendering
 
-private:
-
+ private:
   typedef enum {
     DIST_INCL,
     DIST_INTER,
@@ -59,42 +58,42 @@ private:
     Dist dist;
   } Vicin;
 
-  typedef struct s_visualPosition {
+  typedef struct s_visualPos {
     WO *object;
     int nbPixels;
     int xmin;
     int xmax;
     int ymin;
     int ymax;
-  } VisualPosition;
+  } VisualPos;
 
 //   typedef struct typeTable{
 //     char typeName[100];
 //     struct typeTable suivant;
 //   } TypeTable
 
-  WO *refObject;
-  std::string refObjectName;
+  WO *obj;
+  std::string objName;
 
   User *user;
   Dist userDist;
   Size userSize;
-  Size objectSize;
+  Size objSize;
 
   Vicin* vicinList;
-  VisualPosition* visualList;
+  VisualPos* visualList;
 
   std::list<Solid*> solidLst; ///< solids list
   int listSize;
   int visualListSize;
 
-  /**** METHODS ****/
+  /* private methods */
 
-  static Dist computeDistance(WO *obj1, WO *obj2);
+  static Dist computeDist(WO *obj1, WO *obj2);
   static Size computeSize(WO *obj);
 
-  static int compDistance(const void *t1, const void *t2);
-  void sortDistance();
+  static int compDist(const void *t1, const void *t2);
+  void sortDist();
 
   static int compInterest(const void *t1, const void *t2);
   void sortInterest();
@@ -111,22 +110,21 @@ private:
 
   void actionList();
 
-public:
-
+ public:
   Vicinity();
   Vicinity(std::string _objectName);
 
   virtual ~Vicinity();
 
-  std::string getObjectName() { return refObjectName; }
-  WO* getObject() { return refObject; }
+  std::string getObjectName() { return objName; }
+  WO* getObject() { return obj; }
 
-  void analyseTopo();
-  void analyseVisual(int details);
-  void analyseVicinity();
+  void analTopo();
+  void analVisual(int details);
+  void analVicinity();
   WO* searchProximityObject(char **typeObj, int nbre);
 
-  void analyseScene();
+  void analScene();
   /**<
    * describe the scene viewed by the user and use the vicinity list for the AOI
    */
@@ -136,7 +134,6 @@ public:
 
   static int* getTypeFromAction(const char *actionName);
   static char* translateNum2Type(int i);
-
 };
 
 #endif

@@ -27,7 +27,7 @@
 #include "user.hpp"	// pos
 #include "move.hpp"	// gotoXYZ
 #include "render.hpp"	// setAllTypeFlashy
-#include "vicinity.hpp"	// analyseScene
+#include "vicinity.hpp"	// analScene
 #include "xml.hpp"	// selectProximity
 
 
@@ -309,7 +309,7 @@ void viewed_objects(value mot)
 {
   char *val = (char *) String_val(mot);
   Vicinity* vicin = new Vicinity(val);
-  vicin->analyseScene();
+  vicin->analScene();
 }
 
 

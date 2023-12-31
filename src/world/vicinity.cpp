@@ -36,11 +36,11 @@
 Vicinity::Vicinity()
 {
   solidLst = ::g.render.getSolidList();
-  refObject = (WO *) localuser;
-  refObjectName = refObject->getInstance();
+  obj = (WO *) localuser;
+  objName = obj->getInstance();
   setSize(user);
   userDist = DIST_INCL;
-  objectSize = userSize;
+  objSize = userSize;
 
   vector<Vicin> vicinList(solidLst.size());
 
@@ -48,7 +48,7 @@ Vicinity::Vicinity()
   for (list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
     if (uselessType((*il)->object())) continue;
     vicinList[listSize].size = computeSize((*il)->object());
-    vicinList[listSize].dist = computeDistance((*il)->object(), refObject);
+    vicinList[listSize].dist = computeDist((*il)->object(), obj);
     vicinList[listSize].object = (*il)->object();
     listSize++;
   }
@@ -58,17 +58,17 @@ Vicinity::Vicinity()
 Vicinity::Vicinity(string objectName)
 {
   // On instancie l'objet
-  refObjectName = strdup(objectName.c_str());
+  objName = strdup(objectName.c_str());
   solidLst = ::g.render.getSolidList();
 
   // On cherche l'objet dans la liste
-  refObject = NULL;
-  refObject->getObjectByName(refObjectName.c_str());
-  //echo("J'ai trouve l'objet %s dans la liste des objets",refObject->getInstance());
+  obj = NULL;
+  obj->getObjectByName(objName.c_str());
+  //echo("J'ai trouve l'objet %s dans la liste des objets",obj->getInstance());
 
   setSize(localuser);
-  userDist = computeDistance(user, refObject);
-  objectSize = computeSize(refObject);
+  userDist = computeDist(user, obj);
+  objSize = computeSize(obj);
 
   vector<Vicin> vicinList(solidLst.size());
 
@@ -76,32 +76,24 @@ Vicinity::Vicinity(string objectName)
   for (list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
     if (uselessType((*il)->object())) continue;
     vicinList[listSize].size = computeSize((*il)->object());
-    vicinList[listSize].dist = computeDistance((*il)->object(), refObject);
+    vicinList[listSize].dist = computeDist((*il)->object(), obj);
     vicinList[listSize].object = (*il)->object();
     listSize++;
   }
   vicinList.resize(listSize);
-  //memory leak// free((char *)refObjectName);
+  //free((char *)objName);
 }
 
 // Evaluate size of the avatar
 void Vicinity::setSize(WO *user)
 {
-  if      ((user->pos.bbs.v[0] > 10) &&
-           (user->pos.bbs.v[1] > 4) &&
-           (user->pos.bbs.v[2] > 4))
+  if      ((user->pos.bbs.v[0] > 10) && (user->pos.bbs.v[1] > 4) && (user->pos.bbs.v[2] > 4))
     userSize = SIZE_HUGE;
-  else if ((user->pos.bbs.v[0] > 5) &&
-           (user->pos.bbs.v[1] > 2) &&
-           (user->pos.bbs.v[2] > 2))
+  else if ((user->pos.bbs.v[0] > 5) && (user->pos.bbs.v[1] > 2) && (user->pos.bbs.v[2] > 2))
     userSize = SIZE_LARGE;
-  else if ((user->pos.bbs.v[0] < 1) &&
-           (user->pos.bbs.v[1] < 0.5) &&
-           (user->pos.bbs.v[2] < 0.5))
+  else if ((user->pos.bbs.v[0] < 1) && (user->pos.bbs.v[1] < 0.5) && (user->pos.bbs.v[2] < 0.5))
     userSize = SIZE_SMALL;
-  else if ((user->pos.bbs.v[0] < 0.5) &&
-           (user->pos.bbs.v[1] < 0.2) &&
-           (user->pos.bbs.v[2] < 0.2))
+  else if ((user->pos.bbs.v[0] < 0.5) && (user->pos.bbs.v[1] < 0.2) && (user->pos.bbs.v[2] < 0.2))
     userSize = SIZE_TINY;
   else
     userSize = SIZE_NORMAL;
@@ -113,7 +105,7 @@ Vicinity::~Vicinity()
   vicinList = NULL;
 }
 
-Vicinity::Dist Vicinity::computeDistance(WO *obj1, WO *obj2)
+Vicinity::Dist Vicinity::computeDist(WO *obj1, WO *obj2)
 {
   float posobj1[6];
   float posobj2[6];
@@ -170,57 +162,47 @@ Vicinity::Dist Vicinity::computeDistance(WO *obj1, WO *obj2)
       else inclusion[i] = DIST_NEAR;
     }
   }
-  if ((inclusion[0] == DIST_INCL) &&
-      (inclusion[1] == DIST_INCL) &&
-      (inclusion[2] == DIST_INCL))
+  if ((inclusion[0] == DIST_INCL) && (inclusion[1] == DIST_INCL) && (inclusion[2] == DIST_INCL))
     return DIST_INCL;
-  if ((inclusion[0] == DIST_FAR) ||
-      (inclusion[1] == DIST_FAR) ||
-      (inclusion[2] == DIST_FAR))
+  if ((inclusion[0] == DIST_FAR) || (inclusion[1] == DIST_FAR) || (inclusion[2] == DIST_FAR))
     return DIST_FAR;
-  if ((inclusion[0] == DIST_NEAR) ||
-      (inclusion[1] == DIST_NEAR) ||
-      (inclusion[2] == DIST_NEAR))
+  if ((inclusion[0] == DIST_NEAR) || (inclusion[1] == DIST_NEAR) || (inclusion[2] == DIST_NEAR))
     return DIST_NEAR;
-  if ((inclusion[0] == DIST_STUCK) ||
-      (inclusion[1] == DIST_STUCK) ||
-      (inclusion[2] == DIST_STUCK))
+  if ((inclusion[0] == DIST_STUCK) || (inclusion[1] == DIST_STUCK) || (inclusion[2] == DIST_STUCK))
     return DIST_STUCK;
-  if ((inclusion[0] == DIST_INTER) ||
-      (inclusion[1] == DIST_INTER) ||
-      (inclusion[2] == DIST_INTER))
+  if ((inclusion[0] == DIST_INTER) || (inclusion[1] == DIST_INTER) || (inclusion[2] == DIST_INTER))
     return DIST_INTER;
-  error("computeDistance: default distance value");
+  error("computeDist: default distance value");
   return DIST_INTER;
 }
 
 Vicinity::Size Vicinity::computeSize(WO *obj)
 {
-  Size objsize = SIZE_NORMAL;
+  Size size = SIZE_NORMAL;
 
   if ((obj->pos.bbs.v[0] > (10*localuser->pos.bbs.v[0]))
      && (obj->pos.bbs.v[1] > (4*localuser->pos.bbs.v[1]))
      && (obj->pos.bbs.v[2] > (4*localuser->pos.bbs.v[2]))) {
-    objsize = SIZE_HUGE;
+    size = SIZE_HUGE;
   } else if ((obj->pos.bbs.v[0] > (5*localuser->pos.bbs.v[0]))
 	   && (obj->pos.bbs.v[1] > (2*localuser->pos.bbs.v[1]))
 	   && (obj->pos.bbs.v[2] > (2*localuser->pos.bbs.v[2]))) {
-    objsize = SIZE_LARGE;
+    size = SIZE_LARGE;
   } else if ((obj->pos.bbs.v[0] < (1*localuser->pos.bbs.v[0]))
 	   && (obj->pos.bbs.v[1] < (0.5*localuser->pos.bbs.v[1]))
 	   && (obj->pos.bbs.v[2] < (0.5*localuser->pos.bbs.v[2]))) {
-    objsize = SIZE_SMALL;
+    size = SIZE_SMALL;
   } else if ((obj->pos.bbs.v[0] < (0.5*localuser->pos.bbs.v[0]))
 	   && (obj->pos.bbs.v[1] < (0.2*localuser->pos.bbs.v[1]))
 	   && (obj->pos.bbs.v[2] < (0.2*localuser->pos.bbs.v[2]))) {
-    objsize = SIZE_TINY;
+    size = SIZE_TINY;
   } else {
-    objsize = SIZE_NORMAL;
+    size = SIZE_NORMAL;
   }
-  return objsize;
+  return size;
 }
 
-int Vicinity::compDistance(const void *t1, const void *t2)
+int Vicinity::compDist(const void *t1, const void *t2)
 {
   Vicin s1 = *((Vicin*) t1);
   Vicin s2 = *((Vicin*) t2);
@@ -233,9 +215,9 @@ int Vicinity::compDistance(const void *t1, const void *t2)
   return 0;
 }
 
-void Vicinity::sortDistance()
+void Vicinity::sortDist()
 {
-  qsort((void *)vicinList, listSize, sizeof(vicinList[0]), compDistance);
+  qsort((void *)vicinList, listSize, sizeof(vicinList[0]), compDist);
 }
 
 int Vicinity::compInterest(const void *t1, const void *t2)
@@ -247,32 +229,32 @@ int Vicinity::compInterest(const void *t1, const void *t2)
   int dist1 = (int) s1.dist;
   int dist2 = (int) s2.dist;
 
-  //qd un objet est loin on en tient pas compte
+  // qd un objet est loin on en tient pas compte
   if ((dist1 == 4) && (dist2 < 4)) return 1;
   if ((dist2 == 4) && (dist1 < 4)) return -1;
 
-  //si la taille de l'objet est plus grand ou si la distance est plus proche
+  // si la taille de l'objet est plus grande ou si la distance est plus proche
   if ((size1 > size2) && (dist1 < dist2)) return -1;
   if ((size1 < size2) && (dist1 > dist2)) return 1;
 
-  //un objet grand et pres est plus important qu'un objet petit et loin
+  // un objet grand et pres est plus important qu'un objet petit et loin
   if ((size1 > size2) && (dist1 > dist2)) {
-    int distu1 = ((int) computeDistance(localuser, s1.object));
-    int distu2 = ((int) computeDistance(localuser, s2.object));
+    int distu1 = ((int) computeDist(localuser, s1.object));
+    int distu2 = ((int) computeDist(localuser, s2.object));
 
-    //si un objet est grand loin size1 dist1 et un autre petit pres size2 dist2
-    //on regarde la distance de leur centre a l'utilisateur.
+    // si un objet est grand loin size1 dist1 et un autre petit pres size2 dist2
+    // on regarde la distance de leur centre a l'utilisateur.
     if (distu1 > distu2) return 1;
     else                 return -1;
   }
   if ((size1 < size2) && (dist1 < dist2)) {
-    int distu1 = ((int) computeDistance(localuser, s1.object));
-    int distu2 = ((int) computeDistance(localuser, s2.object));
+    int distu1 = ((int) computeDist(localuser, s1.object));
+    int distu2 = ((int) computeDist(localuser, s2.object));
     if (distu1 > distu2) return 1;
     else                 return -1;
   }
-  //si un objet est de taille proche de l'utilisateur il est plus important
-  //TODO: trouver une formule magique pour rendre encore plus pertinent le test
+  // si un objet est de taille proche de l'utilisateur il est plus important
+  // TODO: trouver une formule magique pour rendre encore plus pertinent le test
   return 0;
 }
 
@@ -283,14 +265,14 @@ void Vicinity::sortInterest()
 
 WO* Vicinity::searchProximityObject(char** typeObj, int nb)
 {
-  sortDistance();
+  sortDist();
 
-  WO* obj = NULL;
+  WO* o = NULL;
   for (int i=0; i<listSize && vicinList[i].dist <= DIST_NEAR; i++) {
     for (int j=0; j<nb ; j++) {
       if (!strcasecmp((vicinList[i].object)->typeName(), typeObj[j])) {
-	obj = vicinList[i].object;
-	return obj;
+	o = vicinList[i].object;
+	return o;
       }
     }
   }
@@ -308,35 +290,34 @@ void Vicinity::describeTopo(Vicin vicin)
   case DIST_NEAR:  msg = "is near of"; break;
   case DIST_FAR:   msg = "is very far of"; break;
   }
-  echo("object %s %s %s", refObjectName.c_str(), msg.c_str(), (vicin.object)->getInstance());
+  echo("object %s %s %s", objName.c_str(), msg.c_str(), (vicin.object)->getInstance());
 }
 
-void Vicinity::analyseScene()
+void Vicinity::analScene()
 { 
-  //test: que vois-je de cristal-pyramid ?
-  //on analyse le monde par rapport a un objet
+  // test: que vois-je de cristal-pyramid ?
+  // on analyse le monde par rapport a un objet
 
   //sortInterest();
-  sortDistance();
-  analyseTopo();
-  analyseVisual(25);
-  analyseVicinity(); 
+  sortDist();
+  analTopo();
+  analVisual(25);
+  analVicinity(); 
   //actionList();
   return;
 }
 
-void Vicinity::analyseTopo()
+void Vicinity::analTopo()
 {
   int toread = 3;
 
 #if _DEBUG_TOPO_
   for (int i=0; i < listSize; i++) {
-    echo(" OBJET (%s) size :%d dist:%d",
+    echo(" object (%s) size :%d dist:%d",
 	  (vicinList[i].object)->getInstance(),
 	  vicinList[i].size,
 	  vicinList[i].dist);
   }
-  //echo("---");
 #endif
   if (listSize < toread) toread = listSize;
 
@@ -358,8 +339,8 @@ bool Vicinity::uselessType(WO *obj)
 
 int Vicinity::compVisual(const void *t1, const void *t2)
 {
-  VisualPosition s1 = *((VisualPosition*) t1);
-  VisualPosition s2 = *((VisualPosition*) t2);
+  VisualPos s1 = *((VisualPos*) t1);
+  VisualPos s2 = *((VisualPos*) t2);
 
   // decreasing order
   if (s1.nbPixels > s2.nbPixels) return -1;
@@ -369,7 +350,7 @@ int Vicinity::compVisual(const void *t1, const void *t2)
 
 void Vicinity::sortVisual()
 {
-  qsort((void *)visualList, visualListSize, sizeof(VisualPosition), compVisual);
+  qsort((void *)visualList, visualListSize, sizeof(VisualPos), compVisual);
 }
 
 /**
@@ -377,7 +358,7 @@ void Vicinity::sortVisual()
  * tel que : la proportion occupee par l'objet, son emplacement sur l'ecran.
  * Tout a partir de l'ecran de visualisation de l'utilisateur
  */
-void Vicinity::analyseVisual(int details)
+void Vicinity::analVisual(int details)
 {
   int drawed = 0;
 
@@ -386,7 +367,7 @@ void Vicinity::analyseVisual(int details)
 
   if (drawed < 1) drawed = 5000;
 
-  visualList = new VisualPosition[drawed];
+  visualList = new VisualPos[drawed];
 
   for (int i=0; i < drawed; i++) {
     visualList[i].object = NULL;
@@ -401,16 +382,15 @@ void Vicinity::analyseVisual(int details)
   //les nouvelles cartes graphiques et c'est pour faire des tests
   //c pas encore l'algo final c'est pour avoir des valeurs fines
   //pour le second algo rapide qui me donnera des donnees approx
-  //alors pas de panique ca va disparaitre !
 
   for (int i=0; i < ::g.pref.width3D; i += details) {
     for (int j=0; j < ::g.pref.height3D; j += details) {
       bool transp = true;
       int depth = 0;
 
-      //au bout de 5 niveau de transparence on peut supposer l'objet opaque
+      // au bout de 5 niveau de transparence on peut supposer l'objet opaque
       while (transp || depth > 4) {
-	//gestion de transparence
+	// gestion de transparence
         uint16_t n = ::g.render.bufferSelection(i, j, depth);
         WO* po = WO::byNum(n);
 	depth++;
@@ -423,7 +403,7 @@ void Vicinity::analyseVisual(int details)
 	if (uselessType(po))
           continue;
 
-	//3 boucles for je sais c pas bien ! mais j'y suis oblige
+	// 3 boucles for je sais c pas bien ! mais j'y suis oblige
 	bool found = false;
 	for (int k=0; k < visualListSize; k++) {
 	  if (po && visualList[k].object && visualList[k].object == po) {
@@ -456,39 +436,41 @@ void Vicinity::analyseVisual(int details)
 
 void Vicinity::describeVisual()
 {
-  V3 coord = ::g.render.getVisiblePosition(refObject);
-  //echo("coord de objet %s, x:%.2f y:%.2f", refObjectName.c_str(), coord.v[0], coord.v[1]);
+  V3 coord = ::g.render.getVisiblePosition(obj);
+  //echo("coord de objet %s, x:%.2f y:%.2f", objName.c_str(), coord.v[0], coord.v[1]);
 
   char* msg = NULL;
   char msgprecis[100];
 
-  if (coord.v[0] < 0) msg = strdup("est a gauche");
-  else if (coord.v[0] > (::g.pref.width3D)) msg = strdup("est a droite");
-  else if (coord.v[0] < (::g.pref.width3D/3.0)) msg = strdup("est sur la gauche");
+  if (coord.v[0] < 0)                                 msg = strdup("est a gauche");
+  else if (coord.v[0] > (::g.pref.width3D))           msg = strdup("est a droite");
+  else if (coord.v[0] < (::g.pref.width3D/3.0))       msg = strdup("est sur la gauche");
   else if (coord.v[0] > ((::g.pref.width3D*2.0)/3.0)) msg = strdup("est sur la droite");
-  else msg = strdup("est devant");
-
+  else                                                msg = strdup("est devant"); 
   float deltaVisual = 0.0;
-  if (coord.v[0] < ((visualList[0].xmin+visualList[0].xmax)/2.0-deltaVisual))
-    sprintf(msgprecis,"et a gauche de %s", (visualList[0].object)->getInstance());
-  else if (coord.v[0] < ((visualList[0].xmin+visualList[0].xmax)/2.0+deltaVisual))
-    sprintf(msgprecis,"et a droite de %s", (visualList[0].object)->getInstance());
-  else
-    sprintf(msgprecis,"et pres de %s", (visualList[0].object)->getInstance());
-  echo("-> %s %s %s ! ok ?", refObjectName.c_str(), msg, msgprecis);
+  if (coord.v[0] < ((visualList[0].xmin+visualList[0].xmax)/2.0-deltaVisual)) {
+    sprintf(msgprecis, "est a gauche de %s", (visualList[0].object)->getInstance());
+  }
+  else if (coord.v[0] < ((visualList[0].xmin+visualList[0].xmax)/2.0+deltaVisual)) {
+    sprintf(msgprecis, "est a droite de %s", (visualList[0].object)->getInstance());
+  }
+  else {
+    sprintf(msgprecis, "est pres de %s", (visualList[0].object)->getInstance());
+  }
+  echo("-> %s %s %s ! ok ?", objName.c_str(), msg, msgprecis);
   free(msg);
 }
 
 /*TODO : Fusion de l'analyse Topo + Visuel en fonction de la */
-void Vicinity::analyseVicinity()
+void Vicinity::analVicinity()
 {
   int hits = 0;
-  bool *listseen = NULL;
+  bool *seen = NULL;
   WO **drawedObj;
 
-  if (refObject) {
+  if (obj) {
     drawedObj = ::g.render.getDrawedObjects(&hits);
-    listseen = new bool[hits];
+    seen = new bool[hits];
 
     for (int i=0; i < hits ; i++) {
       if (drawedObj[i]->isSeen() && !uselessType(drawedObj[i]))
@@ -497,7 +479,7 @@ void Vicinity::analyseVicinity()
 	echo("I can't see: i=%d name=%s", i, drawedObj[i]->getInstance());
     }
   }
-  if (listseen) delete[] listseen;
+  if (seen) delete[] seen;
 }
 
 /* Debugging Methods */
@@ -528,7 +510,6 @@ void Vicinity::actionList()
 		getActionMethod(i, j));
       }
     }
-    //echo("-------------");
   }
 }
 
@@ -554,7 +535,7 @@ char* Vicinity::translateNum2Type(int num)
   char* ren = new char[OBJNAME_LEN];
   map<int,string> translate;
 
-  translate[0]  = "World";
+  translate[0]  = "world";
   translate[1]  = "user";
   translate[2]  = "plane";
   translate[3]  = "door";
