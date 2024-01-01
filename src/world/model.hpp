@@ -107,10 +107,10 @@ class Model: public WO {
   void drawer();
   /**< Draws the model. */
 
-  void preRender();
+  void posRender();
   /**< Makes translations ans rotations. */
 
-  void postRender();
+  void endRender();
   /**< Makes glPopMatrix. */
 
   // GUI callbacks

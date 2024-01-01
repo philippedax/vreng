@@ -244,7 +244,7 @@ void Model::changePermanent(float lasting)
   pos.az = localuser->pos.az;
 }
 
-void Model::preRender()
+void Model::posRender()
 {
   if (texid) {
     glEnable(GL_LIGHTING);
@@ -261,7 +261,7 @@ void Model::preRender()
   glRotatef(RAD2DEG(pos.ay), 0,1,0);
 }
 
-void Model::postRender()
+void Model::endRender()
 {
   if (texid)
     glDisable(GL_LIGHTING);
@@ -271,12 +271,12 @@ void Model::postRender()
 void Model::render()
 {
   switch (model_t) {
-  case MODEL_LWO: if (lwo) { preRender(); lwo->render();      postRender(); } break;
-  case MODEL_3DS: if (ds3) { preRender(); ds3->render(color); postRender(); } break;
-  case MODEL_ASE: if (ase) { preRender(); ase->render();      postRender(); } break;
-  case MODEL_OBJ: if (obj) { preRender(); obj->render(color); postRender(); } break;
-  case MODEL_DXF: if (dxf) { preRender(); dxf->render();      postRender(); } break;
-  case MODEL_OFF: if (off) { preRender(); off->render(color); postRender(); } break;
+  case MODEL_LWO: if (lwo) { posRender(); lwo->render();      endRender(); } break;
+  case MODEL_3DS: if (ds3) { posRender(); ds3->render(color); endRender(); } break;
+  case MODEL_ASE: if (ase) { posRender(); ase->render();      endRender(); } break;
+  case MODEL_OBJ: if (obj) { posRender(); obj->render(color); endRender(); } break;
+  case MODEL_DXF: if (dxf) { posRender(); dxf->render();      endRender(); } break;
+  case MODEL_OFF: if (off) { posRender(); off->render(color); endRender(); } break;
   case MODEL_MD2: if (md2) {              md2->render(pos);                 } break;
   case MODEL_MAN: if (man) {                                                } break;
   case MODEL_X3D: break;
