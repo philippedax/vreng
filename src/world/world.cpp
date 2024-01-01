@@ -981,7 +981,7 @@ void World::deleteObjects()
       mobileList.remove(*it);
       //dax8 echo("delete object: %s", (*it)->getInstance());
       if ((*it)->deleted) continue;
-      if ((*it)->typeName() != "Dart" && (*it)->typeName() != "Bullet") //dax8 Hack! FIXME!
+      if ( strcmp((*it)->typeName(), "Dart") && strcmp((*it)->typeName(), "Bullet") ) //dax8 Hack! FIXME!
         delete (*it);	//segfault FIXME!
     }
   }

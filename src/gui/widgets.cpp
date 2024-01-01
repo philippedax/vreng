@@ -1429,8 +1429,8 @@ void Widgets::newObjectCB()
     sprintf(solid, "%s", table_glass);
   }
 
-  if (!solid) {
-    printf("solid is null\n");
+  if (*solid == '\0') {
+    printf("solid is empty\n");
     defaultAddobj();	// reset to default values
     return;
   }

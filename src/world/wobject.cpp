@@ -380,7 +380,7 @@ uint16_t WO::getNum()
 
 const char * WO::named() const
 {
-  if (names.given)
+  if (*names.given)
     return names.given;
   else
     return NULL;

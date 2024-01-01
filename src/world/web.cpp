@@ -101,7 +101,7 @@ void Web::changePosition(float lasting)
     case VERSO: pos.az = angori + M_PI; break;
     }
     stopImposedMovement();	// stop roting
-    if (caption) {
+    if (*caption) {
       //showCaption();
     }
   }
@@ -109,7 +109,7 @@ void Web::changePosition(float lasting)
 
 void Web::showCaption()
 {
-  if (! caption) return;
+  if (! *caption) return;
 
   if (! text) {	// text not writed
     Pos postext = pos;
@@ -136,7 +136,7 @@ void Web::pivot()
   clearV3(move.aspeed);
   move.aspeed.v[0] = aspeed;
   initImposedMovement(TTL);
-  if (caption) {
+  if (*caption) {
     showCaption();
   }
   face ^= 1;	// switch face
