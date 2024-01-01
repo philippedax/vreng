@@ -15,6 +15,9 @@ The rules for this file:\n\
 \n\
 ++ 9\n\
 == 9.4\n\
+-- 9.4.4\n\
+	(2024/01/01, Philippe Dax)\n\
+\n\
 -- 9.4.3\n\
 	- fix AM_CPPFLAGS for freetype2 src/*/Makefile.am\n\
 	- fix -lptread by reordering CHECK-LIBs configure.ac\n\

@@ -26,7 +26,7 @@
 #
 # Checks name, version, config
 #
-AC_INIT([vreng],[9.4.3],[philippe.dax@gmail.com])
+AC_INIT([vreng],[9.4.4],[philippe.dax@gmail.com])
 
 # Make sure we are using a recent autoconf version
 #AC_PREREQ([2.71])
