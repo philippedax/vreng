@@ -81,7 +81,7 @@ Vicinity::Vicinity(string objectName)
     listSize++;
   }
   vicinList.resize(listSize);
-  //free((char *)objName);
+  //compile error// free(objName);
 }
 
 // Evaluate size of the avatar
@@ -128,10 +128,10 @@ Vicinity::Dist Vicinity::computeDist(WO *obj1, WO *obj2)
   float obj1A[3], obj1B[3], obj2A[3], obj2B[3];
 
   for (int i=0; i<3; i++) {
-    obj1A[i] = (posobj1[i]-posobj1[i+3]);
-    obj1B[i] = (posobj1[i]+posobj1[i+3]);
-    obj2A[i] = (posobj2[i]-posobj2[i+3]);
-    obj2B[i] = (posobj2[i]+posobj2[i+3]);
+    obj1A[i] = posobj1[i] - posobj1[i+3];
+    obj1B[i] = posobj1[i] + posobj1[i+3];
+    obj2A[i] = posobj2[i] - posobj2[i+3];
+    obj2B[i] = posobj2[i] + posobj2[i+3];
   }
 
   // calcul de la distance suivant les 3 axes
@@ -141,16 +141,16 @@ Vicinity::Dist Vicinity::computeDist(WO *obj1, WO *obj2)
 
   // calcul des inclusions d'objets
   for (int i=0; i<3; i++) {
-    //pour diminuer les tests on inverse en cas de besoin les 2 objets
+    // pour diminuer les tests on inverse en cas de besoin les 2 objets
     if (obj2A[i] < obj1A[i]) {
       for (int i=0; i<3; i++) {
-        float objtmp;
-	objtmp = obj2A[i];
+        float tmp;
+	tmp      = obj2A[i];
 	obj2A[i] = obj1A[i];
-	obj1A[i] = objtmp;
-	objtmp = obj2B[i];
+	obj1A[i] = tmp;
+	tmp      = obj2B[i];
 	obj2B[i] = obj1B[i];
-	obj1B[i] = objtmp;
+	obj1B[i] = tmp;
       }
     }
     if ((obj1A[i] < obj2A[i]) && (obj2A[i] < obj1B[i])) {
@@ -172,7 +172,7 @@ Vicinity::Dist Vicinity::computeDist(WO *obj1, WO *obj2)
     return DIST_STUCK;
   if ((inclusion[0] == DIST_INTER) || (inclusion[1] == DIST_INTER) || (inclusion[2] == DIST_INTER))
     return DIST_INTER;
-  error("computeDist: default distance value");
+  echo("computeDist: default distance");
   return DIST_INTER;
 }
 
@@ -504,10 +504,7 @@ void Vicinity::actionList()
   for (int i=0; i <= OBJECTSNUMBER; i++) {
     for (int j=0; j < ACTIONSNUMBER; j++) { // action functions
       if (isActionName(i, j)) {
-	echo("actionList[%d,%d]= %s %s %p", j, i,
-		translateNum2Type(i),
-		getActionName(i, j),
-		getActionMethod(i, j));
+	echo("actionList[%d,%d]= %s %s", j, i, translateNum2Type(i), getActionName(i, j));
       }
     }
   }
@@ -532,7 +529,7 @@ int * Vicinity::getTypeFromAction(const char *actionName)
 
 char* Vicinity::translateNum2Type(int num)
 {
-  char* ren = new char[OBJNAME_LEN];
+  char* str = new char[OBJNAME_LEN];
   map<int,string> translate;
 
   translate[0]  = "world";
@@ -589,6 +586,6 @@ char* Vicinity::translateNum2Type(int num)
   translate[51] = "transform";
   translate[52] = "aoi";
 
-  strcpy(ren, translate[num].c_str());
-  return ren;
+  strcpy(str, translate[num].c_str());
+  return str;
 }
