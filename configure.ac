@@ -372,17 +372,17 @@ AC_DEFINE(OSF1)
   if test -d /usr/X11/include ; then
     OSDEP_CFLAGS="-I/usr/X11/include"
     X_CFLAGS="-I/usr/X11/include"
-    CPPFLAGS="-I/usr/X11/include ${OSDEP_CFLAGS} $CPPFLAGS"
+    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
   elif test -d /opt/X11/include ; then
     OSDEP_CFLAGS="-I/opt/X11/include"
     X_CFLAGS="-I/opt/X11/include"
-    CPPFLAGS="-I/opt/X11/include ${OSDEP_CFLAGS} $CPPFLAGS"
+    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
   elif test -d /opt/local/include ; then
     OSDEP_CFLAGS="-I/opt/local/include"
-    CPPFLAGS="-I/opt/local/include ${OSDEP_CFLAGS} $CPPFLAGS"
+    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
   elif test -d /sw/include ; then
     OSDEP_CFLAGS="${OSDEP_CFLAGS} -I/sw/include"
-    CPPFLAGS="-I/sw/include ${OSDEP_CFLAGS} $CPPFLAGS"
+    CPPFLAGS="${OSDEP_CFLAGS} $CPPFLAGS"
   fi
   if test -d /usr/X11/lib ; then
     OSDEP_LIBS="-L/usr/X11/lib"
