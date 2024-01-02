@@ -6,6 +6,7 @@ GLUI_C = glui_img_checkbox_0.c glui_img_checkbox_0_dis.c glui_img_checkbox_1.c g
 GLUI_SRCS = $(GLUI_CPP) $(GLUI_C)
 GLUI_HDRS = glui.h algebra3.h arcball.h glui_internal.h glui_internal_control.h quaternion.h viewmodel.h
 
+AM_CPPFLAGS = @GL_CFLAGS@
 
 EXTRA_DIST = $(GLUI_HDRS)
 
