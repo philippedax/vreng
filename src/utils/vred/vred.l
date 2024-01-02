@@ -11,6 +11,9 @@ extern int yylineno;
 extern enum ItemId curtype;
 %}
 
+%option noinput
+%option nounput
+
 %%
 
 {nl} {

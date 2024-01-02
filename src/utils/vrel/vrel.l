@@ -52,6 +52,7 @@ extern int yylineno;
 
 %}
 
+%option nounput
 
 /* Tokens du langage */
 %%
@@ -165,7 +166,7 @@ int yywrap()
     return 0;
   }
   else {
-    yyunput(0, yytext);
+    // yyunput(0, yytext);
     return 1;
   }
 }
