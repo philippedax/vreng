@@ -120,7 +120,7 @@ LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
   CFLAGS="${CFLAGS} -Wall -fno-strict-aliasing -Wno-int-conversion -Wno-int-to-pointer-cast"
-  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-deprecated -Wno-macro-redefined -Wno-unused-variable -Wno-infinite-recursion -Wno-c++11-extensions" ### -Wno-unused-function -Wno-write-strings -Wno-address -Wno-unknown-pragmas -Wno-literal-suffix -Wno-misleading-indentation
+  CXXFLAGS="${CXXFLAGS} -Wall -fno-strict-aliasing -fpermissive -Wno-invalid-offsetof -Wno-macro-redefined -Wno-unused-variable -Wno-infinite-recursion -Wno-c++11-extensions" ### -Wno-deprecated -Wno-unused-function -Wno-write-strings -Wno-address -Wno-unknown-pragmas -Wno-literal-suffix -Wno-misleading-indentation
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`
 fi

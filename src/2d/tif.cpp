@@ -65,7 +65,7 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
   trace(DBG_2D, "loadTIF: w=%d h=%d c=%d", width, height, bpp);
 
   // always 4 bytes per pixel for this
-  uint32 * tmpImage = (uint32 *)_TIFFmalloc((tsize_t)(width * height * sizeof(uint32_t)));
+  uint32_t * tmpImage = (uint32_t *)_TIFFmalloc((tsize_t)(width * height * sizeof(uint32_t)));
 
   // reads the data with the library
   if (! TIFFReadRGBAImage(fp, width, height, tmpImage, 0)) {
