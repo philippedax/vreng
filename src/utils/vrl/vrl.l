@@ -18,7 +18,6 @@ extern Fichier *fvrl;
 
 %}
 
-%option nounput
 
 %%
 
