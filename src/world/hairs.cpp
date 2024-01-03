@@ -715,11 +715,11 @@ void Surface::draw(HVertex *p0)
   if (p0 != NULL) {
     switch (pdata) {
     case PUT_COORD:
-      glInterleavedArrays(GL_V3F, sizeof(HVertex), ((HVertex *)p0)+offsetof(HVertex,p));
+      //dax glInterleavedArrays(GL_V3F, sizeof(HVertex), ((HVertex *)p0)+offsetof(HVertex,p));
       array = true;
       break;
     case PUT_COORD|PUT_NORMAL:
-      glInterleavedArrays(GL_N3F_V3F, sizeof(HVertex), ((uint8_t*)p0)+offsetof(HVertex,n));
+      //dax glInterleavedArrays(GL_N3F_V3F, sizeof(HVertex), ((uint8_t*)p0)+offsetof(HVertex,n));
       array = true;
       break;
     }

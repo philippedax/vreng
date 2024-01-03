@@ -36,7 +36,7 @@ WO * Carousel::creator(char *l)
 void Carousel::defaults()
 {
   x3d = NULL;
-  V3 dim = {0.2, 0.2, 0.2};	// minimum size of BB
+  dim = setV3(0.2, 0.2, 0.2);	// minimum size of BB
   scale = .5;
 }
 
