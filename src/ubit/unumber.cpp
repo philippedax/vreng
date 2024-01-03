@@ -234,7 +234,7 @@ ostream& operator<<(ostream& s, const UDouble& v) {
 
 UDouble UDouble::operator++(int) {
   UDouble clone = *this;
-  (*this)++;
+  (*this) = (*this) + 1;
   return clone;
 }
 
