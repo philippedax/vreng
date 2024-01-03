@@ -32,7 +32,7 @@
  */
 class Cloth: public WO {
 
-protected:
+ protected:
   static list<WO*> wearList;
 
   bool taken;				///< bool taken by avatar
@@ -43,7 +43,7 @@ protected:
   uint8_t article;			///< types of article
   char color[16];			///< given color
 
-public:
+ public:
   /* cloth models */
   enum cloth_model {
     HALO,
@@ -90,10 +90,10 @@ public:
   virtual void changePermanent(float lasting);
   /**< movement */
 
-  //dax virtual void quit();
+  virtual void quit();
   /**< Quits */
 
-protected:
+ protected:
   void setName(const char *modelname);
   /**< Sets qualified name */
 
@@ -107,7 +107,7 @@ protected:
   void delWearList();
   /**< List handling */
 
-private:
+ private:
   void defaults();
   /**< Sets default values */
 

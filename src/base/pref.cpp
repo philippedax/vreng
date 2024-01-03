@@ -274,7 +274,7 @@ void Pref::parse(int argc, char **argv)
 	{
           char chanstr[CHAN_LEN];
           memset(chanstr, 0, sizeof(chanstr));
-	  Vac *vac = Vac::current();
+	  //dax Vac *vac = Vac::current();
           //dax FIXME segfault: vac->resolveWorldUrl(::g.url, chanstr);
           ::g.channel = strdup(chanstr);
 	}

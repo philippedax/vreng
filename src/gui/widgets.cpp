@@ -981,10 +981,10 @@ void Widgets::statsDialog()
 
 void Widgets::messDialog()
 {
-  char line[128];
-
   UBox& mess_box = uvbox(UBackground::none);
 #if 0 //dax TODO
+  char line[128];
+
   for (vector<UStr>::iterator it = Message::mess_history.begin(); it != Message::mess_history.end(); ++it) {
     strcpy(line, (*it).c_str());
     echo("mess: %s", line);

@@ -202,12 +202,10 @@ void Cloth::restorePosition()
   behaviors();
 }
 
-#if 0 //dax
 void Cloth::quit()
 {
   oid = 0;
 }
-#endif
 
 void Cloth::funcs()
 {}

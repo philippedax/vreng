@@ -88,7 +88,7 @@ bool Board::isDrawing() const
 /* React to a user click on our surface */
 void Board::click(V3 d)
 {
-#if 1 //dax
+#if 0 //dax
   // get two principal vectors and a normal one
   V3 v, w, n;
   getSurfVecs(pos, &v, &w, &n);
@@ -123,7 +123,7 @@ void Board::wb_cb(Board *board, void *d, time_t s, time_t u)
 void Board::render()
 {
   if (dlist) {		// note: dlist is always null (not used) !!!
-    GLint texid = getSolid()->getTexid();
+    //dax GLint texid = getSolid()->getTexid();
     glPushMatrix();
     glLoadName(dlist);
     float gl_mat[16];

@@ -94,7 +94,7 @@ class V3d {
 
  private:
   static void reader(void *_url, Http *http);
-  static void v3dsreader(void *_o, Http *http);
+  static void v3dreader(void *_o, Http *http);
 
   // GUI callbacks
   static void changeMoveYes(class Humanoid *o, void *d, time_t s, time_t u);
@@ -107,6 +107,5 @@ class V3d {
   static void changeMoveNose(class Humanoid *o, void *d, time_t s, time_t u);
   static void changeFace(class Humanoid *o, void *d, time_t s, time_t u);
 };
-
 
 #endif

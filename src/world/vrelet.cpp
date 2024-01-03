@@ -299,7 +299,7 @@ void Vrelet::click(V3 dir)
   getSurfVecs(pos, &v, &w, &normal);
 
   // check whether the click comes from the right side of the surface
-  float sp = normal.v[0]*dir.v[0] + normal.v[1]*dir.v[1] + normal.v[2]*dir.v[2];
+  //dax float sp = normal.v[0]*dir.v[0] + normal.v[1]*dir.v[1] + normal.v[2]*dir.v[2];
   //dax if (sp < 0) { error("vrelet: click bad side"); return; }
 
   // eye position

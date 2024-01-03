@@ -745,7 +745,7 @@ void UDispX11::startLoop(bool main)
 
     int maxfd = 0;
     int xconnection = 0;
-    int ofile = 0;
+    //dax int ofile = 0;
 
 #if 1 //dax poll
     int const nfds = 4096;

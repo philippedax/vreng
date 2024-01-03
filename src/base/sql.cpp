@@ -34,8 +34,14 @@ static const char * DB = "vreng_db";	///< database name
 #else
 static const char * DB = NULL;		///< no database
 #endif
+#if USE_MYSQL
 static const char * USER = "vreng";	///< username
 static const char * PASSWD = NULL;	///< no password
+#endif
+
+//
+// columns
+//
 static const char * C_NAME = "name";	///< column name      : varchar(32)
 static const char * C_STATE = "state";	///< column state     : int
 static const char * C_X = "x";		///< column x         : real
@@ -63,7 +69,6 @@ bool VSql::openDB()
   if (::g.pref.nopersist == true) return false;
 
   char pathdb[128];
-  char *err_msg = NULL;
 
   sprintf(pathdb, "%s/.vreng/%s", ::g.env.home(), DB);
   int rc = sqlite3_open(pathdb, &db);

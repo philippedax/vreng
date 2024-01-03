@@ -332,6 +332,7 @@ void Panels::showBasket(bool state)
   UScrollpane& basket_spane = uscrollpane(true, false, uvbox(gw.basket));
   basket_spane.showVScrollButtons(false);
 
+#if 0 //dax
   // relies on basket_spane created by createPanels()
   UDialog * basket_dialog = &udialog(utitle("Basket")
                                      + uscrollpane(usize(150, 100))
@@ -342,6 +343,7 @@ void Panels::showBasket(bool state)
                                                + ucloseWin()
                                               )
                                     );
+#endif
 }
 
 void Panels::expandNavig()

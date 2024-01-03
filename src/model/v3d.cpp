@@ -101,7 +101,7 @@ V3d::V3d(const char *urls)
   indexed = true;
   cachefile[0] = '\0';
   urlList.empty();
-  Http::httpOpen(urls, v3dsreader, this, 0);
+  Http::httpOpen(urls, v3dreader, this, 0);
   currentUrl = rand() % urlList.count();
 }
 
@@ -116,21 +116,18 @@ V3d::~V3d()
 /** Caching file */
 void V3d::reader(void *_url, Http *http)
 {
-  char *url = (char *) _url;
   if (! http) {
     error("reader: unable to open http connection");
     return;
   }
-  Cache *cache = new Cache();
-  FILE *f = cache->open(url, http);
 }
 
-/** Download list of v3ds url */
-void V3d::v3dsreader(void *_v3d, Http *http)
+/** Download list of v3d url */
+void V3d::v3dreader(void *_v3d, Http *http)
 {
   V3d *v3d = (V3d *) _v3d;
   if (! http) {
-    error("v3dsreader: unable to open http connection");
+    error("v3dreader: unable to open http connection");
     return;
   }
 
@@ -142,7 +139,7 @@ void V3d::v3dsreader(void *_v3d, Http *http)
   //while (http->getLine(line)) {
   while (cache->nextLine(f, line)) {
     char *v3durl = strdup(line);
-    //echo("v3dsreader: add url=%s", v3durl);
+    //echo("v3dreader: add url=%s", v3durl);
     v3d->urlList.addElement(v3durl);
     free(v3durl);
   }
@@ -303,7 +300,7 @@ void V3d::animLip(float angle, const char *_side)
 
   if ((bone = root->findBone(lipsRoot)) != NULL) {
     Vect3D delta(0, cos(angle/ 10.0) / 4., 0);
-    float smile = cos(angle / 10.0) * 20;
+    //dax float smile = cos(angle / 10.0) * 20;
 
     //echo("animLip: angle=%.2f smile=%.2f", angle, smile);
     if ((bone = root->findBone(_side)) != NULL) {

@@ -95,6 +95,7 @@ UBox& Message::createMessagePanel(bool transparent)
   UTextfield& input = utextfield(usize(250)
                     + mess_text
                     + ucall(this, &Message::inputCB));
+#if 0 //dax
   UBox& query =  uhbox(ulabel(UFont::bold + "input: ")
                + uhflex()
                + input
@@ -112,6 +113,7 @@ UBox& Message::createMessagePanel(bool transparent)
                        + ucall(this, +1, &Message::getHistoryCB)
                       )
               );
+#endif
   UBox& notif = ubox(UOrient::vertical
                      + uhflex()
                      + uvflex()
