@@ -113,14 +113,18 @@ if test "${exec_prefix}" = "NONE"; then
 fi
 
 
+# --------------------------------------------------------------------------
+#
+# Compile flags
+#
 CFLAGS="${CFLAGS}"
 CXXFLAGS="${CXXFLAGS}"
 CPPFLAGS="${CPPFLAGS}"
 LDFLAGS="${LDFLAGS}"
 
 if test "${GCC}" = "yes"; then
-  CFLAGS="${CFLAGS} -Wall -Wno-int-conversion -Wno-int-to-pointer-cast" ### -fno-strict-aliasing 
-  CXXFLAGS="${CXXFLAGS} -Wall -Wno-macro-redefined -Wno-deprecated -Wno-c++11-extensions" ### -fpermissive -fno-strict-aliasing -Wno-infinite-recursion -Wno-invalid-offsetof -Wno-unused-variable -Wno-deprecated-declarations -Wno-write-strings -Wno-address -Wno-unknown-pragmas -Wno-literal-suffix -Wno-misleading-indentation
+  CFLAGS="${CFLAGS} -Wall" # -Wno-int-to-pointer-cast -Wno-int-conversion -fno-strict-aliasing 
+  CXXFLAGS="${CXXFLAGS} -Wall -Wno-macro-redefined -Wno-deprecated " # -fpermissive -fno-strict-aliasing -Wno-c++11-extensions -Wno-invalid-offsetof -Wno-unused-variable -Wno-deprecated-declarations -Wno-write-strings -Wno-address -Wno-unknown-pragmas -Wno-literal-suffix -Wno-misleading-indentation
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
   LDFLAGS=`echo ${LDFLAGS} | sed -e 's/-O2//'`
 fi
@@ -130,9 +134,7 @@ fi
 #
 # Check for debugging
 #
-AC_ARG_ENABLE(debug,
-              AS_HELP_STRING([--enable-debug],
-              [allow to debug [[default=no]]]))
+AC_ARG_ENABLE(debug, AS_HELP_STRING([--enable-debug], [allow to debug [[default=no]]]))
 
 if test "${enable_debug:=no}" = "yes"; then
   CXXFLAGS=`echo ${CXXFLAGS} | sed -e 's/-O2//'`
@@ -165,9 +167,7 @@ fi
 #
 # Check for profiling compiler option
 #
-AC_ARG_ENABLE(profiling,
-              AS_HELP_STRING([--enable-profiling],
-              [add -pg gcc option [[default=no]]]))
+AC_ARG_ENABLE(profiling, AS_HELP_STRING([--enable-profiling], [add -pg gcc option [[default=no]]]))
  
 if test "${enable_profiling:=no}" = "yes"; then
   if test "${GCC}" = "yes"; then
@@ -182,9 +182,7 @@ fi
 #
 # Check for permissive compiler option
 #
-AC_ARG_ENABLE(permissive,
-              AS_HELP_STRING([--enable-permissive],
-              [add --permissive gcc option [[default=no]]]))
+AC_ARG_ENABLE(permissive, AS_HELP_STRING([--enable-permissive], [add --permissive gcc option [[default=no]]]))
  
 if test "${enable_permissive:=no}" = "yes"; then
   if test "${GCC}" = "yes"; then
@@ -214,9 +212,7 @@ fi
 #
 # Check if support for 64 bits (tested with gcc-2.96, gcc-3.*, gcc4.*)
 #
-AC_ARG_ENABLE(64bit,
-              AS_HELP_STRING([--enable-64bit],
-              [enable 64 bits compilation [[default=no]]]))
+AC_ARG_ENABLE(64bit, AS_HELP_STRING([--enable-64bit], [enable 64 bits compilation [[default=no]]]))
 
 if test "${enable_64bit:=no}" = "yes"; then
   AC_MSG_RESULT([--> Using 64 bits])

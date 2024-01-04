@@ -71,7 +71,7 @@ FTExtrdGlyph::FTExtrdGlyph( FT_GlyphSlot glyph, float depth, bool useDisplayList
         glBegin( polyonType);
             for( unsigned int pointIndex = 0; pointIndex < subMesh->PointCount(); ++pointIndex)
             {
-                FTPoint point = subMesh->Point(pointIndex);
+                //dax FTPoint point = subMesh->Point(pointIndex);
 
                 glTexCoord2f( subMesh->Point(pointIndex).X() / horizontalTextureScale,
                               subMesh->Point(pointIndex).Y() / verticalTextureScale);

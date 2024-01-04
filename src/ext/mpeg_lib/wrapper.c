@@ -359,7 +359,7 @@ void SetMPEGOption (MPEGOptionEnum Option, int Value)
 	 int            i;
 	 unsigned char *cmap_index;
 
-	 cmap_index = Value;
+	 cmap_index = (unsigned char *) Value;
 	 for (i = 0; i < ImageInfo.ColormapSize; i++)
 	 {
 	    pixel[i] = cmap_index[i];
