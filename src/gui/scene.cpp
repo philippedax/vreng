@@ -40,21 +40,23 @@
 #include "timer.hpp"	// ::g.timer
 
 
-/* constructor */
-Scene::Scene(Widgets* _gw) :
- gw(*_gw), 
- is_visible(true),    // should be set to false when the window is iconified !!!!
+/** constructor */
+Scene::Scene(Widgets* gw) :
+ gw(*gw), 
+ is_visible(true),		// should be set to false when the window is iconified !
  is_initialized(false),
  is_initCB_launched(false),
  cycles(0),
  net_delay(500)
 {
-  is_hudvisible = true;		// hud visible by default
   background = UBackground::blue;
-
   addAttr(background);
   addAttr(usize(g.pref.width3D, g.pref.height3D));
 
+  //
+  // Hud position
+  //
+  is_hudvisible = true;		// hud visible by default
   hudbox.addAttr(upos(1, 1)	// position relatively to the canvas : up left corner
                  + UOrient::vertical
                  + UHalign::left
@@ -62,7 +64,7 @@ Scene::Scene(Widgets* _gw) :
                  + UColor::yellow   // size & color of the text
                 );
   hudbox.add(hud_line1 + hud_line2 + hud_line3 + hud_line4 + hud_line5 + hud_line6);
-  add(hudbox);	// add the hudbox to the scene
+  add(hudbox);			// add the hudbox to the scene
 
   message.addAttr(UFont::bold + UFont::xx_large + UColor::orange + uhcenter() + uvcenter());
   message.add("Please wait, VReng is coming up...");
@@ -81,6 +83,7 @@ bool Scene::isInitialized()
   return is_initialized;
 }
 
+#if 0 //notused
 void Scene::setNetDelay(int msec)
 {
   net_delay = msec;
@@ -90,6 +93,7 @@ int Scene::getNetDelay() const
 {
   return net_delay;
 }
+#endif //notused
 
 void Scene::setBackground(UColor& c)
 {
