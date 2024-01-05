@@ -46,33 +46,30 @@ jmp_buf sigctx;
 
 
 Vreng::Vreng() :	// beware: don't change order !!!
-  timer(*new Timer),
-  env(*new Env),
-  pref(*new Pref),
-  render(*new Render),
-  solid(*new Solid),
-  theme(*new Theme),
-  gui(*new Gui)
+ timer(*new Timer),
+ env(*new Env),
+ pref(*new Pref),
+ render(*new Render),
+ solid(*new Solid),
+ theme(*new Theme),
+ gui(*new Gui)
 {
 } 
 
 int main(int argc, char *argv[])
 {
-  g.pref.init(argc, argv, g.env.prefs());	// Options & Preferences initialization
+  g.pref.init(argc, argv, g.env.prefs());	// preferences initialization
   UAppli::conf.soft_menus = true;		// beware: only in single window mode
-  return g.start(argc, argv);
-}
 
-int Vreng::start(int argc, char *argv[])
-{
-  UAppli* vreng = new UAppli(argc, argv);
-  if (! vreng) {
+  UAppli* vreng_ubit = new UAppli(argc, argv);
+  if (! vreng_ubit) {
     fatal("Vreng can't be launched");
   }
-  theme.init();
-  gui.createWidgets();
-  gui.showWidgets();
-  return vreng->start();
+  g.theme.init();			// theme initialization
+  g.gui.createWidgets();		// widgets initialization
+  g.gui.showWidgets();			// shows window
+
+  return vreng_ubit->start();		// launches vreng UI
 }
 
 /*

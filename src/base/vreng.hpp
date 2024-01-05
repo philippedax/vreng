@@ -23,7 +23,7 @@
 
 #include "includes.hpp"	// system includes
 #include "macros.hpp"	// builtin defines
-#include "defaults.hpp"	// DEF_*
+#include "defaults.hpp"	// builtin defaults DEF_*
 #include "log.hpp"	// echo, notice, warning, error, fatal, trace
 #include "trigo.hpp"	// my_trigo
 
@@ -39,8 +39,8 @@ class Vreng {
   char *urlpfx;         ///< base path urlpfx.
   char *server;         ///< server httpd.
   char *universe;       ///< universe httpd url.
-  char *channel;        ///< Multicast channel.
-  char *grpstr;         ///< Multicast group.
+  char *channel;        ///< multicast channel.
+  char *grpstr;         ///< multicast group.
   char *user;           ///< user name.
   char *version;        ///< VREng version.
 
@@ -53,15 +53,12 @@ class Vreng {
   class Theme& theme;	///< ::g.theme
   class Gui& gui;	///< ::g.gui
 
-  // Methods
-
+  // methods
   Vreng();		///< constructor.
   virtual ~Vreng() {}	///< destructor.
-  
-  static void quit(int status);		///< quits
 
-  int start(int argc, char *argv[]);	///< starts
-  void initCB();			///< init call-back
+  void initCB();	///< init call-back
+  static void quit(int st);	///< quits
 
  private:
   void initSignals();
