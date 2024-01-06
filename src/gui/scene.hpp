@@ -50,8 +50,8 @@ public:
   bool isInitialized();
   void toggleHud();
 
-  //notused// void setNetDelay(int msec);
-  //notused// int getNetDelay() const;
+  //notused//void setNetDelay(int msec);
+  //notused//int getNetDelay() const;
   
 private:
   friend class Gui;		// cycles net_delay
@@ -67,7 +67,7 @@ private:
   ULabel message;
   UBackground background;
   UBox hudbox;
-  UStr hud_line1, hud_line2, hud_line3, hud_line4, hud_line5, hud_line6;
+  UStr hud_row1, hud_row2, hud_row3, hud_row4, hud_row5, hud_row6;
   class Hud *hud;
 
   // methods

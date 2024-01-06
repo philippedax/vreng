@@ -62,7 +62,7 @@ Scene::Scene(Widgets* gw) :
                  + UFont::small
                  + UColor::yellow   // size & color of the text
                 );
-  hudbox.add(hud_line1 + hud_line2 + hud_line3 + hud_line4 + hud_line5 + hud_line6);
+  hudbox.add(hud_row1 + hud_row2 + hud_row3 + hud_row4 + hud_row5 + hud_row6);
   add(hudbox);			// add the hudbox to the scene
 
   message.addAttr(UFont::bold + UFont::xx_large + UColor::orange + uhcenter() + uvcenter());
@@ -254,41 +254,41 @@ void Scene::resize(UResizeEvent& e, int width, int height)
 
 void Scene::refreshHud()
 {
-  char tmp[32];
+  char row[32];
   
   // rate
-  sprintf(tmp, "Rate:   %.1f fps", ::g.timer.rate());
-  hud_line1 = tmp;
+  sprintf(row, "Rate:   %.1f fps", ::g.timer.rate());
+  hud_row1 = row;
   
   // world
   if (! localuser) return;
-  sprintf(tmp, "World:  %s", localuser->worldName());
-  hud_line2 = tmp;
+  sprintf(row, "World:  %s", localuser->worldName());
+  hud_row2 = row;
 
   // user
-  sprintf(tmp, "User:   %.1f %.1f %.1f %.0f",
+  sprintf(row, "User:   %.1f %.1f %.1f %.0f",
           localuser->pos.x, localuser->pos.y, localuser->pos.z, RAD2DEG(localuser->pos.az));
-  hud_line3 = tmp;
+  hud_row3 = row;
   
   WO* obj = ::g.gui.selected_object;
   if (obj) {
     // object
-    sprintf(tmp, "Obj:    %.1f %.1f %.1f %.0f",
+    sprintf(row, "Obj:    %.1f %.1f %.1f %.0f",
             obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az));
-    hud_line4 = tmp;
+    hud_row4 = row;
     
     // bbox
-    sprintf(tmp, "Bbox:   %.1f %.1f %.1f",
+    sprintf(row, "Bbox:   %.1f %.1f %.1f",
             obj->pos.bbs.v[0], obj->pos.bbs.v[1], obj->pos.bbs.v[2]);
-    hud_line5 = tmp;
+    hud_row5 = row;
     
     // dist
     float dist = sqrt((localuser->pos.x-obj->pos.x)*(localuser->pos.x-obj->pos.x) +
                       (localuser->pos.y-obj->pos.y)*(localuser->pos.y-obj->pos.y) +
                       (localuser->pos.z-obj->pos.z)*(localuser->pos.z-obj->pos.z)
                      );
-    sprintf(tmp, "Dist:   %.1f", dist);
-    hud_line6 = tmp;
+    sprintf(row, "Dist:   %.1f", dist);
+    hud_row6 = row;
   }
 }
 
