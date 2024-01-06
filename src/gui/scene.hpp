@@ -59,7 +59,7 @@ private:
   class Widgets& gw;		///< gui widget
   bool is_visible;		///< true if visible (not iconified).
   bool is_initialized;		///< true if initialized
-  bool is_initCB_launched;	///< true if initCB launched
+  bool is_launched;		///< true if initCB launched
   bool is_hudvisible;		///< true if hud is visible
   uint32_t cycles;		///< scenes per sec
   uint32_t net_delay;		///< default is 500ms
@@ -70,11 +70,9 @@ private:
   UStr hud_line1, hud_line2, hud_line3, hud_line4, hud_line5, hud_line6;
   class Hud *hud;
 
+  // methods
   void init();
   /** Inits the scene */
-
-  void loopScene();
-  /** Paints the scene */
 
   void resize(UResizeEvent&, int width, int height);
   /** Resizes the scene */

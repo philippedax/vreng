@@ -31,7 +31,6 @@
 #include "gui.hpp"	// selected_objets
 #include "widgets.hpp"  // Widgets
 #include "world.hpp"	// compute
-#include "universe.hpp"	// current
 #include "render.hpp"	// render.init
 #include "user.hpp"	// position
 #include "pref.hpp"	// width3D
@@ -45,7 +44,7 @@ Scene::Scene(Widgets* gw) :
  gw(*gw), 
  is_visible(true),		// should be set to false when the window is iconified !
  is_initialized(false),
- is_initCB_launched(false),
+ is_launched(false),
  cycles(0),
  net_delay(500)
 {
@@ -156,10 +155,55 @@ GLSection::GLSection(Scene* s) :
 void Scene::paintCB(UPaintEvent& e)
 {
   GLSection gls(this);
+
   if (is_initialized) {
     ::g.render.cameraUser();
   }
-  loopScene();
+
+  //
+  // Main loop of the engine
+  //
+  if (! is_launched) {
+    UAppli::addTimeout(500, 1, ucall(this, &Scene::init));
+    is_launched = true;
+  }
+  if (! is_visible || ! is_initialized) return;
+
+  // at least one postponed Key Release event
+  if (gw.pendingPostponedKRs()) {
+    gw.flushPostponedKRs();
+  }
+
+  // Computes current world
+  ProfileTime& tsimul = ::g.timer.simul;
+  tsimul.start();
+  World *world = World::current();
+  if (world) {
+    world->compute(tsimul.start_time.tv_sec, tsimul.start_time.tv_usec);
+  }
+  tsimul.stop();
+  
+  // General rendering
+  ProfileTime& trender = ::g.timer.render;
+  trender.start();
+  ::g.render.render();
+  trender.stop();
+
+  // Displays misc infos in the hud
+  if (is_hudvisible) {
+    refreshHud();
+    hudbox.show(true);
+  }
+  else {
+    hudbox.show(false);
+  }
+
+  // check if video capture is running
+  if (gw.capture.isCapturingVideo()) {
+    gw.capture.writeVideoFrame();
+  }
+
+  cycles++;		// increments cycles (fps)
 }
 
 /* Resizes scene CB */
@@ -206,53 +250,6 @@ void Scene::resize(UResizeEvent& e, int width, int height)
   ::g.pref.width3D  = width;
   ::g.pref.height3D = height;
   UAppli::setFocus(e.getView()); // gives the input focus to this view
-}
-
-/*
- * Main loop of the engine
- */
-void Scene::loopScene()
-{
-  if (! is_initCB_launched) {
-    UAppli::addTimeout(500, 1, ucall(this, &Scene::init));
-    is_initCB_launched = true;
-  }
-  if (! is_visible || ! is_initialized) return;
-
-  // at least one postponed Key Release event
-  if (gw.pendingPostponedKRs()) {
-    gw.flushPostponedKRs();
-  }
-
-  // Computes current world
-  ProfileTime& tsimul = ::g.timer.simul;
-  tsimul.start();
-  if (World::current()) {
-    World::current()->compute(tsimul.start_time.tv_sec, tsimul.start_time.tv_usec);
-  }
-  tsimul.stop();
-  
-  // General rendering
-  ProfileTime& trender = ::g.timer.render;
-  trender.start();
-  ::g.render.render();
-  trender.stop();
-
-  // Displays misc infos in the hud
-  if (is_hudvisible) {
-    refreshHud();
-    hudbox.show(true);
-  }
-  else {
-    hudbox.show(false);
-  }
-
-  // check if video capture is running
-  if (gw.capture.isCapturingVideo()) {
-    gw.capture.writeVideoFrame();
-  }
-
-  cycles++;		// increments cycles (fps)
 }
 
 void Scene::refreshHud()
