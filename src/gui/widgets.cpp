@@ -76,13 +76,13 @@
 #include "office.hpp"	// start
 
 // Text files
-#include "README.t"
-#include "COPYRIGHT.t"
-#include "LICENSE.t"
-#include "ChangeLog.t"
-#include "TODO.t"
-#include "DTD.t"
-#include "CONFIG_H.t"
+#include "README.h"
+#include "COPYRIGHT.h"
+#include "LICENSE.h"
+#include "ChangeLog.h"
+#include "TODO.h"
+#include "DTD.h"
+#include "CONFIG_H.h"
 
 #include <vector>
 

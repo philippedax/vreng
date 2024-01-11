@@ -27,24 +27,26 @@ GUI_HDRS = gui.hpp scene.hpp widgets.hpp navig.hpp motion.hpp panels.hpp palette
 
 SRC = $(top_srcdir)/src
 CFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @FREETYPE_CFLAGS@ @XML2_CFLAGS@ @OCAML_CFLAGS@
-AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/model -I$(SRC)/3d -I$(SRC)/tool -I$(SRC)/vnc -I$(SRC)/gui/xpm -I$(SRC)/ext/gl2ps -I$(SRC)/ext/xmlParser -I$(SRC)/ai -I$(SRC) -I$(SRC)/ubit
+AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/model -I$(SRC)/3d -I$(SRC)/tool -I$(SRC)/vnc -I$(SRC)/gui/xpm -I$(SRC)/ext/gl2ps -I$(SRC)/ai -I$(SRC)
 
-widgets.cpp: README.t TODO.t DTD.t COPYRIGHT.t LICENSE.t ChangeLog.t CONFIG_H.t
+widgets.cpp: README.h TODO.h DTD.h COPYRIGHT.h LICENSE.h ChangeLog.h CONFIG_H.h
+TOP = $(top_srcdir)
+MD = $(TOP)/md
 
-README.t: $(top_srcdir)/md/README.md
-	../base/txt2str README < $(top_srcdir)/md/README.md > $@
-COPYRIGHT.t: $(top_srcdir)/md/COPYRIGHT.md
-	../base/txt2str COPYRIGHT < $(top_srcdir)/md/COPYRIGHT.md > $@
-LICENSE.t: $(top_srcdir)/md/LICENSE.md
-	../base/txt2str LICENSE < $(top_srcdir)/md/LICENSE.md > $@
-ChangeLog.t: $(top_srcdir)/md/ChangeLog.md
-	../base/txt2str ChangeLog < $(top_srcdir)/ChangeLog.md > $@
-TODO.t: $(top_srcdir)/md/TODO.md
-	../base/txt2str TODO < $(top_srcdir)/md/TODO.md > $@
-DTD.t: $(top_srcdir)/md/vre-1.0.dtd
-	../base/txt2str DTD < $(top_srcdir)/md/vre-1.0.dtd > $@
-CONFIG_H.t: $(top_srcdir)/config.h
-	../base/txt2str CONFIG_H < $(top_srcdir)/config.h > $@
+README.h: $(MD)/README.md
+	../base/txt2str README < $(MD)/README.md > $@
+COPYRIGHT.h: $(MD)/COPYRIGHT.md
+	../base/txt2str COPYRIGHT < $(MD)/COPYRIGHT.md > $@
+LICENSE.h: $(MD)/LICENSE.md
+	../base/txt2str LICENSE < $(MD)/LICENSE.md > $@
+ChangeLog.h: $(MD)/ChangeLog.md
+	../base/txt2str ChangeLog < $(MD)/ChangeLog.md > $@
+TODO.h: $(MD)/TODO.md
+	../base/txt2str TODO < $(MD)/TODO.md > $@
+DTD.h: $(MD)/vre-1.0.dtd
+	../base/txt2str DTD < $(MD)/vre-1.0.dtd > $@
+CONFIG_H.h: $(TOP)/config.h
+	../base/txt2str CONFIG_H < $(TOP)/config.h > $@
 
 libgui_a_SOURCES  = $(GUI_SRCS) $(GUI_HDRS)
 noinst_LIBRARIES = libgui.a
