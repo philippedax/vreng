@@ -31,8 +31,6 @@ static VSql *vsql = NULL;		// vsql handle, only one by universe
 
 #if VSQL
 static const char * DB = "vreng_db";	///< database name
-#else
-static const char * DB = NULL;		///< no database
 #endif
 #if USE_MYSQL
 static const char * USER = "vreng";	///< username
@@ -441,8 +439,6 @@ int VSql::selectString_cb(void *val, int argc, char **argv, char**azColName)
 
 int VSql::selectString(const char *table, const char *col, const char *name, const char *world, char *retstring, uint16_t irow)
 {
-  int val = 0;
-
   if (! name) return ERR_SQL;
 
   sprintf(sql, "SELECT %s FROM %s WHERE name='%s%s%s'",
@@ -469,6 +465,8 @@ int VSql::selectString(const char *table, const char *col, const char *name, con
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
+  int val = 0;
+
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE && rc != SQLITE_ROW) {
     error("%s.%s %d stepstring rc=%d %s", table, col, irow, rc, sqlite3_errmsg(db));
@@ -490,6 +488,7 @@ int VSql::selectString(const char *table, const char *col, const char *name, con
     }
   }
   sqlite3_finalize(stmt);
+  return val;
 #endif
 
 #elif USE_MYSQL
@@ -550,6 +549,7 @@ int VSql::selectSubstring(const char *table, const char *like, uint16_t irow, ch
     }
   }
   sqlite3_finalize(stmt);
+  return val;
 
 #elif USE_MYSQL
   if (! query(sql))
