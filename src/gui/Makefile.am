@@ -29,16 +29,16 @@ SRC = $(top_srcdir)/src
 CFLAGS = @UBIT_CFLAGS@ @GL_CFLAGS@ @X_CFLAGS@ @FREETYPE_CFLAGS@ @XML2_CFLAGS@ @OCAML_CFLAGS@
 AM_CPPFLAGS = $(CFLAGS) -I$(SRC)/base -I$(SRC)/world -I$(SRC)/net -I$(SRC)/2d -I$(SRC)/model -I$(SRC)/3d -I$(SRC)/tool -I$(SRC)/vnc -I$(SRC)/gui/xpm -I$(SRC)/ext/gl2ps -I$(SRC)/ext/xmlParser -I$(SRC)/ai -I$(SRC) -I$(SRC)/ubit
 
-widgets.cpp: README.t TODO.t DTD.t COPYRIGHT.t COPYING.t ChangeLog.t CONFIG_H.t
+widgets.cpp: README.t TODO.t DTD.t COPYRIGHT.t LICENSE.t ChangeLog.t CONFIG_H.t
 
 README.t: $(top_srcdir)/md/README.md
 	../base/txt2str README < $(top_srcdir)/md/README.md > $@
 COPYRIGHT.t: $(top_srcdir)/md/COPYRIGHT.md
 	../base/txt2str COPYRIGHT < $(top_srcdir)/md/COPYRIGHT.md > $@
-COPYING.t: $(top_srcdir)/md/COPYING.md
-	../base/txt2str COPYING < $(top_srcdir)/md/COPYING.md > $@
-ChangeLog.t: $(top_srcdir)/ChangeLog
-	../base/txt2str ChangeLog < $(top_srcdir)/ChangeLog > $@
+LICENSE.t: $(top_srcdir)/md/LICENSE.md
+	../base/txt2str LICENSE < $(top_srcdir)/md/LICENSE.md > $@
+ChangeLog.t: $(top_srcdir)/md/ChangeLog.md
+	../base/txt2str ChangeLog < $(top_srcdir)/ChangeLog.md > $@
 TODO.t: $(top_srcdir)/md/TODO.md
 	../base/txt2str TODO < $(top_srcdir)/md/TODO.md > $@
 DTD.t: $(top_srcdir)/md/vre-1.0.dtd

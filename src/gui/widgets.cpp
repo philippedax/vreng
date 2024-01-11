@@ -78,7 +78,7 @@
 // Text files
 #include "README.t"
 #include "COPYRIGHT.t"
-#include "COPYING.t"
+#include "LICENSE.t"
 #include "ChangeLog.t"
 #include "TODO.t"
 #include "DTD.t"
@@ -239,7 +239,7 @@ UBox& Widgets::createMenubar()
   umenu(  g.theme.menuStyle
         + ubutton("README"    + ucall("README",    README,    &showInfoDialog))
         + ubutton("COPYRIGHT" + ucall("COPYRIGHT", COPYRIGHT, &showInfoDialog))
-        + ubutton("LICENSE"   + ucall("LICENSE",   COPYING,   &showInfoDialog))
+        + ubutton("LICENSE"   + ucall("LICENSE",   LICENSE,   &showInfoDialog))
         + ubutton("DTD"       + ucall("DTD",       DTD,       &showInfoDialog))
         + ubutton("ChangeLog" + ucall("ChangeLog", ChangeLog, &showInfoDialog))
         + ubutton("TODO"      + ucall("TODO",      TODO,      &showInfoDialog))
