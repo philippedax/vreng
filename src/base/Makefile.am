@@ -35,9 +35,9 @@ EXTRA_DIST = txt2str.c
 noinst_PROGRAMS = txt2str
 txt2str_SOURCES = txt2str.c
 
-pref.cpp: prefs.t
+pref.cpp: prefs.h
 
-prefs.t: txt2str $(top_srcdir)/md/prefs
+prefs.h: txt2str $(top_srcdir)/md/prefs
 	./txt2str def_prefs < $(top_srcdir)/md/prefs > $@
 
 libbase_a_SOURCES = $(BASE_SRCS) $(BASE_HDRS)

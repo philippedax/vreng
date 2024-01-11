@@ -28,7 +28,7 @@
 #include "str.hpp"	// stringcmp
 #include "ubit/uconf.hpp" // Uconf::
 
-#include "prefs.t"	// prefs config
+#include "prefs.h"	// prefs config
 
 
 static const char HELPSTRING[] = "\
