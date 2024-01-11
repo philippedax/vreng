@@ -445,6 +445,7 @@ int VSql::selectString(const char *table, const char *col, const char *name, con
           col, table, name, (*world) ? "@" : "", world);
 
 #if USE_SQLITE
+  int val = 0;
   int rc = 0;
   char *err_msg = NULL;
 
@@ -465,7 +466,6 @@ int VSql::selectString(const char *table, const char *col, const char *name, con
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
-  int val = 0;
 
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE && rc != SQLITE_ROW) {
@@ -512,11 +512,10 @@ int VSql::selectString(const char *table, const char *col, const char *name, con
 
 int VSql::selectSubstring(const char *table, const char *like, uint16_t irow, char *retstring)
 {
-  int val = 0;
-
   sprintf(sql, "SELECT name FROM %s WHERE 'name' LIKE '%s'", table, like);
 
 #if USE_SQLITE
+  int val = 0;
   int rc = 0;
   char *err_msg = NULL;
 
@@ -528,6 +527,7 @@ int VSql::selectSubstring(const char *table, const char *like, uint16_t irow, ch
     sqlite3_free(err_msg);
     return ERR_SQL;
   }
+
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE && rc != SQLITE_ROW) {
     error("%s %d stepsubstring rc=%d %s", table, irow, rc, sqlite3_errmsg(db));
