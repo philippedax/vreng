@@ -1424,34 +1424,34 @@ fi
 #
 # PostgreSql configuration
 #
-AC_ARG_WITH([pgsql],
-            AS_HELP_STRING([--with-pgsql],
-            [allow use of pgsql if available [[default=no]]]),
-            [ac_cv_use_pgsql=$withval], [ac_cv_use_pgsql=no])
-
-AH_TEMPLATE(WITH_PGSQL)
-if test "${with_pgsql:=no}" = "yes"; then
-  AC_DEFINE(WITH_PGSQL)
-  AH_TEMPLATE(HAVE_PGSQL)
-  AH_TEMPLATE(HAVE_PGSQL_H)
-
-  PGSQL_L="-L${prefix}/lib"
-  PGSQL_I="-I${prefix}/include"
-  if test -f ${prefix}/include/libpq-fe.h ; then
-    PGSQL_I="-I${prefix}/include"
-  else
-    echo "libpq-fe.h not found, check config.log!"
-  fi
-  saved_cppflags=$CPPFLAGS
-  PGSQL_CFLAGS=${PGSQL_I}
-  AC_SUBST(PGSQL_CFLAGS)
-  CPPFLAGS="${PGSQL_I} ${CPPFLAGS}"
-  AC_CHECK_HEADER([libpq-fe.h], [AC_DEFINE([HAVE_PGSQL_H])],)
-  AC_CHECK_LIB([pq], [PQstatus], [LIBS="${PGSQL_L} -lpq $LIBS"],,)
-  if test "$ac_cv_lib_pq_PQstatus" = "yes" ; then
-    AC_DEFINE(HAVE_PGSQL)
-  fi
-fi
+#AC_ARG_WITH([pgsql],
+#            AS_HELP_STRING([--with-pgsql],
+#            [allow use of pgsql if available [[default=no]]]),
+#            [ac_cv_use_pgsql=$withval], [ac_cv_use_pgsql=no])
+#
+#AH_TEMPLATE(WITH_PGSQL)
+#if test "${with_pgsql:=no}" = "yes"; then
+#  AC_DEFINE(WITH_PGSQL)
+#  AH_TEMPLATE(HAVE_PGSQL)
+#  AH_TEMPLATE(HAVE_PGSQL_H)
+#
+#  PGSQL_L="-L${prefix}/lib"
+#  PGSQL_I="-I${prefix}/include"
+#  if test -f ${prefix}/include/libpq-fe.h ; then
+#    PGSQL_I="-I${prefix}/include"
+#  else
+#    echo "libpq-fe.h not found, check config.log!"
+#  fi
+#  saved_cppflags=$CPPFLAGS
+#  PGSQL_CFLAGS=${PGSQL_I}
+#  AC_SUBST(PGSQL_CFLAGS)
+#  CPPFLAGS="${PGSQL_I} ${CPPFLAGS}"
+#  AC_CHECK_HEADER([libpq-fe.h], [AC_DEFINE([HAVE_PGSQL_H])],)
+#  AC_CHECK_LIB([pq], [PQstatus], [LIBS="${PGSQL_L} -lpq $LIBS"],,)
+#  if test "$ac_cv_lib_pq_PQstatus" = "yes" ; then
+#    AC_DEFINE(HAVE_PGSQL)
+#  fi
+#fi
 
 
 # --------------------------------------------------------------------------
