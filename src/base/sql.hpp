@@ -21,37 +21,22 @@
 #ifndef SQL_HPP
 #define SQL_HPP
 
-#if HAVE_SQLITE | HAVE_MYSQL | HAVE_PGSQL
+#if HAVE_SQLITE | HAVE_MYSQL
 #define VSQL 1
 #else
 #define VSQL 0
 #endif
 #define USE_SQLITE 0
 #define USE_MYSQL 0
-#define USE_PGSQL 0
 #if HAVE_SQLITE
 #define USE_SQLITE 1
 #endif
 #if HAVE_MYSQL
 #define USE_MYSQL 1
 #endif
-#if HAVE_PGSQL
-#define USE_PGSQL 1
-#endif
 #if HAVE_SQLITE & HAVE_MYSQL
 #define USE_SQLITE 1
 #define USE_MYSQL 0
-#define USE_PGSQL 0
-#endif
-#if HAVE_SQLITE & HAVE_PGSQL
-#define USE_SQLITE 1
-#define USE_MYSQL 0
-#define USE_PGSQL 0
-#endif
-#if HAVE_MYSQL & HAVE_PGSQL
-#define USE_SQLITE 0
-#define USE_MYSQL 1
-#define USE_PGSQL 0
 #endif
 
 
@@ -60,8 +45,6 @@
 #include <sqlite3.h>
 #elif USE_MYSQL
 #include <mysql/mysql.h>
-#elif USE_PGSQL
-#include <libpq-fe.h>
 #endif
 
 class WO;
@@ -84,21 +67,17 @@ private:
 #elif USE_MYSQL
   MYSQL_RES *res;	///< MySqsl result
   MYSQL_ROW row;	///< MySql row
-#elif USE_PGSQL
-  PGresult *res;	///< PGSqsl result
 #else
   void *res;		///< no dbms
 #endif
 
   void queryTrace(const char *sql);
 
-public:
+ public:
 #if USE_SQLITE
   sqlite3 *db;		///< Sqlite handle
 #elif USE_MYSQL
   MYSQL *db;		///< MySql handle
-#elif USE_PGSQL
-  PGconn *db;		///< PgSql handle
 #else
   void *db;		///< no dbms
 #endif
@@ -119,14 +98,11 @@ public:
   void quit();
   /**< closes the VSql link */
 
-private:
+ private:
 #if USE_SQLITE
   bool openDB();
   /**< opens to the Sqlite database */
 #elif USE_MYSQL
-  bool connectDB();
-  /**< connects to the MySql server */
-#elif USE_PGSQL
   bool connectDB();
   /**< connects to the MySql server */
 #endif
@@ -139,7 +115,7 @@ private:
   //////////////
   // select
 
-private:
+ private:
   static int selectInt_cb(void *val, int argc, char **argv, char **azColName);
   static int selectFloat_cb(void *val, int argc, char **argv, char **azColName);
   static int selectString_cb(void *val, int argc, char **argv, char **azColName);
@@ -167,7 +143,7 @@ private:
   int getString(WO *o, const char *col, char *str, uint16_t irow);
   /**< returns a string from a column */
 
-public:
+ public:
   int countRows(const char *table);
 
   int countRows(const char *table, const char *col, const char *pattern);
@@ -176,21 +152,21 @@ public:
   //////////////
   // create
 
-private:
+ private:
   void createDatabase(const char *database);
   /**< creates a database */
 
   void createTable(const char *table);
   /**< creates a table */
 
-public:
+ public:
   int checkRow(const char *table, const char *name, const char *world);
   /**< checks if row exists or not */
 
   //////////////
   // insert
 
-public:
+ public:
   void insertRow(WO *o);
   /**< inserts a row into a table */
 
@@ -200,7 +176,7 @@ public:
   //////////////
   // update
 
-private:
+ private:
   void updateInt(WO *o, const char *table, const char *col, const char *object, const char *world, int val);
   /**< updates an integer into a column */
 
@@ -219,14 +195,14 @@ private:
   void updateString(WO *o, const char *table, const char *col, const char *str);
   /**< updates a string into a column for a given table */
 
-public:
+ public:
   void updateString(WO *o, const char *table, const char *col, const char *object, const char *world, const char *str);
   /**< updates a string into a column */
 
   //////////////
   // delete
 
-public:
+ public:
   void deleteRow(WO *o, const char *table, const char *object, const char *world);
   /**< deletes a row from table */
 
@@ -245,7 +221,7 @@ public:
   //////////////
   // gets values
 
-public:
+ public:
   int getCount(const char *table);
   int getCount(const char *table, const char *world);
   int getCount(const char *table, const char *name, const char *world);
@@ -264,13 +240,13 @@ public:
   void getPos(WO *o);
   void getPos(WO *o, uint16_t irow);
 
-private:
+ private:
   float getPosX(WO *o, uint16_t irow);
   float getPosY(WO *o, uint16_t irow);
   float getPosZ(WO *o, uint16_t irow = 0);
   float getPosAZ(WO *o, uint16_t irow);
 
-public:
+ public:
   void getGeom(WO *o);
   void getGeom(WO *o, char *geom);
   void getGeom(WO *o, uint16_t irow);

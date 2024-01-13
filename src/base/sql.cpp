@@ -113,26 +113,6 @@ bool VSql::connectDB()
 }
 #endif
 
-#if USE_PGSQL
-/** Establishes a link with the pgsql server */
-bool VSql::connectDB()
-{
-  if (::g.pref.nopersist == true)
-    return false;
-
-  char args[32];
-  sprintf(args, "user=%s dbname=%s", ::g.user, DB);
-  PGconn *db = PQconnectdb(args);
-  if (PQstatus(db) == CONNECTION_BAD) {
-    error("VSql: %s can't connect %s", ::g.user, DEF_PGSQL_SERVER);
-    PQerrorMessage(db);
-    PQfinish(db);
-    return false;
-  }
-  return true;
-}
-#endif
-
 /** Allocates and returns VSql handle */
 VSql * VSql::init()
 {
@@ -144,9 +124,6 @@ VSql * VSql::init()
     r = vsql->openDB();		// open sqlite database
 #elif USE_MYSQL
     r = vsql->connectDB();	// connect to database MySql server
-    vsql->createDatabase(DB);
-#elif USE_PGSQL
-    r = vsql->connectDB();	// connect to database PGSql server
     vsql->createDatabase(DB);
 #endif
     if (! r) {
@@ -172,8 +149,6 @@ void VSql::quit()
     sqlite3_close(db);
 #elif USE_MYSQL
     mysql_close(db);
-#elif USE_PGSQL
-    PQfinish(db);
 #endif
     db = NULL;
   }
@@ -238,19 +213,6 @@ bool VSql::query(const char *sql)
   if (mysql_query(db, sql) != 0) {
     if (mysql_errno(db)) error("mysql_error: %s", mysql_error(db));
     error("query: err %s", sql);
-    return false;
-  }
-  return true;
-
-#elif USE_PGSQL
-  if (! db) {
-    connectDB();	// we need to reconnect to the Postgres server
-  }
-  PGresult *rc = PQexec(db, sql);
-  if (PQresultStatus(rc) != PGRES_TUPLES_OK) {
-    PQclear(rc);
-    error("query: err %s", sql);
-    //PQfinish(db);
     return false;
   }
   return true;
