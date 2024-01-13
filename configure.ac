@@ -1066,51 +1066,51 @@ AC_ARG_WITH([ubit-builtin],
     [ac_cv_use_ubit_builtin=$withval], [ac_cv_use_ubit_builtin=yes])
 LDFLAGS="$X_LDFLAGS $X_LIBS -lpthread"
 
-if test "$ac_cv_use_ubit_builtin" = "no"; then
-  AC_ARG_WITH([ubit-prefix],
-    AS_HELP_STRING([--with-ubit-prefix=DIR],[prefix to look for ubit lib & include]))
-  #
-  # check ubit
-  #
-  min_ubit_version=5.5.0
-  min_ubit_version_decimal=`echo $min_ubit_version | sed -e 's/\.//g'`
-  UBIT_VERSION=none
-  if test "$with_ubit_prefix" = "" ; then
-    UBIT_L="-L$prefix/lib"
-    UBIT_I="-I$prefix/include"
-    AC_PATH_PROG(UBITCONFIG, ubit-config)
-    if test "$ac_cv_path_UBITCONFIG" != "" ; then
-      UBIT_VERSION=`ubit-config --version`
-      ubit_version_decimal=`ubit-config --version | sed -e 's/\.//g'`
-      AC_MSG_CHECKING(for Ubit - version >= $min_ubit_version)
-      if test "$ubit_version_decimal" -ge "$min_ubit_version_decimal"; then
-        AC_MSG_RESULT(yes)
-      else
-        AC_MSG_RESULT(no)
-        if test "$with_ubit_prefix" = "" ; then
-          AC_MSG_ERROR([VREng requires at minimum ubit-$min_ubit_version])
-        fi
-      fi
-    else
-      AC_MSG_RESULT(no)
-      AC_MSG_ERROR([$UBITCONFIG not found. VREng requires ubit-$min_ubit_version])
-    fi
-  else
-    UBIT_L="-L$with_ubit_prefix/lib"
-    UBIT_I="-I$with_ubit_prefix/include"
-  fi
-
-  AC_CHECK_LIB([ubit], [main],
-               [LIBS="$UBIT_L -lubit $LIBS"],
-               [AC_MSG_ERROR([ubit library not found, check config.log!,
-               get http://www.infres.enst.fr/ftp/pub/unix/gui/ubit/ubit.tar.gz])],
-               [$UBIT_L $X_LIBS -lXpm $x_libs])
-
-  UBIT_CFLAGS=$UBIT_I
-  am_ubit="no"
-  am_libftgl="no"
-  toolkit="ubit-$UBIT_VERSION"
-else
+#if test "$ac_cv_use_ubit_builtin" = "no"; then
+#  AC_ARG_WITH([ubit-prefix],
+#    AS_HELP_STRING([--with-ubit-prefix=DIR],[prefix to look for ubit lib & include]))
+#  #
+#  # check ubit
+#  #
+#  min_ubit_version=5.5.0
+#  min_ubit_version_decimal=`echo $min_ubit_version | sed -e 's/\.//g'`
+#  UBIT_VERSION=none
+#  if test "$with_ubit_prefix" = "" ; then
+#    UBIT_L="-L$prefix/lib"
+#    UBIT_I="-I$prefix/include"
+#    AC_PATH_PROG(UBITCONFIG, ubit-config)
+#    if test "$ac_cv_path_UBITCONFIG" != "" ; then
+#      UBIT_VERSION=`ubit-config --version`
+#      ubit_version_decimal=`ubit-config --version | sed -e 's/\.//g'`
+#      AC_MSG_CHECKING(for Ubit - version >= $min_ubit_version)
+#      if test "$ubit_version_decimal" -ge "$min_ubit_version_decimal"; then
+#        AC_MSG_RESULT(yes)
+#      else
+#        AC_MSG_RESULT(no)
+#        if test "$with_ubit_prefix" = "" ; then
+#          AC_MSG_ERROR([VREng requires at minimum ubit-$min_ubit_version])
+#        fi
+#      fi
+#    else
+#      AC_MSG_RESULT(no)
+#      AC_MSG_ERROR([$UBITCONFIG not found. VREng requires ubit-$min_ubit_version])
+#    fi
+#  else
+#    UBIT_L="-L$with_ubit_prefix/lib"
+#    UBIT_I="-I$with_ubit_prefix/include"
+#  fi
+#
+#  AC_CHECK_LIB([ubit], [main],
+#               [LIBS="$UBIT_L -lubit $LIBS"],
+#               [AC_MSG_ERROR([ubit library not found, check config.log!,
+#               get http://www.infres.enst.fr/ftp/pub/unix/gui/ubit/ubit.tar.gz])],
+#               [$UBIT_L $X_LIBS -lXpm $x_libs])
+#
+#  UBIT_CFLAGS=$UBIT_I
+#  am_ubit="no"
+#  am_libftgl="no"
+#  toolkit="ubit-$UBIT_VERSION"
+#else
   # Use builtin ubit
   UBIT_L="-L../../src/ubit"
   UBIT_I="-I../../src"
@@ -1120,7 +1120,7 @@ else
   am_libftgl="yes"
   min_ubit_version=7.0.0
   toolkit=7.0.0
-fi
+#fi
 XLIBS=$x_libs
 AC_SUBST(XLIBS)
 AC_SUBST(UBIT_CFLAGS)
