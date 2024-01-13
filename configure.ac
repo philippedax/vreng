@@ -1600,67 +1600,68 @@ fi
 #
 # Python configuration
 #
-AC_ARG_WITH([python],
-            AS_HELP_STRING([--with-python],
-            [allow use of python (experimental) [[default=no]]]))
-AH_TEMPLATE(WITH_PYTHON)
-AH_TEMPLATE(HAVE_LIBPYTHON)
-AH_TEMPLATE(HAVE_PYTHON_H)
+#AC_ARG_WITH([python],
+#            AS_HELP_STRING([--with-python],
+#            [allow use of python (experimental) [[default=no]]]))
+#AH_TEMPLATE(WITH_PYTHON)
+#AH_TEMPLATE(HAVE_LIBPYTHON)
+#AH_TEMPLATE(HAVE_PYTHON_H)
+#
+#if test "${with_python:=no}" = "yes"; then
+#  AC_DEFINE(WITH_PYTHON)
+#  # lib path
+#  PYTHON_L="-L${prefix}/lib"
+#  if test -f ${prefix}/lib/python2.5/config/libpython2.5.so ; then
+#    PYTHON_L="-L${prefix}/lib/python2.5/config -R${prefix}/lib/python2.5/config"
+#  elif test -f ${prefix}/lib/python2.5/config/libpython2.5.a ; then
+#    PYTHON_L="-L${prefix}/lib/python2.5/config"
+#  elif test -f ${prefix}/lib/config/libpython2.5.a ; then
+#    PYTHON_L="-L${prefix}/lib/python2.5/config"
+#  elif test -f /usr/lib/python2.5/config/libpython2.5.a ; then
+#    PYTHON_L="-L/usr/lib/python2.5/config"
+#  elif test -f /opt/local/lib/python2.5/config/libpython2.5.a ; then
+#    PYTHON_L="-L/opt/local/lib/python2.5/config"
+#  elif test -f /sw/lib/python2.5/config/libpython2.5.a ; then
+#    PYTHON_L="-L/sw/lib/python2.5/config"
+#  else
+#    echo "libpython2.5.a not found, check config.log!"
+#  fi
+#  # header path
+#  PYTHON_I="-I${prefix}/include"
+#  if test -f ${prefix}/include/python2.5/Python.h ; then
+#    PYTHON_I="-I${prefix}/include/python2.5"
+#  elif test -f /usr/include/python2.5/Python.h ; then
+#    PYTHON_I="-I/usr/include/python2.5"	
+#  elif test -f /opt/local/include/python2.5/Python.h ; then
+#    PYTHON_I="-I/opt/local/include/python2.5"
+#  elif test -f /sw/include/python2.5/Python.h ; then
+#    PYTHON_I="-I/sw/include/python2.5"
+#  else
+#    echo "Python.h not found, check config.log!"
+#  fi
+#  saved_cppflags=$CPPFLAGS
+#  PYTHON_CFLAGS=${PYTHON_I}
+#  AC_SUBST(PYTHON_CFLAGS)
+#  CPPFLAGS="${PYTHON_I} ${CPPFLAGS}"
+#  AC_CHECK_HEADER([Python.h],
+#	          [AC_DEFINE([HAVE_PYTHON_H])],
+#	          [AC_CHECK_HEADER([python2.5/Python.h],
+#			           [AC_DEFINE([HAVE_PYTHON_H])],
+#			           AC_MSG_WARN([unable to find python header])]
+#			          )
+#	         )
+#  #
+#  # check libpython2.5
+#  #
+#  AC_CHECK_LIB([python2.5], [Py_Initialize],
+#	       [LIBS="${PYTHON_L} -lpython2.5 $LIBS"],, [${PYTHON_L}])
+#  if test "$ac_cv_lib_python2_5_Py_Initialize" = "yes" ; then
+#    AC_DEFINE(HAVE_LIBPYTHON)
+#  else
+#    AC_MSG_RESULT([	--> libpython2.5: http://www.python.org/])
+#  fi
+#fi
 
-if test "${with_python:=no}" = "yes"; then
-  AC_DEFINE(WITH_PYTHON)
-  # lib path
-  PYTHON_L="-L${prefix}/lib"
-  if test -f ${prefix}/lib/python2.5/config/libpython2.5.so ; then
-    PYTHON_L="-L${prefix}/lib/python2.5/config -R${prefix}/lib/python2.5/config"
-  elif test -f ${prefix}/lib/python2.5/config/libpython2.5.a ; then
-    PYTHON_L="-L${prefix}/lib/python2.5/config"
-  elif test -f ${prefix}/lib/config/libpython2.5.a ; then
-    PYTHON_L="-L${prefix}/lib/python2.5/config"
-  elif test -f /usr/lib/python2.5/config/libpython2.5.a ; then
-    PYTHON_L="-L/usr/lib/python2.5/config"
-  elif test -f /opt/local/lib/python2.5/config/libpython2.5.a ; then
-    PYTHON_L="-L/opt/local/lib/python2.5/config"
-  elif test -f /sw/lib/python2.5/config/libpython2.5.a ; then
-    PYTHON_L="-L/sw/lib/python2.5/config"
-  else
-    echo "libpython2.5.a not found, check config.log!"
-  fi
-  # header path
-  PYTHON_I="-I${prefix}/include"
-  if test -f ${prefix}/include/python2.5/Python.h ; then
-    PYTHON_I="-I${prefix}/include/python2.5"
-  elif test -f /usr/include/python2.5/Python.h ; then
-    PYTHON_I="-I/usr/include/python2.5"	
-  elif test -f /opt/local/include/python2.5/Python.h ; then
-    PYTHON_I="-I/opt/local/include/python2.5"
-  elif test -f /sw/include/python2.5/Python.h ; then
-    PYTHON_I="-I/sw/include/python2.5"
-  else
-    echo "Python.h not found, check config.log!"
-  fi
-  saved_cppflags=$CPPFLAGS
-  PYTHON_CFLAGS=${PYTHON_I}
-  AC_SUBST(PYTHON_CFLAGS)
-  CPPFLAGS="${PYTHON_I} ${CPPFLAGS}"
-  AC_CHECK_HEADER([Python.h],
-	          [AC_DEFINE([HAVE_PYTHON_H])],
-	          [AC_CHECK_HEADER([python2.5/Python.h],
-			           [AC_DEFINE([HAVE_PYTHON_H])],
-			           AC_MSG_WARN([unable to find python header])]
-			          )
-	         )
-  #
-  # check libpython2.5
-  #
-  AC_CHECK_LIB([python2.5], [Py_Initialize],
-	       [LIBS="${PYTHON_L} -lpython2.5 $LIBS"],, [${PYTHON_L}])
-  if test "$ac_cv_lib_python2_5_Py_Initialize" = "yes" ; then
-    AC_DEFINE(HAVE_LIBPYTHON)
-  else
-    AC_MSG_RESULT([	--> libpython2.5: http://www.python.org/])
-  fi
-fi
 
 # --------------------------------------------------------------------------
 #
@@ -1711,6 +1712,7 @@ ${OCAMLOPT} -output-obj conftestml.ml -o conftest_ml.o
   AC_DEFINE_UNQUOTED(OCAML_PATH, ["$OCAML_PATH"])
   AC_LANG_POP([C])
 fi
+
 
 # --------------------------------------------------------------------------
 #
