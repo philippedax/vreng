@@ -164,7 +164,6 @@ void World::setName(const char *urlOrName)
   name = new char[len];
   memcpy(name, begin, len);
   name[len] = '\0';
-  //echo("setName: %s", name);
 }
 
 /** Gets current world name */
@@ -186,7 +185,6 @@ World * World::worldByUrl(const char *url)
       return w;	// world found
     }
     if (w == w->next) {
-      //echo("getWorldByUrl: %s", w->url);
       break;	//FIXME: bug inside the list
     }
   }
@@ -326,7 +324,7 @@ void World::compute(time_t sec, time_t usec)
   switch (state = getState()) {
 
   case LOADING:
-    error("compute: no end encountered");
+    error("compute: no end of vre file encountered");
     return;
 
   case LOADED:
@@ -628,8 +626,8 @@ void World::checkPersist()
 /* world reader - static */
 void World::worldReader(void *_url, Http *http)
 {
-  char *url = (char *) _url;
-  url = World::current()->url;	// url is corrupted HACK!!!
+  //char *url = (char *) _url;
+  char *url = World::current()->url;	// maybe url is corrupted HACK!!!
   //echo("worldReader: %s %s", _url, url);
   if (! http) {
     error("can't download %s, check access to the remote http server", url);
@@ -637,20 +635,17 @@ void World::worldReader(void *_url, Http *http)
 
   int len = 0;
   char *cachename = new char[PATH_LEN];
-  char buf[1024];	// BUFSIZ
-
-  *cachename = 0;
-  Cache::setCachePath(url, cachename);
-
-  Parse *parser = new Parse();	// create the parser instance
-
+  char buf[1024];
   File *fileout = new File();
   File *filein = new File();
   FILE *fpcache = NULL;
   struct stat bufstat;
 
+  Parse *parser = new Parse();	// creates the parser instance
+
+  *cachename = 0;
+  Cache::setCachePath(url, cachename);
   if (stat(cachename, &bufstat) < 0) {	// is not in the cache
-    //echo("worldReader: file %s not in cache url=%s", cachename, url);
     if ((fpcache = fileout->open(cachename, "w")) == NULL) {
       error("worldReader: can't create file %s from url %s", cachename, url);
     }
@@ -687,7 +682,6 @@ httpread:
     delete filein;
   }
 
-  //echo("worldReader: %s downloaded", url);
   delete[] cachename;
   return;
 }
@@ -731,7 +725,6 @@ void World::init(const char *url)
   //
   // Download initial world (Rendezvous.vre by default)
   //
-  //echo("download initial world url=%s", url);
   //world->universe->startWheel();
   Http::httpOpen(url, worldReader, (void *)url, 0);
   //world->universe->stopWheel();
@@ -787,7 +780,7 @@ void World::quit()
 
   // mobile objects
   for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    //debug echo("%s", (*it)->getInstance());
+    if (::g.pref.dbgtrace) echo("del: %s", (*it)->getInstance());
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     if ((*it)->deleted) continue;
@@ -851,47 +844,37 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     world = worldByUrl(url);	// existing world
     worldList = swap(world);
     if (::g.pref.dbgtrace) echo("enter: world=%s (%d)", world->name, isnew);
-    if (! isprint(*world->url)) {
-      error("enter: url corrupted");	//FIXME
-      strcpy(world->url, url);
-    }
     if (world->guip) {
       ::g.gui.updateWorld(world, NEW);
     }
   }
   else if (isnew) {
+    //
     // new world must to be initialized
-
+    //
     World *newworld = new World();
 
-    if (url && isprint(*url)) {
-      newworld->url = new char[strlen(url) + 1];
-      if (strlen(url) < URL_LEN) {
-        strcpy(newworld->url, url);
-      }
-      else {
-        strncpy(newworld->url, url, URL_LEN-1);
-        newworld->url[URL_LEN] = '\0';
-        error("enter: url too long = %s", url);
-      }
-      newworld->setName(newworld->url);
-    }
-    else if (! url) {	// sandbox world
+    if (! url) {	// sandbox world
       if (newworld->guip) {
         ::g.gui.updateWorld(newworld, NEW);
       }
     }
-    else return NULL;	// bad world
+    else if (isprint(*url)) {
+      newworld->url = new char[strlen(url) + 1];
+      strcpy(newworld->url, url);
+      newworld->setName(newworld->url);
+    }
+    else {
+      return NULL;	// bad world url
+    }
     
     if (chanstr) {	// not a world link
       newworld->setChan(chanstr);
     }
-
     newworld->guip = ::g.gui.addWorld(world, NEW);
     world = newworld;
   }
   else {	// world already exists
-    //echo("enter: world=%s (%d) already exists", current()->getName(), isnew);
     world = current();
     if (world->guip) {
       ::g.gui.updateWorld(world, OLD);
@@ -905,7 +888,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   //
   // Download the vre description file of the new world
   //
-  world->setState(LOADING);	// to download
+  world->setState(LOADING);	// need to download
   if (url) {
     //
     // world to downloaded
@@ -928,10 +911,8 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
     //
     //echo("enter: world sandbox");
     World *sandbox = world;
-    //dax World *sandbox = new World();
 
     sandbox->setName("sandbox");
-    //dax sandbox->addList();
 
     Parse *parser = Parse::getParse();
     parser->parseVreFile(sandbox_vre, sizeof(sandbox_vre));
