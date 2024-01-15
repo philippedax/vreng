@@ -257,28 +257,28 @@ void Scene::refreshHud()
   char row[32];
   
   // rate
-  sprintf(row, "Rate:   %.1f fps", ::g.timer.rate());
+  sprintf(row, "rate:   %.1f fps", ::g.timer.rate());
   hud_row1 = row;
   
   // world
   if (! localuser) return;
-  sprintf(row, "World:  %s", localuser->worldName());
+  sprintf(row, "world:  %s", localuser->worldName());
   hud_row2 = row;
 
   // user
-  sprintf(row, "User:   %.1f %.1f %.1f %.0f",
+  sprintf(row, "user:   %.1f %.1f %.1f %.0f",
           localuser->pos.x, localuser->pos.y, localuser->pos.z, RAD2DEG(localuser->pos.az));
   hud_row3 = row;
   
   WO* obj = ::g.gui.selected_object;
   if (obj) {
     // object
-    sprintf(row, "Obj:    %.1f %.1f %.1f %.0f",
-            obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az));
+    sprintf(row, "obj:    %.1f %.1f %.1f %.0f %s",
+            obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az), obj->getInstance());
     hud_row4 = row;
     
     // bbox
-    sprintf(row, "Bbox:   %.1f %.1f %.1f",
+    sprintf(row, "bbox:   %.1f %.1f %.1f",
             obj->pos.bbs.v[0], obj->pos.bbs.v[1], obj->pos.bbs.v[2]);
     hud_row5 = row;
     
@@ -287,7 +287,7 @@ void Scene::refreshHud()
                       (localuser->pos.y-obj->pos.y)*(localuser->pos.y-obj->pos.y) +
                       (localuser->pos.z-obj->pos.z)*(localuser->pos.z-obj->pos.z)
                      );
-    sprintf(row, "Dist:   %.1f", dist);
+    sprintf(row, "dist:   %.1f", dist);
     hud_row6 = row;
   }
 }
