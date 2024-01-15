@@ -459,10 +459,13 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   //
   // Interaction GUI <--> 3D
   //
-  uint16_t num = ::g.render.bufferSelection(x, y, z);	// find object number in the Z-buffer
-  trace(DBG_GUI, "pointed: clic=%d %d %d num=%d", x, y, z, num);
+  uint16_t objnum = ::g.render.bufferSelection(x, y, z);	// find object number in the Z-buffer
+  trace(DBG_GUI, "pointed: clic=%d %d %d objnum=%d", x, y, z, objnum);
+  if (objnum == 0) {
+    return NULL;
+  }
 
-  WO* object = WO::byNum(num);
+  WO* object = WO::byNum(objnum);
 
   if (! object) {
     objinfo[0].name = (char*) "World";	// avoid segfault

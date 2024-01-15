@@ -254,6 +254,8 @@ void Scene::resize(UResizeEvent& e, int width, int height)
 
 void Scene::refreshHud()
 {
+  if (! localuser) return;
+
   char row[32];
   
   // rate
@@ -261,7 +263,6 @@ void Scene::refreshHud()
   hud_row1 = row;
   
   // world
-  if (! localuser) return;
   sprintf(row, "world:  %s", localuser->worldName());
   hud_row2 = row;
 
@@ -270,6 +271,7 @@ void Scene::refreshHud()
           localuser->pos.x, localuser->pos.y, localuser->pos.z, RAD2DEG(localuser->pos.az));
   hud_row3 = row;
   
+  // obj
   WO* obj = ::g.gui.selected_object;
   if (obj) {
     // object

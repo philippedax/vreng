@@ -607,27 +607,29 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     psel += 3 + psel[0];	// next hit
   }
 
-  uint16_t nearest = 0;
+  uint16_t objnum_nearest = 0;
   uint16_t next = 0;
 
   if (hits > 0) {
     qsort((void *)hitlist, hits, sizeof(GLuint *), compareHit);
     int n = depth % hits;
-    nearest = hitlist[n][3];
+    objnum_nearest = hitlist[n][3];
     if (hits > 1) next = hitlist[1][3];
     if (::g.pref.dbgtrace) {
-      if (hits > 1)
+      if (hits > 1) {
         echo("nearest: %d/%s next %d/%s",
-              nearest, WO::byNum(nearest)->getInstance(),
+              objnum_nearest, WO::byNum(objnum_nearest)->getInstance(),
               next, WO::byNum(next)->getInstance());
-      else
+      }
+      else {
         echo("nearest: %d/%s",
-              nearest, WO::byNum(nearest)->getInstance());
+              objnum_nearest, WO::byNum(objnum_nearest)->getInstance());
+      }
     }
   }
   if (hitlist) delete[] hitlist;
 
-  return nearest;
+  return objnum_nearest;
 }
 
 /* Qsort function for elements of the selection buffer. */
