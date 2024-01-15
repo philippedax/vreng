@@ -32,15 +32,14 @@
  */
 class Gate: public WO {
 
-private:
+ private:
   bool automatic;	///< flag automatic enter
   bool flagentry;	///< flag entry
   bool link;		///< flag link
-  uint8_t cntcol;	///< collide count
   char chan[CHAN_LEN];	///< channel
   V3 entry;		///< position after passing gate
 
-public:
+ public:
   /* properties */
   enum {
     PROPHNAME,
@@ -77,7 +76,7 @@ public:
   void quit();
   /**< Quits properly. */
 
-private:
+ private:
   void parser(char *l);
   /**< Parses fileline. */
 

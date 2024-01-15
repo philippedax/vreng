@@ -24,22 +24,23 @@
 #include "world.hpp"	// enter
 #include "universe.hpp"	// Universe
 #include "move.hpp"	// gotoFront
+#include "channel.hpp"	// join
+#include "entry.hpp"	// set
 #include "user.hpp"	// USER_TYPE, localuser
 #include "ball.hpp"	// BALL_TYPE
 #include "dart.hpp"	// DART_TYPE
 #include "bullet.hpp"	// BULLET_TYPE
 #include "icon.hpp"	// ICON_TYPE
-#include "channel.hpp"	// join
 #include "vac.hpp"	// resolveWorldUrl
 #include "sound.hpp"	// playSound
 #include "audio.hpp"	// start
-#include "entry.hpp"	// set
 
 
 const OClass Gate::oclass(GATE_TYPE, "Gate", Gate::creator);
 
 // local
 static uint16_t oid = 0;
+static uint8_t cntcol = 0;
 
 
 /* creation from a file */
@@ -186,7 +187,6 @@ void Gate::enter()
 bool Gate::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
-
   case USER_TYPE:
     if (automatic) {
       if (pcur != localuser) {
@@ -203,14 +203,14 @@ bool Gate::whenIntersect(WO *pcur, WO *pold)
       }
     }
     else {
-      if (cntcol < 10) {
+      if (cntcol < 5) {
         pold->copyPositionAndBB(pcur);
         echo("you are near the gate %s in=%d", getInstance(), cntcol);
         cntcol++;
       }
-      else if (cntcol < 20) {
+      else if (cntcol < 10) {
         pold->copyPositionAndBB(pcur);
-        echo("if you insist you'll enter in %s in=%d", getInstance(), cntcol);
+        echo("if you insist you'll enter into %s in=%d", getInstance(), cntcol);
         cntcol++;
       }
       else {
@@ -219,24 +219,20 @@ bool Gate::whenIntersect(WO *pcur, WO *pold)
       }
     }
     break;
-
   case BULLET_TYPE:
   case DART_TYPE:
     echo("%s:%s hits %s:%s", pcur->names.type, pcur->getInstance(), names.type, getInstance());
     pold->copyPositionAndBB(pcur);
     pcur->toDelete();
     break;
-
   case BALL_TYPE:
     projectPosition(pcur, pold);
     break;
-
   case ICON_TYPE:
     // stick the icon on the wall
     doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
     pold->copyPosAndBB(pcur->pos);
     break;
-
   default:	// other objects
     pold->copyPositionAndBB(pcur);
   }
