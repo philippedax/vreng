@@ -43,6 +43,7 @@ void Escalator::defaults()
   length = 0;
   speed = Step::LSPEED;
   mobile = true;
+  stuck = false;
   escaList.clear();
 }
 

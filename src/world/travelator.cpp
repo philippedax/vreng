@@ -42,6 +42,7 @@ void Travelator::defaults()
   dir = 0;		// horizontal
   speed = Step::LSPEED;
   mobile = true;
+  stuck = false;
 }
 
 void Travelator::parser(char *l)
