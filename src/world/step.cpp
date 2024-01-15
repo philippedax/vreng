@@ -221,6 +221,7 @@ void Step::changePermanent(float lasting)
 {
   if (! mobile) return;
   if (state == INACTIVE) return;	// not running
+
   // only escalator and travelator
 
   float sx = 2 * pos.bbs.v[0];  // step width
@@ -231,12 +232,16 @@ void Step::changePermanent(float lasting)
     pos.x += lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y += lasting * move.lspeed.v[1] * cos(pos.az);
     pos.z += lasting * move.lspeed.v[2];
+    if (pos.z >= (ipos.z + height - sz)) {	// rewind step
+      //echo("+ %.2f %s", pos.z,getInstance());
+      pos = ipos;
+      //pos.z = ipos.z - sz; //orig - sz;
+    }
     if (stuck) {				// user follows up this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
       localuser->pos.z = pos.z + localuser->height/2;
-      //localuser->pos.z += pos.z;
-      if (pos.z >= (ipos.z + height -sz)) {	// user stops when reaches the top
+      if (pos.z >= (ipos.z + height - sz)) {	// user stops when reaches the top
         localuser->pos.x += (sin(pos.az) * sx);
         localuser->pos.y += (cos(pos.az) * sy);
         localuser->pos.z += sz;
@@ -244,35 +249,32 @@ void Step::changePermanent(float lasting)
       }
       localuser->updatePosition();
     }
-    if (pos.z >= (ipos.z + height - sz)) {	// rewind step
-      //echo("+ %.2f %s", pos.z,getInstance());
-      pos = ipos;
-      pos.z = ipos.z ; //orig - sz;
-    }
   }
   else if (dir < 0) {				// escalator downwards
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);
     pos.z -= lasting * move.lspeed.v[2];
+    if (pos.z < (ipos.z - height + sz)) {	// rewind step
+      pos = ipos;
+    }
     if (stuck) {				// user follows down this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
       localuser->pos.z = pos.z + localuser->height/2;
-      //localuser->pos.z += pos.z;
-      if (pos.z <= (ipos.z - height +sz)) {	// user stops when reaches the bottom
+      if (pos.z <= (ipos.z - height + sz)) {	// user stops when reaches the bottom
         localuser->pos.x -= (sin(pos.az) * sx);
         localuser->pos.y -= (cos(pos.az) * sy);
         stuck = false;
       }
       localuser->updatePosition();
     }
-    if (pos.z < (ipos.z - height + sz)) {	// rewind step
-      pos = ipos;
-    }
   }
   else {					// travelator horizontal
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);
+    if (pos.x >= (ipos.x + length - sx)) {	// rewind step
+      pos = ipos;
+    }
     if (stuck) {				// user follows this step
       localuser->pos.x = pos.x;
       localuser->pos.y = pos.y;
@@ -282,9 +284,6 @@ void Step::changePermanent(float lasting)
         stuck = false;
       }
       localuser->updatePosition();
-    }
-    if (pos.x >= (ipos.x + length - sx)) {	// rewind step
-      pos = ipos;
     }
   }
   updatePositionAndGrid(pos);
