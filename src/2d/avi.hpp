@@ -81,15 +81,10 @@
  */
 class Avi {
 
-public:
-
+ public:
   Avi();
   Avi(const char *url);
   virtual ~Avi();
-
-  void write_header(int width, int height, int norm, int audio, int stereo, int size, int rate);
-  void add_frame(const char *jpeg_data, int32_t length);
-  void add_audio(const char *audio_data, int32_t length);
 
   void getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const;
   FILE * getFile() const;
@@ -97,7 +92,11 @@ public:
   int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen);
   int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t max_aud, int32_t *retlen);
 
-private:
+  //notused void write_header(int width, int height, int norm, int audio, int stereo, int size, int rate);
+  //notused void add_frame(const char *jpeg_data, int32_t length);
+  //notused void add_audio(const char *audio_data, int32_t length);
+
+ private:
   FILE *fp;
   char *url;
   class Cache *cache;
@@ -124,16 +123,16 @@ private:
 
   void defaults();
   void download(const char *url);
-  int32_t tell(int fd);
-  void out4cc(const char *s);
-  void outlong(int32_t n);
-  void outshrt(int32_t n);
-  void start_list(const char * name);
-  void finish_list(const char * name);  
-  void open_output_file(const char * filename);
 
   static void reader(void *_avi, class Http *http);
 
+  //notused int32_t tell(int fd);
+  //notused void out4cc(const char *s);
+  //notused void outlong(int32_t n);
+  //notused void outshrt(int32_t n);
+  //notused void start_list(const char * name);
+  //notused void finish_list(const char * name);  
+  //notused void open_output_file(const char * filename);
 };
 
 #endif

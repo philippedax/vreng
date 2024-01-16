@@ -350,6 +350,7 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t 
   return 0;
 }
 
+#if 0 //notused
 /*******************************************************************
  *    Utilities for writing an AVI File                            *
  *******************************************************************/
@@ -628,3 +629,4 @@ void Avi::add_audio(const char *audio_data, int length)
   }
   audio_samples += length;
 }
+#endif //notused
