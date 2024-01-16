@@ -34,31 +34,31 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
 {
   // downloads the svg file and put it into the cache
   Texture *tex = (Texture *) _tex;
-  char cachepath[PATH_LEN] = {0};
+  char filename[PATH_LEN] = {0};
 
-  Cache::setCachePath(tex->url, cachepath);
+  Cache::setCachePath(tex->url, filename);
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(cachepath, tex->http)) == NULL) {
+  if ((f = cache->open(filename, tex->http)) == NULL) {
     delete cache;
     return NULL;
   }
   cache->close();
   delete cache;
 
-  NSVGimage *image = NULL;
+  NSVGimage *svgimage = NULL;
   NSVGrasterizer *rast = NULL;
   int width, height;
 
   // opens the svg file
-  image = nsvgParseFromFile(cachepath, "px", 96);
-  if (image == NULL) {
-    error("could not open SVG image");
-    nsvgDelete(image);
+  svgimage = nsvgParseFromFile(filename, "px", 96);
+  if (svgimage == NULL) {
+    error("could not open SVG image %s", filename);
+    nsvgDelete(svgimage);
     return NULL;
   }
-  width = (int)image->width;
-  height = (int)image->height;
+  width = (int)svgimage->width;
+  height = (int)svgimage->height;
   trace(DBG_2D, "loadSVG: w=%d h=%d", width, height);
 
   // allocs img
@@ -69,15 +69,15 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
   if (rast == NULL) {
     error("could not init rasterizer");
     nsvgDeleteRasterizer(rast);
-    nsvgDelete(image);
+    nsvgDelete(svgimage);
     return NULL;
   }
 
-  //echo("rasterizing image %d x %d", width, height);
-  nsvgRasterize(rast, image, 0,0,1, img->pixmap, width, height, width*Img::RGB);
+  //echo("rasterizing svgimage %d x %d", width, height);
+  nsvgRasterize(rast, svgimage, 0,0,1, img->pixmap, width, height, width*Img::RGB);
 
   nsvgDeleteRasterizer(rast);
-  nsvgDelete(image);
+  nsvgDelete(svgimage);
 
   return img;
 }
