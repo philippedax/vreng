@@ -29,18 +29,18 @@
 
 
 /** Load a TIFF image */
-Img * Img::loadTIF(void *tex, ImageReader read_func)
+Img * Img::loadTIF(void *_tex, ImageReader read_func)
 {
 #if HAVE_LIBTIFF
   // downloads the tiff file and put it into the cache
 
-  Texture *_tex = (Texture *) tex;
-  char cachepath[PATH_LEN] = {0};
+  Texture *tex = (Texture *) _tex;
+  char filename[PATH_LEN] = {0};
 
-  Cache::setCachePath(_tex->url, cachepath);
+  Cache::setCachePath(tex->url, filename);
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(cachepath, _tex->http)) == NULL) {
+  if ((f = cache->open(filename, tex->http)) == NULL) {
     delete cache;
     return NULL;
   }
@@ -49,7 +49,7 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
 
   // opens the tiff file
   TIFF *fp;
-  if (! (fp = TIFFOpen(cache->getFilename(tex), "r"))) return NULL;
+  if (! (fp = TIFFOpen(filename, "r"))) return NULL;
 
   /* reads the header */
   uint16_t width, height;
@@ -69,7 +69,7 @@ Img * Img::loadTIF(void *tex, ImageReader read_func)
 
   // reads the data with the library
   if (! TIFFReadRGBAImage(fp, width, height, tmpImage, 0)) {
-    error("loadTIF: error reading file %s", cache->getFilename(tex));
+    error("loadTIF: error reading file %s", filename);
     return NULL;
   }
 
