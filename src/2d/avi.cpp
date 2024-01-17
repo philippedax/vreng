@@ -237,42 +237,42 @@ int32_t Avi::read_header()
  */
 int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
 {
-  uint32_t tag, n;
+  uint32_t tag, len;
 
   while (fp) {
     /* Read tag and length */
     if (fread(&tag, 4, 1, fp) != 1 ||
-        fread(&n  , 4, 1, fp) != 1 ) {
+        fread(&len, 4, 1, fp) != 1 ) {
       error("avi: read error");
       fp = NULL;
       return -1;
     }
 #if WORDS_BIGENDIAN
     char tmp;
-    SWAPL(&n, tmp);
+    SWAPL(&len, tmp);
 #endif
-    if (n&1) n++; /* Odd values are padded */
+    if (len&1) len++; /* Odd values are padded */
 
-    //echo("avi: read tag=%08x n=%d", tag, n);
+    //echo("avi: read tag=%08x len=%d", tag, len);
     switch (tag) {
       case MAKEFOURCC('0','0','d','b'):
       case MAKEFOURCC('0','0','d','c'):
-        if (n > max_vid) {
-          error("avi: video buffer too small n=%d", n);
+        if (len > max_vid) {
+          error("avi: video buffer too small len=%d", len);
           fp = NULL;
           return -1;
         }
-        *retlen = n;
-        if (fread(vidbuf, n, 1, fp) != 1) {
-          error("avi: eof! n=%d", n);
+        *retlen = len;
+        if (fread(vidbuf, len, 1, fp) != 1) {
+          error("avi: eof! len=%d", len);
           fp = NULL;
           return 0;
         }
         return 1;	// OK
         break;
       default:
-        if (fseek(fp, n, SEEK_CUR)) {
-          echo("avi: ignore tag=%08x n=%d", tag, n);
+        if (fseek(fp, len, SEEK_CUR)) {
+          echo("avi: ignore tag=%08x len=%d", tag, len);
           fp = NULL;
           return 0;
         }
