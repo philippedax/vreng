@@ -39,7 +39,7 @@
  */
 class Movie: public WO {
 
-private:
+ private:
   static const float FPS;	///< max number of frames decoded per rendering
   static const float DEF_PROJ;	///< distance between projector and screen
 
@@ -64,7 +64,7 @@ private:
   class File *file;		///< file mpg instance
   class Spot *spot;		///< Spot instance
 
-public:
+ public:
   enum {
     INACTIVE,	// to indicate
     PLAYING,	// the screen
@@ -86,7 +86,7 @@ public:
   void changePermanent(float lasting);
   /**< Change permanent (frames). */
 
-private:
+ private:
   void parser(char *l);
   /**< Parses vre line. */
 
@@ -109,7 +109,7 @@ private:
   void pause();
   void rewind();
   void loop();
-  void debug();
+  //notused void debug();
 
   // GUI callbacks
   static void play_cb(Movie *po, void *d, time_t s, time_t u);
@@ -117,7 +117,7 @@ private:
   static void pause_cb(Movie *po, void *d, time_t s, time_t u);
   static void rewind_cb(Movie *po, void *d, time_t s, time_t u);
   static void loop_cb(Movie *po, void *d, time_t s, time_t u);
-  static void debug_cb(Movie *po, void *d, time_t s, time_t u);
+  //notused static void debug_cb(Movie *po, void *d, time_t s, time_t u);
 };
 
 #endif

@@ -89,7 +89,7 @@ class Avi {
   FILE * getFile() const;
   int32_t read_header();
   int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen);
-  void getInfos(uint16_t _width, uint16_t _height, float _fps) const;
+  void getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const;
 
   //notused int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t max_aud, int32_t *retlen);
   //notused void write_header(int width, int height, int norm, int audio, int stereo, int size, int rate);

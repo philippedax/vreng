@@ -151,9 +151,9 @@ void Movie::open_avi()
     return;
   }
   fp = avi->getFile();
-  avi->getInfos(width, height, fps);
+  avi->getInfos(&width, &height, &fps);
   videobuf = new uint8_t[4 * width * height];
-  //echo("avi: w=%d h=%d f=%.3f", width, height, fps);
+  echo("open_avi: w=%d h=%d f=%.3f", width, height, fps);
 }
 
 void Movie::init_tex()
@@ -439,10 +439,10 @@ void Movie::loop()
   }
 }
 
-void Movie::debug()
-{
-  Texture::listTextures();
-}
+//void Movie::debug()
+//{
+//  Texture::listTextures();
+//}
 
 /* callbacks */
 
@@ -471,10 +471,10 @@ void Movie::loop_cb(Movie *movie, void *d, time_t s, time_t u)
   movie->loop();
 }
 
-void Movie::debug_cb(Movie *movie, void *d, time_t s, time_t u)
-{
-  movie->debug();
-}
+//void Movie::debug_cb(Movie *movie, void *d, time_t s, time_t u)
+//{
+//  movie->debug();
+//}
 
 void Movie::funcs()
 {
@@ -484,5 +484,5 @@ void Movie::funcs()
   setActionFunc(MOVIE_TYPE, 2, _Action pause_cb, "Pause");	// side effect if pending
   setActionFunc(MOVIE_TYPE, 3, _Action loop_cb, "Loop");
   //setActionFunc(MOVIE_TYPE, 4, _Action rewind_cb, "Rewind");	// crash in mpeglib
-  setActionFunc(MOVIE_TYPE, 4, _Action debug_cb, "Debug");
+  //setActionFunc(MOVIE_TYPE, 4, _Action debug_cb, "Debug");
 }
