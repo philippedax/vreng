@@ -153,7 +153,7 @@ void Movie::open_avi()
   fp = avi->getFile();
   avi->getInfos(&width, &height, &fps);
   videobuf = new uint8_t[4 * width * height];
-  echo("open_avi: w=%d h=%d f=%.3f", width, height, fps);
+  //echo("open_avi: w=%d h=%d f=%.3f", width, height, fps);
 }
 
 void Movie::init_tex()
@@ -293,16 +293,16 @@ void Movie::play_avi()
   // avi frame : build pixmap texture : doesn't work !!!
   int wof = (texsiz - width) / 2;
   int hof = (texsiz - height) / 2;
-  //wof = hof = 0; //dax ??
-  echo("avi: f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
+  //echo("avi: f=%d s=%d w=%d h=%d", frame, texsiz, width, height);
   for (int h=0; h < height; h++) {
     for (int w=0; w < width; w++) {
       int v = 4 * (width * h + w);		// videobuf index
-      int t = 3 * (texsiz * (h+hof) + w+wof);	// texframe index
+      int t = 4 * (texsiz * (h+hof) + w+wof);	// texframe index
       //echo("w,h: %d,%d t,v: %d,%d", w,h,t,v);
       texframe[t+0] = videobuf[v+r];
       texframe[t+1] = videobuf[v+g];
-      texframe[t+2] = videobuf[v+g];
+      texframe[t+2] = videobuf[v+b];
+      //texframe[t+3] = videobuf[v+3];
     }
   }
 }
