@@ -151,7 +151,7 @@ void Movie::open_avi()
     return;
   }
   fp = avi->getFile();
-  avi->getInfos(&width, &height, &fps);
+  avi->getInfos(width, height, fps);
   videobuf = new uint8_t[4 * width * height];
   //echo("avi: w=%d h=%d f=%.3f", width, height, fps);
 }

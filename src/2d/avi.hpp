@@ -86,12 +86,12 @@ class Avi {
   Avi(const char *url);
   virtual ~Avi();
 
-  void getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const;
   FILE * getFile() const;
   int32_t read_header();
   int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen);
-  int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t max_aud, int32_t *retlen);
+  void getInfos(uint16_t _width, uint16_t _height, float _fps) const;
 
+  //notused int32_t read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t max_aud, int32_t *retlen);
   //notused void write_header(int width, int height, int norm, int audio, int stereo, int size, int rate);
   //notused void add_frame(const char *jpeg_data, int32_t length);
   //notused void add_audio(const char *audio_data, int32_t length);
@@ -100,29 +100,24 @@ class Avi {
   FILE *fp;
   char *url;
   class Cache *cache;
-  uint32_t frames;
-  uint32_t audio_samples;
-  uint32_t n_idx;
+  //notused uint32_t frames;
 
   int idx[MAXIDX];
-
-  /* Handling of lists */
-  char list_name[MAX_LIST_DEPTH][4];
-  uint32_t list_pos[MAX_LIST_DEPTH];
-  uint32_t list_depth;
 
   /* The following variables are exported for interpretation after avi_read_header */
   double fps;
   uint16_t width;
   uint16_t height;
-  uint16_t a_chans;
-  uint16_t a_rate;
-  uint16_t a_bits;
+
+  /* Handling of lists */
+  //notused char list_name[MAX_LIST_DEPTH][4];
+  //notused uint32_t list_pos[MAX_LIST_DEPTH];
+  //notused uint32_t list_depth;
+  //notused uint32_t audio_samples;
 
   const char * getUrl() const;
 
   void defaults();
-  void download(const char *url);
 
   static void reader(void *_avi, class Http *http);
 

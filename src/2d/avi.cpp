@@ -53,16 +53,9 @@ void Avi::defaults()
   fp = NULL;
   url = NULL;
   cache = NULL;
-  audio_samples = 0;
-  frames = 0;
-  n_idx = 0;
-  list_depth = 0;
   fps = 0;
   width = 0;
   height = 0;
-  a_rate = 0;
-  a_bits = 0;
-  a_chans = 0;
 }
 
 Avi::Avi()
@@ -73,31 +66,30 @@ Avi::Avi()
 Avi::Avi(const char *_url)
 {
   defaults();
-  download(_url);
-}
-
-Avi::~Avi()
-{
-  if (url) delete[] url;
-  if (fp) {
-    //dax cache->close();
-    //dax delete cache;
-  }
-}
-
-/*******************************************************************
- *    Utilities for reading video and audio from an AVI File       *
- *******************************************************************/
-void Avi::download(const char *_url)
-{
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
   Http::httpOpen(url, reader, this, 0);
 }
 
+Avi::~Avi()
+{
+  if (url) delete[] url;
+  if (cache) {
+    cache->close();
+    delete cache;
+  }
+}
+
 const char * Avi::getUrl() const
 {
   return (const char *) url;
+}
+
+void Avi::getInfos(uint16_t _width, uint16_t _height, float _fps) const
+{
+  if (width) _width = width;
+  if (height) _height = height;
+  if (fps) _fps = (float) fps;
 }
 
 void Avi::reader(void *_avi, Http *http)
@@ -112,13 +104,6 @@ void Avi::reader(void *_avi, Http *http)
 FILE * Avi::getFile() const
 {
   return fp;
-}
-
-void Avi::getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const
-{
-  if (width) *_width = width;
-  if (height) *_height = height;
-  if (fps) *_fps = (float) fps;
 }
 
 /*
@@ -219,17 +204,17 @@ int32_t Avi::read_header()
           vids_strf_seen = 1;
         }
         else if (lasttag == 2) {
-#if 0 //dax
+#if 0 //notused
           /* Check audio format (must be PCM) */
           if ((args[0]&0xffff) != 1) {
             echo("avi: no PCM tag=%08x", tag);
             break;
             //return ERR_NO_PCM;
           }
-#endif
           a_chans = args[0]>>16;
           a_rate  = args[1];
           a_bits  = args[3]>>16;
+#endif
         }
         break;
       default:
@@ -297,6 +282,8 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
   return 0;
 }
 
+#if 0 //notused -------------------------------------------------------------------------------
+
 int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t max_aud, int32_t *retlen)
 {
   uint32_t tag;
@@ -350,7 +337,6 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, uint8_t *audbuf, uint32_t 
   return 0;
 }
 
-#if 0 //notused
 /*******************************************************************
  *    Utilities for writing an AVI File                            *
  *******************************************************************/
