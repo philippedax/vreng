@@ -45,7 +45,7 @@
 #include "avi.hpp"
 #include "http.hpp"	// Http
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// open
+#include "file.hpp"	// bigEndian
 
 
 void Avi::defaults()
@@ -114,36 +114,36 @@ FILE * Avi::getFile() const
  */
 int32_t Avi::read_header()
 {
-  int32_t tag, n, name;
+  int32_t tag, len, nam;
   int32_t lasttag = 0;
   int32_t vids_strh_seen = 0;
   int32_t vids_strf_seen = 0;
   uint32_t args[64];
 
   /* Read first 12 bytes and check that this is an AVI file */
-  if (fread(&tag , 4, 1, fp) != 1) return 1;
-  if (fread(&n   , 4, 1, fp) != 1) return 1;
-  if (fread(&name, 4, 1, fp) != 1) return 1;
-  if (tag != RIFFtag || name != MAKEFOURCC('A','V','I',' ')) {
-    error("avi: not a AVI fp");
+  if (fread(&tag, 4, 1, fp) != 1) return 1;
+  if (fread(&len, 4, 1, fp) != 1) return 1;
+  if (fread(&nam, 4, 1, fp) != 1) return 1;
+  if (tag != RIFFtag || nam != MAKEFOURCC('A','V','I',' ')) {
+    error("avi: not a AVI file");
     return ERR_NO_AVI;
   }
 
   /* Read all tags until we encounter a 'LIST xxx movi' tag */
   while (1) {
     if (fread(&tag, 4, 1, fp) != 1) return 1;
-    if (fread(&n  , 4, 1, fp) != 1) return 1;
-#if WORDS_BIGENDIAN
-    char tmp;
-    SWAPL(&n, tmp);
-#endif
-    if (n&1) n++; /* Odd values are padded */
-    //echo("avi: tag=%08x n=%d", tag, n);
+    if (fread(&len, 4, 1, fp) != 1) return 1;
+    if (File::bigEndian()) {
+      char tmp;
+      SWAPL(&len, tmp);
+    }
+    if (len&1) len++; /* Odd values are padded */
+    //echo("avi: tag=%08x len=%d", tag, len);
     /* Unless a LIST tag hasn't name movi, it is ignored */
     if (tag == LISTtag) {
-      if (fread(&name, 4, 1, fp) != 1) return 1;
-      //echo("avi: name=%08x", name);
-      if (name == MAKEFOURCC('m','o','v','i')) {
+      if (fread(&nam, 4, 1, fp) != 1) return 1;
+      //echo("avi: nam=%08x", nam);
+      if (nam == MAKEFOURCC('m','o','v','i')) {
         //echo("avi: movi");
         return 0;
       }
@@ -151,44 +151,43 @@ int32_t Avi::read_header()
     }
 
     /* Read the arguments of this tag, 256 bytes are sufficient, remainder is skipped */
-    if (n <= 256) {
-      if (fread(args, n, 1, fp) != 1) return 1;
+    if (len <= 256) {
+      if (fread(args, len, 1, fp) != 1) return 1;
     }
     else {
       if (fread(args, 256, 1, fp) != 1) return 1;
-      if (fseek(fp, n-256, SEEK_CUR)) return 1;
+      if (fseek(fp, len-256, SEEK_CUR)) return 1;
     }
 
     /* Interpret the tag and its args */
     switch (tag) {
       case strhtag:
-        //echo("avi: strhtag n=%d", n);
         if (args[0] == MAKEFOURCC('v','i','d','s')) {
           if (args[1] != MAKEFOURCC('M','J','P','G') &&
               args[1] != MAKEFOURCC('m','j','p','g') &&
               args[1] != MAKEFOURCC('M','S','V','C') &&
               args[1] != MAKEFOURCC('m','s','v','c')) {
-            echo("avi: args1 no mjpg %08x", args[1]);
+            error("avi: args1 no mjpg %08x", args[1]);
             return ERR_NO_MJPG;
           }
-#if WORDS_BIGENDIAN
-          SWAPL(&args[5], tmp);
-          SWAPL(&args[6], tmp);
-#endif
+          if (File::bigEndian()) {
+            char tmp;
+            SWAPL(&args[5], tmp);
+            SWAPL(&args[6], tmp);
+          }
           if (args[5] != 0) fps = (double)args[6] / (double)args[5];
-          //echo("avi: fps=%.2f", fps);
           vids_strh_seen = 1;
           lasttag = 1; /* vids */
         }
         else if (args[0] == MAKEFOURCC('a','u','d','s')) lasttag = 2; /* auds */
         break;
       case strftag:
-        //echo("avi: strftag n=%d", n);
         if (lasttag == 1) {
-#if WORDS_BIGENDIAN
-          SWAPL(&args[1], tmp);
-          SWAPL(&args[2], tmp);
-#endif
+          if (File::bigEndian()) {
+            char tmp;
+            SWAPL(&args[1], tmp);
+            SWAPL(&args[2], tmp);
+          }
           width  = args[1];
           height = args[2];
           //echo("avi: width=%d height=%d", width, height);
@@ -198,7 +197,7 @@ int32_t Avi::read_header()
               args[4] != MAKEFOURCC('c','r','a','m') &&
               args[4] != MAKEFOURCC('M','S','V','C') &&
               args[4] != MAKEFOURCC('m','s','v','c')) {
-            echo("avi: args4 no mjpg %08x", args[4]);
+            error("avi: args4 no mjpg %08x", args[4]);
             return ERR_NO_MJPG;
           }
           vids_strf_seen = 1;
@@ -207,7 +206,7 @@ int32_t Avi::read_header()
 #if 0 //notused
           /* Check audio format (must be PCM) */
           if ((args[0]&0xffff) != 1) {
-            echo("avi: no PCM tag=%08x", tag);
+            error("avi: no PCM tag=%08x", tag);
             break;
             //return ERR_NO_PCM;
           }
@@ -218,7 +217,6 @@ int32_t Avi::read_header()
         }
         break;
       default:
-        //echo("avi: default tag=%08x n=%d", tag, n);
         lasttag = 0;
         break;
     }
@@ -247,13 +245,12 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
       fp = NULL;
       return -1;
     }
-#if WORDS_BIGENDIAN
-    char tmp;
-    SWAPL(&len, tmp);
-#endif
+    if (File::bigEndian()) {
+      char tmp;
+      SWAPL(&len, tmp);
+    }
     if (len&1) len++; /* Odd values are padded */
 
-    //echo("avi: read tag=%08x len=%d", tag, len);
     switch (tag) {
       case MAKEFOURCC('0','0','d','b'):
       case MAKEFOURCC('0','0','d','c'):
@@ -272,7 +269,6 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
         break;
       default:
         if (fseek(fp, len, SEEK_CUR)) {
-          echo("avi: ignore tag=%08x len=%d", tag, len);
           fp = NULL;
           return 0;
         }
