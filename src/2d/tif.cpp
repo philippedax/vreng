@@ -52,23 +52,22 @@ Img * Img::loadTIF(void *_tex, ImageReader read_func)
   if (! (fp = TIFFOpen(filename, "r"))) return NULL;
 
   /* reads the header */
-  uint16_t width, height;
-  uint8_t bpp;
+  uint32_t width, height;
+  uint8_t bpp = Img::RGB;
 
   TIFFGetField(fp, TIFFTAG_IMAGEWIDTH, &width);
   TIFFGetField(fp, TIFFTAG_IMAGELENGTH, &height);
   TIFFGetField(fp, TIFFTAG_SAMPLESPERPIXEL, &bpp);
-
   if (bpp <= Img::RGB) bpp = Img::RGB;
   else bpp = Img::RGBA;
 
   trace(DBG_2D, "loadTIF: w=%d h=%d c=%d", width, height, bpp);
 
   // always 4 bytes per pixel for this
-  uint32_t * tmpImage = (uint32_t *)_TIFFmalloc((tsize_t)(width * height * sizeof(uint32_t)));
+  uint32_t * tifImage = (uint32_t *)_TIFFmalloc((tsize_t)(width * height * sizeof(uint32_t)));
 
   // reads the data with the library
-  if (! TIFFReadRGBAImage(fp, width, height, tmpImage, 0)) {
+  if (! TIFFReadRGBAImage(fp, width, height, tifImage, 0)) {
     error("loadTIF: error reading file %s", filename);
     return NULL;
   }
@@ -82,7 +81,7 @@ Img * Img::loadTIF(void *_tex, ImageReader read_func)
   // fills the pixmap
   for (int i=0; i < height ; i++) {
     for (int j=0; j < width ; j++) {
-      uint32_t pixel = tmpImage[(i*width) + j];
+      uint32_t pixel = tifImage[(i*width) + j];
 
       *pixptr++ = (uint8_t)TIFFGetR(pixel);
       *pixptr++ = (uint8_t)TIFFGetG(pixel);
@@ -92,7 +91,7 @@ Img * Img::loadTIF(void *_tex, ImageReader read_func)
       }
     }
   }
-  _TIFFfree(tmpImage);
+  _TIFFfree(tifImage);
   TIFFClose(fp);
 
   return img;
