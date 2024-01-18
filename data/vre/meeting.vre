@@ -23,26 +23,26 @@
 -->
 <!-- humanoids -->
 <humanoid name="masque" pos="10.3 0 0 1.57"
-  body="/avatar/man.body" face="/v3d/mask.v3d" color="gold">
+  body="/body/man.body" face="/v3d/mask.v3d" color="gold">
 </humanoid>
 <humanoid name="girl" pos="9.6 1.7 0 3.14"
-  body="/avatar/man.body" face="/v3d/girl.v3d" color="lightblue">
+  body="/body/man.body" face="/v3d/girl.v3d" color="lightblue">
 </humanoid>
 <humanoid name="kangaroo" pos="9.7 -1.7 0 0"
-  body="/avatar/man.body" face="/v3d/kangaroo.v3d" color="lightgreen">
+  body="/body/man.body" face="/v3d/kangaroo.v3d" color="lightgreen">
 </humanoid>
 <humanoid name="wolf" pos="7.6 1.7 0 3.14"
-  body="/avatar/man.body" face="/v3d/wolf.v3d" color="darkred">
+  body="/body/man.body" face="/v3d/wolf.v3d" color="darkred">
 </humanoid>
 <humanoid name="female" pos="6.7 -1.7 0 0"
-  body="/avatar/woman.body">
+  body="/body/woman.body">
 </humanoid>
 <humanoid name="human" pos="6.6 1.7 0 3.14"
-  body="/avatar/man.body">
+  body="/body/man.body">
 </humanoid>
 <!--
 <humanoid name="dino" pos="5.7 -1.7 0 0"
-  body="/avatar/humanoid/body.vre" face="/v3d/dino.v3d" server="vaps.enst.fr">
+  body="/body/man.vre" face="/v3d/dino.v3d" server="vaps.enst.fr">
 </humanoid>
 -->
 
