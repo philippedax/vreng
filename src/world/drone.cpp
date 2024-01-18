@@ -102,7 +102,7 @@ void Drone::changePermanent(float lasting)
   struct timeval tv;
 
   gettimeofday(&tv, NULL);
-  srand((time_t) tv.tv_sec);
+  srand((time_t) (tv.tv_sec * 1000 + tv.tv_usec / 1000));
 
   static bool expandx = true;
   static bool expandy = true;
