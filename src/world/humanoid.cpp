@@ -35,7 +35,7 @@
 const OClass Humanoid::oclass(HUMANOID_TYPE, "Humanoid", Humanoid::creator);
 
 //local
-static const char DEF_BODY_URL[] = "/avatar/man.body";
+static const char DEF_BODY_URL[] = "/body/man.body";
 static float skin[] = {1, .75, .7}; // skin color
 static uint8_t vaps_offset_port = Humanoid::VAPS_OFFSET_PORT;
 
