@@ -33,6 +33,7 @@ const OClass Door::oclass(DOOR_TYPE, "Door", Door::creator);
 static uint16_t oid = 0;
 
 
+/* Creates from vre file */
 WO * Door::creator(char *l)
 {
   return new Door(l);
@@ -46,31 +47,31 @@ void Door::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "open")) {
+    if      (! stringcmp(l, "open")) {
       l = parseFloat(l, &aopen, "open");
       mecanism = ANGULAR;
     }
-    else if (!stringcmp(l, "close")) {
+    else if (! stringcmp(l, "close")) {
       l = parseFloat(l, &aclose, "close");
       mecanism = ANGULAR;
     }
-    else if (!stringcmp(l, "xopen")) {
+    else if (! stringcmp(l, "xopen")) {
       l = parseFloat(l, &xopen, "xopen");
       mecanism = SLIDING;
     }
-    else if (!stringcmp(l, "xclose")) {
+    else if (! stringcmp(l, "xclose")) {
       l = parseFloat(l, &xclose, "xclose");
       mecanism = SLIDING;
     }
-    else if (!stringcmp(l, "zopen")) {
+    else if (! stringcmp(l, "zopen")) {
       l = parseFloat(l, &zopen, "zopen");
       mecanism = VERTICAL;
     }
-    else if (!stringcmp(l, "zclose")) {
+    else if (! stringcmp(l, "zclose")) {
       l = parseFloat(l, &zclose, "zclose");
       mecanism = VERTICAL;
     }
-    else if (!stringcmp(l, "speed")) {
+    else if (! stringcmp(l, "speed")) {
       l = parseFloat(l, &speed, "speed");
     }
   }
@@ -81,20 +82,6 @@ void Door::parser(char *l)
 Door::Door(char *l)
 {
   parser(l);
-
-#if 0 //dax
-  switch (mecanism) {
-  case ANGULAR:
-    state = (aclose == pos.az) ? CLOSED : OPENED;
-    break;
-  case SLIDING:
-    state = (xclose == pos.x) ? CLOSED : OPENED;
-    break;
-  case VERTICAL:
-    state = (zclose == pos.z) ? CLOSED : OPENED;
-    break;
-  }
-#endif
 
   /* calls persistency VSql server to know the door state */
   getPersist(state);
@@ -287,10 +274,25 @@ void Door::quit()
   savePersist();
 }
 
-void Door::open_cb(Door *door, void *d, time_t s, time_t u) { door->open(); }
-void Door::close_cb(Door *door, void *d, time_t s, time_t u) { door->close(); }
-void Door::lock_cb(Door *door, void *d, time_t s, time_t u) { door->lock(); }
-void Door::unlock_cb(Door *door, void *d, time_t s, time_t u) { door->unlock(); }
+void Door::open_cb(Door *door, void *d, time_t s, time_t u)
+{
+  door->open();
+}
+
+void Door::close_cb(Door *door, void *d, time_t s, time_t u)
+{
+  door->close();
+}
+
+void Door::lock_cb(Door *door, void *d, time_t s, time_t u)
+{
+  door->lock();
+}
+
+void Door::unlock_cb(Door *door, void *d, time_t s, time_t u)
+{
+  door->unlock();
+}
 
 void Door::funcs()
 {
