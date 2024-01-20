@@ -77,45 +77,45 @@ char * Parse::nextToken() const
   return strtok(NULL, SEP);
 }
 
-char * Parse::skipChar(char *p, char c, bool flag) const
+char * Parse::skipChar(char *p, char c) const
 {
   char *s = p;
   if (p && (p = strchr(p, c)))
     p++;
   else
-    if (flag) error("parse error at line %d (missing '%c' in %s)", numline-1, c, s);
+    error("parse error at line %d (missing '%c' in %s)", numline-1, c, s);
   return p;
 }
 
 char * Parse::skipEqual(char *p) const
 {
-  return skipChar(p, '=', 1);
+  return skipChar(p, '=');
 }
 
 #if 0 //notused
 char * Parse::skipOpenBracket(char *p) const
 {
-  return skipChar(p, '[', 1);
+  return skipChar(p, '[');
 }
 
 char * Parse::skipOpenParenthesis(char *p) const
 {
-  char *q = skipChar(p, '(', 0);
+  char *q = skipChar(p, '(');
   if (q) return q;
   else {
     q = nextToken();
-    return skipChar(q, '(', 0);
+    return skipChar(q, '(');
   }
 }
 
 char * Parse::skipCloseParenthesis(char *p) const
 {
-  return skipChar(p, ')', 1);
+  return skipChar(p, ')');
 }
 #endif //notused
 
 /* Skip double quotes or single quote */
-char * Parse::skipQuotes(char *p, bool flag) const
+char * Parse::skipQuotes(char *p) const
 {
   if (p && ((*p == '"') || (*p == '\''))) p++;
   return p;
@@ -132,11 +132,6 @@ char * Parse::skipSpace(char *p) const
 {
   while (p && isspace(*p)) p++;
   return p;
-}
-
-char * Parse::skipSepar(char *p) const
-{
-  return nextToken();
 }
 
 bool Parse::isFloat(const char *p) const
@@ -481,7 +476,9 @@ char * Parse::skipAttribute(char *l)
 /* parse attributes: name pos solid category description */
 char * Parse::parseAttributes(char *l, WO *wobject)
 {
-  while (l) {
+  static bool comment = false;
+
+  while (l && ! comment) {
     if      (! stringcmp(l, "name=")) {
       l = parseName(l, wobject->names.given);
     }
@@ -498,6 +495,19 @@ char * Parse::parseAttributes(char *l, WO *wobject)
     else if ( ! stringcmp(l, "descr=") || ! stringcmp(l, "description=") ) {
       l = parseDescr(l, wobject->names.infos);
     }
+#if 0 //dax
+    else if (! stringcmp(l, "!--")) {	// <!--
+      echo("< %s", l);
+      comment = true;
+      while (stringcmp(l, "--")) {	// -->
+        l = nextToken();		// commented
+        echo("# %s", l);
+      }
+      echo("> %s", l);
+      comment = false;
+      l = nextToken();
+    }
+#endif
     else if (! strcmp(l, "/")) {
       l = nextToken();
     }
@@ -560,12 +570,12 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
     pos.x = (float) atof(ptok);
   else
     return nextToken();
-  ptok = skipSepar(ptok);	// get pos.y
+  ptok = nextToken();	// get pos.y
   if (isFloat(ptok))
     pos.y = (float) atof(ptok);
   else
     return nextToken();
-  ptok = skipSepar(ptok);	// get pos.z
+  ptok = nextToken();	// get pos.z
   if (isFloat(ptok)) {
     pos.z = (float) atof(ptok);
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z"
@@ -575,7 +585,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else {
     return nextToken();
   }
-  ptok = skipSepar(ptok);	// get pos.az
+  ptok = nextToken();	// get pos.az
   if (!ptok) {
     return nextToken();
   }
@@ -588,7 +598,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else { // pos.az not float
     return ptok;
   }
-  ptok = skipSepar(ptok);	// get pos.ax
+  ptok = nextToken();	// get pos.ax
   if (!ptok) {
     return nextToken();
   }
@@ -601,7 +611,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else { // pos.ax not float
     if (!ptok) return ptok;
   }
-  ptok = skipSepar(ptok);	// get pos.ay
+  ptok = nextToken();	// get pos.ay
   if (!ptok) {
     return nextToken();
   }
@@ -632,14 +642,14 @@ char * Parse::parseColor(char *ptok, Pos &p)
   }
 
   p.x  = (float) atof(ptok);
-  ptok = skipSepar(ptok);	// get p.y
+  ptok = nextToken();	// get p.y
   p.y  = (float) atof(ptok);
-  ptok = skipSepar(ptok);	// get p.z
+  ptok = nextToken();	// get p.z
   p.z  = (float) atof(ptok);
   if (ptok[strlen(ptok) - 1] == '"') {
     return nextToken();
   }
-  ptok = skipSepar(ptok);	// get p.az
+  ptok = nextToken();	// get p.az
   if (!ptok) {
     return nextToken();
   }
@@ -657,7 +667,7 @@ char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
   if ( (! stringcmp(ptok, "path=")) || (! stringcmp(ptok, "guide=")) ) {
     ptok = skipEqual(ptok);
   }
-  ptok = skipQuotes(ptok, 0);	// don't check the second '"'
+  ptok = skipQuotes(ptok);	// don't check the second '"'
   if (ptok) {
     if (*ptok == 0) {
       ptok = nextToken();
@@ -732,9 +742,9 @@ char * Parse::parseRotation(char *ptok, Pos &p)
     if (*ptok == 0)
       ptok = nextToken();
   }
-  p.az = (float) atof(ptok); ptok = skipSepar(ptok);
-  p.x  = (float) atof(ptok); ptok = skipSepar(ptok);
-  p.y  = (float) atof(ptok); ptok = skipSepar(ptok);
+  p.az = (float) atof(ptok); ptok = nextToken();
+  p.x  = (float) atof(ptok); ptok = nextToken();
+  p.y  = (float) atof(ptok); ptok = nextToken();
   p.z  = (float) atof(ptok);
   if (!ptok || ptok[strlen(ptok) - 1] == '"') {
     return nextToken();
@@ -753,8 +763,8 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
     if (*ptok == 0)
       ptok = nextToken();
   }
-  p.x  = (float) atof(ptok); ptok = skipSepar(ptok);
-  p.y  = (float) atof(ptok); ptok = skipSepar(ptok);
+  p.x  = (float) atof(ptok); ptok = nextToken();
+  p.y  = (float) atof(ptok); ptok = nextToken();
   p.z  = (float) atof(ptok);
   if (!ptok || ptok[strlen(ptok) - 1] == '"') {
     return nextToken();
@@ -962,7 +972,7 @@ char * Parse::parseVectorf(char *ptok, float *vector, int n)
   }
   for (int i=0; i<n-1; i++) {		// n-1 intervals
     vector[i] = (float) atof(ptok);
-    ptok = skipSepar(ptok);
+    ptok = nextToken();
   }
   vector[n-1] = (float) atof(ptok);	// last value
   if (!ptok) {
@@ -1004,9 +1014,9 @@ char * Parse::parseVector3fv(char *ptok, V3 *vector)
   ptok = skipQuotes(ptok);
   if (ptok) {
     vector->v[0] = (float) atof(ptok);
-    ptok = skipSepar(ptok);
+    ptok = nextToken();
     vector->v[1] = (float) atof(ptok);
-    ptok = skipSepar(ptok);
+    ptok = nextToken();
     vector->v[2] = (float) atof(ptok);
   }
   return nextToken();

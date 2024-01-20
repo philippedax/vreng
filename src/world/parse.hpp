@@ -71,14 +71,11 @@ class Parse {
   char * nextSpace(char *p) const;
   /**< find next space or next endtag */
 
-  char * skipChar(char *p, char c, bool flag) const;
+  char * skipChar(char *p, char c) const;
   /**< Skip this character */
 
   char * skipSpace(char *p) const;
   /**< Skip space character */
-
-  char * skipSepar(char *p) const;
-  /**< Skip separator character */
 
   char * parseDescr(char *l, char *infos);
   /**< Returns a description in infos */
@@ -234,7 +231,7 @@ class Parse {
   char * skipEqual(char *p) const;
   /**< Skip equal character */
 
-  char * skipQuotes(char *p, bool flag=true) const;
+  char * skipQuotes(char *p) const;
   /**< Skip double quotes or single quote */
 
   char * nextToken() const;
