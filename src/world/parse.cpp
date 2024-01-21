@@ -92,28 +92,6 @@ char * Parse::skipEqual(char *p) const
   return skipChar(p, '=');
 }
 
-#if 0 //notused
-char * Parse::skipOpenBracket(char *p) const
-{
-  return skipChar(p, '[');
-}
-
-char * Parse::skipOpenParenthesis(char *p) const
-{
-  char *q = skipChar(p, '(');
-  if (q) return q;
-  else {
-    q = nextToken();
-    return skipChar(q, '(');
-  }
-}
-
-char * Parse::skipCloseParenthesis(char *p) const
-{
-  return skipChar(p, ')');
-}
-#endif //notused
-
 /* Skip double quotes or single quote */
 char * Parse::skipQuotes(char *p) const
 {
@@ -172,16 +150,16 @@ int Parse::parseLine(char *_line, int *ptag_type)
       FREE(line);
       return TAG_BEGINVRE;
     }
-    else if (! stringcmp(ptok, "/vre>")) {
+    else if (! stringcmp(ptok, "/vre")) {
       FREE(line);
       return TAG_ENDVRE;
     }
     // check <head> </head>
-    else if ((! stringcmp(ptok, "head>"))) {
+    else if ((! stringcmp(ptok, "head"))) {
       FREE(line);
       if (! inscene) return TAG_HEAD;
     }
-    else if ((! stringcmp(ptok, "/head>"))) {
+    else if ((! stringcmp(ptok, "/head"))) {
       FREE(line);
       if (! inscene) return TAG_HEAD;
     }
@@ -191,22 +169,22 @@ int Parse::parseLine(char *_line, int *ptag_type)
       return TAG_META;
     }
     // check <scene> </scene>
-    else if (! stringcmp(ptok, "scene>")) {
+    else if (! stringcmp(ptok, "scene")) {
       FREE(line);
       inscene = true;	// fix ambigous <head> tag
       return TAG_SCENE;
     }
-    else if ((! stringcmp(ptok, "/scene>"))) {
+    else if ((! stringcmp(ptok, "/scene"))) {
       FREE(line);
       inscene = false;	// fix ambigous <head> tag
       return TAG_SCENE;
     }
     // check <local> </local>
-    else if ((! stringcmp(ptok, "local>"))) {
+    else if ((! stringcmp(ptok, "local"))) {
       FREE(line);
       return TAG_LOCAL;
     }
-    else if ((! stringcmp(ptok, "/local>"))) {
+    else if ((! stringcmp(ptok, "/local"))) {
       FREE(line);
       return TAG_LOCAL;
     }
@@ -265,32 +243,32 @@ int Parse::parseLine(char *_line, int *ptag_type)
 }
 
 /* parse vre data, called by World::worldReader */
-int Parse::parseVreFile(char *buf, int bufsiz)
+int Parse::parseVreFile(char *buf, int buflen)
 {
   int len = 0;	// line length
   char *tmpline = NULL;
   static char *line = NULL;
 
   if (! line) {	// need a new line
-    tmpline = new char[bufsiz];
-    memset(tmpline, 0, bufsiz);
+    tmpline = new char[buflen];
     len = 0;
   }
   else {	// old line: copy previous line in tmpline
     len = strlen(line);
-    tmpline = new char[bufsiz + len];
-    memset(tmpline, 0, bufsiz);
+    tmpline = new char[buflen + len];
     strcpy(tmpline, line);
   }
 
   // copy buf at the end of tmpline
-  memcpy(tmpline + len, buf, bufsiz);
-  len += bufsiz;
+  memcpy(tmpline + len, buf, buflen);
+  len += buflen;
 
   int iol = 0;	// index in line;
   int bol = 0;	// index begin of line
 
+  //
   // parses all lines of the vre file
+  //
   while (1) {
     int eol = 0;	// index end of line
 
@@ -307,7 +285,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
         }
       }
     }
-    if (iol == len + 2) {	// end of logical line
+    if (iol == len + 2) {		// end of logical line
       line = new char[eol - bol + 2];	// allocate a new line
 
       // build line from tmpline
@@ -361,6 +339,7 @@ int Parse::parseVreFile(char *buf, int bufsiz)
 
         case TAG_COMMENT:
 	  if ((p = strstr(line, "-->"))) {
+            //echo("end comment %s", line);
             DELETE2(line);
             commented = false;
           }
@@ -371,10 +350,6 @@ int Parse::parseVreFile(char *buf, int bufsiz)
           return 0;		// end of parsing
 
         case TAG_LOCAL:		// <local>, </local>
-	  if ((p = strstr(line, "-->"))) {
-            commented = false;
-            break;
-          }
           strcpy(tagobj, "transform");
           const OClass *oclass;
           if ((oclass = OClass::getOClass(tagobj))) {
@@ -394,10 +369,6 @@ int Parse::parseVreFile(char *buf, int bufsiz)
 
         case TAG_OBJECT:
           //trace(DBG_FORCE, "object %d: type=%d line=%s", numline, tag_type, line);
-	  if ((p = strstr(line, "-->"))) {
-            commented = false;
-            break;
-          }
           // check end of the object </...>
           char closetag[TAG_LEN + 4];
           sprintf(closetag, "</%s>", tagobj);
@@ -425,21 +396,22 @@ int Parse::parseVreFile(char *buf, int bufsiz)
             //debug if (::g.pref.dbgtrace) trace(DBG_FORCE, "[%d] %s", tag_type, line);
             progression('o');
             ::g.timer.object.start();
-            // call the creator of this object with object attributes
+            // call the creator() method of this object with object attributes
             if ((wobject = OClass::creatorInstance(tag_type, attr)) == NULL) {
               error("parse error at line %d (creator instance), type=%d line=%s", numline, tag_type, line);
               return -1;
             }
             ::g.timer.object.stop();
           }
-          else		// unknown type
+          else {	// unknown type
             error("parse error at line %d (unknown type), type=%d line=%s", numline, tag_type, line);
+          }
           break;
       }
       DELETE2(line);
       bol = eol + 1;	// begin of next line = end of current line + \n
     }
-    else break;	// goto next line
+    else break;		// goto next line
   }
   DELETE2(line);
   line = new char[len - bol + 2];
@@ -473,12 +445,14 @@ char * Parse::skipAttribute(char *l)
   return l;
 }
 
-/* parse attributes: name pos solid category description */
+/*
+ * parse attributes:
+ *   name pos url solid category description
+ *   be carefull : the line has been tokenized by separators SEP=" ,<>\t\n"
+ */
 char * Parse::parseAttributes(char *l, WO *wobject)
 {
-  static bool comment = false;
-
-  while (l && ! comment) {
+  while (l) {
     if      (! stringcmp(l, "name=")) {
       l = parseName(l, wobject->names.given);
     }
@@ -495,22 +469,22 @@ char * Parse::parseAttributes(char *l, WO *wobject)
     else if ( ! stringcmp(l, "descr=") || ! stringcmp(l, "description=") ) {
       l = parseDescr(l, wobject->names.infos);
     }
+    else if (! strcmp(l, "/")) {
+      l = nextToken();
+    }
 #if 0 //dax
     else if (! stringcmp(l, "!--")) {	// <!--
       echo("< %s", l);
-      comment = true;
+      commented = true;
       while (stringcmp(l, "--")) {	// -->
         l = nextToken();		// commented
         echo("# %s", l);
       }
       echo("> %s", l);
-      comment = false;
+      commented = false;
       l = nextToken();
     }
 #endif
-    else if (! strcmp(l, "/")) {
-      l = nextToken();
-    }
     else {
       return l;
     }
