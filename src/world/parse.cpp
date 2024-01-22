@@ -71,7 +71,7 @@ Parse * Parse::getParse()
 }
 
 
-/** Goto next token, a token is a string delimitrd by a separator (see SEP) */
+/** Gets next token, a token is a string delimited by a separator (SEP=" ,<>\t\n") */
 char * Parse::nextToken() const
 {
   return strtok(NULL, SEP);
@@ -137,6 +137,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
 
     // check <!--
     if ((! stringcmp(ptok, "!--"))) {
+      //echo("#%s", ptok);
       commented = true;
       FREE(line);
       return TAG_COMMENT;
