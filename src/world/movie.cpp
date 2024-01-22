@@ -23,7 +23,7 @@
 #include "matvec.hpp"   // V3 M4
 #include "texture.hpp"	// Texture
 #include "cache.hpp"	// download
-#include "file.hpp"	// open close
+#include "file.hpp"	// open, close, bigEndian
 #include "user.hpp"	// localuser
 #include "pref.hpp"	// quality
 #include "format.hpp"	// Format
@@ -208,10 +208,10 @@ void Movie::play_mpg()
 {
   uint8_t r, g, b;
 
-  if (File::littleEndian())
-    r = 0, g = 1, b = 2; // RGB
-  else
+  if (File::bigEndian())
     r = 2, g = 1, b = 0; // BGR
+  else
+    r = 0, g = 1, b = 2; // RGB
 
   if (! mpg) return;
   // get a frame from the mpg video stream
@@ -268,10 +268,10 @@ void Movie::play_avi()
   int ret, len;
   uint8_t r, g, b;
 
-  if (File::littleEndian())
-    r = 0, g = 1, b = 2; // RGB
-  else
+  if (File::bigEndian())
     r = 2, g = 1, b = 0; // BGR
+  else
+    r = 0, g = 1, b = 2; // RGB
 
   // get a frame from the avi video stream
   ret = avi->read_data(videobuf, width * height * 4, &len);
@@ -279,10 +279,10 @@ void Movie::play_avi()
   if (ret == 0) {	// end of avi video
     file->close();
     delete file;
-    state = INACTIVE;
     delete avi;
     avi = NULL;
     begin = true;
+    state = INACTIVE;
     if (spot) {
       spot->deleted = true;
       delete spot;
