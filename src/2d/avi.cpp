@@ -228,10 +228,8 @@ int32_t Avi::read_header()
 /*
  * Return codes:
  *    1 = video data read
- *    2 = audio data read
  *    0 = reached EOF
  *   -1 = video buffer too small
- *   -2 = audio buffer too small
  */
 int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
 {
@@ -257,20 +255,20 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
         if (len > max_vid) {
           error("avi: video buffer too small len=%d", len);
           fp = NULL;
-          return -1;
+          return -1;	// ERR
         }
         *retlen = len;
         if (fread(vidbuf, len, 1, fp) != 1) {
           error("avi: eof! len=%d", len);
           fp = NULL;
-          return 0;
+          return 0;	// EOF
         }
         return 1;	// OK
         break;
       default:
         if (fseek(fp, len, SEEK_CUR)) {
           fp = NULL;
-          return 0;
+          return 0;	// EOF
         }
         break;
     }
