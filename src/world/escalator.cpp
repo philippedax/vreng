@@ -76,7 +76,7 @@ void Escalator::build()
   float sz = 2 * pos.bbs.v[2];  // step height
 
   if (height && dir > 0) {
-    height += sz;  // add the top step
+    //height += sz;  // add the top step
   }
   else if (length && pos.ax) {  // escalator defined by its length and its angle
     height = length * tan(pos.ax);
