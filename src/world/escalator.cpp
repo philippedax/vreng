@@ -63,7 +63,7 @@ void Escalator::parser(char *l)
     else if (! stringcmp(l, "height")) l = parseFloat(l, &height, "height");
     else if (! stringcmp(l, "length")) l = parseFloat(l, &length, "length");
     else if (! stringcmp(l, "speed"))  l = parseFloat(l, &speed, "speed");
-    else if (! stringcmp(l, "state"))  l = parseBool(l, &on, "state");
+    else if (! stringcmp(l, "on"))     l = parseBool(l, &on, "on");
   }
   end_while_parse(l);
 }
