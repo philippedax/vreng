@@ -56,6 +56,7 @@ void Mirage::defaults()
   centrex  = 0.0;
   centrey  = 0.0;
   anglerot = 0.0;
+  sign     = 1;
   radius   = 0.0;
   flares   = 0;
   scale    = 1;
@@ -81,22 +82,26 @@ void Mirage::parser(char *l)
     else if (! stringcmp(l, "scale"))   l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "color"))   l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "mode=")) {
-      char modestr[16];
+      char modestr[16], *pmode = &modestr[0];
       l = parseString(l, modestr, "mode");
-      if (! stringcmp(modestr, "turn") || ! stringcmp(modestr, "self")) turn = true;
-      if (! stringcmp(modestr, "roll")) roll = true;
-      if (! stringcmp(modestr, "tilt")) tilt = true;
-      else if (! stringcmp(modestr, "refresh") || ! stringcmp(modestr, "volatile")) {
+      if (*pmode == '-') {
+        sign = -1;
+        pmode++;
+      }
+      if (! stringcmp(pmode, "turn") || ! stringcmp(pmode, "self")) turn = true;
+      if (! stringcmp(pmode, "roll")) roll = true;
+      if (! stringcmp(pmode, "tilt")) tilt = true;
+      else if (! stringcmp(pmode, "refresh") || ! stringcmp(pmode, "volatile")) {
         persist = false;
       }
-      else if (! stringcmp(modestr, "orbit")) {
+      else if (! stringcmp(pmode, "orbit")) {
         orbit = true;
         x0x0y0y0 = pos.x*pos.x + pos.y*pos.y;
         maxx = maxy = (float) sqrt(x0x0y0y0);
         minx = miny = -maxx;
         persist = false;
       }
-      else if (! stringcmp(modestr, "circular")) {
+      else if (! stringcmp(pmode, "circular")) {
         circular = true;
         centrex = pos.x;
         centrey = pos.y;
@@ -195,16 +200,16 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
 void Mirage::changePermanent(float lasting)
 {
   if (turn) {
-    pos.az -= lasting * azspeed;
-    pos.az -= M_2PI * (float) floor(pos.az / M_2PI);
+    pos.az -= sign * (lasting * azspeed);
+    pos.az -= sign * (M_2PI * (float) floor(pos.az / M_2PI));
   }
   if (roll) {
-    pos.ay -= lasting * ayspeed;
-    pos.ay -= M_2PI * (float) floor(pos.ay / M_2PI);
+    pos.ay -= sign * (lasting * ayspeed);
+    pos.ay -= sign * (M_2PI * (float) floor(pos.ay / M_2PI));
   }
   if (tilt) {
-    pos.ax -= lasting * axspeed;
-    pos.ax -= M_2PI * (float) floor(pos.ax / M_2PI);
+    pos.ax -= sign * (lasting * axspeed);
+    pos.ax -= sign * (M_2PI * (float) floor(pos.ax / M_2PI));
   }
   if (orbit) {
     float sx, sy, dx, dy;
@@ -226,8 +231,8 @@ void Mirage::changePermanent(float lasting)
     pos.x = sx * dx;
   }
   if (circular) {
-    anglerot -= (lasting * aspeed);
-    anglerot -= (M_2PI * (float) floor(anglerot / M_2PI));
+    anglerot -= sign * (lasting * aspeed);
+    anglerot -= sign * (M_2PI * (float) floor(anglerot / M_2PI));
     pos.x = centrex + (radius * cos(anglerot));
     pos.y = centrey + (radius * sin(anglerot));
     pos.az = anglerot + initialaz;

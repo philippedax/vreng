@@ -40,6 +40,7 @@ private:
   float ayspeed;	///< angular ay speed
   float axspeed;	///< angular ax speed
   float radius;		///< radius of the animation
+  int sign;		///< sign angular
   bool turn;		///< turn rotation az
   bool roll;		///< roll rotation ay
   bool tilt;		///< tilt rotation ax

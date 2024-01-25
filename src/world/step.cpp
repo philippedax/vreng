@@ -264,11 +264,15 @@ void Step::changePermanent(float dt)
     }
   }
   else if (dir < 0) {				// escalator downwards
+    //echo("h=%.1f %s", height, getInstance());
     pos.x -= dt * move.lspeed.v[2] * sin(pos.az);
     pos.y -= dt * move.lspeed.v[2] * cos(pos.az);
     pos.z -= dt * move.lspeed.v[2];
+    //echo("- %.2f", pos.z);
+    //echo("i %.2f", ipos.z);
     if (pos.z < (ipos.z - height + sz)) {	// rewind step
       pos = ipos;
+      pos.z = ipos.z;
     }
     if (stuck) {				// user follows down this step
       localuser->pos.x = pos.x;
