@@ -51,7 +51,7 @@
 <!-- welcome text -->
 <text name="welcome" pos="12 -2 5.5 -2.35 1.57" font="/txf/courier-br-46.txf"> Welcome to Rendezvous </text>
 
-<!-- wheel
+<!-- wheel progression
 <thing pos="0 0 1 1.57 -1.57 0.00"> <solid shape="wheel" r=".1" dif="white" /></thing>
 -->
 
@@ -255,8 +255,12 @@ url="/vre/campus.vre" channel="224.255.0.31/52966/127">
 <!-- romain 224.255.0.32 -->
 <gate name="romain" pos="6.5 11 .7 2.65"
 url="/vre/romain.vre">
-<solid dim="2 .2 1.4" tx="/svg/23.svg" dif="lightblue" />
+<solid dim="2 .2 1.4" tx="/svg/tiger.svg" dif="lightblue" />
 </gate>
+<!--
+<solid dim="2 .2 1.4" tx="/svg/tiger.svg" dif="lightblue" />
+<solid dim="2 .2 1.4" tx="/tif/ball.tif" dif="lightblue" />
+-->
 
 <!-- eric 224.255.0.32 -->
 <gate name="eric" pos="4 11 1 3.14"
@@ -299,10 +303,10 @@ url="http://www.stud.enst.fr/~bellard/">
 </web>
 -->
 
-<mirage name="earth" pos="200 0 50" aspeed="-.02" mode="turn">
+<mirage name="earth" pos="200 0 50" aspeed=".05" mode="turn">
 <solid shape="sphere" r="15" tx="/gif/earth.gif" />
 </mirage>
-<mirage name="moon" pos="100 1 30" mode="orbit" aspeed="-0.5" mode="turn" azspeed="0.1">
+<mirage name="moon" pos="100 1 30" mode="orbit" aspeed="-0.5">
 <solid shape="sphere" r="4" tx="/gif/moon.gif" />
 </mirage>
 
