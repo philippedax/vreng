@@ -162,7 +162,7 @@ bool WO::ingoingNeighbor(WO *pold, WO *neighbor)
     int ax = (int) RAD2DEG(neighbor->pos.ax) % 90;
     if (((az >= 2) && (az <= 88)) ||
         ((ax >= 2) && (ax <= 88))) {
-      //trace(DBG_FORCE, "%s is oblique az=%d ax=%d", neighbor->getInstance(), az, ax);
+      //trace(DBG_FORCE, "%s is oblique az=%d ax=%d", neighbor->objectName(), az, ax);
       // TODO: raffinate the collision
       return true;
     }
@@ -218,7 +218,7 @@ void WO::generalIntersect(WO *pold, OList *vicinity)
 
     // Hack-1! Skip scanning if neighbor has already been seen
     if ((neighbor == wofirst) && (scans > 1)) {
-      //echo("first=%s scans=%d", wofirst->getInstance(), scans);
+      //echo("first=%s scans=%d", wofirst->objectName(), scans);
       vl = vl->next;
       continue;
     }
@@ -267,7 +267,7 @@ void WO::generalIntersect(WO *pold, OList *vicinity)
           }
           else {
             if (rescans++ > 99) {
-              echo("collide loop between %s & %s", getInstance(), neighbor->getInstance());
+              echo("collide loop between %s & %s", objectName(), neighbor->objectName());
               scans = rescans = 0;
               vl = vl->next;
               continue;

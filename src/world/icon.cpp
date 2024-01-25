@@ -303,7 +303,7 @@ Icon::Icon(User *user, void *d)
   // document's owner
   setOwner();
 
-  trace(DBG_WO, "Icon: url=%s icon=%s name=%s owner=%s", urlName(), tex, getInstance(), ownerName());
+  trace(DBG_WO, "Icon: url=%s icon=%s name=%s owner=%s", urlName(), tex, objectName(), ownerName());
 
   if (action) {
     if      (! stringcmp(action, "pin"))   pin(this, NULL, 0L, 0L);
@@ -549,7 +549,7 @@ void Icon::get_gname(Icon *icon, Payload *pp)
 
 void Icon::put_gname(Icon *icon, Payload *pp)
 {
-  if (icon && icon->getInstance()) pp->putPayload("s", icon->getInstance());
+  if (icon && icon->objectName()) pp->putPayload("s", icon->objectName());
 }
 
 void Icon::quit()
@@ -577,7 +577,7 @@ void Icon::quit()
         char buf[128];
         memset(buf, 0, sizeof(buf));
         sprintf(buf, "name=\"%s\" pos=\"%.2f %.2f %.2f %.2f %.2f\" owner=\"%s\" solid dim=\"%.2f %.2f %.2f\" dif=\"%s\" xn=\"%s\" ",
-                getInstance(),
+                objectName(),
                 pos.x, pos.y, pos.z, pos.az, pos.ax,
                 names.owner[0] ? names.owner : "",
                 WIDTH, DEPTH, HEIGHT, COLOR, tex);

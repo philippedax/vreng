@@ -66,7 +66,7 @@ void Ball::defaults()
 void Ball::setName()
 {
   oid++;
-  sprintf(names.given, "%s-%s.%d", BALL_NAME, localuser->getInstance(), oid);
+  sprintf(names.given, "%s-%s.%d", BALL_NAME, localuser->objectName(), oid);
 }
 
 /** Solid geometry */

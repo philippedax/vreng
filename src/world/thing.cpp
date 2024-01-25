@@ -65,7 +65,7 @@ void Thing::behaviors()
 /** Sets an unique name */
 void Thing::setName()
 {
-  sprintf(names.given, "%s-%s%d", THING_NAME, localuser->getInstance(), getNum());
+  sprintf(names.given, "%s-%s%d", THING_NAME, localuser->objectName(), getNum());
   updateNames();
 }
 
@@ -181,7 +181,7 @@ void Thing::dropIntoBasket(Thing *thing, void *d, time_t s, time_t u)
     thing->updatePersist(); // mark deleted
   }
   // then add to Basket
-  //trace(DBG_FORCE, "addToCart: (%s,%s)", thing->getInstance(), pref->user);
+  //trace(DBG_FORCE, "addToCart: (%s,%s)", thing->objectName(), pref->user);
   localuser->cart->addToCart(thing);
 }
 

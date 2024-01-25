@@ -131,10 +131,10 @@ GuiItem* Gui::addCart(WO *cart)
 {
   if (! cart) return NULL;
 
-  echo("Item %s added to basket", cart->getInstance());
+  echo("Item %s added to basket", cart->objectName());
   
   GuiItem* gu = new GuiItem();
-  gu->add(ustr(cart->getInstance()) + ucall(this, cart, &Gui::updateCart));
+  gu->add(ustr(cart->objectName()) + ucall(this, cart, &Gui::updateCart));
 
   widgets->setInfobar(null);
   widgets->basket.add(gu);
@@ -154,11 +154,11 @@ void Gui::removeCart(WO *cart, int action)
 
   switch (action) {
   case Cart::LEAVE:
-    echo("%s left in %s world", cart->getInstance(), World::current()->getName());
+    echo("%s left in %s world", cart->objectName(), World::current()->getName());
     localuser->cart->leave(cart);
     break;
   case Cart::REMOVE:
-    echo("%s removed from basket", cart->getInstance());
+    echo("%s removed from basket", cart->objectName());
     localuser->cart->removeFromCart(cart);
     break;
   }
@@ -172,7 +172,7 @@ void Gui::updateCart(WO* po)
                                            )
                                      + " "
                                      + ugroup(g.theme.objectNameStyle
-                                              + po->getInstance()
+                                              + po->objectName()
                                              )
                                     )
                               + uitem("Leave"
@@ -192,7 +192,7 @@ GuiItem * Gui::addUser(User *user) 	// when a new user comes in
 {
   if (! user)  return NULL;
 
-  //echo("Avatar %s joins %s", user->getInstance(), user->worldName());
+  //echo("Avatar %s joins %s", user->objectName(), user->worldName());
   return widgets->addUser(user);
 }
 
@@ -200,7 +200,7 @@ void Gui::removeUser(User *user)	// when an user quits
 {
   if (! user)  return;
 
-  //echo("Avatar %s leaves %s", user->getInstance(), user->worldName());
+  //echo("Avatar %s leaves %s", user->objectName(), user->worldName());
   if (user->isGui()) {
     widgets->removeUser(user->getGui());
     // MS : for Ubit at least, removeUser does a delete on the guiItem structure.
@@ -213,7 +213,7 @@ void Gui::updateUser(User *user)
 {
   if (! user)  return;
 
-  //echo("Avatar %s is in %s", user->getInstance(), user->worldName());
+  //echo("Avatar %s is in %s", user->objectName(), user->worldName());
   if (user->isGui()) widgets->updateUser(user->getGui(), user);
 }
 

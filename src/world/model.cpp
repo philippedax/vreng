@@ -97,7 +97,7 @@ void Model::geometry()
 
 void Model::setName()
 {
-  sprintf(names.given, "%s-%s.%d", MODEL_NAME, localuser->getInstance(), getNum());
+  sprintf(names.given, "%s-%s.%d", MODEL_NAME, localuser->objectName(), getNum());
 }
 
 void Model::parser(char *l)

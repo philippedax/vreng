@@ -95,8 +95,8 @@ Aoi::Aoi(char *l)
 void Aoi::aoiEnter()
 {
   trace(DBG_WO, "aoiEnter: world=%s:%s worlds=%p", World::current()->getName(), this->chan, World::current());
-  echo("Avatar \"%s\" enters in %s:%s", localuser->getInstance(), World::current()->getName(), this->chan);
-  char * avatarname = strdup(localuser->getInstance());
+  echo("Avatar \"%s\" enters in %s:%s", localuser->objectName(), World::current()->getName(), this->chan);
+  char * avatarname = strdup(localuser->objectName());
 
   /* quit current World or AoI (network shutdown) */
   aoiQuit();

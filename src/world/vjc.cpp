@@ -199,7 +199,7 @@ void Vjc::startApp(Vrelet *po)
   VjcMessage *msg = new VjcMessage(po, VJC_MSGT_CTRL, VJC_MSGV_REGISTER);
   msg->putStr(host);
   msg->put16(vjs->localPort);
-  msg->putStr(po->getInstance());
+  msg->putStr(po->objectName());
   msg->putStr(po->app);
   msg->putStr(po->url);
   msg->put32(po->incrx);

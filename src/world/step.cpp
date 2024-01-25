@@ -194,7 +194,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *name, const char *geom, bool _mobi
   inits();
   forceNames(name);
   if (mobile && dir > 0) 
-    //echo("  %.2f %s", npos.z, getInstance());
+    //echo("  %.2f %s", npos.z, objectName());
 
   if (mobile) {    // escalator or travelator
     enablePermanentMovement(speed);
@@ -235,7 +235,7 @@ void Step::changePermanent(float dt)
 
   if (dir > 0) { 				// escalator upwards
     //if (pos.z < 0) pos.z = 0;			// awfull hack
-    //echo("h=%.1f %s", height, getInstance());
+    //echo("h=%.1f %s", height, objectName());
     pos.x += (dt * move.lspeed.v[2] * sin(pos.az));
     pos.y += (dt * move.lspeed.v[2] * cos(pos.az));
     //echo("- %.2f", pos.z);
@@ -264,7 +264,7 @@ void Step::changePermanent(float dt)
     }
   }
   else if (dir < 0) {				// escalator downwards
-    //echo("h=%.1f %s", height, getInstance());
+    //echo("h=%.1f %s", height, objectName());
     pos.x -= dt * move.lspeed.v[2] * sin(pos.az);
     pos.y -= dt * move.lspeed.v[2] * cos(pos.az);
     pos.z -= dt * move.lspeed.v[2];

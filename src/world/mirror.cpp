@@ -168,7 +168,7 @@ void Mirror::mirroredScene()
   list<Solid*> solidlist = ::g.render.getSolidList();
   for (list<Solid*>::iterator s = solidlist.begin(); s != solidlist.end(); s++, i++) {
     if ((*s) && (*s)->isVisible() && (*s)->isOpaque()) {
-      //trace2(DBG_FORCE, " %d %s", i, (*s)->object()->getInstance());
+      //trace2(DBG_FORCE, " %d %s", i, (*s)->object()->objectName());
       glPushMatrix();
        // rotation inverse lorsque que le miroir tourne parallelement a notre vision.
        glRotatef(RAD2DEG((*s)->object()->pos.az), 0,0,1);

@@ -225,7 +225,7 @@ void Navig::mousePressB1orB3(UMouseEvent& e, int x, int y, int btn)
 
   if (object) {
     gw.gui.selected_object = object;
-    //echo("clic [%d %d] on %s", x, y, object->getInstance());
+    //echo("clic [%d %d] on %s", x, y, object->objectName());
   
     if (object->names.url[0]) {
       selected_object_url = object->names.url;

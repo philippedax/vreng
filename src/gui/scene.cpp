@@ -276,7 +276,7 @@ void Scene::refreshHud()
   if (obj) {
     // object
     sprintf(row, "obj:    %.1f %.1f %.1f %.0f %s",
-            obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az), obj->getInstance());
+            obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az), obj->objectName());
     hud_row4 = row;
     
     // bbox

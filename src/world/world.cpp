@@ -746,7 +746,7 @@ void World::init(const char *url)
 
   // Attach bubble welcome text to localuser
   char welcome[32];
-  sprintf(welcome, "Hi! I am %s", user->getInstance());
+  sprintf(welcome, "Hi! I am %s", user->objectName());
   user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEVERSO);
 }
 
@@ -771,8 +771,8 @@ void World::quit()
   for (vector<WO*>::iterator it = stillList.begin(); it != stillList.end(); ++it) {
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
-    if (::g.pref.dbgtrace) echo("del: %s", (*it)->getInstance());
-    if (! strlen((*it)->getInstance())) continue;	// avoid segfault
+    if (::g.pref.dbgtrace) echo("del: %s", (*it)->objectName());
+    if (! strlen((*it)->objectName())) continue;	// avoid segfault
     (*it)->quit();	// sometimes segfault FIXME!!!
     delete *it;
   }
@@ -780,12 +780,12 @@ void World::quit()
 
   // mobile objects
   for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
-    if (::g.pref.dbgtrace) echo("del: %s", (*it)->getInstance());
+    if (::g.pref.dbgtrace) echo("del: %s", (*it)->objectName());
     if ( (*it) == localuser /*|| (*it)->isBehavior(TRANSCIENT)*/ ) continue;  // FIX segfault
     //dax if ((*it)->type == DRESS_TYPE) continue;	// avoid segfault
     if ((*it)->deleted) continue;
     if (! (*it)->isValid()) continue;
-    if (! strlen((*it)->getInstance())) continue;
+    if (! strlen((*it)->objectName())) continue;
     (*it)->quit();
     delete *it;
   }
@@ -932,7 +932,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
 
   // Attach bubble hello text to localuser
   char hello[32];
-  sprintf(hello, "Hello! I am %s", localuser->getInstance());
+  sprintf(hello, "Hello! I am %s", localuser->objectName());
   localuser->bubble = new Bubble(localuser, hello, Color::black, Bubble::BUBBLEVERSO);
 
   // check whether icons are locally presents
@@ -960,7 +960,7 @@ void World::deleteObjects()
       //dax objectList.remove(*it);
       //dax stillList.remove(*it);
       mobileList.remove(*it);
-      //dax8 echo("delete object: %s", (*it)->getInstance());
+      //dax8 echo("delete object: %s", (*it)->objectName());
       if ((*it)->deleted) continue;
       if ( strcmp((*it)->typeName(), "Dart") && strcmp((*it)->typeName(), "Bullet") ) //dax8 Hack! FIXME!
         delete (*it);	//segfault FIXME!

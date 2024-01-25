@@ -116,7 +116,7 @@ void Dart::get_hit(Dart *pcur, Payload *pp)
 
   if (pcur->hit == 1) {
     pcur->hit = 0;
-    echo("%s hits me", pcur->getInstance());
+    echo("%s hits me", pcur->objectName());
     Sound::playSound(OUILLESND);
   }
   pcur->updatePositionAndGrid(oldpos);

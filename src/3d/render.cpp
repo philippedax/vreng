@@ -216,7 +216,7 @@ void Render::renderOpaque(bool mini)
     recordObject((*it)->object());		// records the name before displaying it
 
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {	// specific render
-      trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+      trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
       (*it)->object()->render();
       if ((*it)->object()->isBehavior(MIX_RENDER)) {	// mix render
         (*it)->displaySolid(Solid::OPAQUE);
@@ -229,12 +229,12 @@ void Render::renderOpaque(bool mini)
       else {					// multi solids
         glPushMatrix();
         (*it)->displaySolid(Solid::OPAQUE);	// main solid first
-        trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
+        trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*it)->object()->objectName(), (*it)->userdist, (*it)->surfsize, (*it)->nbsolids);
 
         for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::OPAQUE);
           (*jt)->setRendered(true);
-          trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
+          trace2(DBG_3D, " %s:%.1f:%.1f#%d", (*jt)->object()->objectName(), (*jt)->userdist, (*jt)->surfsize, (*jt)->nbsolids);
         }
         glPopMatrix();
       }
@@ -272,22 +272,22 @@ void Render::renderTransparent(bool mini)
       if ((*it)->object()->isBehavior(MIX_RENDER)) {	// mix render
         (*it)->displaySolid(Solid::TRANSPARENT);
       }
-      trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+      trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
     }
     else {
       if ((*it)->nbsolids == 1) {	// mono solid
         (*it)->displaySolid(Solid::TRANSPARENT);
-        trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+        trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
       }
       else {				// multi solids
         glPushMatrix();
         (*it)->displaySolid(Solid::TRANSPARENT);
-        trace2(DBG_3D, " %s:%.1f#%d", (*it)->object()->getInstance(), (*it)->userdist, (*it)->nbsolids);
+        trace2(DBG_3D, " %s:%.1f#%d", (*it)->object()->objectName(), (*it)->userdist, (*it)->nbsolids);
 
         for (list<Solid*>::iterator jt = relsolidList.begin(); jt != relsolidList.end() ; ++jt) {
           (*jt)->displaySolid(Solid::TRANSPARENT);
           (*jt)->setRendered(true);
-          trace2(DBG_3D, " %s:%.1f#%d", (*jt)->object()->getInstance(), (*jt)->userdist, (*jt)->nbsolids);
+          trace2(DBG_3D, " %s:%.1f#%d", (*jt)->object()->objectName(), (*jt)->userdist, (*jt)->nbsolids);
         }
         glPopMatrix();
       }
@@ -311,7 +311,7 @@ void Render::renderGround()
       (*it)->displaySolid(Solid::OPAQUE);
     }
     (*it)->setRendered(true);
-    trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+    trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
   }
 }
 
@@ -323,7 +323,7 @@ void Render::renderModel()
   for (list<Solid*>::iterator it = modelList.begin(); it != modelList.end() ; ++it) {
     materials();
     recordObject((*it)->object());	// records the name before displaying it
-    //ok echo("%s", (*it)->object()->getInstance());
+    //ok echo("%s", (*it)->object()->objectName());
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
       (*it)->object()->render();
     }
@@ -331,7 +331,7 @@ void Render::renderModel()
       (*it)->displaySolid(Solid::OPAQUE);
     }
     (*it)->setRendered(true);
-    trace2(DBG_3D, " %s:%.1f", (*it)->object()->getInstance(), (*it)->userdist);
+    trace2(DBG_3D, " %s:%.1f", (*it)->object()->objectName(), (*it)->userdist);
   }
 }
 
@@ -342,14 +342,14 @@ void Render::renderUser()
   for (list<Solid*>::iterator it = userList.begin(); it != userList.end() ; ++it) {
     recordObject((*it)->object());	// records the name before displaying it
     if ((*it)->object()->isBehavior(SPECIFIC_RENDER)) {
-      //echo("specific: %s/%s", (*it)->object()->typeName(), (*it)->object()->getInstance());
+      //echo("specific: %s/%s", (*it)->object()->typeName(), (*it)->object()->objectName());
       (*it)->object()->render();
     }
     else {
       (*it)->displaySolid(Solid::USER);
     }
     (*it)->setRendered(true);
-    trace2(DBG_3D, " %s", (*it)->object()->getInstance());
+    trace2(DBG_3D, " %s", (*it)->object()->objectName());
     break;	// only one
   }
 }
@@ -366,7 +366,7 @@ void Render::renderFlary()
       (*it)->displaySolid(Solid::FLASH);
     }
     (*it)->setRendered(true);
-    trace2(DBG_3D, " %s", (*it)->object()->getInstance());
+    trace2(DBG_3D, " %s", (*it)->object()->objectName());
   }
 }
 
@@ -519,7 +519,7 @@ void Render::lighting()
   for (vector<WO*>::iterator it = lightList.begin(); it != lightList.end() ; ++it) {
     if ((*it)->num) {	 //FIXME segfault sometimes : num replaces isValid()
       (*it)->lighting();
-      //trace2(DBG_3D, " %s", (*it)->getInstance());
+      //trace2(DBG_3D, " %s", (*it)->objectName());
     }
   }
 }
@@ -601,7 +601,7 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
       echo("hit: %d/%d num=%d min=%ud name=%s/%s",
             hit, hits, psel[3], psel[1],
             WO::byNum(psel[3])->typeName(),
-            WO::byNum(psel[3])->getInstance());
+            WO::byNum(psel[3])->objectName());
     }
     hitlist[hit] = psel;
     psel += 3 + psel[0];	// next hit
@@ -618,12 +618,12 @@ uint16_t Render::bufferSelection(GLint x, GLint y, GLint depth)
     if (::g.pref.dbgtrace) {
       if (hits > 1) {
         echo("nearest: %d/%s next %d/%s",
-              objnum_nearest, WO::byNum(objnum_nearest)->getInstance(),
-              next, WO::byNum(next)->getInstance());
+              objnum_nearest, WO::byNum(objnum_nearest)->objectName(),
+              next, WO::byNum(next)->objectName());
       }
       else {
         echo("nearest: %d/%s",
-              objnum_nearest, WO::byNum(objnum_nearest)->getInstance());
+              objnum_nearest, WO::byNum(objnum_nearest)->objectName());
       }
     }
   }
@@ -841,7 +841,7 @@ void Render::stat()
 void Render::showSolidList()
 {
   for (list<Solid*>::iterator s = solidList.begin(); s != solidList.end() ; s++) {
-    echo("solidList: %s->%s", (*s)->object()->typeName(),(*s)->object()->getInstance());
+    echo("solidList: %s->%s", (*s)->object()->typeName(),(*s)->object()->objectName());
     if (! strcasecmp((*s)->object()->typeName(), "User")) {
       echo("User: %.1f %.1f %.1f %.1f (%d)",
 	   (*s)->object()->pos.x,

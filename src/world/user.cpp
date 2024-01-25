@@ -279,25 +279,25 @@ void User::checkPersist()
 
   nitem = vsql->getCount(HALO_NAME);  // halos in VSql
   if (nitem) {
-    sprintf(pat, "&%s", getInstance());
+    sprintf(pat, "&%s", objectName());
     if (vsql->getName(HALO_NAME, pat, 0, qname) >= 0)
       doAction(HALO_TYPE, Halo::RECREATE, (User*)this, (void*)qname,0,0);
   }
   nitem = vsql->getCount(HAT_NAME);   // hats in VSql
   if (nitem) {
-    sprintf(pat, "&%s", getInstance());
+    sprintf(pat, "&%s", objectName());
     if (vsql->getName(HAT_NAME, pat, 0, qname) >= 0)
       doAction(HAT_TYPE, Hat::RECREATE, (User*)this, (void*)qname,0,0);
   }
   nitem = vsql->getCount(DRESS_NAME); // dresses in VSql
   if (nitem) {
-    sprintf(pat, "&%s", getInstance());
+    sprintf(pat, "&%s", objectName());
     if (vsql->getName(DRESS_NAME, pat, 0, qname) >= 0)
       doAction(DRESS_TYPE, Dress::RECREATE, (User*)this, (void*)qname,0,0);
   }
   nitem = vsql->getCount(WINGS_NAME); // wings in VSql
   if (nitem) {
-    sprintf(pat, "&%s", getInstance());
+    sprintf(pat, "&%s", objectName());
     if (vsql->getName(WINGS_NAME, pat, 0, qname) >= 0)
       doAction(WINGS_TYPE, Wings::RECREATE, (User*)this, (void*)qname,0,0);
   }
@@ -452,7 +452,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
 
   //echo("replica: web=%s vre=%s", web, vre);
   //echo("replica: avatar=%s uface=%s", avatar, uface);
-  //echo("replica: name=%s ssrc=%x rtcpname=%s email=%s", getInstance(), ssrc, rtcpname, email);
+  //echo("replica: name=%s ssrc=%x rtcpname=%s email=%s", objectName(), ssrc, rtcpname, email);
 }
 
 void User::getMemory()
@@ -478,7 +478,7 @@ void User::getMemory()
 
 User::~User()
 {
-  echo("User %s quits", getInstance());
+  echo("User %s quits", objectName());
   ::g.gui.removeUser(this);
 
   // MS. if this destructor is called for a remote user,
@@ -627,7 +627,7 @@ bool User::whenIntersect(WO *pcur, WO *pold)
     /* projectile intersects user: hit */
     if (hit == 0) {
       hit = 1;
-      echo("%s:%s hits %s", pcur->names.type, pcur->getInstance(), getInstance());
+      echo("%s:%s hits %s", pcur->names.type, pcur->objectName(), objectName());
       if (pcur->type == DART_TYPE) {
         ((Dart *)pcur)->hit = 1;
         netop->sendDelta(Dart::PROPHIT);
@@ -1009,7 +1009,7 @@ void User::get_msg(User *pu, Payload *pp)
     memset(msg, 0, sizeof(msg));
     pp->getPayload("ds", &mess, msg);
     if (strlen(msg) && mess != pu->lastmess) {
-      ::g.gui.writeMessage("chat", pu->getInstance(), msg);
+      ::g.gui.writeMessage("chat", pu->objectName(), msg);
       pu->lastmess = mess;
       pu->bubble = pu->getBubble();
       if (pu->bubble)

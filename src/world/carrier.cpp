@@ -65,13 +65,13 @@ void Carrier::leaveControl(WO *po, void *d, time_t s, time_t us)
 void Carrier::take(WO *po)
 {
   if (po->mode != MOBILE) {
-    echo("%s is not mobile", po->getInstance());
+    echo("%s is not mobile", po->objectName());
     return;
   }
 
   ::g.gui.showManipulator();
   ::g.gui.expandNavig();	// shows Manipulator palette
-  echo("take control of %s", po->getInstance());
+  echo("take control of %s", po->objectName());
 
   object = po;
   object->move.manip = true;

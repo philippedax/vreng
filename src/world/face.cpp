@@ -109,7 +109,7 @@ void Face::behaviors()
 /* Sets an unique name */
 void Face::setName(const char *modelname)
 {
-  sprintf(names.given, "%s&%s", modelname, localuser->getInstance());
+  sprintf(names.given, "%s&%s", modelname, localuser->objectName());
   updateNames();
 }
 

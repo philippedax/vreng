@@ -76,7 +76,7 @@ void Cart::addToCart(WO *po)
       vsql = new VSql();	// first take the VSql handle;
       if (vsql) {
         vsql->insertRow(po);
-        //echo("cartRow: (%s,%s)", po->getInstance(), po->ownerName());
+        //echo("cartRow: (%s,%s)", po->objectName(), po->ownerName());
       }
     default:
       break;
@@ -150,9 +150,9 @@ void Cart::leave(WO *po)
   vsql = new VSql();     // first take the VSql handle;
   if (vsql) {
     po->vsql = vsql;		// copy it into the object
-    vsql->deleteRow(po, CART_NAME, po->getInstance(), "");
+    vsql->deleteRow(po, CART_NAME, po->objectName(), "");
     vsql->insertRow(po);
-    trace(DBG_SQL, "leaveFromCart: %s", po->getInstance());
+    trace(DBG_SQL, "leaveFromCart: %s", po->objectName());
   }
 
   // declare the object creation to the network
@@ -178,8 +178,8 @@ void Cart::removeFromCart(WO *po)
 
   vsql = new VSql();     // first take the VSql handle;
   if (vsql) {
-    vsql->deleteRow(po, CART_NAME, po->getInstance(), "");
-    trace(DBG_SQL, "removeFromCart: %s", po->getInstance());
+    vsql->deleteRow(po, CART_NAME, po->objectName(), "");
+    trace(DBG_SQL, "removeFromCart: %s", po->objectName());
   }
 
   if (number) number--;

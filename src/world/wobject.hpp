@@ -344,7 +344,7 @@ public:
   const char * named() const;
   /**< Gets names.given. */
 
-  const char * getInstance() const;
+  const char * objectName() const;
   /**< Gets names.instance. */
 
   const char * urlName() const;

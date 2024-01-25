@@ -1535,7 +1535,7 @@ int Solid::displayList(int display_mode = NORMAL)
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	// without effect
        }
        if (fog[0] > 0) {
-         echo("fog=%f %s", fog[0], object()->getInstance());
+         echo("fog=%f %s", fog[0], object()->objectName());
          glEnable(GL_FOG);
          glFogi(GL_FOG_MODE, GL_EXP);
          glFogf(GL_FOG_DENSITY, fog[0]);

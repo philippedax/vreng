@@ -349,9 +349,9 @@ static void setUser(UBox *gu, User *user)
 {
   if (! user)  return;
 
-  gu->add(  ustr(user->getInstance())
+  gu->add(  ustr(user->objectName())
           + umenu(  UFont::bold + UColor::navy
-                  + uhbox(" Name: "  + UFont::plain + user->getInstance())
+                  + uhbox(" Name: "  + UFont::plain + user->objectName())
                   + uhbox(" World: " + UFont::plain + user->names.world)
                   + uhbox(" Email: " + UFont::plain + user->email)
                   + uhbox(" Cname: " + UFont::plain + user->rtcpname)

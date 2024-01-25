@@ -386,7 +386,7 @@ const char * WO::named() const
     return NULL;
 }
 
-const char * WO::getInstance() const
+const char * WO::objectName() const
 {
   if (names.instance)
     return names.instance;
@@ -925,7 +925,7 @@ void WO::getObjectNames(char **classname, char **instancename, char **actionname
   static char actionname[ACTIONSNUMBER][ACTIONNAME_LEN];
 
   *classname    = (char *) typeName();
-  *instancename = (char *) getInstance();
+  *instancename = (char *) objectName();
   *actionnames  = (char *) actionname;
 
   // clean actionname
@@ -1158,7 +1158,7 @@ OList * WO::delOList(OList *olist)
   OList *front = olist, *ol = NULL;
 
   if (! olist) {
-    error("delOList: %s:%s NULL olist", names.type, getInstance());
+    error("delOList: %s:%s NULL olist", names.type, objectName());
     return NULL;
   }
   for (ol = olist; ol ; ol = ol->next) {  // sometimes crashes
@@ -1393,5 +1393,5 @@ void WO::deleteReplica()
     netop = NULL;
   }
   else
-    echo("%s disapeared, but he is back!", getInstance());
+    echo("%s disapeared, but he is back!", objectName());
 }

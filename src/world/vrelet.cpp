@@ -375,7 +375,7 @@ void Vrelet::sendIntersect(WO *pcur, WO *pold, int inOrOut)
 {
   VjcMessage *msg = new VjcMessage(this, VJC_MSGT_ISEC, inOrOut);
 
-  echo("vrelet: sendIntersect: %d name=%s", inOrOut, pcur->getInstance());
+  echo("vrelet: sendIntersect: %d name=%s", inOrOut, pcur->objectName());
   msg->putOID(pcur);
   msg->putPos(pcur);
   msg->putPos(pold);

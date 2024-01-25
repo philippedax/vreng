@@ -205,12 +205,12 @@ bool Gate::whenIntersect(WO *pcur, WO *pold)
     else {
       if (cntcol < 5) {
         pold->copyPositionAndBB(pcur);
-        echo("you are near the gate %s in=%d", getInstance(), cntcol);
+        echo("you are near the gate %s in=%d", objectName(), cntcol);
         cntcol++;
       }
       else if (cntcol < 10) {
         pold->copyPositionAndBB(pcur);
-        echo("if you insist you'll enter into %s in=%d", getInstance(), cntcol);
+        echo("if you insist you'll enter into %s in=%d", objectName(), cntcol);
         cntcol++;
       }
       else {
@@ -221,7 +221,7 @@ bool Gate::whenIntersect(WO *pcur, WO *pold)
     break;
   case BULLET_TYPE:
   case DART_TYPE:
-    echo("%s:%s hits %s:%s", pcur->names.type, pcur->getInstance(), names.type, getInstance());
+    echo("%s:%s hits %s:%s", pcur->names.type, pcur->objectName(), names.type, objectName());
     pold->copyPositionAndBB(pcur);
     pcur->toDelete();
     break;

@@ -79,7 +79,7 @@ NetObj::NetObj(WO *po, uint8_t nprop, uint16_t oid)
   char str[80];
   sprintf(str, "%d/%d", type, oid);
   setNetName(str, state);     // net objname
-  trace(DBG_NET, "NetObj: str=%s %s", str, pobject->getInstance());
+  trace(DBG_NET, "NetObj: str=%s %s", str, pobject->objectName());
 }
 
 /* Creates volatile NetObj */
@@ -178,7 +178,7 @@ void NetObj::initProperties(bool _responsible)
 
   uint8_t np = NetProperty::getProperties(type);
   if (!np) return;
-  trace(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, pobject->getInstance(), np, _responsible);
+  trace(DBG_NET, "initProperties: type=%d nobj=%s nprop=%d resp=%d", type, pobject->objectName(), np, _responsible);
 
   netprop = new NetProperty[np];
 
@@ -255,7 +255,7 @@ void NetObj::setNetName(const char *s, bool _state)
   noid.obj_id = htons(obj_id);
 
   if (getNetObj()) {
-    return;	//error("setNetName: %s already seen %d/%d", pobject->getInstance(), scene_id, obj_id);
+    return;	//error("setNetName: %s already seen %d/%d", pobject->objectName(), scene_id, obj_id);
   }
   netobjList.push_back(this);	// add to list
 }

@@ -37,7 +37,7 @@ Vicinity::Vicinity()
 {
   solidLst = ::g.render.getSolidList();
   obj = (WO *) localuser;
-  objName = obj->getInstance();
+  objName = obj->objectName();
   setSize(user);
   userDist = DIST_INCL;
   objSize = userSize;
@@ -64,7 +64,7 @@ Vicinity::Vicinity(string objectName)
   // On cherche l'objet dans la liste
   obj = NULL;
   obj->getObjectByName(objName.c_str());
-  //echo("J'ai trouve l'objet %s dans la liste des objets",obj->getInstance());
+  //echo("J'ai trouve l'objet %s dans la liste des objets",obj->objectName());
 
   setSize(localuser);
   userDist = computeDist(user, obj);
@@ -290,7 +290,7 @@ void Vicinity::describeTopo(Vicin vicin)
   case DIST_NEAR:  msg = "is near of"; break;
   case DIST_FAR:   msg = "is very far of"; break;
   }
-  echo("object %s %s %s", objName.c_str(), msg.c_str(), (vicin.object)->getInstance());
+  echo("object %s %s %s", objName.c_str(), msg.c_str(), (vicin.object)->objectName());
 }
 
 void Vicinity::analScene()
@@ -314,7 +314,7 @@ void Vicinity::analTopo()
 #if _DEBUG_TOPO_
   for (int i=0; i < listSize; i++) {
     echo(" object (%s) size :%d dist:%d",
-	  (vicinList[i].object)->getInstance(),
+	  (vicinList[i].object)->objectName(),
 	  vicinList[i].size,
 	  vicinList[i].dist);
   }
@@ -449,13 +449,13 @@ void Vicinity::describeVisual()
   else                                                msg = strdup("est devant"); 
   float deltaVisual = 0.0;
   if (coord.v[0] < ((visualList[0].xmin+visualList[0].xmax)/2.0-deltaVisual)) {
-    sprintf(msgprecis, "est a gauche de %s", (visualList[0].object)->getInstance());
+    sprintf(msgprecis, "est a gauche de %s", (visualList[0].object)->objectName());
   }
   else if (coord.v[0] < ((visualList[0].xmin+visualList[0].xmax)/2.0+deltaVisual)) {
-    sprintf(msgprecis, "est a droite de %s", (visualList[0].object)->getInstance());
+    sprintf(msgprecis, "est a droite de %s", (visualList[0].object)->objectName());
   }
   else {
-    sprintf(msgprecis, "est pres de %s", (visualList[0].object)->getInstance());
+    sprintf(msgprecis, "est pres de %s", (visualList[0].object)->objectName());
   }
   echo("-> %s %s %s ! ok ?", objName.c_str(), msg, msgprecis);
   free(msg);
@@ -474,9 +474,9 @@ void Vicinity::analVicinity()
 
     for (int i=0; i < hits ; i++) {
       if (drawedObj[i]->isSeen() && !uselessType(drawedObj[i]))
-	echo("I see: i=%d name=%s", i, drawedObj[i]->getInstance());
+	echo("I see: i=%d name=%s", i, drawedObj[i]->objectName());
       else
-	echo("I can't see: i=%d name=%s", i, drawedObj[i]->getInstance());
+	echo("I can't see: i=%d name=%s", i, drawedObj[i]->objectName());
     }
   }
   if (seen) delete[] seen;
@@ -495,7 +495,7 @@ void Vicinity::show(const char *str)
 
   OList *viciList = localuser->getVicinity(localuser);
   for (OList *ol = viciList; ol && ol->pobject ; ol = ol->next, i++) {
-    echo("%2d: %s", i, (ol->pobject)->getInstance());
+    echo("%2d: %s", i, (ol->pobject)->objectName());
   }
 }
 
