@@ -103,7 +103,7 @@ void Step::build()
   else {  // escalator stair spiral
     if (height) {
       if (escalator) {
-        //height += sz;  // add the top step
+        //dax height += sz;  // add the top step
       }
     }
     else if (length && pos.ax) {
@@ -170,9 +170,6 @@ Step::Step(char *l)
 Step::Step(Pos& npos, Pos& _ipos, const char *name, const char *geom, bool _mobile, float _size, float _speed, int _dir)
 {
   pos = npos;
-  pos.x = npos.x;
-  pos.y = npos.y;
-  pos.z = npos.z;
 
   char *s = new char[strlen(geom)];
   strcpy(s, geom);
@@ -193,8 +190,6 @@ Step::Step(Pos& npos, Pos& _ipos, const char *name, const char *geom, bool _mobi
 
   inits();
   forceNames(name);
-  if (mobile && dir > 0) 
-    //echo("  %.2f %s", npos.z, objectName());
 
   if (mobile) {    // escalator or travelator
     enablePermanentMovement(speed);
@@ -222,33 +217,26 @@ void Step::updateTime(time_t sec, time_t usec, float *dt)
   updateLasting(sec, usec, dt);
 }
 
-void Step::changePermanent(float dt)
+void Step::changePermanent(float lasting)
 {
   if (! mobile) return;
   if (state == INACTIVE) return;	// not running
-
-  // escalator and travelator only
+  // only escalator and travelator
 
   float sx = 2 * pos.bbs.v[0];  // step width
   float sy = 2 * pos.bbs.v[1];  // step depth
   float sz = 2 * pos.bbs.v[2];  // step height
 
   if (dir > 0) { 				// escalator upwards
-    //if (pos.z < 0) pos.z = 0;			// awfull hack
-    //echo("h=%.1f %s", height, objectName());
-    pos.x += (dt * move.lspeed.v[2] * sin(pos.az));
-    pos.y += (dt * move.lspeed.v[2] * cos(pos.az));
-    //echo("- %.2f", pos.z);
-    if (pos.z >= height) pos.z = 0;
-    pos.z += (dt * move.lspeed.v[2]);
-    //echo("+ %.2f", pos.z);
-    if (pos.z >= (/*ipos.z +*/ height /*- sz*/)) {	// rewind step
-      pos.x = ipos.x;
-      pos.y = ipos.y;
-      //pos.z -= height;
-      //pos.z = ipos.z - sz; //orig - sz;
-      pos.z = 0 -sz;
-      //echo("  %.2f", pos.z);
+    pos.x += lasting * move.lspeed.v[2] * sin(pos.az);
+    pos.y += lasting * move.lspeed.v[2] * cos(pos.az);
+    pos.z += lasting * move.lspeed.v[2];
+    if (pos.z >= (ipos.z + height - sz)) {	// rewind step
+      //echo("+ %.2f %s", pos.z,objectName());
+      pos = ipos;
+      pos.z = ipos.z ; //orig - sz;
+      if (pos.z < 0) pos.z = 0;
+      //echo("  %.2f %s", pos.z,objectName());
     }
     if (stuck) {				// user follows up this step
       localuser->pos.x = pos.x;
@@ -264,15 +252,11 @@ void Step::changePermanent(float dt)
     }
   }
   else if (dir < 0) {				// escalator downwards
-    //echo("h=%.1f %s", height, objectName());
-    pos.x -= dt * move.lspeed.v[2] * sin(pos.az);
-    pos.y -= dt * move.lspeed.v[2] * cos(pos.az);
-    pos.z -= dt * move.lspeed.v[2];
-    //echo("- %.2f", pos.z);
-    //echo("i %.2f", ipos.z);
+    pos.x -= lasting * move.lspeed.v[2] * sin(pos.az);
+    pos.y -= lasting * move.lspeed.v[2] * cos(pos.az);
+    pos.z -= lasting * move.lspeed.v[2];
     if (pos.z < (ipos.z - height + sz)) {	// rewind step
       pos = ipos;
-      pos.z = ipos.z;
     }
     if (stuck) {				// user follows down this step
       localuser->pos.x = pos.x;
@@ -287,8 +271,8 @@ void Step::changePermanent(float dt)
     }
   }
   else {					// travelator horizontal
-    pos.x -= dt * move.lspeed.v[0] * sin(pos.az);
-    pos.y -= dt * move.lspeed.v[1] * cos(pos.az);
+    pos.x -= lasting * move.lspeed.v[2] * sin(pos.az);
+    pos.y -= lasting * move.lspeed.v[2] * cos(pos.az);
     if (pos.x >= (ipos.x + length - sx)) {	// rewind step
       pos = ipos;
     }
