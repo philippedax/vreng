@@ -38,12 +38,14 @@ struct sObj {
   const char *objreal;
 };
 
+// aliases
 static const struct sObj objs[] = {
   //{ "old_name", "new_name" },
   { "ftp", "download" },
   { "animx3d", "carousel" },
   { "android", "humanoid" },
   { "head", "face" },
+  { "travelator", "travolator" },
   { NULL, NULL }
 };
 
