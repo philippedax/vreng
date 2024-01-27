@@ -75,11 +75,11 @@
   <solid dim="2 1 .1" dif="grey20" />
 </wall>
 
-<!-- travelator -->
-<travelator name="conveyor-belt" pos="-1 -2 0.01 -1.57"
+<!-- travolator -->
+<travolator name="conveyor-belt" pos="-1 -2 0.01 -1.57"
   length="5" speed=".5">
   <solid dim=".8 .2 .02" dif="grey20" />
-</travelator>
+</travolator>
 <mirage name="stick" pos="-1 -2.5 0.3"> <solid dim=".02 .02 .6" dif="brown" /></mirage>
 
 <cauldron name="sofa" pos="13 -2 .1">
