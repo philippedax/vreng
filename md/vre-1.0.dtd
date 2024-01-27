@@ -35,7 +35,7 @@
 	particle | plane |
 	rain | river |
 	slider | smoke | snow | spiral | spot | stair | stars | step | sun |
-	terrain | text | thing | thunder | travelator |
+	terrain | text | thing | thunder | travolator |
 	vjc | vnc | vrelet | 
 	wall | walls | water | waterfall | web | widget | wind | wings
 	)+
@@ -495,7 +495,7 @@
 <!ATTLIST step		pos	NMTOKENS #REQUIRED>
 <!ATTLIST step		name	NMTOKEN #IMPLIED>
 <!ATTLIST step		descr	NMTOKENS #IMPLIED>
-<!ATTLIST step		mode	(stair | spiral | escalator | travelator) #IMPLIED>
+<!ATTLIST step		mode	(stair | spiral | escalator | travolator) #IMPLIED>
 <!ATTLIST step		dir	(up | down | horizontal) "up">
 <!ATTLIST step		height	NMTOKEN "0">
 <!ATTLIST step		length	NMTOKEN "0">
@@ -543,12 +543,12 @@
 <!ATTLIST transform	rotation	NMTOKENS #IMPLIED>
 <!ATTLIST transform	translation	NMTOKENS #IMPLIED>
 
-<!ELEMENT travelator	(solid+)>
-<!ATTLIST travelator	pos	NMTOKENS #REQUIRED>
-<!ATTLIST travelator	name	NMTOKEN #IMPLIED>
-<!ATTLIST travelator	descr	NMTOKENS #IMPLIED>
-<!ATTLIST travelator	length	NMTOKEN "0">
-<!ATTLIST travelator	speed	NMTOKEN "0.5">
+<!ELEMENT travolator	(solid+)>
+<!ATTLIST travolator	pos	NMTOKENS #REQUIRED>
+<!ATTLIST travolator	name	NMTOKEN #IMPLIED>
+<!ATTLIST travolator	descr	NMTOKENS #IMPLIED>
+<!ATTLIST travolator	length	NMTOKEN "0">
+<!ATTLIST travolator	speed	NMTOKEN "0.5">
 
 <!ELEMENT vjc		EMPTY>
 <!ATTLIST vjc		descr	NMTOKENS #IMPLIED>
