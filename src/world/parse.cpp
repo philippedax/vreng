@@ -33,23 +33,24 @@
 static Parse *parse = NULL;
 
 /* aliases */
-struct sObj {
+struct sAlias {
   const char *objalias;
   const char *objreal;
 };
 
 // aliases
-static const struct sObj objs[] = {
+static const struct sAlias aliases[] = {
   //{ "old_name", "new_name" },
-  { "ftp", "download" },
-  { "animx3d", "carousel" },
-  { "android", "humanoid" },
-  { "head", "face" },
+  { "ftp",        "download" },
+  { "animx3d",    "carousel" },
+  { "android",    "humanoid" },
+  { "head",       "face" },
   { "travelator", "travolator" },
   { NULL, NULL }
 };
 
 
+/** Constructor */
 Parse::Parse()
 {
   parse = this;		// save pointer
@@ -59,6 +60,7 @@ Parse::Parse()
   inscene = false;
 }
 
+/** Destructor */
 Parse::~Parse()
 {
   parse = NULL;
@@ -79,6 +81,7 @@ char * Parse::nextToken() const
   return strtok(NULL, SEP);
 }
 
+/** Skips a char c */
 char * Parse::skipChar(char *p, char c) const
 {
   char *s = p;
@@ -89,42 +92,46 @@ char * Parse::skipChar(char *p, char c) const
   return p;
 }
 
+/** Skips an = */
 char * Parse::skipEqual(char *p) const
 {
   return skipChar(p, '=');
 }
 
-/* Skip double quotes or single quote */
+/** Skips double quotes or single quote */
 char * Parse::skipQuotes(char *p) const
 {
   if (p && ((*p == '"') || (*p == '\''))) p++;
   return p;
 }
 
-/* find next space or next endtag */
+/** Finds next space or next endtag */
 char * Parse::nextSpace(char *p) const
 {
   while (p && *p && !isspace(*p) && *p != '>') p++;
   return p;
 }
 
+/** Skips a space */
 char * Parse::skipSpace(char *p) const
 {
   while (p && isspace(*p)) p++;
   return p;
 }
 
+/** Checks if is a float */
 bool Parse::isFloat(const char *p) const
 {
   return (p && (isdigit((int) *p) || *p == '-' || *p == '+' || *p == '.'));
 }
 
+/** Checks if is an int */
 bool Parse::isInt(const char *p) const
 {
   return (p && (isdigit((int) *p) || *p == '-' || *p == '+'));
 }
 
-/* parses a vre line : returns tag number */
+/** Parses a vre line : returns tag number */
 int Parse::parseLine(char *_line, int *ptag_type)
 {
   char *line = strdup(_line);
@@ -204,16 +211,21 @@ int Parse::parseLine(char *_line, int *ptag_type)
     }
     strncpy(tagobj, ptok, TAG_LEN-1);	// memorize object tag
 
-    // handles aliases here !!! doesn't work yet !!!
-    const struct sObj *ptab;
-    for (ptab = objs; ptab->objalias; ptab++) {
-      if (! strcmp(ptok, ptab->objalias)) {
-        strcpy(tagobj, ptab->objreal);	// memorize object tag
+    //
+    // handles aliases here
+    //
+    const struct sAlias *palias;
+    for (palias = aliases; palias->objalias; palias++) {
+      if (! strcmp(ptok, palias->objalias)) {
+        strcpy(tagobj, palias->objreal);	// substitute by real tag
         //echo("parse: %d %s", numline, tagobj);
         break;
       }
     }
-    // identify the object
+
+    //
+    // identifies the object
+    //
     if ((oclass = OClass::getOClass(tagobj))) {
       *ptag_type = oclass->type_id;
       if (! OClass::isValidType(*ptag_type)) {
@@ -245,7 +257,7 @@ int Parse::parseLine(char *_line, int *ptag_type)
   return TAG_OBJECT;
 }
 
-/* parse vre data, called by World::worldReader */
+/** Parses vre data, called by World::worldReader */
 int Parse::parseVreFile(char *buf, int buflen)
 {
   int len = 0;	// line length
@@ -431,7 +443,7 @@ void Parse::printNumline()
   error("parse error at line %d", numline);
 }
 
-/* skip attributes */
+/** skips attributes */
 char * Parse::skipAttribute(char *l)
 {
   l = skipQuotes(l);	// first quote
@@ -449,7 +461,7 @@ char * Parse::skipAttribute(char *l)
 }
 
 /*
- * parse attributes:
+ * Parses attributes:
  *   name pos url solid category description
  *   be carefull : the line has been tokenized by separators SEP=" ,<>\t\n"
  */
@@ -495,7 +507,7 @@ char * Parse::parseAttributes(char *l, WO *wobject)
   return l;
 }
 
-/* parse object description names.infos, names.category */
+/** parse object description names.infos, names.category */
 char * Parse::parseDescr(char *l, char *strdst)
 {
   l = skipEqual(l);
@@ -517,13 +529,13 @@ char * Parse::parseDescr(char *l, char *strdst)
   return nextToken();
 }
 
-/* parse object name: fill names.given */
+/** parse object name: fill names.given */
 char * Parse::parseName(char *l, char *name)
 {
   return parseQuotedString(l, name, "name");
 }
 
-/* parse caption text */
+/** parse caption text */
 char * Parse::parseCaption(char *l, char *caption)
 {
   return parseQuotedString(l, caption, "caption");
@@ -534,7 +546,7 @@ char * Parse::parseCaption(char *l, char *caption, const char *keystr)
   return parseQuotedString(l, caption, keystr);
 }
 
-/* parse spacial position and orientation : x y z az ax ay */
+/** parse spacial position and orientation : x y z az ax ay */
 char * Parse::parsePosition(char *ptok, Pos &pos)
 {
   pos.x = pos.y = pos.z = pos.az = pos.ax = pos.ay = 0;
@@ -606,7 +618,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   return ptok;	//dummy
 }
 
-/* parse colors: r g b a */
+/** parse colors: r g b a */
 char * Parse::parseColor(char *ptok, Pos &p)
 {
   if (! stringcmp(ptok, "color=")) {
@@ -638,7 +650,7 @@ char * Parse::parseColor(char *ptok, Pos &p)
   return nextToken();
 }
 
-/* parse a guide */
+/** parse a guide */
 char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
 {
   if ( (! stringcmp(ptok, "path=")) || (! stringcmp(ptok, "guide=")) ) {
@@ -666,7 +678,11 @@ char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
   return nextToken();
 }
 
-/* tag <solid || <geom : creates a solid and calls its parser */
+/**
+ * Parses a solid
+ * tag <solid || <geom
+ * creates a solid and calls its parser
+ */
 char * Parse::parseSolid(char *ptok, WO *wobject)
 {
   if ( !ptok || !strlen(ptok) ) {
@@ -678,7 +694,7 @@ char * Parse::parseSolid(char *ptok, WO *wobject)
     ptok = nextToken();		// skip tag solid
   }
 
-  Solid *solid = new Solid();
+  Solid *solid = new Solid();	// creates the solid
 
   if (wobject) {
     wobject->addSolid(solid);	// add solid to solidList
@@ -687,11 +703,14 @@ char * Parse::parseSolid(char *ptok, WO *wobject)
     error("parseSolid: no wobject");
   }
 
+  //
+  // calls the solid's parser
+  //
   ptok = solid->parser(ptok);	// calls its parser
   return ptok;
 }
 
-/* parse a solid */
+/** parse a solid */
 char * Parse::parseSolid(char *ptok, const char *sep, WO *wobject)
 {
   if (*ptok == '<') ptok++;
@@ -699,16 +718,16 @@ char * Parse::parseSolid(char *ptok, const char *sep, WO *wobject)
   return parseSolid(ptok, wobject);
 }
 
-/* parse several solids */
+/** parse several solids */
 void Parse::parseSolids(char *ptok, const char *sep, WO *wobject)
 {
-  strtok(ptok, sep);
+  strtok(ptok, sep);		// a solid is tokenized
   while (ptok) {
     ptok = parseSolid(ptok, wobject);
   }
 }
 
-/* parse a rotation */
+/** parse a rotation */
 char * Parse::parseRotation(char *ptok, Pos &p)
 {
   if (! stringcmp(ptok, "rot=") || ! stringcmp(ptok, "rotation=")) {
@@ -729,7 +748,7 @@ char * Parse::parseRotation(char *ptok, Pos &p)
   return nextToken();
 }
 
-/* parse a translation */
+/** parse a translation */
 char * Parse::parseTranslation(char *ptok, Pos &p)
 {
   if (! stringcmp(ptok, "trans=") || ! stringcmp(ptok, "translation=")) {
@@ -749,7 +768,7 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
   return nextToken();
 }
 
-/* parse an url */
+/** parse an url */
 char * Parse::parseUrl(char *ptok, char *url)
 {
   if (! stringcmp(ptok, "url="))
@@ -758,7 +777,7 @@ char * Parse::parseUrl(char *ptok, char *url)
     return parseString(ptok, url);
 }
 
-/* parse a world and a channel */
+/** parse a world and a channel */
 char * Parse::parseWorldAndChannel(char *ptok, char *url, char *chan)
 {
   if (! strcmp(ptok, "world")) {	// <world>
@@ -774,7 +793,7 @@ char * Parse::parseWorldAndChannel(char *ptok, char *url, char *chan)
   }
 }
 
-/* parse a channel */
+/** parse a channel */
 char * Parse::parseChannel(char *ptok, char *channel)
 {
   if (ptok) {
@@ -787,7 +806,7 @@ char * Parse::parseChannel(char *ptok, char *channel)
   return nextToken();
 }
 
-/* parse a string */
+/** parse a string */
 // we assume that there is no space in the string, else loop bug for the caller
 char * Parse::parseString(char *ptok, char *str)
 {
@@ -800,7 +819,7 @@ char * Parse::parseString(char *ptok, char *str)
   return nextToken();
 }
 
-/* parse a string */
+/** parse a string */
 char * Parse::parseString(char *ptok, char *str, const char *keystr)
 {
   if (ptok && !stringcmp(ptok, keystr)) {
@@ -810,7 +829,7 @@ char * Parse::parseString(char *ptok, char *str, const char *keystr)
   return nextToken();
 }
 
-/* parse a quoted text */
+/** parse a quoted text */
 char * Parse::parseQuotedString(char *ptok, char *str)
 {
   char *p, *s = str;
@@ -829,7 +848,7 @@ char * Parse::parseQuotedString(char *ptok, char *str)
   return nextToken();
 }
 
-/* parse a quoted text */
+/** parse a quoted text */
 char * Parse::parseQuotedString(char *ptok, char *str, const char *keystr)
 {
   if (ptok && !stringcmp(ptok, keystr)) {
