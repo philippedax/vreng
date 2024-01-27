@@ -1,7 +1,7 @@
 package fr.enst.vreng;
 
 /**
- * Generated from ../../../src/world/objects.cpp at Sat Dec 16 15:26:01 2023
+ * Generated from ../../../src/world/objects.cpp at Sat Jan 27 12:05:37 2024
  */
 public class ObjectTypes {
 
@@ -64,7 +64,7 @@ public class ObjectTypes {
 	public static final int OBJ_Cloud      = 57;
 	public static final int OBJ_Stair      = 58;
 	public static final int OBJ_Escalator  = 59;
-	public static final int OBJ_Travelator = 60;
+	public static final int OBJ_Travolator = 60;
 	public static final int OBJ_Spiral     = 61;
 	public static final int OBJ_Waterfall  = 62;
 	public static final int OBJ_Fountain   = 63;

@@ -18,19 +18,19 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef TRAVELATOR_HPP
-#define TRAVELATOR_HPP
+#ifndef TRAVOLATOR_HPP
+#define TRAVOLATOR_HPP
 
 #include "wobject.hpp"
 #include "step.hpp"
 
-#define TRAVELATOR_TYPE	60
-#define TRAVELATOR_NAME	"Travelator"
+#define TRAVOLATOR_TYPE	60
+#define TRAVOLATOR_NAME	"Travolator"
 
 /**
- * Travelator class
+ * Travolator class
  */
-class Travelator: public Step {
+class Travolator: public Step {
 
 private:
   bool on;	///< running or pause
@@ -42,7 +42,7 @@ public:
 
   static void funcs();	///< init funclist
 
-  Travelator(char *l);	///< Constructor
+  Travolator(char *l);	///< Constructor
 
   static WO * (creator)(char *l);
   /**< Create from fileline */
@@ -61,7 +61,7 @@ private:
   /**< Sets initializations */
 
   void build();
-  /**< Builds travelator */
+  /**< Builds travolator */
 };
 
 #endif

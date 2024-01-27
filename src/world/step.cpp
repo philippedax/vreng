@@ -44,7 +44,7 @@ void Step::defaults()
 {
   mobile = false;
   escalator = false;
-  travelator = false;
+  travolator = false;
   stair = false;
   spiral = false;
   stuck = false;
@@ -65,7 +65,7 @@ void Step::parser(char *l)
       char modestr[16];
       l = parseString(l, modestr, "mode");
       if      (! stringcmp(modestr, "escalator"))  { escalator = true; mobile = true; }
-      else if (! stringcmp(modestr, "travelator")) { travelator = true; mobile = true; }
+      else if (! stringcmp(modestr, "travolator")) { travolator = true; mobile = true; }
       else if (! stringcmp(modestr, "stair"))      { stair = true; }
       else if (! stringcmp(modestr, "spiral"))     { stair = true; spiral = true; }
     }
@@ -81,7 +81,7 @@ void Step::parser(char *l)
   }
   end_while_parse(l);
 
-  if (travelator) {
+  if (travolator) {
     height = 0;
     dir = 0;
   }
@@ -96,7 +96,7 @@ void Step::build()
   float sz = 2 * pos.bbs.v[2];  // step height
 
   // steps are interlaced (sx sy sz)
-  if (travelator) {
+  if (travolator) {
     nsteps = (int) ceil(length / MIN(sx, sy));
     size = length;
   }
@@ -129,11 +129,11 @@ void Step::build()
       stairList.push_back(step);
     }
     else {
-      if (travelator) {		// travelator
+      if (travolator) {		// travolator
         npos.x = pos.x - (sx * n);
         npos.y = pos.y - (sy * n);
         npos.z = pos.z;
-        Step *step = new Step(npos, ipos, "travelator", geomsolid, mobile, size, speed, dir);
+        Step *step = new Step(npos, ipos, "travolator", geomsolid, mobile, size, speed, dir);
         travList.push_back(step);
       }
       else {			// escalator
@@ -159,7 +159,7 @@ void Step::inits()
 Step::Step(char *l)
 {
   parser(l);
-  if (stair || escalator || travelator || spiral) {
+  if (stair || escalator || travolator || spiral) {
     build();	// build the structure
   }
   else {
@@ -185,7 +185,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *name, const char *geom, bool _mobi
   stuck = false;
   dir = _dir;
   if (dir == 0) {
-    length = _size;  // travelator
+    length = _size;  // travolator
   }
   else {
     height = _size;  // stair, escalator
@@ -194,7 +194,7 @@ Step::Step(Pos& npos, Pos& _ipos, const char *name, const char *geom, bool _mobi
   inits();
   forceNames(name);
 
-  if (mobile) {    // escalator or travelator
+  if (mobile) {    // escalator or travolator
     enablePermanentMovement(speed);
     //dax state = ACTIVE;	// only one step !!!
   }
@@ -225,7 +225,7 @@ void Step::changePermanent(float lasting)
   if (! mobile) return;
   if (state == INACTIVE) return;	// not running
 
-  // escalator and travelator only
+  // escalator and travolator only
 
   float sx = 2 * pos.bbs.v[0];  // step width
   float sy = 2 * pos.bbs.v[1];  // step depth
@@ -278,7 +278,7 @@ void Step::changePermanent(float lasting)
       localuser->updatePosition();
     }
   }
-  else {					// travelator horizontal
+  else {					// travolator horizontal
     pos.x -= lasting * move.lspeed.v[0] * sin(pos.az);
     pos.y -= lasting * move.lspeed.v[1] * cos(pos.az);
     if (pos.x >= (ipos.x + length - sx)) {	// rewind step
@@ -308,7 +308,7 @@ bool Step::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
     case USER_TYPE:
-      if (mobile) {	// escalator | travelator
+      if (mobile) {	// escalator | travolator
         if (! stuck) {
           stuck = true;
           return true;
@@ -381,7 +381,7 @@ void Step::pause()
     }
   }
   else {
-    //echo("travelator pause: size=%d", travList.size());
+    //echo("travolator pause: size=%d", travList.size());
     for (vector<Step*>::iterator it = travList.begin(); it != travList.end(); it++) {
       if ((*it)->state & ACTIVE) {
         (*it)->state = INACTIVE;

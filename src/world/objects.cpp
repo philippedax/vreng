@@ -82,7 +82,7 @@
 #include "cloud.hpp"		/* 57 */
 #include "stair.hpp"		/* 58 */
 #include "escalator.hpp"	/* 59 */
-#include "travelator.hpp"	/* 60 */
+#include "travolator.hpp"	/* 60 */
 #include "spiral.hpp"		/* 61 */
 #include "waterfall.hpp"	/* 62 */
 #include "fountain.hpp"		/* 63 */
@@ -174,7 +174,7 @@ const struct InitFunc initFuncs[] = {
 /* 57 */	{Cloud::funcs},
 /* 58 */	{Stair::funcs},
 /* 59 */	{Escalator::funcs},
-/* 60 */	{Travelator::funcs},
+/* 60 */	{Travolator::funcs},
 /* 61 */	{Spiral::funcs},
 /* 62 */	{Waterfall::funcs},
 /* 63 */	{Fountain::funcs},

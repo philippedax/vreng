@@ -19,23 +19,23 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
-#include "travelator.hpp"
+#include "travolator.hpp"
 #include "move.hpp"	// gotoFront
 
 
-const OClass Travelator::oclass(TRAVELATOR_TYPE, "Travelator", Travelator::creator);
+const OClass Travolator::oclass(TRAVOLATOR_TYPE, "Travolator", Travolator::creator);
 
 // local
 static uint16_t oid = 0;
 
 
 /* creation from a file */
-WO * Travelator::creator(char *l)
+WO * Travolator::creator(char *l)
 {
-  return new Travelator(l);
+  return new Travolator(l);
 }
 
-void Travelator::defaults()
+void Travolator::defaults()
 {
   on = true;
   length = 0;
@@ -45,7 +45,7 @@ void Travelator::defaults()
   stuck = false;
 }
 
-void Travelator::parser(char *l)
+void Travolator::parser(char *l)
 {
   defaults();
   l = tokenize(l);
@@ -59,7 +59,7 @@ void Travelator::parser(char *l)
   end_while_parse(l);
 }
 
-void Travelator::build()
+void Travolator::build()
 {
   uint8_t nsteps = 0;
   float sx = 2 * pos.bbs.v[0];  // step width
@@ -72,18 +72,18 @@ void Travelator::build()
     npos.x = pos.x - sin(pos.az) * (sx * n);
     npos.y = pos.y - cos(pos.az) * (sy * n);
 
-    Step *step = new Step(npos, pos, "travelator", geomsolid, true, length, speed, 0);
+    Step *step = new Step(npos, pos, "travolator", geomsolid, true, length, speed, 0);
     travList.push_back(step);
   }
   enablePermanentMovement(speed);
 }
 
-void Travelator::inits()
+void Travolator::inits()
 {
   initMobileObject(1);
 }
 
-Travelator::Travelator(char *l)
+Travolator::Travolator(char *l)
 {
   travList.clear();
   parser(l);
@@ -94,14 +94,14 @@ Travelator::Travelator(char *l)
   }
 }
 
-void Travelator::quit()
+void Travolator::quit()
 {
   travList.clear();
   oid = 0;
 }
 
-void Travelator::funcs()
+void Travolator::funcs()
 {
-  setActionFunc(TRAVELATOR_TYPE, 0, _Action pause_cb, "Pause/Continue");
-  setActionFunc(TRAVELATOR_TYPE, 1, _Action gotoFront, "Approach");
+  setActionFunc(TRAVOLATOR_TYPE, 0, _Action pause_cb, "Pause/Continue");
+  setActionFunc(TRAVOLATOR_TYPE, 1, _Action gotoFront, "Approach");
 }
