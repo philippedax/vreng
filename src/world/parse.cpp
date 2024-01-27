@@ -261,21 +261,21 @@ int Parse::parseLine(char *_line, int *ptag_type)
 int Parse::parseVreFile(char *buf, int buflen)
 {
   int len = 0;	// line length
-  char *tmpline = NULL;
+  char *workline = NULL;
   static char *line = NULL;
 
   if (! line) {	// need a new line
-    tmpline = new char[buflen];
+    workline = new char[buflen];
     len = 0;
   }
-  else {	// old line: copy previous line in tmpline
+  else {	// old line: copy previous line in workline
     len = strlen(line);
-    tmpline = new char[buflen + len];
-    strcpy(tmpline, line);
+    workline = new char[buflen + len];
+    strcpy(workline, line);
   }
 
-  // copy buf at the end of tmpline
-  memcpy(tmpline + len, buf, buflen);
+  // copy buf at the end of workline
+  memcpy(workline + len, buf, buflen);
   len += buflen;
 
   int iol = 0;	// index in line;
@@ -285,16 +285,16 @@ int Parse::parseVreFile(char *buf, int buflen)
   // parses all lines of the vre file
   //
   while (1) {
-    int eol = 0;	// index end of line
+    int eol = 0;		// index end of line
 
     for (iol = bol; iol < len; iol++) {
-      if (tmpline[iol] == '\n') {
+      if (workline[iol] == '\n') {
         numline++;
-        if (tmpline[iol-1] == '\\') {	// end of physical line, line follows
-          tmpline[iol-1] = tmpline[iol] = ' ';
+        if (workline[iol-1] == '\\') {	// end of physical line, line follows
+          workline[iol-1] = workline[iol] = ' ';
         }
-        else {		// end of logical line
-          tmpline[iol] = ' ';	// replace '\n' by ' '
+        else {			// end of logical line
+          workline[iol] = ' ';	// replace '\n' by ' '
 	  eol = iol;
 	  iol = len + 1;	// HUGLY! (to do len + 2)
         }
@@ -303,8 +303,8 @@ int Parse::parseVreFile(char *buf, int buflen)
     if (iol == len + 2) {		// end of logical line
       line = new char[eol - bol + 2];	// allocate a new line
 
-      // build line from tmpline
-      memcpy(line, tmpline + bol, eol - bol);
+      // build line from workline
+      memcpy(line, workline + bol, eol - bol);
       line[eol - bol] = '\0';
       if (line[eol - bol - 1] == '\r') line[eol - bol - 1] = '\0';	// WIN32
       //trace(DBG_FORCE, "line %d: %s %d %d", numline, line, eol, bol);
@@ -327,7 +327,6 @@ int Parse::parseVreFile(char *buf, int buflen)
       uint8_t tag = parseLine(line, &tag_type);
 
       switch (tag) {
-
         case TAG_DOCTYPE:
         case TAG_BEGINVRE:
           DELETE2(line);
@@ -342,7 +341,6 @@ int Parse::parseVreFile(char *buf, int buflen)
           DELETE2(line);
           bol = eol + 1;	// begin of next line
           continue;	// or break
-
         case TAG_META:
 	  if ((p = strstr(line, "=\"refresh\""))) {
             World::current()->persistent = false;
@@ -351,7 +349,6 @@ int Parse::parseVreFile(char *buf, int buflen)
             DELETE2(line);
           }
           break;
-
         case TAG_COMMENT:
 	  if ((p = strstr(line, "-->"))) {
             //echo("end comment %s", line);
@@ -359,11 +356,9 @@ int Parse::parseVreFile(char *buf, int buflen)
             commented = false;
           }
           break;
-
         case TAG_ENDVRE:
           DELETE2(line);
           return 0;		// end of parsing
-
         case TAG_LOCAL:		// <local>, </local>
           strcpy(tagobj, "transform");
           const OClass *oclass;
@@ -408,12 +403,12 @@ int Parse::parseVreFile(char *buf, int buflen)
 	    if (*attr == '>') {
 	      ++attr;
             }
-            //debug if (::g.pref.dbgtrace) trace(DBG_FORCE, "[%d] %s", tag_type, line);
+            //debug if (::g.pref.dbgtrace) echo("[%d] %s", tag_type, line);
             progression('o');
             ::g.timer.object.start();
             // call the creator() method of this object with object attributes
             if ((wobject = OClass::creatorInstance(tag_type, attr)) == NULL) {
-              error("parse error at line %d (creator instance), type=%d line=%s", numline, tag_type, line);
+              error("parse error at line %d (creator), type=%d line=%s", numline, tag_type, line);
               return -1;
             }
             ::g.timer.object.stop();
@@ -426,15 +421,17 @@ int Parse::parseVreFile(char *buf, int buflen)
       DELETE2(line);
       bol = eol + 1;	// begin of next line = end of current line + \n
     }
-    else break;		// goto next line
+    else {
+      break;		// goto next line
+    }
   }
   DELETE2(line);
   line = new char[len - bol + 2];
 
-  // copy the end of previous tmpline into line
-  memcpy(line, tmpline + bol, len - bol);
+  // copy the end of previous workline into line
+  memcpy(line, workline + bol, len - bol);
   line[len - bol] = '\0';
-  delete[] tmpline;
+  delete[] workline;
   return 1;
 }
 
@@ -559,12 +556,12 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
     pos.x = (float) atof(ptok);
   else
     return nextToken();
-  ptok = nextToken();	// get pos.y
+  ptok = nextToken();		// get pos.y
   if (isFloat(ptok))
     pos.y = (float) atof(ptok);
   else
     return nextToken();
-  ptok = nextToken();	// get pos.z
+  ptok = nextToken();		// get pos.z
   if (isFloat(ptok)) {
     pos.z = (float) atof(ptok);
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z"
@@ -574,7 +571,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else {
     return nextToken();
   }
-  ptok = nextToken();	// get pos.az
+  ptok = nextToken();		// get pos.az
   if (!ptok) {
     return nextToken();
   }
@@ -587,7 +584,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else { // pos.az not float
     return ptok;
   }
-  ptok = nextToken();	// get pos.ax
+  ptok = nextToken();		// get pos.ax
   if (!ptok) {
     return nextToken();
   }
@@ -600,7 +597,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   else { // pos.ax not float
     if (!ptok) return ptok;
   }
-  ptok = nextToken();	// get pos.ay
+  ptok = nextToken();		// get pos.ay
   if (!ptok) {
     return nextToken();
   }
@@ -631,14 +628,14 @@ char * Parse::parseColor(char *ptok, Pos &p)
   }
 
   p.x  = (float) atof(ptok);
-  ptok = nextToken();	// get p.y
+  ptok = nextToken();		// get p.y
   p.y  = (float) atof(ptok);
-  ptok = nextToken();	// get p.z
+  ptok = nextToken();		// get p.z
   p.z  = (float) atof(ptok);
   if (ptok[strlen(ptok) - 1] == '"') {
     return nextToken();
   }
-  ptok = nextToken();	// get p.az
+  ptok = nextToken();		// get p.az
   if (!ptok) {
     return nextToken();
   }
