@@ -24,11 +24,8 @@
 
 const OClass Smoke::oclass(SMOKE_TYPE, "Smoke", Smoke::creator);
 
-// local
-const float PSmoke::SZ = 0.003;	//3mm orig 0.005
-const float PSmoke::A[NA] = { M_PI*1/4, M_PI*2/4, M_PI*3/4, M_PI, M_PI*5/4, M_PI*6/4, M_PI*7/4, 2*M_PI };
-const float PSmoke::COS[NA] = { SZ*cos(A[0]), SZ*cos(A[1]), SZ*cos(A[2]), SZ*cos(A[3]), SZ*cos(A[4]), SZ*cos(A[5]), SZ*cos(A[6]), SZ*cos(A[7]) };
-const float PSmoke::SIN[NA] = { SZ*sin(A[0]), SZ*sin(A[1]), SZ*sin(A[2]), SZ*sin(A[3]), SZ*sin(A[4]), SZ*sin(A[5]), SZ*sin(A[6]), SZ*sin(A[7]) };
+const float Smoke::SZ = 0.003;	//3mm orig 0.005
+float const Smoke::A[NA] = { M_PI*1/4,M_PI*2/4,M_PI*3/4,M_PI,M_PI*5/4,M_PI*6/4,M_PI*7/4,2*M_PI };
 
 
 /* creation from a file */
@@ -44,15 +41,6 @@ Smoke::Smoke(char *l)
   behaviors();
   geometry();
   inits();
-}
-
-/* creates one particle */
-PSmoke::PSmoke(Vector3 l)
-{
-  loc = Vector3(l.x, l.y, l.z);
-  vel = Vector3(0, 0.0005, 0);
-  life = 255;
-  dlist = -1;
 }
 
 void Smoke::defaults()
@@ -93,39 +81,48 @@ void Smoke::inits()
 {
   initMobileObject(0);
   np = 0;
+  //for (int i=0; i < NA; i++) {
+  //  A[i] = i * M_PI/4;
+  //}
+}
+
+/* creates one particle */
+Smoke::Smoke(Vector3 l)
+{
+  loc = Vector3(l.x, l.y, l.z);
+  vel = Vector3(0, 0.0005, 0);
+  life = 255;
+  dlist = -1;
 }
 
 void Smoke::changePermanent(float dt)
 {
-  createParticle(pos.x, pos.y, pos.z);	// add one particle
-  animParticles();	// update particles
-}
-
-void Smoke::createParticle(float x, float y, float z)
-{   
   if (np++ > npmax) np = 0;	// regenerate the flow
 
-  //Vector3 emit(x, y, z);	// good position, but not rendered, FIXME!!!
+  //Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
   Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
 
-  PSmoke p(emit);		// create particle p
-  particlesList.push_back(p);	// add p to particlesList
+  Smoke p(emit);		// create particle p
+  psmokeList.push_back(p);	// add p to psmokeList
+  animParticles();
+  //update();		// update particles
+  //draw();
 }
 
 void Smoke::animParticles()
 {     
-  for (vector<PSmoke>::iterator i = particlesList.begin(); i < particlesList.end(); ++i) {
+  for (vector<Smoke>::iterator i = psmokeList.begin(); i < psmokeList.end(); ++i) {
     if ((*i).life > 0) {	// is alive
       (*i).update();
       (*i).draw();		// why draw now ???
     }
     else {
-      particlesList.erase(i);	// erase at end of life
+      psmokeList.erase(i);	// erase at end of life
     }
   }
 } 
 
-void PSmoke::update()
+void Smoke::update()
 {
   float x_acc = 0.000020 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000034
   float y_acc = 0.000005 * (1+(-2*((float)rand())/(RAND_MAX)));	// 0.000010
@@ -147,7 +144,7 @@ void Smoke::render()
   m[2]=-1; m[6]=0;  m[10]=0; m[14]=0;           // Zogl = -Xvre
   m[3]=0;  m[7]=0;  m[11]=0; m[15]=1;
 
-  for (vector<PSmoke>::iterator i = particlesList.begin(); i < particlesList.end(); ++i) {
+  for (vector<Smoke>::iterator i = psmokeList.begin(); i < psmokeList.end(); ++i) {
     if ((*i).life > 0) {	// is alive
       //echo("rend: %.1f %.1f %.1f", (*i).loc.x, (*i).loc.y, (*i).loc.z);
       glPushMatrix();
@@ -161,19 +158,22 @@ void Smoke::render()
   }
 }
 
-void PSmoke::draw()
+void Smoke::draw()
 {
   float a = MIN(1.2 - life/255, 1);
 
   glColor4f(.9,.9,.9, a);
   glBegin(GL_POLYGON);		// octogon
   for (int i=0; i<NA; i++) {
-    glVertex3f(loc.x+COS[i], loc.y+SIN[i], loc.z);
+    glVertex3f(loc.x+SZ*cos(A[i]), loc.y+SZ*sin(A[i]), loc.z);
   }
   glEnd();
 }
 
-void PSmoke::display()
+void Smoke::funcs() {}
+
+#if 0 //notused
+void Smoke::display()
 {
   float a = MIN(1.2 - life/255, 1);
 
@@ -182,7 +182,7 @@ void PSmoke::display()
   glColor4f(.9,.9,.9, a);
   glBegin(GL_POLYGON);		// octogon
   for (int i=0; i<NA; i++) {
-    glVertex3f(loc.x+COS[i], loc.y+SIN[i], loc.z);
+    glVertex3f(loc.x+SZ*cos(A[i]), loc.y+SZ*sin(A[i]), loc.z);
   }
   glEnd();
   glEndList();
@@ -194,5 +194,4 @@ Vector3 Smoke::random()
   float y = -0.01+(0.02*((float)rand())/(RAND_MAX));	// -0.02+(0.04 (more compact)
   return Vector3(x, y, 0);
 }
-
-void Smoke::funcs() {}
+#endif //notused

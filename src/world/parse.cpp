@@ -237,6 +237,9 @@ int Parse::parseLine(char *_line, int *ptag_type)
       return TAG_OBJECT;
     }
     else {
+      error("parse error at line %d (invalid type), *ptag_type=%d ptok=%s",
+            numline, *ptag_type, tagobj);
+      echo("line: %s", line);
       fatal("bad tag %s", tagobj);
     }
     FREE(line);

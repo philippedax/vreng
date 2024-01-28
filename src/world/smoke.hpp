@@ -32,18 +32,17 @@
 #define NA		8	// number of angles of polygon
 
 
+#if 0 //
 /**
  * PSmoke class
  */
 class PSmoke {
 
-private:
+ private:
   static const float SZ;
   static const float A[NA];
-  static const float COS[NA];
-  static const float SIN[NA];
 
-public:
+ public:
   Vector3 loc;		///< location.
   Vector3 vel;		///< velocity.
   Vector3 acc;		///< acceleration.
@@ -55,27 +54,38 @@ public:
 
   void update();
   void draw();
-  void display();
+
+  //notused void display();
 };
+#endif
 
 /**
  * Smoke class
  */
 class Smoke: public WO {
 
-public:
-  uint16_t npmax;	///< number max of particles
-  uint16_t np;		///< number of particles
+ private:
+  static const float SZ;
+  static const float A[NA];
 
-  vector<PSmoke> particlesList;
+  uint16_t npmax;		///< number max of particles
+  uint16_t np;			///< number of particles
+  Vector3 loc;		///< location.
+  Vector3 vel;		///< velocity.
+  Vector3 acc;		///< acceleration.
+  float life;		///< time to live.
+  GLint dlist;		///< displaylist.
+  vector<Smoke> psmokeList;
 
+ public:
   static const OClass oclass;	///< class variable.
   const OClass* getOClass() {return &oclass;}
 
-  static void funcs();	///< init funclist.
+  static void funcs();		///< init funclist.
 
-  Smoke(char *l);	///< Constructor.
-  ~Smoke() {};		///< Destructor.
+  Smoke(char *l);		///< Constructor.
+  Smoke(Vector3 l);		///< Constructor.
+  ~Smoke() {};			///< Destructor.
 
   static WO * (creator)(char *l);
   ///< Creates from fileline.
@@ -84,7 +94,7 @@ public:
 
   void render();
 
-private:
+ private:
   void defaults();
   /**< Sets defaults values. */
 
@@ -100,13 +110,13 @@ private:
   void inits();
   /**< Initializations. */
 
-  void createParticle(float x, float y, float z);   
-  /**< Creates a particle and and it to particlesList. */
-
   void animParticles();
   /**< Animates particles. */
 
-  Vector3 random();
+  void update();
+  void draw();
+
+  //notused Vector3 random();
 };
 
 #endif
