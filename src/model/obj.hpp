@@ -52,8 +52,8 @@ struct tOBJFace
  */
 struct tOBJMaterialInfo
 {
-  char  strName[255];	// texture name
-  char  strFile[255];	// texture file name (If this is set it's a texture map)
+  char  texName[255];	// texture name
+  char  texFile[255];	// texture file name (If this is set it's a texture map)
   uint8_t color[3];	// color of the object (R, G, B)
   int   texureId;  	// texture ID
   float uTile;		// u tiling of texture  (Currently not used)
@@ -67,8 +67,8 @@ struct tOBJMaterialInfo
  */
 struct tOBJObject
 {
-  int  numOfVerts;	// number of verts in the model
-  int  numOfFaces;	// number of faces in the model
+  int  numVerts;	// number of verts in the model
+  int  numFaces;	// number of faces in the model
   int  numTexVertex;	// number of texture coordinates
   int  materialID;	// texture ID to use, which is the index into our texture array
   bool bHasTexture;	// This is TRUE if there is a texture map for this object
@@ -84,21 +84,20 @@ struct tOBJObject
  */
 struct tOBJModel
 {
-  int numOfObjects; 		// number of objects in the model
-  int numOfMaterials;		// number of materials for the model
+  int numObjects; 		// number of objects in the model
+  int numMaterials;		// number of materials for the model
   vector<tOBJMaterialInfo> pMaterials;	// list of material information (Textures and colors)
   vector<tOBJObject> pObject;	// object list for our model
 };
 
 
 /**
- * Class Obj Model
+ * Class Obj
  */
 class Obj {
 
-private:
+ private:
   tOBJModel OBJModel;	///< model
-
   bool loaded;		///< flag loaded or not
   float currentScale;	///< current scale
   float desiredScale;	///< desired scale
@@ -112,7 +111,7 @@ private:
   float mat_specular[4];///<
   int textures[MAX_TEXTURES];
 
-public:
+ public:
 
   Obj(const char *url);			///< Constructor
   Obj(const char *url, int flgpart);	///< Constructor
@@ -140,7 +139,7 @@ public:
 
   static void reader(void *aobj, class Http *http);
 
-private:
+ private:
   vector<Vec3>  pVertices;
   /**< This is an STL vector that holds a list of vertices */
 
@@ -184,7 +183,6 @@ private:
 
   const char * getUrl() const;
   /**< get an Url */
-
 };
 
 #endif

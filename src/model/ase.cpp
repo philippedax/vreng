@@ -148,15 +148,13 @@ int Ase::openTexture(const char *file)
 {
   char *end = strrchr(url, '/');
   int i = 0;
-  char url_tex[255];
+  char urltex[URL_LEN];
 
   for (char *p = url; p != end; i++, p++) {
-    url_tex[i] = *p;
+    urltex[i] = *p;
   }
-  sprintf(&url_tex[i], "/%s", file);
-  //echo("Ase::openTexture: %s", url_tex);
-
-  return Texture::open(url_tex);
+  sprintf(&urltex[i], "/%s", file);
+  return Texture::open(urltex);
 }
 
 float Ase::getScale()
@@ -683,9 +681,9 @@ void Ase::computeNormals(tASEModel *pModel)
       v1 = Vec3::subVect(vPoly[0], vPoly[2]); // Get the vector of the polygon (we just need 2 sides for the normal)
       v2 = Vec3::subVect(vPoly[2], vPoly[1]); // Get a second vector of the polygon
       vNormal  = Vec3::crossVect(v1, v2);  // Return the cross product of the 2 vectors (normalize vector, but not a unit vector)
-      pTempNormals[i] = vNormal;             // Save the un-normalized normal for the vertex normals
-      vNormal  = Vec3::normVect(vNormal);         // Normalize the cross product to give us the polygons normal
-      pNormals[i] = vNormal;                 // Assign the normal to the list of normals
+      pTempNormals[i] = vNormal;           // Save the un-normalized normal for the vertex normals
+      vNormal = Vec3::normVect(vNormal);   // Normalize the cross product to give us the polygons normal
+      pNormals[i] = vNormal;               // Assign the normal to the list of normals
     }
 
     // Now Get The Vertex Normals //
