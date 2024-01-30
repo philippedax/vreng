@@ -100,7 +100,7 @@ void Smoke::changePermanent(float dt)
   if (np++ > npmax) np = 0;	// regenerate the flow
 
   //Vector3 emit(pos.x, pos.y, pos.z);	// good position, but not rendered, FIXME!!!
-  Vector3 emit(0, 0, 0);	// wrong position, but rendered,    FIXME!!!
+  Vector3 emit(0, 0, 0);		// wrong position, but rendered,    FIXME!!!
 
   Smoke p(emit);		// create particle p
   psmokeList.push_back(p);	// add p to psmokeList
@@ -144,6 +144,8 @@ void Smoke::render()
   m[2]=-1; m[6]=0;  m[10]=0; m[14]=0;           // Zogl = -Xvre
   m[3]=0;  m[7]=0;  m[11]=0; m[15]=1;
 
+  glPushMatrix();
+  glTranslatef(pos.x, pos.y, pos.z);
   for (vector<Smoke>::iterator i = psmokeList.begin(); i < psmokeList.end(); ++i) {
     if ((*i).life > 0) {	// is alive
       //echo("rend: %.1f %.1f %.1f", (*i).loc.x, (*i).loc.y, (*i).loc.z);
@@ -156,6 +158,7 @@ void Smoke::render()
       glPopMatrix();
     }
   }
+  glPopMatrix();
 }
 
 void Smoke::draw()
@@ -163,11 +166,13 @@ void Smoke::draw()
   float a = MIN(1.2 - life/255, 1);
 
   glColor4f(.9,.9,.9, a);
+  glPushMatrix();
   glBegin(GL_POLYGON);		// octogon
   for (int i=0; i<NA; i++) {
     glVertex3f(loc.x+SZ*cos(A[i]), loc.y+SZ*sin(A[i]), loc.z);
   }
   glEnd();
+  glPopMatrix();
 }
 
 void Smoke::funcs() {}
