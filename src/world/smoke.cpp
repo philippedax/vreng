@@ -153,7 +153,8 @@ void Smoke::render()
       //glLoadIdentity();
       //glLoadMatrixf(m);
       //glTranslatef((*i).loc.x, (*i).loc.y, (*i).loc.z);	//coord Vreng  bad
-      glTranslatef(-(*i).loc.y, (*i).loc.z, -(*i).loc.x);	//coord opengl good
+      //glTranslatef(-(*i).loc.y, (*i).loc.z, -(*i).loc.x);	//coord opengl good
+      glTranslatef(0,0,0);	//coord opengl good
       (*i).draw();
       glPopMatrix();
     }
@@ -167,6 +168,7 @@ void Smoke::draw()
 
   glColor4f(.9,.9,.9, a);
   glPushMatrix();
+  //glTranslatef(pos.x,pos.y,pos.z);
   glBegin(GL_POLYGON);		// octogon
   for (int i=0; i<NA; i++) {
     glVertex3f(loc.x+SZ*cos(A[i]), loc.y+SZ*sin(A[i]), loc.z);

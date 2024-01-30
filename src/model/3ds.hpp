@@ -124,8 +124,8 @@ struct tIndices {
  */
 struct tChunk {
   unsigned short int ID;	///< The chunk's ID
-  unsigned int length;		///< The length of the chunk
-  unsigned int bytesRead;	///< The amount of bytes read within that chunk
+  unsigned int len;		///< The length of the chunk
+  unsigned int read;		///< The amount of bytes read within that chunk
 };
 
 
@@ -187,30 +187,29 @@ class _3ds {
   void nextChunk(t3dsModel *pModel, tChunk *);
   /**< This reads the next large chunk */
 
-  void nextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *);
+  void nextObject(t3dsModel *pModel, tObject *pObject, tChunk *);
   /**< This reads the object chunks */
 
-  void nextMaterialChunk(t3dsModel *pModel, tChunk *);
+  void nextMaterial(t3dsModel *pModel, tChunk *);
   /**< This reads the material chunks */
 
-  void readColorChunk(t3dsMaterialInfo *pMaterial, tChunk *pChunk);
+  void readColor(t3dsMaterialInfo *pMaterial, tChunk *pChunk);
   /**< This reads the RGB value for the object's color */
 
   void readVertices(tObject *pObject, tChunk *);
   /**< This reads the objects vertices */
 
-  void readVertexIndices(tObject *pObject, tChunk *);
+  void readVertex(tObject *pObject, tChunk *);
   /**< This reads the objects face information */
 
-  void readUVCoordinates(tObject *pObject, tChunk *);
+  void readUVCoords(tObject *pObject, tChunk *);
   /**< This reads the texture coodinates of the object */
 
-  void readObjectMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPreviousChunk);
+  void readMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPreviousChunk);
   /**< This reads in the material name assigned to the object and sets the materialID */
 
   void computeNormals(t3dsModel *pModel);
   /**< This computes the vertex normals for the object (used for lighting) */
-
 };
 
 #endif

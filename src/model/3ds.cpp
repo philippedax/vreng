@@ -72,26 +72,28 @@ bool _3ds::import(FILE *f)
     error("3ds file not loaded");
     return false;
   }
-  if (importTextures() == false)
+  if (importTextures() == false) {
     error("textures of 3ds file not loaded");
+    return false;
+  }
   return loaded = true; //success
 }
 
 /* called by the client to open the .3ds file and read it */
 bool _3ds::importModel(t3dsModel *pModel)
 {
-  tChunk currentChunk = {0};
+  tChunk chunk = {0};
 
   if (!pModel || !fp) return false;
 
-  readChunk(&currentChunk);
-  if (currentChunk.ID != _3DS_PRIMARY) {
-    error("Unable to load 3DS_PRIMARY chuck from file");
+  readChunk(&chunk);
+  if (chunk.ID != _3DS_PRIMARY) {
+    error("unable to load 3DS_PRIMARY chuck from file");
     return false;
   }
 
   // Now we actually start reading in the data.  nextChunk() is recursive
-  nextChunk(pModel, &currentChunk);
+  nextChunk(pModel, &chunk);
 
   // After we have read the whole 3DS file, we want to calculate our own vertex normals.
   computeNormals(pModel);
@@ -117,14 +119,14 @@ bool _3ds::importTextures()
   return true;
 }
 
-int _3ds::openTexture(const char *imgFile)
+int _3ds::openTexture(const char *img)
 {
   char *end = strrchr(url, '/');
   int i = 0;
   char url_tex[255];
 
   for (char *p = url; p != end; i++, p++) url_tex[i] = *p;
-  sprintf(&url_tex[i], "/%s", imgFile);
+  sprintf(&url_tex[i], "/%s", img);
   //echo("openTexture: %s", url_tex);
 
   return Texture::open(url_tex);
@@ -197,7 +199,6 @@ void _3ds::render(float *color)
   glEnable(GL_COLOR_MATERIAL);
   glScalef(currentScale, currentScale, currentScale);
   glColor3fv(color);
-  //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
   glCallList(dlist);
   glDisable(GL_COLOR_MATERIAL);
   glPopMatrix();
@@ -288,24 +289,24 @@ void _3ds::draw()
 }
 
 /** reads the main sections of the .3DS file, then dives deeper with recursion */
-void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
+void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPrev)
 {
   tObject newObject = {0};	// This is used to add to our object list
   t3dsMaterialInfo newTexture;	// This is used to add to our material list
   uint32_t version = 0;		// This will hold the file version
   int buffer[50000] = {0};	// This is used to read past unwanted data
-  tChunk currentChunk = {0};	// The current chunk to load
-  tChunk tempChunk = {0};	// A temp chunk for holding data
+  tChunk chunk = {0};		// The current chunk to load
+  tChunk tmp = {0};		// A tmp chunk for holding data
 
   // Continue to read the sub chunks until we have reached the length.
   // After we read ANYTHING we add the bytes read to the chunk and then check
-  while (pPreviousChunk->bytesRead < pPreviousChunk->length) {
-    readChunk(&currentChunk);
+  while (pPrev->read < pPrev->len) {
+    readChunk(&chunk);
 
-    switch (currentChunk.ID) {
+    switch (chunk.ID) {
     case _3DS_VERSION:		// This holds the version of the file
       // This chunk has an uint16_t that holds the file version.
-      currentChunk.bytesRead += fread(&version, 1, currentChunk.length - currentChunk.bytesRead,fp);
+      chunk.read += fread(&version, 1, chunk.len - chunk.read,fp);
       File::localEndian(&version, sizeof(uint32_t));
 
       if (version > 0x03)
@@ -314,16 +315,16 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
     case _3DS_OBJECTINFO:	// This holds the version of the mesh
       // This chunk holds the version of the mesh.  It is also the head of the _3DS_MATERIAL
       // and _3DS_OBJECT chunks. From here on we start reading in the material and object info.
-      readChunk(&tempChunk);
+      readChunk(&tmp);
 
       // Get the version of the mesh
-      tempChunk.bytesRead += fread(&version, 1, tempChunk.length - tempChunk.bytesRead, fp);
+      tmp.read += fread(&version, 1, tmp.len - tmp.read, fp);
       File::localEndian(&version, sizeof(uint32_t));
 
-      currentChunk.bytesRead += tempChunk.bytesRead;
+      chunk.read += tmp.read;
 
       // Go to the next chunk, which is the object has a texture, it should be _3DS_MATERIAL, then _3DS_OBJECT
-      nextChunk(pModel, &currentChunk);
+      nextChunk(pModel, &chunk);
       break;
     case _3DS_MATERIAL:		// This holds the material information
       // This chunk is the header for the material info chunks
@@ -333,7 +334,7 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       pModel->pMaterials.push_back(newTexture);
 
       // Proceed to the material loading function
-      nextMaterialChunk(pModel, &currentChunk);
+      nextMaterial(pModel, &chunk);
       break;
     case _3DS_OBJECT:		// This holds the name of the object being read
       // This chunk is the header for the object info chunks.  It also
@@ -347,155 +348,155 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
       memset(&(pModel->pObject[pModel->numObjects - 1]), 0, sizeof(tObject));
 
       // Get the name of the object and store it, then add the read bytes
-      currentChunk.bytesRead += getString(pModel->pObject[pModel->numObjects - 1].strName);
+      chunk.read += getString(pModel->pObject[pModel->numObjects - 1].strName);
 
       // Now proceed to read in the rest of the object information
-      nextObjectChunk(pModel, &(pModel->pObject[pModel->numObjects - 1]), &currentChunk);
+      nextObject(pModel, &(pModel->pObject[pModel->numObjects - 1]), &chunk);
       break;
     case _3DS_KEYFRAME:
-      //nextKeyFrameChunk(pModel, currentChunk);
+      //nextKeyFrame(pModel, chunk);
       // Read past this chunk and add the bytes read
-      currentChunk.bytesRead += fread(buffer, 1, currentChunk.length - currentChunk.bytesRead, fp);
+      chunk.read += fread(buffer, 1, chunk.len - chunk.read, fp);
       break;
     default:
       // If we didn't care about a chunk, then we get here.  We still need
       // to read past the unknown or ignored chunk
-      currentChunk.bytesRead += fread(buffer, 1, currentChunk.length - currentChunk.bytesRead, fp);
+      chunk.read += fread(buffer, 1, chunk.len - chunk.read, fp);
       break;
     }
-    pPreviousChunk->bytesRead += currentChunk.bytesRead;
+    pPrev->read += chunk.read;
   }
   // Free the current chunk
-  //delete currentChunk;
-  //currentChunk = pPreviousChunk;
+  //delete chunk;
+  //chunk = pPrev;
 }
 
 /** handles all the information about the objects in the file */
-void _3ds::nextObjectChunk(t3dsModel *pModel, tObject *pObject, tChunk *pPreviousChunk)
+void _3ds::nextObject(t3dsModel *pModel, tObject *pObject, tChunk *pPrev)
 {
   int buffer[50000] = {0};	// This is used to read past unwanted data
 
   // Allocate a new chunk to work with
-  tChunk currentChunk = {0};
+  tChunk chunk = {0};
 
   // Continue to read these chunks until we read the end of this sub chunk
-  while (pPreviousChunk->bytesRead < pPreviousChunk->length) {
-    readChunk(&currentChunk);
+  while (pPrev->read < pPrev->len) {
+    readChunk(&chunk);
 
-    switch (currentChunk.ID) {	// Check which chunk we just read
+    switch (chunk.ID) {	// Check which chunk we just read
 
     case _3DS_OBJECT_MESH:	// This lets us know that we are reading a new object
       // We found a new object, so let's read in it's info using recursion
-      nextObjectChunk(pModel, pObject, &currentChunk);
+      nextObject(pModel, pObject, &chunk);
       break;
     case _3DS_OBJECT_VERTICES:	// This is the objects vertices
-      readVertices(pObject, &currentChunk);
+      readVertices(pObject, &chunk);
       break;
     case _3DS_OBJECT_FACES:	// This is the objects face information
-      readVertexIndices(pObject, &currentChunk);
+      readVertex(pObject, &chunk);
       break;
     case _3DS_OBJECT_MATERIAL:	// This holds the material name that the object has
       // This chunk holds the name of the material that the object has assigned to it.
       // We now will read the name of the material assigned to this object
-      readObjectMaterial(pModel, pObject, &currentChunk);
+      readMaterial(pModel, pObject, &chunk);
       break;
-    case _3DS_OBJECT_UV:	// This holds the UV texture coordinates for the object
-      // This chunk holds all of the UV coordinates for our object.  Let's read them in.
-      readUVCoordinates(pObject, &currentChunk);
+    case _3DS_OBJECT_UV:	// This holds the UV texture coords for the object
+      // This chunk holds all of the UV coords for our object.  Let's read them in.
+      readUVCoords(pObject, &chunk);
       break;
     default:
-      currentChunk.bytesRead += fread(buffer, 1, currentChunk.length - currentChunk.bytesRead, fp);
+      chunk.read += fread(buffer, 1, chunk.len - chunk.read, fp);
       break;
     }
 
-    pPreviousChunk->bytesRead += currentChunk.bytesRead;
+    pPrev->read += chunk.read;
   }
   // Free the current chunk
-  //delete currentChunk;
-  //currentChunk = pPreviousChunk;
+  //delete chunk;
+  //chunk = pPrev;
 }
 
 /** handles all the information about the material (Texture) */
-void _3ds::nextMaterialChunk(t3dsModel *pModel, tChunk *pPreviousChunk)
+void _3ds::nextMaterial(t3dsModel *pModel, tChunk *pPrev)
 {
   int buffer[50000] = {0};	// This is used to read past unwanted data
-  tChunk currentChunk = {0};
+  tChunk chunk = {0};
 
-  while (pPreviousChunk->bytesRead < pPreviousChunk->length) {
-    readChunk(&currentChunk);
+  while (pPrev->read < pPrev->len) {
+    readChunk(&chunk);
 
-    switch (currentChunk.ID) {
+    switch (chunk.ID) {
     case _3DS_MATNAME:		// This chunk holds the name of the material
       // Here we read in the material name
-      currentChunk.bytesRead += fread(pModel->pMaterials[pModel->numMaterials - 1].strName, 1, currentChunk.length - currentChunk.bytesRead, fp);
+      chunk.read += fread(pModel->pMaterials[pModel->numMaterials - 1].strName, 1, chunk.len - chunk.read, fp);
       break;
     case _3DS_MATDIFFUSE:	// This holds the R G B color of our object
-      readColorChunk(&(pModel->pMaterials[pModel->numMaterials - 1]), &currentChunk);
+      readColor(&(pModel->pMaterials[pModel->numMaterials - 1]), &chunk);
       break;
     case _3DS_MATMAP:		// This is the header for the texture info
       // Proceed to read in the material information
-      nextMaterialChunk(pModel, &currentChunk);
+      nextMaterial(pModel, &chunk);
       break;
     case _3DS_MATMAPFILE:	// This stores the file name of the material
       // Here we read in the material's file name
-      currentChunk.bytesRead += fread(pModel->pMaterials[pModel->numMaterials - 1].strFile, 1, currentChunk.length - currentChunk.bytesRead, fp);
+      chunk.read += fread(pModel->pMaterials[pModel->numMaterials - 1].strFile, 1, chunk.len - chunk.read, fp);
       break;
     default:
-      currentChunk.bytesRead += fread(buffer, 1, currentChunk.length - currentChunk.bytesRead, fp);
+      chunk.read += fread(buffer, 1, chunk.len - chunk.read, fp);
       break;
     }
-    pPreviousChunk->bytesRead += currentChunk.bytesRead;
+    pPrev->read += chunk.read;
   }
   // Free the current chunk
-  //delete currentChunk;
-  //currentChunk = pPreviousChunk;
+  //delete chunk;
+  //chunk = pPrev;
 }
 
 /** reads in a chunk ID and it's length in bytes */
-void _3ds::readChunk(tChunk *pChunk)
+void _3ds::readChunk(tChunk *pchunk)
 {
   // The chunk ID is like _3DS_OBJECT or _3DS_MATERIAL.
-  pChunk->bytesRead = fread(&pChunk->ID, 1, 2, fp);
-  File::localEndian(&pChunk->ID, 2);
+  pchunk->read = fread(&pchunk->ID, 1, 2, fp);
+  File::localEndian(&pchunk->ID, 2);
 
   // Then, we read the length of the chunk which is 4 bytes.
-  pChunk->bytesRead += fread(&pChunk->length, 1, 4, fp);
-  File::localEndian(&pChunk->length, 4);
+  pchunk->read += fread(&pchunk->len, 1, 4, fp);
+  File::localEndian(&pchunk->len, 4);
 }
 
 /** reads in a string of characters */
-int _3ds::getString(char *pBuffer)
+int _3ds::getString(char *pbuffer)
 {
   int index = 0;
 
-  fread(pBuffer, 1, 1, fp);
-  while (*(pBuffer + index++) != 0) {
-    fread(pBuffer + index, 1, 1, fp);
+  fread(pbuffer, 1, 1, fp);
+  while (*(pbuffer + index++) != 0) {
+    fread(pbuffer + index, 1, 1, fp);
   }
 
-  return strlen(pBuffer) + 1;
+  return strlen(pbuffer) + 1;
 }
 
 /** reads in the RGB color data */
-void _3ds::readColorChunk(t3dsMaterialInfo *pMaterial, tChunk *pChunk)
+void _3ds::readColor(t3dsMaterialInfo *pMaterial, tChunk *pchunk)
 {
-  tChunk tempChunk = {0};
+  tChunk tmp = {0};
 
-  readChunk(&tempChunk); // Read the color chunk info
+  readChunk(&tmp); // Read the color chunk info
 
   // Read in the RGB color (3 bytes - 0 through 255)
-  tempChunk.bytesRead += fread(pMaterial->color, 1, tempChunk.length - tempChunk.bytesRead, fp);
+  tmp.read += fread(pMaterial->color, 1, tmp.len - tmp.read, fp);
 
-  pChunk->bytesRead += tempChunk.bytesRead;
+  pchunk->read += tmp.read;
 }
 
 /** reads in the indices for the vertex array */
-void _3ds::readVertexIndices(tObject *pObject, tChunk *pPreviousChunk)
+void _3ds::readVertex(tObject *pObject, tChunk *pPrev)
 {
   uint16_t index = 0;	// This is used to read in the current face index
 
   // Read in the number of faces that are in this object (int)
-  pPreviousChunk->bytesRead += fread(&pObject->numFaces, 1, 2, fp);
+  pPrev->read += fread(&pObject->numFaces, 1, 2, fp);
   File::localEndian(&pObject->numFaces, sizeof(int));
 
   // Alloc enough memory for the faces and initialize the structure
@@ -507,7 +508,7 @@ void _3ds::readVertexIndices(tObject *pObject, tChunk *pPreviousChunk)
     // The fourth value is a visibility flag for 3D Studio Max, we don't care about this.
     for (int j=0; j < 4; j++) {
       // Read the first vertice index for the current face
-      pPreviousChunk->bytesRead += fread(&index, 1, sizeof(index), fp);
+      pPrev->read += fread(&index, 1, sizeof(index), fp);
       File::localEndian(&index, sizeof(uint16_t));
       if (j < 3) // Store the index in our face structure.
         pObject->pFaces[i].vertIndex[j] = index;
@@ -515,18 +516,18 @@ void _3ds::readVertexIndices(tObject *pObject, tChunk *pPreviousChunk)
   }
 }
 
-/** reads in the UV coordinates for the object */
-void _3ds::readUVCoordinates(tObject *pObject, tChunk *pPreviousChunk)
+/** reads in the UV coords for the object */
+void _3ds::readUVCoords(tObject *pObject, tChunk *pPrev)
 {
-  // Read in the number of UV coordinates there are (int)
-  pPreviousChunk->bytesRead += fread(&pObject->numTexVertex, 1, 2, fp);
+  // Read in the number of UV coords there are (int)
+  pPrev->read += fread(&pObject->numTexVertex, 1, 2, fp);
   File::localEndian(&pObject->numTexVertex, sizeof(int));
 
-  // Allocate memory to hold the UV coordinates
+  // Allocate memory to hold the UV coords
   pObject->pTexVerts = new Vec2 [pObject->numTexVertex];
 
-  // Read in the texture coodinates (an array 2 float)
-  pPreviousChunk->bytesRead += fread(pObject->pTexVerts, 1, pPreviousChunk->length - pPreviousChunk->bytesRead, fp);
+  // Read in the texture coods (an array 2 float)
+  pPrev->read += fread(pObject->pTexVerts, 1, pPrev->len - pPrev->read, fp);
   for (int i=0; i < pObject->numTexVertex; i++) {
     File::localEndian(&pObject->pTexVerts[i].x, sizeof(float));
     File::localEndian(&pObject->pTexVerts[i].y, sizeof(float));
@@ -534,10 +535,10 @@ void _3ds::readUVCoordinates(tObject *pObject, tChunk *pPreviousChunk)
 }
 
 /** reads in the vertices for the object */
-void _3ds::readVertices(tObject *pObject, tChunk *pPreviousChunk)
+void _3ds::readVertices(tObject *pObject, tChunk *pPrev)
 {
   // Read in the number of vertices (int)
-  pPreviousChunk->bytesRead += fread(&(pObject->numVerts), 1, 2, fp);
+  pPrev->read += fread(&(pObject->numVerts), 1, 2, fp);
   File::localEndian(&pObject->numVerts, sizeof(int));
 
   //echo("readVertices: numVerts=%d", pObject->numVerts);
@@ -547,7 +548,7 @@ void _3ds::readVertices(tObject *pObject, tChunk *pPreviousChunk)
   memset(pObject->pVerts, 0, sizeof(Vec3) * pObject->numVerts);
 
   // Read in the array of vertices (an array of 3 floats)
-  pPreviousChunk->bytesRead += fread(pObject->pVerts, 1, pPreviousChunk->length - pPreviousChunk->bytesRead, fp);
+  pPrev->read += fread(pObject->pVerts, 1, pPrev->len - pPrev->read, fp);
 
   // Now we should have all of the vertices read in.  Because 3D Studio Max
   // Models with the Z-Axis pointing up (strange and ugly I know!), we need
@@ -562,24 +563,24 @@ void _3ds::readVertices(tObject *pObject, tChunk *pPreviousChunk)
     File::localEndian(&pObject->pVerts[i].y, sizeof(float));
     File::localEndian(&pObject->pVerts[i].z, sizeof(float));
 
-    float fTempY = pObject->pVerts[i].y;
+    float fTmpY = pObject->pVerts[i].y;
 
     // Set the Y value to the Z value
     pObject->pVerts[i].y = pObject->pVerts[i].z;
 
     // Set the Z value to the Y value,
     // but negative Z because 3D Studio max does the opposite.
-    pObject->pVerts[i].z = -fTempY;
+    pObject->pVerts[i].z = -fTmpY;
   }
 }
 
 /** reads in the material name assigned to the object and sets the materialID */
-void _3ds::readObjectMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPreviousChunk)
+void _3ds::readMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPrev)
 {
   char strMaterial[255] = {0};	// This is used to hold the objects material name
   int buffer[50000] = {0};	// This is used to read past unwanted data
 
-  pPreviousChunk->bytesRead += getString(strMaterial);
+  pPrev->read += getString(strMaterial);
 
   // Now that we have a material name, we need to go through all of the materials
   // and check the name against each material.  When we find a material in our material
@@ -609,7 +610,7 @@ void _3ds::readObjectMaterial(t3dsModel *pModel, tObject *pObject, tChunk *pPrev
     }
   }
   // Read past the rest of the chunk since we don't care about shared vertices
-  pPreviousChunk->bytesRead += fread(buffer, 1, pPreviousChunk->length - pPreviousChunk->bytesRead, fp);
+  pPrev->read += fread(buffer, 1, pPrev->len - pPrev->read, fp);
 }
 
 /** computes the normals and vertex normals of the objects */
@@ -635,7 +636,7 @@ void _3ds::computeNormals(t3dsModel *pModel)
     tObject *pObject = &(pModel->pObject[index]); // Get the current object
 
     Vec3 *pNormals     = new Vec3 [pObject->numFaces];
-    Vec3 *pTempNormals = new Vec3 [pObject->numFaces];
+    Vec3 *pTmpNormals  = new Vec3 [pObject->numFaces];
     pObject->pNormals  = new Vec3 [pObject->numVerts];
     //echo("numFaces=%d", pObject->numFaces);
 
@@ -649,7 +650,7 @@ void _3ds::computeNormals(t3dsModel *pModel)
       v1 = Vec3::subVect(vPoly[0], vPoly[2]); // Get the vector of the polygon (we just need 2 sides for the normal)
       v2 = Vec3::subVect(vPoly[2], vPoly[1]); // Get a second r of the polygon
       vNormal  = Vec3::crossVect(v1, v2); // Return the cross product of the 2 vectors (normalize vector, but not a unit vector)
-      pTempNormals[i] = vNormal;   // Save the un-normalized normal for the vertex normals
+      pTmpNormals[i] = vNormal;   // Save the un-normalized normal for the vertex normals
       vNormal  = Vec3::normVect(vNormal); // Normalize the cross product to give us the polygons normal
       pNormals[i] = vNormal;	// Assign the normal to the list of normals
     }
@@ -665,7 +666,7 @@ void _3ds::computeNormals(t3dsModel *pModel)
         if (pObject->pFaces[j].vertIndex[0] == i ||
             pObject->pFaces[j].vertIndex[1] == i ||
             pObject->pFaces[j].vertIndex[2] == i) {
-          vSum = Vec3::addVect(vSum, pTempNormals[j]);// Add the un-normalized normal of the shared face
+          vSum = Vec3::addVect(vSum, pTmpNormals[j]);// Add the un-normalized normal of the shared face
           shared++;		// Increase the number of shared triangles
         }
       }
@@ -678,7 +679,7 @@ void _3ds::computeNormals(t3dsModel *pModel)
     }
 
     // Free our memory and start over on the next object
-    if (pTempNormals) delete[] pTempNormals;
+    if (pTmpNormals) delete[] pTmpNormals;
     if (pNormals) delete[] pNormals;
   }
 }
