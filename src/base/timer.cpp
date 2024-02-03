@@ -76,7 +76,7 @@ float Timer::rate()
   if (time_cycles == 0)
     return 5.0;	// 5 sec
   else
-    return (float) (::g.gui.getCycles() / time_cycles);
+    return static_cast<float>((::g.gui.getCycles() / time_cycles));
 }
 
 bool Timer::isRate(uint16_t _rate)
@@ -101,7 +101,7 @@ float Timer::delta()
 
   double difftime = Timer::diffDates(lasttime, nowtime);
   lasttime = nowtime;
-  return (float)difftime;
+  return static_cast<float>(difftime);
 }
 
 #if 0 //notused

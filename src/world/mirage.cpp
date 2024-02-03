@@ -97,7 +97,7 @@ void Mirage::parser(char *l)
       else if (! stringcmp(pmode, "orbit")) {
         orbit = true;
         x0x0y0y0 = pos.x*pos.x + pos.y*pos.y;
-        maxx = maxy = (float) sqrt(x0x0y0y0);
+        maxx = maxy = static_cast<float>(sqrt(x0x0y0y0));
         minx = miny = -maxx;
         persist = false;
       }
@@ -201,15 +201,15 @@ void Mirage::changePermanent(float lasting)
 {
   if (turn) {
     pos.az -= sign * (lasting * azspeed);
-    pos.az -= sign * (M_2PI * (float) floor(pos.az / M_2PI));
+    pos.az -= sign * (M_2PI * static_cast<float>(floor(pos.az / M_2PI)));
   }
   if (roll) {
     pos.ay -= sign * (lasting * ayspeed);
-    pos.ay -= sign * (M_2PI * (float) floor(pos.ay / M_2PI));
+    pos.ay -= sign * (M_2PI * static_cast<float>(floor(pos.ay / M_2PI)));
   }
   if (tilt) {
     pos.ax -= sign * (lasting * axspeed);
-    pos.ax -= sign * (M_2PI * (float) floor(pos.ax / M_2PI));
+    pos.ax -= sign * (M_2PI * static_cast<float>(floor(pos.ax / M_2PI)));
   }
   if (orbit) {
     float sx, sy, dx, dy;
@@ -227,12 +227,12 @@ void Mirage::changePermanent(float lasting)
     }
     dy = sy / ::g.timer.rate();
     pos.y += dy;
-    dx = (float) sqrt(fabs(x0x0y0y0 - pos.y*pos.y));
+    dx = static_cast<float>(sqrt(fabs(x0x0y0y0 - pos.y*pos.y)));
     pos.x = sx * dx;
   }
   if (circular) {
     anglerot -= sign * (lasting * aspeed);
-    anglerot -= sign * (M_2PI * (float) floor(anglerot / M_2PI));
+    anglerot -= sign * (M_2PI * static_cast<float>(floor(anglerot / M_2PI)));
     pos.x = centrex + (radius * cos(anglerot));
     pos.y = centrey + (radius * sin(anglerot));
     pos.az = anglerot + initialaz;

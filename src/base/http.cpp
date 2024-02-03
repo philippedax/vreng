@@ -609,7 +609,7 @@ int32_t Http::read_long()
 float Http::read_float()
 {
   int32_t n = read_long();
-  return (float) *((float *) &n);
+  return static_cast<float>(*((float *) &n));
 }
 
 /** returns a short */

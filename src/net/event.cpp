@@ -110,7 +110,7 @@ int netTimeout()
 #ifdef REDUCE_BW
   nsrc = Source::getSourcesNumber() - 1;
   nsrc = (nsrc <= 1) ? 1 : nsrc;
-  refresh = DEF_REFRESH_TIMEOUT * ((1.0 + (float) log((double) nsrc)) / 2);
+  refresh = DEF_REFRESH_TIMEOUT * ((1.0 + static_cast<float>(log((double) nsrc)) / 2));
   //echo("refresh=%.2f nsrc=%d", refresh, nsrc);
 #endif
   

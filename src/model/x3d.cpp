@@ -1225,7 +1225,7 @@ void X3dTimeSensor::updateFraction(bool _anim)
     int diffms = (int) (1000*diffSec + diffMilliSec);
     //echo("%s says: difference of %d ms", name.c_str(), diffms);
 
-    float fractionIncrement = (float)diffms/cycleInterval;
+    float fractionIncrement = static_cast<float>(diffms/cycleInterval);
 
     fraction += fractionIncrement;
     if (fraction > 1) {

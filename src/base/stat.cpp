@@ -171,19 +171,19 @@ void statTimings(FILE *fout)
 
   fprintf(fout,"elapsed time    : %5.2fs\n", d);
   fprintf(fout,"init time       : %5.2fs, %4.2f%%\n", 
-       (float) timer.init.cumul_time, (float) 100*timer.init.cumul_time/d);
+       static_cast<float>(timer.init.cumul_time), static_cast<float>(100*timer.init.cumul_time/d));
   fprintf(fout,"simul time      : %5.2fs, %4.2f%%\n", 
-       (float) timer.simul.cumul_time, (float) 100*timer.simul.cumul_time/d);
+       static_cast<float>(timer.simul.cumul_time), static_cast<float>(100*timer.simul.cumul_time/d));
   fprintf(fout,"render time     : %5.2fs, %4.2f%%\n", 
-       (float) timer.render.cumul_time, (float) 100*timer.render.cumul_time/d);
+       static_cast<float>(timer.render.cumul_time), static_cast<float>(100*timer.render.cumul_time/d));
   fprintf(fout,"object time     : %5.2fs, %4.2f%%\n", 
-       (float) timer.object.cumul_time, (float) 100*timer.object.cumul_time/d);
+       static_cast<float>(timer.object.cumul_time), static_cast<float>(100*timer.object.cumul_time/d));
   fprintf(fout,"image time      : %5.2fs, %4.2f%%\n", 
-       (float) timer.image.cumul_time, (float) 100*timer.image.cumul_time/d);
+       static_cast<float>(timer.image.cumul_time), static_cast<float>(100*timer.image.cumul_time/d));
   fprintf(fout,"sql time        : %5.2fs, %4.2f%%\n", 
-       (float) timer.sql.cumul_time, (float) 100*timer.sql.cumul_time/d);
+       static_cast<float>(timer.sql.cumul_time), static_cast<float>(100*timer.sql.cumul_time/d));
   fprintf(fout,"idle time       : %5.2fs, %4.2f%%\n", 
-       (float) timer.idle.cumul_time, (float) 100*timer.idle.cumul_time/d);
+       static_cast<float>(timer.idle.cumul_time), static_cast<float>(100*timer.idle.cumul_time/d));
   fprintf(fout,"cycles          : %d\n", ::g.gui.getCycles());
   fprintf(fout,"cycles/s        : %5.2f/s\n", timer.rate());
 }
@@ -193,7 +193,7 @@ void statNetwork(FILE *fout)
   fprintf(fout, "### Network ###\n");
 
   if (!d) d = ::g.timer.net.stop();
-  float bw = (float)((sum_bytes_sent + sum_bytes_recvd + 2 * (8 + 20)) * 8) / d;
+  float bw = static_cast<float>(((sum_bytes_sent + sum_bytes_recvd + 2 * (8 + 20))) * 8) / d;
 
   if (sum_pkts_sent) {
     fprintf(fout, "pkts sent       : %d\n", sum_pkts_sent);

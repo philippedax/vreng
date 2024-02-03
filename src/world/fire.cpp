@@ -255,7 +255,7 @@ void Fire::render()
 
   glPushMatrix();
   glTranslatef(pos.x, pos.y, pos.z);
-  float seed = ((float) drand48() * 2) - 1.;
+  float seed = (static_cast<float>(drand48()) * 2) - 1.;
   glRotatef(seed * 45 * (nf%4), 0, 0, 1);  // billboard effect
   glDisable(GL_CULL_FACE);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE);

@@ -191,11 +191,11 @@ value deplacement_to_Objet(value px, value py, value pz, value ori, value depl)
 {
   int deplacement;
 
-  float posx = (float) Double_val(px);
-  float posy = (float) Double_val(py);
-  float posz = (float) Double_val(pz);
-  float orient = (float) Double_val(ori);
-  deplacement = (int) Int_val(depl);
+  float posx = static_cast<float>(Double_val(px));
+  float posy = static_cast<float>(Double_val(py));
+  float posz = static_cast<float>(Double_val(pz));
+  float orient = static_cast<float>(Double_val(ori));
+  deplacement = static_cast<int>(Int_val(depl));
 
   // Deplacement
   if (! deplacement) {

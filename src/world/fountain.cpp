@@ -93,8 +93,8 @@ void Fountain::render()
   glDisable(GL_LIGHTING);
 
   if (! onecolor) {
-    color[0] = (rand()%2) ? (float) drand48() : 1;
-    color[1] = .5 + (float) drand48()*.5;
+    color[0] = (rand()%2) ? static_cast<float>(drand48()) : 1;
+    color[1] = .5 + static_cast<float>(drand48())*.5;
     color[2] = 1;
   }
   glColor3fv(color);

@@ -172,7 +172,7 @@ void Guy::reader(void *_guy, Http *http)
     line[strlen(line) - 1] = '\0';
     l = strtok(line, " ");
     for (int i=0; i < pts; i++) {
-      guy->curve[j].coords[i] = (float) atof(l);
+      guy->curve[j].coords[i] = static_cast<float>(atof(l));
       l = strtok(NULL, " ");
     }
 
@@ -180,7 +180,7 @@ void Guy::reader(void *_guy, Http *http)
     line[strlen(line) - 1] = '\0';
     l = strtok(line, " ");
     for (int i=0; i < pts; i++) {
-      guy->curve[j].angles[i] = (float) atof(l);
+      guy->curve[j].angles[i] = static_cast<float>(atof(l));
       l = strtok(NULL, " ");
     }
   }

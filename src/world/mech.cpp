@@ -602,9 +602,9 @@ void Mech::inits()
 {
   initMobileObject(0);
 
-  rotz = (float) RAD2DEG(pos.az);
-  roty = (float) RAD2DEG(pos.ax);
-  rotx = (float) 90;
+  rotz = static_cast<float>(RAD2DEG(pos.az));
+  roty = static_cast<float>(RAD2DEG(pos.ax));
+  rotx = static_cast<float>(90);
 
   draw();
 }
@@ -629,7 +629,7 @@ void Mech::render()
     float dx =  mech_radius * cos(mech_radian);
     float dz = -mech_radius * sin(mech_radian);
     glTranslatef(dx, 0, dz);
-    glRotatef((float) RAD2DEG(mech_radian), 0, 1, 0);
+    glRotatef(static_cast<float>(RAD2DEG(mech_radian)), 0, 1, 0);
   }
 
   display();

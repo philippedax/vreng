@@ -109,18 +109,18 @@ void Clock::changePermanent(float lasting)
 
   switch (needle % 3) {
     case SECOND:	// secondes
-      pos.ax = ((float) sec * M_PI / 30) + M_PI_2;
+      pos.ax = (static_cast<float>(sec * M_PI / 30)) + M_PI_2;
       break;
     case MINUTE:	// minutes
       if (min != min_last) {
-        pos.ax = ((float) min * M_PI / 30) + M_PI_2;
+        pos.ax = (static_cast<float>(min * M_PI / 30)) + M_PI_2;
         min_last = min;
       }
       break;
     case HOUR:	// hours
       if (hour != hour_last) {
-        pos.ax = ((float) hour * M_PI / 6) +
-                 ((float) min * M_PI / 360) + M_PI_2;
+        pos.ax = (static_cast<float>(hour * M_PI / 6)) +
+                 (static_cast<float>(min * M_PI / 360)) + M_PI_2;
         hour_last = hour;
       }
       break;
@@ -128,7 +128,7 @@ void Clock::changePermanent(float lasting)
   sec_last = sec;
 
   // Can be used with changing Bgcolor
-  daytime = 12 - 4 * Cos(360 * (float) yday/365.);
+  daytime = 12 - 4 * Cos(360 * static_cast<float>(yday/365.));
   risetime = 13 - daytime/2;
   falltime = 13 + daytime/2;
 }

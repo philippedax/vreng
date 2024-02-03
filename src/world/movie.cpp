@@ -340,9 +340,9 @@ void Movie::changePermanent(float lasting)
   gettimeofday(&tcurr, NULL);
   	
   // current frame
-  frame = (uint16_t) floor(((((float) (tcurr.tv_sec - tstart.tv_sec) * 1000.) +
-	                     ((float) (tcurr.tv_usec - tstart.tv_usec) / 1000.)) / 1000.
-                           ) * (float) rate);
+  frame = (uint16_t) floor((((static_cast<float>((tcurr.tv_sec - tstart.tv_sec) * 1000.)) +
+	                     (static_cast<float>((tcurr.tv_usec - tstart.tv_usec) / 1000.)) / 1000.)
+                           ) * static_cast<float>(rate));
 
   for (uint16_t fdelta=0; fdelta < (frame-finter); fdelta++) {
     if (fdelta >= (uint16_t) fps) {

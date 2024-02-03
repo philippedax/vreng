@@ -99,7 +99,7 @@ static int SafeSize(int i)
 /* Resize the texture since gluScaleImage doesn't work on everything */
 static void Resize(int components, const png_bytep d1, int w1, int h1, png_bytep d2, int w2, int h2)
 {
-  const float sx = (float) w1/w2, sy = (float) h1/h2;
+  const float sx = static_cast<float>(w1/w2), sy = static_cast<float>(h1/h2);
   int x, y, xx, yy, c;
   png_bytep d;
 

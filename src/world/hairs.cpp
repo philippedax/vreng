@@ -213,7 +213,7 @@ void Hair::animate(float dt, Vector3 depl)
       v = pp[-1].p - pp[0].p;
       l = v.length2();
       if (l > MAXL) {
-        v *= (1 - MAXL2 / (float)sqrt(l));
+        v *= (1 - MAXL2 / static_cast<float>(sqrt(l)));
         pp->p += v;
         pp->v *= 1 - FROT;
       }

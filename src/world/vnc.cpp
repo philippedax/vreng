@@ -330,8 +330,8 @@ void Vnc::connectServer()
 
   setTexture(0);	// without mipmaps
 
-  u = (float) vncClient->realScreenWidth / tex_width;
-  v = (float) vncClient->realScreenHeight / tex_height;
+  u = static_cast<float>(vncClient->realScreenWidth / tex_width);
+  v = static_cast<float>(vncClient->realScreenHeight / tex_height);
   //echo("real_width=%d tex_width=%d u=%.2f", vncClient->realScreenWidth, tex_width, u);
   //echo("real_height=%d tex_height=%d v=%.2f", vncClient->realScreenHeight, tex_height, v);
 }

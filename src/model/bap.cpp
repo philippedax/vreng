@@ -116,7 +116,7 @@ uint8_t Bap::parse(char *bapline)
     l = strtok(NULL, " ");
     l = strtok(NULL, " ");
     nbr_frames = atoi(l);
-    //bap_rate = (float) atof(l);
+    //bap_rate = static_cast<float>(atof(l));
     //vreng_rate = ::g.times.getRate();
     //ratio_rate = vreng_rate / bap_rate;
     //echo("parse bap3.2: num_params=%d vreng_rate=%.2f bap_rate=%.2f ratio_rate=%.2f", num_params, vreng_rate, bap_rate, ratio_rate);
@@ -161,12 +161,12 @@ uint8_t Bap::parse(char *bapline)
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
 
         if (i >= TR_VERTICAL && i <= TR_FRONTAL)	// translations
-          ba[i] = (float) atof(l);			// magic formula (300)
+          ba[i] = static_cast<float>(atof(l));			// magic formula (300)
         else {  	// angles
           if (num_params == NUM_BAPS_V32)
-            ba[i] = (float) atof(l) / BAPV32_DIV;	// magic formula (555) //GB
+            ba[i] = static_cast<float>(atof(l) / BAPV32_DIV);	// magic formula (555) //GB
           else
-            ba[i] = (float) atof(l) / BAPV31_DIV;	// magic formula (1745)
+            ba[i] = static_cast<float>(atof(l) / BAPV31_DIV);	// magic formula (1745)
         }
         trace(DBG_MAN, "bap: l=%s ba[%d]=%.1f", l, i, ba[i]);
       }
@@ -191,9 +191,9 @@ uint8_t Bap::parse(char *bapline)
         if (bit[i] == 0) continue;
         if ((l = strtok(NULL, " ")) == NULL) break;	// no more values
         if (baptype == TYPE_FAP_V20)
-          fa[i] = (float) atof(l) / FAPV20_DIV;		// fap formula
+          fa[i] = static_cast<float>(atof(l) / FAPV20_DIV);		// fap formula
         else
-          fa[i] = (float) atof(l) / FAPV21_DIV;		// fap formula
+          fa[i] = static_cast<float>(atof(l) / FAPV21_DIV);		// fap formula
       }
       if (num_frame + 1 == nbr_frames) {
         //echo("end of fap frames");

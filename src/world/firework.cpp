@@ -132,8 +132,8 @@ void Firework::changePosition(float dt)
     }
     else {
       particles[i].rgb[0] = 1;
-      particles[i].rgb[1] = (float) drand48();
-      particles[i].rgb[2] = (float) drand48();
+      particles[i].rgb[1] = static_cast<float>(drand48());
+      particles[i].rgb[2] = static_cast<float>(drand48());
     }
   }
 }

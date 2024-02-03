@@ -234,7 +234,7 @@ int File::read_long_le(FILE *f)
 float File::read_float(FILE *f)
 {
   int v = read_long(f);
-  return (float) *(float *)&v;
+  return static_cast<float>(*(float *)&v);
 }
 
 /* Reads a float in little-endian */

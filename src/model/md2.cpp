@@ -240,7 +240,7 @@ void Md2::updBbox(float x, float y, float z)
 
 float Md2::getScale()
 {
-  float radius = (float) fabs(bbox.xmin);
+  float radius = static_cast<float>(fabs(bbox.xmin));
 
   if (fabs(bbox.xmax) > radius) radius = bbox.xmax;
   if (fabs(bbox.ymin) > radius) radius = bbox.ymin;

@@ -225,7 +225,7 @@ void Off::getOff3f(char *s, float *a, float *b, float *c, float scale)
         z = i+1;
     }
   }
-  *a = (float) atof(&s[x]) / scale;
-  *b = (float) atof(&s[y]) / scale;
-  *c = (float) atof(&s[z]) / scale;
+  *a = static_cast<float>(atof(&s[x]) / scale);
+  *b = static_cast<float>(atof(&s[y]) / scale);
+  *c = static_cast<float>(atof(&s[z]) / scale);
 }

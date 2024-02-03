@@ -100,14 +100,14 @@ void Grid::draw()
   glBegin(GL_LINES);
   for (int j = -grid_height; j <= grid_height; j++) {
     float x, y, z;
-    z = (float) (j * height) / i_height;
+    z = static_cast<float>((j * height)) / i_height;
     for (int i = -i_width; i < i_width; i++) {
-      y = (float) (i * width) / i_width;
+      y = static_cast<float>((i * width)) / i_width;
       glVertex3f(-depth, y, z);
       glVertex3f( depth, y, z);
     }
     for (int i = -i_depth; i < i_depth; i++) {
-      x = (float) (i * depth) / i_depth;
+      x = static_cast<float>((i * depth)) / i_depth;
       glVertex3f(x, -width, z);
       glVertex3f(x,  width, z);
     }
@@ -116,9 +116,9 @@ void Grid::draw()
   if (grid3d) {
     for (int j = -i_width; j < i_width; j++) {
       float x, y;
-      y = (float) (j * width) / i_width;
+      y = static_cast<float>((j * width)) / i_width;
       for (int i = -i_depth; i < i_depth; i++) {
-        x = (float) (i * depth) / i_depth;
+        x = static_cast<float>((i * depth)) / i_depth;
         glVertex3f(x, y, -height);
         glVertex3f(x, y,  height);
       }

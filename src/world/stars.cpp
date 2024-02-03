@@ -71,16 +71,16 @@ void Stars::funcs() {}
 
 void Stars::create(int n, int d)
 {
-  stars[n].x[0] = (float) (rand() % maxpos - maxpos/2);
-  stars[n].y[0] = (float) (rand() % maxpos - maxpos/2);
-  stars[n].v[0] = (float) (rand() % maxpos /*+ d*/);
+  stars[n].x[0] = static_cast<float>((rand()) % maxpos - maxpos/2);
+  stars[n].y[0] = static_cast<float>((rand()) % maxpos - maxpos/2);
+  stars[n].v[0] = static_cast<float>((rand()) % maxpos /*+ d*/);
   stars[n].x[1] = stars[n].x[0];
   stars[n].y[1] = stars[n].y[0];
   stars[n].v[1] = stars[n].v[0];
   if (rand() % 10 == 0) {
-    stars[n].dx = (float) (rand() % 100 - 100/2);
-    stars[n].dy = (float) (rand() % 100 - 100/2);
-    stars[n].dr = (float) (rand() % 25 - 25/2);
+    stars[n].dx = static_cast<float>((rand()) % 100 - 100/2);
+    stars[n].dy = static_cast<float>((rand()) % 100 - 100/2);
+    stars[n].dr = static_cast<float>((rand()) % 25 - 25/2);
   } else {
     stars[n].dx = 0;
     stars[n].dy = 0;
@@ -139,8 +139,6 @@ void Stars::draw(int n)
     x1 += 2*pos.x;
     y1 += 2*pos.y;
 
-    //color[1] = (float) ((warp - speed) / warp);
-    //color[2] = (float) ((warp - speed) / warp);
     glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, color);
     if (fabs(x0 - x1) < 1. && fabs(y0 - y1) < 1.) {
       glBegin(GL_POINTS);

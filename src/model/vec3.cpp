@@ -75,7 +75,7 @@ Vec3 Vec3::crossVect(Vec3 v1, Vec3 v2)
 // returns the normal of a vector
 Vec3 Vec3::normVect(Vec3 v)
 {
-  float magnitude = (float) Mag(v);  // Get the magnitude
+  float magnitude = static_cast<float>(Mag(v));  // Get the magnitude
 
   v.x /= magnitude;
   v.y /= magnitude;

@@ -163,7 +163,7 @@ float Particle::timedelta()
 
   double difftime = Timer::diffDates(begintime, endtime);
   begintime = endtime;
-  return (float)difftime;
+  return static_cast<float>(difftime);
 }
 
 void Particle::generate(tParticle *p, float dt)
@@ -177,41 +177,41 @@ void Particle::generate(tParticle *p, float dt)
 
   switch (system) {
   case WATERFALL:
-    p->vel[0] = 2*((float) drand48()-.5);
-    p->vel[1] = 2*((float) drand48()-.5);
+    p->vel[0] = 2*(static_cast<float>(drand48())-.5);
+    p->vel[1] = 2*(static_cast<float>(drand48())-.5);
     p->vel[2] = 0;
-    p->damp = .45*(float) drand48();
+    p->damp = .45*static_cast<float>(drand48());
     break;
   case FOUNTAIN:
-    p->vel[0] = 2*((float) drand48()-.5);
-    p->vel[1] = 2*((float) drand48()-.5);
+    p->vel[0] = 2*(static_cast<float>(drand48())-.5);
+    p->vel[1] = 2*(static_cast<float>(drand48())-.5);
     p->vel[2] = .75*speed;
-    p->damp = .35*(float) drand48();
+    p->damp = .35*static_cast<float>(drand48());
     break;
   case FIREWORK:
     points = true;
-    p->vel[0] = 8*((float) drand48()-.5);
-    p->vel[1] = 8*((float) drand48()-.5);
-    p->vel[2] = 8*((float) drand48()-.5);
-    p->damp = .35*(float) drand48();
+    p->vel[0] = 8*(static_cast<float>(drand48())-.5);
+    p->vel[1] = 8*(static_cast<float>(drand48())-.5);
+    p->vel[2] = 8*(static_cast<float>(drand48())-.5);
+    p->damp = .35*static_cast<float>(drand48());
     break;
   case SNOW:
     points = true;
-    p->vel[0] = 12*((float) drand48()-.5);
-    p->vel[1] = 12*((float) drand48()-.5);
+    p->vel[0] = 12*(static_cast<float>(drand48())-.5);
+    p->vel[1] = 12*(static_cast<float>(drand48())-.5);
     p->vel[2] = .2*speed;
-    p->damp = .25*(float) drand48();
+    p->damp = .25*static_cast<float>(drand48());
     break;
   case RAIN:
     points = false;
-    p->vel[0] = 10*((float) drand48()-.5);
-    p->vel[1] = 10*((float) drand48()-.5);
+    p->vel[0] = 10*(static_cast<float>(drand48())-.5);
+    p->vel[1] = 10*(static_cast<float>(drand48())-.5);
     p->vel[2] = 3*speed;
-    p->damp = .15*(float) drand48();
+    p->damp = .15*static_cast<float>(drand48());
     break;
   }
   p->alive = true;
-  timestep(p, dt * (float) drand48());
+  timestep(p, dt * static_cast<float>(drand48()));
 }
 
 /**
@@ -319,8 +319,8 @@ void Particle::render()
   glDisable(GL_LIGHTING);
 
   if (! onecolor) {
-    color[0] = (rand()%2) ? (float) drand48() : 1;
-    color[1] = .5 + (float) drand48()*.5;
+    color[0] = (rand()%2) ? static_cast<float>(drand48()) : 1;
+    color[1] = .5 + static_cast<float>(drand48()*.5);
     color[2] = 1;
   }
   glColor3fv(color);

@@ -56,7 +56,7 @@ void Ball::defaults()
 {
   lspeed = LSPEED;
   zspeed = ZSPEED;
-  aspeed = ASPEED; // * (float)drand48();
+  aspeed = ASPEED; // * static_cast<float>(drand48());
   gravity = GRAVITY / 2;
   ttl = TTL;
   taken = false;
@@ -125,8 +125,8 @@ Ball::Ball(WO *cauldron, void *d, time_t s, time_t u)
 
   /* random position */
   srand((uint32_t) time(NULL));
-  pos.x = cauldron->pos.x + (float)drand48() * 2 -1;
-  pos.y = cauldron->pos.y + (float)drand48() * 2 -1;
+  pos.x = cauldron->pos.x + static_cast<float>(drand48()) * 2 -1;
+  pos.y = cauldron->pos.y + static_cast<float>(drand48()) * 2 -1;
   pos.z = cauldron->pos.z + 1;	// + 1m
 }
 
@@ -237,8 +237,8 @@ bool Ball::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
   case BALL_TYPE:
-    pcur->pos.x += ((float) drand48() * 2 - 1) * RADIUS / 2;
-    pcur->pos.y += ((float) drand48() * 2 - 1) * RADIUS / 2;
+    pcur->pos.x += (static_cast<float>(drand48()) * 2 - 1) * RADIUS / 2;
+    pcur->pos.y += (static_cast<float>(drand48()) * 2 - 1) * RADIUS / 2;
     break;
   case USER_TYPE:
     if (! taken) {

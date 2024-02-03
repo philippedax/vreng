@@ -424,15 +424,15 @@ void Humanoid::changePermanent(float lasting)
       for (int i=1; i <= num_params; i++) {
         if (! bap->isMask(i)) continue;
         if (i >= TR_VERTICAL && i <= TR_FRONTAL) {	// 170..172 translations
-          bap->setBap(i, (float) atof(p)); // / TR_DIV));	// magic formula (300)
+          bap->setBap(i, static_cast<float>(atof(p)); // / TR_DIV)));	// magic formula (300)
         }
         else {  // angles
           switch (baptype) {
           case TYPE_BAP_V31:
-            bap->setBap(i, (float) (atof(p) / BAPV31_DIV)); // magic formula (1745)
+            bap->setBap(i, static_cast<float>((atof(p) / BAPV31_DIV))); // magic formula (1745)
             break;
           case TYPE_BAP_V32:
-            bap->setBap(i, (float) (atof(p) / BAPV32_DIV)); // magic formula (555)
+            bap->setBap(i, static_cast<float>((atof(p) / BAPV32_DIV))); // magic formula (555)
             break;
           }
           trace(DBG_MAN, "bap: p=%s ba[%d]=%.2f", p, i, bap->getBap(i));

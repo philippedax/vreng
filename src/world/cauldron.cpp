@@ -64,8 +64,8 @@ bool Cauldron::whenIntersect(WO *pcur, WO *pold)
   case BALL_TYPE:
     srand((uint32_t) time(NULL));
     if (pcur->pos.z > pos.z + DELTAZ) {
-      pcur->pos.x += ((float) drand48() * 2 -1) * Ball::RADIUS / 2;
-      pcur->pos.y += ((float) drand48() * 2 -1) * Ball::RADIUS / 2;
+      pcur->pos.x += (static_cast<float>(drand48()) * 2 -1) * Ball::RADIUS / 2;
+      pcur->pos.y += (static_cast<float>(drand48()) * 2 -1) * Ball::RADIUS / 2;
     }
     else pcur->pos.z += DELTAZ;	// jump upon cauldron
     break;

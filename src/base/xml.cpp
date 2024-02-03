@@ -42,25 +42,25 @@ int Xml::string2Coord(char *strpos, float *tmpx, float *tmpy, float *tmpz, float
 
   ptok = strtok(strpos, ",");
   if (ptok) {
-    *tmpx = (float) atof(ptok);
+    *tmpx = static_cast<float>(atof(ptok));
   }
   else return -4;
 
   ptok =  strtok(NULL, ",");
   if (ptok) {
-    *tmpy = (float) atof(ptok);
+    *tmpy = static_cast<float>(atof(ptok));
   }
   else return -3;
 
   ptok =  strtok(NULL, ",");
   if (ptok) {
-    *tmpz = (float) atof(ptok);
+    *tmpz = static_cast<float>(atof(ptok));
   }
   else return -2;
 
   ptok = strtok(NULL, ",");
   if (ptok) {
-    *tmporiz = (float) atof(ptok);
+    *tmporiz = static_cast<float>(atof(ptok));
   }
   else return -1;
 

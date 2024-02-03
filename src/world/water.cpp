@@ -189,7 +189,7 @@ bool Water::whenIntersect(WO *pcur, WO *pold)
       first = false;
     }
     pcur->pos.z += 2 * Ball::DELTAZ;
-    pcur->pos.ay = DEG2RAD((float) floor(3 * amplitude * freq * (off-MAX_OFF/2)));
+    pcur->pos.ay = DEG2RAD(static_cast<float>(floor(3 * amplitude * freq * (off-MAX_OFF/2))));
     }
     break;
 

@@ -762,9 +762,9 @@ void Body::loadBodyParts(FILE *f)
         if (! stringcmp(l, "jp=")) {
           l = skipEqual(l);
           l++;  // "
-          jp.x[bpindex] = (float)atof(l) / bscale; l = strtok(NULL, SEP);
-          jp.y[bpindex] = (float)atof(l) / bscale; l = strtok(NULL, SEP);
-          jp.z[bpindex] = (float)atof(l) / bscale; l = strtok(NULL, SEP);
+          jp.x[bpindex] = static_cast<float>(atof(l) / bscale); l = strtok(NULL, SEP);
+          jp.y[bpindex] = static_cast<float>(atof(l) / bscale); l = strtok(NULL, SEP);
+          jp.z[bpindex] = static_cast<float>(atof(l) / bscale); l = strtok(NULL, SEP);
         }
         else if (*l == '/') break;  // eol
         else if (! stringcmp(l, "url=")) {

@@ -222,13 +222,13 @@ static bool string2Coord(const char* positions, float& x, float& y, float& z, fl
 
   x = y = z = az = 0;
   p = strtok_r(positions_copy, ",", &brkt);
-  if (p) x = (float) atof(p); else goto endstr;
+  if (p) x = static_cast<float>(atof(p)); else goto endstr;
   p = strtok_r(NULL, ",", &brkt);
-  if (p) y = (float) atof(p); else goto endstr;
+  if (p) y = static_cast<float>(atof(p)); else goto endstr;
   p = strtok_r(NULL, ",", &brkt);
-  if (p) z = (float) atof(p); else goto endstr;
+  if (p) z = static_cast<float>(atof(p)); else goto endstr;
   p = strtok_r(NULL, ",", &brkt);
-  if (p) az = (float) atof(p); else goto endstr;
+  if (p) az = static_cast<float>(atof(p)); else goto endstr;
 
   free(positions_copy);
   return true;

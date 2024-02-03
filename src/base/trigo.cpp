@@ -55,22 +55,22 @@ int radian2degree(float r)
 void initTrigo()
 {
   for (int d=0; d < 360; d++) {
-    double r = (float) d * (M_2PI / 360);
-    sintab[d] = (float) sin(r);
+    double r = static_cast<float>(d * (M_2PI / 360));
+    sintab[d] = static_cast<float>(sin(r));
   }
 }
 
 float Sin(double r)
 {
-  return ((float) sintab[radian2degree((float) r)]);
+  return (static_cast<float>(sintab[radian2degree(static_cast<float>(r))]));
 }
 
 float Cos(double r)
 {
-  return ((float) (Sin(r + (double) M_PI/2)));
+  return (static_cast<float>((Sin(r + (double) M_PI/2))));
 }
 
 float Tan(double r)
 {
-  return ((float) (Sin(r) / Cos(r)));
+  return (static_cast<float>((Sin(r) / Cos(r))));
 }

@@ -174,7 +174,7 @@ float Ase::getScale()
       }
     }
   }
-  return (float) sqrt(max_radius);
+  return static_cast<float>(sqrt(max_radius));
 }
 
 void Ase::setScale(float scale)

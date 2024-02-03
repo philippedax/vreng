@@ -688,8 +688,8 @@ V3 VjcMessage::readPoint2D()
   V3 point;
 
   //dax VJC_CHECK_OVERFLOW_2(2*sizeof(int32_t))
-  point.v[0] = ((float) read32());
-  point.v[1] = ((float) read32());
+  point.v[0] = (static_cast<float>(read32()));
+  point.v[1] = (static_cast<float>(read32()));
   point.v[2] = 0;
   return point;
 }
@@ -699,7 +699,7 @@ V3 VjcMessage::readPoint3D()
   V3 point = readPoint2D();
 
   //dax VJC_CHECK_OVERFLOW_2(sizeof(int32_t))
-  point.v[2] = ((float) read32());
+  point.v[2] = (static_cast<float>(read32()));
   return point;
 }
 

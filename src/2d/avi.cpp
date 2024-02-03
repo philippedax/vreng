@@ -89,7 +89,7 @@ void Avi::getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const
 {
   if (width) *_width = width;
   if (height) *_height = height;
-  if (fps) *_fps = (float) fps;
+  if (fps) *_fps = static_cast<float>(fps);
 }
 
 void Avi::reader(void *_avi, Http *http)

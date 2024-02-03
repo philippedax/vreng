@@ -95,11 +95,11 @@ void River::inits()
   srand(time(0));
 
   for (int i=0; i < waves ; i++) {
-    mesh[2*i]   = (float) (rand()%(int)ceil(width));
-    mesh[2*i+1] = (float) (rand()%(int)ceil(depth));
-    phase[i]    = (float) (rand()%10);
-    speed[i]    = (float) (rand()%100)/300;
-    ampl[i]     = 0.005*  (float) (rand()%100)/100;
+    mesh[2*i]   = static_cast<float>((rand()%static_cast<int>(ceil(width))));
+    mesh[2*i+1] = static_cast<float>((rand()%static_cast<int>(ceil(depth))));
+    phase[i]    = static_cast<float>((rand()%10));
+    speed[i]    = static_cast<float>((rand()%100)/300);
+    ampl[i]     = 0.005*  static_cast<float>((rand()%100)/100);
   }
 }
 
@@ -155,10 +155,10 @@ void River::render()
   glBegin(GL_QUADS);
   for (int a=0; a < 2*ceil(width) ; a++) {
     for (int b=0; b < 2*ceil(depth) ; b++) {
-      draw((float) a, (float) b);
-      draw((float) a+1, (float) b);
-      draw((float) a+1, (float) b+1);
-      draw((float) a, (float) b+1);
+      draw(static_cast<float>(a), static_cast<float>(b));
+      draw(static_cast<float>(a+1), static_cast<float>(b));
+      draw(static_cast<float>(a+1), static_cast<float>(b+1));
+      draw(static_cast<float>(a), static_cast<float>(b+1));
     }
   }
   glEnd();

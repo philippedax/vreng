@@ -87,7 +87,7 @@ void WO::updateKeys(time_t sec, time_t usec)
 void User::updateTime(float lastings[])
 {
   for (int k=0; k < MAXKEYS; k++) {
-    lastings[k] = (float) kpdur_s[k] + (float) kpdur_u[k] / 1e6;
+    lastings[k] = static_cast<float>(kpdur_s[k]) + static_cast<float>(kpdur_u[k]) / 1e6;
     kpdur_s[k] = kpdur_u[k] = 0;
   }
 }
@@ -185,11 +185,11 @@ void WO::changePositionOneDir(uint8_t move_key, float lasting)
       break;
     case KEY_DR:  // turn right
       pos.az -= lasting * aspeed;
-      pos.az -= M_2PI * (float) floor(pos.az / M_2PI);
+      pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
       break;
     case KEY_GA:  // turn left
       pos.az += lasting * aspeed;
-      pos.az -= M_2PI * (float) floor(pos.az / M_2PI);
+      pos.az -= M_2PI * static_cast<float>(floor(pos.az / M_2PI));
       break;
     case KEY_MT:  // roll backward
        pos.ay = MIN(pos.ay + lasting * aspeed, M_2PI_5);
@@ -290,7 +290,7 @@ float WO::getLasting() const
 
 float WO::diffTime(time_t sec, time_t usec)
 {
-  return (float) (sec - move.sec) + ((float) (usec - move.usec) / 1e6);
+  return static_cast<float>((sec - move.sec)) + (static_cast<float>((usec - move.usec) / 1e6));
 }
 
 void WO::enableImposedMovement()
@@ -530,7 +530,7 @@ void WO::permanentMovement(time_t sec, time_t usec)
     Pos oldpos = pos;
     copyPosAndBB(oldpos);
 
-    float lasting = (float)(sec - move.perm_sec) + (float)(usec - move.perm_usec) / 1e6;
+    float lasting = static_cast<float>((sec - move.perm_sec)) + static_cast<float>((usec - move.perm_usec) / 1e6);
     move.perm_sec = sec;
     move.perm_usec = usec;
     move.next = NULL;

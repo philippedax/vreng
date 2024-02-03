@@ -72,10 +72,10 @@ void Cloud::build()
   origpos.y = pos.y;
   origpos.z = pos.z;
   for (int n=0; n < number; n++) {
-    obloids[n].x = pos.x + (float) 4*(2*drand48()-1);  // +- 4
-    obloids[n].y = pos.y + (float) 5*(2*drand48()-1);  // +- 5
-    obloids[n].z = pos.z + (float) 2*(2*drand48()-1);  // +- 2
-    obloids[n].r = (float) (rand()%1 + 2);             // radius = 2..3
+    obloids[n].x = pos.x + static_cast<float>(4*(2*drand48()-1));  // +- 4
+    obloids[n].y = pos.y + static_cast<float>(5*(2*drand48()-1));  // +- 5
+    obloids[n].z = pos.z + static_cast<float>(2*(2*drand48()-1));  // +- 2
+    obloids[n].r = static_cast<float>((rand()%1 + 2));             // radius = 2..3
   }
 }
 
@@ -84,8 +84,8 @@ void Cloud::rebuild()
   pos.x = origpos.x;
   pos.y = origpos.y;
   for (int n=0; n < number; n++) {
-    obloids[n].x = pos.x + (float) 4*(2*drand48()-1);  // +- 4
-    obloids[n].y = pos.y + (float) 5*(2*drand48()-1);  // +- 5
+    obloids[n].x = pos.x + static_cast<float>(4*(2*drand48()-1));  // +- 4
+    obloids[n].y = pos.y + static_cast<float>(5*(2*drand48()-1));  // +- 5
   }
 }
 
@@ -130,7 +130,7 @@ void Cloud::inits()
   if (wind) {  // get orientation and speed of the wind from meteo server
     pos.az = wind->getOrient() - M_2PI/360;
     uint8_t windspeed = wind->getSpeed();
-    speed = (((float) windspeed * 1000.)/3600.);      // km/h -> m/s
+    speed = ((static_cast<float>(windspeed * 1000.)/3600.));      // km/h -> m/s
     speed /= 1000;	// slower
     //echo("orient=%.2frd %ddg, speed=%.2fm/s %dkm/h", pos.az, (int) RAD2DEG(pos.az), speed*1000, windspeed);
   }
@@ -148,7 +148,7 @@ void Cloud::draw(int n)
   obloids[n].dlist = glGenLists(1);
   glNewList(obloids[n].dlist, GL_COMPILE);
   glPushMatrix();
-  //float dscale = (float) (rand()%1 - 0.5);
+  //float dscale = static_cast<float>((rand()%1 - 0.5));
   //glScalef(2 + dscale, 1.5 + dscale, .5 + dscale);
   glScalef(2, 1.5, .5);
   Draw::sphere(obloids[n].r, 16, 16, 0);
@@ -177,9 +177,9 @@ void Cloud::changePermanent(float lasting)
     pos.z += obloids[n].z;
   }
   // global position
-  pos.x /= (float) number;
-  pos.y /= (float) number;
-  pos.z /= (float) number;
+  pos.x /= static_cast<float>(number);
+  pos.y /= static_cast<float>(number);
+  pos.z /= static_cast<float>(number);
   //echo("cloud: pos=%.2f %.2f %.2f", pos.x, pos.y, pos.z);
 }
 
