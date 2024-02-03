@@ -122,13 +122,13 @@ char * Parse::skipSpace(char *p) const
 /** Checks if is a float */
 bool Parse::isFloat(const char *p) const
 {
-  return (p && (isdigit((int) *p) || *p == '-' || *p == '+' || *p == '.'));
+  return (p && (isdigit(static_cast<int>(*p)) || *p == '-' || *p == '+' || *p == '.'));
 }
 
 /** Checks if is an int */
 bool Parse::isInt(const char *p) const
 {
-  return (p && (isdigit((int) *p) || *p == '-' || *p == '+'));
+  return (p && (isdigit(static_cast<int>(*p)) || *p == '-' || *p == '+'));
 }
 
 /** Parses a vre line : returns tag number */
@@ -556,17 +556,17 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   }
   ptok = skipQuotes(ptok);	// get pos.x
   if (isFloat(ptok))
-    pos.x = (float) atof(ptok);
+    pos.x = static_cast<float>(atof(ptok));
   else
     return nextToken();
   ptok = nextToken();		// get pos.y
   if (isFloat(ptok))
-    pos.y = (float) atof(ptok);
+    pos.y = static_cast<float>(atof(ptok));
   else
     return nextToken();
   ptok = nextToken();		// get pos.z
   if (isFloat(ptok)) {
-    pos.z = (float) atof(ptok);
+    pos.z = static_cast<float>(atof(ptok));
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z"
       return nextToken();
     }
@@ -579,7 +579,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
     return nextToken();
   }
   if (isFloat(ptok)) {
-    pos.az = (float) atof(ptok);
+    pos.az = static_cast<float>(atof(ptok));
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z,az"
       return nextToken();
     }
@@ -592,7 +592,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
     return nextToken();
   }
   if (isFloat(ptok)) {
-    pos.ax = (float) atof(ptok);
+    pos.ax = static_cast<float>(atof(ptok));
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z,az,ax"
       return nextToken();
     }
@@ -605,7 +605,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
     return nextToken();
   }
   if (isFloat(ptok)) {
-    pos.ay = (float) atof(ptok);
+    pos.ay = static_cast<float>(atof(ptok));
     if (ptok[strlen(ptok) - 1] == '"') {	// "x,y,z,az,ax,ay"
       return nextToken();	// normal end
     }
@@ -630,11 +630,11 @@ char * Parse::parseColor(char *ptok, Pos &p)
       ptok = nextToken();
   }
 
-  p.x  = (float) atof(ptok);
+  p.x  = static_cast<float>(atof(ptok));
   ptok = nextToken();		// get p.y
-  p.y  = (float) atof(ptok);
+  p.y  = static_cast<float>(atof(ptok));
   ptok = nextToken();		// get p.z
-  p.z  = (float) atof(ptok);
+  p.z  = static_cast<float>(atof(ptok));
   if (ptok[strlen(ptok) - 1] == '"') {
     return nextToken();
   }
@@ -645,7 +645,7 @@ char * Parse::parseColor(char *ptok, Pos &p)
   if (!ptok || ptok[strlen(ptok) - 1] == '"') {
     return nextToken();
   }
-  if (ptok) p.az = (float) atof(ptok);
+  if (ptok) p.az = static_cast<float>(atof(ptok));
 
   return nextToken();
 }
@@ -663,11 +663,11 @@ char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
     }
   }
   for (int i=0; ptok && (*ptok != '"'); i++) {
-    path[i][0] = (float) atof(ptok); ptok = nextToken(); // x
-    path[i][1] = (float) atof(ptok); ptok = nextToken(); // y
-    path[i][2] = (float) atof(ptok); ptok = nextToken(); // z
-    path[i][3] = (float) atof(ptok); ptok = nextToken(); // speed
-    path[i][4] = (float) atof(ptok); // delay
+    path[i][0] = static_cast<float>(atof(ptok)); ptok = nextToken(); // x
+    path[i][1] = static_cast<float>(atof(ptok)); ptok = nextToken(); // y
+    path[i][2] = static_cast<float>(atof(ptok)); ptok = nextToken(); // z
+    path[i][3] = static_cast<float>(atof(ptok)); ptok = nextToken(); // speed
+    path[i][4] = static_cast<float>(atof(ptok)); // delay
     if (ptok[strlen(ptok) - 1] == '"') {
       *segs = i;
       return nextToken();
@@ -738,10 +738,10 @@ char * Parse::parseRotation(char *ptok, Pos &p)
     if (*ptok == 0)
       ptok = nextToken();
   }
-  p.az = (float) atof(ptok); ptok = nextToken();
-  p.x  = (float) atof(ptok); ptok = nextToken();
-  p.y  = (float) atof(ptok); ptok = nextToken();
-  p.z  = (float) atof(ptok);
+  p.az = static_cast<float>(atof(ptok)); ptok = nextToken();
+  p.x  = static_cast<float>(atof(ptok)); ptok = nextToken();
+  p.y  = static_cast<float>(atof(ptok)); ptok = nextToken();
+  p.z  = static_cast<float>(atof(ptok));
   if (!ptok || ptok[strlen(ptok) - 1] == '"') {
     return nextToken();
   }
@@ -759,9 +759,9 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
     if (*ptok == 0)
       ptok = nextToken();
   }
-  p.x  = (float) atof(ptok); ptok = nextToken();
-  p.y  = (float) atof(ptok); ptok = nextToken();
-  p.z  = (float) atof(ptok);
+  p.x  = static_cast<float>(atof(ptok)); ptok = nextToken();
+  p.y  = static_cast<float>(atof(ptok)); ptok = nextToken();
+  p.z  = static_cast<float>(atof(ptok));
   if (!ptok || ptok[strlen(ptok) - 1] == '"') {
     return nextToken();
   }
@@ -801,7 +801,7 @@ char * Parse::parseChannel(char *ptok, char *channel)
       ptok = skipEqual(ptok);
     ptok = skipQuotes(ptok);
 
-    if (isdigit((int) *ptok)) strcpy(channel, ptok);
+    if (isdigit(static_cast<int>(*ptok))) strcpy(channel, ptok);
   }
   return nextToken();
 }
@@ -880,7 +880,7 @@ char * Parse::parseBool(char *ptok, bool *value)
 {
   if (ptok) {
     ptok = skipQuotes(ptok);
-    if (ptok && isdigit((int) *ptok)) {
+    if (ptok && isdigit(static_cast<int>(*ptok))) {
       *value = atoi(ptok) % 2;
     }
     else {
@@ -908,7 +908,7 @@ char * Parse::parseUInt8(char *ptok, uint8_t *value)
 {
   if (ptok) {
     ptok = skipQuotes(ptok);
-    if (ptok && isdigit((int) *ptok)) *value = atoi(ptok) & 0xff;
+    if (ptok && isdigit(static_cast<int>(*ptok))) *value = atoi(ptok) & 0xff;
   }
   return nextToken();
 }
@@ -926,7 +926,7 @@ char * Parse::parseUInt16(char *ptok, uint16_t *value)
 {
   if (ptok) {
     ptok = skipQuotes(ptok);
-    if (ptok && isdigit((int) *ptok)) *value = atoi(ptok) & 0xffff;
+    if (ptok && isdigit(static_cast<int>(*ptok))) *value = atoi(ptok) & 0xffff;
   }
   return nextToken();
 }
@@ -945,7 +945,7 @@ char * Parse::parseFloat(char *ptok, float *value)
   if (ptok) {
     ptok = skipQuotes(ptok);
     if (isFloat(ptok)) {
-      *value = (float) atof(ptok);
+      *value = static_cast<float>(atof(ptok));
     }
   }
   return nextToken();
@@ -967,10 +967,10 @@ char * Parse::parseVectorf(char *ptok, float *vector, int n)
     return ptok;	// parse color name
   }
   for (int i=0; i<n-1; i++) {		// n-1 intervals
-    vector[i] = (float) atof(ptok);
+    vector[i] = static_cast<float>(atof(ptok));
     ptok = nextToken();
   }
-  vector[n-1] = (float) atof(ptok);	// last value
+  vector[n-1] = static_cast<float>(atof(ptok));	// last value
   if (!ptok) {
     return ptok;	// ptok NULL, nextToken will be done by 3f or 5f
   }
@@ -1009,11 +1009,11 @@ char * Parse::parseVector3fv(char *ptok, V3 *vector)
   }
   ptok = skipQuotes(ptok);
   if (ptok) {
-    vector->v[0] = (float) atof(ptok);
+    vector->v[0] = static_cast<float>(atof(ptok));
     ptok = nextToken();
-    vector->v[1] = (float) atof(ptok);
+    vector->v[1] = static_cast<float>(atof(ptok));
     ptok = nextToken();
-    vector->v[2] = (float) atof(ptok);
+    vector->v[2] = static_cast<float>(atof(ptok));
   }
   return nextToken();
 }
