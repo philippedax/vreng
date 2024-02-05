@@ -839,14 +839,14 @@ char *_xstrclean(char *in, char *tok)
 
 char *_xstrlwr(char *in)
 {
-  for (int i=0; i < (int)strlen(in) ; i++)
+  for (int i=0; i < strlen(in) ; i++)
     if (in[i]>='A' && in[i]<='Z') in[i]=in[i]-'A'+'a';
   return in;
 }
 
 char *_xstrupr(char *in)
 {
-  for (int i=0; i < (int)strlen(in) ; i++)
+  for (int i=0; i < strlen(in) ; i++)
     if (in[i]>='a' && in[i]<='z') in[i]=in[i]-'a'+'A';
   return in;
 }

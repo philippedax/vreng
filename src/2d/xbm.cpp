@@ -69,7 +69,7 @@ Img * Img::loadXBM(void *tex, ImageReader read_func)
 
     /* Read the XBM image file data */
     else { /* find  0xhh, sets of 8 bits */
-      for (int i=0; i < (int)strlen(line)-4; i++) {
+      for (int i=0; i < strlen(line)-4; i++) {
         if (line[i] == '{') continue;
         if (line[i] == ' ') continue;
         if (line[i] == '0' && (line[i+1] == 'x' || line[i+1] == 'X')) {
