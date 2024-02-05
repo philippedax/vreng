@@ -206,7 +206,7 @@ void Text::render()
    glScalef(RATIO_SCALE*scale, RATIO_SCALE*scale, RATIO_SCALE*scale);
 
    // render the text
-   txf->render(textstr, (int) strlen(textstr));
+   txf->render(textstr, strlen(textstr));
 
    glEnable(GL_CULL_FACE);
    glDisable(GL_TEXTURE_2D);

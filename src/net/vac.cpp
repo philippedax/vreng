@@ -149,7 +149,7 @@ bool Vac::getList()
   memset(cache, 0, sizecache + 1);
   while ((r = read(sdvac, cache, sizecache)) > 0) {
     cache[r] = '\0';
-    //DEBUG printf("readvac: r=%d,%d l=%s\n", r, (int) strlen(cache), cache);
+    //DEBUG printf("readvac: r=%d,%d l=%s\n", r, strlen(cache), cache);
     char *p = strtok(cache, " ");
     while (p) {
       if (strncmp(p, "http://", 7) != 0) break;  // !!! ELC: pour eviter blocage
