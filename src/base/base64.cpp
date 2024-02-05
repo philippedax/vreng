@@ -58,27 +58,26 @@ void writebits(uint32_t bits, int n)
   }
 }
 
-int decodeBase64(const char *str, char *out)
+int decodeBase64(const char *in, char *out)
 {
   int c, digit;
   int decode[256];
-  int i;
   const char *digits = base64digits;
 
   numbits = 0;
   size = 0;
-  pin = str;
+  pin = in;
   pout = out;
   /* build decode table */
-  for (i = 0; i < 256; i++) {
+  for (int i = 0; i < sizeof(decode); i++) {
     decode[i] = -2; /* illegal digit */
   }
-  for (i = 0; i < 64; i++) {
-     decode[(int)digits[i]] = i;
-     decode[(int)digits[i] | 0x80] = -1; /* ignore parity when decoding */
+  for (int i = 0; i < 64; i++) {
+     decode[static_cast<int>(digits[i])] = i;
+     decode[static_cast<int>(digits[i]) | 0x80] = -1; /* ignore parity when decoding */
   }
-  decode[(int) '='] = -1;
-  decode[(int) '=' | 0x80] = -1;  /* ignore '=' for mime */
+  decode[static_cast<int>('=')] = -1;
+  decode[static_cast<int>('=') | 0x80] = -1;  /* ignore '=' for mime */
 
   for (c = readchar(); c != EOF; c = readchar()) {
     digit = decode[c & 0x7f];
