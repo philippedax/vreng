@@ -471,35 +471,35 @@ void Mech::changePermanent(float lasting)
         elevation = 0;
 
       if (step == 0) {
-        hip11 = (int) -(mframe * 1.7);
+        hip11 = int(-mframe * 1.7);
         if (1.7 * mframe > 15)
-          heel1 = (int) (mframe * 1.7);
+          heel1 = int(mframe * 1.7);
         heel2 = 0;
-        ankle1 = (int) (mframe * 1.7);
+        ankle1 = int(mframe * 1.7);
         if (mframe > 0)
-          hip21 = (int) angle;
+          hip21 = int(angle);
         else
           hip21 = 0;
         ankle2 = -hip21;
-        shoulder1 = (int) (mframe * 1.5);
-        shoulder2 = (int) -(mframe * 1.5);
-        elbow1 = (int) mframe;
-        elbow2 = (int) -mframe;
+        shoulder1 = int(mframe * 1.5);
+        shoulder2 = int(-mframe * 1.5);
+        elbow1 = int(mframe);
+        elbow2 = int(-mframe);
       } else {
-        hip21 = (int) -(mframe * 1.7);
+        hip21 = int(-mframe * 1.7);
         if (1.7 * mframe > 15)
-          heel2 = (int) (mframe * 1.7);
+          heel2 = int(mframe * 1.7);
         heel1 = 0;
-        ankle2 = (int) (mframe * 1.7);
+        ankle2 = int(mframe * 1.7);
         if (mframe > 0)
-          hip11 = (int) angle;
+          hip11 = int(angle);
         else
           hip11 = 0;
         ankle1 = -hip11;
-        shoulder1 = (int) -(mframe * 1.5);
-        shoulder2 = (int) (mframe * 1.5);
-        elbow1 = (int) -mframe;
-        elbow2 = (int) mframe;
+        shoulder1 = int(-mframe * 1.5);
+        shoulder2 = int(mframe * 1.5);
+        elbow1 = int(-mframe);
+        elbow2 = int(mframe);
       }
       if (mframe == 21)
         step++;
@@ -510,35 +510,35 @@ void Mech::changePermanent(float lasting)
   if (step == 1 || step == 3) {
     /* for(x=21; x>=0; x=x-3){ */
     if (mframe <= 21 && mframe >= 0) {
-      angle = (180 / M_PI) * (acos(((cos((M_PI / 180) * mframe) * 2.043) + 1.1625) / 3.2029));
+      angle = (180/M_PI) * (acos(((cos((M_PI/180) * mframe) * 2.043) + 1.1625) / 3.2029));
       if (mframe > 0)
-        elevation = -(3.2055 - (cos((M_PI / 180) * angle) * 3.2055));
+        elevation = -(3.2055 - (cos((M_PI/180) * angle) * 3.2055));
       else
         elevation = 0;
       if (step == 1) {
-        elbow2 = hip11 = (int) -mframe;
-        elbow1 = heel1 = (int) mframe;
+        elbow2 = hip11 = int(-mframe);
+        elbow1 = heel1 = int(mframe);
         heel2 = 15;
-        ankle1 = (int) mframe;
+        ankle1 = int(mframe);
         if (mframe > 0)
-          hip21 = (int) angle;
+          hip21 = int(angle);
         else
           hip21 = 0;
         ankle2 = -hip21;
-        shoulder1 = (int) (1.5 * mframe);
-        shoulder2 = (int) -(mframe * 1.5);
+        shoulder1 = int(mframe * 1.5);
+        shoulder2 = int(-mframe * 1.5);
       } else {
-        elbow1 = hip21 = (int) -mframe;
-        elbow2 = heel2 = (int) mframe;
+        elbow1 = hip21 = int(-mframe);
+        elbow2 = heel2 = int(mframe);
         heel1 = 15;
-        ankle2 = (int) mframe;
+        ankle2 = int(mframe);
         if (mframe > 0)
-          hip11 = (int) angle;
+          hip11 = int(angle);
         else
           hip11 = 0;
         ankle1 = -hip11;
-        shoulder1 = (int) -(mframe * 1.5);
-        shoulder2 = (int) (mframe * 1.5);
+        shoulder1 = int(-mframe * 1.5);
+        shoulder2 = int(mframe * 1.5);
       }
       if (mframe == 0)
         step++;

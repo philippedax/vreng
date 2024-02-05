@@ -224,7 +224,7 @@ void Guy::computeCurve()
         tm[2] = t;
         tm[3] = 1;
         mulM3V4(vprod, tm, vec);
-        newindex = (int) (vec[0] * (CYCLES-1));
+        newindex = int( (vec[0] * (CYCLES-1)) );
         if (newindex > lastindex) {  // go at least one
           newindex %= CYCLES;  // avoid out of bounds
           cycles[L_SIDE][join][newindex] = vec[1];
@@ -253,7 +253,7 @@ void Guy::setPose()
 void Guy::changePermanent(float lasting)
 {
   if (animing) {
-    step = (int) fmod((double) step + incstep, CYCLES);
+    step = int( fmod((double) step + incstep, CYCLES) );
   }
   if (control && localuser) {
     pos.x = localuser->pos.x;

@@ -61,7 +61,7 @@ void Spiral::build()
   float sy = pos.bbs.v[1];	// step depth
   float sz = 2 * pos.bbs.v[2];	// step height
 
-  nsteps = (int) ceil(height /2 / sz);
+  nsteps = int( ceil(height /2 / sz) );
 
   for (int n=0; n < nsteps; n++) {
     Pos npos;

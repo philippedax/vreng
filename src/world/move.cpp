@@ -404,7 +404,7 @@ void User::userMovement(time_t sec, time_t usec)
   if (lasting > MIN_LASTING) {  // user is moving
     float maxlast = getLasting();
     maxlast = maxlast ? maxlast : 1;
-    int nbmoves = (int) (lasting / maxlast);
+    int nbmoves = int( (lasting / maxlast) );
     float tabdt[MAXKEYS];
 
     for (int m=0; m <= nbmoves; m++) {
@@ -474,7 +474,7 @@ void WO::imposedMovement(time_t sec, time_t usec)
     maxlast = maxlast ? maxlast : 1;
     // spliting movement in m elementary movements
     float tabdt = 0.;
-    int nbmoves = (int) (lasting / maxlast);
+    int nbmoves = int( (lasting / maxlast) );
 
     for (int m=0; m <= nbmoves; m++) {
       if (lasting > maxlast) {
@@ -539,7 +539,7 @@ void WO::permanentMovement(time_t sec, time_t usec)
       float maxlast = getLasting();
       maxlast = maxlast ? maxlast : 1;
       float tabdt = 0.;
-      int nbmoves = (int) (lasting / maxlast);
+      int nbmoves = int( (lasting / maxlast) );
       nbmoves = MIN(nbmoves, MIN_MOVES);
 
       for (int m=0; m <= nbmoves; m++) {

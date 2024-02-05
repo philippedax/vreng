@@ -82,7 +82,7 @@ void Escalator::build()
     height = length * tan(pos.ax);
   }
 
-  nsteps = (int) ceil(height / sz);
+  nsteps = int( ceil(height / sz) );
   //echo("nsteps: %d", nsteps);
 
   escaList.push_back(this);

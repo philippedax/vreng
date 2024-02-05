@@ -174,5 +174,5 @@ int netTimeout()
     } // end scan properties
   } // end list
 
-  return (int) ceil(refresh * 1000);
+  return int( ceil(refresh * 1000) );
 }

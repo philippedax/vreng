@@ -539,7 +539,7 @@ bool VNCCli::handleRFBMessage()
 	  return false;
 	break;
       default:
-	error("Unknown rect encoding %d", (int) rect.encoding);
+	error("unknown rect encoding %d", int(rect.encoding));
 	return false;
       }
     }

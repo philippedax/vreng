@@ -156,7 +156,7 @@ void Thunder::render()
 {
   struct timeval tv;
   gettimeofday(&tv, NULL);
-  if ( (((int) tv.tv_sec) % (int) period) != 0 ) return;
+  if ( static_cast<time_t>(tv.tv_sec) % int(period) != 0 ) return;
   if (!state || dlist <= 0) return;
 
   for (int n=0; n < number; n++) {

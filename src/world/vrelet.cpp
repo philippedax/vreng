@@ -314,8 +314,8 @@ void Vrelet::click(V3 dir)
   float vary = calcV3(c, e, dir, v) / det;
 
   // scale these values
-  int x = (int) (varx * static_cast<float>(incrx / fx));
-  int y = (int) (vary * static_cast<float>(incry / fy));
+  int x = int( (varx * static_cast<float>(incrx / fx)) );
+  int y = int( (vary * static_cast<float>(incry / fy)) );
 
   // notify the child
   //echo("Vrelet::click: x=%d y=%d", x, y);

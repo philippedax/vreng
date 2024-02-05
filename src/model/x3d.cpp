@@ -561,7 +561,7 @@ GLuint X3d::drawMesh(MeshInfos* meshInfos)
 
 void X3d::displayShape(X3dShape* myShape) //NOT RECURSIVE !!
 {
-  //echo("display shape: %d at level %d", (int) myShape, myShape->level);
+  //echo("display shape: %d at level %d", myShape, myShape->level);
   float ambdef[4] = { 0,0,0,1 };
   glMaterialfv(GL_FRONT, GL_AMBIENT, ambdef);
 

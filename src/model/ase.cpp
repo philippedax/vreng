@@ -578,7 +578,7 @@ void Ase::getData(tASEModel *pModel, tASEObject *pObject, char *strDesiredData, 
     // If we hit the material ID to the object
     else if (! strcmp(line, ASE_MATERIAL_ID)) {
       if (! strcmp(strDesiredData, ASE_MATERIAL_ID)) {
-        pObject->materialID = (int)readFloat();
+        pObject->materialID = int(readFloat());
         return;
       }
     }

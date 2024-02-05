@@ -97,7 +97,7 @@ void Step::build()
 
   // steps are interlaced (sx sy sz)
   if (travolator) {
-    nsteps = (int) ceil(length / MIN(sx, sy));
+    nsteps = int( ceil(length / MIN(sx, sy)) );
     size = length;
   }
   else {  // escalator stair spiral
@@ -109,7 +109,7 @@ void Step::build()
     else if (length && pos.ax) {
       height = length * tan(pos.ax);
     }
-    nsteps = (int) ceil(height / sz);
+    nsteps = int( ceil(height / sz) );
     //echo("nsteps: %d", nsteps);
     size = height;
   }

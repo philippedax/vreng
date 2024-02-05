@@ -285,8 +285,8 @@ void Vnc::getVncCoords(int16_t &x, int16_t &y)
 
   // build final coordinates
   if ((ey > 0) && (ey < 1) && (ez > 0) && (ez < 1)) {
-    x = (int) (ey * vncClient->realScreenWidth);
-    y = (int) (ez * vncClient->realScreenHeight);
+    x = int( (ey * vncClient->realScreenWidth) );
+    y = int( (ez * vncClient->realScreenHeight) );
   }
   else {
     x = -1;

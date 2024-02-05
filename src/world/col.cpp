@@ -158,8 +158,8 @@ bool WO::ingoingNeighbor(WO *pold, WO *neighbor)
                  neighbor->pos.bbc, neighbor->pos.bbs) == NO_INTER)) {
 
     // check wether the neighbor is oblique
-    int az = (int) RAD2DEG(neighbor->pos.az) % 90;
-    int ax = (int) RAD2DEG(neighbor->pos.ax) % 90;
+    int az = static_cast<int>( RAD2DEG(neighbor->pos.az) ) % 90;
+    int ax = static_cast<int>( RAD2DEG(neighbor->pos.ax) ) % 90;
     if (((az >= 2) && (az <= 88)) ||
         ((ax >= 2) && (ax <= 88))) {
       //trace(DBG_FORCE, "%s is oblique az=%d ax=%d", neighbor->objectName(), az, ax);
@@ -425,9 +425,9 @@ void World::localGrid()
  */
 static void indiceGrid(const float bb[3], int igrid[3])
 {
-  igrid[0] = (int) ((bb[0] + dist.v[0] * (dim[0]/2)) / dist.v[0]);
-  igrid[1] = (int) ((bb[1] + dist.v[1] * (dim[1]/2)) / dist.v[1]);
-  igrid[2] = (int) ((bb[2] + dist.v[2] * (dim[2]/2)) / dist.v[2]);
+  igrid[0] = int( ((bb[0] + dist.v[0] * (dim[0]/2)) / dist.v[0]) );
+  igrid[1] = int( ((bb[1] + dist.v[1] * (dim[1]/2)) / dist.v[1]) );
+  igrid[2] = int( ((bb[2] + dist.v[2] * (dim[2]/2)) / dist.v[2]) );
   igrid[0] = MIN(dim[0]-1, MAX(0, igrid[0]));
   igrid[1] = MIN(dim[1]-1, MAX(0, igrid[1]));
   igrid[2] = MIN(dim[2]-1, MAX(0, igrid[2]));

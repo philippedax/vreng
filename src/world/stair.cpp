@@ -70,7 +70,7 @@ void Stair::build()
     pos.ax = 0;
   }
 
-  nsteps = (int) ceil(height / sz);
+  nsteps = int( ceil(height / sz) );
 
   for (int n=0; n < nsteps; n++) {
     Pos npos;

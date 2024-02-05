@@ -65,7 +65,7 @@ void Travolator::build()
   float sx = 2 * pos.bbs.v[0];  // step width
   float sy = 2 * pos.bbs.v[1];  // step depth
 
-  nsteps = (int) ceil(length / MIN(sx, sy));
+  nsteps = int( ceil(length / MIN(sx, sy)) );
 
   for (int n=0; n < nsteps; n++) {
     Pos npos = pos;

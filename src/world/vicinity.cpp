@@ -224,10 +224,10 @@ int Vicinity::compInterest(const void *t1, const void *t2)
 {
   Vicin s1 = *((Vicin*) t1);
   Vicin s2 = *((Vicin*) t2);
-  int size1 = ((int) s1.size);
-  int size2 = ((int) s2.size);
-  int dist1 = (int) s1.dist;
-  int dist2 = (int) s2.dist;
+  int size1 = int(s1.size);
+  int size2 = int(s2.size);
+  int dist1 = int(s1.dist);
+  int dist2 = int(s2.dist);
 
   // qd un objet est loin on en tient pas compte
   if ((dist1 == 4) && (dist2 < 4)) return 1;
@@ -239,8 +239,8 @@ int Vicinity::compInterest(const void *t1, const void *t2)
 
   // un objet grand et pres est plus important qu'un objet petit et loin
   if ((size1 > size2) && (dist1 > dist2)) {
-    int distu1 = ((int) computeDist(localuser, s1.object));
-    int distu2 = ((int) computeDist(localuser, s2.object));
+    int distu1 = int( computeDist(localuser, s1.object) );
+    int distu2 = int( computeDist(localuser, s2.object) );
 
     // si un objet est grand loin size1 dist1 et un autre petit pres size2 dist2
     // on regarde la distance de leur centre a l'utilisateur.
@@ -248,8 +248,8 @@ int Vicinity::compInterest(const void *t1, const void *t2)
     else                 return -1;
   }
   if ((size1 < size2) && (dist1 < dist2)) {
-    int distu1 = ((int) computeDist(localuser, s1.object));
-    int distu2 = ((int) computeDist(localuser, s2.object));
+    int distu1 = int( computeDist(localuser, s1.object) );
+    int distu2 = int( computeDist(localuser, s2.object) );
     if (distu1 > distu2) return 1;
     else                 return -1;
   }
