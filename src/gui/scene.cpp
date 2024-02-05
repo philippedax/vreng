@@ -236,7 +236,7 @@ void Scene::init()
   // le 1er arg. est le delai entre deux frames successives (si besoin est, changer
   // cette valeur au lieu de mettre un select() dans paintGL, ce qui est incorrect) 
   // le 2e arg., -1, signifie qu'on repete indefiniement
-  render_timer.start((time_t) (::g.pref.frame_delay/1000.), (int) (-1));
+  render_timer.start((time_t) ::g.pref.frame_delay/1000, -1);
 
   // timer qui execute netTimeout() tous les delta t
   net_timer.onAction(ucall(this, &Scene::netTimeoutCB));
