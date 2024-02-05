@@ -1230,7 +1230,7 @@ void X3dTimeSensor::updateFraction(bool _anim)
     fraction += fractionIncrement;
     if (fraction > 1) {
       if (loop) {
-        fraction -= (int)fraction;
+        fraction -= fraction;
       }
       else fraction = 1;
     }
