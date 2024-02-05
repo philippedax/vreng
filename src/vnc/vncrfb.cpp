@@ -79,7 +79,7 @@ bool VNCRFB::initRFB()
   rfbClientInitMsg ci;
   int major, minor;
   char *reason, *passwd = NULL;
-  uint32_t authScheme, reasonLen, authResult;
+  int authScheme, reasonLen, authResult;
   uint8_t challenge[CHALLENGESIZE];
 
   //echo("initRFB: initializing RFB connection");
@@ -115,7 +115,7 @@ bool VNCRFB::initRFB()
 
     if (!vncsock.readRFB(reason, reasonLen))
       return false;
-    error("RFB connection failed: %.*s", (int)reasonLen, reason);
+    error("RFB connection failed: %s", reason);
     delete[] reason;
     return false;
 
@@ -139,8 +139,9 @@ bool VNCRFB::initRFB()
     vncEncryptBytes(challenge, passwd);
 
     /* Lose the password from memory */
-    for (int i = strlen(passwd); i >= 0; i--)
+    for (int i = strlen(passwd); i >= 0; i--) {
       passwd[i] = '\0';
+    }
 
     if (!vncsock.writeExact((char *) challenge, CHALLENGESIZE))
       return false;
@@ -159,13 +160,13 @@ bool VNCRFB::initRFB()
       error("RFB authentication failed - too many tries");
       return false;
     default:
-      error("Unknown VNC authentication result: %d", (int)authResult);
+      error("unknown VNC authentication result: %d", authResult);
       return false;
     }
     break;
 
   default:
-    error("Unknown authentication scheme from VNC server: %d", (int)authScheme);
+    error("unknown authentication scheme from VNC server: %d", authScheme);
     return false;
   }
 
