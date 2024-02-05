@@ -384,13 +384,13 @@ static const uint8_t FRAME_MAX;		// 255
   void setBB(GLfloat w, GLfloat d, GLfloat h);
   /**< Sets BB sizes. */
 
-  void doTransform(bool flag);
+  void doTransform(int flag);
   /**< Makes transforms rotations and translations. */
 
-  void doBlend(bool flag, GLfloat alpha);
+  void doBlend(int flag, GLfloat alpha);
   /**< Makes blending operations if alpha. */
 
-  void doTexture(bool flag, int texid);
+  void doTexture(int flag, int texid);
   /**< Makes texture binding. */
 
   char* getTok(char* l, uint16_t* stok);

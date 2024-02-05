@@ -1079,9 +1079,9 @@ int Solid::statueParser(char *l, V3 &bbmax, V3 &bbmin)
   return nf;	// number nf frames
 }
 
-void Solid::doTransform(bool flag)
+void Solid::doTransform(int flag)
 {
-  switch ((int)flag) {
+  switch (flag) {
   case true:  // pre
     glPushMatrix();
     glRotatef(RAD2DEG(pos[3]), 0, 0, 1);	// az
@@ -1095,11 +1095,11 @@ void Solid::doTransform(bool flag)
   }
 }
 
-void Solid::doBlend(bool flag, GLfloat _alpha)
+void Solid::doBlend(int flag, GLfloat _alpha)
 {
   if (_alpha < 1) {
     opaque = false;
-    switch ((int)flag) {
+    switch (flag) {
     case true:  // pre
       glEnable(GL_BLEND);
       glDepthMask(GL_FALSE);	// turn off the depth buffer for writing
@@ -1112,10 +1112,10 @@ void Solid::doBlend(bool flag, GLfloat _alpha)
   }
 }
 
-void Solid::doTexture(bool flag, int _texid)
+void Solid::doTexture(int flag, int _texid)
 {
   if (_texid >= 0) {
-    switch ((int)flag) {
+    switch (flag) {
     case true:  // pre
       glEnable(GL_TEXTURE_2D);
       glBindTexture(GL_TEXTURE_2D, _texid);
