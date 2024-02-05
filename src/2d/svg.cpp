@@ -57,8 +57,8 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
     nsvgDelete(svgimage);
     return NULL;
   }
-  width = (int)svgimage->width;
-  height = (int)svgimage->height;
+  width = svgimage->width;
+  height = svgimage->height;
   trace(DBG_2D, "loadSVG: w=%d h=%d", width, height);
 
   // allocs img
