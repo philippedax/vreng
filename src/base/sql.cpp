@@ -394,7 +394,7 @@ float VSql::selectFloat(const char *table, const char *col, const char *name, co
  */
 int VSql::selectString_cb(void *val, int argc, char **argv, char**azColName)
 {
-  char *v = (char *)val;
+  char *v = static_cast<char *>(val);
   strcpy(v, argv[0]);
   return 0;
 }

@@ -232,7 +232,7 @@ void Rtp::getSdesItem(uint8_t sdes_type, uint32_t _ssrc, char *itemstr)
           if (sitem->si_len == 0)
             continue;
           if (sitem->si_type == sdes_type) {
-            strcpy(itemstr, (char *) sitem->si_str);
+            strcpy(itemstr, static_cast<char *>(sitem->si_str));
           }
         }
       }
@@ -425,7 +425,7 @@ int Rtp::recvRTCPPacket(struct sockaddr_in *from, uint8_t *pkt, int pkt_len)
  * RFC 1889
  */
 
-uint32_t md_32(char *string, int length)
+uint32_t md_32(char *str, int len)
 {
   MD5_CTX context;
   union {
@@ -436,7 +436,7 @@ uint32_t md_32(char *string, int length)
   int i;
 
   MD5Init(&context);
-  MD5Update(&context, (uint8_t *) string, length);
+  MD5Update(&context, (uint8_t *) str, len);
   MD5Final((unsigned char *)&digest, &context);
   r = 0;
   for (i = 0; i < 3; i++) {
@@ -483,5 +483,5 @@ uint32_t random32(int type)
   s.gid  = getgid();
 #endif
 
-  return md_32((char *)&s, sizeof(s));
+  return md_32((char *)(&s), sizeof(s));
 }

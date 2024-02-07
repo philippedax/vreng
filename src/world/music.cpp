@@ -102,7 +102,7 @@ void Music::play(Music *music, void *d, time_t s, time_t u)
 
   // check if d is an url
   if (music->repeat == false && (d != (void *)NULL)) {
-    strcpy(music->names.url, (char *) d);
+    strcpy(music->names.url, static_cast<char *>(d));
     music->fmt = music->format();
     music->state = Music::INACTIVE;
   }

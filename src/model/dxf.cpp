@@ -536,7 +536,7 @@ Point3D * minPolygon(Polygon *pol)
 PolyMeshObj * newPolyMesh(char *name, SRGB *color)
 {
   PolyMeshObj *pmesh = (PolyMeshObj *) malloc(sizeof(PolyMeshObj));
-  pmesh->name = (char *) malloc(2);
+  pmesh->name = static_cast<char *>(malloc(2));
   pmesh->name[0]='\0';
   changePolyMeshObjName(pmesh,name);
   pmesh->color=color;
@@ -573,7 +573,7 @@ PolyMeshObj * changePolyMeshObjName(PolyMeshObj *pmesh, char *name)
   if (!pmesh) return NULL;
 
   if (name) {
-    pmesh->name = (char *) realloc(pmesh->name, strlen(name));
+    pmesh->name = static_cast<char *>(realloc(pmesh->name, strlen(name)));
     strcpy(pmesh->name, name);
     _xstrlwr(pmesh->name);
   }
@@ -839,15 +839,17 @@ char *_xstrclean(char *in, char *tok)
 
 char *_xstrlwr(char *in)
 {
-  for (int i=0; i < strlen(in) ; i++)
+  for (int i=0; i < strlen(in) ; i++) {
     if (in[i]>='A' && in[i]<='Z') in[i]=in[i]-'A'+'a';
+  }
   return in;
 }
 
 char *_xstrupr(char *in)
 {
-  for (int i=0; i < strlen(in) ; i++)
+  for (int i=0; i < strlen(in) ; i++) {
     if (in[i]>='a' && in[i]<='z') in[i]=in[i]-'a'+'A';
+  }
   return in;
 }
 
@@ -1114,7 +1116,7 @@ DXF_file * parseDXF(DXF_file *dxffile, DXF_rule *rule)
 SceneObj * newScene(char *name, SRGB *color)
 {
   SceneObj* scene = (SceneObj *) malloc(sizeof(SceneObj));
-  scene->name = (char *) malloc(2);
+  scene->name = static_cast<char *>(malloc(2));
   scene->name[0] = '\0';
   changeSceneObjName(scene, name);
   scene->color = color;
@@ -1142,7 +1144,7 @@ SceneObj * changeSceneObjName(SceneObj *scene, char *name)
   if (!scene) return NULL;
 
   if (name) {
-    scene->name = (char *) realloc(scene->name, strlen(name));
+    scene->name = static_cast<char *>(realloc(scene->name, strlen(name)));
     strcpy(scene->name, name);
     _xstrlwr(scene->name);
   }

@@ -85,26 +85,26 @@ bool Ogl::isGLextension(const char *ext)
 /** Prints OpenGL infos */
 void Ogl::infosGL()
 {
-  printf("GL_VERSION: %s\n", (char *) glGetString(GL_VERSION));
+  echo("GL_VERSION: %s", (char *) glGetString(GL_VERSION));
 #if HAVE_LIBGLU
-  printf("GLU_VERSION: %s\n", (char *) gluGetString(GLU_VERSION));
+  echo("GLU_VERSION: %s", (char *) gluGetString(GLU_VERSION));
 #endif
-  printf("GL_RENDERER: %s\n", (char *) glGetString(GL_RENDERER));
-  printf("GL_VENDOR: %s\n", (char *) glGetString(GL_VENDOR));
+  echo("GL_RENDERER: %s", (char *) glGetString(GL_RENDERER));
+  echo("GL_VENDOR: %s", (char *) glGetString(GL_VENDOR));
 
   GLint bits, lights, texsize;
   glGetIntegerv(GL_DEPTH_BITS, &bits);
-  printf("GL_DEPTH_BITS: %d\n", bits);
+  echo("GL_DEPTH_BITS: %d", bits);
   glGetIntegerv(GL_STENCIL_BITS, &bits);
-  printf("GL_STENCIL_BITS: %d\n", bits);
+  echo("GL_STENCIL_BITS: %d", bits);
   glGetIntegerv(GL_MAX_LIGHTS, &lights);
-  printf("GL_MAX_LIGHTS: %d\n", lights);
+  echo("GL_MAX_LIGHTS: %d", lights);
   glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texsize);
-  printf("GL_MAX_TEXTURE_SIZE: %d\n", texsize);
+  echo("GL_MAX_TEXTURE_SIZE: %d", texsize);
 
-  printf("GL_EXTENSIONS: %s\n", (char *) glGetString(GL_EXTENSIONS));
+  echo("GL_EXTENSIONS: %s", (char *) glGetString(GL_EXTENSIONS));
 #if HAVE_LIBGLU
-  printf("GLU_EXTENSIONS: %s\n", (char *) gluGetString(GLU_EXTENSIONS));
+  echo("GLU_EXTENSIONS: %s", (char *) gluGetString(GLU_EXTENSIONS));
 #endif
 }
 

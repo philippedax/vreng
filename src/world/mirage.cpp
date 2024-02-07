@@ -170,7 +170,7 @@ Mirage::Mirage(WO *user, char *geom)
 /** Recreated by world via VSql */
 Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
 {
-  char *str = (char *) d;       // string
+  char *str = static_cast<char *>(d);       // string
   if (!str) return;
 
   strcpy(names.given, str);

@@ -54,7 +54,7 @@ void Bvh::download(const char *_url)
 
 char * Bvh::getUrl() const
 {
-  return (char *) url;
+  return static_cast<char *>(url);
 }
 
 void Bvh::reader(void *_bvh, Http *http)

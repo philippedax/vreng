@@ -546,7 +546,7 @@ int Http::getChar()
 {
   if (http_pos >= http_len) {	// eob
     http_pos = 0;
-    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -565,7 +565,7 @@ int32_t Http::read_int()
   int32_t val;
 
   if (http_pos >= http_len) {
-    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -573,7 +573,7 @@ int32_t Http::read_int()
   }
   val = http_buf[http_pos++];
   if (http_pos >= http_len) {
-    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -581,7 +581,7 @@ int32_t Http::read_int()
   }
   val |= (http_buf[http_pos++] << 8);
   if (http_pos >= http_len) {
-    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -589,7 +589,7 @@ int32_t Http::read_int()
   }
   val |= (http_buf[http_pos++] << 16);
   if (http_pos >= http_len) {
-    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }
@@ -655,7 +655,7 @@ uint32_t Http::skip(int32_t skiplen)
   else {
     skiplen -= ptr;
     while (skiplen > 0) {
-      if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
+      if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
         break;
       }
       if (skiplen >= http_len) {
@@ -678,7 +678,7 @@ int Http::fread(char *pbuf, int size, int nitems)
 
   while (len > 0) {
     if (http_pos >= http_len) {
-      if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) < 0) {
+      if ((http_len = httpRead(static_cast<char *>(http_buf), sizeof(http_buf))) < 0) {
         http_eof = true;
         return (nitems - (len / size));
       }

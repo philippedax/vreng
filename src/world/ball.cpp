@@ -133,7 +133,7 @@ Ball::Ball(WO *cauldron, void *d, time_t s, time_t u)
 /** Recreated by the world (persistency) */
 Ball::Ball(World *world, void *d, time_t s, time_t u)
 {
-  char *nam = (char *) d;	// name of the ball
+  char *nam = static_cast<char *>(d);	// name of the ball
   if (!nam)  return;
 
   char *p = nam;

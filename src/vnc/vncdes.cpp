@@ -97,7 +97,7 @@ void deskey(unsigned char *key, int edf)	/* Thanks to James Gillogly & Phil Karn
 		}
 	cookey(kn);
 	return;
-	}
+}
 
 static void cookey(register unsigned long *raw1)
 {
@@ -119,7 +119,7 @@ static void cookey(register unsigned long *raw1)
 		}
 	usekey(dough);
 	return;
-	}
+}
 
 void cpkey(register unsigned long *into)
 {
@@ -128,7 +128,7 @@ void cpkey(register unsigned long *into)
 	from = KnL, endp = &KnL[32];
 	while( from < endp ) *into++ = *from++;
 	return;
-	}
+}
 
 void usekey(register unsigned long *from)
 {
@@ -137,7 +137,7 @@ void usekey(register unsigned long *from)
 	to = KnL, endp = &KnL[32];
 	while( to < endp ) *to++ = *from++;
 	return;
-	}
+}
 
 void des(unsigned char *inblock, unsigned char *outblock)
 {
@@ -147,7 +147,7 @@ void des(unsigned char *inblock, unsigned char *outblock)
 	desfunc(work, KnL);
 	unscrun(work, outblock);
 	return;
-	}
+}
 
 static void scrunch(register unsigned char *outof,register unsigned long *into)
 {
@@ -160,7 +160,7 @@ static void scrunch(register unsigned char *outof,register unsigned long *into)
 	*into	|= (*outof++ & 0xffL) << 8;
 	*into	|= (*outof   & 0xffL);
 	return;
-	}
+}
 
 static void unscrun(register unsigned long *outof, register unsigned char *into)
 {
@@ -173,7 +173,7 @@ static void unscrun(register unsigned long *outof, register unsigned char *into)
 	*into++ = (*outof >>  8) & 0xffL;
 	*into	=  *outof	 & 0xffL;
 	return;
-	}
+}
 
 static unsigned long SP1[64] = {
 	0x01010400L, 0x00000000L, 0x00010000L, 0x01010404L,
@@ -369,7 +369,7 @@ static void desfunc(register unsigned long *block, register unsigned long *keys)
 		fval |= SP4[(work >> 16) & 0x3fL];
 		fval |= SP2[(work >> 24) & 0x3fL];
 		right ^= fval;
-		}
+	}
 
 	right = (right << 31) | (right >> 1);
 	work = (leftt ^ right) & 0xaaaaaaaaL;
@@ -391,7 +391,7 @@ static void desfunc(register unsigned long *block, register unsigned long *keys)
 	*block++ = right;
 	*block = leftt;
 	return;
-	}
+}
 
 /* Validation sets:
  *

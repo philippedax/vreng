@@ -147,7 +147,7 @@ char * Icon::getParam(char *ptok)
 /* called by GUI */
 Icon::Icon(User *user, void *d)
 {
-  char *infos = (char *) d;
+  char *infos = static_cast<char *>(d);
 
   ifile = NULL;
   ofile = NULL;

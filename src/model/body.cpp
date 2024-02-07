@@ -659,7 +659,7 @@ void Body::load(const char *_url)
 
 char * Body::getUrl() const
 {
-  return (char *) url;
+  return static_cast<char *>(url);
 }
 
 /** load joint points (static) */

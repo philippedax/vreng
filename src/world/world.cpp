@@ -626,7 +626,7 @@ void World::checkPersist()
 /* world reader - static */
 void World::worldReader(void *_url, Http *http)
 {
-  char *url = (char *) _url;
+  char *url = static_cast<char *>(_url);
   //char *url = World::current()->url;	// maybe url is corrupted HACK!!!
   //echo("worldReader: %s %s", _url, url);
   if (! http) {

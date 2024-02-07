@@ -542,7 +542,7 @@ void Humanoid::reset()
 void Humanoid::pause()
 {
   sendPlayToBapServer("pause.bap");
-  bapfile = (char *) pause_bap;
+  bapfile = (char *)(pause_bap);
 }
 
 void Humanoid::hi()
