@@ -132,7 +132,7 @@ void Cloud::inits()
     uint8_t windspeed = wind->getSpeed();
     speed = ((static_cast<float>(windspeed * 1000.)/3600.));      // km/h -> m/s
     speed /= 1000;	// slower
-    //echo("orient=%.2frd %ddg, speed=%.2fm/s %dkm/h", pos.az, (int) RAD2DEG(pos.az), speed*1000, windspeed);
+    //echo("orient=%.2frd %ddg, speed=%.2fm/s %dkm/h", pos.az, RAD2DEG(pos.az), speed*1000, windspeed);
   }
 }
 

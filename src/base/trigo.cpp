@@ -30,7 +30,7 @@ float deltaAngle(float a1, float a2)
 {
   float da = a1 - a2;
 
-  da -= M_2PI * ((int)(da / M_2PI));
+  da -= M_2PI * int(da / M_2PI);
   if (da < -M_PI)
     da += M_2PI;
   if (da > M_PI)
@@ -43,7 +43,7 @@ int radian2degree(float r)
 {
   if (r < 0)
     r += (double) M_2PI;
-  int d = (int) (r / (double) M_2PI * 3600);
+  int d = int(r / M_2PI * 3600);
   if (d % 10 > 5)
     d += 5;
   d /= 10;

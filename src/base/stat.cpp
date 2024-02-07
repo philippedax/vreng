@@ -99,8 +99,8 @@ void statSendPacket(int pkt_len)
   sum_bytes_sent += pkt_len;
   pkts_sent++;
   sum_pkts_sent++;
-  pkt_max = MAX((int) pkt_max, pkt_len);
-  pkt_min = MIN((int) pkt_min, pkt_len);
+  pkt_max = MAX(pkt_max, pkt_len);
+  pkt_min = MIN(pkt_min, pkt_len);
 }
 
 uint32_t getSentPackets()
@@ -135,8 +135,8 @@ void statReceivePacket(int pkt_len)
   sum_bytes_recvd += pkt_len;
   pkts_recvd++;
   sum_pkts_recvd++;
-  pkt_max = MAX((int) pkt_max, pkt_len);
-  pkt_min = MIN((int) pkt_min, pkt_len);
+  pkt_max = MAX(pkt_max, pkt_len);
+  pkt_min = MIN(pkt_min, pkt_len);
 }
 
 /* compute kbps_sent & co */

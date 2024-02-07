@@ -106,7 +106,7 @@ typedef struct {
 
 
 /** DDS loader */
-Img * Img::loadDDS(void *tex, ImageReader read_func)
+Img * Img::loadDDS(void *_tex, ImageReader read_func)
 {
   DDSurfaceDesc ddsd;
   char magic[4];
@@ -129,15 +129,15 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   if (! dds) return NULL;
   memset(dds, 0, sizeof(dds_t));
 
-  Texture *texture = static_cast<Texture *>(tex);
+  Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
-  if ((dds->fp = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((dds->fp = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   /* read magic number and check if valid .dds file */
-  fread(&magic, sizeof(char), 4, dds->fp);
+  fread(&magic, 1, 4, dds->fp);
   if (strncmp (magic, "DDS ", 4) != 0) {
-    error("file \"%s\" is not a valid .dds file!", Cache::getFilePath(texture->url));
+    error("file \"%s\" is not a valid .dds file!", Cache::getFilePath(tex->url));
     cache->close();
     delete cache;
     return NULL;
@@ -167,7 +167,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
     break;
   default:
     error("the file \"%s\" doesn't appear to be compressed using DXT1, DXT3, or DXT5! [%x]",
-          Cache::getFilePath(texture->url), ddsd.bpp.fourCC);
+          Cache::getFilePath(tex->url), ddsd.bpp.fourCC);
     cache->close();
     delete cache;
     if (dds) delete[] dds;
