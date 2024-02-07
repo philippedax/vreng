@@ -35,7 +35,7 @@ static int hexval(char ch)
   return val;
 }
 
-Img * Img::loadXBM(void *tex, ImageReader read_func)
+Img * Img::loadXBM(void *_tex, ImageReader read_func)
 {
   int x = 0;
   uint16_t width = 0, height = 0;
@@ -43,11 +43,11 @@ Img * Img::loadXBM(void *tex, ImageReader read_func)
   uint8_t colorbg = 255;// white
   char line[256];
   
-  Texture *texture = (Texture *) tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   Img *img = NULL;
 

@@ -47,18 +47,18 @@ typedef struct {
 **/
 
 
-Img * Img::loadTGA(void *tex, ImageReader read_func)
+Img * Img::loadTGA(void *_tex, ImageReader read_func)
 {
   uint16_t width, height;
   uint8_t  bpp;
   uint8_t  rle, TgaInfo[18];
   int size;
 
-  Texture *texture = (Texture *) tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   /* we read the header */
   fread(&TgaInfo, 1, 18, f);  // Read header

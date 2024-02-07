@@ -411,7 +411,7 @@ htretry:
                 //echo("mime=%s %s", p, http->url);
                 // only for textures
                 if (http->handle && strcmp(p, "plain")) {
-                  Texture *tex = (Texture *) http->handle;
+                  Texture *tex = static_cast<Texture *>(http->handle);
                   tex->setMime(p);
                 }
               }

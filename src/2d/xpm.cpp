@@ -27,7 +27,7 @@
 Img * Img::loadXPM(void *tex, ImageReader read_func)
 {
 #if HAVE_LIBXPM
-  Texture *texture = (Texture *) tex;
+  Texture *texture = static_cast<Texture *>(tex);
 
   Cache *cache = new Cache();
   FILE *f;
@@ -49,14 +49,14 @@ Img * Img::loadXPM(void *tex, ImageReader read_func)
   Img *img = new Img(xpmimage.width, xpmimage.height, Img::RGB);
 
   uint8_t *data = new uint8_t[3 * size];
-  uint8_t *pxpm = (uint8_t *) xpmimage.data;
+  uint8_t *pxpm = (uint8_t *)(xpmimage.data);
   for (int i=0; i < size ; i++, pxpm++) {
     data[i*3 + 0] = *pxpm++;
     data[i*3 + 1] = *pxpm++;
     data[i*3 + 2] = *pxpm++;
   }
 
-  img->pixmap = (uint8_t *) xpmimage.data;
+  img->pixmap = (uint8_t *)(xpmimage.data);
   if (data) delete[] data;
   cache->close();
   delete cache;

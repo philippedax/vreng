@@ -113,7 +113,7 @@ Img * Img::loadSGI(void *_tex, ImageReader read_func)
   SgiInfo *sgi = new SgiInfo[1];
   if (! sgi) return NULL;
 
-  Texture *tex = (Texture *) _tex;
+  Texture *tex = static_cast<Texture *>(_tex);
   Cache *cache = new Cache();
   if ((sgi->f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 

@@ -49,7 +49,7 @@ Img * Img::loadBMP(void *_tex, ImageReader read_func)
 {
   struct bmp_header h;
 
-  Texture *tex = (Texture *) _tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
   FILE *f;
@@ -97,7 +97,7 @@ errbmp:
   Img *img = new Img(h.width, h.height, Img::RGB);
 
   // we read the data
-  fseek(f, (long) h.data_offset, 0);
+  fseek(f, h.data_offset, 0);
   fread((char *) img->pixmap, 1, h.image_size, f);
 
   if (cache) {

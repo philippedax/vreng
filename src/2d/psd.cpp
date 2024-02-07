@@ -274,17 +274,17 @@ static uint8_t *psd_load(stbi *s, uint16_t *x, uint16_t *y, uint8_t *srccomp, ui
   return data;
 }
 
-Img * Img::loadPSD(void *tex, ImageReader read_func)
+Img * Img::loadPSD(void *_tex, ImageReader read_func)
 {
   stbi s;
   uint16_t width, height;
   uint8_t bpp, dstcomp = Img::RGB;
 
-  Texture *texture = (Texture *) tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   s.img_file = f;
 

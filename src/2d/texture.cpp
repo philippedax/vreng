@@ -121,7 +121,7 @@ void Texture::update()
 
 int imageReader(void *_tex, char *buf, int len)
 {
-  Texture *tex = (Texture *) _tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   return tex->http->httpRead(buf, len);        // return read length
 }
@@ -129,7 +129,7 @@ int imageReader(void *_tex, char *buf, int len)
 void Texture::reader(void *_tex, Http *_http)
 {
   if (! _http) return;
-  Texture *tex = (Texture *) _tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   tex->http = _http;
   trace(DBG_2D, "texture: mime=%s url=%s", tex->mime, tex->url);

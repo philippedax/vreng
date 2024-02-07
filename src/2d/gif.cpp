@@ -60,13 +60,13 @@ static int gifReadScreen(GifInfo *g);
 static int gifReadBlocks(GifInfo *g);
 
 
-Img * Img::loadGIF(void *tex, ImageReader read_func)
+Img * Img::loadGIF(void *_tex, ImageReader read_func)
 {
   GifInfo s, *g = &s;
-  Texture *texture = (Texture *) tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
-  if ((g->fp = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((g->fp = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   g->img = NULL;
 

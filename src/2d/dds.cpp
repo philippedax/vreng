@@ -129,7 +129,7 @@ Img * Img::loadDDS(void *tex, ImageReader read_func)
   if (! dds) return NULL;
   memset(dds, 0, sizeof(dds_t));
 
-  Texture *texture = (Texture *) tex;
+  Texture *texture = static_cast<Texture *>(tex);
 
   Cache *cache = new Cache();
   if ((dds->fp = cache->open(texture->url, texture->http)) == NULL) return NULL;

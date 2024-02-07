@@ -33,7 +33,7 @@
 Img * Img::loadSVG(void *_tex, ImageReader read_func)
 {
   // downloads the svg file and put it into the cache
-  Texture *tex = (Texture *) _tex;
+  Texture *tex = static_cast<Texture *>(_tex);
   char filename[PATH_LEN] = {0};
 
   Cache::setCachePath(tex->url, filename);

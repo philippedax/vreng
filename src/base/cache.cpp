@@ -266,7 +266,7 @@ bool Cache::inCache(const char *url)
 char * Cache::getFilename(void *_tex)
 {
   static char filepath[PATH_LEN] = {0};
-  Texture *tex = (Texture *) _tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   setCachePath(tex->url, filepath);
   return filepath;

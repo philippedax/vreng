@@ -24,13 +24,13 @@
 #include "texture.hpp"	// Texture
 
 
-Img * Img::loadPGM(void *tex, ImageReader read_func)
+Img * Img::loadPGM(void *_tex, ImageReader read_func)
 {
-  Texture *texture = (Texture *) tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   /* we read the header */
   int width, height;

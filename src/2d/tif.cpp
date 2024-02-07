@@ -34,7 +34,7 @@ Img * Img::loadTIF(void *_tex, ImageReader read_func)
 #if HAVE_LIBTIFF
   // downloads the tiff file and put it into the cache
 
-  Texture *tex = (Texture *) _tex;
+  Texture *tex = static_cast<Texture *>(_tex);
   char filename[PATH_LEN] = {0};
 
   Cache::setCachePath(tex->url, filename);

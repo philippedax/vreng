@@ -115,7 +115,7 @@ Img * Img::loadJPG(void *_tex, ImageReader read_func)
 #if HAVE_LIBJPEG
   struct jpeg_decompress_struct cinfo;
 
-  Texture *tex = (Texture *) _tex;
+  Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
   FILE *f;
