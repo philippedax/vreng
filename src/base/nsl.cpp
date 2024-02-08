@@ -52,7 +52,7 @@ struct hostent * my_gethostbyname(const char *hostname, int af)
 
   if ((hptmp = gethostbyname(hostname)) == NULL) return NULL;
 
-  if ((hp =  (struct hostent *) malloc(sizeof(struct hostent))) != NULL)
+  if ((hp =  static_cast<struct hostent *>)malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
 #endif
@@ -84,7 +84,7 @@ struct hostent * my_gethostbyname_r(const char *hostname, int af)
 #endif
 
   if (! hptmp) return NULL;
-  if ((hp =  (struct hostent *) malloc(sizeof(struct hostent))) != NULL)
+  if ((hp =  static_cast<struct hostent *>(malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
 #endif
@@ -112,7 +112,7 @@ struct hostent * my_gethostbyaddr(const char *addr, int af)
   struct hostent *hptmp, *hp;
 
   if ((hptmp = gethostbyaddr(addr, sizeof(struct in_addr), af)) == NULL) return NULL;
-  if ((hp =  (struct hostent *) malloc(sizeof(struct hostent))) != NULL)
+  if ((hp =  static_cast<struct hostent *>(malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
 #endif
@@ -142,7 +142,7 @@ struct hostent * my_gethostbyaddr_r(const char *addr, int af)
 #endif
 
   if (! hptmp) return NULL;
-  if ((hp =  (struct hostent *) malloc(sizeof(struct hostent))) != NULL)
+  if ((hp =  static_cast<struct hostent *>(malloc(sizeof(struct hostent)))) != NULL)
     memcpy(hp, hptmp, sizeof(struct hostent));
   return hp;
 #endif
@@ -153,7 +153,7 @@ struct servent * my_getservbyname(const char *service)
   struct servent *sptmp, *sp;
 
   if ((sptmp = getservbyname(service, NULL)) == NULL) return NULL;
-  if ((sp =  (struct servent *) malloc(sizeof(struct servent))) != NULL)
+  if ((sp =  static_cast<struct servent *>(malloc(sizeof(struct servent)))) != NULL)
     memcpy(sp, sptmp, sizeof(struct servent));
   return sp;
 }
@@ -176,7 +176,7 @@ struct servent * my_getservbyname_r(const char *service)
 #endif
 
   if (! sptmp) return NULL;
-  if ((sp =  (struct servent *) malloc(sizeof(struct servent))) != NULL)
+  if ((sp =  static_cast<struct servent *>(malloc(sizeof(struct servent)))) != NULL)
     memcpy(sp, sptmp, sizeof(struct servent));
   return sp;
 }

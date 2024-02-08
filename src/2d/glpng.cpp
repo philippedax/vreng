@@ -229,7 +229,7 @@ static int HalfSize(GLint components, GLint width, GLint height, const unsigned 
 static void Build2DMipmaps(GLint components, GLint width, GLint height, GLenum format, const unsigned char *data, int filter)
 {
   int level = 0;
-  unsigned char *d = (unsigned char *) malloc((width/2)*(height/2)*components+4);
+  unsigned char *d = static_cast<unsigned char *>(malloc((width/2)*(height/2)*components+4));
   const unsigned char *last = data;
 
   glTexImage2D(GL_TEXTURE_2D, level, components, width, height, 0, format, GL_UNSIGNED_BYTE, data);
@@ -313,8 +313,8 @@ int APIENTRY pngLoadRawF(FILE *fp, pngRawInfo *pinfo)
 
   png_read_update_info(png, info);
 
-  data = (png_bytep) malloc(png_get_rowbytes(png, info)*height);
-  row_p = (png_bytep *) malloc(sizeof(png_bytep)*height);
+  data = static_cast<png_bytep>(malloc(png_get_rowbytes(png, info)*height));
+  row_p = static_cast<png_bytep *>(malloc(sizeof(png_bytep)*height));
 
   for (i = 0; i < height; i++) {
     if (StandardOrientation)
@@ -452,8 +452,8 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
 
   png_read_update_info(png, info);
 
-  data = (png_bytep) malloc(png_get_rowbytes(png, info)*height);
-  row_p = (png_bytep *) malloc(sizeof(png_bytep)*height);
+  data = static_cast<png_bytep>(malloc(png_get_rowbytes(png, info)*height));
+  row_p = static_cast<png_bytep *>(malloc(sizeof(png_bytep)*height));
 
   for (i = 0; i < height; i++) {
     if (StandardOrientation)
@@ -470,7 +470,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
   if (rw != width || rh != height) {
     const int bpps = png_get_rowbytes(png, info)/width;
 
-    data2 = (png_bytep) malloc(rw*rh*bpps);
+    data2 = static_cast<png_bytep>(malloc(rw*rh*bpps));
 
    /* Doesn't work on certain sizes */
 /* if (gluScaleImage(glformat, width, height, GL_UNSIGNED_BYTE, data, rw, rh, GL_UNSIGNED_BYTE, data2) != 0)
@@ -551,7 +551,7 @@ int APIENTRY pngLoadF(FILE *fp, int mipmap, int trans, pngRawInfo *pinfo)
       int r, g, b, a;
 
       p = data, endp = p+width*height*3;
-      q = data2 = (png_bytep) malloc(sizeof(png_byte)*width*height*4);
+      q = data2 = static_cast<png_bytep>(malloc(sizeof(png_byte)*width*height*4));
 
       if (pinfo != NULL) pinfo->Alpha = 8;
 

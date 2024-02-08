@@ -59,7 +59,7 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
 #if HAVE_PNG_H
 #include <png.h>
   int         rowStride    = (width * 3 + 3) & ~0x3;
-  png_bytep*  row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * height);
+  png_bytep*  row_pointers = static_cast<png_bytep*>(malloc(sizeof(png_bytep) * height));
   png_structp pngWrite;
   png_infop   pngInfo;
   int         pixel_I;
@@ -72,7 +72,7 @@ void Img::savePNG(const char *filename, GLint width, GLint height)
     error("savePNG: file could not be opened for writing"); return;
   }
 
-  image = (GLubyte *) malloc(width * height * sizeof(GLubyte) * 3);
+  image = static_cast<GLubyte *>(malloc(width * height * sizeof(GLubyte) * 3));
 
   glPixelStorei(GL_PACK_ALIGNMENT, 1);
   glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, image);

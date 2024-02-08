@@ -348,7 +348,7 @@ int addPolygonPoint(Polygon *pol, Point3D *p)
 
   if (pol->points_type == POL_POINT_VALS) {
     pol->num_points++;
-    Point3D *pnts = (Point3D *) realloc(pol->points.pnts, sizeof(Point3D)*(pol->num_points));
+    Point3D *pnts = static_cast<Point3D *>(realloc(pol->points.pnts, sizeof(Point3D)*(pol->num_points)));
     if (pnts) {
        copyPoint3D(&(pnts[pol->num_points-1]), p);
        pol->points.pnts = pnts;
@@ -357,7 +357,7 @@ int addPolygonPoint(Polygon *pol, Point3D *p)
   }
   else {
     pol->num_points++;
-    Point3D **refs = (Point3D **) realloc(pol->points.refs, sizeof(Point3D*)*(pol->num_points));
+    Point3D **refs = static_cast<Point3D **>(realloc(pol->points.refs, sizeof(Point3D*)*(pol->num_points)));
     if (refs) {
        //echo("dxf adding point to polygon");
        refs[pol->num_points-1]=p;
@@ -374,7 +374,7 @@ int delPolygonPoint(Polygon *pol)
 
   if (pol->points_type == POL_POINT_VALS) {
     pol->num_points--;
-    pol->points.pnts = (Point3D *) realloc(pol->points.pnts, sizeof(Point3D)*(pol->num_points));
+    pol->points.pnts = static_cast<Point3D *>(realloc(pol->points.pnts, sizeof(Point3D)*(pol->num_points)));
   }
   else {
     pol->num_points--;
@@ -466,17 +466,19 @@ bool changePoligonPointsType(Polygon *pol,char points_type)
     return true;
   }
   if (points_type == POL_POINT_VALS && pol->points_type == POL_POINT_REFS) {
-    Point3D *pnts = (Point3D *) malloc(sizeof(Point3D)*(pol->num_points));
-    for (int i=0; i < pol->num_points ; i++)
-       copyPoint3D(&(pnts[i]), pol->points.refs[i]);
+    Point3D *pnts = static_cast<Point3D *>(malloc(sizeof(Point3D)*(pol->num_points)));
+    for (int i=0; i < pol->num_points ; i++) {
+      copyPoint3D(&(pnts[i]), pol->points.refs[i]);
+    }
     free(pol->points.refs);
     pol->points.pnts = pnts;
     pol->points_type = points_type;
   }
   else {
-    Point3D **refs = (Point3D **) malloc(sizeof(Point3D*)*(pol->num_points));
-    for (int i=0; i < pol->num_points ; i++)
-       refs[i] = newPoint3D(pol->points.refs[i]->x, pol->points.refs[i]->y, pol->points.refs[i]->z);
+    Point3D **refs = static_cast<Point3D **>(malloc(sizeof(Point3D*)*(pol->num_points)));
+    for (int i=0; i < pol->num_points ; i++) {
+      refs[i] = newPoint3D(pol->points.refs[i]->x, pol->points.refs[i]->y, pol->points.refs[i]->z);
+    }
     free(pol->points.pnts);
     pol->points.refs = refs;
     pol->points_type = points_type;
@@ -535,7 +537,7 @@ Point3D * minPolygon(Polygon *pol)
 /*------------------  Object PolyMesh ----------------------------------*/
 PolyMeshObj * newPolyMesh(char *name, SRGB *color)
 {
-  PolyMeshObj *pmesh = (PolyMeshObj *) malloc(sizeof(PolyMeshObj));
+  PolyMeshObj *pmesh = static_cast<PolyMeshObj *>(malloc(sizeof(PolyMeshObj)));
   pmesh->name = static_cast<char *>(malloc(2));
   pmesh->name[0]='\0';
   changePolyMeshObjName(pmesh,name);
@@ -553,13 +555,15 @@ PolyMeshObj * deletePolyMesh(PolyMeshObj *pmesh)
   if (!pmesh) return NULL;
 
   if (pmesh->num_polygons > 0) {
-    for ( ; pmesh->num_polygons>0 ; pmesh->num_polygons--)
+    for ( ; pmesh->num_polygons>0 ; pmesh->num_polygons--) {
       deletePolygon(pmesh->polygons[pmesh->num_polygons-1]);
+    }
     free(pmesh->polygons);
   }
   if (pmesh->num_points > 0) {
-    for ( ; pmesh->num_points>0 ; pmesh->num_points--)
+    for ( ; pmesh->num_points>0 ; pmesh->num_points--) {
       deletePoint3D(pmesh->points[pmesh->num_points-1]);
+    }
     free(pmesh->points);
   }
   deletePoint3D(pmesh->color);
@@ -585,7 +589,7 @@ int addPolyMeshObjPolygon(PolyMeshObj *pmesh, Polygon *pol)
   if (!pmesh || !pol) return -1;
 
   pmesh->num_polygons++;
-  Polygon **polygons = (Polygon **) realloc(pmesh->polygons, sizeof(Polygon*)*(pmesh->num_polygons));
+  Polygon **polygons = static_cast<Polygon **>(realloc(pmesh->polygons, sizeof(Polygon*)*(pmesh->num_polygons)));
   if (polygons) {
     polygons[pmesh->num_polygons-1] = pol;
     pmesh->polygons = polygons;
@@ -598,21 +602,22 @@ int addPolyMeshObjPolygon(PolyMeshObj *pmesh, Polygon *pol)
 int delPolyMeshObjPolygon(PolyMeshObj *pmesh)
 {
   if (!pmesh) return -1;
-
   if (pmesh->num_polygons == 0) return 0;
+
   pmesh->num_polygons--;
   Polygon *pol = pmesh->polygons[pmesh->num_polygons];
   deletePolygon(pol);
-  pmesh->polygons = (Polygon **) realloc(pmesh->polygons, sizeof(Polygon*)*(pmesh->num_polygons));
+  pmesh->polygons = static_cast<Polygon **>(realloc(pmesh->polygons, sizeof(Polygon*)*(pmesh->num_polygons)));
   return pmesh->num_polygons;
 }
 
 int insertPolyMeshObjPolygon(PolyMeshObj *pmesh, Polygon *pol, int pos)
 {
   if (!pmesh || !pol || pos <0) return -1;
+
   if (pos >= pmesh->num_polygons) return addPolyMeshObjPolygon(pmesh, pol);
   pmesh->num_polygons++;
-  Polygon **polygons = (Polygon **)realloc(pmesh->polygons, sizeof(Polygon*)*(pmesh->num_polygons));
+  Polygon **polygons = static_cast<Polygon **>(realloc(pmesh->polygons, sizeof(Polygon*)*(pmesh->num_polygons)));
   if (polygons) {
     Polygon *np;
     for (np=pol; pos < pmesh->num_polygons ; pos++) {
@@ -644,7 +649,7 @@ int removePolyMeshObjPolygon(PolyMeshObj *pmesh, int pos)
   }
   deletePolygon(pol);
   pmesh->num_polygons--;
-  pmesh->polygons = (Polygon **) realloc(polygons, sizeof(Polygon*)*(pmesh->num_polygons));
+  pmesh->polygons = static_cast<Polygon **>(realloc(polygons, sizeof(Polygon*)*(pmesh->num_polygons)));
   return pmesh->num_polygons;
 }
 
@@ -653,7 +658,7 @@ int addPolyMeshObjPoint(PolyMeshObj *pmesh, Point3D *p)
   if (!pmesh || !p) return -1;
 
   pmesh->num_points++;
-  Point3D **pnts = (Point3D **) realloc(pmesh->points, sizeof(Point3D*)*(pmesh->num_points));
+  Point3D **pnts = static_cast<Point3D **>(realloc(pmesh->points, sizeof(Point3D*)*(pmesh->num_points)));
   if (pnts) {
     pnts[pmesh->num_points-1] = p;
     pmesh->points = pnts;
@@ -665,8 +670,8 @@ int addPolyMeshObjPoint(PolyMeshObj *pmesh, Point3D *p)
 int delPolyMeshObjPoint(PolyMeshObj *pmesh)
 {
   if (!pmesh) return -1;
-
   if (pmesh->num_points == 0) return 0;
+
   pmesh->num_points--;
   Point3D *p = pmesh->points[pmesh->num_points];
 
@@ -675,12 +680,12 @@ int delPolyMeshObjPoint(PolyMeshObj *pmesh)
     Polygon *pol = pmesh->polygons[i];
     if (pol->pol_type == POL_POINT_REFS) {
       for (int j=0; j < pol->num_points ; j++) {
-         if (pol->points.refs[j] == p) removePolygonPoint(pol, j);
+        if (pol->points.refs[j] == p) removePolygonPoint(pol, j);
       }
     }
   }
   deletePoint3D(p);
-  pmesh->points = (Point3D **) realloc(pmesh->points, sizeof(Point3D*)*(pmesh->num_points));
+  pmesh->points = static_cast<Point3D **>(realloc(pmesh->points, sizeof(Point3D*)*(pmesh->num_points)));
   return pmesh->num_points;
 }
 
@@ -690,7 +695,7 @@ int insertPolyMeshObjPoint(PolyMeshObj *pmesh, Point3D *p, int pos)
 
   if (pos >= pmesh->num_points) return addPolyMeshObjPoint(pmesh, p);
   pmesh->num_points++;
-  Point3D **points = (Point3D **) realloc(pmesh->points, sizeof(Point3D*)*(pmesh->num_points));
+  Point3D **points = static_cast<Point3D **>(realloc(pmesh->points, sizeof(Point3D*)*(pmesh->num_points)));
   if (points) {
     Point3D *np;
     for (np=p; pos < pmesh->num_points ; pos++) {
@@ -709,7 +714,7 @@ int removePolyMeshObjPoint(PolyMeshObj *pmesh, int pos)
 {
   if (!pmesh || pos <0) return -1;
 
-  if (pos>=pmesh->num_points) return delPolyMeshObjPoint(pmesh);
+  if (pos >= pmesh->num_points) return delPolyMeshObjPoint(pmesh);
   Point3D **points = pmesh->points;
   Point3D *p = points[pos];
   /* eliminar punto de los polygonos !!! */
@@ -717,7 +722,7 @@ int removePolyMeshObjPoint(PolyMeshObj *pmesh, int pos)
     Polygon *pol = pmesh->polygons[i];
     if (pol->pol_type == POL_POINT_REFS) {
       for (int j=0; j < pol->num_points ; j++) {
-         if (pol->points.refs[j] == p) removePolygonPoint(pol, j);
+        if (pol->points.refs[j] == p) removePolygonPoint(pol, j);
       }
     }
   }
@@ -733,7 +738,7 @@ int removePolyMeshObjPoint(PolyMeshObj *pmesh, int pos)
   }
   deletePoint3D(p);
   pmesh->num_points--;
-  pmesh->points = (Point3D **) realloc(points, sizeof(Point3D*)*(pmesh->num_points));
+  pmesh->points = static_cast<Point3D **>(realloc(points, sizeof(Point3D*)*(pmesh->num_points)));
   return pmesh->num_polygons;
 }
 
@@ -751,8 +756,8 @@ int addPolyMeshObjPointEx(PolyMeshObj *pmesh, Point3D *p)
 int addPolyMeshObjPolygonPoint(PolyMeshObj *pmesh, Point3D *p)
 {
   if (!pmesh || !p) return -1;
-
   if (pmesh->num_polygons==0) return -1;
+
   Polygon *pol = pmesh->polygons[pmesh->num_polygons-1];
   return addPolygonPoint(pol,p);
 }
@@ -760,8 +765,8 @@ int addPolyMeshObjPolygonPoint(PolyMeshObj *pmesh, Point3D *p)
 int delPolyMeshObjPolygonPoint(PolyMeshObj *pmesh)
 {
   if (!pmesh) return -1;
-
   if (pmesh->num_polygons == 0) return -1;
+
   Polygon *pol = pmesh->polygons[pmesh->num_polygons-1];
   return delPolygonPoint(pol);
 }
@@ -993,8 +998,9 @@ DXF_rule * deleteRuleDXF(DXF_rule *rule)
 {
   if (!rule) return NULL;
 
-  for (int i=0; i < rule->num_rules; i++)
+  for (int i=0; i < rule->num_rules; i++) {
     deleteRuleDXF(rule->lrules[i]);
+  }
   deleteTokenDXF(rule->tok);
   delete[] rule;
   return (rule = NULL);
@@ -1005,7 +1011,7 @@ int addRuleDXF(DXF_rule *rule, DXF_rule *rul)
   if (!rule || !rul) return -1;
 
   rule->num_rules++;
-  DXF_rule **rules = (DXF_rule **) realloc(rule->lrules, sizeof(DXF_rule*)*(rule->num_rules));
+  DXF_rule **rules = static_cast<DXF_rule **>(realloc(rule->lrules, sizeof(DXF_rule*)*(rule->num_rules)));
   if (rules) {
     rules[rule->num_rules-1] = rul;
     rule->lrules = rules;
@@ -1022,7 +1028,7 @@ int delRuleDXF(DXF_rule *rule)
   rule->num_rules--;
   DXF_rule *rul = rule->lrules[rule->num_rules];
   deleteRuleDXF(rul);
-  rule->lrules = (DXF_rule **) realloc(rule->lrules, sizeof(DXF_rule*)*(rule->num_rules));
+  rule->lrules = static_cast<DXF_rule **>(realloc(rule->lrules, sizeof(DXF_rule*)*(rule->num_rules)));
   return rule->num_rules;
 }
 
@@ -1115,7 +1121,7 @@ DXF_file * parseDXF(DXF_file *dxffile, DXF_rule *rule)
 /*------------------  Object SceneObj ----------------------------------*/
 SceneObj * newScene(char *name, SRGB *color)
 {
-  SceneObj* scene = (SceneObj *) malloc(sizeof(SceneObj));
+  SceneObj* scene = static_cast<SceneObj *>(malloc(sizeof(SceneObj)));
   scene->name = static_cast<char *>(malloc(2));
   scene->name[0] = '\0';
   changeSceneObjName(scene, name);
@@ -1130,8 +1136,9 @@ SceneObj * deleteScene(SceneObj *scene)
   if (!scene) return NULL;
 
   if (scene->num_objects > 0) {
-    for ( ; scene->num_objects > 0 ; scene->num_objects--)
+    for ( ; scene->num_objects > 0 ; scene->num_objects--) {
       deletePolyMesh(scene->objects[scene->num_objects-1]);
+    }
     //dax free(scene->objects);
   }
   //dax free(scene->color);
@@ -1156,7 +1163,7 @@ int addSceneObjPolyMesh(SceneObj *scene, PolyMeshObj *pmesh)
   if (!scene || !pmesh) return -1;
 
   scene->num_objects++;
-  PolyMeshObj **pmeshes = (PolyMeshObj **) realloc(scene->objects, sizeof(PolyMeshObj*)*(scene->num_objects));
+  PolyMeshObj **pmeshes = static_cast<PolyMeshObj **>(realloc(scene->objects, sizeof(PolyMeshObj*)*(scene->num_objects)));
   if (pmeshes) {
     pmeshes[scene->num_objects-1] = pmesh;
     scene->objects = pmeshes;
@@ -1173,7 +1180,7 @@ int delSceneObjPolyMesh(SceneObj *scene)
   scene->num_objects--;
   PolyMeshObj *pmesh = scene->objects[scene->num_objects];
   deletePolyMesh(pmesh);
-  scene->objects = (PolyMeshObj **) realloc(scene->objects, sizeof(PolyMeshObj*)*(scene->num_objects));
+  scene->objects = static_cast<PolyMeshObj **>(realloc(scene->objects, sizeof(PolyMeshObj*)*(scene->num_objects)));
   return scene->num_objects;
 }
 
@@ -1183,7 +1190,7 @@ int insertSceneObjPolyMesh(SceneObj *scene, PolyMeshObj *pmesh, int pos)
 
   if (pos >= scene->num_objects) return addSceneObjPolyMesh(scene, pmesh);
   scene->num_objects++;
-  PolyMeshObj **pmeshes = (PolyMeshObj **) realloc(scene->objects, sizeof(PolyMeshObj*)*(scene->num_objects));
+  PolyMeshObj **pmeshes = static_cast<PolyMeshObj **>(realloc(scene->objects, sizeof(PolyMeshObj*)*(scene->num_objects)));
   if (pmeshes) {
     PolyMeshObj *np;
     for (np=pmesh ; pos<scene->num_objects ; pos++) {
@@ -1215,7 +1222,7 @@ int removeSceneObjPolyMesh(SceneObj *scene, int pos)
   }
   deletePolyMesh(pol);
   scene->num_objects--;
-  scene->objects = (PolyMeshObj **) realloc(pmeshes, sizeof(PolyMeshObj*)*(scene->num_objects));
+  scene->objects = static_cast<PolyMeshObj **>(realloc(pmeshes, sizeof(PolyMeshObj*)*(scene->num_objects)));
   return scene->num_objects;
 }
 

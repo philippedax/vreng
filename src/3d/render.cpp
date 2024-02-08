@@ -733,7 +733,7 @@ WO** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
   int nb = 0;
 
   WO **drawedlist = Render::getDrawedObjects(&hits);
-  WO **objlist = (WO**) malloc(hits*sizeof(WO*));
+  WO **objlist = static_cast<WO**>(malloc(hits*sizeof(WO*)));
 
   for (int i=0; i < hits ; i++) {
     for (int j=0; j < nbr ; j++) {
@@ -747,7 +747,7 @@ WO** Render::getVisibleObjects(char **listtype, int nbr, int *nbelems)
       }
     }
   }
-  objlist = (WO**) realloc(objlist, nb * sizeof(WO*));
+  objlist = static_cast<WO**>(realloc(objlist, nb * sizeof(WO*)));
 
   *nbelems = nb;
   if (drawedlist) delete[] drawedlist;
