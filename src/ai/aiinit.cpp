@@ -47,8 +47,8 @@ void initOcaml()
 /*************** fonctions de transformations de requetes *********************/
 value recherche_Typegen(value ttype, value actiondemande)
 {
-  char *typechercher = (char *) String_val(ttype);
-  char *action = (char *) String_val(actiondemande);
+  char *typechercher = const_cast<char *>(String_val(ttype));
+  char *action = const_cast<char *>(String_val(actiondemande));
 
   uint8_t oclick = 0;
   float oclicked[7];
@@ -106,7 +106,7 @@ value recherche_Typegen(value ttype, value actiondemande)
 value recherche_Type(value ttype)
 {
   value ret;
-  char *typechercher = (char *) String_val(ttype);
+  char *typechercher = const_cast<char *>(String_val(ttype));
   uint8_t oclick = 0;
   float oclicked[7];
 
@@ -174,7 +174,7 @@ value recherche_Objet(value mot)
   sprintf(foundpos, "N/A");
 
 #if HAVE_LIBXML2
-  char *val = (char *) String_val(mot);
+  char *val = const_cast<char *>(String_val(mot));
   char filename[64];
   Cache::setCachePath(World::current()->getUrl(), filename);
   Xml::selectXpathExpr(filename, "//*/@name", val, foundpos);
@@ -213,8 +213,8 @@ value deplacement_to_Objet(value px, value py, value pz, value ori, value depl)
 
 value recherche_Func(value mot, value act)
 {
-  char *val = (char *) String_val(mot);
-  char *actiontype = (char *) String_val(act);
+  char *val = const_cast<char *>(String_val(mot));
+  char *actiontype = const_cast<char *>(String_val(act));
   int *listNumType = Vicinity::getTypeFromAction(val);
   int nbtype = listNumType[0];
 
@@ -278,7 +278,7 @@ value deplacement_to_Proximite(value mot, value pos)
   float orient = localuser->pos.az;
 
 #if HAVE_LIBXML2
-  char *val = (char *) String_val(mot);
+  char *val = const_cast<char *>(String_val(mot));
   char filename[64];
   Cache::setCachePath(World::current()->getUrl(), filename);
   res = Xml::selectProximity(filename, val, &posx, &posy, &posz, &orient);
@@ -295,19 +295,19 @@ value deplacement_to_Proximite(value mot, value pos)
 /** fonctions d'affichage **/
 void msg_info(value mot)
 {
-  char *val = (char *) String_val(mot);
+  char *val = const_cast<char *>(String_val(mot));
   echo("msgInfo::%s", val);
 }
 
 void msg_debug(value mot)
 {
-  char *val = (char *) String_val(mot);
+  char *val = const_cast<char *>(String_val(mot));
   echo("msg_debug::%s", val);
 }
 
 void viewed_objects(value mot)
 {
-  char *val = (char *) String_val(mot);
+  char *val = const_cast<char *>(String_val(mot));
   Vicinity* vicin = new Vicinity(val);
   vicin->analScene();
 }

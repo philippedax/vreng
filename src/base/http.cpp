@@ -503,7 +503,7 @@ int Http::read_char()
 {
   if (http_pos >= http_len) {	// eob
     http_pos = 0;
-    if ((http_len = httpRead((char *)http_buf, sizeof(http_buf))) == 0) {
+    if ((http_len = httpRead(reinterpret_cast<char *>(http_buf), sizeof(http_buf))) == 0) {
       http_eof = true;
       return -1;	// http eof
     }

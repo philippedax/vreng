@@ -95,7 +95,7 @@ Img * Img::loadGIF(void *_tex, ImageReader read_func)
 /* image data */
 static inline int gifread(GifInfo *g, uint8_t *buf, int len)
 {
-  return fread((char *) buf, 1, len, g->fp);
+  return fread(reinterpret_cast<char *>(buf), 1, len, g->fp);
 }
 
 static int gifGetByte(GifInfo *g)

@@ -514,7 +514,7 @@ void Xml::dtdValidation(const char *pathname)
   if (xmltextptr != NULL) {
     int ret;
     bool dtderr = false;
-    char *filename = (char *) strrchr(pathname, '/');
+    char *filename = const_cast<char *>(strrchr(pathname, '/'));
     filename++;
 
     do {

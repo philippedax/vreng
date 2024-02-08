@@ -54,7 +54,7 @@ Img * Img::loadPPM(void *_tex, ImageReader read_func)
 
   /* we read the data */
   for (int y=0; y < height; y++) {
-    fread((char *)img->pixmap + y*width*Img::RGB, 1, width*Img::RGB, f);
+    fread(reinterpret_cast<char *>(img->pixmap) + y*width*Img::RGB, 1, width*Img::RGB, f);
   }
 
   cache->close();

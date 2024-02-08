@@ -485,7 +485,7 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   }
 
   objinfo[0].name = classname;
-  if (instancename == NULL) instancename = (char *)"";
+  if (instancename == NULL) instancename = const_cast<char *>("");
   objinfo[1].name = instancename;
   if (::g.pref.dbgtrace) echo("pointed: %s.%s", classname, instancename);
 

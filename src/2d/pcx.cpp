@@ -61,7 +61,7 @@ Img * Img::loadPCX(void *_tex, ImageReader read_func)
   if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
 
   /* loads the Header */
-  fread((char *) &pcxInfo, 1, sizeof(pcxInfo), f);
+  fread(reinterpret_cast<char *>(&pcxInfo), 1, sizeof(pcxInfo), f);
 
   /* test if this is really a PCX file */
   if (pcxInfo.Manufacturer != 0x0A) {

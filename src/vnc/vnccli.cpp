@@ -282,17 +282,17 @@ bool VNCCli::handleRRE32(int rx, int ry, int rw, int rh)
   VNCrgb pixel;
 
   echo("handleRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
-  if (! rfbproto.vncsock.readRFB((char *)&hdr, sz_rfbRREHeader))
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&hdr), sz_rfbRREHeader))
     return false;
   hdr.nSubrects = swap32(hdr.nSubrects);
 
-  if (! rfbproto.vncsock.readRFB((char *)&pix, sizeof(pix)))
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix)))
     return false;
   pixel = cardToVNCrgb(swap32(pix));
   fillRect(rx, ry, rw, rh, pixel);
 
   for (int i=0; i < hdr.nSubrects; i++) {
-    if (! rfbproto.vncsock.readRFB((char *)&pix, sizeof(pix)))
+    if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix)))
       return false;
     if (! rfbproto.vncsock.readRFB((char*)&subrect, sz_rfbRectangle))
       return false;
@@ -316,11 +316,11 @@ bool VNCCli::handleCoRRE32(int rx, int ry, int rw, int rh)
   VNCrgb pixel;
 
   echo("handleCoRRE32: rx=%d ry=%d rw=%d rh=%d", rx, ry, rw, rh);
-  if (! rfbproto.vncsock.readRFB((char *)&hdr, sz_rfbRREHeader))
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&hdr), sz_rfbRREHeader))
     return false;
   hdr.nSubrects = swap32(hdr.nSubrects);
 
-  if (! rfbproto.vncsock.readRFB((char *)&pix, sizeof(pix)))
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix)))
     return false;
 
   pixel = cardToVNCrgb(swap32(pix));
@@ -369,7 +369,7 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
       if (ry + rh - y < 16)
 	h = ry + rh - y;
 
-      if (! rfbproto.vncsock.readRFB((char *)&subencoding, 1))
+      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&subencoding), 1))
 	return false;
       if (subencoding & rfbHextileRaw) {
 	if (! rfbproto.vncsock.readRFB(rfbbuffer, w * h * 4))
@@ -379,7 +379,7 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
       }
 
       if (subencoding & rfbHextileBackgroundSpecified) {
-	if (! rfbproto.vncsock.readRFB((char *)&bg, sizeof(bg)))
+	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&bg), sizeof(bg)))
 	  return false;
       }
 
@@ -387,12 +387,12 @@ bool VNCCli::handleHextile32(int rx, int ry, int rw, int rh)
       fillRect(x, y, w, h, pixel);
 
       if (subencoding & rfbHextileForegroundSpecified) {
-	if (! rfbproto.vncsock.readRFB((char *)&fg, sizeof(fg)))
+	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&fg), sizeof(fg)))
 	  return false;
       }
       if (! (subencoding & rfbHextileAnySubrects))
 	continue;
-      if (! rfbproto.vncsock.readRFB((char *)&nSubrects, 1))
+      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&nSubrects), 1))
 	return false;
 
       ptr = (uint8_t *) rfbbuffer;
@@ -439,7 +439,7 @@ bool VNCCli::handleRFBMessage()
 
   if (! framebuffer)
     return false;
-  if (! rfbproto.vncsock.readRFB((char *) &msg, 1))
+  if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&msg), 1))
     return false;
 
   switch (msg.type) {
@@ -449,13 +449,13 @@ bool VNCCli::handleRFBMessage()
     error("handleRFBMessage: rfbSetColourMapEntries not supported yet");
     uint16_t rgb[3];
 
-    if (! rfbproto.vncsock.readRFB(((char *)&msg) + 1, sz_rfbSetColourMapEntriesMsg - 1))
+    if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg)) + 1, sz_rfbSetColourMapEntriesMsg - 1))
       return false;
     msg.scme.firstColour = swap16(msg.scme.firstColour);
     msg.scme.nColours = swap16(msg.scme.nColours);
 
     for (int i=0; i < msg.scme.nColours; i++) {
-      if (! rfbproto.vncsock.readRFB((char *)rgb, 6))
+      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(rgb), 6))
 	return false;
     }
     break;
@@ -468,12 +468,12 @@ bool VNCCli::handleRFBMessage()
     int linestoread;
     int bytesPerLine;
 
-    if (! rfbproto.vncsock.readRFB(((char *)&msg.fu) + 1, sz_rfbFramebufferUpdateMsg - 1))
+    if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg.fu)) + 1, sz_rfbFramebufferUpdateMsg - 1))
       return false;
     msg.fu.nRects = swap16(msg.fu.nRects);
 
     for (int i=0; i < msg.fu.nRects; i++) {
-      if (! rfbproto.vncsock.readRFB((char *)&rect, sz_rfbFramebufferUpdateRectHeader))
+      if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&rect), sz_rfbFramebufferUpdateRectHeader))
 	return false;
 
       rect.r.x = swap16(rect.r.x);
@@ -518,7 +518,7 @@ bool VNCCli::handleRFBMessage()
       case rfbEncodingCopyRect:
       {
 	rfbCopyRect cr;
-	if (! rfbproto.vncsock.readRFB((char *) &cr, sz_rfbCopyRect))
+	if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&cr), sz_rfbCopyRect))
 	  return false;
 	cr.srcX = swap16(cr.srcX);
 	cr.srcY = swap16(cr.srcY);
@@ -553,7 +553,7 @@ bool VNCCli::handleRFBMessage()
     break;
 
   case rfbCutText:
-    if (! rfbproto.vncsock.readRFB(((char *) &msg) + 1, sz_rfbCutTextMsg - 1))
+    if (! rfbproto.vncsock.readRFB((reinterpret_cast<char *>(&msg)) + 1, sz_rfbCutTextMsg - 1))
       return false;
     msg.sct.length = swap32(msg.sct.length);
 

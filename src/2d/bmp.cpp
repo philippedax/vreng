@@ -98,7 +98,7 @@ errbmp:
 
   // we read the data
   fseek(f, h.data_offset, 0);
-  fread((char *) img->pixmap, 1, h.image_size, f);
+  fread(reinterpret_cast<char *>(img->pixmap), 1, h.image_size, f);
 
   if (cache) {
     cache->close();

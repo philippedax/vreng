@@ -199,7 +199,7 @@ int Humanoid::connectToBapServer(int _ipmode)
   timeout.tv_sec = 10;
   timeout.tv_usec = 0;
 
-  if (setsockopt(sdtcp, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0)
+  if (setsockopt(sdtcp, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char *>(&timeout), sizeof(timeout)) < 0)
     error("setsockopt failed");
   if (connect(sdtcp, (const struct sockaddr *) &tcpsa, sizeof(tcpsa)) < 0) {
     //error("connection failed with the vaps server: %s (%s)", vaps, inet4_ntop(&tcpsa.sin_addr));
@@ -542,79 +542,79 @@ void Humanoid::reset()
 void Humanoid::pause()
 {
   sendPlayToBapServer("pause.bap");
-  bapfile = (char *)(pause_bap);
+  bapfile = const_cast<char *>(pause_bap);
 }
 
 void Humanoid::hi()
 {
   sendPlayToBapServer("hi.bap");
-  bapfile = (char *) hi_bap;
+  bapfile = const_cast<char *>(hi_bap);
 }
 
 void Humanoid::bye()
 {
   sendPlayToBapServer("bye.bap");
-  bapfile = (char *) bye_bap;
+  bapfile = const_cast<char *>(bye_bap);
 }
 
 void Humanoid::ask()
 {
   sendPlayToBapServer("ask.bap");
-  bapfile = (char *) ask_bap;
+  bapfile = const_cast<char *>(ask_bap);
 }
 
 void Humanoid::sit()
 {
   sendPlayToBapServer("sit.bap");
-  bapfile = (char *) sit_bap;
+  bapfile = const_cast<char *>(sit_bap);
 }
 
 void Humanoid::show()
 {
   sendPlayToBapServer("show.bap");
-  bapfile = (char *) show_bap;
+  bapfile = const_cast<char *>(show_bap);
 }
 
 void Humanoid::clap()
 {
   sendPlayToBapServer("clap.bap");
-  bapfile = (char *) clap_bap;
+  bapfile = const_cast<char *>(clap_bap);
 }
 
 void Humanoid::nak()
 {
   sendPlayToBapServer("nak.bap");
-  bapfile = (char *) nak_bap;
+  bapfile = const_cast<char *>(nak_bap);
 }
 
 void Humanoid::test()
 {
   sendPlayToBapServer("test.bap");
-  bapfile = (char *) test_bap;
+  bapfile = const_cast<char *>(test_bap);
 }
 
 void Humanoid::eyes()
 {
   sendPlayToBapServer("eyes.fap");
-  bapfile = (char *) eyes_fap;
+  bapfile = const_cast<char *>(eyes_fap);
 }
 
 void Humanoid::joy()
 {
   sendPlayToBapServer("joy.fap");
-  bapfile = (char *) joy_fap;
+  bapfile = const_cast<char *>(joy_fap);
 }
 
 void Humanoid::sad()
 {
   sendPlayToBapServer("sad.fap");
-  bapfile = (char *) sad_fap;
+  bapfile = const_cast<char *>(sad_fap);
 }
 
 void Humanoid::surp()
 {
   sendPlayToBapServer("surp.fap");
-  bapfile = (char *) surp_fap;
+  bapfile = const_cast<char *>(surp_fap);
 }
 
 void Humanoid::jag()

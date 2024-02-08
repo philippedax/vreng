@@ -94,7 +94,7 @@ void * Vac::connectThread(void *)
   timeout.tv_sec = 10;
   timeout.tv_usec = 0;
 
-  if (setsockopt(sdvac, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0) {
+  if (setsockopt(sdvac, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char *>(&timeout), sizeof(timeout)) < 0) {
     error("setsockopt failed\n");
   }
 

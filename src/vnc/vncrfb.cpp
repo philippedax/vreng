@@ -101,14 +101,14 @@ bool VNCRFB::initRFB()
 
   if (!vncsock.writeExact(pv, sz_rfbProtocolVersionMsg))
     return false;
-  if (!vncsock.readRFB((char *) &authScheme, 4))
+  if (!vncsock.readRFB(reinterpret_cast<char *>(&authScheme), 4))
     return false;
 
   authScheme = (uint32_t) swap32(authScheme);
   switch (authScheme) {
 
   case rfbConnFailed:
-    if (!vncsock.readRFB((char *) &reasonLen, 4))
+    if (!vncsock.readRFB(reinterpret_cast<char *>(&reasonLen), 4))
       return false;
     reasonLen = swap32(reasonLen);
     reason = new char[reasonLen];
@@ -124,7 +124,7 @@ bool VNCRFB::initRFB()
     break;
 
   case rfbVncAuth:
-    if (!vncsock.readRFB((char *) challenge, CHALLENGESIZE))
+    if (!vncsock.readRFB(reinterpret_cast<char *>(challenge), CHALLENGESIZE))
       return false;
 
     //look for a password stored in passwordFile
@@ -143,9 +143,9 @@ bool VNCRFB::initRFB()
       passwd[i] = '\0';
     }
 
-    if (!vncsock.writeExact((char *) challenge, CHALLENGESIZE))
+    if (!vncsock.writeExact(reinterpret_cast<char *>(challenge), CHALLENGESIZE))
       return false;
-    if (!vncsock.readRFB((char *) &authResult, 4))
+    if (!vncsock.readRFB(reinterpret_cast<char *>(&authResult), 4))
       return false;
 
     authResult = swap32(authResult);
@@ -172,9 +172,9 @@ bool VNCRFB::initRFB()
 
   ci.shared = (shareDesktop ? 1 : 0);
 
-  if (!vncsock.writeExact((char *)&ci, sz_rfbClientInitMsg))
+  if (!vncsock.writeExact(reinterpret_cast<char *>(&ci), sz_rfbClientInitMsg))
     return false;
-  if (!vncsock.readRFB((char *)&si, sz_rfbServerInitMsg))
+  if (!vncsock.readRFB(reinterpret_cast<char *>(&si), sz_rfbServerInitMsg))
     return false;
 
   si.framebufferWidth = swap16(si.framebufferWidth);
@@ -217,7 +217,7 @@ bool VNCRFB::setFormatAndEncodings()
   spf.format.greenMax = swap16(spf.format.greenMax);
   spf.format.blueMax = swap16(spf.format.blueMax);
 
-  if (!vncsock.writeExact((char *)&spf, sz_rfbSetPixelFormatMsg))
+  if (!vncsock.writeExact(reinterpret_cast<char *>(&spf), sz_rfbSetPixelFormatMsg))
     return false;
 
   se->type = rfbSetEncodings;
@@ -257,7 +257,7 @@ bool VNCRFB::sendFramebufferUpdateRequest(int x, int y, int w, int h, bool incre
   fur.w = swap16(w);
   fur.h = swap16(h);
 
-  if (! vncsock.writeExact((char *)&fur, sz_rfbFramebufferUpdateRequestMsg))
+  if (! vncsock.writeExact(reinterpret_cast<char *>(&fur), sz_rfbFramebufferUpdateRequestMsg))
     return false;
   return true;
 }
@@ -273,7 +273,7 @@ bool VNCRFB::sendPointerEvent(int x, int y, int buttonMask)
   pe.x = swap16(x);
   pe.y = swap16(y);
 
-  return vncsock.writeExact((char *)&pe, sz_rfbPointerEventMsg);
+  return vncsock.writeExact(reinterpret_cast<char *>(&pe), sz_rfbPointerEventMsg);
 }
 
 bool VNCRFB::sendKeyEvent(uint32_t key, bool down)
@@ -285,7 +285,7 @@ bool VNCRFB::sendKeyEvent(uint32_t key, bool down)
   ke.key = swap32(key);
 
   //echo("sendKey: %02x %d", ke.key, sz_rfbKeyEventMsg);
-  return vncsock.writeExact((char *)&ke, sz_rfbKeyEventMsg);
+  return vncsock.writeExact(reinterpret_cast<char *>(&ke), sz_rfbKeyEventMsg);
 }
 
 bool VNCRFB::sendClientCutText(char *str, int len)
@@ -298,7 +298,7 @@ bool VNCRFB::sendClientCutText(char *str, int len)
   cct.type = rfbClientCutText;
   cct.length = swap32(len);
 
-  return (vncsock.writeExact((char *)&cct, sz_rfbClientCutTextMsg) &&
+  return (vncsock.writeExact(reinterpret_cast<char *>(&cct), sz_rfbClientCutTextMsg) &&
 	  vncsock.writeExact(str, len));
 }
 

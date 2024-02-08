@@ -445,7 +445,7 @@ int VSql::selectString(const char *table, const char *col, const char *name, con
   //}
   else {
     if (retstring) {
-      strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
+      strcpy(retstring, (char *)(sqlite3_column_text(stmt, 0)));
       //echo("selectString: %s.%s %s", table, col, retstring);
     }
   }
@@ -506,7 +506,7 @@ int VSql::selectSubstring(const char *table, const char *like, uint16_t irow, ch
   //}
   else {
     if (retstring) {
-      strcpy(retstring, (char *) sqlite3_column_text(stmt, 0));
+      strcpy(retstring, (char *)(sqlite3_column_text(stmt, 0)));
       //echo("selectSubstring: %s %s", table, retstring);
     }
   }
@@ -1105,5 +1105,5 @@ void VSql::getOwner(WO *o)
 
 void VSql::getOwner(WO *o, uint16_t irow)
 {
-  getString(o, C_OWNER, (char *) o->ownerName(), irow);
+  getString(o, C_OWNER, const_cast<char *>(o->ownerName()), irow);
 }

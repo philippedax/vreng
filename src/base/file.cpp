@@ -159,7 +159,7 @@ void * File::swapEndian(void* addr, int n)
 void File::localEndian(void * addr, int n)
 {           
   if (bigEndian()) {
-    char *tmp = (char *) swapEndian(addr, n);
+    char *tmp = reinterpret_cast<char *>(swapEndian(addr, n));
     memcpy(addr, tmp, n);
   }         
 }

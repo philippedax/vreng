@@ -119,9 +119,9 @@ int Payload::putPayload(const char *format, ...)
       }
     case 's': // string
       {
-	uint8_t *s = va_arg(ap, uint8_t *);
+	char *s = va_arg(ap, char *);
 	uint16_t l;
-        l = (*s) ? strlen((char *) s) : 0;
+        l = (*s) ? strlen(s) : 0;
 
 	data[idx++] = 's';
 	data[idx++] = l;
@@ -370,7 +370,7 @@ int Payload::tellPayload(const char *str)
 	idx += sizeof(int32_t);
 	break;
     case 's': // string
-	if (!strncmp((char *) (data + idx + 1), str, strlen(str))) {
+	if (! strncmp(reinterpret_cast<const char *>(data + idx + 1), str, strlen(str))) {
           idx--;	// string matches
 	  return idx;
         }

@@ -370,7 +370,7 @@ void Vnc::convert(const char *srvstr, const char *portstr, const char *passstr)
 
   strcpy(servername, srvstr);
   port = atoi(portstr);
-  vncEncryptAndStorePasswd((char *) passstr, passwdfile);
+  vncEncryptAndStorePasswd(const_cast<char *>(passstr), passwdfile);
   connectServer();
 }
 

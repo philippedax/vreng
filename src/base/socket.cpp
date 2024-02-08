@@ -82,9 +82,9 @@ int Socket::connection(int sd, const sockaddr_in *sa)
  */
 int Socket::reuseAddr(int sd)
 {
-  const int one = 1;
+  int one = 1;
 
-  if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, (char *) &one, sizeof(one)) < 0) {
+  if (setsockopt(sd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<char *>(&one), sizeof(one)) < 0) {
     error("SO_REUSEADDR: %s (%d)", strerror(errno), errno);
     return -1;
   }
@@ -93,9 +93,9 @@ int Socket::reuseAddr(int sd)
 
 int Socket::tcpNoDelay(int sd)
 {
-  const int one = 1;
+  int one = 1;
 
-  if (setsockopt(sd, SOL_SOCKET, TCP_NODELAY, (char *) &one, sizeof(one)) < 0) {
+  if (setsockopt(sd, SOL_SOCKET, TCP_NODELAY, reinterpret_cast<char *>(&one), sizeof(one)) < 0) {
     error("TCP_NODELAY: %s (%d) sock=%d", strerror(errno), errno, sd);
     return -1;
   }

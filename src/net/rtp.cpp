@@ -483,5 +483,5 @@ uint32_t random32(int type)
   s.gid  = getgid();
 #endif
 
-  return md_32((char *)(&s), sizeof(s));
+  return md_32(reinterpret_cast<char *>(&s), sizeof(s));
 }

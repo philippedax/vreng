@@ -698,7 +698,7 @@ void BoneMesh::compileTriangleList()
 Bonename::Bonename()
 {
   name = NULL;
-  setName((char *)("NoName"));
+  setName(const_cast<char *>("NoName"));
 }
 
 Bonename::Bonename(char *op)

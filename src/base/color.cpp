@@ -208,7 +208,7 @@ void Color::getRGB(const char *name, float *v)
 
   if (name) {
     char *q;
-    if ((q = (char *) strchr(name, '"')))
+    if ((q = const_cast<char *>(strchr(name, '"'))))
       *q = 0;
     for ( ; p ; p++) {
       if (! strcmp(p->name, "none"))

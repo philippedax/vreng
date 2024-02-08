@@ -215,7 +215,7 @@ void Movie::play_mpg()
 
   if (! mpg) return;
   // get a frame from the mpg video stream
-  if (GetMPEGFrame((char *)(videobuf)) == false) { // end of mpg video
+  if (GetMPEGFrame(reinterpret_cast<char *>(videobuf)) == false) { // end of mpg video
     if (state == LOOP) {
       RewindMPEG(fp, mpg);	// rewind mpg video
       begin = true;

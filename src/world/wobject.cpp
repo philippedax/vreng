@@ -924,9 +924,9 @@ void WO::getObjectNames(char **classname, char **instancename, char **actionname
   int a;
   static char actionname[ACTIONSNUMBER][ACTIONNAME_LEN];
 
-  *classname    = (char *) (typeName());
-  *instancename = (char *) (objectName());
-  *actionnames  = (char *) (actionname);
+  *classname    = const_cast<char *>(typeName());
+  *instancename = const_cast<char *>(objectName());
+  *actionnames  = reinterpret_cast<char *>(actionname);
 
   // clean actionname
   for (a=0; a < ACTIONSNUMBER; a++) {

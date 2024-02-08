@@ -90,13 +90,13 @@ void Txf::reader(void *_txf, Http *http)
   char tmp;
 
   char fileid[4];
-  int got = fread((char *) fileid, 1, 4, f);
+  int got = fread(reinterpret_cast<char *>(fileid), 1, 4, f);
   if (got != 4 || strncmp(fileid, "\377txf", 4)) {
     lastError = "not a texture font file.";
     goto error;
   }
 
-  got = fread((char *) &endianness, sizeof(int), 1, f);
+  got = fread(reinterpret_cast<char *>(&endianness), sizeof(int), 1, f);
   if (got == 1 && endianness == 0x12345678)      swap = 0;
   else if (got == 1 && endianness == 0x78563412) swap = 1;
   else {
@@ -105,12 +105,12 @@ void Txf::reader(void *_txf, Http *http)
   }
 
 #define EXPECT(v) if (got != (int)v) { lastError="premature end of file"; goto error; }
-  got = fread((char *) &format, sizeof(int), 1, f); EXPECT(1);
-  got = fread((char *) &txf->texfont->tex_width, sizeof(int), 1, f); EXPECT(1);
-  got = fread((char *) &txf->texfont->tex_height, sizeof(int), 1, f); EXPECT(1);
-  got = fread((char *) &txf->texfont->max_ascent, sizeof(int), 1, f); EXPECT(1);
-  got = fread((char *) &txf->texfont->max_descent, sizeof(int), 1, f); EXPECT(1);
-  got = fread((char *) &txf->texfont->num_glyphs, sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *>(&format), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *>(&txf->texfont->tex_width), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *>(&txf->texfont->tex_height), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *>(&txf->texfont->max_ascent), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *>(&txf->texfont->max_descent), sizeof(int), 1, f); EXPECT(1);
+  got = fread(reinterpret_cast<char *>(&txf->texfont->num_glyphs), sizeof(int), 1, f); EXPECT(1);
 
   if (swap) {
     SWAPL(&format, tmp);
@@ -127,7 +127,7 @@ void Txf::reader(void *_txf, Http *http)
     lastError = "out of memory.";
     goto error;
   }
-  got = fread((char *) txf->texfont->tgi, sizeof(TexGlyphInfo), txf->texfont->num_glyphs, f);
+  got = fread(reinterpret_cast<char *>(txf->texfont->tgi), sizeof(TexGlyphInfo), txf->texfont->num_glyphs, f);
   EXPECT(txf->texfont->num_glyphs);
 
   if (swap) {
@@ -192,7 +192,7 @@ void Txf::reader(void *_txf, Http *http)
       lastError = "out of memory.";
       goto error;
     }
-    got = fread((char *) txf->texfont->teximage, 1, txf->texfont->tex_width*txf->texfont->tex_height, f);
+    got = fread(reinterpret_cast<char *>(txf->texfont->teximage), 1, txf->texfont->tex_width*txf->texfont->tex_height, f);
     EXPECT(txf->texfont->tex_width * txf->texfont->tex_height);
     break;
   case TXF_FORMAT_BITMAP:
@@ -203,7 +203,7 @@ void Txf::reader(void *_txf, Http *http)
       lastError = "out of memory.";
       goto error;
     }
-    got = fread((char *) texbitmap, 1, stride * height, f);
+    got = fread(reinterpret_cast<char *>(texbitmap), 1, stride * height, f);
     EXPECT(stride * height);
     if ((txf->texfont->teximage = new uint8_t[width * height]) == NULL) {
       lastError = "out of memory.";

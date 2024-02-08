@@ -275,7 +275,7 @@ int VjcSocket::connectSend()
   timeout.tv_sec = 10;
   timeout.tv_usec = 0;
 
-  if (setsockopt(sdw, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0) {
+  if (setsockopt(sdw, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char *>(&timeout), sizeof(timeout)) < 0) {
     error("vjc: setsockopt failed");
   }
   if (connect(sdw, (const struct sockaddr *) sadest, sizeof(struct sockaddr_in)) < 0) {

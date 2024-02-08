@@ -200,7 +200,7 @@ int VNCSoc::connectRFB()
   timeout.tv_sec = 10;
   timeout.tv_usec = 0;
 
-  if (setsockopt(rfbsock, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0) {
+  if (setsockopt(rfbsock, SOL_SOCKET, SO_RCVTIMEO, reinterpret_cast<char *>(&timeout), sizeof(timeout)) < 0) {
     error("setsockopt failed\n");
   }
 

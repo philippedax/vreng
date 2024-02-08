@@ -110,7 +110,7 @@ char * vncDecryptPasswdFromFile(char *fname)
   des(passwd, passwd);
   passwd[8] = '\0';
 
-  return (char *) passwd;
+  return reinterpret_cast<char *>(passwd);
 }
 
 /*

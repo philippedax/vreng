@@ -58,7 +58,7 @@ Img * Img::loadPGM(void *_tex, ImageReader read_func)
   /* we read the data */
   for (int y=0; y < height; y++) {
     for (int x=0; x < width; x++) {
-      fread((char *) img->pixmap + (y*width+x) * Img::RGB, 1, 1, f);
+      fread(reinterpret_cast<char *>(img->pixmap) + (y*width+x) * Img::RGB, 1, 1, f);
       // convert Gray to R = G = B
       img->pixmap[((y*width+x)*Img::RGB)+1] = img->pixmap[(y*width+x)*Img::RGB];
       img->pixmap[((y*width+x)*Img::RGB)+2] = img->pixmap[(y*width+x)*Img::RGB];

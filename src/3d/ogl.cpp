@@ -85,12 +85,12 @@ bool Ogl::isGLextension(const char *ext)
 /** Prints OpenGL infos */
 void Ogl::infosGL()
 {
-  echo("GL_VERSION: %s", (char *) glGetString(GL_VERSION));
+  echo("GL_VERSION: %s", const_cast<unsigned char *>(glGetString(GL_VERSION)));
 #if HAVE_LIBGLU
-  echo("GLU_VERSION: %s", (char *) gluGetString(GLU_VERSION));
+  echo("GLU_VERSION: %s", const_cast<unsigned char *>(gluGetString(GLU_VERSION)));
 #endif
-  echo("GL_RENDERER: %s", (char *) glGetString(GL_RENDERER));
-  echo("GL_VENDOR: %s", (char *) glGetString(GL_VENDOR));
+  echo("GL_RENDERER: %s", const_cast<unsigned char *>(glGetString(GL_RENDERER)));
+  echo("GL_VENDOR: %s", const_cast<unsigned char *>(glGetString(GL_VENDOR)));
 
   GLint bits, lights, texsize;
   glGetIntegerv(GL_DEPTH_BITS, &bits);
@@ -102,9 +102,9 @@ void Ogl::infosGL()
   glGetIntegerv(GL_MAX_TEXTURE_SIZE, &texsize);
   echo("GL_MAX_TEXTURE_SIZE: %d", texsize);
 
-  echo("GL_EXTENSIONS: %s", (char *) glGetString(GL_EXTENSIONS));
+  echo("GL_EXTENSIONS: %s", const_cast<unsigned char *>(glGetString(GL_EXTENSIONS)));
 #if HAVE_LIBGLU
-  echo("GLU_EXTENSIONS: %s", (char *) gluGetString(GLU_EXTENSIONS));
+  echo("GLU_EXTENSIONS: %s", const_cast<unsigned char *>(gluGetString(GLU_EXTENSIONS)));
 #endif
 }
 
