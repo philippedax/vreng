@@ -510,28 +510,28 @@ void Ase::readObjectData(tASEModel *pModel, tASEObject *pObject, int desiredObje
   // in the data for that tag. We pass in the desired object to read it from.
 
   // Load the material ID for this object
-  getData(pModel, pObject, (char*)ASE_MATERIAL_ID, desiredObject);
+  getData(pModel, pObject, const_cast<char*>(ASE_MATERIAL_ID), desiredObject);
 
   // Load the vertices for this object
-  getData(pModel, pObject, (char*)ASE_VERTEX, desiredObject);
+  getData(pModel, pObject, const_cast<char*>(ASE_VERTEX), desiredObject);
 
   // Load the texture coordinates for this object
-  getData(pModel, pObject, (char*)ASE_TVERTEX, desiredObject);
+  getData(pModel, pObject, const_cast<char*>(ASE_TVERTEX), desiredObject);
 
   // Load the vertex faces list for this object
-  getData(pModel, pObject, (char*)ASE_FACE, desiredObject);
+  getData(pModel, pObject, const_cast<char*>(ASE_FACE), desiredObject);
 
   // Load the texture face list for this object
-  getData(pModel, pObject, (char*)ASE_TFACE, desiredObject);
+  getData(pModel, pObject, const_cast<char*>(ASE_TFACE), desiredObject);
 
   // Load the texture for this object
-  getData(pModel, pObject, (char*)ASE_TEXTURE, desiredObject);
+  getData(pModel, pObject, const_cast<char*>(ASE_TEXTURE), desiredObject);
 
   // Load the U tile for this object
-  getData(pModel, pObject, (char*)ASE_UTILE, desiredObject);
+  getData(pModel, pObject, const_cast<char*>(ASE_UTILE), desiredObject);
 
   // Load the V tile for this object
-  getData(pModel, pObject, (char*)ASE_VTILE, desiredObject);
+  getData(pModel, pObject, const_cast<char*>(ASE_VTILE), desiredObject);
 }
 
 /** loop for reading in the object data */

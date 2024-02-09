@@ -273,7 +273,7 @@ void Message::convertTextToLink(const string& text, char **listeObjets, int size
         ulinkbutton(  listeObjets[i]
                     + UColor::green + UFont::bold
                     + umenu(ulabel(uimg))
-                    + UOn::doubleClick / ucall((char*)listeObjets[i+2], moveSatCamera)
+                    + UOn::doubleClick / ucall(reinterpret_cast<char*>(listeObjets[i+2]), moveSatCamera)
                     );
         allmsgs->add(ulinkb);
         allmsgs->add(ustr(" "));
