@@ -47,10 +47,10 @@ void Pdf::launch(const char *tool, const char *file)
     break;
   case 0:
 #if MACOSX
-    execlp("open", "open", file, (char*)NULL);
-    execlp("open", "open", "-a", PREVIEW_PATH, file, (char*)NULL);
+    execlp("open", "open", file, NULL);
+    execlp("open", "open", "-a", PREVIEW_PATH, file, NULL);
 #else
-    execlp(tool, tool, file, (char*)NULL);
+    execlp(tool, tool, file, NULL);
 #endif
     error("%s %s", e_exec, tool);
     signal(SIGCHLD, SIG_IGN);

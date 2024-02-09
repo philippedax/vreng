@@ -552,7 +552,7 @@ BoneMesh::BoneMesh()
   triangles = 0;
   triangleListCompiled = 0;
 
-  setName((char*)" Mesh NoName ");
+  setName(const_cast<char*>(" Mesh NoName "));
 }
 
 BoneMesh::~BoneMesh()

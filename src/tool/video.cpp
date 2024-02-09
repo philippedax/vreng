@@ -76,7 +76,7 @@ void Video::start(const char *chan)
     switch (toolid) {
     case VIC_TOOL:
       execlp("vic", "vic", "-A", "rtp", "-B", "20", "-D", VIDEODEVICE,
-           "-f", "h261", "-C", "VREng-vic", newchan, (char*)NULL);
+           "-f", "h261", "-C", "VREng-vic", newchan, NULL);
       error("%s vic", e_exec);
       break;
     case VLCMC_TOOL:
@@ -86,7 +86,7 @@ void Video::start(const char *chan)
       if (port % 1) port++;  // even port for RTP
       Channel::getGroup(chan, group);
       sprintf(newchan, "udp:@%s/%u", group, port);
-      execlp("vlc", "vlc", "--sout-rtp-name", "VREng-vlc", "--sout-rtp-ttl", Channel::currentTtl(), newchan, (char*)NULL);
+      execlp("vlc", "vlc", "--sout-rtp-name", "VREng-vlc", "--sout-rtp-ttl", Channel::currentTtl(), newchan, NULL);
       error("%s vlc", e_exec);
       break;
     }

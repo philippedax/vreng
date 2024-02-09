@@ -42,9 +42,9 @@ void Ps::launch(const char *tool, const char *file)
     error("%s %s", e_fork, tool);
     break;
   case 0:
-    execlp(tool, tool, file, (char*)NULL);
+    execlp(tool, tool, file, NULL);
 #if MACOSX
-    execlp("open", "open", "-a", PREVIEW_PATH, file, (char*)NULL);
+    execlp("open", "open", "-a", PREVIEW_PATH, file, NULL);
 #endif
     error("%s %s", e_exec, tool);
     signal(SIGCHLD, SIG_IGN);
@@ -78,7 +78,7 @@ void Ps::launcha2ps(const char *tool, const char *file)
     error("%s %s", e_fork, tool);
     break;
   case 0:
-    execlp("a2ps", tool, "-d", file, (char*)NULL);
+    execlp("a2ps", tool, "-d", file, NULL);
     error("%s %s", e_exec, tool);
     signal(SIGCHLD, SIG_IGN);
     exit(1);

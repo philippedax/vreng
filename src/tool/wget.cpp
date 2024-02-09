@@ -56,16 +56,16 @@ int Wget::start(const char *_url, char *file, const char opts[])
     return 0;
   case 0:		// child starts transfert
     if (file == NULL) {
-      if (check) execlp("wget", "wget", "-q", "--spider", url, (char*)NULL);
-      else       execlp("wget", "wget", "-q", url, (char*)NULL);
+      if (check) execlp("wget", "wget", "-q", "--spider", url, NULL);
+      else       execlp("wget", "wget", "-q", url, NULL);
     }
     if (*file == '-') {
-      execlp("wget", "wget", "-nv", "-O", "-", url, (char*)NULL);
+      execlp("wget", "wget", "-nv", "-O", "-", url, NULL);
     }
     else if (! stringcmp(opts, "inout"))		// local copy
-      execlp("wget", "wget", "-i", url, "-O", file, (char*)NULL);
+      execlp("wget", "wget", "-i", url, "-O", file, NULL);
     else
-      execlp("wget", "wget", "-O", file, url, (char*)NULL);
+      execlp("wget", "wget", "-O", file, url, NULL);
     error("%s wget", e_exec);
     exit(1);
   default:

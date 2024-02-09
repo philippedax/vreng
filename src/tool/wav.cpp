@@ -45,10 +45,10 @@ void Wav::launch(const char *tool, const char *url, bool loop)
     switch (toolid) {
     case VLC_TOOL:
 #if MACOSX
-      execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", (char*)NULL);
+      execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", NULL);
 #else
-      if (loop) execlp(tool, tool, "--quiet", "--repeat", url, (char*)NULL);
-      else      execlp(tool, tool, "--quiet", url, "vlc:quit", (char*)NULL);
+      if (loop) execlp(tool, tool, "--quiet", "--repeat", url, NULL);
+      else      execlp(tool, tool, "--quiet", url, "vlc:quit", NULL);
 #endif
       break;
     }
@@ -57,7 +57,7 @@ void Wav::launch(const char *tool, const char *url, bool loop)
     exit(1);
 #if MACOSX
     case QUICKTIME_TOOL:
-      execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL);
+      execlp(tool, tool, "-a", QUICKTIME_PATH, url, NULL);
       break;
 #endif
   default:

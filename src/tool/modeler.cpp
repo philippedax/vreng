@@ -48,11 +48,11 @@ void Modeler::start()
     break;
   case 0:
     if (toolid == VRED_TOOL) {
-      execlp("./bin/vred", "vred", (char*)NULL);
+      execlp("./bin/vred", "vred", NULL);
       error("%s vred", e_exec);
     }
     if (toolid == VREM_TOOL) {
-      execlp("vrem", "vrem", (char*)NULL);
+      execlp("vrem", "vrem", NULL);
       error("%s vrem", e_exec);
     }
     signal(SIGCHLD, SIG_IGN);

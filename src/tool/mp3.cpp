@@ -49,14 +49,14 @@ void Mp3::launch(const char *tool, const char *url)
     break;
   case 0:
     switch (toolid) {
-    case MPG123_TOOL:    execlp(tool, tool, "-qy", url, (char*)NULL); break;
-    case XAUDIO_TOOL:    execlp(tool, tool, url, (char*)NULL); break;
-    case FREEAMP_TOOL:   execlp(tool, tool, url, (char*)NULL); break;
+    case MPG123_TOOL:    execlp(tool, tool, "-qy", url, NULL); break;
+    case XAUDIO_TOOL:    execlp(tool, tool, url, NULL); break;
+    case FREEAMP_TOOL:   execlp(tool, tool, url, NULL); break;
 #if MACOSX
-    case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL); break;
-    case VLC_TOOL:       execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", (char*)NULL); break;
+    case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, NULL); break;
+    case VLC_TOOL:       execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", NULL); break;
 #else
-    case VLC_TOOL:       execlp(tool, tool, "--quiet", url, (char*)NULL); break;
+    case VLC_TOOL:       execlp(tool, tool, "--quiet", url, NULL); break;
 #endif
     }
     error("%s %s", e_exec, tool);

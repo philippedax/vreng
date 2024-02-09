@@ -134,8 +134,9 @@ void Hair::init(Object *_o, Surface *_s, float scale)
   }
 
   Color4f col = m.diffuse;
-  for (int i=0; i<HAIRNCOLOR ; i++)
+  for (int i=0; i<HAIRNCOLOR ; i++) {
     c[i] = col*((i+HAIRNCOLOR/2)*1./HAIRNCOLOR);
+  }
 }
 
 void Line::init(Vector3 p0, Vector3 dp)
@@ -623,16 +624,18 @@ void Hairs::reader(void *_lwo, Http *http)
         l = 0;
       }
     }
-    else //cout << "unknown "<<(char*)&id<<" chunk\n";
+    else {
       fseek(fp, l, 1);
       //echo("end chunk ------------ sid=%s len=%d l=%d", sid, len, l);
+    }
   } //end while
   trace(DBG_MOD, "end obj file: nbs=%d nbf=%d nbp=%d pt=%d len=%d", lwo->nbs, lwo->nbf, lwo->nbp, lwo->pt, len);
 
   if (lwo->nbf) {
     HVertex *pv =  lwo->pt;
-    for (j=0; j < lwo->nbp ; ++j,++pv)
+    for (j=0; j < lwo->nbp ; ++j,++pv) {
       pv->n.reset();
+    }
     TriFace *pf = lwo->fc;
     for (j=0; j < lwo->nbf ; ++j,++pf) {
       pf->normal();
@@ -641,8 +644,9 @@ void Hairs::reader(void *_lwo, Http *http)
       pf->v[2]->n += pf->n;
     }
     pv = lwo->pt;
-    for (j=0; j < lwo->nbp ; ++j,++pv)
+    for (j=0; j < lwo->nbp ; ++j,++pv) {
       pv->n.normalize();
+    }
   }
   cache->close();
   delete cache;
@@ -753,7 +757,9 @@ void TriFace::normal()
 Surface * Object::findSurface(const char *name)
 {
   Surface *ps = sf;
-  for (int s=0; s<nbs ; s++, ps++)
+
+  for (int s=0; s<nbs ; s++, ps++) {
     if (! strcasecmp(ps->name, name)) return ps;
+  }
   return NULL;
 }

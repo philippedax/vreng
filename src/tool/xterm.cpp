@@ -41,9 +41,9 @@ void Xterm::start(const char *host)
     break;
   case 0:
     if (toolid == SSH_TOOL)
-      execlp("xterm", "xterm", "-title", host, "-e", "ssh", host, (char*)NULL);
+      execlp("xterm", "xterm", "-title", host, "-e", "ssh", host, NULL);
     if (toolid == TELNET_TOOL)
-      execlp("xterm", "xterm", "-title", host, "-e", "telnet", host, (char*)NULL);
+      execlp("xterm", "xterm", "-title", host, "-e", "telnet", host, NULL);
     error("%s xterm", e_exec);
     signal(SIGCHLD, SIG_IGN);
     exit(1);

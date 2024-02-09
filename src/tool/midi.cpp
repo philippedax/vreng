@@ -48,9 +48,9 @@ void Midi::launch(const char *tool, const char *url)
     break;
   case 0:
     switch (toolid) {
-    case TIMIDITY_TOOL:  execlp(tool, tool, "-idqq", "-j", url, (char*)NULL); break;
+    case TIMIDITY_TOOL:  execlp(tool, tool, "-idqq", "-j", url, NULL); break;
 #if MACOSX
-    case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL); break;
+    case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, NULL); break;
 #endif
     }
     error("%s %s", e_exec, tool);

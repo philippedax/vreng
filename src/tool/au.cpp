@@ -48,9 +48,9 @@ void Au::launch(const char *tool, const char *url, char *file)
     break;
   case 0:
     switch (toolid) {
-    case PLAY_TOOL:      execlp(tool, tool, file, (char*)NULL); break;
+    case PLAY_TOOL:      execlp(tool, tool, file, NULL); break;
 #if MACOSX
-    case QUICKTIME_TOOL: execlp(tool, tool, QUICKTIME_PATH, url, (char*)NULL); break;
+    case QUICKTIME_TOOL: execlp(tool, tool, QUICKTIME_PATH, url, NULL); break;
 #endif
     }
     error("%s %s", e_exec, tool);

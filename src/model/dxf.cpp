@@ -888,9 +888,9 @@ DXF_token * readTokenDXF(FILE *fp)
   b2 = fgets(buffer2, 255, fp);
   if (b1 && b2) {
     _xstrupr(b1);
-    _xstrclean(b1, (char*)" \t\n");
+    _xstrclean(b1, const_cast<char*>(" \t\n"));
     _xstrupr(b2);
-    if (strcmp(b2, "\n")) _xstrclean(b2, (char*)" \t\n");
+    if (strcmp(b2, "\n")) _xstrclean(b2, const_cast<char*>(" \t\n"));
     tok = newTokenDXF((DXF_gr_id) atoi(b1), b2, strlen(b2));
   }
   return tok;

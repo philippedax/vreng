@@ -71,15 +71,15 @@ void Wb::start(const char *chan)
     break;
   case 0:
     if (toolid == WB_TOOL) {
-      execlp("wb", "wb", "-C", "VREng-wb", "-t", ttl, "-l", "+r", newchan, (char*)NULL);
+      execlp("wb", "wb", "-C", "VREng-wb", "-t", ttl, "-l", "+r", newchan, NULL);
       error("%s wb", e_exec);
     }
     if (toolid == WBD_TOOL) {
-      execlp("wbd", "wbd", "-C", "VREng-wbd", "-t", ttl, "-l", "+r", newchan, (char*)NULL);
+      execlp("wbd", "wbd", "-C", "VREng-wbd", "-t", ttl, "-l", "+r", newchan, NULL);
       error("%s wbd", e_exec);
     }
     if (toolid == NTE_TOOL) {
-      execlp("nte", "nte", "-C", "VREng-nte", "-t", ttl, newchan, (char*)NULL);
+      execlp("nte", "nte", "-C", "VREng-nte", "-t", ttl, newchan, NULL);
       error("%s nte", e_exec);
     }
     signal(SIGCHLD, SIG_IGN);

@@ -48,13 +48,13 @@ void Mpeg::launch(const char *tool, const char *url, char *file)
     break;
   case 0:
     switch (toolid) {
-    case MPEGPLAY_TOOL:  execlp(tool, tool, file, (char*)NULL); break;
-    case MTVP_TOOL:      execlp(tool, tool, url, (char*)NULL); break;
+    case MPEGPLAY_TOOL:  execlp(tool, tool, file, NULL); break;
+    case MTVP_TOOL:      execlp(tool, tool, url, NULL); break;
 #if MACOSX
-    case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, (char*)NULL); break;
-    case VLC_TOOL:       execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", (char*)NULL); break;
+    case QUICKTIME_TOOL: execlp(tool, tool, "-a", QUICKTIME_PATH, url, NULL); break;
+    case VLC_TOOL:       execlp(tool, tool, "--hide", "-a", VLC_PATH, url, "--args", "--play-and-exit", NULL); break;
 #else
-    case VLC_TOOL:       execlp(tool, tool, url, (char*)NULL); break;
+    case VLC_TOOL:       execlp(tool, tool, url, NULL); break;
 #endif
     }
     error("%s %s", e_exec, tool);

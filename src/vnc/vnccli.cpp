@@ -294,7 +294,7 @@ bool VNCCli::handleRRE32(int rx, int ry, int rw, int rh)
   for (int i=0; i < hdr.nSubrects; i++) {
     if (! rfbproto.vncsock.readRFB(reinterpret_cast<char *>(&pix), sizeof(pix)))
       return false;
-    if (! rfbproto.vncsock.readRFB((char*)&subrect, sz_rfbRectangle))
+    if (! rfbproto.vncsock.readRFB(reinterpret_cast<char*>(&subrect), sz_rfbRectangle))
       return false;
 
     subrect.x = swap16(subrect.x);
