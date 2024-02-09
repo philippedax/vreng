@@ -21,9 +21,9 @@
 
 AUTOMAKE_OPTIONS = foreign
 
-BASE_SRCS = vreng.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp universe.cpp sql.cpp xml.cpp report.cpp thread.cpp nsl.cpp str.cpp base64.cpp
+BASE_SRCS = vreng.cpp pref.cpp env.cpp log.cpp socket.cpp http.cpp url.cpp cache.cpp file.cpp format.cpp trigo.cpp matvec.cpp timer.cpp color.cpp stat.cpp universe.cpp sql.cpp xml.cpp report.cpp thread.cpp nsl.cpp str.cpp base64.cpp endian.cpp
 
-BASE_HDRS = vreng.hpp includes.hpp defines.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp color.hpp stat.hpp vector3.hpp universe.hpp sql.hpp xml.hpp report.hpp thread.hpp nsl.hpp str.hpp base64.hpp
+BASE_HDRS = vreng.hpp includes.hpp defines.hpp defaults.hpp macros.hpp pref.hpp env.hpp log.hpp socket.hpp http.hpp url.hpp cache.hpp file.hpp format.hpp trigo.hpp matvec.hpp timer.hpp color.hpp stat.hpp vector3.hpp universe.hpp sql.hpp xml.hpp report.hpp thread.hpp nsl.hpp str.hpp base64.hpp endian.hpp
 
 SRC = $(top_srcdir)/src
 CFLAGS = @UBIT_CFLAGS@ @XML2_CFLAGS@ @FREETYPE_CFLAGS@ @SQLITE_CFLAGS@ @MYSQL_CFLAGS@ @OCAML_CFLAGS@

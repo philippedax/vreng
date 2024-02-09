@@ -23,7 +23,8 @@
 #include "matvec.hpp"   // V3 M4
 #include "texture.hpp"	// Texture
 #include "cache.hpp"	// download
-#include "file.hpp"	// open, close, bigEndian
+#include "file.hpp"	// open, close
+#include "endian.hpp"	// bigEndian
 #include "user.hpp"	// localuser
 #include "pref.hpp"	// quality
 #include "format.hpp"	// Format
@@ -208,7 +209,7 @@ void Movie::play_mpg()
 {
   uint8_t r, g, b;
 
-  if (File::bigEndian())
+  if (Endian::bigEndian())
     r = 2, g = 1, b = 0; // BGR
   else
     r = 0, g = 1, b = 2; // RGB
@@ -268,7 +269,7 @@ void Movie::play_avi()
   int ret, len;
   uint8_t r, g, b;
 
-  if (File::bigEndian())
+  if (Endian::bigEndian())
     r = 2, g = 1, b = 0; // BGR
   else
     r = 0, g = 1, b = 2; // RGB

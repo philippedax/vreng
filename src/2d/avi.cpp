@@ -45,7 +45,7 @@
 #include "avi.hpp"
 #include "http.hpp"	// Http
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// bigEndian
+#include "endian.hpp"	// bigEndian
 
 
 void Avi::defaults()
@@ -133,7 +133,7 @@ int32_t Avi::read_header()
   while (1) {
     if (fread(&tag, 4, 1, fp) != 1) return 1;
     if (fread(&len, 4, 1, fp) != 1) return 1;
-    if (File::bigEndian()) {
+    if (Endian::bigEndian()) {
       char tmp;
       SWAPL(&len, tmp);
     }
@@ -170,7 +170,7 @@ int32_t Avi::read_header()
             error("avi: args1 no mjpg %08x", args[1]);
             return ERR_NO_MJPG;
           }
-          if (File::bigEndian()) {
+          if (Endian::bigEndian()) {
             char tmp;
             SWAPL(&args[5], tmp);
             SWAPL(&args[6], tmp);
@@ -183,7 +183,7 @@ int32_t Avi::read_header()
         break;
       case strftag:
         if (lasttag == 1) {
-          if (File::bigEndian()) {
+          if (Endian::bigEndian()) {
             char tmp;
             SWAPL(&args[1], tmp);
             SWAPL(&args[2], tmp);
@@ -243,7 +243,7 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
       fp = NULL;
       return -1;
     }
-    if (File::bigEndian()) {
+    if (Endian::bigEndian()) {
       char tmp;
       SWAPL(&len, tmp);
     }

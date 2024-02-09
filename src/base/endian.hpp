@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
-// Copyright (C) 1997-2008 Philippe Dax
+// Copyright (C) 1997-2024 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
@@ -18,37 +18,27 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //---------------------------------------------------------------------------
-#ifndef FILE_HPP
-#define FILE_HPP
+#ifndef ENDIAN_HPP
+#define ENDIAN_HPP
 
 /**
- * File class
+ * Endian class
  */
-class File {
+class Endian {
  public:
-  FILE *f;	///< file handle
+  Endian() {};
+  virtual ~Endian() {};
 
-  File();
-  virtual ~File();
+  // Endians methods
+  static bool bigEndian();
+  static bool littleEndian();
+  static void localEndian(void *data, int nb);
+  static void swapShort(uint16_t *array, int len);
+  static void swapLong(uint32_t *array, int len);
 
-  FILE * open(const char *filename, const char *param);
-  void close();
-  void close(FILE *fp);
+ private:
+  static void * swapEndian(void *data, int nb);
 
-  static FILE * openFile(const char *filename, const char *param);
-  static void closeFile(FILE *f);
-
-  int read_char(FILE *f);
-  int read_short(FILE *f);
-  int read_long(FILE *f);
-  float read_float(FILE *f);
-  int read_short_le(FILE *f);
-  int read_long_le(FILE *f);
-  float read_float_le(FILE *f);
-  int read_string(FILE *f, char *s, int maxlen);
-  void read_buf(FILE *f, char *s, int len);
-  void skip(FILE *f, int skiplen);
-  bool nextLine(FILE *f, char *line);
 };
 
 #endif

@@ -23,7 +23,7 @@
 #include "timer.hpp"    // fTime, delta
 #include "http.hpp"	// Http
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// littleEndian
+#include "endian.hpp"	// littleEndian
 #include "lwo.hpp"	// Lwo
 
 static Hairs *hairs = NULL;
@@ -346,7 +346,7 @@ bool getSTRING(FILE *fp, char *s, int *l)
 
 void Hairs::reader(void *_lwo, Http *http)
 {
-  Object *lwo = (Object *) _lwo;
+  Object *lwo = static_cast<Object *>(_lwo);
 
   if (! lwo) return;
 
@@ -362,15 +362,13 @@ void Hairs::reader(void *_lwo, Http *http)
   Surface *ss = NULL;
   bool littleendian;
   char tmp; //SWAPL
-  char str[BUFSIZ];
+  char str[1024];
 
   Cache *cache = new Cache();
   FILE *fp = cache->open(hairs->urlName(), http);
-  File *file = new(File);
 
-  /* check for headers */
-  littleendian = file->littleEndian();
-  //echo(littleendian ? "LittleEndian" : "BigEndian");
+  /* check for header */
+  littleendian = Endian::littleEndian();
   fread(&id, 4, 1, fp);
   if (stringcmp(sid, "FORM")) {
     error("not a ID_FORM");
@@ -386,7 +384,6 @@ void Hairs::reader(void *_lwo, Http *http)
 
   while (len > 0) {
     fread(&id, 4, 1, fp);
-    //echo("%d %s", len, sid);
     len -= 4;
     fread(&l, 4, 1, fp); len -= 4;
     SWAPL(&l, tmp);

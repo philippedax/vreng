@@ -21,7 +21,7 @@
 #include "vreng.hpp"
 #include "img.hpp"
 #include "cache.hpp"	// open, close
-#include "file.hpp"	// littleEndian, convertLong
+#include "endian.hpp"	// littleEndian, swapLong
 #include "texture.hpp"	// Texture
 
 
@@ -119,8 +119,8 @@ Img * Img::loadSGI(void *_tex, ImageReader read_func)
 
   fread(sgi, 1, 12, sgi->f); // header
 
-  if (File::littleEndian())
-    File::convertShort(&sgi->imagic, 6);
+  if (Endian::littleEndian())
+    Endian::swapShort(&sgi->imagic, 6);
   sgi->tmp  = new uint8_t[sgi->width*256];
   if (!sgi->tmp) return NULL;
 
@@ -133,9 +133,9 @@ Img * Img::loadSGI(void *_tex, ImageReader read_func)
     fseek(sgi->f, 512, SEEK_SET);
     fread(sgi->rowStart, 1, x, sgi->f);
     fread(sgi->rowSize, 1, x, sgi->f);
-    if (File::littleEndian()) {
-      File::convertLong(sgi->rowStart, x/(int)sizeof(uint32_t));
-      File::convertLong((uint32_t *)sgi->rowSize, x/(int)sizeof(uint32_t));
+    if (Endian::littleEndian()) {
+      Endian::swapLong(sgi->rowStart, x/(int)sizeof(uint32_t));
+      Endian::swapLong((uint32_t *)sgi->rowSize, x/(int)sizeof(uint32_t));
     }
   }
 

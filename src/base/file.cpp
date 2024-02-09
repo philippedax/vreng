@@ -2,7 +2,7 @@
 // VREng (Virtual Reality Engine)	http://vreng.enst.fr/
 //
 // Copyright (C) 1997-2008 Philippe Dax
-// Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
+// Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
 //
 // VREng is a free software; you can redistribute it and/or modify it
 // under the terms of the GNU General Public Licence as published by
@@ -80,121 +80,7 @@ void File::closeFile(FILE *fp)
   //debug fcloselog(fp);
 }
 
-/**
- * check whether this machine is big endian
- * return 1 if big endian else 0 if little endian
- * static
- */
-bool File::bigEndian()
-{
-  union {
-    int word;
-    char byte[4];
-  } endian;
-
-  endian.word = 1;
-  return (endian.byte[0] == 1) ? 0 : 1;
-}
-
-/**
- * check whether this machine is little endian
- * return 1 if little endian else 0 if big endian
- * static
- */
-bool File::littleEndian()
-{
-  return (! bigEndian());
-}
-
-void * File::swapEndian(void* data, int n)
-{
-  static char swapped[16];
-
-  switch (n) {
-    case 2: swapped[0] = *((char*)data+1);
-            swapped[1] = *((char*)data  );
-            break;
-    case 4: swapped[0] = *((char*)data+3);
-            swapped[1] = *((char*)data+2);
-            swapped[2] = *((char*)data+1);
-            swapped[3] = *((char*)data  );
-            break;
-#if 0 //notused
-    case 6: swapped[0] = *((char*)data+5);
-            swapped[1] = *((char*)data+4);
-            swapped[2] = *((char*)data+3);
-            swapped[3] = *((char*)data+2);
-            swapped[4] = *((char*)data+1);
-            swapped[5] = *((char*)data  );
-            break;
-    case 8: swapped[0] = *((char*)data+7);
-            swapped[1] = *((char*)data+6);
-            swapped[2] = *((char*)data+5);
-            swapped[3] = *((char*)data+4);
-            swapped[4] = *((char*)data+3);
-            swapped[5] = *((char*)data+2);
-            swapped[6] = *((char*)data+1);
-            swapped[7] = *((char*)data  );
-            break;
-     case 16:swapped[0] = *((char*)data+15);
-            swapped[1] = *((char*)data+14);
-            swapped[2] = *((char*)data+13);
-            swapped[3] = *((char*)data+12);
-            swapped[4] = *((char*)data+11);
-            swapped[5] = *((char*)data+10);
-            swapped[6] = *((char*)data+9);
-            swapped[7] = *((char*)data+8);
-            swapped[8] = *((char*)data+7);
-            swapped[9] = *((char*)data+6);
-            swapped[10] = *((char*)data+5);
-            swapped[11] = *((char*)data+4);
-            swapped[12] = *((char*)data+3);
-            swapped[13] = *((char*)data+2);
-            swapped[14] = *((char*)data+1);
-            swapped[15] = *((char*)data  );
-            break;
-#endif //notused
-      default:error("Unsupported length for swapEndian");
-  }
-  return static_cast<void *>(swapped);
-}
-
-void File::localEndian(void *data, int n)
-{           
-  if (bigEndian()) {
-    char *tmp = reinterpret_cast<char *>(swapEndian(data, n));
-    memcpy(data, tmp, n);
-  }         
-}
-
-void File::convertShort(uint16_t *array, int len)
-{
-  uint32_t b1, b2;
-  char *p;
-
-  p = reinterpret_cast<char *>(array);
-  while (len--) {
-    b1 = *p++;
-    b2 = *p++;
-    *array++ = (b1 << 8) | (b2);
-  }
-}
-
-void File::convertLong(uint32_t *array, int len)
-{
-  uint32_t b1, b2, b3, b4;
-  char *p;
-
-  p = reinterpret_cast<char *>(array);
-  while (len--) {
-    b1 = *p++;
-    b2 = *p++;
-    b3 = *p++;
-    b4 = *p++;
-    *array++ = (b1 << 24) | (b2 << 16) | (b3 << 8) | (b4);
-  }
-}
-
+////////////////////////////////////
 //
 // methods commun to file and cache
 //
