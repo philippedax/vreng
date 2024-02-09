@@ -48,6 +48,35 @@ bool Endian::littleEndian()
   return (! bigEndian());
 }
 
+void Endian::swapShort(uint16_t *array, int len)
+{
+  uint32_t b1, b2;
+  char *p;
+
+  p = reinterpret_cast<char *>(array);
+  while (len--) {
+    b1 = *p++;
+    b2 = *p++;
+    *array++ = (b1 << 8) | (b2);
+  }
+}
+
+void Endian::swapLong(uint32_t *array, int len)
+{
+  uint32_t b1, b2, b3, b4;
+  char *p;
+
+  p = reinterpret_cast<char *>(array);
+  while (len--) {
+    b1 = *p++;
+    b2 = *p++;
+    b3 = *p++;
+    b4 = *p++;
+    *array++ = (b1 << 24) | (b2 << 16) | (b3 << 8) | (b4);
+  }
+}
+
+#if 0 //notused
 void * Endian::swapEndian(void* data, int n)
 {
   static char swapped[16];
@@ -108,31 +137,4 @@ void Endian::localEndian(void *data, int n)
     memcpy(data, tmp, n);
   }         
 }
-
-void Endian::swapShort(uint16_t *array, int len)
-{
-  uint32_t b1, b2;
-  char *p;
-
-  p = reinterpret_cast<char *>(array);
-  while (len--) {
-    b1 = *p++;
-    b2 = *p++;
-    *array++ = (b1 << 8) | (b2);
-  }
-}
-
-void Endian::swapLong(uint32_t *array, int len)
-{
-  uint32_t b1, b2, b3, b4;
-  char *p;
-
-  p = reinterpret_cast<char *>(array);
-  while (len--) {
-    b1 = *p++;
-    b2 = *p++;
-    b3 = *p++;
-    b4 = *p++;
-    *array++ = (b1 << 24) | (b2 << 16) | (b3 << 8) | (b4);
-  }
-}
+#endif //notused
