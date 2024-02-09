@@ -468,8 +468,8 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   WO* object = WO::byNum(objnum);
 
   if (! object) {
-    objinfo[0].name = (char*) "World";	// avoid segfault
-    objinfo[1].name = (char*) World::current()->getName();
+    objinfo[0].name = const_cast<char*>("World");	// avoid segfault
+    objinfo[1].name = const_cast<char*>(World::current()->getName());
     objinfo[2].name = NULL;	// NULL terminaison
     return NULL;
   }

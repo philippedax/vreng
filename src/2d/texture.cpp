@@ -191,7 +191,7 @@ Texture::Texture(const char *url)
   if (url) {
     strcpy(this->url, url);
     // load image
-    switch (Format::getLoaderByUrl((char*) url)) {
+    switch (Format::getLoaderByUrl(const_cast<char *>(url))) {
       case IMG_GIF: Http::httpOpen(url, reader, this, 1); break; // multi-threaded
       default:      Http::httpOpen(url, reader, this, 0); break;
     }
@@ -216,7 +216,7 @@ GLuint Texture::open(const char *url)
 
   /* we must download the texture now */
   strcpy(texture->url, url);
-  switch (Format::getLoaderByUrl((char*) url)) {
+  switch (Format::getLoaderByUrl(const_cast<char *>(url))) {
     case IMG_GIF: Http::httpOpen(url, reader, texture, 1); break; // multi-threaded
     default:      Http::httpOpen(url, reader, texture, 0); break;
   }

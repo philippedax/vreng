@@ -321,7 +321,7 @@ int read_request(const char *requete)
   }
   if (! strcmp(requete, "TEST")) {
     printf("TESTONS\n");
-    g.render.calculateFov(0,0,0,0, (char*)"TEST.jpg");
+    g.render.calculateFov(0,0,0,0, const_cast<char *>("TEST.jpg"));
     return 0;
   }
   if (! strcmp(requete, "C")) {

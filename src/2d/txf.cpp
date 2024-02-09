@@ -97,8 +97,8 @@ void Txf::reader(void *_txf, Http *http)
   }
 
   got = fread(reinterpret_cast<char *>(&endianness), sizeof(int), 1, f);
-  if (got == 1 && endianness == 0x12345678)      swap = 0;
-  else if (got == 1 && endianness == 0x78563412) swap = 1;
+  if (got == 1 && endianness == 0x12345678)      { swap = 0; }	// bigendian
+  else if (got == 1 && endianness == 0x78563412) { swap = 1; }	// littleendian
   else {
     lastError = "not a texture font file.";
     goto error;

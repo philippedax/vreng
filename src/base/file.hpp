@@ -41,10 +41,10 @@ class File {
   // Endians
   static bool bigEndian();
   static bool littleEndian();
-  static void * swapEndian(void *addr, int nb);
-  static void localEndian(void *addr, int nb);
-  static void convertShort(uint16_t *array, long length);
-  static void convertLong(uint32_t *array, long length);
+  static void * swapEndian(void *data, int nb);
+  static void localEndian(void *data, int nb);
+  static void convertShort(uint16_t *array, int len);
+  static void convertLong(uint32_t *array, int len);
 
   // IO
   int read_char(FILE *f);

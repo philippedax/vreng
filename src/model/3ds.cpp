@@ -308,6 +308,7 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPrev)
       // This chunk has an uint16_t that holds the file version.
       chunk.read += fread(&version, 1, chunk.len - chunk.read,fp);
       File::localEndian(&version, sizeof(uint32_t));
+      //if (File::bigEndian()) { echo("big"); } else { echo("little"); }
 
       if (version > 0x03)
         error("This 3DS file is over version 3 so it may load incorrectly");
