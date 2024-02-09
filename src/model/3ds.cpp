@@ -34,7 +34,7 @@
 #include "http.hpp"	// httpOpen
 #include "texture.hpp"	// open
 #include "cache.hpp"	// open, close
-#include "endian.hpp"	// localEndian
+#include "endian.hpp"	// bigEndian
 
 
 _3ds::_3ds(const char *_url) :
@@ -307,8 +307,7 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPrev)
     case _3DS_VERSION:		// This holds the version of the file
       // This chunk has an uint16_t that holds the file version.
       chunk.read += fread(&version, 1, chunk.len - chunk.read,fp);
-      Endian::localEndian(&version, sizeof(uint32_t));
-      //if (Endian::bigEndian()) { echo("big"); } else { echo("little"); }
+      if (Endian::bigEndian()) { char t; SWAPL(&version, t); }
 
       if (version > 0x03)
         error("This 3DS file is over version 3 so it may load incorrectly");
@@ -320,7 +319,7 @@ void _3ds::nextChunk(t3dsModel *pModel, tChunk *pPrev)
 
       // Get the version of the mesh
       tmp.read += fread(&version, 1, tmp.len - tmp.read, fp);
-      Endian::localEndian(&version, sizeof(uint32_t));
+      if (Endian::bigEndian()) { char t; SWAPL(&version, t); }
 
       chunk.read += tmp.read;
 
@@ -458,11 +457,11 @@ void _3ds::readChunk(tChunk *pchunk)
 {
   // The chunk ID is like _3DS_OBJECT or _3DS_MATERIAL.
   pchunk->read = fread(&pchunk->ID, 1, 2, fp);
-  Endian::localEndian(&pchunk->ID, 2);
+  if (Endian::bigEndian()) { char t; SWAPS(&pchunk->ID, t); }
 
   // Then, we read the length of the chunk which is 4 bytes.
   pchunk->read += fread(&pchunk->len, 1, 4, fp);
-  Endian::localEndian(&pchunk->len, 4);
+  if (Endian::bigEndian()) { char t; SWAPL(&pchunk->len, t); }
 }
 
 /** reads in a string of characters */
@@ -498,7 +497,7 @@ void _3ds::readVertex(tObject *pObject, tChunk *pPrev)
 
   // Read in the number of faces that are in this object (int)
   pPrev->read += fread(&pObject->numFaces, 1, 2, fp);
-  Endian::localEndian(&pObject->numFaces, sizeof(int));
+  if (Endian::bigEndian()) { char t; SWAPL(&pObject->numFaces, t); }
 
   // Alloc enough memory for the faces and initialize the structure
   pObject->pFaces = new t3dsFace [pObject->numFaces];
@@ -510,7 +509,7 @@ void _3ds::readVertex(tObject *pObject, tChunk *pPrev)
     for (int j=0; j < 4; j++) {
       // Read the first vertice index for the current face
       pPrev->read += fread(&index, 1, sizeof(index), fp);
-      Endian::localEndian(&index, sizeof(uint16_t));
+      if (Endian::bigEndian()) { char t; SWAPS(&index, t); }
       if (j < 3) // Store the index in our face structure.
         pObject->pFaces[i].vertIndex[j] = index;
     }
@@ -522,7 +521,7 @@ void _3ds::readUVCoords(tObject *pObject, tChunk *pPrev)
 {
   // Read in the number of UV coords there are (int)
   pPrev->read += fread(&pObject->numTexVertex, 1, 2, fp);
-  Endian::localEndian(&pObject->numTexVertex, sizeof(int));
+  if (Endian::bigEndian()) { char t; SWAPL(&pObject->numTexVertex, t); }
 
   // Allocate memory to hold the UV coords
   pObject->pTexVerts = new Vec2 [pObject->numTexVertex];
@@ -530,8 +529,8 @@ void _3ds::readUVCoords(tObject *pObject, tChunk *pPrev)
   // Read in the texture coods (an array 2 float)
   pPrev->read += fread(pObject->pTexVerts, 1, pPrev->len - pPrev->read, fp);
   for (int i=0; i < pObject->numTexVertex; i++) {
-    Endian::localEndian(&pObject->pTexVerts[i].x, sizeof(float));
-    Endian::localEndian(&pObject->pTexVerts[i].y, sizeof(float));
+    if (Endian::bigEndian()) { char t; SWAPL(&pObject->pTexVerts[i].x, t); }
+    if (Endian::bigEndian()) { char t; SWAPL(&pObject->pTexVerts[i].y, t); }
   }
 }
 
@@ -540,7 +539,7 @@ void _3ds::readVertices(tObject *pObject, tChunk *pPrev)
 {
   // Read in the number of vertices (int)
   pPrev->read += fread(&(pObject->numVerts), 1, 2, fp);
-  Endian::localEndian(&pObject->numVerts, sizeof(int));
+  if (Endian::bigEndian()) { char t; SWAPL(&pObject->numVerts, t); }
 
   //echo("readVertices: numVerts=%d", pObject->numVerts);
 
@@ -560,9 +559,9 @@ void _3ds::readVertices(tObject *pObject, tChunk *pPrev)
 
   // Go through all of the vertices that we just read and swap the Y and Z values
   for (int i=0; i < pObject->numVerts; i++) {
-    Endian::localEndian(&pObject->pVerts[i].x, sizeof(float));
-    Endian::localEndian(&pObject->pVerts[i].y, sizeof(float));
-    Endian::localEndian(&pObject->pVerts[i].z, sizeof(float));
+    if (Endian::bigEndian()) { char t; SWAPL(&pObject->pVerts[i].x, t); }
+    if (Endian::bigEndian()) { char t; SWAPL(&pObject->pVerts[i].y, t); }
+    if (Endian::bigEndian()) { char t; SWAPL(&pObject->pVerts[i].z, t); }
 
     float fTmpY = pObject->pVerts[i].y;
 
