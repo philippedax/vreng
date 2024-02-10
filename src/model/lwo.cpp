@@ -41,7 +41,7 @@ void Lwo::readSrfs(class File *file, FILE *f, int nbytes)
     /* allocate more memory for materials if needed */
     if (cnt <= nbm) {
       cnt += cnt/2 + 4;
-      material = (tMaterial*) realloc(material,sizeof(tMaterial)*cnt);
+      material = static_cast<tMaterial*>(realloc(material,sizeof(tMaterial)*cnt));
       if (! material) { error("can't realloc material"); return; }
     }
     lmaterial = material + nbm++;
@@ -52,7 +52,7 @@ void Lwo::readSrfs(class File *file, FILE *f, int nbytes)
     /* default color */
     lmaterial->r = lmaterial->g = lmaterial->b = 0.7;
   }
-  material = (tMaterial*) realloc(material, sizeof(tMaterial) * nbm);
+  material = static_cast<tMaterial*>(realloc(material, sizeof(tMaterial) * nbm));
   if (! material) error("can't realloc material");
 }
 
@@ -101,7 +101,7 @@ void Lwo::readPols(class File *file, FILE *f, int nbytes)
     /* allocate more memory for polygons if necessary */
     if (cnt <= nbf) {
       cnt += cnt + 4;
-      face = (tFace*) realloc((void*) face, sizeof(tFace) * cnt);
+      face = static_cast<tFace*>(realloc((void*) face, sizeof(tFace) * cnt));
       if (! face) { error("can't realloc face"); return; }
     }
     lface = face + nbf++;
@@ -111,7 +111,7 @@ void Lwo::readPols(class File *file, FILE *f, int nbytes)
     nbytes -= 2;
 
     /* allocate space for points */
-    lface->index = (int*) calloc(sizeof(int) * lface->index_count, 1);
+    lface->index = static_cast<int*>(calloc(sizeof(int) * lface->index_count, 1));
     if (! lface->index) { error("can't alloc faceindex"); return; }
 
     /* read points in */
@@ -139,7 +139,7 @@ void Lwo::readPols(class File *file, FILE *f, int nbytes)
   }
 
   /* readjust to true size */
-  face = (tFace*) realloc(face, sizeof(tFace) * nbf);
+  face = static_cast<tFace*>(realloc(face, sizeof(tFace) * nbf));
   if (! face) error("can't realloc face");
 }
 

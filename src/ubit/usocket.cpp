@@ -289,7 +289,7 @@ bool USocket::receiveBlock(char*& data, unsigned short& size) {
   if (!receiveBytes((char*)&net_size, 2)) return false;
 
   size = ntohs(net_size);
-  data = (char*) realloc(data, size);
+  data = static_cast<char*>(realloc(data, size));
   if (!data) return false;
   
   return receiveBytes(data, size);
@@ -332,7 +332,7 @@ UIObuf::UIObuf(unsigned short _size) {
     memsize = DEFAULT_SIZE;
   }
   else {
-    buffer = (char*)malloc(_size+2);
+    buffer = static_cast<char*>(malloc(_size+2));
     memsize = _size+2;
   }
   pos = 2; // skip the size
@@ -359,15 +359,15 @@ bool UIObuf::resize(unsigned short _size) {
   bufsize = _size+2;
   
   if (buffer == null) {  // should not happen
-    buffer = (char*)malloc(bufsize);
+    buffer = static_cast<char*>(malloc(bufsize));
   }
   else if (buffer == default_buffer) {
     if (bufsize > DEFAULT_BUFSIZE) {
-      buffer = (char*)malloc(bufsize);
+      buffer = static_cast<char*>(malloc(bufsize));
       memcpy(buffer, default_buffer, DEFAULT_BUFSIZE);
     }
   }
-  else buffer = (char*)realloc(buffer, bufsize);
+  else buffer = static_cast<char*>(realloc(buffer, bufsize));
 
   if (!buffer) bufsize = 0;
   return (buffer!=null);

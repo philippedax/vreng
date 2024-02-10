@@ -149,7 +149,7 @@ bool UStyleParser::readStyleProps(StyleMaker& xxx) {
 
 static void readBracketSelector(const char* n, UStr& aux) {
   const char* pn = n;
-  char* out = (char*)malloc(strlen(n));
+  char* out = static_cast<char*>(malloc(strlen(n)));
   char* po = out;
   
   while (*pn) {

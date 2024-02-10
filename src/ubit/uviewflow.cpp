@@ -169,13 +169,13 @@ void UFlowLayoutImpl::addLine(UUpdateContext*ctx) {
   // appel de Layout()
   if (!flowview->lines) {
     flowview->alloc_line_count = LINE_QUANTUM;
-    flowview->lines = (UFlowLine*) malloc(sizeof(UFlowLine)
-                                          * flowview->alloc_line_count);
+    flowview->lines = static_cast<UFlowLine*>(malloc(sizeof(UFlowLine)
+                                          * flowview->alloc_line_count));
   }
   else if (l+1 >= flowview->alloc_line_count) {
     flowview->alloc_line_count += LINE_QUANTUM;
-    flowview->lines = (UFlowLine*) realloc(flowview->lines, sizeof(UFlowLine)
-                                           * (flowview->alloc_line_count));
+    flowview->lines = static_cast<UFlowLine*>(realloc(flowview->lines, sizeof(UFlowLine)
+                                           * (flowview->alloc_line_count)));
   }
   line = flowview->lines;
 
@@ -201,13 +201,13 @@ void UFlowLayoutImpl::addCell(UUpdateContext*ctx, UChild* _link,
                               float _w, float _h, int _offset, int _len) {
   if (!flowview->cells) {
     flowview->alloc_cell_count = CELL_QUANTUM;
-    flowview->cells = (UFlowCell*) malloc(sizeof(UFlowCell)
-                                          * flowview->alloc_cell_count);
+    flowview->cells = static_cast<UFlowCell*>(malloc(sizeof(UFlowCell)
+                                          * flowview->alloc_cell_count));
   }
   else if (c+1 >= flowview->alloc_cell_count) {
     flowview->alloc_cell_count += CELL_QUANTUM;
-    flowview->cells = (UFlowCell*) realloc(flowview->cells, sizeof(UFlowCell)
-                                           * (flowview->alloc_cell_count));
+    flowview->cells = static_cast<UFlowCell*>(realloc(flowview->cells, sizeof(UFlowCell)
+                                           * (flowview->alloc_cell_count)));
   }
   cell = flowview->cells;
 

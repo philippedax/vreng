@@ -143,7 +143,7 @@ void UStr::removingFrom(UChild& c, UElem& parent) {
 void UStr::initImpl(const char *_s, int _len) {
   if (!_s) syncVals(null, 0);
   else {
-    s = (char*)malloc((_len + 1) * sizeof(char));
+    s = static_cast<char*>(malloc((_len + 1) * sizeof(char)));
     if (s) {strncpy(s, _s, _len); s[_len] = 0; syncVals(s, _len);}
     else {
       syncVals(null, 0);
@@ -158,7 +158,7 @@ void UStr::setImpl(const char *_s, int _len) {
   
   if (!_s) syncVals(null, 0);
   else {
-    s = (char*)malloc((_len + 1) * sizeof(char));
+    s = static_cast<char*>(malloc((_len + 1) * sizeof(char)));
     if (s) {strncpy(s, _s, _len); s[_len] = 0; syncVals(s, _len);}
     else {
       syncVals(null, 0);
@@ -625,7 +625,7 @@ bool UStr::insertImpl(int to_pos, const char *s2, int from_pos,
   if (from_pos + nbc > len_s2) nbc = len_s2 - from_pos;
   if (nbc <= 0) return false;
 
-  char* news = (char*) malloc(len + nbc + 1); // 0 final
+  char* news = static_cast<char*>(malloc(len + nbc + 1)); // 0 final
   if (!news) {
     UAppli::fatalError("UStr::insertImpl","No more memory; UStr object %p",this);
     return false;		// str et strLen inchanges !
@@ -652,7 +652,7 @@ bool UStr::insertImpl(int pos, char c, bool upd) {
   if (!checkFormat(pos, c)) return false; //!!
   if (pos < 0 || pos > len) pos = len; // append
 
-  char *news = (char*) malloc(len + 1 + 1); // 0 final
+  char *news = static_cast<char*>(malloc(len + 1 + 1)); // 0 final
   if (!news) {
     UAppli::fatalError("UStr::insertImpl","No more memory; UStr object %p",this);
     return false;		// str et strLen inchanges !
@@ -714,7 +714,7 @@ bool UStr::replaceImpl(int pos, unsigned int nbchars, const char *str, bool upd)
   }
   
   else {
-    char* news = (char*)malloc(newlen + 1); // 0 final
+    char* news = static_cast<char*>(malloc(newlen + 1)); // 0 final
     if (!news) {
       UAppli::fatalError("UStr::replaceImpl","No more memory; UStr object %p",this);
       return false;		  // str et strLen inchanges !
@@ -861,7 +861,7 @@ UStr UStr::split(int pos, bool delete_char_at_pos) {
   }
   else {
     len = pos;
-    s = (char*)realloc(s, sizeof(char)*(pos+1));
+    s = static_cast<char*>(realloc(s, sizeof(char)*(pos+1)));
     s[pos] = '\0';
     syncVals(s, len);
   }
@@ -1088,7 +1088,7 @@ int UStr::read(const UStr& filename) {
            || (finfo.st_mode & S_IFMT) != S_IFREG) {
     res = UFilestat::CannotOpen;
   }
-  else if (!(buffer = (char*)::malloc((finfo.st_size + 1) * sizeof(char)))) {
+  else if (!(buffer = static_cast<char*>(::malloc((finfo.st_size + 1) * sizeof(char))))) {
     res = UFilestat::NoMemory;
   }
   else if (::read(fd, buffer, finfo.st_size) <= 0) {
@@ -1162,7 +1162,7 @@ int UStr::write(const UStr& filename) {
 char *UCstr::dup(const char *s1) {
   if (!s1) return null;
   else {
-    char *p = (char*)::malloc((strlen(s1) + 1) * sizeof(char));
+    char *p = static_cast<char*>(::malloc((strlen(s1) + 1) * sizeof(char)));
     if (p) ::strcpy(p, s1);
     return p;
   }
@@ -1173,7 +1173,7 @@ char *UCstr::dup(const char *s1, const char *s2) {
   else if (!s2 || !*s2) return UCstr::dup(s1);
   else {
     int l1 = strlen(s1);
-    char *p = (char*)::malloc((l1 + strlen(s2) + 1) * sizeof(char));
+    char *p = static_cast<char*>(::malloc((l1 + strlen(s2) + 1) * sizeof(char)));
     if (p) {
       ::strcpy(p, s1);
       ::strcpy(p+l1, s2);
@@ -1187,7 +1187,7 @@ char* UCstr::dup(const char *s1, char sep, const char *s2) {
   else if (!s2 || !*s2) return UCstr::dup(s1);
   else {
     int l1 = strlen(s1);
-    char *p = (char*)::malloc((l1 + strlen(s2) + 2) * sizeof(char));
+    char *p = static_cast<char*>(::malloc((l1 + strlen(s2) + 2) * sizeof(char)));
     if (p) {
       ::strcpy(p, s1);
       p[l1] = sep;

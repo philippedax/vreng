@@ -76,7 +76,7 @@ int UImaXPM::read(UHardIma& natima, const UStr& path, int maxw, int maxh) {
   int line_count = 0;
   int data_max = 100;
   int stat = 0;
-  const char ** data = (const char **)malloc(data_max * sizeof(char*));
+  const char ** data = static_cast<const char **>(malloc(data_max * sizeof(char*)));
   
   while ((getline(in, line))) {
     // find opening "
@@ -103,7 +103,7 @@ int UImaXPM::read(UHardIma& natima, const UStr& path, int maxw, int maxh) {
     
     if (line_count >= data_max) {
       data_max *= 2;
-      data = (const char **)realloc(data, data_max * sizeof(char*));
+      data = static_cast<const char **>(realloc(data, data_max * sizeof(char*)));
     }
     data[line_count] = s;
     ++line_count;

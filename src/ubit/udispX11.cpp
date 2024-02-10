@@ -751,7 +751,6 @@ void UDispX11::startLoop(bool main)
     int const nfds = 4096;
     struct pollfd fds[4096];
 
-    //dax fds = ::calloc(nfds, sizeof(struct pollfd));
     for (int k = 0; k < displist.size(); ++k) {
       xconnection = ((UDispX11*)displist[k])->xconnection;
     }
@@ -788,15 +787,6 @@ void UDispX11::startLoop(bool main)
       if (timers.size() > 0) UAppli::impl.timer_impl.fireTimers();
       if (a.request_mask) a.processPendingRequests();
     }
-#if 0 //dax debug
-      for (int i=0; i<4000; i++) {
-        int f = dup(i);
-        if (f<0) continue;
-        ofile++;
-        close(f);
-      }
-      printf("ofile = %d\n", ofile);
-#endif //dax
 
 #else // select
     // sources
@@ -808,28 +798,16 @@ void UDispX11::startLoop(bool main)
       FD_SET(xconnection, &read_set);
       maxfd = std::max(maxfd, xconnection);
     }
-#if 0 //dax debug
-    cerr << "maxfd " << maxfd << " xconection " << xconnection <<endl;
-      for (int i=0; i<4000; i++) {
-        int f = dup(i);
-        if (f<0) continue;
-        ofile++;
-        close(f);
-      }
-      printf("ofile = %d\n", ofile);
-#endif //dax
 
     if (UAppli::impl.sources) {
       // set read_set maxfd
       a.resetSources(UAppli::impl.sources, read_set, maxfd);
       //cerr << "maxfd " << maxfd <<endl;
     }
-#if 1 //dax FIX startLloop
     if (maxfd >= 1023) {	// bad maxfd returned by resetSources FIXME!
       cerr << "maxfd " << maxfd << " xconection " << xconnection <<endl;
       maxfd = 511;	// UGLY !!!
     }
-#endif //dax
     
     // select - bloquer tant que: 
     // rien sur xconnection, rien sur sources, timeouts pas atteints
@@ -840,17 +818,6 @@ void UDispX11::startLoop(bool main)
                              (has_timeout ? &delay : null));
     if (has_input < 0) {
       printf("UDispX11:: error in select() (%d) main=%d to=%d s=%ld maxfd=%d xcon=%d\n", errno, main, has_timeout, delay.tv_sec, maxfd, xconnection);
-#if 0 //dax debug
-      // number of open files
-      for (int i=0; i<4000; i++) {
-        int f = dup(i);
-        if (f<0) continue;
-        ofile++;
-        close(f);
-      }
-      printf("ofile = %d\n", ofile);
-      exit(2); // debug
-#endif //dax
 
       if ( errno == EINTR || errno == EAGAIN || errno == EINVAL ) errno = 0;
       a.cleanSources(a.sources); // remove invalid sources

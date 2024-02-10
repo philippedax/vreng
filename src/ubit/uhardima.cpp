@@ -808,7 +808,7 @@ USysIma UHardIma2D::createEmptySysIma(UDisp* _nd, int width, int height, int dep
   // => !!!WRONG:
   // datasize = ((float)attr.width * attr.height * nd->getBpp() / 8. + 1);
   
-  ima->data = (char*)malloc(ima->bytes_per_line * height);
+  ima->data = static_cast<char*>(malloc(ima->bytes_per_line * height));
   if (ima->data) 
     return ima;
   else {

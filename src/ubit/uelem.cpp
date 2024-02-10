@@ -638,7 +638,7 @@ void UElem::retrieveText(UStr& res, bool recursive) const {
   int len = _getTextLength(recursive);
   if (len <= 0) {res.clear(); return;}
   
-  char *data = (char*)malloc((len+1)*sizeof(char));
+  char *data = static_cast<char*>(malloc((len+1)*sizeof(char)));
   if (!data) {
     error("UElem::retrieveText","No more memory");
     return;
