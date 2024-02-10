@@ -112,7 +112,7 @@ Spot::Spot(WO *movie, void *d, time_t s, time_t u)
 {
   defaults();
   state = true;			// switch on
-  shape = (d == (void *)SPOT_PENTAGON) ? SPOT_PENTAGON : SPOT_CONE;
+  shape = (d == reinterpret_cast<void *>(SPOT_PENTAGON)) ? SPOT_PENTAGON : SPOT_CONE;
   behaviors();
 
   movie->getDim(dim);		// dim of movie

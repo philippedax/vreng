@@ -42,7 +42,7 @@ WO * Walls::creator(char *l)
 /** Walls loader */
 void Walls::reader(void *_walls, Http *http)
 {
-  Walls *walls = (class Walls *) _walls;
+  Walls *walls = static_cast<class Walls *>(_walls);
   if (! walls) return;
 
   Walls *pw = NULL, *prev = NULL;

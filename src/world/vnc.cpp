@@ -397,7 +397,7 @@ bool Vnc::mouseEvent(int16_t x, int16_t y, uint8_t button)
   params[2] = p2;
   params[3] = p3;
 
-  vncClient->sendRFBEvent((char **) params, (uint32_t *) &card); // send ptr
+  vncClient->sendRFBEvent((char **) params, &card); // send ptr
 
   delete[] p1;
   delete[] p2;

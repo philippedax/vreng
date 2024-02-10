@@ -36,7 +36,7 @@
 Vicinity::Vicinity()
 {
   solidLst = ::g.render.getSolidList();
-  obj = (WO *) localuser;
+  obj = static_cast<WO *>(localuser);
   objName = obj->objectName();
   setSize(user);
   userDist = DIST_INCL;

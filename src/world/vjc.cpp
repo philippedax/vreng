@@ -432,7 +432,7 @@ void VjcMessage::dumpHeader(tVjcHeader hdr)
 void VjcMessage::put8(int val)
 {
   //dax VJC_CHECK_OVERFLOW_1(sizeof(uint8_t))
-  data[cursor] = (uint8_t) (0x000000FF) & val;
+  data[cursor] = static_cast<uint8_t>((0x000000FF) & val);
   cursor += sizeof(uint8_t);
 }
 
