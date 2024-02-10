@@ -673,9 +673,9 @@ void User::setRayDirection(GLint wx, GLint wy)
   GLint vp[4];
 
   glGetIntegerv(GL_VIEWPORT, vp);
-  GLfloat tx = (GLfloat) FAR;
-  GLfloat ty = vp[2]/2 - (GLfloat) wx;
-  GLfloat tz = vp[3]/2 - (GLfloat) wy;
+  GLfloat tx = static_cast<GLfloat>(FAR);
+  GLfloat ty = vp[2]/2 - static_cast<GLfloat>(wx);
+  GLfloat tz = vp[3]/2 - static_cast<GLfloat>(wy);
   if (ty < 0) ty = MAX(ty, -FAR); else ty = MIN(ty, FAR);
   if (tz < 0) tz = MAX(tz, -FAR); else tz = MIN(tz, FAR);
   //echo("eye: %.1f %.1f %.1f, target: %.1f %.1f %.1f", ex,ey,ez,tx,ty,tz);
@@ -740,7 +740,7 @@ void User::decreaseZoom(User *user, void *d, time_t s, time_t u)
 
 void User::setZoom(User *user, void *d, time_t s, time_t u)
 {
-  int *fovy = (int*) d;
+  int *fovy = static_cast<int*>(d);
 
   if (*fovy <= 0) *fovy = 1;
   if (*fovy >= 76) *fovy = 75;
@@ -749,7 +749,7 @@ void User::setZoom(User *user, void *d, time_t s, time_t u)
 
 void User::setRoll(User *user, void *d, time_t s, time_t u)
 {
-  float *angle = (float*) d;
+  float *angle = static_cast<float*>(d);
   user->pos.ax = DEG2RAD(*angle);
 }
 
@@ -789,7 +789,7 @@ void User::toland(User *user, void *d, time_t s, time_t u)
 
 void User::setPitch(User *user, void *d, time_t s, time_t u)
 {
-  float *angle = (float*) d;
+  float *angle = static_cast<float*>(d);
   ::g.render.setPitch(-DEG2RAD(*angle));
 }
 
@@ -826,7 +826,7 @@ void User::increaseLinearSpeed(User *user, void *d, time_t s, time_t u)
 
 void User::setLspeed(User *user, void *d, time_t s, time_t u)
 {
-  float *ls = (float *) d;
+  float *ls = static_cast<float *>(d);
   user->lspeed = *ls;
 }
 
@@ -847,7 +847,7 @@ void User::increaseAngularSpeed(User *user, void *d, time_t s, time_t u)
 
 void User::setAspeed(User *user, void *d, time_t s, time_t u)
 {
-  float *as = (float *) d;
+  float *as = static_cast<float *>(d);
   user->aspeed = *as;
 }
 

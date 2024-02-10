@@ -142,7 +142,7 @@ const char * Guy::getUrl() const
 
 void Guy::reader(void *_guy, Http *http)
 {
-  Guy *guy = (Guy *) _guy;
+  Guy *guy = static_cast<Guy *>(_guy);
   if (! guy) return;
   int pts = 0;
 

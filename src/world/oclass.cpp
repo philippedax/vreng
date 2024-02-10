@@ -47,7 +47,7 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
     otable[type_id] = this;
   }
   else {
-    if (! (otable = (OClass**) realloc(otable, sizeof(OClass *) * (type_id+1)))) {
+    if (! (otable = static_cast<OClass**> (realloc(otable, sizeof(OClass *) * (type_id+1))))) {
       fatal("can't realloc otable");
     }
     for (uint8_t i = otable_size; i < (type_id + 1); i++) {

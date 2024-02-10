@@ -139,9 +139,9 @@ void Vnc::defaultPixmap()
   GLubyte *pix = tex_pixmap = def_pixmap;
   for (int i=0; i < tex_width; i++) {
     for (int j=0; j < tex_height; j++) {
-      *pix++ = (GLubyte) 0;
-      *pix++ = (GLubyte) 127;	// cyan
-      *pix++ = (GLubyte) 127;
+      *pix++ = 0;
+      *pix++ = 127;	// cyan
+      *pix++ = 127;
     }
   }
 }

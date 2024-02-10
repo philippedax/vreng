@@ -75,9 +75,9 @@ void Flag::inits()
 
   for (int x=0; x < DIM_FLAG + 1; x++) {
     for (int y=0; y < DIM_FLAG + 1; y++) {
-      mesh[x][y][0] = (GLfloat) (x - DIM_FLAG/2) / 5.;
-      mesh[x][y][1] = (GLfloat) (y - DIM_FLAG/2) / 5.;
-      mesh[x][y][2] = (GLfloat) (sin(((x * (180./DIM_FLAG))/180.) * M_PI));
+      mesh[x][y][0] = static_cast<GLfloat> (x - DIM_FLAG/2) / 5.;
+      mesh[x][y][1] = static_cast<GLfloat> (y - DIM_FLAG/2) / 5.;
+      mesh[x][y][2] = static_cast<GLfloat> (sin(((x * (180./DIM_FLAG))/180.) * M_PI));
     }
   }
 }
@@ -109,10 +109,10 @@ void Flag::draw()
   glBegin(GL_QUADS);
   for (int x=0; x < DIM_FLAG; x++) {
     for (int y=0; y < DIM_FLAG; y++) {
-      GLfloat fx  = (GLfloat) (x)   / DIM_FLAG;
-      GLfloat fy  = (GLfloat) (y)   / DIM_FLAG;
-      GLfloat fxb = (GLfloat) (x+1) / DIM_FLAG;
-      GLfloat fyb = (GLfloat) (y+1) / DIM_FLAG;
+      GLfloat fx  = static_cast<GLfloat> (x)   / DIM_FLAG;
+      GLfloat fy  = static_cast<GLfloat> (y)   / DIM_FLAG;
+      GLfloat fxb = static_cast<GLfloat> (x+1) / DIM_FLAG;
+      GLfloat fyb = static_cast<GLfloat> (y+1) / DIM_FLAG;
 
       glTexCoord2f(fx, fy);
       glVertex3f(mesh[x][y][0], mesh[x][y][1], mesh[x][y][2]);
