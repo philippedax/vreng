@@ -40,7 +40,6 @@ using namespace std;
 #define NAMESPACE_UBIT namespace ubit {
 NAMESPACE_UBIT
 
-//UStr UStr::none((char*)null, UMode::UCONST);
 //UStr UStr::newline("\n", UMode::UCONST);
 //UStr UStr::goBOL("\15", UMode::UCONST); // retour a la ligne si necessaire
 
@@ -185,7 +184,7 @@ void UStr::setImplNoCopy(char *_s, int _len) {
 
 UStr& UStr::clear() {
   if (!s) return *this;
-  setImpl((char*)null, 0);
+  setImpl(static_cast<char*>(null), 0);
   return *this;
 }
 
@@ -677,7 +676,7 @@ bool UStr::insertImpl(int pos, char c, bool upd) {
 /* ==================================================== [Elc] ======= */
 
 void UStr::remove(int pos, unsigned int nbchars) {
-  replaceImpl(pos, nbchars, (char*)null, true);
+  replaceImpl(pos, nbchars, static_cast<char*>(null), true);
 }
 
 void UStr::replace(int pos, unsigned int nbchars, const UStr& s2) {
@@ -1255,10 +1254,6 @@ int UCstr::compareN(const char* s1, const char* s2, unsigned int n, bool ignore_
   return c1 - c2;
 }
 
-
-//const char *UCstr::suffix(const char *path) {
-//  return UCstr::suffix((char*) path);
-//}
 
 const char *UCstr::suffix(const char *path) {
   const char *p = path + ::strlen(path);

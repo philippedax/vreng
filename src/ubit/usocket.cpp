@@ -76,7 +76,7 @@ bool UServerSocket::bind(int port, int backlog, bool reuse_address) {
 
   // pour reutiliser plusieurs fois la meme adresse
   int tmp = int(reuse_address);
-  ::setsockopt(listen_sock,SOL_SOCKET,SO_REUSEADDR,(char*)&tmp,sizeof(tmp));
+  ::setsockopt(listen_sock, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<char*>(&tmp),sizeof(tmp));
   
   if (::bind(listen_sock, (struct sockaddr*)sin, sizeof(*sin)) < 0) {
     //cerr << "UServerSocket: port " << listen_port << " busy" << endl;
@@ -147,7 +147,7 @@ USocket* UServerSocket::accept() {
   // turn off TCP coalescence for INET sockets
   // NB: necessaire (au moins) pour MacOS, sinon delai de transmission
   int tmp = 1;
-  ::setsockopt(sock_com, IPPROTO_TCP, TCP_NODELAY, (char*)&tmp,sizeof(int));
+  ::setsockopt(sock_com, IPPROTO_TCP, TCP_NODELAY, reinterpret_cast<char*>(&tmp),sizeof(int));
 
   USocket* s = createSocket();
   s->sock = sock_com;
@@ -212,7 +212,7 @@ int USocket::connect(const char* host, int port) {
   // turn off TCP coalescence for INET sockets
   // NB: necessaire (au moins) pour MacOS, sinon delai de transmission
   int tmp = 1;
-  ::setsockopt(sock, IPPROTO_TCP, TCP_NODELAY,(char*)&tmp, sizeof(int));  // A REVOIR (option)
+  ::setsockopt(sock, IPPROTO_TCP, TCP_NODELAY, reinterpret_cast<char*>(&tmp), sizeof(int));  // A REVOIR (option)
 
   // connection with the remote host
   if (::connect(sock, (struct sockaddr*)sin, sizeof(*sin)) < 0){
@@ -286,7 +286,7 @@ bool USocket::receiveBlock(char*& data, unsigned short& size) {
   if (sock < 0) return false;
 
   uint16_t net_size = 0;   // get block size
-  if (!receiveBytes((char*)&net_size, 2)) return false;
+  if (!receiveBytes(reinterpret_cast<char*>(&net_size), 2)) return false;
 
   size = ntohs(net_size);
   data = static_cast<char*>(realloc(data, size));
@@ -302,7 +302,7 @@ bool USocket::receiveBlock(UInbuf& buf) {
   if (sock < 0) return false;
 
   uint16_t net_size = 0;   // get block size
-  if (!receiveBytes((char*)&net_size, 2)) return false;
+  if (!receiveBytes(reinterpret_cast<char*>(&net_size), 2)) return false;
 
   unsigned short size = ntohs(net_size);
   // !!NB: un peu absurde: ne pas sauver les 2 bytes dans le buffer !

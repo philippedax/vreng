@@ -936,7 +936,7 @@ static void onMessage(UDispX11* nd, XEvent* xev) {
                        &type, &format, &nitems, &bytes_after,
                        &prop);
     if (req_stat == Success && nitems > 0 && type == XA_STRING && format == 8)
-      buf = (char*)prop;
+      buf = reinterpret_cast<char*>(prop);
   }
   
   messmap->fireMessagePort(buf);
@@ -1339,11 +1339,11 @@ void UDispX11::pasteSelectionCB(void* xev) {
         && type_return == XA_STRING
         && format_return == 8
         ) {
-      paste_str->insert(paste_pos, (char*)prop_return);
+      paste_str->insert(paste_pos, reinterpret_cast<char*>(prop_return));
     }
 
     //desallouer la memoire allouee par XGetWindowProperty
-    if (prop_return != null) XFree((char*)prop_return);
+    if (prop_return != null) XFree(reinterpret_cast<char*>(prop_return));
   }
 
   clearPasteTarget();

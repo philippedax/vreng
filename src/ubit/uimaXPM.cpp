@@ -237,7 +237,7 @@ static void initXPMattributes(UDisp* _d, XpmAttributes& a, XpmColorSymbol& sy) {
   /*
    if (!transp_bg) {   // no transparent -> take specified color as bg
    sy.name  = NULL;
-   sy.value = (char*)"none";
+   sy.value = const_cast<char*>("none");
    sy.pixel = bg;
    attributes.colorsymbols = &sy;
    attributes.numsymbols   = 1;

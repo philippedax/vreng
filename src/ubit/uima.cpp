@@ -129,7 +129,7 @@ UIma& UIma::operator=(const UIma& ima2) {
   if (checkConst()) return *this;
   if (&ima2 == this) return *this;
   
-  setImpl((char*)null);
+  setImpl(static_cast<char*>(null));
   name = ima2.name ? UCstr::dup(ima2.name) : null;
   stat = ima2.stat;
 
