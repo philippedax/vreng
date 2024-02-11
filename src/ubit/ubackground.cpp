@@ -148,7 +148,7 @@ UBackground& UBackground::setNamedColor(const UStr& colname, float a) {
   comps.comps[3] = (unsigned char)a*255; 
   if (found) return setRgba(comps);
   else {
-    warning("UBackground::setNamedColor","color name '%s' not found", 
+    warning("UBackground::setNamedColor", "color name '%s' not found", 
             (colname.empty() ? "null" : colname.c_str()));
     return *this;
   }
@@ -178,7 +178,5 @@ void UBackground::update() {
 void UBackground::putProp(UUpdateContext *props, UElem&){
   props->local.background = this;
 }
-
-
 
 }

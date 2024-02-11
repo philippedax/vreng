@@ -266,7 +266,7 @@ void UOrient::addingTo(UChild& c, UElem& parent) {
   
   // ca ne va pas: messages absurdes !!
   //if (parent->hasBMode(UMode::HAS_ORIENT)) {
-  // UAppli::warning("UOrient::addingTo","This UOrient object (%p) has a parent (%s %p) that contains another UOrient object", this, parent->getTypeName(), parent);
+  // UAppli::warning("UOrient::addingTo", "This UOrient object (%p) has a parent (%s %p) that contains another UOrient object", this, parent->getTypeName(), parent);
   //}
   
   parent.emodes.HAS_ORIENT = true;
@@ -741,7 +741,7 @@ void UWidthChooser::addingTo(UChild& c, UElem& parent) {
   UAttr::addingTo(c, parent);
   UBox* box = parent.toBox();
   if (!box) {
-    UAppli::warning("UWidthChooser::addingTo","parent should be a UBox");
+    UAppli::warning("UWidthChooser::addingTo", "parent should be a UBox");
     return;
   }
   UBorder* border = box->getBorder(true);
@@ -794,7 +794,7 @@ void UHeightChooser::addingTo(UChild&c, UElem& parent) {
   UAttr::addingTo(c, parent);
   UBox* box = parent.toBox();
   if (!box) {
-    UAppli::warning("UHeightChooser::addingTo","parent should be a UBox");
+    UAppli::warning("UHeightChooser::addingTo", "parent should be a UBox");
     return;
   }
   UBorder* border = box->getBorder(true);

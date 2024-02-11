@@ -40,7 +40,7 @@ UChild operator/(const UCond& cond, UNode& b) {
 
 UChild operator/(const UCond& cond, UNode* b) {
   if (!b) {
-    UAppli::error("UArgs::operator/","null UNode argument in / specification");
+    UAppli::error("UArgs::operator/", "null UNode argument in / specification");
     return UChild(null, cond);
   }
   else return UChild(b, cond);
@@ -69,7 +69,7 @@ UArgs::UArgs() {
 UArgs::UArgs(UNode* b) {
   children = new UArgsChildren;
   children->refcount = 1;
-  if (!b) UAppli::error("UArgs::UArgs","null UNode argument in arglist");
+  if (!b) UAppli::error("UArgs::UArgs", "null UNode argument in arglist");
   else children->push_back(b);
 }
   
@@ -88,7 +88,7 @@ UArgs::UArgs(const char* s) {
 UArgs::UArgs(const UChild& c) {
   children = new UArgsChildren;
   children->refcount = 1;
-  if (!*c) UAppli::error("UArgs::UArgs","UChild argument pointing to null node");
+  if (!*c) UAppli::error("UArgs::UArgs", "UChild argument pointing to null node");
   else children->push_back(c);
 }
 
@@ -154,7 +154,7 @@ UArgsImpl::UArgsImpl(const char* s) {
 UArgsImpl::UArgsImpl(UNode* b) {
   children = new UArgsChildren;
   children->refcount = 1;
-  if (!b) UAppli::error("UArgs","null argument in arglist");
+  if (!b) UAppli::error("UArgs", "null argument in arglist");
   else children->push_back(b);
 }
 
@@ -167,7 +167,7 @@ UArgsImpl::UArgsImpl(UNode& b) {
 UArgsImpl::UArgsImpl(const UChild& c) {
   children = new UArgsChildren;
   children->refcount = 1;
-  if (!*c) UAppli::error("UArgs","null UChild argument in arglist");
+  if (!*c) UAppli::error("UArgs", "null UChild argument in arglist");
   else children->push_back(c);
 }
 
@@ -177,7 +177,7 @@ const UArgsImpl& operator+(const UArgsImpl& a, const char* s) {
 }
 
 const UArgsImpl& operator+(const UArgsImpl& a, UNode* b) {
-  if (!b) UAppli::error("UArgs::operator+","null UNode in arglist");
+  if (!b) UAppli::error("UArgs::operator+", "null UNode in arglist");
   else a.children->push_back(b);
   return a;
 }
@@ -188,7 +188,7 @@ const UArgsImpl& operator+(const UArgsImpl& a, UNode& b) {
 }
 
 const UArgsImpl& operator+(const UArgsImpl& a, const UChild& c) {
-  if (!*c) UAppli::error("UArgs::operator+","null UChild in arglist");
+  if (!*c) UAppli::error("UArgs::operator+", "null UChild in arglist");
   else a.children->push_back(c);
   return a;
 }
@@ -235,7 +235,7 @@ _UAttrArgs::_UAttrArgs(const UArgsImpl& a) : children(a.children) {
 _UAttrArgs::_UAttrArgs(UAttr* n) {
   children = new UArgsChildren;
   children->refcount = 1;
-  if (!n) UAppli::error("UArgs","null UAttr argument in arglist");
+  if (!n) UAppli::error("UArgs", "null UAttr argument in arglist");
   else children->push_back(n);
 }
 
@@ -248,7 +248,7 @@ _UAttrArgs::_UAttrArgs(UAttr& n) {
 _UAttrArgs::_UAttrArgs(UCall* n) {
   children = new UArgsChildren;
   children->refcount = 1;
-  if (!n) UAppli::error("UArgs","null UChild argument in arglist");
+  if (!n) UAppli::error("UArgs", "null UChild argument in arglist");
   else children->push_back(n);
 }
 
@@ -262,13 +262,13 @@ _UAttrArgs::_UAttrArgs(UCall& n) {
 _UAttrArgs::_UAttrArgs(const UChild& c) {
   children = new UArgsChildren;
   children->refcount = 1;
-  if (!*c) UAppli::error("UArgs::UArgs","null UChild argument in arglist");
+  if (!*c) UAppli::error("UArgs::UArgs", "null UChild argument in arglist");
   else children->push_back(c);
 }
 */
 
 const _UAttrArgs& operator,(const _UAttrArgs& a, UAttr* n) {
-  if (!n) UAppli::error("UArgs::operator,","null UAttr argument in arglist");
+  if (!n) UAppli::error("UArgs::operator,", "null UAttr argument in arglist");
   else a.children->push_back(n);
   return a;
 }
@@ -279,7 +279,7 @@ const _UAttrArgs& operator,(const _UAttrArgs& a, UAttr& n) {
 }
 
 const _UAttrArgs& operator,(const _UAttrArgs& a, UCall* n) {
-  if (!n) UAppli::error("UArgs::operator,","null UCall argument in arglist");
+  if (!n) UAppli::error("UArgs::operator,", "null UCall argument in arglist");
   else a.children->push_back(n);
   return a;
 }
@@ -291,7 +291,7 @@ const _UAttrArgs& operator,(const _UAttrArgs& a, UCall& n) {
 
 /*
 const _UAttrArgs& operator+(const _UAttrArgs& a, const UChild& c) {
-  if (!*c) UAppli::error("UArgs::operator,","null UChild argument in arglist");
+  if (!*c) UAppli::error("UArgs::operator,", "null UChild argument in arglist");
   else a.children->push_back(c);
   return a;
 }

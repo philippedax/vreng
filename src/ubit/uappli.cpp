@@ -50,24 +50,25 @@ UAppliImpl& UAppli::impl = appli_impl;
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 UAppliImpl::UAppliImpl() : 
-appli(null),
-disp(null),
-app_name(null),
-is_terminated(false),
-// should not be set to null because UAppliImpl constr may be called after the
-// init. of this variable
-//error_handler(null), cf UAppli::getErrorHandler()
-main_frame(null),
-sources(null),
-modalwins(null),
-messmap(null),
-app_motion_lag(15),
-nat_motion_lag(100),
-main_status(0), modal_status(0),
-mainloop_running(false), subloop_running(false),
-request_mask(0),
-is_processing_update_requests(false),
-is_processing_layout_update_requests(false) {
+ appli(null),
+ disp(null),
+ app_name(null),
+ is_terminated(false),
+ // should not be set to null because UAppliImpl constr may be called after the
+ // init. of this variable
+ //error_handler(null), cf UAppli::getErrorHandler()
+ main_frame(null),
+ sources(null),
+ modalwins(null),
+ messmap(null),
+ app_motion_lag(15),
+ nat_motion_lag(100),
+ main_status(0), modal_status(0),
+ mainloop_running(false), subloop_running(false),
+ request_mask(0),
+ is_processing_update_requests(false),
+ is_processing_layout_update_requests(false)
+{
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -126,7 +127,6 @@ UAppli::~UAppli() {
 /*  APPELE OU ?
 void UAppli::realize() {
   UDisp::realize();
-  //if (conf.locale) setlocale(LC_CTYPE, conf.locale);
   if (!conf.locale.empty()) setlocale(LC_ALL, conf.locale.c_str());
   //impl.natappli->setProperties(conf);
   const UStr& name = getAppName();
@@ -199,7 +199,7 @@ void UAppli::add(UWin& win) {
 }
 
 void UAppli::add(UWin* win) {
-  if (!win) error("UAppli::add","null argument");
+  if (!win) error("UAppli::add", "null argument");
   else add(*win);
 }
 
@@ -209,7 +209,7 @@ void UAppli::remove(UWin& win, bool remove_mode) {
 }
 
 void UAppli::remove(UWin* win, bool remove_mode) {
-  if (!win) error("UAppli::remove","null argument");
+  if (!win) error("UAppli::remove", "null argument");
   else remove(*win, remove_mode);
 }
 

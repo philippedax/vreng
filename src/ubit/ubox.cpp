@@ -27,14 +27,12 @@ using namespace std;
 NAMESPACE_UBIT
 
 UBox& uvbox(UArgs args) {
-  //return *new UVbox(args);
   UBox* box = new UBox(args);
   box->setAttr(UOrient::vertical);
   return *box;
 }
 
 UBox& uhbox(UArgs args) {
-  //return *new UHbox(args);
   UBox* box = new UBox(args);
   box->setAttr(UOrient::horizontal);
   return *box;
@@ -273,7 +271,7 @@ void UBox::setViewModes(int vmodes, bool state) {
 
 void UBox::initView(UView* parview) {
   if (!parview) {
-    error("UBox::initView","[internal error] object has no parent view");
+    error("UBox::initView", "[internal error] object has no parent view");
     return;
   }
   
@@ -291,7 +289,7 @@ void UBox::initView(UView* parview) {
   if (render)
     view = (render->createView)(this, parview, parview->getHardwin());
   else {
-    error("UBox::initView","the UStyle of this object could not be retreived");
+    error("UBox::initView", "the UStyle of this object could not be retreived");
     view = new UView(this, parview, parview->getHardwin());
   }
   

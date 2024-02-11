@@ -59,13 +59,11 @@ U3Dpos& U3Dpos::translate(float dx, float dy, float dz) {
 }
 
 void U3Dpos::setImpl(float _x, float _y, bool upd) {
-  // faudrait tester si a change !!!
   x = _x; y = _y;     // z inchanged!
   changed(upd);
 }
 
 void U3Dpos::setImpl(float _x, float _y, float _z, bool upd) {
-  // faudrait tester si a change !!!
   x = _x; y = _y; z = _z;
   changed(upd);
 }
@@ -241,7 +239,7 @@ U3Dwin::U3Dwin(UArgs args) : U3Dbox() {
   add(uhflex() 
       + utop() + createTitleBar("")           // !!!! title !!!!
       + uvflex() + args
-      );
+     );
 }
   
 UBox& U3Dwin::createTitleBar(const UStr& title) {
@@ -257,8 +255,8 @@ UBox& U3Dwin::createTitleBar(const UStr& title) {
                    + ubox(*new U3DposHandle(*ppos, U3DposHandle::YROT) + U3Dicon::y_rot)
                    + ubox(*new U3DposHandle(*ppos, U3DposHandle::XROT) + U3Dicon::x_rot)
                    + ubox(*new U3DposHandle(*ppos, U3DposHandle::ZROT) + U3Dicon::z_rot)
-                   )
-        );
+               )
+       );
   /*
    + uhflex() 
    + ubox(UBackground::none + " ").ignoreEvents()
@@ -314,7 +312,6 @@ void U3DcanvasView::doUpdate(UUpdateContext& ctx, URect r, URect clip, UViewUpda
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     
-    //glEnable(GL_POINT_SMOOTH);     // utile?
     glEnable(GL_LINE_SMOOTH);
     glEnable(GL_POLYGON_SMOOTH);   // !!! problematique...
     
@@ -430,7 +427,6 @@ UView* U3DcanvasView::findInChildren(UElem* grp, const UPoint& winpos,
       
       else if (chbox && in_softwin_list && chbox->getDisplayType() == UElem::SOFTWIN
                && (chview = chbox->getViewInImpl(this /*,null*/))) {   //pas de ch
-        // !!! faudrait tester chview->isShown() !!!
         UView* v = chview->findInBox(chbox, winpos, ctx, vf);
         if (v) return v; 
       }
@@ -502,7 +498,6 @@ UView* U3DcanvasView::findInChildren(UElem* grp, const UPoint& winpos,
           //  mv.height = *curp.local.pheight; else mv.height = hh;
           // inutile mv.height = dim.height;
           
-          //mv.in = (px >= 0  &&  py >= 0 &&  px <= mv.width && py <= mv.height);
           // correct avec dim ?
           mv.in = (px >= 0  &&  py >= 0 &&  px <= dim.width && py <= dim.height);
           views.push_back(mv);

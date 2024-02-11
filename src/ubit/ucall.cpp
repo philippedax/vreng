@@ -32,7 +32,7 @@ void UCall::wrongEventType(const char* evname, const char* callname) {
   error("operator",
          " - this callback requires an event of type: %s \n"
          " - but the type of the actual event is: %s \n"
-         "To solve this problem, put a breakpoint in ubit::UCall::wrongEventType()",         evname, callname);
+         "To solve this problem, put a breakpoint in ubit::UCall::wrongEventType()", evname, callname);
 }
 
 void UCall::addingTo(UChild& child, UElem& parent) {
@@ -92,7 +92,7 @@ UCall& ucloseWin(int stat) {return ucall(stat, &UElem::closeWin);}
  UChild operator()(A1 a1, A2 a2) 
  {return UChild(new UCall_F2E<A1,A2,R,E>(fun,a1,a2), cond);}
  };
- */
+ TEST */
 
 /*
  //UCall& ucompactEvents(UCall& c) {return c;}
@@ -123,4 +123,3 @@ UCall& ucloseWin(int stat) {return ucall(stat, &UElem::closeWin);}
  */
 
 }
-

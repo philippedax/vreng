@@ -334,7 +334,7 @@ UAlertbox::UAlertbox(UArgs args) {
       + uhcenter()
       + ubutton(uscale(1.25) + UFont::x_large + ualpha(0.6) 
                 + "   OK   " + ushow(*this, false))
-      );
+     );
 }
 
 UStyle* UAlertbox::createStyle() {
