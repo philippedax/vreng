@@ -94,7 +94,7 @@ void Avi::getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const
 
 void Avi::reader(void *_avi, Http *http)
 {     
-  Avi *avi = (Avi *) _avi;
+  Avi *avi = static_cast<Avi *>(_avi);
   if (! avi) return;
         
   Cache *cache = new Cache();
@@ -171,9 +171,9 @@ int32_t Avi::read_header()
             return ERR_NO_MJPG;
           }
           if (Endian::bigEndian()) {
-            char tmp;
-            SWAPL(&args[5], tmp);
-            SWAPL(&args[6], tmp);
+            char t;
+            SWAPL(&args[5], t);
+            SWAPL(&args[6], t);
           }
           if (args[5] != 0) fps = (double)args[6] / (double)args[5];
           vids_strh_seen = 1;
@@ -184,9 +184,9 @@ int32_t Avi::read_header()
       case strftag:
         if (lasttag == 1) {
           if (Endian::bigEndian()) {
-            char tmp;
-            SWAPL(&args[1], tmp);
-            SWAPL(&args[2], tmp);
+            char t;
+            SWAPL(&args[1], t);
+            SWAPL(&args[2], t);
           }
           width  = args[1];
           height = args[2];
@@ -244,8 +244,8 @@ int Avi::read_data(uint8_t *vidbuf, uint32_t max_vid, int32_t *retlen)
       return -1;
     }
     if (Endian::bigEndian()) {
-      char tmp;
-      SWAPL(&len, tmp);
+      char t;
+      SWAPL(&len, t);
     }
     if (len&1) len++; /* Odd values are padded */
 

@@ -24,19 +24,19 @@
 #include "texture.hpp"	// Texture
 
 
-Img * Img::loadXPM(void *tex, ImageReader read_func)
+Img * Img::loadXPM(void *_tex, ImageReader read_func)
 {
 #if HAVE_LIBXPM
-  Texture *texture = static_cast<Texture *>(tex);
+  Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
   FILE *f;
-  if ((f = cache->open(texture->url, texture->http)) == NULL) return NULL;
+  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
   cache->close();
   delete cache;
 
   XpmImage xpmimage;
-  int r = XpmReadFileToXpmImage(Cache::getFilePath(texture->url), &xpmimage, NULL);
+  int r = XpmReadFileToXpmImage(Cache::getFilePath(tex->url), &xpmimage, NULL);
   if (r != XpmSuccess) {
     if (r == XpmColorFailed) error("XpmReadFileToXpmImage: bad color");
     cache->close();
