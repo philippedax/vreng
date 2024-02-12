@@ -224,7 +224,7 @@ VNCrgb VNCCli::cardToVNCrgb(uint32_t pix)
 
 bool VNCCli::handleRAW32(int rx, int ry, int rw, int rh)
 {
-  uint32_t *rfb = (uint32_t *) rfbbuffer;
+  uint32_t *rfb = reinterpret_cast<uint32_t *>(rfbbuffer);
   VNCrgb *fb = (framebuffer + ry * fbWidth + rx);
 
   for (int h = 0; h < rh; h++) {
@@ -329,10 +329,10 @@ bool VNCCli::handleCoRRE32(int rx, int ry, int rw, int rh)
   if (! rfbproto.vncsock.readRFB(rfbbuffer, hdr.nSubrects * 8))
     return false;
 
-  ptr = (uint8_t *) rfbbuffer;
+  ptr = reinterpret_cast<uint8_t *>(rfbbuffer);
 
   for (int i=0; i < hdr.nSubrects; i++) {
-    pix = *(uint32_t *)ptr;
+    pix = *reinterpret_cast<uint32_t *>(ptr);
     ptr += 4;
     x = *ptr++;
     y = *ptr++;

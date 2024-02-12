@@ -364,7 +364,7 @@ bool Icon::whenIntersect(WO *pcur, WO *pold)
 /* this method is invisible: called by Wall::whenIntersect */
 void Icon::stick(Wall *pwall, void *_picon, time_t s, time_t u)
 {
-  Icon *picon = (Icon *) _picon;
+  Icon *picon = static_cast<Icon *>(_picon);
 
   picon->pos.az = pwall->pos.az;	// same angle than obstacle
 

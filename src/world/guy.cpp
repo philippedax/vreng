@@ -135,10 +135,7 @@ Guy::Guy()
   setActionFunc(GUY_TYPE, 2, _Action NULL, "");  // cancel
 }
 
-const char * Guy::getUrl() const
-{
-  return (const char *) names.url;
-}
+//const char * Guy::getUrl() const { return (const char *) names.url; }
 
 void Guy::reader(void *_guy, Http *http)
 {
@@ -147,9 +144,9 @@ void Guy::reader(void *_guy, Http *http)
   int pts = 0;
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(guy->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
   if (! f) {
-    error("can't open %s", guy->getUrl());
+    error("can't open %s", http->url);
     return;
   }
 

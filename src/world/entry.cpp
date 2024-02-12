@@ -26,7 +26,7 @@
 const OClass Entry::oclass(ENTRY_TYPE, "Entry", Entry::creator);
 
 // class member initialization
-Entry * Entry::entry = (Entry *) NULL;
+Entry * Entry::entry = NULL;
 
 void Entry::funcs() {}
 
@@ -82,5 +82,5 @@ void Entry::query(User *user)
 
 void Entry::quit()
 {
-  entry = (Entry *) NULL;
+  entry = NULL;
 }

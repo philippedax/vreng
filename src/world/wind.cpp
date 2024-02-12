@@ -48,8 +48,8 @@ void Wind::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "speed"))  l = parseUInt16(l, &speed, "speed");
-    else if (!stringcmp(l, "orient")) l = parseFloat(l, &orient, "orient");
+    if      (! stringcmp(l, "speed"))  l = parseUInt16(l, &speed, "speed");
+    else if (! stringcmp(l, "orient")) l = parseFloat(l, &orient, "orient");
   }
   end_while_parse(l);
 }
@@ -110,7 +110,7 @@ Wind::Wind(char *l)
 
 #if HAVE_LIBPTHREAD
   tid = 0;
-  int r = pthread_create(&tid, NULL, getHttp, (void *) NULL);
+  int r = pthread_create(&tid, NULL, getHttp, NULL);
   if (r) {
     perror("wind: pthread_create");
   }
@@ -119,7 +119,7 @@ Wind::Wind(char *l)
   }
 #else
   if (fork() == 0) {
-    getHttp((void *) NULL);
+    getHttp(NULL);
     exit(0);
   }
 #endif

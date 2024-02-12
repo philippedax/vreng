@@ -176,7 +176,7 @@ private:
   void setPose();
   /**< unused */
 
-  const char * getUrl() const;
+  //const char * getUrl() const;
 
   static void reader(void *oa, Http *http);
   /**< Reads cset files. */

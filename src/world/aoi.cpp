@@ -149,7 +149,7 @@ void Aoi::aoiQuit()
     /* skipping local user object (as we do not want to remove it) */
     if (*it == localuser) continue;
     /* closes GUI */
-    if ((*it)->type == USER_TYPE) ::g.gui.removeUser((User *)(*it));
+    if ((*it)->type == USER_TYPE) ::g.gui.removeUser(reinterpret_cast<User *>((*it)));
     /* performs some clean up */
     if ((*it)->type) delete *it;
   }

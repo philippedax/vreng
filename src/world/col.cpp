@@ -231,9 +231,9 @@ void WO::generalIntersect(WO *pold, OList *vicinity)
       // current object intersects and its old instance didn't intersect
       switch (neighbor->type) {
       case AOI_TYPE:
-        if (this == (WO *) localuser) {
+        if (this == static_cast<WO *>(localuser)) {
           if (currentAoi != neighbor) {
-            Aoi *aoi = (Aoi *) neighbor;
+            Aoi *aoi = static_cast<Aoi *>(neighbor);
             aoi->aoiEnter();	// avatars: change mcast address
           }
         }

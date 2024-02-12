@@ -629,15 +629,15 @@ bool User::whenIntersect(WO *pcur, WO *pold)
       hit = 1;
       echo("%s:%s hits %s", pcur->names.type, pcur->objectName(), objectName());
       if (pcur->type == DART_TYPE) {
-        ((Dart *)pcur)->hit = 1;
+        (reinterpret_cast<Dart *>(pcur)->hit) = 1;
         netop->sendDelta(Dart::PROPHIT);
-        ((Dart *)pcur)->hit = 0;
+        (reinterpret_cast<Dart *>(pcur)->hit) = 0;
         Sound::playSound(OUILLESND);
       }
       else if (pcur->type == BULLET_TYPE) {
-        ((Bullet *)pcur)->hit = 1;
+        (reinterpret_cast<Bullet *>(pcur)->hit) = 1;
         netop->sendDelta(Bullet::PROPHIT);
-        ((Bullet *)pcur)->hit = 0;
+        (reinterpret_cast<Bullet *>(pcur)->hit) = 0;
         Sound::playSound(RUPSSND);
       }
     }

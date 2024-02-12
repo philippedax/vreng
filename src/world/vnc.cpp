@@ -323,7 +323,7 @@ void Vnc::connectServer()
   }
 
   // texture initialization from the framebuffer
-  tex_pixmap = (GLubyte *) vncClient->framebuffer;
+  tex_pixmap = reinterpret_cast<GLubyte *>(vncClient->framebuffer);
   tex_width = vncClient->fbWidth;
   tex_height = vncClient->fbHeight;
   //echo("tex: w=%d h=%d",tex_width,tex_height);
@@ -397,7 +397,7 @@ bool Vnc::mouseEvent(int16_t x, int16_t y, uint8_t button)
   params[2] = p2;
   params[3] = p3;
 
-  vncClient->sendRFBEvent((char **) params, &card); // send ptr
+  vncClient->sendRFBEvent((char **)params, &card); // send ptr
 
   delete[] p1;
   delete[] p2;
@@ -416,7 +416,7 @@ bool Vnc::keyEvent(const char *key, bool is_pressed)
   params[0] = (is_pressed) ? "keydown" : "keyup";
   params[1] = pk;
 
-  vncClient->sendRFBEvent((char **) params, (uint32_t *) &card); // send key
+  vncClient->sendRFBEvent((char **)params, &card); // send key
 
   free(pk);
   return true;

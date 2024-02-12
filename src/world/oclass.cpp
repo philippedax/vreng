@@ -51,7 +51,7 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
       fatal("can't realloc otable");
     }
     for (uint8_t i = otable_size; i < (type_id + 1); i++) {
-      otable[i] = (OClass *) NULL;
+      otable[i] = NULL;
     }
     otable_size = type_id + 1;
     otable[type_id] = this;
@@ -82,7 +82,7 @@ const OClass * OClass::getOClass(const char *type_name)
   }
   error("type_name=%s not found, please upgrade VREng!", type_name);
   dumpTable();
-  return (OClass *) NULL;
+  return NULL;
 }
 
 const OClass * OClass::getOClass(uint8_t type_id)
@@ -91,7 +91,7 @@ const OClass * OClass::getOClass(uint8_t type_id)
     return otable[type_id];
   }
   error("getOClass: type_id=%d out of bounds", type_id); dumpTable();
-  return (OClass *) NULL;
+  return NULL;
 }
 
 WO * OClass::creatorInstance(uint8_t type_id, char *l)

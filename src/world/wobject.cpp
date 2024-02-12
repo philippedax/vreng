@@ -692,7 +692,7 @@ void WO::setObjectName(const char *name)
 
 WO * WO::getObjectByName(const char *name)
 {
-  if (! name) return (WO *) NULL;
+  if (! name) return NULL;
 
   char fullname[OBJNAME_LEN];
   sprintf(fullname, "%s@%s", name, World::current()->getName());
@@ -700,14 +700,14 @@ WO * WO::getObjectByName(const char *name)
   trace(DBG_WO, "getObjectByName: hval=%d name=%s", hval, fullname);
   while (hval) {
     if (*(hashtable[hval].name) == '\0') {
-      return (WO *) NULL;          // not found
+      return NULL;          // not found
     }
     if (! strcmp(hashtable[hval].name, fullname)) {
       return hashtable[hval].po;        // found
     }
     hval = (hval + 1) % NAME_HASH_SIZE;
   }
-  return (WO *) NULL;              // not found
+  return NULL;              // not found
 }
 
 /* Sets Object names */
@@ -889,7 +889,7 @@ bool WO::runAction(const char *action)
 {
   for (int i=0; i < ACTIONSNUMBER; i++) {
     if (! strcmp(getActionName(type, i), action)) {
-      doAction(type, i, this, (void *)NULL, 0, 0);
+      doAction(type, i, this, NULL, 0, 0);
       return true;
     }
   }
@@ -1183,7 +1183,7 @@ WO * WO::byNum(uint16_t num)
   for (vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
     if ((*it)->num == num) return *it;
   }
-  return (WO *) NULL;
+  return NULL;
 }
 
 /* Concatenates (with test of ispointed & object) pointers list on an object */

@@ -164,12 +164,12 @@ void Carrier::keyEvent(uint8_t vkey, float last)
 
 void Carrier::setLspeed(Carrier *pc, void *d, time_t s, time_t u)
 {
-  pc->lspeed = *((float *) d);
+  pc->lspeed = *(static_cast<float *>(d));
 }
 
 void Carrier::setAspeed(Carrier *pc, void *d, time_t s, time_t u)
 {
-  pc->aspeed = *((float *) d);
+  pc->aspeed = *(static_cast<float *>(d));
 }
 
 void Carrier::funcs()
