@@ -37,7 +37,7 @@ class Sheet;
 class Book: public WO {
   friend class Sheet;
 
-protected:
+ protected:
   class Sheet *right;	///< rightside sheet
   class Sheet *left;	///< leftside sheet
   class Sheet *inter;	///< volatile sheet
@@ -46,7 +46,7 @@ protected:
   float aleft;		///< left  angle when book is opened
   float aspeed;		///< angular speed
   float vspeed;		///< to increase speed when sheet is turning
-  float thick;	///< sheet thickness
+  float thick;		///< sheet thickness
   float width;		///< sheet width
   float height;		///< sheet height
   V3 size;		///< sheet size
@@ -60,7 +60,7 @@ protected:
   char **tex;		///< texture table
   char **html;		///< html table
 
-public:
+ public:
   bool near;		///< near or not
 
   static const float ASPEED;
@@ -133,6 +133,7 @@ public:
   void quit();
   /**< Quits properly */
 
+ private:
   void forward(void *d, time_t s, time_t u);
   /**< Next sheet */
 
@@ -160,7 +161,6 @@ public:
   void createSheet(char *s, uint8_t t, uint8_t side);
   ///< Create sheet
 
-private:
   void parser(char *l);
   /**< Parses */
 
@@ -172,8 +172,6 @@ private:
 
   void inits();
   /**< sets initializations. */
-
-  const char * getUrl() const;
 
   void turnPrev(Sheet *sheet, void *d, time_t s, time_t u);
   void turnNext(Sheet *sheet, void *d, time_t s, time_t u);

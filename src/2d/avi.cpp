@@ -80,11 +80,6 @@ Avi::~Avi()
   }
 }
 
-const char * Avi::getUrl() const
-{
-  return (const char *) url;
-}
-
 void Avi::getInfos(uint16_t *_width, uint16_t *_height, float *_fps) const
 {
   if (width) *_width = width;
@@ -98,7 +93,7 @@ void Avi::reader(void *_avi, Http *http)
   if (! avi) return;
         
   Cache *cache = new Cache();
-  avi->fp = cache->open(avi->getUrl(), http);
+  avi->fp = cache->open(http->url, http);
 }
 
 FILE * Avi::getFile() const

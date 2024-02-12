@@ -62,20 +62,15 @@ Txf * Txf::load(const char *url)
   return txf;
 }
 
-const char * Txf::getUrl() const
-{
-  return (const char *) url;
-}
-
 void Txf::reader(void *_txf, Http *http)
 {
   Txf *txf = static_cast<Txf *>(_txf);
   if (! txf) return;
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(txf->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
   if (! f) {
-    error("can't open %s", txf->getUrl());
+    error("can't open %s", http->url);
     return;
   }
 

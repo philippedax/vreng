@@ -50,8 +50,11 @@ void Walls::reader(void *_walls, Http *http)
   char line[BUFSIZ];
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(walls->getUrl(), http);
-  if (! f) { error("can't open %s", walls->getUrl()); return; }
+  FILE *f = cache->open(http->url, http);
+  if (! f) {
+    error("can't open %s", http->url);
+    return;
+  }
 
   while (fgets(line, sizeof(line), f)) {
     if (*line == '#') continue;
@@ -77,11 +80,6 @@ void Walls::defaults()
 {
   wallsList = NULL;
   numwall = 0;
-}
-
-const char * Walls::getUrl() const
-{
-  return (const char *) names.url;
 }
 
 void Walls::parser(char *l)

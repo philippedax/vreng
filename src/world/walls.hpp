@@ -62,7 +62,7 @@ class Walls: public WO {
 
   static int whenIntersect(const V3& center, const V3& size, V3& norm);
 
-private:
+ private:
   void parser(char *l);
   /**< Parses */
 
@@ -71,9 +71,6 @@ private:
 
   void geometry();
   /**< Sets solid values */
-
-  const char * getUrl() const;
-  /**< Gets url of walls */
 
   static void reader(void *va, class Http *http);
   /**< download walls */

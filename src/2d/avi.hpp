@@ -115,8 +115,6 @@ class Avi {
   //notused uint32_t list_depth;
   //notused uint32_t audio_samples;
 
-  const char * getUrl() const;
-
   void defaults();
 
   static void reader(void *_avi, class Http *http);

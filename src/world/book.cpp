@@ -47,9 +47,9 @@ void Book::reader(void *_book, Http *http)
   if (! book) return;
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(book->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
   if (! f) {
-    error("can't open %s", book->getUrl());
+    error("can't open %s", http->url);
     return;
   }
 
@@ -113,11 +113,6 @@ void Book::reader(void *_book, Http *http)
 
   cache->close();
   delete cache;
-}
-
-const char * Book::getUrl() const
-{
-  return (const char *) url;
 }
 
 void Book::setPos(char *s, float x, float y, float z, float az, float ax)

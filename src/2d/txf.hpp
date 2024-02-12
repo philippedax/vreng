@@ -77,7 +77,7 @@ struct TexFont {
  */
 class Txf {
 
-public:
+ public:
   Txf(const char *url);	///< constructor
 
   virtual ~Txf();	///< destructor
@@ -97,12 +97,9 @@ public:
   virtual void render(int c);
   /**< render one character. */
 
-private:
+ private:
   char url[URL_LEN];		///< font url
   struct TexFont *texfont;	///< texfont ptr
-
-  const char * getUrl() const;
-  /**< Gets url name */
 
   TexGlyphVertexInfo * getGlyph(int c);
 
@@ -110,8 +107,8 @@ private:
   /**< http texfont loader */
 
   //mayused static std::list<Txf*> txfList; ///< txf list
-  //mayused uint16_t  num;		///< Txf number
-  //mayused Txf *next;			///< next Txf
+  //mayused uint16_t num;	///< Txf number
+  //mayused Txf *next;		///< next Txf
   //mayused uint16_t getCurrentNumber() const;
   //mayused /**< get Txf current font number  */
   //mayused Txf * getByUrl(const char *url);
