@@ -70,7 +70,7 @@ const char * Md2::getUrl() const
 /** Md2 model http-reader */
 void Md2::httpReader(void *_md2, Http *http)
 {
-  Md2 *md2 = (Md2 *) _md2;
+  Md2 *md2 = static_cast<Md2 *>(_md2);
   if (! md2) return;
 
   Cache *cache = new Cache();

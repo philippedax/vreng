@@ -56,7 +56,7 @@ const char* X3d::getUrl() const
 
 void X3d::reader(void *_x3d, class Http *http)
 {
-  X3d* x3d = (X3d *) _x3d;
+  X3d* x3d = static_cast<X3d *>(_x3d);
   if (! x3d) return;
 
   FILE *f;

@@ -665,7 +665,7 @@ char * Body::getUrl() const
 /** load joint points (static) */
 void Body::reader(void *_body, Http *http)
 {
-  Body *body = (Body *) _body;
+  Body *body = static_cast<Body *>(_body);
 
   if (! body) return;
 

@@ -59,7 +59,7 @@ char * Bvh::getUrl() const
 
 void Bvh::reader(void *_bvh, Http *http)
 {
-  Bvh *bvh = (Bvh *) _bvh;
+  Bvh *bvh = static_cast<Bvh *>(_bvh);
   if (! bvh) return;
 
   FILE *f = NULL;

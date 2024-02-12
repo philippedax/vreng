@@ -92,7 +92,7 @@ const char * Ase::getUrl() const
 
 void Ase::reader(void *aase, Http *http)
 {
-  Ase *ase = (Ase *) aase;
+  Ase *ase = static_cast<Ase *>(aase);
   if (! ase) return;
 
   Cache *cache = new Cache();

@@ -79,7 +79,7 @@ const char * Off::getUrl() const
 /** Off Reader - static */
 void Off::reader(void *_off, Http *http)
 {
-  Off *off = (class Off *) _off;
+  Off *off = static_cast<Off *>(_off);
   if (! off) return;
 
   Cache *cache = new Cache();

@@ -157,7 +157,7 @@ void Lwo::readPnts(class File *file, FILE *f, int nbytes)
 
 void Lwo::httpReader(void *alwo, Http *http)
 {
-  Lwo *lwo = (Lwo *) alwo;
+  Lwo *lwo = static_cast<Lwo *>(alwo);
   if (! lwo) return;
 
   Cache *cache = new Cache();

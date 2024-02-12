@@ -78,7 +78,7 @@ const char * Dxf::getUrl() const
 /* http loader - static */
 void Dxf::reader(void *_dxf, Http *http)
 {
-  Dxf *dxf = (Dxf *) _dxf;
+  Dxf *dxf = static_cast<Dxf *>(_dxf);
   if (! dxf) return;
 
   char filename[PATH_LEN] = {0};

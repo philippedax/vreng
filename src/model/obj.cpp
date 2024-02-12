@@ -90,7 +90,7 @@ Obj::~Obj()
 
 void Obj::reader(void *_obj, Http *http)
 {
-  Obj *obj = (Obj *) _obj;
+  Obj *obj = static_cast<Obj *>(_obj);
   if (! obj) return;
 
   Cache *cache = new Cache();

@@ -125,7 +125,7 @@ void V3d::reader(void *_url, Http *http)
 /** Download list of v3d url */
 void V3d::v3dreader(void *_v3d, Http *http)
 {
-  V3d *v3d = (V3d *) _v3d;
+  V3d *v3d = static_cast<V3d *>(_v3d);
   if (! http) {
     error("v3dreader: unable to open http connection");
     return;

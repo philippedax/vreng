@@ -180,7 +180,7 @@ const char * _3ds::getUrl() const
 
 void _3ds::reader(void *__3ds, Http *http)
 {
-  _3ds *_3d = (_3ds *) __3ds;
+  _3ds *_3d = static_cast<_3ds *>(__3ds);
   if (! _3d) return;
 
   Cache *cache = new Cache();
