@@ -97,7 +97,7 @@ struct tASEModel {
  */
 class Ase {
 
-private:
+ private:
   tASEModel ASEModel;	///< model ptr
 
   bool loaded;		///< flag loaded or not
@@ -136,9 +136,6 @@ private:
   bool importModel(tASEModel *pModel);
 
   bool importTextures();
-
-  const char *getUrl() const;
-  /**< get an Url */
 
   int openTexture(const char *imgFile);
 

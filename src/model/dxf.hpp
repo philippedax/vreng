@@ -375,9 +375,6 @@ class Dxf {
   int texture;			///<
 
  private:
-  const char * getUrl() const;
-  /**< get an Url */
-
   static void reader(void *adxf, class Http *http);
   /**< Downloads */
 

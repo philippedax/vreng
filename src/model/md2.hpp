@@ -135,9 +135,6 @@ class Md2 {
   //notused bool readHttp(Http *http);
   //notused /**< Loads from http */
 
-  const char * getUrl() const;
-  /**< Gets an Url */
-
   int32_t getFrames(tHeader *md2_hdr, class File *file, FILE *f);
   //notused int32_t getFrames(tHeader *md2_hdr, class Http *http);
   /**< Gets frames from Md2 model */

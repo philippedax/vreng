@@ -16,7 +16,7 @@ class ChannelError;
 
 /// Three floats in a array, lots of overloaded operators
 class vector3f {
-public:
+ public:
   vector3f() { memset(vertex, 0, sizeof(float[3])); }
   vector3f(float x, float y, float z);
   virtual ~vector3f() {}
@@ -58,7 +58,7 @@ public:
   and vector3f classes.
  */
 class matrix16f {
-public:
+ public:
   float matrix[16];
 
   void reset();
@@ -106,7 +106,7 @@ public:
   The contents are puhttp://sdldoc.csn.ul.ie/sdlkey.phpblic for now.
   */
 class matrix9f {
-public:
+ public:
   float matrix[9];
 
   matrix9f() { memset(matrix, 0, sizeof(float[9])); }
@@ -157,8 +157,7 @@ typedef struct _triangleV {
   lights and camera don't really need such properties.
   */
 class movable {
-
-public:
+ public:
   movable();
   movable(string name);
   virtual ~movable() {}
@@ -212,7 +211,7 @@ public:
   bool drawBB;
 
   // has this been completely tested for collisions?
-  //notuse bool BBtested;
+  //notused bool BBtested;
   bool BBcollided;
 
   vector3f centerBB;
@@ -225,13 +224,12 @@ public:
   
   // is the object moved normally or is
   // it subject to the physics engine?
-  //notuse bool physical;
-
+  //notused bool physical;
 };
 
 
 class triangleInd {
-public:
+ public:
   triangleInd() {}
   virtual ~triangleInd() {}
 
@@ -251,7 +249,7 @@ public:
   the object without rotating with it.
   */
 class camera: public movable {
-public:
+ public:
   enum mode { FREE, FREEORIENTED, CENTERED };
 
   camera();
@@ -297,7 +295,7 @@ public:
   it's surface), I'm curious what the conventional way is.
  */
 class light: public movable {
-public:
+ public:
   light() {}
   virtual ~light();
   light(camera *viewer, int number, float maxFade = 0, float minFade = 0, float scale = 1.0f);
@@ -338,7 +336,7 @@ public:
   any easy-to-use UV mappers (lithunwrap is a pain).
  */
 class material {
-public:
+ public:
   material() {}
   virtual ~material() {}
 
@@ -378,7 +376,7 @@ class objloader: public movable {
   enum objMode {NONE,MTLLIB,VERTEX,NORMAL,FACE};
   enum mtlMode {NONEM,NEWMTL,NS,D,ILLUM,KD,KA,KS};
 
-public:
+ public:
   objloader(string objFile);
   virtual ~objloader();
 
@@ -406,20 +404,20 @@ public:
   bool success;
   int counter; ///< For scripted movements, unused currently
 
-private:
+ private:
   ///loading variables
   string subdir;
   string mtlFile;
   uint32_t mtlIndex;
   triangleInd tempTriangle;
-  //notuse uint32_t kIndex;
+  //notused uint32_t kIndex;
   objMode theMode;
-  //notuse mtlMode theMtlMode;
+  //notused mtlMode theMtlMode;
   vector3f tempVector;
   uint32_t tempVectorIndex;
   bool verbose;
 
-public:
+ public:
   std::vector<vector3f> vertices;
   std::vector<vector3f> normals;
   std::vector<material*> mtls;
@@ -447,7 +445,7 @@ I thought this would be more memory efficient, to have
 specialized classes for loading and holding rigid body data.
 */
 class rigid: public movable {
-public:
+ public:
   rigid(const char *url);
   virtual ~rigid() {}
   
@@ -468,7 +466,7 @@ public:
 
   static void reader(void *_rigid, class Http *http);
 
-private:
+ private:
   ///temp
   objloader *theObj;
   
@@ -488,14 +486,13 @@ private:
   bool translucent;
 
   void download(const char *url);
-  const char * getUrl() const;
 };
 
 // how should the animation info fit in?
 // per part, or globally?
 class bvhPart {
 
-public: 
+ public: 
   enum channelTypes {Xpos,Ypos,Zpos,Zrot,Xrot,Yrot};
   
   bvhPart();
@@ -521,11 +518,11 @@ class Bvh {
   bool verbose;
   enum mode {NONE,OFFSET,CHANNELS,JOINT,ROOT,End,Site,MOTION,Frames,Frame,Time,MOTIONDATA};
 
-public:
+ public:
   bvhPart *root;
   float frameTime;
 
-private:
+ private:
   // mostly used just for init/processing- what to do?
   // Have another class with just essential data structures
   // that uses a processing class and then deletes it- more mem efficient
@@ -547,7 +544,7 @@ private:
   matrix16f tempMotionX;
   matrix16f tempMotionZ;
 
-public:
+ public:
   Bvh(const char *url);
   virtual ~Bvh() {}
 
@@ -560,9 +557,8 @@ public:
 
   static void reader(void *_bvh, class Http *http);
 
-private:
+ private:
   void download(const char *url);
-  char * getUrl() const;
 };
 
 

@@ -180,9 +180,6 @@ class Obj {
 
   void computeNormals(tOBJModel *pModel);
   /**< it's nice to have vertex normals for lighting */
-
-  const char * getUrl() const;
-  /**< get an Url */
 };
 
 #endif

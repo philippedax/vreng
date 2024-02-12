@@ -28,7 +28,7 @@
  */
 class Off {
 
-public:
+ public:
   Off(float _scale);	///< constructor
   Off(const char *url);	///< constructor
   virtual ~Off();	///< destructor
@@ -49,7 +49,7 @@ public:
   static void reader(void *aoff, class Http *http);
   /**< Off reader */
 
-private:
+ private:
   int vn;	///< Vertice number
   int nn;	///< Normal number
   int pn;	///< Polygon number
@@ -62,8 +62,6 @@ private:
 
   static void getOff3i(char *s, int *a, int *b, int *c);
   static void getOff3f(char *s, float *a, float *b, float *c, float scale);
-
-  const char * getUrl() const;
 
   void defaults();
   /** sets default values */

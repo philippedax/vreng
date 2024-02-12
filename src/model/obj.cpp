@@ -94,7 +94,7 @@ void Obj::reader(void *_obj, Http *http)
   if (! obj) return;
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(obj->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
   obj->import(f);
   if (! obj->flgpart) obj->displaylist();
   cache->close();
@@ -111,11 +111,6 @@ bool Obj::import(FILE *f)
   }
   if (importTextures() == false) error("textures of OBJ file not loaded");
   return loaded = true; //success
-}
-
-const char * Obj::getUrl() const
-{
-  return (const char *) url;
 }
 
 // checks the materials

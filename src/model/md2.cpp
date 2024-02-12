@@ -62,11 +62,6 @@ Md2::~Md2()
   if (url) delete[] url;
 }
 
-const char * Md2::getUrl() const
-{
-  return (const char *) url;
-}
-
 /** Md2 model http-reader */
 void Md2::httpReader(void *_md2, Http *http)
 {
@@ -74,7 +69,7 @@ void Md2::httpReader(void *_md2, Http *http)
   if (! md2) return;
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(md2->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
   if (f) {
     File *file = new(File);
     md2->readFile(file, f);	// from cache
@@ -82,7 +77,7 @@ void Md2::httpReader(void *_md2, Http *http)
     delete file;
   }
   else {
-    error("can't read %s", md2->getUrl());
+    error("can't read %s", http->url);
   }
   if (cache) {
     cache->close();

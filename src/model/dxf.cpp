@@ -70,11 +70,6 @@ Dxf::~Dxf()
   //dax segfault if (dlist > 0) glDeleteLists(dlist, 1);
 }
 
-const char * Dxf::getUrl() const
-{
-  return (const char *) url;
-}
-
 /* http loader - static */
 void Dxf::reader(void *_dxf, Http *http)
 {
@@ -82,13 +77,13 @@ void Dxf::reader(void *_dxf, Http *http)
   if (! dxf) return;
 
   char filename[PATH_LEN] = {0};
-  Cache::setCachePath(dxf->getUrl(), filename);
+  Cache::setCachePath(http->url, filename);
   dxf->dxffile = newDXF(filename);
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(dxf->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
   if (! f) {
-    error("dxf: can't open %s", dxf->getUrl());
+    error("dxf: can't open %s", http->url);
     return;
   }
   dxf->dxffile->fp = f;

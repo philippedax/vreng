@@ -28,9 +28,6 @@
 #include "file.hpp"	// skip
 
 
-// local
-static char lwourl[256];
-
 
 void Lwo::readSrfs(class File *file, FILE *f, int nbytes)
 {
@@ -155,15 +152,15 @@ void Lwo::readPnts(class File *file, FILE *f, int nbytes)
   }
 }
 
-void Lwo::httpReader(void *alwo, Http *http)
+void Lwo::httpReader(void *_lwo, Http *http)
 {
-  Lwo *lwo = static_cast<Lwo *>(alwo);
+  Lwo *lwo = static_cast<Lwo *>(_lwo);
   if (! lwo) return;
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(lwourl, http);
+  FILE *f = cache->open(http->url, http);
   if (! f) {
-    error("lwo: can't open %s", lwourl);
+    error("lwo: can't open %s", http->url);
     return;
   }
   File *file = new(File);
@@ -216,7 +213,6 @@ Lwo::Lwo(const char *url)
   vertex_count = 0;
   dlist = 0;
 
-  strcpy(lwourl, url);
   Http::httpOpen(url, httpReader, this, 0);
   return;
 }

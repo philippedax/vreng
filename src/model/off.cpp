@@ -71,11 +71,6 @@ void Off::setScale(float _scale)
   }
 }
 
-const char * Off::getUrl() const
-{
-  return (const char *) url;
-}
-
 /** Off Reader - static */
 void Off::reader(void *_off, Http *http)
 {
@@ -83,7 +78,7 @@ void Off::reader(void *_off, Http *http)
   if (! off) return;
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(off->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
 
   char line[80];
   /* Get info header: vertices_number normals_number polygons_number */

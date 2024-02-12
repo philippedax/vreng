@@ -52,19 +52,10 @@ void Bvh::download(const char *_url)
   Http::httpOpen(url, reader, this, 0);
 }
 
-char * Bvh::getUrl() const
-{
-  return static_cast<char *>(url);
-}
-
 void Bvh::reader(void *_bvh, Http *http)
 {
-  Bvh *bvh = static_cast<Bvh *>(_bvh);
-  if (! bvh) return;
-
-  FILE *f = NULL;
   Cache *cache = new Cache();
-  f = cache->open(bvh->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
   if (f) {
     cache->close();
     delete cache;
@@ -414,19 +405,10 @@ void rigid::download(const char *_url)
   Http::httpOpen(url, reader, this, 0);
 }
 
-const char * rigid::getUrl() const
-{
-  return (const char *) url;
-}
-
 void rigid::reader(void *_rigid, Http *http)
 {
-  rigid *rigi = (rigid *) _rigid;
-  if (! _rigid) return;
-
   Cache *cache = new Cache();
-  FILE *f = NULL;
-  f = cache->open(rigi->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
   if (f) {
     cache->close();
     delete cache;

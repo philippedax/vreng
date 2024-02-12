@@ -641,7 +641,6 @@ class Body {
 
   char * getTok(char *l, int *tok);
   char * skipEqual(char *l);
-  char * getUrl() const;
 };
 
 #endif

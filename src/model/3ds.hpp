@@ -176,8 +176,6 @@ class _3ds {
 
   int openTexture(const char *imgfile);
 
-  const char *getUrl() const;
-
   int getString(char *);
   /**< This reads in a string and saves it in the char array passed in */
 

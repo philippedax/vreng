@@ -49,11 +49,6 @@ X3d::~X3d()
   if (url) delete[] url;
 }
 
-const char* X3d::getUrl() const
-{
-  return (const char*) url;
-}
-
 void X3d::reader(void *_x3d, class Http *http)
 {
   X3d* x3d = static_cast<X3d *>(_x3d);
@@ -61,7 +56,7 @@ void X3d::reader(void *_x3d, class Http *http)
 
   FILE *f;
   char filename[PATH_LEN] = {0};
-  Cache::setCachePath(x3d->getUrl(), filename);
+  Cache::setCachePath(http->url, filename);
 
   Cache *cache = new Cache();
   if ((f = cache->open(filename, http)) == NULL) {

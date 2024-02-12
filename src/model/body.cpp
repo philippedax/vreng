@@ -657,30 +657,20 @@ void Body::load(const char *_url)
   Http::httpOpen(url, reader, this, 0);
 }
 
-char * Body::getUrl() const
-{
-  return static_cast<char *>(url);
-}
-
 /** load joint points (static) */
 void Body::reader(void *_body, Http *http)
 {
   Body *body = static_cast<Body *>(_body);
-
   if (! body) return;
 
-  char *tmpurl = new char[URL_LEN];
-  strcpy(tmpurl, body->getUrl());
-
   Cache *cache = new Cache();
-  FILE *f = cache->open(tmpurl, http);
+  FILE *f = cache->open(http->url, http);
   if (! f) {
-    error("Body: can't open %s", tmpurl);
+    error("Body: can't open %s", http->url);
   }
   else {
     body->loadBodyParts(f);
   }
-  delete[] tmpurl;
   if (f) {
     cache->close();
     delete cache;

@@ -85,18 +85,13 @@ Ase::~Ase()
   if (dlist > 0) glDeleteLists(dlist, 1);
 }
 
-const char * Ase::getUrl() const
-{
-  return (const char *) url;
-}
-
 void Ase::reader(void *aase, Http *http)
 {
   Ase *ase = static_cast<Ase *>(aase);
   if (! ase) return;
 
   Cache *cache = new Cache();
-  FILE *f = cache->open(ase->getUrl(), http);
+  FILE *f = cache->open(http->url, http);
   ase->import(f);
   cache->close();
   delete cache;

@@ -298,8 +298,6 @@ class X3d {
   X3d(const char *url);		///< Constructor.
   virtual ~X3d();		///< Destructor.
 
-  const char* getUrl() const;
-
   void displayShape(X3dShape* mySHape);
   void render();		///< rendering.
   void resetAnimations();	///< for the "stop" button of the GUI.
