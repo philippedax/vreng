@@ -116,6 +116,7 @@ void Movie::open_mpg()
     delete file;
     return;
   }
+  //echo("mpg: open %s", names.url);
 
   mpg = new ImageDesc[1];
 
@@ -128,7 +129,7 @@ void Movie::open_mpg()
     //echo("mpg: w=%d h=%d f=%.3f", width, height, fps);
   }
   else {
-    error("can't OpenMPEG");
+    error("can't OpenMPEG %s", names.url);
     delete[] filempg;
     delete[] mpg;
     mpg = NULL;
@@ -217,6 +218,7 @@ void Movie::play_mpg()
   if (! mpg) return;
   // get a frame from the mpg video stream
   if (GetMPEGFrame(reinterpret_cast<char *>(videobuf)) == false) { // end of mpg video
+  //if (GetMPEGFrame((char *)(videobuf)) == false) { // end of mpg video
     if (state == LOOP) {
       RewindMPEG(fp, mpg);	// rewind mpg video
       begin = true;
@@ -331,8 +333,6 @@ void Movie::changePermanent(float lasting)
 
   if (begin) {
     gettimeofday(&tstart, NULL);
-    //enableBehavior(SPECIFIC_RENDER);
-    //enableBehavior(MIX_RENDER);
     begin = false;
   }
   uint16_t finter = frame;	// previous frame
@@ -341,9 +341,9 @@ void Movie::changePermanent(float lasting)
   gettimeofday(&tcurr, NULL);
   	
   // current frame
-  frame = (uint16_t) floor((((static_cast<float>((tcurr.tv_sec - tstart.tv_sec) * 1000.)) +
-	                     (static_cast<float>((tcurr.tv_usec - tstart.tv_usec) / 1000.)) / 1000.)
-                           ) * static_cast<float>(rate));
+  frame = (uint16_t) floor(((((float)((tcurr.tv_sec - tstart.tv_sec) * 1000.)) +
+	                     ((float)((tcurr.tv_usec - tstart.tv_usec) / 1000.)) / 1000.)
+                           ) * (float)(rate));
 
   for (uint16_t fdelta=0; fdelta < (frame-finter); fdelta++) {
     if (fdelta >= (uint16_t) fps) {
@@ -440,12 +440,7 @@ void Movie::loop()
   }
 }
 
-//void Movie::debug()
-//{
-//  Texture::listTextures();
-//}
-
-/* callbacks */
+/* callbacks actions */
 
 void Movie::play_cb(Movie *movie, void *d, time_t s, time_t u)
 {
@@ -472,11 +467,6 @@ void Movie::loop_cb(Movie *movie, void *d, time_t s, time_t u)
   movie->loop();
 }
 
-//void Movie::debug_cb(Movie *movie, void *d, time_t s, time_t u)
-//{
-//  movie->debug();
-//}
-
 void Movie::funcs()
 {
   //setActionFunc(MOVIE_TYPE, 0, _Action play_cb, (const char *) uitem(ulabel(g.theme.Playvideo)));
@@ -485,5 +475,4 @@ void Movie::funcs()
   setActionFunc(MOVIE_TYPE, 2, _Action pause_cb, "Pause");	// side effect if pending
   setActionFunc(MOVIE_TYPE, 3, _Action loop_cb, "Loop");
   //setActionFunc(MOVIE_TYPE, 4, _Action rewind_cb, "Rewind");	// crash in mpeglib
-  //setActionFunc(MOVIE_TYPE, 4, _Action debug_cb, "Debug");
 }
