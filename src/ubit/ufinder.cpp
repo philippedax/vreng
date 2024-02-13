@@ -14,7 +14,7 @@
  * SEE FILES 'COPYRIGHT' AND 'COPYING' FOR MORE DETAILS.
  * ***********************************************************************/
 
-#if 0 //dax - unused in vreng
+#if 0 //dax - notused in vreng
 
 #include <ubit/ubit_features.h>
 #include <cmath>
