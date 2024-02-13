@@ -38,8 +38,9 @@ Img * Img::loadSVG(void *_tex, ImageReader read_func)
 
   Cache::setCachePath(tex->url, filename);
   Cache *cache = new Cache();
-  FILE *f;
-  if ((f = cache->open(filename, tex->http)) == NULL) {
+  FILE *f = cache->open(filename, tex->http);
+  if (! f) {
+    error("can't read %s", tex->url);
     delete cache;
     return NULL;
   }

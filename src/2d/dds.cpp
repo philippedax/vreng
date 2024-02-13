@@ -115,7 +115,7 @@ Img * Img::loadDDS(void *_tex, ImageReader read_func)
   const char *glexts = (const char *)glGetString (GL_EXTENSIONS);
 
   /* check for S3TC support */
-  if (!strstr (glexts, "GL_EXT_texture_compression_s3tc")) {
+  if (! strstr(glexts, "GL_EXT_texture_compression_s3tc")) {
     error("GL_EXT_texture_compression_s3tc is required for DDS textures!");
     return NULL;
   }
@@ -132,7 +132,11 @@ Img * Img::loadDDS(void *_tex, ImageReader read_func)
   Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
-  if ((dds->fp = cache->open(tex->url, tex->http)) == NULL) return NULL;
+  if ((dds->fp = cache->open(tex->url, tex->http)) == NULL) {
+    error("can't read %s", tex->url);
+    delete cache;
+    return NULL;
+  }
 
   /* read magic number and check if valid .dds file */
   fread(&magic, 1, 4, dds->fp);

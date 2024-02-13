@@ -70,7 +70,8 @@ void Txf::reader(void *_txf, Http *http)
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
   if (! f) {
-    error("can't open %s", http->url);
+    error("can't read %s", http->url);
+    delete cache;
     return;
   }
 

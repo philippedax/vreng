@@ -66,7 +66,11 @@ Img * Img::loadGIF(void *_tex, ImageReader read_func)
   Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
-  if ((g->fp = cache->open(tex->url, tex->http)) == NULL) return NULL;
+  if ((g->fp = cache->open(tex->url, tex->http)) == NULL) {
+    error("can't read %s", tex->url);
+    delete cache;
+    return NULL;
+  }
 
   g->img = NULL;
 

@@ -115,7 +115,11 @@ Img * Img::loadSGI(void *_tex, ImageReader read_func)
 
   Texture *tex = static_cast<Texture *>(_tex);
   Cache *cache = new Cache();
-  if ((sgi->f = cache->open(tex->url, tex->http)) == NULL) return NULL;
+  if ((sgi->f = cache->open(tex->url, tex->http)) == NULL) {
+    error("can't read %s", tex->url);
+    delete cache;
+    return NULL;
+  }
 
   fread(sgi, 1, 12, sgi->f); // header
 

@@ -118,8 +118,12 @@ Img * Img::loadJPG(void *_tex, ImageReader read_func)
   Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
-  FILE *f;
-  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
+  FILE *f = cache->open(tex->url, tex->http);
+  if (! f) {
+    error("can't read %s", tex->url);
+    delete cache;
+    return NULL;
+  }
 
   /* error handling */
   struct my_error_mgr jerr;

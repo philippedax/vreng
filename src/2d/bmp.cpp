@@ -52,8 +52,12 @@ Img * Img::loadBMP(void *_tex, ImageReader read_func)
   Texture *tex = static_cast<Texture *>(_tex);
 
   Cache *cache = new Cache();
-  FILE *f;
-  if ((f = cache->open(tex->url, tex->http)) == NULL) return NULL;
+  FILE *f = cache->open(tex->url, tex->http);
+  if (! f) {
+    error("cant't read %s", tex->url);
+    delete cache;
+    return NULL;
+  }
 
   h.magic1 = cache->read_char(f);
   h.magic2 = cache->read_char(f);
