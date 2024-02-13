@@ -359,10 +359,8 @@ char parseDXFZVALS(DXF_file *dxf, DXF_rule *rule, DXF_token *tok);
  */
 class Dxf {
 
- public:
-  DXF_file *dxffile;
-
  private:
+  DXF_file *dxffile;		///< dxf handle
   bool loaded;                  ///< flag loaded or not
   float currentScale;           ///< current scale
   float desiredScale;           ///< desired scale
@@ -372,9 +370,7 @@ class Dxf {
   float mat_diffuse[4];		///<
   float mat_ambient[4]; 	///<
   float mat_specular[4];	///<
-  int texture;			///<
 
- private:
   static void reader(void *adxf, class Http *http);
   /**< Downloads */
 

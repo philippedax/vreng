@@ -77,7 +77,7 @@ void Dxf::reader(void *_dxf, Http *http)
   if (! dxf) return;
 
   char filename[PATH_LEN] = {0};
-  Cache::setCachePath(http->url, filename);
+  Cache::setCachePath(http->url, filename);	// absolute path needed for reading
   dxf->dxffile = newDXF(filename);
 
   Cache *cache = new Cache();
@@ -124,7 +124,7 @@ float Dxf::getScale()
       if (pol && pol->num_points > 0) {
         for (int k=0; k < pol->num_points; k++) {
           if (k==0 || (k>0 && pol->points.refs[k] != pol->points.refs[k-1])) {
-            double r= pol->points.refs[k]->x * pol->points.refs[k]->x +
+            float r = pol->points.refs[k]->x * pol->points.refs[k]->x +
                       pol->points.refs[k]->y * pol->points.refs[k]->y +
                       pol->points.refs[k]->z * pol->points.refs[k]->z ;
             if (r > max_radius)
@@ -358,8 +358,8 @@ int addPolygonPoint(Polygon *pol, Point3D *p)
     Point3D **refs = static_cast<Point3D **>(realloc(pol->points.refs, sizeof(Point3D*)*(pol->num_points)));
     if (refs) {
        //echo("dxf adding point to polygon");
-       refs[pol->num_points-1]=p;
-       pol->points.refs=refs;
+       refs[pol->num_points-1] = p;
+       pol->points.refs = refs;
     }
     else pol->num_points--;
   }
@@ -537,14 +537,14 @@ PolyMeshObj * newPolyMesh(char *name, SRGB *color)
 {
   PolyMeshObj *pmesh = static_cast<PolyMeshObj *>(malloc(sizeof(PolyMeshObj)));
   pmesh->name = static_cast<char *>(malloc(2));
-  pmesh->name[0]='\0';
+  pmesh->name[0] = '\0';
   changePolyMeshObjName(pmesh,name);
-  pmesh->color=color;
-  pmesh->num_points=0;
-  pmesh->points=NULL;
-  pmesh->num_polygons=0;
-  pmesh->polygons=NULL;
-  pmesh->surface=NULL;
+  pmesh->color = color;
+  pmesh->num_points = 0;
+  pmesh->points = NULL;
+  pmesh->num_polygons = 0;
+  pmesh->polygons = NULL;
+  pmesh->surface = NULL;
   return pmesh;
 }
 
@@ -638,7 +638,7 @@ int removePolyMeshObjPolygon(PolyMeshObj *pmesh, int pos)
   Polygon **polygons = pmesh->polygons;
   Polygon *pol = polygons[pos];
   Polygon *np;
-  int i=0;
+  int i = 0;
   for (i=pmesh->num_polygons-2, np=polygons[i+1]; i >= pos ; i--) {
     Polygon *tmpp;
     tmpp = polygons[i];
@@ -843,7 +843,7 @@ char *_xstrclean(char *in, char *tok)
 char *_xstrlwr(char *in)
 {
   for (int i=0; i < strlen(in) ; i++) {
-    if (in[i]>='A' && in[i]<='Z') in[i]=in[i]-'A'+'a';
+    if (in[i]>='A' && in[i]<='Z') in[i] = in[i]-'A'+'a';
   }
   return in;
 }
@@ -851,7 +851,7 @@ char *_xstrlwr(char *in)
 char *_xstrupr(char *in)
 {
   for (int i=0; i < strlen(in) ; i++) {
-    if (in[i]>='a' && in[i]<='z') in[i]=in[i]-'a'+'A';
+    if (in[i]>='a' && in[i]<='z') in[i] = in[i]-'a'+'A';
   }
   return in;
 }
@@ -882,7 +882,7 @@ DXF_token * readTokenDXF(FILE *fp)
   char buffer1[256], buffer2[256];
   char *b1, *b2;
 
-  for ( ; (b1=fgets(buffer1,255,fp))!=NULL && !strcmp(b1, "\n") ; ) ;
+  for ( ; (b1=fgets(buffer1,255,fp)) != NULL && !strcmp(b1, "\n") ; ) ;
   b2 = fgets(buffer2, 255, fp);
   if (b1 && b2) {
     _xstrupr(b1);
@@ -912,12 +912,12 @@ char eqTokenDXF(DXF_token *tok1, DXF_token *tok2)
   if (!tok1 && !tok2) return TOK_EQ;
   if ((!tok1 && tok2) || (tok1 && !tok2)) return FALSE;
 
-  //if (tok1->gr_id == tok1->gr_id) {
+  if (tok1->gr_id == tok2->gr_id) {
     if (! strcmp(tok1->data, tok2->data)) return TOK_EQ;
     return TOK_GR_EQ;
-  //}
-  //else
-    //if (! strcmp(tok1->data, tok2->data)) return TOK_DATA_EQ;
+  }
+  else
+    if (! strcmp(tok1->data, tok2->data)) return TOK_DATA_EQ;
   return FALSE;
 }
 
