@@ -160,21 +160,21 @@ void Lwo::httpReader(void *_lwo, Http *http)
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
   if (! f) {
-    error("lwo: can't open %s", http->url);
+    error("lwo: can't read %s", http->url);
+    delete cache;
     return;
   }
-  File *file = new(File);
 
   /* check for headers */
-  if (file->read_long(f) != ID_FORM) {
+  if (cache->read_long(f) != ID_FORM) {
     error("lwoReader: error ID_FORM");
     cache->close();
     delete cache;
     return;
   }
-  int32_t form_bytes = file->read_long(f);
+  int32_t form_bytes = cache->read_long(f);
   int32_t read_bytes = 4;
-  if (file->read_long(f) != ID_LWOB) {
+  if (cache->read_long(f) != ID_LWOB) {
     error("lwoReader: not a LWOB file");
     cache->close();
     delete cache;
@@ -183,20 +183,18 @@ void Lwo::httpReader(void *_lwo, Http *http)
 
   /* read chunks */
   while (read_bytes < form_bytes) {
-    int32_t  chunk  = file->read_long(f);
-    int32_t  nbytes = file->read_long(f);
+    int32_t  chunk  = cache->read_long(f);
+    int32_t  nbytes = cache->read_long(f);
     read_bytes += 8 + nbytes + nbytes%2;
     switch (chunk) {
-      case ID_PNTS: lwo->readPnts(file, f, nbytes); break;
-      case ID_POLS: lwo->readPols(file, f, nbytes); break;
-      case ID_SRFS: lwo->readSrfs(file, f, nbytes); break;
-      case ID_SURF: lwo->readSurf(file, f, nbytes); break;
-      default: file->skip(f, nbytes + nbytes%2);
+      case ID_PNTS: lwo->readPnts(cache, f, nbytes); break;
+      case ID_POLS: lwo->readPols(cache, f, nbytes); break;
+      case ID_SRFS: lwo->readSrfs(cache, f, nbytes); break;
+      case ID_SURF: lwo->readSurf(cache, f, nbytes); break;
+      default: cache->skip(f, nbytes + nbytes%2);
     }
   }
-  if (file) {
-    file->close();
-    delete file;
+  if (cache) {
     cache->close();
     delete cache;
   }

@@ -667,14 +667,12 @@ void Body::reader(void *_body, Http *http)
   FILE *f = cache->open(http->url, http);
   if (! f) {
     error("Body: can't open %s", http->url);
-  }
-  else {
-    body->loadBodyParts(f);
-  }
-  if (f) {
-    cache->close();
     delete cache;
+    return;
   }
+  body->loadBodyParts(f);
+  cache->close();
+  delete cache;
 }
 
 /** load body's parts */

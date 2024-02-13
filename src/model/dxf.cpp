@@ -83,12 +83,15 @@ void Dxf::reader(void *_dxf, Http *http)
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
   if (! f) {
-    error("dxf: can't open %s", http->url);
+    error("dxf: can't read %s", http->url);
+    delete cache;
     return;
   }
   dxf->dxffile->fp = f;
   readDXF(dxf->dxffile);
   dxf->loaded = true;
+  cache->close();
+  delete cache;
 }
 
 void Dxf::setScale(float scale)

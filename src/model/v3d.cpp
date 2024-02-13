@@ -135,12 +135,19 @@ void V3d::v3dreader(void *_v3d, Http *http)
 
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
+  if (! f) {
+    error("can't read %s", http->url);
+    delete cache;
+    return;
+  }
   while (cache->nextLine(f, line)) {
     char *v3durl = strdup(line);
     //echo("v3dreader: add url=%s", v3durl);
     v3d->urlList.addElement(v3durl);
     free(v3durl);
   }
+  cache->close();
+  delete cache;
 }
 
 void V3d::change()

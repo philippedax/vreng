@@ -92,6 +92,11 @@ void Ase::reader(void *aase, Http *http)
 
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
+  if (! f) {
+    error("can't read %s", http->url); 
+    delete cache;
+    return;
+  }
   ase->import(f);
   cache->close();
   delete cache;

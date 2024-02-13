@@ -54,21 +54,19 @@ void X3d::reader(void *_x3d, class Http *http)
   X3d* x3d = static_cast<X3d *>(_x3d);
   if (! x3d) return;
 
-  FILE *f;
   char filename[PATH_LEN] = {0};
   Cache::setCachePath(http->url, filename);
 
   Cache *cache = new Cache();
-  if ((f = cache->open(filename, http)) == NULL) {
-    char buf[BUFSIZ];
-    int len;
-    while ((len = http->httpRead(buf, sizeof(buf))) > 0) {
-      fwrite(buf, 1, len, f);	// into cache
-    }
-    cache->close();
+  FILE *f = cache->open(http->url, http);
+  if (! f) {
+    error("can't read %s", http->url);
     delete cache;
+    return;
   }
   x3d->loadFromFile(filename);
+  cache->close();
+  delete cache;
 }
 
 bool X3d::loadFromFile(char *filename)

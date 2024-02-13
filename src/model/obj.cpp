@@ -95,6 +95,11 @@ void Obj::reader(void *_obj, Http *http)
 
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
+  if (! f) {
+    error("can't read %s", http->url);
+    delete cache;
+    return;
+  }
   obj->import(f);
   if (! obj->flgpart) obj->displaylist();
   cache->close();

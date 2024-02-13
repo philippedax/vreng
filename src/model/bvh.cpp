@@ -56,10 +56,13 @@ void Bvh::reader(void *_bvh, Http *http)
 {
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
-  if (f) {
-    cache->close();
+  if (! f) {
+    error("can't read %s", http->url);
     delete cache;
+    return;
   }
+  cache->close();
+  delete cache;
 }
 
 void Bvh::process(string line)

@@ -79,6 +79,11 @@ void Off::reader(void *_off, Http *http)
 
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
+  if (! f) {
+    error("can't read %s", http->url);
+    delete cache;
+    return;
+  }
 
   char line[80];
   /* Get info header: vertices_number normals_number polygons_number */

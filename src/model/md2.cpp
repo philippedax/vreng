@@ -70,19 +70,15 @@ void Md2::httpReader(void *_md2, Http *http)
 
   Cache *cache = new Cache();
   FILE *f = cache->open(http->url, http);
-  if (f) {
-    File *file = new(File);
-    md2->readFile(file, f);	// from cache
-    file->close();
-    delete file;
-  }
-  else {
+  if (! f) {
     error("can't read %s", http->url);
-  }
-  if (cache) {
-    cache->close();
     delete cache;
+    return;
   }
+  File *file = new(File);
+  md2->readFile(file, f);	// from cache
+  cache->close();
+  delete cache;
 }
 
 /** Md2 model filereader */
