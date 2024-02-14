@@ -42,7 +42,7 @@ class Scene : public ubit::UBox {
 
  public:
   Scene(class Widgets*);	///< constructor.
-  
+
   void getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h);
   void setScene(GLint x, GLint y, GLsizei width, GLsizei height);
   void setBackground(UColor& color);
@@ -70,7 +70,9 @@ class Scene : public ubit::UBox {
   UStr hud_row1, hud_row2, hud_row3, hud_row4, hud_row5, hud_row6;
   class Hud *hud;
 
+  //
   // methods
+  //
   void init();
   /** Inits the scene */
 
@@ -83,6 +85,8 @@ class Scene : public ubit::UBox {
 
   // callback methods for UBox
   void paintCB(UPaintEvent&);
+  /** Repaints the scene */
+
   void resizeCB(UResizeEvent&);
 };
 

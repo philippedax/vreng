@@ -248,7 +248,6 @@ selectObject(objinfo);
     }
     else if (btn == 1) {	// navigator
       navig_menu.open(e);	// show(e, 0, 0); TRASH !!!
-      echo("1");
       opened_menu = navig_menu;
       object->setFlashy();	// flashes the edges of the solid
       object->setRay(x, y);	// launches stipple ray on the object

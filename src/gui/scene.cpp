@@ -31,6 +31,7 @@
 #include "gui.hpp"	// selected_objets
 #include "widgets.hpp"  // Widgets
 #include "world.hpp"	// compute
+#include "universe.hpp"	// current
 #include "render.hpp"	// render.init
 #include "user.hpp"	// position
 #include "pref.hpp"	// width3D
@@ -40,22 +41,20 @@
 
 
 /** constructor */
-Scene::Scene(Widgets* gw) :
- gw(*gw), 
+Scene::Scene(Widgets* _gw) :
+ gw(*_gw), 
  is_visible(true),		// should be set to false when the window is iconified !
  is_initialized(false),
  is_launched(false),
  cycles(0),
  net_delay(500)
 {
+  is_hudvisible = true;		// hud visible by default
   background = UBackground::blue;
+
   addAttr(background);
   addAttr(usize(g.pref.width3D, g.pref.height3D));
 
-  //
-  // Hud position
-  //
-  is_hudvisible = true;		// hud visible by default
   hudbox.addAttr(upos(1, 1)	// position relatively to the canvas : up left corner
                  + UOrient::vertical
                  + UHalign::left
@@ -114,7 +113,7 @@ void Scene::setBackground(UColor& c)
   background.setColor(c);
 }
 
-/* Gets Scene */
+/** Gets Scene */
 void Scene::getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
 {
   UView* v = getView();
@@ -130,7 +129,7 @@ void Scene::getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
   }
 }
 
-/* Sets Scene */
+/** Sets Scene */
 void Scene::setScene(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   UView* v = getView();
@@ -151,7 +150,7 @@ GLSection::GLSection(Scene* s) :
  UGraph::Glpaint(s->getView(), true)
 { }
 
-/* Paints scene CB */
+/** Paints scene CB */
 void Scene::paintCB(UPaintEvent& e)
 {
   GLSection gls(this);
@@ -159,10 +158,6 @@ void Scene::paintCB(UPaintEvent& e)
   if (is_initialized) {
     ::g.render.cameraUser();
   }
-
-  //
-  // Main loop of the engine
-  //
   if (! is_launched) {
     UAppli::addTimeout(500, 1, ucall(this, &Scene::init));
     is_launched = true;
@@ -174,12 +169,15 @@ void Scene::paintCB(UPaintEvent& e)
     gw.flushPostponedKRs();
   }
 
+  //
+  // Main loop of the engine
+  //
+
   // Computes current world
   ProfileTime& tsimul = ::g.timer.simul;
   tsimul.start();
-  World *world = World::current();
-  if (world) {
-    world->compute(tsimul.start_time.tv_sec, tsimul.start_time.tv_usec);
+  if (World::current()) {
+    World::current()->compute(tsimul.start_time.tv_sec, tsimul.start_time.tv_usec);
   }
   tsimul.stop();
   
@@ -206,7 +204,7 @@ void Scene::paintCB(UPaintEvent& e)
   cycles++;		// increments cycles (fps)
 }
 
-/* Resizes scene CB */
+/** Resizes scene CB */
 void Scene::resizeCB(UResizeEvent& e)
 {
   resize(e, int(e.getView()->getWidth()), int(e.getView()->getHeight()));
@@ -219,7 +217,7 @@ void Scene::netTimeoutCB()
   ::netTimeout();  // checks if various updates are needed
 }
 
-/* Inits scene */
+/** Inits scene */
 void Scene::init()
 {
   GLSection gls(this);
@@ -236,7 +234,7 @@ void Scene::init()
   // le 1er arg. est le delai entre deux frames successives (si besoin est, changer
   // cette valeur au lieu de mettre un select() dans paintGL, ce qui est incorrect) 
   // le 2e arg., -1, signifie qu'on repete indefiniement
-  render_timer.start((time_t) ::g.pref.frame_delay/1000, -1);
+  render_timer.start((time_t) (::g.pref.frame_delay/1000.), (int) (-1));
 
   // timer qui execute netTimeout() tous les delta t
   net_timer.onAction(ucall(this, &Scene::netTimeoutCB));
@@ -254,8 +252,6 @@ void Scene::resize(UResizeEvent& e, int width, int height)
 
 void Scene::refreshHud()
 {
-  if (! localuser) return;
-
   char row[32];
   
   // rate
@@ -275,8 +271,8 @@ void Scene::refreshHud()
   WO* obj = ::g.gui.selected_object;
   if (obj) {
     // object
-    sprintf(row, "obj:    %.1f %.1f %.1f %.0f %s",
-            obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az), obj->objectName());
+    sprintf(row, "obj:    %.1f %.1f %.1f %.0f",
+            obj->pos.x, obj->pos.y, obj->pos.z, RAD2DEG(obj->pos.az));
     hud_row4 = row;
     
     // bbox
