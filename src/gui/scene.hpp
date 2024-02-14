@@ -40,20 +40,20 @@ struct GLSection : public ubit::UGraph::Glpaint {
  */
 class Scene : public ubit::UBox {
 
-public:
+ public:
   Scene(class Widgets*);	///< constructor.
   
-  void getScene(GLint coords[4]);
   void getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h);
   void setScene(GLint x, GLint y, GLsizei width, GLsizei height);
   void setBackground(UColor& color);
-  bool isInitialized();
   void toggleHud();
 
-  //notused//void setNetDelay(int msec);
-  //notused//int getNetDelay() const;
+  //notused void getScene(GLint coords[4]);
+  //notused bool isInitialized();
+  //notused void setNetDelay(int msec);
+  //notused int getNetDelay() const;
   
-private:
+ private:
   friend class Gui;		// cycles net_delay
 
   class Widgets& gw;		///< gui widget

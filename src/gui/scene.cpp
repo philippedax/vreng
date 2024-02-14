@@ -76,13 +76,13 @@ Scene::Scene(Widgets* gw) :
           + UOn::resize / ucall(this, &Scene::resizeCB));
 }
 
+#if 0 //notused
 ///< checks whether the scene is initialized.
 bool Scene::isInitialized()
 {
   return is_initialized;
 }
 
-#if 0 //notused
 void Scene::setNetDelay(int msec)
 {
   net_delay = msec;
@@ -92,6 +92,21 @@ int Scene::getNetDelay() const
 {
   return net_delay;
 }
+
+void Scene::getScene(GLint coords[4])
+{
+  UView* v = getView();
+  if (! v) {
+    coords[0] = coords[1] = coords[2] = coords[3] = 0;
+  }
+  else {
+    UPoint pos = v->getGLPos();
+    coords[0] = int(pos.x);
+    coords[1] = int(pos.y);
+    coords[2] = int(v->getWidth());
+    coords[3] = int(v->getHeight());
+  }
+}
 #endif //notused
 
 void Scene::setBackground(UColor& c)
@@ -99,43 +114,29 @@ void Scene::setBackground(UColor& c)
   background.setColor(c);
 }
 
-void Scene::getScene(GLint coords[4])
-{
-  UView* v = getView();
-  if (!v) {
-    coords[0] = coords[1] = coords[2] = coords[3] = 0;
-  }
-  else {
-    UPoint pos = v->getGLPos();
-    coords[0] = (GLint) pos.x;
-    coords[1] = (GLint) pos.y;
-    coords[2] = (GLsizei) v->getWidth();
-    coords[3] = (GLsizei) v->getHeight();
-  }
-}
-
+/* Gets Scene */
 void Scene::getScene(GLint& x, GLint& y, GLsizei& w, GLsizei& h)
 {
   UView* v = getView();
-  if (!v) {
+  if (! v) {
     x = y = w = h = 0;
   }
   else {
     UPoint pos = v->getGLPos();
-    x = (GLint) pos.x;
-    y = (GLint) pos.y;
-    w = (GLsizei) v->getWidth();
-    h = (GLsizei) v->getHeight();
+    x = int(pos.x);
+    y = int(pos.y);
+    w = int(v->getWidth());
+    h = int(v->getHeight());
   }
 }
 
-/* set Scene */
+/* Sets Scene */
 void Scene::setScene(GLint x, GLint y, GLsizei w, GLsizei h)
 {
   UView* v = getView();
   if (v) {
     UPoint pos = v->getGLPos();
-    glViewport((GLint) (pos.x+x), (GLint) (pos.y+y), w, h);
+    glViewport(int(pos.x+x), int(pos.y+y), w, h);
   }
 }
 
@@ -148,8 +149,7 @@ void Scene::setScene(GLint x, GLint y, GLsizei w, GLsizei h)
  */
 GLSection::GLSection(Scene* s) :
  UGraph::Glpaint(s->getView(), true)
-{
-}
+{ }
 
 /* Paints scene CB */
 void Scene::paintCB(UPaintEvent& e)

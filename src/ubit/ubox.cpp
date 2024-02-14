@@ -219,7 +219,7 @@ UView* UBox::getSubView(const UPoint& screen_pos, UDisp* d = null) const {
 /* ==================================================== ===== ======= */
 
 UView* UBox::getViewContaining(const UView& _view) const {
-  for (UView* v = const_cast<UView*>(&_view); v!=null; v = v->getParentView()) {
+  for (UView* v = (UView*)(&_view); v!=null; v = v->getParentView()) {
     if (v->getBox() == this) return v;
   }
   return null;  // not found

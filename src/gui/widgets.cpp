@@ -460,7 +460,7 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   // Interaction GUI <--> 3D
   //
   uint16_t objnum = ::g.render.bufferSelection(x, y, z);	// find object number in the Z-buffer
-  trace(DBG_GUI, "pointed: clic=%d %d %d objnum=%d", x, y, z, objnum);
+  //echo("pointed: clic=%d %d %d objnum=%d", x, y, z, objnum);
   if (objnum == 0) {
     return NULL;
   }
@@ -480,7 +480,7 @@ WO* Widgets::pointedObject(int x, int y, ObjInfo *objinfo, int z)
   // an object has been selected
   // get the object's names
   object->getObjectNames(&classname, &instancename, &actionnames);
-  if (classname == NULL) {
+  if (! classname) {
     return NULL;
   }
 

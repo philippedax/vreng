@@ -187,7 +187,7 @@ void UPiemenu::open(UMouseEvent& e) {
   // pbm in the stange buggy cases when this might happen
   if (in_show_function) return;
   in_show_function = true;
-  
+ 
   reset(&e);  // reset() inits menu data and its layout
   
   // moves the menu so that it will be centered on the event location
