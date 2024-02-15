@@ -38,40 +38,40 @@ void ProfileTime::start()
 }
 
 /* stop time & cumul time, return last diff */
-double ProfileTime::stop()
+time_t ProfileTime::stop()
 {
   gettimeofday(&stop_time, NULL);
-  double d = Timer::diffDates(start_time, stop_time);
+  time_t d = Timer::diffDates(start_time, stop_time);
   diff_time = d;
   cumul_time += d;
   return d;
 }
 
 /* returns last diff */
-double ProfileTime::diff()
+time_t ProfileTime::diff()
 {
   return diff_time;
 }
 
 /** Return float time in milliseconds */
-double Timer::fTime()
+time_t Timer::fTime()
 {
   struct timeval t;
   gettimeofday(&t, NULL);
 
-  return (((double) t.tv_sec) * 1e3) + (((double) t.tv_usec) * 1e-3);
+  return (((time_t) t.tv_sec) * 1e3) + (((time_t) t.tv_usec) * 1e-3);
 }
 
 /** Computes t2-t1 in seconds */
-double Timer::diffDates(struct timeval t1, struct timeval t2)
+time_t Timer::diffDates(struct timeval t1, struct timeval t2)
 {
-  return ((double) t2.tv_sec - (double) t1.tv_sec) +
-         ((double) t2.tv_usec - (double) t1.tv_usec) * 1e-6;
+  return ((time_t) t2.tv_sec - (time_t) t1.tv_sec) +
+         ((time_t) t2.tv_usec - (time_t) t1.tv_usec) * 1e-6;
 }
 
 float Timer::rate()
 {
-  double time_cycles = simul.cumul_time + render.cumul_time + idle.cumul_time;
+  time_t time_cycles = simul.cumul_time + render.cumul_time + idle.cumul_time;
 
   if (time_cycles == 0)
     return 5.0;	// 5 sec
@@ -99,7 +99,7 @@ float Timer::delta()
   }
   gettimeofday(&nowtime, NULL);
 
-  double difftime = Timer::diffDates(lasttime, nowtime);
+  time_t difftime = Timer::diffDates(lasttime, nowtime);
   lasttime = nowtime;
   return static_cast<float>(difftime);
 }
