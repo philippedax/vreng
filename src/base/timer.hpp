@@ -30,13 +30,13 @@ public:
   ProfileTime();
   
   void start();
-  time_t stop();
-  time_t diff();
+  double stop();
+  double diff();
 
   struct timeval start_time;
   struct timeval stop_time;
-  time_t cumul_time;
-  time_t diff_time;
+  double cumul_time;
+  double diff_time;
 };
 
 
@@ -53,10 +53,10 @@ public:
 
   bool isRate(uint16_t rate);
 
-  static time_t fTime();
+  static double fTime();
   /**< Returns float time in milliseconds */
 
-  static time_t diffDates(struct timeval t1, struct timeval t2);
+  static double diffDates(struct timeval t1, struct timeval t2);
   /**< Computes t2-t1 in seconds */
 
   static float delta();
