@@ -29,6 +29,11 @@
  */
 bool Endian::bigEndian()
 {
+#if 0 //dax
+  uint16_t x=0x0001;
+  auto p = reinterpret_cast<uint8_t*>(&x);
+  return *p == 0;
+#else
   union {
     int word;
     char byte[4];
@@ -36,6 +41,7 @@ bool Endian::bigEndian()
 
   endian.word = 1;
   return (endian.byte[0] == 1) ? 0 : 1;
+#endif
 }
 
 /**
