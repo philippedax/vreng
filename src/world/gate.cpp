@@ -231,7 +231,7 @@ bool Gate::whenIntersect(WO *pcur, WO *pold)
   case ICON_TYPE:
     // stick the icon on the wall
     doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
-    pold->copyPosAndBB(pcur->pos);
+    pold->copyPositionAndBB(pcur);
     break;
   default:	// other objects
     pold->copyPositionAndBB(pcur);

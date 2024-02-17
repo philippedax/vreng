@@ -21,9 +21,7 @@
 #include "vreng.hpp"
 #include "ground.hpp"
 #include "world.hpp"	// setGround
-#include "user.hpp"	// USER_TYPE
-#include "ball.hpp"	// BALL_TYPE
-#include "cauldron.hpp"	// CAULDRON_TYPE
+#include "user.hpp"	// localuser
 
 
 const OClass Ground::oclass(GROUND_TYPE, "Ground", Ground::creator);
@@ -65,22 +63,9 @@ Ground::Ground(WO *user, char *geom)
 /* Intersection with an object */
 bool Ground::whenIntersect(WO *pcur, WO *pold)
 {
-  switch (pcur->type) {
-  case BALL_TYPE:
-    pold->setLasting(0);
-    pold->disablePermanentMovement();
-    pold->copyPositionAndBB(pcur);
-    break;
-  case CAULDRON_TYPE:
-    pold->setLasting(0);
-    pold->disablePermanentMovement();
-    pold->copyPosAndBB(pcur->pos);
-    break;
-  default:
-    pold->setLasting(0);
-    pold->disablePermanentMovement();
-    pold->copyPosAndBB(pcur->pos);
-  }
+  pold->setLasting(0);
+  pold->disablePermanentMovement();
+  pold->copyPositionAndBB(pcur);
   return true;
 }
 

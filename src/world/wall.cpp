@@ -82,7 +82,7 @@ bool Wall::whenIntersect(WO *pcur, WO *pold)
   case ICON_TYPE:
     // stick the icon on the wall
     doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
-    pold->copyPosAndBB(pcur->pos);
+    pold->copyPositionAndBB(pcur);
     break;
   case BULLET_TYPE:
   case DART_TYPE:
@@ -92,7 +92,7 @@ bool Wall::whenIntersect(WO *pcur, WO *pold)
   case WEB_TYPE:
     return false;
   default:
-    pold->copyPosAndBB(pcur->pos);
+    pold->copyPositionAndBB(pcur);
   }
   return true;
 }

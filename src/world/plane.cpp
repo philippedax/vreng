@@ -122,11 +122,11 @@ bool Plane::whenIntersect(WO *pcur, WO *pold)
     bounceTrajectory(pold, &normal);
     pold->setLasting(0);
     pold->disablePermanentMovement();
-    pold->copyPosAndBB(pcur->pos);
+    pold->copyPositionAndBB(pcur);
     }
     break;
   default:
-    pold->copyPosAndBB(pcur->pos);
+    pold->copyPositionAndBB(pcur);
   }
   return true;
 }

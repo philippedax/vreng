@@ -20,7 +20,6 @@
 //---------------------------------------------------------------------------
 #include "vreng.hpp"
 #include "mirror.hpp"
-#include "user.hpp"	// USER_TYPE
 #include "solid.hpp"	// getSolid
 #include "render.hpp"	// minirender
 #include "icon.hpp"	// ICON_TYPE
@@ -73,17 +72,12 @@ bool Mirror::publish(const Pos &oldpos)
 bool Mirror::whenIntersect(WO *pcur, WO *pold)
 {
   switch (pcur->type) {
-  case USER_TYPE:
-    projectPosition(pcur, pold);
-    break;
   case ICON_TYPE:
     // stick the icon on the wall
     doAction(ICON_TYPE, Icon::STICK, this, pcur, 0, 0);
-    pold->copyPosAndBB(pcur->pos);
     break;
-  default:
-    pold->copyPositionAndBB(pcur);
   }
+  pold->copyPositionAndBB(pcur);
   return true;
 }
 
