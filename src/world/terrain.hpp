@@ -65,6 +65,9 @@ public:
   static WO * (creator)(char *l);
   /**< Creates from fileline */
 
+  bool whenIntersect(WO *pcur, WO *pold);
+  /**< Intersects */
+
   void render();
   /**< Renderer */
 

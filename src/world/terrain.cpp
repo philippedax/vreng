@@ -25,8 +25,8 @@
 const OClass Terrain::oclass(TERRAIN_TYPE, "Terrain", Terrain::creator);
 
 const uint8_t Terrain::DEF_LEVEL = 6;
-const GLfloat Terrain::DEF_WIDTH = 20;
-const GLfloat Terrain::DEF_HEIGHT = 0.1;
+const GLfloat Terrain::DEF_WIDTH = 30;
+const GLfloat Terrain::DEF_HEIGHT = 0.1;		// 10 cm
 const GLfloat Terrain::DEF_DIV = 1.85;
 const GLfloat Terrain::DEF_SCALE = 100;
 const GLfloat Terrain::DEF_COLOR[4] = {0,1,0,1};	// green
@@ -55,19 +55,19 @@ void Terrain::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "height")) l = parseFloat(l, &height, "height");
-    else if (!stringcmp(l, "width"))  l = parseFloat(l, &width, "width");
-    else if (!stringcmp(l, "color"))  l = parseVector3f(l, color, "color");
-    else if (!stringcmp(l, "level"))  l = parseUInt8(l, &level, "level");
-    else if (!stringcmp(l, "div"))    l = parseFloat(l, &div, "div");
-    else if (!stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
+    if      (! stringcmp(l, "height")) l = parseFloat(l, &height, "height");
+    else if (! stringcmp(l, "width"))  l = parseFloat(l, &width, "width");
+    else if (! stringcmp(l, "color"))  l = parseVector3f(l, color, "color");
+    else if (! stringcmp(l, "level"))  l = parseUInt8(l, &level, "level");
+    else if (! stringcmp(l, "div"))    l = parseFloat(l, &div, "div");
+    else if (! stringcmp(l, "scale"))  l = parseFloat(l, &scale, "scale");
   }
   end_while_parse(l);
 }
 
 void Terrain::behaviors()
 {
-  enableBehavior(NO_BBABLE);
+  //dax enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
 }
 
@@ -75,7 +75,7 @@ void Terrain::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"bbox\" dim=\"%f %f %f\" />", width, width, height);
+  sprintf(s, "solid shape=\"box\" dim=\"%f %f %f\" a=\"0\"/>", width, width, height);
   parseSolid(s);
 }
 
@@ -86,7 +86,7 @@ void Terrain::inits()
   if (level > 10) level = DEF_LEVEL;
   if (div <= 1 || div > 3) div = DEF_DIV;
   size = level*level;
-  mesh = new GLfloat[size*size*sizeof(GLfloat)+1];
+  mesh = new float[size*size*sizeof(float)+1];
   normales = new nVect[size*size*sizeof(nVect)+1];
   srand(time(0));
   heights(level, 0, 0, height, div);
@@ -111,7 +111,11 @@ void Terrain::heights(int l, int x, int y, float h, float f)
   if (x == 0) aux_heights(x, y, x, y+w, h);
   aux_heights(x+w, y, x+w, y+w, h);
   aux_heights(x, y+w, x+w, y+w, h);
-  mesh[(x+w/2)*size+y+w/2] = (mesh[x*size+y]+mesh[(x+w)*size+y]+mesh[x*size+y+w]+mesh[(x+w)*size+y+w])/4;
+  mesh[(x+w/2)*size+y+w/2] = ( mesh[x*size+y]
+                             + mesh[(x+w)*size+y]
+                             + mesh[x*size+y+w]
+                             + mesh[(x+w)*size+y+w]
+                             )/4;
   float m = f * mul;
   heights(l-1, x, y, h/f, m);
   heights(l-1, x+w/2, y, h/f, m);
@@ -121,7 +125,10 @@ void Terrain::heights(int l, int x, int y, float h, float f)
 
 void Terrain::aux_heights(int x1, int y1, int x2, int y2, float h)
 {
-  mesh[(x1+x2)/2*size + (y1+y2)/2] = (mesh[x1*size +y1] + mesh[x2*size +y2])/2 + h*((rand()%21)-10)/10;
+  mesh[(x1+x2)/2*size + (y1+y2)/2] = ( mesh[x1*size +y1]
+                                     + mesh[x2*size +y2])/2
+                                     + h*((rand()%21)-10
+                                     )/10;
 }
 
 void Terrain::prodvect(float x1, float y1, float z1, float x2, float y2, float z2, float *px, float *py, float *pz)
@@ -135,11 +142,14 @@ void Terrain::setNormales()
 {
   for (int i=0; i<size ; i++) {
     for (int j=0; j<size ; j++) {
-      float px,py,pz;
-      prodvect(2./size, 0, mesh[(i+1)*size+j]-mesh[(i-1)*size+j], 0, 2./size, mesh[i*size+j+1]-mesh[i*size+j-1], &px, &py, &pz);
-      normales[i*size+j].x = px;
-      normales[i*size+j].y = py;
-      normales[i*size+j].z = pz;
+      float nx, ny, nz;
+      prodvect(2./size, 0, mesh[(i+1) * size+j]-mesh[(i-1)*size+j],
+               0, 2./size, mesh[i * size+j+1]-mesh[i*size+j-1],
+               &nx, &ny, &nz
+              );
+      normales[i*size+j].x = nx;
+      normales[i*size+j].y = ny;
+      normales[i*size+j].z = nz;
     }
   }
 }
@@ -151,36 +161,45 @@ void Terrain::draw()
   glBegin(GL_QUADS);
   for (int i=0; i<size ; i++) {
     for (int j=0; j<size ; j++) {
-      GLfloat nx, ny, nz;
+      float nx, ny, nz;
 
       setColor(mesh[i*size+j]);
       nx = normales[i*size+j].x;
       ny = normales[i*size+j].y;
       nz = normales[i*size+j].z;
       glNormal3f(nx, ny, nz);
-      glVertex3f((GLfloat)i/size, (GLfloat)j/size, mesh[i*size+j]);
+      glVertex3f((float) i/size, (float) j/size, mesh[i*size+j]);
       setColor(mesh[(i+1)*size+j]);
       nx = normales[(i+1)*size+j].x;
       ny = normales[(i+1)*size+j].y;
       nz = normales[(i+1)*size+j].z;
       glNormal3f(nx, ny, nz);
-      glVertex3f((GLfloat)(i+1)/size, (GLfloat)j/size, mesh[(i+1)*size+j]);
+      glVertex3f((float) (i+1)/size, (float) j/size, mesh[(i+1)*size+j]);
       setColor(mesh[(i+1)*size+j+1]);
       nx = normales[(i+1)*size+j+1].x;
       ny = normales[(i+1)*size+j+1].y;
       nz = normales[(i+1)*size+j+1].z;
       glNormal3f(nx, ny, nz);
-      glVertex3f((GLfloat)(i+1)/size, (GLfloat)(j+1)/size, mesh[(i+1)*size+j+1]);
+      glVertex3f((float) (i+1)/size, (float) (j+1)/size, mesh[(i+1)*size+j+1]);
       setColor(mesh[i*size+j+1]);
       nx = normales[i*size+j+1].x;
       ny = normales[i*size+j+1].y;
       nz = normales[i*size+j+1].z;
       glNormal3f(nx, ny, nz);
-      glVertex3f((GLfloat)i/size, (GLfloat)(j+1)/size, mesh[i*size+j+1]);
+      glVertex3f((float) i/size, (float) (j+1)/size, mesh[i*size+j+1]);
     }
   }
   glEnd();      
   glEndList();
+}
+
+/* Intersection with an object */
+bool Terrain::whenIntersect(WO *pcur, WO *pold)
+{
+  pold->setLasting(0);
+  pold->disablePermanentMovement();
+  pold->copyPositionAndBB(pcur);
+  return true;
 }
 
 void Terrain::render()
