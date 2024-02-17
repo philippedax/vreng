@@ -22,7 +22,6 @@
 #include "wobject.hpp"
 #include "move.hpp"
 #include "matvec.hpp"   // V3 M4
-#include "world.hpp"
 #include "user.hpp"	// localuser
 #include "carrier.hpp"	// keyEvent
 #include "netobj.hpp"	// isResponsible
@@ -34,7 +33,7 @@
 
 
 /**
- * notify a key has changed
+ * Notify a key has changed
  * key_id = 0..MAXKEYS-1
  * TRUE for a Key Press and FALSE for a Key Release
  * sec: seconds, usec: micro-seconds
@@ -60,7 +59,7 @@ void changeKey(int k_id, bool pressed, time_t sec, time_t usec)
   }
 }
 
-/* clear keys times array */
+/** Clears keys times array */
 void WO::clearKeyTab()
 {
   for (int k=0; k < MAXKEYS; k++) {
@@ -70,7 +69,7 @@ void WO::clearKeyTab()
   }
 }
 
-/* update the keydifftime arrays */
+/** Updates the keydifftime arrays */
 void WO::updateKeys(time_t sec, time_t usec)
 {
   for (int k=0; k < MAXKEYS; k++) {
@@ -83,7 +82,7 @@ void WO::updateKeys(time_t sec, time_t usec)
   }
 }
 
-/* fill times's array for each user movement direction */
+/** Fills times's array for each user movement direction */
 void User::updateTime(float lastings[])
 {
   for (int k=0; k < MAXKEYS; k++) {
@@ -92,12 +91,13 @@ void User::updateTime(float lastings[])
   }
 }
 
+/** Tests if moving */
 bool WO::testMoving()
 {
   return (move.ttl > 0.0005);
 }
 
-/* wait end of movement */
+/** Waits end of movement */
 void * endMovement(void *arg)
 {
   if (localuser) {
@@ -114,6 +114,7 @@ void * endMovement(void *arg)
   return NULL;
 }
 
+/** Updates time lasting */
 bool WO::updateLasting(time_t sec, time_t usec, float *lasting)
 {
   *lasting = diffTime(sec, usec);
@@ -154,7 +155,7 @@ bool WO::updateLasting(time_t sec, time_t usec, float *lasting)
   return false;
 }
 
-/* modify user position in one direction */
+/** Modifies user position in one direction */
 void WO::changePositionOneDir(uint8_t move_key, float lasting)
 {
 #if 1 //dax
@@ -215,7 +216,7 @@ void WO::changePositionOneDir(uint8_t move_key, float lasting)
     }
 }
 
-/* do the movement for each direction */
+/** Does the movement for each direction */
 void User::changePosition(const float lastings[])
 {
   for (int k=0; (k < MAXKEYS); k++) {
@@ -293,6 +294,7 @@ float WO::diffTime(time_t sec, time_t usec)
   return static_cast<float>((sec - move.sec)) + (static_cast<float>((usec - move.usec) / 1e6));
 }
 
+/** Enables an imposed movement */
 void WO::enableImposedMovement()
 {
   struct timeval t;
@@ -302,6 +304,7 @@ void WO::enableImposedMovement()
   move.usec = t.tv_usec;
 }
 
+/** Initializes an imposed movement */
 void WO::initImposedMovement(float ttl)
 {
   enableImposedMovement();
@@ -310,6 +313,7 @@ void WO::initImposedMovement(float ttl)
   move.nocol = false;	// with collision
 }
 
+/** Stops an imposed movement */
 void WO::stopImposedMovement()
 {
   move.ttl = 0;
@@ -322,6 +326,7 @@ void WO::stopImposedMovement()
   }
 }
 
+/** Enables a permanent movement */
 void WO::enablePermanentMovement()
 {
   struct timeval t;
@@ -354,12 +359,14 @@ void WO::setAngularSpeed(float aspeed)
   move.aspeed.v[2] = aspeed;
 }
 
+/** Disables a permanent movement */
 void WO::disablePermanentMovement()
 {
   move.perm_sec = 0;
   move.perm_usec = 0;
 }
 
+/** Checks the current vicinity */
 void WO::checkVicinity(WO *pold)
 {
   OList *vicinity = getVicinity(pold);
@@ -371,6 +378,7 @@ void WO::checkVicinity(WO *pold)
   }
 }
 
+/** Elementary user movement */
 void User::elemUserMovement(const float tabdt[])
 {
   WO *o = new WO();
@@ -378,19 +386,19 @@ void User::elemUserMovement(const float tabdt[])
 
   changePosition(tabdt);
 
-  checkPosition();	// dax
+  checkPosition();	// sanity check
   updatePosition();
   checkVicinity(o);
   delete o;
 }
 
-/* user general movement */
+/** User general movement */
 void User::userMovement(time_t sec, time_t usec)
 {
   Pos oldpos = pos;
   float keylastings[MAXKEYS];
 
-  copyPosAndBB(oldpos);  // keep oldpos for network
+  copyPositionAndBB(oldpos);  // keep oldpos for network
   updateKeys(sec, usec);
   updateTime(keylastings);
 
@@ -426,6 +434,7 @@ void User::userMovement(time_t sec, time_t usec)
   }
 }
 
+/** Elementary imposed movement */
 void WO::elemImposedMovement(float dt)
 {
   changePosition(dt);  // handled by each object
@@ -440,22 +449,20 @@ void WO::elemImposedMovement(float dt)
   }
 }
 
-/* object imposed movement */
+/** Object imposed movement */
 void WO::imposedMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {
     error("imposedMovement: %s type=%d invalid", names.given, type);
     return;
   }
-  //dax if (World::current()->isDead()) return;
   if (! isMoving() && ! move.manip) return;	// no moving
-  //if (move.ttl < 0.0005 && ! move.manip) return;	// if uncommented animator doesn't work
 
   Pos oldpos = pos;
-  copyPosAndBB(oldpos);		// keep oldpos for network
+  copyPositionAndBB(oldpos);		// keep oldpos for network
 
   float lasting = -1;
-  updateTime(sec, usec, &lasting);  // handled by each object only for imposed movements
+  updateTime(sec, usec, &lasting);	// handled by each object only for imposed movements
 
 #if 0 //dax
   if (carrier && carrier->underControl()) {  // Manipulator
@@ -498,6 +505,7 @@ void WO::imposedMovement(time_t sec, time_t usec)
   updatePositionAndGrid(oldpos);
 }
 
+/** Elementary permanent movement */
 void WO::elemPermanentMovement(float dt)
 {
   if (isBehavior(COLLIDE_NEVER)) {
@@ -518,7 +526,7 @@ void WO::elemPermanentMovement(float dt)
   }
 }
 
-/* object permanent movement - called by world */
+/** Object permanent movement - called by world */
 void WO::permanentMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {
@@ -528,7 +536,7 @@ void WO::permanentMovement(time_t sec, time_t usec)
 
   if (move.perm_sec > 0) {	// is permanent movement activated ?
     Pos oldpos = pos;
-    copyPosAndBB(oldpos);
+    copyPositionAndBB(oldpos);
 
     float lasting = static_cast<float>((sec - move.perm_sec)) + static_cast<float>((usec - move.perm_usec) / 1e6);
     move.perm_sec = sec;
@@ -572,6 +580,7 @@ void WO::permanentMovement(time_t sec, time_t usec)
   }
 }
 
+/** Moves an object */
 void WO::moveObject(WO *po, void *d, time_t s, time_t u)
 {
   if (! po->carrier) {
@@ -579,12 +588,12 @@ void WO::moveObject(WO *po, void *d, time_t s, time_t u)
     po->carrier->take(po);
     po->move.manip = true;
   }
-  po->enableBehavior(NO_ELEMENTARY_MOVE); //dax carrier
-  po->initImposedMovement(5); //dax carrier
+  po->enableBehavior(NO_ELEMENTARY_MOVE); 	// carrier
+  po->initImposedMovement(5); 			// carrier
   localuser->carrier->take(po);
 }
 
-/* Moves the user towards the object */
+/** Moves the user towards the object */
 void WO::moveUserToObject(float sgn, float lttl, float attl)
 {
   if (! localuser) return;
@@ -616,11 +625,10 @@ void WO::moveUserToObject(float sgn, float lttl, float attl)
   localuser->move.next->lspeed.v[2] = dz / lttl;
   localuser->move.next->nocol = true;
   localuser->move.next->next = NULL;
-  //localuser->initImposedMovement(lttl);	// already done below !
   clearV3(localuser->move.aspeed);
 }
 
-/* Move the user at the point x,y,z */
+/** Moves the user at the point x,y,z */
 void gotoXYZ(float gox, float goy, float goz, float az)
 {
   if (! localuser) return;
@@ -649,13 +657,13 @@ void gotoXYZ(float gox, float goy, float goz, float az)
   localuser->move.next->next = NULL;
 }
 
-/* Moves the user in front of the object */
+/** Moves the user in front of the object */
 void gotoFront(WO *po, void *d, time_t s, time_t u)
 {
   po->moveUserToObject(1, 5, .5);	// lttl: 5sec attl: 1/2sec
 }
 
-/* Moves the user behind the object */
+/** Moves the user behind the object */
 void gotoBehind(WO *po, void *d, time_t s, time_t u)
 {
   po->moveUserToObject(-1, 4, 1);

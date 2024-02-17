@@ -151,7 +151,7 @@ struct Move {
  */
 class WO {
 
-public:
+ public:
   class NetObj *netop;		///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
   struct Names names;		///< names.
@@ -288,10 +288,10 @@ public:
   //
   // Intersections
   //
-public:
+ public:
   int interAABB(WO *o1, WO *o2);
 
-private:
+ private:
   int interAABB(V3 center1, V3 size1, V3 center2, V3 size2);	// static?
   /**< Computes intersection between 2 AABB (Axis Aligned Bounding Box). */
 
@@ -301,7 +301,7 @@ private:
   //
   // Actions
   //
-public:
+ public:
   void specialAction(int action, void *data, time_t sec, time_t usec);
   /**< Calls methods dedicated to each object.
    * Called by GUI.
@@ -313,7 +313,7 @@ public:
   //
   // Set, Get, Is
   //
-public:
+ public:
   void setType(uint8_t type);
   /**< Sets object type. */
 
@@ -374,7 +374,7 @@ public:
   bool isPermanent() const;
   /**< Checks if permanent object. */
 
-private:
+ private:
   bool isOwner() const;
   /**< Returns true if owner. */
 
@@ -384,7 +384,7 @@ private:
   //
   // keys
   //
-public:
+ public:
   void clearKeyTab();
   /**< Clears keys times array. */
 
@@ -397,7 +397,7 @@ public:
   //
   // Parse
   //
-public:
+ public:
   char * tokenize(char *l);
   /**< Tokenizes the line <object ... >. */
 
@@ -472,7 +472,7 @@ public:
   //
   // Network - Noid (Network Object Identifier)
   //
-public:
+ public:
   bool publishPos(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay);
   /**< Publishes position changes to the network. */
 
@@ -494,7 +494,7 @@ public:
   //
   // 3D position
   //
-public:
+ public:
   void updateCamera(Pos &pos);
   /**< Updates camera in the 3D. */
 
@@ -505,7 +505,7 @@ public:
 
   void getMaterials(GLfloat *dif, GLfloat *amb, GLfloat *spe, GLfloat *emi, GLint *shi, GLfloat *alpha);
 
-private:
+ private:
   void update3D(Pos &pos);
   /**< Updates object in the 3D. */
 
@@ -518,7 +518,7 @@ private:
   //
   // Grid
   //
-public:
+ public:
   void delFromGrid();
   /**< Deletes an object from the vicinity grid. */
 
@@ -527,14 +527,14 @@ public:
   void updateGrid(const WO *pold);
   /**< Updates an object into the vicinity grid. */
 
-private:
+ private:
   void insertIntoGrid();
   /**< Adds an object into the vicinity grid. */
 
   //
   // Lists
   //
-public:
+ public:
   OList * addToList(OList * olist);
   /**< Adds an object pointer into a olist. */
 
@@ -562,7 +562,7 @@ public:
   //
   // Movements
   //
-public:
+ public:
   void enableImposedMovement();
   /**< Enables movement on an object. */
 
@@ -612,7 +612,7 @@ public:
   static void moveObject(WO *po, void *d, time_t s, time_t u);
   /**< User moves the object. */
 
-private:
+ private:
   void elemImposedMovement(float lasting);
   /**< Handles an elementary object movement. */
 
@@ -622,7 +622,7 @@ private:
   //
   // Names
   //
-public:
+ public:
   static void initNames();
   /**< inits hash_table of names. */
 
@@ -635,7 +635,7 @@ public:
   WO *getObjectByName(const char *str);
   /**< Gets an object by its name. */
 
-private:
+ private:
   void setObjectName(const char *str);
   /**< Sets an object name. */
 
@@ -645,7 +645,7 @@ private:
   //
   // Initializations
   //
-protected:
+ protected:
   void defaults()	{};
   /**< Sets default values. */
 
@@ -658,7 +658,7 @@ protected:
   void inits()		{};
   /**< Sets initializations. */
 
-public:
+ public:
   void initObject(uint8_t mode);
   /**< Initializes object. */
 
@@ -741,13 +741,11 @@ public:
   //
   // Collisions
   //
-public:
+ public:
   void generalIntersect(WO *pold, OList *vicinityList);
   /**< General intersection of objects. */
 
-  void copyPosAndBB(Pos &newpos);
-  /**< Copy object position and Bounding Box. */
-
+  void copyPositionAndBB(Pos &newpos);
   void copyPositionAndBB(WO *o);
   /**< Copy object position and Bounding Box. */
 
@@ -778,7 +776,7 @@ public:
   void updateDist();
   /**< Updating distance to localuser. */
 
-private:
+ private:
   bool ingoingNeighbor(WO *pold, WO *neighbor);
   /** Checks ingoing intersection with a neighbor. */
 
@@ -794,7 +792,7 @@ private:
   //
   // Properties
   //
-public:
+ public:
   void getProperty(uint8_t prop_id, class Payload *pp);
   /**<
    * Gets the local copy property from the payload (pp->data).
@@ -823,7 +821,7 @@ public:
   //
   // GUI
   //
-public:
+ public:
   struct GuiItem * getGui() const;
   /**< Gets the GUI handle. */
 
@@ -844,7 +842,7 @@ public:
   //
   // VSql
   //
-public:
+ public:
   bool checkPersist();
   /**< Checks if rows exists. */
 
@@ -869,7 +867,7 @@ public:
   //notused void updatePersist(int16_t state);
   //notused /**< Updates state for VSql. */
 
-protected:
+ protected:
   // GUI and network change callbacks
   static void get_xy(WO *po, class Payload *pp);
   static void get_z(WO *po, class Payload *pp);

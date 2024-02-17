@@ -37,7 +37,7 @@ enum {
 };
 
 /** Saves last position and Bounding Box of an object */
-void WO::copyPosAndBB(Pos &newpos)
+void WO::copyPositionAndBB(Pos &newpos)
 {
   newpos = pos;
 }
@@ -237,12 +237,12 @@ void WO::generalIntersect(WO *pold, OList *vicinity)
             aoi->aoiEnter();	// avatars: change mcast address
           }
         }
-        else  // other mobile objects: problem of property transfert
+        else	// other mobile objects: problem of property transfert
           ;
-        break;  // avoids a warning
+        break;	// avoids a warning
 
       default:
-        if (! neighbor->whenIntersect(this, pold)) { // call the object itself
+        if (! neighbor->whenIntersect(this, pold)) {	// call the object itself
           vl = vl->next;
           continue;
         }
@@ -374,7 +374,7 @@ bool WO::projectPosition(WO *pcur, WO *pold)
     pcur->updatePositionAndGrid(pold);
     return true;
   }
-  pold->copyPosAndBB(pcur->pos);
+  pold->copyPositionAndBB(pcur->pos);
   return false;
 }
 
