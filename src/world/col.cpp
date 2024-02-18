@@ -30,10 +30,10 @@
 
 /* intersection cases */
 enum {
-  NO_INTER,
-  IN2,
-  IN1,
-  INTERSECT
+  NO_INTER,	// no intersect
+  IN2,		// obj1 inside obj2
+  IN1,		// obj2 inside obj1
+  INTERSECT	// intersect partiel
 };
 
 /** Saves last position and Bounding Box of an object */
@@ -54,13 +54,19 @@ void WO::copyPositionAndBB(WO *o)
   }
 }
 
-/* Returns a constant describing intersection status of both Bounding Boxes */
+/**
+ * Returns a constant describing intersection status of both Bounding Boxes
+ * args are object pointers
+ */
 int WO::interAABB(WO *o1, WO *o2)
 {
   return interAABB(o1->pos.bbc, o1->pos.bbs, o2->pos.bbc, o2->pos.bbs);
 }
 
-/* Returns a constant describing intersection status of both Bounding Boxes */
+/**
+ * Returns a constant describing intersection status of both Bounding Boxes
+ * args are position centers and sizes
+ */
 int WO::interAABB(V3 center1, V3 size1, V3 center2, V3 size2)
 {
   float dcx = ABSF(center2.v[0] - center1.v[0]);
@@ -77,13 +83,13 @@ int WO::interAABB(V3 center1, V3 size1, V3 center2, V3 size2)
     return NO_INTER;	// doesn't intersect == 0
   }
   if (dcz < sz1+sz2 + 1e-3) {
-    return INTERSECT;	// intersects == 3
+    return INTERSECT;	// intersects
   }
   if ( (dcx+sx1 <= sx2) && (dcy+sy1 <= sy2) && (dcz+sz1 <= sz2) ) {
-    return IN2;		// obj1 inside obj2 == 1
+    return IN2;		// obj1 inside obj2
   }
   if ( (dcx+sx2 <= sx1) && (dcy+sy2 <= sy1) && (dcz+sz2 <= sz1) ) {
-    return IN1;		// obj2 inside obj1 == 2
+    return IN1;		// obj2 inside obj1
   }
   if ( (dcy < sy1+sy2) || (dcx < sx1+sx2) ) {
     return INTERSECT;	// == 3
@@ -91,6 +97,7 @@ int WO::interAABB(V3 center1, V3 size1, V3 center2, V3 size2)
   return NO_INTER;	// doesn't intersect == 0
 }
 
+/** interAABB vertical */
 int WO::interAABBVertical(V3 center1, V3 size1, V3 center2, V3 size2)
 {
   float dcz = ABSF(center2.v[2] - center1.v[2]);
@@ -103,6 +110,7 @@ int WO::interAABBVertical(V3 center1, V3 size1, V3 center2, V3 size2)
   return INTERSECT;
 }
 
+/** interAABB horizontal */
 int WO::interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2)
 {
   float dcx = ABSF(center2.v[0] - center1.v[0]);
@@ -118,7 +126,7 @@ int WO::interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2)
   return INTERSECT;
 }
 
-/* Checks intersection with Walls */
+/** Checks intersection with Walls */
 void WO::ingoingWalls(WO *pold)
 {
   V3 normal;
@@ -134,7 +142,7 @@ void WO::ingoingWalls(WO *pold)
     if ((ox != cx) || (oy != cy)) {
       float nn = nx*nx + ny*ny;
       if (nn == 0)  return;
-      //trace(DBG_WO, "(ox=%.2f oy=%.2f) (cx=%.2f cy=%.2f)", ox, oy, cx, cy);
+      //echo("(ox=%.2f oy=%.2f) (cx=%.2f cy=%.2f)", ox, oy, cx, cy);
       pos.y = ((nx*ny) * (ox-cx) + ny*ny*oy + nx*nx*cy) / nn;
       pos.x = ((nx*ny) * (oy-cy) + nx*nx*ox + ny*ny*cx) / nn;
 
@@ -145,7 +153,7 @@ void WO::ingoingWalls(WO *pold)
   }
 }
 
-/*
+/**
  * Checks for ingoing intersection between current object and neighbor objects.
  * There is collision if current object intersects a neighbor object
  * and if its old position didn't intersect.
@@ -157,12 +165,12 @@ bool WO::ingoingNeighbor(WO *pold, WO *neighbor)
       (interAABB(pold->pos.bbc,     pold->pos.bbs,
                  neighbor->pos.bbc, neighbor->pos.bbs) == NO_INTER)) {
 
-    // check wether the neighbor is oblique
+    // check whether the neighbor is oblique
     int az = static_cast<int>( RAD2DEG(neighbor->pos.az) ) % 90;
     int ax = static_cast<int>( RAD2DEG(neighbor->pos.ax) ) % 90;
     if (((az >= 2) && (az <= 88)) ||
         ((ax >= 2) && (ax <= 88))) {
-      //trace(DBG_FORCE, "%s is oblique az=%d ax=%d", neighbor->objectName(), az, ax);
+      //echo("%s is oblique az=%d ax=%d", neighbor->objectName(), az, ax);
       // TODO: raffinate the collision
       return true;
     }
@@ -171,7 +179,10 @@ bool WO::ingoingNeighbor(WO *pold, WO *neighbor)
   return false;
 }
 
-/* Checks for outgoing intersection (lift, step, guide, attractor,...) */
+/**
+ * Checks for outgoing intersection
+ * (lift, step, guide, attractor,...)
+ */
 bool WO::outgoingNeighbor(WO *pold, WO *neighbor)
 {
   if ((interAABB(pos.bbc,           pos.bbs,
@@ -183,19 +194,19 @@ bool WO::outgoingNeighbor(WO *pold, WO *neighbor)
   return false;
 }
 
-/*
+/**
  * General function to handle intersections
  *
- * Warning: WO *pold is an incomplete copy of *this
+ * Notice: WO *pold is an incomplete copy of *this
  */
 void WO::generalIntersect(WO *pold, OList *vicinity)
 {
   /* check walls first (maybe expensive) */
   ingoingWalls(pold);
 
-  /*
-   * check neighbors
-   */
+  //
+  // check neighbors
+  //
   int scans = 0;
   int rescans = 0;
   // held the first object
@@ -278,8 +289,8 @@ void WO::generalIntersect(WO *pold, OList *vicinity)
         }
       }
     }
-    else if (outgoingNeighbor(pold, neighbor)) { // current object leaves intersection
-      neighbor->whenIntersectOut(this, pold);
+    else if (outgoingNeighbor(pold, neighbor)) {	// current object leaves intersection
+      neighbor->whenIntersectOut(this, pold);		// handled by each object
     }
     if (vl) {
       vl = vl->next;
@@ -293,7 +304,29 @@ uint32_t WO::collideBehavior() const
 }
 
 
-/** Returns normal vectors 'normal' of still object */
+/** Returns normale vectors 'normal' of still object */
+void WO::computeNormal(Pos &mobil, Pos &still, V3 *normal)
+{
+  normal->v[2] = 1;
+  if (still.bbs.v[0] < still.bbs.v[1]) {
+    normal->v[0] = 1;
+    normal->v[1] = 0;
+  } else {
+    normal->v[0] = 0;
+    normal->v[1] = 1;
+  }
+
+  /* test which normal we take, computes dotprod */
+  float dp = (mobil.bbc.v[0] - still.bbc.v[0]) * normal->v[0]
+           + (mobil.bbc.v[1] - still.bbc.v[1]) * normal->v[1]
+           + (mobil.bbc.v[2] - still.bbc.v[2]) * normal->v[2];
+  if (dp < 0) {
+    normal->v[0] = -normal->v[0];
+    normal->v[1] = -normal->v[1];
+    normal->v[2] = -normal->v[2];
+  }
+}
+
 void WO::computeNormal(WO *mobil, V3 *normal)
 {
   float fxmin = pos.bbc.v[0] - pos.bbs.v[0];
@@ -320,29 +353,7 @@ void WO::computeNormal(WO *mobil, V3 *normal)
   }
 }
 
-void WO::computeNormal(Pos &mobil, Pos &still, V3 *normal)
-{
-  normal->v[2] = 1;
-  if (still.bbs.v[0] < still.bbs.v[1]) {
-    normal->v[0] = 1;
-    normal->v[1] = 0;
-  } else {
-    normal->v[0] = 0;
-    normal->v[1] = 1;
-  }
-
-  /* test which normal we take, computes dotprod */
-  float dp = (mobil.bbc.v[0] - still.bbc.v[0]) * normal->v[0]
-           + (mobil.bbc.v[1] - still.bbc.v[1]) * normal->v[1]
-           + (mobil.bbc.v[2] - still.bbc.v[2]) * normal->v[2];
-  if (dp < 0) {
-    normal->v[0] = -normal->v[0];
-    normal->v[1] = -normal->v[1];
-    normal->v[2] = -normal->v[2];
-  }
-}
-
-/* Projete le mouvement de l'objet mobile parallelement a l'objet fixe */
+/** Projete le mouvement de l'objet mobile parallelement a l'objet fixe */
 int WO::projectPositionOnObstacle(Pos &mobil, Pos &mobilold, Pos &obstacle)
 {
   V3 normal;
@@ -403,14 +414,16 @@ void WO::bounceTrajectory(WO *pold, V3 *normal)
   move.lspeed.v[2] = (vzn - 2*dp*nz) * nn;
 }
 
-//
-// GRID vicinity
-//
+/**
+ *
+ * GRID vicinity
+ *
+ */
 
 static uint8_t dim[3];
 static V3 dist;
 
-// sets locals
+/** sets locals */
 void World::localGrid()
 {
   for (int i=0; i<3 ; i++) {
@@ -456,7 +469,8 @@ void WO::insertIntoGrid()
   }
 }
 
-/** Deletes an object from the vicinity grid.
+/**
+ * Deletes an object from the vicinity grid.
  *  This estimation doesn't work 100%.
  *  Doing the above reduces crash rate when sending a bunch of darts.
  */

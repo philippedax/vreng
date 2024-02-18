@@ -286,7 +286,7 @@ class WO {
   /**< Deletes solids from solidList. */
 
   //
-  // Intersections
+  // Intersections (see col.cpp)
   //
  public:
   int interAABB(WO *o1, WO *o2);
@@ -325,9 +325,10 @@ class WO {
 
   void getDim(V3 &dim);
   void getRelBB(V3 &center, V3 &size);
+
   //notused void getAbsBB(V3 &center, V3 &size);
   //notused void getCent(V3 &center);
-  /**< Gets relative or absolute center and size of solid. */
+  //notused /**< Gets relative or absolute center and size of solid. */
 
   uint8_t getFrames();
   /**< Gets number of frames of this solid. */
@@ -382,7 +383,7 @@ class WO {
   /**< Initialize owner. */
 
   //
-  // keys
+  // keys (see move.cpp)
   //
  public:
   void clearKeyTab();
@@ -395,7 +396,7 @@ class WO {
   /**< Modifies user position in one direction. */
 
   //
-  // Parse
+  // Parsing vre lines (see parse.cpp)
   //
  public:
   char * tokenize(char *l);
@@ -516,7 +517,7 @@ class WO {
   /**< Updates object's Bounding Box. */
 
   //
-  // Grid
+  // Grid (see col.cpp)
   //
  public:
   void delFromGrid();
@@ -532,7 +533,7 @@ class WO {
   /**< Adds an object into the vicinity grid. */
 
   //
-  // Lists
+  // Lists (see olist.cpp)
   //
  public:
   OList * addToList(OList * olist);
@@ -560,7 +561,7 @@ class WO {
   /**< Gets an object by its num. */
 
   //
-  // Movements
+  // Movements (see move.cpp)
   //
  public:
   void enableImposedMovement();
@@ -643,7 +644,7 @@ class WO {
   /**< Gets a name by its id. */
 
   //
-  // Initializations
+  // Initializations (see wobject.cpp)
   //
  protected:
   void defaults()	{};
@@ -739,7 +740,7 @@ class WO {
   /**< Returns collide behavior. */
 
   //
-  // Collisions
+  // Collisions (see col.cpp)
   //
  public:
   void generalIntersect(WO *pold, OList *vicinityList);
@@ -752,10 +753,8 @@ class WO {
   int projectPositionOnObstacle(Pos &pcur, Pos &pold, Pos &obstacle);
   /**< Projects object position on an obstacle. */
 
-  void computeNormal(WO *mobil, V3 *normal);
-  /**< Computes the normal of an object. */
-
   void computeNormal(Pos &mobil, Pos &stil, V3 *normal);
+  void computeNormal(WO *mobil, V3 *normal);
   /**< Computes the normal of still object. */
 
   bool projectPosition(WO *pcur, WO *pold);
