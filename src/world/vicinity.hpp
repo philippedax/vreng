@@ -89,16 +89,18 @@ class Vicinity {
 
   /* private methods */
 
-  static Dist computeDist(WO *obj1, WO *obj2);
-  static Size computeSize(WO *obj);
+  // eval methods
+  static Dist evalDist(WO *obj1, WO *obj2);
+  static Size evalSize(WO *obj);
 
-  static int compDist(const void *t1, const void *t2);
+  // compare and sort methods
+  static int cmpDist(const void *t1, const void *t2);
   void sortDist();
 
-  static int compInterest(const void *t1, const void *t2);
+  static int cmpInterest(const void *t1, const void *t2);
   void sortInterest();
 
-  static int compVisual(const void *t1, const void *t2);
+  static int cmpVisual(const void *t1, const void *t2);
   void sortVisual();
 
   bool uselessType(WO *obj);

@@ -47,8 +47,8 @@ Vicinity::Vicinity()
   listSize = 0;
   for (list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
     if (uselessType((*il)->object())) continue;
-    vicinList[listSize].size = computeSize((*il)->object());
-    vicinList[listSize].dist = computeDist((*il)->object(), obj);
+    vicinList[listSize].size = evalSize((*il)->object());
+    vicinList[listSize].dist = evalDist((*il)->object(), obj);
     vicinList[listSize].object = (*il)->object();
     listSize++;
   }
@@ -64,19 +64,19 @@ Vicinity::Vicinity(string objectName)
   // On cherche l'objet dans la liste
   obj = NULL;
   obj->getObjectByName(objName.c_str());
-  //echo("J'ai trouve l'objet %s dans la liste des objets",obj->objectName());
+  //echo("found object %s in the list of objects", obj->objectName());
 
   setSize(localuser);
-  userDist = computeDist(user, obj);
-  objSize = computeSize(obj);
+  userDist = evalDist(user, obj);
+  objSize = evalSize(obj);
 
   vector<Vicin> vicinList(solidLst.size());
 
   listSize = 0;
   for (list<Solid*>::iterator il = solidLst.begin(); il != solidLst.end() ; ++il) {
     if (uselessType((*il)->object())) continue;
-    vicinList[listSize].size = computeSize((*il)->object());
-    vicinList[listSize].dist = computeDist((*il)->object(), obj);
+    vicinList[listSize].size = evalSize((*il)->object());
+    vicinList[listSize].dist = evalDist((*il)->object(), obj);
     vicinList[listSize].object = (*il)->object();
     listSize++;
   }
@@ -84,7 +84,7 @@ Vicinity::Vicinity(string objectName)
   //compile error// free(objName);
 }
 
-// Evaluate size of the avatar
+/** Evaluates the size of the avatar */
 void Vicinity::setSize(WO *user)
 {
   if      ((user->pos.bbs.v[0] > 10) && (user->pos.bbs.v[1] > 4) && (user->pos.bbs.v[2] > 4))
@@ -105,7 +105,8 @@ Vicinity::~Vicinity()
   vicinList = NULL;
 }
 
-Vicinity::Dist Vicinity::computeDist(WO *obj1, WO *obj2)
+/** Evaluates the distance between 2 objects */
+Vicinity::Dist Vicinity::evalDist(WO *obj1, WO *obj2)
 {
   float posobj1[6];
   float posobj2[6];
@@ -172,11 +173,12 @@ Vicinity::Dist Vicinity::computeDist(WO *obj1, WO *obj2)
     return DIST_STUCK;
   if ((inclusion[0] == DIST_INTER) || (inclusion[1] == DIST_INTER) || (inclusion[2] == DIST_INTER))
     return DIST_INTER;
-  echo("computeDist: default distance");
+  echo("evaeDist: default distance");
   return DIST_INTER;
 }
 
-Vicinity::Size Vicinity::computeSize(WO *obj)
+/** Evaluates the size of an object */
+Vicinity::Size Vicinity::evalSize(WO *obj)
 {
   Size size = SIZE_NORMAL;
 
@@ -202,7 +204,7 @@ Vicinity::Size Vicinity::computeSize(WO *obj)
   return size;
 }
 
-int Vicinity::compDist(const void *t1, const void *t2)
+int Vicinity::cmpDist(const void *t1, const void *t2)
 {
   Vicin s1 = *((Vicin*) t1);
   Vicin s2 = *((Vicin*) t2);
@@ -217,10 +219,10 @@ int Vicinity::compDist(const void *t1, const void *t2)
 
 void Vicinity::sortDist()
 {
-  qsort((void *)vicinList, listSize, sizeof(vicinList[0]), compDist);
+  qsort((void *)vicinList, listSize, sizeof(vicinList[0]), cmpDist);
 }
 
-int Vicinity::compInterest(const void *t1, const void *t2)
+int Vicinity::cmpInterest(const void *t1, const void *t2)
 {
   Vicin s1 = *((Vicin*) t1);
   Vicin s2 = *((Vicin*) t2);
@@ -239,8 +241,8 @@ int Vicinity::compInterest(const void *t1, const void *t2)
 
   // un objet grand et pres est plus important qu'un objet petit et loin
   if ((size1 > size2) && (dist1 > dist2)) {
-    int distu1 = int( computeDist(localuser, s1.object) );
-    int distu2 = int( computeDist(localuser, s2.object) );
+    int distu1 = int( evalDist(localuser, s1.object) );
+    int distu2 = int( evalDist(localuser, s2.object) );
 
     // si un objet est grand loin size1 dist1 et un autre petit pres size2 dist2
     // on regarde la distance de leur centre a l'utilisateur.
@@ -248,8 +250,8 @@ int Vicinity::compInterest(const void *t1, const void *t2)
     else                 return -1;
   }
   if ((size1 < size2) && (dist1 < dist2)) {
-    int distu1 = int( computeDist(localuser, s1.object) );
-    int distu2 = int( computeDist(localuser, s2.object) );
+    int distu1 = int( evalDist(localuser, s1.object) );
+    int distu2 = int( evalDist(localuser, s2.object) );
     if (distu1 > distu2) return 1;
     else                 return -1;
   }
@@ -260,7 +262,7 @@ int Vicinity::compInterest(const void *t1, const void *t2)
 
 void Vicinity::sortInterest()
 {
-  qsort((void *)vicinList, listSize, sizeof(Vicin), compInterest);
+  qsort((void *)vicinList, listSize, sizeof(Vicin), cmpInterest);
 }
 
 WO* Vicinity::searchProximityObject(char** typeObj, int nb)
@@ -330,14 +332,14 @@ bool Vicinity::uselessType(WO *obj)
 {
   if (! obj) return true;
 
-  if (!strcasecmp(obj->typeName(), "ground")) return true;
-  if (!strcasecmp(obj->typeName(), "wall")) return true;
-  if (!strcasecmp(obj->typeName(), "user")) return true;
+  if (! strcasecmp(obj->typeName(), "ground")) return true;
+  if (! strcasecmp(obj->typeName(), "wall")) return true;
+  if (! strcasecmp(obj->typeName(), "user")) return true;
 
   return false;
 }
 
-int Vicinity::compVisual(const void *t1, const void *t2)
+int Vicinity::cmpVisual(const void *t1, const void *t2)
 {
   VisualPos s1 = *((VisualPos*) t1);
   VisualPos s2 = *((VisualPos*) t2);
@@ -350,7 +352,7 @@ int Vicinity::compVisual(const void *t1, const void *t2)
 
 void Vicinity::sortVisual()
 {
-  qsort((void *)visualList, visualListSize, sizeof(VisualPos), compVisual);
+  qsort((void *)visualList, visualListSize, sizeof(VisualPos), cmpVisual);
 }
 
 /**
