@@ -366,30 +366,18 @@ void WO::disablePermanentMovement()
   move.perm_usec = 0;
 }
 
-/** Checks the current vicinity */
-void WO::checkVicinity(WO *pold)
-{
-  OList *vicinity = getVicinity(pold);
-  if (vicinity) {
-
-    generalIntersect(pold, vicinity);	// handled by each object
-
-    vicinity->remove();
-  }
-}
-
 /** Elementary user movement */
 void User::elemUserMovement(const float tabdt[])
 {
-  WO *o = new WO();
-  copyPositionAndBB(o);	// keep oldpos for intersection
+  WO *wo = new WO();
+  copyPositionAndBB(wo);	// keep oldpos for intersection
 
   changePosition(tabdt);
 
-  checkPosition();	// sanity check
+  checkPosition();		// sanity check
   updatePosition();
-  checkVicinity(o);
-  delete o;
+  checkVicinity(wo);
+  delete wo;
 }
 
 /** User general movement */
@@ -398,7 +386,7 @@ void User::userMovement(time_t sec, time_t usec)
   Pos oldpos = pos;
   float keylastings[MAXKEYS];
 
-  copyPositionAndBB(oldpos);  // keep oldpos for network
+  copyPositionAndBB(oldpos);	// keep oldpos for network
   updateKeys(sec, usec);
   updateTime(keylastings);
 
@@ -442,10 +430,10 @@ void WO::elemImposedMovement(float dt)
   updatePosition();
 
   if (! isBehavior(COLLIDE_NEVER)) {
-    WO *pold = new WO();
-    copyPositionAndBB(pold);	// keep oldpos for intersection
-    checkVicinity(pold);
-    delete pold;
+    WO *wo = new WO();
+    copyPositionAndBB(wo);	// keep oldpos for intersection
+    checkVicinity(wo);
+    delete wo;
   }
 }
 
@@ -513,14 +501,14 @@ void WO::elemPermanentMovement(float dt)
     update3D(pos);
     return;
   }
-  WO *pold = new WO();
-  copyPositionAndBB(pold);	// keep oldpos for intersection
+  WO *wo = new WO();
+  copyPositionAndBB(wo);	// keep oldpos for intersection
 
   changePermanent(dt);		// handled by each object
 
   updatePosition();
-  checkVicinity(pold);
-  delete pold;
+  checkVicinity(wo);
+  delete wo;
   if (this == localuser) {
     localuser->checkPosition();	// check out-of-bounds
   }

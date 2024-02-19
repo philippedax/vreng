@@ -127,7 +127,7 @@ int WO::interAABBHorizontal(V3 center1, V3 size1, V3 center2, V3 size2)
 }
 
 /** Checks intersection with Walls */
-void WO::ingoingWalls(WO *pold)
+void WO::ingoingWalls(WO *wo)
 {
   V3 normal;
 
@@ -136,8 +136,8 @@ void WO::ingoingWalls(WO *pold)
     float ny = normal.v[1];
     float cx = pos.x;
     float cy = pos.y;
-    float ox = pold->pos.x;
-    float oy = pold->pos.y;
+    float ox = wo->pos.x;
+    float oy = wo->pos.y;
 
     if ((ox != cx) || (oy != cy)) {
       float nn = nx*nx + ny*ny;
@@ -147,9 +147,9 @@ void WO::ingoingWalls(WO *pold)
       pos.x = ((nx*ny) * (oy-cy) + nx*nx*ox + ny*ny*cx) / nn;
 
       // user position has changed => need to update BBs
-      updatePositionAndGrid(pold);
+      updatePositionAndGrid(wo);
     }
-    pold->copyPositionAndBB(this);
+    wo->copyPositionAndBB(this);
   }
 }
 
@@ -158,11 +158,11 @@ void WO::ingoingWalls(WO *pold)
  * There is collision if current object intersects a neighbor object
  * and if its old position didn't intersect.
  */
-bool WO::ingoingNeighbor(WO *pold, WO *neighbor)
+bool WO::ingoingNeighbor(WO *wo, WO *neighbor)
 {
   if ((interAABB(pos.bbc,           pos.bbs,
                  neighbor->pos.bbc, neighbor->pos.bbs) != NO_INTER) &&
-      (interAABB(pold->pos.bbc,     pold->pos.bbs,
+      (interAABB(wo->pos.bbc,       wo->pos.bbs,
                  neighbor->pos.bbc, neighbor->pos.bbs) == NO_INTER)) {
 
     // check whether the neighbor is oblique
@@ -183,11 +183,11 @@ bool WO::ingoingNeighbor(WO *pold, WO *neighbor)
  * Checks for outgoing intersection
  * (lift, step, guide, attractor,...)
  */
-bool WO::outgoingNeighbor(WO *pold, WO *neighbor)
+bool WO::outgoingNeighbor(WO *wo, WO *neighbor)
 {
   if ((interAABB(pos.bbc,           pos.bbs,
                  neighbor->pos.bbc, neighbor->pos.bbs) == NO_INTER) &&
-      (interAABB(pold->pos.bbc,     pold->pos.bbs,
+      (interAABB(wo->pos.bbc,       wo->pos.bbs,
                  neighbor->pos.bbc, neighbor->pos.bbs) != NO_INTER)) {
     return true;
   }
@@ -197,12 +197,12 @@ bool WO::outgoingNeighbor(WO *pold, WO *neighbor)
 /**
  * General function to handle intersections
  *
- * Notice: WO *pold is an incomplete copy of *this
+ * Notice: WO *wo is an incomplete copy of *this
  */
-void WO::generalIntersect(WO *pold, OList *vicinity)
+void WO::generalIntersect(WO *wo, OList *vicinity)
 {
   /* check walls first (maybe expensive) */
-  ingoingWalls(pold);
+  ingoingWalls(wo);
 
   //
   // check neighbors
@@ -238,7 +238,7 @@ void WO::generalIntersect(WO *pold, OList *vicinity)
       continue;
     }
 
-    if (ingoingNeighbor(pold, neighbor)) {
+    if (ingoingNeighbor(wo, neighbor)) {
       // current object intersects and its old instance didn't intersect
       switch (neighbor->type) {
       case AOI_TYPE:
@@ -253,7 +253,7 @@ void WO::generalIntersect(WO *pold, OList *vicinity)
         break;	// avoids a warning
 
       default:
-        if (! neighbor->whenIntersect(this, pold)) {	// call the object itself
+        if (! neighbor->whenIntersect(this, wo)) {	// call the object itself
           vl = vl->next;
           continue;
         }
@@ -289,8 +289,8 @@ void WO::generalIntersect(WO *pold, OList *vicinity)
         }
       }
     }
-    else if (outgoingNeighbor(pold, neighbor)) {	// current object leaves intersection
-      neighbor->whenIntersectOut(this, pold);		// handled by each object
+    else if (outgoingNeighbor(wo, neighbor)) {		// current object leaves intersection
+      neighbor->whenIntersectOut(this, wo);		// handled by each object
     }
     if (vl) {
       vl = vl->next;
@@ -379,20 +379,20 @@ int WO::projectPositionOnObstacle(Pos &mobil, Pos &mobilold, Pos &obstacle)
 }
 
 /** Project position on the obstacle */
-bool WO::projectPosition(WO *pcur, WO *pold)
+bool WO::projectPosition(WO *pcur, WO *wo)
 {
-  if (projectPositionOnObstacle(pcur->pos, pold->pos, pos)) {
-    pcur->updatePositionAndGrid(pold);
+  if (projectPositionOnObstacle(pcur->pos, wo->pos, pos)) {
+    pcur->updatePositionAndGrid(wo);
     return true;
   }
-  pold->copyPositionAndBB(pcur->pos);
+  wo->copyPositionAndBB(pcur->pos);
   return false;
 }
 
 /** Bounce position, we do not change the position, we only change the deltas */
-void WO::bounceTrajectory(WO *pold, V3 *normal)
+void WO::bounceTrajectory(WO *wo, V3 *normal)
 {
-  pold->copyPositionAndBB(this);
+  wo->copyPositionAndBB(this);
 
   float nx = normal->v[0];
   float ny = normal->v[1];
@@ -550,6 +550,18 @@ void WO::updateGrid(const Pos& oldpos)
     bbmaxold[i] = oldpos.bbc.v[i] + oldpos.bbs.v[i];
   }
   updateGrid(bbminnew, bbmaxnew, bbminold, bbmaxold);
+}
+
+/** Checks the current vicinity */
+void WO::checkVicinity(WO *wo)
+{
+  OList *vicinity = getVicinity(wo);
+  if (vicinity) {
+
+    generalIntersect(wo, vicinity);   // check intersect
+
+    vicinity->remove();
+  }
 }
 
 /**

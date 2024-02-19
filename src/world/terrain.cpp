@@ -26,10 +26,10 @@ const OClass Terrain::oclass(TERRAIN_TYPE, "Terrain", Terrain::creator);
 
 const uint8_t Terrain::DEF_LEVEL = 6;
 const GLfloat Terrain::DEF_WIDTH = 30;
-const GLfloat Terrain::DEF_HEIGHT = 0.1;		// 10 cm
+const GLfloat Terrain::DEF_HEIGHT = 0.2;		// 20 cm
 const GLfloat Terrain::DEF_DIV = 1.85;
 const GLfloat Terrain::DEF_SCALE = 100;
-const GLfloat Terrain::DEF_COLOR[4] = {0,1,0,1};	// green
+const GLfloat Terrain::DEF_COLOR[4] = {1,1,.5,1};	// ocre
 
 
 WO * Terrain::creator(char *l)
@@ -67,7 +67,6 @@ void Terrain::parser(char *l)
 
 void Terrain::behaviors()
 {
-  //dax enableBehavior(NO_BBABLE);
   enableBehavior(SPECIFIC_RENDER);
 }
 
@@ -75,7 +74,7 @@ void Terrain::geometry()
 {
   char s[128];
 
-  sprintf(s, "solid shape=\"box\" dim=\"%f %f %f\" a=\"0\"/>", width, width, height);
+  sprintf(s, "solid shape=\"box\" dim=\"%f %f %f\" amb=\"green\" a=\".9\"/>", width, width, height);
   parseSolid(s);
 }
 
@@ -102,7 +101,7 @@ Terrain::Terrain(char *l)
   inits();
 }
 
-void Terrain::heights(int l, int x, int y, float h, float f)
+void Terrain::heights(int l, int x, int y, float h, float d)
 {
   if (l == 0) return;
 
@@ -111,26 +110,27 @@ void Terrain::heights(int l, int x, int y, float h, float f)
   if (x == 0) aux_heights(x, y, x, y+w, h);
   aux_heights(x+w, y, x+w, y+w, h);
   aux_heights(x, y+w, x+w, y+w, h);
-  mesh[(x+w/2)*size+y+w/2] = ( mesh[x*size+y]
-                             + mesh[(x+w)*size+y]
-                             + mesh[x*size+y+w]
-                             + mesh[(x+w)*size+y+w]
+  mesh[(x+w/2)*size+y+w/2] = ( mesh[x*size + y]
+                             + mesh[(x+w)*size + y]
+                             + mesh[x*size+y + w]
+                             + mesh[(x+w)*size+y + w]
                              )/4;
-  float m = f * mul;
-  heights(l-1, x, y, h/f, m);
-  heights(l-1, x+w/2, y, h/f, m);
-  heights(l-1, x, y+w/2, h/f, m);
-  heights(l-1, x+w/2, y+w/2, h/f, m);
+  float m = d * mul;
+  heights(l-1, x, y, h/d, m);
+  heights(l-1, x+w/2, y, h/d, m);
+  heights(l-1, x, y+w/2, h/d, m);
+  heights(l-1, x+w/2, y+w/2, h/d, m);
 }
 
 void Terrain::aux_heights(int x1, int y1, int x2, int y2, float h)
 {
-  mesh[(x1+x2)/2*size + (y1+y2)/2] = ( mesh[x1*size +y1]
-                                     + mesh[x2*size +y2])/2
+  mesh[(x1+x2)/2*size + (y1+y2)/2] = ( mesh[x1*size + y1]
+                                     + mesh[x2*size + y2])/2
                                      + h*((rand()%21)-10
                                      )/10;
 }
 
+/** Cross product */
 void Terrain::prodvect(float x1, float y1, float z1, float x2, float y2, float z2, float *px, float *py, float *pz)
 {
   *px = y1*z2 - z1*y2;
@@ -138,6 +138,7 @@ void Terrain::prodvect(float x1, float y1, float z1, float x2, float y2, float z
   *pz = x1*y2 - y1*x2;
 }
 
+/** Adds normales */
 void Terrain::setNormales()
 {
   for (int i=0; i<size ; i++) {
@@ -154,6 +155,7 @@ void Terrain::setNormales()
   }
 }
 
+/** Draws in displaylist */
 void Terrain::draw()
 {
   dlist = glGenLists(1);
@@ -193,9 +195,10 @@ void Terrain::draw()
   glEndList();
 }
 
-/* Intersection with an object */
+/** Intersection with an object */
 bool Terrain::whenIntersect(WO *pcur, WO *pold)
 {
+  echo("terrain intersect: %s", pcur->objectName());
   pold->setLasting(0);
   pold->disablePermanentMovement();
   pold->copyPositionAndBB(pcur);
@@ -204,6 +207,7 @@ bool Terrain::whenIntersect(WO *pcur, WO *pold)
 
 void Terrain::render()
 {
+  glPushAttrib(GL_ALL_ATTRIB_BITS);
   glPushMatrix();
   glEnable(GL_COLOR_MATERIAL);
   glEnable(GL_LIGHTING);
@@ -215,6 +219,7 @@ void Terrain::render()
 
   glDisable(GL_LIGHTING);
   glPopMatrix();
+  glPopAttrib();
 }
 
 void Terrain::setColor(float z)
