@@ -58,6 +58,7 @@
 #include <list>
 using namespace std;
 
+
 // local
 
 /* max space reachable, even values */
@@ -74,7 +75,7 @@ class OList* World::gridArray[GRIDX][GRIDY][GRIDZ];
 World* World::worldList = NULL;
 
 
-/* World constructor */
+/** World constructor */
 World::World()
 {
   new_world++;
@@ -111,7 +112,7 @@ World::World()
   addList();
 }
 
-/* Adds world into world list */
+/** Adds world into world list */
 void World::addList()
 {
   if (!worldList) {	// first world encountered
@@ -126,17 +127,19 @@ void World::addList()
   //dumpworldList("debug");
 }
 
-/* Gets current world */
+/** Gets current world */
 World * World::current()
 {
   return worldList;	// head of the worlds list
 }
 
+/** Gets the gui pointer */
 struct GuiItem* World::getGui() const
 {
   return guip;
 }
 
+/** Is gui valid ? */
 bool World::isGui() const
 {
   return (guip) ? true : false;
@@ -147,7 +150,7 @@ void World::resetGui()
   guip = NULL;
 }
 
-/* Sets local world name */
+/** Sets local world name */
 void World::setName(const char *urlOrName)
 {
   // Find the begining of the last path component
@@ -172,7 +175,7 @@ const char* World::getName() const
   return name;
 }
 
-/* Check whether this url has been already loaded - static */
+/** Check whether this url has been already loaded - static */
 World * World::worldByUrl(const char *url)
 {
   if (! url) return NULL;	// sandbox world
@@ -191,6 +194,7 @@ World * World::worldByUrl(const char *url)
   return NULL;	// world not found
 }
 
+/** Gets a world by its group number */
 World * World::worldByGroup(uint32_t group)
 {
   for (World *w = worldList; w ; w = w->next) {
@@ -222,7 +226,7 @@ void World::setManagerChanAndJoin(const char *chan_str)
   Channel::joinManager(world_manager->chan, chan_str);
 }
 
-/* Sets the channel name */
+/** Sets the channel name */
 bool World::setChan(const char *chan_str)
 {
   if (! chan_str) {
@@ -245,7 +249,7 @@ bool World::setChan(const char *chan_str)
   return true;
 }
 
-/* Sets the channel name and Joins the new channel */
+/** Sets the channel name and Joins the new channel */
 void World::setChanAndJoin(char *chan_str)
 {
   if (setChan(chan_str)) {
@@ -253,33 +257,38 @@ void World::setChanAndJoin(char *chan_str)
   }
 }
 
-/* Gets the current channel string */
+/** Gets the current channel string */
 const char* World::getChan() const	//FIXME (char *chan)
 {
   return chan;
 }
 
+/** Gets localuser */
 User* World::localUser() const
 {
   return localuser;
 }
 
+/** Gets background color */
 Bgcolor* World::backgroundColor() const
 {
   return bgcolor;
 }
 
+/** Gets the world's url */
 const char* World::getUrl() const
 {
   return url;
 }
 
+/** Sets the world's url */
 void World::setUrl(const char* _url)
 {
   url = new char[strlen(_url) + 1];
   strcpy(url, _url);
 }
 
+/** Sets the ground's level */
 void World::setGround(float level)
 {
   ground = level;
@@ -374,12 +383,12 @@ void World::compute(time_t sec, time_t usec)
     }
 
     //
-    //  removes objects scheduled to be deleted
+    // Removes objects scheduled to be deleted
     //
     deleteObjects();
 
     //
-    // objects with imposed or permanent movements
+    // objects movement with imposed or permanent movements
     //
     for (list<WO*>::iterator it = mobileList.begin(); it != mobileList.end(); ++it) {
       (*it)->imposedMovement(sec, usec);	// object with imposed movement
@@ -392,8 +401,8 @@ void World::compute(time_t sec, time_t usec)
   }
 }
 
-/* Calls a world */
-// virtual private
+/** Calls a world */
+// private
 bool World::call(World *w)
 {
   if (w->linked) {
@@ -423,7 +432,7 @@ bool World::call(World *w)
   return true;		// success
 }
 
-/* Go to the previous World */
+/** Go to the previous World */
 // static
 World * World::goPrev()
 {
@@ -451,7 +460,7 @@ World * World::goPrev()
   return NULL;
 }
 
-/* Go to the next World */
+/** Go to the next World */
 // static
 World * World::goNext()
 {
@@ -477,7 +486,7 @@ World * World::goNext()
   return NULL;
 }
 
-/* Exchange Worlds in the list */
+/** Exchange Worlds in the list */
 // static
 World * World::swap(World *w)
 {
@@ -499,9 +508,9 @@ World * World::swap(World *w)
   return worldList;
 }
 
-//
-// Vicinity Grid
-//
+/**
+ * Vicinity Grid
+ */
 
 void World::initGrid()
 { 
@@ -528,7 +537,7 @@ void World::clearGrid()
   }
 }
 
-/* Check and load my proper icons - static */
+/** Check and load my proper icons - static */
 void World::checkIcons()
 {
   chdir(::g.env.icons());
@@ -576,7 +585,7 @@ void World::checkIcons()
   chdir(::g.env.cwd());
 }
 
-/* Check whether other objects are persistents */
+/** Check whether other objects are persistents */
 void World::checkPersist()
 {
   VSql *vsql = new VSql();     // first take the VSql handle;
@@ -623,7 +632,7 @@ void World::checkPersist()
   }
 }
 
-/* world reader - static */
+/** world reader - static */
 void World::worldReader(void *_url, Http *http)
 {
   char *url = static_cast<char *>(_url);
@@ -686,7 +695,7 @@ httpread:
   return;
 }
 
-/* General World Initialization - static */
+/** General World Initialization - static */
 void World::init(const char *url)
 {
   //
@@ -750,15 +759,16 @@ void World::init(const char *url)
   user->bubble = new Bubble(user, welcome, Color::red, Bubble::BUBBLEVERSO);
 }
 
-/* Quits the current World */
+/** Quits the current World */
 void World::quit()
 {
   trace(DBG_WO, "quit %s", getName());
   state = STOPPED;
 
-  /*
-   * Quits and deletes objects
-   */
+  //
+  // Quits and deletes objects
+  //
+
   // invisible objects
   for (vector<WO*>::iterator it = invisList.begin(); it != invisList.end(); ++it) {
     if ((*it)->deleted) continue;
@@ -826,7 +836,7 @@ void World::quit()
   Tool::quitTools();		// quits all tools
 }
 
-/* New World initialization - static */
+/** New World initialization - static */
 World * World::enter(const char *url, const char *chanstr, bool isnew)
 {
   trace(DBG_WO, "world enter");
@@ -949,7 +959,7 @@ World * World::enter(const char *url, const char *chanstr, bool isnew)
   return world;
 }
 
-/* Deletes all objects dropped in the deleteList - static */
+/** Deletes all objects dropped in the deleteList - static */
 void World::deleteObjects()
 {
   for (vector<WO*>::iterator it = deleteList.begin(); it != deleteList.end(); ++it) {
@@ -969,7 +979,7 @@ void World::deleteObjects()
   deleteList.clear();
 }
 
-/* Clears all lists */
+/** Clears all lists */
 void World::clearLists()
 {
   objectList.clear();
@@ -982,6 +992,7 @@ void World::clearLists()
   lightList.clear();
 }
 
+/** Lists world list - debug */
 void World::dumpworldList(const char *note)
 {
   int i=0;
