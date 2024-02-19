@@ -72,6 +72,7 @@ extern std::vector<WO*> lightList;
  * identifies a distributed object.
  */
 class WOId {
+
  public:
   uint32_t src_id;	///< IPaddr src
   uint16_t port_id;	///< port
@@ -113,6 +114,7 @@ struct Names {
  * spatial position and bounding-box.
  */
 struct Pos {
+
  public:
   float x;		///< x absolute position.
   float y;		///< y absolute position.
@@ -257,7 +259,7 @@ class WO {
   virtual bool whenIntersectOut(WO *pcur, WO *pold)	{ return false; }
   /**< Handles an outgoing collision with another object. */
 
-  virtual void whenWallsIntersect(WO *pold, V3 *norm)	{}
+  virtual void whenWallsIntersect(WO *wo, V3 *norm)	{}
   /**< Handles collisions with walls. */
 
   virtual void render()					{}
@@ -288,6 +290,7 @@ class WO {
   //
   // Intersections (see col.cpp)
   //
+
  public:
   int interAABB(WO *o1, WO *o2);
 
@@ -301,6 +304,7 @@ class WO {
   //
   // Actions
   //
+
  public:
   void specialAction(int action, void *data, time_t sec, time_t usec);
   /**< Calls methods dedicated to each object.
@@ -313,6 +317,7 @@ class WO {
   //
   // Set, Get, Is
   //
+
  public:
   void setType(uint8_t type);
   /**< Sets object type. */
@@ -385,6 +390,7 @@ class WO {
   //
   // keys (see move.cpp)
   //
+
  public:
   void clearKeyTab();
   /**< Clears keys times array. */
@@ -398,6 +404,7 @@ class WO {
   //
   // Parsing vre lines (see parse.cpp)
   //
+
  public:
   char * tokenize(char *l);
   /**< Tokenizes the line <object ... >. */
@@ -473,6 +480,7 @@ class WO {
   //
   // Network - Noid (Network Object Identifier)
   //
+
  public:
   bool publishPos(const Pos &oldpos, int propxy, int propz, int propaz, int propax, int propay);
   /**< Publishes position changes to the network. */
@@ -495,6 +503,7 @@ class WO {
   //
   // 3D position
   //
+
  public:
   void updateCamera(Pos &pos);
   /**< Updates camera in the 3D. */
@@ -519,13 +528,14 @@ class WO {
   //
   // Grid (see col.cpp)
   //
+
  public:
   void delFromGrid();
   /**< Deletes an object from the vicinity grid. */
 
   void updateGrid(const float *bbminnew, const float *bbmaxnew, const float *bbminold, const float *bbmaxold);
   void updateGrid(const Pos &oldpos);
-  void updateGrid(const WO *pold);
+  void updateGrid(const WO *wo);
   /**< Updates an object into the vicinity grid. */
 
  private:
@@ -535,6 +545,7 @@ class WO {
   //
   // Lists (see olist.cpp)
   //
+
  public:
   OList * addToList(OList * olist);
   /**< Adds an object pointer into a olist. */
@@ -551,10 +562,10 @@ class WO {
   OList * addListToList(OList * list1, OList * list2);
   /**< Concatenation (test of "ispointed") of list pointers on an object. */
 
-  OList * getVicinity(const WO *pold);
+  OList * getVicinity(const WO *wo);
   /**< Returns list of pointers on objects touching cell where is the object. */
 
-  void checkVicinity(WO *pold);
+  void checkVicinity(WO *wo);
   /**< Checks whether vicinity. */
 
   static WO * byNum(uint16_t num); // to become virtual !
@@ -563,6 +574,7 @@ class WO {
   //
   // Movements (see move.cpp)
   //
+
  public:
   void enableImposedMovement();
   /**< Enables movement on an object. */
@@ -623,6 +635,7 @@ class WO {
   //
   // Names
   //
+
  public:
   static void initNames();
   /**< inits hash_table of names. */
@@ -742,25 +755,26 @@ class WO {
   //
   // Collisions (see col.cpp)
   //
+
  public:
-  void generalIntersect(WO *pold, OList *vicinityList);
+  void generalIntersect(WO *wo, OList *vicinityList);
   /**< General intersection of objects. */
 
   void copyPositionAndBB(Pos &newpos);
   void copyPositionAndBB(WO *o);
   /**< Copy object position and Bounding Box. */
 
-  int projectPositionOnObstacle(Pos &pcur, Pos &pold, Pos &obstacle);
+  int projectPositionOnObstacle(Pos &pcur, Pos &wo, Pos &obstacle);
   /**< Projects object position on an obstacle. */
 
   void computeNormal(Pos &mobil, Pos &stil, V3 *normal);
   void computeNormal(WO *mobil, V3 *normal);
   /**< Computes the normal of still object. */
 
-  bool projectPosition(WO *pcur, WO *pold);
+  bool projectPosition(WO *pcur, WO *wo);
   /**< Projects object position. */
 
-  void bounceTrajectory(WO *pold, V3 *norm);
+  void bounceTrajectory(WO *wo, V3 *norm);
   /**< Intersects with wall. */
 
   void updatePosition();
@@ -769,20 +783,20 @@ class WO {
   void updatePositionAndGrid(Pos &oldpos);
   /**< Updating 3D and grid position. */
 
-  void updatePositionAndGrid(WO *pold);
+  void updatePositionAndGrid(WO *wo);
   /**< Updating 3D and grid position. */
 
   void updateDist();
   /**< Updating distance to localuser. */
 
  private:
-  bool ingoingNeighbor(WO *pold, WO *neighbor);
+  bool ingoingNeighbor(WO *wo, WO *neighbor);
   /** Checks ingoing intersection with a neighbor. */
 
-  bool outgoingNeighbor(WO *pold, WO *neighbor);
+  bool outgoingNeighbor(WO *wo, WO *neighbor);
   /** Checks outgoing intersection with a neighbor. */
 
-  void ingoingWalls(WO *pold);
+  void ingoingWalls(WO *wo);
   /** Checks ingoing intersection with walls. */
 
   void initPosition();
@@ -791,6 +805,7 @@ class WO {
   //
   // Properties
   //
+
  public:
   void getProperty(uint8_t prop_id, class Payload *pp);
   /**<
@@ -820,6 +835,7 @@ class WO {
   //
   // GUI
   //
+
  public:
   struct GuiItem * getGui() const;
   /**< Gets the GUI handle. */
@@ -841,6 +857,7 @@ class WO {
   //
   // VSql
   //
+
  public:
   bool checkPersist();
   /**< Checks if rows exists. */
