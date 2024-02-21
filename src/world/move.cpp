@@ -279,16 +279,19 @@ void User::changePosition(const float lastings[])
   }
 }
 
+/** Sets max lasting */
 void WO::setLasting(float maxlast)
 {
   setMaxLastings(type, maxlast);
 }
 
+/** Gets max lasting */
 float WO::getLasting() const
 {
   return getMaxLastings(type);
 }
 
+/** Returns delta time */
 float WO::diffTime(time_t sec, time_t usec)
 {
   return static_cast<float>((sec - move.sec)) + (static_cast<float>((usec - move.usec) / 1e6));
@@ -345,6 +348,7 @@ void WO::enablePermanentMovement(float speed)
   enablePermanentMovement();
 }
 
+/** Sets uniform linear speed */
 void WO::setLinearSpeed(float lspeed)
 {
   move.lspeed.v[0] = lspeed;
@@ -352,12 +356,14 @@ void WO::setLinearSpeed(float lspeed)
   move.lspeed.v[2] = lspeed;
 }
 
+#if 0 //notused
 void WO::setAngularSpeed(float aspeed)
 {
   move.aspeed.v[0] = aspeed;
   move.aspeed.v[1] = aspeed;
   move.aspeed.v[2] = aspeed;
 }
+#endif //notused
 
 /** Disables a permanent movement */
 void WO::disablePermanentMovement()
@@ -370,7 +376,7 @@ void WO::disablePermanentMovement()
 void User::elemUserMovement(const float tabdt[])
 {
   WO *wo = new WO();
-  copyPositionAndBB(wo);	// keep oldpos for intersection
+  copyPositionAndBB(wo);	// keep pos for intersection
 
   changePosition(tabdt);
 
@@ -383,10 +389,9 @@ void User::elemUserMovement(const float tabdt[])
 /** User general movement */
 void User::userMovement(time_t sec, time_t usec)
 {
-  Pos oldpos = pos;
   float keylastings[MAXKEYS];
 
-  copyPositionAndBB(oldpos);	// keep oldpos for network
+  copyPositionAndBB(pos);	// keep pos for network
   updateKeys(sec, usec);
   updateTime(keylastings);
 
@@ -416,8 +421,8 @@ void User::userMovement(time_t sec, time_t usec)
       }
       elemUserMovement(tabdt);
     }
-    publish(oldpos);
-    updatePositionAndGrid(oldpos);
+    publish(pos);
+    updatePositionAndGrid(pos);
     updateCamera(pos);
   }
 }
@@ -431,7 +436,7 @@ void WO::elemImposedMovement(float dt)
 
   if (! isBehavior(COLLIDE_NEVER)) {
     WO *wo = new WO();
-    copyPositionAndBB(wo);	// keep oldpos for intersection
+    copyPositionAndBB(wo);	// keep pos for intersection
     checkVicinity(wo);
     delete wo;
   }
@@ -446,8 +451,7 @@ void WO::imposedMovement(time_t sec, time_t usec)
   }
   if (! isMoving() && ! move.manip) return;	// no moving
 
-  Pos oldpos = pos;
-  copyPositionAndBB(oldpos);		// keep oldpos for network
+  copyPositionAndBB(pos);		// keep pos for network
 
   float lasting = -1;
   updateTime(sec, usec, &lasting);	// handled by each object only for imposed movements
@@ -488,9 +492,9 @@ void WO::imposedMovement(time_t sec, time_t usec)
   }
 
   if (netop && netop->isResponsible()) {
-    publish(oldpos);	// handled by each object
+    publish(pos);	// handled by each object
   }
-  updatePositionAndGrid(oldpos);
+  updatePositionAndGrid(pos);
 }
 
 /** Elementary permanent movement */
@@ -502,7 +506,7 @@ void WO::elemPermanentMovement(float dt)
     return;
   }
   WO *wo = new WO();
-  copyPositionAndBB(wo);	// keep oldpos for intersection
+  copyPositionAndBB(wo);	// keep pos for intersection
 
   changePermanent(dt);		// handled by each object
 
@@ -523,8 +527,7 @@ void WO::permanentMovement(time_t sec, time_t usec)
   }
 
   if (move.perm_sec > 0) {	// is permanent movement activated ?
-    Pos oldpos = pos;
-    copyPositionAndBB(oldpos);
+    copyPositionAndBB(pos);
 
     float lasting = static_cast<float>((sec - move.perm_sec)) + static_cast<float>((usec - move.perm_usec) / 1e6);
     move.perm_sec = sec;
@@ -558,10 +561,10 @@ void WO::permanentMovement(time_t sec, time_t usec)
     updateTime(sec, usec, &lasting);	// never called FIXME!
 
     if (netop && netop->isResponsible()) {
-      publish(oldpos);			// handled by each object
+      publish(pos);			// handled by each object
     }
 
-    updatePositionAndGrid(oldpos);
+    updatePositionAndGrid(pos);
     if (this == localuser) {
       updateCamera(pos);
     }

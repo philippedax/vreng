@@ -250,7 +250,7 @@ class WO {
   virtual void updateTime(time_t s, time_t us, float *lasting)	{}
   /**< Updates remaining times of the movement. */
 
-  virtual bool publish(const Pos &oldpos)		{ return false; }
+  virtual bool publish(const Pos &pos)			{ return false; }
   /**< Publishes changes to the network. */
 
   virtual bool whenIntersect(WO *pcur, WO *pold)	{ return false; }
@@ -589,8 +589,8 @@ class WO {
   void setLinearSpeed(float lspeed);
   /**< set permanent linear speed of an object. */
 
-  void setAngularSpeed(float aspeed);
-  /**< set permanent angular speed of an object. */
+  //notused void setAngularSpeed(float aspeed);
+  //notused /**< set permanent angular speed of an object. */
 
   void initImposedMovement(float lasting);
   /**< Initializes movement on an object. */
