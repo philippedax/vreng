@@ -239,7 +239,7 @@ void Step::changePermanent(float lasting)
     if (pos.z >= (ipos.z + height - sz)) {	// rewind step
       //echo("+ %.2f", pos.z);
       pos = ipos;
-      pos.z = ipos.z /*- sz*/; //orig - sz;
+      pos.z = ipos.z - sz; //orig - sz;
       if (pos.z < 0) {
         //echo("- %.2f", pos.z);
         pos.z = 0;

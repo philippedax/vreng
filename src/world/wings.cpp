@@ -569,6 +569,7 @@ void Wings::render(uint8_t _model)
   switch (_model) {
   case HELICOPTER:
     glRotatef(90, 1, 0, 0);
+    glScalef(scale, scale, scale);
     glPushMatrix();
      glRotatef(angle, 0, 0, 1);
      glCallList(dlist_center);

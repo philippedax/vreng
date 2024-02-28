@@ -27,7 +27,7 @@
 
 const OClass Drone::oclass(DRONE_TYPE, "Drone", Drone::creator);
 
-const float Drone::DRONE_SCALE = .4;
+const float Drone::DRONE_SCALE = .1;
 const float Drone::DRONE_ZONE = 20;	// flying zone 20x20
 const float Drone::DRONE_DELTA = .01;	// elementary movement 5cm
 
@@ -186,7 +186,7 @@ void Drone::render()
    glTranslatef(pos.x, pos.y, pos.z);
    glRotatef(-90, 1, 0, 0);
    glRotatef(-90, 0, 0, 1);
-   glScalef(scale, scale, scale);
+   //dax glScalef(scale, scale, scale);
 
    wings->render();	// render wings
 
