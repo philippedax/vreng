@@ -227,9 +227,9 @@ void Step::changePermanent(float lasting)
 
   // escalator and travolator only
 
-  float sx = 2 * pos.bbs.v[0];  // step width
-  float sy = 2 * pos.bbs.v[1];  // step depth
-  float sz = 2 * pos.bbs.v[2];  // step height
+  float sx = 1 * pos.bbs.v[0];  // step width
+  float sy = 1 * pos.bbs.v[1];  // step depth
+  float sz = 1 * pos.bbs.v[2];  // step height
 
   if (dir > 0) { 				// escalator upwards
     //echo("h=%.1f %s", height, objectName());
