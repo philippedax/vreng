@@ -543,10 +543,11 @@ void Wings::changePermanent(float lasting)
     break;
   case EAGLE :
     sign = 0;
+    break;
   case HELICOPTER :
     sign = 1;
-    angle += sign * 6;
-    break;
+    angle += sign * 18;
+    return;
   }
   angle += sign * 6;
 }
