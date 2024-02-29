@@ -38,11 +38,12 @@ struct sWings {
  */
 class Wings: public WO {
 
-private:
+ private:
   bool taken;                           ///< bool taken by avatar
   float ttl;                            ///< time to live with avatar
   float dx, dy, dz, dax, day, daz;      ///< difference with avatar positions
   float ox, oy, oz, oax, oay, oaz;      ///< original positions
+  float aspeed;				///< angular speed
 
   GLfloat angle;	///< angle
   GLint dlist_center;	///< display-list center
@@ -56,7 +57,7 @@ private:
   uint8_t model;
   char modelname[16];
 
-public:
+ public:
   enum {
     NOWINGS,
     BIRD,
@@ -101,17 +102,11 @@ public:
   Wings(class User *user, void *d, time_t s, time_t u);
   /**< Constructor from User */
   Wings();			///< Constructor from bird.
-  Wings(uint8_t model, float scale);		///< Constructor from bird.
-  Wings(uint8_t model, float scale, float *color);	///< Constructor from drone.
+  Wings(uint8_t model, float scale, float aspeed);			///< Constructor from bird.
+  Wings(uint8_t model, float scale, float aspeed, float *color);	///< Constructor from drone.
 
   void changePermanent(float lasting);
   /**< Changes. */
-
-  void start();
-  /**< Starts movement. */
-
-  void stop();
-  /**< Stops movement. */
 
   void draw();
   void draw(uint8_t model);
@@ -123,8 +118,14 @@ public:
 
   void quit();
   /**< Quits. */
+
+  void start();
+  /**< Starts movement. */
+
+  void stop();
+  /**< Stops movement. */
   
-private:
+ private:
   void defaults();
   /**< Sets default values. */
 
@@ -143,7 +144,7 @@ private:
   uint8_t getModel(const char *name);
   /**< Gets model id. */
 
-  void restorePosition();
+  void reset();
   /**< Restores original position */
 
   void wear();

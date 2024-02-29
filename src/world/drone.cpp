@@ -32,7 +32,7 @@ const float Drone::DRONE_ZONE = 20;	// flying zone 20x20
 const float Drone::DRONE_DELTA = .01;	// elementary movement 5cm
 
 
-/* Creation from a file */
+/** Creation from a file */
 WO * Drone::creator(char *l)
 {
   return new Drone(l);
@@ -50,7 +50,7 @@ void Drone::defaults()
   driven = false;
 }
 
-/* Parser */
+/** Parser */
 void Drone::parser(char *l)
 {
   defaults();
@@ -66,19 +66,18 @@ void Drone::parser(char *l)
   end_while_parse(l);
 }
 
-/* Behavior */
+/** Behavior */
 void Drone::behaviors()
 {
-  //enableBehavior(NO_ELEMENTARY_MOVE);
   enableBehavior(COLLIDE_NEVER);
   enableBehavior(SPECIFIC_RENDER);
 }
 
-/* Specific inits */
+/** Specific inits */
 void Drone::inits()
 {
   posorig = pos;
-  wings = new Wings(model, scale, color);
+  wings = new Wings(model, scale, 3, color);
 
   initMobileObject(0);
 
@@ -86,7 +85,7 @@ void Drone::inits()
     fly();
 }
 
-/* Constructor */
+/** Constructor */
 Drone::Drone(char *l)
 {
   parser(l);
@@ -94,7 +93,7 @@ Drone::Drone(char *l)
   inits();
 }
 
-/* Computes postion at each loop */
+/** Computes postion at each loop */
 void Drone::changePermanent(float lasting)
 {
   if (! flying) return;
@@ -168,7 +167,7 @@ void Drone::changePermanent(float lasting)
   }
 }
 
-/* Renders at each loop */
+/** Renders at each loop */
 void Drone::render()
 {
 #if 0 //dax
@@ -239,6 +238,7 @@ void Drone::drive()
   }
 }
 
+/** toggle view */
 void Drone::view()
 {
   float a[1];

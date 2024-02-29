@@ -57,6 +57,7 @@ void Wings::defaults()
   daz = 90;
   angle = 0;	// open
   scale = 1;
+  aspeed = 1;
   model = NOWINGS;
   for (int i=0; i<3; i++) {
     color[i] = 0.3;
@@ -71,8 +72,9 @@ void Wings::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);	// <solid ... />
     if (!l) break;
-    if      (! stringcmp(l, "scale=")) { l = parseFloat(l, &scale, "scale"); }
-    else if (! stringcmp(l, "color=")) { l = parseVector3f(l, color, "color"); }
+    if      (! stringcmp(l, "scale="))  { l = parseFloat(l, &scale, "scale"); }
+    else if (! stringcmp(l, "aspeed=")) { l = parseFloat(l, &aspeed, "aspeed"); }
+    else if (! stringcmp(l, "color="))  { l = parseVector3f(l, color, "color"); }
     else if (! stringcmp(l, "model=")) {
       l = parseString(l, modelname, "model");
       if      (! stringcmp(modelname, "bird"))       model = BIRD;
@@ -146,7 +148,7 @@ uint8_t Wings::getModel(const char *name)
   return NOWINGS;
 }
 
-void Wings::restorePosition()
+void Wings::reset()
 {
   pos.x = ox;
   pos.y = oy;
@@ -172,7 +174,7 @@ Wings::Wings(char *l)
 }
 
 /* Called by bird and drone */
-Wings::Wings(uint8_t _model, float _scale)
+Wings::Wings(uint8_t _model, float _scale, float _aspeed)
 {
   model = _model;
   active = true;
@@ -181,12 +183,13 @@ Wings::Wings(uint8_t _model, float _scale)
   inits();
   pos.az -= M_PI_2;
   scale = _scale;
+  aspeed = _aspeed;
 
   draw();
 }
 
 /* Called by drone */
-Wings::Wings(uint8_t _model, float _scale, float *_color)
+Wings::Wings(uint8_t _model, float _scale, float _aspeed, float *_color)
 {
   model = _model;
   active = true;
@@ -195,6 +198,7 @@ Wings::Wings(uint8_t _model, float _scale, float *_color)
   inits();
   pos.az -= M_PI_2;
   scale = _scale;
+  aspeed = _aspeed;
   for (int i=0; i<3; i++) {
     color[i] = _color[i];
   }
@@ -546,10 +550,10 @@ void Wings::changePermanent(float lasting)
     break;
   case HELICOPTER :
     sign = 1;
-    angle += sign * 18;
-    return;
+    //angle += sign * aspeed * 18;
+    //return;
   }
-  angle += sign * 6;
+  angle += sign * aspeed * 6;
 }
 
 void Wings::render()
@@ -625,7 +629,7 @@ void Wings::takeoff()
 {
   taken = false;
   active = false;
-  restorePosition();	// restore initial position
+  reset();		// restore initial position
   delPersist();
 }
 

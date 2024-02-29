@@ -74,7 +74,7 @@ void Bird::behaviors()
 /* Specific inits */
 void Bird::inits()
 {
-  wings = new Wings(model, scale);
+  wings = new Wings(model, scale, 1);
   posorig = pos;
 
   initMobileObject(0);
