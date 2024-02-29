@@ -26,14 +26,14 @@
 <wind></wind>
 
 <!-- ground -->
-<ground name="parvis" pos="0 6.5 -.25">
-<solid dim="4 17 .25" tx="/gif/marble.gif" />
+<ground name="parvis" pos="0 6.5 -.2">
+<solid dim="4 17 .2" tx="/gif/marble.gif" />
 </ground>
-<ground name="parvis-e" pos="0 -10.5 -.25"> <solid dim="4 9 .25" tx="/gif/marble.gif" /> </ground>
-<ground name="parvis-n" pos="12 0 -.25">  <solid dim="30 40 .25" tx="/gif/marble.gif" /> </ground>
-<ground name="parvis-s" pos="-12 0 -.25"> <solid dim="30 40 .25" tx="/gif/marble.gif" /> </ground>
+<ground name="parvis-e" pos="0 -10.5 -.2"> <solid dim="4 9 .2" tx="/gif/marble.gif" /> </ground>
+<ground name="parvis-n" pos="12 0 -.2">  <solid dim="30 40 .2" tx="/gif/marble.gif" /> </ground>
+<ground name="parvis-s" pos="-12 0 -.2"> <solid dim="30 40 .2" tx="/gif/marble.gif" /> </ground>
 <!--
-<ground name="basement" pos="0 0 -6.25"> <solid dim="60 40 .5" zp="/gif/stuc.gif" /> </ground>
+<ground name="basement" pos="0 0 -6.2"> <solid dim="60 40 .5" zp="/gif/stuc.gif" /> </ground>
 -->
 
 <!-- 1st level -->
@@ -51,7 +51,11 @@
 <!-- welcome text -->
 <text name="welcome" pos="12 -2 5.5 -2.35 1.57" font="/txf/courier-br-46.txf"> Welcome to Rendezvous </text>
 
-<!-- wheel progression
+<!-- fog
+-->
+<fog pos="0 0 1 0 0" density=10 ></fog>
+
+<!-- wheel
 <thing pos="0 0 1 1.57 -1.57 0.00"> <solid shape="wheel" r=".1" dif="white" /></thing>
 -->
 
@@ -255,11 +259,11 @@ url="/vre/campus.vre" channel="224.255.0.31/52966/127">
 <!-- romain 224.255.0.32 -->
 <gate name="romain" pos="6.5 11 .7 2.65"
 url="/vre/romain.vre">
-<solid dim="2 .2 1.4" tx="/svg/tiger.svg" dif="lightblue" />
+<solid dim="2 .2 1.4" tx="/svg/tiger.svg" />
 </gate>
 <!--
-<solid dim="2 .2 1.4" tx="/svg/tiger.svg" dif="lightblue" />
-<solid dim="2 .2 1.4" tx="/tif/ball.tif" dif="lightblue" />
+<solid dim="2 .2 1.4" tx="/svg/tiger.svg" />
+<solid dim="2 .2 1.4" tx="/tif/ball.tif" />
 -->
 
 <!-- eric 224.255.0.32 -->
@@ -624,7 +628,7 @@ amplitude="1" freq="1" phase="1">
 </dress>
 
 <!-- wings -->
-<wings name="helicopter" pos="-2.2 -2.5 1.2 0 1.6" model="helicopter" scale=".7"> <solid shape="bbox" dim="1 .01 1" /> </wings>
+<wings name="helicopter" pos="-2.2 -2.5 1.2 0 1.6" model="helicopter" scale=".7" aspeed="3"> <solid shape="bbox" dim="1 .01 1" /> </wings>
 <wings name="butterfly"  pos="-2.2 -2.6 1.2 0 0.0" model="butterfly" scale=".7">  <solid shape="bbox" dim=".1 1 1.2" /> </wings>
 <wings name="libellule"  pos="-2.2 -2.7 1.2 0 0.0" model="libellule" scale=".7">  <solid shape="bbox" dim=".1 1 1.2" /> </wings>
 <!--
@@ -645,9 +649,11 @@ amplitude="1" freq="1" phase="1">
 
 <!-- terrain -->
 <!--
-<terrain pos="26 -30 0" height="0.2" color="green"> </terrain>
-<terrain pos="-20 20 -1" height="0.2" color="green"> </terrain>
-<ground pos="-10 20 -1 0"> <solid dim="20 10 0.4" dif="grey" /></ground>
+<terrain name="terrain1" pos="-20 20 -0.2" width="30" height="0.2" > </terrain>
+<terrain name="terrain2" pos="26 -30 0" height="0.2" > </terrain>
+-->
+<!--
+<ground pos="-10 30 -1 0"> <solid dim="30 20 0.4" dif="grey" a="0" /></ground>
 -->
 
 <!-- river -->
