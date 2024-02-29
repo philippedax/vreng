@@ -625,6 +625,7 @@
 <!ATTLIST wings		name	NMTOKEN #IMPLIED>
 <!ATTLIST wings		descr	NMTOKENS #IMPLIED>
 <!ATTLIST wings		scale	NMTOKEN "1">
+<!ATTLIST wings		aspeed	NMTOKEN "1">
 <!ATTLIST wings		color	NMTOKENS "0.3 0.3 0.3">
 <!ATTLIST wings		model	(helicopter | butterfly | libellule | angel | eagle) #IMPLIED>
 
