@@ -61,27 +61,26 @@ Img::~Img()
 {
   del_image++;
   if (pixmap) {
-    //dax delete[] pixmap;	// segfault FIXME!!!
+    delete[] pixmap;	// segfault FIXME!!!
     pixmap = NULL;
   }
 }
 
+/** Creates img */
 Img * Img::init()
 {
   uint8_t bpp = RGBA;
-  Img * default_img = new Img(SIZE*2, SIZE*2, RGBA);	//dax *2 avoids segfault !
+  Img * def_img = new Img(SIZE, SIZE, RGBA);	//dax *2 avoids segfault !
 
-  GLubyte *pixmap = default_img->pixmap;
   for (int i=0; i < SIZE*SIZE; i++) {
-    pixmap[bpp*i+0] = pixmap[bpp*i+1] = pixmap[bpp*i+2] = 0x80; //grey
-    pixmap[bpp*i+3] = 0xff;	// rgba
+    def_img->pixmap[bpp*i+0] = def_img->pixmap[bpp*i+1] = def_img->pixmap[bpp*i+2] = 0x80; //grey
+    def_img->pixmap[bpp*i+3] = 0xff;	// a=1
   }
-  return default_img;
+  return def_img;
 }
 
-
-/* checks if image is well sized */
-bool Img::sized()
+/** Checks if image is well sized */
+bool Img::wellsized()
 {
   if ( (width != SIZE   || height != SIZE)   &&
        (width != SIZE/2 || height != SIZE/2) &&
@@ -91,11 +90,7 @@ bool Img::sized()
   return true;
 }
 
-/* Resampling */
-
-/**
- * bilinear interpolation with xf, yf normalized to 2^16
- */
+/** bilinear interpolation with xf, yf normalized to 2^16 */
 static inline
 int interpol(int v00, int v01, int v10, int v11, int xf, int yf)
 {
@@ -114,10 +109,6 @@ Img * Img::resize(uint16_t width_new, uint16_t height_new)
 {
   if (bpp != RGB && bpp != BW && bpp != RGBA) {
     error("resize invalid bpp: f=%d w=%d h=%d", bpp, width, height);
-    return NULL;
-  }
-  if (pixmap == NULL) {
-    error("resize pixmap null");
     return NULL;
   }
 

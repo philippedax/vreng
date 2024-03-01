@@ -65,10 +65,10 @@ void Texture::update()
       }
       glBindTexture(GL_TEXTURE_2D, (*it)->id);
 
-      if (! (*it)->img->sized()) {
-        /* image to resize */
+      if (! (*it)->img->wellsized()) {
+        // image must be resized
         Img *img1 = NULL;
-        //echo("sized: %s", (*it)->url);
+        //echo("wellsized: %s", (*it)->url);
         if ((img1 = (*it)->img->resize(Img::SIZE, Img::SIZE)) == NULL) {
           error("updateTextures: id=%d u=%s", (*it)->id, (*it)->url);
           continue;
@@ -78,24 +78,24 @@ void Texture::update()
         if (img1) delete img1;
       }
       else {
-        /* image well sized */
+        // image well sized
         if (! (*it)->img->nummipmaps) {
-          /* no mipmap */
+          // no mipmap
           glTexImage2D(GL_TEXTURE_2D, 0, 3, (*it)->img->width, (*it)->img->height, 0,
                        GL_RGB, GL_UNSIGNED_BYTE, (*it)->img->pixmap);
         }
         else {
-          /* have mipmap */
+          // have mipmap
           GLsizei mipw = (*it)->img->width;
           GLsizei miph = (*it)->img->height;
           int mipc = ((*it)->img->bpp == Img::RGB) ? 8 : 16;
           int off = 0;
 
-          /* setup some parameters for texture filters and mipmapping */
+          // setup some parameters for texture filters and mipmapping
           glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
           glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-          /* upload mipmaps to video memory */
+          // upload mipmaps to video memory
           for (GLint mip = 0; mip < (*it)->img->nummipmaps; ++mip) {
             GLsizei mips = ((mipw + 3) / 4) * ((miph + 3) / 4) * mipc;	// mip size
 
@@ -175,6 +175,7 @@ void Texture::reader(void *_tex, Http *_http)
   unlockMutex(tex_pmutex);
 }
 
+/** Constructor */
 Texture::Texture(const char *url)
 {
   http = NULL;
@@ -204,6 +205,7 @@ Texture::~Texture()
   del_texture++;
 }
 
+/** Opens an image texture */
 GLuint Texture::open(const char *url)
 {
   if (! Url::check(url)) return 0;
@@ -214,7 +216,7 @@ GLuint Texture::open(const char *url)
   last_texid = texture->id;
   //trace(DBG_2D, "texture: id=%d %s", texture->id, url);
 
-  /* we must download the texture now */
+  // we must download the texture now
   strcpy(texture->url, url);
   switch (Format::getLoaderByUrl(const_cast<char *>(url))) {
     case IMG_GIF: Http::httpOpen(url, reader, texture, 1); break; // multi-threaded
@@ -223,7 +225,7 @@ GLuint Texture::open(const char *url)
   return texture->id;
 }
 
-/* Creates texid and returns it. */
+/** Creates texid and returns it. */
 GLuint Texture::create()
 {
   GLuint texid = 0;

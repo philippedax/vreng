@@ -35,7 +35,7 @@ typedef int (*ImageReader) (void *tex, char *buf, int len);
  * Img class
  */
 class Img {
-public:
+ public:
 
   /**! we only deal with 8 bits RGB images */
   enum bpp_t {
@@ -63,7 +63,7 @@ public:
   static Img * init();
   /**< set a default image. */
 
-  bool sized();
+  bool wellsized();
   /**< checks if image is well sized or not. */
 
   Img* resize(uint16_t width_new, uint16_t height_new);
@@ -92,7 +92,7 @@ public:
   static void saveTGA(const char *file, GLint width, GLint height, const GLubyte *buf);
   static void savePPM(const char *file, GLenum mode);
 
-private:
+ private:
   void defaults();
   /**< Set defaults values */
 };
