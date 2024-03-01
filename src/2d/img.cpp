@@ -68,8 +68,8 @@ Img::~Img()
 
 Img * Img::init()
 {
-  uint8_t bpp = RGB;
-  Img * default_img = new Img(SIZE*2, SIZE*2, RGB);	//dax *2 avoids segfault !
+  uint8_t bpp = RGBA;
+  Img * default_img = new Img(SIZE*2, SIZE*2, RGBA);	//dax *2 avoids segfault !
 
   GLubyte *pixmap = default_img->pixmap;
   for (int i=0; i < SIZE*SIZE; i++) {
