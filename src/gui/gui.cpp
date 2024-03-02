@@ -52,7 +52,7 @@
 // Constructor
 Gui::Gui() :
  widgets(null),
- selected_object(null),  // the object that is currently selected
+ selected_object(null),		// the object that is currently selected
  vnc(null),
  carrier(null),
  vrelet(null)
@@ -275,7 +275,6 @@ void Gui::updateWorld(World *world, bool isCurrent)
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 // Handling Vnc
 //
 void Gui::setToVnc(Vnc* _vnc)
@@ -288,6 +287,7 @@ void Gui::launchVnc(Vnc* _vnc)
   VncDialog::vncDialog(widgets, _vnc);
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling Vrelet
 //
 void Gui::setToVrelet(Vrelet* _vrelet)
@@ -295,6 +295,7 @@ void Gui::setToVrelet(Vrelet* _vrelet)
   vrelet = _vrelet;
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling Board
 //
 void Gui::setToBoard(Board* _board)
@@ -302,6 +303,7 @@ void Gui::setToBoard(Board* _board)
   board = _board;
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Handling Carrier
 //
 void Gui::setToCarrier(Carrier* _carrier)
@@ -325,12 +327,16 @@ void Gui::getClicked(uint8_t *nclick, float clicked[])
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+// Handling selection
+//
 WO* Gui::getSelectedObject()
 {
   return selected_object;
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Handling palettes
+//
 void Gui::showNavigator()
 {
   widgets->panels.showManipulator(false);
@@ -371,7 +377,9 @@ void Gui::collapseAvatar()
   widgets->panels.collapseAvatar();
 }
 
-// clears the info bar.
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Clears the info bar.
+//
 void Gui::clearInfoBar()
 {
   widgets->navig.clearInfoBar();
