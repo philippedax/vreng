@@ -26,8 +26,6 @@ typedef class WO * (WCreator) (char *);
 typedef class WO * (WReplicator) (uint8_t, class Noid, class Payload *);
 typedef void (WBuiltin) ();
 
-using namespace std;
-
 
 /**
  * OClass Class
@@ -36,14 +34,14 @@ using namespace std;
  */
 class OClass {
 
-private:
+ private:
   static const struct sObj Objs[];
 
-protected:
+ protected:
   static OClass **otable;		///< objects table
   static uint16_t otable_size;		///< table size
 
-public:
+ public:
   const uint8_t       type_id;		///< class id
   const char *  const type_name;	///< class name
   WCreator *    const creator;		///< create from file
@@ -71,7 +69,7 @@ public:
   static bool isValidType(uint8_t type_id);
   /**< Check if a type is valid, exists */
 
-private:
+ private:
   static void dumpTable();
   /**< Dump table */
 };

@@ -29,6 +29,8 @@
 #include <list>
 #include <vector>
 
+using namespace std;
+
 /* special behavior masks */
 #define NO_BEHAVIOR		0	// null
 #define NO_ELEMENTARY_MOVE	1<<0	// bit 0

@@ -24,24 +24,19 @@
 #include "netobj.hpp"	// Noid
 #include "objects.hpp"	// OBJECTSNUMBER
 
-using namespace std;
-
 
 OClass** OClass::otable = NULL;
 uint16_t OClass::otable_size = 0;
-
-// local
-static const OClass end(0, "End", NULL);
 
 
 /** OClass constructor */
 OClass::OClass(uint8_t _type_id, const char* _type_name,
 	       WCreator _creator, WReplicator _replicator, WBuiltin _builtin) :
-  type_id(_type_id),
-  type_name(_type_name),
-  creator(_creator),
-  replicator(_replicator),
-  builtin(_builtin)
+ type_id(_type_id),
+ type_name(_type_name),
+ creator(_creator),
+ replicator(_replicator),
+ builtin(_builtin)
 {
   if (type_id < otable_size) {
     otable[type_id] = this;
@@ -50,7 +45,7 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
     if (! (otable = static_cast<OClass**> (realloc(otable, sizeof(OClass *) * (type_id+1))))) {
       fatal("can't realloc otable");
     }
-    for (uint8_t i = otable_size; i < (type_id + 1); i++) {
+    for (int i = otable_size; i < (type_id + 1); i++) {
       otable[i] = NULL;
     }
     otable_size = type_id + 1;
@@ -59,6 +54,7 @@ OClass::OClass(uint8_t _type_id, const char* _type_name,
   //echo("otable[%d] %s size=%d", type_id, type_name, otable_size);
 }
 
+/** Gets object class by type_name */
 const OClass * OClass::getOClass(const char *type_name)
 {
   for (int i=1; i < otable_size; i++) {
@@ -66,9 +62,9 @@ const OClass * OClass::getOClass(const char *type_name)
       if (otable[i]->type_name) {
         if (type_name) {
           if (! mystrcasecmp(type_name, otable[i]->type_name)) {
-            return otable[i];
+            return otable[i];		// found
           }
-          if (! mystrcasecmp(type_name, "html")) {
+          if (! mystrcasecmp(type_name, "html")) {	// hack!!!
             //dumpTable();
             fatal("bad world: type=html");
             Vreng::quit(1);
@@ -85,45 +81,37 @@ const OClass * OClass::getOClass(const char *type_name)
   return NULL;
 }
 
+/** Gets object class by type_id */
 const OClass * OClass::getOClass(uint8_t type_id)
 {
-  if (type_id < otable_size) {
-    return otable[type_id];
+  if (type_id >= otable_size) {
+    error("getOClass: type_id=%d out of bounds", type_id); dumpTable();
+    return NULL;
   }
-  error("getOClass: type_id=%d out of bounds", type_id); dumpTable();
-  return NULL;
+  return otable[type_id];
 }
 
+/** Returns a wobject creator */
 WO * OClass::creatorInstance(uint8_t type_id, char *l)
 {
-  if (isValidType(type_id)) {
-    return otable[type_id]->creator(l);
+  if (! isValidType(type_id)) {
+    error("creatorInstance: type_id=%d out of bounds", type_id); dumpTable();
+    return NULL;
   }
-  error("creatorInstance: type_id=%d out of bounds", type_id); dumpTable();
-  return NULL;
+  return otable[type_id]->creator(l);
 }
 
+/** Returns a wobject replicator */
 WO * OClass::replicatorInstance(uint8_t type_id, Noid noid, Payload *pp)
 {
-  if (isValidType(type_id)) {
-    return otable[type_id]->replicator(type_id, noid, pp);
+  if (! isValidType(type_id)) {
+    error("replicatorInstance: type_id=%d out of bounds", type_id); dumpTable();
+    return NULL;
   }
-  error("replicatorInstance: type_id=%d out of bounds", type_id); dumpTable();
-  return NULL;
+  return otable[type_id]->replicator(type_id, noid, pp);
 }
 
-#if 0 //notused
-void OClass::builtinInstance(uint8_t type_id)
-{
-  if (isValidType(type_id)) {
-    otable[type_id]->builtin();
-  }
-  else {
-    error("builtinInstance: type_id=%d out of bounds", type_id);
-  }
-}
-#endif //notused
-
+/** Dumps the otable */
 void OClass::dumpTable()
 {
   for (int i=1; i < otable_size; i++) {
@@ -136,7 +124,21 @@ void OClass::dumpTable()
   }
 }
 
+/** Is type valid ? */
 bool OClass::isValidType(uint8_t type_id)
 {
   return (type_id > 0 && type_id <= OBJECTSNUMBER);
 }
+
+#if 0 //notused
+/** Returns a wobject builtin */
+void OClass::builtinInstance(uint8_t type_id)
+{
+  if (isValidType(type_id)) {
+    otable[type_id]->builtin();
+  }
+  else {
+    error("builtinInstance: type_id=%d out of bounds", type_id);
+  }
+}
+#endif //notused
