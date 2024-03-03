@@ -22,14 +22,14 @@
 #define DEFINES_HPP
 
 
-#define PATH_LEN		128		// max lenght of path file
-#define CHAN_LEN		32		// max length of a channel
-#define GROUP_LEN		16		// max length of a group
-#define URL_LEN			256		// max length of an url
-#define USER_LEN		17		// max lenght of user name
-#define OBJNAME_LEN		64		// max lenght of object name
-#define HNAME_LEN		11		// max length of understandable name
-#define ACTIONNAME_LEN		16		// max length of action name
+#define PATH_LEN	128	// max lenght of path file
+#define CHAN_LEN	32	// max length of a channel
+#define GROUP_LEN	16	// max length of a group
+#define URL_LEN		128	// max length of an url
+#define USER_LEN	17	// max lenght of user name
+#define OBJNAME_LEN	64	// max lenght of object name
+#define TYPENAME_LEN	16	// max length of understandable name
+#define ACTIONNAME_LEN	16	// max length of action name
 
 #ifndef TRUE
 #define TRUE 1

@@ -74,23 +74,21 @@ extern std::vector<WO*> lightList;
  * identifies a distributed object.
  */
 class WOId {
-
  public:
   uint32_t src_id;	///< IPaddr src
   uint16_t port_id;	///< port
   uint16_t obj_id;	///< object id -- network format
 };
 
-
+/**
+ * Hash entry
+ */
 #define NAME_HASH_SIZE  5423    
 #define NAME_DELETED    "XXXXXXX"
 
-/**
- * hash entry
- */
-struct hash_elt {
-  WO *po;                  ///< object ptr
-  char name[OBJNAME_LEN];       ///< object name
+struct Hash {
+  WO *po;		///< object ptr
+  char *name;		///< object name
 };
 
 /**
@@ -99,15 +97,15 @@ struct hash_elt {
  * container for object's names.
  */
 struct Name {
-  char type[HNAME_LEN];		///< name of an object class.
-  char given[OBJNAME_LEN];	///< given name.
-  char *instance;		///< name of an instancied object.
-  char *implicit;		///< implicit name.
-  char *category;		///< category name.
-  char *infos;			///< infos of an instancied object.
-  const char *world;		///< name of world where is this object.
-  char url[URL_LEN];		///< url.
-  char owner[USER_LEN];		///< owner.
+  char *type;		///< name of an object class.
+  char *given;		///< given name.
+  char *instance;	///< name of an instancied object.
+  char *implicit;	///< implicit name.
+  char *category;	///< category name.
+  char *infos;		///< infos of an instancied object.
+  const char *world;	///< name of world where is this object.
+  char *url;		///< url.
+  char *owner;		///< owner.
 };
 
 /**

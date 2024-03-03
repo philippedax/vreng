@@ -50,7 +50,7 @@ vector<WO*> lightList;
 
 // local
 static uint32_t objectNum = 0;
-static struct hash_elt hashtable[NAME_HASH_SIZE];
+static struct Hash hashtable[NAME_HASH_SIZE];
 
 
 /** WO constructor */
@@ -70,11 +70,14 @@ WO::WO()
   mode = 0;
   behavior = 0;
 
-  memset(name.type, 0, sizeof(name.type));
-  memset(name.given, 0, sizeof(name.given));
-  memset(name.url, 0, sizeof(name.url));
-  memset(name.owner, 0, sizeof(name.owner));
-
+  //memset(name.type, 0, sizeof(name.type));
+  //memset(name.given, 0, sizeof(name.given));
+  //memset(name.url, 0, sizeof(name.url));
+  //memset(name.owner, 0, sizeof(name.owner));
+  name.type = new char[TYPENAME_LEN];
+  name.given = new char[OBJNAME_LEN];
+  name.url = new char[URL_LEN];
+  name.owner = new char[USER_LEN];
   name.implicit = NULL;
   name.instance = NULL;
   name.world = NULL;
@@ -129,6 +132,10 @@ WO::~WO()
     delete netop;
     netop = NULL;
   }
+  if (name.type && isalpha(name.type[0])) delete[] name.type;
+  if (name.given && isalpha(name.given[0])) delete[] name.given;
+  if (name.url && isalpha(name.url[0])) delete[] name.url;
+  if (name.owner && isalpha(name.owner[0])) delete[] name.owner;
   if (name.implicit && isalpha(name.implicit[0])) delete[] name.implicit;
   if (name.category && isalpha(name.category[0])) delete[] name.category;
   if (name.infos && isalpha(name.infos[0])) delete[] name.infos;
@@ -656,7 +663,7 @@ bool WO::removeFromScene()
     return true;
   }
   else {
-    echo("Permission denied, owner is %s", name.owner);
+    echo("permission denied, owner is %s", name.owner);
     removed = false;
     return false;
   }
@@ -670,6 +677,7 @@ bool WO::removeFromScene()
 void WO::initNames()  
 { 
   for (int i=0; i < NAME_HASH_SIZE; i++) {
+    hashtable[i].name = new char[OBJNAME_LEN];
     memset(hashtable[i].name, 0, OBJNAME_LEN);
   }
 }
