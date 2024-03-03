@@ -66,7 +66,7 @@ void Guy::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url"))   l = parseUrl(l, names.url);
+    if      (! stringcmp(l, "url"))   l = parseUrl(l, name.url);
     else if (! stringcmp(l, "anim=")) l = parseBool(l, &animing, "anim");
     else if (! stringcmp(l, "walk=")) l = parseBool(l, &walking, "walk");
     else if (! stringcmp(l, "sex="))  l = parseBool(l, &sex, "sex");
@@ -105,7 +105,7 @@ void Guy::inits()
 
   draw();
 
-  Http::httpOpen(names.url, reader, this, 0);
+  Http::httpOpen(name.url, reader, this, 0);
 
   computeCurve();
 }
@@ -128,14 +128,14 @@ Guy::Guy()
   behaviors();
   geometry();
 
-  strcpy(names.url, DEF_URL_GUY);
+  strcpy(name.url, DEF_URL_GUY);
   inits();
 
   setActionFunc(GUY_TYPE, 1, _Action NULL, "");  // cancel
   setActionFunc(GUY_TYPE, 2, _Action NULL, "");  // cancel
 }
 
-//const char * Guy::getUrl() const { return (const char *) names.url; }
+//const char * Guy::getUrl() const { return (const char *) name.url; }
 
 void Guy::reader(void *_guy, Http *http)
 {

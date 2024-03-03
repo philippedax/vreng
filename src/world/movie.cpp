@@ -63,7 +63,7 @@ void Movie::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url"))  l = parseUrl(l, names.url);
+    if      (! stringcmp(l, "url"))  l = parseUrl(l, name.url);
     else if (! stringcmp(l, "proj")) l = parseFloat(l, &proj, "proj");
     else if (! stringcmp(l, "rate")) l = parseFloat(l, &rate, "rate");
     else if (! stringcmp(l, "anim")) l = parseBool(l, &anim, "anim");
@@ -90,7 +90,7 @@ Movie::Movie(char *l)
 
   initMobileObject(0);
 
-  vidfmt = Format::getPlayerByUrl(names.url);
+  vidfmt = Format::getPlayerByUrl(name.url);
 
   if (anim) {
     play();
@@ -104,7 +104,7 @@ void Movie::open_mpg()
   char *filempg = new char[MAXHOSTNAMELEN];
   file = new File();
 
-  if (Cache::download(names.url, filempg) == 0) {	// download Mpeg file
+  if (Cache::download(name.url, filempg) == 0) {	// download Mpeg file
     error("can't download %s", filempg);
     delete[] filempg;
     delete file;
@@ -116,7 +116,7 @@ void Movie::open_mpg()
     delete file;
     return;
   }
-  //echo("mpg: open %s", names.url);
+  //echo("mpg: open %s", name.url);
 
   mpg = new ImageDesc[1];
 
@@ -129,7 +129,7 @@ void Movie::open_mpg()
     //echo("mpg: w=%d h=%d f=%.3f", width, height, fps);
   }
   else {
-    error("can't OpenMPEG %s", names.url);
+    error("can't OpenMPEG %s", name.url);
     delete[] filempg;
     delete[] mpg;
     mpg = NULL;
@@ -143,7 +143,7 @@ void Movie::open_avi()
 {
   if (avi) return;		// an instance is already running
 
-  avi = new Avi(names.url);	// downloads avi file
+  avi = new Avi(name.url);	// downloads avi file
 
   int ret = avi->read_header();
   if (ret) {
@@ -184,7 +184,7 @@ void Movie::init_tex()
   // gets texid
   texid = Texture::getIdByObject(this);		// works if texture exists
   if (! texid) {
-    texid = Texture::open(names.url);
+    texid = Texture::open(name.url);
   }
   //echo("texid=%d (%s)", texid, Texture::getUrlById(texid));
 }

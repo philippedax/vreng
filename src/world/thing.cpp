@@ -65,7 +65,7 @@ void Thing::behaviors()
 /** Sets an unique name */
 void Thing::setName()
 {
-  sprintf(names.given, "%s-%s%d", THING_NAME, localuser->objectName(), getNum());
+  sprintf(name.given, "%s-%s%d", THING_NAME, localuser->objectName(), getNum());
   updateNames();
 }
 
@@ -116,8 +116,8 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   while (*p && !isdigit(*p)) p++;
   int n = atoi(p);
   if (n) oid = n;
-  strcpy(names.given, str);
-  strcpy(names.type, typeName());	// need names.type for VSql
+  strcpy(name.given, str);
+  strcpy(name.type, typeName());	// need name.type for VSql
 
   /* local creation */
   defaults();
@@ -133,7 +133,7 @@ Thing::Thing(World *pw, void *d, time_t s, time_t u)
   if (geom && isprint(*geom)) {
     parseSolid(geom);
   }
-  else error("Thing: %s has no geometry", names.given);
+  else error("Thing: %s has no geometry", name.given);
 
   enableBehavior(DYNAMIC);
   behaviors();

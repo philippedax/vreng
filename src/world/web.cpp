@@ -59,7 +59,7 @@ void Web::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "url"))
-      l = parseUrl(l, names.url);
+      l = parseUrl(l, name.url);
     else if (! stringcmp(l, "caption"))
       l = parseCaption(l, caption, "caption");
     else if (! stringcmp(l, "text"))
@@ -159,10 +159,10 @@ bool Web::whenIntersect(WO *pcur, WO *pold)
 /* Opens browser */
 void Web::open_cb(Web *web, void *d, time_t s, time_t u)
 {
-  Browser::start(web->names.url);
+  Browser::start(web->name.url);
 #if 0 //obsoleted
   if (!stringcmp(purl, "wrl") || !stringcmp(purl, "vrm")) {
-    Browser::startvrml(web->names.url);
+    Browser::startvrml(web->name.url);
     return;
   }
 #endif

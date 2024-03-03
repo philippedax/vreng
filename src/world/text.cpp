@@ -50,7 +50,7 @@ void Text::defaults()
   shiftx = shifty = shiftz = shiftaz = shiftax = 0.;
   txf = NULL;
   textstr = new char[MAXLEN];
-  strcpy(names.url, DEF_URL_TXF);	// font's url
+  strcpy(name.url, DEF_URL_TXF);	// font's url
   for (int i=0; i<4; i++) {
     color[i] = DEF_COLOR[i];	// color
   }
@@ -63,7 +63,7 @@ void Text::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "font"))  l = parseString(l, names.url, "font");
+    if      (! stringcmp(l, "font"))  l = parseString(l, name.url, "font");
     else if (! stringcmp(l, "color")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "verso")) l = parseUInt8(l, &verso, "verso");
     else if (! stringcmp(l, "scale")) l = parseFloat(l, &scale, "scale");
@@ -86,8 +86,8 @@ void Text::geometry()
 bool Text::loadFont()
 {
   // gets the font
-  if ((txf = Txf::load(names.url)) == NULL) {
-    error("Text: can't load font %s", names.url);
+  if ((txf = Txf::load(name.url)) == NULL) {
+    error("Text: can't load font %s", name.url);
     return false;
   }
   // build the font texture

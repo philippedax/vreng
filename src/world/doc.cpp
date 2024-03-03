@@ -41,7 +41,7 @@ void Doc::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "url")) l = parseUrl(l, names.url);
+    if (! stringcmp(l, "url")) l = parseUrl(l, name.url);
   }
   end_while_parse(l);
 }
@@ -74,12 +74,12 @@ void Doc::quit()
 
 void Doc::view_cb(Doc *doc, void *d, time_t s, time_t u)
 {
-  Ps::view(doc->names.url);
+  Ps::view(doc->name.url);
 }
 
 void Doc::print_cb(Doc *doc, void *d, time_t s, time_t u)
 {
-  Ps::print(doc->names.url);
+  Ps::print(doc->name.url);
 }
 
 void Doc::cancel_cb(Doc *doc, void *d, time_t s, time_t u)

@@ -49,7 +49,7 @@ void Clip::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (!stringcmp(l, "url")) l = parseUrl(l, names.url);
+    if (!stringcmp(l, "url")) l = parseUrl(l, name.url);
   }
   end_while_parse(l);
 }
@@ -64,20 +64,20 @@ Clip::Clip(char *l)
 
   char *purl, *ptmpurl;
 
-  purl = strrchr(names.url, '.');
+  purl = strrchr(name.url, '.');
   purl++;
   if (!stringcmp(purl, "mpg") || !stringcmp(purl, "mpeg")) fmt = FMT_MPEG;
   else if (!stringcmp(purl, "video")) {
     fmt = FMT_RTPAV;
-    strcpy(url2, names.url);
+    strcpy(url2, name.url);
     ptmpurl = strrchr(url2, '.');
     *(++ptmpurl) = '\0';
     strcpy(ptmpurl, "audio");
   }
   else if (!stringcmp(purl, "audio")) {
     fmt = FMT_RTPAV;
-    strcpy(url2, names.url);
-    ptmpurl = strrchr(names.url, '.');
+    strcpy(url2, name.url);
+    ptmpurl = strrchr(name.url, '.');
     *(++ptmpurl) = '\0';
     strcpy(ptmpurl, "video");
   }
@@ -102,7 +102,7 @@ void Clip::startRtp()
   if (state == RTP_ACTIVE) return;  // busy
 
   char *pfile, *end;
-  pfile = strrchr(names.url, '/');
+  pfile = strrchr(name.url, '/');
   pfile++;
   end = strchr(pfile, '.');
   *end = '\0';
@@ -185,7 +185,7 @@ void Clip::play(Clip *clip, void *d, time_t s, time_t u)
 {
   switch (clip->fmt) {
   case Clip::FMT_MPEG:
-    Mpeg::start(clip->names.url);
+    Mpeg::start(clip->name.url);
     break;
   case Clip::FMT_RTPAV:
     Video::start(World::current()->getChan());

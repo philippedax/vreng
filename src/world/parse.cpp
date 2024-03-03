@@ -469,7 +469,7 @@ char * Parse::parseAttributes(char *l, WO *wobject)
 {
   while (l) {
     if      (! stringcmp(l, "name=")) {
-      l = parseName(l, wobject->names.given);
+      l = parseName(l, wobject->name.given);
     }
     else if (! stringcmp(l, "pos=")) {
       l = parsePosition(l, wobject->pos);
@@ -479,10 +479,10 @@ char * Parse::parseAttributes(char *l, WO *wobject)
       l = parseSolid(l, wobject);
     }
     else if (! stringcmp(l, "category=")) {
-      l = parseDescr(l, wobject->names.category);
+      l = parseDescr(l, wobject->name.category);
     }
     else if ( ! stringcmp(l, "descr=") || ! stringcmp(l, "description=") ) {
-      l = parseDescr(l, wobject->names.infos);
+      l = parseDescr(l, wobject->name.infos);
     }
     else if (! strcmp(l, "/")) {
       l = nextToken();
@@ -507,7 +507,7 @@ char * Parse::parseAttributes(char *l, WO *wobject)
   return l;
 }
 
-/** parse object description names.infos, names.category */
+/** parse object description name.infos, name.category */
 char * Parse::parseDescr(char *l, char *strdst)
 {
   l = skipEqual(l);
@@ -529,7 +529,7 @@ char * Parse::parseDescr(char *l, char *strdst)
   return nextToken();
 }
 
-/** parse object name: fill names.given */
+/** parse object name: fill name.given */
 char * Parse::parseName(char *l, char *name)
 {
   return parseQuotedString(l, name, "name");

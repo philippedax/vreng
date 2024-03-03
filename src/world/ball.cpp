@@ -66,7 +66,7 @@ void Ball::defaults()
 void Ball::setName()
 {
   oid++;
-  sprintf(names.given, "%s-%s.%d", BALL_NAME, localuser->objectName(), oid);
+  sprintf(name.given, "%s-%s.%d", BALL_NAME, localuser->objectName(), oid);
 }
 
 /** Solid geometry */
@@ -139,8 +139,8 @@ Ball::Ball(World *world, void *d, time_t s, time_t u)
   char *p = nam;
   while (*p && !isdigit(*p)) p++;
   oid = atoi(p);
-  strcpy(names.given, nam);
-  echo("recreate: %s oid=%d", names.given, oid);
+  strcpy(name.given, nam);
+  echo("recreate: %s oid=%d", name.given, oid);
 
   defaults();
   geometry();

@@ -52,7 +52,7 @@ void Music::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url"))   l = parseUrl(l, names.url);
+    if      (! stringcmp(l, "url"))   l = parseUrl(l, name.url);
     else if (! stringcmp(l, "state")) l = parseString(l, statestr, "state");
   }
   end_while_parse(l);
@@ -60,7 +60,7 @@ void Music::parser(char *l)
 
 int Music::format()
 {
-  char *pext = strrchr(names.url, '.');
+  char *pext = strrchr(name.url, '.');
   pext++;
 
   if (!stringcmp(pext, "mp3") || !stringcmp(pext, "mp2"))
@@ -102,17 +102,17 @@ void Music::play(Music *music, void *d, time_t s, time_t u)
 
   // check if d is an url
   if (music->repeat == false && (d != (void *)NULL)) {
-    strcpy(music->names.url, static_cast<char *>(d));
+    strcpy(music->name.url, static_cast<char *>(d));
     music->fmt = music->format();
     music->state = Music::INACTIVE;
   }
 
   if (music->state == Music::INACTIVE) {
     switch (music->fmt) {
-    case Music::FMT_MP3:  Mp3::start(music->names.url); break;
-    case Music::FMT_WAV:  Wav::start(music->names.url, music->repeat); break;
-    case Music::FMT_AU:   Au::start(music->names.url); break;
-    case Music::FMT_MIDI: Midi::start(music->names.url); break;
+    case Music::FMT_MP3:  Mp3::start(music->name.url); break;
+    case Music::FMT_WAV:  Wav::start(music->name.url, music->repeat); break;
+    case Music::FMT_AU:   Au::start(music->name.url); break;
+    case Music::FMT_MIDI: Midi::start(music->name.url); break;
     default: music->state = Music::INACTIVE; return;
     }
     music->state = Music::PLAYING;

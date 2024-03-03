@@ -48,7 +48,7 @@ void Carousel::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url="))   l = parseUrl(l, names.url);
+    if      (! stringcmp(l, "url="))   l = parseUrl(l, name.url);
     else if (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "dim="))   l = parseVector3fv(l, &dim, "dim");
   }
@@ -70,7 +70,7 @@ void Carousel::behaviors()
 
 void Carousel::inits()
 {
-  x3d = new X3d(names.url);
+  x3d = new X3d(name.url);
 
   initMobileObject(0);
 }

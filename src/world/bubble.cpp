@@ -41,7 +41,7 @@ void Bubble::defaults()
   bubtext = NULL;
   text = NULL;
   state = INACTIVE;
-  strcpy(names.url, DEF_URL_TXF);      // font
+  strcpy(name.url, DEF_URL_TXF);      // font
 }
 
 /* position above the avatar's head */

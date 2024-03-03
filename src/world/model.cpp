@@ -97,7 +97,7 @@ void Model::geometry()
 
 void Model::setName()
 {
-  sprintf(names.given, "%s-%s.%d", MODEL_NAME, localuser->objectName(), getNum());
+  sprintf(name.given, "%s-%s.%d", MODEL_NAME, localuser->objectName(), getNum());
 }
 
 void Model::parser(char *l)
@@ -107,7 +107,7 @@ void Model::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url="))   l = parseUrl(l, names.url);
+    if      (! stringcmp(l, "url="))   l = parseUrl(l, name.url);
     else if (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "bvh=")) {
@@ -146,7 +146,7 @@ Model::Model(WO *user, char *url, float _scale)
 
   setName();
   setOwner();
-  strcpy(names.url, url);
+  strcpy(name.url, url);
   loader();
   scale = _scale;
   scaler();
@@ -163,25 +163,25 @@ Model::Model(WO *user, char *url, float _scale)
 
 void Model::loader()
 {
-  if (*names.url == 0 || ! strcmp(names.url, "man")) {
+  if (*name.url == 0 || ! strcmp(name.url, "man")) {
     model_t = MODEL_MAN;	// hugly hack!!!
     disableBehavior(SPECIFIC_RENDER);
   }
   else {	// normal url
-    model_t = Format::getModelByUrl(names.url);
+    model_t = Format::getModelByUrl(name.url);
   }
 
   switch (model_t) {
-  case MODEL_LWO: lwo = new Lwo(names.url); break;
-  case MODEL_3DS: ds3 = new _3ds(names.url); break;
-  case MODEL_ASE: ase = new Ase(names.url); break;
-  case MODEL_OBJ: obj = new Obj(names.url); break;
-  case MODEL_MD2: md2 = new Md2(names.url); break;
-  case MODEL_DXF: dxf = new Dxf(names.url); break;
-  case MODEL_OFF: off = new Off(names.url); break;
-  case MODEL_X3D: x3d = new X3d(names.url); break;
+  case MODEL_LWO: lwo = new Lwo(name.url); break;
+  case MODEL_3DS: ds3 = new _3ds(name.url); break;
+  case MODEL_ASE: ase = new Ase(name.url); break;
+  case MODEL_OBJ: obj = new Obj(name.url); break;
+  case MODEL_MD2: md2 = new Md2(name.url); break;
+  case MODEL_DXF: dxf = new Dxf(name.url); break;
+  case MODEL_OFF: off = new Off(name.url); break;
+  case MODEL_X3D: x3d = new X3d(name.url); break;
   case MODEL_MAN: man = new Man(); break;
-  default: error("Model: unknown type=%d url=%s", model_t, names.url); return;
+  default: error("Model: unknown type=%d url=%s", model_t, name.url); return;
   }
 }
 

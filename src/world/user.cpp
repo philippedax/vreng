@@ -92,8 +92,8 @@ void User::defaults()
 void User::setName()
 {
   if (! givenName()) {
-    sprintf(names.given, "%s", ::g.user);
-    names.instance = names.given;
+    sprintf(name.given, "%s", ::g.user);
+    name.instance = name.given;
   }
 }
 
@@ -627,7 +627,7 @@ bool User::whenIntersect(WO *pcur, WO *pold)
     /* projectile intersects user: hit */
     if (hit == 0) {
       hit = 1;
-      echo("%s:%s hits %s", pcur->names.type, pcur->objectName(), objectName());
+      echo("%s:%s hits %s", pcur->name.type, pcur->objectName(), objectName());
       if (pcur->type == DART_TYPE) {
         (reinterpret_cast<Dart *>(pcur)->hit) = 1;
         netop->sendDelta(Dart::PROPHIT);
@@ -1020,7 +1020,7 @@ void User::get_msg(User *pu, Payload *pp)
 }
 
 void User::get_infos(User *pu, Payload *pp)
-{ if (pu) pp->getPayload("s", pu->names.infos); }
+{ if (pu) pp->getPayload("s", pu->name.infos); }
 
 void User::get_mensuration(User *pu, Payload *pp)
 { if (pu) pp->getPayload("s", pu->mensuration); }
@@ -1099,7 +1099,7 @@ void User::put_msg(User *pu, Payload *pp)
 { if (pu) pp->putPayload("ds", pu->lastmess, pu->message); }
 
 void User::put_infos(User *pu, Payload *pp)
-{ if (pu) pp->putPayload("s", pu->names.infos); }
+{ if (pu) pp->putPayload("s", pu->name.infos); }
 
 void User::put_mensuration(User *pu, Payload *pp)
 { if (pu) pp->putPayload("s", pu->mensuration); }

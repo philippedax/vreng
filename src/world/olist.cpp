@@ -105,8 +105,8 @@ void OList::show(list<WO*> &olist, const char *str)
   echo("%s", str);
 
   for (list<WO*>::reverse_iterator it = olist.rbegin(); it != olist.rend(); ++it) {
-    if ((*it)->names.instance)
-      echo("t=%d m=%d n=%d %s", (*it)->type, (*it)->mode, (*it)->num, (*it)->names.instance);
+    if ((*it)->name.instance)
+      echo("t=%d m=%d n=%d %s", (*it)->type, (*it)->mode, (*it)->num, (*it)->name.instance);
     else
       echo("t=%d m=%d n=%d (null)", (*it)->type, (*it)->mode, (*it)->num);
   }

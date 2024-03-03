@@ -204,8 +204,8 @@ Hat::Hat(User *user, void *d, time_t s, time_t u)
   char *str = static_cast<char *>(d);       // name transmitted
   if (!str) return;
 
-  strcpy(names.given, str);
-  strcpy(names.type, typeName());
+  strcpy(name.given, str);
+  strcpy(name.type, typeName());
   char *p = strchr(str, '&');
   *p = '\0';
   strcpy(modelname, str);

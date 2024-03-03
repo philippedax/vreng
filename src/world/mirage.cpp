@@ -117,7 +117,7 @@ void Mirage::parser(char *l)
 /** Sets name */
 void Mirage::setName()
 {
-  sprintf(names.given, "%s-%s.%d", MIRAGE_NAME, localuser->objectName(), getNum());
+  sprintf(name.given, "%s-%s.%d", MIRAGE_NAME, localuser->objectName(), getNum());
   updateNames();
 }
 
@@ -173,8 +173,8 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   char *str = static_cast<char *>(d);       // string
   if (!str) return;
 
-  strcpy(names.given, str);
-  strcpy(names.type, typeName());     // need names.type for VSql
+  strcpy(name.given, str);
+  strcpy(name.type, typeName());     // need name.type for VSql
 
   /* local creation */
   defaults();
@@ -190,7 +190,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   if (geomsolid && isprint(*geomsolid)) {	//FIXME: when object comes from Cart
     parseSolid(geomsolid);
   }
-  else error("Mirage: %s no geometry available", names.given);
+  else error("Mirage: %s no geometry available", name.given);
 
   enableBehavior(DYNAMIC);  // palette
   behaviors();

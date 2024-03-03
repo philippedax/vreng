@@ -89,7 +89,7 @@ void Walls::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (! stringcmp(l, "url")) l = parseUrl(l, names.url);
+    if (! stringcmp(l, "url")) l = parseUrl(l, name.url);
   }
   end_while_parse(l);
 }
@@ -113,7 +113,7 @@ Walls::Walls(char *l)
 
   initStillObject();
 
-  Http::httpOpen(names.url, reader, this, 0);
+  Http::httpOpen(name.url, reader, this, 0);
 
   draw();	// draws the walls
 }

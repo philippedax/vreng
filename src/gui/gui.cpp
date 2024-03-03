@@ -168,7 +168,7 @@ void Gui::updateCart(WO* po)
 {
   UBox* actions_cart = &uhbox(ulabel(ugroup(g.theme.objectTypeStyle
                                             + USymbol::right
-                                            + ustr(po->names.type)
+                                            + ustr(po->name.type)
                                            )
                                      + " "
                                      + ugroup(g.theme.objectNameStyle

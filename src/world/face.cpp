@@ -62,7 +62,7 @@ void Face::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url="))   l = parseUrl(l, names.url);
+    if      (! stringcmp(l, "url="))   l = parseUrl(l, name.url);
     else if (! stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
     else if (! stringcmp(l, "color=")) l = parseVector3f(l, color, "color");
     else if (! stringcmp(l, "model=")) {
@@ -109,7 +109,7 @@ void Face::behaviors()
 /* Sets an unique name */
 void Face::setName(const char *modelname)
 {
-  sprintf(names.given, "%s&%s", modelname, localuser->objectName());
+  sprintf(name.given, "%s&%s", modelname, localuser->objectName());
   updateNames();
 }
 
@@ -121,13 +121,13 @@ void Face::setName()
 /* special initializations */
 void Face::inits()
 {
-  model_t = Format::getModelByUrl(names.url);
+  model_t = Format::getModelByUrl(name.url);
   switch (model_t) {
   case MODEL_LWO: scale = LWO_SCALE; break;
   case MODEL_3DS: scale = _3DS_SCALE; break;
   }
 
-  model = new Model(localuser, names.url, scale);
+  model = new Model(localuser, name.url, scale);
   dz -= .10;
 
   // sets position near the avatar
@@ -160,8 +160,8 @@ Face::Face(User *user, void *d, time_t s, time_t u)
   char *str = static_cast<char *>(d);       // name transmitted
   if (!str) return;
 
-  strcpy(names.given, str);
-  strcpy(names.type, typeName());     // need names.type for VSql
+  strcpy(name.given, str);
+  strcpy(name.type, typeName());     // need name.type for VSql
   char *p = strchr(str, '&');
   *p = '\0';
   strcpy(modelname, str);
@@ -183,7 +183,7 @@ Face::Face(User *user, const char *url, const float *skin)
   dax = day = daz = 0;
   visible = true;
   model_t = 0;
-  strcpy(names.url, url);
+  strcpy(name.url, url);
   sprintf(modelname, "head");
   defaults();
   for (int i=0; i<3; i++) color[i] = skin[i];

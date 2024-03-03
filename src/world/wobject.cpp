@@ -70,16 +70,16 @@ WO::WO()
   mode = 0;
   behavior = 0;
 
-  memset(names.type, 0, sizeof(names.type));
-  memset(names.given, 0, sizeof(names.given));
-  memset(names.url, 0, sizeof(names.url));
-  memset(names.owner, 0, sizeof(names.owner));
+  memset(name.type, 0, sizeof(name.type));
+  memset(name.given, 0, sizeof(name.given));
+  memset(name.url, 0, sizeof(name.url));
+  memset(name.owner, 0, sizeof(name.owner));
 
-  names.implicit = NULL;
-  names.instance = NULL;
-  names.world = NULL;
-  names.category = NULL;
-  names.infos = NULL;
+  name.implicit = NULL;
+  name.instance = NULL;
+  name.world = NULL;
+  name.category = NULL;
+  name.infos = NULL;
   geomsolid = NULL;
 
   pos.x = 0;
@@ -129,9 +129,9 @@ WO::~WO()
     delete netop;
     netop = NULL;
   }
-  if (names.implicit && isalpha(names.implicit[0])) delete[] names.implicit;
-  if (names.category && isalpha(names.category[0])) delete[] names.category;
-  if (names.infos && isalpha(names.infos[0])) delete[] names.infos;
+  if (name.implicit && isalpha(name.implicit[0])) delete[] name.implicit;
+  if (name.category && isalpha(name.category[0])) delete[] name.category;
+  if (name.infos && isalpha(name.infos[0])) delete[] name.infos;
   if (geomsolid && isalpha(*geomsolid)) delete[] geomsolid;
   del_wobject++;
 }
@@ -345,7 +345,7 @@ bool WO::isSeen()
 
 bool WO::isOwner() const
 {
-  if (! strcmp(names.owner, localuser->names.instance)) {
+  if (! strcmp(name.owner, localuser->name.instance)) {
     return true;
   }
   return false;
@@ -353,13 +353,13 @@ bool WO::isOwner() const
 
 void WO::setOwner(const char *_owner)
 {
-  strcpy(names.owner, _owner);
+  strcpy(name.owner, _owner);
 }
 
 void WO::setOwner()
 {
   if (localuser)
-    setOwner(localuser->names.instance);
+    setOwner(localuser->name.instance);
   else
     setOwner("me");
 }
@@ -383,8 +383,8 @@ uint16_t WO::getNum()
 
 const char * WO::named() const
 {
-  if (*names.given)
-    return names.given;
+  if (*name.given)
+    return name.given;
   else
     return NULL;
 }
@@ -392,33 +392,33 @@ const char * WO::named() const
 /** Returns object's name */
 const char * WO::objectName() const
 {
-  if (names.instance)
-    return names.instance;
+  if (name.instance)
+    return name.instance;
   else
-    return names.given;
+    return name.given;
 }
 
 /** Returns url's name */
 const char * WO::urlName() const
 {
-  return names.url;
+  return name.url;
 }
 
 /** Returns owner's name */
 const char * WO::ownerName() const
 {
-  return names.owner;
+  return name.owner;
 }
 
 /** Returns world's name */
 const char * WO::worldName() const
 {
-  return names.world;
+  return name.world;
 }
 
 bool WO::givenName() const
 {
-  return *names.given;
+  return *name.given;
 }
  
 
@@ -656,7 +656,7 @@ bool WO::removeFromScene()
     return true;
   }
   else {
-    echo("Permission denied, owner is %s", names.owner);
+    echo("Permission denied, owner is %s", name.owner);
     removed = false;
     return false;
   }
@@ -664,7 +664,7 @@ bool WO::removeFromScene()
 
 ////////////////
 //
-// names
+// name
 //
 
 void WO::initNames()  
@@ -722,41 +722,41 @@ WO * WO::getObjectByName(const char *name)
   return NULL;              // not found
 }
 
-/** Sets Object names */
-void WO::forceNames(const char *name)
+/** Sets Object name */
+void WO::forceNames(const char *newname)
 {
-  strcpy(names.type, name);
-  names.implicit = new char[OBJNAME_LEN];
-  sprintf(names.implicit, "%s%d", name, num);
-  if (isupper(*(names.implicit))) {
-    *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
+  strcpy(name.type, newname);
+  name.implicit = new char[OBJNAME_LEN];
+  sprintf(name.implicit, "%s%d", newname, num);
+  if (isupper(*(name.implicit))) {
+    *name.implicit = tolower(*(name.implicit)); // name.implicit in lowercase
   }
-  names.instance = names.implicit;
+  name.instance = name.implicit;
 }
 
-/** Updates Object names */
+/** Updates Object name */
 void WO::updateNames()
 {
   if (! isValid()) return;
 
-  getObjectNameById(type, names.type);
+  getObjectNameById(type, name.type);
 
   if (! givenName()) {	// no given name
-    names.implicit = new char[OBJNAME_LEN];
-    sprintf(names.implicit, "%s%d", names.type, num);
-    if (isupper(*(names.implicit))) {
-      *names.implicit = tolower(*(names.implicit)); // names.implicit in lowercase
+    name.implicit = new char[OBJNAME_LEN];
+    sprintf(name.implicit, "%s%d", name.type, num);
+    if (isupper(*(name.implicit))) {
+      *name.implicit = tolower(*(name.implicit)); // name.implicit in lowercase
     }
-    names.instance = names.implicit;
+    name.instance = name.implicit;
   }
   else {
-    names.instance = names.given;
+    name.instance = name.given;
   }
 
-  setObjectName(names.instance);
-  names.world = World::current()->getName();
+  setObjectName(name.instance);
+  name.world = World::current()->getName();
 
-  if (*names.owner == 0) {
+  if (*name.owner == 0) {
     setOwner("public");  // public by default
   }
 }
@@ -829,7 +829,7 @@ int16_t WO::getPersist(int16_t state)
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
   int st = vsql->getState(this);
-  //echo("state: name=%s state=%d", names.given, st);
+  //echo("state: name=%s state=%d", name.given, st);
   state = (st != ERR_SQL) ? st : 0; // updates state
   return state;
 }
@@ -837,21 +837,21 @@ int16_t WO::getPersist(int16_t state)
 bool WO::checkPersist()
 {
   if (! vsql) vsql = new VSql();
-  int rows = vsql->countRows(names.type);
+  int rows = vsql->countRows(name.type);
   return rows;
 }
 
 void WO::setPersist()
 {
   if (! vsql) vsql = new VSql();
-  vsql->deleteRow(this, names.given);
+  vsql->deleteRow(this, name.given);
   vsql->insertRow(this);
 }
 
 void WO::updatePersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
-  vsql->deleteRow(this, names.given);
+  vsql->deleteRow(this, name.given);
   vsql->insertRow(this);
 }
 
@@ -860,7 +860,7 @@ void WO::updatePersist()
 void WO::updatePersist(int16_t _state)
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
-  vsql->deleteRow(this, names.given);
+  vsql->deleteRow(this, name.given);
   vsql->insertRow(this);
 }
 #endif //notused
@@ -872,7 +872,7 @@ void WO::savePersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
   if (vsql && isBehavior(PERSISTENT) && !removed) {
-    vsql->deleteRow(this, names.given);
+    vsql->deleteRow(this, name.given);
     vsql->insertRow(this);
     vsql->quit();
   }
@@ -881,7 +881,7 @@ void WO::savePersist()
 void WO::delPersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
-  vsql->deleteRow(this, names.given);
+  vsql->deleteRow(this, name.given);
 }
 
 ////////////////
@@ -1173,7 +1173,7 @@ OList * WO::delOList(OList *olist)
   OList *front = olist, *ol = NULL;
 
   if (! olist) {
-    error("delOList: %s:%s NULL olist", names.type, objectName());
+    error("delOList: %s:%s NULL olist", name.type, objectName());
     return NULL;
   }
   for (ol = olist; ol ; ol = ol->next) {  // sometimes crashes
@@ -1247,7 +1247,7 @@ OList * WO::addListToList(OList *l1, OList *l2)
 void WO::show(const char *name)
 {
   for (list<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
-    if (! strcmp((*it)->names.instance, name)) {
+    if (! strcmp((*it)->name.instance, name)) {
       trace(DBG_FORCE, "%s p=%.2f,%.2f,%.2f it=%.2f,%.2f c=%.2f,%.2f,%.2f s=%.2f,%.2f,%.2f",
             name,
             (*it)->pos.x, (*it)->pos.y, (*it)->pos.z,
@@ -1335,7 +1335,7 @@ void WO::get_ax(WO *po, Payload *pp)
 
 void WO::get_hname(WO *po, Payload *pp)
 {
-  pp->getPayload("s", po->names.type);
+  pp->getPayload("s", po->name.type);
 }
 
 //
@@ -1369,7 +1369,7 @@ void WO::put_ax(WO *po, Payload *pp)
 
 void WO::put_hname(WO *po, Payload *pp)
 {
-  pp->putPayload("s", po->names.type);
+  pp->putPayload("s", po->name.type);
 }
 
 /** Gets property from Network */

@@ -101,7 +101,7 @@ void Aoi::aoiEnter()
   /* quit current World or AoI (network shutdown) */
   aoiQuit();
 
-  sprintf(localuser->names.instance, "%s", avatarname);
+  sprintf(localuser->name.instance, "%s", avatarname);
   free(avatarname);
 
   /* new AoI is the current one */

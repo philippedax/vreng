@@ -37,7 +37,7 @@ void Download::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if (!stringcmp(l, "url")) l = parseUrl(l, names.url);
+    if (!stringcmp(l, "url")) l = parseUrl(l, name.url);
   }
   end_while_parse(l);
 }
@@ -51,9 +51,9 @@ Download::Download(char *l)
 
 void Download::get(Download *wo, void *d, time_t s, time_t u)
 {
-  char *pfile = strrchr(wo->names.url, '/');
+  char *pfile = strrchr(wo->name.url, '/');
   if (pfile) {
-    Cache::download(wo->names.url, ++pfile, "anon");
+    Cache::download(wo->name.url, ++pfile, "anon");
   }
 }
 

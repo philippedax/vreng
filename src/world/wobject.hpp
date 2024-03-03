@@ -94,11 +94,11 @@ struct hash_elt {
 };
 
 /**
- * Names struct
+ * Name struct
  *
  * container for object's names.
  */
-struct Names {
+struct Name {
   char type[HNAME_LEN];		///< name of an object class.
   char given[OBJNAME_LEN];	///< given name.
   char *instance;		///< name of an instancied object.
@@ -116,8 +116,6 @@ struct Names {
  * spatial position and bounding-box.
  */
 struct Pos {
-
- public:
   float x;		///< x absolute position.
   float y;		///< y absolute position.
   float z;		///< z absolute position.
@@ -158,7 +156,7 @@ class WO {
  public:
   class NetObj *netop;		///< reserved field for network.
   struct GuiItem *guip;		///< reserved field for GUI.
-  struct Names names;		///< names.
+  struct Name name;		///< names.
   struct Pos pos;		///< position in the space.
   struct Move move;		///< movement specific.
 
@@ -350,16 +348,16 @@ class WO {
   /**< Checks if valid object type. */
 
   const char * named() const;
-  /**< Gets names.given. */
+  /**< Gets name.given. */
 
   const char * objectName() const;
-  /**< Gets names.instance. */
+  /**< Gets name.instance. */
 
   const char * urlName() const;
-  /**< Gets names.url. */
+  /**< Gets name.url. */
 
   const char * ownerName() const;
-  /**< Gets names.owner. */
+  /**< Gets name.owner. */
 
   const char * worldName() const;
   /**< Gets name of world. */

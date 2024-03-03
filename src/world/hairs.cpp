@@ -51,7 +51,7 @@ void Hairs::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (!stringcmp(l, "url=")) l = parseUrl(l, names.url);
+    if      (!stringcmp(l, "url=")) l = parseUrl(l, name.url);
     else if (!stringcmp(l, "scale=")) l = parseFloat(l, &scale, "scale");
   }
   end_while_parse(l);
@@ -75,11 +75,11 @@ Hairs::Hairs(char *l)
 
   initMobileObject(0);
 
-  if (loader(names.url, scale)) {	// load model
+  if (loader(name.url, scale)) {	// load model
     dlist = glGenLists(1);
   }
   else {
-    error("hairs: %s not well loaded", names.url);
+    error("hairs: %s not well loaded", name.url);
   }
 }
 

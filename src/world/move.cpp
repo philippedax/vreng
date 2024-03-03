@@ -446,7 +446,7 @@ void WO::elemImposedMovement(float dt)
 void WO::imposedMovement(time_t sec, time_t usec)
 {
   if (! isValid()) {
-    error("imposedMovement: %s type=%d invalid", names.given, type);
+    error("imposedMovement: %s type=%d invalid", name.given, type);
     return;
   }
   if (! isMoving() && ! move.manip) return;	// no moving

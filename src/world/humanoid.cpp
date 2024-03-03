@@ -51,7 +51,7 @@ void Humanoid::defaults()
   head_url = new char[URL_LEN];
   memset(head_url, 0, URL_LEN);
   strcpy(vaps, DEF_VAPS_SERVER);   // default server
-  strcpy(names.url, DEF_BODY_URL); // default body
+  strcpy(name.url, DEF_BODY_URL); // default body
 
   for (int i=0; i<3; i++) cloth[i] = skin[i];
 }
@@ -63,7 +63,7 @@ void Humanoid::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "body="))   l = parseString(l, names.url, "body");	//body
+    if      (! stringcmp(l, "body="))   l = parseString(l, name.url, "body");	//body
     else if (! stringcmp(l, "head="))   l = parseString(l, head_url, "head");	//head
     else if (! stringcmp(l, "face="))   l = parseString(l, head_url, "face");	//head
     else if (! stringcmp(l, "color="))  l = parseVector3f(l, cloth, "color");	//color
@@ -102,7 +102,7 @@ void Humanoid::inits()
   bap = new Bap();
   body->bap = bap;
   body->setColors(skin, cloth);
-  body->load(names.url);
+  body->load(name.url);
   body->draw();
 
   if (*head_url) {

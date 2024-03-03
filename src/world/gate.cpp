@@ -65,8 +65,8 @@ void Gate::parser(char *l)
   begin_while_parse(l) {
     l = parseAttributes(l);
     if (!l) break;
-    if      (! stringcmp(l, "url"))     l = parseUrl(l, names.url);
-    else if (! stringcmp(l, "world"))   l = parseString(l, names.url, "world");
+    if      (! stringcmp(l, "url"))     l = parseUrl(l, name.url);
+    else if (! stringcmp(l, "world"))   l = parseString(l, name.url, "world");
     else if (! stringcmp(l, "channel")) l = parseString(l, chan, "channel");
     else if (! stringcmp(l, "mode")) {
       char modestr[6];
@@ -127,7 +127,7 @@ bool Gate::publish(const Pos &oldpos)
 void Gate::enter()
 {
   /* saves url because World::quit frees gate */
-  char *new_url = strdup(names.url);
+  char *new_url = strdup(name.url);
 
   if (link) {	// without channel
     World::current()->quit();
@@ -137,7 +137,7 @@ void Gate::enter()
   }
 
   // with channel
-  if (! strcmp(names.url, ::g.url)) {
+  if (! strcmp(name.url, ::g.url)) {
     sprintf(chan, "%s/%u/%d",
             Universe::current()->grpstr, Universe::current()->port, Channel::currentTtl());
     //echo("initial channel: %s", chan);
@@ -150,13 +150,13 @@ void Gate::enter()
 #if USE_VACS
   // call here the VACS (VREng Address Cache Server) to get the channel string
   Vac *vac = Vac::current();
-  if (! vac->getChannel(names.url, chan)) {
+  if (! vac->getChannel(name.url, chan)) {
     // this url is not in the cache, we need to ask to the vacs to resolve it
-    if (vac->resolveWorldUrl(names.url, chan)) {
-      echo("enter: resolveWorldUrl url=%s channel=%s", names.url, chan);
+    if (vac->resolveWorldUrl(name.url, chan)) {
+      echo("enter: resolveWorldUrl url=%s channel=%s", name.url, chan);
     }
     else {
-      //echo("enter: resolveWorldUrl failed from Vacs: url=%s", names.url);
+      //echo("enter: resolveWorldUrl failed from Vacs: url=%s", name.url);
       if (! *chan) {	// no given channel
         strcpy(chan, DEF_VRE_CHANNEL);	// forced to the default
       }
@@ -221,7 +221,7 @@ bool Gate::whenIntersect(WO *pcur, WO *pold)
     break;
   case BULLET_TYPE:
   case DART_TYPE:
-    echo("%s:%s hits %s:%s", pcur->names.type, pcur->objectName(), names.type, objectName());
+    echo("%s:%s hits %s:%s", pcur->name.type, pcur->objectName(), name.type, objectName());
     pold->copyPositionAndBB(pcur);
     pcur->toDelete();
     break;

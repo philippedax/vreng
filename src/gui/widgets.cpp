@@ -352,7 +352,7 @@ static void setUser(UBox *gu, User *user)
   gu->add(  ustr(user->objectName())
           + umenu(  UFont::bold + UColor::navy
                   + uhbox(" Name: "  + UFont::plain + user->objectName())
-                  + uhbox(" World: " + UFont::plain + user->names.world)
+                  + uhbox(" World: " + UFont::plain + user->name.world)
                   + uhbox(" Email: " + UFont::plain + user->email)
                   + uhbox(" Cname: " + UFont::plain + user->rtcpname)
                   + uhbox(" Vreng: " + UFont::plain + user->tool)
@@ -952,7 +952,7 @@ void Widgets::objectsDialog()
 
   UBox& objects_box = uvbox(UBackground::none);
   for (vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
-    sprintf(line, "%s:%s", (*it)->names.type, (*it)->names.instance);
+    sprintf(line, "%s:%s", (*it)->name.type, (*it)->name.instance);
     objects_box.add(uitem(UColor::black + line));
   }
   objects_dialog.setMessage(uscrollpane(  usize(150,350)

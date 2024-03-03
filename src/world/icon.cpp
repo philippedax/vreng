@@ -123,7 +123,7 @@ void Icon::parser(char *l)
     begin_while_parse(l) {
       l = parseAttributes(l);
       if (!l) break;
-      if (!stringcmp(l, "owner=")) l = parseString(l, names.owner, "owner");
+      if (!stringcmp(l, "owner=")) l = parseString(l, name.owner, "owner");
     }
     end_while_parse(l);
 }
@@ -160,7 +160,7 @@ Icon::Icon(User *user, void *d)
   for (char *pt = strtok(infos, "&"); pt ; pt = strtok(NULL, "&")) {
     if (! stringcmp(pt, "<url=")) {
       pt = getParam(pt);
-      strcpy(names.url, pt);
+      strcpy(name.url, pt);
       taken = true;
     }
     else if (! stringcmp(pt, "<file=")) {
@@ -169,11 +169,11 @@ Icon::Icon(User *user, void *d)
     }
     else if (! stringcmp(pt, "<ofile=")) {
       pt = getParam(pt);
-      strcpy(names.url, pt);
+      strcpy(name.url, pt);
     }
     else if (! stringcmp(pt, "<name=")) {
       pt = getParam(pt);
-      strcpy(names.given, pt);
+      strcpy(name.given, pt);
     }
     else if (! stringcmp(pt, "<icon=")) {
       pt = getParam(pt);
@@ -196,7 +196,7 @@ Icon::Icon(User *user, void *d)
     parser(vref);
 
     // get the last loaded texture
-    int texid = Texture::getIdByUrl(names.url);
+    int texid = Texture::getIdByUrl(name.url);
     Texture *texlast = Texture::getTexById(texid);
     if (! texlast) {
       tex = new char[sizeof(ICO_DEF) + 1];
@@ -225,7 +225,7 @@ Icon::Icon(User *user, void *d)
       // default binding icon to document
       char ext[8] = "";
       memset(ext, 0, sizeof(ext));
-      if (Format::getExt(names.url, ext)) {
+      if (Format::getExt(name.url, ext)) {
         tex = new char[URL_LEN];
         Format::getImgByExt(ext, tex);
       }
@@ -236,7 +236,7 @@ Icon::Icon(User *user, void *d)
     }
 
     if (ifile) {	// private local document
-      if (*names.url) {
+      if (*name.url) {
         // public url given by user
         Cache::download(ifile, ofile, "inout");
       }
@@ -268,7 +268,7 @@ Icon::Icon(User *user, void *d)
             delete fileout;
             chmod(ofile, 0644);
 
-            sprintf(names.url, "http://%s/%s/vreng/%s", ::g.server, ::g.urlpfx, ifile);
+            sprintf(name.url, "http://%s/%s/vreng/%s", ::g.server, ::g.urlpfx, ifile);
           }
           else {
             error("can't open %s or %s: %s (%d)", ifile, ofile, strerror(errno), errno);
@@ -457,18 +457,18 @@ void Icon::open(Icon *icon, void *d, time_t s, time_t u)
   char *p, ext[8] = "???";
   memset(ext+3, 0, sizeof(ext)-3);
 
-  Format::getExt(icon->names.url, ext);
+  Format::getExt(icon->name.url, ext);
   switch (Format::getPlayerByExt(ext)) {
-  case PLAYER_PS:  Ps::view(icon->names.url); break;
-  case PLAYER_PDF: Pdf::start(icon->names.url); break;
+  case PLAYER_PS:  Ps::view(icon->name.url); break;
+  case PLAYER_PDF: Pdf::start(icon->name.url); break;
   case PLAYER_WGET:
-    if ((p = strrchr(icon->names.url, '/')))
-      Cache::download(icon->names.url, ++p, "");
+    if ((p = strrchr(icon->name.url, '/')))
+      Cache::download(icon->name.url, ++p, "");
     break;
-  case PLAYER_OFFICE: Office::start(icon->names.url); break;
-  case PLAYER_MP3:    Mp3::start(icon->names.url); break;
-  case PLAYER_MIDI:   Midi::start(icon->names.url); break;
-  default:            Browser::start(icon->names.url, false);  // without rewrite
+  case PLAYER_OFFICE: Office::start(icon->name.url); break;
+  case PLAYER_MP3:    Mp3::start(icon->name.url); break;
+  case PLAYER_MIDI:   Midi::start(icon->name.url); break;
+  default:            Browser::start(icon->name.url, false);  // without rewrite
   }
 }
 
@@ -477,12 +477,12 @@ void Icon::save(Icon *icon, void *d, time_t s, time_t u)
   char *pfile;
 
   chdir(::g.env.cwd());
-  if (icon->names.url[strlen(icon->names.url) - 1] == '/') {
-    Cache::download(icon->names.url, NULL, "");
-    echo("icon: web %s saved", icon->names.url);
+  if (icon->name.url[strlen(icon->name.url) - 1] == '/') {
+    Cache::download(icon->name.url, NULL, "");
+    echo("icon: web %s saved", icon->name.url);
   }
-  else if ((pfile = strrchr(icon->names.url, '/'))) {
-    Cache::download(icon->names.url, ++pfile, "");
+  else if ((pfile = strrchr(icon->name.url, '/'))) {
+    Cache::download(icon->name.url, ++pfile, "");
     echo("icon: file %s saved", pfile);
   }
   else echo("icon: nothing to save");
@@ -504,7 +504,7 @@ void Icon::destroy(Icon *icon, void *d, time_t s, time_t u)
     // remove file
     char ficon[URL_LEN];
 
-    Url::url2file(icon->names.url, ficon);
+    Url::url2file(icon->name.url, ficon);
     chdir(::g.env.icons());
     chdir(icon->worldName());
     unlink(ficon);
@@ -515,14 +515,14 @@ void Icon::destroy(Icon *icon, void *d, time_t s, time_t u)
 void Icon::get_url(Icon *icon, Payload *pp)
 {
   if (icon) {
-    pp->getPayload("s", icon->names.url);
-    trace(DBG_WO, "get_url: %s", icon->names.url);
+    pp->getPayload("s", icon->name.url);
+    trace(DBG_WO, "get_url: %s", icon->name.url);
   }
 }
 
 void Icon::put_url(Icon *icon, Payload *pp)
 {
-  if (icon) pp->putPayload("s", icon->names.url);
+  if (icon) pp->putPayload("s", icon->name.url);
 }
 
 void Icon::get_tex(Icon *icon, Payload *pp)
@@ -555,10 +555,10 @@ void Icon::put_gname(Icon *icon, Payload *pp)
 void Icon::quit()
 {
   // Save icons for persistency
-  if ((! taken) && (! remove) && *names.url) {
+  if ((! taken) && (! remove) && *name.url) {
     char ficon[URL_LEN];
 
-    Url::url2file(names.url, ficon);
+    Url::url2file(name.url, ficon);
 
     if (chdir(::g.env.icons()) != -1 ) {
       struct stat bufstat;
@@ -579,7 +579,7 @@ void Icon::quit()
         sprintf(buf, "name=\"%s\" pos=\"%.2f %.2f %.2f %.2f %.2f\" owner=\"%s\" solid dim=\"%.2f %.2f %.2f\" dif=\"%s\" xn=\"%s\" ",
                 objectName(),
                 pos.x, pos.y, pos.z, pos.az, pos.ax,
-                names.owner[0] ? names.owner : "",
+                name.owner[0] ? name.owner : "",
                 WIDTH, DEPTH, HEIGHT, COLOR, tex);
         strcat(buf, "\n");
         fputs(buf, fp);
