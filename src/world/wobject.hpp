@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng/
 //
 // Copyright (C) 1997-2011 Philippe Dax
 // Telecom-ParisTech (Ecole Nationale Superieure des Telecommunications)
@@ -99,13 +99,13 @@ struct Hash {
 struct Name {
   char *type;		///< name of an object class.
   char *given;		///< given name.
+  char *url;		///< url.
+  char *owner;		///< owner.
   char *instance;	///< name of an instancied object.
   char *implicit;	///< implicit name.
   char *category;	///< category name.
   char *infos;		///< infos of an instancied object.
   const char *world;	///< name of world where is this object.
-  char *url;		///< url.
-  char *owner;		///< owner.
 };
 
 /**

@@ -1,5 +1,5 @@
 //---------------------------------------------------------------------------
-// VREng (Virtual Reality Engine)	http://www.vreng.enst.fr/
+// VREng (Virtual Reality Engine)	https://github.com/philippedax/vreng/
 //
 // Copyright (C) 1997-2021 Philippe Dax
 // Telecom-Paris (Ecole Nationale Superieure des Telecommunications)
@@ -70,14 +70,11 @@ WO::WO()
   mode = 0;
   behavior = 0;
 
-  //memset(name.type, 0, sizeof(name.type));
-  //memset(name.given, 0, sizeof(name.given));
-  //memset(name.url, 0, sizeof(name.url));
-  //memset(name.owner, 0, sizeof(name.owner));
   name.type = new char[TYPENAME_LEN];
   name.given = new char[OBJNAME_LEN];
   name.url = new char[URL_LEN];
   name.owner = new char[USER_LEN];
+
   name.implicit = NULL;
   name.instance = NULL;
   name.world = NULL;
@@ -117,7 +114,15 @@ WO::WO()
 /** WO destructor */
 WO::~WO()
 {
-  if (! isValid()) return;
+  if (name.type && isalpha(name.type[0])) delete[] name.type;
+  if (name.given && isalpha(name.given[0])) delete[] name.given;
+  if (name.url && isalpha(name.url[0])) delete[] name.url;
+  if (name.owner && isalpha(name.owner[0])) delete[] name.owner;
+  if (name.implicit && isalpha(name.implicit[0])) delete[] name.implicit;
+  if (name.category && isalpha(name.category[0])) delete[] name.category;
+  if (name.infos && isalpha(name.infos[0])) delete[] name.infos;
+  if (geomsolid && isalpha(*geomsolid)) delete[] geomsolid;
+
   if (! isBehavior(COLLIDE_NEVER)) {
     delFromGrid();
   }
@@ -132,14 +137,6 @@ WO::~WO()
     delete netop;
     netop = NULL;
   }
-  if (name.type && isalpha(name.type[0])) delete[] name.type;
-  if (name.given && isalpha(name.given[0])) delete[] name.given;
-  if (name.url && isalpha(name.url[0])) delete[] name.url;
-  if (name.owner && isalpha(name.owner[0])) delete[] name.owner;
-  if (name.implicit && isalpha(name.implicit[0])) delete[] name.implicit;
-  if (name.category && isalpha(name.category[0])) delete[] name.category;
-  if (name.infos && isalpha(name.infos[0])) delete[] name.infos;
-  if (geomsolid && isalpha(*geomsolid)) delete[] geomsolid;
   del_wobject++;
 }
 
