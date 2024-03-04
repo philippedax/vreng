@@ -507,7 +507,7 @@ char * Parse::parseAttributes(char *l, WO *wobject)
   return l;
 }
 
-/** parse object description name.infos, name.category */
+/** Parses object description name.infos, name.category */
 char * Parse::parseDescr(char *l, char *strdst)
 {
   l = skipEqual(l);
@@ -529,13 +529,14 @@ char * Parse::parseDescr(char *l, char *strdst)
   return nextToken();
 }
 
-/** parse object name: fill name.given */
+/** Parses object name: fill name.given */
 char * Parse::parseName(char *l, char *name)
 {
+  name = new char[OBJNAME_LEN];
   return parseQuotedString(l, name, "name");
 }
 
-/** parse caption text */
+/** Parses caption text */
 char * Parse::parseCaption(char *l, char *caption)
 {
   return parseQuotedString(l, caption, "caption");
@@ -546,7 +547,7 @@ char * Parse::parseCaption(char *l, char *caption, const char *keystr)
   return parseQuotedString(l, caption, keystr);
 }
 
-/** parse spacial position and orientation : x y z az ax ay */
+/** Parses spacial position and orientation : x y z az ax ay */
 char * Parse::parsePosition(char *ptok, Pos &pos)
 {
   pos.x = pos.y = pos.z = pos.az = pos.ax = pos.ay = 0;
@@ -618,7 +619,7 @@ char * Parse::parsePosition(char *ptok, Pos &pos)
   return ptok;	//dummy
 }
 
-/** parse colors: r g b a */
+/** Parses colors: r g b a */
 char * Parse::parseColor(char *ptok, Pos &p)
 {
   if (! stringcmp(ptok, "color=")) {
@@ -650,7 +651,7 @@ char * Parse::parseColor(char *ptok, Pos &p)
   return nextToken();
 }
 
-/** parse a guide */
+/** Parses a guide */
 char * Parse::parseGuide(char *ptok, float path[][5], uint8_t *segs)
 {
   if ( (! stringcmp(ptok, "path=")) || (! stringcmp(ptok, "guide=")) ) {
@@ -710,7 +711,7 @@ char * Parse::parseSolid(char *ptok, WO *wobject)
   return ptok;
 }
 
-/** parse a solid */
+/** Parses a solid */
 char * Parse::parseSolid(char *ptok, const char *sep, WO *wobject)
 {
   if (*ptok == '<') ptok++;
@@ -718,7 +719,7 @@ char * Parse::parseSolid(char *ptok, const char *sep, WO *wobject)
   return parseSolid(ptok, wobject);
 }
 
-/** parse several solids */
+/** Parses several solids */
 void Parse::parseSolids(char *ptok, const char *sep, WO *wobject)
 {
   strtok(ptok, sep);		// a solid is tokenized
@@ -727,7 +728,7 @@ void Parse::parseSolids(char *ptok, const char *sep, WO *wobject)
   }
 }
 
-/** parse a rotation */
+/** Parses a rotation */
 char * Parse::parseRotation(char *ptok, Pos &p)
 {
   if (! stringcmp(ptok, "rot=") || ! stringcmp(ptok, "rotation=")) {
@@ -748,7 +749,7 @@ char * Parse::parseRotation(char *ptok, Pos &p)
   return nextToken();
 }
 
-/** parse a translation */
+/** Parses a translation */
 char * Parse::parseTranslation(char *ptok, Pos &p)
 {
   if (! stringcmp(ptok, "trans=") || ! stringcmp(ptok, "translation=")) {
@@ -768,16 +769,18 @@ char * Parse::parseTranslation(char *ptok, Pos &p)
   return nextToken();
 }
 
-/** parse an url */
+/** Parses an url */
 char * Parse::parseUrl(char *ptok, char *url)
 {
+  //echo("url: %s", ptok);
+  //dax1 url = new char[URL_LEN];
   if (! stringcmp(ptok, "url="))
     return parseString(ptok, url, "url");
   else
     return parseString(ptok, url);
 }
 
-/** parse a world and a channel */
+/** Parses a world and a channel */
 char * Parse::parseWorldAndChannel(char *ptok, char *url, char *chan)
 {
   if (! strcmp(ptok, "world")) {	// <world>
@@ -793,7 +796,7 @@ char * Parse::parseWorldAndChannel(char *ptok, char *url, char *chan)
   }
 }
 
-/** parse a channel */
+/** Parses a channel */
 char * Parse::parseChannel(char *ptok, char *channel)
 {
   if (ptok) {
@@ -806,7 +809,7 @@ char * Parse::parseChannel(char *ptok, char *channel)
   return nextToken();
 }
 
-/** parse a string */
+/** Parses a string */
 // we assume that there is no space in the string, else loop bug for the caller
 char * Parse::parseString(char *ptok, char *str)
 {
@@ -819,7 +822,7 @@ char * Parse::parseString(char *ptok, char *str)
   return nextToken();
 }
 
-/** parse a string */
+/** Parses a string */
 char * Parse::parseString(char *ptok, char *str, const char *keystr)
 {
   if (ptok && !stringcmp(ptok, keystr)) {
@@ -829,7 +832,7 @@ char * Parse::parseString(char *ptok, char *str, const char *keystr)
   return nextToken();
 }
 
-/** parse a quoted text */
+/** Parses a quoted text */
 char * Parse::parseQuotedString(char *ptok, char *str)
 {
   char *p, *s = str;
@@ -848,10 +851,10 @@ char * Parse::parseQuotedString(char *ptok, char *str)
   return nextToken();
 }
 
-/** parse a quoted text */
+/** Parses a quoted text */
 char * Parse::parseQuotedString(char *ptok, char *str, const char *keystr)
 {
-  if (ptok && !stringcmp(ptok, keystr)) {
+  if (ptok && ! stringcmp(ptok, keystr)) {
     ptok = skipEqual(ptok);
     return parseQuotedString(ptok, str);
   }

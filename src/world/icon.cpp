@@ -542,8 +542,8 @@ void Icon::put_tex(Icon *icon, Payload *pp)
 void Icon::get_gname(Icon *icon, Payload *pp)
 {
   if (icon) {
-    pp->getPayload("s", icon->named());
-    if (icon->named()) trace(DBG_WO,"get_gname: %s", icon->named());
+    pp->getPayload("s", icon->objectName());
+    if (icon->objectName()) trace(DBG_WO,"get_gname: %s", icon->objectName());
   }
 }
 

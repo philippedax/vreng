@@ -38,7 +38,7 @@ X3d::X3d(const char *_url) : rootShape(0)
 {
   defaults();
 
-  url = new char[strlen(_url) + 1];
+  url = new char[URL_LEN];
   strcpy(url, _url);
 
   Http::httpOpen(url, reader, this, 0);

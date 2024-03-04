@@ -41,7 +41,6 @@ void Cart::parser(char *l)
   defaults();
   l = tokenize(l);
   l = parseName(l, name.given);	// basket
-  name.instance = name.given;
 }
 
 /* defaults values */
@@ -137,7 +136,7 @@ void Cart::leave(WO *po)
 
   // update the object's name with the type name as prefix
   char tmpname[64];
-  sprintf(tmpname, "%s-%s", po->typeName(), po->named());
+  sprintf(tmpname, "%s-%s", po->typeName(), po->objectName());
   strcpy(po->name.given, tmpname);
   po->updateNames();
 

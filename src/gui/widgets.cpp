@@ -952,7 +952,7 @@ void Widgets::objectsDialog()
 
   UBox& objects_box = uvbox(UBackground::none);
   for (vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
-    sprintf(line, "%s:%s", (*it)->name.type, (*it)->name.instance);
+    sprintf(line, "%s:%s", (*it)->name.type, (*it)->objectName());
     objects_box.add(uitem(UColor::black + line));
   }
   objects_dialog.setMessage(uscrollpane(  usize(150,350)
@@ -1767,6 +1767,6 @@ void Widgets::getMessage(UMessageEvent &e)
   if (! msg || msg->empty())  return;
 
   // a completer
-  //cerr << "get: " << *selected_object_url << endl;
+  //notused cerr << "get: " << *selected_object_url << endl;
 }
 

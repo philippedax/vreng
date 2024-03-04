@@ -345,9 +345,6 @@ class WO {
   bool isValid() const;
   /**< Checks if valid object type. */
 
-  const char * named() const;
-  /**< Gets name.given. */
-
   const char * objectName() const;
   /**< Gets name.instance. */
 
@@ -359,9 +356,6 @@ class WO {
 
   const char * worldName() const;
   /**< Gets name of world. */
-
-  bool givenName() const;
-  /**< Checks whether the object is explicitly named. */
 
   void toDelete();
   /**< Delete this object later. */
@@ -650,9 +644,6 @@ class WO {
  private:
   void setObjectName(const char *str);
   /**< Sets an object name. */
-
-  void getObjectNameById(uint8_t type, char *name);	// static?
-  /**< Gets a name by its id. */
 
   //
   // Initializations (see wobject.cpp)

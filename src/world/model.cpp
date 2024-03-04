@@ -146,6 +146,7 @@ Model::Model(WO *user, char *url, float _scale)
 
   setName();
   setOwner();
+  //dax1 name.url = new char[URL_LEN];
   strcpy(name.url, url);
   loader();
   scale = _scale;
@@ -163,7 +164,7 @@ Model::Model(WO *user, char *url, float _scale)
 
 void Model::loader()
 {
-  if (*name.url == 0 || ! strcmp(name.url, "man")) {
+  if ((name.url && *name.url == 0) || (name.url && ! strcmp(name.url, "man"))) {
     model_t = MODEL_MAN;	// hugly hack!!!
     disableBehavior(SPECIFIC_RENDER);
   }

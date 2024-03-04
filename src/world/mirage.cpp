@@ -152,7 +152,7 @@ Mirage::Mirage(WO *user, char *geom)
   setOwner();
 
   vsql = new VSql();
-  if (isBehavior(PERSISTENT) && vsql && named()) {
+  if (isBehavior(PERSISTENT) && vsql && objectName()) {
     vsql->insertRow(this);
   }
   parseSolid(geom);
@@ -182,7 +182,7 @@ Mirage::Mirage(World *pw, void *d, time_t s, time_t u)
   // we don't know anything about the geometry except from VSql
   geomsolid = new char[256];
   vsql = new VSql();
-  if (isBehavior(PERSISTENT) && vsql && named()) {
+  if (isBehavior(PERSISTENT) && vsql && objectName()) {
     vsql->getGeom(this);
     vsql->getOwner(this);
     vsql->getPos(this);

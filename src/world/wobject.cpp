@@ -71,10 +71,11 @@ WO::WO()
   behavior = 0;
 
   name.type = new char[TYPENAME_LEN];
-  name.given = new char[OBJNAME_LEN];
   name.url = new char[URL_LEN];
-  name.owner = new char[USER_LEN];
 
+  //dax1 name.url = NULL;
+  name.given = NULL;
+  name.owner = NULL;
   name.implicit = NULL;
   name.instance = NULL;
   name.world = NULL;
@@ -114,14 +115,14 @@ WO::WO()
 /** WO destructor */
 WO::~WO()
 {
-  if (name.type && isalpha(name.type[0])) delete[] name.type;
-  if (name.given && isalpha(name.given[0])) delete[] name.given;
-  if (name.url && isalpha(name.url[0])) delete[] name.url;
-  if (name.owner && isalpha(name.owner[0])) delete[] name.owner;
-  if (name.implicit && isalpha(name.implicit[0])) delete[] name.implicit;
-  if (name.category && isalpha(name.category[0])) delete[] name.category;
-  if (name.infos && isalpha(name.infos[0])) delete[] name.infos;
-  if (geomsolid && isalpha(*geomsolid)) delete[] geomsolid;
+  if (name.type) delete[] name.type;
+  if (name.given) delete[] name.given;
+  if (name.url) delete[] name.url;
+  if (name.owner) delete[] name.owner;
+  if (name.implicit) delete[] name.implicit;
+  if (name.category) delete[] name.category;
+  if (name.infos) delete[] name.infos;
+  if (geomsolid) delete[] geomsolid;
 
   if (! isBehavior(COLLIDE_NEVER)) {
     delFromGrid();
@@ -357,6 +358,7 @@ bool WO::isOwner() const
 
 void WO::setOwner(const char *_owner)
 {
+  name.owner = new char[USER_LEN];
   strcpy(name.owner, _owner);
 }
 
@@ -368,29 +370,10 @@ void WO::setOwner()
     setOwner("me");
 }
 
-/** Returns the name of an object */
-void WO::getObjectNameById(uint8_t type, char *name)
-{
-  const OClass *oclass = OClass::getOClass(type);
-  if (oclass) {
-    strcpy(name, oclass->type_name);
-  }
-  else
-    error("getObjectNameById: no name found for type=%d", type);
-}
-
 uint16_t WO::getNum()
 {
   num = ++objectNum;
   return num;
-}
-
-const char * WO::named() const
-{
-  if (*name.given)
-    return name.given;
-  else
-    return NULL;
 }
 
 /** Returns object's name */
@@ -420,18 +403,13 @@ const char * WO::worldName() const
   return name.world;
 }
 
-bool WO::givenName() const
-{
-  return *name.given;
-}
- 
 
 ////////////////
 //
 // Solids
 //
 
-/** returns the first solid of the object - accessor */
+/** Returns the first solid of the object - accessor */
 Solid* WO::getSolid() const
 {
   return solid;
@@ -744,9 +722,15 @@ void WO::updateNames()
 {
   if (! isValid()) return;
 
-  getObjectNameById(type, name.type);
+  const OClass *oclass = OClass::getOClass(type);
+  if (oclass) {
+    strcpy(name.type, oclass->type_name);
+  }
+  else {
+    error("updateNames: no name found for type=%d", type);
+  }
 
-  if (! givenName()) {	// no given name
+  if (! name.given) {	// no given name
     name.implicit = new char[OBJNAME_LEN];
     sprintf(name.implicit, "%s%d", name.type, num);
     if (isupper(*(name.implicit))) {
@@ -761,7 +745,7 @@ void WO::updateNames()
   setObjectName(name.instance);
   name.world = World::current()->getName();
 
-  if (*name.owner == 0) {
+  if (name.owner && *name.owner == 0) {
     setOwner("public");  // public by default
   }
 }
@@ -834,7 +818,7 @@ int16_t WO::getPersist(int16_t state)
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
   int st = vsql->getState(this);
-  //echo("state: name=%s state=%d", name.given, st);
+  //echo("state: name=%s state=%d", objectName(), st);
   state = (st != ERR_SQL) ? st : 0; // updates state
   return state;
 }
@@ -849,14 +833,14 @@ bool WO::checkPersist()
 void WO::setPersist()
 {
   if (! vsql) vsql = new VSql();
-  vsql->deleteRow(this, name.given);
+  vsql->deleteRow(this, objectName());
   vsql->insertRow(this);
 }
 
 void WO::updatePersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
-  vsql->deleteRow(this, name.given);
+  vsql->deleteRow(this, objectName());
   vsql->insertRow(this);
 }
 
@@ -865,7 +849,7 @@ void WO::updatePersist()
 void WO::updatePersist(int16_t _state)
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
-  vsql->deleteRow(this, name.given);
+  vsql->deleteRow(this, objectName());
   vsql->insertRow(this);
 }
 #endif //notused
@@ -877,7 +861,7 @@ void WO::savePersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
   if (vsql && isBehavior(PERSISTENT) && !removed) {
-    vsql->deleteRow(this, name.given);
+    vsql->deleteRow(this, objectName());
     vsql->insertRow(this);
     vsql->quit();
   }
@@ -886,7 +870,7 @@ void WO::savePersist()
 void WO::delPersist()
 {
   if (! vsql) vsql = new VSql();	// first take the VSql handle;
-  vsql->deleteRow(this, name.given);
+  vsql->deleteRow(this, objectName());
 }
 
 ////////////////

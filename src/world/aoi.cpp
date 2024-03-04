@@ -94,18 +94,15 @@ Aoi::Aoi(char *l)
  */
 void Aoi::aoiEnter()
 {
-  trace(DBG_WO, "aoiEnter: world=%s:%s worlds=%p", World::current()->getName(), this->chan, World::current());
-  echo("Avatar \"%s\" enters in %s:%s", localuser->objectName(), World::current()->getName(), this->chan);
+  echo("avatar \"%s\" enters in %s:%s", localuser->objectName(), World::current()->getName(), this->chan);
   char * avatarname = strdup(localuser->objectName());
 
-  /* quit current World or AoI (network shutdown) */
-  aoiQuit();
+  aoiQuit();		// quit current World or AoI (network shutdown)
 
   sprintf(localuser->name.instance, "%s", avatarname);
   free(avatarname);
 
-  /* new AoI is the current one */
-  currentAoi = this;
+  currentAoi = this;	// new AoI is the current one
 
   /* initializes network with new AoI's mcast group (cf. channel.cc) */
   Channel *pchan = new Channel();

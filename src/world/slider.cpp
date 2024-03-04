@@ -88,12 +88,12 @@ void Slider::changePosition(float lasting)
 
   // check if user out
   if (interAABB(capted, this) == 0) {
-    //echo("user out %s", name.instance);
+    //echo("user out %s", objectName());
     capted = NULL;
     state = INACTIVE;
     return;
   }
-  //echo("user in %s", name.instance);
+  //echo("user in %s", objectName());
   // progression
   capted->pos.x += incrx * cos(pos.az);
   capted->pos.y += incry * sin(pos.az);

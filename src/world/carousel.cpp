@@ -70,6 +70,7 @@ void Carousel::behaviors()
 
 void Carousel::inits()
 {
+  //echo("urlx3d: %s", name.url);
   x3d = new X3d(name.url);
 
   initMobileObject(0);

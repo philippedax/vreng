@@ -742,14 +742,14 @@ void VSql::createTable(const char *table)
 /** Insert row into the sql table */
 void VSql::insertRow(WO *o)
 {
-  if (! o->named()) return;	// no name
+  if (! o->objectName()) return;	// no name
   //echo("insertrow: %.1f %.1f %.1f", o->pos.x, o->pos.y, o->pos.z);
   createTable(o->typeName());
   sprintf(sql, "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s) \
                 VALUES ( '%s@%s', '%d', '%f', '%f', '%f', '%f', '%s', '%s' )",
           o->typeName(),
           C_NAME, C_STATE, C_X, C_Y, C_Z, C_AZ, C_OWNER, C_GEOM,
-          o->named(), World::current()->getName(),		// name
+          o->objectName(), World::current()->getName(),		// name
           o->state,						// state
           o->pos.x, o->pos.y, ABSF(o->pos.z), o->pos.az,	// pos
           o->ownerName(), o->geomsolid);			// owner + geom
@@ -829,29 +829,29 @@ void VSql::updateString(WO *o, const char *table, const char *col, const char *n
 /** Updates int into the sql table */
 void VSql::updateInt(WO *o, const char *col, int val)
 {
-  if (! o->named()) return;	// no name
-  updateInt(o, o->typeName(), col, o->named(), World::current()->getName(), val);
+  if (! o->objectName()) return;	// no name
+  updateInt(o, o->typeName(), col, o->objectName(), World::current()->getName(), val);
 }
 
 /** Updates float into the sql table */
 void VSql::updateFloat(WO *o, const char *col, float val)
 {
-  if (! o->named()) return;	// no name
-  updateFloat(o, o->typeName(), col, o->named(), World::current()->getName(), val);
+  if (! o->objectName()) return;	// no name
+  updateFloat(o, o->typeName(), col, o->objectName(), World::current()->getName(), val);
 }
 
 /** Updates string into the sql table */
 void VSql::updateString(WO *o, const char *col, const char *str)
 {
-  if (! o->named()) return;	// no name
-  updateString(o, o->typeName(), col, o->named(), World::current()->getName(), str);
+  if (! o->objectName()) return;	// no name
+  updateString(o, o->typeName(), col, o->objectName(), World::current()->getName(), str);
 }
 
 /** Updates string into the sql table */
 void VSql::updateString(WO *o, const char *table, const char *col, const char *str)
 {
-  if (! o->named()) return;	// no name
-  updateString(o, table, col, o->named(), World::current()->getName(), str);
+  if (! o->objectName()) return;	// no name
+  updateString(o, table, col, o->objectName(), World::current()->getName(), str);
 }
 
 void VSql::updateState(WO *o)
@@ -945,8 +945,8 @@ void VSql::deleteRow(WO *o, const char *str)
 /** Deletes a row of this object */
 void VSql::deleteRow(WO *o)
 {
-  if (! o->named()) return;	// no name
-  deleteRow(o, o->typeName(), o->named(), World::current()->getName());
+  if (! o->objectName()) return;	// no name
+  deleteRow(o, o->typeName(), o->objectName(), World::current()->getName());
 }
 
 /** Deletes all rows of this object */
@@ -963,19 +963,19 @@ void VSql::deleteRows(WO *o)
 /** Selects an integer value from a row in the sql table */
 int VSql::getInt(WO *o, const char *col, uint16_t irow)
 {
-  return selectInt(o->typeName(), col, o->named(), World::current()->getName(), irow);
+  return selectInt(o->typeName(), col, o->objectName(), World::current()->getName(), irow);
 }
 
 /** Selects a float from a row in the sql table */
 float VSql::getFloat(WO *o, const char *col, uint16_t irow)
 {
-  return selectFloat(o->typeName(), col, o->named(), World::current()->getName(), irow);
+  return selectFloat(o->typeName(), col, o->objectName(), World::current()->getName(), irow);
 }
 
 /** Selects a string from a row in the sql table */
 int VSql::getString(WO *o, const char *col, char *str, uint16_t irow)
 {
-  return selectString(o->typeName(), col, o->named(), World::current()->getName(), str, irow);
+  return selectString(o->typeName(), col, o->objectName(), World::current()->getName(), str, irow);
 }
 
 

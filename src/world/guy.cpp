@@ -105,12 +105,14 @@ void Guy::inits()
 
   draw();
 
+  //dax1 name.url = new char[URL_LEN];
+  strcpy(name.url, DEF_URL_GUY);
   Http::httpOpen(name.url, reader, this, 0);
 
   computeCurve();
 }
 
-/* constructor from xml file */
+/** constructor from xml file */
 Guy::Guy(char *l)
 {
   parser(l);
@@ -120,15 +122,13 @@ Guy::Guy(char *l)
   control = false;
 }
 
-/* constructor from user */
+/** constructor from user */
 Guy::Guy()
 {
   defaults();
   control = true;
   behaviors();
   geometry();
-
-  strcpy(name.url, DEF_URL_GUY);
   inits();
 
   setActionFunc(GUY_TYPE, 1, _Action NULL, "");  // cancel
@@ -137,6 +137,7 @@ Guy::Guy()
 
 //const char * Guy::getUrl() const { return (const char *) name.url; }
 
+/** Reads curves file */
 void Guy::reader(void *_guy, Http *http)
 {
   Guy *guy = static_cast<Guy *>(_guy);
@@ -193,6 +194,7 @@ abort:
   return;
 }
 
+/** Compute curves */
 void Guy::computeCurve()
 {
   float pointset[3][4];

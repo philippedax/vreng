@@ -66,7 +66,6 @@ void Gate::parser(char *l)
     l = parseAttributes(l);
     if (!l) break;
     if      (! stringcmp(l, "url"))     l = parseUrl(l, name.url);
-    else if (! stringcmp(l, "world"))   l = parseString(l, name.url, "world");
     else if (! stringcmp(l, "channel")) l = parseString(l, chan, "channel");
     else if (! stringcmp(l, "mode")) {
       char modestr[6];
@@ -127,6 +126,8 @@ bool Gate::publish(const Pos &oldpos)
 void Gate::enter()
 {
   /* saves url because World::quit frees gate */
+  //dax1 name.url = new char[URL_LEN];
+  //echo("enter: %s", name.url);
   char *new_url = strdup(name.url);
 
   if (link) {	// without channel

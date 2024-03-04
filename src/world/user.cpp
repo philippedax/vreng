@@ -91,7 +91,8 @@ void User::defaults()
 
 void User::setName()
 {
-  if (! givenName()) {
+  if (! name.given) {
+    name.given = new char[USER_LEN];
     sprintf(name.given, "%s", ::g.user);
     name.instance = name.given;
   }
@@ -950,8 +951,8 @@ void User::disableGravity()
 
 void User::get_username(User *pu, Payload *pp)
 {
-  pp->getPayload("s", pu->named());
-  trace(DBG_WO, "get_username=%s", pu->named());
+  pp->getPayload("s", pu->objectName());
+  trace(DBG_WO, "get_username=%s", pu->objectName());
 }
 
 void User::u_get_xy(WO *po, Payload *pp)
@@ -1093,7 +1094,7 @@ void User::get_ray(User *pu, Payload *pp)
 }
 
 void User::put_username(User *pu, Payload *pp)
-{ if (pu) pp->putPayload("s", pu->named()); }
+{ if (pu) pp->putPayload("s", pu->objectName()); }
 
 void User::put_msg(User *pu, Payload *pp)
 { if (pu) pp->putPayload("ds", pu->lastmess, pu->message); }

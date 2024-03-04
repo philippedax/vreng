@@ -30,8 +30,7 @@ class Widgets;
  * Navig class
  */
 class Navig {
-
-public:
+ public:
   Navig(Widgets*, class Scene&);
   UBox& manipulator();
   
@@ -43,19 +42,20 @@ public:
   void stopMotion();
   void clearInfoBar();
 
-private:
+ private:
   friend class Widgets;
 
   Widgets& gw;
   float xref, yref;
   bool followMouse;		///< flag to follow mouse.
   int depthsel;
-  UStr selected_object_url;
   UStr object_name, object_class;
   ULabel object_infos;		///< infos box
   UPopmenu object_menu;
   UCtlmenu navig_menu;
   uptr<UMenu> opened_menu;
+
+  //notused UStr selected_object_url;
 
   void initNavigMenu();
   void mouseRefCB(UMouseEvent& e);

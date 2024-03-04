@@ -160,7 +160,7 @@ int Http::httpOpen(const char *url,
                    void *_handle,
                    int _mode)
 {
-  if (! isprint(*url)) {
+  if (url && ! isprint(*url)) {
     error("httpOpen: url not printable");
     return -1;
   }
@@ -174,7 +174,7 @@ int Http::httpOpen(const char *url,
   http->handle = _handle;
   http->httpReader = httpReader;
   http->mode = _mode;
-  strcpy(http->url, url);
+  if (url) strcpy(http->url, url);
 
   // Checks if url is in the cache (_mode < 0 : don't use the cache)
   if (_mode >= 0 && Cache::inCache(url)) { // in cache
