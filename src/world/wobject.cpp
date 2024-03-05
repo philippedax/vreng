@@ -741,7 +741,7 @@ void WO::updateNames()
   }
   else {	// no given name
     name.implicit = new char[OBJNAME_LEN];
-    sprintf(name.implicit, "%s%d", name.type, num);
+    sprintf(name.implicit, "%s%d", typeName(), num);
     if (isupper(*(name.implicit))) {
       *name.implicit = tolower(*(name.implicit)); // name.implicit in lowercase
     }
@@ -1168,7 +1168,7 @@ OList * WO::delOList(OList *olist)
   OList *front = olist, *ol = NULL;
 
   if (! olist) {
-    error("delOList: %s:%s NULL olist", name.type, objectName());
+    error("delOList: %s:%s NULL olist", typeName(), objectName());
     return NULL;
   }
   for (ol = olist; ol ; ol = ol->next) {  // sometimes crashes
@@ -1330,7 +1330,7 @@ void WO::get_ax(WO *po, Payload *pp)
 
 void WO::get_hname(WO *po, Payload *pp)
 {
-  pp->getPayload("s", po->name.type);
+  pp->getPayload("s", po->typeName());
 }
 
 //
@@ -1364,7 +1364,7 @@ void WO::put_ax(WO *po, Payload *pp)
 
 void WO::put_hname(WO *po, Payload *pp)
 {
-  pp->putPayload("s", po->name.type);
+  pp->putPayload("s", po->typeName());
 }
 
 /** Gets property from Network */

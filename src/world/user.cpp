@@ -628,7 +628,7 @@ bool User::whenIntersect(WO *pcur, WO *pold)
     /* projectile intersects user: hit */
     if (hit == 0) {
       hit = 1;
-      echo("%s:%s hits %s", pcur->name.type, pcur->objectName(), objectName());
+      echo("%s:%s hits %s", pcur->typeName(), pcur->objectName(), objectName());
       if (pcur->type == DART_TYPE) {
         (reinterpret_cast<Dart *>(pcur)->hit) = 1;
         netop->sendDelta(Dart::PROPHIT);

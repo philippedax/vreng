@@ -222,7 +222,7 @@ bool Gate::whenIntersect(WO *pcur, WO *pold)
     break;
   case BULLET_TYPE:
   case DART_TYPE:
-    echo("%s:%s hits %s:%s", pcur->name.type, pcur->objectName(), name.type, objectName());
+    echo("%s:%s hits %s:%s", pcur->typeName(), pcur->objectName(), typeName(), objectName());
     pold->copyPositionAndBB(pcur);
     pcur->toDelete();
     break;

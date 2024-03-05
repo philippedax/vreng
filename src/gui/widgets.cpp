@@ -952,7 +952,7 @@ void Widgets::objectsDialog()
 
   UBox& objects_box = uvbox(UBackground::none);
   for (vector<WO*>::iterator it = objectList.begin(); it != objectList.end(); ++it) {
-    sprintf(line, "%s:%s", (*it)->name.type, (*it)->objectName());
+    sprintf(line, "%s:%s", (*it)->typeName(), (*it)->objectName());
     objects_box.add(uitem(UColor::black + line));
   }
   objects_dialog.setMessage(uscrollpane(  usize(150,350)
