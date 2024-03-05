@@ -71,11 +71,10 @@ WO::WO()
   behavior = 0;
 
   name.type = new char[TYPENAME_LEN];
-  name.given = new char[OBJNAME_LEN];
   name.url = new char[URL_LEN];
 
-  //dax2 name.given = NULL;
   //dax1 name.url = NULL;
+  name.given = NULL;
   name.owner = NULL;
   name.implicit = NULL;
   name.current = NULL;
@@ -380,10 +379,10 @@ uint16_t WO::getNum()
 /** Returns object's name */
 const char * WO::objectName() const
 {
-  if (*name.given) {
+  if (name.given && *name.given) {
     return name.given;
   }
-  else if (*name.implicit) {
+  else if (name.implicit && *name.implicit) {
     return name.implicit;
   }
   else {
@@ -736,7 +735,7 @@ void WO::updateNames()
     error("updateNames: no name found for type=%d", type);
   }
 
-  if (*name.given) {
+  if (name.given && *name.given) {
     name.current = name.given;
   }
   else {	// no given name
@@ -980,12 +979,12 @@ char * WO::parseAttributes(char *l)
 
 void WO::parseSolid(char *ptok)
 {
-  Parse::getParse()->parseSolid(ptok, SEP, this);
+  Parse::getParse()->parseSolid(ptok, TOK_SEP, this);
 }
 
 void WO::parseSolids(char *ptok)
 {
-  Parse::getParse()->parseSolid(ptok, SEP, this);
+  Parse::getParse()->parseSolid(ptok, TOK_SEP, this);
 }
 
 char * WO::parseUrl(char *l, char *url)
@@ -1122,7 +1121,7 @@ char * WO::tokenize(char *l)
   }
 
   // tokenizes the object line, make all tokens of this line
-  return strtok(l, SEP);
+  return strtok(l, TOK_SEP);
 }
 
 ////////////////

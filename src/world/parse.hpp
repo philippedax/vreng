@@ -25,18 +25,19 @@
 #include "str.hpp"	// stringcmp()
 
 
-#define SEP	" ,<>\t\n"	///< token separators: space comma tags tab nl
+#define TOK_MAX		255
+#define TOK_SEP		" ,<>\t\n"	///< token separators: space comma tags tab nl
 
 // internal macros
 #define begin_while_parse(l) \
 next_attr: \
   uint8_t cnt_attr; \
-  for (cnt_attr = 0; l && cnt_attr <= 255 ; cnt_attr++)
+  for (cnt_attr = 0; l && cnt_attr <= TOK_MAX ; cnt_attr++)
 
 #define end_while_parse(l) \
-  if (cnt_attr >= 255) { \
+  if (cnt_attr >= TOK_MAX) { \
     error("%s: bad attribute", l); \
-    l = strtok(NULL, SEP); \
+    l = strtok(NULL, TOK_SEP); \
     goto next_attr; \
   }
 
@@ -120,20 +121,17 @@ class Parse {
   int parseVreFile(char *buf, int bufsiz);
   /**< parse vre data, called by vreHttpReader */
 
-  char * parseSolid(char *ptok, class WO *po);
-  /**<
-   * Creates a new solid.
-   * string 'solid' gives the solid's geometry
-   */
+  char * nextToken() const;
+  /**< Gets the next token */
 
   char * parseAttributes(char *l, class WO *po);
   /**< Parses attribute="value" */
 
-  char * parseSolid(char *geom, const char *separ, class WO *po);
-  /**< Parses a builtin solid */
+  char * parseName(char *l, char *name);
+  /**< Returns a named name */
 
-  void parseSolids(char *geom, const char *separ, class WO *po);
-  /**< Parses several solids */
+  char * parsePosition(char *ptok, Pos &p);
+  /**< Returns the spacial positions x y z az ax */
 
   char * parseUrl(char *ptok, char *url);
   /**< Returns an url */
@@ -141,14 +139,26 @@ class Parse {
   char * parseColor(char *ptok, Pos &p);
   /**< Returns a color under r,g,b,a format */
 
-  char * parseGuide(char *ptok, float path[][5], uint8_t *segs);
-  /**< Returns an array of position describing the guide */
+  char * parseSolid(char *ptok, class WO *po);
+  /**<
+   * Creates a new solid.
+   * string 'solid' gives the solid's geometry
+   */
+
+  char * parseSolid(char *geom, const char *separ, class WO *po);
+  /**< Parses a builtin solid */
+
+  void parseSolids(char *geom, const char *separ, class WO *po);
+  /**< Parses several solids */
 
   char * parseWorldAndChannel(char *ptok, char *url, char *chan);
   /**< Returns a world url and a numeric string */
 
   char * parseChannel(char *ptok, char *channel);
   /**< Returns a channel under addr/port/ttl format */
+
+  char * parseGuide(char *ptok, float path[][5], uint8_t *segs);
+  /**< Returns an array of position describing the guide */
 
   char * parseString(char *ptok, char *str);
   /**< Returns a string */
@@ -210,17 +220,11 @@ class Parse {
   char * skipAttribute(char *l);
   /**< Skip the following attribute="value" */
 
-  char * parsePosition(char *ptok, Pos &p);
-  /**< Returns the spacial positions x y z az ax */
-
   char * parseRotation(char *ptok, Pos &p);
   /**< Returns a rotation under r,X,Y,Z format */
 
   char * parseTranslation(char *ptok, Pos &p);
   /**< Returns a translation under tx,ty,tz format */
-
-  char * parseName(char *l, char *name);
-  /**< Returns a named name */
 
   char * parseCaption(char *l, char *caption);
   /**< Returns a caption text */
@@ -233,9 +237,6 @@ class Parse {
 
   char * skipQuotes(char *p) const;
   /**< Skip double quotes or single quote */
-
-  char * nextToken() const;
-  /**< Gets the next token */
 };
 
 #endif

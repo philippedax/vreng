@@ -713,8 +713,8 @@ void Body::loadBodyParts(FILE *f)
   if (! fgets(jpline, sizeof(jpline), f)) return;
   jpline[strlen(jpline) - 1] = '\0';
   if (! stringcmp(jpline, "<body")) {
-    l = strtok(jpline, SEP);	// tokenize jpline
-    l = strtok(NULL, SEP);	// next token
+    l = strtok(jpline, TOK_SEP);	// tokenize jpline
+    l = strtok(NULL, TOK_SEP);		// next token
     while (l) {
       if      (! stringcmp(l, "scale="))
         l = wobject->parse()->parseFloat(l, &bscale, "scale");
@@ -739,20 +739,20 @@ void Body::loadBodyParts(FILE *f)
     char *p = jpline;
     if (jpline[0] == '#') continue;
     else if ((p = strchr(jpline, '<'))) {
-      l = strtok(p, SEP);
+      l = strtok(p, TOK_SEP);
       l = getTok(l, &bpindex);
       if (bpindex < 0)
         goto endloadbody;  // eof
-      l = strtok(NULL, SEP);
+      l = strtok(NULL, TOK_SEP);
 
       // parse others lines of <body ...> ... </body>
       begin_while_parse(l) {
         if (! stringcmp(l, "jp=")) {
           l = skipEqual(l);
           l++;  // "
-          jp.x[bpindex] = static_cast<float>(atof(l) / bscale); l = strtok(NULL, SEP);
-          jp.y[bpindex] = static_cast<float>(atof(l) / bscale); l = strtok(NULL, SEP);
-          jp.z[bpindex] = static_cast<float>(atof(l) / bscale); l = strtok(NULL, SEP);
+          jp.x[bpindex] = static_cast<float>(atof(l) / bscale); l = strtok(NULL, TOK_SEP);
+          jp.y[bpindex] = static_cast<float>(atof(l) / bscale); l = strtok(NULL, TOK_SEP);
+          jp.z[bpindex] = static_cast<float>(atof(l) / bscale); l = strtok(NULL, TOK_SEP);
         }
         else if (*l == '/') break;  // eol
         else if (! stringcmp(l, "url=")) {

@@ -91,8 +91,8 @@ void User::defaults()
 
 void User::setName()
 {
-  if (! *name.given) {
-    //dax2 name.given = new char[USER_LEN];
+  if (name.given && ! *name.given) {
+    name.given = new char[USER_LEN];		// alloc given.name
     sprintf(name.given, "%s", ::g.user);
     name.current = name.given;
   }
@@ -119,7 +119,7 @@ void User::setPosition()
   } 
 }
 
-/* Checks localuser position if out of bounds */
+/** Checks localuser position if out of bounds */
 void User::checkPosition()
 {
   if ( localuser->pos.x>100 || localuser->pos.x<-100 || localuser->pos.y>100 || localuser->pos.y<-100 || localuser->pos.z>100 || localuser->pos.z<-100 ) {
@@ -130,7 +130,7 @@ void User::checkPosition()
   }
 }
 
-/* Sets view mode */
+/** Sets view mode */
 void User::setView(uint8_t view)
 {
   ::g.render.setViewMode(view);
@@ -155,6 +155,7 @@ void User::setView(uint8_t view)
   }
 }
 
+/** Builds avatar's geometry */
 void User::geometry()
 {
   char s[256];
@@ -246,7 +247,7 @@ void User::geometry()
   }
 }
 
-/* Sets network identity */
+/** Sets network identity */
 void User::setRtcp()
 {
   rtcpname = new char[Rtp::RTPNAME_LEN];
@@ -258,19 +259,19 @@ void User::setRtcp()
   ssrc = NetObj::getSsrc();
 }
 
-/* Sets observer view from user's eyes */
+/** Sets observer view from user's eyes */
 void User::setCamera()
 {
   ::g.render.cameraProjection(FOVY, NEAR, FAR);
 }
 
-/* Informs the Gui */
+/** Informs the Gui */
 void User::addGui()
 {
   if (! guip) guip = ::g.gui.addUser(this);
 }
 
-/* Checks attached persist objects */
+/** Checks attached persist objects */
 void User::checkPersist()
 {
   int nitem;
@@ -309,6 +310,7 @@ void User::checkPersist()
 #endif //todo
 }
 
+/** Initialization of User */
 void User::inits()
 {
   setName();
@@ -340,7 +342,7 @@ void User::inits()
   checkPersist();	 // checks Persist objects
 }
 
-/* Creates localuser */
+/** Creates localuser */
 User::User()
 {
   localuser = this;	// global
@@ -360,12 +362,13 @@ User::User()
   inits();
 }
 
-/* Replicates an user from the network */
+/** Replicates an user from the network */
 WO * User::replicator(uint8_t type_id, Noid _noid, Payload *pp)
 {
   return new User(type_id, _noid, pp);
 }
 
+/** Constructor of an User coming from the network */
 User::User(uint8_t type_id, Noid _noid, Payload *pp)
 {
   type = type_id;
@@ -456,6 +459,7 @@ User::User(uint8_t type_id, Noid _noid, Payload *pp)
   //echo("replica: name=%s ssrc=%x rtcpname=%s email=%s", objectName(), ssrc, rtcpname, email);
 }
 
+/** Allocates memory for User's members */
 void User::getMemory()
 {
   front    = new char[URL_LEN];
@@ -477,6 +481,7 @@ void User::getMemory()
   rtcpname = new char[Rtp::RTPNAME_LEN];
 }
 
+/** Destructor */
 User::~User()
 {
   echo("User %s quits", objectName());
@@ -507,7 +512,7 @@ User::~User()
   //BAD free if (baps)  delete baps;
 }
 
-/* Updates local user towards the network */
+/** Updates local user towards the network */
 bool User::updateToNetwork(const Pos &oldpos)
 {
   bool change = false;
@@ -524,13 +529,13 @@ bool User::updateToNetwork(const Pos &oldpos)
   return change;
 }
 
-/* Updates times array */
+/** Updates times array */
 void User::updateTime(time_t sec, time_t usec, float *lasting)
 {
   updateLasting(sec, usec, lasting);
 }
 
-/* Informs a message sent by localuser */
+/** Informs a message sent by localuser */
 void User::userWriting(const char *usermsg)
 {
   if (strlen(usermsg) < MESS_LEN) {
@@ -566,7 +571,7 @@ void User::userRequesting(const char *usermsg)
   localuser->netop->declareDelta(PROPMSG); // msg property
 }
 
-/* imposed movement via keys or navig_menu or joystick */
+/** imposed movement via keys or navig_menu or joystick */
 void User::changePosition(float lasting)
 {
   pos.x += lasting * move.lspeed.v[0];
@@ -589,7 +594,7 @@ void User::changePosition(float lasting)
   }
 }
 
-/* equations system handling permanent motions */
+/** Equations system handling permanent motions */
 void User::changePermanent(float lasting)
 {
   if (! pause_gravity) {
@@ -617,6 +622,7 @@ void User::dartPutHit(Dart *pdart, Payload *pp)
   pp->putPayload("c", pdart->hit);
 }
 
+/** Intersection with an other object */
 bool User::whenIntersect(WO *pcur, WO *pold)
 {
   // User has no control over ghost objects
@@ -664,6 +670,7 @@ bool User::whenIntersect(WO *pcur, WO *pold)
   return true;
 }
 
+/** Sends a ray */
 void User::setRayDirection(GLint wx, GLint wy)
 {
   const GLfloat *white = Color::white;
@@ -692,6 +699,7 @@ bool User::hasHead()
   return (bool) face;
 }
 
+/** Does a special action */
 void User::specialAction(int action_id, void *d, time_t s, time_t u)
 {
   WO *o = NULL;

@@ -74,14 +74,16 @@ Parse * Parse::getParse()
   return parse;
 }
 
-
-/** Gets next token, a token is a string delimited by a separator (SEP=" ,<>\t\n") */
+/**
+ * Gets next token,
+ * a token is a string delimited by a separator (TOK_SEP=" ,<>\t\n")
+ */
 char * Parse::nextToken() const
 {
-  return strtok(NULL, SEP);
+  return strtok(NULL, TOK_SEP);
 }
 
-/** Skips a char c */
+/** Skips a char 'c' */
 char * Parse::skipChar(char *p, char c) const
 {
   char *s = p;
@@ -92,7 +94,7 @@ char * Parse::skipChar(char *p, char c) const
   return p;
 }
 
-/** Skips an = */
+/** Skips an '=' */
 char * Parse::skipEqual(char *p) const
 {
   return skipChar(p, '=');
@@ -463,13 +465,13 @@ char * Parse::skipAttribute(char *l)
 /*
  * Parses attributes:
  *   name pos url solid category description
- *   be carefull : the line has been tokenized by separators SEP=" ,<>\t\n"
+ *   be carefull : the line has been tokenized by separators TOK_SEP=" ,<>\t\n"
  */
 char * Parse::parseAttributes(char *l, WO *wobject)
 {
   while (l) {
     if      (! stringcmp(l, "name=")) {
-      //dax2 wobject->name.given = new char[OBJNAME_LEN];
+      wobject->name.given = new char[OBJNAME_LEN];	// alloc name.given
       l = parseName(l, wobject->name.given);
     }
     else if (! stringcmp(l, "pos=")) {
@@ -533,7 +535,6 @@ char * Parse::parseDescr(char *l, char *strdst)
 /** Parses object name: fill name.given */
 char * Parse::parseName(char *l, char *name)
 {
-  //dax2 name = new char[OBJNAME_LEN];
   return parseQuotedString(l, name, "name");
 }
 
